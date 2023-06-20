@@ -13,7 +13,6 @@ import { CircleNode } from '../../src/stdlib/item/node';
 import { NodeModelData, NodeShapeMap } from '../../src/types/node';
 import { extend } from '../../src/util/extend';
 import { upsertShape } from '../../src/util/shape';
-import { ItemController } from './../../src/runtime/controller/item';
 
 const container = document.createElement('div');
 document.querySelector('body')!.appendChild(container);
@@ -63,6 +62,7 @@ describe('edge item', () => {
     });
   });
   it('update edge label', (done) => {
+
     const padding = [4, 16, 4, 8];
     graph.updateData('edge', {
       id: 'edge1',
@@ -92,7 +92,6 @@ describe('edge item', () => {
     expect(edgeItem.shapeMap.labelBackgroundShape.attributes.transform).toBe(
       'rotate(45)',
     );
-
     let labelBounds = edgeItem.shapeMap.labelShape.getGeometryBounds();
     expect(edgeItem.shapeMap.labelBackgroundShape.attributes.width).toBe(
       labelBounds.max[0] - labelBounds.min[0] + padding[1] + padding[3],

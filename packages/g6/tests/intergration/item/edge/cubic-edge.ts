@@ -1,14 +1,7 @@
-import { type } from 'os';
-import { color } from 'color';
-import { extend } from '@antv/util';
-import G6, {
-  EdgeDisplayModel,
+import {
   Graph,
   IGraph,
-  NodeDisplayModel,
 } from '../../../../src/index';
-import { CubicEdge } from './../../../../src/stdlib/item/edge/cubic';
-import { data } from './../../../datasets/const';
 // @ts-nocheck
 
 let graph: IGraph;
