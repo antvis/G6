@@ -24,6 +24,7 @@ import RotateCanvas3D from './behavior/rotate-canvas-3d';
 import TrackCanvas3D from './behavior/track-canvas-3d';
 import OrbitCanvas3D from './behavior/orbit-canvas-3d';
 import { HoverActivate } from './behavior/hover-activate';
+import { CubicEdge } from './item/edge/cubic';
 
 const stdLib = {
   transforms: {
@@ -62,6 +63,7 @@ const stdLib = {
   },
   edges: {
     'line-edge': LineEdge,
+    'cubic-edge': CubicEdge
   },
   combos: {},
 };
