@@ -17,7 +17,7 @@ export default () => {
                 data: {
                     x: 200,
                     y: 100,
-                    type: 'circle-node',
+                    type: 'star-node',
                 },
             },
         ],
@@ -27,7 +27,7 @@ export default () => {
                 source: 1,
                 target: 2,
                 data: {
-                    type: 'line-edge'
+                    type: 'custom-edge'
                 }
             }
         ]
