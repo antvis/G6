@@ -19,13 +19,13 @@ const defaultData = {
     {
       id: 'node1',
       data: {
-        x: 100,
+        x: 300,
         y: 100,
       },
     },
     {
       id: 'node2',
-      data: { x: 300, y: 350 },
+      data: { x: 100, y: 350 },
     },
   ],
   edges: [

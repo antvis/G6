@@ -26,6 +26,7 @@ import OrbitCanvas3D from './behavior/orbit-canvas-3d';
 import { HoverActivate } from './behavior/hover-activate';
 import { CubicEdge } from './item/edge/cubic';
 import { CubicHorizonEdge } from './item/edge/cubic-horizon';
+import { CubicVerticalEdge } from './item/edge/cubic-vertical';
 
 const stdLib = {
   transforms: {
@@ -65,7 +66,8 @@ const stdLib = {
   edges: {
     'line-edge': LineEdge,
     'cubic-edge': CubicEdge,
-    'cubic-horizon-edge': CubicHorizonEdge
+    'cubic-horizon-edge': CubicHorizonEdge,
+    'cubic-vertical-edge': CubicVerticalEdge
   },
   combos: {},
 };

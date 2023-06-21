@@ -111,17 +111,17 @@ export class CubicEdge extends BaseEdge {
     endPoint: Point,
     percent: number,
     controlPoints: number[],
-    offset: number[]
+    offset: number
   ) => [Point, Point] = (
       startPoint: Point,
       endPoint: Point,
       percent = 0.5,
       controlPoints,
-      offset = [-20, 20],
+      offset = 20,
   ) => {
 
-    const controlPoint1: IPoint = this.getControlPoint(startPoint, endPoint, percent, offset[0]) 
-    const controlPoint2: IPoint = this.getControlPoint(startPoint, endPoint, percent, offset[1]) 
+    const controlPoint1: IPoint = this.getControlPoint(startPoint, endPoint, percent, offset) 
+    const controlPoint2: IPoint = this.getControlPoint(startPoint, endPoint, -percent, offset) 
 
     return [controlPoint1, controlPoint2]
   }

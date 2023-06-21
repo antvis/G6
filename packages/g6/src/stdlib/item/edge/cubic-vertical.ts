@@ -7,11 +7,10 @@ import { BaseEdge } from './base'
 import { IPoint } from '@antv/g6';
 import { vec2 } from '@antv/matrix-util';
 import { CubicEdge } from './cubic';
-import { off } from 'process';
 
-export class CubicHorizonEdge extends CubicEdge {
+export class CubicVerticalEdge extends CubicEdge {
 
-  public type = 'cubic-horizon-edge';
+  public type = 'cubic-vertical-edge';
 
   public defaultStyles = {
     keyShape: {
@@ -52,7 +51,7 @@ export class CubicHorizonEdge extends CubicEdge {
       offset = 20,
   ) => {
 
-    if ((startPoint.x - endPoint.x) * (startPoint.y - endPoint.y ) < 0) {
+    if ((startPoint.x - endPoint.x) * (startPoint.y - endPoint.y ) > 0) {
       offset = -offset 
     }
 
@@ -83,8 +82,8 @@ export class CubicHorizonEdge extends CubicEdge {
     ) => {
 
     const point: IPoint = {
-      x: (1 - percent) * startPoint.x + percent * endPoint.x,
-      y: 0,
+      x: 0,
+      y: (1 - percent) * startPoint.y + percent * endPoint.y,
     };
 
     let tangent: vec2 = [0, 0];
@@ -98,15 +97,12 @@ export class CubicHorizonEdge extends CubicEdge {
     point.x += perpendicular[0];
     point.y += perpendicular[1];
 
-    if(Math.abs(point.x - startPoint.x) < Math.abs(point.x - endPoint.x)) {
-      point.y += startPoint.y 
+    if(Math.abs(point.y - startPoint.y) < Math.abs(point.y - endPoint.y)) {
+      point.x += startPoint.x
     }else {
-      point.y += endPoint.y 
+      point.x += endPoint.x 
     }
 
     return point;
   };
-
-
-
 }
