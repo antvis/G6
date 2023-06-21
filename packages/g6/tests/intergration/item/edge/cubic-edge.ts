@@ -18,7 +18,11 @@ const defaultData = {
     },
     {
       id: 'node2',
+<<<<<<< HEAD
       data: { x: 100, y: 150 },
+=======
+      data: { x: 300, y: 150 },
+>>>>>>> 03c9a9db53 (feat: v5-cubic-horizon-edge)
     },
   ],
   edges: [

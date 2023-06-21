@@ -22,6 +22,12 @@ import bugReproduce from './demo/bugReproduce';
 import rect from './demo/rect';
 import visual from './visual/visual';
 import quadratic from './demo/quadratic';
+<<<<<<< HEAD
+=======
+import line_edge from './item/edge/line-edge'
+import cubic_edge from './item/edge/cubic-edge'
+import cubic_horizon_edge from './item/edge/cubic-horizon-edge'
+>>>>>>> 03c9a9db53 (feat: v5-cubic-horizon-edge)
 
 export {
   behaviors_activateRelations,
@@ -48,4 +54,10 @@ export {
   rect,
   visual,
   quadratic,
+<<<<<<< HEAD
+=======
+  line_edge,
+  cubic_edge,
+  cubic_horizon_edge
+>>>>>>> 03c9a9db53 (feat: v5-cubic-horizon-edge)
 };

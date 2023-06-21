@@ -129,8 +129,12 @@ export class CubicEdge extends BaseEdge {
    * @param offset the curveOffset
    * @returns control points
    */
+<<<<<<< HEAD
   protected getControlPoints: (
     startPoint: Point,
+=======
+  protected getControlPoints: (startPoint: Point,
+>>>>>>> 03c9a9db53 (feat: v5-cubic-horizon-edge)
     endPoint: Point,
     percent: number,
     controlPoints: number[],
@@ -159,6 +163,7 @@ export class CubicEdge extends BaseEdge {
   };
 
   /**
+<<<<<<< HEAD
    * control point calculated according to startPoint, endPoint, percent, and offset
    * @param  {IPoint} startPoint source point position of edge (x, y)
    * @param  {IPoint} endPoint  target point position of edge (x, y)
@@ -166,6 +171,15 @@ export class CubicEdge extends BaseEdge {
    * @param  {Number} offset    the curveOffset
    * @return {IPoint} control point (x,y) 
    */
+=======
+ * 根据起始点、相对位置、偏移量计算控制点
+ * @param  {IPoint} startPoint 起始点，包含 x,y
+ * @param  {IPoint} endPoint  结束点, 包含 x,y
+ * @param  {Number} percent   相对位置,范围 0-1
+ * @param  {Number} offset    偏移量
+ * @return {IPoint} 控制点，包含 x,y
+ */
+>>>>>>> 03c9a9db53 (feat: v5-cubic-horizon-edge)
   protected getControlPoint: (
     startPoint: IPoint,
     endPoint: IPoint,
