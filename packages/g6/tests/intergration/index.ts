@@ -16,6 +16,7 @@ import demo from './demo/demo';
 import demoFor4 from './demo/demoFor4';
 import line_edge from './item/edge/line-edge'
 import cubic_edge from './item/edge/cubic-edge'
+import cubic_horizon_edge from './item/edge/cubic-horizon-edge'
 
 export {
   behaviors_activateRelations,
@@ -35,5 +36,6 @@ export {
   demo,
   demoFor4,
   line_edge,
-  cubic_edge
+  cubic_edge,
+  cubic_horizon_edge
 };

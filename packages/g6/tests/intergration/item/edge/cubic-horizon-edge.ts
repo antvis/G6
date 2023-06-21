@@ -25,7 +25,7 @@ const defaultData = {
     },
     {
       id: 'node2',
-      data: { x: 300, y: 150 },
+      data: { x: 300, y: 350 },
     },
   ],
   edges: [
@@ -34,7 +34,7 @@ const defaultData = {
       source: 'node1',
       target: 'node2',
       data: {
-        type: 'cubic-edge',
+        type: 'cubic-horizon-edge',
         keyShape: {
           stroke: '#f00',
           lineDash: [2, 2],

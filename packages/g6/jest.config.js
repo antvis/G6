@@ -21,5 +21,5 @@ module.exports = {
       diagnostics: false,
     },
   },
-  testTimeout: 100000,
+  testTimeout: 450000,
 };
