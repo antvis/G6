@@ -19,6 +19,7 @@ import { BaseEdge } from './base'
 import { IPoint } from '@antv/g6';
 import { vec2 } from '@antv/matrix-util';
 import { CubicEdge } from './cubic';
+import { off } from 'process';
 
 export class CubicHorizonEdge extends CubicEdge {
 
@@ -102,17 +103,21 @@ export class CubicHorizonEdge extends CubicEdge {
     endPoint: Point,
     percent: number,
     controlPoints: number[],
-    offset: number[]
+    offset: number
   ) => [Point, Point] = (
       startPoint: Point,
       endPoint: Point,
       percent = 0.5,
       controlPoints,
-      offset = [20, -20],
+      offset = 20,
   ) => {
 
-    const controlPoint1: IPoint = this.getControlPoint(startPoint, endPoint, percent, offset[0]) 
-    const controlPoint2: IPoint = this.getControlPoint(startPoint, endPoint, percent, offset[1]) 
+    if ((startPoint.x - endPoint.x) * (startPoint.y - endPoint.y ) < 0) {
+      offset = -offset 
+    }
+
+    const controlPoint1: IPoint = this.getControlPoint(startPoint, endPoint, percent, offset) 
+    const controlPoint2: IPoint = this.getControlPoint(startPoint, endPoint, percent, -offset) 
 
     return [controlPoint1, controlPoint2]
   }

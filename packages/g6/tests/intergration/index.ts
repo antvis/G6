@@ -27,7 +27,11 @@ import quadratic from './demo/quadratic';
 import line_edge from './item/edge/line-edge'
 import cubic_edge from './item/edge/cubic-edge'
 import cubic_horizon_edge from './item/edge/cubic-horizon-edge'
+<<<<<<< HEAD
 >>>>>>> 03c9a9db53 (feat: v5-cubic-horizon-edge)
+=======
+import cubic_vertical_edge from './item/edge/cubic-vertical-edge'
+>>>>>>> 618fe4f1e2 (feat: v5-cubic-horizon-edge)
 
 export {
   behaviors_activateRelations,
@@ -58,6 +62,11 @@ export {
 =======
   line_edge,
   cubic_edge,
+<<<<<<< HEAD
   cubic_horizon_edge
 >>>>>>> 03c9a9db53 (feat: v5-cubic-horizon-edge)
+=======
+  cubic_horizon_edge,
+  cubic_vertical_edge
+>>>>>>> 618fe4f1e2 (feat: v5-cubic-horizon-edge)
 };

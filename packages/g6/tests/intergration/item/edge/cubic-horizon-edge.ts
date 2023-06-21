@@ -35,20 +35,28 @@ const defaultData = {
       id: 'node1',
       data: {
 <<<<<<< HEAD
+<<<<<<< HEAD
         x: 300,
 =======
         x: 100,
 >>>>>>> 03c9a9db53 (feat: v5-cubic-horizon-edge)
+=======
+        x: 300,
+>>>>>>> 618fe4f1e2 (feat: v5-cubic-horizon-edge)
         y: 100,
       },
     },
     {
       id: 'node2',
 <<<<<<< HEAD
+<<<<<<< HEAD
       data: { x: 100, y: 350 },
 =======
       data: { x: 300, y: 350 },
 >>>>>>> 03c9a9db53 (feat: v5-cubic-horizon-edge)
+=======
+      data: { x: 100, y: 350 },
+>>>>>>> 618fe4f1e2 (feat: v5-cubic-horizon-edge)
     },
   ],
   edges: [

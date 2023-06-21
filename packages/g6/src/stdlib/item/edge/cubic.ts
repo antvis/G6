@@ -138,6 +138,7 @@ export class CubicEdge extends BaseEdge {
     endPoint: Point,
     percent: number,
     controlPoints: number[],
+<<<<<<< HEAD
     offset: number,
   ) => [Point, Point] = (
     startPoint: Point,
@@ -145,6 +146,15 @@ export class CubicEdge extends BaseEdge {
     percent = 0.5,
     controlPoints,
     offset = 20,
+=======
+    offset: number
+  ) => [Point, Point] = (
+      startPoint: Point,
+      endPoint: Point,
+      percent = 0.5,
+      controlPoints,
+      offset = 20,
+>>>>>>> 618fe4f1e2 (feat: v5-cubic-horizon-edge)
   ) => {
     const controlPoint1: IPoint = this.getControlPoint(
       startPoint,
@@ -159,8 +169,16 @@ export class CubicEdge extends BaseEdge {
       -offset,
     );
 
+<<<<<<< HEAD
     return [controlPoint1, controlPoint2];
   };
+=======
+    const controlPoint1: IPoint = this.getControlPoint(startPoint, endPoint, percent, offset) 
+    const controlPoint2: IPoint = this.getControlPoint(startPoint, endPoint, -percent, offset) 
+
+    return [controlPoint1, controlPoint2]
+  }
+>>>>>>> 618fe4f1e2 (feat: v5-cubic-horizon-edge)
 
   /**
 <<<<<<< HEAD
