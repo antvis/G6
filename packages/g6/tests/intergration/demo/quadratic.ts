@@ -41,9 +41,9 @@ export default () => {
             data: {
                 ...data,
                 keyShape: {
-                    controlPoints: [0, 0],
-                    curvePosition: 0.5,
-                    curveOffset: [10, 10],
+                    controlPoints: [150, 100],
+                    // curvePosition: 0.5,
+                    curveOffset: [0, 20],
                     stroke: 'blue'
                 },
                 // iconShape: {
