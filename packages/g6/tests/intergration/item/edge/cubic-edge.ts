@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 import {
 =======
 import { type } from 'os';
@@ -15,6 +16,12 @@ import G6, {
 import { CubicEdge } from './../../../../src/stdlib/item/edge/cubic';
 import { data } from './../../../datasets/const';
 >>>>>>> a952e826c4 (chore: lint fix & use English comments)
+=======
+import {
+  Graph,
+  IGraph
+} from '../../../../src/index';
+>>>>>>> 6297c1afde (chore: trim up code format)
 // @ts-nocheck
 
 let graph: IGraph;

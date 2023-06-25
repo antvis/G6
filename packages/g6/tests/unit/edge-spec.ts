@@ -13,7 +13,6 @@ import { CircleNode } from '../../src/stdlib/item/node';
 import { NodeModelData, NodeShapeMap } from '../../src/types/node';
 import { extend } from '../../src/util/extend';
 import { upsertShape } from '../../src/util/shape';
-import { ItemController } from './../../src/runtime/controller/item';
 
 const container = document.createElement('div');
 document.querySelector('body')!.appendChild(container);

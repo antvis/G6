@@ -1,5 +1,6 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { off } from 'process';
 =======
 >>>>>>> 03c9a9db53 (feat: v5-cubic-horizon-edge)
@@ -13,9 +14,11 @@ import { EdgeModelData, EdgeShapeMap } from 'types/edge';
 import { State } from 'types/item';
 <<<<<<< HEAD
 <<<<<<< HEAD
+=======
+>>>>>>> 6297c1afde (chore: trim up code format)
 import { IPoint } from '@antv/g6';
 import { vec2 } from '@antv/matrix-util';
-import { BaseEdge } from './base';
+import { Point } from '../../../types/common';
 import { CubicEdge } from './cubic';
 
 export class CubicHorizonEdge extends CubicEdge {

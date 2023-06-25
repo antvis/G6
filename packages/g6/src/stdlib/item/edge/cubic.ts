@@ -1,14 +1,14 @@
-import { DisplayObject, Line } from '@antv/g';
-import { EdgeDisplayModel } from 'types';
-import { Point } from 'types/common';
-import { EdgeModelData, EdgeShapeMap } from 'types/edge';
-import { State } from 'types/item';
+import { DisplayObject } from '@antv/g';
 import { IPoint } from '@antv/g6';
 import { vec2 } from '@antv/matrix-util';
+import { State } from '../../../types/item';
+import { EdgeModelData, EdgeShapeMap } from '../../../types/edge';
+import { Point } from '../../../types/common';
+import { EdgeDisplayModel } from '../../../types';
+// eslint-disable-next-line import/namespace
 import { BaseEdge } from './base';
 
 export class CubicEdge extends BaseEdge {
-  [x: string]: any;
 
   public type = 'cubic-edge';
 

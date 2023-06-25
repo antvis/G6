@@ -1,5 +1,6 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { type } from 'os';
 import { color } from 'color';
 import { extend } from '@antv/util';
@@ -16,14 +17,19 @@ import { extend } from '@antv/util';
 >>>>>>> a952e826c4 (chore: lint fix & use English comments)
 import G6, {
   EdgeDisplayModel,
+=======
+import {
+>>>>>>> 6297c1afde (chore: trim up code format)
   Graph,
-  IGraph,
-  NodeDisplayModel,
+  IGraph
 } from '../../../../src/index';
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 import { CubicEdge } from './../../../../src/stdlib/item/edge/cubic';
 import { data } from './../../../datasets/const';
+=======
+>>>>>>> 6297c1afde (chore: trim up code format)
 // @ts-nocheck
 
 let graph: IGraph;

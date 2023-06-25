@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { DisplayObject, Line } from '@antv/g';
 import { EdgeDisplayModel } from 'types';
 import { Point } from 'types/common';
@@ -5,9 +6,11 @@ import { EdgeModelData, EdgeShapeMap } from 'types/edge';
 import { State } from 'types/item';
 <<<<<<< HEAD
 <<<<<<< HEAD
+=======
+>>>>>>> 6297c1afde (chore: trim up code format)
 import { IPoint } from '@antv/g6';
 import { vec2 } from '@antv/matrix-util';
-import { BaseEdge } from './base';
+import { Point } from '../../../types/common';
 import { CubicEdge } from './cubic';
 
 export class CubicVerticalEdge extends CubicEdge {

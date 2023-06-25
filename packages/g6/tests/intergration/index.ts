@@ -15,18 +15,24 @@ import performance_layout_3d from './performance/layout-3d';
 import demo from './demo/demo';
 import demoFor4 from './demo/demoFor4';
 <<<<<<< HEAD
+<<<<<<< HEAD
 import line_edge from './item/edge/line-edge';
 import cubic_edge from './item/edge/cubic-edge';
 import cubic_horizon_edge from './item/edge/cubic-horizon-edge';
 import cubic_vertical_edge from './item/edge/cubic-vertical-edge';
+=======
+>>>>>>> 6297c1afde (chore: trim up code format)
 import bugReproduce from './demo/bugReproduce';
 import rect from './demo/rect';
 import visual from './visual/visual';
 import quadratic from './demo/quadratic';
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 =======
 >>>>>>> a952e826c4 (chore: lint fix & use English comments)
+=======
+>>>>>>> 6297c1afde (chore: trim up code format)
 import line_edge from './item/edge/line-edge'
 import cubic_edge from './item/edge/cubic-edge'
 import cubic_horizon_edge from './item/edge/cubic-horizon-edge'
@@ -56,6 +62,7 @@ export {
   line_edge,
   cubic_edge,
   cubic_horizon_edge,
+<<<<<<< HEAD
   cubic_vertical_edge,
   bugReproduce,
   rect,
@@ -76,4 +83,7 @@ export {
 =======
   cubic_vertical_edge,
 >>>>>>> a952e826c4 (chore: lint fix & use English comments)
+=======
+  cubic_vertical_edge
+>>>>>>> 6297c1afde (chore: trim up code format)
 };
