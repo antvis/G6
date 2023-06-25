@@ -627,6 +627,14 @@ export default defineConfig({
     },
   },
   mfsu: false,
+  analytics: {
+    // google analytics 的 key (GA 4)
+    ga_v2: 'G-YLQBGDK1GT',
+    // 若你在使用 GA v1 旧版本，请使用 `ga` 来配置
+    // ga: 'UA-148148901-4',
+    // 百度统计的 key
+    // baidu: 'baidu_tongji_key',
+  },
   alias: {
     '@': __dirname,
   },
