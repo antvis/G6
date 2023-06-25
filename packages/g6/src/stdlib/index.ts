@@ -77,6 +77,7 @@ const stdLib = {
     'cubic-edge': CubicEdge,
     'cubic-horizon-edge': CubicHorizonEdge,
     'cubic-vertical-edge': CubicVerticalEdge,
+<<<<<<< HEAD
 =======
     'quadratic-edge': Quadratic,
     'cubic-edge': CubicEdge,
@@ -87,6 +88,8 @@ const stdLib = {
     'cubic-horizon-edge': CubicHorizonEdge,
     'cubic-vertical-edge': CubicVerticalEdge
 >>>>>>> 618fe4f1e2 (feat: v5-cubic-horizon-edge)
+=======
+>>>>>>> a952e826c4 (chore: lint fix & use English comments)
   },
   combos: {},
 };

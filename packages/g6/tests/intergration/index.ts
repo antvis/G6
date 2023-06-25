@@ -14,6 +14,7 @@ import performance_layout from './performance/layout';
 import performance_layout_3d from './performance/layout-3d';
 import demo from './demo/demo';
 import demoFor4 from './demo/demoFor4';
+<<<<<<< HEAD
 import line_edge from './item/edge/line-edge';
 import cubic_edge from './item/edge/cubic-edge';
 import cubic_horizon_edge from './item/edge/cubic-horizon-edge';
@@ -24,6 +25,8 @@ import visual from './visual/visual';
 import quadratic from './demo/quadratic';
 <<<<<<< HEAD
 =======
+=======
+>>>>>>> a952e826c4 (chore: lint fix & use English comments)
 import line_edge from './item/edge/line-edge'
 import cubic_edge from './item/edge/cubic-edge'
 import cubic_horizon_edge from './item/edge/cubic-horizon-edge'
@@ -67,6 +70,10 @@ export {
 >>>>>>> 03c9a9db53 (feat: v5-cubic-horizon-edge)
 =======
   cubic_horizon_edge,
+<<<<<<< HEAD
   cubic_vertical_edge
 >>>>>>> 618fe4f1e2 (feat: v5-cubic-horizon-edge)
+=======
+  cubic_vertical_edge,
+>>>>>>> a952e826c4 (chore: lint fix & use English comments)
 };

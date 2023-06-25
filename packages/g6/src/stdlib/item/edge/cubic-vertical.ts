@@ -4,6 +4,7 @@ import { Point } from 'types/common';
 import { EdgeModelData, EdgeShapeMap } from 'types/edge';
 import { State } from 'types/item';
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { IPoint } from '@antv/g6';
 import { vec2 } from '@antv/matrix-util';
 import { BaseEdge } from './base';
@@ -12,13 +13,19 @@ import { CubicEdge } from './cubic';
 export class CubicVerticalEdge extends CubicEdge {
 =======
 import { BaseEdge } from './base'
+=======
+>>>>>>> a952e826c4 (chore: lint fix & use English comments)
 import { IPoint } from '@antv/g6';
 import { vec2 } from '@antv/matrix-util';
+import { BaseEdge } from './base';
 import { CubicEdge } from './cubic';
 
 export class CubicVerticalEdge extends CubicEdge {
+<<<<<<< HEAD
 
 >>>>>>> 618fe4f1e2 (feat: v5-cubic-horizon-edge)
+=======
+>>>>>>> a952e826c4 (chore: lint fix & use English comments)
   public type = 'cubic-vertical-edge';
 
   public defaultStyles = {
@@ -43,6 +50,7 @@ export class CubicVerticalEdge extends CubicEdge {
    * @param startPoint: source point position of edge
    * @param endPoint target point position of edge
    * @param percent the proportion of control points' in the segment, Range 0 to 1
+<<<<<<< HEAD
 <<<<<<< HEAD
    * @param controlPoints the control point position
    * @param offset the curveOffset
@@ -91,33 +99,47 @@ export class CubicVerticalEdge extends CubicEdge {
    */
 =======
    * @param controlPoints the control point position 
+=======
+   * @param controlPoints the control point position
+>>>>>>> a952e826c4 (chore: lint fix & use English comments)
    * @param offset the curveOffset
-   * @returns control points 
+   * @returns control points
    */
-  protected getControlPoints: (startPoint: Point,
+  protected getControlPoints: (
+    startPoint: Point,
     endPoint: Point,
     percent: number,
     controlPoints: number[],
-    offset: number
+    offset: number,
   ) => [Point, Point] = (
-      startPoint: Point,
-      endPoint: Point,
-      percent = 0.5,
-      controlPoints,
-      offset = 20,
+    startPoint: Point,
+    endPoint: Point,
+    percent = 0.5,
+    controlPoints,
+    offset = 20,
   ) => {
-
-    if ((startPoint.x - endPoint.x) * (startPoint.y - endPoint.y ) > 0) {
-      offset = -offset 
+    if ((startPoint.x - endPoint.x) * (startPoint.y - endPoint.y) > 0) {
+      offset = -offset;
     }
 
-    const controlPoint1: IPoint = this.getControlPoint(startPoint, endPoint, percent, offset) 
-    const controlPoint2: IPoint = this.getControlPoint(startPoint, endPoint, percent, -offset) 
+    const controlPoint1: IPoint = this.getControlPoint(
+      startPoint,
+      endPoint,
+      percent,
+      offset,
+    );
+    const controlPoint2: IPoint = this.getControlPoint(
+      startPoint,
+      endPoint,
+      percent,
+      -offset,
+    );
 
-    return [controlPoint1, controlPoint2]
-  }
-
+    return [controlPoint1, controlPoint2];
+  };
+  
   /**
+<<<<<<< HEAD
  * 根据起始点、相对位置、偏移量计算控制点
  * @param  {IPoint} startPoint 起始点，包含 x,y
  * @param  {IPoint} endPoint  结束点, 包含 x,y
@@ -126,11 +148,21 @@ export class CubicVerticalEdge extends CubicEdge {
  * @return {IPoint} 控制点，包含 x,y
  */
 >>>>>>> 618fe4f1e2 (feat: v5-cubic-horizon-edge)
+=======
+   * control point calculated according to startPoint, endPoint, percent, and offset
+   * @param  {IPoint} startPoint source point position of edge (x, y)
+   * @param  {IPoint} endPoint  target point position of edge (x, y)
+   * @param  {Number} percent   the proportion of control points' in the segment, Range 0 to 1
+   * @param  {Number} offset    the curveOffset
+   * @return {IPoint} control point (x,y) 
+   */
+>>>>>>> a952e826c4 (chore: lint fix & use English comments)
   protected getControlPoint: (
     startPoint: IPoint,
     endPoint: IPoint,
     percent: number,
     offset: number,
+<<<<<<< HEAD
 <<<<<<< HEAD
   ) => IPoint = (
     startPoint: IPoint,
@@ -147,6 +179,14 @@ export class CubicVerticalEdge extends CubicEdge {
     ) => {
 
 >>>>>>> 618fe4f1e2 (feat: v5-cubic-horizon-edge)
+=======
+  ) => IPoint = (
+    startPoint: IPoint,
+    endPoint: IPoint,
+    percent = 0,
+    offset = 0,
+  ) => {
+>>>>>>> a952e826c4 (chore: lint fix & use English comments)
     const point: IPoint = {
       x: 0,
       y: (1 - percent) * startPoint.y + percent * endPoint.y,
@@ -154,37 +194,53 @@ export class CubicVerticalEdge extends CubicEdge {
 
     let tangent: vec2 = [0, 0];
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> a952e826c4 (chore: lint fix & use English comments)
     vec2.normalize(tangent, [
       endPoint.x - startPoint.x,
       endPoint.y - startPoint.y,
     ]);
+<<<<<<< HEAD
 =======
     vec2.normalize(tangent, [endPoint.x - startPoint.x, endPoint.y - startPoint.y]);
 >>>>>>> 618fe4f1e2 (feat: v5-cubic-horizon-edge)
+=======
+>>>>>>> a952e826c4 (chore: lint fix & use English comments)
 
     if (!tangent || (!tangent[0] && !tangent[1])) {
       tangent = [0, 0];
     }
 <<<<<<< HEAD
+<<<<<<< HEAD
     const perpendicular = [-tangent[1] * offset, tangent[0] * offset]; // Vertical vector
 =======
     const perpendicular = [-tangent[1] * offset, tangent[0] * offset]; // 垂直向量
 >>>>>>> 618fe4f1e2 (feat: v5-cubic-horizon-edge)
+=======
+    const perpendicular = [-tangent[1] * offset, tangent[0] * offset]; // Vertical vector
+>>>>>>> a952e826c4 (chore: lint fix & use English comments)
 
     point.x += perpendicular[0];
     point.y += perpendicular[1];
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> a952e826c4 (chore: lint fix & use English comments)
     if (Math.abs(point.y - startPoint.y) < Math.abs(point.y - endPoint.y)) {
       point.x += startPoint.x;
     } else {
       point.x += endPoint.x;
+<<<<<<< HEAD
 =======
     if(Math.abs(point.y - startPoint.y) < Math.abs(point.y - endPoint.y)) {
       point.x += startPoint.x
     }else {
       point.x += endPoint.x 
 >>>>>>> 618fe4f1e2 (feat: v5-cubic-horizon-edge)
+=======
+>>>>>>> a952e826c4 (chore: lint fix & use English comments)
     }
 
     return point;
