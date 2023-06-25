@@ -71,7 +71,7 @@ export interface NodeUserModelData extends PlainObject {
 }
 
 /** Data in inner model. Same format to the user data. */
-export interface NodeModelData extends NodeUserModelData {}
+export type NodeModelData = NodeUserModelData;
 
 export interface NodeShapeStyles extends ItemShapeStyles {
   // keyShape, iconShape, haloShape are defined in ItemShapeStyles

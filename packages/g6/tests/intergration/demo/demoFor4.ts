@@ -1,8 +1,8 @@
 import G6 from '@antv/G6';
-import { container, width } from '../../datasets/const';
-import data from './data';
 import { labelPropagation } from '@antv/algorithm';
 import Stats from 'stats.js';
+import { container, width } from '../../datasets/const';
+import data from './data';
 
 const nodeIds = [];
 

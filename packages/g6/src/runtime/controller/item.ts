@@ -1,6 +1,7 @@
 import { AABB, Canvas, DisplayObject, Group } from '@antv/g';
 import { GraphChange, ID } from '@antv/graphlib';
 import { debounce, isArray, isObject, throttle } from '@antv/util';
+import { DirectionalLight, AmbientLight } from '@antv/g-plugin-3d';
 import registry from '../../stdlib';
 import {
   ComboModel,
@@ -37,7 +38,6 @@ import {
   NodeStyleSet,
   EdgeStyleSet,
 } from '../../types/theme';
-import { DirectionalLight, AmbientLight } from '@antv/g-plugin-3d';
 import { ViewportChangeHookParams } from '../../types/hook';
 import { formatLodStrategy } from '../../util/zoom';
 

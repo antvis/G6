@@ -35,7 +35,7 @@ const graph = new G6.Graph({
   // translate the graph to align the canvas's center
   fitCenter: true,
   modes: {
-    // 支持的 behavior
+    // supported behavior
     default: ['drag-node'],
   },
   defaultEdge: {

@@ -67,7 +67,7 @@ const stdLib = {
     'line-edge': LineEdge,
     'cubic-edge': CubicEdge,
     'cubic-horizon-edge': CubicHorizonEdge,
-    'cubic-vertical-edge': CubicVerticalEdge
+    'cubic-vertical-edge': CubicVerticalEdge,
   },
   combos: {},
 };

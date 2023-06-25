@@ -292,7 +292,7 @@ const merge2Styles = (
 export const isPolygonsIntersect = (
   points1: number[][],
   points2: number[][],
-): Boolean => {
+): boolean => {
   const getBBox = (points): Partial<AABB> => {
     const xArr = points.map((p) => p[0]);
     const yArr = points.map((p) => p[1]);

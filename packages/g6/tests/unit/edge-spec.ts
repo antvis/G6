@@ -1,4 +1,3 @@
-import { ItemController } from './../../src/runtime/controller/item';
 // @ts-nocheck
 
 import { DisplayObject } from '@antv/g';
@@ -14,6 +13,7 @@ import { CircleNode } from '../../src/stdlib/item/node';
 import { NodeModelData, NodeShapeMap } from '../../src/types/node';
 import { extend } from '../../src/util/extend';
 import { upsertShape } from '../../src/util/shape';
+import { ItemController } from './../../src/runtime/controller/item';
 
 const container = document.createElement('div');
 document.querySelector('body')!.appendChild(container);
@@ -63,7 +63,6 @@ describe('edge item', () => {
     });
   });
   it('update edge label', (done) => {
-
     const padding = [4, 16, 4, 8];
     graph.updateData('edge', {
       id: 'edge1',
@@ -93,7 +92,7 @@ describe('edge item', () => {
     expect(edgeItem.shapeMap.labelBackgroundShape.attributes.transform).toBe(
       'rotate(45)',
     );
-     
+
     let labelBounds = edgeItem.shapeMap.labelShape.getGeometryBounds();
     expect(edgeItem.shapeMap.labelBackgroundShape.attributes.width).toBe(
       labelBounds.max[0] - labelBounds.min[0] + padding[1] + padding[3],
@@ -858,13 +857,12 @@ describe('state', () => {
   });
 });
 
-// 测试cubic edge 
+// test cubic edge
 describe('cubic-edge unit test', () => {
-
   const width = document.getElementById('container')?.clientWidth;
   const height = document.getElementById('container')?.clientHeight;
 
-  // 默认数据：2个node，1个cubic-edge
+  // default data: 2 nodes, 1 cubic-edge
   const defaultData = {
     nodes: [
       {
@@ -890,11 +888,11 @@ describe('cubic-edge unit test', () => {
         source: 1,
         target: 2,
         data: {
-          type: 'cubic-edge'
-        }
-      }
-    ]
-  }
+          type: 'cubic-edge',
+        },
+      },
+    ],
+  };
 
   it('new graph with two nodes and one cubic-edge', (done) => {
     graph = new Graph({
@@ -905,20 +903,18 @@ describe('cubic-edge unit test', () => {
       data: defaultData,
       modes: {
         default: ['click-select', 'drag-canvas', 'zoom-canvas', 'drag-node'],
-      }, 
-    })
+      },
+    });
 
     graph.on('afterrender', () => {
-      const edgeItem = graph.itemController.itemMap['edge1']
+      const edgeItem = graph.itemController.itemMap['edge1'];
       expect(edgeItem).not.toBe(undefined);
       expect(edgeItem.shapeMap.labelShape).toBe(undefined);
       done();
-    })  
-    
-  })
+    });
+  });
 
   it('update cubic-edge label', (done) => {
-
     const padding = [4, 16, 4, 8];
     graph.updateData('edge', {
       id: 'edge1',
@@ -952,7 +948,6 @@ describe('cubic-edge unit test', () => {
       labelBounds.max[1] - labelBounds.min[1] + padding[0] + padding[2],
     );
 
-    
     graph.updateData('edge', {
       id: 'edge1',
       data: {
@@ -962,25 +957,24 @@ describe('cubic-edge unit test', () => {
         },
       },
     });
-    
 
     edgeItem = graph.itemController.itemMap['edge1'];
     expect(edgeItem.shapeMap.labelShape.attributes.fill).toBe('#00f');
     expect(
       edgeItem.shapeMap.labelShape.attributes.x -
-      edgeItem.shapeMap.labelBackgroundShape.attributes.x,
+        edgeItem.shapeMap.labelBackgroundShape.attributes.x,
     ).toBe(padding[3]);
     labelBounds = edgeItem.shapeMap.labelShape.getGeometryBounds();
     const labelWidth = labelBounds.max[0] - labelBounds.min[0];
     const labelHeight = labelBounds.max[1] - labelBounds.min[1];
     const labelBgBounds =
-    edgeItem.shapeMap.labelBackgroundShape.getGeometryBounds();
+      edgeItem.shapeMap.labelBackgroundShape.getGeometryBounds();
     const labelBgWidth = labelBgBounds.max[0] - labelBgBounds.min[0];
     const labelBgHeight = labelBgBounds.max[1] - labelBgBounds.min[1];
     expect(labelBgWidth - labelWidth).toBe(padding[1] + padding[3]);
     expect(labelBgHeight - labelHeight).toBe(padding[0] + padding[2]);
 
-    // TODO: 测试设置edge为undefine
+    // TODO: test set edge to undefine
     // graph.updateData('edge', {
     //   id: 'edge1',
     //   data: {
@@ -993,7 +987,7 @@ describe('cubic-edge unit test', () => {
     // expect(edgeItem.shapeMap.labelBackgroundShape).toBe(undefined);
 
     done();
-  })
+  });
 
   it('update cubic-edge icon', (done) => {
     // add image icon to follow the label at path's center
@@ -1018,10 +1012,10 @@ describe('cubic-edge unit test', () => {
     let { labelShape, iconShape, labelBackgroundShape } = edgeItem.shapeMap;
     expect(iconShape.attributes.x + iconShape.attributes.width + 6).toBe(
       labelBackgroundShape.getGeometryBounds().min[0] +
-      labelBackgroundShape.attributes.x,
+        labelBackgroundShape.attributes.x,
     );
 
-    // TODO: 测试transform
+    // TODO: test transform
     // expect(iconShape.attributes.transform).toBe(
     //   labelBackgroundShape.attributes.transform,
     // );
@@ -1030,7 +1024,7 @@ describe('cubic-edge unit test', () => {
     ).toBeCloseTo(
       Math.floor(
         labelBackgroundShape.getGeometryBounds().center[1] +
-        labelBackgroundShape.attributes.y,
+          labelBackgroundShape.attributes.y,
       ),
       0.01,
     );
@@ -1051,9 +1045,9 @@ describe('cubic-edge unit test', () => {
     labelBackgroundShape = edgeItem.shapeMap['labelBackgroundShape'];
     expect(iconShape.attributes.x + iconShape.attributes.fontSize + 6).toBe(
       labelBackgroundShape.getGeometryBounds().min[0] +
-      labelBackgroundShape.attributes.x,
+        labelBackgroundShape.attributes.x,
     );
-    // TODO: 测试transform
+    // TODO: test transform
     // expect(iconShape.attributes.transform).toBe(
     //   labelBackgroundShape.attributes.transform,
     // );
@@ -1062,7 +1056,7 @@ describe('cubic-edge unit test', () => {
     ).toBeCloseTo(
       Math.floor(
         labelBackgroundShape.getGeometryBounds().center[1] +
-        labelBackgroundShape.attributes.y,
+          labelBackgroundShape.attributes.y,
       ),
       0.01,
     );
@@ -1081,19 +1075,19 @@ describe('cubic-edge unit test', () => {
     labelBackgroundShape = edgeItem.shapeMap['labelBackgroundShape'];
     expect(iconShape.attributes.x + iconShape.attributes.fontSize + 6).toBe(
       labelBackgroundShape.getGeometryBounds().min[0] +
-      labelBackgroundShape.attributes.x,
+        labelBackgroundShape.attributes.x,
     );
-    // TODO: 测试transform
+    // TODO: test transform
     // expect(iconShape.attributes.transform).toBe(
     //   labelShape.attributes.transform,
     // );
     expect(iconShape.attributes.y + iconShape.attributes.fontSize / 2).toBe(
       labelBackgroundShape.getGeometryBounds().center[1] +
-      labelBackgroundShape.attributes.y,
+        labelBackgroundShape.attributes.y,
     );
     graph.destroy();
     done();
-  })
+  });
 
   it('set cubic-edge state', (done) => {
     const stateData = {
@@ -1134,11 +1128,11 @@ describe('cubic-edge unit test', () => {
                 stroke: '#00f',
                 opacity: 0.5,
               },
-            }
-          }
+            },
+          },
         },
-      ]
-    }
+      ],
+    };
 
     graph = new Graph({
       container,
@@ -1147,12 +1141,11 @@ describe('cubic-edge unit test', () => {
       type: 'graph',
       data: stateData,
       modes: {
-        // 支持的 behavior
-        default: [ 'activate-relations'],
-      }
-      
-    })
-    
+        // Supported behavior
+        default: ['activate-relations'],
+      },
+    });
+
     graph.on('afterrender', () => {
       expect(graph.findIdByState('edge', 'selected').length).toBe(0);
       graph.setItemState('edge1', 'selected', true);
@@ -1231,23 +1224,19 @@ describe('cubic-edge unit test', () => {
       expect(
         graph.itemController.itemMap['edge1'].shapeMap.keyShape.style.opacity,
       ).toBe(1);
-
-    })
+    });
 
     graph.destroy();
     done();
-  })
+  });
+});
 
-})
-
-
-// 测试cubic horizon edge 
+// test cubic horizon edge
 describe('cubic-horizon-edge unit test', () => {
-
   const width = document.getElementById('container')?.clientWidth;
   const height = document.getElementById('container')?.clientHeight;
 
-  // 默认数据：2个node，1个cubic-edge
+  // default data: 2 nodes, 1 cubic-edge
   const defaultData = {
     nodes: [
       {
@@ -1273,11 +1262,11 @@ describe('cubic-horizon-edge unit test', () => {
         source: 1,
         target: 2,
         data: {
-          type: 'cubic-horizon-edge'
-        }
-      }
-    ]
-  }
+          type: 'cubic-horizon-edge',
+        },
+      },
+    ],
+  };
 
   it.only('new graph with two nodes and one cubic-horizon-edge', (done) => {
     graph = new Graph({
@@ -1288,20 +1277,18 @@ describe('cubic-horizon-edge unit test', () => {
       data: defaultData,
       modes: {
         default: ['click-select', 'drag-canvas', 'zoom-canvas', 'drag-node'],
-      }, 
-    })
+      },
+    });
 
     graph.on('afterrender', () => {
-      const edgeItem = graph.itemController.itemMap['edge1']
+      const edgeItem = graph.itemController.itemMap['edge1'];
       expect(edgeItem).not.toBe(undefined);
       expect(edgeItem.shapeMap.labelShape).toBe(undefined);
       done();
-    })  
-    
-  })
+    });
+  });
 
   it.only('update cubic-horizon-edge label', (done) => {
-
     const padding = [4, 16, 4, 8];
     graph.updateData('edge', {
       id: 'edge1',
@@ -1335,7 +1322,6 @@ describe('cubic-horizon-edge unit test', () => {
       labelBounds.max[1] - labelBounds.min[1] + padding[0] + padding[2],
     );
 
-    
     graph.updateData('edge', {
       id: 'edge1',
       data: {
@@ -1345,25 +1331,24 @@ describe('cubic-horizon-edge unit test', () => {
         },
       },
     });
-    
 
     edgeItem = graph.itemController.itemMap['edge1'];
     expect(edgeItem.shapeMap.labelShape.attributes.fill).toBe('#00f');
     expect(
       edgeItem.shapeMap.labelShape.attributes.x -
-      edgeItem.shapeMap.labelBackgroundShape.attributes.x,
+        edgeItem.shapeMap.labelBackgroundShape.attributes.x,
     ).toBe(padding[3]);
     labelBounds = edgeItem.shapeMap.labelShape.getGeometryBounds();
     const labelWidth = labelBounds.max[0] - labelBounds.min[0];
     const labelHeight = labelBounds.max[1] - labelBounds.min[1];
     const labelBgBounds =
-    edgeItem.shapeMap.labelBackgroundShape.getGeometryBounds();
+      edgeItem.shapeMap.labelBackgroundShape.getGeometryBounds();
     const labelBgWidth = labelBgBounds.max[0] - labelBgBounds.min[0];
     const labelBgHeight = labelBgBounds.max[1] - labelBgBounds.min[1];
     expect(labelBgWidth - labelWidth).toBe(padding[1] + padding[3]);
     expect(labelBgHeight - labelHeight).toBe(padding[0] + padding[2]);
 
-    // TODO: 测试设置edge为undefine
+    // TODO: test set edge to undefine
     // graph.updateData('edge', {
     //   id: 'edge1',
     //   data: {
@@ -1374,9 +1359,9 @@ describe('cubic-horizon-edge unit test', () => {
     // edgeItem = graph.itemController.itemMap['edge1'];
     // expect(edgeItem.shapeMap.labelShape).toBe(undefined);
     // expect(edgeItem.shapeMap.labelBackgroundShape).toBe(undefined);
-  
+
     done();
-  })
+  });
 
   it.only('update cubic-horizon-edge icon', (done) => {
     // add image icon to follow the label at path's center
@@ -1401,10 +1386,10 @@ describe('cubic-horizon-edge unit test', () => {
     let { labelShape, iconShape, labelBackgroundShape } = edgeItem.shapeMap;
     expect(iconShape.attributes.x + iconShape.attributes.width + 6).toBe(
       labelBackgroundShape.getGeometryBounds().min[0] +
-      labelBackgroundShape.attributes.x,
+        labelBackgroundShape.attributes.x,
     );
 
-    // TODO: 测试transform
+    // TODO: test transform
     // expect(iconShape.attributes.transform).toBe(
     //   labelBackgroundShape.attributes.transform,
     // );
@@ -1413,7 +1398,7 @@ describe('cubic-horizon-edge unit test', () => {
     ).toBeCloseTo(
       Math.floor(
         labelBackgroundShape.getGeometryBounds().center[1] +
-        labelBackgroundShape.attributes.y,
+          labelBackgroundShape.attributes.y,
       ),
       0.01,
     );
@@ -1434,9 +1419,9 @@ describe('cubic-horizon-edge unit test', () => {
     labelBackgroundShape = edgeItem.shapeMap['labelBackgroundShape'];
     expect(iconShape.attributes.x + iconShape.attributes.fontSize + 6).toBe(
       labelBackgroundShape.getGeometryBounds().min[0] +
-      labelBackgroundShape.attributes.x,
+        labelBackgroundShape.attributes.x,
     );
-    // TODO: 测试transform
+    // TODO: test transform
     // expect(iconShape.attributes.transform).toBe(
     //   labelBackgroundShape.attributes.transform,
     // );
@@ -1445,7 +1430,7 @@ describe('cubic-horizon-edge unit test', () => {
     ).toBeCloseTo(
       Math.floor(
         labelBackgroundShape.getGeometryBounds().center[1] +
-        labelBackgroundShape.attributes.y,
+          labelBackgroundShape.attributes.y,
       ),
       0.01,
     );
@@ -1464,19 +1449,19 @@ describe('cubic-horizon-edge unit test', () => {
     labelBackgroundShape = edgeItem.shapeMap['labelBackgroundShape'];
     expect(iconShape.attributes.x + iconShape.attributes.fontSize + 6).toBe(
       labelBackgroundShape.getGeometryBounds().min[0] +
-      labelBackgroundShape.attributes.x,
+        labelBackgroundShape.attributes.x,
     );
-    // TODO: 测试transform
+    // TODO: test transform
     // expect(iconShape.attributes.transform).toBe(
     //   labelShape.attributes.transform,
     // );
     expect(iconShape.attributes.y + iconShape.attributes.fontSize / 2).toBe(
       labelBackgroundShape.getGeometryBounds().center[1] +
-      labelBackgroundShape.attributes.y,
+        labelBackgroundShape.attributes.y,
     );
     graph.destroy();
     done();
-  })
+  });
 
   it.only('set cubic-horizon-edge state', (done) => {
     const stateData = {
@@ -1517,11 +1502,11 @@ describe('cubic-horizon-edge unit test', () => {
                 stroke: '#00f',
                 opacity: 0.5,
               },
-            }
-          }
+            },
+          },
         },
-      ]
-    }
+      ],
+    };
 
     graph = new Graph({
       container,
@@ -1530,12 +1515,10 @@ describe('cubic-horizon-edge unit test', () => {
       type: 'graph',
       data: stateData,
       modes: {
-        // 支持的 behavior
-        default: [ 'activate-relations'],
-      }
-      
-    })
-    
+        default: ['activate-relations'],
+      },
+    });
+
     graph.on('afterrender', () => {
       expect(graph.findIdByState('edge', 'selected').length).toBe(0);
       graph.setItemState('edge1', 'selected', true);
@@ -1614,21 +1597,19 @@ describe('cubic-horizon-edge unit test', () => {
       expect(
         graph.itemController.itemMap['edge1'].shapeMap.keyShape.style.opacity,
       ).toBe(1);
-
-    })
+    });
 
     graph.destroy();
     done();
-  })
-})
+  });
+});
 
-// 测试cubic horizon edge 
+// test cubic horizon edge
 describe('cubic-vertical-edge unit test', () => {
-
   const width = document.getElementById('container')?.clientWidth;
   const height = document.getElementById('container')?.clientHeight;
 
-  // 默认数据：2个node，1个cubic-edge
+  // default data: 2 node + 1 cubic-edge
   const defaultData = {
     nodes: [
       {
@@ -1654,11 +1635,11 @@ describe('cubic-vertical-edge unit test', () => {
         source: 1,
         target: 2,
         data: {
-          type: 'cubic-vertical-edge'
-        }
-      }
-    ]
-  }
+          type: 'cubic-vertical-edge',
+        },
+      },
+    ],
+  };
 
   it.only('new graph with two nodes and one cubic-vertical-edge', (done) => {
     graph = new Graph({
@@ -1669,20 +1650,18 @@ describe('cubic-vertical-edge unit test', () => {
       data: defaultData,
       modes: {
         default: ['click-select', 'drag-canvas', 'zoom-canvas', 'drag-node'],
-      }, 
-    })
+      },
+    });
 
     graph.on('afterrender', () => {
-      const edgeItem = graph.itemController.itemMap['edge1']
+      const edgeItem = graph.itemController.itemMap['edge1'];
       expect(edgeItem).not.toBe(undefined);
       expect(edgeItem.shapeMap.labelShape).toBe(undefined);
       done();
-    })  
-    
-  })
+    });
+  });
 
   it.only('update cubic-vertical-edge label', (done) => {
-
     const padding = [4, 16, 4, 8];
     graph.updateData('edge', {
       id: 'edge1',
@@ -1716,7 +1695,6 @@ describe('cubic-vertical-edge unit test', () => {
       labelBounds.max[1] - labelBounds.min[1] + padding[0] + padding[2],
     );
 
-    
     graph.updateData('edge', {
       id: 'edge1',
       data: {
@@ -1726,25 +1704,24 @@ describe('cubic-vertical-edge unit test', () => {
         },
       },
     });
-    
 
     edgeItem = graph.itemController.itemMap['edge1'];
     expect(edgeItem.shapeMap.labelShape.attributes.fill).toBe('#00f');
     expect(
       edgeItem.shapeMap.labelShape.attributes.x -
-      edgeItem.shapeMap.labelBackgroundShape.attributes.x,
+        edgeItem.shapeMap.labelBackgroundShape.attributes.x,
     ).toBe(padding[3]);
     labelBounds = edgeItem.shapeMap.labelShape.getGeometryBounds();
     const labelWidth = labelBounds.max[0] - labelBounds.min[0];
     const labelHeight = labelBounds.max[1] - labelBounds.min[1];
     const labelBgBounds =
-    edgeItem.shapeMap.labelBackgroundShape.getGeometryBounds();
+      edgeItem.shapeMap.labelBackgroundShape.getGeometryBounds();
     const labelBgWidth = labelBgBounds.max[0] - labelBgBounds.min[0];
     const labelBgHeight = labelBgBounds.max[1] - labelBgBounds.min[1];
     expect(labelBgWidth - labelWidth).toBe(padding[1] + padding[3]);
     expect(labelBgHeight - labelHeight).toBe(padding[0] + padding[2]);
 
-    // TODO: 测试设置edge为undefine
+    // TODO: test set edge to undefine
     // graph.updateData('edge', {
     //   id: 'edge1',
     //   data: {
@@ -1755,9 +1732,9 @@ describe('cubic-vertical-edge unit test', () => {
     // edgeItem = graph.itemController.itemMap['edge1'];
     // expect(edgeItem.shapeMap.labelShape).toBe(undefined);
     // expect(edgeItem.shapeMap.labelBackgroundShape).toBe(undefined);
-  
+
     done();
-  })
+  });
 
   it.only('update cubic-vertical-edge icon', (done) => {
     // add image icon to follow the label at path's center
@@ -1782,10 +1759,10 @@ describe('cubic-vertical-edge unit test', () => {
     let { labelShape, iconShape, labelBackgroundShape } = edgeItem.shapeMap;
     expect(iconShape.attributes.x + iconShape.attributes.width + 6).toBe(
       labelBackgroundShape.getGeometryBounds().min[0] +
-      labelBackgroundShape.attributes.x,
+        labelBackgroundShape.attributes.x,
     );
 
-    // TODO: 测试transform
+    // TODO: test transform
     // expect(iconShape.attributes.transform).toBe(
     //   labelBackgroundShape.attributes.transform,
     // );
@@ -1794,7 +1771,7 @@ describe('cubic-vertical-edge unit test', () => {
     ).toBeCloseTo(
       Math.floor(
         labelBackgroundShape.getGeometryBounds().center[1] +
-        labelBackgroundShape.attributes.y,
+          labelBackgroundShape.attributes.y,
       ),
       0.01,
     );
@@ -1815,9 +1792,9 @@ describe('cubic-vertical-edge unit test', () => {
     labelBackgroundShape = edgeItem.shapeMap['labelBackgroundShape'];
     expect(iconShape.attributes.x + iconShape.attributes.fontSize + 6).toBe(
       labelBackgroundShape.getGeometryBounds().min[0] +
-      labelBackgroundShape.attributes.x,
+        labelBackgroundShape.attributes.x,
     );
-    // TODO: 测试transform
+    // TODO: test transform
     // expect(iconShape.attributes.transform).toBe(
     //   labelBackgroundShape.attributes.transform,
     // );
@@ -1826,7 +1803,7 @@ describe('cubic-vertical-edge unit test', () => {
     ).toBeCloseTo(
       Math.floor(
         labelBackgroundShape.getGeometryBounds().center[1] +
-        labelBackgroundShape.attributes.y,
+          labelBackgroundShape.attributes.y,
       ),
       0.01,
     );
@@ -1845,19 +1822,19 @@ describe('cubic-vertical-edge unit test', () => {
     labelBackgroundShape = edgeItem.shapeMap['labelBackgroundShape'];
     expect(iconShape.attributes.x + iconShape.attributes.fontSize + 6).toBe(
       labelBackgroundShape.getGeometryBounds().min[0] +
-      labelBackgroundShape.attributes.x,
+        labelBackgroundShape.attributes.x,
     );
-    // TODO: 测试transform
+    // TODO: test transform
     // expect(iconShape.attributes.transform).toBe(
     //   labelShape.attributes.transform,
     // );
     expect(iconShape.attributes.y + iconShape.attributes.fontSize / 2).toBe(
       labelBackgroundShape.getGeometryBounds().center[1] +
-      labelBackgroundShape.attributes.y,
+        labelBackgroundShape.attributes.y,
     );
     graph.destroy();
     done();
-  })
+  });
 
   it.only('set cubic-vertical-edge state', (done) => {
     const stateData = {
@@ -1898,11 +1875,11 @@ describe('cubic-vertical-edge unit test', () => {
                 stroke: '#00f',
                 opacity: 0.5,
               },
-            }
-          }
+            },
+          },
         },
-      ]
-    }
+      ],
+    };
 
     graph = new Graph({
       container,
@@ -1911,12 +1888,10 @@ describe('cubic-vertical-edge unit test', () => {
       type: 'graph',
       data: stateData,
       modes: {
-        // 支持的 behavior
-        default: [ 'activate-relations'],
-      }
-      
-    })
-    
+        default: ['activate-relations'],
+      },
+    });
+
     graph.on('afterrender', () => {
       expect(graph.findIdByState('edge', 'selected').length).toBe(0);
       graph.setItemState('edge1', 'selected', true);
@@ -1995,10 +1970,9 @@ describe('cubic-vertical-edge unit test', () => {
       expect(
         graph.itemController.itemMap['edge1'].shapeMap.keyShape.style.opacity,
       ).toBe(1);
-
-    })
+    });
 
     graph.destroy();
     done();
-  })
-})
+  });
+});

@@ -1,7 +1,7 @@
 import { ID } from '@antv/graphlib';
+import { ITEM_TYPE } from 'types/item';
 import { Behavior } from '../../types/behavior';
 import { IG6GraphEvent } from '../../types/event';
-import { ITEM_TYPE } from 'types/item';
 
 // TODO: Combo related features:
 // hover combo
