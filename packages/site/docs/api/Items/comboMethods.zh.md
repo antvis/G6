@@ -19,7 +19,7 @@ Combo 继承自 Node，具有 Node 的所有特性。本文仅介绍 Combo 类�
 const elements = combo.getChildren();
 ```
 
-###combo. getNodes()
+### combo.getNodes()
 
 获取 Combo 中所有子节点。
 
@@ -27,7 +27,7 @@ const elements = combo.getChildren();
 
 - 返回值类型为 `INode[]`。
 
-###combo. getCombos()
+### combo.getCombos()
 
 获取 Combo 中所有子 combo。
 
@@ -35,7 +35,7 @@ const elements = combo.getChildren();
 
 - 返回值类型为 `ICombo[]`。
 
-###combo. addChild(item: INode | ICombo)
+### combo.addChild(item: INode | ICombo)
 
 向 Combo 中添加子 Node 或子 Combo。
 
@@ -59,7 +59,7 @@ const node = graph.findById('node1');
 const result = combo.addChild(node);
 ```
 
-###combo. addNode(node: string | INode)
+### combo.addNode(node: string | INode)
 
 向 combo 中添加节点。
 
@@ -74,7 +74,7 @@ const result = combo.addChild(node);
 - 类型： `boolean`；
 - 含义：返回 `true` 表示添加成功。
 
-###combo. addCombo(combo: ICombo)
+### combo.addCombo(combo: ICombo)
 
 向 combo 中添加 combo。
 
@@ -89,7 +89,7 @@ const result = combo.addChild(node);
 - 类型： `boolean`；
 - 含义：返回 `true` 表示添加成功。
 
-###combo. removeChild(item: ICombo | INode)
+### combo.removeChild(item: ICombo | INode)
 
 移除子元素（子节点或子 combo）。
 
@@ -104,7 +104,7 @@ const result = combo.addChild(node);
 - 类型： `boolean`；
 - 含义：返回 `true` 表示移除成功。
 
-###combo. removeCombo(combo: ICombo)
+### combo.removeCombo(combo: ICombo)
 
 移除指定的子 combo。注意：移除后 `combo` 不再属于该父 Combo，但没有被删除。需要删除 `combo` 请调用 [graph.removeItem](/zh/docs/api/Graph#removeitemitem)
 
@@ -119,7 +119,7 @@ const result = combo.addChild(node);
 - 类型： `boolean`；
 - 含义：返回 `true` 表示移除成功。
 
-###combo. removeNode(node: INode)
+### combo.removeNode(node: INode)
 
 移除指定的子 Node。注意：移除后该节点不再属于该 Combo，但没有被删除。需要删除节点请调用 [graph.removeItem](/zh/docs/api/Graph#removeitemitem)
 
