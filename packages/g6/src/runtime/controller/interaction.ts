@@ -8,7 +8,11 @@ import {
   DOM_EVENT_TYPE,
   IG6GraphEvent,
 } from '../../types/event';
-import { getItemInfoFromElement, ItemInfo } from '../../util/event';
+import {
+  getContextMenuEventProps,
+  getItemInfoFromElement,
+  ItemInfo,
+} from '../../util/event';
 
 type Listener = (event: IG6GraphEvent) => void;
 
@@ -294,6 +298,13 @@ export class InteractionController {
       }
       this.graph.emit(`canvas:${gEvent.type}`, event);
       this.graph.emit(`${gEvent.type}`, event);
+
+      // contextmenu event for canvas
+      if (event.type === 'pointerdown' && event.button === 2) {
+        const contextMenuEvent = getContextMenuEventProps(event, this.graph);
+        this.graph.emit(`canvas:contextmenu`, contextMenuEvent);
+        this.graph.emit('contextmenu', contextMenuEvent);
+      }
       // debug(`Canvas ${event.type} :`, event);
       return;
     }
@@ -305,6 +316,13 @@ export class InteractionController {
       }
       this.graph.emit(`${itemType}:${gEvent.type}`, event);
       this.graph.emit(`${gEvent.type}`, event);
+
+      // contextmenu event for node or edge
+      if (event.type === 'pointerdown' && event.button === 2) {
+        const contextMenuEvent = getContextMenuEventProps(event, this.graph);
+        this.graph.emit(`${itemType}:contextmenu`, contextMenuEvent);
+        this.graph.emit('contextmenu', contextMenuEvent);
+      }
     }
   };
 
