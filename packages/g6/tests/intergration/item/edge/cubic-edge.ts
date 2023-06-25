@@ -145,7 +145,7 @@ const createControls = () => {
             text: 'police car',
           },
           iconShape: {
-            img: 'https://cz.xiaqianghui.com/exampledir/警车.svg',
+            img: 'https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*Kp_tSb9BrdAAAAAAAAAAAAAADmJ7AQ/original',
             // text: 'A',
             fill: '#f00',
             fontSize: 20,

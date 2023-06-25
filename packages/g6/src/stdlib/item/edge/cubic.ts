@@ -151,8 +151,8 @@ export class CubicEdge extends BaseEdge {
     const controlPoint2: IPoint = this.getControlPoint(
       startPoint,
       endPoint,
-      -percent,
-      offset,
+      percent,
+      -offset,
     );
 
     return [controlPoint1, controlPoint2];
@@ -191,6 +191,7 @@ export class CubicEdge extends BaseEdge {
     if (!tangent || (!tangent[0] && !tangent[1])) {
       tangent = [0, 0];
     }
+
     const perpendicular = [-tangent[1] * offset, tangent[0] * offset]; // Vertical vector
     point.x += perpendicular[0];
     point.y += perpendicular[1];
