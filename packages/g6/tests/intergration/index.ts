@@ -18,6 +18,7 @@ import bugReproduce from './demo/bugReproduce';
 import rect from './demo/rect';
 import visual from './visual/visual';
 import quadratic from './demo/quadratic';
+import menu from './demo/menu'
 export {
   behaviors_activateRelations,
   layouts_circular,
@@ -38,5 +39,6 @@ export {
   bugReproduce,
   rect,
   visual,
-  quadratic
+  quadratic,
+  menu
 };
