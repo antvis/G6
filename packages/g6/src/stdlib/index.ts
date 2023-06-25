@@ -24,7 +24,7 @@ import RotateCanvas3D from './behavior/rotate-canvas-3d';
 import TrackCanvas3D from './behavior/track-canvas-3d';
 import OrbitCanvas3D from './behavior/orbit-canvas-3d';
 import { HoverActivate } from './behavior/hover-activate';
-
+import { Quadratic } from './item/edge';
 const stdLib = {
   transforms: {
     comboFromNode,
@@ -63,6 +63,7 @@ const stdLib = {
   },
   edges: {
     'line-edge': LineEdge,
+    'quadratic-edge': Quadratic
   },
   combos: {},
 };
