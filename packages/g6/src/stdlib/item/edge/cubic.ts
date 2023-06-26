@@ -129,34 +129,6 @@ export class CubicEdge extends BaseEdge {
    * @param offset the curveOffset
    * @returns control points
    */
-<<<<<<< HEAD
-<<<<<<< HEAD
-  protected getControlPoints: (
-    startPoint: Point,
-=======
-  protected getControlPoints: (startPoint: Point,
->>>>>>> 03c9a9db53 (feat: v5-cubic-horizon-edge)
-    endPoint: Point,
-    percent: number,
-    controlPoints: number[],
-<<<<<<< HEAD
-    offset: number,
-  ) => [Point, Point] = (
-    startPoint: Point,
-    endPoint: Point,
-    percent = 0.5,
-    controlPoints,
-    offset = 20,
-=======
-    offset: number
-  ) => [Point, Point] = (
-      startPoint: Point,
-      endPoint: Point,
-      percent = 0.5,
-      controlPoints,
-      offset = 20,
->>>>>>> 618fe4f1e2 (feat: v5-cubic-horizon-edge)
-=======
   protected getControlPoints: (
     startPoint: Point,
     endPoint: Point,
@@ -169,7 +141,6 @@ export class CubicEdge extends BaseEdge {
     percent = 0.5,
     controlPoints,
     offset = 20,
->>>>>>> a952e826c4 (chore: lint fix & use English comments)
   ) => {
     const controlPoint1: IPoint = this.getControlPoint(
       startPoint,
@@ -180,34 +151,14 @@ export class CubicEdge extends BaseEdge {
     const controlPoint2: IPoint = this.getControlPoint(
       startPoint,
       endPoint,
-<<<<<<< HEAD
       percent,
       -offset,
     );
 
-<<<<<<< HEAD
-    return [controlPoint1, controlPoint2];
-  };
-=======
-    const controlPoint1: IPoint = this.getControlPoint(startPoint, endPoint, percent, offset) 
-    const controlPoint2: IPoint = this.getControlPoint(startPoint, endPoint, -percent, offset) 
-
-    return [controlPoint1, controlPoint2]
-  }
->>>>>>> 618fe4f1e2 (feat: v5-cubic-horizon-edge)
-
-  /**
-<<<<<<< HEAD
-=======
-      -percent,
-      offset,
-    );
-
     return [controlPoint1, controlPoint2];
   };
 
   /**
->>>>>>> a952e826c4 (chore: lint fix & use English comments)
    * control point calculated according to startPoint, endPoint, percent, and offset
    * @param  {IPoint} startPoint source point position of edge (x, y)
    * @param  {IPoint} endPoint  target point position of edge (x, y)
@@ -215,18 +166,6 @@ export class CubicEdge extends BaseEdge {
    * @param  {Number} offset    the curveOffset
    * @return {IPoint} control point (x,y) 
    */
-<<<<<<< HEAD
-=======
- * 根据起始点、相对位置、偏移量计算控制点
- * @param  {IPoint} startPoint 起始点，包含 x,y
- * @param  {IPoint} endPoint  结束点, 包含 x,y
- * @param  {Number} percent   相对位置,范围 0-1
- * @param  {Number} offset    偏移量
- * @return {IPoint} 控制点，包含 x,y
- */
->>>>>>> 03c9a9db53 (feat: v5-cubic-horizon-edge)
-=======
->>>>>>> a952e826c4 (chore: lint fix & use English comments)
   protected getControlPoint: (
     startPoint: IPoint,
     endPoint: IPoint,
@@ -252,10 +191,6 @@ export class CubicEdge extends BaseEdge {
     if (!tangent || (!tangent[0] && !tangent[1])) {
       tangent = [0, 0];
     }
-<<<<<<< HEAD
-
-=======
->>>>>>> a952e826c4 (chore: lint fix & use English comments)
     const perpendicular = [-tangent[1] * offset, tangent[0] * offset]; // Vertical vector
     point.x += perpendicular[0];
     point.y += perpendicular[1];

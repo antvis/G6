@@ -91,10 +91,6 @@ describe('edge item', () => {
     expect(edgeItem.shapeMap.labelBackgroundShape.attributes.transform).toBe(
       'rotate(45)',
     );
-<<<<<<< HEAD
-=======
-
->>>>>>> a952e826c4 (chore: lint fix & use English comments)
     let labelBounds = edgeItem.shapeMap.labelShape.getGeometryBounds();
     expect(edgeItem.shapeMap.labelBackgroundShape.attributes.width).toBe(
       labelBounds.max[0] - labelBounds.min[0] + padding[1] + padding[3],
@@ -913,25 +909,10 @@ describe('cubic-edge unit test', () => {
       expect(edgeItem).not.toBe(undefined);
       expect(edgeItem.shapeMap.labelShape).toBe(undefined);
       done();
-<<<<<<< HEAD
-<<<<<<< HEAD
-    });
-  });
-=======
-    })  
-    
-  })
-
-  it('update cubic-edge label', (done) => {
->>>>>>> 03c9a9db53 (feat: v5-cubic-horizon-edge)
-
-  it('update cubic-edge label', (done) => {
-=======
     });
   });
 
   it('update cubic-edge label', (done) => {
->>>>>>> a952e826c4 (chore: lint fix & use English comments)
     const padding = [4, 16, 4, 8];
     graph.updateData('edge', {
       id: 'edge1',
@@ -1092,21 +1073,10 @@ describe('cubic-edge unit test', () => {
     labelBackgroundShape = edgeItem.shapeMap['labelBackgroundShape'];
     expect(iconShape.attributes.x + iconShape.attributes.fontSize + 6).toBe(
       labelBackgroundShape.getGeometryBounds().min[0] +
-<<<<<<< HEAD
-<<<<<<< HEAD
         labelBackgroundShape.attributes.x,
     );
+
     // TODO: test transform
-=======
-      labelBackgroundShape.attributes.x,
-    );
-    // TODO: 测试transform
->>>>>>> 03c9a9db53 (feat: v5-cubic-horizon-edge)
-=======
-        labelBackgroundShape.attributes.x,
-    );
-    // TODO: test transform
->>>>>>> a952e826c4 (chore: lint fix & use English comments)
     // expect(iconShape.attributes.transform).toBe(
     //   labelShape.attributes.transform,
     // );
@@ -1157,27 +1127,11 @@ describe('cubic-edge unit test', () => {
                 stroke: '#00f',
                 opacity: 0.5,
               },
-<<<<<<< HEAD
-<<<<<<< HEAD
             },
           },
         },
       ],
     };
-=======
-            }
-          }
-        },
-      ]
-    }
->>>>>>> 03c9a9db53 (feat: v5-cubic-horizon-edge)
-=======
-            },
-          },
-        },
-      ],
-    };
->>>>>>> a952e826c4 (chore: lint fix & use English comments)
 
     graph = new Graph({
       container,
@@ -1186,16 +1140,11 @@ describe('cubic-edge unit test', () => {
       type: 'graph',
       data: stateData,
       modes: {
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> a952e826c4 (chore: lint fix & use English comments)
         // Supported behavior
         default: ['activate-relations'],
       },
     });
 
-<<<<<<< HEAD
     graph.on('afterrender', () => {
       expect(graph.findIdByState('edge', 'selected').length).toBe(0);
       graph.setItemState('edge1', 'selected', true);
@@ -1339,15 +1288,6 @@ describe('cubic-horizon-edge unit test', () => {
   });
 
   it.only('update cubic-horizon-edge label', (done) => {
-=======
-        // 支持的 behavior
-        default: [ 'activate-relations'],
-      }
-      
-    })
-    
-=======
->>>>>>> a952e826c4 (chore: lint fix & use English comments)
     graph.on('afterrender', () => {
       expect(graph.findIdByState('edge', 'selected').length).toBe(0);
       graph.setItemState('edge1', 'selected', true);
@@ -1491,11 +1431,7 @@ describe('cubic-horizon-edge unit test', () => {
   });
 
   it.only('update cubic-horizon-edge label', (done) => {
-<<<<<<< HEAD
 
->>>>>>> 03c9a9db53 (feat: v5-cubic-horizon-edge)
-=======
->>>>>>> a952e826c4 (chore: lint fix & use English comments)
     const padding = [4, 16, 4, 8];
     graph.updateData('edge', {
       id: 'edge1',
@@ -1529,13 +1465,6 @@ describe('cubic-horizon-edge unit test', () => {
       labelBounds.max[1] - labelBounds.min[1] + padding[0] + padding[2],
     );
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-    
->>>>>>> 03c9a9db53 (feat: v5-cubic-horizon-edge)
-=======
->>>>>>> a952e826c4 (chore: lint fix & use English comments)
     graph.updateData('edge', {
       id: 'edge1',
       data: {
@@ -1545,55 +1474,24 @@ describe('cubic-horizon-edge unit test', () => {
         },
       },
     });
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-    
->>>>>>> 03c9a9db53 (feat: v5-cubic-horizon-edge)
-=======
->>>>>>> a952e826c4 (chore: lint fix & use English comments)
 
     edgeItem = graph.itemController.itemMap['edge1'];
     expect(edgeItem.shapeMap.labelShape.attributes.fill).toBe('#00f');
     expect(
       edgeItem.shapeMap.labelShape.attributes.x -
-<<<<<<< HEAD
-<<<<<<< HEAD
-        edgeItem.shapeMap.labelBackgroundShape.attributes.x,
-=======
       edgeItem.shapeMap.labelBackgroundShape.attributes.x,
->>>>>>> 03c9a9db53 (feat: v5-cubic-horizon-edge)
-=======
-        edgeItem.shapeMap.labelBackgroundShape.attributes.x,
->>>>>>> a952e826c4 (chore: lint fix & use English comments)
     ).toBe(padding[3]);
     labelBounds = edgeItem.shapeMap.labelShape.getGeometryBounds();
     const labelWidth = labelBounds.max[0] - labelBounds.min[0];
     const labelHeight = labelBounds.max[1] - labelBounds.min[1];
     const labelBgBounds =
-<<<<<<< HEAD
-<<<<<<< HEAD
       edgeItem.shapeMap.labelBackgroundShape.getGeometryBounds();
-=======
-    edgeItem.shapeMap.labelBackgroundShape.getGeometryBounds();
->>>>>>> 03c9a9db53 (feat: v5-cubic-horizon-edge)
-=======
-      edgeItem.shapeMap.labelBackgroundShape.getGeometryBounds();
->>>>>>> a952e826c4 (chore: lint fix & use English comments)
     const labelBgWidth = labelBgBounds.max[0] - labelBgBounds.min[0];
     const labelBgHeight = labelBgBounds.max[1] - labelBgBounds.min[1];
     expect(labelBgWidth - labelWidth).toBe(padding[1] + padding[3]);
     expect(labelBgHeight - labelHeight).toBe(padding[0] + padding[2]);
 
-<<<<<<< HEAD
-<<<<<<< HEAD
     // TODO: test set edge to undefine
-=======
-    // TODO: 测试设置edge为undefine
->>>>>>> 03c9a9db53 (feat: v5-cubic-horizon-edge)
-=======
-    // TODO: test set edge to undefine
->>>>>>> a952e826c4 (chore: lint fix & use English comments)
     // graph.updateData('edge', {
     //   id: 'edge1',
     //   data: {
@@ -1604,21 +1502,9 @@ describe('cubic-horizon-edge unit test', () => {
     // edgeItem = graph.itemController.itemMap['edge1'];
     // expect(edgeItem.shapeMap.labelShape).toBe(undefined);
     // expect(edgeItem.shapeMap.labelBackgroundShape).toBe(undefined);
-<<<<<<< HEAD
-<<<<<<< HEAD
 
     done();
   });
-=======
-  
-    done();
-  })
->>>>>>> 03c9a9db53 (feat: v5-cubic-horizon-edge)
-=======
-
-    done();
-  });
->>>>>>> a952e826c4 (chore: lint fix & use English comments)
 
   it.only('update cubic-horizon-edge icon', (done) => {
     // add image icon to follow the label at path's center
@@ -1643,24 +1529,10 @@ describe('cubic-horizon-edge unit test', () => {
     let { labelShape, iconShape, labelBackgroundShape } = edgeItem.shapeMap;
     expect(iconShape.attributes.x + iconShape.attributes.width + 6).toBe(
       labelBackgroundShape.getGeometryBounds().min[0] +
-<<<<<<< HEAD
-<<<<<<< HEAD
         labelBackgroundShape.attributes.x,
     );
 
     // TODO: test transform
-=======
-      labelBackgroundShape.attributes.x,
-    );
-
-    // TODO: 测试transform
->>>>>>> 03c9a9db53 (feat: v5-cubic-horizon-edge)
-=======
-        labelBackgroundShape.attributes.x,
-    );
-
-    // TODO: test transform
->>>>>>> a952e826c4 (chore: lint fix & use English comments)
     // expect(iconShape.attributes.transform).toBe(
     //   labelBackgroundShape.attributes.transform,
     // );
@@ -1669,15 +1541,7 @@ describe('cubic-horizon-edge unit test', () => {
     ).toBeCloseTo(
       Math.floor(
         labelBackgroundShape.getGeometryBounds().center[1] +
-<<<<<<< HEAD
-<<<<<<< HEAD
           labelBackgroundShape.attributes.y,
-=======
-        labelBackgroundShape.attributes.y,
->>>>>>> 03c9a9db53 (feat: v5-cubic-horizon-edge)
-=======
-          labelBackgroundShape.attributes.y,
->>>>>>> a952e826c4 (chore: lint fix & use English comments)
       ),
       0.01,
     );
@@ -1698,21 +1562,9 @@ describe('cubic-horizon-edge unit test', () => {
     labelBackgroundShape = edgeItem.shapeMap['labelBackgroundShape'];
     expect(iconShape.attributes.x + iconShape.attributes.fontSize + 6).toBe(
       labelBackgroundShape.getGeometryBounds().min[0] +
-<<<<<<< HEAD
-<<<<<<< HEAD
         labelBackgroundShape.attributes.x,
     );
     // TODO: test transform
-=======
-      labelBackgroundShape.attributes.x,
-    );
-    // TODO: 测试transform
->>>>>>> 03c9a9db53 (feat: v5-cubic-horizon-edge)
-=======
-        labelBackgroundShape.attributes.x,
-    );
-    // TODO: test transform
->>>>>>> a952e826c4 (chore: lint fix & use English comments)
     // expect(iconShape.attributes.transform).toBe(
     //   labelBackgroundShape.attributes.transform,
     // );
@@ -1721,15 +1573,7 @@ describe('cubic-horizon-edge unit test', () => {
     ).toBeCloseTo(
       Math.floor(
         labelBackgroundShape.getGeometryBounds().center[1] +
-<<<<<<< HEAD
-<<<<<<< HEAD
           labelBackgroundShape.attributes.y,
-=======
-        labelBackgroundShape.attributes.y,
->>>>>>> 03c9a9db53 (feat: v5-cubic-horizon-edge)
-=======
-          labelBackgroundShape.attributes.y,
->>>>>>> a952e826c4 (chore: lint fix & use English comments)
       ),
       0.01,
     );
@@ -1748,47 +1592,19 @@ describe('cubic-horizon-edge unit test', () => {
     labelBackgroundShape = edgeItem.shapeMap['labelBackgroundShape'];
     expect(iconShape.attributes.x + iconShape.attributes.fontSize + 6).toBe(
       labelBackgroundShape.getGeometryBounds().min[0] +
-<<<<<<< HEAD
-<<<<<<< HEAD
         labelBackgroundShape.attributes.x,
     );
     // TODO: test transform
-=======
-      labelBackgroundShape.attributes.x,
-    );
-    // TODO: 测试transform
->>>>>>> 03c9a9db53 (feat: v5-cubic-horizon-edge)
-=======
-        labelBackgroundShape.attributes.x,
-    );
-    // TODO: test transform
->>>>>>> a952e826c4 (chore: lint fix & use English comments)
     // expect(iconShape.attributes.transform).toBe(
     //   labelShape.attributes.transform,
     // );
     expect(iconShape.attributes.y + iconShape.attributes.fontSize / 2).toBe(
       labelBackgroundShape.getGeometryBounds().center[1] +
-<<<<<<< HEAD
-<<<<<<< HEAD
         labelBackgroundShape.attributes.y,
     );
     graph.destroy();
     done();
   });
-=======
-      labelBackgroundShape.attributes.y,
-    );
-    graph.destroy();
-    done();
-  })
->>>>>>> 03c9a9db53 (feat: v5-cubic-horizon-edge)
-=======
-        labelBackgroundShape.attributes.y,
-    );
-    graph.destroy();
-    done();
-  });
->>>>>>> a952e826c4 (chore: lint fix & use English comments)
 
   it.only('set cubic-horizon-edge state', (done) => {
     const stateData = {
@@ -1829,27 +1645,11 @@ describe('cubic-horizon-edge unit test', () => {
                 stroke: '#00f',
                 opacity: 0.5,
               },
-<<<<<<< HEAD
-<<<<<<< HEAD
             },
           },
         },
       ],
     };
-=======
-            }
-          }
-        },
-      ]
-    }
->>>>>>> 03c9a9db53 (feat: v5-cubic-horizon-edge)
-=======
-            },
-          },
-        },
-      ],
-    };
->>>>>>> a952e826c4 (chore: lint fix & use English comments)
 
     graph = new Graph({
       container,
@@ -1858,25 +1658,10 @@ describe('cubic-horizon-edge unit test', () => {
       type: 'graph',
       data: stateData,
       modes: {
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> a952e826c4 (chore: lint fix & use English comments)
         default: ['activate-relations'],
       },
     });
 
-<<<<<<< HEAD
-=======
-        // 支持的 behavior
-        default: [ 'activate-relations'],
-      }
-      
-    })
-    
->>>>>>> 03c9a9db53 (feat: v5-cubic-horizon-edge)
-=======
->>>>>>> a952e826c4 (chore: lint fix & use English comments)
     graph.on('afterrender', () => {
       expect(graph.findIdByState('edge', 'selected').length).toBe(0);
       graph.setItemState('edge1', 'selected', true);
@@ -1955,8 +1740,6 @@ describe('cubic-horizon-edge unit test', () => {
       expect(
         graph.itemController.itemMap['edge1'].shapeMap.keyShape.style.opacity,
       ).toBe(1);
-<<<<<<< HEAD
-<<<<<<< HEAD
     });
 
     graph.destroy();
@@ -2336,25 +2119,6 @@ describe('cubic-vertical-edge unit test', () => {
     done();
   });
 });
-=======
-
-    })
-
-    graph.destroy();
-    done();
-  })
-})
-<<<<<<< HEAD
->>>>>>> 03c9a9db53 (feat: v5-cubic-horizon-edge)
-=======
-=======
-    });
-
-    graph.destroy();
-    done();
-  });
-});
->>>>>>> a952e826c4 (chore: lint fix & use English comments)
 
 // test cubic horizon edge
 describe('cubic-vertical-edge unit test', () => {
@@ -2726,11 +2490,5 @@ describe('cubic-vertical-edge unit test', () => {
 
     graph.destroy();
     done();
-<<<<<<< HEAD
   })
 })
->>>>>>> 618fe4f1e2 (feat: v5-cubic-horizon-edge)
-=======
-  });
-});
->>>>>>> a952e826c4 (chore: lint fix & use English comments)

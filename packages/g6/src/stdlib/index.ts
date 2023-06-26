@@ -26,14 +26,8 @@ import OrbitCanvas3D from './behavior/orbit-canvas-3d';
 import { HoverActivate } from './behavior/hover-activate';
 import { CubicEdge } from './item/edge/cubic';
 import { CubicHorizonEdge } from './item/edge/cubic-horizon';
-<<<<<<< HEAD
-<<<<<<< HEAD
 import { CubicVerticalEdge } from './item/edge/cubic-vertical';
-=======
->>>>>>> 03c9a9db53 (feat: v5-cubic-horizon-edge)
-=======
-import { CubicVerticalEdge } from './item/edge/cubic-vertical';
->>>>>>> 618fe4f1e2 (feat: v5-cubic-horizon-edge)
+import { Quadratic } from './item/edge/quadratic';
 
 const stdLib = {
   transforms: {
@@ -73,23 +67,10 @@ const stdLib = {
   },
   edges: {
     'line-edge': LineEdge,
-<<<<<<< HEAD
     'cubic-edge': CubicEdge,
     'cubic-horizon-edge': CubicHorizonEdge,
     'cubic-vertical-edge': CubicVerticalEdge,
-<<<<<<< HEAD
-=======
     'quadratic-edge': Quadratic,
-    'cubic-edge': CubicEdge,
-<<<<<<< HEAD
-    'cubic-horizon-edge': CubicHorizonEdge
->>>>>>> 03c9a9db53 (feat: v5-cubic-horizon-edge)
-=======
-    'cubic-horizon-edge': CubicHorizonEdge,
-    'cubic-vertical-edge': CubicVerticalEdge
->>>>>>> 618fe4f1e2 (feat: v5-cubic-horizon-edge)
-=======
->>>>>>> a952e826c4 (chore: lint fix & use English comments)
   },
   combos: {},
 };

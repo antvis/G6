@@ -1,27 +1,7 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
 import {
-=======
-import { type } from 'os';
-import { color } from 'color';
-import { extend } from '@antv/util';
-import G6, {
-  EdgeDisplayModel,
->>>>>>> a952e826c4 (chore: lint fix & use English comments)
   Graph,
   IGraph,
 } from '../../../../src/index';
-<<<<<<< HEAD
-=======
-import { CubicEdge } from './../../../../src/stdlib/item/edge/cubic';
-import { data } from './../../../datasets/const';
->>>>>>> a952e826c4 (chore: lint fix & use English comments)
-=======
-import {
-  Graph,
-  IGraph
-} from '../../../../src/index';
->>>>>>> 6297c1afde (chore: trim up code format)
 // @ts-nocheck
 
 let graph: IGraph;
@@ -38,15 +18,7 @@ const defaultData = {
     },
     {
       id: 'node2',
-<<<<<<< HEAD
-<<<<<<< HEAD
       data: { x: 100, y: 150 },
-=======
-      data: { x: 300, y: 150 },
->>>>>>> 03c9a9db53 (feat: v5-cubic-horizon-edge)
-=======
-      data: { x: 100, y: 150 },
->>>>>>> 618fe4f1e2 (feat: v5-cubic-horizon-edge)
     },
   ],
   edges: [

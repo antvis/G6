@@ -1,25 +1,7 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
 import {
-=======
-import { type } from 'os';
-import { color } from 'color';
-import G6, {
-  EdgeDisplayModel,
->>>>>>> a952e826c4 (chore: lint fix & use English comments)
   Graph,
   IGraph,
 } from '../../../../src/index';
-<<<<<<< HEAD
-=======
-import { data } from './../../../datasets/const';
->>>>>>> a952e826c4 (chore: lint fix & use English comments)
-=======
-import {
-  Graph,
-  IGraph
-} from '../../../../src/index';
->>>>>>> 6297c1afde (chore: trim up code format)
 // @ts-nocheck
 
 let graph: IGraph;
