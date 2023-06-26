@@ -1,12 +1,7 @@
-import { type } from 'os';
-import { color } from 'color';
-import G6, {
-  EdgeDisplayModel,
+import {
   Graph,
   IGraph,
-  NodeDisplayModel,
 } from '../../../../src/index';
-import { data } from './../../../datasets/const';
 // @ts-nocheck
 
 let graph: IGraph;

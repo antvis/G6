@@ -47,5 +47,5 @@ export {
   bugReproduce,
   rect,
   visual,
-  quadratic
+  quadratic,
 };
