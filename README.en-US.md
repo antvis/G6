@@ -69,7 +69,7 @@ G6 concentrates on the principle of 'good by default'. In addition, the custom m
 ## Installation (5.0 Alpha)
 
 ```bash
-$ npm install @antv/g6@5.0.0-alpha.5
+$ npm install @antv/g6@5.0.0-alpha.7
 ```
 
 ## Usage (5.0 Alpha)

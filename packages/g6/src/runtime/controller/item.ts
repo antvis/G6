@@ -72,8 +72,8 @@ export class ItemController {
   };
   private comboStateMapper: {
     [stateName: string]:
-    | ((data: ComboModel) => ComboDisplayModel)
-    | ComboEncode;
+      | ((data: ComboModel) => ComboDisplayModel)
+      | ComboEncode;
   };
 
   private nodeGroup: Group;
@@ -637,7 +637,7 @@ export class ItemController {
         device:
           graph.rendererType === 'webgl-3d'
             ? // TODO: G type
-            (graph.canvas.context as any).deviceRendererPlugin.getDevice()
+              (graph.canvas.context as any).deviceRendererPlugin.getDevice()
             : undefined,
       });
     });

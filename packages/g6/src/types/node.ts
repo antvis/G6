@@ -89,6 +89,7 @@ export interface NodeShapeStyles extends ItemShapeStyles {
   badgeShapes?: ShapeStyle & {
     // common badge styles
     color?: string;
+    palette?: string[];
     textColor?: string;
     // individual styles and their position
     [key: number]: ShapeStyle & {

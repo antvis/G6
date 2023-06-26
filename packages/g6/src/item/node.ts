@@ -79,9 +79,8 @@ export default class Node extends Item {
       this.updatePosition(displayModel, diffData, onfinish);
     }
 
-    const { haloShape, labelBackgroundShape } = this.shapeMap;
+    const { haloShape } = this.shapeMap;
     haloShape?.toBack();
-    labelBackgroundShape?.toBack();
 
     super.draw(displayModel, diffData, diffState, onfinish);
     this.anchorPointsCache = undefined;
