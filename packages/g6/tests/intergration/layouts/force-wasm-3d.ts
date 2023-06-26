@@ -1,7 +1,7 @@
+import { supportsThreads, initThreads, ForceLayout } from '@antv/layout-wasm';
 import G6 from '../../../src/index';
 import { container, height, width } from '../../datasets/const';
 import { loadDataset } from '../../datasets/legacy-format';
-import { supportsThreads, initThreads, ForceLayout } from '@antv/layout-wasm';
 
 export default async () => {
   const data = await loadDataset(

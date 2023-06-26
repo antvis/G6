@@ -24,7 +24,11 @@ import RotateCanvas3D from './behavior/rotate-canvas-3d';
 import TrackCanvas3D from './behavior/track-canvas-3d';
 import OrbitCanvas3D from './behavior/orbit-canvas-3d';
 import { HoverActivate } from './behavior/hover-activate';
-import { Quadratic } from './item/edge';
+import { CubicEdge } from './item/edge/cubic';
+import { CubicHorizonEdge } from './item/edge/cubic-horizon';
+import { CubicVerticalEdge } from './item/edge/cubic-vertical';
+import { Quadratic } from './item/edge/quadratic';
+
 const stdLib = {
   transforms: {
     comboFromNode,
@@ -63,7 +67,10 @@ const stdLib = {
   },
   edges: {
     'line-edge': LineEdge,
-    'quadratic-edge': Quadratic
+    'cubic-edge': CubicEdge,
+    'cubic-horizon-edge': CubicHorizonEdge,
+    'cubic-vertical-edge': CubicVerticalEdge,
+    'quadratic-edge': Quadratic,
   },
   combos: {},
 };

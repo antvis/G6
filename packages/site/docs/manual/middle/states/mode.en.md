@@ -26,7 +26,7 @@ const graph = new G6.Graph({
   width: 500,
   height: 500,
   modes: {
-    // 支持的 behavior
+    // supported behavior
     default: ['drag-canvas', 'zoom-canvas'],
     edit: ['click-select'],
   },

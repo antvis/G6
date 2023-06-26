@@ -1,6 +1,6 @@
+import { FruchtermanLayout } from '@antv/layout-gpu';
 import G6 from '../../../src/index';
 import { container, data, height, width } from '../../datasets/const';
-import { FruchtermanLayout } from '@antv/layout-gpu';
 
 export default async () => {
   // Register custom layout

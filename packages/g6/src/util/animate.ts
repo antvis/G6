@@ -164,7 +164,7 @@ const runAnimateGroupOnShapes = (
   timing: AnimateTiming,
   onfinish: Function,
   cancelAnimations: Function,
-  canceled: Boolean,
+  canceled: boolean,
 ) => {
   let maxDuration = -Infinity;
   let maxDurationIdx = -1;
