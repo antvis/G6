@@ -1,12 +1,12 @@
 import { initThreads, supportsThreads, ForceLayout } from '@antv/layout-wasm';
 // import G6, { Graph, GraphData } from '../../../esm';
+import { labelPropagation } from '@antv/algorithm';
 import G6, { Graph, GraphData } from '../../../src';
 import { container, height, width } from '../../datasets/const';
-import data from './data';
-import data3d from './data3d';
-import { labelPropagation } from '@antv/algorithm';
 import { RendererName } from '../../../src/types/render';
 import { Point } from '../../../src/types/common';
+import data from './data';
+import data3d from './data3d';
 // import Stats from 'stats.js';
 
 let graph: typeof Graph;

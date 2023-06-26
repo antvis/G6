@@ -1,6 +1,6 @@
+import { supportsThreads, initThreads, ForceLayout } from '@antv/layout-wasm';
 import G6 from '../../../src/index';
 import { container, data, height, width } from '../../datasets/const';
-import { supportsThreads, initThreads, ForceLayout } from '@antv/layout-wasm';
 
 export default async () => {
   const supported = await supportsThreads();

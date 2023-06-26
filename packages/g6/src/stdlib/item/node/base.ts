@@ -35,7 +35,7 @@ export abstract class BaseNode {
   lodStrategy?: lodStrategyObj;
   boundsCache: {
     keyShapeLocal?: AABB;
-    labelShapeLocal?: AABB;
+    labelShapeGeometry?: AABB;
   };
   // cache the zoom level infomations
   protected zoomCache: {
@@ -140,10 +140,11 @@ export abstract class BaseNode {
       .forEach((id) => {
         const shape = shapeMap[id];
         if (shape?.getAttribute(LOCAL_BOUNDS_DIRTY_FLAG_KEY)) {
-          this.boundsCache[`${id}Local`] =
-            id === 'labelShape'
-              ? shape.getGeometryBounds()
-              : shape.getLocalBounds();
+          if (id === 'labelShape') {
+            this.boundsCache[`${id}Geometry`] = shape.getGeometryBounds();
+          } else {
+            this.boundsCache[`${id}Local`] = shape.getLocalBounds();
+          }
           shape.setAttribute(LOCAL_BOUNDS_DIRTY_FLAG_KEY, false);
         }
       });
@@ -243,28 +244,29 @@ export abstract class BaseNode {
     switch (position) {
       case 'center':
         positionPreset.y = keyShapeBox.center[1];
+        positionPreset.textBaseline = 'middle';
         break;
       case 'top':
         positionPreset.y = keyShapeBox.min[1];
         positionPreset.textBaseline = 'bottom';
-        positionPreset.offsetY = -4;
+        positionPreset.offsetY = -2;
         break;
       case 'left':
         positionPreset.x = keyShapeBox.min[0];
         positionPreset.y = keyShapeBox.center[1];
         positionPreset.textAlign = 'right';
         positionPreset.textBaseline = 'middle';
-        positionPreset.offsetX = -8;
+        positionPreset.offsetX = -4;
         break;
       case 'right':
         positionPreset.x = keyShapeBox.max[0];
         positionPreset.y = keyShapeBox.center[1];
         positionPreset.textAlign = 'left';
         positionPreset.textBaseline = 'middle';
-        positionPreset.offsetX = 8;
+        positionPreset.offsetX = 4;
         break;
       default: // at bottom by default
-        positionPreset.offsetY = 4;
+        positionPreset.offsetY = 2;
         break;
     }
     const offsetX = (
@@ -297,45 +299,41 @@ export abstract class BaseNode {
     const { labelShape } = shapeMap;
     if (!labelShape || !model.data.labelShape) return;
     if (
-      !this.boundsCache.labelShapeLocal ||
+      !this.boundsCache.labelShapeGeometry ||
       labelShape.getAttribute(LOCAL_BOUNDS_DIRTY_FLAG_KEY)
     ) {
-      this.boundsCache.labelShapeLocal = labelShape.getGeometryBounds();
+      this.boundsCache.labelShapeGeometry = labelShape.getGeometryBounds();
       labelShape.setAttribute(LOCAL_BOUNDS_DIRTY_FLAG_KEY, false);
     }
     // label's local bounds, will take scale into acount
-    const { labelShapeLocal: textBBox } = this.boundsCache;
-    const labelWidth = Math.min(
-      textBBox.max[0] - textBBox.min[0],
+    const { labelShapeGeometry: textBBoxGeo } = this.boundsCache;
+    const height = textBBoxGeo.max[1] - textBBoxGeo.min[1];
+    const width = Math.min(
+      textBBoxGeo.max[0] - textBBoxGeo.min[0] + 2,
       labelShape.attributes.wordWrapWidth,
     );
-    const height = textBBox.max[1] - textBBox.min[1];
-    const labelAspectRatio = labelWidth / (textBBox.max[1] - textBBox.min[1]);
-    const width = labelAspectRatio * height;
 
     const { padding, ...backgroundStyle } =
       this.mergedStyles.labelBackgroundShape;
-    const y =
-      labelShape.attributes.y -
-      (labelShape.attributes.textBaseline === 'top'
-        ? padding[0]
-        : height / 2 + padding[0]);
+
     const bgStyle: any = {
       fill: '#fff',
       ...backgroundStyle,
-      x: textBBox.center[0] - width / 2 - padding[3],
-      y,
+      x: labelShape.attributes.x + textBBoxGeo.min[0] - padding[3],
+      y: labelShape.attributes.y + textBBoxGeo.min[1] - padding[0],
       width: width + padding[1] + padding[3],
       height: height + padding[0] + padding[2],
     };
-
-    return this.upsertShape(
+    const bgShape = this.upsertShape(
       'rect',
       'labelBackgroundShape',
       bgStyle,
       shapeMap,
       model,
     );
+    this.balanceShapeSize(shapeMap, this.zoomCache.zoom);
+
+    return bgShape;
   }
 
   public drawIconShape(
@@ -465,20 +463,26 @@ export abstract class BaseNode {
       keyShapeStyle,
       this.boundsCache.keyShapeLocal,
     );
-    const keyShapeWidth = keyShapeBBox.max[0] - keyShapeBBox.min[0];
+    const keyShapeSize = Math.min(
+      keyShapeBBox.max[0] - keyShapeBBox.min[0],
+      keyShapeBBox.max[1] - keyShapeBBox.min[1],
+    );
     const shapes = {};
-    individualConfigs.forEach((config) => {
+    individualConfigs.forEach((config, i) => {
       const { position, ...individualStyle } = config;
       const id = `${position}BadgeShape`;
       const style = {
         ...commonStyle,
         ...individualStyle,
       };
+      const colorFromPalette = commonStyle.palette
+        ? commonStyle.palette[i % commonStyle.palette.length]
+        : '#7E92B5';
       const {
         text = '',
         type,
-        color,
-        size = keyShapeWidth / 3,
+        color = colorFromPalette,
+        size = keyShapeSize / 3,
         textColor,
         zIndex = 2,
         offsetX = 0,
@@ -491,55 +495,67 @@ export abstract class BaseNode {
       const pos = { x: 0, y: 0 };
       switch (position) {
         case 'rightTop':
-          pos.x = keyShapeBBox.max[0] - bgHeight / 2 + offsetX;
-          pos.y = keyShapeBBox.min[1] + size / 4 + offsetY;
+        case 'topRight':
+          pos.x = keyShapeBBox.max[0] / 2 + offsetX;
+          pos.y = keyShapeBBox.min[1] * 0.44 - bgHeight + offsetY;
           break;
         case 'right':
-          pos.x = keyShapeBBox.max[0] - bgHeight / 2 + offsetX;
-          pos.y = offsetY;
+          pos.x = keyShapeBBox.max[0] / 2 + offsetX;
+          pos.y = -bgHeight / 2 + offsetY;
           break;
         case 'rightBottom':
         case 'bottomRight':
-          pos.x = keyShapeBBox.max[0] - bgHeight / 2 + offsetX;
-          pos.y = keyShapeBBox.max[1] - size / 4 + offsetY;
+          pos.x = keyShapeBBox.max[0] / 2 + offsetX;
+          pos.y = keyShapeBBox.max[1] * 0.44 + offsetY;
           break;
         case 'leftTop':
         case 'topLeft':
-          pos.x = keyShapeBBox.min[0] + bgHeight / 2 + offsetX;
-          pos.y = keyShapeBBox.min[1] + size / 4 + offsetY;
+          pos.x = keyShapeBBox.min[0] / 2 + offsetX;
+          pos.y = keyShapeBBox.min[1] * 0.44 - bgHeight + offsetY;
           break;
         case 'left':
-          pos.x = keyShapeBBox.min[0] + bgHeight / 2 + offsetX;
-          pos.y = offsetY;
+          pos.x = keyShapeBBox.min[0] / 2 + offsetX;
+          pos.y = -bgHeight / 2 + offsetY;
           break;
         case 'leftBottom':
         case 'bottomLeft':
-          pos.x = keyShapeBBox.min[0] + bgHeight / 2 + offsetX;
-          pos.y = keyShapeBBox.max[1] - size / 4 + offsetY;
+          pos.x = keyShapeBBox.min[0] / 2 + offsetX;
+          pos.y = keyShapeBBox.max[1] * 0.44 + offsetY;
           break;
         case 'top':
           pos.x = offsetX;
-          pos.y = keyShapeBBox.min[1] + size / 4;
+          pos.y = keyShapeBBox.min[1] * 0.44 - bgHeight + offsetY;
           break;
         default:
           // bottom
           pos.x = offsetX;
-          pos.y = keyShapeBBox.max[1] - size / 4;
+          pos.y = keyShapeBBox.max[1] * 0.44 + offsetY;
           break;
       }
 
+      const positionLowerCase = position.toLowerCase();
+      const isLeft = positionLowerCase.includes('left');
+      const isCenter = !isLeft && !positionLowerCase.includes('right');
+
       // a radius rect (as container) + a text / icon
+      const fontSize = bgHeight - 3;
+      let textAlign = isLeft ? 'right' : 'left';
+      let textX = isLeft ? pos.x - 3 : pos.x + 2;
+      if (isCenter) {
+        textAlign = 'center';
+        textX = pos.x;
+      }
       shapes[id] = this.upsertShape(
         'text',
         id,
         {
           text,
           fill: textColor,
-          fontSize: bgHeight - 3,
-          x: pos.x,
-          y: pos.y,
+          fontSize,
+          x: textX,
+          y: pos.y + bgHeight / 2,
           ...otherStyles,
-          textAlign: position.includes('right') ? 'left' : 'right',
+          textAlign,
           textBaseline: 'middle',
           zIndex: (zIndex as number) + 1,
         } as GShapeStyle,
@@ -554,6 +570,8 @@ export abstract class BaseNode {
         (text as string).length <= 1
           ? bgHeight
           : Math.max(bgHeight, bbox.max[0] - bbox.min[0]) + 8;
+      let bgX = isLeft ? pos.x - bgWidth : pos.x;
+      if (isCenter) bgX = pos.x - bgWidth / 2;
       shapes[bgShapeId] = this.upsertShape(
         'rect',
         bgShapeId,
@@ -562,10 +580,10 @@ export abstract class BaseNode {
           fill: color,
           height: bgHeight,
           width: bgWidth,
-          x: bbox.min[0] - 3, // begin at the border, minus half height
-          y: bbox.min[1],
           radius: bgHeight / 2,
           zIndex,
+          x: bgX,
+          y: pos.y,
           ...otherStyles,
         } as GShapeStyle,
         shapeMap,
@@ -662,8 +680,39 @@ export abstract class BaseNode {
     const { position = 'bottom' } = labelStyle;
     if (!labelShape || !labelShape.isVisible()) return;
 
-    if (position === 'bottom') labelShape.style.transformOrigin = '0';
-    else labelShape.style.transformOrigin = '';
+    const keyShapeLocal = this.boundsCache.keyShapeLocal;
+    if (zoom < 1) {
+      // if it is zoom-out, do not scale the gap between keyShape and labelShape, differentiate from zoom-in by adjusting transformOrigin
+      if (position === 'bottom') labelShape.style.transformOrigin = '0';
+      else labelShape.style.transformOrigin = '';
+    } else {
+      switch (position) {
+        case 'bottom':
+          labelShape.style.transformOrigin = `0 ${
+            keyShapeLocal.max[1] - labelShape.attributes.y
+          }`;
+          break;
+        case 'right':
+          labelShape.style.transformOrigin = `${
+            keyShapeLocal.max[0] - labelShape.attributes.x
+          } 0`;
+          break;
+        case 'top':
+          labelShape.style.transformOrigin = `0 ${
+            keyShapeLocal.min[1] - labelShape.attributes.y
+          }`;
+          break;
+        case 'left':
+          labelShape.style.transformOrigin = `${
+            keyShapeLocal.min[0] - labelShape.attributes.x
+          } 0`;
+          break;
+        default:
+          // center
+          labelShape.style.transformOrigin = ``;
+          break;
+      }
+    }
     labelShape.style.transform = `scale(${balanceRatio}, ${balanceRatio})`;
     const wordWrapWidth = this.zoomCache.wordWrapWidth * zoom;
     labelShape.style.wordWrapWidth = wordWrapWidth;
@@ -671,40 +720,47 @@ export abstract class BaseNode {
     if (!labelBackgroundShape || !labelBackgroundShape.isVisible()) return;
 
     const { padding } = this.mergedStyles.labelBackgroundShape;
-    const { width, height } = labelBackgroundShape.attributes;
+    const { width, height, x, y } = labelBackgroundShape.attributes;
     const [paddingTop, paddingRight, paddingBottom, paddingLeft] =
       padding as number[];
 
     switch (position) {
       case 'top':
+        // if it is zoom-out, do not scale the gap between keyShape and labelShape, differentiate from zoom-in by adjusting transformOrigin
         labelBackgroundShape.style.transformOrigin = `${
           paddingLeft + (width - paddingLeft - paddingRight) / 2
-        } ${height - paddingBottom}`;
+        } ${zoom < 1 ? height - paddingBottom : keyShapeLocal.min[1] - y}`;
         break;
       case 'left':
-        labelBackgroundShape.style.transformOrigin = `${width - paddingRight} ${
-          paddingTop + (height - paddingTop - paddingBottom) / 2
-        }`;
+        labelBackgroundShape.style.transformOrigin = `${
+          zoom < 1 ? width - paddingRight : keyShapeLocal.min[0] - x
+        } ${paddingTop + (height - paddingTop - paddingBottom) / 2}`;
         break;
       case 'right':
-        labelBackgroundShape.style.transformOrigin = `${paddingLeft} ${
-          paddingTop + (height - paddingTop - paddingBottom) / 2
-        }`;
+        labelBackgroundShape.style.transformOrigin = `${
+          zoom < 1 ? paddingLeft : keyShapeLocal.max[0] - x
+        } ${paddingTop + (height - paddingTop - paddingBottom) / 2}`;
         break;
       case 'bottom':
+        labelBackgroundShape.style.transformOrigin = `${
+          paddingLeft + (width - paddingLeft - paddingRight) / 2
+        } ${
+          zoom < 1
+            ? paddingTop + (height - paddingTop - paddingBottom) / 2
+            : keyShapeLocal.max[1] - y
+        }`;
+        break;
       default:
+        // center
         labelBackgroundShape.style.transformOrigin = `${
           paddingLeft + (width - paddingLeft - paddingRight) / 2
         } ${paddingTop + (height - paddingTop - paddingBottom) / 2}`;
     }
 
-    const labelBBox = labelShape.getGeometryBounds();
-    const labelWidth = Math.min(
-      labelBBox.max[0] - labelBBox.min[0],
-      this.zoomCache.wordWrapWidth,
-    );
+    const { labelShapeGeometry: labelBBox } = this.boundsCache;
+    const labelWidth = labelBBox.max[0] - labelBBox.min[0];
     const xAxistRatio =
-      ((labelWidth + paddingLeft + paddingRight) * balanceRatio) / width;
+      (labelWidth * balanceRatio + paddingLeft + paddingRight) / width;
 
     labelBackgroundShape.style.transform = `scale(${xAxistRatio}, ${balanceRatio})`;
   }

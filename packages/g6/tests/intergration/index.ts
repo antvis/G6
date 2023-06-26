@@ -14,6 +14,15 @@ import performance_layout from './performance/layout';
 import performance_layout_3d from './performance/layout-3d';
 import demo from './demo/demo';
 import demoFor4 from './demo/demoFor4';
+import bugReproduce from './demo/bugReproduce';
+import rect from './demo/rect';
+import visual from './visual/visual';
+import quadratic from './demo/quadratic';
+import line_edge from './item/edge/line-edge';
+import cubic_edge from './item/edge/cubic-edge';
+import cubic_horizon_edge from './item/edge/cubic-horizon-edge';
+import cubic_vertical_edge from './item/edge/cubic-vertical-edge';
+
 export {
   behaviors_activateRelations,
   layouts_circular,
@@ -31,4 +40,12 @@ export {
   performance_layout_3d,
   demo,
   demoFor4,
+  bugReproduce,
+  rect,
+  visual,
+  quadratic,
+  line_edge,
+  cubic_edge,
+  cubic_horizon_edge,
+  cubic_vertical_edge,
 };

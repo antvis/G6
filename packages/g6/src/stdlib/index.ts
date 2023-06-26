@@ -8,7 +8,7 @@ import LassoSelect from './behavior/lasso-select';
 import DragNode from './behavior/drag-node';
 import { comboFromNode } from './data/comboFromNode';
 import { LineEdge } from './item/edge';
-import { CircleNode, SphereNode } from './item/node';
+import { CircleNode, SphereNode, RectNode } from './item/node';
 import DarkTheme from './theme/dark';
 import LightTheme from './theme/light';
 import SpecThemeSolver from './themeSolver/spec';
@@ -24,6 +24,10 @@ import RotateCanvas3D from './behavior/rotate-canvas-3d';
 import TrackCanvas3D from './behavior/track-canvas-3d';
 import OrbitCanvas3D from './behavior/orbit-canvas-3d';
 import { HoverActivate } from './behavior/hover-activate';
+import { CubicEdge } from './item/edge/cubic';
+import { CubicHorizonEdge } from './item/edge/cubic-horizon';
+import { CubicVerticalEdge } from './item/edge/cubic-vertical';
+import { Quadratic } from './item/edge/quadratic';
 
 const stdLib = {
   transforms: {
@@ -59,9 +63,14 @@ const stdLib = {
   nodes: {
     'circle-node': CircleNode,
     'sphere-node': SphereNode,
+    'rect-node': RectNode,
   },
   edges: {
     'line-edge': LineEdge,
+    'cubic-edge': CubicEdge,
+    'cubic-horizon-edge': CubicHorizonEdge,
+    'cubic-vertical-edge': CubicVerticalEdge,
+    'quadratic-edge': Quadratic,
   },
   combos: {},
 };

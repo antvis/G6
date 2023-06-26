@@ -189,4 +189,6 @@ export abstract class BaseNode3D extends BaseNode {
   ): DisplayObject {
     return upsertShape3D(type, id, style as GShapeStyle, shapeMap, this.device);
   }
+
+  public onZoom = (shapeMap: NodeShapeMap, zoom: number) => {};
 }

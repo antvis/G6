@@ -20,6 +20,7 @@ export interface IGraph<
   B extends BehaviorRegistry = BehaviorRegistry,
   T extends ThemeRegistry = ThemeRegistry,
 > extends EventEmitter {
+  [x: string]: any;
   hooks: Hooks;
   canvas: Canvas;
   transientCanvas: Canvas;

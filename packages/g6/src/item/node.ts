@@ -7,13 +7,13 @@ import { NodeDisplayModel, NodeModelData } from '../types/node';
 import { NodeStyleSet } from '../types/theme';
 import { updateShapes } from '../util/shape';
 import { animateShapes, getAnimatesExcludePosition } from '../util/animate';
-import Item from './item';
 import {
   getCircleIntersectByPoint,
   getEllipseIntersectByPoint,
   getNearestPoint,
   getRectIntersectByPoint,
 } from '../util/point';
+import Item from './item';
 
 interface IProps {
   model: NodeModel;
@@ -79,9 +79,8 @@ export default class Node extends Item {
       this.updatePosition(displayModel, diffData, onfinish);
     }
 
-    const { haloShape, labelBackgroundShape } = this.shapeMap;
+    const { haloShape } = this.shapeMap;
     haloShape?.toBack();
-    labelBackgroundShape?.toBack();
 
     super.draw(displayModel, diffData, diffState, onfinish);
     this.anchorPointsCache = undefined;

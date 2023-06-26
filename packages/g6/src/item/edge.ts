@@ -4,10 +4,10 @@ import { EdgeDisplayModel, EdgeModel, NodeModelData } from '../types';
 import { EdgeModelData } from '../types/edge';
 import { DisplayMapper, State, lodStrategyObj } from '../types/item';
 import { updateShapes } from '../util/shape';
-import Item from './item';
-import Node from './node';
 import { animateShapes } from '../util/animate';
 import { EdgeStyleSet } from '../types/theme';
+import Item from './item';
+import Node from './node';
 
 interface IProps {
   model: EdgeModel;
@@ -171,7 +171,7 @@ export default class Edge extends Item {
     });
     Object.keys(this.shapeMap).forEach((shapeId) => {
       if (!this.shapeMap[shapeId].isVisible())
-        clonedEdge.shapeMap[shapeId].hide();
+        clonedEdge.shapeMap[shapeId]?.hide();
     });
     return clonedEdge;
   }

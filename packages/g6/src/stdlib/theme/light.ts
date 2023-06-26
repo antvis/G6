@@ -18,16 +18,16 @@ const nodeStroke = 'rgba(0,0,0,0.85)';
 export default {
   node: {
     palette: [
-      '#227EFF',
-      '#AD5CFF',
-      '#00B8B8',
-      '#FA822D',
-      '#F252AF',
-      '#1EB8F5',
-      '#108A44',
-      '#F4B106',
-      '#5241A8',
-      '#95CF21',
+      '#4089FF',
+      '#CD75FF',
+      '#06B8A8',
+      '#FF8834',
+      '#5888C3',
+      '#FA73CD',
+      '#07BCE0',
+      '#CB962A',
+      '#23AD61',
+      '#FF8075',
     ],
     lodStrategy: {
       levels: [
@@ -67,7 +67,7 @@ export default {
             lineWidth: 0,
             fill: '#fff',
             opacity: 0.75,
-            zIndex: -1,
+            zIndex: 1,
             lod: 0,
           },
           iconShape: {
@@ -85,7 +85,7 @@ export default {
             lod: 0,
           },
           badgeShapes: {
-            color: 'rgb(140, 140, 140)',
+            palette: ['#7E92B5', '#F86254', '#EDB74B'],
             textColor: '#fff',
             zIndex: 3,
             lod: -1,
@@ -160,16 +160,17 @@ export default {
   },
   edge: {
     palette: [
-      '#63A4FF',
-      '#CD9CFF',
-      '#2DEFEF',
-      '#FFBDA1',
-      '#F49FD0',
-      '#80DBFF',
-      '#41CB7C',
-      '#FFD362',
-      '#A192E8',
-      '#CEFB75',
+      '#99ADD1',
+      '#4089FF',
+      '#CD75FF',
+      '#06B8A8',
+      '#FF8834',
+      '#5888C3',
+      '#FA73CD',
+      '#07BCE0',
+      '#CB962A',
+      '#23AD61',
+      '#FF8075',
     ],
     lodStrategy: {
       levels: [
@@ -191,13 +192,14 @@ export default {
             lineWidth: 1,
             stroke: edgeMainStroke,
             increasedLineWidthForHitTesting: 2,
+            zIndex: 1,
           },
           labelShape: {
             ...DEFAULT_TEXT_STYLE,
             fill: textColor,
             position: 'middle',
             textBaseline: 'middle',
-            zIndex: 2,
+            zIndex: 3,
             textOverflow: 'ellipsis',
             wordWrap: true,
             maxLines: 1,
@@ -209,7 +211,7 @@ export default {
             lineWidth: 0,
             fill: '#fff',
             opacity: 0.75,
-            zIndex: 1,
+            zIndex: 2,
             lod: 0,
           },
           iconShape: {

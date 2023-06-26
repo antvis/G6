@@ -1,5 +1,5 @@
-import G6 from '../../../src/index';
 import { supportsThreads, initThreads, ForceLayout } from '@antv/layout-wasm';
+import G6 from '../../../src/index';
 import { loadDataset } from '../../datasets/legacy-format';
 
 export default async () => {

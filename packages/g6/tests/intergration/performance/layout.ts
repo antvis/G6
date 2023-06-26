@@ -1,7 +1,7 @@
-import G6 from '../../../src/index';
 import { supportsThreads, initThreads, ForceLayout } from '@antv/layout-wasm';
-import { loadDataset } from '../../datasets/legacy-format';
 import { labelPropagation } from '@antv/algorithm';
+import G6 from '../../../src/index';
+import { loadDataset } from '../../datasets/legacy-format';
 
 export default async () => {
   const $container = document.getElementById('container')!;
