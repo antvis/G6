@@ -1431,7 +1431,6 @@ describe('cubic-horizon-edge unit test', () => {
   });
 
   it.only('update cubic-horizon-edge label', (done) => {
-
     const padding = [4, 16, 4, 8];
     graph.updateData('edge', {
       id: 'edge1',
@@ -1479,7 +1478,7 @@ describe('cubic-horizon-edge unit test', () => {
     expect(edgeItem.shapeMap.labelShape.attributes.fill).toBe('#00f');
     expect(
       edgeItem.shapeMap.labelShape.attributes.x -
-      edgeItem.shapeMap.labelBackgroundShape.attributes.x,
+        edgeItem.shapeMap.labelBackgroundShape.attributes.x,
     ).toBe(padding[3]);
     labelBounds = edgeItem.shapeMap.labelShape.getGeometryBounds();
     const labelWidth = labelBounds.max[0] - labelBounds.min[0];
@@ -2490,5 +2489,5 @@ describe('cubic-vertical-edge unit test', () => {
 
     graph.destroy();
     done();
-  })
-})
+  });
+});

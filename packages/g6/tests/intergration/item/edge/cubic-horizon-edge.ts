@@ -1,11 +1,8 @@
-import {
-  Graph,
-  IGraph
-} from '../../../../src/index';
+import { Graph, IGraph } from '../../../../src/index';
 // @ts-nocheck
 
-let graph:IGraph  
-let container: HTMLElement
+let graph: IGraph;
+let container: HTMLElement;
 
 const defaultData = {
   nodes: [
@@ -87,8 +84,7 @@ const createControls = () => {
   labelCb.style.zIndex = '100';
 
   labelCb.addEventListener('click', (e) => {
-
-    if(labelCb.checked) {
+    if (labelCb.checked) {
       graph.updateData('edge', {
         id: 'edge1',
         data: {
@@ -134,8 +130,7 @@ const createControls = () => {
   parentEle.appendChild(labelCb);
 
   iconCb.addEventListener('click', (e) => {
-
-    if(iconCb.checked) {
+    if (iconCb.checked) {
       graph.updateData('edge', {
         id: 'edge1',
         data: {
@@ -236,17 +231,17 @@ export default () => {
   container = document.getElementById('container')!;
 
   graph = new Graph({
-      container,
-      width: 500,
-      height: 500,
-      type: 'graph',
-      data: defaultData,
-      modes: {
-        // 支持的 behavior
-        default: [ 'activate-relations'],
-      }
-  })
+    container,
+    width: 500,
+    height: 500,
+    type: 'graph',
+    data: defaultData,
+    modes: {
+      // 支持的 behavior
+      default: ['activate-relations'],
+    },
+  });
   // 3.返回graph
 
-  return graph 
-}
+  return graph;
+};

@@ -46,15 +46,14 @@ const data = {
       source: 1,
       target: 2,
       data: {
-        type: 'quadratic-edge'
-      }
-    }
-  ]
+        type: 'quadratic-edge',
+      },
+    },
+  ],
 };
 
-const edge: ((data: any) => any) = (edgeInnerModel: any) => {
-
-  const { id, data } = edgeInnerModel
+const edge: (data: any) => any = (edgeInnerModel: any) => {
+  const { id, data } = edgeInnerModel;
   return {
     id,
     data: {
@@ -62,19 +61,19 @@ const edge: ((data: any) => any) = (edgeInnerModel: any) => {
         controlPoints: [0, 0],
         curvePosition: 0.5,
         curveOffset: [10, 10],
-        stroke: 'blue'
+        stroke: 'blue',
       },
       labelShape: {
         text: 'label',
-        fill: 'blue'
+        fill: 'blue',
       },
       labelBackgroundShape: {
-        fill: 'white'
+        fill: 'white',
       },
       ...data,
-    }
-  }
-}
+    },
+  };
+};
 
 describe('edge item', () => {
   it('new graph with two nodes and one edge', (done) => {
@@ -94,10 +93,10 @@ describe('edge item', () => {
           data: {
             ...data,
             keyShape: {
-              r: 16
+              r: 16,
             },
-          }
-        }
+          },
+        };
       },
       edge,
     });
@@ -107,7 +106,9 @@ describe('edge item', () => {
       expect(edgeItem).not.toBe(undefined);
       expect(edgeItem.shapeMap.labelShape.attributes.text).toBe('label');
       expect(edgeItem.shapeMap.labelShape.attributes.fill).toBe('blue');
-      expect(edgeItem.shapeMap.labelBackgroundShape.attributes.fill).toBe('white');
+      expect(edgeItem.shapeMap.labelBackgroundShape.attributes.fill).toBe(
+        'white',
+      );
       done();
     });
   });
@@ -156,7 +157,7 @@ describe('edge item', () => {
     expect(edgeItem.shapeMap.labelShape.attributes.fill).toBe('#00f');
     expect(
       edgeItem.shapeMap.labelShape.attributes.x -
-      edgeItem.shapeMap.labelBackgroundShape.attributes.x,
+        edgeItem.shapeMap.labelBackgroundShape.attributes.x,
     ).toBe(padding[3]);
     labelBounds = edgeItem.shapeMap.labelShape.getGeometryBounds();
     const labelWidth = labelBounds.max[0] - labelBounds.min[0];
@@ -201,7 +202,7 @@ describe('edge item', () => {
     let { labelShape, iconShape, labelBackgroundShape } = edgeItem.shapeMap;
     expect(iconShape.attributes.x + iconShape.attributes.width + 6).toBe(
       labelBackgroundShape.getGeometryBounds().min[0] +
-      labelBackgroundShape.attributes.x,
+        labelBackgroundShape.attributes.x,
     );
     expect(iconShape.attributes.transform).toBe(
       labelBackgroundShape.attributes.transform,
@@ -211,7 +212,7 @@ describe('edge item', () => {
     ).toBeCloseTo(
       Math.floor(
         labelBackgroundShape.getGeometryBounds().center[1] +
-        labelBackgroundShape.attributes.y,
+          labelBackgroundShape.attributes.y,
       ),
       0.01,
     );
@@ -232,7 +233,7 @@ describe('edge item', () => {
     labelBackgroundShape = edgeItem.shapeMap['labelBackgroundShape'];
     expect(iconShape.attributes.x + iconShape.attributes.fontSize + 6).toBe(
       labelBackgroundShape.getGeometryBounds().min[0] +
-      labelBackgroundShape.attributes.x,
+        labelBackgroundShape.attributes.x,
     );
     expect(iconShape.attributes.transform).toBe(
       labelBackgroundShape.attributes.transform,
@@ -242,7 +243,7 @@ describe('edge item', () => {
     ).toBeCloseTo(
       Math.floor(
         labelBackgroundShape.getGeometryBounds().center[1] +
-        labelBackgroundShape.attributes.y,
+          labelBackgroundShape.attributes.y,
       ),
       0.01,
     );
@@ -261,14 +262,14 @@ describe('edge item', () => {
     labelBackgroundShape = edgeItem.shapeMap['labelBackgroundShape'];
     expect(iconShape.attributes.x + iconShape.attributes.fontSize + 6).toBe(
       labelBackgroundShape.getGeometryBounds().min[0] +
-      labelBackgroundShape.attributes.x,
+        labelBackgroundShape.attributes.x,
     );
     expect(iconShape.attributes.transform).toBe(
       labelShape.attributes.transform,
     );
     expect(iconShape.attributes.y + iconShape.attributes.fontSize / 2).toBe(
       labelBackgroundShape.getGeometryBounds().center[1] +
-      labelBackgroundShape.attributes.y,
+        labelBackgroundShape.attributes.y,
     );
     graph.destroy();
     done();

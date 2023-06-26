@@ -9,7 +9,6 @@ import { EdgeDisplayModel } from '../../../types';
 import { BaseEdge } from './base';
 
 export class CubicEdge extends BaseEdge {
-
   public type = 'cubic-edge';
 
   public defaultStyles = {
@@ -164,7 +163,7 @@ export class CubicEdge extends BaseEdge {
    * @param  {IPoint} endPoint  target point position of edge (x, y)
    * @param  {Number} percent   the proportion of control points' in the segment, Range 0 to 1
    * @param  {Number} offset    the curveOffset
-   * @return {IPoint} control point (x,y) 
+   * @return {IPoint} control point (x,y)
    */
   protected getControlPoint: (
     startPoint: IPoint,

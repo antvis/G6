@@ -1,7 +1,4 @@
-import {
-  Graph,
-  IGraph,
-} from '../../../../src/index';
+import { Graph, IGraph } from '../../../../src/index';
 // @ts-nocheck
 
 let graph: IGraph;
@@ -243,7 +240,7 @@ export default () => {
       default: ['activate-relations'],
     },
   });
-  
+
   // 3.return graph
   return graph;
 };

@@ -22,7 +22,7 @@ export class CubicVerticalEdge extends CubicEdge {
     // suggest to merge default styles like this to avoid style value missing
     // this.defaultStyles = mergeStyles([this.baseDefaultStyles, this.defaultStyles]);
   }
-  
+
   /**
    * control point calculated according to startPoint, endPoint, percent, and offset
    * @param  {IPoint} startPoint source point position of edge (x, y)
@@ -64,27 +64,26 @@ export class CubicVerticalEdge extends CubicEdge {
 
     return [controlPoint1, controlPoint2];
   };
-  
+
   /**
    * control point calculated according to startPoint, endPoint, percent, and offset
    * @param  {IPoint} startPoint source point position of edge (x, y)
    * @param  {IPoint} endPoint  target point position of edge (x, y)
    * @param  {Number} percent   the proportion of control points' in the segment, Range 0 to 1
    * @param  {Number} offset    the curveOffset
-   * @return {IPoint} control point (x,y) 
+   * @return {IPoint} control point (x,y)
    */
   protected getControlPoint: (
     startPoint: IPoint,
     endPoint: IPoint,
     percent: number,
     offset: number,
-  ) =>  IPoint = (
+  ) => IPoint = (
     startPoint: IPoint,
     endPoint: IPoint,
     percent = 0,
     offset = 0,
   ) => {
-
     const point: IPoint = {
       x: 0,
       y: (1 - percent) * startPoint.y + percent * endPoint.y,
@@ -111,7 +110,7 @@ export class CubicVerticalEdge extends CubicEdge {
     } else {
       point.x += endPoint.x;
     }
-      
+
     return point;
   };
 }

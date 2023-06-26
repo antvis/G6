@@ -1,7 +1,4 @@
-import {
-  Graph,
-  IGraph
-} from '../../../../src/index';
+import { Graph, IGraph } from '../../../../src/index';
 // @ts-nocheck
 
 let graph: IGraph;
@@ -87,7 +84,6 @@ const createControls = () => {
   labelCb.style.zIndex = '100';
 
   labelCb.addEventListener('click', (e) => {
-
     if (labelCb.checked) {
       graph.updateData('edge', {
         id: 'edge1',
@@ -232,17 +228,17 @@ export default () => {
   container = document.getElementById('container')!;
 
   graph = new Graph({
-      container,
-      width: 500,
-      height: 500,
-      type: 'graph',
-      data: defaultData,
-      modes: {
-        // supported behavior
-        default: [ 'activate-relations'],
-      }
-  })
+    container,
+    width: 500,
+    height: 500,
+    type: 'graph',
+    data: defaultData,
+    modes: {
+      // supported behavior
+      default: ['activate-relations'],
+    },
+  });
 
   // 3.return graph
-  return graph 
-}
+  return graph;
+};
