@@ -44,6 +44,8 @@ export default class Menu extends Base {
     private menu;
     private handleMenuClickWrapper;
     private handler;
+    private currentTarget;
+    private asyncMenu;
     constructor(options?: MenuConfig) {
         super(options);
     }
@@ -101,6 +103,7 @@ export default class Menu extends Base {
     protected async onMenuShow(e: IG6GraphEvent) {
         const self = this;
         e.preventDefault();
+        self.onMenuHide();
         const itemTypes = this.options.itemTypes;
         if (!e.itemId) {
             if (itemTypes.indexOf('canvas') === -1) {
@@ -146,11 +149,14 @@ export default class Menu extends Base {
             menuDom.innerHTML = menu.outerHTML;
         } else {
             //the type is Promise
-            const asyncMenu = await this.options.getContent(e)
-            if (isString(asyncMenu)) {
-                menuDom.innerHTML = asyncMenu;
+            if (e.itemId != this.currentTarget || !this.asyncMenu) {
+                this.asyncMenu = await this.options.getContent(e)
+                this.currentTarget = e.itemId;
+            }
+            if (isString(this.asyncMenu)) {
+                menuDom.innerHTML = this.asyncMenu;
             } else {
-                menuDom.innerHTML = asyncMenu.outerHTML;
+                menuDom.innerHTML = this.asyncMenu.outerHTML;
             }
         }
         this.removeMenuEventListener();
