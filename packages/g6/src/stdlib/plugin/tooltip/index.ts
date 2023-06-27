@@ -171,6 +171,7 @@ export default class Tooltip extends Base {
     }
 
     public async showTooltip(e: IG6GraphEvent) {
+        this.hideTooltip();
         if (!e.itemId) {
             return;
         }
