@@ -120,22 +120,22 @@ export default class Menu extends Base {
         const graph = this.graph;
         const menu = this.options.getContent(e);
 
-        const width: number = graph.getSize[0];
-        const height: number = graph.getSize[1];
+        const width: number = graph.getSize()[0];
+        const height: number = graph.getSize()[1];
         const bbox = menuDom.getBoundingClientRect();
         const offsetX = this.options.offsetX || 0;
         const offsetY = this.options.offsetY || 0;
         const graphTop = this.graph.container.offsetTop;
         const graphLeft = this.graph.container.offsetLeft;
-        let x = e.canvas.x + graphLeft + offsetX;
-        let y = e.canvas.y + graphTop + offsetY;
+        let x = e.viewport.x + graphLeft + offsetX;
+        let y = e.viewport.y + graphTop + offsetY;
 
         // when the menu is (part of) out of the canvas
         if (x + bbox.width > width) {
-            x = e.canvasX - bbox.width - offsetX + graphLeft;
+            x -= (bbox.width + graphLeft) + offsetX;
         }
         if (y + bbox.height > height) {
-            y = e.canvasY - bbox.height - offsetY + graphTop;
+            y -= (bbox.height + graphTop) + offsetY;
         }
 
         if (isString(menu)) {
