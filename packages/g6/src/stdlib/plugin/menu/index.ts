@@ -5,7 +5,6 @@ import insertCss from 'insert-css';
 import { IGraph } from '../../../types';
 import { Plugin as Base, IPluginBaseConfig } from '../../../types/plugin';
 import { IG6GraphEvent } from '../../../types/event';
-//TODO:伪类 liHoverStyle
 typeof document !== 'undefined' &&
     insertCss(`
   .g6-component-contextmenu {
