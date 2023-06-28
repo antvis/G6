@@ -14,6 +14,12 @@ import {
   DisplayObject,
   IAnimation,
 } from '@antv/g';
+import {
+  CubeGeometryProps,
+  PlaneGeometryProps,
+  SphereGeometryProps,
+  TorusGeometryProps,
+} from '@antv/g-plugin-3d';
 import { AnimateCfg, IAnimates } from './animate';
 import {
   ComboDisplayModel,
@@ -38,12 +44,6 @@ import {
   NodeShapeMap,
   NodeUserModel,
 } from './node';
-import {
-  CubeGeometryProps,
-  PlaneGeometryProps,
-  SphereGeometryProps,
-  TorusGeometryProps,
-} from '@antv/g-plugin-3d';
 
 export type GShapeStyle = CircleStyleProps &
   RectStyleProps &

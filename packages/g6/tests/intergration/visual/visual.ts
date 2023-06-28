@@ -206,7 +206,7 @@ const createGraph = () => {
 };
 
 export default () => {
-  let graph = createGraph();
+  const graph = createGraph();
   graph.zoom(2, { x: 0, y: 0 });
   return graph;
 };

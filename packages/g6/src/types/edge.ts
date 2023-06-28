@@ -55,7 +55,7 @@ export interface EdgeUserModelData extends PlainObject {
     text: string;
   };
 }
-export interface EdgeModelData extends EdgeUserModelData {}
+export type EdgeModelData = EdgeUserModelData;
 
 export interface EdgeShapeStyles extends ItemShapeStyles {
   labelShape?: ShapeStyle & {

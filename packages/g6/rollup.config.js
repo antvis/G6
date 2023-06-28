@@ -1,4 +1,4 @@
-import { uglify } from 'rollup-plugin-uglify';
+import terser from '@rollup/plugin-terser';
 import resolve from 'rollup-plugin-node-resolve';
 import typescript from 'rollup-plugin-typescript';
 import commonjs from '@rollup/plugin-commonjs';
@@ -21,7 +21,7 @@ module.exports = [
       resolve(),
       commonjs(),
       typescript(),
-      uglify(),
+      terser(),
       ...(isBundleVis ? [visualizer()] : []),
     ],
   },

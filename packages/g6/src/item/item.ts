@@ -61,7 +61,7 @@ export default abstract class Item implements IItem {
   /** Set to different value in implements. */
   public type: ITEM_TYPE;
   /** The flag of transient item. */
-  public transient: Boolean = false;
+  public transient = false;
   public renderExtensions: any; // TODO
   /** Cache the animation instances to stop at next lifecycle. */
   public animations: IAnimation[];
@@ -123,11 +123,17 @@ export default abstract class Item implements IItem {
       : theme.lodStrategy;
     if (!RenderExtension) {
       if (this.type === 'node') {
-        throw new Error(`TypeError: RenderExtension is not a constructor. The '${type}' in your data haven't been registered. You can use built-in node types like 'rect-node', 'circle-node' or create a custom node type as you like.`);
+        throw new Error(
+          `TypeError: RenderExtension is not a constructor. The '${type}' in your data haven't been registered. You can use built-in node types like 'rect-node', 'circle-node' or create a custom node type as you like.`,
+        );
       } else if (this.type == 'edge') {
-        throw new Error(`TypeError: RenderExtension is not a constructor. The '${type}' in your data haven't been registered. You can use built-in edge types like 'line-edge', 'quadratic-edge','cubic-edge' or create a custom edge type as you like.`);
+        throw new Error(
+          `TypeError: RenderExtension is not a constructor. The '${type}' in your data haven't been registered. You can use built-in edge types like 'line-edge', 'quadratic-edge','cubic-edge' or create a custom edge type as you like.`,
+        );
       } else {
-        throw new Error(`TypeError: RenderExtension is not a constructor. The '${type}' haven't been registered.`);
+        throw new Error(
+          `TypeError: RenderExtension is not a constructor. The '${type}' haven't been registered.`,
+        );
       }
     }
     this.renderExt = new RenderExtension({

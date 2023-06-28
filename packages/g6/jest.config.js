@@ -1,6 +1,6 @@
 module.exports = {
-  runner: 'jest-electron/runner',
-  testEnvironment: 'jest-electron/environment',
+  runner: '@kayahr/jest-electron-runner',
+  testEnvironment: '@kayahr/jest-electron-runner/environment',
   preset: 'ts-jest',
   collectCoverage: false,
   collectCoverageFrom: [
@@ -12,13 +12,14 @@ module.exports = {
   moduleDirectories: ['node_modules', 'src'],
   moduleFileExtensions: ['js', 'ts', 'json'],
   moduleNameMapper: {
-    '@g6/types': '<rootDir>/types',
+    '@g6/types': '<rootDir>/src/types',
     '@g6/(.*)': '<rootDir>/src/$1',
-    '^d3-(.*)$': `d3-$1/dist/d3-$1`,
+    '^d3-(.*)$': '<rootDir>/../../node_modules/d3-$1/dist/d3-$1.min.js',
   },
   globals: {
     'ts-jest': {
       diagnostics: false,
     },
   },
+  testTimeout: 450000,
 };
