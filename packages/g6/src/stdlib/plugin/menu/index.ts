@@ -162,7 +162,11 @@ export default class Menu extends Base {
         if (y + bbox.height > height) {
             y -= (bbox.height + graphTop) + offsetY;
         }
-
+        modifyCSS(menuDom, {
+            top: `${y}px`,
+            left: `${x}px`,
+            visibility: 'visible',
+        });
         if (isString(menu)) {
             //the type is string
             menuDom.innerHTML = menu;
@@ -174,13 +178,9 @@ export default class Menu extends Base {
             if (isString(this.options.loadingContent)) {
                 menuDom.innerHTML = this.options.loadingContent;
             } else {
-                menuDom.innerHTML = this.asyncMenu.outerHTML;
+                menuDom.innerHTML = this.options.loadingContent.outerHTML;
             }
-            modifyCSS(menuDom, {
-                top: `${y}px`,
-                left: `${x}px`,
-                visibility: 'visible',
-            });
+            //TODO: debounce
             if (e.itemId != this.currentTarget || !this.asyncMenu) {
                 this.asyncMenu = await this.options.getContent(e)
                 this.currentTarget = e.itemId;
