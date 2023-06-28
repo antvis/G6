@@ -5,7 +5,7 @@ import insertCss from 'insert-css';
 import { IGraph } from '../../../types';
 import { Plugin as Base, IPluginBaseConfig } from '../../../types/plugin';
 import { IG6GraphEvent } from '../../../types/event';
-
+//TODO:伪类 liHoverStyle
 typeof document !== 'undefined' &&
     insertCss(`
   .g6-component-contextmenu {
@@ -21,10 +21,6 @@ typeof document !== 'undefined' &&
     padding: 0;
     margin: 0;
     list-style: none;
-  }
-  .g6-contextmenu-li:hover{
-    color:white;
-    background-color:#227EFF
   }
   .g6-loading-dom {
     border: 5px solid #e5e5e5;
@@ -51,7 +47,8 @@ interface MenuConfig extends IPluginBaseConfig {
     trigger?: 'click' | 'contextmenu';
     onHide?: () => boolean,
     //loading Dom
-    loadingContent: HTMLDivElement | string
+    loadingContent?: HTMLDivElement | string,
+    liHoverStyle?: { [key: string]: string }
 }
 
 export default class Menu extends Base {
@@ -87,7 +84,11 @@ export default class Menu extends Base {
             itemTypes: ['node', 'edge', 'combo'],
             trigger: 'click',
             container: null,
-            loadingContent: `<div class='g6-loading-dom'></div>`
+            loadingContent: `<div class='g6-loading-dom'></div>`,
+            liHoverStyle: {
+                'color': 'white',
+                'background-color': '#227EFF'
+            }
         }
     }
 
@@ -102,6 +103,13 @@ export default class Menu extends Base {
     public init(graph: IGraph) {
         super.init(graph);
         const className = this.options.className;
+        insertCss(`
+            .g6-contextmenu-li:hover{
+            ${Object.keys(this.options.liHoverStyle).map(k => {
+            return `${k}:${this.options.liHoverStyle[k]};`
+        }).join('')}
+            }
+        `);
         const menu = createDom(`<div class=${className || 'g6-component-contextmenu'}></div>`);
         modifyCSS(menu, { top: '0px', position: 'absolute', visibility: 'hidden' });
         let container: HTMLDivElement | null | string = this.options.container;
