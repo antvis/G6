@@ -58,14 +58,14 @@ export default () => {
             getContent: (e) => {
                 return new Promise((resolve => {
                     const data = `
-        <div class='g6-component-tooltip'>
+        <div> 
           <h4 class='tooltip-type'>类型: ${e.itemType}</h4>
           <span class='tooltip-id'>ID: ${e.itemId}</span>
-        </div>
+        </div> 
             `
                     setTimeout(() => {
                         resolve(data);
-                    }, 1000);
+                    }, 5000);
                 }))
             }
         }],

@@ -9,22 +9,34 @@ import { IG6GraphEvent } from '../../../types/event';
 
 typeof document !== 'undefined' &&
     insertCss(`
-  .g6-component-tooltip {
-    border: 1px solid #e2e2e2;
-    border-radius: 4px;
-    font-size: 12px;
-    color: #545454;
-    background-color: rgba(255, 255, 255, 0.9);
-    padding: 10px 8px;
-    box-shadow: rgb(174, 174, 174) 0px 0px 10px;
-  }
-  .tooltip-type {
-    padding: 0;
-    margin: 0;
-  }
-  .tooltip-id {
-    color: #531dab;
-  }
+    .g6-component-tooltip {
+        border: 1px solid #e2e2e2;
+        border-radius: 4px;
+        font-size: 12px;
+        color: #545454;
+        background-color: rgba(255, 255, 255, 0.9);
+        padding: 10px 8px;
+        box-shadow: rgb(174, 174, 174) 0px 0px 10px;
+    }
+    .tooltip-type {
+        padding: 0;
+        margin: 0;
+    }
+    .tooltip-id {
+        color: #531dab;
+    }
+    .g6-loading-dom {
+    border: 5px solid #e5e5e5;
+    border-top: 5px solid #227EFF;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    animation: turn-around 1.5s linear infinite;
+    }
+    @keyframes turn-around {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
 `);
 
 interface TooltipConfig extends IPluginBaseConfig {
@@ -36,6 +48,7 @@ interface TooltipConfig extends IPluginBaseConfig {
     itemTypes?: ('node' | 'edge' | 'combo' | 'canvas')[];
     trigger?: 'pointerenter' | 'click';
     fixToNode?: [number, number] | undefined;
+    loadingContent?: HTMLDivElement | string
 }
 
 export default class Tooltip extends Base {
@@ -55,7 +68,7 @@ export default class Tooltip extends Base {
             offsetY: 6,
             getContent: (e) => {
                 return `
-        <div class='g6-component-tooltip'>
+        <div>
           <h4 class='tooltip-type'>类型: ${e.itemType}</h4>
           <span class='tooltip-id'>ID: ${e.itemId}</span>
         </div>
@@ -67,6 +80,7 @@ export default class Tooltip extends Base {
             itemTypes: ['node', 'edge', 'combo'],
             trigger: 'pointerenter',
             fixToNode: undefined,
+            loadingContent: `<div class='g6-loading-dom'></div>`,
         };
     }
 
@@ -102,7 +116,7 @@ export default class Tooltip extends Base {
     public init(graph: IGraph) {
         super.init(graph);
         const className = this.options.className;
-        const tooltip = createDom(`<div class='${className}'></div>`);
+        const tooltip = createDom(`<div class='${className || 'g6-component-tooltip'}'></div>`);
         modifyCSS(tooltip, { position: 'absolute', visibility: 'hidden', display: 'none' });
         if (this.options.trigger !== 'click') {
             tooltip.addEventListener('pointerenter', (e) => {
@@ -153,7 +167,7 @@ export default class Tooltip extends Base {
 
     public onPointerMove(e: IG6GraphEvent) {
         if (e.itemId && e.itemType && this.options.itemTypes.indexOf(e.itemType) === -1) return;
-        if (!this.currentTarget || e.itemId !== this.currentTarget) {
+        if (!this.currentTarget || e.itemId === this.currentTarget) {
             return;
         }
         this.showTooltip(e);
@@ -180,6 +194,12 @@ export default class Tooltip extends Base {
         const tooltipDom = this.tooltip;
         // modify the position first because of the async function
         const res = this.updatePosition(e);
+        modifyCSS(tooltipDom, {
+            left: `${res.x}px`,
+            top: `${res.y}px`,
+            visibility: 'visible',
+            display: 'unset'
+        });
         if (isString(tooltip)) {
             tooltipDom.innerHTML = tooltip;
         } else if (tooltip instanceof HTMLDivElement) {
@@ -187,6 +207,13 @@ export default class Tooltip extends Base {
             this.container.appendChild(tooltip);
         } else {
             //promise type
+            //TODO: debounce
+            this.asyncTooltip = null;//avoid trigger many time
+            if (isString(this.options.loadingContent)) {
+                tooltipDom.innerHTML = this.options.loadingContent;
+            } else {
+                tooltipDom.innerHTML = this.options.loadingContent.outerHTML;
+            }
             if (!this.asyncTooltip || e.itemId !== this.currentAsyncTarget) {
                 this.asyncTooltip = await this.options.getContent(e);
                 this.currentAsyncTarget = e.itemId;
@@ -198,12 +225,6 @@ export default class Tooltip extends Base {
                 this.container.appendChild(this.asyncTooltip);
             }
         }
-        modifyCSS(tooltipDom, {
-            left: `${res.x}px`,
-            top: `${res.y}px`,
-            visibility: 'visible',
-            display: 'unset'
-        });
     }
 
     public hideTooltip() {
