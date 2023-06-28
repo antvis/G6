@@ -67,7 +67,7 @@ export default () => {
         `
                     setTimeout(() => {
                         resolve(data);
-                    }, 1000);
+                    }, 2000);
                 }))
             }
         }],

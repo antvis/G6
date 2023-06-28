@@ -26,6 +26,18 @@ typeof document !== 'undefined' &&
     color:white;
     background-color:#227EFF
   }
+  .g6-loading-dom {
+    border: 5px solid #e5e5e5;
+    border-top: 5px solid #227EFF;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    animation: turn-around 1.5s linear infinite;
+    }
+    @keyframes turn-around {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
 `);
 
 interface MenuConfig extends IPluginBaseConfig {
@@ -38,6 +50,8 @@ interface MenuConfig extends IPluginBaseConfig {
     itemTypes?: string[];
     trigger?: 'click' | 'contextmenu';
     onHide?: () => boolean,
+    //loading Dom
+    loadingContent: HTMLDivElement | string
 }
 
 export default class Menu extends Base {
@@ -72,7 +86,8 @@ export default class Menu extends Base {
             },
             itemTypes: ['node', 'edge', 'combo'],
             trigger: 'click',
-            container: null
+            container: null,
+            loadingContent: `<div class='g6-loading-dom'></div>`
         }
     }
 
@@ -149,6 +164,16 @@ export default class Menu extends Base {
             menuDom.innerHTML = menu.outerHTML;
         } else {
             //the type is Promise
+            if (isString(this.options.loadingContent)) {
+                menuDom.innerHTML = this.options.loadingContent;
+            } else {
+                menuDom.innerHTML = this.asyncMenu.outerHTML;
+            }
+            modifyCSS(menuDom, {
+                top: `${y}px`,
+                left: `${x}px`,
+                visibility: 'visible',
+            });
             if (e.itemId != this.currentTarget || !this.asyncMenu) {
                 this.asyncMenu = await this.options.getContent(e)
                 this.currentTarget = e.itemId;
@@ -169,12 +194,6 @@ export default class Menu extends Base {
             menuDom.addEventListener('click', this.handleMenuClickWrapper)
         }
 
-
-        modifyCSS(menuDom, {
-            top: `${y}px`,
-            left: `${x}px`,
-            visibility: 'visible',
-        });
         let triggeredByFirstClick = this.options.trigger === 'click';
         const handler = (e) => {
             if (triggeredByFirstClick) {
