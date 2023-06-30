@@ -22,7 +22,7 @@ import line_edge from './item/edge/line-edge';
 import cubic_edge from './item/edge/cubic-edge';
 import cubic_horizon_edge from './item/edge/cubic-horizon-edge';
 import cubic_vertical_edge from './item/edge/cubic-vertical-edge';
-
+import fisheye from './plugins/fisheye';
 export {
   behaviors_activateRelations,
   layouts_circular,
@@ -48,4 +48,5 @@ export {
   cubic_edge,
   cubic_horizon_edge,
   cubic_vertical_edge,
+  fisheye,
 };

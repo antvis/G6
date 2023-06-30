@@ -1,0 +1,556 @@
+import { clone } from '@antv/util';
+import { Circle, Canvas, Text } from '@antv/g';
+import { IGraph } from '../../../types';
+import { ShapeStyle } from '../../../types/item';
+import { IG6GraphEvent } from '../../../types/event';
+import { Plugin as Base, IPluginBaseConfig } from '../../../types/plugin';
+
+const DELTA = 0.05;
+
+interface FisheyeConfig extends IPluginBaseConfig {
+  trigger?: 'mousemove' | 'click' | 'drag';
+  d?: number;
+  r?: number;
+  delegateStyle?: ShapeStyle;
+  showLabel?: boolean;
+  scaleRBy?: 'wheel' | 'drag' | 'unset' | undefined;
+  scaleDBy?: 'wheel' | 'drag' | 'unset' | undefined;
+  maxR?: number;
+  minR?: number;
+  maxD?: number;
+  minD?: number;
+  showDPercent?: boolean;
+}
+
+const lensDelegateStyle = {
+  stroke: '#000',
+  strokeOpacity: 0.8,
+  lineWidth: 2,
+  fillOpacity: 0.1,
+  fill: '#ccc',
+};
+export default class Fisheye extends Base {
+  constructor(options?: FisheyeConfig) {
+    super(options);
+  }
+  public getDefaultCfgs(): FisheyeConfig {
+    return {
+      trigger: 'mousemove',
+      d: 1.5,
+      r: 300,
+      delegateStyle: clone(lensDelegateStyle),
+      showLabel: true,
+      maxD: 5,
+      minD: 0,
+      scaleRBy: 'unset',
+      scaleDBy: 'unset',
+      showDPercent: true,
+    };
+  }
+
+  // class-methods-use-this
+  public getEvents() {
+    let events;
+    switch ((this as any).options.trigger) {
+      case 'click':
+        events = {
+          click: this.magnify,
+        };
+        break;
+      case 'drag':
+        events = {
+          drag: this.createDelegate,
+        };
+        break;
+      default:
+        events = {
+          pointermove: this.magnify,
+        };
+        break;
+    }
+    return events;
+  }
+
+  public init(graph: IGraph) {
+    super.init(graph);
+    const self = this;
+    const r = self.options.r;
+    self.options.cachedMagnifiedModels = [];
+    self.options.cachedTransientTexts = {};
+    self.options.cachedOriginPositions = {};
+    self.options.r2 = r * r;
+    const d = self.options.d;
+    self.options.molecularParam = (d + 1) * r;
+  }
+
+  // Create the delegate when the trigger is drag
+  protected createDelegate(e: IG6GraphEvent) {
+    const self = this;
+    let lensDelegate = self.options.delegate;
+    if (!lensDelegate || lensDelegate.destroyed) {
+      self.magnify(e);
+      lensDelegate = self.options.delegate;
+
+      // drag to move the lens
+      lensDelegate.on('dragstart', (evt) => {
+        self.options.delegateCenterDiff = {
+          x: lensDelegate.attr('x') - evt.x,
+          y: lensDelegate.attr('y') - evt.y,
+        };
+      });
+      lensDelegate.on('drag', (evt) => {
+        self.magnify(evt);
+      });
+
+      // 绑定调整范围（r）和缩放系数(d)的监听
+      // 由于 drag 用于改变 lens 位置, 因此在此模式下, drag 不能用于调整 r 和 d
+
+      // scaling d
+      if (this.options.scaleDBy === 'wheel') {
+        lensDelegate.on('mousewheel', (evt) => {
+          this.scaleDByWheel(evt);
+        });
+      }
+
+      // scaling r
+      if (this.options.scaleRBy === 'wheel') {
+        lensDelegate.on('mousewheel', (evt) => {
+          self.scaleRByWheel(evt);
+        });
+      }
+    }
+  }
+
+  /**
+   * Scale the range by wheel
+   * @param e mouse wheel event
+   */
+  protected scaleRByWheel(e: IG6GraphEvent) {
+    const self = this;
+    if (!e || !e.originalEvent) return;
+    if (e.preventDefault) e.preventDefault();
+    const graph: IGraph = self.graph;
+    let ratio;
+    const lensDelegate = self.options.delegate;
+    const lensCenter = lensDelegate
+      ? {
+          x: lensDelegate.attr('x'),
+          y: lensDelegate.attr('y'),
+        }
+      : undefined;
+    const mousePos = lensCenter || graph.getPointByClient(e.clientX, e.clientY);
+    if ((e.originalEvent as any).wheelDelta < 0) {
+      ratio = 1 - DELTA;
+    } else {
+      ratio = 1 / (1 - DELTA);
+    }
+    const maxR = self.options.maxR;
+    const minR = self.options.minR;
+    let r = self.options.r;
+    if (
+      (r > (maxR || graph.get('height')) && ratio > 1) ||
+      (r < (minR || graph.get('height') * 0.05) && ratio < 1)
+    ) {
+      ratio = 1;
+    }
+    r *= ratio;
+    self.options.r = r;
+    self.options.r2 = r * r;
+    const d = self.options.d;
+    self.options.molecularParam = (d + 1) * r;
+    self.options.delegateCenterDiff = undefined;
+    self.magnify(e, mousePos);
+  }
+
+  /**
+   * Scale the range by dragging
+   * @param e mouse event
+   */
+  protected scaleRByDrag(e: IG6GraphEvent) {
+    const self = this;
+    if (!e) return;
+    const dragPrePos = self.options.dragPrePos;
+    const graph: IGraph = self.graph;
+    let ratio;
+    const mousePos = graph.getPointByClient(e.clientX, e.clientY);
+    if (e.x - dragPrePos.x < 0) {
+      ratio = 1 - DELTA;
+    } else {
+      ratio = 1 / (1 - DELTA);
+    }
+    const maxR = self.options.maxR;
+    const minR = self.options.minR;
+    let r = self.options.r;
+    const graphCanvasEl = graph.canvas.context.config.canvas;
+    const [
+      graphWidth = graphCanvasEl?.scrollWidth || 500,
+      graphHeight = graphCanvasEl?.scrollHeight || 500,
+    ] = graph.getSize();
+    if (
+      (r > (maxR || graphHeight) && ratio > 1) ||
+      (r < (minR || graphHeight * 0.05) && ratio < 1)
+    ) {
+      ratio = 1;
+    }
+    r *= ratio;
+    self.options.r = r;
+    self.options.r2 = r * r;
+    const d = self.options.d;
+    self.options.molecularParam = (d + 1) * r;
+    self.magnify(e, mousePos);
+    self.options.dragPrePos = { x: e.x, y: e.y };
+  }
+
+  /**
+   * Scale the magnifying factor by wheel
+   * @param e mouse wheel event
+   */
+  protected scaleDByWheel(evt: IG6GraphEvent) {
+    const self = this;
+    if (!evt && !evt.originalEvent) return;
+    if (evt.preventDefault) evt.preventDefault();
+    let delta = 0;
+    if ((evt.originalEvent as any).wheelDelta < 0) {
+      delta = -0.1;
+    } else {
+      delta = 0.1;
+    }
+    const d = self.options.d;
+    const newD = d + delta;
+    const maxD = self.options.maxD;
+    const minD = self.options.minD;
+    if (newD < maxD && newD > minD) {
+      self.options.d = newD;
+      const r = self.options.r;
+      self.options.molecularParam = (newD + 1) * r;
+      const lensDelegate = self.options.delegate;
+      const lensCenter = lensDelegate
+        ? {
+            x: lensDelegate.attr('x'),
+            y: lensDelegate.attr('y'),
+          }
+        : undefined;
+      self.options.delegateCenterDiff = undefined;
+      self.magnify(evt, lensCenter);
+    }
+  }
+
+  /**
+   * Scale the magnifying factor by dragging
+   * @param e mouse event
+   */
+  protected scaleDByDrag(e: IG6GraphEvent) {
+    const self = this;
+    const dragPrePos = self.options.dragPrePos;
+    const delta = e.x - dragPrePos.x > 0 ? 0.1 : -0.1;
+    const d = self.options.d;
+    const newD = d + delta;
+    const maxD = self.options.maxD;
+    const minD = self.options.minD;
+    if (newD < maxD && newD > minD) {
+      self.options.d = newD;
+      const r = self.options.r;
+      self.options.molecularParam = (newD + 1) * r;
+      self.magnify(e);
+    }
+    self.options.dragPrePos = { x: e.x, y: e.y };
+  }
+
+  /**
+   * Response function for mousemove, click, or drag to magnify
+   * @param e mouse event
+   */
+  protected magnify(e: IG6GraphEvent, mousePos?) {
+    const self = this;
+    self.restoreCache();
+    const graph: IGraph = self.graph;
+    const cachedMagnifiedModels = self.options.cachedMagnifiedModels;
+    const cachedOriginPositions = self.options.cachedOriginPositions;
+    const cachedTransientTexts = self.options.cachedTransientTexts;
+    const showLabel = self.options.showLabel;
+    const r = self.options.r;
+    const r2 = self.options.r2;
+    const d = self.options.d;
+    const molecularParam = self.options.molecularParam;
+    const nodes = graph.getAllNodesData();
+    const nodeLength = nodes.length;
+    let mCenter = mousePos
+      ? { x: mousePos.x, y: mousePos.y }
+      : { x: e.client.x, y: e.client.y };
+    if (
+      self.options.dragging &&
+      (self.options.trigger === 'mousemove' || self.options.trigger === 'click')
+    ) {
+      mCenter = self.options.cacheCenter;
+    }
+    const delegateCenterDiff = self.options.delegateCenterDiff;
+    if (delegateCenterDiff) {
+      mCenter.x += delegateCenterDiff.x;
+      mCenter.y += delegateCenterDiff.y;
+    }
+    self.updateDelegate(mCenter, r);
+    for (let i = 0; i < nodeLength; i++) {
+      const model = nodes[i];
+      const { x, y } = model.data;
+      if (isNaN(x) || isNaN(y)) continue;
+      // the square of the distance between the node and the magnified center
+      const dist2 =
+        (x - mCenter.x) * (x - mCenter.x) + (y - mCenter.y) * (y - mCenter.y);
+      if (!isNaN(dist2) && dist2 < r2 && dist2 !== 0) {
+        const dist = Math.sqrt(dist2);
+        // // (r * (d + 1) * (dist / r)) / (d * (dist / r) + 1);
+        const magnifiedDist = (molecularParam * dist) / (d * dist + r);
+        const cos = (x - mCenter.x) / dist;
+        const sin = (y - mCenter.y) / dist;
+        const magnifiedX = cos * magnifiedDist + mCenter.x;
+        const magnifiedY = sin * magnifiedDist + mCenter.y;
+        if (!cachedOriginPositions[model.id]) {
+          cachedOriginPositions[model.id] = { x, y, texts: [] };
+        }
+        cachedMagnifiedModels.push(model);
+        if (showLabel && 2 * dist < r) {
+          const node = nodes[i];
+          const transientTextID = `node-text-${node.id}`;
+          const cachedTransientText = cachedTransientTexts[transientTextID];
+          if (cachedTransientText) {
+            cachedTransientText.show();
+            cachedOriginPositions[model.id].texts.push(cachedTransientText);
+          } else {
+            const text = graph.drawTransient('text', transientTextID, {
+              style: {
+                text: node.label,
+                x: node.data.x,
+                y: node.data.y,
+                fill: '#aaa',
+                stroke: '#fff',
+                lineWidth: 1,
+                fontSize: 12,
+              },
+            });
+            // }
+            cachedTransientTexts[transientTextID] = text;
+            cachedOriginPositions[model.id].texts.push(text);
+          }
+        }
+
+        nodes[i] = { data: { x: magnifiedX, y: magnifiedY }, id: nodes[i].id };
+      }
+    }
+    graph.updateNodePosition(nodes);
+  }
+
+  /**
+   * Restore the cache nodes while magnifying
+   */
+  protected restoreCache() {
+    const self = this;
+    const cachedMagnifiedModels = self.options.cachedMagnifiedModels;
+    const cachedOriginPositions = self.options.cachedOriginPositions;
+    const cacheLength = cachedMagnifiedModels.length;
+    for (let i = 0; i < cacheLength; i++) {
+      const node = cachedMagnifiedModels[i];
+      const id = node.id;
+      const ori = cachedOriginPositions[id];
+      node.data.x = ori.x;
+      node.data.y = ori.y;
+      const textLength = ori.texts.length;
+      for (let j = 0; j < textLength; j++) {
+        const text = ori.texts[j];
+        text.hide();
+      }
+    }
+    self.options.cachedMagnifiedModels = [];
+    self.options.cachedOriginPositions = {};
+  }
+
+  /**
+   * Adjust part of the parameters, including trigger, d, r, maxR, minR, maxD, minD, scaleRBy, and scaleDBy
+   * @param {FisheyeConfig} cfg
+   */
+  public updateParams(cfg: FisheyeConfig) {
+    const self = this;
+    const { r, d, trigger, minD, maxD, minR, maxR, scaleDBy, scaleRBy } = cfg;
+    if (!isNaN(cfg.r)) {
+      self.options.r = r;
+      self.options.r2 = r * r;
+    }
+    if (!isNaN(d)) {
+      self.options.d = d;
+    }
+    if (!isNaN(maxD)) {
+      self.options.maxD = maxD;
+    }
+    if (!isNaN(minD)) {
+      self.options.minD = minD;
+    }
+    if (!isNaN(maxR)) {
+      self.options.maxR = maxR;
+    }
+    if (!isNaN(minR)) {
+      self.options.minR = minR;
+    }
+    const nd = self.options.d;
+    const nr = self.options.r;
+    self.options.molecularParam = (nd + 1) * nr;
+    if (trigger === 'mousemove' || trigger === 'click' || trigger === 'drag') {
+      self.options.trigger = trigger;
+    }
+    if (scaleDBy === 'drag' || scaleDBy === 'wheel' || scaleDBy === 'unset') {
+      self.options.scaleDBy = scaleDBy;
+      self.options.delegate.remove();
+      self.options.delegate.destroy();
+      const dPercentText = self.options.dPercentText;
+      if (dPercentText) {
+        dPercentText.remove();
+        dPercentText.destroy();
+      }
+    }
+    if (scaleRBy === 'drag' || scaleRBy === 'wheel' || scaleRBy === 'unset') {
+      self.options.scaleRBy = scaleRBy;
+      self.options.delegate.remove();
+      self.options.delegate.destroy();
+      const dPercentText = self.options.dPercentText;
+      if (dPercentText) {
+        dPercentText.remove();
+        dPercentText.destroy();
+      }
+    }
+  }
+
+  /**
+   * Update the delegate shape of the lens
+   * @param {Point} mCenter the center of the shape
+   * @param {number} r the radius of the shape
+   */
+  private updateDelegate(mCenter, r) {
+    const self = this;
+    const graph = self.graph;
+    let lensDelegate = self.options.delegate;
+    if (!lensDelegate || lensDelegate.destroyed) {
+      // 拖动多个
+      const parent = graph.canvas.getRoot();
+      const attrs = self.options.delegateStyle || lensDelegateStyle;
+
+      // model上的x, y是相对于图形中心的, delegateShape是g实例, x,y是绝对坐标
+      lensDelegate = graph.drawTransient('circle', 'lens-shape', {
+        style: {
+          r: r / 1.5,
+          cx: mCenter.x,
+          cy: mCenter.y,
+          ...attrs,
+        },
+      });
+
+      if (this.options.trigger !== 'drag') {
+        // 调整范围 r 的监听
+        if (this.options.scaleRBy === 'wheel') {
+          // 使用滚轮调整 r
+          lensDelegate.on('mousewheel', (evt) => {
+            self.scaleRByWheel(evt);
+          });
+        } else if (this.options.scaleRBy === 'drag') {
+          // 使用拖拽调整 r
+          lensDelegate.on('dragstart', (e) => {
+            self.options.dragging = true;
+            self.options.cacheCenter = { x: e.x, y: e.y };
+            self.options.dragPrePos = { x: e.x, y: e.y };
+          });
+          lensDelegate.on('drag', (evt) => {
+            self.scaleRByDrag(evt);
+          });
+          lensDelegate.on('dragend', (e) => {
+            self.options.dragging = false;
+          });
+        }
+
+        // 调整缩放系数 d 的监听
+        if (this.options.scaleDBy === 'wheel') {
+          // 使用滚轮调整 d
+          lensDelegate.on('mousewheel', (evt) => {
+            this.scaleDByWheel(evt);
+          });
+        } else if (this.options.scaleDBy === 'drag') {
+          // 使用拖拽调整 d
+          lensDelegate.on('dragstart', (evt) => {
+            self.options.dragging = true;
+            self.options.cacheCenter = { x: evt.x, y: evt.y };
+            self.options.dragPrePos = { x: evt.x, y: evt.y };
+          });
+          lensDelegate.on('drag', (evt) => {
+            this.scaleDByDrag(evt);
+          });
+          lensDelegate.on('dragend', (evt) => {
+            self.options.dragging = false;
+          });
+        }
+      }
+    } else {
+      lensDelegate.attr({
+        cx: mCenter.x,
+        cy: mCenter.y,
+        r: r / 1.5,
+      });
+    }
+
+    // 绘制缩放系数百分比文本
+    if (self.options.showDPercent) {
+      const percent = Math.round(
+        ((self.options.d - self.options.minD) /
+          (self.options.maxD - self.options.minD)) *
+          100,
+      );
+      let dPercentText = self.options.dPercentText;
+      const textY = mCenter.y + r / 1.5 + 16;
+      if (!dPercentText || dPercentText.destroyed) {
+        const parent = graph.canvas.getRoot();
+        const text = new Text({
+          style: {
+            text: `${percent}%`,
+            x: mCenter.x,
+            y: textY,
+            fill: '#aaa',
+            stroke: '#fff',
+            lineWidth: 1,
+            fontSize: 12,
+          },
+        });
+        dPercentText = parent.appendChild(text);
+        self.options.dPercentText = dPercentText;
+      } else {
+        dPercentText.attr({
+          text: `${percent}%`,
+          x: mCenter.x,
+          y: textY,
+        });
+      }
+    }
+    self.options.delegate = lensDelegate;
+  }
+
+  /**
+   * Clear the fisheye lens
+   */
+  public clear() {
+    const graph = this.graph;
+    this.restoreCache();
+    // graph.refreshPositions();
+    // graph.updateData();
+    const lensDelegate = this.options.delegate;
+    if (lensDelegate && !lensDelegate.destroyed) {
+      lensDelegate.remove();
+      lensDelegate.destroy();
+    }
+    const dPercentText = this.options.dPercentText;
+    if (dPercentText && !dPercentText.destroyed) {
+      dPercentText.remove();
+      dPercentText.destroy();
+    }
+  }
+
+  /**
+   * Destroy the component
+   */
+  public destroy() {
+    this.clear();
+  }
+}
