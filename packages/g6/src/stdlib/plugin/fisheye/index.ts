@@ -304,6 +304,10 @@ export default class Fisheye extends Base {
         const sin = (y - mCenter.y) / dist;
         const magnifiedX = cos * magnifiedDist + mCenter.x;
         const magnifiedY = sin * magnifiedDist + mCenter.y;
+        const magnifiedNode = {
+          data: { x: magnifiedX, y: magnifiedY },
+          id: nodes[i].id,
+        };
         if (!cachedOriginPositions[model.id]) {
           cachedOriginPositions[model.id] = { x, y, texts: [] };
         }
@@ -313,14 +317,18 @@ export default class Fisheye extends Base {
           const transientTextID = `node-text-${node.id}`;
           const cachedTransientText = cachedTransientTexts[transientTextID];
           if (cachedTransientText) {
+            cachedTransientText.attr({
+              x: magnifiedNode.data.x,
+              y: magnifiedNode.data.y,
+            });
             cachedTransientText.show();
             cachedOriginPositions[model.id].texts.push(cachedTransientText);
           } else {
             const text = graph.drawTransient('text', transientTextID, {
               style: {
                 text: node.label,
-                x: node.data.x,
-                y: node.data.y,
+                x: magnifiedNode.data.x,
+                y: magnifiedNode.data.y,
                 fill: '#aaa',
                 stroke: '#fff',
                 lineWidth: 1,
@@ -333,7 +341,7 @@ export default class Fisheye extends Base {
           }
         }
 
-        nodes[i] = { data: { x: magnifiedX, y: magnifiedY }, id: nodes[i].id };
+        nodes[i] = magnifiedNode;
       }
     }
     graph.updateNodePosition(nodes);
