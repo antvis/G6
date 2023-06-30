@@ -16,6 +16,7 @@ import demo from './demo/demo';
 import demoFor4 from './demo/demoFor4';
 import bugReproduce from './demo/bugReproduce';
 import visual from './visual/visual';
+import fisheye from './plugins/fisheye';
 export {
   behaviors_activateRelations,
   layouts_circular,
@@ -35,4 +36,5 @@ export {
   demoFor4,
   bugReproduce,
   visual,
+  fisheye,
 };

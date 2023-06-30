@@ -13,10 +13,10 @@ import DarkTheme from './theme/dark';
 import LightTheme from './theme/light';
 import SpecThemeSolver from './themeSolver/spec';
 import SubjectThemeSolver from './themeSolver/subject';
-
 import lassoSelector from './selector/lasso';
 import rectSelector from './selector/rect';
 import Minimap from './plugin/minimap';
+import Fisheye from './plugin/fisheye';
 import Legend from './plugin/legend';
 import ZoomCanvas from './behavior/zoom-canvas';
 import ZoomCanvas3D from './behavior/zoom-canvas-3d';
@@ -54,6 +54,7 @@ const stdLib = {
   },
   plugins: {
     minimap: Minimap,
+    fisheye: Fisheye,
     legend: Legend,
   },
   nodes: {
