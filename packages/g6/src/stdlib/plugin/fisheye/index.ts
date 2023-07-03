@@ -325,22 +325,24 @@ export default class Fisheye extends Base {
             cachedOriginPositions[model.id].texts.push(cachedTransientText);
           } else {
             const text = graph.drawTransient('text', transientTextID, {
-              style: {
-                text: node.label,
-                x: magnifiedNode.data.x,
-                y: magnifiedNode.data.y,
-                fill: '#aaa',
-                stroke: '#fff',
-                lineWidth: 1,
-                fontSize: 12,
-              },
-            });
-            // }
+                style: {
+                  text: node.label,
+                  x: magnifiedNode.data.x,
+                  y: magnifiedNode.data.y,
+                  textAlign:'center',
+                  textBaseline:'middle',
+                  fill: '#000',
+                  lineWidth: 1,
+                  fontSize: 12,
+                  isBillboard: true,
+                  lod: -1,
+                },
+              });
+            magnifiedNode.labelShape = text
             cachedTransientTexts[transientTextID] = text;
             cachedOriginPositions[model.id].texts.push(text);
           }
         }
-
         nodes[i] = magnifiedNode;
       }
     }

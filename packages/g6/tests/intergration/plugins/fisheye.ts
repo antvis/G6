@@ -1,16 +1,17 @@
 import G6 from '../../../src/index';
 
 export default async () => {
-  let fisheyeBase = new G6.stdLib.plugins.fisheye({
-    r: 200,
-    showLabel: true,
-    trigger: 'mousemove',
-  });
+
   let fisheye = {
     type: 'fisheye',
     key: 'fisheye1',
-    ...fisheyeBase,
+    scaleDBy: 'unset',
+    scaleRBy: 'unset',
+    r: 200,
+    showLabel: true,
+    trigger: 'mousemove',
   };
+  console.log('组装后的fisheye----', fisheye);
   const colors = [
     '#8FE9FF',
     '#87EAEF',
@@ -148,49 +149,48 @@ export default async () => {
         nodesepFunc: () => 1,
         ranksepFunc: () => 1,
       },
-      modes: {
-        default: ['drag-canvas', 'zoom-canvas'],
-      },
-      plugins: ['fisheye'],
+      plugins: [fisheye],
       data: customData,
+      node: (innerModel) => {
+        return {
+          ...innerModel,
+        };
+      },
     });
 
-    clearButton.addEventListener('click', (e) => {});
+    clearButton.addEventListener('click', (e) => {
+      
+    });
     swithButton.addEventListener('click', (e) => {
       if (swithButton.value === 'Disable') {
         swithButton.value = 'Enable';
         graph.removePlugins(['fisheye1']);
       } else {
         swithButton.value = 'Disable';
-        fisheye = {
-          ...new G6.stdLib.plugins.fisheye({
-            r: 200,
-            showLabel: true,
-          }),
-          type: 'fisheye',
-          key: 'fisheye1',
-        };
-        graph.addPlugins(['fisheye']);
+        graph.addPlugins([fisheye]);
       }
     });
     configScaleRBy.addEventListener('change', (e) => {
-      fisheye.options.scaleRBy = e.target.value;
+      fisheye = {
+        ...fisheye,
+        scaleRBy: e.target.value,
+      };
+      graph.updatePlugin(fisheye);
     });
     configScaleDBy.addEventListener('change', (e) => {
-      fisheye.options.scaleDBy = e.target.value;
+      // fisheye.scaleDBy = e.target.value;
+      fisheye = {
+        ...fisheye,
+        scaleDBy: e.target.value,
+      };
+      graph.updatePlugin(fisheye);
     });
     configTrigger.addEventListener('change', (e) => {
-      const fisheyConfigs = fisheye.options;
-      graph.removePlugins(['fisheye']);
       fisheye = {
-        ...new G6.stdLib.plugins.fisheye({
-          ...fisheyConfigs,
+        ...fisheye,
           trigger: e.target.value,
-        }),
-        type: 'fisheye',
-        key: 'fisheye1',
       };
-      graph.addPlugins(['fisheye']);
+      graph.updatePlugin(fisheye);
     });
   };
 
@@ -207,7 +207,8 @@ export default async () => {
           size: Math.random() * 30 + 10,
           r: Math.random() * 30 + 10,
           keyShape: {
-            r: Math.random() * 30 + 10,
+            r: Math.random() * 20 + 10,
+            fill: colors[Math.floor(Math.random() * 9)],
           },
           lineWidth: 0,
         };
