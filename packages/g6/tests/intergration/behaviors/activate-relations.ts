@@ -9,6 +9,7 @@ export default () => {
     layout: {
       type: 'grid',
     },
+    plugins: ['grid'],
     node: {
       labelShape: {
         text: {
