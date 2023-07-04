@@ -57,6 +57,7 @@ export default class Tooltip extends Base {
     private currentTarget: number | null
     private asyncTooltip;
     private currentAsyncTarget;
+    private hidenTimer;
 
     constructor(options?: TooltipConfig) {
         super(options);
@@ -126,7 +127,7 @@ export default class Tooltip extends Base {
                 });
             });
             tooltip.addEventListener('pointerleave', (e) => {
-                self.hideTooltip();
+                this.hideTooltip();
             });
         }
         //`container` string type in v5
@@ -185,7 +186,7 @@ export default class Tooltip extends Base {
     }
 
     public async showTooltip(e: IG6GraphEvent) {
-        this.hideTooltip();
+        clearTimeout(this.hidenTimer);
         if (!e.itemId) {
             return;
         }
@@ -207,7 +208,6 @@ export default class Tooltip extends Base {
             this.container.appendChild(tooltip);
         } else {
             //promise type
-            //TODO: debounce
             this.asyncTooltip = null;//avoid trigger many time
             if (isString(this.options.loadingContent)) {
                 tooltipDom.innerHTML = this.options.loadingContent;
@@ -233,8 +233,17 @@ export default class Tooltip extends Base {
     public hideTooltip() {
         const tooltip = this.tooltip;
         if (tooltip) {
-            modifyCSS(tooltip, { visibility: 'hidden', display: 'none' });
+            this.hidenTimer = setTimeout(() => {
+                modifyCSS(tooltip, { visibility: 'hidden', display: 'none' });
+            }, 100);
+            tooltip.addEventListener('pointerenter', (e) => {
+                clearTimeout(this.hidenTimer);
+            });
+            tooltip.addEventListener('pointerleave', (e) => {
+                modifyCSS(tooltip, { visibility: 'hidden', display: 'none' });
+            });
         }
+
     }
 
     public updatePosition(e: IG6GraphEvent): { x: number, y: number } {
@@ -252,6 +261,9 @@ export default class Tooltip extends Base {
         const height: number = graph.getSize()[1];
         const offsetX = this.options.offsetX || 0;
         const offsetY = this.options.offsetY || 0;
+        const graphTop = this.graph.container.offsetTop;
+        const graphLeft = this.graph.container.offsetLeft;
+
         let point = {
             x: e.viewport.x,
             y: e.viewport.y

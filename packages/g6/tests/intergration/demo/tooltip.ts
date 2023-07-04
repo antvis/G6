@@ -53,7 +53,7 @@ export default () => {
             key: 'tooltip1',
             type: 'tooltip',
             trigger: 'pointerenter',
-            fixToNode: [1, 0.5],
+            // fixToNode: [1, 0.5],
             /** async string tooltip*/
             getContent: (e) => {
                 return new Promise((resolve => {
