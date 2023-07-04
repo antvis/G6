@@ -215,8 +215,11 @@ export default class Tooltip extends Base {
                 tooltipDom.innerHTML = this.options.loadingContent.outerHTML;
             }
             if (!this.asyncTooltip || e.itemId !== this.currentAsyncTarget) {
-                this.asyncTooltip = await this.options.getContent(e);
                 this.currentAsyncTarget = e.itemId;
+                this.asyncTooltip = await this.options.getContent(e);
+            }
+            if (e.itemId != this.currentAsyncTarget) {
+                return;
             }
             if (isString(this.asyncTooltip)) {
                 tooltipDom.innerHTML = this.asyncTooltip;
