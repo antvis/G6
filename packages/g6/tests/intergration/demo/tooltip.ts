@@ -53,16 +53,16 @@ export default () => {
             key: 'tooltip1',
             type: 'tooltip',
             trigger: 'pointerenter',
-            // fixToNode: [1, 0.5],
+            fixToNode: "top",
             /** async string tooltip*/
             getContent: (e) => {
                 return new Promise((resolve => {
                     const data = `
-        <div> 
-          <h4 class='tooltip-type'>类型: ${e.itemType}</h4>
-          <span class='tooltip-id'>ID: ${e.itemId}</span>
-        </div> 
-            `
+            <div> 
+              <h4 class='tooltip-type'>类型: ${e.itemType}</h4>
+              <span class='tooltip-id'>ID: ${e.itemId}</span>
+            </div> 
+                `
                     setTimeout(() => {
                         resolve(data);
                     }, 5000);
