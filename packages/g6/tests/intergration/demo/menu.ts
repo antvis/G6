@@ -61,7 +61,7 @@ export default () => {
                 return new Promise((resolve => {
                     const data = `
           <ul class='g6-contextmenu-ul'>
-            <li class='g6-contextmenu-li'>异步菜单项1</li>
+            <li class='g6-contextmenu-li'>${e.itemId}</li>
             <li class='g6-contextmenu-li'>异步菜单项2</li>
           </ul>
         `

@@ -180,10 +180,13 @@ export default class Menu extends Base {
             } else {
                 menuDom.innerHTML = this.options.loadingContent.outerHTML;
             }
-            //TODO: debounce
             if (e.itemId != this.currentTarget || !this.asyncMenu) {
-                this.asyncMenu = await this.options.getContent(e)
                 this.currentTarget = e.itemId;
+                this.asyncMenu = await this.options.getContent(e)
+            }
+            if (e.itemId != this.currentTarget) {
+                //The menu is not displayed, if `itemId` is unmatched.
+                return;
             }
             if (isString(this.asyncMenu)) {
                 menuDom.innerHTML = this.asyncMenu;
