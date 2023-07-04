@@ -18,6 +18,7 @@ import bugReproduce from './demo/bugReproduce';
 import rect from './demo/rect';
 import visual from './visual/visual';
 import quadratic from './demo/quadratic';
+import menu from './demo/menu'
 import line_edge from './item/edge/line-edge';
 import cubic_edge from './item/edge/cubic-edge';
 import cubic_horizon_edge from './item/edge/cubic-horizon-edge';
@@ -45,6 +46,7 @@ export {
   rect,
   visual,
   quadratic,
+  menu,
   line_edge,
   cubic_edge,
   cubic_horizon_edge,
