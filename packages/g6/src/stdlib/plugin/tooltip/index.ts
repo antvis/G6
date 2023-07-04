@@ -1,8 +1,8 @@
 // TODO: update type define.
-// @ts-nocheck
 import { isString, isArray } from '@antv/util';
 import { createDom, modifyCSS } from '@antv/dom-util';
 import insertCss from 'insert-css';
+import { AABB } from '@antv/g';
 import { IGraph } from '../../../types';
 import { Plugin as Base, IPluginBaseConfig } from '../../../types/plugin';
 import { IG6GraphEvent } from '../../../types/event';
@@ -67,7 +67,7 @@ interface TooltipConfig extends IPluginBaseConfig {
 export default class Tooltip extends Base {
     private tooltip;
     private container;
-    private currentTarget: number | null
+    private currentTarget;
     private asyncTooltip;
     private currentAsyncTarget;
     private hidenTimer; //delay hiding tooltip
@@ -287,7 +287,7 @@ export default class Tooltip extends Base {
             e.itemType === 'node' &&
             fixToNode
         ) {
-            const itemBBox = graph.getRenderBBox(e.itemId);
+            const itemBBox = graph.getRenderBBox(e.itemId) as AABB;
             const itemWidth = itemBBox.max[0] - itemBBox.min[0];
             const itemHeight = itemBBox.max[1] - itemBBox.min[1];
             if (isString(fixToNode)) {
