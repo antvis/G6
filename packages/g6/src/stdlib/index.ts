@@ -18,6 +18,8 @@ import rectSelector from './selector/rect';
 import Minimap from './plugin/minimap';
 import Fisheye from './plugin/fisheye';
 import Legend from './plugin/legend';
+import Tooltip from './plugin/tooltip';
+import Menu from './plugin/menu';
 import ZoomCanvas from './behavior/zoom-canvas';
 import ZoomCanvas3D from './behavior/zoom-canvas-3d';
 import RotateCanvas3D from './behavior/rotate-canvas-3d';
@@ -60,6 +62,8 @@ const stdLib = {
     minimap: Minimap,
     fisheye: Fisheye,
     legend: Legend,
+    tooltip: Tooltip,
+    menu: Menu
   },
   nodes: {
     'circle-node': CircleNode,
