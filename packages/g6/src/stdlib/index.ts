@@ -18,7 +18,8 @@ import lassoSelector from './selector/lasso';
 import rectSelector from './selector/rect';
 import Minimap from './plugin/minimap';
 import Legend from './plugin/legend';
-import Menu from './plugin/menu'
+import Tooltip from './plugin/tooltip';
+import Menu from './plugin/menu';
 import ZoomCanvas from './behavior/zoom-canvas';
 import ZoomCanvas3D from './behavior/zoom-canvas-3d';
 import RotateCanvas3D from './behavior/rotate-canvas-3d';
@@ -60,6 +61,7 @@ const stdLib = {
   plugins: {
     minimap: Minimap,
     legend: Legend,
+    tooltip: Tooltip,
     menu: Menu
   },
   nodes: {
