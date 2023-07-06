@@ -3179,6 +3179,8 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
    * 销毁画布
    */
   public destroy() {
+    this.emit('beforedestroy');
+
     this.clear();
 
     // 清空栈数据
@@ -3194,6 +3196,8 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     this.destroyed = true;
     this.redoStack = null;
     this.undoStack = null;
+
+    this.emit('afterdestroy');
   }
 
   /**
