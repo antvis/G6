@@ -161,7 +161,9 @@ export type GraphTimingEvents =
   | 'stackchange'
   // NOTE: {before,after}paint are deprecated, we are leaving here for backward compatability for now: https://github.com/antvis/G6/pull/3566#discussion_r821249756
   | 'beforepaint'
-  | 'afterpaint';
+  | 'afterpaint'
+  | 'beforedestroy'
+  | 'afterdestroy';
 
 type MobileInteractionEvent =
   | 'tap'
