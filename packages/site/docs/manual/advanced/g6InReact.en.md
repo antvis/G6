@@ -5,9 +5,9 @@ order: 11
 
 ### Introduction
 
-G6 is a JavaScript library without any coupling to other framewroks. That means, G6 can be combined to any front-end framework, such as React, Vue, and Angular. In this document, we provide a demo about using G6 in React.
+G6 is a pure JavaScript library that seamlessly integrates with any framework, allowing it to be used in various frontend frameworks such as React, Vue, Angular, and more. We have provided a demonstration example of using G6 in React for reference.
 
-The main difference between using G6 in React and HTML is that you need to guarantee the DOM container of graph has been rendered and it is available before instantiating a Graph.
+We look forward to developers in the community providing examples of using G6 in Vue and Angular, which would be greatly appreciated as a valuable resource for other developers to learn and reference. Thank you very much!
 
 In this demo, we will implement a simple flow diagram as the figure below:
 
@@ -26,53 +26,59 @@ The demo includes these functions:
 
 In React, you can fetch the DOM element by `ReactDOM.findDOMNode(ref.current)`.
 
-```javascript
-import React, { useEffect, useState } from 'react';
-import ReactDOM from 'react-dom';
-import { data } from './data';
-import G6 from '@antv/g6';
+```tsx
+import React, { useEffect } from 'react';
+import { Graph } from '@antv/g6';
 
-export default function () {
-  const ref = React.useRef(null);
-  let graph = null;
+const data = {
+  nodes: [
+    { id: '1', label: 'Company1' },
+    { id: '2', label: 'Company2' },
+    // nodes data ...
+  ],
+  edges: [
+    {
+      source: '1',
+      target: '2',
+      data: { type: 'name1', amount: '100,000,000,00 Yuan', date: '2019-08-03' },
+    },
+    // edges data ...
+  ],
+};
+
+export default () => {
+  const containerRef = React.useRef<HTMLDivElement>(null);
+  const graphRef = React.useRef<Graph>();
 
   useEffect(() => {
-    if (!graph) {
-      graph = new G6.Graph({
-        container: ReactDOM.findDOMNode(ref.current),
-        width: 1200,
-        height: 800,
-        modes: {
-          default: ['drag-canvas'],
+    if (graphRef.current || !containerRef.current) return;
+
+    const graph = new Graph({
+      container: containerRef.current,
+      width: 1200,
+      height: 800,
+      modes: { default: ['drag-canvas'] },
+      layout: { type: 'dagre', direction: 'LR' },
+      defaultNode: {
+        type: 'node',
+        labelCfg: {
+          style: { fill: '#000000A6', fontSize: 10 },
         },
-        layout: {
-          type: 'dagre',
-          direction: 'LR',
-        },
-        defaultNode: {
-          type: 'node',
-          labelCfg: {
-            style: {
-              fill: '#000000A6',
-              fontSize: 10,
-            },
-          },
-          style: {
-            stroke: '#72CC4A',
-            width: 150,
-          },
-        },
-        defaultEdge: {
-          type: 'polyline',
-        },
-      });
-    }
+        style: { stroke: '#72CC4A', width: 150 },
+      },
+      defaultEdge: { type: 'polyline' },
+    });
+
+    // Binding data
     graph.data(data);
+    // Rendering
     graph.render();
+
+    graphRef.current = graph;
   }, []);
 
-  return <div ref={ref}></div>;
-}
+  return <div ref={containerRef}></div>;
+};
 ```
 
 ### Render the React Components
@@ -106,5 +112,3 @@ return <div ref={ref}>{showNodeTooltip && <NodeTooltips x={nodeTooltipX} y={node
 ```
 
 The complete code of this demo 「<a href='https://github.com/baizn/g6-in-react' target='_blank'>HERE</a>」.
-
-You are welcome to provide the usages of G6 in Vue and Angular. Thank you!
