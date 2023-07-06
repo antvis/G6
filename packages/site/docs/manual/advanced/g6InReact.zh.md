@@ -5,9 +5,9 @@ order: 11
 
 ### 概述
 
-G6 是一个纯 JS 库，不与任何框架耦合，也就是可以在任何前端框架中使用，如 React、Vue、Angular 等。由于我们内部绝大多数都是基于 React 技术栈的，所以我们也仅提供一个 G6 在 React 中使用的 Demo。
+G6 是一款纯 JavaScript 库，可与任何框架无缝结合，因此可以在各种前端框架（例如 React、Vue、Angular 等）中使用。我们提供了一个 G6 在 React 中使用的演示示例以供参考。
 
-在 React 中使用 G6，和在 HTML 中使用基本相同，唯一比较关键的区分就是在实例化 Graph 时，要**保证 DOM 容器渲染完成，并能获取到 DOM 元素**。
+我们期待社区中有开发者能够提供 G6 在 Vue 和 Angular 中使用的示例，供其他开发者学习和参考，非常感谢！
 
 在 Demo 中，我们以一个简单的流程图为例，实现如下的效果。
 
@@ -24,55 +24,60 @@ Demo 包括以下功能点：
 - 节点上面弹出右键菜单；
 - tooltip 及 ContextMenu 如何渲染自定义的 React 组件。
 
-在 React 中，通过  `ReactDOM.findDOMNode(ref.current)`获取到真实的 DOM 元素。
 
-```javascript
-import React, { useEffect, useState } from 'react';
-import ReactDOM from 'react-dom';
-import { data } from './data';
-import G6 from '@antv/g6';
+```tsx
+import React, { useEffect } from 'react';
+import { Graph } from '@antv/g6';
 
-export default function () {
-  const ref = React.useRef(null);
-  let graph = null;
+const data = {
+  nodes: [
+    { id: '1', label: '公司1' },
+    { id: '2', label: '公司2' },
+    // 节点数据 ...
+  ],
+  edges: [
+    {
+      source: '1',
+      target: '2',
+      data: { type: 'name1', amount: '100,000,000,00 元', date: '2019-08-03' },
+    },
+    // 边数据 ...
+  ],
+};
+
+export default () => {
+  const containerRef = React.useRef<HTMLDivElement>(null);
+  const graphRef = React.useRef<Graph>();
 
   useEffect(() => {
-    if (!graph) {
-      graph = new G6.Graph({
-        container: ReactDOM.findDOMNode(ref.current),
-        width: 1200,
-        height: 800,
-        modes: {
-          default: ['drag-canvas'],
+    if (graphRef.current || !containerRef.current) return;
+
+    const graph = new Graph({
+      container: containerRef.current,
+      width: 1200,
+      height: 800,
+      modes: { default: ['drag-canvas'] },
+      layout: { type: 'dagre', direction: 'LR' },
+      defaultNode: {
+        type: 'node',
+        labelCfg: {
+          style: { fill: '#000000A6', fontSize: 10 },
         },
-        layout: {
-          type: 'dagre',
-          direction: 'LR',
-        },
-        defaultNode: {
-          type: 'node',
-          labelCfg: {
-            style: {
-              fill: '#000000A6',
-              fontSize: 10,
-            },
-          },
-          style: {
-            stroke: '#72CC4A',
-            width: 150,
-          },
-        },
-        defaultEdge: {
-          type: 'polyline',
-        },
-      });
-    }
+        style: { stroke: '#72CC4A', width: 150 },
+      },
+      defaultEdge: { type: 'polyline' },
+    });
+
+    // 绑定数据
     graph.data(data);
+    // 渲染图
     graph.render();
+
+    graphRef.current = graph;
   }, []);
 
-  return <div ref={ref}></div>;
-}
+  return <div ref={containerRef}></div>;
+};
 ```
 
 ### G6 中渲染 React 组件
@@ -106,5 +111,3 @@ return <div ref={ref}>{showNodeTooltip && <NodeTooltips x={nodeTooltipX} y={node
 ```
 
 完整的 Demo 源码请戳 「<a href='https://github.com/baizn/g6-in-react' target='_blank'>这里</a>」。
-
-关于 G6 如何在 Vue 及 Angular 中使用，还望社区中有相关实践的同学能提供一些，供其他同学学习和参考，非常感谢！
