@@ -220,6 +220,10 @@ The callback paramters are different from custom events.
 
 No parameters.
 
+#### beforedestroy / afterdestroy
+
+No parameters.
+
 #### beforeadditem
 
 | Name  | Type   | Description                             |
