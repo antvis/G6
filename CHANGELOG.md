@@ -1,6 +1,6 @@
 # ChangeLog
 
-### 4.8.18
+### 4.8.19
 
 - fix: custom node with image shape, setting state makes the image lost, closes: #4707;
 - feat: timing event for graph destroy;
