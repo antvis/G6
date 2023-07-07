@@ -397,7 +397,7 @@ export default class ItemBase implements IItemBase {
     let currentShape: IShapeBase;
 
     if (name) {
-      currentShape = group['shapeMap'][name]; // group.find((element) => element.get('name') === name) as IShapeBase;
+      currentShape = group['shapeMap'][name] || group.find((element) => element.get('name') === name) as IShapeBase;
     } else {
       currentShape = this.getKeyShape();
     }
