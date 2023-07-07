@@ -752,6 +752,7 @@ export const cloneBesidesImg = (obj) => {
   const clonedObj = {};
   Object.keys(obj).forEach((key1) => {
     const obj2 = obj[key1];
+    if (key1 === 'img' && !isString(obj2)) return;
     if (isObject(obj2) && !isArray(obj2)) {
       const clonedObj2 = {};
       Object.keys(obj2).forEach((key2) => {
