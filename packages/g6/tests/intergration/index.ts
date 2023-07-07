@@ -24,6 +24,7 @@ import cubic_edge from './item/edge/cubic-edge';
 import cubic_horizon_edge from './item/edge/cubic-horizon-edge';
 import cubic_vertical_edge from './item/edge/cubic-vertical-edge';
 import tooltip from './demo/tooltip';
+import polyline from './demo/polyline';
 
 export {
   behaviors_activateRelations,
@@ -51,5 +52,6 @@ export {
   cubic_edge,
   cubic_horizon_edge,
   cubic_vertical_edge,
-  tooltip
+  tooltip,
+  polyline
 };

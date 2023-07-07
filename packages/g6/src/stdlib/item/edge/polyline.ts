@@ -1,3 +1,4 @@
+import { keys } from '@antv/util';
 import { Point } from '../../../types/common';
 import {
     EdgeDisplayModel,
@@ -84,7 +85,7 @@ export class Polyline extends BaseEdge {
             'keyShape',
             {
                 ...keyShapeStyle,
-                points: [[sourcePoint.x, sourcePoint.y], [400, 500], [targetPoint.x, targetPoint.y]],
+                points: [[sourcePoint.x, sourcePoint.y], ...keyShapeStyle.points, [targetPoint.x, targetPoint.y]],
             },
             shapeMap,
             model,
