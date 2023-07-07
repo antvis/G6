@@ -475,7 +475,7 @@ The align way of the text. Options: `'center'` / `'end'` / `'left'` / `'right'` 
 
 <description> _String_ **optional** </description>
 
-The base line of the text. Options: <br />`'top'` / `'middle'` / `'bottom'` / `'alphabetic'` / `'hanging'`. `'bottom'` by default.
+The base line of the text. Options: <br />`'top'` / `'middle'` / `'bottom'`. `'bottom'` by default.
 
 ### fontStyle
 

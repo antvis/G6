@@ -477,7 +477,7 @@ group.addShape('text', {
 
 <description> _String_ **optional** </description>
 
-设置在绘制文本时使用的当前文本基线。支持的属性:<br />`top` / `middle` / `bottom` / `alphabetic` / `hanging`。默认值为 `bottom`。
+设置在绘制文本时使用的当前文本基线。支持的属性:<br />`top` / `middle` / `bottom`。默认值为 `bottom`。
 
 ### fontStyle
 
