@@ -1,5 +1,6 @@
 import { clone } from '@antv/util';
 import { Circle, Canvas, Text } from '@antv/g';
+import { Point } from '../../../types/common';
 import { IGraph } from '../../../types';
 import { ShapeStyle } from '../../../types/item';
 import { IG6GraphEvent } from '../../../types/event';
@@ -30,6 +31,11 @@ const lensDelegateStyle = {
   fill: '#ccc',
 };
 export default class Fisheye extends Base {
+  private pointerDown: Point | undefined = undefined;
+  private cacheCenter: Point | undefined = undefined;
+  private dragPrePos: Point | undefined = undefined;
+  private dragging = false;
+
   constructor(options?: FisheyeConfig) {
     super(options);
   }
@@ -42,8 +48,8 @@ export default class Fisheye extends Base {
       showLabel: true,
       maxD: 5,
       minD: 0,
-      scaleRBy: 'unset',
-      scaleDBy: 'unset',
+      scaleRBy: 'drag',
+      scaleDBy: 'drag',
       showDPercent: true,
     };
   }
@@ -55,16 +61,23 @@ export default class Fisheye extends Base {
       case 'click':
         events = {
           click: this.magnify,
+          //   pointerdown: this.onPointerDown,
+          //   pointermove: this.onPointerMove,
+          //   pointerup: this.onPointerUp,
         };
         break;
       case 'drag':
         events = {
-          drag: this.createDelegate,
+          pointerdown: this.onPointerDown,
+          pointermove: this.onPointerMove,
+          pointerup: this.onPointerUp,
         };
         break;
       default:
         events = {
           pointermove: this.magnify,
+          pointerdown: this.onPointerDown,
+          pointerup: this.onPointerUp,
         };
         break;
     }
@@ -84,40 +97,66 @@ export default class Fisheye extends Base {
   }
 
   // Create the delegate when the trigger is drag
-  protected createDelegate(e: IG6GraphEvent) {
-    const self = this;
-    let lensDelegate = self.options.delegate;
+
+  // 判断是不是在圆内拖动
+  protected isInLensDelegate(lensDelegate, pointer): boolean {
+    const lensAttrs = {
+      cx: lensDelegate.attr('cx'),
+      cy: lensDelegate.attr('cy'),
+      r: lensDelegate.attr('r'),
+    };
+    const lensX = lensDelegate.attr('cx');
+    const lensY = lensDelegate.attr('cy');
+    const lensR = lensDelegate.attr('r');
+    if (
+      pointer.x >= lensX - lensR &&
+      pointer.x <= lensX + lensR &&
+      pointer.y >= lensY - lensR &&
+      pointer.y <= lensY + lensR
+    ) {
+      return true;
+    }
+    return false;
+  }
+
+  protected onPointerUp(e: IG6GraphEvent) {
+    this.pointerDown = undefined;
+    this.dragging = false;
+  }
+
+  protected onPointerMove(e: IG6GraphEvent) {
+    if (!this.dragging && this.pointerDown) {
+      this.dragging = true;
+    }
+    if (!this.pointerDown) return;
+    let lensDelegate = this.options.delegate;
+    this.moveDelegate(lensDelegate, e);
+  }
+
+  protected onPointerDown(e: IG6GraphEvent) {
+    let lensDelegate = this.options.delegate;
     if (!lensDelegate || lensDelegate.destroyed) {
-      self.magnify(e);
-      lensDelegate = self.options.delegate;
+      this.cacheCenter = { x: e.canvas.x, y: e.canvas.y };
+      this.magnify(e);
+    } else {
+      this.cacheCenter = {
+        x: lensDelegate.attr('cx'),
+        y: lensDelegate.attr('cy'),
+      };
+    }
+    this.pointerDown = { x: e.canvas.x, y: e.canvas.y };
+    this.dragging = false;
+    this.dragPrePos = { x: e.canvas.x, y: e.canvas.y };
+  }
 
-      // drag to move the lens
-      lensDelegate.on('dragstart', (evt) => {
-        self.options.delegateCenterDiff = {
-          x: lensDelegate.attr('x') - evt.x,
-          y: lensDelegate.attr('y') - evt.y,
-        };
-      });
-      lensDelegate.on('drag', (evt) => {
-        self.magnify(evt);
-      });
-
-      // 绑定调整范围（r）和缩放系数(d)的监听
-      // 由于 drag 用于改变 lens 位置, 因此在此模式下, drag 不能用于调整 r 和 d
-
-      // scaling d
-      if (this.options.scaleDBy === 'wheel') {
-        lensDelegate.on('mousewheel', (evt) => {
-          this.scaleDByWheel(evt);
-        });
-      }
-
-      // scaling r
-      if (this.options.scaleRBy === 'wheel') {
-        lensDelegate.on('mousewheel', (evt) => {
-          self.scaleRByWheel(evt);
-        });
-      }
+  protected moveDelegate(lensDelegate, e) {
+    const self = this;
+    if (self.isInLensDelegate(lensDelegate, { x: e.canvas.x, y: e.canvas.y })) {
+      self.options.delegateCenterDiff = {
+        x: e.canvas.x - self.pointerDown.x,
+        y: e.canvas.y - self.pointerDown.y,
+      };
+      self.magnify(e, this.cacheCenter);
     }
   }
 
@@ -169,11 +208,10 @@ export default class Fisheye extends Base {
   protected scaleRByDrag(e: IG6GraphEvent) {
     const self = this;
     if (!e) return;
-    const dragPrePos = self.options.dragPrePos;
+    const dragPrePos = self.dragPrePos;
     const graph: IGraph = self.graph;
     let ratio;
-    const mousePos = graph.getPointByClient(e.clientX, e.clientY);
-    if (e.x - dragPrePos.x < 0) {
+    if (e.canvas.x - dragPrePos.x < 0) {
       ratio = 1 - DELTA;
     } else {
       ratio = 1 / (1 - DELTA);
@@ -183,8 +221,8 @@ export default class Fisheye extends Base {
     let r = self.options.r;
     const graphCanvasEl = graph.canvas.context.config.canvas;
     const [
-      graphWidth = graphCanvasEl?.scrollWidth || 500,
-      graphHeight = graphCanvasEl?.scrollHeight || 500,
+      graphWidth = graphCanvasEl?.width || 500,
+      graphHeight = graphCanvasEl?.height || 500,
     ] = graph.getSize();
     if (
       (r > (maxR || graphHeight) && ratio > 1) ||
@@ -197,8 +235,9 @@ export default class Fisheye extends Base {
     self.options.r2 = r * r;
     const d = self.options.d;
     self.options.molecularParam = (d + 1) * r;
-    self.magnify(e, mousePos);
-    self.options.dragPrePos = { x: e.x, y: e.y };
+    // self.magnify(e, mousePos);
+    self.magnify(e);
+    self.dragPrePos = { x: e.canvas.x, y: e.canvas.y };
   }
 
   /**
@@ -241,8 +280,8 @@ export default class Fisheye extends Base {
    */
   protected scaleDByDrag(e: IG6GraphEvent) {
     const self = this;
-    const dragPrePos = self.options.dragPrePos;
-    const delta = e.x - dragPrePos.x > 0 ? 0.1 : -0.1;
+    const dragPrePos = self.dragPrePos;
+    const delta = e.canvas.x - dragPrePos.x > 0 ? 0.1 : -0.1;
     const d = self.options.d;
     const newD = d + delta;
     const maxD = self.options.maxD;
@@ -253,7 +292,7 @@ export default class Fisheye extends Base {
       self.options.molecularParam = (newD + 1) * r;
       self.magnify(e);
     }
-    self.options.dragPrePos = { x: e.x, y: e.y };
+    self.dragPrePos = { x: e.canvas.x, y: e.canvas.y };
   }
 
   /**
@@ -278,17 +317,17 @@ export default class Fisheye extends Base {
       ? { x: mousePos.x, y: mousePos.y }
       : { x: e.client.x, y: e.client.y };
     if (
-      self.options.dragging &&
+      self.dragging &&
       (self.options.trigger === 'mousemove' || self.options.trigger === 'click')
     ) {
-      mCenter = self.options.cacheCenter;
+      mCenter = self.cacheCenter;
     }
     const delegateCenterDiff = self.options.delegateCenterDiff;
     if (delegateCenterDiff) {
       mCenter.x += delegateCenterDiff.x;
       mCenter.y += delegateCenterDiff.y;
     }
-    self.updateDelegate(mCenter, r);
+    self.updateDelegate(mCenter, r, e);
     for (let i = 0; i < nodeLength; i++) {
       const model = nodes[i];
       const { x, y } = model.data;
@@ -325,20 +364,20 @@ export default class Fisheye extends Base {
             cachedOriginPositions[model.id].texts.push(cachedTransientText);
           } else {
             const text = graph.drawTransient('text', transientTextID, {
-                style: {
-                  text: node.label,
-                  x: magnifiedNode.data.x,
-                  y: magnifiedNode.data.y,
-                  textAlign:'center',
-                  textBaseline:'middle',
-                  fill: '#000',
-                  lineWidth: 1,
-                  fontSize: 12,
-                  isBillboard: true,
-                  lod: -1,
-                },
-              });
-            magnifiedNode.labelShape = text
+              style: {
+                text: node.label,
+                x: magnifiedNode.data.x,
+                y: magnifiedNode.data.y,
+                textAlign: 'center',
+                textBaseline: 'middle',
+                fill: '#000',
+                lineWidth: 1,
+                fontSize: 12,
+                isBillboard: true,
+                lod: -1,
+              },
+            });
+            magnifiedNode.labelShape = text;
             cachedTransientTexts[transientTextID] = text;
             cachedOriginPositions[model.id].texts.push(text);
           }
@@ -432,7 +471,7 @@ export default class Fisheye extends Base {
    * @param {Point} mCenter the center of the shape
    * @param {number} r the radius of the shape
    */
-  private updateDelegate(mCenter, r) {
+  private updateDelegate(mCenter, r, e) {
     const self = this;
     const graph = self.graph;
     let lensDelegate = self.options.delegate;
@@ -450,56 +489,37 @@ export default class Fisheye extends Base {
           ...attrs,
         },
       });
-
-      if (this.options.trigger !== 'drag') {
-        // 调整范围 r 的监听
-        if (this.options.scaleRBy === 'wheel') {
-          // 使用滚轮调整 r
-          lensDelegate.on('mousewheel', (evt) => {
-            self.scaleRByWheel(evt);
-          });
-        } else if (this.options.scaleRBy === 'drag') {
-          // 使用拖拽调整 r
-          lensDelegate.on('dragstart', (e) => {
-            self.options.dragging = true;
-            self.options.cacheCenter = { x: e.x, y: e.y };
-            self.options.dragPrePos = { x: e.x, y: e.y };
-          });
-          lensDelegate.on('drag', (evt) => {
-            self.scaleRByDrag(evt);
-          });
-          lensDelegate.on('dragend', (e) => {
-            self.options.dragging = false;
-          });
-        }
-
-        // 调整缩放系数 d 的监听
-        if (this.options.scaleDBy === 'wheel') {
-          // 使用滚轮调整 d
-          lensDelegate.on('mousewheel', (evt) => {
-            this.scaleDByWheel(evt);
-          });
-        } else if (this.options.scaleDBy === 'drag') {
-          // 使用拖拽调整 d
-          lensDelegate.on('dragstart', (evt) => {
-            self.options.dragging = true;
-            self.options.cacheCenter = { x: evt.x, y: evt.y };
-            self.options.dragPrePos = { x: evt.x, y: evt.y };
-          });
-          lensDelegate.on('drag', (evt) => {
-            this.scaleDByDrag(evt);
-          });
-          lensDelegate.on('dragend', (evt) => {
-            self.options.dragging = false;
-          });
-        }
-      }
     } else {
       lensDelegate.attr({
         cx: mCenter.x,
         cy: mCenter.y,
         r: r / 1.5,
       });
+    }
+    if (this.options.trigger !== 'drag') {
+      // 调整范围 r 的监听
+      if (this.options.scaleRBy === 'wheel') {
+        // 使用滚轮调整 r
+        lensDelegate.on('mousewheel', (evt) => {
+          self.scaleRByWheel(evt);
+        });
+      } else if (this.options.scaleRBy === 'drag') {
+        // 使用拖拽调整 r
+        if (!this.pointerDown) return;
+        this.scaleRByDrag(e);
+      }
+
+      // 调整缩放系数 d 的监听
+      if (this.options.scaleDBy === 'wheel') {
+        // 使用滚轮调整 d
+        lensDelegate.on('mousewheel', (evt) => {
+          this.scaleDByWheel(evt);
+        });
+      } else if (this.options.scaleDBy === 'drag') {
+        // 使用拖拽调整 d
+        if (!this.pointerDown) return;
+        this.scaleDByDrag(e);
+      }
     }
 
     // 绘制缩放系数百分比文本
