@@ -1,5 +1,5 @@
-import { clone } from '@antv/util';
-import { Circle, Canvas, Text } from '@antv/g';
+import { clone, throttle } from '@antv/util';
+import { Text } from '@antv/g';
 import { Point } from '../../../types/common';
 import { IGraph } from '../../../types';
 import { ShapeStyle } from '../../../types/item';
@@ -20,6 +20,7 @@ interface FisheyeConfig extends IPluginBaseConfig {
   minR?: number;
   maxD?: number;
   minD?: number;
+  throttle?: number;
   showDPercent?: boolean;
 }
 
@@ -48,6 +49,7 @@ export default class Fisheye extends Base {
       showLabel: true,
       maxD: 5,
       minD: 0,
+      throttle: 16,
       scaleRBy: 'drag',
       scaleDBy: 'drag',
       showDPercent: true,
@@ -56,28 +58,30 @@ export default class Fisheye extends Base {
 
   // class-methods-use-this
   public getEvents() {
-    let events;
+    let events = {
+      pointerdown: this.onPointerDown,
+      pointerup: this.onPointerUp,
+      wheel: this.onWheel,
+    } as {
+      [key: string]: any;
+    };
     switch ((this as any).options.trigger) {
       case 'click':
         events = {
+          ...events,
           click: this.magnify,
-          //   pointerdown: this.onPointerDown,
-          //   pointermove: this.onPointerMove,
-          //   pointerup: this.onPointerUp,
         };
         break;
       case 'drag':
         events = {
-          pointerdown: this.onPointerDown,
+          ...events,
           pointermove: this.onPointerMove,
-          pointerup: this.onPointerUp,
         };
         break;
       default:
         events = {
+          ...events,
           pointermove: this.magnify,
-          pointerdown: this.onPointerDown,
-          pointerup: this.onPointerUp,
         };
         break;
     }
@@ -121,6 +125,8 @@ export default class Fisheye extends Base {
 
   protected onPointerUp(e: IG6GraphEvent) {
     this.pointerDown = undefined;
+    // this.dragPrePos = undefined;
+    this.cacheCenter = undefined;
     this.dragging = false;
   }
 
@@ -160,6 +166,21 @@ export default class Fisheye extends Base {
     }
   }
 
+  protected onWheel(e: IG6GraphEvent) {
+    let lensDelegate = this.options.delegate;
+    if (!lensDelegate || lensDelegate.destroyed) return;
+    if (this.options.scaleDBy !== 'wheel' && this.options.scaleRBy !== 'wheel')
+      return;
+    if (this.isInLensDelegate(lensDelegate, { x: e.canvas.x, y: e.canvas.y })) {
+      if (this.options.scaleRBy === 'wheel') {
+        this.scaleRByWheel(e);
+      }
+      if (this.options.scaleDBy === 'wheel') {
+        this.scaleDByWheel(e);
+      }
+    }
+  }
+
   /**
    * Scale the range by wheel
    * @param e mouse wheel event
@@ -186,9 +207,11 @@ export default class Fisheye extends Base {
     const maxR = self.options.maxR;
     const minR = self.options.minR;
     let r = self.options.r;
+    // graph.canvas.context.config.canvas
+    const graphHeight = graph.canvas.context.config.canvas.height;
     if (
-      (r > (maxR || graph.get('height')) && ratio > 1) ||
-      (r < (minR || graph.get('height') * 0.05) && ratio < 1)
+      (r > (maxR || graphHeight) && ratio > 1) ||
+      (r < (minR || graphHeight * 0.05) && ratio < 1)
     ) {
       ratio = 1;
     }
@@ -205,7 +228,12 @@ export default class Fisheye extends Base {
    * Scale the range by dragging
    * @param e mouse event
    */
-  protected scaleRByDrag(e: IG6GraphEvent) {
+  protected scaleRByDrag = throttle(
+    this.scaleRByDragMethod,
+    this.options.throttle,
+    { leading: true, trailing: true },
+  );
+  protected scaleRByDragMethod(e: IG6GraphEvent) {
     const self = this;
     if (!e) return;
     const dragPrePos = self.dragPrePos;
@@ -278,7 +306,12 @@ export default class Fisheye extends Base {
    * Scale the magnifying factor by dragging
    * @param e mouse event
    */
-  protected scaleDByDrag(e: IG6GraphEvent) {
+  protected scaleDByDrag = throttle(
+    this.scaleDByDragMethod,
+    this.options.throttle,
+    { leading: true, trailing: true },
+  );
+  protected scaleDByDragMethod(e: IG6GraphEvent) {
     const self = this;
     const dragPrePos = self.dragPrePos;
     const delta = e.canvas.x - dragPrePos.x > 0 ? 0.1 : -0.1;
@@ -496,31 +529,6 @@ export default class Fisheye extends Base {
         r: r / 1.5,
       });
     }
-    if (this.options.trigger !== 'drag') {
-      // 调整范围 r 的监听
-      if (this.options.scaleRBy === 'wheel') {
-        // 使用滚轮调整 r
-        lensDelegate.on('mousewheel', (evt) => {
-          self.scaleRByWheel(evt);
-        });
-      } else if (this.options.scaleRBy === 'drag') {
-        // 使用拖拽调整 r
-        if (!this.pointerDown) return;
-        this.scaleRByDrag(e);
-      }
-
-      // 调整缩放系数 d 的监听
-      if (this.options.scaleDBy === 'wheel') {
-        // 使用滚轮调整 d
-        lensDelegate.on('mousewheel', (evt) => {
-          this.scaleDByWheel(evt);
-        });
-      } else if (this.options.scaleDBy === 'drag') {
-        // 使用拖拽调整 d
-        if (!this.pointerDown) return;
-        this.scaleDByDrag(e);
-      }
-    }
 
     // 绘制缩放系数百分比文本
     if (self.options.showDPercent) {
@@ -555,6 +563,35 @@ export default class Fisheye extends Base {
       }
     }
     self.options.delegate = lensDelegate;
+
+    // 调整 r 和 d 范围
+    if (this.options.trigger !== 'drag') {
+      // 调整范围 r 的监听
+      if (this.options.scaleRBy === 'wheel') {
+        // 使用滚轮调整 r
+        //   lensDelegate.on('mousewheel', (evt) => {
+        //     self.scaleRByWheel(evt);
+        //   });
+        // this.scaleRByWheel(e);
+      } else if (this.options.scaleRBy === 'drag') {
+        // 使用拖拽调整 r
+        if (!this.pointerDown) return;
+        this.scaleRByDrag(e);
+      }
+
+      // 调整缩放系数 d 的监听
+      if (this.options.scaleDBy === 'wheel') {
+        // 使用滚轮调整 d
+        // lensDelegate.on('mousewheel', (evt) => {
+        //   this.scaleDByWheel(evt);
+        // });
+        // this.scaleDByWheel(e);
+      } else if (this.options.scaleDBy === 'drag') {
+        // 使用拖拽调整 d
+        if (!this.pointerDown) return;
+        this.scaleDByDrag(e);
+      }
+    }
   }
 
   /**
