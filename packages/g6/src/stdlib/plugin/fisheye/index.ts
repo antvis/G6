@@ -100,9 +100,7 @@ export default class Fisheye extends Base {
     self.options.molecularParam = (d + 1) * r;
   }
 
-  // Create the delegate when the trigger is drag
-
-  // 判断是不是在圆内拖动
+  // Determine whether it is dragged in the delegate
   protected isInLensDelegate(lensDelegate, pointer): boolean {
     const lensAttrs = {
       cx: lensDelegate.attr('cx'),
@@ -125,7 +123,6 @@ export default class Fisheye extends Base {
 
   protected onPointerUp(e: IG6GraphEvent) {
     this.pointerDown = undefined;
-    // this.dragPrePos = undefined;
     this.cacheCenter = undefined;
     this.dragging = false;
   }
@@ -207,7 +204,6 @@ export default class Fisheye extends Base {
     const maxR = self.options.maxR;
     const minR = self.options.minR;
     let r = self.options.r;
-    // graph.canvas.context.config.canvas
     const graphHeight = graph.canvas.context.config.canvas.height;
     if (
       (r > (maxR || graphHeight) && ratio > 1) ||
