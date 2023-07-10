@@ -263,7 +263,6 @@ export default class Fisheye extends Base {
     self.options.r2 = r * r;
     const d = self.options.d;
     self.options.molecularParam = (d + 1) * r;
-    // self.magnify(e, mousePos);
     self.magnify(e);
     self.dragPrePos = { x: e.canvas.x, y: e.canvas.y };
   }
@@ -567,26 +566,14 @@ export default class Fisheye extends Base {
     // 调整 r 和 d 范围
     if (this.options.trigger !== 'drag') {
       // 调整范围 r 的监听
-      if (this.options.scaleRBy === 'wheel') {
-        // 使用滚轮调整 r
-        //   lensDelegate.on('mousewheel', (evt) => {
-        //     self.scaleRByWheel(evt);
-        //   });
-        // this.scaleRByWheel(e);
-      } else if (this.options.scaleRBy === 'drag') {
+      if (this.options.scaleRBy === 'drag') {
         // 使用拖拽调整 r
         if (!this.pointerDown) return;
         this.scaleRByDrag(e);
       }
 
       // 调整缩放系数 d 的监听
-      if (this.options.scaleDBy === 'wheel') {
-        // 使用滚轮调整 d
-        // lensDelegate.on('mousewheel', (evt) => {
-        //   this.scaleDByWheel(evt);
-        // });
-        // this.scaleDByWheel(e);
-      } else if (this.options.scaleDBy === 'drag') {
+      if (this.options.scaleDBy === 'drag') {
         // 使用拖拽调整 d
         if (!this.pointerDown) return;
         this.scaleDByDrag(e);
@@ -600,8 +587,8 @@ export default class Fisheye extends Base {
   public clear() {
     const graph = this.graph;
     this.restoreCache();
-    // graph.refreshPositions();
-    // graph.updateData();
+    let nodes = graph.getAllNodesData();
+    graph.updateData('node',nodes);
     const lensDelegate = this.options.delegate;
     if (lensDelegate && !lensDelegate.destroyed) {
       lensDelegate.remove();
