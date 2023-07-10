@@ -13,6 +13,7 @@ import DarkTheme from './theme/dark';
 import LightTheme from './theme/light';
 import SpecThemeSolver from './themeSolver/spec';
 import SubjectThemeSolver from './themeSolver/subject';
+
 import lassoSelector from './selector/lasso';
 import rectSelector from './selector/rect';
 import Minimap from './plugin/minimap';

@@ -11,7 +11,6 @@ export default async () => {
     showLabel: true,
     trigger: 'mousemove',
   };
-  console.log('组装后的fisheye----', fisheye);
   const colors = [
     '#8FE9FF',
     '#87EAEF',
