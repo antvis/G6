@@ -194,12 +194,12 @@ export default class Fisheye extends Base {
     const lensDelegate = self.options.delegate;
     const lensCenter = lensDelegate
       ? {
-          x: lensDelegate.attr('x'),
-          y: lensDelegate.attr('y'),
+          x: lensDelegate.attr('cx'),
+          y: lensDelegate.attr('cy'),
         }
       : undefined;
-    const mousePos = lensCenter || graph.getPointByClient(e.clientX, e.clientY);
-    if ((e.originalEvent as any).wheelDelta < 0) {
+    const mousePos = lensCenter || { x: e.canvas.x, y: e.canvas.y };
+    if ((e.originalEvent as any).deltaY < 0) {
       ratio = 1 - DELTA;
     } else {
       ratio = 1 / (1 - DELTA);
@@ -277,7 +277,7 @@ export default class Fisheye extends Base {
     if (!evt && !evt.originalEvent) return;
     if (evt.preventDefault) evt.preventDefault();
     let delta = 0;
-    if ((evt.originalEvent as any).wheelDelta < 0) {
+    if ((evt.originalEvent as any).deltaY < 0)  {
       delta = -0.1;
     } else {
       delta = 0.1;
@@ -293,8 +293,8 @@ export default class Fisheye extends Base {
       const lensDelegate = self.options.delegate;
       const lensCenter = lensDelegate
         ? {
-            x: lensDelegate.attr('x'),
-            y: lensDelegate.attr('y'),
+            x: lensDelegate.attr('cx'),
+            y: lensDelegate.attr('cy'),
           }
         : undefined;
       self.options.delegateCenterDiff = undefined;
