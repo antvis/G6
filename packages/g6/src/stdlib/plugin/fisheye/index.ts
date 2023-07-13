@@ -468,28 +468,25 @@ export default class Fisheye extends Base {
     }
     const nd = self.options.d;
     const nr = self.options.r;
+    const graph = this.graph;
     self.options.molecularParam = (nd + 1) * nr;
     if (trigger === 'mousemove' || trigger === 'click' || trigger === 'drag') {
       self.options.trigger = trigger;
     }
     if (scaleDBy === 'drag' || scaleDBy === 'wheel' || scaleDBy === 'unset') {
       self.options.scaleDBy = scaleDBy;
-      self.options.delegate.remove();
-      self.options.delegate.destroy();
+      graph.drawTransient('circle', 'lens-shape', { action: 'remove' });
       const dPercentText = self.options.dPercentText;
       if (dPercentText) {
-        dPercentText.remove();
-        dPercentText.destroy();
+        graph.drawTransient('text', 'lens-text-shape', { action: 'remove' });
       }
     }
     if (scaleRBy === 'drag' || scaleRBy === 'wheel' || scaleRBy === 'unset') {
       self.options.scaleRBy = scaleRBy;
-      self.options.delegate.remove();
-      self.options.delegate.destroy();
+      graph.drawTransient('circle', 'lens-shape', { action: 'remove' });
       const dPercentText = self.options.dPercentText;
       if (dPercentText) {
-        dPercentText.remove();
-        dPercentText.destroy();
+        graph.drawTransient('text', 'lens-text-shape', { action: 'remove' });
       }
     }
   }
@@ -504,11 +501,7 @@ export default class Fisheye extends Base {
     const graph = self.graph;
     let lensDelegate = self.options.delegate;
     if (!lensDelegate || lensDelegate.destroyed) {
-      // 拖动多个
-      const parent = graph.canvas.getRoot();
       const attrs = self.options.delegateStyle || lensDelegateStyle;
-
-      // model上的x, y是相对于图形中心的, delegateShape是g实例, x,y是绝对坐标
       lensDelegate = graph.drawTransient('circle', 'lens-shape', {
         style: {
           r: r / 1.5,
@@ -525,7 +518,7 @@ export default class Fisheye extends Base {
       });
     }
 
-    // 绘制缩放系数百分比文本
+    // draw the zoom factor percentage text
     if (self.options.showDPercent) {
       const percent = Math.round(
         ((self.options.d - self.options.minD) /
@@ -535,20 +528,18 @@ export default class Fisheye extends Base {
       let dPercentText = self.options.dPercentText;
       const textY = mCenter.y + r / 1.5 + 16;
       if (!dPercentText || dPercentText.destroyed) {
-        const parent = graph.canvas.getRoot();
-        const text = new Text({
-          style: {
-            text: `${percent}%`,
-            x: mCenter.x,
-            y: textY,
-            fill: '#aaa',
-            stroke: '#fff',
-            lineWidth: 1,
-            fontSize: 12,
-          },
-        });
-        dPercentText = parent.appendChild(text);
-        self.options.dPercentText = dPercentText;
+        const text = graph.drawTransient('text', 'lens-text-shape', {
+            style: {
+                text: `${percent}%`,
+                x: mCenter.x,
+                y: textY,
+                fill: '#aaa',
+                stroke: '#fff',
+                lineWidth: 1,
+                fontSize: 12,
+            },
+          });
+          self.options.dPercentText = text;
       } else {
         dPercentText.attr({
           text: `${percent}%`,
@@ -559,18 +550,14 @@ export default class Fisheye extends Base {
     }
     self.options.delegate = lensDelegate;
 
-    // 调整 r 和 d 范围
+    // Adjust the range of r and d
     if (this.options.trigger !== 'drag') {
-      // 调整范围 r 的监听
       if (this.options.scaleRBy === 'drag') {
-        // 使用拖拽调整 r
         if (!this.pointerDown) return;
         this.scaleRByDrag(e);
       }
 
-      // 调整缩放系数 d 的监听
       if (this.options.scaleDBy === 'drag') {
-        // 使用拖拽调整 d
         if (!this.pointerDown) return;
         this.scaleDByDrag(e);
       }
@@ -584,16 +571,14 @@ export default class Fisheye extends Base {
     const graph = this.graph;
     this.restoreCache();
     let nodes = graph.getAllNodesData();
-    graph.updateData('node',nodes);
+    graph.updateData('node', nodes);
     const lensDelegate = this.options.delegate;
     if (lensDelegate && !lensDelegate.destroyed) {
-      lensDelegate.remove();
-      lensDelegate.destroy();
+      graph.drawTransient('circle', 'lens-shape', { action: 'remove' });
     }
     const dPercentText = this.options.dPercentText;
     if (dPercentText && !dPercentText.destroyed) {
-      dPercentText.remove();
-      dPercentText.destroy();
+      graph.drawTransient('text', 'lens-text-shape', { action: 'remove' });
     }
   }
 
