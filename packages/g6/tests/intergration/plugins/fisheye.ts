@@ -1,7 +1,6 @@
 import G6 from '../../../src/index';
 
 export default async () => {
-
   let fisheye = {
     type: 'fisheye',
     key: 'fisheye1',
@@ -157,9 +156,7 @@ export default async () => {
       },
     });
 
-    clearButton.addEventListener('click', (e) => {
-      
-    });
+    clearButton.addEventListener('click', (e) => {});
     swithButton.addEventListener('click', (e) => {
       if (swithButton.value === 'Disable') {
         swithButton.value = 'Enable';
@@ -187,7 +184,7 @@ export default async () => {
     configTrigger.addEventListener('change', (e) => {
       fisheye = {
         ...fisheye,
-          trigger: e.target.value,
+        trigger: e.target.value,
       };
       graph.updatePlugin(fisheye);
     });
