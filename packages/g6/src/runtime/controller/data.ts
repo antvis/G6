@@ -673,6 +673,7 @@ export class DataController {
         });
         // update parents after adding all items
         Object.keys(parentMap).forEach((id) => {
+          if (parentMap[id].new === parentMap[id].old) return;
           if (!validateComboStrucutre(this.graph, id, parentMap[id].new)) {
             graphCore.mergeNodeData(id, { parentId: parentMap[id].old });
             return;
@@ -680,7 +681,6 @@ export class DataController {
           graphCore.setParent(id, parentMap[id].new, 'combo');
         });
       } else {
-        // TODO: combo
         // situation 2: idMaps is complete
         // calculate the final idMap which maps the ids from final transformed data to their comes from ids in userData
         const finalIdMap = {};

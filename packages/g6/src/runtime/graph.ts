@@ -89,7 +89,6 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
 
   constructor(spec: Specification<B, T>) {
     super();
-    // TODO: analyse cfg
 
     this.specification = Object.assign({}, this.defaultSpecification, spec);
     this.initHooks();
@@ -367,7 +366,18 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * @returns
    */
   public clear() {
-    // TODO
+    this.removeData(
+      'edge',
+      this.getAllEdgesData().map((edge) => edge.id),
+    );
+    this.removeData(
+      'node',
+      this.getAllNodesData().map((node) => node.id),
+    );
+    this.removeData(
+      'combo',
+      this.getAllCombosData().map((combo) => combo.id),
+    );
   }
 
   public getViewportCenter(): PointLike {
@@ -808,8 +818,9 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
   ): ID[] {
     let ids = this.itemController.findIdByState(itemType, state, value);
     if (additionalFilter) {
-      const getDataFunc =
-        itemType === 'node' ? this.getNodeData : this.getEdgeData; // TODO: combo
+      let getDataFunc: any = this.getEdgeData;
+      if (itemType === 'node') getDataFunc = this.getNodeData;
+      else if (itemType === 'combo') getDataFunc = this.getComboData;
       ids = ids.filter((id) => additionalFilter(getDataFunc(id)));
     }
     return ids;
@@ -880,7 +891,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     const { userGraphCore, graphCore } = this.dataController;
     const { specification } = this.themeController;
     const getItem =
-      itemType === 'edge' ? userGraphCore.getEdge : userGraphCore.getNode; // TODO: combo
+      itemType === 'edge' ? userGraphCore.getEdge : userGraphCore.getNode;
     data[`${itemType}s`] = idArr.map((id) => getItem.bind(userGraphCore)(id));
     graphCore.once('changed', (event) => {
       if (!event.changes.length) return;

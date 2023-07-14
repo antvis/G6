@@ -8,11 +8,6 @@ import { graphComboTreeDfs } from '../../util/data';
 
 const DELEGATE_SHAPE_ID = 'g6-drag-combo-delegate-shape';
 
-// TODO: Combo related features:
-// onlyChangeComboSize
-// comboActiveState
-// comboStateStyles
-
 export interface DragComboOptions {
   /**
    * Whether to draw dragging nodes in transient layer.
@@ -59,7 +54,7 @@ export interface DragComboOptions {
    */
   eventName?: string;
   /**
-   * Whether change the combo hierarchy structure or only change size. TODO
+   * Whether change the combo hierarchy structure or only change size.
    */
   updateComboStructure?: boolean;
   /**

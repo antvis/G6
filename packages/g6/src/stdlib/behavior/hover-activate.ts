@@ -3,9 +3,6 @@ import { ITEM_TYPE } from 'types/item';
 import { Behavior } from '../../types/behavior';
 import { IG6GraphEvent } from '../../types/event';
 
-// TODO: Combo related features:
-// hover combo
-
 export interface HoverActivateOptions {
   /**
    * The time in milliseconds to throttle moving. Useful to avoid the frequent calculation.

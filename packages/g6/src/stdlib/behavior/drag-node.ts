@@ -59,7 +59,7 @@ export interface DragNodeOptions {
    */
   eventName?: string;
   /**
-   * Whether change the combo hierarchy structure or only change size. TODO
+   * Whether change the combo hierarchy structure or only change size.
    */
   updateComboStructure?: boolean;
   /**
