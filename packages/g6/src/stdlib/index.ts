@@ -17,6 +17,7 @@ import SubjectThemeSolver from './themeSolver/subject';
 import lassoSelector from './selector/lasso';
 import rectSelector from './selector/rect';
 import Minimap from './plugin/minimap';
+import Fisheye from './plugin/fisheye';
 import Legend from './plugin/legend';
 import Tooltip from './plugin/tooltip';
 import Menu from './plugin/menu';
@@ -60,6 +61,7 @@ const stdLib = {
   },
   plugins: {
     minimap: Minimap,
+    fisheye: Fisheye,
     legend: Legend,
     tooltip: Tooltip,
     menu: Menu
