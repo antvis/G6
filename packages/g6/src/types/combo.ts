@@ -12,9 +12,13 @@ import {
   ShapeStyle,
   LodStrategy,
 } from './item';
+import { NodeShapeMap, NodeUserModelData } from './node';
+import { DisplayObject } from '@antv/g';
+import { ImageStyleProps, TextStyleProps } from '@antv/gui/lib/shapes';
 
 export type ComboLabelPosition =
   | 'bottom'
+  | 'center'
   | 'top'
   | 'left'
   | 'left-top'
@@ -24,10 +28,44 @@ export type ComboLabelPosition =
   | 'outside-right'
   | 'outside-bottom';
 
-/** User input data. */
+/** User input data. Combo data has no position info, which is always depends on children's combined bounds. */
 export interface ComboUserModelData extends PlainObject {
-  id: string;
+  /**
+   * Combo type, e.g. 'circle-combo'.
+   */
+  type?: string;
+  /**
+   * Subject color for the keyShape and anchor points.
+   * More styles should be configured in node mapper.
+   */
+  color?: string;
+  /**
+   * The text to show on the combo.
+   * More styles should be configured in combo mapper.
+   */
+  label?: string;
+  /**
+   * Whether show the combo by default.
+   */
+  visible?: boolean;
+  /**
+   * Reserved for combo.
+   */
   parentId?: string;
+  /**
+   * The icon to show on the combo.
+   * More styles should be configured in combo mapper.
+   */
+  icon?: {
+    type: 'icon' | 'text';
+    text?: string;
+    img?: string;
+  };
+  /**
+   * The ratio position of the keyShape for related edges linking into.
+   * More styles should be configured in combo mapper.
+   */
+  anchorPoints?: number[][];
 }
 
 /** Inner combo data, clone and transform from user data. */
@@ -82,11 +120,26 @@ export interface ComboShapeStyles extends ItemShapeStyles {
       offsetZ?: number;
     };
   };
+  iconShape?: Partial<
+    TextStyleProps &
+      ImageStyleProps &
+      ShapeStyle & {
+        offsetX?: number;
+        offsetY?: number;
+        lod?: number;
+        contentType?: 'auto' | 'childCount';
+      }
+  >;
 }
 
 /** Displayed data, only for drawing and not received by users. */
 export type ComboDisplayModelData = ComboModelData &
-  ComboShapeStyles & { lodStrategy?: LodStrategy };
+  ComboShapeStyles & {
+    lodStrategy?: LodStrategy;
+    x?: number;
+    y?: number;
+    z?: number;
+  };
 
 /** User input model. */
 export type ComboUserModel = GNode<ComboUserModelData>;
@@ -115,6 +168,8 @@ export interface ComboEncode extends ComboShapesEncode {
   type?: string | Encode<string>;
   animates?: IAnimates;
 }
+
+export interface ComboShapeMap extends NodeShapeMap {}
 
 // TODO
 export type ICombo = IItem;

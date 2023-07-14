@@ -42,7 +42,8 @@ export interface Hooks {
     changes: GraphChange<NodeModelData, EdgeModelData>[];
     graphCore: GraphCore;
     theme: ThemeSpecification;
-    action?: 'updateNodePosition';
+    upsertAncestors?: boolean;
+    action?: 'updatePosition';
   }>;
   render: IHook<{
     graphCore: GraphCore;
@@ -64,6 +65,7 @@ export interface Hooks {
   }>;
   itemvisibilitychange: IHook<{
     ids: ID[];
+    graphCore?: GraphCore;
     value?: boolean;
     animate?: boolean;
   }>;
@@ -75,6 +77,7 @@ export interface Hooks {
       style: ShapeStyle;
       action: 'remove' | 'add' | 'update' | undefined;
     };
+    graphCore: GraphCore;
   }>;
   // TODO: define param template
   viewportchange: IHook<ViewportChangeHookParams>;

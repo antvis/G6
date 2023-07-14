@@ -151,7 +151,8 @@ export type ItemShapeStyles = {
   keyShape?: ShapeStyle;
   iconShape?: Partial<
     TextStyleProps &
-      ImageStyleProps & {
+      ImageStyleProps &
+      ShapeStyle & {
         offsetX?: number;
         offsetY?: number;
         lod?: number;
@@ -173,7 +174,7 @@ export interface LodStrategy {
   animateCfg: AnimateCfg;
 }
 
-export interface lodStrategyObj {
+export interface LodStrategyObj {
   levels: {
     [levelIdx: number]: [number, number];
   };
@@ -223,7 +224,7 @@ export interface IItem {
     [stateName: string]: ItemShapeStyles;
   };
   /** The zoom strategy to show and hide shapes according to their lod. */
-  lodStrategy: lodStrategyObj;
+  lodStrategy: LodStrategyObj;
   /** Last zoom ratio. */
   zoom: number;
   /** Cache the chaging states which are not consomed by draw  */

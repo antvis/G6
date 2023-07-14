@@ -11,7 +11,7 @@ import {
   ItemShapeStyles,
   ITEM_TYPE,
   State,
-  lodStrategyObj,
+  LodStrategyObj,
 } from '../types/item';
 import { NodeShapeMap } from '../types/node';
 import { EdgeStyleSet, NodeStyleSet } from '../types/theme';
@@ -71,7 +71,7 @@ export default abstract class Item implements IItem {
     [stateName: string]: ItemShapeStyles;
   };
   /** The zoom strategy to show and hide shapes according to their lod. */
-  public lodStrategy: lodStrategyObj;
+  public lodStrategy: LodStrategyObj;
   /** Last zoom ratio. */
   public zoom: number;
   /** Cache the chaging states which are not consomed by draw  */
@@ -101,8 +101,10 @@ export default abstract class Item implements IItem {
       renderExtensions,
       zoom = 1,
       theme = {},
+      type: itemType,
     } = props;
-    this.group = new Group();
+    this.type = itemType;
+    this.group = new Group({ style: { zIndex: 0 } });
     this.group.setAttribute('data-item-type', this.type);
     this.group.setAttribute('data-item-id', props.model.id);
     containerGroup.appendChild(this.group);
@@ -113,7 +115,7 @@ export default abstract class Item implements IItem {
     this.displayModel = this.getDisplayModelAndChanges(model).model;
     this.renderExtensions = renderExtensions;
     const {
-      type = this.type === 'node' ? 'circle-node' : 'line-edge',
+      type = this.type === 'edge' ? 'line-edge' : `circle-${this.type}`,
       lodStrategy: modelLodStrategy,
     } = this.displayModel.data;
     const RenderExtension = renderExtensions.find((ext) => ext.type === type);
@@ -188,7 +190,7 @@ export default abstract class Item implements IItem {
     isReplace?: boolean,
     itemTheme?: {
       styles: NodeStyleSet | EdgeStyleSet;
-      lodStrategy: lodStrategyObj;
+      lodStrategy: LodStrategyObj;
     },
     onlyMove?: boolean,
     onfinish?: Function,
@@ -280,14 +282,13 @@ export default abstract class Item implements IItem {
 
     // === no mapper, displayModel = model ===
     if (!mapper) {
-      this.displayModel = defaultMapper(innerModel);
       // compare the previous data and current data to find shape changes
       let typeChange = false;
       if (current) {
         typeChange = Boolean(current.type);
       }
       return {
-        model: this.displayModel,
+        model: defaultMapper(innerModel),
         typeChange,
       };
     }

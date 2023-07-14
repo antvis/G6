@@ -41,7 +41,7 @@ const DEFAULT_OPTIONS: Required<HoverActivateOptions> = {
   shouldBegin: () => true,
 };
 
-export class HoverActivate extends Behavior {
+export default class HoverActivate extends Behavior {
   options: HoverActivateOptions;
   private currentItemInfo: { id: ID; itemType: ITEM_TYPE };
 
@@ -56,6 +56,8 @@ export class HoverActivate extends Behavior {
       'node:pointerleave': this.onPointerLeave,
       'edge:pointerenter': this.onPointerEnter,
       'edge:pointerleave': this.onPointerLeave,
+      'combo:pointerenter': this.onPointerEnter,
+      'combo:pointerleave': this.onPointerLeave,
     };
   };
 

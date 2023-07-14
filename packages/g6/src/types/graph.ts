@@ -115,7 +115,13 @@ export interface IGraph<
     nodeId: ID,
     direction?: 'in' | 'out' | 'both',
   ) => NodeModel[];
-
+  /**
+   * Get the children's data of a combo.
+   * @param comboId combo id
+   * @returns children's data array
+   * @group Data
+   */
+  getComboChildrenData: (comboId: ID) => (ComboModel | NodeModel)[];
   /**
    * Input data and render the graph.
    * If there is old data, diffs and changes it.
@@ -225,8 +231,42 @@ export interface IGraph<
       | Partial<
           ComboUserModel | Partial<NodeUserModel>[] | Partial<ComboUserModel>[]
         >,
+    upsertAncestors?: boolean,
     stack?: boolean,
   ) => NodeModel | ComboModel | NodeModel[] | ComboModel[];
+
+  /**
+   * Update one or more combos' positions, it is achieved by move the succeed nodes.
+   * Do not update other styles which leads to better performance than updating positions by updateData.
+   * @param models new configurations with x and y for every combo, which has id field to indicate the specific item
+   * @param {boolean} stack whether push this operation into graph's stack, true by default
+   * @group Data
+   */
+  updateComboPosition: (
+    models:
+      | Partial<ComboUserModel>
+      | Partial<
+          ComboUserModel | Partial<NodeUserModel>[] | Partial<ComboUserModel>[]
+        >,
+    upsertAncestors?: boolean,
+    stack?: boolean,
+  ) => NodeModel | ComboModel | NodeModel[] | ComboModel[];
+
+  /**
+   * Move one or more combos a distance (dx, dy) relatively,
+   * do not update other styles which leads to better performance than updating positions by updateData.
+   * In fact, it changes the succeed nodes positions to affect the combo's position, but not modify the combo's position directly.
+   * @param models new configurations with x and y for every combo, which has id field to indicate the specific item
+   * @param {boolean} stack whether push this operation into graph's stack, true by default
+   * @group Data
+   */
+  moveCombo: (
+    ids: ID[],
+    dx: number,
+    dy: number,
+    upsertAncestors?: boolean,
+    stack?: boolean,
+  ) => ComboModel[];
 
   // ===== view operations =====
 
@@ -443,7 +483,11 @@ export interface IGraph<
    * @param id the id for the node / edge / combo, undefined for the whole graph
    * @returns rendering bounding box. returns false if the item is not exist
    */
-  getRenderBBox: (id: ID | undefined) => AABB | false;
+  getRenderBBox: (
+    id: ID | undefined,
+    onlyKeyShape?: boolean,
+    isTransient?: boolean,
+  ) => AABB | false;
 
   /**
    * Get the visibility for a node / edge / combo.
@@ -453,35 +497,33 @@ export interface IGraph<
   getItemVisible: (id: ID) => boolean;
 
   // ===== combo operations =====
+
   /**
-   * Create a new combo with existing child nodes and combos.
-   * @param combo combo ID or Combo model
-   * @param childrenIds id array of children of the new combo
+   * Add a new combo to the graph, and update the structure of the existed child in childrenIds to be the children of the new combo.
+   * Different from addData with combo type, this API update the succeeds' combo tree strucutres in the same time.
+   * @param model combo user data
+   * @param stack whether push this operation to stack
+   * @returns whether success
    * @group Combo
    */
-  createCombo: (
-    combo: string | ComboUserModel,
-    childrenIds: string[],
+  addCombo: (
+    model: ComboUserModel,
+    childrenIds: ID[],
     stack?: boolean,
-  ) => void;
-  /**
-   * dissolve combo
-   * @param {String | ICombo} item combo item or id to be dissolve
-   */
-  uncombo: (comboId: ID, stack?: boolean) => void;
+  ) => ComboModel;
   /**
    * Collapse a combo.
    * @param comboId combo id or item
    * @group Combo
    */
-  collapseCombo: (comboId: ID, stack?: boolean) => void;
+  collapseCombo: (comboIds: ID | ID[], stack?: boolean) => void;
   /**
    * Expand a combo.
    * @group Combo
    * @param combo combo ID 或 combo 实例
    * @group Combo
    */
-  expandCombo: (comboId: ID, stack?: boolean) => void;
+  expandCombo: (comboIds: ID | ID[], stack?: boolean) => void;
 
   // ===== layout =====
   /**

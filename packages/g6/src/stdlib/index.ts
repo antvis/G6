@@ -6,6 +6,7 @@ import ClickSelect from './behavior/click-select';
 import DragCanvas from './behavior/drag-canvas';
 import LassoSelect from './behavior/lasso-select';
 import DragNode from './behavior/drag-node';
+import DragCombo from './behavior/drag-combo';
 import { comboFromNode } from './data/comboFromNode';
 import { LineEdge } from './item/edge';
 import { CircleNode, SphereNode, RectNode } from './item/node';
@@ -26,11 +27,13 @@ import ZoomCanvas3D from './behavior/zoom-canvas-3d';
 import RotateCanvas3D from './behavior/rotate-canvas-3d';
 import TrackCanvas3D from './behavior/track-canvas-3d';
 import OrbitCanvas3D from './behavior/orbit-canvas-3d';
-import { HoverActivate } from './behavior/hover-activate';
+import HoverActivate from './behavior/hover-activate';
+import CollapseExpandCombo from './behavior/collapse-expand-combo';
 import { CubicEdge } from './item/edge/cubic';
 import { CubicHorizonEdge } from './item/edge/cubic-horizon';
 import { CubicVerticalEdge } from './item/edge/cubic-vertical';
 import { Quadratic } from './item/edge/quadratic';
+import { CircleCombo } from './item/combo/circle';
 
 const stdLib = {
   transforms: {
@@ -51,6 +54,8 @@ const stdLib = {
     'hover-activate': HoverActivate,
     'zoom-canvas': ZoomCanvas,
     'drag-node': DragNode,
+    'drag-combo': DragCombo,
+    'collapse-expand-combo': CollapseExpandCombo,
     'click-select': ClickSelect,
     'brush-select': BrushSelect,
     'lasso-select': LassoSelect,
@@ -78,7 +83,9 @@ const stdLib = {
     'cubic-vertical-edge': CubicVerticalEdge,
     'quadratic-edge': Quadratic,
   },
-  combos: {},
+  combos: {
+    'circle-combo': CircleCombo,
+  },
 };
 
 const useLib: Lib = {

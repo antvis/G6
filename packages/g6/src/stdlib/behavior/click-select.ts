@@ -84,6 +84,7 @@ export default class ClickSelect extends Behavior {
     return {
       'node:click': this.onClick,
       'edge:click': this.onClick,
+      'combo:click': this.onClick,
       'canvas:pointerdown': this.onCanvasPointerDown,
       'canvas:pointermove': this.onCanvasPointerMove,
       'canvas:pointerup': this.onCanvasPointerUp,
@@ -92,7 +93,6 @@ export default class ClickSelect extends Behavior {
 
   private isMultipleSelect(event: MouseEvent) {
     if (!this.options.multiple) return false;
-    const key = this.options.trigger;
     const keyMap: Record<Trigger, boolean> = {
       shift: event.shiftKey,
       ctrl: event.ctrlKey,

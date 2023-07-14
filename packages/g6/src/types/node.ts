@@ -1,5 +1,5 @@
 import { DisplayObject, Point } from '@antv/g';
-import { Node as GNode, PlainObject } from '@antv/graphlib';
+import { Node as GNode, ID, PlainObject } from '@antv/graphlib';
 import { IAnimates } from './animate';
 import {
   BadgePosition,
@@ -24,7 +24,7 @@ export interface NodeUserModelData extends PlainObject {
   y?: number;
   z?: number;
   /**
-   * Node type, e.g. 'circle'.
+   * Node type, e.g. 'circle-node'.
    */
   type?: string;
   /**
@@ -44,7 +44,7 @@ export interface NodeUserModelData extends PlainObject {
   /**
    * Reserved for combo.
    */
-  parentId?: string;
+  parentId?: ID;
   /**
    * The icon to show on the node.
    * More styles should be configured in node mapper.

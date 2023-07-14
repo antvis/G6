@@ -1,11 +1,11 @@
-import { LodStrategy, lodStrategyObj } from '../types/item';
+import { LodStrategy, LodStrategyObj } from '../types/item';
 
 /**
  * Format lodStrategy to the pattern that ratio 1 (primary level) at level 0, and higher the ratio, higher the level.
  * @param lodStrategy
  * @returns
  */
-export const formatLodStrategy = (lodStrategy: LodStrategy): lodStrategyObj => {
+export const formatLodStrategy = (lodStrategy: LodStrategy): LodStrategyObj => {
   const { levels, animateCfg } = lodStrategy || {};
   if (!levels) return undefined;
   const primaryLevel = levels.find((level) => level.primary);

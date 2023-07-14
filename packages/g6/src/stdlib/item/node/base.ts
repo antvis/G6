@@ -8,13 +8,19 @@ import {
   SHAPE_TYPE_3D,
   ShapeStyle,
   State,
-  lodStrategyObj,
+  LodStrategyObj,
 } from '../../../types/item';
 import {
   NodeModelData,
   NodeShapeMap,
   NodeShapeStyles,
 } from '../../../types/node';
+import {
+  ComboDisplayModel,
+  ComboModelData,
+  ComboShapeStyles,
+  ComboShapeMap,
+} from '../../../types/combo';
 import {
   LOCAL_BOUNDS_DIRTY_FLAG_KEY,
   formatPadding,
@@ -29,10 +35,10 @@ import { AnimateCfg } from '../../../types/animate';
 
 export abstract class BaseNode {
   type: string;
-  defaultStyles: NodeShapeStyles;
-  themeStyles: NodeShapeStyles;
-  mergedStyles: NodeShapeStyles;
-  lodStrategy?: lodStrategyObj;
+  defaultStyles: NodeShapeStyles | ComboShapeStyles;
+  themeStyles: NodeShapeStyles | ComboShapeStyles;
+  mergedStyles: NodeShapeStyles | ComboShapeStyles;
+  lodStrategy?: LodStrategyObj;
   boundsCache: {
     keyShapeLocal?: AABB;
     labelShapeGeometry?: AABB;
@@ -80,12 +86,12 @@ export abstract class BaseNode {
       ...lodStrategy?.animateCfg,
     };
   }
-  public mergeStyles(model: NodeDisplayModel) {
+  public mergeStyles(model: NodeDisplayModel | ComboDisplayModel) {
     this.mergedStyles = this.getMergedStyles(model);
   }
-  public getMergedStyles(model: NodeDisplayModel) {
+  public getMergedStyles(model: NodeDisplayModel | ComboDisplayModel) {
     const { data } = model;
-    const dataStyles = {} as NodeShapeStyles;
+    const dataStyles = {} as NodeShapeStyles | ComboShapeStyles;
     Object.keys(data).forEach((fieldName) => {
       if (RESERVED_SHAPE_IDS.includes(fieldName)) {
         if (fieldName === 'badgeShapes') {
@@ -168,9 +174,12 @@ export abstract class BaseNode {
     }
   }
   abstract draw(
-    model: NodeDisplayModel,
+    model: NodeDisplayModel | ComboDisplayModel,
     shapeMap: { [shapeId: string]: DisplayObject },
-    diffData?: { previous: NodeModelData; current: NodeModelData },
+    diffData?: {
+      previous: NodeModelData | ComboModelData;
+      current: NodeModelData | ComboModelData;
+    },
     diffState?: { previous: State[]; current: State[] },
   ): {
     keyShape: DisplayObject;
@@ -180,7 +189,7 @@ export abstract class BaseNode {
   };
 
   public afterDraw(
-    model: NodeDisplayModel,
+    model: NodeDisplayModel | ComboDisplayModel,
     shapeMap: { [shapeId: string]: DisplayObject },
     shapesChanged?: string[],
   ): { [otherShapeId: string]: DisplayObject } {
@@ -194,16 +203,22 @@ export abstract class BaseNode {
   ) => void;
 
   abstract drawKeyShape(
-    model: NodeDisplayModel,
-    shapeMap: NodeShapeMap,
-    diffData?: { previous: NodeModelData; current: NodeModelData },
+    model: NodeDisplayModel | ComboDisplayModel,
+    shapeMap: NodeShapeMap | ComboShapeMap,
+    diffData?: {
+      previous: NodeModelData | ComboModelData;
+      current: NodeModelData | ComboModelData;
+    },
     diffState?: { previous: State[]; current: State[] },
   ): DisplayObject;
 
   public drawLabelShape(
-    model: NodeDisplayModel,
-    shapeMap: NodeShapeMap,
-    diffData?: { previous: NodeModelData; current: NodeModelData },
+    model: NodeDisplayModel | ComboDisplayModel,
+    shapeMap: NodeShapeMap | ComboShapeMap,
+    diffData?: {
+      previous: NodeModelData | ComboModelData;
+      current: NodeModelData | ComboModelData;
+    },
     diffState?: { previous: State[]; current: State[] },
   ): DisplayObject {
     const { keyShape } = shapeMap;
@@ -291,9 +306,12 @@ export abstract class BaseNode {
   }
 
   public drawLabelBackgroundShape(
-    model: NodeDisplayModel,
-    shapeMap: NodeShapeMap,
-    diffData?: { previous: NodeModelData; current: NodeModelData },
+    model: NodeDisplayModel | ComboDisplayModel,
+    shapeMap: NodeShapeMap | ComboShapeMap,
+    diffData?: {
+      previous: NodeModelData | ComboModelData;
+      current: NodeModelData | ComboModelData;
+    },
     diffState?: { oldState: State[]; newState: State[] },
   ): DisplayObject {
     const { labelShape } = shapeMap;
@@ -337,9 +355,12 @@ export abstract class BaseNode {
   }
 
   public drawIconShape(
-    model: NodeDisplayModel,
-    shapeMap: NodeShapeMap,
-    diffData?: { previous: NodeModelData; current: NodeModelData },
+    model: NodeDisplayModel | ComboDisplayModel,
+    shapeMap: NodeShapeMap | ComboShapeMap,
+    diffData?: {
+      previous: NodeModelData | ComboModelData;
+      current: NodeModelData | ComboModelData;
+    },
     diffState?: { previous: State[]; current: State[] },
   ): DisplayObject {
     const { iconShape: shapeStyle } = this.mergedStyles;
@@ -377,9 +398,12 @@ export abstract class BaseNode {
   }
 
   public drawHaloShape(
-    model: NodeDisplayModel,
-    shapeMap: NodeShapeMap,
-    diffData?: { previous: NodeModelData; current: NodeModelData },
+    model: NodeDisplayModel | ComboDisplayModel,
+    shapeMap: NodeShapeMap | ComboShapeMap,
+    diffData?: {
+      previous: NodeModelData | ComboModelData;
+      current: NodeModelData | ComboModelData;
+    },
     diffState?: { previous: State[]; current: State[] },
   ): DisplayObject {
     const { keyShape } = shapeMap;
@@ -401,9 +425,12 @@ export abstract class BaseNode {
   }
 
   public drawAnchorShapes(
-    model: NodeDisplayModel,
-    shapeMap: NodeShapeMap,
-    diffData?: { previous: NodeModelData; current: NodeModelData },
+    model: NodeDisplayModel | ComboDisplayModel,
+    shapeMap: NodeShapeMap | ComboShapeMap,
+    diffData?: {
+      previous: NodeModelData | ComboModelData;
+      current: NodeModelData | ComboModelData;
+    },
     diffState?: { previous: State[]; current: State[] },
   ): {
     [shapeId: string]: DisplayObject;
@@ -443,9 +470,12 @@ export abstract class BaseNode {
   }
 
   public drawBadgeShapes(
-    model: NodeDisplayModel,
-    shapeMap: NodeShapeMap,
-    diffData?: { previous: NodeModelData; current: NodeModelData },
+    model: NodeDisplayModel | ComboDisplayModel,
+    shapeMap: NodeShapeMap | ComboShapeMap,
+    diffData?: {
+      previous: NodeModelData | ComboModelData;
+      current: NodeModelData | ComboModelData;
+    },
     diffState?: { previous: State[]; current: State[] },
   ): {
     [shapeId: string]: DisplayObject;
@@ -595,9 +625,12 @@ export abstract class BaseNode {
   }
 
   public drawOtherShapes(
-    model: NodeDisplayModel,
-    shapeMap: NodeShapeMap,
-    diffData?: { previous: NodeModelData; current: NodeModelData },
+    model: NodeDisplayModel | ComboDisplayModel,
+    shapeMap: NodeShapeMap | ComboShapeMap,
+    diffData?: {
+      previous: NodeModelData | ComboModelData;
+      current: NodeModelData | ComboModelData;
+    },
     diffState?: { previous: State[]; current: State[] },
   ): { [id: string]: DisplayObject } {
     return {};
@@ -610,7 +643,7 @@ export abstract class BaseNode {
    * @param shapeMap
    * @param zoom
    */
-  public onZoom = (shapeMap: NodeShapeMap, zoom: number) => {
+  public onZoom = (shapeMap: NodeShapeMap | ComboShapeMap, zoom: number) => {
     // zoomLevel changed
     if (this.lodStrategy) {
       const { levels } = this.lodStrategy;
@@ -671,14 +704,17 @@ export abstract class BaseNode {
    * @param zoom
    * @returns
    */
-  private balanceShapeSize(shapeMap: NodeShapeMap, zoom: number) {
+  private balanceShapeSize(
+    shapeMap: NodeShapeMap | ComboShapeMap,
+    zoom: number,
+  ) {
     // balance the size for label, badges
     const { labelShape, labelBackgroundShape } = shapeMap;
     const balanceRatio = 1 / zoom || 1;
     this.zoomCache.balanceRatio = balanceRatio;
+    if (!labelShape || !labelShape.isVisible()) return;
     const { labelShape: labelStyle } = this.mergedStyles;
     const { position = 'bottom' } = labelStyle;
-    if (!labelShape || !labelShape.isVisible()) return;
 
     const keyShapeLocal = this.boundsCache.keyShapeLocal;
     if (zoom < 1) {
@@ -769,8 +805,8 @@ export abstract class BaseNode {
     type: SHAPE_TYPE | SHAPE_TYPE_3D,
     id: string,
     style: ShapeStyle,
-    shapeMap: NodeShapeMap,
-    model: NodeDisplayModel,
+    shapeMap: NodeShapeMap | ComboShapeMap,
+    model: NodeDisplayModel | ComboDisplayModel,
   ): DisplayObject {
     return upsertShape(
       type as SHAPE_TYPE,

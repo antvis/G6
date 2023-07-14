@@ -12,9 +12,10 @@ import {
   Image,
   Path,
   AABB,
+  Tuple3Number,
 } from '@antv/g';
 import { clone, isArray, isNumber } from '@antv/util';
-import { DEFAULT_LABEL_BG_PADDING, RESERVED_SHAPE_IDS } from '../constant';
+import { DEFAULT_LABEL_BG_PADDING } from '../constant';
 import { Point } from '../types/common';
 import { EdgeDisplayModel, EdgeShapeMap } from '../types/edge';
 import {
@@ -23,13 +24,16 @@ import {
   ItemShapeStyles,
   ShapeStyle,
   SHAPE_TYPE_3D,
+  ItemModel,
 } from '../types/item';
 import { NodeDisplayModel, NodeShapeMap } from '../types/node';
-import { ComboDisplayModel } from '../types';
+import { ComboDisplayModel, IGraph } from '../types';
 import { getShapeAnimateBeginStyles } from './animate';
 import { isArrayOverlap } from './array';
 import { isBetween } from './math';
-import { getZoomLevel } from './zoom';
+import Node from '../item/node';
+import Edge from '../item/edge';
+import Combo from '../item/combo';
 
 export const ShapeTagMap = {
   circle: Circle,
@@ -54,6 +58,8 @@ export const createShape = (
 ) => {
   const ShapeClass = ShapeTagMap[type];
   const shape = new ShapeClass({ id, style });
+  if (style.draggable === undefined) shape.style.draggable = true;
+  if (style.droppable === undefined) shape.style.droppable = true;
   if (LINE_TYPES.includes(type)) {
     shape.style.increasedLineWidthForHitTesting = Math.max(
       shape.style.lineWidth as number,
@@ -606,4 +612,88 @@ export const getShapeLocalBoundsByStyle = (
     case 'polygon':
       return bbox || shape.getLocalBounds();
   }
+};
+
+export const getCombinedBoundsByData = (
+  graph: IGraph,
+  models: ItemModel[],
+):
+  | {
+      center: Tuple3Number;
+      min: Tuple3Number;
+      max: Tuple3Number;
+      size: Tuple3Number;
+    }
+  | false => {
+  if (!models.length) return false;
+  const resBounds = {
+    center: [0, 0, 0],
+    min: [Infinity, Infinity, Infinity],
+    max: [-Infinity, -Infinity, -Infinity],
+    size: [0, 0, 0],
+  };
+  let validCounts = 0;
+  models.forEach(({ id }) => {
+    const bounds = graph.getRenderBBox(id);
+    if (bounds) {
+      validCounts++;
+      const { min, max } = bounds;
+      min.forEach((val, i) => {
+        if (val < resBounds.min[i]) resBounds.min[i] = val;
+      });
+      max.forEach((val, i) => {
+        if (val > resBounds.max[i]) resBounds.max[i] = val;
+      });
+    }
+  });
+  if (!validCounts) return false;
+  resBounds.size = resBounds.size.map(
+    (val, i) => resBounds.max[i] - resBounds.min[i],
+  );
+  resBounds.center = resBounds.center.map(
+    (val, i) => (resBounds.max[i] + resBounds.min[i]) / 2,
+  );
+  return resBounds as {
+    center: Tuple3Number;
+    min: Tuple3Number;
+    max: Tuple3Number;
+    size: Tuple3Number;
+  };
+};
+
+export const getCombinedBoundsByItem = (items: (Node | Combo | Edge)[]) => {
+  if (!items.length) return false;
+  const resBounds = {
+    center: [0, 0, 0],
+    min: [Infinity, Infinity, Infinity],
+    max: [-Infinity, -Infinity, -Infinity],
+    size: [0, 0, 0],
+  };
+  let validCounts = 0;
+  items.forEach((item) => {
+    const bounds = item.getBBox();
+    if (bounds) {
+      validCounts++;
+      const { min, max } = bounds;
+      min.forEach((val, i) => {
+        if (val < resBounds.min[i]) resBounds.min[i] = val;
+      });
+      max.forEach((val, i) => {
+        if (val > resBounds.max[i]) resBounds.max[i] = val;
+      });
+    }
+  });
+  if (!validCounts) return false;
+  resBounds.size = resBounds.size.map(
+    (val, i) => resBounds.max[i] - resBounds.min[i],
+  );
+  resBounds.center = resBounds.center.map(
+    (val, i) => (resBounds.max[i] + resBounds.min[i]) / 2,
+  );
+  return resBounds as {
+    center: Tuple3Number;
+    min: Tuple3Number;
+    max: Tuple3Number;
+    size: Tuple3Number;
+  };
 };
