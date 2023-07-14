@@ -111,20 +111,19 @@ export const traverseAncestors = (graphCore, nodes, fn) => {
 };
 
 /**
- * Whether the child is a succeed of the parent
+ * Whether the test succeed is a parent of the test parent.
  * @param graph G6 graph instance
- * @param childId id of the child node/combo
- * @param parentId id of the parent combo
+ * @param testParent id of the node to be the parent
+ * @param parentId id of the node to be the succeed
  * @returns
  */
-export const isSucceed = (graph, childId, parentId): boolean => {
+export const isSucceed = (graph, testParent, testSucceed): boolean => {
   const succeedIds = [];
-  const childNode = graph.getNodeData(childId);
-  if (childNode) return false;
-  graphComboTreeDfs(graph, [graph.getComboData(childId)], (node) => {
+  if (graph.getNodeData(testParent)) return false;
+  graphComboTreeDfs(graph, [graph.getComboData(testParent)], (node) => {
     succeedIds.push(node.id);
   });
-  if (succeedIds.includes(parentId)) return true;
+  if (succeedIds.includes(testSucceed)) return true;
   return false;
 };
 
@@ -152,7 +151,7 @@ export const validateComboStrucutre = (
     );
     return false;
   }
-  if (toBeAncestorId && isSucceed(graph, toBeAncestorId, toBeSucceedId)) {
+  if (toBeAncestorId && isSucceed(graph, toBeSucceedId, toBeAncestorId)) {
     console.warn(
       `Setting parent combo failed, since the parent combo with id ${toBeAncestorId} is a succeed of the combo with id ${toBeSucceedId}.`,
     );

@@ -678,6 +678,7 @@ export class DataController {
             graphCore.mergeNodeData(id, { parentId: parentMap[id].old });
             return;
           }
+          graphCore.mergeNodeData(id, { parentId: parentMap[id].new });
           graphCore.setParent(id, parentMap[id].new, 'combo');
         });
       } else {
