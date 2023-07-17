@@ -1,5 +1,5 @@
 import { clone, throttle } from '@antv/util';
-import { Text } from '@antv/g';
+import { DisplayObject } from '@antv/g';
 import { Point } from '../../../types/common';
 import { IGraph } from '../../../types';
 import { ShapeStyle } from '../../../types/item';
@@ -36,6 +36,24 @@ export default class Fisheye extends Base {
   private cacheCenter: Point | undefined = undefined;
   private dragPrePos: Point | undefined = undefined;
   private dragging = false;
+  private molecularParam: number;
+  private dPercentText: DisplayObject;
+  private delegate: DisplayObject;
+  private r2: number;
+
+  private cachedOriginPositions: {
+    [id: string]: {
+      x: number;
+      y: number;
+      texts: DisplayObject[];
+    };
+  } = {};
+
+  private cachedTransientTexts: {
+    [id: string]: DisplayObject;
+  } = {};
+
+  private delegateCenterDiff: { x: number; y: number };
 
   constructor(options?: FisheyeConfig) {
     super(options);
@@ -58,58 +76,55 @@ export default class Fisheye extends Base {
 
   // class-methods-use-this
   public getEvents() {
-    let events = {
+    const events = {
       pointerdown: this.onPointerDown,
       pointerup: this.onPointerUp,
       wheel: this.onWheel,
+      afterlayout: this.initOriginPositions,
     } as {
       [key: string]: any;
     };
     switch ((this as any).options.trigger) {
       case 'click':
-        events = {
+        return {
           ...events,
           click: this.magnify,
         };
-        break;
       case 'drag':
-        events = {
+        return {
           ...events,
           pointermove: this.onPointerMove,
         };
-        break;
       default:
-        events = {
+        return {
           ...events,
           pointermove: this.magnify,
         };
-        break;
     }
-    return events;
   }
 
   public init(graph: IGraph) {
     super.init(graph);
-    const self = this;
-    const r = self.options.r;
-    self.options.cachedMagnifiedModels = [];
-    self.options.cachedTransientTexts = {};
-    self.options.cachedOriginPositions = {};
-    self.options.r2 = r * r;
-    const d = self.options.d;
-    self.options.molecularParam = (d + 1) * r;
+    const { r, d } = this.options;
+    this.cachedTransientTexts = {};
+    this.initOriginPositions();
+    this.r2 = r * r;
+    this.molecularParam = (d + 1) * r;
   }
+
+  private initOriginPositions = () => {
+    const { graph } = this;
+    const positions = {};
+    graph.getAllNodesData().forEach((node) => {
+      positions[node.id] = { x: node.data.x, y: node.data.y, texts: [] };
+    });
+    this.cachedOriginPositions = positions;
+    return positions;
+  };
 
   // Determine whether it is dragged in the delegate
   protected isInLensDelegate(lensDelegate, pointer): boolean {
-    const lensAttrs = {
-      cx: lensDelegate.attr('cx'),
-      cy: lensDelegate.attr('cy'),
-      r: lensDelegate.attr('r'),
-    };
-    const lensX = lensDelegate.attr('cx');
-    const lensY = lensDelegate.attr('cy');
-    const lensR = lensDelegate.attr('r');
+    const { cx: lensX, cy: lensY, r: lensR } = lensDelegate.style;
     if (
       pointer.x >= lensX - lensR &&
       pointer.x <= lensX + lensR &&
@@ -132,12 +147,11 @@ export default class Fisheye extends Base {
       this.dragging = true;
     }
     if (!this.pointerDown) return;
-    let lensDelegate = this.options.delegate;
-    this.moveDelegate(lensDelegate, e);
+    this.moveDelegate(this.delegate, e);
   }
 
   protected onPointerDown(e: IG6GraphEvent) {
-    let lensDelegate = this.options.delegate;
+    const { delegate: lensDelegate } = this;
     if (!lensDelegate || lensDelegate.destroyed) {
       this.cacheCenter = { x: e.canvas.x, y: e.canvas.y };
       this.magnify(e);
@@ -153,26 +167,25 @@ export default class Fisheye extends Base {
   }
 
   protected moveDelegate(lensDelegate, e) {
-    const self = this;
-    if (self.isInLensDelegate(lensDelegate, { x: e.canvas.x, y: e.canvas.y })) {
-      self.options.delegateCenterDiff = {
-        x: e.canvas.x - self.pointerDown.x,
-        y: e.canvas.y - self.pointerDown.y,
+    if (this.isInLensDelegate(lensDelegate, { x: e.canvas.x, y: e.canvas.y })) {
+      this.delegateCenterDiff = {
+        x: e.canvas.x - this.pointerDown.x,
+        y: e.canvas.y - this.pointerDown.y,
       };
-      self.magnify(e, this.cacheCenter);
+      this.magnify(e, this.cacheCenter);
     }
   }
 
   protected onWheel(e: IG6GraphEvent) {
-    let lensDelegate = this.options.delegate;
+    const { delegate: lensDelegate, options } = this;
+    const { scaleDBy, scaleRBy } = options;
     if (!lensDelegate || lensDelegate.destroyed) return;
-    if (this.options.scaleDBy !== 'wheel' && this.options.scaleRBy !== 'wheel')
-      return;
+    if (scaleDBy !== 'wheel' && scaleRBy !== 'wheel') return;
     if (this.isInLensDelegate(lensDelegate, { x: e.canvas.x, y: e.canvas.y })) {
-      if (this.options.scaleRBy === 'wheel') {
+      if (scaleRBy === 'wheel') {
         this.scaleRByWheel(e);
       }
-      if (this.options.scaleDBy === 'wheel') {
+      if (scaleDBy === 'wheel') {
         this.scaleDByWheel(e);
       }
     }
@@ -183,12 +196,12 @@ export default class Fisheye extends Base {
    * @param e mouse wheel event
    */
   protected scaleRByWheel(e: IG6GraphEvent) {
-    const self = this;
     if (!e || !e.originalEvent) return;
     if (e.preventDefault) e.preventDefault();
-    const graph: IGraph = self.graph;
+    const { graph, options } = this;
     let ratio;
-    const lensDelegate = self.options.delegate;
+    const { delegate: lensDelegate, maxR, minR, d } = options;
+    let { r } = options;
     const lensCenter = lensDelegate
       ? {
           x: lensDelegate.attr('cx'),
@@ -201,9 +214,6 @@ export default class Fisheye extends Base {
     } else {
       ratio = 1 / (1 - DELTA);
     }
-    const maxR = self.options.maxR;
-    const minR = self.options.minR;
-    let r = self.options.r;
     const graphHeight = graph.canvas.context.config.canvas.height;
     if (
       (r > (maxR || graphHeight) && ratio > 1) ||
@@ -212,12 +222,11 @@ export default class Fisheye extends Base {
       ratio = 1;
     }
     r *= ratio;
-    self.options.r = r;
-    self.options.r2 = r * r;
-    const d = self.options.d;
-    self.options.molecularParam = (d + 1) * r;
-    self.options.delegateCenterDiff = undefined;
-    self.magnify(e, mousePos);
+    this.options.r = r;
+    this.r2 = r * r;
+    this.molecularParam = (d + 1) * r;
+    this.delegateCenterDiff = undefined;
+    this.magnify(e, mousePos);
   }
 
   /**
@@ -225,24 +234,21 @@ export default class Fisheye extends Base {
    * @param e mouse event
    */
   protected scaleRByDrag = throttle(
-    this.scaleRByDragMethod,
+    this.scaleRByDragMethod.bind(this),
     this.options.throttle,
     { leading: true, trailing: true },
   );
   protected scaleRByDragMethod(e: IG6GraphEvent) {
-    const self = this;
     if (!e) return;
-    const dragPrePos = self.dragPrePos;
-    const graph: IGraph = self.graph;
+    const { dragPrePos, graph, options } = this;
+    const { maxR, minR, d } = options;
+    let { r } = options;
     let ratio;
     if (e.canvas.x - dragPrePos.x < 0) {
       ratio = 1 - DELTA;
     } else {
       ratio = 1 / (1 - DELTA);
     }
-    const maxR = self.options.maxR;
-    const minR = self.options.minR;
-    let r = self.options.r;
     const graphCanvasEl = graph.canvas.context.config.canvas;
     const [
       graphWidth = graphCanvasEl?.width || 500,
@@ -255,12 +261,11 @@ export default class Fisheye extends Base {
       ratio = 1;
     }
     r *= ratio;
-    self.options.r = r;
-    self.options.r2 = r * r;
-    const d = self.options.d;
-    self.options.molecularParam = (d + 1) * r;
-    self.magnify(e);
-    self.dragPrePos = { x: e.canvas.x, y: e.canvas.y };
+    this.options.r = r;
+    this.r2 = r * r;
+    this.molecularParam = (d + 1) * r;
+    this.magnify(e);
+    this.dragPrePos = { x: e.canvas.x, y: e.canvas.y };
   }
 
   /**
@@ -268,32 +273,28 @@ export default class Fisheye extends Base {
    * @param e mouse wheel event
    */
   protected scaleDByWheel(evt: IG6GraphEvent) {
-    const self = this;
     if (!evt && !evt.originalEvent) return;
     if (evt.preventDefault) evt.preventDefault();
     let delta = 0;
-    if ((evt.originalEvent as any).deltaY < 0)  {
+    if ((evt.originalEvent as any).deltaY < 0) {
       delta = -0.1;
     } else {
       delta = 0.1;
     }
-    const d = self.options.d;
+    const { d, maxD, minD, r } = this.options;
     const newD = d + delta;
-    const maxD = self.options.maxD;
-    const minD = self.options.minD;
     if (newD < maxD && newD > minD) {
-      self.options.d = newD;
-      const r = self.options.r;
-      self.options.molecularParam = (newD + 1) * r;
-      const lensDelegate = self.options.delegate;
+      this.options.d = newD;
+      this.molecularParam = (newD + 1) * r;
+      const { delegate: lensDelegate } = this;
       const lensCenter = lensDelegate
         ? {
             x: lensDelegate.attr('cx'),
             y: lensDelegate.attr('cy'),
           }
         : undefined;
-      self.options.delegateCenterDiff = undefined;
-      self.magnify(evt, lensCenter);
+      this.delegateCenterDiff = undefined;
+      this.magnify(evt, lensCenter);
     }
   }
 
@@ -302,25 +303,20 @@ export default class Fisheye extends Base {
    * @param e mouse event
    */
   protected scaleDByDrag = throttle(
-    this.scaleDByDragMethod,
+    this.scaleDByDragMethod.bind(this),
     this.options.throttle,
     { leading: true, trailing: true },
   );
   protected scaleDByDragMethod(e: IG6GraphEvent) {
-    const self = this;
-    const dragPrePos = self.dragPrePos;
-    const delta = e.canvas.x - dragPrePos.x > 0 ? 0.1 : -0.1;
-    const d = self.options.d;
+    const { d, maxD, minD, r } = this.options;
+    const delta = e.canvas.x - this.dragPrePos.x > 0 ? 0.1 : -0.1;
     const newD = d + delta;
-    const maxD = self.options.maxD;
-    const minD = self.options.minD;
     if (newD < maxD && newD > minD) {
-      self.options.d = newD;
-      const r = self.options.r;
-      self.options.molecularParam = (newD + 1) * r;
-      self.magnify(e);
+      this.options.d = newD;
+      this.molecularParam = (newD + 1) * r;
+      this.magnify(e);
     }
-    self.dragPrePos = { x: e.canvas.x, y: e.canvas.y };
+    this.dragPrePos = { x: e.canvas.x, y: e.canvas.y };
   }
 
   /**
@@ -328,37 +324,41 @@ export default class Fisheye extends Base {
    * @param e mouse event
    */
   protected magnify(e: IG6GraphEvent, mousePos?) {
-    const self = this;
-    self.restoreCache();
-    const graph: IGraph = self.graph;
-    const cachedMagnifiedModels = self.options.cachedMagnifiedModels;
-    const cachedOriginPositions = self.options.cachedOriginPositions;
-    const cachedTransientTexts = self.options.cachedTransientTexts;
-    const showLabel = self.options.showLabel;
-    const r = self.options.r;
-    const r2 = self.options.r2;
-    const d = self.options.d;
-    const molecularParam = self.options.molecularParam;
+    this.restoreCache();
+    const {
+      r2,
+      graph,
+      cachedOriginPositions,
+      cachedTransientTexts,
+      molecularParam,
+      delegateCenterDiff,
+      options,
+    } = this;
+    const positions = Object.keys(cachedOriginPositions).map((id) => ({
+      id,
+      data: {
+        x: cachedOriginPositions[id].x,
+        y: cachedOriginPositions[id].y,
+      },
+    }));
+    const { r, d, showLabel, trigger } = options;
     const nodes = graph.getAllNodesData();
     const nodeLength = nodes.length;
+    const point = graph.getCanvasByClient(e.client);
     let mCenter = mousePos
       ? { x: mousePos.x, y: mousePos.y }
-      : { x: e.client.x, y: e.client.y };
-    if (
-      self.dragging &&
-      (self.options.trigger === 'mousemove' || self.options.trigger === 'click')
-    ) {
-      mCenter = self.cacheCenter;
+      : { x: point.x, y: point.y };
+    if (this.dragging && (trigger === 'mousemove' || trigger === 'click')) {
+      mCenter = this.cacheCenter;
     }
-    const delegateCenterDiff = self.options.delegateCenterDiff;
     if (delegateCenterDiff) {
       mCenter.x += delegateCenterDiff.x;
       mCenter.y += delegateCenterDiff.y;
     }
-    self.updateDelegate(mCenter, r, e);
+    this.updateDelegate(mCenter, r, e);
     for (let i = 0; i < nodeLength; i++) {
       const model = nodes[i];
-      const { x, y } = model.data;
+      const { x, y } = cachedOriginPositions[model.id]; // calculate based on the origin positions
       if (isNaN(x) || isNaN(y)) continue;
       // the square of the distance between the node and the magnified center
       const dist2 =
@@ -367,21 +367,18 @@ export default class Fisheye extends Base {
         const dist = Math.sqrt(dist2);
         // // (r * (d + 1) * (dist / r)) / (d * (dist / r) + 1);
         const magnifiedDist = (molecularParam * dist) / (d * dist + r);
-        const cos = (x - mCenter.x) / dist;
-        const sin = (y - mCenter.y) / dist;
-        const magnifiedX = cos * magnifiedDist + mCenter.x;
-        const magnifiedY = sin * magnifiedDist + mCenter.y;
+        const vecX = (x - mCenter.x) / dist;
+        const vecY = (y - mCenter.y) / dist;
+        const magnifiedX = vecX * magnifiedDist + mCenter.x;
+        const magnifiedY = vecY * magnifiedDist + mCenter.y;
         const magnifiedNode = {
+          id: model.id,
           data: { x: magnifiedX, y: magnifiedY },
-          id: nodes[i].id,
         };
-        if (!cachedOriginPositions[model.id]) {
-          cachedOriginPositions[model.id] = { x, y, texts: [] };
-        }
-        cachedMagnifiedModels.push(model);
+        const textContent =
+          model.data.label || (model.data.labelShape as any)?.text;
         if (showLabel && 2 * dist < r) {
-          const node = nodes[i];
-          const transientTextID = `node-text-${node.id}`;
+          const transientTextID = `node-text-${model.id}`;
           const cachedTransientText = cachedTransientTexts[transientTextID];
           if (cachedTransientText) {
             cachedTransientText.attr({
@@ -390,10 +387,10 @@ export default class Fisheye extends Base {
             });
             cachedTransientText.show();
             cachedOriginPositions[model.id].texts.push(cachedTransientText);
-          } else {
+          } else if (textContent) {
             const text = graph.drawTransient('text', transientTextID, {
               style: {
-                text: node.label,
+                text: textContent,
                 x: magnifiedNode.data.x,
                 y: magnifiedNode.data.y,
                 textAlign: 'center',
@@ -405,39 +402,27 @@ export default class Fisheye extends Base {
                 lod: -1,
               },
             });
-            magnifiedNode.labelShape = text;
             cachedTransientTexts[transientTextID] = text;
             cachedOriginPositions[model.id].texts.push(text);
           }
         }
-        nodes[i] = magnifiedNode;
+        positions[model.id] = magnifiedNode;
+      } else {
+        // update the origin positions outside of the lens
+        if (!cachedOriginPositions[model.id]) {
+          cachedOriginPositions[model.id] = { x, y, texts: [] };
+        }
       }
     }
-    graph.updateNodePosition(nodes);
+    graph.updateNodePosition(Object.values(positions));
   }
 
-  /**
-   * Restore the cache nodes while magnifying
-   */
   protected restoreCache() {
-    const self = this;
-    const cachedMagnifiedModels = self.options.cachedMagnifiedModels;
-    const cachedOriginPositions = self.options.cachedOriginPositions;
-    const cacheLength = cachedMagnifiedModels.length;
-    for (let i = 0; i < cacheLength; i++) {
-      const node = cachedMagnifiedModels[i];
-      const id = node.id;
-      const ori = cachedOriginPositions[id];
-      node.data.x = ori.x;
-      node.data.y = ori.y;
-      const textLength = ori.texts.length;
-      for (let j = 0; j < textLength; j++) {
-        const text = ori.texts[j];
-        text.hide();
-      }
-    }
-    self.options.cachedMagnifiedModels = [];
-    self.options.cachedOriginPositions = {};
+    const cachePositions = { ...this.cachedOriginPositions };
+    Object.values(this.cachedOriginPositions).forEach((position) => {
+      position.texts?.forEach((text) => text.hide());
+    });
+    return cachePositions;
   }
 
   /**
@@ -445,46 +430,42 @@ export default class Fisheye extends Base {
    * @param {FisheyeConfig} cfg
    */
   public updateParams(cfg: FisheyeConfig) {
-    const self = this;
     const { r, d, trigger, minD, maxD, minR, maxR, scaleDBy, scaleRBy } = cfg;
     if (!isNaN(cfg.r)) {
-      self.options.r = r;
-      self.options.r2 = r * r;
+      this.options.r = r;
+      this.r2 = r * r;
     }
     if (!isNaN(d)) {
-      self.options.d = d;
+      this.options.d = d;
     }
     if (!isNaN(maxD)) {
-      self.options.maxD = maxD;
+      this.options.maxD = maxD;
     }
     if (!isNaN(minD)) {
-      self.options.minD = minD;
+      this.options.minD = minD;
     }
     if (!isNaN(maxR)) {
-      self.options.maxR = maxR;
+      this.options.maxR = maxR;
     }
     if (!isNaN(minR)) {
-      self.options.minR = minR;
+      this.options.minR = minR;
     }
-    const nd = self.options.d;
-    const nr = self.options.r;
-    const graph = this.graph;
-    self.options.molecularParam = (nd + 1) * nr;
+    const { graph, dPercentText, options } = this;
+    const { d: nd, r: nr } = options;
+    this.molecularParam = (nd + 1) * nr;
     if (trigger === 'mousemove' || trigger === 'click' || trigger === 'drag') {
-      self.options.trigger = trigger;
+      this.options.trigger = trigger;
     }
     if (scaleDBy === 'drag' || scaleDBy === 'wheel' || scaleDBy === 'unset') {
-      self.options.scaleDBy = scaleDBy;
+      this.options.scaleDBy = scaleDBy;
       graph.drawTransient('circle', 'lens-shape', { action: 'remove' });
-      const dPercentText = self.options.dPercentText;
       if (dPercentText) {
         graph.drawTransient('text', 'lens-text-shape', { action: 'remove' });
       }
     }
     if (scaleRBy === 'drag' || scaleRBy === 'wheel' || scaleRBy === 'unset') {
-      self.options.scaleRBy = scaleRBy;
+      this.options.scaleRBy = scaleRBy;
       graph.drawTransient('circle', 'lens-shape', { action: 'remove' });
-      const dPercentText = self.options.dPercentText;
       if (dPercentText) {
         graph.drawTransient('text', 'lens-text-shape', { action: 'remove' });
       }
@@ -497,11 +478,10 @@ export default class Fisheye extends Base {
    * @param {number} r the radius of the shape
    */
   private updateDelegate(mCenter, r, e) {
-    const self = this;
-    const graph = self.graph;
-    let lensDelegate = self.options.delegate;
+    const { graph, dPercentText } = this;
+    let lensDelegate = this.delegate;
     if (!lensDelegate || lensDelegate.destroyed) {
-      const attrs = self.options.delegateStyle || lensDelegateStyle;
+      const attrs = this.options.delegateStyle || lensDelegateStyle;
       lensDelegate = graph.drawTransient('circle', 'lens-shape', {
         style: {
           r: r / 1.5,
@@ -518,28 +498,25 @@ export default class Fisheye extends Base {
       });
     }
 
+    const { d, minD, maxD, showDPercent } = this.options;
+
     // draw the zoom factor percentage text
-    if (self.options.showDPercent) {
-      const percent = Math.round(
-        ((self.options.d - self.options.minD) /
-          (self.options.maxD - self.options.minD)) *
-          100,
-      );
-      let dPercentText = self.options.dPercentText;
+    if (showDPercent) {
+      const percent = Math.round(((d - minD) / (maxD - minD)) * 100);
       const textY = mCenter.y + r / 1.5 + 16;
       if (!dPercentText || dPercentText.destroyed) {
         const text = graph.drawTransient('text', 'lens-text-shape', {
-            style: {
-                text: `${percent}%`,
-                x: mCenter.x,
-                y: textY,
-                fill: '#aaa',
-                stroke: '#fff',
-                lineWidth: 1,
-                fontSize: 12,
-            },
-          });
-          self.options.dPercentText = text;
+          style: {
+            text: `${percent}%`,
+            x: mCenter.x,
+            y: textY,
+            fill: '#aaa',
+            stroke: '#fff',
+            lineWidth: 1,
+            fontSize: 12,
+          },
+        });
+        this.dPercentText = text;
       } else {
         dPercentText.attr({
           text: `${percent}%`,
@@ -548,7 +525,7 @@ export default class Fisheye extends Base {
         });
       }
     }
-    self.options.delegate = lensDelegate;
+    this.delegate = lensDelegate;
 
     // Adjust the range of r and d
     if (this.options.trigger !== 'drag') {
@@ -568,15 +545,25 @@ export default class Fisheye extends Base {
    * Clear the fisheye lens
    */
   public clear() {
-    const graph = this.graph;
+    const {
+      graph,
+      delegate: lensDelegate,
+      cachedOriginPositions,
+      dPercentText,
+    } = this;
     this.restoreCache();
-    let nodes = graph.getAllNodesData();
-    graph.updateData('node', nodes);
-    const lensDelegate = this.options.delegate;
+    graph.updateNodePosition(
+      Object.keys(cachedOriginPositions).map((id) => ({
+        id,
+        data: {
+          x: cachedOriginPositions[id].x,
+          y: cachedOriginPositions[id].y,
+        },
+      })),
+    );
     if (lensDelegate && !lensDelegate.destroyed) {
       graph.drawTransient('circle', 'lens-shape', { action: 'remove' });
     }
-    const dPercentText = this.options.dPercentText;
     if (dPercentText && !dPercentText.destroyed) {
       graph.drawTransient('text', 'lens-text-shape', { action: 'remove' });
     }

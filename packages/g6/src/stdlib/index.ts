@@ -64,7 +64,7 @@ const stdLib = {
     fisheye: Fisheye,
     legend: Legend,
     tooltip: Tooltip,
-    menu: Menu
+    menu: Menu,
   },
   nodes: {
     'circle-node': CircleNode,
