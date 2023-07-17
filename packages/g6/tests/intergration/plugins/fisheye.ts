@@ -196,9 +196,9 @@ export default async () => {
     .then((res) => res.json())
     .then((data) => {
       data.nodes.forEach((node) => {
-        node.label = node.id;
         node.data = {
           ...node.data,
+          label: node.id,
           color: colors[Math.floor(Math.random() * 9)],
           size: Math.random() * 30 + 10,
           r: Math.random() * 30 + 10,

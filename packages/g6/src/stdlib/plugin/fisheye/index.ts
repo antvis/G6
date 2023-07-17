@@ -375,9 +375,10 @@ export default class Fisheye extends Base {
           id: model.id,
           data: { x: magnifiedX, y: magnifiedY },
         };
+        const textContent =
+          model.data.label || (model.data.labelShape as any)?.text;
         if (showLabel && 2 * dist < r) {
-          const node = nodes[i];
-          const transientTextID = `node-text-${node.id}`;
+          const transientTextID = `node-text-${model.id}`;
           const cachedTransientText = cachedTransientTexts[transientTextID];
           if (cachedTransientText) {
             cachedTransientText.attr({
@@ -386,10 +387,10 @@ export default class Fisheye extends Base {
             });
             cachedTransientText.show();
             cachedOriginPositions[model.id].texts.push(cachedTransientText);
-          } else {
+          } else if (textContent) {
             const text = graph.drawTransient('text', transientTextID, {
               style: {
-                text: node.label,
+                text: textContent,
                 x: magnifiedNode.data.x,
                 y: magnifiedNode.data.y,
                 textAlign: 'center',
