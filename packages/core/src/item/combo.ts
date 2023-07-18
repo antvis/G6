@@ -60,19 +60,42 @@ export default class Combo extends Node implements ICombo {
     if (this.destroyed) return;
     const keyShape: IShapeBase = this.get('keyShape');
     const group: IGroup = this.get('group');
-    // 因为 group 可能会移动，所以必须通过父元素计算才能计算出正确的包围盒
-    const bbox = getBBox(keyShape, group);
-    bbox.centerX = (bbox.minX + bbox.maxX) / 2;
-    bbox.centerY = (bbox.minY + bbox.maxY) / 2;
 
     const cacheBBox = this.get(CACHE_BBOX) || {};
     const oriX = cacheBBox.x;
     const oriY = cacheBBox.x;
 
-    bbox.width = bbox.maxX - bbox.minX;
-    bbox.height = bbox.maxY - bbox.minY;
+    const cacheSize = this.get(CACHE_SIZE);
+    // 因为 group 可能会移动，所以必须通过父元素计算才能计算出正确的包围盒
+    const bbox = getBBox(keyShape, group);
     bbox.centerX = (bbox.minX + bbox.maxX) / 2;
     bbox.centerY = (bbox.minY + bbox.maxY) / 2;
+
+    if (cacheSize) {
+      cacheSize.width = Math.max(cacheSize.width, bbox.width);
+      cacheSize.height = Math.max(cacheSize.height, bbox.height);
+      this.set(CACHE_SIZE, cacheSize);
+      const type: string = keyShape.get('type');
+      if (type === 'circle') {
+        bbox.width = cacheSize.r * 2;
+        bbox.height = cacheSize.r * 2;
+      } 
+      else {
+        bbox.width = cacheSize.width;
+        bbox.height = cacheSize.height;
+      }
+      bbox.minX = bbox.centerX - bbox.width / 2;
+      bbox.minY = bbox.centerY - bbox.height / 2;
+      bbox.maxX = bbox.centerX + bbox.width / 2;
+      bbox.maxY = bbox.centerY + bbox.height / 2;
+    }
+    else {
+      bbox.width = bbox.maxX - bbox.minX;
+      bbox.height = bbox.maxY - bbox.minY;
+      bbox.centerX = (bbox.minX + bbox.maxX) / 2;
+      bbox.centerY = (bbox.minY + bbox.maxY) / 2;
+    }
+
     bbox.x = bbox.minX;
     bbox.y = bbox.minY;
     if (bbox.x !== oriX || bbox.y !== oriY) this.set(CACHE_ANCHOR_POINTS, null);
