@@ -202,7 +202,7 @@ G6.registerBehavior('zoom-canvas-exclude-lockedNode', {
       const center = node.getModel();
       matrix = Util.transform(matrix, [
         ['t', -center.x, -center.y],
-        ['s', ratio, ratio],
+        ['s', 1 / ratio, 1 / ratio],
         ['t', center.x, center.y],
       ]);
       node.get('group').setMatrix(matrix);

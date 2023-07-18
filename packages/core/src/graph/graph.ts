@@ -2679,7 +2679,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
       console.warn('The combo to be collapsed does not exist!');
       return;
     }
-    this.emit('beforecollapseexpandcombo', { action: 'expand', item: combo });
+    this.emit('beforecollapseexpandcombo', { action: 'collapse', item: combo });
 
     const comboModel = combo.getModel();
 

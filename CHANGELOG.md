@@ -1,5 +1,9 @@
 # ChangeLog
 
+### 4.8.20
+
+- fix: parent combo size problem, closes: #4734;
+
 ### 4.8.19
 
 - fix: custom node with image shape, setting state makes the image lost, closes: #4707;
