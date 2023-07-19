@@ -114,13 +114,19 @@ export const upsertShape = (
   model?: NodeDisplayModel | EdgeDisplayModel | ComboDisplayModel,
 ): DisplayObject => {
   let shape = shapeMap[id];
+  // TODO: it is not decoupling with the shape name 'keyShape'
+  const firstRendering = !shapeMap.keyShape;
   const { animates, disableAnimate } = model?.data || {};
   if (!shape) {
     // create
     shape = createShape(type, style, id);
     // find the animate styles, set them to be INIT_SHAPE_STYLES
     if (!disableAnimate && animates) {
-      const animateFields = findAnimateFields(animates, 'buildIn', id);
+      const animateFields = findAnimateFields(
+        animates,
+        firstRendering ? 'buildIn' : 'update',
+        id,
+      );
       const initShapeStyles = getShapeAnimateBeginStyles(shape);
       animateFields.forEach((key) => {
         shape.style[key] = initShapeStyles[key];

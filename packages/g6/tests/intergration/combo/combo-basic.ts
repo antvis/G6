@@ -17,6 +17,14 @@ export default () => {
           formatter: (model) => model.id,
         },
       },
+      animates: {
+        update: [
+          {
+            fields: ['opacity'],
+            shapeId: 'haloShape',
+          },
+        ],
+      },
     },
     combo: (model) => {
       return {
@@ -31,13 +39,12 @@ export default () => {
             text: model.id,
           },
 
-          // TODO
           animates: {
             buildIn: [
               {
                 fields: ['opacity'],
                 duration: 500,
-                delay: 2000 + Math.random() * 500,
+                delay: 500 + Math.random() * 500,
               },
             ],
             buildOut: [
@@ -53,7 +60,7 @@ export default () => {
               },
               {
                 fields: ['opacity'],
-                shapeId: 'halo',
+                shapeId: 'haloShape',
               },
             ],
           },
