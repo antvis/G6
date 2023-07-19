@@ -4,7 +4,7 @@ import { IGraph } from '../types';
 import Combo from '../item/combo';
 import Edge from '../item/edge';
 import Node from '../item/node';
-import { GraphCore } from 'types/data';
+import { GraphCore } from '../types/data';
 import { getCombinedBoundsByItem } from './shape';
 
 /**

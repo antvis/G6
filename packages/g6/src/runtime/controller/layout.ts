@@ -16,7 +16,7 @@ import {
   NodeModelData,
 } from '../../types';
 import { GraphCore } from '../../types/data';
-import { EdgeModelData } from 'types/edge';
+import { EdgeModelData } from '../../types/edge';
 
 /**
  * Manages layout extensions and graph layout.

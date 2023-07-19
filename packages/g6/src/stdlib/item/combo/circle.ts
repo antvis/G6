@@ -1,17 +1,11 @@
 import { DisplayObject } from '@antv/g';
-import { NodeDisplayModel } from '../../../types';
 import { State } from '../../../types/item';
-import {
-  NodeModelData,
-  NodeShapeMap,
-  NodeShapeStyles,
-} from '../../../types/node';
-import { CircleNode } from '../node';
 import {
   ComboDisplayModel,
   ComboModelData,
+  ComboShapeMap,
   ComboShapeStyles,
-} from 'types/combo';
+} from '../../../types/combo';
 import { BaseNode } from '../node/base';
 
 export class CircleCombo extends BaseNode {
@@ -30,12 +24,12 @@ export class CircleCombo extends BaseNode {
   }
   public draw(
     model: ComboDisplayModel,
-    shapeMap: NodeShapeMap,
+    shapeMap: ComboShapeMap,
     diffData?: { previous: ComboModelData; current: ComboModelData },
     diffState?: { previous: State[]; current: State[] },
-  ): NodeShapeMap {
+  ): ComboShapeMap {
     const { data = {} } = model;
-    let shapes: NodeShapeMap = { keyShape: undefined };
+    let shapes: ComboShapeMap = { keyShape: undefined };
 
     // keyShape
     shapes.keyShape = this.drawKeyShape(model, shapeMap, diffData);
@@ -104,7 +98,7 @@ export class CircleCombo extends BaseNode {
 
   public drawKeyShape(
     model: ComboDisplayModel,
-    shapeMap: NodeShapeMap,
+    shapeMap: ComboShapeMap,
     diffData?: { previous: ComboModelData; current: ComboModelData },
     diffState?: { previous: State[]; current: State[] },
   ): DisplayObject {

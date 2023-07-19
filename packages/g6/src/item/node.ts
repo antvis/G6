@@ -14,8 +14,7 @@ import {
   getRectIntersectByPoint,
 } from '../util/point';
 import Item from './item';
-import { ComboModelData } from 'types/combo';
-import { ITEM_TYPE } from '@antv/g6';
+import { ComboModelData } from '../types/combo';
 
 interface IProps {
   model: NodeModel | ComboModel;

@@ -1,6 +1,6 @@
 import { NodeUserModel } from 'types';
 import { IGraph } from '../types/graph';
-import { GraphCore } from 'types/data';
+import { GraphCore } from '../types/data';
 
 /**
  * Deconstruct data and distinguish nodes and combos from graphcore data.
