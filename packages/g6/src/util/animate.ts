@@ -359,10 +359,7 @@ export const animateShapes = (
   return animations;
 };
 
-export const getAnimatesExcludePosition = (
-  animates,
-  firstRendering: boolean,
-) => {
+export const getAnimatesExcludePosition = (animates) => {
   if (!animates.update) return animates;
   const isGroupId = (id) => !id || id === 'group';
   // const groupUpdateAnimates = animates.update.filter(
@@ -400,14 +397,7 @@ export const getAnimatesExcludePosition = (
       excludedAnimates.push(animate);
     }
   });
-
-  const { buildIn, ...otherAnimates } = animates;
-  const res = {
-    ...otherAnimates,
-    update: excludedAnimates,
-  };
-  if (firstRendering) res.buildIn = buildIn;
-  return res;
+  return animates;
 };
 
 export const fadeIn = (id, shape, style, hiddenShape, animateConfig) => {
