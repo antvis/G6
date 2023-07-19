@@ -12,7 +12,7 @@ import {
   IAnimates,
   IStateAnimate,
 } from '../types/animate';
-import { ItemShapeStyles, ShapeStyle } from '../types/item';
+import { ItemDisplayModel, ItemShapeStyles, ShapeStyle } from '../types/item';
 import { isArrayOverlap, replaceElements } from './array';
 
 /**
@@ -359,7 +359,10 @@ export const animateShapes = (
   return animations;
 };
 
-export const getAnimatesExcludePosition = (animates) => {
+export const getAnimatesExcludePosition = (
+  animates,
+  firstRendering: boolean,
+) => {
   if (!animates.update) return animates;
   const isGroupId = (id) => !id || id === 'group';
   // const groupUpdateAnimates = animates.update.filter(
@@ -398,10 +401,13 @@ export const getAnimatesExcludePosition = (animates) => {
     }
   });
 
-  return {
-    ...animates,
+  const { buildIn, ...otherAnimates } = animates;
+  const res = {
+    ...otherAnimates,
     update: excludedAnimates,
   };
+  if (firstRendering) res.buildIn = buildIn;
+  return res;
 };
 
 export const fadeIn = (id, shape, style, hiddenShape, animateConfig) => {
@@ -434,4 +440,26 @@ export const stopAnimate = (animation) => {
   const timing = animation.effect.getTiming();
   animation.currentTime = Number(timing.duration) + Number(timing.delay || 0);
   animation.cancel();
+};
+
+/**
+ * Filter out the buildIn animates if it is not the first rendering.
+ * @param model node / edge / combo data modal
+ * @param firstRendering whether it is the firstRendering
+ * @returns data model with filtered animates
+ */
+export const filterBuildInAnimates = (
+  model: ItemDisplayModel,
+  firstRendering?: boolean,
+): ItemDisplayModel => {
+  const { animates } = model.data;
+  if (!animates || firstRendering) return model;
+  const { buildIn, ...otherAnimates } = animates;
+  return {
+    ...model,
+    data: {
+      ...model.data,
+      animates: otherAnimates,
+    },
+  } as ItemDisplayModel;
 };

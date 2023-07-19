@@ -390,7 +390,6 @@ export default {
             fontSize: 12,
             zIndex: 1,
             lod: -1,
-            // text: 'xx',
             contentType: 'childCount',
             visible: true,
           },

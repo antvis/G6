@@ -11,6 +11,7 @@ export default () => {
     },
     node: {
       labelShape: {
+        position: 'center',
         text: {
           fields: ['id'],
           formatter: (model) => model.id,
@@ -31,27 +32,31 @@ export default () => {
           },
 
           // TODO
-          // animates: {
-          //   buildIn: [
-          //     {
-          //       fields: ['opacity'],
-          //       duration: 1000,
-          //       delay: 500 + Math.random() * 500,
-          //     },
-          //   ],
-          //   buildOut: [
-          //     {
-          //       fields: ['opacity'],
-          //       duration: 200,
-          //     },
-          //   ],
-          //   update: [
-          //     {
-          //       fields: ['fill', 'r'],
-          //       shapeId: 'keyShape',
-          //     },
-          //   ],
-          // },
+          animates: {
+            buildIn: [
+              {
+                fields: ['opacity'],
+                duration: 500,
+                delay: 2000 + Math.random() * 500,
+              },
+            ],
+            buildOut: [
+              {
+                fields: ['opacity'],
+                duration: 200,
+              },
+            ],
+            update: [
+              {
+                fields: ['lineWidth', 'r'],
+                shapeId: 'keyShape',
+              },
+              {
+                fields: ['opacity'],
+                shapeId: 'halo',
+              },
+            ],
+          },
         },
       };
     },
@@ -146,7 +151,7 @@ export default () => {
     //     y: 200,
     //   },
     // });
-    graph.moveCombo('combo3', 100, 200);
+    // graph.moveCombo('combo3', 100, 200);
   });
   return graph;
 };

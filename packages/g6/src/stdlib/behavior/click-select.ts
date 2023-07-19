@@ -68,6 +68,7 @@ export default class ClickSelect extends Behavior {
    */
   private canvasPointerDown: Point | undefined = undefined;
   private canvasPointerMove = false;
+  private timeout: NodeJS.Timeout = undefined;
 
   constructor(options: Partial<ClickSelectOptions>) {
     super(Object.assign({}, DEFAULT_OPTIONS, options));
@@ -84,7 +85,7 @@ export default class ClickSelect extends Behavior {
     return {
       'node:click': this.onClick,
       'edge:click': this.onClick,
-      'combo:click': this.onClick,
+      'combo:click': this.onClickBesideDblClick,
       'canvas:pointerdown': this.onCanvasPointerDown,
       'canvas:pointermove': this.onCanvasPointerMove,
       'canvas:pointerup': this.onCanvasPointerUp,
@@ -100,6 +101,18 @@ export default class ClickSelect extends Behavior {
       meta: event.metaKey,
     };
     return keyMap[this.options.trigger];
+  }
+
+  public onClickBesideDblClick(event: IG6GraphEvent) {
+    if (this.timeout) {
+      clearTimeout(this.timeout);
+      this.timeout = undefined;
+      return;
+    }
+    this.timeout = setTimeout(() => {
+      this.timeout = undefined;
+      this.onClick(event);
+    }, 200);
   }
 
   public onClick(event: IG6GraphEvent) {

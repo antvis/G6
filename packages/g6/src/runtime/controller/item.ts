@@ -54,6 +54,7 @@ import {
   graphCoreTreeDfs,
   traverseAncestors,
   traverseAncestorsAndSucceeds,
+  traverseGraphAncestors,
 } from '../../util/data';
 
 /**
@@ -143,6 +144,7 @@ export class ItemController {
     this.graph.hooks.itemvisibilitychange.tap(
       this.onItemVisibilityChange.bind(this),
     );
+    this.graph.hooks.itemzindexchange.tap(this.onItemZIndexChange.bind(this));
     this.graph.hooks.transientupdate.tap(this.onTransientUpdate.bind(this));
     this.graph.hooks.viewportchange.tap(this.onViewportChange.bind(this));
     this.graph.hooks.themechange.tap(this.onThemeChange.bind(this));
@@ -394,17 +396,44 @@ export class ItemController {
           edgeToUpdate[edge.id] = edge;
           nodeRelatedToUpdate[edge.id] = edge;
         });
+
+        const previousParentId = item.displayModel.data.parentId;
+
+        item.onframe = () => {
+          updateRelates(nodeRelatedToUpdate);
+        };
+        item.update(
+          innerModel,
+          { previous, current },
+          isReplace,
+          itemTheme,
+          onlyMove,
+          // call after updating finished
+          () => {
+            item.onframe();
+            item.onframe = undefined;
+          },
+        );
+
         if (graphCore.hasTreeStructure('combo')) {
+          if (type === 'combo' && current.collapsed !== previous.collapsed) {
+            if (current.collapsed) {
+              this.collapseCombo(graphCore, innerModel as ComboModel);
+            } else if (current.collapsed === false) {
+              this.expandCombo(graphCore, innerModel as ComboModel);
+            }
+          }
+
           // update the current parent combo tree
           // if the node has previous parent, related previous parent combo should be updated to
           if (upsertAncestors) {
             const begins = [innerModel];
             if (
-              previous.parentId &&
-              graphCore.hasNode(previous.parentId) &&
-              previous.parentId !== current.parentId
+              previousParentId &&
+              previousParentId !== current.parentId &&
+              graphCore.hasNode(previousParentId as ID)
             ) {
-              begins.push(graphCore.getNode(previous.parentId));
+              begins.push(graphCore.getNode(previousParentId as ID));
             }
             // ancestors and suceeds combos should be updated
             traverseAncestorsAndSucceeds(
@@ -424,29 +453,14 @@ export class ItemController {
           } else if (type === 'combo') {
             // only the succeed combos should be updated
             graphComboTreeDfs(this.graph, [innerModel], (child) => {
+              const relatedEdges = graphCore.getRelatedEdges(child.id);
+              relatedEdges.forEach((edge) => {
+                edgeToUpdate[edge.id] = edge;
+                nodeRelatedToUpdate[edge.id] = edge;
+              });
               if (child.data._isCombo && child.id !== innerModel.id)
                 comboToUpdate[child.id] = child;
             });
-          }
-        }
-
-        item.onframe = () => updateRelates(nodeRelatedToUpdate);
-        item.update(
-          innerModel,
-          { previous, current },
-          isReplace,
-          itemTheme,
-          onlyMove,
-          // call after updating finished
-          () => {
-            item.onframe = undefined;
-          },
-        );
-        if (type === 'combo' && current.collapsed !== previous.collapsed) {
-          if (current.collapsed) {
-            this.collapseCombo(graphCore, innerModel as ComboModel);
-          } else if (current.collapsed === false) {
-            this.expandCombo(graphCore, innerModel as ComboModel);
           }
         }
         const parentItem = this.itemMap[current.parentId];
@@ -590,6 +604,33 @@ export class ItemController {
           const relatedEdges = graphCore.getRelatedEdges(id);
           relatedEdges.forEach(({ id: edgeId }) => {
             this.itemMap[edgeId]?.hide();
+          });
+        }
+      }
+    });
+  }
+
+  private onItemZIndexChange(params: { ids: ID[]; action: 'front' | 'back' }) {
+    const { ids = [], action } = params;
+    ids.forEach((id) => {
+      const item = this.itemMap[id];
+      if (item) {
+        if (action === 'front') {
+          graphComboTreeDfs(
+            this.graph,
+            [item.model],
+            (model) => {
+              if (model.data._isCombo) {
+                const subCombo = this.itemMap[model.id];
+                subCombo && subCombo.toFront();
+              }
+            },
+            'TB',
+          );
+        } else {
+          item.toBack();
+          traverseGraphAncestors(this.graph, [item.model], (model) => {
+            this.itemMap[model.id]?.toBack();
           });
         }
       }

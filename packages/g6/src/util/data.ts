@@ -94,6 +94,23 @@ export const traverseAncestorsAndSucceeds = (
   return;
 };
 
+export const traverseGraphAncestors = (
+  graph: IGraph,
+  nodes: NodeUserModel[],
+  fn,
+) => {
+  if (!nodes?.length) return;
+  nodes.forEach((node) => {
+    if (!node.data.parentId) return;
+    let ancestor = graph.getComboData(node.data.parentId);
+    while (ancestor) {
+      if (fn(ancestor)) return;
+      if (!ancestor.data.parentId) return;
+      ancestor = graph.getComboData(ancestor.data.parentId);
+    }
+  });
+};
+
 /**
  * Traverse the ancestors from the begin nodes.
  * @param graphCore graphlib data structure

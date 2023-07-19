@@ -96,7 +96,10 @@ export default class Node extends Item {
 
     // handle shape's and group's animate
     if (!disableAnimate && animates) {
-      const animatesExcludePosition = getAnimatesExcludePosition(animates);
+      const animatesExcludePosition = getAnimatesExcludePosition(
+        animates,
+        firstRendering,
+      );
       this.animations = animateShapes(
         animatesExcludePosition, // animates
         renderExt.mergedStyles, // targetStylesMap

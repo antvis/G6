@@ -132,6 +132,7 @@ export class DataController {
   }
 
   public findChildren(comboId: ID, treeKey: string) {
+    if (!this.graphCore.hasNode(comboId)) return;
     return this.graphCore.getChildren(comboId, treeKey);
   }
 

@@ -64,7 +64,7 @@ export interface DragComboOptions {
 }
 
 const DEFAULT_OPTIONS: Required<DragComboOptions> = {
-  enableTransient: false,
+  enableTransient: true,
   enableDelegate: false,
   delegateStyle: {
     fill: '#F3F9FF',
@@ -233,7 +233,11 @@ export default class DragCombo extends Behavior {
 
       // If current node is selected, drag all the selected nodes together.
       // Otherwise drag current node.
-      if (currentComboId && !selectedComboIds.includes(currentComboId)) {
+      if (
+        currentComboId &&
+        event.itemType === 'combo' &&
+        !selectedComboIds.includes(currentComboId)
+      ) {
         selectedComboIds = [currentComboId];
       }
       this.selectedComboIds = selectedComboIds;
@@ -282,6 +286,8 @@ export default class DragCombo extends Behavior {
           this.hiddenComboTreeRoots.map((child) => child.id),
           true,
         );
+      } else {
+        this.graph.frontItem(selectedComboIds);
       }
 
       // Throttle moving.
@@ -505,7 +511,7 @@ export default class DragCombo extends Behavior {
     const newParentId = event.itemId;
     this.originPositions.forEach(({ id }) => {
       const model = this.graph.getComboData(id);
-      if (!model) return;
+      if (!model || model.id === newParentId) return;
       const { parentId } = model.data;
       if (parentId === newParentId) return;
       // event.stopPropagation();

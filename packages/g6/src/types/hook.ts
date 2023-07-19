@@ -69,6 +69,10 @@ export interface Hooks {
     value?: boolean;
     animate?: boolean;
   }>;
+  itemzindexchange: IHook<{
+    ids: ID[];
+    action: 'front' | 'back';
+  }>;
   transientupdate: IHook<{
     type: ITEM_TYPE | SHAPE_TYPE;
     id: ID;

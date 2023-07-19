@@ -407,7 +407,8 @@ export abstract class BaseNode {
     diffState?: { previous: State[]; current: State[] },
   ): DisplayObject {
     const { keyShape } = shapeMap;
-    const { haloShape: haloShapeStyle } = this.mergedStyles;
+    const { haloShape: haloShapeStyle, keyShape: keyShapeStyle } =
+      this.mergedStyles;
     if (haloShapeStyle.visible === false) return;
     const { nodeName, attributes } = keyShape;
     return this.upsertShape(
@@ -415,6 +416,7 @@ export abstract class BaseNode {
       'haloShape',
       {
         ...attributes,
+        ...keyShapeStyle,
         stroke: attributes.fill,
         ...haloShapeStyle,
         batchKey: 'halo',

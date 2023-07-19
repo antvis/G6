@@ -453,6 +453,20 @@ export interface IGraph<
    */
   hideItem: (ids: ID | ID[], disableAniamte?: boolean) => void;
   /**
+   * Make the item(s) to the front.
+   * @param ids the item id(s) to front
+   * @returns
+   * @group Item
+   */
+  frontItem: (ids: ID | ID[]) => void;
+  /**
+   * Make the item(s) to the back.
+   * @param ids the item id(s) to back
+   * @returns
+   * @group Item
+   */
+  backItem: (ids: ID | ID[]) => void;
+  /**
    * Set state for the item(s).
    * @param ids the id(s) for the item(s) to be set
    * @param state the state name

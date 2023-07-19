@@ -244,6 +244,9 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       itemvisibilitychange: new Hook<{ ids: ID[]; value: boolean }>({
         name: 'itemvisibilitychange',
       }),
+      itemzindexchange: new Hook<{ ids: ID[]; action: 'front' | 'back' }>({
+        name: 'itemzindexchange',
+      }),
       transientupdate: new Hook<{
         type: ITEM_TYPE | SHAPE_TYPE;
         id: ID;
@@ -1078,6 +1081,33 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       value: false,
       graphCore: this.dataController.graphCore,
       animate: !disableAniamte,
+    });
+  }
+
+  /**
+   * Make the item(s) to the front.
+   * @param ids
+   * @returns
+   * @group Item
+   */
+  public frontItem(ids: ID | ID[]) {
+    const idArr = isArray(ids) ? ids : [ids];
+    this.hooks.itemzindexchange.emit({
+      ids: idArr as ID[],
+      action: 'front',
+    });
+  }
+  /**
+   * Make the item(s) to the back.
+   * @param ids
+   * @returns
+   * @group Item
+   */
+  public backItem(ids: ID | ID[]) {
+    const idArr = isArray(ids) ? ids : [ids];
+    this.hooks.itemzindexchange.emit({
+      ids: idArr as ID[],
+      action: 'back',
     });
   }
   /**

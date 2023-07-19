@@ -122,15 +122,15 @@ export default class DragNode extends Behavior {
     const events: any = {
       'node:pointerdown': this.onPointerDown,
       pointermove: this.onPointerMove,
-      // click: this.onPointerUp,
+      click: this.onPointerUp,
       // FIXME: IG6Event -> keyboard event
       keydown: this.onKeydown as any,
     };
     if (this.options.updateComboStructure) {
       return {
-        // 'node:drop': this.onDropNode,
+        'node:drop': this.onDropNode,
         'combo:drop': this.onDropCombo,
-        // 'canvas:drop': this.onDropCanvas,
+        'canvas:drop': this.onDropCanvas,
         ...events,
       };
     } else {
@@ -274,6 +274,8 @@ export default class DragNode extends Behavior {
           this.hiddenComboTreeItems.map((combo) => combo.id),
           true,
         );
+      } else {
+        this.graph.frontItem(selectedNodeIds);
       }
 
       // Throttle moving.

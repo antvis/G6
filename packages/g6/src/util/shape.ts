@@ -614,6 +614,47 @@ export const getShapeLocalBoundsByStyle = (
   }
 };
 
+/**
+ * Combine multiple bounds into one.
+ * @param bounds bounds' array
+ * @returns combined bounds
+ */
+export const combineBounds = (
+  bounds: {
+    min: number[];
+    max: number[];
+    center: number[];
+  }[],
+): {
+  min: number[];
+  max: number[];
+  center: number[];
+} => {
+  const res = {
+    center: [0, 0, 0],
+    min: [Infinity, Infinity, Infinity],
+    max: [-Infinity, -Infinity, -Infinity],
+    size: [0, 0, 0],
+  };
+  bounds.forEach((bound) => {
+    const { min, max } = bound;
+    min.forEach((val, i) => {
+      if (val < res.min[i]) res.min[i] = val;
+    });
+    max.forEach((val, i) => {
+      if (val > res.max[i]) res.max[i] = val;
+    });
+  });
+  res.center = res.center.map((val, i) => (res.max[i] + res.min[i]) / 2);
+  return res;
+};
+
+/**
+ * Calculate the combined bounds according to the sub data models.
+ * @param graph graph instance
+ * @param models sub data models
+ * @returns combined bounds
+ */
 export const getCombinedBoundsByData = (
   graph: IGraph,
   models: ItemModel[],

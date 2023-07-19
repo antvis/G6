@@ -43,8 +43,6 @@ export const upsertTransientItem = (
   }
   if (item.type === 'node') {
     transientItem = item.clone(nodeGroup, onlyDrawKeyShape, true) as Node;
-    transientItemMap[item.model.id] = transientItem;
-    transientItem.transient = true;
   } else if (item.type === 'edge') {
     const source = upsertTransientItem(
       item.sourceItem,
@@ -56,7 +54,7 @@ export const upsertTransientItem = (
       graphCore,
       onlyDrawKeyShape,
       false,
-    ) as Node;
+    ) as Node | Combo;
     const target = upsertTransientItem(
       item.targetItem,
       nodeGroup,
@@ -67,7 +65,7 @@ export const upsertTransientItem = (
       graphCore,
       onlyDrawKeyShape,
       false,
-    ) as Node;
+    ) as Node | Combo;
     transientItem = item.clone(
       edgeGroup,
       source,
@@ -75,10 +73,7 @@ export const upsertTransientItem = (
       undefined,
       true,
     ) as Edge;
-    transientItem.transient = true;
-    transientItemMap[item.model.id] = transientItem;
   } else {
-    // combo
     // find the succeeds to upsert transients
     const childItems = [];
     const children = graphCore.getChildren(item.model.id, 'combo');
@@ -107,10 +102,10 @@ export const upsertTransientItem = (
       () => getCombinedBoundsByItem(childItems), // getCombinedBounds
       () => childItems,
     ) as Combo;
-    transientItemMap[item.model.id] = transientItem;
-    transientItem.transient = true;
     transientItem.toBack();
   }
+  transientItemMap[item.model.id] = transientItem;
+  transientItem.transient = true;
 
   if (item.type !== 'edge' && upsertAncestors) {
     // find the ancestors to upsert transients

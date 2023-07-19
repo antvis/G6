@@ -16,7 +16,12 @@ import {
 import { NodeShapeMap } from '../types/node';
 import { EdgeStyleSet, NodeStyleSet } from '../types/theme';
 import { isArrayOverlap } from '../util/array';
-import { mergeStyles, updateShapes } from '../util/shape';
+import {
+  combineBounds,
+  getShapeLocalBoundsByStyle,
+  mergeStyles,
+  updateShapes,
+} from '../util/shape';
 import { isEncode } from '../util/type';
 import { DEFAULT_MAPPER } from '../util/mapper';
 import {
@@ -24,6 +29,7 @@ import {
   animateShapes,
   GROUP_ANIMATE_STYLES,
   stopAnimate,
+  filterBuildInAnimates,
 } from '../util/animate';
 import { AnimateTiming, IAnimates } from '../types/animate';
 import { formatLodStrategy } from '../util/zoom';
@@ -279,6 +285,7 @@ export default abstract class Item implements IItem {
 
     const { data: innerModelData, ...otherFields } = innerModel;
     const { current = innerModelData, previous } = diffData || {};
+    const firstRendering = !this.shapeMap?.keyShape;
 
     // === no mapper, displayModel = model ===
     if (!mapper) {
@@ -288,19 +295,23 @@ export default abstract class Item implements IItem {
         typeChange = Boolean(current.type);
       }
       return {
-        model: defaultMapper(innerModel),
+        model: filterBuildInAnimates(defaultMapper(innerModel), firstRendering),
         typeChange,
       };
     }
 
     // === mapper is function, displayModel is mapper(model), cannot diff the displayModel, so all the shapes need to be updated ===
-    if (isFunction(mapper))
+    if (isFunction(mapper)) {
       return {
-        model: {
-          ...defaultMapper(innerModel),
-          ...(mapper as Function)(innerModel),
-        },
+        model: filterBuildInAnimates(
+          {
+            ...defaultMapper(innerModel),
+            ...(mapper as Function)(innerModel),
+          },
+          firstRendering,
+        ),
       };
+    }
 
     // === fields' values in mapper are final value or Encode ===
     const dataChangedFields = isReplace
@@ -374,7 +385,7 @@ export default abstract class Item implements IItem {
       data: displayModelData,
     };
     return {
-      model: displayModel,
+      model: filterBuildInAnimates(displayModel, firstRendering),
       typeChange,
     };
   }
@@ -602,7 +613,10 @@ export default abstract class Item implements IItem {
    */
   private drawWithStates(previousStates: State[], onfinish?: Function) {
     const { default: _, ...themeStateStyles } = this.themeStyles;
-    const { data: displayModelData } = this.displayModel;
+    const { data: displayModelData } = filterBuildInAnimates(
+      this.displayModel,
+      false,
+    );
     let styles = {}; // merged styles
     this.states.forEach(({ name: stateName, value }) => {
       const stateStyles = this.cacheStateStyles[stateName] || {};
@@ -695,6 +709,27 @@ export default abstract class Item implements IItem {
    * @returns item's rendering bounding box
    */
   public getBBox(): AABB {
+    if (this.animations?.length) {
+      // during animations, estimate the final bounds by the styles in displayModel
+      const { keyShape, labelShape } = this.shapeMap;
+      const {
+        keyShape: keyShapeStyle,
+        labelShape: labelShapeStyle,
+        x = 0,
+        y = 0,
+        z = 0,
+      } = this.displayModel.data;
+      const estimateBounds = combineBounds([
+        getShapeLocalBoundsByStyle(keyShape, keyShapeStyle),
+        getShapeLocalBoundsByStyle(labelShape, labelShapeStyle),
+      ]);
+      [x, y, z].forEach((val: number, i) => {
+        estimateBounds.max[i] += val;
+        estimateBounds.min[i] += val;
+        estimateBounds.center[i] += val;
+      });
+      return estimateBounds as AABB;
+    }
     return this.group.getRenderBounds();
   }
 
