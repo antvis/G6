@@ -142,7 +142,10 @@ export default class DragNode extends Behavior {
   };
 
   /** Given selected node ids, get their related visible edges. */
-  private getRelatedEdges(selectedNodeIds: ID[], relatedCombo: ComboModel[]) {
+  private getRelatedEdges(
+    selectedNodeIds: ID[],
+    relatedCombo: (ComboModel | NodeModel)[],
+  ) {
     const relatedNodeComboIds = [];
     graphComboTreeDfs(this.graph, relatedCombo, (item) =>
       relatedNodeComboIds.push(item.id),

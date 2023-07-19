@@ -45,6 +45,7 @@ import {
   NodeStyleSet,
   EdgeStyleSet,
   ComboThemeSpecifications,
+  ComboStyleSet,
 } from '../../types/theme';
 import { ViewportChangeHookParams } from '../../types/hook';
 import { formatLodStrategy } from '../../util/zoom';
@@ -920,7 +921,7 @@ export class ItemController {
         stateMapper: this.comboStateMapper,
         zoom,
         theme: itemTheme as {
-          styles: NodeStyleSet;
+          styles: ComboStyleSet;
           lodStrategy: LodStrategyObj;
         },
         device:

@@ -85,7 +85,7 @@ export default class Combo extends Node {
           ...this.themeStyles.collapsed[shapeId],
         };
         if (this.themeStyles.collapsed[shapeId].contentType === 'childCount') {
-          displayModel.data[shapeId].text = `${this.getChildren().length || 0}`;
+          (displayModel.data[shapeId] as any).text = `${this.getChildren().length || 0}`;
         }
       });
     }

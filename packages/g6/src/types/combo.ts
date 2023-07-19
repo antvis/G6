@@ -86,6 +86,8 @@ export interface ComboShapeStyles extends ItemShapeStyles {
     offsetX?: number;
     offsetY?: number;
     offsetZ?: number;
+    // string means the percentage of the keyShape, number means pixel
+    maxWidth?: string | number;
   };
   labelBackgroundShape?: ShapeStyle & {
     padding?: number | number[];
@@ -94,6 +96,7 @@ export interface ComboShapeStyles extends ItemShapeStyles {
   badgeShapes?: ShapeStyle & {
     color?: string;
     textColor?: string;
+    palette?: string[];
     // individual styles and their position
     [key: number]: ShapeStyle & {
       position?: BadgePosition;

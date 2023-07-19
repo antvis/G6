@@ -141,7 +141,7 @@ export default class DragCombo extends Behavior {
   /** Given selected node ids, get their related visible edges. */
   private getRelatedEdges(
     selectedComboIds: ID[],
-    comboTreeRoots: ComboModel[],
+    comboTreeRoots: (ComboModel | NodeModel)[],
   ) {
     let edges = selectedComboIds.flatMap((comboId) =>
       this.graph.getRelatedEdgesData(comboId),
