@@ -441,25 +441,3 @@ export const stopAnimate = (animation) => {
   animation.currentTime = Number(timing.duration) + Number(timing.delay || 0);
   animation.cancel();
 };
-
-/**
- * Filter out the buildIn animates if it is not the first rendering.
- * @param model node / edge / combo data modal
- * @param firstRendering whether it is the firstRendering
- * @returns data model with filtered animates
- */
-export const filterBuildInAnimates = (
-  model: ItemDisplayModel,
-  firstRendering?: boolean,
-): ItemDisplayModel => {
-  const { animates } = model.data;
-  if (!animates || firstRendering) return model;
-  const { buildIn, ...otherAnimates } = animates;
-  return {
-    ...model,
-    data: {
-      ...model.data,
-      animates: otherAnimates,
-    },
-  } as ItemDisplayModel;
-};

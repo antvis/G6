@@ -29,7 +29,6 @@ import {
   animateShapes,
   GROUP_ANIMATE_STYLES,
   stopAnimate,
-  filterBuildInAnimates,
 } from '../util/animate';
 import { AnimateTiming, IAnimates } from '../types/animate';
 import { formatLodStrategy } from '../util/zoom';
@@ -295,7 +294,7 @@ export default abstract class Item implements IItem {
         typeChange = Boolean(current.type);
       }
       return {
-        model: filterBuildInAnimates(defaultMapper(innerModel), firstRendering),
+        model: defaultMapper(innerModel),
         typeChange,
       };
     }
@@ -303,13 +302,10 @@ export default abstract class Item implements IItem {
     // === mapper is function, displayModel is mapper(model), cannot diff the displayModel, so all the shapes need to be updated ===
     if (isFunction(mapper)) {
       return {
-        model: filterBuildInAnimates(
-          {
-            ...defaultMapper(innerModel),
-            ...(mapper as Function)(innerModel),
-          },
-          firstRendering,
-        ),
+        model: {
+          ...defaultMapper(innerModel),
+          ...(mapper as Function)(innerModel),
+        },
       };
     }
 
@@ -380,12 +376,11 @@ export default abstract class Item implements IItem {
         });
       }
     });
-    const displayModel = {
-      ...otherProps,
-      data: displayModelData,
-    };
     return {
-      model: filterBuildInAnimates(displayModel, firstRendering),
+      model: {
+        ...otherProps,
+        data: displayModelData,
+      },
       typeChange,
     };
   }
@@ -613,10 +608,7 @@ export default abstract class Item implements IItem {
    */
   private drawWithStates(previousStates: State[], onfinish?: Function) {
     const { default: _, ...themeStateStyles } = this.themeStyles;
-    const { data: displayModelData } = filterBuildInAnimates(
-      this.displayModel,
-      false,
-    );
+    const { data: displayModelData } = this.displayModel;
     let styles = {}; // merged styles
     this.states.forEach(({ name: stateName, value }) => {
       const stateStyles = this.cacheStateStyles[stateName] || {};
