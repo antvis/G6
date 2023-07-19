@@ -397,7 +397,10 @@ export const getAnimatesExcludePosition = (animates) => {
       excludedAnimates.push(animate);
     }
   });
-  return animates;
+  return {
+    ...animates,
+    update: excludedAnimates,
+  };
 };
 
 export const fadeIn = (id, shape, style, hiddenShape, animateConfig) => {

@@ -1168,8 +1168,8 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    */
   public getRenderBBox(
     id: ID | undefined,
-    onlyKeyShape: boolean = false,
-    isTransient: boolean = false,
+    onlyKeyShape = false,
+    isTransient = false,
   ): AABB | false {
     if (!id) return this.canvas.getRoot().getRenderBounds();
     return this.itemController.getItemBBox(id, onlyKeyShape, isTransient);

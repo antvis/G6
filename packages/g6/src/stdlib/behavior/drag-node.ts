@@ -322,7 +322,7 @@ export default class DragNode extends Behavior {
     deltaX: number,
     deltaY: number,
     transient: boolean,
-    upsertAncestors: boolean = true,
+    upsertAncestors = true,
   ) {
     if (transient) {
       // Move transient nodes
@@ -357,7 +357,7 @@ export default class DragNode extends Behavior {
     deltaX: number,
     deltaY: number,
     transient: boolean,
-    upsertAncestors: boolean = true,
+    upsertAncestors = true,
   ) => {
     // Should be overrided when drag start.
   };

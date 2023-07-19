@@ -35,7 +35,7 @@ export const upsertTransientItem = (
   itemMap: Record<string, Node | Edge | Combo>,
   graphCore?: GraphCore,
   onlyDrawKeyShape?: boolean,
-  upsertAncestors: boolean = true,
+  upsertAncestors = true,
 ) => {
   let transientItem = transientItemMap[item.model.id];
   if (transientItem) {
