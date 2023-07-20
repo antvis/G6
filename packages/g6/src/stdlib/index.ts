@@ -28,6 +28,7 @@ import { CubicEdge } from './item/edge/cubic';
 import { CubicHorizonEdge } from './item/edge/cubic-horizon';
 import { CubicVerticalEdge } from './item/edge/cubic-vertical';
 import { Quadratic } from './item/edge/quadratic';
+import Snapline from './plugin/snapline';
 
 const stdLib = {
   transforms: {
@@ -59,6 +60,7 @@ const stdLib = {
   plugins: {
     minimap: Minimap,
     legend: Legend,
+    snapline: Snapline
   },
   nodes: {
     'circle-node': CircleNode,
