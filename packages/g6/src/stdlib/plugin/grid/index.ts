@@ -93,7 +93,9 @@ export default class Grid extends Base {
     let { matrix } = param;
     if (!matrix) matrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
 
-    const transform = `matrix(${matrix[0]}, ${matrix[1]}, ${matrix[3]}, ${matrix[4]}, 0, 0)`;
+    const isFollow = this.options.follow;
+    const transform = `matrix(${matrix[0]}, ${matrix[1]}, ${matrix[3]}, ${matrix[4]}, ${isFollow ? matrix[6] : '0'
+  }, ${isFollow ? matrix[7] : '0'})`;
 
     modifyCSS(gridContainer, {
       transform,
