@@ -611,12 +611,17 @@ export class ItemController {
     });
   }
 
-  private onItemZIndexChange(params: { ids: ID[]; action: 'front' | 'back' }) {
-    const { ids = [], action } = params;
+  private onItemZIndexChange(params: {
+    ids: ID[];
+    action: 'front' | 'back';
+    graphCore: GraphCore;
+  }) {
+    const { ids = [], action, graphCore } = params;
     ids.forEach((id) => {
       const item = this.itemMap[id];
-      if (item) {
-        if (action === 'front') {
+      if (!item) return;
+      if (action === 'front') {
+        if (graphCore.hasTreeStructure('combo')) {
           graphComboTreeDfs(
             this.graph,
             [item.model],
@@ -629,7 +634,11 @@ export class ItemController {
             'TB',
           );
         } else {
-          item.toBack();
+          item.toFront();
+        }
+      } else {
+        item.toBack();
+        if (graphCore.hasTreeStructure('combo')) {
           traverseGraphAncestors(this.graph, [item.model], (model) => {
             this.itemMap[model.id]?.toBack();
           });

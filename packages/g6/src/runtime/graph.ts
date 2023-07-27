@@ -244,7 +244,11 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       itemvisibilitychange: new Hook<{ ids: ID[]; value: boolean }>({
         name: 'itemvisibilitychange',
       }),
-      itemzindexchange: new Hook<{ ids: ID[]; action: 'front' | 'back' }>({
+      itemzindexchange: new Hook<{
+        ids: ID[];
+        action: 'front' | 'back';
+        graphCore: GraphCore;
+      }>({
         name: 'itemzindexchange',
       }),
       transientupdate: new Hook<{
@@ -1095,6 +1099,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     this.hooks.itemzindexchange.emit({
       ids: idArr as ID[],
       action: 'front',
+      graphCore: this.dataController.graphCore,
     });
   }
   /**
@@ -1108,6 +1113,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     this.hooks.itemzindexchange.emit({
       ids: idArr as ID[],
       action: 'back',
+      graphCore: this.dataController.graphCore,
     });
   }
   /**

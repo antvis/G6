@@ -72,6 +72,7 @@ export interface Hooks {
   itemzindexchange: IHook<{
     ids: ID[];
     action: 'front' | 'back';
+    graphCore: GraphCore;
   }>;
   transientupdate: IHook<{
     type: ITEM_TYPE | SHAPE_TYPE;
