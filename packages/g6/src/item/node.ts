@@ -13,8 +13,8 @@ import {
   getNearestPoint,
   getRectIntersectByPoint,
 } from '../util/point';
-import Item from './item';
 import { ComboModelData } from '../types/combo';
+import Item from './item';
 
 interface IProps {
   model: NodeModel | ComboModel;

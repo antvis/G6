@@ -1,16 +1,15 @@
 import { ComboDisplayModel, ComboModel } from 'types';
 import { Group, Tuple3Number } from '@antv/g';
-import { clone } from '@antv/util';
+import { clone, throttle } from '@antv/util';
 import { DisplayMapper, LodStrategyObj, State } from '../types/item';
 import { ComboStyleSet } from '../types/theme';
-import Node from './node';
 import {
   ComboModelData,
   ComboUserModel,
   ComboUserModelData,
 } from '../types/combo';
-import { throttle } from '@antv/util';
 import { Point } from '../types/common';
+import Node from './node';
 
 interface IProps {
   model: ComboModel;
@@ -85,7 +84,9 @@ export default class Combo extends Node {
           ...this.themeStyles.collapsed[shapeId],
         };
         if (this.themeStyles.collapsed[shapeId].contentType === 'childCount') {
-          (displayModel.data[shapeId] as any).text = `${this.getChildren().length || 0}`;
+          (displayModel.data[shapeId] as any).text = `${
+            this.getChildren().length || 0
+          }`;
         }
       });
     }

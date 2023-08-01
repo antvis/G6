@@ -44,7 +44,6 @@ import {
 } from './controller';
 import { PluginController } from './controller/plugin';
 import Hook from './hooks';
-import { graphComboTreeDfs } from '../util/data';
 
 /**
  * Disable CSS parsing for better performance.

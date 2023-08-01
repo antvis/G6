@@ -28,12 +28,12 @@ import {
 } from '../types/item';
 import { NodeDisplayModel, NodeShapeMap } from '../types/node';
 import { ComboDisplayModel, IGraph } from '../types';
-import { getShapeAnimateBeginStyles } from './animate';
-import { isArrayOverlap } from './array';
-import { isBetween } from './math';
 import Node from '../item/node';
 import Edge from '../item/edge';
 import Combo from '../item/combo';
+import { getShapeAnimateBeginStyles } from './animate';
+import { isArrayOverlap } from './array';
+import { isBetween } from './math';
 
 export const ShapeTagMap = {
   circle: Circle,

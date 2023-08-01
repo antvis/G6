@@ -1,4 +1,5 @@
 import { Node as GNode, PlainObject } from '@antv/graphlib';
+import { ImageStyleProps, TextStyleProps } from '@antv/gui/lib/shapes';
 import { IAnimates } from './animate';
 import { Padding } from './common';
 import {
@@ -13,8 +14,6 @@ import {
   LodStrategy,
 } from './item';
 import { NodeShapeMap, NodeUserModelData } from './node';
-import { DisplayObject } from '@antv/g';
-import { ImageStyleProps, TextStyleProps } from '@antv/gui/lib/shapes';
 
 export type ComboLabelPosition =
   | 'bottom'
@@ -172,7 +171,7 @@ export interface ComboEncode extends ComboShapesEncode {
   animates?: IAnimates;
 }
 
-export interface ComboShapeMap extends NodeShapeMap {}
+export type ComboShapeMap = NodeShapeMap;
 
 // TODO
 export type ICombo = IItem;
