@@ -88,7 +88,6 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
 
   constructor(spec: Specification<B, T>) {
     super();
-    // TODO: analyse cfg
 
     this.specification = Object.assign({}, this.defaultSpecification, spec);
     this.initHooks();
@@ -217,6 +216,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
         changes: GraphChange<NodeModelData, EdgeModelData>[];
         graphCore: GraphCore;
         theme: ThemeSpecification;
+        upsertAncestors?: boolean;
       }>({ name: 'itemchange' }),
       render: new Hook<{
         graphCore: GraphCore;
@@ -243,6 +243,13 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       itemvisibilitychange: new Hook<{ ids: ID[]; value: boolean }>({
         name: 'itemvisibilitychange',
       }),
+      itemzindexchange: new Hook<{
+        ids: ID[];
+        action: 'front' | 'back';
+        graphCore: GraphCore;
+      }>({
+        name: 'itemzindexchange',
+      }),
       transientupdate: new Hook<{
         type: ITEM_TYPE | SHAPE_TYPE;
         id: ID;
@@ -251,6 +258,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
           action: 'remove' | 'add' | 'update' | undefined;
         };
         canvas: Canvas;
+        graphCore: GraphCore;
       }>({ name: 'transientupdate' }),
       pluginchange: new Hook<{
         action: 'update' | 'add' | 'remove';
@@ -364,7 +372,18 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * @returns
    */
   public clear() {
-    // TODO
+    this.removeData(
+      'edge',
+      this.getAllEdgesData().map((edge) => edge.id),
+    );
+    this.removeData(
+      'node',
+      this.getAllNodesData().map((node) => node.id),
+    );
+    this.removeData(
+      'combo',
+      this.getAllCombosData().map((combo) => combo.id),
+    );
   }
 
   public getViewportCenter(): PointLike {
@@ -737,7 +756,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * @group Data
    */
   public getAllNodesData(): NodeModel[] {
-    return this.dataController.findAllData('node');
+    return this.dataController.findAllData('node') as NodeModel[];
   }
   /**
    * Get all the edges' inner data
@@ -758,26 +777,35 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
   /**
    * Get one-hop edge ids from a start node.
    * @param nodeId id of the start node
-   * @returns one-hop edge ids
+   * @returns one-hop edges' data array
    * @group Data
    */
   public getRelatedEdgesData(
     nodeId: ID,
     direction: 'in' | 'out' | 'both' = 'both',
   ): EdgeModel[] {
-    return this.dataController.findRelatedEdgeIds(nodeId, direction);
+    return this.dataController.findRelatedEdges(nodeId, direction);
   }
   /**
    * Get one-hop node ids from a start node.
    * @param nodeId id of the start node
-   * @returns one-hop node ids
+   * @returns one-hop nodes' data array
    * @group Data
    */
   public getNeighborNodesData(
     nodeId: ID,
     direction: 'in' | 'out' | 'both' = 'both',
   ): NodeModel[] {
-    return this.dataController.findNeighborNodeIds(nodeId, direction);
+    return this.dataController.findNeighborNodes(nodeId, direction);
+  }
+  /**
+   * Get the children's data of a combo.
+   * @param comboId combo id
+   * @returns children's data array
+   * @group Data
+   */
+  public getComboChildrenData(comboId: ID): (ComboModel | NodeModel)[] {
+    return this.dataController.findChildren(comboId, 'combo');
   }
 
   /**
@@ -796,8 +824,9 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
   ): ID[] {
     let ids = this.itemController.findIdByState(itemType, state, value);
     if (additionalFilter) {
-      const getDataFunc =
-        itemType === 'node' ? this.getNodeData : this.getEdgeData; // TODO: combo
+      let getDataFunc: any = this.getEdgeData;
+      if (itemType === 'node') getDataFunc = this.getNodeData;
+      else if (itemType === 'combo') getDataFunc = this.getComboData;
       ids = ids.filter((id) => additionalFilter(getDataFunc(id)));
     }
     return ids;
@@ -868,7 +897,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     const { userGraphCore, graphCore } = this.dataController;
     const { specification } = this.themeController;
     const getItem =
-      itemType === 'edge' ? userGraphCore.getEdge : userGraphCore.getNode; // TODO: combo
+      itemType === 'edge' ? userGraphCore.getEdge : userGraphCore.getNode;
     data[`${itemType}s`] = idArr.map((id) => getItem.bind(userGraphCore)(id));
     graphCore.once('changed', (event) => {
       if (!event.changes.length) return;
@@ -955,6 +984,40 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       | Partial<
           ComboUserModel | Partial<NodeUserModel>[] | Partial<ComboUserModel>[]
         >,
+    upsertAncestors?: boolean,
+    stack?: boolean,
+  ) {
+    return this.updatePosition('node', models, upsertAncestors, stack);
+  }
+
+  /**
+   * Update one or more combos' positions,
+   * do not update other styles which leads to better performance than updating positions by updateData.
+   * In fact, it changes the succeed nodes positions to affect the combo's position, but not modify the combo's position directly.
+   * @param models new configurations with x and y for every combo, which has id field to indicate the specific item
+   * @param {boolean} stack whether push this operation into graph's stack, true by default
+   * @group Data
+   */
+  public updateComboPosition(
+    models:
+      | Partial<NodeUserModel>
+      | Partial<
+          ComboUserModel | Partial<NodeUserModel>[] | Partial<ComboUserModel>[]
+        >,
+    upsertAncestors?: boolean,
+    stack?: boolean,
+  ) {
+    return this.updatePosition('combo', models, upsertAncestors, stack);
+  }
+
+  private updatePosition(
+    type: 'node' | 'combo',
+    models:
+      | Partial<NodeUserModel>
+      | Partial<
+          ComboUserModel | Partial<NodeUserModel>[] | Partial<ComboUserModel>[]
+        >,
+    upsertAncestors?: boolean,
     stack?: boolean,
   ) {
     const modelArr = isArray(models) ? models : [models];
@@ -963,32 +1026,36 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     graphCore.once('changed', (event) => {
       if (!event.changes.length) return;
       this.hooks.itemchange.emit({
-        type: 'node',
+        type,
         changes: event.changes,
         graphCore,
         theme: specification,
-        action: 'updateNodePosition',
+        upsertAncestors,
+        action: 'updatePosition',
       });
       this.emit('afteritemchange', {
-        type: 'node',
-        action: 'updateNodePosition',
+        type,
+        action: 'updatePosition',
+        upsertAncestors,
         models,
       });
     });
 
     this.hooks.datachange.emit({
       data: {
-        nodes: modelArr as NodeUserModel[],
+        nodes: type === 'node' ? (modelArr as NodeUserModel[]) : [],
         edges: [],
+        combos: type === 'combo' ? (modelArr as ComboUserModel[]) : [],
       },
       type: 'update',
     });
     const dataList = this.dataController.findData(
-      'node',
+      type,
       modelArr.map((model) => model.id),
     );
     return isArray(models) ? dataList : dataList[0];
   }
+
   /**
    * Show the item(s).
    * @param item the item to be shown
@@ -1000,6 +1067,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     this.hooks.itemvisibilitychange.emit({
       ids: idArr as ID[],
       value: true,
+      graphCore: this.dataController.graphCore,
       animate: !disableAniamte,
     });
   }
@@ -1014,7 +1082,37 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     this.hooks.itemvisibilitychange.emit({
       ids: idArr as ID[],
       value: false,
+      graphCore: this.dataController.graphCore,
       animate: !disableAniamte,
+    });
+  }
+
+  /**
+   * Make the item(s) to the front.
+   * @param ids
+   * @returns
+   * @group Item
+   */
+  public frontItem(ids: ID | ID[]) {
+    const idArr = isArray(ids) ? ids : [ids];
+    this.hooks.itemzindexchange.emit({
+      ids: idArr as ID[],
+      action: 'front',
+      graphCore: this.dataController.graphCore,
+    });
+  }
+  /**
+   * Make the item(s) to the back.
+   * @param ids
+   * @returns
+   * @group Item
+   */
+  public backItem(ids: ID | ID[]) {
+    const idArr = isArray(ids) ? ids : [ids];
+    this.hooks.itemzindexchange.emit({
+      ids: idArr as ID[],
+      action: 'back',
+      graphCore: this.dataController.graphCore,
     });
   }
   /**
@@ -1073,9 +1171,13 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * @returns rendering bounding box. returns false if the item is not exist
    * @group Item
    */
-  public getRenderBBox(id: ID | undefined): AABB | false {
+  public getRenderBBox(
+    id: ID | undefined,
+    onlyKeyShape = false,
+    isTransient = false,
+  ): AABB | false {
     if (!id) return this.canvas.getRoot().getRenderBounds();
-    return this.itemController.getItemBBox(id);
+    return this.itemController.getItemBBox(id, onlyKeyShape, isTransient);
   }
 
   /**
@@ -1089,42 +1191,130 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
   }
 
   // ===== combo operations =====
+
   /**
-   * Create a new combo with existing child nodes and combos.
-   * @param combo combo ID or Combo model
-   * @param childrenIds id array of children of the new combo
+   * Add a new combo to the graph, and update the structure of the existed child in childrenIds to be the children of the new combo.
+   * Different from addData with combo type, this API update the succeeds' combo tree strucutres in the same time.
+   * @param model combo user data
+   * @param stack whether push this operation to stack
+   * @returns whether success
    * @group Combo
    */
-  public createCombo(
-    combo: string | ComboUserModel,
-    childrenIds: string[],
+  public addCombo(
+    model: ComboUserModel,
+    childrenIds: ID[],
     stack?: boolean,
-  ) {
-    // TODO
-  }
-  /**
-   * dissolve combo
-   * @param {String | ICombo} item combo item or id to be dissolve
-   * @group Combo
-   */
-  public uncombo(comboId: ID, stack?: boolean) {
-    // TODO
+  ): ComboModel {
+    const { graphCore } = this.dataController;
+    const { specification } = this.themeController;
+    graphCore.once('changed', (event) => {
+      if (!event.changes.length) return;
+      this.hooks.itemchange.emit({
+        type: 'combo',
+        changes: graphCore.reduceChanges(event.changes),
+        graphCore,
+        theme: specification,
+      });
+      this.emit('afteritemchange', {
+        type: 'combo',
+        action: 'add',
+        models: [model],
+      });
+    });
+
+    const data = {
+      nodes: [],
+      edges: [],
+      combos: [
+        {
+          ...model,
+          data: {
+            ...model.data,
+            _children: childrenIds,
+          },
+        },
+      ],
+    };
+    this.hooks.datachange.emit({
+      data,
+      type: 'addCombo',
+    });
+    return this.dataController.findData('combo', [model.id])[0] as ComboModel;
   }
   /**
    * Collapse a combo.
-   * @param comboId combo id or item
+   * @param comboId combo ids
    * @group Combo
    */
-  public collapseCombo(comboId: ID, stack?: boolean) {
-    // TODO
+  public collapseCombo(comboIds: ID | ID[], stack?: boolean) {
+    const ids = isArray(comboIds) ? comboIds : [comboIds];
+    this.updateData(
+      'combo',
+      ids.map((id) => ({ id, data: { collapsed: true } })),
+    );
+    // emit collapse event?
   }
   /**
    * Expand a combo.
-   * @param combo combo ID 或 combo 实例
+   * @param combo combo ids
    * @group Combo
    */
-  public expandCombo(comboId: ID, stack?: boolean) {
-    // TODO
+  public expandCombo(comboIds: ID | ID[], stack?: boolean) {
+    const ids = isArray(comboIds) ? comboIds : [comboIds];
+    this.updateData(
+      'combo',
+      ids.map((id) => ({ id, data: { collapsed: false } })),
+    );
+    // emit expand event?
+  }
+
+  /**
+   * Move one or more combos a distance (dx, dy) relatively,
+   * do not update other styles which leads to better performance than updating positions by updateData.
+   * In fact, it changes the succeed nodes positions to affect the combo's position, but not modify the combo's position directly.
+   * @param models new configurations with x and y for every combo, which has id field to indicate the specific item
+   * @param {boolean} stack whether push this operation into graph's stack, true by default
+   * @group Combo
+   */
+  public moveCombo(
+    ids: ID | ID[],
+    dx: number,
+    dy: number,
+    upsertAncestors?: boolean,
+    stack?: boolean,
+  ): ComboModel[] {
+    const idArr = isArray(ids) ? ids : [ids];
+    const { graphCore } = this.dataController;
+    const { specification } = this.themeController;
+    graphCore.once('changed', (event) => {
+      if (!event.changes.length) return;
+      this.hooks.itemchange.emit({
+        type: 'combo',
+        changes: event.changes,
+        graphCore,
+        theme: specification,
+        upsertAncestors,
+        action: 'updatePosition',
+      });
+      this.emit('afteritemchange', {
+        type: 'combo',
+        ids: idArr,
+        dx,
+        dy,
+        action: 'updatePosition',
+        upsertAncestors,
+      });
+    });
+
+    this.hooks.datachange.emit({
+      data: {
+        nodes: [],
+        edges: [],
+        combos: idArr.map((id) => ({ id, data: { dx, dy } })),
+      },
+      type: 'moveCombo',
+    });
+    return this.dataController.findData('combo', idArr) as ComboModel[];
   }
 
   // ===== layout =====
@@ -1399,6 +1589,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       action: 'remove' | 'add' | 'update' | undefined;
       style: ShapeStyle;
       onlyDrawKeyShape?: boolean;
+      upsertAncestors?: boolean;
     },
   ): DisplayObject {
     this.hooks.transientupdate.emit({
@@ -1406,6 +1597,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       id,
       config,
       canvas: this.transientCanvas,
+      graphCore: this.dataController.graphCore,
     });
     return this.itemController.getTransient(String(id));
   }

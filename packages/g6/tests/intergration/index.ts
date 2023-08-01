@@ -18,13 +18,14 @@ import bugReproduce from './demo/bugReproduce';
 import rect from './demo/rect';
 import visual from './visual/visual';
 import quadratic from './demo/quadratic';
-import menu from './demo/menu'
+import menu from './demo/menu';
 import line_edge from './item/edge/line-edge';
 import cubic_edge from './item/edge/cubic-edge';
 import cubic_horizon_edge from './item/edge/cubic-horizon-edge';
 import cubic_vertical_edge from './item/edge/cubic-vertical-edge';
 import fisheye from './plugins/fisheye';
 import tooltip from './demo/tooltip';
+import comboBasic from './combo/combo-basic';
 
 export {
   behaviors_activateRelations,
@@ -53,5 +54,6 @@ export {
   cubic_horizon_edge,
   cubic_vertical_edge,
   fisheye,
-  tooltip
+  tooltip,
+  comboBasic,
 };

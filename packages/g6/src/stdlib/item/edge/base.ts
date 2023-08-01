@@ -17,7 +17,7 @@ import {
   SHAPE_TYPE,
   ShapeStyle,
   State,
-  lodStrategyObj,
+  LodStrategyObj,
 } from '../../../types/item';
 import {
   LOCAL_BOUNDS_DIRTY_FLAG_KEY,
@@ -37,7 +37,7 @@ export abstract class BaseEdge {
   mergedStyles: EdgeShapeStyles;
   sourcePoint: Point;
   targetPoint: Point;
-  lodStrategy?: lodStrategyObj;
+  lodStrategy?: LodStrategyObj;
   labelPosition: {
     x: number;
     y: number;

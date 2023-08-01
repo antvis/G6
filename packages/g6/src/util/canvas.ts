@@ -3,6 +3,7 @@ import { Renderer as CanvasRenderer } from '@antv/g-canvas';
 import { Renderer as SVGRenderer } from '@antv/g-svg';
 import { Renderer as WebGLRenderer } from '@antv/g-webgl';
 import { Plugin as Plugin3D } from '@antv/g-plugin-3d';
+import { Plugin as DragNDropPlugin } from '@antv/g-plugin-dragndrop';
 import { RendererName } from '../types/render';
 
 /**
@@ -38,6 +39,14 @@ export const createCanvas = (
       renderer = new CanvasRenderer();
       break;
   }
+  renderer.registerPlugin(
+    new DragNDropPlugin({
+      isDocumentDraggable: true,
+      isDocumentDroppable: true,
+      dragstartDistanceThreshold: 10,
+      dragstartTimeThreshold: 100,
+    }),
+  );
 
   if (typeof document !== 'undefined' && customCanvasTag) {
     const canvasTag = document.createElement('canvas');
@@ -90,6 +99,7 @@ export const changeRenderer = (
       renderer = new CanvasRenderer();
       break;
   }
+  renderer.registerPlugin(new DragNDropPlugin());
   canvas.setRenderer(renderer);
   return canvas;
 };

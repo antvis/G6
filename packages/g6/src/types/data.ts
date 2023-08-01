@@ -1,4 +1,4 @@
-import { Graph as IGraph } from '@antv/graphlib';
+import { Graph as GraphLib } from '@antv/graphlib';
 import { ComboUserModel } from './combo';
 import { NodeDisplayModelData, NodeModelData, NodeUserModel } from './node';
 import { EdgeDisplayModelData, EdgeModelData, EdgeUserModel } from './edge';
@@ -19,8 +19,8 @@ export interface FetchDataConfig {
   value: string;
 }
 
-export type GraphCore = IGraph<NodeModelData, EdgeModelData>;
-export type DisplayGraphCore = IGraph<
+export type GraphCore = GraphLib<NodeModelData, EdgeModelData>;
+export type DisplayGraphCore = GraphLib<
   NodeDisplayModelData,
   EdgeDisplayModelData
 >;
@@ -32,4 +32,6 @@ export type DataChangeType =
   | 'mergeReplace'
   | 'union'
   | 'remove'
-  | 'update';
+  | 'update'
+  | 'moveCombo'
+  | 'addCombo';

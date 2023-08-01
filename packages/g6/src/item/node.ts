@@ -1,10 +1,10 @@
 import { Group } from '@antv/g';
 import { clone } from '@antv/util';
 import { Point } from '../types/common';
-import { NodeModel } from '../types';
-import { DisplayMapper, State, lodStrategyObj } from '../types/item';
+import { ComboDisplayModel, ComboModel, NodeModel } from '../types';
+import { DisplayMapper, State, LodStrategyObj } from '../types/item';
 import { NodeDisplayModel, NodeModelData } from '../types/node';
-import { NodeStyleSet } from '../types/theme';
+import { ComboStyleSet, NodeStyleSet } from '../types/theme';
 import { updateShapes } from '../util/shape';
 import { animateShapes, getAnimatesExcludePosition } from '../util/animate';
 import {
@@ -13,10 +13,11 @@ import {
   getNearestPoint,
   getRectIntersectByPoint,
 } from '../util/point';
+import { ComboModelData } from '../types/combo';
 import Item from './item';
 
 interface IProps {
-  model: NodeModel;
+  model: NodeModel | ComboModel;
   renderExtensions: any;
   containerGroup: Group;
   mapper: DisplayMapper;
@@ -25,38 +26,39 @@ interface IProps {
   };
   zoom?: number;
   theme: {
-    styles: NodeStyleSet;
-    lodStrategy: lodStrategyObj;
+    styles: NodeStyleSet | ComboStyleSet;
+    lodStrategy: LodStrategyObj;
   };
   device?: any; // for 3d shapes
   onframe?: Function;
   onfinish?: Function;
+  type?: 'node' | 'combo';
 }
 export default class Node extends Item {
-  public type: 'node';
+  public type: 'node' | 'combo';
   private anchorPointsCache: Point[];
 
   constructor(props: IProps) {
     super(props);
-    this.type = 'node';
-    this.init(props);
+    this.init({ ...props, type: props.type || 'node' });
     this.draw(
-      this.displayModel as NodeDisplayModel,
+      this.displayModel as NodeDisplayModel | ComboDisplayModel,
       undefined,
       undefined,
       props.onfinish,
     );
   }
   public draw(
-    displayModel: NodeDisplayModel,
-    diffData?: { previous: NodeModelData; current: NodeModelData },
+    displayModel: NodeDisplayModel | ComboDisplayModel,
+    diffData?: {
+      previous: NodeModelData | ComboModelData;
+      current: NodeModelData | ComboModelData;
+    },
     diffState?: { previous: State[]; current: State[] },
     onfinish: Function = () => {},
   ) {
     const { group, renderExt, shapeMap: prevShapeMap, model } = this;
     renderExt.mergeStyles(displayModel);
-    this.group.setAttribute('data-item-type', 'node');
-    this.group.setAttribute('data-item-id', model.id);
 
     const firstRendering = !this.shapeMap?.keyShape;
     const shapeMap = renderExt.draw(
@@ -109,11 +111,14 @@ export default class Node extends Item {
 
   public update(
     model: NodeModel,
-    diffData?: { previous: NodeModelData; current: NodeModelData },
+    diffData?: {
+      previous: NodeModelData | ComboModelData;
+      current: NodeModelData | ComboModelData;
+    },
     isReplace?: boolean,
     theme?: {
       styles: NodeStyleSet;
-      lodStrategy: lodStrategyObj;
+      lodStrategy: LodStrategyObj;
     },
     onlyMove?: boolean,
     onfinish?: Function,
@@ -126,12 +131,16 @@ export default class Node extends Item {
    * do not update other styles which leads to better performance than updating position by updateData.
    */
   public updatePosition(
-    displayModel: NodeDisplayModel,
-    diffData?: { previous: NodeModelData; current: NodeModelData },
+    displayModel: NodeDisplayModel | ComboDisplayModel,
+    diffData?: {
+      previous: NodeModelData | ComboModelData;
+      current: NodeModelData | ComboModelData;
+    },
     onfinish: Function = () => {},
   ) {
     const { group } = this;
-    const { x = 0, y = 0, z = 0, animates, disableAnimate } = displayModel.data;
+    const { x, y, z = 0, animates, disableAnimate } = displayModel.data;
+    if (isNaN(x) || isNaN(y) || isNaN(z)) return;
     if (!disableAnimate && animates?.update) {
       const groupAnimates = animates.update.filter(
         ({ shapeId, fields }) =>
@@ -191,12 +200,21 @@ export default class Node extends Item {
   }
 
   public getAnchorPoint(point: Point) {
+    const { anchorPoints = [] } = this.model.data as
+      | NodeModelData
+      | ComboModelData;
+
+    return this.getIntersectPoint(point, this.getPosition(), anchorPoints);
+  }
+
+  public getIntersectPoint(
+    point: Point,
+    innerPoint: Point,
+    anchorPoints: number[][],
+  ) {
     const { keyShape } = this.shapeMap;
     const shapeType = keyShape.nodeName;
-    const { x, y, z, anchorPoints = [] } = this.model.data as NodeModelData;
-
-    return { x, y, z };
-
+    const { x, y, z } = innerPoint;
     let intersectPoint: Point | null;
     switch (shapeType) {
       case 'circle':
@@ -270,5 +288,10 @@ export default class Node extends Item {
       return { x, y };
     }
     return linkPoint;
+  }
+
+  public getPosition(): Point {
+    const { x = 0, y = 0, z = 0 } = this.model.data;
+    return { x: x as number, y: y as number, z: z as number };
   }
 }

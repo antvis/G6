@@ -12,7 +12,7 @@ import {
   IAnimates,
   IStateAnimate,
 } from '../types/animate';
-import { ItemShapeStyles, ShapeStyle } from '../types/item';
+import { ItemDisplayModel, ItemShapeStyles, ShapeStyle } from '../types/item';
 import { isArrayOverlap, replaceElements } from './array';
 
 /**
@@ -397,7 +397,6 @@ export const getAnimatesExcludePosition = (animates) => {
       excludedAnimates.push(animate);
     }
   });
-
   return {
     ...animates,
     update: excludedAnimates,

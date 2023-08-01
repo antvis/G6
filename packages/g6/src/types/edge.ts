@@ -20,7 +20,7 @@ export interface EdgeUserModelData extends PlainObject {
   sourceAnchor?: number;
   targetAnchor?: number;
   /**
-   * Edge type, e.g. 'line'.
+   * Edge type, e.g. 'line-edge'.
    */
   type?: string;
   /**

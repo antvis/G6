@@ -4,6 +4,8 @@ import { IGraph } from '../types';
 import Combo from '../item/combo';
 import Edge from '../item/edge';
 import Node from '../item/node';
+import { GraphCore } from '../types/data';
+import { getCombinedBoundsByItem } from './shape';
 
 /**
  * Find the edges whose source and target are both in the ids.
@@ -28,43 +30,104 @@ export const upsertTransientItem = (
   item: Node | Edge | Combo,
   nodeGroup: Group,
   edgeGroup: Group,
+  comboGroup: Group,
   transientItemMap: Record<string, Node | Edge | Combo | Group>,
+  itemMap: Record<string, Node | Edge | Combo>,
+  graphCore?: GraphCore,
   onlyDrawKeyShape?: boolean,
+  upsertAncestors = true,
 ) => {
-  const transientItem = transientItemMap[item.model.id];
+  let transientItem = transientItemMap[item.model.id];
   if (transientItem) {
     return transientItem;
   }
   if (item.type === 'node') {
-    const transientNode = item.clone(nodeGroup, onlyDrawKeyShape, true) as Node;
-    transientItemMap[item.model.id] = transientNode;
-    transientNode.transient = true;
-    return transientNode;
+    transientItem = item.clone(nodeGroup, onlyDrawKeyShape, true) as Node;
   } else if (item.type === 'edge') {
     const source = upsertTransientItem(
       item.sourceItem,
       nodeGroup,
       edgeGroup,
+      comboGroup,
       transientItemMap,
+      itemMap,
+      graphCore,
       onlyDrawKeyShape,
-    ) as Node;
+      false,
+    ) as Node | Combo;
     const target = upsertTransientItem(
       item.targetItem,
       nodeGroup,
       edgeGroup,
+      comboGroup,
       transientItemMap,
+      itemMap,
+      graphCore,
       onlyDrawKeyShape,
-    ) as Node;
-    const transientEdge = item.clone(
+      false,
+    ) as Node | Combo;
+    transientItem = item.clone(
       edgeGroup,
       source,
       target,
       undefined,
       true,
     ) as Edge;
-    transientEdge.transient = true;
-    transientItemMap[item.model.id] = transientEdge;
-    return transientEdge;
+  } else {
+    // find the succeeds to upsert transients
+    const childItems = [];
+    const children = graphCore.getChildren(item.model.id, 'combo');
+    children.forEach((childModel) => {
+      const childItem = itemMap[childModel.id];
+      if (childItem) {
+        childItems.push(
+          upsertTransientItem(
+            childItem,
+            nodeGroup,
+            edgeGroup,
+            comboGroup,
+            transientItemMap,
+            itemMap,
+            graphCore,
+            onlyDrawKeyShape,
+            false,
+          ),
+        );
+      }
+    });
+    transientItem = (item as Combo).clone(
+      comboGroup,
+      onlyDrawKeyShape,
+      true,
+      () => getCombinedBoundsByItem(childItems), // getCombinedBounds
+      () => childItems,
+    ) as Combo;
+    transientItem.toBack();
   }
-  // TODO: clone combo
+  transientItemMap[item.model.id] = transientItem;
+  transientItem.transient = true;
+
+  if (item.type !== 'edge' && upsertAncestors) {
+    // find the ancestors to upsert transients
+    let currentAncestor = graphCore.getParent(item.model.id, 'combo');
+    while (currentAncestor) {
+      const ancestorItem = itemMap[currentAncestor.id];
+      if (ancestorItem) {
+        const transientAncestor = upsertTransientItem(
+          ancestorItem,
+          nodeGroup,
+          edgeGroup,
+          comboGroup,
+          transientItemMap,
+          itemMap,
+          graphCore,
+          onlyDrawKeyShape,
+        );
+        transientAncestor.toBack();
+      }
+      currentAncestor = graphCore.getParent(currentAncestor.id, 'combo');
+    }
+  }
+
+  return transientItem;
 };
