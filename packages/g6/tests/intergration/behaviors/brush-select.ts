@@ -6,6 +6,7 @@ export default () => {
     width,
     height,
     type: 'graph',
+    plugins: ['grid'],
     layout: {
       type: 'grid',
     },

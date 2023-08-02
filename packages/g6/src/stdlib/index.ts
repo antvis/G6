@@ -20,6 +20,7 @@ import rectSelector from './selector/rect';
 import Minimap from './plugin/minimap';
 import Fisheye from './plugin/fisheye';
 import Legend from './plugin/legend';
+import Grid from './plugin/grid';
 import Tooltip from './plugin/tooltip';
 import Menu from './plugin/menu';
 import ZoomCanvas from './behavior/zoom-canvas';
@@ -68,6 +69,7 @@ const stdLib = {
     minimap: Minimap,
     fisheye: Fisheye,
     legend: Legend,
+    grid: Grid,
     tooltip: Tooltip,
     menu: Menu,
   },
