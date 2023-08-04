@@ -1,4 +1,3 @@
-import { uniqueId } from '@antv/util';
 import { IG6GraphEvent } from './event';
 import { IGraph } from './graph';
 

@@ -1157,7 +1157,7 @@ const getItemTheme = (
   styles: NodeStyleSet | EdgeStyleSet;
   lodStrategy: LodStrategyObj;
 } => {
-  const { styles: themeStyles, lodStrategy } = itemTheme;
+  const { styles: themeStyles = {}, lodStrategy } = itemTheme;
   const formattedLodStrategy = formatLodStrategy(lodStrategy);
   if (!dataTypeField) {
     // dataType field is not assigned

@@ -124,61 +124,80 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
   }
 
   private initCanvas() {
-    const { renderer, container, width, height } = this.specification;
-    let pixelRatio;
-    if (renderer && !isString(renderer)) {
-      // @ts-ignore
-      this.rendererType = renderer.type || 'canvas';
-      // @ts-ignore
-      pixelRatio = renderer.pixelRatio;
+    const {
+      renderer,
+      container,
+      canvas,
+      backgroundCanvas,
+      transientCanvas,
+      width,
+      height,
+    } = this.specification;
+
+    /**
+     * These 3 canvases can be passed in by users, e.g. when doing serverside rendering we can't use DOM API.
+     */
+    if (canvas) {
+      this.canvas = canvas;
+      this.backgroundCanvas = backgroundCanvas;
+      this.transientCanvas = transientCanvas;
     } else {
-      // @ts-ignore
-      this.rendererType = renderer || 'canvas';
-    }
-    const containerDOM = isString(container)
-      ? document.getElementById(container as string)
-      : container;
-    if (!containerDOM) {
-      console.error(
-        `Create graph failed. The container for graph ${containerDOM} is not exist.`,
+      let pixelRatio;
+      if (renderer && !isString(renderer)) {
+        // @ts-ignore
+        this.rendererType = renderer.type || 'canvas';
+        // @ts-ignore
+        pixelRatio = renderer.pixelRatio;
+      } else {
+        // @ts-ignore
+        this.rendererType = renderer || 'canvas';
+      }
+      const containerDOM = isString(container)
+        ? document.getElementById(container as string)
+        : (container as HTMLElement);
+      if (!containerDOM) {
+        console.error(
+          `Create graph failed. The container for graph ${containerDOM} is not exist.`,
+        );
+        this.destroy();
+        return;
+      }
+      this.container = containerDOM;
+      const size = [width, height];
+      if (size[0] === undefined) {
+        size[0] = containerDOM.scrollWidth;
+      }
+      if (size[1] === undefined) {
+        size[1] = containerDOM.scrollHeight;
+      }
+
+      this.backgroundCanvas = createCanvas(
+        this.rendererType,
+        containerDOM,
+        size[0],
+        size[1],
+        pixelRatio,
       );
-      this.destroy();
-      return;
-    }
-    this.container = containerDOM;
-    const size = [width, height];
-    if (size[0] === undefined) {
-      size[0] = containerDOM.scrollWidth;
-    }
-    if (size[1] === undefined) {
-      size[1] = containerDOM.scrollHeight;
+      this.canvas = createCanvas(
+        this.rendererType,
+        containerDOM,
+        size[0],
+        size[1],
+        pixelRatio,
+      );
+      this.transientCanvas = createCanvas(
+        this.rendererType,
+        containerDOM,
+        size[0],
+        size[1],
+        pixelRatio,
+        true,
+        {
+          pointerEvents: 'none',
+        },
+      );
     }
 
-    this.backgroundCanvas = createCanvas(
-      this.rendererType,
-      containerDOM,
-      size[0],
-      size[1],
-      pixelRatio,
-    );
-    this.canvas = createCanvas(
-      this.rendererType,
-      containerDOM,
-      size[0],
-      size[1],
-      pixelRatio,
-    );
-    this.transientCanvas = createCanvas(
-      this.rendererType,
-      containerDOM,
-      size[0],
-      size[1],
-      pixelRatio,
-      true,
-      {
-        pointerEvents: 'none',
-      },
-    );
     Promise.all(
       [this.backgroundCanvas, this.canvas, this.transientCanvas].map(
         (canvas) => canvas.ready,

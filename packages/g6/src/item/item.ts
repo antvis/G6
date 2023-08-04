@@ -144,7 +144,7 @@ export default abstract class Item implements IItem {
       }
     }
     this.renderExt = new RenderExtension({
-      themeStyles: this.themeStyles.default,
+      themeStyles: this.themeStyles?.default,
       lodStrategy,
       device: this.device,
       zoom: this.zoom,

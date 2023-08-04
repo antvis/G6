@@ -527,7 +527,7 @@ export abstract class BaseEdge {
     const { labelShape, labelBackgroundShape } = shapeMap;
     const balanceRatio = 1 / zoom || 1;
     this.zoomCache.balanceRatio = balanceRatio;
-    const { labelShape: labelStyle } = this.mergedStyles;
+    const { labelShape: labelStyle = {} } = this.mergedStyles;
     const { position = 'bottom' } = labelStyle;
     if (!labelShape) return;
 

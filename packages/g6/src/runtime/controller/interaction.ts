@@ -256,11 +256,11 @@ export class InteractionController {
         this.handleCanvasEvent,
       );
     });
+    const $dom = this.graph.canvas.getContextService().getDomElement();
     Object.values(DOM_EVENT_TYPE).forEach((eventName) => {
-      this.graph.canvas
-        .getContextService()
-        .getDomElement()
-        .addEventListener(eventName, this.handleDOMEvent);
+      if ($dom && $dom.addEventListener) {
+        $dom.addEventListener(eventName, this.handleDOMEvent);
+      }
     });
   };
 
