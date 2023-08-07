@@ -1,17 +1,4 @@
-// import { Canvas } from '@antv/g';
-// import { Renderer as CanvasRenderer } from '@antv/g-canvas';
-// import { Renderer as SVGRenderer } from '@antv/g-svg';
-// import { Renderer as WebGLRenderer } from '@antv/g-webgl';
 import * as graphs from './demo/index';
-
-// /**
-//  * The renderers provided by G.
-//  */
-// const renderers = {
-//   canvas: CanvasRenderer,
-//   svg: SVGRenderer,
-//   webgl: WebGLRenderer,
-// };
 
 let graph: any;
 
@@ -29,37 +16,8 @@ const render = () => {
     graph = null;
   }
 
-  // const $backgroundCanvas = document.createElement('canvas');
-  // $backgroundCanvas.style.position = 'absolute';
-  // const $canvas = document.createElement('canvas');
-  // $canvas.style.position = 'absolute';
-  // const $transientCanvas = document.createElement('canvas');
-  // $transientCanvas.style.position = 'absolute';
-
   const $container = document.getElementById('container');
   $container?.replaceChildren('');
-  // container?.appendChild($backgroundCanvas);
-  // container?.appendChild($canvas);
-  // container?.appendChild($transientCanvas);
-
-  // const backgroundCanvas = new Canvas({
-  //   canvas: $backgroundCanvas,
-  //   width: 500,
-  //   height: 500,
-  //   renderer: new renderers[$rendererSelect.value](),
-  // });
-  // const canvas = new Canvas({
-  //   canvas: $canvas,
-  //   width: 500,
-  //   height: 500,
-  //   renderer: new renderers[$rendererSelect.value](),
-  // });
-  // const transientCanvas = new Canvas({
-  //   canvas: $transientCanvas,
-  //   width: 500,
-  //   height: 500,
-  //   renderer: new renderers[$rendererSelect.value](),
-  // });
 
   return graphs[$demoSelect.value]({
     container: $container,

@@ -58,7 +58,7 @@ export class ThemeController {
         // apply canvas style in theme to the background canvas dom
         const { canvas } = this.specification;
         const dom = canvases.background.getContextService().getDomElement();
-        if (dom) {
+        if (dom && dom.style) {
           Object.keys(canvas).forEach((key) => (dom.style[key] = canvas[key]));
         }
       }

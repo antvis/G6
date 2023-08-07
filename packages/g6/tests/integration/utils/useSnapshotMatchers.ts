@@ -3,6 +3,14 @@ import {
   ToMatchCanvasSnapshotOptions,
 } from './toMatchCanvasSnapshot';
 import {
+  toMatchSVGSnapshot,
+  ToMatchSVGSnapshotOptions,
+} from './toMatchSVGSnapshot';
+import {
+  toMatchWebGLSnapshot,
+  ToMatchWebGLSnapshotOptions,
+} from './toMatchWebGLSnapshot';
+import {
   toMatchDOMSnapshot,
   ToMatchDOMSnapshotOptions,
 } from './toMatchDOMSnapshot';
@@ -15,17 +23,29 @@ declare global {
         dir: string,
         name: string,
         options?: ToMatchCanvasSnapshotOptions,
-      ): R;
+      ): Promise<R>;
+      toMatchSVGSnapshot(
+        dir: string,
+        name: string,
+        options?: ToMatchSVGSnapshotOptions,
+      ): Promise<R>;
+      toMatchWebGLSnapshot(
+        dir: string,
+        name: string,
+        options?: ToMatchWebGLSnapshotOptions,
+      ): Promise<R>;
       toMatchDOMSnapshot(
         dir: string,
         name: string,
         options?: ToMatchDOMSnapshotOptions,
-      ): R;
+      ): Promise<R>;
     }
   }
 }
 
 expect.extend({
   toMatchCanvasSnapshot,
+  toMatchSVGSnapshot,
+  toMatchWebGLSnapshot,
   toMatchDOMSnapshot,
 });

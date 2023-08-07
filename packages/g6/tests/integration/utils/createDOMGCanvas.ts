@@ -18,5 +18,6 @@ export function createDOMGCanvas(width, height) {
     height,
     renderer,
     offscreenCanvas: offscreenNodeCanvas as any,
+    supportsMutipleCanvasesInOneContainer: true,
   });
 }

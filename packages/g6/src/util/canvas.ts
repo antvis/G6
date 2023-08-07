@@ -1,4 +1,4 @@
-import { Canvas, CanvasLike } from '@antv/g';
+import { Canvas, IRenderer } from '@antv/g';
 import { Renderer as CanvasRenderer } from '@antv/g-canvas';
 import { Renderer as SVGRenderer } from '@antv/g-svg';
 import { Renderer as WebGLRenderer } from '@antv/g-webgl';
@@ -13,7 +13,6 @@ import { RendererName } from '../types/render';
  * @param {number} width
  * @param {number} height
  * @param {number} pixelRatio optional
- * @param {boolean} customCanvasTag whether create a <canvas /> for multiple canvas under the container
  * @returns
  */
 export const createCanvas = (
@@ -22,10 +21,8 @@ export const createCanvas = (
   width: number,
   height: number,
   pixelRatio?: number,
-  customCanvasTag = true,
-  style: any = {},
 ): Canvas => {
-  let renderer;
+  let renderer: IRenderer;
   switch (rendererType.toLowerCase()) {
     case 'svg':
       renderer = new SVGRenderer();
@@ -48,30 +45,13 @@ export const createCanvas = (
     }),
   );
 
-  if (typeof document !== 'undefined' && customCanvasTag) {
-    const canvasTag = document.createElement('canvas');
-    const dpr = pixelRatio || window.devicePixelRatio;
-    canvasTag.width = dpr * width;
-    canvasTag.height = dpr * height;
-    canvasTag.style.width = `${width}px`;
-    canvasTag.style.height = `${height}px`;
-    canvasTag.style.position = 'fixed';
-    canvasTag.style.outline = 'none';
-    canvasTag.tabIndex = 1; // Enable keyboard events
-    Object.assign(canvasTag.style, style);
-    container!.appendChild(canvasTag);
-    return new Canvas({
-      canvas: canvasTag as CanvasLike,
-      devicePixelRatio: pixelRatio,
-      renderer,
-    });
-  }
   return new Canvas({
     container,
     width,
     height,
     devicePixelRatio: pixelRatio,
     renderer,
+    supportsMutipleCanvasesInOneContainer: true,
   });
 };
 
@@ -85,7 +65,7 @@ export const changeRenderer = (
   rendererType: RendererName,
   canvas: Canvas,
 ): Canvas => {
-  let renderer;
+  let renderer: IRenderer;
   switch (rendererType.toLowerCase()) {
     case 'svg':
       renderer = new SVGRenderer();

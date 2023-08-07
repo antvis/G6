@@ -142,7 +142,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       this.backgroundCanvas = backgroundCanvas;
       this.transientCanvas = transientCanvas;
     } else {
-      let pixelRatio;
+      let pixelRatio: number;
       if (renderer && !isString(renderer)) {
         // @ts-ignore
         this.rendererType = renderer.type || 'canvas';
@@ -170,7 +170,6 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       if (size[1] === undefined) {
         size[1] = containerDOM.scrollHeight;
       }
-
       this.backgroundCanvas = createCanvas(
         this.rendererType,
         containerDOM,
@@ -191,10 +190,6 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
         size[0],
         size[1],
         pixelRatio,
-        true,
-        {
-          pointerEvents: 'none',
-        },
       );
     }
 
@@ -202,7 +197,26 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       [this.backgroundCanvas, this.canvas, this.transientCanvas].map(
         (canvas) => canvas.ready,
       ),
-    ).then(() => (this.canvasReady = true));
+    ).then(() => {
+      [this.backgroundCanvas, this.canvas, this.transientCanvas].forEach(
+        (canvas, i) => {
+          const $domElement = canvas
+            .getContextService()
+            .getDomElement() as unknown as HTMLElement;
+          if ($domElement && $domElement.style) {
+            $domElement.style.position = 'fixed';
+            $domElement.style.outline = 'none';
+            $domElement.tabIndex = 1; // Enable keyboard events
+            // Transient canvas should let interactive events go through.
+            if (i === 2) {
+              $domElement.style.pointerEvents = 'none';
+            }
+          }
+        },
+      );
+
+      this.canvasReady = true;
+    });
   }
 
   /**
@@ -1628,12 +1642,12 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    */
   public destroy(callback?: Function) {
     // TODO: call the destroy functions after items' buildOut animations finished
-    setTimeout(() => {
-      this.canvas.destroy();
-      this.backgroundCanvas.destroy();
-      this.transientCanvas.destroy();
-      callback?.();
-    }, 500);
+    // setTimeout(() => {
+    this.canvas.destroy();
+    this.backgroundCanvas.destroy();
+    this.transientCanvas.destroy();
+    callback?.();
+    // }, 500);
 
     this.hooks.destroy.emit({});
 

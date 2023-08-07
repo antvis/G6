@@ -694,6 +694,8 @@ export class ItemController {
 
   private onDestroy = () => {
     Object.values(this.itemMap).forEach((item) => item.destroy());
+    // Fix OOM problem, since this map will hold all the refs of items.
+    this.itemMap = {};
   };
 
   private onTransientUpdate(param: {
@@ -1157,7 +1159,7 @@ const getItemTheme = (
   styles: NodeStyleSet | EdgeStyleSet;
   lodStrategy: LodStrategyObj;
 } => {
-  const { styles: themeStyles = {}, lodStrategy } = itemTheme;
+  const { styles: themeStyles, lodStrategy } = itemTheme;
   const formattedLodStrategy = formatLodStrategy(lodStrategy);
   if (!dataTypeField) {
     // dataType field is not assigned

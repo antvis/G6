@@ -28,9 +28,6 @@ interface SubjectThemeSolverOptions {
 }
 
 export default class SubjectThemeSolver extends BaseThemeSolver {
-  protected specification: ThemeSpecification;
-  public options: SubjectThemeSolverOptions;
-
   public solver(
     options: SubjectThemeSolverOptions,
     themes: ThemeSpecificationMap,

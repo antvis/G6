@@ -3,12 +3,13 @@ import * as path from 'path';
 import { Canvas } from '@antv/g';
 import pixelmatch from 'pixelmatch';
 import { PNG } from 'pngjs';
+import { Canvas as NodeCanvas } from 'canvas';
 
 export type ToMatchCanvasSnapshotOptions = {
   maxError?: number;
 };
 
-function writePNG(nodeCanvas, path) {
+function writePNG(nodeCanvas: NodeCanvas, path: string) {
   return new Promise<void>((resolve, reject) => {
     const out = fs.createWriteStream(path);
     const stream = nodeCanvas.createPNGStream();
@@ -62,7 +63,7 @@ export async function toMatchCanvasSnapshot(
   const actualPath = path.join(dir, `${name}-actual.png`);
   const expectedPath = path.join(dir, `${name}.png`);
   const diffPath = path.join(dir, `${name}-diff.png`);
-  const canvas = gCanvas.getConfig().canvas;
+  const canvas = gCanvas.getConfig().canvas as unknown as NodeCanvas;
   try {
     if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
     if (!fs.existsSync(expectedPath)) {
