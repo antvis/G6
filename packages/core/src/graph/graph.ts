@@ -1703,8 +1703,9 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
 
     this.set({ nodes: items.nodes, edges: items.edges });
 
+    const { relayoutAtChangeData = true } = this.get('layout') || {};
     const layoutController = this.get('layoutController');
-    if (layoutController) {
+    if (relayoutAtChangeData && layoutController) {
       layoutController.changeData(() => {
         setTimeout(() => {
           self.getCombos()?.forEach(combo => {

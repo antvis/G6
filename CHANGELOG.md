@@ -1,5 +1,9 @@
 # ChangeLog
 
+### 4.8.21
+
+- feat: layout supports relayoutAtChangeData config to disable relayout while changeData of graph is called;
+
 ### 4.8.20
 
 - fix: parent combo size problem, closes: #4734;
