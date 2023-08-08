@@ -230,7 +230,7 @@ export default async () => {
     }
   });
 
-  const collapsed = true;
+  let collapsed = true;
   graph.translateTo({ x: 100, y: 100 });
 
   graph.on('canvas:click', (e) => {
@@ -239,9 +239,9 @@ export default async () => {
     /** === change layout === */
     // graph.layout({ type: 'compactBox' });
     /** === collapse / expand === */
-    // const ids = ['root2', 'root']; //['root']; //['node1']; //
-    // collapsed ? graph.expand(ids) : graph.collapse(ids);
-    // collapsed = !collapsed;
+    const ids = ['node3']; //['root2', 'root']; //['root']; //
+    collapsed ? graph.expand(ids) : graph.collapse(ids);
+    collapsed = !collapsed;
   });
 
   graph.on('canvas:contextmenu', (e) => {

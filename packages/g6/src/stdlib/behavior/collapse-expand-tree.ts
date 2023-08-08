@@ -86,6 +86,7 @@ export default class CollapseExpandTree extends Behavior {
       console.warn(`Node with id ${itemId} is not exist`);
       return;
     }
+    this.graph.frontItem(itemId);
     let action = 'expand';
     if (model.data.collapsed) {
       this.graph.expand(itemId, disableAnimate);
