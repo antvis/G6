@@ -505,7 +505,7 @@ export class DataController {
       data = treeData2GraphData(value);
     } else if (type === 'fetch') {
       // TODO: fetch
-    } else {
+    } else if (!(data as GraphData).nodes) {
       console.warn(
         'Input data type is invalid, the type shuold be "graphData", "treeData", or "fetch".',
       );
