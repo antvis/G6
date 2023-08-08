@@ -6,7 +6,6 @@ export default () => {
     container,
     width,
     height,
-    type: 'graph',
     renderer: 'webgl-3d',
     modes: {
       default: [

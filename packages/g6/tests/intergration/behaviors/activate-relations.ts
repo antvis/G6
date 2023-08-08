@@ -5,7 +5,6 @@ export default () => {
     container,
     width,
     height,
-    type: 'graph',
     layout: {
       type: 'grid',
     },

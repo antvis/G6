@@ -233,7 +233,6 @@ export default () => {
     container,
     width: 500,
     height: 500,
-    type: 'graph',
     data: defaultData,
     modes: {
       // supported behavior

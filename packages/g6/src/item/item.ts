@@ -68,8 +68,10 @@ export default abstract class Item implements IItem {
   /** The flag of transient item. */
   public transient = false;
   public renderExtensions: any; // TODO
-  /** Cache the animation instances to stop at next lifecycle. */
+  /** Cache the shape animation instances to stop at next lifecycle. */
   public animations: IAnimation[];
+  /** Cache the group animation instances to stop at next lifecycle. */
+  public groupAnimations: IAnimation[];
 
   public themeStyles: {
     default?: ItemShapeStyles;
@@ -159,6 +161,7 @@ export default abstract class Item implements IItem {
     displayModel: ItemDisplayModel,
     diffData?: { previous: ItemModelData; current: ItemModelData },
     diffState?: { previous: State[]; current: State[] },
+    animate: boolean = true,
     onfinish: Function = () => {},
   ) {
     // call this.renderExt.draw in extend implementations
@@ -198,6 +201,7 @@ export default abstract class Item implements IItem {
       lodStrategy: LodStrategyObj;
     },
     onlyMove?: boolean,
+    animate: boolean = true,
     onfinish?: Function,
   ) {
     // 1. merge model into this model
@@ -218,7 +222,7 @@ export default abstract class Item implements IItem {
       : itemTheme?.lodStrategy || this.lodStrategy;
 
     if (onlyMove) {
-      this.updatePosition(displayModel, diffData, onfinish);
+      this.updatePosition(displayModel, diffData, animate, onfinish);
       return;
     }
 
@@ -242,9 +246,9 @@ export default abstract class Item implements IItem {
     }
     // 3. call element update fn from useLib
     if (this.states?.length) {
-      this.drawWithStates(this.states, onfinish);
+      this.drawWithStates(this.states, animate, onfinish);
     } else {
-      this.draw(this.displayModel, diffData, undefined, onfinish);
+      this.draw(this.displayModel, diffData, undefined, animate, onfinish);
     }
     // 4. tag all the states with 'dirty', for state style regenerating when state changed
     this.stateDirtyMap = {};
@@ -261,6 +265,7 @@ export default abstract class Item implements IItem {
   public updatePosition(
     displayModel: ItemDisplayModel,
     diffData?: { previous: ItemModelData; current: ItemModelData },
+    animate?: boolean,
     onfinish?: Function,
   ) {}
 
@@ -395,60 +400,63 @@ export default abstract class Item implements IItem {
 
   /** Show the item. */
   public show(animate = true) {
-    // TODO: utilize graphcore's view
-    this.stopAnimations();
-
-    const { animates = {} } = this.displayModel.data;
-    if (animate && animates.show?.length) {
-      const showAnimateFieldsMap: any = {};
-      Object.values(animates.show).forEach((animate) => {
-        const { shapeId = 'group' } = animate;
-        showAnimateFieldsMap[shapeId] = (
-          showAnimateFieldsMap[shapeId] || []
-        ).concat(animate.fields);
-      });
-      const targetStyleMap = {};
-      Object.keys(this.shapeMap).forEach((id) => {
-        const shape = this.shapeMap[id];
-        if (!this.cacheHiddenShape[id]) {
-          // set the animate fields to initial value
-          if (showAnimateFieldsMap[id]) {
-            targetStyleMap[id] = targetStyleMap[id] || {};
-            const beginStyle = getShapeAnimateBeginStyles(shape);
-            showAnimateFieldsMap[id].forEach((field) => {
-              if (beginStyle.hasOwnProperty(field)) {
-                targetStyleMap[id][field] = shape.style[field];
-                shape.style[field] = beginStyle[field];
-              }
-            });
+    Promise.all(this.stopAnimations()).finally(() => {
+      if (this.destroyed || this.visible) return;
+      const { animates = {} } = this.displayModel.data;
+      if (animate && animates.show?.length) {
+        const showAnimateFieldsMap: any = {};
+        Object.values(animates.show).forEach((animate) => {
+          const { shapeId = 'group' } = animate;
+          showAnimateFieldsMap[shapeId] = (
+            showAnimateFieldsMap[shapeId] || []
+          ).concat(animate.fields);
+        });
+        const targetStyleMap = {};
+        Object.keys(this.shapeMap).forEach((id) => {
+          const shape = this.shapeMap[id];
+          if (!this.cacheHiddenShape[id]) {
+            // set the animate fields to initial value
+            if (showAnimateFieldsMap[id]) {
+              targetStyleMap[id] = targetStyleMap[id] || {};
+              const beginStyle = getShapeAnimateBeginStyles(shape);
+              showAnimateFieldsMap[id].forEach((field) => {
+                if (beginStyle.hasOwnProperty(field)) {
+                  targetStyleMap[id][field] = shape.style[field];
+                  shape.style[field] = beginStyle[field];
+                }
+              });
+            }
+            shape.show();
           }
-          shape.show();
+        });
+        if (showAnimateFieldsMap.group) {
+          showAnimateFieldsMap.group.forEach((field) => {
+            const usingField = field === 'size' ? 'transform' : field;
+            if (GROUP_ANIMATE_STYLES[0].hasOwnProperty(usingField)) {
+              this.group.style[usingField] =
+                GROUP_ANIMATE_STYLES[0][usingField];
+            }
+          });
         }
-      });
-      if (showAnimateFieldsMap.group) {
-        showAnimateFieldsMap.group.forEach((field) => {
-          const usingField = field === 'size' ? 'transform' : field;
-          if (GROUP_ANIMATE_STYLES[0].hasOwnProperty(usingField)) {
-            this.group.style[usingField] = GROUP_ANIMATE_STYLES[0][usingField];
-          }
+
+        this.animations = this.runWithAnimates(
+          animates,
+          'show',
+          targetStyleMap,
+        );
+      } else {
+        Object.keys(this.shapeMap).forEach((id) => {
+          const shape = this.shapeMap[id];
+          if (!this.cacheHiddenShape[id]) shape.show();
         });
       }
 
-      this.animations = this.runWithAnimates(animates, 'show', targetStyleMap);
-    } else {
-      Object.keys(this.shapeMap).forEach((id) => {
-        const shape = this.shapeMap[id];
-        if (!this.cacheHiddenShape[id]) shape.show();
-      });
-    }
-
-    this.visible = true;
+      this.visible = true;
+    });
   }
 
   /** Hides the item. */
   public hide(animate = true) {
-    // TODO: utilize graphcore's view
-    this.stopAnimations();
     const func = () => {
       Object.keys(this.shapeMap).forEach((id) => {
         const shape = this.shapeMap[id];
@@ -457,15 +465,22 @@ export default abstract class Item implements IItem {
         shape.hide();
       });
     };
-    const { animates = {} } = this.displayModel.data;
-    if (animate && animates.hide?.length) {
-      this.animations = this.runWithAnimates(animates, 'hide', undefined, func);
-    } else {
-      // 2. clear group and remove group
-      func();
-    }
-
-    this.visible = false;
+    Promise.all(this.stopAnimations()).then(() => {
+      if (this.destroyed || !this.visible) return;
+      const { animates = {} } = this.displayModel.data;
+      if (animate && animates.hide?.length) {
+        this.animations = this.runWithAnimates(
+          animates,
+          'hide',
+          undefined,
+          func,
+        );
+      } else {
+        // 2. clear group and remove group
+        func();
+      }
+      this.visible = false;
+    });
   }
 
   /** Returns the visibility of the item. */
@@ -606,7 +621,11 @@ export default abstract class Item implements IItem {
    * @param previousStates previous states
    * @returns
    */
-  private drawWithStates(previousStates: State[], onfinish?: Function) {
+  private drawWithStates(
+    previousStates: State[],
+    animate: boolean = true,
+    onfinish?: Function,
+  ) {
     const { default: _, ...themeStateStyles } = this.themeStyles;
     const { data: displayModelData } = this.displayModel;
     let styles = {}; // merged styles
@@ -675,6 +694,7 @@ export default abstract class Item implements IItem {
         previous: previousStates,
         current: this.states,
       },
+      animate,
       onfinish,
     );
   }
@@ -729,8 +749,27 @@ export default abstract class Item implements IItem {
    * Stop all the animations on the item.
    */
   public stopAnimations() {
-    this.animations?.forEach(stopAnimate);
-    this.animations = [];
+    let promises = [];
+    if (this.animations?.length) {
+      while (this.animations.length) {
+        const animate = this.animations.pop();
+        if (animate.playState !== 'running') break;
+        promises.push(stopAnimate(animate));
+        // @ts-ignore
+        animate.onManualCancel?.();
+      }
+    }
+    if (this.groupAnimations?.length) {
+      while (this.groupAnimations.length) {
+        const groupAnimate = this.groupAnimations.pop();
+        if (groupAnimate.playState !== 'running') break;
+        promises.push(stopAnimate(groupAnimate));
+        // @ts-ignore
+        groupAnimate.onManualCancel?.();
+      }
+      this.groupAnimations = [];
+    }
+    return promises;
   }
 
   /**

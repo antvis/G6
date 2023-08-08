@@ -6,7 +6,6 @@ export default () => {
     container,
     width,
     height,
-    type: 'graph',
     data: JSON.parse(JSON.stringify(data)),
     layout: {
       type: 'd3force',

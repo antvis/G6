@@ -26,6 +26,7 @@ import cubic_vertical_edge from './item/edge/cubic-vertical-edge';
 import fisheye from './plugins/fisheye';
 import tooltip from './demo/tooltip';
 import comboBasic from './combo/combo-basic';
+import treeGraph from './tree/tree-graph';
 
 export {
   behaviors_activateRelations,
@@ -56,4 +57,5 @@ export {
   fisheye,
   tooltip,
   comboBasic,
+  treeGraph,
 };

@@ -88,7 +88,6 @@ describe('theme', () => {
       container,
       width: 500,
       height: 500,
-      type: 'graph',
       data,
       layout: {
         type: 'grid',
@@ -203,7 +202,6 @@ describe('theme', () => {
       container,
       width: 500,
       height: 500,
-      type: 'graph',
       data: clone(data),
       layout: {
         type: 'grid',
@@ -430,7 +428,6 @@ describe('theme', () => {
       container,
       width: 500,
       height: 500,
-      type: 'graph',
       data: clone(data),
       layout: {
         type: 'grid',
@@ -712,7 +709,6 @@ describe('theme', () => {
       container,
       width: 500,
       height: 500,
-      type: 'graph',
       data,
       layout: {
         type: 'grid',

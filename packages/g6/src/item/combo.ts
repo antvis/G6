@@ -74,6 +74,7 @@ export default class Combo extends Node {
     displayModel: ComboDisplayModel,
     diffData?: { previous: ComboUserModelData; current: ComboUserModelData },
     diffState?: { previous: State[]; current: State[] },
+    animate: boolean = true,
     onfinish: Function = () => {},
   ) {
     if (displayModel.data.collapsed) {
@@ -90,7 +91,7 @@ export default class Combo extends Node {
         }
       });
     }
-    super.draw(displayModel, diffData, diffState, onfinish);
+    super.draw(displayModel, diffData, diffState, animate, onfinish);
   }
 
   /**

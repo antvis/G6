@@ -6,7 +6,6 @@ export default () => {
     container,
     width,
     height,
-    type: 'graph',
     data,
     layout: {
       type: 'circular',
