@@ -56,7 +56,7 @@ export default class Node extends Item {
       current: NodeModelData | ComboModelData;
     },
     diffState?: { previous: State[]; current: State[] },
-    animate: boolean = true,
+    animate = true,
     onfinish: Function = () => {},
   ) {
     const { group, renderExt, shapeMap: prevShapeMap, model } = this;

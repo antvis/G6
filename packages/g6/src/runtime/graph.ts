@@ -996,7 +996,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
           ComboUserModel | Partial<NodeUserModel>[] | Partial<ComboUserModel>[]
         >,
     upsertAncestors?: boolean,
-    disableAnimate: boolean = false,
+    disableAnimate = false,
     callback?: (
       model: NodeModel | EdgeModel | ComboModel,
       canceled?: boolean,
@@ -1028,7 +1028,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
           ComboUserModel | Partial<NodeUserModel>[] | Partial<ComboUserModel>[]
         >,
     upsertAncestors?: boolean,
-    disableAnimate: boolean = false,
+    disableAnimate = false,
     callback?: (model: NodeModel | EdgeModel | ComboModel) => void,
     stack?: boolean,
   ) {
@@ -1050,7 +1050,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
           ComboUserModel | Partial<NodeUserModel>[] | Partial<ComboUserModel>[]
         >,
     upsertAncestors?: boolean,
-    disableAnimate: boolean = false,
+    disableAnimate = false,
     callback?: (
       model: NodeModel | EdgeModel | ComboModel,
       canceled?: boolean,
@@ -1101,7 +1101,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * @returns
    * @group Item
    */
-  public showItem(ids: ID | ID[], disableAnimate: boolean = false) {
+  public showItem(ids: ID | ID[], disableAnimate = false) {
     const idArr = isArray(ids) ? ids : [ids];
     this.hooks.itemvisibilitychange.emit({
       ids: idArr as ID[],
@@ -1116,7 +1116,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * @returns
    * @group Item
    */
-  public hideItem(ids: ID | ID[], disableAnimate: boolean = false) {
+  public hideItem(ids: ID | ID[], disableAnimate = false) {
     const idArr = isArray(ids) ? ids : [ids];
     this.hooks.itemvisibilitychange.emit({
       ids: idArr as ID[],
@@ -1360,10 +1360,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
   /**
    * Layout the graph (with current configurations if cfg is not assigned).
    */
-  public async layout(
-    options?: LayoutOptions,
-    disableAnimate: boolean = false,
-  ) {
+  public async layout(options?: LayoutOptions, disableAnimate = false) {
     const { graphCore } = this.dataController;
     const formattedOptions = {
       ...this.getSpecification().layout,
@@ -1653,11 +1650,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * @returns
    * @group Tree
    */
-  public collapse(
-    ids: ID | ID[],
-    disableAnimate: boolean = false,
-    stack?: boolean,
-  ) {
+  public collapse(ids: ID | ID[], disableAnimate = false, stack?: boolean) {
     this.hooks.treecollapseexpand.emit({
       ids: isArray(ids) ? ids : [ids],
       action: 'collapse',
@@ -1673,11 +1666,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * @returns
    * @group Tree
    */
-  public expand(
-    ids: ID | ID[],
-    disableAnimate: boolean = false,
-    stack?: boolean,
-  ) {
+  public expand(ids: ID | ID[], disableAnimate = false, stack?: boolean) {
     this.hooks.treecollapseexpand.emit({
       ids: isArray(ids) ? ids : [ids],
       action: 'expand',

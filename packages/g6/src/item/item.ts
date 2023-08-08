@@ -161,7 +161,7 @@ export default abstract class Item implements IItem {
     displayModel: ItemDisplayModel,
     diffData?: { previous: ItemModelData; current: ItemModelData },
     diffState?: { previous: State[]; current: State[] },
-    animate: boolean = true,
+    animate = true,
     onfinish: Function = () => {},
   ) {
     // call this.renderExt.draw in extend implementations
@@ -201,7 +201,7 @@ export default abstract class Item implements IItem {
       lodStrategy: LodStrategyObj;
     },
     onlyMove?: boolean,
-    animate: boolean = true,
+    animate = true,
     onfinish?: Function,
   ) {
     // 1. merge model into this model
@@ -623,7 +623,7 @@ export default abstract class Item implements IItem {
    */
   private drawWithStates(
     previousStates: State[],
-    animate: boolean = true,
+    animate = true,
     onfinish?: Function,
   ) {
     const { default: _, ...themeStateStyles } = this.themeStyles;
@@ -749,7 +749,7 @@ export default abstract class Item implements IItem {
    * Stop all the animations on the item.
    */
   public stopAnimations() {
-    let promises = [];
+    const promises = [];
     if (this.animations?.length) {
       while (this.animations.length) {
         const animate = this.animations.pop();

@@ -1,6 +1,6 @@
 import Hierarchy from '@antv/hierarchy';
-import { traverse } from './data';
 import { TreeGraphData } from '@antv/g6';
+import { traverse } from './data';
 
 /**
  * Judge the direction according to options of a tree layout.

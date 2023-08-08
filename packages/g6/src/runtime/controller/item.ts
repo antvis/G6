@@ -1238,7 +1238,7 @@ export class ItemController {
   private collapseSubTree(
     rootModels: NodeModel[],
     graphCore: GraphCore,
-    animate: boolean = true,
+    animate = true,
   ) {
     let positions = [];
     rootModels.forEach((root) => {
@@ -1296,7 +1296,7 @@ export class ItemController {
   private expandSubTree(
     rootModels: NodeModel[],
     graphCore: GraphCore,
-    animate: boolean = true,
+    animate = true,
   ) {
     let allNodeIds = [];
     let allEdgeIds = [];
