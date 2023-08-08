@@ -51,7 +51,7 @@ export default class Edge extends Item {
     displayModel: EdgeDisplayModel,
     diffData?: { previous: EdgeModelData; current: EdgeModelData },
     diffState?: { previous: State[]; current: State[] },
-    animate: boolean = true,
+    animate = true,
     onfinish: Function = () => {},
   ) {
     // get the end points

@@ -1,7 +1,7 @@
 import Stats from 'stats-js';
+import { CanvasEvent } from '@antv/g';
 import G6 from '../../../src/index';
 import { container, height, width } from '../../datasets/const';
-import { CanvasEvent } from '@antv/g';
 
 const treeDataCfg = {
   type: 'treeData',
@@ -230,7 +230,7 @@ export default async () => {
     }
   });
 
-  let collapsed = true;
+  const collapsed = true;
   graph.translateTo({ x: 100, y: 100 });
 
   graph.on('canvas:click', (e) => {

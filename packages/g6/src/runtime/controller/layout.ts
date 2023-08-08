@@ -273,10 +273,7 @@ export class LayoutController {
     }
   }
 
-  private updateNodesPosition(
-    positions: LayoutMapping,
-    animate: boolean = true,
-  ) {
+  private updateNodesPosition(positions: LayoutMapping, animate = true) {
     this.graph.updateNodePosition(positions.nodes, undefined, !animate);
   }
 

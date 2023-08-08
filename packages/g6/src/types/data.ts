@@ -1,8 +1,12 @@
 import { Graph as GraphLib, TreeData } from '@antv/graphlib';
 import { ComboUserModel } from './combo';
-import { NodeDisplayModelData, NodeModelData, NodeUserModel } from './node';
+import {
+  NodeDisplayModelData,
+  NodeModelData,
+  NodeUserModel,
+  NodeUserModelData,
+} from './node';
 import { EdgeDisplayModelData, EdgeModelData, EdgeUserModel } from './edge';
-import { NodeUserModelData } from './node';
 
 export interface GraphData {
   nodes?: NodeUserModel[];

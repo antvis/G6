@@ -74,7 +74,7 @@ export default class Combo extends Node {
     displayModel: ComboDisplayModel,
     diffData?: { previous: ComboUserModelData; current: ComboUserModelData },
     diffState?: { previous: State[]; current: State[] },
-    animate: boolean = true,
+    animate = true,
     onfinish: Function = () => {},
   ) {
     if (displayModel.data.collapsed) {

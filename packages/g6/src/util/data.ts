@@ -1,14 +1,10 @@
 import { NodeUserModel } from 'types';
-import { IGraph } from '../types/graph';
-import { GraphCore, GraphData } from '../types/data';
 import { TreeData } from '@antv/graphlib';
 import { NodeUserModelData } from 'types/node';
 import { isArray } from '@antv/util';
-import {
-  depthFirstSearch,
-  breadthFirstSearch,
-  connectedComponent,
-} from '@antv/algorithm';
+import { depthFirstSearch, connectedComponent } from '@antv/algorithm';
+import { GraphCore, GraphData } from '../types/data';
+import { IGraph } from '../types/graph';
 
 /**
  * Deconstruct data and distinguish nodes and combos from graphcore data.
