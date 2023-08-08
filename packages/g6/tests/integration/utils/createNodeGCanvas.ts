@@ -36,6 +36,12 @@ export function createNodeGCanvas(
       renderer,
       offscreenCanvas: offscreenNodeCanvas as any,
       supportsMutipleCanvasesInOneContainer: true,
+      isMouseEvent: (e): e is MouseEvent => {
+        return e.type.startsWith('mouse');
+      },
+      isTouchEvent: (e): e is TouchEvent => {
+        return e.type.startsWith('touch');
+      },
     });
   } else if (rendererName === 'svg') {
     const id = Math.random().toString(36);

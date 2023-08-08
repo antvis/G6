@@ -190,6 +190,10 @@ export class LayoutController {
     }
   }
 
+  getCurrentAnimation() {
+    return this.currentAnimation;
+  }
+
   onDestroy() {
     this.stopLayout();
 

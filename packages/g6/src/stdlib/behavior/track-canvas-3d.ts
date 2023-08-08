@@ -39,8 +39,6 @@ const DEFAULT_OPTIONS: Required<TrackCanvas3DOptions> = {
  * Translate the 3d canvas along the plane parallel to the screen.
  */
 export default class TrackCanvas3D extends RotateCanvas3D {
-  options: TrackCanvas3DOptions;
-
   private previousType: CameraType;
 
   constructor(options: Partial<TrackCanvas3DOptions>) {

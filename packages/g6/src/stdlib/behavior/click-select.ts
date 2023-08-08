@@ -58,7 +58,6 @@ const DEFAULT_OPTIONS: ClickSelectOptions = {
 };
 
 export default class ClickSelect extends Behavior {
-  options: ClickSelectOptions;
   /**
    * Cache the ids of items selected by this behavior
    */

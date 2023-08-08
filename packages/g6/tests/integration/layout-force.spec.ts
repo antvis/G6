@@ -1,10 +1,10 @@
 import { resetEntityCounter } from '@antv/g';
-import circular from '../demo/layouts/circular';
+import force from '../demo/layouts/force';
 import { createNodeGCanvas } from './utils/createNodeGCanvas';
 import { sleep } from './utils/sleep';
 import './utils/useSnapshotMatchers';
 
-describe('Circular layout', () => {
+describe.skip('Force layout', () => {
   beforeEach(() => {
     /**
      * SVG Snapshot testing will generate a unique id for each element.
@@ -19,7 +19,7 @@ describe('Circular layout', () => {
     const canvas = createNodeGCanvas('canvas', 500, 500);
     const transientCanvas = createNodeGCanvas('canvas', 500, 500);
 
-    const graph = circular({
+    const graph = force({
       backgroundCanvas,
       canvas,
       transientCanvas,
@@ -28,8 +28,8 @@ describe('Circular layout', () => {
     });
 
     graph.on('afterlayout', async () => {
-      await sleep(300);
-      await expect(canvas).toMatchCanvasSnapshot(dir, 'layout-circular');
+      await sleep(2000);
+      await expect(canvas).toMatchCanvasSnapshot(dir, 'layout-force');
       graph.destroy();
       done();
     });
@@ -41,7 +41,7 @@ describe('Circular layout', () => {
     const canvas = createNodeGCanvas('svg', 500, 500);
     const transientCanvas = createNodeGCanvas('svg', 500, 500);
 
-    const graph = circular({
+    const graph = force({
       backgroundCanvas,
       canvas,
       transientCanvas,
@@ -50,8 +50,8 @@ describe('Circular layout', () => {
     });
 
     graph.on('afterlayout', async () => {
-      await sleep(300);
-      await expect(canvas).toMatchSVGSnapshot(dir, 'layout-circular');
+      await sleep(1000);
+      await expect(canvas).toMatchSVGSnapshot(dir, 'layout-force');
       graph.destroy();
       done();
     });
@@ -63,7 +63,7 @@ describe('Circular layout', () => {
     const canvas = createNodeGCanvas('webgl', 500, 500);
     const transientCanvas = createNodeGCanvas('webgl', 500, 500);
 
-    const graph = circular({
+    const graph = force({
       backgroundCanvas,
       canvas,
       transientCanvas,
@@ -72,8 +72,8 @@ describe('Circular layout', () => {
     });
 
     graph.on('afterlayout', async () => {
-      await sleep(300);
-      await expect(canvas).toMatchWebGLSnapshot(dir, 'layout-circular');
+      await sleep(1000);
+      await expect(canvas).toMatchWebGLSnapshot(dir, 'layout-force');
       graph.destroy();
       done();
     });

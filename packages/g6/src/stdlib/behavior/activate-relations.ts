@@ -58,7 +58,6 @@ const DEFAULT_OPTIONS: ActivateRelationsOptions = {
 };
 
 export default class ActivateRelations extends Behavior {
-  options: ActivateRelationsOptions;
   timer: number;
   inactiveItems: {};
   prevNodeIds: ID[];

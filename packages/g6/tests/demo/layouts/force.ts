@@ -9,9 +9,10 @@ export default (params: TestCaseParams) => {
     type: 'graph',
     data: JSON.parse(JSON.stringify(data)),
     layout: {
-      type: 'circular',
-      center: [width! / 2, height! / 2],
-      radius: 200,
+      type: 'force',
+      center: [width! / 2, height! / 2, 0],
+      preventOverlap: true,
+      nodeSize: 20,
     },
   });
 };

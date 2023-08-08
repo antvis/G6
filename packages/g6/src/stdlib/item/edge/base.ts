@@ -282,6 +282,7 @@ export abstract class BaseEdge {
       ...this.defaultStyles.labelShape,
       textAlign: positionPreset.textAlign,
       wordWrapWidth,
+      isBillboard: true,
       ...positionStyle,
       ...otherStyle,
     };

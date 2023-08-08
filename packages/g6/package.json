@@ -85,6 +85,7 @@
     "@rollup/plugin-terser": "^0.4.3",
     "@types/gl": "6.0.2",
     "@types/jest": "^29.5.1",
+    "@types/jsdom": "^21.1.1",
     "@types/node": "13.11.1",
     "@types/pixelmatch": "^5.2.4",
     "@types/pngjs": "^6.0.1",

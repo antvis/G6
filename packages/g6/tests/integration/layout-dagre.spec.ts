@@ -1,10 +1,10 @@
 import { resetEntityCounter } from '@antv/g';
-import circular from '../demo/layouts/circular';
+import dagre from '../demo/layouts/dagre';
 import { createNodeGCanvas } from './utils/createNodeGCanvas';
 import { sleep } from './utils/sleep';
 import './utils/useSnapshotMatchers';
 
-describe('Circular layout', () => {
+describe('Dagre layout', () => {
   beforeEach(() => {
     /**
      * SVG Snapshot testing will generate a unique id for each element.
@@ -19,7 +19,7 @@ describe('Circular layout', () => {
     const canvas = createNodeGCanvas('canvas', 500, 500);
     const transientCanvas = createNodeGCanvas('canvas', 500, 500);
 
-    const graph = circular({
+    const graph = dagre({
       backgroundCanvas,
       canvas,
       transientCanvas,
@@ -29,7 +29,7 @@ describe('Circular layout', () => {
 
     graph.on('afterlayout', async () => {
       await sleep(300);
-      await expect(canvas).toMatchCanvasSnapshot(dir, 'layout-circular');
+      await expect(canvas).toMatchCanvasSnapshot(dir, 'layout-dagre');
       graph.destroy();
       done();
     });
@@ -41,7 +41,7 @@ describe('Circular layout', () => {
     const canvas = createNodeGCanvas('svg', 500, 500);
     const transientCanvas = createNodeGCanvas('svg', 500, 500);
 
-    const graph = circular({
+    const graph = dagre({
       backgroundCanvas,
       canvas,
       transientCanvas,
@@ -51,7 +51,7 @@ describe('Circular layout', () => {
 
     graph.on('afterlayout', async () => {
       await sleep(300);
-      await expect(canvas).toMatchSVGSnapshot(dir, 'layout-circular');
+      await expect(canvas).toMatchSVGSnapshot(dir, 'layout-dagre');
       graph.destroy();
       done();
     });
@@ -63,7 +63,7 @@ describe('Circular layout', () => {
     const canvas = createNodeGCanvas('webgl', 500, 500);
     const transientCanvas = createNodeGCanvas('webgl', 500, 500);
 
-    const graph = circular({
+    const graph = dagre({
       backgroundCanvas,
       canvas,
       transientCanvas,
@@ -73,7 +73,7 @@ describe('Circular layout', () => {
 
     graph.on('afterlayout', async () => {
       await sleep(300);
-      await expect(canvas).toMatchWebGLSnapshot(dir, 'layout-circular');
+      await expect(canvas).toMatchWebGLSnapshot(dir, 'layout-dagre');
       graph.destroy();
       done();
     });

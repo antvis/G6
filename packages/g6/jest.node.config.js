@@ -5,7 +5,7 @@ const esm = ['internmap', 'd3-*', 'lodash-es']
   .join('|');
 
 module.exports = {
-  testTimeout: 100000,
+  testTimeout: 10000,
   preset: 'ts-jest/presets/js-with-ts',
   globals: {
     'ts-jest': {

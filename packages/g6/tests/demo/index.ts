@@ -2,7 +2,11 @@ import behaviors_activateRelations from './behaviors/activate-relations';
 import behaviors_brush_select from './behaviors/brush-select';
 import behaviors_click_select from './behaviors/click-select';
 import layouts_circular from './layouts/circular';
+import layouts_grid from './layouts/grid';
+import layouts_dagre from './layouts/dagre';
+import layouts_force from './layouts/force';
 import layouts_d3force from './layouts/d3force';
+import layouts_custom from './layouts/custom';
 import user_defined_canvas from './user-defined-canvas/circular';
 import layouts_fruchterman_wasm from './layouts/fruchterman-wasm';
 import layouts_forceatlas2_wasm from './layouts/forceatlas2-wasm';
@@ -31,7 +35,11 @@ import comboBasic from './combo/combo-basic';
 export {
   behaviors_activateRelations,
   layouts_circular,
+  layouts_grid,
+  layouts_dagre,
+  layouts_force,
   layouts_d3force,
+  layouts_custom,
   user_defined_canvas,
   layouts_fruchterman_wasm,
   layouts_forceatlas2_wasm,

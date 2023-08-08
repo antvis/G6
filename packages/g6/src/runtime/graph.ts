@@ -134,6 +134,17 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       height,
     } = this.specification;
 
+    let pixelRatio: number;
+    if (renderer && !isString(renderer)) {
+      // @ts-ignore
+      this.rendererType = renderer.type || 'canvas';
+      // @ts-ignore
+      pixelRatio = renderer.pixelRatio;
+    } else {
+      // @ts-ignore
+      this.rendererType = renderer || 'canvas';
+    }
+
     /**
      * These 3 canvases can be passed in by users, e.g. when doing serverside rendering we can't use DOM API.
      */
@@ -142,16 +153,6 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       this.backgroundCanvas = backgroundCanvas;
       this.transientCanvas = transientCanvas;
     } else {
-      let pixelRatio: number;
-      if (renderer && !isString(renderer)) {
-        // @ts-ignore
-        this.rendererType = renderer.type || 'canvas';
-        // @ts-ignore
-        pixelRatio = renderer.pixelRatio;
-      } else {
-        // @ts-ignore
-        this.rendererType = renderer || 'canvas';
-      }
       const containerDOM = isString(container)
         ? document.getElementById(container as string)
         : (container as HTMLElement);
@@ -1399,6 +1400,14 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    */
   public stopLayout() {
     this.layoutController.stopLayout();
+  }
+
+  /**
+   *
+   * @returns
+   */
+  public getLayoutCurrentAnimation() {
+    return this.layoutController.getCurrentAnimation();
   }
 
   /**

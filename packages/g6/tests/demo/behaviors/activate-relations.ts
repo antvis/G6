@@ -1,15 +1,13 @@
 import G6 from '../../../src/index';
-import { container, height, width } from '../../datasets/const';
-export default () => {
+import { TestCaseParams } from '../interface';
+
+export default (params: TestCaseParams) => {
   return new G6.Graph({
-    container,
-    width,
-    height,
+    ...params,
     type: 'graph',
     layout: {
       type: 'grid',
     },
-    plugins: ['grid'],
     node: {
       labelShape: {
         text: {

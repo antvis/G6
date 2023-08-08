@@ -28,8 +28,6 @@ const DEFAULT_OPTIONS: Required<CollapseExpandComboOptions> = {
 };
 
 export default class CollapseExpandCombo extends Behavior {
-  options: CollapseExpandComboOptions;
-
   constructor(options: Partial<CollapseExpandComboOptions>) {
     const finalOptions = Object.assign({}, DEFAULT_OPTIONS, options);
     super(finalOptions);

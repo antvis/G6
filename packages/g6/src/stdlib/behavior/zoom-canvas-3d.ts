@@ -60,8 +60,6 @@ const DEFAULT_OPTIONS: Required<ZoomCanvas3DOptions> = {
  * Zoom the 3d canvas along the ray vertical to the screen.
  */
 export default class ZoomCanvas3D extends Behavior {
-  options: ZoomCanvas3DOptions;
-
   private keydown: boolean;
 
   constructor(options: Partial<ZoomCanvas3DOptions>) {
@@ -80,16 +78,16 @@ export default class ZoomCanvas3D extends Behavior {
   }
 
   getEvents = () => {
-    this.graph.canvas
-      .getContextService()
-      .getDomElement()
-      .addEventListener(
+    const $el = this.graph.canvas.getContextService().getDomElement();
+    if ($el && $el.addEventListener) {
+      $el.addEventListener(
         'wheel',
         (e) => {
           e.preventDefault();
         },
         { passive: false },
       );
+    }
 
     if (this.options.trigger === 'wheel') {
       return {
