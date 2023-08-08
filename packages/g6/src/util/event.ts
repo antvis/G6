@@ -83,6 +83,7 @@ type GroupedChanges = {
   EdgeUpdated: EdgeUpdated<EdgeModelData>[];
   EdgeDataUpdated: EdgeDataUpdated<EdgeModelData>[];
   TreeStructureChanged: TreeStructureChanged[];
+  ComboStructureChanged: TreeStructureChanged[];
 };
 
 /**
@@ -104,6 +105,7 @@ export const getGroupedChanges = (
     EdgeUpdated: [],
     EdgeDataUpdated: [],
     TreeStructureChanged: [],
+    ComboStructureChanged: [],
   };
   changes.forEach((change) => {
     const { type: changeType } = change;
@@ -119,7 +121,10 @@ export const getGroupedChanges = (
         return;
       }
     } else if (changeType === 'TreeStructureChanged') {
-      groupedChanges[changeType].push(change);
+      if (change.treeKey === 'combo')
+        groupedChanges.ComboStructureChanged.push(change);
+      else if (change.treeKey === 'tree')
+        groupedChanges.TreeStructureChanged.push(change);
       return;
     } else {
       const { id: oid } = change.value;

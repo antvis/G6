@@ -1,7 +1,8 @@
-import { Graph as GraphLib } from '@antv/graphlib';
+import { Graph as GraphLib, TreeData } from '@antv/graphlib';
 import { ComboUserModel } from './combo';
 import { NodeDisplayModelData, NodeModelData, NodeUserModel } from './node';
 import { EdgeDisplayModelData, EdgeModelData, EdgeUserModel } from './edge';
+import { NodeUserModelData } from './node';
 
 export interface GraphData {
   nodes?: NodeUserModel[];
@@ -9,15 +10,25 @@ export interface GraphData {
   combos?: ComboUserModel[];
 }
 
-export interface InlineDataConfig {
-  type: 'inline';
+export interface InlineGraphDataConfig {
+  type: 'graphData';
   value: GraphData;
+}
+export interface InlineTreeDataConfig {
+  type: 'treeData';
+  value: TreeData<NodeUserModelData> | TreeData<NodeUserModelData>[];
 }
 
 export interface FetchDataConfig {
   type: 'fetch';
   value: string;
 }
+
+export type DataConfig =
+  | GraphData
+  | InlineGraphDataConfig
+  | InlineTreeDataConfig
+  | FetchDataConfig;
 
 export type GraphCore = GraphLib<NodeModelData, EdgeModelData>;
 export type DisplayGraphCore = GraphLib<

@@ -12,7 +12,6 @@ describe('viewport', () => {
       container,
       width: 500,
       height: 500,
-      type: 'graph',
       data,
       layout: {
         type: 'circular',
@@ -42,7 +41,6 @@ describe('viewport', () => {
       container,
       width: 500,
       height: 500,
-      type: 'graph',
       data,
       layout: {
         type: 'circular',
@@ -85,7 +83,6 @@ describe('viewport', () => {
       container,
       width: 500,
       height: 500,
-      type: 'graph',
       data,
       layout: {
         type: 'circular',
@@ -131,7 +128,6 @@ describe('viewport', () => {
       container,
       width: 500,
       height: 500,
-      type: 'graph',
       data,
       layout: {
         type: 'circular',
@@ -208,7 +204,6 @@ describe('viewport', () => {
       container,
       width: 500,
       height: 500,
-      type: 'graph',
       data,
       layout: {
         type: 'circular',
@@ -259,7 +254,6 @@ describe('viewport', () => {
       container,
       width: 500,
       height: 500,
-      type: 'graph',
       data,
       layout: {
         type: 'circular',
@@ -385,7 +379,6 @@ describe('viewport', () => {
       container,
       width: 500,
       height: 500,
-      type: 'graph',
       data,
       layout: {
         type: 'circular',
@@ -422,7 +415,6 @@ describe('viewport', () => {
       container,
       width: 500,
       height: 500,
-      type: 'graph',
       data,
       layout: {
         type: 'circular',
@@ -473,7 +465,6 @@ describe('viewport', () => {
       container,
       width: 500,
       height: 500,
-      type: 'graph',
       data,
       layout: {
         type: 'circular',
@@ -542,7 +533,6 @@ describe('viewport', () => {
       container,
       width: 500,
       height: 500,
-      type: 'graph',
       data,
       layout: {
         type: 'circular',

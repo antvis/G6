@@ -25,7 +25,6 @@ describe('edge item', () => {
       container,
       width: 500,
       height: 500,
-      type: 'graph',
       modes: {
         default: ['drag-node'],
       },
@@ -265,7 +264,6 @@ describe('edge mapper', () => {
     container,
     width: 500,
     height: 500,
-    type: 'graph',
   };
   it('function mapper', (done) => {
     const graph = new G6.Graph({
@@ -373,7 +371,6 @@ describe('state', () => {
       container,
       width: 500,
       height: 500,
-      type: 'graph',
       data: {
         nodes: [
           {
@@ -507,7 +504,6 @@ describe('state', () => {
       container,
       width: 500,
       height: 500,
-      type: 'graph',
       data: {
         nodes: [
           {
@@ -769,7 +765,6 @@ describe('state', () => {
       container,
       width: 500,
       height: 500,
-      type: 'graph',
       data: {
         nodes: [
           {
@@ -897,7 +892,6 @@ describe('cubic-edge unit test', () => {
       container,
       width,
       height,
-      type: 'graph',
       data: defaultData,
       modes: {
         default: ['click-select', 'drag-canvas', 'zoom-canvas', 'drag-node'],
@@ -1137,7 +1131,6 @@ describe('cubic-edge unit test', () => {
       container,
       width: 500,
       height: 500,
-      type: 'graph',
       data: stateData,
       modes: {
         // Supported behavior
@@ -1272,7 +1265,6 @@ describe('cubic-horizon-edge unit test', () => {
       container,
       width,
       height,
-      type: 'graph',
       data: defaultData,
       modes: {
         default: ['click-select', 'drag-canvas', 'zoom-canvas', 'drag-node'],
@@ -1415,7 +1407,6 @@ describe('cubic-horizon-edge unit test', () => {
       container,
       width,
       height,
-      type: 'graph',
       data: defaultData,
       modes: {
         default: ['click-select', 'drag-canvas', 'zoom-canvas', 'drag-node'],
@@ -1654,7 +1645,6 @@ describe('cubic-horizon-edge unit test', () => {
       container,
       width: 500,
       height: 500,
-      type: 'graph',
       data: stateData,
       modes: {
         default: ['activate-relations'],
@@ -1788,7 +1778,6 @@ describe('cubic-vertical-edge unit test', () => {
       container,
       width,
       height,
-      type: 'graph',
       data: defaultData,
       modes: {
         default: ['click-select', 'drag-canvas', 'zoom-canvas', 'drag-node'],
@@ -2027,7 +2016,6 @@ describe('cubic-vertical-edge unit test', () => {
       container,
       width: 500,
       height: 500,
-      type: 'graph',
       data: stateData,
       modes: {
         default: ['activate-relations'],
@@ -2161,7 +2149,6 @@ describe('cubic-vertical-edge unit test', () => {
       container,
       width,
       height,
-      type: 'graph',
       data: defaultData,
       modes: {
         default: ['click-select', 'drag-canvas', 'zoom-canvas', 'drag-node'],
@@ -2400,7 +2387,6 @@ describe('cubic-vertical-edge unit test', () => {
       container,
       width: 500,
       height: 500,
-      type: 'graph',
       data: stateData,
       modes: {
         default: ['activate-relations'],

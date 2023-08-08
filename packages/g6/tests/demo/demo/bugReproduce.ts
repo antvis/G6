@@ -58,7 +58,6 @@ export default () => {
     width,
     height,
     data,
-    type: 'graph',
     modes: {
       default: ['click-select', 'drag-canvas', 'zoom-canvas', 'drag-node'],
     },

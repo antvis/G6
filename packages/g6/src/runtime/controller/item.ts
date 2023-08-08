@@ -126,8 +126,6 @@ export class ItemController {
     [id: string]: Node | Edge | Combo | Group;
   } = {};
 
-  // private comboTreeView: GraphView<any, any>;
-
   constructor(graph: IGraph<any, any>) {
     this.graph = graph;
     // get mapper for node / edge / combo
@@ -168,6 +166,9 @@ export class ItemController {
     this.graph.hooks.transientupdate.tap(this.onTransientUpdate.bind(this));
     this.graph.hooks.viewportchange.tap(this.onViewportChange.bind(this));
     this.graph.hooks.themechange.tap(this.onThemeChange.bind(this));
+    this.graph.hooks.treecollapseexpand.tap(
+      this.onTreeCollapseExpand.bind(this),
+    );
     this.graph.hooks.destroy.tap(this.onDestroy.bind(this));
   }
 
@@ -258,6 +259,7 @@ export class ItemController {
     this.renderCombos(combos, theme.combo, graphCore);
     this.renderEdges(edges, theme.edge);
     this.sortByComboTree(graphCore);
+    // collapse the combos which has 'collapsed' in initial data
     if (graphCore.hasTreeStructure('combo')) {
       graphCoreTreeDfs(
         graphCore,
@@ -266,8 +268,21 @@ export class ItemController {
           if (child.data.collapsed) this.collapseCombo(graphCore, child);
         },
         'BT',
+        'combo',
       );
     }
+    // collapse the sub tree which has 'collapsed' in initial data
+    const collapseNodes = [];
+    graphCoreTreeDfs(
+      graphCore,
+      graphCore.getRoots('tree'),
+      (child) => {
+        if (child.data.collapsed) collapseNodes.push(child);
+      },
+      'BT',
+      'tree',
+    );
+    this.collapseSubTree(collapseNodes, graphCore, false);
   }
 
   /**
@@ -280,14 +295,21 @@ export class ItemController {
     graphCore: GraphCore;
     theme: ThemeSpecification;
     upsertAncestors?: boolean;
+    animate?: boolean;
     action?: 'updatePosition';
+    callback?: (
+      model: NodeModel | EdgeModel | ComboModel,
+      canceled?: boolean,
+    ) => void;
   }) {
     const {
       changes,
       graphCore,
       action,
+      animate = true,
       upsertAncestors = true,
       theme = {},
+      callback = () => {},
     } = param;
     const groupedChanges = getGroupedChanges(graphCore, changes);
     const { itemMap } = this;
@@ -298,10 +320,9 @@ export class ItemController {
       ({ value }) => {
         const { id } = value;
         const item = itemMap[id];
-        if (item) {
-          item.destroy();
-          delete itemMap[id];
-        }
+        if (!item) return;
+        item.destroy();
+        delete itemMap[id];
       },
     );
 
@@ -381,8 +402,16 @@ export class ItemController {
         const onlyMove = action === 'updatePosition';
         const item = itemMap[id] as Node | Combo;
         const type = item.getType();
-        if (onlyMove && type === 'node' && isNaN(current.x) && isNaN(current.y))
+        const innerModel = graphCore.getNode(id);
+        if (
+          onlyMove &&
+          type === 'node' &&
+          isNaN(current.x) &&
+          isNaN(current.y)
+        ) {
+          callback(innerModel, true);
           return;
+        }
         // update the theme if the dataType value is changed
         let itemTheme;
         if (
@@ -396,7 +425,6 @@ export class ItemController {
             nodeTheme,
           );
         }
-        const innerModel = graphCore.getNode(id);
         const relatedEdgeInnerModels = graphCore.getRelatedEdges(id);
         const nodeRelatedIdsToUpdate: ID[] = [];
         relatedEdgeInnerModels.forEach((edge) => {
@@ -415,11 +443,13 @@ export class ItemController {
           isReplace,
           itemTheme,
           onlyMove,
+          animate,
           // call after updating finished
-          () => {
-            item.onframe();
+          (_, canceled) => {
+            item.onframe?.();
             // @ts-ignore
             item.onframe = undefined;
+            callback(innerModel, canceled);
           },
         );
 
@@ -476,7 +506,7 @@ export class ItemController {
           this.graph.hideItem(innerModel.id);
         }
       });
-      updateRelates();
+      updateRelatesThrottle();
     }
 
     // === 6. update edges' data ===
@@ -513,7 +543,15 @@ export class ItemController {
         }
         const item = itemMap[id];
         const innerModel = graphCore.getEdge(id);
-        item.update(innerModel, { current, previous }, isReplace, itemTheme);
+        item.update(
+          innerModel,
+          { current, previous },
+          isReplace,
+          itemTheme,
+          undefined,
+          animate,
+          (_, canceled) => callback(innerModel, canceled),
+        );
       });
     }
 
@@ -538,8 +576,24 @@ export class ItemController {
     }
 
     // === 8. combo tree structure change, resort the shapes ===
-    if (groupedChanges.TreeStructureChanged.length) {
+    if (groupedChanges.ComboStructureChanged.length) {
       this.sortByComboTree(graphCore);
+    }
+
+    // === 9. tree data structure change, hide the new node and edge while one of the ancestor is collapsed ===
+    if (groupedChanges.TreeStructureChanged.length) {
+      groupedChanges.TreeStructureChanged.forEach((change) => {
+        const { nodeId } = change;
+        // hide it when an ancestor is collapsed
+        let parent = graphCore.getParent(nodeId, 'tree');
+        while (parent) {
+          if (parent.data.collapsed) {
+            this.graph.hideItem(nodeId, true);
+            break;
+          }
+          parent = graphCore.getParent(parent.id, 'tree');
+        }
+      });
     }
   }
 
@@ -593,21 +647,20 @@ export class ItemController {
         if (type === 'edge') {
           item.show(animate);
         } else {
-          let anccestorCollapsed = false;
           if (graphCore.hasTreeStructure('combo')) {
+            let anccestorCollapsed = false;
             traverseAncestors(graphCore, [item.model], (model) => {
               if (model.data.collapsed) anccestorCollapsed = true;
               return anccestorCollapsed;
             });
             if (anccestorCollapsed) return;
           }
-
           const relatedEdges = graphCore.getRelatedEdges(id);
 
           item.show(animate);
           relatedEdges.forEach(({ id: edgeId, source, target }) => {
             if (this.getItemVisible(source) && this.getItemVisible(target))
-              this.itemMap[edgeId]?.show();
+              this.itemMap[edgeId]?.show(animate);
           });
         }
       } else {
@@ -615,7 +668,7 @@ export class ItemController {
         if (type !== 'edge') {
           const relatedEdges = graphCore.getRelatedEdges(id);
           relatedEdges.forEach(({ id: edgeId }) => {
-            this.itemMap[edgeId]?.hide();
+            this.itemMap[edgeId]?.hide(animate);
           });
         }
       }
@@ -979,11 +1032,13 @@ export class ItemController {
         console.warn(
           `The source node ${source} is not exist in the graph for edge ${id}, please add the node first`,
         );
+        return;
       }
       if (!targetItem) {
         console.warn(
           `The source node ${source} is not exist in the graph for edge ${id}, please add the node first`,
         );
+        return;
       }
       // get the base styles from theme
       let dataType;
@@ -1163,6 +1218,134 @@ export class ItemController {
     });
     // remove related virtual edges
     this.graph.removeData('edge', uniq(relatedVirtualEdgeIds));
+  }
+
+  /**
+   * Collapse or expand a sub tree according to action
+   * @param params
+   */
+  private onTreeCollapseExpand(params: {
+    ids: ID[];
+    animate: boolean;
+    action: 'collapse' | 'expand';
+    graphCore: GraphCore;
+  }) {
+    const { ids, animate, action, graphCore } = params;
+    const rootModels = ids.map((id) => graphCore.getNode(id));
+    switch (action) {
+      case 'collapse':
+        this.collapseSubTree(rootModels, graphCore, animate);
+        break;
+      case 'expand':
+      default:
+        this.expandSubTree(rootModels, graphCore, animate);
+        break;
+    }
+  }
+
+  /**
+   * Collapse sub tree(s).
+   * @param rootModels The root node models of sub trees
+   * @param graphCore
+   * @param animate Whether enable animations for expanding, true by default
+   * @returns
+   */
+  private collapseSubTree(
+    rootModels: NodeModel[],
+    graphCore: GraphCore,
+    animate: boolean = true,
+  ) {
+    let positions = [];
+    rootModels.forEach((root) => {
+      let shouldCollapse = true;
+      const nodes = [];
+      graphCoreTreeDfs(
+        graphCore,
+        [root],
+        (node) => {
+          if (node.id === root.id) return;
+          const neighbors = graphCore.getNeighbors(node.id);
+          if (
+            neighbors.length > 2 ||
+            (!graphCore.getChildren(node.id, 'tree')?.length &&
+              neighbors.length > 1)
+          ) {
+            shouldCollapse = false;
+          }
+          nodes.push(node);
+        },
+        'TB',
+        'tree',
+        {
+          stopAllFn: () => !shouldCollapse,
+        },
+      );
+      if (shouldCollapse) {
+        positions = positions.concat(
+          nodes.map((node) => ({
+            id: node.id,
+            data: { x: root.data.x, y: root.data.y },
+          })),
+        );
+      }
+    });
+    if (!positions.length) return;
+    this.graph.updateNodePosition(
+      positions,
+      undefined,
+      !animate,
+      (model, canceled) => {
+        this.graph.hideItem(model.id, canceled);
+      },
+      undefined,
+    );
+  }
+
+  /**
+   * Expand sub tree(s).
+   * @param rootModels The root node models of sub trees.
+   * @param graphCore
+   * @param animate Whether enable animations for expanding, true by default.
+   * @returns
+   */
+  private expandSubTree(
+    rootModels: NodeModel[],
+    graphCore: GraphCore,
+    animate: boolean = true,
+  ) {
+    let allNodeIds = [];
+    let allEdgeIds = [];
+    rootModels.forEach((root) => {
+      const nodeIds = [];
+      graphCoreTreeDfs(
+        graphCore,
+        [root],
+        (node) => nodeIds.push(node.id),
+        'TB',
+        'tree',
+        {
+          stopBranchFn: (node) => {
+            const shouldStop =
+              node.id !== root.id && (node.data.collapsed as boolean);
+            if (shouldStop) nodeIds.push(node.id);
+            return shouldStop;
+          },
+        },
+      );
+      allEdgeIds = allEdgeIds.concat(
+        graphCore
+          .getAllEdges()
+          .filter(
+            (edge) =>
+              nodeIds.includes(edge.source) && nodeIds.includes(edge.target),
+          )
+          .map((edge) => edge.id),
+      );
+      allNodeIds = allNodeIds.concat(nodeIds.filter((id) => id !== root.id));
+    });
+    const ids = uniq(allNodeIds.concat(allEdgeIds));
+    this.graph.showItem(ids, !animate);
+    this.graph.layout(undefined, !animate);
   }
 }
 
