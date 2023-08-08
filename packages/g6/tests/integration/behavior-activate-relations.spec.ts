@@ -29,7 +29,7 @@ describe('Activate relations behavior', () => {
     });
 
     graph.on('afterlayout', async () => {
-      await sleep(50);
+      await sleep(1000);
       await expect(canvas).toMatchCanvasSnapshot(
         dir,
         'behavior-activate-relations',
@@ -39,7 +39,7 @@ describe('Activate relations behavior', () => {
       // mouseEvent.target = canvas.getContextService().getDomElement();
       triggerEvent(graph, 'mousedown', 81, 50);
       triggerEvent(graph, 'mouseup', 81, 50);
-      await sleep(50);
+      await sleep(1000);
       await expect(canvas).toMatchCanvasSnapshot(
         dir,
         'behavior-activate-relations-activate-node1',
@@ -50,7 +50,7 @@ describe('Activate relations behavior', () => {
        */
       triggerEvent(graph, 'mousedown', 0, 0);
       triggerEvent(graph, 'mouseup', 0, 0);
-      await sleep(50);
+      await sleep(1000);
       await expect(canvas).toMatchCanvasSnapshot(
         dir,
         'behavior-activate-relations-clear-activate-state',
@@ -76,7 +76,7 @@ describe('Activate relations behavior', () => {
     });
 
     graph.on('afterlayout', async () => {
-      await sleep(50);
+      await sleep(1000);
       await expect(canvas).toMatchSVGSnapshot(
         dir,
         'behavior-activate-relations',

@@ -29,7 +29,7 @@ describe('Force3D layout', () => {
     });
 
     graph.on('afterlayout', async () => {
-      await sleep(5000);
+      await sleep(1000);
       await expect(canvas).toMatchWebGLSnapshot(dir, 'layout-force3d');
       graph.destroy();
       done();

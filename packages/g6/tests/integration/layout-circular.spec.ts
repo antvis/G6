@@ -28,7 +28,7 @@ describe('Circular layout', () => {
     });
 
     graph.on('afterlayout', async () => {
-      await sleep(300);
+      await sleep(1000);
       await expect(canvas).toMatchCanvasSnapshot(dir, 'layout-circular');
       graph.destroy();
       done();
@@ -50,7 +50,7 @@ describe('Circular layout', () => {
     });
 
     graph.on('afterlayout', async () => {
-      await sleep(300);
+      await sleep(1000);
       await expect(canvas).toMatchSVGSnapshot(dir, 'layout-circular');
       graph.destroy();
       done();
@@ -72,7 +72,7 @@ describe('Circular layout', () => {
     });
 
     graph.on('afterlayout', async () => {
-      await sleep(300);
+      await sleep(1000);
       await expect(canvas).toMatchWebGLSnapshot(dir, 'layout-circular');
       graph.destroy();
       done();
