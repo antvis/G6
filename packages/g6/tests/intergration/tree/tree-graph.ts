@@ -55,7 +55,7 @@ const graphDataCfg = {
   type: 'graphData',
   value: {
     nodes: [
-      { id: 'node1', data: { isRoot: true, collapsed: true } },
+      { id: 'node1', data: { isRoot: true } }, // , collapsed: true
       { id: 'node2', data: {} },
       { id: 'node3', data: {} },
       { id: 'node4', data: {} },
@@ -64,9 +64,9 @@ const graphDataCfg = {
     edges: [
       { id: 'edge1', source: 'node1', target: 'node2', data: {} },
       { id: 'edge2', source: 'node1', target: 'node3', data: {} },
-      { id: 'edge3', source: 'node1', target: 'node4', data: {} },
-      // { id: 'edge4', source: 'node2', target: 'node3', data: {} },
-      // { id: 'edge5', source: 'node3', target: 'node4', data: {} },
+      // { id: 'edge3', source: 'node1', target: 'node4', data: {} },
+      { id: 'edge4', source: 'node2', target: 'node3', data: {} },
+      { id: 'edge5', source: 'node3', target: 'node4', data: {} },
       { id: 'edge6', source: 'node4', target: 'node5', data: {} },
     ],
   },
@@ -206,8 +206,8 @@ export default async () => {
     //     },
     //   },
     // },
-    data: treeDataCfg,
-    // data: graphDataCfg,
+    // data: treeDataCfg,
+    data: graphDataCfg,
     modes: {
       default: [
         'drag-canvas',
@@ -239,9 +239,9 @@ export default async () => {
     /** === change layout === */
     // graph.layout({ type: 'compactBox' });
     /** === collapse / expand === */
-    const ids = ['root2', 'root']; //['root']; //['node1']; //
-    collapsed ? graph.expand(ids) : graph.collapse(ids);
-    collapsed = !collapsed;
+    // const ids = ['root2', 'root']; //['root']; //['node1']; //
+    // collapsed ? graph.expand(ids) : graph.collapse(ids);
+    // collapsed = !collapsed;
   });
 
   graph.on('canvas:contextmenu', (e) => {
