@@ -1,5 +1,5 @@
 import { DisplayObject } from '@antv/g';
-import { clone, throttle } from '@antv/util';
+import { clone, throttle, uniqueId } from '@antv/util';
 import { IGraph } from '../../../types';
 import { Point } from '../../../types/common';
 import { IG6GraphEvent } from '../../../types/event';
@@ -88,6 +88,7 @@ export class Fisheye extends Base {
   }
   public getDefaultCfgs(): FisheyeConfig {
     return {
+      key: `fisheye-${uniqueId()}`,
       trigger: 'mousemove',
       d: 1.5,
       r: 300,

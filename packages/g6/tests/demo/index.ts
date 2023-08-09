@@ -53,6 +53,7 @@ import user_defined_canvas from './user-defined-canvas/circular';
 import visual from './visual/visual';
 import modelRect from './demo/modelRect';
 import layouts_combocombined from './layouts/combo-combined';
+import hull from './plugins/hull';
 
 export {
   anchor,
@@ -109,4 +110,5 @@ export {
   visual,
   modelRect,
   comboDagre,
+  hull,
 };

@@ -1,7 +1,8 @@
 import { createDom, modifyCSS } from '@antv/dom-util';
-import { isString } from '@antv/util';
+import { AABB } from '@antv/g';
+import { isString, uniqueId } from '@antv/util';
 import insertCss from 'insert-css';
-import Item from 'item/item';
+import Item from '../../../item/item';
 import { IGraph } from '../../../types';
 import { IG6GraphEvent } from '../../../types/event';
 import { Plugin as Base, IPluginBaseConfig } from '../../../types/plugin';
@@ -77,6 +78,7 @@ export class Menu extends Base {
 
   public getDefaultCfgs(): MenuConfig {
     return {
+      key: `menu-${uniqueId()}`,
       offsetX: 6,
       offsetY: 6,
       handleMenuClick: undefined,

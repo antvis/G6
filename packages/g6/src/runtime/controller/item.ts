@@ -693,7 +693,6 @@ export class ItemController {
             if (anccestorCollapsed) return;
           }
           const relatedEdges = graphCore.getRelatedEdges(id);
-
           item.show(animate);
           relatedEdges.forEach(({ id: edgeId, source, target }) => {
             if (this.getItemVisible(source) && this.getItemVisible(target))

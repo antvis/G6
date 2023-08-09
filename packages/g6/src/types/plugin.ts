@@ -2,6 +2,7 @@ import { deepMix, each } from '@antv/util';
 import { IGraph } from './graph';
 
 export interface IPluginBaseConfig {
+  key: string;
   container?: HTMLDivElement | string | null;
   className?: string;
   graph?: IGraph;
@@ -13,6 +14,8 @@ interface EventMapType {
 }
 
 export abstract class Plugin {
+  public key: string;
+
   private events: EventMapType;
 
   public options: IPluginBaseConfig;
