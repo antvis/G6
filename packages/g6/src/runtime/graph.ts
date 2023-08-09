@@ -33,6 +33,7 @@ import {
 import { FitViewRules, GraphTransformOptions } from '../types/view';
 import { changeRenderer, createCanvas } from '../util/canvas';
 import { formatPadding } from '../util/shape';
+import Node from '../item/node';
 import {
   DataController,
   ExtensionController,
@@ -778,6 +779,18 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     direction: 'in' | 'out' | 'both' = 'both',
   ): NodeModel[] {
     return this.dataController.findNeighborNodeIds(nodeId, direction);
+  }
+
+  /**
+   * Identify edges that are affected when a particular node is moved
+   * @param nodeId id of node that is moving
+   * @returns list of affected edges(including related edges and closest edges)
+   */
+  public getAffectedEdgesByNodeMovement(nodeId: ID): EdgeModel[] {
+    return this.dataController.findAffectedEdgesByNodeMovement(
+      nodeId,
+      this.itemController.getTransientItem(nodeId) as Node,
+    );
   }
 
   /**

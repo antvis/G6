@@ -68,6 +68,12 @@ export interface NodeUserModelData extends PlainObject {
     text: string;
     position: BadgePosition;
   }[];
+  /**
+   * Whether to prevent overlap with unassociated edges. Used to preempt position.
+   * Defaults to false.
+   * Only valid for polyline
+   */
+  preventEdgeOverlap?: boolean;
 }
 
 /** Data in inner model. Same format to the user data. */

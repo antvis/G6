@@ -25,6 +25,7 @@ interface IProps {
     lodStrategy: lodStrategyObj;
   };
   onframe?: Function;
+  nodeMap?: Record<string, Node>;
 }
 
 export default class Edge extends Item {
@@ -37,14 +38,16 @@ export default class Edge extends Item {
   public type: 'edge' = 'edge';
   public sourceItem: Node;
   public targetItem: Node;
+  public nodeMap: Record<string, Node>;
 
   constructor(props: IProps) {
     super(props);
     this.type = 'edge';
     this.init(props);
-    const { sourceItem, targetItem } = props;
+    const { sourceItem, targetItem, nodeMap } = props;
     this.sourceItem = sourceItem;
     this.targetItem = targetItem;
+    this.nodeMap = nodeMap;
     this.draw(this.displayModel);
   }
   public draw(
@@ -62,6 +65,8 @@ export default class Edge extends Item {
     const firstRendering = !this.shapeMap?.keyShape;
     this.renderExt.setSourcePoint(sourcePoint);
     this.renderExt.setTargetPoint(targetPoint);
+    this.renderExt.setNodeMap(this.nodeMap);
+
     const shapeMap = this.renderExt.draw(
       displayModel,
       sourcePoint,
@@ -160,6 +165,7 @@ export default class Edge extends Item {
       renderExtensions: this.renderExtensions,
       sourceItem,
       targetItem,
+      nodeMap: this.nodeMap,
       containerGroup,
       mapper: this.mapper,
       stateMapper: this.stateMapper,

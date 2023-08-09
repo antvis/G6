@@ -37,6 +37,7 @@ export abstract class BaseEdge {
   mergedStyles: EdgeShapeStyles;
   sourcePoint: Point;
   targetPoint: Point;
+  nodeMap: Record<string, Node>;
   lodStrategy?: lodStrategyObj;
   labelPosition: {
     x: number;
@@ -560,6 +561,14 @@ export abstract class BaseEdge {
    */
   public setTargetPoint(point: Point) {
     this.targetPoint = point;
+  }
+
+  /**
+   * Update all visible nodes on the canvas to be aware of obstacles. Called in item's draw func.
+   * @param nodeMap
+   */
+  public setNodeMap(nodeMap: Record<string, Node>) {
+    this.nodeMap = nodeMap;
   }
 
   public upsertShape(

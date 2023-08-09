@@ -323,11 +323,17 @@ export class ItemController {
         } catch (e) {
           innerModel = graphCore.getNode(Number(id));
         }
+        const preventEdgeOverlap =
+          innerModel?.data?.preventEdgeOverlap || false;
         let relatedEdgeInnerModels;
         try {
-          relatedEdgeInnerModels = graphCore.getRelatedEdges(id);
+          relatedEdgeInnerModels = preventEdgeOverlap
+            ? this.graph.getAffectedEdgesByNodeMovement(id)
+            : graphCore.getRelatedEdges(id);
         } catch (e) {
-          relatedEdgeInnerModels = graphCore.getRelatedEdges(Number(id));
+          relatedEdgeInnerModels = preventEdgeOverlap
+            ? this.graph.getAffectedEdgesByNodeMovement(Number(id))
+            : graphCore.getRelatedEdges(Number(id));
         }
         const nodeRelatedToUpdate = {};
         relatedEdgeInnerModels.forEach((edge) => {
@@ -601,6 +607,10 @@ export class ItemController {
     return this.transientObjectMap[id];
   }
 
+  public getTransientItem(id: ID) {
+    return this.transientItemMap[id];
+  }
+
   /**
    * Create nodes with inner data to canvas.
    * @param models nodes' inner datas
@@ -678,6 +688,11 @@ export class ItemController {
         edgeTheme,
       );
 
+      const nodeMap = filterVisibleItemMapByType(
+        this.itemMap,
+        'node',
+      ) as Record<ID, Node>;
+
       itemMap[id] = new Edge({
         model: edge,
         renderExtensions: edgeExtensions,
@@ -686,6 +701,7 @@ export class ItemController {
         stateMapper: this.edgeStateMapper,
         sourceItem,
         targetItem,
+        nodeMap,
         zoom,
         theme: itemTheme as {
           styles: EdgeStyleSet;
@@ -790,4 +806,19 @@ const getItemTheme = (
     styles: themeStyle,
     lodStrategy: formattedLodStrategy,
   };
+};
+
+export const filterVisibleItemMapByType = (
+  itemMap: Record<ID, Node | Edge | Combo>,
+  type: ITEM_TYPE | ITEM_TYPE[],
+): Record<ID, Node> | Record<ID, Edge> | Record<ID, Combo> => {
+  return Object.values(itemMap).reduce((map, item) => {
+    const isExist = Array.isArray(type)
+      ? type.includes(item.getType())
+      : item.getType() === type;
+    if (isExist && item.isVisible()) {
+      map[item.getID()] = item;
+    }
+    return map;
+  }, {});
 };

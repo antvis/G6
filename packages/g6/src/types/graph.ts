@@ -115,7 +115,12 @@ export interface IGraph<
     nodeId: ID,
     direction?: 'in' | 'out' | 'both',
   ) => NodeModel[];
-
+  /**
+   * Get edges that are affected when a particular node is moved
+   * @param nodeId target node's id
+   * @returns list of affected edges(including related edges and closest edges)
+   */
+  getAffectedEdgesByNodeMovement: (nodeId: ID) => EdgeModel[];
   /**
    * Input data and render the graph.
    * If there is old data, diffs and changes it.

@@ -85,6 +85,7 @@ export default class DragNode extends Behavior {
 
   // Private states
   private hiddenEdges: EdgeModel[] = [];
+  private selectedNodeIds: ID[] = [];
   private originX: number;
   private originY: number;
   private originPositions: Array<{
@@ -122,14 +123,24 @@ export default class DragNode extends Behavior {
   };
 
   /** Given selected node ids, get their related visible edges. */
-  private getRelatedEdges(selectedNodeIds: ID[]) {
-    return uniq(
-      selectedNodeIds.flatMap((nodeId) =>
-        this.graph.getRelatedEdgesData(nodeId),
-      ),
-    ).filter((edgeData) => {
-      return this.graph.getItemVisible(edgeData.id);
-    });
+  private getRelatedEdges(selectedNodeIds: ID[], visible = true) {
+    let edges = uniq(
+      selectedNodeIds.flatMap((nodeId) => {
+        const preventEdgeOverlap =
+          this.graph.getNodeData(nodeId).data.preventEdgeOverlap || false;
+        if (preventEdgeOverlap) {
+          return this.graph.getAffectedEdgesByNodeMovement(nodeId);
+        } else {
+          return this.graph.getRelatedEdgesData(nodeId);
+        }
+      }),
+    );
+    if (visible) {
+      edges = edges.filter((edgeData) => {
+        return visible && this.graph.getItemVisible(edgeData.id);
+      });
+    }
+    return edges;
   }
 
   public onPointerDown(event: IG6GraphEvent) {
@@ -145,11 +156,14 @@ export default class DragNode extends Behavior {
     const beginDeltaY = Math.abs(this.pointerDown.y - event.canvas.y);
     if (beginDeltaX < 1 && beginDeltaY < 1) return;
 
+    const enableTransient =
+      this.options.enableTransient && this.graph.rendererType !== 'webgl-3d';
+
     // pointerDown + first move = dragging
     if (!this.dragging) {
       this.dragging = true;
       const currentNodeId = event.itemId;
-      let selectedNodeIds = this.graph.findIdByState(
+      this.selectedNodeIds = this.graph.findIdByState(
         'node',
         this.options.selectedState,
         true,
@@ -157,11 +171,11 @@ export default class DragNode extends Behavior {
 
       // If current node is selected, drag all the selected nodes together.
       // Otherwise drag current node.
-      if (currentNodeId && !selectedNodeIds.includes(currentNodeId)) {
-        selectedNodeIds = [currentNodeId];
+      if (currentNodeId && !this.selectedNodeIds.includes(currentNodeId)) {
+        this.selectedNodeIds = [currentNodeId];
       }
 
-      this.originPositions = selectedNodeIds.map((id) => {
+      this.originPositions = this.selectedNodeIds.map((id) => {
         if (!this.graph.getNodeData(id)) {
           console.log('node does not exist', id);
           return;
@@ -182,12 +196,9 @@ export default class DragNode extends Behavior {
         return { id, x, y };
       });
 
-      const enableTransient =
-        this.options.enableTransient && this.graph.rendererType !== 'webgl-3d';
-
       // Hide related edge.
       if (this.options.hideRelatedEdges && !enableTransient) {
-        this.hiddenEdges = this.getRelatedEdges(selectedNodeIds);
+        this.hiddenEdges = this.getRelatedEdges(this.selectedNodeIds);
         this.graph.hideItem(
           this.hiddenEdges.map((edge) => edge.id),
           true,
@@ -197,16 +208,16 @@ export default class DragNode extends Behavior {
       // Draw transient nodes and edges.
       if (enableTransient) {
         // Draw transient edges and nodes.
-        this.hiddenEdges = this.getRelatedEdges(selectedNodeIds);
+        this.hiddenEdges = this.getRelatedEdges(this.selectedNodeIds);
+        this.selectedNodeIds.forEach((nodeId) => {
+          this.graph.drawTransient('node', nodeId, {});
+        });
         this.hiddenEdges.forEach((edge) => {
           this.graph.drawTransient('edge', edge.id, {});
         });
-        selectedNodeIds.forEach((nodeId) => {
-          this.graph.drawTransient('node', nodeId, {});
-        });
 
         // Hide original edges and nodes. They will be restored when pointerup.
-        this.graph.hideItem(selectedNodeIds, true);
+        this.graph.hideItem(this.selectedNodeIds, true);
         this.graph.hideItem(
           this.hiddenEdges.map((edge) => edge.id),
           true,
@@ -228,6 +239,23 @@ export default class DragNode extends Behavior {
       this.originX = event.canvas.x;
       // @ts-ignore FIXME: Type
       this.originY = event.canvas.y;
+    }
+
+    if (this.dragging && enableTransient) {
+      this.hiddenEdges = this.getRelatedEdges(this.selectedNodeIds, false);
+      this.selectedNodeIds.forEach((nodeId) => {
+        this.graph.drawTransient('node', nodeId, {});
+      });
+      this.hiddenEdges.forEach((edge) => {
+        this.graph.drawTransient('edge', edge.id, {});
+      });
+
+      // Hide original edges and nodes. They will be restored when pointerup.
+      this.graph.hideItem(this.selectedNodeIds, true);
+      this.graph.hideItem(
+        this.hiddenEdges.map((edge) => edge.id),
+        true,
+      );
     }
 
     if (!this.originPositions.length) {
@@ -347,6 +375,7 @@ export default class DragNode extends Behavior {
   public onPointerUp(event: IG6GraphEvent) {
     this.pointerDown = undefined;
     this.dragging = false;
+    this.selectedNodeIds = [];
     const enableTransient =
       this.options.enableTransient && this.graph.rendererType !== 'webgl-3d';
     // If transient or delegate was enabled, move the real nodes.

@@ -5,3 +5,7 @@ export type Point = {
   y: number;
   z?: number;
 };
+
+export type PolyPoint = Point & {
+  id?: string;
+};
