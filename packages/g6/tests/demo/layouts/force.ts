@@ -1,11 +1,11 @@
 import G6 from '../../../src/index';
 import { data } from '../../datasets/dataset1';
-import { TestCaseParams } from '../interface';
+import { TestCaseContext } from '../interface';
 
-export default (params: TestCaseParams) => {
-  const { width, height } = params;
+export default (context: TestCaseContext) => {
+  const { width, height } = context;
   return new G6.Graph({
-    ...params,
+    ...context,
     type: 'graph',
     data: JSON.parse(JSON.stringify(data)),
     layout: {

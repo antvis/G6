@@ -1,7 +1,7 @@
 import { Layout, LayoutMapping } from '@antv/layout';
 import G6 from '../../../src/index';
 import { data } from '../../datasets/dataset1';
-import { TestCaseParams } from '../interface';
+import { TestCaseContext } from '../interface';
 
 class MyCustomLayout implements Layout<{}> {
   async assign(graph, options?: {}): Promise<void> {
@@ -28,9 +28,9 @@ class MyCustomLayout implements Layout<{}> {
 // Register custom layout
 G6.stdLib.layouts['myCustomLayout'] = MyCustomLayout;
 
-export default (params: TestCaseParams) => {
+export default (context: TestCaseContext) => {
   return new G6.Graph({
-    ...params,
+    ...context,
     type: 'graph',
     data: JSON.parse(JSON.stringify(data)),
     layout: {

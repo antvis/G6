@@ -1,7 +1,7 @@
 import { Canvas } from '@antv/g';
 import { RendererName } from '../../src/types/render';
 
-export type TestCaseParams = Partial<{
+export type TestCaseContext = Partial<{
   container: HTMLElement;
   renderer: RendererName;
   canvas: Canvas;

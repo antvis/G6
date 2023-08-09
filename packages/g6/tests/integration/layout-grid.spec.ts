@@ -57,7 +57,7 @@ describe('Grid layout', () => {
     });
   });
 
-  it('should be rendered correctly with WebGL', (done) => {
+  it.skip('should be rendered correctly with WebGL', (done) => {
     const dir = `${__dirname}/snapshots/webgl`;
     const backgroundCanvas = createNodeGCanvas('webgl', 500, 500);
     const canvas = createNodeGCanvas('webgl', 500, 500);

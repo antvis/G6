@@ -1,7 +1,7 @@
 import G6 from '../../../src/index';
-import { TestCaseParams } from '../interface';
+import { TestCaseContext } from '../interface';
 
-export default (params: TestCaseParams) => {
+export default (context: TestCaseContext) => {
   const data = {
     nodes: [
       {
@@ -106,7 +106,7 @@ export default (params: TestCaseParams) => {
   };
 
   return new G6.Graph({
-    ...params,
+    ...context,
     type: 'graph',
     data: JSON.parse(JSON.stringify(data)),
     layout: {
