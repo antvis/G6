@@ -657,7 +657,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
   public async focusItem(id: ID | ID[], effectTiming?: CameraAnimationOptions) {
     let bounds: AABB | null = null;
     for (const itemId of !isArray(id) ? [id] : id) {
-      const item = this.itemController.getItemById(itemId);
+      const item = this.getItemById(itemId);
       if (item) {
         const itemBounds = item.group.getBounds();
         if (!bounds) {
@@ -677,6 +677,15 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
         effectTiming,
       );
     }
+  }
+
+  /**
+   * Get item by id.
+   * @param id
+   * @returns Node | Edge | Combo
+   */
+  public getItemById(id: ID) {
+    return this.itemController.getItemById(id);
   }
 
   /**

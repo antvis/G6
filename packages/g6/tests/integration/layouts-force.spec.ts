@@ -1,7 +1,6 @@
 import { resetEntityCounter } from '@antv/g';
 import force from '../demo/layouts/force';
 import { createNodeGCanvas } from './utils/createNodeGCanvas';
-import { sleep } from './utils/sleep';
 import './utils/useSnapshotMatchers';
 
 describe.skip('Force layout', () => {
@@ -28,8 +27,7 @@ describe.skip('Force layout', () => {
     });
 
     graph.on('afterlayout', async () => {
-      await sleep(2000);
-      await expect(canvas).toMatchCanvasSnapshot(dir, 'layout-force');
+      await expect(canvas).toMatchCanvasSnapshot(dir, 'layouts-force');
       graph.destroy();
       done();
     });
@@ -50,8 +48,7 @@ describe.skip('Force layout', () => {
     });
 
     graph.on('afterlayout', async () => {
-      await sleep(1000);
-      await expect(canvas).toMatchSVGSnapshot(dir, 'layout-force');
+      await expect(canvas).toMatchSVGSnapshot(dir, 'layouts-force');
       graph.destroy();
       done();
     });
@@ -72,8 +69,7 @@ describe.skip('Force layout', () => {
     });
 
     graph.on('afterlayout', async () => {
-      await sleep(1000);
-      await expect(canvas).toMatchWebGLSnapshot(dir, 'layout-force');
+      await expect(canvas).toMatchWebGLSnapshot(dir, 'layouts-force');
       graph.destroy();
       done();
     });

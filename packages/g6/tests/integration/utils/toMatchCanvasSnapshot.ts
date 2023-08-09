@@ -4,6 +4,7 @@ import { Canvas } from '@antv/g';
 import pixelmatch from 'pixelmatch';
 import { PNG } from 'pngjs';
 import { Canvas as NodeCanvas } from 'canvas';
+import { sleep } from './sleep';
 
 export type ToMatchCanvasSnapshotOptions = {
   maxError?: number;
@@ -58,6 +59,9 @@ export async function toMatchCanvasSnapshot(
   name: string,
   options: ToMatchCanvasSnapshotOptions = {},
 ): Promise<{ message: () => string; pass: boolean }> {
+  // wait for next tick
+  await sleep(20);
+
   const { maxError = 0 } = options;
   const namePath = path.join(dir, name);
   const actualPath = path.join(dir, `${name}-actual.png`);

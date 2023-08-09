@@ -1,10 +1,10 @@
 import { resetEntityCounter } from '@antv/g';
-import circular from '../demo/layouts/circular';
+import activateRelations from '../demo/behaviors/activate-relations';
 import { createNodeGCanvas } from './utils/createNodeGCanvas';
-import { sleep } from './utils/sleep';
+import { triggerEvent } from './utils/event';
 import './utils/useSnapshotMatchers';
 
-describe('Circular layout', () => {
+describe('Activate relations behavior', () => {
   beforeEach(() => {
     /**
      * SVG Snapshot testing will generate a unique id for each element.
@@ -19,7 +19,7 @@ describe('Circular layout', () => {
     const canvas = createNodeGCanvas('canvas', 500, 500);
     const transientCanvas = createNodeGCanvas('canvas', 500, 500);
 
-    const graph = circular({
+    const graph = activateRelations({
       backgroundCanvas,
       canvas,
       transientCanvas,
@@ -28,8 +28,30 @@ describe('Circular layout', () => {
     });
 
     graph.on('afterlayout', async () => {
-      await sleep(1000);
-      await expect(canvas).toMatchCanvasSnapshot(dir, 'layout-circular');
+      await expect(canvas).toMatchCanvasSnapshot(
+        dir,
+        'behaviors-activate-relations',
+      );
+
+      // @ts-ignore
+      // mouseEvent.target = canvas.getContextService().getDomElement();
+      triggerEvent(graph, 'mousedown', 81, 50);
+      triggerEvent(graph, 'mouseup', 81, 50);
+      await expect(canvas).toMatchCanvasSnapshot(
+        dir,
+        'behaviors-activate-relations-activate-node1',
+      );
+
+      /**
+       * Click document to clear active state.
+       */
+      triggerEvent(graph, 'mousedown', 0, 0);
+      triggerEvent(graph, 'mouseup', 0, 0);
+      await expect(canvas).toMatchCanvasSnapshot(
+        dir,
+        'behaviors-activate-relations-deactivate-node1',
+      );
+
       graph.destroy();
       done();
     });
@@ -41,7 +63,7 @@ describe('Circular layout', () => {
     const canvas = createNodeGCanvas('svg', 500, 500);
     const transientCanvas = createNodeGCanvas('svg', 500, 500);
 
-    const graph = circular({
+    const graph = activateRelations({
       backgroundCanvas,
       canvas,
       transientCanvas,
@@ -50,30 +72,10 @@ describe('Circular layout', () => {
     });
 
     graph.on('afterlayout', async () => {
-      await sleep(1000);
-      await expect(canvas).toMatchSVGSnapshot(dir, 'layout-circular');
-      graph.destroy();
-      done();
-    });
-  });
-
-  it.skip('should be rendered correctly with WebGL', (done) => {
-    const dir = `${__dirname}/snapshots/webgl`;
-    const backgroundCanvas = createNodeGCanvas('webgl', 500, 500);
-    const canvas = createNodeGCanvas('webgl', 500, 500);
-    const transientCanvas = createNodeGCanvas('webgl', 500, 500);
-
-    const graph = circular({
-      backgroundCanvas,
-      canvas,
-      transientCanvas,
-      width: 500,
-      height: 500,
-    });
-
-    graph.on('afterlayout', async () => {
-      await sleep(1000);
-      await expect(canvas).toMatchWebGLSnapshot(dir, 'layout-circular');
+      await expect(canvas).toMatchSVGSnapshot(
+        dir,
+        'behaviors-activate-relations',
+      );
       graph.destroy();
       done();
     });

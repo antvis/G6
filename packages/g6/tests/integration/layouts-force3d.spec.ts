@@ -1,7 +1,6 @@
 import { resetEntityCounter } from '@antv/g';
 import force3D from '../demo/layouts/force-3d';
 import { createNodeGCanvas } from './utils/createNodeGCanvas';
-import { sleep } from './utils/sleep';
 import './utils/useSnapshotMatchers';
 
 describe('Force3D layout', () => {
@@ -29,8 +28,7 @@ describe('Force3D layout', () => {
     });
 
     graph.on('afterlayout', async () => {
-      await sleep(1000);
-      await expect(canvas).toMatchWebGLSnapshot(dir, 'layout-force3d');
+      await expect(canvas).toMatchWebGLSnapshot(dir, 'layouts-force3d');
       graph.destroy();
       done();
     });

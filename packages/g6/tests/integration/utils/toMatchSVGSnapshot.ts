@@ -2,6 +2,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { Canvas } from '@antv/g';
 import xmlserializer from 'xmlserializer';
+import { sleep } from './sleep';
 
 export type ToMatchSVGSnapshotOptions = {
   maxError?: number;
@@ -14,6 +15,9 @@ export async function toMatchSVGSnapshot(
   name: string,
   options: ToMatchSVGSnapshotOptions = {},
 ): Promise<{ message: () => string; pass: boolean }> {
+  // wait for next tick
+  await sleep(20);
+
   const namePath = path.join(dir, name);
   const actualPath = path.join(dir, `${name}-actual.svg`);
   const expectedPath = path.join(dir, `${name}.svg`);

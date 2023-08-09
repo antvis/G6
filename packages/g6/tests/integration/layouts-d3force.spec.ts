@@ -1,10 +1,9 @@
 import { resetEntityCounter } from '@antv/g';
-import grid from '../demo/layouts/grid';
+import d3force from '../demo/layouts/d3force';
 import { createNodeGCanvas } from './utils/createNodeGCanvas';
-import { sleep } from './utils/sleep';
 import './utils/useSnapshotMatchers';
 
-describe('Grid layout', () => {
+describe('D3Force layout', () => {
   beforeEach(() => {
     /**
      * SVG Snapshot testing will generate a unique id for each element.
@@ -19,7 +18,7 @@ describe('Grid layout', () => {
     const canvas = createNodeGCanvas('canvas', 500, 500);
     const transientCanvas = createNodeGCanvas('canvas', 500, 500);
 
-    const graph = grid({
+    const graph = d3force({
       backgroundCanvas,
       canvas,
       transientCanvas,
@@ -28,8 +27,13 @@ describe('Grid layout', () => {
     });
 
     graph.on('afterlayout', async () => {
-      await sleep(300);
-      await expect(canvas).toMatchCanvasSnapshot(dir, 'layout-grid');
+      await expect(canvas).toMatchCanvasSnapshot(dir, 'layouts-d3force');
+
+      // const layoutAnimation = graph.getLayoutCurrentAnimation()!;
+      // layoutAnimation.
+      // layoutAnimation.currentTime = 0;
+      // await expect(canvas).toMatchCanvasSnapshot(dir, 'layouts-d3force-0');
+
       graph.destroy();
       done();
     });
@@ -41,7 +45,7 @@ describe('Grid layout', () => {
     const canvas = createNodeGCanvas('svg', 500, 500);
     const transientCanvas = createNodeGCanvas('svg', 500, 500);
 
-    const graph = grid({
+    const graph = d3force({
       backgroundCanvas,
       canvas,
       transientCanvas,
@@ -50,8 +54,7 @@ describe('Grid layout', () => {
     });
 
     graph.on('afterlayout', async () => {
-      await sleep(300);
-      await expect(canvas).toMatchSVGSnapshot(dir, 'layout-grid');
+      await expect(canvas).toMatchSVGSnapshot(dir, 'layouts-d3force');
       graph.destroy();
       done();
     });
@@ -63,7 +66,7 @@ describe('Grid layout', () => {
     const canvas = createNodeGCanvas('webgl', 500, 500);
     const transientCanvas = createNodeGCanvas('webgl', 500, 500);
 
-    const graph = grid({
+    const graph = d3force({
       backgroundCanvas,
       canvas,
       transientCanvas,
@@ -72,8 +75,7 @@ describe('Grid layout', () => {
     });
 
     graph.on('afterlayout', async () => {
-      await sleep(300);
-      await expect(canvas).toMatchWebGLSnapshot(dir, 'layout-grid');
+      await expect(canvas).toMatchWebGLSnapshot(dir, 'layouts-d3force');
       graph.destroy();
       done();
     });

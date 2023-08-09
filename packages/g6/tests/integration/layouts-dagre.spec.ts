@@ -1,11 +1,9 @@
 import { resetEntityCounter } from '@antv/g';
-import activateRelations from '../demo/behaviors/activate-relations';
+import dagre from '../demo/layouts/dagre';
 import { createNodeGCanvas } from './utils/createNodeGCanvas';
-import { sleep } from './utils/sleep';
-import { triggerEvent } from './utils/event';
 import './utils/useSnapshotMatchers';
 
-describe('Activate relations behavior', () => {
+describe('Dagre layout', () => {
   beforeEach(() => {
     /**
      * SVG Snapshot testing will generate a unique id for each element.
@@ -20,7 +18,7 @@ describe('Activate relations behavior', () => {
     const canvas = createNodeGCanvas('canvas', 500, 500);
     const transientCanvas = createNodeGCanvas('canvas', 500, 500);
 
-    const graph = activateRelations({
+    const graph = dagre({
       backgroundCanvas,
       canvas,
       transientCanvas,
@@ -29,33 +27,7 @@ describe('Activate relations behavior', () => {
     });
 
     graph.on('afterlayout', async () => {
-      await sleep(1000);
-      await expect(canvas).toMatchCanvasSnapshot(
-        dir,
-        'behavior-activate-relations',
-      );
-
-      // @ts-ignore
-      // mouseEvent.target = canvas.getContextService().getDomElement();
-      triggerEvent(graph, 'mousedown', 81, 50);
-      triggerEvent(graph, 'mouseup', 81, 50);
-      await sleep(1000);
-      await expect(canvas).toMatchCanvasSnapshot(
-        dir,
-        'behavior-activate-relations-activate-node1',
-      );
-
-      /**
-       * Click document to clear active state.
-       */
-      triggerEvent(graph, 'mousedown', 0, 0);
-      triggerEvent(graph, 'mouseup', 0, 0);
-      await sleep(1000);
-      await expect(canvas).toMatchCanvasSnapshot(
-        dir,
-        'behavior-activate-relations-clear-activate-state',
-      );
-
+      await expect(canvas).toMatchCanvasSnapshot(dir, 'layouts-dagre');
       graph.destroy();
       done();
     });
@@ -67,7 +39,7 @@ describe('Activate relations behavior', () => {
     const canvas = createNodeGCanvas('svg', 500, 500);
     const transientCanvas = createNodeGCanvas('svg', 500, 500);
 
-    const graph = activateRelations({
+    const graph = dagre({
       backgroundCanvas,
       canvas,
       transientCanvas,
@@ -76,11 +48,28 @@ describe('Activate relations behavior', () => {
     });
 
     graph.on('afterlayout', async () => {
-      await sleep(1000);
-      await expect(canvas).toMatchSVGSnapshot(
-        dir,
-        'behavior-activate-relations',
-      );
+      await expect(canvas).toMatchSVGSnapshot(dir, 'layouts-dagre');
+      graph.destroy();
+      done();
+    });
+  });
+
+  it.skip('should be rendered correctly with WebGL', (done) => {
+    const dir = `${__dirname}/snapshots/webgl`;
+    const backgroundCanvas = createNodeGCanvas('webgl', 500, 500);
+    const canvas = createNodeGCanvas('webgl', 500, 500);
+    const transientCanvas = createNodeGCanvas('webgl', 500, 500);
+
+    const graph = dagre({
+      backgroundCanvas,
+      canvas,
+      transientCanvas,
+      width: 500,
+      height: 500,
+    });
+
+    graph.on('afterlayout', async () => {
+      await expect(canvas).toMatchWebGLSnapshot(dir, 'layouts-dagre');
       graph.destroy();
       done();
     });
