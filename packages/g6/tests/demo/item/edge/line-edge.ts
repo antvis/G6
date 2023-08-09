@@ -1,4 +1,5 @@
 import { Graph, IGraph } from '../../../../src/index';
+import { TestCaseContext } from '../../interface';
 // @ts-nocheck
 
 let graph: IGraph;
@@ -48,16 +49,14 @@ const defaultData = {
 };
 
 // create container for controllers
-const createCtrlContainer = () => {
-  const container = document.getElementById('container')!;
+const createCtrlContainer = (container: HTMLElement) => {
   const ctrlContainer = document.createElement('div');
   ctrlContainer.id = 'ctrl-container';
   ctrlContainer.style.width = '100%';
   ctrlContainer.style.height = '200px';
   ctrlContainer.style.backgroundColor = '#eee';
 
-  const appElement = document.getElementById('app')!;
-  appElement.insertBefore(ctrlContainer, container);
+  container.appendChild(ctrlContainer);
 };
 
 // Create options and control buttons (for selecting different features to test)
@@ -83,7 +82,6 @@ const createControls = () => {
   labelCb.style.zIndex = '100';
 
   labelCb.addEventListener('click', (e) => {
-    console.log(labelCb.checked);
     if (labelCb.checked) {
       graph.updateData('edge', {
         id: 'edge1',
@@ -127,7 +125,6 @@ const createControls = () => {
   iconCb.style.zIndex = '100';
 
   iconCb.addEventListener('click', (e) => {
-    console.log(iconCb.checked);
     if (iconCb.checked) {
       graph.updateData('edge', {
         id: 'edge1',
@@ -180,7 +177,6 @@ const createControls = () => {
   selectedStyleCb.style.zIndex = '100';
 
   selectedStyleCb.addEventListener('click', (e) => {
-    console.log(selectedStyleCb.checked);
     if (selectedStyleCb.checked) {
       graph.setItemState('edge1', 'selected', true);
     } else {
@@ -210,7 +206,6 @@ const createControls = () => {
   highlightStyleCb.style.zIndex = '100';
 
   highlightStyleCb.addEventListener('click', (e) => {
-    console.log(highlightStyleCb.checked);
     if (highlightStyleCb.checked) {
       graph.setItemState('edge1', 'highlight', true);
     } else {
@@ -222,17 +217,16 @@ const createControls = () => {
   parentEle.appendChild(highlightStyleCb);
 };
 
-export default () => {
+export default (context: TestCaseContext) => {
+  const { container } = context;
+
   // 1.create control container (for control buttons, etc.)
-  createCtrlContainer();
+  createCtrlContainer(container!);
   createControls();
 
   // 2.create graph
-  container = document.getElementById('container')!;
   graph = new Graph({
-    container,
-    width: 500,
-    height: 500,
+    ...context,
     type: 'graph',
     data: defaultData,
     modes: {

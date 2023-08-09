@@ -1,7 +1,7 @@
 import { resetEntityCounter } from '@antv/g';
 import circular from '../demo/layouts/circular';
-import { createNodeGCanvas } from './utils/createNodeGCanvas';
 import './utils/useSnapshotMatchers';
+import { createContext } from './utils';
 
 describe('Circular layout', () => {
   beforeEach(() => {
@@ -14,9 +14,8 @@ describe('Circular layout', () => {
 
   it('should be rendered correctly with Canvas2D', (done) => {
     const dir = `${__dirname}/snapshots/canvas`;
-    const backgroundCanvas = createNodeGCanvas('canvas', 500, 500);
-    const canvas = createNodeGCanvas('canvas', 500, 500);
-    const transientCanvas = createNodeGCanvas('canvas', 500, 500);
+    const { backgroundCanvas, canvas, transientCanvas, container } =
+      createContext('canvas', 500, 500);
 
     const graph = circular({
       backgroundCanvas,
@@ -35,11 +34,11 @@ describe('Circular layout', () => {
 
   it('should be rendered correctly with SVG', (done) => {
     const dir = `${__dirname}/snapshots/svg`;
-    const backgroundCanvas = createNodeGCanvas('svg', 500, 500);
-    const canvas = createNodeGCanvas('svg', 500, 500);
-    const transientCanvas = createNodeGCanvas('svg', 500, 500);
+    const { backgroundCanvas, canvas, transientCanvas, container } =
+      createContext('svg', 500, 500);
 
     const graph = circular({
+      container,
       backgroundCanvas,
       canvas,
       transientCanvas,
@@ -56,11 +55,11 @@ describe('Circular layout', () => {
 
   it.skip('should be rendered correctly with WebGL', (done) => {
     const dir = `${__dirname}/snapshots/webgl`;
-    const backgroundCanvas = createNodeGCanvas('webgl', 500, 500);
-    const canvas = createNodeGCanvas('webgl', 500, 500);
-    const transientCanvas = createNodeGCanvas('webgl', 500, 500);
+    const { backgroundCanvas, canvas, transientCanvas, container } =
+      createContext('webgl', 500, 500);
 
     const graph = circular({
+      container,
       backgroundCanvas,
       canvas,
       transientCanvas,

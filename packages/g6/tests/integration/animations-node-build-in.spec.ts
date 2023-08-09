@@ -1,7 +1,7 @@
 import { resetEntityCounter } from '@antv/g';
 import nodeBuildIn from '../demo/animations/node-build-in';
-import { createNodeGCanvas } from './utils/createNodeGCanvas';
 import './utils/useSnapshotMatchers';
+import { createContext } from './utils';
 
 describe('Animation node buildIn', () => {
   beforeEach(() => {
@@ -14,11 +14,11 @@ describe('Animation node buildIn', () => {
 
   it('should be rendered correctly with Canvas2D', (done) => {
     const dir = `${__dirname}/snapshots/canvas`;
-    const backgroundCanvas = createNodeGCanvas('canvas', 500, 500);
-    const canvas = createNodeGCanvas('canvas', 500, 500);
-    const transientCanvas = createNodeGCanvas('canvas', 500, 500);
+    const { backgroundCanvas, canvas, transientCanvas, container } =
+      createContext('canvas', 500, 500);
 
     const graph = nodeBuildIn({
+      container,
       backgroundCanvas,
       canvas,
       transientCanvas,
@@ -92,11 +92,11 @@ describe('Animation node buildIn', () => {
 
   it('should be rendered correctly with SVG', (done) => {
     const dir = `${__dirname}/snapshots/svg`;
-    const backgroundCanvas = createNodeGCanvas('svg', 500, 500);
-    const canvas = createNodeGCanvas('svg', 500, 500);
-    const transientCanvas = createNodeGCanvas('svg', 500, 500);
+    const { backgroundCanvas, canvas, transientCanvas, container } =
+      createContext('svg', 500, 500);
 
     const graph = nodeBuildIn({
+      container,
       backgroundCanvas,
       canvas,
       transientCanvas,

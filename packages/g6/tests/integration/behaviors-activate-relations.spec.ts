@@ -1,8 +1,7 @@
 import { resetEntityCounter } from '@antv/g';
 import activateRelations from '../demo/behaviors/activate-relations';
-import { createNodeGCanvas } from './utils/createNodeGCanvas';
-import { triggerEvent } from './utils/event';
 import './utils/useSnapshotMatchers';
+import { createContext, triggerEvent } from './utils';
 
 describe('Activate relations behavior', () => {
   beforeEach(() => {
@@ -15,11 +14,11 @@ describe('Activate relations behavior', () => {
 
   it('should be rendered correctly with Canvas2D', (done) => {
     const dir = `${__dirname}/snapshots/canvas`;
-    const backgroundCanvas = createNodeGCanvas('canvas', 500, 500);
-    const canvas = createNodeGCanvas('canvas', 500, 500);
-    const transientCanvas = createNodeGCanvas('canvas', 500, 500);
+    const { backgroundCanvas, canvas, transientCanvas, container } =
+      createContext('canvas', 500, 500);
 
     const graph = activateRelations({
+      container,
       backgroundCanvas,
       canvas,
       transientCanvas,
@@ -59,11 +58,11 @@ describe('Activate relations behavior', () => {
 
   it('should be rendered correctly with SVG', (done) => {
     const dir = `${__dirname}/snapshots/svg`;
-    const backgroundCanvas = createNodeGCanvas('svg', 500, 500);
-    const canvas = createNodeGCanvas('svg', 500, 500);
-    const transientCanvas = createNodeGCanvas('svg', 500, 500);
+    const { backgroundCanvas, canvas, transientCanvas, container } =
+      createContext('svg', 500, 500);
 
     const graph = activateRelations({
+      container,
       backgroundCanvas,
       canvas,
       transientCanvas,
