@@ -151,8 +151,22 @@ export default class Node extends Item {
     onfinish: Function = () => {},
   ) {
     const { group } = this;
-    const { x, y, z = 0, animates, disableAnimate } = displayModel.data;
-    if (isNaN(x) || isNaN(y) || isNaN(z)) return;
+    const {
+      fx,
+      fy,
+      fz,
+      x,
+      y,
+      z = 0,
+      animates,
+      disableAnimate,
+    } = displayModel.data;
+    const position = {
+      x: fx === undefined ? x : (fx as number),
+      y: fy === undefined ? y : (fy as number),
+      z: fz === undefined ? z : (fz as number),
+    };
+    if (isNaN(position.x) || isNaN(position.y) || isNaN(position.z)) return;
     if (animate && !disableAnimate && animates?.update) {
       const groupAnimates = animates.update.filter(
         ({ shapeId, fields }) =>
@@ -162,7 +176,7 @@ export default class Node extends Item {
       if (groupAnimates.length) {
         const animations = animateShapes(
           { update: groupAnimates },
-          { group: { x, y, z } } as any, // targetStylesMap
+          { group: position } as any, // targetStylesMap
           this.shapeMap, // shapeMap
           group,
           'update',
@@ -174,7 +188,7 @@ export default class Node extends Item {
         return;
       }
     }
-    group.setLocalPosition(x, y, z);
+    group.setLocalPosition(position.x, position.y, position.z);
     onfinish(displayModel.id, !animate);
   }
 
@@ -305,13 +319,16 @@ export default class Node extends Item {
   }
 
   public getPosition(): Point {
-    const initiated =
-      this.shapeMap.keyShape && this.group.attributes.x !== undefined;
+    const initiated = this.shapeMap.keyShape; // && this.group.attributes.x !== undefined;
     if (initiated) {
       const { center } = this.shapeMap.keyShape.getRenderBounds();
       return { x: center[0], y: center[1], z: center[2] };
     }
-    const { x = 0, y = 0, z = 0 } = this.model.data;
-    return { x: x as number, y: y as number, z: z as number };
+    const { x = 0, y = 0, z = 0, fx, fy, fz } = this.model.data;
+    return {
+      x: (fx === undefined ? x : fx) as number,
+      y: (fy === undefined ? y : fy) as number,
+      z: (fz === undefined ? z : fz) as number,
+    };
   }
 }
