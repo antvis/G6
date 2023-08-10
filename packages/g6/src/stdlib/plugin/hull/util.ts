@@ -427,3 +427,85 @@ export const pointRectSquareDist = (
   );
   return dx * dx + dy * dy;
 };
+
+/**
+ * Get the intersect point and line of a polygon (represented by points) and a line (represented by 2 points).
+ * @param polygonPoints Vertex points of the polygon.
+ * @param line Start and end points of the line.
+ * @returns The intersect point and the intersected line of polygon.
+ */
+export const getPolygonIntersectByLine = (
+  polygonPoints: [number, number][],
+  line: [Point, Point],
+): {
+  point: Point;
+  line: [Point, Point];
+} => {
+  const polygonPointsLength = polygonPoints.length;
+  const lineMap = {};
+  for (let i = 0; i < polygonPointsLength - 1; i++) {
+    const start = { x: polygonPoints[i][0], y: polygonPoints[i][1] };
+    const end = { x: polygonPoints[i + 1][0], y: polygonPoints[i + 1][1] };
+    if (start.x === end.x && start.y === end.y) continue;
+    const key = `${start.x}-${start.y}-${end.x}-${end.y}`;
+    if (lineMap[key]) continue;
+    lineMap[key] = true;
+    const intersect = getLineIntersect(start, end, line[0], line[1]);
+    if (intersect) {
+      return {
+        point: intersect,
+        line: [start, end],
+      };
+    }
+  }
+  return;
+};
+
+/**
+ * Calculates the extended point along the line from point2 to point1.
+ * @param point1 The first point in the line. And the extended point will on the point1 side.
+ * @param point2 The second point in the line.
+ * @param diff The distance by which to extend the line.
+ * @returns The extended point on the line.
+ */
+export const getExtendPoint = (point1, point2, diff) => {
+  const k = (point2.y - point1.y) / (point2.x - point1.x);
+  if (Math.abs(k) === Infinity) {
+    return {
+      x: point1.x,
+      y: point2.y > point1.y ? point1.y - diff : point1.y + diff,
+    };
+  }
+  if (k === 0) {
+    return {
+      x: point2.x > point1.x ? point1.x - diff : point1.x + diff,
+      y: point2.y,
+    };
+  }
+  const b = point1.y - k * point1.x;
+  const diffSign = point2.x > point1.x ? -1 : 1;
+  const extendedX = point1.x + diffSign * diff;
+  return {
+    x: extendedX,
+    y: k * extendedX + b,
+  };
+};
+
+/**
+ * Get the inverted value of baseline.
+ * @param baseline
+ * @returns
+ */
+export const getInvertBaseline = (baseline) => {
+  switch (baseline) {
+    case 'top':
+      return 'bottom';
+    case 'bottom':
+      return 'top';
+    case 'left':
+      return 'right';
+    case 'right':
+    default:
+      return 'left';
+  }
+};

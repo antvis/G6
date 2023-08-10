@@ -1,5 +1,12 @@
 import { parsePathString } from '@antv/path-util';
-import { getClosedSpline, roundedHull, paddedHull } from './util';
+import {
+  getClosedSpline,
+  roundedHull,
+  paddedHull,
+  getPolygonIntersectByLine,
+  getExtendPoint,
+  getInvertBaseline,
+} from './util';
 import { genConvexHull } from './convexHull';
 import { genBubbleSet } from './bubbleset';
 import { ComboModel, ID, IGraph, NodeModel } from '../../../types';
@@ -10,21 +17,25 @@ import { DisplayObject } from '@antv/g';
 import { BubblesetCfg } from './types';
 import { isArray } from '@antv/util';
 
+type LabelPlacement = 'top' | 'bottom' | 'right' | 'left';
+
 export interface HullComponentOptions {
   id: string;
   members?: ID[];
   nonMembers?: ID[];
   style?: ShapeStyle;
   padding?: number;
+  type?: 'bubble' | 'round-convex' | 'smooth-convex';
+  labelShape?: ShapeStyle & {
+    position?: LabelPlacement;
+    offsetX?: number;
+    offsetY?: number;
+    // string means the percentage of the keyShape, number means pixel
+    maxWidth?: string | number;
+  };
 }
 
 interface HullComponentFullOptions extends HullComponentOptions {
-  id: string;
-  members?: ID[];
-  nonMembers?: ID[];
-  style?: ShapeStyle;
-  padding?: number;
-  type?: 'bubble' | 'round-convex' | 'smooth-convex';
   /** Controlling the effect of the bubble more finely (the scaling degree of the point and edge design, setting the granularity), generally no configuration is required */
   bubbleCfg?: BubblesetCfg;
 }
@@ -67,7 +78,7 @@ export default class Hull {
     this.setPadding();
     this.setType();
 
-    this.path = this.calcPath(this.members, this.nonMembers);
+    this.path = this.getPath(this.members, this.nonMembers);
     this.render();
   }
 
@@ -115,7 +126,7 @@ export default class Hull {
     }
   }
 
-  calcPath(
+  getPath(
     members: (NodeModel | ComboModel)[],
     nonMembers: (NodeModel | ComboModel)[],
   ) {
@@ -155,6 +166,7 @@ export default class Hull {
   }
 
   render() {
+    if (!this.path) return;
     const shape = this.graph.drawTransient('path', this.options.id, {
       style: {
         path: this.path,
@@ -162,8 +174,119 @@ export default class Hull {
       },
       capture: false,
     });
+    const { labelShape } = this.options;
+    if (labelShape?.text) {
+      const shapeBounds = shape.getRenderBounds();
+      const { position, offsetX, offsetY, ...labelShapeStyle } = labelShape;
+      const formattedLabelStyle = this.getLabelStyle(labelShape, shapeBounds);
+      this.graph.drawTransient('text', `${this.options.id}-label`, {
+        style: {
+          ...labelShapeStyle,
+          ...formattedLabelStyle,
+        },
+        capture: false,
+      });
+    }
     shape.toBack();
     this.hullShape = shape;
+  }
+
+  private getLabelStyle(propsStyle, keyShapeBounds) {
+    const {
+      position,
+      offsetX = 0,
+      offsetY = 0,
+      autoRotate = true,
+    } = propsStyle;
+    const { min, max, center } = keyShapeBounds;
+    const style = {
+      x: 0,
+      y: 0,
+      textAlign: 'center',
+      textBaseline: 'middle',
+      angle: 0,
+    };
+    let point = { x: 0, y: 0 };
+    switch (position) {
+      case 'bottom':
+      case 'outside-bottom':
+        point.x = (min[0] + max[0]) / 2;
+        point.y = max[1];
+        style.textBaseline = 'bottom';
+        break;
+      case 'left':
+      case 'outside-left':
+        point.x = min[0];
+        point.y = (min[1] + max[1]) / 2;
+        style.textAlign = 'left';
+        break;
+      case 'right':
+      case 'outside-right':
+        point.x = max[0];
+        point.y = (min[1] + max[1]) / 2;
+        style.textAlign = 'right';
+        break;
+      case 'top':
+      case 'outside-top':
+      default:
+        point.x = (min[0] + max[0]) / 2;
+        point.y = min[1];
+        style.textBaseline = 'top';
+        break;
+    }
+
+    let startPoint;
+    const points = pathToPoints(this.path);
+    if (this.type === 'bubble') {
+      switch (position) {
+        case 'bottom':
+          startPoint = { x: center[0], y: max[0] + 10 };
+          break;
+        case 'left':
+          startPoint = { x: max[0] + 10, y: center[1] };
+          break;
+        case 'right':
+          startPoint = { x: min[0] - 10, y: center[1] };
+          break;
+        case 'top':
+        default:
+          startPoint = { x: center[0], y: max[1] - 10 };
+          break;
+      }
+    } else {
+      startPoint = { x: center[0], y: center[1] };
+    }
+    const extendedPoint = getExtendPoint(point, startPoint, 100);
+    const intersect = getPolygonIntersectByLine(points, [
+      startPoint,
+      extendedPoint,
+    ]);
+    if (intersect) {
+      const { point: intersectPoint, line } = intersect;
+      style.x = intersectPoint.x + offsetX;
+      style.y = intersectPoint.y + offsetY;
+      if (autoRotate) {
+        const angle = Math.atan(
+          (line[0].y - line[1].y) / (line[0].x - line[1].x),
+        );
+        style.transform = `rotate(${(angle / Math.PI) * 180}deg)`;
+        style.textAlign = 'center';
+        if (position === 'right' || position === 'left') {
+          if (angle > 0) {
+            style.textBaseline = position === 'right' ? 'top' : 'bottom';
+          } else {
+            style.textBaseline = position === 'right' ? 'bottom' : 'top';
+          }
+        }
+      }
+    } else {
+      style.x = point.x + offsetX;
+      style.y = point.y + offsetY;
+    }
+    if (position.split('-')[0] === 'outside') {
+      style.textBaseline = getInvertBaseline(style.textBaseline);
+    }
+    return style;
   }
 
   /**
@@ -287,13 +410,14 @@ export default class Hull {
         (id) => this.graph.getNodeData(id) || this.graph.getComboData(id),
       );
     }
-    this.path = this.calcPath(this.members, this.nonMembers);
+    this.path = this.getPath(this.members, this.nonMembers);
     this.render();
   }
 
-  public updateStyle(cfg: ShapeStyle) {
-    this.hullShape?.attr({
-      ...cfg,
+  public updateStyle(style: ShapeStyle) {
+    this.graph.drawTransient('path', this.options.id, {
+      style,
+      capture: false,
     });
   }
 
@@ -319,7 +443,7 @@ export default class Hull {
     }
     this.setPadding();
     this.setType();
-    this.path = this.calcPath(this.members, this.nonMembers);
+    this.path = this.getPath(this.members, this.nonMembers);
     this.render();
   }
 
