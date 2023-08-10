@@ -39,8 +39,6 @@ const DEFAULT_OPTIONS: Required<OrbitCanvas3DOptions> = {
  * Translate the 3d canvas along the plane parallel to the screen.
  */
 export default class OrbitCanvas3D extends RotateCanvas3D {
-  options: OrbitCanvas3DOptions;
-
   private previousType: CameraType;
 
   constructor(options: Partial<OrbitCanvas3DOptions>) {

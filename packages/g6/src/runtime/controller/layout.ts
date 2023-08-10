@@ -42,6 +42,7 @@ export class LayoutController {
    */
   private tap() {
     this.graph.hooks.layout.tap(this.onLayout.bind(this));
+    this.graph.hooks.destroy.tap(this.onDestroy.bind(this));
   }
 
   private async onLayout(params: {
@@ -189,7 +190,11 @@ export class LayoutController {
     }
   }
 
-  destroy() {
+  getCurrentAnimation() {
+    return this.currentAnimation;
+  }
+
+  onDestroy() {
     this.stopLayout();
 
     if (this.currentSupervisor) {

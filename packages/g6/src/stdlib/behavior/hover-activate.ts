@@ -39,7 +39,6 @@ const DEFAULT_OPTIONS: Required<HoverActivateOptions> = {
 };
 
 export default class HoverActivate extends Behavior {
-  options: HoverActivateOptions;
   private currentItemInfo: { id: ID; itemType: ITEM_TYPE };
 
   constructor(options: Partial<HoverActivateOptions>) {

@@ -694,6 +694,8 @@ export class ItemController {
 
   private onDestroy = () => {
     Object.values(this.itemMap).forEach((item) => item.destroy());
+    // Fix OOM problem, since this map will hold all the refs of items.
+    this.itemMap = {};
   };
 
   private onTransientUpdate(param: {

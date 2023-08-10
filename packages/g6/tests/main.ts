@@ -1,36 +1,52 @@
-import * as graphs from './intergration/index';
+import * as graphs from './demo/index';
 
-performance.mark('create select');
-const SelectGraph = document.getElementById('select') as HTMLSelectElement;
-const Options = Object.keys(graphs).map((key) => {
-  const option = document.createElement('option');
-  option.value = key;
-  option.textContent = key;
-  return option;
-});
-performance.mark('create select');
+let graph: any;
 
-SelectGraph.replaceChildren(...Options);
-
-SelectGraph.onchange = (e) => {
-  //@ts-ignore
-  const { value } = e.target;
-  history.pushState({ value }, '', `?name=${value}`);
-  const container = document.getElementById('container');
-  container?.replaceChildren('');
-  graphs[value]();
+// Select for renderers.
+const $rendererSelect = document.getElementById(
+  'renderer-select',
+) as HTMLSelectElement;
+$rendererSelect.onchange = () => {
+  graph = render();
 };
 
-performance.mark('init');
+const render = () => {
+  if (graph) {
+    graph.destroy();
+    graph = null;
+  }
+
+  const $container = document.getElementById('container');
+  $container?.replaceChildren('');
+
+  return graphs[$demoSelect.value]({
+    container: $container,
+    renderer: $rendererSelect.value,
+    backgroundCanvas: null,
+    canvas: null,
+    transientCanvas: null,
+    width: 500,
+    height: 500,
+  });
+};
+
+// Select for DEMO
+const $demoSelect = document.getElementById('demo-select') as HTMLSelectElement;
+const $options = Object.keys(graphs).map((key) => {
+  const $option = document.createElement('option');
+  $option.value = key;
+  $option.textContent = key;
+  return $option;
+});
+$demoSelect.replaceChildren(...$options);
+$demoSelect.onchange = (e) => {
+  const { value } = e.target as HTMLOptionElement;
+  history.pushState({ value }, '', `?name=${value}`);
+  graph = render();
+};
+
 // 初始化
 const params = new URL(location.href).searchParams;
 const initialExampleName = params.get('name');
-SelectGraph.value = initialExampleName || Options[0].value;
-graphs[SelectGraph.value]();
-performance.mark('init');
-
-console.log(
-  'create select',
-  performance.measure('create select'),
-  performance.measure('init'),
-);
+$demoSelect.value = initialExampleName || $options[0].value;
+graph = render();

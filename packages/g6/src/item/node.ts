@@ -238,6 +238,9 @@ export default class Node extends Item {
           point,
         );
         break;
+      case 'mesh':
+        intersectPoint = innerPoint;
+        break;
       default: {
         const bbox =
           this.renderExt.boundsCache?.keyShapeLocal ||

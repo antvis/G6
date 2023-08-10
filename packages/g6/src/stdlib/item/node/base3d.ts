@@ -102,8 +102,10 @@ export abstract class BaseNode3D extends BaseNode {
     const style: any = {
       ...this.defaultStyles.labelShape,
       ...positionPreset,
+      isBillboard: true,
       ...otherStyle,
     };
+
     return this.upsertShape('text', 'labelShape', style, shapeMap);
   }
 

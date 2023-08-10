@@ -54,10 +54,14 @@ export class ThemeController {
     if (this.extension) {
       this.solver = new this.extension(this.themeConfig, this.themes);
       this.specification = this.solver.specification;
-      // apply canvas style in theme to the background canvas dom
-      const { canvas } = this.specification;
-      const dom = canvases.background.getContextService().getDomElement();
-      Object.keys(canvas).forEach((key) => (dom.style[key] = canvas[key]));
+      if (this.specification) {
+        // apply canvas style in theme to the background canvas dom
+        const { canvas } = this.specification;
+        const dom = canvases.background.getContextService().getDomElement();
+        if (dom && dom.style) {
+          Object.keys(canvas).forEach((key) => (dom.style[key] = canvas[key]));
+        }
+      }
     }
   }
 

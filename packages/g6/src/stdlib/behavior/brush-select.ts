@@ -99,7 +99,6 @@ const DEFAULT_OPTIONS: BrushSelectOptions = {
 };
 
 export default class BrushSelect extends Behavior {
-  options: BrushSelectOptions;
   brush: DisplayObject | undefined;
   selectedIds: IDSet | undefined = {
     nodes: [],

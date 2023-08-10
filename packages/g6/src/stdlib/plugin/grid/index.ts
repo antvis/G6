@@ -28,7 +28,7 @@ export default class Grid extends Base {
   public getDefaultCfgs(): GridConfig {
     return {
       img: GRID_PNG,
-      follow: true
+      follow: true,
     };
   }
 
@@ -71,9 +71,9 @@ export default class Grid extends Base {
       left: `0px`,
       top: `0px`,
     });
-  
-    graphContainer.insertBefore(container, canvas);
-    
+
+    graphContainer.insertBefore(container, canvas as Node);
+
     this.container = container;
   }
 
@@ -94,8 +94,9 @@ export default class Grid extends Base {
     if (!matrix) matrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
 
     const isFollow = this.options.follow;
-    const transform = `matrix(${matrix[0]}, ${matrix[1]}, ${matrix[3]}, ${matrix[4]}, ${isFollow ? matrix[6] : '0'
-  }, ${isFollow ? matrix[7] : '0'})`;
+    const transform = `matrix(${matrix[0]}, ${matrix[1]}, ${matrix[3]}, ${
+      matrix[4]
+    }, ${isFollow ? matrix[6] : '0'}, ${isFollow ? matrix[7] : '0'})`;
 
     modifyCSS(gridContainer, {
       transform,

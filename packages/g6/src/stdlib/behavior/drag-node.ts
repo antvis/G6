@@ -87,8 +87,6 @@ const DEFAULT_OPTIONS: Required<DragNodeOptions> = {
 };
 
 export default class DragNode extends Behavior {
-  options: DragNodeOptions;
-
   // Private states
   private hiddenEdges: EdgeModel[] = [];
   private hiddenComboTreeItems: (ComboModel | NodeModel)[] = [];
