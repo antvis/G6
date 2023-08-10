@@ -1,4 +1,4 @@
-import { createCanvas } from 'canvas';
+import { createCanvas, Image as CanvasImage } from 'canvas';
 import { JSDOM } from 'jsdom';
 import GL from 'gl';
 import { Canvas, IRenderer, Rectangle } from '@antv/g';
@@ -41,6 +41,10 @@ export function createNodeGCanvas(
       },
       isTouchEvent: (e): e is TouchEvent => {
         return e.type.startsWith('touch');
+      },
+      createImage: () => {
+        const image = new CanvasImage();
+        return image as any;
       },
     });
   } else if (rendererName === 'svg') {

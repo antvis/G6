@@ -297,12 +297,14 @@ export default class Node extends Item {
         intersectPoint = innerPoint;
         break;
       default: {
+        // boundsCache can be removed here since `getBounds` has already done.
+        const bbox = keyShape.getBounds();
         intersectPoint = getRectIntersectByPoint(
           {
-            x: keyShapeRenderBBox.min[0],
-            y: keyShapeRenderBBox.min[1],
-            width: keyShapeRenderBBox.max[0] - keyShapeRenderBBox.min[0],
-            height: keyShapeRenderBBox.max[1] - keyShapeRenderBBox.min[1],
+            x: bbox.min[0],
+            y: bbox.min[1],
+            width: bbox.halfExtents[0] * 2,
+            height: bbox.halfExtents[1] * 2,
           },
           point,
         );

@@ -31,6 +31,7 @@ const {
   TriangleNode,
   EllipseNode,
   ModelRectNode,
+  ImageNode,
 } = Nodes;
 
 const {
@@ -129,6 +130,7 @@ const stdLib = {
   nodes: {
     'circle-node': CircleNode,
     'rect-node': RectNode,
+    'image-node': ImageNode,
   },
   edges: {
     'line-edge': LineEdge,

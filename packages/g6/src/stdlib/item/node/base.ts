@@ -186,10 +186,10 @@ export abstract class BaseNode {
     });
     this.zoomCache.levelShapes = levelShapes;
 
-    if (shapeMap.labelShape && this.boundsCache.keyShapeLocal) {
+    if (shapeMap.labelShape) {
       const { maxWidth = '200%' } = this.mergedStyles.labelShape || {};
       this.zoomCache.wordWrapWidth = getWordWrapWidthByBox(
-        this.boundsCache.keyShapeLocal,
+        shapeMap.keyShape.getLocalBounds(),
         maxWidth,
         1,
       );
@@ -286,12 +286,10 @@ export abstract class BaseNode {
     const { labelShape: shapeStyle } = this.mergedStyles;
     if (!shapeStyle || !shapeStyle.text || !model.data.labelShape) return;
     const { keyShape } = shapeMap;
-    this.boundsCache.keyShapeLocal =
-      this.boundsCache.keyShapeLocal || keyShape.getLocalBounds();
     const keyShapeBox = getShapeLocalBoundsByStyle(
       keyShape,
       this.mergedStyles.keyShape,
-      this.boundsCache.keyShapeLocal,
+      keyShape.getLocalBounds(),
     );
     const {
       position,
@@ -577,7 +575,7 @@ export abstract class BaseNode {
     position: string | [number, number],
     anchorPositionMap: IAnchorPositionMap,
   ): [number, number] {
-    const keyShapeBBox = this.boundsCache.keyShapeLocal;
+    const keyShapeBBox = this.boundsCache.keyShapeLocal!;
     const keyShapeWidth = keyShapeBBox.max[0] - keyShapeBBox.min[0];
     const keyShapeHeight = keyShapeBBox.max[1] - keyShapeBBox.min[1];
     const defaultPosition: [number, number] = [
@@ -645,12 +643,10 @@ export abstract class BaseNode {
       (style) => style.tag === 'badgeShape',
     );
     if (!individualConfigs.length) return {};
-    this.boundsCache.keyShapeLocal =
-      this.boundsCache.keyShapeLocal || shapeMap.keyShape.getLocalBounds();
     const keyShapeBBox = getShapeLocalBoundsByStyle(
       shapeMap.keyShape,
       keyShapeStyle,
-      this.boundsCache.keyShapeLocal,
+      shapeMap.keyShape.getLocalBounds(),
     );
     const keyShapeSize = Math.min(
       keyShapeBBox.max[0] - keyShapeBBox.min[0],

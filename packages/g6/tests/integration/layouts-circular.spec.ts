@@ -18,6 +18,7 @@ describe('Circular layout', () => {
       createContext('canvas', 500, 500);
 
     const graph = circular({
+      container,
       backgroundCanvas,
       canvas,
       transientCanvas,
