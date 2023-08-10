@@ -33,7 +33,7 @@ describe('Animation node buildIn', () => {
        * Time: 0
        */
       nodes.forEach(({ id }) => {
-        const node = graph.getItemById(id);
+        const node = graph['getItemById'](id);
         node.animations.forEach((animation) => {
           animation.currentTime = 0;
           animation.pause();
@@ -48,7 +48,7 @@ describe('Animation node buildIn', () => {
        * Time: 200
        */
       nodes.forEach(({ id }) => {
-        const node = graph.getItemById(id);
+        const node = graph['getItemById'](id);
         node.animations.forEach((animation) => {
           animation.currentTime = 200;
           animation.pause();
@@ -63,7 +63,7 @@ describe('Animation node buildIn', () => {
        * Resume all animations.
        */
       nodes.forEach(({ id }) => {
-        const node = graph.getItemById(id);
+        const node = graph['getItemById'](id);
         node.animations.forEach((animation) => {
           animation.play();
         });
@@ -74,7 +74,7 @@ describe('Animation node buildIn', () => {
        */
       await Promise.all(
         nodes.map(async ({ id }) => {
-          const node = graph.getItemById(id);
+          const node = graph['getItemById'](id);
           await Promise.all(
             node.animations.map((animation) => animation.finished),
           );
@@ -111,7 +111,7 @@ describe('Animation node buildIn', () => {
        * Time: 0
        */
       nodes.forEach(({ id }) => {
-        const node = graph.getItemById(id);
+        const node = graph['getItemById'](id);
         node.animations.forEach((animation) => {
           animation.currentTime = 0;
           animation.pause();
@@ -126,7 +126,7 @@ describe('Animation node buildIn', () => {
        * Time: 200
        */
       nodes.forEach(({ id }) => {
-        const node = graph.getItemById(id);
+        const node = graph['getItemById'](id);
         node.animations.forEach((animation) => {
           animation.currentTime = 200;
           animation.pause();
@@ -141,7 +141,7 @@ describe('Animation node buildIn', () => {
        * Resume all animations.
        */
       nodes.forEach(({ id }) => {
-        const node = graph.getItemById(id);
+        const node = graph['getItemById'](id);
         node.animations.forEach((animation) => {
           animation.play();
         });
@@ -152,7 +152,7 @@ describe('Animation node buildIn', () => {
        */
       await Promise.all(
         nodes.map(async ({ id }) => {
-          const node = graph.getItemById(id);
+          const node = graph['getItemById'](id);
           await Promise.all(
             node.animations.map((animation) => animation.finished),
           );

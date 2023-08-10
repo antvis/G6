@@ -680,11 +680,11 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
   }
 
   /**
-   * Get item by id.
+   * Get item by id. We don't want to
    * @param id
    * @returns Node | Edge | Combo
    */
-  public getItemById(id: ID) {
+  private getItemById(id: ID) {
     return this.itemController.getItemById(id);
   }
 
