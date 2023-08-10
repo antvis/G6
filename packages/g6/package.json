@@ -80,8 +80,6 @@
     "typescript": "^5.1.6"
   },
   "devDependencies": {
-    "@antv/g6": "^4.8.13",
-    "@kayahr/jest-electron-runner": "^5.1.1",
     "@rollup/plugin-terser": "^0.4.3",
     "@types/gl": "6.0.2",
     "@types/jest": "^29.5.1",
