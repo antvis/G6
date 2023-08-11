@@ -57,6 +57,7 @@
     ]
   },
   "dependencies": {
+    "@antv/event-emitter": "latest",
     "insert-css": "^2.0.0",
     "@ant-design/colors": "^7.0.0",
     "@antv/algorithm": "^0.1.25",
