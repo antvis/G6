@@ -20,8 +20,8 @@ interface IProps {
   model: NodeModel | ComboModel;
   renderExtensions: any;
   containerGroup: Group;
-  mapper: DisplayMapper;
-  stateMapper: {
+  mapper?: DisplayMapper;
+  stateMapper?: {
     [stateName: string]: DisplayMapper;
   };
   zoom?: number;
@@ -36,7 +36,7 @@ interface IProps {
 }
 export default class Node extends Item {
   public type: 'node' | 'combo';
-  private anchorPointsCache: Point[];
+  private anchorPointsCache: Point[] | undefined;
 
   constructor(props: IProps) {
     super(props);
@@ -140,10 +140,10 @@ export default class Node extends Item {
   ) {
     const { group } = this;
     const { x, y, z = 0, animates, disableAnimate } = displayModel.data;
-    if (isNaN(x) || isNaN(y) || isNaN(z)) return;
+    if (isNaN(x as number) || isNaN(y as number) || isNaN(z)) return;
     if (!disableAnimate && animates?.update) {
       const groupAnimates = animates.update.filter(
-        ({ shapeId, fields }) =>
+        ({ shapeId, fields = [] }) =>
           (!shapeId || shapeId === 'group') &&
           (fields.includes('x') || fields.includes('y')),
       );

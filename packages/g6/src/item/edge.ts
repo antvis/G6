@@ -13,8 +13,8 @@ interface IProps {
   model: EdgeModel;
   renderExtensions: any; // TODO: type
   containerGroup: Group;
-  mapper: DisplayMapper;
-  stateMapper: {
+  mapper?: DisplayMapper;
+  stateMapper?: {
     [stateName: string]: DisplayMapper;
   };
   sourceItem: Node;

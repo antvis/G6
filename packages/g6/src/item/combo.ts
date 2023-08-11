@@ -15,8 +15,8 @@ interface IProps {
   model: ComboModel;
   renderExtensions: any;
   containerGroup: Group;
-  mapper: DisplayMapper;
-  stateMapper: {
+  mapper?: DisplayMapper;
+  stateMapper?: {
     [stateName: string]: DisplayMapper;
   };
   zoom?: number;

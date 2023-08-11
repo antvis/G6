@@ -37,6 +37,7 @@ import {
   ShapeStyle,
   SHAPE_TYPE,
   LodStrategyObj,
+  DisplayMapper,
 } from '../../types/item';
 import {
   ThemeSpecification,
@@ -58,15 +59,17 @@ import {
   traverseGraphAncestors,
 } from '../../util/data';
 import { getGroupedChanges } from '../../util/event';
+import { BaseNode } from '../../stdlib/item/node/base';
+import { BaseEdge } from '../../stdlib/item/edge/base';
 
 /**
  * Manages and stores the node / edge / combo items.
  */
 export class ItemController {
   public graph: IGraph;
-  public nodeExtensions = [];
-  public edgeExtensions = [];
-  public comboExtensions = [];
+  public nodeExtensions: BaseNode[] = [];
+  public edgeExtensions: BaseEdge[] = [];
+  public comboExtensions: BaseNode[] = [];
 
   public zoom: number;
 
@@ -78,9 +81,18 @@ export class ItemController {
   /**
    * node / edge / combo 's mapper in graph config
    */
-  private nodeMapper: ((data: NodeModel) => NodeDisplayModel) | NodeEncode;
-  private edgeMapper: ((data: EdgeModel) => EdgeDisplayModel) | EdgeEncode;
-  private comboMapper: ((data: ComboModel) => ComboDisplayModel) | ComboEncode;
+  private nodeMapper:
+    | ((data: NodeModel) => NodeDisplayModel)
+    | NodeEncode
+    | undefined;
+  private edgeMapper:
+    | ((data: EdgeModel) => EdgeDisplayModel)
+    | EdgeEncode
+    | undefined;
+  private comboMapper:
+    | ((data: ComboModel) => ComboDisplayModel)
+    | ComboEncode
+    | undefined;
 
   private nodeStateMapper: {
     [stateName: string]: ((data: NodeModel) => NodeDisplayModel) | NodeEncode;
@@ -119,8 +131,14 @@ export class ItemController {
   constructor(graph: IGraph<any, any>) {
     this.graph = graph;
     // get mapper for node / edge / combo
-    const { node, edge, combo, nodeState, edgeState, comboState } =
-      graph.getSpecification();
+    const {
+      node,
+      edge,
+      combo,
+      nodeState = {},
+      edgeState = {},
+      comboState = {},
+    } = graph.getSpecification();
     this.nodeMapper = node;
     this.edgeMapper = edge;
     this.comboMapper = combo;
@@ -160,9 +178,9 @@ export class ItemController {
     // TODO: user need to config using node/edge/combo types from useLib to spec?
     const { node, edge, combo } = this.graph.getSpecification();
 
-    const nodeTypes = Object.keys(registry.useLib.nodes);
-    const edgeTypes = Object.keys(registry.useLib.edges);
-    const comboTypes = Object.keys(registry.useLib.combos);
+    const nodeTypes = Object.keys(registry.useLib.nodes || {});
+    const edgeTypes = Object.keys(registry.useLib.edges || {});
+    const comboTypes = Object.keys(registry.useLib.combos || {});
     return {
       node: nodeTypes
         .map((config) => getExtension(config, registry.useLib, 'node'))
@@ -276,7 +294,7 @@ export class ItemController {
     // change items according to the order of the keys in groupedChanges
 
     // === 1. remove edges; 2. remove nodes ===
-    groupedChanges.EdgeRemoved.concat(groupedChanges.NodeRemoved).forEach(
+    [...groupedChanges.EdgeRemoved, ...groupedChanges.NodeRemoved].forEach(
       ({ value }) => {
         const { id } = value;
         const item = itemMap[id];
@@ -295,11 +313,11 @@ export class ItemController {
 
     // === 3. add nodes ===
     if (groupedChanges.NodeAdded.length) {
-      const newNodes = [];
-      const newCombos = [];
+      const newNodes: NodeModel[] = [];
+      const newCombos: ComboModel[] = [];
       groupedChanges.NodeAdded.map((change) => change.value).forEach(
         (model) => {
-          if (model.data._isCombo) newCombos.push(model);
+          if (model.data._isCombo) newCombos.push(model as ComboModel);
           else newNodes.push(model);
         },
       );
@@ -400,6 +418,7 @@ export class ItemController {
           // call after updating finished
           () => {
             item.onframe();
+            // @ts-ignore
             item.onframe = undefined;
           },
         );
@@ -479,7 +498,7 @@ export class ItemController {
         }
       });
 
-      const { dataTypeField: edgeDataTypeField } = edgeTheme;
+      const { dataTypeField: edgeDataTypeField = '' } = edgeTheme;
       Object.values(edgeUpdate).forEach((updateObj: any) => {
         const { isReplace, current, previous, id } = updateObj;
         // update the theme if the dataType value is changed
@@ -796,7 +815,7 @@ export class ItemController {
             (node) => {
               const transChild = this.transientItemMap[node.id] as Node;
               if (!transChild) return;
-              const { x: childX, y: childY } = transChild.model
+              const { x: childX = 0, y: childY = 0 } = transChild.model
                 .data as NodeModelData;
 
               transChild?.update({
@@ -858,7 +877,7 @@ export class ItemController {
     nodeTheme: NodeThemeSpecifications = {},
   ) {
     const { nodeExtensions, nodeGroup, nodeDataTypeSet, graph } = this;
-    const { dataTypeField } = nodeTheme;
+    const { dataTypeField = '' } = nodeTheme;
     const zoom = graph.getZoom();
     models.forEach((node) => {
       // get the base styles from theme
@@ -898,7 +917,7 @@ export class ItemController {
   ) {
     const { comboExtensions, comboGroup, comboDataTypeSet, graph, itemMap } =
       this;
-    const { dataTypeField } = comboTheme;
+    const { dataTypeField = '' } = comboTheme;
     const zoom = graph.getZoom();
     models.forEach((combo) => {
       // get the base styles from theme
@@ -924,8 +943,10 @@ export class ItemController {
         },
         renderExtensions: comboExtensions,
         containerGroup: comboGroup,
-        mapper: this.comboMapper,
-        stateMapper: this.comboStateMapper,
+        mapper: this.comboMapper as DisplayMapper,
+        stateMapper: this.comboStateMapper as {
+          [stateName: string]: DisplayMapper;
+        },
         zoom,
         theme: itemTheme as {
           styles: ComboStyleSet;
@@ -948,7 +969,7 @@ export class ItemController {
     edgeTheme: EdgeThemeSpecifications = {},
   ) {
     const { edgeExtensions, edgeGroup, itemMap, edgeDataTypeSet, graph } = this;
-    const { dataTypeField } = edgeTheme;
+    const { dataTypeField = '' } = edgeTheme;
     const zoom = graph.getZoom();
     models.forEach((edge) => {
       const { source, target, id } = edge;
@@ -978,8 +999,10 @@ export class ItemController {
         model: edge,
         renderExtensions: edgeExtensions,
         containerGroup: edgeGroup,
-        mapper: this.edgeMapper,
-        stateMapper: this.edgeStateMapper,
+        mapper: this.edgeMapper as DisplayMapper,
+        stateMapper: this.edgeStateMapper as {
+          [stateName: string]: DisplayMapper;
+        },
         sourceItem,
         targetItem,
         zoom,
@@ -1070,15 +1093,15 @@ export class ItemController {
   }
 
   private collapseCombo(graphCore: GraphCore, comboModel: ComboModel) {
-    let relatedEdges = [];
-    const succeedIds = [];
+    let relatedEdges: EdgeModel[] = [];
+    const succeedIds: ID[] = [];
     // hide the succeeds
     graphComboTreeDfs(this.graph, [comboModel], (child) => {
       if (child.id !== comboModel.id) this.graph.hideItem(child.id);
       relatedEdges = relatedEdges.concat(graphCore.getRelatedEdges(child.id));
       succeedIds.push(child.id);
     });
-    const virtualEdges = [];
+    const virtualEdges: EdgeModel[] = [];
     const groupedEdges = new Map();
     uniq(relatedEdges).forEach((edge) => {
       const { source: s, target: t, data } = edge;
@@ -1122,7 +1145,7 @@ export class ItemController {
       return false;
     });
     if (isAncestorCollapsed) return;
-    const relatedVirtualEdgeIds = [];
+    const relatedVirtualEdgeIds: ID[] = [];
     // show the succeeds
     graphComboTreeDfs(this.graph, [comboModel], (child) => {
       graphCore.getRelatedEdges(child.id).forEach((edge) => {
@@ -1153,9 +1176,9 @@ const getItemTheme = (
     | ComboThemeSpecifications,
 ): {
   styles: NodeStyleSet | EdgeStyleSet;
-  lodStrategy: LodStrategyObj;
+  lodStrategy?: LodStrategyObj;
 } => {
-  const { styles: themeStyles, lodStrategy } = itemTheme;
+  const { styles: themeStyles = [], lodStrategy } = itemTheme;
   const formattedLodStrategy = formatLodStrategy(lodStrategy);
   if (!dataTypeField) {
     // dataType field is not assigned
@@ -1167,11 +1190,13 @@ const getItemTheme = (
   dataTypeSet.add(dataType as string);
   let themeStyle;
   if (isArray(themeStyles)) {
-    const themeStylesLength = themeStyles.length;
+    const themeStylesLength = themeStyles.length as number;
     const idx = Array.from(dataTypeSet).indexOf(dataType);
     themeStyle = themeStyles[idx % themeStylesLength];
   } else if (isObject(themeStyles)) {
-    themeStyle = themeStyles[dataType] || themeStyles.others;
+    themeStyle =
+      themeStyles[dataType] ||
+      (themeStyles as { [dataTypeValue: string]: NodeStyleSet }).others;
   }
   return {
     styles: themeStyle,
