@@ -5,10 +5,14 @@ import { LodStrategy, LodStrategyObj } from '../types/item';
  * @param lodStrategy
  * @returns
  */
-export const formatLodStrategy = (lodStrategy: LodStrategy): LodStrategyObj => {
-  const { levels, animateCfg } = lodStrategy || {};
-  if (!levels) return undefined;
+export const formatLodStrategy = (
+  lodStrategy?: LodStrategy,
+): LodStrategyObj | undefined => {
+  if (!lodStrategy) return;
+  const { levels, animateCfg } = lodStrategy;
+  if (!levels) return;
   const primaryLevel = levels.find((level) => level.primary);
+  if (!primaryLevel) return;
   const primaryIndex = levels.indexOf(primaryLevel);
   const formattedLevels = {};
   levels.forEach((level, i) => {

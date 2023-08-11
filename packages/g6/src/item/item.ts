@@ -72,7 +72,7 @@ export default abstract class Item implements IItem {
   public animations: IAnimation[];
 
   public themeStyles: {
-    default?: ItemShapeStyles;
+    default: ItemShapeStyles;
     [stateName: string]: ItemShapeStyles;
   };
   /** The zoom strategy to show and hide shapes according to their lod. */

@@ -9,7 +9,7 @@ export default () => {
         data: {
           x: 100,
           y: 100,
-          type: 'rect-node',
+          type: 'circle-node',
         },
       },
       {
@@ -35,6 +35,13 @@ export default () => {
           y: 200,
           type: 'rect-node',
         },
+      },
+    ],
+    edges: [
+      {
+        source: 1,
+        target: 2,
+        data: {},
       },
     ],
   };
