@@ -37,6 +37,13 @@ export default () => {
         },
       },
     ],
+    edges: [
+      {
+        source: 1,
+        target: 2,
+        data: {},
+      },
+    ],
   };
 
   const graph = new G6.Graph({

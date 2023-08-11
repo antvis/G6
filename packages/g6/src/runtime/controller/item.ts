@@ -1,5 +1,5 @@
 import { AABB, Canvas, DisplayObject, Group } from '@antv/g';
-import { GraphChange, GraphView, ID } from '@antv/graphlib';
+import { GraphChange, ID } from '@antv/graphlib';
 import {
   debounce,
   isArray,
@@ -57,6 +57,7 @@ import {
   traverseAncestorsAndSucceeds,
   traverseGraphAncestors,
 } from '../../util/data';
+import { getGroupedChanges } from '../../util/event';
 
 /**
  * Manages and stores the node / edge / combo items.
@@ -270,20 +271,7 @@ export class ItemController {
       upsertAncestors = true,
       theme = {},
     } = param;
-    const groupedChanges = {
-      NodeRemoved: [],
-      EdgeRemoved: [],
-      NodeAdded: [],
-      EdgeAdded: [],
-      NodeDataUpdated: [],
-      EdgeUpdated: [],
-      EdgeDataUpdated: [],
-      TreeStructureChanged: [],
-    };
-    changes.forEach((change) => {
-      const { type: changeType } = change;
-      groupedChanges[changeType].push(change);
-    });
+    const groupedChanges = getGroupedChanges(graphCore, changes);
     const { itemMap } = this;
     // change items according to the order of the keys in groupedChanges
 
@@ -333,15 +321,17 @@ export class ItemController {
     // === 5. update nodes's data ===
     // merge changes for each node or combo
     if (groupedChanges.NodeDataUpdated.length) {
-      const nodeComboUpdate = {};
+      const nodeComboUpdate: any = {};
       groupedChanges.NodeDataUpdated.forEach((change) => {
         const { id, propertyName, newValue, oldValue } = change;
         nodeComboUpdate[id] = nodeComboUpdate[id] || {
+          id,
           previous: {},
           current: {},
         };
         if (!propertyName) {
           nodeComboUpdate[id] = {
+            id,
             isReplace: true, // whether replace the whole data
             previous: oldValue,
             current: newValue,
@@ -352,16 +342,14 @@ export class ItemController {
         }
       });
       const { dataTypeField: nodeDataTypeField } = nodeTheme;
-      const edgeToUpdate = {};
-      const comboToUpdate = {};
+      const edgeIdsToUpdate: ID[] = [];
+      const comboIdsToUpdate: ID[] = [];
       const updateRelates = throttle(
-        (edgeMap) => {
-          Object.keys(comboToUpdate)
-            .concat(Object.keys(edgeMap || edgeToUpdate))
-            .forEach((id) => {
-              const item = itemMap[id] as Edge | Combo;
-              if (item && !item.destroyed) item.forceUpdate();
-            });
+        (edgeIds) => {
+          comboIdsToUpdate.concat(edgeIds || edgeIdsToUpdate).forEach((id) => {
+            const item = itemMap[id] as Edge | Combo;
+            if (item && !item.destroyed) item.forceUpdate();
+          });
         },
         16,
         {
@@ -369,9 +357,9 @@ export class ItemController {
           trailing: true,
         },
       );
-      Object.keys(nodeComboUpdate).forEach((id) => {
+      Object.values(nodeComboUpdate).forEach((updateObj: any) => {
+        const { isReplace, previous, current, id } = updateObj;
         if (!graphCore.hasNode(id)) return;
-        const { isReplace, previous, current } = nodeComboUpdate[id];
         const onlyMove = action === 'updatePosition';
         const item = itemMap[id] as Node | Combo;
         const type = item.getType();
@@ -392,16 +380,16 @@ export class ItemController {
         }
         const innerModel = graphCore.getNode(id);
         const relatedEdgeInnerModels = graphCore.getRelatedEdges(id);
-        const nodeRelatedToUpdate = {};
+        const nodeRelatedIdsToUpdate: ID[] = [];
         relatedEdgeInnerModels.forEach((edge) => {
-          edgeToUpdate[edge.id] = edge;
-          nodeRelatedToUpdate[edge.id] = edge;
+          edgeIdsToUpdate.push(edge.id);
+          nodeRelatedIdsToUpdate.push(edge.id);
         });
 
         const previousParentId = item.displayModel.data.parentId;
 
         item.onframe = () => {
-          updateRelates(nodeRelatedToUpdate);
+          updateRelates(nodeRelatedIdsToUpdate);
         };
         item.update(
           innerModel,
@@ -443,11 +431,11 @@ export class ItemController {
               begins,
               (treeItem) => {
                 if (treeItem.data._isCombo && treeItem.id !== innerModel.id)
-                  comboToUpdate[treeItem.id] = treeItem;
+                  comboIdsToUpdate.push(treeItem.id);
                 const relatedEdges = graphCore.getRelatedEdges(treeItem.id);
                 relatedEdges.forEach((edge) => {
-                  edgeToUpdate[edge.id] = edge;
-                  nodeRelatedToUpdate[edge.id] = edge;
+                  edgeIdsToUpdate.push(edge.id);
+                  nodeRelatedIdsToUpdate.push(edge.id);
                 });
               },
             );
@@ -456,11 +444,11 @@ export class ItemController {
             graphComboTreeDfs(this.graph, [innerModel], (child) => {
               const relatedEdges = graphCore.getRelatedEdges(child.id);
               relatedEdges.forEach((edge) => {
-                edgeToUpdate[edge.id] = edge;
-                nodeRelatedToUpdate[edge.id] = edge;
+                edgeIdsToUpdate.push(edge.id);
+                nodeRelatedIdsToUpdate.push(edge.id);
               });
               if (child.data._isCombo && child.id !== innerModel.id)
-                comboToUpdate[child.id] = child;
+                comboIdsToUpdate.push(child.id);
             });
           }
         }
@@ -477,9 +465,10 @@ export class ItemController {
       const edgeUpdate = {};
       groupedChanges.EdgeDataUpdated.forEach((change) => {
         const { id, propertyName, newValue, oldValue } = change;
-        edgeUpdate[id] = edgeUpdate[id] || { previous: {}, current: {} };
+        edgeUpdate[id] = edgeUpdate[id] || { id, previous: {}, current: {} };
         if (!propertyName) {
           edgeUpdate[id] = {
+            id,
             isReplace: true, // whether replace the whole data
             previous: oldValue,
             current: newValue,
@@ -491,8 +480,8 @@ export class ItemController {
       });
 
       const { dataTypeField: edgeDataTypeField } = edgeTheme;
-      Object.keys(edgeUpdate).forEach((id) => {
-        const { isReplace, current, previous } = edgeUpdate[id];
+      Object.values(edgeUpdate).forEach((updateObj: any) => {
+        const { isReplace, current, previous, id } = updateObj;
         // update the theme if the dataType value is changed
         let itemTheme;
         if (previous[edgeDataTypeField] !== current[edgeDataTypeField]) {
@@ -515,12 +504,12 @@ export class ItemController {
       groupedChanges.EdgeUpdated.forEach((change) => {
         // propertyName is 'source' or 'target'
         const { id, propertyName, newValue } = change;
-        edgeUpdate[id] = edgeUpdate[id] || {};
+        edgeUpdate[id] = edgeUpdate[id] || { id };
         edgeUpdate[id][propertyName] = newValue;
       });
 
-      Object.keys(edgeUpdate).forEach((id) => {
-        const { source, target } = edgeUpdate[id];
+      Object.values(edgeUpdate).forEach((updateObj: any) => {
+        const { source, target, id } = updateObj;
         const item = itemMap[id] as Edge;
         if (source !== undefined)
           item.updateEnd('source', this.itemMap[source] as Node);
@@ -586,11 +575,14 @@ export class ItemController {
           item.show(animate);
         } else {
           let anccestorCollapsed = false;
-          traverseAncestors(graphCore, [item.model], (model) => {
-            if (model.data.collapsed) anccestorCollapsed = true;
-            return anccestorCollapsed;
-          });
-          if (anccestorCollapsed) return;
+          if (graphCore.hasTreeStructure('combo')) {
+            traverseAncestors(graphCore, [item.model], (model) => {
+              if (model.data.collapsed) anccestorCollapsed = true;
+              return anccestorCollapsed;
+            });
+            if (anccestorCollapsed) return;
+          }
+
           const relatedEdges = graphCore.getRelatedEdges(id);
 
           item.show(animate);
@@ -820,7 +812,11 @@ export class ItemController {
           );
         }
 
-        if (type !== 'edge' && positionChanged) {
+        if (
+          graphCore.hasTreeStructure('combo') &&
+          type !== 'edge' &&
+          positionChanged
+        ) {
           // force update ancestor combos in the sametime
           let currentAncestor = graphCore.getParent(
             transItem.model.id,

@@ -247,8 +247,8 @@ export default class Node extends Item {
           keyShape.getLocalBounds();
         intersectPoint = getRectIntersectByPoint(
           {
-            x: bbox.halfExtents[0],
-            y: bbox.halfExtents[1],
+            x: x + bbox.min[0],
+            y: y + bbox.min[1],
             width: bbox.max[0] - bbox.min[0],
             height: bbox.max[1] - bbox.min[1],
           },
