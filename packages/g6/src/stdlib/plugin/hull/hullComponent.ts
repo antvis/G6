@@ -32,6 +32,8 @@ export interface HullComponentOptions {
     offsetY?: number;
     // string means the percentage of the keyShape, number means pixel
     maxWidth?: string | number;
+    /** Whether rotate automatically according to the slope of the hull edge. */
+    autoRotate?: boolean;
   };
 }
 
