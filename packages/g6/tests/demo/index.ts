@@ -31,7 +31,7 @@ import cubic_horizon_edge from './item/edge/cubic-horizon-edge';
 import cubic_vertical_edge from './item/edge/cubic-vertical-edge';
 import fisheye from './plugins/fisheye';
 import tooltip from './demo/tooltip';
-import polyline from './item/edge/polyline';
+import polyline from './item/edge/polyline-edge';
 import comboBasic from './combo/combo-basic';
 import animations_node_build_in from './animations/node-build-in';
 

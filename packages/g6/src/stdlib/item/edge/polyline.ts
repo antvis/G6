@@ -1,5 +1,5 @@
-import { isArray, isEmpty, isString, mix } from '@antv/util';
-import { ShapeStyle } from '@antv/g6';
+import { isEmpty, mix } from '@antv/util';
+import { ID } from '@antv/graphlib';
 import { Point } from '../../../types/common';
 import {
   EdgeDisplayModel,
@@ -9,8 +9,8 @@ import {
 import { State } from '../../../types/item';
 import { getPolylinePath } from '../../../util/polyline';
 import { pathFinder } from '../../../util/router';
+import Node from '../../../item/node';
 import { LineEdge } from './line';
-
 export class Polyline extends LineEdge {
   public type = 'polyline-edge';
   public defaultStyles = {
@@ -74,8 +74,7 @@ export class Polyline extends LineEdge {
 
     return shapes;
   }
-
-  getControlPoints(): Point[] {
+  private getControlPoints(): Point[] {
     const { keyShape: keyShapeStyle } = this.mergedStyles as any;
     return keyShapeStyle.controlPoints;
   }
@@ -95,25 +94,24 @@ export class Polyline extends LineEdge {
     routeCfg?: Record<string, any>,
     auto?: boolean,
   ): string {
-    const { offset } = routeCfg;
     const { id: edgeId } = model;
 
-    // Draw a polyline according to the set control points
-    if (!offset || !auto) return getPolylinePath(edgeId, points, radius);
-
-    // Calculate the shortest path according to the A star routing algorithm
     const sourcePoint = points[0];
     const targetPoint = points[points.length - 1];
 
-    const sourceNode = this.nodeMap[model.source];
-    const targetNode = this.nodeMap[model.target];
+    // Draw a polyline with control points
+    if (!auto) return getPolylinePath(edgeId, points, radius);
+
+    // Find the shortest path computed by A* routing algorithm
+    const sourceNode = this.nodeMap[model.source] as unknown as Node;
+    const targetNode = this.nodeMap[model.target] as unknown as Node;
 
     const polylinePoints = pathFinder(
       sourcePoint,
       targetPoint,
       sourceNode,
       targetNode,
-      this.nodeMap,
+      this.nodeMap as unknown as Record<ID, Node>,
       routeCfg,
     );
 
@@ -129,12 +127,18 @@ export class Polyline extends LineEdge {
     diffState?: { previous: State[]; current: State[] },
   ) {
     const { keyShape: keyShapeStyle } = this.mergedStyles as any;
-
     const controlPoints = this.getControlPoints();
 
-    let points = [sourcePoint, targetPoint];
+    const sourceOriPoint = (
+      this.nodeMap[model.source] as unknown as Node
+    ).getPosition();
+    const targetOriPoint = (
+      this.nodeMap[model.target] as unknown as Node
+    ).getPosition();
+
+    let points = [sourceOriPoint, targetOriPoint];
     if (controlPoints) {
-      points = [sourcePoint, ...controlPoints, targetPoint];
+      points = [sourceOriPoint, ...controlPoints, targetOriPoint];
     }
 
     const routeCfg = mix(
@@ -143,7 +147,7 @@ export class Polyline extends LineEdge {
       keyShapeStyle.routeCfg,
     );
 
-    let path = this.getPath(
+    const path = this.getPath(
       model,
       points,
       keyShapeStyle.radius,
@@ -151,24 +155,9 @@ export class Polyline extends LineEdge {
       isEmpty(controlPoints),
     );
 
-    if (
-      (isArray(path) && path.length <= 1) ||
-      (isString(path) && path.indexOf('L') === -1)
-    ) {
-      path = 'M 0 0, L0 0';
-    }
-    if (
-      isNaN(sourcePoint.x) ||
-      isNaN(sourcePoint.y) ||
-      isNaN(targetPoint.x) ||
-      isNaN(targetPoint.y)
-    ) {
-      path = 'M 0 0, L0 0';
-    }
-
-    const attrs: ShapeStyle = mix({}, keyShapeStyle, {
+    const attrs = mix({}, keyShapeStyle, {
       path,
-    });
+    }) as any;
 
     return this.upsertShape('path', 'keyShape', attrs, shapeMap, model);
   }
