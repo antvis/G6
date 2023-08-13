@@ -256,16 +256,17 @@ export class InteractionController {
         this.handleCanvasEvent,
       );
     });
+    const $dom = this.graph.canvas.getContextService().getDomElement();
     Object.values(DOM_EVENT_TYPE).forEach((eventName) => {
-      this.graph.canvas
-        .getContextService()
-        .getDomElement()
-        .addEventListener(eventName, this.handleDOMEvent);
+      if ($dom && $dom.addEventListener) {
+        $dom.addEventListener(eventName, this.handleDOMEvent);
+      }
     });
   };
 
   private handleCanvasEvent = (gEvent: FederatedPointerEvent) => {
     const itemInfo = getItemInfoFromElement(gEvent.target as IElement);
+
     if (!itemInfo) {
       // This event was triggered from an element which belongs to none of the nodes/edges/canvas.
       return;
@@ -278,6 +279,7 @@ export class InteractionController {
       itemType,
       itemId,
       gEvent,
+      stopPropagation: gEvent.stopPropagation,
       // Set currentTarget to this.graph instead of canvas.
       // Because we add listeners like this: `graph.on('node:click', listener)`.
       currentTarget: this.graph,
@@ -309,15 +311,15 @@ export class InteractionController {
       return;
     }
 
-    // Item Events (Node/Edge)
-    if (itemType === 'node' || itemType === 'edge') {
+    // Item Events (Node/Edge/Combo)
+    if (itemType === 'node' || itemType === 'edge' || itemType === 'combo') {
       if (event.type === 'pointermove' || event.type === 'pointerleave') {
         this.handlePointerMove(event);
       }
       this.graph.emit(`${itemType}:${gEvent.type}`, event);
       this.graph.emit(`${gEvent.type}`, event);
 
-      // contextmenu event for node or edge
+      // contextmenu event for node, edge, or combo
       if (event.type === 'pointerdown' && event.button === 2) {
         const contextMenuEvent = getContextMenuEventProps(event, this.graph);
         this.graph.emit(`${itemType}:contextmenu`, contextMenuEvent);

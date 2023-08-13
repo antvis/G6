@@ -31,9 +31,6 @@ interface SpecThemeSolverOptions {
   };
 }
 export default class SpecThemeSolver extends BaseThemeSolver {
-  protected specification: ThemeSpecification;
-  public options: SpecThemeSolverOptions;
-
   public solver(
     options: SpecThemeSolverOptions,
     themes: ThemeSpecificationMap,

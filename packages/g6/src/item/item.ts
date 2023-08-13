@@ -11,12 +11,17 @@ import {
   ItemShapeStyles,
   ITEM_TYPE,
   State,
-  lodStrategyObj,
+  LodStrategyObj,
 } from '../types/item';
 import { NodeShapeMap } from '../types/node';
 import { EdgeStyleSet, NodeStyleSet } from '../types/theme';
 import { isArrayOverlap } from '../util/array';
-import { mergeStyles, updateShapes } from '../util/shape';
+import {
+  combineBounds,
+  getShapeLocalBoundsByStyle,
+  mergeStyles,
+  updateShapes,
+} from '../util/shape';
 import { isEncode } from '../util/type';
 import { DEFAULT_MAPPER } from '../util/mapper';
 import {
@@ -67,11 +72,11 @@ export default abstract class Item implements IItem {
   public animations: IAnimation[];
 
   public themeStyles: {
-    default?: ItemShapeStyles;
+    default: ItemShapeStyles;
     [stateName: string]: ItemShapeStyles;
   };
   /** The zoom strategy to show and hide shapes according to their lod. */
-  public lodStrategy: lodStrategyObj;
+  public lodStrategy: LodStrategyObj;
   /** Last zoom ratio. */
   public zoom: number;
   /** Cache the chaging states which are not consomed by draw  */
@@ -101,8 +106,10 @@ export default abstract class Item implements IItem {
       renderExtensions,
       zoom = 1,
       theme = {},
+      type: itemType,
     } = props;
-    this.group = new Group();
+    this.type = itemType;
+    this.group = new Group({ style: { zIndex: 0 } });
     this.group.setAttribute('data-item-type', this.type);
     this.group.setAttribute('data-item-id', props.model.id);
     containerGroup.appendChild(this.group);
@@ -113,7 +120,7 @@ export default abstract class Item implements IItem {
     this.displayModel = this.getDisplayModelAndChanges(model).model;
     this.renderExtensions = renderExtensions;
     const {
-      type = this.type === 'node' ? 'circle-node' : 'line-edge',
+      type = this.type === 'edge' ? 'line-edge' : `circle-${this.type}`,
       lodStrategy: modelLodStrategy,
     } = this.displayModel.data;
     const RenderExtension = renderExtensions.find((ext) => ext.type === type);
@@ -137,7 +144,7 @@ export default abstract class Item implements IItem {
       }
     }
     this.renderExt = new RenderExtension({
-      themeStyles: this.themeStyles.default,
+      themeStyles: this.themeStyles?.default,
       lodStrategy,
       device: this.device,
       zoom: this.zoom,
@@ -188,7 +195,7 @@ export default abstract class Item implements IItem {
     isReplace?: boolean,
     itemTheme?: {
       styles: NodeStyleSet | EdgeStyleSet;
-      lodStrategy: lodStrategyObj;
+      lodStrategy: LodStrategyObj;
     },
     onlyMove?: boolean,
     onfinish?: Function,
@@ -277,29 +284,30 @@ export default abstract class Item implements IItem {
 
     const { data: innerModelData, ...otherFields } = innerModel;
     const { current = innerModelData, previous } = diffData || {};
+    const firstRendering = !this.shapeMap?.keyShape;
 
     // === no mapper, displayModel = model ===
     if (!mapper) {
-      this.displayModel = defaultMapper(innerModel);
       // compare the previous data and current data to find shape changes
       let typeChange = false;
       if (current) {
         typeChange = Boolean(current.type);
       }
       return {
-        model: this.displayModel,
+        model: defaultMapper(innerModel),
         typeChange,
       };
     }
 
     // === mapper is function, displayModel is mapper(model), cannot diff the displayModel, so all the shapes need to be updated ===
-    if (isFunction(mapper))
+    if (isFunction(mapper)) {
       return {
         model: {
           ...defaultMapper(innerModel),
           ...(mapper as Function)(innerModel),
         },
       };
+    }
 
     // === fields' values in mapper are final value or Encode ===
     const dataChangedFields = isReplace
@@ -368,12 +376,11 @@ export default abstract class Item implements IItem {
         });
       }
     });
-    const displayModel = {
-      ...otherProps,
-      data: displayModelData,
-    };
     return {
-      model: displayModel,
+      model: {
+        ...otherProps,
+        data: displayModelData,
+      },
       typeChange,
     };
   }
@@ -694,6 +701,27 @@ export default abstract class Item implements IItem {
    * @returns item's rendering bounding box
    */
   public getBBox(): AABB {
+    if (this.animations?.length) {
+      // during animations, estimate the final bounds by the styles in displayModel
+      const { keyShape, labelShape } = this.shapeMap;
+      const {
+        keyShape: keyShapeStyle,
+        labelShape: labelShapeStyle,
+        x = 0,
+        y = 0,
+        z = 0,
+      } = this.displayModel.data;
+      const estimateBounds = combineBounds([
+        getShapeLocalBoundsByStyle(keyShape, keyShapeStyle),
+        getShapeLocalBoundsByStyle(labelShape, labelShapeStyle),
+      ]);
+      [x, y, z].forEach((val: number, i) => {
+        estimateBounds.max[i] += val;
+        estimateBounds.min[i] += val;
+        estimateBounds.center[i] += val;
+      });
+      return estimateBounds as AABB;
+    }
     return this.group.getRenderBounds();
   }
 

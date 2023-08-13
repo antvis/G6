@@ -17,7 +17,7 @@ import {
   SHAPE_TYPE,
   ShapeStyle,
   State,
-  lodStrategyObj,
+  LodStrategyObj,
 } from '../../../types/item';
 import {
   LOCAL_BOUNDS_DIRTY_FLAG_KEY,
@@ -38,7 +38,7 @@ export abstract class BaseEdge {
   sourcePoint: Point;
   targetPoint: Point;
   nodeMap: Record<string, Node>;
-  lodStrategy?: lodStrategyObj;
+  lodStrategy?: LodStrategyObj;
   labelPosition: {
     x: number;
     y: number;
@@ -283,6 +283,7 @@ export abstract class BaseEdge {
       ...this.defaultStyles.labelShape,
       textAlign: positionPreset.textAlign,
       wordWrapWidth,
+      isBillboard: true,
       ...positionStyle,
       ...otherStyle,
     };
@@ -528,7 +529,7 @@ export abstract class BaseEdge {
     const { labelShape, labelBackgroundShape } = shapeMap;
     const balanceRatio = 1 / zoom || 1;
     this.zoomCache.balanceRatio = balanceRatio;
-    const { labelShape: labelStyle } = this.mergedStyles;
+    const { labelShape: labelStyle = {} } = this.mergedStyles;
     const { position = 'bottom' } = labelStyle;
     if (!labelShape) return;
 

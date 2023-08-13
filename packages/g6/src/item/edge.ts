@@ -2,7 +2,7 @@ import { Group } from '@antv/g';
 import { clone, throttle } from '@antv/util';
 import { EdgeDisplayModel, EdgeModel, NodeModelData } from '../types';
 import { EdgeModelData } from '../types/edge';
-import { DisplayMapper, State, lodStrategyObj } from '../types/item';
+import { DisplayMapper, State, LodStrategyObj } from '../types/item';
 import { updateShapes } from '../util/shape';
 import { animateShapes } from '../util/animate';
 import { EdgeStyleSet } from '../types/theme';
@@ -13,8 +13,8 @@ interface IProps {
   model: EdgeModel;
   renderExtensions: any; // TODO: type
   containerGroup: Group;
-  mapper: DisplayMapper;
-  stateMapper: {
+  mapper?: DisplayMapper;
+  stateMapper?: {
     [stateName: string]: DisplayMapper;
   };
   sourceItem: Node;
@@ -22,7 +22,7 @@ interface IProps {
   zoom?: number;
   theme: {
     styles: EdgeStyleSet;
-    lodStrategy: lodStrategyObj;
+    lodStrategy: LodStrategyObj;
   };
   onframe?: Function;
   nodeMap?: Record<string, Node>;
@@ -42,8 +42,7 @@ export default class Edge extends Item {
 
   constructor(props: IProps) {
     super(props);
-    this.type = 'edge';
-    this.init(props);
+    this.init({ ...props, type: 'edge' });
     const { sourceItem, targetItem, nodeMap } = props;
     this.sourceItem = sourceItem;
     this.targetItem = targetItem;
@@ -57,8 +56,8 @@ export default class Edge extends Item {
     onfinish: Function = () => {},
   ) {
     // get the end points
-    const { x: sx, y: sy, z: sz } = this.sourceItem.model.data as NodeModelData;
-    const { x: tx, y: ty, z: tz } = this.targetItem.model.data as NodeModelData;
+    const { x: sx, y: sy, z: sz } = this.sourceItem.getPosition();
+    const { x: tx, y: ty, z: tz } = this.targetItem.getPosition();
     const sourcePoint = this.sourceItem.getAnchorPoint({ x: tx, y: ty, z: tz });
     const targetPoint = this.targetItem.getAnchorPoint({ x: sx, y: sy, z: sz });
     this.renderExt.mergeStyles(displayModel);

@@ -16,14 +16,14 @@ export enum CANVAS_EVENT_TYPE {
   'click' = 'click',
   'wheel' = 'wheel',
 
-  // 'dragstart',
-  // 'drag',
-  // 'dragend',
-  // 'dragenter',
-  // 'dragleave',
-  // 'dragover',
-  // 'dragout',
-  // 'drop',
+  'dragstart' = 'dragstart',
+  'drag' = 'drag',
+  'dragend' = 'dragend',
+  'dragenter' = 'dragenter',
+  'dragleave' = 'dragleave',
+  'dragover' = 'dragover',
+  'dragout' = 'dragout',
+  'drop' = 'drop',
 }
 
 export enum DOM_EVENT_TYPE {

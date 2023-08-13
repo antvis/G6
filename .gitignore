@@ -27,8 +27,8 @@ coverage
 stats.html
 
 # Snapshots error images
-__tests__/integration/snapshots/**/*-actual.*
-__tests__/integration/snapshots/**/*-diff.*
+packages/g6/tests/integration/snapshots/**/*-actual.*
+packages/g6/tests/integration/snapshots/**/*-diff.*
 
 # Website cache byb dumi
 site/.dumi/tmp

@@ -1,20 +1,19 @@
 {
   "name": "g6",
   "private": true,
-  "workspaces": [
-    "packages/*"
-  ],
   "scripts": {
     "test": "echo passed",
     "postinstall": "husky install",
     "prepare": "husky install"
   },
   "devDependencies": {
+    "@types/jest": "^29.5.1",
     "@commitlint/cli": "^17.5.0",
     "@commitlint/config-conventional": "^17.4.4",
     "husky": "^8.0.3",
     "react-scripts": "3.1.2",
     "vite": "^4.2.1",
     "stats.js": "^0.17.0"
-  }
+  },
+  "repository": "https://github.com/antvis/G6.git"
 }

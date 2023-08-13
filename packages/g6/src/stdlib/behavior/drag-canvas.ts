@@ -66,8 +66,6 @@ const DEFAULT_OPTIONS: Required<DragCanvasOptions> = {
 };
 
 export default class DragCanvas extends Behavior {
-  options: DragCanvasOptions;
-
   private pointerDownAt: Point;
   private dragging: boolean; // pointerdown + pointermove a distance
   private keydown: boolean;

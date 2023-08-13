@@ -17,8 +17,6 @@ jobs:
 
       - name: Run CI
         run: |
-          npm install
-          npm run test
           cd packages/g6
           npm install
           npm run ci

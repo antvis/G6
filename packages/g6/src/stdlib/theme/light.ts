@@ -14,6 +14,9 @@ const edgeDisableStroke = 'rgb(217, 217, 217)';
 const edgeInactiveStroke = 'rgb(210, 218, 233)';
 
 const nodeStroke = 'rgba(0,0,0,0.85)';
+const comboStroke = 'rgba(153,173,209,1)';
+const comboSelectedStroke = 'rgba(27,50,79,1)';
+const disabledStroke = 'rgba(153,173,209,1)';
 
 export default {
   node: {
@@ -105,6 +108,7 @@ export default {
           haloShape: {
             opacity: 0.25,
             lineWidth: 20,
+            pointerEvents: 'none',
             zIndex: -1,
             visible: true,
           },
@@ -116,6 +120,7 @@ export default {
           haloShape: {
             opacity: 0.25,
             lineWidth: 20,
+            pointerEvents: 'none',
             zIndex: -1,
             visible: true,
           },
@@ -234,6 +239,7 @@ export default {
             opacity: 0.25,
             lineWidth: 12,
             zIndex: -1,
+            pointerEvents: 'none',
             visible: true,
           },
         },
@@ -245,6 +251,7 @@ export default {
             opacity: 0.25,
             lineWidth: 12,
             zIndex: -1,
+            pointerEvents: 'none',
             visible: true,
           },
         },
@@ -271,7 +278,6 @@ export default {
       },
     ],
   },
-  // TODO
   combo: {
     styles: [
       {
@@ -280,34 +286,65 @@ export default {
             ...DEFAULT_SHAPE_STYLE,
             fill: comboFill,
             lineWidth: 1,
-            stroke: edgeMainStroke,
+            stroke: comboStroke,
             r: 5,
             width: 20,
             height: 10,
             padding: [25, 20, 15, 20],
           },
+          labelShape: {
+            ...DEFAULT_TEXT_STYLE,
+            fill: '#000',
+            position: 'bottom',
+            zIndex: 2,
+            lod: 0,
+            maxLines: 1,
+          },
+          labelBackgroundShape: {
+            padding: [2, 4, 2, 4],
+            lineWidth: 0,
+            fill: '#fff',
+            opacity: 0.75,
+            zIndex: 1,
+            lod: 0,
+          },
         },
         selected: {
           keyShape: {
-            stroke: nodeStroke,
+            stroke: comboSelectedStroke,
             fill: comboFill,
-            lineWidth: 2,
+            lineWidth: 4,
           },
           labelShape: {
             fontWeight: 700,
           },
+          haloShape: {
+            opacity: 0.25,
+            lineWidth: 20,
+            pointerEvents: 'none',
+            zIndex: -1,
+            visible: true,
+            stroke: 'rgba(153,173,209,1)',
+          },
         },
         active: {
           keyShape: {
-            stroke: nodeStroke,
+            stroke: comboStroke,
             lineWidth: 1,
+          },
+          haloShape: {
+            opacity: 0.25,
+            lineWidth: 20,
+            pointerEvents: 'none',
+            zIndex: -1,
+            visible: true,
+            stroke: 'rgba(153,173,209,1)',
           },
         },
         highlight: {
           keyShape: {
-            stroke: nodeStroke,
-            fill: comboFill,
-            lineWidth: 2,
+            stroke: comboStroke,
+            lineWidth: 4,
           },
           labelShape: {
             fontWeight: 700,
@@ -315,15 +352,46 @@ export default {
         },
         inactive: {
           keyShape: {
-            stroke: edgeMainStroke,
+            stroke: comboStroke,
             fill: comboFill,
             lineWidth: 1,
+            opacity: 0.65,
+          },
+          labelShape: {
+            opacity: 0.65,
           },
         },
         disable: {
           keyShape: {
             fill: disabledFill,
+            stroke: disabledStroke,
+            opacity: 0.25,
             lineWidth: 1,
+          },
+          labelShape: {
+            opacity: 0.25,
+          },
+        },
+        collapsed: {
+          keyShape: {
+            ...DEFAULT_SHAPE_STYLE,
+            fill: comboFill,
+            lineWidth: 1,
+            stroke: comboStroke,
+            // the collapsed size
+            r: 16,
+            width: 20,
+            height: 10,
+            padding: [25, 20, 15, 20],
+          },
+          iconShape: {
+            ...DEFAULT_TEXT_STYLE,
+            fill: comboStroke,
+            fontSize: 12,
+            zIndex: 1,
+            lod: -1,
+            contentType: 'childCount',
+            visible: true,
           },
         },
       },

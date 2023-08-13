@@ -50,8 +50,6 @@ const MOTION_FACTOR = 10;
  * Rotate the 3d canvas with the center of the graph.
  */
 export default class RotateCanvas3D extends Behavior {
-  options: RotateCanvas3DOptions;
-
   public pointStartAt: Point;
   public keydown: boolean;
   public speedUpKeydown: boolean;

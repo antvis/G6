@@ -1,10 +1,7 @@
 import { ID } from '@antv/graphlib';
-import { ITEM_TYPE } from 'types/item';
+import { ITEM_TYPE } from '../../types/item';
 import { Behavior } from '../../types/behavior';
 import { IG6GraphEvent } from '../../types/event';
-
-// TODO: Combo related features:
-// hover combo
 
 export interface HoverActivateOptions {
   /**
@@ -41,8 +38,7 @@ const DEFAULT_OPTIONS: Required<HoverActivateOptions> = {
   shouldBegin: () => true,
 };
 
-export class HoverActivate extends Behavior {
-  options: HoverActivateOptions;
+export default class HoverActivate extends Behavior {
   private currentItemInfo: { id: ID; itemType: ITEM_TYPE };
 
   constructor(options: Partial<HoverActivateOptions>) {
@@ -56,6 +52,8 @@ export class HoverActivate extends Behavior {
       'node:pointerleave': this.onPointerLeave,
       'edge:pointerenter': this.onPointerEnter,
       'edge:pointerleave': this.onPointerLeave,
+      'combo:pointerenter': this.onPointerEnter,
+      'combo:pointerleave': this.onPointerLeave,
     };
   };
 

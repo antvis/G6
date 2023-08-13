@@ -1,4 +1,5 @@
 import { Animation, DisplayObject, IAnimationEffectTiming } from '@antv/g';
+import { Graph as GraphLib } from '@antv/graphlib';
 import {
   isLayoutWithIterations,
   Layout,
@@ -12,8 +13,10 @@ import {
   isImmediatelyInvokedLayoutOptions,
   isLayoutWorkerized,
   LayoutOptions,
+  NodeModelData,
 } from '../../types';
 import { GraphCore } from '../../types/data';
+import { EdgeModelData } from '../../types/edge';
 
 /**
  * Manages layout extensions and graph layout.
@@ -39,6 +42,7 @@ export class LayoutController {
    */
   private tap() {
     this.graph.hooks.layout.tap(this.onLayout.bind(this));
+    this.graph.hooks.destroy.tap(this.onDestroy.bind(this));
   }
 
   private async onLayout(params: {
@@ -54,6 +58,20 @@ export class LayoutController {
     this.stopLayout();
 
     const { graphCore, options } = params;
+    const layoutNodes = graphCore
+      .getAllNodes()
+      .filter((node) => node.data.visible !== false && !node.data._isCombo);
+    const layoutNodesIdMap = {};
+    layoutNodes.forEach((node) => (layoutNodesIdMap[node.id] = true));
+    const layoutGraphCore = new GraphLib<NodeModelData, EdgeModelData>({
+      nodes: layoutNodes,
+      edges: graphCore
+        .getAllEdges()
+        .filter(
+          (edge) =>
+            layoutNodesIdMap[edge.source] && layoutNodesIdMap[edge.target],
+        ),
+    });
 
     this.graph.emit('startlayout');
 
@@ -68,7 +86,7 @@ export class LayoutController {
       } = options;
 
       // It will ignore some layout options such as `type` and `workerEnabled`.
-      positions = await execute(graphCore, rest);
+      positions = await execute(layoutGraphCore, rest);
 
       if (animated) {
         await this.animateLayoutWithoutIterations(
@@ -108,7 +126,9 @@ export class LayoutController {
         /**
          * Run algorithm in WebWorker, `animated` option will be ignored.
          */
-        const supervisor = new Supervisor(graphCore, layout, { iterations });
+        const supervisor = new Supervisor(layoutGraphCore, layout, {
+          iterations,
+        });
         this.currentSupervisor = supervisor;
         positions = await supervisor.execute();
       } else {
@@ -118,7 +138,7 @@ export class LayoutController {
             /**
              * `onTick` will get triggered in this case.
              */
-            positions = await layout.execute(graphCore, {
+            positions = await layout.execute(layoutGraphCore, {
               onTick: (positionsOnTick: LayoutMapping) => {
                 // Display the animated process of layout.
                 this.updateNodesPosition(positionsOnTick);
@@ -130,12 +150,12 @@ export class LayoutController {
              * Manually step simulation in a sync way. `onTick` won't get triggered in this case,
              * there will be no animation either.
              */
-            layout.execute(graphCore);
+            layout.execute(layoutGraphCore);
             layout.stop();
             positions = layout.tick(iterations);
           }
         } else {
-          positions = await layout.execute(graphCore);
+          positions = await layout.execute(layoutGraphCore);
 
           if (animated) {
             await this.animateLayoutWithoutIterations(
@@ -170,7 +190,11 @@ export class LayoutController {
     }
   }
 
-  destroy() {
+  getCurrentAnimation() {
+    return this.currentAnimation;
+  }
+
+  onDestroy() {
     this.stopLayout();
 
     if (this.currentSupervisor) {

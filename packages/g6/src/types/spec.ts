@@ -1,3 +1,4 @@
+import { Canvas } from '@antv/g';
 import { AnimateCfg } from './animate';
 import { Point } from './common';
 import {
@@ -36,7 +37,10 @@ export interface Specification<
   T extends ThemeRegistry,
 > {
   type: 'graph' | 'tree';
-  container: string | HTMLElement;
+  container?: string | HTMLElement;
+  backgroundCanvas?: Canvas;
+  canvas?: Canvas;
+  transientCanvas?: Canvas;
   width?: number;
   height?: number;
   renderer?:
