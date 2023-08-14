@@ -8,9 +8,9 @@ export interface BehaviorOption {
  * Base behavior.
  * TODO: Support spec mode.
  */
-export abstract class Behavior {
+export abstract class Behavior<Opts = any> {
   graph: IGraph;
-  options: any;
+  options: Opts;
   constructor(options: any) {
     this.options = options;
   }
