@@ -23,6 +23,7 @@ import Legend from './plugin/legend';
 import Grid from './plugin/grid';
 import Tooltip from './plugin/tooltip';
 import Menu from './plugin/menu';
+import History from './plugin/history';
 import ZoomCanvas from './behavior/zoom-canvas';
 import ZoomCanvas3D from './behavior/zoom-canvas-3d';
 import RotateCanvas3D from './behavior/rotate-canvas-3d';
@@ -72,6 +73,7 @@ const stdLib = {
     grid: Grid,
     tooltip: Tooltip,
     menu: Menu,
+    history: History,
   },
   nodes: {
     'circle-node': CircleNode,

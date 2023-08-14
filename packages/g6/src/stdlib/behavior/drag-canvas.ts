@@ -137,7 +137,7 @@ export default class DragCanvas extends Behavior {
         .getAllEdgesData()
         .map((edge) => edge.id)
         .filter((id) => graph.getItemVisible(id) === true);
-      graph.hideItem(this.hiddenEdgeIds, true);
+      graph.hideItem(this.hiddenEdgeIds, true, false);
       this.hiddenNodeIds = graph
         .getAllNodesData()
         .map((node) => node.id)
@@ -148,7 +148,7 @@ export default class DragCanvas extends Behavior {
           onlyDrawKeyShape: true,
         });
       });
-      graph.hideItem(this.hiddenNodeIds, true);
+      graph.hideItem(this.hiddenNodeIds, true, false);
     }
   }
 
@@ -242,13 +242,13 @@ export default class DragCanvas extends Behavior {
     const { graph } = this;
     if (this.options.enableOptimize) {
       if (this.hiddenEdgeIds) {
-        graph.showItem(this.hiddenEdgeIds, true);
+        graph.showItem(this.hiddenEdgeIds, true, false);
       }
       if (this.hiddenNodeIds) {
         this.hiddenNodeIds.forEach((id) => {
           this.graph.drawTransient('node', id, { action: 'remove' });
         });
-        graph.showItem(this.hiddenNodeIds, true);
+        graph.showItem(this.hiddenNodeIds, true, false);
       }
     }
   }

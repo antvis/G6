@@ -74,7 +74,7 @@ export const getContextMenuEventProps = (
   };
 };
 
-type GroupedChanges = {
+export type GroupedChanges = {
   NodeRemoved: NodeRemoved<NodeModelData>[];
   EdgeRemoved: EdgeRemoved<EdgeModelData>[];
   NodeAdded: NodeAdded<NodeModelData>[];
@@ -121,19 +121,20 @@ export const getGroupedChanges = (
     } else if (changeType === 'TreeStructureChanged') {
       groupedChanges[changeType].push(change);
       return;
-    } else {
-      const { id: oid } = change.value;
-      if (!graphCore.hasNode(oid) && !graphCore.hasEdge(oid)) {
-        const nid = Number(oid);
-        if ((!isNaN(nid) && graphCore.hasNode(nid)) || graphCore.hasEdge(nid)) {
-          groupedChanges[changeType].push({
-            ...change,
-            value: { ...change.value, id: nid },
-          });
-        }
-        return;
-      }
     }
+    // else {
+    //   const { id: oid } = change.value;
+    //   if (!graphCore.hasNode(oid) && !graphCore.hasEdge(oid)) {
+    //     const nid = Number(oid);
+    //     if ((!isNaN(nid) && graphCore.hasNode(nid)) || graphCore.hasEdge(nid)) {
+    //       groupedChanges[changeType].push({
+    //         ...change,
+    //         value: { ...change.value, id: nid },
+    //       });
+    //     }
+    //     return;
+    //   }
+    // }
     groupedChanges[changeType].push(change);
   });
   return groupedChanges;

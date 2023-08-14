@@ -330,13 +330,15 @@ export class DataController {
     const prevNodesAndCombos = userGraphCore.getAllNodes();
     const prevEdges = userGraphCore.getAllEdges();
     if (prevNodesAndCombos.length && nodesAndCombos.length) {
-      // update the parentId
-      nodesAndCombos.forEach((item) => {
-        const { parentId } = item.data;
-        this.graphCore.getChildren(item.id, 'combo').forEach((child) => {
-          userGraphCore.mergeNodeData(child.id, { parentId });
+      if (this.graphCore.hasTreeStructure('combo')) {
+        // update the parentId
+        nodesAndCombos.forEach((item) => {
+          const { parentId } = item.data;
+          this.graphCore.getChildren(item.id, 'combo').forEach((child) => {
+            userGraphCore.mergeNodeData(child.id, { parentId });
+          });
         });
-      });
+      }
       // remove the node
       userGraphCore.removeNodes(nodesAndCombos.map((node) => node.id));
     }

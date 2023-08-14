@@ -239,10 +239,12 @@ export default class DragNode extends Behavior {
         this.graph.hideItem(
           this.hiddenEdges.map((edge) => edge.id),
           true,
+          false,
         );
         this.graph.hideItem(
           this.hiddenComboTreeItems.map((child) => child.id),
           true,
+          false,
         );
       }
 
@@ -266,14 +268,16 @@ export default class DragNode extends Behavior {
         });
 
         // Hide original edges and nodes. They will be restored when pointerup.
-        this.graph.hideItem(selectedNodeIds, true);
+        this.graph.hideItem(selectedNodeIds, true, false);
         this.graph.hideItem(
           this.hiddenEdges.map((edge) => edge.id),
           true,
+          false,
         );
         this.graph.hideItem(
           this.hiddenComboTreeItems.map((combo) => combo.id),
           true,
+          false,
         );
       } else {
         this.graph.frontItem(selectedNodeIds);
@@ -413,6 +417,7 @@ export default class DragNode extends Behavior {
       this.graph.showItem(
         this.hiddenEdges.map((edge) => edge.id),
         true,
+        false,
       );
       this.hiddenEdges = [];
     }
@@ -420,6 +425,7 @@ export default class DragNode extends Behavior {
       this.graph.showItem(
         this.hiddenComboTreeItems.map((edge) => edge.id),
         true,
+        false,
       );
       this.hiddenComboTreeItems = [];
     }
@@ -429,6 +435,7 @@ export default class DragNode extends Behavior {
       this.graph.showItem(
         this.originPositions.map((position) => position.id),
         true,
+        false,
       );
     }
   }

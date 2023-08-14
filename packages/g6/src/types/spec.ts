@@ -117,4 +117,6 @@ export interface Specification<
 
   /** theme */
   theme?: ThemeOptionsOf<T>;
+
+  enableStack?: boolean;
 }

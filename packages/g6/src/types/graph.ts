@@ -444,14 +444,14 @@ export interface IGraph<
    * @returns
    * @group Data
    */
-  showItem: (ids: ID | ID[], disableAniamte?: boolean) => void;
+  showItem: (ids: ID | ID[], disableAnimate?: boolean, stack?: boolean) => void;
   /**
    * Hide the item(s).
    * @param ids the item id(s) to be hidden
    * @returns
    * @group Item
    */
-  hideItem: (ids: ID | ID[], disableAniamte?: boolean) => void;
+  hideItem: (ids: ID | ID[], disableAnimate?: boolean, stack?: boolean) => void;
   /**
    * Make the item(s) to the front.
    * @param ids the item id(s) to front
@@ -466,6 +466,11 @@ export interface IGraph<
    * @group Item
    */
   backItem: (ids: ID | ID[]) => void;
+
+  setItemStates: (
+    options: { ids: ID | ID[]; states: string | string[]; value: boolean }[],
+    stack?: boolean,
+  ) => void;
   /**
    * Set state for the item(s).
    * @param ids the id(s) for the item(s) to be set
@@ -474,7 +479,12 @@ export interface IGraph<
    * @returns
    * @group Item
    */
-  setItemState: (ids: ID | ID[], state: string, value: boolean) => void;
+  setItemState: (
+    ids: ID | ID[],
+    state: string,
+    value: boolean,
+    stack?: boolean,
+  ) => void;
   /**
    * Get the state value for an item.
    * @param id the id for the item
@@ -490,7 +500,7 @@ export interface IGraph<
    * @returns
    * @group Item
    */
-  clearItemState: (ids: ID | ID[], states?: string[]) => void;
+  clearItemState: (ids: ID | ID[], states?: string[], stack?: boolean) => void;
 
   /**
    * Get the rendering bbox for a node / edge / combo, or the graph (when the id is not assigned).
@@ -627,4 +637,18 @@ export interface IGraph<
     type: string;
     [cfgName: string]: unknown;
   }) => void;
+
+  /**
+   * Revert the last n operation(s) on the graph.
+   * @param {number} steps The number of steps to undo. Default to 1.
+   * @returns
+   */
+  undo: (steps?: number) => void;
+
+  /**
+   * Restore the operation that was last n reverted on the graph.
+   * @param {number} steps The number of steps to redo. Default to 1.
+   * @returns
+   */
+  redo: (steps?: number) => void;
 }

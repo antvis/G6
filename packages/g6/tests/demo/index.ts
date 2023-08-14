@@ -29,6 +29,7 @@ import cubic_edge from './item/edge/cubic-edge';
 import cubic_horizon_edge from './item/edge/cubic-horizon-edge';
 import cubic_vertical_edge from './item/edge/cubic-vertical-edge';
 import fisheye from './plugins/fisheye';
+import history from './plugins/history';
 import tooltip from './demo/tooltip';
 import comboBasic from './combo/combo-basic';
 import animations_node_build_in from './animations/node-build-in';
@@ -65,6 +66,7 @@ export {
   cubic_horizon_edge,
   cubic_vertical_edge,
   fisheye,
+  history,
   tooltip,
   comboBasic,
   animations_node_build_in,

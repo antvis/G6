@@ -282,6 +282,7 @@ export class ItemController {
     upsertAncestors?: boolean;
     action?: 'updatePosition';
   }) {
+    debugger;
     const {
       changes,
       graphCore,
@@ -473,7 +474,7 @@ export class ItemController {
         }
         const parentItem = this.itemMap[current.parentId];
         if (current.parentId && parentItem?.model.data.collapsed) {
-          this.graph.hideItem(innerModel.id);
+          this.graph.hideItem(innerModel.id, false, false);
         }
       });
       updateRelates();
@@ -1097,7 +1098,8 @@ export class ItemController {
     const succeedIds: ID[] = [];
     // hide the succeeds
     graphComboTreeDfs(this.graph, [comboModel], (child) => {
-      if (child.id !== comboModel.id) this.graph.hideItem(child.id);
+      if (child.id !== comboModel.id)
+        this.graph.hideItem(child.id, false, false);
       relatedEdges = relatedEdges.concat(graphCore.getRelatedEdges(child.id));
       succeedIds.push(child.id);
     });
@@ -1153,7 +1155,7 @@ export class ItemController {
       });
       if (child.id !== comboModel.id) {
         if (!graphCore.getNode(child.data.parentId).data.collapsed) {
-          this.graph.showItem(child.id);
+          this.graph.showItem(child.id, false, false);
         }
         // re-add collapsed succeeds' virtual edges by calling collapseCombo
         if (child.data._isCombo && child.data.collapsed) {

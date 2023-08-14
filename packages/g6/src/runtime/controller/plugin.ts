@@ -135,6 +135,18 @@ export class PluginController {
     }
   }
 
+  public hasPlugin(pluginKey: string): boolean {
+    return this.pluginMap.has(pluginKey);
+  }
+
+  public getPlugin(pluginKey: string): Plugin {
+    const { plugin } = this.pluginMap.get(pluginKey);
+    if (!plugin) {
+      throw new Error('Plugin not found for key: ' + pluginKey);
+    }
+    return plugin;
+  }
+
   private addListeners = (key: string, plugin: Plugin) => {
     const events = plugin.getEvents();
     this.listenersMap[key] = {};
