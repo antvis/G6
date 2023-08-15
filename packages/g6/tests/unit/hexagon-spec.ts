@@ -1,22 +1,12 @@
 // @ts-nocheck
 
-import { DisplayObject } from '@antv/g';
 import { clone } from '@antv/util';
 import G6, {
-  EdgeDisplayModel,
   Graph,
   IGraph,
-  NodeDisplayModel,
 } from '../../src/index';
-import { LineEdge } from '../../src/stdlib/item/edge';
-import { CircleNode } from '../../src/stdlib/item/node';
-import { NodeModelData, NodeShapeMap } from '../../src/types/node';
-import { extend } from '../../src/util/extend';
-import { State } from '../../src/types/item';
-
 const container = document.createElement('div');
 document.querySelector('body').appendChild(container);
-let CustomGraph;
 const type = "hexagon-node"
 describe('node item', () => {
   let graph: IGraph<any>;
