@@ -4,37 +4,38 @@ import ActivateRelations from './behavior/activate-relations';
 import BrushSelect from './behavior/brush-select';
 import ClickSelect from './behavior/click-select';
 import DragCanvas from './behavior/drag-canvas';
-import LassoSelect from './behavior/lasso-select';
-import DragNode from './behavior/drag-node';
 import DragCombo from './behavior/drag-combo';
+import DragNode from './behavior/drag-node';
+import LassoSelect from './behavior/lasso-select';
 import { comboFromNode } from './data/comboFromNode';
 import { LineEdge } from './item/edge';
-import { CircleNode, SphereNode, RectNode } from './item/node';
+import { CircleNode, RectNode, SphereNode } from './item/node';
 import DarkTheme from './theme/dark';
 import LightTheme from './theme/light';
 import SpecThemeSolver from './themeSolver/spec';
 import SubjectThemeSolver from './themeSolver/subject';
 
-import lassoSelector from './selector/lasso';
-import rectSelector from './selector/rect';
-import Minimap from './plugin/minimap';
-import Fisheye from './plugin/fisheye';
-import Legend from './plugin/legend';
-import Grid from './plugin/grid';
-import Tooltip from './plugin/tooltip';
-import Menu from './plugin/menu';
-import ZoomCanvas from './behavior/zoom-canvas';
-import ZoomCanvas3D from './behavior/zoom-canvas-3d';
+import CollapseExpandCombo from './behavior/collapse-expand-combo';
+import HoverActivate from './behavior/hover-activate';
+import OrbitCanvas3D from './behavior/orbit-canvas-3d';
 import RotateCanvas3D from './behavior/rotate-canvas-3d';
 import TrackCanvas3D from './behavior/track-canvas-3d';
-import OrbitCanvas3D from './behavior/orbit-canvas-3d';
-import HoverActivate from './behavior/hover-activate';
-import CollapseExpandCombo from './behavior/collapse-expand-combo';
+import ZoomCanvas from './behavior/zoom-canvas';
+import ZoomCanvas3D from './behavior/zoom-canvas-3d';
+import { CircleCombo } from './item/combo/circle';
 import { CubicEdge } from './item/edge/cubic';
 import { CubicHorizonEdge } from './item/edge/cubic-horizon';
 import { CubicVerticalEdge } from './item/edge/cubic-vertical';
 import { Quadratic } from './item/edge/quadratic';
-import { CircleCombo } from './item/combo/circle';
+import Fisheye from './plugin/fisheye';
+import Grid from './plugin/grid';
+import Legend from './plugin/legend';
+import Menu from './plugin/menu';
+import Minimap from './plugin/minimap';
+import toolbar from './plugin/toolbar';
+import Tooltip from './plugin/tooltip';
+import lassoSelector from './selector/lasso';
+import rectSelector from './selector/rect';
 
 const stdLib = {
   transforms: {
@@ -72,6 +73,7 @@ const stdLib = {
     grid: Grid,
     tooltip: Tooltip,
     menu: Menu,
+    toolbar,
   },
   nodes: {
     'circle-node': CircleNode,
@@ -108,4 +110,4 @@ const utils = {
 
 const registery = { useLib };
 export default registery;
-export { stdLib, registery, utils };
+export { registery, stdLib, utils };
