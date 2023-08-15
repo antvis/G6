@@ -1,4 +1,5 @@
 import behaviors_activateRelations from './behaviors/activate-relations';
+import behaviors_shortcuts_call from './behaviors/shortcuts-call';
 import behaviors_brush_select from './behaviors/brush-select';
 import behaviors_click_select from './behaviors/click-select';
 import layouts_circular from './layouts/circular';
@@ -35,6 +36,7 @@ import animations_node_build_in from './animations/node-build-in';
 
 export {
   behaviors_activateRelations,
+  behaviors_shortcuts_call,
   layouts_circular,
   layouts_grid,
   layouts_dagre,

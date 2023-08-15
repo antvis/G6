@@ -1,6 +1,7 @@
 import { registry as layoutRegistry } from '@antv/layout';
 import { Lib } from '../types/stdlib';
 import ActivateRelations from './behavior/activate-relations';
+import ShortcutsCall from './behavior/shortcuts-call';
 import BrushSelect from './behavior/brush-select';
 import ClickSelect from './behavior/click-select';
 import DragCanvas from './behavior/drag-canvas';
@@ -51,6 +52,7 @@ const stdLib = {
   layouts: layoutRegistry,
   behaviors: {
     'activate-relations': ActivateRelations,
+    'shortcuts-call': ShortcutsCall,
     'drag-canvas': DragCanvas,
     'hover-activate': HoverActivate,
     'zoom-canvas': ZoomCanvas,
