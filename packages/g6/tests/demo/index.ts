@@ -32,7 +32,7 @@ import fisheye from './plugins/fisheye';
 import tooltip from './demo/tooltip';
 import comboBasic from './combo/combo-basic';
 import animations_node_build_in from './animations/node-build-in';
-
+import hexagon from './demo/hexagon';
 export {
   behaviors_activateRelations,
   layouts_circular,
@@ -68,4 +68,5 @@ export {
   tooltip,
   comboBasic,
   animations_node_build_in,
+  hexagon
 };
