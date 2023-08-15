@@ -69,9 +69,6 @@ export default () => {
                             color: 'blue',
                         },
                     ],
-                    labelBackgroundShape: {
-                        fill: 'red',
-                    },
                     anchorShapes: [
                         {
                             position: [0, 0.5],
