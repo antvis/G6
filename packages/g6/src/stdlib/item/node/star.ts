@@ -14,8 +14,10 @@ export class StarNode extends BaseNode {
         keyShape: {
             size: this.defaultSize,
             innerR: (this.defaultSize * 3) / 8,
+            x: 0,
+            y: 0,
         },
-    } as any; //TODO:star type
+    };
     mergedStyles: NodeShapeStyles;
     constructor(props) {
         super(props);
