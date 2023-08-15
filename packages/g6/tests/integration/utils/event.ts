@@ -19,9 +19,9 @@ export function triggerEvent(
 
   // event.target is a readonly property.
   Object.defineProperty(event, 'target', {
-    value: graph.canvas.getContextService().getDomElement(),
+    value: graph['canvas'].getContextService().getDomElement(),
   });
-  const renderingService = graph.canvas.getRenderingService();
+  const renderingService = graph['canvas'].getRenderingService();
 
   if (type === 'mousedown') {
     renderingService.hooks.pointerDown.call(event);
