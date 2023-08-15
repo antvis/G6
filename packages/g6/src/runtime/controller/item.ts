@@ -282,7 +282,6 @@ export class ItemController {
     upsertAncestors?: boolean;
     action?: 'updatePosition';
   }) {
-    debugger;
     const {
       changes,
       graphCore,

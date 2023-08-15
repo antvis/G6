@@ -6,6 +6,7 @@ const createOperationContainer = (container: HTMLElement) => {
   operationContainer.id = 'operation-bar';
   operationContainer.style.width = '100%';
   operationContainer.style.height = '50px';
+  operationContainer.style.lineHeight = '50px';
   operationContainer.style.backgroundColor = '#eee';
 
   container.appendChild(operationContainer);
@@ -41,10 +42,11 @@ const createOperations = (graph): any => {
   });
   parentEle.appendChild(clearStateButton);
 
-  // add a new node on the map
+  // add new node/edge on the map
   const addNodeButton = document.createElement('button');
-  addNodeButton.innerText = 'add a node';
+  addNodeButton.innerText = 'add node and related edge';
   addNodeButton.addEventListener('click', () => {
+    graph.startBatch();
     graph.addData('node', {
       id: 'node3',
       data: {
@@ -52,6 +54,15 @@ const createOperations = (graph): any => {
         y: 100,
       },
     });
+    graph.addData('edge', {
+      id: 'edge2',
+      source: 2,
+      target: 'node3',
+      data: {
+        type: 'line-edge',
+      },
+    });
+    graph.stopBatch();
   });
   parentEle.appendChild(addNodeButton);
 
@@ -67,6 +78,21 @@ const createOperations = (graph): any => {
     }
   });
   parentEle.appendChild(visibilityButton);
+
+  // to front/back
+  const frontButton = document.createElement('button');
+  frontButton.innerText = 'front node 4';
+  frontButton.addEventListener('click', () => {
+    graph.frontItem(4);
+  });
+  parentEle.appendChild(frontButton);
+
+  const backButton = document.createElement('button');
+  backButton.innerText = 'back node 4';
+  backButton.addEventListener('click', () => {
+    graph.backItem(4);
+  });
+  parentEle.appendChild(backButton);
 
   return { undoButton, redoButton };
 };
@@ -156,6 +182,18 @@ export default (context) => {
     },
     node: (nodeInnerModel: any) => {
       const { id, data } = nodeInnerModel;
+      if (id === 4) {
+        return {
+          id,
+          data: {
+            ...data,
+            keyShape: {
+              r: 16,
+              fill: 'orange',
+            },
+          },
+        };
+      }
       return {
         id,
         data: {
@@ -171,21 +209,22 @@ export default (context) => {
 
   const { undoButton, redoButton } = createOperations(graph);
 
-  graph.on('afteritemchange', () => {
-    undoButton.disabled = !graph.canUndo();
-    redoButton.disabled = !graph.canRedo();
-  });
+  // graph.on('afteritemchange', () => {
+  //   console.log('trigger afteritemchange', !graph.canUndo());
 
-  graph.on('afteritemstatechange', () => {
-    undoButton.disabled = !graph.canUndo();
-    redoButton.disabled = !graph.canRedo();
-  });
+  //   undoButton.disabled = !graph.canUndo();
+  //   redoButton.disabled = !graph.canRedo();
+  // });
 
-  graph.on('afteritemvisibilitychange', () => {
-    debugger;
-    undoButton.disabled = !graph.canUndo();
-    redoButton.disabled = !graph.canRedo();
-  });
+  // graph.on('afteritemstatechange', () => {
+  //   undoButton.disabled = !graph.canUndo();
+  //   redoButton.disabled = !graph.canRedo();
+  // });
+
+  // graph.on('afteritemvisibilitychange', () => {
+  //   undoButton.disabled = !graph.canUndo();
+  //   redoButton.disabled = !graph.canRedo();
+  // });
 
   return graph;
 };

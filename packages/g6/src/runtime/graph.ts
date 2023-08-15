@@ -13,6 +13,7 @@ import {
   isObject,
   isString,
   map,
+  upperFirst,
 } from '@antv/util';
 import {
   ComboUserModel,
@@ -45,7 +46,7 @@ import {
 import { FitViewRules, GraphTransformOptions } from '../types/view';
 import { changeRenderer, createCanvas } from '../util/canvas';
 import { formatPadding } from '../util/shape';
-import History from '../stdlib/plugin/history';
+import History, { getCategoryByApiName } from '../stdlib/plugin/history';
 import CommandFactory from '../stdlib/plugin/history/command';
 import {
   DataController,
@@ -58,6 +59,7 @@ import {
 } from './controller';
 import { PluginController } from './controller/plugin';
 import Hook from './hooks';
+import { camelize } from '@antv/layout';
 /**
  * Disable CSS parsing for better performance.
  */
@@ -84,8 +86,6 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
   private canvasReady: boolean;
   private specification: Specification<B, T>;
 
-  private enableStack: boolean;
-
   private dataController: DataController;
   private interactionController: InteractionController;
   private layoutController: LayoutController;
@@ -102,7 +102,17 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     },
     enableStack: true,
     stackCfg: {
+      stackSize: 0,
+      /** ignore* 是全局设置，用于指示是否忽略某种类型的操作 */
       ignoreStateChange: false,
+      ignoreAdd: false,
+      ignoreRemove: false,
+      ignoreUpdate: false,
+      /** 允许更细粒度的控制，优先与 ignore 选项。
+       * 如果某个 API 在 excludes 中，即使他的操作类型没有被忽略，也不会放入栈
+       */
+      includes: [],
+      excludes: [],
     },
   };
 
@@ -242,10 +252,14 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
   }
 
   private initHistory() {
-    this.enableStack = this.specification.enableStack;
-
-    if (this.enableStack) {
-      const history = { type: 'history', key: 'history' };
+    const { enableStack, stackCfg } = this.specification;
+    if (enableStack) {
+      const history = {
+        type: 'history',
+        key: 'history',
+        enableStack,
+        stackCfg,
+      };
       this.specification.plugins ||= [];
       this.specification.plugins.push(history);
     }
@@ -922,7 +936,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       | NodeUserModel[]
       | EdgeUserModel[]
       | ComboUserModel[],
-    stack = true,
+    stack?: boolean,
   ):
     | NodeModel
     | EdgeModel
@@ -936,21 +950,20 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     const { specification } = this.themeController;
     graphCore.once('changed', (event) => {
       if (!event.changes.length) return;
+      const changes = event.changes;
       this.hooks.itemchange.emit({
         type: itemType,
         changes: graphCore.reduceChanges(event.changes),
         graphCore,
         theme: specification,
       });
-      if (this.enableStack && stack) {
-        const changes = event.changes;
-        if (!isEmpty(changes)) {
-          const cmd = CommandFactory.create(changes);
-          const history = this.getHistoryPlugin();
-          history.push(cmd);
-        }
-      }
-      this.emit('afteritemchange', { type: itemType, action: 'add', models });
+      this.emit('afteritemchange', {
+        type: itemType,
+        action: 'add',
+        models,
+        enableStack: this.shouldPushToStack('updatePosition', stack),
+        changes,
+      });
     });
 
     const modelArr = isArray(models) ? models : [models];
@@ -1014,7 +1027,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
           | Partial<EdgeUserModel>[]
           | Partial<ComboUserModel>[]
         >,
-    stack = true,
+    stack?: boolean,
   ):
     | NodeModel
     | EdgeModel
@@ -1067,7 +1080,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
           ComboUserModel | Partial<NodeUserModel>[] | Partial<ComboUserModel>[]
         >,
     upsertAncestors?: boolean,
-    stack = true,
+    stack?: boolean,
   ) {
     return this.updatePosition('node', models, upsertAncestors, stack);
   }
@@ -1087,7 +1100,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
           ComboUserModel | Partial<NodeUserModel>[] | Partial<ComboUserModel>[]
         >,
     upsertAncestors?: boolean,
-    stack = true,
+    stack?: boolean,
   ) {
     return this.updatePosition('combo', models, upsertAncestors, stack);
   }
@@ -1096,10 +1109,31 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * Get history plugin instance
    */
   private getHistoryPlugin(): History {
-    if (this.enableStack) {
-      return this.pluginController.getPlugin('history') as History;
+    if (
+      !this.specification.enableStack ||
+      !this.pluginController.hasPlugin('history')
+    ) {
+      throw new Error('The history plugin is not loaded or initialized.');
     }
-    throw new Error('History plugin is currently not configured.');
+    return this.pluginController.getPlugin('history') as History;
+  }
+
+  /**
+   * Determine if a given operation should be pushed onto the history stack based on various configurations.
+   * @param {string} apiName name of the API operation.
+   * @param {boolean} stack Optional. whether push this operation into graph's stack.
+   */
+  private shouldPushToStack(apiName: string, stack?: boolean): boolean {
+    const { enableStack, stackCfg } = this.specification;
+    const { includes, excludes } = stackCfg;
+    if (!enableStack) return false;
+    if (isBoolean(stack)) return stack;
+    if (includes.includes(apiName)) return true;
+    if (excludes.includes(apiName)) return false;
+    let categoryKey: any = getCategoryByApiName(apiName);
+    if (!categoryKey) return true;
+    categoryKey = 'ignore' + upperFirst(categoryKey);
+    return !stackCfg[categoryKey];
   }
 
   private updatePosition(
@@ -1110,7 +1144,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
           ComboUserModel | Partial<NodeUserModel>[] | Partial<ComboUserModel>[]
         >,
     upsertAncestors?: boolean,
-    stack = true,
+    stack?: boolean,
   ) {
     const modelArr = isArray(models) ? models : [models];
     const { graphCore } = this.dataController;
@@ -1125,21 +1159,16 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
         upsertAncestors,
         action: 'updatePosition',
       });
-      if (this.enableStack && stack) {
-        const changes = event.changes.filter(
-          (change) => !isEqual(change.newValue, change.oldValue),
-        );
-        if (!isEmpty(changes)) {
-          const cmd = CommandFactory.create(changes, 'updatePosition');
-          const history = this.getHistoryPlugin();
-          history.push(cmd);
-        }
-      }
+      const changes = event.changes.filter(
+        (change) => !isEqual(change.newValue, change.oldValue),
+      );
       this.emit('afteritemchange', {
         type,
         action: 'updatePosition',
         upsertAncestors,
         models,
+        enableStack: this.shouldPushToStack('updatePosition', stack),
+        changes,
       });
     });
 
@@ -1169,8 +1198,6 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
         visible: Boolean(visible),
       });
     }
-    console.log('values', values);
-
     return values;
   }
 
@@ -1180,19 +1207,14 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * @returns
    * @group Item
    */
-  public showItem(ids: ID | ID[], disableAnimate?: boolean, stack = true) {
+  public showItem(ids: ID | ID[], disableAnimate?: boolean, stack?: boolean) {
     const idArr = isArray(ids) ? ids : [ids];
     if (isEmpty(idArr)) return;
-    if (this.enableStack && stack) {
-      const changes = {
-        newValue: [{ ids: idArr, visible: true }],
-        oldValue: this.getItemPreviousVisibility(idArr),
-        params: { disableAnimate },
-      };
-      const cmd = CommandFactory.create(changes, 'updateVisibility');
-      const history = this.getHistoryPlugin();
-      history.push(cmd);
-    }
+    const changes = {
+      newValue: [{ ids: idArr, visible: true }],
+      oldValue: this.getItemPreviousVisibility(idArr),
+      params: { disableAnimate },
+    };
     this.hooks.itemvisibilitychange.emit({
       ids: idArr as ID[],
       value: true,
@@ -1203,6 +1225,9 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       ids,
       value: true,
       animate: !disableAnimate,
+      action: 'updateVisibility',
+      enableStack: this.shouldPushToStack('showItem', stack),
+      changes,
     });
   }
   /**
@@ -1211,21 +1236,14 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * @returns
    * @group Item
    */
-  public hideItem(ids: ID | ID[], disableAnimate?: boolean, stack = true) {
+  public hideItem(ids: ID | ID[], disableAnimate?: boolean, stack?: boolean) {
     const idArr = isArray(ids) ? ids : [ids];
     if (isEmpty(idArr)) return;
-    if (this.enableStack && stack) {
-      const changes = {
-        newValue: [{ ids: idArr, visible: false }],
-        oldValue: this.getItemPreviousVisibility(idArr),
-        params: { disableAnimate },
-      };
-      console.log('changes', changes);
-
-      const cmd = CommandFactory.create(changes, 'updateVisibility');
-      const history = this.getHistoryPlugin();
-      history.push(cmd);
-    }
+    const changes = {
+      newValue: [{ ids: idArr, visible: false }],
+      oldValue: this.getItemPreviousVisibility(idArr),
+      params: { disableAnimate },
+    };
     this.hooks.itemvisibilitychange.emit({
       ids: idArr as ID[],
       value: false,
@@ -1236,6 +1254,9 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       ids,
       value: false,
       animate: !disableAnimate,
+      action: 'updateVisibility',
+      enableStack: this.shouldPushToStack('hideItem', stack),
+      changes,
     });
   }
 
@@ -1245,12 +1266,17 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * @returns
    * @group Item
    */
-  public frontItem(ids: ID | ID[]) {
+  public frontItem(ids: ID | ID[], stack?: boolean) {
     const idArr = isArray(ids) ? ids : [ids];
     this.hooks.itemzindexchange.emit({
       ids: idArr as ID[],
       action: 'front',
       graphCore: this.dataController.graphCore,
+    });
+    this.emit('afteritemzindexchange', {
+      ids: idArr,
+      action: 'front',
+      enableStack: this.shouldPushToStack('frontItem', stack),
     });
   }
   /**
@@ -1259,12 +1285,17 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * @returns
    * @group Item
    */
-  public backItem(ids: ID | ID[]) {
+  public backItem(ids: ID | ID[], stack?: boolean) {
     const idArr = isArray(ids) ? ids : [ids];
     this.hooks.itemzindexchange.emit({
       ids: idArr as ID[],
       action: 'back',
       graphCore: this.dataController.graphCore,
+    });
+    this.emit('afteritemzindexchange', {
+      ids: idArr,
+      action: 'back',
+      enableStack: this.shouldPushToStack('backItem', stack),
     });
   }
 
@@ -1298,17 +1329,17 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       states: string | string[];
       value: boolean;
     }[],
-    stack = true,
+    stack?: boolean,
   ) {
-    if (this.enableStack && stack) {
-      const changes = {
-        newValue: stateOptions,
-        oldValue: this.getItemPreviousStates(stateOptions),
-      };
-      const cmds = CommandFactory.create(changes, 'updateState');
-      const history = this.getHistoryPlugin();
-      history.push(cmds);
-    }
+    const changes = {
+      newValue: stateOptions,
+      oldValue: this.getItemPreviousStates(stateOptions),
+    };
+    this.emit('afteritemstatechange', {
+      action: 'updateState',
+      enableStack: this.shouldPushToStack('setItemState', stack),
+      changes,
+    });
     return each(stateOptions, (option) =>
       this.setItemState(option.ids, option.states, option.value, false),
     );
@@ -1325,28 +1356,28 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     ids: ID | ID[],
     states: string | string[],
     value: boolean,
-    stack = true,
+    stack?: boolean,
   ) {
     const idArr = isArray(ids) ? ids : [ids];
     const stateArr = isArray(states) ? states : [states];
-    if (this.enableStack && stack) {
-      if (!isEmpty(idArr)) {
-        const stateOptions = [{ ids: idArr, states: stateArr, value }];
-        const changes = {
-          newValue: stateOptions,
-          oldValue: this.getItemPreviousStates(stateOptions),
-        };
-        const cmds = CommandFactory.create(changes, 'updateState');
-        const history = this.getHistoryPlugin();
-        history.push(cmds);
-      }
-    }
+    const stateOptions = [{ ids: idArr, states: stateArr, value }];
+    const changes = {
+      newValue: stateOptions,
+      oldValue: this.getItemPreviousStates(stateOptions),
+    };
     this.hooks.itemstatechange.emit({
       ids: idArr as ID[],
       states: stateArr as string[],
       value,
     });
-    this.emit('afteritemstatechange', { ids, states, value });
+    this.emit('afteritemstatechange', {
+      ids,
+      states,
+      value,
+      action: 'updateState',
+      enableStack: this.shouldPushToStack('setItemState', stack),
+      changes,
+    });
   }
   /**
    * Get the state value for an item.
@@ -1366,26 +1397,26 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * @returns
    * @group Item
    */
-  public clearItemState(ids: ID | ID[], states?: string[], stack = true) {
+  public clearItemState(ids: ID | ID[], states?: string[], stack?: boolean) {
     const idArr = isArray(ids) ? ids : [ids];
-    if (this.enableStack && stack) {
-      if (!isEmpty(idArr)) {
-        const stateOptions = [{ ids: idArr, states, value: false }];
-        const changes = {
-          newValue: stateOptions,
-          oldValue: this.getItemPreviousStates(stateOptions),
-        };
-        const cmds = CommandFactory.create(changes, 'updateState');
-        const history = this.getHistoryPlugin();
-        history.push(cmds);
-      }
-    }
+    const stateOptions = [{ ids: idArr, states, value: false }];
+    const changes = {
+      newValue: stateOptions,
+      oldValue: this.getItemPreviousStates(stateOptions),
+    };
     this.hooks.itemstatechange.emit({
       ids: idArr as ID[],
       states,
       value: false,
     });
-    this.emit('afteritemstatechange', { ids, states, value: false });
+    this.emit('afteritemstatechange', {
+      ids,
+      states,
+      value: false,
+      action: 'updateState',
+      enableStack: this.shouldPushToStack('clearItemState', stack),
+      changes,
+    });
   }
 
   /**
@@ -1500,7 +1531,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     dx: number,
     dy: number,
     upsertAncestors?: boolean,
-    stack = true,
+    stack?: boolean,
   ): ComboModel[] {
     const idArr = isArray(ids) ? ids : [ids];
     const { graphCore } = this.dataController;
@@ -1837,10 +1868,6 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * @returns
    */
   public undo(steps?: number) {
-    if (!this.pluginController.hasPlugin('history')) {
-      console.warn('当前没有配置 history 插件，请先配置 enableStack 为 true');
-      return;
-    }
     const history = this.getHistoryPlugin();
     history.undo(steps);
   }
@@ -1851,24 +1878,40 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * @returns
    */
   public redo(steps?: number) {
-    if (!this.pluginController.hasPlugin('history')) {
-      console.warn('当前没有配置 history 插件，请先配置 enableStack 为 true');
-      return;
-    }
     const history = this.getHistoryPlugin();
     history.redo(steps);
   }
 
+  public startBatch() {
+    const history = this.getHistoryPlugin();
+    history.startBatch();
+  }
+
+  public stopBatch() {
+    const history = this.getHistoryPlugin();
+    history.stopBatch();
+  }
+
+  /**
+   * Indicate whether there are any actions available in the undo stack.
+   */
   public canUndo() {
     const history = this.getHistoryPlugin();
     return history.canUndo();
   }
 
+  /**
+   * Indicate whether there are any actions available in the redo stack.
+   */
   public canRedo() {
     const history = this.getHistoryPlugin();
     return history.canRedo();
   }
 
+  /**
+   * Clear history stack
+   * @param type undo/redo stack
+   */
   public cleanHistory(type?: 'undo' | 'redo') {
     const history = this.getHistoryPlugin();
     if (!type) return history.clean();

@@ -458,14 +458,14 @@ export interface IGraph<
    * @returns
    * @group Item
    */
-  frontItem: (ids: ID | ID[]) => void;
+  frontItem: (ids: ID | ID[], stack?: boolean) => void;
   /**
    * Make the item(s) to the back.
    * @param ids the item id(s) to back
    * @returns
    * @group Item
    */
-  backItem: (ids: ID | ID[]) => void;
+  backItem: (ids: ID | ID[], stack?: boolean) => void;
 
   setItemStates: (
     options: { ids: ID | ID[]; states: string | string[]; value: boolean }[],

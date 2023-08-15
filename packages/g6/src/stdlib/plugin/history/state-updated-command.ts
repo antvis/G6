@@ -8,20 +8,20 @@ interface StateOption {
 }
 
 export class StateUpdatedCommand implements Command {
-  private diffState: {
+  private changes: {
     newValue: StateOption[];
     oldValue: StateOption[];
   };
 
-  constructor(options) {
-    this.diffState = options;
+  constructor(props) {
+    this.changes = props;
   }
 
   undo(graph: IGraph) {
-    graph.setItemStates(this.diffState.oldValue, false);
+    graph.setItemStates(this.changes.oldValue, false);
   }
 
   redo(graph: IGraph) {
-    graph.setItemStates(this.diffState.newValue, false);
+    graph.setItemStates(this.changes.newValue, false);
   }
 }

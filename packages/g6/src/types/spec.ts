@@ -31,6 +31,7 @@ import { LayoutOptions } from './layout';
 import { ThemeOptionsOf, ThemeRegistry } from './theme';
 
 import { RendererName } from './render';
+import { StackCfg } from './history';
 
 export interface Specification<
   B extends BehaviorRegistry,
@@ -119,4 +120,6 @@ export interface Specification<
   theme?: ThemeOptionsOf<T>;
 
   enableStack?: boolean;
+
+  stackCfg?: StackCfg;
 }
