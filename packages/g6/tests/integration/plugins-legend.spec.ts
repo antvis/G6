@@ -42,7 +42,7 @@ describe('Plugin legend', () => {
       triggerEvent(plugin, 'mouseup', 72, 56);
       await expect(legendCanvas).toMatchCanvasSnapshot(
         dir,
-        'plugins-legend-select-marker',
+        'plugins-legend-select-marker-node',
       );
       await expect(canvas).toMatchCanvasSnapshot(
         dir,
@@ -56,7 +56,7 @@ describe('Plugin legend', () => {
       triggerEvent(plugin, 'mouseup', 0, 0);
       await expect(legendCanvas).toMatchCanvasSnapshot(
         dir,
-        'plugins-legend-deselect-marker',
+        'plugins-legend-deselect-marker-node',
       );
       await expect(canvas).toMatchCanvasSnapshot(
         dir,
@@ -70,7 +70,7 @@ describe('Plugin legend', () => {
       triggerEvent(plugin, 'mousemove', 72, 56);
       await expect(legendCanvas).toMatchCanvasSnapshot(
         dir,
-        'plugins-legend-activate-marker',
+        'plugins-legend-activate-marker-node',
       );
       await expect(canvas).toMatchCanvasSnapshot(
         dir,
@@ -83,11 +83,66 @@ describe('Plugin legend', () => {
       triggerEvent(plugin, 'mousemove', 72, 80);
       await expect(legendCanvas).toMatchCanvasSnapshot(
         dir,
-        'plugins-legend-deactivate-marker',
+        'plugins-legend-deactivate-marker-node',
       );
       await expect(canvas).toMatchCanvasSnapshot(
         dir,
         'plugins-legend-deactivate-node',
+      );
+
+      /**
+       * Select e1 mark by click.
+       */
+      triggerEvent(plugin, 'mousedown', 72, 128);
+      triggerEvent(plugin, 'mouseup', 72, 128);
+      await expect(legendCanvas).toMatchCanvasSnapshot(
+        dir,
+        'plugins-legend-select-marker-edge',
+      );
+      await expect(canvas).toMatchCanvasSnapshot(
+        dir,
+        'plugins-legend-select-edge',
+      );
+
+      /**
+       * Click document to clear filter state.
+       */
+      triggerEvent(plugin, 'mousedown', 0, 0);
+      triggerEvent(plugin, 'mouseup', 0, 0);
+      await expect(legendCanvas).toMatchCanvasSnapshot(
+        dir,
+        'plugins-legend-deselect-marker-node',
+      );
+      await expect(canvas).toMatchCanvasSnapshot(
+        dir,
+        'plugins-legend-deselect-node',
+      );
+
+      /**
+       * Activate e1 mark by mouseenter.
+       */
+      triggerEvent(plugin, 'mousemove', 72, 200);
+      triggerEvent(plugin, 'mousemove', 72, 128);
+      await expect(legendCanvas).toMatchCanvasSnapshot(
+        dir,
+        'plugins-legend-activate-marker-edge',
+      );
+      await expect(canvas).toMatchCanvasSnapshot(
+        dir,
+        'plugins-legend-activate-edge',
+      );
+
+      /**
+       * Deactivate e1 mark by mouseleave.
+       */
+      triggerEvent(plugin, 'mousemove', 72, 200);
+      await expect(legendCanvas).toMatchCanvasSnapshot(
+        dir,
+        'plugins-legend-deactivate-marker-edge',
+      );
+      await expect(canvas).toMatchCanvasSnapshot(
+        dir,
+        'plugins-legend-deactivate-edge',
       );
 
       graph.destroy();

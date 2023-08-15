@@ -30,6 +30,7 @@ import cubic_horizon_edge from './item/edge/cubic-horizon-edge';
 import cubic_vertical_edge from './item/edge/cubic-vertical-edge';
 import fisheye from './plugins/fisheye';
 import legend from './plugins/legend';
+import legend_fit_content from './plugins/legend-fit-content';
 import tooltip from './demo/tooltip';
 import comboBasic from './combo/combo-basic';
 import animations_node_build_in from './animations/node-build-in';
@@ -67,6 +68,7 @@ export {
   cubic_vertical_edge,
   fisheye,
   legend,
+  legend_fit_content,
   tooltip,
   comboBasic,
   animations_node_build_in,
