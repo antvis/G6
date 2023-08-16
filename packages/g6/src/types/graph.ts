@@ -651,4 +651,9 @@ export interface IGraph<
    * @returns
    */
   redo: (steps?: number) => void;
+
+
+  startBatch: () => void;
+
+  stopBatch: () => void;
 }

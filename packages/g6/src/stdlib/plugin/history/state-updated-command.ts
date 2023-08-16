@@ -3,7 +3,7 @@ import { Command } from './command';
 
 interface StateOption {
   ids: ID | ID[];
-  states: string | string[];
+  states: string;
   value: boolean;
 }
 
@@ -17,11 +17,18 @@ export class StateUpdatedCommand implements Command {
     this.changes = props;
   }
 
+  private updateItemsStates(graph, stateOptions) {
+    stateOptions?.map((option) => {
+      const { ids, states, value } = option;
+      graph.setItemState(ids, states, value, false);
+    });
+  }
+
   undo(graph: IGraph) {
-    graph.setItemStates(this.changes.oldValue, false);
+    this.updateItemsStates(graph, this.changes.oldValue);
   }
 
   redo(graph: IGraph) {
-    graph.setItemStates(this.changes.newValue, false);
+    this.updateItemsStates(graph, this.changes.newValue);
   }
 }

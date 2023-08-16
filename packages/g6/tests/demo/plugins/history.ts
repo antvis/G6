@@ -44,7 +44,7 @@ const createOperations = (graph): any => {
 
   // add new node/edge on the map
   const addNodeButton = document.createElement('button');
-  addNodeButton.innerText = 'add node and related edge';
+  addNodeButton.innerText = 'add data';
   addNodeButton.addEventListener('click', () => {
     graph.startBatch();
     graph.addData('node', {
@@ -56,7 +56,7 @@ const createOperations = (graph): any => {
     });
     graph.addData('edge', {
       id: 'edge2',
-      source: 2,
+      source: 'node2',
       target: 'node3',
       data: {
         type: 'line-edge',
@@ -66,15 +66,50 @@ const createOperations = (graph): any => {
   });
   parentEle.appendChild(addNodeButton);
 
+  // remove new node/edge on the map
+  const removeButton = document.createElement('button');
+  removeButton.innerText = 'remove data';
+  removeButton.addEventListener('click', () => {
+    graph.startBatch();
+    graph.removeData('edge', 'edge2');
+    graph.removeData('node', 'node3');
+    graph.stopBatch();
+  });
+  parentEle.appendChild(removeButton);
+
+  // update node/edge
+  const updateButton = document.createElement('button');
+  updateButton.innerText = 'update data';
+  updateButton.addEventListener('click', () => {
+    graph.startBatch();
+    graph.updateData('node', {
+      id: 'node1',
+      data: {
+        x: 350,
+        y: 200,
+      },
+    });
+    graph.updateData('edge', {
+      id: 'edge1',
+      data: {
+        labelShape: {
+          text: '',
+        },
+      },
+    });
+    graph.stopBatch();
+  });
+  parentEle.appendChild(updateButton);
+
   // show/hide node
   const visibilityButton = document.createElement('button');
   visibilityButton.innerText = 'show/hide node';
   visibilityButton.addEventListener('click', () => {
     const visible = graph.getItemVisible(4);
     if (visible) {
-      graph.hideItem(4);
+      graph.hideItem('node4');
     } else {
-      graph.showItem(4);
+      graph.showItem('node4');
     }
   });
   parentEle.appendChild(visibilityButton);
@@ -83,14 +118,14 @@ const createOperations = (graph): any => {
   const frontButton = document.createElement('button');
   frontButton.innerText = 'front node 4';
   frontButton.addEventListener('click', () => {
-    graph.frontItem(4);
+    graph.frontItem('node4');
   });
   parentEle.appendChild(frontButton);
 
   const backButton = document.createElement('button');
   backButton.innerText = 'back node 4';
   backButton.addEventListener('click', () => {
-    graph.backItem(4);
+    graph.backItem('node4');
   });
   parentEle.appendChild(backButton);
 
@@ -106,7 +141,7 @@ export default (context) => {
   const data = {
     nodes: [
       {
-        id: 1,
+        id: 'node1',
         data: {
           x: 100,
           y: 100,
@@ -114,7 +149,7 @@ export default (context) => {
         },
       },
       {
-        id: 2,
+        id: 'node2',
         data: {
           x: 200,
           y: 100,
@@ -122,24 +157,28 @@ export default (context) => {
         },
       },
       {
-        id: 4,
+        id: 'node4',
         data: {
           x: 200,
           y: 200,
           type: 'circle-node',
+          keyShape: {
+            fill: 'orange',
+          },
         },
       },
     ],
     edges: [
       {
         id: 'edge1',
-        source: 1,
-        target: 2,
+        source: 'node1',
+        target: 'node2',
         data: {
-          type: 'quadratic-edge',
+          type: 'line-edge',
         },
       },
     ],
+    combos: [{ id: 'combo1', data: {} }],
   };
 
   const edge: (data: any) => any = (edgeInnerModel: any) => {
@@ -147,7 +186,6 @@ export default (context) => {
     return {
       id,
       data: {
-        ...data,
         keyShape: {
           controlPoints: [150, 100],
           // curvePosition: 0.5,
@@ -167,6 +205,7 @@ export default (context) => {
         labelBackgroundShape: {
           fill: 'white',
         },
+        ...data,
       },
     };
   };
@@ -178,53 +217,98 @@ export default (context) => {
     data,
     type: 'graph',
     modes: {
-      default: ['click-select', 'drag-canvas', 'zoom-canvas', 'drag-node'],
+      default: [
+        'collapse-expand-combo',
+        'drag-canvas',
+        'drag-node',
+        {
+          type: 'click-select',
+          itemTypes: ['node', 'edge', 'combo'],
+        },
+        {
+          type: 'hover-activate',
+          itemTypes: ['node', 'edge', 'combo'],
+        },
+        'drag-combo',
+      ],
     },
     node: (nodeInnerModel: any) => {
       const { id, data } = nodeInnerModel;
-      if (id === 4) {
-        return {
-          id,
-          data: {
-            ...data,
-            keyShape: {
-              r: 16,
-              fill: 'orange',
-            },
-          },
-        };
-      }
       return {
         id,
         data: {
-          ...data,
           keyShape: {
             r: 16,
           },
+          ...data,
         },
       };
     },
     edge,
+    combo: (model) => {
+      return {
+        id: model.id,
+        data: {
+          ...model.data,
+          keyShape: {
+            padding: [10, 20, 30, 40],
+            r: 50,
+          },
+          labelShape: {
+            text: model.id,
+          },
+
+          animates: {
+            buildIn: [
+              {
+                fields: ['opacity'],
+                duration: 500,
+                delay: 500 + Math.random() * 500,
+              },
+            ],
+            buildOut: [
+              {
+                fields: ['opacity'],
+                duration: 200,
+              },
+            ],
+            update: [
+              {
+                fields: ['lineWidth', 'r'],
+                shapeId: 'keyShape',
+              },
+              {
+                fields: ['opacity'],
+                shapeId: 'haloShape',
+              },
+            ],
+          },
+        },
+      };
+    },
+    stackCfg: {
+      ignoreStateChange: true,
+    },
   });
 
   const { undoButton, redoButton } = createOperations(graph);
 
-  // graph.on('afteritemchange', () => {
-  //   console.log('trigger afteritemchange', !graph.canUndo());
+  graph.on('afteritemchange', () => {
+    console.log('trigger afteritemchange', !graph.canUndo());
 
-  //   undoButton.disabled = !graph.canUndo();
-  //   redoButton.disabled = !graph.canRedo();
-  // });
+    undoButton.disabled = !graph.canUndo();
+    redoButton.disabled = !graph.canRedo();
+  });
 
-  // graph.on('afteritemstatechange', () => {
-  //   undoButton.disabled = !graph.canUndo();
-  //   redoButton.disabled = !graph.canRedo();
-  // });
+  graph.on('afteritemstatechange', () => {
+    undoButton.disabled = !graph.canUndo();
+    redoButton.disabled = !graph.canRedo();
+  });
 
-  // graph.on('afteritemvisibilitychange', () => {
-  //   undoButton.disabled = !graph.canUndo();
-  //   redoButton.disabled = !graph.canRedo();
-  // });
+  graph.on('afteritemvisibilitychange', () => {
+    undoButton.disabled = !graph.canUndo();
+    redoButton.disabled = !graph.canRedo();
+  });
 
   return graph;
 };

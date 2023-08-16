@@ -8,41 +8,32 @@ interface Option {
 }
 
 export class VisibilityUpdatedCommand implements Command {
-  private diffState: {
+  private changes: {
     newValue: Option[];
     oldValue: Option[];
-    params: {
-      disableAnimate?: boolean;
-    };
   };
+  private disableAnimate?: boolean;
 
-  constructor(options) {
-    this.diffState = options;
+  constructor(changes, disableAnimate) {
+    this.changes = changes;
+    this.disableAnimate = disableAnimate;
+  }
+
+  private toggleItemsVisible(graph, values) {
+    each(values, (value) =>
+      value.visible
+        ? graph.showItem(value.ids, this.disableAnimate, false)
+        : graph.hideItem(value.ids, this.disableAnimate, false),
+    );
   }
 
   undo(graph: IGraph) {
-    const {
-      oldValue,
-      params: { disableAnimate },
-    } = this.diffState;
-
-    each(oldValue, (value) =>
-      value.visible
-        ? graph.showItem(value.ids, disableAnimate, false)
-        : graph.hideItem(value.ids, disableAnimate, false),
-    );
+    const { oldValue } = this.changes;
+    this.toggleItemsVisible(graph, oldValue);
   }
 
   redo(graph: IGraph) {
-    const {
-      newValue,
-      params: { disableAnimate },
-    } = this.diffState;
-
-    each(newValue, (value) =>
-      value.visible
-        ? graph.showItem(value.ids, disableAnimate, false)
-        : graph.hideItem(value.ids, disableAnimate, false),
-    );
+    const { newValue } = this.changes;
+    this.toggleItemsVisible(graph, newValue);
   }
 }

@@ -1,5 +1,5 @@
 import type { IGraph } from 'types';
-import { each } from '@antv/util';
+import { each, isEmpty } from '@antv/util';
 import { StackCfg } from '../../../types/history';
 import { Plugin as Base, IPluginBaseConfig } from '../../../types/plugin';
 import CommandFactory, { Command } from './command';
@@ -20,10 +20,12 @@ const categories = {
     'updateComboPosition',
     'updatePosition',
     'moveCombo',
+    'collapseCombo',
+    'expandCombo',
   ],
   stateChange: ['setItemStates', 'setItemState', 'clearItemState'],
   layerChange: ['frontItem', 'backItem'],
-  displayChange: ['showItem', 'hideItem', 'collapseCombo', 'expandCombo'],
+  displayChange: ['showItem', 'hideItem'],
 };
 
 /**
@@ -81,6 +83,7 @@ export default class History extends Base {
   public push(cmd: Command[]) {
     // Clear the redo stack when a new action is performed to maintain state consistency
     this.cleanRedoStack();
+    if (isEmpty(cmd)) return;
     this.undoStack.push(cmd);
     this.initBatchCommands();
   }
@@ -149,6 +152,8 @@ export default class History extends Base {
       afteritemzindexchange: this.handleUpdateHistory,
       afteritemstatechange: this.handleUpdateHistory,
       afteritemvisibilitychange: this.handleUpdateHistory,
+      aftercollapsecombo: this.handleUpdateHistory,
+      afterexpandcombo: this.handleUpdateHistory,
     };
   }
 

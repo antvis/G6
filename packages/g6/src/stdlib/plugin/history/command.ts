@@ -1,10 +1,10 @@
 import { groupBy } from '@antv/util';
 import { ID, IGraph } from '../../../types';
-import { ItemAddedCommand } from './item-added-command';
 import { LayerUpdatedCommand } from './layer-updated-command';
-import { PositionUpdatedCommand } from './position-updated-command';
 import { StateUpdatedCommand } from './state-updated-command';
 import { VisibilityUpdatedCommand } from './visibility-updated-command';
+import { ItemDataCommand } from './item-data-command';
+import { ComboCommand } from './combo-command';
 
 export interface Command {
   redo: (graph: IGraph) => void;
@@ -18,59 +18,55 @@ interface CreateProps {
     | 'updateState'
     | 'updateVisibility'
     | 'front'
-    | 'back';
+    | 'back'
+    | 'expandCombo'
+    | 'collapseCombo';
   upsertAncestors?: boolean;
+  disableAnimate?: boolean;
 }
 
 export default class CommandFactory {
-  static create(props: CreateProps): Command[] {
-    const { action, changes, ...rest } = props;
-    console.log('CommandFactory props', props);
-    const onlyMove = action === 'updatePosition';
-    const groupedByType = groupBy(changes, 'type');
-
+  static create({ action, changes, ...rest }: CreateProps): Command[] {
     const commands = [];
 
+    const groupedByType = groupBy(changes, 'type');
+
     for (const type in groupedByType) {
-      switch (type) {
-        case 'NodeDataUpdated':
-          if (onlyMove) {
-            commands.push(
-              new PositionUpdatedCommand(
-                groupedByType[type],
-                rest.upsertAncestors,
-              ),
-            );
-            break;
-          }
-        case 'NodeAdded': {
-          commands.push(new ItemAddedCommand('node', groupedByType[type]));
-          break;
-        }
-        case 'EdgeAdded': {
-          commands.push(new ItemAddedCommand('edge', groupedByType[type]));
-          break;
-        }
-        default:
-          break;
+      const itemDataCommandMap = {
+        NodeDataUpdated: 'node',
+        EdgeDataUpdated: 'edge',
+        NodeAdded: 'node',
+        EdgeAdded: 'edge',
+        NodeRemoved: 'node',
+        EdgeRemoved: 'edge',
+        TreeStructureChanged: 'combo',
+      };
+      if (itemDataCommandMap[type]) {
+        commands.push(
+          new ItemDataCommand(
+            action,
+            itemDataCommandMap[type],
+            groupedByType[type],
+            type === 'NodeDataUpdated' ? rest.upsertAncestors : undefined,
+          ),
+        );
       }
     }
 
-    switch (action) {
-      case 'updateState':
-        commands.push(new StateUpdatedCommand(changes));
-        break;
-      case 'updateVisibility':
-        commands.push(new VisibilityUpdatedCommand(changes));
-        break;
-      case 'front':
-        commands.push(new LayerUpdatedCommand('front', props.ids));
-        break;
-      case 'back':
-        commands.push(new LayerUpdatedCommand('back', props.ids));
-        break;
-      default:
-        break;
+    const actionCommandMap = {
+      updateState: new StateUpdatedCommand(changes),
+      updateVisibility: new VisibilityUpdatedCommand(
+        changes,
+        rest.disableAnimate,
+      ),
+      front: new LayerUpdatedCommand('front', rest.ids),
+      back: new LayerUpdatedCommand('back', rest.ids),
+      expandCombo: new ComboCommand('expandCombo', rest.ids),
+      collapseCombo: new ComboCommand('collapseCombo', rest.ids),
+    };
+
+    if (actionCommandMap[action]) {
+      commands.push(actionCommandMap[action]);
     }
 
     return commands;

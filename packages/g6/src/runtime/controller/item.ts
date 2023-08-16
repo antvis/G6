@@ -1133,7 +1133,7 @@ export class ItemController {
         },
       });
     });
-    this.graph.addData('edge', virtualEdges);
+    this.graph.addData('edge', virtualEdges, false);
   }
 
   private expandCombo(graphCore: GraphCore, comboModel: ComboModel) {
@@ -1163,7 +1163,7 @@ export class ItemController {
       }
     });
     // remove related virtual edges
-    this.graph.removeData('edge', uniq(relatedVirtualEdgeIds));
+    this.graph.removeData('edge', uniq(relatedVirtualEdgeIds), false);
   }
 }
 
