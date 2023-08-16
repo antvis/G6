@@ -383,19 +383,16 @@ export class ItemController {
       const { dataTypeField: nodeDataTypeField } = nodeTheme;
       const edgeIdsToUpdate: ID[] = [];
       const comboIdsToUpdate: ID[] = [];
-      const updateRelates = throttle(
-        (edgeIds) => {
-          comboIdsToUpdate.concat(edgeIds || edgeIdsToUpdate).forEach((id) => {
-            const item = itemMap[id] as Edge | Combo;
-            if (item && !item.destroyed) item.forceUpdate();
-          });
-        },
-        16,
-        {
-          leading: true,
-          trailing: true,
-        },
-      );
+      const updateRelates = (edgeIds) => {
+        comboIdsToUpdate.concat(edgeIds || edgeIdsToUpdate).forEach((id) => {
+          const item = itemMap[id] as Edge | Combo;
+          if (item && !item.destroyed) item.forceUpdate();
+        });
+      };
+      const updateRelatesThrottle = throttle(updateRelates, 16, {
+        leading: true,
+        trailing: true,
+      });
       Object.values(nodeComboUpdate).forEach((updateObj: any) => {
         const { isReplace, previous, current, id } = updateObj;
         if (!graphCore.hasNode(id)) return;
