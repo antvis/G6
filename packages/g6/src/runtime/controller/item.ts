@@ -398,6 +398,7 @@ export class ItemController {
         if (!graphCore.hasNode(id)) return;
         const onlyMove = action === 'updatePosition';
         const item = itemMap[id] as Node | Combo;
+        if (!item || item.destroyed) return;
         const type = item.getType();
         const innerModel = graphCore.getNode(id);
         if (

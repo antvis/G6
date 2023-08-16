@@ -1,7 +1,7 @@
 import { resetEntityCounter } from '@antv/g';
 import treeGraph from '../demo/tree/treeGraph';
 import './utils/useSnapshotMatchers';
-import { createContext } from './utils';
+import { createContext, sleep } from './utils';
 
 describe('TreeGraph', () => {
   beforeEach(() => {
@@ -32,56 +32,57 @@ describe('TreeGraph', () => {
       },
     );
 
-    setTimeout(async () => {
+    (async () => {
+      await sleep(50);
       await expect(canvas).toMatchCanvasSnapshot(dir, 'treegraph-graphdata');
 
+      // ====== change to tree data ======
       const $changeData = document.getElementById('treegraph-changedata');
       $changeData.click();
-      setTimeout(async () => {
-        await expect(canvas).toMatchCanvasSnapshot(
-          dir,
-          'treegraph-graphdata-changedata',
-        );
+      await sleep(500);
+      await expect(canvas).toMatchCanvasSnapshot(
+        dir,
+        'treegraph-graphdata-changedata',
+      );
 
-        const $removeNode = document.getElementById('treegraph-removenode');
-        $removeNode.click(); // remove
-        graph.layout();
-        setTimeout(async () => {
-          await expect(canvas).toMatchCanvasSnapshot(
-            dir,
-            'treegraph-graphdata-removenode',
-          );
-          $removeNode.click(); // add
-          graph.layout();
-          setTimeout(async () => {
-            await expect(canvas).toMatchCanvasSnapshot(
-              dir,
-              'treegraph-graphdata-addnode',
-            );
+      // ====== remove a node ======
+      const $removeNode = document.getElementById('treegraph-removenode');
+      $removeNode.click(); // remove
+      graph.layout();
+      await sleep(500);
+      await expect(canvas).toMatchCanvasSnapshot(
+        dir,
+        'treegraph-graphdata-removenode',
+      );
 
-            const $updateNode = document.getElementById('treegraph-updatenode');
-            $updateNode.click(); // update label
-            await expect(canvas).toMatchCanvasSnapshot(
-              dir,
-              'treegraph-graphdata-udpatenode',
-            );
+      // ====== add a node ======
+      $removeNode.click(); // add
+      graph.layout();
+      await sleep(500);
+      await expect(canvas).toMatchCanvasSnapshot(
+        dir,
+        'treegraph-graphdata-addnode',
+      );
 
-            const $changeLayout = document.getElementById(
-              'treegraph-changelayout',
-            );
-            $changeLayout.click(); // remove
-            setTimeout(async () => {
-              await expect(canvas).toMatchCanvasSnapshot(
-                dir,
-                'treegraph-graphdata-changelayout',
-              );
-              graph.destroy();
-              done();
-            }, 500);
-          }, 500);
-        }, 500);
-      }, 500);
-    }, 500);
+      // ====== update a node ======
+      const $updateNode = document.getElementById('treegraph-updatenode');
+      $updateNode.click(); // update label
+      await expect(canvas).toMatchCanvasSnapshot(
+        dir,
+        'treegraph-graphdata-udpatenode',
+      );
+
+      // ====== change to graph layout ======
+      const $changeLayout = document.getElementById('treegraph-changelayout');
+      $changeLayout.click();
+      await sleep(500);
+      await expect(canvas).toMatchCanvasSnapshot(
+        dir,
+        'treegraph-graphdata-changelayout',
+      );
+      graph.destroy();
+    })();
+    done();
   });
 
   it('should be rendered correctly with tree data', (done) => {
@@ -103,38 +104,39 @@ describe('TreeGraph', () => {
         layoutType: 'compactBox',
       },
     );
-    setTimeout(async () => {
+    (async () => {
+      await sleep(100);
       await expect(canvas).toMatchCanvasSnapshot(dir, 'treegraph-treedata');
 
+      // ======= collapse =======
       const $collapse = document.getElementById('treegraph-collapse');
       $collapse.click(); // collapse
-      setTimeout(async () => {
-        await expect(canvas).toMatchCanvasSnapshot(
-          dir,
-          'treegraph-treedata-collapse',
-        );
-        $collapse.click(); // expand
-        setTimeout(async () => {
-          await expect(canvas).toMatchCanvasSnapshot(
-            dir,
-            'treegraph-treedata-expand',
-          );
+      await sleep(500);
+      await expect(canvas).toMatchCanvasSnapshot(
+        dir,
+        'treegraph-treedata-collapse',
+      );
 
-          const $changeLayout = document.getElementById(
-            'treegraph-changelayout',
-          );
-          $changeLayout.click();
-          setTimeout(async () => {
-            await expect(canvas).toMatchCanvasSnapshot(
-              dir,
-              'treegraph-treedata-changelayout',
-            );
-            graph.destroy();
-            done();
-          }, 500);
-        }, 500);
-      }, 500);
-    }, 500);
+      // ======= expand =======
+      $collapse.click(); // expand
+      await sleep(500);
+      await expect(canvas).toMatchCanvasSnapshot(
+        dir,
+        'treegraph-treedata-expand',
+      );
+
+      // ======= change layout =======
+      const $changeLayout = document.getElementById('treegraph-changelayout');
+      $changeLayout.click();
+      await sleep(700);
+      await expect(canvas).toMatchCanvasSnapshot(
+        dir,
+        'treegraph-treedata-changelayout',
+      );
+
+      graph.destroy();
+    })();
+    done();
   });
 
   it('graph data with initiated collapsed', (done) => {
@@ -157,14 +159,15 @@ describe('TreeGraph', () => {
         defaultCollapse: true,
       },
     );
-    setTimeout(async () => {
+    (async () => {
+      await sleep(50);
       await expect(canvas).toMatchCanvasSnapshot(
         dir,
         'treegraph-graphdata-initial-collapse',
       );
       graph.destroy();
-      done();
-    }, 500);
+    })();
+    done();
   });
 
   it('tree data with initiated collapsed', (done) => {
@@ -187,13 +190,14 @@ describe('TreeGraph', () => {
         defaultCollapse: true,
       },
     );
-    setTimeout(async () => {
+    (async () => {
+      await sleep(50);
       await expect(canvas).toMatchCanvasSnapshot(
         dir,
         'treegraph-treedata-initial-collapse',
       );
       graph.destroy();
-      done();
-    }, 500);
+    })();
+    done();
   });
 });
