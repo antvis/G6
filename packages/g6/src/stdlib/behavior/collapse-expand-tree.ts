@@ -40,7 +40,6 @@ const DEFAULT_OPTIONS: Options = {
 };
 
 export default class CollapseExpandTree extends Behavior {
-  options: Options;
   private timeout: NodeJS.Timeout = undefined;
 
   constructor(options: Partial<Options>) {

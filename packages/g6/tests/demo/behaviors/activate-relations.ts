@@ -4,7 +4,6 @@ import { TestCaseContext } from '../interface';
 export default (context: TestCaseContext) => {
   return new G6.Graph({
     ...context,
-    type: 'graph',
     layout: {
       type: 'grid',
     },

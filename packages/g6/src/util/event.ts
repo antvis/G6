@@ -126,6 +126,8 @@ export const getGroupedChanges = (
       else if (change.treeKey === 'tree')
         groupedChanges.TreeStructureChanged.push(change);
       return;
+    } else if (['NodeRemoved', 'EdgeRemoved'].includes(changeType)) {
+      groupedChanges[changeType].push(change);
     } else {
       const { id: oid } = change.value;
       if (!graphCore.hasNode(oid) && !graphCore.hasEdge(oid)) {
