@@ -326,8 +326,7 @@ export default abstract class Item implements IItem {
       let subMapper = mapper[fieldName];
       const isReservedShapeId = RESERVED_SHAPE_IDS.includes(fieldName);
       const isShapeId =
-        RESERVED_SHAPE_IDS.includes(fieldName) ||
-        fieldName === OTHER_SHAPES_FIELD_NAME;
+        isReservedShapeId || fieldName === OTHER_SHAPES_FIELD_NAME;
 
       if ((isShapeId && isEncode(subMapper)) || !isShapeId) {
         // fields not about shape
@@ -876,6 +875,7 @@ const updateShapeChange = ({
   dataChangedFields,
   shapeConfig,
 }) => {
+  if (!mapper) return;
   Object.keys(mapper).forEach((shapeAttrName) => {
     const { value: mappedValue } = updateChange({
       innerModel,

@@ -45,6 +45,7 @@ import user_defined_canvas from './user-defined-canvas/circular';
 import visual from './visual/visual';
 import diamond from './demo/diamond';
 import dataValidate from './data/data-validate';
+import anchor from './item/anchor';
 
 export {
   animations_node_build_in,
@@ -94,4 +95,5 @@ export {
   diamond,
   treeGraph,
   dataValidate,
+  anchor,
 };

@@ -8,6 +8,11 @@ export const isArrayOverlap = (arr1, arr2): boolean => {
   return false;
 };
 
+/** Stringify arrays and compare the strings. */
+export const isArraySame = (arr1 = [], arr2 = []): boolean => {
+  return JSON.stringify(arr1) === JSON.stringify(arr2);
+};
+
 /**
  * Get the set of a - b.
  * @param a
