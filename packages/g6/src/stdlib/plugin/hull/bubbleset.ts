@@ -789,14 +789,14 @@ function rerouteLine(
     );
   }
 
-  // 根据线和boundingbox相交的情况，确定control point的位置
+  // Find the position of the control point according to the intersect of line and boundinb box
   if (leftIntersect) {
-    // 相交区域有三角形
+    // If there is a triangle in the intersect area
     if (topIntersect)
       return wrapNormal ? cornerPos.topLeft : cornerPos.bottomRight;
     if (bottomIntersect)
       return wrapNormal ? cornerPos.bottomLeft : cornerPos.topRight;
-    // 相交区域分成上下两个梯形，比较面积
+    // Divide the intersect area into two trapezoids upper and down, compare the area
     const topArea = calcHalfArea(leftIntersect, rightIntersect);
     if (topArea < totalArea * 0.5) {
       if (leftIntersect.y > rightIntersect.y)
@@ -815,7 +815,7 @@ function rerouteLine(
       return wrapNormal ? cornerPos.bottomRight : cornerPos.topLeft;
   }
 
-  // 相交区域分成左右两个梯形
+  // Divide the intersect area into two trapezoids left and right
   const leftArea = calcHalfArea(topIntersect, bottomIntersect);
   if (leftArea < totalArea * 0.5) {
     if (topIntersect.x > bottomIntersect.x)

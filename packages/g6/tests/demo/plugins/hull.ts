@@ -1,37 +1,41 @@
-import G6, { stdLib } from '../../../src/index';
-import { container, height, width } from '../../datasets/const';
-export default () => {
+import G6, { ID, stdLib } from '../../../src/index';
+import { ShapeStyle } from '../../../src/types/item';
+export default (
+  context,
+  options: {
+    hullType?: 'bubble' | 'smooth-convex' | 'round-convex';
+    labelPosition?: string;
+    style?: ShapeStyle;
+    nonMembers?: ID[];
+  } = {},
+) => {
+  const {
+    hullType = 'smooth-convex',
+    labelPosition = 'left',
+    style,
+    nonMembers = [],
+  } = options;
   const hullPlugin = new stdLib.plugins.hull({
     key: 'hull-plugin1',
-    style: { fill: 'red' },
+    style,
     hulls: [
       {
         id: 'h1',
         members: ['node1', 'node2', 'node4'],
-        // type: 'smooth-convex',
-        type: 'bubble',
-        style: {
-          fill: 'grey',
-        },
+        nonMembers,
+        type: hullType,
         labelShape: {
           text: 'hull1-title',
-          // position: 'outside-bottom',
-          position: 'left',
+          position: labelPosition as any,
           offsetY: -2,
         },
-      },
-      {
-        id: 'h2',
-        members: ['node3', 'node4'],
       },
     ],
   });
   const graph = new G6.Graph({
-    container,
-    width,
-    height,
+    ...context,
     type: 'graph',
-    plugins: ['grid', hullPlugin],
+    plugins: [hullPlugin],
     layout: {
       type: 'grid',
     },
@@ -45,36 +49,83 @@ export default () => {
       edges: [{ id: 'edge1', source: 'node1', target: 'node2', data: {} }],
     },
     modes: {
-      default: [
-        'brush-select',
-        { type: 'drag-node', enableTransient: false }, //
-        'drag-canvas',
-        'zoom-canvas',
-      ],
+      default: [{ type: 'drag-node', enableTransient: false }],
     },
   });
-  graph.on('canvas:click', (e) => {
-    // === create hull ===
-    hullPlugin.addHull({ id: 'hull1', members: ['node1', 'node2'] });
 
-    // === create with invalid members ===
-    // hullPlugin.addHull({
-    //   id: 'hull1',
-    //   // members: ['node1', 'node2'],
-    //   members: ['111'],
-    //   style: {
-    //     fill: 'green',
-    //   },
-    // });
+  let hullRemoved = true;
+  const addHullBtn = document.createElement('button');
+  addHullBtn.textContent = '添加/删除 Hull';
+  addHullBtn.id = 'hull-removehull';
+  addHullBtn.addEventListener('click', () => {
+    if (hullRemoved)
+      hullPlugin.addHull({
+        id: 'new-hull',
+        members: ['node3', 'node4'],
+        style: {
+          fill: 'green',
+        },
+      });
+    else hullPlugin.removeHull('new-hull');
+    hullRemoved = !hullRemoved;
   });
-  graph.on('node:click', (e) => {
-    graph.removeData('node', e.itemId);
+
+  let nodeRemoved = false;
+  const addNodeBtn = document.createElement('button');
+  addNodeBtn.textContent = '添加/删除节点';
+  addNodeBtn.id = 'hull-removenode';
+  addNodeBtn.addEventListener('click', () => {
+    if (nodeRemoved) {
+      graph.addData('node', { id: 'node1', data: { x: 100, y: 100 } });
+      hullPlugin.addHullMember('h1', ['node1']);
+    } else {
+      graph.removeData('node', 'node1');
+    }
+    nodeRemoved = !nodeRemoved;
   });
-  graph.on('canvas:contextmenu', (e) => {
-    // hullPlugin.updateHull({ id: 'hull1', members: ['node1', 'node3'] });
-    // hullPlugin.removeHull('hull1');
-    hullPlugin.updateHull({ id: 'hull1', style: { fill: 'black' } });
+
+  let memberRemoved = false;
+  const addMemberBtn = document.createElement('button');
+  addMemberBtn.textContent = '添加/删除成员';
+  addMemberBtn.id = 'hull-removemember';
+  addMemberBtn.addEventListener('click', () => {
+    if (memberRemoved) {
+      hullPlugin.addHullMember('h1', ['node4']);
+    } else {
+      hullPlugin.removeHullMember('h1', ['node4']);
+    }
+    memberRemoved = !memberRemoved;
   });
+
+  let nonMemberAdded = false;
+  const addNonMemberBtn = document.createElement('button');
+  addNonMemberBtn.textContent = '添加/删除非成员';
+  addNonMemberBtn.id = 'hull-removenonmember';
+  addNonMemberBtn.addEventListener('click', () => {
+    if (!nonMemberAdded) {
+      hullPlugin.addHullNonMember('h1', ['node2']);
+    } else {
+      hullPlugin.removeHullNonMember('h1', ['node2']);
+    }
+    nonMemberAdded = !nonMemberAdded;
+  });
+
+  const updateHullBtn = document.createElement('button');
+  updateHullBtn.textContent = '更新 Hull 配置';
+  updateHullBtn.id = 'hull-updateconfig';
+  updateHullBtn.addEventListener('click', () => {
+    hullPlugin.updateHull({
+      id: 'h1',
+      style: { fill: '#ff0' },
+      labelShape: { text: 'updated-label', position: 'top' },
+    });
+  });
+
+  document.body.appendChild(addHullBtn);
+  document.body.appendChild(addNodeBtn);
+  document.body.appendChild(addMemberBtn);
+  document.body.appendChild(addNonMemberBtn);
+  document.body.appendChild(updateHullBtn);
 
   return graph;
 };

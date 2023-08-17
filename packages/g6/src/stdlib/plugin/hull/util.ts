@@ -496,7 +496,7 @@ export const getExtendPoint = (point1, point2, diff) => {
  * @param baseline
  * @returns
  */
-export const getInvertBaseline = (baseline) => {
+export const getInvertBaseline = (baseline: string): string => {
   switch (baseline) {
     case 'top':
       return 'bottom';

@@ -201,12 +201,11 @@ export default class Hull {
       autoRotate = true,
     } = propsStyle;
     const { min, max, center } = keyShapeBounds;
-    const style = {
+    const style: ShapeStyle = {
       x: 0,
       y: 0,
       textAlign: 'center',
       textBaseline: 'middle',
-      angle: 0,
     };
     let point = { x: 0, y: 0 };
     switch (position) {
@@ -286,6 +285,7 @@ export default class Hull {
       style.y = point.y + offsetY;
     }
     if (position.split('-')[0] === 'outside') {
+      // @ts-ignore
       style.textBaseline = getInvertBaseline(style.textBaseline);
     }
     return style;
@@ -299,17 +299,21 @@ export default class Hull {
   public addMember(itemIds: ID | ID[]): boolean {
     if (!itemIds) return;
     const idArr = isArray(itemIds) ? itemIds : [itemIds];
-    let removed = false;
+    let shouldUpdate = false;
     idArr.forEach((id) => {
       const model = this.graph.getNodeData(id) || this.graph.getComboData(id);
-      this.members.push(model);
-      const index = this.nonMembers.indexOf(model);
-      if (index > -1) {
-        this.nonMembers.splice(index, 1);
-        removed = true;
+      const memberIdx = this.members.indexOf(model);
+      if (memberIdx === -1) {
+        this.members.push(model);
+        shouldUpdate = true;
+      }
+      const nonMemberIdx = this.nonMembers.indexOf(model);
+      if (nonMemberIdx > -1) {
+        this.nonMembers.splice(nonMemberIdx, 1);
+        shouldUpdate = true;
       }
     });
-    if (removed) {
+    if (shouldUpdate) {
       this.updateMembers(
         this.members.map((model) => model.id),
         this.nonMembers.map((model) => model.id),
@@ -326,17 +330,21 @@ export default class Hull {
   public addNonMember(itemIds: ID | ID[]): boolean {
     if (!itemIds) return;
     const idArr = isArray(itemIds) ? itemIds : [itemIds];
-    let removed = false;
+    let shouldUpdate = false;
     idArr.forEach((id) => {
       const model = this.graph.getNodeData(id) || this.graph.getComboData(id);
-      this.nonMembers.push(model);
-      const index = this.members.indexOf(model);
-      if (index > -1) {
-        this.members.splice(index, 1);
-        removed = true;
+      const nonMemberIdx = this.nonMembers.indexOf(model);
+      if (nonMemberIdx === -1) {
+        this.nonMembers.push(model);
+        shouldUpdate = true;
+      }
+      const memberIdx = this.members.indexOf(model);
+      if (memberIdx > -1) {
+        this.members.splice(memberIdx, 1);
+        shouldUpdate = true;
       }
     });
-    if (removed) {
+    if (shouldUpdate) {
       this.updateMembers(
         this.members.map((model) => model.id),
         this.nonMembers.map((model) => model.id),
@@ -432,6 +440,14 @@ export default class Hull {
     this.options = {
       ...this.options,
       ...options,
+      style: {
+        ...this.options.style,
+        ...options.style,
+      },
+      labelShape: {
+        ...this.options.labelShape,
+        ...options.labelShape,
+      },
     };
     if (memberIds) {
       this.members = memberIds.map(
