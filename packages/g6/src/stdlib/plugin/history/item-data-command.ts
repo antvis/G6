@@ -1,10 +1,7 @@
 import type { ITEM_TYPE } from '../../../types/item';
 import type { IGraph } from '../../../types';
 import type { GroupedChanges } from '../../../util/event';
-import {
-  HISTORY_OPERATION_TYPE,
-  type HistoryOperationType,
-} from '../../../types/history';
+import { STACK_TYPE, type StackType } from '../../../types/history';
 import { Command } from './command';
 
 export class ItemDataCommand implements Command {
@@ -37,34 +34,25 @@ export class ItemDataCommand implements Command {
     graph.addData(this.type, models, false);
   }
 
-  private updateChangedData(
-    graph,
-    operationType: HistoryOperationType,
-    onlyMove = false,
-  ) {
+  private updateChangedData(graph, operationType: StackType, onlyMove = false) {
+    let models;
     if (this.type === 'combo') {
-      const models = this.changes.map((data) => {
+      models = this.changes.map((data) => ({
+        id: data.nodeId,
+        data: {
+          parentId: STACK_TYPE.undo ? data.oldParentId : data.newParentId,
+        },
+      }));
+    } else {
+      models = this.changes.map((data) => {
         return {
-          id: data.nodeId,
-          data: {
-            parentId: HISTORY_OPERATION_TYPE.undo
-              ? data.oldParentId
-              : data.newParentId,
-          },
+          id: data.id,
+          data:
+            operationType === STACK_TYPE.undo ? data.oldValue : data.newValue,
         };
       });
-      graph.updateData('node', models, this.upsertAncestors, false);
-      return;
     }
-    const models = this.changes.map((data) => {
-      return {
-        id: data.id,
-        data:
-          operationType === HISTORY_OPERATION_TYPE.undo
-            ? data.oldValue
-            : data.newValue,
-      };
-    });
+
     if (onlyMove) {
       graph.updatePosition(this.type, models, this.upsertAncestors, false);
     } else {
@@ -75,18 +63,24 @@ export class ItemDataCommand implements Command {
   undo(graph: IGraph) {
     this.action === 'add' && this.removeChangedData(graph);
     this.action === 'remove' && this.addChangedData(graph);
-    this.action === 'update' &&
-      this.updateChangedData(graph, HISTORY_OPERATION_TYPE.undo);
+    this.action === 'update' && this.updateChangedData(graph, STACK_TYPE.undo);
     this.action === 'updatePosition' &&
-      this.updateChangedData(graph, HISTORY_OPERATION_TYPE.undo, true);
+      this.updateChangedData(
+        graph,
+        STACK_TYPE.undo,
+        this.action === 'updatePosition',
+      );
   }
 
   redo(graph: IGraph) {
     this.action === 'remove' && this.removeChangedData(graph);
     this.action === 'add' && this.addChangedData(graph);
-    this.action === 'update' &&
-      this.updateChangedData(graph, HISTORY_OPERATION_TYPE.redo);
+    this.action === 'update' && this.updateChangedData(graph, STACK_TYPE.redo);
     this.action === 'updatePosition' &&
-      this.updateChangedData(graph, HISTORY_OPERATION_TYPE.redo, true);
+      this.updateChangedData(
+        graph,
+        STACK_TYPE.redo,
+        this.action === 'updatePosition',
+      );
   }
 }

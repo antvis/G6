@@ -10,9 +10,9 @@ export type StackCfg = {
   excludes?: string[];
 };
 
-export enum HISTORY_OPERATION_TYPE {
+export enum STACK_TYPE {
   'redo' = 'redo',
   'undo' = 'undo',
 }
 
-export type HistoryOperationType = `${HISTORY_OPERATION_TYPE}`;
+export type StackType = `${STACK_TYPE}`;

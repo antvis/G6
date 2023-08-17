@@ -644,9 +644,9 @@ export class ItemController {
             },
             'TB',
           );
-        } else {
-          item.toFront();
         }
+        // tocheck
+        item.toFront();
       } else {
         item.toBack();
         if (graphCore.hasTreeStructure('combo')) {

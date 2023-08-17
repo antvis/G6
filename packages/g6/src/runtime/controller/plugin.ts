@@ -135,10 +135,18 @@ export class PluginController {
     }
   }
 
+  /**
+   * Check if a plugin with the specified plugin key exists.
+   * @param {string} pluginKey The key of the plugin to check.
+   */
   public hasPlugin(pluginKey: string): boolean {
     return this.pluginMap.has(pluginKey);
   }
 
+  /**
+   * Retrieve the plugin with the specified plugin key.
+   * @param {string} pluginKey The key of the plugin to check.
+   */
   public getPlugin(pluginKey: string): Plugin {
     const { plugin } = this.pluginMap.get(pluginKey);
     if (!plugin) {

@@ -38,7 +38,7 @@ const createOperations = (graph): any => {
   const clearStateButton = document.createElement('button');
   clearStateButton.innerText = 'clear nodes selected state';
   clearStateButton.addEventListener('click', () => {
-    graph.clearItemState([1, 2], 'selected');
+    graph.clearItemState('node1', 'selected');
   });
   parentEle.appendChild(clearStateButton);
 
@@ -81,23 +81,23 @@ const createOperations = (graph): any => {
   const updateButton = document.createElement('button');
   updateButton.innerText = 'update data';
   updateButton.addEventListener('click', () => {
-    graph.startBatch();
-    graph.updateData('node', {
-      id: 'node1',
-      data: {
-        x: 350,
-        y: 200,
-      },
-    });
-    graph.updateData('edge', {
-      id: 'edge1',
-      data: {
-        labelShape: {
-          text: '',
+    graph.batch(() => {
+      graph.updateData('node', {
+        id: 'node1',
+        data: {
+          x: 350,
+          y: 200,
         },
-      },
+      });
+      graph.updateData('edge', {
+        id: 'edge1',
+        data: {
+          labelShape: {
+            text: '',
+          },
+        },
+      });
     });
-    graph.stopBatch();
   });
   parentEle.appendChild(updateButton);
 
@@ -105,7 +105,7 @@ const createOperations = (graph): any => {
   const visibilityButton = document.createElement('button');
   visibilityButton.innerText = 'show/hide node';
   visibilityButton.addEventListener('click', () => {
-    const visible = graph.getItemVisible(4);
+    const visible = graph.getItemVisible('node4');
     if (visible) {
       graph.hideItem('node4');
     } else {
@@ -128,6 +128,40 @@ const createOperations = (graph): any => {
     graph.backItem('node4');
   });
   parentEle.appendChild(backButton);
+
+  // // add combo
+  // const addComboButton = document.createElement('button');
+  // addComboButton.innerText = 'add combo';
+  // addComboButton.addEventListener('click', () => {
+  //   graph.addCombo(
+  //     {
+  //       id: 'combo2',
+  //       data: {
+  //         x: 550,
+  //         y: 100,
+  //       },
+  //     },
+  //     [],
+  //   );
+  // });
+  // parentEle.appendChild(addComboButton);
+
+  // // update combo
+  // const updateComboButton = document.createElement('button');
+  // updateComboButton.innerText = 'update combo position';
+  // updateComboButton.addEventListener('click', () => {
+  //   graph.updateComboPosition(
+  //     {
+  //       id: 'combo2',
+  //       data: {
+  //         x: 550,
+  //         y: 200,
+  //       },
+  //     },
+  //     [],
+  //   );
+  // });
+  // parentEle.appendChild(updateComboButton);
 
   return { undoButton, redoButton };
 };
@@ -178,7 +212,7 @@ export default (context) => {
         },
       },
     ],
-    combos: [{ id: 'combo1', data: {} }],
+    // combos: [{ id: 'combo1', data: { x: 400, y: 100 } }],
   };
 
   const edge: (data: any) => any = (edgeInnerModel: any) => {
@@ -225,10 +259,10 @@ export default (context) => {
           type: 'click-select',
           itemTypes: ['node', 'edge', 'combo'],
         },
-        {
-          type: 'hover-activate',
-          itemTypes: ['node', 'edge', 'combo'],
-        },
+        // {
+        //   type: 'hover-activate',
+        //   itemTypes: ['node', 'edge', 'combo'],
+        // },
         'drag-combo',
       ],
     },
@@ -286,16 +320,16 @@ export default (context) => {
         },
       };
     },
+    // enableStack: false,
     stackCfg: {
-      ignoreStateChange: true,
+      stackSize: 0,
+      // ignoreStateChange: true,
     },
   });
 
   const { undoButton, redoButton } = createOperations(graph);
 
   graph.on('afteritemchange', () => {
-    console.log('trigger afteritemchange', !graph.canUndo());
-
     undoButton.disabled = !graph.canUndo();
     redoButton.disabled = !graph.canRedo();
   });

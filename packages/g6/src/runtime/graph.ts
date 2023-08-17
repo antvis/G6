@@ -3,7 +3,6 @@ import { AABB, Canvas, DisplayObject, PointLike, runtime } from '@antv/g';
 import { GraphChange, ID } from '@antv/graphlib';
 import {
   clone,
-  each,
   groupBy,
   isArray,
   isBoolean,
@@ -16,7 +15,7 @@ import {
   map,
   upperFirst,
 } from '@antv/util';
-import {
+import type {
   ComboUserModel,
   EdgeUserModel,
   GraphData,
@@ -24,22 +23,23 @@ import {
   NodeUserModel,
   Specification,
 } from '../types';
-import { CameraAnimationOptions } from '../types/animate';
-import { BehaviorOptionsOf, BehaviorRegistry } from '../types/behavior';
-import { ComboModel } from '../types/combo';
-import { Padding, Point } from '../types/common';
-import { DataChangeType, GraphCore } from '../types/data';
-import { EdgeModel, EdgeModelData } from '../types/edge';
-import { Hooks, ViewportChangeHookParams } from '../types/hook';
-import { ITEM_TYPE, ShapeStyle, SHAPE_TYPE } from '../types/item';
-import {
+import type { CameraAnimationOptions } from '../types/animate';
+import type { BehaviorOptionsOf, BehaviorRegistry } from '../types/behavior';
+import type { ComboModel } from '../types/combo';
+import type { Padding, Point } from '../types/common';
+import type { DataChangeType, GraphCore } from '../types/data';
+import type { EdgeModel, EdgeModelData } from '../types/edge';
+import type { Hooks, ViewportChangeHookParams } from '../types/hook';
+import type { ITEM_TYPE, ShapeStyle, SHAPE_TYPE } from '../types/item';
+import type {
   ImmediatelyInvokedLayoutOptions,
   LayoutOptions,
   StandardLayoutOptions,
 } from '../types/layout';
-import { NodeModel, NodeModelData } from '../types/node';
-import { RendererName } from '../types/render';
-import {
+import type { NodeModel, NodeModelData } from '../types/node';
+import type { RendererName } from '../types/render';
+import type { StackType } from '../types/history';
+import type {
   ThemeOptionsOf,
   ThemeRegistry,
   ThemeSpecification,
@@ -48,6 +48,7 @@ import { FitViewRules, GraphTransformOptions } from '../types/view';
 import { changeRenderer, createCanvas } from '../util/canvas';
 import { formatPadding } from '../util/shape';
 import History, { getCategoryByApiName } from '../stdlib/plugin/history';
+import { Command } from '../stdlib/plugin/history/command';
 import {
   DataController,
   ExtensionController,
@@ -59,7 +60,7 @@ import {
 } from './controller';
 import { PluginController } from './controller/plugin';
 import Hook from './hooks';
-import { camelize } from '@antv/layout';
+
 /**
  * Disable CSS parsing for better performance.
  */
@@ -1061,7 +1062,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
           oldValue,
         };
       })
-      .filter((change) => change);
+      .filter(Boolean);
   }
   /**
    * Update one or more node/edge/combo data on the graph.
@@ -1210,6 +1211,9 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     const { specification } = this.themeController;
     graphCore.once('changed', (event) => {
       if (!event.changes.length) return;
+      const changes = event.changes.filter(
+        (change) => !isEqual(change.newValue, change.oldValue),
+      );
       this.hooks.itemchange.emit({
         type,
         changes: event.changes,
@@ -1218,9 +1222,6 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
         upsertAncestors,
         action: 'updatePosition',
       });
-      const changes = event.changes.filter(
-        (change) => !isEqual(change.newValue, change.oldValue),
-      );
       this.emit('afteritemchange', {
         type,
         action: 'updatePosition',
@@ -1254,7 +1255,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     for (const visible in groupedByVisible) {
       values.push({
         ids: map(groupedByVisible[visible], (item) => item.id),
-        visible: Boolean(visible),
+        visible: visible === 'true',
       });
     }
     return values;
@@ -1272,7 +1273,6 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     const changes = {
       newValue: [{ ids: idArr, visible: true }],
       oldValue: this.getItemPreviousVisibility(idArr),
-      params: { disableAnimate },
     };
     this.hooks.itemvisibilitychange.emit({
       ids: idArr as ID[],
@@ -1301,7 +1301,6 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     const changes = {
       newValue: [{ ids: idArr, visible: false }],
       oldValue: this.getItemPreviousVisibility(idArr),
-      params: { disableAnimate },
     };
     this.hooks.itemvisibilitychange.emit({
       ids: idArr as ID[],
@@ -1430,9 +1429,9 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    */
   public clearItemState(ids: ID | ID[], states?: string[], stack?: boolean) {
     const idArr = isArray(ids) ? ids : [ids];
-    const stateOptions = [{ ids: idArr, states, value: false }];
+    const stateOptions = { ids: idArr, states, value: false };
     const changes = {
-      newValue: stateOptions,
+      newValue: [stateOptions],
       oldValue: this.getItemPreviousStates(stateOptions),
     };
     this.hooks.itemstatechange.emit({
@@ -1485,11 +1484,16 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * @returns whether success
    * @group Combo
    */
-  public addCombo(model: ComboUserModel, childrenIds: ID[]): ComboModel {
+  public addCombo(
+    model: ComboUserModel,
+    childrenIds: ID[],
+    stack?: boolean,
+  ): ComboModel {
     const { graphCore } = this.dataController;
     const { specification } = this.themeController;
     graphCore.once('changed', (event) => {
       if (!event.changes.length) return;
+      const changes = event.changes;
       this.hooks.itemchange.emit({
         type: 'combo',
         changes: graphCore.reduceChanges(event.changes),
@@ -1500,6 +1504,8 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
         type: 'combo',
         action: 'add',
         models: [model],
+        enableStack: this.shouldPushToStack('addCombo', stack),
+        changes,
       });
     });
 
@@ -1544,6 +1550,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
   /**
    * Expand a combo.
    * @param combo combo ids
+   *
    * @group Combo
    */
   public expandCombo(comboIds: ID | ID[], stack?: boolean) {
@@ -1909,13 +1916,56 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
   // ===== history operations =====
 
   /**
+   * Determine if history (redo/undo) is enabled.
+   */
+  public isHistoryEnabled() {
+    const history = this.getHistoryPlugin();
+    return history.isEnable();
+  }
+
+  /**
+   * Push the operation(s) onto the specified stack
+   * @param cmd commands to be pushed
+   * @param stackType undo/redo stack
+   */
+  public pushStack(cmd: Command[], stackType: StackType) {
+    const history = this.getHistoryPlugin();
+    return history.push(cmd, stackType);
+  }
+
+  /**
+   * Retrieve the current redo stack which consists of operations that could be undone
+   */
+  public getUndoStack() {
+    const history = this.getHistoryPlugin();
+    return history.getUndoStack();
+  }
+
+  /**
+   * Retrieve the current undo stack which consists of operations that were undone
+   */
+  public getRedoStack() {
+    const history = this.getHistoryPlugin();
+    return history.getRedoStack();
+  }
+
+  /**
+   * Retrieve the complete history stack
+   * @returns
+   */
+  public getStack() {
+    const history = this.getHistoryPlugin();
+    return history.getStack();
+  }
+
+  /**
    * Restore n operations that were last n reverted on the graph.
    * @param steps The number of operations to undo. Default to 1.
    * @returns
    */
-  public undo(steps?: number) {
+  public undo() {
     const history = this.getHistoryPlugin();
-    history.undo(steps);
+    history.undo();
   }
 
   /**
@@ -1923,19 +1973,9 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * @param steps The number of operations to redo. Default to 1.
    * @returns
    */
-  public redo(steps?: number) {
+  public redo() {
     const history = this.getHistoryPlugin();
-    history.redo(steps);
-  }
-
-  public startBatch() {
-    const history = this.getHistoryPlugin();
-    history.startBatch();
-  }
-
-  public stopBatch() {
-    const history = this.getHistoryPlugin();
-    history.stopBatch();
+    history.redo();
   }
 
   /**
@@ -1955,15 +1995,46 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
   }
 
   /**
-   * Clear history stack
-   * @param type undo/redo stack
+   * Begin a batch operation.
+   * Any operations performed between `startBatch` and `stopBatch` are grouped together.
+   * treated as a single operation when undoing or redoing.
    */
-  public cleanHistory(type?: 'undo' | 'redo') {
+  public startBatch() {
     const history = this.getHistoryPlugin();
-    if (!type) return history.clean();
-    return type === 'undo'
-      ? history.cleanUndoStack()
-      : history.cleanRedoStack();
+    history.startBatch();
+  }
+
+  /**
+   * End a batch operation.
+   * Any operations performed between `startBatch` and `stopBatch` are grouped together.
+   * treated as a single operation when undoing or redoing.
+   */
+  public stopBatch() {
+    const history = this.getHistoryPlugin();
+    history.stopBatch();
+  }
+
+  /**
+   * Execute a provided function within a batched context
+   * All operations performed inside callback will be treated as a composite operation
+   * more convenient way without manually invoking `startBatch` and `stopBatch`.
+   * @param callback The func containing operations to be batched together.
+   */
+  public batch(callback: () => void) {
+    const history = this.getHistoryPlugin();
+    history.batch(callback);
+  }
+
+  /**
+   * Clear history stack
+   * @param {StackType} stackType undo/redo stack
+   */
+  public clearStack(stackType?: StackType) {
+    const history = this.getHistoryPlugin();
+    if (!stackType) return history.clear();
+    return stackType === 'undo'
+      ? history.clearUndoStack()
+      : history.clearRedoStack();
   }
 
   /**
@@ -1977,6 +2048,10 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     this.canvas.destroy();
     this.backgroundCanvas.destroy();
     this.transientCanvas.destroy();
+
+    // clear history stack
+    this.clearStack();
+
     callback?.();
     // }, 500);
 

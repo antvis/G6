@@ -2,6 +2,7 @@ import EventEmitter from '@antv/event-emitter';
 import { AABB, Canvas, DisplayObject, PointLike } from '@antv/g';
 import { ID } from '@antv/graphlib';
 import { Hooks } from '../types/hook';
+import { Command } from '../stdlib/plugin/history/command';
 import { CameraAnimationOptions } from './animate';
 import { BehaviorOptionsOf, BehaviorRegistry } from './behavior';
 import { ComboModel, ComboUserModel } from './combo';
@@ -15,6 +16,7 @@ import { RendererName } from './render';
 import { Specification } from './spec';
 import { ThemeOptionsOf, ThemeRegistry } from './theme';
 import { FitViewRules, GraphTransformOptions } from './view';
+import type { StackType } from './history';
 
 export interface IGraph<
   B extends BehaviorRegistry = BehaviorRegistry,
@@ -466,11 +468,6 @@ export interface IGraph<
    * @group Item
    */
   backItem: (ids: ID | ID[], stack?: boolean) => void;
-
-  setItemStates: (
-    options: { ids: ID | ID[]; states: string | string[]; value: boolean }[],
-    stack?: boolean,
-  ) => void;
   /**
    * Set state for the item(s).
    * @param ids the id(s) for the item(s) to be set
@@ -638,22 +635,77 @@ export interface IGraph<
     [cfgName: string]: unknown;
   }) => void;
 
+  // ===== history operations =====
+
   /**
-   * Revert the last n operation(s) on the graph.
-   * @param {number} steps The number of steps to undo. Default to 1.
+   * Determine if history (redo/undo) is enabled.
+   */
+  isHistoryEnabled: () => void;
+
+  /**
+   * Push the operation(s) onto the specified stack
+   * @param cmd commands to be pushed
+   * @param stackType undo/redo stack
+   */
+  pushStack: (cmd: Command[], stackType: StackType) => void;
+
+  /**
+   * Retrieve the current redo stack which consists of operations that could be undone
+   */
+  getUndoStack: () => void;
+
+  /**
+   * Retrieve the current undo stack which consists of operations that were undone
+   */
+  getRedoStack: () => void;
+
+  /**
+   * Retrieve the complete history stack
    * @returns
    */
-  undo: (steps?: number) => void;
+  getStack: () => void;
+
+  /**
+   * Revert the last n operation(s) on the graph.
+   * @returns
+   */
+  undo: () => void;
 
   /**
    * Restore the operation that was last n reverted on the graph.
-   * @param {number} steps The number of steps to redo. Default to 1.
    * @returns
    */
-  redo: (steps?: number) => void;
+  redo: () => void;
 
+  /**
+   * Indicate whether there are any actions available in the undo stack.
+   */
+  canUndo: () => void;
 
+  /**
+   * Indicate whether there are any actions available in the redo stack.
+   */
+  canRedo: () => void;
+
+  /**
+   * Begin a batch operation.
+   * Any operations performed between `startBatch` and `stopBatch` are grouped together.
+   * treated as a single operation when undoing or redoing.
+   */
   startBatch: () => void;
 
+  /**
+   * End a batch operation.
+   * Any operations performed between `startBatch` and `stopBatch` are grouped together.
+   * treated as a single operation when undoing or redoing.
+   */
   stopBatch: () => void;
+
+  /**
+   * Execute a provided function within a batched context
+   * All operations performed inside callback will be treated as a composite operation
+   * more convenient way without manually invoking `startBatch` and `stopBatch`.
+   * @param callback The func containing operations to be batched together.
+   */
+  clearStack: (stackType?: StackType) => void;
 }

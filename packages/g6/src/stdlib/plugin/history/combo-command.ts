@@ -2,7 +2,7 @@ import type { ID, IGraph } from '../../../types';
 import { Command } from './command';
 
 export class ComboCommand implements Command {
-  private action: 'expandCombo' | 'collapseCombo' | 'moveCombo';
+  private action: 'expandCombo' | 'collapseCombo';
   private ids: ID[];
 
   constructor(action, ids) {
