@@ -1,5 +1,6 @@
 import { groupBy } from '@antv/util';
 import { ID, IGraph } from '../../../types';
+import type { ITEM_TYPE } from '../../../types/item';
 import { LayerUpdatedCommand } from './layer-updated-command';
 import { StateUpdatedCommand } from './state-updated-command';
 import { VisibilityUpdatedCommand } from './visibility-updated-command';
@@ -11,6 +12,7 @@ export interface Command {
   undo: (graph: IGraph) => void;
 }
 interface CreateProps {
+  type: ITEM_TYPE;
   ids: ID[];
   changes: any;
   action?:
@@ -26,7 +28,12 @@ interface CreateProps {
 }
 
 export default class CommandFactory {
-  static create({ action, changes, ...rest }: CreateProps): Command[] {
+  static create({
+    type: itemType,
+    action,
+    changes,
+    ...rest
+  }: CreateProps): Command[] {
     const commands = [];
 
     const groupedByType = groupBy(changes, 'type');
@@ -45,7 +52,7 @@ export default class CommandFactory {
         commands.push(
           new ItemDataCommand(
             action,
-            itemDataCommandMap[type],
+            itemType || itemDataCommandMap[type],
             groupedByType[type],
             type === 'NodeDataUpdated' ? rest.upsertAncestors : undefined,
           ),

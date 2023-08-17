@@ -36,7 +36,7 @@ export class ItemDataCommand implements Command {
 
   private updateChangedData(graph, operationType: StackType, onlyMove = false) {
     let models;
-    if (this.type === 'combo') {
+    if (this.type === 'combo' && !onlyMove) {
       models = this.changes.map((data) => ({
         id: data.nodeId,
         data: {

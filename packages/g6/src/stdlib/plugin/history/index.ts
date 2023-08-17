@@ -132,23 +132,30 @@ export default class History extends Base {
     return this.enableStack;
   }
 
-  public push(cmd: Command[], stackType: StackType = STACK_TYPE.undo) {
+  public push(
+    cmd: Command[],
+    stackType: StackType = STACK_TYPE.undo,
+    isNew = true,
+  ) {
     if (stackType === STACK_TYPE.undo) {
-      // Clear the redo stack when a new action is performed to maintain state consistency
-      this.clearRedoStack();
+      if (isNew) {
+        // Clear the redo stack when a new action is performed to maintain state consistency
+        this.clearRedoStack();
+      }
       if (isEmpty(cmd)) return;
       this.undoStack.push(cmd);
       this.initBatchCommands();
     } else {
       this.redoStack.push(cmd);
     }
+    this.graph.emit('history:change', cmd, stackType, isNew);
   }
 
   public undo() {
     if (this.isEnable()) {
       const cmds = this.undoStack.pop();
       if (cmds) {
-        this.redoStack.push(cmds);
+        this.push(cmds, STACK_TYPE.redo, false);
         for (let i = cmds.length - 1; i >= 0; i--) {
           cmds[i].undo(this.graph);
         }
@@ -161,7 +168,7 @@ export default class History extends Base {
     if (this.isEnable()) {
       const cmds = this.redoStack.pop();
       if (cmds) {
-        this.undoStack.push(cmds);
+        this.push(cmds, STACK_TYPE.undo, false);
         each(cmds, (cmd) => cmd.redo(this.graph));
       }
     }

@@ -261,7 +261,9 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
         enableStack,
         stackCfg,
       };
-      this.specification.plugins ||= [];
+      if (!this.specification.plugins) {
+        this.specification.plugins = [];
+      }
       this.specification.plugins.push(history);
     }
   }
@@ -1927,10 +1929,11 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * Push the operation(s) onto the specified stack
    * @param cmd commands to be pushed
    * @param stackType undo/redo stack
+   * @param isNew
    */
-  public pushStack(cmd: Command[], stackType: StackType) {
+  public pushStack(cmd: Command[], stackType: StackType, isNew?: boolean) {
     const history = this.getHistoryPlugin();
-    return history.push(cmd, stackType);
+    return history.push(cmd, stackType, isNew);
   }
 
   /**

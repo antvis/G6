@@ -1,9 +1,8 @@
 import G6 from '../../../src/index';
-import { height, width } from '../../datasets/const';
 
 const createOperationContainer = (container: HTMLElement) => {
   const operationContainer = document.createElement('div');
-  operationContainer.id = 'operation-bar';
+  operationContainer.id = 'ctrl-container';
   operationContainer.style.width = '100%';
   operationContainer.style.height = '50px';
   operationContainer.style.lineHeight = '50px';
@@ -13,7 +12,7 @@ const createOperationContainer = (container: HTMLElement) => {
 };
 
 const createOperations = (graph): any => {
-  const parentEle = document.getElementById('operation-bar');
+  const parentEle = document.getElementById('ctrl-container');
   if (!parentEle) return;
 
   // undo/redo
@@ -34,9 +33,17 @@ const createOperations = (graph): any => {
   parentEle.appendChild(undoButton);
   parentEle.appendChild(redoButton);
 
+  // set item's state
+  const setStateButton = document.createElement('button');
+  setStateButton.innerText = 'set node 1 selected state';
+  setStateButton.addEventListener('click', () => {
+    graph.setItemState('node1', 'selected', true);
+  });
+  parentEle.appendChild(setStateButton);
+
   // clear item's state
   const clearStateButton = document.createElement('button');
-  clearStateButton.innerText = 'clear nodes selected state';
+  clearStateButton.innerText = 'clear node 1 selected state';
   clearStateButton.addEventListener('click', () => {
     graph.clearItemState('node1', 'selected');
   });
@@ -82,13 +89,22 @@ const createOperations = (graph): any => {
   updateButton.innerText = 'update data';
   updateButton.addEventListener('click', () => {
     graph.batch(() => {
-      graph.updateData('node', {
-        id: 'node1',
-        data: {
-          x: 350,
-          y: 200,
+      graph.updateData('node', [
+        {
+          id: 'node1',
+          data: {
+            x: 350,
+            y: 200,
+          },
         },
-      });
+        {
+          id: 'node4',
+          data: {
+            x: 200,
+            y: 110,
+          },
+        },
+      ]);
       graph.updateData('edge', {
         id: 'edge1',
         data: {
@@ -128,40 +144,6 @@ const createOperations = (graph): any => {
     graph.backItem('node4');
   });
   parentEle.appendChild(backButton);
-
-  // // add combo
-  // const addComboButton = document.createElement('button');
-  // addComboButton.innerText = 'add combo';
-  // addComboButton.addEventListener('click', () => {
-  //   graph.addCombo(
-  //     {
-  //       id: 'combo2',
-  //       data: {
-  //         x: 550,
-  //         y: 100,
-  //       },
-  //     },
-  //     [],
-  //   );
-  // });
-  // parentEle.appendChild(addComboButton);
-
-  // // update combo
-  // const updateComboButton = document.createElement('button');
-  // updateComboButton.innerText = 'update combo position';
-  // updateComboButton.addEventListener('click', () => {
-  //   graph.updateComboPosition(
-  //     {
-  //       id: 'combo2',
-  //       data: {
-  //         x: 550,
-  //         y: 200,
-  //       },
-  //     },
-  //     [],
-  //   );
-  // });
-  // parentEle.appendChild(updateComboButton);
 
   return { undoButton, redoButton };
 };
@@ -245,26 +227,11 @@ export default (context) => {
   };
 
   const graph = new G6.Graph({
-    container,
-    width,
-    height,
+    ...context,
     data,
     type: 'graph',
     modes: {
-      default: [
-        'collapse-expand-combo',
-        'drag-canvas',
-        'drag-node',
-        {
-          type: 'click-select',
-          itemTypes: ['node', 'edge', 'combo'],
-        },
-        // {
-        //   type: 'hover-activate',
-        //   itemTypes: ['node', 'edge', 'combo'],
-        // },
-        'drag-combo',
-      ],
+      default: ['drag-canvas', 'drag-node', 'click-select'],
     },
     node: (nodeInnerModel: any) => {
       const { id, data } = nodeInnerModel;
@@ -279,47 +246,6 @@ export default (context) => {
       };
     },
     edge,
-    combo: (model) => {
-      return {
-        id: model.id,
-        data: {
-          ...model.data,
-          keyShape: {
-            padding: [10, 20, 30, 40],
-            r: 50,
-          },
-          labelShape: {
-            text: model.id,
-          },
-
-          animates: {
-            buildIn: [
-              {
-                fields: ['opacity'],
-                duration: 500,
-                delay: 500 + Math.random() * 500,
-              },
-            ],
-            buildOut: [
-              {
-                fields: ['opacity'],
-                duration: 200,
-              },
-            ],
-            update: [
-              {
-                fields: ['lineWidth', 'r'],
-                shapeId: 'keyShape',
-              },
-              {
-                fields: ['opacity'],
-                shapeId: 'haloShape',
-              },
-            ],
-          },
-        },
-      };
-    },
     // enableStack: false,
     stackCfg: {
       stackSize: 0,
@@ -329,19 +255,15 @@ export default (context) => {
 
   const { undoButton, redoButton } = createOperations(graph);
 
-  graph.on('afteritemchange', () => {
+  const updateButtonStatus = () => {
     undoButton.disabled = !graph.canUndo();
     redoButton.disabled = !graph.canRedo();
-  });
+  };
 
-  graph.on('afteritemstatechange', () => {
-    undoButton.disabled = !graph.canUndo();
-    redoButton.disabled = !graph.canRedo();
-  });
+  updateButtonStatus();
 
-  graph.on('afteritemvisibilitychange', () => {
-    undoButton.disabled = !graph.canUndo();
-    redoButton.disabled = !graph.canRedo();
+  graph.on('history:change', () => {
+    updateButtonStatus();
   });
 
   return graph;
