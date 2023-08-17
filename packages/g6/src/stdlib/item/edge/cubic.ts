@@ -87,6 +87,7 @@ export class CubicEdge extends BaseEdge {
     diffState?: { previous: State[]; current: State[] },
   ) {
     const { keyShape: keyShapeStyle } = this.mergedStyles as any;
+    const { startArrow, endArrow, ...others } = keyShapeStyle;
 
     const controlPoints = this.getControlPoints(
       sourcePoint,
@@ -96,27 +97,25 @@ export class CubicEdge extends BaseEdge {
       keyShapeStyle.curveOffset,
     );
 
-    return this.upsertShape(
-      'path',
-      'keyShape',
-      {
-        ...keyShapeStyle,
-        path: [
-          ['M', sourcePoint.x, sourcePoint.y],
-          [
-            'C',
-            controlPoints[0].x,
-            controlPoints[0].y,
-            controlPoints[1].x,
-            controlPoints[1].y,
-            targetPoint.x,
-            targetPoint.y,
-          ],
+    const lineStyle = {
+      ...others,
+      path: [
+        ['M', sourcePoint.x, sourcePoint.y],
+        [
+          'C',
+          controlPoints[0].x,
+          controlPoints[0].y,
+          controlPoints[1].x,
+          controlPoints[1].y,
+          targetPoint.x,
+          targetPoint.y,
         ],
-      },
-      shapeMap,
-      model,
-    );
+      ],
+    };
+    this.upsertArrow('start', startArrow, others, model, lineStyle);
+    this.upsertArrow('end', endArrow, others, model, lineStyle);
+
+    return this.upsertShape('path', 'keyShape', lineStyle, shapeMap, model);
   }
 
   /**

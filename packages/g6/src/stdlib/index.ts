@@ -37,7 +37,7 @@ import History from './plugin/history';
 
 import CollapseExpandTree from './behavior/collapse-expand-tree';
 import { CubicEdge } from './item/edge/cubic';
-import { CubicHorizonEdge } from './item/edge/cubic-horizon';
+import { CubicHorizontalEdge } from './item/edge/cubic-horizontal';
 import { CubicVerticalEdge } from './item/edge/cubic-vertical';
 import { Quadratic } from './item/edge/quadratic';
 import { Polyline } from './item/edge/polyline';
@@ -108,7 +108,7 @@ const stdLib = {
   edges: {
     'line-edge': LineEdge,
     'cubic-edge': CubicEdge,
-    'cubic-horizon-edge': CubicHorizonEdge,
+    'cubic-horizontal-edge': CubicHorizontalEdge,
     'cubic-vertical-edge': CubicVerticalEdge,
     'quadratic-edge': Quadratic,
     'polyline-edge': Polyline,

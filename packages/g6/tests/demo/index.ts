@@ -46,6 +46,7 @@ import visual from './visual/visual';
 import diamond from './demo/diamond';
 import dataValidate from './data/data-validate';
 import anchor from './item/anchor';
+import arrow from './item/edge/arrow';
 
 export {
   animations_node_build_in,
@@ -96,4 +97,5 @@ export {
   treeGraph,
   dataValidate,
   anchor,
+  arrow,
 };
