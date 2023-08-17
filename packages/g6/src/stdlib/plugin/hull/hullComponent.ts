@@ -207,7 +207,7 @@ export default class Hull {
       textAlign: 'center',
       textBaseline: 'middle',
     };
-    let point = { x: 0, y: 0 };
+    const point = { x: 0, y: 0 };
     switch (position) {
       case 'bottom':
       case 'outside-bottom':
