@@ -23,7 +23,7 @@ export default () => {
     ],
     edges: [
       {
-        id:'edge-1',
+        id: 'edge-1',
         source: 1,
         target: 2,
         data: {},
@@ -70,7 +70,7 @@ export default () => {
           },
           anchorShapes: [
             {
-              position: [0, 0.5],
+              position: [0,0.5],
               r: 2,
               fill: 'red',
             },
