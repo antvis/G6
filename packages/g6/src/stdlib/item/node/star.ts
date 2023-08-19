@@ -1,12 +1,18 @@
 import { DisplayObject } from '@antv/g';
 import { NodeDisplayModel } from '../../../types';
-import { State } from '../../../types/item';
+import { State, GShapeStyle } from '../../../types/item';
 import {
     NodeModelData,
     NodeShapeMap,
     NodeShapeStyles,
 } from '../../../types/node';
+import {
+    ComboDisplayModel,
+    ComboModelData,
+    ComboShapeMap,
+} from '../../../types/combo';
 import { BaseNode } from './base';
+
 
 export class StarNode extends BaseNode {
     private defaultSize = 20;
@@ -141,4 +147,82 @@ export class StarNode extends BaseNode {
         return path;
     }
 
+
+    public override drawAnchorShapes(
+        model: NodeDisplayModel | ComboDisplayModel,
+        shapeMap: NodeShapeMap | ComboShapeMap,
+        diffData?: {
+            previous: NodeModelData | ComboModelData;
+            current: NodeModelData | ComboModelData;
+        },
+        diffState?: { previous: State[]; current: State[] },
+    ): {
+        [shapeId: string]: DisplayObject;
+    } {
+        const { anchorShapes: commonStyle, keyShape: keyShapeStyle } =
+            this.mergedStyles;
+
+        const individualConfigs = Object.values(this.mergedStyles).filter(
+            (style) => style.tag === 'anchorShape',
+        );
+        if (!individualConfigs.length) return;
+        this.boundsCache.keyShapeLocal =
+            this.boundsCache.keyShapeLocal || shapeMap.keyShape.getLocalBounds();
+        const keyShapeBBox = this.boundsCache.keyShapeLocal;
+        const keyShapeWidth = keyShapeBBox.max[0] - keyShapeBBox.min[0];
+        const keyShapeHeight = keyShapeBBox.max[1] - keyShapeBBox.min[1];
+
+        const shapes = {};
+        individualConfigs.forEach((config, i) => {
+            const { position, fill = keyShapeStyle.fill, ...style } = config;
+            const id = `anchorShape${i}`;
+            const [cx, cy] = this.getAnchorShape(config.position);
+            shapes[id] = this.upsertShape(
+                'circle',
+                id,
+                {
+                    cx,
+                    cy,
+                    fill,
+                    ...commonStyle,
+                    ...style,
+                } as GShapeStyle,
+                shapeMap,
+                model,
+            );
+        });
+        return shapes;
+    }
+
+    private getAnchorShape(position: string | [number, number]): [number, number] {
+        const { keyShape: keyShapeStyle } = this.mergedStyles as any;
+        const outerR = keyShapeStyle.size;
+        let x: number, y: number;
+        if (position instanceof Array) {
+            const keyShapeBBox = this.boundsCache.keyShapeLocal
+            const keyShapeWidth = keyShapeBBox.max[0] - keyShapeBBox.min[0];
+            const keyShapeHeight = keyShapeBBox.max[1] - keyShapeBBox.min[1];
+            return [keyShapeWidth * (position[0] - 0.5), keyShapeHeight * (position[1] - 0.5),]
+        } else {
+            position = position.toLowerCase();
+        }
+        if (position == 'top') {
+            x = Math.cos(((18 + 72 * 1) / 180) * Math.PI) * outerR;
+            y = Math.sin(((18 + 72 * 1) / 180) * Math.PI) * outerR;
+        } else if (position == 'left') {
+            x = Math.cos(((18 + 72 * 2) / 180) * Math.PI) * outerR;
+            y = Math.sin(((18 + 72 * 2) / 180) * Math.PI) * outerR;
+        } else if (position == 'leftbottom') {
+            x = Math.cos(((18 + 72 * 3) / 180) * Math.PI) * outerR;
+            y = Math.sin(((18 + 72 * 3) / 180) * Math.PI) * outerR;
+        } else if (position == 'rightbottom') {
+            x = Math.cos(((18 + 72 * 4) / 180) * Math.PI) * outerR;
+            y = Math.sin(((18 + 72 * 4) / 180) * Math.PI) * outerR;
+        } else {
+            //right
+            x = Math.cos(((18 + 72 * 0) / 180) * Math.PI) * outerR;
+            y = Math.sin(((18 + 72 * 0) / 180) * Math.PI) * outerR;
+        }
+        return [x, -y];
+    }
 }
