@@ -70,7 +70,11 @@ export default () => {
           },
           anchorShapes: [
             {
+<<<<<<< HEAD
               position: 'right',
+=======
+              position: [0,0.5],
+>>>>>>> 3c228a5cdb9c0a262a2344c29d10a56d27f3ee1f
               r: 2,
               fill: 'red',
             },
