@@ -44,7 +44,7 @@
     "lint-staged:js": "eslint --ext .js,.jsx,.ts,.tsx",
     "fix": "eslint ./src ./tests --fix && prettier ./src ./tests --write ",
     "test": "jest",
-    "test:integration": "node --expose-gc --max-old-space-size=4096 --unhandled-rejections=strict node_modules/jest/bin/jest tests/integration/node-ellipse.spec.ts --config jest.node.config.js --coverage -i  --logHeapUsage --detectOpenHandles",
+    "test:integration": "node --expose-gc --max-old-space-size=4096 --unhandled-rejections=strict node_modules/jest/bin/jest tests/integration/ --config jest.node.config.js --coverage -i  --logHeapUsage --detectOpenHandles",
     "size": "limit-size",
     "test-live": "DEBUG_MODE=1 jest --watch  ./tests/unit/edge-spec.ts",
     "test-behavior": "DEBUG_MODE=1 jest --watch ./tests/unit/item-3d-spec.ts"
