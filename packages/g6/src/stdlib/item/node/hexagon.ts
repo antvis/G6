@@ -1,21 +1,33 @@
 import { DisplayObject } from '@antv/g';
 import { NodeDisplayModel } from '../../../types';
-import { State } from '../../../types/item';
+import { State, GShapeStyle } from '../../../types/item';
 import {
     NodeModelData,
     NodeShapeMap,
     NodeShapeStyles,
 } from '../../../types/node';
+import {
+    ComboDisplayModel,
+    ComboModelData,
+    ComboShapeMap,
+} from '../../../types/combo';
 import { BaseNode } from './base';
 
+type Vertices = [number, number];
+interface IVertices {
+    [key: string]: Vertices
+}
 export class HexagonNode extends BaseNode {
     override defaultStyles = {
         keyShape: {
             r: 20,
             x: 0,
             y: 0,
-            rotate: 0,//rotation angle
+            direction: 'horizontal',
         },
+    };
+    vertices: IVertices = {
+
     };
     mergedStyles: NodeShapeStyles;
     constructor(props) {
@@ -110,22 +122,78 @@ export class HexagonNode extends BaseNode {
             'keyShape',
             {
                 ...this.mergedStyles.keyShape,
-                points: this.getHexagonVPoints(keyShapeStyle.r, keyShapeStyle.rotate)
+                points: this.getHexagonVPoints(keyShapeStyle.r, keyShapeStyle.direction)
             },
             shapeMap,
             model,
         );
     }
-    private getHexagonVPoints(r: number, rotation: number): [number, number][] {
+    private getHexagonVPoints(r: number, direction: string): [number, number][] {
         const v = [];
+        const positionHorizontal = ['right', 'rightbottom', 'leftbottom', 'left', 'lefttop', 'righttop'];
+        const positionVertical = ['bottom', 'leftbottom', 'lefttop', 'top', 'righttop', 'rightbottom'];
+        const flag: boolean = direction === 'horizontal';
         const angleIncrement = Math.PI / 3; //The angle increment between vertices. 
         for (let i = 0; i < 6; i++) {
-            const angle = i * angleIncrement + rotation;
+            const angle = i * angleIncrement + (flag ? 0 : Math.PI / 2);
             const vx = r * Math.cos(angle);
             const vy = r * Math.sin(angle);
             v.push([vx, vy]);
-
+            this.vertices[flag ? positionHorizontal[i] : positionVertical[i]] = [vx, vy];
         }
         return v;
+    }
+
+    public override drawAnchorShapes(
+        model: NodeDisplayModel | ComboDisplayModel,
+        shapeMap: NodeShapeMap | ComboShapeMap,
+        diffData?: {
+            previous: NodeModelData | ComboModelData;
+            current: NodeModelData | ComboModelData;
+        },
+        diffState?: { previous: State[]; current: State[] },
+    ): {
+        [shapeId: string]: DisplayObject;
+    } {
+        const { anchorShapes: commonStyle, keyShape: keyShapeStyle } =
+            this.mergedStyles;
+
+        const individualConfigs = Object.values(this.mergedStyles).filter(
+            (style) => style.tag === 'anchorShape',
+        );
+        if (!individualConfigs.length) return;
+        this.boundsCache.keyShapeLocal =
+            this.boundsCache.keyShapeLocal || shapeMap.keyShape.getLocalBounds();
+
+        const shapes = {};
+        individualConfigs.forEach((config, i) => {
+            const { position, fill = keyShapeStyle.fill, ...style } = config;
+            const id = `anchorShape${i}`;
+            const [cx, cy] = this.getAnchorShape(position);
+            shapes[id] = this.upsertShape(
+                'circle',
+                id,
+                {
+                    cx,
+                    cy,
+                    fill,
+                    ...commonStyle,
+                    ...style,
+                } as GShapeStyle,
+                shapeMap,
+                model,
+            );
+        });
+        return shapes;
+    }
+
+    private getAnchorShape(position: string | [number, number]): [number, number] {
+        if (position instanceof Array) {
+            const keyShapeBBox = this.boundsCache.keyShapeLocal
+            const keyShapeWidth = keyShapeBBox.max[0] - keyShapeBBox.min[0];
+            const keyShapeHeight = keyShapeBBox.max[1] - keyShapeBBox.min[1];
+            return [keyShapeWidth * (position[0] - 0.5), keyShapeHeight * (position[1] - 0.5),]
+        }
+        return this.vertices[position] ? this.vertices[position] : this.vertices['right'] || this.vertices['righttop'];
     }
 }

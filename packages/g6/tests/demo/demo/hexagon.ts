@@ -71,7 +71,7 @@ export default () => {
                     ],
                     anchorShapes: [
                         {
-                            position: [0, 0.5],
+                            position: 'right',
                             r: 2,
                             fill: 'red',
                         },
