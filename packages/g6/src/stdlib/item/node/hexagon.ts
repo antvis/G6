@@ -13,9 +13,9 @@ import {
 } from '../../../types/combo';
 import { BaseNode } from './base';
 
-type Vertices = [number, number];
-interface IVertices {
-    [key: string]: Vertices
+type Vertex = [number, number];
+interface IVertex {
+    [key: string]: Vertex
 }
 export class HexagonNode extends BaseNode {
     override defaultStyles = {
@@ -26,7 +26,7 @@ export class HexagonNode extends BaseNode {
             direction: 'horizontal',
         },
     };
-    vertices: IVertices = {
+    vertex: IVertex = {
 
     };
     mergedStyles: NodeShapeStyles;
@@ -133,13 +133,13 @@ export class HexagonNode extends BaseNode {
         const positionHorizontal = ['right', 'rightbottom', 'leftbottom', 'left', 'lefttop', 'righttop'];
         const positionVertical = ['bottom', 'leftbottom', 'lefttop', 'top', 'righttop', 'rightbottom'];
         const flag: boolean = direction === 'horizontal';
-        const angleIncrement = Math.PI / 3; //The angle increment between vertices. 
+        const angleIncrement = Math.PI / 3; //The angle increment between vertex. 
         for (let i = 0; i < 6; i++) {
             const angle = i * angleIncrement + (flag ? 0 : Math.PI / 2);
             const vx = r * Math.cos(angle);
             const vy = r * Math.sin(angle);
             v.push([vx, vy]);
-            this.vertices[flag ? positionHorizontal[i] : positionVertical[i]] = [vx, vy];
+            this.vertex[flag ? positionHorizontal[i] : positionVertical[i]] = [vx, vy];
         }
         return v;
     }
@@ -194,6 +194,6 @@ export class HexagonNode extends BaseNode {
             const keyShapeHeight = keyShapeBBox.max[1] - keyShapeBBox.min[1];
             return [keyShapeWidth * (position[0] - 0.5), keyShapeHeight * (position[1] - 0.5),]
         }
-        return this.vertices[position] ? this.vertices[position] : this.vertices['right'] || this.vertices['righttop'];
+        return this.vertex[position] || this.vertex['right'] || this.vertex['righttop'];
     }
 }
