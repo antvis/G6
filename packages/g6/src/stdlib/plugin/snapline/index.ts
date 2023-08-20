@@ -1,16 +1,14 @@
-import { intersectBBox } from './../../../util/shape';
+import { uniqueId } from '@antv/util';
 import { ID } from '@antv/graphlib';
-import { each, mix } from '@antv/util';
-import { Util } from '@antv/g6-core';
-import { Plugin as Base, IPluginBaseConfig } from '../../../types/plugin';
-const { distance } = Util;
 import { AABB, DisplayObject, Line } from '@antv/g';
-
-import { G6GraphEvent } from '@antv/g6';
-import { BBox } from '@antv/gui';
-import { Point } from '../../../types/common';
-import { IG6GraphEvent, IGraph, NodeModel } from '../../../types';
 import { ShapeStyle } from '../../../types/item';
+import { IG6GraphEvent, IGraph, NodeModel } from '../../../types';
+import { Plugin as Base, IPluginBaseConfig } from '../../../types/plugin';
+
+import { Point } from '../../../types/common';
+//const throttle = require('lodash/throttle');
+import throttle from 'lodash/throttle'
+
 
 interface SnapLineConfig extends IPluginBaseConfig {
   // snapline type
@@ -78,6 +76,25 @@ export default class Snapline extends Base {
       y: this.historyPoints[1].y - this.historyPoints[0].y,
     };
   }
+
+  /**
+   * 刚drag时，光标与node中心的offset (event.canvas - draggingnode.BBox)
+   */
+  private initialOffset: [offsetX: number | undefined, offsetY: number | undefined] = [undefined, undefined]
+  /**
+   * 获取当前的光标与node中心offset - initialOffset
+   */
+  private getCurOffsetCompareToInitialOffset = (e: IG6GraphEvent):[number | undefined, number | undefined] => {
+
+    if (this.initialOffset[0] === undefined || this.initialOffset[1] === undefined) {
+      return [undefined, undefined]
+    }
+
+    const curOffset: [curOffsetX: number, curOffsetY: number] = [e.canvas.x - this.draggingBBox.center[0], e.canvas.y - this.draggingBBox.center[1]]
+
+    return [curOffset[0] - this.initialOffset[0], curOffset[1] - this.initialOffset[1]]
+  }
+
   //#endregion
 
   private dragging = false;
@@ -91,13 +108,13 @@ export default class Snapline extends Base {
     y: number;
   }): { x: number; y: number } => {
     return {
-      x: pointer.x - this.draggingBBox.center[0],
-      y: pointer.x - this.draggingBBox.center[1],
+      x: Math.abs(pointer.x - this.draggingBBox.center[0]),
+      y: Math.abs(pointer.x - this.draggingBBox.center[1]),
     };
   };
 
   //#region state: tolerance
-  public tolerance = 5;
+  public tolerance = 4;
   public toleranceFactor = 2;
   public setTolerance(tolerance: number) {
     this.tolerance = tolerance;
@@ -240,7 +257,7 @@ export default class Snapline extends Base {
     allIds = allIds.filter((item) => item !== this.dragItemId); // 排除drag item
 
     allIds.forEach((id) => {
-      const cb = this.graph.getRenderBBox(id) as AABB; // contrast bbox
+      const cb = this.graph.getRenderBBox(id, true) as AABB; // contrast bbox
       // 判断2个方向，6条线的对比
 
       /* draggingBBox left */
@@ -387,8 +404,6 @@ export default class Snapline extends Base {
       }
 
       /* draggingBBox top */
-      // console.log('mmkk: ', Math.abs((this.graph.getRenderBBox(this.dragItemId) as AABB).max[1] ))
-      //console.log('mmkk: ', this.draggingBBox.min[1], cb.max[1],  Math.abs(this.draggingBBox.min[1] - cb.max[1]), this.tolerance)
       if (Math.abs(this.draggingBBox.min[1] - cb.max[1]) <= this.tolerance) {
         this.alignLinesForChoose.h.push({
           dl: {
@@ -578,49 +593,56 @@ export default class Snapline extends Base {
 
     // 2.相同tolerance，重要程度：中 > 上 > 下 （一个方向只选择一条的原则）
     {
-      let vcenter_hasdata = false;
-      let left_hasdata = false;
+      const vcenter_hasdata = vTmpLines.some((dlFc) => dlFc.dl.lp === 'vcenter');
+      const left_hasdata = vTmpLines.some((dlFc) => dlFc.dl.lp === 'left');
+
       vTmpLines = vTmpLines.filter((dlFc) => {
         if (dlFc.dl.lp === 'vcenter') {
-          vcenter_hasdata = true;
-          return dlFc;
+          return true 
         }
-
-        if (!vcenter_hasdata) {
-          if (dlFc.dl.lp === 'left') {
-            left_hasdata = true;
-            return dlFc;
+      
+        if (dlFc.dl.lp === 'left') {
+          if (!vcenter_hasdata && left_hasdata) {
+            return true;
           }
+          return false; // vcenter 或 left 已经存在就不返回
         }
-
-        if (!vcenter_hasdata && !left_hasdata) {
-          if (dlFc.dl.lp === 'right') {
-            return dlFc;
+      
+        if (dlFc.dl.lp === 'right') {
+          if (!vcenter_hasdata && !left_hasdata) {
+            return true;
           }
+          return false; // vcenter 或 left 存在时，不返回 bottom
         }
+      
+        return false; // 其他情况都不返回
       });
 
-      let hcenter_hasdata = false;
-      let top_hasdata = false;
+      const hcenter_hasdata = hTmpLines.some((dlFc) => dlFc.dl.lp === 'hcenter');
+      const top_hasdata = hTmpLines.some((dlFc) => dlFc.dl.lp === 'top');
+
       hTmpLines = hTmpLines.filter((dlFc) => {
+        if (dlFc.dl.lp === 'hcenter') {
+          return true 
+        }
+      
         if (dlFc.dl.lp === 'top') {
-          hcenter_hasdata = true;
-          return dlFc;
-        }
-
-        if (!vcenter_hasdata) {
-          if (dlFc.dl.lp === 'hcenter') {
-            top_hasdata = true;
-            return dlFc;
+          if (!hcenter_hasdata && top_hasdata) {
+            return true;
           }
+          return false; // hcenter 或 top 已经存在就不返回
         }
-
-        if (!vcenter_hasdata && !left_hasdata) {
-          if (dlFc.dl.lp === 'bottom') {
-            return dlFc;
+      
+        if (dlFc.dl.lp === 'bottom') {
+          if (!hcenter_hasdata && !top_hasdata) {
+            return true;
           }
+          return false; // hcenter 或 top 存在时，不返回 bottom
         }
+      
+        return false; // 其他情况都不返回
       });
+
     }
 
     // 3.去重
@@ -629,7 +651,7 @@ export default class Snapline extends Base {
         .reduce((map, item) => {
           if (
             !map.has(item.dl.lp) ||
-            Math.abs(item.offset.x) < Math.abs(map.get(item.dl.lp)!.offset.x)
+            Math.abs(item.offset.x) < Math.abs(map.get(item.dl.lp)?.offset.x)
           ) {
             map.set(item.dl.lp, item);
           }
@@ -643,7 +665,7 @@ export default class Snapline extends Base {
         .reduce((map, item) => {
           if (
             !map.has(item.dl.lp) ||
-            Math.abs(item.offset.x) < Math.abs(map.get(item.dl.lp)!.offset.x)
+            Math.abs(item.offset.x) < Math.abs(map.get(item.dl.lp)?.offset.x)
           ) {
             map.set(item.dl.lp, item);
           }
@@ -674,6 +696,38 @@ export default class Snapline extends Base {
   private dragItemId: ID = undefined;
   private dragItemType: string = undefined;
 
+  /**
+   * 历史吸附区域:v和h方向
+   * x0 ~ x1 代表v方向的起止线
+   * y0 ~ y1 代表h方向的起止线
+   * 
+   * 当光标移出此区域 && 非吸附状态 => 设置为undefined
+   */
+  private historyAbsorbArea: [ [x0: number, x1: number] | undefined, [y0:number, y1:number] | undefined] = [undefined, undefined]
+
+  /**
+   * 不能吸附 倒计时
+   */
+  private canAdsorbCount = 0 
+
+  /**
+   * 倒计时方法：倒计时
+   */
+  private canAdsorbCountDown = () => {
+    if (this.canAdsorbCount > 0) {
+
+      const intervalID = setInterval(() => {
+        this.canAdsorbCount --
+
+        if(this.canAdsorbCount <= 0) {
+          clearTimeout(intervalID)
+        }
+      }, 100)
+
+    }
+  }
+
+
   constructor(options?: SnapLineConfig) {
     super(options);
 
@@ -693,8 +747,6 @@ export default class Snapline extends Base {
   }
 
   public onPointerDown(event: IG6GraphEvent) {
-    console.log('onPointerDown');
-
     this.isPointerDownState = true;
 
     //if (!this.options.shouldBegin(event)) return;
@@ -702,6 +754,7 @@ export default class Snapline extends Base {
 
     this.dragItemId = event.itemId;
     this.dragItemType = event.itemType;
+
   }
 
   public onPointerMove(event: IG6GraphEvent) {
@@ -710,8 +763,6 @@ export default class Snapline extends Base {
     if (this.dragItemType !== 'combo' && this.dragItemType !== 'node') {
       return;
     }
-
-    //console.log('onPointerMoveing', event.itemId,  event.client)
 
     // pointerDown + first move = start drag
     if (!this.dragging) {
@@ -723,7 +774,6 @@ export default class Snapline extends Base {
   }
 
   public onPointerUp(event: IG6GraphEvent) {
-    console.log('onPointerUp');
     this.isPointerDownState = false;
 
     // pointerUp + dragging = onDragEnd
@@ -735,8 +785,6 @@ export default class Snapline extends Base {
       this.dragItemId = undefined;
       this.dragItemType = undefined;
     }
-
-    console.log('this.dragging: ', this.dragging);
   }
 
   getGraph(event: IG6GraphEvent): IGraph {
@@ -745,9 +793,8 @@ export default class Snapline extends Base {
 
   //#region event handler
   onDragStart(event: IG6GraphEvent) {
-    console.log('on drag start ');
-
-    this.draggingBBox = this.graph.getRenderBBox(event.itemId) as AABB;
+    this.draggingBBox = this.graph.getRenderBBox(event.itemId, true) as AABB;
+    this.initialOffset = [event.canvas.x - this.draggingBBox.center[0], event.canvas.y - this.draggingBBox.center[1]]
 
     this.nonAbosorbOffset = this.getPointerOffsetWithItem({
       x: event.canvas.x,
@@ -756,8 +803,6 @@ export default class Snapline extends Base {
   }
 
   onDrag(event: IG6GraphEvent) {
-    console.log('on drag: draggingid = ', event);
-
     this.dragEvent = event;
 
     this.initAlignLinesForChoose();
@@ -768,99 +813,163 @@ export default class Snapline extends Base {
     this.historyPoints[0] = this.historyPoints[1];
     this.historyPoints[1] = { x: event.canvas.x, y: event.canvas.y };
 
-    // 判断：是否吸附状态
-    console.log('isAdsorbed: ', this.isAdsorbed);
+    let vlp: LinePosition = undefined
+    let vline: [Point, Point] = undefined
+    let hlp: LinePosition = undefined
+    let hline: [Point, Point] = undefined
 
-    const offset: { x: number; y: number } = this.getPointerOffsetWithItem({
-      x: event.canvas.x,
-      y: event.canvas.y,
-    });
-
-    if (this.isAdsorbed[0] || this.isAdsorbed[1]) {
-      // 吸附状态不能更新位置
-      //debugger
-      if (this.isAdsorbed[0]) {
-        if (
-          Math.abs(this.nonAbosorbOffset.x - offset.x) <=
+    // v方向是否保持吸附
+    const checkVShouldHoldAbsorb = (vlp, vline) => {
+      // v方向应该继续吸附与否
+      const vShouldAbsorb = Math.abs(this.getCurOffsetCompareToInitialOffset(event)[0]) <=
           this.tolerance * this.toleranceFactor
-        ) {
-          //debugger
-          //
-          const lp = this.drawedLines[0].dl.lp;
-          const line = this.drawedLines[0].dl.line;
-          if (lp === 'left') {
-            this.graph.updateNodePosition({
-              id: this.dragItemId,
-              data: { x: line[0].x + this.draggingBBox.halfExtents[0] },
-            });
-          } else if (lp === 'vcenter') {
-            this.graph.updateNodePosition({
-              id: this.dragItemId,
-              data: { x: line[0].x },
-            });
-          } else if (lp === 'right') {
-            this.graph.updateNodePosition({
-              id: this.dragItemId,
-              data: { x: line[0].x - this.draggingBBox.halfExtents[0] },
-            });
-          }
-        }
-      }
+      
+      if(vShouldAbsorb) {
+        if (vlp === 'left') {
+          this.graph.updateNodePosition({
+            id: this.dragItemId,
+            data: { fx: vline[0].x + this.draggingBBox.halfExtents[0] },
+          });
+        } else if (vlp === 'vcenter') {
+          this.graph.updateNodePosition({
+            id: this.dragItemId,
+            data: { fx: vline[0].x },
+          });
+        } else if (vlp === 'right') {
+          this.graph.updateNodePosition({
+            id: this.dragItemId,
+            data: { fx: vline[0].x - this.draggingBBox.halfExtents[0] },
+          });
+        } 
 
-      if (this.isAdsorbed[1]) {
-        if (
-          Math.abs(this.nonAbosorbOffset.y - offset.y) <=
+        // 更新划线
+        this.updateAlignLineWhenAbsorb([true, false])
+      } else {
+        // 取消吸附
+        // 1.位置更新
+        this.graph.updateData('node', {
+          id: this.dragItemId,
+          data: { fx: undefined },
+        });
+        // 2.取消画线 && 状态更新
+        this.removeAlignLine([true, undefined])
+
+        // 倒计时
+        this.canAdsorbCount = 10  // 1s
+        this.canAdsorbCountDown()
+
+      }
+    }
+    // h方向是否保持吸附
+    const checkHShouldHoldAbsorb = (hlp, hline) => {
+      // h方向应该继续吸附与否
+      const hShouldAbsorb = Math.abs(this.getCurOffsetCompareToInitialOffset(event)[1]) <=
           this.tolerance * this.toleranceFactor
-        ) {
-          //
-          //debugger
-          //
-          const lp = this.drawedLines[1].dl.lp;
-          const line = this.drawedLines[1].dl.line;
-          if (lp === 'top') {
-            this.graph.updateNodePosition({
-              id: this.dragItemId,
-              data: { y: line[0].y + this.draggingBBox.halfExtents[1] },
-            });
-          } else if (lp === 'hcenter') {
-            this.graph.updateNodePosition({
-              id: this.dragItemId,
-              data: { y: line[0].y },
-            });
-          } else if (lp === 'bottom') {
-            this.graph.updateNodePosition({
-              id: this.dragItemId,
-              data: { y: line[0].y - this.draggingBBox.halfExtents[1] },
-            });
-          }
+
+      if(hShouldAbsorb) {
+        // 
+        if (hlp === 'top') {
+          this.graph.updateNodePosition({
+            id: this.dragItemId,
+            data: { fy: hline[0].y + this.draggingBBox.halfExtents[1] },
+          });
+        } else if (hlp === 'hcenter') {
+          this.graph.updateNodePosition({
+            id: this.dragItemId,
+            data: { fy: hline[0].y },
+          });
+        } else if (hlp === 'bottom') {
+          this.graph.updateNodePosition({
+            id: this.dragItemId,
+            data: { fy: hline[0].y - this.draggingBBox.halfExtents[1] },
+          });
         }
+
+        // 更新划线
+        this.updateAlignLineWhenAbsorb([false, true])
+      }else {
+         // 1.位置更新
+         this.graph.updateData('node', {
+          id: this.dragItemId,
+          data: { fy: undefined },
+        });
+        // 2.取消画线 && 状态更新
+        this.removeAlignLine([undefined, true])
+
+        // 倒计时
+        this.canAdsorbCount = 10  // 1s
+        this.canAdsorbCountDown()
       }
-
-      // const canCancleAbsorb: [boolean | undefined, boolean | undefined] = this.canCancelAbsorb() // 判断两个方向
-
-      // // 取消吸附和取消画线是一体的
-      // this.cancelAbsorb(canCancleAbsorb)
-      // //debugger
-      // this.removeAlignLine(canCancleAbsorb)
-      //debugger
-    } else {
+    }
+    // v方向是否吸附
+    const checkVShouldAbsorb = () => {
       const ret: { vdl: DrawLine; hdl: DrawLine } | false = this.canDrawLine();
-      if (ret) {
-        console.log('===drawAlignLines, ret = :', ret);
+    
+      // 如果在最近脱离吸附区域，不能再马上画线（需要移除脱离区域才能重新划线此区域）
+      if (ret) {  
+        // 画线
+        this.drawAlignLines({vdl: ret.vdl, hdl: undefined});
+        // 吸附
+        this.absorb({ vdl: ret.vdl, hdl: undefined });
+      } 
+    }
+    // h方向是否吸附
+    const checkHShouldAbsorb = () => {
+      const ret: { vdl: DrawLine; hdl: DrawLine } | false = this.canDrawLine();
+    
+      // 如果在最近脱离吸附区域，不能再马上画线（需要移除脱离区域才能重新划线此区域）
+      if (ret) {  
+        // 画线
+        this.drawAlignLines({vdl: undefined, hdl: ret.hdl});
+        // 吸附
+        this.absorb({ vdl: undefined, hdl: ret.hdl });
+      } 
+    }
+
+    // 1、当前两个方向都是吸附的状态
+    if(this.isAdsorbed[0] && this.isAdsorbed[1]) {
+      
+      vlp = this.drawedLines[0].dl?.lp;
+      vline = this.drawedLines[0].dl?.line;
+      hlp = this.drawedLines[1].dl?.lp;
+      hline = this.drawedLines[1].dl?.line;
+
+      checkVShouldHoldAbsorb(vlp, vline)
+      checkHShouldHoldAbsorb(hlp, hline)
+      
+
+    } else if (this.isAdsorbed[0] && !this.isAdsorbed[1]) {  
+      // 2、当前只v方向吸附
+      vlp = this.drawedLines[0].dl?.lp;
+      vline = this.drawedLines[0].dl?.line;
+
+      checkVShouldHoldAbsorb(vlp, vline)
+      checkHShouldAbsorb()
+
+    } else if (!this.isAdsorbed[0] && this.isAdsorbed[1]) {
+      // 3、当前只h方向吸附
+      hlp = this.drawedLines[1].dl?.lp;
+      hline = this.drawedLines[1].dl?.line;
+
+      checkHShouldHoldAbsorb(vlp, vline)
+      checkVShouldAbsorb()
+
+    } else if(!this.isAdsorbed[0] && !this.isAdsorbed[1]) {
+      // 4、当前v,h方向均未吸附
+      const ret: { vdl: DrawLine; hdl: DrawLine } | false = this.canDrawLine();
+    
+      // 如果在最近脱离吸附区域，不能再马上画线（需要移除脱离区域才能重新划线此区域）
+      if (ret ) {  
+        
         // 画线
         this.drawAlignLines(ret);
         // 吸附
         this.absorb(ret);
-        console.log('mk7-isAdsorbed: ', this.isAdsorbed);
-      } else {
-        // 不能画线（什么都不做）
-      }
+      }       
     }
   }
 
   onDragEnd() {
-    console.log('onDragEnd');
-
     this.dragEvent = undefined;
     this.historyPoints = [undefined, undefined];
     this.dragging = false;
@@ -876,9 +985,9 @@ export default class Snapline extends Base {
     { do: DisplayObject; dl: DrawLine },
   ] = [undefined, undefined]; // 第一个：v方向 第二个：h方向;ddo: drawed DisplayObject, dl: DrawLine
 
-  drawAlignLines({ vdl, hdl }: { vdl: DrawLine; hdl: DrawLine }) {
+  drawAlignLines({ vdl, hdl }: { vdl: DrawLine | undefined; hdl: DrawLine | undefined }) {
     // 1.画对齐line
-
+ 
     const vLineID: ID = vdl ? this.getDrawLineIdByDrawLine(vdl) : undefined;
     const hLineID: ID = hdl ? this.getDrawLineIdByDrawLine(hdl) : undefined;
 
@@ -894,6 +1003,8 @@ export default class Snapline extends Base {
           y2: vdl.line[1].y,
         },
       });
+      // 加入alignLines数组
+      this.drawedLines[0] = { do: vLine, dl: vdl };
     }
 
     let hLine: DisplayObject = undefined;
@@ -908,12 +1019,10 @@ export default class Snapline extends Base {
           y2: hdl.line[1].y,
         },
       });
+      // 加入alignLines数组
+      this.drawedLines[1] = { do: hLine, dl: hdl };
     }
 
-    console.log('drawed line', vLine, hLine);
-    // 2.加入alignLines数组
-    this.drawedLines[0] = { do: vLine, dl: vdl };
-    this.drawedLines[1] = { do: hLine, dl: hdl };
   }
 
   /**
@@ -928,36 +1037,106 @@ export default class Snapline extends Base {
     if (rvdl) {
       const vlid = this.getDrawLineIdByDrawLine(this.drawedLines[0].dl);
       this.graph.drawTransient('line', vlid, { action: 'remove' });
-      this.drawAlignLines[0] = undefined;
+      this.drawedLines[0] = undefined;
 
       this.isAdsorbed[0] = false;
     }
 
     if (rhdl) {
       const hlid = this.getDrawLineIdByDrawLine(this.drawedLines[1].dl);
+            
       this.graph.drawTransient('line', hlid, { action: 'remove' });
-      this.drawAlignLines[1] = undefined;
+      this.drawedLines[1] = undefined;
 
       this.isAdsorbed[1] = false;
     }
   }
 
-  removeAlignLineByID(lineID: ID) {
+  /**
+   * 通过ID 移除align line
+   * @param rmLineID 
+   */
+  removeAlignLineByID(rmLineID: ID) {
     // 从数组移除 DisplayObject
-    this.drawedLines.forEach((line) => {
-      this.getDrawLineIdByPoints([line[0], line[1]]);
+    this.drawedLines.forEach((line, index) => {
+      if(line && line.do) {
+        const lineID = this.getDrawLineIdByPoints(line.dl.line);
+        if (lineID === rmLineID) {
+          this.drawedLines[index].dl = undefined
+          this.drawedLines[index].do = undefined
+          this.isAdsorbed[index] = false 
+        }
+      }
     });
 
     // 取消
-    this.graph.drawTransient('line', lineID, { action: 'remove' });
+    this.graph.drawTransient('line', rmLineID, { action: 'remove' });
+
+  }
+
+  /**
+   * 基于LinePosition获取draggingBBox的点
+   */
+  getDraggingBBoxPointByLinePosition(lp: LinePosition) : Point | undefined {
+    if (!this.draggingBBox) {
+      return undefined
+    }
+
+    if(lp === 'left') {
+      return {x: this.draggingBBox.min[0], y: this.draggingBBox.center[1]}
+    }
+    if(lp === 'vcenter' || lp === 'hcenter') {
+      return {x: this.draggingBBox.center[0], y: this.draggingBBox.center[1]}
+    }
+    if(lp === 'right') {
+      return {x: this.draggingBBox.max[0], y: this.draggingBBox.center[1]}
+    }
+    if(lp === 'top') {
+      return {x: this.draggingBBox.center[0], y: this.draggingBBox.min[1]}
+    }
+    if(lp === 'bottom') {
+      return {x: this.draggingBBox.center[0], y: this.draggingBBox.max[1]}
+    }
+
+    return undefined
+  }
+
+  /**
+   * 在被吸附情况下更新划线
+   */
+  updateAlignLineWhenAbsorb([v, h]: [boolean, boolean]) {
+    
+    if(v) {
+      if(this.drawedLines[0] && this.drawedLines[0].do) {
+        const draggingBBoxDrawEndPoint: Point = this.getDraggingBBoxPointByLinePosition(this.drawedLines[0].dl.lp)
+        const vdl: DrawLine = {
+          line: [this.drawedLines[0].dl.line[0], draggingBBoxDrawEndPoint],
+          lp: this.drawedLines[0].dl.lp
+        }
+        this.removeAlignLineByID(this.drawedLines[0].do.id)
+        this.drawAlignLines({ vdl: vdl, hdl: undefined })
+        this.isAdsorbed[0] = true 
+      }
+    }
+    
+    if(h) {
+      if(this.drawedLines[1] && this.drawedLines[1].do) {
+        const draggingBBoxDrawEndPoint: Point = this.getDraggingBBoxPointByLinePosition(this.drawedLines[1].dl.lp)
+        const hdl: DrawLine = {
+          line: [this.drawedLines[1].dl.line[0], draggingBBoxDrawEndPoint],
+          lp: this.drawedLines[1].dl.lp
+        }
+        this.removeAlignLineByID(this.drawedLines[1].do.id)
+        this.drawAlignLines({ vdl: undefined, hdl: hdl })
+        this.isAdsorbed[1] = true 
+      }
+    }
   }
 
   /**
    * 检测是否可以画线
    */
   canDrawLine(): { vdl: DrawLine; hdl: DrawLine } | false {
-    // 画线即立马吸附
-    //this.addAlignLinesForChoose()
 
     const { v, h }: { v: DrawLine | undefined; h: DrawLine | undefined } =
       this.chooseAlignLine();
@@ -1011,43 +1190,17 @@ export default class Snapline extends Base {
     //debugger
     if (dls.vdl) {
       this.isAdsorbed[0] = true;
-      console.log('mk5: ', this.drawedLines);
+      this.historyAbsorbArea[0] = [dls.vdl.line[0].x - this.tolerance * this.toleranceFactor, dls.vdl.line[0].x + this.tolerance * this.toleranceFactor];
       this.updateDraggingItemPosition(this.drawedLines[0].dl);
     }
     if (dls.hdl) {
       this.isAdsorbed[1] = true;
-      console.log('mk6: ', this.drawedLines);
+      this.historyAbsorbArea[1] = [dls.hdl.line[0].y - this.tolerance * this.toleranceFactor, dls.hdl.line[0].y + this.tolerance * this.toleranceFactor];
       this.updateDraggingItemPosition(this.drawedLines[1].dl);
     }
-
-    //this.onDragEnd()
   }
 
-  /**
-   * 取消吸附
-   */
-  cancelAbsorb(canCancelAbsorb: [boolean | undefined, boolean | undefined]) {
-    const vc = canCancelAbsorb[0];
-    const hc = canCancelAbsorb[1];
-    //debugger
-    if (vc) {
-      const shouldChangeX: number =
-        this.getPointerOffsetWithItem({
-          x: this.dragEvent.canvas.x,
-          y: this.dragEvent.canvas.y,
-        }).x - this.nonAbosorbOffset.x;
-      this.updateDraggingItemPosition(undefined, { x: shouldChangeX });
-    }
-
-    if (hc) {
-      const shouldChangeY: number =
-        this.getPointerOffsetWithItem({
-          x: this.dragEvent.canvas.x,
-          y: this.dragEvent.canvas.y,
-        }).y - this.nonAbosorbOffset.y;
-      this.updateDraggingItemPosition(undefined, { y: shouldChangeY });
-    }
-  }
+ 
 
   /**
    * 如果有带dl，那么就吸附到dl；
@@ -1058,7 +1211,6 @@ export default class Snapline extends Base {
     dl?: DrawLine,
     shouldChange?: { x?: number; y?: number },
   ) {
-    //debugger
     // 判断如果historyPoints都不存在就不继续
     if (!this.historyPoints[0] && !this.historyPoints[1]) {
       return;
@@ -1072,56 +1224,56 @@ export default class Snapline extends Base {
         const tmpX = dl.line[0].x + this.draggingBBox.halfExtents[0];
         this.graph.updateNodePosition({
           id: this.dragItemId,
-          data: { x: tmpX },
+          data: { fx: tmpX },
         });
       }
       if (dl.lp === 'vcenter') {
         this.graph.updateNodePosition({
           id: this.dragItemId,
-          data: { x: dl.line[0].x },
+          data: { fx: dl.line[0].x },
         });
       }
       if (dl.lp === 'right') {
         this.graph.updateNodePosition({
           id: this.dragItemId,
-          data: { x: dl.line[0].x - this.draggingBBox.halfExtents[0] },
+          data: { fx: dl.line[0].x - this.draggingBBox.halfExtents[0] },
         });
       }
       if (dl.lp === 'top') {
         this.graph.updateNodePosition({
           id: this.dragItemId,
-          data: { y: dl.line[0].y + this.draggingBBox.halfExtents[1] },
+          data: { fy: dl.line[0].y + this.draggingBBox.halfExtents[1] },
         });
       }
       if (dl.lp === 'hcenter') {
         this.graph.updateNodePosition({
           id: this.dragItemId,
-          data: { y: dl.line[0].y },
+          data: { fy: dl.line[0].y },
         });
       }
       if (dl.lp === 'bottom') {
         this.graph.updateNodePosition({
           id: this.dragItemId,
-          data: { y: dl.line[0].y - this.draggingBBox.halfExtents[1] },
+          data: { fy: dl.line[0].y - this.draggingBBox.halfExtents[1] },
         });
       }
 
       //this.onDragEnd()
     }
-    //debugger
+
     if (shouldChange) {
       if (shouldChange.x) {
         const changeX = this.draggingBBox.center[0] + shouldChange.x;
         this.graph.updateNodePosition({
           id: this.dragItemId,
-          data: { x: changeX },
+          data: { x: changeX, fx: undefined },
         });
       }
       if (shouldChange.y) {
         const changeY = this.draggingBBox.center[1] + shouldChange.y;
         this.graph.updateNodePosition({
           id: this.dragItemId,
-          data: { y: changeY },
+          data: { y: changeY, fy: undefined },
         });
       }
     }

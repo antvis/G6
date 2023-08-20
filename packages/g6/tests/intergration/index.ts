@@ -27,6 +27,7 @@ import fisheye from './plugins/fisheye';
 import tooltip from './demo/tooltip';
 import comboBasic from './combo/combo-basic';
 import treeGraph from './tree/tree-graph';
+import snapline from './plugins/snapline';
 
 export {
   behaviors_activateRelations,
@@ -58,4 +59,5 @@ export {
   tooltip,
   comboBasic,
   treeGraph,
+  snapline
 };

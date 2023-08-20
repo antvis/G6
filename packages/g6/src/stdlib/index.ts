@@ -37,6 +37,7 @@ import { CubicHorizonEdge } from './item/edge/cubic-horizon';
 import { CubicVerticalEdge } from './item/edge/cubic-vertical';
 import { Quadratic } from './item/edge/quadratic';
 import { CircleCombo } from './item/combo/circle';
+import Snapline from './plugin/snapline';
 
 const stdLib = {
   transforms: {
@@ -78,6 +79,7 @@ const stdLib = {
     grid: Grid,
     tooltip: Tooltip,
     menu: Menu,
+    snapline: Snapline,
   },
   nodes: {
     'circle-node': CircleNode,
