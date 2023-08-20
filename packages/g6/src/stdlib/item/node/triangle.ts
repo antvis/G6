@@ -6,14 +6,13 @@ import {
     ComboShapeMap,
 } from '../../../types/combo';
 import { NodeDisplayModel } from '../../../types';
-import { State } from '../../../types/item';
+import { State, GShapeStyle } from '../../../types/item';
 import {
     NodeModelData,
     NodeShapeMap,
     NodeShapeStyles,
 } from '../../../types/node';
 import { BaseNode } from './base';
-import { keys } from '@antv/util';
 
 export class TriangleNode extends BaseNode {
     override defaultStyles = {
@@ -24,6 +23,7 @@ export class TriangleNode extends BaseNode {
             direction: 'up',  //'up'|'left'|'right'|'down'
         },
     };
+    vPoint = {}; // vertex coordinates
     mergedStyles: NodeShapeStyles;
     constructor(props) {
         super(props);
@@ -126,12 +126,7 @@ export class TriangleNode extends BaseNode {
     private getTrianglePath(size: number, direction: 'up' | 'down' | 'left' | 'right'): PathArray {
         const diffY = size * Math.sin((1 / 3) * Math.PI);
         const r = diffY;
-        let path: PathArray = [
-            ['M', -r, diffY],
-            ['L', 0, -diffY],
-            ['L', r, diffY],
-            ['Z'],
-        ];//top
+        let path: PathArray;
         if (direction === 'down') {
             path = [
                 ['M', -r, -diffY],
@@ -139,6 +134,10 @@ export class TriangleNode extends BaseNode {
                 ['L', 0, diffY],
                 ['Z'],
             ];
+            this.vPoint['left'] = [-r, -diffY];
+            this.vPoint['right'] = [r, -diffY];
+            this.vPoint['bottom'] = [0, diffY];
+            this.vPoint['default'] = this.vPoint['right'];
         } else if (direction === 'left') {
             path = [
                 ['M', -r, r - diffY],
@@ -146,6 +145,10 @@ export class TriangleNode extends BaseNode {
                 ['L', r, r],
                 ['Z'],
             ];
+            this.vPoint['left'] = [-r, r - diffY];
+            this.vPoint['top'] = [r, -r];
+            this.vPoint['bottom'] = [r, r];
+            this.vPoint['default'] = this.vPoint['left'];
         } else if (direction === 'right') {
             path = [
                 ['M', r, r - diffY],
@@ -153,6 +156,21 @@ export class TriangleNode extends BaseNode {
                 ['L', -r, -r],
                 ['Z'],
             ];
+            this.vPoint['right'] = [r, r - diffY];
+            this.vPoint['bottom'] = [-r, r];
+            this.vPoint['top'] = [-r, -r];
+            this.vPoint['default'] = this.vPoint['right'];
+        } else {
+            path = [
+                ['M', -r, diffY],
+                ['L', 0, -diffY],
+                ['L', r, diffY],
+                ['Z'],
+            ];//top
+            this.vPoint['left'] = [-r, diffY];
+            this.vPoint['top'] = [0, -diffY];
+            this.vPoint['right'] = [r, diffY];
+            this.vPoint['default'] = this.vPoint['right'];
         }
         return path;
     }
@@ -214,4 +232,60 @@ export class TriangleNode extends BaseNode {
         );
     }
 
+    public override drawAnchorShapes(
+        model: NodeDisplayModel | ComboDisplayModel,
+        shapeMap: NodeShapeMap | ComboShapeMap,
+        diffData?: {
+            previous: NodeModelData | ComboModelData;
+            current: NodeModelData | ComboModelData;
+        },
+        diffState?: { previous: State[]; current: State[] },
+    ) {
+        const { anchorShapes: commonStyle, keyShape: keyShapeStyle } =
+            this.mergedStyles;
+
+        const individualConfigs = Object.values(this.mergedStyles).filter(
+            (style) => style.tag === 'anchorShape',
+        );
+        if (!individualConfigs.length) return;
+        this.boundsCache.keyShapeLocal =
+            this.boundsCache.keyShapeLocal || shapeMap.keyShape.getLocalBounds();
+        const keyShapeBBox = this.boundsCache.keyShapeLocal;
+        const keyShapeWidth = keyShapeBBox.max[0] - keyShapeBBox.min[0];
+        const keyShapeHeight = keyShapeBBox.max[1] - keyShapeBBox.min[1];
+
+        const shapes = {};
+        individualConfigs.forEach((config, i) => {
+            const { position, fill = keyShapeStyle.fill, ...style } = config;
+            const id = `anchorShape${i}`;
+            const [cx, cy] = this.getAnchorPosition(position);
+            shapes[id] = this.upsertShape(
+                'circle',
+                id,
+                {
+                    cx,
+                    cy,
+                    fill,
+                    ...commonStyle,
+                    ...style,
+                } as GShapeStyle,
+                shapeMap,
+                model,
+            );
+        });
+        return shapes;
+
+    }
+
+    private getAnchorPosition(position: string | [number, number]): [number, number] {
+        if (position instanceof Array) {
+            const keyShapeBBox = this.boundsCache.keyShapeLocal
+            const keyShapeWidth = keyShapeBBox.max[0] - keyShapeBBox.min[0];
+            const keyShapeHeight = keyShapeBBox.max[1] - keyShapeBBox.min[1];
+            return [keyShapeWidth * (position[0] - 0.5), keyShapeHeight * (position[1] - 0.5),]
+        } else {
+            position = position.toLowerCase();
+        }
+        return this.vPoint[position] || this.vPoint['default'];
+    }
 }

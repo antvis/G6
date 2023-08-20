@@ -92,6 +92,9 @@ export default (context: TestCaseContext) => {
                 id,
                 data: {
                     ...data,
+                    keyShape: {
+                        direction: 'right'
+                    },
                     labelShape: {
                         text: 'label',
                         position: 'bottom',
@@ -113,7 +116,7 @@ export default (context: TestCaseContext) => {
                     },
                     anchorShapes: [
                         {
-                            position: [0, 0.5],
+                            position: 'asd',
                             r: 2,
                             fill: 'red',
                         },
