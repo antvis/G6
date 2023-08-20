@@ -169,7 +169,7 @@ export class HexagonNode extends BaseNode {
         individualConfigs.forEach((config, i) => {
             const { position, fill = keyShapeStyle.fill, ...style } = config;
             const id = `anchorShape${i}`;
-            const [cx, cy] = this.getAnchorShape(position);
+            const [cx, cy] = this.getAnchorPosition(position);
             shapes[id] = this.upsertShape(
                 'circle',
                 id,
@@ -187,7 +187,7 @@ export class HexagonNode extends BaseNode {
         return shapes;
     }
 
-    private getAnchorShape(position: string | [number, number]): [number, number] {
+    private getAnchorPosition(position: string | [number, number]): [number, number] {
         if (position instanceof Array) {
             const keyShapeBBox = this.boundsCache.keyShapeLocal
             const keyShapeWidth = keyShapeBBox.max[0] - keyShapeBBox.min[0];
