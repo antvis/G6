@@ -168,15 +168,11 @@ export class StarNode extends BaseNode {
         if (!individualConfigs.length) return;
         this.boundsCache.keyShapeLocal =
             this.boundsCache.keyShapeLocal || shapeMap.keyShape.getLocalBounds();
-        const keyShapeBBox = this.boundsCache.keyShapeLocal;
-        const keyShapeWidth = keyShapeBBox.max[0] - keyShapeBBox.min[0];
-        const keyShapeHeight = keyShapeBBox.max[1] - keyShapeBBox.min[1];
-
         const shapes = {};
         individualConfigs.forEach((config, i) => {
             const { position, fill = keyShapeStyle.fill, ...style } = config;
             const id = `anchorShape${i}`;
-            const [cx, cy] = this.getAnchorShape(config.position);
+            const [cx, cy] = this.getAnchorPosition(config.position);
             shapes[id] = this.upsertShape(
                 'circle',
                 id,
@@ -194,7 +190,7 @@ export class StarNode extends BaseNode {
         return shapes;
     }
 
-    private getAnchorShape(position: string | [number, number]): [number, number] {
+    private getAnchorPosition(position: string | [number, number]): [number, number] {
         const { keyShape: keyShapeStyle } = this.mergedStyles as any;
         const outerR = keyShapeStyle.size;
         let x: number, y: number;
