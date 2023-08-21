@@ -139,7 +139,6 @@ export default async () => {
       container: 'container',
       width,
       height,
-      type: 'graph',
       layout: {
         type: 'force',
         rankdir: 'LR',

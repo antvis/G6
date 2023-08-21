@@ -9,7 +9,6 @@ describe('lasso-select behavior with selectSetMode', () => {
       container,
       width: 500,
       height: 500,
-      type: 'graph',
       layout: {
         type: 'grid',
       },
@@ -158,7 +157,6 @@ describe('lasso-select behavior with selectSetMode', () => {
       container,
       width: 500,
       height: 500,
-      type: 'graph',
       layout: {
         type: 'grid',
       },
@@ -277,7 +275,6 @@ describe('lasso-select behavior with selectSetMode', () => {
       container,
       width: 500,
       height: 500,
-      type: 'graph',
       layout: {
         type: 'grid',
       },
@@ -400,7 +397,6 @@ describe('lasso-select behavior with selectSetMode', () => {
       container,
       width: 500,
       height: 500,
-      type: 'graph',
       layout: {
         type: 'grid',
       },
@@ -579,7 +575,6 @@ describe('lasso-select behavior with itemTypes', () => {
       container,
       width: 500,
       height: 500,
-      type: 'graph',
       layout: {
         type: 'grid',
       },
@@ -724,7 +719,6 @@ describe('lasso-select behavior with itemTypes', () => {
       container,
       width: 500,
       height: 500,
-      type: 'graph',
       layout: {
         type: 'grid',
       },
@@ -818,7 +812,6 @@ describe('lasso-select behavior with itemTypes', () => {
       container,
       width: 500,
       height: 500,
-      type: 'graph',
       layout: {
         type: 'grid',
       },
@@ -912,7 +905,6 @@ describe('lasso-select behavior with trigger', () => {
       container,
       width: 500,
       height: 500,
-      type: 'graph',
       layout: {
         type: 'grid',
       },
@@ -1017,7 +1009,6 @@ describe('lasso-select behavior with trigger', () => {
       container,
       width: 500,
       height: 500,
-      type: 'graph',
       layout: {
         type: 'grid',
       },
@@ -1170,7 +1161,6 @@ describe('lasso-select behavior with shouldBegin and shouldUpdate', () => {
       container,
       width: 500,
       height: 500,
-      type: 'graph',
       layout: {
         type: 'grid',
       },
@@ -1303,7 +1293,6 @@ describe('lasso-select behavior with brushStyle', () => {
       container,
       width: 500,
       height: 500,
-      type: 'graph',
       layout: {
         type: 'grid',
       },

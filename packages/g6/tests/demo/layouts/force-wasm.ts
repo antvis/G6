@@ -13,7 +13,6 @@ export default async () => {
     container,
     width,
     height,
-    type: 'graph',
     data: JSON.parse(JSON.stringify(data)),
     layout: {
       type: 'force-wasm',
