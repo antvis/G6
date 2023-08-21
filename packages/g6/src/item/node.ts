@@ -4,7 +4,7 @@ import { Point } from '../types/common';
 import { ComboDisplayModel, ComboModel, NodeModel } from '../types';
 import { DisplayMapper, State, LodStrategyObj } from '../types/item';
 import { NodeDisplayModel, NodeModelData } from '../types/node';
-import { ComboStyleSet, NodeStyleSet } from '../types/theme';
+import type { ComboStyleSet, NodeStyleSet } from '../types/theme';
 import { updateShapes } from '../util/shape';
 import { animateShapes, getAnimatesExcludePosition } from '../util/animate';
 import {

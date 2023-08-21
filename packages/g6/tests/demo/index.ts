@@ -28,6 +28,7 @@ import line_edge from './item/edge/line-edge';
 import cubic_edge from './item/edge/cubic-edge';
 import cubic_horizon_edge from './item/edge/cubic-horizon-edge';
 import cubic_vertical_edge from './item/edge/cubic-vertical-edge';
+import donut_node from './item/node/donut-node';
 import fisheye from './plugins/fisheye';
 import tooltip from './demo/tooltip';
 import comboBasic from './combo/combo-basic';
@@ -64,6 +65,7 @@ export {
   cubic_edge,
   cubic_horizon_edge,
   cubic_vertical_edge,
+  donut_node,
   fisheye,
   tooltip,
   comboBasic,
