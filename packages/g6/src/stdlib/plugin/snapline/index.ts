@@ -1,13 +1,11 @@
-import { uniqueId } from '@antv/util';
 import { ID } from '@antv/graphlib';
-import { AABB, DisplayObject, Line } from '@antv/g';
+import { AABB, DisplayObject } from '@antv/g';
 import { ShapeStyle } from '../../../types/item';
-import { IG6GraphEvent, IGraph, NodeModel } from '../../../types';
+import { IG6GraphEvent, IGraph } from '../../../types';
 import { Plugin as Base, IPluginBaseConfig } from '../../../types/plugin';
 
 import { Point } from '../../../types/common';
-//const throttle = require('lodash/throttle');
-import throttle from 'lodash/throttle'
+import _ from 'lodash' 
 
 
 interface SnapLineConfig extends IPluginBaseConfig {
@@ -665,7 +663,7 @@ export default class Snapline extends Base {
         .reduce((map, item) => {
           if (
             !map.has(item.dl.lp) ||
-            Math.abs(item.offset.x) < Math.abs(map.get(item.dl.lp)?.offset.x)
+            Math.abs(item.offset.y) < Math.abs(map.get(item.dl.lp)?.offset.y)
           ) {
             map.set(item.dl.lp, item);
           }
@@ -674,16 +672,28 @@ export default class Snapline extends Base {
         .values(),
     );
 
+    // 4.选择offset最大值的 DrawLineForChoose 
+    const vMaxDL = uniVTmpLines.length ? uniVTmpLines.reduce((maxItem: DrawLineForChoose, curItem: DrawLineForChoose) => {
+      if (curItem.offset.x > maxItem.offset.x) {
+        return curItem;
+      } else {
+        return maxItem;
+      }
+    }) : undefined
+
+    const hMaxDL =  uniHTmpLines.length ? uniHTmpLines.reduce((maxItem: DrawLineForChoose, curItem: DrawLineForChoose) => { 
+      if (curItem.offset.y > maxItem.offset.y) {
+        return curItem;
+      } else {
+        return maxItem;
+      }
+    }) : undefined
+    
     return {
-      v: uniVTmpLines.map((item) => item.dl)[0],
-      h: uniHTmpLines.map((item) => item.dl)[0],
+      v: vMaxDL ? vMaxDL.dl : undefined,
+      h: hMaxDL ? hMaxDL.dl : undefined
     };
   }
-
-  /**
-   * 是否鼠标是按下去的状态
-   */
-  private isPointerDownState = false;
 
   /**
    * v 方向 和h 方向是否吸附状态
@@ -747,7 +757,6 @@ export default class Snapline extends Base {
   }
 
   public onPointerDown(event: IG6GraphEvent) {
-    this.isPointerDownState = true;
 
     //if (!this.options.shouldBegin(event)) return;
     this.historyPoints[1] = { x: event.canvas.x, y: event.canvas.y };
@@ -774,7 +783,6 @@ export default class Snapline extends Base {
   }
 
   public onPointerUp(event: IG6GraphEvent) {
-    this.isPointerDownState = false;
 
     // pointerUp + dragging = onDragEnd
     if (this.dragging) {
@@ -960,7 +968,7 @@ export default class Snapline extends Base {
     
       // 如果在最近脱离吸附区域，不能再马上画线（需要移除脱离区域才能重新划线此区域）
       if (ret ) {  
-        
+        console.log('begore drawline')
         // 画线
         this.drawAlignLines(ret);
         // 吸附
@@ -981,13 +989,13 @@ export default class Snapline extends Base {
 
   //#region 写好的方法：画线/移除线
   private drawedLines: [
-    { do: DisplayObject; dl: DrawLine },
-    { do: DisplayObject; dl: DrawLine },
+    { do: DisplayObject | undefined, dl: DrawLine | undefined } | undefined,
+    { do: DisplayObject | undefined, dl: DrawLine | undefined } | undefined,
   ] = [undefined, undefined]; // 第一个：v方向 第二个：h方向;ddo: drawed DisplayObject, dl: DrawLine
 
   drawAlignLines({ vdl, hdl }: { vdl: DrawLine | undefined; hdl: DrawLine | undefined }) {
     // 1.画对齐line
- 
+    console.log('划线')
     const vLineID: ID = vdl ? this.getDrawLineIdByDrawLine(vdl) : undefined;
     const hLineID: ID = hdl ? this.getDrawLineIdByDrawLine(hdl) : undefined;
 
@@ -1034,6 +1042,7 @@ export default class Snapline extends Base {
     rvdl: boolean | undefined,
     rhdl: boolean | undefined,
   ]) {
+    console.log('removeAlignLine')
     if (rvdl) {
       const vlid = this.getDrawLineIdByDrawLine(this.drawedLines[0].dl);
       this.graph.drawTransient('line', vlid, { action: 'remove' });
@@ -1057,21 +1066,48 @@ export default class Snapline extends Base {
    * @param rmLineID 
    */
   removeAlignLineByID(rmLineID: ID) {
+    console.log('1.removeAlignLineByID')
     // 从数组移除 DisplayObject
+
+    
+    //debugger 
+    const vTmpDrawedLine = _.cloneDeep(this.drawedLines[0])
+    const hTmpDrawedLine = _.cloneDeep(this.drawedLines[1])
+    console.log('1.2.vTmpDrawedLine - hTmpDrawedLine', vTmpDrawedLine, hTmpDrawedLine)
+
     this.drawedLines.forEach((line, index) => {
       if(line && line.do) {
         const lineID = this.getDrawLineIdByPoints(line.dl.line);
+        console.log('lineID: ', lineID)
         if (lineID === rmLineID) {
-          this.drawedLines[index].dl = undefined
-          this.drawedLines[index].do = undefined
+          console.log('2.lineID === rmLineID', index)
+         
+          if (index === 0 && vTmpDrawedLine) {
+            vTmpDrawedLine.dl = undefined
+            vTmpDrawedLine.do = undefined
+          }else if(index === 1 && hTmpDrawedLine) {
+            hTmpDrawedLine.dl = undefined
+            hTmpDrawedLine.do = undefined
+          }
+
           this.isAdsorbed[index] = false 
+
+          console.log('3.tmpDrawLines', this.drawedLines, this.drawedLines[1], this.drawedLines[index], typeof(index))
         }
       }
     });
 
+    console.log('4.vTmpDrawedLine - hTmpDrawedLine', vTmpDrawedLine, hTmpDrawedLine)
+    this.drawedLines[0] = vTmpDrawedLine
+    this.drawedLines[1] = hTmpDrawedLine
+//debugger 
+   
+    console.log('5.drawedLines', this.drawedLines, typeof(this.drawedLines), this.drawedLines[0], this.drawedLines[1],)
+
+    console.log('5.2 rmLineID: ', rmLineID)
     // 取消
     this.graph.drawTransient('line', rmLineID, { action: 'remove' });
-
+    console.log('6.after removeAlignLineByID :this.drawedLines: ', this.drawedLines)
   }
 
   /**
