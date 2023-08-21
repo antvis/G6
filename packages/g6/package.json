@@ -46,7 +46,7 @@
     "test": "jest",
     "test:integration": "node --expose-gc --max-old-space-size=4096 --unhandled-rejections=strict node_modules/jest/bin/jest tests/integration/ --config jest.node.config.js --coverage -i  --logHeapUsage --detectOpenHandles",
     "size": "limit-size",
-    "test-live": "DEBUG_MODE=1 jest --watch  ./tests/unit/edge-spec.ts",
+    "test-live": "DEBUG_MODE=1 jest --watch  ./tests/unit/item-animate-spec.ts",
     "test-behavior": "DEBUG_MODE=1 jest --watch ./tests/unit/item-3d-spec.ts"
   },
   "lint-staged": {
@@ -60,7 +60,7 @@
     "@antv/event-emitter": "latest",
     "insert-css": "^2.0.0",
     "@ant-design/colors": "^7.0.0",
-    "@antv/algorithm": "^0.1.25",
+    "@antv/algorithm": "^0.1.26",
     "@antv/dom-util": "^2.0.4",
     "@antv/g": "^5.15.7",
     "@antv/g-canvas": "^1.9.28",
@@ -77,6 +77,7 @@
     "@antv/matrix-util": "^3.0.4",
     "@antv/util": "~2.0.5",
     "color": "^4.2.3",
+    "stats-js": "^1.0.1",
     "tslib": "^2.5.0",
     "typedoc-plugin-markdown": "^3.14.0",
     "typescript": "^5.1.6"
@@ -115,6 +116,7 @@
     "rollup-plugin-polyfill-node": "^0.8.0",
     "rollup-plugin-typescript": "^1.0.1",
     "rollup-plugin-visualizer": "^5.6.0",
+    "stats-js": "1.0.1",
     "stats.js": "^0.17.0",
     "ts-jest": "^28.0.8",
     "typedoc": "^0.24.0",

@@ -1,3 +1,4 @@
+import Hierarchy from '@antv/hierarchy';
 import { registry as layoutRegistry } from '@antv/layout';
 import { Lib } from '../types/stdlib';
 import ActivateRelations from './behavior/activate-relations';
@@ -23,6 +24,8 @@ import TrackCanvas3D from './behavior/track-canvas-3d';
 import ZoomCanvas from './behavior/zoom-canvas';
 import ZoomCanvas3D from './behavior/zoom-canvas-3d';
 import { CircleCombo } from './item/combo/circle';
+
+import CollapseExpandTree from './behavior/collapse-expand-tree';
 import { CubicEdge } from './item/edge/cubic';
 import { CubicHorizonEdge } from './item/edge/cubic-horizon';
 import { CubicVerticalEdge } from './item/edge/cubic-vertical';
@@ -49,7 +52,10 @@ const stdLib = {
     spec: SpecThemeSolver,
     subject: SubjectThemeSolver,
   },
-  layouts: layoutRegistry,
+  layouts: {
+    ...layoutRegistry,
+    ...Hierarchy,
+  },
   behaviors: {
     'activate-relations': ActivateRelations,
     'drag-canvas': DragCanvas,
@@ -58,6 +64,7 @@ const stdLib = {
     'drag-node': DragNode,
     'drag-combo': DragCombo,
     'collapse-expand-combo': CollapseExpandCombo,
+    'collapse-expand-tree': CollapseExpandTree,
     'click-select': ClickSelect,
     'brush-select': BrushSelect,
     'lasso-select': LassoSelect,

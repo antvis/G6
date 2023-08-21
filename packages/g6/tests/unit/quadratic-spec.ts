@@ -82,7 +82,6 @@ describe('edge item', () => {
       width,
       height,
       data,
-      type: 'graph',
       modes: {
         default: ['click-select', 'drag-canvas', 'zoom-canvas', 'drag-node'],
       },
@@ -282,7 +281,6 @@ describe('state', () => {
       container,
       width: 500,
       height: 500,
-      type: 'graph',
       data: {
         nodes: [
           {
@@ -416,7 +414,6 @@ describe('state', () => {
       container,
       width: 500,
       height: 500,
-      type: 'graph',
       data: {
         nodes: [
           {
@@ -550,7 +547,6 @@ describe('state', () => {
       container,
       width: 500,
       height: 500,
-      type: 'graph',
       data: {
         nodes: [
           {
@@ -684,7 +680,6 @@ describe('state', () => {
       container,
       width: 500,
       height: 500,
-      type: 'graph',
       data: {
         nodes: [
           {
@@ -818,7 +813,6 @@ describe('state', () => {
       container,
       width: 500,
       height: 500,
-      type: 'graph',
       data: {
         nodes: [
           {

@@ -9,7 +9,7 @@ export default () => {
         data: {
           x: 100,
           y: 100,
-          type: 'rect-node',
+          type: 'circle-node',
         },
       },
       {
@@ -37,6 +37,13 @@ export default () => {
         },
       },
     ],
+    edges: [
+      {
+        source: 1,
+        target: 2,
+        data: {},
+      },
+    ],
   };
 
   const graph = new G6.Graph({
@@ -44,7 +51,6 @@ export default () => {
     width,
     height,
     data,
-    type: 'graph',
     modes: {
       default: ['click-select', 'drag-canvas', 'zoom-canvas', 'drag-node'],
     },
