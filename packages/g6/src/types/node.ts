@@ -46,6 +46,10 @@ export interface NodeUserModelData extends PlainObject {
    */
   parentId?: ID;
   /**
+   * Whether to be a root at when used as a tree.
+   */
+  isRoot?: boolean;
+  /**
    * The icon to show on the node.
    * More styles should be configured in node mapper.
    */

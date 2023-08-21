@@ -124,7 +124,6 @@ const createGraph = (props) => {
     container,
     width: 500,
     height: 500,
-    type: 'graph',
     data: clonedData,
     ...props,
   });

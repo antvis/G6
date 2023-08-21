@@ -10,7 +10,6 @@ describe('click-select', () => {
       container,
       width: 500,
       height: 500,
-      type: 'graph',
       data: {
         nodes: [
           { id: 'node1', data: { x: 100, y: 200, keyShape: { fill: '#0f0' } } },

@@ -234,7 +234,6 @@ export default () => {
     container,
     width: 500,
     height: 500,
-    type: 'graph',
     data: defaultData,
     modes: {
       // 支持的 behavior

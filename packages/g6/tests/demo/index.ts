@@ -33,8 +33,14 @@ import tooltip from './demo/tooltip';
 import comboBasic from './combo/combo-basic';
 import animations_node_build_in from './animations/node-build-in';
 import ellipse from './demo/ellipse';
+import treeGraph from './tree/treeGraph';
+import behaviors_collapse_expand_tree from './behaviors/collapse-expand-tree';
+
 export {
   behaviors_activateRelations,
+  behaviors_collapse_expand_tree,
+  behaviors_brush_select,
+  behaviors_click_select,
   layouts_circular,
   layouts_grid,
   layouts_dagre,
@@ -48,8 +54,6 @@ export {
   layouts_fruchterman_gpu,
   layouts_force_3d,
   layouts_force_wasm_3d,
-  behaviors_brush_select,
-  behaviors_click_select,
   performance,
   performance_layout,
   performance_layout_3d,
@@ -68,5 +72,6 @@ export {
   tooltip,
   comboBasic,
   animations_node_build_in,
-  ellipse
+  ellipse,
+  treeGraph,
 };

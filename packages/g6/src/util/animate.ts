@@ -248,7 +248,7 @@ const runAnimateGroupOnShapes = (
       maxDurationIdx = i;
     }
     if (animation) {
-      animation.oncancel = () => {
+      animation.onManualCancel = () => {
         hasCanceled = true;
         cancelAnimations();
       };
@@ -293,8 +293,35 @@ const runAnimateOnShape = (
       }
     });
   }
-  if (JSON.stringify(animateArr[0]) === JSON.stringify(animateArr[1])) return;
+  if (!checkFrames(animateArr, shape)) return;
   return shape.animate(animateArr, animateConfig);
+};
+
+/**
+ * Check and format the frames. If the frames are same, return false. If frames contains undefined x or y, format them.
+ * @param frames
+ * @param shape
+ * @returns
+ */
+const checkFrames = (frames, shape) => {
+  if (JSON.stringify(frames[0]) === JSON.stringify(frames[1])) return false;
+  ['x', 'y'].forEach((dim) => {
+    if (!frames[0].hasOwnProperty(dim)) return;
+    let val;
+    const formatted = [...frames];
+    if (frames[0][dim] === undefined && frames[0][dim] !== frames[1][dim])
+      val = frames[1][dim];
+    if (frames[1][dim] === undefined && frames[0][dim] !== frames[1][dim])
+      val = frames[1][dim];
+    if (val !== undefined) {
+      shape.style[dim] = val;
+      delete formatted[0][dim];
+      delete formatted[1][dim];
+    }
+  });
+  if (JSON.stringify(frames[0]) === JSON.stringify(frames[1])) return false;
+
+  return true;
 };
 
 /**
@@ -318,7 +345,7 @@ export const animateShapes = (
   onAnimatesEnd: Function = () => {},
 ): IAnimation[] => {
   if (!animates?.[timing]) {
-    onAnimatesEnd();
+    onAnimatesEnd(false);
     return;
   }
   const segmentedTiming =
@@ -335,7 +362,7 @@ export const animateShapes = (
   let canceled = false;
   const onfinish = () => {
     if (i >= groupKeys.length) {
-      onAnimatesEnd();
+      !canceled && onAnimatesEnd(canceled);
       return;
     }
     const groupAnimations = runAnimateGroupOnShapes(
@@ -345,7 +372,10 @@ export const animateShapes = (
       mergedStyles,
       timing,
       onfinish, // execute next order group
-      () => (canceled = true),
+      () => {
+        canceled = true;
+        onAnimatesEnd(canceled);
+      },
       canceled,
     ).filter(Boolean);
     groupAnimations.forEach((animation) => {
@@ -429,8 +459,9 @@ export const fadeOut = (id, shape, hiddenShape, animateConfig) => {
  * Make the animation to the end frame and clear it from the target shape.
  * @param animation
  */
-export const stopAnimate = (animation) => {
+export const stopAnimate = (animation: IAnimation): Promise<any> => {
   const timing = animation.effect.getTiming();
   animation.currentTime = Number(timing.duration) + Number(timing.delay || 0);
-  animation.cancel();
+  animation.finish();
+  return animation.finished;
 };
