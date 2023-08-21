@@ -1,10 +1,8 @@
-import G6 from '../../../src/index';
-import { container, height, width } from '../../datasets/const';
-export default () => {
-  const graph = new G6.Graph({
-    container,
-    width,
-    height,
+import { Graph } from '../../../src/index';
+import { TestCaseContext } from '../interface';
+export default (context: TestCaseContext) => {
+  const graph = new Graph({
+    ...context,
     layout: {
       type: 'grid',
     },

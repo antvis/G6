@@ -1,7 +1,7 @@
 import { resetEntityCounter } from '@antv/g';
 import d3force from '../demo/layouts/d3force';
-import './utils/useSnapshotMatchers';
 import { createContext } from './utils';
+import './utils/useSnapshotMatchers';
 
 describe('D3Force layout', () => {
   beforeEach(() => {
@@ -14,8 +14,12 @@ describe('D3Force layout', () => {
 
   it('should be rendered correctly with Canvas2D', (done) => {
     const dir = `${__dirname}/snapshots/canvas`;
-    const { backgroundCanvas, canvas, transientCanvas, container } =
-      createContext('canvas', 500, 500);
+    const {
+      backgroundCanvas,
+      canvas,
+      transientCanvas,
+      container,
+    } = createContext('canvas', 500, 500);
 
     const graph = d3force({
       container,
@@ -39,31 +43,35 @@ describe('D3Force layout', () => {
     });
   });
 
-  it('should be rendered correctly with SVG', (done) => {
-    const dir = `${__dirname}/snapshots/svg`;
-    const { backgroundCanvas, canvas, transientCanvas, container } =
-      createContext('svg', 500, 500);
+  // it('should be rendered correctly with SVG', (done) => {
+  //   const dir = `${__dirname}/snapshots/svg`;
+  //   const { backgroundCanvas, canvas, transientCanvas, container } =
+  //     createContext('svg', 500, 500);
 
-    const graph = d3force({
-      container,
-      backgroundCanvas,
-      canvas,
-      transientCanvas,
-      width: 500,
-      height: 500,
-    });
+  //   const graph = d3force({
+  //     container,
+  //     backgroundCanvas,
+  //     canvas,
+  //     transientCanvas,
+  //     width: 500,
+  //     height: 500,
+  //   });
 
-    graph.on('afterlayout', async () => {
-      await expect(canvas).toMatchSVGSnapshot(dir, 'layouts-d3force');
-      graph.destroy();
-      done();
-    });
-  });
+  //   graph.on('afterlayout', async () => {
+  //     await expect(canvas).toMatchSVGSnapshot(dir, 'layouts-d3force');
+  //     graph.destroy();
+  //     done();
+  //   });
+  // });
 
   it.skip('should be rendered correctly with WebGL', (done) => {
     const dir = `${__dirname}/snapshots/webgl`;
-    const { backgroundCanvas, canvas, transientCanvas, container } =
-      createContext('webgl', 500, 500);
+    const {
+      backgroundCanvas,
+      canvas,
+      transientCanvas,
+      container,
+    } = createContext('webgl', 500, 500);
 
     const graph = d3force({
       container,

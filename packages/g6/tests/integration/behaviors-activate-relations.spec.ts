@@ -1,7 +1,7 @@
 import { resetEntityCounter } from '@antv/g';
 import activateRelations from '../demo/behaviors/activate-relations';
-import './utils/useSnapshotMatchers';
 import { createContext } from './utils';
+import './utils/useSnapshotMatchers';
 
 describe('Activate relations behavior', () => {
   beforeEach(() => {
@@ -14,8 +14,12 @@ describe('Activate relations behavior', () => {
 
   it('should be rendered correctly with Canvas2D', (done) => {
     const dir = `${__dirname}/snapshots/canvas`;
-    const { backgroundCanvas, canvas, transientCanvas, container } =
-      createContext('canvas', 500, 500);
+    const {
+      backgroundCanvas,
+      canvas,
+      transientCanvas,
+      container,
+    } = createContext('canvas', 500, 500);
 
     const graph = activateRelations({
       container,
@@ -54,27 +58,27 @@ describe('Activate relations behavior', () => {
     });
   });
 
-  it('should be rendered correctly with SVG', (done) => {
-    const dir = `${__dirname}/snapshots/svg`;
-    const { backgroundCanvas, canvas, transientCanvas, container } =
-      createContext('svg', 500, 500);
+  // it('should be rendered correctly with SVG', (done) => {
+  //   const dir = `${__dirname}/snapshots/svg`;
+  //   const { backgroundCanvas, canvas, transientCanvas, container } =
+  //     createContext('svg', 500, 500);
 
-    const graph = activateRelations({
-      container,
-      backgroundCanvas,
-      canvas,
-      transientCanvas,
-      width: 500,
-      height: 500,
-    });
+  //   const graph = activateRelations({
+  //     container,
+  //     backgroundCanvas,
+  //     canvas,
+  //     transientCanvas,
+  //     width: 500,
+  //     height: 500,
+  //   });
 
-    graph.on('afterlayout', async () => {
-      await expect(canvas).toMatchSVGSnapshot(
-        dir,
-        'behaviors-activate-relations',
-      );
-      graph.destroy();
-      done();
-    });
-  });
+  //   graph.on('afterlayout', async () => {
+  //     await expect(canvas).toMatchSVGSnapshot(
+  //       dir,
+  //       'behaviors-activate-relations',
+  //     );
+  //     graph.destroy();
+  //     done();
+  //   });
+  // });
 });

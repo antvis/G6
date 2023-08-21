@@ -1,7 +1,7 @@
 import { resetEntityCounter } from '@antv/g';
 import treeGraph from '../demo/tree/treeGraph';
-import './utils/useSnapshotMatchers';
 import { createContext, sleep } from './utils';
+import './utils/useSnapshotMatchers';
 
 describe('TreeGraph', () => {
   beforeEach(() => {
@@ -14,8 +14,12 @@ describe('TreeGraph', () => {
 
   it('graph data with tree layout, remove/add/update node, and change layout', (done) => {
     const dir = `${__dirname}/snapshots/canvas`;
-    const { backgroundCanvas, canvas, transientCanvas, container } =
-      createContext('canvas', 500, 500);
+    const {
+      backgroundCanvas,
+      canvas,
+      transientCanvas,
+      container,
+    } = createContext('canvas', 500, 500);
 
     const graph = treeGraph(
       {
@@ -87,8 +91,12 @@ describe('TreeGraph', () => {
 
   it('should be rendered correctly with tree data', (done) => {
     const dir = `${__dirname}/snapshots/canvas`;
-    const { backgroundCanvas, canvas, transientCanvas, container } =
-      createContext('canvas', 500, 500);
+    const {
+      backgroundCanvas,
+      canvas,
+      transientCanvas,
+      container,
+    } = createContext('canvas', 500, 500);
 
     const graph = treeGraph(
       {
@@ -141,8 +149,12 @@ describe('TreeGraph', () => {
 
   it('graph data with initiated collapsed', (done) => {
     const dir = `${__dirname}/snapshots/canvas`;
-    const { backgroundCanvas, canvas, transientCanvas, container } =
-      createContext('canvas', 500, 500);
+    const {
+      backgroundCanvas,
+      canvas,
+      transientCanvas,
+      container,
+    } = createContext('canvas', 500, 500);
 
     const graph = treeGraph(
       {
@@ -172,8 +184,12 @@ describe('TreeGraph', () => {
 
   it('tree data with initiated collapsed', (done) => {
     const dir = `${__dirname}/snapshots/canvas`;
-    const { backgroundCanvas, canvas, transientCanvas, container } =
-      createContext('canvas', 500, 500);
+    const {
+      backgroundCanvas,
+      canvas,
+      transientCanvas,
+      container,
+    } = createContext('canvas', 500, 500);
 
     const graph = treeGraph(
       {
