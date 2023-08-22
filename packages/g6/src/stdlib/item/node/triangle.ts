@@ -1,18 +1,19 @@
 import { DisplayObject } from '@antv/g';
-import type { PathArray } from '@antv/g-lite/node_modules/@antv/util';
+import { NodeDisplayModel } from '../../../types';
 import {
   ComboDisplayModel,
   ComboModelData,
   ComboShapeMap,
 } from '../../../types/combo';
-import { NodeDisplayModel } from '../../../types';
-import { State, GShapeStyle } from '../../../types/item';
+import { GShapeStyle, State } from '../../../types/item';
 import {
   NodeModelData,
   NodeShapeMap,
   NodeShapeStyles,
 } from '../../../types/node';
 import { BaseNode } from './base';
+ 
+type PathArray  = any
 
 export class TriangleNode extends BaseNode {
   override defaultStyles = {
