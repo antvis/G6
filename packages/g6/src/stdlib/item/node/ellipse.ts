@@ -14,7 +14,7 @@ export class EllipseNode extends BaseNode {
       rx: 30,
       ry: 20,
       x: 0,
-      y:0,
+      y: 0,
     },
   };
   mergedStyles: NodeShapeStyles;
