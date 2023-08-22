@@ -1,6 +1,6 @@
 import { resetEntityCounter } from '@antv/g';
-import { createContext } from './utils';
 import anchor from '../demo/item/anchor';
+import { createContext } from './utils';
 import './utils/useSnapshotMatchers';
 
 describe('Anchor points and shapes', () => {

@@ -14,8 +14,8 @@ import {
   getRectIntersectByPoint,
 } from '../util/point';
 import { ComboModelData } from '../types/combo';
-import Item from './item';
 import { isArraySame } from '../util/array';
+import Item from './item';
 
 interface IProps {
   model: NodeModel | ComboModel;

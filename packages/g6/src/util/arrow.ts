@@ -15,11 +15,12 @@ export const getArrowPath = (
   switch (type) {
     case 'triangle':
       return `M 0,0 L ${width},-${height / 2} L ${width},${height / 2} Z`;
-    case 'circle':
+    case 'circle': {
       const r = Math.max(width, height) / 2;
       return `M 0, 0
         a ${r},${r} 0 1,0 ${r * 2},0
         a ${r},${r} 0 1,0 ${-r * 2},0`;
+    }
     case 'diamond':
       return `M 0,0 
         L ${width / 2},${-height / 2} 
@@ -33,7 +34,7 @@ export const getArrowPath = (
                 L ${width},${-height / 2} 
                 L ${width},${height / 2} 
                 L 0,${height / 2} Z`;
-    case 'triangle-rect':
+    case 'triangle-rect': {
       const tWidth = width / 2;
       const rWidth = width / 7;
       const rBeginX = width - rWidth;
@@ -43,6 +44,7 @@ export const getArrowPath = (
                         L ${rBeginX + rWidth} ${height / 2}
                         L ${rBeginX} ${height / 2}
                         Z`;
+    }
     case 'simple':
       return `M ${width},-${height / 2} L 0,0 L ${width},${height / 2}`;
     default:

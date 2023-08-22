@@ -12,8 +12,8 @@ import { Point } from '../types/common';
 export const getControlPoint = (
   startPoint: Point,
   endPoint: Point,
-  percent: number = 0,
-  offset: number = 0,
+  percent = 0,
+  offset = 0,
 ): Point => {
   const point: Point = {
     x: (1 - percent) * startPoint.x + percent * endPoint.x,

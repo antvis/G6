@@ -1,7 +1,6 @@
+import { ArrowConfig } from '@antv/g6';
 import { TestCaseContext } from '../../interface';
 import { Graph } from '../../../../src';
-import { ShapeStyle } from '../../../../src/types/item';
-import { ArrowConfig } from '@antv/g6';
 
 const defaultData = {
   nodes: [

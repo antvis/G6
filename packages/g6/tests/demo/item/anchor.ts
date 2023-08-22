@@ -43,7 +43,7 @@ export default (
     showAnchorShapes = true,
     edgeAnchors,
   } = options;
-  let anchorShapes = showAnchorShapes
+  const anchorShapes = showAnchorShapes
     ? anchorPoints.map((position) => ({
         position,
       }))
