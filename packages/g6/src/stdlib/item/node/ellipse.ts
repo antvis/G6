@@ -14,7 +14,7 @@ export class EllipseNode extends BaseNode {
       rx: 30,
       ry: 20,
       x: 0,
-      y:0,
+      y: 0,
     },
   };
   mergedStyles: NodeShapeStyles;
@@ -103,6 +103,7 @@ export class EllipseNode extends BaseNode {
     diffData?: { previous: NodeModelData; current: NodeModelData },
     diffState?: { previous: State[]; current: State[] },
   ): DisplayObject {
+    this.getAnchorPoint()
     return this.upsertShape(
       'ellipse',
       'keyShape',
@@ -110,5 +111,15 @@ export class EllipseNode extends BaseNode {
       shapeMap,
       model,
     );
+  }
+  private getAnchorPoint() {
+    const toNumber = (_: number | string) => _ as number;
+    const { keyShape: keyShapeStyle } = this.mergedStyles as any;
+    const x = toNumber(keyShapeStyle.x);
+    const y = toNumber(keyShapeStyle.y);
+    this.anchorPosition['top'] = [x, y - keyShapeStyle.ry];
+    this.anchorPosition['left'] = [x - keyShapeStyle.rx, y];
+    this.anchorPosition['right'] = this.anchorPosition['default'] = [x + keyShapeStyle.rx, y];
+    this.anchorPosition['bottom'] = [x, y + keyShapeStyle.ry];
   }
 }
