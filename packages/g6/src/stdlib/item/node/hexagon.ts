@@ -110,7 +110,7 @@ export class HexagonNode extends BaseNode {
             'keyShape',
             {
                 ...this.mergedStyles.keyShape,
-                points: this.getHexagonVPoints(
+                points: this.getHexagonPoints(
                     keyShapeStyle.r,
                     keyShapeStyle.direction,
                 ),
@@ -119,7 +119,7 @@ export class HexagonNode extends BaseNode {
             model,
         );
     }
-    private getHexagonVPoints(r: number, direction: string): [number, number][] {
+    private getHexagonPoints(r: number, direction: string): [number, number][] {
         const angleIncrement = Math.PI / 3; //The angle increment between vertex.
         const v = [];
         const offsetAngle = direction === 'horizontal' ? 0 : Math.PI / 2;
