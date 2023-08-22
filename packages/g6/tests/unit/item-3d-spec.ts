@@ -31,7 +31,6 @@ describe('node item', () => {
       container,
       width: 500,
       height: 500,
-      type: 'graph',
       renderer: 'webgl-3d',
       // renderer: 'canvas',
       modes: {

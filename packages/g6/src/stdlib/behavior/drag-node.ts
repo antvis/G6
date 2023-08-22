@@ -206,7 +206,7 @@ export default class DragNode extends Behavior {
       this.originPositions = selectedNodeIds
         .map((id) => {
           if (!this.graph.getNodeData(id)) {
-            console.log('node does not exist', id);
+            console.warn('node does not exist', id);
             return;
           }
           const { x, y } = this.graph.getNodeData(id).data as {

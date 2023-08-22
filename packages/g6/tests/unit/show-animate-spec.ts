@@ -1887,7 +1887,6 @@ const createGraph = (props) => {
     // renderer: 'webgl',
     width: 500,
     height: 500,
-    type: 'graph',
     data: clonedData,
     // data: {
     //   nodes: [clonedData.nodes[0], clonedData.nodes[10]],

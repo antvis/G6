@@ -15,8 +15,8 @@ interface IProps {
   model: ComboModel;
   renderExtensions: any;
   containerGroup: Group;
-  mapper: DisplayMapper;
-  stateMapper: {
+  mapper?: DisplayMapper;
+  stateMapper?: {
     [stateName: string]: DisplayMapper;
   };
   zoom?: number;
@@ -74,6 +74,7 @@ export default class Combo extends Node {
     displayModel: ComboDisplayModel,
     diffData?: { previous: ComboUserModelData; current: ComboUserModelData },
     diffState?: { previous: State[]; current: State[] },
+    animate = true,
     onfinish: Function = () => {},
   ) {
     if (displayModel.data.collapsed) {
@@ -90,7 +91,7 @@ export default class Combo extends Node {
         }
       });
     }
-    super.draw(displayModel, diffData, diffState, onfinish);
+    super.draw(displayModel, diffData, diffState, animate, onfinish);
   }
 
   /**

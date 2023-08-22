@@ -416,8 +416,9 @@ export abstract class BaseNode {
       nodeName as SHAPE_TYPE,
       'haloShape',
       {
-        ...attributes,
         ...keyShapeStyle,
+        // actual attributes in the keyShape has higher priority than the style config props of keyShape
+        ...attributes,
         stroke: attributes.fill,
         ...haloShapeStyle,
         batchKey: 'halo',

@@ -47,16 +47,15 @@ export type ThemeObjectOptionsOf<T extends ThemeRegistry = {}> = {
 
 /** Default and stateStyle for an item */
 export type NodeStyleSet = {
-  default?: NodeShapeStyles;
-  seledted?: NodeShapeStyles;
+  default: NodeShapeStyles;
   [stateName: string]: NodeShapeStyles;
 };
 export type EdgeStyleSet = {
-  default?: EdgeShapeStyles;
+  default: EdgeShapeStyles;
   [stateName: string]: EdgeShapeStyles;
 };
 export type ComboStyleSet = {
-  default?: ComboShapeStyles;
+  default: ComboShapeStyles;
   [stateName: string]: ComboShapeStyles;
 };
 

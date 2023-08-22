@@ -4,7 +4,7 @@ import { IGraph } from '../../../types';
 import { Plugin as Base, IPluginBaseConfig } from '../../../types/plugin';
 
 interface ToolbarConfig extends IPluginBaseConfig {
-  handleClick: (code: string, graph: IGraph) => void;
+  handleClick?: (code: string, graph: IGraph) => void;
   getContent: (graph?: IGraph) => HTMLDivElement | string;
   zoomSensitivity: number;
   minZoom: number;
@@ -30,17 +30,19 @@ const getEventPath = (evt: MouseEvent) => {
       return path;
     }
 
-    el = el.parentElement;
+    el = el.parentElement as HTMLElement;
   }
   return path;
 };
 
 export default class Toolbar extends Base {
-  public options: ToolbarConfig;
+  // public options: ToolbarConfig;
   public ToolbarDOM: HTMLDivElement;
   public ContainerDOM: HTMLElement;
   constructor(config: Partial<ToolbarConfig>) {
     super(config);
+    this.ToolbarDOM = createDom('<div></div>');
+    this.ContainerDOM = createDom('<div></div>');
   }
   public getDefaultCfgs(): ToolbarConfig {
     return {
@@ -79,7 +81,7 @@ export default class Toolbar extends Base {
   public getContainer() {
     const { container } = this.options;
     if (typeof container === 'string') {
-      this.ContainerDOM = document.getElementById(container);
+      this.ContainerDOM = document.getElementById(container) as HTMLDivElement;
     } else {
       this.ContainerDOM = this.graph.container;
     }
@@ -103,7 +105,9 @@ export default class Toolbar extends Base {
     this.ContainerDOM.appendChild(this.ToolbarDOM);
 
     this.ToolbarDOM.addEventListener('click', (evt) => {
-      const current = getEventPath(evt).filter((p) => p.nodeName === 'LI');
+      const current = (getEventPath(evt) as HTMLElement[]).filter(
+        (p) => p.nodeName === 'LI',
+      );
       if (current.length === 0) {
         return;
       }
@@ -225,7 +229,6 @@ export default class Toolbar extends Base {
   }
 
   public destroy() {
-    super.destroy();
     const { ToolbarDOM, ContainerDOM } = this;
     const { handleClick } = this.options;
     if (ToolbarDOM) {
@@ -235,5 +238,6 @@ export default class Toolbar extends Base {
       //@ts-ignore
       ToolbarDOM.removeEventListener('click', handleClick);
     }
+    super.destroy();
   }
 }

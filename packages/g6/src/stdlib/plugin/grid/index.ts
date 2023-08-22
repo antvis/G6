@@ -35,8 +35,6 @@ export default class Grid extends Base {
   public init(graph: IGraph) {
     super.init(graph);
     const minZoom = graph.getZoom();
-    // console.log('minZoom', minZoom);
-    // console.log('graph', graph.canvas);
     const graphContainer = graph.container;
     const canvas = this.canvas || graphContainer.firstChild.nextSibling;
     const [width, height] = graph.getSize();
