@@ -52,7 +52,8 @@ runtime.enableCSSParsing = false;
 
 export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
   extends EventEmitter
-  implements IGraph<B, T> {
+  implements IGraph<B, T>
+{
   public hooks: Hooks;
   // for nodes and edges, which will be separate into groups
   public canvas: Canvas;
@@ -203,9 +204,9 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     ).then(() => {
       [this.backgroundCanvas, this.canvas, this.transientCanvas].forEach(
         (canvas, i) => {
-          const $domElement = (canvas
+          const $domElement = canvas
             .getContextService()
-            .getDomElement() as unknown) as HTMLElement;
+            .getDomElement() as unknown as HTMLElement;
           if ($domElement && $domElement.style) {
             $domElement.style.position = 'fixed';
             $domElement.style.outline = 'none';
@@ -606,10 +607,8 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       x: graphCenterX,
       y: graphCenterY,
     });
-    const {
-      width: viewportWidth,
-      height: viewportHeight,
-    } = this.canvas.getConfig();
+    const { width: viewportWidth, height: viewportHeight } =
+      this.canvas.getConfig();
 
     const graphWidth = halfExtents[0] * 2;
     const graphHeight = halfExtents[1] * 2;
@@ -1495,9 +1494,8 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     });
     // update the graph specification
     modesArr.forEach((mode) => {
-      this.specification.modes[mode] = this.specification.modes[mode].concat(
-        behaviorsArr,
-      );
+      this.specification.modes[mode] =
+        this.specification.modes[mode].concat(behaviorsArr);
     });
   }
   /**
@@ -1520,9 +1518,8 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
         const oldBehavior = this.specification.modes[mode].find(
           (behavior) => isObject(behavior) && behavior.key === key,
         );
-        const indexOfOldBehavior = this.specification.modes[mode].indexOf(
-          oldBehavior,
-        );
+        const indexOfOldBehavior =
+          this.specification.modes[mode].indexOf(oldBehavior);
         this.specification.modes[mode].splice(indexOfOldBehavior, 1);
       });
     });

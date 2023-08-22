@@ -51,22 +51,21 @@ type CustomLayout = {
   [option: string]: any;
 };
 
-export type StandardLayoutOptions =
-  | (
-      | CircularLayout
-      | RandomLayout
-      | ConcentricLayout
-      | GridLayout
-      | MDSLayout
-      | RadialLayout
-      | FruchtermanLayout
-      | D3ForceLayout
-      | ForceLayout
-      | ForceAtlas2
-      | CustomLayout
-    ) &
-      Animatable &
-      Workerized;
+export type StandardLayoutOptions = (
+  | CircularLayout
+  | RandomLayout
+  | ConcentricLayout
+  | GridLayout
+  | MDSLayout
+  | RadialLayout
+  | FruchtermanLayout
+  | D3ForceLayout
+  | ForceLayout
+  | ForceAtlas2
+  | CustomLayout
+) &
+  Animatable &
+  Workerized;
 
 export type LayoutOptions =
   | StandardLayoutOptions
