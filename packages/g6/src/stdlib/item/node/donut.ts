@@ -45,11 +45,10 @@ type DonutSegmentValue = {
 
 type DonutSegmentConfig = {
   arcR: number; // the radius of the fan
-  arcBegin: [number, number]; // the beginning position of the arc
   beginAngle: number; // the beginning angle of the arc
   config: DonutSegmentValue; // value and color of the fan
   index: number; // the index of the fan at the donut fans array
-  lineWidth: number; // the line width for the arc path
+  lineWidth: number; // width of the segment determining the inner size
   zIndex: number; // shape zIndex
   totalValue: number; // the total value of the donut configs
   drawWhole?: boolean; // whether draw a arc with radius 2*PI to represent a circle
@@ -163,6 +162,14 @@ export class DonutNode extends BaseNode {
     return shapes;
   }
 
+  /**
+   * Draw a complete donut composed of several segments
+   * @param model
+   * @param shapeMap
+   * @param diffData
+   * @param diffState
+   * @returns
+   */
   private drawDonutShapes(
     model: DonutNodeDisplayModel,
     shapeMap: NodeShapeMap,
@@ -182,7 +189,6 @@ export class DonutNode extends BaseNode {
     if (!totalValue) return;
 
     const { lineWidth, arcR } = getDonutSize(shapeMap.keyShape, innerSize);
-    let arcBegin: [number, number] = [arcR, 0];
     let beginAngle = 0;
 
     const shapes = {};
@@ -191,7 +197,6 @@ export class DonutNode extends BaseNode {
       const result = this.drawDonutSegment(
         {
           arcR,
-          arcBegin,
           beginAngle,
           config,
           index,
@@ -207,13 +212,22 @@ export class DonutNode extends BaseNode {
         diffState,
       );
       if (result.shouldEnd) return;
-      arcBegin = result.arcBegin;
       beginAngle = result.beginAngle;
     });
 
     return shapes;
   }
 
+  /**
+   * Draw a single donut segment
+   * @param cfg The configurations of donut segments
+   * @param shapes The collections of donut segment shapes
+   * @param model
+   * @param shapeMap
+   * @param diffData
+   * @param diffState
+   * @returns
+   */
   private drawDonutSegment = (
     cfg: DonutSegmentConfig,
     shapes: { [shapeId: string]: DisplayObject },
@@ -223,12 +237,10 @@ export class DonutNode extends BaseNode {
     diffState?: { previous: State[]; current: State[] },
   ): {
     beginAngle: number; // next begin iangle
-    arcBegin: [number, number]; // next begin position
     shouldEnd: boolean; // finish fans drawing
   } => {
     const {
       arcR,
-      arcBegin,
       beginAngle,
       config,
       index,
@@ -243,11 +255,11 @@ export class DonutNode extends BaseNode {
       // too small to add a fan
       return {
         beginAngle,
-        arcBegin,
         shouldEnd: false,
       };
     }
     let arcEnd, endAngle, isLargeArc;
+    const arcBegin = calculateArcEndpoint(arcR, beginAngle);
     // draw a path represents the whole circle, or the percentage is close to 1
     if (drawWhole || percent > 0.999) {
       arcEnd = [arcR, 0.0001]; // [arcR * cos(2 * PI), -arcR * sin(2 * PI)]
@@ -255,7 +267,7 @@ export class DonutNode extends BaseNode {
     } else {
       const angle = percent * Math.PI * 2;
       endAngle = beginAngle + angle;
-      arcEnd = [arcR * Math.cos(endAngle), -arcR * Math.sin(endAngle)];
+      arcEnd = calculateArcEndpoint(arcR, endAngle);
       isLargeArc = angle > Math.PI ? 1 : 0;
     }
     const style = {
@@ -264,8 +276,7 @@ export class DonutNode extends BaseNode {
         ['A', arcR, arcR, 0, isLargeArc, 0, arcEnd[0], arcEnd[1]],
       ],
       stroke:
-        config.color ||
-        defaultDonutPalette[index % defaultDonutPalette.length],
+        config.color || defaultDonutPalette[index % defaultDonutPalette.length],
       lineWidth,
       zIndex,
     } as ShapeStyle;
@@ -279,7 +290,6 @@ export class DonutNode extends BaseNode {
 
     return {
       beginAngle: endAngle,
-      arcBegin: arcEnd,
       shouldEnd: drawWhole || percent > 0.999,
     };
   };
@@ -299,6 +309,16 @@ export class DonutNode extends BaseNode {
     );
   }
 }
+
+/**
+ * Calculate the endpoint of an arc segment.
+ * @param arcR Radius of the arc.
+ * @param angle angle in degrees subtended by arc.
+ */
+const calculateArcEndpoint = (arcR: number, angle: number): number[] => [
+  arcR * Math.cos(angle),
+  -arcR * Math.sin(angle),
+];
 
 /**
  * calculate the total value and format single value for each fan
