@@ -32,6 +32,7 @@ import fisheye from './plugins/fisheye';
 import tooltip from './demo/tooltip';
 import comboBasic from './combo/combo-basic';
 import animations_node_build_in from './animations/node-build-in';
+import triangle from './demo/triangle';
 import ellipse from './demo/ellipse';
 import treeGraph from './tree/treeGraph';
 import behaviors_collapse_expand_tree from './behaviors/collapse-expand-tree';
@@ -72,6 +73,7 @@ export {
   tooltip,
   comboBasic,
   animations_node_build_in,
+  triangle,
   ellipse,
   treeGraph,
 };
