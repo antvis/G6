@@ -1,4 +1,5 @@
 import { Animation, DisplayObject, IAnimationEffectTiming } from '@antv/g';
+import Hierarchy from '@antv/hierarchy';
 import { Graph as GraphLib } from '@antv/graphlib';
 import {
   isLayoutWithIterations,
@@ -17,6 +18,7 @@ import {
 } from '../../types';
 import { GraphCore } from '../../types/data';
 import { EdgeModelData } from '../../types/edge';
+import { layoutOneTree } from '../../util/layout';
 
 /**
  * Manages layout extensions and graph layout.
@@ -48,6 +50,7 @@ export class LayoutController {
   private async onLayout(params: {
     graphCore: GraphCore;
     options: LayoutOptions;
+    animate?: boolean;
   }) {
     /**
      * The final calculated result.
@@ -57,13 +60,15 @@ export class LayoutController {
     // Stop currentLayout if any.
     this.stopLayout();
 
-    const { graphCore, options } = params;
+    const { graphCore, options, animate = true } = params;
     const layoutNodes = graphCore
       .getAllNodes()
-      .filter((node) => node.data.visible !== false && !node.data._isCombo);
+      .filter(
+        (node) => this.graph.getItemVisible(node.id) && !node.data._isCombo,
+      );
     const layoutNodesIdMap = {};
     layoutNodes.forEach((node) => (layoutNodesIdMap[node.id] = true));
-    const layoutGraphCore = new GraphLib<NodeModelData, EdgeModelData>({
+    const layoutData = {
       nodes: layoutNodes,
       edges: graphCore
         .getAllEdges()
@@ -71,7 +76,10 @@ export class LayoutController {
           (edge) =>
             layoutNodesIdMap[edge.source] && layoutNodesIdMap[edge.target],
         ),
-    });
+    };
+    const layoutGraphCore = new GraphLib<NodeModelData, EdgeModelData>(
+      layoutData,
+    );
 
     this.graph.emit('startlayout');
 
@@ -110,6 +118,19 @@ export class LayoutController {
       const layoutCtor = stdLib.layouts[type];
       if (!layoutCtor) {
         throw new Error(`Unknown layout algorithm: ${type}`);
+      }
+
+      if (Hierarchy[type]) {
+        // tree layout type
+        await this.handleTreeLayout(
+          type,
+          options,
+          animationEffectTiming,
+          graphCore,
+          layoutData,
+          animate,
+        );
+        return;
       }
 
       // Initialize layout.
@@ -170,7 +191,57 @@ export class LayoutController {
     this.graph.emit('endlayout');
 
     // Update nodes' positions.
-    this.updateNodesPosition(positions);
+    this.updateNodesPosition(positions, animate);
+  }
+
+  async handleTreeLayout(
+    type,
+    options,
+    animationEffectTiming,
+    graphCore,
+    layoutData,
+    animate,
+  ) {
+    const { animated = false, rootIds = [], begin = [0, 0] } = options;
+    const nodePositions = [];
+    const nodeMap = {};
+    // tree layout with tree data
+    const trees = graphCore
+      .getRoots('tree')
+      .filter(
+        (node) => !node.data._isCombo, // this.graph.getItemVisible(node.id) &&
+      )
+      .map((node) => ({ id: node.id, children: [] }));
+
+    trees.forEach((tree) => {
+      nodeMap[tree.id] = tree;
+      graphCore.dfsTree(
+        tree.id,
+        (node) => {
+          nodeMap[node.id].children = graphCore
+            .getChildren(node.id, 'tree')
+            .filter((node) => !node.data._isCombo)
+            .map((child) => {
+              nodeMap[child.id] = { id: child.id, children: [] };
+              return nodeMap[child.id];
+            });
+        },
+        'tree',
+      );
+      layoutOneTree(tree, type, options, nodeMap, nodePositions, begin);
+    });
+    if (animated) {
+      await this.animateLayoutWithoutIterations(
+        { nodes: nodePositions, edges: [] },
+        animationEffectTiming,
+      );
+    }
+    this.graph.emit('endlayout');
+    this.updateNodesPosition(
+      { nodes: nodePositions, edges: [] },
+      animated || animate,
+    );
+    return;
   }
 
   stopLayout() {
@@ -202,8 +273,8 @@ export class LayoutController {
     }
   }
 
-  private updateNodesPosition(positions: LayoutMapping) {
-    this.graph.updateNodePosition(positions.nodes);
+  private updateNodesPosition(positions: LayoutMapping, animate = true) {
+    this.graph.updateNodePosition(positions.nodes, undefined, !animate);
   }
 
   /**

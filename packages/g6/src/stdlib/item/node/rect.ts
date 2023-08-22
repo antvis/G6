@@ -7,6 +7,7 @@ import {
   NodeShapeMap,
   NodeShapeStyles,
 } from '../../../types/node';
+import { convertToNumber } from '../../../util/type';
 import { BaseNode } from './base';
 
 export class RectNode extends BaseNode {
@@ -46,6 +47,22 @@ export class RectNode extends BaseNode {
       shapeMap,
       model,
     );
+  }
+
+  public override calculateAnchorPosition(keyShapeStyle) {
+    const x = convertToNumber(keyShapeStyle.x);
+    const y = convertToNumber(keyShapeStyle.y);
+    const height = keyShapeStyle.height;
+    const width = keyShapeStyle.width;
+    const anchorPositionMap = {};
+    anchorPositionMap['top'] = [x, y - height / 2];
+    anchorPositionMap['left'] = [x - width / 2, y];
+    anchorPositionMap['right'] = anchorPositionMap['default'] = [
+      x + width / 2,
+      y,
+    ];
+    anchorPositionMap['bottom'] = [x, y + height / 2];
+    return anchorPositionMap;
   }
 
   public draw(

@@ -232,6 +232,11 @@ export interface IGraph<
           ComboUserModel | Partial<NodeUserModel>[] | Partial<ComboUserModel>[]
         >,
     upsertAncestors?: boolean,
+    disableAnimate?: boolean,
+    callback?: (
+      model: NodeModel | EdgeModel | ComboModel,
+      canceled?: boolean,
+    ) => void,
     stack?: boolean,
   ) => NodeModel | ComboModel | NodeModel[] | ComboModel[];
 
@@ -249,6 +254,8 @@ export interface IGraph<
           ComboUserModel | Partial<NodeUserModel>[] | Partial<ComboUserModel>[]
         >,
     upsertAncestors?: boolean,
+    disableAnimate?: boolean,
+    callback?: (model: NodeModel | EdgeModel | ComboModel) => void,
     stack?: boolean,
   ) => NodeModel | ComboModel | NodeModel[] | ComboModel[];
 
@@ -444,14 +451,14 @@ export interface IGraph<
    * @returns
    * @group Data
    */
-  showItem: (ids: ID | ID[], disableAniamte?: boolean) => void;
+  showItem: (ids: ID | ID[], disableAnimate?: boolean) => void;
   /**
    * Hide the item(s).
    * @param ids the item id(s) to be hidden
    * @returns
    * @group Item
    */
-  hideItem: (ids: ID | ID[], disableAniamte?: boolean) => void;
+  hideItem: (ids: ID | ID[], disableAnimate?: boolean) => void;
   /**
    * Make the item(s) to the front.
    * @param ids the item id(s) to front
@@ -543,7 +550,7 @@ export interface IGraph<
   /**
    * Layout the graph (with current configurations if cfg is not assigned).
    */
-  layout: (options?: LayoutOptions) => Promise<void>;
+  layout: (options?: LayoutOptions, disableAnimate?: boolean) => Promise<void>;
   stopLayout: () => void;
 
   // ===== interaction =====
@@ -627,4 +634,24 @@ export interface IGraph<
     type: string;
     [cfgName: string]: unknown;
   }) => void;
+
+  // ===== tree operations =====
+  /**
+   * Collapse sub tree(s).
+   * @param ids Root id(s) of the sub trees.
+   * @param disableAnimate Whether disable the animations for this operation.
+   * @param stack Whether push this operation to stack.
+   * @returns
+   * @group Tree
+   */
+  collapse: (ids: ID | ID[], disableAnimate?: boolean, stack?: boolean) => void;
+  /**
+   * Expand sub tree(s).
+   * @param ids Root id(s) of the sub trees.
+   * @param disableAnimate Whether disable the animations for this operation.
+   * @param stack Whether push this operation to stack.
+   * @returns
+   * @group Tree
+   */
+  expand: (ids: ID | ID[], disableAnimate?: boolean, stack?: boolean) => void;
 }

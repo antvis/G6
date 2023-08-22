@@ -24,7 +24,6 @@ describe('data', () => {
       container,
       width: 500,
       height: 500,
-      type: 'graph',
       data, // with data, graph will be rendered in constructor
     });
     graph.on('afterrender', () => {

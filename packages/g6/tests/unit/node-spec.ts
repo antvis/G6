@@ -26,7 +26,6 @@ describe('node item', () => {
       container,
       width: 500,
       height: 500,
-      type: 'graph',
       data: {
         nodes: [
           {
@@ -138,7 +137,6 @@ describe('node mapper', () => {
     container,
     width: 500,
     height: 500,
-    type: 'graph',
   };
   it('function mapper', (done) => {
     const graph = new G6.Graph({
@@ -323,7 +321,6 @@ describe('register node', () => {
       container,
       width: 500,
       height: 500,
-      type: 'graph',
       data: {
         nodes: [
           {
@@ -465,7 +462,6 @@ describe('register node', () => {
       container,
       width: 500,
       height: 500,
-      type: 'graph',
       data: {
         nodes: [
           {
@@ -533,7 +529,6 @@ describe('state', () => {
       container,
       width: 500,
       height: 500,
-      type: 'graph',
       data: {
         nodes: [
           {
@@ -677,7 +672,6 @@ describe('state', () => {
       container,
       width: 500,
       height: 500,
-      type: 'graph',
       data: {
         nodes: [
           {
@@ -920,7 +914,6 @@ describe('state', () => {
       container,
       width: 500,
       height: 500,
-      type: 'graph',
       data: {
         nodes: [
           {
