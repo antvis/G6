@@ -91,7 +91,7 @@ export default (context: TestCaseContext) => {
         data: {
           ...data,
           keyShape: {
-            direction: 'top',
+            direction: 'up',
           },
           labelShape: {
             text: 'label',
@@ -114,7 +114,7 @@ export default (context: TestCaseContext) => {
           },
           anchorShapes: [
             {
-              position: 'lkj',
+              position: 'top',
               r: 2,
               fill: 'red',
             },

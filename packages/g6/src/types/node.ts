@@ -165,3 +165,7 @@ export interface NodeShapeMap {
 
 // TODO
 export type INode = IItem;
+
+export interface IAnchorPositionMap {
+  [key: string]: [number, number];
+}

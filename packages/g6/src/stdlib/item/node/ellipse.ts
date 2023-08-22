@@ -6,8 +6,8 @@ import {
   NodeShapeMap,
   NodeShapeStyles,
 } from '../../../types/node';
+import { convertToNumber } from '../../../util/type';
 import { BaseNode } from './base';
-
 export class EllipseNode extends BaseNode {
   override defaultStyles = {
     keyShape: {
@@ -110,5 +110,19 @@ export class EllipseNode extends BaseNode {
       shapeMap,
       model,
     );
+  }
+
+  public override calculateAnchorPosition(keyShapeStyle) {
+    const x = convertToNumber(keyShapeStyle.x);
+    const y = convertToNumber(keyShapeStyle.y);
+    const anchorPositionMap = {};
+    anchorPositionMap['top'] = [x, y - keyShapeStyle.ry];
+    anchorPositionMap['left'] = [x - keyShapeStyle.rx, y];
+    anchorPositionMap['right'] = anchorPositionMap['default'] = [
+      x + keyShapeStyle.rx,
+      y,
+    ];
+    anchorPositionMap['bottom'] = [x, y + keyShapeStyle.ry];
+    return anchorPositionMap;
   }
 }

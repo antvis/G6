@@ -23,7 +23,6 @@ export class TriangleNode extends BaseNode {
       direction: 'up', //'up'|'left'|'right'|'down'
     },
   };
-  vPoint = {}; // vertex coordinates
   mergedStyles: NodeShapeStyles;
   constructor(props) {
     super(props);
@@ -122,56 +121,43 @@ export class TriangleNode extends BaseNode {
       model,
     );
   }
-
   private getTrianglePath(
     r: number,
     direction: 'up' | 'down' | 'left' | 'right',
   ): PathArray {
-    const height = 3 * r;
-    const length = (3 * r) / Math.sin((1 / 3) * Math.PI);
+    const halfHeight = (3 * r) / 2;
+    const halfLength = (3 * r) / Math.sin((1 / 3) * Math.PI) / 2;
 
     let path: PathArray;
     if (direction === 'down') {
       path = [
-        ['M', 0, height / 2],
-        ['L', length / 2, -height / 2],
-        ['L', -length / 2, -height / 2],
+        ['M', 0, halfHeight],
+        ['L', halfLength, -halfHeight],
+        ['L', -halfLength, -halfHeight],
         ['Z'],
       ];
-      this.vPoint['bottom'] = [0, height / 2];
-      this.vPoint['right'] = this.vPoint['default'] = [length / 2, -height / 2];
-      this.vPoint['left'] = [-length / 2, -height / 2];
     } else if (direction === 'left') {
       path = [
-        ['M', -height / 2, 0],
-        ['L', height / 2, length / 2],
-        ['L', height / 2, -length / 2],
+        ['M', -halfHeight, 0],
+        ['L', halfHeight, halfLength],
+        ['L', halfHeight, -halfLength],
         ['Z'],
       ];
-      this.vPoint['top'] = [height / 2, -length / 2];
-      this.vPoint['bottom'] = [height / 2, length / 2];
-      this.vPoint['left'] = this.vPoint['default'] = [-height / 2, 0];
     } else if (direction === 'right') {
       path = [
-        ['M', height / 2, 0],
-        ['L', -height / 2, length / 2],
-        ['L', -height / 2, -length / 2],
+        ['M', halfHeight, 0],
+        ['L', -halfHeight, halfLength],
+        ['L', -halfHeight, -halfLength],
         ['Z'],
       ];
-      this.vPoint['top'] = [-height / 2, -length / 2];
-      this.vPoint['bottom'] = [-height / 2, length / 2];
-      this.vPoint['right'] = this.vPoint['default'] = [height / 2, 0];
     } else {
-      //top
+      //up
       path = [
-        ['M', 0, -height / 2],
-        ['L', length / 2, height / 2],
-        ['L', -length / 2, height / 2],
+        ['M', 0, -halfHeight],
+        ['L', halfLength, halfHeight],
+        ['L', -halfLength, halfHeight],
         ['Z'],
       ];
-      this.vPoint['left'] = [-length / 2, height / 2];
-      this.vPoint['top'] = this.vPoint['default'] = [0, -height / 2];
-      this.vPoint['right'] = [length / 2, height / 2];
     }
     return path;
   }
@@ -236,72 +222,43 @@ export class TriangleNode extends BaseNode {
     );
   }
 
-  public override drawAnchorShapes(
-    model: NodeDisplayModel | ComboDisplayModel,
-    shapeMap: NodeShapeMap | ComboShapeMap,
-    diffData?: {
-      previous: NodeModelData | ComboModelData;
-      current: NodeModelData | ComboModelData;
-    },
-    diffState?: { previous: State[]; current: State[] },
-  ) {
-    const { anchorShapes: commonStyle, keyShape: keyShapeStyle } =
-      this.mergedStyles;
+  public override calculateAnchorPosition(keyShapeStyle) {
+    const direction = keyShapeStyle.direction;
+    const r = keyShapeStyle.r;
 
-    const individualConfigs = Object.values(this.mergedStyles).filter(
-      (style) => style.tag === 'anchorShape',
-    );
-    if (!individualConfigs.length) return;
-    this.boundsCache.keyShapeLocal =
-      this.boundsCache.keyShapeLocal || shapeMap.keyShape.getLocalBounds();
-    const keyShapeBBox = this.boundsCache.keyShapeLocal;
-    const keyShapeWidth = keyShapeBBox.max[0] - keyShapeBBox.min[0];
-    const keyShapeHeight = keyShapeBBox.max[1] - keyShapeBBox.min[1];
-
-    const shapes = {};
-    individualConfigs.forEach((config, i) => {
-      const { position, fill = keyShapeStyle.fill, ...style } = config;
-      const id = `anchorShape${i}`;
-      if (!position) {
-        console.error(`please set the anchorShape 'position'`);
-        return;
-      }
-      const [cx, cy] = this.getAnchorPosition(position);
-      shapes[id] = this.upsertShape(
-        'circle',
-        id,
-        {
-          cx,
-          cy,
-          fill,
-          ...commonStyle,
-          ...style,
-        } as GShapeStyle,
-        shapeMap,
-        model,
-      );
-    });
-    return shapes;
-  }
-
-  private getAnchorPosition(
-    position: string | [number, number],
-  ): [number, number] {
-    const keyShapeBBox = this.boundsCache.keyShapeLocal;
-    const keyShapeWidth = keyShapeBBox.max[0] - keyShapeBBox.min[0];
-    const keyShapeHeight = keyShapeBBox.max[1] - keyShapeBBox.min[1];
-    if (position instanceof Array) {
-      return [
-        keyShapeWidth * (position[0] - 0.5),
-        keyShapeHeight * (position[1] - 0.5),
+    const halfHeight = (3 * r) / 2;
+    const halfLength = (3 * r) / Math.sin((1 / 3) * Math.PI) / 2;
+    const anchorPositionMap = {};
+    if (direction === 'down') {
+      anchorPositionMap['bottom'] = [0, halfHeight];
+      anchorPositionMap['right'] = anchorPositionMap['default'] = [
+        halfLength,
+        -halfHeight,
       ];
-    } else if (typeof position === 'string') {
-      position = position.toLowerCase();
-      return this.vPoint[position] || this.vPoint['default'];
+      anchorPositionMap['left'] = [-halfLength, -halfHeight];
+    } else if (direction === 'left') {
+      anchorPositionMap['top'] = [halfHeight, -halfLength];
+      anchorPositionMap['bottom'] = [halfHeight, halfLength];
+      anchorPositionMap['left'] = anchorPositionMap['default'] = [
+        -halfHeight,
+        0,
+      ];
+    } else if (direction === 'right') {
+      anchorPositionMap['top'] = [-halfHeight, -halfLength];
+      anchorPositionMap['bottom'] = [-halfHeight, halfLength];
+      anchorPositionMap['right'] = anchorPositionMap['default'] = [
+        halfHeight,
+        0,
+      ];
+    } else {
+      //up
+      anchorPositionMap['left'] = [-halfLength, halfHeight];
+      anchorPositionMap['top'] = anchorPositionMap['default'] = [
+        0,
+        -halfHeight,
+      ];
+      anchorPositionMap['right'] = [halfLength, halfHeight];
     }
-    console.error(
-      `there is a unknown position: ${position}, please check the anchorShape 'position' field`,
-    );
-    return [keyShapeWidth, keyShapeHeight];
+    return anchorPositionMap;
   }
 }
