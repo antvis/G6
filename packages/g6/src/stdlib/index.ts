@@ -10,7 +10,13 @@ import DragNode from './behavior/drag-node';
 import DragCombo from './behavior/drag-combo';
 import { comboFromNode } from './data/comboFromNode';
 import { LineEdge } from './item/edge';
-import { CircleNode, SphereNode, RectNode, EllipseNode, TriangleNode } from './item/node';
+import {
+  CircleNode,
+  SphereNode,
+  RectNode,
+  EllipseNode,
+  TriangleNode,
+} from './item/node';
 import DarkTheme from './theme/dark';
 import LightTheme from './theme/light';
 import SpecThemeSolver from './themeSolver/spec';
