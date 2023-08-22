@@ -127,51 +127,51 @@ export class TriangleNode extends BaseNode {
     r: number,
     direction: 'up' | 'down' | 'left' | 'right',
   ): PathArray {
-    const height = 3 * r;
-    const length = (3 * r) / Math.sin((1 / 3) * Math.PI);
+    const halfHeight = 3 * r / 2;
+    const halfLength = ((3 * r) / Math.sin((1 / 3) * Math.PI)) / 2;
 
     let path: PathArray;
     if (direction === 'down') {
       path = [
-        ['M', 0, height / 2],
-        ['L', length / 2, -height / 2],
-        ['L', -length / 2, -height / 2],
+        ['M', 0, halfHeight],
+        ['L', halfLength, -halfHeight],
+        ['L', -halfLength, -halfHeight],
         ['Z'],
       ];
-      this.vPoint['bottom'] = [0, height / 2];
-      this.vPoint['right'] = this.vPoint['default'] = [length / 2, -height / 2];
-      this.vPoint['left'] = [-length / 2, -height / 2];
+      this.vPoint['bottom'] = [0, halfHeight];
+      this.vPoint['right'] = this.vPoint['default'] = [halfLength, -halfHeight];
+      this.vPoint['left'] = [-halfLength, -halfHeight];
     } else if (direction === 'left') {
       path = [
-        ['M', -height / 2, 0],
-        ['L', height / 2, length / 2],
-        ['L', height / 2, -length / 2],
+        ['M', -halfHeight, 0],
+        ['L', halfHeight, halfLength],
+        ['L', halfHeight, -halfLength],
         ['Z'],
       ];
-      this.vPoint['top'] = [height / 2, -length / 2];
-      this.vPoint['bottom'] = [height / 2, length / 2];
-      this.vPoint['left'] = this.vPoint['default'] = [-height / 2, 0];
+      this.vPoint['top'] = [halfHeight, -halfLength];
+      this.vPoint['bottom'] = [halfHeight, halfLength];
+      this.vPoint['left'] = this.vPoint['default'] = [-halfHeight, 0];
     } else if (direction === 'right') {
       path = [
-        ['M', height / 2, 0],
-        ['L', -height / 2, length / 2],
-        ['L', -height / 2, -length / 2],
+        ['M', halfHeight, 0],
+        ['L', -halfHeight, halfLength],
+        ['L', -halfHeight, -halfLength],
         ['Z'],
       ];
-      this.vPoint['top'] = [-height / 2, -length / 2];
-      this.vPoint['bottom'] = [-height / 2, length / 2];
-      this.vPoint['right'] = this.vPoint['default'] = [height / 2, 0];
+      this.vPoint['top'] = [-halfHeight, -halfLength];
+      this.vPoint['bottom'] = [-halfHeight, halfLength];
+      this.vPoint['right'] = this.vPoint['default'] = [halfHeight, 0];
     } else {
       //top
       path = [
-        ['M', 0, -height / 2],
-        ['L', length / 2, height / 2],
-        ['L', -length / 2, height / 2],
+        ['M', 0, -halfHeight],
+        ['L', halfLength, halfHeight],
+        ['L', -halfLength, halfHeight],
         ['Z'],
       ];
-      this.vPoint['left'] = [-length / 2, height / 2];
-      this.vPoint['top'] = this.vPoint['default'] = [0, -height / 2];
-      this.vPoint['right'] = [length / 2, height / 2];
+      this.vPoint['left'] = [-halfLength, halfHeight];
+      this.vPoint['top'] = this.vPoint['default'] = [0, -halfHeight];
+      this.vPoint['right'] = [halfLength, halfHeight];
     }
     return path;
   }
