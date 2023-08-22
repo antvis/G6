@@ -58,27 +58,31 @@ describe('Activate relations behavior', () => {
     });
   });
 
-  // it('should be rendered correctly with SVG', (done) => {
-  //   const dir = `${__dirname}/snapshots/svg`;
-  //   const { backgroundCanvas, canvas, transientCanvas, container } =
-  //     createContext('svg', 500, 500);
+  it('should be rendered correctly with SVG', (done) => {
+    const dir = `${__dirname}/snapshots/svg`;
+    const {
+      backgroundCanvas,
+      canvas,
+      transientCanvas,
+      container,
+    } = createContext('svg', 500, 500);
 
-  //   const graph = activateRelations({
-  //     container,
-  //     backgroundCanvas,
-  //     canvas,
-  //     transientCanvas,
-  //     width: 500,
-  //     height: 500,
-  //   });
+    const graph = activateRelations({
+      container,
+      backgroundCanvas,
+      canvas,
+      transientCanvas,
+      width: 500,
+      height: 500,
+    });
 
-  //   graph.on('afterlayout', async () => {
-  //     await expect(canvas).toMatchSVGSnapshot(
-  //       dir,
-  //       'behaviors-activate-relations',
-  //     );
-  //     graph.destroy();
-  //     done();
-  //   });
-  // });
+    graph.on('afterlayout', async () => {
+      await expect(canvas).toMatchSVGSnapshot(
+        dir,
+        'behaviors-activate-relations',
+      );
+      graph.destroy();
+      done();
+    });
+  });
 });

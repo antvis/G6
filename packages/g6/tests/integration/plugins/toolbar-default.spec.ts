@@ -30,7 +30,10 @@ describe('Circular layout', () => {
     });
 
     graph.on('afterlayout', async () => {
-      await expect(canvas).toMatchCanvasSnapshot(dir, 'toolbar-default');
+      await expect(canvas).toMatchCanvasSnapshot(
+        dir,
+        'plugins-toolbar-default',
+      );
       graph.destroy();
       done();
     });
