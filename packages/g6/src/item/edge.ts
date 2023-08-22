@@ -8,6 +8,7 @@ import { animateShapes } from '../util/animate';
 import { EdgeStyleSet } from '../types/theme';
 import Item from './item';
 import Node from './node';
+import Combo from './combo';
 
 interface IProps {
   model: EdgeModel;
@@ -50,6 +51,7 @@ export default class Edge extends Item {
     displayModel: EdgeDisplayModel,
     diffData?: { previous: EdgeModelData; current: EdgeModelData },
     diffState?: { previous: State[]; current: State[] },
+    animate = true,
     onfinish: Function = () => {},
   ) {
     // get the end points
@@ -94,7 +96,7 @@ export default class Edge extends Item {
 
     const timing = firstRendering ? 'buildIn' : 'update';
     // handle shape's animate
-    if (!disableAnimate && usingAnimates[timing]?.length) {
+    if (animate && !disableAnimate && usingAnimates[timing]?.length) {
       this.animations = animateShapes(
         usingAnimates,
         targetStyles, // targetStylesMap
@@ -103,7 +105,7 @@ export default class Edge extends Item {
         firstRendering ? 'buildIn' : 'update',
         this.changedStates,
         this.animateFrameListener,
-        () => onfinish(displayModel.id),
+        (canceled) => onfinish(displayModel.id, canceled),
       );
     }
   }
@@ -140,8 +142,8 @@ export default class Edge extends Item {
 
   public clone(
     containerGroup: Group,
-    sourceItem: Node,
-    targetItem: Node,
+    sourceItem: Node | Combo,
+    targetItem: Node | Combo,
     onlyKeyShape?: boolean,
     disableAnimate?: boolean,
   ) {
