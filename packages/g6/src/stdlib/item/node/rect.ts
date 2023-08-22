@@ -7,6 +7,7 @@ import {
   NodeShapeMap,
   NodeShapeStyles,
 } from '../../../types/node';
+import { convertToNumber } from '../../../util/type';
 import { BaseNode } from './base';
 
 export class RectNode extends BaseNode {
@@ -49,9 +50,8 @@ export class RectNode extends BaseNode {
   }
 
   public override calculateAnchorPosition(keyShapeStyle) {
-    const toNumber = (_: number | string) => _ as number;
-    const x = toNumber(keyShapeStyle.x);
-    const y = toNumber(keyShapeStyle.y);
+    const x = convertToNumber(keyShapeStyle.x);
+    const y = convertToNumber(keyShapeStyle.y);
     const height = keyShapeStyle.height;
     const width = keyShapeStyle.width;
     const anchorPositionMap = {};

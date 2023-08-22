@@ -23,7 +23,6 @@ export class TriangleNode extends BaseNode {
       direction: 'up', //'up'|'left'|'right'|'down'
     },
   };
-  anchorPosition = {}; // vertex coordinates
   mergedStyles: NodeShapeStyles;
   constructor(props) {
     super(props);
