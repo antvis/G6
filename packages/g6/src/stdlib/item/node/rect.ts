@@ -31,6 +31,7 @@ export class RectNode extends BaseNode {
     diffData?: { previous: NodeModelData; current: NodeModelData },
     diffState?: { previous: State[]; current: State[] },
   ): DisplayObject {
+    this.getAnchorPoint();
     return this.upsertShape(
       'rect',
       'keyShape',
@@ -48,6 +49,16 @@ export class RectNode extends BaseNode {
     );
   }
 
+  private getAnchorPoint() {
+    const toNumber = (_: number | string) => _ as number;
+    const { keyShape: keyShapeStyle } = this.mergedStyles;
+    const x = toNumber(keyShapeStyle.x);
+    const y = toNumber(keyShapeStyle.y);
+    this.anchorPosition['top'] = [x, y - keyShapeStyle.height / 2];
+    this.anchorPosition['left'] = [x - keyShapeStyle.width / 2, y];
+    this.anchorPosition['right'] = this.anchorPosition['default'] = [x + keyShapeStyle.width / 2, y];
+    this.anchorPosition['bottom'] = [x, y + keyShapeStyle.height / 2];
+  }
   public draw(
     model: NodeDisplayModel,
     shapeMap: NodeShapeMap,
