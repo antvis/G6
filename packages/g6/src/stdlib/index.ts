@@ -16,7 +16,7 @@ import {
   RectNode,
   EllipseNode,
   TriangleNode,
-  HexagonNode
+  HexagonNode,
 } from './item/node';
 import DarkTheme from './theme/dark';
 import LightTheme from './theme/light';

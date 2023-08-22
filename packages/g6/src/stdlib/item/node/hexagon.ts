@@ -110,31 +110,54 @@ export class HexagonNode extends BaseNode {
             'keyShape',
             {
                 ...this.mergedStyles.keyShape,
-                points: this.getHexagonVPoints(keyShapeStyle.r, keyShapeStyle.direction)
+                points: this.getHexagonVPoints(
+                    keyShapeStyle.r,
+                    keyShapeStyle.direction,
+                ),
             },
             shapeMap,
             model,
         );
     }
     private getHexagonVPoints(r: number, direction: string): [number, number][] {
-        const angleIncrement = Math.PI / 3; //The angle increment between vertex. 
+        const angleIncrement = Math.PI / 3; //The angle increment between vertex.
         const v = [];
         const offsetAngle = direction === 'horizontal' ? 0 : Math.PI / 2;
         for (let i = 0; i < 6; i++) {
             const angle = i * angleIncrement + offsetAngle;
             const vx = r * Math.cos(angle);
             const vy = r * Math.sin(angle);
-            v.push([vx, vy])
+            v.push([vx, vy]);
         }
         return v;
     }
 
-    public override calculateAnchorPosition(keyShapeStyle: any): IAnchorPositionMap {
-        const anchorPositionHorizontal = ['right', 'rightbottom', 'leftbottom', 'left', 'lefttop', 'righttop'];
-        const anchorPositionVertical = ['bottom', 'leftbottom', 'lefttop', 'top', 'righttop', 'rightbottom'];
-        const anchorPositionDirection = keyShapeStyle.direction === 'horizontal' ? anchorPositionHorizontal : anchorPositionVertical;
-        const angleIncrement = Math.PI / 3; //The angle increment between vertex. 
-        const offsetAngle = keyShapeStyle.direction === 'horizontal' ? 0 : Math.PI / 2;
+    public override calculateAnchorPosition(
+        keyShapeStyle: any,
+    ): IAnchorPositionMap {
+        const anchorPositionHorizontal = [
+            'right',
+            'rightbottom',
+            'leftbottom',
+            'left',
+            'lefttop',
+            'righttop',
+        ];
+        const anchorPositionVertical = [
+            'bottom',
+            'leftbottom',
+            'lefttop',
+            'top',
+            'righttop',
+            'rightbottom',
+        ];
+        const anchorPositionDirection =
+            keyShapeStyle.direction === 'horizontal'
+                ? anchorPositionHorizontal
+                : anchorPositionVertical;
+        const angleIncrement = Math.PI / 3; //The angle increment between vertex.
+        const offsetAngle =
+            keyShapeStyle.direction === 'horizontal' ? 0 : Math.PI / 2;
         const r = keyShapeStyle.r;
         const anchorPositionMap = {};
         for (let i = 0; i < 6; i++) {
@@ -145,6 +168,4 @@ export class HexagonNode extends BaseNode {
         }
         return anchorPositionMap;
     }
-
-
 }

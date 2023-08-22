@@ -1,13 +1,10 @@
 // @ts-nocheck
 
 import { clone } from '@antv/util';
-import G6, {
-  Graph,
-  IGraph,
-} from '../../src/index';
+import G6, { Graph, IGraph } from '../../src/index';
 const container = document.createElement('div');
 document.querySelector('body').appendChild(container);
-const type = "hexagon-node"
+const type = 'hexagon-node';
 describe('node item', () => {
   let graph: IGraph<any>;
   it('new graph with one node', (done) => {
