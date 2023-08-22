@@ -116,10 +116,13 @@ export class EllipseNode extends BaseNode {
     const toNumber = (_: number | string) => _ as number;
     const x = toNumber(keyShapeStyle.x);
     const y = toNumber(keyShapeStyle.y);
-    const anchorPositionMap = {}
+    const anchorPositionMap = {};
     anchorPositionMap['top'] = [x, y - keyShapeStyle.ry];
     anchorPositionMap['left'] = [x - keyShapeStyle.rx, y];
-    anchorPositionMap['right'] = anchorPositionMap['default'] = [x + keyShapeStyle.rx, y];
+    anchorPositionMap['right'] = anchorPositionMap['default'] = [
+      x + keyShapeStyle.rx,
+      y,
+    ];
     anchorPositionMap['bottom'] = [x, y + keyShapeStyle.ry];
     return anchorPositionMap;
   }

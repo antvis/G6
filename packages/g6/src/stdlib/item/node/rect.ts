@@ -54,10 +54,13 @@ export class RectNode extends BaseNode {
     const y = toNumber(keyShapeStyle.y);
     const height = keyShapeStyle.height;
     const width = keyShapeStyle.width;
-    const anchorPositionMap = {}
+    const anchorPositionMap = {};
     anchorPositionMap['top'] = [x, y - height / 2];
     anchorPositionMap['left'] = [x - width / 2, y];
-    anchorPositionMap['right'] = anchorPositionMap['default'] = [x + width / 2, y];
+    anchorPositionMap['right'] = anchorPositionMap['default'] = [
+      x + width / 2,
+      y,
+    ];
     anchorPositionMap['bottom'] = [x, y + height / 2];
     return anchorPositionMap;
   }

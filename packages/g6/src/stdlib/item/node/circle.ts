@@ -110,5 +110,4 @@ export class CircleNode extends BaseNode {
       model,
     );
   }
-
 }
