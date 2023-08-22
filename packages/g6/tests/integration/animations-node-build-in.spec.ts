@@ -14,12 +14,8 @@ describe('Animation node buildIn', () => {
 
   it('should be rendered correctly with Canvas2D', (done) => {
     const dir = `${__dirname}/snapshots/canvas`;
-    const {
-      backgroundCanvas,
-      canvas,
-      transientCanvas,
-      container,
-    } = createContext('canvas', 500, 500);
+    const { backgroundCanvas, canvas, transientCanvas, container } =
+      createContext('canvas', 500, 500);
 
     const graph = nodeBuildIn({
       container,
@@ -96,12 +92,8 @@ describe('Animation node buildIn', () => {
 
   it('should be rendered correctly with SVG', (done) => {
     const dir = `${__dirname}/snapshots/svg`;
-    const {
-      backgroundCanvas,
-      canvas,
-      transientCanvas,
-      container,
-    } = createContext('svg', 500, 500);
+    const { backgroundCanvas, canvas, transientCanvas, container } =
+      createContext('svg', 500, 500);
 
     const graph = nodeBuildIn({
       container,

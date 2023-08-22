@@ -35,10 +35,6 @@ jobs:
           cd packages/g6
           npm run ci
           
-      - name: Run Build
-        run: |
-          npm run build 
-      
       - name: Workflow failed alert
         if: ${{ failure() }}
         uses: actions-cool/maintain-one-comment@main

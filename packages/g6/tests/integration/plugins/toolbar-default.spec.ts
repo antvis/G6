@@ -14,12 +14,8 @@ describe('Circular layout', () => {
 
   it('should be rendered correctly with Canvas2D', (done) => {
     const dir = `${__dirname}/../snapshots/canvas`;
-    const {
-      backgroundCanvas,
-      canvas,
-      transientCanvas,
-      container,
-    } = createContext('canvas', 500, 500);
+    const { backgroundCanvas, canvas, transientCanvas, container } =
+      createContext('canvas', 500, 500);
     const graph = toolbar({
       backgroundCanvas,
       canvas,

@@ -14,12 +14,8 @@ describe('Dagre layout', () => {
 
   it('should be rendered correctly with Canvas2D', (done) => {
     const dir = `${__dirname}/snapshots/canvas`;
-    const {
-      backgroundCanvas,
-      canvas,
-      transientCanvas,
-      container,
-    } = createContext('canvas', 500, 500);
+    const { backgroundCanvas, canvas, transientCanvas, container } =
+      createContext('canvas', 500, 500);
 
     const graph = dagre({
       container,
@@ -40,12 +36,8 @@ describe('Dagre layout', () => {
   // TODO: timeout on github ci
   it.skip('should be rendered correctly with SVG', (done) => {
     const dir = `${__dirname}/snapshots/svg`;
-    const {
-      backgroundCanvas,
-      canvas,
-      transientCanvas,
-      container,
-    } = createContext('svg', 500, 500);
+    const { backgroundCanvas, canvas, transientCanvas, container } =
+      createContext('svg', 500, 500);
 
     const graph = dagre({
       container,
@@ -65,12 +57,8 @@ describe('Dagre layout', () => {
 
   it.skip('should be rendered correctly with WebGL', (done) => {
     const dir = `${__dirname}/snapshots/webgl`;
-    const {
-      backgroundCanvas,
-      canvas,
-      transientCanvas,
-      container,
-    } = createContext('webgl', 500, 500);
+    const { backgroundCanvas, canvas, transientCanvas, container } =
+      createContext('webgl', 500, 500);
 
     const graph = dagre({
       container,

@@ -12,8 +12,8 @@ import {
   NodeShapeStyles,
 } from '../../../types/node';
 import { BaseNode } from './base';
- 
-type PathArray  = any
+
+type PathArray = any;
 
 export class TriangleNode extends BaseNode {
   override defaultStyles = {
