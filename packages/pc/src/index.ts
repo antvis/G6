@@ -19,8 +19,8 @@ import Plugin from './plugin';
 import './element';
 import './behavior';
 
-type IAlgorithm = typeof AlgorithmSync | typeof AlgorithmAsync;
-const Algorithm: IAlgorithm = { ...AlgorithmSync, ...AlgorithmAsync };
+type IAlgorithm = typeof AlgorithmSync & typeof AlgorithmAsync;
+const Algorithm = { ...AlgorithmSync, ...AlgorithmAsync } as IAlgorithm;
 
 const Grid = Plugin.Grid;
 const Minimap = Plugin.Minimap;
