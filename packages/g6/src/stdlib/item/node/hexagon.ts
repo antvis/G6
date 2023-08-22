@@ -1,22 +1,14 @@
 import { DisplayObject } from '@antv/g';
 import { NodeDisplayModel } from '../../../types';
-import { State, GShapeStyle } from '../../../types/item';
+import { State } from '../../../types/item';
 import {
+    IAnchorPositionMap,
     NodeModelData,
     NodeShapeMap,
     NodeShapeStyles,
 } from '../../../types/node';
-import {
-    ComboDisplayModel,
-    ComboModelData,
-    ComboShapeMap,
-} from '../../../types/combo';
 import { BaseNode } from './base';
 
-type Vertex = [number, number];
-interface IVertex {
-    [key: string]: Vertex
-}
 export class HexagonNode extends BaseNode {
     override defaultStyles = {
         keyShape: {
@@ -25,9 +17,6 @@ export class HexagonNode extends BaseNode {
             y: 0,
             direction: 'horizontal',
         },
-    };
-    vertex: IVertex = {
-
     };
     mergedStyles: NodeShapeStyles;
     constructor(props) {
@@ -116,7 +105,6 @@ export class HexagonNode extends BaseNode {
         diffState?: { previous: State[]; current: State[] },
     ): DisplayObject {
         const { keyShape: keyShapeStyle } = this.mergedStyles as any;
-
         return this.upsertShape(
             'polygon',
             'keyShape',
@@ -129,71 +117,34 @@ export class HexagonNode extends BaseNode {
         );
     }
     private getHexagonVPoints(r: number, direction: string): [number, number][] {
-        const v = [];
-        const positionHorizontal = ['right', 'rightbottom', 'leftbottom', 'left', 'lefttop', 'righttop'];
-        const positionVertical = ['bottom', 'leftbottom', 'lefttop', 'top', 'righttop', 'rightbottom'];
-        const flag: boolean = direction === 'horizontal';
         const angleIncrement = Math.PI / 3; //The angle increment between vertex. 
+        const v = [];
+        const offsetAngle = direction === 'horizontal' ? 0 : Math.PI / 2;
         for (let i = 0; i < 6; i++) {
-            const angle = i * angleIncrement + (flag ? 0 : Math.PI / 2);
+            const angle = i * angleIncrement + offsetAngle;
             const vx = r * Math.cos(angle);
             const vy = r * Math.sin(angle);
-            v.push([vx, vy]);
-            this.vertex[flag ? positionHorizontal[i] : positionVertical[i]] = [vx, vy];
+            v.push([vx, vy])
         }
         return v;
     }
 
-    public override drawAnchorShapes(
-        model: NodeDisplayModel | ComboDisplayModel,
-        shapeMap: NodeShapeMap | ComboShapeMap,
-        diffData?: {
-            previous: NodeModelData | ComboModelData;
-            current: NodeModelData | ComboModelData;
-        },
-        diffState?: { previous: State[]; current: State[] },
-    ): {
-        [shapeId: string]: DisplayObject;
-    } {
-        const { anchorShapes: commonStyle, keyShape: keyShapeStyle } =
-            this.mergedStyles;
-
-        const individualConfigs = Object.values(this.mergedStyles).filter(
-            (style) => style.tag === 'anchorShape',
-        );
-        if (!individualConfigs.length) return;
-        this.boundsCache.keyShapeLocal =
-            this.boundsCache.keyShapeLocal || shapeMap.keyShape.getLocalBounds();
-
-        const shapes = {};
-        individualConfigs.forEach((config, i) => {
-            const { position, fill = keyShapeStyle.fill, ...style } = config;
-            const id = `anchorShape${i}`;
-            const [cx, cy] = this.getAnchorPosition(position);
-            shapes[id] = this.upsertShape(
-                'circle',
-                id,
-                {
-                    cx,
-                    cy,
-                    fill,
-                    ...commonStyle,
-                    ...style,
-                } as GShapeStyle,
-                shapeMap,
-                model,
-            );
-        });
-        return shapes;
-    }
-
-    private getAnchorPosition(position: string | [number, number]): [number, number] {
-        if (position instanceof Array) {
-            const keyShapeBBox = this.boundsCache.keyShapeLocal
-            const keyShapeWidth = keyShapeBBox.max[0] - keyShapeBBox.min[0];
-            const keyShapeHeight = keyShapeBBox.max[1] - keyShapeBBox.min[1];
-            return [keyShapeWidth * (position[0] - 0.5), keyShapeHeight * (position[1] - 0.5),]
+    public override calculateAnchorPosition(keyShapeStyle: any): IAnchorPositionMap {
+        const anchorPositionHorizontal = ['right', 'rightbottom', 'leftbottom', 'left', 'lefttop', 'righttop'];
+        const anchorPositionVertical = ['bottom', 'leftbottom', 'lefttop', 'top', 'righttop', 'rightbottom'];
+        const anchorPositionDirection = keyShapeStyle.direction === 'horizontal' ? anchorPositionHorizontal : anchorPositionVertical;
+        const angleIncrement = Math.PI / 3; //The angle increment between vertex. 
+        const offsetAngle = keyShapeStyle.direction === 'horizontal' ? 0 : Math.PI / 2;
+        const r = keyShapeStyle.r;
+        const anchorPositionMap = {};
+        for (let i = 0; i < 6; i++) {
+            const angle = i * angleIncrement + offsetAngle;
+            const vx = r * Math.cos(angle);
+            const vy = r * Math.sin(angle);
+            anchorPositionMap[anchorPositionDirection[i]] = [vx, vy];
         }
-        return this.vertex[position] || this.vertex['right'] || this.vertex['righttop'];
+        return anchorPositionMap;
     }
+
+
 }
