@@ -84,7 +84,7 @@ export default (context: TestCaseContext) => {
         type: 'graph',
         data,
         modes: {
-            default: ['click-select', 'drag-node'],
+            default: ['click-select', 'drag-node','zoom-canvas','drag-canvas'],
         },
         node: (nodeInnerModel: any) => {
             const { id, data } = nodeInnerModel;
@@ -93,7 +93,7 @@ export default (context: TestCaseContext) => {
                 data: {
                     ...data,
                     keyShape: {
-                        direction: 'right'
+                        direction: 'top'
                     },
                     labelShape: {
                         text: 'label',
@@ -116,7 +116,7 @@ export default (context: TestCaseContext) => {
                     },
                     anchorShapes: [
                         {
-                            position: 'asd',
+                            position: 'lkj',
                             r: 2,
                             fill: 'red',
                         },

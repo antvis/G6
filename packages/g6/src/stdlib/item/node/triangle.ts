@@ -17,7 +17,7 @@ import { BaseNode } from './base';
 export class TriangleNode extends BaseNode {
     override defaultStyles = {
         keyShape: {
-            size: 20,
+            r: 12,
             x: 0,
             y: 0,
             direction: 'up',  //'up'|'left'|'right'|'down'
@@ -116,65 +116,66 @@ export class TriangleNode extends BaseNode {
             'keyShape',
             {
                 ...this.mergedStyles.keyShape,
-                path: this.getTrianglePath(keyShapeStyle.size, keyShapeStyle.direction)
+                path: this.getTrianglePath(keyShapeStyle.r, keyShapeStyle.direction)
             },
             shapeMap,
             model,
         );
     }
 
-    private getTrianglePath(size: number, direction: 'up' | 'down' | 'left' | 'right'): PathArray {
-        const diffY = size * Math.sin((1 / 3) * Math.PI);
-        const r = diffY;
+    private getTrianglePath(r: number, direction: 'up' | 'down' | 'left' | 'right'): PathArray {
+        const height = 3 * r;
+        const length = (3 * r) / Math.sin((1 / 3) * Math.PI);
+
         let path: PathArray;
         if (direction === 'down') {
             path = [
-                ['M', -r, -diffY],
-                ['L', r, -diffY],
-                ['L', 0, diffY],
+                ['M', 0, height / 2],
+                ['L', length / 2, -height / 2],
+                ['L', -length / 2, -height / 2],
                 ['Z'],
-            ];
-            this.vPoint['left'] = [-r, -diffY];
-            this.vPoint['right'] = [r, -diffY];
-            this.vPoint['bottom'] = [0, diffY];
-            this.vPoint['default'] = this.vPoint['right'];
+            ]
+            this.vPoint['bottom'] = [0, height / 2];
+            this.vPoint['right'] = this.vPoint['default'] = [length / 2, -height / 2];
+            this.vPoint['left'] = [-length / 2, -height / 2];
         } else if (direction === 'left') {
             path = [
-                ['M', -r, r - diffY],
-                ['L', r, -r],
-                ['L', r, r],
+                ['M', -height / 2, 0],
+                ['L', height / 2, length / 2],
+                ['L', height / 2, -length / 2],
                 ['Z'],
-            ];
-            this.vPoint['left'] = [-r, r - diffY];
-            this.vPoint['top'] = [r, -r];
-            this.vPoint['bottom'] = [r, r];
-            this.vPoint['default'] = this.vPoint['left'];
+            ]
+            this.vPoint['top'] = [height / 2, -length / 2];
+            this.vPoint['bottom'] = [height / 2, length / 2];
+            this.vPoint['left'] = this.vPoint['default'] = [-height / 2, 0];
         } else if (direction === 'right') {
             path = [
-                ['M', r, r - diffY],
-                ['L', -r, r],
-                ['L', -r, -r],
+                ['M', height / 2, 0],
+                ['L', -height / 2, length / 2],
+                ['L', -height / 2, -length / 2],
                 ['Z'],
-            ];
-            this.vPoint['right'] = [r, r - diffY];
-            this.vPoint['bottom'] = [-r, r];
-            this.vPoint['top'] = [-r, -r];
-            this.vPoint['default'] = this.vPoint['right'];
+            ]
+            this.vPoint['top'] = [-height / 2, -length / 2];
+            this.vPoint['bottom'] = [-height / 2, length / 2];
+            this.vPoint['right'] = this.vPoint['default'] = [height / 2, 0];
         } else {
+            //top
             path = [
-                ['M', -r, diffY],
-                ['L', 0, -diffY],
-                ['L', r, diffY],
+                ['M', 0, -height / 2],
+                ['L', length / 2, height / 2],
+                ['L', -length / 2, height / 2],
                 ['Z'],
-            ];//top
-            this.vPoint['left'] = [-r, diffY];
-            this.vPoint['top'] = [0, -diffY];
-            this.vPoint['right'] = [r, diffY];
-            this.vPoint['default'] = this.vPoint['right'];
+            ]
+            this.vPoint['left'] = [-length / 2, height / 2];
+            this.vPoint['top'] = this.vPoint['default'] = [0, -height / 2];
+            this.vPoint['right'] = [length / 2, height / 2];
         }
         return path;
     }
 
+    /**
+     * @description: add 'defaultOffsetX' and 'defaultOffsetY' making the icon align to the triangle center
+     */
     public override drawIconShape(
         model: NodeDisplayModel | ComboDisplayModel,
         shapeMap: NodeShapeMap | ComboShapeMap,
@@ -187,39 +188,39 @@ export class TriangleNode extends BaseNode {
         const { keyShape: keyShapeStyle } = this.mergedStyles as any;
         const { iconShape: shapeStyle } = this.mergedStyles;
         let defaultOffsetX = 0;
-        let defaultOffsetY = keyShapeStyle.size / 4;
+        let defaultOffsetY = keyShapeStyle.r / 4;
 
         if (keyShapeStyle.direction === 'right') {
-            defaultOffsetX = -keyShapeStyle.size / 4;
+            defaultOffsetX = -keyShapeStyle.r / 4;
             defaultOffsetY = 0;
         } else if (keyShapeStyle.direction === 'left') {
-            defaultOffsetX = keyShapeStyle.size / 4;
+            defaultOffsetX = keyShapeStyle.r / 4;
             defaultOffsetY = 0;
         } else if (keyShapeStyle.direction === 'down') {
             defaultOffsetX = 0;
-            defaultOffsetY = -keyShapeStyle.size / 4;
+            defaultOffsetY = -keyShapeStyle.r / 4;
         }
         const {
             width,
             height,
             fontSize,
             text,
-            offsetX,
-            offsetY
+            offsetX = 0,
+            offsetY = 0
         } = shapeStyle;
         const w = (width || fontSize) as number;
         const h = (height || fontSize) as number;
         const iconShapeType = text ? 'text' : 'image';
         if (iconShapeType === 'image') {
-            shapeStyle.x = -w / 2 + (offsetX ? offsetX : 0) + defaultOffsetX;
-            shapeStyle.y = -h / 2 + (offsetY ? offsetY : 0) + defaultOffsetY;
+            shapeStyle.x = -w / 2 + offsetX + defaultOffsetX;
+            shapeStyle.y = -h / 2 + offsetY + defaultOffsetY;
             shapeStyle.width = w;
             shapeStyle.height = h;
         } else {
             shapeStyle.textAlign = 'center';
             shapeStyle.textBaseline = 'middle';
-            shapeStyle.x = (offsetX ? offsetX : 0) + defaultOffsetX;
-            shapeStyle.y = (offsetY ? offsetY : 0) + defaultOffsetY;
+            shapeStyle.x = offsetX + defaultOffsetX;
+            shapeStyle.y = offsetY + defaultOffsetY;
             shapeStyle.fontSize = w;
         }
 
@@ -258,6 +259,10 @@ export class TriangleNode extends BaseNode {
         individualConfigs.forEach((config, i) => {
             const { position, fill = keyShapeStyle.fill, ...style } = config;
             const id = `anchorShape${i}`;
+            if (!position) {
+                console.error(`please set the anchorShape 'position'`);
+                return;
+            }
             const [cx, cy] = this.getAnchorPosition(position);
             shapes[id] = this.upsertShape(
                 'circle',
@@ -278,14 +283,16 @@ export class TriangleNode extends BaseNode {
     }
 
     private getAnchorPosition(position: string | [number, number]): [number, number] {
+        const keyShapeBBox = this.boundsCache.keyShapeLocal
+        const keyShapeWidth = keyShapeBBox.max[0] - keyShapeBBox.min[0];
+        const keyShapeHeight = keyShapeBBox.max[1] - keyShapeBBox.min[1];
         if (position instanceof Array) {
-            const keyShapeBBox = this.boundsCache.keyShapeLocal
-            const keyShapeWidth = keyShapeBBox.max[0] - keyShapeBBox.min[0];
-            const keyShapeHeight = keyShapeBBox.max[1] - keyShapeBBox.min[1];
             return [keyShapeWidth * (position[0] - 0.5), keyShapeHeight * (position[1] - 0.5),]
-        } else {
+        } else if (typeof position === 'string') {
             position = position.toLowerCase();
+            return this.vPoint[position] || this.vPoint['default'];
         }
-        return this.vPoint[position] || this.vPoint['default'];
+        console.error(`there is a unknown position: ${position}, please check the anchorShape 'position' field`);
+        return [keyShapeWidth, keyShapeHeight]
     }
 }
