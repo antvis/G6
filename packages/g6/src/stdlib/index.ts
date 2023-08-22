@@ -31,7 +31,6 @@ import RotateCanvas3D from './behavior/rotate-canvas-3d';
 import TrackCanvas3D from './behavior/track-canvas-3d';
 import ZoomCanvas from './behavior/zoom-canvas';
 import ZoomCanvas3D from './behavior/zoom-canvas-3d';
-import { CircleCombo } from './item/combo/circle';
 
 import CollapseExpandTree from './behavior/collapse-expand-tree';
 import { CubicEdge } from './item/edge/cubic';
@@ -47,6 +46,8 @@ import toolbar from './plugin/toolbar';
 import Tooltip from './plugin/tooltip';
 import lassoSelector from './selector/lasso';
 import rectSelector from './selector/rect';
+import { CircleCombo } from './item/combo/circle';
+import { RectCombo } from './item/combo/rect';
 
 const stdLib = {
   transforms: {
@@ -108,6 +109,7 @@ const stdLib = {
   },
   combos: {
     'circle-combo': CircleCombo,
+    'rect-combo': RectCombo,
   },
 };
 

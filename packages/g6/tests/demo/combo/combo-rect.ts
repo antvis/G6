@@ -1,8 +1,11 @@
-import { Graph } from '../../../src/index';
-import { TestCaseContext } from '../interface';
-export default (context: TestCaseContext) => {
-  const graph = new Graph({
-    ...context,
+import G6 from '../../../src/index';
+import { container, height, width } from '../../datasets/const';
+export default () => {
+  const graph = new G6.Graph({
+    container,
+    width,
+    height,
+    type: 'graph',
     layout: {
       type: 'grid',
     },
@@ -28,9 +31,11 @@ export default (context: TestCaseContext) => {
         id: model.id,
         data: {
           ...model.data,
+          type: 'rect-combo',
           keyShape: {
             padding: [10, 20, 30, 40],
-            r: 50,
+            width: 50,
+            height: 20,
           },
           labelShape: {
             text: model.id,
@@ -52,7 +57,7 @@ export default (context: TestCaseContext) => {
             ],
             update: [
               {
-                fields: ['lineWidth', 'r'],
+                fields: ['lineWidth', 'width', 'height'],
                 shapeId: 'keyShape',
               },
               {
@@ -93,12 +98,7 @@ export default (context: TestCaseContext) => {
     modes: {
       default: [
         'collapse-expand-combo',
-        // 'drag-node',
-        {
-          type: 'drag-node',
-          enableTransient: false,
-          updateComboStructure: false,
-        },
+        'drag-node',
         'drag-canvas',
         {
           type: 'click-select',
@@ -108,7 +108,16 @@ export default (context: TestCaseContext) => {
           type: 'hover-activate',
           itemTypes: ['node', 'edge', 'combo'],
         },
-        'drag-combo',
+        {
+          type: 'drag-combo',
+          enableTransient: true,
+          updateComboStructure: false,
+        },
+        {
+          type: 'drag-node',
+          enableTransient: false,
+          updateComboStructure: false,
+        },
       ],
     },
   });
