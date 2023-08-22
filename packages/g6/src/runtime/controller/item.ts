@@ -76,7 +76,10 @@ export class ItemController {
   /**
    * Node / edge / combo items map
    */
-  private itemMap: { [id: ID]: Node | Edge | Combo } = {};
+  private itemMap: Map<ID, Node | Edge | Combo> = new Map<
+    ID,
+    Node | Edge | Combo
+  >();
 
   /**
    * node / edge / combo 's mapper in graph config
@@ -119,12 +122,14 @@ export class ItemController {
   private comboDataTypeSet: Set<string> = new Set();
 
   // The G shapes or groups on transient map drawn by this controller
-  private transientObjectMap: {
-    [id: string]: DisplayObject;
-  } = {};
-  private transientItemMap: {
-    [id: string]: Node | Edge | Combo | Group;
-  } = {};
+  private transientObjectMap: Map<ID, DisplayObject> = new Map<
+    ID,
+    DisplayObject
+  >();
+  private transientItemMap: Map<ID, Node | Edge | Combo | Group> = new Map<
+    ID,
+    Node | Edge | Combo | Group
+  >();
 
   constructor(graph: IGraph<any, any>) {
     this.graph = graph;
@@ -319,10 +324,11 @@ export class ItemController {
     [...groupedChanges.EdgeRemoved, ...groupedChanges.NodeRemoved].forEach(
       ({ value }) => {
         const { id } = value;
-        const item = itemMap[id];
-        if (!item) return;
-        item.destroy();
-        delete itemMap[id];
+        const item = itemMap.get(id);
+        if (item) {
+          item.destroy();
+          itemMap.delete(id);
+        }
       },
     );
 
@@ -385,10 +391,11 @@ export class ItemController {
       const comboIdsToUpdate: ID[] = [];
       const updateRelates = (edgeIds) => {
         comboIdsToUpdate.concat(edgeIds || edgeIdsToUpdate).forEach((id) => {
-          const item = itemMap[id] as Edge | Combo;
+          const item = itemMap.get(id) as Edge | Combo;
           if (item && !item.destroyed) item.forceUpdate();
         });
       };
+
       const updateRelatesThrottle = throttle(updateRelates, 16, {
         leading: true,
         trailing: true,
@@ -397,7 +404,7 @@ export class ItemController {
         const { isReplace, previous, current, id } = updateObj;
         if (!graphCore.hasNode(id)) return;
         const onlyMove = action === 'updatePosition';
-        const item = itemMap[id] as Node | Combo;
+        const item = itemMap.get(id) as Node | Combo;
         if (!item || item.destroyed) return;
         const type = item.getType();
         const innerModel = graphCore.getNode(id);
@@ -499,7 +506,7 @@ export class ItemController {
             });
           }
         }
-        const parentItem = this.itemMap[current.parentId];
+        const parentItem = this.itemMap.get(current.parentId);
         if (current.parentId && parentItem?.model.data.collapsed) {
           this.graph.hideItem(innerModel.id);
         }
@@ -539,7 +546,7 @@ export class ItemController {
             edgeTheme,
           );
         }
-        const item = itemMap[id];
+        const item = itemMap.get(id);
         const innerModel = graphCore.getEdge(id);
         item.update(
           innerModel,
@@ -565,11 +572,11 @@ export class ItemController {
 
       Object.values(edgeUpdate).forEach((updateObj: any) => {
         const { source, target, id } = updateObj;
-        const item = itemMap[id] as Edge;
+        const item = itemMap.get(id) as Edge;
         if (source !== undefined)
-          item.updateEnd('source', this.itemMap[source] as Node);
+          item.updateEnd('source', this.itemMap.get(source) as Node);
         if (target !== undefined)
-          item.updateEnd('target', this.itemMap[target] as Node);
+          item.updateEnd('target', this.itemMap.get(target) as Node);
       });
     }
 
@@ -611,7 +618,7 @@ export class ItemController {
   }) {
     const { ids, states, value } = param;
     ids.forEach((id) => {
-      const item = this.itemMap[id];
+      const item = this.itemMap.get(id);
       if (!item) {
         console.warn(`Fail to set state for item ${id}, which is not exist.`);
         return;
@@ -633,7 +640,7 @@ export class ItemController {
   }) {
     const { ids, value, graphCore, animate = true } = param;
     ids.forEach((id) => {
-      const item = this.itemMap[id];
+      const item = this.itemMap.get(id);
       if (!item) {
         console.warn(
           `Fail to set visibility for item ${id}, which is not exist.`,
@@ -658,7 +665,7 @@ export class ItemController {
           item.show(animate);
           relatedEdges.forEach(({ id: edgeId, source, target }) => {
             if (this.getItemVisible(source) && this.getItemVisible(target))
-              this.itemMap[edgeId]?.show(animate);
+              this.itemMap.get(edgeId)?.show(animate);
           });
         }
       } else {
@@ -666,7 +673,7 @@ export class ItemController {
         if (type !== 'edge') {
           const relatedEdges = graphCore.getRelatedEdges(id);
           relatedEdges.forEach(({ id: edgeId }) => {
-            this.itemMap[edgeId]?.hide(animate);
+            this.itemMap.get(edgeId)?.hide(animate);
           });
         }
       }
@@ -680,7 +687,7 @@ export class ItemController {
   }) {
     const { ids = [], action, graphCore } = params;
     ids.forEach((id) => {
-      const item = this.itemMap[id];
+      const item = this.itemMap.get(id);
       if (!item) return;
       if (action === 'front') {
         if (graphCore.hasTreeStructure('combo')) {
@@ -689,7 +696,7 @@ export class ItemController {
             [item.model],
             (model) => {
               if (model.data._isCombo) {
-                const subCombo = this.itemMap[model.id];
+                const subCombo = this.itemMap.get(model.id);
                 subCombo && subCombo.toFront();
               }
             },
@@ -702,7 +709,7 @@ export class ItemController {
         item.toBack();
         if (graphCore.hasTreeStructure('combo')) {
           traverseGraphAncestors(this.graph, [item.model], (model) => {
-            this.itemMap[model.id]?.toBack();
+            this.itemMap.get(model.id)?.toBack();
           });
         }
       }
@@ -714,9 +721,7 @@ export class ItemController {
       const { zoom } = transform;
       if (zoom) {
         const zoomRatio = this.graph.getZoom();
-        Object.values(this.itemMap).forEach((item) =>
-          item.updateZoom(zoomRatio),
-        );
+        this.itemMap.forEach((item) => item.updateZoom(zoomRatio));
         this.zoom = zoomRatio;
       }
     },
@@ -728,7 +733,7 @@ export class ItemController {
     if (!theme) return;
     const { nodeDataTypeSet, edgeDataTypeSet } = this;
     const { node: nodeTheme, edge: edgeTheme } = theme;
-    Object.values(this.itemMap).forEach((item) => {
+    this.itemMap.forEach((item) => {
       const itemTye = item.getType();
       const usingTheme = itemTye === 'node' ? nodeTheme : edgeTheme;
       const usingTypeSet =
@@ -757,7 +762,7 @@ export class ItemController {
   private onDestroy = () => {
     Object.values(this.itemMap).forEach((item) => item.destroy());
     // Fix OOM problem, since this map will hold all the refs of items.
-    this.itemMap = {};
+    this.itemMap.clear();
   };
 
   private onTransientUpdate(param: {
@@ -790,18 +795,18 @@ export class ItemController {
     // Removing
     if (action === 'remove') {
       if (isItemType) {
-        const transientItem = this.transientItemMap[id];
+        const transientItem = this.transientItemMap.get(id);
         if (type === 'combo') {
           // remove children from bottom to top
           graphCoreTreeDfs(
             graphCore,
             [graphCore.getNode(id)],
             (child) => {
-              const transientChild = this.transientItemMap[child.id];
+              const transientChild = this.transientItemMap.get(child.id);
               if (transientChild && !transientChild.destroyed) {
                 transientChild.destroy();
               }
-              delete this.transientItemMap[child.id];
+              this.transientItemMap.delete(child.id);
             },
             'BT',
           );
@@ -809,19 +814,19 @@ export class ItemController {
         if (transientItem && !transientItem.destroyed) {
           transientItem.destroy();
         }
-        delete this.transientItemMap[id];
+        this.transientItemMap.delete(id);
         return;
       } else {
-        const preObj = transientObjectMap[id];
+        const preObj = transientObjectMap.get(id);
         if (preObj && !preObj.destroyed) preObj.destroy();
-        delete transientObjectMap[id];
+        transientObjectMap.delete(id);
         return;
       }
     }
 
     // Adding / Updating
     if (isItemType) {
-      const item = this.itemMap[id];
+      const item = this.itemMap.get(id);
       if (!item) {
         console.warn(
           `Fail to draw transient item of ${id}, which is not exist.`,
@@ -864,7 +869,7 @@ export class ItemController {
             graphCore,
             [transItem.model],
             (node) => {
-              const transChild = this.transientItemMap[node.id] as Node;
+              const transChild = this.transientItemMap.get(node.id) as Node;
               if (!transChild) return;
               const { x: childX = 0, y: childY = 0 } = transChild.model
                 .data as NodeModelData;
@@ -893,7 +898,7 @@ export class ItemController {
             'combo',
           );
           while (currentAncestor) {
-            const ancestorItem = this.transientItemMap[currentAncestor.id];
+            const ancestorItem = this.transientItemMap.get(currentAncestor.id);
             if (ancestorItem) (ancestorItem as Combo).forceUpdate();
             currentAncestor = graphCore.getParent(currentAncestor.id, 'combo');
           }
@@ -911,12 +916,17 @@ export class ItemController {
       return;
     }
 
-    const shape = upsertShape(type, String(id), style, transientObjectMap);
+    const shape = upsertShape(
+      type,
+      String(id),
+      style,
+      Object.fromEntries(transientObjectMap),
+    );
     shape.style.pointerEvents = capture ? 'auto' : 'none';
     canvas.getRoot().appendChild(shape);
   }
   public getTransient(id: string) {
-    return this.transientObjectMap[id];
+    return this.transientObjectMap.get(id);
   }
 
   /**
@@ -941,23 +951,26 @@ export class ItemController {
         nodeTheme,
       );
 
-      this.itemMap[node.id] = new Node({
-        model: node,
-        renderExtensions: nodeExtensions,
-        containerGroup: nodeGroup,
-        mapper: this.nodeMapper,
-        stateMapper: this.nodeStateMapper,
-        zoom,
-        theme: itemTheme as {
-          styles: NodeStyleSet;
-          lodStrategy: LodStrategyObj;
-        },
-        device:
-          graph.rendererType === 'webgl-3d'
-            ? // TODO: G type
-              (graph.canvas.context as any).deviceRendererPlugin.getDevice()
-            : undefined,
-      });
+      this.itemMap.set(
+        node.id,
+        new Node({
+          model: node,
+          renderExtensions: nodeExtensions,
+          containerGroup: nodeGroup,
+          mapper: this.nodeMapper,
+          stateMapper: this.nodeStateMapper,
+          zoom,
+          theme: itemTheme as {
+            styles: NodeStyleSet;
+            lodStrategy: LodStrategyObj;
+          },
+          device:
+            graph.rendererType === 'webgl-3d'
+              ? // TODO: G type
+                (graph.canvas.context as any).deviceRendererPlugin.getDevice()
+              : undefined,
+        }),
+      );
     });
   }
 
@@ -981,33 +994,39 @@ export class ItemController {
         comboTheme,
       );
 
-      itemMap[combo.id] = new Combo({
-        model: combo,
-        getCombinedBounds: () => {
-          //  calculate the position of the combo according to its children
-          const childModels = graphCore.getChildren(combo.id, 'combo');
-          return getCombinedBoundsByData(graph, childModels);
-        },
-        getChildren: () => {
-          const childModels = graphCore.getChildren(combo.id, 'combo');
-          return childModels.map(({ id }) => itemMap[id]) as (Node | Combo)[];
-        },
-        renderExtensions: comboExtensions,
-        containerGroup: comboGroup,
-        mapper: this.comboMapper as DisplayMapper,
-        stateMapper: this.comboStateMapper as {
-          [stateName: string]: DisplayMapper;
-        },
-        zoom,
-        theme: itemTheme as {
-          styles: ComboStyleSet;
-          lodStrategy: LodStrategyObj;
-        },
-        device:
-          graph.rendererType === 'webgl-3d'
-            ? (graph.canvas.context as any).deviceRendererPlugin.getDevice()
-            : undefined,
-      });
+      itemMap.set(
+        combo.id,
+        new Combo({
+          model: combo,
+          getCombinedBounds: () => {
+            //  calculate the position of the combo according to its children
+            const childModels = graphCore.getChildren(combo.id, 'combo');
+            return getCombinedBoundsByData(graph, childModels);
+          },
+          getChildren: () => {
+            const childModels = graphCore.getChildren(combo.id, 'combo');
+            return childModels.map(({ id }) => itemMap.get(id)) as (
+              | Node
+              | Combo
+            )[];
+          },
+          renderExtensions: comboExtensions,
+          containerGroup: comboGroup,
+          mapper: this.comboMapper as DisplayMapper,
+          stateMapper: this.comboStateMapper as {
+            [stateName: string]: DisplayMapper;
+          },
+          zoom,
+          theme: itemTheme as {
+            styles: ComboStyleSet;
+            lodStrategy: LodStrategyObj;
+          },
+          device:
+            graph.rendererType === 'webgl-3d'
+              ? (graph.canvas.context as any).deviceRendererPlugin.getDevice()
+              : undefined,
+        }),
+      );
     });
   }
 
@@ -1024,8 +1043,8 @@ export class ItemController {
     const zoom = graph.getZoom();
     models.forEach((edge) => {
       const { source, target, id } = edge;
-      const sourceItem = itemMap[source] as Node;
-      const targetItem = itemMap[target] as Node;
+      const sourceItem = itemMap.get(source) as Node;
+      const targetItem = itemMap.get(target) as Node;
       if (!sourceItem) {
         console.warn(
           `The source node ${source} is not exist in the graph for edge ${id}, please add the node first`,
@@ -1048,22 +1067,25 @@ export class ItemController {
         edgeTheme,
       );
 
-      itemMap[id] = new Edge({
-        model: edge,
-        renderExtensions: edgeExtensions,
-        containerGroup: edgeGroup,
-        mapper: this.edgeMapper as DisplayMapper,
-        stateMapper: this.edgeStateMapper as {
-          [stateName: string]: DisplayMapper;
-        },
-        sourceItem,
-        targetItem,
-        zoom,
-        theme: itemTheme as {
-          styles: EdgeStyleSet;
-          lodStrategy: LodStrategyObj;
-        },
-      });
+      itemMap.set(
+        id,
+        new Edge({
+          model: edge,
+          renderExtensions: edgeExtensions,
+          containerGroup: edgeGroup,
+          mapper: this.edgeMapper as DisplayMapper,
+          stateMapper: this.edgeStateMapper as {
+            [stateName: string]: DisplayMapper;
+          },
+          sourceItem,
+          targetItem,
+          zoom,
+          theme: itemTheme as {
+            styles: EdgeStyleSet;
+            lodStrategy: LodStrategyObj;
+          },
+        }),
+      );
     });
   }
 
@@ -1080,7 +1102,7 @@ export class ItemController {
     value: string | boolean = true,
   ): ID[] {
     const ids: ID[] = [];
-    Object.values(this.itemMap).forEach((item) => {
+    this.itemMap.forEach((item) => {
       if (item.getType() !== itemType) return;
       if (item.hasState(state) === value) ids.push(item.getID());
     });
@@ -1094,7 +1116,7 @@ export class ItemController {
    * @returns {boolean | string} the state value
    */
   public getItemState(id: ID, state: string) {
-    const item = this.itemMap[id];
+    const item = this.itemMap.get(id);
     if (!item) {
       console.warn(
         `Fail to get item state, the item with id ${id} does not exist.`,
@@ -1105,7 +1127,7 @@ export class ItemController {
   }
 
   public getItemById(id: ID) {
-    return this.itemMap[id];
+    return this.itemMap.get(id);
   }
 
   public getItemBBox(
@@ -1113,7 +1135,9 @@ export class ItemController {
     isKeyShape = false,
     isTransient = false,
   ): AABB | false {
-    const item = isTransient ? this.transientItemMap[id] : this.itemMap[id];
+    const item = isTransient
+      ? this.transientItemMap.get(id)
+      : this.itemMap.get(id);
     if (!item) {
       console.warn(
         `Fail to get item bbox, the item with id ${id} does not exist.`,
@@ -1125,7 +1149,7 @@ export class ItemController {
   }
 
   public getItemVisible(id: ID) {
-    const item = this.itemMap[id];
+    const item = this.itemMap.get(id);
     if (!item) {
       console.warn(
         `Fail to get item visible, the item with id ${id} does not exist.`,
@@ -1138,7 +1162,7 @@ export class ItemController {
   public sortByComboTree(graphCore: GraphCore) {
     if (!graphCore.hasTreeStructure('combo')) return;
     graphCoreTreeDfs(graphCore, graphCore.getRoots('combo'), (node) => {
-      const nodeItem = this.itemMap[node.id];
+      const nodeItem = this.itemMap.get(node.id);
       if (node.data._isCombo && nodeItem) {
         nodeItem.toFront();
       }

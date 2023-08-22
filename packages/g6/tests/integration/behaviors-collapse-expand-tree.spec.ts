@@ -1,8 +1,7 @@
 import { resetEntityCounter } from '@antv/g';
 import './utils/useSnapshotMatchers';
-import { createContext, triggerEvent } from './utils';
 import collapseExpandTree from '../demo/behaviors/collapse-expand-tree';
-import activateRelations from '../demo/behaviors/activate-relations';
+import { createContext } from './utils';
 
 describe('Collapse or expand a branch', () => {
   beforeEach(() => {

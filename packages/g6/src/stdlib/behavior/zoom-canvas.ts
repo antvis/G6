@@ -74,7 +74,7 @@ export default class ZoomCanvas extends Behavior {
   private speedupKeydown: boolean;
   private hiddenEdgeIds: ID[];
   private hiddenNodeIds: ID[];
-  private zoomTimer: NodeJS.Timeout;
+  private zoomTimer: ReturnType<typeof setTimeout>;
 
   constructor(options: Partial<ZoomCanvasOptions>) {
     const finalOptions = Object.assign({}, DEFAULT_OPTIONS, options);

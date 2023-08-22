@@ -32,6 +32,9 @@ import performance_layout_3d from './performance/layout-3d';
 import performance from './performance/performance';
 import fisheye from './plugins/fisheye';
 import toolbar from './plugins/toolbar';
+
+import ellipse from './demo/ellipse';
+import triangle from './demo/triangle';
 import treeGraph from './tree/treeGraph';
 import user_defined_canvas from './user-defined-canvas/circular';
 import visual from './visual/visual';
@@ -48,6 +51,7 @@ export {
   cubic_vertical_edge,
   demo,
   demoFor4,
+  ellipse,
   fisheye,
   layouts_circular,
   layouts_custom,
@@ -71,6 +75,7 @@ export {
   toolbar,
   tooltip,
   treeGraph,
+  triangle,
   user_defined_canvas,
   visual,
 };

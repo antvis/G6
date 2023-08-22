@@ -37,26 +37,31 @@ describe('Dagre layout', () => {
     });
   });
 
-  // it('should be rendered correctly with SVG', (done) => {
-  //   const dir = `${__dirname}/snapshots/svg`;
-  //   const { backgroundCanvas, canvas, transientCanvas, container } =
-  //     createContext('svg', 500, 500);
+  // TODO: timeout on github ci
+  it.skip('should be rendered correctly with SVG', (done) => {
+    const dir = `${__dirname}/snapshots/svg`;
+    const {
+      backgroundCanvas,
+      canvas,
+      transientCanvas,
+      container,
+    } = createContext('svg', 500, 500);
 
-  //   const graph = dagre({
-  //     container,
-  //     backgroundCanvas,
-  //     canvas,
-  //     transientCanvas,
-  //     width: 500,
-  //     height: 500,
-  //   });
+    const graph = dagre({
+      container,
+      backgroundCanvas,
+      canvas,
+      transientCanvas,
+      width: 500,
+      height: 500,
+    });
 
-  //   graph.on('afterlayout', async () => {
-  //     await expect(canvas).toMatchSVGSnapshot(dir, 'layouts-dagre');
-  //     graph.destroy();
-  //     done();
-  //   });
-  // });
+    graph.on('afterlayout', async () => {
+      await expect(canvas).toMatchSVGSnapshot(dir, 'layouts-dagre');
+      graph.destroy();
+      done();
+    });
+  });
 
   it.skip('should be rendered correctly with WebGL', (done) => {
     const dir = `${__dirname}/snapshots/webgl`;

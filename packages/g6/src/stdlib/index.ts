@@ -10,7 +10,13 @@ import DragNode from './behavior/drag-node';
 import LassoSelect from './behavior/lasso-select';
 import { comboFromNode } from './data/comboFromNode';
 import { LineEdge } from './item/edge';
-import { CircleNode, RectNode, SphereNode } from './item/node';
+import {
+  CircleNode,
+  EllipseNode,
+  RectNode,
+  SphereNode,
+  TriangleNode,
+} from './item/node';
 import DarkTheme from './theme/dark';
 import LightTheme from './theme/light';
 import SpecThemeSolver from './themeSolver/spec';
@@ -86,6 +92,8 @@ const stdLib = {
     'circle-node': CircleNode,
     'sphere-node': SphereNode,
     'rect-node': RectNode,
+    'triangle-node': TriangleNode,
+    'ellipse-node': EllipseNode,
   },
   edges: {
     'line-edge': LineEdge,

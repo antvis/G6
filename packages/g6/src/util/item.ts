@@ -31,8 +31,8 @@ export const upsertTransientItem = (
   nodeGroup: Group,
   edgeGroup: Group,
   comboGroup: Group,
-  transientItemMap: Record<string, Node | Edge | Combo | Group>,
-  itemMap: Record<string, Node | Edge | Combo>,
+  transientItemMap: Map<ID, Node | Edge | Combo | Group>,
+  itemMap: Map<ID, Node | Edge | Combo>,
   graphCore?: GraphCore,
   onlyDrawKeyShape?: boolean,
   upsertAncestors = true,
@@ -78,7 +78,7 @@ export const upsertTransientItem = (
     const childItems = [];
     const children = graphCore.getChildren(item.model.id, 'combo');
     children.forEach((childModel) => {
-      const childItem = itemMap[childModel.id];
+      const childItem = itemMap.get(childModel.id);
       if (childItem) {
         childItems.push(
           upsertTransientItem(
@@ -111,7 +111,7 @@ export const upsertTransientItem = (
     // find the ancestors to upsert transients
     let currentAncestor = graphCore.getParent(item.model.id, 'combo');
     while (currentAncestor) {
-      const ancestorItem = itemMap[currentAncestor.id];
+      const ancestorItem = itemMap.get(currentAncestor.id);
       if (ancestorItem) {
         const transientAncestor = upsertTransientItem(
           ancestorItem,
