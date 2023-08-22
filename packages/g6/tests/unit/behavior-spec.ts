@@ -8,7 +8,6 @@ describe('behavior', () => {
   it('behavior in spec, add / remove / update a behavior in defualt mode', () => {
     const graph = new G6.Graph({
       container,
-      type: 'graph',
       data: { nodes: [], edges: [] },
       modes: {
         default: [
@@ -116,7 +115,6 @@ describe('behavior', () => {
     });
     const graph = new CustomGraph({
       container,
-      type: 'graph',
       data: { nodes: [], edges: [] },
       modes: {
         default: [

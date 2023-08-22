@@ -91,7 +91,7 @@ export default class ZoomCanvas extends Behavior {
     this.graph.canvas
       .getContextService()
       .getDomElement()
-      .addEventListener(
+      .addEventListener?.(
         'wheel',
         (e) => {
           e.preventDefault();

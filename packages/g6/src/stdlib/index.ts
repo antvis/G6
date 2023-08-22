@@ -1,4 +1,5 @@
 import { registry as layoutRegistry } from '@antv/layout';
+import Hierarchy from '@antv/hierarchy';
 import { Lib } from '../types/stdlib';
 import ActivateRelations from './behavior/activate-relations';
 import BrushSelect from './behavior/brush-select';
@@ -9,7 +10,7 @@ import DragNode from './behavior/drag-node';
 import DragCombo from './behavior/drag-combo';
 import { comboFromNode } from './data/comboFromNode';
 import { LineEdge } from './item/edge';
-import { CircleNode, SphereNode, RectNode, TriangleNode } from './item/node';
+import { CircleNode, SphereNode, RectNode, EllipseNode, TriangleNode } from './item/node';
 import DarkTheme from './theme/dark';
 import LightTheme from './theme/light';
 import SpecThemeSolver from './themeSolver/spec';
@@ -30,6 +31,7 @@ import TrackCanvas3D from './behavior/track-canvas-3d';
 import OrbitCanvas3D from './behavior/orbit-canvas-3d';
 import HoverActivate from './behavior/hover-activate';
 import CollapseExpandCombo from './behavior/collapse-expand-combo';
+import CollapseExpandTree from './behavior/collapse-expand-tree';
 import { CubicEdge } from './item/edge/cubic';
 import { CubicHorizonEdge } from './item/edge/cubic-horizon';
 import { CubicVerticalEdge } from './item/edge/cubic-vertical';
@@ -48,7 +50,10 @@ const stdLib = {
     spec: SpecThemeSolver,
     subject: SubjectThemeSolver,
   },
-  layouts: layoutRegistry,
+  layouts: {
+    ...layoutRegistry,
+    ...Hierarchy,
+  },
   behaviors: {
     'activate-relations': ActivateRelations,
     'drag-canvas': DragCanvas,
@@ -57,6 +62,7 @@ const stdLib = {
     'drag-node': DragNode,
     'drag-combo': DragCombo,
     'collapse-expand-combo': CollapseExpandCombo,
+    'collapse-expand-tree': CollapseExpandTree,
     'click-select': ClickSelect,
     'brush-select': BrushSelect,
     'lasso-select': LassoSelect,
@@ -78,6 +84,7 @@ const stdLib = {
     'sphere-node': SphereNode,
     'rect-node': RectNode,
     'triangle-node': TriangleNode,
+    'ellipse-node': EllipseNode,
   },
   edges: {
     'line-edge': LineEdge,

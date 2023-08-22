@@ -77,7 +77,6 @@ export default async () => {
       container: $container1,
       width: WIDTH,
       height: HEIGHT,
-      type: 'graph',
       renderer: 'webgl-3d',
       modes: {
         default: [
@@ -144,7 +143,6 @@ export default async () => {
       container: $container2,
       width: WIDTH,
       height: HEIGHT,
-      type: 'graph',
       renderer: 'webgl-3d',
       modes: {
         default: [
