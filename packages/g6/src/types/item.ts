@@ -152,12 +152,12 @@ export type ItemShapeStyles = {
   keyShape?: ShapeStyle;
   iconShape?: Partial<
     TextStyleProps &
-      ImageStyleProps &
-      ShapeStyle & {
-        offsetX?: number;
-        offsetY?: number;
-        lod?: number;
-      }
+    ImageStyleProps &
+    ShapeStyle & {
+      offsetX?: number;
+      offsetY?: number;
+      lod?: number;
+    }
   >;
   haloShape?: ShapeStyle;
   group?: ShapeStyle;
@@ -333,4 +333,8 @@ export interface IItem {
   updateZoom: (zoom: number) => void;
   /** Destroy the item. */
   destroy: () => void;
+}
+
+export interface IAnchorPositionMap {
+  [key: string]: [number, number]
 }

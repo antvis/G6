@@ -137,9 +137,6 @@ export class TriangleNode extends BaseNode {
         ['L', -halfLength, -halfHeight],
         ['Z'],
       ];
-      this.anchorPosition['bottom'] = [0, halfHeight];
-      this.anchorPosition['right'] = this.anchorPosition['default'] = [halfLength, -halfHeight];
-      this.anchorPosition['left'] = [-halfLength, -halfHeight];
     } else if (direction === 'left') {
       path = [
         ['M', -halfHeight, 0],
@@ -147,9 +144,6 @@ export class TriangleNode extends BaseNode {
         ['L', halfHeight, -halfLength],
         ['Z'],
       ];
-      this.anchorPosition['top'] = [halfHeight, -halfLength];
-      this.anchorPosition['bottom'] = [halfHeight, halfLength];
-      this.anchorPosition['left'] = this.anchorPosition['default'] = [-halfHeight, 0];
     } else if (direction === 'right') {
       path = [
         ['M', halfHeight, 0],
@@ -157,9 +151,6 @@ export class TriangleNode extends BaseNode {
         ['L', -halfHeight, -halfLength],
         ['Z'],
       ];
-      this.anchorPosition['top'] = [-halfHeight, -halfLength];
-      this.anchorPosition['bottom'] = [-halfHeight, halfLength];
-      this.anchorPosition['right'] = this.anchorPosition['default'] = [halfHeight, 0];
     } else {
       //up
       path = [
@@ -168,9 +159,6 @@ export class TriangleNode extends BaseNode {
         ['L', -halfLength, halfHeight],
         ['Z'],
       ];
-      this.anchorPosition['left'] = [-halfLength, halfHeight];
-      this.anchorPosition['top'] = this.anchorPosition['default'] = [0, -halfHeight];
-      this.anchorPosition['right'] = [halfLength, halfHeight];
     }
     return path;
   }
@@ -235,4 +223,31 @@ export class TriangleNode extends BaseNode {
     );
   }
 
+  public override calculateAnchorPosition(keyShapeStyle) {
+    const direction = keyShapeStyle.direction;
+    const r = keyShapeStyle.r;
+
+    const halfHeight = 3 * r / 2;
+    const halfLength = ((3 * r) / Math.sin((1 / 3) * Math.PI)) / 2;
+    const anchorPositionMap = {};
+    if (direction === 'down') {
+      anchorPositionMap['bottom'] = [0, halfHeight];
+      anchorPositionMap['right'] = anchorPositionMap['default'] = [halfLength, -halfHeight];
+      anchorPositionMap['left'] = [-halfLength, -halfHeight];
+    } else if (direction === 'left') {
+      anchorPositionMap['top'] = [halfHeight, -halfLength];
+      anchorPositionMap['bottom'] = [halfHeight, halfLength];
+      anchorPositionMap['left'] = anchorPositionMap['default'] = [-halfHeight, 0];
+    } else if (direction === 'right') {
+      anchorPositionMap['top'] = [-halfHeight, -halfLength];
+      anchorPositionMap['bottom'] = [-halfHeight, halfLength];
+      anchorPositionMap['right'] = anchorPositionMap['default'] = [halfHeight, 0];
+    } else {
+      //up
+      anchorPositionMap['left'] = [-halfLength, halfHeight];
+      anchorPositionMap['top'] = anchorPositionMap['default'] = [0, -halfHeight];
+      anchorPositionMap['right'] = [halfLength, halfHeight];
+    }
+    return anchorPositionMap;
+  }
 }

@@ -103,7 +103,6 @@ export class EllipseNode extends BaseNode {
     diffData?: { previous: NodeModelData; current: NodeModelData },
     diffState?: { previous: State[]; current: State[] },
   ): DisplayObject {
-    this.getAnchorPoint()
     return this.upsertShape(
       'ellipse',
       'keyShape',
@@ -112,14 +111,16 @@ export class EllipseNode extends BaseNode {
       model,
     );
   }
-  private getAnchorPoint() {
+
+  public override calculateAnchorPosition(keyShapeStyle) {
     const toNumber = (_: number | string) => _ as number;
-    const { keyShape: keyShapeStyle } = this.mergedStyles as any;
     const x = toNumber(keyShapeStyle.x);
     const y = toNumber(keyShapeStyle.y);
-    this.anchorPosition['top'] = [x, y - keyShapeStyle.ry];
-    this.anchorPosition['left'] = [x - keyShapeStyle.rx, y];
-    this.anchorPosition['right'] = this.anchorPosition['default'] = [x + keyShapeStyle.rx, y];
-    this.anchorPosition['bottom'] = [x, y + keyShapeStyle.ry];
+    const anchorPositionMap = {}
+    anchorPositionMap['top'] = [x, y - keyShapeStyle.ry];
+    anchorPositionMap['left'] = [x - keyShapeStyle.rx, y];
+    anchorPositionMap['right'] = anchorPositionMap['default'] = [x + keyShapeStyle.rx, y];
+    anchorPositionMap['bottom'] = [x, y + keyShapeStyle.ry];
+    return anchorPositionMap;
   }
 }

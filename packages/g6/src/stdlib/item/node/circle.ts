@@ -7,7 +7,6 @@ import {
   NodeShapeStyles,
 } from '../../../types/node';
 import { BaseNode } from './base';
-import { keys } from '@antv/util';
 
 export class CircleNode extends BaseNode {
   override defaultStyles = {
@@ -103,7 +102,6 @@ export class CircleNode extends BaseNode {
     diffData?: { previous: NodeModelData; current: NodeModelData },
     diffState?: { previous: State[]; current: State[] },
   ): DisplayObject {
-    this.getAnchorPoint();
     return this.upsertShape(
       'circle',
       'keyShape',
@@ -112,15 +110,5 @@ export class CircleNode extends BaseNode {
       model,
     );
   }
-  private getAnchorPoint() {
-    const toNumber = (_: number | string) => _ as number;
-    const { keyShape: keyShapeStyle } = this.mergedStyles;
-    const x = toNumber(keyShapeStyle.x);
-    const y = toNumber(keyShapeStyle.y);
-    const r = toNumber(keyShapeStyle.r);
-    this.anchorPosition['top'] = [x, y - r];
-    this.anchorPosition['left'] = [x - r, y];
-    this.anchorPosition['right'] = this.anchorPosition['default'] = [x + r, y];
-    this.anchorPosition['bottom'] = [x, y + r];
-  }
+
 }

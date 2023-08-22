@@ -9,6 +9,7 @@ import {
   ShapeStyle,
   State,
   LodStrategyObj,
+  IAnchorPositionMap
 } from '../../../types/item';
 import {
   NodeModelData,
@@ -44,7 +45,6 @@ export abstract class BaseNode {
     labelShapeGeometry?: AABB;
   };
   //vertex coordinate
-  anchorPosition: { [key: string]: [number, number] } = {};
 
   // cache the zoom level infomations
   protected zoomCache: {
@@ -452,9 +452,10 @@ export abstract class BaseNode {
     this.boundsCache.keyShapeLocal =
       this.boundsCache.keyShapeLocal || shapeMap.keyShape.getLocalBounds();
     const shapes = {};
+    const anchorPositionMap = this.calculateAnchorPosition(keyShapeStyle);
     individualConfigs.forEach((config, i) => {
       const { position, fill = keyShapeStyle.fill, ...style } = config;
-      const [cx, cy] = this.getAnchorPosition(position);
+      const [cx, cy] = this.getAnchorPosition(position, anchorPositionMap);
       const id = `anchorShape${i}`;
       shapes[id] = this.upsertShape(
         'circle',
@@ -473,7 +474,7 @@ export abstract class BaseNode {
     return shapes;
   }
 
-  private getAnchorPosition(position: string | [number, number]): [number, number] {
+  private getAnchorPosition(position: string | [number, number], anchorPositionMap: IAnchorPositionMap): [number, number] {
     const keyShapeBBox = this.boundsCache.keyShapeLocal;
     const keyShapeWidth = keyShapeBBox.max[0] - keyShapeBBox.min[0];
     const keyShapeHeight = keyShapeBBox.max[1] - keyShapeBBox.min[1];
@@ -486,10 +487,28 @@ export abstract class BaseNode {
     } else if (typeof position === 'string') {
       position = position.toLowerCase();
       //receive a unknown string, remind the user.
-      return this.anchorPosition[position] || this.anchorPosition['default'] || defaultPosition;
+      return anchorPositionMap[position] || anchorPositionMap['default'] || defaultPosition;
     }
     //receive a position in unknown type (such as a number or undefined).
-    return this.anchorPosition['default'] || defaultPosition;
+    return anchorPositionMap['default'] || defaultPosition;
+  }
+
+  /**
+   * @description:  get anchor position by keyShapeStyle
+   * @param {*} keyShapeStyle
+   * @return {IAnchorPositionMap} anchorpositionMap
+   */
+  public calculateAnchorPosition(keyShapeStyle: any): IAnchorPositionMap {
+    const toNumber = (_: number | string) => _ as number;
+    const x = toNumber(keyShapeStyle.x);
+    const y = toNumber(keyShapeStyle.y);
+    const r = toNumber(keyShapeStyle.r);
+    const anchorPositionMap = {}
+    anchorPositionMap['top'] = [x, y - r];
+    anchorPositionMap['left'] = [x - r, y];
+    anchorPositionMap['right'] = anchorPositionMap['default'] = [x + r, y];
+    anchorPositionMap['bottom'] = [x, y + r];
+    return anchorPositionMap;
   }
 
   public drawBadgeShapes(
