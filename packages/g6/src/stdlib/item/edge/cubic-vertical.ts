@@ -1,4 +1,3 @@
-import { IPoint } from '@antv/g6';
 import { vec2 } from '@antv/matrix-util';
 import { Point } from '../../../types/common';
 import { CubicEdge } from './cubic';
@@ -25,8 +24,8 @@ export class CubicVerticalEdge extends CubicEdge {
 
   /**
    * control point calculated according to startPoint, endPoint, percent, and offset
-   * @param  {IPoint} startPoint source point position of edge (x, y)
-   * @param  {IPoint} endPoint  target point position of edge (x, y)
+   * @param  {Point} startPoint source point position of edge (x, y)
+   * @param  {Point} endPoint  target point position of edge (x, y)
    * @param  {Number} percent   the proportion of control points' in the segment, Range 0 to 1
    * @param  {Number} offset    the curveOffset
    * @param controlPoints the control point position
@@ -49,13 +48,13 @@ export class CubicVerticalEdge extends CubicEdge {
       offset = -offset;
     }
 
-    const controlPoint1: IPoint = this.getControlPoint(
+    const controlPoint1: Point = this.getControlPoint(
       startPoint,
       endPoint,
       percent,
       offset,
     );
-    const controlPoint2: IPoint = this.getControlPoint(
+    const controlPoint2: Point = this.getControlPoint(
       startPoint,
       endPoint,
       percent,
@@ -67,24 +66,24 @@ export class CubicVerticalEdge extends CubicEdge {
 
   /**
    * control point calculated according to startPoint, endPoint, percent, and offset
-   * @param  {IPoint} startPoint source point position of edge (x, y)
-   * @param  {IPoint} endPoint  target point position of edge (x, y)
+   * @param  {Point} startPoint source point position of edge (x, y)
+   * @param  {Point} endPoint  target point position of edge (x, y)
    * @param  {Number} percent   the proportion of control points' in the segment, Range 0 to 1
    * @param  {Number} offset    the curveOffset
-   * @return {IPoint} control point (x,y)
+   * @return {Point} control point (x,y)
    */
   protected getControlPoint: (
-    startPoint: IPoint,
-    endPoint: IPoint,
+    startPoint: Point,
+    endPoint: Point,
     percent: number,
     offset: number,
-  ) => IPoint = (
-    startPoint: IPoint,
-    endPoint: IPoint,
+  ) => Point = (
+    startPoint: Point,
+    endPoint: Point,
     percent = 0,
     offset = 0,
   ) => {
-    const point: IPoint = {
+    const point: Point = {
       x: 0,
       y: (1 - percent) * startPoint.y + percent * endPoint.y,
     };

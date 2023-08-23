@@ -17,7 +17,7 @@ import { Padding, Point } from '../types/common';
 import { DataChangeType, DataConfig, GraphCore } from '../types/data';
 import { EdgeModel, EdgeModelData } from '../types/edge';
 import { Hooks, ViewportChangeHookParams } from '../types/hook';
-import { ITEM_TYPE, ShapeStyle, SHAPE_TYPE } from '../types/item';
+import { ITEM_TYPE, SHAPE_TYPE, ShapeStyle } from '../types/item';
 import {
   ImmediatelyInvokedLayoutOptions,
   LayoutOptions,
@@ -152,10 +152,12 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       this.canvas = canvas;
       this.backgroundCanvas = backgroundCanvas;
       this.transientCanvas = transientCanvas;
+      this.container = container as HTMLDivElement;
     } else {
       const containerDOM = isString(container)
         ? document.getElementById(container as string)
         : (container as HTMLElement);
+
       if (!containerDOM) {
         console.error(
           `Create graph failed. The container for graph ${containerDOM} is not exist.`,
@@ -163,6 +165,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
         this.destroy();
         return;
       }
+
       this.container = containerDOM;
       const size = [width, height];
       if (size[0] === undefined) {
