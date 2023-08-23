@@ -14,6 +14,7 @@ import tooltip from './demo/tooltip';
 import cubic_edge from './item/edge/cubic-edge';
 import cubic_horizon_edge from './item/edge/cubic-horizon-edge';
 import cubic_vertical_edge from './item/edge/cubic-vertical-edge';
+import donut_node from './item/node/donut-node';
 import line_edge from './item/edge/line-edge';
 import layouts_circular from './layouts/circular';
 import layouts_custom from './layouts/custom';
@@ -50,6 +51,7 @@ export {
   cubic_edge,
   cubic_horizon_edge,
   cubic_vertical_edge,
+  donut_node,
   demo,
   demoFor4,
   ellipse,

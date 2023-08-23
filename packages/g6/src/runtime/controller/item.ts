@@ -276,18 +276,21 @@ export class ItemController {
         'combo',
       );
     }
-    // collapse the sub tree which has 'collapsed' in initial data
-    const collapseNodes = [];
-    graphCoreTreeDfs(
-      graphCore,
-      graphCore.getRoots('tree'),
-      (child) => {
-        if (child.data.collapsed) collapseNodes.push(child);
-      },
-      'BT',
-      'tree',
-    );
-    this.collapseSubTree(collapseNodes, graphCore, false);
+
+    if (graphCore.hasTreeStructure('tree')) {
+      // collapse the sub tree which has 'collapsed' in initial data
+      const collapseNodes = [];
+      graphCoreTreeDfs(
+        graphCore,
+        graphCore.getRoots('tree'),
+        (child) => {
+          if (child.data.collapsed) collapseNodes.push(child);
+        },
+        'BT',
+        'tree',
+      );
+      this.collapseSubTree(collapseNodes, graphCore, false);
+    }
   }
 
   /**

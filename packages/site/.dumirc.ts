@@ -1,12 +1,14 @@
-import { Extractor, ExtractorConfig } from '@microsoft/api-extractor';
+import fs from 'fs'
+import path from 'path'
 import { defineConfig } from 'dumi';
-import fs from 'fs';
-import path from 'path';
-import { homepage, repository, version } from './package.json';
+import { repository, version, homepage } from './package.json';
+import { Extractor, ExtractorConfig } from '@microsoft/api-extractor';
 
 const getExtraLib = () => {
   try {
-    const extractorConfig = ExtractorConfig.loadFileAndPrepare(path.resolve('./api-extractor.json'));
+    const extractorConfig = ExtractorConfig.loadFileAndPrepare(
+      path.resolve('./api-extractor.json'),
+    );
     const extractorResult = Extractor.invoke(extractorConfig, {
       localBuild: true,
       showVerboseMessages: true,
@@ -27,60 +29,50 @@ const getExtraLib = () => {
 };
 
 export default defineConfig({
-  locales: [
-    { id: 'zh', name: '中文' },
-    { id: 'en', name: 'English' },
-  ],
-  title: 'G6', // 网站header标题
+  locales: [{ id: 'zh', name: '中文' }, { id: 'en', name: 'English' }],
+  title: 'G6',                                                          // 网站header标题
   favicons: ['https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*7svFR6wkPMoAAAAAAAAAAAAADmJ7AQ/original'], // 网站 favicon
-  metas: [
-    // 自定义 meta 标签
+  metas: [                                                              // 自定义 meta 标签  
     { name: 'keywords', content: 'G6' },
-    {
-      name: 'description',
-      content: 'A collection of charts made with the Grammar of Graphics',
-    },
+    { name: 'description', content: 'A collection of charts made with the Grammar of Graphics' },
   ],
   themeConfig: {
     title: 'G6',
     description: 'A collection of charts made with the Grammar of Graphics',
-    defaultLanguage: 'zh', // 默认语言
-    isAntVSite: false, // 是否是 AntV 的大官网
-    siteUrl: homepage, // 官网地址
-    githubUrl: repository.url, // GitHub 地址
-    showSearch: true, // 是否显示搜索框
-    showGithubCorner: true, // 是否显示头部的 GitHub icon
-    showGithubStars: true, // 是否显示 GitHub star 数量
-    showAntVProductsCard: true, // 是否显示 AntV 产品汇总的卡片
-    showLanguageSwitcher: true, // 是否显示官网语言切换
-    showWxQrcode: true, // 是否显示头部菜单的微信公众号
-    showChartResize: true, // 是否在 demo 页展示图表视图切换
-    showAPIDoc: true, // 是否在 demo 页展示API文档
+    defaultLanguage: 'zh',                                              // 默认语言
+    isAntVSite: false,                                                  // 是否是 AntV 的大官网
+    siteUrl: homepage,                                     // 官网地址
+    githubUrl: repository.url,                                          // GitHub 地址
+    showSearch: true,                                                   // 是否显示搜索框
+    showGithubCorner: true,                                             // 是否显示头部的 GitHub icon
+    showGithubStars: true,                                              // 是否显示 GitHub star 数量
+    showAntVProductsCard: true,                                         // 是否显示 AntV 产品汇总的卡片
+    showLanguageSwitcher: true,                                         // 是否显示官网语言切换
+    showWxQrcode: true,                                                 // 是否显示头部菜单的微信公众号
+    showChartResize: true,                                              // 是否在 demo 页展示图表视图切换
+    showAPIDoc: true,                                                   // 是否在 demo 页展示API文档
     themeSwitcher: 'g2',
-    versions: {
-      // 历史版本以及切换下拉菜单
+    versions: {                                                         // 历史版本以及切换下拉菜单
       [version]: 'https://g6.antv.antgroup.com',
-      '4.x': 'https://g6.antv.antgroup.com',
       '3.2.x': 'https://g6-v3-2.antv.vision',
     },
-    docsearchOptions: {
-      // 头部搜索框配置
+    docsearchOptions: {                                                 // 头部搜索框配置
       apiKey: '9d1cd586972bb492b7b41b13a949ef30',
       indexName: 'antv_g6',
     },
     navs: [
       {
+        slug: 'docs/design/overview',
+        title: {
+          zh: '设计体系',
+          en: 'Design System',
+        },
+      },
+      {
         slug: 'docs/manual/introduction',
         title: {
           zh: '教程',
           en: 'Manual',
-        },
-      },
-      {
-        slug: 'examples',
-        title: {
-          zh: '示例',
-          en: 'Examples',
         },
       },
       {
@@ -92,62 +84,62 @@ export default defineConfig({
       },
       {
         title: {
-          zh: '其他资源',
+          zh: '在线工具',
           en: 'Online Tools',
         },
         dropdownItems: [
-          // {
-          //   url: '/design/overview',
-          //   name: {
-          //     zh: '设计体系',
-          //     en: 'Design System',
-          //   },
-          // },
           {
-            url: 'https://www.yuque.com/antv/g6-blog',
             name: {
-              zh: '文章博客',
-              en: 'Blog',
+              zh: 'Graphinsight',
+              en: 'Graphinsight'
             },
-          },
-          {
-            url: 'https://g6.antv.antgroup.com',
-            name: {
-              zh: '极速站点',
-              en: 'Fast Site',
-            },
+            url: 'https://graphinsight.antgroup.com/#/workspace'
           },
           {
             name: {
-              zh: '在线工具',
-              en: 'Graphinsight',
+              zh: 'GraphMaker',
+              en: 'GraphMaker'
             },
-            url: 'https://graphinsight.antgroup.com/#/workspace',
+            url: 'https://render.mybank.cn/p/c/17sfi50vhu80#/home'
           },
-        ],
+        ]
+      },
+      {
+        slug: 'examples',
+        title: {
+          zh: '图表示例',
+          en: 'Examples',
+        },
+      },
+      {
+        slug: 'https://www.yuque.com/antv/g6-blog',
+        title: {
+          zh: '博客',
+          en: 'Blog',
+        },
       },
     ],
-    ecosystems: [
-      // 头部的菜单中的「周边生态」
+    ecosystems: [                                                       // 头部的菜单中的「周边生态」
+
     ],
     docs: [
       // ===========Design===================
-      // {
-      //   slug: 'design/global',
-      //   title: {
-      //     zh: '全局规范',
-      //     en: 'Global',
-      //   },
-      //   order: 3,
-      // },
-      // {
-      //   slug: 'design/component',
-      //   title: {
-      //     zh: '组件设计',
-      //     en: 'Component Design',
-      //   },
-      //   order: 4,
-      // },
+      {
+        slug: 'design/global',
+        title: {
+          zh: '全局规范',
+          en: 'Global',
+        },
+        order: 3,
+      },
+      {
+        slug: 'design/component',
+        title: {
+          zh: '组件设计',
+          en: 'Component Design',
+        },
+        order: 4,
+      },
       {
         slug: 'manual/FAQ',
         title: {
@@ -165,132 +157,132 @@ export default defineConfig({
         order: 3,
       },
       // ===========Concepts===================
-      // {
-      //   slug: 'manual/middle',
-      //   title: {
-      //     zh: '核心概念',
-      //     en: 'Middle',
-      //   },
-      //   order: 4,
-      // },
+      {
+        slug: 'manual/middle',
+        title: {
+          zh: '核心概念',
+          en: 'Middle',
+        },
+        order: 4,
+      },
 
-      // {
-      //   slug: 'manual/middle/elements',
-      //   title: {
-      //     zh: '图元素：节点/边/Combo',
-      //     en: 'Graph Elements',
-      //   },
-      //   order: 2,
-      // },
+      {
+        slug: 'manual/middle/elements',
+        title: {
+          zh: '图元素：节点/边/Combo',
+          en: 'Graph Elements',
+        },
+        order: 2,
+      },
 
-      // {
-      //   slug: 'manual/middle/elements/shape',
-      //   title: {
-      //     zh: '图形 Shape（选读）',
-      //     en: 'Shape',
-      //   },
-      //   order: 1,
-      // },
-      // {
-      //   slug: 'manual/middle/elements/nodes',
-      //   title: {
-      //     zh: '节点',
-      //     en: 'Node',
-      //   },
-      //   order: 2,
-      // },
-      // {
-      //   slug: 'manual/middle/elements/edges',
-      //   title: {
-      //     zh: '边',
-      //     en: 'Edge',
-      //   },
-      //   order: 3,
-      // },
-      // {
-      //   slug: 'manual/middle/elements/combos',
-      //   title: {
-      //     zh: 'Combo',
-      //     en: 'Combo',
-      //   },
-      //   order: 4,
-      // },
+      {
+        slug: 'manual/middle/elements/shape',
+        title: {
+          zh: '图形 Shape（选读）',
+          en: 'Shape',
+        },
+        order: 1,
+      },
+      {
+        slug: 'manual/middle/elements/nodes',
+        title: {
+          zh: '节点',
+          en: 'Node',
+        },
+        order: 2,
+      },
+      {
+        slug: 'manual/middle/elements/edges',
+        title: {
+          zh: '边',
+          en: 'Edge',
+        },
+        order: 3,
+      },
+      {
+        slug: 'manual/middle/elements/combos',
+        title: {
+          zh: 'Combo',
+          en: 'Combo',
+        },
+        order: 4,
+      },
 
-      // {
-      //   slug: 'manual/middle/elements/nodes/built-in',
-      //   title: {
-      //     zh: '内置节点类型',
-      //     en: 'Built-in Nodes',
-      //   },
-      //   order: 1,
-      // },
-      // {
-      //   slug: 'manual/middle/elements/edges/built-in',
-      //   title: {
-      //     zh: '内置边类型',
-      //     en: 'Built-in Edges',
-      //   },
-      //   order: 1,
-      // },
-      // {
-      //   slug: 'manual/middle/elements/combos/built-in',
-      //   title: {
-      //     zh: '内置 Combo',
-      //     en: 'Built-in Combos',
-      //   },
-      //   order: 1,
-      // },
+      {
+        slug: 'manual/middle/elements/nodes/built-in',
+        title: {
+          zh: '内置节点类型',
+          en: 'Built-in Nodes',
+        },
+        order: 1,
+      },
+      {
+        slug: 'manual/middle/elements/edges/built-in',
+        title: {
+          zh: '内置边类型',
+          en: 'Built-in Edges',
+        },
+        order: 1,
+      },
+      {
+        slug: 'manual/middle/elements/combos/built-in',
+        title: {
+          zh: '内置 Combo',
+          en: 'Built-in Combos',
+        },
+        order: 1,
+      },
 
-      // {
-      //   slug: 'manual/middle/elements/advanced-style',
-      //   title: {
-      //     zh: '高级样式',
-      //     en: 'Advanced Style',
-      //   },
-      //   order: 5,
-      // },
-      // {
-      //   slug: 'manual/middle/elements/methods',
-      //   title: {
-      //     zh: '高级操作',
-      //     en: 'Advanced operation',
-      //   },
-      //   order: 6,
-      // },
+      {
+        slug: 'manual/middle/elements/advanced-style',
+        title: {
+          zh: '高级样式',
+          en: 'Advanced Style',
+        },
+        order: 5,
+      },
+      {
+        slug: 'manual/middle/elements/methods',
+        title: {
+          zh: '高级操作',
+          en: 'Advanced operation',
+        },
+        order: 6,
+      },
 
-      // {
-      //   slug: 'manual/middle/layout',
-      //   title: {
-      //     zh: '图布局',
-      //     en: 'Graph Layouts',
-      //   },
-      //   order: 3,
-      // },
-      // {
-      //   slug: 'manual/middle/states',
-      //   title: {
-      //     zh: '交互与事件',
-      //     en: 'Behavior & Event',
-      //   },
-      //   order: 4,
-      // },
-      // {
-      //   slug: 'manual/middle/plugins',
-      //   title: {
-      //     zh: '分析组件',
-      //     en: 'Component',
-      //   },
-      //   order: 6,
-      // },
-      // // ==============================
-      // {
-      //   slug: 'manual/advanced',
-      //   title: {
-      //     zh: '拓展阅读',
-      //     en: 'Further Reading',
-      //   },
-      //   order: 5,
-      // },
+      {
+        slug: 'manual/middle/layout',
+        title: {
+          zh: '图布局',
+          en: 'Graph Layouts',
+        },
+        order: 3,
+      },
+      {
+        slug: 'manual/middle/states',
+        title: {
+          zh: '交互与事件',
+          en: 'Behavior & Event',
+        },
+        order: 4,
+      },
+      {
+        slug: 'manual/middle/plugins',
+        title: {
+          zh: '分析组件',
+          en: 'Component',
+        },
+        order: 6,
+      },
+      // ==============================
+      {
+        slug: 'manual/advanced',
+        title: {
+          zh: '拓展阅读',
+          en: 'Further Reading',
+        },
+        order: 5,
+      },
       // ==========API====================
       {
         slug: 'api/graphLayout',
@@ -336,14 +328,14 @@ export default defineConfig({
       },
     ],
     examples: [
-      // {
-      //   slug: 'case',
-      //   icon: 'gallery',
-      //   title: {
-      //     zh: '场景案例',
-      //     en: 'Case',
-      //   },
-      // },
+      {
+        slug: 'case',
+        icon: 'gallery',
+        title: {
+          zh: '场景案例',
+          en: 'Case',
+        },
+      },
       {
         slug: 'net',
         icon: 'net',
@@ -427,10 +419,8 @@ export default defineConfig({
         en: 'G6 Graph Visualization Engine',
       },
       description: {
-        zh:
-          'G6 是一个简单、易用、完备的图可视化引擎，它在高定制能力的基础上，提供了一系列设计优雅、便于使用的图可视化解决方案。能帮助开发者搭建属于自己的图可视化、图分析、或图编辑器应用。',
-        en:
-          'G6 is graph visualization engine with simplicity and convenience. Based on the ability of customize, it provides a set of elegant graph visualization solutions, and helps developers to build up applications for graph visualization, graph analysis, and graph editor.',
+        zh: 'G6 是一个简单、易用、完备的图可视化引擎，它在高定制能力的基础上，提供了一系列设计优雅、便于使用的图可视化解决方案。能帮助开发者搭建属于自己的图可视化、图分析、或图编辑器应用。',
+        en: 'G6 is graph visualization engine with simplicity and convenience. Based on the ability of customize, it provides a set of elegant graph visualization solutions, and helps developers to build up applications for graph visualization, graph analysis, and graph editor.'
       },
       image: 'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*j5AqSpmNPdYAAAAAAAAAAABkARQnAQ',
       buttons: [
@@ -488,7 +478,7 @@ export default defineConfig({
         },
         description: {
           zh: 'G6 是一个专注于关系数据的、完备的图可视化引擎',
-          en: 'G6 is a complete graph visualization engine, which focuses on relational data',
+          en: 'G6 is a complete graph visualization engine, which focuses on relational data'
         },
       },
       {
@@ -510,26 +500,25 @@ export default defineConfig({
         },
         description: {
           zh: 'Vivid, 精心设计的简单、灵活、高可拓展的接口，满足你的无限创意',
-          en: 'Well-designed simple, flexible, and extendable intefaces will satisfy your infinite originality',
-        },
+          en: 'Well-designed simple, flexible, and extendable intefaces will satisfy your infinite originality'
+        }
       },
     ],
     /** 首页案例 */
     cases: [
       {
-        logo:
-          'https://camo.githubusercontent.com/53886f0e306c9f01c96dee2edca3992830b7cbb769118029a7e5d677deb7e67e/68747470733a2f2f67772e616c697061796f626a656374732e636f6d2f7a6f732f616e7466696e63646e2f306234487a4f63454a592f4772617068696e2e737667',
+        logo: 'https://camo.githubusercontent.com/53886f0e306c9f01c96dee2edca3992830b7cbb769118029a7e5d677deb7e67e/68747470733a2f2f67772e616c697061796f626a656374732e636f6d2f7a6f732f616e7466696e63646e2f306234487a4f63454a592f4772617068696e2e737667',
         title: {
           zh: 'Graphin 图可视分析组件',
           en: 'Graphin: Graph Insight',
         },
         description: {
           zh: 'Graphin 是一款基于 G6 封装的 React 分析组件库，专注在关系可视分析领域，简单高效，开箱即用。',
-          en:
-            "Graphin stands for Graph Insight. It's a toolkit based on G6 and React, that focuses on relational visual analysis.It's simple, efficient, out of the box.",
+          en: "Graphin stands for Graph Insight. It's a toolkit based on G6 and React, that focuses on relational visual analysis.It's simple, efficient, out of the box."
         },
         link: `https://graphin.antv.vision`,
-        image: 'https://gw.alipayobjects.com/mdn/rms_00edcb/afts/img/A*LKq7Q5wPA0AAAAAAAAAAAAAAARQnAQ',
+        image:
+          'https://gw.alipayobjects.com/mdn/rms_00edcb/afts/img/A*LKq7Q5wPA0AAAAAAAAAAAAAAARQnAQ',
       },
       {
         logo: 'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ch6rTrCxb6YAAAAAAAAAAABkARQnAQ',
@@ -539,11 +528,11 @@ export default defineConfig({
         },
         description: {
           zh: '基于 G6 实现的动态决策树，辅助用户寻找合适的可视化方式。它展示了 G6 强大的自定义节点和动画的能力。',
-          en:
-            'It is an interactive graph for users to find out an appropriate visualization method for their requirements. The demo shows the powerful custom node and animation ability of G6.',
+          en: 'It is an interactive graph for users to find out an appropriate visualization method for their requirements. The demo shows the powerful custom node and animation ability of G6.'
         },
         link: `/examples/case/graphDemos/#decisionBubbles`,
-        image: 'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*10b6R5fkyJ4AAAAAAAAAAABkARQnAQ',
+        image:
+          'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*10b6R5fkyJ4AAAAAAAAAAABkARQnAQ',
       },
       {
         logo: 'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*95GYRI0zPx8AAAAAAAAAAABkARQnAQ',
@@ -552,13 +541,12 @@ export default defineConfig({
           en: 'Graph Analysis App Powered by G6',
         },
         description: {
-          zh:
-            '社交网络分析是图可视化中一个重要的应用场景。随着社交网络越来越流行，人与人、人与组织之间的关系变得越来越复杂，使用传统的分析手段，已经很难满足我们的分析需求。在这种情况下，图分析及图可视化显得愈发重要。',
-          en:
-            'Social network is an important scenario in graph visualization. The relationships become complicate with the development of social network. Graph visualization and analysis do well on these complex cases.',
+          zh: '社交网络分析是图可视化中一个重要的应用场景。随着社交网络越来越流行，人与人、人与组织之间的关系变得越来越复杂，使用传统的分析手段，已经很难满足我们的分析需求。在这种情况下，图分析及图可视化显得愈发重要。',
+          en: 'Social network is an important scenario in graph visualization. The relationships become complicate with the development of social network. Graph visualization and analysis do well on these complex cases.'
         },
         link: `/manual/cases/relations`,
-        image: 'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*RYFQSZYewokAAAAAAAAAAABkARQnAQ',
+        image:
+          'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*RYFQSZYewokAAAAAAAAAAABkARQnAQ',
       },
       {
         logo: 'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*IEQFS5VtXX8AAAAAAAAAAABkARQnAQ',
@@ -567,63 +555,40 @@ export default defineConfig({
           en: 'Dynamic Relationships Analysis Powered by G6',
         },
         description: {
-          zh:
-            '基于 G6 的关系时序分析应用，解决应急过程中流程、影响面、应急预案等一系列应急决策辅助信息和手段，快速止血以减少和避免故障升级。',
-          en:
-            'This is an application for dynamic relationships analysis based on G6, which helps people deal with the flow, influence, and find out solutions to avoid losses and faults.',
+          zh: '基于 G6 的关系时序分析应用，解决应急过程中流程、影响面、应急预案等一系列应急决策辅助信息和手段，快速止血以减少和避免故障升级。',
+          en: 'This is an application for dynamic relationships analysis based on G6, which helps people deal with the flow, influence, and find out solutions to avoid losses and faults.'
         },
         link: `/manual/cases/sequenceTime`,
-        image: 'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*m41kSpg17ZkAAAAAAAAAAABkARQnAQ',
+        image:
+          'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*m41kSpg17ZkAAAAAAAAAAABkARQnAQ',
       },
     ],
     /** 首页合作公司 */
     companies: [
-      {
-        name: '阿里云',
-        img: 'https://gw.alipayobjects.com/mdn/rms_2274c3/afts/img/A*V_xMRIvw2iwAAAAAAAAAAABkARQnAQ',
-      },
-      {
-        name: '支付宝',
-        img: 'https://gw.alipayobjects.com/mdn/rms_2274c3/afts/img/A*lYDrRZvcvD4AAAAAAAAAAABkARQnAQ',
-      },
-      {
-        name: '天猫',
-        img: 'https://gw.alipayobjects.com/mdn/rms_2274c3/afts/img/A*BQrxRK6oemMAAAAAAAAAAABkARQnAQ',
-      },
-      {
-        name: '淘宝网',
-        img: 'https://gw.alipayobjects.com/mdn/rms_2274c3/afts/img/A*1l8-TqUr7UcAAAAAAAAAAABkARQnAQ',
-      },
-      {
-        name: '网上银行',
-        img: 'https://gw.alipayobjects.com/mdn/rms_2274c3/afts/img/A*ZAKFQJ5Bz4MAAAAAAAAAAABkARQnAQ',
-      },
-      {
-        name: '京东',
-        img: 'https://gw.alipayobjects.com/mdn/rms_2274c3/afts/img/A*yh-HRr3hCpgAAAAAAAAAAABkARQnAQ',
-      },
-      {
-        name: 'yunos',
-        img: 'https://gw.alipayobjects.com/mdn/rms_2274c3/afts/img/A*_js7SaNosUwAAAAAAAAAAABkARQnAQ',
-      },
-      {
-        name: '菜鸟',
-        img: 'https://gw.alipayobjects.com/mdn/rms_2274c3/afts/img/A*TgV-RZDODJIAAAAAAAAAAABkARQnAQ',
-      },
+      { name: '阿里云', img: 'https://gw.alipayobjects.com/mdn/rms_2274c3/afts/img/A*V_xMRIvw2iwAAAAAAAAAAABkARQnAQ' },
+      { name: '支付宝', img: 'https://gw.alipayobjects.com/mdn/rms_2274c3/afts/img/A*lYDrRZvcvD4AAAAAAAAAAABkARQnAQ', },
+      { name: '天猫', img: 'https://gw.alipayobjects.com/mdn/rms_2274c3/afts/img/A*BQrxRK6oemMAAAAAAAAAAABkARQnAQ', },
+      { name: '淘宝网', img: 'https://gw.alipayobjects.com/mdn/rms_2274c3/afts/img/A*1l8-TqUr7UcAAAAAAAAAAABkARQnAQ', },
+      { name: '网上银行', img: 'https://gw.alipayobjects.com/mdn/rms_2274c3/afts/img/A*ZAKFQJ5Bz4MAAAAAAAAAAABkARQnAQ', },
+      { name: '京东', img: 'https://gw.alipayobjects.com/mdn/rms_2274c3/afts/img/A*yh-HRr3hCpgAAAAAAAAAAABkARQnAQ', },
+      { name: 'yunos', img: 'https://gw.alipayobjects.com/mdn/rms_2274c3/afts/img/A*_js7SaNosUwAAAAAAAAAAABkARQnAQ', },
+      { name: '菜鸟', img: 'https://gw.alipayobjects.com/mdn/rms_2274c3/afts/img/A*TgV-RZDODJIAAAAAAAAAAABkARQnAQ', },
     ],
-    // internalSite: {
-    //   url: 'https://g6.antv.antgroup.com',
-    //   name: {
-    //     zh: '极速站点',
-    //     en: 'Fast Site',
-    //   },
-    // },
+    internalSite: {
+      url: 'https://g6.antv.antgroup.com',
+      name: {
+        zh: '极速站点',
+        en: 'Fast Site',
+      },
+    },
   },
   mfsu: false,
   alias: {
-    '@': __dirname,
+    '@': __dirname
   },
-  links: [],
-  scripts: [],
+  links: [
+  ],
+  scripts: [
+  ],
   jsMinifier: 'terser',
 });

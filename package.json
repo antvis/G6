@@ -7,7 +7,6 @@
     "prepare": "husky install"
   },
   "devDependencies": {
-    "prettier": "^2.8.8",
     "@types/jest": "^29.5.1",
     "@commitlint/cli": "^17.5.0",
     "@commitlint/config-conventional": "^17.4.4",
@@ -15,11 +14,6 @@
     "react-scripts": "3.1.2",
     "vite": "^4.2.1",
     "stats.js": "^0.17.0"
-  },
-  "pnpm":{
-    "overrides":{
-    "prettier": "^2.8.8"
-    }
   },
   "repository": "https://github.com/antvis/G6.git"
 }
