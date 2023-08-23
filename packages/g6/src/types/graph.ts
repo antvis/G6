@@ -116,11 +116,11 @@ export interface IGraph<
     direction?: 'in' | 'out' | 'both',
   ) => NodeModel[];
   /**
-   * Get edges that are affected when a particular node is moved
+   * Retrieve the nearby edges for a given node using quadtree collision detection.
    * @param nodeId target node's id
-   * @returns list of affected edges(including related edges and closest edges)
+   * @returns edges
    */
-  getAffectedEdgesByNodeMovement: (nodeId: ID) => EdgeModel[];
+  getNearEdgesForNode: (nodeId: ID) => EdgeModel[];
   /*
    * Get the children's data of a combo.
    * @param comboId combo id

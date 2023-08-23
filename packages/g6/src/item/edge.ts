@@ -46,7 +46,10 @@ export default class Edge extends Item {
     const { sourceItem, targetItem, nodeMap } = props;
     this.sourceItem = sourceItem;
     this.targetItem = targetItem;
-    this.nodeMap = nodeMap;
+    this.nodeMap = Object.assign(nodeMap, {
+      [sourceItem.getID()]: sourceItem,
+      [targetItem.getID()]: targetItem,
+    });
     this.draw(this.displayModel);
   }
   public draw(

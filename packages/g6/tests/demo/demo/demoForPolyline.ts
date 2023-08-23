@@ -15,7 +15,7 @@ export default () => {
   //     data: {
   //       x: Math.floor(Math.random() * 800),
   //       y: Math.floor(Math.random() * 600),
-  //       preventEdgeOverlap: i === 1,
+  //       preventPolylineEdgeOverlap: i === 1,
   //     },
   //   };
   //   data.nodes.push(node);
@@ -31,7 +31,7 @@ export default () => {
       data: {
         x: col * 180,
         y: row * 160,
-        preventEdgeOverlap: i === 1,
+        preventPolylineEdgeOverlap: i === 1,
       },
     };
     data.nodes.push(node);

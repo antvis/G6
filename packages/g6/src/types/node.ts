@@ -73,7 +73,7 @@ export interface NodeUserModelData extends PlainObject {
    * Defaults to false.
    * Only valid for polyline
    */
-  preventEdgeOverlap?: boolean;
+  preventPolylineEdgeOverlap?: boolean;
 }
 
 /** Data in inner model. Same format to the user data. */

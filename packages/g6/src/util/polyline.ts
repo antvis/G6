@@ -18,23 +18,23 @@ import { manhattanDist } from './math';
 import { RouterCfg } from './router';
 import { isBending } from './point';
 
-class PolylineHistory {
-  private pathMap: Map<ID, Point[]>;
+// class PolylineHistory {
+//   private pathMap: Map<ID, Point[]>;
 
-  constructor() {
-    this.pathMap = new Map<ID, Point[]>();
-  }
+//   constructor() {
+//     this.pathMap = new Map<ID, Point[]>();
+//   }
 
-  public addPath(edgeId: ID, points: Point[]): void {
-    this.pathMap.set(edgeId, points);
-  }
+//   public addPath(edgeId: ID, points: Point[]): void {
+//     this.pathMap.set(edgeId, points);
+//   }
 
-  public getPointsById(edgeId: ID): Point[] | undefined {
-    return this.pathMap.get(edgeId);
-  }
-}
+//   public getPointsById(edgeId: ID): Point[] | undefined {
+//     return this.pathMap.get(edgeId);
+//   }
+// }
 
-const polylineHistory = new PolylineHistory();
+// const polylineHistory = new PolylineHistory();
 
 /**
  * Simplify points of polyline by removing duplicated points
@@ -341,7 +341,7 @@ export const getPolylinePath = (
   const newPoints = removeRedundantPoint(points);
 
   // Record polyline points
-  polylineHistory.addPath(id, newPoints);
+  // polylineHistory.addPath(id, newPoints);
 
   return pointsToPolyline(newPoints, radius, z);
 };

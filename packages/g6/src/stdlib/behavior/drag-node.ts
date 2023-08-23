@@ -90,6 +90,7 @@ export default class DragNode extends Behavior {
   // Private states
   private hiddenEdges: EdgeModel[] = [];
   private selectedNodeIds: ID[] = [];
+  private hiddenNearEdges: EdgeModel[] = [];
   private hiddenComboTreeItems: (ComboModel | NodeModel)[] = [];
   private originX: number;
   private originY: number;
@@ -144,7 +145,7 @@ export default class DragNode extends Behavior {
   private getRelatedEdges(
     selectedNodeIds: ID[],
     relatedCombo: (ComboModel | NodeModel)[],
-    visible = true,
+    onlyVisible = true,
   ) {
     const relatedNodeComboIds = [];
     graphComboTreeDfs(this.graph, relatedCombo, (item) =>
@@ -152,22 +153,24 @@ export default class DragNode extends Behavior {
     );
 
     let edges = uniq(
-      selectedNodeIds.concat(relatedNodeComboIds).flatMap((nodeId) => {
-        const preventEdgeOverlap =
-          this.graph.getNodeData(nodeId).data.preventEdgeOverlap || false;
-        if (preventEdgeOverlap) {
-          return this.graph.getAffectedEdgesByNodeMovement(nodeId);
-        } else {
-          return this.graph.getRelatedEdgesData(nodeId);
-        }
-      }),
+      selectedNodeIds
+        .concat(relatedNodeComboIds)
+        .flatMap((nodeId) => this.graph.getRelatedEdgesData(nodeId)),
     );
-    if (visible) {
-      edges = edges.filter((edgeData) => {
-        return visible && this.graph.getItemVisible(edgeData.id);
-      });
+
+    if (onlyVisible) {
+      edges = edges.filter((edgeData) =>
+        this.graph.getItemVisible(edgeData.id),
+      );
     }
     return edges;
+  }
+
+  /** Retrieve the nearby edges for a given node using quadtree collision detection. */
+  private getNearEdgesForNodes(nodeIds: ID[]) {
+    return uniq(
+      nodeIds.flatMap((nodeId) => this.graph.getNearEdgesForNode(nodeId)),
+    );
   }
 
   private getComboTreeItems(selectedNodeIds: ID[]) {
@@ -313,29 +316,35 @@ export default class DragNode extends Behavior {
       this.originY = event.canvas.y;
     }
 
+    /**
+     * When dragging nodes, if nodes are set to `preventPolylineEdgeOverlap`,
+     * use quadtree collision detection to identity nearby edges and dynamically update them
+     */
     if (this.dragging && enableTransient) {
-      // Draw transient edges and nodes.
-      this.hiddenComboTreeItems = this.getComboTreeItems(this.selectedNodeIds);
-
-      this.hiddenEdges = this.getRelatedEdges(
-        this.selectedNodeIds,
-        this.hiddenComboTreeItems,
-        false,
-      );
-
-      this.selectedNodeIds.forEach((nodeId) => {
-        this.graph.drawTransient('node', nodeId, {});
-      });
-      this.hiddenEdges.forEach((edge) => {
-        this.graph.drawTransient('edge', edge.id, {});
+      const autoRoutedNodesIds = this.selectedNodeIds.filter((nodeId) => {
+        return (
+          this.graph.getNodeData(nodeId).data.preventPolylineEdgeOverlap ||
+          false
+        );
       });
 
-      // Hide original edges and nodes. They will be restored when pointerup.
-      this.graph.hideItem(this.selectedNodeIds, true);
-      this.graph.hideItem(
-        this.hiddenEdges.map((edge) => edge.id),
-        true,
-      );
+      if (autoRoutedNodesIds) {
+        const hiddenEdgesIds = this.hiddenEdges.map((edge) => edge.id);
+        this.hiddenNearEdges = this.getNearEdgesForNodes(
+          autoRoutedNodesIds,
+        ).filter((edge) => !hiddenEdgesIds.includes(edge.id));
+
+        if (this.hiddenNearEdges.length) {
+          this.hiddenNearEdges.forEach((edge) => {
+            this.graph.drawTransient('edge', edge.id, {});
+          });
+
+          this.graph.hideItem(
+            this.hiddenNearEdges.map((edge) => edge.id),
+            true,
+          );
+        }
+      }
     }
 
     if (!this.originPositions.length || !this.dragging) {
@@ -441,6 +450,9 @@ export default class DragNode extends Behavior {
       this.graph.drawTransient('node', edge.target, { action: 'remove' });
       this.graph.drawTransient('edge', edge.id, { action: 'remove' });
     });
+    this.hiddenNearEdges.forEach((edge) => {
+      this.graph.drawTransient('edge', edge.id, { action: 'remove' });
+    });
     this.hiddenComboTreeItems.forEach((item) => {
       const isCombo = item.data._isCombo;
       this.graph.drawTransient(isCombo ? 'combo' : 'node', item.id, {
@@ -459,6 +471,13 @@ export default class DragNode extends Behavior {
         true,
       );
       this.hiddenEdges = [];
+    }
+    if (this.hiddenNearEdges.length) {
+      this.graph.showItem(
+        this.hiddenNearEdges.map((edge) => edge.id),
+        true,
+      );
+      this.hiddenNearEdges = [];
     }
     if (this.hiddenComboTreeItems.length) {
       this.graph.showItem(

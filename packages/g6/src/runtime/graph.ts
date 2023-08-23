@@ -853,14 +853,14 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
   }
 
   /**
-   * Identify edges that are affected when a particular node is moved
-   * @param nodeId id of node that is moving
-   * @returns list of affected edges(including related edges and closest edges)
+   * Retrieve the nearby edges for a given node using quadtree collision detection.
+   * @param nodeId node id
    */
-  public getAffectedEdgesByNodeMovement(nodeId: ID): EdgeModel[] {
-    return this.dataController.findAffectedEdgesByNodeMovement(
+  public getNearEdgesForNode(nodeId: ID): EdgeModel[] {
+    const { graphCore } = this.dataController;
+    return this.itemController.findNearEdgesByNode(
       nodeId,
-      this.itemController.getTransientItem(nodeId) as Node,
+      graphCore,
     );
   }
 

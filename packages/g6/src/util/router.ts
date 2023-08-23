@@ -362,14 +362,19 @@ const getControlPoints = (
   return controlPoints;
 };
 
+/** Find the shortest path computed by A* routing algorithm */
 export const pathFinder = (
-  startPoint: PolyPoint,
-  endPoint: PolyPoint,
-  startNode: Node,
-  endNode: Node,
+  sourceNodeId: ID,
+  targetNodeId: ID,
   nodeMap?: Record<ID, Node>,
   routerCfg?: RouterCfg,
 ): PolyPoint[] => {
+  const startNode = nodeMap[sourceNodeId];
+  const endNode = nodeMap[targetNodeId];
+
+  const startPoint: PolyPoint = startNode.getPosition();
+  const endPoint: PolyPoint = endNode.getPosition();
+
   if (isNaN(startPoint.x) || isNaN(endPoint.x)) return [];
   const cfg: RouterCfg = deepMix(defaultCfg, routerCfg);
 

@@ -286,7 +286,7 @@ const createControls = () => {
       graph.updateData('node', {
         id: 'obstacle',
         data: {
-          preventEdgeOverlap: true,
+          preventPolylineEdgeOverlap: true,
         },
       });
     },
@@ -294,7 +294,7 @@ const createControls = () => {
       graph.updateData('node', {
         id: 'obstacle',
         data: {
-          preventEdgeOverlap: false,
+          preventPolylineEdgeOverlap: false,
         },
       });
     },
@@ -339,7 +339,7 @@ export default (context: TestCaseContext) => {
     data: defaultData,
     modes: {
       // supported behavior
-      default: ['activate-relations'],
+      default: ['activate-relations', 'drag-node'],
     },
     edge: (edgeInnerModel: any) => {
       const { id, data } = edgeInnerModel;

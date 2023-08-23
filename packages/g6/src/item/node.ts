@@ -275,6 +275,7 @@ export default class Node extends Item {
     }
 
     let linkPoint = intersectPoint;
+
     // If the node has anchorPoints in the data, find the nearest anchor point.
     if (anchorPoints.length) {
       if (!linkPoint) {

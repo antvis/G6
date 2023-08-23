@@ -1,3 +1,5 @@
+import { ID } from 'types';
+
 export type Padding = number | number[];
 
 export type Point = {
@@ -7,5 +9,5 @@ export type Point = {
 };
 
 export type PolyPoint = Point & {
-  id?: string;
+  id?: ID;
 };
