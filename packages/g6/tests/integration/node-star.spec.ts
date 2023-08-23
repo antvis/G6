@@ -25,7 +25,7 @@ describe('node star', () => {
             triggerEvent(graph, 'mouseup', 100, 100);
             await expect(canvas).toMatchCanvasSnapshot(
                 dir,
-                'node-ellipse-selected',
+                'node-star-selected',
             );
             //normal state
             triggerEvent(graph, 'mousedown', 100, 100);
