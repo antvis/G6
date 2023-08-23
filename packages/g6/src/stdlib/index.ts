@@ -16,6 +16,7 @@ import {
   RectNode,
   SphereNode,
   TriangleNode,
+  HexagonNode,
 } from './item/node';
 import DarkTheme from './theme/dark';
 import LightTheme from './theme/light';
@@ -92,6 +93,7 @@ const stdLib = {
     'circle-node': CircleNode,
     'sphere-node': SphereNode,
     'rect-node': RectNode,
+    'hexagon-node': HexagonNode,
     'triangle-node': TriangleNode,
     'ellipse-node': EllipseNode,
   },
