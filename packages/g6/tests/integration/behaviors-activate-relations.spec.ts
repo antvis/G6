@@ -1,7 +1,7 @@
 import { resetEntityCounter } from '@antv/g';
 import activateRelations from '../demo/behaviors/activate-relations';
+import { createContext } from './utils';
 import './utils/useSnapshotMatchers';
-import { createContext, triggerEvent } from './utils';
 
 describe('Activate relations behavior', () => {
   beforeEach(() => {
@@ -34,8 +34,7 @@ describe('Activate relations behavior', () => {
 
       // @ts-ignore
       // mouseEvent.target = canvas.getContextService().getDomElement();
-      triggerEvent(graph, 'mousedown', 81, 50);
-      triggerEvent(graph, 'mouseup', 81, 50);
+      graph.emit('node:click', { itemId: 'node1', itemType: 'node' });
       await expect(canvas).toMatchCanvasSnapshot(
         dir,
         'behaviors-activate-relations-activate-node1',
@@ -44,8 +43,7 @@ describe('Activate relations behavior', () => {
       /**
        * Click document to clear active state.
        */
-      triggerEvent(graph, 'mousedown', 0, 0);
-      triggerEvent(graph, 'mouseup', 0, 0);
+      graph.emit('canvas:click', {});
       await expect(canvas).toMatchCanvasSnapshot(
         dir,
         'behaviors-activate-relations-deactivate-node1',

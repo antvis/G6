@@ -10,7 +10,6 @@ const createGraph = () => {
     container: container as HTMLElement,
     width,
     height: 1200,
-    type: 'graph',
     // renderer: 'webgl',
     data: {
       nodes: [
