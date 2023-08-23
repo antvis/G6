@@ -1,25 +1,21 @@
 import { DisplayObject } from '@antv/g';
 import { NodeDisplayModel } from '../../../types';
-import { State, GShapeStyle } from '../../../types/item';
+import { State } from '../../../types/item';
 import {
+    IAnchorPositionMap,
     NodeModelData,
     NodeShapeMap,
     NodeShapeStyles,
 } from '../../../types/node';
-import {
-    ComboDisplayModel,
-    ComboModelData,
-    ComboShapeMap,
-} from '../../../types/combo';
 import { BaseNode } from './base';
 
 
 export class StarNode extends BaseNode {
-    private defaultSize = 20;
+    private defaultOuterR = 20;
     override defaultStyles = {
         keyShape: {
-            size: this.defaultSize,
-            innerR: (this.defaultSize * 3) / 8,
+            outerR: this.defaultOuterR,
+            innerR: (this.defaultOuterR * 3) / 8,
             x: 0,
             y: 0,
         },
@@ -113,7 +109,7 @@ export class StarNode extends BaseNode {
         const { keyShape: keyShapeStyle } = this.mergedStyles as any;
 
         const path = this.getStarPath(
-            keyShapeStyle.size,
+            keyShapeStyle.outerR,
             keyShapeStyle.innerR
         );
         return this.upsertShape(
@@ -129,96 +125,31 @@ export class StarNode extends BaseNode {
     }
 
     public getStarPath(outerR: number, innerR: number) {
-        const path = [];
-        for (let i = 0; i < 5; i++) {
-            const x1 = Math.cos(((18 + 72 * i) / 180) * Math.PI) * outerR;
-            const y1 = Math.sin(((18 + 72 * i) / 180) * Math.PI) * outerR;
-            const x2 = Math.cos(((54 + 72 * i) / 180) * Math.PI) * innerR;
-            const y2 = Math.sin(((54 + 72 * i) / 180) * Math.PI) * innerR;
-            if (i === 0) {
-                path.push(['M', x1, -y1]);
-            } else {
-                path.push(['L', x1, -y1]);
-            }
-            path.push(['L', x2, -y2]);
-        }
-
-        path.push(['Z']);
-        return path;
+        return [
+            ['M', 0, -outerR],
+            ['L', innerR * Math.cos(3 * Math.PI / 10), -innerR * Math.sin(3 * Math.PI / 10)],
+            ['L', outerR * Math.cos(Math.PI / 10), -outerR * Math.sin(Math.PI / 10)],
+            ['L', innerR * Math.cos(Math.PI / 10), innerR * Math.sin(Math.PI / 10)],
+            ['L', outerR * Math.cos(3 * Math.PI / 10), outerR * Math.sin(3 * Math.PI / 10)],
+            ['L', 0, innerR],
+            ['L', -outerR * Math.cos(3 * Math.PI / 10), outerR * Math.sin(3 * Math.PI / 10)],
+            ['L', -innerR * Math.cos(Math.PI / 10), innerR * Math.sin(Math.PI / 10)],
+            ['L', -outerR * Math.cos(Math.PI / 10), -outerR * Math.sin(Math.PI / 10)],
+            ['L', -innerR * Math.cos(3 * Math.PI / 10), -innerR * Math.sin(3 * Math.PI / 10)],
+            'Z',
+        ]
     }
 
-
-    public override drawAnchorShapes(
-        model: NodeDisplayModel | ComboDisplayModel,
-        shapeMap: NodeShapeMap | ComboShapeMap,
-        diffData?: {
-            previous: NodeModelData | ComboModelData;
-            current: NodeModelData | ComboModelData;
-        },
-        diffState?: { previous: State[]; current: State[] },
-    ): {
-        [shapeId: string]: DisplayObject;
-    } {
-        const { anchorShapes: commonStyle, keyShape: keyShapeStyle } =
-            this.mergedStyles;
-
-        const individualConfigs = Object.values(this.mergedStyles).filter(
-            (style) => style.tag === 'anchorShape',
-        );
-        if (!individualConfigs.length) return;
-        this.boundsCache.keyShapeLocal =
-            this.boundsCache.keyShapeLocal || shapeMap.keyShape.getLocalBounds();
-        const shapes = {};
-        individualConfigs.forEach((config, i) => {
-            const { position, fill = keyShapeStyle.fill, ...style } = config;
-            const id = `anchorShape${i}`;
-            const [cx, cy] = this.getAnchorPosition(config.position);
-            shapes[id] = this.upsertShape(
-                'circle',
-                id,
-                {
-                    cx,
-                    cy,
-                    fill,
-                    ...commonStyle,
-                    ...style,
-                } as GShapeStyle,
-                shapeMap,
-                model,
-            );
-        });
-        return shapes;
-    }
-
-    private getAnchorPosition(position: string | [number, number]): [number, number] {
-        const { keyShape: keyShapeStyle } = this.mergedStyles as any;
-        const outerR = keyShapeStyle.size;
-        let x: number, y: number;
-        if (position instanceof Array) {
-            const keyShapeBBox = this.boundsCache.keyShapeLocal
-            const keyShapeWidth = keyShapeBBox.max[0] - keyShapeBBox.min[0];
-            const keyShapeHeight = keyShapeBBox.max[1] - keyShapeBBox.min[1];
-            return [keyShapeWidth * (position[0] - 0.5), keyShapeHeight * (position[1] - 0.5),]
-        } else {
-            position = position.toLowerCase();
-        }
-        if (position == 'top') {
-            x = Math.cos(((18 + 72 * 1) / 180) * Math.PI) * outerR;
-            y = Math.sin(((18 + 72 * 1) / 180) * Math.PI) * outerR;
-        } else if (position == 'left') {
-            x = Math.cos(((18 + 72 * 2) / 180) * Math.PI) * outerR;
-            y = Math.sin(((18 + 72 * 2) / 180) * Math.PI) * outerR;
-        } else if (position == 'leftbottom') {
-            x = Math.cos(((18 + 72 * 3) / 180) * Math.PI) * outerR;
-            y = Math.sin(((18 + 72 * 3) / 180) * Math.PI) * outerR;
-        } else if (position == 'rightbottom') {
-            x = Math.cos(((18 + 72 * 4) / 180) * Math.PI) * outerR;
-            y = Math.sin(((18 + 72 * 4) / 180) * Math.PI) * outerR;
-        } else {
-            //right
-            x = Math.cos(((18 + 72 * 0) / 180) * Math.PI) * outerR;
-            y = Math.sin(((18 + 72 * 0) / 180) * Math.PI) * outerR;
-        }
-        return [x, -y];
+    public override calculateAnchorPosition(keyShapeStyle: any): IAnchorPositionMap {
+        const anchorPositionMap = {};
+        const outerR = keyShapeStyle.outerR;
+        const innerR = keyShapeStyle.innerR;
+        anchorPositionMap['top'] = [0, -outerR];
+        anchorPositionMap['left'] = [-outerR * Math.cos(Math.PI / 10), -outerR * Math.sin(Math.PI / 10)];
+        anchorPositionMap['leftbottom'] = [-outerR * Math.cos(3 * Math.PI / 10), outerR * Math.sin(3 * Math.PI / 10)];
+        anchorPositionMap['bottom'] = [0, innerR];
+        anchorPositionMap['rightbottom'] = [outerR * Math.cos(3 * Math.PI / 10), outerR * Math.sin(3 * Math.PI / 10)];
+        anchorPositionMap['right'] = anchorPositionMap['default'] = [outerR * Math.cos(Math.PI / 10), -outerR * Math.sin(Math.PI / 10)];
+        return anchorPositionMap;
     }
 }

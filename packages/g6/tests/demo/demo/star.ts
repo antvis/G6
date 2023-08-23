@@ -1,5 +1,5 @@
 import { TestCaseContext } from '../interface';
-import { Graph, IGraph } from '../../../src/index';
+import { Graph } from '../../../src/index';
 
 let graph: any;
 
