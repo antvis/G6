@@ -473,7 +473,9 @@ export class ItemController {
         }
         const parentItem = this.itemMap[current.parentId];
         if (current.parentId && parentItem?.model.data.collapsed) {
-          this.graph.hideItem(innerModel.id, false, false);
+          this.graph.executeWithoutStacking(() => {
+            this.graph.hideItem(innerModel.id, false);
+          });
         }
       });
       updateRelates();
@@ -1097,8 +1099,11 @@ export class ItemController {
     const succeedIds: ID[] = [];
     // hide the succeeds
     graphComboTreeDfs(this.graph, [comboModel], (child) => {
-      if (child.id !== comboModel.id)
-        this.graph.hideItem(child.id, false, false);
+      if (child.id !== comboModel.id) {
+        this.graph.executeWithoutStacking(() => {
+          this.graph.hideItem(child.id, false);
+        });
+      }
       relatedEdges = relatedEdges.concat(graphCore.getRelatedEdges(child.id));
       succeedIds.push(child.id);
     });
@@ -1133,7 +1138,9 @@ export class ItemController {
         },
       });
     });
-    this.graph.addData('edge', virtualEdges, false);
+    this.graph.executeWithoutStacking(() => {
+      this.graph.addData('edge', virtualEdges);
+    });
   }
 
   private expandCombo(graphCore: GraphCore, comboModel: ComboModel) {
@@ -1154,7 +1161,9 @@ export class ItemController {
       });
       if (child.id !== comboModel.id) {
         if (!graphCore.getNode(child.data.parentId).data.collapsed) {
-          this.graph.showItem(child.id, false, false);
+          this.graph.executeWithoutStacking(() => {
+            this.graph.showItem(child.id, false);
+          });
         }
         // re-add collapsed succeeds' virtual edges by calling collapseCombo
         if (child.data._isCombo && child.data.collapsed) {
@@ -1163,7 +1172,9 @@ export class ItemController {
       }
     });
     // remove related virtual edges
-    this.graph.removeData('edge', uniq(relatedVirtualEdgeIds), false);
+    this.graph.executeWithoutStacking(() => {
+      this.graph.removeData('edge', uniq(relatedVirtualEdgeIds));
+    });
   }
 }
 

@@ -20,7 +20,9 @@ export class StateUpdatedCommand implements Command {
   private updateItemsStates(graph, stateOptions) {
     stateOptions?.map((option) => {
       const { ids, states, value } = option;
-      graph.setItemState(ids, states, value, false);
+      graph.executeWithoutStacking(() => {
+        graph.setItemState(ids, states, value);
+      });
     });
   }
 

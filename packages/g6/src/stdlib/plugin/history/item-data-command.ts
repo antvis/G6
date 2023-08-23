@@ -26,15 +26,23 @@ export class ItemDataCommand implements Command {
 
   private removeChangedData(graph) {
     const ids = this.changes.map((data) => data.value.id);
-    graph.removeData(this.type, ids, false);
+    graph.executeWithoutStacking(() => {
+      graph.removeData(this.type, ids);
+    });
   }
 
   private addChangedData(graph) {
     const models = this.changes.map((data) => data.value);
-    graph.addData(this.type, models, false);
+    graph.executeWithoutStacking(() => {
+      graph.addData(this.type, models);
+    });
   }
 
-  private updateChangedData(graph, operationType: StackType, onlyMove = false) {
+  private updateChangedData(
+    graph: IGraph,
+    operationType: StackType,
+    onlyMove = false,
+  ) {
     let models;
     if (this.type === 'combo' && !onlyMove) {
       models = this.changes.map((data) => ({
@@ -53,11 +61,13 @@ export class ItemDataCommand implements Command {
       });
     }
 
+    graph.pauseStacking();
     if (onlyMove) {
-      graph.updatePosition(this.type, models, this.upsertAncestors, false);
+      graph.updatePosition(this.type, models, this.upsertAncestors);
     } else {
-      graph.updateData(this.type, models, false);
+      graph.updateData(this.type, models);
     }
+    graph.resumeStacking();
   }
 
   undo(graph: IGraph) {

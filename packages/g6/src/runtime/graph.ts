@@ -102,19 +102,6 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       base: 'light',
     },
     enableStack: true,
-    stackCfg: {
-      stackSize: 0,
-      /** ignore* 是全局设置，用于指示是否忽略某种类型的操作 */
-      ignoreStateChange: false,
-      ignoreAdd: false,
-      ignoreRemove: false,
-      ignoreUpdate: false,
-      /** 允许更细粒度的控制，优先与 ignore 选项。
-       * 如果某个 API 在 excludes 中，即使他的操作类型没有被忽略，也不会放入栈
-       */
-      includes: [],
-      excludes: [],
-    },
   };
 
   constructor(spec: Specification<B, T>) {
@@ -927,7 +914,6 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * Add one or more node/edge/combo data to the graph.
    * @param itemType item type
    * @param model user data
-   * @param stack whether push this operation to stack
    * @returns whether success
    * @group Data
    */
@@ -940,7 +926,6 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       | NodeUserModel[]
       | EdgeUserModel[]
       | ComboUserModel[],
-    stack?: boolean,
   ):
     | NodeModel
     | EdgeModel
@@ -965,7 +950,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
         type: itemType,
         action: 'add',
         models,
-        enableStack: this.shouldPushToStack('addData', stack),
+        apiName: 'addData',
         changes,
       });
     });
@@ -986,11 +971,10 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
   /**
    * Remove one or more node/edge/combo data from the graph.
    * @param item the item to be removed
-   * @param stack whether push this operation to stack
    * @returns whether success
    * @group Data
    */
-  public removeData(itemType: ITEM_TYPE, ids: ID | ID[], stack?: boolean) {
+  public removeData(itemType: ITEM_TYPE, ids: ID | ID[]) {
     const idArr = isArray(ids) ? ids : [ids];
     const data = { nodes: [], edges: [], combos: [] };
     const { userGraphCore, graphCore } = this.dataController;
@@ -1011,7 +995,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
         type: itemType,
         action: 'remove',
         ids,
-        enableStack: this.shouldPushToStack('removeData', stack),
+        apiName: 'removeData',
         changes,
       });
     });
@@ -1051,10 +1035,18 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
           }
         });
 
-        if (oldValue.x === undefined || Number.isNaN(oldValue.x))
+        if (
+          (oldValue.x === undefined || Number.isNaN(oldValue.x)) &&
+          !oldValue._isCombo
+        )
           oldValue.x = 0;
-        if (oldValue.y === undefined || Number.isNaN(oldValue.x))
+        if (
+          (oldValue.y === undefined || Number.isNaN(oldValue.x)) &&
+          !oldValue._isCombo
+        )
           oldValue.y = 0;
+        if (Number.isNaN(newValue.x)) delete newValue.x;
+        if (Number.isNaN(newValue.y)) delete newValue.y;
 
         if (isEqual(newValue, oldValue)) return false;
 
@@ -1070,7 +1062,6 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * Update one or more node/edge/combo data on the graph.
    * @param {ITEM_TYPE} itemType 'node' | 'edge' | 'combo'
    * @param models new configurations for every node/edge/combo, which has id field to indicate the specific item
-   * @param {boolean} stack whether push this operation into graph's stack, true by default
    * @group Data
    */
   public updateData(
@@ -1084,7 +1075,6 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
           | Partial<EdgeUserModel>[]
           | Partial<ComboUserModel>[]
         >,
-    stack?: boolean,
   ):
     | NodeModel
     | EdgeModel
@@ -1110,7 +1100,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
         type: itemType,
         action: 'update',
         models,
-        enableStack: this.shouldPushToStack('updateData', stack),
+        apiName: 'updateData',
         changes,
       });
     });
@@ -1130,7 +1120,6 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * Update one or more nodes' positions,
    * do not update other styles which leads to better performance than updating positions by updateData.
    * @param models new configurations with x and y for every node, which has id field to indicate the specific item
-   * @param {boolean} stack whether push this operation into graph's stack, true by default
    * @group Data
    */
   public updateNodePosition(
@@ -1140,9 +1129,8 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
           ComboUserModel | Partial<NodeUserModel>[] | Partial<ComboUserModel>[]
         >,
     upsertAncestors?: boolean,
-    stack?: boolean,
   ) {
-    return this.updatePosition('node', models, upsertAncestors, stack);
+    return this.updatePosition('node', models, upsertAncestors);
   }
 
   /**
@@ -1150,7 +1138,6 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * do not update other styles which leads to better performance than updating positions by updateData.
    * In fact, it changes the succeed nodes positions to affect the combo's position, but not modify the combo's position directly.
    * @param models new configurations with x and y for every combo, which has id field to indicate the specific item
-   * @param {boolean} stack whether push this operation into graph's stack, true by default
    * @group Data
    */
   public updateComboPosition(
@@ -1160,9 +1147,8 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
           ComboUserModel | Partial<NodeUserModel>[] | Partial<ComboUserModel>[]
         >,
     upsertAncestors?: boolean,
-    stack?: boolean,
   ) {
-    return this.updatePosition('combo', models, upsertAncestors, stack);
+    return this.updatePosition('combo', models, upsertAncestors);
   }
 
   /**
@@ -1178,26 +1164,6 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     return this.pluginController.getPlugin('history') as History;
   }
 
-  /**
-   * Determine if a given operation should be pushed onto the history stack based on various configurations.
-   * @param {string} apiName name of the API operation.
-   * @param {boolean} stack Optional. whether push this operation into graph's stack.
-   */
-  private shouldPushToStack(apiName: string, stack?: boolean): boolean {
-    const { enableStack, stackCfg } = this.specification;
-    const { includes: defaultIncludes, excludes: defaultExcludes } =
-      this.defaultSpecification.stackCfg;
-    const { includes = defaultIncludes, excludes = defaultExcludes } = stackCfg;
-    if (!enableStack) return false;
-    if (isBoolean(stack)) return stack;
-    if (includes.includes(apiName)) return true;
-    if (excludes.includes(apiName)) return false;
-    let categoryKey: any = getCategoryByApiName(apiName);
-    if (!categoryKey) return true;
-    categoryKey = 'ignore' + upperFirst(categoryKey);
-    return !stackCfg[categoryKey];
-  }
-
   private updatePosition(
     type: 'node' | 'combo',
     models:
@@ -1206,7 +1172,6 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
           ComboUserModel | Partial<NodeUserModel>[] | Partial<ComboUserModel>[]
         >,
     upsertAncestors?: boolean,
-    stack?: boolean,
   ) {
     const modelArr = isArray(models) ? models : [models];
     const { graphCore } = this.dataController;
@@ -1229,7 +1194,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
         action: 'updatePosition',
         upsertAncestors,
         models,
-        enableStack: this.shouldPushToStack('updatePosition', stack),
+        apiName: 'updatePosition',
         changes,
       });
     });
@@ -1269,7 +1234,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * @returns
    * @group Item
    */
-  public showItem(ids: ID | ID[], disableAnimate?: boolean, stack?: boolean) {
+  public showItem(ids: ID | ID[], disableAnimate?: boolean) {
     const idArr = isArray(ids) ? ids : [ids];
     if (isEmpty(idArr)) return;
     const changes = {
@@ -1287,7 +1252,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       value: true,
       animate: !disableAnimate,
       action: 'updateVisibility',
-      enableStack: this.shouldPushToStack('showItem', stack),
+      apiName: 'showItem',
       changes,
     });
   }
@@ -1297,7 +1262,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * @returns
    * @group Item
    */
-  public hideItem(ids: ID | ID[], disableAnimate?: boolean, stack?: boolean) {
+  public hideItem(ids: ID | ID[], disableAnimate?: boolean) {
     const idArr = isArray(ids) ? ids : [ids];
     if (isEmpty(idArr)) return;
     const changes = {
@@ -1315,7 +1280,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       value: false,
       animate: !disableAnimate,
       action: 'updateVisibility',
-      enableStack: this.shouldPushToStack('hideItem', stack),
+      apiName: 'hideItem',
       changes,
     });
   }
@@ -1326,7 +1291,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * @returns
    * @group Item
    */
-  public frontItem(ids: ID | ID[], stack?: boolean) {
+  public frontItem(ids: ID | ID[]) {
     const idArr = isArray(ids) ? ids : [ids];
     this.hooks.itemzindexchange.emit({
       ids: idArr as ID[],
@@ -1336,7 +1301,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     this.emit('afteritemzindexchange', {
       ids: idArr,
       action: 'front',
-      enableStack: this.shouldPushToStack('frontItem', stack),
+      apiName: 'frontItem',
     });
   }
   /**
@@ -1345,7 +1310,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * @returns
    * @group Item
    */
-  public backItem(ids: ID | ID[], stack?: boolean) {
+  public backItem(ids: ID | ID[]) {
     const idArr = isArray(ids) ? ids : [ids];
     this.hooks.itemzindexchange.emit({
       ids: idArr as ID[],
@@ -1355,7 +1320,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     this.emit('afteritemzindexchange', {
       ids: idArr,
       action: 'back',
-      enableStack: this.shouldPushToStack('backItem', stack),
+      apiName: 'backItem',
     });
   }
 
@@ -1388,7 +1353,6 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     ids: ID | ID[],
     states: string | string[],
     value: boolean,
-    stack?: boolean,
   ) {
     const idArr = isArray(ids) ? ids : [ids];
     const stateArr = isArray(states) ? states : [states];
@@ -1407,7 +1371,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       states,
       value,
       action: 'updateState',
-      enableStack: this.shouldPushToStack('setItemState', stack),
+      apiName: 'setItemState',
       changes,
     });
   }
@@ -1429,7 +1393,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * @returns
    * @group Item
    */
-  public clearItemState(ids: ID | ID[], states?: string[], stack?: boolean) {
+  public clearItemState(ids: ID | ID[], states?: string[]) {
     const idArr = isArray(ids) ? ids : [ids];
     const stateOptions = { ids: idArr, states, value: false };
     const changes = {
@@ -1446,7 +1410,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       states,
       value: false,
       action: 'updateState',
-      enableStack: this.shouldPushToStack('clearItemState', stack),
+      apiName: 'clearItemState',
       changes,
     });
   }
@@ -1482,15 +1446,10 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * Add a new combo to the graph, and update the structure of the existed child in childrenIds to be the children of the new combo.
    * Different from addData with combo type, this API update the succeeds' combo tree strucutres in the same time.
    * @param model combo user data
-   * @param stack whether push this operation to stack
    * @returns whether success
    * @group Combo
    */
-  public addCombo(
-    model: ComboUserModel,
-    childrenIds: ID[],
-    stack?: boolean,
-  ): ComboModel {
+  public addCombo(model: ComboUserModel, childrenIds: ID[]): ComboModel {
     const { graphCore } = this.dataController;
     const { specification } = this.themeController;
     graphCore.once('changed', (event) => {
@@ -1506,7 +1465,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
         type: 'combo',
         action: 'add',
         models: [model],
-        enableStack: this.shouldPushToStack('addCombo', stack),
+        apiName: 'addCombo',
         changes,
       });
     });
@@ -1535,38 +1494,39 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * @param comboId combo ids
    * @group Combo
    */
-  public collapseCombo(comboIds: ID | ID[], stack?: boolean) {
+  public collapseCombo(comboIds: ID | ID[]) {
     const ids = isArray(comboIds) ? comboIds : [comboIds];
-    this.updateData(
-      'combo',
-      ids.map((id) => ({ id, data: { collapsed: true } })),
-      false,
-    );
+    this.executeWithoutStacking(() => {
+      this.updateData(
+        'combo',
+        ids.map((id) => ({ id, data: { collapsed: true } })),
+      );
+    });
     this.emit('aftercollapsecombo', {
       type: 'combo',
       action: 'collapseCombo',
       ids: comboIds,
-      enableStack: this.shouldPushToStack('collapseCombo', stack),
+      apiName: 'collapseCombo',
     });
   }
   /**
    * Expand a combo.
    * @param combo combo ids
-   *
    * @group Combo
    */
-  public expandCombo(comboIds: ID | ID[], stack?: boolean) {
+  public expandCombo(comboIds: ID | ID[]) {
     const ids = isArray(comboIds) ? comboIds : [comboIds];
-    this.updateData(
-      'combo',
-      ids.map((id) => ({ id, data: { collapsed: false } })),
-      false,
-    );
+    this.executeWithoutStacking(() => {
+      this.updateData(
+        'combo',
+        ids.map((id) => ({ id, data: { collapsed: false } })),
+      );
+    });
     this.emit('afterexpandcombo', {
       type: 'combo',
       action: 'expandCombo',
       ids: comboIds,
-      enableStack: this.shouldPushToStack('expandCombo', stack),
+      apiName: 'expandCombo',
     });
   }
 
@@ -1575,7 +1535,6 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * do not update other styles which leads to better performance than updating positions by updateData.
    * In fact, it changes the succeed nodes positions to affect the combo's position, but not modify the combo's position directly.
    * @param models new configurations with x and y for every combo, which has id field to indicate the specific item
-   * @param {boolean} stack whether push this operation into graph's stack, true by default
    * @group Combo
    */
   public moveCombo(
@@ -1583,7 +1542,6 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     dx: number,
     dy: number,
     upsertAncestors?: boolean,
-    stack?: boolean,
   ): ComboModel[] {
     const idArr = isArray(ids) ? ids : [ids];
     const { graphCore } = this.dataController;
@@ -1606,7 +1564,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
         dy,
         action: 'updatePosition',
         upsertAncestors,
-        enableStack: this.shouldPushToStack('moveCombo', stack),
+        apiName: 'moveCombo',
         changes,
       });
     });
@@ -1935,6 +1893,36 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     const history = this.getHistoryPlugin();
     return history.push(cmd, stackType, isNew);
   }
+
+  /**
+   * Pause stacking operation.
+   */
+  public pauseStacking(): void {
+    const history = this.getHistoryPlugin();
+    return history.pauseStacking();
+  }
+
+  /**
+   * Resume stacking operation.
+   */
+  public resumeStacking(): void {
+    const history = this.getHistoryPlugin();
+    return history.resumeStacking();
+  }
+
+  /**
+   * Execute a callback without allowing any stacking operations.
+   * @param callback
+   */
+  public executeWithoutStacking = (callback: () => void): void => {
+    const history = this.getHistoryPlugin();
+    history.pauseStacking();
+    try {
+      callback();
+    } finally {
+      history.resumeStacking();
+    }
+  };
 
   /**
    * Retrieve the current redo stack which consists of operations that could be undone

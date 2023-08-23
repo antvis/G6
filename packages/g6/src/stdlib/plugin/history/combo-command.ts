@@ -11,14 +11,18 @@ export class ComboCommand implements Command {
   }
 
   undo(graph: IGraph) {
-    this.action === 'expandCombo'
-      ? graph.collapseCombo(this.ids, false)
-      : graph.expandCombo(this.ids, false);
+    graph.executeWithoutStacking(() => {
+      this.action === 'expandCombo'
+        ? graph.collapseCombo(this.ids)
+        : graph.expandCombo(this.ids);
+    });
   }
 
   redo(graph: IGraph) {
-    this.action === 'collapseCombo'
-      ? graph.collapseCombo(this.ids, false)
-      : graph.expandCombo(this.ids, false);
+    graph.executeWithoutStacking(() => {
+      this.action === 'collapseCombo'
+        ? graph.collapseCombo(this.ids)
+        : graph.expandCombo(this.ids);
+    });
   }
 }

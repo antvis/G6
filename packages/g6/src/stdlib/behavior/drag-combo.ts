@@ -247,16 +247,16 @@ export default class DragCombo extends Behavior {
           selectedComboIds,
           this.hiddenComboTreeRoots,
         );
-        this.graph.hideItem(
-          this.hiddenEdges.map((edge) => edge.id),
-          true,
-          false,
-        );
-        this.graph.hideItem(
-          this.hiddenComboTreeRoots.map((child) => child.id),
-          true,
-          false,
-        );
+        this.graph.executeWithoutStacking(() => {
+          this.graph.hideItem(
+            this.hiddenEdges.map((edge) => edge.id),
+            true,
+          );
+          this.graph.hideItem(
+            this.hiddenComboTreeRoots.map((child) => child.id),
+            true,
+          );
+        });
       }
 
       // Draw transient nodes and edges.
@@ -277,17 +277,19 @@ export default class DragCombo extends Behavior {
         });
 
         // Hide original edges and nodes. They will be restored when pointerup.
-        this.graph.hideItem(selectedComboIds, true, false);
-        this.graph.hideItem(
-          this.hiddenEdges.map((edge) => edge.id),
-          true,
-          false,
-        );
-        this.graph.hideItem(
-          this.hiddenComboTreeRoots.map((child) => child.id),
-          true,
-          false,
-        );
+        this.graph.executeWithoutStacking(() => {
+          this.graph.hideItem(selectedComboIds, true, false);
+          this.graph.hideItem(
+            this.hiddenEdges.map((edge) => edge.id),
+            true,
+            false,
+          );
+          this.graph.hideItem(
+            this.hiddenComboTreeRoots.map((child) => child.id),
+            true,
+            false,
+          );
+        });
       } else {
         this.graph.frontItem(selectedComboIds);
       }
@@ -423,11 +425,11 @@ export default class DragCombo extends Behavior {
   }
 
   public restoreHiddenItems() {
+    this.graph.pauseStacking();
     if (this.hiddenEdges.length) {
       this.graph.showItem(
         this.hiddenEdges.map((edge) => edge.id),
         true,
-        false,
       );
       this.hiddenEdges = [];
     }
@@ -435,7 +437,6 @@ export default class DragCombo extends Behavior {
       this.graph.showItem(
         this.hiddenComboTreeRoots.map((model) => model.id),
         true,
-        false,
       );
       this.hiddenComboTreeRoots = [];
     }
@@ -445,9 +446,9 @@ export default class DragCombo extends Behavior {
       this.graph.showItem(
         this.originPositions.map((position) => position.id),
         true,
-        false,
       );
     }
+    this.graph.resumeStacking();
   }
 
   public onPointerUp(event: IG6GraphEvent) {
@@ -514,6 +515,7 @@ export default class DragCombo extends Behavior {
 
   public onDropCombo(event: IG6GraphEvent) {
     const newParentId = event.itemId;
+    this.graph.startBatch();
     this.originPositions.forEach(({ id }) => {
       const model = this.graph.getComboData(id);
       if (!model || model.id === newParentId) return;
@@ -522,10 +524,12 @@ export default class DragCombo extends Behavior {
       // event.stopPropagation();
       this.graph.updateData('combo', { id, data: { parentId: newParentId } });
     });
+    this.graph.stopBatch();
     this.onPointerUp(event);
   }
 
   public onDropCanvas(event: IG6GraphEvent) {
+    this.graph.startBatch();
     this.originPositions.forEach(({ id }) => {
       const model = this.graph.getComboData(id);
       if (!model) return;
@@ -533,6 +537,7 @@ export default class DragCombo extends Behavior {
       if (!parentId) return;
       this.graph.updateData('combo', { id, data: { parentId: undefined } });
     });
+    this.graph.stopBatch();
     this.onPointerUp(event);
   }
 }

@@ -1,5 +1,5 @@
 import type { IGraph } from 'types';
-import { each, isEmpty } from '@antv/util';
+import { deepMix, each, isEmpty, mix, upperFirst } from '@antv/util';
 import { STACK_TYPE, StackCfg, StackType } from '../../../types/history';
 import { Plugin as Base, IPluginBaseConfig } from '../../../types/plugin';
 import CommandFactory, { Command } from './command';
@@ -81,18 +81,38 @@ export default class History extends Base {
   protected undoStack: HistoryStack<Command[]>;
   protected redoStack: HistoryStack<Command[]>;
   protected stackSize = 0;
+  protected stackActive = true;
+  protected withoutStackingCounter = 0;
   protected isBatching: boolean;
   protected batchCommands: Command[];
 
   constructor(options?: HistoryConfig) {
     super();
-    const { enableStack, stackCfg } = options;
+    const { enableStack, stackCfg } = deepMix(this.getDefaultCfgs(), options);
     this.enableStack = enableStack;
     this.cfg = stackCfg;
     this.isBatching = false;
     this.undoStack = new HistoryStack(this.cfg.stackSize);
     this.redoStack = new HistoryStack(this.cfg.stackSize);
     this.initBatchCommands();
+  }
+
+  public getDefaultCfgs(): HistoryConfig {
+    return {
+      enableStack: true,
+      stackCfg: {
+        stackSize: 0,
+        stackActive: true,
+        includes: [],
+        excludes: ['updateData'],
+        ignoreAdd: false,
+        ignoreRemove: false,
+        ignoreUpdate: false,
+        ignoreStateChange: false,
+        ignoreLayerChange: false,
+        ignoreDisplayChange: false,
+      },
+    };
   }
 
   public init(graph: IGraph) {
@@ -137,18 +157,50 @@ export default class History extends Base {
     stackType: StackType = STACK_TYPE.undo,
     isNew = true,
   ) {
-    if (stackType === STACK_TYPE.undo) {
-      if (isNew) {
-        // Clear the redo stack when a new action is performed to maintain state consistency
-        this.clearRedoStack();
+    if (this.stackActive) {
+      if (stackType === STACK_TYPE.undo) {
+        if (isNew) {
+          // Clear the redo stack when a new action is performed to maintain state consistency
+          this.clearRedoStack();
+        }
+        if (isEmpty(cmd)) return;
+        this.undoStack.push(cmd);
+        this.initBatchCommands();
+      } else {
+        this.redoStack.push(cmd);
       }
-      if (isEmpty(cmd)) return;
-      this.undoStack.push(cmd);
-      this.initBatchCommands();
+      this.graph.emit('history:change', cmd, stackType, isNew);
     } else {
-      this.redoStack.push(cmd);
+      throw new Error(
+        'Stacking operations are currently paused. Unable to push to the stack.',
+      );
     }
-    this.graph.emit('history:change', cmd, stackType, isNew);
+  }
+
+  /**
+   * Pause stacking operations.
+   */
+  pauseStacking(): void {
+    this.withoutStackingCounter++;
+
+    if (this.withoutStackingCounter === 1) {
+      // Only disable on the first call
+      this.stackActive = false;
+    }
+  }
+
+  /**
+   * Resume stacking operations.
+   */
+  resumeStacking(): void {
+    if (this.withoutStackingCounter > 0) {
+      this.withoutStackingCounter--;
+    }
+
+    if (this.withoutStackingCounter === 0) {
+      // Only enable when all pause requests are cleared
+      this.stackActive = true;
+    }
   }
 
   public undo() {
@@ -223,11 +275,8 @@ export default class History extends Base {
    */
   public batch(callback) {
     this.startBatch();
-    // try {
     callback();
-    // } finally {
     this.stopBatch();
-    // }
   }
 
   public getEvents() {
@@ -242,9 +291,9 @@ export default class History extends Base {
   }
 
   private handleUpdateHistory(props) {
-    const { enableStack, changes } = props;
+    const { apiName, changes } = props;
     if (changes && changes.length === 0) return;
-    if (enableStack) {
+    if (this.shouldPushToStack(apiName)) {
       this.batchCommands = [
         ...this.batchCommands,
         ...CommandFactory.create(props),
@@ -254,6 +303,22 @@ export default class History extends Base {
       }
       this.push(this.batchCommands);
     }
+  }
+
+  /**
+   * Determine if a given operation should be pushed onto the history stack based on various configurations.
+   * @param {string} apiName name of the API operation.
+   * @param {boolean} stack Optional. whether push this operation into graph's stack.
+   */
+  private shouldPushToStack(apiName: string): boolean {
+    const { includes = [], excludes = [] } = this.cfg;
+    if (!this.enableStack || !this.stackActive) return false;
+    if (includes.includes(apiName)) return true;
+    if (excludes.includes(apiName)) return false;
+    let categoryKey: any = getCategoryByApiName(apiName);
+    if (!categoryKey) return true;
+    categoryKey = 'ignore' + upperFirst(categoryKey);
+    return !this.cfg[categoryKey];
   }
 
   public notify(graph, eventName, ...data) {

@@ -648,7 +648,19 @@ export interface IGraph<
    * @param stackType undo/redo stack
    */
   pushStack: (cmd: Command[], stackType: StackType) => void;
-
+  /**
+   * Pause stacking operation.
+   */
+  pauseStacking: () => void;
+  /**
+   * Resume stacking operation.
+   */
+  resumeStacking: () => void;
+  /**
+   * Execute a callback without allowing any stacking operations.
+   * @param callback
+   */
+  executeWithoutStacking: (callback: () => void) => void;
   /**
    * Retrieve the current redo stack which consists of operations that could be undone
    */
@@ -701,6 +713,13 @@ export interface IGraph<
    */
   stopBatch: () => void;
 
+  /**
+   * Execute a provided function within a batched context
+   * All operations performed inside callback will be treated as a composite operation
+   * more convenient way without manually invoking `startBatch` and `stopBatch`.
+   * @param callback The func containing operations to be batched together.
+   */
+  batch: (callback: () => void) => void;
   /**
    * Execute a provided function within a batched context
    * All operations performed inside callback will be treated as a composite operation

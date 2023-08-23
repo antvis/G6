@@ -11,14 +11,18 @@ export class LayerUpdatedCommand implements Command {
   }
 
   undo(graph: IGraph) {
-    this.action === 'front'
-      ? graph.backItem(this.ids, false)
-      : graph.frontItem(this.ids, false);
+    graph.executeWithoutStacking(() => {
+      this.action === 'front'
+        ? graph.backItem(this.ids)
+        : graph.frontItem(this.ids);
+    });
   }
 
   redo(graph: IGraph) {
-    this.action === 'front'
-      ? graph.frontItem(this.ids, false)
-      : graph.backItem(this.ids, false);
+    graph.executeWithoutStacking(() => {
+      this.action === 'front'
+        ? graph.frontItem(this.ids)
+        : graph.backItem(this.ids);
+    });
   }
 }
