@@ -1,7 +1,7 @@
 import { resetEntityCounter } from '@antv/g';
 import force from '../demo/layouts/force';
-import './utils/useSnapshotMatchers';
 import { createContext } from './utils';
+import './utils/useSnapshotMatchers';
 
 describe.skip('Force layout', () => {
   beforeEach(() => {
