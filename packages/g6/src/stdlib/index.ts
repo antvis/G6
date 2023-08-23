@@ -12,7 +12,9 @@ import { comboFromNode } from './data/comboFromNode';
 import { LineEdge } from './item/edge';
 import {
   CircleNode,
+  DonutNode,
   EllipseNode,
+  HexagonNode,
   RectNode,
   SphereNode,
   TriangleNode,
@@ -92,8 +94,10 @@ const stdLib = {
     'circle-node': CircleNode,
     'sphere-node': SphereNode,
     'rect-node': RectNode,
+    'hexagon-node': HexagonNode,
     'triangle-node': TriangleNode,
     'ellipse-node': EllipseNode,
+    'donut-node': DonutNode,
   },
   edges: {
     'line-edge': LineEdge,

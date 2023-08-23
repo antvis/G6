@@ -1,4 +1,5 @@
 
+
 import animations_node_build_in from './animations/node-build-in';
 import behaviors_activateRelations from './behaviors/activate-relations';
 import behaviors_brush_select from './behaviors/brush-select';
@@ -12,8 +13,10 @@ import cubic_vertical_edge from './item/edge/cubic-vertical-edge';
 import demo from './demo/demo';
 import demoFor4 from './demo/demoFor4';
 import demoForPolyline from './demo/demoForPolyline'
+import donut_node from './item/node/donut-node';
 import ellipse from './demo/ellipse';
 import fisheye from './plugins/fisheye';
+import hexagon from './demo/hexagon';
 import layouts_circular from './layouts/circular';
 import layouts_custom from './layouts/custom';
 import layouts_d3force from './layouts/d3force';
@@ -52,6 +55,7 @@ export {
   cubic_edge,
   cubic_horizon_edge,
   cubic_vertical_edge,
+  donut_node,
   demo,
   demoFor4,
   demoForPolyline,
@@ -79,6 +83,7 @@ export {
   rect,
   toolbar,
   tooltip,
+  hexagon,
   treeGraph,
   triangle,
   user_defined_canvas,
