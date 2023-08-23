@@ -1,14 +1,11 @@
 // @ts-nocheck
 
 import { clone } from '@antv/util';
-import G6, {
-  Graph,
-  IGraph,
-} from '../../src/index';
+import G6, { Graph, IGraph } from '../../src/index';
 
 const container = document.createElement('div');
 document.querySelector('body').appendChild(container);
-const type = "star-node"
+const type = 'star-node';
 describe('node item', () => {
   let graph: IGraph<any>;
   it('new graph with one node', (done) => {
@@ -100,7 +97,7 @@ describe('node item', () => {
           fill: '#fff',
           fontWeight: 500,
         },
-        type
+        type,
       },
     });
     expect(nodeItem.shapeMap.iconShape).not.toBe(undefined);
@@ -208,7 +205,7 @@ describe('node mapper', () => {
         data: {
           buStatus: true,
         },
-        type
+        type,
       });
       node2 = graph.itemController.itemMap['node2'];
       expect(node2.shapeMap.keyShape.attributes.fill).toBe('#0f0');
