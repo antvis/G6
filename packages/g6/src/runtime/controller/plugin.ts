@@ -1,8 +1,8 @@
-import { IGraph } from '../../types';
 import registry from '../../stdlib';
-import { getExtension } from '../../util/extension';
-import { Plugin } from '../../types/plugin';
+import { IGraph } from '../../types';
 import { IG6GraphEvent } from '../../types/event';
+import { Plugin } from '../../types/plugin';
+import { getExtension } from '../../util/extension';
 
 type Listener = (event: IG6GraphEvent) => void;
 
@@ -84,9 +84,15 @@ export class PluginController {
   private initPlugin(config) {
     const { graph } = this;
     const Plugin = getExtension(config, registry.useLib, 'plugin');
+
     const options = typeof config === 'string' ? {} : config;
     const type = typeof config === 'string' ? config : config.type;
     const key = typeof config === 'string' ? config : config.key || type;
+    if (!Plugin) {
+      throw new Error(
+        `Plugin ${type} not found, please make sure you have registered it first`,
+      );
+    }
     const plugin = new Plugin(options);
     plugin.init(graph);
     this.pluginMap.set(key, { type, plugin });

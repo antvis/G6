@@ -1,7 +1,7 @@
 import { resetEntityCounter } from '@antv/g';
 import dagre from '../demo/layouts/dagre';
-import './utils/useSnapshotMatchers';
 import { createContext } from './utils';
+import './utils/useSnapshotMatchers';
 
 describe('Dagre layout', () => {
   beforeEach(() => {

@@ -1,7 +1,7 @@
 import { resetEntityCounter } from '@antv/g';
 import d3force from '../demo/layouts/d3force';
-import './utils/useSnapshotMatchers';
 import { createContext } from './utils';
+import './utils/useSnapshotMatchers';
 
 describe('D3Force layout', () => {
   beforeEach(() => {

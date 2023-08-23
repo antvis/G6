@@ -1,7 +1,7 @@
 import { resetEntityCounter } from '@antv/g';
 import activateRelations from '../demo/behaviors/activate-relations';
-import './utils/useSnapshotMatchers';
 import { createContext } from './utils';
+import './utils/useSnapshotMatchers';
 
 describe('Activate relations behavior', () => {
   beforeEach(() => {

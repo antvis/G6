@@ -1,81 +1,85 @@
+import animations_node_build_in from './animations/node-build-in';
 import behaviors_activateRelations from './behaviors/activate-relations';
 import behaviors_brush_select from './behaviors/brush-select';
 import behaviors_click_select from './behaviors/click-select';
-import layouts_circular from './layouts/circular';
-import layouts_grid from './layouts/grid';
-import layouts_dagre from './layouts/dagre';
-import layouts_force from './layouts/force';
-import layouts_d3force from './layouts/d3force';
-import layouts_custom from './layouts/custom';
-import user_defined_canvas from './user-defined-canvas/circular';
-import layouts_fruchterman_wasm from './layouts/fruchterman-wasm';
-import layouts_forceatlas2_wasm from './layouts/forceatlas2-wasm';
-import layouts_force_wasm from './layouts/force-wasm';
-import layouts_fruchterman_gpu from './layouts/fruchterman-gpu';
-import layouts_force_3d from './layouts/force-3d';
-import layouts_force_wasm_3d from './layouts/force-wasm-3d';
-import performance from './performance/performance';
-import performance_layout from './performance/layout';
-import performance_layout_3d from './performance/layout-3d';
+import behaviors_collapse_expand_tree from './behaviors/collapse-expand-tree';
+import comboBasic from './combo/combo-basic';
+import bugReproduce from './demo/bugReproduce';
 import demo from './demo/demo';
 import demoFor4 from './demo/demoFor4';
-import bugReproduce from './demo/bugReproduce';
-import rect from './demo/rect';
-import visual from './visual/visual';
-import quadratic from './demo/quadratic';
 import menu from './demo/menu';
-import line_edge from './item/edge/line-edge';
+import quadratic from './demo/quadratic';
+import rect from './demo/rect';
+import tooltip from './demo/tooltip';
 import cubic_edge from './item/edge/cubic-edge';
 import cubic_horizon_edge from './item/edge/cubic-horizon-edge';
 import cubic_vertical_edge from './item/edge/cubic-vertical-edge';
+import line_edge from './item/edge/line-edge';
+import layouts_circular from './layouts/circular';
+import layouts_custom from './layouts/custom';
+import layouts_d3force from './layouts/d3force';
+import layouts_dagre from './layouts/dagre';
+import layouts_force from './layouts/force';
+import layouts_force_3d from './layouts/force-3d';
+import layouts_force_wasm from './layouts/force-wasm';
+import layouts_force_wasm_3d from './layouts/force-wasm-3d';
+import layouts_forceatlas2_wasm from './layouts/forceatlas2-wasm';
+import layouts_fruchterman_gpu from './layouts/fruchterman-gpu';
+import layouts_fruchterman_wasm from './layouts/fruchterman-wasm';
+import layouts_grid from './layouts/grid';
+import performance_layout from './performance/layout';
+import performance_layout_3d from './performance/layout-3d';
+import performance from './performance/performance';
 import fisheye from './plugins/fisheye';
-import tooltip from './demo/tooltip';
-import comboBasic from './combo/combo-basic';
-import animations_node_build_in from './animations/node-build-in';
 import star from './demo/star';
+import hexagon from './demo/hexagon';
 import triangle from './demo/triangle';
+import toolbar from './plugins/toolbar';
+
 import ellipse from './demo/ellipse';
 import treeGraph from './tree/treeGraph';
-import behaviors_collapse_expand_tree from './behaviors/collapse-expand-tree';
-
+import user_defined_canvas from './user-defined-canvas/circular';
+import visual from './visual/visual';
 export {
   behaviors_activateRelations,
-  behaviors_collapse_expand_tree,
   behaviors_brush_select,
   behaviors_click_select,
-  layouts_circular,
-  layouts_grid,
-  layouts_dagre,
-  layouts_force,
-  layouts_d3force,
-  layouts_custom,
-  user_defined_canvas,
-  layouts_fruchterman_wasm,
-  layouts_forceatlas2_wasm,
-  layouts_force_wasm,
-  layouts_fruchterman_gpu,
-  layouts_force_3d,
-  layouts_force_wasm_3d,
-  performance,
-  performance_layout,
-  performance_layout_3d,
-  demo,
-  demoFor4,
+  behaviors_collapse_expand_tree,
   bugReproduce,
-  rect,
-  visual,
-  quadratic,
-  menu,
-  line_edge,
   cubic_edge,
   cubic_horizon_edge,
   cubic_vertical_edge,
+  demo,
+  demoFor4,
   fisheye,
+  layouts_circular,
+  layouts_custom,
+  layouts_d3force,
+  layouts_dagre,
+  layouts_force,
+  layouts_force_3d,
+  layouts_force_wasm,
+  layouts_force_wasm_3d,
+  layouts_forceatlas2_wasm,
+  layouts_fruchterman_gpu,
+  layouts_fruchterman_wasm,
+  layouts_grid,
+  line_edge,
+  menu,
+  performance,
+  performance_layout,
+  performance_layout_3d,
+  quadratic,
+  rect,
+  toolbar,
   tooltip,
   comboBasic,
   animations_node_build_in,
   star,
-  triangle,
   ellipse,
+  hexagon,
   treeGraph,
+  triangle,
+  user_defined_canvas,
+  visual,
 };
