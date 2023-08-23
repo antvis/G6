@@ -36,7 +36,6 @@ const getEventPath = (evt: MouseEvent) => {
 };
 
 export default class Toolbar extends Base {
-  // public options: ToolbarConfig;
   public ToolbarDOM: HTMLDivElement;
   public ContainerDOM: HTMLElement;
   constructor(config: Partial<ToolbarConfig>) {
@@ -192,23 +191,23 @@ export default class Toolbar extends Base {
     }
   }
   /**
-   * realZoom 操作
+   * realZoom
    */
   public realZoom() {
     this.graph.zoomTo(1);
   }
 
   /**
-   * autoZoom 操作
+   * autoZoom
    */
   public autoZoom() {
     this.graph.fitView();
   }
 
   /**
-   * 根据 Toolbar 上不同类型对图进行操作
-   * @param code 操作类型编码
-   * @param graph Graph 实例
+   * Handles different types of operations on the Toolbar
+   * @param code operation code
+   * @param graph graph instance
    */
   public handleDefaultOperator(code: string) {
     switch (code) {
