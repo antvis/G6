@@ -3,7 +3,7 @@ import donutNode from '../demo/item/node/donut-node';
 import './utils/useSnapshotMatchers';
 import { createContext } from './utils';
 
-describe('Items edge line', () => {
+describe('Items node donut', () => {
   beforeEach(() => {
     /**
      * SVG Snapshot testing will generate a unique id for each element.
