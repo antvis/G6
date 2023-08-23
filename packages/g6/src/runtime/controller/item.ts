@@ -484,7 +484,6 @@ export class ItemController {
           );
         }
         graphCore.getRelatedEdges(id).forEach((edge) => {
-          if (!this.graph.getItemVisible(edge.id)) return;
           edgeIdsToUpdate.add(edge.id);
           nodeRelatedIdsToUpdate.add(edge.id);
         });
@@ -521,7 +520,7 @@ export class ItemController {
             },
             500,
             {
-              leading: false,
+              leading: true,
               trailing: true,
             },
           ),

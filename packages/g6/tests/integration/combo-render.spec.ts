@@ -27,10 +27,13 @@ describe('combo circle', () => {
       await expect(canvas).toMatchCanvasSnapshot(dir, 'combo-circle');
       //seleted state
       graph.setItemState('combo1', 'selected', true);
+      sleep(100);
       await expect(canvas).toMatchCanvasSnapshot(dir, 'combo-circle-selected');
       graph.collapseCombo('combo1');
+      sleep(100);
       await expect(canvas).toMatchCanvasSnapshot(dir, 'combo-circle-collapsed');
       graph.expandCombo('combo1');
+      sleep(100);
       await expect(canvas).toMatchCanvasSnapshot(dir, 'combo-circle-expand');
       graph.destroy();
       done();
@@ -60,10 +63,13 @@ describe('combo circle', () => {
       await expect(canvas).toMatchCanvasSnapshot(dir, 'combo-rect');
       //seleted state
       graph.setItemState('combo1', 'selected', true);
+      sleep(100);
       await expect(canvas).toMatchCanvasSnapshot(dir, 'combo-rect-selected');
       graph.collapseCombo('combo1');
+      sleep(100);
       await expect(canvas).toMatchCanvasSnapshot(dir, 'combo-rect-collapsed');
       graph.expandCombo('combo1');
+      sleep(100);
       await expect(canvas).toMatchCanvasSnapshot(dir, 'combo-rect-expand');
       graph.destroy();
       done();
@@ -93,10 +99,13 @@ describe('combo circle', () => {
       await expect(canvas).toMatchSVGSnapshot(dir, 'combo-circle');
       //seleted state
       graph.setItemState('combo1', 'selected', true);
+      sleep(100);
       await expect(canvas).toMatchSVGSnapshot(dir, 'combo-circle-selected');
       graph.collapseCombo('combo1');
+      sleep(100);
       await expect(canvas).toMatchSVGSnapshot(dir, 'combo-circle-collapsed');
       graph.expandCombo('combo1');
+      sleep(100);
       await expect(canvas).toMatchSVGSnapshot(dir, 'combo-circle-expand');
       graph.destroy();
       done();
