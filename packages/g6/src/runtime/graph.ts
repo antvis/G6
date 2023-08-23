@@ -872,10 +872,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    */
   public getNearEdgesForNode(nodeId: ID): EdgeModel[] {
     const { graphCore } = this.dataController;
-    return this.itemController.findNearEdgesByNode(
-      nodeId,
-      graphCore,
-    );
+    return this.itemController.findNearEdgesByNode(nodeId, graphCore);
   }
 
   /**

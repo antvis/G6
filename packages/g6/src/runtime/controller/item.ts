@@ -1081,10 +1081,7 @@ export class ItemController {
         edgeTheme,
       );
 
-      const nodeMap = filterVisibleItemMapByType(itemMap, 'node') as Map<
-        ID,
-        Node
-      >;
+      const nodeMap = filterItemMapByType(itemMap, 'node') as Map<ID, Node>;
 
       itemMap.set(
         id,
@@ -1479,13 +1476,13 @@ const getItemTheme = (
   };
 };
 
-const filterVisibleItemMapByType = (
+const filterItemMapByType = (
   itemMap: Map<ID, Node | Edge | Combo>,
   type: ITEM_TYPE | ITEM_TYPE[],
 ): Map<ID, Node | Edge | Combo | Group> => {
   const filteredMap = new Map<ID, Node | Edge | Combo | Group>();
   itemMap.forEach((value, key) => {
-    if (value.type === type && value.isVisible()) {
+    if (value.type === type) {
       filteredMap.set(key, value);
     }
   });

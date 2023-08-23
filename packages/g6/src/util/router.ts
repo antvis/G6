@@ -100,10 +100,14 @@ const pos2GridIx = (pos: number, gridSize: number) => {
   return gridIx < 0 ? 0 : sign * gridIx;
 };
 
-const getObstacleMap = (items: Map<ID, Node>, gridSize: number, offset: number) => {
+const getObstacleMap = (
+  items: Map<ID, Node>,
+  gridSize: number,
+  offset: number,
+) => {
   const obstacleMap = {};
   items.forEach((item: Node) => {
-    if (!item) return;
+    if (!item || !item.isVisible()) return;
     const bbox = getExpandedBBox(item.getBBox(), offset);
     for (
       let x = pos2GridIx(bbox.min[0], gridSize);
@@ -369,6 +373,8 @@ export const pathFinder = (
   nodeMap: Map<ID, Node>,
   routerCfg?: RouterCfg,
 ): PolyPoint[] => {
+  console.log('nodeMap', nodeMap);
+
   const startNode = nodeMap.get(sourceNodeId);
   const endNode = nodeMap.get(targetNodeId);
 
@@ -385,6 +391,7 @@ export const pathFinder = (
   const { penalties, gridSize } = cfg;
 
   const obstacleMap = getObstacleMap(nodeMap, gridSize, cfg.offset);
+  console.log('obstacleMap', obstacleMap);
 
   const scaleStartPoint = {
     x: pos2GridIx(startPoint.x, gridSize),

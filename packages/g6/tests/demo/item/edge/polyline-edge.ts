@@ -23,7 +23,7 @@ const defaultData = {
     },
     {
       id: 'obstacle',
-      data: { x: -100, y: -100 },
+      data: { x: 300, y: 100 },
     },
   ],
   edges: [
@@ -229,22 +229,25 @@ const createControls = () => {
     parentEle,
     'show obstacle',
     () => {
-      graph.updateNodePosition({
-        id: 'obstacle',
-        data: {
-          x: 300,
-          y: 100,
-        },
-      });
+      graph.showItem('obstacle');
+      // graph.updateNodePosition({
+      //   id: 'obstacle',
+      //   data: {
+      //     x: 300,
+      //     y: 100,
+      //   },
+      // });
     },
     () => {
-      graph.updateNodePosition({
-        id: 'obstacle',
-        data: {
-          x: -200,
-          y: -100,
-        },
-      });
+      graph.hideItem('obstacle');
+
+      // graph.updateNodePosition({
+      //   id: 'obstacle',
+      //   data: {
+      //     x: -200,
+      //     y: -100,
+      //   },
+      // });
     },
   );
 
@@ -345,6 +348,10 @@ export default (context: TestCaseContext) => {
       const { id, data } = edgeInnerModel;
       return { id, data };
     },
+  });
+
+  setTimeout(() => {
+    graph.hideItem('obstacle');
   });
 
   // 3.return graph

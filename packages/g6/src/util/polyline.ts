@@ -108,7 +108,7 @@ export const reconstructPath = (
   pathPoints: PolyPoint[],
   pointById: any,
   cameFrom: any,
-  currentId: string,
+  currentId: ID,
   iterator = 0,
 ) => {
   pathPoints.unshift(pointById[currentId]);
