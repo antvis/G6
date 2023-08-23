@@ -81,7 +81,7 @@ describe('data', () => {
       JSON.stringify(edge2InnerData),
     );
     expect(
-      graph.itemController.itemMap['edge2'].shapeMap['keyShape'].attributes
+      graph.itemController.itemMap.get('edge2').shapeMap['keyShape'].attributes
         .lineWidth,
     ).toBe(edge2UpdateUserData.data.keyShape.lineWidth);
 
@@ -93,13 +93,15 @@ describe('data', () => {
     graph.updateData('edge', edge1UpdateUserData);
     const newSourceData = graph.getNodeData('node3');
     expect(
-      graph.itemController.itemMap['edge1'].shapeMap['keyShape'].attributes.x1,
+      graph.itemController.itemMap.get('edge1').shapeMap['keyShape'].attributes
+        .x1,
     ).toBe(newSourceData.data.x);
     expect(
-      graph.itemController.itemMap['edge1'].shapeMap['keyShape'].attributes.y1,
+      graph.itemController.itemMap.get('edge1').shapeMap['keyShape'].attributes
+        .y1,
     ).toBe(newSourceData.data.y);
-    expect(graph.itemController.itemMap['edge1'].sourceItem).toBe(
-      graph.itemController.itemMap['node3'],
+    expect(graph.itemController.itemMap.get('edge1').sourceItem).toBe(
+      graph.itemController.itemMap.get('node3'),
     );
 
     // === update edge source, target, and data in the same time  ===
@@ -116,7 +118,7 @@ describe('data', () => {
     graph.updateData('edge', edge1UpdateUserData2);
     const sourceData = graph.getNodeData('node1');
     const targetData = graph.getNodeData('node4');
-    const edgeItem = graph.itemController.itemMap['edge1'];
+    const edgeItem = graph.itemController.itemMap.get('edge1');
     expect(edgeItem.shapeMap['keyShape'].attributes.x1).toBe(sourceData.data.x);
     expect(edgeItem.shapeMap['keyShape'].attributes.y1).toBe(sourceData.data.y);
     expect(edgeItem.shapeMap['keyShape'].attributes.x2).toBe(targetData.data.x);
@@ -145,8 +147,8 @@ describe('data', () => {
         },
       },
     ]);
-    const node1Item = graph.itemController.itemMap['node1'];
-    const node2Item = graph.itemController.itemMap['node2'];
+    const node1Item = graph.itemController.itemMap.get('node1');
+    const node2Item = graph.itemController.itemMap.get('node2');
     expect(node1Item.shapeMap['keyShape'].attributes.fill).toBe('#0f0');
     expect(node2Item.shapeMap['keyShape'].attributes.lineWidth).toBe(2);
     expect(node2Item.shapeMap['keyShape'].attributes.stroke).toBe('#0f0');
@@ -171,10 +173,12 @@ describe('data', () => {
         },
       },
     ]);
-    const edge1Item = graph.itemController.itemMap['edge1'];
-    const edge2Item = graph.itemController.itemMap['edge2'];
+    const edge1Item = graph.itemController.itemMap.get('edge1');
+    const edge2Item = graph.itemController.itemMap.get('edge2');
     expect(edge1Item.shapeMap['keyShape'].attributes.stroke).toBe('#0f0');
-    expect(edge1Item.sourceItem).toBe(graph.itemController.itemMap['node2']);
+    expect(edge1Item.sourceItem).toBe(
+      graph.itemController.itemMap.get('node2'),
+    );
     expect(
       JSON.stringify(edge2Item.shapeMap['keyShape'].attributes.lineDash),
     ).toBe('[5,5]');

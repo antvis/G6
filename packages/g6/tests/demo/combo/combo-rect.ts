@@ -57,7 +57,9 @@ export default () => {
             ],
             update: [
               {
-                fields: ['lineWidth', 'width', 'height'],
+                // when rect combo collapased, rect's  width/height/x/y are all changed,
+                // which is different from circle that the x/y of circle does not change.
+                fields: ['lineWidth', 'width', 'height', 'x', 'y'],
                 shapeId: 'keyShape',
               },
               {
@@ -98,7 +100,6 @@ export default () => {
     modes: {
       default: [
         'collapse-expand-combo',
-        'drag-node',
         'drag-canvas',
         {
           type: 'click-select',
@@ -111,65 +112,15 @@ export default () => {
         {
           type: 'drag-combo',
           enableTransient: true,
-          updateComboStructure: false,
+          updateComboStructure: true,
         },
         {
           type: 'drag-node',
-          enableTransient: false,
-          updateComboStructure: false,
+          enableTransient: true,
+          updateComboStructure: true,
         },
       ],
     },
-  });
-  graph.on('canvas:click', (e) => {
-    console.log('graph', graph);
-    /** modify node's parent to another combo */
-    // graph.updateData('node', {
-    //   id: 'node1',
-    //   data: {
-    //     parentId: 'combo2',
-    //   },
-    // });
-    /** invalid modification (to its succeeds) */
-    // graph.updateData('combo', {
-    //   id: 'combo2',
-    //   data: {
-    //     parentId: 'combo1',
-    //   },
-    // });
-    /** add combo */
-    // graph.addCombo(
-    //   {
-    //     id: 'newcombo',
-    //     data: {
-    //       parentId: 'combo2',
-    //     },
-    //   },
-    //   ['node1', 'combo1', 'node4'],
-    // );
-    /** collapse combo */
-    // if (!graph.getComboData('combo1')?.data.collapsed) {
-    //   graph.collapseCombo(['combo1']);
-    //   setTimeout(() => {
-    //     graph.collapseCombo(['combo2']);
-    //   }, 1000);
-    // } else {
-    //   graph.expandCombo(['combo2']);
-    //   setTimeout(() => {
-    //     graph.expandCombo(['combo1']);
-    //   }, 1000);
-    // }
-    /** remove combo = uncombo */
-    // graph.removeData('combo', 'combo1');
-    /** move an empty combo */
-    // graph.updateData('combo', {
-    //   id: 'combo3',
-    //   data: {
-    //     x: 100,
-    //     y: 200,
-    //   },
-    // });
-    // graph.moveCombo('combo3', 100, 200);
   });
   return graph;
 };

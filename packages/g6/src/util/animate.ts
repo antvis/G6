@@ -275,7 +275,6 @@ const runAnimateOnShape = (
   beginStyle: ShapeStyle,
   animateConfig,
 ) => {
-  if (!shape.isVisible()) return;
   let animateArr;
   if (!fields?.length) {
     animateArr = getStyleDiff(shape.attributes, targetStyle);
@@ -294,6 +293,13 @@ const runAnimateOnShape = (
     });
   }
   if (!checkFrames(animateArr, shape)) return;
+  if (!shape.isVisible()) {
+    // Invisible, do not apply animate. Directly assign the target style instead.
+    Object.keys(animateArr[1]).forEach(
+      (field) => (shape.style[field] = animateArr[1][field]),
+    );
+    return;
+  }
   return shape.animate(animateArr, animateConfig);
 };
 
@@ -392,9 +398,6 @@ export const animateShapes = (
 export const getAnimatesExcludePosition = (animates) => {
   if (!animates.update) return animates;
   const isGroupId = (id) => !id || id === 'group';
-  // const groupUpdateAnimates = animates.update.filter(
-  //   ({ shapeId }) => isGroupId(shapeId),
-  // );
   const excludedAnimates = [];
   animates.update.forEach((animate) => {
     const { shapeId, fields } = animate;

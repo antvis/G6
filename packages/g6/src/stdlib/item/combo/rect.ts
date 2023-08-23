@@ -106,17 +106,18 @@ export class RectCombo extends BaseNode {
     return this.upsertShape(
       'rect',
       'keyShape',
-      {
-        ...this.mergedStyles.keyShape,
-        x:
-          (this.mergedStyles.keyShape.x as number) -
-          this.mergedStyles.keyShape.width / 2,
-        y:
-          (this.mergedStyles.keyShape.y as number) -
-          this.mergedStyles.keyShape.height / 2,
-      },
+      this.mergedStyles.keyShape,
       shapeMap,
       model,
     );
+  }
+
+  public getMergedStyles(model: ComboDisplayModel) {
+    const merged = super.getMergedStyles(model);
+    merged.keyShape.x =
+      (merged.keyShape.x as number) - merged.keyShape.width / 2;
+    merged.keyShape.y =
+      (merged.keyShape.y as number) - merged.keyShape.height / 2;
+    return merged;
   }
 }
