@@ -100,7 +100,7 @@ const pos2GridIx = (pos: number, gridSize: number) => {
   return gridIx < 0 ? 0 : sign * gridIx;
 };
 
-const getObstacleMap = (items: Node[], gridSize: number, offset: number) => {
+const getObstacleMap = (items: Map<ID, Node>, gridSize: number, offset: number) => {
   const obstacleMap = {};
   items.forEach((item: Node) => {
     if (!item) return;
@@ -366,11 +366,11 @@ const getControlPoints = (
 export const pathFinder = (
   sourceNodeId: ID,
   targetNodeId: ID,
-  nodeMap?: Record<ID, Node>,
+  nodeMap: Map<ID, Node>,
   routerCfg?: RouterCfg,
 ): PolyPoint[] => {
-  const startNode = nodeMap[sourceNodeId];
-  const endNode = nodeMap[targetNodeId];
+  const startNode = nodeMap.get(sourceNodeId);
+  const endNode = nodeMap.get(targetNodeId);
 
   const startPoint: PolyPoint = startNode.getPosition();
   const endPoint: PolyPoint = endNode.getPosition();
@@ -384,11 +384,7 @@ export const pathFinder = (
 
   const { penalties, gridSize } = cfg;
 
-  const obstacleMap = getObstacleMap(
-    Object.values(nodeMap),
-    gridSize,
-    cfg.offset,
-  );
+  const obstacleMap = getObstacleMap(nodeMap, gridSize, cfg.offset);
 
   const scaleStartPoint = {
     x: pos2GridIx(startPoint.x, gridSize),

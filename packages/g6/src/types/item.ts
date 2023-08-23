@@ -44,6 +44,7 @@ import {
   NodeShapeMap,
   NodeUserModel,
 } from './node';
+import { ComboStyleSet, EdgeStyleSet, NodeStyleSet } from './theme';
 
 export type GShapeStyle = CircleStyleProps &
   RectStyleProps &
@@ -248,6 +249,8 @@ export interface IItem {
     displayModel: ItemDisplayModel,
     diffData?: { previous: ItemModelData; current: ItemModelData },
     diffState?: { previous: State[]; current: State[] },
+    animate?: boolean,
+    onfinish?: Function,
   ) => void;
   /**
    * Updates the shapes.
@@ -256,7 +259,14 @@ export interface IItem {
   update: (
     model: ItemModel,
     diffData: { previous: ItemModelData; current: ItemModelData },
-    isUpdate?: boolean,
+    isReplace?: boolean,
+    itemTheme?: {
+      styles: NodeStyleSet | EdgeStyleSet | ComboStyleSet;
+      lodStrategy: LodStrategyObj;
+    },
+    onlyMove?: boolean,
+    animate?: boolean,
+    onfinish?: Function,
   ) => void;
 
   /**
@@ -269,6 +279,7 @@ export interface IItem {
   updatePosition: (
     displayModel: ItemDisplayModel,
     diffData?: { previous: ItemModelData; current: ItemModelData },
+    animate?: boolean,
     onfinish?: Function,
   ) => void;
 

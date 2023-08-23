@@ -1,5 +1,6 @@
 import { AABB, DisplayObject, Line, Polyline } from '@antv/g';
 import { isNumber } from '@antv/util';
+import { ID } from 'types';
 import {
   DEFAULT_LABEL_BG_PADDING,
   OTHER_SHAPES_FIELD_NAME,
@@ -37,7 +38,7 @@ export abstract class BaseEdge {
   mergedStyles: EdgeShapeStyles;
   sourcePoint: Point;
   targetPoint: Point;
-  nodeMap: Record<string, Node>;
+  nodeMap: Map<ID, Node>;
   lodStrategy?: LodStrategyObj;
   labelPosition: {
     x: number;
@@ -568,7 +569,7 @@ export abstract class BaseEdge {
    * Update all visible nodes on the canvas to be aware of obstacles. Called in item's draw func.
    * @param nodeMap
    */
-  public setNodeMap(nodeMap: Record<string, Node>) {
+  public setNodeMap(nodeMap: Map<ID, Node>) {
     this.nodeMap = nodeMap;
   }
 

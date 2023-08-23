@@ -14,6 +14,7 @@ import {
   NodeModelData,
   NodeShapeMap,
   NodeShapeStyles,
+  IAnchorPositionMap,
 } from '../../../types/node';
 import {
   ComboDisplayModel,
@@ -29,6 +30,7 @@ import {
   upsertShape,
 } from '../../../util/shape';
 import { getWordWrapWidthByBox } from '../../../util/text';
+import { convertToNumber } from '../../../util/type';
 import { DEFAULT_ANIMATE_CFG, fadeIn, fadeOut } from '../../../util/animate';
 import { getZoomLevel } from '../../../util/zoom';
 import { AnimateCfg } from '../../../types/animate';
@@ -43,6 +45,8 @@ export abstract class BaseNode {
     keyShapeLocal?: AABB;
     labelShapeGeometry?: AABB;
   };
+  //vertex coordinate
+
   // cache the zoom level infomations
   protected zoomCache: {
     // the id of shapes which are hidden by zoom changing.
@@ -448,20 +452,18 @@ export abstract class BaseNode {
     if (!individualConfigs.length) return;
     this.boundsCache.keyShapeLocal =
       this.boundsCache.keyShapeLocal || shapeMap.keyShape.getLocalBounds();
-    const keyShapeBBox = this.boundsCache.keyShapeLocal;
-    const keyShapeWidth = keyShapeBBox.max[0] - keyShapeBBox.min[0];
-    const keyShapeHeight = keyShapeBBox.max[1] - keyShapeBBox.min[1];
-
     const shapes = {};
+    const anchorPositionMap = this.calculateAnchorPosition(keyShapeStyle);
     individualConfigs.forEach((config, i) => {
       const { position, fill = keyShapeStyle.fill, ...style } = config;
+      const [cx, cy] = this.getAnchorPosition(position, anchorPositionMap);
       const id = `anchorShape${i}`;
       shapes[id] = this.upsertShape(
         'circle',
         id,
         {
-          cx: keyShapeWidth * (position[0] - 0.5),
-          cy: keyShapeHeight * (position[1] - 0.5),
+          cx,
+          cy,
           fill,
           ...commonStyle,
           ...style,
@@ -471,6 +473,52 @@ export abstract class BaseNode {
       );
     });
     return shapes;
+  }
+
+  private getAnchorPosition(
+    position: string | [number, number],
+    anchorPositionMap: IAnchorPositionMap,
+  ): [number, number] {
+    const keyShapeBBox = this.boundsCache.keyShapeLocal;
+    const keyShapeWidth = keyShapeBBox.max[0] - keyShapeBBox.min[0];
+    const keyShapeHeight = keyShapeBBox.max[1] - keyShapeBBox.min[1];
+    const defaultPosition: [number, number] = [
+      keyShapeBBox.max[0],
+      keyShapeBBox.min[1],
+    ]; //topRight
+    if (position instanceof Array) {
+      return [
+        keyShapeWidth * (position[0] - 0.5),
+        keyShapeHeight * (position[1] - 0.5),
+      ];
+    } else if (typeof position === 'string') {
+      position = position.toLowerCase();
+      //receive a unknown string, remind the user.
+      return (
+        anchorPositionMap[position] ||
+        anchorPositionMap['default'] ||
+        defaultPosition
+      );
+    }
+    //receive a position in unknown type (such as a number or undefined).
+    return anchorPositionMap['default'] || defaultPosition;
+  }
+
+  /**
+   * @description:  get anchor position by keyShapeStyle
+   * @param {*} keyShapeStyle
+   * @return {IAnchorPositionMap} anchorpositionMap
+   */
+  public calculateAnchorPosition(keyShapeStyle: any): IAnchorPositionMap {
+    const x = convertToNumber(keyShapeStyle.x);
+    const y = convertToNumber(keyShapeStyle.y);
+    const r = convertToNumber(keyShapeStyle.r);
+    const anchorPositionMap = {};
+    anchorPositionMap['top'] = [x, y - r];
+    anchorPositionMap['left'] = [x - r, y];
+    anchorPositionMap['right'] = anchorPositionMap['default'] = [x + r, y];
+    anchorPositionMap['bottom'] = [x, y + r];
+    return anchorPositionMap;
   }
 
   public drawBadgeShapes(

@@ -45,6 +45,7 @@ export default class Node extends Item {
       this.displayModel as NodeDisplayModel | ComboDisplayModel,
       undefined,
       undefined,
+      !this.displayModel.data.disableAnimate,
       props.onfinish,
     );
   }
@@ -55,6 +56,7 @@ export default class Node extends Item {
       current: NodeModelData | ComboModelData;
     },
     diffState?: { previous: State[]; current: State[] },
+    animate = true,
     onfinish: Function = () => {},
   ) {
     const { group, renderExt, shapeMap: prevShapeMap, model } = this;
@@ -78,13 +80,13 @@ export default class Node extends Item {
     } else {
       // terminate previous animations
       this.stopAnimations();
-      this.updatePosition(displayModel, diffData, onfinish);
+      this.updatePosition(displayModel, diffData, animate, onfinish);
     }
 
     const { haloShape } = this.shapeMap;
     haloShape?.toBack();
 
-    super.draw(displayModel, diffData, diffState, onfinish);
+    super.draw(displayModel, diffData, diffState, animate, onfinish);
     this.anchorPointsCache = undefined;
     renderExt.updateCache(this.shapeMap);
 
@@ -94,7 +96,7 @@ export default class Node extends Item {
     }
 
     // handle shape's and group's animate
-    if (!disableAnimate && animates) {
+    if (animate && !disableAnimate && animates) {
       const animatesExcludePosition = getAnimatesExcludePosition(animates);
       this.animations = animateShapes(
         animatesExcludePosition, // animates
@@ -104,7 +106,7 @@ export default class Node extends Item {
         firstRendering ? 'buildIn' : 'update',
         this.changedStates,
         this.animateFrameListener,
-        () => onfinish(model.id),
+        (canceled) => onfinish(model.id, canceled),
       );
     }
   }
@@ -121,9 +123,18 @@ export default class Node extends Item {
       lodStrategy: LodStrategyObj;
     },
     onlyMove?: boolean,
+    animate?: boolean,
     onfinish?: Function,
   ) {
-    super.update(model, diffData, isReplace, theme, onlyMove, onfinish);
+    super.update(
+      model,
+      diffData,
+      isReplace,
+      theme,
+      onlyMove,
+      animate,
+      onfinish,
+    );
   }
 
   /**
@@ -136,32 +147,54 @@ export default class Node extends Item {
       previous: NodeModelData | ComboModelData;
       current: NodeModelData | ComboModelData;
     },
+    animate?: boolean,
     onfinish: Function = () => {},
   ) {
     const { group } = this;
-    const { x, y, z = 0, animates, disableAnimate } = displayModel.data;
-    if (isNaN(x as number) || isNaN(y as number) || isNaN(z)) return;
-    if (!disableAnimate && animates?.update) {
+    const {
+      fx,
+      fy,
+      fz,
+      x,
+      y,
+      z = 0,
+      animates,
+      disableAnimate,
+    } = displayModel.data;
+    const position = {
+      x: fx === undefined ? x : (fx as number),
+      y: fy === undefined ? y : (fy as number),
+      z: fz === undefined ? z : (fz as number),
+    };
+    if (
+      isNaN(position.x as number) ||
+      isNaN(position.y as number) ||
+      isNaN(position.z as number)
+    )
+      return;
+    if (animate && !disableAnimate && animates?.update) {
       const groupAnimates = animates.update.filter(
         ({ shapeId, fields = [] }) =>
           (!shapeId || shapeId === 'group') &&
           (fields.includes('x') || fields.includes('y')),
       );
       if (groupAnimates.length) {
-        animateShapes(
+        const animations = animateShapes(
           { update: groupAnimates },
-          { group: { x, y, z } } as any, // targetStylesMap
+          { group: position } as any, // targetStylesMap
           this.shapeMap, // shapeMap
           group,
           'update',
           [],
           this.animateFrameListener,
-          () => onfinish(displayModel.id),
+          (canceled) => onfinish(displayModel.id, canceled),
         );
+        this.groupAnimations = animations;
         return;
       }
     }
-    group.setLocalPosition(x, y, z);
+    group.setLocalPosition(position.x, position.y, position.z);
+    onfinish(displayModel.id, !animate);
   }
 
   public clone(
@@ -295,7 +328,16 @@ export default class Node extends Item {
   }
 
   public getPosition(): Point {
-    const { x = 0, y = 0, z = 0 } = this.model.data;
-    return { x: x as number, y: y as number, z: z as number };
+    const initiated = this.shapeMap.keyShape; // && this.group.attributes.x !== undefined;
+    if (initiated) {
+      const { center } = this.shapeMap.keyShape.getRenderBounds();
+      return { x: center[0], y: center[1], z: center[2] };
+    }
+    const { x = 0, y = 0, z = 0, fx, fy, fz } = this.model.data;
+    return {
+      x: (fx === undefined ? x : fx) as number,
+      y: (fy === undefined ? y : fy) as number,
+      z: (fz === undefined ? z : fz) as number,
+    };
   }
 }

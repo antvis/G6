@@ -103,7 +103,7 @@ export class Polyline extends LineEdge {
     const polylinePoints = pathFinder(
       sourceNodeId,
       targetNodeId,
-      this.nodeMap as unknown as Record<ID, Node>,
+      this.nodeMap as unknown as Map<ID, Node>,
       routeCfg,
     );
 

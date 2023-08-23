@@ -8,7 +8,6 @@ describe('zoom-canvas behavior', () => {
       container,
       width: 500,
       height: 500,
-      type: 'graph',
       layout: {
         type: 'grid',
       },
@@ -93,7 +92,6 @@ describe('zoom-canvas behavior', () => {
       container,
       width: 500,
       height: 500,
-      type: 'graph',
       layout: {
         type: 'grid',
       },
@@ -149,7 +147,6 @@ describe('zoom-canvas behavior', () => {
       container,
       width: 500,
       height: 500,
-      type: 'graph',
       layout: {
         type: 'grid',
       },
@@ -226,7 +223,6 @@ describe('zoom-canvas behavior', () => {
       container,
       width: 500,
       height: 500,
-      type: 'graph',
       layout: {
         type: 'grid',
       },

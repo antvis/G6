@@ -79,7 +79,10 @@ export class ItemController {
   /**
    * Node / edge / combo items map
    */
-  private itemMap: { [id: ID]: Node | Edge | Combo } = {};
+  private itemMap: Map<ID, Node | Edge | Combo> = new Map<
+    ID,
+    Node | Edge | Combo
+  >();
 
   /**
    * node / edge / combo 's mapper in graph config
@@ -122,14 +125,14 @@ export class ItemController {
   private comboDataTypeSet: Set<string> = new Set();
 
   // The G shapes or groups on transient map drawn by this controller
-  private transientObjectMap: {
-    [id: string]: DisplayObject;
-  } = {};
-  private transientItemMap: {
-    [id: string]: Node | Edge | Combo | Group;
-  } = {};
-
-  // private comboTreeView: GraphView<any, any>;
+  private transientObjectMap: Map<ID, DisplayObject> = new Map<
+    ID,
+    DisplayObject
+  >();
+  private transientItemMap: Map<ID, Node | Edge | Combo | Group> = new Map<
+    ID,
+    Node | Edge | Combo | Group
+  >();
 
   constructor(graph: IGraph<any, any>) {
     this.graph = graph;
@@ -171,6 +174,9 @@ export class ItemController {
     this.graph.hooks.transientupdate.tap(this.onTransientUpdate.bind(this));
     this.graph.hooks.viewportchange.tap(this.onViewportChange.bind(this));
     this.graph.hooks.themechange.tap(this.onThemeChange.bind(this));
+    this.graph.hooks.treecollapseexpand.tap(
+      this.onTreeCollapseExpand.bind(this),
+    );
     this.graph.hooks.destroy.tap(this.onDestroy.bind(this));
   }
 
@@ -261,6 +267,7 @@ export class ItemController {
     this.renderCombos(combos, theme.combo, graphCore);
     this.renderEdges(edges, theme.edge);
     this.sortByComboTree(graphCore);
+    // collapse the combos which has 'collapsed' in initial data
     if (graphCore.hasTreeStructure('combo')) {
       graphCoreTreeDfs(
         graphCore,
@@ -269,8 +276,21 @@ export class ItemController {
           if (child.data.collapsed) this.collapseCombo(graphCore, child);
         },
         'BT',
+        'combo',
       );
     }
+    // collapse the sub tree which has 'collapsed' in initial data
+    const collapseNodes = [];
+    graphCoreTreeDfs(
+      graphCore,
+      graphCore.getRoots('tree'),
+      (child) => {
+        if (child.data.collapsed) collapseNodes.push(child);
+      },
+      'BT',
+      'tree',
+    );
+    this.collapseSubTree(collapseNodes, graphCore, false);
   }
 
   /**
@@ -283,14 +303,21 @@ export class ItemController {
     graphCore: GraphCore;
     theme: ThemeSpecification;
     upsertAncestors?: boolean;
+    animate?: boolean;
     action?: 'updatePosition';
+    callback?: (
+      model: NodeModel | EdgeModel | ComboModel,
+      canceled?: boolean,
+    ) => void;
   }) {
     const {
       changes,
       graphCore,
       action,
+      animate = true,
       upsertAncestors = true,
       theme = {},
+      callback = () => {},
     } = param;
     const groupedChanges = getGroupedChanges(graphCore, changes);
     const { itemMap } = this;
@@ -300,10 +327,10 @@ export class ItemController {
     [...groupedChanges.EdgeRemoved, ...groupedChanges.NodeRemoved].forEach(
       ({ value }) => {
         const { id } = value;
-        const item = itemMap[id];
+        const item = itemMap.get(id);
         if (item) {
           item.destroy();
-          delete itemMap[id];
+          itemMap.delete(id);
         }
       },
     );
@@ -365,27 +392,34 @@ export class ItemController {
       const { dataTypeField: nodeDataTypeField } = nodeTheme;
       const edgeIdsToUpdate: ID[] = [];
       const comboIdsToUpdate: ID[] = [];
-      const updateRelates = throttle(
-        (edgeIds) => {
-          comboIdsToUpdate.concat(edgeIds || edgeIdsToUpdate).forEach((id) => {
-            const item = itemMap[id] as Edge | Combo;
-            if (item && !item.destroyed) item.forceUpdate();
-          });
-        },
-        16,
-        {
-          leading: true,
-          trailing: true,
-        },
-      );
+      const updateRelates = (edgeIds) => {
+        comboIdsToUpdate.concat(edgeIds || edgeIdsToUpdate).forEach((id) => {
+          const item = itemMap.get(id) as Edge | Combo;
+          if (item && !item.destroyed) item.forceUpdate();
+        });
+      };
+
+      const updateRelatesThrottle = throttle(updateRelates, 16, {
+        leading: true,
+        trailing: true,
+      });
       Object.values(nodeComboUpdate).forEach((updateObj: any) => {
         const { isReplace, previous, current, id } = updateObj;
         if (!graphCore.hasNode(id)) return;
         const onlyMove = action === 'updatePosition';
-        const item = itemMap[id] as Node | Combo;
+        const item = itemMap.get(id) as Node | Combo;
+        if (!item || item.destroyed) return;
         const type = item.getType();
-        if (onlyMove && type === 'node' && isNaN(current.x) && isNaN(current.y))
+        const innerModel = graphCore.getNode(id);
+        if (
+          onlyMove &&
+          type === 'node' &&
+          isNaN(current.x) &&
+          isNaN(current.y)
+        ) {
+          callback(innerModel, true);
           return;
+        }
         // update the theme if the dataType value is changed
         let itemTheme;
         if (
@@ -400,7 +434,6 @@ export class ItemController {
           );
         }
 
-        const innerModel = graphCore.getNode(id);
         const preventPolylineEdgeOverlap =
           innerModel?.data?.preventPolylineEdgeOverlap || false;
         const relatedEdgeInnerModels = preventPolylineEdgeOverlap
@@ -426,11 +459,13 @@ export class ItemController {
           isReplace,
           itemTheme,
           onlyMove,
+          animate,
           // call after updating finished
-          () => {
-            item.onframe();
+          (_, canceled) => {
+            item.onframe?.();
             // @ts-ignore
             item.onframe = undefined;
+            callback(innerModel, canceled);
           },
         );
 
@@ -482,12 +517,12 @@ export class ItemController {
             });
           }
         }
-        const parentItem = this.itemMap[current.parentId];
+        const parentItem = this.itemMap.get(current.parentId);
         if (current.parentId && parentItem?.model.data.collapsed) {
           this.graph.hideItem(innerModel.id);
         }
       });
-      updateRelates();
+      updateRelatesThrottle();
     }
 
     // === 6. update edges' data ===
@@ -522,9 +557,17 @@ export class ItemController {
             edgeTheme,
           );
         }
-        const item = itemMap[id];
+        const item = itemMap.get(id);
         const innerModel = graphCore.getEdge(id);
-        item.update(innerModel, { current, previous }, isReplace, itemTheme);
+        item.update(
+          innerModel,
+          { current, previous },
+          isReplace,
+          itemTheme,
+          undefined,
+          animate,
+          (_, canceled) => callback(innerModel, canceled),
+        );
       });
     }
 
@@ -540,17 +583,33 @@ export class ItemController {
 
       Object.values(edgeUpdate).forEach((updateObj: any) => {
         const { source, target, id } = updateObj;
-        const item = itemMap[id] as Edge;
+        const item = itemMap.get(id) as Edge;
         if (source !== undefined)
-          item.updateEnd('source', this.itemMap[source] as Node);
+          item.updateEnd('source', this.itemMap.get(source) as Node);
         if (target !== undefined)
-          item.updateEnd('target', this.itemMap[target] as Node);
+          item.updateEnd('target', this.itemMap.get(target) as Node);
       });
     }
 
     // === 8. combo tree structure change, resort the shapes ===
-    if (groupedChanges.TreeStructureChanged.length) {
+    if (groupedChanges.ComboStructureChanged.length) {
       this.sortByComboTree(graphCore);
+    }
+
+    // === 9. tree data structure change, hide the new node and edge while one of the ancestor is collapsed ===
+    if (groupedChanges.TreeStructureChanged.length) {
+      groupedChanges.TreeStructureChanged.forEach((change) => {
+        const { nodeId } = change;
+        // hide it when an ancestor is collapsed
+        let parent = graphCore.getParent(nodeId, 'tree');
+        while (parent) {
+          if (parent.data.collapsed) {
+            this.graph.hideItem(nodeId, true);
+            break;
+          }
+          parent = graphCore.getParent(parent.id, 'tree');
+        }
+      });
     }
   }
 
@@ -570,7 +629,7 @@ export class ItemController {
   }) {
     const { ids, states, value } = param;
     ids.forEach((id) => {
-      const item = this.itemMap[id];
+      const item = this.itemMap.get(id);
       if (!item) {
         console.warn(`Fail to set state for item ${id}, which is not exist.`);
         return;
@@ -592,7 +651,7 @@ export class ItemController {
   }) {
     const { ids, value, graphCore, animate = true } = param;
     ids.forEach((id) => {
-      const item = this.itemMap[id];
+      const item = this.itemMap.get(id);
       if (!item) {
         console.warn(
           `Fail to set visibility for item ${id}, which is not exist.`,
@@ -604,21 +663,20 @@ export class ItemController {
         if (type === 'edge') {
           item.show(animate);
         } else {
-          let anccestorCollapsed = false;
           if (graphCore.hasTreeStructure('combo')) {
+            let anccestorCollapsed = false;
             traverseAncestors(graphCore, [item.model], (model) => {
               if (model.data.collapsed) anccestorCollapsed = true;
               return anccestorCollapsed;
             });
             if (anccestorCollapsed) return;
           }
-
           const relatedEdges = graphCore.getRelatedEdges(id);
 
           item.show(animate);
           relatedEdges.forEach(({ id: edgeId, source, target }) => {
             if (this.getItemVisible(source) && this.getItemVisible(target))
-              this.itemMap[edgeId]?.show();
+              this.itemMap.get(edgeId)?.show(animate);
           });
         }
       } else {
@@ -626,7 +684,7 @@ export class ItemController {
         if (type !== 'edge') {
           const relatedEdges = graphCore.getRelatedEdges(id);
           relatedEdges.forEach(({ id: edgeId }) => {
-            this.itemMap[edgeId]?.hide();
+            this.itemMap.get(edgeId)?.hide(animate);
           });
         }
       }
@@ -640,7 +698,7 @@ export class ItemController {
   }) {
     const { ids = [], action, graphCore } = params;
     ids.forEach((id) => {
-      const item = this.itemMap[id];
+      const item = this.itemMap.get(id);
       if (!item) return;
       if (action === 'front') {
         if (graphCore.hasTreeStructure('combo')) {
@@ -649,7 +707,7 @@ export class ItemController {
             [item.model],
             (model) => {
               if (model.data._isCombo) {
-                const subCombo = this.itemMap[model.id];
+                const subCombo = this.itemMap.get(model.id);
                 subCombo && subCombo.toFront();
               }
             },
@@ -662,7 +720,7 @@ export class ItemController {
         item.toBack();
         if (graphCore.hasTreeStructure('combo')) {
           traverseGraphAncestors(this.graph, [item.model], (model) => {
-            this.itemMap[model.id]?.toBack();
+            this.itemMap.get(model.id)?.toBack();
           });
         }
       }
@@ -674,9 +732,7 @@ export class ItemController {
       const { zoom } = transform;
       if (zoom) {
         const zoomRatio = this.graph.getZoom();
-        Object.values(this.itemMap).forEach((item) =>
-          item.updateZoom(zoomRatio),
-        );
+        this.itemMap.forEach((item) => item.updateZoom(zoomRatio));
         this.zoom = zoomRatio;
       }
     },
@@ -688,7 +744,7 @@ export class ItemController {
     if (!theme) return;
     const { nodeDataTypeSet, edgeDataTypeSet } = this;
     const { node: nodeTheme, edge: edgeTheme } = theme;
-    Object.values(this.itemMap).forEach((item) => {
+    this.itemMap.forEach((item) => {
       const itemTye = item.getType();
       const usingTheme = itemTye === 'node' ? nodeTheme : edgeTheme;
       const usingTypeSet =
@@ -717,7 +773,7 @@ export class ItemController {
   private onDestroy = () => {
     Object.values(this.itemMap).forEach((item) => item.destroy());
     // Fix OOM problem, since this map will hold all the refs of items.
-    this.itemMap = {};
+    this.itemMap.clear();
   };
 
   private onTransientUpdate(param: {
@@ -749,18 +805,18 @@ export class ItemController {
     // Removing
     if (action === 'remove') {
       if (isItemType) {
-        const transientItem = this.transientItemMap[id];
+        const transientItem = this.transientItemMap.get(id);
         if (type === 'combo') {
           // remove children from bottom to top
           graphCoreTreeDfs(
             graphCore,
             [graphCore.getNode(id)],
             (child) => {
-              const transientChild = this.transientItemMap[child.id];
+              const transientChild = this.transientItemMap.get(child.id);
               if (transientChild && !transientChild.destroyed) {
                 transientChild.destroy();
               }
-              delete this.transientItemMap[child.id];
+              this.transientItemMap.delete(child.id);
             },
             'BT',
           );
@@ -768,19 +824,18 @@ export class ItemController {
         if (transientItem && !transientItem.destroyed) {
           transientItem.destroy();
         }
-        delete this.transientItemMap[id];
+        this.transientItemMap.delete(id);
         return;
       } else {
-        const preObj = transientObjectMap[id];
+        const preObj = transientObjectMap.get(id);
         if (preObj && !preObj.destroyed) preObj.destroy();
-        delete transientObjectMap[id];
+        transientObjectMap.delete(id);
         return;
       }
     }
     // Adding / Updating
     if (isItemType) {
-      const item = this.itemMap[id];
-
+      const item = this.itemMap.get(id);
       if (!item) {
         console.warn(
           `Fail to draw transient item of ${id}, which is not exist.`,
@@ -824,7 +879,7 @@ export class ItemController {
             graphCore,
             [transItem.model],
             (node) => {
-              const transChild = this.transientItemMap[node.id] as Node;
+              const transChild = this.transientItemMap.get(node.id) as Node;
               if (!transChild) return;
               const { x: childX = 0, y: childY = 0 } = transChild.model
                 .data as NodeModelData;
@@ -853,7 +908,7 @@ export class ItemController {
             'combo',
           );
           while (currentAncestor) {
-            const ancestorItem = this.transientItemMap[currentAncestor.id];
+            const ancestorItem = this.transientItemMap.get(currentAncestor.id);
             if (ancestorItem) (ancestorItem as Combo).forceUpdate();
             currentAncestor = graphCore.getParent(currentAncestor.id, 'combo');
           }
@@ -871,12 +926,17 @@ export class ItemController {
       return;
     }
 
-    const shape = upsertShape(type, String(id), style, transientObjectMap);
+    const shape = upsertShape(
+      type,
+      String(id),
+      style,
+      Object.fromEntries(transientObjectMap),
+    );
     shape.style.pointerEvents = capture ? 'auto' : 'none';
     canvas.getRoot().appendChild(shape);
   }
   public getTransient(id: string) {
-    return this.transientObjectMap[id];
+    return this.transientObjectMap.get(id);
   }
 
   public getTransientItem(id: ID) {
@@ -905,23 +965,26 @@ export class ItemController {
         nodeTheme,
       );
 
-      this.itemMap[node.id] = new Node({
-        model: node,
-        renderExtensions: nodeExtensions,
-        containerGroup: nodeGroup,
-        mapper: this.nodeMapper,
-        stateMapper: this.nodeStateMapper,
-        zoom,
-        theme: itemTheme as {
-          styles: NodeStyleSet;
-          lodStrategy: LodStrategyObj;
-        },
-        device:
-          graph.rendererType === 'webgl-3d'
-            ? // TODO: G type
-              (graph.canvas.context as any).deviceRendererPlugin.getDevice()
-            : undefined,
-      });
+      this.itemMap.set(
+        node.id,
+        new Node({
+          model: node,
+          renderExtensions: nodeExtensions,
+          containerGroup: nodeGroup,
+          mapper: this.nodeMapper,
+          stateMapper: this.nodeStateMapper,
+          zoom,
+          theme: itemTheme as {
+            styles: NodeStyleSet;
+            lodStrategy: LodStrategyObj;
+          },
+          device:
+            graph.rendererType === 'webgl-3d'
+              ? // TODO: G type
+                (graph.canvas.context as any).deviceRendererPlugin.getDevice()
+              : undefined,
+        }),
+      );
     });
   }
 
@@ -945,33 +1008,39 @@ export class ItemController {
         comboTheme,
       );
 
-      itemMap[combo.id] = new Combo({
-        model: combo,
-        getCombinedBounds: () => {
-          //  calculate the position of the combo according to its children
-          const childModels = graphCore.getChildren(combo.id, 'combo');
-          return getCombinedBoundsByData(graph, childModels);
-        },
-        getChildren: () => {
-          const childModels = graphCore.getChildren(combo.id, 'combo');
-          return childModels.map(({ id }) => itemMap[id]) as (Node | Combo)[];
-        },
-        renderExtensions: comboExtensions,
-        containerGroup: comboGroup,
-        mapper: this.comboMapper as DisplayMapper,
-        stateMapper: this.comboStateMapper as {
-          [stateName: string]: DisplayMapper;
-        },
-        zoom,
-        theme: itemTheme as {
-          styles: ComboStyleSet;
-          lodStrategy: LodStrategyObj;
-        },
-        device:
-          graph.rendererType === 'webgl-3d'
-            ? (graph.canvas.context as any).deviceRendererPlugin.getDevice()
-            : undefined,
-      });
+      itemMap.set(
+        combo.id,
+        new Combo({
+          model: combo,
+          getCombinedBounds: () => {
+            //  calculate the position of the combo according to its children
+            const childModels = graphCore.getChildren(combo.id, 'combo');
+            return getCombinedBoundsByData(graph, childModels);
+          },
+          getChildren: () => {
+            const childModels = graphCore.getChildren(combo.id, 'combo');
+            return childModels.map(({ id }) => itemMap.get(id)) as (
+              | Node
+              | Combo
+            )[];
+          },
+          renderExtensions: comboExtensions,
+          containerGroup: comboGroup,
+          mapper: this.comboMapper as DisplayMapper,
+          stateMapper: this.comboStateMapper as {
+            [stateName: string]: DisplayMapper;
+          },
+          zoom,
+          theme: itemTheme as {
+            styles: ComboStyleSet;
+            lodStrategy: LodStrategyObj;
+          },
+          device:
+            graph.rendererType === 'webgl-3d'
+              ? (graph.canvas.context as any).deviceRendererPlugin.getDevice()
+              : undefined,
+        }),
+      );
     });
   }
 
@@ -988,17 +1057,19 @@ export class ItemController {
     const zoom = graph.getZoom();
     models.forEach((edge) => {
       const { source, target, id } = edge;
-      const sourceItem = itemMap[source] as Node;
-      const targetItem = itemMap[target] as Node;
+      const sourceItem = itemMap.get(source) as Node;
+      const targetItem = itemMap.get(target) as Node;
       if (!sourceItem) {
         console.warn(
           `The source node ${source} is not exist in the graph for edge ${id}, please add the node first`,
         );
+        return;
       }
       if (!targetItem) {
         console.warn(
           `The source node ${source} is not exist in the graph for edge ${id}, please add the node first`,
         );
+        return;
       }
       // get the base styles from theme
       let dataType;
@@ -1010,28 +1081,31 @@ export class ItemController {
         edgeTheme,
       );
 
-      const nodeMap = filterVisibleItemMapByType(
-        this.itemMap,
-        'node',
-      ) as Record<ID, Node>;
+      const nodeMap = filterVisibleItemMapByType(itemMap, 'node') as Map<
+        ID,
+        Node
+      >;
 
-      itemMap[id] = new Edge({
-        model: edge,
-        renderExtensions: edgeExtensions,
-        containerGroup: edgeGroup,
-        mapper: this.edgeMapper as DisplayMapper,
-        stateMapper: this.edgeStateMapper as {
-          [stateName: string]: DisplayMapper;
-        },
-        sourceItem,
-        targetItem,
-        nodeMap,
-        zoom,
-        theme: itemTheme as {
-          styles: EdgeStyleSet;
-          lodStrategy: LodStrategyObj;
-        },
-      });
+      itemMap.set(
+        id,
+        new Edge({
+          model: edge,
+          renderExtensions: edgeExtensions,
+          containerGroup: edgeGroup,
+          mapper: this.edgeMapper as DisplayMapper,
+          stateMapper: this.edgeStateMapper as {
+            [stateName: string]: DisplayMapper;
+          },
+          sourceItem,
+          targetItem,
+          nodeMap,
+          zoom,
+          theme: itemTheme as {
+            styles: EdgeStyleSet;
+            lodStrategy: LodStrategyObj;
+          },
+        }),
+      );
     });
   }
 
@@ -1048,7 +1122,7 @@ export class ItemController {
     value: string | boolean = true,
   ): ID[] {
     const ids: ID[] = [];
-    Object.values(this.itemMap).forEach((item) => {
+    this.itemMap.forEach((item) => {
       if (item.getType() !== itemType) return;
       if (item.hasState(state) === value) ids.push(item.getID());
     });
@@ -1062,7 +1136,7 @@ export class ItemController {
    * @returns {boolean | string} the state value
    */
   public getItemState(id: ID, state: string) {
-    const item = this.itemMap[id];
+    const item = this.itemMap.get(id);
     if (!item) {
       console.warn(
         `Fail to get item state, the item with id ${id} does not exist.`,
@@ -1073,7 +1147,7 @@ export class ItemController {
   }
 
   public getItemById(id: ID) {
-    return this.itemMap[id];
+    return this.itemMap.get(id);
   }
 
   public getItemBBox(
@@ -1081,7 +1155,9 @@ export class ItemController {
     isKeyShape = false,
     isTransient = false,
   ): AABB | false {
-    const item = isTransient ? this.transientItemMap[id] : this.itemMap[id];
+    const item = isTransient
+      ? this.transientItemMap.get(id)
+      : this.itemMap.get(id);
     if (!item) {
       console.warn(
         `Fail to get item bbox, the item with id ${id} does not exist.`,
@@ -1093,7 +1169,7 @@ export class ItemController {
   }
 
   public getItemVisible(id: ID) {
-    const item = this.itemMap[id];
+    const item = this.itemMap.get(id);
     if (!item) {
       console.warn(
         `Fail to get item visible, the item with id ${id} does not exist.`,
@@ -1156,7 +1232,7 @@ export class ItemController {
   public sortByComboTree(graphCore: GraphCore) {
     if (!graphCore.hasTreeStructure('combo')) return;
     graphCoreTreeDfs(graphCore, graphCore.getRoots('combo'), (node) => {
-      const nodeItem = this.itemMap[node.id];
+      const nodeItem = this.itemMap.get(node.id);
       if (node.data._isCombo && nodeItem) {
         nodeItem.toFront();
       }
@@ -1235,6 +1311,134 @@ export class ItemController {
     // remove related virtual edges
     this.graph.removeData('edge', uniq(relatedVirtualEdgeIds));
   }
+
+  /**
+   * Collapse or expand a sub tree according to action
+   * @param params
+   */
+  private onTreeCollapseExpand(params: {
+    ids: ID[];
+    animate: boolean;
+    action: 'collapse' | 'expand';
+    graphCore: GraphCore;
+  }) {
+    const { ids, animate, action, graphCore } = params;
+    const rootModels = ids.map((id) => graphCore.getNode(id));
+    switch (action) {
+      case 'collapse':
+        this.collapseSubTree(rootModels, graphCore, animate);
+        break;
+      case 'expand':
+      default:
+        this.expandSubTree(rootModels, graphCore, animate);
+        break;
+    }
+  }
+
+  /**
+   * Collapse sub tree(s).
+   * @param rootModels The root node models of sub trees
+   * @param graphCore
+   * @param animate Whether enable animations for expanding, true by default
+   * @returns
+   */
+  private collapseSubTree(
+    rootModels: NodeModel[],
+    graphCore: GraphCore,
+    animate = true,
+  ) {
+    let positions = [];
+    rootModels.forEach((root) => {
+      let shouldCollapse = true;
+      const nodes = [];
+      graphCoreTreeDfs(
+        graphCore,
+        [root],
+        (node) => {
+          if (node.id === root.id) return;
+          const neighbors = graphCore.getNeighbors(node.id);
+          if (
+            neighbors.length > 2 ||
+            (!graphCore.getChildren(node.id, 'tree')?.length &&
+              neighbors.length > 1)
+          ) {
+            shouldCollapse = false;
+          }
+          nodes.push(node);
+        },
+        'TB',
+        'tree',
+        {
+          stopAllFn: () => !shouldCollapse,
+        },
+      );
+      if (shouldCollapse) {
+        positions = positions.concat(
+          nodes.map((node) => ({
+            id: node.id,
+            data: { x: root.data.x, y: root.data.y },
+          })),
+        );
+      }
+    });
+    if (!positions.length) return;
+    this.graph.updateNodePosition(
+      positions,
+      undefined,
+      !animate,
+      (model, canceled) => {
+        this.graph.hideItem(model.id, canceled);
+      },
+      undefined,
+    );
+  }
+
+  /**
+   * Expand sub tree(s).
+   * @param rootModels The root node models of sub trees.
+   * @param graphCore
+   * @param animate Whether enable animations for expanding, true by default.
+   * @returns
+   */
+  private expandSubTree(
+    rootModels: NodeModel[],
+    graphCore: GraphCore,
+    animate = true,
+  ) {
+    let allNodeIds = [];
+    let allEdgeIds = [];
+    rootModels.forEach((root) => {
+      const nodeIds = [];
+      graphCoreTreeDfs(
+        graphCore,
+        [root],
+        (node) => nodeIds.push(node.id),
+        'TB',
+        'tree',
+        {
+          stopBranchFn: (node) => {
+            const shouldStop =
+              node.id !== root.id && (node.data.collapsed as boolean);
+            if (shouldStop) nodeIds.push(node.id);
+            return shouldStop;
+          },
+        },
+      );
+      allEdgeIds = allEdgeIds.concat(
+        graphCore
+          .getAllEdges()
+          .filter(
+            (edge) =>
+              nodeIds.includes(edge.source) && nodeIds.includes(edge.target),
+          )
+          .map((edge) => edge.id),
+      );
+      allNodeIds = allNodeIds.concat(nodeIds.filter((id) => id !== root.id));
+    });
+    const ids = uniq(allNodeIds.concat(allEdgeIds));
+    this.graph.showItem(ids, !animate);
+    this.graph.layout(undefined, !animate);
+  }
 }
 
 const getItemTheme = (
@@ -1276,16 +1480,14 @@ const getItemTheme = (
 };
 
 const filterVisibleItemMapByType = (
-  itemMap: Record<ID, Node | Edge | Combo>,
+  itemMap: Map<ID, Node | Edge | Combo>,
   type: ITEM_TYPE | ITEM_TYPE[],
-): Record<ID, Node> | Record<ID, Edge> | Record<ID, Combo> => {
-  return Object.values(itemMap).reduce((map, item) => {
-    const isExist = Array.isArray(type)
-      ? type.includes(item.getType())
-      : item.getType() === type;
-    if (isExist && item.isVisible()) {
-      map[item.getID()] = item;
+): Map<ID, Node | Edge | Combo | Group> => {
+  const filteredMap = new Map<ID, Node | Edge | Combo | Group>();
+  itemMap.forEach((value, key) => {
+    if (value.type === type && value.isVisible()) {
+      filteredMap.set(key, value);
     }
-    return map;
-  }, {});
+  });
+  return filteredMap;
 };

@@ -14,10 +14,10 @@ import { CameraAnimationOptions } from '../types/animate';
 import { BehaviorOptionsOf, BehaviorRegistry } from '../types/behavior';
 import { ComboModel } from '../types/combo';
 import { Padding, Point } from '../types/common';
-import { DataChangeType, GraphCore } from '../types/data';
+import { DataChangeType, DataConfig, GraphCore } from '../types/data';
 import { EdgeModel, EdgeModelData } from '../types/edge';
 import { Hooks, ViewportChangeHookParams } from '../types/hook';
-import { ITEM_TYPE, ShapeStyle, SHAPE_TYPE } from '../types/item';
+import { ITEM_TYPE, SHAPE_TYPE, ShapeStyle } from '../types/item';
 import {
   ImmediatelyInvokedLayoutOptions,
   LayoutOptions,
@@ -153,10 +153,12 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       this.canvas = canvas;
       this.backgroundCanvas = backgroundCanvas;
       this.transientCanvas = transientCanvas;
+      this.container = container as HTMLDivElement;
     } else {
       const containerDOM = isString(container)
         ? document.getElementById(container as string)
         : (container as HTMLElement);
+
       if (!containerDOM) {
         console.error(
           `Create graph failed. The container for graph ${containerDOM} is not exist.`,
@@ -164,6 +166,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
         this.destroy();
         return;
       }
+
       this.container = containerDOM;
       const size = [width, height];
       if (size[0] === undefined) {
@@ -251,6 +254,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
         changes: GraphChange<NodeModelData, EdgeModelData>[];
         graphCore: GraphCore;
         theme: ThemeSpecification;
+        animate?: boolean;
         upsertAncestors?: boolean;
       }>({ name: 'itemchange' }),
       render: new Hook<{
@@ -260,7 +264,11 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       }>({
         name: 'render',
       }),
-      layout: new Hook<{ graphCore: GraphCore }>({ name: 'layout' }),
+      layout: new Hook<{
+        graphCore: GraphCore;
+        options?: LayoutOptions;
+        animate?: boolean;
+      }>({ name: 'layout' }),
       viewportchange: new Hook<ViewportChangeHookParams>({ name: 'viewport' }),
       modechange: new Hook<{ mode: string }>({ name: 'modechange' }),
       behaviorchange: new Hook<{
@@ -310,6 +318,12 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
           transient: Canvas;
         };
       }>({ name: 'init' }),
+      treecollapseexpand: new Hook<{
+        ids: ID[];
+        animate: boolean;
+        action: 'collapse' | 'expand';
+        graphCore: GraphCore;
+      }>({ name: 'treecollapseexpand' }),
       destroy: new Hook<{}>({ name: 'destroy' }),
     };
   }
@@ -356,7 +370,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * @returns
    * @group Data
    */
-  public async read(data: GraphData) {
+  public async read(data: DataConfig) {
     this.hooks.datachange.emit({ data, type: 'replace' });
     const emitRender = async () => {
       this.hooks.render.emit({
@@ -388,7 +402,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * @group Data
    */
   public async changeData(
-    data: GraphData,
+    data: DataConfig,
     type: 'replace' | 'mergeReplace' = 'mergeReplace',
   ) {
     this.hooks.datachange.emit({ data, type });
@@ -1041,9 +1055,21 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
           ComboUserModel | Partial<NodeUserModel>[] | Partial<ComboUserModel>[]
         >,
     upsertAncestors?: boolean,
+    disableAnimate = false,
+    callback?: (
+      model: NodeModel | EdgeModel | ComboModel,
+      canceled?: boolean,
+    ) => void,
     stack?: boolean,
   ) {
-    return this.updatePosition('node', models, upsertAncestors, stack);
+    return this.updatePosition(
+      'node',
+      models,
+      upsertAncestors,
+      disableAnimate,
+      callback,
+      stack,
+    );
   }
 
   /**
@@ -1061,9 +1087,18 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
           ComboUserModel | Partial<NodeUserModel>[] | Partial<ComboUserModel>[]
         >,
     upsertAncestors?: boolean,
+    disableAnimate = false,
+    callback?: (model: NodeModel | EdgeModel | ComboModel) => void,
     stack?: boolean,
   ) {
-    return this.updatePosition('combo', models, upsertAncestors, stack);
+    return this.updatePosition(
+      'combo',
+      models,
+      upsertAncestors,
+      disableAnimate,
+      callback,
+      stack,
+    );
   }
 
   private updatePosition(
@@ -1074,6 +1109,11 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
           ComboUserModel | Partial<NodeUserModel>[] | Partial<ComboUserModel>[]
         >,
     upsertAncestors?: boolean,
+    disableAnimate = false,
+    callback?: (
+      model: NodeModel | EdgeModel | ComboModel,
+      canceled?: boolean,
+    ) => void,
     stack?: boolean,
   ) {
     const modelArr = isArray(models) ? models : [models];
@@ -1088,6 +1128,8 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
         theme: specification,
         upsertAncestors,
         action: 'updatePosition',
+        animate: !disableAnimate,
+        callback,
       });
       this.emit('afteritemchange', {
         type,
@@ -1118,13 +1160,13 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * @returns
    * @group Item
    */
-  public showItem(ids: ID | ID[], disableAniamte?: boolean) {
+  public showItem(ids: ID | ID[], disableAnimate = false) {
     const idArr = isArray(ids) ? ids : [ids];
     this.hooks.itemvisibilitychange.emit({
       ids: idArr as ID[],
       value: true,
       graphCore: this.dataController.graphCore,
-      animate: !disableAniamte,
+      animate: !disableAnimate,
     });
   }
   /**
@@ -1133,13 +1175,13 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * @returns
    * @group Item
    */
-  public hideItem(ids: ID | ID[], disableAniamte?: boolean) {
+  public hideItem(ids: ID | ID[], disableAnimate = false) {
     const idArr = isArray(ids) ? ids : [ids];
     this.hooks.itemvisibilitychange.emit({
       ids: idArr as ID[],
       value: false,
       graphCore: this.dataController.graphCore,
-      animate: !disableAniamte,
+      animate: !disableAnimate,
     });
   }
 
@@ -1377,7 +1419,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
   /**
    * Layout the graph (with current configurations if cfg is not assigned).
    */
-  public async layout(options?: LayoutOptions) {
+  public async layout(options?: LayoutOptions, disableAnimate = false) {
     const { graphCore } = this.dataController;
     const formattedOptions = {
       ...this.getSpecification().layout,
@@ -1413,6 +1455,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     await this.hooks.layout.emitLinearAsync({
       graphCore,
       options: formattedOptions,
+      animate: !disableAnimate,
     });
     this.emit('afterlayout');
   }
@@ -1664,6 +1707,39 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       graphCore: this.dataController.graphCore,
     });
     return this.itemController.getTransient(String(id));
+  }
+
+  /**
+   * Collapse sub tree(s).
+   * @param ids Root id(s) of the sub trees.
+   * @param disableAnimate Whether disable the animations for this operation.
+   * @param stack Whether push this operation to stack.
+   * @returns
+   * @group Tree
+   */
+  public collapse(ids: ID | ID[], disableAnimate = false, stack?: boolean) {
+    this.hooks.treecollapseexpand.emit({
+      ids: isArray(ids) ? ids : [ids],
+      action: 'collapse',
+      animate: !disableAnimate,
+      graphCore: this.dataController.graphCore,
+    });
+  }
+  /**
+   * Expand sub tree(s).
+   * @param ids Root id(s) of the sub trees.
+   * @param disableAnimate Whether disable the animations for this operation.
+   * @param stack Whether push this operation to stack.
+   * @returns
+   * @group Tree
+   */
+  public expand(ids: ID | ID[], disableAnimate = false, stack?: boolean) {
+    this.hooks.treecollapseexpand.emit({
+      ids: isArray(ids) ? ids : [ids],
+      action: 'expand',
+      animate: !disableAnimate,
+      graphCore: this.dataController.graphCore,
+    });
   }
 
   /**

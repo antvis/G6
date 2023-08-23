@@ -1,6 +1,6 @@
 import { Group } from '@antv/g';
 import { clone, throttle } from '@antv/util';
-import { EdgeDisplayModel, EdgeModel, NodeModelData } from '../types';
+import { EdgeDisplayModel, EdgeModel, ID } from '../types';
 import { EdgeModelData } from '../types/edge';
 import { DisplayMapper, State, LodStrategyObj } from '../types/item';
 import { updateShapes } from '../util/shape';
@@ -8,6 +8,7 @@ import { animateShapes } from '../util/animate';
 import { EdgeStyleSet } from '../types/theme';
 import Item from './item';
 import Node from './node';
+import Combo from './combo';
 
 interface IProps {
   model: EdgeModel;
@@ -25,7 +26,7 @@ interface IProps {
     lodStrategy: LodStrategyObj;
   };
   onframe?: Function;
-  nodeMap?: Record<string, Node>;
+  nodeMap?: Map<ID, Node>;
 }
 
 export default class Edge extends Item {
@@ -38,7 +39,7 @@ export default class Edge extends Item {
   public type: 'edge' = 'edge';
   public sourceItem: Node;
   public targetItem: Node;
-  public nodeMap: Record<string, Node>;
+  public nodeMap: Map<ID, Node>;
 
   constructor(props: IProps) {
     super(props);
@@ -46,16 +47,16 @@ export default class Edge extends Item {
     const { sourceItem, targetItem, nodeMap } = props;
     this.sourceItem = sourceItem;
     this.targetItem = targetItem;
-    this.nodeMap = Object.assign(nodeMap, {
-      [sourceItem.getID()]: sourceItem,
-      [targetItem.getID()]: targetItem,
-    });
+    this.nodeMap = nodeMap;
+    this.nodeMap.set(sourceItem.getID(), sourceItem);
+    this.nodeMap.set(targetItem.getID(), targetItem);
     this.draw(this.displayModel);
   }
   public draw(
     displayModel: EdgeDisplayModel,
     diffData?: { previous: EdgeModelData; current: EdgeModelData },
     diffState?: { previous: State[]; current: State[] },
+    animate = true,
     onfinish: Function = () => {},
   ) {
     // get the end points
@@ -102,7 +103,7 @@ export default class Edge extends Item {
 
     const timing = firstRendering ? 'buildIn' : 'update';
     // handle shape's animate
-    if (!disableAnimate && usingAnimates[timing]?.length) {
+    if (animate && !disableAnimate && usingAnimates[timing]?.length) {
       this.animations = animateShapes(
         usingAnimates,
         targetStyles, // targetStylesMap
@@ -111,7 +112,7 @@ export default class Edge extends Item {
         firstRendering ? 'buildIn' : 'update',
         this.changedStates,
         this.animateFrameListener,
-        () => onfinish(displayModel.id),
+        (canceled) => onfinish(displayModel.id, canceled),
       );
     }
   }
@@ -148,8 +149,8 @@ export default class Edge extends Item {
 
   public clone(
     containerGroup: Group,
-    sourceItem: Node,
-    targetItem: Node,
+    sourceItem: Node | Combo,
+    targetItem: Node | Combo,
     onlyKeyShape?: boolean,
     disableAnimate?: boolean,
   ) {
