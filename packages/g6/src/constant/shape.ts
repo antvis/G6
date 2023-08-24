@@ -6,6 +6,7 @@ export const RESERVED_SHAPE_IDS = [
   'haloShape',
   'anchorShapes',
   'badgeShapes',
+  'donutShapes',
 ];
 export const OTHER_SHAPES_FIELD_NAME = 'otherShapes';
 
