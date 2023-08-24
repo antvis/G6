@@ -1,6 +1,6 @@
 import { Group } from '@antv/g';
 import { clone, throttle } from '@antv/util';
-import { EdgeDisplayModel, EdgeModel } from '../types';
+import { EdgeDisplayModel, EdgeModel, ID } from '../types';
 import { EdgeModelData } from '../types/edge';
 import { DisplayMapper, State, LodStrategyObj } from '../types/item';
 import { updateShapes } from '../util/shape';
@@ -26,6 +26,7 @@ interface IProps {
     lodStrategy: LodStrategyObj;
   };
   onframe?: Function;
+  nodeMap?: Map<ID, Node>;
 }
 
 export default class Edge extends Item {
@@ -36,15 +37,24 @@ export default class Edge extends Item {
   public displayModel: EdgeDisplayModel;
   /** Set to different value in implements */
   public type: 'edge' = 'edge';
+  public nodeMap: Map<ID, Node>;
   public sourceItem: Node | Combo;
   public targetItem: Node | Combo;
 
   constructor(props: IProps) {
     super(props);
     this.init({ ...props, type: 'edge' });
-    const { sourceItem, targetItem } = props;
+    const { sourceItem, targetItem, nodeMap } = props;
     this.sourceItem = sourceItem;
     this.targetItem = targetItem;
+    this.nodeMap = nodeMap;
+    // todo: combo
+    if (sourceItem.getType() === 'node') {
+      this.nodeMap.set(sourceItem.getID(), sourceItem as Node);
+    }
+    if (sourceItem.getType() === 'node') {
+      this.nodeMap.set(targetItem.getID(), targetItem as Node);
+    }
     this.draw(this.displayModel);
   }
   public draw(
@@ -63,6 +73,8 @@ export default class Edge extends Item {
     const firstRendering = !this.shapeMap?.keyShape;
     this.renderExt.setSourcePoint(sourcePoint);
     this.renderExt.setTargetPoint(targetPoint);
+    this.renderExt.setNodeMap(this.nodeMap);
+
     const shapeMap = this.renderExt.draw(
       displayModel,
       sourcePoint,
@@ -161,6 +173,7 @@ export default class Edge extends Item {
       renderExtensions: this.renderExtensions,
       sourceItem,
       targetItem,
+      nodeMap: this.nodeMap,
       containerGroup,
       mapper: this.mapper,
       stateMapper: this.stateMapper,

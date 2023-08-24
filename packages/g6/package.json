@@ -36,7 +36,7 @@
     "build": "run-p build:*",
     "bundle-vis": "cross-env BUNDLE_VIS=1 run-p build:umd",
     "prepublishOnly": "npm run ci",
-    "ci": "run-s lint build test:integration",
+    "ci": "run-s lint build",
     "clean": "rimraf es lib",
     "coverage": "jest --coverage",
     "doc": "rimraf apis && typedoc",

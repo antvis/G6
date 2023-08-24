@@ -74,7 +74,7 @@ export const getContextMenuEventProps = (
   };
 };
 
-type GroupedChanges = {
+export type GroupedChanges = {
   NodeRemoved: NodeRemoved<NodeModelData>[];
   EdgeRemoved: EdgeRemoved<EdgeModelData>[];
   NodeAdded: NodeAdded<NodeModelData>[];

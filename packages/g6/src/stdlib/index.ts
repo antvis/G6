@@ -32,12 +32,15 @@ import RotateCanvas3D from './behavior/rotate-canvas-3d';
 import TrackCanvas3D from './behavior/track-canvas-3d';
 import ZoomCanvas from './behavior/zoom-canvas';
 import ZoomCanvas3D from './behavior/zoom-canvas-3d';
+import { CircleCombo } from './item/combo/circle';
+import History from './plugin/history';
 
 import CollapseExpandTree from './behavior/collapse-expand-tree';
 import { CubicEdge } from './item/edge/cubic';
 import { CubicHorizonEdge } from './item/edge/cubic-horizon';
 import { CubicVerticalEdge } from './item/edge/cubic-vertical';
 import { Quadratic } from './item/edge/quadratic';
+import { Polyline } from './item/edge/polyline';
 import Fisheye from './plugin/fisheye';
 import Grid from './plugin/grid';
 import Legend from './plugin/legend';
@@ -47,7 +50,6 @@ import toolbar from './plugin/toolbar';
 import Tooltip from './plugin/tooltip';
 import lassoSelector from './selector/lasso';
 import rectSelector from './selector/rect';
-import { CircleCombo } from './item/combo/circle';
 import { RectCombo } from './item/combo/rect';
 
 const stdLib = {
@@ -90,6 +92,7 @@ const stdLib = {
     grid: Grid,
     tooltip: Tooltip,
     menu: Menu,
+    history: History,
     toolbar,
   },
   nodes: {
@@ -108,6 +111,7 @@ const stdLib = {
     'cubic-horizon-edge': CubicHorizonEdge,
     'cubic-vertical-edge': CubicVerticalEdge,
     'quadratic-edge': Quadratic,
+    'polyline-edge': Polyline,
   },
   combos: {
     'circle-combo': CircleCombo,
