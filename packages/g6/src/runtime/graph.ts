@@ -1194,7 +1194,8 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       !this.specification.enableStack ||
       !this.pluginController.hasPlugin('history')
     ) {
-      throw new Error('The history plugin is not loaded or initialized.');
+      console.error('The history plugin is not loaded or initialized.');
+      return;
     }
     return this.pluginController.getPlugin('history') as History;
   }
@@ -1924,7 +1925,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    */
   public isHistoryEnabled() {
     const history = this.getHistoryPlugin();
-    return history.isEnable();
+    return history?.isEnable();
   }
 
   /**
@@ -1935,7 +1936,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    */
   public pushStack(cmd: Command[], stackType: StackType, isNew?: boolean) {
     const history = this.getHistoryPlugin();
-    return history.push(cmd, stackType, isNew);
+    return history?.push(cmd, stackType, isNew);
   }
 
   /**
@@ -1943,7 +1944,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    */
   public pauseStacking(): void {
     const history = this.getHistoryPlugin();
-    return history.pauseStacking();
+    return history?.pauseStacking();
   }
 
   /**
@@ -1951,7 +1952,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    */
   public resumeStacking(): void {
     const history = this.getHistoryPlugin();
-    return history.resumeStacking();
+    return history?.resumeStacking();
   }
 
   /**
@@ -1960,11 +1961,11 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    */
   public executeWithoutStacking = (callback: () => void): void => {
     const history = this.getHistoryPlugin();
-    history.pauseStacking();
+    history?.pauseStacking();
     try {
       callback();
     } finally {
-      history.resumeStacking();
+      history?.resumeStacking();
     }
   };
 
@@ -1973,7 +1974,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    */
   public getUndoStack() {
     const history = this.getHistoryPlugin();
-    return history.getUndoStack();
+    return history?.getUndoStack();
   }
 
   /**
@@ -1981,7 +1982,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    */
   public getRedoStack() {
     const history = this.getHistoryPlugin();
-    return history.getRedoStack();
+    return history?.getRedoStack();
   }
 
   /**
@@ -1990,7 +1991,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    */
   public getStack() {
     const history = this.getHistoryPlugin();
-    return history.getStack();
+    return history?.getStack();
   }
 
   /**
@@ -2000,7 +2001,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    */
   public undo() {
     const history = this.getHistoryPlugin();
-    history.undo();
+    history?.undo();
   }
 
   /**
@@ -2010,7 +2011,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    */
   public redo() {
     const history = this.getHistoryPlugin();
-    history.redo();
+    history?.redo();
   }
 
   /**
@@ -2018,7 +2019,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    */
   public canUndo() {
     const history = this.getHistoryPlugin();
-    return history.canUndo();
+    return history?.canUndo();
   }
 
   /**
@@ -2026,7 +2027,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    */
   public canRedo() {
     const history = this.getHistoryPlugin();
-    return history.canRedo();
+    return history?.canRedo();
   }
 
   /**
@@ -2036,7 +2037,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    */
   public startBatch() {
     const history = this.getHistoryPlugin();
-    history.startBatch();
+    history?.startBatch();
   }
 
   /**
@@ -2046,7 +2047,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    */
   public stopBatch() {
     const history = this.getHistoryPlugin();
-    history.stopBatch();
+    history?.stopBatch();
   }
 
   /**
@@ -2057,7 +2058,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    */
   public batch(callback: () => void) {
     const history = this.getHistoryPlugin();
-    history.batch(callback);
+    history?.batch(callback);
   }
 
   /**
@@ -2066,10 +2067,10 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    */
   public clearStack(stackType?: StackType) {
     const history = this.getHistoryPlugin();
-    if (!stackType) return history.clear();
+    if (!stackType) return history?.clear();
     return stackType === 'undo'
-      ? history.clearUndoStack()
-      : history.clearRedoStack();
+      ? history?.clearUndoStack()
+      : history?.clearRedoStack();
   }
 
   /**

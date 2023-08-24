@@ -171,7 +171,7 @@ export default class History extends Base {
       }
       this.graph.emit('history:change', cmd, stackType, isNew);
     } else {
-      throw new Error(
+      console.error(
         'Stacking operations are currently paused. Unable to push to the stack.',
       );
     }

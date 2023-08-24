@@ -141,19 +141,6 @@ export const getGroupedChanges = (
         return;
       }
     }
-    // else {
-    //   const { id: oid } = change.value;
-    //   if (!graphCore.hasNode(oid) && !graphCore.hasEdge(oid)) {
-    //     const nid = Number(oid);
-    //     if ((!isNaN(nid) && graphCore.hasNode(nid)) || graphCore.hasEdge(nid)) {
-    //       groupedChanges[changeType].push({
-    //         ...change,
-    //         value: { ...change.value, id: nid },
-    //       });
-    //     }
-    //     return;
-    //   }
-    // }
     groupedChanges[changeType].push(change);
   });
   return groupedChanges;
