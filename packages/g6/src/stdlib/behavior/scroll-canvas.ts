@@ -56,19 +56,21 @@ export default class ScrollCanvas extends Behavior<ScrollCanvasOptions> {
   onWheel(ev: IG6GraphEvent) {
     if (!this.allowDrag(ev)) return;
     const graph = this.graph;
-    const { zoomKey } = this.options
+    const { zoomKey, scalableRange, direction } = this.options
     const zoomKeys = Array.isArray(zoomKey) ? [].concat(zoomKey) : [zoomKey];
     if (zoomKeys.includes('control')) zoomKeys.push('ctrl');
     const keyDown = zoomKeys.some(ele => ev[`${ele}Key`]);
+    
+    const nativeEvent = ev.nativeEvent as WheelEvent & { wheelDelta: number }
 
-    // todo
     if (keyDown) {
       const canvas = graph.get('canvas');
       const point = canvas.getPointByClient(ev.clientX, ev.clientY);
       let ratio = graph.getZoom();
       console.log(ev)
-      
-      if (ev.wheelDelta > 0) {
+    
+      // TODO: meiyou wheelDelta attr
+      if (nativeEvent.wheelDelta > 0) {
         ratio = ratio + ratio * 0.05;
       } else {
         ratio = ratio - ratio * 0.05;
@@ -78,16 +80,16 @@ export default class ScrollCanvas extends Behavior<ScrollCanvasOptions> {
         y: point.y,
       });
     } else {
-      let dx = (ev.deltaX || ev.movementX) as number;
-      let dy = (ev.deltaY || ev.movementY) as number;
-      if (!dy && navigator.userAgent.indexOf('Firefox') > -1) dy = (-ev.wheelDelta * 125) / 3
+      let dx = nativeEvent.deltaX || ev.movementX;
+      let dy = nativeEvent.deltaY || ev.movementY;
+      if (!dy && navigator.userAgent.indexOf('Firefox') > -1) dy = (-nativeEvent.wheelDelta * 125) / 3
 
       const width = this.graph.get('width');
       const height = this.graph.get('height');
       const graphCanvasBBox = this.graph.get('canvas').getCanvasBBox();
 
-      let expandWidth = this.scalableRange as number;
-      let expandHeight = this.scalableRange as number;
+      let expandWidth = scalableRange;
+      let expandHeight = scalableRange;
       // 若 scalableRange 是 0~1 的小数，则作为比例考虑
       if (expandWidth < 1 && expandWidth > -1) {
         expandWidth = width * expandWidth;
@@ -124,17 +126,18 @@ export default class ScrollCanvas extends Behavior<ScrollCanvasOptions> {
         }
       }
 
-      if (this.get('direction') === 'x') {
+      if (direction === 'x') {
         dy = 0;
-      } else if (this.get('direction') === 'y') {
+      } else if (direction === 'y') {
         dx = 0;
       }
 
-      graph.translate(-dx, -dy);
+      graph.translate({ dx: -dx, dy: -dy });
     }
     ev.preventDefault();
 
 
+    // todo
     // hide the shapes when the zoom ratio is smaller than optimizeZoom
     // hide the shapes when zoomming
     const enableOptimize = this.get('enableOptimize');

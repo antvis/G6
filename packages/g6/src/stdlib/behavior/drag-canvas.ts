@@ -102,6 +102,9 @@ export class DragCanvas extends Behavior {
       pointerup: this.onPointerUp,
       keydown: this.onKeydown,
       keyup: this.onKeyup,
+      wheel(ev) {
+        console.log(ev)
+      }
     };
   }
 
