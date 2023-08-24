@@ -13,6 +13,7 @@ import quadratic from './demo/quadratic';
 import rect from './demo/rect';
 import tooltip from './demo/tooltip';
 import triangle from './demo/triangle';
+import donut_node from './item/node/donut-node';
 import cubic_edge from './item/edge/cubic-edge';
 import cubic_horizon_edge from './item/edge/cubic-horizon-edge';
 import cubic_vertical_edge from './item/edge/cubic-vertical-edge';
@@ -71,6 +72,7 @@ export {
   layouts_fruchterman_gpu,
   layouts_fruchterman_wasm,
   layouts_grid,
+  donut_node,
   line_edge,
   menu,
   performance,
