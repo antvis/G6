@@ -27,7 +27,7 @@ import type { CameraAnimationOptions } from '../types/animate';
 import type { BehaviorOptionsOf, BehaviorRegistry } from '../types/behavior';
 import type { ComboModel } from '../types/combo';
 import type { Padding, Point } from '../types/common';
-import type { DataChangeType, GraphCore } from '../types/data';
+import type { DataChangeType, DataConfig, GraphCore } from '../types/data';
 import type { EdgeModel, EdgeModelData } from '../types/edge';
 import type { StackType } from '../types/history';
 import type { Hooks, ViewportChangeHookParams } from '../types/hook';

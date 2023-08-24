@@ -119,7 +119,7 @@ export default class ZoomCanvas extends Behavior {
         .getAllEdgesData()
         .map((edge) => edge.id)
         .filter((id) => graph.getItemVisible(id) === true);
-      graph.hideItem(this.hiddenEdgeIds, false, false);
+      graph.hideItem(this.hiddenEdgeIds, false);
       this.hiddenNodeIds = graph
         .getAllNodesData()
         .map((node) => node.id)
@@ -130,7 +130,7 @@ export default class ZoomCanvas extends Behavior {
           onlyDrawKeyShape: true,
         });
       });
-      graph.hideItem(this.hiddenNodeIds, false, false);
+      graph.hideItem(this.hiddenNodeIds, false);
     }
   }
 
@@ -141,13 +141,13 @@ export default class ZoomCanvas extends Behavior {
     if (enableOptimize) {
       // restore hidden items
       if (hiddenEdgeIds) {
-        graph.showItem(hiddenEdgeIds, false, false);
+        graph.showItem(hiddenEdgeIds, false);
       }
       if (hiddenNodeIds) {
         hiddenNodeIds.forEach((id) => {
           graph.drawTransient('node', id, { action: 'remove' });
         });
-        graph.showItem(hiddenNodeIds, false, false);
+        graph.showItem(hiddenNodeIds, false);
       }
     }
     this.hiddenEdgeIds = [];

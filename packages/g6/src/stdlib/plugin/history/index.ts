@@ -104,7 +104,7 @@ export default class History extends Base {
         stackSize: 0,
         stackActive: true,
         includes: [],
-        excludes: ['updateData'],
+        excludes: [],
         ignoreAdd: false,
         ignoreRemove: false,
         ignoreUpdate: false,

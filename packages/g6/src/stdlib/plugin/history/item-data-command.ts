@@ -25,14 +25,14 @@ export class ItemDataCommand implements Command {
   }
 
   private removeChangedData(graph) {
-    const ids = this.changes.map((data) => data.value.id);
+    const ids = this.changes.map((data) => data.value?.id).filter(Boolean);
     graph.executeWithoutStacking(() => {
       graph.removeData(this.type, ids);
     });
   }
 
   private addChangedData(graph) {
-    const models = this.changes.map((data) => data.value);
+    const models = this.changes.map((data) => data.value).filter(Boolean);
     graph.executeWithoutStacking(() => {
       graph.addData(this.type, models);
     });

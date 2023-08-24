@@ -173,14 +173,6 @@ export default (context) => {
         },
       },
       {
-        id: 'node3',
-        data: {
-          x: 100,
-          y: 150,
-          type: 'circle-node',
-        },
-      },
-      {
         id: 'node4',
         data: {
           x: 200,
@@ -197,14 +189,6 @@ export default (context) => {
         id: 'edge1',
         source: 'node1',
         target: 'node2',
-        data: {
-          type: 'line-edge',
-        },
-      },
-      {
-        id: 'edge2',
-        source: 'node1',
-        target: 'node3',
         data: {
           type: 'line-edge',
         },

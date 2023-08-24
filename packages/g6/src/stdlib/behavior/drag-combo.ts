@@ -278,16 +278,14 @@ export default class DragCombo extends Behavior {
 
         // Hide original edges and nodes. They will be restored when pointerup.
         this.graph.executeWithoutStacking(() => {
-          this.graph.hideItem(selectedComboIds, true, false);
+          this.graph.hideItem(selectedComboIds, true);
           this.graph.hideItem(
             this.hiddenEdges.map((edge) => edge.id),
             true,
-            false,
           );
           this.graph.hideItem(
             this.hiddenComboTreeRoots.map((child) => child.id),
             true,
-            false,
           );
         });
       } else {
