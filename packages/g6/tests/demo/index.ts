@@ -83,5 +83,5 @@ export {
   triangle,
   user_defined_canvas,
   visual,
-  diamond
+  diamond,
 };
