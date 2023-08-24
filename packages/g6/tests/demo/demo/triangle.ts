@@ -79,7 +79,6 @@ export default (context: TestCaseContext) => {
 
   graph = new Graph({
     ...context,
-    type: 'graph',
     data,
     modes: {
       default: ['click-select', 'drag-node', 'zoom-canvas', 'drag-canvas'],

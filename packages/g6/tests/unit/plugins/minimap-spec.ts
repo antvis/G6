@@ -168,7 +168,7 @@ describe('plugin', () => {
         );
         expect(node1Delegate.nodeName).toBe('circle');
         const node1KeyShape =
-          graph.itemController.itemMap['node1'].shapeMap['keyShape'];
+          graph.itemController.itemMap.get('node1').shapeMap['keyShape'];
         expect(node1Delegate.style.fill).toBe(node1KeyShape.style.fill);
 
         const node2Delegate = minimapRootGroup.find(
@@ -176,7 +176,7 @@ describe('plugin', () => {
         );
         expect(node2Delegate.nodeName).toBe('circle');
         const node2KeyShape =
-          graph.itemController.itemMap['node2'].shapeMap['keyShape'];
+          graph.itemController.itemMap.get('node2').shapeMap['keyShape'];
         expect(node2Delegate.style.fill).toBe(node2KeyShape.style.fill);
 
         graph.destroy();
