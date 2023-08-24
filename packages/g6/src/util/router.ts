@@ -373,8 +373,6 @@ export const pathFinder = (
   nodeMap: Map<ID, Node>,
   routerCfg?: RouterCfg,
 ): PolyPoint[] => {
-  console.log('nodeMap', nodeMap);
-
   const startNode = nodeMap.get(sourceNodeId);
   const endNode = nodeMap.get(targetNodeId);
 
@@ -391,7 +389,6 @@ export const pathFinder = (
   const { penalties, gridSize } = cfg;
 
   const obstacleMap = getObstacleMap(nodeMap, gridSize, cfg.offset);
-  console.log('obstacleMap', obstacleMap);
 
   const scaleStartPoint = {
     x: pos2GridIx(startPoint.x, gridSize),
