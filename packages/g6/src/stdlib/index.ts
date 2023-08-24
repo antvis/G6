@@ -39,6 +39,7 @@ import { CubicEdge } from './item/edge/cubic';
 import { CubicHorizonEdge } from './item/edge/cubic-horizon';
 import { CubicVerticalEdge } from './item/edge/cubic-vertical';
 import { Quadratic } from './item/edge/quadratic';
+import { Polyline } from './item/edge/polyline';
 import Fisheye from './plugin/fisheye';
 import Grid from './plugin/grid';
 import Legend from './plugin/legend';
@@ -108,6 +109,7 @@ const stdLib = {
     'cubic-horizon-edge': CubicHorizonEdge,
     'cubic-vertical-edge': CubicVerticalEdge,
     'quadratic-edge': Quadratic,
+    'polyline-edge': Polyline,
   },
   combos: {
     'circle-combo': CircleCombo,

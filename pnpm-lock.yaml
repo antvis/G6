@@ -1162,7 +1162,7 @@ packages:
       d3-octree: 1.0.2
       d3-quadtree: 3.0.1
       ml-matrix: 6.10.4
-      tslib: 2.5.0
+      tslib: 2.6.2
     transitivePeerDependencies:
       - workerize-loader
     dev: false

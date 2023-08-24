@@ -118,6 +118,12 @@ export interface IGraph<
     direction?: 'in' | 'out' | 'both',
   ) => NodeModel[];
   /**
+   * Retrieve the nearby edges for a given node using quadtree collision detection.
+   * @param nodeId target node's id
+   * @returns edges
+   */
+  getNearEdgesForNode: (nodeId: ID) => EdgeModel[];
+  /*
    * Get the children's data of a combo.
    * @param comboId combo id
    * @returns children's data array

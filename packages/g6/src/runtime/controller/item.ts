@@ -2,8 +2,10 @@ import { AABB, Canvas, DisplayObject, Group } from '@antv/g';
 import { GraphChange, ID } from '@antv/graphlib';
 import {
   debounce,
+  each,
   isArray,
   isObject,
+  map,
   throttle,
   uniq,
   uniqueId,
@@ -61,6 +63,7 @@ import {
 import { getGroupedChanges } from '../../util/event';
 import { BaseNode } from '../../stdlib/item/node/base';
 import { BaseEdge } from '../../stdlib/item/edge/base';
+import { EdgeCollisionChecker, QuadTree } from '../../util/polyline';
 
 /**
  * Manages and stores the node / edge / combo items.
@@ -483,7 +486,16 @@ export class ItemController {
             nodeTheme,
           );
         }
-        graphCore.getRelatedEdges(id).forEach((edge) => {
+
+        const preventPolylineEdgeOverlap =
+          innerModel?.data?.preventPolylineEdgeOverlap || false;
+        const relatedEdgeInnerModels = preventPolylineEdgeOverlap
+          ? this.findNearEdgesByNode(id, graphCore).concat(
+              graphCore.getRelatedEdges(id),
+            )
+          : graphCore.getRelatedEdges(id);
+
+        relatedEdgeInnerModels.forEach((edge) => {
           edgeIdsToUpdate.add(edge.id);
           nodeRelatedIdsToUpdate.add(edge.id);
         });
@@ -809,7 +821,6 @@ export class ItemController {
       upsertAncestors,
     } = config as any;
     const isItemType = type === 'node' || type === 'edge' || type === 'combo';
-
     // Removing
     if (action === 'remove') {
       if (isItemType) {
@@ -841,7 +852,6 @@ export class ItemController {
         return;
       }
     }
-
     // Adding / Updating
     if (isItemType) {
       const item = this.itemMap.get(id);
@@ -862,6 +872,7 @@ export class ItemController {
         onlyDrawKeyShape,
         upsertAncestors,
       );
+
       if (onlyDrawKeyShape) {
         // only update node positions to cloned node container(group)
         if (
@@ -945,6 +956,10 @@ export class ItemController {
   }
   public getTransient(id: string) {
     return this.transientObjectMap.get(id);
+  }
+
+  public getTransientItem(id: ID) {
+    return this.transientItemMap[id];
   }
 
   /**
@@ -1088,6 +1103,8 @@ export class ItemController {
         edgeTheme,
       );
 
+      const nodeMap = filterItemMapByType(itemMap, 'node') as Map<ID, Node>;
+
       itemMap.set(
         id,
         new Edge({
@@ -1100,6 +1117,7 @@ export class ItemController {
           },
           sourceItem,
           targetItem,
+          nodeMap,
           zoom,
           theme: itemTheme as {
             styles: EdgeStyleSet;
@@ -1192,6 +1210,56 @@ export class ItemController {
       return false;
     }
     return item.isVisible();
+  }
+
+  /**
+   * Identify edges that are intersected by a particular node
+   * @param nodeId node id
+   * @param graphCore
+   * @returns
+   */
+  public findNearEdgesByNode(nodeId: ID, graphCore: GraphCore) {
+    const edges = graphCore.getAllEdges();
+
+    const canvasBBox = this.graph.getRenderBBox(undefined) as AABB;
+    const quadTree = new QuadTree(canvasBBox, 4);
+
+    each(edges, (edge) => {
+      const {
+        data: { x: sourceX, y: sourceY },
+      } = graphCore.getNode(edge.source);
+      const {
+        data: { x: targetX, y: targetY },
+      } = graphCore.getNode(edge.target);
+
+      quadTree.insert({
+        id: edge.id,
+        p1: { x: sourceX, y: sourceY },
+        p2: { x: targetX, y: targetY },
+        bbox: this.graph.getRenderBBox(edge.id) as AABB,
+      });
+    });
+
+    // update node position
+    const node = (this.getTransientItem(nodeId) ||
+      this.getItemById(nodeId)) as Node;
+    const nodeBBox = this.graph.getRenderBBox(nodeId) as AABB;
+    const nodeData = node?.model?.data;
+    if (nodeData) {
+      nodeBBox.update(
+        [nodeData.x as number, nodeData.y as number, 0],
+        nodeBBox.halfExtents,
+      );
+    }
+
+    const checker = new EdgeCollisionChecker(quadTree);
+    const collisions = checker.getCollidingEdges(nodeBBox);
+
+    const collidingEdges = map(collisions, (collision) =>
+      graphCore.getEdge(collision.id),
+    );
+
+    return collidingEdges;
   }
 
   public sortByComboTree(graphCore: GraphCore) {
@@ -1463,4 +1531,17 @@ const getItemTheme = (
     styles: themeStyle,
     lodStrategy: formattedLodStrategy,
   };
+};
+
+const filterItemMapByType = (
+  itemMap: Map<ID, Node | Edge | Combo>,
+  type: ITEM_TYPE | ITEM_TYPE[],
+): Map<ID, Node | Edge | Combo | Group> => {
+  const filteredMap = new Map<ID, Node | Edge | Combo | Group>();
+  itemMap.forEach((value, key) => {
+    if (value.type === type) {
+      filteredMap.set(key, value);
+    }
+  });
+  return filteredMap;
 };

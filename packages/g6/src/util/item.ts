@@ -128,6 +128,5 @@ export const upsertTransientItem = (
       currentAncestor = graphCore.getParent(currentAncestor.id, 'combo');
     }
   }
-
   return transientItem;
 };

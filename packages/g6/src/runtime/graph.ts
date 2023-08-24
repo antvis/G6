@@ -47,6 +47,7 @@ import type {
 import { FitViewRules, GraphTransformOptions } from '../types/view';
 import { changeRenderer, createCanvas } from '../util/canvas';
 import { formatPadding } from '../util/shape';
+import Node from '../item/node';
 import {
   DataController,
   ExtensionController,
@@ -897,6 +898,15 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    */
   public getComboChildrenData(comboId: ID): (ComboModel | NodeModel)[] {
     return this.dataController.findChildren(comboId, 'combo');
+  }
+
+  /**
+   * Retrieve the nearby edges for a given node using quadtree collision detection.
+   * @param nodeId node id
+   */
+  public getNearEdgesForNode(nodeId: ID): EdgeModel[] {
+    const { graphCore } = this.dataController;
+    return this.itemController.findNearEdgesByNode(nodeId, graphCore);
   }
 
   /**
