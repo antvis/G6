@@ -41,6 +41,7 @@ import { getExtension } from '../../util/extension';
 export class DataController {
   public graph: IGraph;
   public extensions = [];
+  public preCheck: (data: GraphData) => GraphData;
   /**
    * User input data.
    */
@@ -140,6 +141,7 @@ export class DataController {
    */
   private tap() {
     this.extensions = this.getExtensions();
+    this.preCheck = getExtension('validate-data', registry.useLib, 'transform');
     this.graph.hooks.datachange.tap(this.onDataChange.bind(this));
     this.graph.hooks.treecollapseexpand.tap(
       this.onTreeCollapseExpand.bind(this),
@@ -168,16 +170,16 @@ export class DataController {
     const change = () => {
       switch (changeType) {
         case 'remove':
-          this.removeData(data as GraphData);
+          this.removeData(this.preCheck?.(data as GraphData));
           break;
         case 'update':
-          this.updateData(data as GraphData);
+          this.updateData(data);
           break;
         case 'moveCombo':
-          this.moveCombo(data as GraphData);
+          this.moveCombo(this.preCheck?.(data as GraphData));
           break;
         case 'addCombo':
-          this.addCombo(data as GraphData);
+          this.addCombo(this.preCheck?.(data as GraphData));
           break;
         default:
           // changeType is 'replace' | 'mergeReplace' | 'union'
@@ -511,7 +513,11 @@ export class DataController {
       );
       return;
     }
-    return { type: type || 'graphData', data: data as GraphData };
+
+    return {
+      type: type || 'graphData',
+      data: this.preCheck(data as GraphData),
+    };
   }
 
   /**
