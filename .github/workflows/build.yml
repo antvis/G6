@@ -38,8 +38,8 @@ jobs:
             ${{ runner.os }}-pnpm-store-
 
       - name: Install Dependencies
-          if: steps.cache.outputs.cache-hit != 'true'
-          run: pnpm install --no-frozen-lockfile
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: pnpm install --no-frozen-lockfile
 
       - name: Run CI
         run: |
