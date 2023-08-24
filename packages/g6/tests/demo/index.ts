@@ -40,6 +40,7 @@ import ellipse from './demo/ellipse';
 import treeGraph from './tree/treeGraph';
 import user_defined_canvas from './user-defined-canvas/circular';
 import visual from './visual/visual';
+import diamond from './demo/diamond';
 export {
   animations_node_build_in,
   behaviors_activateRelations,
@@ -82,4 +83,5 @@ export {
   triangle,
   user_defined_canvas,
   visual,
+  diamond
 };
