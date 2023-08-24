@@ -1431,6 +1431,16 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
   }
 
   /**
+   * Get all the state names with value true for an item.
+   * @param id the id for the item
+   * @returns {string[]} the state names with value true
+   * @group Item
+   */
+  public getItemAllStates(id: ID): string[] {
+    return this.itemController.getItemAllStates(id);
+  }
+
+  /**
    * Clear all the states for item(s).
    * @param ids the id(s) for the item(s) to be clear
    * @param states the states' names, all the states wil be cleared if states is not assigned
@@ -1586,6 +1596,10 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     dx: number,
     dy: number,
     upsertAncestors?: boolean,
+    callback?: (
+      model: NodeModel | EdgeModel | ComboModel,
+      canceled?: boolean,
+    ) => void,
   ): ComboModel[] {
     const idArr = isArray(ids) ? ids : [ids];
     const { graphCore } = this.dataController;
@@ -1600,6 +1614,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
         theme: specification,
         upsertAncestors,
         action: 'updatePosition',
+        callback,
       });
       this.emit('afteritemchange', {
         type: 'combo',

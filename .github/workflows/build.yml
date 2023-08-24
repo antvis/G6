@@ -28,13 +28,13 @@ jobs:
 
       # postInstall will build the product
       - name: Install dependencies and Build the product
-        run: pnpm install
+        run: pnpm install --no-frozen-lockfile
 
       - name: Run CI
         run: |
           cd packages/g6
           npm run ci
-          
+
       - name: Workflow failed alert
         if: ${{ failure() }}
         uses: actions-cool/maintain-one-comment@main

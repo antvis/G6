@@ -274,6 +274,10 @@ export interface IGraph<
     dx: number,
     dy: number,
     upsertAncestors?: boolean,
+    callback?: (
+      model: NodeModel | EdgeModel | ComboModel,
+      canceled?: boolean,
+    ) => void,
     stack?: boolean,
   ) => ComboModel[];
 
@@ -497,6 +501,13 @@ export interface IGraph<
    * @group Item
    */
   getItemState: (id: ID, state: string) => boolean | string;
+  /**
+   * Get all the state names with value true for an item.
+   * @param id the id for the item
+   * @returns {string[]} the state names with value true
+   * @group Item
+   */
+  getItemAllStates: (id: ID) => string[];
   /**
    * Clear all the states for item(s).
    * @param ids the id(s) for the item(s) to be clear

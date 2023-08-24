@@ -48,6 +48,7 @@ import toolbar from './plugin/toolbar';
 import Tooltip from './plugin/tooltip';
 import lassoSelector from './selector/lasso';
 import rectSelector from './selector/rect';
+import { RectCombo } from './item/combo/rect';
 
 const stdLib = {
   transforms: {
@@ -110,6 +111,7 @@ const stdLib = {
   },
   combos: {
     'circle-combo': CircleCombo,
+    'rect-combo': RectCombo,
   },
 };
 

@@ -4,6 +4,7 @@ import behaviors_brush_select from './behaviors/brush-select';
 import behaviors_click_select from './behaviors/click-select';
 import behaviors_collapse_expand_tree from './behaviors/collapse-expand-tree';
 import comboBasic from './combo/combo-basic';
+import comboRect from './combo/combo-rect';
 import bugReproduce from './demo/bugReproduce';
 import demo from './demo/demo';
 import demoFor4 from './demo/demoFor4';
@@ -37,11 +38,11 @@ import fisheye from './plugins/fisheye';
 import history from './plugins/history';
 import history_combo from './plugins/history-combo';
 import toolbar from './plugins/toolbar';
-
 import ellipse from './demo/ellipse';
 import treeGraph from './tree/treeGraph';
 import user_defined_canvas from './user-defined-canvas/circular';
 import visual from './visual/visual';
+
 export {
   animations_node_build_in,
   behaviors_activateRelations,
@@ -50,34 +51,35 @@ export {
   behaviors_collapse_expand_tree,
   bugReproduce,
   comboBasic,
+  comboRect,
   cubic_edge,
   cubic_horizon_edge,
   cubic_vertical_edge,
   demo,
   demoFor4,
+  donut_node,
   ellipse,
   fisheye,
   hexagon,
-  history,
   history_combo,
+  history,
   layouts_circular,
   layouts_custom,
   layouts_d3force,
   layouts_dagre,
-  layouts_force,
   layouts_force_3d,
-  layouts_force_wasm,
   layouts_force_wasm_3d,
+  layouts_force_wasm,
+  layouts_force,
   layouts_forceatlas2_wasm,
   layouts_fruchterman_gpu,
   layouts_fruchterman_wasm,
   layouts_grid,
-  donut_node,
   line_edge,
   menu,
-  performance,
-  performance_layout,
   performance_layout_3d,
+  performance_layout,
+  performance,
   quadratic,
   rect,
   toolbar,

@@ -111,11 +111,11 @@ describe('drag-node', () => {
       expect(graph.getItemVisible('edge2')).toBe(false);
       // @ts-ignore
       expect(
-        graph.itemController.transientItemMap['node1'].model.data.x,
+        graph.itemController.transientItemMap.get('node1').model.data.x,
       ).toEqual(250);
       // @ts-ignore
       expect(
-        graph.itemController.transientItemMap['node1'].model.data.y,
+        graph.itemController.transientItemMap.get('node1').model.data.y,
       ).toEqual(350);
 
       // Should update position when drag ends.

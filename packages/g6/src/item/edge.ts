@@ -1,6 +1,6 @@
 import { Group } from '@antv/g';
 import { clone, throttle } from '@antv/util';
-import { EdgeDisplayModel, EdgeModel, NodeModelData } from '../types';
+import { EdgeDisplayModel, EdgeModel } from '../types';
 import { EdgeModelData } from '../types/edge';
 import { DisplayMapper, State, LodStrategyObj } from '../types/item';
 import { updateShapes } from '../util/shape';
@@ -18,8 +18,8 @@ interface IProps {
   stateMapper?: {
     [stateName: string]: DisplayMapper;
   };
-  sourceItem: Node;
-  targetItem: Node;
+  sourceItem: Node | Combo;
+  targetItem: Node | Combo;
   zoom?: number;
   theme: {
     styles: EdgeStyleSet;
@@ -36,8 +36,8 @@ export default class Edge extends Item {
   public displayModel: EdgeDisplayModel;
   /** Set to different value in implements */
   public type: 'edge' = 'edge';
-  public sourceItem: Node;
-  public targetItem: Node;
+  public sourceItem: Node | Combo;
+  public targetItem: Node | Combo;
 
   constructor(props: IProps) {
     super(props);
