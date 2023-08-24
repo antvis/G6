@@ -1,5 +1,10 @@
-import G6 from '../../../src/index';
+import G6, { stdLib } from '../../../src/index';
 import { container, height, width } from '../../datasets/const';
+import {
+  data as comboData,
+  smallData as smallComboData,
+} from '../../datasets/combo-data';
+
 export default () => {
   const graph = new G6.Graph({
     container,
@@ -7,7 +12,9 @@ export default () => {
     height,
     type: 'graph',
     layout: {
-      type: 'grid',
+      type: 'comboCombined',
+      // innerLayout: new stdLib.layouts['force']({ minMovement: 1 }),
+      innerLayout: new stdLib.layouts['concentric'](),
     },
     node: {
       labelShape: {
@@ -31,7 +38,7 @@ export default () => {
         id: model.id,
         data: {
           ...model.data,
-          type: 'rect-combo',
+          type: 'circle-combo',
           keyShape: {
             padding: [10, 20, 30, 40],
             width: 50,
@@ -71,36 +78,12 @@ export default () => {
         },
       };
     },
-    data: {
-      nodes: [
-        // { id: 'node1', data: {} },
-        // { id: 'node2', data: {} },
-        // { id: 'node3', data: {} },
-        { id: 'node1', data: { parentId: 'combo1' } },
-        { id: 'node2', data: { parentId: 'combo1' } },
-        { id: 'node3', data: { parentId: 'combo2' } },
-        { id: 'node4', data: { parentId: 'combo1' } },
-        { id: 'node5', data: {} },
-      ],
-      edges: [
-        { id: 'edge1', source: 'node1', target: 'node2', data: {} },
-        { id: 'edge2', source: 'node1', target: 'node3', data: {} },
-        { id: 'edge3', source: 'node1', target: 'node4', data: {} },
-        { id: 'edge4', source: 'node2', target: 'node3', data: {} },
-        { id: 'edge5', source: 'node3', target: 'node4', data: {} },
-        { id: 'edge6', source: 'node4', target: 'node5', data: {} },
-        // { id: 'edge7', source: 'node5', target: 'combo1', data: {} },
-      ],
-      combos: [
-        { id: 'combo1', data: { parentId: 'combo2' } }, // collapsed: true
-        { id: 'combo2', data: {} },
-        { id: 'combo3', data: {} },
-      ],
-    },
+    data: comboData,
     modes: {
       default: [
         'collapse-expand-combo',
         'drag-canvas',
+        'zoom-canvas',
         {
           type: 'click-select',
           itemTypes: ['node', 'edge', 'combo'],
