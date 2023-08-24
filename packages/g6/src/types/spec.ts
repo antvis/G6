@@ -1,12 +1,7 @@
 import { Canvas } from '@antv/g';
 import { AnimateCfg } from './animate';
 import { Point } from './common';
-import {
-  FetchDataConfig,
-  GraphData,
-  InlineDataConfig,
-  TransformerFn,
-} from './data';
+import { DataConfig, TransformerFn } from './data';
 import {
   EdgeDisplayModel,
   EdgeEncode,
@@ -37,7 +32,6 @@ export interface Specification<
   B extends BehaviorRegistry,
   T extends ThemeRegistry,
 > {
-  type: 'graph' | 'tree';
   container?: string | HTMLElement;
   backgroundCanvas?: Canvas;
   canvas?: Canvas;
@@ -62,7 +56,7 @@ export interface Specification<
   optimizeThreshold?: number;
 
   /** data */
-  data: GraphData | InlineDataConfig | FetchDataConfig; // TODO: more
+  data?: DataConfig;
   transform?:
     | string[]
     | {

@@ -124,7 +124,6 @@ const create2DGraph = (
     container: container as HTMLElement,
     width,
     height: 1400,
-    type: 'graph',
     renderer: rendererType,
     data: dataFor2D,
     modes: {
@@ -223,7 +222,6 @@ const create3DGraph = async () => {
     container: container as HTMLDivElement,
     width,
     height: 1400,
-    type: 'graph',
     renderer: 'webgl-3d',
     data: dataFor3D,
     // layout: {

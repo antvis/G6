@@ -1,14 +1,15 @@
 import EventEmitter from '@antv/event-emitter';
 import { AABB, Canvas, DisplayObject, PointLike } from '@antv/g';
 import { ID } from '@antv/graphlib';
-import { Hooks } from '../types/hook';
 import { Command } from '../stdlib/plugin/history/command';
+import { Hooks } from '../types/hook';
 import { CameraAnimationOptions } from './animate';
 import { BehaviorOptionsOf, BehaviorRegistry } from './behavior';
 import { ComboModel, ComboUserModel } from './combo';
 import { Padding, Point } from './common';
 import { GraphData } from './data';
 import { EdgeModel, EdgeUserModel } from './edge';
+import type { StackType } from './history';
 import { ITEM_TYPE, SHAPE_TYPE } from './item';
 import { LayoutOptions } from './layout';
 import { NodeModel, NodeUserModel } from './node';
@@ -16,7 +17,6 @@ import { RendererName } from './render';
 import { Specification } from './spec';
 import { ThemeOptionsOf, ThemeRegistry } from './theme';
 import { FitViewRules, GraphTransformOptions } from './view';
-import type { StackType } from './history';
 
 export interface IGraph<
   B extends BehaviorRegistry = BehaviorRegistry,
@@ -234,6 +234,11 @@ export interface IGraph<
           ComboUserModel | Partial<NodeUserModel>[] | Partial<ComboUserModel>[]
         >,
     upsertAncestors?: boolean,
+    disableAnimate?: boolean,
+    callback?: (
+      model: NodeModel | EdgeModel | ComboModel,
+      canceled?: boolean,
+    ) => void,
     stack?: boolean,
   ) => NodeModel | ComboModel | NodeModel[] | ComboModel[];
 
@@ -251,6 +256,8 @@ export interface IGraph<
           ComboUserModel | Partial<NodeUserModel>[] | Partial<ComboUserModel>[]
         >,
     upsertAncestors?: boolean,
+    disableAnimate?: boolean,
+    callback?: (model: NodeModel | EdgeModel | ComboModel) => void,
     stack?: boolean,
   ) => NodeModel | ComboModel | NodeModel[] | ComboModel[];
 
@@ -446,14 +453,14 @@ export interface IGraph<
    * @returns
    * @group Data
    */
-  showItem: (ids: ID | ID[], disableAnimate?: boolean, stack?: boolean) => void;
+  showItem: (ids: ID | ID[], disableAnimate?: boolean) => void;
   /**
    * Hide the item(s).
    * @param ids the item id(s) to be hidden
    * @returns
    * @group Item
    */
-  hideItem: (ids: ID | ID[], disableAnimate?: boolean, stack?: boolean) => void;
+  hideItem: (ids: ID | ID[], disableAnimate?: boolean) => void;
   /**
    * Make the item(s) to the front.
    * @param ids the item id(s) to front
@@ -550,7 +557,7 @@ export interface IGraph<
   /**
    * Layout the graph (with current configurations if cfg is not assigned).
    */
-  layout: (options?: LayoutOptions) => Promise<void>;
+  layout: (options?: LayoutOptions, disableAnimate?: boolean) => Promise<void>;
   stopLayout: () => void;
 
   // ===== interaction =====
@@ -727,4 +734,23 @@ export interface IGraph<
    * @param callback The func containing operations to be batched together.
    */
   clearStack: (stackType?: StackType) => void;
+  // ===== tree operations =====
+  /**
+   * Collapse sub tree(s).
+   * @param ids Root id(s) of the sub trees.
+   * @param disableAnimate Whether disable the animations for this operation.
+   * @param stack Whether push this operation to stack.
+   * @returns
+   * @group Tree
+   */
+  collapse: (ids: ID | ID[], disableAnimate?: boolean, stack?: boolean) => void;
+  /**
+   * Expand sub tree(s).
+   * @param ids Root id(s) of the sub trees.
+   * @param disableAnimate Whether disable the animations for this operation.
+   * @param stack Whether push this operation to stack.
+   * @returns
+   * @group Tree
+   */
+  expand: (ids: ID | ID[], disableAnimate?: boolean, stack?: boolean) => void;
 }

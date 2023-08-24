@@ -1,7 +1,7 @@
 import { resetEntityCounter } from '@antv/g';
 import lineEdge from '../demo/item/edge/line-edge';
-import './utils/useSnapshotMatchers';
 import { createContext } from './utils';
+import './utils/useSnapshotMatchers';
 
 describe('Items edge line', () => {
   beforeEach(() => {

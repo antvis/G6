@@ -1,52 +1,8 @@
-import G6 from '../../../src/index';
-import { container, height, width } from '../../datasets/const';
-
-const createOperationContainer = (container: HTMLElement) => {
-  const operationContainer = document.createElement('div');
-  operationContainer.id = 'operation-bar';
-  operationContainer.style.width = '100%';
-  operationContainer.style.height = '50px';
-  operationContainer.style.lineHeight = '50px';
-  operationContainer.style.backgroundColor = '#eee';
-
-  container.appendChild(operationContainer);
-};
-
-const createOperations = (graph): any => {
-  const parentEle = document.getElementById('operation-bar');
-  if (!parentEle) return;
-
-  // undo/redo
-  const undoButton = document.createElement('button');
-  undoButton.innerText = 'undo';
-  undoButton.addEventListener('click', () => {
-    graph.undo();
-  });
-  const redoButton = document.createElement('button');
-  redoButton.innerText = 'redo';
-  redoButton.addEventListener('click', () => {
-    graph.redo();
-  });
-
-  undoButton.disabled = graph.canUndo();
-  redoButton.disabled = graph.canRedo();
-
-  parentEle.appendChild(undoButton);
-  parentEle.appendChild(redoButton);
-
-  return { undoButton, redoButton };
-};
-
-export default (context) => {
-  const { container } = context;
-
-  createOperationContainer(container);
-
-  const graph = new G6.Graph({
-    container,
-    width,
-    height,
-    type: 'graph',
+import { Graph } from '../../../src/index';
+import { TestCaseContext } from '../interface';
+export default (context: TestCaseContext) => {
+  const graph = new Graph({
+    ...context,
     layout: {
       type: 'grid',
     },

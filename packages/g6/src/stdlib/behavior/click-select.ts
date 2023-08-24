@@ -67,7 +67,7 @@ export default class ClickSelect extends Behavior {
    */
   private canvasPointerDown: Point | undefined = undefined;
   private canvasPointerMove = false;
-  private timeout: NodeJS.Timeout = undefined;
+  private timeout: ReturnType<typeof setTimeout> = undefined;
 
   constructor(options: Partial<ClickSelectOptions>) {
     super(Object.assign({}, DEFAULT_OPTIONS, options));
