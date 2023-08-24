@@ -1,5 +1,3 @@
-
-
 import animations_node_build_in from './animations/node-build-in';
 import behaviors_activateRelations from './behaviors/activate-relations';
 import behaviors_brush_select from './behaviors/brush-select';
@@ -13,7 +11,7 @@ import cubic_horizon_edge from './item/edge/cubic-horizon-edge';
 import cubic_vertical_edge from './item/edge/cubic-vertical-edge';
 import demo from './demo/demo';
 // import demoFor4 from './demo/demoFor4';
-import demoForPolyline from './demo/demoForPolyline'
+import demoForPolyline from './demo/demoForPolyline';
 import donut_node from './item/node/donut-node';
 import ellipse from './demo/ellipse';
 import fisheye from './plugins/fisheye';
@@ -46,6 +44,7 @@ import treeGraph from './tree/treeGraph';
 import triangle from './demo/triangle';
 import user_defined_canvas from './user-defined-canvas/circular';
 import visual from './visual/visual';
+import diamond from './demo/diamond';
 
 export {
   animations_node_build_in,
@@ -94,4 +93,5 @@ export {
   triangle,
   user_defined_canvas,
   visual,
+  diamond,
 };

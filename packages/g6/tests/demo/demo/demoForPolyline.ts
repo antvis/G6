@@ -1,6 +1,6 @@
+import Stats from 'stats.js';
 import G6 from '../../../src/index';
 import { container, height, width } from '../../datasets/const';
-import Stats from 'stats.js';
 
 export default () => {
   const data = {
