@@ -140,11 +140,12 @@ const graph = new G6.Graph({
 ## 开发 (5.0 Alpha)
 
 ```bash
+# 安装依赖
+
+$ pnpm install
+
 # 从项目根目录进入到 g6 包文件目录下
 $ cd packages/g6
-
-# 安装依赖
-$ npm install
 
 # 构建
 $ npm run build
