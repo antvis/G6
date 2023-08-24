@@ -486,7 +486,16 @@ export class ItemController {
             nodeTheme,
           );
         }
-        graphCore.getRelatedEdges(id).forEach((edge) => {
+
+        const preventPolylineEdgeOverlap =
+          innerModel?.data?.preventPolylineEdgeOverlap || false;
+        const relatedEdgeInnerModels = preventPolylineEdgeOverlap
+          ? this.findNearEdgesByNode(id, graphCore).concat(
+              graphCore.getRelatedEdges(id),
+            )
+          : graphCore.getRelatedEdges(id);
+
+        relatedEdgeInnerModels.forEach((edge) => {
           edgeIdsToUpdate.add(edge.id);
           nodeRelatedIdsToUpdate.add(edge.id);
         });

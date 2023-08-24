@@ -37,7 +37,7 @@ export default class Edge extends Item {
   public displayModel: EdgeDisplayModel;
   /** Set to different value in implements */
   public type: 'edge' = 'edge';
-  public nodeMap: Map<ID, Node | Combo>;
+  public nodeMap: Map<ID, Node>;
   public sourceItem: Node | Combo;
   public targetItem: Node | Combo;
 
@@ -48,8 +48,13 @@ export default class Edge extends Item {
     this.sourceItem = sourceItem;
     this.targetItem = targetItem;
     this.nodeMap = nodeMap;
-    this.nodeMap.set(sourceItem.getID(), sourceItem);
-    this.nodeMap.set(targetItem.getID(), targetItem);
+    // todo: combo
+    if (sourceItem.getType() === 'node') {
+      this.nodeMap.set(sourceItem.getID(), sourceItem as Node);
+    }
+    if (sourceItem.getType() === 'node') {
+      this.nodeMap.set(targetItem.getID(), targetItem as Node);
+    }
     this.draw(this.displayModel);
   }
   public draw(

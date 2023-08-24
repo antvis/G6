@@ -12,7 +12,7 @@ import cubic_edge from './item/edge/cubic-edge';
 import cubic_horizon_edge from './item/edge/cubic-horizon-edge';
 import cubic_vertical_edge from './item/edge/cubic-vertical-edge';
 import demo from './demo/demo';
-import demoFor4 from './demo/demoFor4';
+// import demoFor4 from './demo/demoFor4';
 import demoForPolyline from './demo/demoForPolyline'
 import donut_node from './item/node/donut-node';
 import ellipse from './demo/ellipse';
@@ -60,7 +60,7 @@ export {
   cubic_horizon_edge,
   cubic_vertical_edge,
   demo,
-  demoFor4,
+  // demoFor4,
   demoForPolyline,
   donut_node,
   ellipse,
