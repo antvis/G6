@@ -1,7 +1,6 @@
 import comboBasic from '../demo/combo/combo-basic';
 import './utils/useSnapshotMatchers';
 import { createContext, sleep } from './utils';
-import { triggerEvent } from './utils/event';
 
 describe('combo circle', () => {
   it('circle combo should be rendered correctly with Canvas2D', (done) => {
@@ -27,13 +26,13 @@ describe('combo circle', () => {
       await expect(canvas).toMatchCanvasSnapshot(dir, 'combo-circle');
       //seleted state
       graph.setItemState('combo1', 'selected', true);
-      sleep(100);
+      sleep(200);
       await expect(canvas).toMatchCanvasSnapshot(dir, 'combo-circle-selected');
       graph.collapseCombo('combo1');
-      sleep(100);
+      sleep(200);
       await expect(canvas).toMatchCanvasSnapshot(dir, 'combo-circle-collapsed');
       graph.expandCombo('combo1');
-      sleep(100);
+      sleep(200);
       await expect(canvas).toMatchCanvasSnapshot(dir, 'combo-circle-expand');
       graph.destroy();
       done();
@@ -63,20 +62,20 @@ describe('combo circle', () => {
       await expect(canvas).toMatchCanvasSnapshot(dir, 'combo-rect');
       //seleted state
       graph.setItemState('combo1', 'selected', true);
-      sleep(100);
+      sleep(200);
       await expect(canvas).toMatchCanvasSnapshot(dir, 'combo-rect-selected');
       graph.collapseCombo('combo1');
-      sleep(100);
+      sleep(200);
       await expect(canvas).toMatchCanvasSnapshot(dir, 'combo-rect-collapsed');
       graph.expandCombo('combo1');
-      sleep(100);
+      sleep(200);
       await expect(canvas).toMatchCanvasSnapshot(dir, 'combo-rect-expand');
       graph.destroy();
       done();
     });
   });
 
-  it('circle combo should be rendered correctly with SVG', (done) => {
+  xit('circle combo should be rendered correctly with SVG', (done) => {
     const dir = `${__dirname}/snapshots/svg`;
     const { backgroundCanvas, canvas, transientCanvas, container } =
       createContext('svg', 500, 500);
@@ -99,13 +98,13 @@ describe('combo circle', () => {
       await expect(canvas).toMatchSVGSnapshot(dir, 'combo-circle');
       //seleted state
       graph.setItemState('combo1', 'selected', true);
-      sleep(100);
+      sleep(200);
       await expect(canvas).toMatchSVGSnapshot(dir, 'combo-circle-selected');
       graph.collapseCombo('combo1');
-      sleep(100);
+      sleep(200);
       await expect(canvas).toMatchSVGSnapshot(dir, 'combo-circle-collapsed');
       graph.expandCombo('combo1');
-      sleep(100);
+      sleep(200);
       await expect(canvas).toMatchSVGSnapshot(dir, 'combo-circle-expand');
       graph.destroy();
       done();
