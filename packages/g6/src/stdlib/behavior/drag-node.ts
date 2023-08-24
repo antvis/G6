@@ -120,7 +120,7 @@ export default class DragNode extends Behavior {
     const events: any = {
       'node:pointerdown': this.onPointerDown,
       pointermove: this.onPointerMove,
-      click: this.onPointerUp,
+      click: this.onClick,
       // FIXME: IG6Event -> keyboard event
       keydown: this.onKeydown as any,
     };
@@ -133,7 +133,7 @@ export default class DragNode extends Behavior {
       };
     } else {
       return {
-        pointerup: this.onPointerUp,
+        pointerup: this.onClick,
         ...events,
       };
     }
@@ -236,14 +236,16 @@ export default class DragNode extends Behavior {
           selectedNodeIds,
           this.hiddenComboTreeItems,
         );
-        this.graph.hideItem(
-          this.hiddenEdges.map((edge) => edge.id),
-          true,
-        );
-        this.graph.hideItem(
-          this.hiddenComboTreeItems.map((child) => child.id),
-          true,
-        );
+        this.graph.executeWithoutStacking(() => {
+          this.graph.hideItem(
+            this.hiddenEdges.map((edge) => edge.id),
+            true,
+          );
+          this.graph.hideItem(
+            this.hiddenComboTreeItems.map((child) => child.id),
+            true,
+          );
+        });
       }
 
       // Draw transient nodes and edges.
@@ -266,15 +268,17 @@ export default class DragNode extends Behavior {
         });
 
         // Hide original edges and nodes. They will be restored when pointerup.
-        this.graph.hideItem(selectedNodeIds, true);
-        this.graph.hideItem(
-          this.hiddenEdges.map((edge) => edge.id),
-          true,
-        );
-        this.graph.hideItem(
-          this.hiddenComboTreeItems.map((combo) => combo.id),
-          true,
-        );
+        this.graph.executeWithoutStacking(() => {
+          this.graph.hideItem(selectedNodeIds, true);
+          this.graph.hideItem(
+            this.hiddenEdges.map((edge) => edge.id),
+            true,
+          );
+          this.graph.hideItem(
+            this.hiddenComboTreeItems.map((combo) => combo.id),
+            true,
+          );
+        });
       } else {
         this.graph.frontItem(selectedNodeIds);
       }
@@ -418,6 +422,7 @@ export default class DragNode extends Behavior {
   }
 
   public restoreHiddenItems() {
+    this.graph.pauseStacking();
     if (this.hiddenEdges.length) {
       this.graph.showItem(
         this.hiddenEdges.map((edge) => edge.id),
@@ -440,6 +445,17 @@ export default class DragNode extends Behavior {
         true,
       );
     }
+    this.graph.resumeStacking();
+  }
+
+  public clearState() {
+    // Reset state.
+    this.originPositions = [];
+  }
+
+  public onClick(event: IG6GraphEvent) {
+    this.onPointerUp(event);
+    this.clearState();
   }
 
   public onPointerUp(event: IG6GraphEvent) {
@@ -526,6 +542,8 @@ export default class DragNode extends Behavior {
   public onDropCombo(event: IG6GraphEvent) {
     event.stopPropagation();
     const newParentId = event.itemId;
+    this.graph.startBatch();
+    this.onPointerUp(event);
     this.originPositions.forEach(({ id }) => {
       const model = this.graph.getNodeData(id);
       if (!model) return;
@@ -533,15 +551,19 @@ export default class DragNode extends Behavior {
       if (parentId === newParentId) return;
       this.graph.updateData('node', { id, data: { parentId: newParentId } });
     });
-    this.onPointerUp(event);
+    this.clearState();
+    this.graph.stopBatch();
   }
 
   public onDropCanvas(event: IG6GraphEvent) {
+    this.graph.startBatch();
+    this.onPointerUp(event);
     this.originPositions.forEach(({ id }) => {
       const { parentId } = this.graph.getNodeData(id).data;
       if (!parentId) return;
       this.graph.updateData('node', { id, data: { parentId: undefined } });
     });
-    this.onPointerUp(event);
+    this.clearState();
+    this.graph.stopBatch();
   }
 }

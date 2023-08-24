@@ -69,17 +69,25 @@ export interface Hooks {
     ids: ID[];
     states?: string[];
     value?: boolean;
+    action?: string;
+    enableStack?: boolean;
+    changes?: any;
   }>;
   itemvisibilitychange: IHook<{
     ids: ID[];
     graphCore?: GraphCore;
     value?: boolean;
     animate?: boolean;
+    action?: string;
+    enableStack?: boolean;
+    changes?: any;
   }>;
   itemzindexchange: IHook<{
     ids: ID[];
     action: 'front' | 'back';
     graphCore: GraphCore;
+    enableStack?: boolean;
+    changes?: any;
   }>;
   transientupdate: IHook<{
     type: ITEM_TYPE | SHAPE_TYPE;

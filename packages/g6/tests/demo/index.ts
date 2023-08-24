@@ -8,10 +8,12 @@ import comboRect from './combo/combo-rect';
 import bugReproduce from './demo/bugReproduce';
 import demo from './demo/demo';
 import demoFor4 from './demo/demoFor4';
+import hexagon from './demo/hexagon';
 import menu from './demo/menu';
 import quadratic from './demo/quadratic';
 import rect from './demo/rect';
 import tooltip from './demo/tooltip';
+import triangle from './demo/triangle';
 import donut_node from './item/node/donut-node';
 import cubic_edge from './item/edge/cubic-edge';
 import cubic_horizon_edge from './item/edge/cubic-horizon-edge';
@@ -33,8 +35,8 @@ import performance_layout from './performance/layout';
 import performance_layout_3d from './performance/layout-3d';
 import performance from './performance/performance';
 import fisheye from './plugins/fisheye';
-import hexagon from './demo/hexagon';
-import triangle from './demo/triangle';
+import history from './plugins/history';
+import history_combo from './plugins/history-combo';
 import toolbar from './plugins/toolbar';
 import ellipse from './demo/ellipse';
 import treeGraph from './tree/treeGraph';
@@ -48,40 +50,42 @@ export {
   behaviors_click_select,
   behaviors_collapse_expand_tree,
   bugReproduce,
-  rect,
-  ellipse,
-  hexagon,
-  triangle,
   comboBasic,
   comboRect,
   cubic_edge,
   cubic_horizon_edge,
   cubic_vertical_edge,
-  line_edge,
-  quadratic,
   demo,
   demoFor4,
+  donut_node,
+  ellipse,
   fisheye,
+  hexagon,
+  history_combo,
+  history,
   layouts_circular,
   layouts_custom,
   layouts_d3force,
   layouts_dagre,
-  layouts_force,
   layouts_force_3d,
-  layouts_force_wasm,
   layouts_force_wasm_3d,
+  layouts_force_wasm,
+  layouts_force,
   layouts_forceatlas2_wasm,
   layouts_fruchterman_gpu,
   layouts_fruchterman_wasm,
   layouts_grid,
-  donut_node,
+  line_edge,
   menu,
-  performance,
-  performance_layout,
   performance_layout_3d,
+  performance_layout,
+  performance,
+  quadratic,
+  rect,
   toolbar,
   tooltip,
+  treeGraph,
+  triangle,
   user_defined_canvas,
   visual,
-  treeGraph,
 };

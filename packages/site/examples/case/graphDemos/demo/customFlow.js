@@ -241,7 +241,7 @@ const showRoute = (nodeData) => {
   rangeData.nodes.forEach(node => {
     const showIdx = showRangeIds.indexOf(+node.id);
     if (showIdx > -1) {
-      graph.showItem(node.id);
+      graph.showItem(node.id, false, false);
       rangeLayoutNodes.push(node);
     }
     else graph.hideItem(node.id);

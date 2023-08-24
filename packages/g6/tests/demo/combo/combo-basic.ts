@@ -12,6 +12,9 @@ export default (
     layout: {
       type: 'grid',
     },
+    stackCfg: {
+      ignoreStateChange: true,
+    },
     node: {
       labelShape: {
         position: 'center',

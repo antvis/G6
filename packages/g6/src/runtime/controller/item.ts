@@ -528,7 +528,9 @@ export class ItemController {
 
         const parentItem = this.itemMap.get(current.parentId);
         if (current.parentId && parentItem?.model.data.collapsed) {
-          this.graph.hideItem(innerModel.id);
+          this.graph.executeWithoutStacking(() => {
+            this.graph.hideItem(innerModel.id, false);
+          });
         }
       });
       updateRelatesThrottle();
@@ -718,9 +720,9 @@ export class ItemController {
             },
             'TB',
           );
-        } else {
-          item.toFront();
         }
+        // tocheck
+        item.toFront();
       } else {
         item.toBack();
         if (graphCore.hasTreeStructure('combo')) {
@@ -1207,7 +1209,11 @@ export class ItemController {
     const succeedIds: ID[] = [];
     // hide the succeeds
     graphComboTreeDfs(this.graph, [comboModel], (child) => {
-      if (child.id !== comboModel.id) this.graph.hideItem(child.id);
+      if (child.id !== comboModel.id) {
+        this.graph.executeWithoutStacking(() => {
+          this.graph.hideItem(child.id, false);
+        });
+      }
       relatedEdges = relatedEdges.concat(graphCore.getRelatedEdges(child.id));
       succeedIds.push(child.id);
     });
@@ -1242,7 +1248,9 @@ export class ItemController {
         },
       });
     });
-    this.graph.addData('edge', virtualEdges);
+    this.graph.executeWithoutStacking(() => {
+      this.graph.addData('edge', virtualEdges);
+    });
   }
 
   private expandCombo(graphCore: GraphCore, comboModel: ComboModel) {
@@ -1284,8 +1292,10 @@ export class ItemController {
       }),
     );
     // remove related virtual edges
-    this.graph.removeData('edge', uniq(relatedVirtualEdgeIds));
-    this.graph.showItem(edgesToShow.concat(nodesToShow));
+    this.graph.executeWithoutStacking(() => {
+      this.graph.removeData('edge', uniq(relatedVirtualEdgeIds));
+      this.graph.showItem(edgesToShow.concat(nodesToShow));
+    });
   }
 
   /**
