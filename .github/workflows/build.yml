@@ -18,8 +18,25 @@ jobs:
         with:
           node-version: 16
 
-      # postInstall will build the product
-      - name: Install dependencies and Build the product
+      - uses: pnpm/action-setup@v2
+        name: Install pnpm
+        with:
+          version: 8
+          run_install: false
+
+      - uses: actions/cache@v3
+        name: Setup pnpm cache
+        id: cache
+        with:
+          path: |
+            node_modules/
+            packages/g6/node_modules/
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install Dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
         run: pnpm install --no-frozen-lockfile
 
       - name: Run CI
