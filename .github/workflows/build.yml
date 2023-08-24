@@ -1,6 +1,6 @@
 name: build
 
-on: [push, pull_request]
+on: [pull_request]
 
 concurrency:
   group: ${{github.workflow}}-${{github.event_name}}-${{github.ref}}
@@ -26,15 +26,14 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'pnpm'
 
-      # postInstall will build the product
-      - name: Install dependencies and Build the product
-        run: pnpm install
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
 
       - name: Run CI
         run: |
           cd packages/g6
           npm run ci
-          
+
       - name: Workflow failed alert
         if: ${{ failure() }}
         uses: actions-cool/maintain-one-comment@main
