@@ -64,20 +64,20 @@ describe('theme', () => {
       },
     });
     graph.on('afterlayout', () => {
-      let node = graph.itemController.itemMap['node1'];
+      let node = graph.itemController.itemMap.get('node1');
       let nodeKeyShape = node.shapeMap.keyShape;
       let { fill: keyShapeFill, stroke: keyShapeStroke } = nodeKeyShape.style;
       expect(keyShapeFill).toBe('rgb(255, 230, 230)');
       expect(keyShapeStroke).toBe('#f00');
 
-      node = graph.itemController.itemMap['node2'];
+      node = graph.itemController.itemMap.get('node2');
       nodeKeyShape = node.shapeMap.keyShape;
       keyShapeFill = nodeKeyShape.style.fill;
       keyShapeStroke = nodeKeyShape.style.stroke;
       expect(keyShapeFill).toBe('rgb(230, 255, 230)');
       expect(keyShapeStroke).toBe('#0f0');
 
-      node = graph.itemController.itemMap['node3'];
+      node = graph.itemController.itemMap.get('node3');
       nodeKeyShape = node.shapeMap.keyShape;
       keyShapeFill = nodeKeyShape.style.fill;
       keyShapeStroke = nodeKeyShape.style.stroke;
@@ -95,7 +95,7 @@ describe('theme', () => {
       expect(keyShapeLineWidth).toBe(4);
       expect(keyShapeShadowColor).toBe('#00f');
 
-      let edge = graph.itemController.itemMap['edge1'];
+      let edge = graph.itemController.itemMap.get('edge1');
       let edgeKeyShape = edge.shapeMap.keyShape;
       let { stroke: edgeKeyShapeStroke } = edgeKeyShape.style;
       expect(edgeKeyShapeStroke).toBe('rgb(255, 153, 153)');
@@ -106,7 +106,7 @@ describe('theme', () => {
       expect(edgeKeyShape.style.lineWidth).toBe(2);
 
       // edge without dataType, follow the first pallete
-      edge = graph.itemController.itemMap['edge3'];
+      edge = graph.itemController.itemMap.get('edge3');
       edgeKeyShape = edge.shapeMap.keyShape;
       edgeKeyShapeStroke = edgeKeyShape.style.stroke;
       expect(edgeKeyShapeStroke).toBe('rgb(255, 153, 153)');
@@ -169,20 +169,20 @@ describe('theme', () => {
       },
     });
     graph.on('afterlayout', () => {
-      let node = graph.itemController.itemMap['node1'];
+      let node = graph.itemController.itemMap.get('node1');
       let nodeKeyShape = node.shapeMap.keyShape;
       let { fill: keyShapeFill, stroke: keyShapeStroke } = nodeKeyShape.style;
       expect(keyShapeFill).toBe('rgb(255, 230, 230)');
       expect(keyShapeStroke).toBe('#f00');
 
-      node = graph.itemController.itemMap['node2'];
+      node = graph.itemController.itemMap.get('node2');
       nodeKeyShape = node.shapeMap.keyShape;
       keyShapeFill = nodeKeyShape.style.fill;
       keyShapeStroke = nodeKeyShape.style.stroke;
       expect(keyShapeFill).toBe('rgb(230, 255, 230)');
       expect(keyShapeStroke).toBe('#0f0');
 
-      node = graph.itemController.itemMap['node3'];
+      node = graph.itemController.itemMap.get('node3');
       nodeKeyShape = node.shapeMap.keyShape;
       keyShapeFill = nodeKeyShape.style.fill;
       keyShapeStroke = nodeKeyShape.style.stroke;
@@ -201,7 +201,7 @@ describe('theme', () => {
       expect(keyShapeShadowColor).toBe('#00f');
 
       // node without dataType, follow the default(light) pallete
-      node = graph.itemController.itemMap['node4'];
+      node = graph.itemController.itemMap.get('node4');
       const { keyShape } = node.shapeMap;
       keyShapeStroke = keyShape.style.stroke;
       expect(keyShapeStroke).toBe(
@@ -217,7 +217,7 @@ describe('theme', () => {
         LightTheme.node.styles[0].selected.keyShape.lineWidth,
       );
 
-      let edge = graph.itemController.itemMap['edge1'];
+      let edge = graph.itemController.itemMap.get('edge1');
       let { keyShape: edgeKeyShape } = edge.shapeMap;
       let { stroke: edgeKeyShapeStroke } = edgeKeyShape.style;
       expect(edgeKeyShapeStroke).toBe('rgb(255, 153, 153)');
@@ -228,7 +228,7 @@ describe('theme', () => {
       expect(edgeKeyShape.style.lineWidth).toBe(2);
 
       // edge without dataType, follow the default(light) pallete
-      edge = graph.itemController.itemMap['edge3'];
+      edge = graph.itemController.itemMap.get('edge3');
       edgeKeyShape = edge.shapeMap.keyShape;
       edgeKeyShapeStroke = edgeKeyShape.style.stroke;
       expect(edgeKeyShapeStroke).toBe(
@@ -290,20 +290,20 @@ describe('theme', () => {
       },
     });
     graph.on('afterlayout', () => {
-      let node = graph.itemController.itemMap['node1'];
+      let node = graph.itemController.itemMap.get('node1');
       let nodeKeyShape = node.shapeMap.keyShape;
       let { fill: keyShapeFill, stroke: keyShapeStroke } = nodeKeyShape.style;
       expect(keyShapeFill).toBe('rgb(146, 95, 95)');
       expect(keyShapeStroke).toBe('rgb(228, 24, 24)');
 
-      node = graph.itemController.itemMap['node2'];
+      node = graph.itemController.itemMap.get('node2');
       nodeKeyShape = node.shapeMap.keyShape;
       keyShapeFill = nodeKeyShape.style.fill;
       keyShapeStroke = nodeKeyShape.style.stroke;
       expect(keyShapeFill).toBe('rgb(95, 146, 95)');
       expect(keyShapeStroke).toBe('rgb(24, 228, 24)');
 
-      node = graph.itemController.itemMap['node3'];
+      node = graph.itemController.itemMap.get('node3');
       nodeKeyShape = node.shapeMap.keyShape;
       keyShapeFill = nodeKeyShape.style.fill;
       keyShapeStroke = nodeKeyShape.style.stroke;
@@ -321,7 +321,7 @@ describe('theme', () => {
       expect(keyShapeLineWidth).toBe(4);
       expect(keyShapeShadowColor).toBe('#00f');
 
-      let edge = graph.itemController.itemMap['edge1'];
+      let edge = graph.itemController.itemMap.get('edge1');
       let { keyShape: edgeKeyShape } = edge.shapeMap;
       let { stroke: edgeKeyShapeStroke } = edgeKeyShape.style;
       expect(edgeKeyShapeStroke).toBe('rgb(228, 24, 24)');
@@ -332,7 +332,7 @@ describe('theme', () => {
       expect(edgeKeyShape.style.lineWidth).toBe(2);
 
       // edge without dataType, follow the first pallete
-      edge = graph.itemController.itemMap['edge3'];
+      edge = graph.itemController.itemMap.get('edge3');
       edgeKeyShape = edge.shapeMap.keyShape;
       edgeKeyShapeStroke = edgeKeyShape.style.stroke;
       expect(edgeKeyShapeStroke).toBe('rgb(228, 24, 24)');

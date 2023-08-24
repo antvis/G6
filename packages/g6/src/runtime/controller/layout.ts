@@ -18,7 +18,7 @@ import {
 } from '../../types';
 import { GraphCore } from '../../types/data';
 import { EdgeModelData } from '../../types/edge';
-import { layoutOneTree } from '../../util/layout';
+import { isComboLayout, layoutOneTree } from '../../util/layout';
 
 /**
  * Manages layout extensions and graph layout.
@@ -61,11 +61,12 @@ export class LayoutController {
     this.stopLayout();
 
     const { graphCore, options, animate = true } = params;
-    const layoutNodes = graphCore
-      .getAllNodes()
-      .filter(
+    let layoutNodes = graphCore.getAllNodes();
+    if (!isComboLayout(options)) {
+      layoutNodes = layoutNodes.filter(
         (node) => this.graph.getItemVisible(node.id) && !node.data._isCombo,
       );
+    }
     const layoutNodesIdMap = {};
     layoutNodes.forEach((node) => (layoutNodesIdMap[node.id] = true));
     const layoutData = {
@@ -80,6 +81,15 @@ export class LayoutController {
     const layoutGraphCore = new GraphLib<NodeModelData, EdgeModelData>(
       layoutData,
     );
+    if (graphCore.hasTreeStructure('combo')) {
+      layoutGraphCore.attachTreeStructure('combo');
+      layoutNodes.forEach((node) => {
+        const parent = graphCore.getParent(node.id, 'combo');
+        if (parent && layoutGraphCore.hasNode(parent.id)) {
+          layoutGraphCore.setParent(node.id, parent.id, 'combo');
+        }
+      });
+    }
 
     this.graph.emit('startlayout');
 

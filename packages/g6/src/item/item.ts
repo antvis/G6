@@ -288,8 +288,7 @@ export default abstract class Item implements IItem {
     const defaultMapper = DEFAULT_MAPPER[type];
 
     const { data: innerModelData, ...otherFields } = innerModel;
-    const { current = innerModelData, previous } = diffData || {};
-    const firstRendering = !this.shapeMap?.keyShape;
+    const { current = innerModelData } = diffData || {};
 
     // === no mapper, displayModel = model ===
     if (!mapper) {
