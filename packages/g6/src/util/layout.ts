@@ -63,3 +63,9 @@ export const layoutOneTree = (
   begin[isHorizontal ? 1 : 0] += range[1] + diff + treeGap;
   return nodePositions;
 };
+
+export const isComboLayout = (options) => {
+  const { type } = options;
+  if (['comboCombined', 'comboForce'].includes(type)) return true;
+  return false;
+};

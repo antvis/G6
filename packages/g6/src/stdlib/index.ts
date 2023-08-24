@@ -17,6 +17,7 @@ import {
   SphereNode,
   TriangleNode,
   HexagonNode,
+  DonutNode,
 } from './item/node';
 import DarkTheme from './theme/dark';
 import LightTheme from './theme/light';
@@ -31,6 +32,8 @@ import TrackCanvas3D from './behavior/track-canvas-3d';
 import ZoomCanvas from './behavior/zoom-canvas';
 import ZoomCanvas3D from './behavior/zoom-canvas-3d';
 import { CircleCombo } from './item/combo/circle';
+import History from './plugin/history';
+
 import CollapseExpandTree from './behavior/collapse-expand-tree';
 import { CubicEdge } from './item/edge/cubic';
 import { CubicHorizonEdge } from './item/edge/cubic-horizon';
@@ -46,6 +49,7 @@ import toolbar from './plugin/toolbar';
 import Tooltip from './plugin/tooltip';
 import lassoSelector from './selector/lasso';
 import rectSelector from './selector/rect';
+import { RectCombo } from './item/combo/rect';
 
 const stdLib = {
   transforms: {
@@ -87,6 +91,7 @@ const stdLib = {
     grid: Grid,
     tooltip: Tooltip,
     menu: Menu,
+    history: History,
     toolbar,
   },
   nodes: {
@@ -96,6 +101,7 @@ const stdLib = {
     'hexagon-node': HexagonNode,
     'triangle-node': TriangleNode,
     'ellipse-node': EllipseNode,
+    'donut-node': DonutNode,
   },
   edges: {
     'line-edge': LineEdge,
@@ -107,6 +113,7 @@ const stdLib = {
   },
   combos: {
     'circle-combo': CircleCombo,
+    'rect-combo': RectCombo,
   },
 };
 

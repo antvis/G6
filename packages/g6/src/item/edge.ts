@@ -18,8 +18,8 @@ interface IProps {
   stateMapper?: {
     [stateName: string]: DisplayMapper;
   };
-  sourceItem: Node;
-  targetItem: Node;
+  sourceItem: Node | Combo;
+  targetItem: Node | Combo;
   zoom?: number;
   theme: {
     styles: EdgeStyleSet;
@@ -37,9 +37,9 @@ export default class Edge extends Item {
   public displayModel: EdgeDisplayModel;
   /** Set to different value in implements */
   public type: 'edge' = 'edge';
-  public sourceItem: Node;
-  public targetItem: Node;
-  public nodeMap: Map<ID, Node>;
+  public nodeMap: Map<ID, Node | Combo>;
+  public sourceItem: Node | Combo;
+  public targetItem: Node | Combo;
 
   constructor(props: IProps) {
     super(props);

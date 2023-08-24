@@ -37,7 +37,7 @@ export const upsertTransientItem = (
   onlyDrawKeyShape?: boolean,
   upsertAncestors = true,
 ) => {
-  let transientItem = transientItemMap[item.model.id];
+  let transientItem = transientItemMap.get(item.model.id);
   if (transientItem) {
     return transientItem;
   }
@@ -104,7 +104,7 @@ export const upsertTransientItem = (
     ) as Combo;
     transientItem.toBack();
   }
-  transientItemMap[item.model.id] = transientItem;
+  transientItemMap.set(item.model.id, transientItem);
   transientItem.transient = true;
 
   if (item.type !== 'edge' && upsertAncestors) {
