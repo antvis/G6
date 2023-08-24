@@ -13,7 +13,6 @@ import cubic_vertical_edge from './item/edge/cubic-vertical-edge';
 import demo from './demo/demo';
 import demoFor4 from './demo/demoFor4';
 import demoForPolyline from './demo/demoForPolyline'
-import donut_node from './item/node/donut-node';
 import ellipse from './demo/ellipse';
 import fisheye from './plugins/fisheye';
 import hexagon from './demo/hexagon';
@@ -55,7 +54,6 @@ export {
   cubic_edge,
   cubic_horizon_edge,
   cubic_vertical_edge,
-  donut_node,
   demo,
   demoFor4,
   demoForPolyline,

@@ -5,7 +5,7 @@
   },
   "demos": [
     {
-      "filename": "toolbar.js",
+      "filename": "toolbar.ts",
       "title": {
         "zh": "工具栏",
         "en": "ToolBar"
@@ -13,7 +13,7 @@
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*MhpmS68lZW0AAAAAAAAAAABkARQnAQ"
     },
     {
-      "filename": "self-toolbar.js",
+      "filename": "self-toolbar.ts",
       "title": {
         "zh": "自定义工具栏",
         "en": "ToolBar"
