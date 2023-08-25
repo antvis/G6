@@ -1,5 +1,5 @@
 import { Group, DisplayObject, AABB, IAnimation } from '@antv/g';
-import { clone, isFunction, throttle } from '@antv/util';
+import { clone, isFunction, isObject, throttle } from '@antv/util';
 import { OTHER_SHAPES_FIELD_NAME, RESERVED_SHAPE_IDS } from '../constant';
 import { EdgeShapeMap } from '../types/edge';
 import {
@@ -326,8 +326,7 @@ export default abstract class Item implements IItem {
       let subMapper = mapper[fieldName];
       const isReservedShapeId = RESERVED_SHAPE_IDS.includes(fieldName);
       const isShapeId =
-        RESERVED_SHAPE_IDS.includes(fieldName) ||
-        fieldName === OTHER_SHAPES_FIELD_NAME;
+        isReservedShapeId || fieldName === OTHER_SHAPES_FIELD_NAME;
 
       if ((isShapeId && isEncode(subMapper)) || !isShapeId) {
         // fields not about shape
@@ -355,16 +354,27 @@ export default abstract class Item implements IItem {
 
       if (isReservedShapeId) {
         // reserved shapes, fieldName is shapeId
-        displayModelData[fieldName] = displayModelData[fieldName] || {};
+        displayModelData[fieldName] =
+          displayModelData[fieldName] || isObject(innerModel.data[fieldName])
+            ? {
+                ...(innerModel.data[fieldName] as object),
+              }
+            : {};
         updateShapeChange({
           innerModel,
           mapper: subMapper,
           dataChangedFields,
           shapeConfig: displayModelData[fieldName],
+          fieldPath: [fieldName],
         });
       } else if (fieldName === OTHER_SHAPES_FIELD_NAME) {
         // other shapes
-        displayModelData[fieldName] = displayModelData[fieldName] || {};
+        displayModelData[fieldName] =
+          displayModelData[fieldName] || isObject(innerModel.data[fieldName])
+            ? {
+                ...(innerModel.data[fieldName] as object),
+              }
+            : {};
         Object.keys(subMapper).forEach((shapeId) => {
           if (!displayModelData[fieldName]?.hasOwnProperty(shapeId)) {
             displayModelData[fieldName][shapeId] =
@@ -375,6 +385,7 @@ export default abstract class Item implements IItem {
               mapper: shappStyle,
               dataChangedFields,
               shapeConfig: displayModelData[fieldName][shapeId],
+              fieldPath: [fieldName, shapeId],
             });
           }
         });
@@ -651,6 +662,7 @@ export default abstract class Item implements IItem {
               mapper: mapper[shapeId],
               dataChangedFields: undefined,
               shapeConfig: stateStyles[shapeId],
+              fieldPath: [shapeId],
             });
           } else if (shapeId === OTHER_SHAPES_FIELD_NAME && mapper[shapeId]) {
             // other shapes
@@ -663,6 +675,7 @@ export default abstract class Item implements IItem {
                 mapper: mapper[shapeId][otherShapeId],
                 dataChangedFields: undefined,
                 shapeConfig: stateStyles[shapeId][otherShapeId],
+                fieldPath: [shapeId, otherShapeId],
               });
             });
           }
@@ -875,8 +888,15 @@ const updateShapeChange = ({
   mapper,
   dataChangedFields,
   shapeConfig,
+  fieldPath,
 }) => {
+  if (!mapper) return;
+  let innerModelValue = innerModel.data;
+  fieldPath?.forEach((field) => {
+    innerModelValue = innerModelValue[field] || {};
+  });
   Object.keys(mapper).forEach((shapeAttrName) => {
+    if (innerModelValue?.hasOwnProperty(shapeAttrName)) return;
     const { value: mappedValue } = updateChange({
       innerModel,
       mapper,

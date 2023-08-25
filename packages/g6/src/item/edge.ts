@@ -65,10 +65,17 @@ export default class Edge extends Item {
     onfinish: Function = () => {},
   ) {
     // get the end points
+    const { sourceAnchor, targetAnchor } = displayModel.data;
     const { x: sx, y: sy, z: sz } = this.sourceItem.getPosition();
     const { x: tx, y: ty, z: tz } = this.targetItem.getPosition();
-    const sourcePoint = this.sourceItem.getAnchorPoint({ x: tx, y: ty, z: tz });
-    const targetPoint = this.targetItem.getAnchorPoint({ x: sx, y: sy, z: sz });
+    const sourcePoint = this.sourceItem.getAnchorPoint(
+      { x: tx, y: ty, z: tz },
+      sourceAnchor,
+    );
+    const targetPoint = this.targetItem.getAnchorPoint(
+      { x: sx, y: sy, z: sz },
+      targetAnchor,
+    );
     this.renderExt.mergeStyles(displayModel);
     const firstRendering = !this.shapeMap?.keyShape;
     this.renderExt.setSourcePoint(sourcePoint);

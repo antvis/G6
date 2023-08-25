@@ -581,6 +581,7 @@ export class ItemController {
         }
         const item = itemMap.get(id);
         const innerModel = graphCore.getEdge(id);
+        if (!item || item.destroyed) return;
         item.update(
           innerModel,
           { current, previous },

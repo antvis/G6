@@ -1,5 +1,5 @@
 import { AABB, DisplayObject, Line, Polyline } from '@antv/g';
-import { isNumber } from '@antv/util';
+import { isNumber, isBoolean } from '@antv/util';
 import { ID } from 'types';
 import {
   DEFAULT_LABEL_BG_PADDING,
@@ -8,6 +8,7 @@ import {
 } from '../../../constant';
 import { Point } from '../../../types/common';
 import {
+  ArrowStyle,
   EdgeDisplayModel,
   EdgeModelData,
   EdgeShapeMap,
@@ -30,6 +31,7 @@ import { DEFAULT_ANIMATE_CFG, fadeIn, fadeOut } from '../../../util/animate';
 import { getWordWrapWidthByEnds } from '../../../util/text';
 import { AnimateCfg } from '../../../types/animate';
 import { getZoomLevel } from '../../../util/zoom';
+import { DEFAULT_ARROW_CONFIG, getArrowPath } from '../../../util/arrow';
 
 export abstract class BaseEdge {
   type: string;
@@ -571,6 +573,51 @@ export abstract class BaseEdge {
    */
   public setNodeMap(nodeMap: Map<ID, Node>) {
     this.nodeMap = nodeMap;
+  }
+
+  public upsertArrow(
+    position: 'start' | 'end',
+    arrowConfig: boolean | ArrowStyle,
+    bodyStyle: ShapeStyle,
+    model: EdgeDisplayModel,
+    resultStyle: ShapeStyle,
+  ) {
+    const markerField = `marker${position === 'start' ? 'Start' : 'End'}`;
+    if (!arrowConfig) {
+      resultStyle[markerField] = null;
+      resultStyle[`${markerField}Offset`] = 0;
+      return;
+    }
+    let arrowStyle = {} as ArrowStyle;
+    if (isBoolean(arrowConfig)) {
+      arrowStyle = { ...DEFAULT_ARROW_CONFIG } as ArrowStyle;
+    } else {
+      arrowStyle = arrowConfig;
+    }
+    const {
+      type = 'triangle',
+      width = 10,
+      height = 10,
+      path: propPath,
+      offset = 0,
+      ...others
+    } = arrowStyle;
+    const path = propPath ? propPath : getArrowPath(type, width, height);
+    resultStyle[markerField] = this.upsertShape(
+      'path',
+      `${markerField}Shape`,
+      {
+        ...bodyStyle,
+        fill: type === 'simple' ? '' : bodyStyle.stroke,
+        path,
+        anchor: '0.5 0.5',
+        transformOrigin: 'center',
+        ...others,
+      },
+      {},
+      model,
+    );
+    resultStyle[`${markerField}Offset`] = width / 2 + offset;
   }
 
   public upsertShape(

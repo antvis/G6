@@ -3,8 +3,8 @@ import { Point } from '../../../types/common';
 
 import { CubicEdge } from './cubic';
 
-export class CubicHorizonEdge extends CubicEdge {
-  public type = 'cubic-horizon-edge';
+export class CubicHorizontalEdge extends CubicEdge {
+  public type = 'cubic-horizontal-edge';
 
   public defaultStyles = {
     keyShape: {
