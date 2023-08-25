@@ -33,7 +33,7 @@ export default (context: TestCaseContext) => {
       ],
     },
     modes: {
-      default: [{ type: 'activate-relations', trigger: 'click' }],
+      default: [{ type: 'activate-relations', trigger: 'click' }, 'drag-node'],
     },
   });
 };

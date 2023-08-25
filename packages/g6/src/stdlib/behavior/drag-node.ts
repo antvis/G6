@@ -1,5 +1,5 @@
 import { ID } from '@antv/graphlib';
-import { throttle, uniq } from '@antv/util';
+import { debounce, throttle, uniq } from '@antv/util';
 import { ComboModel, EdgeModel, NodeModel } from '../../types';
 import { Behavior } from '../../types/behavior';
 import { IG6GraphEvent } from '../../types/event';
@@ -86,6 +86,17 @@ const DEFAULT_OPTIONS: Required<DragNodeOptions> = {
   shouldBegin: () => true,
 };
 
+type Position = {
+  id: ID;
+  x: number;
+  y: number;
+  // The following fields only have values when delegate is enabled.
+  minX?: number;
+  maxX?: number;
+  minY?: number;
+  maxY?: number;
+};
+
 export default class DragNode extends Behavior {
   // Private states
   private hiddenEdges: EdgeModel[] = [];
@@ -94,16 +105,7 @@ export default class DragNode extends Behavior {
   private hiddenComboTreeItems: (ComboModel | NodeModel)[] = [];
   private originX: number;
   private originY: number;
-  private originPositions: Array<{
-    id: ID;
-    x: number;
-    y: number;
-    // The following fields only have values when delegate is enabled.
-    minX?: number;
-    maxX?: number;
-    minY?: number;
-    maxY?: number;
-  }> = [];
+  private originPositions: Array<Position> = [];
   private pointerDown: Point | undefined = undefined;
   private dragging = false;
 
@@ -381,10 +383,7 @@ export default class DragNode extends Behavior {
     deltaY: number,
     transient: boolean,
     upsertAncestors = true,
-    callback?: (
-      model: EdgeModel | NodeModel | ComboModel,
-      canceled?: boolean,
-    ) => void,
+    callback?: (positions: Position[]) => void,
   ) {
     if (transient) {
       // Move transient nodes
@@ -415,7 +414,7 @@ export default class DragNode extends Behavior {
         positionChanges,
         upsertAncestors,
         true,
-        callback,
+        () => callback([...this.originPositions]),
       );
     }
   }
@@ -477,7 +476,7 @@ export default class DragNode extends Behavior {
     });
   }
 
-  public restoreHiddenItems() {
+  public restoreHiddenItems(positions?: Position[]) {
     this.graph.pauseStacking();
     if (this.hiddenEdges.length) {
       this.graph.showItem(
@@ -504,7 +503,7 @@ export default class DragNode extends Behavior {
       this.options.enableTransient && this.graph.rendererType !== 'webgl-3d';
     if (enableTransient) {
       this.graph.showItem(
-        this.originPositions.map((position) => position.id),
+        this.originPositions.concat(positions).map((position) => position.id),
         true,
       );
     }
@@ -535,30 +534,36 @@ export default class DragNode extends Behavior {
     const deltaX = pointerEvent.canvas.x - this.originX + 0.01;
     // @ts-ignore FIXME: Type
     const deltaY = pointerEvent.canvas.y - this.originY + 0.01;
-    this.moveNodes(deltaX, deltaY, false, true, () => {
-      // restore the hidden items after move real nodes done
-      if (enableTransient) {
-        this.clearTransientItems();
-      }
+    this.moveNodes(
+      deltaX,
+      deltaY,
+      false,
+      true,
+      debounce((positions) => {
+        // restore the hidden items after move real nodes done
+        if (enableTransient) {
+          this.clearTransientItems();
+        }
 
-      if (this.options.enableDelegate) {
-        this.clearDelegate();
-      }
+        if (this.options.enableDelegate) {
+          this.clearDelegate();
+        }
 
-      // Restore all hidden items.
-      // For all hideRelatedEdges, enableTransient and enableDelegate cases.
-      this.restoreHiddenItems();
+        // Restore all hidden items.
+        // For all hideRelatedEdges, enableTransient and enableDelegate cases.
+        this.restoreHiddenItems(positions);
 
-      // Emit event.
-      if (this.options.eventName) {
-        this.graph.emit(this.options.eventName, {
-          itemIds: this.originPositions.map((position) => position.id),
-        });
-      }
+        // Emit event.
+        if (this.options.eventName) {
+          this.graph.emit(this.options.eventName, {
+            itemIds: positions.map((position) => position.id),
+          });
+        }
 
-      // Reset state.
-      this.originPositions = [];
-    });
+        // Reset state.
+        this.originPositions = [];
+      }),
+    );
   }
 
   // TODO: deal with combos

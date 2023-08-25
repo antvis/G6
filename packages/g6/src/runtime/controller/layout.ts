@@ -93,6 +93,9 @@ export class LayoutController {
 
     this.graph.emit('startlayout');
 
+    const [width, height] = this.graph.getSize();
+    const center = [width / 2, height / 2];
+
     if (isImmediatelyInvokedLayoutOptions(options)) {
       const {
         animated = false,
@@ -104,7 +107,12 @@ export class LayoutController {
       } = options;
 
       // It will ignore some layout options such as `type` and `workerEnabled`.
-      positions = await execute(layoutGraphCore, rest);
+      positions = await execute(layoutGraphCore, {
+        ...rest,
+        width,
+        height,
+        center,
+      });
 
       if (animated) {
         await this.animateLayoutWithoutIterations(
@@ -144,7 +152,7 @@ export class LayoutController {
       }
 
       // Initialize layout.
-      const layout = new layoutCtor(rest);
+      const layout = new layoutCtor({ ...rest, width, height, center });
       this.currentLayout = layout;
 
       // CustomLayout is not workerized.
@@ -284,7 +292,21 @@ export class LayoutController {
   }
 
   private updateNodesPosition(positions: LayoutMapping, animate = true) {
-    this.graph.updateNodePosition(positions.nodes, undefined, !animate);
+    const { nodes, edges } = positions;
+    this.graph.updateNodePosition(nodes, undefined, !animate);
+    this.graph.updateData(
+      'edge',
+      edges
+        .filter((edge) => edge.data.controlPoints)
+        .map((edge) => ({
+          id: edge.id,
+          data: {
+            keyShape: {
+              controlPoints: edge.data.controlPoints,
+            },
+          },
+        })),
+    );
   }
 
   /**

@@ -763,14 +763,14 @@ export abstract class BaseNode {
     zoom: number,
   ) {
     // balance the size for label, badges
-    const { labelShape, labelBackgroundShape } = shapeMap;
+    const { keyShape, labelShape, labelBackgroundShape } = shapeMap;
     const balanceRatio = 1 / zoom || 1;
     this.zoomCache.balanceRatio = balanceRatio;
     if (!labelShape || !labelShape.isVisible()) return;
     const { labelShape: labelStyle } = this.mergedStyles;
     const { position = 'bottom' } = labelStyle;
 
-    const keyShapeLocal = this.boundsCache.keyShapeLocal;
+    const keyShapeLocal = keyShape.getLocalBounds();
     if (zoom < 1) {
       // if it is zoom-out, do not scale the gap between keyShape and labelShape, differentiate from zoom-in by adjusting transformOrigin
       if (position === 'bottom') labelShape.style.transformOrigin = '0';

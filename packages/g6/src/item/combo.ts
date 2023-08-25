@@ -154,8 +154,7 @@ export default class Combo extends Node {
         const height = size[1] + padding[0] + padding[2];
         model.data.keyShape.width = width;
         model.data.keyShape.height = height;
-        const diag = Math.sqrt(width * width + height * height);
-        model.data.keyShape.r = diag / 2;
+        model.data.keyShape.r = Math.sqrt(width * width + height * height) / 2;
       }
     }
     return model;

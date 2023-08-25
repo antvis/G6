@@ -5,273 +5,239 @@ const data = {
     {
       id: '0',
       data: {
-        labelShape: {
-          text: '0',
-        },
+        label: '0',
+        cluster: '0',
       },
     },
     {
       id: '1',
       data: {
-        labelShape: {
-          text: '1',
-        },
+        label: '1',
+        cluster: '0',
       },
     },
     {
       id: '2',
       data: {
-        labelShape: {
-          text: '2',
-        },
+        label: '2',
+        cluster: '0',
       },
     },
     {
       id: '3',
       data: {
-        labelShape: {
-          text: '3',
-        },
+        label: '3',
+        cluster: '0',
       },
     },
     {
       id: '4',
       data: {
-        labelShape: {
-          text: '4',
-        },
+        label: '4',
+        cluster: '0',
       },
     },
     {
       id: '5',
       data: {
-        labelShape: {
-          text: '5',
-        },
+        label: '5',
+        cluster: '3',
       },
     },
     {
       id: '6',
       data: {
-        labelShape: {
-          text: '6',
-        },
+        label: '6',
+        cluster: '0',
       },
     },
     {
       id: '7',
       data: {
-        labelShape: {
-          text: '7',
-        },
+        label: '7',
+        cluster: '0',
       },
     },
     {
       id: '8',
       data: {
-        labelShape: {
-          text: '8',
-        },
+        label: '8',
+        cluster: '0',
       },
     },
     {
       id: '9',
       data: {
-        labelShape: {
-          text: '9',
-        },
+        label: '9',
+        cluster: '3',
       },
     },
     {
       id: '10',
       data: {
-        labelShape: {
-          text: '10',
-        },
+        label: '10',
+        cluster: '3',
       },
     },
     {
       id: '11',
       data: {
-        labelShape: {
-          text: '11',
-        },
+        label: '11',
+        cluster: '2',
       },
     },
     {
       id: '12',
       data: {
-        labelShape: {
-          text: '12',
-        },
+        label: '12',
+        cluster: '2',
       },
     },
     {
       id: '13',
       data: {
-        labelShape: {
-          text: '13',
-        },
+        label: '13',
+        cluster: '4',
       },
     },
     {
       id: '14',
       data: {
-        labelShape: {
-          text: '14',
-        },
+        label: '14',
+        cluster: '2',
       },
     },
     {
       id: '15',
       data: {
-        labelShape: {
-          text: '15',
-        },
+        label: '15',
+        cluster: '2',
       },
     },
     {
       id: '16',
       data: {
-        labelShape: {
-          text: '16',
-        },
+        label: '16',
+        cluster: '2',
       },
     },
     {
       id: '17',
       data: {
-        labelShape: {
-          text: '17',
-        },
+        label: '17',
+        cluster: '1',
       },
     },
     {
       id: '18',
       data: {
-        labelShape: {
-          text: '18',
-        },
+        label: '18',
+        cluster: '4',
       },
     },
     {
       id: '19',
       data: {
-        labelShape: {
-          text: '19',
-        },
+        label: '19',
+        cluster: '4',
       },
     },
     {
       id: '20',
       data: {
-        labelShape: {
-          text: '20',
-        },
+        label: '20',
+        cluster: '4',
       },
     },
     {
       id: '21',
       data: {
-        labelShape: {
-          text: '21',
-        },
+        label: '21',
+        cluster: '0',
       },
     },
     {
       id: '22',
       data: {
-        labelShape: {
-          text: '22',
-        },
+        label: '22',
+        cluster: '2',
       },
     },
     {
       id: '23',
       data: {
-        labelShape: {
-          text: '23',
-        },
+        label: '23',
+        cluster: '2',
       },
     },
     {
       id: '24',
       data: {
-        labelShape: {
-          text: '24',
-        },
+        label: '24',
+        cluster: '2',
       },
     },
     {
       id: '25',
       data: {
-        labelShape: {
-          text: '25',
-        },
+        label: '25',
+        cluster: '3',
       },
     },
     {
       id: '26',
       data: {
-        labelShape: {
-          text: '26',
-        },
+        label: '26',
+        cluster: '4',
       },
     },
     {
       id: '27',
       data: {
-        labelShape: {
-          text: '27',
-        },
+        label: '27',
+        cluster: '4',
       },
     },
     {
       id: '28',
       data: {
-        labelShape: {
-          text: '28',
-        },
+        label: '28',
+        cluster: '1',
       },
     },
     {
       id: '29',
       data: {
-        labelShape: {
-          text: '29',
-        },
+        label: '29',
+        cluster: '1',
       },
     },
     {
       id: '30',
       data: {
-        labelShape: {
-          text: '30',
-        },
+        label: '30',
+        cluster: '4',
       },
     },
     {
       id: '31',
       data: {
-        labelShape: {
-          text: '31',
-        },
+        label: '31',
+        cluster: '4',
       },
     },
     {
       id: '32',
       data: {
-        labelShape: {
-          text: '32',
-        },
+        label: '32',
+        cluster: '1',
       },
     },
     {
       id: '33',
       data: {
-        labelShape: {
-          text: '33',
-        },
+        label: '33',
+        cluster: '2',
       },
     },
   ],
@@ -638,50 +604,58 @@ const data = {
     },
   ],
 };
-const descriptionDiv = document.createElement('div');
-descriptionDiv.innerHTML = 'Circular layout with radius: take full use of the canvas, ordering: topology';
+
 const container = document.getElementById('container');
-container.appendChild(descriptionDiv);
-
 const width = container.scrollWidth;
-const height = (container.scrollHeight || 500) - 30;
-
+const height = container.scrollHeight || 500;
 const graph = new G6.Graph({
   container: 'container',
   width,
   height,
   modes: {
-    default: ['drag-canvas', 'drag-node'],
-  },
-  autoFit: {
-    type: 'center',
+    default: ['zoom-canvas', 'drag-canvas', 'drag-node', 'click-select', 'brush-select'],
   },
   layout: {
-    type: 'circular',
+    type: 'grid',
+    begin: [20, 20],
+    width: width - 20,
+    height: height - 20,
+  },
+  theme: {
+    type: 'spec',
+    base: 'light',
+    specification: {
+      node: {
+        dataTypeField: 'cluster',
+      },
+    },
   },
   node: (model) => {
     return {
       id: model.id,
       data: {
         ...model.data,
-        labelBackgroundShape: {},
+        labelShape: {
+          text: model.data.label,
+        },
         animates: {
           update: [
             {
               fields: ['x', 'y'],
               duration: 500,
             },
+            {
+              fields: ['opacity'],
+              shapeId: 'haloShape',
+            },
+            {
+              fields: ['lineWidth'],
+              shapeId: 'keyShape',
+            },
           ],
         },
       },
     };
-  },
-  edge: {
-    keyShape: {
-      endArrow: {
-        type: 'vee',
-      },
-    },
   },
   data,
 });
@@ -690,79 +664,40 @@ if (typeof window !== 'undefined')
   window.onresize = () => {
     if (!graph || graph.destroyed) return;
     if (!container || !container.scrollWidth || !container.scrollHeight) return;
-    graph.setSize(container.scrollWidth, container.scrollHeight - 30);
+    graph.setSize([container.scrollWidth, container.scrollHeight]);
   };
 
-layoutConfigTranslation();
+const configs = {
+  Default: {
+    type: 'grid',
+    begin: [20, 20],
+    width: width - 20,
+    height: height - 20,
+  },
+  Clustering: {
+    type: 'grid',
+    begin: [20, 20],
+    width: width - 20,
+    height: height - 20,
+    sortBy: 'cluster',
+  },
+};
 
-setInterval(function () {
-  layoutConfigTranslation();
-}, 11500);
+const btnContainer = document.createElement('div');
+btnContainer.style.position = 'absolute';
+container.appendChild(btnContainer);
+const tip = document.createElement('span');
+tip.innerHTML = 'Change configs:';
+btnContainer.appendChild(tip);
 
-function layoutConfigTranslation() {
-  setTimeout(function () {
-    descriptionDiv.innerHTML = 'Circular layout, radius = 200, divisions = 5, ordering: degree';
-    graph.layout({
-      radius: 200,
-      startAngle: Math.PI / 4,
-      endAngle: Math.PI,
-      divisions: 5,
-      ordering: 'degree',
-    });
-  }, 1000);
-
-  setTimeout(function () {
-    descriptionDiv.innerHTML = 'Circular layout, radius = 200, divisions = 3, ordering: degree';
-    graph.layout({
-      startAngle: Math.PI / 4,
-      endAngle: Math.PI,
-      divisions: 3,
-    });
-  }, 2500);
-
-  setTimeout(function () {
-    descriptionDiv.innerHTML = 'Circular layout, radius = 200, divisions = 8, ordering: degree';
-    graph.layout({
-      radius: 200,
-      startAngle: 0,
-      endAngle: Math.PI / 2,
-      divisions: 8,
-    });
-  }, 4000);
-
-  setTimeout(function () {
-    descriptionDiv.innerHTML =
-      'Circular layout, radius = 10～300(spiral), endAngle: PI, divisions = 1, ordering: degree';
-    graph.layout({
-      radius: null,
-      startRadius: 10,
-      endRadius: 300,
-      divisions: 1,
-      startAngle: 0,
-      endAngle: Math.PI,
-    });
-  }, 5500);
-
-  setTimeout(function () {
-    descriptionDiv.innerHTML =
-      'Circular layout, radius = 10～300(spiral),endAngle: 2 * PI, divisions= 1, ordering: degree';
-    graph.layout({
-      endAngle: 2 * Math.PI,
-    });
-  }, 7000);
-
-  setTimeout(function () {
-    descriptionDiv.innerHTML = 'Circular layout, radius = 200, ordering: degree';
-    graph.layout({
-      radius: 200,
-    });
-  }, 8500);
-
-  setTimeout(function () {
-    descriptionDiv.innerHTML = 'Circular layout, radius = 200, ordering: topology';
-    graph.layout({
-      radius: 200,
-      ordering: 'topology',
-    });
-  }, 10000);
-}
+Object.keys(configs).forEach((name, i) => {
+  const btn = document.createElement('a');
+  btn.innerHTML = name;
+  btn.style.backgroundColor = 'rgba(255, 255, 255, 0.8)';
+  btn.style.padding = '4px';
+  btn.style.marginLeft = i > 0 ? '24px' : '8px';
+  btnContainer.appendChild(btn);
+  btn.addEventListener('click', () => {
+    graph.layout(configs[name]);
+  });
+});
