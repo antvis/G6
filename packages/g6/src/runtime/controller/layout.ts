@@ -293,6 +293,7 @@ export class LayoutController {
 
   private updateNodesPosition(positions: LayoutMapping, animate = true) {
     const { nodes, edges } = positions;
+    this.graph.updateNodePosition(nodes, undefined, !animate);
     this.graph.updateData(
       'edge',
       edges.map((edge) => ({
@@ -304,7 +305,6 @@ export class LayoutController {
         },
       })),
     );
-    this.graph.updateNodePosition(nodes, undefined, !animate);
   }
 
   /**

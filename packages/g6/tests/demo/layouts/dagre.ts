@@ -255,25 +255,23 @@ export default (context: TestCaseContext) => {
       begin: [20, 20],
       // align: 'UR',
     },
-    node: {
-      type: 'rect-node',
-    },
     edge: (model) => {
+      const { id, source, target, data } = model;
       return {
-        ...model,
+        id,
+        source,
+        target,
         data: {
+          type: 'polyline-edge',
+          ...data,
           keyShape: {
-            ...model.data?.keyShape,
+            ...data?.keyShape,
             endArrow: true,
           },
-          type: 'polyline-edge',
         },
       };
     },
     autoFit: 'view',
-    // edge: {
-    //   type: 'polyline-edge',
-    // },
     modes: { default: ['drag-canvas'] },
   });
   graph.on('click', (e) => {
