@@ -90,8 +90,14 @@ export const validateData = (
 
   const formattedEdges = edges
     ?.map((edge) => {
-      const { id, source, target } = edge;
+      const { id } = edge;
+      let { source, target } = edge;
       if (!idAndDataCheck(edge, 'edge')) return false;
+      const existEdge = userGraphCore?.getEdge(id);
+
+      if (source === undefined) source = existEdge.source;
+      if (target === undefined) target = existEdge.target;
+
       if (source === undefined) {
         console.error(
           `The edge with id ${id} will be ignored since its source is undefined.`,

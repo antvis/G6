@@ -1,6 +1,6 @@
 import { Canvas } from '@antv/g';
-import { AnimateCfg } from './animate';
-import { Point } from './common';
+import { AnimateCfg, CameraAnimationOptions } from './animate';
+import { Padding, Point } from './common';
 import { DataConfig, TransformerFn } from './data';
 import {
   EdgeDisplayModel,
@@ -14,7 +14,7 @@ import {
   NodeModel,
   NodeShapesEncode,
 } from './node';
-import { GraphAlignment } from './view';
+import { FitViewRules, GraphAlignment } from './view';
 import {
   ComboDisplayModel,
   ComboEncode,
@@ -50,8 +50,20 @@ export interface Specification<
     | 'view'
     | 'center'
     | {
+        type: 'view';
+        padding?: Padding;
+        rules?: FitViewRules;
+        effectTiming?: CameraAnimationOptions;
+      }
+    | {
+        type: 'center';
+        effectTiming?: CameraAnimationOptions;
+      }
+    | {
+        type: 'position';
         position: Point;
-        alignment: GraphAlignment;
+        alignment?: GraphAlignment;
+        effectTiming?: CameraAnimationOptions;
       };
   optimizeThreshold?: number;
 

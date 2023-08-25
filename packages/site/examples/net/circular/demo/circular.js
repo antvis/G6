@@ -638,23 +638,16 @@ const data = {
     },
   ],
 };
-const descriptionDiv = document.createElement('div');
-descriptionDiv.innerHTML = 'Circular layout with radius: take full use of the canvas, ordering: topology';
+
 const container = document.getElementById('container');
-container.appendChild(descriptionDiv);
-
 const width = container.scrollWidth;
-const height = (container.scrollHeight || 500) - 30;
-
+const height = container.scrollHeight || 500;
 const graph = new G6.Graph({
   container: 'container',
   width,
   height,
   modes: {
-    default: ['drag-canvas', 'drag-node'],
-  },
-  autoFit: {
-    type: 'center',
+    default: ['drag-canvas', 'drag-node', 'click-select', 'brush-select'],
   },
   layout: {
     type: 'circular',
@@ -690,79 +683,35 @@ if (typeof window !== 'undefined')
   window.onresize = () => {
     if (!graph || graph.destroyed) return;
     if (!container || !container.scrollWidth || !container.scrollHeight) return;
-    graph.setSize(container.scrollWidth, container.scrollHeight - 30);
+    graph.setSize(container.scrollWidth, container.scrollHeight);
   };
 
-layoutConfigTranslation();
+const configs = {
+  Default: { type: 'circular' },
+  'Order by degree': { type: 'circular', ordering: 'degree' },
+  Division: { type: 'circular', divisions: 5, radius: 200, startAngle: Math.PI / 4, endAngle: Math.PI },
+  Spiral: {
+    type: 'circular',
+    startRadius: 10,
+    endRadius: 300,
+  },
+};
 
-setInterval(function () {
-  layoutConfigTranslation();
-}, 11500);
+const btnContainer = document.createElement('div');
+btnContainer.style.position = 'absolute';
+container.appendChild(btnContainer);
+const tip = document.createElement('span');
+tip.innerHTML = 'Change configs:';
+btnContainer.appendChild(tip);
 
-function layoutConfigTranslation() {
-  setTimeout(function () {
-    descriptionDiv.innerHTML = 'Circular layout, radius = 200, divisions = 5, ordering: degree';
-    graph.layout({
-      radius: 200,
-      startAngle: Math.PI / 4,
-      endAngle: Math.PI,
-      divisions: 5,
-      ordering: 'degree',
-    });
-  }, 1000);
-
-  setTimeout(function () {
-    descriptionDiv.innerHTML = 'Circular layout, radius = 200, divisions = 3, ordering: degree';
-    graph.layout({
-      startAngle: Math.PI / 4,
-      endAngle: Math.PI,
-      divisions: 3,
-    });
-  }, 2500);
-
-  setTimeout(function () {
-    descriptionDiv.innerHTML = 'Circular layout, radius = 200, divisions = 8, ordering: degree';
-    graph.layout({
-      radius: 200,
-      startAngle: 0,
-      endAngle: Math.PI / 2,
-      divisions: 8,
-    });
-  }, 4000);
-
-  setTimeout(function () {
-    descriptionDiv.innerHTML =
-      'Circular layout, radius = 10～300(spiral), endAngle: PI, divisions = 1, ordering: degree';
-    graph.layout({
-      radius: null,
-      startRadius: 10,
-      endRadius: 300,
-      divisions: 1,
-      startAngle: 0,
-      endAngle: Math.PI,
-    });
-  }, 5500);
-
-  setTimeout(function () {
-    descriptionDiv.innerHTML =
-      'Circular layout, radius = 10～300(spiral),endAngle: 2 * PI, divisions= 1, ordering: degree';
-    graph.layout({
-      endAngle: 2 * Math.PI,
-    });
-  }, 7000);
-
-  setTimeout(function () {
-    descriptionDiv.innerHTML = 'Circular layout, radius = 200, ordering: degree';
-    graph.layout({
-      radius: 200,
-    });
-  }, 8500);
-
-  setTimeout(function () {
-    descriptionDiv.innerHTML = 'Circular layout, radius = 200, ordering: topology';
-    graph.layout({
-      radius: 200,
-      ordering: 'topology',
-    });
-  }, 10000);
-}
+Object.keys(configs).forEach((name, i) => {
+  const btn = document.createElement('a');
+  btn.innerHTML = name;
+  btn.style.backgroundColor = 'rgba(255, 255, 255, 0.8)';
+  btn.style.padding = '4px';
+  btn.style.marginLeft = i > 0 ? '24px' : '8px';
+  btnContainer.appendChild(btn);
+  btn.addEventListener('click', () => {
+    graph.layout(configs[name]);
+  });
+});

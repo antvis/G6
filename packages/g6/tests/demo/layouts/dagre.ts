@@ -105,17 +105,180 @@ export default (context: TestCaseContext) => {
     ],
   };
 
-  return new G6.Graph({
+  const data2 = {
+    nodes: [
+      {
+        id: '0',
+        data: {
+          label: '0',
+        },
+      },
+      {
+        id: '1',
+        data: {
+          label: '1',
+        },
+      },
+      {
+        id: '2',
+        data: {
+          label: '2',
+        },
+      },
+      {
+        id: '3',
+        data: {
+          label: '3',
+        },
+      },
+      {
+        id: '4',
+        data: {
+          label: '4',
+        },
+      },
+      {
+        id: '5',
+        data: {
+          label: '5',
+        },
+      },
+      {
+        id: '6',
+        data: {
+          label: '6',
+        },
+      },
+      {
+        id: '7',
+        data: {
+          label: '7',
+        },
+      },
+      {
+        id: '8',
+        data: {
+          label: '8',
+        },
+      },
+      {
+        id: '9',
+        data: {
+          label: '9',
+        },
+      },
+    ],
+    edges: [
+      {
+        id: 'edge-395',
+        source: '0',
+        target: '1',
+        data: {},
+      },
+      {
+        id: 'edge-973',
+        source: '0',
+        target: '2',
+        data: {},
+      },
+      {
+        id: 'edge-80',
+        source: '1',
+        target: '4',
+        data: {},
+      },
+      {
+        id: 'edge-125',
+        source: '0',
+        target: '3',
+        data: {},
+      },
+      {
+        id: 'edge-44',
+        source: '3',
+        target: '4',
+        data: {},
+      },
+      {
+        id: 'edge-700',
+        source: '4',
+        target: '5',
+        data: {},
+      },
+      {
+        id: 'edge-475',
+        source: '4',
+        target: '6',
+        data: {},
+      },
+      {
+        id: 'edge-990',
+        source: '5',
+        target: '7',
+        data: {},
+      },
+      {
+        id: 'edge-770',
+        source: '5',
+        target: '8',
+        data: {},
+      },
+      {
+        id: 'edge-228',
+        source: '8',
+        target: '9',
+        data: {},
+      },
+      {
+        id: 'edge-563',
+        source: '2',
+        target: '9',
+        data: {},
+      },
+      {
+        id: 'edge-893',
+        source: '3',
+        target: '9',
+        data: {},
+      },
+    ],
+  };
+
+  const graph = new G6.Graph({
     ...context,
-    type: 'graph',
-    data: JSON.parse(JSON.stringify(data)),
+    data: JSON.parse(JSON.stringify(data2)),
     layout: {
       type: 'dagre',
       nodeSize: 10,
       ranksep: 20,
       controlPoints: true,
       begin: [20, 20],
-      align: 'UR',
+      // align: 'UR',
     },
+    node: {
+      type: 'rect-node',
+    },
+    edge: (model) => {
+      return {
+        ...model,
+        data: {
+          keyShape: {
+            ...model.data?.keyShape,
+            endArrow: true,
+          },
+          type: 'polyline-edge',
+        },
+      };
+    },
+    autoFit: 'view',
+    // edge: {
+    //   type: 'polyline-edge',
+    // },
+    modes: { default: ['drag-canvas'] },
   });
+  graph.on('click', (e) => {
+    console.log('canvas', e.canvas);
+    console.log('graph', graph);
+  });
+  return graph;
 };

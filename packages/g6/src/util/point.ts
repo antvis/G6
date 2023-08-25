@@ -44,6 +44,15 @@ export const distance = (p1: Point, p2: Point): number => {
 };
 
 /**
+ * If the p1 and p2 are the same.
+ * @param p1
+ * @param p2
+ * @returns
+ */
+export const isSamePoint = (p1: Point, p2: Point): boolean =>
+  p1.x === p2.x && p1.y === p2.y && p1.z === p2.z;
+
+/**
  * Get point and circle intersect point.
  * @param {ICircle} circle Circle's center x,y and radius r
  * @param {Point} point Point x,y

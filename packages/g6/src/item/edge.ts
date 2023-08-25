@@ -9,6 +9,7 @@ import { EdgeStyleSet } from '../types/theme';
 import Item from './item';
 import Node from './node';
 import Combo from './combo';
+import { distance, isSamePoint } from '../util/point';
 
 interface IProps {
   model: EdgeModel;
@@ -64,16 +65,44 @@ export default class Edge extends Item {
     animate = true,
     onfinish: Function = () => {},
   ) {
-    // get the end points
-    const { sourceAnchor, targetAnchor } = displayModel.data;
-    const { x: sx, y: sy, z: sz } = this.sourceItem.getPosition();
-    const { x: tx, y: ty, z: tz } = this.targetItem.getPosition();
+    // get the point near the other end
+    const { sourceAnchor, targetAnchor, keyShape } = displayModel.data;
+    const sourcePosition = this.sourceItem.getPosition();
+    const targetPosition = this.targetItem.getPosition();
+
+    let targetPrevious = sourcePosition;
+    let sourcePrevious = targetPosition;
+
+    // TODO: type
+    // @ts-ignore
+    if (keyShape?.controlPoints?.length) {
+      let nearestDistToSource = Infinity;
+      let nearestDistToTarget = Infinity;
+      // @ts-ignore
+      keyShape.controlPoints.forEach((point) => {
+        if (
+          isSamePoint(point, sourcePosition) ||
+          isSamePoint(point, targetPosition)
+        )
+          return;
+        const distToSource = distance(point, sourcePosition);
+        if (distToSource < nearestDistToSource) {
+          nearestDistToSource = distToSource;
+          sourcePrevious = point;
+        }
+        const distToTarget = distance(point, targetPosition);
+        if (distToTarget < nearestDistToTarget) {
+          nearestDistToTarget = distToTarget;
+          targetPrevious = point;
+        }
+      });
+    }
     const sourcePoint = this.sourceItem.getAnchorPoint(
-      { x: tx, y: ty, z: tz },
+      sourcePrevious,
       sourceAnchor,
     );
     const targetPoint = this.targetItem.getAnchorPoint(
-      { x: sx, y: sy, z: sz },
+      targetPrevious,
       targetAnchor,
     );
     this.renderExt.mergeStyles(displayModel);

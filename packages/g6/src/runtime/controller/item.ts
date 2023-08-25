@@ -395,14 +395,15 @@ export class ItemController {
       const edgeIdsToUpdate: Set<ID> = new Set<ID>();
       const comboIdsToUpdate: Set<ID> = new Set<ID>();
       const updateRelates = (edgeIds?: Set<ID>) => {
-        [...comboIdsToUpdate]
-          .concat([...(edgeIds || edgeIdsToUpdate)])
-          .forEach((nid) => {
-            const item = itemMap.get(nid) as Edge | Combo;
-            if (item && !item.destroyed) item.forceUpdate();
-          });
+        const ids = edgeIds
+          ? [...edgeIds]
+          : [...comboIdsToUpdate, ...edgeIdsToUpdate];
+        ids.forEach((nid) => {
+          const item = itemMap.get(nid) as Edge | Combo;
+          if (item && !item.destroyed) item.forceUpdate();
+        });
       };
-      const updateRelatesThrottle = debounce(updateRelates, 16, true);
+      const debounceUpdateRelates = debounce(updateRelates, 16, false);
 
       Object.values(nodeComboUpdate).forEach((updateObj: any) => {
         const { isReplace, previous, current, id } = updateObj;
@@ -500,9 +501,7 @@ export class ItemController {
           nodeRelatedIdsToUpdate.add(edge.id);
         });
 
-        if (!onlyMove) {
-          item.onframe = () => updateRelates(nodeRelatedIdsToUpdate);
-        }
+        item.onframe = () => updateRelates(nodeRelatedIdsToUpdate);
         let statesCache;
         if (
           innerModel.data._isCombo &&
@@ -545,7 +544,7 @@ export class ItemController {
           });
         }
       });
-      updateRelatesThrottle();
+      debounceUpdateRelates();
     }
     // === 6. update edges' data ===
     if (groupedChanges.EdgeDataUpdated.length) {
@@ -1030,8 +1029,14 @@ export class ItemController {
 
       const getCombinedBounds = () => {
         //  calculate the position of the combo according to its children
-        const childModels = graphCore.getChildren(combo.id, 'combo');
-        return getCombinedBoundsByData(graph, childModels);
+        const bounds = getCombinedBoundsByData(
+          graph,
+          graphCore
+            .getChildren(combo.id, 'combo')
+            .map(({ id }) => itemMap.get(id))
+            .filter(Boolean) as (Node | Combo)[],
+        );
+        return bounds;
       };
       const getChildren = () => {
         const childModels = graphCore.getChildren(combo.id, 'combo');
@@ -1276,7 +1281,7 @@ export class ItemController {
   private collapseCombo(graphCore: GraphCore, comboModel: ComboModel) {
     let relatedEdges: EdgeModel[] = [];
     const succeedIds: ID[] = [];
-    // hide the succeeds
+    // find the succeeds in collapsed
     graphComboTreeDfs(this.graph, [comboModel], (child) => {
       if (child.id !== comboModel.id) {
         this.graph.executeWithoutStacking(() => {
@@ -1286,39 +1291,21 @@ export class ItemController {
       relatedEdges = relatedEdges.concat(graphCore.getRelatedEdges(child.id));
       succeedIds.push(child.id);
     });
-    const virtualEdges: EdgeModel[] = [];
-    const groupedEdges = new Map();
+    const pairs = [];
     uniq(relatedEdges).forEach((edge) => {
-      const { source: s, target: t, data } = edge;
-      if (data._virtual) return;
+      const { id, source: s, target: t } = edge;
+      if (!this.graph.getItemVisible(id)) return;
       const sourceIsSucceed = succeedIds.includes(s);
       const targetIsSucceed = succeedIds.includes(t);
       // do not add virtual edge if the source and target are both the succeed
       if (sourceIsSucceed && targetIsSucceed) return;
       const source = sourceIsSucceed ? comboModel.id : s;
       const target = targetIsSucceed ? comboModel.id : t;
-      const key = `${source}_${target}`;
-      const group = groupedEdges.get(key) || { edges: [], source, target };
-      group.edges.push(edge);
-      groupedEdges.set(key, group);
+      pairs.push({ source, target });
     });
     // each item in groupedEdges is a virtual edge
-    groupedEdges.forEach((group) => {
-      const { source, target, edges } = group;
-      virtualEdges.push({
-        id: `virtual-${uniqueId()}`,
-        source,
-        target,
-        data: {
-          _virtual: true,
-          keyShape: {
-            lineWidth: edges.length,
-          },
-        },
-      });
-    });
     this.graph.executeWithoutStacking(() => {
-      this.graph.addData('edge', virtualEdges);
+      this.graph.addData('edge', groupVirtualEdges(pairs));
     });
   }
 
@@ -1335,7 +1322,7 @@ export class ItemController {
     const relatedVirtualEdgeIds: ID[] = [];
     let edgesToShow: ID[] = [];
     const nodesToShow: ID[] = [];
-    // show the succeeds
+    // show the succeeds and remove the related virtual edges, including the succeeds' related edges
     graphComboTreeDfs(this.graph, [comboModel], (child) => {
       graphCore.getRelatedEdges(child.id).forEach((edge) => {
         if (edge.data._virtual) relatedVirtualEdgeIds.push(edge.id);
@@ -1351,19 +1338,60 @@ export class ItemController {
         }
       }
     });
+    const virtualPairs = [];
+    const visibleAncestorMap = new Map();
     edgesToShow = uniq(
       edgesToShow.filter((eid) => {
         const { source, target } = graphCore.getEdge(eid);
-        return (
-          (this.graph.getItemVisible(source) || nodesToShow.includes(source)) &&
-          (this.graph.getItemVisible(target) || nodesToShow.includes(target))
-        );
+        const ends = { source, target };
+        const endsVisible = {
+          source:
+            this.graph.getItemVisible(source) || nodesToShow.includes(source),
+          target:
+            this.graph.getItemVisible(target) || nodesToShow.includes(target),
+        };
+        // actual edges to show
+        if (endsVisible.source && endsVisible.target) return true;
+
+        // add virtual edges by finding the visible ancestor
+        const virtualEnds = { source: undefined, target: undefined };
+        Object.keys(virtualEnds).forEach((end) => {
+          if (!endsVisible[end]) {
+            if (!visibleAncestorMap.get(ends[end])) {
+              traverseAncestors(
+                graphCore,
+                [graphCore.getNode(ends[end])],
+                (ancestor) => {
+                  if (visibleAncestorMap.has(ends[end])) return;
+                  if (
+                    this.graph.getItemVisible(ancestor.id) ||
+                    nodesToShow.includes(ancestor.id)
+                  )
+                    visibleAncestorMap.set(ends[end], ancestor.id);
+                },
+              );
+            }
+            virtualEnds[end] = visibleAncestorMap.get(ends[end]);
+          } else {
+            virtualEnds[end] = ends[end];
+          }
+        });
+        if (
+          virtualEnds.source !== undefined &&
+          virtualEnds.target !== undefined
+        ) {
+          virtualPairs.push(virtualEnds);
+        }
+        return false;
       }),
     );
+
     // remove related virtual edges
     this.graph.executeWithoutStacking(() => {
       this.graph.removeData('edge', uniq(relatedVirtualEdgeIds));
       this.graph.showItem(edgesToShow.concat(nodesToShow));
+      // add virtual edges by grouping visible ancestor edges
+      this.graph.addData('edge', groupVirtualEdges(virtualPairs));
     });
   }
 
@@ -1545,4 +1573,36 @@ const filterItemMapByType = (
     }
   });
   return filteredMap;
+};
+
+const groupVirtualEdges = (pairs) => {
+  const groupedVirtualEdges = new Map();
+  pairs.forEach((edge) => {
+    const { source, target } = edge;
+    const key = `${source}_${target}`;
+    const group = groupedVirtualEdges.get(key) || {
+      edges: [],
+      source,
+      target,
+    };
+    group.edges.push(edge);
+    groupedVirtualEdges.set(key, group);
+  });
+  // each item in groupedEdges is a virtual edge
+  const virtualEdges: EdgeModel[] = [];
+  groupedVirtualEdges.forEach((group) => {
+    const { source, target, edges } = group;
+    virtualEdges.push({
+      id: `virtual-${uniqueId()}`,
+      source,
+      target,
+      data: {
+        _virtual: true,
+        keyShape: {
+          lineWidth: edges.length,
+        },
+      },
+    });
+  });
+  return virtualEdges;
 };

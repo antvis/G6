@@ -50,6 +50,7 @@ import diamond from './demo/diamond';
 import dataValidate from './data/data-validate';
 import anchor from './item/anchor';
 import arrow from './item/edge/arrow';
+import circularUpdate from './layouts/circular-update';
 
 export {
   behaviors_activateRelations,
@@ -92,7 +93,7 @@ export {
   rect,
   toolbar,
   tooltip,
-  animations_node_build_in
+  animations_node_build_in,
   star,
   treeGraph,
   triangle,
@@ -102,4 +103,5 @@ export {
   dataValidate,
   anchor,
   arrow,
+  circularUpdate,
 };

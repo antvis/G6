@@ -140,10 +140,14 @@ export class Polyline extends LineEdge {
       isEmpty(controlPoints),
     );
 
-    const attrs = mix({}, keyShapeStyle, {
+    const { startArrow, endArrow, ...others } = keyShapeStyle;
+    const lineStyle = {
+      ...others,
       path,
-    }) as any;
-
-    return this.upsertShape('path', 'keyShape', attrs, shapeMap, model);
+      isBillboard: true,
+    };
+    this.upsertArrow('start', startArrow, others, model, lineStyle);
+    this.upsertArrow('end', endArrow, others, model, lineStyle);
+    return this.upsertShape('path', 'keyShape', lineStyle, shapeMap, model);
   }
 }

@@ -307,9 +307,7 @@ export default class Node extends Item {
         intersectPoint = innerPoint;
         break;
       default: {
-        const bbox =
-          this.renderExt.boundsCache?.keyShapeLocal ||
-          keyShape.getLocalBounds();
+        const bbox = keyShape.getLocalBounds();
         intersectPoint = getRectIntersectByPoint(
           {
             x: x + bbox.min[0],
@@ -343,7 +341,8 @@ export default class Node extends Item {
   }
 
   public getPosition(): Point {
-    const initiated = this.shapeMap.keyShape; // && this.group.attributes.x !== undefined;
+    const initiated =
+      this.shapeMap.keyShape && this.group.attributes.x !== undefined;
     if (initiated) {
       const { center } = this.shapeMap.keyShape.getRenderBounds();
       return { x: center[0], y: center[1], z: center[2] };
