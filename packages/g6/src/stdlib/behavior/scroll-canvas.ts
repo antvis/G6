@@ -38,7 +38,9 @@ const DEFAULT_OPTIONS: ScrollCanvasOptions = {
 export default class ScrollCanvas extends Behavior<ScrollCanvasOptions> {
   private hiddenEdgeIds: ID[];
   private hiddenNodeIds: ID[];
-  
+
+  timeout?: number
+  optimized = false;
   constructor(options: Partial<ScrollCanvasOptions>) {
     super(Object.assign({}, DEFAULT_OPTIONS, options));
   }
@@ -56,7 +58,7 @@ export default class ScrollCanvas extends Behavior<ScrollCanvasOptions> {
   onWheel(ev: IG6GraphEvent) {
     if (!this.allowDrag(ev)) return;
     const graph = this.graph;
-    const { zoomKey, scalableRange, direction } = this.options
+    const { zoomKey, scalableRange, direction, enableOptimize } = this.options
     const zoomKeys = Array.isArray(zoomKey) ? [].concat(zoomKey) : [zoomKey];
     if (zoomKeys.includes('control')) zoomKeys.push('ctrl');
     const keyDown = zoomKeys.some(ele => ev[`${ele}Key`]);
@@ -140,10 +142,9 @@ export default class ScrollCanvas extends Behavior<ScrollCanvasOptions> {
     // todo
     // hide the shapes when the zoom ratio is smaller than optimizeZoom
     // hide the shapes when zoomming
-    const enableOptimize = this.get('enableOptimize');
     if (enableOptimize) {
       const optimizeZoom = this.get('optimizeZoom');
-      const optimized = this.get('optimized');
+      const optimized = this.optimized
       const nodes = graph.getNodes();
       const edges = graph.getEdges();
       const nodesLength = nodes.length;
@@ -176,12 +177,12 @@ export default class ScrollCanvas extends Behavior<ScrollCanvasOptions> {
             shape.hide();
           }
         }
-        this.set('optimized', true);
+        this.optimized = true
       }
 
       // showing after 100ms
-      clearTimeout(this.get('timeout'));
-      const timeout = setTimeout(() => {
+      clearTimeout(this.timeout); this.timeout = undefined
+      const timeout = window.setTimeout(() => {
         const currentZoom = graph.getZoom();
         const curOptimized = this.get('optimized');
         if (curOptimized) {
@@ -225,7 +226,7 @@ export default class ScrollCanvas extends Behavior<ScrollCanvasOptions> {
           }
         }
       }, 100);
-      this.set('timeout', timeout);
+      this.timeout = timeout
     }
   }
   allowDrag(evt: IG6GraphEvent) {
