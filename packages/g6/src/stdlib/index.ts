@@ -8,7 +8,7 @@ import DragCanvas from './behavior/drag-canvas';
 import DragCombo from './behavior/drag-combo';
 import DragNode from './behavior/drag-node';
 import LassoSelect from './behavior/lasso-select';
-import { comboFromNode } from './data/comboFromNode';
+import { validateData } from './data/validateData';
 import { LineEdge } from './item/edge';
 import {
   CircleNode,
@@ -54,7 +54,7 @@ import { RectCombo } from './item/combo/rect';
 
 const stdLib = {
   transforms: {
-    comboFromNode,
+    'validate-data': validateData,
   },
   themes: {
     light: LightTheme,

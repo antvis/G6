@@ -10,7 +10,6 @@ import cubic_edge from './item/edge/cubic-edge';
 import cubic_horizon_edge from './item/edge/cubic-horizon-edge';
 import cubic_vertical_edge from './item/edge/cubic-vertical-edge';
 import demo from './demo/demo';
-// import demoFor4 from './demo/demoFor4';
 import demoForPolyline from './demo/demoForPolyline';
 import donut_node from './item/node/donut-node';
 import ellipse from './demo/ellipse';
@@ -45,6 +44,7 @@ import triangle from './demo/triangle';
 import user_defined_canvas from './user-defined-canvas/circular';
 import visual from './visual/visual';
 import diamond from './demo/diamond';
+import dataValidate from './data/data-validate';
 
 export {
   animations_node_build_in,
@@ -59,7 +59,6 @@ export {
   cubic_horizon_edge,
   cubic_vertical_edge,
   demo,
-  // demoFor4,
   demoForPolyline,
   donut_node,
   ellipse,
@@ -89,9 +88,10 @@ export {
   rect,
   toolbar,
   tooltip,
-  treeGraph,
   triangle,
   user_defined_canvas,
   visual,
   diamond,
+  treeGraph,
+  dataValidate,
 };
