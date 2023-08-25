@@ -1,10 +1,11 @@
 import { NodeUserModel } from 'types';
-import { TreeData } from '@antv/graphlib';
+import { ID, TreeData } from '@antv/graphlib';
 import { NodeUserModelData } from 'types/node';
 import { isArray } from '@antv/util';
 import { depthFirstSearch, connectedComponent } from '@antv/algorithm';
 import { GraphCore, GraphData } from '../types/data';
 import { IGraph } from '../types/graph';
+import { NodeModel } from '../types';
 
 /**
  * Deconstruct data and distinguish nodes and combos from graphcore data.
@@ -236,12 +237,19 @@ export const treeData2GraphData = (
 export const graphData2TreeData = (
   nodeMap: { [id: string]: any },
   graphData: GraphData,
-  propRootIds = [],
+  propRootIds: ID[] = [],
 ) => {
   const trees = [];
-  const connectedComponents = connectedComponent(graphData as any, false);
+  const graphDataWithoutCombos = {
+    nodes: graphData.nodes?.filter((node) => !node.data._isCombo),
+    edges: graphData.edges,
+  };
+  const connectedComponents = connectedComponent(
+    graphDataWithoutCombos as any,
+    false,
+  ) as NodeModel[][];
   const rootIds = [];
-  const componentsNodeIds = [];
+  const componentsNodeIds: ID[][] = [];
   connectedComponents.forEach((com, i) => {
     componentsNodeIds[i] = com.map((node) => node.id);
     if (propRootIds.length) {

@@ -416,14 +416,16 @@ export abstract class BaseNode {
       this.mergedStyles;
     if (haloShapeStyle.visible === false) return;
     const { nodeName, attributes } = keyShape;
+    const { x, y, fill } = attributes;
     return this.upsertShape(
       nodeName as SHAPE_TYPE,
       'haloShape',
       {
-        ...keyShapeStyle,
-        // actual attributes in the keyShape has higher priority than the style config props of keyShape
         ...attributes,
-        stroke: attributes.fill,
+        ...keyShapeStyle,
+        x,
+        y,
+        stroke: fill,
         ...haloShapeStyle,
         batchKey: 'halo',
       },

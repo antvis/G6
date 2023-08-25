@@ -193,3 +193,13 @@ export const getLineIntersect = (
   }
   return null;
 };
+
+/**
+ * Determine if three points are bending (not lie on a straight line)
+ * @param p0 the first 2d point
+ * @param p1 the second 2d point
+ * @param p2 the third 2d point
+ * @returns
+ */
+export const isBending = (p0: Point, p1: Point, p2: Point): boolean =>
+  !((p0.x === p1.x && p1.x === p2.x) || (p0.y === p1.y && p1.y === p2.y));

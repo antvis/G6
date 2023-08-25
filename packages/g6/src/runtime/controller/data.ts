@@ -1,4 +1,4 @@
-import { Graph as GraphLib, GraphView, ID } from '@antv/graphlib';
+import { Graph as GraphLib, ID } from '@antv/graphlib';
 import { clone, isArray, isObject } from '@antv/util';
 import { registery as registry } from '../../stdlib';
 import { ComboModel, ComboUserModel, GraphData, IGraph } from '../../types';
@@ -24,15 +24,15 @@ import {
   NodeUserModel,
   NodeUserModelData,
 } from '../../types/node';
-import { getExtension } from '../../util/extension';
 import {
   deconstructData,
   graphComboTreeDfs,
   graphData2TreeData,
+  traverse,
   treeData2GraphData,
   validateComboStrucutre,
-  traverse,
 } from '../../util/data';
+import { getExtension } from '../../util/extension';
 
 /**
  * Manages the data transform extensions;
@@ -41,6 +41,7 @@ import {
 export class DataController {
   public graph: IGraph;
   public extensions = [];
+  public preCheck: (data: GraphData) => GraphData;
   /**
    * User input data.
    */
@@ -140,6 +141,7 @@ export class DataController {
    */
   private tap() {
     this.extensions = this.getExtensions();
+    this.preCheck = getExtension('validate-data', registry.useLib, 'transform');
     this.graph.hooks.datachange.tap(this.onDataChange.bind(this));
     this.graph.hooks.treecollapseexpand.tap(
       this.onTreeCollapseExpand.bind(this),
@@ -168,16 +170,16 @@ export class DataController {
     const change = () => {
       switch (changeType) {
         case 'remove':
-          this.removeData(data as GraphData);
+          this.removeData(this.preCheck?.(data as GraphData));
           break;
         case 'update':
-          this.updateData(data as GraphData);
+          this.updateData(data);
           break;
         case 'moveCombo':
-          this.moveCombo(data as GraphData);
+          this.moveCombo(this.preCheck?.(data as GraphData));
           break;
         case 'addCombo':
-          this.addCombo(data as GraphData);
+          this.addCombo(this.preCheck?.(data as GraphData));
           break;
         default:
           // changeType is 'replace' | 'mergeReplace' | 'union'
@@ -511,7 +513,11 @@ export class DataController {
       );
       return;
     }
-    return { type: type || 'graphData', data: data as GraphData };
+
+    return {
+      type: type || 'graphData',
+      data: this.preCheck(data as GraphData),
+    };
   }
 
   /**
@@ -721,35 +727,36 @@ export class DataController {
 
             // for tree graph view, show the succeed nodes and edges
             const succeedIds = [];
-            graphCore.dfsTree(
-              id,
-              (child) => {
-                succeedIds.push(child.id);
-              },
-              'tree',
-            );
-            const succeedEdgeIds = graphCore
-              .getAllEdges()
-              .filter(
-                ({ source, target }) =>
-                  succeedIds.includes(source) && succeedIds.includes(target),
-              )
-              .map((edge) => edge.id);
-            this.graph.showItem(
-              succeedIds
-                .filter((succeedId) => succeedId !== id)
-                .concat(succeedEdgeIds),
-            );
-
-            // for tree graph view, remove the node from the parent's children list
-            graphCore.setParent(id, undefined, 'tree');
-            // for tree graph view, make the its children to be roots
-            graphCore
-              .getChildren(id, 'tree')
-              .forEach((child) =>
-                graphCore.setParent(child.id, undefined, 'tree'),
+            if (graphCore.hasTreeStructure('tree')) {
+              graphCore.dfsTree(
+                id,
+                (child) => {
+                  succeedIds.push(child.id);
+                },
+                'tree',
+              );
+              const succeedEdgeIds = graphCore
+                .getAllEdges()
+                .filter(
+                  ({ source, target }) =>
+                    succeedIds.includes(source) && succeedIds.includes(target),
+                )
+                .map((edge) => edge.id);
+              this.graph.showItem(
+                succeedIds
+                  .filter((succeedId) => succeedId !== id)
+                  .concat(succeedEdgeIds),
               );
 
+              // for tree graph view, remove the node from the parent's children list
+              graphCore.setParent(id, undefined, 'tree');
+              // for tree graph view, make the its children to be roots
+              graphCore
+                .getChildren(id, 'tree')
+                .forEach((child) =>
+                  graphCore.setParent(child.id, undefined, 'tree'),
+                );
+            }
             // remove the node data
             graphCore.removeNode(id);
             delete parentMap[prevModel.id];

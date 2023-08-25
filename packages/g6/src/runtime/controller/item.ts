@@ -2,8 +2,10 @@ import { AABB, Canvas, DisplayObject, Group } from '@antv/g';
 import { GraphChange, ID } from '@antv/graphlib';
 import {
   debounce,
+  each,
   isArray,
   isObject,
+  map,
   throttle,
   uniq,
   uniqueId,
@@ -61,6 +63,7 @@ import {
 import { getGroupedChanges } from '../../util/event';
 import { BaseNode } from '../../stdlib/item/node/base';
 import { BaseEdge } from '../../stdlib/item/edge/base';
+import { EdgeCollisionChecker, QuadTree } from '../../util/polyline';
 
 /**
  * Manages and stores the node / edge / combo items.
@@ -277,17 +280,19 @@ export class ItemController {
       );
     }
     // collapse the sub tree which has 'collapsed' in initial data
-    const collapseNodes = [];
-    graphCoreTreeDfs(
-      graphCore,
-      graphCore.getRoots('tree'),
-      (child) => {
-        if (child.data.collapsed) collapseNodes.push(child);
-      },
-      'BT',
-      'tree',
-    );
-    this.collapseSubTree(collapseNodes, graphCore, false);
+    if (graphCore.hasTreeStructure('tree')) {
+      const collapseNodes = [];
+      graphCoreTreeDfs(
+        graphCore,
+        graphCore.getRoots('tree'),
+        (child) => {
+          if (child.data.collapsed) collapseNodes.push(child);
+        },
+        'BT',
+        'tree',
+      );
+      this.collapseSubTree(collapseNodes, graphCore, false);
+    }
   }
 
   /**
@@ -387,19 +392,18 @@ export class ItemController {
         }
       });
       const { dataTypeField: nodeDataTypeField } = nodeTheme;
-      const edgeIdsToUpdate: ID[] = [];
-      const comboIdsToUpdate: ID[] = [];
-      const updateRelates = (edgeIds) => {
-        comboIdsToUpdate.concat(edgeIds || edgeIdsToUpdate).forEach((id) => {
-          const item = itemMap.get(id) as Edge | Combo;
-          if (item && !item.destroyed) item.forceUpdate();
-        });
+      const edgeIdsToUpdate: Set<ID> = new Set<ID>();
+      const comboIdsToUpdate: Set<ID> = new Set<ID>();
+      const updateRelates = (edgeIds?: Set<ID>) => {
+        [...comboIdsToUpdate]
+          .concat([...(edgeIds || edgeIdsToUpdate)])
+          .forEach((nid) => {
+            const item = itemMap.get(nid) as Edge | Combo;
+            if (item && !item.destroyed) item.forceUpdate();
+          });
       };
+      const updateRelatesThrottle = debounce(updateRelates, 16, true);
 
-      const updateRelatesThrottle = throttle(updateRelates, 16, {
-        leading: true,
-        trailing: true,
-      });
       Object.values(nodeComboUpdate).forEach((updateObj: any) => {
         const { isReplace, previous, current, id } = updateObj;
         if (!graphCore.hasNode(id)) return;
@@ -417,47 +421,9 @@ export class ItemController {
           callback(innerModel, true);
           return;
         }
-        // update the theme if the dataType value is changed
-        let itemTheme;
-        if (
-          nodeDataTypeField &&
-          previous[nodeDataTypeField] !== current[nodeDataTypeField]
-        ) {
-          itemTheme = getItemTheme(
-            this.nodeDataTypeSet,
-            nodeDataTypeField,
-            current[nodeDataTypeField],
-            nodeTheme,
-          );
-        }
-        const relatedEdgeInnerModels = graphCore.getRelatedEdges(id);
-        const nodeRelatedIdsToUpdate: ID[] = [];
-        relatedEdgeInnerModels.forEach((edge) => {
-          edgeIdsToUpdate.push(edge.id);
-          nodeRelatedIdsToUpdate.push(edge.id);
-        });
 
-        const previousParentId = item.displayModel.data.parentId;
-
-        item.onframe = () => {
-          updateRelates(nodeRelatedIdsToUpdate);
-        };
-        item.update(
-          innerModel,
-          { previous, current },
-          isReplace,
-          itemTheme,
-          onlyMove,
-          animate,
-          // call after updating finished
-          (_, canceled) => {
-            item.onframe?.();
-            // @ts-ignore
-            item.onframe = undefined;
-            callback(innerModel, canceled);
-          },
-        );
-
+        const nodeRelatedIdsToUpdate: Set<ID> = new Set<ID>();
+        // collapse and expand
         if (graphCore.hasTreeStructure('combo')) {
           if (type === 'combo' && current.collapsed !== previous.collapsed) {
             if (current.collapsed) {
@@ -466,7 +432,7 @@ export class ItemController {
               this.expandCombo(graphCore, innerModel as ComboModel);
             }
           }
-
+          const previousParentId = item.displayModel.data.parentId;
           // update the current parent combo tree
           // if the node has previous parent, related previous parent combo should be updated to
           if (upsertAncestors) {
@@ -485,11 +451,11 @@ export class ItemController {
               begins,
               (treeItem) => {
                 if (treeItem.data._isCombo && treeItem.id !== innerModel.id)
-                  comboIdsToUpdate.push(treeItem.id);
+                  comboIdsToUpdate.add(treeItem.id);
                 const relatedEdges = graphCore.getRelatedEdges(treeItem.id);
                 relatedEdges.forEach((edge) => {
-                  edgeIdsToUpdate.push(edge.id);
-                  nodeRelatedIdsToUpdate.push(edge.id);
+                  edgeIdsToUpdate.add(edge.id);
+                  nodeRelatedIdsToUpdate.add(edge.id);
                 });
               },
             );
@@ -498,22 +464,89 @@ export class ItemController {
             graphComboTreeDfs(this.graph, [innerModel], (child) => {
               const relatedEdges = graphCore.getRelatedEdges(child.id);
               relatedEdges.forEach((edge) => {
-                edgeIdsToUpdate.push(edge.id);
-                nodeRelatedIdsToUpdate.push(edge.id);
+                edgeIdsToUpdate.add(edge.id);
+                nodeRelatedIdsToUpdate.add(edge.id);
               });
               if (child.data._isCombo && child.id !== innerModel.id)
-                comboIdsToUpdate.push(child.id);
+                comboIdsToUpdate.add(child.id);
             });
           }
         }
+
+        // update the theme if the dataType value is changed
+        let itemTheme;
+        if (
+          nodeDataTypeField &&
+          previous[nodeDataTypeField] !== current[nodeDataTypeField]
+        ) {
+          itemTheme = getItemTheme(
+            this.nodeDataTypeSet,
+            nodeDataTypeField,
+            current[nodeDataTypeField],
+            nodeTheme,
+          );
+        }
+
+        const preventPolylineEdgeOverlap =
+          innerModel?.data?.preventPolylineEdgeOverlap || false;
+        const relatedEdgeInnerModels = preventPolylineEdgeOverlap
+          ? this.findNearEdgesByNode(id, graphCore).concat(
+              graphCore.getRelatedEdges(id),
+            )
+          : graphCore.getRelatedEdges(id);
+
+        relatedEdgeInnerModels.forEach((edge) => {
+          edgeIdsToUpdate.add(edge.id);
+          nodeRelatedIdsToUpdate.add(edge.id);
+        });
+
+        if (!onlyMove) {
+          item.onframe = () => updateRelates(nodeRelatedIdsToUpdate);
+        }
+        let statesCache;
+        if (
+          innerModel.data._isCombo &&
+          previous.collapsed !== current.collapsed
+        ) {
+          statesCache = this.graph.getItemAllStates(id);
+          this.graph.clearItemState(id);
+        }
+        item.update(
+          innerModel,
+          { previous, current },
+          isReplace,
+          itemTheme,
+          onlyMove,
+          animate,
+          // call after updating finished
+          throttle(
+            (_, canceled) => {
+              item.onframe?.(true);
+              item.onframe = undefined;
+              if (statesCache) {
+                statesCache.forEach((state) =>
+                  this.graph.setItemState(id, state, true),
+                );
+              }
+              callback(innerModel, canceled);
+            },
+            500,
+            {
+              leading: true,
+              trailing: true,
+            },
+          ),
+        );
+
         const parentItem = this.itemMap.get(current.parentId);
         if (current.parentId && parentItem?.model.data.collapsed) {
-          this.graph.hideItem(innerModel.id);
+          this.graph.executeWithoutStacking(() => {
+            this.graph.hideItem(innerModel.id, false);
+          });
         }
       });
       updateRelatesThrottle();
     }
-
     // === 6. update edges' data ===
     if (groupedChanges.EdgeDataUpdated.length) {
       const edgeUpdate = {};
@@ -548,6 +581,7 @@ export class ItemController {
         }
         const item = itemMap.get(id);
         const innerModel = graphCore.getEdge(id);
+        if (!item || item.destroyed) return;
         item.update(
           innerModel,
           { current, previous },
@@ -559,7 +593,6 @@ export class ItemController {
         );
       });
     }
-
     // === 7. update edges' source target ===
     if (groupedChanges.EdgeUpdated.length) {
       const edgeUpdate = {};
@@ -579,12 +612,10 @@ export class ItemController {
           item.updateEnd('target', this.itemMap.get(target) as Node);
       });
     }
-
     // === 8. combo tree structure change, resort the shapes ===
     if (groupedChanges.ComboStructureChanged.length) {
       this.sortByComboTree(graphCore);
     }
-
     // === 9. tree data structure change, hide the new node and edge while one of the ancestor is collapsed ===
     if (groupedChanges.TreeStructureChanged.length) {
       groupedChanges.TreeStructureChanged.forEach((change) => {
@@ -702,9 +733,9 @@ export class ItemController {
             },
             'TB',
           );
-        } else {
-          item.toFront();
         }
+        // tocheck
+        item.toFront();
       } else {
         item.toBack();
         if (graphCore.hasTreeStructure('combo')) {
@@ -791,7 +822,6 @@ export class ItemController {
       upsertAncestors,
     } = config as any;
     const isItemType = type === 'node' || type === 'edge' || type === 'combo';
-
     // Removing
     if (action === 'remove') {
       if (isItemType) {
@@ -823,7 +853,6 @@ export class ItemController {
         return;
       }
     }
-
     // Adding / Updating
     if (isItemType) {
       const item = this.itemMap.get(id);
@@ -844,6 +873,7 @@ export class ItemController {
         onlyDrawKeyShape,
         upsertAncestors,
       );
+
       if (onlyDrawKeyShape) {
         // only update node positions to cloned node container(group)
         if (
@@ -929,6 +959,10 @@ export class ItemController {
     return this.transientObjectMap.get(id);
   }
 
+  public getTransientItem(id: ID) {
+    return this.transientItemMap[id];
+  }
+
   /**
    * Create nodes with inner data to canvas.
    * @param models nodes' inner datas
@@ -994,39 +1028,42 @@ export class ItemController {
         comboTheme,
       );
 
-      itemMap.set(
-        combo.id,
-        new Combo({
-          model: combo,
-          getCombinedBounds: () => {
-            //  calculate the position of the combo according to its children
-            const childModels = graphCore.getChildren(combo.id, 'combo');
-            return getCombinedBoundsByData(graph, childModels);
-          },
-          getChildren: () => {
-            const childModels = graphCore.getChildren(combo.id, 'combo');
-            return childModels.map(({ id }) => itemMap.get(id)) as (
-              | Node
-              | Combo
-            )[];
-          },
-          renderExtensions: comboExtensions,
-          containerGroup: comboGroup,
-          mapper: this.comboMapper as DisplayMapper,
-          stateMapper: this.comboStateMapper as {
-            [stateName: string]: DisplayMapper;
-          },
-          zoom,
-          theme: itemTheme as {
-            styles: ComboStyleSet;
-            lodStrategy: LodStrategyObj;
-          },
-          device:
-            graph.rendererType === 'webgl-3d'
-              ? (graph.canvas.context as any).deviceRendererPlugin.getDevice()
-              : undefined,
-        }),
-      );
+      const getCombinedBounds = () => {
+        //  calculate the position of the combo according to its children
+        const childModels = graphCore.getChildren(combo.id, 'combo');
+        return getCombinedBoundsByData(graph, childModels);
+      };
+      const getChildren = () => {
+        const childModels = graphCore.getChildren(combo.id, 'combo');
+        return childModels.map(({ id }) => itemMap.get(id)) as (Node | Combo)[];
+      };
+      const comboItem = new Combo({
+        model: combo,
+        getCombinedBounds,
+        getChildren,
+        renderExtensions: comboExtensions,
+        containerGroup: comboGroup,
+        mapper: this.comboMapper as DisplayMapper,
+        stateMapper: this.comboStateMapper as {
+          [stateName: string]: DisplayMapper;
+        },
+        zoom,
+        theme: itemTheme as {
+          styles: ComboStyleSet;
+          lodStrategy: LodStrategyObj;
+        },
+        device:
+          graph.rendererType === 'webgl-3d'
+            ? (graph.canvas.context as any).deviceRendererPlugin.getDevice()
+            : undefined,
+      });
+      // ------- for integration tests -------
+      comboItem.getCombinedBounds = getCombinedBounds;
+      comboItem.getChildren = getChildren;
+      comboItem.type = 'combo';
+      // ------- for integration tests end-------
+
+      itemMap.set(combo.id, comboItem);
     });
   }
 
@@ -1067,6 +1104,8 @@ export class ItemController {
         edgeTheme,
       );
 
+      const nodeMap = filterItemMapByType(itemMap, 'node') as Map<ID, Node>;
+
       itemMap.set(
         id,
         new Edge({
@@ -1079,6 +1118,7 @@ export class ItemController {
           },
           sourceItem,
           targetItem,
+          nodeMap,
           zoom,
           theme: itemTheme as {
             styles: EdgeStyleSet;
@@ -1126,6 +1166,20 @@ export class ItemController {
     return item.hasState(state);
   }
 
+  public getItemAllStates(id: ID): string[] {
+    const item = this.itemMap.get(id);
+    if (!item) {
+      console.warn(
+        `Fail to get item state, the item with id ${id} does not exist.`,
+      );
+      return [];
+    }
+    return item
+      .getStates()
+      .filter(({ value }) => value)
+      .map(({ name }) => name);
+  }
+
   public getItemById(id: ID) {
     return this.itemMap.get(id);
   }
@@ -1159,6 +1213,56 @@ export class ItemController {
     return item.isVisible();
   }
 
+  /**
+   * Identify edges that are intersected by a particular node
+   * @param nodeId node id
+   * @param graphCore
+   * @returns
+   */
+  public findNearEdgesByNode(nodeId: ID, graphCore: GraphCore) {
+    const edges = graphCore.getAllEdges();
+
+    const canvasBBox = this.graph.getRenderBBox(undefined) as AABB;
+    const quadTree = new QuadTree(canvasBBox, 4);
+
+    each(edges, (edge) => {
+      const {
+        data: { x: sourceX, y: sourceY },
+      } = graphCore.getNode(edge.source);
+      const {
+        data: { x: targetX, y: targetY },
+      } = graphCore.getNode(edge.target);
+
+      quadTree.insert({
+        id: edge.id,
+        p1: { x: sourceX, y: sourceY },
+        p2: { x: targetX, y: targetY },
+        bbox: this.graph.getRenderBBox(edge.id) as AABB,
+      });
+    });
+
+    // update node position
+    const node = (this.getTransientItem(nodeId) ||
+      this.getItemById(nodeId)) as Node;
+    const nodeBBox = this.graph.getRenderBBox(nodeId) as AABB;
+    const nodeData = node?.model?.data;
+    if (nodeData) {
+      nodeBBox.update(
+        [nodeData.x as number, nodeData.y as number, 0],
+        nodeBBox.halfExtents,
+      );
+    }
+
+    const checker = new EdgeCollisionChecker(quadTree);
+    const collisions = checker.getCollidingEdges(nodeBBox);
+
+    const collidingEdges = map(collisions, (collision) =>
+      graphCore.getEdge(collision.id),
+    );
+
+    return collidingEdges;
+  }
+
   public sortByComboTree(graphCore: GraphCore) {
     if (!graphCore.hasTreeStructure('combo')) return;
     graphCoreTreeDfs(graphCore, graphCore.getRoots('combo'), (node) => {
@@ -1174,7 +1278,11 @@ export class ItemController {
     const succeedIds: ID[] = [];
     // hide the succeeds
     graphComboTreeDfs(this.graph, [comboModel], (child) => {
-      if (child.id !== comboModel.id) this.graph.hideItem(child.id);
+      if (child.id !== comboModel.id) {
+        this.graph.executeWithoutStacking(() => {
+          this.graph.hideItem(child.id, false);
+        });
+      }
       relatedEdges = relatedEdges.concat(graphCore.getRelatedEdges(child.id));
       succeedIds.push(child.id);
     });
@@ -1209,7 +1317,9 @@ export class ItemController {
         },
       });
     });
-    this.graph.addData('edge', virtualEdges);
+    this.graph.executeWithoutStacking(() => {
+      this.graph.addData('edge', virtualEdges);
+    });
   }
 
   private expandCombo(graphCore: GraphCore, comboModel: ComboModel) {
@@ -1223,14 +1333,17 @@ export class ItemController {
     });
     if (isAncestorCollapsed) return;
     const relatedVirtualEdgeIds: ID[] = [];
+    let edgesToShow: ID[] = [];
+    const nodesToShow: ID[] = [];
     // show the succeeds
     graphComboTreeDfs(this.graph, [comboModel], (child) => {
       graphCore.getRelatedEdges(child.id).forEach((edge) => {
         if (edge.data._virtual) relatedVirtualEdgeIds.push(edge.id);
+        else edgesToShow.push(edge.id);
       });
       if (child.id !== comboModel.id) {
         if (!graphCore.getNode(child.data.parentId).data.collapsed) {
-          this.graph.showItem(child.id);
+          nodesToShow.push(child.id);
         }
         // re-add collapsed succeeds' virtual edges by calling collapseCombo
         if (child.data._isCombo && child.data.collapsed) {
@@ -1238,8 +1351,20 @@ export class ItemController {
         }
       }
     });
+    edgesToShow = uniq(
+      edgesToShow.filter((eid) => {
+        const { source, target } = graphCore.getEdge(eid);
+        return (
+          (this.graph.getItemVisible(source) || nodesToShow.includes(source)) &&
+          (this.graph.getItemVisible(target) || nodesToShow.includes(target))
+        );
+      }),
+    );
     // remove related virtual edges
-    this.graph.removeData('edge', uniq(relatedVirtualEdgeIds));
+    this.graph.executeWithoutStacking(() => {
+      this.graph.removeData('edge', uniq(relatedVirtualEdgeIds));
+      this.graph.showItem(edgesToShow.concat(nodesToShow));
+    });
   }
 
   /**
@@ -1407,4 +1532,17 @@ const getItemTheme = (
     styles: themeStyle,
     lodStrategy: formattedLodStrategy,
   };
+};
+
+const filterItemMapByType = (
+  itemMap: Map<ID, Node | Edge | Combo>,
+  type: ITEM_TYPE | ITEM_TYPE[],
+): Map<ID, Node | Edge | Combo | Group> => {
+  const filteredMap = new Map<ID, Node | Edge | Combo | Group>();
+  itemMap.forEach((value, key) => {
+    if (value.type === type) {
+      filteredMap.set(key, value);
+    }
+  });
+  return filteredMap;
 };

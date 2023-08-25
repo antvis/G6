@@ -79,21 +79,19 @@ export class LineEdge extends BaseEdge {
     diffState?: { previous: State[]; current: State[] },
   ) {
     const { keyShape: keyShapeStyle } = this.mergedStyles;
-    return this.upsertShape(
-      'line',
-      'keyShape',
-      {
-        ...keyShapeStyle,
-        x1: sourcePoint.x,
-        y1: sourcePoint.y,
-        z1: sourcePoint.z || 0,
-        x2: targetPoint.x,
-        y2: targetPoint.y,
-        z2: targetPoint.z || 0,
-        isBillboard: true,
-      },
-      shapeMap,
-      model,
-    );
+    const { startArrow, endArrow, ...others } = keyShapeStyle;
+    const lineStyle = {
+      ...others,
+      x1: sourcePoint.x,
+      y1: sourcePoint.y,
+      z1: sourcePoint.z || 0,
+      x2: targetPoint.x,
+      y2: targetPoint.y,
+      z2: targetPoint.z || 0,
+      isBillboard: true,
+    };
+    this.upsertArrow('start', startArrow, others, model, lineStyle);
+    this.upsertArrow('end', endArrow, others, model, lineStyle);
+    return this.upsertShape('line', 'keyShape', lineStyle, shapeMap, model);
   }
 }
