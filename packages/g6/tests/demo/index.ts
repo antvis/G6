@@ -34,6 +34,9 @@ import menu from './demo/menu';
 import performance from './performance/performance';
 import performance_layout from './performance/layout';
 import performance_layout_3d from './performance/layout-3d';
+import fisheye from './plugins/fisheye';
+import star from './demo/star';
+import hexagon from './demo/hexagon';
 import polyline from './item/edge/polyline-edge';
 import quadratic from './demo/quadratic';
 import rect from './demo/rect';
@@ -49,7 +52,6 @@ import anchor from './item/anchor';
 import arrow from './item/edge/arrow';
 
 export {
-  animations_node_build_in,
   behaviors_activateRelations,
   behaviors_brush_select,
   behaviors_click_select,
@@ -90,11 +92,13 @@ export {
   rect,
   toolbar,
   tooltip,
+  animations_node_build_in
+  star,
+  treeGraph,
   triangle,
   user_defined_canvas,
   visual,
   diamond,
-  treeGraph,
   dataValidate,
   anchor,
   arrow,
