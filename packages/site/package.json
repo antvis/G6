@@ -31,6 +31,7 @@
     "start": "npm run site:develop"
   },
   "dependencies": {
+    "@faker-js/faker": "^8.0.2",
     "@ant-design/icons": "^4.0.6",
     "@antv/chart-node-g6": "^0.0.3",
     "@antv/dumi-theme-antv": "^0.3.18",

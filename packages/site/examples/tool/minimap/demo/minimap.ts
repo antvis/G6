@@ -5,6 +5,7 @@ const container = document.getElementById('container') as HTMLElement;
 const width = container.scrollWidth;
 const height = (container.scrollHeight || 500) - 110;
 const data = Util.mock(20).random();
+
 /** minimap with string config */
 const minimap1 = 'minimap';
 /** minimap with object onfig and delegate type */
