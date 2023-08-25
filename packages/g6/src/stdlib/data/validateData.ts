@@ -107,7 +107,7 @@ export const validateData = (
       if (
         !nodeIdMap.has(source) &&
         !comboIdMap.has(source) &&
-        (!userGraphCore || !userGraphCore.hasEdge(source))
+        (!userGraphCore || !userGraphCore.hasNode(source))
       ) {
         console.error(
           `The edge with id ${id} will be ignored since its source ${source} is not existed in nodes and combos.`,
@@ -117,7 +117,7 @@ export const validateData = (
       if (
         !nodeIdMap.has(target) &&
         !comboIdMap.has(target) &&
-        (!userGraphCore || !userGraphCore.hasEdge(target))
+        (!userGraphCore || !userGraphCore.hasNode(target))
       ) {
         console.error(
           `The edge with id ${id} will be ignored since its target ${target} is not existed in nodes and combos.`,
