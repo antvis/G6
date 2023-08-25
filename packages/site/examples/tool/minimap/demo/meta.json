@@ -7,16 +7,16 @@
     {
       "filename": "minimap.ts",
       "title": {
-        "zh": "小地图",
+        "zh": "小地图导航",
         "en": "Minimap"
       },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*r3dAQo-R3BoAAAAAAAAAAABkARQnAQ"
     },
     {
-      "filename": "imageMinimap.js",
+      "filename": "minimap-api.ts",
       "title": {
-        "zh": "使用图片的小地图",
-        "en": "Image Minimap"
+        "zh": "通过 API 控制 Minimap",
+        "en": "Minimap API"
       },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*r3dAQo-R3BoAAAAAAAAAAABkARQnAQ"
     }
