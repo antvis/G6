@@ -41,7 +41,7 @@ import { getExtension } from '../../util/extension';
 export class DataController {
   public graph: IGraph;
   public extensions = [];
-  public preCheck: (data: GraphData) => GraphData;
+  public preCheck: (data: GraphData, userGraphCore?: GraphCore) => GraphData;
   /**
    * User input data.
    */
@@ -167,19 +167,20 @@ export class DataController {
    */
   private onDataChange(param: { data: DataConfig; type: DataChangeType }) {
     const { data, type: changeType } = param;
+    const { userGraphCore } = this;
     const change = () => {
       switch (changeType) {
         case 'remove':
-          this.removeData(this.preCheck?.(data as GraphData));
+          this.removeData(this.preCheck?.(data as GraphData, userGraphCore));
           break;
         case 'update':
           this.updateData(data);
           break;
         case 'moveCombo':
-          this.moveCombo(this.preCheck?.(data as GraphData));
+          this.moveCombo(this.preCheck?.(data as GraphData, userGraphCore));
           break;
         case 'addCombo':
-          this.addCombo(this.preCheck?.(data as GraphData));
+          this.addCombo(this.preCheck?.(data as GraphData, userGraphCore));
           break;
         default:
           // changeType is 'replace' | 'mergeReplace' | 'union'
@@ -187,7 +188,6 @@ export class DataController {
           break;
       }
     };
-    const { userGraphCore } = this;
     if (userGraphCore) {
       userGraphCore.batch(change);
     } else {
@@ -516,7 +516,7 @@ export class DataController {
 
     return {
       type: type || 'graphData',
-      data: this.preCheck(data as GraphData),
+      data: this.preCheck(data as GraphData, this.userGraphCore),
     };
   }
 
