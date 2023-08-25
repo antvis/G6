@@ -296,14 +296,16 @@ export class LayoutController {
     this.graph.updateNodePosition(nodes, undefined, !animate);
     this.graph.updateData(
       'edge',
-      edges.map((edge) => ({
-        id: edge.id,
-        data: {
-          keyShape: {
-            controlPoints: edge.data.controlPoints,
+      edges
+        .filter((edge) => edge.data.controlPoints)
+        .map((edge) => ({
+          id: edge.id,
+          data: {
+            keyShape: {
+              controlPoints: edge.data.controlPoints,
+            },
           },
-        },
-      })),
+        })),
     );
   }
 
