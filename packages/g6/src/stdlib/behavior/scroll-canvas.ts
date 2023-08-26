@@ -2,11 +2,10 @@ import { isBoolean, isObject } from '@antv/util';
 import { Behavior } from '../../types/behavior';
 import { ID, IG6GraphEvent } from '../../types';
 
-const ALLOW_EVENTS = ['shift', 'ctrl', 'alt', 'control', 'meta'];
-
 interface ScrollCanvasOptions {
   direction?: string;
   enableOptimize?: boolean;
+  optimizeZoom?: number;
   zoomKey?: string | string[];
   /**
    * scroll-canvas 可滚动的扩展范围，默认为 0，即最多可以滚动一屏的位置；
@@ -15,9 +14,9 @@ interface ScrollCanvasOptions {
    * 具体实例可参考：https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*IFfoS67_HssAAAAAAAAAAAAAARQnAQ
    */
   scalableRange?: number;
-  allowDragOnItem?: boolean | { 
-    node?: boolean; 
-    edge?: boolean; 
+  allowDragOnItem?: boolean | {
+    node?: boolean;
+    edge?: boolean;
     combo?: boolean;
   }
 }
@@ -42,14 +41,14 @@ export default class ScrollCanvas extends Behavior<ScrollCanvasOptions> {
   timeout?: number
   optimized = false;
   constructor(options: Partial<ScrollCanvasOptions>) {
-    super(Object.assign({}, DEFAULT_OPTIONS, options));
+    const finalOptions = Object.assign(
+      {}, DEFAULT_OPTIONS, options, {
+      zoomKey: initZoomKey(options.zoomKey)
+    })
+    super(finalOptions);
   }
 
   getEvents = () => {
-    const { zoomKey } = this.options
-    if (!zoomKey || ALLOW_EVENTS.indexOf(zoomKey) === -1) {
-      this.options.zoomKey = 'ctrl'
-    }
     return {
       wheel: this.onWheel
     };
@@ -62,7 +61,7 @@ export default class ScrollCanvas extends Behavior<ScrollCanvasOptions> {
     const zoomKeys = Array.isArray(zoomKey) ? [].concat(zoomKey) : [zoomKey];
     if (zoomKeys.includes('control')) zoomKeys.push('ctrl');
     const keyDown = zoomKeys.some(ele => ev[`${ele}Key`]);
-    
+
     const nativeEvent = ev.nativeEvent as WheelEvent & { wheelDelta: number }
 
     if (keyDown) {
@@ -70,7 +69,7 @@ export default class ScrollCanvas extends Behavior<ScrollCanvasOptions> {
       const point = canvas.getPointByClient(ev.clientX, ev.clientY);
       let ratio = graph.getZoom();
       console.log(ev)
-    
+
       // TODO: meiyou wheelDelta attr
       if (nativeEvent.wheelDelta > 0) {
         ratio = ratio + ratio * 0.05;
@@ -138,93 +137,19 @@ export default class ScrollCanvas extends Behavior<ScrollCanvasOptions> {
     }
     ev.preventDefault();
 
-
-    // todo
-    // hide the shapes when the zoom ratio is smaller than optimizeZoom
-    // hide the shapes when zoomming
     if (enableOptimize) {
-      const optimizeZoom = this.get('optimizeZoom');
       const optimized = this.optimized
-      const nodes = graph.getNodes();
-      const edges = graph.getEdges();
-      const nodesLength = nodes.length;
-      const edgesLength = edges.length;
 
       // hiding
       if (!optimized) {
-        for (let n = 0; n < nodesLength; n++) {
-          const node = nodes[n];
-          if (!node.destroyed) {
-            const children = node.get('group').get('children');
-            const childrenLength = children.length;
-            for (let c = 0; c < childrenLength; c++) {
-              const shape = children[c];
-              if (!shape.destoryed && !shape.get('isKeyShape')) {
-                shape.set('ori-visibility', shape.get('ori-visibility') || shape.get('visible'));
-                shape.hide();
-              }
-            }
-          }
-        }
-
-        for (let edgeIndex = 0; edgeIndex < edgesLength; edgeIndex++) {
-          const edge = edges[edgeIndex];
-          const children = edge.get('group').get('children');
-          const childrenLength = children.length;
-          for (let c = 0; c < childrenLength; c++) {
-            const shape = children[c];
-            shape.set('ori-visibility', shape.get('ori-visibility') || shape.get('visible'));
-            shape.hide();
-          }
-        }
+        this.hideShapes()
         this.optimized = true
       }
 
       // showing after 100ms
       clearTimeout(this.timeout); this.timeout = undefined
       const timeout = window.setTimeout(() => {
-        const currentZoom = graph.getZoom();
-        const curOptimized = this.get('optimized');
-        if (curOptimized) {
-          this.set('optimized', false);
-          for (let n = 0; n < nodesLength; n++) {
-            const node = nodes[n];
-            const children = node.get('group').get('children');
-            const childrenLength = children.length;
-            if (currentZoom < optimizeZoom) {
-              const keyShape = node.getKeyShape();
-              const oriVis = keyShape.get('ori-visibility');
-              if (oriVis) keyShape.show();
-            } else {
-              for (let c = 0; c < childrenLength; c++) {
-                const shape = children[c];
-                const oriVis = shape.get('ori-visibility');
-                if (!shape.get('visible') && oriVis) {
-                  if (oriVis) shape.show();
-                }
-              }
-            }
-          }
-
-          for (let edgeIndex = 0; edgeIndex < edgesLength; edgeIndex++) {
-            const edge = edges[edgeIndex];
-            const children = edge.get('group').get('children');
-            const childrenLength = children.length;
-            if (currentZoom < optimizeZoom) {
-              const keyShape = edge.getKeyShape();
-              const oriVis = keyShape.get('ori-visibility');
-              if (oriVis) keyShape.show();
-            } else {
-              for (let c = 0; c < childrenLength; c++) {
-                const shape = children[c];
-                if (!shape.get('visible')) {
-                  const oriVis = shape.get('ori-visibility');
-                  if (oriVis) shape.show();
-                }
-              }
-            }
-          }
-        }
+        this.showShapes()
       }, 100);
       this.timeout = timeout
     }
@@ -242,7 +167,6 @@ export default class ScrollCanvas extends Behavior<ScrollCanvasOptions> {
     }
     return true;
   }
-
   private hideShapes() {
     const { graph } = this;
     if (this.options.enableOptimize) {
@@ -264,4 +188,52 @@ export default class ScrollCanvas extends Behavior<ScrollCanvasOptions> {
       graph.hideItem(this.hiddenNodeIds, true);
     }
   }
+  private showShapes() {
+    const { graph, hiddenEdgeIds, hiddenNodeIds } = this;
+    const currentZoom = graph.getZoom();
+    const { optimizeZoom } = this.options;
+
+    // hide the shapes when the zoom ratio is smaller than optimizeZoom
+    // hide the shapes when zoomming
+    if (currentZoom < optimizeZoom) {
+      return;
+    }
+    
+    this.hiddenEdgeIds = this.hiddenNodeIds = []
+    if (!this.options.enableOptimize) {
+      return;
+    }
+
+    if (hiddenEdgeIds) {
+      graph.showItem(hiddenEdgeIds, true);
+    }
+    if (hiddenNodeIds) {
+      hiddenNodeIds.forEach((id) => {
+        this.graph.drawTransient('node', id, { action: 'remove' });
+      });
+      graph.showItem(hiddenNodeIds, true);
+    }
+  }
+}
+
+const ALLOW_EVENTS = ['shift', 'ctrl', 'alt', 'control', 'meta'];
+
+function initZoomKey(zoomKey?: string | string[]) {
+  const zoomKeys = zoomKey ? (
+    Array.isArray(zoomKey) ? zoomKey : [zoomKey]
+  ) : []
+
+  const validZoomKeys = zoomKeys.filter(zoomKey => {
+    const keyIsValid = ALLOW_EVENTS.includes(zoomKey)
+    if (!keyIsValid) 
+      console.warn(`Invalid zoomKey: ${zoomKey}, please use a valid zoomKey: ${JSON.stringify(ALLOW_EVENTS)}`)
+      
+    return keyIsValid
+  })
+
+  if (validZoomKeys.length === 0) {
+    validZoomKeys.push('ctrl')
+  }
+
+  return validZoomKeys
 }
