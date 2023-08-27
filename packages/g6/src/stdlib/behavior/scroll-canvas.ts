@@ -186,7 +186,6 @@ export class ScrollCanvas extends Behavior<ScrollCanvasOptions> {
       this.hiddenNodeIds.forEach((id) => {
         graph.drawTransient('node', id, {
           onlyDrawKeyShape: true,
-          upsertAncestors: false,
         });
       });
       graph.hideItem(this.hiddenNodeIds, true);
