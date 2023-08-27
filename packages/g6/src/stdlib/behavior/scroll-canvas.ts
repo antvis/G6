@@ -13,7 +13,7 @@ interface ScrollCanvasOptions {
    * 当设置的值小于 0 时，相当于缩小了可滚动范围；
    * 具体实例可参考：https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*IFfoS67_HssAAAAAAAAAAAAAARQnAQ
    */
-  scalableRange?: number;
+  scalableRange?: string | number;
   allowDragOnItem?: boolean | {
     node?: boolean;
     edge?: boolean;
@@ -43,8 +43,8 @@ export default class ScrollCanvas extends Behavior<ScrollCanvasOptions> {
   constructor(options: Partial<ScrollCanvasOptions>) {
     const finalOptions = Object.assign(
       {}, DEFAULT_OPTIONS, options, {
-      zoomKey: initZoomKey(options.zoomKey)
-    })
+        zoomKey: initZoomKey(options.zoomKey)
+      })
     super(finalOptions);
   }
 
@@ -65,12 +65,9 @@ export default class ScrollCanvas extends Behavior<ScrollCanvasOptions> {
     const nativeEvent = ev.nativeEvent as WheelEvent & { wheelDelta: number }
 
     if (keyDown) {
-      const canvas = graph.get('canvas');
-      const point = canvas.getPointByClient(ev.clientX, ev.clientY);
+      const canvas = graph.canvas;
+      const point = canvas.getPointByClient(nativeEvent.clientX, nativeEvent.clientY);
       let ratio = graph.getZoom();
-      console.log(ev)
-
-      // TODO: meiyou wheelDelta attr
       if (nativeEvent.wheelDelta > 0) {
         ratio = ratio + ratio * 0.05;
       } else {
@@ -81,61 +78,14 @@ export default class ScrollCanvas extends Behavior<ScrollCanvasOptions> {
         y: point.y,
       });
     } else {
-      let dx = nativeEvent.deltaX || ev.movementX;
-      let dy = nativeEvent.deltaY || ev.movementY;
-      if (!dy && navigator.userAgent.indexOf('Firefox') > -1) dy = (-nativeEvent.wheelDelta * 125) / 3
+      const diffX = nativeEvent.deltaX || nativeEvent.movementX;
+      let diffY = nativeEvent.deltaY || nativeEvent.movementY;
+      
+      if (!diffY && navigator.userAgent.indexOf('Firefox') > -1) diffY = (-nativeEvent.wheelDelta * 125) / 3
 
-      const width = this.graph.get('width');
-      const height = this.graph.get('height');
-      const graphCanvasBBox = this.graph.get('canvas').getCanvasBBox();
-
-      let expandWidth = scalableRange;
-      let expandHeight = scalableRange;
-      // 若 scalableRange 是 0~1 的小数，则作为比例考虑
-      if (expandWidth < 1 && expandWidth > -1) {
-        expandWidth = width * expandWidth;
-        expandHeight = height * expandHeight;
-      }
-      const { minX, maxX, minY, maxY } = graphCanvasBBox;
-
-
-      if (dx > 0) {
-        if (maxX < -expandWidth) {
-          dx = 0
-        } else if (maxX - dx < -expandWidth) {
-          dx = maxX + expandWidth
-        }
-      } else if (dx < 0) {
-        if (minX > width + expandWidth) {
-          dx = 0
-        } else if (minX - dx > width + expandWidth) {
-          dx = minX - (width + expandWidth)
-        }
-      }
-
-      if (dy > 0) {
-        if (maxY < -expandHeight) {
-          dy = 0
-        } else if (maxY - dy < -expandHeight) {
-          dy = maxY + expandHeight
-        }
-      } else if (dy < 0) {
-        if (minY > height + expandHeight) {
-          dy = 0
-        } else if (minY - dy > height + expandHeight) {
-          dy = minY - (height + expandHeight)
-        }
-      }
-
-      if (direction === 'x') {
-        dy = 0;
-      } else if (direction === 'y') {
-        dx = 0;
-      }
-
+      const { dx, dy } = this.formatDisplacement(diffX, diffY)
       graph.translate({ dx: -dx, dy: -dy });
     }
-    ev.preventDefault();
 
     if (enableOptimize) {
       const optimized = this.optimized
@@ -150,9 +100,62 @@ export default class ScrollCanvas extends Behavior<ScrollCanvasOptions> {
       clearTimeout(this.timeout); this.timeout = undefined
       const timeout = window.setTimeout(() => {
         this.showShapes()
+        this.optimized = false
       }, 100);
       this.timeout = timeout
     }
+  }
+  private formatDisplacement(diffX: number, diffY: number) {
+    const { graph } = this;
+    const { scalableRange, direction } = this.options;
+    const [width, height] = graph.getSize();
+    const graphBBox = graph.canvas.getRoot().getRenderBounds();
+    let rangeNum = Number(scalableRange);
+    let isPixel;
+    if (typeof scalableRange === 'string') {
+      if (scalableRange.includes('px')) {
+        isPixel = scalableRange.includes('px');
+        rangeNum = Number(scalableRange.replace('px', ''));
+      }
+      if (scalableRange.includes('%')) {
+        rangeNum = Number(scalableRange.replace('%', '')) / 100;
+      }
+    }
+    if (rangeNum === 0) return { dx: diffX, dy: diffY };
+
+    let expandWidth = rangeNum;
+    let expandHeight = rangeNum;
+    // If it is not a string with 'px', regard as ratio
+    if (!isPixel) {
+      expandWidth = width * rangeNum;
+      expandHeight = height * rangeNum;
+    }
+    const leftTopClient = graph.getViewportByCanvas({
+      x: graphBBox.min[0],
+      y: graphBBox.min[1],
+    });
+    const rightBottomClient = graph.getViewportByCanvas({
+      x: graphBBox.max[0],
+      y: graphBBox.max[1],
+    });
+
+    let dx = diffX;
+    let dy = diffY;
+    if (
+      direction === 'y' ||
+      (diffX > 0 && rightBottomClient.x + diffX > width + expandWidth) ||
+      (diffX < 0 && leftTopClient.x + expandWidth + diffX < 0)
+    ) {
+      dx = 0;
+    }
+    if (
+      direction === 'x' ||
+      (diffY > 0 && rightBottomClient.y + diffY > height + expandHeight) ||
+      (diffY < 0 && leftTopClient.y + expandHeight + diffY < 0)
+    ) {
+      dy = 0;
+    }
+    return { dx, dy };
   }
   allowDrag(evt: IG6GraphEvent) {
     const { itemType } = evt;
@@ -183,6 +186,7 @@ export default class ScrollCanvas extends Behavior<ScrollCanvasOptions> {
       this.hiddenNodeIds.forEach((id) => {
         graph.drawTransient('node', id, {
           onlyDrawKeyShape: true,
+          upsertAncestors: false,
         });
       });
       graph.hideItem(this.hiddenNodeIds, true);
