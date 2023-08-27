@@ -3,17 +3,37 @@ import { Behavior } from '../../types/behavior';
 import { ID, IG6GraphEvent } from '../../types';
 
 interface ScrollCanvasOptions {
+  /**
+   * The direction of dragging that is allowed. Options: 'x', 'y', 'both'. 'both' by default.
+   */
   direction?: string;
+  /**
+   * Whether enable optimize strategies, which will hide all the shapes excluding node keyShape while scrolling.
+   */
   enableOptimize?: boolean;
+  /**
+   * When the zoom ratio of the graph is smaller than ```optimizeZoom```, all shapes except for node keyShape will always be hidden.
+   * This option requires ```enableOptimize=true```;
+   */
   optimizeZoom?: number;
+  /**
+   * Switch to zooming while pressing the key and wheeling. Options: 'shift', 'ctrl', 'alt', 'control', 'meta', using an array of these options allows any of these keys to trigger zooming;
+   * Use ```'ctrl'``` by default;
+   */
   zoomKey?: string | string[];
   /**
-   * scroll-canvas 可滚动的扩展范围，默认为 0，即最多可以滚动一屏的位置；
-   * 当设置的值大于 0 时，即滚动可以超过一屏；
-   * 当设置的值小于 0 时，相当于缩小了可滚动范围；
-   * 具体实例可参考：https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*IFfoS67_HssAAAAAAAAAAAAAARQnAQ
+   * The range of canvas to limit dragging, 0 by default, which means the graph cannot be dragged totally out of the view port range.
+   * If scalableRange is number or a string without 'px', means it is a ratio of the graph content.
+   * If scalableRange is a string with 'px', it is regarded as pixels.
+   * If scalableRange = 0, no constrains;
+   * If scalableRange > 0, the graph can be dragged out of the view port range
+   * If scalableRange < 0, the range is smaller than the view port.
+   * Refer to https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*IFfoS67_HssAAAAAAAAAAAAAARQnAQ
    */
   scalableRange?: string | number;
+  /**
+   * Whether allow trigger this behavior when drag start on nodes / edges / combos.
+   */
   allowDragOnItem?: boolean | {
     node?: boolean;
     edge?: boolean;
