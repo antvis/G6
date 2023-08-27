@@ -412,6 +412,26 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       });
       this.emit('afterrender');
 
+      this.once('afterlayout', async () => {
+        const { autoFit } = this.specification;
+        if (autoFit) {
+          if (autoFit === 'view') {
+            await this.fitView();
+          } else if (autoFit === 'center') {
+            await this.fitCenter();
+          } else {
+            const { type, effectTiming, ...others } = autoFit;
+            if (type === 'view') {
+              await this.fitView(others as any, effectTiming);
+            } else if (type === 'center') {
+              await this.fitCenter(effectTiming);
+            } else if (type === 'position') {
+              // TODO: align
+              await this.translateTo((others as any).position, effectTiming);
+            }
+          }
+        }
+      });
       await this.layout();
     };
     if (this.canvasReady) {
@@ -1692,24 +1712,6 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       animate: !disableAnimate,
     });
 
-    const { autoFit } = this.specification;
-    if (autoFit) {
-      if (autoFit === 'view') {
-        await this.fitView();
-      } else if (autoFit === 'center') {
-        await this.fitCenter();
-      } else {
-        const { type, effectTiming, ...others } = autoFit;
-        if (type === 'view') {
-          await this.fitView(others as any, effectTiming);
-        } else if (type === 'center') {
-          await this.fitCenter(effectTiming);
-        } else if (type === 'position') {
-          // TODO: align
-          await this.translateTo((others as any).position, effectTiming);
-        }
-      }
-    }
     this.emit('afterlayout');
   }
 

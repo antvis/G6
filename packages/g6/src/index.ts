@@ -9,6 +9,6 @@ export * from './types';
  */
 const Graph = extend(EmptyGraph<{}, {}>, stdLib);
 
-export { Graph, Util, stdLib };
+export { Graph, Util, stdLib, extend };
 
 export default { Graph, stdLib };

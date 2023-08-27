@@ -1,4 +1,6 @@
-import G6 from '@antv/g6';
+import G6 from '../../../src/index';
+import { TestCaseContext } from '../interface';
+
 const data = {
   nodes: [
     {
@@ -166,102 +168,95 @@ const data = {
   ],
 };
 
-let sortByCombo = false;
-const descriptionDiv = document.createElement('button');
-descriptionDiv.innerHTML = 'Enable sortByCombo';
-const container = document.getElementById('container');
-container.appendChild(descriptionDiv);
-
-descriptionDiv.addEventListener('click', (e) => {
-  sortByCombo = !sortByCombo;
-  descriptionDiv.innerHTML = sortByCombo ? 'Disable sortByCombo' : 'Enable sortByCombo';
-  graph.layout({
-    type: 'dagre',
-    sortByCombo,
-  });
-});
-const width = container.scrollWidth;
-const height = (container.scrollHeight || 500) - 30;
-const graph = new G6.Graph({
-  container: 'container',
-  width,
-  height: height - 50,
-  autoFit: 'view',
-  modes: {
-    default: ['drag-combo', 'drag-node', 'drag-canvas', 'zoom-canvas', 'collapse-expand-combo'],
-  },
-  layout: {
-    type: 'dagre',
-    ranksep: 50,
-    nodesep: 30,
-  },
-  theme: {
-    type: 'spec',
-    base: 'light',
-    specification: {
-      node: {
-        dataTypeField: 'parentId',
+export default (context: TestCaseContext) => {
+  const graph = new G6.Graph({
+    ...context,
+    autoFit: 'view',
+    modes: {
+      default: [
+        'drag-combo',
+        'drag-node',
+        'drag-canvas',
+        'zoom-canvas',
+        'collapse-expand-combo',
+      ],
+    },
+    layout: {
+      type: 'dagre',
+      ranksep: 50,
+      nodesep: 30,
+    },
+    theme: {
+      type: 'spec',
+      base: 'light',
+      specification: {
+        node: {
+          dataTypeField: 'parentId',
+        },
       },
     },
-  },
-  node: (model) => {
-    const { id, data } = model;
-    return {
-      id,
-      data: {
-        ...data,
-        type: 'rect-node',
-        lodStrategy: {},
-        keyShape: {
-          width: 60,
-          height: 30,
-          radius: 8,
-        },
-        labelShape: {
-          position: 'center',
-          text: id,
-        },
-        anchorPoints: [
-          [0.5, 0],
-          [0.5, 1],
-        ],
-      },
-    };
-  },
-  combo: (model) => {
-    const { id, data } = model;
-    return {
-      id,
-      data: {
-        ...data,
-        type: 'rect-combo',
-        keyShape: {
-          opacity: 0.8,
-          padding: [20, 20, 20, 20],
-          radius: 8,
-        },
-        labelShape: {
-          text: `Combo ${id}`,
-          offsetY: 8,
-        },
-        labelBackgroundShape: {},
-        animates: {
-          update: [
-            {
-              fields: ['width', 'height', 'x', 'y'],
-              shapeId: 'keyShape',
-            },
+    node: (model) => {
+      const { id, data } = model;
+      return {
+        id,
+        data: {
+          ...data,
+          type: 'rect-node',
+          lodStrategy: {},
+          keyShape: {
+            width: 60,
+            height: 30,
+            radius: 8,
+          },
+          labelShape: {
+            position: 'center',
+            text: id,
+          },
+          anchorPoints: [
+            [0.5, 0],
+            [0.5, 1],
           ],
         },
-      },
-    };
-  },
-  data,
-});
+      };
+    },
+    combo: (model) => {
+      const { id, data } = model;
+      return {
+        id,
+        data: {
+          ...data,
+          type: 'rect-combo',
+          keyShape: {
+            opacity: 0.8,
+            padding: [20, 20, 20, 20],
+            radius: 8,
+          },
+          labelShape: {
+            text: `Combo ${id}`,
+            offsetY: 8,
+          },
+          labelBackgroundShape: {},
+          animates: {
+            update: [
+              {
+                fields: ['width', 'height', 'x', 'y'],
+                shapeId: 'keyShape',
+              },
+            ],
+          },
+        },
+      };
+    },
+    data,
+  });
 
-if (typeof window !== 'undefined')
-  window.onresize = () => {
-    if (!graph || graph.destroyed) return;
-    if (!container || !container.scrollWidth || !container.scrollHeight) return;
-    graph.setSize([container.scrollWidth, container.scrollHeight - 30]);
-  };
+  let sortByCombo = false;
+  graph.on('canvas:click', (e) => {
+    sortByCombo = !sortByCombo;
+    graph.layout({
+      type: 'dagre',
+      sortByCombo,
+    });
+  });
+  return graph;
+};

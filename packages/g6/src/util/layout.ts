@@ -1,6 +1,7 @@
 import Hierarchy from '@antv/hierarchy';
 
 import { traverse } from './data';
+import { isArray, isNumber } from '@antv/util';
 type TreeGraphData = any;
 /**
  * Judge the direction according to options of a tree layout.
@@ -67,5 +68,24 @@ export const layoutOneTree = (
 export const isComboLayout = (options) => {
   const { type } = options;
   if (['comboCombined', 'comboForce'].includes(type)) return true;
+  if (type === 'dagre' && options.sortByCombo) return true;
   return false;
+};
+
+export const getNodeSizeFn = (options, defaultSize = 32) => {
+  if (options.nodeSize) return options.nodeSize;
+  return (node) => {
+    const { size, keyShape } = node.data;
+    if (isArray(size)) return Math.max(...size);
+    if (isNumber(size)) return size;
+    if (!keyShape) return defaultSize;
+    const { r, width, height } = keyShape;
+    if (!isNaN(r)) return r * 2;
+    const widthValid = !isNaN(width);
+    const heightValid = !isNaN(height);
+    if (widthValid && heightValid) return Math.max(width, height);
+    if (widthValid) return width;
+    if (heightValid) return height;
+    return defaultSize;
+  };
 };
