@@ -34,7 +34,7 @@ const DEFAULT_OPTIONS: ScrollCanvasOptions = {
 };
 
 
-export default class ScrollCanvas extends Behavior<ScrollCanvasOptions> {
+export class ScrollCanvas extends Behavior<ScrollCanvasOptions> {
   private hiddenEdgeIds: ID[];
   private hiddenNodeIds: ID[];
 
