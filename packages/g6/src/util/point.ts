@@ -1,3 +1,4 @@
+import { vec2 } from '@antv/matrix-util';
 import { Point } from '../types/common';
 import { isBetween } from './math';
 
@@ -37,9 +38,21 @@ export const getNearestPoint = (
  * @param p1 first point
  * @param p2 second point
  */
-export const distance = (p1: Point, p2: Point): number => {
-  const vx = p1.x - p2.x;
-  const vy = p1.y - p2.y;
+export const distance = (p1: Point | vec2, p2: Point | vec2): number => {
+  let x1: number, y1: number, x2: number, y2: number;
+  if (Array.isArray(p1) && Array.isArray(p2)) {
+    [x1, y1] = p1;
+    [x2, y2] = p2;
+  } else if (!Array.isArray(p1) && !Array.isArray(p2)) {
+    x1 = (p1 as Point).x;
+    y1 = (p1 as Point).y;
+    x2 = (p2 as Point).x;
+    y2 = (p2 as Point).y;
+  } else {
+    throw new Error('Mismatched input types');
+  }
+  const vx = x1 - x2;
+  const vy = y1 - y2;
   return Math.sqrt(vx * vx + vy * vy);
 };
 

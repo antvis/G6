@@ -32,6 +32,7 @@ import { getWordWrapWidthByEnds } from '../../../util/text';
 import { AnimateCfg } from '../../../types/animate';
 import { getZoomLevel } from '../../../util/zoom';
 import { DEFAULT_ARROW_CONFIG, getArrowPath } from '../../../util/arrow';
+import Node from '../../../item/node';
 
 export abstract class BaseEdge {
   type: string;
