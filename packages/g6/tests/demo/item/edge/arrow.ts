@@ -74,7 +74,6 @@ export default (
     const currentArrow = graph.getEdgeData('edge1')?.data?.keyShape?.endArrow;
     const hasEndrrow = currentArrow === undefined || currentArrow;
     if (!hasEndrrow) {
-      console.log('add');
       graph.updateData('edge', {
         id: 'edge1',
         data: { keyShape: { endArrow: true } },
@@ -123,7 +122,6 @@ export default (
   colorBtn.textContent = '更换箭头颜色';
   colorBtn.id = 'arrow-change-color';
   colorBtn.addEventListener('click', (e) => {
-    console.log(graph.getEdgeData('edge1'));
     const currentCfg = graph.getEdgeData('edge1')?.data?.keyShape?.endArrow;
     graph.updateData('edge', {
       id: 'edge1',

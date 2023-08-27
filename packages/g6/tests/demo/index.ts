@@ -6,6 +6,7 @@ import behaviors_collapse_expand_tree from './behaviors/collapse-expand-tree';
 import bugReproduce from './demo/bugReproduce';
 import comboBasic from './combo/combo-basic';
 import comboRect from './combo/combo-rect';
+import comboDagre from './layouts/dagre-combo';
 import cubic_edge from './item/edge/cubic-edge';
 import cubic_horizon_edge from './item/edge/cubic-horizon-edge';
 import cubic_vertical_edge from './item/edge/cubic-vertical-edge';
@@ -34,9 +35,7 @@ import menu from './demo/menu';
 import performance from './performance/performance';
 import performance_layout from './performance/layout';
 import performance_layout_3d from './performance/layout-3d';
-import fisheye from './plugins/fisheye';
 import star from './demo/star';
-import hexagon from './demo/hexagon';
 import polyline from './item/edge/polyline-edge';
 import quadratic from './demo/quadratic';
 import rect from './demo/rect';
@@ -51,6 +50,7 @@ import dataValidate from './data/data-validate';
 import anchor from './item/anchor';
 import arrow from './item/edge/arrow';
 import circularUpdate from './layouts/circular-update';
+import dataFromV4 from './data/data-from-v4';
 
 export {
   behaviors_activateRelations,
@@ -104,4 +104,6 @@ export {
   anchor,
   arrow,
   circularUpdate,
+  comboDagre,
+  dataFromV4,
 };

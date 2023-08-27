@@ -47,6 +47,11 @@ export abstract class BaseNode {
   };
   //vertex coordinate
 
+  /**
+   * Cache the scale transform calculated by balancing size, for restoring.
+   */
+  protected scaleTransformCache = '';
+
   // cache the zoom level infomations
   protected zoomCache: {
     // the id of shapes which are hidden by zoom changing.
@@ -240,6 +245,7 @@ export abstract class BaseNode {
       offsetY: propsOffsetY,
       offsetZ: propsOffsetZ,
       maxWidth,
+      angle,
       ...otherStyle
     } = shapeStyle;
 
@@ -307,6 +313,9 @@ export abstract class BaseNode {
       isBillboard: true,
       ...otherStyle,
     };
+    if (angle) {
+      style.transform = `rotate(${angle}rad)`;
+    }
     return this.upsertShape('text', 'labelShape', style, shapeMap, model);
   }
 
@@ -803,7 +812,13 @@ export abstract class BaseNode {
           break;
       }
     }
-    labelShape.style.transform = `scale(${balanceRatio}, ${balanceRatio})`;
+    const oriTransform = (labelShape.style.transform || '').replace(
+      this.scaleTransformCache,
+      '',
+    );
+    const scaleTransform = `scale(${balanceRatio}, ${balanceRatio})`;
+    labelShape.style.transform = `${oriTransform} ${scaleTransform}`;
+    this.scaleTransformCache = scaleTransform;
     const wordWrapWidth = this.zoomCache.wordWrapWidth * zoom;
     labelShape.style.wordWrapWidth = wordWrapWidth;
 

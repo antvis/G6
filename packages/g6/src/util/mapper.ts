@@ -6,8 +6,11 @@ import { NodeDisplayModelData } from '../types/node';
 export const DEFAULT_MAPPER = {
   node: (innerNodeModel) => {
     const { id, data } = innerNodeModel;
-    const { color, label, icon, badges, anchorPoints } = data;
-    const resultData: NodeDisplayModelData = { ...data, keyShape: {} };
+    const { color, label, icon, badges, keyShape } = data;
+    const resultData: NodeDisplayModelData = {
+      ...data,
+      keyShape: { ...keyShape },
+    };
     if (color) {
       resultData.keyShape.fill = color;
     }
@@ -29,8 +32,11 @@ export const DEFAULT_MAPPER = {
   },
   edge: (innerEdgeModel) => {
     const { id, source, target, data } = innerEdgeModel;
-    const { color, label, icon, badge } = data;
-    const resultData: NodeDisplayModelData = { ...data, keyShape: {} };
+    const { color, label, icon, badge, keyShape } = data;
+    const resultData: NodeDisplayModelData = {
+      ...data,
+      keyShape: { ...keyShape },
+    };
     if (color) {
       resultData.keyShape.stroke = color;
     }

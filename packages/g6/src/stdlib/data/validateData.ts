@@ -14,6 +14,7 @@ import {
  */
 export const validateData = (
   data: GraphData,
+  options = {},
   userGraphCore?: GraphCore,
 ): GraphData => {
   const { nodes, edges, combos } = data;
@@ -93,10 +94,12 @@ export const validateData = (
       const { id } = edge;
       let { source, target } = edge;
       if (!idAndDataCheck(edge, 'edge')) return false;
-      const existEdge = userGraphCore?.getEdge(id);
 
-      if (source === undefined) source = existEdge.source;
-      if (target === undefined) target = existEdge.target;
+      if (userGraphCore?.hasEdge(id)) {
+        const existEdge = userGraphCore?.getEdge(id);
+        if (source === undefined) source = existEdge.source;
+        if (target === undefined) target = existEdge.target;
+      }
 
       if (source === undefined) {
         console.error(

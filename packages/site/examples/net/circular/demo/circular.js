@@ -664,6 +664,14 @@ const graph = new G6.Graph({
               fields: ['x', 'y'],
               duration: 500,
             },
+            {
+              fields: ['opacity'],
+              shapeId: 'haloShape',
+            },
+            {
+              fields: ['lineWidth'],
+              shapeId: 'keyShape',
+            },
           ],
         },
       },

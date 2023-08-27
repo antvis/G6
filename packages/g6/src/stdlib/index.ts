@@ -52,10 +52,14 @@ import Tooltip from './plugin/tooltip';
 import lassoSelector from './selector/lasso';
 import rectSelector from './selector/rect';
 import { RectCombo } from './item/combo/rect';
+import { transformV4Data } from './data/transformV4Data';
+import { mapNodeSize } from './data/mapNodeSize';
 
 const stdLib = {
   transforms: {
     'validate-data': validateData,
+    'transform-v4-data': transformV4Data,
+    'map-node-size': mapNodeSize,
   },
   themes: {
     light: LightTheme,

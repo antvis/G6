@@ -300,7 +300,7 @@ export abstract class BaseEdge {
     diffState?: { previous: State[]; current: State[] },
   ): DisplayObject {
     const { labelShape } = shapeMap;
-    if (!labelShape || !model.data.labelShape) return;
+    if (!labelShape || !labelShape.style.text || !model.data.labelShape) return;
 
     const { labelBackgroundShape, labelShape: labelShapeStyle } =
       this.mergedStyles;

@@ -417,6 +417,22 @@ const data = {
   ],
 };
 
+const layoutConfigs = {
+  Default: {
+    type: 'fruchterman',
+    gravity: 5,
+    speed: 5,
+    animated: true,
+  },
+  Clustering: {
+    type: 'fruchterman',
+    gravity: 5,
+    speed: 5,
+    animated: true,
+    clustering: true,
+  },
+};
+
 const container = document.getElementById('container');
 const width = container.scrollWidth;
 const height = container.scrollHeight || 500;
@@ -424,29 +440,58 @@ const graph = new G6.Graph({
   container: 'container',
   width,
   height,
+  transform: ['transform-v4-data'],
   modes: {
-    default: ['drag-canvas', 'drag-node'],
+    default: ['drag-canvas', 'drag-node', 'click-select', 'zoom-canvas'],
   },
-  layout: {
-    type: 'fruchterman',
-    gravity: 5,
-    speed: 5,
-    // for rendering after each iteration
-    tick: () => {
-      graph.refreshPositions()
-    }
+  theme: {
+    type: 'spec',
+    specification: {
+      node: {
+        dataTypeField: 'cluster',
+      },
+    },
   },
-  animate: true,
-  defaultNode: {
-    size: 30,
+  layout: layoutConfigs.Default,
+  node: {
+    animates: {
+      update: [
+        {
+          fields: ['opacity'],
+          shapeId: 'haloShape',
+        },
+        {
+          fields: ['lineWidth'],
+          shapeId: 'keyShape',
+        },
+      ],
+    },
   },
+  data,
 });
-graph.data(data);
-graph.render();
 
 if (typeof window !== 'undefined')
   window.onresize = () => {
-    if (!graph || graph.get('destroyed')) return;
+    if (!graph || graph.destroyed) return;
     if (!container || !container.scrollWidth || !container.scrollHeight) return;
-    graph.changeSize(container.scrollWidth, container.scrollHeight);
+    graph.setSize([container.scrollWidth, container.scrollHeight]);
   };
+
+const btnContainer = document.createElement('div');
+btnContainer.style.position = 'absolute';
+container.appendChild(btnContainer);
+const tip = document.createElement('span');
+tip.innerHTML = 'Change configs:';
+btnContainer.appendChild(tip);
+
+Object.keys(layoutConfigs).forEach((name, i) => {
+  const btn = document.createElement('a');
+  btn.innerHTML = name;
+  btn.style.backgroundColor = 'rgba(255, 255, 255, 0.8)';
+  btn.style.padding = '4px';
+  btn.style.marginLeft = i > 0 ? '24px' : '8px';
+  btnContainer.appendChild(btn);
+  btn.addEventListener('click', () => {
+    graph.layout(layoutConfigs[name]);
+  });
+});
