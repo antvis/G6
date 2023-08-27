@@ -4,6 +4,8 @@ import animations_node_build_in from './animations/node-build-in';
 import arrow from './item/edge/arrow';
 import behaviors_activateRelations from './behaviors/activate-relations';
 import behaviors_shortcuts_call from './behaviors/shortcuts-call';
+import behaviors_dragCanvas from './behaviors/drag-canvas';
+import behaviors_scrollCanvas from './behaviors/scroll-canvas';
 import behaviors_brush_select from './behaviors/brush-select';
 import behaviors_click_select from './behaviors/click-select';
 import behaviors_collapse_expand_tree from './behaviors/collapse-expand-tree';
@@ -68,6 +70,8 @@ export {
   animations_node_build_in,
   arrow,
   behaviors_activateRelations,
+  behaviors_dragCanvas,
+  behaviors_scrollCanvas,
   behaviors_shortcuts_call,
   behaviors_brush_select,
   behaviors_click_select,
