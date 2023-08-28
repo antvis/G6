@@ -5,7 +5,7 @@
   },
   "demos": [
     {
-      "filename": "legend.js",
+      "filename": "legend.ts",
       "title": {
         "zh": "图例-点击筛选",
         "en": "Legend with Clicking Filtering"
