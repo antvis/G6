@@ -7,3 +7,4 @@ export * from './triangle';
 export * from './ellipse';
 export * from './donut';
 export * from './diamond';
+export * from './modelRect';
