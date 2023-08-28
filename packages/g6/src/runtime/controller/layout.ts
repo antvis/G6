@@ -18,7 +18,12 @@ import {
 } from '../../types';
 import { GraphCore } from '../../types/data';
 import { EdgeModelData } from '../../types/edge';
-import { getNodeSizeFn, isComboLayout, layoutOneTree } from '../../util/layout';
+import {
+  getNodeSizeFn,
+  isComboLayout,
+  layoutOneTree,
+  radialLayout,
+} from '../../util/layout';
 
 /**
  * Manages layout extensions and graph layout.
@@ -235,9 +240,9 @@ export class LayoutController {
     layoutData,
     animate,
   ) {
-    const { animated = false, rootIds = [], begin = [0, 0] } = options;
+    const { animated = false, rootIds = [], begin = [0, 0], radial } = options;
     const nodePositions = [];
-    const nodeMap = {};
+    const nodeMap = new Map();
     // tree layout with tree data
     const trees = graphCore
       .getRoots('tree')
@@ -247,21 +252,25 @@ export class LayoutController {
       .map((node) => ({ id: node.id, children: [] }));
 
     trees.forEach((tree) => {
-      nodeMap[tree.id] = tree;
+      nodeMap.set(tree.id, tree);
       graphCore.dfsTree(
         tree.id,
         (node) => {
-          nodeMap[node.id].children = graphCore
+          nodeMap.get(node.id).children = graphCore
             .getChildren(node.id, 'tree')
             .filter((node) => !node.data._isCombo)
             .map((child) => {
-              nodeMap[child.id] = { id: child.id, children: [] };
-              return nodeMap[child.id];
+              nodeMap.set(child.id, { id: child.id, children: [] });
+              return nodeMap.get(child.id);
             });
         },
         'tree',
       );
       layoutOneTree(tree, type, options, nodeMap, nodePositions, begin);
+      if (radial) {
+        nodePositions.forEach((pos) => nodeMap.set(pos.id, pos));
+        radialLayout(tree, nodeMap);
+      }
     });
     if (animated) {
       await this.animateLayoutWithoutIterations(

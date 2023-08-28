@@ -77,7 +77,7 @@ export const createShape = (
  * @returns
  */
 const findAnimateFields = (animates, timing, shapeId) => {
-  if (!animates?.[timing]) return [];
+  if (!animates?.[timing]?.length) return [];
   let animateFields = [];
   animates[timing].forEach(({ fields, shapeId: animateShapeId }) => {
     if (animateShapeId === shapeId) {

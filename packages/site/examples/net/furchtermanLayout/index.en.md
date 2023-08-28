@@ -1,6 +1,6 @@
 ---
 title: Fruchterman Layout
-order: 2
+order: 13
 ---
 
 Fruchterman Reingold Layout is a kind of force-directed layout in theory. The differences are the definitions of attracitve force and repulsive force.

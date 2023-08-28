@@ -164,7 +164,7 @@ export abstract class BaseNode {
         }
       });
 
-    const { levelShapes } = this.zoomCache;
+    const levelShapes = {};
     Object.keys(shapeMap).forEach((shapeId) => {
       const { lod } = shapeMap[shapeId].attributes;
       if (lod !== undefined) {
@@ -172,6 +172,7 @@ export abstract class BaseNode {
         levelShapes[lod].push(shapeId);
       }
     });
+    this.zoomCache.levelShapes = levelShapes;
 
     if (shapeMap.labelShape && this.boundsCache.keyShapeLocal) {
       const { maxWidth = '200%' } = this.mergedStyles.labelShape || {};

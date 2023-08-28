@@ -246,6 +246,12 @@ importers:
       '@antv/g6-react-node':
         specifier: ^1.4.5
         version: 1.4.5
+      '@antv/graphlib':
+        specifier: ^2.0.2
+        version: 2.0.2
+      '@antv/layout-gpu':
+        specifier: ^1.1.5
+        version: 1.1.5(workerize-loader@2.0.2)
       '@antv/util':
         specifier: ^2.0.9
         version: 2.0.9
@@ -1121,7 +1127,7 @@ packages:
       '@antv/g-webgpu': 0.7.2
       '@antv/layout': 1.2.4(workerize-loader@2.0.2)
       '@antv/util': 3.3.4
-      tslib: 2.5.0
+      tslib: 2.6.2
     transitivePeerDependencies:
       - workerize-loader
     dev: false
@@ -7996,6 +8002,7 @@ packages:
     engines: {node: '>=6.9.0'}
     dependencies:
       regenerator-runtime: 0.13.11
+    dev: false
 
   /@babel/runtime@7.22.10:
     resolution: {integrity: sha512-21t/fkKLMZI4pqP2wlmsQAWnYW1PDyKyyUV4vCi+B25ydmdaYTKXPwCj0BzSUnZf4seIiYvSA3jcZ3gdsMFkLQ==}
@@ -9517,7 +9524,7 @@ packages:
     peerDependencies:
       react: '>=16.3.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.22.10
       hoist-non-react-statics: 3.3.2
       react: 16.14.0
       react-is: 16.13.1
@@ -9529,7 +9536,7 @@ packages:
     peerDependencies:
       react: '>=16.3.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.22.10
       hoist-non-react-statics: 3.3.2
       react: 18.1.0
       react-is: 16.13.1
@@ -13352,7 +13359,7 @@ packages:
   /@umijs/history@5.3.1:
     resolution: {integrity: sha512-/e0cEGrR2bIWQD7pRl3dl9dcyRGeC9hoW0OCvUTT/hjY0EfUrkd6G8ZanVghPMpDuY5usxq9GVcvrT8KNXLWvA==}
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.22.10
       query-string: 6.14.1
     dev: false
 
@@ -15336,7 +15343,7 @@ packages:
   /babel-plugin-macros@2.6.1:
     resolution: {integrity: sha512-6W2nwiXme6j1n2erPOnmRiWfObUhWH7Qw1LMi9XZy8cj+KtESu3T6asZvtk5bMQQjX8te35o7CFueiSdL/2NmQ==}
     dependencies:
-      '@babel/runtime': 7.4.5
+      '@babel/runtime': 7.22.10
       cosmiconfig: 5.2.1
       resolve: 1.22.4
 
@@ -24024,7 +24031,7 @@ packages:
   /history@5.3.0:
     resolution: {integrity: sha512-ZqaKwjjrAYUYfLG+htGaIIZ4nioX2L70ZUMIFysS3xvBsSG4x/n1V6TXV3N8ZYNuFGlDirFg32T7B6WOUPDYcQ==}
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.22.10
     dev: false
 
   /hmac-drbg@1.0.1:
@@ -34347,7 +34354,7 @@ packages:
       react: ^16.6.0 || ^17.0.0 || ^18.0.0
       react-dom: ^16.6.0 || ^17.0.0 || ^18.0.0
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.22.10
       invariant: 2.2.4
       prop-types: 15.8.1
       react: 16.14.0
@@ -34361,7 +34368,7 @@ packages:
       react: ^16.6.0 || ^17.0.0 || ^18.0.0
       react-dom: ^16.6.0 || ^17.0.0 || ^18.0.0
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.22.10
       invariant: 2.2.4
       prop-types: 15.8.1
       react: 18.1.0

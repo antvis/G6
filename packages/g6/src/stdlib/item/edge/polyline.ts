@@ -74,7 +74,11 @@ export class Polyline extends LineEdge {
 
     return shapes;
   }
-  private getControlPoints(): Point[] {
+  private getControlPoints(
+    model: EdgeDisplayModel,
+    sourcePoint: Point,
+    targetPoint: Point,
+  ): Point[] {
     const { keyShape: keyShapeStyle } = this.mergedStyles as any;
     return keyShapeStyle.controlPoints;
   }
@@ -119,7 +123,11 @@ export class Polyline extends LineEdge {
     diffState?: { previous: State[]; current: State[] },
   ) {
     const { keyShape: keyShapeStyle } = this.mergedStyles as any;
-    const controlPoints = this.getControlPoints();
+    const controlPoints = this.getControlPoints(
+      model,
+      sourcePoint,
+      targetPoint,
+    );
 
     let points = [sourcePoint, targetPoint];
     if (controlPoints) {

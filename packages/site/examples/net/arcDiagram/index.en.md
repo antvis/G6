@@ -1,6 +1,6 @@
 ---
 title: Arc Diagram
-order: 8
+order: 9
 ---
 
 Arc diagram is a method of graph visualization. It places the nodes on one axis, and connects the nodes by arcs.

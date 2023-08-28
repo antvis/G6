@@ -1,4 +1,4 @@
-import { Group } from '@antv/g';
+import { Circle, Group } from '@antv/g';
 import { clone, throttle } from '@antv/util';
 import { EdgeDisplayModel, EdgeModel, ID } from '../types';
 import { EdgeModelData } from '../types/edge';
@@ -149,6 +149,11 @@ export default class Edge extends Item {
         this.animateFrameListener,
         (canceled) => onfinish(displayModel.id, canceled),
       );
+    }
+
+    if (!this.visible) {
+      this.visible = true;
+      this.hide(false);
     }
   }
 
