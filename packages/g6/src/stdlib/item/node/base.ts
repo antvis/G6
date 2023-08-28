@@ -246,6 +246,7 @@ export abstract class BaseNode {
       offsetY: propsOffsetY,
       offsetZ: propsOffsetZ,
       maxWidth,
+      // @ts-ignore
       angle,
       ...otherStyle
     } = shapeStyle;
