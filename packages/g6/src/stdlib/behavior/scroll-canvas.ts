@@ -177,7 +177,8 @@ export class ScrollCanvas extends Behavior<ScrollCanvasOptions> {
     }
     return { dx, dy };
   }
-  allowDrag(evt: IG6GraphEvent) {
+  
+  private allowDrag(evt: IG6GraphEvent) {
     const { itemType } = evt;
     const { allowDragOnItem } = this.options
     const targetIsCanvas = itemType === 'canvas';
@@ -190,25 +191,41 @@ export class ScrollCanvas extends Behavior<ScrollCanvasOptions> {
     }
     return true;
   }
+
   private hideShapes() {
-    const { graph } = this;
+    const { graph, options } = this;
+    const { optimizeZoom } = options;
     if (this.options.enableOptimize) {
-      this.hiddenEdgeIds = graph
+      const currentZoom = graph.getZoom();
+      const newHiddenEdgeIds = graph
         .getAllEdgesData()
         .map((edge) => edge.id)
-        .filter((id) => graph.getItemVisible(id) === true);
-      graph.hideItem(this.hiddenEdgeIds, true);
-      this.hiddenNodeIds = graph
+        .filter((id) => graph.getItemVisible(id));
+      graph.hideItem(newHiddenEdgeIds, true);
+
+      if (currentZoom < optimizeZoom) {
+        this.hiddenEdgeIds.push(...newHiddenEdgeIds)
+      } else {
+        this.hiddenEdgeIds = newHiddenEdgeIds
+      }
+
+      const newHiddenNodeIds = graph
         .getAllNodesData()
         .map((node) => node.id)
-        .filter((id) => graph.getItemVisible(id) === true);
+        .filter((id) => graph.getItemVisible(id));
       // draw node's keyShapes on transient, and then hidden the real nodes;
-      this.hiddenNodeIds.forEach((id) => {
+      newHiddenNodeIds.forEach((id) => {
         graph.drawTransient('node', id, {
           onlyDrawKeyShape: true,
         });
       });
-      graph.hideItem(this.hiddenNodeIds, true);
+      graph.hideItem(newHiddenNodeIds, true);
+
+      if (currentZoom < optimizeZoom) {
+        this.hiddenNodeIds.push(...newHiddenNodeIds)
+      } else {
+        this.hiddenNodeIds = newHiddenNodeIds
+      }
     }
   }
   private showShapes() {
