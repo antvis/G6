@@ -470,7 +470,7 @@ export default abstract class Item implements IItem {
     const func = () => {
       Object.keys(this.shapeMap).forEach((id) => {
         const shape = this.shapeMap[id];
-        if (this.visible && !shape.isVisible())
+        if (!this.visible && !shape.isVisible())
           this.cacheHiddenShape[id] = true;
         shape.hide();
       });
@@ -736,13 +736,9 @@ export default abstract class Item implements IItem {
     if (this.animations?.length) {
       // during animations, estimate the final bounds by the styles in displayModel
       const { keyShape, labelShape } = this.shapeMap;
-      const {
-        keyShape: keyShapeStyle,
-        labelShape: labelShapeStyle,
-        x = 0,
-        y = 0,
-        z = 0,
-      } = this.displayModel.data;
+      const { x = 0, y = 0, z = 0 } = this.displayModel.data;
+      const { keyShape: keyShapeStyle, labelShape: labelShapeStyle } =
+        this.renderExt.mergedStyles;
       const estimateBounds = combineBounds([
         getShapeLocalBoundsByStyle(keyShape, keyShapeStyle),
         getShapeLocalBoundsByStyle(labelShape, labelShapeStyle),

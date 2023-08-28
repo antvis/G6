@@ -481,7 +481,7 @@ const btnContainer = document.createElement('div');
 btnContainer.style.position = 'absolute';
 container.appendChild(btnContainer);
 const tip = document.createElement('span');
-tip.innerHTML = 'Change configs:';
+tip.innerHTML = '👉 Change configs:';
 btnContainer.appendChild(tip);
 
 Object.keys(layoutConfigs).forEach((name, i) => {

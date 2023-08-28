@@ -1,6 +1,6 @@
 ---
 title: MDS Layout
-order: 7
+order: 12
 ---
 
 Classical MDS（Multidemensional Scaling）is an algorithm for high dimensional data projection. Relational data layout problem can be regarded as projecting high dimensional data onto a 2D visual space.

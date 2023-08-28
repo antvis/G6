@@ -1674,11 +1674,14 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * Layout the graph (with current configurations if cfg is not assigned).
    */
   public async layout(options?: LayoutOptions, disableAnimate = false) {
+    this.emit('beforelayout');
     const { graphCore } = this.dataController;
     const formattedOptions = {
       ...this.getSpecification().layout,
       ...options,
     } as LayoutOptions;
+
+    this.updateSpecification({ layout: formattedOptions });
 
     const layoutUnset = !options && !this.getSpecification().layout;
     if (layoutUnset) {

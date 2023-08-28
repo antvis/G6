@@ -1,6 +1,6 @@
 ---
 title: Layout Mechanism
-order: 19
+order: 15
 ---
 
 G6 provides the mechanism for layout paramters translation, layout methods translation, data translation, subgraph layout, layout timing for listener, custom layout, and so on.

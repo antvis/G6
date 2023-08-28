@@ -232,8 +232,6 @@ const graph = new G6.Graph({
   data,
 });
 
-graph.on('click', () => console.log(graph));
-
 if (typeof window !== 'undefined')
   window.onresize = () => {
     if (!graph || graph.destroyed) return;
@@ -245,7 +243,7 @@ const btnContainer = document.createElement('div');
 btnContainer.style.position = 'absolute';
 container.appendChild(btnContainer);
 const tip = document.createElement('span');
-tip.innerHTML = 'Change configs:';
+tip.innerHTML = '👉 Change configs:';
 btnContainer.appendChild(tip);
 
 Object.keys(layoutConfigs).forEach((name, i) => {

@@ -485,7 +485,12 @@ export class DataController {
       });
     }
 
-    if (edges.length) {
+    if (
+      edges?.filter(
+        (edge) =>
+          edge.hasOwnProperty('source') || edge.hasOwnProperty('target'),
+      ).length
+    ) {
       // convert and store tree structure to graphCore
       this.updateTreeGraph(dataType, {
         nodes: this.userGraphCore.getAllNodes(),
@@ -635,9 +640,10 @@ export class DataController {
       diff = [],
     ) => {
       if (isNodeOrCombo) {
-        if (newValue.data) graphCore.updateNodeData(id, newValue.data);
+        if (newValue.data) graphCore.updateNodeData(id, { ...newValue.data });
       } else {
-        if (diff.includes('data')) graphCore.updateEdgeData(id, newValue.data);
+        if (diff.includes('data'))
+          graphCore.updateEdgeData(id, { ...newValue.data });
         // source and target may be changed
         if (diff.includes('source'))
           graphCore.updateEdgeSource(id, newValue.source);
@@ -918,7 +924,6 @@ const diffAt = (
         return diff.concat('data');
       else continue;
     }
-    if (isNaN(newValue) && isNaN(oldValue)) continue;
     if (newValue !== oldValue) return diff.concat('data');
   }
   return diff;

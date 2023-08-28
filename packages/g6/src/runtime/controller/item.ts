@@ -945,12 +945,14 @@ export class ItemController {
       return;
     }
 
+    const idStr = String(id);
     const shape = upsertShape(
       type,
-      String(id),
+      idStr,
       style,
       Object.fromEntries(transientObjectMap),
     );
+    transientObjectMap.set(idStr, shape);
     shape.style.pointerEvents = capture ? 'auto' : 'none';
     canvas.getRoot().appendChild(shape);
   }
@@ -1441,9 +1443,8 @@ export class ItemController {
           if (node.id === root.id) return;
           const neighbors = graphCore.getNeighbors(node.id);
           if (
-            neighbors.length > 2 ||
-            (!graphCore.getChildren(node.id, 'tree')?.length &&
-              neighbors.length > 1)
+            !graphCore.getChildren(node.id, 'tree')?.length &&
+            neighbors.length > 1
           ) {
             shouldCollapse = false;
           }
@@ -1483,7 +1484,7 @@ export class ItemController {
    * @param animate Whether enable animations for expanding, true by default.
    * @returns
    */
-  private expandSubTree(
+  private async expandSubTree(
     rootModels: NodeModel[],
     graphCore: GraphCore,
     animate = true,
@@ -1520,7 +1521,7 @@ export class ItemController {
     });
     const ids = uniq(allNodeIds.concat(allEdgeIds));
     this.graph.showItem(ids, !animate);
-    this.graph.layout(undefined, !animate);
+    await this.graph.layout(undefined, !animate);
   }
 }
 
