@@ -1,6 +1,6 @@
 import { Group } from '@antv/g';
 import { clone, throttle } from '@antv/util';
-import { EdgeDisplayModel, EdgeModel, NodeModelData } from '../types';
+import { EdgeDisplayModel, EdgeModel, ID } from '../types';
 import { EdgeModelData } from '../types/edge';
 import { DisplayMapper, State, LodStrategyObj } from '../types/item';
 import { updateShapes } from '../util/shape';
@@ -8,6 +8,8 @@ import { animateShapes } from '../util/animate';
 import { EdgeStyleSet } from '../types/theme';
 import Item from './item';
 import Node from './node';
+import Combo from './combo';
+import { distance, isSamePoint } from '../util/point';
 
 interface IProps {
   model: EdgeModel;
@@ -17,14 +19,15 @@ interface IProps {
   stateMapper?: {
     [stateName: string]: DisplayMapper;
   };
-  sourceItem: Node;
-  targetItem: Node;
+  sourceItem: Node | Combo;
+  targetItem: Node | Combo;
   zoom?: number;
   theme: {
     styles: EdgeStyleSet;
     lodStrategy: LodStrategyObj;
   };
   onframe?: Function;
+  nodeMap?: Map<ID, Node>;
 }
 
 export default class Edge extends Item {
@@ -35,32 +38,79 @@ export default class Edge extends Item {
   public displayModel: EdgeDisplayModel;
   /** Set to different value in implements */
   public type: 'edge' = 'edge';
-  public sourceItem: Node;
-  public targetItem: Node;
+  public nodeMap: Map<ID, Node>;
+  public sourceItem: Node | Combo;
+  public targetItem: Node | Combo;
 
   constructor(props: IProps) {
     super(props);
     this.init({ ...props, type: 'edge' });
-    const { sourceItem, targetItem } = props;
+    const { sourceItem, targetItem, nodeMap } = props;
     this.sourceItem = sourceItem;
     this.targetItem = targetItem;
+    this.nodeMap = nodeMap;
+    // todo: combo
+    if (sourceItem.getType() === 'node') {
+      this.nodeMap.set(sourceItem.getID(), sourceItem as Node);
+    }
+    if (sourceItem.getType() === 'node') {
+      this.nodeMap.set(targetItem.getID(), targetItem as Node);
+    }
     this.draw(this.displayModel);
   }
   public draw(
     displayModel: EdgeDisplayModel,
     diffData?: { previous: EdgeModelData; current: EdgeModelData },
     diffState?: { previous: State[]; current: State[] },
+    animate = true,
     onfinish: Function = () => {},
   ) {
-    // get the end points
-    const { x: sx, y: sy, z: sz } = this.sourceItem.getPosition();
-    const { x: tx, y: ty, z: tz } = this.targetItem.getPosition();
-    const sourcePoint = this.sourceItem.getAnchorPoint({ x: tx, y: ty, z: tz });
-    const targetPoint = this.targetItem.getAnchorPoint({ x: sx, y: sy, z: sz });
+    // get the point near the other end
+    const { sourceAnchor, targetAnchor, keyShape } = displayModel.data;
+    const sourcePosition = this.sourceItem.getPosition();
+    const targetPosition = this.targetItem.getPosition();
+
+    let targetPrevious = sourcePosition;
+    let sourcePrevious = targetPosition;
+
+    // TODO: type
+    // @ts-ignore
+    if (keyShape?.controlPoints?.length) {
+      let nearestDistToSource = Infinity;
+      let nearestDistToTarget = Infinity;
+      // @ts-ignore
+      keyShape.controlPoints.forEach((point) => {
+        if (
+          isSamePoint(point, sourcePosition) ||
+          isSamePoint(point, targetPosition)
+        )
+          return;
+        const distToSource = distance(point, sourcePosition);
+        if (distToSource < nearestDistToSource) {
+          nearestDistToSource = distToSource;
+          sourcePrevious = point;
+        }
+        const distToTarget = distance(point, targetPosition);
+        if (distToTarget < nearestDistToTarget) {
+          nearestDistToTarget = distToTarget;
+          targetPrevious = point;
+        }
+      });
+    }
+    const sourcePoint = this.sourceItem.getAnchorPoint(
+      sourcePrevious,
+      sourceAnchor,
+    );
+    const targetPoint = this.targetItem.getAnchorPoint(
+      targetPrevious,
+      targetAnchor,
+    );
     this.renderExt.mergeStyles(displayModel);
     const firstRendering = !this.shapeMap?.keyShape;
     this.renderExt.setSourcePoint(sourcePoint);
     this.renderExt.setTargetPoint(targetPoint);
+    this.renderExt.setNodeMap(this.nodeMap);
+
     const shapeMap = this.renderExt.draw(
       displayModel,
       sourcePoint,
@@ -94,7 +144,7 @@ export default class Edge extends Item {
 
     const timing = firstRendering ? 'buildIn' : 'update';
     // handle shape's animate
-    if (!disableAnimate && usingAnimates[timing]?.length) {
+    if (animate && !disableAnimate && usingAnimates[timing]?.length) {
       this.animations = animateShapes(
         usingAnimates,
         targetStyles, // targetStylesMap
@@ -103,7 +153,7 @@ export default class Edge extends Item {
         firstRendering ? 'buildIn' : 'update',
         this.changedStates,
         this.animateFrameListener,
-        () => onfinish(displayModel.id),
+        (canceled) => onfinish(displayModel.id, canceled),
       );
     }
   }
@@ -140,8 +190,8 @@ export default class Edge extends Item {
 
   public clone(
     containerGroup: Group,
-    sourceItem: Node,
-    targetItem: Node,
+    sourceItem: Node | Combo,
+    targetItem: Node | Combo,
     onlyKeyShape?: boolean,
     disableAnimate?: boolean,
   ) {
@@ -159,6 +209,7 @@ export default class Edge extends Item {
       renderExtensions: this.renderExtensions,
       sourceItem,
       targetItem,
+      nodeMap: this.nodeMap,
       containerGroup,
       mapper: this.mapper,
       stateMapper: this.stateMapper,

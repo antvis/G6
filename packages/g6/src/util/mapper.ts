@@ -22,11 +22,6 @@ export const DEFAULT_MAPPER = {
     if (badges) {
       resultData.badgeShapes = badges;
     }
-    if (anchorPoints) {
-      resultData.anchorShapes = anchorPoints.map((point) => ({
-        position: point,
-      }));
-    }
     return {
       id,
       data: resultData,

@@ -1,9 +1,9 @@
 import { DisplayObject } from '@antv/g';
-import { IPoint } from '@antv/g6';
 import { vec2 } from '@antv/matrix-util';
-import { State } from '../../../types/item';
-import { EdgeModelData, EdgeShapeMap } from '../../../types/edge';
 import { Point } from '../../../types/common';
+import { EdgeModelData, EdgeShapeMap } from '../../../types/edge';
+import { State } from '../../../types/item';
+
 import { EdgeDisplayModel } from '../../../types';
 // eslint-disable-next-line import/namespace
 import { BaseEdge } from './base';
@@ -87,6 +87,7 @@ export class CubicEdge extends BaseEdge {
     diffState?: { previous: State[]; current: State[] },
   ) {
     const { keyShape: keyShapeStyle } = this.mergedStyles as any;
+    const { startArrow, endArrow, ...others } = keyShapeStyle;
 
     const controlPoints = this.getControlPoints(
       sourcePoint,
@@ -96,27 +97,25 @@ export class CubicEdge extends BaseEdge {
       keyShapeStyle.curveOffset,
     );
 
-    return this.upsertShape(
-      'path',
-      'keyShape',
-      {
-        ...keyShapeStyle,
-        path: [
-          ['M', sourcePoint.x, sourcePoint.y],
-          [
-            'C',
-            controlPoints[0].x,
-            controlPoints[0].y,
-            controlPoints[1].x,
-            controlPoints[1].y,
-            targetPoint.x,
-            targetPoint.y,
-          ],
+    const lineStyle = {
+      ...others,
+      path: [
+        ['M', sourcePoint.x, sourcePoint.y],
+        [
+          'C',
+          controlPoints[0].x,
+          controlPoints[0].y,
+          controlPoints[1].x,
+          controlPoints[1].y,
+          targetPoint.x,
+          targetPoint.y,
         ],
-      },
-      shapeMap,
-      model,
-    );
+      ],
+    };
+    this.upsertArrow('start', startArrow, others, model, lineStyle);
+    this.upsertArrow('end', endArrow, others, model, lineStyle);
+
+    return this.upsertShape('path', 'keyShape', lineStyle, shapeMap, model);
   }
 
   /**
@@ -141,13 +140,13 @@ export class CubicEdge extends BaseEdge {
     controlPoints,
     offset = 20,
   ) => {
-    const controlPoint1: IPoint = this.getControlPoint(
+    const controlPoint1: Point = this.getControlPoint(
       startPoint,
       endPoint,
       percent,
       offset,
     );
-    const controlPoint2: IPoint = this.getControlPoint(
+    const controlPoint2: Point = this.getControlPoint(
       startPoint,
       endPoint,
       percent,
@@ -159,24 +158,24 @@ export class CubicEdge extends BaseEdge {
 
   /**
    * control point calculated according to startPoint, endPoint, percent, and offset
-   * @param  {IPoint} startPoint source point position of edge (x, y)
-   * @param  {IPoint} endPoint  target point position of edge (x, y)
+   * @param  {Point} startPoint source point position of edge (x, y)
+   * @param  {Point} endPoint  target point position of edge (x, y)
    * @param  {Number} percent   the proportion of control points' in the segment, Range 0 to 1
    * @param  {Number} offset    the curveOffset
-   * @return {IPoint} control point (x,y)
+   * @return {Point} control point (x,y)
    */
   protected getControlPoint: (
-    startPoint: IPoint,
-    endPoint: IPoint,
+    startPoint: Point,
+    endPoint: Point,
     percent: number,
     offset: number,
-  ) => IPoint = (
-    startPoint: IPoint,
-    endPoint: IPoint,
+  ) => Point = (
+    startPoint: Point,
+    endPoint: Point,
     percent = 0,
     offset = 0,
   ) => {
-    const point: IPoint = {
+    const point: Point = {
       x: (1 - percent) * startPoint.x + percent * endPoint.x,
       y: (1 - percent) * startPoint.y + percent * endPoint.y,
     };

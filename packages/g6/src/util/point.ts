@@ -44,6 +44,15 @@ export const distance = (p1: Point, p2: Point): number => {
 };
 
 /**
+ * If the p1 and p2 are the same.
+ * @param p1
+ * @param p2
+ * @returns
+ */
+export const isSamePoint = (p1: Point, p2: Point): boolean =>
+  p1.x === p2.x && p1.y === p2.y && p1.z === p2.z;
+
+/**
  * Get point and circle intersect point.
  * @param {ICircle} circle Circle's center x,y and radius r
  * @param {Point} point Point x,y
@@ -193,3 +202,13 @@ export const getLineIntersect = (
   }
   return null;
 };
+
+/**
+ * Determine if three points are bending (not lie on a straight line)
+ * @param p0 the first 2d point
+ * @param p1 the second 2d point
+ * @param p2 the third 2d point
+ * @returns
+ */
+export const isBending = (p0: Point, p1: Point, p2: Point): boolean =>
+  !((p0.x === p1.x && p1.x === p2.x) || (p0.y === p1.y && p1.y === p2.y));

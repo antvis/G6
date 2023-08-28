@@ -14,7 +14,7 @@ module.exports = {
   moduleNameMapper: {
     '@g6/types': '<rootDir>/src/types',
     '@g6/(.*)': '<rootDir>/src/$1',
-    '^d3-(.*)$': '<rootDir>/../../node_modules/d3-$1/dist/d3-$1.min.js',
+    '^d3-(.*)$': '<rootDir>/node_modules/d3-$1/dist/d3-$1.min.js',
   },
   globals: {
     'ts-jest': {

@@ -6,7 +6,6 @@ export default (context: TestCaseContext) => {
   const { width, height } = context;
   return new G6.Graph({
     ...context,
-    type: 'graph',
     data: JSON.parse(JSON.stringify(data)),
     layout: {
       type: 'd3force',

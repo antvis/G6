@@ -1,8 +1,21 @@
 import EventEmitter from '@antv/event-emitter';
 import { AABB, Canvas, DisplayObject, PointLike, runtime } from '@antv/g';
 import { GraphChange, ID } from '@antv/graphlib';
-import { isArray, isNil, isNumber, isObject, isString } from '@antv/util';
 import {
+  clone,
+  groupBy,
+  isArray,
+  isEmpty,
+  isEqual,
+  isNil,
+  isNumber,
+  isObject,
+  isString,
+  map,
+} from '@antv/util';
+import History from '../stdlib/plugin/history';
+import { Command } from '../stdlib/plugin/history/command';
+import type {
   ComboUserModel,
   EdgeUserModel,
   GraphData,
@@ -10,22 +23,23 @@ import {
   NodeUserModel,
   Specification,
 } from '../types';
-import { CameraAnimationOptions } from '../types/animate';
-import { BehaviorOptionsOf, BehaviorRegistry } from '../types/behavior';
-import { ComboModel } from '../types/combo';
-import { Padding, Point } from '../types/common';
-import { DataChangeType, GraphCore } from '../types/data';
-import { EdgeModel, EdgeModelData } from '../types/edge';
-import { Hooks, ViewportChangeHookParams } from '../types/hook';
-import { ITEM_TYPE, ShapeStyle, SHAPE_TYPE } from '../types/item';
-import {
+import type { CameraAnimationOptions } from '../types/animate';
+import type { BehaviorOptionsOf, BehaviorRegistry } from '../types/behavior';
+import type { ComboModel } from '../types/combo';
+import type { Padding, Point } from '../types/common';
+import type { DataChangeType, DataConfig, GraphCore } from '../types/data';
+import type { EdgeModel, EdgeModelData } from '../types/edge';
+import type { StackType } from '../types/history';
+import type { Hooks, ViewportChangeHookParams } from '../types/hook';
+import type { ITEM_TYPE, SHAPE_TYPE, ShapeStyle } from '../types/item';
+import type {
   ImmediatelyInvokedLayoutOptions,
   LayoutOptions,
   StandardLayoutOptions,
 } from '../types/layout';
-import { NodeModel, NodeModelData } from '../types/node';
-import { RendererName } from '../types/render';
-import {
+import type { NodeModel, NodeModelData } from '../types/node';
+import type { RendererName } from '../types/render';
+import type {
   ThemeOptionsOf,
   ThemeRegistry,
   ThemeSpecification,
@@ -33,6 +47,7 @@ import {
 import { FitViewRules, GraphTransformOptions } from '../types/view';
 import { changeRenderer, createCanvas } from '../util/canvas';
 import { formatPadding } from '../util/shape';
+import Node from '../item/node';
 import {
   DataController,
   ExtensionController,
@@ -70,6 +85,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
   // the tag indicates all the three canvases are all ready
   private canvasReady: boolean;
   private specification: Specification<B, T>;
+
   private dataController: DataController;
   private interactionController: InteractionController;
   private layoutController: LayoutController;
@@ -84,6 +100,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       type: 'spec',
       base: 'light',
     },
+    enableStack: true,
   };
 
   constructor(spec: Specification<B, T>) {
@@ -93,6 +110,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     this.initHooks();
     this.initCanvas();
     this.initControllers();
+    this.initHistory();
 
     this.hooks.init.emit({
       canvases: {
@@ -152,10 +170,12 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       this.canvas = canvas;
       this.backgroundCanvas = backgroundCanvas;
       this.transientCanvas = transientCanvas;
+      this.container = container as HTMLDivElement;
     } else {
       const containerDOM = isString(container)
         ? document.getElementById(container as string)
         : (container as HTMLElement);
+
       if (!containerDOM) {
         console.error(
           `Create graph failed. The container for graph ${containerDOM} is not exist.`,
@@ -163,6 +183,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
         this.destroy();
         return;
       }
+
       this.container = containerDOM;
       const size = [width, height];
       if (size[0] === undefined) {
@@ -220,6 +241,22 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     });
   }
 
+  private initHistory() {
+    const { enableStack, stackCfg } = this.specification;
+    if (enableStack) {
+      const history = {
+        type: 'history',
+        key: 'history',
+        enableStack,
+        stackCfg,
+      };
+      if (!this.specification.plugins) {
+        this.specification.plugins = [];
+      }
+      this.specification.plugins.push(history);
+    }
+  }
+
   /**
    * Change the renderer at runtime.
    * @param type renderer name
@@ -250,6 +287,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
         changes: GraphChange<NodeModelData, EdgeModelData>[];
         graphCore: GraphCore;
         theme: ThemeSpecification;
+        animate?: boolean;
         upsertAncestors?: boolean;
       }>({ name: 'itemchange' }),
       render: new Hook<{
@@ -259,7 +297,11 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       }>({
         name: 'render',
       }),
-      layout: new Hook<{ graphCore: GraphCore }>({ name: 'layout' }),
+      layout: new Hook<{
+        graphCore: GraphCore;
+        options?: LayoutOptions;
+        animate?: boolean;
+      }>({ name: 'layout' }),
       viewportchange: new Hook<ViewportChangeHookParams>({ name: 'viewport' }),
       modechange: new Hook<{ mode: string }>({ name: 'modechange' }),
       behaviorchange: new Hook<{
@@ -309,6 +351,12 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
           transient: Canvas;
         };
       }>({ name: 'init' }),
+      treecollapseexpand: new Hook<{
+        ids: ID[];
+        animate: boolean;
+        action: 'collapse' | 'expand';
+        graphCore: GraphCore;
+      }>({ name: 'treecollapseexpand' }),
       destroy: new Hook<{}>({ name: 'destroy' }),
     };
   }
@@ -319,7 +367,6 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
   public updateSpecification(spec: Specification<B, T>): Specification<B, T> {
     return Object.assign(this.specification, spec);
   }
-
   /**
    * Update the theme specs (configurations).
    */
@@ -355,7 +402,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * @returns
    * @group Data
    */
-  public async read(data: GraphData) {
+  public async read(data: DataConfig) {
     this.hooks.datachange.emit({ data, type: 'replace' });
     const emitRender = async () => {
       this.hooks.render.emit({
@@ -387,7 +434,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * @group Data
    */
   public async changeData(
-    data: GraphData,
+    data: DataConfig,
     type: 'replace' | 'mergeReplace' = 'mergeReplace',
   ) {
     this.hooks.datachange.emit({ data, type });
@@ -406,6 +453,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * @returns
    */
   public clear() {
+    this.startBatch();
     this.removeData(
       'edge',
       this.getAllEdgesData().map((edge) => edge.id),
@@ -418,6 +466,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       'combo',
       this.getAllCombosData().map((combo) => combo.id),
     );
+    this.stopBatch();
   }
 
   public getViewportCenter(): PointLike {
@@ -470,7 +519,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * @param effectTiming animation configurations
    */
   public async translateTo(
-    { x, y }: PointLike,
+    { x, y }: Point,
     effectTiming?: CameraAnimationOptions,
   ) {
     const { x: cx, y: cy } = this.getViewportCenter();
@@ -485,7 +534,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    */
   public async zoom(
     ratio: number,
-    origin?: PointLike,
+    origin?: Point,
     effectTiming?: CameraAnimationOptions,
   ) {
     await this.transform(
@@ -852,6 +901,15 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
   }
 
   /**
+   * Retrieve the nearby edges for a given node using quadtree collision detection.
+   * @param nodeId node id
+   */
+  public getNearEdgesForNode(nodeId: ID): EdgeModel[] {
+    const { graphCore } = this.dataController;
+    return this.itemController.findNearEdgesByNode(nodeId, graphCore);
+  }
+
+  /**
    * Find items which has the state.
    * @param itemType item type
    * @param state state name
@@ -878,7 +936,6 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * Add one or more node/edge/combo data to the graph.
    * @param itemType item type
    * @param model user data
-   * @param stack whether push this operation to stack
    * @returns whether success
    * @group Data
    */
@@ -891,7 +948,6 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       | NodeUserModel[]
       | EdgeUserModel[]
       | ComboUserModel[],
-    stack?: boolean,
   ):
     | NodeModel
     | EdgeModel
@@ -905,13 +961,20 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     const { specification } = this.themeController;
     graphCore.once('changed', (event) => {
       if (!event.changes.length) return;
+      const changes = event.changes;
       this.hooks.itemchange.emit({
         type: itemType,
         changes: graphCore.reduceChanges(event.changes),
         graphCore,
         theme: specification,
       });
-      this.emit('afteritemchange', { type: itemType, action: 'add', models });
+      this.emit('afteritemchange', {
+        type: itemType,
+        action: 'add',
+        models,
+        apiName: 'addData',
+        changes,
+      });
     });
 
     const modelArr = isArray(models) ? models : [models];
@@ -930,11 +993,10 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
   /**
    * Remove one or more node/edge/combo data from the graph.
    * @param item the item to be removed
-   * @param stack whether push this operation to stack
    * @returns whether success
    * @group Data
    */
-  public removeData(itemType: ITEM_TYPE, ids: ID | ID[], stack?: boolean) {
+  public removeData(itemType: ITEM_TYPE, ids: ID | ID[]) {
     const idArr = isArray(ids) ? ids : [ids];
     const data = { nodes: [], edges: [], combos: [] };
     const { userGraphCore, graphCore } = this.dataController;
@@ -944,13 +1006,20 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     data[`${itemType}s`] = idArr.map((id) => getItem.bind(userGraphCore)(id));
     graphCore.once('changed', (event) => {
       if (!event.changes.length) return;
+      const changes = event.changes;
       this.hooks.itemchange.emit({
         type: itemType,
         changes: event.changes,
         graphCore,
         theme: specification,
       });
-      this.emit('afteritemchange', { type: itemType, action: 'remove', ids });
+      this.emit('afteritemchange', {
+        type: itemType,
+        action: 'remove',
+        ids,
+        apiName: 'removeData',
+        changes,
+      });
     });
     this.hooks.datachange.emit({
       data,
@@ -958,10 +1027,63 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     });
   }
   /**
+   * Extends the fields of oldValue and newValue
+   * to make sure they both contain the union set of their original fields.
+   * The missing fields' values are filled using data from displayModel data.
+   * @param changes
+   * @returns
+   */
+  private extendChanges(changes) {
+    return changes
+      .map((change) => {
+        const { id, propertyName, oldValue, newValue } = change;
+        if (!oldValue || !newValue) return change;
+        if (propertyName) {
+          if (oldValue !== newValue) return change;
+          return false;
+        }
+
+        const displayData = this.getItemById(id).displayModel.data;
+        const oldFields = Object.keys(oldValue);
+        const newFields = Object.keys(newValue);
+        const commonFields = [...new Set([...oldFields, ...newFields])];
+
+        commonFields.forEach((field) => {
+          if (!Object.prototype.hasOwnProperty.call(oldValue, field)) {
+            oldValue[field] = displayData[field];
+          }
+          if (!Object.prototype.hasOwnProperty.call(newValue, field)) {
+            newValue[field] = displayData[field];
+          }
+        });
+
+        if (
+          (oldValue.x === undefined || Number.isNaN(oldValue.x)) &&
+          !oldValue._isCombo
+        )
+          oldValue.x = 0;
+        if (
+          (oldValue.y === undefined || Number.isNaN(oldValue.x)) &&
+          !oldValue._isCombo
+        )
+          oldValue.y = 0;
+        if (Number.isNaN(newValue.x)) delete newValue.x;
+        if (Number.isNaN(newValue.y)) delete newValue.y;
+
+        if (isEqual(newValue, oldValue)) return false;
+
+        return {
+          ...change,
+          newValue,
+          oldValue,
+        };
+      })
+      .filter(Boolean);
+  }
+  /**
    * Update one or more node/edge/combo data on the graph.
    * @param {ITEM_TYPE} itemType 'node' | 'edge' | 'combo'
    * @param models new configurations for every node/edge/combo, which has id field to indicate the specific item
-   * @param {boolean} stack whether push this operation into graph's stack, true by default
    * @group Data
    */
   public updateData(
@@ -975,7 +1097,6 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
           | Partial<EdgeUserModel>[]
           | Partial<ComboUserModel>[]
         >,
-    stack?: boolean,
   ):
     | NodeModel
     | EdgeModel
@@ -990,6 +1111,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     const { graphCore } = this.dataController;
     const { specification } = this.themeController;
     graphCore.once('changed', (event) => {
+      const changes = this.extendChanges(clone(event.changes));
       this.hooks.itemchange.emit({
         type: itemType,
         changes: event.changes,
@@ -1000,6 +1122,8 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
         type: itemType,
         action: 'update',
         models,
+        apiName: 'updateData',
+        changes,
       });
     });
 
@@ -1018,7 +1142,6 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * Update one or more nodes' positions,
    * do not update other styles which leads to better performance than updating positions by updateData.
    * @param models new configurations with x and y for every node, which has id field to indicate the specific item
-   * @param {boolean} stack whether push this operation into graph's stack, true by default
    * @group Data
    */
   public updateNodePosition(
@@ -1028,9 +1151,21 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
           ComboUserModel | Partial<NodeUserModel>[] | Partial<ComboUserModel>[]
         >,
     upsertAncestors?: boolean,
+    disableAnimate = false,
+    callback?: (
+      model: NodeModel | EdgeModel | ComboModel,
+      canceled?: boolean,
+    ) => void,
     stack?: boolean,
   ) {
-    return this.updatePosition('node', models, upsertAncestors, stack);
+    return this.updatePosition(
+      'node',
+      models,
+      upsertAncestors,
+      disableAnimate,
+      callback,
+      stack,
+    );
   }
 
   /**
@@ -1038,7 +1173,6 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * do not update other styles which leads to better performance than updating positions by updateData.
    * In fact, it changes the succeed nodes positions to affect the combo's position, but not modify the combo's position directly.
    * @param models new configurations with x and y for every combo, which has id field to indicate the specific item
-   * @param {boolean} stack whether push this operation into graph's stack, true by default
    * @group Data
    */
   public updateComboPosition(
@@ -1048,9 +1182,32 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
           ComboUserModel | Partial<NodeUserModel>[] | Partial<ComboUserModel>[]
         >,
     upsertAncestors?: boolean,
+    disableAnimate = false,
+    callback?: (model: NodeModel | EdgeModel | ComboModel) => void,
     stack?: boolean,
   ) {
-    return this.updatePosition('combo', models, upsertAncestors, stack);
+    return this.updatePosition(
+      'combo',
+      models,
+      upsertAncestors,
+      disableAnimate,
+      callback,
+      stack,
+    );
+  }
+
+  /**
+   * Get history plugin instance
+   */
+  private getHistoryPlugin(): History {
+    if (
+      !this.specification.enableStack ||
+      !this.pluginController.hasPlugin('history')
+    ) {
+      console.error('The history plugin is not loaded or initialized.');
+      return;
+    }
+    return this.pluginController.getPlugin('history') as History;
   }
 
   private updatePosition(
@@ -1061,6 +1218,11 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
           ComboUserModel | Partial<NodeUserModel>[] | Partial<ComboUserModel>[]
         >,
     upsertAncestors?: boolean,
+    disableAnimate = false,
+    callback?: (
+      model: NodeModel | EdgeModel | ComboModel,
+      canceled?: boolean,
+    ) => void,
     stack?: boolean,
   ) {
     const modelArr = isArray(models) ? models : [models];
@@ -1068,6 +1230,9 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     const { specification } = this.themeController;
     graphCore.once('changed', (event) => {
       if (!event.changes.length) return;
+      const changes = event.changes.filter(
+        (change) => !isEqual(change.newValue, change.oldValue),
+      );
       this.hooks.itemchange.emit({
         type,
         changes: event.changes,
@@ -1075,12 +1240,16 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
         theme: specification,
         upsertAncestors,
         action: 'updatePosition',
+        animate: !disableAnimate,
+        callback,
       });
       this.emit('afteritemchange', {
         type,
         action: 'updatePosition',
         upsertAncestors,
         models,
+        apiName: 'updatePosition',
+        changes,
       });
     });
 
@@ -1099,19 +1268,46 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     return isArray(models) ? dataList : dataList[0];
   }
 
+  private getItemPreviousVisibility(ids: ID[]) {
+    const objs = ids.map((id) => ({ id, visible: this.getItemVisible(id) }));
+    const groupedByVisible = groupBy(objs, 'visible');
+
+    const values = [];
+    for (const visible in groupedByVisible) {
+      values.push({
+        ids: map(groupedByVisible[visible], (item) => item.id),
+        visible: visible === 'true',
+      });
+    }
+    return values;
+  }
+
   /**
    * Show the item(s).
    * @param item the item to be shown
    * @returns
    * @group Item
    */
-  public showItem(ids: ID | ID[], disableAniamte?: boolean) {
+  public showItem(ids: ID | ID[], disableAnimate = false) {
     const idArr = isArray(ids) ? ids : [ids];
+    if (isEmpty(idArr)) return;
+    const changes = {
+      newValue: [{ ids: idArr, visible: true }],
+      oldValue: this.getItemPreviousVisibility(idArr),
+    };
     this.hooks.itemvisibilitychange.emit({
       ids: idArr as ID[],
       value: true,
       graphCore: this.dataController.graphCore,
-      animate: !disableAniamte,
+      animate: !disableAnimate,
+    });
+    this.emit('afteritemvisibilitychange', {
+      ids,
+      value: true,
+      animate: !disableAnimate,
+      action: 'updateVisibility',
+      apiName: 'showItem',
+      changes,
     });
   }
   /**
@@ -1120,13 +1316,26 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * @returns
    * @group Item
    */
-  public hideItem(ids: ID | ID[], disableAniamte?: boolean) {
+  public hideItem(ids: ID | ID[], disableAnimate = false) {
     const idArr = isArray(ids) ? ids : [ids];
+    if (isEmpty(idArr)) return;
+    const changes = {
+      newValue: [{ ids: idArr, visible: false }],
+      oldValue: this.getItemPreviousVisibility(idArr),
+    };
     this.hooks.itemvisibilitychange.emit({
       ids: idArr as ID[],
       value: false,
       graphCore: this.dataController.graphCore,
-      animate: !disableAniamte,
+      animate: !disableAnimate,
+    });
+    this.emit('afteritemvisibilitychange', {
+      ids,
+      value: false,
+      animate: !disableAnimate,
+      action: 'updateVisibility',
+      apiName: 'hideItem',
+      changes,
     });
   }
 
@@ -1143,6 +1352,11 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       action: 'front',
       graphCore: this.dataController.graphCore,
     });
+    this.emit('afteritemzindexchange', {
+      ids: idArr,
+      action: 'front',
+      apiName: 'frontItem',
+    });
   }
   /**
    * Make the item(s) to the back.
@@ -1156,6 +1370,29 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       ids: idArr as ID[],
       action: 'back',
       graphCore: this.dataController.graphCore,
+    });
+    this.emit('afteritemzindexchange', {
+      ids: idArr,
+      action: 'back',
+      apiName: 'backItem',
+    });
+  }
+
+  private getItemPreviousStates(stateOption: {
+    ids: ID | ID[];
+    states: string | string[];
+    value: boolean;
+  }) {
+    const { ids, states } = stateOption;
+    const idArr = Array.isArray(ids) ? ids : [ids];
+    const stateArr = Array.isArray(states) ? states : [states];
+    if (isEmpty(idArr)) return;
+    return idArr.flatMap((id) => {
+      return stateArr.map((state) => ({
+        ids: id,
+        states: state,
+        value: this.getItemState(id, state),
+      }));
     });
   }
   /**
@@ -1173,12 +1410,24 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
   ) {
     const idArr = isArray(ids) ? ids : [ids];
     const stateArr = isArray(states) ? states : [states];
+    const stateOption = { ids: idArr, states: stateArr, value };
+    const changes = {
+      newValue: [stateOption],
+      oldValue: this.getItemPreviousStates(stateOption),
+    };
     this.hooks.itemstatechange.emit({
       ids: idArr as ID[],
       states: stateArr as string[],
       value,
     });
-    this.emit('afteritemstatechange', { ids, states, value });
+    this.emit('afteritemstatechange', {
+      ids,
+      states,
+      value,
+      action: 'updateState',
+      apiName: 'setItemState',
+      changes,
+    });
   }
   /**
    * Get the state value for an item.
@@ -1192,6 +1441,16 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
   }
 
   /**
+   * Get all the state names with value true for an item.
+   * @param id the id for the item
+   * @returns {string[]} the state names with value true
+   * @group Item
+   */
+  public getItemAllStates(id: ID): string[] {
+    return this.itemController.getItemAllStates(id);
+  }
+
+  /**
    * Clear all the states for item(s).
    * @param ids the id(s) for the item(s) to be clear
    * @param states the states' names, all the states wil be cleared if states is not assigned
@@ -1200,12 +1459,24 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    */
   public clearItemState(ids: ID | ID[], states?: string[]) {
     const idArr = isArray(ids) ? ids : [ids];
+    const stateOptions = { ids: idArr, states, value: false };
+    const changes = {
+      newValue: [stateOptions],
+      oldValue: this.getItemPreviousStates(stateOptions),
+    };
     this.hooks.itemstatechange.emit({
       ids: idArr as ID[],
       states,
       value: false,
     });
-    this.emit('afteritemstatechange', { ids, states, value: false });
+    this.emit('afteritemstatechange', {
+      ids,
+      states,
+      value: false,
+      action: 'updateState',
+      apiName: 'clearItemState',
+      changes,
+    });
   }
 
   /**
@@ -1239,19 +1510,15 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * Add a new combo to the graph, and update the structure of the existed child in childrenIds to be the children of the new combo.
    * Different from addData with combo type, this API update the succeeds' combo tree strucutres in the same time.
    * @param model combo user data
-   * @param stack whether push this operation to stack
    * @returns whether success
    * @group Combo
    */
-  public addCombo(
-    model: ComboUserModel,
-    childrenIds: ID[],
-    stack?: boolean,
-  ): ComboModel {
+  public addCombo(model: ComboUserModel, childrenIds: ID[]): ComboModel {
     const { graphCore } = this.dataController;
     const { specification } = this.themeController;
     graphCore.once('changed', (event) => {
       if (!event.changes.length) return;
+      const changes = event.changes;
       this.hooks.itemchange.emit({
         type: 'combo',
         changes: graphCore.reduceChanges(event.changes),
@@ -1262,6 +1529,8 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
         type: 'combo',
         action: 'add',
         models: [model],
+        apiName: 'addCombo',
+        changes,
       });
     });
 
@@ -1289,26 +1558,40 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * @param comboId combo ids
    * @group Combo
    */
-  public collapseCombo(comboIds: ID | ID[], stack?: boolean) {
+  public collapseCombo(comboIds: ID | ID[]) {
     const ids = isArray(comboIds) ? comboIds : [comboIds];
-    this.updateData(
-      'combo',
-      ids.map((id) => ({ id, data: { collapsed: true } })),
-    );
-    // emit collapse event?
+    this.executeWithoutStacking(() => {
+      this.updateData(
+        'combo',
+        ids.map((id) => ({ id, data: { collapsed: true } })),
+      );
+    });
+    this.emit('aftercollapsecombo', {
+      type: 'combo',
+      action: 'collapseCombo',
+      ids: comboIds,
+      apiName: 'collapseCombo',
+    });
   }
   /**
    * Expand a combo.
    * @param combo combo ids
    * @group Combo
    */
-  public expandCombo(comboIds: ID | ID[], stack?: boolean) {
+  public expandCombo(comboIds: ID | ID[]) {
     const ids = isArray(comboIds) ? comboIds : [comboIds];
-    this.updateData(
-      'combo',
-      ids.map((id) => ({ id, data: { collapsed: false } })),
-    );
-    // emit expand event?
+    this.executeWithoutStacking(() => {
+      this.updateData(
+        'combo',
+        ids.map((id) => ({ id, data: { collapsed: false } })),
+      );
+    });
+    this.emit('afterexpandcombo', {
+      type: 'combo',
+      action: 'expandCombo',
+      ids: comboIds,
+      apiName: 'expandCombo',
+    });
   }
 
   /**
@@ -1316,7 +1599,6 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * do not update other styles which leads to better performance than updating positions by updateData.
    * In fact, it changes the succeed nodes positions to affect the combo's position, but not modify the combo's position directly.
    * @param models new configurations with x and y for every combo, which has id field to indicate the specific item
-   * @param {boolean} stack whether push this operation into graph's stack, true by default
    * @group Combo
    */
   public moveCombo(
@@ -1324,13 +1606,17 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     dx: number,
     dy: number,
     upsertAncestors?: boolean,
-    stack?: boolean,
+    callback?: (
+      model: NodeModel | EdgeModel | ComboModel,
+      canceled?: boolean,
+    ) => void,
   ): ComboModel[] {
     const idArr = isArray(ids) ? ids : [ids];
     const { graphCore } = this.dataController;
     const { specification } = this.themeController;
     graphCore.once('changed', (event) => {
       if (!event.changes.length) return;
+      const changes = this.extendChanges(clone(event.changes));
       this.hooks.itemchange.emit({
         type: 'combo',
         changes: event.changes,
@@ -1338,6 +1624,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
         theme: specification,
         upsertAncestors,
         action: 'updatePosition',
+        callback,
       });
       this.emit('afteritemchange', {
         type: 'combo',
@@ -1346,6 +1633,8 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
         dy,
         action: 'updatePosition',
         upsertAncestors,
+        apiName: 'moveCombo',
+        changes,
       });
     });
 
@@ -1364,7 +1653,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
   /**
    * Layout the graph (with current configurations if cfg is not assigned).
    */
-  public async layout(options?: LayoutOptions) {
+  public async layout(options?: LayoutOptions, disableAnimate = false) {
     const { graphCore } = this.dataController;
     const formattedOptions = {
       ...this.getSpecification().layout,
@@ -1400,7 +1689,27 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     await this.hooks.layout.emitLinearAsync({
       graphCore,
       options: formattedOptions,
+      animate: !disableAnimate,
     });
+
+    const { autoFit } = this.specification;
+    if (autoFit) {
+      if (autoFit === 'view') {
+        await this.fitView();
+      } else if (autoFit === 'center') {
+        await this.fitCenter();
+      } else {
+        const { type, effectTiming, ...others } = autoFit;
+        if (type === 'view') {
+          await this.fitView(others as any, effectTiming);
+        } else if (type === 'center') {
+          await this.fitCenter(effectTiming);
+        } else if (type === 'position') {
+          // TODO: align
+          await this.translateTo((others as any).position, effectTiming);
+        }
+      }
+    }
     this.emit('afterlayout');
   }
 
@@ -1653,6 +1962,194 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     return this.itemController.getTransient(String(id));
   }
 
+  // ===== history operations =====
+
+  /**
+   * Determine if history (redo/undo) is enabled.
+   */
+  public isHistoryEnabled() {
+    const history = this.getHistoryPlugin();
+    return history?.isEnable();
+  }
+
+  /**
+   * Push the operation(s) onto the specified stack
+   * @param cmd commands to be pushed
+   * @param stackType undo/redo stack
+   * @param isNew
+   */
+  public pushStack(cmd: Command[], stackType: StackType, isNew?: boolean) {
+    const history = this.getHistoryPlugin();
+    return history?.push(cmd, stackType, isNew);
+  }
+
+  /**
+   * Pause stacking operation.
+   */
+  public pauseStacking(): void {
+    const history = this.getHistoryPlugin();
+    return history?.pauseStacking();
+  }
+
+  /**
+   * Resume stacking operation.
+   */
+  public resumeStacking(): void {
+    const history = this.getHistoryPlugin();
+    return history?.resumeStacking();
+  }
+
+  /**
+   * Execute a callback without allowing any stacking operations.
+   * @param callback
+   */
+  public executeWithoutStacking = (callback: () => void): void => {
+    const history = this.getHistoryPlugin();
+    history?.pauseStacking();
+    try {
+      callback();
+    } finally {
+      history?.resumeStacking();
+    }
+  };
+
+  /**
+   * Retrieve the current redo stack which consists of operations that could be undone
+   */
+  public getUndoStack() {
+    const history = this.getHistoryPlugin();
+    return history?.getUndoStack();
+  }
+
+  /**
+   * Retrieve the current undo stack which consists of operations that were undone
+   */
+  public getRedoStack() {
+    const history = this.getHistoryPlugin();
+    return history?.getRedoStack();
+  }
+
+  /**
+   * Retrieve the complete history stack
+   * @returns
+   */
+  public getStack() {
+    const history = this.getHistoryPlugin();
+    return history?.getStack();
+  }
+
+  /**
+   * Restore n operations that were last n reverted on the graph.
+   * @param steps The number of operations to undo. Default to 1.
+   * @returns
+   */
+  public undo() {
+    const history = this.getHistoryPlugin();
+    history?.undo();
+  }
+
+  /**
+   * Revert recent n operation(s) performed on the graph.
+   * @param steps The number of operations to redo. Default to 1.
+   * @returns
+   */
+  public redo() {
+    const history = this.getHistoryPlugin();
+    history?.redo();
+  }
+
+  /**
+   * Indicate whether there are any actions available in the undo stack.
+   */
+  public canUndo() {
+    const history = this.getHistoryPlugin();
+    return history?.canUndo();
+  }
+
+  /**
+   * Indicate whether there are any actions available in the redo stack.
+   */
+  public canRedo() {
+    const history = this.getHistoryPlugin();
+    return history?.canRedo();
+  }
+
+  /**
+   * Begin a batch operation.
+   * Any operations performed between `startBatch` and `stopBatch` are grouped together.
+   * treated as a single operation when undoing or redoing.
+   */
+  public startBatch() {
+    const history = this.getHistoryPlugin();
+    history?.startBatch();
+  }
+
+  /**
+   * End a batch operation.
+   * Any operations performed between `startBatch` and `stopBatch` are grouped together.
+   * treated as a single operation when undoing or redoing.
+   */
+  public stopBatch() {
+    const history = this.getHistoryPlugin();
+    history?.stopBatch();
+  }
+
+  /**
+   * Execute a provided function within a batched context
+   * All operations performed inside callback will be treated as a composite operation
+   * more convenient way without manually invoking `startBatch` and `stopBatch`.
+   * @param callback The func containing operations to be batched together.
+   */
+  public batch(callback: () => void) {
+    const history = this.getHistoryPlugin();
+    history?.batch(callback);
+  }
+
+  /**
+   * Clear history stack
+   * @param {StackType} stackType undo/redo stack
+   */
+  public clearStack(stackType?: StackType) {
+    const history = this.getHistoryPlugin();
+    if (!stackType) return history?.clear();
+    return stackType === 'undo'
+      ? history?.clearUndoStack()
+      : history?.clearRedoStack();
+  }
+
+  /**
+   * Collapse sub tree(s).
+   * @param ids Root id(s) of the sub trees.
+   * @param disableAnimate Whether disable the animations for this operation.
+   * @param stack Whether push this operation to stack.
+   * @returns
+   * @group Tree
+   */
+  public collapse(ids: ID | ID[], disableAnimate = false, stack?: boolean) {
+    this.hooks.treecollapseexpand.emit({
+      ids: isArray(ids) ? ids : [ids],
+      action: 'collapse',
+      animate: !disableAnimate,
+      graphCore: this.dataController.graphCore,
+    });
+  }
+  /**
+   * Expand sub tree(s).
+   * @param ids Root id(s) of the sub trees.
+   * @param disableAnimate Whether disable the animations for this operation.
+   * @param stack Whether push this operation to stack.
+   * @returns
+   * @group Tree
+   */
+  public expand(ids: ID | ID[], disableAnimate = false, stack?: boolean) {
+    this.hooks.treecollapseexpand.emit({
+      ids: isArray(ids) ? ids : [ids],
+      action: 'expand',
+      animate: !disableAnimate,
+      graphCore: this.dataController.graphCore,
+    });
+  }
+
   /**
    * Destroy the graph instance and remove the related canvases.
    * @returns
@@ -1664,6 +2161,10 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     this.canvas.destroy();
     this.backgroundCanvas.destroy();
     this.transientCanvas.destroy();
+
+    // clear history stack
+    this.clearStack();
+
     callback?.();
     // }, 500);
 

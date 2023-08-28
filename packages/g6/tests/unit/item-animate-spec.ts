@@ -124,7 +124,6 @@ const createGraph = (props) => {
     container,
     width: 500,
     height: 500,
-    type: 'graph',
     data: clonedData,
     ...props,
   });
@@ -177,9 +176,9 @@ describe('node show up animations', () => {
     });
 
     graph.on('afterrender', () => {
-      const node1 = graph.itemController.itemMap['node1'];
+      const node1 = graph.itemController.itemMap.get('node1');
       const node1KeyShapeBBox = graph.getRenderBBox('node1');
-      const node2 = graph.itemController.itemMap['node2'];
+      const node2 = graph.itemController.itemMap.get('node2');
       const node2KeyShapeBBox = graph.getRenderBBox('node2');
       expect(node1.shapeMap.keyShape.attributes.opacity).toBe(0);
       expect(node1KeyShapeBBox.max[0] - node1KeyShapeBBox.min[0]).toBe(0);
@@ -234,7 +233,7 @@ describe('node show up animations', () => {
       });
 
       graph.on('afterrender', () => {
-        const node1 = graph.itemController.itemMap['node1'];
+        const node1 = graph.itemController.itemMap.get('node1');
         expect(node1.shapeMap.keyShape.attributes.opacity).toBe(0);
         expect(node1.shapeMap.keyShape.attributes.lineWidth).toBe(1);
         setTimeout(() => {
@@ -288,7 +287,7 @@ describe('edge show up animations', () => {
     });
 
     graph.on('afterrender', () => {
-      const edge1 = graph.itemController.itemMap['edge1'];
+      const edge1 = graph.itemController.itemMap.get('edge1');
       expect(edge1.shapeMap.keyShape.attributes.opacity).toBe(0);
       expect(edge1.shapeMap.keyShape.attributes.lineWidth).toBe(1);
       setTimeout(() => {
@@ -335,7 +334,7 @@ describe('edge show up animations', () => {
       });
 
       graph.on('afterrender', () => {
-        const edge1 = graph.itemController.itemMap['edge1'];
+        const edge1 = graph.itemController.itemMap.get('edge1');
         expect(edge1.shapeMap.keyShape.attributes.opacity).toBe(0);
         expect(edge1.shapeMap.keyShape.attributes.lineWidth).toBe(1);
         setTimeout(() => {
@@ -406,7 +405,7 @@ describe('node update animations', () => {
             },
           },
         });
-        const node1 = graph.itemController.itemMap['node1'];
+        const node1 = graph.itemController.itemMap.get('node1');
         expect(node1.shapeMap.keyShape.attributes.lineWidth).toBe(1);
         expect(node1.group.attributes.x).toBe(100);
         expect(node1.group.attributes.y).toBe(200);
@@ -468,7 +467,7 @@ describe('node update animations', () => {
               },
             },
           });
-          const node1 = graph.itemController.itemMap['node1'];
+          const node1 = graph.itemController.itemMap.get('node1');
           expect(node1.shapeMap.keyShape.attributes.lineWidth).toBe(1);
           expect(node1.group.attributes.x).toBe(100);
           expect(node1.group.attributes.y).toBe(200);
@@ -534,7 +533,7 @@ describe('node update animations', () => {
     graph.on('afterrender', () => {
       setTimeout(() => {
         graph.setItemState('node1', 'selected', true);
-        const node1 = graph.itemController.itemMap['node1'];
+        const node1 = graph.itemController.itemMap.get('node1');
         expect(node1.shapeMap.keyShape.attributes.fill).toBe(
           'rgb(239, 244, 255)',
         );
@@ -596,7 +595,7 @@ describe('node update animations', () => {
     graph.on('afterrender', () => {
       setTimeout(() => {
         graph.setItemState('node1', 'selected', true);
-        const node1 = graph.itemController.itemMap['node1'];
+        const node1 = graph.itemController.itemMap.get('node1');
         expect(node1.shapeMap.keyShape.attributes.lineWidth).toBe(1);
         expect(node1.shapeMap.keyShape.attributes.fill).toBe(
           'rgb(239, 244, 255)',
@@ -665,7 +664,7 @@ describe('edge update animations', () => {
             },
           },
         });
-        const edge1 = graph.itemController.itemMap['edge1'];
+        const edge1 = graph.itemController.itemMap.get('edge1');
         expect(edge1.shapeMap.keyShape.attributes.stroke).toBe('#000');
         expect(edge1.shapeMap.keyShape.attributes.lineWidth).toBe(2);
         setTimeout(() => {
@@ -717,7 +716,7 @@ describe('edge update animations', () => {
               },
             },
           });
-          const edge1 = graph.itemController.itemMap['edge1'];
+          const edge1 = graph.itemController.itemMap.get('edge1');
           expect(edge1.shapeMap.keyShape.attributes.stroke).toBe('#000');
           expect(edge1.shapeMap.keyShape.attributes.lineWidth).toBe(2);
           setTimeout(() => {
@@ -778,7 +777,7 @@ describe('edge update animations', () => {
     graph.on('afterrender', () => {
       setTimeout(() => {
         graph.setItemState('edge1', 'selected', true);
-        const edge1 = graph.itemController.itemMap['edge1'];
+        const edge1 = graph.itemController.itemMap.get('edge1');
         expect(edge1.shapeMap.keyShape.attributes.stroke).toBe('#000');
         expect(edge1.shapeMap.keyShape.attributes.lineWidth).toBe(2);
         setTimeout(() => {
@@ -831,7 +830,7 @@ describe('edge update animations', () => {
     graph.on('afterrender', () => {
       setTimeout(() => {
         graph.setItemState('edge1', 'selected', true);
-        const edge1 = graph.itemController.itemMap['edge1'];
+        const edge1 = graph.itemController.itemMap.get('edge1');
         expect(edge1.shapeMap.keyShape.attributes.stroke).toBe('#000');
         expect(edge1.shapeMap.keyShape.attributes.lineWidth).toBe(2);
         setTimeout(() => {
@@ -889,7 +888,7 @@ describe('node show up animations', () => {
     });
 
     graph.on('afterrender', () => {
-      const node1 = graph.itemController.itemMap['node1'];
+      const node1 = graph.itemController.itemMap.get('node1');
       expect(node1.shapeMap.keyShape.attributes.opacity).toBe(0);
       expect(node1.shapeMap.keyShape.attributes.fill).toBe(
         'rgb(239, 244, 255)',
@@ -945,7 +944,7 @@ describe('node show up animations', () => {
     });
 
     graph.on('afterrender', () => {
-      const node1 = graph.itemController.itemMap['node1'];
+      const node1 = graph.itemController.itemMap.get('node1');
       expect(node1.shapeMap.keyShape.attributes.fill).toBe(
         'rgb(239, 244, 255)',
       );
@@ -1015,7 +1014,7 @@ describe('edge show up animations', () => {
     });
 
     graph.on('afterrender', () => {
-      const edge1 = graph.itemController.itemMap['edge1'];
+      const edge1 = graph.itemController.itemMap.get('edge1');
       expect(edge1.shapeMap.keyShape.attributes.opacity).toBe(0);
       expect(edge1.shapeMap.keyShape.attributes.stroke).toBe('#000');
       setTimeout(() => {
@@ -1060,7 +1059,7 @@ describe('edge show up animations', () => {
     });
 
     graph.on('afterrender', () => {
-      const edge1 = graph.itemController.itemMap['edge1'];
+      const edge1 = graph.itemController.itemMap.get('edge1');
       expect(edge1.shapeMap.keyShape.attributes.stroke).toBe('#000');
       graph.updateData('edge', {
         id: 'edge1',
@@ -1130,7 +1129,7 @@ describe('custom node animations', () => {
     });
 
     graph.on('afterrender', () => {
-      const node1 = graph.itemController.itemMap['node1'];
+      const node1 = graph.itemController.itemMap.get('node1');
       expect(node1.shapeMap.extraShape.attributes.opacity).toBe(0);
       setTimeout(() => {
         expect(node1.shapeMap.keyShape.attributes.opacity > 0).toBe(true);
@@ -1175,7 +1174,7 @@ describe('custom node animations', () => {
     });
 
     graph.on('afterrender', () => {
-      const edge1 = graph.itemController.itemMap['edge1'];
+      const edge1 = graph.itemController.itemMap.get('edge1');
       expect(edge1.shapeMap.runningCircle.attributes.offsetDistance).toBe(0);
       setTimeout(() => {
         const currentOffsetDistance =
@@ -1233,7 +1232,7 @@ describe('node update position with edges', () => {
     const oriData = clone(data);
 
     graph.on('afterrender', () => {
-      const edge = graph.itemController.itemMap['edge1'];
+      const edge = graph.itemController.itemMap.get('edge1');
       let { keyShape: edgeKeyShape } = edge.shapeMap;
       expect(edgeKeyShape.attributes.x1).toBe(oriData.nodes[0].data.x);
       expect(edgeKeyShape.attributes.y1).toBe(oriData.nodes[0].data.y);
@@ -1254,9 +1253,9 @@ describe('node update position with edges', () => {
         },
       });
       setTimeout(() => {
-        const node1 = graph.itemController.itemMap['node1'];
+        const node1 = graph.itemController.itemMap.get('node1');
         expect(node1.model.data.x).not.toBe(oriData.nodes[0].data.x);
-        const node2 = graph.itemController.itemMap['node2'];
+        const node2 = graph.itemController.itemMap.get('node2');
         expect(node2.model.data.x).not.toBe(oriData.nodes[1].data.x);
         edgeKeyShape = edge.shapeMap.keyShape;
         expect(edgeKeyShape.attributes.x1).not.toBe(oriData.nodes[0].data.x);

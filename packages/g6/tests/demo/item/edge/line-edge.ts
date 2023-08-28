@@ -227,7 +227,6 @@ export default (context: TestCaseContext) => {
   // 2.create graph
   graph = new Graph({
     ...context,
-    type: 'graph',
     data: defaultData,
     modes: {
       // supported behavior
