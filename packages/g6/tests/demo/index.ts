@@ -34,9 +34,7 @@ import menu from './demo/menu';
 import performance from './performance/performance';
 import performance_layout from './performance/layout';
 import performance_layout_3d from './performance/layout-3d';
-import fisheye from './plugins/fisheye';
 import star from './demo/star';
-import hexagon from './demo/hexagon';
 import polyline from './item/edge/polyline-edge';
 import quadratic from './demo/quadratic';
 import rect from './demo/rect';
@@ -51,6 +49,7 @@ import dataValidate from './data/data-validate';
 import anchor from './item/anchor';
 import arrow from './item/edge/arrow';
 import circularUpdate from './layouts/circular-update';
+import modelRect from './demo/modelRect';
 
 export {
   behaviors_activateRelations,
@@ -104,4 +103,5 @@ export {
   anchor,
   arrow,
   circularUpdate,
+  modelRect,
 };
