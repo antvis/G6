@@ -224,7 +224,7 @@ export class ModelRectNode extends BaseNode {
     const { x, y, height, width } = keyShapeStyle;
     const { width: preRectWidth = 5, fill = '#5CAAF8' } = preRectStyle;
     return {
-      'otherShapePreRect': this.upsertShape(
+      otherShapePreRect: this.upsertShape(
         'rect',
         'otherShapePreRect',
         {
@@ -237,7 +237,7 @@ export class ModelRectNode extends BaseNode {
         },
         shapeMap,
         model,
-      )
+      ),
     };
   }
 
@@ -251,15 +251,14 @@ export class ModelRectNode extends BaseNode {
     if (!logoIconStyle) {
       this.logoWidth = 16;
       this.logoHeight = 16;
-      this.logoX = convertToNumber(x) -
+      this.logoX =
+        convertToNumber(x) -
         convertToNumber(width) / 2 +
         width / 10 -
         this.logoWidth / 2;
-      this.logoY =
-        convertToNumber(y) -
-        convertToNumber(this.logoHeight) / 2;
+      this.logoY = convertToNumber(y) - convertToNumber(this.logoHeight) / 2;
       return;
-    };
+    }
     const {
       width: logoIconWidth = 16,
       height: logoIconHeight = 16,
@@ -286,8 +285,8 @@ export class ModelRectNode extends BaseNode {
     const logoY = (this.logoY = logoIconText
       ? logoIconOffsetY
       : convertToNumber(y) -
-      convertToNumber(logoIconHeight) / 2 +
-      logoIconOffsetY);
+        convertToNumber(logoIconHeight) / 2 +
+        logoIconOffsetY);
 
     if (logoIconText) {
       logoIconStyle.textAlign = 'center';
@@ -331,7 +330,7 @@ export class ModelRectNode extends BaseNode {
 
     const defaultDescriptionFontSize = defaultLabelFontSize / 2;
     return {
-      'otherShapeDescription': this.upsertShape(
+      otherShapeDescription: this.upsertShape(
         'text',
         'otherShapeDescription',
         {
@@ -349,7 +348,7 @@ export class ModelRectNode extends BaseNode {
         },
         shapeMap,
         model,
-      )
+      ),
     };
   }
 
@@ -381,14 +380,14 @@ export class ModelRectNode extends BaseNode {
     const stateY = stateIconText
       ? stateIconOffsetY
       : convertToNumber(y) -
-      convertToNumber(stateIconHeight || stateIconFontSize) / 2 +
-      stateIconOffsetY;
+        convertToNumber(stateIconHeight || stateIconFontSize) / 2 +
+        stateIconOffsetY;
     if (stateIconText) {
       stateIconStyle.textAlign = 'center';
       stateIconStyle.textBaseline = 'middle';
     }
     return {
-      'otherShapestateIcon': this.upsertShape(
+      otherShapestateIcon: this.upsertShape(
         stateIconShapeType,
         'otherShapestateIcon',
         {
@@ -400,7 +399,7 @@ export class ModelRectNode extends BaseNode {
         },
         shapeMap,
         model,
-      )
+      ),
     };
   }
 }
