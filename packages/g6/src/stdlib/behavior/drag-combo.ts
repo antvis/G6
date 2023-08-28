@@ -1,5 +1,5 @@
 import { ID } from '@antv/graphlib';
-import { throttle, uniq } from '@antv/util';
+import { debounce, throttle, uniq } from '@antv/util';
 import { ComboModel, EdgeModel, NodeModel } from '../../types';
 import { Behavior } from '../../types/behavior';
 import { IG6GraphEvent } from '../../types/event';
@@ -247,14 +247,16 @@ export default class DragCombo extends Behavior {
           selectedComboIds,
           this.hiddenComboTreeRoots,
         );
-        this.graph.hideItem(
-          this.hiddenEdges.map((edge) => edge.id),
-          true,
-        );
-        this.graph.hideItem(
-          this.hiddenComboTreeRoots.map((child) => child.id),
-          true,
-        );
+        this.graph.executeWithoutStacking(() => {
+          this.graph.hideItem(
+            this.hiddenEdges.map((edge) => edge.id),
+            true,
+          );
+          this.graph.hideItem(
+            this.hiddenComboTreeRoots.map((child) => child.id),
+            true,
+          );
+        });
       }
 
       // Draw transient nodes and edges.
@@ -275,15 +277,17 @@ export default class DragCombo extends Behavior {
         });
 
         // Hide original edges and nodes. They will be restored when pointerup.
-        this.graph.hideItem(selectedComboIds, true);
-        this.graph.hideItem(
-          this.hiddenEdges.map((edge) => edge.id),
-          true,
-        );
-        this.graph.hideItem(
-          this.hiddenComboTreeRoots.map((child) => child.id),
-          true,
-        );
+        this.graph.executeWithoutStacking(() => {
+          this.graph.hideItem(selectedComboIds, true);
+          this.graph.hideItem(
+            this.hiddenEdges.map((edge) => edge.id),
+            true,
+          );
+          this.graph.hideItem(
+            this.hiddenComboTreeRoots.map((child) => child.id),
+            true,
+          );
+        });
       } else {
         this.graph.frontItem(selectedComboIds);
       }
@@ -335,6 +339,10 @@ export default class DragCombo extends Behavior {
     deltaY: number,
     transient: boolean,
     upsertAncestors = true,
+    callback?: (
+      model: EdgeModel | NodeModel | ComboModel,
+      canceled?: boolean,
+    ) => void,
   ) {
     if (transient) {
       // Move transient nodes
@@ -357,6 +365,7 @@ export default class DragCombo extends Behavior {
         deltaX,
         deltaY,
         upsertAncestors,
+        callback,
       );
     }
 
@@ -419,6 +428,7 @@ export default class DragCombo extends Behavior {
   }
 
   public restoreHiddenItems() {
+    this.graph.pauseStacking();
     if (this.hiddenEdges.length) {
       this.graph.showItem(
         this.hiddenEdges.map((edge) => edge.id),
@@ -441,6 +451,7 @@ export default class DragCombo extends Behavior {
         true,
       );
     }
+    this.graph.resumeStacking();
   }
 
   public onPointerUp(event: IG6GraphEvent) {
@@ -458,30 +469,39 @@ export default class DragCombo extends Behavior {
     const deltaX = pointerEvent.canvas.x - baseX + 0.01;
     // @ts-ignore FIXME: Type
     const deltaY = pointerEvent.canvas.y - baseY + 0.01;
-    this.moveCombos(deltaX, deltaY, false, true);
-    // }
+    this.moveCombos(
+      deltaX,
+      deltaY,
+      false,
+      true,
+      debounce(
+        () => {
+          // restore the hidden items after move real combos done
+          if (enableTransient) {
+            this.clearTransientItems();
+          }
 
-    if (enableTransient) {
-      this.clearTransientItems();
-    }
+          if (this.options.enableDelegate) {
+            this.clearDelegate();
+          }
 
-    if (this.options.enableDelegate) {
-      this.clearDelegate();
-    }
+          // Restore all hidden items.
+          // For all hideRelatedEdges, enableTransient and enableDelegate cases.
+          this.restoreHiddenItems();
+          // Emit event.
+          if (this.options.eventName) {
+            this.graph.emit(this.options.eventName, {
+              itemIds: this.originPositions.map((position) => position.id),
+            });
+          }
 
-    // Restore all hidden items.
-    // For all hideRelatedEdges, enableTransient and enableDelegate cases.
-    this.restoreHiddenItems();
-
-    // Emit event.
-    if (this.options.eventName) {
-      this.graph.emit(this.options.eventName, {
-        itemIds: this.originPositions.map((position) => position.id),
-      });
-    }
-
-    // Reset state.
-    this.originPositions = [];
+          // Reset state.
+          this.originPositions = [];
+        },
+        16,
+        false,
+      ),
+    );
   }
 
   public onKeydown(event: KeyboardEvent) {
@@ -507,6 +527,7 @@ export default class DragCombo extends Behavior {
 
   public onDropCombo(event: IG6GraphEvent) {
     const newParentId = event.itemId;
+    this.graph.startBatch();
     this.originPositions.forEach(({ id }) => {
       const model = this.graph.getComboData(id);
       if (!model || model.id === newParentId) return;
@@ -515,10 +536,12 @@ export default class DragCombo extends Behavior {
       // event.stopPropagation();
       this.graph.updateData('combo', { id, data: { parentId: newParentId } });
     });
+    this.graph.stopBatch();
     this.onPointerUp(event);
   }
 
   public onDropCanvas(event: IG6GraphEvent) {
+    this.graph.startBatch();
     this.originPositions.forEach(({ id }) => {
       const model = this.graph.getComboData(id);
       if (!model) return;
@@ -526,6 +549,7 @@ export default class DragCombo extends Behavior {
       if (!parentId) return;
       this.graph.updateData('combo', { id, data: { parentId: undefined } });
     });
+    this.graph.stopBatch();
     this.onPointerUp(event);
   }
 }

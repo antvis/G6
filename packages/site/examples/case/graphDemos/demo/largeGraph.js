@@ -982,10 +982,10 @@ const hideItems = (graph) => {
 
 const showItems = (graph) => {
   graph.getNodes().forEach((node) => {
-    if (!node.isVisible()) graph.showItem(node);
+    if (!node.isVisible()) graph.showItem(node, false, false);
   });
   graph.getEdges().forEach((edge) => {
-    if (!edge.isVisible()) edge.showItem(edge);
+    if (!edge.isVisible()) edge.showItem(edge,false, false);
   });
   hiddenItemIds = [];
 };

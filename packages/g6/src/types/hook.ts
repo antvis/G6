@@ -2,13 +2,14 @@ import { Canvas } from '@antv/g';
 import { GraphChange, ID } from '@antv/graphlib';
 import { CameraAnimationOptions } from './animate';
 import { BehaviorOptionsOf } from './behavior';
-import { DataChangeType, GraphCore, GraphData } from './data';
-import { EdgeModelData } from './edge';
+import { DataChangeType, DataConfig, GraphCore } from './data';
+import { EdgeModel, EdgeModelData } from './edge';
 import { ITEM_TYPE, ShapeStyle, SHAPE_TYPE } from './item';
 import { LayoutOptions } from './layout';
-import { NodeModelData } from './node';
+import { NodeModel, NodeModelData } from './node';
 import { ThemeSpecification } from './theme';
 import { GraphTransformOptions } from './view';
+import { ComboModel } from './combo';
 
 export interface IHook<T> {
   name: string;
@@ -35,7 +36,7 @@ export interface Hooks {
   // data
   datachange: IHook<{
     type: DataChangeType;
-    data: GraphData;
+    data: DataConfig;
   }>;
   itemchange: IHook<{
     type: ITEM_TYPE;
@@ -43,14 +44,20 @@ export interface Hooks {
     graphCore: GraphCore;
     theme: ThemeSpecification;
     upsertAncestors?: boolean;
+    animate?: boolean;
     action?: 'updatePosition';
+    callback?: (model: NodeModel | EdgeModel | ComboModel) => void;
   }>;
   render: IHook<{
     graphCore: GraphCore;
     theme: ThemeSpecification;
     transientCanvas: Canvas;
   }>; // TODO: define param template
-  layout: IHook<{ graphCore: GraphCore; options?: LayoutOptions }>; // TODO: define param template
+  layout: IHook<{
+    graphCore: GraphCore;
+    options?: LayoutOptions;
+    animate?: boolean;
+  }>; // TODO: define param template
   // 'updatelayout': IHook<any>; // TODO: define param template
   modechange: IHook<{ mode: string }>;
   behaviorchange: IHook<{
@@ -62,17 +69,25 @@ export interface Hooks {
     ids: ID[];
     states?: string[];
     value?: boolean;
+    action?: string;
+    enableStack?: boolean;
+    changes?: any;
   }>;
   itemvisibilitychange: IHook<{
     ids: ID[];
     graphCore?: GraphCore;
     value?: boolean;
     animate?: boolean;
+    action?: string;
+    enableStack?: boolean;
+    changes?: any;
   }>;
   itemzindexchange: IHook<{
     ids: ID[];
     action: 'front' | 'back';
     graphCore: GraphCore;
+    enableStack?: boolean;
+    changes?: any;
   }>;
   transientupdate: IHook<{
     type: ITEM_TYPE | SHAPE_TYPE;
@@ -101,6 +116,11 @@ export interface Hooks {
       transient: Canvas;
     };
   }>;
+  treecollapseexpand: IHook<{
+    ids: ID[];
+    action: 'collapse' | 'expand';
+    graphCore: GraphCore;
+    animate?: boolean;
+  }>;
   destroy: IHook<{}>;
-  // TODO: more timecycles here
 }

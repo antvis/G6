@@ -46,6 +46,10 @@ export interface NodeUserModelData extends PlainObject {
    */
   parentId?: ID;
   /**
+   * Whether to be a root at when used as a tree.
+   */
+  isRoot?: boolean;
+  /**
    * The icon to show on the node.
    * More styles should be configured in node mapper.
    */
@@ -68,6 +72,12 @@ export interface NodeUserModelData extends PlainObject {
     text: string;
     position: BadgePosition;
   }[];
+  /**
+   * Whether to prevent overlap with unassociated edges. Used to preempt position.
+   * Defaults to false.
+   * Only valid for polyline
+   */
+  preventPolylineEdgeOverlap?: boolean;
 }
 
 /** Data in inner model. Same format to the user data. */
@@ -161,3 +171,7 @@ export interface NodeShapeMap {
 
 // TODO
 export type INode = IItem;
+
+export interface IAnchorPositionMap {
+  [key: string]: [number, number];
+}

@@ -1,7 +1,7 @@
 import { resetEntityCounter } from '@antv/g';
 import circular from '../demo/layouts/circular';
-import './utils/useSnapshotMatchers';
 import { createContext } from './utils';
+import './utils/useSnapshotMatchers';
 
 describe('Circular layout', () => {
   beforeEach(() => {

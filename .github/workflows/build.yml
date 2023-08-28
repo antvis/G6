@@ -2,21 +2,57 @@ name: build
 
 on: [push]
 
-jobs:
-  build:
-    runs-on: macOS-latest
+concurrency:
+  group: ${{github.workflow}}-${{github.event_name}}-${{github.ref}}
+  cancel-in-progress: true
 
+jobs:
+  lint-and-build-g6:
+    runs-on: macos-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2.3.4
+        uses: actions/checkout@v3
 
-      - name: Setup Node.js environment
-        uses: actions/setup-node@v2.1.5
+      - name: Install Node.js
+        uses: actions/setup-node@v3
         with:
-          node-version: '14'
+          node-version: 16
+
+      - uses: pnpm/action-setup@v2
+        name: Install pnpm
+        with:
+          version: 8
+          run_install: false
+
+      - uses: actions/cache@v3
+        name: Setup pnpm cache
+        id: cache
+        with:
+          path: |
+            node_modules/
+            packages/g6/node_modules/
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install Dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: pnpm install --no-frozen-lockfile
 
       - name: Run CI
         run: |
           cd packages/g6
-          npm install
           npm run ci
+
+      - name: Workflow failed alert
+        if: ${{ failure() }}
+        uses: actions-cool/maintain-one-comment@main
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          body: |
+            你好, @${{ github.event.pull_request.user.login }} CI 执行失败, 请点击 [Details] 按钮查看, 并根据日志修复
+
+            Hello, @${{ github.event.pull_request.user.login }} CI run failed, please click the [Details] button for detailed log information and fix it.
+            <!-- Created by actions-cool/maintain-one-comment -->
+          emojis: 'eyes'
+          body-include: '<!-- Created by actions-cool/maintain-one-comment -->'

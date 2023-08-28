@@ -19,12 +19,12 @@ const createPNGFromRawdata = async (
   height: number,
   data: Uint8Array,
 ) => {
-  let newfile = new PNG({ width, height });
+  const newfile = new PNG({ width, height });
   for (let y = 0; y < newfile.height; y++) {
     for (let x = 0; x < newfile.width; x++) {
-      let idx = (newfile.width * y + x) << 2;
+      const idx = (newfile.width * y + x) << 2;
       // flipY
-      let idx2 = (newfile.width * (newfile.height - y) + x) << 2;
+      const idx2 = (newfile.width * (newfile.height - y) + x) << 2;
       newfile.data[idx] = data[idx2];
       newfile.data[idx + 1] = data[idx2 + 1];
       newfile.data[idx + 2] = data[idx2 + 2];

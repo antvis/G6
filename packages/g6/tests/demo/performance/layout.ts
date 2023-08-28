@@ -135,7 +135,6 @@ export default async () => {
       container: $container1,
       width: WIDTH,
       height: HEIGHT,
-      type: 'graph',
       data: JSON.parse(JSON.stringify(data)),
       layout: {
         type: 'force-wasm',
@@ -171,7 +170,6 @@ export default async () => {
       container: $container2,
       width: WIDTH,
       height: HEIGHT,
-      type: 'graph',
       data: JSON.parse(JSON.stringify(data)),
       layout: {
         type: 'force',

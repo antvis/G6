@@ -88,7 +88,6 @@ describe('theme', () => {
       container,
       width: 500,
       height: 500,
-      type: 'graph',
       data,
       layout: {
         type: 'grid',
@@ -126,7 +125,7 @@ describe('theme', () => {
       },
     });
     graph.on('afterlayout', () => {
-      const node = graph.itemController.itemMap['node1'];
+      const node = graph.itemController.itemMap.get('node1');
       const { keyShape: nodeKeyShape, labelShape: nodeLabelShape } =
         node.shapeMap;
       expect(node.shapeMap.haloShape).toBe(undefined);
@@ -136,7 +135,7 @@ describe('theme', () => {
       expect(nodeLabelShape.style.fontWeight).toBe(
         LightTheme.node.styles[0].default.labelShape.fontWeight,
       );
-      const edge = graph.itemController.itemMap['edge1'];
+      const edge = graph.itemController.itemMap.get('edge1');
       const { keyShape: edgeKeyShape, labelShape: edgeLabelShape } =
         edge.shapeMap;
       expect(edge.shapeMap.haloShape).toBe(undefined);
@@ -182,7 +181,7 @@ describe('theme', () => {
         LightTheme.edge.styles[0].default.labelShape.fill,
       );
 
-      const node4 = graph.itemController.itemMap['node4'];
+      const node4 = graph.itemController.itemMap.get('node4');
       expect(node4.shapeMap.anchorShape0).not.toBe(undefined);
       expect(node4.shapeMap.anchorShape1).not.toBe(undefined);
       expect(node4.shapeMap.anchorShape2).not.toBe(undefined);
@@ -203,7 +202,6 @@ describe('theme', () => {
       container,
       width: 500,
       height: 500,
-      type: 'graph',
       data: clone(data),
       layout: {
         type: 'grid',
@@ -289,23 +287,23 @@ describe('theme', () => {
           .backgroundColor,
       ).toBe('rgb(255, 255, 255)'); // = rgb format of LightTheme.canvas.backgroundColor
 
-      const node1 = graph.itemController.itemMap['node1'];
+      const node1 = graph.itemController.itemMap.get('node1');
       const { keyShape: nodeKeyShape1, labelShape: nodeLabelShape1 } =
         node1.shapeMap;
       expect(nodeKeyShape1.style.fill).toBe('#f00');
       expect(nodeLabelShape1.style.fill).toBe('#f00');
-      const node2 = graph.itemController.itemMap['node2'];
+      const node2 = graph.itemController.itemMap.get('node2');
       const { keyShape: nodeKeyShape2, labelShape: nodeLabelShape2 } =
         node2.shapeMap;
       expect(nodeKeyShape2.style.fill).toBe('#0f0');
       expect(nodeLabelShape2.style.fill).toBe('#0f0');
-      const node3 = graph.itemController.itemMap['node3'];
+      const node3 = graph.itemController.itemMap.get('node3');
       const { keyShape: nodeKeyShape3, labelShape: nodeLabelShape3 } =
         node3.shapeMap;
       expect(nodeKeyShape3.style.fill).toBe('#00f');
       expect(nodeLabelShape3.style.fill).toBe('#00f');
       // node4 has no mapped palette, buitin theme take effects
-      const node4 = graph.itemController.itemMap['node4'];
+      const node4 = graph.itemController.itemMap.get('node4');
       const { keyShape: nodeKeyShape4, labelShape: nodeLabelShape4 } =
         node4.shapeMap;
       expect(nodeKeyShape4.style.fill).toBe(
@@ -316,18 +314,18 @@ describe('theme', () => {
       );
 
       // edges
-      const edge1 = graph.itemController.itemMap['edge1'];
+      const edge1 = graph.itemController.itemMap.get('edge1');
       const { keyShape: edgeKeyShape1, labelShape: edgeLabelShape1 } =
         edge1.shapeMap;
       expect(edgeKeyShape1.style.stroke).toBe('#f00');
       expect(edgeLabelShape1.style.fill).toBe('#f00');
-      const edge2 = graph.itemController.itemMap['edge2'];
+      const edge2 = graph.itemController.itemMap.get('edge2');
       const { keyShape: edgeKeyShape2, labelShape: edgeLabelShape2 } =
         edge2.shapeMap;
       expect(edgeKeyShape2.style.stroke).toBe('#0f0');
       expect(edgeLabelShape2.style.fill).toBe('#0f0');
       // edge3 has no mapped palette, buitin theme take effects
-      const edge3 = graph.itemController.itemMap['edge3'];
+      const edge3 = graph.itemController.itemMap.get('edge3');
       const { keyShape: edgeKeyShape4, labelShape: edgeLabelShape4 } =
         edge3.shapeMap;
       expect(edgeKeyShape4.style.stroke).toBe(
@@ -430,7 +428,6 @@ describe('theme', () => {
       container,
       width: 500,
       height: 500,
-      type: 'graph',
       data: clone(data),
       layout: {
         type: 'grid',
@@ -501,23 +498,23 @@ describe('theme', () => {
       },
     });
     graph.on('afterlayout', () => {
-      const node1 = graph.itemController.itemMap['node1'];
+      const node1 = graph.itemController.itemMap.get('node1');
       const { keyShape: nodeKeyShape1, labelShape: nodeLabelShape1 } =
         node1.shapeMap;
       expect(nodeKeyShape1.style.fill).toBe('#f00');
       expect(nodeLabelShape1.style.fill).toBe('#f00');
-      const node2 = graph.itemController.itemMap['node2'];
+      const node2 = graph.itemController.itemMap.get('node2');
       const { keyShape: nodeKeyShape2, labelShape: nodeLabelShape2 } =
         node2.shapeMap;
       expect(nodeKeyShape2.style.fill).toBe('#0f0');
       expect(nodeLabelShape2.style.fill).toBe('#0f0');
-      const node3 = graph.itemController.itemMap['node3'];
+      const node3 = graph.itemController.itemMap.get('node3');
       const { keyShape: nodeKeyShape3, labelShape: nodeLabelShape3 } =
         node3.shapeMap;
       expect(nodeKeyShape3.style.fill).toBe('#00f');
       expect(nodeLabelShape3.style.fill).toBe('#00f');
       // node4 has no mapped palette, buitin theme take effects
-      const node4 = graph.itemController.itemMap['node4'];
+      const node4 = graph.itemController.itemMap.get('node4');
       const { keyShape: nodeKeyShape4, labelShape: nodeLabelShape4 } =
         node4.shapeMap;
       // different from map, undefined data type value will be regarded as a value to find corresponding color in palette. That is because g6 doesn't know if the value undefined is the real value or not
@@ -525,18 +522,18 @@ describe('theme', () => {
       expect(nodeLabelShape4.style.fill).toBe('#f00');
 
       // edges
-      const edge1 = graph.itemController.itemMap['edge1'];
+      const edge1 = graph.itemController.itemMap.get('edge1');
       const { keyShape: edgeKeyShape1, labelShape: edgeLabelShape1 } =
         edge1.shapeMap;
       expect(edgeKeyShape1.style.stroke).toBe('#f00');
       expect(edgeLabelShape1.style.fill).toBe('#f00');
-      const edge2 = graph.itemController.itemMap['edge2'];
+      const edge2 = graph.itemController.itemMap.get('edge2');
       const { keyShape: edgeKeyShape2, labelShape: edgeLabelShape2 } =
         edge2.shapeMap;
       expect(edgeKeyShape2.style.stroke).toBe('#0f0');
       expect(edgeLabelShape2.style.fill).toBe('#0f0');
       // edge3 has no mapped palette, buitin theme take effects
-      const edge3 = graph.itemController.itemMap['edge3'];
+      const edge3 = graph.itemController.itemMap.get('edge3');
       const { keyShape: edgeKeyShape3 } = edge3.shapeMap;
       expect(edgeKeyShape3.style.stroke).toBe('#f00');
 
@@ -712,7 +709,6 @@ describe('theme', () => {
       container,
       width: 500,
       height: 500,
-      type: 'graph',
       data,
       layout: {
         type: 'grid',
@@ -739,7 +735,7 @@ describe('theme', () => {
     });
     graph.on('afterlayout', () => {
       // custom node's and edge's keyShape follow the light theme
-      const node = graph.itemController.itemMap['node1'];
+      const node = graph.itemController.itemMap.get('node1');
       const { keyShape: nodeKeyShape, labelShape: nodeLabelShape } =
         node.shapeMap;
       expect(nodeKeyShape.style.fill).toBe(
@@ -748,7 +744,7 @@ describe('theme', () => {
       expect(nodeLabelShape.style.fontWeight).toBe(
         LightTheme.node.styles[0].default.labelShape.fontWeight,
       );
-      const edge = graph.itemController.itemMap['edge1'];
+      const edge = graph.itemController.itemMap.get('edge1');
       const { keyShape: edgeKeyShape, labelShape: edgeLabelShape } =
         edge.shapeMap;
       expect(edgeKeyShape.style.stroke).toBe(

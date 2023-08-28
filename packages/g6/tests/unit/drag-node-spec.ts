@@ -11,7 +11,6 @@ const createGraph = (dragNodeOptions: DragNodeOptions): IGraph => {
     container,
     width: 500,
     height: 500,
-    type: 'graph',
     data: {
       nodes: [
         { id: 'node1', data: { x: 100, y: 200, keyShape: { fill: '#0f0' } } },
@@ -112,11 +111,11 @@ describe('drag-node', () => {
       expect(graph.getItemVisible('edge2')).toBe(false);
       // @ts-ignore
       expect(
-        graph.itemController.transientItemMap['node1'].model.data.x,
+        graph.itemController.transientItemMap.get('node1').model.data.x,
       ).toEqual(250);
       // @ts-ignore
       expect(
-        graph.itemController.transientItemMap['node1'].model.data.y,
+        graph.itemController.transientItemMap.get('node1').model.data.y,
       ).toEqual(350);
 
       // Should update position when drag ends.

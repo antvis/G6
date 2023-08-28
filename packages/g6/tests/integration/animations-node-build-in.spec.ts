@@ -1,7 +1,7 @@
 import { resetEntityCounter } from '@antv/g';
 import nodeBuildIn from '../demo/animations/node-build-in';
-import './utils/useSnapshotMatchers';
 import { createContext } from './utils';
+import './utils/useSnapshotMatchers';
 
 describe('Animation node buildIn', () => {
   beforeEach(() => {

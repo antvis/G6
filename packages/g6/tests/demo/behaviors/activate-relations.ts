@@ -4,7 +4,6 @@ import { TestCaseContext } from '../interface';
 export default (context: TestCaseContext) => {
   return new G6.Graph({
     ...context,
-    type: 'graph',
     layout: {
       type: 'grid',
     },
@@ -34,7 +33,7 @@ export default (context: TestCaseContext) => {
       ],
     },
     modes: {
-      default: [{ type: 'activate-relations', trigger: 'click' }],
+      default: [{ type: 'activate-relations', trigger: 'click' }, 'drag-node'],
     },
   });
 };
