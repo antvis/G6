@@ -115,14 +115,14 @@ export default (context: TestCaseContext) => {
                 offsetX: 0,
                 offsetY: 0,
               }, //text description
-              logoIcon: {
+              logoIcons: {
                 img: 'https://gw.alipayobjects.com/zos/basement_prod/4f81893c-1806-4de4-aff3-9a6b266bc8a2.svg',
                 // text: '111',
                 width: 16,
                 height: 16,
                 offsetX: 0,
                 offsetY: 0,
-              }, //left icon describing the infomation
+              }, //left icon describing the information
               stateIcon: {
                 img: 'https://gw.alipayobjects.com/zos/basement_prod/300a2523-67e0-4cbf-9d4a-67c077b40395.svg',
                 // text: '111',
