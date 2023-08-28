@@ -1,5 +1,6 @@
 import EmptyGraph from './runtime/graph';
 import { stdLib } from './stdlib';
+import Util from './util';
 import { extend } from './util/extend';
 export * from './types';
 
@@ -8,6 +9,6 @@ export * from './types';
  */
 const Graph = extend(EmptyGraph<{}, {}>, stdLib);
 
-export { Graph, stdLib };
+export { Graph, Util, stdLib };
 
 export default { Graph, stdLib };

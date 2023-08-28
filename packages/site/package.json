@@ -31,6 +31,7 @@
     "start": "npm run site:develop"
   },
   "dependencies": {
+    "@faker-js/faker": "^8.0.2",
     "@ant-design/icons": "^4.0.6",
     "@antv/chart-node-g6": "^0.0.3",
     "@antv/dumi-theme-antv": "^0.3.18",
@@ -41,8 +42,8 @@
     "@microsoft/api-extractor": "^7.33.6",
     "dumi": "^2.2.4",
     "insert-css": "^2.0.0",
-    "typedoc": "^0.17.6",
-    "typedoc-plugin-markdown": "^2.2.11",
+    "typedoc": "^0.24.8",
+    "typedoc-plugin-markdown": "^3.14.0",
     "typescript": "^4.6.3"
   },
   "devDependencies": {
