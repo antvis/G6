@@ -401,11 +401,14 @@ export const getAnimatesExcludePosition = (animates) => {
   const excludedAnimates = [];
   animates.update.forEach((animate) => {
     const { shapeId, fields } = animate;
+    const newFields = [...fields];
     if (!isGroupId(shapeId)) {
-      excludedAnimates.push(animate);
+      excludedAnimates.push({
+        ...animate,
+        fields: newFields,
+      });
       return;
     }
-    const newFields = fields;
     let isGroupPosition = false;
     if (fields.includes('x')) {
       const xFieldIdx = newFields.indexOf('x');
@@ -427,7 +430,10 @@ export const getAnimatesExcludePosition = (animates) => {
         });
       }
     } else {
-      excludedAnimates.push(animate);
+      excludedAnimates.push({
+        ...animate,
+        fields: newFields,
+      });
     }
   });
   return {
