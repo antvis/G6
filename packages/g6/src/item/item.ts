@@ -739,10 +739,12 @@ export default abstract class Item implements IItem {
       const { x = 0, y = 0, z = 0 } = this.displayModel.data;
       const { keyShape: keyShapeStyle, labelShape: labelShapeStyle } =
         this.renderExt.mergedStyles;
-      const estimateBounds = combineBounds([
-        getShapeLocalBoundsByStyle(keyShape, keyShapeStyle),
-        getShapeLocalBoundsByStyle(labelShape, labelShapeStyle),
-      ]);
+      const estimateBounds = labelShape
+        ? combineBounds([
+            getShapeLocalBoundsByStyle(keyShape, keyShapeStyle),
+            getShapeLocalBoundsByStyle(labelShape, labelShapeStyle),
+          ])
+        : getShapeLocalBoundsByStyle(keyShape, keyShapeStyle);
       [x, y, z].forEach((val: number, i) => {
         estimateBounds.max[i] += val;
         estimateBounds.min[i] += val;

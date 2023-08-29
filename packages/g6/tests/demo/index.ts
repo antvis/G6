@@ -51,6 +51,7 @@ import anchor from './item/anchor';
 import arrow from './item/edge/arrow';
 import circularUpdate from './layouts/circular-update';
 import dataFromV4 from './data/data-from-v4';
+import layouts_combocombined from './layouts/combo-combined';
 
 export {
   behaviors_activateRelations,
@@ -71,6 +72,7 @@ export {
   hexagon,
   history_combo,
   history,
+  layouts_combocombined,
   layouts_circular,
   layouts_custom,
   layouts_d3force,

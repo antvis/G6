@@ -531,7 +531,7 @@ export class ItemController {
             },
             500,
             {
-              leading: true,
+              leading: false,
               trailing: true,
             },
           ),
@@ -720,6 +720,7 @@ export class ItemController {
       const item = this.itemMap.get(id);
       if (!item) return;
       if (action === 'front') {
+        item.toFront();
         if (graphCore.hasTreeStructure('combo')) {
           graphComboTreeDfs(
             this.graph,
@@ -733,8 +734,6 @@ export class ItemController {
             'TB',
           );
         }
-        // tocheck
-        item.toFront();
       } else {
         item.toBack();
         if (graphCore.hasTreeStructure('combo')) {
@@ -964,6 +963,10 @@ export class ItemController {
     return this.transientItemMap[id];
   }
 
+  public findDisplayModel(id: ID) {
+    return this.itemMap.get(id)?.displayModel;
+  }
+
   /**
    * Create nodes with inner data to canvas.
    * @param models nodes' inner datas
@@ -1031,14 +1034,13 @@ export class ItemController {
 
       const getCombinedBounds = () => {
         //  calculate the position of the combo according to its children
-        const bounds = getCombinedBoundsByData(
+        return getCombinedBoundsByData(
           graph,
           graphCore
             .getChildren(combo.id, 'combo')
             .map(({ id }) => itemMap.get(id))
             .filter(Boolean) as (Node | Combo)[],
         );
-        return bounds;
       };
       const getChildren = () => {
         const childModels = graphCore.getChildren(combo.id, 'combo');

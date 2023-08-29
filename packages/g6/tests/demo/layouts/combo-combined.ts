@@ -1,5 +1,6 @@
-import G6 from '@antv/g6';
-
+import G6 from '../../../src/index';
+import { data } from '../../datasets/dataset1';
+import { TestCaseContext } from '../interface';
 const data = {
   nodes: [
     {
@@ -607,82 +608,129 @@ const data = {
     },
   ],
 };
-
-const container = document.getElementById('container');
-const width = container.scrollWidth;
-const height = container.scrollHeight || 500;
-const graph = new G6.Graph({
-  container: 'container',
-  width,
-  height,
-  layout: {
-    type: 'comboCombined',
-    comboPadding: 2,
-  },
-  autoFit: 'center',
-  node: {
-    keyShape: {
-      r: 10,
+export default (context: TestCaseContext) => {
+  const graph = new G6.Graph({
+    ...context,
+    layout: {
+      type: 'comboCombined',
+      comboPadding: 2,
     },
-    labelShape: {
-      text: {
-        fields: ['id'],
-        formatter: (node) => node.id,
+    autoFit: 'center',
+    node: {
+      keyShape: {
+        r: 10,
+      },
+      labelShape: {
+        text: {
+          fields: ['id'],
+          formatter: (node) => node.id,
+        },
       },
     },
-  },
-  edge: (model) => {
-    return {
-      ...model,
-      data: {
-        ...model.data,
-        keyShape: {
-          lineWidth: model.data.size || 1,
-          stroke: model.data.color || '#99ADD1',
+    edge: (model) => {
+      return {
+        ...model,
+        data: {
+          ...model.data,
+          keyShape: {
+            lineWidth: model.data.size || 1,
+            stroke: model.data.color || '#99ADD1',
+          },
+          labelShape: {
+            text: model.data.label || '',
+          },
+          labelBackgroundShape: {},
         },
-        labelShape: {
-          text: model.data.label || '',
-        },
-        labelBackgroundShape: {},
+      };
+    },
+    // combo: (model) => {
+    //   console.log('model.data', model.data);
+    //   return {
+    //     id: model.id,
+    //     data: {
+    //       ...model.data,
+    //       keyShape: {
+    //         padding: [10, 20, 30, 40],
+    //         r: 50,
+    //       },
+    //       labelShape: {
+    //         text: model.id,
+    //       },
+    //       animates: {
+    //         buildIn: [
+    //           {
+    //             fields: ['opacity'],
+    //             duration: 500,
+    //             delay: 500 + Math.random() * 500,
+    //           },
+    //         ],
+    //         buildOut: [
+    //           {
+    //             fields: ['opacity'],
+    //             duration: 200,
+    //           },
+    //         ],
+    //         update: [
+    //           {
+    //             fields: ['lineWidth', 'r'],
+    //             shapeId: 'keyShape',
+    //           },
+    //           {
+    //             fields: ['opacity'],
+    //             shapeId: 'haloShape',
+    //           },
+    //         ],
+    //       },
+    //     },
+    //   };
+    // },
+    combo: {
+      animates: {
+        buildIn: [
+          {
+            fields: ['opacity'],
+            duration: 500,
+            delay: 500 + Math.random() * 500,
+          },
+        ],
+        buildOut: [
+          {
+            fields: ['opacity'],
+            duration: 200,
+          },
+        ],
+        update: [
+          {
+            fields: ['lineWidth', 'r'],
+            shapeId: 'keyShape',
+          },
+          {
+            fields: ['opacity'],
+            shapeId: 'haloShape',
+          },
+        ],
       },
-    };
-  },
-  combo: {
-    animates: {
-      buildIn: [
+    },
+    modes: {
+      default: [
+        // 'click-select',
+        'drag-combo',
+        'drag-node',
+        'drag-canvas',
+        'zoom-canvas',
         {
-          fields: ['opacity'],
-          duration: 500,
-          delay: 500 + Math.random() * 500,
-        },
-      ],
-      buildOut: [
-        {
-          fields: ['opacity'],
-          duration: 200,
-        },
-      ],
-      update: [
-        {
-          fields: ['lineWidth', 'r'],
-          shapeId: 'keyShape',
-        },
-        {
-          fields: ['opacity'],
-          shapeId: 'haloShape',
+          type: 'collapse-expand-combo',
+          trigger: 'click',
         },
       ],
     },
-  },
-  modes: {
-    default: ['drag-combo', 'click-select', 'drag-node', 'drag-canvas', 'zoom-canvas', 'collapse-expand-combo'],
-  },
-  data,
-});
-
-if (typeof window !== 'undefined')
-  window.onresize = () => {
-    if (!graph || graph.destroyed) return;
-    if (!container || !container.scrollWidth || !container.scrollHeight) return;
-    graph.setSize([container.scrollWidth, container.scrollHeight]);
-  };
+    data,
+  });
+  graph.on('edge:click', (e) => {
+    console.log('e.', e.itemId);
+  });
+  graph.on('canvas:click', (e) => {
+    console.log(graph);
+  });
+  return graph;
+};

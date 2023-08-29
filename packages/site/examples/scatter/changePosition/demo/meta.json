@@ -27,6 +27,30 @@
         "en": "Viewport Animation"
       },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*M-EGS5v6RnUAAAAAAAAAAABkARQnAQ"
+    },
+    {
+      "filename": "treeAnimates.js",
+      "title": {
+        "zh": "树图动画",
+        "en": "Viewport Animation"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*M-EGS5v6RnUAAAAAAAAAAABkARQnAQ"
+    },
+    {
+      "filename": "circleComboAnimates.js",
+      "title": {
+        "zh": "圆形 Combo 动画",
+        "en": "Circle Combo Animation"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*M-EGS5v6RnUAAAAAAAAAAABkARQnAQ"
+    },
+    {
+      "filename": "rectComboAnimates.js",
+      "title": {
+        "zh": "矩形 Combo 动画",
+        "en": "Rect Combo Animation"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*M-EGS5v6RnUAAAAAAAAAAABkARQnAQ"
     }
   ]
 }
