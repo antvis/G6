@@ -100,7 +100,7 @@ export class ScrollCanvas extends Behavior<ScrollCanvasOptions> {
     } else {
       const diffX = nativeEvent.deltaX || nativeEvent.movementX;
       let diffY = nativeEvent.deltaY || nativeEvent.movementY;
-      
+
       if (!diffY && navigator.userAgent.indexOf('Firefox') > -1) diffY = (-nativeEvent.wheelDelta * 125) / 3
 
       const { dx, dy } = this.formatDisplacement(diffX, diffY)
@@ -125,7 +125,7 @@ export class ScrollCanvas extends Behavior<ScrollCanvasOptions> {
       this.timeout = timeout
     }
   }
-  private formatDisplacement(diffX: number, diffY: number) {
+  private formatDisplacement(dx: number, dy: number) {
     const { graph } = this;
     const { scalableRange, direction } = this.options;
     const [width, height] = graph.getSize();
@@ -141,7 +141,6 @@ export class ScrollCanvas extends Behavior<ScrollCanvasOptions> {
         rangeNum = Number(scalableRange.replace('%', '')) / 100;
       }
     }
-    if (rangeNum === 0) return { dx: diffX, dy: diffY };
 
     let expandWidth = rangeNum;
     let expandHeight = rangeNum;
@@ -158,26 +157,47 @@ export class ScrollCanvas extends Behavior<ScrollCanvasOptions> {
       x: graphBBox.max[0],
       y: graphBBox.max[1],
     });
+    const minX = leftTopClient.x
+    const minY = leftTopClient.y
+    const maxX = rightBottomClient.x
+    const maxY = rightBottomClient.y
+    if (dx > 0) {
+      if (maxX < - expandWidth) {
+        dx = 0
+      } else if (maxX - dx < -expandWidth) {
+        dx = maxX + expandWidth
+      }
+    } else if (dx < 0) {
+      if (minX > width + expandWidth) {
+        dx = 0
+      } else if (minX - dx > width + expandWidth) {
+        dx = minX - (width + expandWidth)
+      }
+    }
 
-    let dx = diffX;
-    let dy = diffY;
-    if (
-      direction === 'y' ||
-      (diffX > 0 && rightBottomClient.x + diffX > width + expandWidth) ||
-      (diffX < 0 && leftTopClient.x + expandWidth + diffX < 0)
-    ) {
+    if (dy > 0) {
+      if (maxY < -expandHeight) {
+        dy = 0
+      } else if (maxY - dy < -expandHeight) {
+        dy = maxY + expandHeight
+      }
+    } else if (dy < 0) {
+      if (minY > height + expandHeight) {
+        dy = 0
+      } else if (minY - dy > height + expandHeight) {
+        dy = minY - (height + expandHeight)
+      }
+    }
+
+    if (direction === 'x') {
+      dy = 0;
+    } else if (direction === 'y') {
       dx = 0;
     }
-    if (
-      direction === 'x' ||
-      (diffY > 0 && rightBottomClient.y + diffY > height + expandHeight) ||
-      (diffY < 0 && leftTopClient.y + expandHeight + diffY < 0)
-    ) {
-      dy = 0;
-    }
+
     return { dx, dy };
   }
-  
+
   private allowDrag(evt: IG6GraphEvent) {
     const { itemType } = evt;
     const { allowDragOnItem } = this.options
@@ -239,7 +259,7 @@ export class ScrollCanvas extends Behavior<ScrollCanvasOptions> {
     if (currentZoom < optimizeZoom) {
       return;
     }
-    
+
     this.hiddenEdgeIds = this.hiddenNodeIds = []
     if (!this.options.enableOptimize) {
       return;
@@ -266,9 +286,9 @@ function initZoomKey(zoomKey?: string | string[]) {
 
   const validZoomKeys = zoomKeys.filter(zoomKey => {
     const keyIsValid = ALLOW_EVENTS.includes(zoomKey)
-    if (!keyIsValid) 
+    if (!keyIsValid)
       console.warn(`Invalid zoomKey: ${zoomKey}, please use a valid zoomKey: ${JSON.stringify(ALLOW_EVENTS)}`)
-      
+
     return keyIsValid
   })
 
