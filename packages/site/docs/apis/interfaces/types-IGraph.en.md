@@ -1,8 +1,8 @@
-[Overview - v5.0.0-alpha.9](../README.md) / [Modules](../modules.md) / [types](../modules/types.md) / IGraph
+[Overview - v5.0.0-alpha.9](../README.en.md) / [Modules](../modules.en.md) / [types](../modules/types.en.md) / IGraph
 
 # Interface: IGraph<B, T\>
 
-[types](../modules/types.md).IGraph
+[types](../modules/types.en.md).IGraph
 
 ## Type parameters
 
@@ -19,7 +19,7 @@
 
 ## Implemented by
 
-- [`Graph`](../classes/graph-Graph.md)
+- [`Graph`](../classes/graph-Graph.en.md)
 
 ## Indexable
 
@@ -29,11 +29,11 @@
 
 ### addCombo
 
-• **addCombo**: (`model`: [`ComboUserModel`](../modules/types.md#combousermodel), `childrenIds`: `ID`[], `stack?`: `boolean`) => [`ComboModel`](../modules/types.md#combomodel)
+• **addCombo**: (`model`: [`ComboUserModel`](../modules/types.en.md#combousermodel), `childrenIds`: `ID`[], `stack?`: `boolean`) => [`ComboModel`](../modules/types.en.md#combomodel)
 
 #### Type declaration
 
-▸ (`model`, `childrenIds`, `stack?`): [`ComboModel`](../modules/types.md#combomodel)
+▸ (`model`, `childrenIds`, `stack?`): [`ComboModel`](../modules/types.en.md#combomodel)
 
 Add a new combo to the graph, and update the structure of the existed child in childrenIds to be the children of the new combo.
 Different from addData with combo type, this API update the succeeds' combo tree strucutres in the same time.
@@ -42,19 +42,19 @@ Different from addData with combo type, this API update the succeeds' combo tree
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `model` | [`ComboUserModel`](../modules/types.md#combousermodel) | combo user data |
+| `model` | [`ComboUserModel`](../modules/types.en.md#combousermodel) | combo user data |
 | `childrenIds` | `ID`[] | - |
 | `stack?` | `boolean` | whether push this operation to stack |
 
 ##### Returns
 
-[`ComboModel`](../modules/types.md#combomodel)
+[`ComboModel`](../modules/types.en.md#combomodel)
 
 whether success
 
 #### Defined in
 
-[types/graph.ts:554](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/graph.ts#L554)
+[types/graph.ts:554](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/types/graph.ts#L554)
 
 ___
 
@@ -81,7 +81,7 @@ Collapse a combo.
 
 #### Defined in
 
-[types/graph.ts:564](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/graph.ts#L564)
+[types/graph.ts:564](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/types/graph.ts#L564)
 
 ___
 
@@ -108,17 +108,17 @@ Expand a combo.
 
 #### Defined in
 
-[types/graph.ts:571](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/graph.ts#L571)
+[types/graph.ts:571](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/types/graph.ts#L571)
 
 ## Data
 
 ### addData
 
-• **addData**: (`itemType`: `ITEM_TYPE`, `model`: [`EdgeUserModel`](../modules/types.md#edgeusermodel) \| [`NodeUserModel`](../modules/types.md#nodeusermodel) \| [`ComboUserModel`](../modules/types.md#combousermodel) \| [`NodeUserModel`](../modules/types.md#nodeusermodel)[] \| [`EdgeUserModel`](../modules/types.md#edgeusermodel)[] \| [`ComboUserModel`](../modules/types.md#combousermodel)[], `stack?`: `boolean`) => [`EdgeModel`](../modules/types.md#edgemodel) \| [`NodeModel`](../modules/types.md#nodemodel) \| [`ComboModel`](../modules/types.md#combomodel) \| [`NodeModel`](../modules/types.md#nodemodel)[] \| [`EdgeModel`](../modules/types.md#edgemodel)[] \| [`ComboModel`](../modules/types.md#combomodel)[]
+• **addData**: (`itemType`: `ITEM_TYPE`, `model`: [`EdgeUserModel`](../modules/types.en.md#edgeusermodel) \| [`NodeUserModel`](../modules/types.en.md#nodeusermodel) \| [`ComboUserModel`](../modules/types.en.md#combousermodel) \| [`NodeUserModel`](../modules/types.en.md#nodeusermodel)[] \| [`EdgeUserModel`](../modules/types.en.md#edgeusermodel)[] \| [`ComboUserModel`](../modules/types.en.md#combousermodel)[], `stack?`: `boolean`) => [`EdgeModel`](../modules/types.en.md#edgemodel) \| [`NodeModel`](../modules/types.en.md#nodemodel) \| [`ComboModel`](../modules/types.en.md#combomodel) \| [`NodeModel`](../modules/types.en.md#nodemodel)[] \| [`EdgeModel`](../modules/types.en.md#edgemodel)[] \| [`ComboModel`](../modules/types.en.md#combomodel)[]
 
 #### Type declaration
 
-▸ (`itemType`, `model`, `stack?`): [`EdgeModel`](../modules/types.md#edgemodel) \| [`NodeModel`](../modules/types.md#nodemodel) \| [`ComboModel`](../modules/types.md#combomodel) \| [`NodeModel`](../modules/types.md#nodemodel)[] \| [`EdgeModel`](../modules/types.md#edgemodel)[] \| [`ComboModel`](../modules/types.md#combomodel)[]
+▸ (`itemType`, `model`, `stack?`): [`EdgeModel`](../modules/types.en.md#edgemodel) \| [`NodeModel`](../modules/types.en.md#nodemodel) \| [`ComboModel`](../modules/types.en.md#combomodel) \| [`NodeModel`](../modules/types.en.md#nodemodel)[] \| [`EdgeModel`](../modules/types.en.md#edgemodel)[] \| [`ComboModel`](../modules/types.en.md#combomodel)[]
 
 Add one or more node/edge/combo data to the graph.
 
@@ -127,24 +127,24 @@ Add one or more node/edge/combo data to the graph.
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `itemType` | `ITEM_TYPE` | item type |
-| `model` | [`EdgeUserModel`](../modules/types.md#edgeusermodel) \| [`NodeUserModel`](../modules/types.md#nodeusermodel) \| [`ComboUserModel`](../modules/types.md#combousermodel) \| [`NodeUserModel`](../modules/types.md#nodeusermodel)[] \| [`EdgeUserModel`](../modules/types.md#edgeusermodel)[] \| [`ComboUserModel`](../modules/types.md#combousermodel)[] | user data |
+| `model` | [`EdgeUserModel`](../modules/types.en.md#edgeusermodel) \| [`NodeUserModel`](../modules/types.en.md#nodeusermodel) \| [`ComboUserModel`](../modules/types.en.md#combousermodel) \| [`NodeUserModel`](../modules/types.en.md#nodeusermodel)[] \| [`EdgeUserModel`](../modules/types.en.md#edgeusermodel)[] \| [`ComboUserModel`](../modules/types.en.md#combousermodel)[] | user data |
 | `stack?` | `boolean` | whether push this operation to stack |
 
 ##### Returns
 
-[`EdgeModel`](../modules/types.md#edgemodel) \| [`NodeModel`](../modules/types.md#nodemodel) \| [`ComboModel`](../modules/types.md#combomodel) \| [`NodeModel`](../modules/types.md#nodemodel)[] \| [`EdgeModel`](../modules/types.md#edgemodel)[] \| [`ComboModel`](../modules/types.md#combomodel)[]
+[`EdgeModel`](../modules/types.en.md#edgemodel) \| [`NodeModel`](../modules/types.en.md#nodemodel) \| [`ComboModel`](../modules/types.en.md#combomodel) \| [`NodeModel`](../modules/types.en.md#nodemodel)[] \| [`EdgeModel`](../modules/types.en.md#edgemodel)[] \| [`ComboModel`](../modules/types.en.md#combomodel)[]
 
 whehter success
 
 #### Defined in
 
-[types/graph.ts:177](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/graph.ts#L177)
+[types/graph.ts:177](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/types/graph.ts#L177)
 
 ___
 
 ### changeData
 
-• **changeData**: (`data`: [`GraphData`](types-GraphData.md), `type`: ``"replace"`` \| ``"mergeReplace"``) => `void`
+• **changeData**: (`data`: [`GraphData`](types-GraphData.en.md), `type`: ``"replace"`` \| ``"mergeReplace"``) => `void`
 
 #### Type declaration
 
@@ -156,7 +156,7 @@ Change graph data.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `data` | [`GraphData`](types-GraphData.md) | new data |
+| `data` | [`GraphData`](types-GraphData.en.md) | new data |
 | `type` | ``"replace"`` \| ``"mergeReplace"`` | the way to change data, 'replace' means discard the old data and use the new one; 'mergeReplace' means merge the common part, remove (old - new), add (new - old) |
 
 ##### Returns
@@ -165,83 +165,83 @@ Change graph data.
 
 #### Defined in
 
-[types/graph.ts:148](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/graph.ts#L148)
+[types/graph.ts:148](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/types/graph.ts#L148)
 
 ___
 
 ### getAllCombosData
 
-• **getAllCombosData**: () => [`ComboModel`](../modules/types.md#combomodel)[]
+• **getAllCombosData**: () => [`ComboModel`](../modules/types.en.md#combomodel)[]
 
 #### Type declaration
 
-▸ (): [`ComboModel`](../modules/types.md#combomodel)[]
+▸ (): [`ComboModel`](../modules/types.en.md#combomodel)[]
 
 Get all the combos' inner data
 
 ##### Returns
 
-[`ComboModel`](../modules/types.md#combomodel)[]
+[`ComboModel`](../modules/types.en.md#combomodel)[]
 
 all combos' inner data on the graph
 
 #### Defined in
 
-[types/graph.ts:99](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/graph.ts#L99)
+[types/graph.ts:99](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/types/graph.ts#L99)
 
 ___
 
 ### getAllEdgesData
 
-• **getAllEdgesData**: () => [`EdgeModel`](../modules/types.md#edgemodel)[]
+• **getAllEdgesData**: () => [`EdgeModel`](../modules/types.en.md#edgemodel)[]
 
 #### Type declaration
 
-▸ (): [`EdgeModel`](../modules/types.md#edgemodel)[]
+▸ (): [`EdgeModel`](../modules/types.en.md#edgemodel)[]
 
 Get all the edges' inner data
 
 ##### Returns
 
-[`EdgeModel`](../modules/types.md#edgemodel)[]
+[`EdgeModel`](../modules/types.en.md#edgemodel)[]
 
 all edges' inner data on the graph
 
 #### Defined in
 
-[types/graph.ts:93](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/graph.ts#L93)
+[types/graph.ts:93](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/types/graph.ts#L93)
 
 ___
 
 ### getAllNodesData
 
-• **getAllNodesData**: () => [`NodeModel`](../modules/types.md#nodemodel)[]
+• **getAllNodesData**: () => [`NodeModel`](../modules/types.en.md#nodemodel)[]
 
 #### Type declaration
 
-▸ (): [`NodeModel`](../modules/types.md#nodemodel)[]
+▸ (): [`NodeModel`](../modules/types.en.md#nodemodel)[]
 
 Get all the nodes' inner data
 
 ##### Returns
 
-[`NodeModel`](../modules/types.md#nodemodel)[]
+[`NodeModel`](../modules/types.en.md#nodemodel)[]
 
 all nodes' inner data on the graph
 
 #### Defined in
 
-[types/graph.ts:87](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/graph.ts#L87)
+[types/graph.ts:87](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/types/graph.ts#L87)
 
 ___
 
 ### getComboData
 
-• **getComboData**: (`condition`: `Function` \| `ID`) => [`ComboModel`](../modules/types.md#combomodel)
+• **getComboData**: (`condition`: `Function` \| `ID`) => [`ComboModel`](../modules/types.en.md#combomodel)
 
 #### Type declaration
 
-▸ (`condition`): [`ComboModel`](../modules/types.md#combomodel)
+▸ (`condition`): [`ComboModel`](../modules/types.en.md#combomodel)
 
 Find a combo's inner data according to id or function.
 
@@ -253,23 +253,23 @@ Find a combo's inner data according to id or function.
 
 ##### Returns
 
-[`ComboModel`](../modules/types.md#combomodel)
+[`ComboModel`](../modules/types.en.md#combomodel)
 
 result combo's inner data
 
 #### Defined in
 
-[types/graph.ts:81](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/graph.ts#L81)
+[types/graph.ts:81](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/types/graph.ts#L81)
 
 ___
 
 ### getEdgeData
 
-• **getEdgeData**: (`condition`: `Function` \| `ID`) => [`EdgeModel`](../modules/types.md#edgemodel)
+• **getEdgeData**: (`condition`: `Function` \| `ID`) => [`EdgeModel`](../modules/types.en.md#edgemodel)
 
 #### Type declaration
 
-▸ (`condition`): [`EdgeModel`](../modules/types.md#edgemodel)
+▸ (`condition`): [`EdgeModel`](../modules/types.en.md#edgemodel)
 
 Find an edge's inner data according to id or function.
 
@@ -281,23 +281,23 @@ Find an edge's inner data according to id or function.
 
 ##### Returns
 
-[`EdgeModel`](../modules/types.md#edgemodel)
+[`EdgeModel`](../modules/types.en.md#edgemodel)
 
 result edge's inner data
 
 #### Defined in
 
-[types/graph.ts:74](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/graph.ts#L74)
+[types/graph.ts:74](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/types/graph.ts#L74)
 
 ___
 
 ### getNeighborNodesData
 
-• **getNeighborNodesData**: (`nodeId`: `ID`, `direction?`: ``"both"`` \| ``"in"`` \| ``"out"``) => [`NodeModel`](../modules/types.md#nodemodel)[]
+• **getNeighborNodesData**: (`nodeId`: `ID`, `direction?`: ``"both"`` \| ``"in"`` \| ``"out"``) => [`NodeModel`](../modules/types.en.md#nodemodel)[]
 
 #### Type declaration
 
-▸ (`nodeId`, `direction?`): [`NodeModel`](../modules/types.md#nodemodel)[]
+▸ (`nodeId`, `direction?`): [`NodeModel`](../modules/types.en.md#nodemodel)[]
 
 Get one-hop node ids from a start node.
 
@@ -310,23 +310,23 @@ Get one-hop node ids from a start node.
 
 ##### Returns
 
-[`NodeModel`](../modules/types.md#nodemodel)[]
+[`NodeModel`](../modules/types.en.md#nodemodel)[]
 
 one-hop node ids
 
 #### Defined in
 
-[types/graph.ts:116](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/graph.ts#L116)
+[types/graph.ts:116](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/types/graph.ts#L116)
 
 ___
 
 ### getNodeData
 
-• **getNodeData**: (`condition`: `Function` \| `ID`) => [`NodeModel`](../modules/types.md#nodemodel)
+• **getNodeData**: (`condition`: `Function` \| `ID`) => [`NodeModel`](../modules/types.en.md#nodemodel)
 
 #### Type declaration
 
-▸ (`condition`): [`NodeModel`](../modules/types.md#nodemodel)
+▸ (`condition`): [`NodeModel`](../modules/types.en.md#nodemodel)
 
 Find a node's inner data according to id or function.
 
@@ -338,23 +338,23 @@ Find a node's inner data according to id or function.
 
 ##### Returns
 
-[`NodeModel`](../modules/types.md#nodemodel)
+[`NodeModel`](../modules/types.en.md#nodemodel)
 
 result node's inner data
 
 #### Defined in
 
-[types/graph.ts:67](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/graph.ts#L67)
+[types/graph.ts:67](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/types/graph.ts#L67)
 
 ___
 
 ### getRelatedEdgesData
 
-• **getRelatedEdgesData**: (`nodeId`: `ID`, `direction?`: ``"both"`` \| ``"in"`` \| ``"out"``) => [`EdgeModel`](../modules/types.md#edgemodel)[]
+• **getRelatedEdgesData**: (`nodeId`: `ID`, `direction?`: ``"both"`` \| ``"in"`` \| ``"out"``) => [`EdgeModel`](../modules/types.en.md#edgemodel)[]
 
 #### Type declaration
 
-▸ (`nodeId`, `direction?`): [`EdgeModel`](../modules/types.md#edgemodel)[]
+▸ (`nodeId`, `direction?`): [`EdgeModel`](../modules/types.en.md#edgemodel)[]
 
 Get one-hop edge ids from a start node.
 
@@ -367,23 +367,23 @@ Get one-hop edge ids from a start node.
 
 ##### Returns
 
-[`EdgeModel`](../modules/types.md#edgemodel)[]
+[`EdgeModel`](../modules/types.en.md#edgemodel)[]
 
 one-hop edge ids
 
 #### Defined in
 
-[types/graph.ts:106](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/graph.ts#L106)
+[types/graph.ts:106](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/types/graph.ts#L106)
 
 ___
 
 ### moveCombo
 
-• **moveCombo**: (`ids`: `ID`[], `dx`: `number`, `dy`: `number`, `upsertAncestors?`: `boolean`, `callback?`: (`model`: [`EdgeModel`](../modules/types.md#edgemodel) \| [`NodeModel`](../modules/types.md#nodemodel) \| [`ComboModel`](../modules/types.md#combomodel), `canceled?`: `boolean`) => `void`, `stack?`: `boolean`) => [`ComboModel`](../modules/types.md#combomodel)[]
+• **moveCombo**: (`ids`: `ID`[], `dx`: `number`, `dy`: `number`, `upsertAncestors?`: `boolean`, `callback?`: (`model`: [`EdgeModel`](../modules/types.en.md#edgemodel) \| [`NodeModel`](../modules/types.en.md#nodemodel) \| [`ComboModel`](../modules/types.en.md#combomodel), `canceled?`: `boolean`) => `void`, `stack?`: `boolean`) => [`ComboModel`](../modules/types.en.md#combomodel)[]
 
 #### Type declaration
 
-▸ (`ids`, `dx`, `dy`, `upsertAncestors?`, `callback?`, `stack?`): [`ComboModel`](../modules/types.md#combomodel)[]
+▸ (`ids`, `dx`, `dy`, `upsertAncestors?`, `callback?`, `stack?`): [`ComboModel`](../modules/types.en.md#combomodel)[]
 
 Move one or more combos a distance (dx, dy) relatively,
 do not update other styles which leads to better performance than updating positions by updateData.
@@ -397,22 +397,22 @@ In fact, it changes the succeed nodes positions to affect the combo's position, 
 | `dx` | `number` | - |
 | `dy` | `number` | - |
 | `upsertAncestors?` | `boolean` | - |
-| `callback?` | (`model`: [`EdgeModel`](../modules/types.md#edgemodel) \| [`NodeModel`](../modules/types.md#nodemodel) \| [`ComboModel`](../modules/types.md#combomodel), `canceled?`: `boolean`) => `void` | - |
+| `callback?` | (`model`: [`EdgeModel`](../modules/types.en.md#edgemodel) \| [`NodeModel`](../modules/types.en.md#nodemodel) \| [`ComboModel`](../modules/types.en.md#combomodel), `canceled?`: `boolean`) => `void` | - |
 | `stack?` | `boolean` | whether push this operation into graph's stack, true by default |
 
 ##### Returns
 
-[`ComboModel`](../modules/types.md#combomodel)[]
+[`ComboModel`](../modules/types.en.md#combomodel)[]
 
 #### Defined in
 
-[types/graph.ts:278](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/graph.ts#L278)
+[types/graph.ts:278](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/types/graph.ts#L278)
 
 ___
 
 ### read
 
-• **read**: (`data`: [`GraphData`](types-GraphData.md)) => `void`
+• **read**: (`data`: [`GraphData`](types-GraphData.en.md)) => `void`
 
 #### Type declaration
 
@@ -425,7 +425,7 @@ If there is old data, diffs and changes it.
 
 | Name | Type |
 | :------ | :------ |
-| `data` | [`GraphData`](types-GraphData.md) |
+| `data` | [`GraphData`](types-GraphData.en.md) |
 
 ##### Returns
 
@@ -433,7 +433,7 @@ If there is old data, diffs and changes it.
 
 #### Defined in
 
-[types/graph.ts:140](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/graph.ts#L140)
+[types/graph.ts:140](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/types/graph.ts#L140)
 
 ___
 
@@ -463,7 +463,7 @@ whehter success
 
 #### Defined in
 
-[types/graph.ts:201](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/graph.ts#L201)
+[types/graph.ts:201](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/types/graph.ts#L201)
 
 ___
 
@@ -490,17 +490,17 @@ Show the item(s).
 
 #### Defined in
 
-[types/graph.ts:466](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/graph.ts#L466)
+[types/graph.ts:466](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/types/graph.ts#L466)
 
 ___
 
 ### updateComboPosition
 
-• **updateComboPosition**: (`models`: `Partial`<[`ComboUserModel`](../modules/types.md#combousermodel)\> \| `Partial`<[`ComboUserModel`](../modules/types.md#combousermodel) \| `Partial`<[`NodeUserModel`](../modules/types.md#nodeusermodel)\>[] \| `Partial`<[`ComboUserModel`](../modules/types.md#combousermodel)\>[]\>, `upsertAncestors?`: `boolean`, `disableAnimate?`: `boolean`, `callback?`: (`model`: [`EdgeModel`](../modules/types.md#edgemodel) \| [`NodeModel`](../modules/types.md#nodemodel) \| [`ComboModel`](../modules/types.md#combomodel)) => `void`, `stack?`: `boolean`) => [`NodeModel`](../modules/types.md#nodemodel) \| [`ComboModel`](../modules/types.md#combomodel) \| [`NodeModel`](../modules/types.md#nodemodel)[] \| [`ComboModel`](../modules/types.md#combomodel)[]
+• **updateComboPosition**: (`models`: `Partial`<[`ComboUserModel`](../modules/types.en.md#combousermodel)\> \| `Partial`<[`ComboUserModel`](../modules/types.en.md#combousermodel) \| `Partial`<[`NodeUserModel`](../modules/types.en.md#nodeusermodel)\>[] \| `Partial`<[`ComboUserModel`](../modules/types.en.md#combousermodel)\>[]\>, `upsertAncestors?`: `boolean`, `disableAnimate?`: `boolean`, `callback?`: (`model`: [`EdgeModel`](../modules/types.en.md#edgemodel) \| [`NodeModel`](../modules/types.en.md#nodemodel) \| [`ComboModel`](../modules/types.en.md#combomodel)) => `void`, `stack?`: `boolean`) => [`NodeModel`](../modules/types.en.md#nodemodel) \| [`ComboModel`](../modules/types.en.md#combomodel) \| [`NodeModel`](../modules/types.en.md#nodemodel)[] \| [`ComboModel`](../modules/types.en.md#combomodel)[]
 
 #### Type declaration
 
-▸ (`models`, `upsertAncestors?`, `disableAnimate?`, `callback?`, `stack?`): [`NodeModel`](../modules/types.md#nodemodel) \| [`ComboModel`](../modules/types.md#combomodel) \| [`NodeModel`](../modules/types.md#nodemodel)[] \| [`ComboModel`](../modules/types.md#combomodel)[]
+▸ (`models`, `upsertAncestors?`, `disableAnimate?`, `callback?`, `stack?`): [`NodeModel`](../modules/types.en.md#nodemodel) \| [`ComboModel`](../modules/types.en.md#combomodel) \| [`NodeModel`](../modules/types.en.md#nodemodel)[] \| [`ComboModel`](../modules/types.en.md#combomodel)[]
 
 Update one or more combos' positions, it is achieved by move the succeed nodes.
 Do not update other styles which leads to better performance than updating positions by updateData.
@@ -509,29 +509,29 @@ Do not update other styles which leads to better performance than updating posit
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `models` | `Partial`<[`ComboUserModel`](../modules/types.md#combousermodel)\> \| `Partial`<[`ComboUserModel`](../modules/types.md#combousermodel) \| `Partial`<[`NodeUserModel`](../modules/types.md#nodeusermodel)\>[] \| `Partial`<[`ComboUserModel`](../modules/types.md#combousermodel)\>[]\> | new configurations with x and y for every combo, which has id field to indicate the specific item |
+| `models` | `Partial`<[`ComboUserModel`](../modules/types.en.md#combousermodel)\> \| `Partial`<[`ComboUserModel`](../modules/types.en.md#combousermodel) \| `Partial`<[`NodeUserModel`](../modules/types.en.md#nodeusermodel)\>[] \| `Partial`<[`ComboUserModel`](../modules/types.en.md#combousermodel)\>[]\> | new configurations with x and y for every combo, which has id field to indicate the specific item |
 | `upsertAncestors?` | `boolean` | - |
 | `disableAnimate?` | `boolean` | - |
-| `callback?` | (`model`: [`EdgeModel`](../modules/types.md#edgemodel) \| [`NodeModel`](../modules/types.md#nodemodel) \| [`ComboModel`](../modules/types.md#combomodel)) => `void` | - |
+| `callback?` | (`model`: [`EdgeModel`](../modules/types.en.md#edgemodel) \| [`NodeModel`](../modules/types.en.md#nodemodel) \| [`ComboModel`](../modules/types.en.md#combomodel)) => `void` | - |
 | `stack?` | `boolean` | whether push this operation into graph's stack, true by default |
 
 ##### Returns
 
-[`NodeModel`](../modules/types.md#nodemodel) \| [`ComboModel`](../modules/types.md#combomodel) \| [`NodeModel`](../modules/types.md#nodemodel)[] \| [`ComboModel`](../modules/types.md#combomodel)[]
+[`NodeModel`](../modules/types.en.md#nodemodel) \| [`ComboModel`](../modules/types.en.md#combomodel) \| [`NodeModel`](../modules/types.en.md#nodemodel)[] \| [`ComboModel`](../modules/types.en.md#combomodel)[]
 
 #### Defined in
 
-[types/graph.ts:258](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/graph.ts#L258)
+[types/graph.ts:258](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/types/graph.ts#L258)
 
 ___
 
 ### updateData
 
-• **updateData**: (`itemType`: `ITEM_TYPE`, `model`: `Partial`<[`NodeUserModel`](../modules/types.md#nodeusermodel)\> \| `Partial`<[`EdgeUserModel`](../modules/types.md#edgeusermodel)\> \| `Partial`<[`ComboUserModel`](../modules/types.md#combousermodel) \| `Partial`<[`NodeUserModel`](../modules/types.md#nodeusermodel)\>[] \| `Partial`<[`EdgeUserModel`](../modules/types.md#edgeusermodel)\>[] \| `Partial`<[`ComboUserModel`](../modules/types.md#combousermodel)\>[]\>, `stack?`: `boolean`) => [`EdgeModel`](../modules/types.md#edgemodel) \| [`NodeModel`](../modules/types.md#nodemodel) \| [`ComboModel`](../modules/types.md#combomodel) \| [`NodeModel`](../modules/types.md#nodemodel)[] \| [`EdgeModel`](../modules/types.md#edgemodel)[] \| [`ComboModel`](../modules/types.md#combomodel)[]
+• **updateData**: (`itemType`: `ITEM_TYPE`, `model`: `Partial`<[`NodeUserModel`](../modules/types.en.md#nodeusermodel)\> \| `Partial`<[`EdgeUserModel`](../modules/types.en.md#edgeusermodel)\> \| `Partial`<[`ComboUserModel`](../modules/types.en.md#combousermodel) \| `Partial`<[`NodeUserModel`](../modules/types.en.md#nodeusermodel)\>[] \| `Partial`<[`EdgeUserModel`](../modules/types.en.md#edgeusermodel)\>[] \| `Partial`<[`ComboUserModel`](../modules/types.en.md#combousermodel)\>[]\>, `stack?`: `boolean`) => [`EdgeModel`](../modules/types.en.md#edgemodel) \| [`NodeModel`](../modules/types.en.md#nodemodel) \| [`ComboModel`](../modules/types.en.md#combomodel) \| [`NodeModel`](../modules/types.en.md#nodemodel)[] \| [`EdgeModel`](../modules/types.en.md#edgemodel)[] \| [`ComboModel`](../modules/types.en.md#combomodel)[]
 
 #### Type declaration
 
-▸ (`itemType`, `model`, `stack?`): [`EdgeModel`](../modules/types.md#edgemodel) \| [`NodeModel`](../modules/types.md#nodemodel) \| [`ComboModel`](../modules/types.md#combomodel) \| [`NodeModel`](../modules/types.md#nodemodel)[] \| [`EdgeModel`](../modules/types.md#edgemodel)[] \| [`ComboModel`](../modules/types.md#combomodel)[]
+▸ (`itemType`, `model`, `stack?`): [`EdgeModel`](../modules/types.en.md#edgemodel) \| [`NodeModel`](../modules/types.en.md#nodemodel) \| [`ComboModel`](../modules/types.en.md#combomodel) \| [`NodeModel`](../modules/types.en.md#nodemodel)[] \| [`EdgeModel`](../modules/types.en.md#edgemodel)[] \| [`ComboModel`](../modules/types.en.md#combomodel)[]
 
 Update one or more node/edge/combo data on the graph.
 
@@ -540,26 +540,26 @@ Update one or more node/edge/combo data on the graph.
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `itemType` | `ITEM_TYPE` | - |
-| `model` | `Partial`<[`NodeUserModel`](../modules/types.md#nodeusermodel)\> \| `Partial`<[`EdgeUserModel`](../modules/types.md#edgeusermodel)\> \| `Partial`<[`ComboUserModel`](../modules/types.md#combousermodel) \| `Partial`<[`NodeUserModel`](../modules/types.md#nodeusermodel)\>[] \| `Partial`<[`EdgeUserModel`](../modules/types.md#edgeusermodel)\>[] \| `Partial`<[`ComboUserModel`](../modules/types.md#combousermodel)\>[]\> | update configs |
+| `model` | `Partial`<[`NodeUserModel`](../modules/types.en.md#nodeusermodel)\> \| `Partial`<[`EdgeUserModel`](../modules/types.en.md#edgeusermodel)\> \| `Partial`<[`ComboUserModel`](../modules/types.en.md#combousermodel) \| `Partial`<[`NodeUserModel`](../modules/types.en.md#nodeusermodel)\>[] \| `Partial`<[`EdgeUserModel`](../modules/types.en.md#edgeusermodel)\>[] \| `Partial`<[`ComboUserModel`](../modules/types.en.md#combousermodel)\>[]\> | update configs |
 | `stack?` | `boolean` | whether push this operation to stack |
 
 ##### Returns
 
-[`EdgeModel`](../modules/types.md#edgemodel) \| [`NodeModel`](../modules/types.md#nodemodel) \| [`ComboModel`](../modules/types.md#combomodel) \| [`NodeModel`](../modules/types.md#nodemodel)[] \| [`EdgeModel`](../modules/types.md#edgemodel)[] \| [`ComboModel`](../modules/types.md#combomodel)[]
+[`EdgeModel`](../modules/types.en.md#edgemodel) \| [`NodeModel`](../modules/types.en.md#nodemodel) \| [`ComboModel`](../modules/types.en.md#combomodel) \| [`NodeModel`](../modules/types.en.md#nodemodel)[] \| [`EdgeModel`](../modules/types.en.md#edgemodel)[] \| [`ComboModel`](../modules/types.en.md#combomodel)[]
 
 #### Defined in
 
-[types/graph.ts:209](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/graph.ts#L209)
+[types/graph.ts:209](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/types/graph.ts#L209)
 
 ___
 
 ### updateNodePosition
 
-• **updateNodePosition**: (`models`: `Partial`<[`NodeUserModel`](../modules/types.md#nodeusermodel)\> \| `Partial`<[`ComboUserModel`](../modules/types.md#combousermodel) \| `Partial`<[`NodeUserModel`](../modules/types.md#nodeusermodel)\>[] \| `Partial`<[`ComboUserModel`](../modules/types.md#combousermodel)\>[]\>, `upsertAncestors?`: `boolean`, `disableAnimate?`: `boolean`, `callback?`: (`model`: [`EdgeModel`](../modules/types.md#edgemodel) \| [`NodeModel`](../modules/types.md#nodemodel) \| [`ComboModel`](../modules/types.md#combomodel), `canceled?`: `boolean`) => `void`, `stack?`: `boolean`) => [`NodeModel`](../modules/types.md#nodemodel) \| [`ComboModel`](../modules/types.md#combomodel) \| [`NodeModel`](../modules/types.md#nodemodel)[] \| [`ComboModel`](../modules/types.md#combomodel)[]
+• **updateNodePosition**: (`models`: `Partial`<[`NodeUserModel`](../modules/types.en.md#nodeusermodel)\> \| `Partial`<[`ComboUserModel`](../modules/types.en.md#combousermodel) \| `Partial`<[`NodeUserModel`](../modules/types.en.md#nodeusermodel)\>[] \| `Partial`<[`ComboUserModel`](../modules/types.en.md#combousermodel)\>[]\>, `upsertAncestors?`: `boolean`, `disableAnimate?`: `boolean`, `callback?`: (`model`: [`EdgeModel`](../modules/types.en.md#edgemodel) \| [`NodeModel`](../modules/types.en.md#nodemodel) \| [`ComboModel`](../modules/types.en.md#combomodel), `canceled?`: `boolean`) => `void`, `stack?`: `boolean`) => [`NodeModel`](../modules/types.en.md#nodemodel) \| [`ComboModel`](../modules/types.en.md#combomodel) \| [`NodeModel`](../modules/types.en.md#nodemodel)[] \| [`ComboModel`](../modules/types.en.md#combomodel)[]
 
 #### Type declaration
 
-▸ (`models`, `upsertAncestors?`, `disableAnimate?`, `callback?`, `stack?`): [`NodeModel`](../modules/types.md#nodemodel) \| [`ComboModel`](../modules/types.md#combomodel) \| [`NodeModel`](../modules/types.md#nodemodel)[] \| [`ComboModel`](../modules/types.md#combomodel)[]
+▸ (`models`, `upsertAncestors?`, `disableAnimate?`, `callback?`, `stack?`): [`NodeModel`](../modules/types.en.md#nodemodel) \| [`ComboModel`](../modules/types.en.md#combomodel) \| [`NodeModel`](../modules/types.en.md#nodemodel)[] \| [`ComboModel`](../modules/types.en.md#combomodel)[]
 
 Update one or more nodes' positions,
 do not update other styles which leads to better performance than updating positions by updateData.
@@ -568,19 +568,19 @@ do not update other styles which leads to better performance than updating posit
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `models` | `Partial`<[`NodeUserModel`](../modules/types.md#nodeusermodel)\> \| `Partial`<[`ComboUserModel`](../modules/types.md#combousermodel) \| `Partial`<[`NodeUserModel`](../modules/types.md#nodeusermodel)\>[] \| `Partial`<[`ComboUserModel`](../modules/types.md#combousermodel)\>[]\> | new configurations with x and y for every node, which has id field to indicate the specific item |
+| `models` | `Partial`<[`NodeUserModel`](../modules/types.en.md#nodeusermodel)\> \| `Partial`<[`ComboUserModel`](../modules/types.en.md#combousermodel) \| `Partial`<[`NodeUserModel`](../modules/types.en.md#nodeusermodel)\>[] \| `Partial`<[`ComboUserModel`](../modules/types.en.md#combousermodel)\>[]\> | new configurations with x and y for every node, which has id field to indicate the specific item |
 | `upsertAncestors?` | `boolean` | - |
 | `disableAnimate?` | `boolean` | - |
-| `callback?` | (`model`: [`EdgeModel`](../modules/types.md#edgemodel) \| [`NodeModel`](../modules/types.md#nodemodel) \| [`ComboModel`](../modules/types.md#combomodel), `canceled?`: `boolean`) => `void` | - |
+| `callback?` | (`model`: [`EdgeModel`](../modules/types.en.md#edgemodel) \| [`NodeModel`](../modules/types.en.md#nodemodel) \| [`ComboModel`](../modules/types.en.md#combomodel), `canceled?`: `boolean`) => `void` | - |
 | `stack?` | `boolean` | whether push this operation into graph's stack, true by default |
 
 ##### Returns
 
-[`NodeModel`](../modules/types.md#nodemodel) \| [`ComboModel`](../modules/types.md#combomodel) \| [`NodeModel`](../modules/types.md#nodemodel)[] \| [`ComboModel`](../modules/types.md#combomodel)[]
+[`NodeModel`](../modules/types.en.md#nodemodel) \| [`ComboModel`](../modules/types.en.md#combomodel) \| [`NodeModel`](../modules/types.en.md#nodemodel)[] \| [`ComboModel`](../modules/types.en.md#combomodel)[]
 
 #### Defined in
 
-[types/graph.ts:236](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/graph.ts#L236)
+[types/graph.ts:236](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/types/graph.ts#L236)
 
 ## Graph Instance
 
@@ -606,7 +606,7 @@ Destroy the graph instance and remove the related canvases.
 
 #### Defined in
 
-[types/graph.ts:39](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/graph.ts#L39)
+[types/graph.ts:39](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/types/graph.ts#L39)
 
 ## Interaction
 
@@ -636,7 +636,7 @@ upserted shape or group
 
 #### Defined in
 
-[types/graph.ts:622](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/graph.ts#L622)
+[types/graph.ts:622](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/types/graph.ts#L622)
 
 ___
 
@@ -663,7 +663,7 @@ Remove behavior(s) from mode(s).
 
 #### Defined in
 
-[types/graph.ts:605](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/graph.ts#L605)
+[types/graph.ts:605](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/types/graph.ts#L605)
 
 ___
 
@@ -689,7 +689,7 @@ Switch mode.
 
 #### Defined in
 
-[types/graph.ts:587](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/graph.ts#L587)
+[types/graph.ts:587](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/types/graph.ts#L587)
 
 ___
 
@@ -716,7 +716,7 @@ Update a behavior on a mode.
 
 #### Defined in
 
-[types/graph.ts:613](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/graph.ts#L613)
+[types/graph.ts:613](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/types/graph.ts#L613)
 
 ## Item
 
@@ -743,7 +743,7 @@ Make the item(s) to the back.
 
 #### Defined in
 
-[types/graph.ts:487](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/graph.ts#L487)
+[types/graph.ts:487](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/types/graph.ts#L487)
 
 ___
 
@@ -771,13 +771,13 @@ Clear all the states for item(s).
 
 #### Defined in
 
-[types/graph.ts:524](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/graph.ts#L524)
+[types/graph.ts:524](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/types/graph.ts#L524)
 
 ___
 
 ### findIdByState
 
-• **findIdByState**: (`itemType`: `ITEM_TYPE`, `state`: `string`, `value?`: `string` \| `boolean`, `additionalFilter?`: (`model`: [`EdgeModel`](../modules/types.md#edgemodel) \| [`NodeModel`](../modules/types.md#nodemodel) \| [`ComboModel`](../modules/types.md#combomodel)) => `boolean`) => `ID`[]
+• **findIdByState**: (`itemType`: `ITEM_TYPE`, `state`: `string`, `value?`: `string` \| `boolean`, `additionalFilter?`: (`model`: [`EdgeModel`](../modules/types.en.md#edgemodel) \| [`NodeModel`](../modules/types.en.md#nodemodel) \| [`ComboModel`](../modules/types.en.md#combomodel)) => `boolean`) => `ID`[]
 
 #### Type declaration
 
@@ -792,7 +792,7 @@ Find items which has the state.
 | `itemType` | `ITEM_TYPE` | item type |
 | `state` | `string` | state name |
 | `value?` | `string` \| `boolean` | state value, true by default |
-| `additionalFilter?` | (`model`: [`EdgeModel`](../modules/types.md#edgemodel) \| [`NodeModel`](../modules/types.md#nodemodel) \| [`ComboModel`](../modules/types.md#combomodel)) => `boolean` | additional filter function |
+| `additionalFilter?` | (`model`: [`EdgeModel`](../modules/types.en.md#edgemodel) \| [`NodeModel`](../modules/types.en.md#nodemodel) \| [`ComboModel`](../modules/types.en.md#combomodel)) => `boolean` | additional filter function |
 
 ##### Returns
 
@@ -802,7 +802,7 @@ items that is the type and has the state
 
 #### Defined in
 
-[types/graph.ts:163](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/graph.ts#L163)
+[types/graph.ts:163](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/types/graph.ts#L163)
 
 ___
 
@@ -829,7 +829,7 @@ Make the item(s) to the front.
 
 #### Defined in
 
-[types/graph.ts:480](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/graph.ts#L480)
+[types/graph.ts:480](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/types/graph.ts#L480)
 
 ___
 
@@ -857,7 +857,7 @@ the state names with value true
 
 #### Defined in
 
-[types/graph.ts:516](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/graph.ts#L516)
+[types/graph.ts:516](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/types/graph.ts#L516)
 
 ___
 
@@ -886,7 +886,7 @@ the state value
 
 #### Defined in
 
-[types/graph.ts:509](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/graph.ts#L509)
+[types/graph.ts:509](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/types/graph.ts#L509)
 
 ___
 
@@ -913,7 +913,7 @@ Hide the item(s).
 
 #### Defined in
 
-[types/graph.ts:473](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/graph.ts#L473)
+[types/graph.ts:473](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/types/graph.ts#L473)
 
 ___
 
@@ -942,7 +942,7 @@ Set state for the item(s).
 
 #### Defined in
 
-[types/graph.ts:496](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/graph.ts#L496)
+[types/graph.ts:496](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/types/graph.ts#L496)
 
 ## Plugin
 
@@ -968,7 +968,7 @@ Add plugin(s) to graph.
 
 #### Defined in
 
-[types/graph.ts:634](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/graph.ts#L634)
+[types/graph.ts:634](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/types/graph.ts#L634)
 
 ___
 
@@ -994,7 +994,7 @@ Remove plugin(s) from graph.
 
 #### Defined in
 
-[types/graph.ts:648](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/graph.ts#L648)
+[types/graph.ts:648](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/types/graph.ts#L648)
 
 ___
 
@@ -1022,7 +1022,7 @@ Update one plugin of the graph.
 
 #### Defined in
 
-[types/graph.ts:656](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/graph.ts#L656)
+[types/graph.ts:656](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/types/graph.ts#L656)
 
 ## Properties
 
@@ -1049,7 +1049,7 @@ Add behavior(s) to mode(s).
 
 #### Defined in
 
-[types/graph.ts:594](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/graph.ts#L594)
+[types/graph.ts:594](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/types/graph.ts#L594)
 
 ___
 
@@ -1077,7 +1077,7 @@ more convenient way without manually invoking `startBatch` and `stopBatch`.
 
 #### Defined in
 
-[types/graph.ts:746](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/graph.ts#L746)
+[types/graph.ts:746](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/types/graph.ts#L746)
 
 ___
 
@@ -1097,7 +1097,7 @@ Indicate whether there are any actions available in the redo stack.
 
 #### Defined in
 
-[types/graph.ts:724](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/graph.ts#L724)
+[types/graph.ts:724](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/types/graph.ts#L724)
 
 ___
 
@@ -1117,7 +1117,7 @@ Indicate whether there are any actions available in the undo stack.
 
 #### Defined in
 
-[types/graph.ts:719](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/graph.ts#L719)
+[types/graph.ts:719](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/types/graph.ts#L719)
 
 ___
 
@@ -1127,7 +1127,7 @@ ___
 
 #### Defined in
 
-[types/graph.ts:27](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/graph.ts#L27)
+[types/graph.ts:27](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/types/graph.ts#L27)
 
 ___
 
@@ -1153,7 +1153,7 @@ Change the renderer at runtime.
 
 #### Defined in
 
-[types/graph.ts:58](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/graph.ts#L58)
+[types/graph.ts:58](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/types/graph.ts#L58)
 
 ___
 
@@ -1173,7 +1173,7 @@ Clear the graph, means remove all the items on the graph.
 
 #### Defined in
 
-[types/graph.ts:153](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/graph.ts#L153)
+[types/graph.ts:153](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/types/graph.ts#L153)
 
 ___
 
@@ -1201,7 +1201,7 @@ more convenient way without manually invoking `startBatch` and `stopBatch`.
 
 #### Defined in
 
-[types/graph.ts:753](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/graph.ts#L753)
+[types/graph.ts:753](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/types/graph.ts#L753)
 
 ___
 
@@ -1211,7 +1211,7 @@ ___
 
 #### Defined in
 
-[types/graph.ts:30](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/graph.ts#L30)
+[types/graph.ts:30](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/types/graph.ts#L30)
 
 ___
 
@@ -1221,7 +1221,7 @@ ___
 
 #### Defined in
 
-[types/graph.ts:29](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/graph.ts#L29)
+[types/graph.ts:29](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/types/graph.ts#L29)
 
 ___
 
@@ -1247,17 +1247,17 @@ Execute a callback without allowing any stacking operations.
 
 #### Defined in
 
-[types/graph.ts:687](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/graph.ts#L687)
+[types/graph.ts:687](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/types/graph.ts#L687)
 
 ___
 
 ### getComboChildrenData
 
-• **getComboChildrenData**: (`comboId`: `ID`) => ([`NodeModel`](../modules/types.md#nodemodel) \| [`ComboModel`](../modules/types.md#combomodel))[]
+• **getComboChildrenData**: (`comboId`: `ID`) => ([`NodeModel`](../modules/types.en.md#nodemodel) \| [`ComboModel`](../modules/types.en.md#combomodel))[]
 
 #### Type declaration
 
-▸ (`comboId`): ([`NodeModel`](../modules/types.md#nodemodel) \| [`ComboModel`](../modules/types.md#combomodel))[]
+▸ (`comboId`): ([`NodeModel`](../modules/types.en.md#nodemodel) \| [`ComboModel`](../modules/types.en.md#combomodel))[]
 
 ##### Parameters
 
@@ -1267,11 +1267,11 @@ ___
 
 ##### Returns
 
-([`NodeModel`](../modules/types.md#nodemodel) \| [`ComboModel`](../modules/types.md#combomodel))[]
+([`NodeModel`](../modules/types.en.md#nodemodel) \| [`ComboModel`](../modules/types.en.md#combomodel))[]
 
 #### Defined in
 
-[types/graph.ts:132](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/graph.ts#L132)
+[types/graph.ts:132](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/types/graph.ts#L132)
 
 ___
 
@@ -1299,17 +1299,17 @@ visibility for the item, false for invisible or unexistence for the item
 
 #### Defined in
 
-[types/graph.ts:542](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/graph.ts#L542)
+[types/graph.ts:542](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/types/graph.ts#L542)
 
 ___
 
 ### getNearEdgesForNode
 
-• **getNearEdgesForNode**: (`nodeId`: `ID`) => [`EdgeModel`](../modules/types.md#edgemodel)[]
+• **getNearEdgesForNode**: (`nodeId`: `ID`) => [`EdgeModel`](../modules/types.en.md#edgemodel)[]
 
 #### Type declaration
 
-▸ (`nodeId`): [`EdgeModel`](../modules/types.md#edgemodel)[]
+▸ (`nodeId`): [`EdgeModel`](../modules/types.en.md#edgemodel)[]
 
 Retrieve the nearby edges for a given node using quadtree collision detection.
 
@@ -1321,13 +1321,13 @@ Retrieve the nearby edges for a given node using quadtree collision detection.
 
 ##### Returns
 
-[`EdgeModel`](../modules/types.md#edgemodel)[]
+[`EdgeModel`](../modules/types.en.md#edgemodel)[]
 
 edges
 
 #### Defined in
 
-[types/graph.ts:125](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/graph.ts#L125)
+[types/graph.ts:125](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/types/graph.ts#L125)
 
 ___
 
@@ -1347,7 +1347,7 @@ Retrieve the current undo stack which consists of operations that were undone
 
 #### Defined in
 
-[types/graph.ts:696](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/graph.ts#L696)
+[types/graph.ts:696](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/types/graph.ts#L696)
 
 ___
 
@@ -1377,29 +1377,29 @@ rendering bounding box. returns false if the item is not exist
 
 #### Defined in
 
-[types/graph.ts:531](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/graph.ts#L531)
+[types/graph.ts:531](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/types/graph.ts#L531)
 
 ___
 
 ### getSpecification
 
-• **getSpecification**: () => [`Specification`](types-Specification.md)<`B`, `T`\>
+• **getSpecification**: () => [`Specification`](types-Specification.en.md)<`B`, `T`\>
 
 #### Type declaration
 
-▸ (): [`Specification`](types-Specification.md)<`B`, `T`\>
+▸ (): [`Specification`](types-Specification.en.md)<`B`, `T`\>
 
 Get the copy of specs(configurations).
 
 ##### Returns
 
-[`Specification`](types-Specification.md)<`B`, `T`\>
+[`Specification`](types-Specification.en.md)<`B`, `T`\>
 
 graph specs
 
 #### Defined in
 
-[types/graph.ts:52](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/graph.ts#L52)
+[types/graph.ts:52](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/types/graph.ts#L52)
 
 ___
 
@@ -1419,7 +1419,7 @@ Retrieve the complete history stack
 
 #### Defined in
 
-[types/graph.ts:702](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/graph.ts#L702)
+[types/graph.ts:702](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/types/graph.ts#L702)
 
 ___
 
@@ -1439,7 +1439,7 @@ Retrieve the current redo stack which consists of operations that could be undon
 
 #### Defined in
 
-[types/graph.ts:691](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/graph.ts#L691)
+[types/graph.ts:691](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/types/graph.ts#L691)
 
 ___
 
@@ -1459,7 +1459,7 @@ Return the center of viewport, e.g. for a 500 * 500 canvas, its center is [250, 
 
 #### Defined in
 
-[types/graph.ts:381](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/graph.ts#L381)
+[types/graph.ts:381](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/types/graph.ts#L381)
 
 ___
 
@@ -1481,7 +1481,7 @@ current zoom
 
 #### Defined in
 
-[types/graph.ts:319](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/graph.ts#L319)
+[types/graph.ts:319](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/types/graph.ts#L319)
 
 ___
 
@@ -1491,7 +1491,7 @@ ___
 
 #### Defined in
 
-[types/graph.ts:26](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/graph.ts#L26)
+[types/graph.ts:26](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/types/graph.ts#L26)
 
 ___
 
@@ -1511,13 +1511,13 @@ Determine if history (redo/undo) is enabled.
 
 #### Defined in
 
-[types/graph.ts:667](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/graph.ts#L667)
+[types/graph.ts:667](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/types/graph.ts#L667)
 
 ___
 
 ### layout
 
-• **layout**: (`options?`: [`LayoutOptions`](../modules/types.md#layoutoptions), `disableAnimate?`: `boolean`) => `Promise`<`void`\>
+• **layout**: (`options?`: [`LayoutOptions`](../modules/types.en.md#layoutoptions), `disableAnimate?`: `boolean`) => `Promise`<`void`\>
 
 #### Type declaration
 
@@ -1529,7 +1529,7 @@ Layout the graph (with current configurations if cfg is not assigned).
 
 | Name | Type |
 | :------ | :------ |
-| `options?` | [`LayoutOptions`](../modules/types.md#layoutoptions) |
+| `options?` | [`LayoutOptions`](../modules/types.en.md#layoutoptions) |
 | `disableAnimate?` | `boolean` |
 
 ##### Returns
@@ -1538,7 +1538,7 @@ Layout the graph (with current configurations if cfg is not assigned).
 
 #### Defined in
 
-[types/graph.ts:577](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/graph.ts#L577)
+[types/graph.ts:577](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/types/graph.ts#L577)
 
 ___
 
@@ -1558,7 +1558,7 @@ Pause stacking operation.
 
 #### Defined in
 
-[types/graph.ts:678](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/graph.ts#L678)
+[types/graph.ts:678](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/types/graph.ts#L678)
 
 ___
 
@@ -1585,7 +1585,7 @@ Push the operation(s) onto the specified stack
 
 #### Defined in
 
-[types/graph.ts:674](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/graph.ts#L674)
+[types/graph.ts:674](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/types/graph.ts#L674)
 
 ___
 
@@ -1605,7 +1605,7 @@ Restore the operation that was last n reverted on the graph.
 
 #### Defined in
 
-[types/graph.ts:714](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/graph.ts#L714)
+[types/graph.ts:714](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/types/graph.ts#L714)
 
 ___
 
@@ -1615,7 +1615,7 @@ ___
 
 #### Defined in
 
-[types/graph.ts:31](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/graph.ts#L31)
+[types/graph.ts:31](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/types/graph.ts#L31)
 
 ___
 
@@ -1635,7 +1635,7 @@ Resume stacking operation.
 
 #### Defined in
 
-[types/graph.ts:682](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/graph.ts#L682)
+[types/graph.ts:682](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/types/graph.ts#L682)
 
 ___
 
@@ -1663,7 +1663,7 @@ Rotate the graph with a relative angle in clockwise.
 
 #### Defined in
 
-[types/graph.ts:348](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/graph.ts#L348)
+[types/graph.ts:348](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/types/graph.ts#L348)
 
 ___
 
@@ -1691,7 +1691,7 @@ Rotate the graph to an absolute angle in clockwise.
 
 #### Defined in
 
-[types/graph.ts:359](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/graph.ts#L359)
+[types/graph.ts:359](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/types/graph.ts#L359)
 
 ___
 
@@ -1713,7 +1713,7 @@ treated as a single operation when undoing or redoing.
 
 #### Defined in
 
-[types/graph.ts:731](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/graph.ts#L731)
+[types/graph.ts:731](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/types/graph.ts#L731)
 
 ___
 
@@ -1735,7 +1735,7 @@ treated as a single operation when undoing or redoing.
 
 #### Defined in
 
-[types/graph.ts:738](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/graph.ts#L738)
+[types/graph.ts:738](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/types/graph.ts#L738)
 
 ___
 
@@ -1753,7 +1753,7 @@ ___
 
 #### Defined in
 
-[types/graph.ts:578](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/graph.ts#L578)
+[types/graph.ts:578](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/types/graph.ts#L578)
 
 ___
 
@@ -1773,7 +1773,7 @@ Stop the current transition of transform immediately.
 
 #### Defined in
 
-[types/graph.ts:377](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/graph.ts#L377)
+[types/graph.ts:377](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/types/graph.ts#L377)
 
 ___
 
@@ -1800,7 +1800,7 @@ Transform the graph with a CSS-Transform-like syntax.
 
 #### Defined in
 
-[types/graph.ts:370](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/graph.ts#L370)
+[types/graph.ts:370](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/types/graph.ts#L370)
 
 ___
 
@@ -1810,7 +1810,7 @@ ___
 
 #### Defined in
 
-[types/graph.ts:28](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/graph.ts#L28)
+[types/graph.ts:28](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/types/graph.ts#L28)
 
 ___
 
@@ -1837,7 +1837,7 @@ Move the graph with a relative vector.
 
 #### Defined in
 
-[types/graph.ts:298](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/graph.ts#L298)
+[types/graph.ts:298](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/types/graph.ts#L298)
 
 ___
 
@@ -1864,7 +1864,7 @@ Move the graph and align to a point.
 
 #### Defined in
 
-[types/graph.ts:311](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/graph.ts#L311)
+[types/graph.ts:311](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/types/graph.ts#L311)
 
 ___
 
@@ -1884,17 +1884,17 @@ Revert the last n operation(s) on the graph.
 
 #### Defined in
 
-[types/graph.ts:708](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/graph.ts#L708)
+[types/graph.ts:708](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/types/graph.ts#L708)
 
 ___
 
 ### updateSpecification
 
-• **updateSpecification**: (`spec`: [`Specification`](types-Specification.md)<`B`, `T`\>) => [`Specification`](types-Specification.md)<`B`, `T`\>
+• **updateSpecification**: (`spec`: [`Specification`](types-Specification.en.md)<`B`, `T`\>) => [`Specification`](types-Specification.en.md)<`B`, `T`\>
 
 #### Type declaration
 
-▸ (`spec`): [`Specification`](types-Specification.md)<`B`, `T`\>
+▸ (`spec`): [`Specification`](types-Specification.en.md)<`B`, `T`\>
 
 Update the specs (configurations).
 
@@ -1902,15 +1902,15 @@ Update the specs (configurations).
 
 | Name | Type |
 | :------ | :------ |
-| `spec` | [`Specification`](types-Specification.md)<`B`, `T`\> |
+| `spec` | [`Specification`](types-Specification.en.md)<`B`, `T`\> |
 
 ##### Returns
 
-[`Specification`](types-Specification.md)<`B`, `T`\>
+[`Specification`](types-Specification.en.md)<`B`, `T`\>
 
 #### Defined in
 
-[types/graph.ts:43](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/graph.ts#L43)
+[types/graph.ts:43](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/types/graph.ts#L43)
 
 ___
 
@@ -1936,7 +1936,7 @@ Update the theme specs (configurations).
 
 #### Defined in
 
-[types/graph.ts:47](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/graph.ts#L47)
+[types/graph.ts:47](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/types/graph.ts#L47)
 
 ___
 
@@ -1964,7 +1964,7 @@ Zoom the graph with a relative ratio.
 
 #### Defined in
 
-[types/graph.ts:326](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/graph.ts#L326)
+[types/graph.ts:326](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/types/graph.ts#L326)
 
 ___
 
@@ -1992,7 +1992,7 @@ Zoom the graph to a specified ratio.
 
 #### Defined in
 
-[types/graph.ts:337](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/graph.ts#L337)
+[types/graph.ts:337](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/types/graph.ts#L337)
 
 ## Tree
 
@@ -2020,7 +2020,7 @@ Collapse sub tree(s).
 
 #### Defined in
 
-[types/graph.ts:763](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/graph.ts#L763)
+[types/graph.ts:763](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/types/graph.ts#L763)
 
 ___
 
@@ -2048,7 +2048,7 @@ Expand sub tree(s).
 
 #### Defined in
 
-[types/graph.ts:772](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/graph.ts#L772)
+[types/graph.ts:772](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/types/graph.ts#L772)
 
 ## View
 
@@ -2074,7 +2074,7 @@ Fit the graph center to the view center.
 
 #### Defined in
 
-[types/graph.ts:403](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/graph.ts#L403)
+[types/graph.ts:403](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/types/graph.ts#L403)
 
 ___
 
@@ -2103,7 +2103,7 @@ Fit the graph content to the view.
 
 #### Defined in
 
-[types/graph.ts:390](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/graph.ts#L390)
+[types/graph.ts:390](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/types/graph.ts#L390)
 
 ___
 
@@ -2130,7 +2130,7 @@ Move the graph to make the item align the view center.
 
 #### Defined in
 
-[types/graph.ts:410](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/graph.ts#L410)
+[types/graph.ts:410](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/types/graph.ts#L410)
 
 ___
 
@@ -2158,7 +2158,7 @@ rendering coordinate
 
 #### Defined in
 
-[types/graph.ts:457](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/graph.ts#L457)
+[types/graph.ts:457](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/types/graph.ts#L457)
 
 ___
 
@@ -2186,7 +2186,7 @@ canvas dom (viewport) coordinate
 
 #### Defined in
 
-[types/graph.ts:433](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/graph.ts#L433)
+[types/graph.ts:433](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/types/graph.ts#L433)
 
 ___
 
@@ -2214,7 +2214,7 @@ browser coordinate
 
 #### Defined in
 
-[types/graph.ts:449](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/graph.ts#L449)
+[types/graph.ts:449](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/types/graph.ts#L449)
 
 ___
 
@@ -2236,7 +2236,7 @@ Get the size of the graph canvas.
 
 #### Defined in
 
-[types/graph.ts:419](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/graph.ts#L419)
+[types/graph.ts:419](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/types/graph.ts#L419)
 
 ___
 
@@ -2264,7 +2264,7 @@ rendering coordinate
 
 #### Defined in
 
-[types/graph.ts:441](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/graph.ts#L441)
+[types/graph.ts:441](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/types/graph.ts#L441)
 
 ___
 
@@ -2290,4 +2290,4 @@ Set the size for the graph canvas.
 
 #### Defined in
 
-[types/graph.ts:425](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/graph.ts#L425)
+[types/graph.ts:425](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/types/graph.ts#L425)
