@@ -192,7 +192,7 @@ export default class Node extends Item {
         return;
       }
     }
-    group.setLocalPosition(position.x, position.y, position.z);
+    group.setLocalPosition([position.x, position.y, position.z]);
     onfinish(displayModel.id, !animate);
   }
 

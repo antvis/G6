@@ -1087,6 +1087,7 @@ export class ItemController {
     const { edgeExtensions, edgeGroup, itemMap, edgeDataTypeSet, graph } = this;
     const { dataTypeField = '' } = edgeTheme;
     const zoom = graph.getZoom();
+    const nodeMap = filterItemMapByType(itemMap, 'node') as Map<ID, Node>;
     models.forEach((edge) => {
       const { source, target, id } = edge;
       const sourceItem = itemMap.get(source) as Node;
@@ -1112,8 +1113,6 @@ export class ItemController {
         dataType,
         edgeTheme,
       );
-
-      const nodeMap = filterItemMapByType(itemMap, 'node') as Map<ID, Node>;
 
       itemMap.set(
         id,

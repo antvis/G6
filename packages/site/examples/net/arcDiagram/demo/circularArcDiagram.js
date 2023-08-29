@@ -1,4 +1,4 @@
-import G6, { extend } from '@antv/g6';
+import { Graph, Extensions, extend } from '@antv/g6';
 
 const container = document.getElementById('container');
 const width = container.scrollWidth;
@@ -14,16 +14,19 @@ const edgeClusterTransform = (data, options = {}, userGraphCore) => {
   return data;
 };
 
-const CustomGraph = extend(G6.Graph, {
+const ExtGraph = extend(Graph, {
   transforms: {
     'edge-cluster': edgeClusterTransform,
+  },
+  edges: {
+    'quadratic-edge': Extensions.QuadraticEdge,
   },
 });
 
 fetch('https://gw.alipayobjects.com/os/basement_prod/70cde3be-22e8-4291-98f1-4d5a5b75b62f.json')
   .then((res) => res.json())
   .then((data) => {
-    const graph = new CustomGraph({
+    const graph = new ExtGraph({
       container: 'container',
       width,
       height,

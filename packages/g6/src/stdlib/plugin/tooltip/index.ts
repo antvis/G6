@@ -67,7 +67,7 @@ export interface TooltipConfig extends IPluginBaseConfig {
   loadingContent?: HTMLDivElement | string;
 }
 
-export default class Tooltip extends Base {
+export class Tooltip extends Base {
   private tooltip;
   private container;
   private currentTarget;

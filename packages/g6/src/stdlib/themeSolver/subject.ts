@@ -3,7 +3,7 @@ import color from 'color';
 import { generate } from '@ant-design/colors';
 import { ThemeSpecification } from '../../types/theme';
 import { mergeStyles } from '../../util/shape';
-import BaseThemeSolver, { ThemeSpecificationMap } from './base';
+import { BaseThemeSolver, ThemeSpecificationMap } from './base';
 
 interface SubjectThemeSolverOptions {
   base: 'light' | 'dark';
@@ -27,7 +27,7 @@ interface SubjectThemeSolverOptions {
   };
 }
 
-export default class SubjectThemeSolver extends BaseThemeSolver {
+export class SubjectThemeSolver extends BaseThemeSolver {
   public solver(
     options: SubjectThemeSolverOptions,
     themes: ThemeSpecificationMap,

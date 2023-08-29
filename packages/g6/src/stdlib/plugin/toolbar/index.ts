@@ -41,7 +41,7 @@ const getEventPath = (evt: MouseEvent) => {
   return path;
 };
 
-export default class Toolbar extends Base {
+export class Toolbar extends Base {
   public ToolbarDOM: HTMLDivElement;
   public ContainerDOM: HTMLElement;
   constructor(config: Partial<ToolbarConfig>) {

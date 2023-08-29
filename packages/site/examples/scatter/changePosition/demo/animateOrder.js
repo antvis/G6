@@ -1,4 +1,4 @@
-import G6, { stdLib } from '@antv/g6';
+import { Graph, stdLib } from '@antv/g6';
 
 const data = {
   nodes: [
@@ -44,7 +44,7 @@ const data = {
 const container = document.getElementById('container');
 const width = container.scrollWidth;
 const height = container.scrollHeight || 500;
-let graph = new G6.Graph({
+let graph = new Graph({
   container: 'container',
   width,
   height,

@@ -17,7 +17,7 @@ interface ViewPortEventParam {
   matrix: number[];
 }
 
-export default class Grid extends Base {
+export class Grid extends Base {
   private canvas: Canvas;
   private viewport: HTMLElement | undefined;
   private container: HTMLDivElement;

@@ -59,7 +59,7 @@ const DEFAULT_OPTIONS: Required<ZoomCanvas3DOptions> = {
 /**
  * Zoom the 3d canvas along the ray vertical to the screen.
  */
-export default class ZoomCanvas3D extends Behavior {
+export class ZoomCanvas3D extends Behavior {
   private keydown: boolean;
 
   constructor(options: Partial<ZoomCanvas3DOptions>) {

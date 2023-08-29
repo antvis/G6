@@ -57,7 +57,7 @@ const DEFAULT_OPTIONS: ActivateRelationsOptions = {
   activeState: 'selected',
 };
 
-export default class ActivateRelations extends Behavior {
+export class ActivateRelations extends Behavior {
   timer: number;
   inactiveItems: {};
   prevNodeIds: ID[];

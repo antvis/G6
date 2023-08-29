@@ -13,7 +13,7 @@ import { isArray, isNumber, uniqueId } from '@antv/util';
  * @param userGraphCore the graph core stores the previous data.
  * @returns formatted data.
  */
-export const transformV4Data = (
+export const TransformV4Data = (
   data: GraphData,
   options = {},
   userGraphCore?: GraphCore,

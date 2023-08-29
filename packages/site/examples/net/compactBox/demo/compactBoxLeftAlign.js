@@ -1,4 +1,4 @@
-import G6, { extend } from '@antv/g6';
+import { Graph, Extensions, extend } from '@antv/g6';
 
 const container = document.getElementById('container');
 const descriptionDiv = document.createElement('div');
@@ -7,8 +7,7 @@ container.appendChild(descriptionDiv);
 
 const fontSize = 15;
 
-const CircleNode = G6.stdLib.nodes['circle-node'];
-class CustomNode extends CircleNode {
+class CustomNode extends Extensions.CircleNode {
   defaultStyles = {
     keyShape: {},
   };
@@ -81,9 +80,12 @@ class CustomNode extends CircleNode {
   }
 }
 
-const CustomGraph = extend(G6.Graph, {
+const ExtGraph = extend(Graph, {
   nodes: {
     'crect-node': CustomNode,
+  },
+  edges: {
+    'cubic-horizontal-edge': Extensions.CubicHorizontalEdge,
   },
 });
 
@@ -92,7 +94,7 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.j
   .then((data) => {
     const width = container.scrollWidth;
     const height = container.scrollHeight || 500;
-    const graph = new CustomGraph({
+    const graph = new ExtGraph({
       container: 'container',
       width,
       height,

@@ -57,7 +57,7 @@ const DEFAULT_OPTIONS: ClickSelectOptions = {
   shouldUpdate: () => true,
 };
 
-export default class ClickSelect extends Behavior {
+export class ClickSelect extends Behavior {
   /**
    * Cache the ids of items selected by this behavior
    */

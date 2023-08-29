@@ -3,7 +3,7 @@ import { Graph, extend } from '@antv/g6';
 // import { registry as layoutRegistry } from '@antv/layout-gpu';
 
 const layoutGPU = window.layoutGPU; // GPU layout is not built-in G6 stbLib, you need to exend G6 with it.
-const CustomGraph = extend(Graph, {
+const ExtGraph = extend(Graph, {
   layouts: {
     'fruchterman-gpu': layoutGPU.FruchtermanLayout,
   },
@@ -557,7 +557,7 @@ const data = {
 const container = document.getElementById('container');
 const width = container.scrollWidth;
 const height = container.scrollHeight || 500;
-const graph = new CustomGraph({
+const graph = new ExtGraph({
   container: 'container',
   width,
   height,

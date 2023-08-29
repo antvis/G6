@@ -61,7 +61,7 @@ export interface LegendConfig extends IPluginBaseConfig {
   edge?: ItemLegendConfig;
 }
 
-export default class Legend extends Base {
+export class Legend extends Base {
   private nodeLegend: Category;
   private edgeLegend: Category;
   private wrapper: HTMLDivElement;

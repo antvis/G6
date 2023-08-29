@@ -97,7 +97,7 @@ type Position = {
   maxY?: number;
 };
 
-export default class DragNode extends Behavior {
+export class DragNode extends Behavior {
   // Private states
   private hiddenEdges: EdgeModel[] = [];
   private selectedNodeIds: ID[] = [];
@@ -329,7 +329,7 @@ export default class DragNode extends Behavior {
     if (this.dragging && enableTransient) {
       const autoRoutedNodesIds = this.selectedNodeIds.filter((nodeId) => {
         return (
-          this.graph.getNodeData(nodeId).data.preventPolylineEdgeOverlap ||
+          this.graph.getNodeData(nodeId)?.data.preventPolylineEdgeOverlap ||
           false
         );
       });

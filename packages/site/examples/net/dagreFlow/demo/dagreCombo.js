@@ -1,4 +1,11 @@
-import G6 from '@antv/g6';
+import { Graph, Extensions, extend } from '@antv/g6';
+
+const ExtGraph = extend(Graph, {
+  layouts: {
+    dagre: Extensions.DagreLayout,
+  },
+});
+
 const data = {
   nodes: [
     {
@@ -182,7 +189,7 @@ descriptionDiv.addEventListener('click', (e) => {
 });
 const width = container.scrollWidth;
 const height = (container.scrollHeight || 500) - 30;
-const graph = new G6.Graph({
+const graph = new ExtGraph({
   container: 'container',
   width,
   height: height - 50,

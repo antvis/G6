@@ -52,7 +52,7 @@ export interface MenuConfig extends IPluginBaseConfig {
   liHoverStyle?: { [key: string]: string };
 }
 
-export default class Menu extends Base {
+export class Menu extends Base {
   private menu;
   private handleMenuClickWrapper;
   private handler;

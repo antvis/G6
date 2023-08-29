@@ -56,6 +56,7 @@ const graph = new G6.Graph({
       },
     },
   },
+  modes: { default: ['drag-canvas', 'zoom-canvas'] },
   data,
 });
 

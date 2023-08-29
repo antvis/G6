@@ -1,4 +1,11 @@
-import { Graph } from '@antv/g6';
+import { Graph, Extensions, extend } from '@antv/g6';
+
+const ExtGraph = extend(Graph, {
+  behaviors: {
+    'brush-select': Extensions.BrushSelect,
+    'activate-relations': Extensions.ActivateRelations,
+  },
+});
 
 const container = document.getElementById('container') as HTMLElement;
 const descriptionDiv = document.createElement('div');
@@ -7,7 +14,7 @@ container.appendChild(descriptionDiv);
 
 const width = container.scrollWidth;
 const height = container.scrollHeight || 500;
-const graph = new Graph({
+const graph = new ExtGraph({
   container: 'container',
   width,
   height,

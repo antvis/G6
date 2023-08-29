@@ -34,6 +34,8 @@ import {
 } from '../../util/data';
 import { getExtension } from '../../util/extension';
 import { convertToNumber } from '../../util/type';
+import { isTreeLayout } from '../../util/layout';
+import { hasTreeBehaviors } from '../../util/behavior';
 
 /**
  * Manages the data transform extensions;
@@ -42,7 +44,6 @@ import { convertToNumber } from '../../util/type';
 export class DataController {
   public graph: IGraph;
   public extensions = [];
-  // public preCheck: (data: GraphData, userGraphCore?: GraphCore) => GraphData;
   /**
    * User input data.
    */
@@ -51,6 +52,11 @@ export class DataController {
    * Inner data stored in graphCore structure.
    */
   public graphCore: GraphCore;
+
+  /**
+   * A flag to note whether the tree data structure should be recalculated and establish.
+   */
+  private treeDirtyFlag: boolean;
 
   constructor(graph: IGraph<any, any>) {
     this.graph = graph;
@@ -142,11 +148,17 @@ export class DataController {
    */
   private tap() {
     this.extensions = this.getExtensions();
-    // this.preCheck = getExtension('validate-data', registry.useLib, 'transform');
     this.graph.hooks.datachange.tap(this.onDataChange.bind(this));
     this.graph.hooks.treecollapseexpand.tap(
       this.onTreeCollapseExpand.bind(this),
     );
+
+    // check whether use tree layout or behaviors
+    // if so, establish tree structure for graph
+    this.graph.hooks.layout.tap(this.onLayout.bind(this));
+    this.graph.hooks.init.tap(this.onGraphInit.bind(this));
+    this.graph.hooks.behaviorchange.tap(this.onBehaviorChange.bind(this));
+    this.graph.hooks.modechange.tap(this.onModeChange.bind(this));
   }
 
   /**
@@ -207,6 +219,60 @@ export class DataController {
         collapsed: action === 'collapse',
       });
     });
+  }
+
+  private onLayout({ options }) {
+    if (this.treeDirtyFlag && isTreeLayout(options)) {
+      this.establishUserGraphCoreTree();
+    }
+  }
+
+  private onGraphInit() {
+    const { modes = {} } = this.graph.getSpecification();
+    const mode = this.graph.getMode() || 'default';
+    if (hasTreeBehaviors(modes[mode])) {
+      this.establishUserGraphCoreTree();
+    }
+  }
+
+  private onBehaviorChange(param: {
+    action: 'update' | 'add' | 'remove';
+    modes: string[];
+    behaviors: (string | { type: string; key: string })[];
+  }) {
+    const { action, modes, behaviors } = param;
+    const mode = this.graph.getMode() || 'default';
+    if (action !== 'add' || !modes.includes(mode)) return;
+    if (hasTreeBehaviors(behaviors)) {
+      this.establishUserGraphCoreTree();
+    }
+  }
+
+  private onModeChange(param: { mode: string }) {
+    const { modes = {} } = this.graph.getSpecification();
+    if (hasTreeBehaviors(modes[param.mode])) {
+      this.establishUserGraphCoreTree();
+    }
+  }
+
+  private establishUserGraphCoreTree() {
+    if (!this.treeDirtyFlag) return;
+    const nodes = this.userGraphCore.getAllNodes();
+    const edges = this.userGraphCore.getAllEdges();
+    this.userGraphCore.batch(() => {
+      // graph data to tree structure and storing
+      const rootIds = nodes
+        .filter((node) => node.data.isRoot)
+        .map((node) => node.id);
+      graphData2TreeData({}, { nodes, edges }, rootIds).forEach((tree) => {
+        traverse(tree, (node) => {
+          node.children?.forEach((child) => {
+            this.userGraphCore.setParent(child.id, node.id, 'tree');
+          });
+        });
+      });
+    });
+    this.treeDirtyFlag = true;
   }
 
   /**
@@ -875,17 +941,7 @@ export class DataController {
         this.userGraphCore.setParent(target, source, 'tree');
       });
     } else {
-      // graph data to tree structure and storing
-      const rootIds = data.nodes
-        .filter((node) => node.data.isRoot)
-        .map((node) => node.id);
-      graphData2TreeData({}, data, rootIds).forEach((tree) => {
-        traverse(tree, (node) => {
-          node.children?.forEach((child) => {
-            this.userGraphCore.setParent(child.id, node.id, 'tree');
-          });
-        });
-      });
+      this.treeDirtyFlag = true;
     }
   }
 }

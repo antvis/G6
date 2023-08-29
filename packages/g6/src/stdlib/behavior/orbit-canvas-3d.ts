@@ -1,6 +1,6 @@
 import { CameraType } from '@antv/g';
 import { IG6GraphEvent } from '../../types/event';
-import RotateCanvas3D from './rotate-canvas-3d';
+import { RotateCanvas3D } from './rotate-canvas-3d';
 
 // TODO: truck canvas
 
@@ -38,7 +38,7 @@ const DEFAULT_OPTIONS: Required<OrbitCanvas3DOptions> = {
 /**
  * Translate the 3d canvas along the plane parallel to the screen.
  */
-export default class OrbitCanvas3D extends RotateCanvas3D {
+export class OrbitCanvas3D extends RotateCanvas3D {
   private previousType: CameraType;
 
   constructor(options: Partial<OrbitCanvas3DOptions>) {

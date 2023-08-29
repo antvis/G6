@@ -12,7 +12,7 @@ import {
  * @param userGraphCore the graph core stores the previous data.
  * @returns formatted data.
  */
-export const validateData = (
+export const ValidateData = (
   data: GraphData,
   options = {},
   userGraphCore?: GraphCore,

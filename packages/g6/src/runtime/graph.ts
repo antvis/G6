@@ -13,7 +13,7 @@ import {
   isString,
   map,
 } from '@antv/util';
-import History from '../stdlib/plugin/history';
+import { History } from '../stdlib/plugin/history';
 import { Command } from '../stdlib/plugin/history/command';
 import type {
   ComboUserModel,
@@ -1696,7 +1696,9 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
 
     this.updateSpecification({ layout: formattedOptions });
 
-    const layoutUnset = !options && !this.getSpecification().layout;
+    const layoutUnset =
+      (!options && !this.getSpecification().layout) ||
+      !Object.keys(formattedOptions).length;
     if (layoutUnset) {
       const nodes = graphCore.getAllNodes();
       if (nodes.every((node) => isNil(node.data.x) && isNil(node.data.y))) {
@@ -1754,6 +1756,15 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    */
   public setMode(mode: string) {
     this.hooks.modechange.emit({ mode });
+  }
+
+  /**
+   * Get current mode.
+   * @returns mode name
+   * @group Interaction
+   */
+  public getMode(): string {
+    return this.interactionController.getMode();
   }
 
   /**

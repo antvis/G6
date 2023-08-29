@@ -1,4 +1,10 @@
-import G6 from '@antv/g6';
+import { Graph, Extensions, extend } from '@antv/g6';
+
+const ExtGraph = extend(Graph, {
+  edges: {
+    'cubic-horizontal-edge': Extensions.CubicHorizontalEdge,
+  },
+});
 
 const layoutConfigs = {
   'Two Side': {
@@ -65,7 +71,7 @@ const height = container.scrollHeight || 500;
 fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.json')
   .then((res) => res.json())
   .then((data) => {
-    const graph = new G6.Graph({
+    const graph = new ExtGraph({
       container,
       width,
       height,
@@ -174,12 +180,6 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.j
       btn.style.marginLeft = i > 0 ? '24px' : '8px';
       btnContainer.appendChild(btn);
       btn.addEventListener('click', () => {
-        const updateEdges = graph.getAllEdgesData().map((edge) => ({
-          id: edge.id,
-          data: {
-            type: name === 'LR' ? 'cubic-horizontal-edge' : 'cubic-vertical-edge',
-          },
-        }));
         const updateNodes = graph.getAllNodesData().map((node) => ({
           id: node.id,
           data: {
@@ -187,7 +187,6 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.j
           },
         }));
         graph.updateData('node', updateNodes);
-        graph.updateData('edge', updateEdges);
         graph.layout(layoutConfigs[name]);
       });
     });

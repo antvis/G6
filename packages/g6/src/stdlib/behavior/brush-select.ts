@@ -98,7 +98,7 @@ const DEFAULT_OPTIONS: BrushSelectOptions = {
   onDeselect: () => {},
 };
 
-export default class BrushSelect extends Behavior {
+export class BrushSelect extends Behavior {
   brush: DisplayObject | undefined;
   selectedIds: IDSet | undefined = {
     nodes: [],

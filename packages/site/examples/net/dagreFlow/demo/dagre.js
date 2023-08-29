@@ -1,4 +1,16 @@
-import G6 from '@antv/g6';
+import { Graph, Extensions, extend } from '@antv/g6';
+
+console.log('Extensions.DagreLayout', Extensions.DagreLayout);
+
+const ExtGraph = extend(Graph, {
+  layouts: {
+    dagre: Extensions.DagreLayout,
+  },
+  edges: {
+    'polyline-edge': Extensions.PolylineEdge,
+  },
+});
+
 import insertCss from 'insert-css';
 
 insertCss(`
@@ -180,7 +192,7 @@ const layoutConfigs = {
 const container = document.getElementById('container');
 const width = container.scrollWidth;
 const height = container.scrollHeight || 500;
-const graph = new G6.Graph({
+const graph = new ExtGraph({
   container: 'container',
   width,
   height,

@@ -1,6 +1,10 @@
-import G6 from '@antv/g6';
+import { Graph, Extensions, extend } from '@antv/g6';
 
-// TODO: 动画栈溢出
+const ExtGraph = extend(Graph, {
+  layouts: {
+    fruchterman: Extensions.FruchtermanLayout,
+  },
+});
 
 const container = document.getElementById('container');
 const width = container.scrollWidth;
@@ -9,7 +13,7 @@ const height = container.scrollHeight || 500;
 fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')
   .then((res) => res.json())
   .then((data) => {
-    const graph = new G6.Graph({
+    const graph = new ExtGraph({
       container: 'container',
       width,
       height,
