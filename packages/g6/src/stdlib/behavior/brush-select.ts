@@ -1,9 +1,9 @@
 import { DisplayObject } from '@antv/g';
 import { ID } from '@antv/graphlib';
-import { Behavior } from '../../types/behavior';
-import { IG6GraphEvent } from '../../types/event';
-import { Point } from '../../types/common';
 import { utils } from '../../stdlib';
+import { Behavior } from '../../types/behavior';
+import { Point } from '../../types/common';
+import { IG6GraphEvent } from '../../types/event';
 import { ITEM_TYPE } from '../../types/item';
 import { diffSet, intersectSet, unionSet } from '../../util/array';
 import { getEdgesBetween } from '../../util/item';
@@ -17,7 +17,10 @@ type IDSet = {
   combos: ID[];
 };
 
-interface BrushSelectOptions {
+/**
+ * @category Plugins
+ */
+export interface BrushSelectOptions {
   /**
    * The key to pressed with mouse click to apply multiple selection.
    * Defaults to `"shift"`.

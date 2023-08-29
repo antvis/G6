@@ -1,20 +1,20 @@
 // TODO: update type define.
 // @ts-nocheck
-import { Canvas, Group, Rect, DisplayObject } from '@antv/g';
-import { isString, isNil, each, debounce } from '@antv/util';
 import { createDom, modifyCSS } from '@antv/dom-util';
+import { Canvas, DisplayObject, Group, Rect } from '@antv/g';
+import { debounce, each, isNil, isString } from '@antv/util';
 import { IGraph } from '../../../types';
+import { IG6GraphEvent } from '../../../types/event';
 import { ShapeStyle } from '../../../types/item';
 import { Plugin as Base, IPluginBaseConfig } from '../../../types/plugin';
 import { createCanvas } from '../../../util/canvas';
-import { IG6GraphEvent } from '../../../types/event';
 
 const DEFAULT_MODE = 'default';
 const KEYSHAPE_MODE = 'keyShape';
 const DELEGATE_MODE = 'delegate';
 const SVG = 'svg';
 
-interface MiniMapConfig extends IPluginBaseConfig {
+export interface MiniMapConfig extends IPluginBaseConfig {
   viewportClassName?: string;
   className?: string;
   mode?: 'default' | 'keyShape' | 'delegate';

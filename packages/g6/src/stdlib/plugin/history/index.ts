@@ -1,5 +1,5 @@
+import { deepMix, each, isEmpty, upperFirst } from '@antv/util';
 import type { IGraph } from 'types';
-import { deepMix, each, isEmpty, mix, upperFirst } from '@antv/util';
 import { STACK_TYPE, StackCfg, StackType } from '../../../types/history';
 import { Plugin as Base, IPluginBaseConfig } from '../../../types/plugin';
 import CommandFactory, { Command } from './command';

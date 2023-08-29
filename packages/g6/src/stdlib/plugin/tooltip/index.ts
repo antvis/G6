@@ -1,11 +1,11 @@
 // TODO: update type define.
-import { isString, isArray } from '@antv/util';
 import { createDom, modifyCSS } from '@antv/dom-util';
-import insertCss from 'insert-css';
 import { AABB } from '@antv/g';
+import { isArray, isString } from '@antv/util';
+import insertCss from 'insert-css';
 import { IGraph } from '../../../types';
-import { Plugin as Base, IPluginBaseConfig } from '../../../types/plugin';
 import { IG6GraphEvent } from '../../../types/event';
+import { Plugin as Base, IPluginBaseConfig } from '../../../types/plugin';
 
 typeof document !== 'undefined' &&
   insertCss(`
@@ -53,7 +53,7 @@ type Placement =
   | 'bottomRight'
   | 'rightBottom';
 
-interface TooltipConfig extends IPluginBaseConfig {
+export interface TooltipConfig extends IPluginBaseConfig {
   getContent?: (
     evt?: IG6GraphEvent,
   ) => HTMLDivElement | string | Promise<HTMLDivElement | string>;

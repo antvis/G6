@@ -14,12 +14,15 @@ const compare = (prev: ID[], curr: ID[]) => {
     inactive,
   };
 };
-
-interface ActivateRelationsOptions {
+/**
+ * @category Plugins
+ */
+export interface ActivateRelationsOptions {
   /**
    * Whether to allow multiple selection.
    * Defaults to true.
    * If set to false, `trigger` options will be ignored.
+   * @description fsafasfasf afa
    */
   multiple?: boolean;
   /**

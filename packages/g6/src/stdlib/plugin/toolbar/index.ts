@@ -3,7 +3,13 @@ import insertCss from 'insert-css';
 import { IGraph } from '../../../types';
 import { Plugin as Base, IPluginBaseConfig } from '../../../types/plugin';
 
-interface ToolbarConfig extends IPluginBaseConfig {
+export interface ToolbarConfig extends IPluginBaseConfig {
+  /**
+   * toolbar config
+   * @param code toolbar item code
+   * @param graph Graph Instance
+   * @returns
+   */
   handleClick?: (code: string, graph: IGraph) => void;
   getContent: (graph?: IGraph) => HTMLDivElement | string;
   zoomSensitivity: number;
