@@ -28,9 +28,11 @@
     "site:deploy": "npm run site:build && gh-pages -d dist",
     "site:develop": "dumi dev",
     "site:preview": "dumi preview",
-    "start": "npm run site:develop"
+    "start": "npm run site:develop",
+    "translate": "node translate-api-doc.mjs"
   },
   "dependencies": {
+    "google-translate-api-x": "^10.6.7",
     "@faker-js/faker": "^8.0.2",
     "@ant-design/icons": "^4.0.6",
     "@antv/chart-node-g6": "^0.0.3",
