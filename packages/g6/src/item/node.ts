@@ -1,4 +1,4 @@
-import { Group } from '@antv/g';
+import { Circle, Group, Rect } from '@antv/g';
 import { clone } from '@antv/util';
 import { Point } from '../types/common';
 import { ComboDisplayModel, ComboModel, NodeModel } from '../types';
@@ -37,8 +37,6 @@ interface IProps {
 }
 export default class Node extends Item {
   public type: 'node' | 'combo';
-  private anchorPointsCache: Point[] | undefined;
-  private anchorPointRatios: number[][] | undefined;
 
   constructor(props: IProps) {
     super(props);
@@ -89,7 +87,6 @@ export default class Node extends Item {
     haloShape?.toBack();
 
     super.draw(displayModel, diffData, diffState, animate, onfinish);
-    this.anchorPointsCache = undefined;
     renderExt.updateCache(this.shapeMap);
 
     if (firstRendering) {
@@ -257,27 +254,20 @@ export default class Node extends Item {
     const shapeType = keyShape.nodeName;
     const { x, y, z } = innerPoint;
 
-    const shouldUpdateCache =
-      !this.anchorPointsCache ||
-      !isArraySame(anchorPoints, this.anchorPointRatios);
-    if (shouldUpdateCache) {
-      const keyShapeBBox =
-        this.renderExt.boundsCache?.keyShapeLocal ||
-        this.shapeMap.keyShape.getLocalBounds();
-      const keyShapeWidth = keyShapeBBox.max[0] - keyShapeBBox.min[0];
-      const keyShapeHeight = keyShapeBBox.max[1] - keyShapeBBox.min[1];
-      this.anchorPointsCache = anchorPoints.map((pointRatio) => {
-        const [xRatio, yRatio] = pointRatio;
-        return {
-          x: keyShapeWidth * (xRatio - 0.5) + x,
-          y: keyShapeHeight * (yRatio - 0.5) + y,
-        };
-      });
-    }
-    this.anchorPointRatios = anchorPoints;
+    const keyShapeRenderBBox = keyShape.getRenderBounds();
+    const keyShapeWidth = keyShapeRenderBBox.max[0] - keyShapeRenderBBox.min[0];
+    const keyShapeHeight =
+      keyShapeRenderBBox.max[1] - keyShapeRenderBBox.min[1];
+    const anchorPositions = anchorPoints.map((pointRatio) => {
+      const [xRatio, yRatio] = pointRatio;
+      return {
+        x: keyShapeWidth * xRatio + keyShapeRenderBBox.min[0],
+        y: keyShapeHeight * yRatio + keyShapeRenderBBox.min[1],
+      };
+    });
 
-    if (anchorIdx !== undefined && this.anchorPointsCache[anchorIdx]) {
-      return this.anchorPointsCache[anchorIdx];
+    if (anchorIdx !== undefined && anchorPositions[anchorIdx]) {
+      return anchorPositions[anchorIdx];
     }
 
     let intersectPoint: Point | null;
@@ -307,13 +297,12 @@ export default class Node extends Item {
         intersectPoint = innerPoint;
         break;
       default: {
-        const bbox = keyShape.getLocalBounds();
         intersectPoint = getRectIntersectByPoint(
           {
-            x: x + bbox.min[0],
-            y: y + bbox.min[1],
-            width: bbox.max[0] - bbox.min[0],
-            height: bbox.max[1] - bbox.min[1],
+            x: keyShapeRenderBBox.min[0],
+            y: keyShapeRenderBBox.min[1],
+            width: keyShapeRenderBBox.max[0] - keyShapeRenderBBox.min[0],
+            height: keyShapeRenderBBox.max[1] - keyShapeRenderBBox.min[1],
           },
           point,
         );
@@ -328,10 +317,7 @@ export default class Node extends Item {
         // If the linkPoint is failed to calculate.
         linkPoint = point;
       }
-      linkPoint = getNearestPoint(
-        this.anchorPointsCache,
-        linkPoint,
-      ).nearestPoint;
+      linkPoint = getNearestPoint(anchorPositions, linkPoint).nearestPoint;
     }
     if (!linkPoint) {
       // If the calculations above are all failed, return the data's position

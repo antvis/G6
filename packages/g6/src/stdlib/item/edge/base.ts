@@ -142,7 +142,8 @@ export abstract class BaseEdge {
       }
     });
 
-    const { levelShapes, zoom } = this.zoomCache;
+    const { zoom } = this.zoomCache;
+    const levelShapes = {};
     Object.keys(shapeMap).forEach((shapeId) => {
       const { lod } = shapeMap[shapeId].attributes;
       if (lod !== undefined) {
@@ -150,6 +151,7 @@ export abstract class BaseEdge {
         levelShapes[lod].push(shapeId);
       }
     });
+    this.zoomCache.levelShapes = levelShapes;
 
     const { maxWidth = '60%' } = this.mergedStyles.labelShape || {};
     this.zoomCache.wordWrapWidth = getWordWrapWidthByEnds(
@@ -301,7 +303,7 @@ export abstract class BaseEdge {
     diffState?: { previous: State[]; current: State[] },
   ): DisplayObject {
     const { labelShape } = shapeMap;
-    if (!labelShape || !model.data.labelShape) return;
+    if (!labelShape || !labelShape.style.text || !model.data.labelShape) return;
 
     const { labelBackgroundShape, labelShape: labelShapeStyle } =
       this.mergedStyles;

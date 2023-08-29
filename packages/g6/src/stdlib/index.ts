@@ -53,10 +53,14 @@ import Tooltip from './plugin/tooltip';
 import lassoSelector from './selector/lasso';
 import rectSelector from './selector/rect';
 import { RectCombo } from './item/combo/rect';
+import { transformV4Data } from './data/transformV4Data';
+import { mapNodeSize } from './data/mapNodeSize';
 
 const stdLib = {
   transforms: {
     'validate-data': validateData,
+    'transform-v4-data': transformV4Data,
+    'map-node-size': mapNodeSize,
   },
   themes: {
     light: LightTheme,
@@ -121,6 +125,48 @@ const stdLib = {
   combos: {
     'circle-combo': CircleCombo,
     'rect-combo': RectCombo,
+  },
+  markers: {
+    collapse: (x, y, r) => {
+      return [
+        ['M', x - r, y],
+        ['a', r, r, 0, 1, 0, r * 2, 0],
+        ['a', r, r, 0, 1, 0, -r * 2, 0],
+        ['M', x - r + 4, y],
+        ['L', x + r - 4, y],
+      ];
+    },
+    expand: (x, y, r) => {
+      return [
+        ['M', x - r, y],
+        ['a', r, r, 0, 1, 0, r * 2, 0],
+        ['a', r, r, 0, 1, 0, -r * 2, 0],
+        ['M', x - r + 4, y],
+        ['L', x - r + 2 * r - 4, y],
+        ['M', x - r + r, y - r + 4],
+        ['L', x, y + r - 4],
+      ];
+    },
+    upTriangle: (x, y, r) => {
+      const l1 = r * Math.cos(Math.PI / 6);
+      const l2 = r * Math.sin(Math.PI / 6);
+      return [
+        ['M', x - l1, y + l2],
+        ['L', x + l1, y + l2],
+        ['L', x, y - r],
+        ['Z'],
+      ];
+    },
+    downTriangle: (x, y, r) => {
+      const l1 = r * Math.cos(Math.PI / 6);
+      const l2 = r * Math.sin(Math.PI / 6);
+      return [
+        ['M', x - l1, y - l2],
+        ['L', x + l1, y - l2],
+        ['L', x, y + r],
+        ['Z'],
+      ];
+    },
   },
 };
 

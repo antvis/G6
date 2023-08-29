@@ -1,4 +1,4 @@
-import { Group } from '@antv/g';
+import { Circle, Group } from '@antv/g';
 import { clone, throttle } from '@antv/util';
 import { EdgeDisplayModel, EdgeModel, ID } from '../types';
 import { EdgeModelData } from '../types/edge';
@@ -6,7 +6,7 @@ import { DisplayMapper, State, LodStrategyObj } from '../types/item';
 import { updateShapes } from '../util/shape';
 import { animateShapes } from '../util/animate';
 import { EdgeStyleSet } from '../types/theme';
-import { distance, isSamePoint } from '../util/point';
+import { isSamePoint, getNearestPoint } from '../util/point';
 import Item from './item';
 import Node from './node';
 import Combo from './combo';
@@ -76,26 +76,20 @@ export default class Edge extends Item {
     // TODO: type
     // @ts-ignore
     if (keyShape?.controlPoints?.length) {
-      let nearestDistToSource = Infinity;
-      let nearestDistToTarget = Infinity;
       // @ts-ignore
-      keyShape.controlPoints.forEach((point) => {
-        if (
-          isSamePoint(point, sourcePosition) ||
-          isSamePoint(point, targetPosition)
-        )
-          return;
-        const distToSource = distance(point, sourcePosition);
-        if (distToSource < nearestDistToSource) {
-          nearestDistToSource = distToSource;
-          sourcePrevious = point;
-        }
-        const distToTarget = distance(point, targetPosition);
-        if (distToTarget < nearestDistToTarget) {
-          nearestDistToTarget = distToTarget;
-          targetPrevious = point;
-        }
-      });
+      const controlPointsBesideEnds = keyShape.controlPoints.filter(
+        (point) =>
+          !isSamePoint(point, sourcePosition) &&
+          !isSamePoint(point, targetPosition),
+      );
+      sourcePrevious = getNearestPoint(
+        controlPointsBesideEnds,
+        sourcePosition,
+      ).nearestPoint;
+      targetPrevious = getNearestPoint(
+        controlPointsBesideEnds,
+        targetPosition,
+      ).nearestPoint;
     }
     const sourcePoint = this.sourceItem.getAnchorPoint(
       sourcePrevious,
@@ -155,6 +149,11 @@ export default class Edge extends Item {
         this.animateFrameListener,
         (canceled) => onfinish(displayModel.id, canceled),
       );
+    }
+
+    if (firstRendering && !this.visible) {
+      this.visible = true;
+      this.hide(false);
     }
   }
 

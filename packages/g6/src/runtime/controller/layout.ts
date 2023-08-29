@@ -8,7 +8,7 @@ import {
   OutNode,
   Supervisor,
 } from '@antv/layout';
-import { stdLib } from '../../stdlib';
+import registery, { stdLib } from '../../stdlib';
 import {
   IGraph,
   isImmediatelyInvokedLayoutOptions,
@@ -18,7 +18,12 @@ import {
 } from '../../types';
 import { GraphCore } from '../../types/data';
 import { EdgeModelData } from '../../types/edge';
-import { isComboLayout, layoutOneTree } from '../../util/layout';
+import {
+  getNodeSizeFn,
+  isComboLayout,
+  layoutOneTree,
+  radialLayout,
+} from '../../util/layout';
 
 /**
  * Manages layout extensions and graph layout.
@@ -96,6 +101,8 @@ export class LayoutController {
     const [width, height] = this.graph.getSize();
     const center = [width / 2, height / 2];
 
+    const nodeSize = getNodeSizeFn(options, 32);
+
     if (isImmediatelyInvokedLayoutOptions(options)) {
       const {
         animated = false,
@@ -108,10 +115,11 @@ export class LayoutController {
 
       // It will ignore some layout options such as `type` and `workerEnabled`.
       positions = await execute(layoutGraphCore, {
-        ...rest,
+        nodeSize,
         width,
         height,
         center,
+        ...rest,
       });
 
       if (animated) {
@@ -133,7 +141,7 @@ export class LayoutController {
       let { workerEnabled = false } = options;
 
       // Find built-in layout algorithms.
-      const layoutCtor = stdLib.layouts[type];
+      const layoutCtor = stdLib.layouts[type] || registery.useLib.layouts[type];
       if (!layoutCtor) {
         throw new Error(`Unknown layout algorithm: ${type}`);
       }
@@ -142,7 +150,13 @@ export class LayoutController {
         // tree layout type
         await this.handleTreeLayout(
           type,
-          options,
+          {
+            nodeSize,
+            width,
+            height,
+            center,
+            ...rest,
+          },
           animationEffectTiming,
           graphCore,
           layoutData,
@@ -152,7 +166,13 @@ export class LayoutController {
       }
 
       // Initialize layout.
-      const layout = new layoutCtor({ ...rest, width, height, center });
+      const layout = new layoutCtor({
+        nodeSize,
+        width,
+        height,
+        center,
+        ...rest,
+      });
       this.currentLayout = layout;
 
       // CustomLayout is not workerized.
@@ -220,9 +240,9 @@ export class LayoutController {
     layoutData,
     animate,
   ) {
-    const { animated = false, rootIds = [], begin = [0, 0] } = options;
+    const { animated = false, rootIds = [], begin = [0, 0], radial } = options;
     const nodePositions = [];
-    const nodeMap = {};
+    const nodeMap = new Map();
     // tree layout with tree data
     const trees = graphCore
       .getRoots('tree')
@@ -232,21 +252,25 @@ export class LayoutController {
       .map((node) => ({ id: node.id, children: [] }));
 
     trees.forEach((tree) => {
-      nodeMap[tree.id] = tree;
+      nodeMap.set(tree.id, tree);
       graphCore.dfsTree(
         tree.id,
         (node) => {
-          nodeMap[node.id].children = graphCore
+          nodeMap.get(node.id).children = graphCore
             .getChildren(node.id, 'tree')
             .filter((node) => !node.data._isCombo)
             .map((child) => {
-              nodeMap[child.id] = { id: child.id, children: [] };
-              return nodeMap[child.id];
+              nodeMap.set(child.id, { id: child.id, children: [] });
+              return nodeMap.get(child.id);
             });
         },
         'tree',
       );
       layoutOneTree(tree, type, options, nodeMap, nodePositions, begin);
+      if (radial) {
+        nodePositions.forEach((pos) => nodeMap.set(pos.id, pos));
+        radialLayout(tree, nodeMap);
+      }
     });
     if (animated) {
       await this.animateLayoutWithoutIterations(
@@ -294,19 +318,19 @@ export class LayoutController {
   private updateNodesPosition(positions: LayoutMapping, animate = true) {
     const { nodes, edges } = positions;
     this.graph.updateNodePosition(nodes, undefined, !animate);
-    this.graph.updateData(
-      'edge',
-      edges
-        .filter((edge) => edge.data.controlPoints)
-        .map((edge) => ({
-          id: edge.id,
-          data: {
-            keyShape: {
-              controlPoints: edge.data.controlPoints,
-            },
+    const edgeToUpdate = edges
+      .filter((edge) => edge.data.controlPoints)
+      .map((edge) => ({
+        id: edge.id,
+        data: {
+          keyShape: {
+            controlPoints: edge.data.controlPoints,
           },
-        })),
-    );
+        },
+      }));
+    if (edgeToUpdate.length) {
+      this.graph.updateData('edge', edgeToUpdate);
+    }
   }
 
   /**

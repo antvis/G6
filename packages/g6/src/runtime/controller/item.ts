@@ -531,7 +531,7 @@ export class ItemController {
             },
             500,
             {
-              leading: true,
+              leading: false,
               trailing: true,
             },
           ),
@@ -720,6 +720,7 @@ export class ItemController {
       const item = this.itemMap.get(id);
       if (!item) return;
       if (action === 'front') {
+        item.toFront();
         if (graphCore.hasTreeStructure('combo')) {
           graphComboTreeDfs(
             this.graph,
@@ -733,8 +734,6 @@ export class ItemController {
             'TB',
           );
         }
-        // tocheck
-        item.toFront();
       } else {
         item.toBack();
         if (graphCore.hasTreeStructure('combo')) {
@@ -945,12 +944,14 @@ export class ItemController {
       return;
     }
 
+    const idStr = String(id);
     const shape = upsertShape(
       type,
-      String(id),
+      idStr,
       style,
       Object.fromEntries(transientObjectMap),
     );
+    transientObjectMap.set(idStr, shape);
     shape.style.pointerEvents = capture ? 'auto' : 'none';
     canvas.getRoot().appendChild(shape);
   }
@@ -960,6 +961,10 @@ export class ItemController {
 
   public getTransientItem(id: ID) {
     return this.transientItemMap[id];
+  }
+
+  public findDisplayModel(id: ID) {
+    return this.itemMap.get(id)?.displayModel;
   }
 
   /**
@@ -1029,14 +1034,13 @@ export class ItemController {
 
       const getCombinedBounds = () => {
         //  calculate the position of the combo according to its children
-        const bounds = getCombinedBoundsByData(
+        return getCombinedBoundsByData(
           graph,
           graphCore
             .getChildren(combo.id, 'combo')
             .map(({ id }) => itemMap.get(id))
             .filter(Boolean) as (Node | Combo)[],
         );
-        return bounds;
       };
       const getChildren = () => {
         const childModels = graphCore.getChildren(combo.id, 'combo');
@@ -1441,9 +1445,8 @@ export class ItemController {
           if (node.id === root.id) return;
           const neighbors = graphCore.getNeighbors(node.id);
           if (
-            neighbors.length > 2 ||
-            (!graphCore.getChildren(node.id, 'tree')?.length &&
-              neighbors.length > 1)
+            !graphCore.getChildren(node.id, 'tree')?.length &&
+            neighbors.length > 1
           ) {
             shouldCollapse = false;
           }
@@ -1483,7 +1486,7 @@ export class ItemController {
    * @param animate Whether enable animations for expanding, true by default.
    * @returns
    */
-  private expandSubTree(
+  private async expandSubTree(
     rootModels: NodeModel[],
     graphCore: GraphCore,
     animate = true,
@@ -1520,7 +1523,7 @@ export class ItemController {
     });
     const ids = uniq(allNodeIds.concat(allEdgeIds));
     this.graph.showItem(ids, !animate);
-    this.graph.layout(undefined, !animate);
+    await this.graph.layout(undefined, !animate);
   }
 }
 

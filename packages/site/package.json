@@ -37,6 +37,8 @@
     "@antv/dumi-theme-antv": "^0.3.18",
     "@antv/g6": "workspace:*",
     "@antv/g6-react-node": "^1.4.5",
+    "@antv/layout-gpu": "^1.1.5",
+    "@antv/graphlib": "^2.0.2",
     "@antv/util": "^2.0.9",
     "@antv/vis-predict-engine": "^0.1.1",
     "@microsoft/api-extractor": "^7.33.6",

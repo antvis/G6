@@ -10,6 +10,7 @@ import bugReproduce from './demo/bugReproduce';
 import circularUpdate from './layouts/circular-update';
 import comboBasic from './combo/combo-basic';
 import comboRect from './combo/combo-rect';
+import comboDagre from './layouts/dagre-combo';
 import cubic_edge from './item/edge/cubic-edge';
 import cubic_horizon_edge from './item/edge/cubic-horizon-edge';
 import cubic_vertical_edge from './item/edge/cubic-vertical-edge';
@@ -53,6 +54,7 @@ import triangle from './demo/triangle';
 import user_defined_canvas from './user-defined-canvas/circular';
 import visual from './visual/visual';
 import modelRect from './demo/modelRect';
+import layouts_combocombined from './layouts/combo-combined';
 
 export {
   anchor,
@@ -79,6 +81,7 @@ export {
   hexagon,
   history_combo,
   history,
+  layouts_combocombined,
   layouts_circular,
   layouts_custom,
   layouts_d3force,
@@ -108,4 +111,5 @@ export {
   user_defined_canvas,
   visual,
   modelRect,
+  comboDagre,
 };

@@ -47,6 +47,11 @@ export abstract class BaseNode {
   };
   //vertex coordinate
 
+  /**
+   * Cache the scale transform calculated by balancing size, for restoring.
+   */
+  protected scaleTransformCache = '';
+
   // cache the zoom level infomations
   protected zoomCache: {
     // the id of shapes which are hidden by zoom changing.
@@ -159,7 +164,7 @@ export abstract class BaseNode {
         }
       });
 
-    const { levelShapes } = this.zoomCache;
+    const levelShapes = {};
     Object.keys(shapeMap).forEach((shapeId) => {
       const { lod } = shapeMap[shapeId].attributes;
       if (lod !== undefined) {
@@ -167,6 +172,7 @@ export abstract class BaseNode {
         levelShapes[lod].push(shapeId);
       }
     });
+    this.zoomCache.levelShapes = levelShapes;
 
     if (shapeMap.labelShape && this.boundsCache.keyShapeLocal) {
       const { maxWidth = '200%' } = this.mergedStyles.labelShape || {};
@@ -240,6 +246,8 @@ export abstract class BaseNode {
       offsetY: propsOffsetY,
       offsetZ: propsOffsetZ,
       maxWidth,
+      // @ts-ignore
+      angle,
       ...otherStyle
     } = shapeStyle;
 
@@ -307,6 +315,9 @@ export abstract class BaseNode {
       isBillboard: true,
       ...otherStyle,
     };
+    if (angle) {
+      style.transform = `rotate(${angle}rad)`;
+    }
     return this.upsertShape('text', 'labelShape', style, shapeMap, model);
   }
 
@@ -803,7 +814,13 @@ export abstract class BaseNode {
           break;
       }
     }
-    labelShape.style.transform = `scale(${balanceRatio}, ${balanceRatio})`;
+    const oriTransform = (labelShape.style.transform || '').replace(
+      this.scaleTransformCache,
+      '',
+    );
+    const scaleTransform = `scale(${balanceRatio}, ${balanceRatio})`;
+    labelShape.style.transform = `${oriTransform} ${scaleTransform}`;
+    this.scaleTransformCache = scaleTransform;
     const wordWrapWidth = this.zoomCache.wordWrapWidth * zoom;
     labelShape.style.wordWrapWidth = wordWrapWidth;
 

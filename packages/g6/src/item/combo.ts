@@ -194,7 +194,9 @@ export default class Combo extends Node {
           {
             x,
             y,
-            r: collapsed ? keyShapeStyle.r : keyShape.attributes.r,
+            r:
+              (collapsed ? keyShapeStyle?.r : keyShape.attributes.r) ||
+              keyShape.attributes.r,
           },
           point,
         );

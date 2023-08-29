@@ -18,6 +18,7 @@ fetch('https://gw.alipayobjects.com/os/basement_prod/8dacf27e-e1bc-4522-b6d3-4b6
         type: 'concentric',
         maxLevelDiff: 0.5,
         sortBy: 'degree',
+        preventOverlap: true,
       },
       data,
     });

@@ -1,6 +1,6 @@
 ---
 title: Combo Related Layout
-order: 10
+order: 2
 ---
 
 _New feature of V4.6_ Designed for graph with combos. Support configuring the layout for items inside a combo and the layout for the outer combos and nodes.

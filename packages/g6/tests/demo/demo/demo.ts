@@ -734,7 +734,6 @@ export default () => {
 
   rendererSelect.addEventListener('change', (e: any) => {
     const type = e.target.value;
-    console.log('changerenderer', graph);
     handleSwitchRenderer(type.toLowerCase(), graph);
     // graph.changeRenderer(type.toLowerCase());
   });
