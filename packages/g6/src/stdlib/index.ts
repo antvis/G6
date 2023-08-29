@@ -9,7 +9,7 @@ import DragCombo from './behavior/drag-combo';
 import DragNode from './behavior/drag-node';
 import LassoSelect from './behavior/lasso-select';
 import { validateData } from './data/validateData';
-import { LineEdge } from './item/edge';
+import { LineEdge, LoopEdge } from './item/edge';
 import {
   CircleNode,
   EllipseNode,
@@ -116,6 +116,7 @@ const stdLib = {
     'cubic-vertical-edge': CubicVerticalEdge,
     'quadratic-edge': Quadratic,
     'polyline-edge': Polyline,
+    'loop-edge': LoopEdge,
   },
   combos: {
     'circle-combo': CircleCombo,
