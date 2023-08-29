@@ -17,9 +17,6 @@ type IDSet = {
   combos: ID[];
 };
 
-/**
- * @category Plugins
- */
 export interface BrushSelectOptions {
   /**
    * The key to pressed with mouse click to apply multiple selection.
