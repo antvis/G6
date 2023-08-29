@@ -151,7 +151,7 @@ export default class Edge extends Item {
       );
     }
 
-    if (!this.visible) {
+    if (firstRendering && !this.visible) {
       this.visible = true;
       this.hide(false);
     }

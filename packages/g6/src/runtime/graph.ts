@@ -25,10 +25,10 @@ import type {
 } from '../types';
 import type { CameraAnimationOptions } from '../types/animate';
 import type { BehaviorOptionsOf, BehaviorRegistry } from '../types/behavior';
-import type { ComboModel } from '../types/combo';
+import type { ComboDisplayModel, ComboModel } from '../types/combo';
 import type { Padding, Point } from '../types/common';
 import type { DataChangeType, DataConfig, GraphCore } from '../types/data';
-import type { EdgeModel, EdgeModelData } from '../types/edge';
+import type { EdgeDisplayModel, EdgeModel, EdgeModelData } from '../types/edge';
 import type { StackType } from '../types/history';
 import type { Hooks, ViewportChangeHookParams } from '../types/hook';
 import type { ITEM_TYPE, SHAPE_TYPE, ShapeStyle } from '../types/item';
@@ -37,7 +37,7 @@ import type {
   LayoutOptions,
   StandardLayoutOptions,
 } from '../types/layout';
-import type { NodeModel, NodeModelData } from '../types/node';
+import type { NodeDisplayModel, NodeModel, NodeModelData } from '../types/node';
 import type { RendererName } from '../types/render';
 import type {
   ThemeOptionsOf,
@@ -920,9 +920,22 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     return this.dataController.findChildren(comboId, 'combo');
   }
 
+  /*
+   * Get the display model of a node / edge / combo.
+   * @param id item id
+   * @returns display model
+   * @group Data
+   */
+  protected getDisplayModel(
+    id: ID,
+  ): NodeDisplayModel | EdgeDisplayModel | ComboDisplayModel {
+    return this.itemController.findDisplayModel(id);
+  }
+
   /**
    * Retrieve the nearby edges for a given node using quadtree collision detection.
    * @param nodeId node id
+   * @group Data
    */
   public getNearEdgesForNode(nodeId: ID): EdgeModel[] {
     const { graphCore } = this.dataController;

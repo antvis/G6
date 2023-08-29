@@ -33,6 +33,7 @@ import {
   validateComboStrucutre,
 } from '../../util/data';
 import { getExtension } from '../../util/extension';
+import { convertToNumber } from '../../util/type';
 
 /**
  * Manages the data transform extensions;
@@ -661,7 +662,10 @@ export class DataController {
         };
       } = {};
       const parentMap: {
-        [id: string]: { new: ID; old?: ID };
+        [id: string]: {
+          new: ID;
+          old?: ID;
+        };
       } = {};
       const changeMap: {
         [id: string]: boolean;
@@ -771,7 +775,8 @@ export class DataController {
           delete parentMap[prevModel.id];
         }
         // update
-        else if (diffAt(newModel, prevModel, true)?.length || changeMap[id])
+        //  || diffAt(newModel, prevModel, true)?.length
+        else if (changeMap[id])
           syncUpdateToGraphCore(id, newModel, prevModel, true);
         // delete from the map indicates this model is visited
         delete newModelMap[id];
@@ -804,6 +809,26 @@ export class DataController {
         }
         graphCore.mergeNodeData(id, { parentId: parentMap[id].new });
         graphCore.setParent(id, parentMap[id].new, 'combo');
+        // after remove from parent's children list, check whether the parent is empty
+        // if so, update parent's position to be the child's
+        if (parentMap[id].old !== undefined) {
+          const parentChildren = graphCore.getChildren(
+            parentMap[id].old,
+            'combo',
+          );
+          const {
+            x = 0,
+            y = 0,
+            z = 0,
+          } = this.graph.getDisplayModel(parentMap[id].old)?.data;
+          if (!parentChildren.length) {
+            graphCore.mergeNodeData(parentMap[id].old, {
+              x: convertToNumber(x),
+              y: convertToNumber(y),
+              z: convertToNumber(z),
+            });
+          }
+        }
       });
 
       // update tree structure
@@ -924,6 +949,13 @@ const diffAt = (
         return diff.concat('data');
       else continue;
     }
+    if (
+      typeof newValue === 'number' &&
+      typeof oldValue === 'number' &&
+      isNaN(newValue) &&
+      isNaN(oldValue)
+    )
+      return;
     if (newValue !== oldValue) return diff.concat('data');
   }
   return diff;
