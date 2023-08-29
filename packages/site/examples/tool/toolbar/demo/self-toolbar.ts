@@ -1,43 +1,13 @@
-import { Graph } from "@antv/g6";
+import { Graph, Util } from '@antv/g6';
 
-const data = {
-  nodes: [
-    { id: "node1", data: { x: 100, y: 200, nodeType: "a" } },
-    { id: "node2", data: { x: 200, y: 250, nodeType: "b" } },
-    { id: "node3", data: { x: 200, y: 350, nodeType: "b" } },
-    { id: "node4", data: { x: 300, y: 250, nodeType: "c" } },
-  ],
-  edges: [
-    {
-      id: "edge1",
-      source: "node1",
-      target: "node2",
-      data: { edgeType: "e1" },
-    },
-    {
-      id: "edge2",
-      source: "node2",
-      target: "node3",
-      data: { edgeType: "e2" },
-    },
-    {
-      id: "edge3",
-      source: "node3",
-      target: "node4",
-      data: { edgeType: "e3" },
-    },
-    {
-      id: "edge4",
-      source: "node1",
-      target: "node4",
-      data: { edgeType: "e3" },
-    },
-  ],
-};
+const container = document.getElementById('container') as HTMLElement;
+const width = container.scrollWidth;
+const height = (container.scrollHeight || 500) - 110;
+const data = Util.mock(6).circle();
 
 const toolbar = {
-  type: "toolbar",
-
+  key: 'toolbar-1',
+  type: 'toolbar',
   getContent: () => {
     return `
       <ul>
@@ -46,25 +16,24 @@ const toolbar = {
     `;
   },
   handleClick: (code, graph) => {
-    if (code === "alert") {
-      alert("hello world");
+    if (code === 'alert') {
+      alert('hello world');
     }
   },
 };
 
 new Graph({
-  container: "container",
-  width: 500,
-  height: 500,
-  renderer: "canvas",
-  type: "graph",
+  container,
+  width,
+  height,
+  renderer: 'canvas',
   layout: {
-    type: "grid",
+    type: 'grid',
   },
   node: {
     labelShape: {
       text: {
-        fields: ["id"],
+        fields: ['id'],
         formatter: (model) => model.id,
       },
     },
@@ -73,6 +42,7 @@ new Graph({
     toolbar,
     {
       ...toolbar,
+      key: 'toolbar-2',
       position: {
         x: 0,
         y: 200,

@@ -5,7 +5,7 @@
   },
   "demos": [
     {
-      "filename": "netscience.js",
+      "filename": "netscience.ts",
       "title": {
         "zh": "5000+ 图元",
         "en": "5000+ Graphic Shapes"
@@ -13,7 +13,7 @@
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Q6eRT7RNwBYAAAAAAAAAAABkARQnAQ"
     },
     {
-      "filename": "eva.js",
+      "filename": "eva.ts",
       "title": {
         "zh": "~20000 图元",
         "en": "~20000 Graphic Shapes"

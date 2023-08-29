@@ -41,6 +41,7 @@ import menu from './demo/menu';
 import performance from './performance/performance';
 import performance_layout from './performance/layout';
 import performance_layout_3d from './performance/layout-3d';
+import star from './demo/star';
 import polyline from './item/edge/polyline-edge';
 import quadratic from './demo/quadratic';
 import rect from './demo/rect';
@@ -51,9 +52,9 @@ import treeGraph from './tree/treeGraph';
 import triangle from './demo/triangle';
 import user_defined_canvas from './user-defined-canvas/circular';
 import visual from './visual/visual';
+import modelRect from './demo/modelRect';
 
 export {
-  // demoFor4,
   anchor,
   animations_node_build_in,
   arrow,
@@ -106,4 +107,5 @@ export {
   triangle,
   user_defined_canvas,
   visual,
+  modelRect,
 };

@@ -20,6 +20,7 @@ import {
   HexagonNode,
   DonutNode,
   DiamondNode,
+  ModelRectNode,
 } from './item/node';
 import DarkTheme from './theme/dark';
 import LightTheme from './theme/light';
@@ -106,6 +107,7 @@ const stdLib = {
     'ellipse-node': EllipseNode,
     'donut-node': DonutNode,
     'diamond-node': DiamondNode,
+    'modelRect-node': ModelRectNode,
   },
   edges: {
     'line-edge': LineEdge,

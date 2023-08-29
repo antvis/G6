@@ -6,10 +6,10 @@ import { DisplayMapper, State, LodStrategyObj } from '../types/item';
 import { updateShapes } from '../util/shape';
 import { animateShapes } from '../util/animate';
 import { EdgeStyleSet } from '../types/theme';
+import { distance, isSamePoint } from '../util/point';
 import Item from './item';
 import Node from './node';
 import Combo from './combo';
-import { distance, isSamePoint } from '../util/point';
 
 interface IProps {
   model: EdgeModel;
