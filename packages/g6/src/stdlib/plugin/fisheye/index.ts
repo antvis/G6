@@ -1,14 +1,14 @@
-import { clone, throttle } from '@antv/util';
 import { DisplayObject } from '@antv/g';
-import { Point } from '../../../types/common';
+import { clone, throttle } from '@antv/util';
 import { IGraph } from '../../../types';
-import { ShapeStyle } from '../../../types/item';
+import { Point } from '../../../types/common';
 import { IG6GraphEvent } from '../../../types/event';
+import { ShapeStyle } from '../../../types/item';
 import { Plugin as Base, IPluginBaseConfig } from '../../../types/plugin';
 
 const DELTA = 0.05;
 
-interface FisheyeConfig extends IPluginBaseConfig {
+export interface FisheyeConfig extends IPluginBaseConfig {
   trigger?: 'mousemove' | 'click' | 'drag';
   d?: number;
   r?: number;

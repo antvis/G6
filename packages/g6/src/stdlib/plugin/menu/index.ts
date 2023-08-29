@@ -1,10 +1,10 @@
-import { isString } from '@antv/util';
 import { createDom, modifyCSS } from '@antv/dom-util';
-import Item from 'item/item';
+import { isString } from '@antv/util';
 import insertCss from 'insert-css';
+import Item from 'item/item';
 import { IGraph } from '../../../types';
-import { Plugin as Base, IPluginBaseConfig } from '../../../types/plugin';
 import { IG6GraphEvent } from '../../../types/event';
+import { Plugin as Base, IPluginBaseConfig } from '../../../types/plugin';
 typeof document !== 'undefined' &&
   insertCss(`
   .g6-component-contextmenu {
@@ -35,7 +35,7 @@ typeof document !== 'undefined' &&
     }
 `);
 
-interface MenuConfig extends IPluginBaseConfig {
+export interface MenuConfig extends IPluginBaseConfig {
   handleMenuClick?: (target: HTMLElement, item: Item) => void;
   // return the content of menu, support the `Promise` type return value.
   getContent?: (

@@ -15,7 +15,7 @@ const compare = (prev: ID[], curr: ID[]) => {
   };
 };
 
-interface ActivateRelationsOptions {
+export interface ActivateRelationsOptions {
   /**
    * Whether to allow multiple selection.
    * Defaults to true.

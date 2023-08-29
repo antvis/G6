@@ -84,7 +84,7 @@ export default defineConfig({
         },
       },
       {
-        slug: 'docs/api/Graph',
+        slug: 'docs/apis',
         title: {
           zh: 'API',
           en: 'API',
@@ -293,37 +293,37 @@ export default defineConfig({
       // },
       // ==========API====================
       {
-        slug: 'api/graphLayout',
+        slug: 'apis/modules',
         title: {
-          zh: '图布局 Graph Layout',
-          en: 'Graph Layout',
+          zh: 'modules',
+          en: 'modules',
         },
         order: 2,
       },
       {
-        slug: 'api/graphFunc',
+        slug: 'apis/interfaces',
         title: {
-          zh: 'Graph 实例方法',
-          en: 'Graph Functions',
+          zh: 'interfaces',
+          en: 'interfaces',
         },
-        order: 1,
+        order: 3,
       },
       {
-        slug: 'api/treeGraphLayout',
+        slug: 'apis/classes',
         title: {
-          zh: '树图布局 TreeGraph Layout',
-          en: 'TreeGraph Layout',
+          zh: 'classes',
+          en: 'classes',
         },
-        order: 5,
+        order: 4,
       },
-      {
-        slug: 'api/Items',
-        title: {
-          zh: '元素方法和配置',
-          en: 'Item Functions & Options',
-        },
-        order: 6,
-      },
+      // {
+      //   slug: 'apis/interfaces',
+      //   title: {
+      //     zh: 'interfaces',
+      //     en: 'interfaces',
+      //   },
+      //   order: 2,
+      // },
     ],
     tutorials: [
       {

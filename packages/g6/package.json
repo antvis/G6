@@ -39,7 +39,8 @@
     "ci": "run-s lint build",
     "clean": "rimraf es lib",
     "coverage": "jest --coverage",
-    "doc": "rimraf apis && typedoc",
+    "clear:doc": "rimraf ../site/docs/apis",
+    "doc": "npm run clear:doc && typedoc",
     "lint": "eslint ./src --quiet && prettier ./src --check",
     "lint-staged:js": "eslint --ext .js,.jsx,.ts,.tsx",
     "fix": "eslint ./src ./tests --fix && prettier ./src ./tests --write ",
@@ -81,7 +82,7 @@
     "insert-css": "^2.0.0",
     "stats-js": "^1.0.1",
     "tslib": "^2.5.0",
-    "typedoc-plugin-markdown": "^3.14.0",
+    "typedoc-plugin-markdown": "^3.16.0",
     "typescript": "^5.1.6"
   },
   "devDependencies": {
@@ -121,7 +122,7 @@
     "stats-js": "1.0.1",
     "stats.js": "^0.17.0",
     "ts-jest": "^28.0.8",
-    "typedoc": "^0.24.8",
+    "typedoc": "^0.25.0",
     "typescript": "^4.9.5",
     "vite": "^4.2.2",
     "xmlserializer": "^0.6.1"
