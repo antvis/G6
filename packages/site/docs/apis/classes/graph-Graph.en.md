@@ -1,8 +1,8 @@
-[Overview - v5.0.0-alpha.9](../README.md) / [Modules](../modules.md) / [graph](../modules/graph.md) / Graph
+[Overview - v5.0.0-alpha.9](../README.en.md) / [Modules](../modules.en.md) / [graph](../modules/graph.en.md) / Graph
 
 # Class: Graph<B, T\>
 
-[graph](../modules/graph.md).Graph
+[graph](../modules/graph.en.md).Graph
 
 ## Type parameters
 
@@ -19,13 +19,13 @@
 
 ## Implements
 
-- [`IGraph`](../interfaces/types-IGraph.md)<`B`, `T`\>
+- [`IGraph`](../interfaces/types-IGraph.en.md)<`B`, `T`\>
 
 ## Combo
 
 ### addCombo
 
-▸ **addCombo**(`model`, `childrenIds`): [`ComboModel`](../modules/types.md#combomodel)
+▸ **addCombo**(`model`, `childrenIds`): [`ComboModel`](../modules/types.en.md#combomodel)
 
 Add a new combo to the graph, and update the structure of the existed child in childrenIds to be the children of the new combo.
 Different from addData with combo type, this API update the succeeds' combo tree strucutres in the same time.
@@ -34,22 +34,22 @@ Different from addData with combo type, this API update the succeeds' combo tree
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `model` | [`ComboUserModel`](../modules/types.md#combousermodel) | combo user data |
+| `model` | [`ComboUserModel`](../modules/types.en.md#combousermodel) | combo user data |
 | `childrenIds` | `ID`[] | - |
 
 #### Returns
 
-[`ComboModel`](../modules/types.md#combomodel)
+[`ComboModel`](../modules/types.en.md#combomodel)
 
 whether success
 
 #### Implementation of
 
-[IGraph](../interfaces/types-IGraph.md).[addCombo](../interfaces/types-IGraph.md#addcombo)
+[IGraph](../interfaces/types-IGraph.en.md).[addCombo](../interfaces/types-IGraph.en.md#addcombo)
 
 #### Defined in
 
-[runtime/graph.ts:1516](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/runtime/graph.ts#L1516)
+[runtime/graph.ts:1549](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/runtime/graph.ts#L1549)
 
 ___
 
@@ -71,11 +71,11 @@ Collapse a combo.
 
 #### Implementation of
 
-[IGraph](../interfaces/types-IGraph.md).[collapseCombo](../interfaces/types-IGraph.md#collapsecombo)
+[IGraph](../interfaces/types-IGraph.en.md).[collapseCombo](../interfaces/types-IGraph.en.md#collapsecombo)
 
 #### Defined in
 
-[runtime/graph.ts:1561](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/runtime/graph.ts#L1561)
+[runtime/graph.ts:1594](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/runtime/graph.ts#L1594)
 
 ___
 
@@ -97,17 +97,17 @@ Expand a combo.
 
 #### Implementation of
 
-[IGraph](../interfaces/types-IGraph.md).[expandCombo](../interfaces/types-IGraph.md#expandcombo)
+[IGraph](../interfaces/types-IGraph.en.md).[expandCombo](../interfaces/types-IGraph.en.md#expandcombo)
 
 #### Defined in
 
-[runtime/graph.ts:1581](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/runtime/graph.ts#L1581)
+[runtime/graph.ts:1614](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/runtime/graph.ts#L1614)
 
 ___
 
 ### moveCombo
 
-▸ **moveCombo**(`ids`, `dx`, `dy`, `upsertAncestors?`, `callback?`): [`ComboModel`](../modules/types.md#combomodel)[]
+▸ **moveCombo**(`ids`, `dx`, `dy`, `upsertAncestors?`, `callback?`): [`ComboModel`](../modules/types.en.md#combomodel)[]
 
 Move one or more combos a distance (dx, dy) relatively,
 do not update other styles which leads to better performance than updating positions by updateData.
@@ -121,19 +121,19 @@ In fact, it changes the succeed nodes positions to affect the combo's position, 
 | `dx` | `number` |
 | `dy` | `number` |
 | `upsertAncestors?` | `boolean` |
-| `callback?` | (`model`: [`EdgeModel`](../modules/types.md#edgemodel) \| [`NodeModel`](../modules/types.md#nodemodel) \| [`ComboModel`](../modules/types.md#combomodel), `canceled?`: `boolean`) => `void` |
+| `callback?` | (`model`: [`EdgeModel`](../modules/types.en.md#edgemodel) \| [`NodeModel`](../modules/types.en.md#nodemodel) \| [`ComboModel`](../modules/types.en.md#combomodel), `canceled?`: `boolean`) => `void` |
 
 #### Returns
 
-[`ComboModel`](../modules/types.md#combomodel)[]
+[`ComboModel`](../modules/types.en.md#combomodel)[]
 
 #### Implementation of
 
-[IGraph](../interfaces/types-IGraph.md).[moveCombo](../interfaces/types-IGraph.md#movecombo)
+[IGraph](../interfaces/types-IGraph.en.md).[moveCombo](../interfaces/types-IGraph.en.md#movecombo)
 
 #### Defined in
 
-[runtime/graph.ts:1604](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/runtime/graph.ts#L1604)
+[runtime/graph.ts:1637](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/runtime/graph.ts#L1637)
 
 ## Constructors
 
@@ -152,7 +152,7 @@ In fact, it changes the succeed nodes positions to affect the combo's position, 
 
 | Name | Type |
 | :------ | :------ |
-| `spec` | [`Specification`](../interfaces/types-Specification.md)<`B`, `T`\> |
+| `spec` | [`Specification`](../interfaces/types-Specification.en.md)<`B`, `T`\> |
 
 #### Overrides
 
@@ -160,13 +160,13 @@ EventEmitter.constructor
 
 #### Defined in
 
-[runtime/graph.ts:106](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/runtime/graph.ts#L106)
+[runtime/graph.ts:106](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/runtime/graph.ts#L106)
 
 ## Data
 
 ### addData
 
-▸ **addData**(`itemType`, `models`): [`EdgeModel`](../modules/types.md#edgemodel) \| [`NodeModel`](../modules/types.md#nodemodel) \| [`ComboModel`](../modules/types.md#combomodel) \| [`NodeModel`](../modules/types.md#nodemodel)[] \| [`EdgeModel`](../modules/types.md#edgemodel)[] \| [`ComboModel`](../modules/types.md#combomodel)[]
+▸ **addData**(`itemType`, `models`): [`EdgeModel`](../modules/types.en.md#edgemodel) \| [`NodeModel`](../modules/types.en.md#nodemodel) \| [`ComboModel`](../modules/types.en.md#combomodel) \| [`NodeModel`](../modules/types.en.md#nodemodel)[] \| [`EdgeModel`](../modules/types.en.md#edgemodel)[] \| [`ComboModel`](../modules/types.en.md#combomodel)[]
 
 Add one or more node/edge/combo data to the graph.
 
@@ -175,21 +175,21 @@ Add one or more node/edge/combo data to the graph.
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `itemType` | `ITEM_TYPE` | item type |
-| `models` | [`EdgeUserModel`](../modules/types.md#edgeusermodel) \| [`NodeUserModel`](../modules/types.md#nodeusermodel) \| [`ComboUserModel`](../modules/types.md#combousermodel) \| [`NodeUserModel`](../modules/types.md#nodeusermodel)[] \| [`EdgeUserModel`](../modules/types.md#edgeusermodel)[] \| [`ComboUserModel`](../modules/types.md#combousermodel)[] | - |
+| `models` | [`EdgeUserModel`](../modules/types.en.md#edgeusermodel) \| [`NodeUserModel`](../modules/types.en.md#nodeusermodel) \| [`ComboUserModel`](../modules/types.en.md#combousermodel) \| [`NodeUserModel`](../modules/types.en.md#nodeusermodel)[] \| [`EdgeUserModel`](../modules/types.en.md#edgeusermodel)[] \| [`ComboUserModel`](../modules/types.en.md#combousermodel)[] | - |
 
 #### Returns
 
-[`EdgeModel`](../modules/types.md#edgemodel) \| [`NodeModel`](../modules/types.md#nodemodel) \| [`ComboModel`](../modules/types.md#combomodel) \| [`NodeModel`](../modules/types.md#nodemodel)[] \| [`EdgeModel`](../modules/types.md#edgemodel)[] \| [`ComboModel`](../modules/types.md#combomodel)[]
+[`EdgeModel`](../modules/types.en.md#edgemodel) \| [`NodeModel`](../modules/types.en.md#nodemodel) \| [`ComboModel`](../modules/types.en.md#combomodel) \| [`NodeModel`](../modules/types.en.md#nodemodel)[] \| [`EdgeModel`](../modules/types.en.md#edgemodel)[] \| [`ComboModel`](../modules/types.en.md#combomodel)[]
 
 whether success
 
 #### Implementation of
 
-[IGraph](../interfaces/types-IGraph.md).[addData](../interfaces/types-IGraph.md#adddata)
+[IGraph](../interfaces/types-IGraph.en.md).[addData](../interfaces/types-IGraph.en.md#adddata)
 
 #### Defined in
 
-[runtime/graph.ts:942](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/runtime/graph.ts#L942)
+[runtime/graph.ts:975](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/runtime/graph.ts#L975)
 
 ___
 
@@ -212,83 +212,83 @@ Change graph data.
 
 #### Implementation of
 
-[IGraph](../interfaces/types-IGraph.md).[changeData](../interfaces/types-IGraph.md#changedata)
+[IGraph](../interfaces/types-IGraph.en.md).[changeData](../interfaces/types-IGraph.en.md#changedata)
 
 #### Defined in
 
-[runtime/graph.ts:436](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/runtime/graph.ts#L436)
+[runtime/graph.ts:456](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/runtime/graph.ts#L456)
 
 ___
 
 ### getAllCombosData
 
-▸ **getAllCombosData**(): [`ComboModel`](../modules/types.md#combomodel)[]
+▸ **getAllCombosData**(): [`ComboModel`](../modules/types.en.md#combomodel)[]
 
 Get all the combos' inner data
 
 #### Returns
 
-[`ComboModel`](../modules/types.md#combomodel)[]
+[`ComboModel`](../modules/types.en.md#combomodel)[]
 
 all combos' inner data on the graph
 
 #### Implementation of
 
-[IGraph](../interfaces/types-IGraph.md).[getAllCombosData](../interfaces/types-IGraph.md#getallcombosdata)
+[IGraph](../interfaces/types-IGraph.en.md).[getAllCombosData](../interfaces/types-IGraph.en.md#getallcombosdata)
 
 #### Defined in
 
-[runtime/graph.ts:866](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/runtime/graph.ts#L866)
+[runtime/graph.ts:886](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/runtime/graph.ts#L886)
 
 ___
 
 ### getAllEdgesData
 
-▸ **getAllEdgesData**(): [`EdgeModel`](../modules/types.md#edgemodel)[]
+▸ **getAllEdgesData**(): [`EdgeModel`](../modules/types.en.md#edgemodel)[]
 
 Get all the edges' inner data
 
 #### Returns
 
-[`EdgeModel`](../modules/types.md#edgemodel)[]
+[`EdgeModel`](../modules/types.en.md#edgemodel)[]
 
 all edges' inner data on the graph
 
 #### Implementation of
 
-[IGraph](../interfaces/types-IGraph.md).[getAllEdgesData](../interfaces/types-IGraph.md#getalledgesdata)
+[IGraph](../interfaces/types-IGraph.en.md).[getAllEdgesData](../interfaces/types-IGraph.en.md#getalledgesdata)
 
 #### Defined in
 
-[runtime/graph.ts:858](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/runtime/graph.ts#L858)
+[runtime/graph.ts:878](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/runtime/graph.ts#L878)
 
 ___
 
 ### getAllNodesData
 
-▸ **getAllNodesData**(): [`NodeModel`](../modules/types.md#nodemodel)[]
+▸ **getAllNodesData**(): [`NodeModel`](../modules/types.en.md#nodemodel)[]
 
 Get all the nodes' inner data
 
 #### Returns
 
-[`NodeModel`](../modules/types.md#nodemodel)[]
+[`NodeModel`](../modules/types.en.md#nodemodel)[]
 
 all nodes' inner data on the graph
 
 #### Implementation of
 
-[IGraph](../interfaces/types-IGraph.md).[getAllNodesData](../interfaces/types-IGraph.md#getallnodesdata)
+[IGraph](../interfaces/types-IGraph.en.md).[getAllNodesData](../interfaces/types-IGraph.en.md#getallnodesdata)
 
 #### Defined in
 
-[runtime/graph.ts:850](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/runtime/graph.ts#L850)
+[runtime/graph.ts:870](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/runtime/graph.ts#L870)
 
 ___
 
 ### getComboChildrenData
 
-▸ **getComboChildrenData**(`comboId`): ([`NodeModel`](../modules/types.md#nodemodel) \| [`ComboModel`](../modules/types.md#combomodel))[]
+▸ **getComboChildrenData**(`comboId`): ([`NodeModel`](../modules/types.en.md#nodemodel) \| [`ComboModel`](../modules/types.en.md#combomodel))[]
 
 Get the children's data of a combo.
 
@@ -300,23 +300,23 @@ Get the children's data of a combo.
 
 #### Returns
 
-([`NodeModel`](../modules/types.md#nodemodel) \| [`ComboModel`](../modules/types.md#combomodel))[]
+([`NodeModel`](../modules/types.en.md#nodemodel) \| [`ComboModel`](../modules/types.en.md#combomodel))[]
 
 children's data array
 
 #### Implementation of
 
-[IGraph](../interfaces/types-IGraph.md).[getComboChildrenData](../interfaces/types-IGraph.md#getcombochildrendata)
+[IGraph](../interfaces/types-IGraph.en.md).[getComboChildrenData](../interfaces/types-IGraph.en.md#getcombochildrendata)
 
 #### Defined in
 
-[runtime/graph.ts:899](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/runtime/graph.ts#L899)
+[runtime/graph.ts:919](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/runtime/graph.ts#L919)
 
 ___
 
 ### getComboData
 
-▸ **getComboData**(`condition`): [`ComboModel`](../modules/types.md#combomodel)
+▸ **getComboData**(`condition`): [`ComboModel`](../modules/types.en.md#combomodel)
 
 Find an combo's inner data according to id or function.
 
@@ -328,23 +328,23 @@ Find an combo's inner data according to id or function.
 
 #### Returns
 
-[`ComboModel`](../modules/types.md#combomodel)
+[`ComboModel`](../modules/types.en.md#combomodel)
 
 result combo's inner data
 
 #### Implementation of
 
-[IGraph](../interfaces/types-IGraph.md).[getComboData](../interfaces/types-IGraph.md#getcombodata)
+[IGraph](../interfaces/types-IGraph.en.md).[getComboData](../interfaces/types-IGraph.en.md#getcombodata)
 
 #### Defined in
 
-[runtime/graph.ts:840](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/runtime/graph.ts#L840)
+[runtime/graph.ts:860](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/runtime/graph.ts#L860)
 
 ___
 
 ### getEdgeData
 
-▸ **getEdgeData**(`condition`): [`EdgeModel`](../modules/types.md#edgemodel)
+▸ **getEdgeData**(`condition`): [`EdgeModel`](../modules/types.en.md#edgemodel)
 
 Find an edge's inner data according to id or function.
 
@@ -356,23 +356,49 @@ Find an edge's inner data according to id or function.
 
 #### Returns
 
-[`EdgeModel`](../modules/types.md#edgemodel)
+[`EdgeModel`](../modules/types.en.md#edgemodel)
 
 result edge's inner data
 
 #### Implementation of
 
-[IGraph](../interfaces/types-IGraph.md).[getEdgeData](../interfaces/types-IGraph.md#getedgedata)
+[IGraph](../interfaces/types-IGraph.en.md).[getEdgeData](../interfaces/types-IGraph.en.md#getedgedata)
 
 #### Defined in
 
-[runtime/graph.ts:827](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/runtime/graph.ts#L827)
+[runtime/graph.ts:847](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/runtime/graph.ts#L847)
+
+___
+
+### getNearEdgesForNode
+
+▸ **getNearEdgesForNode**(`nodeId`): [`EdgeModel`](../modules/types.en.md#edgemodel)[]
+
+Retrieve the nearby edges for a given node using quadtree collision detection.
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `nodeId` | `ID` | node id |
+
+#### Returns
+
+[`EdgeModel`](../modules/types.en.md#edgemodel)[]
+
+#### Implementation of
+
+[IGraph](../interfaces/types-IGraph.en.md).[getNearEdgesForNode](../interfaces/types-IGraph.en.md#getnearedgesfornode)
+
+#### Defined in
+
+[runtime/graph.ts:940](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/runtime/graph.ts#L940)
 
 ___
 
 ### getNeighborNodesData
 
-▸ **getNeighborNodesData**(`nodeId`, `direction?`): [`NodeModel`](../modules/types.md#nodemodel)[]
+▸ **getNeighborNodesData**(`nodeId`, `direction?`): [`NodeModel`](../modules/types.en.md#nodemodel)[]
 
 Get one-hop node ids from a start node.
 
@@ -385,23 +411,23 @@ Get one-hop node ids from a start node.
 
 #### Returns
 
-[`NodeModel`](../modules/types.md#nodemodel)[]
+[`NodeModel`](../modules/types.en.md#nodemodel)[]
 
 one-hop nodes' data array
 
 #### Implementation of
 
-[IGraph](../interfaces/types-IGraph.md).[getNeighborNodesData](../interfaces/types-IGraph.md#getneighbornodesdata)
+[IGraph](../interfaces/types-IGraph.en.md).[getNeighborNodesData](../interfaces/types-IGraph.en.md#getneighbornodesdata)
 
 #### Defined in
 
-[runtime/graph.ts:887](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/runtime/graph.ts#L887)
+[runtime/graph.ts:907](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/runtime/graph.ts#L907)
 
 ___
 
 ### getNodeData
 
-▸ **getNodeData**(`condition`): [`NodeModel`](../modules/types.md#nodemodel)
+▸ **getNodeData**(`condition`): [`NodeModel`](../modules/types.en.md#nodemodel)
 
 Find a node's inner data according to id or function.
 
@@ -413,23 +439,23 @@ Find a node's inner data according to id or function.
 
 #### Returns
 
-[`NodeModel`](../modules/types.md#nodemodel)
+[`NodeModel`](../modules/types.en.md#nodemodel)
 
 result node's inner data
 
 #### Implementation of
 
-[IGraph](../interfaces/types-IGraph.md).[getNodeData](../interfaces/types-IGraph.md#getnodedata)
+[IGraph](../interfaces/types-IGraph.en.md).[getNodeData](../interfaces/types-IGraph.en.md#getnodedata)
 
 #### Defined in
 
-[runtime/graph.ts:816](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/runtime/graph.ts#L816)
+[runtime/graph.ts:836](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/runtime/graph.ts#L836)
 
 ___
 
 ### getRelatedEdgesData
 
-▸ **getRelatedEdgesData**(`nodeId`, `direction?`): [`EdgeModel`](../modules/types.md#edgemodel)[]
+▸ **getRelatedEdgesData**(`nodeId`, `direction?`): [`EdgeModel`](../modules/types.en.md#edgemodel)[]
 
 Get one-hop edge ids from a start node.
 
@@ -442,17 +468,17 @@ Get one-hop edge ids from a start node.
 
 #### Returns
 
-[`EdgeModel`](../modules/types.md#edgemodel)[]
+[`EdgeModel`](../modules/types.en.md#edgemodel)[]
 
 one-hop edges' data array
 
 #### Implementation of
 
-[IGraph](../interfaces/types-IGraph.md).[getRelatedEdgesData](../interfaces/types-IGraph.md#getrelatededgesdata)
+[IGraph](../interfaces/types-IGraph.en.md).[getRelatedEdgesData](../interfaces/types-IGraph.en.md#getrelatededgesdata)
 
 #### Defined in
 
-[runtime/graph.ts:875](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/runtime/graph.ts#L875)
+[runtime/graph.ts:895](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/runtime/graph.ts#L895)
 
 ___
 
@@ -475,11 +501,11 @@ If there is old data, diffs and changes it.
 
 #### Implementation of
 
-[IGraph](../interfaces/types-IGraph.md).[read](../interfaces/types-IGraph.md#read)
+[IGraph](../interfaces/types-IGraph.en.md).[read](../interfaces/types-IGraph.en.md#read)
 
 #### Defined in
 
-[runtime/graph.ts:405](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/runtime/graph.ts#L405)
+[runtime/graph.ts:405](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/runtime/graph.ts#L405)
 
 ___
 
@@ -504,17 +530,17 @@ whether success
 
 #### Implementation of
 
-[IGraph](../interfaces/types-IGraph.md).[removeData](../interfaces/types-IGraph.md#removedata)
+[IGraph](../interfaces/types-IGraph.en.md).[removeData](../interfaces/types-IGraph.en.md#removedata)
 
 #### Defined in
 
-[runtime/graph.ts:999](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/runtime/graph.ts#L999)
+[runtime/graph.ts:1032](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/runtime/graph.ts#L1032)
 
 ___
 
 ### updateComboPosition
 
-▸ **updateComboPosition**(`models`, `upsertAncestors?`, `disableAnimate?`, `callback?`, `stack?`): [`EdgeModel`](../modules/types.md#edgemodel) \| [`NodeModel`](../modules/types.md#nodemodel) \| [`ComboModel`](../modules/types.md#combomodel) \| [`NodeModel`](../modules/types.md#nodemodel)[] \| [`EdgeModel`](../modules/types.md#edgemodel)[] \| [`ComboModel`](../modules/types.md#combomodel)[]
+▸ **updateComboPosition**(`models`, `upsertAncestors?`, `disableAnimate?`, `callback?`, `stack?`): [`EdgeModel`](../modules/types.en.md#edgemodel) \| [`NodeModel`](../modules/types.en.md#nodemodel) \| [`ComboModel`](../modules/types.en.md#combomodel) \| [`NodeModel`](../modules/types.en.md#nodemodel)[] \| [`EdgeModel`](../modules/types.en.md#edgemodel)[] \| [`ComboModel`](../modules/types.en.md#combomodel)[]
 
 Update one or more combos' positions,
 do not update other styles which leads to better performance than updating positions by updateData.
@@ -524,29 +550,29 @@ In fact, it changes the succeed nodes positions to affect the combo's position, 
 
 | Name | Type | Default value | Description |
 | :------ | :------ | :------ | :------ |
-| `models` | `Partial`<[`NodeUserModel`](../modules/types.md#nodeusermodel)\> \| `Partial`<[`ComboUserModel`](../modules/types.md#combousermodel) \| `Partial`<[`NodeUserModel`](../modules/types.md#nodeusermodel)\>[] \| `Partial`<[`ComboUserModel`](../modules/types.md#combousermodel)\>[]\> | `undefined` | new configurations with x and y for every combo, which has id field to indicate the specific item |
+| `models` | `Partial`<[`NodeUserModel`](../modules/types.en.md#nodeusermodel)\> \| `Partial`<[`ComboUserModel`](../modules/types.en.md#combousermodel) \| `Partial`<[`NodeUserModel`](../modules/types.en.md#nodeusermodel)\>[] \| `Partial`<[`ComboUserModel`](../modules/types.en.md#combousermodel)\>[]\> | `undefined` | new configurations with x and y for every combo, which has id field to indicate the specific item |
 | `upsertAncestors?` | `boolean` | `undefined` | - |
 | `disableAnimate` | `boolean` | `false` | - |
-| `callback?` | (`model`: [`EdgeModel`](../modules/types.md#edgemodel) \| [`NodeModel`](../modules/types.md#nodemodel) \| [`ComboModel`](../modules/types.md#combomodel)) => `void` | `undefined` | - |
+| `callback?` | (`model`: [`EdgeModel`](../modules/types.en.md#edgemodel) \| [`NodeModel`](../modules/types.en.md#nodemodel) \| [`ComboModel`](../modules/types.en.md#combomodel)) => `void` | `undefined` | - |
 | `stack?` | `boolean` | `undefined` | - |
 
 #### Returns
 
-[`EdgeModel`](../modules/types.md#edgemodel) \| [`NodeModel`](../modules/types.md#nodemodel) \| [`ComboModel`](../modules/types.md#combomodel) \| [`NodeModel`](../modules/types.md#nodemodel)[] \| [`EdgeModel`](../modules/types.md#edgemodel)[] \| [`ComboModel`](../modules/types.md#combomodel)[]
+[`EdgeModel`](../modules/types.en.md#edgemodel) \| [`NodeModel`](../modules/types.en.md#nodemodel) \| [`ComboModel`](../modules/types.en.md#combomodel) \| [`NodeModel`](../modules/types.en.md#nodemodel)[] \| [`EdgeModel`](../modules/types.en.md#edgemodel)[] \| [`ComboModel`](../modules/types.en.md#combomodel)[]
 
 #### Implementation of
 
-[IGraph](../interfaces/types-IGraph.md).[updateComboPosition](../interfaces/types-IGraph.md#updatecomboposition)
+[IGraph](../interfaces/types-IGraph.en.md).[updateComboPosition](../interfaces/types-IGraph.en.md#updatecomboposition)
 
 #### Defined in
 
-[runtime/graph.ts:1178](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/runtime/graph.ts#L1178)
+[runtime/graph.ts:1211](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/runtime/graph.ts#L1211)
 
 ___
 
 ### updateData
 
-▸ **updateData**(`itemType`, `models`): [`EdgeModel`](../modules/types.md#edgemodel) \| [`NodeModel`](../modules/types.md#nodemodel) \| [`ComboModel`](../modules/types.md#combomodel) \| [`NodeModel`](../modules/types.md#nodemodel)[] \| [`EdgeModel`](../modules/types.md#edgemodel)[] \| [`ComboModel`](../modules/types.md#combomodel)[]
+▸ **updateData**(`itemType`, `models`): [`EdgeModel`](../modules/types.en.md#edgemodel) \| [`NodeModel`](../modules/types.en.md#nodemodel) \| [`ComboModel`](../modules/types.en.md#combomodel) \| [`NodeModel`](../modules/types.en.md#nodemodel)[] \| [`EdgeModel`](../modules/types.en.md#edgemodel)[] \| [`ComboModel`](../modules/types.en.md#combomodel)[]
 
 Update one or more node/edge/combo data on the graph.
 
@@ -555,25 +581,25 @@ Update one or more node/edge/combo data on the graph.
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `itemType` | `ITEM_TYPE` | 'node' \| 'edge' \| 'combo' |
-| `models` | `Partial`<[`NodeUserModel`](../modules/types.md#nodeusermodel)\> \| `Partial`<[`EdgeUserModel`](../modules/types.md#edgeusermodel)\> \| `Partial`<[`ComboUserModel`](../modules/types.md#combousermodel) \| `Partial`<[`NodeUserModel`](../modules/types.md#nodeusermodel)\>[] \| `Partial`<[`EdgeUserModel`](../modules/types.md#edgeusermodel)\>[] \| `Partial`<[`ComboUserModel`](../modules/types.md#combousermodel)\>[]\> | new configurations for every node/edge/combo, which has id field to indicate the specific item |
+| `models` | `Partial`<[`NodeUserModel`](../modules/types.en.md#nodeusermodel)\> \| `Partial`<[`EdgeUserModel`](../modules/types.en.md#edgeusermodel)\> \| `Partial`<[`ComboUserModel`](../modules/types.en.md#combousermodel) \| `Partial`<[`NodeUserModel`](../modules/types.en.md#nodeusermodel)\>[] \| `Partial`<[`EdgeUserModel`](../modules/types.en.md#edgeusermodel)\>[] \| `Partial`<[`ComboUserModel`](../modules/types.en.md#combousermodel)\>[]\> | new configurations for every node/edge/combo, which has id field to indicate the specific item |
 
 #### Returns
 
-[`EdgeModel`](../modules/types.md#edgemodel) \| [`NodeModel`](../modules/types.md#nodemodel) \| [`ComboModel`](../modules/types.md#combomodel) \| [`NodeModel`](../modules/types.md#nodemodel)[] \| [`EdgeModel`](../modules/types.md#edgemodel)[] \| [`ComboModel`](../modules/types.md#combomodel)[]
+[`EdgeModel`](../modules/types.en.md#edgemodel) \| [`NodeModel`](../modules/types.en.md#nodemodel) \| [`ComboModel`](../modules/types.en.md#combomodel) \| [`NodeModel`](../modules/types.en.md#nodemodel)[] \| [`EdgeModel`](../modules/types.en.md#edgemodel)[] \| [`ComboModel`](../modules/types.en.md#combomodel)[]
 
 #### Implementation of
 
-[IGraph](../interfaces/types-IGraph.md).[updateData](../interfaces/types-IGraph.md#updatedata)
+[IGraph](../interfaces/types-IGraph.en.md).[updateData](../interfaces/types-IGraph.en.md#updatedata)
 
 #### Defined in
 
-[runtime/graph.ts:1089](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/runtime/graph.ts#L1089)
+[runtime/graph.ts:1122](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/runtime/graph.ts#L1122)
 
 ___
 
 ### updateNodePosition
 
-▸ **updateNodePosition**(`models`, `upsertAncestors?`, `disableAnimate?`, `callback?`, `stack?`): [`EdgeModel`](../modules/types.md#edgemodel) \| [`NodeModel`](../modules/types.md#nodemodel) \| [`ComboModel`](../modules/types.md#combomodel) \| [`NodeModel`](../modules/types.md#nodemodel)[] \| [`EdgeModel`](../modules/types.md#edgemodel)[] \| [`ComboModel`](../modules/types.md#combomodel)[]
+▸ **updateNodePosition**(`models`, `upsertAncestors?`, `disableAnimate?`, `callback?`, `stack?`): [`EdgeModel`](../modules/types.en.md#edgemodel) \| [`NodeModel`](../modules/types.en.md#nodemodel) \| [`ComboModel`](../modules/types.en.md#combomodel) \| [`NodeModel`](../modules/types.en.md#nodemodel)[] \| [`EdgeModel`](../modules/types.en.md#edgemodel)[] \| [`ComboModel`](../modules/types.en.md#combomodel)[]
 
 Update one or more nodes' positions,
 do not update other styles which leads to better performance than updating positions by updateData.
@@ -582,23 +608,23 @@ do not update other styles which leads to better performance than updating posit
 
 | Name | Type | Default value | Description |
 | :------ | :------ | :------ | :------ |
-| `models` | `Partial`<[`NodeUserModel`](../modules/types.md#nodeusermodel)\> \| `Partial`<[`ComboUserModel`](../modules/types.md#combousermodel) \| `Partial`<[`NodeUserModel`](../modules/types.md#nodeusermodel)\>[] \| `Partial`<[`ComboUserModel`](../modules/types.md#combousermodel)\>[]\> | `undefined` | new configurations with x and y for every node, which has id field to indicate the specific item |
+| `models` | `Partial`<[`NodeUserModel`](../modules/types.en.md#nodeusermodel)\> \| `Partial`<[`ComboUserModel`](../modules/types.en.md#combousermodel) \| `Partial`<[`NodeUserModel`](../modules/types.en.md#nodeusermodel)\>[] \| `Partial`<[`ComboUserModel`](../modules/types.en.md#combousermodel)\>[]\> | `undefined` | new configurations with x and y for every node, which has id field to indicate the specific item |
 | `upsertAncestors?` | `boolean` | `undefined` | - |
 | `disableAnimate` | `boolean` | `false` | - |
-| `callback?` | (`model`: [`EdgeModel`](../modules/types.md#edgemodel) \| [`NodeModel`](../modules/types.md#nodemodel) \| [`ComboModel`](../modules/types.md#combomodel), `canceled?`: `boolean`) => `void` | `undefined` | - |
+| `callback?` | (`model`: [`EdgeModel`](../modules/types.en.md#edgemodel) \| [`NodeModel`](../modules/types.en.md#nodemodel) \| [`ComboModel`](../modules/types.en.md#combomodel), `canceled?`: `boolean`) => `void` | `undefined` | - |
 | `stack?` | `boolean` | `undefined` | - |
 
 #### Returns
 
-[`EdgeModel`](../modules/types.md#edgemodel) \| [`NodeModel`](../modules/types.md#nodemodel) \| [`ComboModel`](../modules/types.md#combomodel) \| [`NodeModel`](../modules/types.md#nodemodel)[] \| [`EdgeModel`](../modules/types.md#edgemodel)[] \| [`ComboModel`](../modules/types.md#combomodel)[]
+[`EdgeModel`](../modules/types.en.md#edgemodel) \| [`NodeModel`](../modules/types.en.md#nodemodel) \| [`ComboModel`](../modules/types.en.md#combomodel) \| [`NodeModel`](../modules/types.en.md#nodemodel)[] \| [`EdgeModel`](../modules/types.en.md#edgemodel)[] \| [`ComboModel`](../modules/types.en.md#combomodel)[]
 
 #### Implementation of
 
-[IGraph](../interfaces/types-IGraph.md).[updateNodePosition](../interfaces/types-IGraph.md#updatenodeposition)
+[IGraph](../interfaces/types-IGraph.en.md).[updateNodePosition](../interfaces/types-IGraph.en.md#updatenodeposition)
 
 #### Defined in
 
-[runtime/graph.ts:1147](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/runtime/graph.ts#L1147)
+[runtime/graph.ts:1180](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/runtime/graph.ts#L1180)
 
 ## Graph Instance
 
@@ -620,11 +646,11 @@ Destroy the graph instance and remove the related canvases.
 
 #### Implementation of
 
-[IGraph](../interfaces/types-IGraph.md).[destroy](../interfaces/types-IGraph.md#destroy)
+[IGraph](../interfaces/types-IGraph.en.md).[destroy](../interfaces/types-IGraph.en.md#destroy)
 
 #### Defined in
 
-[runtime/graph.ts:2139](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/runtime/graph.ts#L2139)
+[runtime/graph.ts:2176](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/runtime/graph.ts#L2176)
 
 ## Interaction
 
@@ -647,11 +673,11 @@ Add behavior(s) to mode(s).
 
 #### Implementation of
 
-[IGraph](../interfaces/types-IGraph.md).[addBehaviors](../interfaces/types-IGraph.md#addbehaviors)
+[IGraph](../interfaces/types-IGraph.en.md).[addBehaviors](../interfaces/types-IGraph.en.md#addbehaviors)
 
 #### Defined in
 
-[runtime/graph.ts:1729](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/runtime/graph.ts#L1729)
+[runtime/graph.ts:1766](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/runtime/graph.ts#L1766)
 
 ___
 
@@ -681,11 +707,11 @@ upserted shape or group
 
 #### Implementation of
 
-[IGraph](../interfaces/types-IGraph.md).[drawTransient](../interfaces/types-IGraph.md#drawtransient)
+[IGraph](../interfaces/types-IGraph.en.md).[drawTransient](../interfaces/types-IGraph.en.md#drawtransient)
 
 #### Defined in
 
-[runtime/graph.ts:1926](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/runtime/graph.ts#L1926)
+[runtime/graph.ts:1963](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/runtime/graph.ts#L1963)
 
 ___
 
@@ -708,11 +734,11 @@ Remove behavior(s) from mode(s).
 
 #### Implementation of
 
-[IGraph](../interfaces/types-IGraph.md).[removeBehaviors](../interfaces/types-IGraph.md#removebehaviors)
+[IGraph](../interfaces/types-IGraph.en.md).[removeBehaviors](../interfaces/types-IGraph.en.md#removebehaviors)
 
 #### Defined in
 
-[runtime/graph.ts:1755](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/runtime/graph.ts#L1755)
+[runtime/graph.ts:1792](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/runtime/graph.ts#L1792)
 
 ___
 
@@ -734,11 +760,11 @@ Switch mode.
 
 #### Implementation of
 
-[IGraph](../interfaces/types-IGraph.md).[setMode](../interfaces/types-IGraph.md#setmode)
+[IGraph](../interfaces/types-IGraph.en.md).[setMode](../interfaces/types-IGraph.en.md#setmode)
 
 #### Defined in
 
-[runtime/graph.ts:1718](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/runtime/graph.ts#L1718)
+[runtime/graph.ts:1755](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/runtime/graph.ts#L1755)
 
 ___
 
@@ -761,11 +787,11 @@ Update a behavior on a mode.
 
 #### Implementation of
 
-[IGraph](../interfaces/types-IGraph.md).[updateBehavior](../interfaces/types-IGraph.md#updatebehavior)
+[IGraph](../interfaces/types-IGraph.en.md).[updateBehavior](../interfaces/types-IGraph.en.md#updatebehavior)
 
 #### Defined in
 
-[runtime/graph.ts:1782](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/runtime/graph.ts#L1782)
+[runtime/graph.ts:1819](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/runtime/graph.ts#L1819)
 
 ___
 
@@ -789,11 +815,11 @@ Update a plugin of the graph.
 
 #### Implementation of
 
-[IGraph](../interfaces/types-IGraph.md).[updatePlugin](../interfaces/types-IGraph.md#updateplugin)
+[IGraph](../interfaces/types-IGraph.en.md).[updatePlugin](../interfaces/types-IGraph.en.md#updateplugin)
 
 #### Defined in
 
-[runtime/graph.ts:1876](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/runtime/graph.ts#L1876)
+[runtime/graph.ts:1913](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/runtime/graph.ts#L1913)
 
 ## Item
 
@@ -815,11 +841,11 @@ Make the item(s) to the back.
 
 #### Implementation of
 
-[IGraph](../interfaces/types-IGraph.md).[backItem](../interfaces/types-IGraph.md#backitem)
+[IGraph](../interfaces/types-IGraph.en.md).[backItem](../interfaces/types-IGraph.en.md#backitem)
 
 #### Defined in
 
-[runtime/graph.ts:1367](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/runtime/graph.ts#L1367)
+[runtime/graph.ts:1400](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/runtime/graph.ts#L1400)
 
 ___
 
@@ -842,11 +868,11 @@ Clear all the states for item(s).
 
 #### Implementation of
 
-[IGraph](../interfaces/types-IGraph.md).[clearItemState](../interfaces/types-IGraph.md#clearitemstate)
+[IGraph](../interfaces/types-IGraph.en.md).[clearItemState](../interfaces/types-IGraph.en.md#clearitemstate)
 
 #### Defined in
 
-[runtime/graph.ts:1460](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/runtime/graph.ts#L1460)
+[runtime/graph.ts:1493](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/runtime/graph.ts#L1493)
 
 ___
 
@@ -863,7 +889,7 @@ Find items which has the state.
 | `itemType` | `ITEM_TYPE` | `undefined` | item type |
 | `state` | `string` | `undefined` | state name |
 | `value` | `string` \| `boolean` | `true` | - |
-| `additionalFilter?` | (`item`: [`EdgeModel`](../modules/types.md#edgemodel) \| [`NodeModel`](../modules/types.md#nodemodel) \| [`ComboModel`](../modules/types.md#combomodel)) => `boolean` | `undefined` | additional filter function |
+| `additionalFilter?` | (`item`: [`EdgeModel`](../modules/types.en.md#edgemodel) \| [`NodeModel`](../modules/types.en.md#nodemodel) \| [`ComboModel`](../modules/types.en.md#combomodel)) => `boolean` | `undefined` | additional filter function |
 
 #### Returns
 
@@ -873,11 +899,11 @@ items that is the type and has the state
 
 #### Implementation of
 
-[IGraph](../interfaces/types-IGraph.md).[findIdByState](../interfaces/types-IGraph.md#findidbystate)
+[IGraph](../interfaces/types-IGraph.en.md).[findIdByState](../interfaces/types-IGraph.en.md#findidbystate)
 
 #### Defined in
 
-[runtime/graph.ts:920](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/runtime/graph.ts#L920)
+[runtime/graph.ts:953](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/runtime/graph.ts#L953)
 
 ___
 
@@ -899,11 +925,11 @@ Make the item(s) to the front.
 
 #### Implementation of
 
-[IGraph](../interfaces/types-IGraph.md).[frontItem](../interfaces/types-IGraph.md#frontitem)
+[IGraph](../interfaces/types-IGraph.en.md).[frontItem](../interfaces/types-IGraph.en.md#frontitem)
 
 #### Defined in
 
-[runtime/graph.ts:1348](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/runtime/graph.ts#L1348)
+[runtime/graph.ts:1381](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/runtime/graph.ts#L1381)
 
 ___
 
@@ -927,11 +953,11 @@ the state names with value true
 
 #### Implementation of
 
-[IGraph](../interfaces/types-IGraph.md).[getItemAllStates](../interfaces/types-IGraph.md#getitemallstates)
+[IGraph](../interfaces/types-IGraph.en.md).[getItemAllStates](../interfaces/types-IGraph.en.md#getitemallstates)
 
 #### Defined in
 
-[runtime/graph.ts:1449](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/runtime/graph.ts#L1449)
+[runtime/graph.ts:1482](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/runtime/graph.ts#L1482)
 
 ___
 
@@ -956,11 +982,11 @@ the state value
 
 #### Implementation of
 
-[IGraph](../interfaces/types-IGraph.md).[getItemState](../interfaces/types-IGraph.md#getitemstate)
+[IGraph](../interfaces/types-IGraph.en.md).[getItemState](../interfaces/types-IGraph.en.md#getitemstate)
 
 #### Defined in
 
-[runtime/graph.ts:1439](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/runtime/graph.ts#L1439)
+[runtime/graph.ts:1472](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/runtime/graph.ts#L1472)
 
 ___
 
@@ -984,11 +1010,11 @@ visibility for the item, false for invisible or unexistence for the item
 
 #### Implementation of
 
-[IGraph](../interfaces/types-IGraph.md).[getItemVisible](../interfaces/types-IGraph.md#getitemvisible)
+[IGraph](../interfaces/types-IGraph.en.md).[getItemVisible](../interfaces/types-IGraph.en.md#getitemvisible)
 
 #### Defined in
 
-[runtime/graph.ts:1503](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/runtime/graph.ts#L1503)
+[runtime/graph.ts:1536](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/runtime/graph.ts#L1536)
 
 ___
 
@@ -1014,11 +1040,11 @@ rendering bounding box. returns false if the item is not exist
 
 #### Implementation of
 
-[IGraph](../interfaces/types-IGraph.md).[getRenderBBox](../interfaces/types-IGraph.md#getrenderbbox)
+[IGraph](../interfaces/types-IGraph.en.md).[getRenderBBox](../interfaces/types-IGraph.en.md#getrenderbbox)
 
 #### Defined in
 
-[runtime/graph.ts:1488](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/runtime/graph.ts#L1488)
+[runtime/graph.ts:1521](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/runtime/graph.ts#L1521)
 
 ___
 
@@ -1041,11 +1067,11 @@ Hide the item(s).
 
 #### Implementation of
 
-[IGraph](../interfaces/types-IGraph.md).[hideItem](../interfaces/types-IGraph.md#hideitem)
+[IGraph](../interfaces/types-IGraph.en.md).[hideItem](../interfaces/types-IGraph.en.md#hideitem)
 
 #### Defined in
 
-[runtime/graph.ts:1319](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/runtime/graph.ts#L1319)
+[runtime/graph.ts:1352](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/runtime/graph.ts#L1352)
 
 ___
 
@@ -1069,11 +1095,11 @@ Set state for the item.
 
 #### Implementation of
 
-[IGraph](../interfaces/types-IGraph.md).[setItemState](../interfaces/types-IGraph.md#setitemstate)
+[IGraph](../interfaces/types-IGraph.en.md).[setItemState](../interfaces/types-IGraph.en.md#setitemstate)
 
 #### Defined in
 
-[runtime/graph.ts:1406](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/runtime/graph.ts#L1406)
+[runtime/graph.ts:1439](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/runtime/graph.ts#L1439)
 
 ___
 
@@ -1096,11 +1122,11 @@ Show the item(s).
 
 #### Implementation of
 
-[IGraph](../interfaces/types-IGraph.md).[showItem](../interfaces/types-IGraph.md#showitem)
+[IGraph](../interfaces/types-IGraph.en.md).[showItem](../interfaces/types-IGraph.en.md#showitem)
 
 #### Defined in
 
-[runtime/graph.ts:1291](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/runtime/graph.ts#L1291)
+[runtime/graph.ts:1324](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/runtime/graph.ts#L1324)
 
 ## Methods
 
@@ -1124,11 +1150,11 @@ more convenient way without manually invoking `startBatch` and `stopBatch`.
 
 #### Implementation of
 
-[IGraph](../interfaces/types-IGraph.md).[batch](../interfaces/types-IGraph.md#batch)
+[IGraph](../interfaces/types-IGraph.en.md).[batch](../interfaces/types-IGraph.en.md#batch)
 
 #### Defined in
 
-[runtime/graph.ts:2084](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/runtime/graph.ts#L2084)
+[runtime/graph.ts:2121](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/runtime/graph.ts#L2121)
 
 ___
 
@@ -1144,11 +1170,11 @@ Indicate whether there are any actions available in the redo stack.
 
 #### Implementation of
 
-[IGraph](../interfaces/types-IGraph.md).[canRedo](../interfaces/types-IGraph.md#canredo)
+[IGraph](../interfaces/types-IGraph.en.md).[canRedo](../interfaces/types-IGraph.en.md#canredo)
 
 #### Defined in
 
-[runtime/graph.ts:2053](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/runtime/graph.ts#L2053)
+[runtime/graph.ts:2090](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/runtime/graph.ts#L2090)
 
 ___
 
@@ -1164,11 +1190,11 @@ Indicate whether there are any actions available in the undo stack.
 
 #### Implementation of
 
-[IGraph](../interfaces/types-IGraph.md).[canUndo](../interfaces/types-IGraph.md#canundo)
+[IGraph](../interfaces/types-IGraph.en.md).[canUndo](../interfaces/types-IGraph.en.md#canundo)
 
 #### Defined in
 
-[runtime/graph.ts:2045](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/runtime/graph.ts#L2045)
+[runtime/graph.ts:2082](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/runtime/graph.ts#L2082)
 
 ___
 
@@ -1190,11 +1216,11 @@ Change the renderer at runtime.
 
 #### Implementation of
 
-[IGraph](../interfaces/types-IGraph.md).[changeRenderer](../interfaces/types-IGraph.md#changerenderer)
+[IGraph](../interfaces/types-IGraph.en.md).[changeRenderer](../interfaces/types-IGraph.en.md#changerenderer)
 
 #### Defined in
 
-[runtime/graph.ts:265](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/runtime/graph.ts#L265)
+[runtime/graph.ts:265](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/runtime/graph.ts#L265)
 
 ___
 
@@ -1210,11 +1236,11 @@ Clear the graph, means remove all the items on the graph.
 
 #### Implementation of
 
-[IGraph](../interfaces/types-IGraph.md).[clear](../interfaces/types-IGraph.md#clear)
+[IGraph](../interfaces/types-IGraph.en.md).[clear](../interfaces/types-IGraph.en.md#clear)
 
 #### Defined in
 
-[runtime/graph.ts:455](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/runtime/graph.ts#L455)
+[runtime/graph.ts:475](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/runtime/graph.ts#L475)
 
 ___
 
@@ -1236,11 +1262,11 @@ Clear history stack
 
 #### Implementation of
 
-[IGraph](../interfaces/types-IGraph.md).[clearStack](../interfaces/types-IGraph.md#clearstack)
+[IGraph](../interfaces/types-IGraph.en.md).[clearStack](../interfaces/types-IGraph.en.md#clearstack)
 
 #### Defined in
 
-[runtime/graph.ts:2093](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/runtime/graph.ts#L2093)
+[runtime/graph.ts:2130](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/runtime/graph.ts#L2130)
 
 ___
 
@@ -1262,11 +1288,11 @@ Execute a callback without allowing any stacking operations.
 
 #### Implementation of
 
-[IGraph](../interfaces/types-IGraph.md).[executeWithoutStacking](../interfaces/types-IGraph.md#executewithoutstacking)
+[IGraph](../interfaces/types-IGraph.en.md).[executeWithoutStacking](../interfaces/types-IGraph.en.md#executewithoutstacking)
 
 #### Defined in
 
-[runtime/graph.ts:1987](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/runtime/graph.ts#L1987)
+[runtime/graph.ts:2024](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/runtime/graph.ts#L2024)
 
 ___
 
@@ -1288,11 +1314,11 @@ Fit the graph center to the view center.
 
 #### Implementation of
 
-[IGraph](../interfaces/types-IGraph.md).[fitCenter](../interfaces/types-IGraph.md#fitcenter)
+[IGraph](../interfaces/types-IGraph.en.md).[fitCenter](../interfaces/types-IGraph.en.md#fitcenter)
 
 #### Defined in
 
-[runtime/graph.ts:691](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/runtime/graph.ts#L691)
+[runtime/graph.ts:711](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/runtime/graph.ts#L711)
 
 ___
 
@@ -1317,11 +1343,11 @@ Fit the graph content to the view.
 
 #### Implementation of
 
-[IGraph](../interfaces/types-IGraph.md).[fitView](../interfaces/types-IGraph.md#fitview)
+[IGraph](../interfaces/types-IGraph.en.md).[fitView](../interfaces/types-IGraph.en.md#fitview)
 
 #### Defined in
 
-[runtime/graph.ts:623](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/runtime/graph.ts#L623)
+[runtime/graph.ts:643](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/runtime/graph.ts#L643)
 
 ___
 
@@ -1344,11 +1370,11 @@ Move the graph to make the item align the view center.
 
 #### Implementation of
 
-[IGraph](../interfaces/types-IGraph.md).[focusItem](../interfaces/types-IGraph.md#focusitem)
+[IGraph](../interfaces/types-IGraph.en.md).[focusItem](../interfaces/types-IGraph.en.md#focusitem)
 
 #### Defined in
 
-[runtime/graph.ts:706](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/runtime/graph.ts#L706)
+[runtime/graph.ts:726](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/runtime/graph.ts#L726)
 
 ___
 
@@ -1362,33 +1388,7 @@ ___
 
 #### Defined in
 
-[runtime/graph.ts:1708](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/runtime/graph.ts#L1708)
-
-___
-
-### getNearEdgesForNode
-
-▸ **getNearEdgesForNode**(`nodeId`): [`EdgeModel`](../modules/types.md#edgemodel)[]
-
-Retrieve the nearby edges for a given node using quadtree collision detection.
-
-#### Parameters
-
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `nodeId` | `ID` | node id |
-
-#### Returns
-
-[`EdgeModel`](../modules/types.md#edgemodel)[]
-
-#### Implementation of
-
-[IGraph](../interfaces/types-IGraph.md).[getNearEdgesForNode](../interfaces/types-IGraph.md#getnearedgesfornode)
-
-#### Defined in
-
-[runtime/graph.ts:907](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/runtime/graph.ts#L907)
+[runtime/graph.ts:1745](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/runtime/graph.ts#L1745)
 
 ___
 
@@ -1404,33 +1404,33 @@ Retrieve the current undo stack which consists of operations that were undone
 
 #### Implementation of
 
-[IGraph](../interfaces/types-IGraph.md).[getRedoStack](../interfaces/types-IGraph.md#getredostack)
+[IGraph](../interfaces/types-IGraph.en.md).[getRedoStack](../interfaces/types-IGraph.en.md#getredostack)
 
 #### Defined in
 
-[runtime/graph.ts:2008](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/runtime/graph.ts#L2008)
+[runtime/graph.ts:2045](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/runtime/graph.ts#L2045)
 
 ___
 
 ### getSpecification
 
-▸ **getSpecification**(): [`Specification`](../interfaces/types-Specification.md)<`B`, `T`\>
+▸ **getSpecification**(): [`Specification`](../interfaces/types-Specification.en.md)<`B`, `T`\>
 
 Get the copy of specs(configurations).
 
 #### Returns
 
-[`Specification`](../interfaces/types-Specification.md)<`B`, `T`\>
+[`Specification`](../interfaces/types-Specification.en.md)<`B`, `T`\>
 
 graph specs
 
 #### Implementation of
 
-[IGraph](../interfaces/types-IGraph.md).[getSpecification](../interfaces/types-IGraph.md#getspecification)
+[IGraph](../interfaces/types-IGraph.en.md).[getSpecification](../interfaces/types-IGraph.en.md#getspecification)
 
 #### Defined in
 
-[runtime/graph.ts:394](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/runtime/graph.ts#L394)
+[runtime/graph.ts:394](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/runtime/graph.ts#L394)
 
 ___
 
@@ -1446,11 +1446,11 @@ Retrieve the complete history stack
 
 #### Implementation of
 
-[IGraph](../interfaces/types-IGraph.md).[getStack](../interfaces/types-IGraph.md#getstack)
+[IGraph](../interfaces/types-IGraph.en.md).[getStack](../interfaces/types-IGraph.en.md#getstack)
 
 #### Defined in
 
-[runtime/graph.ts:2017](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/runtime/graph.ts#L2017)
+[runtime/graph.ts:2054](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/runtime/graph.ts#L2054)
 
 ___
 
@@ -1466,11 +1466,11 @@ Retrieve the current redo stack which consists of operations that could be undon
 
 #### Implementation of
 
-[IGraph](../interfaces/types-IGraph.md).[getUndoStack](../interfaces/types-IGraph.md#getundostack)
+[IGraph](../interfaces/types-IGraph.en.md).[getUndoStack](../interfaces/types-IGraph.en.md#getundostack)
 
 #### Defined in
 
-[runtime/graph.ts:2000](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/runtime/graph.ts#L2000)
+[runtime/graph.ts:2037](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/runtime/graph.ts#L2037)
 
 ___
 
@@ -1486,11 +1486,11 @@ Return the center of viewport, e.g. for a 500 * 500 canvas, its center is [250, 
 
 #### Implementation of
 
-[IGraph](../interfaces/types-IGraph.md).[getViewportCenter](../interfaces/types-IGraph.md#getviewportcenter)
+[IGraph](../interfaces/types-IGraph.en.md).[getViewportCenter](../interfaces/types-IGraph.en.md#getviewportcenter)
 
 #### Defined in
 
-[runtime/graph.ts:472](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/runtime/graph.ts#L472)
+[runtime/graph.ts:492](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/runtime/graph.ts#L492)
 
 ___
 
@@ -1508,11 +1508,11 @@ current zoom
 
 #### Implementation of
 
-[IGraph](../interfaces/types-IGraph.md).[getZoom](../interfaces/types-IGraph.md#getzoom)
+[IGraph](../interfaces/types-IGraph.en.md).[getZoom](../interfaces/types-IGraph.en.md#getzoom)
 
 #### Defined in
 
-[runtime/graph.ts:573](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/runtime/graph.ts#L573)
+[runtime/graph.ts:593](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/runtime/graph.ts#L593)
 
 ___
 
@@ -1528,11 +1528,11 @@ Determine if history (redo/undo) is enabled.
 
 #### Implementation of
 
-[IGraph](../interfaces/types-IGraph.md).[isHistoryEnabled](../interfaces/types-IGraph.md#ishistoryenabled)
+[IGraph](../interfaces/types-IGraph.en.md).[isHistoryEnabled](../interfaces/types-IGraph.en.md#ishistoryenabled)
 
 #### Defined in
 
-[runtime/graph.ts:1951](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/runtime/graph.ts#L1951)
+[runtime/graph.ts:1988](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/runtime/graph.ts#L1988)
 
 ___
 
@@ -1546,7 +1546,7 @@ Layout the graph (with current configurations if cfg is not assigned).
 
 | Name | Type | Default value |
 | :------ | :------ | :------ |
-| `options?` | [`LayoutOptions`](../modules/types.md#layoutoptions) | `undefined` |
+| `options?` | [`LayoutOptions`](../modules/types.en.md#layoutoptions) | `undefined` |
 | `disableAnimate` | `boolean` | `false` |
 
 #### Returns
@@ -1555,11 +1555,11 @@ Layout the graph (with current configurations if cfg is not assigned).
 
 #### Implementation of
 
-[IGraph](../interfaces/types-IGraph.md).[layout](../interfaces/types-IGraph.md#layout)
+[IGraph](../interfaces/types-IGraph.en.md).[layout](../interfaces/types-IGraph.en.md#layout)
 
 #### Defined in
 
-[runtime/graph.ts:1656](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/runtime/graph.ts#L1656)
+[runtime/graph.ts:1689](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/runtime/graph.ts#L1689)
 
 ___
 
@@ -1575,11 +1575,11 @@ Pause stacking operation.
 
 #### Implementation of
 
-[IGraph](../interfaces/types-IGraph.md).[pauseStacking](../interfaces/types-IGraph.md#pausestacking)
+[IGraph](../interfaces/types-IGraph.en.md).[pauseStacking](../interfaces/types-IGraph.en.md#pausestacking)
 
 #### Defined in
 
-[runtime/graph.ts:1970](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/runtime/graph.ts#L1970)
+[runtime/graph.ts:2007](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/runtime/graph.ts#L2007)
 
 ___
 
@@ -1603,11 +1603,11 @@ Push the operation(s) onto the specified stack
 
 #### Implementation of
 
-[IGraph](../interfaces/types-IGraph.md).[pushStack](../interfaces/types-IGraph.md#pushstack)
+[IGraph](../interfaces/types-IGraph.en.md).[pushStack](../interfaces/types-IGraph.en.md#pushstack)
 
 #### Defined in
 
-[runtime/graph.ts:1962](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/runtime/graph.ts#L1962)
+[runtime/graph.ts:1999](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/runtime/graph.ts#L1999)
 
 ___
 
@@ -1623,11 +1623,11 @@ Revert recent n operation(s) performed on the graph.
 
 #### Implementation of
 
-[IGraph](../interfaces/types-IGraph.md).[redo](../interfaces/types-IGraph.md#redo)
+[IGraph](../interfaces/types-IGraph.en.md).[redo](../interfaces/types-IGraph.en.md#redo)
 
 #### Defined in
 
-[runtime/graph.ts:2037](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/runtime/graph.ts#L2037)
+[runtime/graph.ts:2074](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/runtime/graph.ts#L2074)
 
 ___
 
@@ -1643,11 +1643,11 @@ Resume stacking operation.
 
 #### Implementation of
 
-[IGraph](../interfaces/types-IGraph.md).[resumeStacking](../interfaces/types-IGraph.md#resumestacking)
+[IGraph](../interfaces/types-IGraph.en.md).[resumeStacking](../interfaces/types-IGraph.en.md#resumestacking)
 
 #### Defined in
 
-[runtime/graph.ts:1978](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/runtime/graph.ts#L1978)
+[runtime/graph.ts:2015](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/runtime/graph.ts#L2015)
 
 ___
 
@@ -1671,11 +1671,11 @@ Rotate the graph with a relative angle.
 
 #### Implementation of
 
-[IGraph](../interfaces/types-IGraph.md).[rotate](../interfaces/types-IGraph.md#rotate)
+[IGraph](../interfaces/types-IGraph.en.md).[rotate](../interfaces/types-IGraph.en.md#rotate)
 
 #### Defined in
 
-[runtime/graph.ts:583](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/runtime/graph.ts#L583)
+[runtime/graph.ts:603](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/runtime/graph.ts#L603)
 
 ___
 
@@ -1699,11 +1699,11 @@ Rotate the graph to an absolute angle.
 
 #### Implementation of
 
-[IGraph](../interfaces/types-IGraph.md).[rotateTo](../interfaces/types-IGraph.md#rotateto)
+[IGraph](../interfaces/types-IGraph.en.md).[rotateTo](../interfaces/types-IGraph.en.md#rotateto)
 
 #### Defined in
 
-[runtime/graph.ts:605](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/runtime/graph.ts#L605)
+[runtime/graph.ts:625](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/runtime/graph.ts#L625)
 
 ___
 
@@ -1721,11 +1721,11 @@ treated as a single operation when undoing or redoing.
 
 #### Implementation of
 
-[IGraph](../interfaces/types-IGraph.md).[startBatch](../interfaces/types-IGraph.md#startbatch)
+[IGraph](../interfaces/types-IGraph.en.md).[startBatch](../interfaces/types-IGraph.en.md#startbatch)
 
 #### Defined in
 
-[runtime/graph.ts:2063](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/runtime/graph.ts#L2063)
+[runtime/graph.ts:2100](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/runtime/graph.ts#L2100)
 
 ___
 
@@ -1743,11 +1743,11 @@ treated as a single operation when undoing or redoing.
 
 #### Implementation of
 
-[IGraph](../interfaces/types-IGraph.md).[stopBatch](../interfaces/types-IGraph.md#stopbatch)
+[IGraph](../interfaces/types-IGraph.en.md).[stopBatch](../interfaces/types-IGraph.en.md#stopbatch)
 
 #### Defined in
 
-[runtime/graph.ts:2073](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/runtime/graph.ts#L2073)
+[runtime/graph.ts:2110](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/runtime/graph.ts#L2110)
 
 ___
 
@@ -1763,11 +1763,11 @@ Some layout algorithms has many iterations which can be stopped at any time.
 
 #### Implementation of
 
-[IGraph](../interfaces/types-IGraph.md).[stopLayout](../interfaces/types-IGraph.md#stoplayout)
+[IGraph](../interfaces/types-IGraph.en.md).[stopLayout](../interfaces/types-IGraph.en.md#stoplayout)
 
 #### Defined in
 
-[runtime/graph.ts:1700](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/runtime/graph.ts#L1700)
+[runtime/graph.ts:1737](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/runtime/graph.ts#L1737)
 
 ___
 
@@ -1783,11 +1783,11 @@ Stop the current transition of transform immediately.
 
 #### Implementation of
 
-[IGraph](../interfaces/types-IGraph.md).[stopTransformTransition](../interfaces/types-IGraph.md#stoptransformtransition)
+[IGraph](../interfaces/types-IGraph.en.md).[stopTransformTransition](../interfaces/types-IGraph.en.md#stoptransformtransition)
 
 #### Defined in
 
-[runtime/graph.ts:490](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/runtime/graph.ts#L490)
+[runtime/graph.ts:510](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/runtime/graph.ts#L510)
 
 ___
 
@@ -1810,11 +1810,11 @@ Transform the graph with a CSS-Transform-like syntax.
 
 #### Implementation of
 
-[IGraph](../interfaces/types-IGraph.md).[transform](../interfaces/types-IGraph.md#transform)
+[IGraph](../interfaces/types-IGraph.en.md).[transform](../interfaces/types-IGraph.en.md#transform)
 
 #### Defined in
 
-[runtime/graph.ts:476](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/runtime/graph.ts#L476)
+[runtime/graph.ts:496](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/runtime/graph.ts#L496)
 
 ___
 
@@ -1837,11 +1837,11 @@ Move the graph with a relative distance under viewport coordinates.
 
 #### Implementation of
 
-[IGraph](../interfaces/types-IGraph.md).[translate](../interfaces/types-IGraph.md#translate)
+[IGraph](../interfaces/types-IGraph.en.md).[translate](../interfaces/types-IGraph.en.md#translate)
 
 #### Defined in
 
-[runtime/graph.ts:500](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/runtime/graph.ts#L500)
+[runtime/graph.ts:520](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/runtime/graph.ts#L520)
 
 ___
 
@@ -1855,7 +1855,7 @@ Move the graph to destination under viewport coordinates.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `destination` | `PointLike` | destination under viewport coordinates. |
+| `destination` | `Point` | destination under viewport coordinates. |
 | `effectTiming?` | `Partial`<`Pick`<`IAnimationEffectTiming`, ``"duration"`` \| ``"easing"`` \| ``"easingFunction"``\>\> | animation configurations |
 
 #### Returns
@@ -1864,11 +1864,11 @@ Move the graph to destination under viewport coordinates.
 
 #### Implementation of
 
-[IGraph](../interfaces/types-IGraph.md).[translateTo](../interfaces/types-IGraph.md#translateto)
+[IGraph](../interfaces/types-IGraph.en.md).[translateTo](../interfaces/types-IGraph.en.md#translateto)
 
 #### Defined in
 
-[runtime/graph.ts:521](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/runtime/graph.ts#L521)
+[runtime/graph.ts:541](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/runtime/graph.ts#L541)
 
 ___
 
@@ -1884,17 +1884,17 @@ Restore n operations that were last n reverted on the graph.
 
 #### Implementation of
 
-[IGraph](../interfaces/types-IGraph.md).[undo](../interfaces/types-IGraph.md#undo)
+[IGraph](../interfaces/types-IGraph.en.md).[undo](../interfaces/types-IGraph.en.md#undo)
 
 #### Defined in
 
-[runtime/graph.ts:2027](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/runtime/graph.ts#L2027)
+[runtime/graph.ts:2064](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/runtime/graph.ts#L2064)
 
 ___
 
 ### updateSpecification
 
-▸ **updateSpecification**(`spec`): [`Specification`](../interfaces/types-Specification.md)<`B`, `T`\>
+▸ **updateSpecification**(`spec`): [`Specification`](../interfaces/types-Specification.en.md)<`B`, `T`\>
 
 Update the specs(configurations).
 
@@ -1902,19 +1902,19 @@ Update the specs(configurations).
 
 | Name | Type |
 | :------ | :------ |
-| `spec` | [`Specification`](../interfaces/types-Specification.md)<`B`, `T`\> |
+| `spec` | [`Specification`](../interfaces/types-Specification.en.md)<`B`, `T`\> |
 
 #### Returns
 
-[`Specification`](../interfaces/types-Specification.md)<`B`, `T`\>
+[`Specification`](../interfaces/types-Specification.en.md)<`B`, `T`\>
 
 #### Implementation of
 
-[IGraph](../interfaces/types-IGraph.md).[updateSpecification](../interfaces/types-IGraph.md#updatespecification)
+[IGraph](../interfaces/types-IGraph.en.md).[updateSpecification](../interfaces/types-IGraph.en.md#updatespecification)
 
 #### Defined in
 
-[runtime/graph.ts:367](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/runtime/graph.ts#L367)
+[runtime/graph.ts:367](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/runtime/graph.ts#L367)
 
 ___
 
@@ -1936,11 +1936,11 @@ Update the theme specs (configurations).
 
 #### Implementation of
 
-[IGraph](../interfaces/types-IGraph.md).[updateTheme](../interfaces/types-IGraph.md#updatetheme)
+[IGraph](../interfaces/types-IGraph.en.md).[updateTheme](../interfaces/types-IGraph.en.md#updatetheme)
 
 #### Defined in
 
-[runtime/graph.ts:373](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/runtime/graph.ts#L373)
+[runtime/graph.ts:373](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/runtime/graph.ts#L373)
 
 ___
 
@@ -1955,7 +1955,7 @@ Zoom the graph with a relative ratio.
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `ratio` | `number` | relative ratio to zoom |
-| `origin?` | `PointLike` | origin under viewport coordinates. |
+| `origin?` | `Point` | origin under viewport coordinates. |
 | `effectTiming?` | `Partial`<`Pick`<`IAnimationEffectTiming`, ``"duration"`` \| ``"easing"`` \| ``"easingFunction"``\>\> | animation configurations |
 
 #### Returns
@@ -1964,11 +1964,11 @@ Zoom the graph with a relative ratio.
 
 #### Implementation of
 
-[IGraph](../interfaces/types-IGraph.md).[zoom](../interfaces/types-IGraph.md#zoom)
+[IGraph](../interfaces/types-IGraph.en.md).[zoom](../interfaces/types-IGraph.en.md#zoom)
 
 #### Defined in
 
-[runtime/graph.ts:535](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/runtime/graph.ts#L535)
+[runtime/graph.ts:555](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/runtime/graph.ts#L555)
 
 ___
 
@@ -1992,11 +1992,11 @@ Zoom the graph to a specified ratio.
 
 #### Implementation of
 
-[IGraph](../interfaces/types-IGraph.md).[zoomTo](../interfaces/types-IGraph.md#zoomto)
+[IGraph](../interfaces/types-IGraph.en.md).[zoomTo](../interfaces/types-IGraph.en.md#zoomto)
 
 #### Defined in
 
-[runtime/graph.ts:557](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/runtime/graph.ts#L557)
+[runtime/graph.ts:577](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/runtime/graph.ts#L577)
 
 ## Plugin
 
@@ -2018,11 +2018,11 @@ Add plugin(s) to graph.
 
 #### Implementation of
 
-[IGraph](../interfaces/types-IGraph.md).[addPlugins](../interfaces/types-IGraph.md#addplugins)
+[IGraph](../interfaces/types-IGraph.en.md).[addPlugins](../interfaces/types-IGraph.en.md#addplugins)
 
 #### Defined in
 
-[runtime/graph.ts:1804](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/runtime/graph.ts#L1804)
+[runtime/graph.ts:1841](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/runtime/graph.ts#L1841)
 
 ___
 
@@ -2044,11 +2044,11 @@ Remove plugin(s) from graph.
 
 #### Implementation of
 
-[IGraph](../interfaces/types-IGraph.md).[removePlugins](../interfaces/types-IGraph.md#removeplugins)
+[IGraph](../interfaces/types-IGraph.en.md).[removePlugins](../interfaces/types-IGraph.en.md#removeplugins)
 
 #### Defined in
 
-[runtime/graph.ts:1857](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/runtime/graph.ts#L1857)
+[runtime/graph.ts:1894](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/runtime/graph.ts#L1894)
 
 ## Properties
 
@@ -2058,7 +2058,7 @@ Remove plugin(s) from graph.
 
 #### Defined in
 
-[runtime/graph.ts:84](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/runtime/graph.ts#L84)
+[runtime/graph.ts:84](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/runtime/graph.ts#L84)
 
 ___
 
@@ -2068,11 +2068,11 @@ ___
 
 #### Implementation of
 
-[IGraph](../interfaces/types-IGraph.md).[canvas](../interfaces/types-IGraph.md#canvas)
+[IGraph](../interfaces/types-IGraph.en.md).[canvas](../interfaces/types-IGraph.en.md#canvas)
 
 #### Defined in
 
-[runtime/graph.ts:74](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/runtime/graph.ts#L74)
+[runtime/graph.ts:74](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/runtime/graph.ts#L74)
 
 ___
 
@@ -2082,11 +2082,11 @@ ___
 
 #### Implementation of
 
-[IGraph](../interfaces/types-IGraph.md).[container](../interfaces/types-IGraph.md#container)
+[IGraph](../interfaces/types-IGraph.en.md).[container](../interfaces/types-IGraph.en.md#container)
 
 #### Defined in
 
-[runtime/graph.ts:76](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/runtime/graph.ts#L76)
+[runtime/graph.ts:76](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/runtime/graph.ts#L76)
 
 ___
 
@@ -2096,11 +2096,11 @@ ___
 
 #### Implementation of
 
-[IGraph](../interfaces/types-IGraph.md).[destroyed](../interfaces/types-IGraph.md#destroyed)
+[IGraph](../interfaces/types-IGraph.en.md).[destroyed](../interfaces/types-IGraph.en.md#destroyed)
 
 #### Defined in
 
-[runtime/graph.ts:78](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/runtime/graph.ts#L78)
+[runtime/graph.ts:78](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/runtime/graph.ts#L78)
 
 ___
 
@@ -2110,11 +2110,11 @@ ___
 
 #### Implementation of
 
-[IGraph](../interfaces/types-IGraph.md).[hooks](../interfaces/types-IGraph.md#hooks)
+[IGraph](../interfaces/types-IGraph.en.md).[hooks](../interfaces/types-IGraph.en.md#hooks)
 
 #### Defined in
 
-[runtime/graph.ts:72](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/runtime/graph.ts#L72)
+[runtime/graph.ts:72](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/runtime/graph.ts#L72)
 
 ___
 
@@ -2124,11 +2124,11 @@ ___
 
 #### Implementation of
 
-[IGraph](../interfaces/types-IGraph.md).[rendererType](../interfaces/types-IGraph.md#renderertype)
+[IGraph](../interfaces/types-IGraph.en.md).[rendererType](../interfaces/types-IGraph.en.md#renderertype)
 
 #### Defined in
 
-[runtime/graph.ts:80](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/runtime/graph.ts#L80)
+[runtime/graph.ts:80](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/runtime/graph.ts#L80)
 
 ___
 
@@ -2138,11 +2138,11 @@ ___
 
 #### Implementation of
 
-[IGraph](../interfaces/types-IGraph.md).[transientCanvas](../interfaces/types-IGraph.md#transientcanvas)
+[IGraph](../interfaces/types-IGraph.en.md).[transientCanvas](../interfaces/types-IGraph.en.md#transientcanvas)
 
 #### Defined in
 
-[runtime/graph.ts:82](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/runtime/graph.ts#L82)
+[runtime/graph.ts:82](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/runtime/graph.ts#L82)
 
 ## Tree
 
@@ -2166,11 +2166,11 @@ Collapse sub tree(s).
 
 #### Implementation of
 
-[IGraph](../interfaces/types-IGraph.md).[collapse](../interfaces/types-IGraph.md#collapse)
+[IGraph](../interfaces/types-IGraph.en.md).[collapse](../interfaces/types-IGraph.en.md#collapse)
 
 #### Defined in
 
-[runtime/graph.ts:2109](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/runtime/graph.ts#L2109)
+[runtime/graph.ts:2146](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/runtime/graph.ts#L2146)
 
 ___
 
@@ -2194,11 +2194,11 @@ Expand sub tree(s).
 
 #### Implementation of
 
-[IGraph](../interfaces/types-IGraph.md).[expand](../interfaces/types-IGraph.md#expand)
+[IGraph](../interfaces/types-IGraph.en.md).[expand](../interfaces/types-IGraph.en.md#expand)
 
 #### Defined in
 
-[runtime/graph.ts:2125](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/runtime/graph.ts#L2125)
+[runtime/graph.ts:2162](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/runtime/graph.ts#L2162)
 
 ## View
 
@@ -2222,11 +2222,11 @@ rendering coordinate
 
 #### Implementation of
 
-[IGraph](../interfaces/types-IGraph.md).[getCanvasByClient](../interfaces/types-IGraph.md#getcanvasbyclient)
+[IGraph](../interfaces/types-IGraph.en.md).[getCanvasByClient](../interfaces/types-IGraph.en.md#getcanvasbyclient)
 
 #### Defined in
 
-[runtime/graph.ts:804](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/runtime/graph.ts#L804)
+[runtime/graph.ts:824](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/runtime/graph.ts#L824)
 
 ___
 
@@ -2250,11 +2250,11 @@ canvas dom (viewport) coordinate
 
 #### Implementation of
 
-[IGraph](../interfaces/types-IGraph.md).[getCanvasByViewport](../interfaces/types-IGraph.md#getcanvasbyviewport)
+[IGraph](../interfaces/types-IGraph.en.md).[getCanvasByViewport](../interfaces/types-IGraph.en.md#getcanvasbyviewport)
 
 #### Defined in
 
-[runtime/graph.ts:773](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/runtime/graph.ts#L773)
+[runtime/graph.ts:793](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/runtime/graph.ts#L793)
 
 ___
 
@@ -2278,11 +2278,11 @@ browser coordinate
 
 #### Implementation of
 
-[IGraph](../interfaces/types-IGraph.md).[getClientByCanvas](../interfaces/types-IGraph.md#getclientbycanvas)
+[IGraph](../interfaces/types-IGraph.en.md).[getClientByCanvas](../interfaces/types-IGraph.en.md#getclientbycanvas)
 
 #### Defined in
 
-[runtime/graph.ts:793](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/runtime/graph.ts#L793)
+[runtime/graph.ts:813](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/runtime/graph.ts#L813)
 
 ___
 
@@ -2300,11 +2300,11 @@ Get the size of the graph canvas.
 
 #### Implementation of
 
-[IGraph](../interfaces/types-IGraph.md).[getSize](../interfaces/types-IGraph.md#getsize)
+[IGraph](../interfaces/types-IGraph.en.md).[getSize](../interfaces/types-IGraph.en.md#getsize)
 
 #### Defined in
 
-[runtime/graph.ts:745](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/runtime/graph.ts#L745)
+[runtime/graph.ts:765](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/runtime/graph.ts#L765)
 
 ___
 
@@ -2328,11 +2328,11 @@ rendering coordinate
 
 #### Implementation of
 
-[IGraph](../interfaces/types-IGraph.md).[getViewportByCanvas](../interfaces/types-IGraph.md#getviewportbycanvas)
+[IGraph](../interfaces/types-IGraph.en.md).[getViewportByCanvas](../interfaces/types-IGraph.en.md#getviewportbycanvas)
 
 #### Defined in
 
-[runtime/graph.ts:783](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/runtime/graph.ts#L783)
+[runtime/graph.ts:803](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/runtime/graph.ts#L803)
 
 ___
 
@@ -2354,8 +2354,8 @@ Set the size for the graph canvas.
 
 #### Implementation of
 
-[IGraph](../interfaces/types-IGraph.md).[setSize](../interfaces/types-IGraph.md#setsize)
+[IGraph](../interfaces/types-IGraph.en.md).[setSize](../interfaces/types-IGraph.en.md#setsize)
 
 #### Defined in
 
-[runtime/graph.ts:755](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/runtime/graph.ts#L755)
+[runtime/graph.ts:775](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/runtime/graph.ts#L775)

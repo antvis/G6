@@ -59,7 +59,7 @@ export default defineConfig({
     themeSwitcher: 'g2',
     versions: {
       // 历史版本以及切换下拉菜单
-      [version]: 'https://g6.antv.antgroup.com',
+      [version]: 'https://g6-next.antv.antgroup.com',
       '4.x': 'https://g6.antv.antgroup.com',
       '3.2.x': 'https://g6-v3-2.antv.vision',
     },

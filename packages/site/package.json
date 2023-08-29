@@ -1,6 +1,6 @@
 {
   "name": "@antv/g6-site",
-  "version": "4.8.0",
+  "version": "5.0.0",
   "private": true,
   "description": "G6 sites deployed on gh-pages",
   "keywords": [
@@ -32,6 +32,7 @@
     "translate": "node translate-api-doc.mjs"
   },
   "dependencies": {
+    "fs-extra": "latest",
     "google-translate-api-x": "^10.6.7",
     "@faker-js/faker": "^8.0.2",
     "@ant-design/icons": "^4.0.6",

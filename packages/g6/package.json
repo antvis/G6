@@ -39,7 +39,7 @@
     "ci": "run-s lint build",
     "clean": "rimraf es lib",
     "coverage": "jest --coverage",
-    "clear:doc": "rimraf ../site/docs/apis",
+    "clear:doc": "rimraf ../site/docs/_apis",
     "doc": "npm run clear:doc && typedoc",
     "lint": "eslint ./src --quiet && prettier ./src --check",
     "lint-staged:js": "eslint --ext .js,.jsx,.ts,.tsx",

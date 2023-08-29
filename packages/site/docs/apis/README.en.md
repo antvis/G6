@@ -1,4 +1,4 @@
-Overview / [Modules](modules.md)
+Overview / [Modules](modules.en.md)
 
 ```jsx
 import { Graph, Util } from '@antv/g6';
@@ -39,13 +39,13 @@ In the above code snippet, we may want to know more about what G6 has to offer, 
 
 #### What types, methods and classes are exported in the '@antv/g6' package?
 
-- [Graph](./classes/graph.Graph.md)
-- [Util](./module/utils.md)
+- [Graph](./classes/graph.Graph.en.md)
+- [Util](./module/utils.en.md)
 
 #### What is Specification which in `new Graph(Specification)`？
 
-- [Specification](./interfaces/types.Specification.md)
+- [Specification](./interfaces/types.Specification.en.md)
 
 #### What are the detailed parameters of the plugins ?
 
-- [Plugins](./modules/plugins.md)
+- [Plugins](./modules/plugins.en.md)
