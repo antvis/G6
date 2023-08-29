@@ -35,24 +35,23 @@ export const getNearestPoint = (
 
 /**
  * Get distance by two points.
- * @param p1 first point
- * @param p2 second point
+ * @param {vec2} p1 first point
+ * @param {vec2} p2 second point
  */
-export const distance = (p1: Point | vec2, p2: Point | vec2): number => {
-  let x1: number, y1: number, x2: number, y2: number;
-  if (Array.isArray(p1) && Array.isArray(p2)) {
-    [x1, y1] = p1;
-    [x2, y2] = p2;
-  } else if (!Array.isArray(p1) && !Array.isArray(p2)) {
-    x1 = (p1 as Point).x;
-    y1 = (p1 as Point).y;
-    x2 = (p2 as Point).x;
-    y2 = (p2 as Point).y;
-  } else {
-    throw new Error('Mismatched input types');
-  }
-  const vx = x1 - x2;
-  const vy = y1 - y2;
+export const distanceVec = (p1: vec2, p2: vec2): number => {
+  const vx = p1[0] - p2[0];
+  const vy = p1[1] - p2[1];
+  return Math.sqrt(vx * vx + vy * vy);
+};
+
+/**
+ * Get distance by two points.
+ * @param {Point} p1 first point
+ * @param {Point} p2 second point
+ */
+export const distance = (p1: Point, p2: Point): number => {
+  const vx = p1.x - p2.x;
+  const vy = p1.y - p2.y;
   return Math.sqrt(vx * vx + vy * vy);
 };
 
