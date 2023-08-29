@@ -22,7 +22,7 @@ IPluginBaseConfig.className
 
 #### Defined in
 
-[stdlib/plugin/minimap/index.ts:19](https://github.com/antvis/G6/blob/0b835e1b00/packages/g6/src/stdlib/plugin/minimap/index.ts#L19)
+[stdlib/plugin/minimap/index.ts:19](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/stdlib/plugin/minimap/index.ts#L19)
 
 ___
 
@@ -36,7 +36,7 @@ IPluginBaseConfig.container
 
 #### Defined in
 
-[stdlib/plugin/minimap/index.ts:26](https://github.com/antvis/G6/blob/0b835e1b00/packages/g6/src/stdlib/plugin/minimap/index.ts#L26)
+[stdlib/plugin/minimap/index.ts:26](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/stdlib/plugin/minimap/index.ts#L26)
 
 ___
 
@@ -46,7 +46,7 @@ ___
 
 #### Defined in
 
-[stdlib/plugin/minimap/index.ts:22](https://github.com/antvis/G6/blob/0b835e1b00/packages/g6/src/stdlib/plugin/minimap/index.ts#L22)
+[stdlib/plugin/minimap/index.ts:22](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/stdlib/plugin/minimap/index.ts#L22)
 
 ___
 
@@ -60,7 +60,7 @@ IPluginBaseConfig.graph
 
 #### Defined in
 
-[types/plugin.ts:7](https://github.com/antvis/G6/blob/0b835e1b00/packages/g6/src/types/plugin.ts#L7)
+[types/plugin.ts:7](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/plugin.ts#L7)
 
 ___
 
@@ -70,7 +70,7 @@ ___
 
 #### Defined in
 
-[stdlib/plugin/minimap/index.ts:25](https://github.com/antvis/G6/blob/0b835e1b00/packages/g6/src/stdlib/plugin/minimap/index.ts#L25)
+[stdlib/plugin/minimap/index.ts:25](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/stdlib/plugin/minimap/index.ts#L25)
 
 ___
 
@@ -80,7 +80,7 @@ ___
 
 #### Defined in
 
-[stdlib/plugin/minimap/index.ts:20](https://github.com/antvis/G6/blob/0b835e1b00/packages/g6/src/stdlib/plugin/minimap/index.ts#L20)
+[stdlib/plugin/minimap/index.ts:20](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/stdlib/plugin/minimap/index.ts#L20)
 
 ___
 
@@ -90,7 +90,7 @@ ___
 
 #### Defined in
 
-[stdlib/plugin/minimap/index.ts:24](https://github.com/antvis/G6/blob/0b835e1b00/packages/g6/src/stdlib/plugin/minimap/index.ts#L24)
+[stdlib/plugin/minimap/index.ts:24](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/stdlib/plugin/minimap/index.ts#L24)
 
 ___
 
@@ -100,7 +100,7 @@ ___
 
 #### Defined in
 
-[stdlib/plugin/minimap/index.ts:23](https://github.com/antvis/G6/blob/0b835e1b00/packages/g6/src/stdlib/plugin/minimap/index.ts#L23)
+[stdlib/plugin/minimap/index.ts:23](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/stdlib/plugin/minimap/index.ts#L23)
 
 ___
 
@@ -110,7 +110,7 @@ ___
 
 #### Defined in
 
-[stdlib/plugin/minimap/index.ts:21](https://github.com/antvis/G6/blob/0b835e1b00/packages/g6/src/stdlib/plugin/minimap/index.ts#L21)
+[stdlib/plugin/minimap/index.ts:21](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/stdlib/plugin/minimap/index.ts#L21)
 
 ___
 
@@ -120,4 +120,4 @@ ___
 
 #### Defined in
 
-[stdlib/plugin/minimap/index.ts:18](https://github.com/antvis/G6/blob/0b835e1b00/packages/g6/src/stdlib/plugin/minimap/index.ts#L18)
+[stdlib/plugin/minimap/index.ts:18](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/stdlib/plugin/minimap/index.ts#L18)

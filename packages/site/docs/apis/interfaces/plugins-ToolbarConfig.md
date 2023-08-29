@@ -22,7 +22,7 @@ IPluginBaseConfig.className
 
 #### Defined in
 
-[types/plugin.ts:6](https://github.com/antvis/G6/blob/0b835e1b00/packages/g6/src/types/plugin.ts#L6)
+[types/plugin.ts:6](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/plugin.ts#L6)
 
 ___
 
@@ -36,7 +36,7 @@ IPluginBaseConfig.container
 
 #### Defined in
 
-[types/plugin.ts:5](https://github.com/antvis/G6/blob/0b835e1b00/packages/g6/src/types/plugin.ts#L5)
+[types/plugin.ts:5](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/plugin.ts#L5)
 
 ___
 
@@ -60,7 +60,7 @@ ___
 
 #### Defined in
 
-[stdlib/plugin/toolbar/index.ts:14](https://github.com/antvis/G6/blob/0b835e1b00/packages/g6/src/stdlib/plugin/toolbar/index.ts#L14)
+[stdlib/plugin/toolbar/index.ts:14](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/stdlib/plugin/toolbar/index.ts#L14)
 
 ___
 
@@ -74,7 +74,7 @@ IPluginBaseConfig.graph
 
 #### Defined in
 
-[types/plugin.ts:7](https://github.com/antvis/G6/blob/0b835e1b00/packages/g6/src/types/plugin.ts#L7)
+[types/plugin.ts:7](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/plugin.ts#L7)
 
 ___
 
@@ -101,7 +101,7 @@ toolbar config
 
 #### Defined in
 
-[stdlib/plugin/toolbar/index.ts:13](https://github.com/antvis/G6/blob/0b835e1b00/packages/g6/src/stdlib/plugin/toolbar/index.ts#L13)
+[stdlib/plugin/toolbar/index.ts:13](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/stdlib/plugin/toolbar/index.ts#L13)
 
 ___
 
@@ -111,7 +111,7 @@ ___
 
 #### Defined in
 
-[stdlib/plugin/toolbar/index.ts:17](https://github.com/antvis/G6/blob/0b835e1b00/packages/g6/src/stdlib/plugin/toolbar/index.ts#L17)
+[stdlib/plugin/toolbar/index.ts:17](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/stdlib/plugin/toolbar/index.ts#L17)
 
 ___
 
@@ -121,7 +121,7 @@ ___
 
 #### Defined in
 
-[stdlib/plugin/toolbar/index.ts:16](https://github.com/antvis/G6/blob/0b835e1b00/packages/g6/src/stdlib/plugin/toolbar/index.ts#L16)
+[stdlib/plugin/toolbar/index.ts:16](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/stdlib/plugin/toolbar/index.ts#L16)
 
 ___
 
@@ -131,4 +131,4 @@ ___
 
 #### Defined in
 
-[stdlib/plugin/toolbar/index.ts:15](https://github.com/antvis/G6/blob/0b835e1b00/packages/g6/src/stdlib/plugin/toolbar/index.ts#L15)
+[stdlib/plugin/toolbar/index.ts:15](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/stdlib/plugin/toolbar/index.ts#L15)

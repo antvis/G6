@@ -22,7 +22,7 @@ IPluginBaseConfig.className
 
 #### Defined in
 
-[types/plugin.ts:6](https://github.com/antvis/G6/blob/0b835e1b00/packages/g6/src/types/plugin.ts#L6)
+[types/plugin.ts:6](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/plugin.ts#L6)
 
 ___
 
@@ -36,7 +36,7 @@ IPluginBaseConfig.container
 
 #### Defined in
 
-[types/plugin.ts:5](https://github.com/antvis/G6/blob/0b835e1b00/packages/g6/src/types/plugin.ts#L5)
+[types/plugin.ts:5](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/plugin.ts#L5)
 
 ___
 
@@ -46,7 +46,7 @@ ___
 
 #### Defined in
 
-[stdlib/plugin/tooltip/index.ts:66](https://github.com/antvis/G6/blob/0b835e1b00/packages/g6/src/stdlib/plugin/tooltip/index.ts#L66)
+[stdlib/plugin/tooltip/index.ts:66](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/stdlib/plugin/tooltip/index.ts#L66)
 
 ___
 
@@ -70,7 +70,7 @@ ___
 
 #### Defined in
 
-[stdlib/plugin/tooltip/index.ts:57](https://github.com/antvis/G6/blob/0b835e1b00/packages/g6/src/stdlib/plugin/tooltip/index.ts#L57)
+[stdlib/plugin/tooltip/index.ts:57](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/stdlib/plugin/tooltip/index.ts#L57)
 
 ___
 
@@ -84,7 +84,7 @@ IPluginBaseConfig.graph
 
 #### Defined in
 
-[types/plugin.ts:7](https://github.com/antvis/G6/blob/0b835e1b00/packages/g6/src/types/plugin.ts#L7)
+[types/plugin.ts:7](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/plugin.ts#L7)
 
 ___
 
@@ -94,7 +94,7 @@ ___
 
 #### Defined in
 
-[stdlib/plugin/tooltip/index.ts:64](https://github.com/antvis/G6/blob/0b835e1b00/packages/g6/src/stdlib/plugin/tooltip/index.ts#L64)
+[stdlib/plugin/tooltip/index.ts:64](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/stdlib/plugin/tooltip/index.ts#L64)
 
 ___
 
@@ -104,7 +104,7 @@ ___
 
 #### Defined in
 
-[stdlib/plugin/tooltip/index.ts:67](https://github.com/antvis/G6/blob/0b835e1b00/packages/g6/src/stdlib/plugin/tooltip/index.ts#L67)
+[stdlib/plugin/tooltip/index.ts:67](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/stdlib/plugin/tooltip/index.ts#L67)
 
 ___
 
@@ -114,7 +114,7 @@ ___
 
 #### Defined in
 
-[stdlib/plugin/tooltip/index.ts:60](https://github.com/antvis/G6/blob/0b835e1b00/packages/g6/src/stdlib/plugin/tooltip/index.ts#L60)
+[stdlib/plugin/tooltip/index.ts:60](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/stdlib/plugin/tooltip/index.ts#L60)
 
 ___
 
@@ -124,7 +124,7 @@ ___
 
 #### Defined in
 
-[stdlib/plugin/tooltip/index.ts:61](https://github.com/antvis/G6/blob/0b835e1b00/packages/g6/src/stdlib/plugin/tooltip/index.ts#L61)
+[stdlib/plugin/tooltip/index.ts:61](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/stdlib/plugin/tooltip/index.ts#L61)
 
 ___
 
@@ -148,7 +148,7 @@ ___
 
 #### Defined in
 
-[stdlib/plugin/tooltip/index.ts:62](https://github.com/antvis/G6/blob/0b835e1b00/packages/g6/src/stdlib/plugin/tooltip/index.ts#L62)
+[stdlib/plugin/tooltip/index.ts:62](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/stdlib/plugin/tooltip/index.ts#L62)
 
 ___
 
@@ -158,4 +158,4 @@ ___
 
 #### Defined in
 
-[stdlib/plugin/tooltip/index.ts:65](https://github.com/antvis/G6/blob/0b835e1b00/packages/g6/src/stdlib/plugin/tooltip/index.ts#L65)
+[stdlib/plugin/tooltip/index.ts:65](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/stdlib/plugin/tooltip/index.ts#L65)

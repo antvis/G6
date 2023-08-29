@@ -18,7 +18,7 @@
 
 #### Defined in
 
-[types/event.ts:42](https://github.com/antvis/G6/blob/0b835e1b00/packages/g6/src/types/event.ts#L42)
+[types/event.ts:42](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/event.ts#L42)
 
 ___
 
@@ -30,7 +30,7 @@ Original event emitted by G
 
 #### Defined in
 
-[types/event.ts:46](https://github.com/antvis/G6/blob/0b835e1b00/packages/g6/src/types/event.ts#L46)
+[types/event.ts:46](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/event.ts#L46)
 
 ___
 
@@ -40,7 +40,7 @@ ___
 
 #### Defined in
 
-[types/event.ts:44](https://github.com/antvis/G6/blob/0b835e1b00/packages/g6/src/types/event.ts#L44)
+[types/event.ts:44](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/event.ts#L44)
 
 ___
 
@@ -50,4 +50,4 @@ ___
 
 #### Defined in
 
-[types/event.ts:43](https://github.com/antvis/G6/blob/0b835e1b00/packages/g6/src/types/event.ts#L43)
+[types/event.ts:43](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/event.ts#L43)

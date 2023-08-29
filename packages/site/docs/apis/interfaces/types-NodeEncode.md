@@ -22,7 +22,7 @@ NodeShapesEncode.anchorShapes
 
 #### Defined in
 
-[types/node.ts:155](https://github.com/antvis/G6/blob/0b835e1b00/packages/g6/src/types/node.ts#L155)
+[types/node.ts:155](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/node.ts#L155)
 
 ___
 
@@ -32,7 +32,7 @@ ___
 
 #### Defined in
 
-[types/node.ts:160](https://github.com/antvis/G6/blob/0b835e1b00/packages/g6/src/types/node.ts#L160)
+[types/node.ts:160](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/node.ts#L160)
 
 ___
 
@@ -46,7 +46,7 @@ NodeShapesEncode.badgeShapes
 
 #### Defined in
 
-[types/node.ts:156](https://github.com/antvis/G6/blob/0b835e1b00/packages/g6/src/types/node.ts#L156)
+[types/node.ts:156](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/node.ts#L156)
 
 ___
 
@@ -60,7 +60,7 @@ NodeShapesEncode.iconShape
 
 #### Defined in
 
-[types/item.ts:89](https://github.com/antvis/G6/blob/0b835e1b00/packages/g6/src/types/item.ts#L89)
+[types/item.ts:89](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/item.ts#L89)
 
 ___
 
@@ -74,7 +74,7 @@ NodeShapesEncode.keyShape
 
 #### Defined in
 
-[types/item.ts:88](https://github.com/antvis/G6/blob/0b835e1b00/packages/g6/src/types/item.ts#L88)
+[types/item.ts:88](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/item.ts#L88)
 
 ___
 
@@ -88,7 +88,7 @@ NodeShapesEncode.labelBackgroundShape
 
 #### Defined in
 
-[types/node.ts:154](https://github.com/antvis/G6/blob/0b835e1b00/packages/g6/src/types/node.ts#L154)
+[types/node.ts:154](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/node.ts#L154)
 
 ___
 
@@ -102,7 +102,7 @@ NodeShapesEncode.labelShape
 
 #### Defined in
 
-[types/node.ts:153](https://github.com/antvis/G6/blob/0b835e1b00/packages/g6/src/types/node.ts#L153)
+[types/node.ts:153](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/node.ts#L153)
 
 ___
 
@@ -120,7 +120,7 @@ NodeShapesEncode.otherShapes
 
 #### Defined in
 
-[types/item.ts:90](https://github.com/antvis/G6/blob/0b835e1b00/packages/g6/src/types/item.ts#L90)
+[types/item.ts:90](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/item.ts#L90)
 
 ___
 
@@ -130,4 +130,4 @@ ___
 
 #### Defined in
 
-[types/node.ts:159](https://github.com/antvis/G6/blob/0b835e1b00/packages/g6/src/types/node.ts#L159)
+[types/node.ts:159](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/node.ts#L159)

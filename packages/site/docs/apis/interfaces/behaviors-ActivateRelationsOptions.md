@@ -14,7 +14,7 @@ Defaults to `"selected"`.
 
 #### Defined in
 
-[stdlib/behavior/activate-relations.ts:40](https://github.com/antvis/G6/blob/0b835e1b00/packages/g6/src/stdlib/behavior/activate-relations.ts#L40)
+[stdlib/behavior/activate-relations.ts:37](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/stdlib/behavior/activate-relations.ts#L37)
 
 ___
 
@@ -26,13 +26,9 @@ Whether to allow multiple selection.
 Defaults to true.
 If set to false, `trigger` options will be ignored.
 
-**`Description`**
-
-fsafasfasf afa
-
 #### Defined in
 
-[stdlib/behavior/activate-relations.ts:27](https://github.com/antvis/G6/blob/0b835e1b00/packages/g6/src/stdlib/behavior/activate-relations.ts#L27)
+[stdlib/behavior/activate-relations.ts:24](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/stdlib/behavior/activate-relations.ts#L24)
 
 ___
 
@@ -58,7 +54,7 @@ Whether allow the behavior happen on the current item.
 
 #### Defined in
 
-[stdlib/behavior/activate-relations.ts:45](https://github.com/antvis/G6/blob/0b835e1b00/packages/g6/src/stdlib/behavior/activate-relations.ts#L45)
+[stdlib/behavior/activate-relations.ts:42](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/stdlib/behavior/activate-relations.ts#L42)
 
 ___
 
@@ -86,7 +82,7 @@ manage states or data manually
 
 #### Defined in
 
-[stdlib/behavior/activate-relations.ts:51](https://github.com/antvis/G6/blob/0b835e1b00/packages/g6/src/stdlib/behavior/activate-relations.ts#L51)
+[stdlib/behavior/activate-relations.ts:48](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/stdlib/behavior/activate-relations.ts#L48)
 
 ___
 
@@ -100,4 +96,4 @@ Could be "click", "mouseenter".
 
 #### Defined in
 
-[stdlib/behavior/activate-relations.ts:33](https://github.com/antvis/G6/blob/0b835e1b00/packages/g6/src/stdlib/behavior/activate-relations.ts#L33)
+[stdlib/behavior/activate-relations.ts:30](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/stdlib/behavior/activate-relations.ts#L30)

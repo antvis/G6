@@ -27,7 +27,7 @@ The shape style of the brush while selecting.
 
 #### Defined in
 
-[stdlib/behavior/brush-select.ts:49](https://github.com/antvis/G6/blob/0b835e1b00/packages/g6/src/stdlib/behavior/brush-select.ts#L49)
+[stdlib/behavior/brush-select.ts:46](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/stdlib/behavior/brush-select.ts#L46)
 
 ___
 
@@ -39,7 +39,7 @@ The event name to trigger when select/unselect an item.
 
 #### Defined in
 
-[stdlib/behavior/brush-select.ts:45](https://github.com/antvis/G6/blob/0b835e1b00/packages/g6/src/stdlib/behavior/brush-select.ts#L45)
+[stdlib/behavior/brush-select.ts:42](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/stdlib/behavior/brush-select.ts#L42)
 
 ___
 
@@ -53,7 +53,7 @@ Should be an array of "node", "edge", or "combo".
 
 #### Defined in
 
-[stdlib/behavior/brush-select.ts:35](https://github.com/antvis/G6/blob/0b835e1b00/packages/g6/src/stdlib/behavior/brush-select.ts#L35)
+[stdlib/behavior/brush-select.ts:32](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/stdlib/behavior/brush-select.ts#L32)
 
 ___
 
@@ -86,7 +86,7 @@ A callback be called after deselecting.
 
 #### Defined in
 
-[stdlib/behavior/brush-select.ts:80](https://github.com/antvis/G6/blob/0b835e1b00/packages/g6/src/stdlib/behavior/brush-select.ts#L80)
+[stdlib/behavior/brush-select.ts:77](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/stdlib/behavior/brush-select.ts#L77)
 
 ___
 
@@ -115,7 +115,7 @@ A callback be called after selecting.
 
 #### Defined in
 
-[stdlib/behavior/brush-select.ts:76](https://github.com/antvis/G6/blob/0b835e1b00/packages/g6/src/stdlib/behavior/brush-select.ts#L76)
+[stdlib/behavior/brush-select.ts:73](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/stdlib/behavior/brush-select.ts#L73)
 
 ___
 
@@ -127,7 +127,7 @@ The mode to compose the selections from times of brush
 
 #### Defined in
 
-[stdlib/behavior/brush-select.ts:57](https://github.com/antvis/G6/blob/0b835e1b00/packages/g6/src/stdlib/behavior/brush-select.ts#L57)
+[stdlib/behavior/brush-select.ts:54](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/stdlib/behavior/brush-select.ts#L54)
 
 ___
 
@@ -141,7 +141,7 @@ Can be set to "active", "highlighted", etc.
 
 #### Defined in
 
-[stdlib/behavior/brush-select.ts:41](https://github.com/antvis/G6/blob/0b835e1b00/packages/g6/src/stdlib/behavior/brush-select.ts#L41)
+[stdlib/behavior/brush-select.ts:38](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/stdlib/behavior/brush-select.ts#L38)
 
 ___
 
@@ -167,7 +167,7 @@ Whether allow the behavior happen on the current item.
 
 #### Defined in
 
-[stdlib/behavior/brush-select.ts:61](https://github.com/antvis/G6/blob/0b835e1b00/packages/g6/src/stdlib/behavior/brush-select.ts#L61)
+[stdlib/behavior/brush-select.ts:58](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/stdlib/behavior/brush-select.ts#L58)
 
 ___
 
@@ -198,7 +198,7 @@ manage states or data manually
 
 #### Defined in
 
-[stdlib/behavior/brush-select.ts:67](https://github.com/antvis/G6/blob/0b835e1b00/packages/g6/src/stdlib/behavior/brush-select.ts#L67)
+[stdlib/behavior/brush-select.ts:64](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/stdlib/behavior/brush-select.ts#L64)
 
 ___
 
@@ -212,4 +212,4 @@ Could be "drag", "shift", "ctrl", "alt", or "meta".
 
 #### Defined in
 
-[stdlib/behavior/brush-select.ts:29](https://github.com/antvis/G6/blob/0b835e1b00/packages/g6/src/stdlib/behavior/brush-select.ts#L29)
+[stdlib/behavior/brush-select.ts:26](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/stdlib/behavior/brush-select.ts#L26)

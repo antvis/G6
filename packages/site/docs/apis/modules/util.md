@@ -40,7 +40,7 @@ extended graph class
 
 #### Defined in
 
-[util/extend.ts:14](https://github.com/antvis/G6/blob/0b835e1b00/packages/g6/src/util/extend.ts#L14)
+[util/extend.ts:14](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/util/extend.ts#L14)
 
 ___
 
@@ -60,7 +60,7 @@ value is Encode<any\>
 
 #### Defined in
 
-[util/type.ts:3](https://github.com/antvis/G6/blob/0b835e1b00/packages/g6/src/util/type.ts#L3)
+[util/type.ts:3](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/util/type.ts#L3)
 
 ___
 
@@ -85,12 +85,6 @@ mock graph data
 | `circle` | (`centerId`: `string`) => { `edges`: `any`[] ; `nodes`: { `data`: {} = {}; `id`: `string`  }[]  } |
 | `random` | (`ratio`: `number`) => { `edges`: `any`[] ; `nodes`: { `data`: {} = {}; `id`: `string`  }[]  } |
 
-**`Example`**
-
-```ts
-const data = mock(10).circle();
-```
-
 #### Defined in
 
-[util/mock.ts:10](https://github.com/antvis/G6/blob/0b835e1b00/packages/g6/src/util/mock.ts#L10)
+[util/mock.ts:7](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/util/mock.ts#L7)

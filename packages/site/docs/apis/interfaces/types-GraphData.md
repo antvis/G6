@@ -12,7 +12,7 @@
 
 #### Defined in
 
-[types/data.ts:14](https://github.com/antvis/G6/blob/0b835e1b00/packages/g6/src/types/data.ts#L14)
+[types/data.ts:14](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/data.ts#L14)
 
 ___
 
@@ -22,7 +22,7 @@ ___
 
 #### Defined in
 
-[types/data.ts:13](https://github.com/antvis/G6/blob/0b835e1b00/packages/g6/src/types/data.ts#L13)
+[types/data.ts:13](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/data.ts#L13)
 
 ___
 
@@ -32,4 +32,4 @@ ___
 
 #### Defined in
 
-[types/data.ts:12](https://github.com/antvis/G6/blob/0b835e1b00/packages/g6/src/types/data.ts#L12)
+[types/data.ts:12](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/data.ts#L12)

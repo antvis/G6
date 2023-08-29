@@ -10,7 +10,7 @@
 
 ### Util
 
-• **Util**: `Object`
+• `Const` **Util**: `Object`
 
 #### Type declaration
 
@@ -22,4 +22,4 @@
 
 #### Defined in
 
-[util/index.ts:5](https://github.com/antvis/G6/blob/0b835e1b00/packages/g6/src/util/index.ts#L5)
+[util/index.ts:4](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/util/index.ts#L4)

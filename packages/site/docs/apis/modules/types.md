@@ -28,7 +28,7 @@ options is ImmediatelyInvokedLayoutOptions
 
 #### Defined in
 
-[types/layout.ts:74](https://github.com/antvis/G6/blob/0b835e1b00/packages/g6/src/types/layout.ts#L74)
+[types/layout.ts:74](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/layout.ts#L74)
 
 ___
 
@@ -48,7 +48,7 @@ ___
 
 #### Defined in
 
-[types/layout.ts:80](https://github.com/antvis/G6/blob/0b835e1b00/packages/g6/src/types/layout.ts#L80)
+[types/layout.ts:80](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/layout.ts#L80)
 
 ## Type Aliases
 
@@ -60,7 +60,7 @@ Displayed model, only for drawing and not received by users.
 
 #### Defined in
 
-[types/combo.ts:153](https://github.com/antvis/G6/blob/0b835e1b00/packages/g6/src/types/combo.ts#L153)
+[types/combo.ts:153](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/combo.ts#L153)
 
 ___
 
@@ -72,7 +72,7 @@ Inner node model, clone and transform from user data.
 
 #### Defined in
 
-[types/combo.ts:150](https://github.com/antvis/G6/blob/0b835e1b00/packages/g6/src/types/combo.ts#L150)
+[types/combo.ts:150](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/combo.ts#L150)
 
 ___
 
@@ -84,7 +84,7 @@ User input model.
 
 #### Defined in
 
-[types/combo.ts:147](https://github.com/antvis/G6/blob/0b835e1b00/packages/g6/src/types/combo.ts#L147)
+[types/combo.ts:147](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/combo.ts#L147)
 
 ___
 
@@ -96,7 +96,7 @@ Displayed data, only for drawing and not received by users.
 
 #### Defined in
 
-[types/edge.ts:89](https://github.com/antvis/G6/blob/0b835e1b00/packages/g6/src/types/edge.ts#L89)
+[types/edge.ts:89](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/edge.ts#L89)
 
 ___
 
@@ -108,7 +108,7 @@ Inner node data, clone and transform from user data.
 
 #### Defined in
 
-[types/edge.ts:86](https://github.com/antvis/G6/blob/0b835e1b00/packages/g6/src/types/edge.ts#L86)
+[types/edge.ts:86](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/edge.ts#L86)
 
 ___
 
@@ -120,7 +120,7 @@ User input data.
 
 #### Defined in
 
-[types/edge.ts:83](https://github.com/antvis/G6/blob/0b835e1b00/packages/g6/src/types/edge.ts#L83)
+[types/edge.ts:83](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/edge.ts#L83)
 
 ___
 
@@ -130,7 +130,7 @@ ___
 
 #### Defined in
 
-[types/combo.ts:177](https://github.com/antvis/G6/blob/0b835e1b00/packages/g6/src/types/combo.ts#L177)
+[types/combo.ts:177](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/combo.ts#L177)
 
 ___
 
@@ -140,7 +140,7 @@ ___
 
 #### Defined in
 
-[types/edge.ts:119](https://github.com/antvis/G6/blob/0b835e1b00/packages/g6/src/types/edge.ts#L119)
+[types/edge.ts:119](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/edge.ts#L119)
 
 ___
 
@@ -150,7 +150,7 @@ ___
 
 #### Defined in
 
-[types/node.ts:173](https://github.com/antvis/G6/blob/0b835e1b00/packages/g6/src/types/node.ts#L173)
+[types/node.ts:173](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/node.ts#L173)
 
 ___
 
@@ -160,7 +160,7 @@ ___
 
 #### Defined in
 
-[types/layout.ts:42](https://github.com/antvis/G6/blob/0b835e1b00/packages/g6/src/types/layout.ts#L42)
+[types/layout.ts:42](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/layout.ts#L42)
 
 ___
 
@@ -170,7 +170,7 @@ ___
 
 #### Defined in
 
-[types/layout.ts:70](https://github.com/antvis/G6/blob/0b835e1b00/packages/g6/src/types/layout.ts#L70)
+[types/layout.ts:70](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/layout.ts#L70)
 
 ___
 
@@ -182,7 +182,7 @@ Displayed model, only for drawing and not received by users.
 
 #### Defined in
 
-[types/node.ts:143](https://github.com/antvis/G6/blob/0b835e1b00/packages/g6/src/types/node.ts#L143)
+[types/node.ts:143](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/node.ts#L143)
 
 ___
 
@@ -194,7 +194,7 @@ Inner node model, clone and transform from user data.
 
 #### Defined in
 
-[types/node.ts:140](https://github.com/antvis/G6/blob/0b835e1b00/packages/g6/src/types/node.ts#L140)
+[types/node.ts:140](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/node.ts#L140)
 
 ___
 
@@ -206,7 +206,7 @@ Data in inner model. Same format to the user data.
 
 #### Defined in
 
-[types/node.ts:84](https://github.com/antvis/G6/blob/0b835e1b00/packages/g6/src/types/node.ts#L84)
+[types/node.ts:84](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/node.ts#L84)
 
 ___
 
@@ -218,7 +218,7 @@ User input model.
 
 #### Defined in
 
-[types/node.ts:137](https://github.com/antvis/G6/blob/0b835e1b00/packages/g6/src/types/node.ts#L137)
+[types/node.ts:137](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/node.ts#L137)
 
 ___
 
@@ -228,4 +228,4 @@ ___
 
 #### Defined in
 
-[types/layout.ts:54](https://github.com/antvis/G6/blob/0b835e1b00/packages/g6/src/types/layout.ts#L54)
+[types/layout.ts:54](https://github.com/antvis/G6/blob/f5420ab2ac/packages/g6/src/types/layout.ts#L54)
