@@ -1,12 +1,11 @@
 const path = require('path');
-const outputDir = path.resolve(__dirname, '../site/docs/apis');
+const outputDir = path.resolve(__dirname, '../site/docs/_apis');
 console.log('outputDir', outputDir);
 
 module.exports = {
   entryPoints: [
     /** graph */
     'src/api-doc/graph.ts',
-
     /** plugins */
     'src/api-doc/plugins.ts',
     /** behaviors */
