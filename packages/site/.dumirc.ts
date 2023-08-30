@@ -295,26 +295,59 @@ export default defineConfig({
       {
         slug: 'apis/modules',
         title: {
-          zh: 'modules',
+          zh: '模块',
           en: 'modules',
         },
         order: 2,
       },
       {
-        slug: 'apis/interfaces',
+        slug: 'apis/interfaces/graph',
         title: {
-          zh: 'interfaces',
-          en: 'interfaces',
+          zh: 'Graph',
+          en: 'graph',
         },
         order: 3,
       },
       {
-        slug: 'apis/classes',
+        slug: 'apis/interfaces/item',
         title: {
-          zh: 'classes',
-          en: 'classes',
+          zh: '元素',
+          en: 'item',
         },
         order: 4,
+      },
+      {
+        slug: 'apis/interfaces/layout',
+        title: {
+          zh: '布局',
+          en: 'layout',
+        },
+        order: 5,
+      },
+      {
+        slug: 'apis/interfaces/behaviors',
+        title: {
+          zh: '交互',
+          en: 'behaviors',
+        },
+        order: 6,
+      },
+
+      {
+        slug: 'apis/interfaces/plugins',
+        title: {
+          zh: '插件',
+          en: 'plugins',
+        },
+        order: 7,
+      },
+      {
+        slug: 'apis/classes',
+        title: {
+          zh: '类',
+          en: 'classes',
+        },
+        order: 8,
       },
       // {
       //   slug: 'apis/interfaces',
