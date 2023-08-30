@@ -26,7 +26,7 @@ export interface MiniMapConfig extends IPluginBaseConfig {
   container?: HTMLDivElement | null;
 }
 
-export default class Minimap extends Base {
+export class Minimap extends Base {
   private canvas: Canvas;
   /** The viewport DOM on the minimap. */
   private viewport: HTMLElement | undefined;

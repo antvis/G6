@@ -1,4 +1,4 @@
-import { Graph as GraphLib, TreeData } from '@antv/graphlib';
+import { Graph as GraphLib, TreeData as ITreeData } from '@antv/graphlib';
 import { ComboUserModel } from './combo';
 import {
   NodeDisplayModelData,
@@ -14,13 +14,17 @@ export interface GraphData {
   combos?: ComboUserModel[];
 }
 
+export type TreeData =
+  | ITreeData<NodeUserModelData>
+  | ITreeData<NodeUserModelData>[];
+
 export interface InlineGraphDataConfig {
   type: 'graphData';
   value: GraphData;
 }
 export interface InlineTreeDataConfig {
   type: 'treeData';
-  value: TreeData<NodeUserModelData> | TreeData<NodeUserModelData>[];
+  value: TreeData;
 }
 
 export interface FetchDataConfig {

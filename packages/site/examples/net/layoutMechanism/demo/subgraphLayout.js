@@ -1,4 +1,4 @@
-import G6 from '@antv/g6';
+import { Graph, Extensions } from '@antv/g6';
 // import by this way in your project. 在您的项目中请这样引入
 // import { Graph as GraphCore } from '@antv/graphlib';
 
@@ -552,7 +552,7 @@ const data = {
 const container = document.getElementById('container');
 const width = container.scrollWidth;
 const height = container.scrollHeight || 500;
-const graph = new G6.Graph({
+const graph = new Graph({
   container: 'container',
   width,
   height,
@@ -590,7 +590,7 @@ btn.style.border = '2px solid #873bf4';
 btn.style.padding = '4px 8px';
 container.appendChild(btn);
 btn.addEventListener('click', async () => {
-  const subGridLayout = new G6.stdLib.layouts.grid({
+  const subGridLayout = new Extensions.GridLayout({
     begin: [width / 5, height / 5],
   });
   const subgraphNodes0 = graph.getAllNodesData().filter((node) => node.data.subGraph === '0');
@@ -607,7 +607,7 @@ btn.addEventListener('click', async () => {
   const gridPositions = await subGridLayout.execute(new GraphCore(subgraphData0));
   graph.updateNodePosition(gridPositions.nodes);
 
-  const subForceLayout = new G6.stdLib.layouts.force({
+  const subForceLayout = new Extensions.ForceLayout({
     center: [(width / 3) * 2, (height / 3) * 2],
     linkDistance: 100,
     maxSpeed: 100,

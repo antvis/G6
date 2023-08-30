@@ -1,4 +1,11 @@
-import G6 from '@antv/g6';
+import { Graph, Extensions, extend } from '@antv/g6';
+
+const ExtGraph = extend(Graph, {
+  edges: {
+    'cubic-horizontal-edge': Extensions.CubicHorizontalEdge,
+    'cubic-vertical-edge': Extensions.CubicVerticalEdge,
+  },
+});
 
 const layoutConfigs = {
   LR: {
@@ -22,7 +29,7 @@ const height = container.scrollHeight || 500;
 fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')
   .then((res) => res.json())
   .then((data) => {
-    const graph = new G6.Graph({
+    const graph = new ExtGraph({
       container,
       width,
       height,

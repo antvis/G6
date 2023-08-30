@@ -12,7 +12,7 @@ import comboBasic from './combo/combo-basic';
 import comboRect from './combo/combo-rect';
 import comboDagre from './layouts/dagre-combo';
 import cubic_edge from './item/edge/cubic-edge';
-import cubic_horizon_edge from './item/edge/cubic-horizon-edge';
+import cubic_horizon_edge from './item/edge/cubic-horizontal-edge';
 import cubic_vertical_edge from './item/edge/cubic-vertical-edge';
 import dataValidate from './data/data-validate';
 import demo from './demo/demo';

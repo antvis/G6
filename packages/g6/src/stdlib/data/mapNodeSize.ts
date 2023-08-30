@@ -12,7 +12,7 @@ import {
  * @param userGraphCore the graph core stores the previous data.
  * @returns formatted data.
  */
-export const mapNodeSize = (
+export const MapNodeSize = (
   data: GraphData,
   options: {
     field?: string;
@@ -38,13 +38,14 @@ export const mapNodeSize = (
   const valueRange = [minValue, maxValue];
   const sizeMap = scaleNodeProp(nodes, field, valueRange, range);
   sizeMap.forEach((val, id) => {
-    if (isNaN(val)) return;
+    let value = val;
+    if (isNaN(val)) value = range[0];
     const node = nodeMap.get(id);
     node.data.keyShape = {
       ...node.data.keyShape,
-      r: val / 2,
-      width: val,
-      height: val,
+      r: value / 2,
+      width: value,
+      height: value,
     };
   });
 

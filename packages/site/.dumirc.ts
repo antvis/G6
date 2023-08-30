@@ -345,6 +345,14 @@ export default defineConfig({
       //   },
       // },
       {
+        slug: 'feature',
+        icon: 'gallery',
+        title: {
+          zh: '🎉 5.0 新能力',
+          en: '🎉 5.0 Features',
+        },
+      },
+      {
         slug: 'net',
         icon: 'net',
         title: {

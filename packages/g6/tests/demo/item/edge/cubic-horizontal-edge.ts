@@ -24,7 +24,7 @@ const defaultData = {
       source: 'node1',
       target: 'node2',
       data: {
-        type: 'cubic-horizon-edge',
+        type: 'cubic-horizontal-edge',
         keyShape: {
           stroke: '#f00',
           lineDash: [2, 2],
@@ -235,9 +235,15 @@ export default () => {
     width: 500,
     height: 500,
     data: defaultData,
+    node: {
+      anchorPoints: [
+        [0, 0.5],
+        [1, 0.5],
+      ],
+    },
     modes: {
       // 支持的 behavior
-      default: ['activate-relations'],
+      default: ['activate-relations', 'drag-node'],
     },
   });
   // 3.返回graph

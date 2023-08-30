@@ -1,4 +1,11 @@
-import { Graph } from '@antv/g6';
+import { Graph, Extensions, extend } from '@antv/g6';
+
+const ExtGraph = extend(Graph, {
+  behaviors: {
+    'brush-select': Extensions.BrushSelect,
+    'activate-relations': Extensions.ActivateRelations,
+  },
+});
 
 const container = document.getElementById('container') as HTMLElement;
 const descriptionDiv = document.createElement('div');
@@ -7,7 +14,7 @@ container.appendChild(descriptionDiv);
 
 const width = container.scrollWidth;
 const height = container.scrollHeight || 500;
-const graph = new Graph({
+const graph = new ExtGraph({
   container: 'container',
   width,
   height,
@@ -44,7 +51,6 @@ fetch('https://gw.alipayobjects.com/os/basement_prod/da5a1b47-37d6-44d7-8d10-f3e
     });
 
     const data = { nodes, edges };
-    console.log(data);
     graph.read(data);
 
     descriptionDiv.innerHTML = `节点数量：${nodes.length}, 边数量：${edges.length}, 图元数量：${

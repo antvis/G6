@@ -1,4 +1,13 @@
-import G6 from '@antv/g6';
+import { Graph, Extensions, extend } from '@antv/g6';
+
+const ExtGraph = extend(Graph, {
+  layouts: {
+    mds: Extensions.MDSLayout,
+  },
+  behaviors: {
+    'brush-select': Extensions.BrushSelect,
+  },
+});
 
 const width = container.scrollWidth;
 const height = (container.scrollHeight || 500) - 20;
@@ -30,7 +39,7 @@ const layoutConfigs = {
 fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')
   .then((res) => res.json())
   .then((data) => {
-    const graph = new G6.Graph({
+    const graph = new ExtGraph({
       container: 'container',
       width,
       height,

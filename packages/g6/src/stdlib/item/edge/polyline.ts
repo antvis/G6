@@ -11,7 +11,7 @@ import { getPolylinePath } from '../../../util/polyline';
 import { pathFinder } from '../../../util/router';
 import Node from '../../../item/node';
 import { LineEdge } from './line';
-export class Polyline extends LineEdge {
+export class PolylineEdge extends LineEdge {
   public type = 'polyline-edge';
   public defaultStyles = {
     keyShape: {

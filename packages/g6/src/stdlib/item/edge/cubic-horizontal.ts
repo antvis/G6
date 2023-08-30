@@ -36,30 +36,26 @@ export class CubicHorizontalEdge extends CubicEdge {
     startPoint: Point,
     endPoint: Point,
     percent: number,
-    controlPoints: number[],
+    controlPoints: Point[],
     offset: number,
-  ) => [Point, Point] = (
+  ) => Point[] = (
     startPoint: Point,
     endPoint: Point,
     percent = 0.5,
     controlPoints,
-    offset = 20,
+    offset,
   ) => {
-    if ((startPoint.x - endPoint.x) * (startPoint.y - endPoint.y) < 0) {
-      offset = -offset;
-    }
-
+    if (controlPoints?.length > 1) return controlPoints;
+    const distanceToPoint = (startPoint.x - endPoint.x) * percent;
     const controlPoint1: Point = this.getControlPoint(
       startPoint,
       endPoint,
-      percent,
-      offset,
+      distanceToPoint,
     );
     const controlPoint2: Point = this.getControlPoint(
-      startPoint,
       endPoint,
-      percent,
-      -offset,
+      startPoint,
+      -distanceToPoint,
     );
 
     return [controlPoint1, controlPoint2];
@@ -76,39 +72,15 @@ export class CubicHorizontalEdge extends CubicEdge {
   protected getControlPoint: (
     startPoint: Point,
     endPoint: Point,
-    percent: number,
     offset: number,
-  ) => Point = (
-    startPoint: Point,
-    endPoint: Point,
-    percent = 0,
-    offset = 0,
-  ) => {
+  ) => Point = (startPoint: Point, endPoint: Point, offset = 0) => {
+    if (endPoint.y === startPoint.y || endPoint.x === startPoint.x) {
+      return { x: (startPoint.x + endPoint.x) / 2, y: startPoint.y };
+    }
     const point: Point = {
-      x: (1 - percent) * startPoint.x + percent * endPoint.x,
-      y: 0,
+      x: startPoint.x - offset,
+      y: startPoint.y,
     };
-
-    let tangent: vec2 = [0, 0];
-    vec2.normalize(tangent, [
-      endPoint.x - startPoint.x,
-      endPoint.y - startPoint.y,
-    ]);
-
-    if (!tangent || (!tangent[0] && !tangent[1])) {
-      tangent = [0, 0];
-    }
-    const perpendicular = [-tangent[1] * offset, tangent[0] * offset]; // Vertical vector
-
-    point.x += perpendicular[0];
-    point.y += perpendicular[1];
-
-    if (Math.abs(point.x - startPoint.x) < Math.abs(point.x - endPoint.x)) {
-      point.y += startPoint.y;
-    } else {
-      point.y += endPoint.y;
-    }
-
     return point;
   };
 }

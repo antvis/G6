@@ -31,7 +31,7 @@ const lensDelegateStyle = {
   fillOpacity: 0.1,
   fill: '#ccc',
 };
-export default class Fisheye extends Base {
+export class Fisheye extends Base {
   private pointerDown: Point | undefined = undefined;
   private cacheCenter: Point | undefined = undefined;
   private dragPrePos: Point | undefined = undefined;

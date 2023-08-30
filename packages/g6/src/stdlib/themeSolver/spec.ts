@@ -5,7 +5,7 @@ import {
   ThemeSpecification,
 } from '../../types/theme';
 import { mergeStyles } from '../../util/shape';
-import BaseThemeSolver, { ThemeSpecificationMap } from './base';
+import { BaseThemeSolver, ThemeSpecificationMap } from './base';
 
 interface SpecThemeSolverOptions {
   base: 'light' | 'dark';
@@ -30,7 +30,7 @@ interface SpecThemeSolverOptions {
     };
   };
 }
-export default class SpecThemeSolver extends BaseThemeSolver {
+export class SpecThemeSolver extends BaseThemeSolver {
   public solver(
     options: SpecThemeSolverOptions,
     themes: ThemeSpecificationMap,

@@ -39,7 +39,7 @@ const DEFAULT_OPTIONS: Options = {
   shouldUpdate: () => true,
 };
 
-export default class CollapseExpandTree extends Behavior {
+export class CollapseExpandTree extends Behavior {
   private timeout: ReturnType<typeof setTimeout> = undefined;
 
   constructor(options: Partial<Options>) {

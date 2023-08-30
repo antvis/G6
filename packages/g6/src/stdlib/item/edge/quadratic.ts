@@ -8,7 +8,7 @@ import {
 import { State } from '../../../types/item';
 import { BaseEdge } from './base';
 
-export class Quadratic extends BaseEdge {
+export class QuadraticEdge extends BaseEdge {
   public type = 'quadratic-edge';
   public defaultStyles = {
     keyShape: {

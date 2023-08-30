@@ -75,7 +75,7 @@ class HistoryStack<T> {
   }
 }
 
-export default class History extends Base {
+export class History extends Base {
   public readonly cfg: StackCfg;
   public readonly enableStack: boolean;
   protected undoStack: HistoryStack<Command[]>;
