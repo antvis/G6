@@ -51,7 +51,6 @@ fetch('https://gw.alipayobjects.com/os/basement_prod/da5a1b47-37d6-44d7-8d10-f3e
     });
 
     const data = { nodes, edges };
-    console.log(data);
     graph.read(data);
 
     descriptionDiv.innerHTML = `节点数量：${nodes.length}, 边数量：${edges.length}, 图元数量：${

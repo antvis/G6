@@ -242,7 +242,6 @@ export default () => {
         [0.5, 1],
       ],
     },
-    modes: { default: ['drag-node'] },
   });
 
   // 3.return graph

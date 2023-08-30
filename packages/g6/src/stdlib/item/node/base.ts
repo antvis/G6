@@ -231,6 +231,8 @@ export abstract class BaseNode {
     },
     diffState?: { previous: State[]; current: State[] },
   ): DisplayObject {
+    const { labelShape: shapeStyle } = this.mergedStyles;
+    if (!shapeStyle) return;
     const { keyShape } = shapeMap;
     this.boundsCache.keyShapeLocal =
       this.boundsCache.keyShapeLocal || keyShape.getLocalBounds();
@@ -239,7 +241,6 @@ export abstract class BaseNode {
       this.mergedStyles.keyShape,
       this.boundsCache.keyShapeLocal,
     );
-    const { labelShape: shapeStyle } = this.mergedStyles;
     const {
       position,
       offsetX: propsOffsetX,

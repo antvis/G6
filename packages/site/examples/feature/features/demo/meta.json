@@ -11,6 +11,38 @@
         "en": "3D Graph Vis"
       },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ucUBSoDw2TwAAAAAAAAAAAAAARQnAQ"
+    },
+    {
+      "filename": "lodStrategy.js",
+      "title": {
+        "zh": "信息分层",
+        "en": "Level of Details"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ucUBSoDw2TwAAAAAAAAAAAAAARQnAQ"
+    },
+    {
+      "filename": "itemAnimates.js",
+      "title": {
+        "zh": "动画 Spec",
+        "en": "Animation Spec"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*M-EGS5v6RnUAAAAAAAAAAABkARQnAQ"
+    },
+    {
+      "filename": "rendererSwitch.js",
+      "title": {
+        "zh": "渲染器运行时切换",
+        "en": "Renderer Switch"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*M-EGS5v6RnUAAAAAAAAAAABkARQnAQ"
+    },
+    {
+      "filename": "themeSwitch.js",
+      "title": {
+        "zh": "主题切换",
+        "en": "Theme Switch"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*M-EGS5v6RnUAAAAAAAAAAABkARQnAQ"
     }
   ]
 }

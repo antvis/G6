@@ -201,6 +201,7 @@ export abstract class BaseEdge {
     const { keyShape } = shapeMap;
 
     const { labelShape: shapeStyle } = this.mergedStyles;
+    if (!shapeStyle) return;
     const {
       position,
       offsetX: propsOffsetX,
