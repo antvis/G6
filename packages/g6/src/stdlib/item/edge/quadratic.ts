@@ -120,14 +120,14 @@ export class QuadraticEdge extends BaseEdge {
     controlPoints,
     offset,
   ) => {
-    if (controlPoints?.length) return controlPoints;
-    return [
-      getControlPoint(
-        startPoint as Point,
-        endPoint as Point,
-        percent as number,
-        offset as number,
-      ),
-    ];
-  };
+      if (controlPoints?.length) return controlPoints;
+      return [
+        getControlPoint(
+          startPoint as Point,
+          endPoint as Point,
+          percent as number,
+          offset as number,
+        ),
+      ];
+    };
 }
