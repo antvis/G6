@@ -1,5 +1,5 @@
 import { supportsThreads, initThreads, ForceLayout } from '@antv/layout-wasm';
-import G6 from '../../../src/index';
+import { Graph, Extensions, extend } from '../../../src/index';
 import { loadDataset } from '../../datasets/legacy-format';
 import { TestCaseContext } from '../interface';
 
@@ -13,17 +13,20 @@ export default async (context: TestCaseContext) => {
   const threads = await initThreads(supported);
 
   // Register custom layout
-  G6.stdLib.layouts['force-wasm'] = ForceLayout;
-
-  const ExtGraph = G6.extend(G6.Graph, {
+  const ExtGraph = extend(Graph, {
+    layouts: {
+      'force-wasm': ForceLayout,
+    },
     nodes: {
-      'sphere-node': G6.Extensions.SphereNode,
+      'sphere-node': Extensions.SphereNode,
+    },
+    behaviors: {
+      'orbit-canvas-3d': Extensions.OrbitCanvas3D,
+      'zoom-canvas-3d': Extensions.ZoomCanvas3D,
     },
   });
-
   return new ExtGraph({
     ...context,
-    type: 'graph',
     data: JSON.parse(JSON.stringify(data)),
     renderer: 'webgl-3d',
     layout: {

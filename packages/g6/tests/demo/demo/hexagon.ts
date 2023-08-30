@@ -1,5 +1,5 @@
 import { TestCaseContext } from '../interface';
-import { Graph, IGraph } from '../../../src/index';
+import { Graph, Extensions, extend } from '../../../src/index';
 
 let graph: any;
 
@@ -76,8 +76,12 @@ export default (context: TestCaseContext) => {
   const { width, height, container } = context;
   createCtrlContainer(container!);
   createCtrl();
-
-  graph = new Graph({
+  const ExtGraph = extend(Graph, {
+    nodes: {
+      'hexagon-node': Extensions.HexagonNode,
+    },
+  });
+  graph = new ExtGraph({
     ...context,
     type: 'graph',
     data,

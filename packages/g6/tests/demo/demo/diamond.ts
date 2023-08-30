@@ -1,5 +1,5 @@
 import { TestCaseContext } from '../interface';
-import { Graph, IGraph } from '../../../src/index';
+import { Graph, Extensions, extend } from '../../../src/index';
 
 let graph: any;
 
@@ -77,7 +77,12 @@ export default (context: TestCaseContext) => {
   createCtrlContainer(container!);
   createCtrl();
 
-  graph = new Graph({
+  const ExtGraph = extend(Graph, {
+    nodes: {
+      'diamond-node': Extensions.DiamondNode,
+    },
+  });
+  graph = new ExtGraph({
     ...context,
     type: 'graph',
     data,

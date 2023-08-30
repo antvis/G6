@@ -1,6 +1,6 @@
 import { BehaviorOptionsOf, BehaviorRegistry } from 'types/behavior';
-import { isArrayOverlap } from './array';
 import { isString } from '@antv/util';
+import { isArrayOverlap } from './array';
 
 const TREE_BEHAVIORS = ['collapse-expand-tree'];
 export const hasTreeBehaviors = (

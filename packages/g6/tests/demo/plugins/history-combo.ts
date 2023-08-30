@@ -1,4 +1,4 @@
-import G6 from '../../../src/index';
+import { Graph, Extensions, extend } from '../../../src/index';
 
 const createOperationContainer = (container: HTMLElement) => {
   const operationContainer = document.createElement('div');
@@ -103,7 +103,12 @@ export default (context) => {
     combos: [{ id: 'combo1', data: { x: 150, y: 100 } }],
   };
 
-  const graph = new G6.Graph({
+  const ExtGraph = extend(Graph, {
+    behaviors: {
+      'hover-activate': Extensions.HoverActivate,
+    },
+  });
+  const graph = new ExtGraph({
     ...context,
     data,
     type: 'graph',

@@ -1,4 +1,5 @@
-import G6 from '../../../src/index';
+import { Graph, Extensions, extend } from '../../../src/index';
+
 export default (
   context,
   options: {
@@ -7,7 +8,12 @@ export default (
   } = {},
 ) => {
   const { disableAnimate = false, comboType = 'circle-combo' } = options;
-  const graph = new G6.Graph({
+  const ExtGraph = extend(Graph, {
+    behaviors: {
+      'hover-activate': Extensions.HoverActivate,
+    },
+  });
+  const graph = new Graph({
     ...context,
     layout: {
       type: 'grid',

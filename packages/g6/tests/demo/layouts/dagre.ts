@@ -1,4 +1,5 @@
-import G6 from '../../../src/index';
+import { Graph, Extensions, extend } from '../../../src/index';
+
 import { TestCaseContext } from '../interface';
 
 export default (context: TestCaseContext) => {
@@ -243,8 +244,15 @@ export default (context: TestCaseContext) => {
       },
     ],
   };
-
-  const graph = new G6.Graph({
+  const ExtGraph = extend(Graph, {
+    layouts: {
+      dagre: Extensions.DagreLayout,
+    },
+    edges: {
+      'polyline-edge': Extensions.PolylineEdge,
+    },
+  });
+  const graph = new ExtGraph({
     ...context,
     data: JSON.parse(JSON.stringify(data2)),
     layout: {

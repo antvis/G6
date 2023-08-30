@@ -1,4 +1,5 @@
-import { Graph, IGraph } from '../../../../src/index';
+import { Graph, Extensions, extend } from '../../../../src/index';
+
 // @ts-nocheck
 
 let graph: IGraph;
@@ -226,8 +227,14 @@ export default () => {
 
   // 2.create graph
   container = document.getElementById('container')!;
+  const ExtGraph = extend(Graph, {
+    behaviors: {
+      'activate-relations': Extensions.ActivateRelations,
+    },
+    edges: { 'cubic-edge': Extensions.CubicEdge },
+  });
 
-  graph = new Graph({
+  graph = new ExtGraph({
     container,
     width: 500,
     height: 500,

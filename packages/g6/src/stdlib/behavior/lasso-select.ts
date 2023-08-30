@@ -3,8 +3,8 @@ import { ID } from '@antv/graphlib';
 import { IG6GraphEvent } from '../../types/event';
 import { utils } from '..';
 import { Point } from '../../types/common';
-import { BrushSelect } from './brush-select';
 import { IGraph } from '../../types';
+import { BrushSelect } from './brush-select';
 
 const ALLOWED_TRIGGERS = ['drag', 'shift', 'ctrl', 'alt', 'meta'] as const;
 const LASSO_SHAPE_ID = 'g6-lasso-select-brush-shape';

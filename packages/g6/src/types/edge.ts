@@ -1,5 +1,6 @@
 import { DisplayObject, PathStyleProps } from '@antv/g';
 import { Edge as GEdge, PlainObject } from '@antv/graphlib';
+import { BaseEdge } from '../stdlib/item/edge/base';
 import { IAnimates } from './animate';
 import {
   Encode,
@@ -136,3 +137,7 @@ export type ArrowStyle = PathStyleProps & {
   height: number;
   offset?: number;
 };
+
+export interface EdgeRegistry {
+  [key: string]: BaseEdge;
+}
