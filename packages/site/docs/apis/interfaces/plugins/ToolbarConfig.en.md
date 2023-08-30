@@ -6,6 +6,14 @@ title: ToolbarConfig
 
 [plugins](../../modules/plugins.en.md).ToolbarConfig
 
+The `ToolbarConfig` interface contains the following properties:
+
+- `handleClick`: An optional function for handling clicks on the toolbar. It takes two arguments: `code` (of type string) and `graph` (of type IGraph), and has no return value.
+- `getContent`: A required function for getting the content of the toolbar. It takes an optional argument of type `IGraph`, and returns a value of type HTMLDivElement or string.
+- `zoomSensitivity`: An optional number representing the zoom sensitivity of the toolbar. The default value is 10.
+- `minZoom`: An optional number representing the minimum zoom ratio of the toolbar. The default value is 0.00001.
+- `maxZoom`: An optional number representing the maximum zoom ratio of the toolbar. The default value is 1000.
+
 ## Hierarchy
 
 - `IPluginBaseConfig`
@@ -24,7 +32,7 @@ IPluginBaseConfig.className
 
 #### Defined in
 
-[packages/g6/src/types/plugin.ts:6](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/plugin.ts#L6)
+[packages/g6/src/types/plugin.ts:6](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/plugin.ts#L6)
 
 ___
 
@@ -38,7 +46,7 @@ IPluginBaseConfig.container
 
 #### Defined in
 
-[packages/g6/src/types/plugin.ts:5](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/plugin.ts#L5)
+[packages/g6/src/types/plugin.ts:5](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/plugin.ts#L5)
 
 ___
 
@@ -49,6 +57,8 @@ ___
 #### Type declaration
 
 ▸ (`graph?`): `string` \| `HTMLDivElement`
+
+Function for getting content of toolbar
 
 ##### Parameters
 
@@ -62,7 +72,7 @@ ___
 
 #### Defined in
 
-[packages/g6/src/stdlib/plugin/toolbar/index.ts:14](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/plugin/toolbar/index.ts#L14)
+[packages/g6/src/stdlib/plugin/toolbar/index.ts:20](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/plugin/toolbar/index.ts#L20)
 
 ___
 
@@ -76,7 +86,7 @@ IPluginBaseConfig.graph
 
 #### Defined in
 
-[packages/g6/src/types/plugin.ts:7](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/plugin.ts#L7)
+[packages/g6/src/types/plugin.ts:7](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/plugin.ts#L7)
 
 ___
 
@@ -88,14 +98,14 @@ ___
 
 ▸ (`code`, `graph`): `void`
 
-toolbar config
+Function for handling clicks on toolbar
 
 ##### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `code` | `string` | toolbar item code |
-| `graph` | [`IGraph`](../graph/IGraph.en.md)<`BehaviorRegistry`, `ThemeRegistry`\> | Graph Instance |
+| Name | Type |
+| :------ | :------ |
+| `code` | `string` |
+| `graph` | [`IGraph`](../graph/IGraph.en.md)<`BehaviorRegistry`, `ThemeRegistry`\> |
 
 ##### Returns
 
@@ -103,7 +113,7 @@ toolbar config
 
 #### Defined in
 
-[packages/g6/src/stdlib/plugin/toolbar/index.ts:13](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/plugin/toolbar/index.ts#L13)
+[packages/g6/src/stdlib/plugin/toolbar/index.ts:18](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/plugin/toolbar/index.ts#L18)
 
 ___
 
@@ -111,9 +121,11 @@ ___
 
 • **maxZoom**: `number`
 
+Maximum zoom ratio of toolbar
+
 #### Defined in
 
-[packages/g6/src/stdlib/plugin/toolbar/index.ts:17](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/plugin/toolbar/index.ts#L17)
+[packages/g6/src/stdlib/plugin/toolbar/index.ts:26](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/plugin/toolbar/index.ts#L26)
 
 ___
 
@@ -121,9 +133,11 @@ ___
 
 • **minZoom**: `number`
 
+Minimum zoom ratio of toolbar
+
 #### Defined in
 
-[packages/g6/src/stdlib/plugin/toolbar/index.ts:16](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/plugin/toolbar/index.ts#L16)
+[packages/g6/src/stdlib/plugin/toolbar/index.ts:24](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/plugin/toolbar/index.ts#L24)
 
 ___
 
@@ -131,6 +145,8 @@ ___
 
 • **zoomSensitivity**: `number`
 
+Zoom sensitivity of toolbar
+
 #### Defined in
 
-[packages/g6/src/stdlib/plugin/toolbar/index.ts:15](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/plugin/toolbar/index.ts#L15)
+[packages/g6/src/stdlib/plugin/toolbar/index.ts:22](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/plugin/toolbar/index.ts#L22)

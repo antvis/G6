@@ -6,6 +6,22 @@ title: FisheyeConfig
 
 [plugins](../../modules/plugins.en.md).FisheyeConfig
 
+This is an interface named `FisheyeConfig`, which extends the `IPluginBaseConfig` interface. It contains the following properties:
+
+- `trigger`: The trigger method, which can be `'mousemove'`, `'click'`, or `'drag'`.
+- `d`: A number representing the magnification factor of the fisheye.
+- `r`: A number representing the radius of the fisheye.
+- `delegateStyle`: The shape style.
+- `showLabel`: A boolean indicating whether to show the label.
+- `scaleRBy`: Can be `'wheel'`, `'drag'`, `'unset'`, or `undefined`, representing the scaling method for the fisheye radius.
+- `scaleDBy`: Can be `'wheel'`, `'drag'`, `'unset'`, or `undefined`, representing the scaling method for the fisheye magnification factor.
+- `maxR`: A number representing the maximum value of the fisheye radius.
+- `minR`: A number representing the minimum value of the fisheye radius.
+- `maxD`: A number representing the maximum value of the fisheye magnification factor.
+- `minD`: A number representing the minimum value of the fisheye magnification factor.
+- `throttle`: A number representing the throttle time (in milliseconds).
+- `showDPercent`: A boolean indicating whether to show the percentage of the fisheye magnification factor.
+
 ## Hierarchy
 
 - `IPluginBaseConfig`
@@ -24,9 +40,9 @@ IPluginBaseConfig.className
 
 #### Defined in
 
-[packages/g6/src/types/plugin.ts:6](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/plugin.ts#L6)
+[packages/g6/src/types/plugin.ts:6](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/types/plugin.ts#L6)
 
-___
+---
 
 ### container
 
@@ -38,29 +54,43 @@ IPluginBaseConfig.container
 
 #### Defined in
 
-[packages/g6/src/types/plugin.ts:5](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/plugin.ts#L5)
+[packages/g6/src/types/plugin.ts:5](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/types/plugin.ts#L5)
 
-___
+---
 
 ### d
 
 • `Optional` **d**: `number`
 
+A number representing the magnification factor of the fisheye.
+
 #### Defined in
 
-[packages/g6/src/stdlib/plugin/fisheye/index.ts:13](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/plugin/fisheye/index.ts#L13)
+[packages/g6/src/stdlib/plugin/fisheye/index.ts:30](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/stdlib/plugin/fisheye/index.ts#L30)
 
-___
+---
 
 ### delegateStyle
 
-• `Optional` **delegateStyle**: `Partial`<`CircleStyleProps` & `RectStyleProps` & `EllipseStyleProps` & `PolygonStyleProps` & `LineStyleProps` & `PolylineStyleProps` & `TextStyleProps` & `ImageStyleProps` & `PathStyleProps` & `SphereGeometryProps` & `CubeGeometryProps` & `PlaneGeometryProps` & { `animates?`: `IAnimates` ; `lod?`: `number` ; `visible?`: `boolean`  }\>
+• `Optional` **delegateStyle**: `Partial`<`CircleStyleProps` & `RectStyleProps` & `EllipseStyleProps` & `PolygonStyleProps` & `LineStyleProps` & `PolylineStyleProps` & `TextStyleProps` & `ImageStyleProps` & `PathStyleProps` & `SphereGeometryProps` & `CubeGeometryProps` & `PlaneGeometryProps` & { `animates?`: `IAnimates` ; `lod?`: `number` ; `visible?`: `boolean` }\>
+
+The shape style
+
+**`Default`**
+
+`{
+ stroke: '#000',
+   strokeOpacity: 0.8,
+   lineWidth: 2,
+   fillOpacity: 0.1,
+   fill: '#ccc'
+ }`
 
 #### Defined in
 
-[packages/g6/src/stdlib/plugin/fisheye/index.ts:15](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/plugin/fisheye/index.ts#L15)
+[packages/g6/src/stdlib/plugin/fisheye/index.ts:47](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/stdlib/plugin/fisheye/index.ts#L47)
 
-___
+---
 
 ### graph
 
@@ -72,114 +102,136 @@ IPluginBaseConfig.graph
 
 #### Defined in
 
-[packages/g6/src/types/plugin.ts:7](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/plugin.ts#L7)
+[packages/g6/src/types/plugin.ts:7](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/types/plugin.ts#L7)
 
-___
+---
 
 ### maxD
 
 • `Optional` **maxD**: `number`
 
+A number representing the maximum value of the fisheye magnification factor.
+
 #### Defined in
 
-[packages/g6/src/stdlib/plugin/fisheye/index.ts:21](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/plugin/fisheye/index.ts#L21)
+[packages/g6/src/stdlib/plugin/fisheye/index.ts:59](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/stdlib/plugin/fisheye/index.ts#L59)
 
-___
+---
 
 ### maxR
 
 • `Optional` **maxR**: `number`
 
+A number representing the maximum value of the fisheye radius.
+
 #### Defined in
 
-[packages/g6/src/stdlib/plugin/fisheye/index.ts:19](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/plugin/fisheye/index.ts#L19)
+[packages/g6/src/stdlib/plugin/fisheye/index.ts:55](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/stdlib/plugin/fisheye/index.ts#L55)
 
-___
+---
 
 ### minD
 
 • `Optional` **minD**: `number`
 
+A number representing the minimum value of the fisheye magnification factor.
+
 #### Defined in
 
-[packages/g6/src/stdlib/plugin/fisheye/index.ts:22](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/plugin/fisheye/index.ts#L22)
+[packages/g6/src/stdlib/plugin/fisheye/index.ts:61](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/stdlib/plugin/fisheye/index.ts#L61)
 
-___
+---
 
 ### minR
 
 • `Optional` **minR**: `number`
 
+A number representing the minimum value of the fisheye radius.
+
 #### Defined in
 
-[packages/g6/src/stdlib/plugin/fisheye/index.ts:20](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/plugin/fisheye/index.ts#L20)
+[packages/g6/src/stdlib/plugin/fisheye/index.ts:57](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/stdlib/plugin/fisheye/index.ts#L57)
 
-___
+---
 
 ### r
 
 • `Optional` **r**: `number`
 
+A number representing the radius of the fisheye.
+
 #### Defined in
 
-[packages/g6/src/stdlib/plugin/fisheye/index.ts:14](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/plugin/fisheye/index.ts#L14)
+[packages/g6/src/stdlib/plugin/fisheye/index.ts:32](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/stdlib/plugin/fisheye/index.ts#L32)
 
-___
+---
 
 ### scaleDBy
 
-• `Optional` **scaleDBy**: ``"unset"`` \| ``"drag"`` \| ``"wheel"``
+• `Optional` **scaleDBy**: `"unset"` \| `"drag"` \| `"wheel"`
+
+Can be `'wheel'`, `'drag'`, `'unset'`, or `undefined`, representing the scaling method for the fisheye magnification factor.
 
 #### Defined in
 
-[packages/g6/src/stdlib/plugin/fisheye/index.ts:18](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/plugin/fisheye/index.ts#L18)
+[packages/g6/src/stdlib/plugin/fisheye/index.ts:53](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/stdlib/plugin/fisheye/index.ts#L53)
 
-___
+---
 
 ### scaleRBy
 
-• `Optional` **scaleRBy**: ``"unset"`` \| ``"drag"`` \| ``"wheel"``
+• `Optional` **scaleRBy**: `"unset"` \| `"drag"` \| `"wheel"`
+
+Can be `'wheel'`, `'drag'`, `'unset'`, or `undefined`, representing the scaling method for the fisheye radius.
 
 #### Defined in
 
-[packages/g6/src/stdlib/plugin/fisheye/index.ts:17](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/plugin/fisheye/index.ts#L17)
+[packages/g6/src/stdlib/plugin/fisheye/index.ts:51](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/stdlib/plugin/fisheye/index.ts#L51)
 
-___
+---
 
 ### showDPercent
 
 • `Optional` **showDPercent**: `boolean`
 
+A boolean indicating whether to show the percentage of the fisheye magnification factor.
+
 #### Defined in
 
-[packages/g6/src/stdlib/plugin/fisheye/index.ts:24](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/plugin/fisheye/index.ts#L24)
+[packages/g6/src/stdlib/plugin/fisheye/index.ts:65](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/stdlib/plugin/fisheye/index.ts#L65)
 
-___
+---
 
 ### showLabel
 
 • `Optional` **showLabel**: `boolean`
 
+A boolean indicating whether to show the label.
+
 #### Defined in
 
-[packages/g6/src/stdlib/plugin/fisheye/index.ts:16](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/plugin/fisheye/index.ts#L16)
+[packages/g6/src/stdlib/plugin/fisheye/index.ts:49](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/stdlib/plugin/fisheye/index.ts#L49)
 
-___
+---
 
 ### throttle
 
 • `Optional` **throttle**: `number`
 
+A number representing the throttle time (in milliseconds).
+
 #### Defined in
 
-[packages/g6/src/stdlib/plugin/fisheye/index.ts:23](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/plugin/fisheye/index.ts#L23)
+[packages/g6/src/stdlib/plugin/fisheye/index.ts:63](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/stdlib/plugin/fisheye/index.ts#L63)
 
-___
+---
 
 ### trigger
 
-• `Optional` **trigger**: ``"click"`` \| ``"drag"`` \| ``"mousemove"``
+• `Optional` **trigger**: `"click"` \| `"drag"` \| `"mousemove"`
+
+The trigger method, which can be `'mousemove'`, `'click'`, or `'drag'`.
 
 #### Defined in
 
-[packages/g6/src/stdlib/plugin/fisheye/index.ts:12](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/plugin/fisheye/index.ts#L12)
+[packages/g6/src/stdlib/plugin/fisheye/index.ts:28](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/stdlib/plugin/fisheye/index.ts#L28)

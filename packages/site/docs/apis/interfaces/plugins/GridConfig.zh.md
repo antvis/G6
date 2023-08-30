@@ -2,74 +2,79 @@
 title: GridConfig
 ---
 
-[概述 - v5.0.0-alpha.9](../../README.zh.md) / [模块](../../modules.zh.md) / [插件](../. ./modules/plugins.zh.md) / GridConfig 
+[概述 - v5.0.0-alpha.9](../../README.zh.md) / [模块](../../modules.zh.md) / [插件](../../modules/plugins.zh.md) / GridConfig
 
- [插件](../../modules/plugins.zh.md).GridConfig 
+[插件](../../modules/plugins.zh.md).GridConfig
 
- ＃＃ 等级制度 
+这是一个名为`GridConfig`的接口，它扩展了`IPluginBaseConfig`接口。它包含以下属性：
 
- - `IPluginBaseConfig` 
+- `img`：表示网格背景图像的字符串。
+- `follow`：一个布尔值，表示网格是否跟随视图移动。
 
-   ↳ **`GridConfig`** 
+## 层次结构
 
- ＃＃ 特性 
+- `IPluginBaseConfig`
 
- ＃＃＃ 班级名称 
+  ↳ **`GridConfig`**
 
- • `可选` **类名**：`字符串` 
+## 属性
 
- ####继承自 
+### className
 
- IPluginBaseConfig.className 
+• 可选 **className**：字符串
 
- #### 定义于 
+#### 继承自
 
- [packages/g6/src/types/plugin.ts:6](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/plugin.ts#L6) 
+IPluginBaseConfig.className
 
- ___ 
+#### 定义在
 
- ＃＃＃ 容器 
+[packages/g6/src/types/plugin.ts:6](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/types/plugin.ts#L6)
 
- • `可选` **容器**：`字符串` \| `HTMLDivElement` 
+---
 
- ####继承自 
+### container
 
- IPluginBaseConfig.container 
+• 可选 **container**：字符串 | HTMLDivElemzht
 
- #### 定义于 
+#### 继承自
 
- [packages/g6/src/types/plugin.ts:5](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/plugin.ts#L5) 
+IPluginBaseConfig.container
 
- ___ 
+#### 定义在
 
- ＃＃＃ 跟随 
+[packages/g6/src/types/plugin.ts:5](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/types/plugin.ts#L5)
 
- • `可选` **遵循**：`布尔值` 
+---
 
- #### 定义于 
+### follow
 
- [packages/g6/src/stdlib/plugin/grid/index.ts:12](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/plugin/grid/index.ts) ts#L12) 
+• 可选 **follow**：布尔值
 
- ___ 
+#### 定义在
 
- ### 图表 
+[packages/g6/src/stdlib/plugin/grid/index.ts:19](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/stdlib/plugin/grid/index.ts#L19)
 
- • `可选` **graph**: [`IGraph`](../graph/IGraph.zh.md)<`BehaviorRegistry`, `ThemeRegistry`\> 
+---
 
- ####继承自 
+### graph
 
- IPluginBaseConfig.graph 
+• 可选 **graph**：[`IGraph`](../graph/IGraph.zh.md)<行为注册表, 主题注册表\>
 
- #### 定义于 
+#### 继承自
 
- [packages/g6/src/types/plugin.ts:7](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/plugin.ts#L7) 
+IPluginBaseConfig.graph
 
- ___ 
+#### 定义在
 
- ### 图片 
+[packages/g6/src/types/plugin.ts:7](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/types/plugin.ts#L7)
 
- • `可选` **img**：`字符串` 
+---
 
- #### 定义于 
+### img
 
- [packages/g6/src/stdlib/plugin/grid/index.ts:11](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/plugin/grid/index.ts) ts#L11)
+• 可选 **img**：字符串
+
+#### 定义在
+
+[packages/g6/src/stdlib/plugin/grid/index.ts:18](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/stdlib/plugin/grid/index.ts#L18)

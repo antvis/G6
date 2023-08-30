@@ -16,7 +16,7 @@ Defaults to `"selected"`.
 
 #### Defined in
 
-[packages/g6/src/stdlib/behavior/activate-relations.ts:37](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/behavior/activate-relations.ts#L37)
+[packages/g6/src/stdlib/behavior/activate-relations.ts:37](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/activate-relations.ts#L37)
 
 ___
 
@@ -30,7 +30,7 @@ If set to false, `trigger` options will be ignored.
 
 #### Defined in
 
-[packages/g6/src/stdlib/behavior/activate-relations.ts:24](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/behavior/activate-relations.ts#L24)
+[packages/g6/src/stdlib/behavior/activate-relations.ts:24](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/activate-relations.ts#L24)
 
 ___
 
@@ -56,7 +56,7 @@ Whether allow the behavior happen on the current item.
 
 #### Defined in
 
-[packages/g6/src/stdlib/behavior/activate-relations.ts:42](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/behavior/activate-relations.ts#L42)
+[packages/g6/src/stdlib/behavior/activate-relations.ts:42](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/activate-relations.ts#L42)
 
 ___
 
@@ -84,7 +84,7 @@ manage states or data manually
 
 #### Defined in
 
-[packages/g6/src/stdlib/behavior/activate-relations.ts:48](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/behavior/activate-relations.ts#L48)
+[packages/g6/src/stdlib/behavior/activate-relations.ts:48](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/activate-relations.ts#L48)
 
 ___
 
@@ -98,4 +98,4 @@ Could be "click", "mouseenter".
 
 #### Defined in
 
-[packages/g6/src/stdlib/behavior/activate-relations.ts:30](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/behavior/activate-relations.ts#L30)
+[packages/g6/src/stdlib/behavior/activate-relations.ts:30](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/activate-relations.ts#L30)

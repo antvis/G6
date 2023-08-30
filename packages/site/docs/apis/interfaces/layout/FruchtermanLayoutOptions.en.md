@@ -24,7 +24,7 @@ CommonForceLayoutOptions.center
 
 #### Defined in
 
-node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:252
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:252
 
 ___
 
@@ -34,7 +34,7 @@ ___
 
 #### Defined in
 
-node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:316
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:316
 
 ___
 
@@ -44,7 +44,7 @@ ___
 
 #### Defined in
 
-node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:315
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:315
 
 ___
 
@@ -58,13 +58,13 @@ CommonForceLayoutOptions.dimensions
 
 #### Defined in
 
-node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:251
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:251
 
 ___
 
 ### distanceThresholdMode
 
-• `Optional` **distanceThresholdMode**: ``"max"`` \| ``"min"`` \| ``"mean"``
+• `Optional` **distanceThresholdMode**: ``"min"`` \| ``"max"`` \| ``"mean"``
 
 #### Inherited from
 
@@ -72,7 +72,7 @@ CommonForceLayoutOptions.distanceThresholdMode
 
 #### Defined in
 
-node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:255
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:255
 
 ___
 
@@ -82,7 +82,7 @@ ___
 
 #### Defined in
 
-node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:313
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:313
 
 ___
 
@@ -92,7 +92,7 @@ ___
 
 #### Defined in
 
-node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:312
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:312
 
 ___
 
@@ -110,7 +110,7 @@ CommonForceLayoutOptions.maxDistance
 
 #### Defined in
 
-node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:261
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:261
 
 ___
 
@@ -124,7 +124,7 @@ CommonForceLayoutOptions.maxIteration
 
 #### Defined in
 
-node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:254
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:254
 
 ___
 
@@ -138,7 +138,7 @@ CommonForceLayoutOptions.minMovement
 
 #### Defined in
 
-node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:253
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:253
 
 ___
 
@@ -148,7 +148,7 @@ ___
 
 #### Defined in
 
-node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:317
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:317
 
 ___
 
@@ -172,7 +172,7 @@ ___
 
 #### Defined in
 
-node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:318
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:318
 
 ___
 
@@ -182,7 +182,7 @@ ___
 
 #### Defined in
 
-node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:314
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:314
 
 ___
 
@@ -192,4 +192,4 @@ ___
 
 #### Defined in
 
-node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:311
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:311

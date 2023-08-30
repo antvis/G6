@@ -16,7 +16,7 @@ The event name to trigger when drag end.
 
 #### Defined in
 
-[packages/g6/src/stdlib/behavior/orbit-canvas-3d.ts:24](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/behavior/orbit-canvas-3d.ts#L24)
+[packages/g6/src/stdlib/behavior/orbit-canvas-3d.ts:24](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/orbit-canvas-3d.ts#L24)
 
 ___
 
@@ -31,7 +31,7 @@ to make the behavior triggered only when the key is pressing and trigger is happ
 
 #### Defined in
 
-[packages/g6/src/stdlib/behavior/orbit-canvas-3d.ts:20](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/behavior/orbit-canvas-3d.ts#L20)
+[packages/g6/src/stdlib/behavior/orbit-canvas-3d.ts:20](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/orbit-canvas-3d.ts#L20)
 
 ___
 
@@ -57,7 +57,7 @@ Whether allow the behavior happen on the current item.
 
 #### Defined in
 
-[packages/g6/src/stdlib/behavior/orbit-canvas-3d.ts:28](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/behavior/orbit-canvas-3d.ts#L28)
+[packages/g6/src/stdlib/behavior/orbit-canvas-3d.ts:28](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/orbit-canvas-3d.ts#L28)
 
 ___
 
@@ -69,4 +69,4 @@ The way to tranlate the canvas. 'drag' (default) means dragged by mouse, 'direct
 
 #### Defined in
 
-[packages/g6/src/stdlib/behavior/orbit-canvas-3d.ts:13](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/behavior/orbit-canvas-3d.ts#L13)
+[packages/g6/src/stdlib/behavior/orbit-canvas-3d.ts:13](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/orbit-canvas-3d.ts#L13)

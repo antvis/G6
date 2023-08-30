@@ -20,7 +20,7 @@ title: ForceAtlas2LayoutOptions
 
  #### 定义于 
 
- node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:305 
+ node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:305 
 
  ___ 
 
@@ -34,7 +34,7 @@ title: ForceAtlas2LayoutOptions
 
  #### 定义于 
 
- node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:252 
+ node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:252 
 
  ___ 
 
@@ -48,7 +48,7 @@ title: ForceAtlas2LayoutOptions
 
  #### 定义于 
 
- node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:251 
+ node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:251 
 
  ___ 
 
@@ -58,13 +58,13 @@ title: ForceAtlas2LayoutOptions
 
  #### 定义于 
 
- node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:304 
+ node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:304 
 
  ___ 
 
  ### 距离阈值模式 
 
- • `可选` **distanceThresholdMode**：``"max"`` \| ``“分钟”`` \| ``“意思”`` 
+ • `可选` **distanceThresholdMode**：``"min"`` \| ``“最大”`` \| ``“意思”`` 
 
  ####继承自 
 
@@ -72,7 +72,7 @@ title: ForceAtlas2LayoutOptions
 
  #### 定义于 
 
- node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:255 
+ node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:255 
 
  ___ 
 
@@ -82,7 +82,7 @@ title: ForceAtlas2LayoutOptions
 
  #### 定义于 
 
- node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:296 
+ node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:296 
 
  ___ 
 
@@ -92,7 +92,7 @@ title: ForceAtlas2LayoutOptions
 
  #### 定义于 
 
- node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:298 
+ node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:298 
 
  ___ 
 
@@ -102,7 +102,7 @@ title: ForceAtlas2LayoutOptions
 
  #### 定义于 
 
- node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:297 
+ node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:297 
 
  ___ 
 
@@ -112,7 +112,7 @@ title: ForceAtlas2LayoutOptions
 
  #### 定义于 
 
- node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:299 
+ node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:299 
 
  ___ 
 
@@ -122,7 +122,7 @@ title: ForceAtlas2LayoutOptions
 
  #### 定义于 
 
- node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:300 
+ node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:300 
 
  ___ 
 
@@ -140,7 +140,7 @@ title: ForceAtlas2LayoutOptions
 
  #### 定义于 
 
- node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:261 
+ node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:261 
 
  ___ 
 
@@ -154,7 +154,7 @@ title: ForceAtlas2LayoutOptions
 
  #### 定义于 
 
- node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:254 
+ node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:254 
 
  ___ 
 
@@ -168,7 +168,7 @@ title: ForceAtlas2LayoutOptions
 
  #### 定义于 
 
- node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:253 
+ node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:253 
 
  ___ 
 
@@ -178,7 +178,7 @@ title: ForceAtlas2LayoutOptions
 
  #### 定义于 
 
- node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:302 
+ node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:302 
 
  ___ 
 
@@ -188,7 +188,7 @@ title: ForceAtlas2LayoutOptions
 
  #### 定义于 
 
- node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:307 
+ node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:307 
 
  ___ 
 
@@ -212,7 +212,7 @@ title: ForceAtlas2LayoutOptions
 
  #### 定义于 
 
- node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:308 
+ node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:308 
 
  ___ 
 
@@ -222,7 +222,7 @@ title: ForceAtlas2LayoutOptions
 
  #### 定义于 
 
- node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:303 
+ node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:303 
 
  ___ 
 
@@ -232,7 +232,7 @@ title: ForceAtlas2LayoutOptions
 
  #### 定义于 
 
- node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:306 
+ node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:306 
 
  ___ 
 
@@ -242,7 +242,7 @@ title: ForceAtlas2LayoutOptions
 
  #### 定义于 
 
- node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:301 
+ node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:301 
 
  ___ 
 
@@ -252,4 +252,4 @@ title: ForceAtlas2LayoutOptions
 
  #### 定义于 
 
- node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:295
+ node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:295

@@ -17,7 +17,7 @@ title: ZoomCanvasOptions
 
  #### 定义于 
 
- [packages/g6/src/stdlib/behavior/zoom-canvas.ts:10](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/behavior/zoom-canvas. ts#L10) 
+ [packages/g6/src/stdlib/behavior/zoom-canvas.ts:10](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/zoom-canvas。 ts#L10) 
 
  ___ 
 
@@ -29,7 +29,7 @@ title: ZoomCanvasOptions
 
  #### 定义于 
 
- [packages/g6/src/stdlib/behavior/zoom-canvas.ts:34](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/behavior/zoom-canvas. ts#L34) 
+ [packages/g6/src/stdlib/behavior/zoom-canvas.ts:34](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/zoom-canvas. ts#L34) 
 
  ___ 
 
@@ -41,7 +41,7 @@ title: ZoomCanvasOptions
 
  #### 定义于 
 
- [packages/g6/src/stdlib/behavior/zoom-canvas.ts:42](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/behavior/zoom-canvas. ts#L42) 
+ [packages/g6/src/stdlib/behavior/zoom-canvas.ts:42](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/zoom-canvas. ts#L42) 
 
  ___ 
 
@@ -53,7 +53,7 @@ title: ZoomCanvasOptions
 
  #### 定义于 
 
- [packages/g6/src/stdlib/behavior/zoom-canvas.ts:38](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/behavior/zoom-canvas. ts#L38) 
+ [packages/g6/src/stdlib/behavior/zoom-canvas.ts:38](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/zoom-canvas. ts#L38) 
 
  ___ 
 
@@ -65,7 +65,7 @@ title: ZoomCanvasOptions
 
  #### 定义于 
 
- [packages/g6/src/stdlib/behavior/zoom-canvas.ts:22](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/behavior/zoom-canvas. ts#L22) 
+ [packages/g6/src/stdlib/behavior/zoom-canvas.ts:22](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/zoom-canvas. ts#L22) 
 
  ___ 
 
@@ -77,7 +77,7 @@ title: ZoomCanvasOptions
 
  #### 定义于 
 
- [packages/g6/src/stdlib/behavior/zoom-canvas.ts:30](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/behavior/zoom-canvas. ts#L30) 
+ [packages/g6/src/stdlib/behavior/zoom-canvas.ts:30](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/zoom-canvas. ts#L30) 
 
  ___ 
 
@@ -103,7 +103,7 @@ title: ZoomCanvasOptions
 
  #### 定义于 
 
- [packages/g6/src/stdlib/behavior/zoom-canvas.ts:46](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/behavior/zoom-canvas. ts#L46) 
+ [packages/g6/src/stdlib/behavior/zoom-canvas.ts:46](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/zoom-canvas. ts#L46) 
 
  ___ 
 
@@ -115,7 +115,7 @@ title: ZoomCanvasOptions
 
  #### 定义于 
 
- [packages/g6/src/stdlib/behavior/zoom-canvas.ts:26](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/behavior/zoom-canvas. ts#L26) 
+ [packages/g6/src/stdlib/behavior/zoom-canvas.ts:26](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/zoom-canvas. ts#L26) 
 
  ___ 
 
@@ -127,7 +127,7 @@ title: ZoomCanvasOptions
 
  #### 定义于 
 
- [packages/g6/src/stdlib/behavior/zoom-canvas.ts:18](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/behavior/zoom-canvas. ts#L18) 
+ [packages/g6/src/stdlib/behavior/zoom-canvas.ts:18](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/zoom-canvas. ts#L18) 
 
  ___ 
 
@@ -139,4 +139,4 @@ title: ZoomCanvasOptions
 
  #### 定义于 
 
- [packages/g6/src/stdlib/behavior/zoom-canvas.ts:14](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/behavior/zoom-canvas. ts#L14)
+ [packages/g6/src/stdlib/behavior/zoom-canvas.ts:14](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/zoom-canvas. ts#L14)
