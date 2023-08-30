@@ -138,5 +138,5 @@ interface ForceAtlas2 extends ForceAtlas2LayoutOptions {
 }
 
 export interface LayoutRegistry {
-  [key: string]: Layout<LayoutOptions>
+  [key: string]: Layout<LayoutOptions>;
 }
