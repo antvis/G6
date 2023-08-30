@@ -1,12 +1,14 @@
-[概述 - v5.0.0-alpha.9](../README.zh.md) / [模块](../modules.zh.md) / util 
+---
+title: util
+---
 
- # 模块：util 
+[概述 - v5.0.0-alpha.9](../README.zh.md) / [模块](../modules.zh.md) / util 
 
  ＃＃ 功能 
 
  ＃＃＃ 延长 
 
- ▸ **扩展**<`B1`、`B2`、`T1`、`T2`\>(`GraphClass`、`extendLibrary`): typeof [`Graph`](../classes/graph-Graph. zh.md) 
+ ▸ **扩展**<`B1`、`B2`、`T1`、`T2`\>(`GraphClass`、`extendLibrary`): typeof [`Graph`](../classes/graph/Graph. zh.md) 
 
  使用自定义库（extendLibrary）扩展图形类，extendLibrary将合并到useLib中。 
  B1是用户的Behavior库，B2是要扩展的图的Behavior库（内置图） 
@@ -25,7 +27,7 @@
 
  | 名称 | 类型 | 描述 | 
  | :------ | :------ | :------ | 
- | `GraphClass` | typeof [`Graph`](../classes/graph-Graph.zh.md) | 待扩展的图类 | 
+ | `GraphClass` | typeof [`Graph`](../classes/graph/Graph.zh.md) | 待扩展的图类 | 
  | `扩展库` | `对象` | 要扩展的自定义库 | 
  | `extendLibrary.behaviors？` | `B1` | - | 
  | `extendLibrary.edges？` | `任何` | - | 
@@ -34,13 +36,13 @@
 
  #### 返回 
 
- typeof [`Graph`](../classes/graph-Graph.zh.md) 
+ typeof [`Graph`](../classes/graph/Graph.zh.md) 
 
  扩展图类 
 
  #### 定义于 
 
- [util/extend.ts:14](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/util/extend.ts#L14) 
+ [packages/g6/src/util/extend.ts:14](https://github.com/antvis/G6/blob/f03c826ec6/packages/g6/src/util/extend.ts#L14) 
 
  ___ 
 
@@ -60,7 +62,7 @@
 
  #### 定义于 
 
- [util/type.ts:3](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/util/type.ts#L3) 
+ [packages/g6/src/util/type.ts:3](https://github.com/antvis/G6/blob/f03c826ec6/packages/g6/src/util/type.ts#L3) 
 
  ___ 
 
@@ -87,4 +89,4 @@
 
  #### 定义于 
 
- [util/mock.ts:7](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/util/mock.ts#L7)
+ [packages/g6/src/util/mock.ts:7](https://github.com/antvis/G6/blob/f03c826ec6/packages/g6/src/util/mock.ts#L7)

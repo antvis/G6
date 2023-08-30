@@ -1,51 +1,65 @@
-概述 / [模块](modules.zh.md) 
+---
+title: README
+---
 
- ````jsx 
- 从 '@antv/g6' 导入 { Graph, Util }; 
- const data = Util.mock(6).circle(); 
+## Modules
 
- 常量图 = 新图({ 
-   容器：'容器'， 
-   宽度：500， 
-   高度：500， 
-   数据， 
-   布局： { 
-     类型：'网格'， 
-   }, 
-   插件：[ 
-     { 
-       key: '小地图', 
-       类型：'小地图'， 
-       大小：[300, 200], 
-       模式：“委托”， 
-       委托样式：{ 
-         填充：'红色'， 
-       }, 
-       类名: 'g6-minimap-2', 
-       viewportClassName: 'g6-minimap-viewport-2', 
-     }, 
-   ], 
- }); 
+- [behaviors](modules/behaviors.en.md)
+- [graph](modules/graph.en.md)
+- [item](modules/item.en.md)
+- [layout](modules/layout.en.md)
+- [plugins](modules/plugins.en.md)
+- [types](modules/types.en.md)
+- [util](modules/util.en.md)
 
- const 节点 = graph.getAllNodesData(); 
- const 节点 = graph.getAllNodesData(); 
+概述 / [模块](modules.zh.md)
 
- graph.on('节点：点击', (e) => {}); 
- ```` 
+```jsx
+从 '@antv/g6' 导入 { Graph, Util };
+const data = Util.mock(6).circle();
 
- ＃ 介绍 
+常量图 = 新图({
+  容器：'容器'，
+  宽度：500，
+  高度：500，
+  数据，
+  布局： {
+    类型：'网格'，
+  },
+  插件：[
+    {
+      key: '小地图',
+      类型：'小地图'，
+      大小：[300, 200],
+      模式：“委托”，
+      委托样式：{
+        填充：'红色'，
+      },
+      类名: 'g6-minimap-2',
+      viewportClassName: 'g6-minimap-viewport-2',
+    },
+  ],
+});
 
- 在上面的代码片段中，我们可能想更多地了解 G6 所提供的功能，在这种情况下，我们将需要 G6 API 文档 
+const 节点 = graph.getAllNodesData();
+const 节点 = graph.getAllNodesData();
 
- #### “@antv/g6”包中导出了哪些类型、方法和类？ 
+graph.on('节点：点击', (e) => {});
+```
 
- - [图](./classes/graph.Graph.zh.md) 
- - [Util](./module/utils.zh.md) 
+＃ 介绍
 
- #### `new Graph(Specification)`中的Specification是什么？ 
+在上面的代码片段中，我们可能想更多地了解 G6 所提供的功能，在这种情况下，我们将需要 G6 API 文档
 
- - [规范](./interfaces/types.Specification.zh.md) 
+#### “@antv/g6”包中导出了哪些类型、方法和类？
 
- #### 插件的详细参数是什么？ 
+- [图](./classes/graph.Graph.zh.md)
+- [Util](./module/utils.zh.md)
 
- - [插件](./modules/plugins.zh.md)
+#### `new Graph(Specification)`中的 Specification 是什么？
+
+- [规范](./interfaces/types.Specification.zh.md)
+
+#### 插件的详细参数是什么？
+
+- [插件](./modules/plugins.zh.md)
