@@ -4,10 +4,9 @@ import { Graph, Extensions, extend } from '../../../src/index';
 export default (context: TestCaseContext) => {
   const ExtGraph = extend(Graph, {
     behaviors: {
-      'activate-relations': Extensions.ActivateRelations
+      'activate-relations': Extensions.ActivateRelations,
     },
   });
-
 
   return new ExtGraph({
     ...context,

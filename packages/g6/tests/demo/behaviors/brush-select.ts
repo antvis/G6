@@ -3,11 +3,11 @@ import { TestCaseContext } from '../interface';
 export default (context: TestCaseContext) => {
   const ExtGraph = extend(Graph, {
     behaviors: {
-      'brush-select': Extensions.BrushSelect
+      'brush-select': Extensions.BrushSelect,
     },
     plugins: {
-      'grid': Extensions.Grid
-    }
+      grid: Extensions.Grid,
+    },
   });
 
   return new ExtGraph({

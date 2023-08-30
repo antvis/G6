@@ -75,7 +75,7 @@ export default () => {
 
   const ExtGraph = extend(Graph, {
     edges: {
-      'polyline-edge': Extensions.PolylineEdge
+      'polyline-edge': Extensions.PolylineEdge,
     },
   });
   const graph = new ExtGraph({

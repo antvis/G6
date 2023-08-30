@@ -335,11 +335,11 @@ export default (context: TestCaseContext) => {
   createControls();
   const ExtGraph = extend(Graph, {
     edges: {
-      'polyline-edge': Extensions.PolylineEdge
+      'polyline-edge': Extensions.PolylineEdge,
     },
     behaviors: {
       'activate-relations': Extensions.ActivateRelations,
-    }
+    },
   });
   // 2.create graph
   graph = new ExtGraph({

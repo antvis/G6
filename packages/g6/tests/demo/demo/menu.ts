@@ -1,4 +1,4 @@
-import { Graph,Extensions, extend } from '../../../src/index';
+import { Graph, Extensions, extend } from '../../../src/index';
 
 import { container, height, width } from '../../datasets/const';
 
@@ -42,7 +42,7 @@ export default () => {
 
   const ExtGraph = extend(Graph, {
     plugins: {
-      'menu': Extensions.Menu
+      menu: Extensions.Menu,
     },
   });
   const graph = new ExtGraph({

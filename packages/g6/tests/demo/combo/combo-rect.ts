@@ -1,4 +1,4 @@
-import { Graph, Extensions,stdLib, extend } from '../../../src/index';
+import { Graph, Extensions, stdLib, extend } from '../../../src/index';
 
 import { container, height, width } from '../../datasets/const';
 import {
@@ -9,12 +9,12 @@ import {
 export default () => {
   const ExtGraph = extend(Graph, {
     behaviors: {
-      'hover-activate': Extensions.HoverActivate
+      'hover-activate': Extensions.HoverActivate,
     },
     layouts: {
-      'concentric': Extensions.ConcentricLayout,
-      'comboCombined':Extensions.ComboCombinedLayout
-    }
+      concentric: Extensions.ConcentricLayout,
+      comboCombined: Extensions.ComboCombinedLayout,
+    },
   });
   const graph = new Graph({
     container,

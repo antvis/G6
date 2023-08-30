@@ -47,9 +47,8 @@ export default (
   const { startArrow = true, endArrow = true } = options;
 
   const ExtGraph = extend(Graph, {
-    edges: { 'cubic-horizontal-edge': Extensions.CubicHorizontalEdge }
+    edges: { 'cubic-horizontal-edge': Extensions.CubicHorizontalEdge },
   });
-
 
   const graph = new ExtGraph({
     ...context,

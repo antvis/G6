@@ -6,8 +6,8 @@ export default (context: TestCaseContext) => {
   const { width, height } = context;
   const ExtGraph = extend(Graph, {
     nodes: {
-      'sphere-node': Extensions.SphereNode
-    }
+      'sphere-node': Extensions.SphereNode,
+    },
   });
   const graph = new ExtGraph({
     ...context,

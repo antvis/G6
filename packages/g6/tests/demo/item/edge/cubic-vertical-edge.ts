@@ -230,9 +230,8 @@ export default () => {
     behaviors: {
       'activate-relations': Extensions.ActivateRelations,
     },
-    edges: { 'cubic-vertical-edge': Extensions.CubicVerticalEdge }
+    edges: { 'cubic-vertical-edge': Extensions.CubicVerticalEdge },
   });
-
 
   graph = new Graph({
     container,

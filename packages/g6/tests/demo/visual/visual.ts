@@ -3,17 +3,15 @@ import { IBadgePosition } from '../../../src/types/item';
 import { container, width } from '../../datasets/const';
 
 const createGraph = () => {
-
   const ExtGraph = extend(Graph, {
     layouts: {
       'force-wasm': Extensions.ForceLayout,
-      'fruchterman-wasm': Extensions.FruchtermanLayout
+      'fruchterman-wasm': Extensions.FruchtermanLayout,
     },
     behaviors: {
       'brush-select': Extensions.BrushSelect,
       'hover-activate': Extensions.HoverActivate,
-    }
-
+    },
   });
   const graph = new ExtGraph({
     container: container as HTMLElement,

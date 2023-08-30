@@ -226,7 +226,7 @@ export default (context: TestCaseContext) => {
 
   const ExtGraph = extend(Graph, {
     behaviors: {
-      'activate-relations': Extensions.ActivateRelations
+      'activate-relations': Extensions.ActivateRelations,
     },
   });
   // 2.create graph

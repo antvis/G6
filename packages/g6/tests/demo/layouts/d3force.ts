@@ -6,7 +6,7 @@ export default (context: TestCaseContext) => {
   const { width, height } = context;
   const ExtGraph = extend(Graph, {
     layouts: {
-      'd3force': Extensions.D3ForceLayout
+      d3force: Extensions.D3ForceLayout,
     },
   });
   return new ExtGraph({

@@ -1944,10 +1944,10 @@ const createGraph = async () => {
       'force-wasm': Extensions.ForceLayout,
       'fruchterman-wasm': Extensions.FruchtermanLayout,
     },
-    behaviors:{
-      'brush-select':Extensions.BrushSelect,
-      'hover-activate':Extensions.HoverActivate,
-    }
+    behaviors: {
+      'brush-select': Extensions.BrushSelect,
+      'hover-activate': Extensions.HoverActivate,
+    },
   });
   const graph = new ExtGraph({
     container: container as HTMLElement,

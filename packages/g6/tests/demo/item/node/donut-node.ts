@@ -216,11 +216,11 @@ export default (context) => {
 
   const ExtGraph = extend(Graph, {
     nodes: {
-      'donut-node': Extensions.DonutNode
+      'donut-node': Extensions.DonutNode,
     },
-    behaviors:{
-      'hover-activate':Extensions.HoverActivate
-    }
+    behaviors: {
+      'hover-activate': Extensions.HoverActivate,
+    },
   });
   // @ts-ignore
   graph = new ExtGraph({

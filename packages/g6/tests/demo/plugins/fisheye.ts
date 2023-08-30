@@ -1,6 +1,5 @@
 import { Graph, Extensions, extend } from '../../../src/index';
 
-
 export default async () => {
   let fisheye = {
     type: 'fisheye',
@@ -138,10 +137,9 @@ export default async () => {
   const createGraph = (customData) => {
     const ExtGraph = extend(Graph, {
       plugins: {
-        'fisheye': Extensions.Fisheye,
-        'hover-active': Extensions.HoverActivate
+        fisheye: Extensions.Fisheye,
+        'hover-active': Extensions.HoverActivate,
       },
-
     });
     graph = new ExtGraph({
       container: 'container',
@@ -163,7 +161,7 @@ export default async () => {
       },
     });
 
-    clearButton.addEventListener('click', (e) => { });
+    clearButton.addEventListener('click', (e) => {});
     swithButton.addEventListener('click', (e) => {
       if (swithButton.value === 'Disable') {
         swithButton.value = 'Enable';

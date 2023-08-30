@@ -611,7 +611,7 @@ const data = {
 export default (context: TestCaseContext) => {
   const ExtGraph = extend(Graph, {
     layouts: {
-      'comboCombined': Extensions.ComboCombinedLayout
+      comboCombined: Extensions.ComboCombinedLayout,
     },
   });
   const graph = new ExtGraph({

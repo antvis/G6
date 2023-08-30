@@ -231,9 +231,8 @@ export default () => {
     behaviors: {
       'activate-relations': Extensions.ActivateRelations,
     },
-    edges: { 'cubic-edge': Extensions.CubicEdge }
+    edges: { 'cubic-edge': Extensions.CubicEdge },
   });
-
 
   graph = new ExtGraph({
     container,

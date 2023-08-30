@@ -1,3 +1,4 @@
+import { isArray, isNumber, uniqueId } from '@antv/util';
 import { GraphCore } from '../../types/data';
 import {
   GraphData,
@@ -5,7 +6,6 @@ import {
   EdgeUserModel,
   NodeUserModel,
 } from '../../types';
-import { isArray, isNumber, uniqueId } from '@antv/util';
 
 /**
  * Validate and format the graph data.

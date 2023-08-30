@@ -246,11 +246,11 @@ export default (context: TestCaseContext) => {
   };
   const ExtGraph = extend(Graph, {
     layouts: {
-      'dagre': Extensions.DagreLayout
+      dagre: Extensions.DagreLayout,
     },
-    edges:{
-      'polyline-edge':Extensions.PolylineEdge
-    }
+    edges: {
+      'polyline-edge': Extensions.PolylineEdge,
+    },
   });
   const graph = new ExtGraph({
     ...context,

@@ -38,9 +38,9 @@ export default (context: TestCaseContext) => {
   };
 
   const ExtGraph = extend(Graph, {
-    plugins:{
-      'toolbar':Extensions.Toolbar
-    }
+    plugins: {
+      toolbar: Extensions.Toolbar,
+    },
   });
   const graph = new Graph({
     ...context,

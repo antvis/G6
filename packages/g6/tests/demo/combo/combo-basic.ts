@@ -10,7 +10,7 @@ export default (
   const { disableAnimate = false, comboType = 'circle-combo' } = options;
   const ExtGraph = extend(Graph, {
     behaviors: {
-      'hover-activate': Extensions.HoverActivate
+      'hover-activate': Extensions.HoverActivate,
     },
   });
   const graph = new Graph({
@@ -32,13 +32,13 @@ export default (
       animates: disableAnimate
         ? {}
         : {
-          update: [
-            {
-              fields: ['opacity'],
-              shapeId: 'haloShape',
-            },
-          ],
-        },
+            update: [
+              {
+                fields: ['opacity'],
+                shapeId: 'haloShape',
+              },
+            ],
+          },
     },
     combo: (model) => {
       return {
@@ -57,30 +57,30 @@ export default (
           animates: disableAnimate
             ? {}
             : {
-              buildIn: [
-                {
-                  fields: ['opacity'],
-                  duration: 500,
-                  delay: 500 + Math.random() * 500,
-                },
-              ],
-              buildOut: [
-                {
-                  fields: ['opacity'],
-                  duration: 200,
-                },
-              ],
-              update: [
-                {
-                  fields: ['lineWidth', 'r'],
-                  shapeId: 'keyShape',
-                },
-                {
-                  fields: ['opacity'],
-                  shapeId: 'haloShape',
-                },
-              ],
-            },
+                buildIn: [
+                  {
+                    fields: ['opacity'],
+                    duration: 500,
+                    delay: 500 + Math.random() * 500,
+                  },
+                ],
+                buildOut: [
+                  {
+                    fields: ['opacity'],
+                    duration: 200,
+                  },
+                ],
+                update: [
+                  {
+                    fields: ['lineWidth', 'r'],
+                    shapeId: 'keyShape',
+                  },
+                  {
+                    fields: ['opacity'],
+                    shapeId: 'haloShape',
+                  },
+                ],
+              },
         },
       };
     },

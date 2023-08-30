@@ -1,5 +1,10 @@
 import { deepMix } from '@antv/util';
-import { Graph, EdgeUserModel, Extensions, extend } from '../../../../src/index';
+import {
+  Graph,
+  EdgeUserModel,
+  Extensions,
+  extend,
+} from '../../../../src/index';
 
 import { TestCaseContext } from '../../interface';
 // @ts-nocheck
@@ -238,14 +243,14 @@ export default (context: TestCaseContext) => {
   createControls();
   const ExtGraph = extend(Graph, {
     nodes: {
-      'ellipse-node': Extensions.EllipseNode
+      'ellipse-node': Extensions.EllipseNode,
     },
-    behaviors:{
-      'activate-relations':Extensions.ActivateRelations
+    behaviors: {
+      'activate-relations': Extensions.ActivateRelations,
     },
-    edges:{
-      'loop-edge':Extensions.LoopEdge
-    }
+    edges: {
+      'loop-edge': Extensions.LoopEdge,
+    },
   });
   graph = new ExtGraph({
     ...context,

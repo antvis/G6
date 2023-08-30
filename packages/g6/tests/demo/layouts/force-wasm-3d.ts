@@ -13,16 +13,15 @@ export default async () => {
   // Register custom layout
   const ExtGraph = extend(Graph, {
     layouts: {
-      'force-wasm': Extensions.ForceLayout
+      'force-wasm': Extensions.ForceLayout,
     },
     nodes: {
-      'sphere-node': Extensions.SphereNode
+      'sphere-node': Extensions.SphereNode,
     },
-    behaviors:{
-      'orbit-canvas-3d':Extensions.OrbitCanvas3D,
-      'zoom-canvas-3d':Extensions.ZoomCanvas3D,
-    }
-
+    behaviors: {
+      'orbit-canvas-3d': Extensions.OrbitCanvas3D,
+      'zoom-canvas-3d': Extensions.ZoomCanvas3D,
+    },
   });
   return new ExtGraph({
     container,

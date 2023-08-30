@@ -234,7 +234,7 @@ export default () => {
     behaviors: {
       'activate-relations': Extensions.ActivateRelations,
     },
-    edges: { 'cubic-horizontal-edge': Extensions.CubicHorizontalEdge }
+    edges: { 'cubic-horizontal-edge': Extensions.CubicHorizontalEdge },
   });
 
   graph = new Graph({

@@ -3,16 +3,15 @@ import { Graph, Extensions, extend } from '../../../src/index';
 import { loadDataset } from '../../datasets/legacy-format';
 const ExtGraph = extend(Graph, {
   layouts: {
-    'force-wasm': Extensions.ForceLayout
+    'force-wasm': Extensions.ForceLayout,
   },
   nodes: {
-    'sphere-node': Extensions.SphereNode
+    'sphere-node': Extensions.SphereNode,
   },
   behaviors: {
     'orbit-canvas-3d': Extensions.OrbitCanvas3D,
     'zoom-canvas-3d': Extensions.ZoomCanvas3D,
-  }
-
+  },
 });
 export default async () => {
   const $container = document.getElementById('container')!;
@@ -83,7 +82,7 @@ export default async () => {
     const threads = await initThreads(supported);
 
     // Register custom layout
-    
+
     const graph = new ExtGraph({
       container: $container1,
       width: WIDTH,

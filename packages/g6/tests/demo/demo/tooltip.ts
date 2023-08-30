@@ -1,7 +1,6 @@
 import { Graph, Extensions, extend } from '../../../src/index';
 import { container, height, width } from '../../datasets/const';
 
-
 export default () => {
   const data = {
     nodes: [
@@ -42,7 +41,7 @@ export default () => {
 
   const ExtGraph = extend(Graph, {
     plugins: {
-      'tooltip': Extensions.Tooltip,
+      tooltip: Extensions.Tooltip,
     },
   });
   const graph = new ExtGraph({

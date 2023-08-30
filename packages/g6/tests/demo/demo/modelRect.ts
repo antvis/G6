@@ -1,5 +1,5 @@
 import { TestCaseContext } from '../interface';
-import { Graph, Extensions,extend } from '../../../src/index';
+import { Graph, Extensions, extend } from '../../../src/index';
 
 let graph: any;
 
@@ -79,8 +79,8 @@ export default (context: TestCaseContext) => {
 
   const ExtGraph = extend(Graph, {
     nodes: {
-      'modelRect-node': Extensions.ModelRectNode
-    }
+      'modelRect-node': Extensions.ModelRectNode,
+    },
   });
   graph = new ExtGraph({
     ...context,

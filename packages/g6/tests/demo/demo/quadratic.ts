@@ -1,4 +1,4 @@
-import { Graph,Extensions, extend } from '../../../src/index';
+import { Graph, Extensions, extend } from '../../../src/index';
 import { container, height, width } from '../../datasets/const';
 
 export default () => {
@@ -59,8 +59,8 @@ export default () => {
 
   const ExtGraph = extend(Graph, {
     edges: {
-      'quadratic-edge': Extensions.QuadraticEdge
-    }
+      'quadratic-edge': Extensions.QuadraticEdge,
+    },
   });
   const graph = new ExtGraph({
     container,

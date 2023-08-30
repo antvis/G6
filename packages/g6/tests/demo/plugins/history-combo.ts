@@ -105,7 +105,7 @@ export default (context) => {
 
   const ExtGraph = extend(Graph, {
     behaviors: {
-      'hover-activate': Extensions.HoverActivate
+      'hover-activate': Extensions.HoverActivate,
     },
   });
   const graph = new ExtGraph({

@@ -172,7 +172,7 @@ const data = {
 export default (context: TestCaseContext) => {
   const ExtGraph = extend(Graph, {
     layouts: {
-      'dagre': Extensions.DagreLayout
+      dagre: Extensions.DagreLayout,
     },
   });
   const graph = new ExtGraph({
