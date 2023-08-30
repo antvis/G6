@@ -3,6 +3,18 @@ import insertCss from 'insert-css';
 import { IGraph } from '../../../types';
 import { Plugin as Base, IPluginBaseConfig } from '../../../types/plugin';
 
+/**
+ * @example
+ * const {Graph} from '@antv/g6';
+ * const toolbar:ToolbarConfig = {
+ *   type:"toolbar",
+ *   handleClick:()=>{}
+ * }
+ * new Graph({
+ *  plugins:[toolbar]
+ * })
+ *
+ */
 export interface ToolbarConfig extends IPluginBaseConfig {
   /**
    * toolbar config
@@ -12,8 +24,18 @@ export interface ToolbarConfig extends IPluginBaseConfig {
    */
   handleClick?: (code: string, graph: IGraph) => void;
   getContent: (graph?: IGraph) => HTMLDivElement | string;
+  /**
+   * @default 10
+   */
   zoomSensitivity: number;
+  /**
+   * @default 0.00001
+   */
   minZoom: number;
+  /**
+   * 最小缩放比率
+   * @default 1000
+   */
   maxZoom: number;
 }
 

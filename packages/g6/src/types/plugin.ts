@@ -1,4 +1,4 @@
-import { each, deepMix } from '@antv/util';
+import { deepMix, each } from '@antv/util';
 import { IGraph } from './graph';
 
 export interface IPluginBaseConfig {
@@ -77,5 +77,5 @@ export abstract class Plugin {
 }
 
 export interface PluginRegistry {
-  [key: string]: Plugin;
+  [key: string]: typeof Plugin;
 }

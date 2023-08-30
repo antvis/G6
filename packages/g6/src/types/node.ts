@@ -1,4 +1,4 @@
-import { DisplayObject, Point } from '@antv/g';
+import { DisplayObject } from '@antv/g';
 import { Node as GNode, ID, PlainObject } from '@antv/graphlib';
 import { BaseNode } from '../stdlib/item/node/base';
 import { BaseNode3D } from '../stdlib/item/node/base3d';
@@ -9,10 +9,10 @@ import {
   IBadgePosition,
   IItem,
   ItemShapeStyles,
-  ShapeAttrEncode,
-  ShapesEncode,
-  ShapeStyle,
   LodStrategy,
+  ShapeAttrEncode,
+  ShapeStyle,
+  ShapesEncode,
 } from './item';
 
 export type NodeLabelPosition = 'bottom' | 'center' | 'top' | 'left' | 'right';
@@ -180,5 +180,5 @@ export interface IAnchorPositionMap {
 }
 
 export interface NodeRegistry {
-  [key: string]: BaseNode | BaseNode3D;
+  [key: string]: typeof BaseNode | typeof BaseNode3D;
 }

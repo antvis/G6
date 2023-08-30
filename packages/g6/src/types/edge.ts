@@ -7,10 +7,10 @@ import {
   IItem,
   ItemShapeStyles,
   LabelBackground,
-  ShapeAttrEncode,
-  ShapesEncode,
-  ShapeStyle,
   LodStrategy,
+  ShapeAttrEncode,
+  ShapeStyle,
+  ShapesEncode,
 } from './item';
 
 export interface EdgeUserModelData extends PlainObject {
@@ -139,5 +139,5 @@ export type ArrowStyle = PathStyleProps & {
 };
 
 export interface EdgeRegistry {
-  [key: string]: BaseEdge;
+  [key: string]: typeof BaseEdge;
 }
