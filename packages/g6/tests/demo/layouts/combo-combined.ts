@@ -1,6 +1,6 @@
-import G6 from '../../../src/index';
-import { data } from '../../datasets/dataset1';
 import { TestCaseContext } from '../interface';
+import { Graph, Extensions, extend } from '../../../src/index';
+
 const data = {
   nodes: [
     {
@@ -609,7 +609,12 @@ const data = {
   ],
 };
 export default (context: TestCaseContext) => {
-  const graph = new G6.Graph({
+  const ExtGraph = extend(Graph, {
+    layouts: {
+      'comboCombined': Extensions.ComboCombinedLayout
+    },
+  });
+  const graph = new ExtGraph({
     ...context,
     layout: {
       type: 'comboCombined',

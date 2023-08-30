@@ -1,4 +1,4 @@
-import { Graph, IGraph } from '../../../../src/index';
+import { Graph, Extensions, extend } from '../../../../src/index';
 
 let outerTop = 0;
 let graph: IGraph;
@@ -214,8 +214,16 @@ export default (context) => {
     ],
   };
 
+  const ExtGraph = extend(Graph, {
+    nodes: {
+      'donut-node': Extensions.DonutNode
+    },
+    behaviors:{
+      'hover-activate':Extensions.HoverActivate
+    }
+  });
   // @ts-ignore
-  graph = new Graph({
+  graph = new ExtGraph({
     ...context,
     data,
     type: 'graph',

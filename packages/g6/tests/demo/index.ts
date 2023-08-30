@@ -6,7 +6,6 @@ import behaviors_activateRelations from './behaviors/activate-relations';
 import behaviors_brush_select from './behaviors/brush-select';
 import behaviors_click_select from './behaviors/click-select';
 import behaviors_collapse_expand_tree from './behaviors/collapse-expand-tree';
-import bugReproduce from './demo/bugReproduce';
 import circularUpdate from './layouts/circular-update';
 import comboBasic from './combo/combo-basic';
 import comboRect from './combo/combo-rect';
@@ -46,7 +45,6 @@ import star from './demo/star';
 import polyline from './item/edge/polyline-edge';
 import quadratic from './demo/quadratic';
 import rect from './demo/rect';
-import star from './demo/star';
 import toolbar from './plugins/toolbar';
 import tooltip from './demo/tooltip';
 import treeGraph from './tree/treeGraph';
@@ -64,7 +62,6 @@ export {
   behaviors_brush_select,
   behaviors_click_select,
   behaviors_collapse_expand_tree,
-  bugReproduce,
   circularUpdate,
   comboBasic,
   comboRect,

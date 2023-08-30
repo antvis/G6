@@ -1,4 +1,5 @@
-import G6 from '../../../src/index';
+import { Graph, Extensions, extend } from '../../../src/index';
+
 export default (
   context,
   options: {
@@ -7,7 +8,12 @@ export default (
   } = {},
 ) => {
   const { disableAnimate = false, comboType = 'circle-combo' } = options;
-  const graph = new G6.Graph({
+  const ExtGraph = extend(Graph, {
+    behaviors: {
+      'hover-activate': Extensions.HoverActivate
+    },
+  });
+  const graph = new Graph({
     ...context,
     layout: {
       type: 'grid',
@@ -26,13 +32,13 @@ export default (
       animates: disableAnimate
         ? {}
         : {
-            update: [
-              {
-                fields: ['opacity'],
-                shapeId: 'haloShape',
-              },
-            ],
-          },
+          update: [
+            {
+              fields: ['opacity'],
+              shapeId: 'haloShape',
+            },
+          ],
+        },
     },
     combo: (model) => {
       return {
@@ -51,30 +57,30 @@ export default (
           animates: disableAnimate
             ? {}
             : {
-                buildIn: [
-                  {
-                    fields: ['opacity'],
-                    duration: 500,
-                    delay: 500 + Math.random() * 500,
-                  },
-                ],
-                buildOut: [
-                  {
-                    fields: ['opacity'],
-                    duration: 200,
-                  },
-                ],
-                update: [
-                  {
-                    fields: ['lineWidth', 'r'],
-                    shapeId: 'keyShape',
-                  },
-                  {
-                    fields: ['opacity'],
-                    shapeId: 'haloShape',
-                  },
-                ],
-              },
+              buildIn: [
+                {
+                  fields: ['opacity'],
+                  duration: 500,
+                  delay: 500 + Math.random() * 500,
+                },
+              ],
+              buildOut: [
+                {
+                  fields: ['opacity'],
+                  duration: 200,
+                },
+              ],
+              update: [
+                {
+                  fields: ['lineWidth', 'r'],
+                  shapeId: 'keyShape',
+                },
+                {
+                  fields: ['opacity'],
+                  shapeId: 'haloShape',
+                },
+              ],
+            },
         },
       };
     },

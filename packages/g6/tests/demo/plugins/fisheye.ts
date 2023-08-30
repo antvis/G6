@@ -1,4 +1,5 @@
-import G6 from '../../../src/index';
+import { Graph, Extensions, extend } from '../../../src/index';
+
 
 export default async () => {
   let fisheye = {
@@ -133,9 +134,16 @@ export default async () => {
     width = container.scrollWidth;
     height = container.scrollHeight || 500;
   }
-
+  let graph;
   const createGraph = (customData) => {
-    const graph = new G6.Graph({
+    const ExtGraph = extend(Graph, {
+      plugins: {
+        'fisheye': Extensions.Fisheye,
+        'hover-active': Extensions.HoverActivate
+      },
+
+    });
+    graph = new ExtGraph({
       container: 'container',
       width,
       height,
@@ -155,7 +163,7 @@ export default async () => {
       },
     });
 
-    clearButton.addEventListener('click', (e) => {});
+    clearButton.addEventListener('click', (e) => { });
     swithButton.addEventListener('click', (e) => {
       if (swithButton.value === 'Disable') {
         swithButton.value = 'Enable';

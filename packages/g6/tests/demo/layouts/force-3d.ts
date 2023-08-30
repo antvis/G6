@@ -1,10 +1,15 @@
-import G6 from '../../../src/index';
+import { Graph, Extensions, extend } from '../../../src/index';
 import { data } from '../../datasets/dataset1';
 import { TestCaseContext } from '../interface';
 
 export default (context: TestCaseContext) => {
   const { width, height } = context;
-  const graph = new G6.Graph({
+  const ExtGraph = extend(Graph, {
+    nodes: {
+      'sphere-node': Extensions.SphereNode
+    }
+  });
+  const graph = new ExtGraph({
     ...context,
     type: 'graph',
     renderer: 'webgl-3d',

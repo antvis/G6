@@ -1,4 +1,5 @@
-import G6 from '../../../src/index';
+import { Graph, Extensions, extend } from '../../../src/index';
+
 import { TestCaseContext } from '../interface';
 
 const data = {
@@ -169,7 +170,12 @@ const data = {
 };
 
 export default (context: TestCaseContext) => {
-  const graph = new G6.Graph({
+  const ExtGraph = extend(Graph, {
+    layouts: {
+      'dagre': Extensions.DagreLayout
+    },
+  });
+  const graph = new ExtGraph({
     ...context,
     autoFit: 'view',
     modes: {

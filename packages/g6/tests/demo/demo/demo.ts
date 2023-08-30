@@ -1,7 +1,8 @@
 import { initThreads, supportsThreads, ForceLayout } from '@antv/layout-wasm';
 // import G6, { Graph, GraphData } from '../../../esm';
 import { labelPropagation } from '@antv/algorithm';
-import G6, { Graph, GraphData } from '../../../src';
+import G6, { Graph, Extensions, extend } from '../../../src/index';
+
 import { container, height, width } from '../../datasets/const';
 import { RendererName } from '../../../src/types/render';
 import { Point } from '../../../src/types/common';
@@ -120,7 +121,16 @@ const create2DGraph = (
   theme = defaultTheme,
   rendererType: RendererName = 'canvas',
 ) => {
-  const graph = new Graph({
+  const ExtGraph = extend(Graph, {
+    behaviors: {
+      'brush-select': Extensions.BrushSelect,
+      'hover-activate': Extensions.HoverActivate
+    },
+    layouts: {
+      'force-wasm': Extensions.ForceLayout,
+    },
+  });
+  const graph = new ExtGraph({
     container: container as HTMLElement,
     width,
     height: 1400,
@@ -180,27 +190,27 @@ const create2DGraph = (
           labelShape:
             degree !== 0
               ? {
-                  text: innerModel.data.label,
-                  maxWidth: '400%',
-                  offsetY: 8,
-                  lod: labelLod,
-                }
+                text: innerModel.data.label,
+                maxWidth: '400%',
+                offsetY: 8,
+                lod: labelLod,
+              }
               : undefined,
 
           labelBackgroundShape:
             degree !== 0
               ? {
-                  lod: labelLod,
-                }
+                lod: labelLod,
+              }
               : undefined,
           iconShape:
             degree !== 0
               ? {
-                  img: 'https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg',
-                  fontSize: 12 + degree / 4,
-                  opacity: 0.8,
-                  lod: labelLod + 2,
-                }
+                img: 'https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg',
+                fontSize: 12 + degree / 4,
+                opacity: 0.8,
+                lod: labelLod + 2,
+              }
               : undefined,
           keyShape: {
             r: 12 + degree / 4,
@@ -215,10 +225,20 @@ const create2DGraph = (
 };
 
 const create3DGraph = async () => {
-  G6.stdLib.layouts['force-wasm'] = ForceLayout;
   const supported = await supportsThreads();
   const threads = await initThreads(supported);
-  const newGraph = new Graph({
+
+  const ExtGraph = extend(Graph, {
+    behaviors: {
+      'brush-select': Extensions.BrushSelect,
+      'hover-active': Extensions.HoverActivate
+    },
+    layouts: {
+      'force-wasm': Extensions.ForceLayout,
+    },
+  });
+
+  const newGraph = new ExtGraph({
     container: container as HTMLDivElement,
     width,
     height: 1400,
@@ -301,13 +321,13 @@ const create3DGraph = async () => {
           labelShape:
             degrees[innerModel.id] > 20
               ? {
-                  text: innerModel.data.label,
-                  fontSize: 100,
-                  lod: -1,
-                  fill: 'rgba(255,255,255,0.85)',
-                  wordWrap: false, // FIXME: mesh.getBounds() returns an empty AABB
-                  isBillboard: true,
-                }
+                text: innerModel.data.label,
+                fontSize: 100,
+                lod: -1,
+                fill: 'rgba(255,255,255,0.85)',
+                wordWrap: false, // FIXME: mesh.getBounds() returns an empty AABB
+                isBillboard: true,
+              }
               : undefined,
         },
       };
