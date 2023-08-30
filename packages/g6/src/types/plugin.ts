@@ -2,7 +2,6 @@ import { deepMix, each } from '@antv/util';
 import { IGraph } from './graph';
 
 export interface IPluginBaseConfig {
-  key: string;
   container?: HTMLDivElement | string | null;
   className?: string;
   graph?: IGraph;

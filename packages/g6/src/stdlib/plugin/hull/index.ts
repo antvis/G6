@@ -1,12 +1,11 @@
-import { ShapeStyle } from '../../../types/item';
+import { ITEM_TYPE, ShapeStyle } from '../../../types/item';
 import { ComboModel, EdgeModel, ID, IGraph, NodeModel } from '../../../types';
 import { Plugin as Base, IPluginBaseConfig } from '../../../types/plugin';
 import HullComponent, { HullComponentOptions } from './hullComponent';
 import { isArray, throttle, uniqueId } from '@antv/util';
 import { BubblesetCfg } from './types';
-import { ITEM_TYPE } from '@antv/g6';
 import { isArrayOverlap } from '../../../util/array';
-import { ComboLabelPosition } from 'types/combo';
+import { ComboLabelPosition } from '../../../types/combo';
 import { DEFAULT_TEXT_STYLE } from '../../../constant';
 
 interface HullConfig extends IPluginBaseConfig {
@@ -36,7 +35,7 @@ export default class Hull extends Base {
   };
   constructor(options?: HullConfig) {
     super(options);
-    this.key = options.key;
+    this.key = options?.key || `hull-${Math.random()}`;
   }
 
   public getDefaultCfgs(): HullConfig {
