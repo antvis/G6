@@ -1,12 +1,12 @@
 import { ID } from '@antv/graphlib';
 import { Behavior } from '../../types/behavior';
-import { IG6GraphEvent } from '../../types/event';
 import { Point } from '../../types/common';
+import { IG6GraphEvent } from '../../types/event';
 
 const ALLOWED_TRIGGERS = ['shift', 'ctrl', 'alt', 'meta'] as const;
 type Trigger = (typeof ALLOWED_TRIGGERS)[number];
 
-interface ClickSelectOptions {
+export interface ClickSelectOptions {
   /**
    * Whether to allow multiple selection.
    * Defaults to true.

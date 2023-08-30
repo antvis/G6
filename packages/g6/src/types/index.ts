@@ -1,45 +1,35 @@
 export type { ID } from '@antv/graphlib';
-export type { IAnimate, IAnimates, AnimateTiming, AnimateCfg } from './animate';
+export type { AnimateCfg, AnimateTiming, IAnimate, IAnimates } from './animate';
 export type { BehaviorOptionsOf, BehaviorRegistry } from './behavior';
 export type {
-  NodeDisplayModel,
-  NodeModel,
-  NodeUserModel,
-  NodeEncode,
-  NodeShapeStyles,
-  NodeLabelPosition,
-  NodeShapesEncode,
-  NodeModelData,
-} from './node';
-export type {
   ComboDisplayModel,
-  ComboModel,
-  ComboUserModel,
   ComboLabelPosition,
+  ComboModel,
+  ComboModelData,
   ComboShapeStyles,
   ComboShapesEncode,
-  ComboModelData,
+  ComboUserModel,
 } from './combo';
 export type { Point } from './common';
 export type {
-  GraphData,
   DataConfig,
-  GraphCore,
   DisplayGraphCore,
+  GraphCore,
+  GraphData,
   TreeData,
 } from './data';
 export type {
   EdgeDisplayModel,
-  EdgeModel,
-  EdgeUserModel,
-  EdgeShapeStyles,
   EdgeLabelPosition,
-  EdgeShapesEncode,
+  EdgeModel,
   EdgeModelData,
+  EdgeShapeStyles,
+  EdgeShapesEncode,
+  EdgeUserModel,
 } from './edge';
-export type { IG6GraphEvent, ICanvasEventType } from './event';
-export type { StackCfg } from './history';
+export type { ICanvasEventType, IG6GraphEvent } from './event';
 export type { IGraph } from './graph';
+export type { StackCfg } from './history';
 export {
   isImmediatelyInvokedLayoutOptions,
   isLayoutWorkerized,
@@ -49,6 +39,16 @@ export type {
   LayoutOptions,
   StandardLayoutOptions,
 } from './layout';
+export type {
+  NodeDisplayModel,
+  NodeEncode,
+  NodeLabelPosition,
+  NodeModel,
+  NodeModelData,
+  NodeShapeStyles,
+  NodeShapesEncode,
+  NodeUserModel,
+} from './node';
 export type { Plugin as PluginBase } from './plugin';
 export type { Specification } from './spec';
 export type { ThemeSpecification } from './theme';
