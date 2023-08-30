@@ -13,6 +13,7 @@ runtime.enableCSSParsing = false;
 /**
  * Extend the graph class with std lib
  */
+// @ts-ignore
 const Graph = extend(EmptyGraph<{}, {}>, stdLib);
 
 const G6 = { Graph, Util, stdLib, Extensions, extend };

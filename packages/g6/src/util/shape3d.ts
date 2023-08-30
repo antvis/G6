@@ -65,7 +65,7 @@ export const createShape3D = (
           device,
         );
         break;
-      case 'phong':
+      case 'phong': {
         const materialProps = {
           shininess: 30,
         };
@@ -73,6 +73,7 @@ export const createShape3D = (
           device,
           materialProps,
         );
+      }
       case 'lambert':
       default: {
         device.MaterialCache[materialType as string] = new MeshLambertMaterial(
