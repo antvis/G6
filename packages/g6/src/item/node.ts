@@ -203,9 +203,9 @@ export default class Node extends Item {
   ) {
     if (onlyKeyShape) {
       const clonedKeyShape = this.shapeMap.keyShape.cloneNode();
-      const { x, y } = this.group.attributes;
+      const pos = this.group.getPosition();
       const clonedGroup = new Group();
-      clonedGroup.setPosition([x, y]);
+      clonedGroup.setPosition(pos);
       clonedGroup.appendChild(clonedKeyShape);
       containerGroup.appendChild(clonedGroup);
       return clonedGroup;

@@ -1,7 +1,5 @@
 import { Graph, Extensions, extend } from '@antv/g6';
 
-console.log('Extensions.DagreLayout', Extensions.DagreLayout);
-
 const ExtGraph = extend(Graph, {
   layouts: {
     dagre: Extensions.DagreLayout,

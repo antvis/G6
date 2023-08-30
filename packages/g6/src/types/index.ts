@@ -1,6 +1,6 @@
 export type { ID } from '@antv/graphlib';
-export type { AnimateCfg, AnimateTiming, IAnimate, IAnimates } from './animate';
-export type { BehaviorOptionsOf, BehaviorRegistry } from './behavior';
+export type { IAnimate, IAnimates, AnimateTiming, AnimateCfg } from './animate';
+export type { Behavior, BehaviorOptionsOf, BehaviorRegistry } from './behavior';
 export type {
   ComboDisplayModel,
   ComboLabelPosition,

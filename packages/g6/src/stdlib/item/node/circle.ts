@@ -40,12 +40,12 @@ export class CircleNode extends BaseNode {
     }
 
     // labelShape
-    if (data.labelShape) {
+    if (data.labelShape && this.drawLabelShape) {
       shapes.labelShape = this.drawLabelShape(model, shapeMap, diffData);
     }
 
     // labelBackgroundShape
-    if (data.labelBackgroundShape) {
+    if (data.labelBackgroundShape && this.drawLabelBackgroundShape) {
       shapes.labelBackgroundShape = this.drawLabelBackgroundShape(
         model,
         shapeMap,
@@ -54,7 +54,7 @@ export class CircleNode extends BaseNode {
     }
 
     // anchor shapes
-    if (data.anchorShapes) {
+    if (data.anchorShapes && this.drawAnchorShapes) {
       const anchorShapes = this.drawAnchorShapes(
         model,
         shapeMap,
@@ -68,12 +68,12 @@ export class CircleNode extends BaseNode {
     }
 
     // iconShape
-    if (data.iconShape) {
+    if (data.iconShape && this.drawIconShape) {
       shapes.iconShape = this.drawIconShape(model, shapeMap, diffData);
     }
 
     // badgeShape
-    if (data.badgeShapes) {
+    if (data.badgeShapes && this.drawBadgeShapes) {
       const badgeShapes = this.drawBadgeShapes(
         model,
         shapeMap,

@@ -107,7 +107,11 @@ export const upsertTransientItem = (
   transientItemMap.set(item.model.id, transientItem);
   transientItem.transient = true;
 
-  if (item.type !== 'edge' && upsertAncestors) {
+  if (
+    item.type !== 'edge' &&
+    upsertAncestors &&
+    graphCore.hasTreeStructure('combo')
+  ) {
     // find the ancestors to upsert transients
     let currentAncestor = graphCore.getParent(item.model.id, 'combo');
     while (currentAncestor) {

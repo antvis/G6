@@ -43,6 +43,22 @@
         "en": "Theme Switch"
       },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*M-EGS5v6RnUAAAAAAAAAAABkARQnAQ"
+    },
+    {
+      "filename": "treeAndGraph.js",
+      "title": {
+        "zh": "树与图通用",
+        "en": "Tree Data and Graph Data"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*M-EGS5v6RnUAAAAAAAAAAABkARQnAQ"
+    },
+    {
+      "filename": "wasmLayouts.js",
+      "title": {
+        "zh": "WASM 布局",
+        "en": "WASM Layout"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*M-EGS5v6RnUAAAAAAAAAAABkARQnAQ"
     }
   ]
 }

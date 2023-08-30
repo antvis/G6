@@ -181,7 +181,7 @@ const dataFormat = (data, options = {}, userGraphCore) => {
     })),
   };
 };
-export const clusteringNodes = (data, options = {}, userGraphCore) => {
+const clusteringNodes = (data, options = {}, userGraphCore) => {
   if (!Algorithm?.labelPropagation) return;
   const clusteredData = Algorithm.labelPropagation(data, false);
   clusteredData.clusters.forEach((cluster, i) => {
