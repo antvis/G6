@@ -137,7 +137,7 @@ export default async () => {
   const createGraph = (customData) => {
     const ExtGraph = extend(Graph, {
       plugins: {
-        fisheye: Extensions.Fisheye,
+        'fisheye': Extensions.Fisheye,
         'hover-active': Extensions.HoverActivate,
       },
     });
@@ -161,7 +161,7 @@ export default async () => {
       },
     });
 
-    clearButton.addEventListener('click', (e) => {});
+    clearButton.addEventListener('click', (e) => { });
     swithButton.addEventListener('click', (e) => {
       if (swithButton.value === 'Disable') {
         swithButton.value = 'Enable';

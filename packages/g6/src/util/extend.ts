@@ -1,7 +1,12 @@
 import { BehaviorRegistry } from '../types/behavior';
 import { ThemeRegistry } from '../types/theme';
+import { NodeRegistry } from '../types/node';
+import { EdgeRegistry } from '../types/edge';
+import { LayoutRegistry } from '../types/layout';
+import { PluginRegistry } from '../types/plugin';
 import Graph from '../runtime/graph';
 import registry from '../stdlib';
+
 
 /**
  * Extend graph class with custom libs (extendLibrary), and extendLibrary will be merged into useLib.
@@ -21,8 +26,10 @@ export const extend = <
   extendLibrary: {
     behaviors?: B1;
     themeSolvers?: T1;
-    nodes?: any; // TODO
-    edges?: any; // TODO
+    nodes?: NodeRegistry;
+    edges?: EdgeRegistry;
+    layouts?: LayoutRegistry,
+    plugins?: PluginRegistry,
   },
 ): typeof Graph<B1 & B2, T1 & T2> => {
   // merged the extendLibrary to useLib for global usage

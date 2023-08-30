@@ -75,3 +75,7 @@ export abstract class Plugin {
     this.destroyed = true;
   }
 }
+
+export interface PluginRegistry {
+  [key: string]: Plugin,
+}
