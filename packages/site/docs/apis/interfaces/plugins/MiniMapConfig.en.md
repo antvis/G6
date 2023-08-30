@@ -18,13 +18,15 @@ title: MiniMapConfig
 
 • `Optional` **className**: `string`
 
+Class name of minimap
+
 #### Overrides
 
 IPluginBaseConfig.className
 
 #### Defined in
 
-[packages/g6/src/stdlib/plugin/minimap/index.ts:19](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/plugin/minimap/index.ts#L19)
+[packages/g6/src/stdlib/plugin/minimap/index.ts:21](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/plugin/minimap/index.ts#L21)
 
 ___
 
@@ -32,13 +34,15 @@ ___
 
 • `Optional` **container**: `HTMLDivElement`
 
+Container for minimap
+
 #### Overrides
 
 IPluginBaseConfig.container
 
 #### Defined in
 
-[packages/g6/src/stdlib/plugin/minimap/index.ts:26](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/plugin/minimap/index.ts#L26)
+[packages/g6/src/stdlib/plugin/minimap/index.ts:35](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/plugin/minimap/index.ts#L35)
 
 ___
 
@@ -46,9 +50,11 @@ ___
 
 • `Optional` **delegateStyle**: `Partial`<`CircleStyleProps` & `RectStyleProps` & `EllipseStyleProps` & `PolygonStyleProps` & `LineStyleProps` & `PolylineStyleProps` & `TextStyleProps` & `ImageStyleProps` & `PathStyleProps` & `SphereGeometryProps` & `CubeGeometryProps` & `PlaneGeometryProps` & { `animates?`: `IAnimates` ; `lod?`: `number` ; `visible?`: `boolean`  }\>
 
+Style of delegate shape
+
 #### Defined in
 
-[packages/g6/src/stdlib/plugin/minimap/index.ts:22](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/plugin/minimap/index.ts#L22)
+[packages/g6/src/stdlib/plugin/minimap/index.ts:27](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/plugin/minimap/index.ts#L27)
 
 ___
 
@@ -62,7 +68,7 @@ IPluginBaseConfig.graph
 
 #### Defined in
 
-[packages/g6/src/types/plugin.ts:7](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/plugin.ts#L7)
+[packages/g6/src/types/plugin.ts:7](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/plugin.ts#L7)
 
 ___
 
@@ -70,9 +76,11 @@ ___
 
 • `Optional` **hideEdge**: `boolean`
 
+Whether to hide edges on minimap to enhance performance
+
 #### Defined in
 
-[packages/g6/src/stdlib/plugin/minimap/index.ts:25](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/plugin/minimap/index.ts#L25)
+[packages/g6/src/stdlib/plugin/minimap/index.ts:33](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/plugin/minimap/index.ts#L33)
 
 ___
 
@@ -80,9 +88,11 @@ ___
 
 • `Optional` **mode**: ``"keyShape"`` \| ``"default"`` \| ``"delegate"``
 
+Mode of minimap
+
 #### Defined in
 
-[packages/g6/src/stdlib/plugin/minimap/index.ts:20](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/plugin/minimap/index.ts#L20)
+[packages/g6/src/stdlib/plugin/minimap/index.ts:23](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/plugin/minimap/index.ts#L23)
 
 ___
 
@@ -90,9 +100,11 @@ ___
 
 • `Optional` **padding**: `number`
 
+Padding of minimap
+
 #### Defined in
 
-[packages/g6/src/stdlib/plugin/minimap/index.ts:24](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/plugin/minimap/index.ts#L24)
+[packages/g6/src/stdlib/plugin/minimap/index.ts:31](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/plugin/minimap/index.ts#L31)
 
 ___
 
@@ -100,9 +112,11 @@ ___
 
 • `Optional` **refresh**: `boolean`
 
+Whether to refresh minimap
+
 #### Defined in
 
-[packages/g6/src/stdlib/plugin/minimap/index.ts:23](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/plugin/minimap/index.ts#L23)
+[packages/g6/src/stdlib/plugin/minimap/index.ts:29](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/plugin/minimap/index.ts#L29)
 
 ___
 
@@ -110,9 +124,11 @@ ___
 
 • `Optional` **size**: `number`[]
 
+Size of minimap
+
 #### Defined in
 
-[packages/g6/src/stdlib/plugin/minimap/index.ts:21](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/plugin/minimap/index.ts#L21)
+[packages/g6/src/stdlib/plugin/minimap/index.ts:25](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/plugin/minimap/index.ts#L25)
 
 ___
 
@@ -120,6 +136,8 @@ ___
 
 • `Optional` **viewportClassName**: `string`
 
+Class name of viewport
+
 #### Defined in
 
-[packages/g6/src/stdlib/plugin/minimap/index.ts:18](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/plugin/minimap/index.ts#L18)
+[packages/g6/src/stdlib/plugin/minimap/index.ts:19](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/plugin/minimap/index.ts#L19)

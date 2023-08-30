@@ -53,20 +53,39 @@ type Placement =
   | 'bottomRight'
   | 'rightBottom';
 
+/**
+ * The `TooltipConfig` interface contains the following properties:
+
+- `getContent`: An optional function for getting the content of the tooltip. It takes an optional argument of type `IG6GraphEvent`, and returns a value of type HTMLDivElement, string, or Promise (resolving to HTMLDivElement or string).
+- `offsetX`: An optional number representing the offset of the tooltip in the X direction.
+- `offsetY`: An optional number representing the offset of the tooltip in the Y direction.
+- `shouldBegin`: An optional function for determining whether the tooltip should be displayed. It takes an optional argument of type `IG6GraphEvent`, and returns a boolean value.
+- `itemTypes`: An optional array of strings representing the types of items for which the tooltip is allowed to be displayed. The possible values are 'node', 'edge', 'combo', and 'canvas'.
+- `trigger`: An optional string, either 'pointerenter' or 'click', representing the event type that triggers the display of the tooltip.
+- `fixToNode`: An optional array of two numbers, a string representing a placement, or undefined, representing how to fix the tooltip to a node.
+- `loadingContent`: An optional HTMLDivElement or string representing the loading DOM.
+
+ */
 export interface TooltipConfig extends IPluginBaseConfig {
+  /** Function for getting tooltip content */
   getContent?: (
     evt?: IG6GraphEvent,
   ) => HTMLDivElement | string | Promise<HTMLDivElement | string>;
+  /** Offset of tooltip in X direction */
   offsetX?: number;
+  /** Offset of tooltip in Y direction */
   offsetY?: number;
+  /** Determine whether to display tooltip */
   shouldBegin?: (evt?: IG6GraphEvent) => boolean;
-  // more detail type instead of "string[]"
+  /** Types of items for which tooltip is allowed to be displayed */
   itemTypes?: ('node' | 'edge' | 'combo' | 'canvas')[];
+  /** Event type that triggers display of tooltip */
   trigger?: 'pointerenter' | 'click';
+  /** How to fix tooltip to node */
   fixToNode?: [number, number] | Placement | undefined;
+  /** Loading DOM */
   loadingContent?: HTMLDivElement | string;
 }
-
 export class Tooltip extends Base {
   private tooltip;
   private container;

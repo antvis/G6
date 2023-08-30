@@ -6,6 +6,11 @@ title: HistoryConfig
 
 [plugins](../../modules/plugins.en.md).HistoryConfig
 
+The `HistoryConfig` interface contains two properties: `enableStack` and `stackCfg`.
+
+- `enableStack` is an optional boolean value that indicates whether to enable the stack.
+- `stackCfg` is a required `StackCfg` type, representing the stack configuration.
+
 ## Hierarchy
 
 - `IPluginBaseConfig`
@@ -24,9 +29,9 @@ IPluginBaseConfig.className
 
 #### Defined in
 
-[packages/g6/src/types/plugin.ts:6](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/plugin.ts#L6)
+[packages/g6/src/types/plugin.ts:6](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/types/plugin.ts#L6)
 
-___
+---
 
 ### container
 
@@ -38,9 +43,9 @@ IPluginBaseConfig.container
 
 #### Defined in
 
-[packages/g6/src/types/plugin.ts:5](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/plugin.ts#L5)
+[packages/g6/src/types/plugin.ts:5](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/types/plugin.ts#L5)
 
-___
+---
 
 ### enableStack
 
@@ -48,9 +53,9 @@ ___
 
 #### Defined in
 
-[packages/g6/src/stdlib/plugin/history/index.ts:8](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/plugin/history/index.ts#L8)
+[packages/g6/src/stdlib/plugin/history/index.ts:15](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/stdlib/plugin/history/index.ts#L15)
 
-___
+---
 
 ### graph
 
@@ -62,9 +67,9 @@ IPluginBaseConfig.graph
 
 #### Defined in
 
-[packages/g6/src/types/plugin.ts:7](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/plugin.ts#L7)
+[packages/g6/src/types/plugin.ts:7](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/types/plugin.ts#L7)
 
-___
+---
 
 ### stackCfg
 
@@ -72,4 +77,4 @@ ___
 
 #### Defined in
 
-[packages/g6/src/stdlib/plugin/history/index.ts:9](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/plugin/history/index.ts#L9)
+[packages/g6/src/stdlib/plugin/history/index.ts:16](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/stdlib/plugin/history/index.ts#L16)

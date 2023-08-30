@@ -30,7 +30,7 @@ title: CollapseExpandComboOptions
 
  #### 定义于 
 
- [packages/g6/src/stdlib/behavior/collapse-expand-combo.ts:22](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/behavior/collapse- 扩展组合.ts#L22) 
+ [packages/g6/src/stdlib/behavior/collapse-expand-combo.ts:22](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/collapse- 扩展组合.ts#L22) 
 
  ___ 
 
@@ -44,4 +44,4 @@ title: CollapseExpandComboOptions
 
  #### 定义于 
 
- [packages/g6/src/stdlib/behavior/collapse-expand-combo.ts:18](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/behavior/collapse- 扩展组合.ts#L18)
+ [packages/g6/src/stdlib/behavior/collapse-expand-combo.ts:18](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/collapse- 扩展组合.ts#L18)

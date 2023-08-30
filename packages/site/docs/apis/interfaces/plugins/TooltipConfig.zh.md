@@ -2,162 +2,185 @@
 title: TooltipConfig
 ---
 
-[概述 - v5.0.0-alpha.9](../../README.zh.md) / [模块](../../modules.zh.md) / [插件](../. ./modules/plugins.zh.md) / TooltipConfig 
+[概述 - v5.0.0-alpha.9](../../README.zh.md) / [模块](../../modules.zh.md) / [插件](../../modules/plugins.zh.md) / TooltipConfig
 
- [插件](../../modules/plugins.zh.md).TooltipConfig 
+[插件](../../modules/plugins.zh.md).TooltipConfig
 
- ＃＃ 等级制度 
+`TooltipConfig`接口包含以下属性：
 
- - `IPluginBaseConfig` 
+- `getContent`：一个可选的函数，用于获取工具提示的内容。它接受一个可选的类型为`IG6GraphEvent`的参数，并返回类型为 HTMLDivElement、字符串或 Promise（解析为 HTMLDivElement 或字符串）的值。
+- `offsetX`：一个可选的数字，表示工具提示在 X 方向上的偏移量。
+- `offsetY`：一个可选的数字，表示工具提示在 Y 方向上的偏移量。
+- `shouldBegin`：一个可选的函数，用于确定是否应显示工具提示。它接受一个可选的类型为`IG6GraphEvent`的参数，并返回一个布尔值。
+- `itemTypes`：一个可选的字符串数组，表示允许显示工具提示的项目类型。可能的值为'node'、'edge'、'combo'和'canvas'。
+- `trigger`：一个可选的字符串，可以是'pointerenter'或'click'，表示触发显示工具提示的事件类型。
+- `fixToNode`：一个可选的由两个数字、表示位置的字符串或未定义组成的数组，表示如何将工具提示固定到节点上。
+- `loadingContent`：一个可选的 HTMLDivElement 或字符串，表示加载 DOM。
 
-   ↳ **`工具提示配置`** 
+## 层次结构
 
- ＃＃ 特性 
+- `IPluginBaseConfig`
 
- ＃＃＃ 班级名称 
+  ↳ **`TooltipConfig`**
 
- • `可选` **类名**：`字符串` 
+## 属性
 
- ####继承自 
+### className
 
- IPluginBaseConfig.className 
+• 可选 **className**：字符串
 
- #### 定义于 
+#### 继承自
 
- [packages/g6/src/types/plugin.ts:6](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/plugin.ts#L6) 
+IPluginBaseConfig.className
 
- ___ 
+#### 定义在
 
- ＃＃＃ 容器 
+[packages/g6/src/types/plugin.ts:6](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/plugin.ts#L6)
 
- • `可选` **容器**：`字符串` \| `HTMLDivElement` 
+---
 
- ####继承自 
+### container
 
- IPluginBaseConfig.container 
+• 可选 **container**：字符串 | HTMLDivElement
 
- #### 定义于 
+#### 继承自
 
- [packages/g6/src/types/plugin.ts:5](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/plugin.ts#L5) 
+IPluginBaseConfig.container
 
- ___ 
+#### 定义在
 
- ### 修复到节点 
+[packages/g6/src/types/plugin.ts:5](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/plugin.ts#L5)
 
- • `可选` **fixToNode**: [`number`, `number`] \| `放置` 
+---
 
- #### 定义于 
+### fixToNode
 
- [packages/g6/src/stdlib/plugin/tooltip/index.ts:66](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/plugin/tooltip/index.ts) ts#L66) 
+• 可选 **fixToNode**：[数字, 数字] | 放置方式
 
- ___ 
+如何将工具提示固定到节点上。
 
- ### 获取内容 
+#### 定义在
 
- • `可选` **getContent**: (`evt?`: [`IG6GraphEvent`](../behaviors/IG6GraphEvent.zh.md)) => `string` \| `HTMLDivElement` \| `Promise`<`字符串` \| `HTMLDivElement`\> 
+[packages/g6/src/stdlib/plugin/tooltip/index.ts:85](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/plugin/tooltip/index.ts#L85)
 
- #### 类型声明 
+---
 
- ▸ (`evt?`): `字符串` \| `HTMLDivElement` \| `Promise`<`字符串` \| `HTMLDivElement`\> 
+### getContent
 
- ＃＃＃＃＃ 参数 
+• 可选 **getContent**：(`evt?`: [`IG6GraphEvent`](../behaviors/IG6GraphEvent.zh.md)) => 字符串 | HTMLDivElement | Promise<字符串 | HTMLDivElement>
 
- | 名称 | 类型 | 
- | :------ | :------ | 
- | `事件？` | [`IG6GraphEvent`](../behaviors/IG6GraphEvent.zh.md) | 
+#### 类型声明
 
- ##### 返回 
+▸ (`evt?`): 字符串 | HTMLDivElement | Promise<字符串 | HTMLDivElement>
 
- `字符串` \| `HTMLDivElement` \| `Promise`<`字符串` \| `HTMLDivElement`\> 
+获取工具提示内容的函数。
 
- #### 定义于 
+##### 参数
 
- [packages/g6/src/stdlib/plugin/tooltip/index.ts:57](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/plugin/tooltip/index.ts) ts#L57) 
+| 名称   | 类型                                                |
+| :----- | :-------------------------------------------------- |
+| `evt?` | [`IG6GraphEvent`](../behaviors/IG6GraphEvent.zh.md) |
 
- ___ 
+##### 返回值
 
- ### 图表 
+字符串 | HTMLDivElement | Promise<字符串 | HTMLDivElement>
 
- • `可选` **graph**: [`IGraph`](../graph/IGraph.zh.md)<`BehaviorRegistry`, `ThemeRegistry`\> 
+#### 定义在
 
- ####继承自 
+[packages/g6/src/stdlib/plugin/tooltip/index.ts:71](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/plugin/tooltip/index.ts#L71)
 
- IPluginBaseConfig.graph 
+---
 
- #### 定义于 
+### graph
 
- [packages/g6/src/types/plugin.ts:7](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/plugin.ts#L7) 
+• 可选 **graph**：[`IGraph`](../graph/IGraph.zh.md)<行为注册表, 主题注册表\>
 
- ___ 
+#### 继承自
 
- ### 项目类型 
+IPluginBaseConfig.graph
 
- • `可选` **itemTypes**: (``"node"`` \| ``"edge"`` \| ``"combo"`` \| ``"canvas"``)[] 
+#### 定义在
 
- #### 定义于 
+[packages/g6/src/types/plugin.ts:7](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/plugin.ts#L7)
 
- [packages/g6/src/stdlib/plugin/tooltip/index.ts:64](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/plugin/tooltip/index.ts) ts#L64) 
+---
 
- ___ 
+### itemTypes
 
- ### 加载内容 
+• 可选 **itemTypes**：(`"node"` | `"edge"` | `"combo"` | `"canvas"`)[]
 
- • `可选` **loadingContent**：`字符串` \| `HTMLDivElement` 
+允许显示工具提示的项目类型。
 
- #### 定义于 
+#### 定义在
 
- [packages/g6/src/stdlib/plugin/tooltip/index.ts:67](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/plugin/tooltip/index.ts) ts#L67) 
+[packages/g6/src/stdlib/plugin/tooltip/index.ts:81](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/plugin/tooltip/index.ts#L81)
 
- ___ 
+### loadingContent
 
- ### 偏移X 
+• `Optional` **loadingContent**: `string` \| `HTMLDivElement`
 
- • `可选` **offsetX**：`数字` 
+加载 DOM
 
- #### 定义于 
+#### 定义在
 
- [packages/g6/src/stdlib/plugin/tooltip/index.ts:60](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/plugin/tooltip/index.ts) ts#L60) 
+[packages/g6/src/stdlib/plugin/tooltip/index.ts:87](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/plugin/tooltip/index.ts#L87)
 
- ___ 
+### offsetX
 
- ### 偏移Y 
+• `Optional` **offsetX**: `number`
 
- • `可选` **offsetY**：`数字` 
+提示工具在 X 方向上的偏移量
 
- #### 定义于 
+#### 定义在
 
- [packages/g6/src/stdlib/plugin/tooltip/index.ts:61](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/plugin/tooltip/index.html ts#L61) 
+[packages/g6/src/stdlib/plugin/tooltip/index.ts:75](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/plugin/tooltip/index.ts#L75)
 
- ___ 
+---
 
- ### 应该开始 
+### offsetY
 
- • `可选` **shouldBegin**: (`evt?`: [`IG6GraphEvent`](../behaviors/IG6GraphEvent.zh.md)) => `boolean` 
+• `Optional` **offsetY**: `number`
 
- #### 类型声明 
+提示工具在 Y 方向上的偏移量
 
- ▸ (`evt?`): `布尔值` 
+#### 定义在
 
- ＃＃＃＃＃ 参数 
+[packages/g6/src/stdlib/plugin/tooltip/index.ts:77](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/plugin/tooltip/index.ts#L77)
 
- | 名称 | 类型 | 
- | :------ | :------ | 
- | `事件？` | [`IG6GraphEvent`](../behaviors/IG6GraphEvent.zh.md) | 
+---
 
- ##### 返回 
+### shouldBegin
 
- `布尔值` 
+• `Optional` **shouldBegin**: (`evt?`: [`IG6GraphEvent`](../behaviors/IG6GraphEvent.zh.md)) => `boolean`
 
- #### 定义于 
+#### 类型声明
 
- [packages/g6/src/stdlib/plugin/tooltip/index.ts:62](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/plugin/tooltip/index.ts) ts#L62) 
+▸ (`evt?`): `boolean`
 
- ___ 
+确定是否显示提示工具
 
- ＃＃＃ 扳机 
+##### 参数
 
- • `可选` **触发**：``"点击"`` \| ``“指针输入器”`` 
+| 名称   | 类型                                                |
+| :----- | :-------------------------------------------------- |
+| `evt?` | [`IG6GraphEvent`](../behaviors/IG6GraphEvent.zh.md) |
 
- #### 定义于 
+##### 返回
 
- [packages/g6/src/stdlib/plugin/tooltip/index.ts:65](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/plugin/tooltip/index.ts) ts#L65)
+`boolean`
+
+#### 定义在
+
+[packages/g6/src/stdlib/plugin/tooltip/index.ts:79](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/plugin/tooltip/index.ts#L79)
+
+---
+
+### trigger
+
+• `Optional` **trigger**: `"click"` \| `"pointerenter"`
+
+触发显示提示工具的事件类型
+
+#### 定义在
+
+[packages/g6/src/stdlib/plugin/tooltip/index.ts:83](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/plugin/tooltip/index.ts#L83)

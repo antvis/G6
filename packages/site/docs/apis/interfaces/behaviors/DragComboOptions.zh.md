@@ -32,7 +32,7 @@ title: DragComboOptions
 
  #### 定义于 
 
- [packages/g6/src/stdlib/behavior/drag-combo.ts:27](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/behavior/drag-combo。 ts#L27) 
+ [packages/g6/src/stdlib/behavior/drag-combo.ts:27](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/drag-combo。 ts#L27) 
 
  ___ 
 
@@ -45,7 +45,7 @@ title: DragComboOptions
 
  #### 定义于 
 
- [packages/g6/src/stdlib/behavior/drag-combo.ts:22](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/behavior/drag-combo。 ts#L22) 
+ [packages/g6/src/stdlib/behavior/drag-combo.ts:22](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/drag-combo。 ts#L22) 
 
  ___ 
 
@@ -59,7 +59,7 @@ title: DragComboOptions
 
  #### 定义于 
 
- [packages/g6/src/stdlib/behavior/drag-combo.ts:17](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/behavior/drag-combo。 ts#L17) 
+ [packages/g6/src/stdlib/behavior/drag-combo.ts:17](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/drag-combo。 ts#L17) 
 
  ___ 
 
@@ -71,7 +71,7 @@ title: DragComboOptions
 
  #### 定义于 
 
- [packages/g6/src/stdlib/behavior/drag-combo.ts:55](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/behavior/drag-combo。 ts#L55) 
+ [packages/g6/src/stdlib/behavior/drag-combo.ts:55](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/drag-combo。 ts#L55) 
 
  ___ 
 
@@ -85,7 +85,7 @@ title: DragComboOptions
 
  #### 定义于 
 
- [packages/g6/src/stdlib/behavior/drag-combo.ts:46](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/behavior/drag-combo。 ts#L46) 
+ [packages/g6/src/stdlib/behavior/drag-combo.ts:46](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/drag-combo。 ts#L46) 
 
  ___ 
 
@@ -98,7 +98,7 @@ title: DragComboOptions
 
  #### 定义于 
 
- [packages/g6/src/stdlib/behavior/drag-combo.ts:51](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/behavior/drag-combo。 ts#L51) 
+ [packages/g6/src/stdlib/behavior/drag-combo.ts:51](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/drag-combo。 ts#L51) 
 
  ___ 
 
@@ -124,7 +124,7 @@ title: DragComboOptions
 
  #### 定义于 
 
- [packages/g6/src/stdlib/behavior/drag-combo.ts:63](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/behavior/drag-combo。 ts#L63) 
+ [packages/g6/src/stdlib/behavior/drag-combo.ts:63](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/drag-combo。 ts#L63) 
 
  ___ 
 
@@ -137,7 +137,7 @@ title: DragComboOptions
 
  #### 定义于 
 
- [packages/g6/src/stdlib/behavior/drag-combo.ts:40](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/behavior/drag-combo。 ts#L40) 
+ [packages/g6/src/stdlib/behavior/drag-combo.ts:40](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/drag-combo。 ts#L40) 
 
  ___ 
 
@@ -149,4 +149,4 @@ title: DragComboOptions
 
  #### 定义于 
 
- [packages/g6/src/stdlib/behavior/drag-combo.ts:59](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/behavior/drag-combo。 ts#L59)
+ [packages/g6/src/stdlib/behavior/drag-combo.ts:59](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/drag-combo。 ts#L59)

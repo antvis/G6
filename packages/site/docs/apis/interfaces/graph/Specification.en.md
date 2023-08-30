@@ -23,7 +23,7 @@ global animate
 
 #### Defined in
 
-[packages/g6/src/types/spec.ts:113](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/spec.ts#L113)
+[packages/g6/src/types/spec.ts:113](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/spec.ts#L113)
 
 ___
 
@@ -33,7 +33,7 @@ ___
 
 #### Defined in
 
-[packages/g6/src/types/spec.ts:49](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/spec.ts#L49)
+[packages/g6/src/types/spec.ts:49](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/spec.ts#L49)
 
 ___
 
@@ -43,7 +43,7 @@ ___
 
 #### Defined in
 
-[packages/g6/src/types/spec.ts:36](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/spec.ts#L36)
+[packages/g6/src/types/spec.ts:36](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/spec.ts#L36)
 
 ___
 
@@ -53,7 +53,7 @@ ___
 
 #### Defined in
 
-[packages/g6/src/types/spec.ts:37](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/spec.ts#L37)
+[packages/g6/src/types/spec.ts:37](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/spec.ts#L37)
 
 ___
 
@@ -63,7 +63,7 @@ ___
 
 #### Defined in
 
-[packages/g6/src/types/spec.ts:83](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/spec.ts#L83)
+[packages/g6/src/types/spec.ts:83](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/spec.ts#L83)
 
 ___
 
@@ -77,7 +77,7 @@ ___
 
 #### Defined in
 
-[packages/g6/src/types/spec.ts:96](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/spec.ts#L96)
+[packages/g6/src/types/spec.ts:96](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/spec.ts#L96)
 
 ___
 
@@ -87,7 +87,7 @@ ___
 
 #### Defined in
 
-[packages/g6/src/types/spec.ts:35](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/spec.ts#L35)
+[packages/g6/src/types/spec.ts:35](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/spec.ts#L35)
 
 ___
 
@@ -99,7 +99,7 @@ data
 
 #### Defined in
 
-[packages/g6/src/types/spec.ts:71](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/spec.ts#L71)
+[packages/g6/src/types/spec.ts:71](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/spec.ts#L71)
 
 ___
 
@@ -109,7 +109,7 @@ ___
 
 #### Defined in
 
-[packages/g6/src/types/spec.ts:82](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/spec.ts#L82)
+[packages/g6/src/types/spec.ts:82](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/spec.ts#L82)
 
 ___
 
@@ -123,7 +123,7 @@ ___
 
 #### Defined in
 
-[packages/g6/src/types/spec.ts:91](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/spec.ts#L91)
+[packages/g6/src/types/spec.ts:91](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/spec.ts#L91)
 
 ___
 
@@ -133,7 +133,7 @@ ___
 
 #### Defined in
 
-[packages/g6/src/types/spec.ts:128](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/spec.ts#L128)
+[packages/g6/src/types/spec.ts:128](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/spec.ts#L128)
 
 ___
 
@@ -143,7 +143,7 @@ ___
 
 #### Defined in
 
-[packages/g6/src/types/spec.ts:40](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/spec.ts#L40)
+[packages/g6/src/types/spec.ts:40](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/spec.ts#L40)
 
 ___
 
@@ -155,7 +155,7 @@ layout
 
 #### Defined in
 
-[packages/g6/src/types/spec.ts:103](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/spec.ts#L103)
+[packages/g6/src/types/spec.ts:103](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/spec.ts#L103)
 
 ___
 
@@ -165,7 +165,7 @@ ___
 
 #### Defined in
 
-[packages/g6/src/types/spec.ts:110](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/spec.ts#L110)
+[packages/g6/src/types/spec.ts:110](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/spec.ts#L110)
 
 ___
 
@@ -181,7 +181,7 @@ interaction
 
 #### Defined in
 
-[packages/g6/src/types/spec.ts:106](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/spec.ts#L106)
+[packages/g6/src/types/spec.ts:106](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/spec.ts#L106)
 
 ___
 
@@ -193,7 +193,7 @@ item
 
 #### Defined in
 
-[packages/g6/src/types/spec.ts:81](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/spec.ts#L81)
+[packages/g6/src/types/spec.ts:81](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/spec.ts#L81)
 
 ___
 
@@ -209,7 +209,7 @@ item state styles
 
 #### Defined in
 
-[packages/g6/src/types/spec.ts:86](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/spec.ts#L86)
+[packages/g6/src/types/spec.ts:86](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/spec.ts#L86)
 
 ___
 
@@ -219,7 +219,7 @@ ___
 
 #### Defined in
 
-[packages/g6/src/types/spec.ts:68](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/spec.ts#L68)
+[packages/g6/src/types/spec.ts:68](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/spec.ts#L68)
 
 ___
 
@@ -231,7 +231,7 @@ free plugins
 
 #### Defined in
 
-[packages/g6/src/types/spec.ts:116](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/spec.ts#L116)
+[packages/g6/src/types/spec.ts:116](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/spec.ts#L116)
 
 ___
 
@@ -241,7 +241,7 @@ ___
 
 #### Defined in
 
-[packages/g6/src/types/spec.ts:41](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/spec.ts#L41)
+[packages/g6/src/types/spec.ts:41](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/spec.ts#L41)
 
 ___
 
@@ -251,7 +251,7 @@ ___
 
 #### Defined in
 
-[packages/g6/src/types/spec.ts:130](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/spec.ts#L130)
+[packages/g6/src/types/spec.ts:130](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/spec.ts#L130)
 
 ___
 
@@ -263,7 +263,7 @@ theme
 
 #### Defined in
 
-[packages/g6/src/types/spec.ts:126](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/spec.ts#L126)
+[packages/g6/src/types/spec.ts:126](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/spec.ts#L126)
 
 ___
 
@@ -273,7 +273,7 @@ ___
 
 #### Defined in
 
-[packages/g6/src/types/spec.ts:72](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/spec.ts#L72)
+[packages/g6/src/types/spec.ts:72](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/spec.ts#L72)
 
 ___
 
@@ -283,7 +283,7 @@ ___
 
 #### Defined in
 
-[packages/g6/src/types/spec.ts:38](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/spec.ts#L38)
+[packages/g6/src/types/spec.ts:38](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/spec.ts#L38)
 
 ___
 
@@ -293,7 +293,7 @@ ___
 
 #### Defined in
 
-[packages/g6/src/types/spec.ts:39](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/spec.ts#L39)
+[packages/g6/src/types/spec.ts:39](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/spec.ts#L39)
 
 ___
 
@@ -303,4 +303,4 @@ ___
 
 #### Defined in
 
-[packages/g6/src/types/spec.ts:48](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/spec.ts#L48)
+[packages/g6/src/types/spec.ts:48](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/spec.ts#L48)

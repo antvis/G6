@@ -6,6 +6,17 @@ title: TooltipConfig
 
 [plugins](../../modules/plugins.en.md).TooltipConfig
 
+The `TooltipConfig` interface contains the following properties:
+
+- `getContent`: An optional function for getting the content of the tooltip. It takes an optional argument of type `IG6GraphEvent`, and returns a value of type HTMLDivElement, string, or Promise (resolving to HTMLDivElement or string).
+- `offsetX`: An optional number representing the offset of the tooltip in the X direction.
+- `offsetY`: An optional number representing the offset of the tooltip in the Y direction.
+- `shouldBegin`: An optional function for determining whether the tooltip should be displayed. It takes an optional argument of type `IG6GraphEvent`, and returns a boolean value.
+- `itemTypes`: An optional array of strings representing the types of items for which the tooltip is allowed to be displayed. The possible values are 'node', 'edge', 'combo', and 'canvas'.
+- `trigger`: An optional string, either 'pointerenter' or 'click', representing the event type that triggers the display of the tooltip.
+- `fixToNode`: An optional array of two numbers, a string representing a placement, or undefined, representing how to fix the tooltip to a node.
+- `loadingContent`: An optional HTMLDivElement or string representing the loading DOM.
+
 ## Hierarchy
 
 - `IPluginBaseConfig`
@@ -24,7 +35,7 @@ IPluginBaseConfig.className
 
 #### Defined in
 
-[packages/g6/src/types/plugin.ts:6](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/plugin.ts#L6)
+[packages/g6/src/types/plugin.ts:6](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/plugin.ts#L6)
 
 ___
 
@@ -38,7 +49,7 @@ IPluginBaseConfig.container
 
 #### Defined in
 
-[packages/g6/src/types/plugin.ts:5](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/plugin.ts#L5)
+[packages/g6/src/types/plugin.ts:5](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/plugin.ts#L5)
 
 ___
 
@@ -46,9 +57,11 @@ ___
 
 • `Optional` **fixToNode**: [`number`, `number`] \| `Placement`
 
+How to fix tooltip to node
+
 #### Defined in
 
-[packages/g6/src/stdlib/plugin/tooltip/index.ts:66](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/plugin/tooltip/index.ts#L66)
+[packages/g6/src/stdlib/plugin/tooltip/index.ts:85](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/plugin/tooltip/index.ts#L85)
 
 ___
 
@@ -59,6 +72,8 @@ ___
 #### Type declaration
 
 ▸ (`evt?`): `string` \| `HTMLDivElement` \| `Promise`<`string` \| `HTMLDivElement`\>
+
+Function for getting tooltip content
 
 ##### Parameters
 
@@ -72,7 +87,7 @@ ___
 
 #### Defined in
 
-[packages/g6/src/stdlib/plugin/tooltip/index.ts:57](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/plugin/tooltip/index.ts#L57)
+[packages/g6/src/stdlib/plugin/tooltip/index.ts:71](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/plugin/tooltip/index.ts#L71)
 
 ___
 
@@ -86,7 +101,7 @@ IPluginBaseConfig.graph
 
 #### Defined in
 
-[packages/g6/src/types/plugin.ts:7](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/plugin.ts#L7)
+[packages/g6/src/types/plugin.ts:7](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/plugin.ts#L7)
 
 ___
 
@@ -94,9 +109,11 @@ ___
 
 • `Optional` **itemTypes**: (``"node"`` \| ``"edge"`` \| ``"combo"`` \| ``"canvas"``)[]
 
+Types of items for which tooltip is allowed to be displayed
+
 #### Defined in
 
-[packages/g6/src/stdlib/plugin/tooltip/index.ts:64](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/plugin/tooltip/index.ts#L64)
+[packages/g6/src/stdlib/plugin/tooltip/index.ts:81](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/plugin/tooltip/index.ts#L81)
 
 ___
 
@@ -104,9 +121,11 @@ ___
 
 • `Optional` **loadingContent**: `string` \| `HTMLDivElement`
 
+Loading DOM
+
 #### Defined in
 
-[packages/g6/src/stdlib/plugin/tooltip/index.ts:67](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/plugin/tooltip/index.ts#L67)
+[packages/g6/src/stdlib/plugin/tooltip/index.ts:87](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/plugin/tooltip/index.ts#L87)
 
 ___
 
@@ -114,9 +133,11 @@ ___
 
 • `Optional` **offsetX**: `number`
 
+Offset of tooltip in X direction
+
 #### Defined in
 
-[packages/g6/src/stdlib/plugin/tooltip/index.ts:60](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/plugin/tooltip/index.ts#L60)
+[packages/g6/src/stdlib/plugin/tooltip/index.ts:75](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/plugin/tooltip/index.ts#L75)
 
 ___
 
@@ -124,9 +145,11 @@ ___
 
 • `Optional` **offsetY**: `number`
 
+Offset of tooltip in Y direction
+
 #### Defined in
 
-[packages/g6/src/stdlib/plugin/tooltip/index.ts:61](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/plugin/tooltip/index.ts#L61)
+[packages/g6/src/stdlib/plugin/tooltip/index.ts:77](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/plugin/tooltip/index.ts#L77)
 
 ___
 
@@ -137,6 +160,8 @@ ___
 #### Type declaration
 
 ▸ (`evt?`): `boolean`
+
+Determine whether to display tooltip
 
 ##### Parameters
 
@@ -150,7 +175,7 @@ ___
 
 #### Defined in
 
-[packages/g6/src/stdlib/plugin/tooltip/index.ts:62](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/plugin/tooltip/index.ts#L62)
+[packages/g6/src/stdlib/plugin/tooltip/index.ts:79](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/plugin/tooltip/index.ts#L79)
 
 ___
 
@@ -158,6 +183,8 @@ ___
 
 • `Optional` **trigger**: ``"click"`` \| ``"pointerenter"``
 
+Event type that triggers display of tooltip
+
 #### Defined in
 
-[packages/g6/src/stdlib/plugin/tooltip/index.ts:65](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/plugin/tooltip/index.ts#L65)
+[packages/g6/src/stdlib/plugin/tooltip/index.ts:83](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/plugin/tooltip/index.ts#L83)

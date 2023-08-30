@@ -14,7 +14,7 @@ title: CircularLayoutOptions
 
  #### 定义于 
 
- node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:121 
+ node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:121 
 
  ___ 
 
@@ -24,7 +24,7 @@ title: CircularLayoutOptions
 
  #### 定义于 
 
- node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:112 
+ node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:112 
 
  ___ 
 
@@ -34,7 +34,7 @@ title: CircularLayoutOptions
 
  #### 定义于 
 
- node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:118 
+ node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:118 
 
  ___ 
 
@@ -44,7 +44,7 @@ title: CircularLayoutOptions
 
  #### 定义于 
 
- node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:119 
+ node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:119 
 
  ___ 
 
@@ -54,7 +54,7 @@ title: CircularLayoutOptions
 
  #### 定义于 
 
- node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:123 
+ node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:123 
 
  ___ 
 
@@ -64,7 +64,7 @@ title: CircularLayoutOptions
 
  #### 定义于 
 
- node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:117 
+ node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:117 
 
  ___ 
 
@@ -74,17 +74,17 @@ title: CircularLayoutOptions
 
  #### 定义于 
 
- node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:114 
+ node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:114 
 
  ___ 
 
  ### 节点大小 
 
- • `可选` **nodeSize**: `number` \| `数字`[] 
+ • `可选` **nodeSize**: `number` \| `数字`[] \| (`nodeData`: `Node`) => `数字` 
 
  #### 定义于 
 
- node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:125 
+ node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:125 
 
  ___ 
 
@@ -94,7 +94,7 @@ title: CircularLayoutOptions
 
  #### 定义于 
 
- node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:124 
+ node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:124 
 
  ___ 
 
@@ -104,7 +104,7 @@ title: CircularLayoutOptions
 
  #### 定义于 
 
- node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:120 
+ node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:120 
 
  ___ 
 
@@ -114,7 +114,7 @@ title: CircularLayoutOptions
 
  #### 定义于 
 
- node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:115 
+ node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:115 
 
  ___ 
 
@@ -124,7 +124,7 @@ title: CircularLayoutOptions
 
  #### 定义于 
 
- node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:122 
+ node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:122 
 
  ___ 
 
@@ -134,7 +134,7 @@ title: CircularLayoutOptions
 
  #### 定义于 
 
- node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:116 
+ node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:116 
 
  ___ 
 
@@ -144,4 +144,4 @@ title: CircularLayoutOptions
 
  #### 定义于 
 
- node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:113
+ node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:113

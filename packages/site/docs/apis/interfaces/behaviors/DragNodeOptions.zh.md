@@ -32,7 +32,7 @@ title: DragNodeOptions
 
  #### 定义于 
 
- [packages/g6/src/stdlib/behavior/drag-node.ts:32](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/behavior/drag-node。 ts#L32) 
+ [packages/g6/src/stdlib/behavior/drag-node.ts:32](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/drag-node。 ts#L32) 
 
  ___ 
 
@@ -45,7 +45,7 @@ title: DragNodeOptions
 
  #### 定义于 
 
- [packages/g6/src/stdlib/behavior/drag-node.ts:27](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/behavior/drag-node。 ts#L27) 
+ [packages/g6/src/stdlib/behavior/drag-node.ts:27](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/drag-node。 ts#L27) 
 
  ___ 
 
@@ -59,7 +59,7 @@ title: DragNodeOptions
 
  #### 定义于 
 
- [packages/g6/src/stdlib/behavior/drag-node.ts:22](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/behavior/drag-node。 ts#L22) 
+ [packages/g6/src/stdlib/behavior/drag-node.ts:22](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/drag-node。 ts#L22) 
 
  ___ 
 
@@ -71,7 +71,7 @@ title: DragNodeOptions
 
  #### 定义于 
 
- [packages/g6/src/stdlib/behavior/drag-node.ts:60](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/behavior/drag-node。 ts#L60) 
+ [packages/g6/src/stdlib/behavior/drag-node.ts:60](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/drag-node。 ts#L60) 
 
  ___ 
 
@@ -85,7 +85,7 @@ title: DragNodeOptions
 
  #### 定义于 
 
- [packages/g6/src/stdlib/behavior/drag-node.ts:51](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/behavior/drag-node。 ts#L51) 
+ [packages/g6/src/stdlib/behavior/drag-node.ts:51](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/drag-node。 ts#L51) 
 
  ___ 
 
@@ -98,7 +98,7 @@ title: DragNodeOptions
 
  #### 定义于 
 
- [packages/g6/src/stdlib/behavior/drag-node.ts:56](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/behavior/drag-node。 ts#L56) 
+ [packages/g6/src/stdlib/behavior/drag-node.ts:56](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/drag-node。 ts#L56) 
 
  ___ 
 
@@ -124,7 +124,7 @@ title: DragNodeOptions
 
  #### 定义于 
 
- [packages/g6/src/stdlib/behavior/drag-node.ts:68](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/behavior/drag-node。 ts#L68) 
+ [packages/g6/src/stdlib/behavior/drag-node.ts:68](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/drag-node。 ts#L68) 
 
  ___ 
 
@@ -137,7 +137,7 @@ title: DragNodeOptions
 
  #### 定义于 
 
- [packages/g6/src/stdlib/behavior/drag-node.ts:45](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/behavior/drag-node。 ts#L45) 
+ [packages/g6/src/stdlib/behavior/drag-node.ts:45](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/drag-node。 ts#L45) 
 
  ___ 
 
@@ -149,4 +149,4 @@ title: DragNodeOptions
 
  #### 定义于 
 
- [packages/g6/src/stdlib/behavior/drag-node.ts:64](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/behavior/drag-node。 ts#L64)
+ [packages/g6/src/stdlib/behavior/drag-node.ts:64](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/drag-node。 ts#L64)

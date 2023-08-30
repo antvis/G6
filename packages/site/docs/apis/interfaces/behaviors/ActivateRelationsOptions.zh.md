@@ -16,7 +16,7 @@ title: ActivateRelationsOptions
 
  #### 定义于 
 
- [packages/g6/src/stdlib/behavior/activate-relations.ts:37](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/behavior/activate-relations。 ts#L37) 
+ [packages/g6/src/stdlib/behavior/activate-relations.ts:37](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/activate-relations。 ts#L37) 
 
  ___ 
 
@@ -30,7 +30,7 @@ title: ActivateRelationsOptions
 
  #### 定义于 
 
- [packages/g6/src/stdlib/behavior/activate-relations.ts:24](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/behavior/activate-relations。 ts#L24) 
+ [packages/g6/src/stdlib/behavior/activate-relations.ts:24](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/activate-relations。 ts#L24) 
 
  ___ 
 
@@ -56,7 +56,7 @@ title: ActivateRelationsOptions
 
  #### 定义于 
 
- [packages/g6/src/stdlib/behavior/activate-relations.ts:42](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/behavior/activate-relations。 ts#L42) 
+ [packages/g6/src/stdlib/behavior/activate-relations.ts:42](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/activate-relations。 ts#L42) 
 
  ___ 
 
@@ -84,7 +84,7 @@ title: ActivateRelationsOptions
 
  #### 定义于 
 
- [packages/g6/src/stdlib/behavior/activate-relations.ts:48](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/behavior/activate-relations。 ts#L48) 
+ [packages/g6/src/stdlib/behavior/activate-relations.ts:48](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/activate-relations。 ts#L48) 
 
  ___ 
 
@@ -98,4 +98,4 @@ title: ActivateRelationsOptions
 
  #### 定义于 
 
- [packages/g6/src/stdlib/behavior/activate-relations.ts:30](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/behavior/activate-relations。 ts#L30)
+ [packages/g6/src/stdlib/behavior/activate-relations.ts:30](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/activate-relations。 ts#L30)

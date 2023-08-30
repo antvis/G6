@@ -24,7 +24,7 @@ CommonForceLayoutOptions.center
 
 #### Defined in
 
-node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:252
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:252
 
 ___
 
@@ -34,7 +34,7 @@ ___
 
 #### Defined in
 
-node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:278
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:278
 
 ___
 
@@ -44,7 +44,7 @@ ___
 
 #### Defined in
 
-node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:282
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:282
 
 ___
 
@@ -54,7 +54,7 @@ ___
 
 #### Defined in
 
-node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:280
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:280
 
 ___
 
@@ -64,7 +64,7 @@ ___
 
 #### Defined in
 
-node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:283
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:283
 
 ___
 
@@ -74,7 +74,7 @@ ___
 
 #### Defined in
 
-node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:274
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:274
 
 ___
 
@@ -84,7 +84,7 @@ ___
 
 #### Defined in
 
-node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:272
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:272
 
 ___
 
@@ -98,13 +98,13 @@ CommonForceLayoutOptions.dimensions
 
 #### Defined in
 
-node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:251
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:251
 
 ___
 
 ### distanceThresholdMode
 
-• `Optional` **distanceThresholdMode**: ``"max"`` \| ``"min"`` \| ``"mean"``
+• `Optional` **distanceThresholdMode**: ``"min"`` \| ``"max"`` \| ``"mean"``
 
 #### Inherited from
 
@@ -112,7 +112,7 @@ CommonForceLayoutOptions.distanceThresholdMode
 
 #### Defined in
 
-node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:255
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:255
 
 ___
 
@@ -122,7 +122,7 @@ ___
 
 #### Defined in
 
-node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:268
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:268
 
 ___
 
@@ -132,7 +132,7 @@ ___
 
 #### Defined in
 
-node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:276
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:276
 
 ___
 
@@ -157,7 +157,7 @@ ___
 
 #### Defined in
 
-node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:286
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:286
 
 ___
 
@@ -181,7 +181,7 @@ ___
 
 #### Defined in
 
-node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:285
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:285
 
 ___
 
@@ -191,7 +191,7 @@ ___
 
 #### Defined in
 
-node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:275
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:275
 
 ___
 
@@ -201,7 +201,7 @@ ___
 
 #### Defined in
 
-node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:265
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:265
 
 ___
 
@@ -211,7 +211,7 @@ ___
 
 #### Defined in
 
-node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:277
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:277
 
 ___
 
@@ -221,7 +221,7 @@ ___
 
 #### Defined in
 
-node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:279
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:279
 
 ___
 
@@ -231,7 +231,7 @@ ___
 
 #### Defined in
 
-node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:266
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:266
 
 ___
 
@@ -249,7 +249,7 @@ CommonForceLayoutOptions.maxDistance
 
 #### Defined in
 
-node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:261
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:261
 
 ___
 
@@ -263,7 +263,7 @@ CommonForceLayoutOptions.maxIteration
 
 #### Defined in
 
-node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:254
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:254
 
 ___
 
@@ -273,7 +273,7 @@ ___
 
 #### Defined in
 
-node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:273
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:273
 
 ___
 
@@ -287,7 +287,7 @@ CommonForceLayoutOptions.minMovement
 
 #### Defined in
 
-node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:253
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:253
 
 ___
 
@@ -315,7 +315,7 @@ ___
 
 #### Defined in
 
-node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:287
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:287
 
 ___
 
@@ -325,7 +325,7 @@ ___
 
 #### Defined in
 
-node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:281
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:281
 
 ___
 
@@ -335,7 +335,7 @@ ___
 
 #### Defined in
 
-node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:270
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:270
 
 ___
 
@@ -345,7 +345,7 @@ ___
 
 #### Defined in
 
-node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:271
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:271
 
 ___
 
@@ -355,7 +355,7 @@ ___
 
 #### Defined in
 
-node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:267
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:267
 
 ___
 
@@ -379,7 +379,7 @@ ___
 
 #### Defined in
 
-node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:284
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:284
 
 ___
 
@@ -389,7 +389,7 @@ ___
 
 #### Defined in
 
-node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:269
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:269
 
 ___
 
@@ -399,4 +399,4 @@ ___
 
 #### Defined in
 
-node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:264
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:264

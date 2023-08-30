@@ -1,4 +1,18 @@
+---
+title: README
+---
+
 Overview / [Modules](modules.en.md)
+
+# G6 API Core Modules
+
+- [behaviors](modules/behaviors.en.md)
+- [graph](modules/graph.en.md)
+- [item](modules/item.en.md)
+- [layout](modules/layout.en.md)
+- [plugins](modules/plugins.en.md)
+- [types](modules/types.en.md)
+- [util](modules/util.en.md)
 
 ```jsx
 import { Graph, Util } from '@antv/g6';

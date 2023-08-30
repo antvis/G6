@@ -16,7 +16,7 @@ title: RotateCanvas3DOptions
 
  #### 定义于 
 
- [packages/g6/src/stdlib/behavior/rotate-canvas-3d.ts:31](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/behavior/rotate- canvas-3d.ts#L31) 
+ [packages/g6/src/stdlib/behavior/rotate-canvas-3d.ts:31](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/rotate- canvas-3d.ts#L31) 
 
  ___ 
 
@@ -31,7 +31,7 @@ title: RotateCanvas3DOptions
 
  #### 定义于 
 
- [packages/g6/src/stdlib/behavior/rotate-canvas-3d.ts:19](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/behavior/rotate- canvas-3d.ts#L19) 
+ [packages/g6/src/stdlib/behavior/rotate-canvas-3d.ts:19](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/rotate- canvas-3d.ts#L19) 
 
  ___ 
 
@@ -57,7 +57,7 @@ title: RotateCanvas3DOptions
 
  #### 定义于 
 
- [packages/g6/src/stdlib/behavior/rotate-canvas-3d.ts:35](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/behavior/rotate- canvas-3d.ts#L35) 
+ [packages/g6/src/stdlib/behavior/rotate-canvas-3d.ts:35](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/rotate- canvas-3d.ts#L35) 
 
  ___ 
 
@@ -69,7 +69,7 @@ title: RotateCanvas3DOptions
 
  #### 定义于 
 
- [packages/g6/src/stdlib/behavior/rotate-canvas-3d.ts:23](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/behavior/rotate- canvas-3d.ts#L23) 
+ [packages/g6/src/stdlib/behavior/rotate-canvas-3d.ts:23](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/rotate- canvas-3d.ts#L23) 
 
  ___ 
 
@@ -81,7 +81,7 @@ title: RotateCanvas3DOptions
 
  #### 定义于 
 
- [packages/g6/src/stdlib/behavior/rotate-canvas-3d.ts:12](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/behavior/rotate- canvas-3d.ts#L12) 
+ [packages/g6/src/stdlib/behavior/rotate-canvas-3d.ts:12](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/rotate- canvas-3d.ts#L12) 
 
  ___ 
 
@@ -93,4 +93,4 @@ title: RotateCanvas3DOptions
 
  #### 定义于 
 
- [packages/g6/src/stdlib/behavior/rotate-canvas-3d.ts:27](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/behavior/rotate- canvas-3d.ts#L27)
+ [packages/g6/src/stdlib/behavior/rotate-canvas-3d.ts:27](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/rotate- canvas-3d.ts#L27)

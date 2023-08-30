@@ -4,38 +4,25 @@ import { IGraph } from '../../../types';
 import { Plugin as Base, IPluginBaseConfig } from '../../../types/plugin';
 
 /**
- * @example
- * const {Graph} from '@antv/g6';
- * const toolbar:ToolbarConfig = {
- *   type:"toolbar",
- *   handleClick:()=>{}
- * }
- * new Graph({
- *  plugins:[toolbar]
- * })
- *
+ * The `ToolbarConfig` interface contains the following properties:
+
+- `handleClick`: An optional function for handling clicks on the toolbar. It takes two arguments: `code` (of type string) and `graph` (of type IGraph), and has no return value.
+- `getContent`: A required function for getting the content of the toolbar. It takes an optional argument of type `IGraph`, and returns a value of type HTMLDivElement or string.
+- `zoomSensitivity`: An optional number representing the zoom sensitivity of the toolbar. The default value is 10.
+- `minZoom`: An optional number representing the minimum zoom ratio of the toolbar. The default value is 0.00001.
+- `maxZoom`: An optional number representing the maximum zoom ratio of the toolbar. The default value is 1000.
+
  */
 export interface ToolbarConfig extends IPluginBaseConfig {
-  /**
-   * toolbar config
-   * @param code toolbar item code
-   * @param graph Graph Instance
-   * @returns
-   */
+  /** Function for handling clicks on toolbar */
   handleClick?: (code: string, graph: IGraph) => void;
+  /** Function for getting content of toolbar */
   getContent: (graph?: IGraph) => HTMLDivElement | string;
-  /**
-   * @default 10
-   */
+  /** Zoom sensitivity of toolbar */
   zoomSensitivity: number;
-  /**
-   * @default 0.00001
-   */
+  /** Minimum zoom ratio of toolbar */
   minZoom: number;
-  /**
-   * 最小缩放比率
-   * @default 1000
-   */
+  /** Maximum zoom ratio of toolbar */
   maxZoom: number;
 }
 

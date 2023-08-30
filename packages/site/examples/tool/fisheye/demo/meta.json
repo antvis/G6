@@ -5,7 +5,7 @@
   },
   "demos": [
     {
-      "filename": "fisheye.js",
+      "filename": "fisheye.ts",
       "title": {
         "zh": "鱼眼放大镜",
         "en": "Fisheye Lens"

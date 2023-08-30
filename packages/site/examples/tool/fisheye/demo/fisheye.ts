@@ -1,20 +1,21 @@
-import G6 from '@antv/g6';
+import { Graph as BaseGraph, Extensions, extend } from '@antv/g6';
 
-let fisheye = new G6.Fisheye({
+const Graph = extend(BaseGraph, {
+  plugins: {
+    fisheye: Extensions.Fisheye,
+  },
+});
+
+let fisheye = {
+  type: 'fisheye',
+  key: 'fisheye1',
+  scaleDBy: 'unset',
+  scaleRBy: 'unset',
   r: 200,
   showLabel: true,
-});
-const colors = [
-  '#8FE9FF',
-  '#87EAEF',
-  '#FFC9E3',
-  '#A7C2FF',
-  '#FFA1E3',
-  '#FFE269',
-  '#BFCFEE',
-  '#FFA0C5',
-  '#D5FF86',
-];
+  trigger: 'mousemove',
+};
+const colors = ['#8FE9FF', '#87EAEF', '#FFC9E3', '#A7C2FF', '#FFA1E3', '#FFE269', '#BFCFEE', '#FFA0C5', '#D5FF86'];
 
 // ================= The DOMs for configurations =============== //
 const graphDiv = document.getElementById('container');
@@ -121,73 +122,91 @@ graphDiv.parentNode.appendChild(buttonContainer);
 // ========================================================= //
 
 const container = document.getElementById('container');
-const width = container.scrollWidth;
-const height = container.scrollHeight || 500;
-const graph = new G6.Graph({
-  container: 'container',
-  width,
-  height,
-  plugins: [fisheye],
-});
-
-clearButton.addEventListener('click', (e) => {
-  fisheye.clear();
-});
-swithButton.addEventListener('click', (e) => {
-  if (swithButton.value === 'Disable') {
-    swithButton.value = 'Enable';
-    graph.removePlugin(fisheye);
-  } else {
-    swithButton.value = 'Disable';
-    fisheye = new G6.Fisheye({
-      r: 200,
-      showLabel: true,
-    });
-    graph.addPlugin(fisheye);
-  }
-});
-configScaleRBy.addEventListener('change', (e) => {
-  fisheye.updateParams({ scaleRBy: e.target.value });
-});
-configScaleDBy.addEventListener('change', (e) => {
-  fisheye.updateParams({ scaleDBy: e.target.value });
-});
-configTrigger.addEventListener('change', (e) => {
-  const fisheyConfigs = fisheye._cfgs;
-  graph.removePlugin(fisheye);
-  fisheye = new G6.Fisheye({
-    ...fisheyConfigs,
-    trigger: e.target.value,
+let width = 1500;
+let height = 500;
+if (container) {
+  width = container.scrollWidth;
+  height = container.scrollHeight || 500;
+}
+let graph;
+const createGraph = (customData) => {
+  graph = new Graph({
+    container: 'container',
+    width,
+    height,
+    layout: {
+      type: 'force',
+      rankdir: 'LR',
+      align: 'DL',
+      nodesepFunc: () => 1,
+      ranksepFunc: () => 1,
+    },
+    plugins: [fisheye],
+    data: customData,
+    node: (innerModel) => {
+      return {
+        ...innerModel,
+      };
+    },
   });
-  graph.addPlugin(fisheye);
-});
+
+  clearButton.addEventListener('click', (e) => {});
+  swithButton.addEventListener('click', (e) => {
+    if (swithButton.value === 'Disable') {
+      swithButton.value = 'Enable';
+      graph.removePlugins(['fisheye1']);
+    } else {
+      swithButton.value = 'Disable';
+      graph.addPlugins([fisheye]);
+    }
+  });
+  configScaleRBy.addEventListener('change', (e) => {
+    fisheye = {
+      ...fisheye,
+      scaleRBy: e.target.value,
+    };
+    graph.updatePlugin(fisheye);
+  });
+  configScaleDBy.addEventListener('change', (e) => {
+    // fisheye.scaleDBy = e.target.value;
+    fisheye = {
+      ...fisheye,
+      scaleDBy: e.target.value,
+    };
+    graph.updatePlugin(fisheye);
+  });
+  configTrigger.addEventListener('change', (e) => {
+    fisheye = {
+      ...fisheye,
+      trigger: e.target.value,
+    };
+    graph.updatePlugin(fisheye);
+  });
+};
 
 fetch('https://gw.alipayobjects.com/os/bmw-prod/afe8b2a6-f691-4070-aa73-46fc07fd1171.json')
   .then((res) => res.json())
   .then((data) => {
     data.nodes.forEach((node) => {
-      node.label = node.id;
-      node.size = Math.random() * 30 + 10;
-      node.style = {
-        fill: colors[Math.floor(Math.random() * 9)],
+      node.data = {
+        ...node.data,
+        label: node.id,
+        color: colors[Math.floor(Math.random() * 9)],
+        size: Math.random() * 30 + 10,
+        r: Math.random() * 30 + 10,
+        keyShape: {
+          r: Math.random() * 20 + 10,
+          fill: colors[Math.floor(Math.random() * 9)],
+        },
         lineWidth: 0,
       };
     });
-    graph.data(data);
-    graph.render();
-    graph.getNodes().forEach((node) => {
-      node
-        .getContainer()
-        .getChildren()
-        .forEach((shape) => {
-          if (shape.get('type') === 'text') shape.hide();
-        });
+    data.edges.forEach((edge) => {
+      edge.id = edge.source + '-' + edge.target;
+      edge.data = {
+        color: '#ccc',
+      };
     });
-  });
 
-if (typeof window !== 'undefined')
-  window.onresize = () => {
-    if (!graph || graph.get('destroyed')) return;
-    if (!container || !container.scrollWidth || !container.scrollHeight) return;
-    graph.changeSize(container.scrollWidth, container.scrollHeight);
-  };
+    createGraph(data);
+  });

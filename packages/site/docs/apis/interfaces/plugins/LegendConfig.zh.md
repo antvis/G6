@@ -2,124 +2,124 @@
 title: LegendConfig
 ---
 
-[概述 - v5.0.0-alpha.9](../../README.zh.md) / [模块](../../modules.zh.md) / [插件](../. ./modules/plugins.zh.md) / LegendConfig 
+[概述 - v5.0.0-alpha.9](../../README.zh.md) / [模块](../../modules.zh.md) / [插件](../../modules/plugins.zh.md) / LegendConfig
 
- [插件](../../modules/plugins.zh.md).LegendConfig 
+[插件](../../modules/plugins.zh.md).LegendConfig
 
- ＃＃ 等级制度 
+## 层次结构
 
- - `IPluginBaseConfig` 
+- `IPluginBaseConfig`
 
-   ↳ **`图例配置`** 
+  ↳ **`LegendConfig`**
 
- ＃＃ 特性 
+## 属性
 
- ### 活动状态 
+### activeState
 
- • `可选` **activeState**：`字符串` 
+• `Optional` **activeState**: `string`
 
- #### 定义于 
+#### 定义在
 
- [packages/g6/src/stdlib/plugin/legend/index.ts:55](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/plugin/legend/index.ts) ts#L55) 
+[packages/g6/src/stdlib/plugin/legend/index.ts:55](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/stdlib/plugin/legend/index.ts#L55)
 
- ___ 
+---
 
- ＃＃＃ 班级名称 
+### className
 
- • `可选` **类名**：`字符串` 
+• `Optional` **className**: `string`
 
- #### 覆盖 
+#### 覆盖
 
- IPluginBaseConfig.className 
+IPluginBaseConfig.className
 
- #### 定义于 
+#### 定义在
 
- [packages/g6/src/stdlib/plugin/legend/index.ts:47](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/plugin/legend/index.ts) ts#L47) 
+[packages/g6/src/stdlib/plugin/legend/index.ts:47](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/stdlib/plugin/legend/index.ts#L47)
 
- ___ 
+---
 
- ＃＃＃ 容器 
+### container
 
- • `可选` **容器**：`HTMLDivElement` 
+• `Optional` **container**: `HTMLDivElement`
 
- #### 覆盖 
+#### 覆盖
 
- IPluginBaseConfig.container 
+IPluginBaseConfig.container
 
- #### 定义于 
+#### 定义在
 
- [packages/g6/src/stdlib/plugin/legend/index.ts:45](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/plugin/legend/index.ts) ts#L45) 
+[packages/g6/src/stdlib/plugin/legend/index.ts:45](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/stdlib/plugin/legend/index.ts#L45)
 
- ___ 
+---
 
- ＃＃＃ 边缘 
+### edge
 
- • `可选` **边缘**：`ItemLegendConfig` 
+• `Optional` **edge**: `ItemLegendConfig`
 
- #### 定义于 
+#### 定义在
 
- [packages/g6/src/stdlib/plugin/legend/index.ts:61](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/plugin/legend/index.ts) ts#L61) 
+[packages/g6/src/stdlib/plugin/legend/index.ts:61](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/stdlib/plugin/legend/index.ts#L61)
 
- ___ 
+---
 
- ### 图表 
+### graph
 
- • `可选` **graph**: [`IGraph`](../graph/IGraph.zh.md)<`BehaviorRegistry`, `ThemeRegistry`\> 
+• `Optional` **graph**: [`IGraph`](../graph/IGraph.zh.md)<`BehaviorRegistry`, `ThemeRegistry`\>
 
- ####继承自 
+#### 继承自
 
- IPluginBaseConfig.graph 
+IPluginBaseConfig.graph
 
- #### 定义于 
+#### 定义在
 
- [packages/g6/src/types/plugin.ts:7](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/plugin.ts#L7) 
+[packages/g6/src/types/plugin.ts:7](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/types/plugin.ts#L7)
 
- ___ 
+---
 
- ### 非活动状态 
+### inactiveState
 
- • `可选` **inactiveState**：`字符串` 
+• `Optional` **inactiveState**: `string`
 
- #### 定义于 
+#### 定义在
 
- [packages/g6/src/stdlib/plugin/legend/index.ts:57](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/plugin/legend/index.ts) ts#L57) 
+[packages/g6/src/stdlib/plugin/legend/index.ts:57](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/stdlib/plugin/legend/index.ts#L57)
 
- ___ 
+---
 
- ### 节点 
+### node
 
- • `可选` **节点**：`ItemLegendConfig` 
+• `Optional` **node**: `ItemLegendConfig`
 
- #### 定义于 
+#### 定义在
 
- [packages/g6/src/stdlib/plugin/legend/index.ts:59](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/plugin/legend/index.ts) ts#L59) 
+[packages/g6/src/stdlib/plugin/legend/index.ts:59](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/stdlib/plugin/legend/index.ts#L59)
 
- ___ 
+---
 
- ＃＃＃ 方向 
+### orientation
 
- • `可选` **方向**：``"水平"`` \| ``“垂直”`` 
+• `Optional` **orientation**: `"horizontal"` \| `"vertical"`
 
- #### 定义于 
+#### 定义在
 
- [packages/g6/src/stdlib/plugin/legend/index.ts:51](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/plugin/legend/index.ts) ts#L51) 
+[packages/g6/src/stdlib/plugin/legend/index.ts:51](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/stdlib/plugin/legend/index.ts#L51)
 
- ___ 
+---
 
- ### 选定状态 
+### selectedState
 
- • `可选` **selectedState**：`字符串` 
+• `Optional` **selectedState**: `string`
 
- #### 定义于 
+#### 定义在
 
- [packages/g6/src/stdlib/plugin/legend/index.ts:53](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/plugin/legend/index.ts) ts#L53) 
+[packages/g6/src/stdlib/plugin/legend/index.ts:53](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/stdlib/plugin/legend/index.ts#L53)
 
- ___ 
+---
 
- ＃＃＃ 尺寸 
+### size
 
- • `可选` **尺寸**：``"fit-content"`` \| [`字符串`\| `数字`、`字符串` \| `数字`] 
+• `Optional` **size**: `"fit-content"` \| [`string` \| `number`, `string` \| `number`]
 
- #### 定义于 
+#### 定义在
 
- [packages/g6/src/stdlib/plugin/legend/index.ts:49](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/plugin/legend/index.html ts#L49)
+[packages/g6/src/stdlib/plugin/legend/index.ts:49](https://github.com/antvis/G6/blob

@@ -20,7 +20,7 @@ title: LegendConfig
 
 #### Defined in
 
-[packages/g6/src/stdlib/plugin/legend/index.ts:55](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/plugin/legend/index.ts#L55)
+[packages/g6/src/stdlib/plugin/legend/index.ts:55](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/plugin/legend/index.ts#L55)
 
 ___
 
@@ -34,7 +34,7 @@ IPluginBaseConfig.className
 
 #### Defined in
 
-[packages/g6/src/stdlib/plugin/legend/index.ts:47](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/plugin/legend/index.ts#L47)
+[packages/g6/src/stdlib/plugin/legend/index.ts:47](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/plugin/legend/index.ts#L47)
 
 ___
 
@@ -48,7 +48,7 @@ IPluginBaseConfig.container
 
 #### Defined in
 
-[packages/g6/src/stdlib/plugin/legend/index.ts:45](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/plugin/legend/index.ts#L45)
+[packages/g6/src/stdlib/plugin/legend/index.ts:45](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/plugin/legend/index.ts#L45)
 
 ___
 
@@ -58,7 +58,7 @@ ___
 
 #### Defined in
 
-[packages/g6/src/stdlib/plugin/legend/index.ts:61](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/plugin/legend/index.ts#L61)
+[packages/g6/src/stdlib/plugin/legend/index.ts:61](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/plugin/legend/index.ts#L61)
 
 ___
 
@@ -72,7 +72,7 @@ IPluginBaseConfig.graph
 
 #### Defined in
 
-[packages/g6/src/types/plugin.ts:7](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/plugin.ts#L7)
+[packages/g6/src/types/plugin.ts:7](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/plugin.ts#L7)
 
 ___
 
@@ -82,7 +82,7 @@ ___
 
 #### Defined in
 
-[packages/g6/src/stdlib/plugin/legend/index.ts:57](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/plugin/legend/index.ts#L57)
+[packages/g6/src/stdlib/plugin/legend/index.ts:57](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/plugin/legend/index.ts#L57)
 
 ___
 
@@ -92,7 +92,7 @@ ___
 
 #### Defined in
 
-[packages/g6/src/stdlib/plugin/legend/index.ts:59](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/plugin/legend/index.ts#L59)
+[packages/g6/src/stdlib/plugin/legend/index.ts:59](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/plugin/legend/index.ts#L59)
 
 ___
 
@@ -102,7 +102,7 @@ ___
 
 #### Defined in
 
-[packages/g6/src/stdlib/plugin/legend/index.ts:51](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/plugin/legend/index.ts#L51)
+[packages/g6/src/stdlib/plugin/legend/index.ts:51](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/plugin/legend/index.ts#L51)
 
 ___
 
@@ -112,7 +112,7 @@ ___
 
 #### Defined in
 
-[packages/g6/src/stdlib/plugin/legend/index.ts:53](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/plugin/legend/index.ts#L53)
+[packages/g6/src/stdlib/plugin/legend/index.ts:53](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/plugin/legend/index.ts#L53)
 
 ___
 
@@ -122,4 +122,4 @@ ___
 
 #### Defined in
 
-[packages/g6/src/stdlib/plugin/legend/index.ts:49](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/plugin/legend/index.ts#L49)
+[packages/g6/src/stdlib/plugin/legend/index.ts:49](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/plugin/legend/index.ts#L49)

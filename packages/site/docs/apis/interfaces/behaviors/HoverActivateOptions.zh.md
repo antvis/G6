@@ -17,7 +17,7 @@ title: HoverActivateOptions
 
  #### 定义于 
 
- [packages/g6/src/stdlib/behavior/hover-activate.ts:16](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/behavior/hover-activate。 ts#L16) 
+ [packages/g6/src/stdlib/behavior/hover-activate.ts:16](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/hover-activate。 ts#L16) 
 
  ___ 
 
@@ -29,7 +29,7 @@ title: HoverActivateOptions
 
  #### 定义于 
 
- [packages/g6/src/stdlib/behavior/hover-activate.ts:26](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/behavior/hover-activate。 ts#L26) 
+ [packages/g6/src/stdlib/behavior/hover-activate.ts:26](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/hover-activate。 ts#L26) 
 
  ___ 
 
@@ -43,7 +43,7 @@ title: HoverActivateOptions
 
  #### 定义于 
 
- [packages/g6/src/stdlib/behavior/hover-activate.ts:22](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/behavior/hover-activate。 ts#L22) 
+ [packages/g6/src/stdlib/behavior/hover-activate.ts:22](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/hover-activate。 ts#L22) 
 
  ___ 
 
@@ -69,7 +69,7 @@ title: HoverActivateOptions
 
  #### 定义于 
 
- [packages/g6/src/stdlib/behavior/hover-activate.ts:30](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/behavior/hover-activate。 ts#L30) 
+ [packages/g6/src/stdlib/behavior/hover-activate.ts:30](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/hover-activate。 ts#L30) 
 
  ___ 
 
@@ -82,4 +82,4 @@ title: HoverActivateOptions
 
  #### 定义于 
 
- [packages/g6/src/stdlib/behavior/hover-activate.ts:11](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/behavior/hover-activate。 ts#L11)
+ [packages/g6/src/stdlib/behavior/hover-activate.ts:11](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/hover-activate。 ts#L11)

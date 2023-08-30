@@ -14,7 +14,7 @@ title: GridLayoutOptions
 
  #### 定义于 
 
- node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:130 
+ node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:130 
 
  ___ 
 
@@ -24,7 +24,7 @@ title: GridLayoutOptions
 
  #### 定义于 
 
- node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:136 
+ node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:136 
 
  ___ 
 
@@ -34,7 +34,7 @@ title: GridLayoutOptions
 
  #### 定义于 
 
- node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:134 
+ node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:134 
 
  ___ 
 
@@ -44,17 +44,17 @@ title: GridLayoutOptions
 
  #### 定义于 
 
- node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:129 
+ node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:129 
 
  ___ 
 
  ### 节点大小 
 
- • `可选` **nodeSize**: `number` \| `数字`[] 
+ • `可选` **nodeSize**: `number` \| `数字`[] \| (`nodeData`: `Node`) => `数字` 
 
  #### 定义于 
 
- node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:132 
+ node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:132 
 
  ___ 
 
@@ -64,7 +64,7 @@ title: GridLayoutOptions
 
  #### 定义于 
 
- node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:142 
+ node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:142 
 
  ___ 
 
@@ -93,7 +93,7 @@ title: GridLayoutOptions
 
  #### 定义于 
 
- node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:138 
+ node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:138 
 
  ___ 
 
@@ -103,7 +103,7 @@ title: GridLayoutOptions
 
  #### 定义于 
 
- node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:131 
+ node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:131 
 
  ___ 
 
@@ -113,7 +113,7 @@ title: GridLayoutOptions
 
  #### 定义于 
 
- node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:133 
+ node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:133 
 
  ___ 
 
@@ -123,7 +123,7 @@ title: GridLayoutOptions
 
  #### 定义于 
 
- node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:135 
+ node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:135 
 
  ___ 
 
@@ -133,7 +133,7 @@ title: GridLayoutOptions
 
  #### 定义于 
 
- node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:137 
+ node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:137 
 
  ___ 
 
@@ -143,4 +143,4 @@ title: GridLayoutOptions
 
  #### 定义于 
 
- node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:128
+ node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:128

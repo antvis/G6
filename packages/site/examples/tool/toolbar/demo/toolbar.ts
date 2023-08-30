@@ -1,4 +1,10 @@
-import { Graph, Util } from '@antv/g6';
+import { Graph as BaseGraph, Extensions, Util, extend } from '@antv/g6';
+
+const Graph = extend(BaseGraph, {
+  plugins: {
+    toolbar: Extensions.Toolbar,
+  },
+});
 
 const container = document.getElementById('container') as HTMLElement;
 const width = container.scrollWidth;
@@ -14,5 +20,8 @@ new Graph({
   height,
   data,
   layout,
-  plugins: ['toolbar'],
+  modes: {
+    default: ['drag-canvas', 'drag-node', 'zoom-canvas'],
+  },
+  plugins: [{ type: 'toolbar', key: 'toolbar-1' }],
 });
