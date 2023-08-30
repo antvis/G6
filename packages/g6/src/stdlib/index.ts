@@ -1,24 +1,57 @@
-import * as Layouts from '@antv/layout';
 import Hierarchy from '@antv/hierarchy';
+import * as Layouts from '@antv/layout';
 import { Lib } from '../types/stdlib';
 
-import * as Transforms from './data';
-import * as Nodes from './item/node';
-import * as Edges from './item/edge';
-import * as Combos from './item/combo';
 import * as Behaviors from './behavior';
+import * as Transforms from './data';
+import * as Combos from './item/combo';
+import * as Edges from './item/edge';
+import * as Nodes from './item/node';
+import * as Plugins from './plugin';
 import * as Themes from './theme';
 import * as ThemeSolvers from './themeSolver';
-import * as Plugins from './plugin';
 
 const { ValidateData, TransformV4Data, MapNodeSize } = Transforms;
+
+const { compactBox, dendrogram, indented, mindmap } = Hierarchy;
+
 const { DarkTheme, LightTheme } = Themes;
 const { SpecThemeSolver, SubjectThemeSolver } = ThemeSolvers;
-const { CircleNode, RectNode } = Nodes;
-const { LineEdge } = Edges;
+
+const {
+  CircleNode,
+  RectNode,
+  DiamondNode,
+  DonutNode,
+  SphereNode,
+  StarNode,
+  HexagonNode,
+  TriangleNode,
+  EllipseNode,
+  ModelRectNode,
+} = Nodes;
+
+const {
+  LineEdge,
+  CubicEdge,
+  CubicHorizontalEdge,
+  CubicVerticalEdge,
+  LoopEdge,
+  PolylineEdge,
+  QuadraticEdge,
+} = Edges;
 const { CircleCombo, RectCombo } = Combos;
 const {
+  ActivateRelations,
+  BrushSelect,
+  HoverActivate,
+  LassoSelect,
+  OrbitCanvas3D,
+  RotateCanvas3D,
+  TrackCanvas3D,
+  ZoomCanvas3D,
   ZoomCanvas,
+
   DragCanvas,
   CollapseExpandTree,
   CollapseExpandCombo,
@@ -26,7 +59,9 @@ const {
   DragCombo,
   ClickSelect,
 } = Behaviors;
-const { History } = Plugins;
+const { History, Tooltip, Minimap, Grid, Menu, Fisheye, Legend, Toolbar } =
+  Plugins;
+
 const { ForceLayout, GridLayout, CircularLayout, ConcentricLayout } = Layouts;
 
 import lassoSelector from './selector/lasso';
@@ -137,17 +172,87 @@ const utils = {
 };
 
 const registery = { useLib };
+// const Extensions = {
+//   ...Transforms,
+//   ...Themes,
+//   ...ThemeSolvers,
+//   ...Nodes,
+//   ...Edges,
+//   ...Combos,
+//   ...Behaviors,
+//   ...Plugins,
+//   ...Layouts,
+//   ...Hierarchy,
+// };
+
 const Extensions = {
-  ...Transforms,
-  ...Themes,
-  ...ThemeSolvers,
-  ...Nodes,
-  ...Edges,
-  ...Combos,
-  ...Behaviors,
-  ...Plugins,
-  ...Layouts,
-  ...Hierarchy,
+  // transforms
+  ValidateData,
+  TransformV4Data,
+  MapNodeSize,
+  //themes
+  LightTheme,
+  DarkTheme,
+  //themeSolvers
+  SpecThemeSolver,
+  SubjectThemeSolver,
+  //layout
+  ForceLayout,
+  GridLayout,
+  CircularLayout,
+  ConcentricLayout,
+  //Hierarchy
+  compactBox,
+  dendrogram,
+  indented,
+  mindmap,
+  //nodes
+  CircleNode,
+  RectNode,
+  DiamondNode,
+  DonutNode,
+  SphereNode,
+  StarNode,
+  HexagonNode,
+  TriangleNode,
+  EllipseNode,
+  ModelRectNode,
+  // edges
+  LineEdge,
+  CubicEdge,
+  CubicHorizontalEdge,
+  CubicVerticalEdge,
+  LoopEdge,
+  PolylineEdge,
+  QuadraticEdge,
+  // combos
+  CircleCombo,
+  RectCombo,
+  //behaviors
+  ActivateRelations,
+  BrushSelect,
+  HoverActivate,
+  LassoSelect,
+  OrbitCanvas3D,
+  RotateCanvas3D,
+  TrackCanvas3D,
+  ZoomCanvas3D,
+  ZoomCanvas,
+  DragCanvas,
+  CollapseExpandTree,
+  CollapseExpandCombo,
+  DragNode,
+  DragCombo,
+  //plugins
+  History,
+  Toolbar,
+  Tooltip,
+  Minimap,
+  Grid,
+  Menu,
+  Fisheye,
+  Legend,
 };
+
 export default registery;
-export { registery, stdLib, utils, Extensions };
+export { Extensions, registery, stdLib, utils };
