@@ -1,0 +1,21 @@
+
+file: docs/apis/.nojekyll has been translated
+file: docs/apis/README.en.md has been translated
+file: docs/apis/README.zh.md has been translated
+file: docs/apis/modules.en.md has been translated
+file: docs/apis/modules.zh.md has been translated
+file: docs/apis/classes/graph-Graph.en.md has been translated
+file: docs/apis/classes/graph-Graph.zh.md has been translated
+file: docs/apis/interfaces/behaviors-ActivateRelationsOptions.en.md has been translated
+file: docs/apis/interfaces/behaviors-ActivateRelationsOptions.zh.md has been translated
+file: docs/apis/interfaces/behaviors-BrushSelectOptions.en.md has been translated
+file: docs/apis/interfaces/behaviors-BrushSelectOptions.zh.md has been translated
+file: docs/apis/interfaces/plugins-LegendConfig.en.md has been translated
+file: docs/apis/interfaces/plugins-LegendConfig.zh.md has been translated
+file: docs/apis/interfaces/plugins-MiniMapConfig.en.md has been translated
+file: docs/apis/interfaces/plugins-MiniMapConfig.zh.md has been translated
+file: docs/apis/interfaces/plugins-ToolbarConfig.en.md has been translated
+file: docs/apis/interfaces/plugins-ToolbarConfig.zh.md has been translated
+file: docs/apis/interfaces/plugins-TooltipConfig.en.md has been translated
+file: docs/apis/interfaces/plugins-TooltipConfig.zh.md has been translated
+file: docs/apis/interfaces/types-GraphData.en.md has been translated
