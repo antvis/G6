@@ -106,10 +106,10 @@ export class Menu extends Base {
     insertCss(`
             .g6-contextmenu-li:hover{
             ${Object.keys(this.options.liHoverStyle)
-        .map((k) => {
-          return `${k}:${this.options.liHoverStyle[k]};`;
-        })
-        .join('')}
+              .map((k) => {
+                return `${k}:${this.options.liHoverStyle[k]};`;
+              })
+              .join('')}
             }
         `);
     const menu = createDom(
