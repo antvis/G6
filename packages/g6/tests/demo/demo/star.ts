@@ -1,5 +1,6 @@
+// 这是从外部引入的功能
 import { TestCaseContext } from '../interface';
-import { Graph } from '../../../src/index';
+import { Graph, Extensions, extend } from '../../../src/index';
 
 let graph: any;
 
@@ -77,7 +78,13 @@ export default (context: TestCaseContext) => {
   createCtrlContainer(container!);
   createCtrl();
 
-  graph = new Graph({
+  const ExtGraph = extend(Graph, {
+    nodes: {
+      'star-node': Extensions.StarNode,
+    },
+  });
+
+  graph = new ExtGraph({
     ...context,
     type: 'graph',
     data,

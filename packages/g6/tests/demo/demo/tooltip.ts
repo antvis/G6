@@ -1,4 +1,4 @@
-import G6 from '../../../src/index';
+import { Graph, Extensions, extend } from '../../../src/index';
 import { container, height, width } from '../../datasets/const';
 
 export default () => {
@@ -9,7 +9,7 @@ export default () => {
         data: {
           x: 100,
           y: 100,
-          type: 'rect-node',
+          type: 'circle-node',
         },
       },
       {
@@ -17,7 +17,7 @@ export default () => {
         data: {
           x: 200,
           y: 100,
-          type: 'rect-node',
+          type: 'circle-node',
         },
       },
       {
@@ -25,7 +25,7 @@ export default () => {
         data: {
           x: 100,
           y: 200,
-          type: 'rect-node',
+          type: 'circle-node',
         },
       },
       {
@@ -39,7 +39,12 @@ export default () => {
     ],
   };
 
-  const graph = new G6.Graph({
+  const ExtGraph = extend(Graph, {
+    plugins: {
+      tooltip: Extensions.Tooltip,
+    },
+  });
+  const graph = new ExtGraph({
     container,
     width,
     height,
@@ -52,7 +57,7 @@ export default () => {
         key: 'tooltip1',
         type: 'tooltip',
         trigger: 'pointerenter',
-        fixToNode: 'top',
+        fixToNode: 'leftBottom',
         /** async string tooltip*/
         getContent: (e) => {
           return new Promise((resolve) => {

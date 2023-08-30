@@ -116,10 +116,7 @@ describe('Items edge line', () => {
         'input',
       )[0] as HTMLInputElement;
       $switchClockwise.click();
-      await expect(canvas).toMatchSVGSnapshot(
-        dir,
-        'items-edge-loop-clockwise',
-      );
+      await expect(canvas).toMatchSVGSnapshot(dir, 'items-edge-loop-clockwise');
       $switchClockwise.click();
 
       /**
@@ -127,10 +124,7 @@ describe('Items edge line', () => {
        */
       const $dist = document.querySelectorAll('input')[1] as HTMLInputElement;
       $dist.click();
-      await expect(canvas).toMatchSVGSnapshot(
-        dir,
-        'items-edge-loop-distance',
-      );
+      await expect(canvas).toMatchSVGSnapshot(dir, 'items-edge-loop-distance');
       $dist.click();
 
       /**
@@ -140,10 +134,7 @@ describe('Items edge line', () => {
         'button',
       )[0] as HTMLButtonElement;
       $loopPositionBtn.click();
-      await expect(canvas).toMatchSVGSnapshot(
-        dir,
-        'items-edge-loop-top-right',
-      );
+      await expect(canvas).toMatchSVGSnapshot(dir, 'items-edge-loop-top-right');
       $loopPositionBtn.click();
       await expect(canvas).toMatchSVGSnapshot(dir, 'items-edge-loop-right');
       $loopPositionBtn.click();
@@ -161,10 +152,7 @@ describe('Items edge line', () => {
       $loopPositionBtn.click();
       await expect(canvas).toMatchSVGSnapshot(dir, 'items-edge-loop-left');
       $loopPositionBtn.click();
-      await expect(canvas).toMatchSVGSnapshot(
-        dir,
-        'items-edge-loop-top-left',
-      );
+      await expect(canvas).toMatchSVGSnapshot(dir, 'items-edge-loop-top-left');
       $loopPositionBtn.click();
 
       graph.destroy();

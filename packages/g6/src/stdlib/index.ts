@@ -1,3 +1,5 @@
+import * as Layouts from '@antv/layout';
+import Hierarchy from '@antv/hierarchy';
 import { Lib } from '../types/stdlib';
 
 import * as Transforms from './data';
@@ -8,8 +10,6 @@ import * as Behaviors from './behavior';
 import * as Themes from './theme';
 import * as ThemeSolvers from './themeSolver';
 import * as Plugins from './plugin';
-import * as Layouts from '@antv/layout';
-import Hierarchy from '@antv/hierarchy';
 
 const { ValidateData, TransformV4Data, MapNodeSize } = Transforms;
 const { DarkTheme, LightTheme } = Themes;
