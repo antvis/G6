@@ -1,4 +1,10 @@
-import { Graph, Util } from '@antv/g6';
+import { Graph as BaseGraph, Extensions, Util, extend } from '@antv/g6';
+
+const Graph = extend(BaseGraph, {
+  plugins: {
+    menu: Extensions.Menu,
+  },
+});
 
 const container = document.getElementById('container') as HTMLElement;
 const width = container.scrollWidth;

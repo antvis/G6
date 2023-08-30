@@ -1,4 +1,13 @@
-import { Graph, Util } from '@antv/g6';
+import { Graph as BaseGraph, Extensions, Util, extend } from '@antv/g6';
+
+const Graph = extend(BaseGraph, {
+  plugins: {
+    tooltip: Extensions.Tooltip,
+    minimap: Extensions.Minimap,
+    grid: Extensions.Grid,
+  },
+});
+
 import insertCss from 'insert-css';
 const container = document.getElementById('container') as HTMLElement;
 const width = container.scrollWidth;
