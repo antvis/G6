@@ -1,21 +1,16 @@
 import { DisplayObject, Group } from '@antv/g';
 import {
-  ProceduralGeometry,
   SphereGeometry,
   CubeGeometry,
   Mesh,
   MeshBasicMaterial,
+  MeshLambertMaterial,
   MeshPhongMaterial,
   PlaneGeometry,
 } from '@antv/g-plugin-3d';
 import { EdgeShapeMap } from '../types/edge';
 import { NodeShapeMap } from '../types/node';
-import {
-  GShapeStyle,
-  SHAPE_TYPE,
-  SHAPE_TYPE_3D,
-  ShapeStyle,
-} from '../types/item';
+import { GShapeStyle, SHAPE_TYPE, SHAPE_TYPE_3D } from '../types/item';
 import {
   LOCAL_BOUNDS_DIRTY_FLAG_KEY,
   createShape,
@@ -41,8 +36,8 @@ export const createShape3D = (
     return createShape(type as SHAPE_TYPE, style, id);
   }
 
-  // materialType: 'phong' | 'basic', TODO: type
-  const { materialType = 'phong', ...otherStyles } = style as any;
+  // materialType: 'lambert' | 'phong' | 'basic', TODO: type
+  const { materialType = 'lambert', ...otherStyles } = style as any;
   if (!device.GeometryCache) {
     device.GeometryCache = {};
   }
@@ -70,8 +65,7 @@ export const createShape3D = (
           device,
         );
         break;
-      case 'phong':
-      default: {
+      case 'phong': {
         const materialProps = {
           shininess: 30,
         };
@@ -80,11 +74,20 @@ export const createShape3D = (
           materialProps,
         );
       }
+      case 'lambert':
+      default: {
+        device.MaterialCache[materialType as string] = new MeshLambertMaterial(
+          device,
+        );
+        break;
+      }
     }
   }
 
   const shape = new Mesh({
     style: {
+      visibility: 'visible',
+      strokeOpacity: 0,
       ...otherStyles,
       geometry: cachedGeometry,
       material: device.MaterialCache[materialType as string],
@@ -127,10 +130,12 @@ export const upsertShape3D = (
 ): DisplayObject => {
   let shape = shapeMap[id];
   if (!shape) {
+    // @ts-ignore
     shape = createShape3D(type, style, id, device);
     shape.setAttribute(LOCAL_BOUNDS_DIRTY_FLAG_KEY, true);
   } else if (shape.nodeName !== type) {
     shape.remove();
+    // @ts-ignore
     shape = createShape3D(type, style, id, device);
     shape.setAttribute(LOCAL_BOUNDS_DIRTY_FLAG_KEY, true);
   } else {

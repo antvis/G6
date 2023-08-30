@@ -13,15 +13,6 @@ export default (context: TestCaseContext) => {
     ...context,
     type: 'graph',
     renderer: 'webgl-3d',
-    // modes: {
-    //   default: [
-    //     {
-    //       type: 'orbit-canvas-3d',
-    //       trigger: 'drag',
-    //     },
-    //     'zoom-canvas-3d',
-    //   ],
-    // },
     data: JSON.parse(JSON.stringify(data)),
     layout: {
       type: 'force',

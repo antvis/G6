@@ -251,7 +251,9 @@ export class ItemController {
           intensity: Math.PI * 0.7,
         },
       });
+      // @ts-ignore
       graph.canvas.appendChild(ambientLight);
+      // @ts-ignore
       graph.canvas.appendChild(light);
       const { width, height } = graph.canvas.getConfig();
       graph.canvas.getCamera().setPerspective(0.1, 50000, 45, width / height);

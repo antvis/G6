@@ -1,5 +1,5 @@
 import EventEmitter from '@antv/event-emitter';
-import { AABB, Canvas, DisplayObject, PointLike, runtime } from '@antv/g';
+import { AABB, Canvas, DisplayObject, PointLike } from '@antv/g';
 import { GraphChange, ID } from '@antv/graphlib';
 import {
   clone,
@@ -47,7 +47,6 @@ import type {
 import { FitViewRules, GraphTransformOptions } from '../types/view';
 import { changeRenderer, createCanvas } from '../util/canvas';
 import { formatPadding } from '../util/shape';
-import Node from '../item/node';
 import {
   DataController,
   ExtensionController,
@@ -59,11 +58,6 @@ import {
 } from './controller';
 import { PluginController } from './controller/plugin';
 import Hook from './hooks';
-
-/**
- * Disable CSS parsing for better performance.
- */
-runtime.enableCSSParsing = false;
 
 export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
   extends EventEmitter
