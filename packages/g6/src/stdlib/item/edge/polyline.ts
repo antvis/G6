@@ -8,7 +8,7 @@ import {
 } from '../../../types/edge';
 import { State } from '../../../types/item';
 import { getPolylinePath } from '../../../util/polyline';
-import { pathFinder } from '../../../util/router';
+import { RouterCfg, pathFinder } from '../../../util/router';
 import Node from '../../../item/node';
 import { LineEdge } from './line';
 export class Polyline extends LineEdge {
@@ -74,7 +74,7 @@ export class Polyline extends LineEdge {
 
     return shapes;
   }
-  private getControlPoints(
+  public getControlPoints(
     model: EdgeDisplayModel,
     sourcePoint: Point,
     targetPoint: Point,
@@ -95,16 +95,18 @@ export class Polyline extends LineEdge {
     model: EdgeDisplayModel,
     points: Point[],
     radius: number,
-    routeCfg?: Record<string, any>,
+    routeCfg?: RouterCfg,
     auto?: boolean,
   ): string {
     const { id: edgeId, source: sourceNodeId, target: targetNodeId } = model;
 
     // Draw a polyline with control points
-    if (!auto) return getPolylinePath(edgeId, points, radius);
+    if (!auto && routeCfg.name !== 'er')
+      return getPolylinePath(edgeId, points, radius);
 
     // Find the shortest path computed by A* routing algorithm
     const polylinePoints = pathFinder(
+      points,
       sourceNodeId,
       targetNodeId,
       this.nodeMap as unknown as Map<ID, Node>,
@@ -136,7 +138,7 @@ export class Polyline extends LineEdge {
 
     const routeCfg = mix(
       {},
-      { offset: keyShapeStyle.offset },
+      { offset: keyShapeStyle.offset, name: 'orth' },
       keyShapeStyle.routeCfg,
     );
 

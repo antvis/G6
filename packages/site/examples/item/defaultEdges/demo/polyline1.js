@@ -1,87 +1,80 @@
-import G6 from '@antv/g6';
+import { Graph, Extensions, extend } from '@antv/g6';
 
-/**
- * The usage of built-in polyline
- * by Shiwu
- */
+const container = document.getElementById('container');
+const width = container.scrollWidth;
+const height = container.scrollHeight || 500;
 
-const data = {
-  nodes: [
-    {
-      id: '0',
-      x: 150,
-      y: 100,
-    },
-    {
-      id: '1',
-      x: 350,
-      y: 300,
-    },
-  ],
-  edges: [
-    // Built-in polyline
-    {
-      source: '0',
-      target: '1',
-    },
-  ],
-};
+const ExtGraph = extend(Graph, {
+  edges: {
+    'polyline-edge': Extensions.PolylineEdge,
+  },
+});
 
-const width = document.getElementById('container').scrollWidth;
-const height = document.getElementById('container').scrollHeight || 500;
-const graph = new G6.Graph({
+const graph = new ExtGraph({
   container: 'container',
   width,
   height,
-  // translate the graph to align the canvas's center, support by v3.5.1
-  fitCenter: true,
-  // make the edge link to the centers of the end nodes
-  linkCenter: true,
   modes: {
-    // behavior
-    default: ['drag-node'],
+    default: ['zoom-canvas', 'drag-canvas', 'drag-node', 'click-select'],
   },
-  defaultEdge: {
-    type: 'polyline',
-    /* you can configure the global edge style as following lines */
-    // style: {
-    //   stroke: '#F6BD16',
-    // },
+  data: {
+    nodes: [
+      {
+        id: 'node1',
+        data: {
+          x: 150,
+          y: 100,
+        },
+      },
+      {
+        id: 'node2',
+        data: { x: 300, y: 200 },
+      },
+    ],
+    edges: [
+      {
+        id: 'edge1',
+        source: 'node1',
+        target: 'node2',
+        data: {
+          type: 'polyline-edge',
+          keyShape: {
+            /**
+             * 拐弯处的圆角弧度，默认为直角
+             */
+            radius: 0,
+            /**
+             * 拐弯处距离节点最小距离, 默认为 5
+             */
+            offset: 5,
+            /**
+             * 控制点数组，不指定时根据 A* 算法自动生成折线。若指定了，则按照 controlPoints 指定的位置进行弯折
+             */
+            // controlPoints: [],
+
+            // routeCfg: {}
+          },
+        },
+      },
+    ],
   },
-  /* styles for different states, there are built-in styles for states: active, inactive, selected, highlight, disable */
-  // edgeStateStyles: {
-  //   // edge style of active state
-  //   active: {
-  //     opacity: 0.5,
-  //     stroke: '#f00'
-  //   },
-  //   // edge style of selected state
-  //   selected: {
-  //     stroke: '#ff0'
-  //     lineWidth: 3,
-  //   },
-  // },
+  node: (nodeInnerModel) => {
+    const { id, data } = nodeInnerModel;
+    return {
+      id,
+      data,
+    };
+  },
+  edge: {
+    keyShape: {
+      endArrow: true,
+    },
+  },
 });
 
-graph.data(data);
-graph.render();
-
-graph.on('edge:mouseenter', (evt) => {
-  const { item } = evt;
-  graph.setItemState(item, 'active', true);
-});
-
-graph.on('edge:mouseleave', (evt) => {
-  const { item } = evt;
-  graph.setItemState(item, 'active', false);
-});
-
-graph.on('edge:click', (evt) => {
-  const { item } = evt;
-  graph.setItemState(item, 'selected', true);
-});
-graph.on('canvas:click', (evt) => {
-  graph.getEdges().forEach((edge) => {
-    graph.clearItemStates(edge);
-  });
-});
+if (typeof window !== 'undefined')
+  window.onresize = () => {
+    if (!graph || graph.destroyed) return;
+    if (!container || !container.scrollWidth || !container.scrollHeight) return;
+    graph.setSize([container.scrollWidth, container.scrollHeight]);
+  };

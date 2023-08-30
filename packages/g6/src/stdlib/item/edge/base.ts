@@ -464,6 +464,15 @@ export abstract class BaseEdge {
     );
   }
 
+  public drawOtherShapes(
+    model: EdgeDisplayModel,
+    shapeMap: EdgeShapeMap,
+    diffData?: { previous: EdgeModelData; current: EdgeModelData },
+    diffState?: { previous: State[]; current: State[] },
+  ): { [id: string]: DisplayObject } {
+    return {};
+  }
+
   /**
    * The listener for graph zooming.
    * 1. show / hide some shapes while zoom level changed;

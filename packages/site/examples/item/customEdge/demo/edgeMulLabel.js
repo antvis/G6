@@ -1,137 +1,95 @@
-import G6 from '@antv/g6';
-
-/**
- * Custom the edge with multiple labels
- * by Changzhe
- */
-
-// custom the edge with multiple labels
-G6.registerEdge('multipleLabelsEdge', {
-  options: {
-    style: {
-      stroke: '#000',
-    },
-  },
-  labelAutoRotate: true,
-  draw(cfg, group) {
-    const startPoint = cfg.startPoint;
-    const endPoint = cfg.endPoint;
-    const stroke = (cfg.style && cfg.style.stroke) || this.options.style.stroke;
-
-    const shape = group.addShape('path', {
-      attrs: {
-        stroke,
-        path: [
-          ['M', startPoint.x, startPoint.y],
-          ['L', endPoint.x, endPoint.y],
-        ],
-      },
-      // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
-      name: 'path-shape',
-    });
-    if (cfg.label && cfg.label.length) {
-      // the left label
-      group.addShape('text', {
-        attrs: {
-          text: cfg.label[0],
-          fill: '#595959',
-          textAlign: 'start',
-          textBaseline: 'middle',
-          x: startPoint.x,
-          y: startPoint.y - 10,
-        },
-        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
-        name: 'left-text-shape',
-      });
-      if (cfg.label.length > 1) {
-        // the right label
-        group.addShape('text', {
-          attrs: {
-            text: cfg.label[1],
-            fill: '#595959',
-            textAlign: 'end',
-            textBaseline: 'middle',
-            x: endPoint.x,
-            y: endPoint.y - 10,
-          },
-          // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
-          name: 'right-text-shape',
-        });
-      }
-    }
-    // return the keyShape
-    return shape;
-  },
-});
-
-const data = {
-  nodes: [
-    {
-      id: 'node1',
-      x: 100,
-      y: 100,
-      label: 'node1',
-    },
-    {
-      id: 'node2',
-      x: 300,
-      y: 100,
-      label: 'node2',
-    },
-  ],
-  edges: [
-    {
-      source: 'node1',
-      target: 'node2',
-      // The left and right labels
-      label: ['hello', 'world'],
-    },
-  ],
-};
+import { Graph, Extensions, extend } from '@antv/g6';
 
 const container = document.getElementById('container');
 const width = container.scrollWidth;
 const height = container.scrollHeight || 500;
-const graph = new G6.Graph({
+
+class MultipleLabelsEdge extends Extensions.LineEdge {
+  drawOtherShapes(model, shapeMap, diffData) {
+    const labels = model.data.labels;
+    // the left label
+    const startPoint = shapeMap.keyShape.getPoint(0);
+    const leftTextStyle = {
+      text: labels[0],
+      fill: '#595959',
+      fontSize: 12,
+      textAlign: 'start',
+      textBaseline: 'bottom',
+      x: startPoint.x,
+      y: startPoint.y,
+    };
+    shapeMap.leftTextShape = this.upsertShape('text', 'leftTextShape', leftTextStyle, shapeMap, model);
+
+    // the right label
+    const endPoint = shapeMap.keyShape.getPoint(1);
+    const rightTextStyle = {
+      text: labels[1],
+      fill: '#595959',
+      fontSize: 12,
+      textAlign: 'end',
+      textBaseline: 'bottom',
+      x: endPoint.x,
+      y: endPoint.y,
+    };
+    shapeMap.rightTextShape = this.upsertShape('text', 'rightTextShape', rightTextStyle, shapeMap, model);
+    return shapeMap;
+  }
+}
+
+const ExtGraph = extend(Graph, {
+  edges: {
+    'multiple-labels-edge': MultipleLabelsEdge,
+  },
+});
+
+const graph = new ExtGraph({
   container: 'container',
   width,
   height,
-  // translate the graph to align the canvas's center, support by v3.5.1
-  fitCenter: true,
   modes: {
-    default: [
+    default: ['click-select', 'drag-node'],
+  },
+  data: {
+    nodes: [
       {
-        type: 'drag-node',
-        delegate: false,
+        id: 'node1',
+        data: {
+          x: 100,
+          y: 100,
+        },
       },
-      'drag-canvas',
       {
-        type: 'zoom-canvas',
-        sensitivity: 0.5,
+        id: 'node2',
+        data: {
+          x: 300,
+          y: 100,
+        },
+      },
+    ],
+    edges: [
+      {
+        id: 'edge1',
+        source: 'node1',
+        target: 'node2',
+        data: {
+          // The left and right labels
+          labels: ['hello', 'world'],
+        },
       },
     ],
   },
-  defaultNode: {
-    type: 'circle',
-    size: [50],
-    linkPoints: {
-      left: true,
-      right: true,
-    },
-  },
-  defaultEdge: {
-    type: 'multipleLabelsEdge',
-    style: {
+  edge: {
+    type: 'multiple-labels-edge',
+    keyShape: {
       stroke: '#F6BD16',
     },
+    otherShapes: {},
   },
 });
-graph.data(data);
-graph.render();
 
 if (typeof window !== 'undefined')
   window.onresize = () => {
-    if (!graph || graph.get('destroyed')) return;
+    if (!graph || graph.destroyed) return;
     if (!container || !container.scrollWidth || !container.scrollHeight) return;
-    graph.changeSize(container.scrollWidth, container.scrollHeight);
+    graph.setSize([container.scrollWidth, container.scrollHeight]);
   };

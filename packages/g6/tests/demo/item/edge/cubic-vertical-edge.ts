@@ -234,8 +234,17 @@ export default () => {
     data: defaultData,
     modes: {
       // supported behavior
-      default: ['activate-relations'],
+      default: ['activate-relations', 'drag-node'],
     },
+<<<<<<< Updated upstream
+=======
+    node: {
+      anchorPoints: [
+        [0.5, 0],
+        [0.5, 1],
+      ],
+    },
+>>>>>>> Stashed changes
   });
 
   // 3.return graph

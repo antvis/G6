@@ -1,4 +1,4 @@
-import G6 from "@antv/g6";
+import { Graph, Extensions, extend, stdLib } from '@antv/g6';
 
 /**
  * Process the long label, hover to show the complete label, click the icon to copy the label
@@ -6,285 +6,183 @@ import G6 from "@antv/g6";
  * Thanks for contributing!
  */
 
- const tipDiv = document.createElement('div');
- tipDiv.innerHTML = `Hover to show the complete label, click the icon to copy the content. Hover 显示完整 label，点击左侧 icon 复制 label 内容`;
- document.getElementById('container').appendChild(tipDiv);
+const tipDiv = document.createElement('div');
+tipDiv.innerHTML = `Hover to show the complete label, click the icon to copy the content. Hover 显示完整 label，点击左侧 icon 复制 label 内容`;
+document.getElementById('container').appendChild(tipDiv);
 
-
-/**
- * format the string
- * @param {string} str The origin string
- * @param {number} maxWidth max width
- * @param {number} fontSize font size
- * @return {string} the processed result
- */
-const fittingString = (str, maxWidth, fontSize) => {
-  const ellipsis = "...";
-  const ellipsisLength = G6.Util.getTextSize(ellipsis, fontSize)[0];
-  let currentWidth = 0;
-  let res = str;
-  const pattern = new RegExp("[\u4E00-\u9FA5]+"); // distinguish the Chinese charactors and letters
-  str.split("").forEach((letter, i) => {
-    if (currentWidth > maxWidth - ellipsisLength) return;
-    if (pattern.test(letter)) {
-      // Chinese charactors
-      currentWidth += fontSize;
-    } else {
-      // get the width of single letter according to the fontSize
-      currentWidth += G6.Util.getLetterWidth(letter, fontSize);
-    }
-    if (currentWidth > maxWidth - ellipsisLength) {
-      res = `${str.substr(0, i)}${ellipsis}`;
-    }
-  });
-  return res;
-};
-
-const copyStr = (str) => {
-  const input = document.createElement("textarea");
-  input.value = str;
-  document.body.appendChild(input);
-  input.select();
-  document.execCommand("Copy");
-  document.body.removeChild(input);
-  alert("Copy Success!");
-};
-
-const data = {
-  nodes: [
-    {
-      x: 100,
-      y: 0,
-      id: "node1",
-      topText: "This label is too long to be displayed",
-      bottomText: "This label is too long to be displayed"
-    },
-    {
-      x: 100,
-      y: 100,
-      id: "node2",
-      topText: "Short Label",
-      bottomText: "Click the Logo to Copy!"
-    }
-  ]
-};
-
-const width = document.getElementById("container").scrollWidth;
-const height = document.getElementById("container").scrollHeight || 500;
-const graph = new G6.Graph({
-  container: "container",
-  width,
-  height: height - 50,
-  // translate the graph to align the canvas's center, support by v3.5.1
-  fitCenter: true,
-  defaultNode: {
-    type: "copy-node"
-  },
-  defaultEdge: {
-    color: "#F6BD16"
-  }
-});
+const container = document.getElementById('container');
+const width = container.scrollWidth;
+const height = container.scrollHeight || 500;
 
 const nodeHeight = 80;
 const nodeWidth = 200;
-const fillColor = "#f6e9d7";
-const fontColor = "#ff7900";
+const fillColor = '#f6e9d7';
+const fontColor = '#ff7900';
 const padding = 7;
 
-G6.registerNode(
-  "copy-node",
-  {
-    drawShape: function drawShape(cfg, group) {
-      const rect = group.addShape("rect", {
-        attrs: {
-          x: 0,
-          y: 0,
-          height: nodeHeight,
-          width: nodeWidth,
-          fill: fillColor,
-          stroke: fontColor,
-          lineWidth: 2,
-          radius: 5
-        }
-      });
+class CopyNode extends Extensions.RectNode {
+  drawOtherShapes(model, shapeMap, diffData, diffState) {
+    const keyShapeBBox = shapeMap.keyShape.getLocalBounds();
+    const x = -keyShapeBBox.halfExtents[0],
+      y = -keyShapeBBox.halfExtents[1];
+    const { data: cfg } = model;
 
-      // 上部文字区域
-      const topGroup = group.addGroup({
-        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
-        name: "top-group"
-      });
-
-      topGroup.addShape("rect", {
-        attrs: {
-          fill: "#fff",
-          stroke: "#c7d0d1",
+    const topGroup = {
+      topBox: this.upsertShape(
+        'rect',
+        'topBox',
+        {
+          fill: '#fff',
+          stroke: '#c7d0d1',
           x: padding,
           y: padding,
           width: nodeWidth - padding * 2,
           height: 0.5 * nodeHeight - padding,
           lineWidth: 1.5,
-          radius: 4
-        }
-      });
-
-      topGroup.addShape("text", {
-        attrs: {
-          text: fittingString(cfg.topText, nodeWidth - padding * 2 - 10, 14),
+          radius: 4,
+        },
+        shapeMap,
+        model,
+      ),
+      topText: this.upsertShape(
+        'text',
+        'topText',
+        {
+          // text: fittingString(cfg.topText, nodeWidth - padding * 2 - 10, 14),
+          text: cfg.topText,
           x: 0.5 * nodeWidth,
           y: (0.5 * nodeHeight + padding) * 0.5,
           fontSize: 14,
-          textAlign: "center",
-          textBaseline: "middle",
+          textAlign: 'center',
+          textBaseline: 'middle',
           shadowColor: fontColor,
-          fill: fontColor
+          fill: fontColor,
         },
-        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
-        name: "top-text"
-      });
-
-      topGroup.addShape("image", {
-        attrs: {
+        shapeMap,
+        model,
+      ),
+      topImage: this.upsertShape(
+        'image',
+        'topImage',
+        {
           x: padding + 5,
           y: padding + (0.5 * nodeHeight - padding) * 0.5 - 10,
           height: 20,
           width: 20,
-          img: "https://gw.alipayobjects.com/zos/antfincdn/FLrTNDvlna/antv.png",
+          img: 'https://gw.alipayobjects.com/zos/antfincdn/FLrTNDvlna/antv.png',
           opacity: 0,
-          cursor: "pointer"
+          cursor: 'pointer',
         },
-        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
-        name: "top-copy-img"
-      });
+        shapeMap,
+        model,
+      ),
+    };
 
-      // 下部文字区域
-      const bottomGroup = group.addGroup({
-        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
-        name: "bottom-group"
-      });
-
-      bottomGroup.addShape("text", {
-        attrs: {
-          text: fittingString(cfg.bottomText, nodeWidth - 10, 14),
+    const bottomGroup = {
+      bottomText: this.upsertShape(
+        'text',
+        'bottomText',
+        {
+          // text: fittingString(cfg.bottomText, nodeWidth - 10, 14),
+          text: cfg.bottomText,
           x: 0.5 * nodeWidth,
           y: nodeHeight - (0.5 * nodeHeight + padding) * 0.5,
           fontSize: 14,
-          textAlign: "center",
-          textBaseline: "middle",
+          textAlign: 'center',
+          textBaseline: 'middle',
           shadowColor: fontColor,
-          fill: fontColor
+          fill: fontColor,
         },
-        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
-        name: "bottom-text"
-      });
-
-      bottomGroup.addShape("image", {
-        attrs: {
+        shapeMap,
+        model,
+      ),
+      bottomImage: this.upsertShape(
+        'image',
+        'bottomImage',
+        {
           x: 5,
           y: 0.5 * nodeHeight + 8,
           height: 20,
           width: 20,
-          img: "https://gw.alipayobjects.com/zos/antfincdn/FLrTNDvlna/antv.png",
+          img: 'https://gw.alipayobjects.com/zos/antfincdn/FLrTNDvlna/antv.png',
           opacity: 0,
-          cursor: "pointer"
+          cursor: 'pointer',
         },
-        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
-        name: "bottom-copy-img"
-      });
+        shapeMap,
+        model,
+      ),
+    };
 
-      return rect;
-    },
-    setState(name, value, item) {
-      const group = item.get("group");
-      const model = item.get("model");
-      const { topText, bottomText } = model;
-
-      if (name === "top-group-active") {
-        const img = group.find((e) => e.get("name") === "top-copy-img");
-        img.attr({
-          opacity: value ? 1 : 0
-        });
-
-        const text = group.find((e) => e.get("name") === "top-text");
-        // 区域是否够长 ? 居中， 展示内容不变 : 左对其， 展示完整
-        const cutStr = fittingString(topText, nodeWidth - padding * 2 - 10, 14);
-        if (cutStr === topText) {
-          text.attr({
-            fontWeight: value ? 800 : 700,
-            shadowBlur: value ? 12.2 : 0,
-            text: value
-              ? topText
-              : fittingString(topText, nodeWidth - padding * 2 - 10, 14)
-          });
-        } else {
-          text.attr({
-            fontWeight: value ? 800 : 700,
-            x: value ? padding + 30 : 0.5 * nodeWidth,
-            shadowBlur: value ? 12.2 : 0,
-            textAlign: value ? "left" : "center",
-            text: value
-              ? topText
-              : fittingString(topText, nodeWidth - padding * 2 - 10, 14)
-          });
-        }
-      }
-
-      if (name === "bottom-group-active") {
-        const img = group.find((e) => e.get("name") === "bottom-copy-img");
-        img.attr({
-          opacity: value ? 1 : 0
-        });
-
-        const text = group.find((e) => e.get("name") === "bottom-text");
-        const cutStr = fittingString(bottomText, nodeWidth - 10, 14);
-
-        if (cutStr === bottomText) {
-          text.attr({
-            fontWeight: value ? 800 : 700,
-            shadowBlur: value ? 12.2 : 0,
-            text: value
-              ? bottomText
-              : fittingString(bottomText, nodeWidth - 10, 14)
-          });
-        } else {
-          text.attr({
-            fontWeight: value ? 800 : 700,
-            x: value ? 30 : 0.5 * nodeWidth,
-            shadowBlur: value ? 12.2 : 0,
-            textAlign: value ? "left" : "center",
-            text: value
-              ? bottomText
-              : fittingString(bottomText, nodeWidth - 10, 14)
-          });
-        }
-      }
-    }
-  },
-  "single-node"
-);
-
-graph.on("top-group:mouseenter", (e) => {
-  graph.setItemState(e.item, "top-group-active", true);
-});
-graph.on("top-group:mouseleave", (e) => {
-  graph.setItemState(e.item, "top-group-active", false);
-});
-graph.on("bottom-group:mouseenter", (e) => {
-  graph.setItemState(e.item, "bottom-group-active", true);
-});
-graph.on("bottom-group:mouseleave", (e) => {
-  graph.setItemState(e.item, "bottom-group-active", false);
-});
-
-graph.on("node:click", (e) => {
-  const name = e.target.get("name");
-  const model = e.item.get("model");
-  if (name === "top-copy-img") {
-    const text = model.topText;
-    copyStr(text);
-  } else if (name === "bottom-copy-img") {
-    const text = model.bottomText;
-    copyStr(text);
+    return { ...topGroup, ...bottomGroup };
   }
+
+  setState(name, value, item) {
+    const group = item.get('group');
+    const model = item.get('model');
+    const { topText, bottomText } = model;
+  }
+}
+
+const ExtGraph = extend(Graph, {
+  nodes: {
+    'copy-node': CopyNode,
+  },
 });
-graph.data(data);
-graph.render();
+
+const graph = new ExtGraph({
+  container: 'container',
+  width,
+  height,
+  autoFit: 'view',
+  modes: {
+    default: ['drag-node'],
+  },
+  data: {
+    nodes: [
+      {
+        id: 'node1',
+        data: {
+          x: 100,
+          y: 100,
+          topText: 'This label is too long to be displayed',
+          bottomText: 'This label is too long to be displayed',
+        },
+      },
+      {
+        id: 'node2',
+        data: {
+          x: 100,
+          y: 200,
+          topText: 'Short Label',
+          bottomText: 'Click the Logo to Copy!',
+        },
+      },
+    ],
+  },
+  node: {
+    type: 'copy-node',
+    keyShape: {
+      x: nodeWidth / 2,
+      y: nodeHeight / 2,
+      width: nodeWidth,
+      height: nodeHeight,
+      fill: fillColor,
+      lineWidth: 2,
+      stroke: fontColor,
+      radius: 5,
+    },
+    otherShapes: {},
+  },
+});
+
+graph.on('topText:mouseenter', (e) => {
+  console.log('enter');
+  // graph.setItemState(e.item, "top-group-active", true);
+});
+
+if (typeof window !== 'undefined')
+  window.onresize = () => {
+    if (!graph || graph.destroyed) return;
+    if (!container || !container.scrollWidth || !container.scrollHeight) return;
+    graph.setSize([container.scrollWidth, container.scrollHeight]);
+  };

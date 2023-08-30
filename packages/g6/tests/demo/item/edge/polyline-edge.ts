@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { Graph, IGraph } from '../../../../src/index';
+import { Extensions, Graph, IGraph, extend } from '../../../../src/index';
 import { TestCaseContext } from '../../interface';
 
 let graph: IGraph;
@@ -335,18 +335,32 @@ export default (context: TestCaseContext) => {
   createCtrlContainer(container!);
   createControls();
 
+  const ExtGraph = extend(Graph, {
+    edges: {
+      'polyline-edge': Extensions.PolylineEdge,
+    },
+  });
+
   // 2.create graph
-  graph = new Graph({
+  graph = new ExtGraph({
     ...context,
     type: 'graph',
     data: defaultData,
     modes: {
       // supported behavior
-      default: ['activate-relations', 'drag-node'],
+      default: ['drag-node'],
     },
     edge: (edgeInnerModel: any) => {
       const { id, data } = edgeInnerModel;
-      return { id, data };
+      return {
+        id,
+        data: {
+          ...data,
+          keyShape: {
+            ...data.keyShape,
+          },
+        },
+      };
     },
   });
 

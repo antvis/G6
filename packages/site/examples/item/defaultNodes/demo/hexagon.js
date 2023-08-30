@@ -7,18 +7,19 @@ const data = {
       data: {
         x: 250,
         y: 150,
-        type: 'star-node',
+        type: 'hexagon-node',
         keyShape: {
           /**
-           * 星形的外部半径，默认为 20
-           * outer radius of the star，默认为 20
+           * 六边形的半径，默认为 20
+           * the radius of the hexagon, default is 20
            */
-          // outerR: 20,
+          r: 20,
           /**
-           * 星形的内部半径，默认为 7.5
-           * inner radius of the star，默认为 7.5
+           * 六边形方向，默认为 horizontal
+           * the direction of the hexagon, default is 'horizontal'
+           * supported value: 'horizontal' | 'vertical'
            */
-          // innerR: 7.5
+          direction: 'horizontal',
         },
       },
     },
@@ -31,7 +32,7 @@ const height = container.scrollHeight || 500;
 
 const ExtGraph = extend(Graph, {
   nodes: {
-    'star-node': Extensions.StarNode,
+    'hexagon-node': Extensions.HexagonNode,
   },
 });
 

@@ -1,83 +1,69 @@
-import G6 from '@antv/g6';
+import { Graph } from '@antv/g6';
 
-const data = {
-  nodes: [
-    {
-      id: 'node1',
-      x: 150,
-      y: 50,
-      label: 'node1',
-    },
-    {
-      id: 'node2',
-      x: 250,
-      y: 200,
-      label: 'node2',
-    },
-    {
-      id: 'node3',
-      x: 100,
-      y: 350,
-      label: 'node3',
-    },
-  ],
-  edges: [
-    {
-      source: 'node1',
-      target: 'node2',
-      label: 'edge 1',
-    },
-    {
-      source: 'node2',
-      target: 'node3',
-      label: 'edge 2',
-    },
-    {
-      source: 'node3',
-      target: 'node1',
-      label: 'edge 3',
-    },
-  ],
-};
+const container = document.getElementById('container');
+const width = container.scrollWidth;
+const height = container.scrollHeight || 500;
 
-const width = document.getElementById('container').scrollWidth;
-const height = document.getElementById('container').scrollHeight || 500;
-const graph = new G6.Graph({
+const graph = new Graph({
   container: 'container',
   width,
   height,
-  // translate the graph to align the canvas's center, support by v3.5.1
-  fitCenter: true,
-  defaultNode: {
-    type: 'circle',
-    labelCfg: {
-      style: {
-        fill: '#1890ff',
-        fontSize: 14,
-        background: {
-          fill: '#ffffff',
-          stroke: '#9EC9FF',
-          padding: [2, 2, 2, 2],
-          radius: 2,
+  modes: {
+    default: ['zoom-canvas', 'drag-canvas', 'drag-node', 'click-select'],
+  },
+  data: {
+    nodes: [
+      {
+        id: 'node1',
+        data: {
+          x: 150,
+          y: 100,
         },
+      },
+      {
+        id: 'node2',
+        data: { x: 250, y: 200 },
+      },
+      {
+        id: 'node3',
+        data: { x: 450, y: 200 },
+      },
+    ],
+    edges: [
+      {
+        id: 'edge1',
+        source: 'node1',
+        target: 'node2',
+      },
+      {
+        id: 'edge2',
+        source: 'node1',
+        target: 'node3',
+      },
+      {
+        id: 'edge3',
+        source: 'node2',
+        target: 'node3',
+      },
+    ],
+  },
+  node: {
+    labelShape: {
+      text: {
+        fields: ['id'],
+        formatter: (model) => model.id,
       },
       position: 'bottom',
     },
-  },
-  modes: {
-    default: ['drag-canvas', 'drag-node'],
-  },
-  nodeStateStyles: {
-    // style configurations for hover state
-    hover: {
-      fillOpacity: 0.8,
-    },
-    // style configurations for selected state
-    selected: {
-      lineWidth: 5,
+    labelBackgroundShape: {
+      fill: 'red',
     },
   },
 });
 
-graph.data(data);
-graph.render();
+if (typeof window !== 'undefined')
+  window.onresize = () => {
+    if (!graph || graph.destroyed) return;
+    if (!container || !container.scrollWidth || !container.scrollHeight) return;
+    graph.setSize([container.scrollWidth, container.scrollHeight]);
+  };

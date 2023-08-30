@@ -9,6 +9,11 @@ import {
 } from '../../../types/node';
 import { BaseNode } from './base';
 
+const offsetAngleMap = {
+  horizontal: 0,
+  vertical: Math.PI / 2,
+};
+
 export class HexagonNode extends BaseNode {
   override defaultStyles = {
     keyShape: {
@@ -119,9 +124,9 @@ export class HexagonNode extends BaseNode {
   private getHexagonPoints(r: number, direction: string): [number, number][] {
     const angleIncrement = Math.PI / 3; //The angle increment between vertex.
     const v = [];
-    const offsetAngle = direction === 'horizontal' ? 0 : Math.PI / 2;
+
     for (let i = 0; i < 6; i++) {
-      const angle = i * angleIncrement + offsetAngle;
+      const angle = i * angleIncrement + offsetAngleMap[direction];
       const vx = r * Math.cos(angle);
       const vy = r * Math.sin(angle);
       v.push([vx, vy]);
@@ -153,8 +158,7 @@ export class HexagonNode extends BaseNode {
         ? anchorPositionHorizontal
         : anchorPositionVertical;
     const angleIncrement = Math.PI / 3; //The angle increment between vertex.
-    const offsetAngle =
-      keyShapeStyle.direction === 'horizontal' ? 0 : Math.PI / 2;
+    const offsetAngle = offsetAngleMap[keyShapeStyle.direction];
     const r = keyShapeStyle.r;
     const anchorPositionMap = {};
     for (let i = 0; i < 6; i++) {
