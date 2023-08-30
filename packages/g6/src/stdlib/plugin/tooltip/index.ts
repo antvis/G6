@@ -312,12 +312,13 @@ export class Tooltip extends Base {
       const itemBBox = graph.getRenderBBox(e.itemId) as AABB;
       const itemWidth = itemBBox.max[0] - itemBBox.min[0];
       const itemHeight = itemBBox.max[1] - itemBBox.min[1];
+
       if (isString(fixToNode)) {
         switch (fixToNode) {
           case 'right': {
             point = {
               x: itemBBox.min[0] + itemWidth * 1,
-              y: itemBBox.min[1] + itemHeight * 0.5,
+              y: itemBBox.min[1] - itemHeight * 0.5,
             };
             break;
           }
@@ -325,7 +326,7 @@ export class Tooltip extends Base {
           case 'topRight': {
             point = {
               x: itemBBox.min[0] + itemWidth * 1,
-              y: itemBBox.min[1] + itemHeight * 0,
+              y: itemBBox.min[1] - itemHeight * 1,
             };
             break;
           }
@@ -333,14 +334,14 @@ export class Tooltip extends Base {
           case 'bottomRight': {
             point = {
               x: itemBBox.min[0] + itemWidth * 1,
-              y: itemBBox.min[1] + itemHeight * 1,
+              y: itemBBox.min[1],
             };
             break;
           }
           case 'bottom': {
             point = {
               x: itemBBox.min[0] + itemWidth * 0,
-              y: itemBBox.min[1] + itemHeight * 1,
+              y: itemBBox.min[1],
             };
             break;
           }
@@ -356,7 +357,7 @@ export class Tooltip extends Base {
             const tooltipBBox = tooltip.getBoundingClientRect();
             point = {
               x: itemBBox.min[0] - tooltipBBox.width,
-              y: itemBBox.min[1] + itemHeight * 0.5,
+              y: itemBBox.min[1] - itemHeight * 0.5,
             };
             break;
           }
@@ -365,7 +366,7 @@ export class Tooltip extends Base {
             const tooltipBBox = tooltip.getBoundingClientRect();
             point = {
               x: itemBBox.min[0] - tooltipBBox.width,
-              y: itemBBox.min[1] + itemHeight * 0,
+              y: itemBBox.min[1] - itemHeight * 1,
             };
             break;
           }
@@ -374,7 +375,7 @@ export class Tooltip extends Base {
             const tooltipBBox = tooltip.getBoundingClientRect();
             point = {
               x: itemBBox.min[0] - tooltipBBox.width,
-              y: itemBBox.min[1] + itemHeight * 1,
+              y: itemBBox.min[1],
             };
             break;
           }
@@ -382,7 +383,7 @@ export class Tooltip extends Base {
             //right
             point = {
               x: itemBBox.min[0] + itemWidth * 1,
-              y: itemBBox.min[1] + itemHeight * 0.5,
+              y: itemBBox.min[1] - itemHeight * 0.5,
             };
             console.warn(
               `The '${this.options.fixToNode}' fixToNode position configuration is not supported, please use 'top'|'left'| 'right'| 'bottom'| 'topLeft'| 'leftTop'| 'topRight'| 'rightTop'| 'bottomLeft'| 'leftBottom'| 'bottomRight'| 'rightBottom', or use array to config, like: [0,5,1]`,
@@ -392,12 +393,11 @@ export class Tooltip extends Base {
       } else if (isArray(fixToNode) && fixToNode.length >= 2) {
         point = {
           x: itemBBox.min[0] + itemWidth * fixToNode[0],
-          y: itemBBox.min[1] + itemHeight * fixToNode[1],
+          y: itemBBox.min[1] - itemHeight * (1 - fixToNode[1]),
         };
       }
     }
-
-    const { x, y } = point;
+    const { x, y } = this.graph.getViewportByCanvas(point);
     const graphContainer = this.graph.container;
     const res = {
       x: x + graphContainer.offsetLeft + offsetX,

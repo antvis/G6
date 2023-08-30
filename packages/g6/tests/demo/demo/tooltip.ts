@@ -57,7 +57,7 @@ export default () => {
         key: 'tooltip1',
         type: 'tooltip',
         trigger: 'pointerenter',
-        fixToNode: 'leftBottom',
+        fixToNode: 'topRight',
         /** async string tooltip*/
         getContent: (e) => {
           return new Promise((resolve) => {
@@ -82,10 +82,7 @@ export default () => {
         id,
         data: {
           ...data,
-          keyShape: {
-            height: 50,
-            width: 50,
-          },
+
           labelShape: {
             text: 'label',
             position: 'bottom',
