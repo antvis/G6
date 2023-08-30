@@ -1,4 +1,5 @@
 import { createDom, modifyCSS } from '@antv/dom-util';
+import { AABB } from '@antv/g';
 import { isString } from '@antv/util';
 import insertCss from 'insert-css';
 import Item from 'item/item';
@@ -105,10 +106,10 @@ export class Menu extends Base {
     insertCss(`
             .g6-contextmenu-li:hover{
             ${Object.keys(this.options.liHoverStyle)
-              .map((k) => {
-                return `${k}:${this.options.liHoverStyle[k]};`;
-              })
-              .join('')}
+        .map((k) => {
+          return `${k}:${this.options.liHoverStyle[k]};`;
+        })
+        .join('')}
             }
         `);
     const menu = createDom(
@@ -157,7 +158,7 @@ export class Menu extends Base {
     const graphTop = this.graph.container.offsetTop;
     const graphLeft = this.graph.container.offsetLeft;
     let x = e.viewport.x + graphLeft + offsetX;
-    let y = e.viewport.y + graphTop + offsetY;
+    let y = e.viewport.y + graphTop + offsetY - 55;
 
     // when the menu is (part of) out of the canvas
     if (x + bbox.width > width) {
