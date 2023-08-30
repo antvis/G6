@@ -56,7 +56,7 @@ whether success
 
 #### Defined in
 
-[packages/g6/src/types/graph.ts:554](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/graph.ts#L554)
+[packages/g6/src/types/graph.ts:554](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/graph.ts#L554)
 
 ___
 
@@ -83,7 +83,7 @@ Collapse a combo.
 
 #### Defined in
 
-[packages/g6/src/types/graph.ts:564](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/graph.ts#L564)
+[packages/g6/src/types/graph.ts:564](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/graph.ts#L564)
 
 ___
 
@@ -110,17 +110,17 @@ Expand a combo.
 
 #### Defined in
 
-[packages/g6/src/types/graph.ts:571](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/graph.ts#L571)
+[packages/g6/src/types/graph.ts:571](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/graph.ts#L571)
 
 ## Data
 
 ### addData
 
-• **addData**: (`itemType`: `ITEM_TYPE`, `model`: `NodeUserModel` \| `ComboUserModel` \| `EdgeUserModel` \| `NodeUserModel`[] \| `EdgeUserModel`[] \| `ComboUserModel`[], `stack?`: `boolean`) => `NodeModel` \| `ComboModel` \| `EdgeModel` \| `NodeModel`[] \| `EdgeModel`[] \| `ComboModel`[]
+• **addData**: (`itemType`: `ITEM_TYPE`, `model`: `NodeUserModel` \| `EdgeUserModel` \| `ComboUserModel` \| `NodeUserModel`[] \| `EdgeUserModel`[] \| `ComboUserModel`[], `stack?`: `boolean`) => `NodeModel` \| `EdgeModel` \| `ComboModel` \| `NodeModel`[] \| `EdgeModel`[] \| `ComboModel`[]
 
 #### Type declaration
 
-▸ (`itemType`, `model`, `stack?`): `NodeModel` \| `ComboModel` \| `EdgeModel` \| `NodeModel`[] \| `EdgeModel`[] \| `ComboModel`[]
+▸ (`itemType`, `model`, `stack?`): `NodeModel` \| `EdgeModel` \| `ComboModel` \| `NodeModel`[] \| `EdgeModel`[] \| `ComboModel`[]
 
 Add one or more node/edge/combo data to the graph.
 
@@ -129,18 +129,18 @@ Add one or more node/edge/combo data to the graph.
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `itemType` | `ITEM_TYPE` | item type |
-| `model` | `NodeUserModel` \| `ComboUserModel` \| `EdgeUserModel` \| `NodeUserModel`[] \| `EdgeUserModel`[] \| `ComboUserModel`[] | user data |
+| `model` | `NodeUserModel` \| `EdgeUserModel` \| `ComboUserModel` \| `NodeUserModel`[] \| `EdgeUserModel`[] \| `ComboUserModel`[] | user data |
 | `stack?` | `boolean` | whether push this operation to stack |
 
 ##### Returns
 
-`NodeModel` \| `ComboModel` \| `EdgeModel` \| `NodeModel`[] \| `EdgeModel`[] \| `ComboModel`[]
+`NodeModel` \| `EdgeModel` \| `ComboModel` \| `NodeModel`[] \| `EdgeModel`[] \| `ComboModel`[]
 
 whehter success
 
 #### Defined in
 
-[packages/g6/src/types/graph.ts:177](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/graph.ts#L177)
+[packages/g6/src/types/graph.ts:177](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/graph.ts#L177)
 
 ___
 
@@ -167,7 +167,7 @@ Change graph data.
 
 #### Defined in
 
-[packages/g6/src/types/graph.ts:148](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/graph.ts#L148)
+[packages/g6/src/types/graph.ts:148](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/graph.ts#L148)
 
 ___
 
@@ -189,7 +189,7 @@ all combos' inner data on the graph
 
 #### Defined in
 
-[packages/g6/src/types/graph.ts:99](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/graph.ts#L99)
+[packages/g6/src/types/graph.ts:99](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/graph.ts#L99)
 
 ___
 
@@ -211,7 +211,7 @@ all edges' inner data on the graph
 
 #### Defined in
 
-[packages/g6/src/types/graph.ts:93](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/graph.ts#L93)
+[packages/g6/src/types/graph.ts:93](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/graph.ts#L93)
 
 ___
 
@@ -233,7 +233,7 @@ all nodes' inner data on the graph
 
 #### Defined in
 
-[packages/g6/src/types/graph.ts:87](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/graph.ts#L87)
+[packages/g6/src/types/graph.ts:87](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/graph.ts#L87)
 
 ___
 
@@ -261,7 +261,7 @@ result combo's inner data
 
 #### Defined in
 
-[packages/g6/src/types/graph.ts:81](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/graph.ts#L81)
+[packages/g6/src/types/graph.ts:81](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/graph.ts#L81)
 
 ___
 
@@ -289,7 +289,7 @@ result edge's inner data
 
 #### Defined in
 
-[packages/g6/src/types/graph.ts:74](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/graph.ts#L74)
+[packages/g6/src/types/graph.ts:74](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/graph.ts#L74)
 
 ___
 
@@ -318,7 +318,7 @@ one-hop node ids
 
 #### Defined in
 
-[packages/g6/src/types/graph.ts:116](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/graph.ts#L116)
+[packages/g6/src/types/graph.ts:116](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/graph.ts#L116)
 
 ___
 
@@ -346,7 +346,7 @@ result node's inner data
 
 #### Defined in
 
-[packages/g6/src/types/graph.ts:67](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/graph.ts#L67)
+[packages/g6/src/types/graph.ts:67](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/graph.ts#L67)
 
 ___
 
@@ -375,13 +375,13 @@ one-hop edge ids
 
 #### Defined in
 
-[packages/g6/src/types/graph.ts:106](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/graph.ts#L106)
+[packages/g6/src/types/graph.ts:106](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/graph.ts#L106)
 
 ___
 
 ### moveCombo
 
-• **moveCombo**: (`ids`: `ID`[], `dx`: `number`, `dy`: `number`, `upsertAncestors?`: `boolean`, `callback?`: (`model`: `NodeModel` \| `ComboModel` \| `EdgeModel`, `canceled?`: `boolean`) => `void`, `stack?`: `boolean`) => `ComboModel`[]
+• **moveCombo**: (`ids`: `ID`[], `dx`: `number`, `dy`: `number`, `upsertAncestors?`: `boolean`, `callback?`: (`model`: `NodeModel` \| `EdgeModel` \| `ComboModel`, `canceled?`: `boolean`) => `void`, `stack?`: `boolean`) => `ComboModel`[]
 
 #### Type declaration
 
@@ -399,7 +399,7 @@ In fact, it changes the succeed nodes positions to affect the combo's position, 
 | `dx` | `number` | - |
 | `dy` | `number` | - |
 | `upsertAncestors?` | `boolean` | - |
-| `callback?` | (`model`: `NodeModel` \| `ComboModel` \| `EdgeModel`, `canceled?`: `boolean`) => `void` | - |
+| `callback?` | (`model`: `NodeModel` \| `EdgeModel` \| `ComboModel`, `canceled?`: `boolean`) => `void` | - |
 | `stack?` | `boolean` | whether push this operation into graph's stack, true by default |
 
 ##### Returns
@@ -408,7 +408,7 @@ In fact, it changes the succeed nodes positions to affect the combo's position, 
 
 #### Defined in
 
-[packages/g6/src/types/graph.ts:278](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/graph.ts#L278)
+[packages/g6/src/types/graph.ts:278](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/graph.ts#L278)
 
 ___
 
@@ -435,7 +435,7 @@ If there is old data, diffs and changes it.
 
 #### Defined in
 
-[packages/g6/src/types/graph.ts:140](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/graph.ts#L140)
+[packages/g6/src/types/graph.ts:140](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/graph.ts#L140)
 
 ___
 
@@ -465,7 +465,7 @@ whehter success
 
 #### Defined in
 
-[packages/g6/src/types/graph.ts:201](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/graph.ts#L201)
+[packages/g6/src/types/graph.ts:201](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/graph.ts#L201)
 
 ___
 
@@ -492,13 +492,13 @@ Show the item(s).
 
 #### Defined in
 
-[packages/g6/src/types/graph.ts:466](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/graph.ts#L466)
+[packages/g6/src/types/graph.ts:466](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/graph.ts#L466)
 
 ___
 
 ### updateComboPosition
 
-• **updateComboPosition**: (`models`: `Partial`<`ComboUserModel`\> \| `Partial`<`ComboUserModel` \| `Partial`<`NodeUserModel`\>[] \| `Partial`<`ComboUserModel`\>[]\>, `upsertAncestors?`: `boolean`, `disableAnimate?`: `boolean`, `callback?`: (`model`: `NodeModel` \| `ComboModel` \| `EdgeModel`) => `void`, `stack?`: `boolean`) => `NodeModel` \| `ComboModel` \| `NodeModel`[] \| `ComboModel`[]
+• **updateComboPosition**: (`models`: `Partial`<`ComboUserModel`\> \| `Partial`<`ComboUserModel` \| `Partial`<`NodeUserModel`\>[] \| `Partial`<`ComboUserModel`\>[]\>, `upsertAncestors?`: `boolean`, `disableAnimate?`: `boolean`, `callback?`: (`model`: `NodeModel` \| `EdgeModel` \| `ComboModel`) => `void`, `stack?`: `boolean`) => `NodeModel` \| `ComboModel` \| `NodeModel`[] \| `ComboModel`[]
 
 #### Type declaration
 
@@ -514,7 +514,7 @@ Do not update other styles which leads to better performance than updating posit
 | `models` | `Partial`<`ComboUserModel`\> \| `Partial`<`ComboUserModel` \| `Partial`<`NodeUserModel`\>[] \| `Partial`<`ComboUserModel`\>[]\> | new configurations with x and y for every combo, which has id field to indicate the specific item |
 | `upsertAncestors?` | `boolean` | - |
 | `disableAnimate?` | `boolean` | - |
-| `callback?` | (`model`: `NodeModel` \| `ComboModel` \| `EdgeModel`) => `void` | - |
+| `callback?` | (`model`: `NodeModel` \| `EdgeModel` \| `ComboModel`) => `void` | - |
 | `stack?` | `boolean` | whether push this operation into graph's stack, true by default |
 
 ##### Returns
@@ -523,17 +523,17 @@ Do not update other styles which leads to better performance than updating posit
 
 #### Defined in
 
-[packages/g6/src/types/graph.ts:258](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/graph.ts#L258)
+[packages/g6/src/types/graph.ts:258](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/graph.ts#L258)
 
 ___
 
 ### updateData
 
-• **updateData**: (`itemType`: `ITEM_TYPE`, `model`: `Partial`<`NodeUserModel`\> \| `Partial`<`EdgeUserModel`\> \| `Partial`<`ComboUserModel` \| `Partial`<`NodeUserModel`\>[] \| `Partial`<`EdgeUserModel`\>[] \| `Partial`<`ComboUserModel`\>[]\>, `stack?`: `boolean`) => `NodeModel` \| `ComboModel` \| `EdgeModel` \| `NodeModel`[] \| `EdgeModel`[] \| `ComboModel`[]
+• **updateData**: (`itemType`: `ITEM_TYPE`, `model`: `Partial`<`NodeUserModel`\> \| `Partial`<`EdgeUserModel`\> \| `Partial`<`ComboUserModel` \| `Partial`<`NodeUserModel`\>[] \| `Partial`<`EdgeUserModel`\>[] \| `Partial`<`ComboUserModel`\>[]\>, `stack?`: `boolean`) => `NodeModel` \| `EdgeModel` \| `ComboModel` \| `NodeModel`[] \| `EdgeModel`[] \| `ComboModel`[]
 
 #### Type declaration
 
-▸ (`itemType`, `model`, `stack?`): `NodeModel` \| `ComboModel` \| `EdgeModel` \| `NodeModel`[] \| `EdgeModel`[] \| `ComboModel`[]
+▸ (`itemType`, `model`, `stack?`): `NodeModel` \| `EdgeModel` \| `ComboModel` \| `NodeModel`[] \| `EdgeModel`[] \| `ComboModel`[]
 
 Update one or more node/edge/combo data on the graph.
 
@@ -547,17 +547,17 @@ Update one or more node/edge/combo data on the graph.
 
 ##### Returns
 
-`NodeModel` \| `ComboModel` \| `EdgeModel` \| `NodeModel`[] \| `EdgeModel`[] \| `ComboModel`[]
+`NodeModel` \| `EdgeModel` \| `ComboModel` \| `NodeModel`[] \| `EdgeModel`[] \| `ComboModel`[]
 
 #### Defined in
 
-[packages/g6/src/types/graph.ts:209](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/graph.ts#L209)
+[packages/g6/src/types/graph.ts:209](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/graph.ts#L209)
 
 ___
 
 ### updateNodePosition
 
-• **updateNodePosition**: (`models`: `Partial`<`NodeUserModel`\> \| `Partial`<`ComboUserModel` \| `Partial`<`NodeUserModel`\>[] \| `Partial`<`ComboUserModel`\>[]\>, `upsertAncestors?`: `boolean`, `disableAnimate?`: `boolean`, `callback?`: (`model`: `NodeModel` \| `ComboModel` \| `EdgeModel`, `canceled?`: `boolean`) => `void`, `stack?`: `boolean`) => `NodeModel` \| `ComboModel` \| `NodeModel`[] \| `ComboModel`[]
+• **updateNodePosition**: (`models`: `Partial`<`NodeUserModel`\> \| `Partial`<`ComboUserModel` \| `Partial`<`NodeUserModel`\>[] \| `Partial`<`ComboUserModel`\>[]\>, `upsertAncestors?`: `boolean`, `disableAnimate?`: `boolean`, `callback?`: (`model`: `NodeModel` \| `EdgeModel` \| `ComboModel`, `canceled?`: `boolean`) => `void`, `stack?`: `boolean`) => `NodeModel` \| `ComboModel` \| `NodeModel`[] \| `ComboModel`[]
 
 #### Type declaration
 
@@ -573,7 +573,7 @@ do not update other styles which leads to better performance than updating posit
 | `models` | `Partial`<`NodeUserModel`\> \| `Partial`<`ComboUserModel` \| `Partial`<`NodeUserModel`\>[] \| `Partial`<`ComboUserModel`\>[]\> | new configurations with x and y for every node, which has id field to indicate the specific item |
 | `upsertAncestors?` | `boolean` | - |
 | `disableAnimate?` | `boolean` | - |
-| `callback?` | (`model`: `NodeModel` \| `ComboModel` \| `EdgeModel`, `canceled?`: `boolean`) => `void` | - |
+| `callback?` | (`model`: `NodeModel` \| `EdgeModel` \| `ComboModel`, `canceled?`: `boolean`) => `void` | - |
 | `stack?` | `boolean` | whether push this operation into graph's stack, true by default |
 
 ##### Returns
@@ -582,7 +582,7 @@ do not update other styles which leads to better performance than updating posit
 
 #### Defined in
 
-[packages/g6/src/types/graph.ts:236](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/graph.ts#L236)
+[packages/g6/src/types/graph.ts:236](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/graph.ts#L236)
 
 ## Graph Instance
 
@@ -608,13 +608,13 @@ Destroy the graph instance and remove the related canvases.
 
 #### Defined in
 
-[packages/g6/src/types/graph.ts:39](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/graph.ts#L39)
+[packages/g6/src/types/graph.ts:39](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/graph.ts#L39)
 
 ## Interaction
 
 ### drawTransient
 
-• **drawTransient**: (`type`: `SHAPE_TYPE` \| `ITEM_TYPE`, `id`: `ID`, `config`: `any`) => `DisplayObject`<`any`, `any`\>
+• **drawTransient**: (`type`: `ITEM_TYPE` \| `SHAPE_TYPE`, `id`: `ID`, `config`: `any`) => `DisplayObject`<`any`, `any`\>
 
 #### Type declaration
 
@@ -626,7 +626,7 @@ Draw or update a G shape or group to the transient canvas.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `type` | `SHAPE_TYPE` \| `ITEM_TYPE` | shape type or item type |
+| `type` | `ITEM_TYPE` \| `SHAPE_TYPE` | shape type or item type |
 | `id` | `ID` | new shape id or updated shape id for a interation shape, node/edge/combo id for item interaction group drawing |
 | `config` | `any` | - |
 
@@ -638,7 +638,7 @@ upserted shape or group
 
 #### Defined in
 
-[packages/g6/src/types/graph.ts:628](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/graph.ts#L628)
+[packages/g6/src/types/graph.ts:628](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/graph.ts#L628)
 
 ___
 
@@ -660,7 +660,7 @@ mode name
 
 #### Defined in
 
-[packages/g6/src/types/graph.ts:593](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/graph.ts#L593)
+[packages/g6/src/types/graph.ts:593](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/graph.ts#L593)
 
 ___
 
@@ -687,7 +687,7 @@ Remove behavior(s) from mode(s).
 
 #### Defined in
 
-[packages/g6/src/types/graph.ts:611](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/graph.ts#L611)
+[packages/g6/src/types/graph.ts:611](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/graph.ts#L611)
 
 ___
 
@@ -713,7 +713,7 @@ Switch mode.
 
 #### Defined in
 
-[packages/g6/src/types/graph.ts:587](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/graph.ts#L587)
+[packages/g6/src/types/graph.ts:587](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/graph.ts#L587)
 
 ___
 
@@ -740,7 +740,7 @@ Update a behavior on a mode.
 
 #### Defined in
 
-[packages/g6/src/types/graph.ts:619](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/graph.ts#L619)
+[packages/g6/src/types/graph.ts:619](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/graph.ts#L619)
 
 ## Item
 
@@ -767,7 +767,7 @@ Make the item(s) to the back.
 
 #### Defined in
 
-[packages/g6/src/types/graph.ts:487](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/graph.ts#L487)
+[packages/g6/src/types/graph.ts:487](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/graph.ts#L487)
 
 ___
 
@@ -795,13 +795,13 @@ Clear all the states for item(s).
 
 #### Defined in
 
-[packages/g6/src/types/graph.ts:524](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/graph.ts#L524)
+[packages/g6/src/types/graph.ts:524](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/graph.ts#L524)
 
 ___
 
 ### findIdByState
 
-• **findIdByState**: (`itemType`: `ITEM_TYPE`, `state`: `string`, `value?`: `string` \| `boolean`, `additionalFilter?`: (`model`: `NodeModel` \| `ComboModel` \| `EdgeModel`) => `boolean`) => `ID`[]
+• **findIdByState**: (`itemType`: `ITEM_TYPE`, `state`: `string`, `value?`: `string` \| `boolean`, `additionalFilter?`: (`model`: `NodeModel` \| `EdgeModel` \| `ComboModel`) => `boolean`) => `ID`[]
 
 #### Type declaration
 
@@ -816,7 +816,7 @@ Find items which has the state.
 | `itemType` | `ITEM_TYPE` | item type |
 | `state` | `string` | state name |
 | `value?` | `string` \| `boolean` | state value, true by default |
-| `additionalFilter?` | (`model`: `NodeModel` \| `ComboModel` \| `EdgeModel`) => `boolean` | additional filter function |
+| `additionalFilter?` | (`model`: `NodeModel` \| `EdgeModel` \| `ComboModel`) => `boolean` | additional filter function |
 
 ##### Returns
 
@@ -826,7 +826,7 @@ items that is the type and has the state
 
 #### Defined in
 
-[packages/g6/src/types/graph.ts:163](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/graph.ts#L163)
+[packages/g6/src/types/graph.ts:163](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/graph.ts#L163)
 
 ___
 
@@ -853,7 +853,7 @@ Make the item(s) to the front.
 
 #### Defined in
 
-[packages/g6/src/types/graph.ts:480](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/graph.ts#L480)
+[packages/g6/src/types/graph.ts:480](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/graph.ts#L480)
 
 ___
 
@@ -881,7 +881,7 @@ the state names with value true
 
 #### Defined in
 
-[packages/g6/src/types/graph.ts:516](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/graph.ts#L516)
+[packages/g6/src/types/graph.ts:516](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/graph.ts#L516)
 
 ___
 
@@ -910,7 +910,7 @@ the state value
 
 #### Defined in
 
-[packages/g6/src/types/graph.ts:509](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/graph.ts#L509)
+[packages/g6/src/types/graph.ts:509](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/graph.ts#L509)
 
 ___
 
@@ -937,7 +937,7 @@ Hide the item(s).
 
 #### Defined in
 
-[packages/g6/src/types/graph.ts:473](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/graph.ts#L473)
+[packages/g6/src/types/graph.ts:473](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/graph.ts#L473)
 
 ___
 
@@ -966,7 +966,7 @@ Set state for the item(s).
 
 #### Defined in
 
-[packages/g6/src/types/graph.ts:496](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/graph.ts#L496)
+[packages/g6/src/types/graph.ts:496](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/graph.ts#L496)
 
 ## Methods
 
@@ -1119,7 +1119,7 @@ Add plugin(s) to graph.
 
 #### Defined in
 
-[packages/g6/src/types/graph.ts:640](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/graph.ts#L640)
+[packages/g6/src/types/graph.ts:640](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/graph.ts#L640)
 
 ___
 
@@ -1145,7 +1145,7 @@ Remove plugin(s) from graph.
 
 #### Defined in
 
-[packages/g6/src/types/graph.ts:654](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/graph.ts#L654)
+[packages/g6/src/types/graph.ts:654](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/graph.ts#L654)
 
 ___
 
@@ -1173,7 +1173,7 @@ Update one plugin of the graph.
 
 #### Defined in
 
-[packages/g6/src/types/graph.ts:662](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/graph.ts#L662)
+[packages/g6/src/types/graph.ts:662](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/graph.ts#L662)
 
 ## Properties
 
@@ -1200,7 +1200,7 @@ Add behavior(s) to mode(s).
 
 #### Defined in
 
-[packages/g6/src/types/graph.ts:600](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/graph.ts#L600)
+[packages/g6/src/types/graph.ts:600](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/graph.ts#L600)
 
 ___
 
@@ -1228,7 +1228,7 @@ more convenient way without manually invoking `startBatch` and `stopBatch`.
 
 #### Defined in
 
-[packages/g6/src/types/graph.ts:752](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/graph.ts#L752)
+[packages/g6/src/types/graph.ts:752](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/graph.ts#L752)
 
 ___
 
@@ -1248,7 +1248,7 @@ Indicate whether there are any actions available in the redo stack.
 
 #### Defined in
 
-[packages/g6/src/types/graph.ts:730](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/graph.ts#L730)
+[packages/g6/src/types/graph.ts:730](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/graph.ts#L730)
 
 ___
 
@@ -1268,7 +1268,7 @@ Indicate whether there are any actions available in the undo stack.
 
 #### Defined in
 
-[packages/g6/src/types/graph.ts:725](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/graph.ts#L725)
+[packages/g6/src/types/graph.ts:725](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/graph.ts#L725)
 
 ___
 
@@ -1278,7 +1278,7 @@ ___
 
 #### Defined in
 
-[packages/g6/src/types/graph.ts:27](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/graph.ts#L27)
+[packages/g6/src/types/graph.ts:27](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/graph.ts#L27)
 
 ___
 
@@ -1304,7 +1304,7 @@ Change the renderer at runtime.
 
 #### Defined in
 
-[packages/g6/src/types/graph.ts:58](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/graph.ts#L58)
+[packages/g6/src/types/graph.ts:58](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/graph.ts#L58)
 
 ___
 
@@ -1324,7 +1324,7 @@ Clear the graph, means remove all the items on the graph.
 
 #### Defined in
 
-[packages/g6/src/types/graph.ts:153](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/graph.ts#L153)
+[packages/g6/src/types/graph.ts:153](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/graph.ts#L153)
 
 ___
 
@@ -1352,7 +1352,7 @@ more convenient way without manually invoking `startBatch` and `stopBatch`.
 
 #### Defined in
 
-[packages/g6/src/types/graph.ts:759](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/graph.ts#L759)
+[packages/g6/src/types/graph.ts:759](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/graph.ts#L759)
 
 ___
 
@@ -1362,7 +1362,7 @@ ___
 
 #### Defined in
 
-[packages/g6/src/types/graph.ts:30](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/graph.ts#L30)
+[packages/g6/src/types/graph.ts:30](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/graph.ts#L30)
 
 ___
 
@@ -1372,7 +1372,7 @@ ___
 
 #### Defined in
 
-[packages/g6/src/types/graph.ts:29](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/graph.ts#L29)
+[packages/g6/src/types/graph.ts:29](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/graph.ts#L29)
 
 ___
 
@@ -1398,7 +1398,7 @@ Execute a callback without allowing any stacking operations.
 
 #### Defined in
 
-[packages/g6/src/types/graph.ts:693](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/graph.ts#L693)
+[packages/g6/src/types/graph.ts:693](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/graph.ts#L693)
 
 ___
 
@@ -1422,7 +1422,7 @@ ___
 
 #### Defined in
 
-[packages/g6/src/types/graph.ts:132](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/graph.ts#L132)
+[packages/g6/src/types/graph.ts:132](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/graph.ts#L132)
 
 ___
 
@@ -1450,7 +1450,7 @@ visibility for the item, false for invisible or unexistence for the item
 
 #### Defined in
 
-[packages/g6/src/types/graph.ts:542](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/graph.ts#L542)
+[packages/g6/src/types/graph.ts:542](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/graph.ts#L542)
 
 ___
 
@@ -1478,7 +1478,7 @@ edges
 
 #### Defined in
 
-[packages/g6/src/types/graph.ts:125](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/graph.ts#L125)
+[packages/g6/src/types/graph.ts:125](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/graph.ts#L125)
 
 ___
 
@@ -1498,7 +1498,7 @@ Retrieve the current undo stack which consists of operations that were undone
 
 #### Defined in
 
-[packages/g6/src/types/graph.ts:702](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/graph.ts#L702)
+[packages/g6/src/types/graph.ts:702](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/graph.ts#L702)
 
 ___
 
@@ -1528,7 +1528,7 @@ rendering bounding box. returns false if the item is not exist
 
 #### Defined in
 
-[packages/g6/src/types/graph.ts:531](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/graph.ts#L531)
+[packages/g6/src/types/graph.ts:531](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/graph.ts#L531)
 
 ___
 
@@ -1550,7 +1550,7 @@ graph specs
 
 #### Defined in
 
-[packages/g6/src/types/graph.ts:52](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/graph.ts#L52)
+[packages/g6/src/types/graph.ts:52](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/graph.ts#L52)
 
 ___
 
@@ -1570,7 +1570,7 @@ Retrieve the complete history stack
 
 #### Defined in
 
-[packages/g6/src/types/graph.ts:708](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/graph.ts#L708)
+[packages/g6/src/types/graph.ts:708](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/graph.ts#L708)
 
 ___
 
@@ -1590,7 +1590,7 @@ Retrieve the current redo stack which consists of operations that could be undon
 
 #### Defined in
 
-[packages/g6/src/types/graph.ts:697](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/graph.ts#L697)
+[packages/g6/src/types/graph.ts:697](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/graph.ts#L697)
 
 ___
 
@@ -1610,7 +1610,7 @@ Return the center of viewport, e.g. for a 500 * 500 canvas, its center is [250, 
 
 #### Defined in
 
-[packages/g6/src/types/graph.ts:381](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/graph.ts#L381)
+[packages/g6/src/types/graph.ts:381](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/graph.ts#L381)
 
 ___
 
@@ -1632,7 +1632,7 @@ current zoom
 
 #### Defined in
 
-[packages/g6/src/types/graph.ts:319](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/graph.ts#L319)
+[packages/g6/src/types/graph.ts:319](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/graph.ts#L319)
 
 ___
 
@@ -1642,7 +1642,7 @@ ___
 
 #### Defined in
 
-[packages/g6/src/types/graph.ts:26](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/graph.ts#L26)
+[packages/g6/src/types/graph.ts:26](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/graph.ts#L26)
 
 ___
 
@@ -1662,7 +1662,7 @@ Determine if history (redo/undo) is enabled.
 
 #### Defined in
 
-[packages/g6/src/types/graph.ts:673](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/graph.ts#L673)
+[packages/g6/src/types/graph.ts:673](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/graph.ts#L673)
 
 ___
 
@@ -1689,7 +1689,7 @@ Layout the graph (with current configurations if cfg is not assigned).
 
 #### Defined in
 
-[packages/g6/src/types/graph.ts:577](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/graph.ts#L577)
+[packages/g6/src/types/graph.ts:577](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/graph.ts#L577)
 
 ___
 
@@ -1709,7 +1709,7 @@ Pause stacking operation.
 
 #### Defined in
 
-[packages/g6/src/types/graph.ts:684](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/graph.ts#L684)
+[packages/g6/src/types/graph.ts:684](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/graph.ts#L684)
 
 ___
 
@@ -1736,7 +1736,7 @@ Push the operation(s) onto the specified stack
 
 #### Defined in
 
-[packages/g6/src/types/graph.ts:680](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/graph.ts#L680)
+[packages/g6/src/types/graph.ts:680](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/graph.ts#L680)
 
 ___
 
@@ -1756,7 +1756,7 @@ Restore the operation that was last n reverted on the graph.
 
 #### Defined in
 
-[packages/g6/src/types/graph.ts:720](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/graph.ts#L720)
+[packages/g6/src/types/graph.ts:720](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/graph.ts#L720)
 
 ___
 
@@ -1766,7 +1766,7 @@ ___
 
 #### Defined in
 
-[packages/g6/src/types/graph.ts:31](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/graph.ts#L31)
+[packages/g6/src/types/graph.ts:31](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/graph.ts#L31)
 
 ___
 
@@ -1786,7 +1786,7 @@ Resume stacking operation.
 
 #### Defined in
 
-[packages/g6/src/types/graph.ts:688](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/graph.ts#L688)
+[packages/g6/src/types/graph.ts:688](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/graph.ts#L688)
 
 ___
 
@@ -1814,7 +1814,7 @@ Rotate the graph with a relative angle in clockwise.
 
 #### Defined in
 
-[packages/g6/src/types/graph.ts:348](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/graph.ts#L348)
+[packages/g6/src/types/graph.ts:348](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/graph.ts#L348)
 
 ___
 
@@ -1842,7 +1842,7 @@ Rotate the graph to an absolute angle in clockwise.
 
 #### Defined in
 
-[packages/g6/src/types/graph.ts:359](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/graph.ts#L359)
+[packages/g6/src/types/graph.ts:359](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/graph.ts#L359)
 
 ___
 
@@ -1864,7 +1864,7 @@ treated as a single operation when undoing or redoing.
 
 #### Defined in
 
-[packages/g6/src/types/graph.ts:737](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/graph.ts#L737)
+[packages/g6/src/types/graph.ts:737](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/graph.ts#L737)
 
 ___
 
@@ -1886,7 +1886,7 @@ treated as a single operation when undoing or redoing.
 
 #### Defined in
 
-[packages/g6/src/types/graph.ts:744](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/graph.ts#L744)
+[packages/g6/src/types/graph.ts:744](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/graph.ts#L744)
 
 ___
 
@@ -1904,7 +1904,7 @@ ___
 
 #### Defined in
 
-[packages/g6/src/types/graph.ts:578](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/graph.ts#L578)
+[packages/g6/src/types/graph.ts:578](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/graph.ts#L578)
 
 ___
 
@@ -1924,7 +1924,7 @@ Stop the current transition of transform immediately.
 
 #### Defined in
 
-[packages/g6/src/types/graph.ts:377](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/graph.ts#L377)
+[packages/g6/src/types/graph.ts:377](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/graph.ts#L377)
 
 ___
 
@@ -1951,7 +1951,7 @@ Transform the graph with a CSS-Transform-like syntax.
 
 #### Defined in
 
-[packages/g6/src/types/graph.ts:370](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/graph.ts#L370)
+[packages/g6/src/types/graph.ts:370](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/graph.ts#L370)
 
 ___
 
@@ -1961,7 +1961,7 @@ ___
 
 #### Defined in
 
-[packages/g6/src/types/graph.ts:28](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/graph.ts#L28)
+[packages/g6/src/types/graph.ts:28](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/graph.ts#L28)
 
 ___
 
@@ -1988,7 +1988,7 @@ Move the graph with a relative vector.
 
 #### Defined in
 
-[packages/g6/src/types/graph.ts:298](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/graph.ts#L298)
+[packages/g6/src/types/graph.ts:298](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/graph.ts#L298)
 
 ___
 
@@ -2015,7 +2015,7 @@ Move the graph and align to a point.
 
 #### Defined in
 
-[packages/g6/src/types/graph.ts:311](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/graph.ts#L311)
+[packages/g6/src/types/graph.ts:311](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/graph.ts#L311)
 
 ___
 
@@ -2035,7 +2035,7 @@ Revert the last n operation(s) on the graph.
 
 #### Defined in
 
-[packages/g6/src/types/graph.ts:714](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/graph.ts#L714)
+[packages/g6/src/types/graph.ts:714](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/graph.ts#L714)
 
 ___
 
@@ -2061,7 +2061,7 @@ Update the specs (configurations).
 
 #### Defined in
 
-[packages/g6/src/types/graph.ts:43](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/graph.ts#L43)
+[packages/g6/src/types/graph.ts:43](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/graph.ts#L43)
 
 ___
 
@@ -2087,7 +2087,7 @@ Update the theme specs (configurations).
 
 #### Defined in
 
-[packages/g6/src/types/graph.ts:47](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/graph.ts#L47)
+[packages/g6/src/types/graph.ts:47](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/graph.ts#L47)
 
 ___
 
@@ -2115,7 +2115,7 @@ Zoom the graph with a relative ratio.
 
 #### Defined in
 
-[packages/g6/src/types/graph.ts:326](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/graph.ts#L326)
+[packages/g6/src/types/graph.ts:326](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/graph.ts#L326)
 
 ___
 
@@ -2143,7 +2143,7 @@ Zoom the graph to a specified ratio.
 
 #### Defined in
 
-[packages/g6/src/types/graph.ts:337](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/graph.ts#L337)
+[packages/g6/src/types/graph.ts:337](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/graph.ts#L337)
 
 ## Tree
 
@@ -2171,7 +2171,7 @@ Collapse sub tree(s).
 
 #### Defined in
 
-[packages/g6/src/types/graph.ts:769](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/graph.ts#L769)
+[packages/g6/src/types/graph.ts:769](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/graph.ts#L769)
 
 ___
 
@@ -2199,7 +2199,7 @@ Expand sub tree(s).
 
 #### Defined in
 
-[packages/g6/src/types/graph.ts:778](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/graph.ts#L778)
+[packages/g6/src/types/graph.ts:778](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/graph.ts#L778)
 
 ## View
 
@@ -2225,7 +2225,7 @@ Fit the graph center to the view center.
 
 #### Defined in
 
-[packages/g6/src/types/graph.ts:403](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/graph.ts#L403)
+[packages/g6/src/types/graph.ts:403](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/graph.ts#L403)
 
 ___
 
@@ -2254,7 +2254,7 @@ Fit the graph content to the view.
 
 #### Defined in
 
-[packages/g6/src/types/graph.ts:390](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/graph.ts#L390)
+[packages/g6/src/types/graph.ts:390](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/graph.ts#L390)
 
 ___
 
@@ -2281,7 +2281,7 @@ Move the graph to make the item align the view center.
 
 #### Defined in
 
-[packages/g6/src/types/graph.ts:410](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/graph.ts#L410)
+[packages/g6/src/types/graph.ts:410](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/graph.ts#L410)
 
 ___
 
@@ -2309,7 +2309,7 @@ rendering coordinate
 
 #### Defined in
 
-[packages/g6/src/types/graph.ts:457](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/graph.ts#L457)
+[packages/g6/src/types/graph.ts:457](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/graph.ts#L457)
 
 ___
 
@@ -2337,7 +2337,7 @@ canvas dom (viewport) coordinate
 
 #### Defined in
 
-[packages/g6/src/types/graph.ts:433](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/graph.ts#L433)
+[packages/g6/src/types/graph.ts:433](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/graph.ts#L433)
 
 ___
 
@@ -2365,7 +2365,7 @@ browser coordinate
 
 #### Defined in
 
-[packages/g6/src/types/graph.ts:449](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/graph.ts#L449)
+[packages/g6/src/types/graph.ts:449](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/graph.ts#L449)
 
 ___
 
@@ -2387,7 +2387,7 @@ Get the size of the graph canvas.
 
 #### Defined in
 
-[packages/g6/src/types/graph.ts:419](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/graph.ts#L419)
+[packages/g6/src/types/graph.ts:419](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/graph.ts#L419)
 
 ___
 
@@ -2415,7 +2415,7 @@ rendering coordinate
 
 #### Defined in
 
-[packages/g6/src/types/graph.ts:441](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/graph.ts#L441)
+[packages/g6/src/types/graph.ts:441](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/graph.ts#L441)
 
 ___
 
@@ -2441,4 +2441,4 @@ Set the size for the graph canvas.
 
 #### Defined in
 
-[packages/g6/src/types/graph.ts:425](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/graph.ts#L425)
+[packages/g6/src/types/graph.ts:425](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/graph.ts#L425)

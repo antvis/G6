@@ -10,13 +10,13 @@ title: DragCanvasOptions
 
  ＃＃＃ 方向 
 
- • `可选` **方向**：``"x"`` \| ``“y”`` \| ``“两者”`` 
+ • `可选` **方向**：``“两者”`` \| ``“x”`` \| ``“y”`` 
 
  拖动画布的方向。 默认为“两者”。 
 
  #### 定义于 
 
- [packages/g6/src/stdlib/behavior/drag-canvas.ts:22](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/behavior/drag-canvas. ts#L22) 
+ [packages/g6/src/stdlib/behavior/drag-canvas.ts:22](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/drag-canvas. ts#L22) 
 
  ___ 
 
@@ -28,7 +28,7 @@ title: DragCanvasOptions
 
  #### 定义于 
 
- [packages/g6/src/stdlib/behavior/drag-canvas.ts:14](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/behavior/drag-canvas. ts#L14) 
+ [packages/g6/src/stdlib/behavior/drag-canvas.ts:14](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/drag-canvas. ts#L14) 
 
  ___ 
 
@@ -40,7 +40,7 @@ title: DragCanvasOptions
 
  #### 定义于 
 
- [packages/g6/src/stdlib/behavior/drag-canvas.ts:10](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/behavior/drag-canvas. ts#L10) 
+ [packages/g6/src/stdlib/behavior/drag-canvas.ts:10](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/drag-canvas. ts#L10) 
 
  ___ 
 
@@ -52,7 +52,7 @@ title: DragCanvasOptions
 
  #### 定义于 
 
- [packages/g6/src/stdlib/behavior/drag-canvas.ts:48](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/behavior/drag-canvas. ts#L48) 
+ [packages/g6/src/stdlib/behavior/drag-canvas.ts:48](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/drag-canvas. ts#L48) 
 
  ___ 
 
@@ -70,7 +70,7 @@ title: DragCanvasOptions
 
  #### 定义于 
 
- [packages/g6/src/stdlib/behavior/drag-canvas.ts:44](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/behavior/drag-canvas. ts#L44) 
+ [packages/g6/src/stdlib/behavior/drag-canvas.ts:44](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/drag-canvas. ts#L44) 
 
  ___ 
 
@@ -82,7 +82,7 @@ title: DragCanvasOptions
 
  #### 定义于 
 
- [packages/g6/src/stdlib/behavior/drag-canvas.ts:26](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/behavior/drag-canvas. ts#L26) 
+ [packages/g6/src/stdlib/behavior/drag-canvas.ts:26](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/drag-canvas. ts#L26) 
 
  ___ 
 
@@ -94,7 +94,7 @@ title: DragCanvasOptions
 
  #### 定义于 
 
- [packages/g6/src/stdlib/behavior/drag-canvas.ts:30](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/behavior/drag-canvas. ts#L30) 
+ [packages/g6/src/stdlib/behavior/drag-canvas.ts:30](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/drag-canvas. ts#L30) 
 
  ___ 
 
@@ -120,7 +120,7 @@ title: DragCanvasOptions
 
  #### 定义于 
 
- [packages/g6/src/stdlib/behavior/drag-canvas.ts:52](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/behavior/drag-canvas. ts#L52) 
+ [packages/g6/src/stdlib/behavior/drag-canvas.ts:52](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/drag-canvas. ts#L52) 
 
  ___ 
 
@@ -132,7 +132,7 @@ title: DragCanvasOptions
 
  #### 定义于 
 
- [packages/g6/src/stdlib/behavior/drag-canvas.ts:34](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/behavior/drag-canvas. ts#L34) 
+ [packages/g6/src/stdlib/behavior/drag-canvas.ts:34](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/drag-canvas. ts#L34) 
 
  ___ 
 
@@ -144,4 +144,4 @@ title: DragCanvasOptions
 
  #### 定义于 
 
- [packages/g6/src/stdlib/behavior/drag-canvas.ts:18](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/behavior/drag-canvas. ts#L18)
+ [packages/g6/src/stdlib/behavior/drag-canvas.ts:18](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/drag-canvas. ts#L18)

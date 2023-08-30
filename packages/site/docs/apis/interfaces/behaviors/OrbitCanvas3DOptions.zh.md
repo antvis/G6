@@ -16,7 +16,7 @@ title: OrbitCanvas3DOptions
 
  #### 定义于 
 
- [packages/g6/src/stdlib/behavior/orbit-canvas-3d.ts:24](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/behavior/orbit- canvas-3d.ts#L24) 
+ [packages/g6/src/stdlib/behavior/orbit-canvas-3d.ts:24](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/orbit- canvas-3d.ts#L24) 
 
  ___ 
 
@@ -31,7 +31,7 @@ title: OrbitCanvas3DOptions
 
  #### 定义于 
 
- [packages/g6/src/stdlib/behavior/orbit-canvas-3d.ts:20](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/behavior/orbit- canvas-3d.ts#L20) 
+ [packages/g6/src/stdlib/behavior/orbit-canvas-3d.ts:20](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/orbit- canvas-3d.ts#L20) 
 
  ___ 
 
@@ -57,7 +57,7 @@ title: OrbitCanvas3DOptions
 
  #### 定义于 
 
- [packages/g6/src/stdlib/behavior/orbit-canvas-3d.ts:28](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/behavior/orbit- canvas-3d.ts#L28) 
+ [packages/g6/src/stdlib/behavior/orbit-canvas-3d.ts:28](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/orbit- canvas-3d.ts#L28) 
 
  ___ 
 
@@ -69,4 +69,4 @@ title: OrbitCanvas3DOptions
 
  #### 定义于 
 
- [packages/g6/src/stdlib/behavior/orbit-canvas-3d.ts:13](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/behavior/orbit- canvas-3d.ts#L13)
+ [packages/g6/src/stdlib/behavior/orbit-canvas-3d.ts:13](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/orbit- canvas-3d.ts#L13)

@@ -2,74 +2,79 @@
 title: HistoryConfig
 ---
 
-[概述 - v5.0.0-alpha.9](../../README.zh.md) / [模块](../../modules.zh.md) / [插件](../. ./modules/plugins.zh.md) / HistoryConfig 
+[概述 - v5.0.0-alpha.9](../../README.zh.md) / [模块](../../modules.zh.md) / [插件](../../modules/plugins.zh.md) / HistoryConfig
 
- [插件](../../modules/plugins.zh.md).HistoryConfig 
+[插件](../../modules/plugins.zh.md).HistoryConfig
 
- ＃＃ 等级制度 
+`HistoryConfig` 接口包含两个属性：`enableStack` 和 `stackCfg`。
 
- - `IPluginBaseConfig` 
+- `enableStack` 是一个可选的布尔值，表示是否启用堆栈。
+- `stackCfg` 是一个必需的 `StackCfg` 类型，表示堆栈配置。
 
-   ↳ **`历史配置`** 
+## 层次结构
 
- ＃＃ 特性 
+- `IPluginBaseConfig`
 
- ＃＃＃ 班级名称 
+  ↳ **`HistoryConfig`**
 
- • `可选` **类名**：`字符串` 
+## 属性
 
- ####继承自 
+### className
 
- IPluginBaseConfig.className 
+• `Optional` **className**: `string`
 
- #### 定义于 
+#### 继承自
 
- [packages/g6/src/types/plugin.ts:6](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/plugin.ts#L6) 
+IPluginBaseConfig.className
 
- ___ 
+#### 定义在
 
- ＃＃＃ 容器 
+[packages/g6/src/types/plugin.ts:6](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/types/plugin.ts#L6)
 
- • `可选` **容器**：`字符串` \| `HTMLDivElement` 
+---
 
- ####继承自 
+### container
 
- IPluginBaseConfig.container 
+• `Optional` **container**: `string` \| `HTMLDivElement`
 
- #### 定义于 
+#### 继承自
 
- [packages/g6/src/types/plugin.ts:5](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/plugin.ts#L5) 
+IPluginBaseConfig.container
 
- ___ 
+#### 定义在
 
- ### 启用堆栈 
+[packages/g6/src/types/plugin.ts:5](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/types/plugin.ts#L5)
 
- • `可选` **enableStack**：`布尔值` 
+---
 
- #### 定义于 
+### enableStack
 
- [packages/g6/src/stdlib/plugin/history/index.ts:8](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/plugin/history/index.ts) ts#L8) 
+• `Optional` **enableStack**: `boolean`
 
- ___ 
+#### 定义在
 
- ### 图表 
+[packages/g6/src/stdlib/plugin/history/index.ts:15](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/stdlib/plugin/history/index.ts#L15)
 
- • `可选` **graph**: [`IGraph`](../graph/IGraph.zh.md)<`BehaviorRegistry`, `ThemeRegistry`\> 
+---
 
- ####继承自 
+### graph
 
- IPluginBaseConfig.graph 
+• `Optional` **graph**: [`IGraph`](../graph/IGraph.zh.md)<`BehaviorRegistry`, `ThemeRegistry`\>
 
- #### 定义于 
+#### 继承自
 
- [packages/g6/src/types/plugin.ts:7](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/plugin.ts#L7) 
+IPluginBaseConfig.graph
 
- ___ 
+#### 定义在
 
- ### 堆栈配置 
+[packages/g6/src/types/plugin.ts:7](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/types/plugin.ts#L7)
 
- • **stackCfg**：`StackCfg` 
+---
 
- #### 定义于 
+### stackCfg
 
- [packages/g6/src/stdlib/plugin/history/index.ts:9](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/plugin/history/index. ts#L9)
+• **stackCfg**: `StackCfg`
+
+#### 定义在
+
+[packages/g6/src/stdlib/plugin/history/index.ts:16](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/stdlib/plugin/history/index.ts#L16)

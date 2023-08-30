@@ -6,6 +6,19 @@ title: MenuConfig
 
 [plugins](../../modules/plugins.en.md).MenuConfig
 
+The `MenuConfig` interface contains the following properties:
+
+- `handleMenuClick`: An optional function for handling menu click events. It takes two arguments: `target` (of type HTMLElement) and `item` (of type Item), and has no return value.
+- `getContent`: An optional function for getting the content of the menu. It takes an optional argument of type `IG6GraphEvent`, and returns a value of type HTMLDivElement, string, or Promise (resolving to HTMLDivElement or string).
+- `offsetX`: An optional number representing the offset of the menu in the X direction.
+- `offsetY`: An optional number representing the offset of the menu in the Y direction.
+- `shouldBegin`: An optional function for determining whether the menu should be displayed. It takes an optional argument of type `IG6GraphEvent`, and returns a boolean value.
+- `itemTypes`: An optional array of strings representing the types of items for which the menu is allowed to be displayed.
+- `trigger`: An optional string, either 'click' or 'contextmenu', representing the event type that triggers the display of the menu.
+- `onHide`: An optional function to be executed when the menu is hidden. It takes no arguments and returns a boolean value.
+- `loadingContent`: An optional HTMLDivElement or string representing the loading DOM.
+- `liHoverStyle`: An optional object representing the style of li elements when hovered over. It can contain any number of key-value pairs, where the key is a style name and the value is a string.
+
 ## Hierarchy
 
 - `IPluginBaseConfig`
@@ -24,7 +37,7 @@ IPluginBaseConfig.className
 
 #### Defined in
 
-[packages/g6/src/types/plugin.ts:6](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/plugin.ts#L6)
+[packages/g6/src/types/plugin.ts:6](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/plugin.ts#L6)
 
 ___
 
@@ -38,7 +51,7 @@ IPluginBaseConfig.container
 
 #### Defined in
 
-[packages/g6/src/types/plugin.ts:5](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/plugin.ts#L5)
+[packages/g6/src/types/plugin.ts:5](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/plugin.ts#L5)
 
 ___
 
@@ -62,7 +75,7 @@ ___
 
 #### Defined in
 
-[packages/g6/src/stdlib/plugin/menu/index.ts:41](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/plugin/menu/index.ts#L41)
+[packages/g6/src/stdlib/plugin/menu/index.ts:54](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/plugin/menu/index.ts#L54)
 
 ___
 
@@ -76,7 +89,7 @@ IPluginBaseConfig.graph
 
 #### Defined in
 
-[packages/g6/src/types/plugin.ts:7](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/plugin.ts#L7)
+[packages/g6/src/types/plugin.ts:7](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/plugin.ts#L7)
 
 ___
 
@@ -101,7 +114,7 @@ ___
 
 #### Defined in
 
-[packages/g6/src/stdlib/plugin/menu/index.ts:39](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/plugin/menu/index.ts#L39)
+[packages/g6/src/stdlib/plugin/menu/index.ts:52](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/plugin/menu/index.ts#L52)
 
 ___
 
@@ -111,7 +124,7 @@ ___
 
 #### Defined in
 
-[packages/g6/src/stdlib/plugin/menu/index.ts:47](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/plugin/menu/index.ts#L47)
+[packages/g6/src/stdlib/plugin/menu/index.ts:60](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/plugin/menu/index.ts#L60)
 
 ___
 
@@ -125,7 +138,7 @@ ___
 
 #### Defined in
 
-[packages/g6/src/stdlib/plugin/menu/index.ts:52](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/plugin/menu/index.ts#L52)
+[packages/g6/src/stdlib/plugin/menu/index.ts:65](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/plugin/menu/index.ts#L65)
 
 ___
 
@@ -135,7 +148,7 @@ ___
 
 #### Defined in
 
-[packages/g6/src/stdlib/plugin/menu/index.ts:51](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/plugin/menu/index.ts#L51)
+[packages/g6/src/stdlib/plugin/menu/index.ts:64](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/plugin/menu/index.ts#L64)
 
 ___
 
@@ -145,7 +158,7 @@ ___
 
 #### Defined in
 
-[packages/g6/src/stdlib/plugin/menu/index.ts:44](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/plugin/menu/index.ts#L44)
+[packages/g6/src/stdlib/plugin/menu/index.ts:57](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/plugin/menu/index.ts#L57)
 
 ___
 
@@ -155,7 +168,7 @@ ___
 
 #### Defined in
 
-[packages/g6/src/stdlib/plugin/menu/index.ts:45](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/plugin/menu/index.ts#L45)
+[packages/g6/src/stdlib/plugin/menu/index.ts:58](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/plugin/menu/index.ts#L58)
 
 ___
 
@@ -173,7 +186,7 @@ ___
 
 #### Defined in
 
-[packages/g6/src/stdlib/plugin/menu/index.ts:49](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/plugin/menu/index.ts#L49)
+[packages/g6/src/stdlib/plugin/menu/index.ts:62](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/plugin/menu/index.ts#L62)
 
 ___
 
@@ -197,7 +210,7 @@ ___
 
 #### Defined in
 
-[packages/g6/src/stdlib/plugin/menu/index.ts:46](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/plugin/menu/index.ts#L46)
+[packages/g6/src/stdlib/plugin/menu/index.ts:59](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/plugin/menu/index.ts#L59)
 
 ___
 
@@ -207,4 +220,4 @@ ___
 
 #### Defined in
 
-[packages/g6/src/stdlib/plugin/menu/index.ts:48](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/plugin/menu/index.ts#L48)
+[packages/g6/src/stdlib/plugin/menu/index.ts:61](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/plugin/menu/index.ts#L61)

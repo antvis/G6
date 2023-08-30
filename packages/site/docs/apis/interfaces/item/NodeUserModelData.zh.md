@@ -25,20 +25,20 @@ title: NodeUserModelData
 
  #### 定义于 
 
- [packages/g6/src/types/node.ts:65](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/node.ts#L65) 
+ [packages/g6/src/types/node.ts:67](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/node.ts#L67) 
 
  ___ 
 
  ### 徽章 
 
- • `可选` **徽章**: { `position`: `BadgePosition` ; `文本`: `字符串`; `类型`: ``"图标"`` \| ``“文本”`` }[] 
+ • `可选` **徽章**: { `position`: `BadgePosition` ; `文本`: `字符串`; `类型`: ``"文本"`` \| ``“图标”`` }[] 
 
  要在节点上显示的徽章。 
  应该在节点映射器中配置更多样式。 
 
  #### 定义于 
 
- [packages/g6/src/types/node.ts:70](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/node.ts#L70) 
+ [packages/g6/src/types/node.ts:72](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/node.ts#L72) 
 
  ___ 
 
@@ -51,7 +51,7 @@ title: NodeUserModelData
 
  #### 定义于 
 
- [packages/g6/src/types/node.ts:34](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/node.ts#L34) 
+ [packages/g6/src/types/node.ts:36](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/node.ts#L36) 
 
  ___ 
 
@@ -68,11 +68,11 @@ title: NodeUserModelData
  | :------ | :------ | 
  | `img？` | `字符串` | 
  | `文字？` | `字符串` | 
- | `类型` | ``“图标”`` \| ``“文本”`` | 
+ | `类型` | ``“文本”`` \| ``“图标”`` | 
 
  #### 定义于 
 
- [packages/g6/src/types/node.ts:56](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/node.ts#L56) 
+ [packages/g6/src/types/node.ts:58](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/node.ts#L58) 
 
  ___ 
 
@@ -84,7 +84,7 @@ title: NodeUserModelData
 
  #### 定义于 
 
- [packages/g6/src/types/node.ts:51](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/node.ts#L51) 
+ [packages/g6/src/types/node.ts:53](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/node.ts#L53) 
 
  ___ 
 
@@ -97,7 +97,7 @@ title: NodeUserModelData
 
  #### 定义于 
 
- [packages/g6/src/types/node.ts:39](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/node.ts#L39) 
+ [packages/g6/src/types/node.ts:41](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/node.ts#L41) 
 
  ___ 
 
@@ -109,7 +109,7 @@ title: NodeUserModelData
 
  #### 定义于 
 
- [packages/g6/src/types/node.ts:47](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/node.ts#L47) 
+ [packages/g6/src/types/node.ts:49](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/node.ts#L49) 
 
  ___ 
 
@@ -123,7 +123,7 @@ title: NodeUserModelData
 
  #### 定义于 
 
- [packages/g6/src/types/node.ts:80](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/node.ts#L80) 
+ [packages/g6/src/types/node.ts:82](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/node.ts#L82) 
 
  ___ 
 
@@ -135,7 +135,7 @@ title: NodeUserModelData
 
  #### 定义于 
 
- [packages/g6/src/types/node.ts:29](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/node.ts#L29) 
+ [packages/g6/src/types/node.ts:31](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/node.ts#L31) 
 
  ___ 
 
@@ -147,7 +147,7 @@ title: NodeUserModelData
 
  #### 定义于 
 
- [packages/g6/src/types/node.ts:43](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/node.ts#L43) 
+ [packages/g6/src/types/node.ts:45](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/node.ts#L45) 
 
  ___ 
 
@@ -159,7 +159,7 @@ title: NodeUserModelData
 
  #### 定义于 
 
- [packages/g6/src/types/node.ts:23](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/node.ts#L23) 
+ [packages/g6/src/types/node.ts:25](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/node.ts#L25) 
 
  ___ 
 
@@ -169,7 +169,7 @@ title: NodeUserModelData
 
  #### 定义于 
 
- [packages/g6/src/types/node.ts:24](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/node.ts#L24) 
+ [packages/g6/src/types/node.ts:26](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/node.ts#L26) 
 
  ___ 
 
@@ -179,4 +179,4 @@ title: NodeUserModelData
 
  #### 定义于 
 
- [packages/g6/src/types/node.ts:25](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/node.ts#L25)
+ [packages/g6/src/types/node.ts:27](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/node.ts#L27)

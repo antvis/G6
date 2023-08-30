@@ -14,7 +14,7 @@ title: GraphData
 
 #### Defined in
 
-[packages/g6/src/types/data.ts:14](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/data.ts#L14)
+[packages/g6/src/types/data.ts:14](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/data.ts#L14)
 
 ___
 
@@ -24,7 +24,7 @@ ___
 
 #### Defined in
 
-[packages/g6/src/types/data.ts:13](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/data.ts#L13)
+[packages/g6/src/types/data.ts:13](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/data.ts#L13)
 
 ___
 
@@ -34,4 +34,4 @@ ___
 
 #### Defined in
 
-[packages/g6/src/types/data.ts:12](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/data.ts#L12)
+[packages/g6/src/types/data.ts:12](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/data.ts#L12)

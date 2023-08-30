@@ -14,7 +14,7 @@ title: DagreLayoutOptions
 
  #### 定义于 
 
- node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:187 
+ node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:187 
 
  ___ 
 
@@ -24,7 +24,7 @@ title: DagreLayoutOptions
 
  #### 定义于 
 
- node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:188 
+ node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:188 
 
  ___ 
 
@@ -34,7 +34,7 @@ title: DagreLayoutOptions
 
  #### 定义于 
 
- node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:192 
+ node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:192 
 
  ___ 
 
@@ -44,7 +44,7 @@ title: DagreLayoutOptions
 
  #### 定义于 
 
- node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:194 
+ node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:194 
 
  ___ 
 
@@ -54,7 +54,7 @@ title: DagreLayoutOptions
 
  #### 定义于 
 
- node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:197 
+ node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:197 
 
  ___ 
 
@@ -64,17 +64,17 @@ title: DagreLayoutOptions
 
  #### 定义于 
 
- node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:195 
+ node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:195 
 
  ___ 
 
  ### 节点大小 
 
- • `可选` **nodeSize**: `number` \| `数字`[] 
+ • `可选` **nodeSize**: `number` \| `数字`[] \| (`nodeData`: `Node`) => `数字` 
 
  #### 定义于 
 
- node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:189 
+ node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:189 
 
  ___ 
 
@@ -84,7 +84,7 @@ title: DagreLayoutOptions
 
  #### 定义于 
 
- node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:190 
+ node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:190 
 
  ___ 
 
@@ -108,7 +108,7 @@ title: DagreLayoutOptions
 
  #### 定义于 
 
- node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:202 
+ node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:202 
 
  ___ 
 
@@ -125,7 +125,7 @@ title: DagreLayoutOptions
 
  #### 定义于 
 
- node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:198 
+ node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:198 
 
  ___ 
 
@@ -135,7 +135,7 @@ title: DagreLayoutOptions
 
  #### 定义于 
 
- node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:196 
+ node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:196 
 
  ___ 
 
@@ -145,7 +145,7 @@ title: DagreLayoutOptions
 
  #### 定义于 
 
- node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:186 
+ node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:186 
 
  ___ 
 
@@ -155,7 +155,7 @@ title: DagreLayoutOptions
 
  #### 定义于 
 
- node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:191 
+ node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:191 
 
  ___ 
 
@@ -179,7 +179,7 @@ title: DagreLayoutOptions
 
  #### 定义于 
 
- node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:203 
+ node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:203 
 
  ___ 
 
@@ -189,4 +189,4 @@ title: DagreLayoutOptions
 
  #### 定义于 
 
- node_modules/.pnpm/@antv+layout@1.2.5_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:193
+ node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:193

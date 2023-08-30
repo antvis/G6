@@ -16,7 +16,7 @@ title: Options
 
  #### 定义于 
 
- [packages/g6/src/stdlib/behavior/collapse-expand-tree.ts:21](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/behavior/collapse- 展开树.ts#L21) 
+ [packages/g6/src/stdlib/behavior/collapse-expand-tree.ts:21](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/collapse- 展开树.ts#L21) 
 
  ___ 
 
@@ -28,7 +28,7 @@ title: Options
 
  #### 定义于 
 
- [packages/g6/src/stdlib/behavior/collapse-expand-tree.ts:17](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/behavior/collapse- 展开树.ts#L17) 
+ [packages/g6/src/stdlib/behavior/collapse-expand-tree.ts:17](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/collapse- 展开树.ts#L17) 
 
  ___ 
 
@@ -54,7 +54,7 @@ title: Options
 
  #### 定义于 
 
- [packages/g6/src/stdlib/behavior/collapse-expand-tree.ts:25](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/behavior/collapse- 展开树.ts#L25) 
+ [packages/g6/src/stdlib/behavior/collapse-expand-tree.ts:25](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/collapse- 展开树.ts#L25) 
 
  ___ 
 
@@ -82,7 +82,7 @@ title: Options
 
  #### 定义于 
 
- [packages/g6/src/stdlib/behavior/collapse-expand-tree.ts:31](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/behavior/collapse- 展开树.ts#L31) 
+ [packages/g6/src/stdlib/behavior/collapse-expand-tree.ts:31](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/collapse- 展开树.ts#L31) 
 
  ___ 
 
@@ -96,4 +96,4 @@ title: Options
 
  #### 定义于 
 
- [packages/g6/src/stdlib/behavior/collapse-expand-tree.ts:13](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/behavior/collapse- 展开树.ts#L13)
+ [packages/g6/src/stdlib/behavior/collapse-expand-tree.ts:13](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/collapse- 展开树.ts#L13)

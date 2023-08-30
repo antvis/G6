@@ -2,209 +2,210 @@
 title: MenuConfig
 ---
 
-[概述 - v5.0.0-alpha.9](../../README.zh.md) / [模块](../../modules.zh.md) / [插件](../. ./modules/plugins.zh.md) / 菜单配置 
+[概述 - v5.0.0-alpha.9](../../README.zh.md) / [模块](../../modules.zh.md) / [插件](../../modules/plugins.zh.md) / MenuConfig
 
- [插件](../../modules/plugins.zh.md).MenuConfig 
+[插件](../../modules/plugins.zh.md).MenuConfig
 
- ＃＃ 等级制度 
+`MenuConfig` 接口包含以下属性：
 
- - `IPluginBaseConfig` 
+- `handleMenuClick`：用于处理菜单点击事件的可选函数。它接受两个参数：`target`（类型为 HTMLElement）和 `item`（类型为 Item），并且没有返回值。
+- `getContent`：用于获取菜单内容的可选函数。它接受一个可选的 `IG6GraphEvent` 类型参数，并返回 HTMLDivElement、string 或 Promise（解析为 HTMLDivElement 或 string）类型的值。
+- `offsetX`：表示菜单在 X 方向上的偏移量的可选数字。
+- `offsetY`：表示菜单在 Y 方向上的偏移量的可选数字。
+- `shouldBegin`：用于确定是否应显示菜单的可选函数。它接受一个可选的 `IG6GraphEvent` 类型参数，并返回布尔值。
+- `itemTypes`：表示允许显示菜单的项目类型的可选字符串数组。
+- `trigger`：一个可选字符串，为 'click' 或 'contextmenu'，表示触发菜单显示的事件类型。
+- `onHide`：当菜单隐藏时执行的可选函数。它不接受任何参数并返回布尔值。
+- `loadingContent`：表示加载 DOM 的可选 HTMLDivElement 或字符串。
+- `liHoverStyle`：表示鼠标悬停在 li 元素上时的样式的可选对象。它可以包含任意数量的键值对，其中键是样式名称，值是字符串。
 
-   ↳ **`菜单配置`** 
+## 层次结构
 
- ＃＃ 特性 
+- `IPluginBaseConfig`
 
- ＃＃＃ 班级名称 
+  ↳ **`MenuConfig`**
 
- • `可选` **类名**：`字符串` 
+## 属性
 
- ####继承自 
+### className
 
- IPluginBaseConfig.className 
+• `Optional` **className**: `string`
 
- #### 定义于 
+#### 继承自
 
- [packages/g6/src/types/plugin.ts:6](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/plugin.ts#L6) 
+IPluginBaseConfig.className
 
- ___ 
+#### 定义在
 
- ＃＃＃ 容器 
+[packages/g6/src/types/plugin.ts:6](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/plugin.ts#L6)
 
- • `可选` **容器**：`字符串` \| `HTMLDivElement` 
+---
 
- ####继承自 
+### container
 
- IPluginBaseConfig.container 
+• `Optional` **container**: `string` \| `HTMLDivElement`
 
- #### 定义于 
+#### 继承自
 
- [packages/g6/src/types/plugin.ts:5](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/plugin.ts#L5) 
+IPluginBaseConfig.container
 
- ___ 
+#### 定义在
 
- ### 获取内容 
+[packages/g6/src/types/plugin.ts:5](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/plugin.ts#L5)
 
- • `可选` **getContent**: (`evt?`: [`IG6GraphEvent`](../behaviors/IG6GraphEvent.zh.md)) => `string` \| `HTMLDivElement` \| `Promise`<`字符串` \| `HTMLDivElement`\> 
+---
 
- #### 类型声明 
+### getContent
 
- ▸ (`evt?`): `字符串` \| `HTMLDivElement` \| `Promise`<`字符串` \| `HTMLDivElement`\> 
+• `Optional` **getContent**: (`evt?`: [`IG6GraphEvent`](../behaviors/IG6GraphEvent.zh.md)) => `string` \| `HTMLDivElement` \| `Promise`<`string` \| `HTMLDivElement`\>
 
- ＃＃＃＃＃ 参数 
+#### 类型声明
 
- | 名称 | 类型 | 
- | :------ | :------ | 
- | `事件？` | [`IG6GraphEvent`](../behaviors/IG6GraphEvent.zh.md) | 
+▸ (`evt?`): `string` \| `HTMLDivElement` \| `Promise`<`string` \| `HTMLDivElement`\>
 
- ##### 返回 
+##### 参数
 
- `字符串` \| `HTMLDivElement` \| `Promise`<`字符串` \| `HTMLDivElement`\> 
+| 名称   | 类型                                                |
+| :----- | :-------------------------------------------------- |
+| `evt?` | [`IG6GraphEvent`](../behaviors/IG6GraphEvent.zh.md) |
 
- #### 定义于 
+##### 返回
 
- [packages/g6/src/stdlib/plugin/menu/index.ts:41](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/plugin/menu/index.ts) ts#L41) 
+帮您翻译
 
- ___ 
+##### 参数
 
- ### 图表 
+| 名称   | 类型                                                |
+| :----- | :-------------------------------------------------- |
+| `evt?` | [`IG6GraphEvent`](../behaviors/IG6GraphEvent.zh.md) |
 
- • `可选` **graph**: [`IGraph`](../graph/IGraph.zh.md)<`BehaviorRegistry`, `ThemeRegistry`\> 
+##### 返回
 
- ####继承自 
+`string` \| `HTMLDivElement` \| `Promise`<`string` \| `HTMLDivElement`\>
 
- IPluginBaseConfig.graph 
+#### 定义在
 
- #### 定义于 
+[packages/g6/src/stdlib/plugin/menu/index.ts:54](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/plugin/menu/index.ts#L54)
 
- [packages/g6/src/types/plugin.ts:7](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/plugin.ts#L7) 
+---
 
- ___ 
+### graph
 
- ### 处理菜单点击 
+• `Optional` **graph**: [`IGraph`](../graph/IGraph.zh.md)<`BehaviorRegistry`, `ThemeRegistry`\>
 
- • `可选` **handleMenuClick**: (`target`: `HTMLElement`, `item`: `default`) => `void` 
+#### 继承自
 
- #### 类型声明 
+IPluginBaseConfig.graph
 
- ▸ (`目标`, `项目`): `void` 
+#### 定义在
 
- ＃＃＃＃＃ 参数 
+[packages/g6/src/types/plugin.ts:7](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/plugin.ts#L7)
 
- | 名称 | 类型 | 
- | :------ | :------ | 
- | `目标` | `HTMLElement` | 
- | `项目` | `默认` | 
+---
 
- ##### 返回 
+### handleMenuClick
 
- `无效` 
+• `Optional` **handleMenuClick**: (`target`: `HTMLElement`, `item`: `default`) => `void`
 
- #### 定义于 
+#### 类型声明
 
- [packages/g6/src/stdlib/plugin/menu/index.ts:39](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/plugin/menu/index.ts) ts#L39) 
+▸ (`target`, `item`): `void`
 
- ___ 
+##### 参数
 
- ### 项目类型 
+| 名称     | 类型          |
+| :------- | :------------ |
+| `target` | `HTMLElement` |
+| `item`   | `default`     |
 
- • `可选` **itemTypes**：`string`[] 
+##### 返回
 
- #### 定义于 
+`void`
 
- [packages/g6/src/stdlib/plugin/menu/index.ts:47](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/plugin/menu/index.ts) ts#L47) 
+#### 定义在
 
- ___ 
+[packages/g6/src/stdlib/plugin/menu/index.ts:52](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/plugin/menu/index.ts#L52)
 
- ### liHoverStyle 
+---
 
- • `可选` **liHoverStyle**：`对象` 
+### itemTypes
 
- #### 索引签名 
+• `Optional` **itemTypes**: `string`[]
 
- ▪ [key: `string`]: `string` 
+#### 定义在
 
- #### 定义于 
+[packages/g6/src/stdlib/plugin/menu/index.ts:60](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/plugin/menu/index.ts#L60)
 
- [packages/g6/src/stdlib/plugin/menu/index.ts:52](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/plugin/menu/index.ts) ts#L52) 
+---
 
- ___ 
+### liHoverStyle
 
- ### 加载内容 
+• `Optional` **liHoverStyle**: `Object`
 
- • `可选` **loadingContent**：`字符串` \| `HTMLDivElement` 
+#### 索引签名
 
- #### 定义于 
+▪ [key: `string`]: `string`
 
- [packages/g6/src/stdlib/plugin/menu/index.ts:51](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/plugin/menu/index.ts) ts#L51) 
+#### 定义在
 
- ___ 
+[packages/g6/src/stdlib/plugin/menu/index.ts:65](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/plugin/menu/index.ts#L65)
 
- ### 偏移X 
+---
 
- • `可选` **offsetX**：`数字` 
+### loadingContent
 
- #### 定义于 
+• `Optional` **loadingContent**: `string` \| `HTMLDivElement`
 
- [packages/g6/src/stdlib/plugin/menu/index.ts:44](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/plugin/menu/index.ts) ts#L44) 
+#### 定义在
 
- ___ 
+[packages/g6/src/stdlib/plugin/menu/index.ts:64](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/plugin/menu/index.ts#L64)
 
- ### 偏移Y 
+---
 
- • `可选` **offsetY**：`数字` 
+### offsetX
 
- #### 定义于 
+• `Optional` **offsetX**: `number`
 
- [packages/g6/src/stdlib/plugin/menu/index.ts:45](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/plugin/menu/index.ts) ts#L45) 
+#### 定义在
 
- ___ 
+[packages/g6/src/stdlib/plugin/menu/index.ts:57](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/plugin/menu/index.ts#L57)
 
- ### 隐藏 
+---
 
- • `可选` **onHide**: () => `boolean` 
+### offsetY
 
- #### 类型声明 
+• `Optional` **offsetY**: `number`
 
- ▸ (): `布尔值` 
+#### 定义在
 
- ##### 返回 
+[packages/g6/src/stdlib/plugin/menu/index.ts:58](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/plugin/menu/index.ts#L58)
 
- `布尔值` 
+---
 
- #### 定义于 
+### onHide
 
- [packages/g6/src/stdlib/plugin/menu/index.ts:49](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/plugin/menu/index.ts) ts#L49) 
+• `Optional` **onHide**: () => `boolean`
 
- ___ 
+#### 类型声明
 
- ### 应该开始 
+▸ (): `boolean`
 
- • `可选` **shouldBegin**: (`evt?`: [`IG6GraphEvent`](../behaviors/IG6GraphEvent.zh.md)) => `boolean` 
+##### 返回
 
- #### 类型声明 
+`boolean`
 
- ▸ (`evt?`): `布尔值` 
+#### 定义在
 
- ＃＃＃＃＃ 参数 
+[packages/g6/src/stdlib/plugin/menu/index.ts:62](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/plugin/menu/index.ts#L62)
 
- | 名称 | 类型 | 
- | :------ | :------ | 
- | `事件？` | [`IG6GraphEvent`](../behaviors/IG6GraphEvent.zh.md) | 
+---
 
- ##### 返回 
+### shouldBegin
 
- `布尔值` 
+• `Optional` **shouldBegin**: (`evt?`: [`IG6GraphEvent`](../behaviors/IG6GraphEvent.zh.md)) => `boolean`
 
- #### 定义于 
+#### 类型声明
 
- [packages/g6/src/stdlib/plugin/menu/index.ts:46](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/plugin/menu/index.ts) ts#L46) 
+▸ (`evt?`): `boolean`
 
- ___ 
-
- ＃＃＃ 扳机 
-
- • `可选` **触发**：``"contextmenu"`` \| ``“点击”`` 
-
- #### 定义于 
-
- [packages/g6/src/stdlib/plugin/menu/index.ts:48](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/stdlib/plugin/menu/index.ts) ts#L48)
+##### 参数
