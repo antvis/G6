@@ -4,19 +4,17 @@ import { TestCaseContext } from '../interface';
 
 export default (context: TestCaseContext) => {
   const { width, height } = context;
-  const graph = new G6.Graph({
+
+  const ExtGraph = G6.extend(G6.Graph, {
+    nodes: {
+      'sphere-node': G6.Extensions.SphereNode,
+    },
+  });
+
+  const graph = new ExtGraph({
     ...context,
     type: 'graph',
     renderer: 'webgl-3d',
-    // modes: {
-    //   default: [
-    //     {
-    //       type: 'orbit-canvas-3d',
-    //       trigger: 'drag',
-    //     },
-    //     'zoom-canvas-3d',
-    //   ],
-    // },
     data: JSON.parse(JSON.stringify(data)),
     layout: {
       type: 'force',

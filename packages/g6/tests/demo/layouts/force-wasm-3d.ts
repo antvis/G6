@@ -1,9 +1,11 @@
 import { supportsThreads, initThreads, ForceLayout } from '@antv/layout-wasm';
 import G6 from '../../../src/index';
-import { container, height, width } from '../../datasets/const';
 import { loadDataset } from '../../datasets/legacy-format';
+import { TestCaseContext } from '../interface';
 
-export default async () => {
+export default async (context: TestCaseContext) => {
+  const { width, height } = context;
+
   const data = await loadDataset(
     'https://gw.alipayobjects.com/os/basement_prod/da5a1b47-37d6-44d7-8d10-f3e046dabf82.json',
   );
@@ -13,21 +15,17 @@ export default async () => {
   // Register custom layout
   G6.stdLib.layouts['force-wasm'] = ForceLayout;
 
-  return new G6.Graph({
-    container,
-    width,
-    height,
+  const ExtGraph = G6.extend(G6.Graph, {
+    nodes: {
+      'sphere-node': G6.Extensions.SphereNode,
+    },
+  });
+
+  return new ExtGraph({
+    ...context,
+    type: 'graph',
     data: JSON.parse(JSON.stringify(data)),
     renderer: 'webgl-3d',
-    modes: {
-      default: [
-        {
-          type: 'orbit-canvas-3d',
-          trigger: 'drag',
-        },
-        'zoom-canvas-3d',
-      ],
-    },
     layout: {
       type: 'force-wasm',
       threads,
