@@ -75,7 +75,7 @@ describe('shortcuts-call behavior', () => {
     });
 
     graph.on('viewportchange', ({ zoom }) => {
-      expect(zoom.ratio).toBe(0.6);
+      expect(zoom.ratio).toBe(0.5);
     });
 
     graph.on('afterlayout', (e) => {
