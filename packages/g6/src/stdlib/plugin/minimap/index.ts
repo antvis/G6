@@ -15,14 +15,23 @@ const DELEGATE_MODE = 'delegate';
 const SVG = 'svg';
 
 export interface MiniMapConfig extends IPluginBaseConfig {
+  /** Class name of viewport */
   viewportClassName?: string;
+  /** Class name of minimap */
   className?: string;
+  /** Mode of minimap */
   mode?: 'default' | 'keyShape' | 'delegate';
+  /** Size of minimap */
   size?: number[];
+  /** Style of delegate shape */
   delegateStyle?: ShapeStyle;
+  /** Whether to refresh minimap */
   refresh?: boolean;
+  /** Padding of minimap */
   padding?: number;
-  hideEdge?: boolean; // hide the edges on the minimap to enhance the performance
+  /** Whether to hide edges on minimap to enhance performance */
+  hideEdge?: boolean;
+  /** Container for minimap */
   container?: HTMLDivElement | null;
 }
 

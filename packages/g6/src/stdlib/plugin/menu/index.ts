@@ -1,5 +1,4 @@
 import { createDom, modifyCSS } from '@antv/dom-util';
-import { AABB } from '@antv/g';
 import { isString } from '@antv/util';
 import insertCss from 'insert-css';
 import Item from 'item/item';
@@ -35,7 +34,20 @@ typeof document !== 'undefined' &&
         100% { transform: rotate(360deg); }
     }
 `);
+/**
+ * The `MenuConfig` interface contains the following properties:
 
+- `handleMenuClick`: An optional function for handling menu click events. It takes two arguments: `target` (of type HTMLElement) and `item` (of type Item), and has no return value.
+- `getContent`: An optional function for getting the content of the menu. It takes an optional argument of type `IG6GraphEvent`, and returns a value of type HTMLDivElement, string, or Promise (resolving to HTMLDivElement or string).
+- `offsetX`: An optional number representing the offset of the menu in the X direction.
+- `offsetY`: An optional number representing the offset of the menu in the Y direction.
+- `shouldBegin`: An optional function for determining whether the menu should be displayed. It takes an optional argument of type `IG6GraphEvent`, and returns a boolean value.
+- `itemTypes`: An optional array of strings representing the types of items for which the menu is allowed to be displayed.
+- `trigger`: An optional string, either 'click' or 'contextmenu', representing the event type that triggers the display of the menu.
+- `onHide`: An optional function to be executed when the menu is hidden. It takes no arguments and returns a boolean value.
+- `loadingContent`: An optional HTMLDivElement or string representing the loading DOM.
+- `liHoverStyle`: An optional object representing the style of li elements when hovered over. It can contain any number of key-value pairs, where the key is a style name and the value is a string.
+ */
 export interface MenuConfig extends IPluginBaseConfig {
   handleMenuClick?: (target: HTMLElement, item: Item) => void;
   // return the content of menu, support the `Promise` type return value.
