@@ -7,7 +7,6 @@ import { PluginRegistry } from '../types/plugin';
 import Graph from '../runtime/graph';
 import registry from '../stdlib';
 
-
 /**
  * Extend graph class with custom libs (extendLibrary), and extendLibrary will be merged into useLib.
  * B1 is the Behavior lib from user, B2 is the Behavior lib of the graph to be extended(built-in graph)
@@ -28,8 +27,8 @@ export const extend = <
     themeSolvers?: T1;
     nodes?: NodeRegistry;
     edges?: EdgeRegistry;
-    layouts?: LayoutRegistry,
-    plugins?: PluginRegistry,
+    layouts?: LayoutRegistry;
+    plugins?: PluginRegistry;
   },
 ): typeof Graph<B1 & B2, T1 & T2> => {
   // merged the extendLibrary to useLib for global usage

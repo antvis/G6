@@ -15,7 +15,6 @@ import {
   LodStrategy,
 } from './item';
 
-
 export type NodeLabelPosition = 'bottom' | 'center' | 'top' | 'left' | 'right';
 
 /** Data in user input model. */
@@ -181,5 +180,5 @@ export interface IAnchorPositionMap {
 }
 
 export interface NodeRegistry {
-  [key: string]: BaseNode | BaseNode3D
+  [key: string]: BaseNode | BaseNode3D;
 }

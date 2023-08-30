@@ -77,5 +77,5 @@ export abstract class Plugin {
 }
 
 export interface PluginRegistry {
-  [key: string]: Plugin,
+  [key: string]: Plugin;
 }

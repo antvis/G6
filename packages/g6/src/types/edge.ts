@@ -139,5 +139,5 @@ export type ArrowStyle = PathStyleProps & {
 };
 
 export interface EdgeRegistry {
-  [key: string]: BaseEdge
+  [key: string]: BaseEdge;
 }
