@@ -67,7 +67,7 @@ export default class ClickSelect extends Behavior {
    */
   private canvasPointerDown: Point | undefined = undefined;
   private canvasPointerMove = false;
-  private timeout: NodeJS.Timeout = undefined;
+  private timeout: ReturnType<typeof setTimeout> = undefined;
 
   constructor(options: Partial<ClickSelectOptions>) {
     super(Object.assign({}, DEFAULT_OPTIONS, options));
@@ -136,11 +136,14 @@ export default class ClickSelect extends Behavior {
 
     // Select/Unselect item.
     if (this.options.shouldUpdate(event)) {
-      if (!multiple) {
-        // Not multiple, clear all currently selected items
-        this.graph.setItemState(this.selectedIds, state, false);
-      }
-      this.graph.setItemState(itemId, state, isSelectAction);
+      this.graph.batch(() => {
+        if (!multiple) {
+          // Not multiple, clear all currently selected items
+          this.graph.setItemState(this.selectedIds, state, false);
+        }
+        this.graph.setItemState(itemId, state, isSelectAction);
+      });
+
       if (isSelectAction) {
         this.selectedIds.push(itemId);
       } else {

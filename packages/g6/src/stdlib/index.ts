@@ -1,44 +1,66 @@
+import Hierarchy from '@antv/hierarchy';
 import { registry as layoutRegistry } from '@antv/layout';
 import { Lib } from '../types/stdlib';
 import ActivateRelations from './behavior/activate-relations';
 import BrushSelect from './behavior/brush-select';
 import ClickSelect from './behavior/click-select';
 import DragCanvas from './behavior/drag-canvas';
-import LassoSelect from './behavior/lasso-select';
-import DragNode from './behavior/drag-node';
 import DragCombo from './behavior/drag-combo';
-import { comboFromNode } from './data/comboFromNode';
-import { LineEdge } from './item/edge';
-import { CircleNode, SphereNode, RectNode } from './item/node';
+import DragNode from './behavior/drag-node';
+import LassoSelect from './behavior/lasso-select';
+import { validateData } from './data/validateData';
+import { LineEdge, LoopEdge } from './item/edge';
+import {
+  CircleNode,
+  EllipseNode,
+  RectNode,
+  SphereNode,
+  TriangleNode,
+  StarNode,
+  HexagonNode,
+  DonutNode,
+  DiamondNode,
+  ModelRectNode,
+} from './item/node';
 import DarkTheme from './theme/dark';
 import LightTheme from './theme/light';
 import SpecThemeSolver from './themeSolver/spec';
 import SubjectThemeSolver from './themeSolver/subject';
 
-import lassoSelector from './selector/lasso';
-import rectSelector from './selector/rect';
-import Minimap from './plugin/minimap';
-import Fisheye from './plugin/fisheye';
-import Legend from './plugin/legend';
-import Grid from './plugin/grid';
-import Tooltip from './plugin/tooltip';
-import Menu from './plugin/menu';
-import ZoomCanvas from './behavior/zoom-canvas';
-import ZoomCanvas3D from './behavior/zoom-canvas-3d';
+import CollapseExpandCombo from './behavior/collapse-expand-combo';
+import HoverActivate from './behavior/hover-activate';
+import OrbitCanvas3D from './behavior/orbit-canvas-3d';
 import RotateCanvas3D from './behavior/rotate-canvas-3d';
 import TrackCanvas3D from './behavior/track-canvas-3d';
-import OrbitCanvas3D from './behavior/orbit-canvas-3d';
-import HoverActivate from './behavior/hover-activate';
-import CollapseExpandCombo from './behavior/collapse-expand-combo';
+import ZoomCanvas from './behavior/zoom-canvas';
+import ZoomCanvas3D from './behavior/zoom-canvas-3d';
+import { CircleCombo } from './item/combo/circle';
+import History from './plugin/history';
+
+import CollapseExpandTree from './behavior/collapse-expand-tree';
 import { CubicEdge } from './item/edge/cubic';
-import { CubicHorizonEdge } from './item/edge/cubic-horizon';
+import { CubicHorizontalEdge } from './item/edge/cubic-horizontal';
 import { CubicVerticalEdge } from './item/edge/cubic-vertical';
 import { Quadratic } from './item/edge/quadratic';
-import { CircleCombo } from './item/combo/circle';
+import { Polyline } from './item/edge/polyline';
+import Fisheye from './plugin/fisheye';
+import Grid from './plugin/grid';
+import Legend from './plugin/legend';
+import Menu from './plugin/menu';
+import Minimap from './plugin/minimap';
+import toolbar from './plugin/toolbar';
+import Tooltip from './plugin/tooltip';
+import lassoSelector from './selector/lasso';
+import rectSelector from './selector/rect';
+import { RectCombo } from './item/combo/rect';
+import { transformV4Data } from './data/transformV4Data';
+import { mapNodeSize } from './data/mapNodeSize';
 
 const stdLib = {
   transforms: {
-    comboFromNode,
+    'validate-data': validateData,
+    'transform-v4-data': transformV4Data,
+    'map-node-size': mapNodeSize,
   },
   themes: {
     light: LightTheme,
@@ -48,7 +70,10 @@ const stdLib = {
     spec: SpecThemeSolver,
     subject: SubjectThemeSolver,
   },
-  layouts: layoutRegistry,
+  layouts: {
+    ...layoutRegistry,
+    ...Hierarchy,
+  },
   behaviors: {
     'activate-relations': ActivateRelations,
     'drag-canvas': DragCanvas,
@@ -57,6 +82,7 @@ const stdLib = {
     'drag-node': DragNode,
     'drag-combo': DragCombo,
     'collapse-expand-combo': CollapseExpandCombo,
+    'collapse-expand-tree': CollapseExpandTree,
     'click-select': ClickSelect,
     'brush-select': BrushSelect,
     'lasso-select': LassoSelect,
@@ -72,21 +98,75 @@ const stdLib = {
     grid: Grid,
     tooltip: Tooltip,
     menu: Menu,
+    history: History,
+    toolbar,
   },
   nodes: {
     'circle-node': CircleNode,
     'sphere-node': SphereNode,
     'rect-node': RectNode,
+    'star-node': StarNode,
+    'hexagon-node': HexagonNode,
+    'triangle-node': TriangleNode,
+    'ellipse-node': EllipseNode,
+    'donut-node': DonutNode,
+    'diamond-node': DiamondNode,
+    'modelRect-node': ModelRectNode,
   },
   edges: {
     'line-edge': LineEdge,
     'cubic-edge': CubicEdge,
-    'cubic-horizon-edge': CubicHorizonEdge,
+    'cubic-horizontal-edge': CubicHorizontalEdge,
     'cubic-vertical-edge': CubicVerticalEdge,
     'quadratic-edge': Quadratic,
+    'polyline-edge': Polyline,
+    'loop-edge': LoopEdge,
   },
   combos: {
     'circle-combo': CircleCombo,
+    'rect-combo': RectCombo,
+  },
+  markers: {
+    collapse: (x, y, r) => {
+      return [
+        ['M', x - r, y],
+        ['a', r, r, 0, 1, 0, r * 2, 0],
+        ['a', r, r, 0, 1, 0, -r * 2, 0],
+        ['M', x - r + 4, y],
+        ['L', x + r - 4, y],
+      ];
+    },
+    expand: (x, y, r) => {
+      return [
+        ['M', x - r, y],
+        ['a', r, r, 0, 1, 0, r * 2, 0],
+        ['a', r, r, 0, 1, 0, -r * 2, 0],
+        ['M', x - r + 4, y],
+        ['L', x - r + 2 * r - 4, y],
+        ['M', x - r + r, y - r + 4],
+        ['L', x, y + r - 4],
+      ];
+    },
+    upTriangle: (x, y, r) => {
+      const l1 = r * Math.cos(Math.PI / 6);
+      const l2 = r * Math.sin(Math.PI / 6);
+      return [
+        ['M', x - l1, y + l2],
+        ['L', x + l1, y + l2],
+        ['L', x, y - r],
+        ['Z'],
+      ];
+    },
+    downTriangle: (x, y, r) => {
+      const l1 = r * Math.cos(Math.PI / 6);
+      const l2 = r * Math.sin(Math.PI / 6);
+      return [
+        ['M', x - l1, y - l2],
+        ['L', x + l1, y - l2],
+        ['L', x, y + r],
+        ['Z'],
+      ];
+    },
   },
 };
 
@@ -108,4 +188,4 @@ const utils = {
 
 const registery = { useLib };
 export default registery;
-export { stdLib, registery, utils };
+export { registery, stdLib, utils };

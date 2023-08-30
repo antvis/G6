@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "target": "ESNext",
+    "jsx": "react",
+    "lib": ["dom"],
+    "paths": {
+      "@antv/g6": ["../g6/lib/index"]
+    }
+  },
+  "include": ["example/**/*"],
+  "exclude": ["node_modules"]
+}

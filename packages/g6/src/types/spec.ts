@@ -1,12 +1,7 @@
 import { Canvas } from '@antv/g';
-import { AnimateCfg } from './animate';
-import { Point } from './common';
-import {
-  FetchDataConfig,
-  GraphData,
-  InlineDataConfig,
-  TransformerFn,
-} from './data';
+import { AnimateCfg, CameraAnimationOptions } from './animate';
+import { Padding, Point } from './common';
+import { DataConfig, TransformerFn } from './data';
 import {
   EdgeDisplayModel,
   EdgeEncode,
@@ -19,7 +14,7 @@ import {
   NodeModel,
   NodeShapesEncode,
 } from './node';
-import { GraphAlignment } from './view';
+import { FitViewRules, GraphAlignment } from './view';
 import {
   ComboDisplayModel,
   ComboEncode,
@@ -31,12 +26,12 @@ import { LayoutOptions } from './layout';
 import { ThemeOptionsOf, ThemeRegistry } from './theme';
 
 import { RendererName } from './render';
+import { StackCfg } from './history';
 
 export interface Specification<
   B extends BehaviorRegistry,
   T extends ThemeRegistry,
 > {
-  type: 'graph' | 'tree';
   container?: string | HTMLElement;
   backgroundCanvas?: Canvas;
   canvas?: Canvas;
@@ -55,13 +50,25 @@ export interface Specification<
     | 'view'
     | 'center'
     | {
+        type: 'view';
+        padding?: Padding;
+        rules?: FitViewRules;
+        effectTiming?: CameraAnimationOptions;
+      }
+    | {
+        type: 'center';
+        effectTiming?: CameraAnimationOptions;
+      }
+    | {
+        type: 'position';
         position: Point;
-        alignment: GraphAlignment;
+        alignment?: GraphAlignment;
+        effectTiming?: CameraAnimationOptions;
       };
   optimizeThreshold?: number;
 
   /** data */
-  data: GraphData | InlineDataConfig | FetchDataConfig; // TODO: more
+  data?: DataConfig;
   transform?:
     | string[]
     | {
@@ -117,4 +124,8 @@ export interface Specification<
 
   /** theme */
   theme?: ThemeOptionsOf<T>;
+
+  enableStack?: boolean;
+
+  stackCfg?: StackCfg;
 }

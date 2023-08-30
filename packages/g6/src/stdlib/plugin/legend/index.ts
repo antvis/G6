@@ -2,12 +2,15 @@ import { Category } from '@antv/gui';
 import { Canvas, DisplayObject, Circle, Line } from '@antv/g';
 import { isFunction, isString, upperFirst } from '@antv/util';
 import { createDom } from '@antv/dom-util';
+import { Canvas, Circle, DisplayObject, Line } from '@antv/g';
 import { ID } from '@antv/graphlib';
+import { Category } from '@antv/gui';
+import { isFunction, upperFirst } from '@antv/util';
 import { IGraph } from '../../../types';
 import { RendererName } from '../../../types/render';
 import { Plugin as Base, IPluginBaseConfig } from '../../../types/plugin';
 import { createCanvas } from '../../../util/canvas';
-import { formatPadding, ShapeTagMap } from '../../../util/shape';
+import { ShapeTagMap, formatPadding } from '../../../util/shape';
 
 type ItemLegendConfig = {
   // whether show the item legend

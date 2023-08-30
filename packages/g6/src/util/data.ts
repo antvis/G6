@@ -1,6 +1,11 @@
 import { NodeUserModel } from 'types';
+import { ID, TreeData } from '@antv/graphlib';
+import { NodeUserModelData } from 'types/node';
+import { isArray } from '@antv/util';
+import { depthFirstSearch, connectedComponent } from '@antv/algorithm';
+import { GraphCore, GraphData } from '../types/data';
 import { IGraph } from '../types/graph';
-import { GraphCore } from '../types/data';
+import { NodeModel } from '../types';
 
 /**
  * Deconstruct data and distinguish nodes and combos from graphcore data.
@@ -35,19 +40,30 @@ export const graphCoreTreeDfs = (
   nodes: NodeUserModel[],
   fn,
   mode: 'TB' | 'BT' = 'TB',
+  treeKey = 'combo',
+  stopFns: {
+    stopBranchFn?: (node: NodeUserModel) => boolean;
+    stopAllFn?: (node: NodeUserModel) => boolean;
+  } = {},
 ) => {
   if (!nodes?.length) return;
-  nodes.forEach((node) => {
-    if (!graphCore.hasNode(node.id)) return;
+  const { stopBranchFn, stopAllFn } = stopFns;
+  for (let i = 0; i < nodes.length; i++) {
+    const node = nodes[i];
+    if (!graphCore.hasNode(node.id)) continue;
+    if (stopBranchFn?.(node)) continue; // Stop this branch
+    if (stopAllFn?.(node)) return; // Stop all
     if (mode === 'TB') fn(node); // Traverse from top to bottom
     graphCoreTreeDfs(
       graphCore,
-      graphCore.getChildren(node.id, 'combo'),
+      graphCore.getChildren(node.id, treeKey),
       fn,
       mode,
+      treeKey,
+      stopFns,
     );
     if (mode !== 'TB') fn(node); // Traverse from bottom to top
-  });
+  }
 };
 
 /**
@@ -175,4 +191,118 @@ export const validateComboStrucutre = (
     return false;
   }
   return true;
+};
+
+/**
+ * Transform tree graph data into graph data. Edges from parent-child structure.
+ * @param treeData Tree structured data or an array of it.
+ * @returns Graph formatted data object with nodes, edges and combos.
+ */
+export const treeData2GraphData = (
+  treeData: TreeData<NodeUserModelData> | TreeData<NodeUserModelData>[],
+) => {
+  const graphData = {
+    nodes: [],
+    edges: [],
+    combos: [],
+  };
+  const trees = isArray(treeData) ? treeData : [treeData];
+  trees.forEach((tree) => {
+    traverse(tree, (child) => {
+      const { id, children, data, ...others } = child;
+      graphData.nodes.push({
+        id: child.id,
+        data: {
+          childrenIds: child.children?.map((c) => c.id) || [],
+          ...others,
+          ...data,
+        },
+      });
+      child.children?.forEach((subChild) => {
+        graphData.edges.push({
+          id: `tree-edge-${child.id}-${subChild.id}`,
+          source: child.id,
+          target: subChild.id,
+          data: {},
+        });
+      });
+    });
+  });
+  return graphData;
+};
+
+/**
+ * Transform graph data into tree graph data.
+ * @param nodeMap
+ * @param graphData Graph data.
+ * @param propRootIds Ids of root nodes. There should be at least one node for each connected component, or the first node in a connected component will be added to the roots array.
+ * @param algo
+ * @returns
+ */
+export const graphData2TreeData = (
+  nodeMap: { [id: string]: any },
+  graphData: GraphData,
+  propRootIds: ID[] = [],
+) => {
+  const trees = [];
+  const graphDataWithoutCombos = {
+    nodes: graphData.nodes?.filter((node) => !node.data._isCombo),
+    edges: graphData.edges,
+  };
+  const connectedComponents = connectedComponent(
+    graphDataWithoutCombos as any,
+    false,
+  ) as NodeModel[][];
+  const rootIds = [];
+  const componentsNodeIds: ID[][] = [];
+  connectedComponents.forEach((com, i) => {
+    componentsNodeIds[i] = com.map((node) => node.id);
+    if (propRootIds.length) {
+      const root = componentsNodeIds[0].find((id) => propRootIds.includes(id));
+      rootIds.push(root !== undefined ? root : com[0].id);
+    } else {
+      rootIds.push(com[0].id);
+    }
+  });
+
+  rootIds.forEach((id, i) => {
+    nodeMap[id] = { id, children: [] };
+    trees.push(nodeMap[id]);
+    depthFirstSearch(
+      graphData as any,
+      id,
+      {
+        enter: ({ previous, current }) => {
+          if (
+            !previous ||
+            current === id ||
+            !componentsNodeIds[i].includes(current)
+          )
+            return;
+          nodeMap[previous] = nodeMap[previous] || {
+            id: previous,
+            children: [],
+          };
+          nodeMap[current] = { id: current, children: [] };
+          nodeMap[previous].children.push(nodeMap[current]);
+        },
+      },
+      false,
+    );
+  });
+  return trees;
+};
+
+/**
+ * Travere a tree data from top to bottom.
+ * @param treeData
+ * @param callback
+ */
+export const traverse = (treeData, callback) => {
+  callback(treeData);
+  if (treeData.children) {
+    treeData.children.forEach((child) => {
+      if (child) traverse(child, callback);
+    });
+  }
 };

@@ -12,7 +12,6 @@ describe('layout', () => {
       container,
       width: 500,
       height: 500,
-      type: 'graph',
       data,
     });
 
@@ -35,7 +34,6 @@ describe('layout', () => {
         container,
         width: 500,
         height: 500,
-        type: 'graph',
         data: {
           nodes: [
             {
@@ -123,7 +121,6 @@ describe('layout', () => {
       container,
       width: 500,
       height: 500,
-      type: 'graph',
       data,
       layout: {
         type: 'circular',
@@ -147,7 +144,6 @@ describe('layout', () => {
       container,
       width: 500,
       height: 500,
-      type: 'graph',
       data,
       layout: {
         type: 'circular',
@@ -185,7 +181,6 @@ describe('layout', () => {
       container,
       width: 500,
       height: 500,
-      type: 'graph',
       data,
       layout: {
         type: 'circular',
@@ -224,7 +219,6 @@ describe('layout', () => {
       container,
       width: 500,
       height: 500,
-      type: 'graph',
       data,
       layout: {
         type: 'circular',
@@ -262,7 +256,6 @@ describe('layout', () => {
       container,
       width: 500,
       height: 500,
-      type: 'graph',
       data,
       layout: {
         type: 'd3force',
@@ -289,7 +282,6 @@ describe('layout', () => {
         container,
         width: 500,
         height: 500,
-        type: 'graph',
         data,
         layout: {
           type: 'circular',
@@ -342,7 +334,6 @@ describe('layout', () => {
         container,
         width: 500,
         height: 500,
-        type: 'graph',
         data,
         layout: {
           type: 'circular',
@@ -388,7 +379,6 @@ describe('layout', () => {
       container,
       width: 500,
       height: 500,
-      type: 'graph',
       data,
       layout: {
         type: 'd3force',
@@ -417,7 +407,6 @@ describe('layout', () => {
       container,
       width: 500,
       height: 500,
-      type: 'graph',
       data,
       layout: {
         type: 'd3force',
@@ -470,7 +459,6 @@ describe('layout', () => {
       container,
       width: 500,
       height: 500,
-      type: 'graph',
       data,
       layout: {
         type: 'myCustomLayout',

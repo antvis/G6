@@ -1,5 +1,5 @@
-import Graph from '../../../src/runtime/graph';
 import { JSDOM } from 'jsdom';
+import Graph from '../../../src/runtime/graph';
 
 export function triggerEvent(
   graph: Graph<any, any>,

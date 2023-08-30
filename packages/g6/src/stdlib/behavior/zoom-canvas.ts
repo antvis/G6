@@ -74,7 +74,7 @@ export default class ZoomCanvas extends Behavior {
   private speedupKeydown: boolean;
   private hiddenEdgeIds: ID[];
   private hiddenNodeIds: ID[];
-  private zoomTimer: NodeJS.Timeout;
+  private zoomTimer: ReturnType<typeof setTimeout>;
 
   constructor(options: Partial<ZoomCanvasOptions>) {
     const finalOptions = Object.assign({}, DEFAULT_OPTIONS, options);
@@ -91,7 +91,7 @@ export default class ZoomCanvas extends Behavior {
     this.graph.canvas
       .getContextService()
       .getDomElement()
-      .addEventListener(
+      .addEventListener?.(
         'wheel',
         (e) => {
           e.preventDefault();
@@ -119,7 +119,7 @@ export default class ZoomCanvas extends Behavior {
         .getAllEdgesData()
         .map((edge) => edge.id)
         .filter((id) => graph.getItemVisible(id) === true);
-      graph.hideItem(this.hiddenEdgeIds);
+      graph.hideItem(this.hiddenEdgeIds, false);
       this.hiddenNodeIds = graph
         .getAllNodesData()
         .map((node) => node.id)
@@ -130,7 +130,7 @@ export default class ZoomCanvas extends Behavior {
           onlyDrawKeyShape: true,
         });
       });
-      graph.hideItem(this.hiddenNodeIds);
+      graph.hideItem(this.hiddenNodeIds, false);
     }
   }
 
@@ -141,13 +141,13 @@ export default class ZoomCanvas extends Behavior {
     if (enableOptimize) {
       // restore hidden items
       if (hiddenEdgeIds) {
-        graph.showItem(hiddenEdgeIds);
+        graph.showItem(hiddenEdgeIds, false);
       }
       if (hiddenNodeIds) {
         hiddenNodeIds.forEach((id) => {
           graph.drawTransient('node', id, { action: 'remove' });
         });
-        graph.showItem(hiddenNodeIds);
+        graph.showItem(hiddenNodeIds, false);
       }
     }
     this.hiddenEdgeIds = [];

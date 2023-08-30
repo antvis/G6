@@ -5,10 +5,50 @@
   },
   "demos": [
     {
-      "filename": "default.js",
+      "filename": "itemAnimates.js",
       "title": {
-        "zh": "节点移动动画",
-        "en": "Node Move Animation"
+        "zh": "元素动画",
+        "en": "Item Animation"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*M-EGS5v6RnUAAAAAAAAAAABkARQnAQ"
+    },
+    {
+      "filename": "animateOrder.js",
+      "title": {
+        "zh": "动画顺序",
+        "en": "Animation Order"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*M-EGS5v6RnUAAAAAAAAAAABkARQnAQ"
+    },
+    {
+      "filename": "viewAnimates.js",
+      "title": {
+        "zh": "视口动画",
+        "en": "Viewport Animation"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*M-EGS5v6RnUAAAAAAAAAAABkARQnAQ"
+    },
+    {
+      "filename": "treeAnimates.js",
+      "title": {
+        "zh": "树图动画",
+        "en": "Viewport Animation"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*M-EGS5v6RnUAAAAAAAAAAABkARQnAQ"
+    },
+    {
+      "filename": "circleComboAnimates.js",
+      "title": {
+        "zh": "圆形 Combo 动画",
+        "en": "Circle Combo Animation"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*M-EGS5v6RnUAAAAAAAAAAABkARQnAQ"
+    },
+    {
+      "filename": "rectComboAnimates.js",
+      "title": {
+        "zh": "矩形 Combo 动画",
+        "en": "Rect Combo Animation"
       },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*M-EGS5v6RnUAAAAAAAAAAABkARQnAQ"
     }

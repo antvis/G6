@@ -1,7 +1,7 @@
 import { resetEntityCounter } from '@antv/g';
 import grid from '../demo/layouts/grid';
-import './utils/useSnapshotMatchers';
 import { createContext } from './utils';
+import './utils/useSnapshotMatchers';
 
 describe('Grid layout', () => {
   beforeEach(() => {

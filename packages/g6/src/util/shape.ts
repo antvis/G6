@@ -77,7 +77,7 @@ export const createShape = (
  * @returns
  */
 const findAnimateFields = (animates, timing, shapeId) => {
-  if (!animates?.[timing]) return [];
+  if (!animates?.[timing]?.length) return [];
   let animateFields = [];
   animates[timing].forEach(({ fields, shapeId: animateShapeId }) => {
     if (animateShapeId === shapeId) {
@@ -663,7 +663,7 @@ export const combineBounds = (
  */
 export const getCombinedBoundsByData = (
   graph: IGraph,
-  models: ItemModel[],
+  models: (Node | Combo)[],
 ):
   | {
       center: Tuple3Number;
@@ -680,9 +680,22 @@ export const getCombinedBoundsByData = (
     size: [0, 0, 0],
   };
   let validCounts = 0;
-  models.forEach(({ id }) => {
-    const bounds = graph.getRenderBBox(id);
+  models.forEach((item) => {
+    const bounds = graph.getRenderBBox(item.model.id);
     if (bounds) {
+      if (item.model.data._isCombo) {
+        // child is combo, move to the correct center
+        const { center: childComboCenter } =
+          (item as Combo).getCombinedBounds() || {};
+        if (childComboCenter) {
+          ['min', 'max', 'center'].forEach((field) => {
+            bounds[field] = bounds[field].map(
+              (val, i) => val - bounds.center[i] + childComboCenter[i],
+            );
+          });
+        }
+      }
+
       validCounts++;
       const { min, max } = bounds;
       min.forEach((val, i) => {

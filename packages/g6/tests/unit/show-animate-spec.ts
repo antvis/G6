@@ -1887,7 +1887,6 @@ const createGraph = (props) => {
     // renderer: 'webgl',
     width: 500,
     height: 500,
-    type: 'graph',
     data: clonedData,
     // data: {
     //   nodes: [clonedData.nodes[0], clonedData.nodes[10]],
@@ -2116,9 +2115,9 @@ describe('graph show up animations', () => {
     //   graph.showItem('node1');
     // });
     graph.on('afterrender', () => {
-      // const node1 = graph.itemController.itemMap['node1'];
+      // const node1 = graph.itemController.itemMap.get('node1');
       // const node1KeyShapeBBox = graph.getRenderBBox('node1');
-      // const node2 = graph.itemController.itemMap['node2'];
+      // const node2 = graph.itemController.itemMap.get('node2');
       // const node2KeyShapeBBox = graph.getRenderBBox('node2');
       // expect(node1.shapeMap.keyShape.attributes.opacity).toBe(0);
       // expect(node1KeyShapeBBox.max[0] - node1KeyShapeBBox.min[0]).toBe(0);
@@ -2173,7 +2172,7 @@ describe('graph show up animations', () => {
       });
 
       graph.on('afterrender', () => {
-        const node1 = graph.itemController.itemMap['node1'];
+        const node1 = graph.itemController.itemMap.get('node1');
         expect(node1.shapeMap.keyShape.attributes.opacity).toBe(0);
         expect(node1.shapeMap.keyShape.attributes.lineWidth).toBe(1);
         setTimeout(() => {

@@ -1,6 +1,6 @@
 ---
 title: GPU 图布局
-order: 12
+order: 14
 ---
 
 G6 4.0 推出两种支持 GPU 布局：

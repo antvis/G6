@@ -1,7 +1,7 @@
 {
-  "private": true,
   "name": "@antv/g6-site",
-  "version": "4.8.0",
+  "version": "5.0.0",
+  "private": true,
   "description": "G6 sites deployed on gh-pages",
   "keywords": [
     "antv",
@@ -25,30 +25,34 @@
   "author": "https://github.com/orgs/antvis/people",
   "scripts": {
     "site:build": "dumi build",
+    "site:deploy": "npm run site:build && gh-pages -d dist",
     "site:develop": "dumi dev",
     "site:preview": "dumi preview",
-    "site:deploy": "npm run site:build && gh-pages -d dist",
-    "start": "npm run site:develop"
-  },
-  "devDependencies": {
-    "cross-env": "^7.0.3"
+    "start": "npm run site:develop",
+    "translate": "node translate-api-doc.mjs"
   },
   "dependencies": {
+    "fs-extra": "latest",
+    "google-translate-api-x": "^10.6.7",
+    "@faker-js/faker": "^8.0.2",
     "@ant-design/icons": "^4.0.6",
     "@antv/chart-node-g6": "^0.0.3",
-    "@antv/dumi-theme-antv": "^0.3.0-beta.5",
-    "@antv/g6": "4.7.9",
+    "@antv/dumi-theme-antv": "^0.3.18",
+    "@antv/g6": "workspace:*",
     "@antv/g6-react-node": "^1.4.5",
+    "@antv/layout-gpu": "^1.1.5",
+    "@antv/graphlib": "^2.0.2",
     "@antv/util": "^2.0.9",
     "@antv/vis-predict-engine": "^0.1.1",
     "@microsoft/api-extractor": "^7.33.6",
-    "dumi": "^2.0.0-beta.15",
+    "dumi": "^2.2.4",
     "insert-css": "^2.0.0",
-    "typedoc": "^0.17.6",
-    "typedoc-plugin-markdown": "^2.2.11",
+    "typedoc": "^0.24.8",
+    "typedoc-plugin-markdown": "^3.14.0",
     "typescript": "^4.6.3"
   },
-  "resolutions": {
-    "@types/react": "^16.9.35"
+  "devDependencies": {
+    "prettier": "^2.8.8",
+    "cross-env": "^7.0.3"
   }
 }
