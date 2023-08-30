@@ -1,5 +1,15 @@
 Overview / [Modules](modules.md)
 
+# G6 API Core Modules
+
+- [behaviors](modules/behaviors.md)
+- [graph](modules/graph.md)
+- [item](modules/item.md)
+- [layout](modules/layout.md)
+- [plugins](modules/plugins.md)
+- [types](modules/types.md)
+- [util](modules/util.md)
+
 ```jsx
 import { Graph, Util } from '@antv/g6';
 const data = Util.mock(6).circle();

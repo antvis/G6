@@ -1,21 +1,61 @@
 
 file: docs/apis/.nojekyll has been translated
 file: docs/apis/README.en.md has been translated
-file: docs/apis/README.zh.md has been translated
-file: docs/apis/modules.en.md has been translated
-file: docs/apis/modules.zh.md has been translated
-file: docs/apis/classes/graph-Graph.en.md has been translated
-file: docs/apis/classes/graph-Graph.zh.md has been translated
-file: docs/apis/interfaces/behaviors-ActivateRelationsOptions.en.md has been translated
-file: docs/apis/interfaces/behaviors-ActivateRelationsOptions.zh.md has been translated
-file: docs/apis/interfaces/behaviors-BrushSelectOptions.en.md has been translated
-file: docs/apis/interfaces/behaviors-BrushSelectOptions.zh.md has been translated
-file: docs/apis/interfaces/plugins-LegendConfig.en.md has been translated
-file: docs/apis/interfaces/plugins-LegendConfig.zh.md has been translated
-file: docs/apis/interfaces/plugins-MiniMapConfig.en.md has been translated
-file: docs/apis/interfaces/plugins-MiniMapConfig.zh.md has been translated
-file: docs/apis/interfaces/plugins-ToolbarConfig.en.md has been translated
-file: docs/apis/interfaces/plugins-ToolbarConfig.zh.md has been translated
-file: docs/apis/interfaces/plugins-TooltipConfig.en.md has been translated
-file: docs/apis/interfaces/plugins-TooltipConfig.zh.md has been translated
-file: docs/apis/interfaces/types-GraphData.en.md has been translated
+Error: ENOENT: no such file or directory, lstat 'docs/apis/classes/graph/Graph.en.md'
+TRANSLATE ERROR: docs/apis/README.zh.md:docs/apis/classes/graph/Graph.zh.md 
+ 
+Error: ENOENT: no such file or directory, lstat 'docs/apis/interfaces/behaviors/ActivateRelationsOptions.en.md'
+Error: ENOENT: no such file or directory, lstat 'docs/apis/interfaces/behaviors/BrushSelectOptions.en.md'
+TRANSLATE ERROR: docs/apis/classes/graph-Graph.zh.md:docs/apis/interfaces/behaviors/BrushSelectOptions.zh.md 
+ 
+Error: ENOENT: no such file or directory, lstat 'docs/apis/interfaces/behaviors/CollapseExpandComboOptions.en.md'
+Error: ENOENT: no such file or directory, lstat 'docs/apis/interfaces/behaviors/DragCanvasOptions.en.md'
+Error: ENOENT: no such file or directory, lstat 'docs/apis/interfaces/behaviors/DragComboOptions.en.md'
+Error: ENOENT: no such file or directory, lstat 'docs/apis/interfaces/behaviors/DragNodeOptions.en.md'
+Error: ENOENT: no such file or directory, lstat 'docs/apis/interfaces/behaviors/HoverActivateOptions.en.md'
+Error: ENOENT: no such file or directory, lstat 'docs/apis/interfaces/behaviors/IG6GraphEvent.en.md'
+TRANSLATE ERROR: docs/apis/interfaces/plugins-LegendConfig.zh.md:docs/apis/interfaces/behaviors/IG6GraphEvent.zh.md 
+ 
+Error: ENOENT: no such file or directory, lstat 'docs/apis/interfaces/behaviors/Options.en.md'
+Error: ENOENT: no such file or directory, lstat 'docs/apis/interfaces/behaviors/OrbitCanvas3DOptions.en.md'
+Error: ENOENT: no such file or directory, lstat 'docs/apis/interfaces/behaviors/RotateCanvas3DOptions.en.md'
+Error: ENOENT: no such file or directory, lstat 'docs/apis/interfaces/behaviors/TrackCanvas3DOptions.en.md'
+Error: ENOENT: no such file or directory, lstat 'docs/apis/interfaces/behaviors/ZoomCanvas3DOptions.en.md'
+Error: ENOENT: no such file or directory, lstat 'docs/apis/interfaces/behaviors/ZoomCanvasOptions.en.md'
+Error: ENOENT: no such file or directory, lstat 'docs/apis/interfaces/graph/GraphData.en.md'
+Error: ENOENT: no such file or directory, lstat 'docs/apis/interfaces/graph/IGraph.en.md'
+TRANSLATE ERROR: docs/apis/interfaces/types-GraphData.zh.md:docs/apis/interfaces/graph/IGraph.zh.md 
+ 
+Error: ENOENT: no such file or directory, lstat 'docs/apis/interfaces/graph/Specification.en.md'
+TRANSLATE ERROR: docs/apis/interfaces/types-IG6GraphEvent.en.md:docs/apis/interfaces/graph/Specification.zh.md 
+ 
+Error: ENOENT: no such file or directory, lstat 'docs/apis/interfaces/item/NodeUserModelData.en.md'
+Error: ENOENT: no such file or directory, lstat 'docs/apis/interfaces/layout/CircularLayoutOptions.en.md'
+Error: ENOENT: no such file or directory, lstat 'docs/apis/interfaces/layout/ComboCombinedLayoutOptions.en.md'
+Error: ENOENT: no such file or directory, lstat 'docs/apis/interfaces/layout/ConcentricLayoutOptions.en.md'
+Error: ENOENT: no such file or directory, lstat 'docs/apis/interfaces/layout/D3ForceLayoutOptions.en.md'
+Error: ENOENT: no such file or directory, lstat 'docs/apis/interfaces/layout/DagreLayoutOptions.en.md'
+Error: ENOENT: no such file or directory, lstat 'docs/apis/interfaces/layout/ForceAtlas2LayoutOptions.en.md'
+Error: ENOENT: no such file or directory, lstat 'docs/apis/interfaces/layout/ForceLayoutOptions.en.md'
+TRANSLATE ERROR: docs/apis/modules/behaviors.en.md:docs/apis/interfaces/layout/ForceLayoutOptions.zh.md 
+ 
+Error: ENOENT: no such file or directory, lstat 'docs/apis/interfaces/layout/FruchtermanLayoutOptions.en.md'
+Error: ENOENT: no such file or directory, lstat 'docs/apis/interfaces/layout/GridLayoutOptions.en.md'
+Error: ENOENT: no such file or directory, lstat 'docs/apis/interfaces/layout/MDSLayoutOptions.en.md'
+Error: ENOENT: no such file or directory, lstat 'docs/apis/interfaces/layout/RadialLayoutOptions.en.md'
+Error: ENOENT: no such file or directory, lstat 'docs/apis/interfaces/plugins/FisheyeConfig.en.md'
+Error: ENOENT: no such file or directory, lstat 'docs/apis/interfaces/plugins/GridConfig.en.md'
+Error: ENOENT: no such file or directory, lstat 'docs/apis/interfaces/plugins/HistoryConfig.en.md'
+Error: ENOENT: no such file or directory, lstat 'docs/apis/interfaces/plugins/LegendConfig.en.md'
+Error: ENOENT: no such file or directory, lstat 'docs/apis/interfaces/plugins/MenuConfig.en.md'
+Error: ENOENT: no such file or directory, lstat 'docs/apis/interfaces/plugins/MiniMapConfig.en.md'
+Error: ENOENT: no such file or directory, lstat 'docs/apis/interfaces/plugins/ToolbarConfig.en.md'
+Error: ENOENT: no such file or directory, lstat 'docs/apis/interfaces/plugins/TooltipConfig.en.md'
+file: undefined has been translated
+file: undefined has been translated
+Error: ENOENT: no such file or directory, lstat 'docs/apis/modules/item.en.md'
+Error: ENOENT: no such file or directory, lstat 'docs/apis/modules/layout.en.md'
+file: undefined has been translated
+file: undefined has been translated
+file: undefined has been translated
+file: undefined has been translated
