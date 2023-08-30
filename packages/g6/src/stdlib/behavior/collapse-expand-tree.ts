@@ -4,7 +4,7 @@ import { IG6GraphEvent } from '../../types/event';
 const ALLOWED_TRIGGERS = ['click', 'dblclick'] as const;
 type Trigger = (typeof ALLOWED_TRIGGERS)[number];
 
-interface Options {
+export interface Options {
   /**
    * The key to pressed with mouse click to apply multiple selection.
    * Defaults to `"shift"`.
