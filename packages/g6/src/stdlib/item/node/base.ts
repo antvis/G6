@@ -190,7 +190,12 @@ export abstract class BaseNode {
   /**
    * Draw all elements related to the graphic.
    * You should call `drawKeyShape` and `drawAnchorShape`,`drawLabelShape`,`drawIconShape`...as you like.
-   */
+   * @param model The displayed model of this node, only for drawing and not received by users. 
+   * @param shapeMap The shape map that contains all of the elements to show on the node.
+   * @param diffData An object that contains previous and current data.
+   * @param diffState An object that contains previous and current node's state.
+   * @returns An object containing the keyShape and optional labelShape, iconShape, and some otherShapes properties
+    */
   abstract draw(
     model: NodeDisplayModel | ComboDisplayModel,
     shapeMap: { [shapeId: string]: DisplayObject },
