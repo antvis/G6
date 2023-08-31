@@ -144,12 +144,12 @@ export class DragCanvas extends Behavior {
           .map((node) => node.id)
           .filter((id) => graph.getItemVisible(id) === true);
         // draw node's keyShapes on transient, and then hidden the real nodes;
-        this.hiddenNodeIds.forEach((id) => {
-          graph.drawTransient('node', id, {
-            onlyDrawKeyShape: true,
-          });
-        });
-        graph.hideItem(this.hiddenNodeIds, true);
+        // this.hiddenNodeIds.forEach((id) => {
+        //   graph.drawTransient('node', id, {
+        //     onlyDrawKeyShape: true,
+        //   });
+        // });
+        // graph.hideItem(this.hiddenNodeIds, true);
       });
     }
   }
@@ -247,12 +247,12 @@ export class DragCanvas extends Behavior {
       if (this.hiddenEdgeIds) {
         graph.showItem(this.hiddenEdgeIds, true);
       }
-      if (this.hiddenNodeIds) {
-        this.hiddenNodeIds.forEach((id) => {
-          this.graph.drawTransient('node', id, { action: 'remove' });
-        });
-        graph.showItem(this.hiddenNodeIds, true);
-      }
+      // if (this.hiddenNodeIds) {
+      //   this.hiddenNodeIds.forEach((id) => {
+      //     this.graph.drawTransient('node', id, { action: 'remove' });
+      //   });
+      //   graph.showItem(this.hiddenNodeIds, true);
+      // }
       graph.stopBatch();
     }
   }

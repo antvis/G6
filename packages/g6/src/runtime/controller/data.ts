@@ -165,9 +165,9 @@ export class DataController {
    * Get the extensions from useLib.
    */
   private getExtensions() {
-    const { transform = [] } = this.graph.getSpecification();
+    const { transforms = [] } = this.graph.getSpecification();
     const requiredTransformers = ['validate-data'];
-    return [...transform, ...requiredTransformers]
+    return [...transforms, ...requiredTransformers]
       .map((config) => ({
         config,
         func: getExtension(config, registry.useLib, 'transform'),

@@ -31,7 +31,7 @@ const rect = group.addShape('rect', {
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*lkUoTp5xXmoAAAAAAAAAAABkARQnAQ' width='200' alt='img'/>
 
-Now, we call the transform:
+Now, we call the transforms:
 
 ```javascript
 rect.transform([

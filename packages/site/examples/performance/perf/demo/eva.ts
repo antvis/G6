@@ -56,7 +56,7 @@ const graph = new ExtGraph({
   container: 'container',
   width,
   height,
-  transform: [
+  transforms: [
     'data-format',
     {
       type: 'map-node-size',
@@ -65,7 +65,16 @@ const graph = new ExtGraph({
     },
   ],
   modes: {
-    default: ['brush-select', 'zoom-canvas', 'activate-relations', 'drag-canvas', 'drag-node'],
+    default: [
+      'brush-select',
+      {
+        type: 'zoom-canvas',
+        enableOptimize: true,
+      },
+      { type: 'drag-canvas', enableOptimize: true },
+      'activate-relations',
+      'drag-node',
+    ],
   },
   node: (model) => {
     const { id, data } = model;

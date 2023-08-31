@@ -56,7 +56,7 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')
       container,
       width,
       height,
-      transform: ['transform-v4-data'],
+      transforms: ['transform-v4-data'],
       layout: {
         type: 'force',
         preventOverlap: true,

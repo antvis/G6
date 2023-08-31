@@ -160,7 +160,7 @@ const create3DGraph = async (data) => {
     width,
     height,
     renderer: 'webgl-3d',
-    transform: [
+    transforms: [
       'data-format',
       {
         type: 'map-node-size',
@@ -250,7 +250,7 @@ const create2DGraph = (renderer, data) => {
     width,
     height,
     renderer,
-    transform: [
+    transforms: [
       'data-format',
       {
         type: 'map-node-size',

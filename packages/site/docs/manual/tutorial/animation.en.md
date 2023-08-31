@@ -3,34 +3,75 @@ title: Animation*
 order: 6
 ---
 
-The animation mechanism is too complicated to understand by beginners and out of the scope of the tutorial. In this chapter, we only introduce the animation in G6 briefly. For more information, please refer to [Basic Animation](/en/docs/manual/middle/animation).
+[Animation Configuration DEMO](https://g6-next.antv.antgroup.com/examples/scatter/changePosition/#itemAnimates)
 
-There are two levels of animation in G6:
+G6 5.0 provides a standardized way to describe animations. You can configure animations for different elements in different scenarios when instantiating the graph. You can specify the `animates` field in the `node` / `edge` / `combo` field of the graph configuration mentioned above:
 
-- GLobal animation: Transform the graph animatively when the changes are global;
-- Item animation: The animation on a node or an edge.
-
-## Global Animation
-
-The global animation is controlled by Graph instance. It takes effect when some global changes happen, such as:
-
-- `graph.updateLayout(cfg)`
-
-Configure `animate: true` when instantiating a graph to achieve it.
-
-**Example**
-
-```javascript
-const graph = new G6.Graph({
-  // ...                      // Other configurations
-  animate: true, // Boolean, whether to activate the animation when global changes happen
-});
+```typescript
+const graph = new Graph({
+  node: {
+    animates: {
+      buildIn: [...],
+      buildOut: [...],
+      update: [...],
+      show: [...],
+      hide: [...],
+    }
+  }
+})
 ```
 
-## Item Animation
+Or use the functional mapping method for `node` / `edge` / `combo`:
 
-G6 allows user to customize animation for item when register a type of custom item. <br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*hYJSQaneVmgAAAAAAAAAAABkARQnAQ' width=330  alt='img'/>
+```typescript
+const graph = new Graph({
+  node: model => {
+    const { id, data } = model
+    return {
+      id,
+      data: {
+        ...data,
+        // ...Other style configurations
+        animates: {
+          buildIn: [...],
+          buildOut: [...],
+          update: [...],
+          show: [...],
+          hide: [...],
+        }
+      }
+    }
+  }
+})
+```
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*-90pSrm4hkUAAAAAAAAAAABkARQnAQ' width=330 alt='img' />
+We have standardized the animation into five scenarios that occur at different times for different shapes: buildIn, buildOut, update (data/state update), show (appearance, relative to hide), and hide (hide). For each scenario, you can specify different animations for different shapes and fields, and you can also specify the animation configuration and execution order. For example, the following code specifies various animations for different shapes during updates:
 
-For more cases, please refer to [Animation Case](/en/examples/scatter/node).
+```typescript
+update: [
+  {
+    // Animate the entire node (shapeId: 'group') when x and y change
+    fields: ['x', 'y'],
+    shapeId: 'group',
+    duration: 500,
+  },
+  {
+    // Animate the opacity of haloShape when the selected or active state changes
+    fields: ['opacity'],
+    shapeId: 'haloShape',
+    states: ['selected', 'active'],
+    duration: 500,
+  },
+  // Animate the fill and r of the keyShape in the order specified by the 'order' field, achieving sequential animation effects
+  {
+    fields: ['fill'],
+    shapeId: 'keyShape',
+    order: 0,
+  },
+  {
+    fields: ['r'],
+    shapeId: 'keyShape',
+    order: 1,
+  },
+];
+```

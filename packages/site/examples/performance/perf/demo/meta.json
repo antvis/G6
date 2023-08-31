@@ -37,14 +37,6 @@
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*mysRTLxipwMAAAAAAAAAAABkARQnAQ"
     },
     {
-      "filename": "moreData.js",
-      "title": {
-        "zh": "50000+ 图元使用 Canvas 渲染",
-        "en": "50000+ Graphic Shapes Rendered by Canvas"
-      },
-      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*6U-cSrdpBjYAAAAAAAAAAABkARQnAQ"
-    },
-    {
       "filename": "moreDataWebGL.js",
       "title": {
         "zh": "50000+ 图元使用 WebGL 渲染",

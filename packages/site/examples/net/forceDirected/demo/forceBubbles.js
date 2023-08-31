@@ -97,7 +97,7 @@ const graph = new G6.Graph({
   container: 'container',
   width,
   height,
-  transform: [
+  transforms: [
     'transform-v4-data',
     {
       type: 'map-node-size',

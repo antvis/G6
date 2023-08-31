@@ -70,7 +70,7 @@ export interface Specification<
 
   /** data */
   data?: DataConfig;
-  transform?:
+  transforms?:
     | string[]
     | {
         type: string;

@@ -29,7 +29,7 @@ To achieve data layering, prevent data pollution, and better avoid the mixture o
 
 ```typescript
 const graph = new Graph({
-  transform: ['transform-v4-data'],
+  transforms: ['transform-v4-data'],
   // ... other configurations
   data: v4data, // A set of data in v4 format
 });

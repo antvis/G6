@@ -29,7 +29,7 @@ order: 3
 
 ```typescript
 const graph = new Graph({
-  transform: ['transform-v4-data'],
+  transforms: ['transform-v4-data'],
   // ... 其他配置
   data: v4data, // 一份 v4 格式的数据
 });

@@ -60,8 +60,8 @@ fetch('https://assets.antv.antgroup.com/g6/eva-3d.json')
           data: {
             ...innerModel.data,
             keyShape: {
-              lineWidth: 0.6,
-              opacity: 0.6,
+              lineWidth: 0.4,
+              opacity: 0.4,
               stroke: '#fff',
             },
             type: 'line-edge',

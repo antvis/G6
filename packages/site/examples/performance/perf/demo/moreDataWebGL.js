@@ -19,17 +19,17 @@ const graph = new ExtGraph({
   width,
   height,
   renderer: 'webgl',
-  transform: ['transform-v4-data'],
+  transforms: ['transform-v4-data'],
   modes: {
     default: [
       {
         type: 'zoom-canvas',
-        enableOptimize: false,
+        enableOptimize: true,
         optimizeZoom: 0.9,
       },
       {
         type: 'drag-canvas',
-        enableOptimize: false,
+        enableOptimize: true,
       },
       'drag-node',
       'brush-select',
