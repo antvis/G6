@@ -34,7 +34,7 @@ module.exports = {
   categoryOrder: ['Plugins', 'Behaviors', '*'],
   groupOrder: ['Variables', 'Functions', 'Interfaces', '*'],
   name: 'Overview',
-  readme: 'src/api-doc/readme.md',
+  readme: 'none',
   // https://github.com/tgreyuk/typedoc-plugin-markdown/blob/master/packages/typedoc-plugin-markdown/src/theme.ts#L31
   filenameSeparator: '/',
 };

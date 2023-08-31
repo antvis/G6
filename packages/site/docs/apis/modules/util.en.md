@@ -2,7 +2,7 @@
 title: util
 ---
 
-[Overview - v5.0.0-alpha.9](../README.en.md) / [Modules](../modules.en.md) / util
+[Overview - v5.0.0-beta.1](../README.en.md) / [Modules](../modules.en.md) / util
 
 ## Functions
 
@@ -44,13 +44,15 @@ extended graph class
 
 #### Defined in
 
-[packages/g6/src/util/extend.ts:18](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/util/extend.ts#L18)
+[packages/g6/src/util/extend.ts:18](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/util/extend.ts#L18)
 
 ___
 
 ### isEncode
 
 ▸ **isEncode**(`value`): value is Encode<any\>
+
+Whether value is a Encode<T> type with fields and formatter function.
 
 #### Parameters
 
@@ -64,7 +66,7 @@ value is Encode<any\>
 
 #### Defined in
 
-[packages/g6/src/util/type.ts:3](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/util/type.ts#L3)
+[packages/g6/src/util/type.ts:8](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/util/type.ts#L8)
 
 ___
 
@@ -91,4 +93,4 @@ mock graph data
 
 #### Defined in
 
-[packages/g6/src/util/mock.ts:7](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/util/mock.ts#L7)
+[packages/g6/src/util/mock.ts:7](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/util/mock.ts#L7)

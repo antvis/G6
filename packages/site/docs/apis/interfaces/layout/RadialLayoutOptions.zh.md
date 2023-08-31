@@ -2,146 +2,148 @@
 title: RadialLayoutOptions
 ---
 
-[概述 - v5.0.0-alpha.9](../../README.zh.md) / [模块](../../modules.zh.md) / [布局](../. ./modules/layout.zh.md) / RadialLayoutOptions 
+> 📋 中文文档还在翻译中... 欢迎PR
 
- [布局](../../modules/layout.zh.md).RadialLayoutOptions 
+[Overview - v5.0.0-beta.1](../../README.zh.md) / [Modules](../../modules.zh.md) / [layout](../../modules/layout.zh.md) / RadialLayoutOptions
 
- ＃＃ 特性 
+[layout](../../modules/layout.zh.md).RadialLayoutOptions
 
- ＃＃＃ 中心 
+## Properties
 
- • `可选` **中心**：`PointTuple` 
+### center
 
- #### 定义于 
+• `Optional` **center**: `PointTuple`
 
- node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:168 
+#### Defined in
 
- ___ 
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:168
 
- ### 焦点节点 
+___
 
- • `可选` **焦点节点**：`字符串` \| `节点` 
+### focusNode
 
- #### 定义于 
+• `Optional` **focusNode**: `string` \| `Node`
 
- node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:173 
+#### Defined in
 
- ___ 
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:173
 
- ＃＃＃ 高度 
+___
 
- • `可选` **高度**：`数字` 
+### height
 
- #### 定义于 
+• `Optional` **height**: `number`
 
- node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:170 
+#### Defined in
 
- ___ 
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:170
 
- ### 链接距离 
+___
 
- • `可选` **linkDistance**：`数字` 
+### linkDistance
 
- #### 定义于 
+• `Optional` **linkDistance**: `number`
 
- node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:171 
+#### Defined in
 
- ___ 
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:171
 
- ### 最大迭代次数 
+___
 
- • `可选` **maxIteration**：`数量` 
+### maxIteration
 
- #### 定义于 
+• `Optional` **maxIteration**: `number`
 
- node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:172 
+#### Defined in
 
- ___ 
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:172
 
- ### maxPreventOverlapIteration 
+___
 
- • `可选` **maxPreventOverlapIteration**：`number` 
+### maxPreventOverlapIteration
 
- #### 定义于 
+• `Optional` **maxPreventOverlapIteration**: `number`
 
- node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:178 
+#### Defined in
 
- ___ 
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:178
 
- ### 节点大小 
+___
 
- • `可选` **nodeSize**: `number` \| `数字`[] \| (`nodeData`: `Node`) => `数字` 
+### nodeSize
 
- #### 定义于 
+• `Optional` **nodeSize**: `number` \| `number`[] \| (`nodeData`: `Node`) => `number`
 
- node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:176 
+#### Defined in
 
- ___ 
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:176
 
- ### 节点间距 
+___
 
- • `可选` **nodeSpacing**: `number` \| `功能` 
+### nodeSpacing
 
- #### 定义于 
+• `Optional` **nodeSpacing**: `number` \| `Function`
 
- node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:177 
+#### Defined in
 
- ___ 
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:177
 
- ### 防止重叠 
+___
 
- • `可选` **preventOverlap**：`boolean` 
+### preventOverlap
 
- #### 定义于 
+• `Optional` **preventOverlap**: `boolean`
 
- node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:175 
+#### Defined in
 
- ___ 
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:175
 
- ＃＃＃ 排序方式 
+___
 
- • `可选` **排序依据**：`字符串` 
+### sortBy
 
- #### 定义于 
+• `Optional` **sortBy**: `string`
 
- node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:180 
+#### Defined in
 
- ___ 
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:180
 
- ### 排序强度 
+___
 
- • `可选` **排序强度**：`数字` 
+### sortStrength
 
- #### 定义于 
+• `Optional` **sortStrength**: `number`
 
- node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:181 
+#### Defined in
 
- ___ 
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:181
 
- ### 严格径向 
+___
 
- • `可选` **strictRadial**：`布尔值` 
+### strictRadial
 
- #### 定义于 
+• `Optional` **strictRadial**: `boolean`
 
- node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:179 
+#### Defined in
 
- ___ 
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:179
 
- ### 单位半径 
+___
 
- • `可选` **单位半径**：`数字` 
+### unitRadius
 
- #### 定义于 
+• `Optional` **unitRadius**: `number`
 
- node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:174 
+#### Defined in
 
- ___ 
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:174
 
- ＃＃＃ 宽度 
+___
 
- • `可选` **宽度**：`数量` 
+### width
 
- #### 定义于 
+• `Optional` **width**: `number`
 
- node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:169
+#### Defined in
+
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:169

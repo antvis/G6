@@ -2,14 +2,16 @@
 title: modules
 ---
 
-[概述 - v5.0.0-alpha.9](README.zh.md) / 模块 
+> 📋 中文文档还在翻译中... 欢迎PR
 
- ## 模块 
+[Overview - v5.0.0-beta.1](README.zh.md) / Modules
 
- - [行为](modules/behaviors.zh.md) 
- - [图](modules/graph.zh.md) 
- - [项目](modules/item.zh.md) 
- - [布局](modules/layout.zh.md) 
- - [插件](modules/plugins.zh.md) 
- - [类型](modules/types.zh.md) 
- - [util](modules/util.zh.md)
+## Modules
+
+- [behaviors](modules/behaviors.zh.md)
+- [graph](modules/graph.zh.md)
+- [item](modules/item.zh.md)
+- [layout](modules/layout.zh.md)
+- [plugins](modules/plugins.zh.md)
+- [types](modules/types.zh.md)
+- [util](modules/util.zh.md)
