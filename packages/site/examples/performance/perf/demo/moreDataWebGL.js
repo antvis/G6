@@ -18,6 +18,7 @@ const graph = new ExtGraph({
   container: 'container',
   width,
   height,
+  renderer: 'webgl',
   transform: ['transform-v4-data'],
   modes: {
     default: [
