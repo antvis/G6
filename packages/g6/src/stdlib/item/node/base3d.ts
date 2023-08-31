@@ -199,5 +199,12 @@ export abstract class BaseNode3D extends BaseNode {
     return upsertShape3D(type, id, style as GShapeStyle, shapeMap, this.device);
   }
 
+  /**
+   * The listener for graph zooming.
+   * 1. show / hide some shapes while zoom level changed;
+   * 2. change the shapes' sizes to make them have same visual size while zooming, e.g. labelShape, labelBackgroundShape.
+   * @param shapeMap The shape map that contains all of the elements to show on the node.
+   * @param zoom The zoom level of the graph.
+   */
   public onZoom = (shapeMap: NodeShapeMap, zoom: number) => { };
 }
