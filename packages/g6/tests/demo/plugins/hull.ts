@@ -1,4 +1,4 @@
-import G6, { ID, stdLib } from '../../../src/index';
+import G6, { ID, Extensions } from '../../../src/index';
 import { ShapeStyle } from '../../../src/types/item';
 export default (
   context,
@@ -15,7 +15,7 @@ export default (
     style,
     nonMembers = [],
   } = options;
-  const hullPlugin = new stdLib.plugins.hull({
+  const hullPlugin = new Extensions.Hull({
     key: 'hull-plugin1',
     style,
     hulls: [

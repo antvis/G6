@@ -24,7 +24,7 @@ class CardNode extends Extensions.RectNode {
       titleBox: this.upsertShape(
         'rect',
         'titleBox',
-        { x, y, width: 200, height: 20, fill: color, radius: [r, r, 0, 0] },
+        { x: 0, y: 0, width: 200, height: 20, fill: color, radius: [r, r, 0, 0] },
         shapeMap,
         model,
       ),
@@ -33,8 +33,8 @@ class CardNode extends Extensions.RectNode {
         'image',
         'nodeIcon',
         {
-          x: x + 4,
-          y: y + 2,
+          x: 4,
+          y: 2,
           height: 16,
           width: 16,
           cursor: 'pointer',
@@ -49,8 +49,8 @@ class CardNode extends Extensions.RectNode {
         'title',
         {
           textBaseline: 'top',
-          y: y + 2,
-          x: x + 24,
+          y: 2,
+          x: 24,
           lineHeight: 20,
           text: data.title,
           fill: '#fff',
@@ -85,8 +85,8 @@ class CardNode extends Extensions.RectNode {
         `panel-title-${index}`,
         {
           textBaseline: 'top',
-          y: y + 25,
-          x: x + 24 + index * 60,
+          y: 25,
+          x: 24 + index * 60,
           lineHeight: 20,
           text: panel.title,
           fill: 'rgba(0,0,0,0.4)',
@@ -100,8 +100,8 @@ class CardNode extends Extensions.RectNode {
         `panel-value-${index}`,
         {
           textBaseline: 'top',
-          y: y + 42,
-          x: x + 24 + index * 60,
+          y: 42,
+          x: 24 + index * 60,
           lineHeight: 20,
           text: panel.value,
           fill: '#595959',
@@ -126,7 +126,7 @@ const graph = new ExtGraph({
   container: 'container',
   width,
   height,
-  autoFit: 'view',
+  autoFit: 'center',
   modes: {
     default: ['drag-node'],
   },
@@ -193,6 +193,8 @@ const graph = new ExtGraph({
         ...data,
         type: 'card-node',
         keyShape: {
+          x: 100,
+          y: 30,
           width: 200,
           height: 60,
           fill: '#fff',

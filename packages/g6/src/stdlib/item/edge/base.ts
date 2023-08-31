@@ -76,15 +76,15 @@ export abstract class BaseEdge {
     // the tag of first rendering
     firstRender: boolean;
   } = {
-      hiddenShape: {},
-      balanceRatio: 1,
-      zoom: 1,
-      zoomLevel: 0,
-      levelShapes: {},
-      wordWrapWidth: 50,
-      animateConfig: DEFAULT_ANIMATE_CFG.zoom,
-      firstRender: true,
-    };
+    hiddenShape: {},
+    balanceRatio: 1,
+    zoom: 1,
+    zoomLevel: 0,
+    levelShapes: {},
+    wordWrapWidth: 50,
+    animateConfig: DEFAULT_ANIMATE_CFG.zoom,
+    firstRender: true,
+  };
   constructor(props) {
     const { themeStyles, lodStrategy, zoom } = props;
     if (themeStyles) this.themeStyles = themeStyles;
@@ -178,14 +178,14 @@ export abstract class BaseEdge {
   }
 
   /**
- * Draw all elements related to the edge.
- * You should call `drawKeyShape` and `drawAnchorShape`,`drawLabelShape`,`drawIconShape`...as you like.
- * @param model The displayed model of this edge, only for drawing and not received by users. 
- * @param shapeMap The shape map that contains all of the elements to show on the edge.
- * @param diffData An object that contains previous and current data.
- * @param diffState An object that contains previous and current edge's state.
- * @returns An object containing the keyShape and optional labelShape, iconShape, and some otherShapes properties
-  */
+   * Draw all elements related to the edge.
+   * You should call `drawKeyShape` and `drawAnchorShape`,`drawLabelShape`,`drawIconShape`...as you like.
+   * @param model The displayed model of this edge, only for drawing and not received by users.
+   * @param shapeMap The shape map that contains all of the elements to show on the edge.
+   * @param diffData An object that contains previous and current data.
+   * @param diffState An object that contains previous and current edge's state.
+   * @returns An object containing the keyShape and optional labelShape, iconShape, and some otherShapes properties
+   */
   abstract draw(
     model: EdgeDisplayModel,
     sourcePoint: Point,
@@ -201,12 +201,12 @@ export abstract class BaseEdge {
   };
 
   /**
- * Perform additional drawing operations or add custom shapes after drawing edge.
- * @param model The displayed model of this edge, only for drawing and not received by users. 
- * @param shapeMap The shape map that contains all of the elements to show on the edge.
- * @param shapesChanged An array of shape IDs that have changed and need to be updated.
- * @returns An object that contains some new shapes to be added to the edge.
-  */
+   * Perform additional drawing operations or add custom shapes after drawing edge.
+   * @param model The displayed model of this edge, only for drawing and not received by users.
+   * @param shapeMap The shape map that contains all of the elements to show on the edge.
+   * @param shapesChanged An array of shape IDs that have changed and need to be updated.
+   * @returns An object that contains some new shapes to be added to the edge.
+   */
   public afterDraw(
     model: EdgeDisplayModel,
     shapeMap: { [shapeId: string]: DisplayObject },
@@ -221,7 +221,7 @@ export abstract class BaseEdge {
    * @param state state name
    * @param value state value
    * @param shapeMap The shape map that contains all of the elements to show on the edge.
-    */
+   */
   public setState: (
     name: string,
     value: boolean,
@@ -230,7 +230,7 @@ export abstract class BaseEdge {
 
   /**
    * Draw the label shape of the edge
-   * @param model The displayed model of this edge, only for drawing and not received by users. 
+   * @param model The displayed model of this edge, only for drawing and not received by users.
    * @param shapeMap The shape map that contains all of the elements to show on the edge.
    * @param diffData An object that contains previous and current data.
    * @param diffState An object that contains previous and current edge's state.
@@ -343,7 +343,7 @@ export abstract class BaseEdge {
 
   /**
    * Draw the label background shape of the edge
-   * @param model The displayed model of this edge, only for drawing and not received by users. 
+   * @param model The displayed model of this edge, only for drawing and not received by users.
    * @param shapeMap The shape map that contains all of the elements to show on the edge.
    * @param diffData An object that contains previous and current data.
    * @param diffState An object that contains previous and current edge's state.
@@ -379,8 +379,9 @@ export abstract class BaseEdge {
     };
     if (labelShapeStyle.position === 'start') {
       if (isRevert) {
-        bgStyle.transformOrigin = `${bgStyle.width - padding[1]} ${bgStyle.height / 2
-          }`;
+        bgStyle.transformOrigin = `${bgStyle.width - padding[1]} ${
+          bgStyle.height / 2
+        }`;
       } else {
         bgStyle.transformOrigin = `${padding[3]} ${bgStyle.height / 2}`;
       }
@@ -388,12 +389,14 @@ export abstract class BaseEdge {
       if (isRevert) {
         bgStyle.transformOrigin = `${padding[3]} ${bgStyle.height / 2}`;
       } else {
-        bgStyle.transformOrigin = `${bgStyle.width - padding[1]} ${bgStyle.height / 2
-          }`;
+        bgStyle.transformOrigin = `${bgStyle.width - padding[1]} ${
+          bgStyle.height / 2
+        }`;
       }
     } else {
-      bgStyle.transformOrigin = `${textWidth / 2 + padding[3]} ${textHeight / 2 + padding[0]
-        }`;
+      bgStyle.transformOrigin = `${textWidth / 2 + padding[3]} ${
+        textHeight / 2 + padding[0]
+      }`;
     }
 
     return this.upsertShape(
@@ -407,7 +410,7 @@ export abstract class BaseEdge {
 
   /**
    * Draw the icon shape of the edge
-   * @param model The displayed model of this edge, only for drawing and not received by users. 
+   * @param model The displayed model of this edge, only for drawing and not received by users.
    * @param shapeMap The shape map that contains all of the elements to show on the edge.
    * @param diffData An object that contains previous and current data.
    * @param diffState An object that contains previous and current edge's state.
@@ -471,14 +474,16 @@ export abstract class BaseEdge {
       if (referTransform) {
         shapeStyle.transform = referTransform;
         if (labelAlign === 'right') {
-          shapeStyle.transformOrigin = `${referWidth / 2 - w / 2 + 4 + referHalExtents[0] - offsetX
-            } ${h / 2 - offsetY}`;
+          shapeStyle.transformOrigin = `${
+            referWidth / 2 - w / 2 + 4 + referHalExtents[0] - offsetX
+          } ${h / 2 - offsetY}`;
         } else if (labelAlign === 'left') {
           shapeStyle.transformOrigin = `${w + 4 - offsetX} ${h / 2 - offsetY}`;
         } else {
           // labelShape align 'center'
-          shapeStyle.transformOrigin = `${(w + referWidth) / 2 - offsetX} ${h / 2 - offsetY
-            }`;
+          shapeStyle.transformOrigin = `${(w + referWidth) / 2 - offsetX} ${
+            h / 2 - offsetY
+          }`;
         }
       }
     } else {
@@ -499,7 +504,7 @@ export abstract class BaseEdge {
 
   /**
    * Draw the halo shape of the edge
-   * @param model The displayed model of this edge, only for drawing and not received by users. 
+   * @param model The displayed model of this edge, only for drawing and not received by users.
    * @param shapeMap The shape map that contains all of the elements to show on the edge.
    * @param diffData An object that contains previous and current data.
    * @param diffState An object that contains previous and current edge's state.
@@ -585,7 +590,7 @@ export abstract class BaseEdge {
             id,
             shapeMap[id],
             this.mergedStyles[id] ||
-            this.mergedStyles[id.replace('Background', '')],
+              this.mergedStyles[id.replace('Background', '')],
             hiddenShape,
             animateConfig,
           ),
@@ -651,7 +656,6 @@ export abstract class BaseEdge {
     this.nodeMap = nodeMap;
   }
 
-
   /**
    * Adds or updates an arrow marker on the specified position of an edge.
    * @param position - The position where the arrow marker should be added or updated. Can be either 'start' or 'end'.
@@ -710,7 +714,7 @@ export abstract class BaseEdge {
    * @param type shape's type
    * @param id unique string to indicates the shape
    * @param style style to be updated
-   * @param shapeMap the shape map of a edge 
+   * @param shapeMap the shape map of a edge
    * @param model data model of the edge
    * @returns The display object representing the shape.
    */

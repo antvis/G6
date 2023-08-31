@@ -73,15 +73,15 @@ export abstract class BaseNode {
     // the tag of first rendering
     firstRender: boolean;
   } = {
-      hiddenShape: {},
-      zoom: 1,
-      zoomLevel: 0,
-      balanceRatio: 1,
-      levelShapes: {},
-      wordWrapWidth: 32,
-      animateConfig: DEFAULT_ANIMATE_CFG.zoom,
-      firstRender: true,
-    };
+    hiddenShape: {},
+    zoom: 1,
+    zoomLevel: 0,
+    balanceRatio: 1,
+    levelShapes: {},
+    wordWrapWidth: 32,
+    animateConfig: DEFAULT_ANIMATE_CFG.zoom,
+    firstRender: true,
+  };
 
   constructor(props) {
     const { themeStyles, lodStrategy, zoom } = props;
@@ -95,7 +95,6 @@ export abstract class BaseNode {
       ...lodStrategy?.animateCfg,
     };
   }
-
 
   /**
    * Get merged styles from `getMergedStyles` and assigns the merged styles to the 'mergedStyles' property.
@@ -199,12 +198,12 @@ export abstract class BaseNode {
   /**
    * Draw all elements related to the node.
    * You should call `drawKeyShape` and `drawAnchorShape`,`drawLabelShape`,`drawIconShape`...as you like.
-   * @param model The displayed model of this node, only for drawing and not received by users. 
+   * @param model The displayed model of this node, only for drawing and not received by users.
    * @param shapeMap The shape map that contains all of the elements to show on the node.
    * @param diffData An object that contains previous and current data.
    * @param diffState An object that contains previous and current node's state.
    * @returns An object containing the keyShape and optional labelShape, iconShape, and some otherShapes properties
-    */
+   */
   abstract draw(
     model: NodeDisplayModel | ComboDisplayModel,
     shapeMap: { [shapeId: string]: DisplayObject },
@@ -222,11 +221,11 @@ export abstract class BaseNode {
 
   /**
    * Perform additional drawing operations or add custom shapes after drawing node.
-   * @param model The displayed model of this node, only for drawing and not received by users. 
+   * @param model The displayed model of this node, only for drawing and not received by users.
    * @param shapeMap The shape map that contains all of the elements to show on the node.
    * @param shapesChanged An array of shape IDs that have changed and need to be updated.
    * @returns An object that contains some new shapes to be added to the node.
-    */
+   */
   public afterDraw(
     model: NodeDisplayModel | ComboDisplayModel,
     shapeMap: { [shapeId: string]: DisplayObject },
@@ -241,7 +240,7 @@ export abstract class BaseNode {
    * @param state state name
    * @param value state value
    * @param shapeMap The shape map that contains all of the elements to show on the node.
-    */
+   */
   public setState: (
     name: string,
     value: boolean,
@@ -251,7 +250,7 @@ export abstract class BaseNode {
   /**
    * The key function of drawing shape.
    * Draw the key shape of the node based on the provided model and shape map.
-   * @param model The displayed model of this node, only for drawing and not received by users. 
+   * @param model The displayed model of this node, only for drawing and not received by users.
    * @param shapeMap The shape map that contains all of the elements to show on the node.
    * @param diffData An object that contains previous and current data.
    * @param diffState An object that contains previous and current node's state.
@@ -269,7 +268,7 @@ export abstract class BaseNode {
 
   /**
    * Draw the label shape of the node
-   * @param model The displayed model of this node, only for drawing and not received by users. 
+   * @param model The displayed model of this node, only for drawing and not received by users.
    * @param shapeMap The shape map that contains all of the elements to show on the node.
    * @param diffData An object that contains previous and current data.
    * @param diffState An object that contains previous and current node's state.
@@ -377,7 +376,7 @@ export abstract class BaseNode {
 
   /**
    * Draw the label background shape of the node
-   * @param model The displayed model of this node, only for drawing and not received by users. 
+   * @param model The displayed model of this node, only for drawing and not received by users.
    * @param shapeMap The shape map that contains all of the elements to show on the node.
    * @param diffData An object that contains previous and current data.
    * @param diffState An object that contains previous and current node's state.
@@ -434,7 +433,7 @@ export abstract class BaseNode {
 
   /**
    * Draw the icon shape of the node
-   * @param model The displayed model of this node, only for drawing and not received by users. 
+   * @param model The displayed model of this node, only for drawing and not received by users.
    * @param shapeMap The shape map that contains all of the elements to show on the node.
    * @param diffData An object that contains previous and current data.
    * @param diffState An object that contains previous and current node's state.
@@ -485,7 +484,7 @@ export abstract class BaseNode {
 
   /**
    * Draw the halo shape of the node
-   * @param model The displayed model of this node, only for drawing and not received by users. 
+   * @param model The displayed model of this node, only for drawing and not received by users.
    * @param shapeMap The shape map that contains all of the elements to show on the node.
    * @param diffData An object that contains previous and current data.
    * @param diffState An object that contains previous and current node's state.
@@ -525,7 +524,7 @@ export abstract class BaseNode {
 
   /**
    * Draw the anchors shape of the node
-   * @param model The displayed model of this node, only for drawing and not received by users. 
+   * @param model The displayed model of this node, only for drawing and not received by users.
    * @param shapeMap The shape map that contains all of the elements to show on the node.
    * @param diffData An object that contains previous and current data.
    * @param diffState An object that contains previous and current node's state.
@@ -606,8 +605,8 @@ export abstract class BaseNode {
   /**
    * Configures the anchor positions based on the provided keyShapeStyle and returns the configuration.
    * e.g for a CircleNode, it returns: `{"right":keyShapeStyle.x+keyShapeStyle.r, keyShapeStyle.y}`
- * @param keyShapeStyle - The keyShapeStyle object that contains the style information of the key shape.
- * @returns The anchor position configuration as an IAnchorPositionMap object.
+   * @param keyShapeStyle - The keyShapeStyle object that contains the style information of the key shape.
+   * @returns The anchor position configuration as an IAnchorPositionMap object.
    */
   public calculateAnchorPosition(keyShapeStyle: any): IAnchorPositionMap {
     const x = convertToNumber(keyShapeStyle.x);
@@ -623,7 +622,7 @@ export abstract class BaseNode {
 
   /**
    * Draw the badges shape of the node
-   * @param model The displayed model of this node, only for drawing and not received by users. 
+   * @param model The displayed model of this node, only for drawing and not received by users.
    * @param shapeMap The shape map that contains all of the elements to show on the node.
    * @param diffData An object that contains previous and current data.
    * @param diffState An object that contains previous and current node's state.
@@ -786,7 +785,7 @@ export abstract class BaseNode {
 
   /**
    * Draw other shapes(such as preRect,stateIcon) of the node
-   * @param model The displayed model of this node, only for drawing and not received by users. 
+   * @param model The displayed model of this node, only for drawing and not received by users.
    * @param shapeMap The shape map that contains all of the elements to show on the node.
    * @param diffData An object that contains previous and current data.
    * @param diffState An object that contains previous and current node's state.
@@ -853,7 +852,7 @@ export abstract class BaseNode {
               id,
               shapeMap[id],
               this.mergedStyles[id] ||
-              this.mergedStyles[id.replace('Background', '')],
+                this.mergedStyles[id.replace('Background', '')],
               hiddenShape,
               animateConfig,
             );
@@ -892,20 +891,24 @@ export abstract class BaseNode {
     } else {
       switch (position) {
         case 'bottom':
-          labelShape.style.transformOrigin = `0 ${keyShapeLocal.max[1] - labelShape.attributes.y
-            }`;
+          labelShape.style.transformOrigin = `0 ${
+            keyShapeLocal.max[1] - labelShape.attributes.y
+          }`;
           break;
         case 'right':
-          labelShape.style.transformOrigin = `${keyShapeLocal.max[0] - labelShape.attributes.x
-            } 0`;
+          labelShape.style.transformOrigin = `${
+            keyShapeLocal.max[0] - labelShape.attributes.x
+          } 0`;
           break;
         case 'top':
-          labelShape.style.transformOrigin = `0 ${keyShapeLocal.min[1] - labelShape.attributes.y
-            }`;
+          labelShape.style.transformOrigin = `0 ${
+            keyShapeLocal.min[1] - labelShape.attributes.y
+          }`;
           break;
         case 'left':
-          labelShape.style.transformOrigin = `${keyShapeLocal.min[0] - labelShape.attributes.x
-            } 0`;
+          labelShape.style.transformOrigin = `${
+            keyShapeLocal.min[0] - labelShape.attributes.x
+          } 0`;
           break;
         default:
           // center
@@ -933,28 +936,34 @@ export abstract class BaseNode {
     switch (position) {
       case 'top':
         // if it is zoom-out, do not scale the gap between keyShape and labelShape, differentiate from zoom-in by adjusting transformOrigin
-        labelBackgroundShape.style.transformOrigin = `${paddingLeft + (width - paddingLeft - paddingRight) / 2
-          } ${zoom < 1 ? height - paddingBottom : keyShapeLocal.min[1] - y}`;
+        labelBackgroundShape.style.transformOrigin = `${
+          paddingLeft + (width - paddingLeft - paddingRight) / 2
+        } ${zoom < 1 ? height - paddingBottom : keyShapeLocal.min[1] - y}`;
         break;
       case 'left':
-        labelBackgroundShape.style.transformOrigin = `${zoom < 1 ? width - paddingRight : keyShapeLocal.min[0] - x
-          } ${paddingTop + (height - paddingTop - paddingBottom) / 2}`;
+        labelBackgroundShape.style.transformOrigin = `${
+          zoom < 1 ? width - paddingRight : keyShapeLocal.min[0] - x
+        } ${paddingTop + (height - paddingTop - paddingBottom) / 2}`;
         break;
       case 'right':
-        labelBackgroundShape.style.transformOrigin = `${zoom < 1 ? paddingLeft : keyShapeLocal.max[0] - x
-          } ${paddingTop + (height - paddingTop - paddingBottom) / 2}`;
+        labelBackgroundShape.style.transformOrigin = `${
+          zoom < 1 ? paddingLeft : keyShapeLocal.max[0] - x
+        } ${paddingTop + (height - paddingTop - paddingBottom) / 2}`;
         break;
       case 'bottom':
-        labelBackgroundShape.style.transformOrigin = `${paddingLeft + (width - paddingLeft - paddingRight) / 2
-          } ${zoom < 1
+        labelBackgroundShape.style.transformOrigin = `${
+          paddingLeft + (width - paddingLeft - paddingRight) / 2
+        } ${
+          zoom < 1
             ? paddingTop + (height - paddingTop - paddingBottom) / 2
             : keyShapeLocal.max[1] - y
-          }`;
+        }`;
         break;
       default:
         // center
-        labelBackgroundShape.style.transformOrigin = `${paddingLeft + (width - paddingLeft - paddingRight) / 2
-          } ${paddingTop + (height - paddingTop - paddingBottom) / 2}`;
+        labelBackgroundShape.style.transformOrigin = `${
+          paddingLeft + (width - paddingLeft - paddingRight) / 2
+        } ${paddingTop + (height - paddingTop - paddingBottom) / 2}`;
     }
 
     const { labelShapeGeometry: labelBBox } = this.boundsCache;
@@ -966,14 +975,14 @@ export abstract class BaseNode {
   }
 
   /**
- * Create (if does not exit in shapeMap) or update the shape according to the configurations.
- * @param type shape's type
- * @param id unique string to indicates the shape
- * @param style style to be updated
- * @param shapeMap the shape map of a node / combo
- * @param model data model of the node / combo
- * @returns The display object representing the shape.
- */
+   * Create (if does not exit in shapeMap) or update the shape according to the configurations.
+   * @param type shape's type
+   * @param id unique string to indicates the shape
+   * @param style style to be updated
+   * @param shapeMap the shape map of a node / combo
+   * @param model data model of the node / combo
+   * @returns The display object representing the shape.
+   */
   public upsertShape(
     type: SHAPE_TYPE | SHAPE_TYPE_3D,
     id: string,

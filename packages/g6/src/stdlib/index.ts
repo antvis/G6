@@ -68,6 +68,7 @@ const { ForceLayout, GridLayout, CircularLayout, ConcentricLayout } = Layouts;
 
 import lassoSelector from './selector/lasso';
 import rectSelector from './selector/rect';
+import Hull from './plugin/hull';
 
 const stdLib = {
   transforms: {
@@ -256,6 +257,7 @@ const Extensions = {
   Menu,
   Fisheye,
   Legend,
+  Hull,
 };
 
 export default registery;
