@@ -10,11 +10,13 @@ const ExtGraph = extend(Graph, {
 export default (context: TestCaseContext) => {
   const startTime = new Date('2023-08-01').getTime();
   const diff = 3600 * 24 * 1000;
-  const timebarData = [10, 12, 3, 4, 15, 10, 5, 0, 3, 1].map((value, index) => ({
-    time: new Date(startTime + index * diff),
-    value,
-    label: new Date(startTime + index * diff).toLocaleString(),
-  }));
+  const timebarData = [10, 12, 3, 4, 15, 10, 5, 0, 3, 1].map(
+    (value, index) => ({
+      time: new Date(startTime + index * diff),
+      value,
+      label: new Date(startTime + index * diff).toLocaleString(),
+    }),
+  );
   const graphData = {
     nodes: new Array(49).fill(0).map((_, index) => ({
       id: `node-${index}`,
@@ -55,7 +57,6 @@ export default (context: TestCaseContext) => {
         width: 450,
         height: 120,
         data: timebarData,
-        getValue: () => {},
       },
     ],
     data: graphData,

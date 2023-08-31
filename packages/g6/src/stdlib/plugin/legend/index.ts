@@ -235,7 +235,7 @@ export class Legend extends Base {
           canvasSize[0],
           canvasSize[1],
           undefined,
-          background,
+          { background },
         );
       }
 

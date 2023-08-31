@@ -54,7 +54,6 @@ export default (context: TestCaseContext) => {
         data: timebarData,
         width: 450,
         loop: true,
-        // filterType: 'visibility',
       },
     ],
     data: graphData,
