@@ -16,13 +16,7 @@ const graph = new G6.Graph({
       if (d.source === 'node0' || d.target === 'node0') {
         return 200;
       }
-      return 10;
-    },
-    nodeStrength: (d) => {
-      if (d.isLeaf) {
-        return 10;
-      }
-      return 200;
+      return 80;
     },
   },
   modes: {

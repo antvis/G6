@@ -626,6 +626,14 @@ const graph = new ExtGraph({
     comboPadding: 2,
   },
   autoFit: 'center',
+  theme: {
+    type: 'spec',
+    specification: {
+      node: {
+        dataTypeField: 'parentId',
+      },
+    },
+  },
   node: {
     keyShape: {
       r: 10,
@@ -643,7 +651,7 @@ const graph = new ExtGraph({
       data: {
         ...model.data,
         keyShape: {
-          lineWidth: model.data.size || 1,
+          lineWidth: model.data.size || 0.5,
           stroke: model.data.color || '#99ADD1',
         },
         labelShape: {

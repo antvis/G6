@@ -57,7 +57,9 @@ export type GShapeStyle = CircleStyleProps &
   PathStyleProps &
   SphereGeometryProps &
   CubeGeometryProps &
-  PlaneGeometryProps;
+  PlaneGeometryProps & {
+    interactive?: boolean;
+  };
 
 export type ShapeStyle = Partial<
   GShapeStyle & {

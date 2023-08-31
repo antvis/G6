@@ -461,7 +461,8 @@ export const fadeOut = (id, shape, hiddenShapeMap, animateConfig) => {
   const { opacity = 1 } = shape.attributes;
   if (opacity === 0) return;
   const animation = shape.animate([{ opacity }, { opacity: 0 }], animateConfig);
-  animation.onfinish = () => shape.hide();
+  if (animation) animation.onfinish = () => shape.hide();
+  else shape.hide();
 };
 
 /**

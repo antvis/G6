@@ -233,10 +233,9 @@ export const treeData2GraphData = (
 
 /**
  * Transform graph data into tree graph data.
- * @param nodeMap
+ * @param nodeMap This function will cache the nodes into nodeMap
  * @param graphData Graph data.
  * @param propRootIds Ids of root nodes. There should be at least one node for each connected component, or the first node in a connected component will be added to the roots array.
- * @param algo
  * @returns
  */
 export const graphData2TreeData = (

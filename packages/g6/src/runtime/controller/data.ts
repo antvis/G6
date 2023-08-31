@@ -272,7 +272,7 @@ export class DataController {
         });
       });
     });
-    this.treeDirtyFlag = true;
+    this.treeDirtyFlag = false;
   }
 
   /**

@@ -1,6 +1,16 @@
 export type { ID } from '@antv/graphlib';
-export type { AnimateCfg, AnimateTiming, IAnimate, IAnimates } from './animate';
-export type { BehaviorOptionsOf, BehaviorRegistry } from './behavior';
+export type { IAnimate, IAnimates, AnimateTiming, AnimateCfg } from './animate';
+export type { Behavior, BehaviorOptionsOf, BehaviorRegistry } from './behavior';
+export type {
+  NodeDisplayModel,
+  NodeModel,
+  NodeUserModel,
+  NodeEncode,
+  NodeShapeStyles,
+  NodeLabelPosition,
+  NodeShapesEncode,
+  NodeModelData,
+} from './node';
 export type {
   ComboDisplayModel,
   ComboLabelPosition,
@@ -39,16 +49,6 @@ export type {
   LayoutOptions,
   StandardLayoutOptions,
 } from './layout';
-export type {
-  NodeDisplayModel,
-  NodeEncode,
-  NodeLabelPosition,
-  NodeModel,
-  NodeModelData,
-  NodeShapeStyles,
-  NodeShapesEncode,
-  NodeUserModel,
-} from './node';
 export type { Plugin as PluginBase } from './plugin';
 export type { Specification } from './spec';
 export type { ThemeSpecification } from './theme';

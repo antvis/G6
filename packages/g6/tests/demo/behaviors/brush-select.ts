@@ -12,7 +12,7 @@ export default (context: TestCaseContext) => {
 
   return new ExtGraph({
     ...context,
-    plugins: ['grid'],
+    // plugins: ['grid'],
     layout: {
       type: 'grid',
     },

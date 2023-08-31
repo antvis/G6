@@ -568,7 +568,7 @@ const graph = new G6.Graph({
   },
   autoFit: 'view',
   modes: {
-    default: ['zoom-canvas', 'drag-canvas', 'drag-node', 'click-select'],
+    default: ['zoom-canvas', 'drag-canvas', 'click-select'],
   },
   data,
 });
