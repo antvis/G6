@@ -94,7 +94,7 @@ const graph = new ExtGraph({
 
 With this, the Tutorial Example is complete. The complete code can be found here: a href='https://codesandbox.io/s/g6-v5-tutorial-j67vnm?file=/index.js' target='\_blank'>Tutorial Example Code</a>.
 
-**⚠️ Note:** <br /> If you need to replace the data, please replace  `'https://raw.githubusercontent.com/antvis/G6/v5-demo-refine/packages/g6/tests/datasets/force-data.json'` with the new data file address.
+**⚠️ Note:** <br /> If you need to replace the data, please replace  `'https://raw.githubusercontent.com/antvis/G6/v5/packages/g6/tests/datasets/force-data.json'` with the new data file address.
 
 <iframe src="https://codesandbox.io/embed/g6-v5-tutorial-j67vnm?fontsize=14&hidenavigation=1&theme=light"
      style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"

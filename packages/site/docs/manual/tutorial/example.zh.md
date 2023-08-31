@@ -92,7 +92,7 @@ graph.read(data); // 加载数据
 
 ## 真实数据加载
 
-上文中，我们使用了仅含有两个节点和一条边的数据，直接将数据定义放在了代码中。而真实场景的数据通常是远程接口请求加载的。为了方便，我们已经给读者准备好了一份 JSON 数据文件，地址如下：<br />`https://raw.githubusercontent.com/antvis/G6/v5-demo-refine/packages/g6/tests/datasets/force-data.json`
+上文中，我们使用了仅含有两个节点和一条边的数据，直接将数据定义放在了代码中。而真实场景的数据通常是远程接口请求加载的。为了方便，我们已经给读者准备好了一份 JSON 数据文件，地址如下：<br />`https://raw.githubusercontent.com/antvis/G6/v5/packages/g6/tests/datasets/force-data.json`
 
 ### 加载远程数据
 
@@ -103,7 +103,7 @@ graph.read(data); // 加载数据
   //  const graph = ...
   const main = async () => {
     const response = await fetch(
-      'https://raw.githubusercontent.com/antvis/G6/v5-demo-refine/packages/g6/tests/datasets/force-data.json',
+      'https://raw.githubusercontent.com/antvis/G6/v5/packages/g6/tests/datasets/force-data.json',
     );
     const remoteData = await response.json();
 
@@ -159,7 +159,7 @@ graph.read(data); // 加载数据
 
       const main = async () => {
         const response = await fetch(
-          'https://raw.githubusercontent.com/antvis/G6/v5-demo-refine/packages/g6/tests/datasets/force-data.json',
+          'https://raw.githubusercontent.com/antvis/G6/v5/packages/g6/tests/datasets/force-data.json',
         );
         const remoteData = await response.json();
         graph.read(remoteData);
@@ -170,4 +170,4 @@ graph.read(data); // 加载数据
 </html>
 ```
 
-<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ 注意:</strong></span><br />若需更换数据，请替换  `'https://raw.githubusercontent.com/antvis/G6/v5-demo-refine/packages/g6/tests/datasets/force-data.json'`  为新的数据文件地址。
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ 注意:</strong></span><br />若需更换数据，请替换  `'https://raw.githubusercontent.com/antvis/G6/v5/packages/g6/tests/datasets/force-data.json'`  为新的数据文件地址。

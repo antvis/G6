@@ -94,7 +94,7 @@ const graph = new Graph({
 
 至此，**Tutorial 案例** 完成，完整代码见：<a href='https://codesandbox.io/s/g6-v5-tutorial-j67vnm?file=/index.js' target='_blank'>Tutorial 案例代码</a>。
 
-**⚠️ 注意:** <br /> 若需更换数据，请替换  `'https://raw.githubusercontent.com/antvis/G6/v5-demo-refine/packages/g6/tests/datasets/force-data.json'`  为新的数据文件地址。
+**⚠️ 注意:** <br /> 若需更换数据，请替换  `'https://raw.githubusercontent.com/antvis/G6/v5/packages/g6/tests/datasets/force-data.json'`  为新的数据文件地址。
 
 <iframe src="https://codesandbox.io/embed/g6-v5-tutorial-j67vnm?fontsize=14&hidenavigation=1&theme=light"
      style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
