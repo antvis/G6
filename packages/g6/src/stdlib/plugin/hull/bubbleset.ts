@@ -1,3 +1,7 @@
+import { AABB } from '@antv/g';
+import { ComboModel, IGraph, NodeModel } from '../../../types';
+import { Bounds, Point } from '../../../types/common';
+import { isPointInPolygon } from '../../../util/shape';
 import {
   LineStructure,
   pointLineSquareDist,
@@ -8,11 +12,7 @@ import {
   itemIntersectByLine,
   pointRectSquareDist,
 } from './util';
-import { ComboModel, IGraph, NodeModel } from '../../../types';
-import { Bounds, Point } from '../../../types/common';
 import { BubblesetCfg } from './types';
-import { AABB } from '@antv/g';
-import { isPointInPolygon } from '../../../util/shape';
 
 const defaultOps = {
   /** number of times to run the algorithm to refine the path finding in difficult areas */

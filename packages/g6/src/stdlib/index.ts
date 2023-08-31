@@ -1,17 +1,17 @@
+import * as Layouts from '@antv/layout';
+import Hierarchy from '@antv/hierarchy';
 import { Lib } from '../types/stdlib';
 
+import { Behavior as BaseBehavior } from '../types/behavior';
+import { Plugin as BasePlugin } from '../types/plugin';
 import * as Behaviors from './behavior';
 import * as Transforms from './data';
 import * as Combos from './item/combo';
 import * as Nodes from './item/node';
 import * as Edges from './item/edge';
-import { Behavior as BaseBehavior } from '../types/behavior';
 import * as Themes from './theme';
 import * as ThemeSolvers from './themeSolver';
 import * as Plugins from './plugin';
-import { Plugin as BasePlugin } from '../types/plugin';
-import * as Layouts from '@antv/layout';
-import Hierarchy from '@antv/hierarchy';
 
 const { ValidateData, TransformV4Data, MapNodeSize } = Transforms;
 

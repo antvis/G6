@@ -1,4 +1,10 @@
 import { parsePathString } from '@antv/path-util';
+import { DisplayObject } from '@antv/g';
+import { isArray } from '@antv/util';
+import { ComboModel, ID, IGraph, NodeModel } from '../../../types';
+import { ShapeStyle } from '../../../types/item';
+import { isPolygonsIntersect } from '../../../util/shape';
+import { pathToPoints } from '../../../util/path';
 import {
   getClosedSpline,
   roundedHull,
@@ -9,13 +15,7 @@ import {
 } from './util';
 import { genConvexHull } from './convexHull';
 import { genBubbleSet } from './bubbleset';
-import { ComboModel, ID, IGraph, NodeModel } from '../../../types';
-import { ShapeStyle } from '../../../types/item';
-import { isPolygonsIntersect } from '../../../util/shape';
-import { pathToPoints } from '../../../util/path';
-import { DisplayObject } from '@antv/g';
 import { BubblesetCfg } from './types';
-import { isArray } from '@antv/util';
 
 type LabelPlacement = 'top' | 'bottom' | 'right' | 'left';
 
