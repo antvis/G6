@@ -2,9 +2,9 @@
 title: CustomEdge
 ---
 
-> 📋 中文文档还在翻译中... 欢迎PR
+> 📋 中文文档还在翻译中... 欢迎 PR
 
-[Overview - v5.0.0-beta.1](../../README.zh.md) / [Modules](../../modules.zh.md) / [item](../../modules/item.zh.md) / CustomEdge
+[Overview - v5.0.0-beta.2](../../README.zh.md) / [Modules](../../modules.zh.md) / [item](../../modules/item.zh.md) / CustomEdge
 
 [item](../../modules/item.zh.md).CustomEdge
 
@@ -16,8 +16,8 @@ title: CustomEdge
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name    | Type  |
+| :------ | :---- |
 | `props` | `any` |
 
 #### Defined in
@@ -34,11 +34,11 @@ Perform additional drawing operations or add custom shapes after drawing edge.
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `model` | `EdgeDisplayModel` | The displayed model of this edge, only for drawing and not received by users. |
-| `shapeMap` | `Object` | The shape map that contains all of the elements to show on the edge. |
-| `shapesChanged?` | `string`[] | An array of shape IDs that have changed and need to be updated. |
+| Name             | Type               | Description                                                                   |
+| :--------------- | :----------------- | :---------------------------------------------------------------------------- |
+| `model`          | `EdgeDisplayModel` | The displayed model of this edge, only for drawing and not received by users. |
+| `shapeMap`       | `Object`           | The shape map that contains all of the elements to show on the edge.          |
+| `shapesChanged?` | `string`[]         | An array of shape IDs that have changed and need to be updated.               |
 
 #### Returns
 
@@ -50,7 +50,7 @@ An object that contains some new shapes to be added to the edge.
 
 [packages/g6/src/stdlib/item/edge/base.ts:210](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/item/edge/base.ts#L210)
 
-___
+---
 
 ### draw
 
@@ -61,18 +61,18 @@ You should call `drawKeyShape` and `drawAnchorShape`,`drawLabelShape`,`drawIconS
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `model` | `EdgeDisplayModel` | The displayed model of this edge, only for drawing and not received by users. |
-| `sourcePoint` | `Point` | - |
-| `targetPoint` | `Point` | - |
-| `shapeMap` | `Object` | The shape map that contains all of the elements to show on the edge. |
-| `diffData?` | `Object` | An object that contains previous and current data. |
-| `diffData.current` | `EdgeUserModelData` | - |
-| `diffData.previous` | `EdgeUserModelData` | - |
-| `diffState?` | `Object` | An object that contains previous and current edge's state. |
-| `diffState.current` | `State`[] | - |
-| `diffState.previous` | `State`[] | - |
+| Name                 | Type                | Description                                                                   |
+| :------------------- | :------------------ | :---------------------------------------------------------------------------- |
+| `model`              | `EdgeDisplayModel`  | The displayed model of this edge, only for drawing and not received by users. |
+| `sourcePoint`        | `Point`             | -                                                                             |
+| `targetPoint`        | `Point`             | -                                                                             |
+| `shapeMap`           | `Object`            | The shape map that contains all of the elements to show on the edge.          |
+| `diffData?`          | `Object`            | An object that contains previous and current data.                            |
+| `diffData.current`   | `EdgeUserModelData` | -                                                                             |
+| `diffData.previous`  | `EdgeUserModelData` | -                                                                             |
+| `diffState?`         | `Object`            | An object that contains previous and current edge's state.                    |
+| `diffState.current`  | `State`[]           | -                                                                             |
+| `diffState.previous` | `State`[]           | -                                                                             |
 
 #### Returns
 
@@ -80,17 +80,17 @@ You should call `drawKeyShape` and `drawAnchorShape`,`drawLabelShape`,`drawIconS
 
 An object containing the keyShape and optional labelShape, iconShape, and some otherShapes properties
 
-| Name | Type |
-| :------ | :------ |
-| `iconShape?` | `DisplayObject`<`any`, `any`\> |
-| `keyShape` | `DisplayObject`<`any`, `any`\> |
+| Name          | Type                           |
+| :------------ | :----------------------------- |
+| `iconShape?`  | `DisplayObject`<`any`, `any`\> |
+| `keyShape`    | `DisplayObject`<`any`, `any`\> |
 | `labelShape?` | `DisplayObject`<`any`, `any`\> |
 
 #### Defined in
 
 [packages/g6/src/stdlib/item/edge/base.ts:189](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/item/edge/base.ts#L189)
 
-___
+---
 
 ### drawHaloShape
 
@@ -100,16 +100,16 @@ Draw the halo shape of the edge
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `model` | `EdgeDisplayModel` | The displayed model of this edge, only for drawing and not received by users. |
-| `shapeMap` | `EdgeShapeMap` | The shape map that contains all of the elements to show on the edge. |
-| `diffData?` | `Object` | An object that contains previous and current data. |
-| `diffData.current` | `EdgeUserModelData` | - |
-| `diffData.previous` | `EdgeUserModelData` | - |
-| `diffState?` | `Object` | An object that contains previous and current edge's state. |
-| `diffState.current` | `State`[] | - |
-| `diffState.previous` | `State`[] | - |
+| Name                 | Type                | Description                                                                   |
+| :------------------- | :------------------ | :---------------------------------------------------------------------------- |
+| `model`              | `EdgeDisplayModel`  | The displayed model of this edge, only for drawing and not received by users. |
+| `shapeMap`           | `EdgeShapeMap`      | The shape map that contains all of the elements to show on the edge.          |
+| `diffData?`          | `Object`            | An object that contains previous and current data.                            |
+| `diffData.current`   | `EdgeUserModelData` | -                                                                             |
+| `diffData.previous`  | `EdgeUserModelData` | -                                                                             |
+| `diffState?`         | `Object`            | An object that contains previous and current edge's state.                    |
+| `diffState.current`  | `State`[]           | -                                                                             |
+| `diffState.previous` | `State`[]           | -                                                                             |
 
 #### Returns
 
@@ -121,7 +121,7 @@ The display object representing the halo shape of the edge.
 
 [packages/g6/src/stdlib/item/edge/base.ts:509](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/item/edge/base.ts#L509)
 
-___
+---
 
 ### drawIconShape
 
@@ -131,16 +131,16 @@ Draw the icon shape of the edge
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `model` | `EdgeDisplayModel` | The displayed model of this edge, only for drawing and not received by users. |
-| `shapeMap` | `EdgeShapeMap` | The shape map that contains all of the elements to show on the edge. |
-| `diffData?` | `Object` | An object that contains previous and current data. |
-| `diffData.current` | `EdgeUserModelData` | - |
-| `diffData.previous` | `EdgeUserModelData` | - |
-| `diffState?` | `Object` | An object that contains previous and current edge's state. |
-| `diffState.current` | `State`[] | - |
-| `diffState.previous` | `State`[] | - |
+| Name                 | Type                | Description                                                                   |
+| :------------------- | :------------------ | :---------------------------------------------------------------------------- |
+| `model`              | `EdgeDisplayModel`  | The displayed model of this edge, only for drawing and not received by users. |
+| `shapeMap`           | `EdgeShapeMap`      | The shape map that contains all of the elements to show on the edge.          |
+| `diffData?`          | `Object`            | An object that contains previous and current data.                            |
+| `diffData.current`   | `EdgeUserModelData` | -                                                                             |
+| `diffData.previous`  | `EdgeUserModelData` | -                                                                             |
+| `diffState?`         | `Object`            | An object that contains previous and current edge's state.                    |
+| `diffState.current`  | `State`[]           | -                                                                             |
+| `diffState.previous` | `State`[]           | -                                                                             |
 
 #### Returns
 
@@ -152,7 +152,7 @@ The display object representing the icon shape of the edge.
 
 [packages/g6/src/stdlib/item/edge/base.ts:417](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/item/edge/base.ts#L417)
 
-___
+---
 
 ### drawLabelBackgroundShape
 
@@ -162,16 +162,16 @@ Draw the label background shape of the edge
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `model` | `EdgeDisplayModel` | The displayed model of this edge, only for drawing and not received by users. |
-| `shapeMap` | `EdgeShapeMap` | The shape map that contains all of the elements to show on the edge. |
-| `diffData?` | `Object` | An object that contains previous and current data. |
-| `diffData.current` | `EdgeUserModelData` | - |
-| `diffData.previous` | `EdgeUserModelData` | - |
-| `diffState?` | `Object` | An object that contains previous and current edge's state. |
-| `diffState.current` | `State`[] | - |
-| `diffState.previous` | `State`[] | - |
+| Name                 | Type                | Description                                                                   |
+| :------------------- | :------------------ | :---------------------------------------------------------------------------- |
+| `model`              | `EdgeDisplayModel`  | The displayed model of this edge, only for drawing and not received by users. |
+| `shapeMap`           | `EdgeShapeMap`      | The shape map that contains all of the elements to show on the edge.          |
+| `diffData?`          | `Object`            | An object that contains previous and current data.                            |
+| `diffData.current`   | `EdgeUserModelData` | -                                                                             |
+| `diffData.previous`  | `EdgeUserModelData` | -                                                                             |
+| `diffState?`         | `Object`            | An object that contains previous and current edge's state.                    |
+| `diffState.current`  | `State`[]           | -                                                                             |
+| `diffState.previous` | `State`[]           | -                                                                             |
 
 #### Returns
 
@@ -183,7 +183,7 @@ The display object representing the label background shape of the edge.
 
 [packages/g6/src/stdlib/item/edge/base.ts:353](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/item/edge/base.ts#L353)
 
-___
+---
 
 ### drawLabelShape
 
@@ -193,16 +193,16 @@ Draw the label shape of the edge
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `model` | `EdgeDisplayModel` | The displayed model of this edge, only for drawing and not received by users. |
-| `shapeMap` | `EdgeShapeMap` | The shape map that contains all of the elements to show on the edge. |
-| `diffData?` | `Object` | An object that contains previous and current data. |
-| `diffData.current` | `EdgeUserModelData` | - |
-| `diffData.previous` | `EdgeUserModelData` | - |
-| `diffState?` | `Object` | An object that contains previous and current edge's state. |
-| `diffState.current` | `State`[] | - |
-| `diffState.previous` | `State`[] | - |
+| Name                 | Type                | Description                                                                   |
+| :------------------- | :------------------ | :---------------------------------------------------------------------------- |
+| `model`              | `EdgeDisplayModel`  | The displayed model of this edge, only for drawing and not received by users. |
+| `shapeMap`           | `EdgeShapeMap`      | The shape map that contains all of the elements to show on the edge.          |
+| `diffData?`          | `Object`            | An object that contains previous and current data.                            |
+| `diffData.current`   | `EdgeUserModelData` | -                                                                             |
+| `diffData.previous`  | `EdgeUserModelData` | -                                                                             |
+| `diffState?`         | `Object`            | An object that contains previous and current edge's state.                    |
+| `diffState.current`  | `State`[]           | -                                                                             |
+| `diffState.previous` | `State`[]           | -                                                                             |
 
 #### Returns
 
@@ -214,7 +214,7 @@ The display object representing the label shape of the edge.
 
 [packages/g6/src/stdlib/item/edge/base.ts:239](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/item/edge/base.ts#L239)
 
-___
+---
 
 ### getMergedStyles
 
@@ -224,8 +224,8 @@ Merge style
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
+| Name    | Type               | Description                                              |
+| :------ | :----------------- | :------------------------------------------------------- |
 | `model` | `EdgeDisplayModel` | The EdgeDisplayModel to retrieve the merged styles from. |
 
 #### Returns
@@ -238,7 +238,7 @@ The merged styles as a EdgeShapeStyles object.
 
 [packages/g6/src/stdlib/item/edge/base.ts:114](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/item/edge/base.ts#L114)
 
-___
+---
 
 ### mergeStyles
 
@@ -248,8 +248,8 @@ Get merged styles from `getMergedStyles` and assigns the merged styles to the 'm
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
+| Name    | Type               | Description                                    |
+| :------ | :----------------- | :--------------------------------------------- |
 | `model` | `EdgeDisplayModel` | The EdgeDisplayModel to merge the styles from. |
 
 #### Returns
@@ -260,22 +260,23 @@ Get merged styles from `getMergedStyles` and assigns the merged styles to the 'm
 
 [packages/g6/src/stdlib/item/edge/base.ts:105](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/item/edge/base.ts#L105)
 
-___
+---
 
 ### onZoom
 
 ▸ **onZoom**(`shapeMap`, `zoom`): `void`
 
 The listener for graph zooming.
+
 1. show / hide some shapes while zoom level changed;
 2. change the shapes' sizes to make them have same visual size while zooming, e.g. labelShape, labelBackgroundShape.
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
+| Name       | Type           | Description                                                          |
+| :--------- | :------------- | :------------------------------------------------------------------- |
 | `shapeMap` | `EdgeShapeMap` | The shape map that contains all of the elements to show on the edge. |
-| `zoom` | `number` | The zoom level of the graph. |
+| `zoom`     | `number`       | The zoom level of the graph.                                         |
 
 #### Returns
 
@@ -285,7 +286,7 @@ The listener for graph zooming.
 
 [packages/g6/src/stdlib/item/edge/base.ts:539](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/item/edge/base.ts#L539)
 
-___
+---
 
 ### setNodeMap
 
@@ -295,8 +296,8 @@ Update all visible nodes on the canvas to be aware of obstacles. Called in item'
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
+| Name      | Type                    | Description                                                                             |
+| :-------- | :---------------------- | :-------------------------------------------------------------------------------------- |
 | `nodeMap` | `Map`<`ID`, `default`\> | The Map object representing the node map, where keys are node IDs and values are nodes. |
 
 #### Returns
@@ -307,7 +308,7 @@ Update all visible nodes on the canvas to be aware of obstacles. Called in item'
 
 [packages/g6/src/stdlib/item/edge/base.ts:642](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/item/edge/base.ts#L642)
 
-___
+---
 
 ### setSourcePoint
 
@@ -317,8 +318,8 @@ Update the source point { x, y } for the edge. Called in item's draw func.
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
+| Name    | Type    | Description  |
+| :------ | :------ | :----------- |
 | `point` | `Point` | source point |
 
 #### Returns
@@ -329,7 +330,7 @@ Update the source point { x, y } for the edge. Called in item's draw func.
 
 [packages/g6/src/stdlib/item/edge/base.ts:626](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/item/edge/base.ts#L626)
 
-___
+---
 
 ### setTargetPoint
 
@@ -339,8 +340,8 @@ Update the target point { x, y } for the edge. Called in item's draw func.
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
+| Name    | Type    | Description  |
+| :------ | :------ | :----------- |
 | `point` | `Point` | target point |
 
 #### Returns
@@ -351,7 +352,7 @@ Update the target point { x, y } for the edge. Called in item's draw func.
 
 [packages/g6/src/stdlib/item/edge/base.ts:634](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/item/edge/base.ts#L634)
 
-___
+---
 
 ### updateCache
 
@@ -361,8 +362,8 @@ Call it after calling draw function to update cache about bounds and zoom levels
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
+| Name       | Type  | Description                                                          |
+| :--------- | :---- | :------------------------------------------------------------------- |
 | `shapeMap` | `any` | The shape map that contains all of the elements to show on the edge. |
 
 #### Returns
@@ -373,7 +374,7 @@ Call it after calling draw function to update cache about bounds and zoom levels
 
 [packages/g6/src/stdlib/item/edge/base.ts:147](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/item/edge/base.ts#L147)
 
-___
+---
 
 ### upsertArrow
 
@@ -383,13 +384,13 @@ Adds or updates an arrow marker on the specified position of an edge.
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `position` | ``"start"`` \| ``"end"`` | The position where the arrow marker should be added or updated. Can be either 'start' or 'end'. |
-| `arrowConfig` | `boolean` \| `ArrowStyle` | The configuration for the arrow marker. Can be a boolean indicating whether to use the default arrow configuration, or an ArrowStyle object with custom arrow properties. |
-| `bodyStyle` | `Partial`<[`CircleStyleProps`](../../interfaces/item/CircleStyleProps.zh.md) & [`RectStyleProps`](../../interfaces/item/RectStyleProps.zh.md) & [`EllipseStyleProps`](../../interfaces/item/EllipseStyleProps.zh.md) & [`PolygonStyleProps`](../../interfaces/item/PolygonStyleProps.zh.md) & [`LineStyleProps`](../../interfaces/item/LineStyleProps.zh.md) & [`PolylineStyleProps`](../../interfaces/item/PolylineStyleProps.zh.md) & [`TextStyleProps`](../../interfaces/item/TextStyleProps.zh.md) & [`ImageStyleProps`](../../interfaces/item/ImageStyleProps.zh.md) & [`PathStyleProps`](../../interfaces/item/PathStyleProps.zh.md) & [`SphereGeometryProps`](../../interfaces/item/SphereGeometryProps.zh.md) & [`CubeGeometryProps`](../../interfaces/item/CubeGeometryProps.zh.md) & [`PlaneGeometryProps`](../../interfaces/item/PlaneGeometryProps.zh.md) & { `interactive?`: `boolean`  } & { `animates?`: `IAnimates` ; `lod?`: `number` ; `visible?`: `boolean`  }\> | The style of the edge body. |
-| `model` | `EdgeDisplayModel` | The EdgeDisplayModel that contains the data and style information for the edge. |
-| `resultStyle` | `Partial`<[`CircleStyleProps`](../../interfaces/item/CircleStyleProps.zh.md) & [`RectStyleProps`](../../interfaces/item/RectStyleProps.zh.md) & [`EllipseStyleProps`](../../interfaces/item/EllipseStyleProps.zh.md) & [`PolygonStyleProps`](../../interfaces/item/PolygonStyleProps.zh.md) & [`LineStyleProps`](../../interfaces/item/LineStyleProps.zh.md) & [`PolylineStyleProps`](../../interfaces/item/PolylineStyleProps.zh.md) & [`TextStyleProps`](../../interfaces/item/TextStyleProps.zh.md) & [`ImageStyleProps`](../../interfaces/item/ImageStyleProps.zh.md) & [`PathStyleProps`](../../interfaces/item/PathStyleProps.zh.md) & [`SphereGeometryProps`](../../interfaces/item/SphereGeometryProps.zh.md) & [`CubeGeometryProps`](../../interfaces/item/CubeGeometryProps.zh.md) & [`PlaneGeometryProps`](../../interfaces/item/PlaneGeometryProps.zh.md) & { `interactive?`: `boolean`  } & { `animates?`: `IAnimates` ; `lod?`: `number` ; `visible?`: `boolean`  }\> | The style object where the arrow marker properties will be added or updated. |
+| Name          | Type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | Description                                                                                                                                                               |
+| :------------ | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `position`    | `"start"` \| `"end"`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | The position where the arrow marker should be added or updated. Can be either 'start' or 'end'.                                                                           |
+| `arrowConfig` | `boolean` \| `ArrowStyle`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | The configuration for the arrow marker. Can be a boolean indicating whether to use the default arrow configuration, or an ArrowStyle object with custom arrow properties. |
+| `bodyStyle`   | `Partial`<[`CircleStyleProps`](../../interfaces/item/CircleStyleProps.zh.md) & [`RectStyleProps`](../../interfaces/item/RectStyleProps.zh.md) & [`EllipseStyleProps`](../../interfaces/item/EllipseStyleProps.zh.md) & [`PolygonStyleProps`](../../interfaces/item/PolygonStyleProps.zh.md) & [`LineStyleProps`](../../interfaces/item/LineStyleProps.zh.md) & [`PolylineStyleProps`](../../interfaces/item/PolylineStyleProps.zh.md) & [`TextStyleProps`](../../interfaces/item/TextStyleProps.zh.md) & [`ImageStyleProps`](../../interfaces/item/ImageStyleProps.zh.md) & [`PathStyleProps`](../../interfaces/item/PathStyleProps.zh.md) & [`SphereGeometryProps`](../../interfaces/item/SphereGeometryProps.zh.md) & [`CubeGeometryProps`](../../interfaces/item/CubeGeometryProps.zh.md) & [`PlaneGeometryProps`](../../interfaces/item/PlaneGeometryProps.zh.md) & { `interactive?`: `boolean` } & { `animates?`: `IAnimates` ; `lod?`: `number` ; `visible?`: `boolean` }\> | The style of the edge body.                                                                                                                                               |
+| `model`       | `EdgeDisplayModel`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                | The EdgeDisplayModel that contains the data and style information for the edge.                                                                                           |
+| `resultStyle` | `Partial`<[`CircleStyleProps`](../../interfaces/item/CircleStyleProps.zh.md) & [`RectStyleProps`](../../interfaces/item/RectStyleProps.zh.md) & [`EllipseStyleProps`](../../interfaces/item/EllipseStyleProps.zh.md) & [`PolygonStyleProps`](../../interfaces/item/PolygonStyleProps.zh.md) & [`LineStyleProps`](../../interfaces/item/LineStyleProps.zh.md) & [`PolylineStyleProps`](../../interfaces/item/PolylineStyleProps.zh.md) & [`TextStyleProps`](../../interfaces/item/TextStyleProps.zh.md) & [`ImageStyleProps`](../../interfaces/item/ImageStyleProps.zh.md) & [`PathStyleProps`](../../interfaces/item/PathStyleProps.zh.md) & [`SphereGeometryProps`](../../interfaces/item/SphereGeometryProps.zh.md) & [`CubeGeometryProps`](../../interfaces/item/CubeGeometryProps.zh.md) & [`PlaneGeometryProps`](../../interfaces/item/PlaneGeometryProps.zh.md) & { `interactive?`: `boolean` } & { `animates?`: `IAnimates` ; `lod?`: `number` ; `visible?`: `boolean` }\> | The style object where the arrow marker properties will be added or updated.                                                                                              |
 
 #### Returns
 
@@ -399,7 +400,7 @@ Adds or updates an arrow marker on the specified position of an edge.
 
 [packages/g6/src/stdlib/item/edge/base.ts:655](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/item/edge/base.ts#L655)
 
-___
+---
 
 ### upsertShape
 
@@ -409,13 +410,13 @@ Create (if does not exit in shapeMap) or update the shape according to the confi
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `type` | `SHAPE_TYPE` | shape's type |
-| `id` | `string` | unique string to indicates the shape |
-| `style` | `Partial`<[`CircleStyleProps`](../../interfaces/item/CircleStyleProps.zh.md) & [`RectStyleProps`](../../interfaces/item/RectStyleProps.zh.md) & [`EllipseStyleProps`](../../interfaces/item/EllipseStyleProps.zh.md) & [`PolygonStyleProps`](../../interfaces/item/PolygonStyleProps.zh.md) & [`LineStyleProps`](../../interfaces/item/LineStyleProps.zh.md) & [`PolylineStyleProps`](../../interfaces/item/PolylineStyleProps.zh.md) & [`TextStyleProps`](../../interfaces/item/TextStyleProps.zh.md) & [`ImageStyleProps`](../../interfaces/item/ImageStyleProps.zh.md) & [`PathStyleProps`](../../interfaces/item/PathStyleProps.zh.md) & [`SphereGeometryProps`](../../interfaces/item/SphereGeometryProps.zh.md) & [`CubeGeometryProps`](../../interfaces/item/CubeGeometryProps.zh.md) & [`PlaneGeometryProps`](../../interfaces/item/PlaneGeometryProps.zh.md) & { `interactive?`: `boolean`  } & { `animates?`: `IAnimates` ; `lod?`: `number` ; `visible?`: `boolean`  }\> | style to be updated |
-| `shapeMap` | `Object` | the shape map of a edge |
-| `model` | `EdgeDisplayModel` | data model of the edge |
+| Name       | Type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | Description                          |
+| :--------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :----------------------------------- |
+| `type`     | `SHAPE_TYPE`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | shape's type                         |
+| `id`       | `string`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | unique string to indicates the shape |
+| `style`    | `Partial`<[`CircleStyleProps`](../../interfaces/item/CircleStyleProps.zh.md) & [`RectStyleProps`](../../interfaces/item/RectStyleProps.zh.md) & [`EllipseStyleProps`](../../interfaces/item/EllipseStyleProps.zh.md) & [`PolygonStyleProps`](../../interfaces/item/PolygonStyleProps.zh.md) & [`LineStyleProps`](../../interfaces/item/LineStyleProps.zh.md) & [`PolylineStyleProps`](../../interfaces/item/PolylineStyleProps.zh.md) & [`TextStyleProps`](../../interfaces/item/TextStyleProps.zh.md) & [`ImageStyleProps`](../../interfaces/item/ImageStyleProps.zh.md) & [`PathStyleProps`](../../interfaces/item/PathStyleProps.zh.md) & [`SphereGeometryProps`](../../interfaces/item/SphereGeometryProps.zh.md) & [`CubeGeometryProps`](../../interfaces/item/CubeGeometryProps.zh.md) & [`PlaneGeometryProps`](../../interfaces/item/PlaneGeometryProps.zh.md) & { `interactive?`: `boolean` } & { `animates?`: `IAnimates` ; `lod?`: `number` ; `visible?`: `boolean` }\> | style to be updated                  |
+| `shapeMap` | `Object`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | the shape map of a edge              |
+| `model`    | `EdgeDisplayModel`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                | data model of the edge               |
 
 #### Returns
 
@@ -435,18 +436,18 @@ The display object representing the shape.
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `labelBackgroundShapeGeometry?` | `AABB` |
+| Name                             | Type     |
+| :------------------------------- | :------- |
+| `labelBackgroundShapeGeometry?`  | `AABB`   |
 | `labelBackgroundShapeTransform?` | `string` |
-| `labelShapeGeometry?` | `AABB` |
-| `labelShapeTransform?` | `string` |
+| `labelShapeGeometry?`            | `AABB`   |
+| `labelShapeTransform?`           | `string` |
 
 #### Defined in
 
 [packages/g6/src/stdlib/item/edge/base.ts:52](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/item/edge/base.ts#L52)
 
-___
+---
 
 ### defaultStyles
 
@@ -456,7 +457,7 @@ ___
 
 [packages/g6/src/stdlib/item/edge/base.ts:39](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/item/edge/base.ts#L39)
 
-___
+---
 
 ### labelPosition
 
@@ -464,18 +465,18 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `isRevert` | `boolean` |
-| `transform` | `string` |
-| `x` | `number` |
-| `y` | `number` |
+| Name        | Type      |
+| :---------- | :-------- |
+| `isRevert`  | `boolean` |
+| `transform` | `string`  |
+| `x`         | `number`  |
+| `y`         | `number`  |
 
 #### Defined in
 
 [packages/g6/src/stdlib/item/edge/base.ts:46](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/item/edge/base.ts#L46)
 
-___
+---
 
 ### lodStrategy
 
@@ -485,7 +486,7 @@ ___
 
 [packages/g6/src/stdlib/item/edge/base.ts:45](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/item/edge/base.ts#L45)
 
-___
+---
 
 ### mergedStyles
 
@@ -495,7 +496,7 @@ ___
 
 [packages/g6/src/stdlib/item/edge/base.ts:41](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/item/edge/base.ts#L41)
 
-___
+---
 
 ### nodeMap
 
@@ -505,11 +506,11 @@ ___
 
 [packages/g6/src/stdlib/item/edge/base.ts:44](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/item/edge/base.ts#L44)
 
-___
+---
 
 ### setState
 
-• **setState**: (`name`: `string`, `value`: `boolean`, `shapeMap`: { `[shapeId: string]`: `DisplayObject`;  }) => `void`
+• **setState**: (`name`: `string`, `value`: `boolean`, `shapeMap`: { `[shapeId: string]`: `DisplayObject`; }) => `void`
 
 #### Type declaration
 
@@ -519,11 +520,11 @@ Set the state for the edge.
 
 ##### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `name` | `string` | - |
-| `value` | `boolean` | state value |
-| `shapeMap` | `Object` | The shape map that contains all of the elements to show on the edge. |
+| Name       | Type      | Description                                                          |
+| :--------- | :-------- | :------------------------------------------------------------------- |
+| `name`     | `string`  | -                                                                    |
+| `value`    | `boolean` | state value                                                          |
+| `shapeMap` | `Object`  | The shape map that contains all of the elements to show on the edge. |
 
 ##### Returns
 
@@ -533,7 +534,7 @@ Set the state for the edge.
 
 [packages/g6/src/stdlib/item/edge/base.ts:225](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/item/edge/base.ts#L225)
 
-___
+---
 
 ### sourcePoint
 
@@ -543,7 +544,7 @@ ___
 
 [packages/g6/src/stdlib/item/edge/base.ts:42](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/item/edge/base.ts#L42)
 
-___
+---
 
 ### targetPoint
 
@@ -553,7 +554,7 @@ ___
 
 [packages/g6/src/stdlib/item/edge/base.ts:43](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/item/edge/base.ts#L43)
 
-___
+---
 
 ### themeStyles
 
@@ -563,7 +564,7 @@ ___
 
 [packages/g6/src/stdlib/item/edge/base.ts:40](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/item/edge/base.ts#L40)
 
-___
+---
 
 ### type
 

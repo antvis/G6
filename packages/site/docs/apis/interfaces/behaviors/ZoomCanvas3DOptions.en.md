@@ -2,7 +2,7 @@
 title: ZoomCanvas3DOptions
 ---
 
-[Overview - v5.0.0-beta.1](../../README.en.md) / [Modules](../../modules.en.md) / [behaviors](../../modules/behaviors.en.md) / ZoomCanvas3DOptions
+[Overview - v5.0.0-beta.2](../../README.en.md) / [Modules](../../modules.en.md) / [behaviors](../../modules/behaviors.en.md) / ZoomCanvas3DOptions
 
 [behaviors](../../modules/behaviors.en.md).ZoomCanvas3DOptions
 
@@ -18,7 +18,7 @@ The event name to trigger when drag end.
 
 [packages/g6/src/stdlib/behavior/zoom-canvas-3d.ts:33](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/zoom-canvas-3d.ts#L33)
 
-___
+---
 
 ### maxZoom
 
@@ -30,7 +30,7 @@ The max value of camera's dolly to constrain the zoom-canvas-3d behavior
 
 [packages/g6/src/stdlib/behavior/zoom-canvas-3d.ts:41](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/zoom-canvas-3d.ts#L41)
 
-___
+---
 
 ### minZoom
 
@@ -42,7 +42,7 @@ The min value of camera's dolly to constrain the zoom-canvas-3d behavior
 
 [packages/g6/src/stdlib/behavior/zoom-canvas-3d.ts:37](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/zoom-canvas-3d.ts#L37)
 
-___
+---
 
 ### secondaryKey
 
@@ -57,7 +57,7 @@ to make the behavior triggered only when the key is pressing and trigger is happ
 
 [packages/g6/src/stdlib/behavior/zoom-canvas-3d.ts:21](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/zoom-canvas-3d.ts#L21)
 
-___
+---
 
 ### sensitivity
 
@@ -69,7 +69,7 @@ Sensitivity of zooming.
 
 [packages/g6/src/stdlib/behavior/zoom-canvas-3d.ts:25](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/zoom-canvas-3d.ts#L25)
 
-___
+---
 
 ### shouldBegin
 
@@ -83,8 +83,8 @@ Whether allow the behavior happen on the current item.
 
 ##### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name    | Type                                   |
+| :------ | :------------------------------------- |
 | `event` | [`IG6GraphEvent`](IG6GraphEvent.en.md) |
 
 ##### Returns
@@ -95,11 +95,11 @@ Whether allow the behavior happen on the current item.
 
 [packages/g6/src/stdlib/behavior/zoom-canvas-3d.ts:45](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/zoom-canvas-3d.ts#L45)
 
-___
+---
 
 ### trigger
 
-• `Optional` **trigger**: ``"wheel"`` \| ``"upDownKeys"``
+• `Optional` **trigger**: `"wheel"` \| `"upDownKeys"`
 
 The way to tranlate the canvas. 'drag' (default) means dragged by mouse, 'directionKeys' means the up/down/left/right key on keyBoard.
 
@@ -107,7 +107,7 @@ The way to tranlate the canvas. 'drag' (default) means dragged by mouse, 'direct
 
 [packages/g6/src/stdlib/behavior/zoom-canvas-3d.ts:14](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/zoom-canvas-3d.ts#L14)
 
-___
+---
 
 ### triggerOnItems
 

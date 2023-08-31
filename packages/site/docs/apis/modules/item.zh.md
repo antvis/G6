@@ -2,9 +2,9 @@
 title: item
 ---
 
-> 📋 中文文档还在翻译中... 欢迎PR
+> 📋 中文文档还在翻译中... 欢迎 PR
 
-[Overview - v5.0.0-beta.1](../README.zh.md) / [Modules](../modules.zh.md) / item
+[Overview - v5.0.0-beta.2](../README.zh.md) / [Modules](../modules.zh.md) / item
 
 ## Interfaces
 
@@ -49,13 +49,13 @@ title: item
 
 ### GShapeStyle
 
-Ƭ **GShapeStyle**: [`CircleStyleProps`](../interfaces/item/CircleStyleProps.zh.md) & [`RectStyleProps`](../interfaces/item/RectStyleProps.zh.md) & [`EllipseStyleProps`](../interfaces/item/EllipseStyleProps.zh.md) & [`PolygonStyleProps`](../interfaces/item/PolygonStyleProps.zh.md) & [`LineStyleProps`](../interfaces/item/LineStyleProps.zh.md) & [`PolylineStyleProps`](../interfaces/item/PolylineStyleProps.zh.md) & [`TextStyleProps`](../interfaces/item/TextStyleProps.zh.md) & [`ImageStyleProps`](../interfaces/item/ImageStyleProps.zh.md) & [`PathStyleProps`](../interfaces/item/PathStyleProps.zh.md) & [`SphereGeometryProps`](../interfaces/item/SphereGeometryProps.zh.md) & [`CubeGeometryProps`](../interfaces/item/CubeGeometryProps.zh.md) & [`PlaneGeometryProps`](../interfaces/item/PlaneGeometryProps.zh.md) & { `interactive?`: `boolean`  }
+Ƭ **GShapeStyle**: [`CircleStyleProps`](../interfaces/item/CircleStyleProps.zh.md) & [`RectStyleProps`](../interfaces/item/RectStyleProps.zh.md) & [`EllipseStyleProps`](../interfaces/item/EllipseStyleProps.zh.md) & [`PolygonStyleProps`](../interfaces/item/PolygonStyleProps.zh.md) & [`LineStyleProps`](../interfaces/item/LineStyleProps.zh.md) & [`PolylineStyleProps`](../interfaces/item/PolylineStyleProps.zh.md) & [`TextStyleProps`](../interfaces/item/TextStyleProps.zh.md) & [`ImageStyleProps`](../interfaces/item/ImageStyleProps.zh.md) & [`PathStyleProps`](../interfaces/item/PathStyleProps.zh.md) & [`SphereGeometryProps`](../interfaces/item/SphereGeometryProps.zh.md) & [`CubeGeometryProps`](../interfaces/item/CubeGeometryProps.zh.md) & [`PlaneGeometryProps`](../interfaces/item/PlaneGeometryProps.zh.md) & { `interactive?`: `boolean` }
 
 #### Defined in
 
 [packages/g6/src/types/item.ts:49](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/item.ts#L49)
 
-___
+---
 
 ### IBadgePosition
 
@@ -65,11 +65,11 @@ ___
 
 [packages/g6/src/types/item.ts:148](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/item.ts#L148)
 
-___
+---
 
 ### ShapeStyle
 
-Ƭ **ShapeStyle**: `Partial`<[`GShapeStyle`](item.zh.md#gshapestyle) & { `animates?`: `IAnimates` ; `lod?`: `number` ; `visible?`: `boolean`  }\>
+Ƭ **ShapeStyle**: `Partial`<[`GShapeStyle`](item.zh.md#gshapestyle) & { `animates?`: `IAnimates` ; `lod?`: `number` ; `visible?`: `boolean` }\>
 
 #### Defined in
 

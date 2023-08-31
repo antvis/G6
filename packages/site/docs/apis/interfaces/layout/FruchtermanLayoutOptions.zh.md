@@ -2,9 +2,9 @@
 title: FruchtermanLayoutOptions
 ---
 
-> 📋 中文文档还在翻译中... 欢迎PR
+> 📋 中文文档还在翻译中... 欢迎 PR
 
-[Overview - v5.0.0-beta.1](../../README.zh.md) / [Modules](../../modules.zh.md) / [layout](../../modules/layout.zh.md) / FruchtermanLayoutOptions
+[Overview - v5.0.0-beta.2](../../README.zh.md) / [Modules](../../modules.zh.md) / [layout](../../modules/layout.zh.md) / FruchtermanLayoutOptions
 
 [layout](../../modules/layout.zh.md).FruchtermanLayoutOptions
 
@@ -28,7 +28,7 @@ CommonForceLayoutOptions.center
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:252
 
-___
+---
 
 ### clusterGravity
 
@@ -38,7 +38,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:316
 
-___
+---
 
 ### clustering
 
@@ -48,7 +48,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:315
 
-___
+---
 
 ### dimensions
 
@@ -62,11 +62,11 @@ CommonForceLayoutOptions.dimensions
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:251
 
-___
+---
 
 ### distanceThresholdMode
 
-• `Optional` **distanceThresholdMode**: ``"min"`` \| ``"max"`` \| ``"mean"``
+• `Optional` **distanceThresholdMode**: `"min"` \| `"max"` \| `"mean"`
 
 #### Inherited from
 
@@ -76,7 +76,7 @@ CommonForceLayoutOptions.distanceThresholdMode
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:255
 
-___
+---
 
 ### gravity
 
@@ -86,7 +86,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:313
 
-___
+---
 
 ### height
 
@@ -96,7 +96,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:312
 
-___
+---
 
 ### maxDistance
 
@@ -114,7 +114,7 @@ CommonForceLayoutOptions.maxDistance
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:261
 
-___
+---
 
 ### maxIteration
 
@@ -128,7 +128,7 @@ CommonForceLayoutOptions.maxIteration
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:254
 
-___
+---
 
 ### minMovement
 
@@ -142,7 +142,7 @@ CommonForceLayoutOptions.minMovement
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:253
 
-___
+---
 
 ### nodeClusterBy
 
@@ -152,7 +152,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:317
 
-___
+---
 
 ### onTick
 
@@ -164,8 +164,8 @@ ___
 
 ##### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name   | Type            |
+| :----- | :-------------- |
 | `data` | `LayoutMapping` |
 
 ##### Returns
@@ -176,7 +176,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:318
 
-___
+---
 
 ### speed
 
@@ -186,7 +186,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:314
 
-___
+---
 
 ### width
 

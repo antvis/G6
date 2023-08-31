@@ -2,7 +2,7 @@
 title: TrackCanvas3DOptions
 ---
 
-[Overview - v5.0.0-beta.1](../../README.en.md) / [Modules](../../modules.en.md) / [behaviors](../../modules/behaviors.en.md) / TrackCanvas3DOptions
+[Overview - v5.0.0-beta.2](../../README.en.md) / [Modules](../../modules.en.md) / [behaviors](../../modules/behaviors.en.md) / TrackCanvas3DOptions
 
 [behaviors](../../modules/behaviors.en.md).TrackCanvas3DOptions
 
@@ -18,7 +18,7 @@ The event name to trigger when drag end.
 
 [packages/g6/src/stdlib/behavior/track-canvas-3d.ts:24](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/track-canvas-3d.ts#L24)
 
-___
+---
 
 ### secondaryKey
 
@@ -33,7 +33,7 @@ to make the behavior triggered only when the key is pressing and trigger is happ
 
 [packages/g6/src/stdlib/behavior/track-canvas-3d.ts:20](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/track-canvas-3d.ts#L20)
 
-___
+---
 
 ### shouldBegin
 
@@ -47,8 +47,8 @@ Whether allow the behavior happen on the current item.
 
 ##### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name    | Type                                   |
+| :------ | :------------------------------------- |
 | `event` | [`IG6GraphEvent`](IG6GraphEvent.en.md) |
 
 ##### Returns
@@ -59,11 +59,11 @@ Whether allow the behavior happen on the current item.
 
 [packages/g6/src/stdlib/behavior/track-canvas-3d.ts:28](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/track-canvas-3d.ts#L28)
 
-___
+---
 
 ### trigger
 
-• `Optional` **trigger**: ``"drag"`` \| ``"directionKeys"``
+• `Optional` **trigger**: `"drag"` \| `"directionKeys"`
 
 The way to tranlate the canvas. 'drag' (default) means dragged by mouse, 'directionKeys' means the up/down/left/right key on keyBoard.
 

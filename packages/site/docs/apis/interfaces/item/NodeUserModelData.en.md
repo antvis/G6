@@ -2,7 +2,7 @@
 title: NodeUserModelData
 ---
 
-[Overview - v5.0.0-beta.1](../../README.en.md) / [Modules](../../modules.en.md) / [item](../../modules/item.en.md) / NodeUserModelData
+[Overview - v5.0.0-beta.2](../../README.en.md) / [Modules](../../modules.en.md) / [item](../../modules/item.en.md) / NodeUserModelData
 
 [item](../../modules/item.en.md).NodeUserModelData
 
@@ -27,11 +27,11 @@ More styles should be configured in node mapper.
 
 [packages/g6/src/types/node.ts:73](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/node.ts#L73)
 
-___
+---
 
 ### badges
 
-• `Optional` **badges**: { `position`: [`BadgePosition`](../../enums/item/BadgePosition.en.md) ; `text`: `string` ; `type`: ``"text"`` \| ``"icon"``  }[]
+• `Optional` **badges**: { `position`: [`BadgePosition`](../../enums/item/BadgePosition.en.md) ; `text`: `string` ; `type`: `"text"` \| `"icon"` }[]
 
 The badges to show on the node.
 More styles should be configured in node mapper.
@@ -40,7 +40,7 @@ More styles should be configured in node mapper.
 
 [packages/g6/src/types/node.ts:78](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/node.ts#L78)
 
-___
+---
 
 ### color
 
@@ -53,7 +53,7 @@ More styles should be configured in node mapper.
 
 [packages/g6/src/types/node.ts:42](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/node.ts#L42)
 
-___
+---
 
 ### icon
 
@@ -64,17 +64,17 @@ More styles should be configured in node mapper.
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `img?` | `string` |
-| `text?` | `string` |
-| `type` | ``"text"`` \| ``"icon"`` |
+| Name    | Type                 |
+| :------ | :------------------- |
+| `img?`  | `string`             |
+| `text?` | `string`             |
+| `type`  | `"text"` \| `"icon"` |
 
 #### Defined in
 
 [packages/g6/src/types/node.ts:64](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/node.ts#L64)
 
-___
+---
 
 ### isRoot
 
@@ -86,7 +86,7 @@ Whether to be a root at when used as a tree.
 
 [packages/g6/src/types/node.ts:59](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/node.ts#L59)
 
-___
+---
 
 ### label
 
@@ -99,7 +99,7 @@ More styles should be configured in node mapper.
 
 [packages/g6/src/types/node.ts:47](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/node.ts#L47)
 
-___
+---
 
 ### parentId
 
@@ -111,13 +111,14 @@ The id of parent combo.
 
 [packages/g6/src/types/node.ts:55](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/node.ts#L55)
 
-___
+---
 
 ### preventPolylineEdgeOverlap
 
 • `Optional` **preventPolylineEdgeOverlap**: `boolean`
 
 Whether to prevent overlap with unassociated edges.
+
 - Used to preempt position.
 - Defaults to false.
 - Only valid for polyline
@@ -126,7 +127,7 @@ Whether to prevent overlap with unassociated edges.
 
 [packages/g6/src/types/node.ts:89](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/node.ts#L89)
 
-___
+---
 
 ### type
 
@@ -138,7 +139,7 @@ The type of node, e.g. `circle-node`.
 
 [packages/g6/src/types/node.ts:37](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/node.ts#L37)
 
-___
+---
 
 ### visible
 
@@ -150,7 +151,7 @@ Whether show the node by default.
 
 [packages/g6/src/types/node.ts:51](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/node.ts#L51)
 
-___
+---
 
 ### x
 
@@ -162,7 +163,7 @@ The x-coordinate of node.
 
 [packages/g6/src/types/node.ts:25](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/node.ts#L25)
 
-___
+---
 
 ### y
 
@@ -174,7 +175,7 @@ The y-coordinate of node.
 
 [packages/g6/src/types/node.ts:29](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/node.ts#L29)
 
-___
+---
 
 ### z
 

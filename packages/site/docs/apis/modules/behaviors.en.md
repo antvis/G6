@@ -2,7 +2,7 @@
 title: behaviors
 ---
 
-[Overview - v5.0.0-beta.1](../README.en.md) / [Modules](../modules.en.md) / behaviors
+[Overview - v5.0.0-beta.2](../README.en.md) / [Modules](../modules.en.md) / behaviors
 
 ## Interfaces
 
@@ -25,7 +25,7 @@ title: behaviors
 
 ### ICanvasEventType
 
-Ƭ **ICanvasEventType**: \`${CANVAS\_EVENT\_TYPE}\`
+Ƭ **ICanvasEventType**: \`${CANVAS_EVENT_TYPE}\`
 
 Event type union
 

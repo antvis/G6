@@ -2,9 +2,9 @@
 title: GraphData
 ---
 
-> 📋 中文文档还在翻译中... 欢迎PR
+> 📋 中文文档还在翻译中... 欢迎 PR
 
-[Overview - v5.0.0-beta.1](../../README.zh.md) / [Modules](../../modules.zh.md) / [graph](../../modules/graph.zh.md) / GraphData
+[Overview - v5.0.0-beta.2](../../README.zh.md) / [Modules](../../modules.zh.md) / [graph](../../modules/graph.zh.md) / GraphData
 
 [graph](../../modules/graph.zh.md).GraphData
 
@@ -18,7 +18,7 @@ title: GraphData
 
 [packages/g6/src/types/data.ts:14](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/data.ts#L14)
 
-___
+---
 
 ### edges
 
@@ -28,7 +28,7 @@ ___
 
 [packages/g6/src/types/data.ts:13](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/data.ts#L13)
 
-___
+---
 
 ### nodes
 

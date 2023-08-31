@@ -2,9 +2,9 @@
 title: TextStyleProps
 ---
 
-> 📋 中文文档还在翻译中... 欢迎PR
+> 📋 中文文档还在翻译中... 欢迎 PR
 
-[Overview - v5.0.0-beta.1](../../README.zh.md) / [Modules](../../modules.zh.md) / [item](../../modules/item.zh.md) / TextStyleProps
+[Overview - v5.0.0-beta.2](../../README.zh.md) / [Modules](../../modules.zh.md) / [item](../../modules/item.zh.md) / TextStyleProps
 
 [item](../../modules/item.zh.md).TextStyleProps
 
@@ -31,7 +31,7 @@ BaseStyleProps.anchor
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/types.d.ts:47
 
-___
+---
 
 ### billboardRotation
 
@@ -43,7 +43,7 @@ The rotation of the billboard in radians.
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/display-objects/Text.d.ts:18
 
-___
+---
 
 ### class
 
@@ -57,7 +57,7 @@ BaseStyleProps.class
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/types.d.ts:34
 
-___
+---
 
 ### clipPath
 
@@ -77,7 +77,7 @@ BaseStyleProps.clipPath
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/types.d.ts:68
 
-___
+---
 
 ### cursor
 
@@ -93,7 +93,7 @@ BaseStyleProps.cursor
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/types.d.ts:63
 
-___
+---
 
 ### display
 
@@ -107,7 +107,7 @@ BaseStyleProps.display
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/types.d.ts:171
 
-___
+---
 
 ### draggable
 
@@ -125,7 +125,7 @@ BaseStyleProps.draggable
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/types.d.ts:175
 
-___
+---
 
 ### droppable
 
@@ -143,7 +143,7 @@ BaseStyleProps.droppable
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/types.d.ts:179
 
-___
+---
 
 ### dx
 
@@ -159,7 +159,7 @@ https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/dx
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/display-objects/Text.d.ts:131
 
-___
+---
 
 ### dy
 
@@ -175,7 +175,7 @@ https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/dy
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/display-objects/Text.d.ts:136
 
-___
+---
 
 ### fill
 
@@ -191,7 +191,7 @@ BaseStyleProps.fill
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/types.d.ts:79
 
-___
+---
 
 ### fillOpacity
 
@@ -207,11 +207,11 @@ BaseStyleProps.fillOpacity
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/types.d.ts:81
 
-___
+---
 
 ### fillRule
 
-• `Optional` **fillRule**: ``"nonzero"`` \| ``"evenodd"``
+• `Optional` **fillRule**: `"nonzero"` \| `"evenodd"`
 
 The fill-rule attribute is a presentation attribute defining the algorithm to use to determine the inside part of a shape.
 
@@ -227,7 +227,7 @@ BaseStyleProps.fillRule
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/types.d.ts:86
 
-___
+---
 
 ### filter
 
@@ -245,7 +245,7 @@ BaseStyleProps.filter
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/types.d.ts:162
 
-___
+---
 
 ### fontFamily
 
@@ -261,7 +261,7 @@ https://developer.mozilla.org/en-US/docs/Web/CSS/font-family
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/display-objects/Text.d.ts:84
 
-___
+---
 
 ### fontSize
 
@@ -277,11 +277,11 @@ https://developer.mozilla.org/en-US/docs/Web/CSS/font-size
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/display-objects/Text.d.ts:79
 
-___
+---
 
 ### fontStyle
 
-• `Optional` **fontStyle**: ``"normal"`` \| `CSSGlobalKeywords` \| ``"italic"`` \| ``"oblique"``
+• `Optional` **fontStyle**: `"normal"` \| `CSSGlobalKeywords` \| `"italic"` \| `"oblique"`
 
 The font-style property sets whether a font should be styled with a normal, italic, or oblique face from its font-family.
 
@@ -293,7 +293,7 @@ https://developer.mozilla.org/en-US/docs/Web/CSS/font-style
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/display-objects/Text.d.ts:74
 
-___
+---
 
 ### fontVariant
 
@@ -309,11 +309,11 @@ https://developer.mozilla.org/en-US/docs/Web/CSS/font-variant
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/display-objects/Text.d.ts:94
 
-___
+---
 
 ### fontWeight
 
-• `Optional` **fontWeight**: `number` \| ``"normal"`` \| `CSSGlobalKeywords` \| ``"bold"`` \| ``"bolder"`` \| ``"lighter"``
+• `Optional` **fontWeight**: `number` \| `"normal"` \| `CSSGlobalKeywords` \| `"bold"` \| `"bolder"` \| `"lighter"`
 
 The font-weight property sets the weight (or boldness) of the font. The weights available depend on the font-family that is currently set.
 
@@ -325,7 +325,7 @@ https://developer.mozilla.org/en-US/docs/Web/CSS/font-weight
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/display-objects/Text.d.ts:89
 
-___
+---
 
 ### hitArea
 
@@ -341,7 +341,7 @@ BaseStyleProps.hitArea
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/types.d.ts:105
 
-___
+---
 
 ### increasedLineWidthForHitTesting
 
@@ -357,7 +357,7 @@ BaseStyleProps.increasedLineWidthForHitTesting
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/types.d.ts:101
 
-___
+---
 
 ### isBillboard
 
@@ -369,7 +369,7 @@ Always face the camera.
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/display-objects/Text.d.ts:14
 
-___
+---
 
 ### isSizeAttenuation
 
@@ -381,7 +381,7 @@ Whether the size of the sprite is attenuated by the camera depth. (Perspective c
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/display-objects/Text.d.ts:22
 
-___
+---
 
 ### leading
 
@@ -397,7 +397,7 @@ https://css-tricks.com/how-to-tame-line-height-in-css/
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/display-objects/Text.d.ts:113
 
-___
+---
 
 ### letterSpacing
 
@@ -413,7 +413,7 @@ https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/letter
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/display-objects/Text.d.ts:104
 
-___
+---
 
 ### lineCap
 
@@ -433,7 +433,7 @@ BaseStyleProps.lineCap
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/types.d.ts:114
 
-___
+---
 
 ### lineDash
 
@@ -453,7 +453,7 @@ BaseStyleProps.lineDash
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/types.d.ts:132
 
-___
+---
 
 ### lineDashOffset
 
@@ -473,7 +473,7 @@ BaseStyleProps.lineDashOffset
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/types.d.ts:141
 
-___
+---
 
 ### lineHeight
 
@@ -489,7 +489,7 @@ https://developer.mozilla.org/en-US/docs/Web/CSS/line-height
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/display-objects/Text.d.ts:99
 
-___
+---
 
 ### lineJoin
 
@@ -509,7 +509,7 @@ BaseStyleProps.lineJoin
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/types.d.ts:123
 
-___
+---
 
 ### lineWidth
 
@@ -529,7 +529,7 @@ BaseStyleProps.lineWidth
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/types.d.ts:97
 
-___
+---
 
 ### maxLines
 
@@ -541,7 +541,7 @@ Borrow from CanvasKit ParagraphStyle.
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/display-objects/Text.d.ts:43
 
-___
+---
 
 ### miterLimit
 
@@ -559,7 +559,7 @@ BaseStyleProps.miterLimit
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/types.d.ts:170
 
-___
+---
 
 ### offsetDistance
 
@@ -573,7 +573,7 @@ BaseStyleProps.offsetDistance
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/types.d.ts:74
 
-___
+---
 
 ### offsetPath
 
@@ -593,7 +593,7 @@ BaseStyleProps.offsetPath
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/types.d.ts:73
 
-___
+---
 
 ### opacity
 
@@ -609,11 +609,11 @@ BaseStyleProps.opacity
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/types.d.ts:88
 
-___
+---
 
 ### pointerEvents
 
-• `Optional` **pointerEvents**: ``"fill"`` \| ``"stroke"`` \| ``"visible"`` \| `CSSGlobalKeywords` \| ``"none"`` \| ``"auto"`` \| ``"painted"`` \| ``"visiblestroke"`` \| ``"visiblefill"`` \| ``"visiblepainted"`` \| ``"all"`` \| ``"non-transparent-pixel"``
+• `Optional` **pointerEvents**: `"fill"` \| `"stroke"` \| `"visible"` \| `CSSGlobalKeywords` \| `"none"` \| `"auto"` \| `"painted"` \| `"visiblestroke"` \| `"visiblefill"` \| `"visiblepainted"` \| `"all"` \| `"non-transparent-pixel"`
 
 **`See`**
 
@@ -627,7 +627,7 @@ BaseStyleProps.pointerEvents
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/types.d.ts:55
 
-___
+---
 
 ### shadowBlur
 
@@ -645,7 +645,7 @@ BaseStyleProps.shadowBlur
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/types.d.ts:146
 
-___
+---
 
 ### shadowColor
 
@@ -663,7 +663,7 @@ BaseStyleProps.shadowColor
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/types.d.ts:150
 
-___
+---
 
 ### shadowOffsetX
 
@@ -681,7 +681,7 @@ BaseStyleProps.shadowOffsetX
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/types.d.ts:154
 
-___
+---
 
 ### shadowOffsetY
 
@@ -697,11 +697,11 @@ BaseStyleProps.shadowOffsetY
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/types.d.ts:158
 
-___
+---
 
 ### shadowType
 
-• `Optional` **shadowType**: ``"both"`` \| ``"inner"`` \| ``"outer"``
+• `Optional` **shadowType**: `"both"` \| `"inner"` \| `"outer"`
 
 #### Inherited from
 
@@ -711,7 +711,7 @@ BaseStyleProps.shadowType
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/types.d.ts:142
 
-___
+---
 
 ### stroke
 
@@ -725,7 +725,7 @@ BaseStyleProps.stroke
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/types.d.ts:75
 
-___
+---
 
 ### strokeDasharray
 
@@ -743,7 +743,7 @@ BaseStyleProps.strokeDasharray
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/types.d.ts:127
 
-___
+---
 
 ### strokeDashoffset
 
@@ -761,7 +761,7 @@ BaseStyleProps.strokeDashoffset
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/types.d.ts:136
 
-___
+---
 
 ### strokeLinecap
 
@@ -779,7 +779,7 @@ BaseStyleProps.strokeLinecap
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/types.d.ts:109
 
-___
+---
 
 ### strokeLinejoin
 
@@ -797,7 +797,7 @@ BaseStyleProps.strokeLinejoin
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/types.d.ts:118
 
-___
+---
 
 ### strokeOpacity
 
@@ -813,7 +813,7 @@ BaseStyleProps.strokeOpacity
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/types.d.ts:77
 
-___
+---
 
 ### strokeWidth
 
@@ -831,7 +831,7 @@ BaseStyleProps.strokeWidth
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/types.d.ts:92
 
-___
+---
 
 ### text
 
@@ -841,11 +841,11 @@ ___
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/display-objects/Text.d.ts:23
 
-___
+---
 
 ### textAlign
 
-• `Optional` **textAlign**: `CSSGlobalKeywords` \| ``"start"`` \| ``"center"`` \| ``"middle"`` \| ``"end"`` \| ``"left"`` \| ``"right"``
+• `Optional` **textAlign**: `CSSGlobalKeywords` \| `"start"` \| `"center"` \| `"middle"` \| `"end"` \| `"left"` \| `"right"`
 
 The text-align property sets the horizontal alignment of the inline-level content.
 
@@ -857,11 +857,11 @@ https://developer.mozilla.org/en-US/docs/Web/CSS/text-align
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/display-objects/Text.d.ts:28
 
-___
+---
 
 ### textBaseline
 
-• `Optional` **textBaseline**: `CSSGlobalKeywords` \| ``"middle"`` \| ``"top"`` \| ``"hanging"`` \| ``"alphabetic"`` \| ``"ideographic"`` \| ``"bottom"``
+• `Optional` **textBaseline**: `CSSGlobalKeywords` \| `"middle"` \| `"top"` \| `"hanging"` \| `"alphabetic"` \| `"ideographic"` \| `"bottom"`
 
 It specifies the current text baseline used when drawing text.
 
@@ -873,7 +873,7 @@ https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/textBa
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/display-objects/Text.d.ts:33
 
-___
+---
 
 ### textDecorationColor
 
@@ -887,7 +887,7 @@ https://developer.mozilla.org/en-US/docs/Web/CSS/text-decoration-color
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/display-objects/Text.d.ts:65
 
-___
+---
 
 ### textDecorationLine
 
@@ -901,7 +901,7 @@ https://developer.mozilla.org/en-US/docs/Web/CSS/text-decoration-line
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/display-objects/Text.d.ts:61
 
-___
+---
 
 ### textDecorationStyle
 
@@ -915,7 +915,7 @@ https://developer.mozilla.org/en-US/docs/Web/CSS/text-decoration-style
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/display-objects/Text.d.ts:69
 
-___
+---
 
 ### textOverflow
 
@@ -932,7 +932,7 @@ https://developer.mozilla.org/en-US/docs/Web/CSS/text-overflow#values
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/display-objects/Text.d.ts:39
 
-___
+---
 
 ### textPath
 
@@ -946,11 +946,11 @@ https://developer.mozilla.org/en-US/docs/Web/SVG/Element/textPath
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/display-objects/Text.d.ts:47
 
-___
+---
 
 ### textPathSide
 
-• `Optional` **textPathSide**: ``"left"`` \| ``"right"``
+• `Optional` **textPathSide**: `"left"` \| `"right"`
 
 The side attribute determines the side of a path the text is placed on (relative to the path direction).
 
@@ -962,7 +962,7 @@ https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/side
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/display-objects/Text.d.ts:52
 
-___
+---
 
 ### textPathStartOffset
 
@@ -978,11 +978,11 @@ https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/startOffset
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/display-objects/Text.d.ts:57
 
-___
+---
 
 ### textTransform
 
-• `Optional` **textTransform**: ``""`` \| `TextTransform`
+• `Optional` **textTransform**: `""` \| `TextTransform`
 
 **`See`**
 
@@ -996,7 +996,7 @@ BaseStyleProps.textTransform
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/types.d.ts:166
 
-___
+---
 
 ### transform
 
@@ -1014,7 +1014,7 @@ BaseStyleProps.transform
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/types.d.ts:38
 
-___
+---
 
 ### transformOrigin
 
@@ -1032,11 +1032,11 @@ BaseStyleProps.transformOrigin
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/types.d.ts:42
 
-___
+---
 
 ### visibility
 
-• `Optional` **visibility**: ``"visible"`` \| `CSSGlobalKeywords` \| ``"hidden"``
+• `Optional` **visibility**: `"visible"` \| `CSSGlobalKeywords` \| `"hidden"`
 
 **`See`**
 
@@ -1050,7 +1050,7 @@ BaseStyleProps.visibility
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/types.d.ts:51
 
-___
+---
 
 ### wordWrap
 
@@ -1070,7 +1070,7 @@ https://developer.mozilla.org/en-US/docs/Web/CSS/overflow-wrap
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/display-objects/Text.d.ts:122
 
-___
+---
 
 ### wordWrapWidth
 
@@ -1082,7 +1082,7 @@ Max width of overflowing box.
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/display-objects/Text.d.ts:126
 
-___
+---
 
 ### x
 
@@ -1092,7 +1092,7 @@ ___
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/display-objects/Text.d.ts:8
 
-___
+---
 
 ### y
 
@@ -1102,7 +1102,7 @@ ___
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/display-objects/Text.d.ts:9
 
-___
+---
 
 ### z
 
@@ -1112,7 +1112,7 @@ ___
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/display-objects/Text.d.ts:10
 
-___
+---
 
 ### zIndex
 

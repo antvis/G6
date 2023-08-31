@@ -2,7 +2,7 @@
 title: GraphData
 ---
 
-[Overview - v5.0.0-beta.1](../../README.en.md) / [Modules](../../modules.en.md) / [graph](../../modules/graph.en.md) / GraphData
+[Overview - v5.0.0-beta.2](../../README.en.md) / [Modules](../../modules.en.md) / [graph](../../modules/graph.en.md) / GraphData
 
 [graph](../../modules/graph.en.md).GraphData
 
@@ -16,7 +16,7 @@ title: GraphData
 
 [packages/g6/src/types/data.ts:14](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/data.ts#L14)
 
-___
+---
 
 ### edges
 
@@ -26,7 +26,7 @@ ___
 
 [packages/g6/src/types/data.ts:13](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/data.ts#L13)
 
-___
+---
 
 ### nodes
 
