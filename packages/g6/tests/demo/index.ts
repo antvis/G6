@@ -56,6 +56,9 @@ import layouts_combocombined from './layouts/combo-combined';
 import hull from './plugins/hull';
 import legend from './plugins/legend';
 
+export { default as timebar_time } from './plugins/timebar-time';
+export { default as timebar_chart } from './plugins/timebar-chart';
+
 export {
   anchor,
   animations_node_build_in,

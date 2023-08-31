@@ -16,7 +16,7 @@ import {
 } from '@antv/g';
 import { clone, isArray, isNumber } from '@antv/util';
 import { DEFAULT_LABEL_BG_PADDING } from '../constant';
-import { Point } from '../types/common';
+import { Padding, Point, StandardPadding } from '../types/common';
 import { EdgeDisplayModel, EdgeShapeMap } from '../types/edge';
 import {
   GShapeStyle,
@@ -242,7 +242,10 @@ export const updateShapes = (
  * @param defaultArr default value
  * @returns [padding-top, padding-right, padding-bottom, padding-left]
  */
-export const formatPadding = (value, defaultArr = DEFAULT_LABEL_BG_PADDING) => {
+export const formatPadding = (
+  value: Padding,
+  defaultArr: StandardPadding = DEFAULT_LABEL_BG_PADDING,
+): [number, number, number, number] => {
   if (isArray(value)) {
     switch (value.length) {
       case 0:
@@ -250,11 +253,11 @@ export const formatPadding = (value, defaultArr = DEFAULT_LABEL_BG_PADDING) => {
       case 1:
         return [value[0], value[0], value[0], value[0]];
       case 2:
-        return value.concat(value);
+        return [value[0], value[1], value[0], value[1]];
       case 3:
-        return value.concat([value[0]]);
+        return [value[0], value[1], value[2], value[1]];
       default:
-        return value;
+        return [value[0], value[1], value[2], value[3] || value[4]];
     }
   }
   if (isNumber(value)) return [value, value, value, value];

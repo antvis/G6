@@ -1,4 +1,5 @@
 import { ShapeStyle } from '../types/item';
+import type { StandardPadding } from 'types/common';
 
 export const RESERVED_SHAPE_IDS = [
   'keyShape',
@@ -12,7 +13,7 @@ export const RESERVED_SHAPE_IDS = [
 ];
 export const OTHER_SHAPES_FIELD_NAME = 'otherShapes';
 
-export const DEFAULT_LABEL_BG_PADDING = [4, 4, 4, 4];
+export const DEFAULT_LABEL_BG_PADDING: StandardPadding = [4, 4, 4, 4];
 /** Default shape style to avoid shape value missing */
 export const DEFAULT_SHAPE_STYLE = {
   opacity: 1,

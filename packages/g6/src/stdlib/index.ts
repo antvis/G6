@@ -61,8 +61,17 @@ const {
   DragCombo,
   ClickSelect,
 } = Behaviors;
-const { History, Tooltip, Minimap, Grid, Menu, Fisheye, Legend, Toolbar } =
-  Plugins;
+const {
+  History,
+  Tooltip,
+  Minimap,
+  Grid,
+  Menu,
+  Fisheye,
+  Legend,
+  Toolbar,
+  Timebar,
+} = Plugins;
 
 const {
   ForceLayout,
@@ -265,6 +274,7 @@ const Extensions = {
   Menu,
   Fisheye,
   Legend,
+  Timebar,
 };
 
 export default registery;
