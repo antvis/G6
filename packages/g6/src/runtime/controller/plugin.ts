@@ -125,8 +125,20 @@ export class PluginController {
       pluginCfgs.forEach((config) => {
         const key =
           (typeof config === 'string' ? config : config.key) ||
-          config.options?.key ||
-          config.type;
+          (
+            config as {
+              key: string;
+              type: string;
+              options: any;
+            }
+          ).options?.key ||
+          (
+            config as {
+              key: string;
+              type: string;
+              options: any;
+            }
+          ).type;
         const item = this.pluginMap.get(key);
         if (!item) return;
         const { plugin } = item;

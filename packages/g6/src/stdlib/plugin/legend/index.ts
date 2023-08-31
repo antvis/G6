@@ -215,7 +215,6 @@ export class Legend extends Base {
         size[0] === 'fit-content' ? 0 : size[0],
         size[1] === 'fit-content' ? 0 : size[1],
       ];
-<<<<<<< HEAD
 
       const {
         canvas,
@@ -239,20 +238,6 @@ export class Legend extends Base {
           background,
         );
       }
-=======
-      this.canvas = createCanvas(
-        'canvas',
-        this.wrapper,
-        canvasSize[0],
-        canvasSize[1],
-      );
-      // Set canvas background color
-      // TODO: update type define.
-      // @ts-ignore
-      if (this.canvas.context.config.canvas)
-        this.canvas.context.config.canvas.style.backgroundColor =
-          'rgba(255, 255, 255, 0.8)';
->>>>>>> ffca34a0c4 (chore: refine demos)
 
       // Add click event listener to canvas
       this.canvas.addEventListener('click', (evt) => {
@@ -585,8 +570,10 @@ export class Legend extends Base {
           -bbox.min[1] + firstItem.padding[0],
         ]);
 
-        const firstItemBounds =
-          firstItem.legend.childNodes[1].childNodes[0].childNodes[0]?.getRenderBounds();
+        const firstItemBounds = (
+          firstItem.legend.childNodes[1].childNodes[0]
+            .childNodes[0] as DisplayObject
+        ).getRenderBounds();
         if (firstItemBounds) {
           const firstBottom = firstItemBounds.max[1] + firstItem.padding[2];
           secondItem.legend.translateLocal([0, firstBottom]);
