@@ -1,96 +1,105 @@
-import G6 from '@antv/g6';
+import { Graph, Extensions, extend } from '@antv/g6';
 
 const data = {
   nodes: [
     {
-      id: '0',
-      x: 150,
-      y: 150,
+      id: 'node1',
+      data: {
+        x: 100,
+        y: 100,
+      },
     },
     {
-      id: '1',
-      x: 350,
-      y: 150,
+      id: 'node2',
+      data: { x: 200, y: 100, type: 'rect-node' },
+    },
+    {
+      id: 'node3',
+      data: {
+        x: 300,
+        y: 100,
+        type: 'ellipse-node',
+        keyShape: {
+          rx: 20,
+          ry: 16,
+        },
+      },
     },
   ],
   edges: [
-    // 内置 loop
     {
-      source: '0',
-      target: '0',
+      id: 'edge1',
+      source: 'node1',
+      target: 'node1',
     },
     {
-      source: '1',
-      target: '1',
+      id: 'edge2',
+      source: 'node2',
+      target: 'node2',
+    },
+    {
+      id: 'edge3',
+      source: 'node3',
+      target: 'node3',
     },
   ],
 };
 
-const width = document.getElementById('container').scrollWidth;
-const height = document.getElementById('container').scrollHeight || 500;
-const graph = new G6.Graph({
+const container = document.getElementById('container');
+const width = container.scrollWidth;
+const height = container.scrollHeight || 500;
+
+const ExtGraph = extend(Graph, {
+  nodes: {
+    'ellipse-node': Extensions.EllipseNode,
+  },
+  edges: {
+    'loop-edge': Extensions.LoopEdge,
+  },
+});
+
+const graph = new ExtGraph({
   container: 'container',
   width,
   height,
-  // translate the graph to align the canvas's center
-  fitCenter: true,
   modes: {
-    // supported behavior
-    default: ['drag-node'],
+    default: ['zoom-canvas', 'drag-canvas', 'drag-node', 'click-select'],
   },
-  defaultEdge: {
-    type: 'loop',
-    /* you can configure the global edge style as following lines */
-    style: {
-      // stroke: '#F6BD16',
-      endArrow: {
-        path: 'M 0,0 L 20,10 L 20,-10 Z',
-        fill: '#eee',
+  data,
+  edge: {
+    type: 'loop-edge',
+    keyShape: {
+      ...data.keyShape,
+      loopCfg: {
+        /**
+         * 指定自环与节点的相对位置。默认为：top。支持的值有：top, top-right, right,bottom-right, bottom, bottom-left, left, top-left
+         * The relative position relationship between self-loop edge and keyShape.
+         */
+        // position: 'top',
+        /**
+         * 指定是否顺时针画环，默认为  true
+         * Specifies whether to draw the loop clockwise, default is true.
+         */
+        // clockwise: true,
+        /**
+         * 从节点 keyShape 的边缘到自环最顶端的位置，用于指定自环的曲度，默认为节点的高度
+         * The position from edge of keyShape to the topmost point of the self-loop, defaults to the height of the node.
+         */
+        // dist: 100,
+        /**
+         * 对于非圆形节点设置的连接点与节点中心坐标（top-right，bottom-right,top-left,bottom-left较特殊，为四个角坐标）在 x 轴或 y 轴方向的偏移量，默认为 `节点宽高中最小值的1/4`
+         * Except circle, the offset of the connection point from center (top-right, bottom-right, top-left, bottom-left, and more specifically, the four corners of the node) in the x/y-axis direction is set to be `¼ of the smallest value of the node's width or height'.
+         */
+        // pointPadding: 20,
       },
-    },
-    // 更多关于 loop 的配置请参考http://antv.alipay.com/zh/docs/manual/middle/elements/edges/loop/#%E8%87%AA%E7%8E%AF%E7%89%B9%E6%AE%8A%E9%85%8D%E7%BD%AE-loopcfg
-    loopCfg: {
-      position: 'top',
+      endArrow: true,
     },
   },
-  /* styles for different states, there are built-in styles for states: active, inactive, selected, highlight, disable */
-  // edgeStateStyles: {
-  //   // edge style of active state
-  //   active: {
-  //     opacity: 0.5,
-  //     stroke: '#f00'
-  //   },
-  //   // edge style of selected state
-  //   selected: {
-  //     stroke: '#ff0'
-  //     lineWidth: 3,
-  //   },
-  // },
 });
 
-// 需要等 G 4.0 局部渲染完善后，就不用临时关闭了
-const canvas = graph.get('canvas');
-canvas.set('localRefresh', false);
-
-graph.data(data);
-graph.render();
-
-graph.on('edge:mouseenter', (evt) => {
-  const { item } = evt;
-  graph.setItemState(item, 'active', true);
-});
-
-graph.on('edge:mouseleave', (evt) => {
-  const { item } = evt;
-  graph.setItemState(item, 'active', false);
-});
-
-graph.on('edge:click', (evt) => {
-  const { item } = evt;
-  graph.setItemState(item, 'selected', true);
-});
-graph.on('canvas:click', (evt) => {
-  graph.getEdges().forEach((edge) => {
-    graph.clearItemStates(edge);
-  });
-});
+if (typeof window !== 'undefined')
+  window.onresize = () => {
+    if (!graph || graph.destroyed) return;
+    if (!container || !container.scrollWidth || !container.scrollHeight) return;
+    graph.setSize([container.scrollWidth, container.scrollHeight]);
+  };

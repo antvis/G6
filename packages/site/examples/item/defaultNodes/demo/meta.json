@@ -69,12 +69,12 @@
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*i2tETYnJ0dIAAAAAAAAAAABkARQnAQ"
     },
     {
-      "filename": "image.js",
+      "filename": "hexagon.js",
       "title": {
-        "zh": "图片",
-        "en": "Image"
+        "zh": "六边形",
+        "en": "Hexagon"
       },
-      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*o-MuTpQaj7EAAAAAAAAAAABkARQnAQ"
+      "screenshot": ""
     }
   ]
 }

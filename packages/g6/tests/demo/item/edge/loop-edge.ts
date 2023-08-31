@@ -53,7 +53,7 @@ const defaultData = {
       data: {
         type: 'loop-edge',
         keyShape: {
-          endArrow: {},
+          endArrow: true,
         },
       },
     },
@@ -64,7 +64,7 @@ const defaultData = {
       data: {
         type: 'loop-edge',
         keyShape: {
-          endArrow: {},
+          endArrow: true,
         },
       },
     },
@@ -75,7 +75,7 @@ const defaultData = {
       data: {
         type: 'loop-edge',
         keyShape: {
-          endArrow: {},
+          endArrow: true,
         },
       },
     },

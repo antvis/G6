@@ -96,7 +96,6 @@ export abstract class BaseNode {
     };
   }
 
-
   /**
    * Get merged styles from `getMergedStyles` and assigns the merged styles to the 'mergedStyles' property.
    * @param model - The NodeDisplayModel or ComboDisplayModel to merge the styles from.
@@ -199,12 +198,12 @@ export abstract class BaseNode {
   /**
    * Draw all elements related to the node.
    * You should call `drawKeyShape` and `drawAnchorShape`,`drawLabelShape`,`drawIconShape`...as you like.
-   * @param model The displayed model of this node, only for drawing and not received by users. 
+   * @param model The displayed model of this node, only for drawing and not received by users.
    * @param shapeMap The shape map that contains all of the elements to show on the node.
    * @param diffData An object that contains previous and current data.
    * @param diffState An object that contains previous and current node's state.
    * @returns An object containing the keyShape and optional labelShape, iconShape, and some otherShapes properties
-    */
+   */
   abstract draw(
     model: NodeDisplayModel | ComboDisplayModel,
     shapeMap: { [shapeId: string]: DisplayObject },
@@ -222,11 +221,11 @@ export abstract class BaseNode {
 
   /**
    * Perform additional drawing operations or add custom shapes after drawing node.
-   * @param model The displayed model of this node, only for drawing and not received by users. 
+   * @param model The displayed model of this node, only for drawing and not received by users.
    * @param shapeMap The shape map that contains all of the elements to show on the node.
    * @param shapesChanged An array of shape IDs that have changed and need to be updated.
    * @returns An object that contains some new shapes to be added to the node.
-    */
+   */
   public afterDraw(
     model: NodeDisplayModel | ComboDisplayModel,
     shapeMap: { [shapeId: string]: DisplayObject },
@@ -241,7 +240,7 @@ export abstract class BaseNode {
    * @param state state name
    * @param value state value
    * @param shapeMap The shape map that contains all of the elements to show on the node.
-    */
+   */
   public setState: (
     name: string,
     value: boolean,
@@ -251,7 +250,7 @@ export abstract class BaseNode {
   /**
    * The key function of drawing shape.
    * Draw the key shape of the node based on the provided model and shape map.
-   * @param model The displayed model of this node, only for drawing and not received by users. 
+   * @param model The displayed model of this node, only for drawing and not received by users.
    * @param shapeMap The shape map that contains all of the elements to show on the node.
    * @param diffData An object that contains previous and current data.
    * @param diffState An object that contains previous and current node's state.
@@ -269,7 +268,7 @@ export abstract class BaseNode {
 
   /**
    * Draw the label shape of the node
-   * @param model The displayed model of this node, only for drawing and not received by users. 
+   * @param model The displayed model of this node, only for drawing and not received by users.
    * @param shapeMap The shape map that contains all of the elements to show on the node.
    * @param diffData An object that contains previous and current data.
    * @param diffState An object that contains previous and current node's state.
@@ -377,7 +376,7 @@ export abstract class BaseNode {
 
   /**
    * Draw the label background shape of the node
-   * @param model The displayed model of this node, only for drawing and not received by users. 
+   * @param model The displayed model of this node, only for drawing and not received by users.
    * @param shapeMap The shape map that contains all of the elements to show on the node.
    * @param diffData An object that contains previous and current data.
    * @param diffState An object that contains previous and current node's state.
@@ -434,7 +433,7 @@ export abstract class BaseNode {
 
   /**
    * Draw the icon shape of the node
-   * @param model The displayed model of this node, only for drawing and not received by users. 
+   * @param model The displayed model of this node, only for drawing and not received by users.
    * @param shapeMap The shape map that contains all of the elements to show on the node.
    * @param diffData An object that contains previous and current data.
    * @param diffState An object that contains previous and current node's state.
@@ -485,7 +484,7 @@ export abstract class BaseNode {
 
   /**
    * Draw the halo shape of the node
-   * @param model The displayed model of this node, only for drawing and not received by users. 
+   * @param model The displayed model of this node, only for drawing and not received by users.
    * @param shapeMap The shape map that contains all of the elements to show on the node.
    * @param diffData An object that contains previous and current data.
    * @param diffState An object that contains previous and current node's state.
@@ -525,7 +524,7 @@ export abstract class BaseNode {
 
   /**
    * Draw the anchors shape of the node
-   * @param model The displayed model of this node, only for drawing and not received by users. 
+   * @param model The displayed model of this node, only for drawing and not received by users.
    * @param shapeMap The shape map that contains all of the elements to show on the node.
    * @param diffData An object that contains previous and current data.
    * @param diffState An object that contains previous and current node's state.
@@ -606,8 +605,8 @@ export abstract class BaseNode {
   /**
    * Configures the anchor positions based on the provided keyShapeStyle and returns the configuration.
    * e.g for a CircleNode, it returns: `{"right":keyShapeStyle.x+keyShapeStyle.r, keyShapeStyle.y}`
- * @param keyShapeStyle - The keyShapeStyle object that contains the style information of the key shape.
- * @returns The anchor position configuration as an IAnchorPositionMap object.
+   * @param keyShapeStyle - The keyShapeStyle object that contains the style information of the key shape.
+   * @returns The anchor position configuration as an IAnchorPositionMap object.
    */
   public calculateAnchorPosition(keyShapeStyle: any): IAnchorPositionMap {
     const x = convertToNumber(keyShapeStyle.x);
@@ -623,7 +622,7 @@ export abstract class BaseNode {
 
   /**
    * Draw the badges shape of the node
-   * @param model The displayed model of this node, only for drawing and not received by users. 
+   * @param model The displayed model of this node, only for drawing and not received by users.
    * @param shapeMap The shape map that contains all of the elements to show on the node.
    * @param diffData An object that contains previous and current data.
    * @param diffState An object that contains previous and current node's state.
@@ -786,7 +785,7 @@ export abstract class BaseNode {
 
   /**
    * Draw other shapes(such as preRect,stateIcon) of the node
-   * @param model The displayed model of this node, only for drawing and not received by users. 
+   * @param model The displayed model of this node, only for drawing and not received by users.
    * @param shapeMap The shape map that contains all of the elements to show on the node.
    * @param diffData An object that contains previous and current data.
    * @param diffState An object that contains previous and current node's state.
@@ -976,14 +975,14 @@ export abstract class BaseNode {
   }
 
   /**
- * Create (if does not exit in shapeMap) or update the shape according to the configurations.
- * @param type shape's type
- * @param id unique string to indicates the shape
- * @param style style to be updated
- * @param shapeMap the shape map of a node / combo
- * @param model data model of the node / combo
- * @returns The display object representing the shape.
- */
+   * Create (if does not exit in shapeMap) or update the shape according to the configurations.
+   * @param type shape's type
+   * @param id unique string to indicates the shape
+   * @param style style to be updated
+   * @param shapeMap the shape map of a node / combo
+   * @param model data model of the node / combo
+   * @returns The display object representing the shape.
+   */
   public upsertShape(
     type: SHAPE_TYPE | SHAPE_TYPE_3D,
     id: string,

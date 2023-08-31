@@ -1,75 +1,19 @@
-import G6 from '@antv/g6';
+import { Graph, Extensions, extend } from '@antv/g6';
 
-/**
- * 该案例演示，当点击叶子节点时，如何动态向树图中添加多条数据。
- * 主要演示changeData的用法。
- */
+const ExtGraph = extend(Graph, {
+  edges: {
+    'cubic-horizontal-edge': Extensions.CubicHorizontalEdge,
+    'cubic-vertical-edge': Extensions.CubicVerticalEdge,
+  },
+});
 
 const container = document.getElementById('container');
 const width = container.scrollWidth;
 const height = container.scrollHeight || 500;
-const graph = new G6.TreeGraph({
-  container: 'container',
-  width,
-  height,
-  modes: {
-    default: ['collapse-expand', 'drag-canvas'],
-  },
-  fitView: true,
-  layout: {
-    type: 'compactBox',
-    direction: 'LR',
-    defalutPosition: [],
-    getId: function getId(d) {
-      return d.id;
-    },
-    getHeight: function getHeight() {
-      return 16;
-    },
-    getWidth: function getWidth() {
-      return 16;
-    },
-    getVGap: function getVGap() {
-      return 50;
-    },
-    getHGap: function getHGap() {
-      return 100;
-    },
-  },
-});
-graph.node(function (node) {
-  return {
-    size: 16,
-    anchorPoints: [
-      [0, 0.5],
-      [1, 0.5],
-    ],
-    style: {
-      fill: '#DEE9FF',
-      stroke: '#5B8FF9',
-    },
-    label: node.id,
-    labelCfg: {
-      position: node.children && node.children.length > 0 ? 'left' : 'right',
-    },
-  };
-});
-let i = 0;
-graph.edge(function () {
-  i++;
-  return {
-    type: 'cubic-horizontal',
-    color: '#A3B1BF',
-    label: i,
-  };
-});
 
 const data = {
   isRoot: true,
   id: 'Root',
-  style: {
-    fill: 'red',
-  },
   children: [
     {
       id: 'SubTreeNode1',
@@ -127,59 +71,103 @@ const data = {
     },
   ],
 };
-graph.data(data);
-graph.render();
 
+const graph = new ExtGraph({
+  container,
+  width,
+  height,
+  data,
+  modes: {
+    default: ['drag-canvas', 'zoom-canvas', 'drag-node'],
+  },
+  node: (model) => {
+    return {
+      id: model.id,
+      data: {
+        ...model.data,
+        labelBackgroundShape: {},
+
+        labelShape: {
+          text: model.id,
+          position: model.data.childrenIds?.length ? 'left' : 'right',
+          offsetX: model.data.childrenIds?.length ? -10 : 10,
+          maxWidth: '300%',
+        },
+        anchorPoints: [
+          [0, 0.5],
+          [1, 0.5],
+        ],
+      },
+    };
+  },
+  edge: {
+    type: 'cubic-horizontal-edge',
+  },
+  layout: {
+    type: 'compactBox',
+    direction: 'LR',
+    getHeight: function getHeight() {
+      return 32;
+    },
+    getWidth: function getWidth() {
+      return 32;
+    },
+    getVGap: function getVGap() {
+      return 10;
+    },
+    getHGap: function getHGap() {
+      return 100;
+    },
+  },
+  autoFit: 'view',
+  data: {
+    type: 'treeData',
+    value: data,
+  },
+});
+
+/** Click */
 let count = 0;
 
-graph.on('node:click', function (evt) {
-  const item = evt.item;
+graph.on('node:click', (event) => {
+  const { itemId } = event;
 
-  const nodeId = item.get('id');
-  const model = item.getModel();
-  const children = model.children;
-  if (!children || children.length === 0) {
-    const childData = [
-      {
-        id: 'child-data-' + count,
-        type: 'rect',
-        children: [
-          {
-            id: 'x-' + count,
-          },
-          {
-            id: 'y-' + count,
-          },
-        ],
-      },
-      {
-        id: 'child-data1-' + count,
-        children: [
-          {
-            id: 'x1-' + count,
-          },
-          {
-            id: 'y1-' + count,
-          },
-        ],
-      },
-    ];
+  const newNodes = [
+    { id: `child-data1-${count}`, data: { type: 'rect-node' } },
+    { id: `x1-${count}` },
+    { id: `y1-${count}` },
+    { id: `child-data2-${count}`, data: { type: 'rect-node' } },
+    { id: `x2-${count}` },
+    { id: `y2-${count}` },
+  ];
 
-    const parentData = graph.findDataById(nodeId);
-    if (!parentData.children) {
-      parentData.children = [];
-    }
-    // 如果childData是一个数组，则直接赋值给parentData.children
-    // 如果是一个对象，则使用parentData.children.push(obj)
-    parentData.children = childData;
-    graph.changeData();
-    count++;
-  }
+  const newEdges = [
+    { id: `edge1-${count}`, source: itemId, target: `child-data1-${count}` },
+    { id: `edge2-${count}`, source: itemId, target: `child-data2-${count}` },
+    { id: `edge3-${count}`, source: `child-data1-${count}`, target: `x1-${count}` },
+    { id: `edge4-${count}`, source: `child-data1-${count}`, target: `y1-${count}` },
+    { id: `edge5-${count}`, source: `child-data2-${count}`, target: `x2-${count}` },
+    { id: `edge6-${count}`, source: `child-data2-${count}`, target: `y2-${count}` },
+  ];
+
+  graph.addData('node', newNodes);
+  graph.addData('edge', newEdges);
+
+  graph.layout();
+  count++;
 });
+
+graph.on('canvas:click', (e) => graph.layout());
+
+const tip = document.createElement('span');
+tip.innerHTML = 'Click on the leaf node to dynamically add multiple pieces of data to the tree diagram.';
+tip.style.position = 'absolute';
+container.appendChild(tip);
 
 if (typeof window !== 'undefined')
   window.onresize = () => {
-    if (!graph || graph.get('destroyed')) return;
+    if (!graph || graph.destroyed) return;
     if (!container || !container.scrollWidth || !container.scrollHeight) return;
-    graph.changeSize(container.scrollWidth, container.scrollHeight);
+    graph.setSize([container.scrollWidth, container.scrollHeight]);
   };
+// });

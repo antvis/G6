@@ -967,7 +967,6 @@ graph.on('node:click', async (ev) => {
   const unitRadius = 40;
   // re-place the clicked node far away the exisiting items
   // along the radius from center node to it
-  debugger;
   const focus = graph.getNodeData(focusNode.id);
   const vx = nodeModel.data.x - focus.data.x;
   const vy = nodeModel.data.y - focus.data.y;

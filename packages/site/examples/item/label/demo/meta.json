@@ -23,7 +23,7 @@
     {
       "filename": "labelLen1.js",
       "title": {
-        "zh": "使用换行符处理文本超长",
+        "zh": "多行显示超长文本",
         "en": "Break Line for Long Label"
       },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*EC0-R7tAn0MAAAAAAAAAAABkARQnAQ"
