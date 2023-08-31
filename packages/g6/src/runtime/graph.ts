@@ -47,6 +47,7 @@ import type {
 import { FitViewRules, GraphTransformOptions } from '../types/view';
 import { changeRenderer, createCanvas } from '../util/canvas';
 import { formatPadding } from '../util/shape';
+import { Plugin as PluginBase } from '../types/plugin';
 import {
   DataController,
   ExtensionController,
@@ -58,7 +59,6 @@ import {
 } from './controller';
 import { PluginController } from './controller/plugin';
 import Hook from './hooks';
-import { Plugin as PluginBase } from '../types/plugin';
 
 export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
   extends EventEmitter

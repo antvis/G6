@@ -1,9 +1,9 @@
+import { uniqueId } from '@antv/util';
 import registry from '../../stdlib';
 import { IGraph } from '../../types';
 import { getExtension } from '../../util/extension';
 import { Plugin as PluginBase } from '../../types/plugin';
 import { IG6GraphEvent } from '../../types/event';
-import { uniqueId } from '@antv/util';
 
 type Listener = (event: IG6GraphEvent) => void;
 

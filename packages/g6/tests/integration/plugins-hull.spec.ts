@@ -1,8 +1,8 @@
 import { resetEntityCounter } from '@antv/g';
 import activateRelations from '../demo/behaviors/activate-relations';
 import './utils/useSnapshotMatchers';
-import { createContext, sleep, triggerEvent } from './utils';
 import hull from '../demo/plugins/hull';
+import { createContext, sleep, triggerEvent } from './utils';
 
 describe('Hull plugin', () => {
   beforeEach(() => {
