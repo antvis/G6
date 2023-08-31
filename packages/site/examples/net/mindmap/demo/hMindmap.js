@@ -20,7 +20,7 @@ const layoutConfigs = {
       return 10;
     },
     getHGap: () => {
-      return 50;
+      return 100;
     },
     getSide: undefined,
   },
@@ -76,12 +76,6 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.j
       width,
       height,
       transforms: ['transform-v4-data'],
-      layout: {
-        type: 'force',
-        preventOverlap: true,
-        nodeSize: 32,
-        workerEnabled: true,
-      },
       modes: {
         default: ['drag-canvas', 'zoom-canvas', 'drag-node', 'collapse-expand-tree'],
       },

@@ -565,7 +565,7 @@ const graph = new CustomGraph({
   width,
   height,
   modes: {
-    default: ['drag-canvas', 'drag-node', 'zoom-canvas'],
+    default: ['zoom-canvas', 'drag-canvas', 'drag-node', 'click-select'],
   },
   edge: {
     keyShape: {

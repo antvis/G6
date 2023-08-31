@@ -27,12 +27,6 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')
           data: {
             ...model.data,
             lodStrategy: {},
-            labelShape: {
-              text: model.id,
-              position: 'center',
-              maxWidth: '120%',
-            },
-            labelBackgroundShape: {},
             anchorPoints:
               model.data.layoutDirection === 'TB'
                 ? [

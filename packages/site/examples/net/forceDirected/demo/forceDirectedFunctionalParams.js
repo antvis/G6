@@ -20,7 +20,7 @@ const graph = new G6.Graph({
     },
   },
   modes: {
-    default: ['drag-canvas'],
+    default: ['zoom-canvas', 'drag-canvas', 'click-select'],
   },
   data: {
     nodes: [

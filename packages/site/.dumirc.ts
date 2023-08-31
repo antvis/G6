@@ -418,14 +418,6 @@ export default defineConfig({
         },
       },
       {
-        slug: 'algorithm',
-        icon: 'gallery',
-        title: {
-          zh: '算法',
-          en: 'Algorithm',
-        },
-      },
-      {
         slug: 'performance',
         icon: 'net',
         title: {

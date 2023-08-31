@@ -562,7 +562,7 @@ const graph = new ExtGraph({
   width,
   height,
   modes: {
-    default: ['drag-canvas', 'drag-node'],
+    default: ['zoom-canvas', 'drag-canvas', 'drag-node', 'click-select'],
   },
   theme: {
     type: 'spec',

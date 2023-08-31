@@ -465,10 +465,12 @@ const graph = new ExtGraph({
       update: [
         {
           fields: ['opacity'],
+          states: ['selected', 'active'],
           shapeId: 'haloShape',
         },
         {
           fields: ['lineWidth'],
+          states: ['selected', 'active'],
           shapeId: 'keyShape',
         },
       ],

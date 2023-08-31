@@ -10,7 +10,7 @@
         "zh": "布局切换",
         "en": "Layout Translate"
       },
-      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*eZRNQ4tpkecAAAAAAAAAAAAAARQnAQ"
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*aGiCRrsJeCUAAAAAAAAAAAAADmJ7AQ/original"
     },
     {
       "filename": "subgraphLayout.js",
@@ -18,7 +18,7 @@
         "zh": "子图布局",
         "en": "Subgraph Layout"
       },
-      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*dsOISrH6tREAAAAAAAAAAABkARQnAQ"
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*RDoPRohHU_gAAAAAAAAAAAAADmJ7AQ/original"
     },
     {
       "filename": "dataChange.js",
@@ -26,7 +26,7 @@
         "zh": "数据动态切换",
         "en": "Change Data"
       },
-      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*VIXvQagCETkAAAAAAAAAAABkARQnAQ"
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*Cq8SRL2NZtYAAAAAAAAAAAAADmJ7AQ/original"
     },
     {
       "filename": "customBigraph.js",
@@ -34,7 +34,7 @@
         "zh": "自定义二分图布局",
         "en": "Custom Bigraph Layout"
       },
-      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Vod0Q6u5dSoAAAAAAAAAAABkARQnAQ"
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*G4-YT4NDA2oAAAAAAAAAAAAADmJ7AQ/original"
     },
     {
       "filename": "layoutTiming.js",
@@ -42,7 +42,7 @@
         "zh": "布局时机监听",
         "en": "Layout Listener"
       },
-      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*tdRuSbgJAZ8AAAAAAAAAAABkARQnAQ"
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*MOhtRqDDV6oAAAAAAAAAAAAADmJ7AQ/original"
     }
   ]
 }
