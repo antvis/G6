@@ -6,13 +6,12 @@ import behaviors_activateRelations from './behaviors/activate-relations';
 import behaviors_brush_select from './behaviors/brush-select';
 import behaviors_click_select from './behaviors/click-select';
 import behaviors_collapse_expand_tree from './behaviors/collapse-expand-tree';
-import bugReproduce from './demo/bugReproduce';
 import circularUpdate from './layouts/circular-update';
 import comboBasic from './combo/combo-basic';
 import comboRect from './combo/combo-rect';
 import comboDagre from './layouts/dagre-combo';
 import cubic_edge from './item/edge/cubic-edge';
-import cubic_horizon_edge from './item/edge/cubic-horizon-edge';
+import cubic_horizon_edge from './item/edge/cubic-horizontal-edge';
 import cubic_vertical_edge from './item/edge/cubic-vertical-edge';
 import dataValidate from './data/data-validate';
 import demo from './demo/demo';
@@ -46,7 +45,6 @@ import star from './demo/star';
 import polyline from './item/edge/polyline-edge';
 import quadratic from './demo/quadratic';
 import rect from './demo/rect';
-import star from './demo/star';
 import toolbar from './plugins/toolbar';
 import tooltip from './demo/tooltip';
 import treeGraph from './tree/treeGraph';
@@ -55,6 +53,7 @@ import user_defined_canvas from './user-defined-canvas/circular';
 import visual from './visual/visual';
 import modelRect from './demo/modelRect';
 import layouts_combocombined from './layouts/combo-combined';
+import hull from './plugins/hull';
 
 export {
   anchor,
@@ -64,7 +63,6 @@ export {
   behaviors_brush_select,
   behaviors_click_select,
   behaviors_collapse_expand_tree,
-  bugReproduce,
   circularUpdate,
   comboBasic,
   comboRect,
@@ -112,4 +110,5 @@ export {
   visual,
   modelRect,
   comboDagre,
+  hull,
 };

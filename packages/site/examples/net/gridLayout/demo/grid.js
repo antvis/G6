@@ -673,6 +673,7 @@ const configs = {
     begin: [20, 20],
     width: width - 20,
     height: height - 20,
+    sortBy: 'data',
   },
   Clustering: {
     type: 'grid',

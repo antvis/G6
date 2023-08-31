@@ -1,4 +1,2 @@
-import type { ActivateRelationsOptions } from '../stdlib/behavior/activate-relations';
-import type { BrushSelectOptions } from '../stdlib/behavior/brush-select';
-
-export { ActivateRelationsOptions, BrushSelectOptions };
+export * from '../stdlib/behavior/types';
+export type { ICanvasEventType, IG6GraphEvent } from '../types/event';

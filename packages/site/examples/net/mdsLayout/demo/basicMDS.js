@@ -1,4 +1,13 @@
-import G6 from '@antv/g6';
+import { Graph, Extensions, extend } from '@antv/g6';
+
+const ExtGraph = extend(Graph, {
+  layouts: {
+    mds: Extensions.MDSLayout,
+  },
+  behaviors: {
+    'brush-select': Extensions.BrushSelect,
+  },
+});
 
 const data = {
   nodes: [
@@ -574,7 +583,7 @@ const data = {
 const container = document.getElementById('container');
 const width = container.scrollWidth;
 const height = container.scrollHeight || 500;
-const graph = new G6.Graph({
+const graph = new ExtGraph({
   container: 'container',
   width,
   height,

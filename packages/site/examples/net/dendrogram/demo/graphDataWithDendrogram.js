@@ -1,11 +1,21 @@
-import G6 from '@antv/g6';
+import { Graph, Extensions, extend } from '@antv/g6';
+
+const ExtGraph = extend(Graph, {
+  edges: {
+    'cubic-horizontal-edge': Extensions.CubicHorizontalEdge,
+    'cubic-vertical-edge': Extensions.CubicVerticalEdge,
+  },
+  behaviors: {
+    'activate-relations': Extensions.ActivateRelations,
+  },
+});
 
 const layoutConfigs = {
   LR: {
     type: 'dendrogram',
     direction: 'LR', // H / V / LR / RL / TB / BT
     nodeSep: 40,
-    rankSep: 40,
+    rankSep: 70,
   },
   TB: {
     type: 'dendrogram',
@@ -22,30 +32,40 @@ const height = container.scrollHeight || 500;
 fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')
   .then((res) => res.json())
   .then((data) => {
-    const graph = new G6.Graph({
+    data.nodes.forEach((node, i) => (node.cluster = i % 3));
+    const graph = new ExtGraph({
       container,
       width,
       height,
       transform: ['transform-v4-data'],
-      layout: {
-        type: 'force',
-        preventOverlap: true,
-        nodeSize: 32,
-        workerEnabled: true,
-      },
       modes: {
-        default: ['drag-canvas', 'zoom-canvas', 'drag-node', 'collapse-expand-tree'],
+        default: ['drag-canvas', 'zoom-canvas', 'drag-node', 'collapse-expand-tree', 'activate-relations'],
+      },
+      theme: {
+        type: 'spec',
+        specification: {
+          node: {
+            dataTypeField: 'cluster',
+          },
+        },
       },
       node: (model) => {
         return {
           id: model.id,
           data: {
             ...model.data,
-            lodStrategy: {},
+            type: 'rect-node',
+            // lodStrategy: {},
+            keyShape: {
+              width: 50,
+              height: 20,
+            },
             labelShape: {
               text: model.id,
-              position: 'center',
+              position: 'bottom',
               maxWidth: '120%',
+              lod: Math.floor(Math.random() * 5 - 3),
+              fontSize: 8,
             },
             labelBackgroundShape: {},
             anchorPoints:
@@ -107,6 +127,11 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')
       data: {
         type: 'graphData',
         value: data,
+      },
+      edgeState: {
+        active: {
+          lineWidth: 3,
+        },
       },
     });
 

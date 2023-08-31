@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { Extensions, Graph, IGraph, extend } from '../../../../src/index';
 import { TestCaseContext } from '../../interface';
-
+import { Graph, Extensions, extend } from '../../../../src/index';
 let graph: IGraph;
 let container: HTMLElement;
 
@@ -334,13 +334,14 @@ export default (context: TestCaseContext) => {
   // 1.create control container (for control buttons, etc.)
   createCtrlContainer(container!);
   createControls();
-
   const ExtGraph = extend(Graph, {
     edges: {
       'polyline-edge': Extensions.PolylineEdge,
     },
+    behaviors: {
+      'activate-relations': Extensions.ActivateRelations,
+    },
   });
-
   // 2.create graph
   graph = new ExtGraph({
     ...context,

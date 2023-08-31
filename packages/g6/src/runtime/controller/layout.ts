@@ -23,6 +23,7 @@ import {
   isComboLayout,
   layoutOneTree,
   radialLayout,
+  isTreeLayout,
 } from '../../util/layout';
 
 /**
@@ -146,7 +147,7 @@ export class LayoutController {
         throw new Error(`Unknown layout algorithm: ${type}`);
       }
 
-      if (Hierarchy[type]) {
+      if (isTreeLayout(options)) {
         // tree layout type
         await this.handleTreeLayout(
           type,

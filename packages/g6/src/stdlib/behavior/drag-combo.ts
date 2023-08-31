@@ -92,7 +92,7 @@ type Position = {
   maxY?: number;
 };
 
-export default class DragCombo extends Behavior {
+export class DragCombo extends Behavior {
   // Private states
   private hiddenEdges: EdgeModel[] = [];
   private hiddenComboTreeRoots: (ComboModel | NodeModel)[] = [];

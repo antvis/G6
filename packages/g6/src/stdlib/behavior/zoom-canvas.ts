@@ -68,7 +68,7 @@ const DEFAULT_OPTIONS: Required<ZoomCanvasOptions> = {
   shouldBegin: () => true,
 };
 
-export default class ZoomCanvas extends Behavior {
+export class ZoomCanvas extends Behavior {
   private zooming: boolean; // pointerdown + pointermove a distance
   private keydown: boolean;
   private speedupKeydown: boolean;

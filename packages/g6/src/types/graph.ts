@@ -586,6 +586,12 @@ export interface IGraph<
    */
   setMode: (mode: string) => void;
   /**
+   * Get current mode.
+   * @returns mode name
+   * @group Interaction
+   */
+  getMode: () => string;
+  /**
    * Add behavior(s) to mode(s).
    * @param behaviors behavior names or configs
    * @param modes mode names
@@ -623,6 +629,7 @@ export interface IGraph<
     type: ITEM_TYPE | SHAPE_TYPE,
     id: ID,
     config: any,
+    canvas?: Canvas,
   ) => DisplayObject;
 
   /**

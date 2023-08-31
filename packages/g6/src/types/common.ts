@@ -11,3 +11,10 @@ export type Point = {
 export type PolyPoint = Point & {
   id?: ID;
 };
+
+export type Bounds = {
+  min: [number, number, number];
+  max: [number, number, number];
+  center: [number, number, number];
+  halfExtents: [number, number, number];
+};

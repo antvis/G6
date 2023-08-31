@@ -188,6 +188,10 @@ export class InteractionController {
     });
   };
 
+  public getMode() {
+    return this.mode;
+  }
+
   /**
    * Listener of graph's behaviorchange hook. Update, add, or remove behaviors from modes.
    * @param param contains action, modes, and behaviors

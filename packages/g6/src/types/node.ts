@@ -1,5 +1,7 @@
-import { DisplayObject, Point } from '@antv/g';
+import { DisplayObject } from '@antv/g';
 import { Node as GNode, ID, PlainObject } from '@antv/graphlib';
+import { BaseNode } from '../stdlib/item/node/base';
+import { BaseNode3D } from '../stdlib/item/node/base3d';
 import { IAnimates } from './animate';
 import {
   BadgePosition,
@@ -7,10 +9,10 @@ import {
   IBadgePosition,
   IItem,
   ItemShapeStyles,
-  ShapeAttrEncode,
-  ShapesEncode,
-  ShapeStyle,
   LodStrategy,
+  ShapeAttrEncode,
+  ShapeStyle,
+  ShapesEncode,
 } from './item';
 
 export type NodeLabelPosition = 'bottom' | 'center' | 'top' | 'left' | 'right';
@@ -18,17 +20,23 @@ export type NodeLabelPosition = 'bottom' | 'center' | 'top' | 'left' | 'right';
 /** Data in user input model. */
 export interface NodeUserModelData extends PlainObject {
   /**
-   * Node position.
+   * The x-coordinate of node.
    */
   x?: number;
+  /**
+   * The y-coordinate of node.
+   */
   y?: number;
+  /**
+   * The z-coordinate of node.
+   */
   z?: number;
   /**
-   * Node type, e.g. 'circle-node'.
+   * The type of node, e.g. `circle-node`.
    */
   type?: string;
   /**
-   * Subject color for the keyShape and anchor points.
+   * The subject color of the node's keyShape and anchor points.
    * More styles should be configured in node mapper.
    */
   color?: string;
@@ -42,7 +50,7 @@ export interface NodeUserModelData extends PlainObject {
    */
   visible?: boolean;
   /**
-   * Reserved for combo.
+   * The id of parent combo.
    */
   parentId?: ID;
   /**
@@ -59,7 +67,7 @@ export interface NodeUserModelData extends PlainObject {
     img?: string;
   };
   /**
-   * The ratio position of the keyShape for related edges linking into.
+   * The ratio position of the keyShape for related edges linking into. e.g. `[[0,0.5],[1,0.5]]`
    * More styles should be configured in node mapper.
    */
   anchorPoints?: number[][];
@@ -73,9 +81,10 @@ export interface NodeUserModelData extends PlainObject {
     position: BadgePosition;
   }[];
   /**
-   * Whether to prevent overlap with unassociated edges. Used to preempt position.
-   * Defaults to false.
-   * Only valid for polyline
+   * Whether to prevent overlap with unassociated edges. 
+   * - Used to preempt position.
+   * - Defaults to false.
+   * - Only valid for polyline
    */
   preventPolylineEdgeOverlap?: boolean;
 }
@@ -85,22 +94,57 @@ export type NodeModelData = NodeUserModelData;
 
 export interface NodeShapeStyles extends ItemShapeStyles {
   // keyShape, iconShape, haloShape are defined in ItemShapeStyles
+  /**
+   * Style of the text to show on the node.
+   */
   labelShape?: ShapeStyle & {
+    /**
+     * Position of the text to show on the node.
+     */
     position?: 'top' | 'bottom' | 'left' | 'right' | 'center';
+    /**
+     * The x-axis offset of the text relative to the current position
+     */
     offsetX?: number;
-    offsetY?: number;
+    /**
+     * The y-axis offset of the text relative to the current position
+     */
+    offsetY?: number
+    /**
+     * The z-axis offset of the text relative to the current position
+     */
     offsetZ?: number;
-    // string means the percentage of the keyShape, number means pixel
+    /**
+     * The max width of the text
+     * string means the percentage of the keyShape, number means pixel
+     */
     maxWidth?: string | number;
+    /**
+     * The clockwise rotation Angle, used in radians
+     */
     angle?: number;
   };
+  /**
+   * The background style of the label
+   */
   labelBackgroundShape?: ShapeStyle & {
     padding?: number | number[];
   };
+  /**
+   * Style of the badges to show on the node.
+   */
   badgeShapes?: ShapeStyle & {
-    // common badge styles
+    /**
+     * Background color of the badge.
+     */
     color?: string;
+    /**
+     * Background color of the badge.
+     */
     palette?: string[];
+    /**
+     * Color of the text in badge.
+     */
     textColor?: string;
     // individual styles and their position
     [key: number]: ShapeStyle & {
@@ -110,12 +154,29 @@ export interface NodeShapeStyles extends ItemShapeStyles {
     };
   };
   anchorShapes?: ShapeStyle & {
-    // common badge styles
+    /**
+     * Background color of the anchor.
+     */
     color?: string;
+    /**
+     * Color of the text in anchor.
+     */
     textColor?: string;
+    /**
+     * Size of the text in anchor.
+     */
     size?: number;
+    /**
+     * The x-axis offset of the text relative to the current position
+     */
     offsetX?: number;
+    /**
+     * The y-axis offset of the text relative to the current position
+     */
     offsetY?: number;
+    /**
+     * The z-axis offset of the text relative to the current position
+     */
     offsetZ?: number;
     // individual styles and their position
     [key: number]: ShapeStyle & {
@@ -175,4 +236,8 @@ export type INode = IItem;
 
 export interface IAnchorPositionMap {
   [key: string]: [number, number];
+}
+
+export interface NodeRegistry {
+  [key: string]: typeof BaseNode | typeof BaseNode3D;
 }

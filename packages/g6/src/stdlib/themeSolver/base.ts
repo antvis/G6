@@ -4,7 +4,7 @@ interface ThemeSolverOptions {}
 export interface ThemeSpecificationMap {
   [themeName: string]: ThemeSpecification;
 }
-export default abstract class BaseThemeSolver {
+export abstract class BaseThemeSolver {
   protected specification: ThemeSpecification;
   protected options: ThemeSolverOptions;
   constructor(options: ThemeSolverOptions, themes: ThemeSpecificationMap) {

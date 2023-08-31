@@ -4,6 +4,26 @@ import { STACK_TYPE, StackCfg, StackType } from '../../../types/history';
 import { Plugin as Base, IPluginBaseConfig } from '../../../types/plugin';
 import CommandFactory, { Command } from './command';
 
+/**
+ * The `HistoryConfig` interface contains the following properties:
+
+- `enableStack`: An optional boolean value that indicates whether to enable the stack.
+- `stackCfg`: A required object of type `StackCfg` representing the stack configuration.
+
+The `StackCfg` type is defined as an object with the following properties:
+
+- `stackSize`: An optional number representing the size of the stack.
+- `stackActive`: An optional boolean value indicating whether the stack is active. If active, operations can be pushed onto the stack; otherwise, they cannot.
+- `excludes`: An optional array of strings representing APIs that should be excluded from being put on the stack, even if their operation type is not ignored.
+- `includes`: An optional array of strings representing APIs that should be included in being put on the stack.
+- `ignoreAdd`: An optional boolean value indicating whether to ignore add operations.
+- `ignoreRemove`: An optional boolean value indicating whether to ignore remove operations.
+- `ignoreUpdate`: An optional boolean value indicating whether to ignore update operations.
+- `ignoreStateChange`: An optional boolean value indicating whether to ignore state change operations.
+- `ignoreLayerChange`: An optional boolean value indicating whether to ignore layer change operations.
+- `ignoreDisplayChange`: An optional boolean value indicating whether to ignore display change operations.
+
+ */
 export interface HistoryConfig extends IPluginBaseConfig {
   enableStack?: boolean;
   stackCfg: StackCfg;
@@ -75,7 +95,7 @@ class HistoryStack<T> {
   }
 }
 
-export default class History extends Base {
+export class History extends Base {
   public readonly cfg: StackCfg;
   public readonly enableStack: boolean;
   protected undoStack: HistoryStack<Command[]>;

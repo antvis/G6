@@ -1,5 +1,5 @@
 import EventEmitter from '@antv/event-emitter';
-import { AABB, Canvas, DisplayObject, PointLike, runtime } from '@antv/g';
+import { AABB, Canvas, DisplayObject, PointLike } from '@antv/g';
 import { GraphChange, ID } from '@antv/graphlib';
 import {
   clone,
@@ -13,7 +13,7 @@ import {
   isString,
   map,
 } from '@antv/util';
-import History from '../stdlib/plugin/history';
+import { History } from '../stdlib/plugin/history';
 import { Command } from '../stdlib/plugin/history/command';
 import type {
   ComboUserModel,
@@ -47,7 +47,6 @@ import type {
 import { FitViewRules, GraphTransformOptions } from '../types/view';
 import { changeRenderer, createCanvas } from '../util/canvas';
 import { formatPadding } from '../util/shape';
-import Node from '../item/node';
 import {
   DataController,
   ExtensionController,
@@ -59,11 +58,7 @@ import {
 } from './controller';
 import { PluginController } from './controller/plugin';
 import Hook from './hooks';
-
-/**
- * Disable CSS parsing for better performance.
- */
-runtime.enableCSSParsing = false;
+import { Plugin as PluginBase } from '../types/plugin';
 
 export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
   extends EventEmitter
@@ -1049,7 +1044,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       this.emit('afteritemchange', {
         type: itemType,
         action: 'remove',
-        ids,
+        ids: idArr,
         apiName: 'removeData',
         changes,
       });
@@ -1696,7 +1691,9 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
 
     this.updateSpecification({ layout: formattedOptions });
 
-    const layoutUnset = !options && !this.getSpecification().layout;
+    const layoutUnset =
+      (!options && !this.getSpecification().layout) ||
+      !Object.keys(formattedOptions).length;
     if (layoutUnset) {
       const nodes = graphCore.getAllNodes();
       if (nodes.every((node) => isNil(node.data.x) && isNil(node.data.y))) {
@@ -1754,6 +1751,15 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    */
   public setMode(mode: string) {
     this.hooks.modechange.emit({ mode });
+  }
+
+  /**
+   * Get current mode.
+   * @returns mode name
+   * @group Interaction
+   */
+  public getMode(): string {
+    return this.interactionController.getMode();
   }
 
   /**
@@ -1910,11 +1916,16 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * @returns
    * @group Interaction
    */
-  public updatePlugin(plugin: {
-    key: string;
-    type: string;
-    [cfg: string]: unknown;
-  }) {
+  public updatePlugin(
+    plugin:
+      | {
+          key: string;
+          type: string;
+          [cfg: string]: unknown;
+        }
+      | PluginBase,
+  ) {
+    const { plugins } = this.specification;
     const { key } = plugin;
     if (!key) {
       console.warn(
@@ -1922,7 +1933,6 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       );
       return;
     }
-    const { plugins } = this.specification;
     if (!plugins) {
       console.warn(
         'Update plugin failed, the plugin to be updated does not exist.',
@@ -1969,12 +1979,13 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       onlyDrawKeyShape?: boolean;
       upsertAncestors?: boolean;
     },
+    canvas?: Canvas,
   ): DisplayObject {
     this.hooks.transientupdate.emit({
       type,
       id,
       config,
-      canvas: this.transientCanvas,
+      canvas: canvas || this.transientCanvas,
       graphCore: this.dataController.graphCore,
     });
     return this.itemController.getTransient(String(id));

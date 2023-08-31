@@ -115,8 +115,9 @@ export default (
         },
       };
     },
-    data,
+    // data,
   });
+  graph.read(datasets['tree']);
 
   let currentDataType = dataType;
 

@@ -1,15 +1,16 @@
 import { DisplayObject, PathStyleProps } from '@antv/g';
 import { Edge as GEdge, PlainObject } from '@antv/graphlib';
+import { BaseEdge } from '../stdlib/item/edge/base';
 import { IAnimates } from './animate';
 import {
   Encode,
   IItem,
   ItemShapeStyles,
   LabelBackground,
-  ShapeAttrEncode,
-  ShapesEncode,
-  ShapeStyle,
   LodStrategy,
+  ShapeAttrEncode,
+  ShapeStyle,
+  ShapesEncode,
 } from './item';
 
 export interface EdgeUserModelData extends PlainObject {
@@ -136,3 +137,7 @@ export type ArrowStyle = PathStyleProps & {
   height: number;
   offset?: number;
 };
+
+export interface EdgeRegistry {
+  [key: string]: typeof BaseEdge;
+}

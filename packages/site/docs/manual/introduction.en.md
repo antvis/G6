@@ -5,135 +5,193 @@ redirect_from:
   - /en/docs/manual
 ---
 
-<img src="https://user-images.githubusercontent.com/6113694/45008751-ea465300-b036-11e8-8e2a-166cbb338ce2.png" height="250" alt="g6 banner" />
+![](https://user-images.githubusercontent.com/6113694/45008751-ea465300-b036-11e8-8e2a-166cbb338ce2.png)
 
-[![](https://img.shields.io/travis/antvis/g6.svg)](https://travis-ci.org/antvis/g6) [![Coverage Status](https://coveralls.io/repos/github/antvis/G6/badge.svg)](https://coveralls.io/github/antvis/G6) ![](https://img.shields.io/badge/language-javascript-red.svg) ![](https://img.shields.io/badge/license-MIT-000000.svg) [![npm package](https://img.shields.io/npm/v/@antv/g6.svg)](https://www.npmjs.com/package/@antv/g6) [![NPM downloads](http://img.shields.io/npm/dm/@antv/g6.svg)](https://npmjs.org/package/@antv/g6) [![Percentage of issues still open](http://isitmaintained.com/badge/open/antvis/g6.svg)](http://isitmaintained.com/project/antvis/g6 'Percentage of issues still open')
+[![travis-ci](https://img.shields.io/travis/antvis/g6/master.svg)](https://travis-ci.org/antvis/g6) [![codecov](https://codecov.io/gh/antvis/G6/branch/master/graph/badge.svg)](https://codecov.io/gh/antvis/G6) ![typescript](https://img.shields.io/badge/language-typescript-red.svg) ![MIT](https://img.shields.io/badge/license-MIT-000000.svg) [![npm package](https://img.shields.io/npm/v/@antv/g6.svg)](https://www.npmjs.com/package/@antv/g6) [![NPM downloads](http://img.shields.io/npm/dm/@antv/g6.svg)](https://npmjs.org/package/@antv/g6) [![Percentage of issues still open](http://isitmaintained.com/badge/open/antvis/g6.svg)](http://isitmaintained.com/project/antvis/g6 'Percentage of issues still open')
 
-[中文简介](/zh/docs/manual/introduction/)
+[中文 README](README.md)
 
 ## What is G6
 
-<a href='https://github.com/antvis/g6' target='_blank'>G6</a> is a graph visualization engine, which provides a set of basic mechanisms, including rendering, layout, analysis, interaction, animation, and other auxiliary tools. G6 aims to simplify the complex relationships, and help people to obtain the insight of relational data.
+[G6](https://github.com/antvis/g6) is a graph visualization engine, which provides a set of basic mechanisms, including rendering, layout, analysis, interaction, animation, and other auxiliary tools. G6 aims to simplify the relationships, and help people to obtain the insight of relational data.
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*zTjwQaXokeQAAAAAAAAAAABkARQnAQ' width=550 alt='img'/>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*zTjwQaXokeQAAAAAAAAAAABkARQnAQ' width=550 alt='' />
 
 Developers are able to build graph visualization **analysis** applications or graph visualization **modeling** applications easily.
 
-<img src="https://user-images.githubusercontent.com/6113694/44995293-02858600-afd5-11e8-840c-349e4730d63d.gif" height=150 alt='img' /><img src="https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*I9OdTbXJIi0AAAAAAAAAAABkARQnAQ" height=150 alt='img' /><img src="https://user-images.githubusercontent.com/6113694/44995332-2ba61680-afd5-11e8-8cab-db0e9d08ceb7.gif" height=150 alt='img' />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*zau8QJcVpDQAAAAAAAAAAABkARQnAQ' height=200 alt='' /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*RIlETY_S6IoAAAAAAAAAAABkARQnAQ' height=200 alt='' />
 
-<img src="https://gw.alipayobjects.com/zos/rmsportal/HQxYguinFOMIXrGQOABY.gif" height=150 alt='img' /><img src="https://gw.alipayobjects.com/zos/rmsportal/nAugyFgrbrUWPmDIDiQm.gif" height=150 alt='img' /><img src="https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*xoufSYcjK2AAAAAAAAAAAABkARQnAQ" height=150 alt='img' />
-
-> Powerful Layouts
-
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*dJT3SIVta6QAAAAAAAAAAABkARQnAQ' width=800 alt='img'/>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*cDzXR4jIWr8AAAAAAAAAAABkARQnAQ' height=150 alt='' /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*DifbSahOblAAAAAAAAAAAABkARQnAQ' height=150 alt='' /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*HTasSJGC4koAAAAAAAAAAABkARQnAQ' height=150 alt='' />
 
 > Powerful Animation and Interactions
 
-## Features
+<img src="https://user-images.githubusercontent.com/6113694/44995293-02858600-afd5-11e8-840c-349e4730d63d.gif" height=150 alt='' /><img src="https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*I9OdTbXJIi0AAAAAAAAAAABkARQnAQ" height=150 alt='' /><img src="https://user-images.githubusercontent.com/6113694/44995332-2ba61680-afd5-11e8-8cab-db0e9d08ceb7.gif" height=150 alt='' />
 
-- Excellent Perforamnce: Supports large graph visualization and interactive exploration;
-- Abundant Built-in Items: Nodes and edges with free configurations;
+<img src="https://gw.alipayobjects.com/zos/rmsportal/HQxYguinFOMIXrGQOABY.gif" height=150 alt='' /><img src="https://gw.alipayobjects.com/zos/rmsportal/nAugyFgrbrUWPmDIDiQm.gif" height=150 alt='' /><img src="https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*xoufSYcjK2AAAAAAAAAAAABkARQnAQ" height=150 alt='' />
+
+> Powerful Layouts
+
+## 🎉 Features (5.0 Alpha)
+
+- Extensionable: All the modules (seven types) are integrated as plugins;
+- Style and animation standards, supports level of details (see the graph below);
+- Beautiful Built-in Theme and cound be customized (see the graph below);
+- Layouts with Great Performance: More than 10 layout algorithms, supports GPU and Rust parallel computing, and custom layouts;
 - Steerable Interactions: More than 10 basic interaction behaviors ;
-- Powerful Layouts: More than 10 layout algorithms;
-- Convenient Components: Outstanding abilities and performance;
-- Friendly User Experience: Complete documents for different levels of requirements. TypeScript supported.
+- Friendly User Experience: Complete documents for different levels of user requirements. TypeScript supported.
+- Multiple renderers: Canvas, SVG, WebGL;
+- 3D Graph:
 
-G6 concentrates on the principle of 'good by default'. In addition, the custom mechanism of the item, interation behavior, and layout satisfies the customization requirements.
+The gif is not fully loaded, [Click Here to See the Original Image](https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*qPrmQrdV77gAAAAAAAAAAAAADmJ7AQ/original)
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Y0c6S7cxjVkAAAAAAAAAAABkARQnAQ' width=800 alt='img'/>
+<img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*IUOnSbLisyoAAAAAAAAAAAAADmJ7AQ/original" width=600 height=334 alt='' />
+
+> 3D Graph
+
+The gif is not fully loaded, [Click Here to See the Original Image](https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*1BFvQ4r3P7UAAAAAAAAAAAAADmJ7AQ/original)
+
+<img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*tPPGSokdSYsAAAAAAAAAAAAADmJ7AQ/original" width=600 height=367 alt='' />
+
+> Animations and Level of Details
+
+<img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*QjJoSbD7GTwAAAAAAAAAAAAADmJ7AQ/original" width=800 height=226 alt='' />
+
+> Built-in Themes and Custom Themes
+
+<img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*x7NTT5_baKYAAAAAAAAAAAAADmJ7AQ/original" width=400 height=218 alt='' />
+
+> Seven Types of Plugins
+
+- Abundant Built-in Items: Nodes and edges with free configurations;
+- Convenient Components: Outstanding ability and performance;
+- Tree Shaking to reduce the package's size.
+
+G6 concentrates on the principle of 'good by default'. In addition, the custom mechanism of the item, interation behavior, and layout satisfies the customazation requirements.
 
 > Abundant Built-in Items
 
-## Installation
+## Installation (5.0 Beta)
 
 ```bash
-$ npm install @antv/g6
+$ npm install @antv/g6@5.0.0-beta.0
 ```
 
-## Usage
+## Usage (5.0 Beta)
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*srtDT5slbN8AAAAAAAAAAABkARQnAQ' width=400 alt='img' />
+<img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*M-MTRaLiZN0AAAAAAAAAAAAADmJ7AQ/original" width=437 height=148 alt='' />
 
-```javascript
-// The source data
+The configuration specification of the graph can be refered to: https://github.com/antvis/G6/blob/v5/packages/g6/src/types/spec.ts
+
+Graph API: https://github.com/antvis/G6/blob/2b44df189dd2e851447ba5a09541c372b49cd658/packages/g6/src/types/graph.ts#L23
+
+A simple graph demo:
+
+<img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*M-MTRaLiZN0AAAAAAAAAAAAADmJ7AQ/original" width=437 height=138 alt='' />
+
+[![Edit compassionate-lalande-5lxm7](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/musing-matan-q255po?fontsize=14&hidenavigation=1&theme=dark)
+
+```js
+import G6 from '@antv/g6';
+
 const data = {
-  // The array of nodes
   nodes: [
     {
       id: 'node1',
-      x: 100,
-      y: 200,
+      data: {
+        x: 150,
+        y: 150,
+        label: 'Node 1',
+      },
     },
     {
       id: 'node2',
-      x: 300,
-      y: 200,
+      data: {
+        x: 400,
+        y: 150,
+        label: 'Node 2',
+      },
     },
   ],
-  // The array of edges
   edges: [
-    // An edge links from node1 to node2
     {
+      id: 'edge1',
       source: 'node1',
       target: 'node2',
+      data: {
+        label: 'Edge 1',
+      },
     },
   ],
 };
 
-// Instantiate the Graph
 const graph = new G6.Graph({
-  container: 'mountNode', // The container id or HTML node of the graph canvas.
-  // The width and the height of graph canvas
-  width: 800,
+  container: 'container',
+  width: 500,
   height: 500,
+  data,
+  node: (innerModel) => ({
+    ...innerModel,
+    type: 'circle',
+    data: {
+      ...innerModel.data,
+      labelShape: {
+        text: innerModel.label,
+      },
+      labelBackgroundShape: {},
+      iconShape: {
+        img: 'https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg',
+      },
+    },
+  }),
+  edge: (innerModel) => ({
+    ...innerModel,
+    type: 'line',
+    data: {
+      labelShape: {
+        text: innerModel.label,
+      },
+      labelBackgroundShape: {},
+    },
+  }),
 });
-// Load the data
-graph.data(data);
-// Render the graph
-graph.render();
 ```
 
-[![Edit compassionate-lalande-5lxm7](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/compassionate-lalande-5lxm7?fontsize=14&hidenavigation=1&theme=dark)
+## Development (5.0 Beta)
 
-For more information about the usage, please refer to [Getting Started](/en/docs/manual/getting-started).
+```bash
+# enter packages/g6 from root of project
+$ cd packages/g6
 
-## Documents
+# install dependencies
+$ npm install
 
-- [Tutorial](/en/docs/manual/tutorial/preface)
-- [Key Concepts](/en/docs/manual/middle/graph)
-- [Further Reading](/en/docs/manual/advanced/coordinate-system)
-- [API Reference](/en/docs/api/Graph)
+# build
+$ npm run build
 
-## Links
+# start the integration demos
+$ npm run dev
 
-Official independent product: Graphin
+# Test lint
+$ npm run lint
 
-Graphin stands for Graph Insight. It's a toolkit based on G6 and React, that focuses on relational visual analysis. It's simple, efficient, out of the box.
+# Fix lint
+$ npm run fix
 
-- github: https://github.com/antvis/Graphin
-- website: https://graphin.antv.vision
+# Run all the integration tests
+$ npm run test:integration
 
-Some implementations combined with front-end libraries from the third party:
-
-- <a href='https://github.com/guozhaolong/wfd' target='_blank'>Flow visualization editor powered by G6 and React - Workflow Designer</a>;
-- <a href='https://github.com/caoyu48/vue-g6-editor' target='_blank'>Visualization editor powered by G6 and Vue</a>;
-- <a href='https://github.com/OXOYO/X-Flowchart-Vue' target='_blank'>Visualization and graphics editor powered by G6 and Vue - A visual graph editor based on G6 and Vue</a>
-- <a href='https://github.com/lusess123/web-pdm' target='_blank'>Visualization and graphics ER editor powered by G6 and React</a>；
-- <a href='https://github.com/dappsnation/ng-antv' target='_blank'>Visualization and graphics editor powered by G6 and Angular</a>
-- <a href='https://github.com/claudewowo/welabx-g6' target='_blank'>Visualization Flow editor powered by G6 and Vue</a>
-
-## G6 Communication Group
-
-Welcome to join the **G6 Communication Group** or **G6 Communication Group-2** (DingTalk groups). We also welcome the github issues.
-
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*-RO_R7SCvroAAAAAAAAAAAAAARQnAQ' width=400 alt="">
-
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*hzfaSrAj0jkAAAAAAAAAAABkARQnAQ' width=400 alt="">
+# Run one the integration test: modify the dir in test:integration_oneo be the one you want to test in package.json, then execute:
+$ npm run test:integration_one
+```
 
 ## How to Contribute
 
-Please let us know what you are you going to help. Do check out <a href='https://github.com/antvis/g6/issues' target='_blank'>issues</a> for bug reports or suggestions first.
+Please let us know what you are you going to help. Do check out [issues](https://github.com/antvis/g6/issues) for bug reports or suggestions first.
+
+### Issue Hunt
+
+Refer to the [Doc of Issue Hunt](https://github.com/antvis/G6/blob/v5-readme/ISSUEHUNT.en-US.md).
 
 ## License
 
-<a href='https://github.com/antvis/g6/blob/master/LICENSE' target='_blank'>MIT license</a>.
+[MIT license](./LICENSE).

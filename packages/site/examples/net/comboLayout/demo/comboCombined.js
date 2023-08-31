@@ -1,4 +1,10 @@
-import G6 from '@antv/g6';
+import { Graph, Extensions, extend } from '@antv/g6';
+
+const ExtGraph = extend(Graph, {
+  layouts: {
+    comboCombined: Extensions.ComboCombinedLayout,
+  },
+});
 
 const data = {
   nodes: [
@@ -611,7 +617,7 @@ const data = {
 const container = document.getElementById('container');
 const width = container.scrollWidth;
 const height = container.scrollHeight || 500;
-const graph = new G6.Graph({
+const graph = new ExtGraph({
   container: 'container',
   width,
   height,
@@ -620,6 +626,14 @@ const graph = new G6.Graph({
     comboPadding: 2,
   },
   autoFit: 'center',
+  theme: {
+    type: 'spec',
+    specification: {
+      node: {
+        dataTypeField: 'parentId',
+      },
+    },
+  },
   node: {
     keyShape: {
       r: 10,
@@ -637,7 +651,7 @@ const graph = new G6.Graph({
       data: {
         ...model.data,
         keyShape: {
-          lineWidth: model.data.size || 1,
+          lineWidth: model.data.size || 0.5,
           stroke: model.data.color || '#99ADD1',
         },
         labelShape: {

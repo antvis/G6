@@ -1,4 +1,16 @@
-import { Graph } from '@antv/g6';
+import { Graph as BaseGraph, Extensions, extend } from '@antv/g6';
+
+const Graph = extend(BaseGraph, {
+  plugins: {
+    legend: Extensions.Legend,
+  },
+  behaviors: {
+    'brush-select': Extensions.BrushSelect,
+    'activate-relations': Extensions.ActivateRelations,
+    'zoom-canvas': Extensions.ZoomCanvas,
+  },
+});
+
 // import { faker } from '@faker-js/faker';
 
 const container = document.getElementById('container') as HTMLElement;
@@ -128,7 +140,7 @@ new Graph({
   width,
   height,
   data,
-  // plugins: [legend],
+  plugins: [legend],
   node: {
     labelShape: {
       text: {

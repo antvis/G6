@@ -1,67 +1,54 @@
-import G6 from '@antv/g6';
-/**
- * 演示如何响应节点某一区域上的点击事件
- * by 长哲
- */
+import { Graph, extend, Extensions } from '@antv/g6';
 
-const GRAPH_CONTAINER = 'container';
-
-// 注册自定义节点
-G6.registerNode(
-  'customNode',
-  {
-    // 绘制节点
-    drawShape: function drawShape(cfg, group) {
-      const shapeType = this.shapeType;
-      const style = Object.assign({}, this.getShapeStyle(cfg), {
-        x: 0,
-        y: 0,
-        r: 50,
-      });
-      const shape = group.addShape(shapeType, {
-        attrs: style,
-        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
-        name: 'key-shape',
-      });
-      // 绘制节点里面的小圆。点击这个小圆会显示tooltip
-      group.addShape('circle', {
-        attrs: {
-          x: 0,
-          y: -30,
-          r: 10,
-          fill: '#096dd9',
-          cursor: 'pointer',
+class CustomNode extends Extensions.CircleNode {
+  drawOtherShapes(model, shapeMap, diffData) {
+    return {
+      responseShape: this.upsertShape(
+        'circle',
+        'responseShape',
+        {
+          r: 8,
+          fill: '#0f0',
+          cx: 0,
+          cy: -25,
+          zIndex: 10,
         },
-        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
-        name: 'circle-shape',
-      });
-      return shape;
-    },
+        shapeMap,
+      ),
+    };
+  }
+}
+
+const ExtGraph = extend(Graph, {
+  nodes: {
+    'custom-node': CustomNode,
   },
-  'circle',
-);
+});
 
 const data = {
   nodes: [
     {
       id: 'node1',
-      x: 100,
-      y: 150,
-      label: 'node1',
-      size: 100,
-      type: 'customNode',
+      data: {
+        x: 100,
+        y: 150,
+        label: 'Click the Green Circle',
+        size: 100,
+      },
     },
     {
       id: 'node2',
-      x: 300,
-      y: 150,
-      label: 'node2',
-      size: 100,
-      type: 'customNode',
+      data: {
+        x: 300,
+        y: 150,
+        label: 'Click the Green Circle',
+        size: 100,
+      },
     },
   ],
   edges: [
     {
+      id: 'edge-1',
       source: 'node1',
       target: 'node2',
     },
@@ -71,66 +58,65 @@ const data = {
 const container = document.getElementById('container');
 const width = container.scrollWidth;
 const height = container.scrollHeight || 500;
-const graph = new G6.Graph({
-  container: GRAPH_CONTAINER,
+const graph = new ExtGraph({
+  container,
   width,
   height,
   modes: {
-    default: [
-      {
-        type: 'drag-node',
-        delegate: false,
-      },
-    ],
+    default: ['drag-node'],
   },
-  defaultNode: {
-    style: {
-      fill: '#DEE9FF',
-      stroke: '#5B8FF9',
-    },
-    labelCfg: {
-      style: {
-        fontSize: 12,
+  node: {
+    type: 'custom-node',
+    keyShape: {
+      r: {
+        fields: ['size'],
+        formatter: (model) => model.data.size / 2,
       },
     },
-  },
-  defaultEdge: {
-    style: {
-      stroke: '#e2e2e2',
+    labelShape: {
+      position: 'center',
+      text: {
+        fields: ['label'],
+        formatter: (model) => model.data.label,
+      },
     },
+    labelBackgroundShape: {},
+    otherShapes: {},
   },
-  nodeStateStyles: {
-    selected: {
-      stroke: 'red',
-    },
-  },
+  data,
 });
-
-graph.data(data);
-graph.render();
 
 // 节点上的点击事件
-graph.on('node:click', function (event) {
-  const { item } = event;
-  graph.setItemState(item, 'selected', true);
+graph.on('node:click', (event) => {
+  const { itemId, target } = event;
+  if (target.id === 'responseShape') {
+    graph.updateData('node', {
+      id: itemId,
+      data: {
+        label: 'Response!',
+      },
+    });
+    graph.setItemState(itemId, 'selected', true);
+  }
 });
 
-graph.on('circle-shape:click', (evt) => {
-  const { item } = evt;
-  graph.updateItem(item, {
-    label: '点击了局部',
-    labelCfg: {
-      style: {
-        fill: '#003a8c',
-        fontSize: 16,
+graph.on('canvas:click', (event) => {
+  const nodeIds = graph.getAllNodesData().map((node) => node.id);
+  graph.setItemState(nodeIds, 'selected', false);
+  graph.updateData(
+    'node',
+    nodeIds.map((id) => ({
+      id,
+      data: {
+        label: 'Click the Green Circle',
       },
-    },
-  });
+    })),
+  );
 });
 
 if (typeof window !== 'undefined')
   window.onresize = () => {
-    if (!graph || graph.get('destroyed')) return;
+    if (!graph || graph.destroyed) return;
     if (!container || !container.scrollWidth || !container.scrollHeight) return;
-    graph.changeSize(container.scrollWidth, container.scrollHeight);
+    graph.setSize([container.scrollWidth, container.scrollHeight]);
   };

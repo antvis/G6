@@ -1,4 +1,18 @@
+---
+title: README
+---
+
 概述 / [模块](modules.zh.md) 
+
+ # G6 API 核心模块 
+
+ - [行为](modules/behaviors.zh.md) 
+ - [图](modules/graph.zh.md) 
+ - [项目](modules/item.zh.md) 
+ - [布局](modules/layout.zh.md) 
+ - [插件](modules/plugins.zh.md) 
+ - [类型](modules/types.zh.md) 
+ - [util](modules/util.zh.md) 
 
  ````jsx 
  从 '@antv/g6' 导入 { Graph, Util }; 

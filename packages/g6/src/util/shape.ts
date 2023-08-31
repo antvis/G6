@@ -120,6 +120,7 @@ export const upsertShape = (
   if (!shape) {
     // create
     shape = createShape(type, style, id);
+    if (style.interactive === false) shape.interactive = false;
     // find the animate styles, set them to be INIT_SHAPE_STYLES
     if (!disableAnimate && animates) {
       const animateFields = findAnimateFields(
@@ -165,6 +166,8 @@ export const upsertShape = (
     if (isStyleAffectBBox(type, updateStyles)) {
       shape.setAttribute(LOCAL_BOUNDS_DIRTY_FLAG_KEY, true);
     }
+    if (style.interactive === false) shape.interactive = false;
+    else shape.interactive = true;
   }
   shapeMap[id] = shape;
   return shape;

@@ -1,4 +1,4 @@
-import G6, { extend, stdLib } from '@antv/g6';
+import { Extensions, Graph, extend, stdLib } from '@antv/g6';
 
 const container = document.getElementById('container');
 const width = container.scrollWidth;
@@ -48,8 +48,7 @@ const data = {
   ],
 };
 
-const CircleNode = G6.stdLib.nodes['circle-node'];
-class FileNode extends CircleNode {
+class FileNode extends Extensions.CircleNode {
   defaultStyles = {
     keyShape: {},
   };
@@ -108,8 +107,7 @@ class FileNode extends CircleNode {
   balanceShapeSize() {}
 }
 
-const PolylineEdge = G6.stdLib.edges['polyline-edge'];
-class StepEdge extends PolylineEdge {
+class StepEdge extends Extensions.PolylineEdge {
   defaultStyles = {
     keyShape: {},
   };
@@ -127,7 +125,7 @@ class StepEdge extends PolylineEdge {
   balanceShapeSize() {}
 }
 
-const CustomGraph = extend(G6.Graph, {
+const ExtGraph = extend(Graph, {
   nodes: {
     'file-node': FileNode,
   },
@@ -135,7 +133,7 @@ const CustomGraph = extend(G6.Graph, {
     'step-edge': StepEdge,
   },
 });
-const graph = new CustomGraph({
+const graph = new ExtGraph({
   container: 'container',
   width,
   height,

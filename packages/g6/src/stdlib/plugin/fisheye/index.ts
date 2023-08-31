@@ -1,5 +1,5 @@
 import { DisplayObject } from '@antv/g';
-import { clone, throttle } from '@antv/util';
+import { clone, throttle, uniqueId } from '@antv/util';
 import { IGraph } from '../../../types';
 import { Point } from '../../../types/common';
 import { IG6GraphEvent } from '../../../types/event';
@@ -7,20 +7,48 @@ import { ShapeStyle } from '../../../types/item';
 import { Plugin as Base, IPluginBaseConfig } from '../../../types/plugin';
 
 const DELTA = 0.05;
-
+/**
+ * This is an interface named `FisheyeConfig`, which extends the `IPluginBaseConfig` interface. It contains the following properties:
+- `trigger`: The trigger method, which can be `'mousemove'`, `'click'`, or `'drag'`.
+- `d`: A number representing the magnification factor of the fisheye.
+- `r`: A number representing the radius of the fisheye.
+- `delegateStyle`: The shape style.
+- `showLabel`: A boolean indicating whether to show the label.
+- `scaleRBy`: Can be `'wheel'`, `'drag'`, `'unset'`, or `undefined`, representing the scaling method for the fisheye radius.
+- `scaleDBy`: Can be `'wheel'`, `'drag'`, `'unset'`, or `undefined`, representing the scaling method for the fisheye magnification factor.
+- `maxR`: A number representing the maximum value of the fisheye radius.
+- `minR`: A number representing the minimum value of the fisheye radius.
+- `maxD`: A number representing the maximum value of the fisheye magnification factor.
+- `minD`: A number representing the minimum value of the fisheye magnification factor.
+- `throttle`: A number representing the throttle time (in milliseconds).
+- `showDPercent`: A boolean indicating whether to show the percentage of the fisheye magnification factor.
+ */
 export interface FisheyeConfig extends IPluginBaseConfig {
+  /** The trigger method, which can be `'mousemove'`, `'click'`, or `'drag'`. */
   trigger?: 'mousemove' | 'click' | 'drag';
+  /**  A number representing the magnification factor of the fisheye. */
   d?: number;
+  /**  A number representing the radius of the fisheye. */
   r?: number;
+  /** The shape style */
   delegateStyle?: ShapeStyle;
+  /** A boolean indicating whether to show the label. */
   showLabel?: boolean;
+  /**  Can be `'wheel'`, `'drag'`, `'unset'`, or `undefined`, representing the scaling method for the fisheye radius. */
   scaleRBy?: 'wheel' | 'drag' | 'unset' | undefined;
+  /** Can be `'wheel'`, `'drag'`, `'unset'`, or `undefined`, representing the scaling method for the fisheye magnification factor. */
   scaleDBy?: 'wheel' | 'drag' | 'unset' | undefined;
+  /**  A number representing the maximum value of the fisheye radius. */
   maxR?: number;
+  /** A number representing the minimum value of the fisheye radius. */
   minR?: number;
+  /** A number representing the maximum value of the fisheye magnification factor. */
   maxD?: number;
+  /** A number representing the minimum value of the fisheye magnification factor. */
   minD?: number;
+  /**  A number representing the throttle time (in milliseconds). */
   throttle?: number;
+  /**  A boolean indicating whether to show the percentage of the fisheye magnification factor. */
   showDPercent?: boolean;
 }
 
@@ -31,7 +59,7 @@ const lensDelegateStyle = {
   fillOpacity: 0.1,
   fill: '#ccc',
 };
-export default class Fisheye extends Base {
+export class Fisheye extends Base {
   private pointerDown: Point | undefined = undefined;
   private cacheCenter: Point | undefined = undefined;
   private dragPrePos: Point | undefined = undefined;
@@ -60,6 +88,7 @@ export default class Fisheye extends Base {
   }
   public getDefaultCfgs(): FisheyeConfig {
     return {
+      key: `fisheye-${uniqueId()}`,
       trigger: 'mousemove',
       d: 1.5,
       r: 300,

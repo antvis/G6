@@ -1,4 +1,10 @@
-import G6 from '@antv/g6';
+import { Graph, Extensions, extend } from '@antv/g6';
+
+const ExtGraph = extend(Graph, {
+  layouts: {
+    fruchterman: Extensions.FruchtermanLayout,
+  },
+});
 
 const container = document.getElementById('container');
 const width = container.scrollWidth;
@@ -11,7 +17,7 @@ container.appendChild(descriptionDiv);
 fetch('https://gw.alipayobjects.com/os/basement_prod/7bacd7d1-4119-4ac1-8be3-4c4b9bcbc25f.json')
   .then((res) => res.json())
   .then((data) => {
-    const graph = new G6.Graph({
+    const graph = new ExtGraph({
       container: 'container',
       width,
       height,

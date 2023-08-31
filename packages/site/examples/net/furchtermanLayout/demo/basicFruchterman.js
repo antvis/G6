@@ -1,4 +1,10 @@
-import G6 from '@antv/g6';
+import { Graph, Extensions, extend } from '@antv/g6';
+
+const ExtGraph = extend(Graph, {
+  layouts: {
+    fruchterman: Extensions.FruchtermanLayout,
+  },
+});
 
 const data = {
   nodes: [
@@ -423,6 +429,7 @@ const layoutConfigs = {
     gravity: 5,
     speed: 5,
     animated: true,
+    clustering: false,
   },
   Clustering: {
     type: 'fruchterman',
@@ -436,7 +443,7 @@ const layoutConfigs = {
 const container = document.getElementById('container');
 const width = container.scrollWidth;
 const height = container.scrollHeight || 500;
-const graph = new G6.Graph({
+const graph = new ExtGraph({
   container: 'container',
   width,
   height,

@@ -1,66 +1,79 @@
-import Hierarchy from '@antv/hierarchy';
-import { registry as layoutRegistry } from '@antv/layout';
 import { Lib } from '../types/stdlib';
-import ActivateRelations from './behavior/activate-relations';
-import BrushSelect from './behavior/brush-select';
-import ClickSelect from './behavior/click-select';
-import DragCanvas from './behavior/drag-canvas';
-import DragCombo from './behavior/drag-combo';
-import DragNode from './behavior/drag-node';
-import LassoSelect from './behavior/lasso-select';
-import { validateData } from './data/validateData';
-import { LineEdge, LoopEdge } from './item/edge';
-import {
+
+import * as Behaviors from './behavior';
+import * as Transforms from './data';
+import * as Combos from './item/combo';
+import * as Nodes from './item/node';
+import * as Edges from './item/edge';
+import { Behavior as BaseBehavior } from '../types/behavior';
+import * as Themes from './theme';
+import * as ThemeSolvers from './themeSolver';
+import * as Plugins from './plugin';
+import { Plugin as BasePlugin } from '../types/plugin';
+import * as Layouts from '@antv/layout';
+import Hierarchy from '@antv/hierarchy';
+
+const { ValidateData, TransformV4Data, MapNodeSize } = Transforms;
+
+const { compactBox, dendrogram, indented, mindmap } = Hierarchy;
+
+const { DarkTheme, LightTheme } = Themes;
+const { SpecThemeSolver, SubjectThemeSolver } = ThemeSolvers;
+
+const {
   CircleNode,
-  EllipseNode,
   RectNode,
+  DiamondNode,
+  DonutNode,
   SphereNode,
-  TriangleNode,
   StarNode,
   HexagonNode,
-  DonutNode,
-  DiamondNode,
+  TriangleNode,
+  EllipseNode,
   ModelRectNode,
-} from './item/node';
-import DarkTheme from './theme/dark';
-import LightTheme from './theme/light';
-import SpecThemeSolver from './themeSolver/spec';
-import SubjectThemeSolver from './themeSolver/subject';
+} = Nodes;
 
-import CollapseExpandCombo from './behavior/collapse-expand-combo';
-import HoverActivate from './behavior/hover-activate';
-import OrbitCanvas3D from './behavior/orbit-canvas-3d';
-import RotateCanvas3D from './behavior/rotate-canvas-3d';
-import TrackCanvas3D from './behavior/track-canvas-3d';
-import ZoomCanvas from './behavior/zoom-canvas';
-import ZoomCanvas3D from './behavior/zoom-canvas-3d';
-import { CircleCombo } from './item/combo/circle';
-import History from './plugin/history';
+const {
+  LineEdge,
+  CubicEdge,
+  CubicHorizontalEdge,
+  CubicVerticalEdge,
+  LoopEdge,
+  PolylineEdge,
+  QuadraticEdge,
+} = Edges;
+const { CircleCombo, RectCombo } = Combos;
+const {
+  ActivateRelations,
+  BrushSelect,
+  HoverActivate,
+  LassoSelect,
+  OrbitCanvas3D,
+  RotateCanvas3D,
+  TrackCanvas3D,
+  ZoomCanvas3D,
+  ZoomCanvas,
 
-import CollapseExpandTree from './behavior/collapse-expand-tree';
-import { CubicEdge } from './item/edge/cubic';
-import { CubicHorizontalEdge } from './item/edge/cubic-horizontal';
-import { CubicVerticalEdge } from './item/edge/cubic-vertical';
-import { Quadratic } from './item/edge/quadratic';
-import { Polyline } from './item/edge/polyline';
-import Fisheye from './plugin/fisheye';
-import Grid from './plugin/grid';
-import Legend from './plugin/legend';
-import Menu from './plugin/menu';
-import Minimap from './plugin/minimap';
-import toolbar from './plugin/toolbar';
-import Tooltip from './plugin/tooltip';
+  DragCanvas,
+  CollapseExpandTree,
+  CollapseExpandCombo,
+  DragNode,
+  DragCombo,
+  ClickSelect,
+} = Behaviors;
+const { History, Tooltip, Minimap, Grid, Menu, Fisheye, Legend, Toolbar } =
+  Plugins;
+
+const { ForceLayout, GridLayout, CircularLayout, ConcentricLayout } = Layouts;
+
 import lassoSelector from './selector/lasso';
 import rectSelector from './selector/rect';
-import { RectCombo } from './item/combo/rect';
-import { transformV4Data } from './data/transformV4Data';
-import { mapNodeSize } from './data/mapNodeSize';
 
 const stdLib = {
   transforms: {
-    'validate-data': validateData,
-    'transform-v4-data': transformV4Data,
-    'map-node-size': mapNodeSize,
+    'validate-data': ValidateData,
+    'transform-v4-data': TransformV4Data,
+    'map-node-size': MapNodeSize,
   },
   themes: {
     light: LightTheme,
@@ -71,56 +84,30 @@ const stdLib = {
     subject: SubjectThemeSolver,
   },
   layouts: {
-    ...layoutRegistry,
+    force: ForceLayout,
+    grid: GridLayout,
+    circular: CircularLayout,
+    concentric: ConcentricLayout,
     ...Hierarchy,
   },
   behaviors: {
-    'activate-relations': ActivateRelations,
     'drag-canvas': DragCanvas,
-    'hover-activate': HoverActivate,
     'zoom-canvas': ZoomCanvas,
     'drag-node': DragNode,
     'drag-combo': DragCombo,
     'collapse-expand-combo': CollapseExpandCombo,
     'collapse-expand-tree': CollapseExpandTree,
     'click-select': ClickSelect,
-    'brush-select': BrushSelect,
-    'lasso-select': LassoSelect,
-    'zoom-canvas-3d': ZoomCanvas3D,
-    'rotate-canvas-3d': RotateCanvas3D,
-    'track-canvas-3d': TrackCanvas3D,
-    'orbit-canvas-3d': OrbitCanvas3D,
   },
   plugins: {
-    minimap: Minimap,
-    fisheye: Fisheye,
-    legend: Legend,
-    grid: Grid,
-    tooltip: Tooltip,
-    menu: Menu,
     history: History,
-    toolbar,
   },
   nodes: {
     'circle-node': CircleNode,
-    'sphere-node': SphereNode,
     'rect-node': RectNode,
-    'star-node': StarNode,
-    'hexagon-node': HexagonNode,
-    'triangle-node': TriangleNode,
-    'ellipse-node': EllipseNode,
-    'donut-node': DonutNode,
-    'diamond-node': DiamondNode,
-    'modelRect-node': ModelRectNode,
   },
   edges: {
     'line-edge': LineEdge,
-    'cubic-edge': CubicEdge,
-    'cubic-horizontal-edge': CubicHorizontalEdge,
-    'cubic-vertical-edge': CubicVerticalEdge,
-    'quadratic-edge': Quadratic,
-    'polyline-edge': Polyline,
-    'loop-edge': LoopEdge,
   },
   combos: {
     'circle-combo': CircleCombo,
@@ -187,5 +174,89 @@ const utils = {
 };
 
 const registery = { useLib };
+// const Extensions = {
+//   ...Transforms,
+//   ...Themes,
+//   ...ThemeSolvers,
+//   ...Nodes,
+//   ...Edges,
+//   ...Combos,
+//   ...Behaviors,
+//   ...Plugins,
+//   ...Layouts,
+//   ...Hierarchy,
+// };
+
+const Extensions = {
+  // transforms
+  ValidateData,
+  TransformV4Data,
+  MapNodeSize,
+  //themes
+  LightTheme,
+  DarkTheme,
+  //themeSolvers
+  SpecThemeSolver,
+  SubjectThemeSolver,
+  //layout
+  ForceLayout,
+  GridLayout,
+  CircularLayout,
+  ConcentricLayout,
+  //Hierarchy
+  compactBox,
+  dendrogram,
+  indented,
+  mindmap,
+  //nodes
+  CircleNode,
+  RectNode,
+  DiamondNode,
+  DonutNode,
+  SphereNode,
+  StarNode,
+  HexagonNode,
+  TriangleNode,
+  EllipseNode,
+  ModelRectNode,
+  // edges
+  LineEdge,
+  CubicEdge,
+  CubicHorizontalEdge,
+  CubicVerticalEdge,
+  LoopEdge,
+  PolylineEdge,
+  QuadraticEdge,
+  // combos
+  CircleCombo,
+  RectCombo,
+  //behaviors
+  BaseBehavior,
+  ActivateRelations,
+  BrushSelect,
+  HoverActivate,
+  LassoSelect,
+  OrbitCanvas3D,
+  RotateCanvas3D,
+  TrackCanvas3D,
+  ZoomCanvas3D,
+  ZoomCanvas,
+  DragCanvas,
+  CollapseExpandTree,
+  CollapseExpandCombo,
+  DragNode,
+  DragCombo,
+  //plugins
+  BasePlugin,
+  History,
+  Toolbar,
+  Tooltip,
+  Minimap,
+  Grid,
+  Menu,
+  Fisheye,
+  Legend,
+};
+
 export default registery;
-export { registery, stdLib, utils };
+export { Extensions, registery, stdLib, utils };

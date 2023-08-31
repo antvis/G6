@@ -1,12 +1,14 @@
-[Overview - v5.0.0-alpha.9](../README.en.md) / [Modules](../modules.en.md) / util
+---
+title: util
+---
 
-# Module: util
+[Overview - v5.0.0-alpha.9](../README.en.md) / [Modules](../modules.en.md) / util
 
 ## Functions
 
 ### extend
 
-▸ **extend**<`B1`, `B2`, `T1`, `T2`\>(`GraphClass`, `extendLibrary`): typeof [`Graph`](../classes/graph-Graph.en.md)
+▸ **extend**<`B1`, `B2`, `T1`, `T2`\>(`GraphClass`, `extendLibrary`): typeof [`Graph`](../classes/graph/Graph.en.md)
 
 Extend graph class with custom libs (extendLibrary), and extendLibrary will be merged into useLib.
 B1 is the Behavior lib from user, B2 is the Behavior lib of the graph to be extended(built-in graph)
@@ -25,22 +27,24 @@ TODO: more templates, and might be merged to be two templates for the whole exte
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `GraphClass` | typeof [`Graph`](../classes/graph-Graph.en.md) | graph class to be extended |
+| `GraphClass` | typeof [`Graph`](../classes/graph/Graph.en.md) | graph class to be extended |
 | `extendLibrary` | `Object` | custom libs to extend |
 | `extendLibrary.behaviors?` | `B1` | - |
-| `extendLibrary.edges?` | `any` | - |
-| `extendLibrary.nodes?` | `any` | - |
+| `extendLibrary.edges?` | `EdgeRegistry` | - |
+| `extendLibrary.layouts?` | `LayoutRegistry` | - |
+| `extendLibrary.nodes?` | `NodeRegistry` | - |
+| `extendLibrary.plugins?` | `PluginRegistry` | - |
 | `extendLibrary.themeSolvers?` | `T1` | - |
 
 #### Returns
 
-typeof [`Graph`](../classes/graph-Graph.en.md)
+typeof [`Graph`](../classes/graph/Graph.en.md)
 
 extended graph class
 
 #### Defined in
 
-[util/extend.ts:14](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/util/extend.ts#L14)
+[packages/g6/src/util/extend.ts:18](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/util/extend.ts#L18)
 
 ___
 
@@ -60,7 +64,7 @@ value is Encode<any\>
 
 #### Defined in
 
-[util/type.ts:3](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/util/type.ts#L3)
+[packages/g6/src/util/type.ts:3](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/util/type.ts#L3)
 
 ___
 
@@ -87,4 +91,4 @@ mock graph data
 
 #### Defined in
 
-[util/mock.ts:7](https://github.com/antvis/G6/blob/c9548251ff/packages/g6/src/util/mock.ts#L7)
+[packages/g6/src/util/mock.ts:7](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/util/mock.ts#L7)

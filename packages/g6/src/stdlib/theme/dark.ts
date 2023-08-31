@@ -13,7 +13,7 @@ const edgeMainStroke = '#637088';
 
 const nodeStroke = '#D0E4FF';
 
-export default {
+export const DarkTheme = {
   node: {
     palette: [
       '#4089FF',

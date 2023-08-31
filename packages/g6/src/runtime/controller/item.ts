@@ -251,7 +251,9 @@ export class ItemController {
           intensity: Math.PI * 0.7,
         },
       });
+      // @ts-ignore
       graph.canvas.appendChild(ambientLight);
+      // @ts-ignore
       graph.canvas.appendChild(light);
       const { width, height } = graph.canvas.getConfig();
       graph.canvas.getCamera().setPerspective(0.1, 50000, 45, width / height);
@@ -691,7 +693,6 @@ export class ItemController {
             if (anccestorCollapsed) return;
           }
           const relatedEdges = graphCore.getRelatedEdges(id);
-
           item.show(animate);
           relatedEdges.forEach(({ id: edgeId, source, target }) => {
             if (this.getItemVisible(source) && this.getItemVisible(target))
@@ -1087,6 +1088,7 @@ export class ItemController {
     const { edgeExtensions, edgeGroup, itemMap, edgeDataTypeSet, graph } = this;
     const { dataTypeField = '' } = edgeTheme;
     const zoom = graph.getZoom();
+    const nodeMap = filterItemMapByType(itemMap, 'node') as Map<ID, Node>;
     models.forEach((edge) => {
       const { source, target, id } = edge;
       const sourceItem = itemMap.get(source) as Node;
@@ -1112,8 +1114,6 @@ export class ItemController {
         dataType,
         edgeTheme,
       );
-
-      const nodeMap = filterItemMapByType(itemMap, 'node') as Map<ID, Node>;
 
       itemMap.set(
         id,

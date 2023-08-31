@@ -1,4 +1,4 @@
-import { Graph, IGraph } from '../../../../src/index';
+import { Graph, Extensions, extend } from '../../../../src/index';
 // @ts-nocheck
 
 let graph: IGraph;
@@ -226,6 +226,12 @@ export default () => {
 
   // 2.create graph
   container = document.getElementById('container')!;
+  const ExtGraph = extend(Graph, {
+    behaviors: {
+      'activate-relations': Extensions.ActivateRelations,
+    },
+    edges: { 'cubic-vertical-edge': Extensions.CubicVerticalEdge },
+  });
 
   graph = new Graph({
     container,
@@ -236,15 +242,6 @@ export default () => {
       // supported behavior
       default: ['activate-relations', 'drag-node'],
     },
-<<<<<<< Updated upstream
-=======
-    node: {
-      anchorPoints: [
-        [0.5, 0],
-        [0.5, 1],
-      ],
-    },
->>>>>>> Stashed changes
   });
 
   // 3.return graph

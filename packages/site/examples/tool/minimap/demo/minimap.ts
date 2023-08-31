@@ -1,4 +1,11 @@
-import { Graph, Util } from '@antv/g6';
+import { Graph as BaseGraph, Extensions, Util, extend } from '@antv/g6';
+
+const Graph = extend(BaseGraph, {
+  plugins: {
+    minimap: Extensions.Minimap,
+  },
+});
+
 import insertCss from 'insert-css';
 
 const container = document.getElementById('container') as HTMLElement;

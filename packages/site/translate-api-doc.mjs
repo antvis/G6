@@ -1,57 +1,45 @@
 import fs from 'fs';
 import fsExtra from 'fs-extra';
 import translate from 'google-translate-api-x';
-import { readFile, readdir, writeFile } from 'node:fs/promises';
+import { readFile, writeFile } from 'node:fs/promises';
 
 /**
  * A workaround
  * because of `readdir` doesn't work with { recursive: true }
  * see : https://github.com/nodejs/node/issues/48858
  */
-const Readdir = async (path, options) => {
+var walk = (dir) => {
   try {
-    const all = await readdir(path);
-    const dirs = [];
-    const files = [];
-
-    all.forEach((item) => {
-      const filePath = path + item;
-      const isDir = fs.lstatSync(filePath).isDirectory();
-      if (isDir) {
-        dirs.push(filePath);
+    var results = [];
+    var list = fs.readdirSync(dir);
+    list.forEach((file) => {
+      file = dir + '/' + file;
+      var stat = fs.statSync(file);
+      if (stat && stat.isDirectory()) {
+        /* Recurse into a subdirectory */
+        results = results.concat(walk(file));
       } else {
-        files.push(filePath);
+        /* Is a file */
+        results.push(file);
       }
     });
-
-    const secondFiles = [];
-    for (let i = 0; i < dirs.length; i++) {
-      const filePath = dirs[i];
-      if (fs.lstatSync(filePath).isDirectory()) {
-        const sfiles = await readdir(filePath);
-        const sfilesPath = sfiles.map((c) => {
-          return filePath + '/' + c;
-        });
-        secondFiles.push(...sfilesPath);
-      }
-    }
-    return [...files, ...secondFiles];
+    return results;
   } catch (error) {
     return [];
   }
 };
 
-const TEMP_DOC_FILE_PATH = 'docs/_apis/';
-const DOC_FILE_PATH = 'docs/apis/';
+const TEMP_DOC_FILE_PATH = 'docs/_apis';
+const DOC_FILE_PATH = 'docs/apis';
 
 let errorMessage = ``;
 
 const main = async () => {
   // if node.js version not equal 18 ,throw error
 
-  const RawFiles = await Readdir(TEMP_DOC_FILE_PATH, { recursive: true });
+  const RawFiles = walk(TEMP_DOC_FILE_PATH); //Readdir(TEMP_DOC_FILE_PATH, { recursive: true });
   // const files = await readdir(dirPath, { recursive: true }); // it is a bug: https://github.com/nodejs/node/issues/48858
-  const AllFiles = await Readdir(DOC_FILE_PATH, { recursive: true });
+  const AllFiles = walk(DOC_FILE_PATH, { recursive: true });
 
   for (let i = 0; i < RawFiles.length; i++) {
     let file = AllFiles[i];
@@ -77,13 +65,26 @@ const main = async () => {
 
     const content = await readFile(rawFile);
 
+    const zh_file_name = zh_path.split('/').pop().split('.')[0];
+    const en_file_name = en_path.split('/').pop().split('.')[0];
+
+    const zh_header = `---
+title: ${zh_file_name}
+---
+
+`;
+    const en_header = `---
+title: ${en_file_name}
+---
+
+`;
     const en_content = content.toString().replaceAll('.md', '.en.md');
     const zh_content = content.toString().replaceAll('.md', '.zh.md');
 
     /** create en_US file */
 
     await fsExtra.ensureFile(en_path);
-    await writeFile(en_path, en_content);
+    await writeFile(en_path, en_header + en_content);
 
     let hasTranslated = false;
     try {
@@ -95,10 +96,12 @@ const main = async () => {
         errorMessage = errorMessage + '\n' + `TRANSLATE ERROR: ${file}:${zh_path} \n `;
         return { text: '' };
       });
-      writeFile(zh_path, res.text);
+      writeFile(zh_path, zh_header + res.text);
     }
   }
   fs.writeFileSync('.translate-info.txt', errorMessage);
+  // rm('docs/apis/modules.en.md');
+  // rm('docs/apis/modules.zh.md');
 };
 
 main();

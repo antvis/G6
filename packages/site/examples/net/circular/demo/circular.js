@@ -1,4 +1,10 @@
-import G6 from '@antv/g6';
+import { Graph, Extensions, extend } from '@antv/g6';
+
+const ExtGraph = extend(Graph, {
+  behaviors: {
+    'brush-select': Extensions.BrushSelect,
+  },
+});
 
 const data = {
   nodes: [
@@ -642,7 +648,7 @@ const data = {
 const container = document.getElementById('container');
 const width = container.scrollWidth;
 const height = container.scrollHeight || 500;
-const graph = new G6.Graph({
+const graph = new ExtGraph({
   container: 'container',
   width,
   height,
@@ -695,7 +701,16 @@ if (typeof window !== 'undefined')
   };
 
 const configs = {
-  Default: { type: 'circular' },
+  Default: {
+    type: 'circular',
+    radius: undefined,
+    divisions: undefined,
+    startAngle: undefined,
+    endAngle: undefined,
+    startRadius: undefined,
+    endRadius: undefined,
+    ordering: undefined,
+  },
   'Order by degree': { type: 'circular', ordering: 'degree' },
   Division: { type: 'circular', divisions: 5, radius: 200, startAngle: Math.PI / 4, endAngle: Math.PI },
   Spiral: {

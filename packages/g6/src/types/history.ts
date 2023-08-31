@@ -1,4 +1,5 @@
 export type StackCfg = {
+  /** A number representing the size of the stack. */
   stackSize?: number;
   /** Indicate whether the stack is active. If active, operations can be pushed onto the stack; otherwise, cannot. */
   stackActive?: boolean;
@@ -9,10 +10,15 @@ export type StackCfg = {
   includes?: string[];
   /** ignore* is a global setting that indicates whether to ignore a certain type of operation */
   ignoreAdd?: boolean;
+  /** A boolean indicating whether to ignore remove operations. */
   ignoreRemove?: boolean;
+  /** A boolean indicating whether to ignore update operations. */
   ignoreUpdate?: boolean;
+  /** A boolean indicating whether to ignore state change operations.*/
   ignoreStateChange?: boolean;
+  /** A boolean indicating whether to ignore layer change operations. */
   ignoreLayerChange?: boolean;
+  /** A boolean indicating whether to ignore display change operations. */
   ignoreDisplayChange?: boolean;
 };
 

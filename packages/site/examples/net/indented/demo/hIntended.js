@@ -1,5 +1,10 @@
-import G6 from '@antv/g6';
+import { Graph, Extensions, extend } from '@antv/g6';
 
+const ExtGraph = extend(Graph, {
+  edges: {
+    'cubic-horizontal-edge': Extensions.CubicHorizontalEdge,
+  },
+});
 
 const container = document.getElementById('container');
 const width = container.scrollWidth;
@@ -8,12 +13,11 @@ const height = container.scrollHeight || 500;
 fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.json')
   .then((res) => res.json())
   .then((data) => {
-    const graph = new G6.Graph({
+    const graph = new ExtGraph({
       container,
       width,
       height,
       transform: ['transform-v4-data'],
-      layout: {
       modes: {
         default: ['drag-canvas', 'zoom-canvas', 'drag-node', 'collapse-expand-tree'],
       },
