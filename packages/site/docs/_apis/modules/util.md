@@ -26,8 +26,10 @@ TODO: more templates, and might be merged to be two templates for the whole exte
 | `GraphClass` | typeof [`Graph`](../classes/graph/Graph.md) | graph class to be extended |
 | `extendLibrary` | `Object` | custom libs to extend |
 | `extendLibrary.behaviors?` | `B1` | - |
-| `extendLibrary.edges?` | `any` | - |
-| `extendLibrary.nodes?` | `any` | - |
+| `extendLibrary.edges?` | `EdgeRegistry` | - |
+| `extendLibrary.layouts?` | `LayoutRegistry` | - |
+| `extendLibrary.nodes?` | `NodeRegistry` | - |
+| `extendLibrary.plugins?` | `PluginRegistry` | - |
 | `extendLibrary.themeSolvers?` | `T1` | - |
 
 #### Returns
@@ -38,13 +40,15 @@ extended graph class
 
 #### Defined in
 
-[packages/g6/src/util/extend.ts:14](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/util/extend.ts#L14)
+[packages/g6/src/util/extend.ts:18](https://github.com/antvis/G6/blob/4b803837a5/packages/g6/src/util/extend.ts#L18)
 
 ___
 
 ### isEncode
 
 ▸ **isEncode**(`value`): value is Encode<any\>
+
+Whether value is a Encode<T> type with fields and formatter function.
 
 #### Parameters
 
@@ -58,7 +62,7 @@ value is Encode<any\>
 
 #### Defined in
 
-[packages/g6/src/util/type.ts:3](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/util/type.ts#L3)
+[packages/g6/src/util/type.ts:8](https://github.com/antvis/G6/blob/4b803837a5/packages/g6/src/util/type.ts#L8)
 
 ___
 
@@ -85,4 +89,4 @@ mock graph data
 
 #### Defined in
 
-[packages/g6/src/util/mock.ts:7](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/util/mock.ts#L7)
+[packages/g6/src/util/mock.ts:7](https://github.com/antvis/G6/blob/4b803837a5/packages/g6/src/util/mock.ts#L7)
