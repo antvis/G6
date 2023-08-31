@@ -3,6 +3,7 @@ import { Graph, Extensions, extend } from '@antv/g6';
 const ExtGraph = extend(Graph, {
   layouts: {
     mds: Extensions.MDSLayout,
+    radial: Extensions.RadialLayout,
   },
   behaviors: {
     'brush-select': Extensions.BrushSelect,
