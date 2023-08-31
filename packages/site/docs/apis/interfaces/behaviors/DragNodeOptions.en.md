@@ -2,7 +2,7 @@
 title: DragNodeOptions
 ---
 
-[Overview - v5.0.0-alpha.9](../../README.en.md) / [Modules](../../modules.en.md) / [behaviors](../../modules/behaviors.en.md) / DragNodeOptions
+[Overview - v5.0.0-beta.1](../../README.en.md) / [Modules](../../modules.en.md) / [behaviors](../../modules/behaviors.en.md) / DragNodeOptions
 
 [behaviors](../../modules/behaviors.en.md).DragNodeOptions
 
@@ -32,7 +32,7 @@ Only used when enableDelegate is true.
 
 #### Defined in
 
-[packages/g6/src/stdlib/behavior/drag-node.ts:32](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/drag-node.ts#L32)
+[packages/g6/src/stdlib/behavior/drag-node.ts:32](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/drag-node.ts#L32)
 
 ___
 
@@ -45,7 +45,7 @@ Defaults to false.
 
 #### Defined in
 
-[packages/g6/src/stdlib/behavior/drag-node.ts:27](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/drag-node.ts#L27)
+[packages/g6/src/stdlib/behavior/drag-node.ts:27](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/drag-node.ts#L27)
 
 ___
 
@@ -59,7 +59,7 @@ Defaults to true.
 
 #### Defined in
 
-[packages/g6/src/stdlib/behavior/drag-node.ts:22](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/drag-node.ts#L22)
+[packages/g6/src/stdlib/behavior/drag-node.ts:22](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/drag-node.ts#L22)
 
 ___
 
@@ -71,7 +71,7 @@ The event name to trigger when drag end.
 
 #### Defined in
 
-[packages/g6/src/stdlib/behavior/drag-node.ts:60](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/drag-node.ts#L60)
+[packages/g6/src/stdlib/behavior/drag-node.ts:60](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/drag-node.ts#L60)
 
 ___
 
@@ -85,7 +85,7 @@ Defaults to false.
 
 #### Defined in
 
-[packages/g6/src/stdlib/behavior/drag-node.ts:51](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/drag-node.ts#L51)
+[packages/g6/src/stdlib/behavior/drag-node.ts:51](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/drag-node.ts#L51)
 
 ___
 
@@ -98,7 +98,7 @@ Defaults to "selected".
 
 #### Defined in
 
-[packages/g6/src/stdlib/behavior/drag-node.ts:56](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/drag-node.ts#L56)
+[packages/g6/src/stdlib/behavior/drag-node.ts:56](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/drag-node.ts#L56)
 
 ___
 
@@ -124,7 +124,7 @@ Whether allow the behavior happen on the current item.
 
 #### Defined in
 
-[packages/g6/src/stdlib/behavior/drag-node.ts:68](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/drag-node.ts#L68)
+[packages/g6/src/stdlib/behavior/drag-node.ts:68](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/drag-node.ts#L68)
 
 ___
 
@@ -137,7 +137,7 @@ Defaults to 0.
 
 #### Defined in
 
-[packages/g6/src/stdlib/behavior/drag-node.ts:45](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/drag-node.ts#L45)
+[packages/g6/src/stdlib/behavior/drag-node.ts:45](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/drag-node.ts#L45)
 
 ___
 
@@ -149,4 +149,4 @@ Whether change the combo hierarchy structure or only change size.
 
 #### Defined in
 
-[packages/g6/src/stdlib/behavior/drag-node.ts:64](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/drag-node.ts#L64)
+[packages/g6/src/stdlib/behavior/drag-node.ts:64](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/drag-node.ts#L64)

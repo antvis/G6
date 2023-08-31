@@ -2,7 +2,7 @@
 title: IG6GraphEvent
 ---
 
-[Overview - v5.0.0-alpha.9](../../README.en.md) / [Modules](../../modules.en.md) / [behaviors](../../modules/behaviors.en.md) / IG6GraphEvent
+[Overview - v5.0.0-beta.1](../../README.en.md) / [Modules](../../modules.en.md) / [behaviors](../../modules/behaviors.en.md) / IG6GraphEvent
 
 [behaviors](../../modules/behaviors.en.md).IG6GraphEvent
 
@@ -544,7 +544,7 @@ ___
 
 #### Defined in
 
-[packages/g6/src/types/event.ts:42](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/event.ts#L42)
+[packages/g6/src/types/event.ts:42](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/event.ts#L42)
 
 ___
 
@@ -608,7 +608,7 @@ Original event emitted by G
 
 #### Defined in
 
-[packages/g6/src/types/event.ts:46](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/event.ts#L46)
+[packages/g6/src/types/event.ts:46](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/event.ts#L46)
 
 ___
 
@@ -717,7 +717,7 @@ ___
 
 #### Defined in
 
-[packages/g6/src/types/event.ts:44](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/event.ts#L44)
+[packages/g6/src/types/event.ts:44](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/event.ts#L44)
 
 ___
 
@@ -727,7 +727,7 @@ ___
 
 #### Defined in
 
-[packages/g6/src/types/event.ts:43](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/event.ts#L43)
+[packages/g6/src/types/event.ts:43](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/event.ts#L43)
 
 ___
 

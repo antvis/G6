@@ -2,7 +2,7 @@
 title: CollapseExpandComboOptions
 ---
 
-[Overview - v5.0.0-alpha.9](../../README.en.md) / [Modules](../../modules.en.md) / [behaviors](../../modules/behaviors.en.md) / CollapseExpandComboOptions
+[Overview - v5.0.0-beta.1](../../README.en.md) / [Modules](../../modules.en.md) / [behaviors](../../modules/behaviors.en.md) / CollapseExpandComboOptions
 
 [behaviors](../../modules/behaviors.en.md).CollapseExpandComboOptions
 
@@ -30,7 +30,7 @@ Whether allow the behavior happen on the current item.
 
 #### Defined in
 
-[packages/g6/src/stdlib/behavior/collapse-expand-combo.ts:22](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/collapse-expand-combo.ts#L22)
+[packages/g6/src/stdlib/behavior/collapse-expand-combo.ts:22](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/collapse-expand-combo.ts#L22)
 
 ___
 
@@ -44,4 +44,4 @@ Could be "dblclick", "click".
 
 #### Defined in
 
-[packages/g6/src/stdlib/behavior/collapse-expand-combo.ts:18](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/collapse-expand-combo.ts#L18)
+[packages/g6/src/stdlib/behavior/collapse-expand-combo.ts:18](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/collapse-expand-combo.ts#L18)
