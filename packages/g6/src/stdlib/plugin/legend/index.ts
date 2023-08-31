@@ -2,7 +2,7 @@ import { createDom } from '@antv/dom-util';
 import { Canvas, Circle, DisplayObject, Line } from '@antv/g';
 import { ID } from '@antv/graphlib';
 import { Category } from '@antv/gui';
-import { isFunction, upperFirst } from '@antv/util';
+import { isFunction, uniqueId, upperFirst } from '@antv/util';
 import { IGraph } from '../../../types';
 import { Plugin as Base, IPluginBaseConfig } from '../../../types/plugin';
 import { createCanvas } from '../../../util/canvas';
@@ -98,6 +98,7 @@ export class Legend extends Base {
 
   public getDefaultCfgs(): LegendConfig {
     return {
+      key: `legend-${uniqueId()}`,
       container: null,
       className: 'g6-category-legend',
       orientation: 'horizontal',

@@ -629,6 +629,7 @@ export interface IGraph<
     type: ITEM_TYPE | SHAPE_TYPE,
     id: ID,
     config: any,
+    canvas?: Canvas,
   ) => DisplayObject;
 
   /**

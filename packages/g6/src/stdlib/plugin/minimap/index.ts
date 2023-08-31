@@ -2,7 +2,7 @@
 // @ts-nocheck
 import { createDom, modifyCSS } from '@antv/dom-util';
 import { Canvas, DisplayObject, Group, Rect } from '@antv/g';
-import { debounce, each, isNil, isString } from '@antv/util';
+import { debounce, each, isNil, isString, uniqueId } from '@antv/util';
 import { IGraph } from '../../../types';
 import { IG6GraphEvent } from '../../../types/event';
 import { ShapeStyle } from '../../../types/item';
@@ -61,6 +61,7 @@ export class Minimap extends Base {
 
   public getDefaultCfgs(): MiniMapConfig {
     return {
+      key: `minimap-${uniqueId()}`,
       container: null,
       className: 'g6-minimap',
       viewportClassName: 'g6-minimap-viewport',

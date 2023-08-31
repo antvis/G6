@@ -13,6 +13,8 @@ interface EventMapType {
 }
 
 export abstract class Plugin {
+  public key: string;
+
   private events: EventMapType;
 
   public options: IPluginBaseConfig;

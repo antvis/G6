@@ -1,7 +1,7 @@
 // TODO: update type define.
 import { createDom, modifyCSS } from '@antv/dom-util';
 import { AABB } from '@antv/g';
-import { isArray, isString } from '@antv/util';
+import { isArray, isString, uniqueId } from '@antv/util';
 import insertCss from 'insert-css';
 import { IGraph } from '../../../types';
 import { IG6GraphEvent } from '../../../types/event';
@@ -100,6 +100,7 @@ export class Tooltip extends Base {
 
   public getDefaultCfgs(): TooltipConfig {
     return {
+      key: `tooltip-${uniqueId()}`,
       offsetX: 0,
       offsetY: 0,
       getContent: (e) => {
