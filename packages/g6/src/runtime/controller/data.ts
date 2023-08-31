@@ -323,6 +323,7 @@ export class DataController {
         edges.forEach((edge) => {
           if (userGraphCore.hasEdge(edge.id)) {
             // update edge which is in the graphCore
+            console.log(userGraphCore);
             userGraphCore.mergeEdgeData(edge.id, edge.data);
           } else {
             // add edge which is in data but not in graphCore

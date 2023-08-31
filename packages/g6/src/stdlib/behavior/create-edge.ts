@@ -1,6 +1,7 @@
-import { warn } from 'util/warn';
-import { Behavior } from 'types/behavior';
-import type { ID, IG6GraphEvent, EdgeModel } from 'types';
+import type { ID, IG6GraphEvent, EdgeModel } from '../../types';
+import { warn } from '../../util/warn';
+import { generateEdgeID } from '../../util/item';
+import { Behavior } from '../../types/behavior';
 
 const KEYBOARD_TRIGGERS = ['shift', 'ctrl', 'control', 'alt', 'meta'] as const;
 const EVENT_TRIGGERS = ['click', 'drag'] as const;
@@ -44,14 +45,14 @@ const DEFAULT_OPTIONS: CreateEdgeOptions = {
   trigger: 'click',
   key: undefined,
   shouldBegin: () => true,
-  shouldEnd: () => true,
+  shouldEnd: () => false,
   edgeConfig: {},
 };
 
 export default class CreateEdge extends Behavior {
   isKeyDown = false;
-
   addingEdge = null;
+  dummyNode = null;
 
   constructor(options: Partial<CreateEdgeOptions>) {
     super(Object.assign({}, DEFAULT_OPTIONS, options));
@@ -88,18 +89,18 @@ export default class CreateEdge extends Behavior {
     const triggerEvents =
       trigger === CLICK_NAME
         ? {
-            'node:click': this.onClick,
+            'node:click': this.handleCreateEdge,
             mousemove: this.updateEndPoint,
             'edge:click': this.cancelCreating,
             'canvas:click': this.cancelCreating,
-            'combo:click': this.onClick,
+            'combo:click': this.handleCreateEdge,
           }
         : {
-            'node:dragstart': this.onClick,
-            'combo:dragstart': this.onClick,
+            'node:dragstart': this.handleCreateEdge,
+            'combo:dragstart': this.handleCreateEdge,
             drag: this.updateEndPoint,
-            'node:drop': this.onClick,
-            'combo:drop': this.onClick,
+            'node:drop': this.handleCreateEdge,
+            'combo:drop': this.handleCreateEdge,
             dragend: this.onDragEnd,
           };
 
@@ -110,10 +111,13 @@ export default class CreateEdge extends Behavior {
         }
       : {};
 
-    return { ...triggerEvents, ...keyboardEvents };
+    return { ...triggerEvents, ...keyboardEvents } as Record<
+      string,
+      (e: IG6GraphEvent) => void
+    >;
   };
 
-  onClick = (e: IG6GraphEvent) => {
+  handleCreateEdge = (e: IG6GraphEvent) => {
     if (this.options.shouldEnd(e)) {
       return;
     }
@@ -122,46 +126,88 @@ export default class CreateEdge extends Behavior {
     const currentNodeId = e.itemId;
 
     const edgeConfig = options.edgeConfig;
+    const isDragTrigger = options.trigger === 'drag';
 
     if (addingEdge) {
       const updateConfig = {
+        id: addingEdge.id,
+        source: addingEdge.source,
         target: currentNodeId,
-        ...edgeConfig,
-        type: currentNodeId === addingEdge.source ? 'loop' : edgeConfig.type,
+        data: {
+          type: currentNodeId === addingEdge.source ? 'loop' : edgeConfig.type,
+          ...edgeConfig,
+        },
       };
 
       graph.emit(Events.BEFORE_ADDING_EDGE);
       graph.updateData('edge', updateConfig);
       graph.emit(Events.AFTER_ADDING_EDGE, { edge: addingEdge });
+      if (!isDragTrigger) {
+        // this.cancelCreating();
+        this.addingEdge = null;
+      }
 
-      addingEdge.getKeyShape().set('capture', true);
-
-      this.addingEdge = null;
-    } else {
-      this.addingEdge = graph.addData('edge', {
-        source: currentNodeId,
-        target: currentNodeId,
-        ...edgeConfig,
-      });
-
-      this.addingEdge.getKeyShape().set('capture', false);
-    }
-  };
-
-  onDragEnd = (e: IG6GraphEvent) => {
-    if (this.options.key && !this.isKeyDown) {
       return;
     }
 
-    if (this.addingEdge) {
+    if (isDragTrigger) {
+      this.dummyNode = graph.addData('node', {
+        id: 'dummy',
+        data: {
+          // type: 'circle-node',
+          r: 1,
+          label: '',
+        },
+      });
+    }
+
+    this.addingEdge = graph.addData('edge', {
+      id: generateEdgeID(currentNodeId, currentNodeId),
+      source: currentNodeId,
+      target: isDragTrigger ? 'dummy' : currentNodeId,
+      data: {
+        ...edgeConfig,
+      },
+    } as EdgeModel);
+  };
+
+  onDragEnd = (e: IG6GraphEvent) => {
+    const { addingEdge, options, graph } = this;
+
+    const { edgeConfig, key } = options;
+    if (key && !this.isKeyDown) {
+      return;
+    }
+
+    if (addingEdge) {
       return;
     }
 
     const { itemId, itemType } = e;
 
-    if (!itemId || itemId === this.addingEdge.source || itemType !== 'node') {
+    if (
+      !itemId ||
+      itemId === addingEdge.source ||
+      itemType !== 'node' ||
+      itemId === 'dummy'
+    ) {
       this.cancelCreating();
     }
+
+    const updateConfig = {
+      id: addingEdge.id,
+      source: addingEdge.source,
+      target: itemId,
+      data: {
+        type: itemId === addingEdge.source ? 'loop' : edgeConfig.type,
+        ...edgeConfig,
+      },
+    };
+
+    graph.emit(Events.BEFORE_ADDING_EDGE);
+    graph.updateData('edge', updateConfig);
+    graph.emit(Events.AFTER_ADDING_EDGE, { edge: addingEdge });
+    this.cancelCreating();
   };
 
   updateEndPoint = (e: IG6GraphEvent) => {
@@ -174,28 +220,26 @@ export default class CreateEdge extends Behavior {
       return;
     }
 
-    const point = { x: e.x, y: e.y };
-    const sourceId = addingEdge.source;
-    if (!graph.findById(sourceId)) {
+    const sourceId = addingEdge.source,
+      targetId = addingEdge.target;
+
+    if (!graph.getItemById(sourceId)) {
       this.addingEdge = null;
       return;
     }
 
-    graph.updateItem(
-      addingEdge,
-      {
-        target: point,
+    graph.updatePosition('node', {
+      id: targetId,
+      data: {
+        x: e.offset.x,
+        y: e.offset.y,
       },
-      false,
-    );
+    });
   };
 
   cancelCreating = () => {
-    if (!this.addingEdge) {
-      return;
-    }
-
     this.removeAddingEdge();
+    this.removeDummyNode();
   };
 
   onKeyDown = (e: KeyboardEvent) => {
@@ -210,17 +254,24 @@ export default class CreateEdge extends Behavior {
     }
   };
 
-  onKeyUp() {
+  onKeyUp = (e: IG6GraphEvent) => {
     if (this.addingEdge) {
-      this.graph.removeItem(this.addingEdge);
+      this.cancelCreating();
     }
     this.isKeyDown = false;
-  }
+  };
 
   removeAddingEdge() {
     if (this.addingEdge) {
-      this.graph.removeItem(this.addingEdge);
+      this.graph.removeData('edge', this.addingEdge.id);
       this.addingEdge = null;
+    }
+  }
+
+  removeDummyNode() {
+    if (this.dummyNode) {
+      this.graph.removeData('node', this.dummyNode.id);
+      this.dummyNode = null;
     }
   }
 }

@@ -1,6 +1,7 @@
 import behaviors_activateRelations from './behaviors/activate-relations';
 import behaviors_brush_select from './behaviors/brush-select';
 import behaviors_click_select from './behaviors/click-select';
+import behaviors_create_edge from './behaviors/create-edge';
 import layouts_circular from './layouts/circular';
 import layouts_grid from './layouts/grid';
 import layouts_dagre from './layouts/dagre';
@@ -40,6 +41,7 @@ export {
   behaviors_collapse_expand_tree,
   behaviors_brush_select,
   behaviors_click_select,
+  behaviors_create_edge,
   layouts_circular,
   layouts_grid,
   layouts_dagre,

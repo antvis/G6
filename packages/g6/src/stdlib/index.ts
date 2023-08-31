@@ -32,6 +32,7 @@ import OrbitCanvas3D from './behavior/orbit-canvas-3d';
 import HoverActivate from './behavior/hover-activate';
 import CollapseExpandCombo from './behavior/collapse-expand-combo';
 import CollapseExpandTree from './behavior/collapse-expand-tree';
+import CreateEdge from './behavior/create-edge';
 import { CubicEdge } from './item/edge/cubic';
 import { CubicHorizonEdge } from './item/edge/cubic-horizon';
 import { CubicVerticalEdge } from './item/edge/cubic-vertical';
@@ -61,6 +62,7 @@ const stdLib = {
     'zoom-canvas': ZoomCanvas,
     'drag-node': DragNode,
     'drag-combo': DragCombo,
+    'create-edge': CreateEdge,
     'collapse-expand-combo': CollapseExpandCombo,
     'collapse-expand-tree': CollapseExpandTree,
     'click-select': ClickSelect,

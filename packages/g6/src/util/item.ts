@@ -6,6 +6,7 @@ import Edge from '../item/edge';
 import Node from '../item/node';
 import { GraphCore } from '../types/data';
 import { getCombinedBoundsByItem } from './shape';
+import { v4 as uuidv4 } from 'uuid';
 
 /**
  * Find the edges whose source and target are both in the ids.
@@ -131,3 +132,14 @@ export const upsertTransientItem = (
 
   return transientItem;
 };
+
+/**
+ * generate unique edge id
+ * @todo consider edges with same source and target
+ * @param source
+ * @param target
+ * @returns
+ */
+export function generateEdgeID(source: ID, target: ID) {
+  return [source, target, uuidv4()].join('->');
+}

@@ -29,6 +29,7 @@ const wrapListener = (
     try {
       listener(event);
     } catch (error) {
+      console.log(error);
       console.error(
         `G6: Error occurred in "${eventName}" phase of the behavior "${type}"!`,
       );
