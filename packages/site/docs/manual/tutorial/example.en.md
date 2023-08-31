@@ -93,7 +93,7 @@ After calling the `graph.read(data)` method, G6 will draw the graph based on the
 
 In the previous sections, we used data with only two nodes and one edge, and directly defined the data in the code. However, the data in real scenarios is usually loaded from remote interfaces. For convenience, we have prepared a JSON data file for readers. The address is as follows:
 
-<br />`https://raw.githubusercontent.com/antvis/G6/v5-demo-refine/packages/g6/tests/datasets/force-data.json`
+<br />`https://raw.githubusercontent.com/antvis/G6/v5/packages/g6/tests/datasets/force-data.json`
 
 ### Load Remote Data
 
@@ -103,7 +103,7 @@ Modify index.html to asynchronously load remote data sources using the `fetch` f
 // const graph = ...
 const main = async () => {
   const response = await fetch(
-    'https://raw.githubusercontent.com/antvis/G6/v5-demo-refine/packages/g6/tests/datasets/force-data.json',
+    'https://raw.githubusercontent.com/antvis/G6/v5/packages/g6/tests/datasets/force-data.json',
   );
   const remoteData = await response.json();
   // ...
@@ -160,7 +160,7 @@ The complete code is as follows:
 
       const main = async () => {
         const response = await fetch(
-          'https://raw.githubusercontent.com/antvis/G6/v5-demo-refine/packages/g6/tests/datasets/force-data.json',
+          'https://raw.githubusercontent.com/antvis/G6/v5/packages/g6/tests/datasets/force-data.json',
         );
         const remoteData = await response.json();
         graph.read(remoteData);
@@ -171,4 +171,4 @@ The complete code is as follows:
 </html>
 ```
 
-**⚠️ Note:** <br /> If you need to replace the data, please replace  `'https://raw.githubusercontent.com/antvis/G6/v5-demo-refine/packages/g6/tests/datasets/force-data.json'` with the new data file address.
+**⚠️ Note:** <br /> If you need to replace the data, please replace  `'https://raw.githubusercontent.com/antvis/G6/v5/packages/g6/tests/datasets/force-data.json'` with the new data file address.

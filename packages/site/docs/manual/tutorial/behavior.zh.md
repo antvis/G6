@@ -322,7 +322,7 @@ graph.on('元素类型:事件名', (e) => {
 
       const main = async () => {
         const response = await fetch(
-          'https://raw.githubusercontent.com/antvis/G6/v5-demo-refine/packages/g6/tests/datasets/force-data.json',
+          'https://raw.githubusercontent.com/antvis/G6/v5/packages/g6/tests/datasets/force-data.json',
         );
         const remoteData = await response.json();
         graph.read(remoteData);
@@ -333,4 +333,4 @@ graph.on('元素类型:事件名', (e) => {
 </html>
 ```
 
-**⚠️ 注意:** <br /> 若需更换数据，请替换  `'https://raw.githubusercontent.com/antvis/G6/v5-demo-refine/packages/g6/tests/datasets/force-data.json'`  为新的数据文件地址。
+**⚠️ 注意:** <br /> 若需更换数据，请替换  `'https://raw.githubusercontent.com/antvis/G6/v5/packages/g6/tests/datasets/force-data.json'`  为新的数据文件地址。
