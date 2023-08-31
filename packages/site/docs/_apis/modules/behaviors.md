@@ -27,4 +27,4 @@ Event type union
 
 #### Defined in
 
-[packages/g6/src/types/event.ts:38](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/types/event.ts#L38)
+[packages/g6/src/types/event.ts:38](https://github.com/antvis/G6/blob/4b803837a5/packages/g6/src/types/event.ts#L38)

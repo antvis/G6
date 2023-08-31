@@ -20,7 +20,7 @@
 
 | Name | Type |
 | :------ | :------ |
-| `extend` | <B1, B2, T1, T2\>(`GraphClass`: typeof [`Graph`](../classes/graph/Graph.md), `extendLibrary`: { `behaviors?`: `B1` ; `edges?`: `any` ; `nodes?`: `any` ; `themeSolvers?`: `T1`  }) => typeof [`Graph`](../classes/graph/Graph.md) |
+| `extend` | <B1, B2, T1, T2\>(`GraphClass`: typeof [`Graph`](../classes/graph/Graph.md), `extendLibrary`: { `behaviors?`: `B1` ; `edges?`: `EdgeRegistry` ; `layouts?`: `LayoutRegistry` ; `nodes?`: `NodeRegistry` ; `plugins?`: `PluginRegistry` ; `themeSolvers?`: `T1`  }) => typeof [`Graph`](../classes/graph/Graph.md) |
 | `getArrowPath` | (`type`: `ArrowType`, `width`: `number`, `height`: `number`) => `string` |
 | `getEdgesBetween` | (`graph`: [`IGraph`](../interfaces/graph/IGraph.md)<`BehaviorRegistry`, `ThemeRegistry`\>, `ids`: `ID`[]) => `ID`[] |
 | `graphComboTreeDfs` | (`graph`: [`IGraph`](../interfaces/graph/IGraph.md)<`BehaviorRegistry`, `ThemeRegistry`\>, `nodes`: `NodeUserModel`[], `fn`: `any`, `mode`: ``"TB"`` \| ``"BT"``) => `void` |
@@ -37,4 +37,4 @@
 
 #### Defined in
 
-[packages/g6/src/util/index.ts:18](https://github.com/antvis/G6/blob/60905f4c6c/packages/g6/src/util/index.ts#L18)
+[packages/g6/src/util/index.ts:18](https://github.com/antvis/G6/blob/4b803837a5/packages/g6/src/util/index.ts#L18)
