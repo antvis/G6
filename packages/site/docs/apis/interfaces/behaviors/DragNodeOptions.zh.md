@@ -2,151 +2,143 @@
 title: DragNodeOptions
 ---
 
-[概述-v5.0.0-beta.1]（../../ readme.zh.md）/[模块]（../../ modules.zh.md）/[capingiors]（../。 ./modules/behaviors.zh.md）/dragnodeoptions 
+[Overview - v5.0.0-beta.1](../../README.en.md) / [Modules](../../modules.en.md) / [behaviors](../../modules/behaviors.en.md) / DragNodeOptions
 
- [行为]（../../模块/bepandiors.zh.md）.dragnodeoptions 
+[behaviors](../../modules/behaviors.en.md).DragNodeOptions
 
- ＃＃ 特性 
+## 属性
 
- ###授权 
+### delegateStyle
 
- •`可选的**授权**：`object` 
+• `可选` **delegateStyle**: `Object`
 
- 拖动节点时的图形属性。 
- 仅在启用启用时才使用。 
+节点被拖动时的绘制属性。 仅在 enableDelegate 为 true 时使用。
 
- ####索引签名 
+#### 索引签名
 
- ▪[key：`string`]：`未知 
+▪ [key: `string`]: `unknown`
 
- ####类型声明 
+#### 类型声明
 
- | 名称| 类型| 
- | ：------- | ：------- | 
- | '填充？'| `'string` | 
- | `fillopacity？'| `number` | 
- | `linedash？'| [`number`，`number`] | 
- | “线宽？” | `number` | 
- | `笔路？'| `'string` | 
- | ```''| `number` | 
+| 名称 | 类型 |
+| :------ | :------ |
+| `fill?` | `string` |
+| `fillOpacity?` | `number` |
+| `lineDash?` | [`number`, `number`] |
+| `lineWidth?` | `number` |
+| `stroke?` | `string` |
+| `strokeOpacity?` | `number` |
 
- ####定义 
+#### 定义于
 
- [packages/g6/src/stdlib/crution/drag-node.ts：32]（https://github.com/antvis/antvis/g6/blob/61e525e59b/packages/g6/g6/src/src/stdlib/stdlib/stdlib/behavior/drag-node。 TS＃L32） 
+[packages/g6/src/stdlib/behavior/drag-node.ts:32](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/drag-node.ts#L32)
 
- ___ 
+___
 
- ###启用了Elebableegate 
+### enableDelegate
 
- •``可选的**启用eLabledelegate **：`boolean` 
+• `可选` **enableDelegate**: `boolean`
 
- 是否使用使用拖动鼠标而不是节点移动的虚拟矩形。 
- 默认为false。 
+是否使用随拖动鼠标移动的虚拟矩形代替节点。 默认为 false。
 
- ####定义 
+#### 定义于
 
- [packages/g6/src/stdlib/crution/drag-node.ts：27]（https：//github.com/antvis/g6/blob/61e525e59b/packages/g6/src/src/src/stdlib/stdlib/behavior/drag-node。 TS＃L27） 
+[packages/g6/src/stdlib/behavior/drag-node.ts:27](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/drag-node.ts#L27)
 
- ___ 
+___
 
- ### enabletransient 
+### enableTransient
 
- •`可选的** enabletransient **：`boolean` 
+• `可选` **enableTransient**: `boolean`
 
- 是否要在瞬态层绘制拖放节点。 
- 当启用时盖特时被忽略。 
- 默认为true。 
+是否在临时层中绘制拖动节点。 当 enableDelegate 为 true 时忽略。 默认为 true。
 
- ####定义 
+#### 定义于
 
- [packages/g6/src/stdlib/crutive/drag-node.ts：22]（https：//github.com/antvis/antvis/g6/blob/61e525e59b/packages/packages/g6/src/src/src/stdlib/stdlib/behavior/drag-node。 TS＃L22） 
+[packages/g6/src/stdlib/behavior/drag-node.ts:22](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/drag-node.ts#L22)
 
- ___ 
+___
 
- ### eventname 
+### eventName
 
- •`可选的** eventname **：`string` 
+• `可选` **eventName**: `string`
 
- 拖放结束时要触发的事件名称。 
+拖动结束时触发的事件名称。
 
- ####定义 
+#### 定义于
 
- [packages/g6/src/stdlib/crutive/drag-node.ts：60]（https://github.com/antvis/antvis/g6/blob/61e525e59b/packages/packages/g6/src/src/src/stdlib/stdlib/behavior/drag-node。 TS＃L60） 
+[packages/g6/src/stdlib/behavior/drag-node.ts:60](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/drag-node.ts#L60)
 
- ___ 
+___
 
- ### HidereedeDges 
+### hideRelatedEdges
 
- •``可选的** hidereededges **：`boolean` 
+• `可选` **hideRelatedEdges**: `boolean`
 
- 是否隐藏相关边缘以避免拖动节点时计算。 
- 当启用或启用元素时忽略。 
- 默认为false。 
+是否隐藏相关边以避免拖动节点时进行计算。 当 enableTransient 或 enableDelegate 为 true 时忽略。 默认为 false。
 
- ####定义 
+#### 定义于
 
- [packages/g6/src/stdlib/crutive/drag-node.ts：51]（https://github.com/antvis/antvis/g6/blob/61e525e59b/packages/packages/g6/src/src/stdlib/stdlib/behavior/drag-node-node。 TS＃L51） 
+[packages/g6/src/stdlib/behavior/drag-node.ts:51](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/drag-node.ts#L51)
 
- ___ 
+___
 
- ### Selectedstate 
+### selectedState
 
- •``可选的** selected state **：`string“ 
+• `可选` **selectedState**: `string`
 
- 被视为“选定”的状态名称。 
- 默认为“选择”。 
+字段 selected 的状态，默认为 “selected”。
 
- ####定义 
+#### 定义于
 
- [packages/g6/src/stdlib/crutive/drag-node.ts：56]（https://github.com/antvis/antvis/g6/blob/61e525e59b/packages/g6/g6/src/src/stdlib/stdlib/stdlib/behavior/drag-node。 TS＃L56） 
+[packages/g6/src/stdlib/behavior/drag-node.ts:56](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/drag-node.ts#L56)
 
- ___ 
+___
 
- ###应该begin 
+### shouldBegin
 
- •``可选的** shosebegin ** :（`event`：[``Ig6graphevent`]（ig6graphevent.zh.md））=>>'boolean` 
+• `可选` **shouldBegin**: (`event`: [`IG6GraphEvent`](IG6GraphEvent.en.md)) => `boolean`
 
- ####类型声明 
+#### 类型声明
 
- ▸（``event'）：`boolean' 
+▸ (`event`): `boolean`
 
- 是否允许行为发生在当前项目上。 
+是否允许当前项上发生行为。
 
- ＃＃＃＃＃ 参数 
+##### 参数
 
- | 名称| 类型| 
- | ：------- | ：------- | 
- | `event` | [``ig6graphevent`]（ig6graphevent.zh.md）| 
+| 名称 | 类型 |
+| :------ | :------ |
+| `event` | [`IG6GraphEvent`](IG6GraphEvent.en.md) |
 
- #####返回 
+##### 返回值
 
- 布尔' 
+`boolean`
 
- ####定义 
+#### 定义于
 
- [packages/g6/src/stdlib/crutive/drag-node.ts：68]（https://github.com/antvis/antvis/g6/blob/61e525e59b/packages/packages/g6/src/src/src/stdlib/stdlib/behavior/drag-node-node。 TS＃L68） 
+[packages/g6/src/stdlib/behavior/drag-node.ts:68](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/drag-node.ts#L68)
 
- ___ 
+___
 
- ###油门 
+### throttle
 
- •“可选” **油门**：`number` 
+• `可选` **throttle**: `number`
 
- 毫秒到油门移动的时间。 对于避免频繁计算有用。 
- 默认为0。 
+throttle 的间隔时间（以毫秒为单位），有助于避免频繁计算。 默认为 0。
 
- ####定义 
+#### 定义于
 
- [packages/g6/src/stdlib/crutive/drag-node.ts：45]（https://github.com/antvis/antvis/g6/blob/61e525e59b/packages/packages/g6/src/src/stdlib/stdlib/stdlib/behavior/drag/drag-node。 TS＃L45） 
+[packages/g6/src/stdlib/behavior/drag-node.ts:45](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/drag-node.ts#L45)
 
- ___ 
+___
 
- ### UpdateCombostructure 
+### updateComboStructure
 
- •`可选的** updateCombostructure **：`boolean` 
+• `可选` **updateComboStructure**: `boolean`
 
- 是更改组合层次结构还是仅更改大小。 
+是否更改聚类结构或仅更改大小。
 
- ####定义 
+#### 定义于
 
- [packages/g6/src/stdlib/crutive/drag-node.ts：64]（https://github.com/antvis/antvis/g6/blob/61e525e59b/packages/g6/g6/src/src/stdlib/stdlib/stdlib/behavior/drag-node。 TS＃L64）
+[packages/g6/src/stdlib/behavior/drag-node.ts:64](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/drag-node.ts#L64)

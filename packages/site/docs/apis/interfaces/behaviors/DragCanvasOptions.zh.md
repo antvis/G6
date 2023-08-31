@@ -2,146 +2,140 @@
 title: DragCanvasOptions
 ---
 
-[概述-v5.0.0-beta.1]（../../ readme.zh.md）/[模块]（../../ modules.zh.md）/[capingiors]（../。 ./modules/behaviors.zh.md）/dravcanvasoptions 
+[Overview - v5.0.0-beta.1](../../README.en.md) / [Modules](../../modules.en.md) / [behaviors](../../modules/behaviors.en.md) / DragCanvasOptions
 
- [行为]（../../模块/cravy.zh.md）.dragcanvasoptions 
+[behaviors](../../modules/behaviors.en.md).DragCanvasOptions
 
- ＃＃ 特性 
+## 属性
 
- ＃＃＃ 方向 
+### direction
 
- •``可选的**方向**：```x'``\ | ```'''`\ | ````'''' 
+• `可选` **direction**: ``"x"`` \| ``"y"`` \| ``"both"``
 
- 拖动画布的方向。 默认情况下“两者”。 
+拖动画布的方向，默认为'both'。
 
- ####定义 
+#### 定义于
 
- [packages/g6/src/stdlib/taby/drag-canvas.ts：22]（https：//github.com/antvis/antvis/g6/blob/61e525e59b/packages/g6/src/src/stdlib/stdlib/stdlib/behavior/drag/drag/drag/drag-canvas。 TS＃L22） 
+[packages/g6/src/stdlib/behavior/drag-canvas.ts:22](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/drag-canvas.ts#L22)
 
- ___ 
+___
 
- ### Dragonitems 
+### dragOnItems
 
- •`可选的** DragonItems **：`boolean` 
+• `可选` **dragOnItems**: `boolean`
 
- 当拖动在节点 /边缘 /组合上启动时，是否允许触发此行为。 
+是否允许在节点、边、聚类上开始拖动时触发此行为。
 
- ####定义 
+#### 定义于
 
- [packages/g6/src/stdlib/taby/drag-canvas.ts：14]（https：//github.com/antvis/antvis/g6/blob/61e525e59b/packages/g6/g6/src/src/stdlib/stdlib/stdlib/behavior/drag/drag/drag/drag-canvas。 TS＃L14） 
+[packages/g6/src/stdlib/behavior/drag-canvas.ts:14](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/drag-canvas.ts#L14)
 
- ___ 
+___
 
- ###启用iptimize 
+### enableOptimize
 
- •``可选的**启用iptimize **：`boolean` 
+• `可选` **enableOptimize**: `boolean`
 
- 是否启用优化策略，它将隐藏所有在拖动时不包括节点键的形状。 
+是否启用优化策略，该策略在拖动时隐藏除节点关键形状之外的所有形状。
 
- ####定义 
+#### 定义于
 
- [packages/g6/src/stdlib/taby/drag-canvas.ts：10]（https://github.com/antvis/antvis/g6/blob/61e525e59b/packages/g6/src/src/stdlib/stdlib/behavior/drag/drag/drag/drag/drag-canvas。 TS＃L10） 
+[packages/g6/src/stdlib/behavior/drag-canvas.ts:10](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/drag-canvas.ts#L10)
 
- ___ 
+___
 
- ### eventname 
+### eventName
 
- •`可选的** eventname **：`string` 
+• `可选` **eventName**: `string`
 
- 拖放结束时要触发的事件名称。 
+拖动结束时触发的事件名称。
 
- ####定义 
+#### 定义于
 
- [packages/g6/src/stdlib/taby/drag-canvas.ts：48]（https://github.com/antvis/antvis/g6/blob/61e525e59b/packages/g6/src/src/src/stdlib/stdlib/behavior/drag/drag-canvas。 TS＃L48） 
+[packages/g6/src/stdlib/behavior/drag-canvas.ts:48](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/drag-canvas.ts#L48)
 
- ___ 
+___
 
- ### ScaleAblerange 
+### scalableRange
 
- •`可选的** scalebablerange **：`string` \ | | “数字” 
+• `可选` **scalableRange**: `string` \| `number`
 
- 限制拖动的画布范围为0，这意味着该图不能完全拖出视图端口范围。 
- 如果ScaleBlange是数字或没有“ PX”的字符串，则意味着它是图形内容的比例。 
- 如果ScaleBlerange是带有“ PX”的字符串，则将其视为像素。 
- 如果scaleblerange = 0，则无约束； 
- 如果scabablerange> 0，则可以将图拖出视图端口范围 
- 如果scabablerange <0，则范围小于视图端口。 
- 请参阅https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/ahafos67_hssaaaaaaaaaaaaaaaaaaaaaaaaarqnaq 
+限制拖动的画布范围，0 为默认值，表示图形不能完全拖出视口范围。 如果 scalableRange 是数字或不带 ‘px’ 的字符串，则表示它是图形内容的比例。 如果 scalableRange 是带有 ‘px’ 的字符串，则被视为像素。 如果 scalableRange = 0，则没有限制； 如果 scalableRange > 0，则图形可以拖出视口范围； 如果 scalableRange < 0，则范围小于视口。参考 https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*IFfoS67_HssAAAAAAAAAAAAAARQnAQ
 
- ####定义 
+#### 定义于
 
- [packages/g6/src/stdlib/crutive/drag-canvas.ts：44]（https://github.com/antvis/antvis/g6/blob/61e525e59b/packages/g6/src/src/src/stdlib/stdlib/behavior/drag/drag-canvas。 TS＃L44） 
+[packages/g6/src/stdlib/behavior/drag-canvas.ts:44](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/drag-canvas.ts#L44)
 
- ___ 
+___
 
- ### Secondarykey 
+### secondaryKey
 
- •`可选的** SecondaryKey **：`弦乐 
+• `可选` **secondaryKey**: `string`
 
- 键盘上的助手次要键。 如果未分配，则在触发时会触发该行为。 
+键盘上的辅助次要键。如果未分配，则在触发时触发行为。
 
- ####定义 
+#### 定义于
 
- [packages/g6/src/stdlib/crution/drag-canvas.ts：26]（https：//github.com/antvis/antvis/g6/blob/61e525e59b/packages/g6/src/src/stdlib/stdlib/stdlib/behavior/drag/drag/drag/drag-canvas。 TS＃L26） 
+[packages/g6/src/stdlib/behavior/drag-canvas.ts:26](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/drag-canvas.ts#L26)
 
- ___ 
+___
 
- ### SecondaryKeyTodissable 
+### secondaryKeyToDisable
 
- •`可选的** secondaryKeyTodisable **：'string`` 
+• `可选` **secondaryKeyToDisable**: `string`
 
- 键盘上的助手辅助键，以防止行为被嘲笑。 默认情况下“换档”。 
+键盘上用于防止触发行为的辅助次要键。默认为 ‘shift’。
 
- ####定义 
+#### 定义于
 
- [packages/g6/src/stdlib/crutive/drag-canvas.ts：30]（https：//github.com/antvis/antvis/g6/blob/61e525e59b/packages/g6/src/src/stdlib/stdlib/stdlib/behavior/drag/drag/drag/drag-canvas。 TS＃L30） 
+[packages/g6/src/stdlib/behavior/drag-canvas.ts:30](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/drag-canvas.ts#L30)
 
- ___ 
+___
 
- ###应该begin 
+### shouldBegin
 
- •``可选的** shosebegin ** :（`event`：[``Ig6graphevent`]（ig6graphevent.zh.md））=>>'boolean` 
+• `可选` **shouldBegin**: (`event`: [`IG6GraphEvent`](IG6GraphEvent.en.md)) => `boolean`
 
- ####类型声明 
+#### 类型声明
 
- ▸（``event'）：`boolean' 
+▸ (`event`): `boolean`
 
- 是否允许行为发生在当前项目上。 
+是否允许当前项上发生行为。
 
- ＃＃＃＃＃ 参数 
+##### 参数
 
- | 名称| 类型| 
- | ：------- | ：------- | 
- | `event` | [``ig6graphevent`]（ig6graphevent.zh.md）| 
+| 名称 | 类型 |
+| :------ | :------ |
+| `event` | [`IG6GraphEvent`](IG6GraphEvent.en.md) |
 
- #####返回 
+##### 返回值
 
- 布尔' 
+`boolean`
 
- ####定义 
+#### 定义于
 
- [packages/g6/src/stdlib/crutive/drag-canvas.ts：52]（https://github.com/antvis/antvis/g6/blob/61e525e59b/packages/g6/src/src/src/stdlib/stdlib/behavior/drag/drag/drag-canvas。 TS＃L52） 
+[packages/g6/src/stdlib/behavior/drag-canvas.ts:52](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/drag-canvas.ts#L52)
 
- ___ 
+___
 
- ### speedupkey 
+### speedUpKey
 
- •`可选的** speepupkey **：`弦乐 
+• `可选` **speedUpKey**: `string`
 
- 键盘上的键可以加快翻译和拖动式键键的键。 触发器应为此选项的“方向”。 
+按下并通过方向键拖动画布时加速平移的键盘上的键。此选项的触发器应为 ‘directionKeys’。
 
- ####定义 
+#### 定义于
 
- [packages/g6/src/stdlib/crutive/drag-canvas.ts：34]（https://github.com/antvis/antvis/g6/blob/61e525e59b/packages/g6/src/src/src/stdlib/stdlib/behavior/drag/drag-canvas。 TS＃L34） 
+[packages/g6/src/stdlib/behavior/drag-canvas.ts:34](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/drag-canvas.ts#L34)
 
- ___ 
+___
 
- ＃＃＃ 扳机 
+### trigger
 
- •``可选的**触发**：````'drag'`\ | ``指示键''' 
+• `可选` **trigger**: ``"drag"`` \| ``"directionKeys"``
 
- 行为的触发器，默认情况下“拖动”。 “ DirectionKeys”是指通过键盘上的向上 /向下 /左 /右键触发此行为。 
+行为的触发器，默认为 ‘drag’。‘directionKeys’ 表示通过键盘上的上、下、左、右键触发此行为。
 
- ####定义 
+#### 定义于
 
- [packages/g6/src/stdlib/taby/drag-canvas.ts：18]（https：//github.com/antvis/antvis/g6/blob/61e525e59b/packages/g6/src/src/stdlib/stdlib/stdlib/behavior/drag/drag/drag-canvas。 TS＃L18）
+[packages/g6/src/stdlib/behavior/drag-canvas.ts:18](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/drag-canvas.ts#L18)

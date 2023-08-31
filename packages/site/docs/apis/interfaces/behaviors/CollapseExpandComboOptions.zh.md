@@ -2,46 +2,44 @@
 title: CollapseExpandComboOptions
 ---
 
-[概述-v5.0.0-beta.1]（../../ readme.zh.md）/[模块]（../../ modules.zh.md）/[capingiors]（../。 ./modules/behaviors.zh.md）/CollapseSpandCombooptions 
+[Overview - v5.0.0-beta.1](../../README.en.md) / [Modules](../../modules.en.md) / [behaviors](../../modules/behaviors.en.md) / CollapseExpandComboOptions
 
- [行为]（../../模块/cravy.zh.md）。 
+[behaviors](../../modules/behaviors.en.md).CollapseExpandComboOptions
 
- ＃＃ 特性 
+## 属性
 
- ###应该begin 
+### shouldBegin
 
- •``可选的** shosebegin ** :（`event`：[``Ig6graphevent`]（ig6graphevent.zh.md））=>>'boolean` 
+• `可选` **shouldBegin**: (`event`: [`IG6GraphEvent`](IG6GraphEvent.en.md)) => `boolean`
 
- ####类型声明 
+#### 类型声明
 
- ▸（``event'）：`boolean' 
+▸ (`event`): `boolean`
 
- 是否允许行为发生在当前项目上。 
+是否允许当前项上发生行为。
 
- ＃＃＃＃＃ 参数 
+##### 参数
 
- | 名称| 类型| 
- | ：------- | ：------- | 
- | `event` | [``ig6graphevent`]（ig6graphevent.zh.md）| 
+| 名称 | 类型 |
+| :------ | :------ |
+| `event` | [`IG6GraphEvent`](IG6GraphEvent.en.md) |
 
- #####返回 
+##### 返回值
 
- 布尔' 
+`boolean`
 
- ####定义 
+#### 定义于
 
- [packages/g6/src/stdlib/crutive/collapse-expand-combo.ts：22] 扩展combo.ts＃l22） 
+[packages/g6/src/stdlib/behavior/collapse-expand-combo.ts:22](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/collapse-expand-combo.ts#L22)
 
- ___ 
+___
 
- ＃＃＃ 扳机 
+### trigger
 
- •**触发**：```'click'``\ | ````dblclick'' 
+• **trigger**: ``"click"`` \| ``"dblclick"``
 
- 单击鼠标按下以应用多个选择的键。 
- 默认为``dblClick''。 
- 可以是“ dblclick”，“单击”。 
+多选触发的按键。 默认为 "dblclick"。 可选项为 “dblclick”, “click”。
 
- ####定义 
+#### 定义于
 
- [packages/g6/src/stdlib/crutive/collapse-expand-combo.ts：18] 扩展combo.ts＃l18）
+[packages/g6/src/stdlib/behavior/collapse-expand-combo.ts:18](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/collapse-expand-combo.ts#L18)
