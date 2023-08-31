@@ -65,14 +65,16 @@ const graph = new ExtGraph({
       },
       position: 'bottom',
     },
-    labelBackgroundShape: {
-      fill: 'red',
-    },
+    labelBackgroundShape: {},
     anchorShapes: [
       {
         position: [0, 0.5],
-        r: 2,
-        fill: 'red',
+      },
+      {
+        position: [0.5, 0],
+      },
+      {
+        position: [0.5, 1],
       },
     ],
     iconShape: {
@@ -82,9 +84,8 @@ const graph = new ExtGraph({
     },
     badgeShapes: [
       {
-        text: '1',
+        text: 'A',
         position: 'rightTop',
-        color: 'blue',
       },
     ],
     /** Shapes of donut */
@@ -99,6 +100,20 @@ const graph = new ExtGraph({
         fields: ['donutColorMap'],
         formatter: (model) => model.data.donutColorMap,
       },
+    },
+    animates: {
+      update: [
+        {
+          fields: ['opacity'],
+          shapeId: 'haloShape',
+          states: ['selected', 'active'],
+        },
+        {
+          fields: ['lineWidth'],
+          shapeId: 'keyShape',
+          states: ['selected', 'active'],
+        },
+      ],
     },
   },
 });

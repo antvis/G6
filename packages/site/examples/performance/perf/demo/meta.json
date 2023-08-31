@@ -5,28 +5,20 @@
   },
   "demos": [
     {
-      "filename": "netscience.ts",
-      "title": {
-        "zh": "5000+ 图元使用 Canvas 渲染",
-        "en": "5000+ Graphic Shapes Rendered by Canvas"
-      },
-      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Q6eRT7RNwBYAAAAAAAAAAABkARQnAQ"
-    },
-    {
       "filename": "netscienceWebGL.ts",
       "title": {
         "zh": "5000+ 图元使用 WebGL 渲染",
         "en": "5000+ Graphic Shapes Rendered by WebGL"
       },
-      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Q6eRT7RNwBYAAAAAAAAAAABkARQnAQ"
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*0amkSqk3JnkAAAAAAAAAAAAADmJ7AQ/original"
     },
     {
-      "filename": "eva.ts",
+      "filename": "netscience.ts",
       "title": {
-        "zh": "~20000 图元使用 Canvas 渲染",
-        "en": "~20000 Graphic Shapes Rendered by Canvas"
+        "zh": "5000+ 图元使用 Canvas 渲染",
+        "en": "5000+ Graphic Shapes Rendered by Canvas"
       },
-      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*mysRTLxipwMAAAAAAAAAAABkARQnAQ"
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*0amkSqk3JnkAAAAAAAAAAAAADmJ7AQ/original"
     },
     {
       "filename": "evaWebGL.ts",
@@ -34,7 +26,15 @@
         "zh": "~20000 图元使用 WebGL 渲染",
         "en": "~20000 Graphic Shapes Rendered by WebGL"
       },
-      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*mysRTLxipwMAAAAAAAAAAABkARQnAQ"
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*sZz4QqcPxTkAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "eva.ts",
+      "title": {
+        "zh": "~20000 图元使用 Canvas 渲染",
+        "en": "~20000 Graphic Shapes Rendered by Canvas"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*sZz4QqcPxTkAAAAAAAAAAAAADmJ7AQ/original"
     },
     {
       "filename": "moreDataWebGL.js",
@@ -42,7 +42,7 @@
         "zh": "50000+ 图元使用 WebGL 渲染",
         "en": "50000+ Graphic Shapes Rendered by WebGL"
       },
-      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*6U-cSrdpBjYAAAAAAAAAAABkARQnAQ"
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*Pz31S5UcA8AAAAAAAAAAAAAADmJ7AQ/original"
     }
   ]
 }

@@ -525,7 +525,7 @@ const graph = new ExtGraph({
   width,
   height,
   modes: {
-    default: ['drag-canvas', 'drag-node'],
+    default: ['drag-canvas', 'drag-node', 'zoom-canvas', 'click-select'],
   },
   layout: {
     type: 'radial',

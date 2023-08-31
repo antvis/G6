@@ -897,7 +897,7 @@ const graph = new ExtGraph({
   },
   animate: true,
   modes: {
-    default: ['drag-node', 'click-select', 'drag-canvas'],
+    default: ['drag-canvas', 'drag-node', 'zoom-canvas', 'click-select'],
   },
   data,
 });

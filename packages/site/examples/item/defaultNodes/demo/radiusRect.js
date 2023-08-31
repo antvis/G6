@@ -10,14 +10,14 @@ const data = {
       },
     },
     {
-      id: 'ellipse-active',
+      id: 'rect-active',
       data: {
         x: 250,
         y: 300,
       },
     },
     {
-      id: 'ellipse-selected',
+      id: 'rect-selected',
       data: {
         x: 250,
         y: 450,
@@ -25,28 +25,28 @@ const data = {
     },
 
     {
-      id: 'ellipse-highlight',
+      id: 'rect-highlight',
       data: {
         x: 400,
         y: 150,
       },
     },
     {
-      id: 'ellipse-inactive',
+      id: 'rect-inactive',
       data: {
         x: 400,
         y: 300,
       },
     },
     {
-      id: 'ellipse-badges',
+      id: 'rect-badges',
       data: {
         x: 400,
         y: 450,
       },
     },
     {
-      id: 'ellipse-anchorShapes',
+      id: 'rect-anchorShapes',
       data: {
         x: 550,
         y: 150,
@@ -72,7 +72,10 @@ const graph = new G6.Graph({
       id,
       data: {
         ...data,
-        type: 'ellipse-node',
+        type: 'rect-node',
+        keyShape: {
+          radius: 10,
+        },
         labelShape: {
           text: 'label',
           position: 'bottom',
@@ -134,10 +137,10 @@ const graph = new G6.Graph({
 });
 
 graph.on('afterrender', (e) => {
-  graph.setItemState('ellipse-active', 'active', true);
-  graph.setItemState('ellipse-selected', 'selected', true);
-  graph.setItemState('ellipse-highlight', 'highlight', true);
-  graph.setItemState('ellipse-inactive', 'inactive', true);
+  graph.setItemState('rect-active', 'active', true);
+  graph.setItemState('rect-selected', 'selected', true);
+  graph.setItemState('rect-highlight', 'highlight', true);
+  graph.setItemState('rect-inactive', 'inactive', true);
 });
 
 if (typeof window !== 'undefined')

@@ -174,8 +174,13 @@ const data = {
 };
 
 let sortByCombo = false;
-const descriptionDiv = document.createElement('button');
-descriptionDiv.innerHTML = 'Enable sortByCombo';
+const descriptionDiv = document.createElement('a');
+descriptionDiv.style.position = 'absolute';
+descriptionDiv.style.zIndex = 10;
+descriptionDiv.innerHTML = '👉 Enable sortByCombo';
+descriptionDiv.style.fontSize = '20px';
+descriptionDiv.style.border = '1px dashed rgba(34, 126, 255, 0.5)';
+descriptionDiv.style.padding = '2px 8px';
 const container = document.getElementById('container');
 container.appendChild(descriptionDiv);
 
@@ -193,7 +198,7 @@ const graph = new ExtGraph({
   container: 'container',
   width,
   height: height - 50,
-  autoFit: 'view',
+  autoFit: 'center',
   modes: {
     default: ['drag-combo', 'drag-node', 'drag-canvas', 'zoom-canvas', 'collapse-expand-combo'],
   },
