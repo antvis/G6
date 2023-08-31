@@ -40,5 +40,6 @@ export type {
 export type { NodeUserModelData, NodeShapeStyles } from '../types/node';
 export type { GShapeStyle } from '../types/item'
 export { BaseNode as CustomNode } from '../stdlib/item/node/base'
+export { BaseNode3D as CustomNode3D } from '../stdlib/item/node/base3d'
 export { BaseEdge as CustomEdge } from '../stdlib/item/edge/base'
 export * from '../stdlib/item/node'
