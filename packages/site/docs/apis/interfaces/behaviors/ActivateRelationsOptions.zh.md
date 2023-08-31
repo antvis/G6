@@ -2,100 +2,97 @@
 title: ActivateRelationsOptions
 ---
 
-[概述 - v5.0.0-alpha.9](../../README.zh.md) / [模块](../../modules.zh.md) / [行为](../. ./modules/behaviors.zh.md) / ActivateRelationsOptions 
+[Overview - v5.0.0-beta.1](../../README.zh.md) / [Modules](../../modules.zh.md) / [behaviors](../../modules/behaviors.zh.md) / ActivateRelationsOptions
 
- [行为](../../modules/behaviors.zh.md).ActivateRelationsOptions 
+[behaviors](../../modules/behaviors.zh.md).ActivateRelationsOptions
 
- ＃＃ 特性 
+## 属性
 
- ### 活动状态 
+### activeState
 
- • `可选` **activeState**：``“已选择”`` 
+• `可选` **activeState**: ``"selected"``
 
- 默认为“选定”。 
+默认值为 `"selected"`
 
- #### 定义于 
+#### 定义于
 
- [packages/g6/src/stdlib/behavior/activate-relations.ts:37](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/activate-relations。 ts#L37) 
+[packages/g6/src/stdlib/behavior/activate-relations.ts:37](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/activate-relations.ts#L37)
 
- ___ 
+___
 
- ＃＃＃ 多种的 
+### multiple
 
- • `可选` **多个**：`布尔值` 
+• `可选` **multiple**: `boolean`
 
- 是否允许多选。 
- 默认为 true。 
- 如果设置为 false，“trigger”选项将被忽略。 
+是否允许多选，默认为true。
+如果设置为false，则trigger选项将被忽略。
+#### 定义于
 
- #### 定义于 
+[packages/g6/src/stdlib/behavior/activate-relations.ts:24](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/activate-relations.ts#L24)
 
- [packages/g6/src/stdlib/behavior/activate-relations.ts:24](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/activate-relations。 ts#L24) 
+___
 
- ___ 
+### shouldBegin
 
- ### 应该开始 
+• `可选` **shouldBegin**: (`event`: [`IG6GraphEvent`](IG6GraphEvent.en.md)) => `boolean`
 
- • `可选` **shouldBegin**: (`event`: [`IG6GraphEvent`](IG6GraphEvent.zh.md)) => `boolean` 
+#### 类型声明
 
- #### 类型声明 
+▸ (`event`): `boolean`
 
- ▸ (`事件`): `布尔值` 
+是否允许在当前项上发生此行为。
 
- 是否允许该行为发生在当前项目上。 
+##### 参数
 
- ＃＃＃＃＃ 参数 
+| 名称 | 类型 |
+| :------ | :------ |
+| `event` | [`IG6GraphEvent`](IG6GraphEvent.en.md) |
 
- | 名称 | 类型 | 
- | :------ | :------ | 
- | `事件` | [`IG6GraphEvent`](IG6GraphEvent.zh.md) | 
+##### 返回值
 
- ##### 返回 
+`boolean`
 
- `布尔值` 
+#### 定义于
 
- #### 定义于 
+[packages/g6/src/stdlib/behavior/activate-relations.ts:42](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/activate-relations.ts#L42)
 
- [packages/g6/src/stdlib/behavior/activate-relations.ts:42](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/activate-relations。 ts#L42) 
+___
 
- ___ 
+### shouldUpdate
 
- ### 应该更新 
+• `可选` **shouldUpdate**: (`event`: [`IG6GraphEvent`](IG6GraphEvent.en.md)) => `boolean`
 
- • `可选` **shouldUpdate**: (`event`: [`IG6GraphEvent`](IG6GraphEvent.zh.md)) => `boolean` 
+#### 类型声明
 
- #### 类型声明 
+▸ (`event`): `boolean`
 
- ▸ (`事件`): `布尔值` 
+Whether to update item state.
+If it returns false, you may probably listen to `eventName` and
+manage states or data manually
 
- 是否更新项目状态。 
- 如果它返回 false，您可能会监听 `eventName` 并 
- 手动管理状态或数据 
+##### 参数
 
- ＃＃＃＃＃ 参数 
+| 名称 | 类型 |
+| :------ | :------ |
+| `event` | [`IG6GraphEvent`](IG6GraphEvent.en.md) |
 
- | 名称 | 类型 | 
- | :------ | :------ | 
- | `事件` | [`IG6GraphEvent`](IG6GraphEvent.zh.md) | 
+##### Returns
 
- ##### 返回 
+`boolean`
 
- `布尔值` 
+#### 定义于
 
- #### 定义于 
+[packages/g6/src/stdlib/behavior/activate-relations.ts:48](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/activate-relations.ts#L48)
 
- [packages/g6/src/stdlib/behavior/activate-relations.ts:48](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/activate-relations。 ts#L48) 
+___
 
- ___ 
+### trigger
 
- ＃＃＃ 扳机 
+• `可选` **trigger**: ``"click"`` \| ``"mouseenter"``
 
- • `可选` **触发**：``"点击"`` \| ``“鼠标输入”`` 
+用鼠标点击时按下的键来应用多选，默认为 "click" 。
+可以是"click"或"mouseenter"。
 
- 单击鼠标按下该键以应用多项选择。 
- 默认为“单击”。 
- 可以是“单击”、“鼠标输入”。 
+#### 定义于
 
- #### 定义于 
-
- [packages/g6/src/stdlib/behavior/activate-relations.ts:30](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/activate-relations。 ts#L30)
+[packages/g6/src/stdlib/behavior/activate-relations.ts:30](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/activate-relations.ts#L30)

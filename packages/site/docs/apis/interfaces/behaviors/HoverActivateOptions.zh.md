@@ -2,84 +2,82 @@
 title: HoverActivateOptions
 ---
 
-[概述 - v5.0.0-alpha.9](../../README.zh.md) / [模块](../../modules.zh.md) / [行为](../. ./modules/behaviors.zh.md) / HoverActivateOptions 
+[Overview - v5.0.0-beta.1](../../README.en.md) / [Modules](../../modules.en.md) / [behaviors](../../modules/behaviors.en.md) / HoverActivateOptions
 
- [行为](../../modules/behaviors.zh.md).HoverActivateOptions 
+[behaviors](../../modules/behaviors.en.md).HoverActivateOptions
 
- ＃＃ 特性 
+## 属性
 
- ### 激活状态 
+### activateState
 
- • `可选` **activateState**：`字符串` 
+• `可选` **activateState**: `string`
 
- 被视为“已选择”的状态名称。 
- 默认为“已选择”。 
+selected 的状态，默认为 "selected"。
 
- #### 定义于 
+#### 定义于
 
- [packages/g6/src/stdlib/behavior/hover-activate.ts:16](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/hover-activate。 ts#L16) 
+[packages/g6/src/stdlib/behavior/hover-activate.ts:16](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/hover-activate.ts#L16)
 
- ___ 
+___
 
- ### 事件名称 
+### eventName
 
- • `可选` **事件名称**：`字符串` 
+• `可选` **eventName**: `string`
 
- 拖动结束时触发的事件名称。 
+拖动结束时触发的事件名称。
 
- #### 定义于 
+#### 定义于
 
- [packages/g6/src/stdlib/behavior/hover-activate.ts:26](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/hover-activate。 ts#L26) 
+[packages/g6/src/stdlib/behavior/hover-activate.ts:26](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/hover-activate.ts#L26)
 
- ___ 
+___
 
- ### 项目类型 
+### itemTypes
 
- • **itemTypes**: (``"node"`` \| ``"edge"`` \| ``"combo"``)[] 
+• **itemTypes**: (``"node"`` \| ``"edge"`` \| ``"combo"``)[]
 
- 能够激活的项目类型。 
- 默认为 `["node", "edge"]`。 
- 应该是“节点”、“边”或“组合”的数组。 
+要激活的 item 类型。
+默认为 ["node", "edge"]。
+应为 "node"、"edge" 或 "combo" 的数组。
 
- #### 定义于 
+#### 定义于
 
- [packages/g6/src/stdlib/behavior/hover-activate.ts:22](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/hover-activate。 ts#L22) 
+[packages/g6/src/stdlib/behavior/hover-activate.ts:22](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/hover-activate.ts#L22)
 
- ___ 
+___
 
- ### 应该开始 
+### shouldBegin
 
- • `可选` **shouldBegin**: (`event`: [`IG6GraphEvent`](IG6GraphEvent.zh.md)) => `boolean` 
+• `可选` **shouldBegin**: (`event`: [`IG6GraphEvent`](IG6GraphEvent.en.md)) => `boolean`
 
- #### 类型声明 
+#### 类型声明
 
- ▸ (`事件`): `布尔值` 
+▸ (`event`): `boolean`
 
- 是否允许该行为发生在当前项目上。 
+是否允许在当前项上进行操作。
 
- ＃＃＃＃＃ 参数 
+##### 参数
 
- | 名称 | 类型 | 
- | :------ | :------ | 
- | `事件` | [`IG6GraphEvent`](IG6GraphEvent.zh.md) | 
+| 名称 | 类型 |
+| :------ | :------ |
+| `event` | [`IG6GraphEvent`](IG6GraphEvent.en.md) |
 
- ##### 返回 
+##### 返回值
 
- `布尔值` 
+`boolean`
 
- #### 定义于 
+#### 定义于
 
- [packages/g6/src/stdlib/behavior/hover-activate.ts:30](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/hover-activate。 ts#L30) 
+[packages/g6/src/stdlib/behavior/hover-activate.ts:30](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/hover-activate.ts#L30)
 
- ___ 
+___
 
- ###油门 
+### throttle
 
- • `可选` **节流阀**：`数量` 
+• `可选` **throttle**: `number`
 
- 限制移动的时间（以毫秒为单位）。 有助于避免频繁的计算。 
- 默认为 0。 
+throttle 的间隔时间（以毫秒为单位），有助于避免频繁计算。 默认为 0。
 
- #### 定义于 
+#### 定义于
 
- [packages/g6/src/stdlib/behavior/hover-activate.ts:11](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/hover-activate。 ts#L11)
+[packages/g6/src/stdlib/behavior/hover-activate.ts:11](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/hover-activate.ts#L11)

@@ -1,6 +1,6 @@
 import fs from 'fs';
 import fsExtra from 'fs-extra';
-import translate from 'google-translate-api-x';
+// import translate from 'google-translate-api-x';
 import { readFile, writeFile } from 'node:fs/promises';
 
 /**
@@ -72,6 +72,8 @@ const main = async () => {
 title: ${zh_file_name}
 ---
 
+> 📋 中文文档还在翻译中... 欢迎PR
+
 `;
     const en_header = `---
 title: ${en_file_name}
@@ -92,11 +94,12 @@ title: ${en_file_name}
     } catch (error) {}
 
     if (!hasTranslated) {
-      const res = await translate(zh_content, { from: 'en', to: 'zh-CN' }).catch((error) => {
-        errorMessage = errorMessage + '\n' + `TRANSLATE ERROR: ${file}:${zh_path} \n `;
-        return { text: '' };
-      });
-      writeFile(zh_path, zh_header + res.text);
+      // const res = await translate(zh_content, { from: 'en', to: 'zh-CN' }).catch((error) => {
+      //   errorMessage = errorMessage + '\n' + `TRANSLATE ERROR: ${file}:${zh_path} \n `;
+      //   return { text: '' };
+      // });
+      // writeFile(zh_path, zh_header + res.text);
+      writeFile(zh_path, zh_header + zh_content);
     }
   }
   fs.writeFileSync('.translate-info.txt', errorMessage);

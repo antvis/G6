@@ -287,7 +287,7 @@ export default defineConfig({
       {
         slug: 'apis/modules',
         title: {
-          zh: '模块',
+          zh: 'modules',
           en: 'modules',
         },
         order: 2,
@@ -295,7 +295,7 @@ export default defineConfig({
       {
         slug: 'apis/interfaces/graph',
         title: {
-          zh: 'Graph',
+          zh: 'graph',
           en: 'graph',
         },
         order: 3,
@@ -303,15 +303,23 @@ export default defineConfig({
       {
         slug: 'apis/interfaces/item',
         title: {
-          zh: '元素',
+          zh: 'item',
           en: 'item',
         },
         order: 4,
       },
       {
+        slug: 'apis/interfaces/plugins',
+        title: {
+          zh: 'plugins',
+          en: 'plugins',
+        },
+        order: 7,
+      },
+      {
         slug: 'apis/interfaces/layout',
         title: {
-          zh: '布局',
+          zh: 'layout',
           en: 'layout',
         },
         order: 5,
@@ -319,24 +327,16 @@ export default defineConfig({
       {
         slug: 'apis/interfaces/behaviors',
         title: {
-          zh: '交互',
+          zh: 'behaviors',
           en: 'behaviors',
         },
         order: 6,
       },
 
       {
-        slug: 'apis/interfaces/plugins',
-        title: {
-          zh: '插件',
-          en: 'plugins',
-        },
-        order: 7,
-      },
-      {
         slug: 'apis/classes',
         title: {
-          zh: '类',
+          zh: 'classes',
           en: 'classes',
         },
         order: 8,

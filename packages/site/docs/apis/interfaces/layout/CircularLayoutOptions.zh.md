@@ -2,146 +2,148 @@
 title: CircularLayoutOptions
 ---
 
-[概述 - v5.0.0-alpha.9](../../README.zh.md) / [模块](../../modules.zh.md) / [布局](../. ./modules/layout.zh.md) / CircularLayoutOptions 
+> 📋 中文文档还在翻译中... 欢迎PR
 
- [布局](../../modules/layout.zh.md).CircularLayoutOptions 
+[Overview - v5.0.0-beta.1](../../README.zh.md) / [Modules](../../modules.zh.md) / [layout](../../modules/layout.zh.md) / CircularLayoutOptions
 
- ＃＃ 特性 
+[layout](../../modules/layout.zh.md).CircularLayoutOptions
 
- ### 角度比率 
+## Properties
 
- • `可选` **angleRatio**：`数字` 
+### angleRatio
 
- #### 定义于 
+• `Optional` **angleRatio**: `number`
 
- node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:121 
+#### Defined in
 
- ___ 
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:121
 
- ＃＃＃ 中心 
+___
 
- • `可选` **中心**：`PointTuple` 
+### center
 
- #### 定义于 
+• `Optional` **center**: `PointTuple`
 
- node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:112 
+#### Defined in
 
- ___ 
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:112
 
- ＃＃＃ 顺时针 
+___
 
- • `可选` **顺时针**：`布尔值` 
+### clockwise
 
- #### 定义于 
+• `Optional` **clockwise**: `boolean`
 
- node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:118 
+#### Defined in
 
- ___ 
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:118
 
- ### 部门 
+___
 
- • `可选` **部门**：`数量` 
+### divisions
 
- #### 定义于 
+• `Optional` **divisions**: `number`
 
- node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:119 
+#### Defined in
 
- ___ 
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:119
 
- ### 结束角度 
+___
 
- • `可选` **endAngle**：`数字` 
+### endAngle
 
- #### 定义于 
+• `Optional` **endAngle**: `number`
 
- node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:123 
+#### Defined in
 
- ___ 
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:123
 
- ### 结束半径 
+___
 
- • `可选` **endRadius**：`数字` 
+### endRadius
 
- #### 定义于 
+• `Optional` **endRadius**: `number`
 
- node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:117 
+#### Defined in
 
- ___ 
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:117
 
- ＃＃＃ 高度 
+___
 
- • `可选` **高度**：`数字` 
+### height
 
- #### 定义于 
+• `Optional` **height**: `number`
 
- node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:114 
+#### Defined in
 
- ___ 
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:114
 
- ### 节点大小 
+___
 
- • `可选` **nodeSize**: `number` \| `数字`[] \| (`nodeData`: `Node`) => `数字` 
+### nodeSize
 
- #### 定义于 
+• `Optional` **nodeSize**: `number` \| `number`[] \| (`nodeData`: `Node`) => `number`
 
- node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:125 
+#### Defined in
 
- ___ 
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:125
 
- ### 节点间距 
+___
 
- • `可选` **nodeSpacing**: `number` \| (`节点?`: `节点`) => `数字` 
+### nodeSpacing
 
- #### 定义于 
+• `Optional` **nodeSpacing**: `number` \| (`node?`: `Node`) => `number`
 
- node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:124 
+#### Defined in
 
- ___ 
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:124
 
- ### 订购 
+___
 
- • `可选` **排序**：``“拓扑”`` \| ``“拓扑导向”`` \| ``“程度”`` 
+### ordering
 
- #### 定义于 
+• `Optional` **ordering**: ``"topology"`` \| ``"topology-directed"`` \| ``"degree"``
 
- node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:120 
+#### Defined in
 
- ___ 
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:120
 
- ＃＃＃ 半径 
+___
 
- • `可选` **半径**：`数字` 
+### radius
 
- #### 定义于 
+• `Optional` **radius**: `number`
 
- node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:115 
+#### Defined in
 
- ___ 
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:115
 
- ### 起始角度 
+___
 
- • `可选` **起始角度**：`数字` 
+### startAngle
 
- #### 定义于 
+• `Optional` **startAngle**: `number`
 
- node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:122 
+#### Defined in
 
- ___ 
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:122
 
- ### 起始半径 
+___
 
- • `可选` **startRadius**：`number` 
+### startRadius
 
- #### 定义于 
+• `Optional` **startRadius**: `number`
 
- node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:116 
+#### Defined in
 
- ___ 
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:116
 
- ＃＃＃ 宽度 
+___
 
- • `可选` **宽度**：`数量` 
+### width
 
- #### 定义于 
+• `Optional` **width**: `number`
 
- node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:113
+#### Defined in
+
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:113

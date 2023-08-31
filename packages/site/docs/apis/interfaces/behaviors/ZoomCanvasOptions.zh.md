@@ -2,141 +2,141 @@
 title: ZoomCanvasOptions
 ---
 
-[概述 - v5.0.0-alpha.9](../../README.zh.md) / [模块](../../modules.zh.md) / [行为](../. ./modules/behaviors.zh.md) / ZoomCanvasOptions 
+[概述-v5.0.0-beta.1]（../../ readme.zh.md）/[模块]（../../ modules.zh.md）/[capingiors]（../。 ./modules/behaviors.zh.md）/zoomcanvasoptions 
 
- [行为](../../modules/behaviors.zh.md).ZoomCanvasOptions 
+ [行为]（../../模块/bepand.zh.md）.zoomcanvasoptions 
 
  ＃＃ 特性 
 
- ### 启用优化 
+ ###启用iptimize 
 
- • `可选` **enableOptimize**：`boolean` 
+ •``可选的**启用iptimize **：`boolean` 
 
- 是否启用优化策略，在缩放时隐藏除节点 keyShape 之外的所有形状。 
- TODO：当触发器为 upDownKeys 时进行优化 
+ 是否启用优化策略，这将隐藏所有形状在缩放时不包括节点钥匙的形状。 
+ todo：优化触发器是updownkeys 
 
- #### 定义于 
+ ####定义 
 
- [packages/g6/src/stdlib/behavior/zoom-canvas.ts:10](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/zoom-canvas。 ts#L10) 
-
- ___ 
-
- ### 事件名称 
-
- • `可选` **事件名称**：`字符串` 
-
- 缩放结束时触发的事件名称。 
-
- #### 定义于 
-
- [packages/g6/src/stdlib/behavior/zoom-canvas.ts:34](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/zoom-canvas. ts#L34) 
+ [packages/g6/src/stdlib/行/zoom-canvas.ts：10]（https://github.com/antvis/antvis/g6/blob/61e525e59b/packages/g6/src/src/src/stdlib/stdlib/behavior/zoom-canvas。 TS＃L10） 
 
  ___ 
 
- ### 最大缩放 
+ ### eventname 
 
- • `可选` **maxZoom**：`数量` 
+ •`可选的** eventname **：`string` 
 
- 用于约束 Zoom-canvas-3d 行为的缩放比例的最大值 
+ 缩放结束时要触发的事件名称。 
 
- #### 定义于 
+ ####定义 
 
- [packages/g6/src/stdlib/behavior/zoom-canvas.ts:42](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/zoom-canvas. ts#L42) 
-
- ___ 
-
- ### 最小缩放 
-
- • `可选` **minZoom**：`数字` 
-
- 限制 Zoom-canvas-3d 行为的缩放比例最小值 
-
- #### 定义于 
-
- [packages/g6/src/stdlib/behavior/zoom-canvas.ts:38](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/zoom-canvas. ts#L38) 
+ [packages/g6/src/stdlib/crutive/zoom-canvas.ts：34]（https：//github.com/antvis/g6/blob/61e525e59b/packages/g6/src/src/stdlib/stdlib/sstdlib/behavior/zoom-canvas。 TS＃L34） 
 
  ___ 
 
- ### 辅助键 
+ ### Maxzoom 
 
- • `可选` **辅助密钥**：`字符串` 
+ •`可选的** maxzoom **：`number` 
 
- 键盘上的辅助辅助键。 如果不指定，则当触发器发生时，该行为就会被触发。 
+ 缩放比率的最大值来限制Zoom-Canvas-3D行为 
 
- #### 定义于 
+ ####定义 
 
- [packages/g6/src/stdlib/behavior/zoom-canvas.ts:22](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/zoom-canvas. ts#L22) 
+ [packages/g6/src/stdlib/crutive/zoom-canvas.ts：42]（https：//github.com/antvis/g6/blob/61e525e59b/packages/g6/src/src/stdlib/stdlib/behavior/zoom-canvas。 TS＃L42） 
+
+ ___ 
+
+ ### Minzoom 
+
+ •`可选的** minzoom **：`number` 
+
+ 缩放比率的最小值以限制变焦 - 瓦斯-3D行为 
+
+ ####定义 
+
+ [packages/g6/src/stdlib/行/zoom-canvas.ts：38]（https：//github.com/antvis/g6/blob/61e525e59b/packages/g6/src/src/src/stdlib/stdlib/behavior/zoom-canvas。 TS＃L38） 
+
+ ___ 
+
+ ### Secondarykey 
+
+ •`可选的** SecondaryKey **：`弦乐 
+
+ 键盘上的助手次要键。 如果未分配，则在触发时会触发该行为。 
+
+ ####定义 
+
+ [packages/g6/src/stdlib/行/zoom-canvas.ts：22]（https：//github.com/antvis/antvis/g6/blob/61e525e59b/packages/g6/src/src/src/stdlib/stdlib/behavior/zoom-com-canvas。 TS＃L22） 
 
  ___ 
 
  ＃＃＃ 灵敏度 
 
- • `可选` **灵敏度**：`数字` 
+ •`可选的**灵敏度**：`number` 
 
- 变焦的灵敏度/速度。 
+ 缩小的灵敏度 /速度。 
 
- #### 定义于 
+ ####定义 
 
- [packages/g6/src/stdlib/behavior/zoom-canvas.ts:30](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/zoom-canvas. ts#L30) 
+ [packages/g6/src/stdlib/行/zoom-canvas.ts：30]（https://github.com/antvis/antvis/g6/blob/61e525e59b/packages/g6/src/src/src/stdlib/stdlib/behavior/zoom/zoom-canvas。 TS＃L30） 
 
  ___ 
 
- ### 应该开始 
+ ###应该begin 
 
- • `可选` **shouldBegin**: (`event`: [`IG6GraphEvent`](IG6GraphEvent.zh.md)) => `boolean` 
+ •``可选的** shosebegin ** :（`event`：[``Ig6graphevent`]（ig6graphevent.zh.md））=>>'boolean` 
 
- #### 类型声明 
+ ####类型声明 
 
- ▸ (`事件`): `布尔值` 
+ ▸（``event'）：`boolean' 
 
- 是否允许该行为发生在当前项目上。 
+ 是否允许行为发生在当前项目上。 
 
  ＃＃＃＃＃ 参数 
 
- | 名称 | 类型 | 
- | :------ | :------ | 
- | `事件` | [`IG6GraphEvent`](IG6GraphEvent.zh.md) | 
+ | 名称| 类型| 
+ | ：------- | ：------- | 
+ | `event` | [``ig6graphevent`]（ig6graphevent.zh.md）| 
 
- ##### 返回 
+ #####返回 
 
- `布尔值` 
+ 布尔' 
 
- #### 定义于 
+ ####定义 
 
- [packages/g6/src/stdlib/behavior/zoom-canvas.ts:46](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/zoom-canvas. ts#L46) 
+ [packages/g6/src/stdlib/crutive/zoom-canvas.ts：46]（https：//github.com/antvis/g6/blob/61e525e59b/packages/g6/src/src/src/stdlib/stdlib/behavior/zoom-canvas。 TS＃L46） 
 
  ___ 
 
- ### 加速键 
+ ### speedupkey 
 
- • `可选` **speedUpKey**：`字符串` 
+ •`可选的** speepupkey **：`弦乐 
 
- 键盘上的按键可加快翻译速度，同时按下方向键和缩放画布。 此选项的触发器应该是“directionKeys”。 
+ 键盘上的键在按下键按键和缩放键盘时加快翻译。 触发器应为此选项的“方向”。 
 
- #### 定义于 
+ ####定义 
 
- [packages/g6/src/stdlib/behavior/zoom-canvas.ts:26](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/zoom-canvas. ts#L26) 
+ [packages/g6/src/stdlib/行/zoom-canvas.ts：26]（https://github.com/antvis/antvis/g6/blob/61e525e59b/packages/g6/src/src/src/stdlib/stdlib/stdlib/behavior/zoom-canvas。 TS＃L26） 
 
  ___ 
 
  ＃＃＃ 扳机 
 
- • `可选` **触发器**：``“轮子”`` \| ``“向上向下键”`` 
+ •`可选的**触发**：````''''`\ | ``''updownkeys'' 
 
- 行为的触发器，默认为“wheel”。 'upDownKeys' 表示通过键盘上的向上/向下键触发此行为。 
+ 默认情况下，行为触发了“车轮”。 “ Updownkeys”是指通过键盘上的向上 /下键触发此行为。 
 
- #### 定义于 
+ ####定义 
 
- [packages/g6/src/stdlib/behavior/zoom-canvas.ts:18](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/zoom-canvas. ts#L18) 
+ [packages/g6/src/stdlib/行/zoom-canvas.ts：18]（https://github.com/antvis/antvis/g6/blob/61e525e59b/packages/g6/src/src/stdlib/stdlib/stdlib/behavior/zoom-canvas。 TS＃L18） 
 
  ___ 
 
- ### 触发项目 
+ ### triggeronItems 
 
- • `可选` **triggerOnItems**：`布尔值` 
+ •`可选的** triggeronItems **：`boolean` 
 
- 是否允许在节点/边/组合上启动时触发此行为。 
+ 允许在节点 /边缘 /组合上旋转时触发这种行为。 
 
- #### 定义于 
+ ####定义 
 
- [packages/g6/src/stdlib/behavior/zoom-canvas.ts:14](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/zoom-canvas. ts#L14)
+ [packages/g6/src/stdlib/行/zoom-canvas.ts：14]（https：//github.com/antvis/antvis/g6/blob/61e525e59b/packages/g6/src/src/src/stdlib/stdlib/sstdlib/behavior/zoom-canvas。 TS＃L14）
