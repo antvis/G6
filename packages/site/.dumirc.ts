@@ -149,20 +149,12 @@ export default defineConfig({
       //   order: 4,
       // },
       {
-        slug: 'manual/FAQ',
-        title: {
-          zh: 'FAQ',
-          en: 'FAQ',
-        },
-        order: 2,
-      },
-      {
         slug: 'manual/tutorial',
         title: {
           zh: '入门教程',
           en: 'Tutorial',
         },
-        order: 3,
+        order: 4,
       },
       // ===========Concepts===================
       // {

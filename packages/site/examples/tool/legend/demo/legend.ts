@@ -144,7 +144,7 @@ new Graph({
         dataTypeField: 'nodeType',
       },
       edge: {
-        dataTypeField: 'nodeType',
+        dataTypeField: 'edgeType',
       },
     },
   },

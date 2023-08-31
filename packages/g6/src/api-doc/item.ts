@@ -1,43 +1,43 @@
 import {
-    CircleStyleProps,
-    RectStyleProps,
-    EllipseStyleProps,
-    PolygonStyleProps,
-    LineStyleProps,
-    PathStyleProps,
-    PolylineStyleProps,
-    TextStyleProps,
-    ImageStyleProps,
+  CircleStyleProps,
+  RectStyleProps,
+  EllipseStyleProps,
+  PolygonStyleProps,
+  LineStyleProps,
+  PathStyleProps,
+  PolylineStyleProps,
+  TextStyleProps,
+  ImageStyleProps,
 } from '@antv/g';
 import {
-    CubeGeometryProps,
-    PlaneGeometryProps,
-    SphereGeometryProps,
-    TorusGeometryProps,
+  CubeGeometryProps,
+  PlaneGeometryProps,
+  SphereGeometryProps,
+  TorusGeometryProps,
 } from '@antv/g-plugin-3d';
 import { ShapeStyle, BadgePosition, IBadgePosition } from '../types/item';
 import { IAnchorPositionMap } from '../types/node';
 
 export type {
-    CircleStyleProps,
-    RectStyleProps,
-    EllipseStyleProps,
-    PolygonStyleProps,
-    LineStyleProps,
-    PathStyleProps,
-    PolylineStyleProps,
-    TextStyleProps,
-    ImageStyleProps,
-    CubeGeometryProps,
-    PlaneGeometryProps,
-    SphereGeometryProps,
-    TorusGeometryProps,
-    BadgePosition,
-    IBadgePosition,
-    ShapeStyle,
-    IAnchorPositionMap
-}
+  CircleStyleProps,
+  RectStyleProps,
+  EllipseStyleProps,
+  PolygonStyleProps,
+  LineStyleProps,
+  PathStyleProps,
+  PolylineStyleProps,
+  TextStyleProps,
+  ImageStyleProps,
+  CubeGeometryProps,
+  PlaneGeometryProps,
+  SphereGeometryProps,
+  TorusGeometryProps,
+  BadgePosition,
+  IBadgePosition,
+  ShapeStyle,
+  IAnchorPositionMap,
+};
 export type { NodeUserModelData, NodeShapeStyles } from '../types/node';
-export type { GShapeStyle } from '../types/item'
-export { BaseNode as CustomNode } from '../stdlib/item/node/base'
-export * from '../stdlib/item/node'
+export type { GShapeStyle } from '../types/item';
+export { BaseNode as CustomNode } from '../stdlib/item/node/base';
+export * from '../stdlib/item/node';
