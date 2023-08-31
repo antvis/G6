@@ -54,6 +54,7 @@ import visual from './visual/visual';
 import modelRect from './demo/modelRect';
 import layouts_combocombined from './layouts/combo-combined';
 import hull from './plugins/hull';
+import legend from './plugins/legend';
 
 export {
   anchor,
@@ -111,4 +112,5 @@ export {
   modelRect,
   comboDagre,
   hull,
+  legend,
 };

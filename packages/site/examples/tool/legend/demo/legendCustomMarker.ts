@@ -122,12 +122,33 @@ const legend = {
       spacing: 8,
       fontSize: 20,
     },
+    markerStyle: {
+      shape: 'circle',
+      size: (type) => {
+        return type === 'person' ? 10 : 20;
+      },
+      color: (type) => {
+        return type === 'person' ? '#f00' : '#0f0';
+      },
+    },
   },
   edge: {
     enable: true,
     padding: [10, 20],
     title: 'edge-legend',
     typeField: 'edgeType',
+    markerStyle: {
+      color: (type) => {
+        switch (type) {
+          case 'friend':
+            return '#00f';
+          case 'employ':
+            return '#f0f';
+          case 'legal':
+            return '#0ff';
+        }
+      },
+    },
   },
 };
 

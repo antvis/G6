@@ -21,6 +21,7 @@ export const createCanvas = (
   width: number,
   height: number,
   pixelRatio?: number,
+  background?: string,
 ): Canvas => {
   let renderer: any;
   switch (rendererType.toLowerCase()) {
@@ -52,6 +53,7 @@ export const createCanvas = (
     devicePixelRatio: pixelRatio,
     renderer,
     supportsMutipleCanvasesInOneContainer: true,
+    background,
   });
 };
 

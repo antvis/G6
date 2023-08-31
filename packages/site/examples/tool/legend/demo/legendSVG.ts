@@ -109,6 +109,7 @@ const data = {
 const legend = {
   key: 'default-legend',
   type: 'legend',
+  renderer: 'svg',
   size: [250, 'fit-content'],
   background: '#ccc',
   node: {
