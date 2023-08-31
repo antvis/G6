@@ -2,7 +2,7 @@
 title: ForceAtlas2LayoutOptions
 ---
 
-[Overview - v5.0.0-beta.1](../../README.en.md) / [Modules](../../modules.en.md) / [layout](../../modules/layout.en.md) / ForceAtlas2LayoutOptions
+[Overview - v5.0.0-beta.2](../../README.en.md) / [Modules](../../modules.en.md) / [layout](../../modules/layout.en.md) / ForceAtlas2LayoutOptions
 
 [layout](../../modules/layout.en.md).ForceAtlas2LayoutOptions
 
@@ -22,7 +22,7 @@ title: ForceAtlas2LayoutOptions
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:305
 
-___
+---
 
 ### center
 
@@ -36,7 +36,7 @@ CommonForceLayoutOptions.center
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:252
 
-___
+---
 
 ### dimensions
 
@@ -50,7 +50,7 @@ CommonForceLayoutOptions.dimensions
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:251
 
-___
+---
 
 ### dissuadeHubs
 
@@ -60,11 +60,11 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:304
 
-___
+---
 
 ### distanceThresholdMode
 
-• `Optional` **distanceThresholdMode**: ``"min"`` \| ``"max"`` \| ``"mean"``
+• `Optional` **distanceThresholdMode**: `"min"` \| `"max"` \| `"mean"`
 
 #### Inherited from
 
@@ -74,7 +74,7 @@ CommonForceLayoutOptions.distanceThresholdMode
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:255
 
-___
+---
 
 ### height
 
@@ -84,7 +84,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:296
 
-___
+---
 
 ### kg
 
@@ -94,7 +94,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:298
 
-___
+---
 
 ### kr
 
@@ -104,7 +104,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:297
 
-___
+---
 
 ### ks
 
@@ -114,7 +114,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:299
 
-___
+---
 
 ### ksmax
 
@@ -124,7 +124,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:300
 
-___
+---
 
 ### maxDistance
 
@@ -142,7 +142,7 @@ CommonForceLayoutOptions.maxDistance
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:261
 
-___
+---
 
 ### maxIteration
 
@@ -156,7 +156,7 @@ CommonForceLayoutOptions.maxIteration
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:254
 
-___
+---
 
 ### minMovement
 
@@ -170,17 +170,17 @@ CommonForceLayoutOptions.minMovement
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:253
 
-___
+---
 
 ### mode
 
-• `Optional` **mode**: ``"normal"`` \| ``"linlog"``
+• `Optional` **mode**: `"normal"` \| `"linlog"`
 
 #### Defined in
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:302
 
-___
+---
 
 ### nodeSize
 
@@ -190,7 +190,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:307
 
-___
+---
 
 ### onTick
 
@@ -202,8 +202,8 @@ ___
 
 ##### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name   | Type            |
+| :----- | :-------------- |
 | `data` | `LayoutMapping` |
 
 ##### Returns
@@ -214,7 +214,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:308
 
-___
+---
 
 ### preventOverlap
 
@@ -224,7 +224,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:303
 
-___
+---
 
 ### prune
 
@@ -234,7 +234,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:306
 
-___
+---
 
 ### tao
 
@@ -244,7 +244,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:301
 
-___
+---
 
 ### width
 

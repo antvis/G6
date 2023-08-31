@@ -2,7 +2,7 @@
 title: ActivateRelationsOptions
 ---
 
-[Overview - v5.0.0-beta.1](../../README.zh.md) / [Modules](../../modules.zh.md) / [behaviors](../../modules/behaviors.zh.md) / ActivateRelationsOptions
+[Overview - v5.0.0-beta.2](../../README.zh.md) / [Modules](../../modules.zh.md) / [behaviors](../../modules/behaviors.zh.md) / ActivateRelationsOptions
 
 [behaviors](../../modules/behaviors.zh.md).ActivateRelationsOptions
 
@@ -10,7 +10,7 @@ title: ActivateRelationsOptions
 
 ### activeState
 
-• `可选` **activeState**: ``"selected"``
+• `可选` **activeState**: `"selected"`
 
 默认值为 `"selected"`
 
@@ -18,19 +18,20 @@ title: ActivateRelationsOptions
 
 [packages/g6/src/stdlib/behavior/activate-relations.ts:37](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/activate-relations.ts#L37)
 
-___
+---
 
 ### multiple
 
 • `可选` **multiple**: `boolean`
 
-是否允许多选，默认为true。
-如果设置为false，则trigger选项将被忽略。
+是否允许多选，默认为 true。
+如果设置为 false，则 trigger 选项将被忽略。
+
 #### 定义于
 
 [packages/g6/src/stdlib/behavior/activate-relations.ts:24](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/activate-relations.ts#L24)
 
-___
+---
 
 ### shouldBegin
 
@@ -44,8 +45,8 @@ ___
 
 ##### 参数
 
-| 名称 | 类型 |
-| :------ | :------ |
+| 名称    | 类型                                   |
+| :------ | :------------------------------------- |
 | `event` | [`IG6GraphEvent`](IG6GraphEvent.en.md) |
 
 ##### 返回值
@@ -56,7 +57,7 @@ ___
 
 [packages/g6/src/stdlib/behavior/activate-relations.ts:42](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/activate-relations.ts#L42)
 
-___
+---
 
 ### shouldUpdate
 
@@ -72,8 +73,8 @@ manage states or data manually
 
 ##### 参数
 
-| 名称 | 类型 |
-| :------ | :------ |
+| 名称    | 类型                                   |
+| :------ | :------------------------------------- |
 | `event` | [`IG6GraphEvent`](IG6GraphEvent.en.md) |
 
 ##### Returns
@@ -84,11 +85,11 @@ manage states or data manually
 
 [packages/g6/src/stdlib/behavior/activate-relations.ts:48](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/activate-relations.ts#L48)
 
-___
+---
 
 ### trigger
 
-• `可选` **trigger**: ``"click"`` \| ``"mouseenter"``
+• `可选` **trigger**: `"click"` \| `"mouseenter"`
 
 用鼠标点击时按下的键来应用多选，默认为 "click" 。
 可以是"click"或"mouseenter"。

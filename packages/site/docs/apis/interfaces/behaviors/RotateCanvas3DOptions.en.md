@@ -2,7 +2,7 @@
 title: RotateCanvas3DOptions
 ---
 
-[Overview - v5.0.0-beta.1](../../README.en.md) / [Modules](../../modules.en.md) / [behaviors](../../modules/behaviors.en.md) / RotateCanvas3DOptions
+[Overview - v5.0.0-beta.2](../../README.en.md) / [Modules](../../modules.en.md) / [behaviors](../../modules/behaviors.en.md) / RotateCanvas3DOptions
 
 [behaviors](../../modules/behaviors.en.md).RotateCanvas3DOptions
 
@@ -18,7 +18,7 @@ The event name to trigger when drag end.
 
 [packages/g6/src/stdlib/behavior/rotate-canvas-3d.ts:31](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/rotate-canvas-3d.ts#L31)
 
-___
+---
 
 ### secondaryKey
 
@@ -33,7 +33,7 @@ to make the behavior triggered only when the key is pressing and trigger is happ
 
 [packages/g6/src/stdlib/behavior/rotate-canvas-3d.ts:19](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/rotate-canvas-3d.ts#L19)
 
-___
+---
 
 ### shouldBegin
 
@@ -47,8 +47,8 @@ Whether allow the behavior happen on the current item.
 
 ##### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name    | Type                                   |
+| :------ | :------------------------------------- |
 | `event` | [`IG6GraphEvent`](IG6GraphEvent.en.md) |
 
 ##### Returns
@@ -59,7 +59,7 @@ Whether allow the behavior happen on the current item.
 
 [packages/g6/src/stdlib/behavior/rotate-canvas-3d.ts:35](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/rotate-canvas-3d.ts#L35)
 
-___
+---
 
 ### speedUpKey
 
@@ -71,11 +71,11 @@ To speed up rotating while pressing and rotate the canvas by direciton keys (tri
 
 [packages/g6/src/stdlib/behavior/rotate-canvas-3d.ts:23](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/rotate-canvas-3d.ts#L23)
 
-___
+---
 
 ### trigger
 
-• `Optional` **trigger**: ``"drag"`` \| ``"directionKeys"``
+• `Optional` **trigger**: `"drag"` \| `"directionKeys"`
 
 The way to tranlate the canvas. 'drag' (default) means dragged by mouse, 'directionKeys' means the up/down/left/right key on keyBoard.
 
@@ -83,7 +83,7 @@ The way to tranlate the canvas. 'drag' (default) means dragged by mouse, 'direct
 
 [packages/g6/src/stdlib/behavior/rotate-canvas-3d.ts:12](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/rotate-canvas-3d.ts#L12)
 
-___
+---
 
 ### triggerOnItems
 

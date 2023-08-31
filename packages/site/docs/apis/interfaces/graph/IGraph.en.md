@@ -2,16 +2,16 @@
 title: IGraph
 ---
 
-[Overview - v5.0.0-beta.1](../../README.en.md) / [Modules](../../modules.en.md) / [graph](../../modules/graph.en.md) / IGraph
+[Overview - v5.0.0-beta.2](../../README.en.md) / [Modules](../../modules.en.md) / [graph](../../modules/graph.en.md) / IGraph
 
 [graph](../../modules/graph.en.md).IGraph
 
 ## Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `B` | extends `BehaviorRegistry` = `BehaviorRegistry` |
-| `T` | extends `ThemeRegistry` = `ThemeRegistry` |
+| Name | Type                                            |
+| :--- | :---------------------------------------------- |
+| `B`  | extends `BehaviorRegistry` = `BehaviorRegistry` |
+| `T`  | extends `ThemeRegistry` = `ThemeRegistry`       |
 
 ## Hierarchy
 
@@ -42,11 +42,11 @@ Different from addData with combo type, this API update the succeeds' combo tree
 
 ##### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `model` | `ComboUserModel` | combo user data |
-| `childrenIds` | `ID`[] | - |
-| `stack?` | `boolean` | whether push this operation to stack |
+| Name          | Type             | Description                          |
+| :------------ | :--------------- | :----------------------------------- |
+| `model`       | `ComboUserModel` | combo user data                      |
+| `childrenIds` | `ID`[]           | -                                    |
+| `stack?`      | `boolean`        | whether push this operation to stack |
 
 ##### Returns
 
@@ -58,7 +58,7 @@ whether success
 
 [packages/g6/src/types/graph.ts:554](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/graph.ts#L554)
 
-___
+---
 
 ### collapseCombo
 
@@ -72,10 +72,10 @@ Collapse a combo.
 
 ##### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name       | Type           |
+| :--------- | :------------- |
 | `comboIds` | `ID` \| `ID`[] |
-| `stack?` | `boolean` |
+| `stack?`   | `boolean`      |
 
 ##### Returns
 
@@ -85,7 +85,7 @@ Collapse a combo.
 
 [packages/g6/src/types/graph.ts:564](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/graph.ts#L564)
 
-___
+---
 
 ### expandCombo
 
@@ -99,10 +99,10 @@ Expand a combo.
 
 ##### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name       | Type           |
+| :--------- | :------------- |
 | `comboIds` | `ID` \| `ID`[] |
-| `stack?` | `boolean` |
+| `stack?`   | `boolean`      |
 
 ##### Returns
 
@@ -126,11 +126,11 @@ Add one or more node/edge/combo data to the graph.
 
 ##### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `itemType` | `ITEM_TYPE` | item type |
-| `model` | `NodeUserModel` \| `EdgeUserModel` \| `ComboUserModel` \| `NodeUserModel`[] \| `EdgeUserModel`[] \| `ComboUserModel`[] | user data |
-| `stack?` | `boolean` | whether push this operation to stack |
+| Name       | Type                                                                                                                   | Description                          |
+| :--------- | :--------------------------------------------------------------------------------------------------------------------- | :----------------------------------- |
+| `itemType` | `ITEM_TYPE`                                                                                                            | item type                            |
+| `model`    | `NodeUserModel` \| `EdgeUserModel` \| `ComboUserModel` \| `NodeUserModel`[] \| `EdgeUserModel`[] \| `ComboUserModel`[] | user data                            |
+| `stack?`   | `boolean`                                                                                                              | whether push this operation to stack |
 
 ##### Returns
 
@@ -142,11 +142,11 @@ whehter success
 
 [packages/g6/src/types/graph.ts:177](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/graph.ts#L177)
 
-___
+---
 
 ### changeData
 
-• **changeData**: (`data`: [`GraphData`](GraphData.en.md), `type`: ``"replace"`` \| ``"mergeReplace"``) => `void`
+• **changeData**: (`data`: [`GraphData`](GraphData.en.md), `type`: `"replace"` \| `"mergeReplace"`) => `void`
 
 #### Type declaration
 
@@ -156,10 +156,10 @@ Change graph data.
 
 ##### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `data` | [`GraphData`](GraphData.en.md) | new data |
-| `type` | ``"replace"`` \| ``"mergeReplace"`` | the way to change data, 'replace' means discard the old data and use the new one; 'mergeReplace' means merge the common part, remove (old - new), add (new - old) |
+| Name   | Type                            | Description                                                                                                                                                       |
+| :----- | :------------------------------ | :---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `data` | [`GraphData`](GraphData.en.md)  | new data                                                                                                                                                          |
+| `type` | `"replace"` \| `"mergeReplace"` | the way to change data, 'replace' means discard the old data and use the new one; 'mergeReplace' means merge the common part, remove (old - new), add (new - old) |
 
 ##### Returns
 
@@ -169,7 +169,7 @@ Change graph data.
 
 [packages/g6/src/types/graph.ts:148](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/graph.ts#L148)
 
-___
+---
 
 ### getAllCombosData
 
@@ -191,7 +191,7 @@ all combos' inner data on the graph
 
 [packages/g6/src/types/graph.ts:99](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/graph.ts#L99)
 
-___
+---
 
 ### getAllEdgesData
 
@@ -213,7 +213,7 @@ all edges' inner data on the graph
 
 [packages/g6/src/types/graph.ts:93](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/graph.ts#L93)
 
-___
+---
 
 ### getAllNodesData
 
@@ -235,7 +235,7 @@ all nodes' inner data on the graph
 
 [packages/g6/src/types/graph.ts:87](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/graph.ts#L87)
 
-___
+---
 
 ### getComboData
 
@@ -249,8 +249,8 @@ Find a combo's inner data according to id or function.
 
 ##### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
+| Name        | Type               | Description              |
+| :---------- | :----------------- | :----------------------- |
 | `condition` | `Function` \| `ID` | id or condition function |
 
 ##### Returns
@@ -263,7 +263,7 @@ result combo's inner data
 
 [packages/g6/src/types/graph.ts:81](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/graph.ts#L81)
 
-___
+---
 
 ### getEdgeData
 
@@ -277,8 +277,8 @@ Find an edge's inner data according to id or function.
 
 ##### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
+| Name        | Type               | Description              |
+| :---------- | :----------------- | :----------------------- |
 | `condition` | `Function` \| `ID` | id or condition function |
 
 ##### Returns
@@ -291,11 +291,11 @@ result edge's inner data
 
 [packages/g6/src/types/graph.ts:74](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/graph.ts#L74)
 
-___
+---
 
 ### getNeighborNodesData
 
-• **getNeighborNodesData**: (`nodeId`: `ID`, `direction?`: ``"both"`` \| ``"in"`` \| ``"out"``) => `NodeModel`[]
+• **getNeighborNodesData**: (`nodeId`: `ID`, `direction?`: `"both"` \| `"in"` \| `"out"`) => `NodeModel`[]
 
 #### Type declaration
 
@@ -305,10 +305,10 @@ Get one-hop node ids from a start node.
 
 ##### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `nodeId` | `ID` | id of the start node |
-| `direction?` | ``"both"`` \| ``"in"`` \| ``"out"`` | - |
+| Name         | Type                          | Description          |
+| :----------- | :---------------------------- | :------------------- |
+| `nodeId`     | `ID`                          | id of the start node |
+| `direction?` | `"both"` \| `"in"` \| `"out"` | -                    |
 
 ##### Returns
 
@@ -320,7 +320,7 @@ one-hop node ids
 
 [packages/g6/src/types/graph.ts:116](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/graph.ts#L116)
 
-___
+---
 
 ### getNodeData
 
@@ -334,8 +334,8 @@ Find a node's inner data according to id or function.
 
 ##### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
+| Name        | Type               | Description              |
+| :---------- | :----------------- | :----------------------- |
 | `condition` | `Function` \| `ID` | id or condition function |
 
 ##### Returns
@@ -348,11 +348,11 @@ result node's inner data
 
 [packages/g6/src/types/graph.ts:67](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/graph.ts#L67)
 
-___
+---
 
 ### getRelatedEdgesData
 
-• **getRelatedEdgesData**: (`nodeId`: `ID`, `direction?`: ``"both"`` \| ``"in"`` \| ``"out"``) => `EdgeModel`[]
+• **getRelatedEdgesData**: (`nodeId`: `ID`, `direction?`: `"both"` \| `"in"` \| `"out"`) => `EdgeModel`[]
 
 #### Type declaration
 
@@ -362,10 +362,10 @@ Get one-hop edge ids from a start node.
 
 ##### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `nodeId` | `ID` | id of the start node |
-| `direction?` | ``"both"`` \| ``"in"`` \| ``"out"`` | - |
+| Name         | Type                          | Description          |
+| :----------- | :---------------------------- | :------------------- |
+| `nodeId`     | `ID`                          | id of the start node |
+| `direction?` | `"both"` \| `"in"` \| `"out"` | -                    |
 
 ##### Returns
 
@@ -377,7 +377,7 @@ one-hop edge ids
 
 [packages/g6/src/types/graph.ts:106](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/graph.ts#L106)
 
-___
+---
 
 ### moveCombo
 
@@ -393,14 +393,14 @@ In fact, it changes the succeed nodes positions to affect the combo's position, 
 
 ##### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `ids` | `ID`[] | - |
-| `dx` | `number` | - |
-| `dy` | `number` | - |
-| `upsertAncestors?` | `boolean` | - |
-| `callback?` | (`model`: `NodeModel` \| `EdgeModel` \| `ComboModel`, `canceled?`: `boolean`) => `void` | - |
-| `stack?` | `boolean` | whether push this operation into graph's stack, true by default |
+| Name               | Type                                                                                    | Description                                                     |
+| :----------------- | :-------------------------------------------------------------------------------------- | :-------------------------------------------------------------- |
+| `ids`              | `ID`[]                                                                                  | -                                                               |
+| `dx`               | `number`                                                                                | -                                                               |
+| `dy`               | `number`                                                                                | -                                                               |
+| `upsertAncestors?` | `boolean`                                                                               | -                                                               |
+| `callback?`        | (`model`: `NodeModel` \| `EdgeModel` \| `ComboModel`, `canceled?`: `boolean`) => `void` | -                                                               |
+| `stack?`           | `boolean`                                                                               | whether push this operation into graph's stack, true by default |
 
 ##### Returns
 
@@ -410,7 +410,7 @@ In fact, it changes the succeed nodes positions to affect the combo's position, 
 
 [packages/g6/src/types/graph.ts:278](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/graph.ts#L278)
 
-___
+---
 
 ### read
 
@@ -425,8 +425,8 @@ If there is old data, diffs and changes it.
 
 ##### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name   | Type                           |
+| :----- | :----------------------------- |
 | `data` | [`GraphData`](GraphData.en.md) |
 
 ##### Returns
@@ -437,7 +437,7 @@ If there is old data, diffs and changes it.
 
 [packages/g6/src/types/graph.ts:140](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/graph.ts#L140)
 
-___
+---
 
 ### removeData
 
@@ -451,11 +451,11 @@ Remove one or more node/edge/combo data from the graph.
 
 ##### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `itemType` | `ITEM_TYPE` | - |
-| `id` | `ID` \| `ID`[] | - |
-| `stack?` | `boolean` | whether push this operation to stack |
+| Name       | Type           | Description                          |
+| :--------- | :------------- | :----------------------------------- |
+| `itemType` | `ITEM_TYPE`    | -                                    |
+| `id`       | `ID` \| `ID`[] | -                                    |
+| `stack?`   | `boolean`      | whether push this operation to stack |
 
 ##### Returns
 
@@ -467,7 +467,7 @@ whehter success
 
 [packages/g6/src/types/graph.ts:201](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/graph.ts#L201)
 
-___
+---
 
 ### showItem
 
@@ -481,10 +481,10 @@ Show the item(s).
 
 ##### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `ids` | `ID` \| `ID`[] | the item id(s) to be shown |
-| `disableAnimate?` | `boolean` | - |
+| Name              | Type           | Description                |
+| :---------------- | :------------- | :------------------------- |
+| `ids`             | `ID` \| `ID`[] | the item id(s) to be shown |
+| `disableAnimate?` | `boolean`      | -                          |
 
 ##### Returns
 
@@ -494,7 +494,7 @@ Show the item(s).
 
 [packages/g6/src/types/graph.ts:466](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/graph.ts#L466)
 
-___
+---
 
 ### updateComboPosition
 
@@ -509,13 +509,13 @@ Do not update other styles which leads to better performance than updating posit
 
 ##### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `models` | `Partial`<`ComboUserModel`\> \| `Partial`<`ComboUserModel` \| `Partial`<`NodeUserModel`\>[] \| `Partial`<`ComboUserModel`\>[]\> | new configurations with x and y for every combo, which has id field to indicate the specific item |
-| `upsertAncestors?` | `boolean` | - |
-| `disableAnimate?` | `boolean` | - |
-| `callback?` | (`model`: `NodeModel` \| `EdgeModel` \| `ComboModel`) => `void` | - |
-| `stack?` | `boolean` | whether push this operation into graph's stack, true by default |
+| Name               | Type                                                                                                                            | Description                                                                                       |
+| :----------------- | :------------------------------------------------------------------------------------------------------------------------------ | :------------------------------------------------------------------------------------------------ |
+| `models`           | `Partial`<`ComboUserModel`\> \| `Partial`<`ComboUserModel` \| `Partial`<`NodeUserModel`\>[] \| `Partial`<`ComboUserModel`\>[]\> | new configurations with x and y for every combo, which has id field to indicate the specific item |
+| `upsertAncestors?` | `boolean`                                                                                                                       | -                                                                                                 |
+| `disableAnimate?`  | `boolean`                                                                                                                       | -                                                                                                 |
+| `callback?`        | (`model`: `NodeModel` \| `EdgeModel` \| `ComboModel`) => `void`                                                                 | -                                                                                                 |
+| `stack?`           | `boolean`                                                                                                                       | whether push this operation into graph's stack, true by default                                   |
 
 ##### Returns
 
@@ -525,7 +525,7 @@ Do not update other styles which leads to better performance than updating posit
 
 [packages/g6/src/types/graph.ts:258](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/graph.ts#L258)
 
-___
+---
 
 ### updateData
 
@@ -539,11 +539,11 @@ Update one or more node/edge/combo data on the graph.
 
 ##### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `itemType` | `ITEM_TYPE` | - |
-| `model` | `Partial`<`NodeUserModel`\> \| `Partial`<`EdgeUserModel`\> \| `Partial`<`ComboUserModel` \| `Partial`<`NodeUserModel`\>[] \| `Partial`<`EdgeUserModel`\>[] \| `Partial`<`ComboUserModel`\>[]\> | update configs |
-| `stack?` | `boolean` | whether push this operation to stack |
+| Name       | Type                                                                                                                                                                                           | Description                          |
+| :--------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :----------------------------------- |
+| `itemType` | `ITEM_TYPE`                                                                                                                                                                                    | -                                    |
+| `model`    | `Partial`<`NodeUserModel`\> \| `Partial`<`EdgeUserModel`\> \| `Partial`<`ComboUserModel` \| `Partial`<`NodeUserModel`\>[] \| `Partial`<`EdgeUserModel`\>[] \| `Partial`<`ComboUserModel`\>[]\> | update configs                       |
+| `stack?`   | `boolean`                                                                                                                                                                                      | whether push this operation to stack |
 
 ##### Returns
 
@@ -553,7 +553,7 @@ Update one or more node/edge/combo data on the graph.
 
 [packages/g6/src/types/graph.ts:209](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/graph.ts#L209)
 
-___
+---
 
 ### updateNodePosition
 
@@ -568,13 +568,13 @@ do not update other styles which leads to better performance than updating posit
 
 ##### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `models` | `Partial`<`NodeUserModel`\> \| `Partial`<`ComboUserModel` \| `Partial`<`NodeUserModel`\>[] \| `Partial`<`ComboUserModel`\>[]\> | new configurations with x and y for every node, which has id field to indicate the specific item |
-| `upsertAncestors?` | `boolean` | - |
-| `disableAnimate?` | `boolean` | - |
-| `callback?` | (`model`: `NodeModel` \| `EdgeModel` \| `ComboModel`, `canceled?`: `boolean`) => `void` | - |
-| `stack?` | `boolean` | whether push this operation into graph's stack, true by default |
+| Name               | Type                                                                                                                           | Description                                                                                      |
+| :----------------- | :----------------------------------------------------------------------------------------------------------------------------- | :----------------------------------------------------------------------------------------------- |
+| `models`           | `Partial`<`NodeUserModel`\> \| `Partial`<`ComboUserModel` \| `Partial`<`NodeUserModel`\>[] \| `Partial`<`ComboUserModel`\>[]\> | new configurations with x and y for every node, which has id field to indicate the specific item |
+| `upsertAncestors?` | `boolean`                                                                                                                      | -                                                                                                |
+| `disableAnimate?`  | `boolean`                                                                                                                      | -                                                                                                |
+| `callback?`        | (`model`: `NodeModel` \| `EdgeModel` \| `ComboModel`, `canceled?`: `boolean`) => `void`                                        | -                                                                                                |
+| `stack?`           | `boolean`                                                                                                                      | whether push this operation into graph's stack, true by default                                  |
 
 ##### Returns
 
@@ -598,8 +598,8 @@ Destroy the graph instance and remove the related canvases.
 
 ##### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name        | Type       |
+| :---------- | :--------- |
 | `callback?` | `Function` |
 
 ##### Returns
@@ -624,12 +624,12 @@ Draw or update a G shape or group to the transient canvas.
 
 ##### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `type` | `ITEM_TYPE` \| `SHAPE_TYPE` | shape type or item type |
-| `id` | `ID` | new shape id or updated shape id for a interation shape, node/edge/combo id for item interaction group drawing |
-| `config` | `any` | - |
-| `canvas?` | `Canvas` | - |
+| Name      | Type                        | Description                                                                                                    |
+| :-------- | :-------------------------- | :------------------------------------------------------------------------------------------------------------- |
+| `type`    | `ITEM_TYPE` \| `SHAPE_TYPE` | shape type or item type                                                                                        |
+| `id`      | `ID`                        | new shape id or updated shape id for a interation shape, node/edge/combo id for item interaction group drawing |
+| `config`  | `any`                       | -                                                                                                              |
+| `canvas?` | `Canvas`                    | -                                                                                                              |
 
 ##### Returns
 
@@ -641,7 +641,7 @@ upserted shape or group
 
 [packages/g6/src/types/graph.ts:628](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/graph.ts#L628)
 
-___
+---
 
 ### getMode
 
@@ -663,7 +663,7 @@ mode name
 
 [packages/g6/src/types/graph.ts:593](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/graph.ts#L593)
 
-___
+---
 
 ### removeBehaviors
 
@@ -677,10 +677,10 @@ Remove behavior(s) from mode(s).
 
 ##### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `behaviorKeys` | `string`[] | - |
-| `modes` | `string` \| `string`[] | mode names |
+| Name           | Type                   | Description |
+| :------------- | :--------------------- | :---------- |
+| `behaviorKeys` | `string`[]             | -           |
+| `modes`        | `string` \| `string`[] | mode names  |
 
 ##### Returns
 
@@ -690,7 +690,7 @@ Remove behavior(s) from mode(s).
 
 [packages/g6/src/types/graph.ts:611](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/graph.ts#L611)
 
-___
+---
 
 ### setMode
 
@@ -704,9 +704,9 @@ Switch mode.
 
 ##### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `mode` | `string` | mode name |
+| Name   | Type     | Description |
+| :----- | :------- | :---------- |
+| `mode` | `string` | mode name   |
 
 ##### Returns
 
@@ -716,7 +716,7 @@ Switch mode.
 
 [packages/g6/src/types/graph.ts:587](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/graph.ts#L587)
 
-___
+---
 
 ### updateBehavior
 
@@ -730,10 +730,10 @@ Update a behavior on a mode.
 
 ##### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
+| Name       | Type                      | Description                                                       |
+| :--------- | :------------------------ | :---------------------------------------------------------------- |
 | `behavior` | `BehaviorOptionsOf`<`B`\> | behavior configs, whose name indicates the behavior to be updated |
-| `mode?` | `string` | mode name |
+| `mode?`    | `string`                  | mode name                                                         |
 
 ##### Returns
 
@@ -757,10 +757,10 @@ Make the item(s) to the back.
 
 ##### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `ids` | `ID` \| `ID`[] | the item id(s) to back |
-| `stack?` | `boolean` | - |
+| Name     | Type           | Description            |
+| :------- | :------------- | :--------------------- |
+| `ids`    | `ID` \| `ID`[] | the item id(s) to back |
+| `stack?` | `boolean`      | -                      |
 
 ##### Returns
 
@@ -770,7 +770,7 @@ Make the item(s) to the back.
 
 [packages/g6/src/types/graph.ts:487](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/graph.ts#L487)
 
-___
+---
 
 ### clearItemState
 
@@ -784,11 +784,11 @@ Clear all the states for item(s).
 
 ##### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `ids` | `ID` \| `ID`[] | the id(s) for the item(s) to be clear |
-| `states?` | `string`[] | the states' names, all the states wil be cleared if states is not assigned |
-| `stack?` | `boolean` | - |
+| Name      | Type           | Description                                                                |
+| :-------- | :------------- | :------------------------------------------------------------------------- |
+| `ids`     | `ID` \| `ID`[] | the id(s) for the item(s) to be clear                                      |
+| `states?` | `string`[]     | the states' names, all the states wil be cleared if states is not assigned |
+| `stack?`  | `boolean`      | -                                                                          |
 
 ##### Returns
 
@@ -798,7 +798,7 @@ Clear all the states for item(s).
 
 [packages/g6/src/types/graph.ts:524](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/graph.ts#L524)
 
-___
+---
 
 ### findIdByState
 
@@ -812,12 +812,12 @@ Find items which has the state.
 
 ##### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `itemType` | `ITEM_TYPE` | item type |
-| `state` | `string` | state name |
-| `value?` | `string` \| `boolean` | state value, true by default |
-| `additionalFilter?` | (`model`: `NodeModel` \| `EdgeModel` \| `ComboModel`) => `boolean` | additional filter function |
+| Name                | Type                                                               | Description                  |
+| :------------------ | :----------------------------------------------------------------- | :--------------------------- |
+| `itemType`          | `ITEM_TYPE`                                                        | item type                    |
+| `state`             | `string`                                                           | state name                   |
+| `value?`            | `string` \| `boolean`                                              | state value, true by default |
+| `additionalFilter?` | (`model`: `NodeModel` \| `EdgeModel` \| `ComboModel`) => `boolean` | additional filter function   |
 
 ##### Returns
 
@@ -829,7 +829,7 @@ items that is the type and has the state
 
 [packages/g6/src/types/graph.ts:163](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/graph.ts#L163)
 
-___
+---
 
 ### frontItem
 
@@ -843,10 +843,10 @@ Make the item(s) to the front.
 
 ##### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `ids` | `ID` \| `ID`[] | the item id(s) to front |
-| `stack?` | `boolean` | - |
+| Name     | Type           | Description             |
+| :------- | :------------- | :---------------------- |
+| `ids`    | `ID` \| `ID`[] | the item id(s) to front |
+| `stack?` | `boolean`      | -                       |
 
 ##### Returns
 
@@ -856,7 +856,7 @@ Make the item(s) to the front.
 
 [packages/g6/src/types/graph.ts:480](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/graph.ts#L480)
 
-___
+---
 
 ### getItemAllStates
 
@@ -870,8 +870,8 @@ Get all the state names with value true for an item.
 
 ##### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
+| Name | Type | Description         |
+| :--- | :--- | :------------------ |
 | `id` | `ID` | the id for the item |
 
 ##### Returns
@@ -884,7 +884,7 @@ the state names with value true
 
 [packages/g6/src/types/graph.ts:516](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/graph.ts#L516)
 
-___
+---
 
 ### getItemState
 
@@ -898,10 +898,10 @@ Get the state value for an item.
 
 ##### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `id` | `ID` | the id for the item |
-| `state` | `string` | - |
+| Name    | Type     | Description         |
+| :------ | :------- | :------------------ |
+| `id`    | `ID`     | the id for the item |
+| `state` | `string` | -                   |
 
 ##### Returns
 
@@ -913,7 +913,7 @@ the state value
 
 [packages/g6/src/types/graph.ts:509](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/graph.ts#L509)
 
-___
+---
 
 ### hideItem
 
@@ -927,10 +927,10 @@ Hide the item(s).
 
 ##### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `ids` | `ID` \| `ID`[] | the item id(s) to be hidden |
-| `disableAnimate?` | `boolean` | - |
+| Name              | Type           | Description                 |
+| :---------------- | :------------- | :-------------------------- |
+| `ids`             | `ID` \| `ID`[] | the item id(s) to be hidden |
+| `disableAnimate?` | `boolean`      | -                           |
 
 ##### Returns
 
@@ -940,7 +940,7 @@ Hide the item(s).
 
 [packages/g6/src/types/graph.ts:473](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/graph.ts#L473)
 
-___
+---
 
 ### setItemState
 
@@ -954,12 +954,12 @@ Set state for the item(s).
 
 ##### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `ids` | `ID` \| `ID`[] | the id(s) for the item(s) to be set |
-| `state` | `string` | the state name |
-| `value` | `boolean` | state value |
-| `stack?` | `boolean` | - |
+| Name     | Type           | Description                         |
+| :------- | :------------- | :---------------------------------- |
+| `ids`    | `ID` \| `ID`[] | the id(s) for the item(s) to be set |
+| `state`  | `string`       | the state name                      |
+| `value`  | `boolean`      | state value                         |
+| `stack?` | `boolean`      | -                                   |
 
 ##### Returns
 
@@ -979,10 +979,10 @@ Set state for the item(s).
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `evt` | `string` |
-| `...args` | `any`[] |
+| Name      | Type     |
+| :-------- | :------- |
+| `evt`     | `string` |
+| `...args` | `any`[]  |
 
 #### Returns
 
@@ -996,7 +996,7 @@ EventEmitter.emit
 
 node_modules/.pnpm/@antv+event-emitter@0.1.3/node_modules/@antv/event-emitter/lib/index.d.ts:25
 
-___
+---
 
 ### getEvents
 
@@ -1014,19 +1014,19 @@ EventEmitter.getEvents
 
 node_modules/.pnpm/@antv+event-emitter@0.1.3/node_modules/@antv/event-emitter/lib/index.d.ts:32
 
-___
+---
 
 ### off
 
 ▸ **off**(`evt?`, `callback?`): [`IGraph`](IGraph.en.md)<`B`, `T`\>
 
-取消监听一个事件，或者一个channel
+取消监听一个事件，或者一个 channel
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `evt?` | `string` |
+| Name        | Type       |
+| :---------- | :--------- |
+| `evt?`      | `string`   |
 | `callback?` | `Function` |
 
 #### Returns
@@ -1041,7 +1041,7 @@ EventEmitter.off
 
 node_modules/.pnpm/@antv+event-emitter@0.1.3/node_modules/@antv/event-emitter/lib/index.d.ts:31
 
-___
+---
 
 ### on
 
@@ -1051,11 +1051,11 @@ ___
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `evt` | `string` |
+| Name       | Type       |
+| :--------- | :--------- |
+| `evt`      | `string`   |
 | `callback` | `Function` |
-| `once?` | `boolean` |
+| `once?`    | `boolean`  |
 
 #### Returns
 
@@ -1069,7 +1069,7 @@ EventEmitter.on
 
 node_modules/.pnpm/@antv+event-emitter@0.1.3/node_modules/@antv/event-emitter/lib/index.d.ts:13
 
-___
+---
 
 ### once
 
@@ -1079,9 +1079,9 @@ ___
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `evt` | `string` |
+| Name       | Type       |
+| :--------- | :--------- |
+| `evt`      | `string`   |
 | `callback` | `Function` |
 
 #### Returns
@@ -1100,7 +1100,7 @@ node_modules/.pnpm/@antv+event-emitter@0.1.3/node_modules/@antv/event-emitter/li
 
 ### addPlugins
 
-• **addPlugins**: (`pluginCfgs`: { `[cfgName: string]`: `unknown`; `key`: `string` ; `type`: `string`  }[]) => `void`
+• **addPlugins**: (`pluginCfgs`: { `[cfgName: string]`: `unknown`; `key`: `string` ; `type`: `string` }[]) => `void`
 
 #### Type declaration
 
@@ -1110,9 +1110,9 @@ Add plugin(s) to graph.
 
 ##### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `pluginCfgs` | { `[cfgName: string]`: `unknown`; `key`: `string` ; `type`: `string`  }[] |
+| Name         | Type                                                                     |
+| :----------- | :----------------------------------------------------------------------- |
+| `pluginCfgs` | { `[cfgName: string]`: `unknown`; `key`: `string` ; `type`: `string` }[] |
 
 ##### Returns
 
@@ -1122,7 +1122,7 @@ Add plugin(s) to graph.
 
 [packages/g6/src/types/graph.ts:641](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/graph.ts#L641)
 
-___
+---
 
 ### removePlugins
 
@@ -1136,8 +1136,8 @@ Remove plugin(s) from graph.
 
 ##### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name         | Type       |
+| :----------- | :--------- |
 | `pluginKeys` | `string`[] |
 
 ##### Returns
@@ -1148,11 +1148,11 @@ Remove plugin(s) from graph.
 
 [packages/g6/src/types/graph.ts:655](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/graph.ts#L655)
 
-___
+---
 
 ### updatePlugin
 
-• **updatePlugin**: (`pluginCfg`: { `[cfgName: string]`: `unknown`; `key`: `string` ; `type`: `string`  }) => `void`
+• **updatePlugin**: (`pluginCfg`: { `[cfgName: string]`: `unknown`; `key`: `string` ; `type`: `string` }) => `void`
 
 #### Type declaration
 
@@ -1162,10 +1162,10 @@ Update one plugin of the graph.
 
 ##### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `pluginCfg` | `Object` |
-| `pluginCfg.key` | `string` |
+| Name             | Type     |
+| :--------------- | :------- |
+| `pluginCfg`      | `Object` |
+| `pluginCfg.key`  | `string` |
 | `pluginCfg.type` | `string` |
 
 ##### Returns
@@ -1190,10 +1190,10 @@ Add behavior(s) to mode(s).
 
 ##### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
+| Name        | Type                                                     | Description               |
+| :---------- | :------------------------------------------------------- | :------------------------ |
 | `behaviors` | `BehaviorOptionsOf`<`B`\> \| `BehaviorOptionsOf`<`B`\>[] | behavior names or configs |
-| `modes` | `string` \| `string`[] | mode names |
+| `modes`     | `string` \| `string`[]                                   | mode names                |
 
 ##### Returns
 
@@ -1203,7 +1203,7 @@ Add behavior(s) to mode(s).
 
 [packages/g6/src/types/graph.ts:600](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/graph.ts#L600)
 
-___
+---
 
 ### batch
 
@@ -1219,8 +1219,8 @@ more convenient way without manually invoking `startBatch` and `stopBatch`.
 
 ##### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
+| Name       | Type         | Description                                            |
+| :--------- | :----------- | :----------------------------------------------------- |
 | `callback` | () => `void` | The func containing operations to be batched together. |
 
 ##### Returns
@@ -1231,7 +1231,7 @@ more convenient way without manually invoking `startBatch` and `stopBatch`.
 
 [packages/g6/src/types/graph.ts:753](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/graph.ts#L753)
 
-___
+---
 
 ### canRedo
 
@@ -1251,7 +1251,7 @@ Indicate whether there are any actions available in the redo stack.
 
 [packages/g6/src/types/graph.ts:731](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/graph.ts#L731)
 
-___
+---
 
 ### canUndo
 
@@ -1271,7 +1271,7 @@ Indicate whether there are any actions available in the undo stack.
 
 [packages/g6/src/types/graph.ts:726](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/graph.ts#L726)
 
-___
+---
 
 ### canvas
 
@@ -1281,7 +1281,7 @@ ___
 
 [packages/g6/src/types/graph.ts:27](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/graph.ts#L27)
 
-___
+---
 
 ### changeRenderer
 
@@ -1295,8 +1295,8 @@ Change the renderer at runtime.
 
 ##### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
+| Name   | Type           | Description   |
+| :----- | :------------- | :------------ |
 | `type` | `RendererName` | renderer name |
 
 ##### Returns
@@ -1307,7 +1307,7 @@ Change the renderer at runtime.
 
 [packages/g6/src/types/graph.ts:58](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/graph.ts#L58)
 
-___
+---
 
 ### clear
 
@@ -1327,11 +1327,11 @@ Clear the graph, means remove all the items on the graph.
 
 [packages/g6/src/types/graph.ts:153](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/graph.ts#L153)
 
-___
+---
 
 ### clearStack
 
-• **clearStack**: (`stackType?`: ``"redo"`` \| ``"undo"``) => `void`
+• **clearStack**: (`stackType?`: `"redo"` \| `"undo"`) => `void`
 
 #### Type declaration
 
@@ -1343,9 +1343,9 @@ more convenient way without manually invoking `startBatch` and `stopBatch`.
 
 ##### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `stackType?` | ``"redo"`` \| ``"undo"`` |
+| Name         | Type                 |
+| :----------- | :------------------- |
+| `stackType?` | `"redo"` \| `"undo"` |
 
 ##### Returns
 
@@ -1355,7 +1355,7 @@ more convenient way without manually invoking `startBatch` and `stopBatch`.
 
 [packages/g6/src/types/graph.ts:760](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/graph.ts#L760)
 
-___
+---
 
 ### container
 
@@ -1365,7 +1365,7 @@ ___
 
 [packages/g6/src/types/graph.ts:30](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/graph.ts#L30)
 
-___
+---
 
 ### destroyed
 
@@ -1375,7 +1375,7 @@ ___
 
 [packages/g6/src/types/graph.ts:29](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/graph.ts#L29)
 
-___
+---
 
 ### executeWithoutStacking
 
@@ -1389,8 +1389,8 @@ Execute a callback without allowing any stacking operations.
 
 ##### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name       | Type         |
+| :--------- | :----------- |
 | `callback` | () => `void` |
 
 ##### Returns
@@ -1401,7 +1401,7 @@ Execute a callback without allowing any stacking operations.
 
 [packages/g6/src/types/graph.ts:694](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/graph.ts#L694)
 
-___
+---
 
 ### getComboChildrenData
 
@@ -1413,8 +1413,8 @@ ___
 
 ##### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name      | Type |
+| :-------- | :--- |
 | `comboId` | `ID` |
 
 ##### Returns
@@ -1425,7 +1425,7 @@ ___
 
 [packages/g6/src/types/graph.ts:132](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/graph.ts#L132)
 
-___
+---
 
 ### getItemVisible
 
@@ -1439,8 +1439,8 @@ Get the visibility for a node / edge / combo.
 
 ##### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
+| Name | Type | Description                        |
+| :--- | :--- | :--------------------------------- |
 | `id` | `ID` | the id for the node / edge / combo |
 
 ##### Returns
@@ -1453,7 +1453,7 @@ visibility for the item, false for invisible or unexistence for the item
 
 [packages/g6/src/types/graph.ts:542](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/graph.ts#L542)
 
-___
+---
 
 ### getNearEdgesForNode
 
@@ -1467,8 +1467,8 @@ Retrieve the nearby edges for a given node using quadtree collision detection.
 
 ##### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
+| Name     | Type | Description      |
+| :------- | :--- | :--------------- |
 | `nodeId` | `ID` | target node's id |
 
 ##### Returns
@@ -1481,7 +1481,7 @@ edges
 
 [packages/g6/src/types/graph.ts:125](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/graph.ts#L125)
 
-___
+---
 
 ### getRedoStack
 
@@ -1501,29 +1501,29 @@ Retrieve the current undo stack which consists of operations that were undone
 
 [packages/g6/src/types/graph.ts:703](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/graph.ts#L703)
 
-___
+---
 
 ### getRenderBBox
 
-• **getRenderBBox**: (`id`: `ID`, `onlyKeyShape?`: `boolean`, `isTransient?`: `boolean`) => ``false`` \| `AABB`
+• **getRenderBBox**: (`id`: `ID`, `onlyKeyShape?`: `boolean`, `isTransient?`: `boolean`) => `false` \| `AABB`
 
 #### Type declaration
 
-▸ (`id`, `onlyKeyShape?`, `isTransient?`): ``false`` \| `AABB`
+▸ (`id`, `onlyKeyShape?`, `isTransient?`): `false` \| `AABB`
 
 Get the rendering bbox for a node / edge / combo, or the graph (when the id is not assigned).
 
 ##### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `id` | `ID` | the id for the node / edge / combo, undefined for the whole graph |
-| `onlyKeyShape?` | `boolean` | - |
-| `isTransient?` | `boolean` | - |
+| Name            | Type      | Description                                                       |
+| :-------------- | :-------- | :---------------------------------------------------------------- |
+| `id`            | `ID`      | the id for the node / edge / combo, undefined for the whole graph |
+| `onlyKeyShape?` | `boolean` | -                                                                 |
+| `isTransient?`  | `boolean` | -                                                                 |
 
 ##### Returns
 
-``false`` \| `AABB`
+`false` \| `AABB`
 
 rendering bounding box. returns false if the item is not exist
 
@@ -1531,7 +1531,7 @@ rendering bounding box. returns false if the item is not exist
 
 [packages/g6/src/types/graph.ts:531](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/graph.ts#L531)
 
-___
+---
 
 ### getSpecification
 
@@ -1553,7 +1553,7 @@ graph specs
 
 [packages/g6/src/types/graph.ts:52](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/graph.ts#L52)
 
-___
+---
 
 ### getStack
 
@@ -1573,7 +1573,7 @@ Retrieve the complete history stack
 
 [packages/g6/src/types/graph.ts:709](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/graph.ts#L709)
 
-___
+---
 
 ### getUndoStack
 
@@ -1593,7 +1593,7 @@ Retrieve the current redo stack which consists of operations that could be undon
 
 [packages/g6/src/types/graph.ts:698](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/graph.ts#L698)
 
-___
+---
 
 ### getViewportCenter
 
@@ -1603,7 +1603,7 @@ ___
 
 ▸ (): `PointLike`
 
-Return the center of viewport, e.g. for a 500 * 500 canvas, its center is [250, 250].
+Return the center of viewport, e.g. for a 500 \* 500 canvas, its center is [250, 250].
 
 ##### Returns
 
@@ -1613,7 +1613,7 @@ Return the center of viewport, e.g. for a 500 * 500 canvas, its center is [250, 
 
 [packages/g6/src/types/graph.ts:381](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/graph.ts#L381)
 
-___
+---
 
 ### getZoom
 
@@ -1635,7 +1635,7 @@ current zoom
 
 [packages/g6/src/types/graph.ts:319](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/graph.ts#L319)
 
-___
+---
 
 ### hooks
 
@@ -1645,7 +1645,7 @@ ___
 
 [packages/g6/src/types/graph.ts:26](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/graph.ts#L26)
 
-___
+---
 
 ### isHistoryEnabled
 
@@ -1665,7 +1665,7 @@ Determine if history (redo/undo) is enabled.
 
 [packages/g6/src/types/graph.ts:674](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/graph.ts#L674)
 
-___
+---
 
 ### layout
 
@@ -1679,10 +1679,10 @@ Layout the graph (with current configurations if cfg is not assigned).
 
 ##### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `options?` | `LayoutOptions` |
-| `disableAnimate?` | `boolean` |
+| Name              | Type            |
+| :---------------- | :-------------- |
+| `options?`        | `LayoutOptions` |
+| `disableAnimate?` | `boolean`       |
 
 ##### Returns
 
@@ -1692,7 +1692,7 @@ Layout the graph (with current configurations if cfg is not assigned).
 
 [packages/g6/src/types/graph.ts:577](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/graph.ts#L577)
 
-___
+---
 
 ### pauseStacking
 
@@ -1712,11 +1712,11 @@ Pause stacking operation.
 
 [packages/g6/src/types/graph.ts:685](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/graph.ts#L685)
 
-___
+---
 
 ### pushStack
 
-• **pushStack**: (`cmd`: `Command`[], `stackType`: ``"redo"`` \| ``"undo"``) => `void`
+• **pushStack**: (`cmd`: `Command`[], `stackType`: `"redo"` \| `"undo"`) => `void`
 
 #### Type declaration
 
@@ -1726,10 +1726,10 @@ Push the operation(s) onto the specified stack
 
 ##### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `cmd` | `Command`[] | commands to be pushed |
-| `stackType` | ``"redo"`` \| ``"undo"`` | undo/redo stack |
+| Name        | Type                 | Description           |
+| :---------- | :------------------- | :-------------------- |
+| `cmd`       | `Command`[]          | commands to be pushed |
+| `stackType` | `"redo"` \| `"undo"` | undo/redo stack       |
 
 ##### Returns
 
@@ -1739,7 +1739,7 @@ Push the operation(s) onto the specified stack
 
 [packages/g6/src/types/graph.ts:681](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/graph.ts#L681)
 
-___
+---
 
 ### redo
 
@@ -1759,7 +1759,7 @@ Restore the operation that was last n reverted on the graph.
 
 [packages/g6/src/types/graph.ts:721](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/graph.ts#L721)
 
-___
+---
 
 ### rendererType
 
@@ -1769,7 +1769,7 @@ ___
 
 [packages/g6/src/types/graph.ts:31](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/graph.ts#L31)
 
-___
+---
 
 ### resumeStacking
 
@@ -1789,11 +1789,11 @@ Resume stacking operation.
 
 [packages/g6/src/types/graph.ts:689](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/graph.ts#L689)
 
-___
+---
 
 ### rotate
 
-• **rotate**: (`angle`: `number`, `center?`: `Point`, `effectTiming?`: `Partial`<`Pick`<`IAnimationEffectTiming`, ``"duration"`` \| ``"easing"`` \| ``"easingFunction"``\>\>) => `Promise`<`void`\>
+• **rotate**: (`angle`: `number`, `center?`: `Point`, `effectTiming?`: `Partial`<`Pick`<`IAnimationEffectTiming`, `"duration"` \| `"easing"` \| `"easingFunction"`\>\>) => `Promise`<`void`\>
 
 #### Type declaration
 
@@ -1803,11 +1803,11 @@ Rotate the graph with a relative angle in clockwise.
 
 ##### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `angle` | `number` |
-| `center?` | `Point` |
-| `effectTiming?` | `Partial`<`Pick`<`IAnimationEffectTiming`, ``"duration"`` \| ``"easing"`` \| ``"easingFunction"``\>\> |
+| Name            | Type                                                                                            |
+| :-------------- | :---------------------------------------------------------------------------------------------- |
+| `angle`         | `number`                                                                                        |
+| `center?`       | `Point`                                                                                         |
+| `effectTiming?` | `Partial`<`Pick`<`IAnimationEffectTiming`, `"duration"` \| `"easing"` \| `"easingFunction"`\>\> |
 
 ##### Returns
 
@@ -1817,11 +1817,11 @@ Rotate the graph with a relative angle in clockwise.
 
 [packages/g6/src/types/graph.ts:348](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/graph.ts#L348)
 
-___
+---
 
 ### rotateTo
 
-• **rotateTo**: (`toAngle`: `number`, `center?`: `Point`, `effectTiming?`: `Partial`<`Pick`<`IAnimationEffectTiming`, ``"duration"`` \| ``"easing"`` \| ``"easingFunction"``\>\>) => `Promise`<`void`\>
+• **rotateTo**: (`toAngle`: `number`, `center?`: `Point`, `effectTiming?`: `Partial`<`Pick`<`IAnimationEffectTiming`, `"duration"` \| `"easing"` \| `"easingFunction"`\>\>) => `Promise`<`void`\>
 
 #### Type declaration
 
@@ -1831,11 +1831,11 @@ Rotate the graph to an absolute angle in clockwise.
 
 ##### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `toAngle` | `number` |
-| `center?` | `Point` |
-| `effectTiming?` | `Partial`<`Pick`<`IAnimationEffectTiming`, ``"duration"`` \| ``"easing"`` \| ``"easingFunction"``\>\> |
+| Name            | Type                                                                                            |
+| :-------------- | :---------------------------------------------------------------------------------------------- |
+| `toAngle`       | `number`                                                                                        |
+| `center?`       | `Point`                                                                                         |
+| `effectTiming?` | `Partial`<`Pick`<`IAnimationEffectTiming`, `"duration"` \| `"easing"` \| `"easingFunction"`\>\> |
 
 ##### Returns
 
@@ -1845,7 +1845,7 @@ Rotate the graph to an absolute angle in clockwise.
 
 [packages/g6/src/types/graph.ts:359](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/graph.ts#L359)
 
-___
+---
 
 ### startBatch
 
@@ -1867,7 +1867,7 @@ treated as a single operation when undoing or redoing.
 
 [packages/g6/src/types/graph.ts:738](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/graph.ts#L738)
 
-___
+---
 
 ### stopBatch
 
@@ -1889,7 +1889,7 @@ treated as a single operation when undoing or redoing.
 
 [packages/g6/src/types/graph.ts:745](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/graph.ts#L745)
 
-___
+---
 
 ### stopLayout
 
@@ -1907,7 +1907,7 @@ ___
 
 [packages/g6/src/types/graph.ts:578](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/graph.ts#L578)
 
-___
+---
 
 ### stopTransformTransition
 
@@ -1927,11 +1927,11 @@ Stop the current transition of transform immediately.
 
 [packages/g6/src/types/graph.ts:377](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/graph.ts#L377)
 
-___
+---
 
 ### transform
 
-• **transform**: (`options`: `GraphTransformOptions`, `effectTiming?`: `Partial`<`Pick`<`IAnimationEffectTiming`, ``"duration"`` \| ``"easing"`` \| ``"easingFunction"``\>\>) => `Promise`<`void`\>
+• **transform**: (`options`: `GraphTransformOptions`, `effectTiming?`: `Partial`<`Pick`<`IAnimationEffectTiming`, `"duration"` \| `"easing"` \| `"easingFunction"`\>\>) => `Promise`<`void`\>
 
 #### Type declaration
 
@@ -1941,10 +1941,10 @@ Transform the graph with a CSS-Transform-like syntax.
 
 ##### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `options` | `GraphTransformOptions` |
-| `effectTiming?` | `Partial`<`Pick`<`IAnimationEffectTiming`, ``"duration"`` \| ``"easing"`` \| ``"easingFunction"``\>\> |
+| Name            | Type                                                                                            |
+| :-------------- | :---------------------------------------------------------------------------------------------- |
+| `options`       | `GraphTransformOptions`                                                                         |
+| `effectTiming?` | `Partial`<`Pick`<`IAnimationEffectTiming`, `"duration"` \| `"easing"` \| `"easingFunction"`\>\> |
 
 ##### Returns
 
@@ -1954,7 +1954,7 @@ Transform the graph with a CSS-Transform-like syntax.
 
 [packages/g6/src/types/graph.ts:370](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/graph.ts#L370)
 
-___
+---
 
 ### transientCanvas
 
@@ -1964,11 +1964,11 @@ ___
 
 [packages/g6/src/types/graph.ts:28](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/graph.ts#L28)
 
-___
+---
 
 ### translate
 
-• **translate**: (`distance`: `Partial`<{ `dx`: `number` ; `dy`: `number` ; `dz`: `number`  }\>, `effectTiming?`: `Partial`<`Pick`<`IAnimationEffectTiming`, ``"duration"`` \| ``"easing"`` \| ``"easingFunction"``\>\>) => `Promise`<`void`\>
+• **translate**: (`distance`: `Partial`<{ `dx`: `number` ; `dy`: `number` ; `dz`: `number` }\>, `effectTiming?`: `Partial`<`Pick`<`IAnimationEffectTiming`, `"duration"` \| `"easing"` \| `"easingFunction"`\>\>) => `Promise`<`void`\>
 
 #### Type declaration
 
@@ -1978,10 +1978,10 @@ Move the graph with a relative vector.
 
 ##### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `distance` | `Partial`<{ `dx`: `number` ; `dy`: `number` ; `dz`: `number`  }\> | - |
-| `effectTiming?` | `Partial`<`Pick`<`IAnimationEffectTiming`, ``"duration"`` \| ``"easing"`` \| ``"easingFunction"``\>\> | animation configurations |
+| Name            | Type                                                                                            | Description              |
+| :-------------- | :---------------------------------------------------------------------------------------------- | :----------------------- |
+| `distance`      | `Partial`<{ `dx`: `number` ; `dy`: `number` ; `dz`: `number` }\>                                | -                        |
+| `effectTiming?` | `Partial`<`Pick`<`IAnimationEffectTiming`, `"duration"` \| `"easing"` \| `"easingFunction"`\>\> | animation configurations |
 
 ##### Returns
 
@@ -1991,11 +1991,11 @@ Move the graph with a relative vector.
 
 [packages/g6/src/types/graph.ts:298](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/graph.ts#L298)
 
-___
+---
 
 ### translateTo
 
-• **translateTo**: (`point`: `PointLike`, `effectTiming?`: `Partial`<`Pick`<`IAnimationEffectTiming`, ``"duration"`` \| ``"easing"`` \| ``"easingFunction"``\>\>) => `Promise`<`void`\>
+• **translateTo**: (`point`: `PointLike`, `effectTiming?`: `Partial`<`Pick`<`IAnimationEffectTiming`, `"duration"` \| `"easing"` \| `"easingFunction"`\>\>) => `Promise`<`void`\>
 
 #### Type declaration
 
@@ -2005,10 +2005,10 @@ Move the graph and align to a point.
 
 ##### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `point` | `PointLike` | position on the canvas to align |
-| `effectTiming?` | `Partial`<`Pick`<`IAnimationEffectTiming`, ``"duration"`` \| ``"easing"`` \| ``"easingFunction"``\>\> | animation configurations |
+| Name            | Type                                                                                            | Description                     |
+| :-------------- | :---------------------------------------------------------------------------------------------- | :------------------------------ |
+| `point`         | `PointLike`                                                                                     | position on the canvas to align |
+| `effectTiming?` | `Partial`<`Pick`<`IAnimationEffectTiming`, `"duration"` \| `"easing"` \| `"easingFunction"`\>\> | animation configurations        |
 
 ##### Returns
 
@@ -2018,7 +2018,7 @@ Move the graph and align to a point.
 
 [packages/g6/src/types/graph.ts:311](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/graph.ts#L311)
 
-___
+---
 
 ### undo
 
@@ -2038,7 +2038,7 @@ Revert the last n operation(s) on the graph.
 
 [packages/g6/src/types/graph.ts:715](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/graph.ts#L715)
 
-___
+---
 
 ### updateSpecification
 
@@ -2052,8 +2052,8 @@ Update the specs (configurations).
 
 ##### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name   | Type                                              |
+| :----- | :------------------------------------------------ |
 | `spec` | [`Specification`](Specification.en.md)<`B`, `T`\> |
 
 ##### Returns
@@ -2064,7 +2064,7 @@ Update the specs (configurations).
 
 [packages/g6/src/types/graph.ts:43](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/graph.ts#L43)
 
-___
+---
 
 ### updateTheme
 
@@ -2078,8 +2078,8 @@ Update the theme specs (configurations).
 
 ##### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name    | Type                   |
+| :------ | :--------------------- |
 | `theme` | `ThemeOptionsOf`<`T`\> |
 
 ##### Returns
@@ -2090,11 +2090,11 @@ Update the theme specs (configurations).
 
 [packages/g6/src/types/graph.ts:47](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/graph.ts#L47)
 
-___
+---
 
 ### zoom
 
-• **zoom**: (`ratio`: `number`, `center?`: `Point`, `effectTiming?`: `Partial`<`Pick`<`IAnimationEffectTiming`, ``"duration"`` \| ``"easing"`` \| ``"easingFunction"``\>\>) => `Promise`<`void`\>
+• **zoom**: (`ratio`: `number`, `center?`: `Point`, `effectTiming?`: `Partial`<`Pick`<`IAnimationEffectTiming`, `"duration"` \| `"easing"` \| `"easingFunction"`\>\>) => `Promise`<`void`\>
 
 #### Type declaration
 
@@ -2104,11 +2104,11 @@ Zoom the graph with a relative ratio.
 
 ##### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `ratio` | `number` | relative ratio to zoom |
-| `center?` | `Point` | zoom center |
-| `effectTiming?` | `Partial`<`Pick`<`IAnimationEffectTiming`, ``"duration"`` \| ``"easing"`` \| ``"easingFunction"``\>\> | animation configurations |
+| Name            | Type                                                                                            | Description              |
+| :-------------- | :---------------------------------------------------------------------------------------------- | :----------------------- |
+| `ratio`         | `number`                                                                                        | relative ratio to zoom   |
+| `center?`       | `Point`                                                                                         | zoom center              |
+| `effectTiming?` | `Partial`<`Pick`<`IAnimationEffectTiming`, `"duration"` \| `"easing"` \| `"easingFunction"`\>\> | animation configurations |
 
 ##### Returns
 
@@ -2118,11 +2118,11 @@ Zoom the graph with a relative ratio.
 
 [packages/g6/src/types/graph.ts:326](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/graph.ts#L326)
 
-___
+---
 
 ### zoomTo
 
-• **zoomTo**: (`toRatio`: `number`, `center?`: `Point`, `effectTiming?`: `Partial`<`Pick`<`IAnimationEffectTiming`, ``"duration"`` \| ``"easing"`` \| ``"easingFunction"``\>\>) => `Promise`<`void`\>
+• **zoomTo**: (`toRatio`: `number`, `center?`: `Point`, `effectTiming?`: `Partial`<`Pick`<`IAnimationEffectTiming`, `"duration"` \| `"easing"` \| `"easingFunction"`\>\>) => `Promise`<`void`\>
 
 #### Type declaration
 
@@ -2132,11 +2132,11 @@ Zoom the graph to a specified ratio.
 
 ##### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `toRatio` | `number` | specified ratio |
-| `center?` | `Point` | zoom center |
-| `effectTiming?` | `Partial`<`Pick`<`IAnimationEffectTiming`, ``"duration"`` \| ``"easing"`` \| ``"easingFunction"``\>\> | animation configurations |
+| Name            | Type                                                                                            | Description              |
+| :-------------- | :---------------------------------------------------------------------------------------------- | :----------------------- |
+| `toRatio`       | `number`                                                                                        | specified ratio          |
+| `center?`       | `Point`                                                                                         | zoom center              |
+| `effectTiming?` | `Partial`<`Pick`<`IAnimationEffectTiming`, `"duration"` \| `"easing"` \| `"easingFunction"`\>\> | animation configurations |
 
 ##### Returns
 
@@ -2160,11 +2160,11 @@ Collapse sub tree(s).
 
 ##### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `ids` | `ID` \| `ID`[] | Root id(s) of the sub trees. |
-| `disableAnimate?` | `boolean` | Whether disable the animations for this operation. |
-| `stack?` | `boolean` | Whether push this operation to stack. |
+| Name              | Type           | Description                                        |
+| :---------------- | :------------- | :------------------------------------------------- |
+| `ids`             | `ID` \| `ID`[] | Root id(s) of the sub trees.                       |
+| `disableAnimate?` | `boolean`      | Whether disable the animations for this operation. |
+| `stack?`          | `boolean`      | Whether push this operation to stack.              |
 
 ##### Returns
 
@@ -2174,7 +2174,7 @@ Collapse sub tree(s).
 
 [packages/g6/src/types/graph.ts:770](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/graph.ts#L770)
 
-___
+---
 
 ### expand
 
@@ -2188,11 +2188,11 @@ Expand sub tree(s).
 
 ##### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `ids` | `ID` \| `ID`[] | Root id(s) of the sub trees. |
-| `disableAnimate?` | `boolean` | Whether disable the animations for this operation. |
-| `stack?` | `boolean` | Whether push this operation to stack. |
+| Name              | Type           | Description                                        |
+| :---------------- | :------------- | :------------------------------------------------- |
+| `ids`             | `ID` \| `ID`[] | Root id(s) of the sub trees.                       |
+| `disableAnimate?` | `boolean`      | Whether disable the animations for this operation. |
+| `stack?`          | `boolean`      | Whether push this operation to stack.              |
 
 ##### Returns
 
@@ -2206,7 +2206,7 @@ Expand sub tree(s).
 
 ### fitCenter
 
-• **fitCenter**: (`effectTiming?`: `Partial`<`Pick`<`IAnimationEffectTiming`, ``"duration"`` \| ``"easing"`` \| ``"easingFunction"``\>\>) => `Promise`<`void`\>
+• **fitCenter**: (`effectTiming?`: `Partial`<`Pick`<`IAnimationEffectTiming`, `"duration"` \| `"easing"` \| `"easingFunction"`\>\>) => `Promise`<`void`\>
 
 #### Type declaration
 
@@ -2216,9 +2216,9 @@ Fit the graph center to the view center.
 
 ##### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `effectTiming?` | `Partial`<`Pick`<`IAnimationEffectTiming`, ``"duration"`` \| ``"easing"`` \| ``"easingFunction"``\>\> | animation configurations |
+| Name            | Type                                                                                            | Description              |
+| :-------------- | :---------------------------------------------------------------------------------------------- | :----------------------- |
+| `effectTiming?` | `Partial`<`Pick`<`IAnimationEffectTiming`, `"duration"` \| `"easing"` \| `"easingFunction"`\>\> | animation configurations |
 
 ##### Returns
 
@@ -2228,11 +2228,11 @@ Fit the graph center to the view center.
 
 [packages/g6/src/types/graph.ts:403](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/graph.ts#L403)
 
-___
+---
 
 ### fitView
 
-• **fitView**: (`options?`: { `padding`: `Padding` ; `rules`: `FitViewRules`  }, `effectTiming?`: `Partial`<`Pick`<`IAnimationEffectTiming`, ``"duration"`` \| ``"easing"`` \| ``"easingFunction"``\>\>) => `Promise`<`void`\>
+• **fitView**: (`options?`: { `padding`: `Padding` ; `rules`: `FitViewRules` }, `effectTiming?`: `Partial`<`Pick`<`IAnimationEffectTiming`, `"duration"` \| `"easing"` \| `"easingFunction"`\>\>) => `Promise`<`void`\>
 
 #### Type declaration
 
@@ -2242,12 +2242,12 @@ Fit the graph content to the view.
 
 ##### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `options?` | `Object` | - |
-| `options.padding` | `Padding` | padding while fitting |
-| `options.rules` | `FitViewRules` | rules for fitting |
-| `effectTiming?` | `Partial`<`Pick`<`IAnimationEffectTiming`, ``"duration"`` \| ``"easing"`` \| ``"easingFunction"``\>\> | animation configurations |
+| Name              | Type                                                                                            | Description              |
+| :---------------- | :---------------------------------------------------------------------------------------------- | :----------------------- |
+| `options?`        | `Object`                                                                                        | -                        |
+| `options.padding` | `Padding`                                                                                       | padding while fitting    |
+| `options.rules`   | `FitViewRules`                                                                                  | rules for fitting        |
+| `effectTiming?`   | `Partial`<`Pick`<`IAnimationEffectTiming`, `"duration"` \| `"easing"` \| `"easingFunction"`\>\> | animation configurations |
 
 ##### Returns
 
@@ -2257,11 +2257,11 @@ Fit the graph content to the view.
 
 [packages/g6/src/types/graph.ts:390](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/graph.ts#L390)
 
-___
+---
 
 ### focusItem
 
-• **focusItem**: (`id`: `ID` \| `ID`[], `effectTiming?`: `Partial`<`Pick`<`IAnimationEffectTiming`, ``"duration"`` \| ``"easing"`` \| ``"easingFunction"``\>\>) => `Promise`<`void`\>
+• **focusItem**: (`id`: `ID` \| `ID`[], `effectTiming?`: `Partial`<`Pick`<`IAnimationEffectTiming`, `"duration"` \| `"easing"` \| `"easingFunction"`\>\>) => `Promise`<`void`\>
 
 #### Type declaration
 
@@ -2271,10 +2271,10 @@ Move the graph to make the item align the view center.
 
 ##### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `id` | `ID` \| `ID`[] | - |
-| `effectTiming?` | `Partial`<`Pick`<`IAnimationEffectTiming`, ``"duration"`` \| ``"easing"`` \| ``"easingFunction"``\>\> | animation configurations |
+| Name            | Type                                                                                            | Description              |
+| :-------------- | :---------------------------------------------------------------------------------------------- | :----------------------- |
+| `id`            | `ID` \| `ID`[]                                                                                  | -                        |
+| `effectTiming?` | `Partial`<`Pick`<`IAnimationEffectTiming`, `"duration"` \| `"easing"` \| `"easingFunction"`\>\> | animation configurations |
 
 ##### Returns
 
@@ -2284,7 +2284,7 @@ Move the graph to make the item align the view center.
 
 [packages/g6/src/types/graph.ts:410](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/graph.ts#L410)
 
-___
+---
 
 ### getCanvasByClient
 
@@ -2298,8 +2298,8 @@ Get the rendering coordinate according to the browser coordinate.
 
 ##### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name          | Type    |
+| :------------ | :------ |
 | `ClientPoint` | `Point` |
 
 ##### Returns
@@ -2312,7 +2312,7 @@ rendering coordinate
 
 [packages/g6/src/types/graph.ts:457](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/graph.ts#L457)
 
-___
+---
 
 ### getCanvasByViewport
 
@@ -2326,8 +2326,8 @@ Get the rendering coordinate according to the canvas dom (viewport) coordinate.
 
 ##### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name            | Type    |
+| :-------------- | :------ |
 | `viewportPoint` | `Point` |
 
 ##### Returns
@@ -2340,7 +2340,7 @@ canvas dom (viewport) coordinate
 
 [packages/g6/src/types/graph.ts:433](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/graph.ts#L433)
 
-___
+---
 
 ### getClientByCanvas
 
@@ -2354,8 +2354,8 @@ Get the browser coordinate according to the rendering coordinate.
 
 ##### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name          | Type    |
+| :------------ | :------ |
 | `canvasPoint` | `Point` |
 
 ##### Returns
@@ -2368,7 +2368,7 @@ browser coordinate
 
 [packages/g6/src/types/graph.ts:449](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/graph.ts#L449)
 
-___
+---
 
 ### getSize
 
@@ -2390,7 +2390,7 @@ Get the size of the graph canvas.
 
 [packages/g6/src/types/graph.ts:419](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/graph.ts#L419)
 
-___
+---
 
 ### getViewportByCanvas
 
@@ -2404,8 +2404,8 @@ Get the canvas dom (viewport) coordinate according to the rendering coordinate.
 
 ##### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name          | Type    |
+| :------------ | :------ |
 | `canvasPoint` | `Point` |
 
 ##### Returns
@@ -2418,7 +2418,7 @@ rendering coordinate
 
 [packages/g6/src/types/graph.ts:441](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/graph.ts#L441)
 
-___
+---
 
 ### setSize
 
@@ -2432,8 +2432,8 @@ Set the size for the graph canvas.
 
 ##### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name   | Type       |
+| :----- | :--------- |
 | `size` | `number`[] |
 
 ##### Returns

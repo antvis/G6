@@ -2,7 +2,7 @@
 title: Options
 ---
 
-[Overview - v5.0.0-beta.1](../../README.en.md) / [Modules](../../modules.en.md) / [behaviors](../../modules/behaviors.en.md) / Options
+[Overview - v5.0.0-beta.2](../../README.en.md) / [Modules](../../modules.en.md) / [behaviors](../../modules/behaviors.en.md) / Options
 
 [behaviors](../../modules/behaviors.en.md).Options
 
@@ -18,7 +18,7 @@ Whether disable the collapse / expand animation triggered by this behavior.
 
 [packages/g6/src/stdlib/behavior/collapse-expand-tree.ts:21](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/collapse-expand-tree.ts#L21)
 
-___
+---
 
 ### eventName
 
@@ -30,7 +30,7 @@ The event name to trigger when select/unselect an item.
 
 [packages/g6/src/stdlib/behavior/collapse-expand-tree.ts:17](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/collapse-expand-tree.ts#L17)
 
-___
+---
 
 ### shouldBegin
 
@@ -44,8 +44,8 @@ Whether allow the behavior happen on the current item.
 
 ##### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name    | Type                                   |
+| :------ | :------------------------------------- |
 | `event` | [`IG6GraphEvent`](IG6GraphEvent.en.md) |
 
 ##### Returns
@@ -56,7 +56,7 @@ Whether allow the behavior happen on the current item.
 
 [packages/g6/src/stdlib/behavior/collapse-expand-tree.ts:25](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/collapse-expand-tree.ts#L25)
 
-___
+---
 
 ### shouldUpdate
 
@@ -72,8 +72,8 @@ manage states or data manually
 
 ##### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name    | Type                                   |
+| :------ | :------------------------------------- |
 | `event` | [`IG6GraphEvent`](IG6GraphEvent.en.md) |
 
 ##### Returns
@@ -84,11 +84,11 @@ manage states or data manually
 
 [packages/g6/src/stdlib/behavior/collapse-expand-tree.ts:31](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/collapse-expand-tree.ts#L31)
 
-___
+---
 
 ### trigger
 
-• **trigger**: ``"click"`` \| ``"dblclick"``
+• **trigger**: `"click"` \| `"dblclick"`
 
 The key to pressed with mouse click to apply multiple selection.
 Defaults to `"shift"`.

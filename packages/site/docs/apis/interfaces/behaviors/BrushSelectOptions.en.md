@@ -2,7 +2,7 @@
 title: BrushSelectOptions
 ---
 
-[Overview - v5.0.0-beta.1](../../README.en.md) / [Modules](../../modules.en.md) / [behaviors](../../modules/behaviors.en.md) / BrushSelectOptions
+[Overview - v5.0.0-beta.2](../../README.en.md) / [Modules](../../modules.en.md) / [behaviors](../../modules/behaviors.en.md) / BrushSelectOptions
 
 [behaviors](../../modules/behaviors.en.md).BrushSelectOptions
 
@@ -20,18 +20,18 @@ The shape style of the brush while selecting.
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `fill?` | `string` |
+| Name           | Type     |
+| :------------- | :------- |
+| `fill?`        | `string` |
 | `fillOpacity?` | `number` |
-| `lineWidth?` | `number` |
-| `stroke?` | `string` |
+| `lineWidth?`   | `number` |
+| `stroke?`      | `string` |
 
 #### Defined in
 
 [packages/g6/src/stdlib/behavior/brush-select.ts:46](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/brush-select.ts#L46)
 
-___
+---
 
 ### eventName
 
@@ -43,11 +43,11 @@ The event name to trigger when select/unselect an item.
 
 [packages/g6/src/stdlib/behavior/brush-select.ts:42](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/brush-select.ts#L42)
 
-___
+---
 
 ### itemTypes
 
-• **itemTypes**: (``"node"`` \| ``"edge"`` \| ``"combo"``)[]
+• **itemTypes**: (`"node"` \| `"edge"` \| `"combo"`)[]
 
 Item types to be able to select.
 Defaults to `["nodes"]`.
@@ -57,11 +57,11 @@ Should be an array of "node", "edge", or "combo".
 
 [packages/g6/src/stdlib/behavior/brush-select.ts:32](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/brush-select.ts#L32)
 
-___
+---
 
 ### onDeselect
 
-• **onDeselect**: (`selectedIds`: { `combos`: `ID`[] ; `edges`: `ID`[] ; `nodes`: `ID`[]  }, `deselectedIds`: { `combos`: `ID`[] ; `edges`: `ID`[] ; `nodes`: `ID`[]  }) => `void`
+• **onDeselect**: (`selectedIds`: { `combos`: `ID`[] ; `edges`: `ID`[] ; `nodes`: `ID`[] }, `deselectedIds`: { `combos`: `ID`[] ; `edges`: `ID`[] ; `nodes`: `ID`[] }) => `void`
 
 #### Type declaration
 
@@ -71,16 +71,16 @@ A callback be called after deselecting.
 
 ##### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `selectedIds` | `Object` |
-| `selectedIds.combos` | `ID`[] |
-| `selectedIds.edges` | `ID`[] |
-| `selectedIds.nodes` | `ID`[] |
-| `deselectedIds` | `Object` |
-| `deselectedIds.combos` | `ID`[] |
-| `deselectedIds.edges` | `ID`[] |
-| `deselectedIds.nodes` | `ID`[] |
+| Name                   | Type     |
+| :--------------------- | :------- |
+| `selectedIds`          | `Object` |
+| `selectedIds.combos`   | `ID`[]   |
+| `selectedIds.edges`    | `ID`[]   |
+| `selectedIds.nodes`    | `ID`[]   |
+| `deselectedIds`        | `Object` |
+| `deselectedIds.combos` | `ID`[]   |
+| `deselectedIds.edges`  | `ID`[]   |
+| `deselectedIds.nodes`  | `ID`[]   |
 
 ##### Returns
 
@@ -90,11 +90,11 @@ A callback be called after deselecting.
 
 [packages/g6/src/stdlib/behavior/brush-select.ts:77](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/brush-select.ts#L77)
 
-___
+---
 
 ### onSelect
 
-• **onSelect**: (`selectedIds`: { `combos`: `ID`[] ; `edges`: `ID`[] ; `nodes`: `ID`[]  }) => `void`
+• **onSelect**: (`selectedIds`: { `combos`: `ID`[] ; `edges`: `ID`[] ; `nodes`: `ID`[] }) => `void`
 
 #### Type declaration
 
@@ -104,12 +104,12 @@ A callback be called after selecting.
 
 ##### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `selectedIds` | `Object` |
-| `selectedIds.combos` | `ID`[] |
-| `selectedIds.edges` | `ID`[] |
-| `selectedIds.nodes` | `ID`[] |
+| Name                 | Type     |
+| :------------------- | :------- |
+| `selectedIds`        | `Object` |
+| `selectedIds.combos` | `ID`[]   |
+| `selectedIds.edges`  | `ID`[]   |
+| `selectedIds.nodes`  | `ID`[]   |
 
 ##### Returns
 
@@ -119,11 +119,11 @@ A callback be called after selecting.
 
 [packages/g6/src/stdlib/behavior/brush-select.ts:73](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/brush-select.ts#L73)
 
-___
+---
 
 ### selectSetMode
 
-• **selectSetMode**: ``"union"`` \| ``"intersect"`` \| ``"diff"`` \| ``"latest"``
+• **selectSetMode**: `"union"` \| `"intersect"` \| `"diff"` \| `"latest"`
 
 The mode to compose the selections from times of brush
 
@@ -131,11 +131,11 @@ The mode to compose the selections from times of brush
 
 [packages/g6/src/stdlib/behavior/brush-select.ts:54](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/brush-select.ts#L54)
 
-___
+---
 
 ### selectedState
 
-• **selectedState**: ``"selected"``
+• **selectedState**: `"selected"`
 
 The state to be applied when select.
 Defaults to `"selected"`.
@@ -145,7 +145,7 @@ Can be set to "active", "highlighted", etc.
 
 [packages/g6/src/stdlib/behavior/brush-select.ts:38](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/brush-select.ts#L38)
 
-___
+---
 
 ### shouldBegin
 
@@ -159,8 +159,8 @@ Whether allow the behavior happen on the current item.
 
 ##### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name    | Type                                   |
+| :------ | :------------------------------------- |
 | `event` | [`IG6GraphEvent`](IG6GraphEvent.en.md) |
 
 ##### Returns
@@ -171,11 +171,11 @@ Whether allow the behavior happen on the current item.
 
 [packages/g6/src/stdlib/behavior/brush-select.ts:58](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/brush-select.ts#L58)
 
-___
+---
 
 ### shouldUpdate
 
-• **shouldUpdate**: (`itemType`: `ITEM_TYPE`, `id`: `ID`, `action`: ``"select"`` \| ``"deselect"``, `self`: `BrushSelect`) => `boolean`
+• **shouldUpdate**: (`itemType`: `ITEM_TYPE`, `id`: `ID`, `action`: `"select"` \| `"deselect"`, `self`: `BrushSelect`) => `boolean`
 
 #### Type declaration
 
@@ -187,12 +187,12 @@ manage states or data manually
 
 ##### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `itemType` | `ITEM_TYPE` |
-| `id` | `ID` |
-| `action` | ``"select"`` \| ``"deselect"`` |
-| `self` | `BrushSelect` |
+| Name       | Type                       |
+| :--------- | :------------------------- |
+| `itemType` | `ITEM_TYPE`                |
+| `id`       | `ID`                       |
+| `action`   | `"select"` \| `"deselect"` |
+| `self`     | `BrushSelect`              |
 
 ##### Returns
 
@@ -202,11 +202,11 @@ manage states or data manually
 
 [packages/g6/src/stdlib/behavior/brush-select.ts:64](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/brush-select.ts#L64)
 
-___
+---
 
 ### trigger
 
-• **trigger**: ``"shift"`` \| ``"drag"`` \| ``"ctrl"`` \| ``"alt"`` \| ``"meta"``
+• **trigger**: `"shift"` \| `"drag"` \| `"ctrl"` \| `"alt"` \| `"meta"`
 
 The key to pressed with mouse click to apply multiple selection.
 Defaults to `"shift"`.

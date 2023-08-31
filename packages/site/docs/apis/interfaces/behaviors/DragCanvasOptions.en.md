@@ -2,7 +2,7 @@
 title: DragCanvasOptions
 ---
 
-[Overview - v5.0.0-beta.1](../../README.en.md) / [Modules](../../modules.en.md) / [behaviors](../../modules/behaviors.en.md) / DragCanvasOptions
+[Overview - v5.0.0-beta.2](../../README.en.md) / [Modules](../../modules.en.md) / [behaviors](../../modules/behaviors.en.md) / DragCanvasOptions
 
 [behaviors](../../modules/behaviors.en.md).DragCanvasOptions
 
@@ -10,7 +10,7 @@ title: DragCanvasOptions
 
 ### direction
 
-• `Optional` **direction**: ``"x"`` \| ``"y"`` \| ``"both"``
+• `Optional` **direction**: `"x"` \| `"y"` \| `"both"`
 
 The direction to drag the canvas. 'both' by default.
 
@@ -18,7 +18,7 @@ The direction to drag the canvas. 'both' by default.
 
 [packages/g6/src/stdlib/behavior/drag-canvas.ts:22](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/drag-canvas.ts#L22)
 
-___
+---
 
 ### dragOnItems
 
@@ -30,7 +30,7 @@ Whether allow trigger this behavior when drag start on nodes / edges / combos.
 
 [packages/g6/src/stdlib/behavior/drag-canvas.ts:14](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/drag-canvas.ts#L14)
 
-___
+---
 
 ### enableOptimize
 
@@ -42,7 +42,7 @@ Whether enable optimize strategies, which will hide all the shapes excluding nod
 
 [packages/g6/src/stdlib/behavior/drag-canvas.ts:10](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/drag-canvas.ts#L10)
 
-___
+---
 
 ### eventName
 
@@ -54,7 +54,7 @@ The event name to trigger when drag end.
 
 [packages/g6/src/stdlib/behavior/drag-canvas.ts:48](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/drag-canvas.ts#L48)
 
-___
+---
 
 ### scalableRange
 
@@ -72,7 +72,7 @@ Refer to https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*IFfoS67_HssAAAAA
 
 [packages/g6/src/stdlib/behavior/drag-canvas.ts:44](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/drag-canvas.ts#L44)
 
-___
+---
 
 ### secondaryKey
 
@@ -84,7 +84,7 @@ The assistant secondary key on keyboard. If it is not assigned, the behavior wil
 
 [packages/g6/src/stdlib/behavior/drag-canvas.ts:26](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/drag-canvas.ts#L26)
 
-___
+---
 
 ### secondaryKeyToDisable
 
@@ -96,7 +96,7 @@ The assistant secondary key on keyboard to prevent the behavior to be tiggered. 
 
 [packages/g6/src/stdlib/behavior/drag-canvas.ts:30](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/drag-canvas.ts#L30)
 
-___
+---
 
 ### shouldBegin
 
@@ -110,8 +110,8 @@ Whether allow the behavior happen on the current item.
 
 ##### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name    | Type                                   |
+| :------ | :------------------------------------- |
 | `event` | [`IG6GraphEvent`](IG6GraphEvent.en.md) |
 
 ##### Returns
@@ -122,7 +122,7 @@ Whether allow the behavior happen on the current item.
 
 [packages/g6/src/stdlib/behavior/drag-canvas.ts:52](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/drag-canvas.ts#L52)
 
-___
+---
 
 ### speedUpKey
 
@@ -134,11 +134,11 @@ The key on keyboard to speed up translating while pressing and drag-canvas by di
 
 [packages/g6/src/stdlib/behavior/drag-canvas.ts:34](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/drag-canvas.ts#L34)
 
-___
+---
 
 ### trigger
 
-• `Optional` **trigger**: ``"drag"`` \| ``"directionKeys"``
+• `Optional` **trigger**: `"drag"` \| `"directionKeys"`
 
 The trigger for the behavior, 'drag' by default. 'directionKeys' means trigger this behavior by up / down / left / right keys on keyboard.
 

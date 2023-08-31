@@ -14,10 +14,12 @@ runtime.enableCSSParsing = false;
  * Extend the graph class with std lib
  */
 
+const version = '5.0.0-beta.2';
+
 const Graph = extend(EmptyGraph, stdLib);
 
-const G6 = { Graph, Util, stdLib, Extensions, extend };
+const G6 = { Graph, Util, stdLib, Extensions, extend, version };
 
-export { Extensions, Graph, Util, extend, stdLib };
+export { Extensions, Graph, Util, extend, stdLib, version };
 
 export default G6;

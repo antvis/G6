@@ -2,9 +2,9 @@
 title: PolylineStyleProps
 ---
 
-> 📋 中文文档还在翻译中... 欢迎PR
+> 📋 中文文档还在翻译中... 欢迎 PR
 
-[Overview - v5.0.0-beta.1](../../README.zh.md) / [Modules](../../modules.zh.md) / [item](../../modules/item.zh.md) / PolylineStyleProps
+[Overview - v5.0.0-beta.2](../../README.zh.md) / [Modules](../../modules.zh.md) / [item](../../modules/item.zh.md) / PolylineStyleProps
 
 [item](../../modules/item.zh.md).PolylineStyleProps
 
@@ -31,7 +31,7 @@ BaseStyleProps.anchor
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/types.d.ts:47
 
-___
+---
 
 ### class
 
@@ -45,7 +45,7 @@ BaseStyleProps.class
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/types.d.ts:34
 
-___
+---
 
 ### clipPath
 
@@ -65,7 +65,7 @@ BaseStyleProps.clipPath
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/types.d.ts:68
 
-___
+---
 
 ### cursor
 
@@ -81,7 +81,7 @@ BaseStyleProps.cursor
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/types.d.ts:63
 
-___
+---
 
 ### display
 
@@ -95,7 +95,7 @@ BaseStyleProps.display
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/types.d.ts:171
 
-___
+---
 
 ### draggable
 
@@ -113,7 +113,7 @@ BaseStyleProps.draggable
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/types.d.ts:175
 
-___
+---
 
 ### droppable
 
@@ -131,7 +131,7 @@ BaseStyleProps.droppable
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/types.d.ts:179
 
-___
+---
 
 ### fill
 
@@ -147,7 +147,7 @@ BaseStyleProps.fill
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/types.d.ts:79
 
-___
+---
 
 ### fillOpacity
 
@@ -163,11 +163,11 @@ BaseStyleProps.fillOpacity
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/types.d.ts:81
 
-___
+---
 
 ### fillRule
 
-• `Optional` **fillRule**: ``"nonzero"`` \| ``"evenodd"``
+• `Optional` **fillRule**: `"nonzero"` \| `"evenodd"`
 
 The fill-rule attribute is a presentation attribute defining the algorithm to use to determine the inside part of a shape.
 
@@ -183,7 +183,7 @@ BaseStyleProps.fillRule
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/types.d.ts:86
 
-___
+---
 
 ### filter
 
@@ -201,7 +201,7 @@ BaseStyleProps.filter
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/types.d.ts:162
 
-___
+---
 
 ### hitArea
 
@@ -217,7 +217,7 @@ BaseStyleProps.hitArea
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/types.d.ts:105
 
-___
+---
 
 ### increasedLineWidthForHitTesting
 
@@ -233,7 +233,7 @@ BaseStyleProps.increasedLineWidthForHitTesting
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/types.d.ts:101
 
-___
+---
 
 ### isBillboard
 
@@ -243,7 +243,7 @@ ___
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/display-objects/Polyline.d.ts:25
 
-___
+---
 
 ### lineCap
 
@@ -263,7 +263,7 @@ BaseStyleProps.lineCap
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/types.d.ts:114
 
-___
+---
 
 ### lineDash
 
@@ -283,7 +283,7 @@ BaseStyleProps.lineDash
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/types.d.ts:132
 
-___
+---
 
 ### lineDashOffset
 
@@ -303,7 +303,7 @@ BaseStyleProps.lineDashOffset
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/types.d.ts:141
 
-___
+---
 
 ### lineJoin
 
@@ -323,7 +323,7 @@ BaseStyleProps.lineJoin
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/types.d.ts:123
 
-___
+---
 
 ### lineWidth
 
@@ -343,7 +343,7 @@ BaseStyleProps.lineWidth
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/types.d.ts:97
 
-___
+---
 
 ### markerEnd
 
@@ -355,7 +355,7 @@ marker will be positioned at the last point
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/display-objects/Polyline.d.ts:15
 
-___
+---
 
 ### markerEndOffset
 
@@ -367,7 +367,7 @@ offset relative to original position
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/display-objects/Polyline.d.ts:24
 
-___
+---
 
 ### markerMid
 
@@ -377,7 +377,7 @@ ___
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/display-objects/Polyline.d.ts:16
 
-___
+---
 
 ### markerStart
 
@@ -389,7 +389,7 @@ marker will be positioned at the first point
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/display-objects/Polyline.d.ts:11
 
-___
+---
 
 ### markerStartOffset
 
@@ -401,7 +401,7 @@ offset relative to original position
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/display-objects/Polyline.d.ts:20
 
-___
+---
 
 ### miterLimit
 
@@ -419,7 +419,7 @@ BaseStyleProps.miterLimit
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/types.d.ts:170
 
-___
+---
 
 ### offsetDistance
 
@@ -433,7 +433,7 @@ BaseStyleProps.offsetDistance
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/types.d.ts:74
 
-___
+---
 
 ### offsetPath
 
@@ -453,7 +453,7 @@ BaseStyleProps.offsetPath
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/types.d.ts:73
 
-___
+---
 
 ### opacity
 
@@ -469,11 +469,11 @@ BaseStyleProps.opacity
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/types.d.ts:88
 
-___
+---
 
 ### pointerEvents
 
-• `Optional` **pointerEvents**: ``"fill"`` \| ``"stroke"`` \| ``"visible"`` \| `CSSGlobalKeywords` \| ``"none"`` \| ``"auto"`` \| ``"painted"`` \| ``"visiblestroke"`` \| ``"visiblefill"`` \| ``"visiblepainted"`` \| ``"all"`` \| ``"non-transparent-pixel"``
+• `Optional` **pointerEvents**: `"fill"` \| `"stroke"` \| `"visible"` \| `CSSGlobalKeywords` \| `"none"` \| `"auto"` \| `"painted"` \| `"visiblestroke"` \| `"visiblefill"` \| `"visiblepainted"` \| `"all"` \| `"non-transparent-pixel"`
 
 **`See`**
 
@@ -487,7 +487,7 @@ BaseStyleProps.pointerEvents
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/types.d.ts:55
 
-___
+---
 
 ### points
 
@@ -497,7 +497,7 @@ ___
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/display-objects/Polyline.d.ts:7
 
-___
+---
 
 ### shadowBlur
 
@@ -515,7 +515,7 @@ BaseStyleProps.shadowBlur
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/types.d.ts:146
 
-___
+---
 
 ### shadowColor
 
@@ -533,7 +533,7 @@ BaseStyleProps.shadowColor
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/types.d.ts:150
 
-___
+---
 
 ### shadowOffsetX
 
@@ -551,7 +551,7 @@ BaseStyleProps.shadowOffsetX
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/types.d.ts:154
 
-___
+---
 
 ### shadowOffsetY
 
@@ -567,11 +567,11 @@ BaseStyleProps.shadowOffsetY
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/types.d.ts:158
 
-___
+---
 
 ### shadowType
 
-• `Optional` **shadowType**: ``"both"`` \| ``"inner"`` \| ``"outer"``
+• `Optional` **shadowType**: `"both"` \| `"inner"` \| `"outer"`
 
 #### Inherited from
 
@@ -581,7 +581,7 @@ BaseStyleProps.shadowType
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/types.d.ts:142
 
-___
+---
 
 ### stroke
 
@@ -595,7 +595,7 @@ BaseStyleProps.stroke
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/types.d.ts:75
 
-___
+---
 
 ### strokeDasharray
 
@@ -613,7 +613,7 @@ BaseStyleProps.strokeDasharray
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/types.d.ts:127
 
-___
+---
 
 ### strokeDashoffset
 
@@ -631,7 +631,7 @@ BaseStyleProps.strokeDashoffset
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/types.d.ts:136
 
-___
+---
 
 ### strokeLinecap
 
@@ -649,7 +649,7 @@ BaseStyleProps.strokeLinecap
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/types.d.ts:109
 
-___
+---
 
 ### strokeLinejoin
 
@@ -667,7 +667,7 @@ BaseStyleProps.strokeLinejoin
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/types.d.ts:118
 
-___
+---
 
 ### strokeOpacity
 
@@ -683,7 +683,7 @@ BaseStyleProps.strokeOpacity
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/types.d.ts:77
 
-___
+---
 
 ### strokeWidth
 
@@ -701,11 +701,11 @@ BaseStyleProps.strokeWidth
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/types.d.ts:92
 
-___
+---
 
 ### textTransform
 
-• `Optional` **textTransform**: ``""`` \| `TextTransform`
+• `Optional` **textTransform**: `""` \| `TextTransform`
 
 **`See`**
 
@@ -719,7 +719,7 @@ BaseStyleProps.textTransform
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/types.d.ts:166
 
-___
+---
 
 ### transform
 
@@ -737,7 +737,7 @@ BaseStyleProps.transform
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/types.d.ts:38
 
-___
+---
 
 ### transformOrigin
 
@@ -755,11 +755,11 @@ BaseStyleProps.transformOrigin
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/types.d.ts:42
 
-___
+---
 
 ### visibility
 
-• `Optional` **visibility**: ``"visible"`` \| `CSSGlobalKeywords` \| ``"hidden"``
+• `Optional` **visibility**: `"visible"` \| `CSSGlobalKeywords` \| `"hidden"`
 
 **`See`**
 
@@ -773,7 +773,7 @@ BaseStyleProps.visibility
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/types.d.ts:51
 
-___
+---
 
 ### zIndex
 

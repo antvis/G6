@@ -2,7 +2,7 @@
 title: CircularLayoutOptions
 ---
 
-[Overview - v5.0.0-beta.1](../../README.en.md) / [Modules](../../modules.en.md) / [layout](../../modules/layout.en.md) / CircularLayoutOptions
+[Overview - v5.0.0-beta.2](../../README.en.md) / [Modules](../../modules.en.md) / [layout](../../modules/layout.en.md) / CircularLayoutOptions
 
 [layout](../../modules/layout.en.md).CircularLayoutOptions
 
@@ -16,7 +16,7 @@ title: CircularLayoutOptions
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:121
 
-___
+---
 
 ### center
 
@@ -26,7 +26,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:112
 
-___
+---
 
 ### clockwise
 
@@ -36,7 +36,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:118
 
-___
+---
 
 ### divisions
 
@@ -46,7 +46,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:119
 
-___
+---
 
 ### endAngle
 
@@ -56,7 +56,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:123
 
-___
+---
 
 ### endRadius
 
@@ -66,7 +66,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:117
 
-___
+---
 
 ### height
 
@@ -76,7 +76,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:114
 
-___
+---
 
 ### nodeSize
 
@@ -86,7 +86,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:125
 
-___
+---
 
 ### nodeSpacing
 
@@ -96,17 +96,17 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:124
 
-___
+---
 
 ### ordering
 
-• `Optional` **ordering**: ``"topology"`` \| ``"topology-directed"`` \| ``"degree"``
+• `Optional` **ordering**: `"topology"` \| `"topology-directed"` \| `"degree"`
 
 #### Defined in
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:120
 
-___
+---
 
 ### radius
 
@@ -116,7 +116,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:115
 
-___
+---
 
 ### startAngle
 
@@ -126,7 +126,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:122
 
-___
+---
 
 ### startRadius
 
@@ -136,7 +136,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:116
 
-___
+---
 
 ### width
 

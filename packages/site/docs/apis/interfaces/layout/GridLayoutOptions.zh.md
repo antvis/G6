@@ -2,9 +2,9 @@
 title: GridLayoutOptions
 ---
 
-> 📋 中文文档还在翻译中... 欢迎PR
+> 📋 中文文档还在翻译中... 欢迎 PR
 
-[Overview - v5.0.0-beta.1](../../README.zh.md) / [Modules](../../modules.zh.md) / [layout](../../modules/layout.zh.md) / GridLayoutOptions
+[Overview - v5.0.0-beta.2](../../README.zh.md) / [Modules](../../modules.zh.md) / [layout](../../modules/layout.zh.md) / GridLayoutOptions
 
 [layout](../../modules/layout.zh.md).GridLayoutOptions
 
@@ -18,7 +18,7 @@ title: GridLayoutOptions
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:130
 
-___
+---
 
 ### cols
 
@@ -28,7 +28,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:136
 
-___
+---
 
 ### condense
 
@@ -38,7 +38,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:134
 
-___
+---
 
 ### height
 
@@ -48,7 +48,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:129
 
-___
+---
 
 ### nodeSize
 
@@ -58,7 +58,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:132
 
-___
+---
 
 ### nodeSpacing
 
@@ -68,11 +68,11 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:142
 
-___
+---
 
 ### position
 
-• `Optional` **position**: (`node?`: `Node`) => { `col?`: `number` ; `row?`: `number`  }
+• `Optional` **position**: (`node?`: `Node`) => { `col?`: `number` ; `row?`: `number` }
 
 #### Type declaration
 
@@ -80,16 +80,16 @@ ___
 
 ##### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name    | Type   |
+| :------ | :----- |
 | `node?` | `Node` |
 
 ##### Returns
 
 `Object`
 
-| Name | Type |
-| :------ | :------ |
+| Name   | Type     |
+| :----- | :------- |
 | `col?` | `number` |
 | `row?` | `number` |
 
@@ -97,7 +97,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:138
 
-___
+---
 
 ### preventOverlap
 
@@ -107,7 +107,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:131
 
-___
+---
 
 ### preventOverlapPadding
 
@@ -117,7 +117,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:133
 
-___
+---
 
 ### rows
 
@@ -127,7 +127,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:135
 
-___
+---
 
 ### sortBy
 
@@ -137,7 +137,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:137
 
-___
+---
 
 ### width
 

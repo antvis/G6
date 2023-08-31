@@ -2,7 +2,7 @@
 title: CollapseExpandComboOptions
 ---
 
-[Overview - v5.0.0-beta.1](../../README.en.md) / [Modules](../../modules.en.md) / [behaviors](../../modules/behaviors.en.md) / CollapseExpandComboOptions
+[Overview - v5.0.0-beta.2](../../README.en.md) / [Modules](../../modules.en.md) / [behaviors](../../modules/behaviors.en.md) / CollapseExpandComboOptions
 
 [behaviors](../../modules/behaviors.en.md).CollapseExpandComboOptions
 
@@ -20,8 +20,8 @@ title: CollapseExpandComboOptions
 
 ##### 参数
 
-| 名称 | 类型 |
-| :------ | :------ |
+| 名称    | 类型                                   |
+| :------ | :------------------------------------- |
 | `event` | [`IG6GraphEvent`](IG6GraphEvent.en.md) |
 
 ##### 返回值
@@ -32,11 +32,11 @@ title: CollapseExpandComboOptions
 
 [packages/g6/src/stdlib/behavior/collapse-expand-combo.ts:22](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/collapse-expand-combo.ts#L22)
 
-___
+---
 
 ### trigger
 
-• **trigger**: ``"click"`` \| ``"dblclick"``
+• **trigger**: `"click"` \| `"dblclick"`
 
 多选触发的按键。 默认为 "dblclick"。 可选项为 “dblclick”, “click”。
 

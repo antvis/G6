@@ -2,7 +2,7 @@
 title: BrushSelectOptions
 ---
 
-[Overview - v5.0.0-beta.1](../../README.en.md) / [Modules](../../modules.en.md) / [behaviors](../../modules/behaviors.en.md) / BrushSelectOptions
+[Overview - v5.0.0-beta.2](../../README.en.md) / [Modules](../../modules.en.md) / [behaviors](../../modules/behaviors.en.md) / BrushSelectOptions
 
 [behaviors](../../modules/behaviors.en.md).BrushSelectOptions
 
@@ -20,18 +20,18 @@ title: BrushSelectOptions
 
 #### 类型声明
 
-| 名称 | 类型 |
-| :------ | :------ |
-| `fill?` | `string` |
+| 名称           | 类型     |
+| :------------- | :------- |
+| `fill?`        | `string` |
 | `fillOpacity?` | `number` |
-| `lineWidth?` | `number` |
-| `stroke?` | `string` |
+| `lineWidth?`   | `number` |
+| `stroke?`      | `string` |
 
 #### 定义于
 
 [packages/g6/src/stdlib/behavior/brush-select.ts:46](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/brush-select.ts#L46)
 
-___
+---
 
 ### eventName
 
@@ -43,11 +43,11 @@ ___
 
 [packages/g6/src/stdlib/behavior/brush-select.ts:42](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/brush-select.ts#L42)
 
-___
+---
 
 ### itemTypes
 
-• **itemTypes**: (``"node"`` \| ``"edge"`` \| ``"combo"``)[]
+• **itemTypes**: (`"node"` \| `"edge"` \| `"combo"`)[]
 
 可选项，默认为["nodes"]。
 是一个包含 "node"、"edge" 或 "combo" 的数组。
@@ -56,11 +56,11 @@ ___
 
 [packages/g6/src/stdlib/behavior/brush-select.ts:32](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/brush-select.ts#L32)
 
-___
+---
 
 ### onDeselect
 
-• **onDeselect**: (`selectedIds`: { `combos`: `ID`[] ; `edges`: `ID`[] ; `nodes`: `ID`[]  }, `deselectedIds`: { `combos`: `ID`[] ; `edges`: `ID`[] ; `nodes`: `ID`[]  }) => `void`
+• **onDeselect**: (`selectedIds`: { `combos`: `ID`[] ; `edges`: `ID`[] ; `nodes`: `ID`[] }, `deselectedIds`: { `combos`: `ID`[] ; `edges`: `ID`[] ; `nodes`: `ID`[] }) => `void`
 
 #### 类型声明
 
@@ -70,16 +70,16 @@ ___
 
 ##### 参数
 
-| 名称 | 类型 |
-| :------ | :------ |
-| `selectedIds` | `Object` |
-| `selectedIds.combos` | `ID`[] |
-| `selectedIds.edges` | `ID`[] |
-| `selectedIds.nodes` | `ID`[] |
-| `deselectedIds` | `Object` |
-| `deselectedIds.combos` | `ID`[] |
-| `deselectedIds.edges` | `ID`[] |
-| `deselectedIds.nodes` | `ID`[] |
+| 名称                   | 类型     |
+| :--------------------- | :------- |
+| `selectedIds`          | `Object` |
+| `selectedIds.combos`   | `ID`[]   |
+| `selectedIds.edges`    | `ID`[]   |
+| `selectedIds.nodes`    | `ID`[]   |
+| `deselectedIds`        | `Object` |
+| `deselectedIds.combos` | `ID`[]   |
+| `deselectedIds.edges`  | `ID`[]   |
+| `deselectedIds.nodes`  | `ID`[]   |
 
 ##### 返回值
 
@@ -89,11 +89,11 @@ ___
 
 [packages/g6/src/stdlib/behavior/brush-select.ts:77](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/brush-select.ts#L77)
 
-___
+---
 
 ### onSelect
 
-• **onSelect**: (`selectedIds`: { `combos`: `ID`[] ; `edges`: `ID`[] ; `nodes`: `ID`[]  }) => `void`
+• **onSelect**: (`selectedIds`: { `combos`: `ID`[] ; `edges`: `ID`[] ; `nodes`: `ID`[] }) => `void`
 
 #### 类型声明
 
@@ -103,12 +103,12 @@ ___
 
 ##### 参数
 
-| 名称 | 类型 |
-| :------ | :------ |
-| `selectedIds` | `Object` |
-| `selectedIds.combos` | `ID`[] |
-| `selectedIds.edges` | `ID`[] |
-| `selectedIds.nodes` | `ID`[] |
+| 名称                 | 类型     |
+| :------------------- | :------- |
+| `selectedIds`        | `Object` |
+| `selectedIds.combos` | `ID`[]   |
+| `selectedIds.edges`  | `ID`[]   |
+| `selectedIds.nodes`  | `ID`[]   |
 
 ##### 返回值
 
@@ -118,11 +118,11 @@ ___
 
 [packages/g6/src/stdlib/behavior/brush-select.ts:73](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/brush-select.ts#L73)
 
-___
+---
 
 ### selectSetMode
 
-• **selectSetMode**: ``"union"`` \| ``"intersect"`` \| ``"diff"`` \| ``"latest"``
+• **selectSetMode**: `"union"` \| `"intersect"` \| `"diff"` \| `"latest"`
 
 框选的选择模式，可选项为 "union"、"intersect"、"diff"、"latest"`
 
@@ -130,11 +130,11 @@ ___
 
 [packages/g6/src/stdlib/behavior/brush-select.ts:54](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/brush-select.ts#L54)
 
-___
+---
 
 ### selectedState
 
-• **selectedState**: ``"selected"``
+• **selectedState**: `"selected"`
 
 选择时的状态，默认为"selected"。
 其他可选值为："active"、"highlighted" 等。
@@ -143,7 +143,7 @@ ___
 
 [packages/g6/src/stdlib/behavior/brush-select.ts:38](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/brush-select.ts#L38)
 
-___
+---
 
 ### shouldBegin
 
@@ -157,8 +157,8 @@ ___
 
 ##### 参数
 
-| 名称 | 类型 |
-| :------ | :------ |
+| 名称    | 类型                                   |
+| :------ | :------------------------------------- |
 | `event` | [`IG6GraphEvent`](IG6GraphEvent.en.md) |
 
 ##### 返回值
@@ -169,11 +169,11 @@ ___
 
 [packages/g6/src/stdlib/behavior/brush-select.ts:58](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/brush-select.ts#L58)
 
-___
+---
 
 ### shouldUpdate
 
-• **shouldUpdate**: (`itemType`: `ITEM_TYPE`, `id`: `ID`, `action`: ``"select"`` \| ``"deselect"``, `self`: `BrushSelect`) => `boolean`
+• **shouldUpdate**: (`itemType`: `ITEM_TYPE`, `id`: `ID`, `action`: `"select"` \| `"deselect"`, `self`: `BrushSelect`) => `boolean`
 
 #### 类型声明
 
@@ -183,12 +183,12 @@ ___
 
 ##### 参数
 
-| 名称 | 类型 |
-| :------ | :------ |
-| `itemType` | `ITEM_TYPE` |
-| `id` | `ID` |
-| `action` | ``"select"`` \| ``"deselect"`` |
-| `self` | `BrushSelect` |
+| 名称       | 类型                       |
+| :--------- | :------------------------- |
+| `itemType` | `ITEM_TYPE`                |
+| `id`       | `ID`                       |
+| `action`   | `"select"` \| `"deselect"` |
+| `self`     | `BrushSelect`              |
 
 ##### 返回值
 
@@ -198,11 +198,11 @@ ___
 
 [packages/g6/src/stdlib/behavior/brush-select.ts:64](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/brush-select.ts#L64)
 
-___
+---
 
 ### trigger
 
-• **trigger**: ``"shift"`` \| ``"drag"`` \| ``"ctrl"`` \| ``"alt"`` \| ``"meta"``
+• **trigger**: `"shift"` \| `"drag"` \| `"ctrl"` \| `"alt"` \| `"meta"`
 
 按下鼠标点击以应用多选的键。 默认为 "shift"。 其他可选项为 “drag”, “shift”, “ctrl”, “alt”, 或 “meta”.
 

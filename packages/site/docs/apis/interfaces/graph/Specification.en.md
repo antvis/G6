@@ -2,16 +2,16 @@
 title: Specification
 ---
 
-[Overview - v5.0.0-beta.1](../../README.en.md) / [Modules](../../modules.en.md) / [graph](../../modules/graph.en.md) / Specification
+[Overview - v5.0.0-beta.2](../../README.en.md) / [Modules](../../modules.en.md) / [graph](../../modules/graph.en.md) / Specification
 
 [graph](../../modules/graph.en.md).Specification
 
 ## Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `B` | extends `BehaviorRegistry` |
-| `T` | extends `ThemeRegistry` |
+| Name | Type                       |
+| :--- | :------------------------- |
+| `B`  | extends `BehaviorRegistry` |
+| `T`  | extends `ThemeRegistry`    |
 
 ## Properties
 
@@ -25,17 +25,17 @@ global animate
 
 [packages/g6/src/types/spec.ts:114](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/spec.ts#L114)
 
-___
+---
 
 ### autoFit
 
-• `Optional` **autoFit**: ``"center"`` \| ``"view"`` \| { `effectTiming?`: `Partial`<`Pick`<`IAnimationEffectTiming`, ``"duration"`` \| ``"easing"`` \| ``"easingFunction"``\>\> ; `padding?`: `Padding` ; `rules?`: `FitViewRules` ; `type`: ``"view"``  } \| { `effectTiming?`: `Partial`<`Pick`<`IAnimationEffectTiming`, ``"duration"`` \| ``"easing"`` \| ``"easingFunction"``\>\> ; `type`: ``"center"``  } \| { `alignment?`: `GraphAlignment` ; `effectTiming?`: `Partial`<`Pick`<`IAnimationEffectTiming`, ``"duration"`` \| ``"easing"`` \| ``"easingFunction"``\>\> ; `position`: `Point` ; `type`: ``"position"``  }
+• `Optional` **autoFit**: `"center"` \| `"view"` \| { `effectTiming?`: `Partial`<`Pick`<`IAnimationEffectTiming`, `"duration"` \| `"easing"` \| `"easingFunction"`\>\> ; `padding?`: `Padding` ; `rules?`: `FitViewRules` ; `type`: `"view"` } \| { `effectTiming?`: `Partial`<`Pick`<`IAnimationEffectTiming`, `"duration"` \| `"easing"` \| `"easingFunction"`\>\> ; `type`: `"center"` } \| { `alignment?`: `GraphAlignment` ; `effectTiming?`: `Partial`<`Pick`<`IAnimationEffectTiming`, `"duration"` \| `"easing"` \| `"easingFunction"`\>\> ; `position`: `Point` ; `type`: `"position"` }
 
 #### Defined in
 
 [packages/g6/src/types/spec.ts:50](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/spec.ts#L50)
 
-___
+---
 
 ### backgroundCanvas
 
@@ -45,7 +45,7 @@ ___
 
 [packages/g6/src/types/spec.ts:37](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/spec.ts#L37)
 
-___
+---
 
 ### canvas
 
@@ -55,7 +55,7 @@ ___
 
 [packages/g6/src/types/spec.ts:38](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/spec.ts#L38)
 
-___
+---
 
 ### combo
 
@@ -65,7 +65,7 @@ ___
 
 [packages/g6/src/types/spec.ts:84](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/spec.ts#L84)
 
-___
+---
 
 ### comboState
 
@@ -79,7 +79,7 @@ ___
 
 [packages/g6/src/types/spec.ts:97](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/spec.ts#L97)
 
-___
+---
 
 ### container
 
@@ -89,7 +89,7 @@ ___
 
 [packages/g6/src/types/spec.ts:36](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/spec.ts#L36)
 
-___
+---
 
 ### data
 
@@ -101,7 +101,7 @@ data
 
 [packages/g6/src/types/spec.ts:72](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/spec.ts#L72)
 
-___
+---
 
 ### edge
 
@@ -111,7 +111,7 @@ ___
 
 [packages/g6/src/types/spec.ts:83](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/spec.ts#L83)
 
-___
+---
 
 ### edgeState
 
@@ -125,7 +125,7 @@ ___
 
 [packages/g6/src/types/spec.ts:92](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/spec.ts#L92)
 
-___
+---
 
 ### enableStack
 
@@ -135,7 +135,7 @@ ___
 
 [packages/g6/src/types/spec.ts:130](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/spec.ts#L130)
 
-___
+---
 
 ### height
 
@@ -145,7 +145,7 @@ ___
 
 [packages/g6/src/types/spec.ts:41](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/spec.ts#L41)
 
-___
+---
 
 ### layout
 
@@ -157,7 +157,7 @@ layout
 
 [packages/g6/src/types/spec.ts:104](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/spec.ts#L104)
 
-___
+---
 
 ### mode
 
@@ -167,7 +167,7 @@ ___
 
 [packages/g6/src/types/spec.ts:111](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/spec.ts#L111)
 
-___
+---
 
 ### modes
 
@@ -183,7 +183,7 @@ interaction
 
 [packages/g6/src/types/spec.ts:107](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/spec.ts#L107)
 
-___
+---
 
 ### node
 
@@ -195,7 +195,7 @@ item
 
 [packages/g6/src/types/spec.ts:82](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/spec.ts#L82)
 
-___
+---
 
 ### nodeState
 
@@ -211,7 +211,7 @@ item state styles
 
 [packages/g6/src/types/spec.ts:87](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/spec.ts#L87)
 
-___
+---
 
 ### optimizeThreshold
 
@@ -221,11 +221,11 @@ ___
 
 [packages/g6/src/types/spec.ts:69](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/spec.ts#L69)
 
-___
+---
 
 ### plugins
 
-• `Optional` **plugins**: (`string` \| `Plugin` \| { `[cfgName: string]`: `unknown`; `key`: `string` ; `type`: `string`  })[]
+• `Optional` **plugins**: (`string` \| `Plugin` \| { `[cfgName: string]`: `unknown`; `key`: `string` ; `type`: `string` })[]
 
 free plugins
 
@@ -233,17 +233,17 @@ free plugins
 
 [packages/g6/src/types/spec.ts:117](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/spec.ts#L117)
 
-___
+---
 
 ### renderer
 
-• `Optional` **renderer**: `RendererName` \| { `headless`: `boolean` ; `pixelRatio`: `number` ; `type`: `RendererName`  }
+• `Optional` **renderer**: `RendererName` \| { `headless`: `boolean` ; `pixelRatio`: `number` ; `type`: `RendererName` }
 
 #### Defined in
 
 [packages/g6/src/types/spec.ts:42](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/spec.ts#L42)
 
-___
+---
 
 ### stackCfg
 
@@ -253,7 +253,7 @@ ___
 
 [packages/g6/src/types/spec.ts:132](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/spec.ts#L132)
 
-___
+---
 
 ### theme
 
@@ -265,17 +265,17 @@ theme
 
 [packages/g6/src/types/spec.ts:128](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/spec.ts#L128)
 
-___
+---
 
 ### transforms
 
-• `Optional` **transforms**: `string`[] \| { `[param: string]`: `unknown`; `type`: `string`  }[] \| `TransformerFn`[]
+• `Optional` **transforms**: `string`[] \| { `[param: string]`: `unknown`; `type`: `string` }[] \| `TransformerFn`[]
 
 #### Defined in
 
 [packages/g6/src/types/spec.ts:73](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/spec.ts#L73)
 
-___
+---
 
 ### transientCanvas
 
@@ -285,7 +285,7 @@ ___
 
 [packages/g6/src/types/spec.ts:39](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/spec.ts#L39)
 
-___
+---
 
 ### width
 
@@ -295,7 +295,7 @@ ___
 
 [packages/g6/src/types/spec.ts:40](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/spec.ts#L40)
 
-___
+---
 
 ### zoom
 

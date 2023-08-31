@@ -2,7 +2,7 @@
 title: ZoomCanvasOptions
 ---
 
-[Overview - v5.0.0-beta.1](../../README.en.md) / [Modules](../../modules.en.md) / [behaviors](../../modules/behaviors.en.md) / ZoomCanvasOptions
+[Overview - v5.0.0-beta.2](../../README.en.md) / [Modules](../../modules.en.md) / [behaviors](../../modules/behaviors.en.md) / ZoomCanvasOptions
 
 [behaviors](../../modules/behaviors.en.md).ZoomCanvasOptions
 
@@ -19,7 +19,7 @@ TODO: optimize when trigger is upDownKeys
 
 [packages/g6/src/stdlib/behavior/zoom-canvas.ts:10](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/zoom-canvas.ts#L10)
 
-___
+---
 
 ### eventName
 
@@ -31,7 +31,7 @@ The event name to trigger when zoom end.
 
 [packages/g6/src/stdlib/behavior/zoom-canvas.ts:34](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/zoom-canvas.ts#L34)
 
-___
+---
 
 ### maxZoom
 
@@ -43,7 +43,7 @@ The max value of zoom ratio to constrain the zoom-canvas-3d behavior
 
 [packages/g6/src/stdlib/behavior/zoom-canvas.ts:42](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/zoom-canvas.ts#L42)
 
-___
+---
 
 ### minZoom
 
@@ -55,7 +55,7 @@ The min value of zoom ratio to constrain the zoom-canvas-3d behavior
 
 [packages/g6/src/stdlib/behavior/zoom-canvas.ts:38](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/zoom-canvas.ts#L38)
 
-___
+---
 
 ### secondaryKey
 
@@ -67,7 +67,7 @@ The assistant secondary key on keyboard. If it is not assigned, the behavior wil
 
 [packages/g6/src/stdlib/behavior/zoom-canvas.ts:22](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/zoom-canvas.ts#L22)
 
-___
+---
 
 ### sensitivity
 
@@ -79,7 +79,7 @@ The sensitivity / speed of zooming.
 
 [packages/g6/src/stdlib/behavior/zoom-canvas.ts:30](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/zoom-canvas.ts#L30)
 
-___
+---
 
 ### shouldBegin
 
@@ -93,8 +93,8 @@ Whether allow the behavior happen on the current item.
 
 ##### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name    | Type                                   |
+| :------ | :------------------------------------- |
 | `event` | [`IG6GraphEvent`](IG6GraphEvent.en.md) |
 
 ##### Returns
@@ -105,7 +105,7 @@ Whether allow the behavior happen on the current item.
 
 [packages/g6/src/stdlib/behavior/zoom-canvas.ts:46](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/zoom-canvas.ts#L46)
 
-___
+---
 
 ### speedUpKey
 
@@ -117,11 +117,11 @@ The key on keyboard to speed up translating while pressing and zoom-canvas by di
 
 [packages/g6/src/stdlib/behavior/zoom-canvas.ts:26](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/zoom-canvas.ts#L26)
 
-___
+---
 
 ### trigger
 
-• `Optional` **trigger**: ``"wheel"`` \| ``"upDownKeys"``
+• `Optional` **trigger**: `"wheel"` \| `"upDownKeys"`
 
 The trigger for the behavior, 'wheel' by default. 'upDownKeys' means trigger this behavior by up / down keys on keyboard.
 
@@ -129,7 +129,7 @@ The trigger for the behavior, 'wheel' by default. 'upDownKeys' means trigger thi
 
 [packages/g6/src/stdlib/behavior/zoom-canvas.ts:18](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/zoom-canvas.ts#L18)
 
-___
+---
 
 ### triggerOnItems
 

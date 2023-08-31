@@ -2,7 +2,7 @@
 title: HoverActivateOptions
 ---
 
-[Overview - v5.0.0-beta.1](../../README.en.md) / [Modules](../../modules.en.md) / [behaviors](../../modules/behaviors.en.md) / HoverActivateOptions
+[Overview - v5.0.0-beta.2](../../README.en.md) / [Modules](../../modules.en.md) / [behaviors](../../modules/behaviors.en.md) / HoverActivateOptions
 
 [behaviors](../../modules/behaviors.en.md).HoverActivateOptions
 
@@ -18,7 +18,7 @@ selected 的状态，默认为 "selected"。
 
 [packages/g6/src/stdlib/behavior/hover-activate.ts:16](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/hover-activate.ts#L16)
 
-___
+---
 
 ### eventName
 
@@ -30,11 +30,11 @@ ___
 
 [packages/g6/src/stdlib/behavior/hover-activate.ts:26](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/hover-activate.ts#L26)
 
-___
+---
 
 ### itemTypes
 
-• **itemTypes**: (``"node"`` \| ``"edge"`` \| ``"combo"``)[]
+• **itemTypes**: (`"node"` \| `"edge"` \| `"combo"`)[]
 
 要激活的 item 类型。
 默认为 ["node", "edge"]。
@@ -44,7 +44,7 @@ ___
 
 [packages/g6/src/stdlib/behavior/hover-activate.ts:22](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/hover-activate.ts#L22)
 
-___
+---
 
 ### shouldBegin
 
@@ -58,8 +58,8 @@ ___
 
 ##### 参数
 
-| 名称 | 类型 |
-| :------ | :------ |
+| 名称    | 类型                                   |
+| :------ | :------------------------------------- |
 | `event` | [`IG6GraphEvent`](IG6GraphEvent.en.md) |
 
 ##### 返回值
@@ -70,7 +70,7 @@ ___
 
 [packages/g6/src/stdlib/behavior/hover-activate.ts:30](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/hover-activate.ts#L30)
 
-___
+---
 
 ### throttle
 

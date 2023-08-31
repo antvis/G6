@@ -2,9 +2,9 @@
 title: layout
 ---
 
-> 📋 中文文档还在翻译中... 欢迎PR
+> 📋 中文文档还在翻译中... 欢迎 PR
 
-[Overview - v5.0.0-beta.1](../README.zh.md) / [Modules](../modules.zh.md) / layout
+[Overview - v5.0.0-beta.2](../README.zh.md) / [Modules](../modules.zh.md) / layout
 
 ## Interfaces
 

@@ -2,7 +2,7 @@
 title: DragCanvasOptions
 ---
 
-[Overview - v5.0.0-beta.1](../../README.en.md) / [Modules](../../modules.en.md) / [behaviors](../../modules/behaviors.en.md) / DragCanvasOptions
+[Overview - v5.0.0-beta.2](../../README.en.md) / [Modules](../../modules.en.md) / [behaviors](../../modules/behaviors.en.md) / DragCanvasOptions
 
 [behaviors](../../modules/behaviors.en.md).DragCanvasOptions
 
@@ -10,7 +10,7 @@ title: DragCanvasOptions
 
 ### direction
 
-• `可选` **direction**: ``"x"`` \| ``"y"`` \| ``"both"``
+• `可选` **direction**: `"x"` \| `"y"` \| `"both"`
 
 拖动画布的方向，默认为'both'。
 
@@ -18,7 +18,7 @@ title: DragCanvasOptions
 
 [packages/g6/src/stdlib/behavior/drag-canvas.ts:22](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/drag-canvas.ts#L22)
 
-___
+---
 
 ### dragOnItems
 
@@ -30,7 +30,7 @@ ___
 
 [packages/g6/src/stdlib/behavior/drag-canvas.ts:14](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/drag-canvas.ts#L14)
 
-___
+---
 
 ### enableOptimize
 
@@ -42,7 +42,7 @@ ___
 
 [packages/g6/src/stdlib/behavior/drag-canvas.ts:10](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/drag-canvas.ts#L10)
 
-___
+---
 
 ### eventName
 
@@ -54,7 +54,7 @@ ___
 
 [packages/g6/src/stdlib/behavior/drag-canvas.ts:48](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/drag-canvas.ts#L48)
 
-___
+---
 
 ### scalableRange
 
@@ -66,7 +66,7 @@ ___
 
 [packages/g6/src/stdlib/behavior/drag-canvas.ts:44](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/drag-canvas.ts#L44)
 
-___
+---
 
 ### secondaryKey
 
@@ -78,7 +78,7 @@ ___
 
 [packages/g6/src/stdlib/behavior/drag-canvas.ts:26](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/drag-canvas.ts#L26)
 
-___
+---
 
 ### secondaryKeyToDisable
 
@@ -90,7 +90,7 @@ ___
 
 [packages/g6/src/stdlib/behavior/drag-canvas.ts:30](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/drag-canvas.ts#L30)
 
-___
+---
 
 ### shouldBegin
 
@@ -104,8 +104,8 @@ ___
 
 ##### 参数
 
-| 名称 | 类型 |
-| :------ | :------ |
+| 名称    | 类型                                   |
+| :------ | :------------------------------------- |
 | `event` | [`IG6GraphEvent`](IG6GraphEvent.en.md) |
 
 ##### 返回值
@@ -116,7 +116,7 @@ ___
 
 [packages/g6/src/stdlib/behavior/drag-canvas.ts:52](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/drag-canvas.ts#L52)
 
-___
+---
 
 ### speedUpKey
 
@@ -128,11 +128,11 @@ ___
 
 [packages/g6/src/stdlib/behavior/drag-canvas.ts:34](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/drag-canvas.ts#L34)
 
-___
+---
 
 ### trigger
 
-• `可选` **trigger**: ``"drag"`` \| ``"directionKeys"``
+• `可选` **trigger**: `"drag"` \| `"directionKeys"`
 
 行为的触发器，默认为 ‘drag’。‘directionKeys’ 表示通过键盘上的上、下、左、右键触发此行为。
 
