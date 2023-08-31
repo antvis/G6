@@ -37,7 +37,7 @@ export default class Edge extends Item {
   // display data model
   public displayModel: EdgeDisplayModel;
   /** Set to different value in implements */
-  public type: 'edge' = 'edge';
+  public type = 'edge' as const;
   public nodeMap: Map<ID, Node>;
   public sourceItem: Node | Combo;
   public targetItem: Node | Combo;

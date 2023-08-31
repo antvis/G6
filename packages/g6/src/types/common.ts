@@ -1,6 +1,7 @@
 import { ID } from 'types';
 
 export type Padding = number | number[];
+export type StandardPadding = [number, number, number, number];
 
 export type Point = {
   x: number;

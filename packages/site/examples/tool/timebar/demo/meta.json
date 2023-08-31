@@ -1,0 +1,24 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+      "filename": "timebar-time.ts",
+      "title": {
+        "zh": "时间条-时间模式",
+        "en": "Timebar"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*94CATK7VwhQAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "timebar-chart.ts",
+      "title": {
+        "zh": "时间条-图表模式",
+        "en": "Timebar"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*RjCKS6xdRWwAAAAAAAAAAAAADmJ7AQ/original"
+    }
+  ]
+}

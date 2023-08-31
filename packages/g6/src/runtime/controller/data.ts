@@ -886,7 +886,7 @@ export class DataController {
             x = 0,
             y = 0,
             z = 0,
-          } = this.graph.getDisplayModel(parentMap[id].old)?.data;
+          } = this.graph.getDisplayModel(parentMap[id].old)?.data || {};
           if (!parentChildren.length) {
             graphCore.mergeNodeData(parentMap[id].old, {
               x: convertToNumber(x),

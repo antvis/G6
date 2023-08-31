@@ -150,7 +150,7 @@ export class Toolbar extends Base {
    * insert css style
    */
   private insertStyle() {
-    if (typeof document !== undefined) {
+    if (typeof document !== 'undefined') {
       insertCss(`
       .g6-component-toolbar {
         position: absolute;
