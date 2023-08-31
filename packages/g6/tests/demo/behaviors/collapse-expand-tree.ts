@@ -6,6 +6,7 @@ export default (
   context: TestCaseContext,
   options: { trigger?: string } = {},
 ) => {
+  // no animations for testing
   const { trigger = 'click' } = options;
   const graph = new G6.Graph({
     ...context,

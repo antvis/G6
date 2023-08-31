@@ -14,6 +14,7 @@ import {
   NodeModelData,
   NodeShapeMap,
   NodeShapeStyles,
+  IAnchorPositionMap,
 } from '../../../types/node';
 import {
   ComboDisplayModel,
@@ -29,6 +30,7 @@ import {
   upsertShape,
 } from '../../../util/shape';
 import { getWordWrapWidthByBox } from '../../../util/text';
+import { convertToNumber } from '../../../util/type';
 import { DEFAULT_ANIMATE_CFG, fadeIn, fadeOut } from '../../../util/animate';
 import { getZoomLevel } from '../../../util/zoom';
 import { AnimateCfg } from '../../../types/animate';
@@ -43,6 +45,13 @@ export abstract class BaseNode {
     keyShapeLocal?: AABB;
     labelShapeGeometry?: AABB;
   };
+  //vertex coordinate
+
+  /**
+   * Cache the scale transform calculated by balancing size, for restoring.
+   */
+  protected scaleTransformCache = '';
+
   // cache the zoom level infomations
   protected zoomCache: {
     // the id of shapes which are hidden by zoom changing.
@@ -64,15 +73,15 @@ export abstract class BaseNode {
     // the tag of first rendering
     firstRender: boolean;
   } = {
-    hiddenShape: {},
-    zoom: 1,
-    zoomLevel: 0,
-    balanceRatio: 1,
-    levelShapes: {},
-    wordWrapWidth: 32,
-    animateConfig: DEFAULT_ANIMATE_CFG.zoom,
-    firstRender: true,
-  };
+      hiddenShape: {},
+      zoom: 1,
+      zoomLevel: 0,
+      balanceRatio: 1,
+      levelShapes: {},
+      wordWrapWidth: 32,
+      animateConfig: DEFAULT_ANIMATE_CFG.zoom,
+      firstRender: true,
+    };
 
   constructor(props) {
     const { themeStyles, lodStrategy, zoom } = props;
@@ -86,6 +95,10 @@ export abstract class BaseNode {
       ...lodStrategy?.animateCfg,
     };
   }
+
+  /**
+   * Merge default style with the style Customized by users
+   */
   public mergeStyles(model: NodeDisplayModel | ComboDisplayModel) {
     this.mergedStyles = this.getMergedStyles(model);
   }
@@ -155,7 +168,7 @@ export abstract class BaseNode {
         }
       });
 
-    const { levelShapes } = this.zoomCache;
+    const levelShapes = {};
     Object.keys(shapeMap).forEach((shapeId) => {
       const { lod } = shapeMap[shapeId].attributes;
       if (lod !== undefined) {
@@ -163,6 +176,7 @@ export abstract class BaseNode {
         levelShapes[lod].push(shapeId);
       }
     });
+    this.zoomCache.levelShapes = levelShapes;
 
     if (shapeMap.labelShape && this.boundsCache.keyShapeLocal) {
       const { maxWidth = '200%' } = this.mergedStyles.labelShape || {};
@@ -173,6 +187,10 @@ export abstract class BaseNode {
       );
     }
   }
+  /**
+   * Draw all elements related to the graphic.
+   * You should call `drawKeyShape` and `drawAnchorShape`,`drawLabelShape`,`drawIconShape`...as you like.
+   */
   abstract draw(
     model: NodeDisplayModel | ComboDisplayModel,
     shapeMap: { [shapeId: string]: DisplayObject },
@@ -202,6 +220,10 @@ export abstract class BaseNode {
     shapeMap: { [shapeId: string]: DisplayObject },
   ) => void;
 
+  /**
+   * The key function of drawing shape.
+   * Defined the basic shape of the node.
+   */
   abstract drawKeyShape(
     model: NodeDisplayModel | ComboDisplayModel,
     shapeMap: NodeShapeMap | ComboShapeMap,
@@ -212,6 +234,9 @@ export abstract class BaseNode {
     diffState?: { previous: State[]; current: State[] },
   ): DisplayObject;
 
+  /**
+   * Draw the label of the node
+   */
   public drawLabelShape(
     model: NodeDisplayModel | ComboDisplayModel,
     shapeMap: NodeShapeMap | ComboShapeMap,
@@ -221,6 +246,8 @@ export abstract class BaseNode {
     },
     diffState?: { previous: State[]; current: State[] },
   ): DisplayObject {
+    const { labelShape: shapeStyle } = this.mergedStyles;
+    if (!shapeStyle) return;
     const { keyShape } = shapeMap;
     this.boundsCache.keyShapeLocal =
       this.boundsCache.keyShapeLocal || keyShape.getLocalBounds();
@@ -229,13 +256,14 @@ export abstract class BaseNode {
       this.mergedStyles.keyShape,
       this.boundsCache.keyShapeLocal,
     );
-    const { labelShape: shapeStyle } = this.mergedStyles;
     const {
       position,
       offsetX: propsOffsetX,
       offsetY: propsOffsetY,
       offsetZ: propsOffsetZ,
       maxWidth,
+      // @ts-ignore
+      angle,
       ...otherStyle
     } = shapeStyle;
 
@@ -303,9 +331,15 @@ export abstract class BaseNode {
       isBillboard: true,
       ...otherStyle,
     };
+    if (angle) {
+      style.transform = `rotate(${angle}rad)`;
+    }
     return this.upsertShape('text', 'labelShape', style, shapeMap, model);
   }
 
+  /**
+   * Draw the label background of the node
+   */
   public drawLabelBackgroundShape(
     model: NodeDisplayModel | ComboDisplayModel,
     shapeMap: NodeShapeMap | ComboShapeMap,
@@ -355,6 +389,9 @@ export abstract class BaseNode {
     return bgShape;
   }
 
+  /**
+   * Draw the icon of the node
+   */
   public drawIconShape(
     model: NodeDisplayModel | ComboDisplayModel,
     shapeMap: NodeShapeMap | ComboShapeMap,
@@ -398,6 +435,9 @@ export abstract class BaseNode {
     );
   }
 
+  /**
+   * Draw the halo of the node
+   */
   public drawHaloShape(
     model: NodeDisplayModel | ComboDisplayModel,
     shapeMap: NodeShapeMap | ComboShapeMap,
@@ -412,14 +452,16 @@ export abstract class BaseNode {
       this.mergedStyles;
     if (haloShapeStyle.visible === false) return;
     const { nodeName, attributes } = keyShape;
+    const { x, y, fill } = attributes;
     return this.upsertShape(
       nodeName as SHAPE_TYPE,
       'haloShape',
       {
-        ...keyShapeStyle,
-        // actual attributes in the keyShape has higher priority than the style config props of keyShape
         ...attributes,
-        stroke: attributes.fill,
+        ...keyShapeStyle,
+        x,
+        y,
+        stroke: fill,
         ...haloShapeStyle,
         batchKey: 'halo',
       },
@@ -428,6 +470,9 @@ export abstract class BaseNode {
     );
   }
 
+  /**
+   * Draw the anchors of the node
+   */
   public drawAnchorShapes(
     model: NodeDisplayModel | ComboDisplayModel,
     shapeMap: NodeShapeMap | ComboShapeMap,
@@ -448,20 +493,18 @@ export abstract class BaseNode {
     if (!individualConfigs.length) return;
     this.boundsCache.keyShapeLocal =
       this.boundsCache.keyShapeLocal || shapeMap.keyShape.getLocalBounds();
-    const keyShapeBBox = this.boundsCache.keyShapeLocal;
-    const keyShapeWidth = keyShapeBBox.max[0] - keyShapeBBox.min[0];
-    const keyShapeHeight = keyShapeBBox.max[1] - keyShapeBBox.min[1];
-
     const shapes = {};
+    const anchorPositionMap = this.calculateAnchorPosition(keyShapeStyle);
     individualConfigs.forEach((config, i) => {
       const { position, fill = keyShapeStyle.fill, ...style } = config;
+      const [cx, cy] = this.getAnchorPosition(position, anchorPositionMap);
       const id = `anchorShape${i}`;
       shapes[id] = this.upsertShape(
         'circle',
         id,
         {
-          cx: keyShapeWidth * (position[0] - 0.5),
-          cy: keyShapeHeight * (position[1] - 0.5),
+          cx,
+          cy,
           fill,
           ...commonStyle,
           ...style,
@@ -473,6 +516,56 @@ export abstract class BaseNode {
     return shapes;
   }
 
+  private getAnchorPosition(
+    position: string | [number, number],
+    anchorPositionMap: IAnchorPositionMap,
+  ): [number, number] {
+    const keyShapeBBox = this.boundsCache.keyShapeLocal;
+    const keyShapeWidth = keyShapeBBox.max[0] - keyShapeBBox.min[0];
+    const keyShapeHeight = keyShapeBBox.max[1] - keyShapeBBox.min[1];
+    const defaultPosition: [number, number] = [
+      keyShapeBBox.max[0],
+      keyShapeBBox.min[1],
+    ]; //topRight
+    if (position instanceof Array) {
+      return [
+        keyShapeWidth * (position[0] - 0.5),
+        keyShapeHeight * (position[1] - 0.5),
+      ];
+    } else if (typeof position === 'string') {
+      position = position.toLowerCase();
+      //receive a unknown string, remind the user.
+      return (
+        anchorPositionMap[position] ||
+        anchorPositionMap['default'] ||
+        defaultPosition
+      );
+    }
+    //receive a position in unknown type (such as a number or undefined).
+    return anchorPositionMap['default'] || defaultPosition;
+  }
+
+  /**
+   * Configure anchor position by keyShapeStyle. return the configuration.
+   * e.g CircleNode `return {"right":keyShapeStyle.x+keyShapeStyle.r, keyShapeStyle.y}`
+   * @param {*} keyShapeStyle
+   * @return {IAnchorPositionMap} anchorpositionMap
+   */
+  public calculateAnchorPosition(keyShapeStyle: any): IAnchorPositionMap {
+    const x = convertToNumber(keyShapeStyle.x);
+    const y = convertToNumber(keyShapeStyle.y);
+    const r = convertToNumber(keyShapeStyle.r);
+    const anchorPositionMap = {};
+    anchorPositionMap['top'] = [x, y - r];
+    anchorPositionMap['left'] = [x - r, y];
+    anchorPositionMap['right'] = anchorPositionMap['default'] = [x + r, y];
+    anchorPositionMap['bottom'] = [x, y + r];
+    return anchorPositionMap;
+  }
+
+  /**
+   * Draw the badges of the node
+   */
   public drawBadgeShapes(
     model: NodeDisplayModel | ComboDisplayModel,
     shapeMap: NodeShapeMap | ComboShapeMap,
@@ -628,6 +721,9 @@ export abstract class BaseNode {
     return shapes;
   }
 
+  /**
+   * Draw other shapes(such as preRect,stateIcon) of the node
+   */
   public drawOtherShapes(
     model: NodeDisplayModel | ComboDisplayModel,
     shapeMap: NodeShapeMap | ComboShapeMap,
@@ -689,7 +785,7 @@ export abstract class BaseNode {
               id,
               shapeMap[id],
               this.mergedStyles[id] ||
-                this.mergedStyles[id.replace('Background', '')],
+              this.mergedStyles[id.replace('Background', '')],
               hiddenShape,
               animateConfig,
             );
@@ -713,14 +809,14 @@ export abstract class BaseNode {
     zoom: number,
   ) {
     // balance the size for label, badges
-    const { labelShape, labelBackgroundShape } = shapeMap;
+    const { keyShape, labelShape, labelBackgroundShape } = shapeMap;
     const balanceRatio = 1 / zoom || 1;
     this.zoomCache.balanceRatio = balanceRatio;
     if (!labelShape || !labelShape.isVisible()) return;
     const { labelShape: labelStyle } = this.mergedStyles;
     const { position = 'bottom' } = labelStyle;
 
-    const keyShapeLocal = this.boundsCache.keyShapeLocal;
+    const keyShapeLocal = keyShape.getLocalBounds();
     if (zoom < 1) {
       // if it is zoom-out, do not scale the gap between keyShape and labelShape, differentiate from zoom-in by adjusting transformOrigin
       if (position === 'bottom') labelShape.style.transformOrigin = '0';
@@ -728,24 +824,20 @@ export abstract class BaseNode {
     } else {
       switch (position) {
         case 'bottom':
-          labelShape.style.transformOrigin = `0 ${
-            keyShapeLocal.max[1] - labelShape.attributes.y
-          }`;
+          labelShape.style.transformOrigin = `0 ${keyShapeLocal.max[1] - labelShape.attributes.y
+            }`;
           break;
         case 'right':
-          labelShape.style.transformOrigin = `${
-            keyShapeLocal.max[0] - labelShape.attributes.x
-          } 0`;
+          labelShape.style.transformOrigin = `${keyShapeLocal.max[0] - labelShape.attributes.x
+            } 0`;
           break;
         case 'top':
-          labelShape.style.transformOrigin = `0 ${
-            keyShapeLocal.min[1] - labelShape.attributes.y
-          }`;
+          labelShape.style.transformOrigin = `0 ${keyShapeLocal.min[1] - labelShape.attributes.y
+            }`;
           break;
         case 'left':
-          labelShape.style.transformOrigin = `${
-            keyShapeLocal.min[0] - labelShape.attributes.x
-          } 0`;
+          labelShape.style.transformOrigin = `${keyShapeLocal.min[0] - labelShape.attributes.x
+            } 0`;
           break;
         default:
           // center
@@ -753,7 +845,13 @@ export abstract class BaseNode {
           break;
       }
     }
-    labelShape.style.transform = `scale(${balanceRatio}, ${balanceRatio})`;
+    const oriTransform = (labelShape.style.transform || '').replace(
+      this.scaleTransformCache,
+      '',
+    );
+    const scaleTransform = `scale(${balanceRatio}, ${balanceRatio})`;
+    labelShape.style.transform = `${oriTransform} ${scaleTransform}`;
+    this.scaleTransformCache = scaleTransform;
     const wordWrapWidth = this.zoomCache.wordWrapWidth * zoom;
     labelShape.style.wordWrapWidth = wordWrapWidth;
 
@@ -767,34 +865,28 @@ export abstract class BaseNode {
     switch (position) {
       case 'top':
         // if it is zoom-out, do not scale the gap between keyShape and labelShape, differentiate from zoom-in by adjusting transformOrigin
-        labelBackgroundShape.style.transformOrigin = `${
-          paddingLeft + (width - paddingLeft - paddingRight) / 2
-        } ${zoom < 1 ? height - paddingBottom : keyShapeLocal.min[1] - y}`;
+        labelBackgroundShape.style.transformOrigin = `${paddingLeft + (width - paddingLeft - paddingRight) / 2
+          } ${zoom < 1 ? height - paddingBottom : keyShapeLocal.min[1] - y}`;
         break;
       case 'left':
-        labelBackgroundShape.style.transformOrigin = `${
-          zoom < 1 ? width - paddingRight : keyShapeLocal.min[0] - x
-        } ${paddingTop + (height - paddingTop - paddingBottom) / 2}`;
+        labelBackgroundShape.style.transformOrigin = `${zoom < 1 ? width - paddingRight : keyShapeLocal.min[0] - x
+          } ${paddingTop + (height - paddingTop - paddingBottom) / 2}`;
         break;
       case 'right':
-        labelBackgroundShape.style.transformOrigin = `${
-          zoom < 1 ? paddingLeft : keyShapeLocal.max[0] - x
-        } ${paddingTop + (height - paddingTop - paddingBottom) / 2}`;
+        labelBackgroundShape.style.transformOrigin = `${zoom < 1 ? paddingLeft : keyShapeLocal.max[0] - x
+          } ${paddingTop + (height - paddingTop - paddingBottom) / 2}`;
         break;
       case 'bottom':
-        labelBackgroundShape.style.transformOrigin = `${
-          paddingLeft + (width - paddingLeft - paddingRight) / 2
-        } ${
-          zoom < 1
+        labelBackgroundShape.style.transformOrigin = `${paddingLeft + (width - paddingLeft - paddingRight) / 2
+          } ${zoom < 1
             ? paddingTop + (height - paddingTop - paddingBottom) / 2
             : keyShapeLocal.max[1] - y
-        }`;
+          }`;
         break;
       default:
         // center
-        labelBackgroundShape.style.transformOrigin = `${
-          paddingLeft + (width - paddingLeft - paddingRight) / 2
-        } ${paddingTop + (height - paddingTop - paddingBottom) / 2}`;
+        labelBackgroundShape.style.transformOrigin = `${paddingLeft + (width - paddingLeft - paddingRight) / 2
+          } ${paddingTop + (height - paddingTop - paddingBottom) / 2}`;
     }
 
     const { labelShapeGeometry: labelBBox } = this.boundsCache;

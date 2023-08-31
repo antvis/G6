@@ -1,6 +1,6 @@
 ---
 title: Concentric 同心圆布局
-order: 6
+order: 10
 ---
 
 Concentric 同心圆布局将所有节点放置在同心圆上。

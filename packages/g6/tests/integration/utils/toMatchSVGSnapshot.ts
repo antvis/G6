@@ -30,24 +30,30 @@ export async function toMatchSVGSnapshot(
       if (process.env.CI === 'true') {
         throw new Error(`Please generate golden image for ${namePath}`);
       }
-      const actual = xmlserializer.serializeToString(
+      const actualDOM = removeDOMIds(
         dom.window.document.getElementById(containerId).children[0],
       );
+      const actual = xmlserializer.serializeToString(actualDOM);
       fs.writeFileSync(expectedPath, actual);
       return {
         message: () => `generate ${namePath}`,
         pass: true,
       };
     } else {
-      const actual = xmlserializer.serializeToString(
+      const actualDOM = removeDOMIds(
         dom.window.document.getElementById(containerId).children[0],
       );
+      const actual = xmlserializer.serializeToString(actualDOM);
       const snapshot = fs.readFileSync(expectedPath, {
         encoding: 'utf8',
         flag: 'r',
       });
+      const parser = new DOMParser();
+      const snapshotDOM = parser.parseFromString(snapshot, 'image/svg+xml');
+      // @ts-ignore
+      const snapshotStr = xmlserializer.serializeToString(snapshotDOM);
 
-      if (actual !== snapshot) {
+      if (actual !== snapshotStr) {
         fs.writeFileSync(actualPath, actual);
         return {
           message: () => `mismatch ${namePath} `,
@@ -67,3 +73,14 @@ export async function toMatchSVGSnapshot(
     };
   }
 }
+
+const removeDOMIds = (DOM) => {
+  delete DOM.id;
+  if (DOM.childNodes?.length) {
+    DOM.childNodes.forEach((child) => {
+      child.removeAttribute?.('id');
+      removeDOMIds(child);
+    });
+  }
+  return DOM;
+};

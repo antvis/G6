@@ -3,12 +3,13 @@ import { Group, Tuple3Number } from '@antv/g';
 import { clone, throttle } from '@antv/util';
 import { DisplayMapper, LodStrategyObj, State } from '../types/item';
 import { ComboStyleSet } from '../types/theme';
-import {
-  ComboModelData,
-  ComboUserModel,
-  ComboUserModelData,
-} from '../types/combo';
+import { ComboModelData, ComboUserModelData } from '../types/combo';
 import { Point } from '../types/common';
+import {
+  getCircleIntersectByPoint,
+  getNearestPoint,
+  getRectIntersectByPoint,
+} from '../util/point';
 import Node from './node';
 
 interface IProps {
@@ -39,6 +40,7 @@ interface IProps {
 }
 export default class Combo extends Node {
   public type: 'combo';
+  private anchorPointsCache: Point[] | undefined;
 
   private cacheCombinedBounds?:
     | {
@@ -49,7 +51,7 @@ export default class Combo extends Node {
       }
     | false;
 
-  private getCombinedBounds: () =>
+  public getCombinedBounds: () =>
     | {
         center: Tuple3Number;
         min: Tuple3Number;
@@ -58,7 +60,7 @@ export default class Combo extends Node {
       }
     | false;
 
-  private getChildren: () => (Combo | Node)[];
+  public getChildren: () => (Combo | Node)[];
 
   constructor(props: IProps) {
     super({ ...props, type: 'combo' });
@@ -152,8 +154,7 @@ export default class Combo extends Node {
         const height = size[1] + padding[0] + padding[2];
         model.data.keyShape.width = width;
         model.data.keyShape.height = height;
-        const diag = Math.sqrt(width * width + height * height);
-        model.data.keyShape.r = diag / 2;
+        model.data.keyShape.r = Math.sqrt(width * width + height * height) / 2;
       }
     }
     return model;
@@ -177,6 +178,90 @@ export default class Combo extends Node {
         };
   }
 
+  public getIntersectPoint(
+    point: Point,
+    innerPoint: Point,
+    anchorPoints: number[][],
+  ) {
+    const { keyShape } = this.shapeMap;
+    const shapeType = keyShape.nodeName;
+    const { collapsed, keyShape: keyShapeStyle } = this.displayModel.data;
+    const { x, y, z } = innerPoint;
+    let intersectPoint: Point | null;
+    switch (shapeType) {
+      case 'circle':
+        intersectPoint = getCircleIntersectByPoint(
+          {
+            x,
+            y,
+            r:
+              (collapsed ? keyShapeStyle?.r : keyShape.attributes.r) ||
+              keyShape.attributes.r,
+          },
+          point,
+        );
+        break;
+      default: {
+        const bbox =
+          this.renderExt.boundsCache?.keyShapeLocal ||
+          keyShape.getLocalBounds();
+
+        intersectPoint = getRectIntersectByPoint(
+          collapsed
+            ? {
+                x: x - keyShapeStyle.width / 2,
+                y: y - keyShapeStyle.height / 2,
+                width: keyShapeStyle.width,
+                height: keyShapeStyle.height,
+              }
+            : {
+                x: x + bbox.min[0],
+                y: y + bbox.min[1],
+                width: bbox.max[0] - bbox.min[0],
+                height: bbox.max[1] - bbox.min[1],
+              },
+          point,
+        );
+      }
+    }
+
+    let anchorPointsPositions = this.anchorPointsCache;
+    if (!anchorPointsPositions) {
+      const keyShapeBBox =
+        this.renderExt.boundsCache?.keyShapeLocal ||
+        this.shapeMap.keyShape.getLocalBounds();
+      const keyShapeWidth = keyShapeBBox.max[0] - keyShapeBBox.min[0];
+      const keyShapeHeight = keyShapeBBox.max[1] - keyShapeBBox.min[1];
+      anchorPointsPositions = anchorPoints.map((pointRatio) => {
+        const [xRatio, yRatio] = pointRatio;
+        return {
+          x: keyShapeWidth * (xRatio - 0.5) + x,
+          y: keyShapeHeight * (yRatio - 0.5) + y,
+        };
+      });
+      this.anchorPointsCache = anchorPointsPositions;
+    }
+
+    let linkPoint = intersectPoint;
+    // If the node has anchorPoints in the data, find the nearest anchor point.
+    if (anchorPoints.length) {
+      if (!linkPoint) {
+        // If the linkPoint is failed to calculate.
+        linkPoint = point;
+      }
+      linkPoint = getNearestPoint(
+        anchorPointsPositions,
+        linkPoint,
+      ).nearestPoint;
+    }
+    if (!linkPoint) {
+      // If the calculations above are all failed, return the data's position
+      return { x, y };
+    }
+    return linkPoint;
+  }
+
+  // @ts-ignore
   public clone(
     containerGroup: Group,
     onlyKeyShape?: boolean,
@@ -193,9 +278,9 @@ export default class Combo extends Node {
   ) {
     if (onlyKeyShape) {
       const clonedKeyShape = this.shapeMap.keyShape.cloneNode();
-      const { x, y } = this.group.attributes;
+      const pos = this.group.getPosition();
       const clonedGroup = new Group();
-      clonedGroup.setPosition([x, y]);
+      clonedGroup.setPosition(pos);
       clonedGroup.appendChild(clonedKeyShape);
       containerGroup.appendChild(clonedGroup);
       return clonedGroup;

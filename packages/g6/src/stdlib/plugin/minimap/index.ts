@@ -1,42 +1,52 @@
 // TODO: update type define.
 // @ts-nocheck
-import { Canvas, Group, Rect, DisplayObject } from '@antv/g';
-import { isString, isNil, each, debounce } from '@antv/util';
 import { createDom, modifyCSS } from '@antv/dom-util';
+import { Canvas, DisplayObject, Group, Rect } from '@antv/g';
+import { debounce, each, isNil, isString, uniqueId } from '@antv/util';
 import { IGraph } from '../../../types';
+import { IG6GraphEvent } from '../../../types/event';
 import { ShapeStyle } from '../../../types/item';
 import { Plugin as Base, IPluginBaseConfig } from '../../../types/plugin';
 import { createCanvas } from '../../../util/canvas';
-import { IG6GraphEvent } from '../../../types/event';
 
 const DEFAULT_MODE = 'default';
 const KEYSHAPE_MODE = 'keyShape';
 const DELEGATE_MODE = 'delegate';
 const SVG = 'svg';
 
-interface MiniMapConfig extends IPluginBaseConfig {
+export interface MiniMapConfig extends IPluginBaseConfig {
+  /** Class name of viewport */
   viewportClassName?: string;
+  /** Class name of minimap */
   className?: string;
+  /** Mode of minimap */
   mode?: 'default' | 'keyShape' | 'delegate';
+  /** Size of minimap */
   size?: number[];
+  /** Style of delegate shape */
   delegateStyle?: ShapeStyle;
+  /** Whether to refresh minimap */
   refresh?: boolean;
+  /** Padding of minimap */
   padding?: number;
-  hideEdge?: boolean; // hide the edges on the minimap to enhance the performance
+  /** Whether to hide edges on minimap to enhance performance */
+  hideEdge?: boolean;
+  /** Container for minimap */
   container?: HTMLDivElement | null;
 }
 
-export default class Minimap extends Base {
+export class Minimap extends Base {
   private canvas: Canvas;
   /** The viewport DOM on the minimap. */
   private viewport: HTMLElement | undefined;
   /** Cache the mapping of graphics of nodes/edges/combos on main graph and minimap graph. */
-  private itemMap: {
-    [id: string]: {
+  private itemMap: Map<
+    ID,
+    {
       minimapItem: DisplayObject;
       graphItem: DisplayObject;
-    };
-  } = {};
+    }
+  > = new Map();
   private container: HTMLDivElement;
   /** Ratio of (minimap graph size / main graph size). */
   private ratio: number;
@@ -51,6 +61,7 @@ export default class Minimap extends Base {
 
   public getDefaultCfgs(): MiniMapConfig {
     return {
+      key: `minimap-${uniqueId()}`,
       container: null,
       className: 'g6-minimap',
       viewportClassName: 'g6-minimap-viewport',
@@ -351,13 +362,13 @@ export default class Minimap extends Base {
    * @param group container graphics group on minimap
    */
   private updateOneNodeKeyShape(nodeModel, group) {
-    const { itemMap = {}, graph } = this;
+    const { itemMap = new Map(), graph } = this;
     const graphNodeGroup = graph.canvas
       .getRoot()
       .find((ele) => ele.id === 'node-group');
     if (!graphNodeGroup) return;
 
-    let { minimapItem, graphItem } = itemMap[nodeModel.id] || {};
+    let { minimapItem, graphItem } = itemMap.get(nodeModel.id) || {};
     if (!minimapItem || minimapItem.destroyed) {
       graphItem = graphNodeGroup
         .find((ele) => ele.getAttribute('data-item-id') === nodeModel.id)
@@ -365,7 +376,7 @@ export default class Minimap extends Base {
       minimapItem = graphItem.cloneNode();
       minimapItem.id = `minimap-keyShape-${nodeModel.id}`;
       group.appendChild(minimapItem);
-      itemMap[nodeModel.id] = { graphItem, minimapItem };
+      itemMap.set(nodeModel.id, { graphItem, minimapItem });
     }
     const bbox = graphItem.getRenderBounds();
     if (!bbox) return;
@@ -433,16 +444,14 @@ export default class Minimap extends Base {
   }
 
   private clearDestroyedShapes() {
-    const { itemMap = {} } = this;
-    const keys = Object.keys(itemMap);
-    if (!keys || keys.length === 0) return;
-    for (let i = keys.length - 1; i >= 0; i--) {
-      const { minimapItem, graphItem } = itemMap[keys[i]] || {};
+    const { itemMap = new Map() } = this;
+    itemMap.forEach((val, key) => {
+      const { minimapItem, graphItem } = val || {};
       if (graphItem.destroyed && minimapItem) {
         minimapItem.remove();
-        delete itemMap[keys[i]];
+        itemMap.delete(key);
       }
-    }
+    });
   }
 
   /**
@@ -451,12 +460,12 @@ export default class Minimap extends Base {
    * @param group container graphics group on minimap
    */
   private updateOneEdgeKeyShape(edgeModel, group) {
-    const { itemMap = {}, graph } = this;
+    const { itemMap = new Map(), graph } = this;
     const graphEdgeGroup = graph.canvas
       .getRoot()
       .find((ele) => ele.id === 'edge-group');
     if (!graphEdgeGroup) return;
-    let { minimapItem, graphItem } = itemMap[edgeModel.id] || {};
+    let { minimapItem, graphItem } = itemMap.get(edgeModel.id) || {};
     if (minimapItem && !minimapItem.destroyed) {
       const path = graphItem.style.path;
       minimapItem.style.path = path;
@@ -470,7 +479,7 @@ export default class Minimap extends Base {
     }
     if (!graph.getItemVisible(edgeModel.id)) minimapItem.hide();
     else minimapItem.show();
-    itemMap[edgeModel.id] = { graphItem, minimapItem };
+    itemMap.set(edgeModel.id, { graphItem, minimapItem });
     this.itemMap = itemMap;
   }
 
@@ -480,7 +489,7 @@ export default class Minimap extends Base {
    * @param group container graphics group on minimap
    */
   private updateOneNodeDelegateShape(nodeModel, group) {
-    const { itemMap = {}, options, graph } = this;
+    const { itemMap = new Map(), options, graph } = this;
     const { delegateStyle } = options;
 
     const graphNodeGroup = graph.canvas
@@ -489,7 +498,7 @@ export default class Minimap extends Base {
     if (!graphNodeGroup) return;
 
     // 差量更新 minimap 上的一个节点，对应主图的 item
-    let { minimapItem, graphItem } = itemMap[nodeModel.id] || {};
+    let { minimapItem, graphItem } = itemMap.get(nodeModel.id) || {};
     if (!graphItem) {
       graphItem = graphNodeGroup
         .find((ele) => ele.getAttribute('data-item-id') === nodeModel.id)
@@ -523,7 +532,7 @@ export default class Minimap extends Base {
 
     if (!graph.getItemVisible(nodeModel.id)) minimapItem.hide();
     else minimapItem.show();
-    itemMap[nodeModel.id] = { graphItem, minimapItem };
+    itemMap.set(nodeModel.id, { graphItem, minimapItem });
     this.itemMap = itemMap;
   }
 

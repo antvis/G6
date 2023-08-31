@@ -15,7 +15,7 @@ const compare = (prev: ID[], curr: ID[]) => {
   };
 };
 
-interface ActivateRelationsOptions {
+export interface ActivateRelationsOptions {
   /**
    * Whether to allow multiple selection.
    * Defaults to true.
@@ -57,7 +57,7 @@ const DEFAULT_OPTIONS: ActivateRelationsOptions = {
   activeState: 'selected',
 };
 
-export default class ActivateRelations extends Behavior {
+export class ActivateRelations extends Behavior {
   timer: number;
   inactiveItems: {};
   prevNodeIds: ID[];
@@ -118,20 +118,24 @@ export default class ActivateRelations extends Behavior {
       edgeIds,
     );
 
-    /** 节点 */
-    graph.setItemState(activeNodeIds, ACTIVE_STATE, true);
-    graph.setItemState(inactiveNodeIds, ACTIVE_STATE, false);
-    /** 边 */
-    graph.setItemState(activeEdgeIds, ACTIVE_STATE, true);
-    graph.setItemState(inactiveEdgeIds, ACTIVE_STATE, false);
+    graph.batch(() => {
+      /** 节点 */
+      graph.setItemState(activeNodeIds, ACTIVE_STATE, true);
+      graph.setItemState(inactiveNodeIds, ACTIVE_STATE, false);
+      /** 边 */
+      graph.setItemState(activeEdgeIds, ACTIVE_STATE, true);
+      graph.setItemState(inactiveEdgeIds, ACTIVE_STATE, false);
+    });
 
     this.prevNodeIds = nodeIds;
     this.prevEdgeIds = edgeIds;
   }
   public clearActiveState(e: any) {
     const { activeState: ACTIVE_STATE } = this.options;
-    this.graph.setItemState(this.prevNodeIds, ACTIVE_STATE, false);
-    this.graph.setItemState(this.prevEdgeIds, ACTIVE_STATE, false);
+    this.graph.batch(() => {
+      this.graph.setItemState(this.prevNodeIds, ACTIVE_STATE, false);
+      this.graph.setItemState(this.prevEdgeIds, ACTIVE_STATE, false);
+    });
     this.prevNodeIds = [];
     this.prevEdgeIds = [];
   }

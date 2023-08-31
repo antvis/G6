@@ -7,6 +7,7 @@ import {
   ForceLayoutOptions,
   FruchtermanLayoutOptions,
   GridLayoutOptions,
+  Layout,
   LayoutMapping,
   MDSLayoutOptions,
   RadialLayoutOptions,
@@ -51,22 +52,21 @@ type CustomLayout = {
   [option: string]: any;
 };
 
-export type StandardLayoutOptions =
-  | (
-      | CircularLayout
-      | RandomLayout
-      | ConcentricLayout
-      | GridLayout
-      | MDSLayout
-      | RadialLayout
-      | FruchtermanLayout
-      | D3ForceLayout
-      | ForceLayout
-      | ForceAtlas2
-      | CustomLayout
-    ) &
-      Animatable &
-      Workerized;
+export type StandardLayoutOptions = (
+  | CircularLayout
+  | RandomLayout
+  | ConcentricLayout
+  | GridLayout
+  | MDSLayout
+  | RadialLayout
+  | FruchtermanLayout
+  | D3ForceLayout
+  | ForceLayout
+  | ForceAtlas2
+  | CustomLayout
+) &
+  Animatable &
+  Workerized;
 
 export type LayoutOptions =
   | StandardLayoutOptions
@@ -135,4 +135,8 @@ interface ForceLayout extends ForceLayoutOptions {
 
 interface ForceAtlas2 extends ForceAtlas2LayoutOptions {
   type: 'forceAtlas2';
+}
+
+export interface LayoutRegistry {
+  [key: string]: Layout<LayoutOptions>;
 }

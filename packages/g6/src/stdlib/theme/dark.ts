@@ -13,7 +13,7 @@ const edgeMainStroke = '#637088';
 
 const nodeStroke = '#D0E4FF';
 
-export default {
+export const DarkTheme = {
   node: {
     palette: [
       '#4089FF',
@@ -92,6 +92,7 @@ export default {
           },
           haloShape: {
             visible: false,
+            droppable: false,
           },
         },
         selected: {
@@ -108,6 +109,7 @@ export default {
             zIndex: -1,
             pointerEvents: 'none',
             visible: true,
+            droppable: false,
           },
         },
         active: {
@@ -120,6 +122,7 @@ export default {
             zIndex: -1,
             pointerEvents: 'none',
             visible: true,
+            droppable: false,
           },
         },
         highlight: {
@@ -132,6 +135,7 @@ export default {
           },
           haloShape: {
             visible: false,
+            droppable: false,
           },
         },
         inactive: {
@@ -146,6 +150,7 @@ export default {
           },
           haloShape: {
             visible: false,
+            droppable: false,
           },
         },
         disable: {
@@ -155,6 +160,7 @@ export default {
           },
           haloShape: {
             visible: false,
+            droppable: false,
           },
         },
       },
@@ -239,6 +245,7 @@ export default {
             zIndex: -1,
             pointerEvents: 'none',
             visible: true,
+            droppable: false,
           },
         },
         active: {
@@ -251,6 +258,7 @@ export default {
             zIndex: -1,
             pointerEvents: 'none',
             visible: true,
+            droppable: false,
           },
         },
         highlight: {

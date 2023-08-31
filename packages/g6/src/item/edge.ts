@@ -1,11 +1,12 @@
-import { Group } from '@antv/g';
+import { Circle, Group } from '@antv/g';
 import { clone, throttle } from '@antv/util';
-import { EdgeDisplayModel, EdgeModel, NodeModelData } from '../types';
+import { EdgeDisplayModel, EdgeModel, ID } from '../types';
 import { EdgeModelData } from '../types/edge';
 import { DisplayMapper, State, LodStrategyObj } from '../types/item';
 import { updateShapes } from '../util/shape';
 import { animateShapes } from '../util/animate';
 import { EdgeStyleSet } from '../types/theme';
+import { isSamePoint, getNearestPoint } from '../util/point';
 import Item from './item';
 import Node from './node';
 import Combo from './combo';
@@ -18,14 +19,15 @@ interface IProps {
   stateMapper?: {
     [stateName: string]: DisplayMapper;
   };
-  sourceItem: Node;
-  targetItem: Node;
+  sourceItem: Node | Combo;
+  targetItem: Node | Combo;
   zoom?: number;
   theme: {
     styles: EdgeStyleSet;
     lodStrategy: LodStrategyObj;
   };
   onframe?: Function;
+  nodeMap?: Map<ID, Node>;
 }
 
 export default class Edge extends Item {
@@ -36,15 +38,24 @@ export default class Edge extends Item {
   public displayModel: EdgeDisplayModel;
   /** Set to different value in implements */
   public type: 'edge' = 'edge';
-  public sourceItem: Node;
-  public targetItem: Node;
+  public nodeMap: Map<ID, Node>;
+  public sourceItem: Node | Combo;
+  public targetItem: Node | Combo;
 
   constructor(props: IProps) {
     super(props);
     this.init({ ...props, type: 'edge' });
-    const { sourceItem, targetItem } = props;
+    const { sourceItem, targetItem, nodeMap } = props;
     this.sourceItem = sourceItem;
     this.targetItem = targetItem;
+    this.nodeMap = nodeMap;
+    // todo: combo
+    if (sourceItem.getType() === 'node') {
+      this.nodeMap.set(sourceItem.getID(), sourceItem as Node);
+    }
+    if (sourceItem.getType() === 'node') {
+      this.nodeMap.set(targetItem.getID(), targetItem as Node);
+    }
     this.draw(this.displayModel);
   }
   public draw(
@@ -54,15 +65,46 @@ export default class Edge extends Item {
     animate = true,
     onfinish: Function = () => {},
   ) {
-    // get the end points
-    const { x: sx, y: sy, z: sz } = this.sourceItem.getPosition();
-    const { x: tx, y: ty, z: tz } = this.targetItem.getPosition();
-    const sourcePoint = this.sourceItem.getAnchorPoint({ x: tx, y: ty, z: tz });
-    const targetPoint = this.targetItem.getAnchorPoint({ x: sx, y: sy, z: sz });
+    // get the point near the other end
+    const { sourceAnchor, targetAnchor, keyShape } = displayModel.data;
+    const sourcePosition = this.sourceItem.getPosition();
+    const targetPosition = this.targetItem.getPosition();
+
+    let targetPrevious = sourcePosition;
+    let sourcePrevious = targetPosition;
+
+    // TODO: type
+    // @ts-ignore
+    if (keyShape?.controlPoints?.length) {
+      // @ts-ignore
+      const controlPointsBesideEnds = keyShape.controlPoints.filter(
+        (point) =>
+          !isSamePoint(point, sourcePosition) &&
+          !isSamePoint(point, targetPosition),
+      );
+      sourcePrevious = getNearestPoint(
+        controlPointsBesideEnds,
+        sourcePosition,
+      ).nearestPoint;
+      targetPrevious = getNearestPoint(
+        controlPointsBesideEnds,
+        targetPosition,
+      ).nearestPoint;
+    }
+    const sourcePoint = this.sourceItem.getAnchorPoint(
+      sourcePrevious,
+      sourceAnchor,
+    );
+    const targetPoint = this.targetItem.getAnchorPoint(
+      targetPrevious,
+      targetAnchor,
+    );
     this.renderExt.mergeStyles(displayModel);
     const firstRendering = !this.shapeMap?.keyShape;
     this.renderExt.setSourcePoint(sourcePoint);
     this.renderExt.setTargetPoint(targetPoint);
+    this.renderExt.setNodeMap(this.nodeMap);
+
     const shapeMap = this.renderExt.draw(
       displayModel,
       sourcePoint,
@@ -107,6 +149,11 @@ export default class Edge extends Item {
         this.animateFrameListener,
         (canceled) => onfinish(displayModel.id, canceled),
       );
+    }
+
+    if (firstRendering && !this.visible) {
+      this.visible = true;
+      this.hide(false);
     }
   }
 
@@ -161,6 +208,7 @@ export default class Edge extends Item {
       renderExtensions: this.renderExtensions,
       sourceItem,
       targetItem,
+      nodeMap: this.nodeMap,
       containerGroup,
       mapper: this.mapper,
       stateMapper: this.stateMapper,

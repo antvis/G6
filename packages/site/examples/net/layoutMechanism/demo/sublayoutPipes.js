@@ -1,3 +1,5 @@
+// TODO: skip this demo temporary since pipes is not supported in beta yet.
+
 import G6 from '@antv/g6';
 
 const data = { nodes: [], edges: [] };
@@ -6,9 +8,10 @@ for (let i = 0; i < 32; i++) {
     id: `${i}`,
     label: i < 17 ? `employee-${i}` : `company-${i - 17}`,
     dataType: i < 17 ? 'employee' : 'company',
-    style: i < 17 ?
-      { stroke: '#5D7092', fill: '#5D7092', fillOpacity: 0.5 } :
-      { stroke: '#5B8FF9', fill: '#5B8FF9', fillOpacity: 0.5 }
+    style:
+      i < 17
+        ? { stroke: '#5D7092', fill: '#5D7092', fillOpacity: 0.5 }
+        : { stroke: '#5B8FF9', fill: '#5B8FF9', fillOpacity: 0.5 },
   });
 }
 data.edges = [
@@ -49,8 +52,8 @@ const legendData = {
     { id: 'employee', label: 'employee', style: { stroke: '#5D7092', fill: '#5D7092' } },
     { id: 'company', label: 'company', style: { stroke: '#5B8FF9', fill: '#5B8FF9' } },
   ],
-  edges: []
-}
+  edges: [],
+};
 
 const legend = new G6.Legend({
   data: legendData,
@@ -63,7 +66,7 @@ const legend = new G6.Legend({
   padding: [4, 16, 8, 16],
   containerStyle: {
     fill: '#ccc',
-    lineWidth: 1
+    lineWidth: 1,
   },
   title: 'Legend',
   titleConfig: {
@@ -78,24 +81,24 @@ const legend = new G6.Legend({
     graphActiveState: 'activeByLegend',
     graphInactiveState: 'inactiveByLegend',
     filterFunctions: {
-      'a': (d) => {
+      a: (d) => {
         if (d.cluster === 'a') return true;
-        return false
+        return false;
       },
-      'b': (d) => {
+      b: (d) => {
         if (d.cluster === 'b') return true;
-        return false
+        return false;
       },
-      'c': (d) => {
+      c: (d) => {
         if (d.cluster === 'c') return true;
-        return false
+        return false;
       },
-      'd': (d) => {
+      d: (d) => {
         if (d.cluster === 'd') return true;
-        return false
+        return false;
       },
-    }
-  }
+    },
+  },
 });
 
 const container = document.getElementById('container');
@@ -114,39 +117,39 @@ const graph = new G6.Graph({
     activeByLegend: {
       lineWidth: 5,
       strokeOpacity: 0.5,
-      stroke: '#f00'
+      stroke: '#f00',
     },
     inactiveByLegend: {
-      opacity: 0.5
-    }
+      opacity: 0.5,
+    },
   },
   layout: {
     pipes: [
       {
         type: 'circular',
-        nodesFilter: (node) => (+node.id) <= 6,
-        center: [width / 5 * 4 - 30, height / 2],
-        radius: width / 10
+        nodesFilter: (node) => +node.id <= 6,
+        center: [(width / 5) * 4 - 30, height / 2],
+        radius: width / 10,
       },
       {
         type: 'circular',
-        nodesFilter: (node) => ((+node.id) >= 7 && (+node.id) <= 10),
-        center: [width / 20 + 30, height / 3 * 2],
-        radius: width / 20
+        nodesFilter: (node) => +node.id >= 7 && +node.id <= 10,
+        center: [width / 20 + 30, (height / 3) * 2],
+        radius: width / 20,
       },
       {
         type: 'circular',
-        nodesFilter: (node) => ((+node.id) >= 11 && (+node.id) <= 16),
+        nodesFilter: (node) => +node.id >= 11 && +node.id <= 16,
         center: [width / 20 + 30, height / 3],
-        radius: width / 20
+        radius: width / 20,
       },
       {
         type: 'grid',
-        nodesFilter: (node) => (+node.id) > 16,
+        nodesFilter: (node) => +node.id > 16,
         begin: [width / 10 + 50, 20],
-        width: width / 5 * 3 - 100,
+        width: (width / 5) * 3 - 100,
         height: height - 40,
-      }
+      },
     ],
   },
 });

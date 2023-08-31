@@ -13,22 +13,6 @@
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*1KY7SLEXxqMAAAAAAAAAAABkARQnAQ"
     },
     {
-      "filename": "fruchtermanClustering.js",
-      "title": {
-        "zh": "Fruchterman 聚类布局",
-        "en": "Fruchterman with Clustering"
-      },
-      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*WO1OTbNE_ugAAAAAAAAAAABkARQnAQ"
-    },
-    {
-      "filename": "fruchtermanConfigurationTranslate.js",
-      "title": {
-        "zh": "Fruchterman 布局参数动态变化",
-        "en": "Update the Configurations for Fruchterman"
-      },
-      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*W9MoQoKaQbYAAAAAAAAAAABkARQnAQ"
-    },
-    {
       "filename": "fruchtermanWebWorker.js",
       "title": {
         "zh": "Fruchterman 使用 Web-worker",

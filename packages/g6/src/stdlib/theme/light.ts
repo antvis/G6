@@ -18,7 +18,7 @@ const comboStroke = 'rgba(153,173,209,1)';
 const comboSelectedStroke = 'rgba(27,50,79,1)';
 const disabledStroke = 'rgba(153,173,209,1)';
 
-export default {
+export const LightTheme = {
   node: {
     palette: [
       '#4089FF',
@@ -95,6 +95,7 @@ export default {
           },
           haloShape: {
             visible: false,
+            droppable: false,
           },
         },
         selected: {
@@ -111,6 +112,7 @@ export default {
             pointerEvents: 'none',
             zIndex: -1,
             visible: true,
+            droppable: false,
           },
         },
         active: {
@@ -123,6 +125,7 @@ export default {
             pointerEvents: 'none',
             zIndex: -1,
             visible: true,
+            droppable: false,
           },
         },
         highlight: {
@@ -135,6 +138,7 @@ export default {
           },
           haloShape: {
             visible: false,
+            droppable: false,
           },
         },
         inactive: {
@@ -149,6 +153,7 @@ export default {
           },
           haloShape: {
             visible: false,
+            droppable: false,
           },
         },
         disable: {
@@ -158,6 +163,7 @@ export default {
           },
           haloShape: {
             visible: false,
+            droppable: false,
           },
         },
       },
@@ -241,6 +247,7 @@ export default {
             zIndex: -1,
             pointerEvents: 'none',
             visible: true,
+            droppable: false,
           },
         },
         active: {
@@ -253,6 +260,7 @@ export default {
             zIndex: -1,
             pointerEvents: 'none',
             visible: true,
+            droppable: false,
           },
         },
         highlight: {
@@ -325,6 +333,7 @@ export default {
             zIndex: -1,
             visible: true,
             stroke: 'rgba(153,173,209,1)',
+            droppable: false,
           },
         },
         active: {
@@ -339,6 +348,7 @@ export default {
             zIndex: -1,
             visible: true,
             stroke: 'rgba(153,173,209,1)',
+            droppable: false,
           },
         },
         highlight: {
@@ -380,8 +390,8 @@ export default {
             stroke: comboStroke,
             // the collapsed size
             r: 16,
-            width: 20,
-            height: 10,
+            width: 48,
+            height: 24,
             padding: [25, 20, 15, 20],
           },
           iconShape: {

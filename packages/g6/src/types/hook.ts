@@ -10,6 +10,7 @@ import { NodeModel, NodeModelData } from './node';
 import { ThemeSpecification } from './theme';
 import { GraphTransformOptions } from './view';
 import { ComboModel } from './combo';
+import { Plugin as PluginBase } from './plugin';
 
 export interface IHook<T> {
   name: string;
@@ -69,17 +70,25 @@ export interface Hooks {
     ids: ID[];
     states?: string[];
     value?: boolean;
+    action?: string;
+    enableStack?: boolean;
+    changes?: any;
   }>;
   itemvisibilitychange: IHook<{
     ids: ID[];
     graphCore?: GraphCore;
     value?: boolean;
     animate?: boolean;
+    action?: string;
+    enableStack?: boolean;
+    changes?: any;
   }>;
   itemzindexchange: IHook<{
     ids: ID[];
     action: 'front' | 'back';
     graphCore: GraphCore;
+    enableStack?: boolean;
+    changes?: any;
   }>;
   transientupdate: IHook<{
     type: ITEM_TYPE | SHAPE_TYPE;
@@ -98,6 +107,7 @@ export interface Hooks {
     plugins: (
       | string
       | { key: string; type: string; [cfgName: string]: unknown }
+      | PluginBase
     )[];
   }>;
   themechange: IHook<{

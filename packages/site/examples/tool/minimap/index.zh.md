@@ -1,5 +1,5 @@
 ---
-title: Minimap
+title: 小地图导航
 order: 2
 ---
 

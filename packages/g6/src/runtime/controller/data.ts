@@ -1,4 +1,4 @@
-import { Graph as GraphLib, GraphView, ID } from '@antv/graphlib';
+import { Graph as GraphLib, ID } from '@antv/graphlib';
 import { clone, isArray, isObject } from '@antv/util';
 import { registery as registry } from '../../stdlib';
 import { ComboModel, ComboUserModel, GraphData, IGraph } from '../../types';
@@ -24,15 +24,18 @@ import {
   NodeUserModel,
   NodeUserModelData,
 } from '../../types/node';
-import { getExtension } from '../../util/extension';
 import {
   deconstructData,
   graphComboTreeDfs,
   graphData2TreeData,
+  traverse,
   treeData2GraphData,
   validateComboStrucutre,
-  traverse,
 } from '../../util/data';
+import { getExtension } from '../../util/extension';
+import { convertToNumber } from '../../util/type';
+import { isTreeLayout } from '../../util/layout';
+import { hasTreeBehaviors } from '../../util/behavior';
 
 /**
  * Manages the data transform extensions;
@@ -49,6 +52,11 @@ export class DataController {
    * Inner data stored in graphCore structure.
    */
   public graphCore: GraphCore;
+
+  /**
+   * A flag to note whether the tree data structure should be recalculated and establish.
+   */
+  private treeDirtyFlag: boolean;
 
   constructor(graph: IGraph<any, any>) {
     this.graph = graph;
@@ -144,6 +152,13 @@ export class DataController {
     this.graph.hooks.treecollapseexpand.tap(
       this.onTreeCollapseExpand.bind(this),
     );
+
+    // check whether use tree layout or behaviors
+    // if so, establish tree structure for graph
+    this.graph.hooks.layout.tap(this.onLayout.bind(this));
+    this.graph.hooks.init.tap(this.onGraphInit.bind(this));
+    this.graph.hooks.behaviorchange.tap(this.onBehaviorChange.bind(this));
+    this.graph.hooks.modechange.tap(this.onModeChange.bind(this));
   }
 
   /**
@@ -151,7 +166,8 @@ export class DataController {
    */
   private getExtensions() {
     const { transform = [] } = this.graph.getSpecification();
-    return transform
+    const requiredTransformers = ['validate-data'];
+    return [...transform, ...requiredTransformers]
       .map((config) => ({
         config,
         func: getExtension(config, registry.useLib, 'transform'),
@@ -165,13 +181,14 @@ export class DataController {
    */
   private onDataChange(param: { data: DataConfig; type: DataChangeType }) {
     const { data, type: changeType } = param;
+    const { userGraphCore } = this;
     const change = () => {
       switch (changeType) {
         case 'remove':
           this.removeData(data as GraphData);
           break;
         case 'update':
-          this.updateData(data as GraphData);
+          this.updateData(data);
           break;
         case 'moveCombo':
           this.moveCombo(data as GraphData);
@@ -185,7 +202,6 @@ export class DataController {
           break;
       }
     };
-    const { userGraphCore } = this;
     if (userGraphCore) {
       userGraphCore.batch(change);
     } else {
@@ -205,6 +221,60 @@ export class DataController {
     });
   }
 
+  private onLayout({ options }) {
+    if (this.treeDirtyFlag && isTreeLayout(options)) {
+      this.establishUserGraphCoreTree();
+    }
+  }
+
+  private onGraphInit() {
+    const { modes = {} } = this.graph.getSpecification();
+    const mode = this.graph.getMode() || 'default';
+    if (hasTreeBehaviors(modes[mode])) {
+      this.establishUserGraphCoreTree();
+    }
+  }
+
+  private onBehaviorChange(param: {
+    action: 'update' | 'add' | 'remove';
+    modes: string[];
+    behaviors: (string | { type: string; key: string })[];
+  }) {
+    const { action, modes, behaviors } = param;
+    const mode = this.graph.getMode() || 'default';
+    if (action !== 'add' || !modes.includes(mode)) return;
+    if (hasTreeBehaviors(behaviors)) {
+      this.establishUserGraphCoreTree();
+    }
+  }
+
+  private onModeChange(param: { mode: string }) {
+    const { modes = {} } = this.graph.getSpecification();
+    if (hasTreeBehaviors(modes[param.mode])) {
+      this.establishUserGraphCoreTree();
+    }
+  }
+
+  private establishUserGraphCoreTree() {
+    if (!this.treeDirtyFlag) return;
+    const nodes = this.userGraphCore.getAllNodes();
+    const edges = this.userGraphCore.getAllEdges();
+    this.userGraphCore.batch(() => {
+      // graph data to tree structure and storing
+      const rootIds = nodes
+        .filter((node) => node.data.isRoot)
+        .map((node) => node.id);
+      graphData2TreeData({}, { nodes, edges }, rootIds).forEach((tree) => {
+        traverse(tree, (node) => {
+          node.children?.forEach((child) => {
+            this.userGraphCore.setParent(child.id, node.id, 'tree');
+          });
+        });
+      });
+    });
+    this.treeDirtyFlag = false;
+  }
+
   /**
    * Change data by replace, merge repalce, or union.
    * @param data new data
@@ -217,20 +287,10 @@ export class DataController {
     const { type: dataType, data } = this.formatData(dataConfig) || {};
     if (!dataType) return;
 
+    const { nodes = [], edges = [], combos = [] } = this.transformData(data);
+
     if (changeType === 'replace') {
       this.userGraphCore = new GraphLib<NodeUserModelData, EdgeUserModelData>({
-        nodes: data.nodes.concat(
-          data.combos?.map((combo) => ({
-            id: combo.id,
-            data: { ...combo.data, _isCombo: true },
-          })) || [],
-        ),
-        edges: data.edges,
-        onChanged: (event) => this.updateGraphCore(event),
-      });
-      const { data: transformedData } = this.transformData();
-      const { nodes = [], edges = [], combos = [] } = transformedData;
-      this.graphCore = new GraphLib<NodeModelData, EdgeModelData>({
         nodes: nodes.concat(
           combos?.map((combo) => ({
             id: combo.id,
@@ -238,7 +298,19 @@ export class DataController {
           })) || [],
         ),
         edges,
+        onChanged: (event) => this.updateGraphCore(event),
       });
+      this.graphCore = new GraphLib<NodeModelData, EdgeModelData>(
+        clone({
+          nodes: nodes.concat(
+            combos?.map((combo) => ({
+              id: combo.id,
+              data: { ...combo.data, _isCombo: true },
+            })) || [],
+          ),
+          edges,
+        }),
+      );
       if (combos?.length) {
         this.graphCore.attachTreeStructure('combo');
         nodes.forEach((node) => {
@@ -274,7 +346,6 @@ export class DataController {
         nodes: userGraphCore.getAllNodes(),
         edges: [],
       });
-      const { nodes = [], edges = [], combos = [] } = data;
       const nodesAndCombos = nodes.concat(
         combos.map((combo) => ({
           id: combo.id,
@@ -383,7 +454,7 @@ export class DataController {
     const { userGraphCore } = this;
     const { type: dataType, data } = this.formatData(dataConfig);
     if (!dataType) return;
-    const { nodes = [], edges = [], combos = [] } = data as GraphData;
+    const { nodes = [], edges = [], combos = [] } = data; //this.transformData(data as GraphData);
     const {
       nodes: prevNodes,
       edges: prevEdges,
@@ -482,7 +553,12 @@ export class DataController {
       });
     }
 
-    if (edges.length) {
+    if (
+      edges?.filter(
+        (edge) =>
+          edge.hasOwnProperty('source') || edge.hasOwnProperty('target'),
+      ).length
+    ) {
       // convert and store tree structure to graphCore
       this.updateTreeGraph(dataType, {
         nodes: this.userGraphCore.getAllNodes(),
@@ -512,7 +588,11 @@ export class DataController {
       );
       return;
     }
-    return { type: type || 'graphData', data: data as GraphData };
+
+    return {
+      type: type || 'graphData',
+      data: data as GraphData,
+    };
   }
 
   /**
@@ -608,10 +688,14 @@ export class DataController {
   private updateGraphCore(event) {
     const { graphCore } = this;
 
-    // === step 1: clone data from userGraphCore (userData) ===
-    // === step 2: transform the data with transform extensions, output innerData and idMaps ===
-    const { data: transformedData, idMaps } = this.transformData();
-    const { nodes = [], edges = [], combos = [] } = transformedData;
+    const {
+      nodes = [],
+      edges = [],
+      combos = [],
+    } = deconstructData({
+      nodes: this.userGraphCore.getAllNodes(),
+      edges: this.userGraphCore.getAllEdges(),
+    });
 
     const prevNodesAndCombos = graphCore.getAllNodes();
 
@@ -624,9 +708,10 @@ export class DataController {
       diff = [],
     ) => {
       if (isNodeOrCombo) {
-        if (newValue.data) graphCore.updateNodeData(id, newValue.data);
+        if (newValue.data) graphCore.updateNodeData(id, { ...newValue.data });
       } else {
-        if (diff.includes('data')) graphCore.updateEdgeData(id, newValue.data);
+        if (diff.includes('data'))
+          graphCore.updateEdgeData(id, { ...newValue.data });
         // source and target may be changed
         if (diff.includes('source'))
           graphCore.updateEdgeSource(id, newValue.source);
@@ -637,91 +722,92 @@ export class DataController {
 
     graphCore.batch(() => {
       // === step 3: sync to graphCore according to the changes in userGraphCore ==
-      if (!idMaps?.length || idMaps.length !== this.extensions.length) {
-        // situation 1: not every extension has corresponding idMap, use default mapping: suppose id is not changed by transforms
-        // and diff the value in graphCore whose id is not in userGraphCore
-        const newModelMap: {
-          [id: string]: {
-            type: 'node' | 'edge' | 'combo';
-            model: NodeModel | EdgeModel | ComboModel;
+      const newModelMap: {
+        [id: string]: {
+          type: 'node' | 'edge' | 'combo';
+          model: NodeModel | EdgeModel | ComboModel;
+        };
+      } = {};
+      const parentMap: {
+        [id: string]: {
+          new: ID;
+          old?: ID;
+        };
+      } = {};
+      const changeMap: {
+        [id: string]: boolean;
+      } = {};
+      const treeChanges = [];
+      event.changes.forEach((change) => {
+        const id = change.id || change.value?.id;
+        if (id !== undefined) {
+          changeMap[id] = true;
+          return;
+        }
+        if (
+          [
+            'TreeStructureAttached',
+            'TreeStructureChanged',
+            'TreeStructureChanged',
+          ].includes(change.type)
+        ) {
+          treeChanges.push(change);
+        }
+      });
+      nodes.forEach((model) => {
+        newModelMap[model.id] = { type: 'node', model };
+        if (model.data.hasOwnProperty('parentId')) {
+          parentMap[model.id] = {
+            new: model.data.parentId,
+            old: undefined,
           };
-        } = {};
-        const parentMap: {
-          [id: string]: { new: ID; old?: ID };
-        } = {};
-        const changeMap: {
-          [id: string]: boolean;
-        } = {};
-        const treeChanges = [];
-        event.changes.forEach((change) => {
-          const id = change.id || change.value?.id;
-          if (id !== undefined) {
-            changeMap[id] = true;
-            return;
+        }
+      });
+      edges.forEach(
+        (model) => (newModelMap[model.id] = { type: 'edge', model }),
+      );
+      combos.forEach((model) => {
+        newModelMap[model.id] = { type: 'combo', model };
+        if (model.data.hasOwnProperty('parentId')) {
+          parentMap[model.id] = {
+            new: model.data.parentId,
+            old: undefined,
+          };
+        }
+      });
+      prevNodesAndCombos.forEach((prevModel) => {
+        const { id } = prevModel;
+        if (
+          parentMap[id]?.new !== undefined ||
+          prevModel.data.parentId !== undefined
+        ) {
+          parentMap[id] = {
+            new: parentMap[id]?.new,
+            old: prevModel.data.parentId,
+          };
+        } else {
+          delete parentMap[id];
+        }
+        const { model: newModel } = newModelMap[id] || {};
+        // remove
+        if (!newModel) {
+          // remove a combo, put the children to upper parent
+          if (prevModel.data._isCombo) {
+            graphCore.getChildren(id, 'combo').forEach((child) => {
+              parentMap[child.id] = {
+                ...parentMap[child.id],
+                new: prevModel.data.parentId,
+              };
+            });
           }
-          if (
-            [
-              'TreeStructureAttached',
-              'TreeStructureChanged',
-              'TreeStructureChanged',
-            ].includes(change.type)
-          ) {
-            treeChanges.push(change);
+          // if it has combo parent, remove it from the parent's children list
+          if (prevModel.data.parentId) {
+            graphCore.setParent(id, undefined, 'combo');
           }
-        });
-        nodes.forEach((model) => {
-          newModelMap[model.id] = { type: 'node', model };
-          if (model.data.hasOwnProperty('parentId')) {
-            parentMap[model.id] = {
-              new: model.data.parentId,
-              old: undefined,
-            };
-          }
-        });
-        edges.forEach(
-          (model) => (newModelMap[model.id] = { type: 'edge', model }),
-        );
-        combos.forEach((model) => {
-          newModelMap[model.id] = { type: 'combo', model };
-          if (model.data.hasOwnProperty('parentId')) {
-            parentMap[model.id] = {
-              new: model.data.parentId,
-              old: undefined,
-            };
-          }
-        });
-        prevNodesAndCombos.forEach((prevModel) => {
-          const { id } = prevModel;
-          if (
-            parentMap[id]?.new !== undefined ||
-            prevModel.data.parentId !== undefined
-          ) {
-            parentMap[id] = {
-              new: parentMap[id]?.new,
-              old: prevModel.data.parentId,
-            };
-          } else {
-            delete parentMap[id];
-          }
-          const { model: newModel } = newModelMap[id] || {};
-          // remove
-          if (!newModel) {
-            // remove a combo, put the children to upper parent
-            if (prevModel.data._isCombo) {
-              graphCore.getChildren(id, 'combo').forEach((child) => {
-                parentMap[child.id] = {
-                  ...parentMap[child.id],
-                  new: prevModel.data.parentId,
-                };
-              });
-            }
-            // if it has combo parent, remove it from the parent's children list
-            if (prevModel.data.parentId) {
-              graphCore.setParent(id, undefined, 'combo');
-            }
 
-            // for tree graph view, show the succeed nodes and edges
-            const succeedIds = [];
+          // for tree graph view, show the succeed nodes and edges
+          const succeedIds = [];
+          if (graphCore.hasTreeStructure('tree')) {
             graphCore.dfsTree(
               id,
               (child) => {
@@ -750,149 +836,82 @@ export class DataController {
               .forEach((child) =>
                 graphCore.setParent(child.id, undefined, 'tree'),
               );
-
-            // remove the node data
-            graphCore.removeNode(id);
-            delete parentMap[prevModel.id];
           }
-          // update
-          else if (diffAt(newModel, prevModel, true)?.length || changeMap[id])
-            syncUpdateToGraphCore(id, newModel, prevModel, true);
-          // delete from the map indicates this model is visited
-          delete newModelMap[id];
-        });
-        graphCore.getAllEdges().forEach((prevEdge) => {
-          const { id } = prevEdge;
-          const { model: newModel } = newModelMap[id] || {};
-          // remove
-          if (!newModel) graphCore.removeEdge(id);
-          // update
-          else {
-            const diff = diffAt(newModel, prevEdge, false);
-            if (diff?.length)
-              syncUpdateToGraphCore(id, newModel, prevEdge, false, diff);
-          }
-          // delete from the map indicates this model is visited
-          delete newModelMap[id];
-        });
-        // add
-        Object.values(newModelMap).forEach(({ type, model }) => {
-          if (type === 'node' || type === 'combo') graphCore.addNode(model);
-          else if (type === 'edge') graphCore.addEdge(model as EdgeModel);
-        });
-        // update parents after adding all items
-        Object.keys(parentMap).forEach((id) => {
-          if (parentMap[id].new === parentMap[id].old) return;
-          if (!validateComboStrucutre(this.graph, id, parentMap[id].new)) {
-            graphCore.mergeNodeData(id, { parentId: parentMap[id].old });
-            return;
-          }
-          graphCore.mergeNodeData(id, { parentId: parentMap[id].new });
-          graphCore.setParent(id, parentMap[id].new, 'combo');
-        });
-
-        // update tree structure
-        treeChanges.forEach((change) => {
-          const { type, treeKey, nodeId, newParentId } = change;
-          if (type === 'TreeStructureAttached') {
-            graphCore.attachTreeStructure(treeKey);
-            return;
-          } else if (type === 'TreeStructureChanged') {
-            graphCore.setParent(nodeId, newParentId, treeKey);
-            return;
-          } else if (type === 'TreeStructureDetached') {
-            graphCore.detachTreeStructure(treeKey);
-            return;
-          }
-        });
-      } else {
-        // situation 2: idMaps is complete
-        // calculate the final idMap which maps the ids from final transformed data to their comes from ids in userData
-        const finalIdMap = {};
-        const newModelMap = {};
-        const prevModelMap = {};
-        nodes
-          .concat(edges)
-          .concat(combos)
-          .forEach((model) => {
-            finalIdMap[model.id] = getComesFromLinkedList(model.id, idMaps);
-            newModelMap[model.id] = model;
-          });
-        prevNodesAndCombos.concat(graphCore.getAllEdges()).forEach((model) => {
-          prevModelMap[model.id] = model;
-        });
-
-        // map changes for search
-        const changeMap = {};
-        const { changes } = event;
-        changes.forEach((change) => {
-          const { value, id, type } = change;
-          if (type === 'TreeStructureAttached') {
-            graphCore.attachTreeStructure(change.treeKey);
-            return;
-          } else if (type === 'TreeStructureChanged') {
-            const { newParentId, nodeId, treeKey } = change;
-            graphCore.setParent(nodeId, newParentId, treeKey);
-            return;
-          } else if (type === 'TreeStructureDetached') {
-            graphCore.detachTreeStructure(change.treeKey);
-            return;
-          }
-          const dataId = id || value.id;
-          changeMap[dataId] = changeMap[dataId] || [];
-          changeMap[dataId].push(type.toLawerCase());
-        });
-
-        // 1. remove or add model to userGraphCore according the existence
-        // 2. update or keep unchanged according to the source models' changes in userGraphCore
-        //    if source models have any change, update the data in graphcore. Kepp unchanged otherwise
-        Object.keys(newModelMap).forEach((newId) => {
-          const comesFromIds = finalIdMap[newId];
-          const newValue = newModelMap[newId];
-          const oldValue = prevModelMap[newId];
-          const isNodeOrCombo = graphCore.hasNode(newId);
-          if (newValue && !oldValue) {
-            isNodeOrCombo
-              ? graphCore.addNode(newValue)
-              : graphCore.addEdge(newValue);
-          } else if (!newValue && oldValue) {
-            isNodeOrCombo
-              ? graphCore.removeNode(newId)
-              : graphCore.removeEdge(newId);
-            // TODO: update combo tree and tree graph
-          } else {
-            if (!comesFromIds?.length) {
-              // no comesForm, find same id in userGraphCore to follow the change, if it not found, diff new and old data value of graphCore (inner data)
-              const diff = diffAt(newValue, oldValue, isNodeOrCombo);
-              if (diff?.length)
-                syncUpdateToGraphCore(
-                  newId,
-                  newValue,
-                  oldValue,
-                  isNodeOrCombo,
-                  diff,
-                );
-            } else if (changeMap[comesFromIds[0]]?.length) {
-              // follow the corresponding data event in userGraphCore
-              syncUpdateToGraphCore(newId, newValue, oldValue, isNodeOrCombo);
-            }
-          }
-        });
-
-        // update parents after updating all items
-        graphCore.getAllNodes().forEach((node) => {
-          if (
-            !validateComboStrucutre(this.graph, node.id, node.data.parentId)
-          ) {
-            // restore if the new parent is invalid
-            graphCore.mergeNodeData(node.id, {
-              parentId: prevModelMap[node.id].data.parentId,
+          // remove the node data
+          graphCore.removeNode(id);
+          delete parentMap[prevModel.id];
+        }
+        // update
+        //  || diffAt(newModel, prevModel, true)?.length
+        else if (changeMap[id])
+          syncUpdateToGraphCore(id, newModel, prevModel, true);
+        // delete from the map indicates this model is visited
+        delete newModelMap[id];
+      });
+      graphCore.getAllEdges().forEach((prevEdge) => {
+        const { id } = prevEdge;
+        const { model: newModel } = newModelMap[id] || {};
+        // remove
+        if (!newModel) graphCore.removeEdge(id);
+        // update
+        else {
+          const diff = diffAt(newModel, prevEdge, false);
+          if (diff?.length)
+            syncUpdateToGraphCore(id, newModel, prevEdge, false, diff);
+        }
+        // delete from the map indicates this model is visited
+        delete newModelMap[id];
+      });
+      // add
+      Object.values(newModelMap).forEach(({ type, model }) => {
+        if (type === 'node' || type === 'combo') graphCore.addNode(model);
+        else if (type === 'edge') graphCore.addEdge(model as EdgeModel);
+      });
+      // update parents after adding all items
+      Object.keys(parentMap).forEach((id) => {
+        if (parentMap[id].new === parentMap[id].old) return;
+        if (!validateComboStrucutre(this.graph, id, parentMap[id].new)) {
+          graphCore.mergeNodeData(id, { parentId: parentMap[id].old });
+          return;
+        }
+        graphCore.mergeNodeData(id, { parentId: parentMap[id].new });
+        graphCore.setParent(id, parentMap[id].new, 'combo');
+        // after remove from parent's children list, check whether the parent is empty
+        // if so, update parent's position to be the child's
+        if (parentMap[id].old !== undefined) {
+          const parentChildren = graphCore.getChildren(
+            parentMap[id].old,
+            'combo',
+          );
+          const {
+            x = 0,
+            y = 0,
+            z = 0,
+          } = this.graph.getDisplayModel(parentMap[id].old)?.data;
+          if (!parentChildren.length) {
+            graphCore.mergeNodeData(parentMap[id].old, {
+              x: convertToNumber(x),
+              y: convertToNumber(y),
+              z: convertToNumber(z),
             });
-            return;
           }
-          graphCore.setParent(node.id, node.data.parentId as ID, 'combo');
-        });
-      }
+        }
+      });
+
+      // update tree structure
+      treeChanges.forEach((change) => {
+        const { type, treeKey, nodeId, newParentId } = change;
+        if (type === 'TreeStructureAttached') {
+          graphCore.attachTreeStructure(treeKey);
+          return;
+        } else if (type === 'TreeStructureChanged') {
+          graphCore.setParent(nodeId, newParentId, treeKey);
+          return;
+        } else if (type === 'TreeStructureDetached') {
+          graphCore.detachTreeStructure(treeKey);
+          return;
+        }
+      });
     });
   }
 
@@ -900,24 +919,13 @@ export class DataController {
    * Clone data from userGraphCore, and run transforms
    * @returns transformed data and the id map list
    */
-  private transformData() {
-    const { userGraphCore } = this;
-    // === step 1: clone data from userGraphCore (userData) ===
-    const userData = deconstructData({
-      nodes: userGraphCore.getAllNodes(),
-      edges: userGraphCore.getAllEdges(),
-    });
-    let dataCloned: GraphData = clone(userData);
-
-    // === step 2: transform the data with transform extensions, output innerData and idMaps ===
-    const idMaps = [];
+  private transformData(data): GraphData {
+    let dataCloned: GraphData = clone(data);
+    //  transform the data with transform extensions, output innerData and idMaps ===
     this.extensions.forEach(({ func, config }) => {
-      const result = func(dataCloned, config);
-      dataCloned = result.data;
-      const idMap = result.idMap;
-      if (idMap) idMaps.push(idMap);
+      dataCloned = func(dataCloned, config, this.userGraphCore);
     });
-    return { data: dataCloned, idMaps };
+    return dataCloned;
   }
 
   /**
@@ -934,17 +942,7 @@ export class DataController {
         this.userGraphCore.setParent(target, source, 'tree');
       });
     } else {
-      // graph data to tree structure and storing
-      const rootIds = data.nodes
-        .filter((node) => node.data.isRoot)
-        .map((node) => node.id);
-      graphData2TreeData({}, data, rootIds).forEach((tree) => {
-        traverse(tree, (node) => {
-          node.children?.forEach((child) => {
-            this.userGraphCore.setParent(child.id, node.id, 'tree');
-          });
-        });
-      });
+      this.treeDirtyFlag = true;
     }
   }
 }
@@ -1008,7 +1006,13 @@ const diffAt = (
         return diff.concat('data');
       else continue;
     }
-    if (isNaN(newValue) && isNaN(oldValue)) continue;
+    if (
+      typeof newValue === 'number' &&
+      typeof oldValue === 'number' &&
+      isNaN(newValue) &&
+      isNaN(oldValue)
+    )
+      return;
     if (newValue !== oldValue) return diff.concat('data');
   }
   return diff;

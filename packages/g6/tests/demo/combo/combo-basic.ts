@@ -1,12 +1,25 @@
-import G6 from '../../../src/index';
-import { container, height, width } from '../../datasets/const';
-export default () => {
-  const graph = new G6.Graph({
-    container,
-    width,
-    height,
+import { Graph, Extensions, extend } from '../../../src/index';
+
+export default (
+  context,
+  options: {
+    disableAnimate?: boolean;
+    comboType?: 'circle-combo' | 'rect-combo';
+  } = {},
+) => {
+  const { disableAnimate = false, comboType = 'circle-combo' } = options;
+  const ExtGraph = extend(Graph, {
+    behaviors: {
+      'hover-activate': Extensions.HoverActivate,
+    },
+  });
+  const graph = new Graph({
+    ...context,
     layout: {
       type: 'grid',
+    },
+    stackCfg: {
+      ignoreStateChange: true,
     },
     node: {
       labelShape: {
@@ -16,19 +29,22 @@ export default () => {
           formatter: (model) => model.id,
         },
       },
-      animates: {
-        update: [
-          {
-            fields: ['opacity'],
-            shapeId: 'haloShape',
+      animates: disableAnimate
+        ? {}
+        : {
+            update: [
+              {
+                fields: ['opacity'],
+                shapeId: 'haloShape',
+              },
+            ],
           },
-        ],
-      },
     },
     combo: (model) => {
       return {
         id: model.id,
         data: {
+          type: comboType,
           ...model.data,
           keyShape: {
             padding: [10, 20, 30, 40],
@@ -38,39 +54,38 @@ export default () => {
             text: model.id,
           },
 
-          animates: {
-            buildIn: [
-              {
-                fields: ['opacity'],
-                duration: 500,
-                delay: 500 + Math.random() * 500,
+          animates: disableAnimate
+            ? {}
+            : {
+                buildIn: [
+                  {
+                    fields: ['opacity'],
+                    duration: 500,
+                    delay: 500 + Math.random() * 500,
+                  },
+                ],
+                buildOut: [
+                  {
+                    fields: ['opacity'],
+                    duration: 200,
+                  },
+                ],
+                update: [
+                  {
+                    fields: ['lineWidth', 'r'],
+                    shapeId: 'keyShape',
+                  },
+                  {
+                    fields: ['opacity'],
+                    shapeId: 'haloShape',
+                  },
+                ],
               },
-            ],
-            buildOut: [
-              {
-                fields: ['opacity'],
-                duration: 200,
-              },
-            ],
-            update: [
-              {
-                fields: ['lineWidth', 'r'],
-                shapeId: 'keyShape',
-              },
-              {
-                fields: ['opacity'],
-                shapeId: 'haloShape',
-              },
-            ],
-          },
         },
       };
     },
     data: {
       nodes: [
-        // { id: 'node1', data: {} },
-        // { id: 'node2', data: {} },
-        // { id: 'node3', data: {} },
         { id: 'node1', data: { parentId: 'combo1' } },
         { id: 'node2', data: { parentId: 'combo1' } },
         { id: 'node3', data: { parentId: 'combo2' } },
@@ -84,7 +99,6 @@ export default () => {
         { id: 'edge4', source: 'node2', target: 'node3', data: {} },
         { id: 'edge5', source: 'node3', target: 'node4', data: {} },
         { id: 'edge6', source: 'node4', target: 'node5', data: {} },
-        // { id: 'edge7', source: 'node5', target: 'combo1', data: {} },
       ],
       combos: [
         { id: 'combo1', data: { parentId: 'combo2' } }, // collapsed: true
@@ -95,7 +109,12 @@ export default () => {
     modes: {
       default: [
         'collapse-expand-combo',
-        'drag-node',
+        // 'drag-node',
+        {
+          type: 'drag-node',
+          enableTransient: false,
+          updateComboStructure: false,
+        },
         'drag-canvas',
         {
           type: 'click-select',
@@ -105,59 +124,13 @@ export default () => {
           type: 'hover-activate',
           itemTypes: ['node', 'edge', 'combo'],
         },
-        'drag-combo',
+        {
+          type: 'drag-combo',
+          enableTransient: true,
+          updateComboStructure: true,
+        },
       ],
     },
-  });
-  graph.on('canvas:click', (e) => {
-    console.log('graph', graph);
-    /** modify node's parent to another combo */
-    // graph.updateData('node', {
-    //   id: 'node1',
-    //   data: {
-    //     parentId: 'combo2',
-    //   },
-    // });
-    /** invalid modification (to its succeeds) */
-    // graph.updateData('combo', {
-    //   id: 'combo2',
-    //   data: {
-    //     parentId: 'combo1',
-    //   },
-    // });
-    /** add combo */
-    // graph.addCombo(
-    //   {
-    //     id: 'newcombo',
-    //     data: {
-    //       parentId: 'combo2',
-    //     },
-    //   },
-    //   ['node1', 'combo1', 'node4'],
-    // );
-    /** collapse combo */
-    // if (!graph.getComboData('combo1')?.data.collapsed) {
-    //   graph.collapseCombo(['combo1']);
-    //   setTimeout(() => {
-    //     graph.collapseCombo(['combo2']);
-    //   }, 1000);
-    // } else {
-    //   graph.expandCombo(['combo2']);
-    //   setTimeout(() => {
-    //     graph.expandCombo(['combo1']);
-    //   }, 1000);
-    // }
-    /** remove combo = uncombo */
-    // graph.removeData('combo', 'combo1');
-    /** move an empty combo */
-    // graph.updateData('combo', {
-    //   id: 'combo3',
-    //   data: {
-    //     x: 100,
-    //     y: 200,
-    //   },
-    // });
-    // graph.moveCombo('combo3', 100, 200);
   });
   return graph;
 };

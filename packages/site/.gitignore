@@ -8,3 +8,7 @@
 .dumi/tmp
 .dumi/tmp-production
 .DS_Store
+
+## api doc
+docs/_apis
+.translate-info.txt

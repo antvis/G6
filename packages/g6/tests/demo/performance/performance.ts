@@ -4,7 +4,7 @@ import {
   initThreads,
   supportsThreads,
 } from '@antv/layout-wasm';
-import G6 from '../../../src/index';
+import { Graph, Extensions, extend } from '../../../src/index';
 import { IBadgePosition } from '../../../src/types/item';
 import { container, width } from '../../datasets/const';
 const data = {
@@ -1938,9 +1938,18 @@ edges.forEach((edge) => {
 const createGraph = async () => {
   const supported = await supportsThreads();
   const threads = await initThreads(supported);
-  G6.stdLib.layouts['force-wasm'] = ForceLayout;
-  G6.stdLib.layouts['fruchterman-wasm'] = FruchtermanLayout;
-  const graph = new G6.Graph({
+
+  const ExtGraph = extend(Graph, {
+    layouts: {
+      'force-wasm': Extensions.ForceLayout,
+      'fruchterman-wasm': Extensions.FruchtermanLayout,
+    },
+    behaviors: {
+      'brush-select': Extensions.BrushSelect,
+      'hover-activate': Extensions.HoverActivate,
+    },
+  });
+  const graph = new ExtGraph({
     container: container as HTMLElement,
     width,
     height: 1200,

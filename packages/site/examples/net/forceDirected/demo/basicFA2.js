@@ -1,42 +1,39 @@
-import G6 from '@antv/g6';
+import { Graph, Extensions, extend } from '@antv/g6';
+
+const ExtGraph = extend(Graph, {
+  layouts: {
+    forceAtlas2: Extensions.ForceAtlas2Layout,
+  },
+});
 
 const container = document.getElementById('container');
 const width = container.scrollWidth;
 const height = container.scrollHeight || 500;
-const graph = new G6.Graph({
-  container: 'container',
-  width,
-  height,
-  modes: {
-    default: ['zoom-canvas', 'drag-canvas', 'drag-node'],
-  },
-  layout: {
-    type: 'forceAtlas2',
-    preventOverlap: true,
-    kr: 10,
-    center: [250, 250],
-  },
-  defaultNode: {
-    size: 20,
-  },
-});
 
 fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')
   .then((res) => res.json())
   .then((data) => {
-    data.nodes.forEach(node => {
-      node.x = Math.random() * 1;
+    const graph = new ExtGraph({
+      container: 'container',
+      width,
+      height,
+      transform: ['transform-v4-data'],
+      modes: {
+        default: ['zoom-canvas', 'drag-canvas', 'drag-node'],
+      },
+      layout: {
+        type: 'forceAtlas2',
+        preventOverlap: true,
+        kr: 2,
+        center: [250, 250],
+      },
+      autoFit: 'view',
+      data,
     });
-    graph.on('afterlayout', e => {
-      graph.fitView()
-    })
-    graph.data(data);
-    graph.render();
+    if (typeof window !== 'undefined')
+      window.onresize = () => {
+        if (!graph || graph.destroyed) return;
+        if (!container || !container.scrollWidth || !container.scrollHeight) return;
+        graph.setSize([container.scrollWidth, container.scrollHeight]);
+      };
   });
-
-if (typeof window !== 'undefined')
-  window.onresize = () => {
-    if (!graph || graph.get('destroyed')) return;
-    if (!container || !container.scrollWidth || !container.scrollHeight) return;
-    graph.changeSize(container.scrollWidth, container.scrollHeight);
-  };

@@ -1,16 +1,16 @@
-import { DisplayObject } from '@antv/g';
+import { DisplayObject, PathStyleProps } from '@antv/g';
 import { Edge as GEdge, PlainObject } from '@antv/graphlib';
+import { BaseEdge } from '../stdlib/item/edge/base';
 import { IAnimates } from './animate';
 import {
-  BadgePosition,
   Encode,
   IItem,
   ItemShapeStyles,
   LabelBackground,
-  ShapeAttrEncode,
-  ShapesEncode,
-  ShapeStyle,
   LodStrategy,
+  ShapeAttrEncode,
+  ShapeStyle,
+  ShapesEncode,
 } from './item';
 
 export interface EdgeUserModelData extends PlainObject {
@@ -58,6 +58,10 @@ export interface EdgeUserModelData extends PlainObject {
 export type EdgeModelData = EdgeUserModelData;
 
 export interface EdgeShapeStyles extends ItemShapeStyles {
+  keyShape?: ShapeStyle & {
+    startArrow?: boolean | ArrowStyle;
+    endArrow?: boolean | ArrowStyle;
+  };
   labelShape?: ShapeStyle & {
     position?: 'start' | 'middle' | 'end';
     offsetX?: number;
@@ -117,3 +121,23 @@ export interface EdgeShapeMap {
 
 // TODO
 export type IEdge = IItem;
+
+export type ArrowType =
+  | 'triangle'
+  | 'circle'
+  | 'diamond'
+  | 'rect'
+  | 'vee'
+  | 'triangle-rect'
+  | 'simple';
+
+export type ArrowStyle = PathStyleProps & {
+  type: ArrowType;
+  width: number;
+  height: number;
+  offset?: number;
+};
+
+export interface EdgeRegistry {
+  [key: string]: typeof BaseEdge;
+}

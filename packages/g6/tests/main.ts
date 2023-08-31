@@ -6,11 +6,11 @@ let graph: any;
 const $rendererSelect = document.getElementById(
   'renderer-select',
 ) as HTMLSelectElement;
-$rendererSelect.onchange = () => {
-  graph = render();
+$rendererSelect.onchange = async () => {
+  graph = await render();
 };
 
-const render = () => {
+const render = async () => {
   if (graph) {
     graph.destroy();
     graph = null;
@@ -19,7 +19,7 @@ const render = () => {
   const $container = document.getElementById('container');
   $container?.replaceChildren('');
 
-  return graphs[$demoSelect.value]({
+  return await graphs[$demoSelect.value]({
     container: $container,
     renderer: $rendererSelect.value,
     backgroundCanvas: null,
@@ -39,14 +39,14 @@ const $options = Object.keys(graphs).map((key) => {
   return $option;
 });
 $demoSelect.replaceChildren(...$options);
-$demoSelect.onchange = (e) => {
+$demoSelect.onchange = async (e) => {
   const { value } = e.target as HTMLOptionElement;
   history.pushState({ value }, '', `?name=${value}`);
-  graph = render();
+  graph = await render();
 };
 
 // 初始化
 const params = new URL(location.href).searchParams;
 const initialExampleName = params.get('name');
 $demoSelect.value = initialExampleName || $options[0].value;
-graph = render();
+graph = await render();

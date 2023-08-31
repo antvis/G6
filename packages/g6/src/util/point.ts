@@ -1,3 +1,4 @@
+import { vec2 } from '@antv/matrix-util';
 import { Point } from '../types/common';
 import { isBetween } from './math';
 
@@ -34,14 +35,34 @@ export const getNearestPoint = (
 
 /**
  * Get distance by two points.
- * @param p1 first point
- * @param p2 second point
+ * @param {vec2} p1 first point
+ * @param {vec2} p2 second point
+ */
+export const distanceVec = (p1: vec2, p2: vec2): number => {
+  const vx = p1[0] - p2[0];
+  const vy = p1[1] - p2[1];
+  return Math.sqrt(vx * vx + vy * vy);
+};
+
+/**
+ * Get distance by two points.
+ * @param {Point} p1 first point
+ * @param {Point} p2 second point
  */
 export const distance = (p1: Point, p2: Point): number => {
   const vx = p1.x - p2.x;
   const vy = p1.y - p2.y;
   return Math.sqrt(vx * vx + vy * vy);
 };
+
+/**
+ * If the p1 and p2 are the same.
+ * @param p1
+ * @param p2
+ * @returns
+ */
+export const isSamePoint = (p1: Point, p2: Point): boolean =>
+  p1.x === p2.x && p1.y === p2.y && p1.z === p2.z;
 
 /**
  * Get point and circle intersect point.
@@ -193,3 +214,13 @@ export const getLineIntersect = (
   }
   return null;
 };
+
+/**
+ * Determine if three points are bending (not lie on a straight line)
+ * @param p0 the first 2d point
+ * @param p1 the second 2d point
+ * @param p2 the third 2d point
+ * @returns
+ */
+export const isBending = (p0: Point, p1: Point, p2: Point): boolean =>
+  !((p0.x === p1.x && p1.x === p2.x) || (p0.y === p1.y && p1.y === p2.y));

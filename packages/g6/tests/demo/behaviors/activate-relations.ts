@@ -1,8 +1,14 @@
-import G6 from '../../../src/index';
 import { TestCaseContext } from '../interface';
+import { Graph, Extensions, extend } from '../../../src/index';
 
 export default (context: TestCaseContext) => {
-  return new G6.Graph({
+  const ExtGraph = extend(Graph, {
+    behaviors: {
+      'activate-relations': Extensions.ActivateRelations,
+    },
+  });
+
+  return new ExtGraph({
     ...context,
     layout: {
       type: 'grid',
@@ -33,7 +39,7 @@ export default (context: TestCaseContext) => {
       ],
     },
     modes: {
-      default: [{ type: 'activate-relations', trigger: 'click' }],
+      default: [{ type: 'activate-relations', trigger: 'click' }, 'drag-node'],
     },
   });
 };

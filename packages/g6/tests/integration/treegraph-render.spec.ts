@@ -1,7 +1,7 @@
 import { resetEntityCounter } from '@antv/g';
 import treeGraph from '../demo/tree/treeGraph';
-import './utils/useSnapshotMatchers';
 import { createContext, sleep } from './utils';
+import './utils/useSnapshotMatchers';
 
 describe('TreeGraph', () => {
   beforeEach(() => {

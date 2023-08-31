@@ -1,3 +1,5 @@
+import { ShapeStyle } from '../types/item';
+
 export const RESERVED_SHAPE_IDS = [
   'keyShape',
   'labelShape',
@@ -6,6 +8,7 @@ export const RESERVED_SHAPE_IDS = [
   'haloShape',
   'anchorShapes',
   'badgeShapes',
+  'donutShapes',
 ];
 export const OTHER_SHAPES_FIELD_NAME = 'otherShapes';
 
@@ -30,4 +33,4 @@ export const DEFAULT_TEXT_STYLE = {
   // textBaseline: 'middle',
   // textAlign: 'center',
   lineWidth: 0,
-};
+} as ShapeStyle;

@@ -5,28 +5,28 @@
   },
   "demos": [
     {
-      "filename": "legend.js",
+      "filename": "legend.ts",
       "title": {
-        "zh": "图例-点击筛选",
-        "en": "Legend with Clicking Filtering"
+        "zh": "图例-点击与 hover 筛选",
+        "en": "Filtering legend by clicking and hovering"
       },
-      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*0RYmToKWsOQAAAAAAAAAAAAAARQnAQ"
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*wuTqSLayaUoAAAAAAAAAAAAADmJ7AQ/original"
     },
     {
-      "filename": "legendMouseenter.js",
+      "filename": "legendCustomMarker.ts",
       "title": {
-        "zh": "图例-Hover 筛选",
-        "en": "Legend with Hovering Filtering"
+        "zh": "图例-自定义 Marker 样式",
+        "en": "Customize legend marker style"
       },
-      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ftAtR6k9RWIAAAAAAAAAAAAAARQnAQ"
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*40awTrXVQ1UAAAAAAAAAAAAADmJ7AQ/original"
     },
     {
-      "filename": "legendClick.js",
+      "filename": "legendSVG.ts",
       "title": {
-        "zh": "图例-点击筛选2",
-        "en": "Legend with Clicking Filtering 2"
+        "zh": "图例-使用 SVG 绘制图例",
+        "en": "Render legend with SVG"
       },
-      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*nCTfRq6522kAAAAAAAAAAAAAARQnAQ"
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*wuTqSLayaUoAAAAAAAAAAAAADmJ7AQ/original"
     }
   ]
 }

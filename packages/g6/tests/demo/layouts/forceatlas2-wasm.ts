@@ -3,20 +3,25 @@ import {
   initThreads,
   ForceAtlas2Layout,
 } from '@antv/layout-wasm';
-import G6 from '../../../src/index';
-import { container, data, height, width } from '../../datasets/const';
+import { Graph, extend } from '../../../src/index';
+import { data } from '../../datasets/dataset1';
+import { TestCaseContext } from '../interface';
 
-export default async () => {
+export default async (context: TestCaseContext) => {
+  const { width, height } = context;
+
   const supported = await supportsThreads();
   const threads = await initThreads(supported);
 
   // Register custom layout
-  G6.stdLib.layouts['forceatlas2-wasm'] = ForceAtlas2Layout;
+  const ExtGraph = extend(Graph, {
+    layouts: {
+      'forceatlas2-wasm': ForceAtlas2Layout,
+    },
+  });
 
-  return new G6.Graph({
-    container,
-    width,
-    height,
+  return new ExtGraph({
+    ...context,
     data: JSON.parse(JSON.stringify(data)),
     layout: {
       type: 'forceatlas2-wasm',

@@ -1,3 +1,4 @@
+import { getControlPoint } from '../../../util/path';
 import { Point } from '../../../types/common';
 import {
   EdgeDisplayModel,
@@ -7,14 +8,13 @@ import {
 import { State } from '../../../types/item';
 import { BaseEdge } from './base';
 
-export class Quadratic extends BaseEdge {
-  public type = 'line-edge';
+export class QuadraticEdge extends BaseEdge {
+  public type = 'quadratic-edge';
   public defaultStyles = {
     keyShape: {
-      controlPoints: [0, 0], //precise x-axis, y-axis coordinates of control points
-      curvePosition: 0, //control point coordinates described by percentage,range 0 to 1
-      curveOffset: [0, 0], //a point coordinate that quadratic curve to
-      stroke: '#000000',
+      controlPoints: [], //precise x-axis, y-axis coordinates of control points
+      curvePosition: 0.5, //control point coordinates described by percentage,range 0 to 1
+      curveOffset: 30, //a point coordinate that quadratic curve to
       isBillboard: true,
     },
   };
@@ -77,27 +77,25 @@ export class Quadratic extends BaseEdge {
     diffState?: { previous: State[]; current: State[] },
   ) {
     const { keyShape: keyShapeStyle } = this.mergedStyles as any;
+    const { startArrow, endArrow, ...others } = keyShapeStyle;
 
-    const controlPoint = this.getControlPoint(
+    const controlPoint = this.getControlPoints(
       sourcePoint,
       targetPoint,
       keyShapeStyle.curvePosition,
       keyShapeStyle.controlPoints,
       keyShapeStyle.curveOffset,
-    );
-    return this.upsertShape(
-      'path',
-      'keyShape',
-      {
-        ...keyShapeStyle,
-        path: [
-          ['M', sourcePoint.x, sourcePoint.y],
-          ['Q', controlPoint.x, controlPoint.y, targetPoint.x, targetPoint.y],
-        ],
-      },
-      shapeMap,
-      model,
-    );
+    )[0];
+    const lineStyle = {
+      ...others,
+      path: [
+        ['M', sourcePoint.x, sourcePoint.y],
+        ['Q', controlPoint.x, controlPoint.y, targetPoint.x, targetPoint.y],
+      ],
+    };
+    this.upsertArrow('start', startArrow, others, model, lineStyle);
+    this.upsertArrow('end', endArrow, others, model, lineStyle);
+    return this.upsertShape('path', 'keyShape', lineStyle, shapeMap, model);
   }
 
   /**
@@ -109,28 +107,27 @@ export class Quadratic extends BaseEdge {
    * @param offset the curveOffset
    * @returns control points
    */
-  private getControlPoint: (
+  protected getControlPoints: (
     startPoint: Point,
     endPoint: Point,
     percent: number,
-    controlPoints: number[],
-    offset: number[],
-  ) => Point = (
+    controlPoints: Point[],
+    offset: number,
+  ) => Point[] = (
     startPoint: Point,
     endPoint: Point,
     percent = 0,
     controlPoints,
     offset,
-  ) => ({
-    x:
-      (1 - percent) * startPoint.x +
-      percent * endPoint.x +
-      controlPoints[0] +
-      offset[0],
-    y:
-      (1 - percent) * startPoint.y +
-      percent * endPoint.y +
-      controlPoints[1] +
-      offset[1],
-  });
+  ) => {
+    if (controlPoints?.length) return controlPoints;
+    return [
+      getControlPoint(
+        startPoint as Point,
+        endPoint as Point,
+        percent as number,
+        offset as number,
+      ),
+    ];
+  };
 }

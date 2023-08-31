@@ -1,12 +1,12 @@
 import { ID } from '@antv/graphlib';
 import { Behavior } from '../../types/behavior';
-import { IG6GraphEvent } from '../../types/event';
 import { Point } from '../../types/common';
+import { IG6GraphEvent } from '../../types/event';
 
 const ALLOWED_TRIGGERS = ['shift', 'ctrl', 'alt', 'meta'] as const;
 type Trigger = (typeof ALLOWED_TRIGGERS)[number];
 
-interface ClickSelectOptions {
+export interface ClickSelectOptions {
   /**
    * Whether to allow multiple selection.
    * Defaults to true.
@@ -57,7 +57,7 @@ const DEFAULT_OPTIONS: ClickSelectOptions = {
   shouldUpdate: () => true,
 };
 
-export default class ClickSelect extends Behavior {
+export class ClickSelect extends Behavior {
   /**
    * Cache the ids of items selected by this behavior
    */
@@ -67,7 +67,7 @@ export default class ClickSelect extends Behavior {
    */
   private canvasPointerDown: Point | undefined = undefined;
   private canvasPointerMove = false;
-  private timeout: NodeJS.Timeout = undefined;
+  private timeout: ReturnType<typeof setTimeout> = undefined;
 
   constructor(options: Partial<ClickSelectOptions>) {
     super(Object.assign({}, DEFAULT_OPTIONS, options));
@@ -136,11 +136,14 @@ export default class ClickSelect extends Behavior {
 
     // Select/Unselect item.
     if (this.options.shouldUpdate(event)) {
-      if (!multiple) {
-        // Not multiple, clear all currently selected items
-        this.graph.setItemState(this.selectedIds, state, false);
-      }
-      this.graph.setItemState(itemId, state, isSelectAction);
+      this.graph.batch(() => {
+        if (!multiple) {
+          // Not multiple, clear all currently selected items
+          this.graph.setItemState(this.selectedIds, state, false);
+        }
+        this.graph.setItemState(itemId, state, isSelectAction);
+      });
+
       if (isSelectAction) {
         this.selectedIds.push(itemId);
       } else {

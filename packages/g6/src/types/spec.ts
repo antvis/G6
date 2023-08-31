@@ -1,6 +1,6 @@
 import { Canvas } from '@antv/g';
-import { AnimateCfg } from './animate';
-import { Point } from './common';
+import { AnimateCfg, CameraAnimationOptions } from './animate';
+import { Padding, Point } from './common';
 import { DataConfig, TransformerFn } from './data';
 import {
   EdgeDisplayModel,
@@ -14,7 +14,7 @@ import {
   NodeModel,
   NodeShapesEncode,
 } from './node';
-import { GraphAlignment } from './view';
+import { FitViewRules, GraphAlignment } from './view';
 import {
   ComboDisplayModel,
   ComboEncode,
@@ -26,6 +26,8 @@ import { LayoutOptions } from './layout';
 import { ThemeOptionsOf, ThemeRegistry } from './theme';
 
 import { RendererName } from './render';
+import { StackCfg } from './history';
+import { Plugin } from './plugin';
 
 export interface Specification<
   B extends BehaviorRegistry,
@@ -49,8 +51,20 @@ export interface Specification<
     | 'view'
     | 'center'
     | {
+        type: 'view';
+        padding?: Padding;
+        rules?: FitViewRules;
+        effectTiming?: CameraAnimationOptions;
+      }
+    | {
+        type: 'center';
+        effectTiming?: CameraAnimationOptions;
+      }
+    | {
+        type: 'position';
         position: Point;
-        alignment: GraphAlignment;
+        alignment?: GraphAlignment;
+        effectTiming?: CameraAnimationOptions;
       };
   optimizeThreshold?: number;
 
@@ -107,8 +121,13 @@ export interface Specification<
         type: string;
         [cfgName: string]: unknown; // TODO: configs from plugins
       }
+    | Plugin
   )[];
 
   /** theme */
   theme?: ThemeOptionsOf<T>;
+
+  enableStack?: boolean;
+
+  stackCfg?: StackCfg;
 }

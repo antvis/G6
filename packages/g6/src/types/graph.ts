@@ -1,16 +1,18 @@
 import EventEmitter from '@antv/event-emitter';
 import { AABB, Canvas, DisplayObject, PointLike } from '@antv/g';
 import { ID } from '@antv/graphlib';
+import { Command } from '../stdlib/plugin/history/command';
 import { Hooks } from '../types/hook';
 import { CameraAnimationOptions } from './animate';
 import { BehaviorOptionsOf, BehaviorRegistry } from './behavior';
-import { ComboModel, ComboUserModel } from './combo';
+import { ComboDisplayModel, ComboModel, ComboUserModel } from './combo';
 import { Padding, Point } from './common';
 import { GraphData } from './data';
-import { EdgeModel, EdgeUserModel } from './edge';
+import { EdgeDisplayModel, EdgeModel, EdgeUserModel } from './edge';
+import type { StackType } from './history';
 import { ITEM_TYPE, SHAPE_TYPE } from './item';
 import { LayoutOptions } from './layout';
-import { NodeModel, NodeUserModel } from './node';
+import { NodeDisplayModel, NodeModel, NodeUserModel } from './node';
 import { RendererName } from './render';
 import { Specification } from './spec';
 import { ThemeOptionsOf, ThemeRegistry } from './theme';
@@ -116,6 +118,12 @@ export interface IGraph<
     direction?: 'in' | 'out' | 'both',
   ) => NodeModel[];
   /**
+   * Retrieve the nearby edges for a given node using quadtree collision detection.
+   * @param nodeId target node's id
+   * @returns edges
+   */
+  getNearEdgesForNode: (nodeId: ID) => EdgeModel[];
+  /*
    * Get the children's data of a combo.
    * @param comboId combo id
    * @returns children's data array
@@ -272,6 +280,10 @@ export interface IGraph<
     dx: number,
     dy: number,
     upsertAncestors?: boolean,
+    callback?: (
+      model: NodeModel | EdgeModel | ComboModel,
+      canceled?: boolean,
+    ) => void,
     stack?: boolean,
   ) => ComboModel[];
 
@@ -465,14 +477,14 @@ export interface IGraph<
    * @returns
    * @group Item
    */
-  frontItem: (ids: ID | ID[]) => void;
+  frontItem: (ids: ID | ID[], stack?: boolean) => void;
   /**
    * Make the item(s) to the back.
    * @param ids the item id(s) to back
    * @returns
    * @group Item
    */
-  backItem: (ids: ID | ID[]) => void;
+  backItem: (ids: ID | ID[], stack?: boolean) => void;
   /**
    * Set state for the item(s).
    * @param ids the id(s) for the item(s) to be set
@@ -481,7 +493,12 @@ export interface IGraph<
    * @returns
    * @group Item
    */
-  setItemState: (ids: ID | ID[], state: string, value: boolean) => void;
+  setItemState: (
+    ids: ID | ID[],
+    state: string,
+    value: boolean,
+    stack?: boolean,
+  ) => void;
   /**
    * Get the state value for an item.
    * @param id the id for the item
@@ -491,13 +508,20 @@ export interface IGraph<
    */
   getItemState: (id: ID, state: string) => boolean | string;
   /**
+   * Get all the state names with value true for an item.
+   * @param id the id for the item
+   * @returns {string[]} the state names with value true
+   * @group Item
+   */
+  getItemAllStates: (id: ID) => string[];
+  /**
    * Clear all the states for item(s).
    * @param ids the id(s) for the item(s) to be clear
    * @param states the states' names, all the states wil be cleared if states is not assigned
    * @returns
    * @group Item
    */
-  clearItemState: (ids: ID | ID[], states?: string[]) => void;
+  clearItemState: (ids: ID | ID[], states?: string[], stack?: boolean) => void;
 
   /**
    * Get the rendering bbox for a node / edge / combo, or the graph (when the id is not assigned).
@@ -562,6 +586,12 @@ export interface IGraph<
    */
   setMode: (mode: string) => void;
   /**
+   * Get current mode.
+   * @returns mode name
+   * @group Interaction
+   */
+  getMode: () => string;
+  /**
    * Add behavior(s) to mode(s).
    * @param behaviors behavior names or configs
    * @param modes mode names
@@ -599,6 +629,7 @@ export interface IGraph<
     type: ITEM_TYPE | SHAPE_TYPE,
     id: ID,
     config: any,
+    canvas?: Canvas,
   ) => DisplayObject;
 
   /**
@@ -635,6 +666,98 @@ export interface IGraph<
     [cfgName: string]: unknown;
   }) => void;
 
+  // ===== history operations =====
+
+  /**
+   * Determine if history (redo/undo) is enabled.
+   */
+  isHistoryEnabled: () => void;
+
+  /**
+   * Push the operation(s) onto the specified stack
+   * @param cmd commands to be pushed
+   * @param stackType undo/redo stack
+   */
+  pushStack: (cmd: Command[], stackType: StackType) => void;
+  /**
+   * Pause stacking operation.
+   */
+  pauseStacking: () => void;
+  /**
+   * Resume stacking operation.
+   */
+  resumeStacking: () => void;
+  /**
+   * Execute a callback without allowing any stacking operations.
+   * @param callback
+   */
+  executeWithoutStacking: (callback: () => void) => void;
+  /**
+   * Retrieve the current redo stack which consists of operations that could be undone
+   */
+  getUndoStack: () => void;
+
+  /**
+   * Retrieve the current undo stack which consists of operations that were undone
+   */
+  getRedoStack: () => void;
+
+  /**
+   * Retrieve the complete history stack
+   * @returns
+   */
+  getStack: () => void;
+
+  /**
+   * Revert the last n operation(s) on the graph.
+   * @returns
+   */
+  undo: () => void;
+
+  /**
+   * Restore the operation that was last n reverted on the graph.
+   * @returns
+   */
+  redo: () => void;
+
+  /**
+   * Indicate whether there are any actions available in the undo stack.
+   */
+  canUndo: () => void;
+
+  /**
+   * Indicate whether there are any actions available in the redo stack.
+   */
+  canRedo: () => void;
+
+  /**
+   * Begin a batch operation.
+   * Any operations performed between `startBatch` and `stopBatch` are grouped together.
+   * treated as a single operation when undoing or redoing.
+   */
+  startBatch: () => void;
+
+  /**
+   * End a batch operation.
+   * Any operations performed between `startBatch` and `stopBatch` are grouped together.
+   * treated as a single operation when undoing or redoing.
+   */
+  stopBatch: () => void;
+
+  /**
+   * Execute a provided function within a batched context
+   * All operations performed inside callback will be treated as a composite operation
+   * more convenient way without manually invoking `startBatch` and `stopBatch`.
+   * @param callback The func containing operations to be batched together.
+   */
+  batch: (callback: () => void) => void;
+  /**
+   * Execute a provided function within a batched context
+   * All operations performed inside callback will be treated as a composite operation
+   * more convenient way without manually invoking `startBatch` and `stopBatch`.
+   * @param callback The func containing operations to be batched together.
+   */
+  clearStack: (stackType?: StackType) => void;
   // ===== tree operations =====
   /**
    * Collapse sub tree(s).
