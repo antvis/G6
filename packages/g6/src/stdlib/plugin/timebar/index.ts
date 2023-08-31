@@ -157,6 +157,7 @@ export class Timebar extends Base {
   }
 
   public getDefaultCfgs(): TimebarConfig {
+    // @ts-ignore
     const configuration: TimebarConfig = {
       axisStyle: {},
       className: 'g6-component-timebar',
