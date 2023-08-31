@@ -56,6 +56,7 @@ const graph = new ExtGraph({
   container: 'container',
   width,
   height,
+  renderer: 'webgl',
   transform: [
     'data-format',
     {
@@ -81,26 +82,26 @@ const graph = new ExtGraph({
       id,
       data: {
         ...data,
-        animates: {
-          hide: [
-            {
-              fields: ['opacity'],
-              duration: 200,
-              shapeId: 'labelShape',
-            },
-          ],
-          update: [
-            {
-              fields: ['lineWidth'],
-              shapeId: 'keyShape',
-              duration: 100,
-            },
-            {
-              fields: ['opacity'],
-              shapeId: 'haloShape',
-            },
-          ],
-        },
+        // animates: {
+        //   hide: [
+        //     {
+        //       fields: ['opacity'],
+        //       duration: 200,
+        //       shapeId: 'labelShape',
+        //     },
+        //   ],
+        //   update: [
+        //     {
+        //       fields: ['lineWidth'],
+        //       shapeId: 'keyShape',
+        //       duration: 100,
+        //     },
+        //     {
+        //       fields: ['opacity'],
+        //       shapeId: 'haloShape',
+        //     },
+        //   ],
+        // },
       },
     };
     if (labelLod !== undefined) {
@@ -110,9 +111,9 @@ const graph = new ExtGraph({
         maxWidth: '250%',
         lod: labelLod,
       };
-      config.data.labelBackgroundShape = {
-        lod: labelLod,
-      };
+      // config.data.labelBackgroundShape = {
+      //   lod: labelLod,
+      // };
       config.data.lodStrategy = {
         levels: [
           { zoomRange: [0, 1] }, // -2
@@ -123,9 +124,9 @@ const graph = new ExtGraph({
           { zoomRange: [1.8, 2.5] }, // 3
           { zoomRange: [2.5, Infinity] }, // 4
         ],
-        animateCfg: {
-          duration: 500,
-        },
+        // animateCfg: {
+        //   duration: 500,
+        // },
       };
     }
     return config;
