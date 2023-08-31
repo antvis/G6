@@ -1,12 +1,12 @@
+import { isArray, throttle, uniqueId } from '@antv/util';
 import { ITEM_TYPE, ShapeStyle } from '../../../types/item';
 import { ComboModel, EdgeModel, ID, IGraph, NodeModel } from '../../../types';
 import { Plugin as Base, IPluginBaseConfig } from '../../../types/plugin';
-import HullComponent, { HullComponentOptions } from './hullComponent';
-import { isArray, throttle, uniqueId } from '@antv/util';
-import { BubblesetCfg } from './types';
 import { isArrayOverlap } from '../../../util/array';
 import { ComboLabelPosition } from '../../../types/combo';
 import { DEFAULT_TEXT_STYLE } from '../../../constant';
+import { BubblesetCfg } from './types';
+import HullComponent, { HullComponentOptions } from './hullComponent';
 
 interface HullConfig extends IPluginBaseConfig {
   /** Common style for the hulls in this plugin. You can also configure individually for each hulls. */

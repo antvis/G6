@@ -137,6 +137,17 @@ new Graph({
   height,
   data,
   plugins: [legend],
+  theme: {
+    type: 'spec',
+    specification: {
+      node: {
+        dataTypeField: 'nodeType',
+      },
+      edge: {
+        dataTypeField: 'nodeType',
+      },
+    },
+  },
   node: {
     labelShape: {
       text: {

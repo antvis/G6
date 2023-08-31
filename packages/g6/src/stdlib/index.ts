@@ -1,17 +1,17 @@
+import * as Layouts from '@antv/layout';
+import Hierarchy from '@antv/hierarchy';
 import { Lib } from '../types/stdlib';
 
+import { Behavior as BaseBehavior } from '../types/behavior';
+import { Plugin as BasePlugin } from '../types/plugin';
 import * as Behaviors from './behavior';
 import * as Transforms from './data';
 import * as Combos from './item/combo';
 import * as Nodes from './item/node';
 import * as Edges from './item/edge';
-import { Behavior as BaseBehavior } from '../types/behavior';
 import * as Themes from './theme';
 import * as ThemeSolvers from './themeSolver';
 import * as Plugins from './plugin';
-import { Plugin as BasePlugin } from '../types/plugin';
-import * as Layouts from '@antv/layout';
-import Hierarchy from '@antv/hierarchy';
 
 const { ValidateData, TransformV4Data, MapNodeSize } = Transforms;
 
@@ -64,7 +64,20 @@ const {
 const { History, Tooltip, Minimap, Grid, Menu, Fisheye, Legend, Toolbar } =
   Plugins;
 
-const { ForceLayout, GridLayout, CircularLayout, ConcentricLayout } = Layouts;
+const {
+  ForceLayout,
+  GridLayout,
+  CircularLayout,
+  ConcentricLayout,
+  RandomLayout,
+  MDSLayout,
+  RadialLayout,
+  FruchtermanLayout,
+  D3ForceLayout,
+  ForceAtlas2Layout,
+  DagreLayout,
+  ComboCombinedLayout,
+} = Layouts;
 
 import lassoSelector from './selector/lasso';
 import rectSelector from './selector/rect';
@@ -174,18 +187,6 @@ const utils = {
 };
 
 const registery = { useLib };
-// const Extensions = {
-//   ...Transforms,
-//   ...Themes,
-//   ...ThemeSolvers,
-//   ...Nodes,
-//   ...Edges,
-//   ...Combos,
-//   ...Behaviors,
-//   ...Plugins,
-//   ...Layouts,
-//   ...Hierarchy,
-// };
 
 const Extensions = {
   // transforms
@@ -203,6 +204,14 @@ const Extensions = {
   GridLayout,
   CircularLayout,
   ConcentricLayout,
+  RandomLayout,
+  MDSLayout,
+  RadialLayout,
+  FruchtermanLayout,
+  D3ForceLayout,
+  ForceAtlas2Layout,
+  DagreLayout,
+  ComboCombinedLayout,
   //Hierarchy
   compactBox,
   dendrogram,

@@ -119,18 +119,19 @@ export class ZoomCanvas extends Behavior {
         .getAllEdgesData()
         .map((edge) => edge.id)
         .filter((id) => graph.getItemVisible(id) === true);
+      // TODO
       graph.hideItem(this.hiddenEdgeIds, false);
       this.hiddenNodeIds = graph
         .getAllNodesData()
         .map((node) => node.id)
         .filter((id) => graph.getItemVisible(id) === true);
       // draw node's keyShapes on transient, and then hidden the real nodes;
-      this.hiddenNodeIds.forEach((id) => {
-        graph.drawTransient('node', id, {
-          onlyDrawKeyShape: true,
-        });
-      });
-      graph.hideItem(this.hiddenNodeIds, false);
+      // this.hiddenNodeIds.forEach((id) => {
+      //   graph.drawTransient('node', id, {
+      //     onlyDrawKeyShape: true,
+      //   });
+      // });
+      // graph.hideItem(this.hiddenNodeIds, false);
     }
   }
 
@@ -143,12 +144,13 @@ export class ZoomCanvas extends Behavior {
       if (hiddenEdgeIds) {
         graph.showItem(hiddenEdgeIds, false);
       }
-      if (hiddenNodeIds) {
-        hiddenNodeIds.forEach((id) => {
-          graph.drawTransient('node', id, { action: 'remove' });
-        });
-        graph.showItem(hiddenNodeIds, false);
-      }
+      // TODO
+      // if (hiddenNodeIds) {
+      //   hiddenNodeIds.forEach((id) => {
+      //     graph.drawTransient('node', id, { action: 'remove' });
+      //   });
+      //   graph.showItem(hiddenNodeIds, false);
+      // }
     }
     this.hiddenEdgeIds = [];
     this.hiddenNodeIds = [];

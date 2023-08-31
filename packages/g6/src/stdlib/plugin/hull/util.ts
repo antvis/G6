@@ -1,7 +1,7 @@
 import { vec2 } from '@antv/matrix-util';
-import { Bounds, Point } from '../../../types/common';
 import { ID, IGraph } from 'types';
 import { AABB } from '@antv/g';
+import { Bounds, Point } from '../../../types/common';
 import { getLineIntersect } from '../../../util/shape';
 
 /**

@@ -16,6 +16,8 @@ const graph = new ExtGraph({
   container: 'container',
   width,
   height,
+  renderer: 'canvas',
+  transform: ['transform-v4-data'],
   modes: {
     default: [
       {
@@ -31,22 +33,31 @@ const graph = new ExtGraph({
       'brush-select',
     ],
   },
+  node: {
+    keyShape: {
+      r: 2,
+    },
+  },
+  edge: {
+    keyShape: {
+      opacity: 0.3,
+    },
+  },
 });
 
 fetch('https://gw.alipayobjects.com/os/bmw-prod/f1565312-d537-4231-adf5-81cb1cd3a0e8.json')
   .then((res) => res.json())
   .then((data) => {
+    data.edges.forEach((edge) => (edge.id = `edge-${Math.random()}`));
     graph.read(data);
-
-    const graphData = graph.save();
-    const nodeLen = graphData.nodes.length;
-    const edgeLen = graphData.edges.length;
+    const nodeLen = data.nodes.length;
+    const edgeLen = data.edges.length;
     descriptionDiv.innerHTML = `节点数量：${nodeLen}, 边数量：${edgeLen}, 图元数量：${nodeLen + edgeLen}`;
   });
 
 if (typeof window !== 'undefined')
   window.onresize = () => {
-    if (!graph || graph.get('destroyed')) return;
+    if (!graph || graph.destroyed) return;
     if (!container || !container.scrollWidth || !container.scrollHeight) return;
-    graph.changeSize(container.scrollWidth, container.scrollHeight);
+    graph.setSize([container.scrollWidth, container.scrollHeight]);
   };

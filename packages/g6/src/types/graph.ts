@@ -598,7 +598,7 @@ export interface IGraph<
    * @returns
    */
   addBehaviors: (
-    behaviors: BehaviorOptionsOf<B>[],
+    behaviors: BehaviorOptionsOf<B> | BehaviorOptionsOf<B>[],
     modes: string | string[],
   ) => void;
   /**
