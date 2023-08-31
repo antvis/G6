@@ -326,7 +326,7 @@ The format of business data varies and may not conform to the data format of G6.
 ```typescript
 const graph = new Graph({
   // ... other graph configurations
-  transform: [
+  transforms: [
     'transform-v4-data', // built-in data processor, converts v4 data format to v5
     {
       // built-in data processor, maps the size of nodes to the 'value' field of node data, normalizes the size range to [4, 28]
@@ -354,7 +354,7 @@ const ExtGraph = extend(Graph, {
 });
 const graph = new ExtGraph({
   // ... other graph configurations
-  transform: [
+  transforms: [
     'transform-v4-data', // built-in data processor, converts v4 data format to v5
     'custom-data-transform', // use custom data processor
   ],

@@ -246,10 +246,34 @@ const showHideActions = {
   },
 };
 
+const viewPortActions = {
+  'Fit View': () => {
+    graph.fitView({}, { duration: 500 });
+  },
+  'Fit Center': () => {
+    graph.fitCenter({}, { duration: 500 });
+  },
+  'Zoom In': () => {
+    const currentZoom = graph.getZoom();
+    graph.zoomTo(currentZoom * 1.1, undefined, { duration: 500 });
+  },
+  'Zoom Out': () => {
+    const currentZoom = graph.getZoom();
+    graph.zoomTo((currentZoom * 1) / 1.1, undefined, { duration: 500 });
+  },
+  Translate: () => {
+    graph.translate({ dx: Math.random() * 200 - 100, dy: Math.random() * 200 - 100 }, { duration: 500 });
+  },
+  '1:1': () => {
+    graph.zoomTo(1, undefined, { duration: 500 });
+  },
+};
+
 const actions = {
   'animate.buildIn & animate.buildOut': buildInOutActions,
   'animate.show & animate.hide': showHideActions,
   'animate.update': updateActions,
+  'view port': viewPortActions,
 };
 
 Object.keys(actions).forEach((groupName, i) => {

@@ -574,9 +574,10 @@ export class Legend extends Base {
           firstItem.legend.childNodes[1].childNodes[0]
             .childNodes[0] as DisplayObject
         ).getRenderBounds();
-        const firstBottom = firstItemBounds.max[1] + firstItem.padding[2];
-
-        secondItem.legend.translateLocal([0, firstBottom]);
+        if (firstItemBounds) {
+          const firstBottom = firstItemBounds.max[1] + firstItem.padding[2];
+          secondItem.legend.translateLocal([0, firstBottom]);
+        }
       } else {
         firstItem.legend.translateLocal([
           -bbox.min[0] + firstItem.padding[3],

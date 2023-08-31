@@ -327,7 +327,7 @@ const graph = new Graph({
 ```typescript
 const graph = new Graph({
   // ... 其他图配置
-  transform: [
+  transforms: [
     'transform-v4-data', // 内置的数据处理器，将 v4 的数据格式转换为 v5
     {
       // 内置的数据处理器，节点大小映射到节点数据的 value 字段上，大小范围归一化到 [4, 28]
@@ -358,7 +358,7 @@ const ExtGraph = extend(Graph, {
 
 const graph = new ExtGraph({
   // ... 其他图配置
-  transform: [
+  transforms: [
     'transform-v4-data', // 内置的数据处理器，将 v4 的数据格式转换为 v5
     'custom-data-transform', // 使用自定义的数据处理器
   ],

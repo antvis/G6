@@ -64,7 +64,20 @@ const {
 const { History, Tooltip, Minimap, Grid, Menu, Fisheye, Legend, Toolbar } =
   Plugins;
 
-const { ForceLayout, GridLayout, CircularLayout, ConcentricLayout } = Layouts;
+const {
+  ForceLayout,
+  GridLayout,
+  CircularLayout,
+  ConcentricLayout,
+  RandomLayout,
+  MDSLayout,
+  RadialLayout,
+  FruchtermanLayout,
+  D3ForceLayout,
+  ForceAtlas2Layout,
+  DagreLayout,
+  ComboCombinedLayout,
+} = Layouts;
 
 import lassoSelector from './selector/lasso';
 import rectSelector from './selector/rect';
@@ -175,18 +188,6 @@ const utils = {
 };
 
 const registery = { useLib };
-// const Extensions = {
-//   ...Transforms,
-//   ...Themes,
-//   ...ThemeSolvers,
-//   ...Nodes,
-//   ...Edges,
-//   ...Combos,
-//   ...Behaviors,
-//   ...Plugins,
-//   ...Layouts,
-//   ...Hierarchy,
-// };
 
 const Extensions = {
   // transforms
@@ -204,6 +205,14 @@ const Extensions = {
   GridLayout,
   CircularLayout,
   ConcentricLayout,
+  RandomLayout,
+  MDSLayout,
+  RadialLayout,
+  FruchtermanLayout,
+  D3ForceLayout,
+  ForceAtlas2Layout,
+  DagreLayout,
+  ComboCombinedLayout,
   //Hierarchy
   compactBox,
   dendrogram,

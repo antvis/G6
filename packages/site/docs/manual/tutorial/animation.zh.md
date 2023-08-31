@@ -1,36 +1,77 @@
 ---
-title: 动画（选读）
+title: 动画
 order: 6
 ---
 
-由于动画机制较为复杂，我们未在 Tutorial-案例 中增加动画。本文简单描述了 G6 中的动画，希望快速上手的用户可以跳过本文，希望深入了解的用户可参见：[基础动画](/zh/docs/manual/middle/animation)。
+[动画配置 DEMO](https://g6-next.antv.antgroup.com/examples/scatter/changePosition/#itemAnimates)
 
-G6 的动画分为两个层次：
+G6 5.0 提供了规范化的动画描述方式，您可以在实例化图时，为各个元素配置不同场景下的动画。您可以在上面介绍的 graph 配置的 `node` / `edge` / `combo` 字段中指定 `animates` 字段：
 
-- 图全局动画：图整体变化时的动画过渡；
-- 元素动画：节点和边的动画效果。
-
-## 全局动画
-
-G6 的全局动画指通过图实例进行操作时，产生的动画效果。例如：
-
-- `graph.updateLayout(cfg)`
-
-通过实例化图时配置 `animate: true`，可以达到每次进行上述操作时，动画效果变化的目的。
-
-**例子**
-
-```javascript
-const graph = new G6.Graph({
-  // ...                      // 其他配置项
-  animate: true, // Boolean，可选，全局变化时否使用动画过渡
-});
+```typescript
+const graph = new Graph({
+  node: {
+    animates: {
+      buildIn: [...],
+      buildOut: [...],
+      update: [...],
+      show: [...],
+      hide: [...],
+    }
+  }
+})
 ```
 
-## 元素动画
+或 `node` / `edge` / `combo` 的函数式映射方式：
 
-G6 允许用户通过自定义节点/边的方式，给元素增加动画效果，如下：<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*hYJSQaneVmgAAAAAAAAAAABkARQnAQ' width=330  alt='img'/>
+```typescript
+const graph = new Graph({
+  node: model => {
+    const { id, data } = model
+    return {
+      id,
+      data: {
+        ...data,
+        // ... 其他样式配置
+        animates: {
+          buildIn: [...],
+          buildOut: [...],
+          update: [...],
+          show: [...],
+          hide: [...],
+        }
+      }
+    }
+  }
+})
+```
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*-90pSrm4hkUAAAAAAAAAAABkARQnAQ' width=330 alt='img' />
+我们规范了动画的五个场景，发生在各个图形的不同时机：入场（buildId）、出场（buildOut）、update（数据/状态更新）、show（出现，相对于 hide）、hide（隐藏）。每个场景的可以为不同的图形、不同的字段指定动画，还可以指定动画的配置和执行顺序。例如，下面表达了指定各类更新时的各种图形的动画：
 
-更多关于动画的案例请参考 [G6 中的动画案例](/zh/examples/scatter/node)。
+```typescript
+update: [
+  {
+    // 整个节点（shapeId: 'group'）在 x、y 发生变化时，动画更新
+    fields: ['x', 'y'],
+    shapeId: 'group',
+    duration: 500,
+  },
+  {
+    // 在 selected 和 active 状态变化导致的 haloShape opacity 变化时，使 opacity 带动画地更新
+    fields: ['opacity'],
+    shapeId: 'haloShape',
+    states: ['selected', 'active'],
+    duration: 500,
+  },
+  // 当 keyShape 的 fill、r 同时发生变化时，按照 order 指定的顺序带动画地更新，可以实现依次动画的效果
+  {
+    fields: ['fill'],
+    shapeId: 'keyShape',
+    order: 0,
+  },
+  {
+    fields: ['r'],
+    shapeId: 'keyShape',
+    order: 1,
+  },
+];
+```

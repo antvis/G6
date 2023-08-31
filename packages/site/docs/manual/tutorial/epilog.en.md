@@ -3,7 +3,7 @@ title: Conclusion
 order: 7
 ---
 
-Congratulations! You have created a graph visualization powered by G6. You have learnt:
+Congratulations! You have successfully created a graph visualization application based on G6 and learned the following:
 
 - Basic rendering;
 - Load remote data;
@@ -12,8 +12,13 @@ Congratulations! You have created a graph visualization powered by G6. You have 
 - Add interaction behavior;
 - Add tools.
 
-[Complete Code of Tutorial Demo](https://codepen.io/Yanyan-Wang/pen/mdbYZvZ).
+[Complete Code of Tutorial Demo](https://codesandbox.io/s/g6-v5-tutorial-j67vnm?file=/index.js).
 
-If you wish to go further in G6, please check out [Key Concept in G6](/en/docs/manual/middle/graph); For further information, check out [Further Reading](/en/docs/manual/advanced/coordinate-system).
+The G6 5.0 documentation is still under construction. For now, you can refer to the [API](https://g6-next.antv.antgroup.com/en/apis) for development.
 
-You can also refer to [G6 API](/en/docs/api/Graph) during the process of development.
+<iframe src="https://codesandbox.io/embed/g6-v5-tutorial-j67vnm?fontsize=14&hidenavigation=1&theme=light"
+     style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
+     title="g6-v5-tutorial"
+     allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+     sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
+   ></iframe>

@@ -284,7 +284,7 @@ export abstract class BaseNode {
     diffState?: { previous: State[]; current: State[] },
   ): DisplayObject {
     const { labelShape: shapeStyle } = this.mergedStyles;
-    if (!shapeStyle) return;
+    if (!shapeStyle || !shapeStyle.text || !model.data.labelShape) return;
     const { keyShape } = shapeMap;
     this.boundsCache.keyShapeLocal =
       this.boundsCache.keyShapeLocal || keyShape.getLocalBounds();
@@ -392,7 +392,7 @@ export abstract class BaseNode {
     diffState?: { oldState: State[]; newState: State[] },
   ): DisplayObject {
     const { labelShape } = shapeMap;
-    if (!labelShape || !model.data.labelShape) return;
+    if (!labelShape || !labelShape.style.text || !model.data.labelShape) return;
     if (
       !this.boundsCache.labelShapeGeometry ||
       labelShape.getAttribute(LOCAL_BOUNDS_DIRTY_FLAG_KEY)
