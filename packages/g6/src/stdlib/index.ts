@@ -276,7 +276,7 @@ const Extensions = {
   Fisheye,
   Legend,
   Timebar,
-  Hull
+  Hull,
 };
 
 export default registery;
