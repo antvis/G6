@@ -1,5 +1,9 @@
 import { Graph, Extensions, extend } from '@antv/g6';
 
+// This site has mounted Algorithm to window. 本站点已将 Algorithm 挂载到 window 上
+// Import Algorithm for node clustering in your project. 在你的项目中需要引入 Algorithm 用于下面的节点聚类计算
+// import Algorithm from '@antv/layout'
+
 const container = document.getElementById('container');
 const width = container.scrollWidth;
 const height = container.scrollHeight || 500;
@@ -222,13 +226,13 @@ const graph = new ExtGraph({
   container,
   width,
   height,
-  transform: [
+  transforms: [
     'data-format',
     'clustering-node',
     {
       type: 'map-node-size',
       field: 'degree',
-      range: [2, 24],
+      range: [6, 30],
     },
   ],
   modes: {

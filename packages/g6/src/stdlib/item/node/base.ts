@@ -73,15 +73,15 @@ export abstract class BaseNode {
     // the tag of first rendering
     firstRender: boolean;
   } = {
-      hiddenShape: {},
-      zoom: 1,
-      zoomLevel: 0,
-      balanceRatio: 1,
-      levelShapes: {},
-      wordWrapWidth: 32,
-      animateConfig: DEFAULT_ANIMATE_CFG.zoom,
-      firstRender: true,
-    };
+    hiddenShape: {},
+    zoom: 1,
+    zoomLevel: 0,
+    balanceRatio: 1,
+    levelShapes: {},
+    wordWrapWidth: 32,
+    animateConfig: DEFAULT_ANIMATE_CFG.zoom,
+    firstRender: true,
+  };
 
   constructor(props) {
     const { themeStyles, lodStrategy, zoom } = props;
@@ -285,7 +285,7 @@ export abstract class BaseNode {
     diffState?: { previous: State[]; current: State[] },
   ): DisplayObject {
     const { labelShape: shapeStyle } = this.mergedStyles;
-    if (!shapeStyle) return;
+    if (!shapeStyle || !shapeStyle.text || !model.data.labelShape) return;
     const { keyShape } = shapeMap;
     this.boundsCache.keyShapeLocal =
       this.boundsCache.keyShapeLocal || keyShape.getLocalBounds();
@@ -393,7 +393,7 @@ export abstract class BaseNode {
     diffState?: { oldState: State[]; newState: State[] },
   ): DisplayObject {
     const { labelShape } = shapeMap;
-    if (!labelShape || !model.data.labelShape) return;
+    if (!labelShape || !labelShape.style.text || !model.data.labelShape) return;
     if (
       !this.boundsCache.labelShapeGeometry ||
       labelShape.getAttribute(LOCAL_BOUNDS_DIRTY_FLAG_KEY)
@@ -853,7 +853,7 @@ export abstract class BaseNode {
               id,
               shapeMap[id],
               this.mergedStyles[id] ||
-              this.mergedStyles[id.replace('Background', '')],
+                this.mergedStyles[id.replace('Background', '')],
               hiddenShape,
               animateConfig,
             );
@@ -892,20 +892,24 @@ export abstract class BaseNode {
     } else {
       switch (position) {
         case 'bottom':
-          labelShape.style.transformOrigin = `0 ${keyShapeLocal.max[1] - labelShape.attributes.y
-            }`;
+          labelShape.style.transformOrigin = `0 ${
+            keyShapeLocal.max[1] - labelShape.attributes.y
+          }`;
           break;
         case 'right':
-          labelShape.style.transformOrigin = `${keyShapeLocal.max[0] - labelShape.attributes.x
-            } 0`;
+          labelShape.style.transformOrigin = `${
+            keyShapeLocal.max[0] - labelShape.attributes.x
+          } 0`;
           break;
         case 'top':
-          labelShape.style.transformOrigin = `0 ${keyShapeLocal.min[1] - labelShape.attributes.y
-            }`;
+          labelShape.style.transformOrigin = `0 ${
+            keyShapeLocal.min[1] - labelShape.attributes.y
+          }`;
           break;
         case 'left':
-          labelShape.style.transformOrigin = `${keyShapeLocal.min[0] - labelShape.attributes.x
-            } 0`;
+          labelShape.style.transformOrigin = `${
+            keyShapeLocal.min[0] - labelShape.attributes.x
+          } 0`;
           break;
         default:
           // center
@@ -933,28 +937,34 @@ export abstract class BaseNode {
     switch (position) {
       case 'top':
         // if it is zoom-out, do not scale the gap between keyShape and labelShape, differentiate from zoom-in by adjusting transformOrigin
-        labelBackgroundShape.style.transformOrigin = `${paddingLeft + (width - paddingLeft - paddingRight) / 2
-          } ${zoom < 1 ? height - paddingBottom : keyShapeLocal.min[1] - y}`;
+        labelBackgroundShape.style.transformOrigin = `${
+          paddingLeft + (width - paddingLeft - paddingRight) / 2
+        } ${zoom < 1 ? height - paddingBottom : keyShapeLocal.min[1] - y}`;
         break;
       case 'left':
-        labelBackgroundShape.style.transformOrigin = `${zoom < 1 ? width - paddingRight : keyShapeLocal.min[0] - x
-          } ${paddingTop + (height - paddingTop - paddingBottom) / 2}`;
+        labelBackgroundShape.style.transformOrigin = `${
+          zoom < 1 ? width - paddingRight : keyShapeLocal.min[0] - x
+        } ${paddingTop + (height - paddingTop - paddingBottom) / 2}`;
         break;
       case 'right':
-        labelBackgroundShape.style.transformOrigin = `${zoom < 1 ? paddingLeft : keyShapeLocal.max[0] - x
-          } ${paddingTop + (height - paddingTop - paddingBottom) / 2}`;
+        labelBackgroundShape.style.transformOrigin = `${
+          zoom < 1 ? paddingLeft : keyShapeLocal.max[0] - x
+        } ${paddingTop + (height - paddingTop - paddingBottom) / 2}`;
         break;
       case 'bottom':
-        labelBackgroundShape.style.transformOrigin = `${paddingLeft + (width - paddingLeft - paddingRight) / 2
-          } ${zoom < 1
+        labelBackgroundShape.style.transformOrigin = `${
+          paddingLeft + (width - paddingLeft - paddingRight) / 2
+        } ${
+          zoom < 1
             ? paddingTop + (height - paddingTop - paddingBottom) / 2
             : keyShapeLocal.max[1] - y
-          }`;
+        }`;
         break;
       default:
         // center
-        labelBackgroundShape.style.transformOrigin = `${paddingLeft + (width - paddingLeft - paddingRight) / 2
-          } ${paddingTop + (height - paddingTop - paddingBottom) / 2}`;
+        labelBackgroundShape.style.transformOrigin = `${
+          paddingLeft + (width - paddingLeft - paddingRight) / 2
+        } ${paddingTop + (height - paddingTop - paddingBottom) / 2}`;
     }
 
     const { labelShapeGeometry: labelBBox } = this.boundsCache;

@@ -1,7 +1,7 @@
 // @ts-nocheck
 
 import G6, { GraphData, IGraph } from '../../src/index';
-import LightTheme from '../../src/stdlib/theme/light';
+import { LightTheme } from '../../src/stdlib/theme/light';
 
 const container = document.createElement('div');
 document.querySelector('body').appendChild(container);

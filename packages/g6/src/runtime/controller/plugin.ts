@@ -85,7 +85,7 @@ export class PluginController {
     const { graph } = this;
     if (config instanceof PluginBase) {
       config.init(graph);
-      const key = `plugin-${uniqueId()}`;
+      const key = config.key || config.options?.key || `plugin-${uniqueId()}`;
       this.pluginMap.set(key, { type: key, plugin: config });
       return { key, plugin: config };
     }
@@ -93,7 +93,10 @@ export class PluginController {
 
     const options = typeof config === 'string' ? {} : config;
     const type = typeof config === 'string' ? config : config.type;
-    const key = typeof config === 'string' ? config : config.key || type;
+    const key =
+      typeof config === 'string'
+        ? config
+        : config.key || config.options?.key || type;
     if (!Plugin) {
       throw new Error(
         `Plugin ${type} not found, please make sure you have registered it first`,
@@ -121,7 +124,21 @@ export class PluginController {
     if (action === 'remove') {
       pluginCfgs.forEach((config) => {
         const key =
-          typeof config === 'string' ? config : config.key || config.type;
+          (typeof config === 'string' ? config : config.key) ||
+          (
+            config as {
+              key: string;
+              type: string;
+              options: any;
+            }
+          ).options?.key ||
+          (
+            config as {
+              key: string;
+              type: string;
+              options: any;
+            }
+          ).type;
         const item = this.pluginMap.get(key);
         if (!item) return;
         const { plugin } = item;

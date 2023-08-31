@@ -19,6 +19,7 @@ const graph = new ExtGraph({
   container: 'container',
   width,
   height,
+  renderer: 'webgl',
   modes: {
     default: ['brush-select', 'zoom-canvas', 'activate-relations', 'drag-canvas', 'drag-node'],
   },

@@ -145,7 +145,14 @@ const createGraph = (customData) => {
     data: customData,
     node: (innerModel) => {
       return {
-        ...innerModel,
+        id: innerModel.id,
+        data: {
+          ...innerModel.data,
+          keyShape: {
+            r: Math.random() * 20 + 10,
+            fill: colors[Math.floor(Math.random() * 9)],
+          },
+        },
       };
     },
   });
@@ -191,14 +198,6 @@ fetch('https://gw.alipayobjects.com/os/bmw-prod/afe8b2a6-f691-4070-aa73-46fc07fd
       node.data = {
         ...node.data,
         label: node.id,
-        color: colors[Math.floor(Math.random() * 9)],
-        size: Math.random() * 30 + 10,
-        r: Math.random() * 30 + 10,
-        keyShape: {
-          r: Math.random() * 20 + 10,
-          fill: colors[Math.floor(Math.random() * 9)],
-        },
-        lineWidth: 0,
       };
     });
     data.edges.forEach((edge) => {

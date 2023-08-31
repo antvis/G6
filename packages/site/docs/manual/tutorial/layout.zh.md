@@ -3,7 +3,9 @@ title: 使用图布局 Layout
 order: 3
 ---
 
-当数据中没有节点位置信息，或者数据中的位置信息不满足需求时，需要借助一些布局算法对图进行布局。G6 提供了 9 种一般图的布局和 4 种树图的布局：<br />**一般图：**
+当数据中没有节点位置信息，或者数据中的位置信息不满足需求时，需要借助一些布局算法对图进行布局。G6 提供了 9 种一般图的布局和 4 种树图的布局。在 v4 中，它们需要分别使用的图结构数据和树图结构数据中。v5 将树图和图进行了融合，现在不论是树图还是图，都可以使用如下布局算法：
+
+<br />**一般图：**
 
 - Random Layout：随机布局；
 - **Force Layout：经典力导向布局：**
@@ -25,70 +27,41 @@ order: 3
 - Mindmap Layout：脑图布局；
 - Indented Layout：缩进布局。
 
-各种布局方法的具体介绍及其配置参见 [图布局 API](/zh/docs/api/graphLayout/guide) 或 [树图布局 API](/zh/docs/api/treeGraphLayout/guide)。本教程中，我们使用的是力导向布局 (Force Layout)。
+各种布局方法的具体介绍及其配置参见 [Layout API](https://g6-next.antv.antgroup.com/apis/interfaces/layout/force-layout-options)。本教程中，我们使用的是力导向布局 (Force Layout)。
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*qnUwSZVjYOMAAAAAAAAAAABkARQnAQ' width=550 alt='img' />
-
-## 取消自动适配画布
-
-我们在之前的教程里面，为了能够将超出画布的图适配到视野中，在实例化图时使用了 `fitView`  配置项。这节开始我们将会去掉这个特性。因为复杂的布局系统会打破适配的规则，反而会造成更多的困扰。让我们将相关的适配代码变为注释：
-
-```javascript
-const graph = new G6.Graph({
-  // ...
-  // fitView: true,
-  // fitViewPadding: [ 20, 40, 50, 20 ]
-});
-```
+<img src='https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*lJdeTI0qQa8AAAAAAAAAAAAADmJ7AQ/original' width=550 alt='img' />
 
 ## 默认布局
 
 当实例化图时没有配置布局时：
 
 - 若数据中节点有位置信息（`x` 和 `y`），则按照数据的位置信息进行绘制；
-- 若数据中节点没有位置信息，则默认使用 Random Layout 进行布局。
+- 若数据中节点没有位置信息，则默认使用 Grid Layout 进行布局。
 
 ## 配置布局
 
-G6 使用布局的方式非常简单，在图实例化的时候，加上 layout 配置即可。下面代码在实例化图时设置了布局方法为 `type: 'force'`，即经典力导向图布局。并设置了参数 `preventOverlap: true` ，表示希望节点不重叠。力导向布局的更多配置项参见：[Layout API](/zh/docs/api/graphLayout/force)。
+G6 使用布局的方式非常简单，在图实例化的时候，加上 layout 配置即可。下面代码在实例化图时设置了布局方法为 `type: 'force'`，即力导向图布局。同时开启了 `animated: true` 使得在力计算过程中实时渲染图，让用户可以观察到图上节点力相互作用产生的动画效果。并设置了参数 `preventOverlap: true` ，表示希望节点不重叠。力导向布局的更多配置项参见：[Layout API](https://g6-next.antv.antgroup.com/apis/interfaces/layout/force-layout-options)。
 
 ```javascript
-const graph = new G6.Graph({
+const graph = new Graph({
   // ...                      // 其他配置项
+  // Object，可选，布局的方法及其配置项，默认为 grid 布局。
   layout: {
-    // Object，可选，布局的方法及其配置项，默认为 random 布局。
     type: 'force', // 指定为力导向布局
     preventOverlap: true, // 防止节点重叠
-    // nodeSize: 30        // 节点大小，用于算法中防止节点重叠时的碰撞检测。由于已经在上一节的元素配置中设置了每个节点的 size 属性，则不需要在此设置 nodeSize。
+    linkDistance: 50, // 边的理想长度
+    // nodeSize: 30     // 节点大小，用于算法中防止节点重叠时的碰撞检测。默认将使用数据中的节点大小。
   },
 });
 ```
 
 结果如下：
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*w4ZfRJW3b5YAAAAAAAAAAABkARQnAQ' width=350 alt='img' />
+<img src='https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*lJdeTI0qQa8AAAAAAAAAAAAADmJ7AQ/original' width=350 alt='img' />
 
-如图所示，节点按照力导向布局自动平衡。但是图中的节点过于拥挤，边上的文字信息被挤占，无法看清。我们希望布局计算边的距离可以更长一些。G6 的力导向布局提供了  `linkDistance` 属性用来指定布局的时候边的距离长度：
+> 不同布局之间、相同布局不同参数允许动态切换和过渡，具体参见：[布局切换](https://g6-next.antv.antgroup.com/examples/net/layoutMechanism/#layoutTranslate)。
 
-```javascript
-const graph = new G6.Graph({
-  // ...
-  layout: {
-    type: 'force',
-    preventOverlap: true,
-    linkDistance: 100, // 指定边距离为100
-  },
-});
-```
-
-结果如下：
-
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*AXrdQIm3oCIAAAAAAAAAAABkARQnAQ' width=350 alt='img' />
-<br />
-
-> 不同布局之间、相同布局不同参数允许动态切换和过渡，具体参见：[布局切换](/zh/docs/manual/middle/layout/layout-mechanism)。
-
-提示：布局将在调用  `graph.render()` 时执行计算。
+提示：若图配置中有 data，则在实例化图后进行布局计算。若使用  `graph.read(data)` API 进行数据读取，则将在调用时执行计算。
 
 ## 完整代码
 
@@ -102,82 +75,173 @@ const graph = new G6.Graph({
     <title>Tutorial Demo</title>
   </head>
   <body>
-    <div id="mountNode"></div>
-    <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.7.1/dist/g6.min.js"></script>
-    <!-- 4.x and later versions -->
-    <!-- <script src="https://gw.alipayobjects.com/os/lib/antv/g6/4.3.11/dist/g6.min.js"></script> -->
+    <div id="container"></div>
+    <script src="https://gw.alipayobjects.com/os/lib/antv/g6/5.0.0-beta.0/dist/g6.min.js"></script>
     <script>
-      const graph = new G6.Graph({
-        container: 'mountNode',
-        width: 800,
-        height: 600,
-        defaultNode: {
-          size: 30,
-          labelCfg: {
-            style: {
-              fill: '#fff',
+      const { Graph: GraphBase, extend, Extensions } = G6;
+
+      // 自定义数据处理器 - 度数计算
+      const degreeCalculator = (data, options, userGraphCore) => {
+        const { edges, nodes } = data;
+        const degreeMap = new Map();
+        edges.forEach(({ source, target }) => {
+          degreeMap.set(source, (degreeMap.get(source) || 0) + 1);
+          degreeMap.set(target, (degreeMap.get(target) || 0) + 1);
+        });
+        nodes.forEach((node) => {
+          node.data.degree = degreeMap.get(node.id) || 0;
+        });
+        return data;
+      };
+
+      // 自定义数据处理器 - 节点聚类
+      const clusteringNodes = (data, options = {}, userGraphCore) => {
+        if (!Algorithm?.labelPropagation) return;
+        const clusteredData = Algorithm.louvain(data, false);
+        const clusterMap = new Map();
+        clusteredData.clusters.forEach((cluster, i) => {
+          cluster.nodes.forEach((node) => {
+            clusterMap.set(node.id, `c${i}`);
+          });
+        });
+        data.nodes.forEach((node) => {
+          node.data.cluster = clusterMap.get(node.id);
+        });
+        return data;
+      };
+
+      const Graph = extend(BaseGraph, {
+        transforms: {
+          'degree-calculator': degreeCalculator,
+          'node-clustering': clusteringNodes,
+        },
+        nodes: {
+          'triangle-node': Extensions.TriangleNode,
+        },
+      });
+
+      const graph = new Graph({
+        container: 'container',
+        width: 1000,
+        height: 1000,
+        transforms: [
+          'transform-v4-data',
+          'degree-calculator',
+          'node-clustering',
+          {
+            type: 'map-node-size',
+            field: 'degree',
+            range: [16, 60],
+          },
+        ],
+        layout: {
+          type: 'force',
+          animated: true,
+          linkDistance: 50,
+        },
+        theme: {
+          type: 'spec',
+          base: 'light',
+          specification: {
+            node: {
+              dataTypeField: 'cluster',
             },
           },
         },
-        defaultEdge: {
-          labelCfg: {
-            autoRotate: true,
+        node: (model) => {
+          const { id, data } = model;
+          let type = 'circle-node';
+          if (data.degree === 2) type = 'rect-node';
+          else if (data.degree === 1) type = 'triangle-node';
+
+          const badgeShapes = {
+            fontSize: 12,
+            lod: 0,
+          };
+
+          if (data.degree > 10) {
+            badgeShapes[0] = {
+              color: '#F86254',
+              text: 'Important',
+              position: 'rightTop',
+            };
+          }
+          if (data.degree > 5) {
+            badgeShapes[1] = {
+              text: 'A',
+              textAlign: 'center',
+              color: '#EDB74B',
+              position: 'right',
+            };
+          }
+
+          return {
+            id,
+            data: {
+              ...data,
+              type,
+              labelShape: {
+                position: 'bottom',
+                text: id,
+              },
+              labelBackgroundShape: {},
+              iconShape:
+                data.degree <= 2
+                  ? undefined
+                  : {
+                      img: 'https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg',
+                      fill: '#fff',
+                      lod: 0,
+                      fontSize: data.keyShape.r - 4,
+                    },
+              badgeShapes,
+              animates: {
+                update: [
+                  {
+                    fields: ['opacity'],
+                    shapeId: 'haloShape',
+                    states: ['selected', 'active'],
+                  },
+                  {
+                    fields: ['lineWidth'],
+                    shapeId: 'keyShape',
+                    states: ['selected', 'active'],
+                  },
+                ],
+              },
+            },
+          };
+        },
+        edge: {
+          animates: {
+            update: [
+              {
+                fields: ['opacity'],
+                shapeId: 'haloShape',
+                states: ['selected', 'active'],
+              },
+              {
+                fields: ['lineWidth'],
+                shapeId: 'keyShape',
+                states: ['selected', 'active'],
+              },
+            ],
           },
         },
-        layout: {
-          type: 'force', // 设置布局算法为 force
-          linkDistance: 100, // 设置边长为 100
-          preventOverlap: true, // 设置防止重叠
-        },
       });
+
       const main = async () => {
         const response = await fetch(
-          'https://gw.alipayobjects.com/os/basement_prod/6cae02ab-4c29-44b2-b1fd-4005688febcb.json',
+          'https://raw.githubusercontent.com/antvis/G6/v5-demo-refine/packages/g6/tests/datasets/force-data.json',
         );
         const remoteData = await response.json();
-
-        const nodes = remoteData.nodes;
-        const edges = remoteData.edges;
-        nodes.forEach((node) => {
-          if (!node.style) {
-            node.style = {};
-          }
-          node.style.lineWidth = 1;
-          node.style.stroke = '#666';
-          node.style.fill = 'steelblue';
-          switch (node.class) {
-            case 'c0': {
-              node.type = 'circle';
-              break;
-            }
-            case 'c1': {
-              node.type = 'rect';
-              node.size = [35, 20];
-              break;
-            }
-            case 'c2': {
-              node.type = 'ellipse';
-              node.size = [35, 20];
-              break;
-            }
-          }
-        });
-        edges.forEach((edge) => {
-          if (!edge.style) {
-            edge.style = {};
-          }
-          edge.style.lineWidth = edge.weight;
-          edge.style.opacity = 0.6;
-          edge.style.stroke = 'grey';
-        });
-
-        graph.data(remoteData);
-        graph.render();
+        graph.read(remoteData);
       };
+
       main();
     </script>
   </body>
 </html>
 ```
 
-<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ 注意:</strong></span><br /> 若需更换数据，请替换  `'https://gw.alipayobjects.com/os/basement_prod/6cae02ab-4c29-44b2-b1fd-4005688febcb.json'`  为新的数据文件地址。
+**⚠️ 注意:** <br /> 若需更换数据，请替换  `'https://raw.githubusercontent.com/antvis/G6/v5-demo-refine/packages/g6/tests/datasets/force-data.json'`  为新的数据文件地址。

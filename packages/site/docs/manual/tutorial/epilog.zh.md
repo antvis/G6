@@ -7,13 +7,18 @@ order: 7
 
 - 基本绘制方法
 - 远程数据加载
-- 属性配置
+- 样式配置
 - 布局运用
 - 增加交互
 - 添加辅助工具
 
-完整代码见：[Tutorial 案例代码](https://codepen.io/Yanyan-Wang/pen/mdbYZvZ)。
+完整代码见：<a href='https://codesandbox.io/s/g6-v5-tutorial-j67vnm?file=/index.js' target='_blank'>Tutorial 案例代码</a>。
 
-如果你希望继续学习深入的 G6 知识，请查看 [G6 核心概念](/zh/docs/manual/middle/graph)；关于 G6 的扩展内容，请查看 [G6 扩展阅读](/zh/docs/manual/advanced/coordinate-system)。
+G6 5.0 文档仍在建设中。目前您可以查阅 [API](https://g6-next.antv.antgroup.com/apis) 进行开发。
 
-开发过程中可通过 [G6 API](/zh/docs/api/Graph) 快速查询。
+<iframe src="https://codesandbox.io/embed/g6-v5-tutorial-j67vnm?fontsize=14&hidenavigation=1&theme=light"
+     style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
+     title="g6-v5-tutorial"
+     allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+     sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
+   ></iframe>

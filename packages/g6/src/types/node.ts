@@ -81,7 +81,7 @@ export interface NodeUserModelData extends PlainObject {
     position: BadgePosition;
   }[];
   /**
-   * Whether to prevent overlap with unassociated edges. 
+   * Whether to prevent overlap with unassociated edges.
    * - Used to preempt position.
    * - Defaults to false.
    * - Only valid for polyline
@@ -109,7 +109,7 @@ export interface NodeShapeStyles extends ItemShapeStyles {
     /**
      * The y-axis offset of the text relative to the current position
      */
-    offsetY?: number
+    offsetY?: number;
     /**
      * The z-axis offset of the text relative to the current position
      */

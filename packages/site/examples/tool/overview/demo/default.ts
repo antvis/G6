@@ -2,9 +2,12 @@ import { Graph as BaseGraph, Extensions, Util, extend } from '@antv/g6';
 
 const Graph = extend(BaseGraph, {
   plugins: {
-    tooltip: Extensions.Tooltip,
+    toolbar: Extensions.Toolbar,
     minimap: Extensions.Minimap,
     grid: Extensions.Grid,
+  },
+  behaviors: {
+    'activate-relations': Extensions.ActivateRelations,
   },
 });
 

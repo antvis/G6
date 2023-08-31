@@ -1770,7 +1770,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * @group Interaction
    */
   public addBehaviors(
-    behaviors: BehaviorOptionsOf<B>[],
+    behaviors: BehaviorOptionsOf<B> | BehaviorOptionsOf<B>[],
     modes: string | string[],
   ) {
     const modesArr = isArray(modes) ? modes : [modes];
@@ -1897,16 +1897,21 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * @returns
    * @group Plugin
    */
-  public removePlugins(pluginKeys: string[]) {
+  public removePlugins(pluginKeys: (PluginBase | string)[]) {
+    const pluginArr = isArray(pluginKeys) ? pluginKeys : [pluginKeys];
     this.hooks.pluginchange.emit({
       action: 'remove',
-      plugins: pluginKeys,
+      plugins: pluginArr,
     });
     // update the graph specification
     const { plugins } = this.specification;
     this.specification.plugins = plugins?.filter((plugin) => {
-      if (isObject(plugin)) return !pluginKeys.includes(plugin.key);
-      return !pluginKeys.includes(plugin);
+      if (isObject(plugin))
+        return !(
+          pluginArr.includes(plugin.key) ||
+          pluginArr.includes(plugin as PluginBase)
+        );
+      return !pluginArr.includes(plugin);
     });
   }
 

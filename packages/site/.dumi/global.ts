@@ -10,4 +10,5 @@ if (window) {
   (window as any).Chart = require('@antv/chart-node-g6');
   (window as any).AntVUtil = require('@antv/util');
   (window as any).GraphLayoutPredict = require('@antv/vis-predict-engine');
+  (window as any).stats = require('stats.js');
 }

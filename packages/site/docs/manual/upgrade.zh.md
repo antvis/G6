@@ -1,6 +1,6 @@
 ---
 title: 如何升级
-order: 1
+order: 3
 ---
 
 相较于 v4，G6 v5 的新能力体现在：
@@ -29,7 +29,7 @@ order: 1
 
 ```typescript
 const graph = new Graph({
-  transform: ['transform-v4-data'],
+  transforms: ['transform-v4-data'],
   // ... 其他配置
   data: v4data, // 一份 v4 格式的数据
 });
