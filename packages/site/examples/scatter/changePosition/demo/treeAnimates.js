@@ -2,7 +2,7 @@ import { Graph, Extensions, extend } from '@antv/g6';
 
 const ExtGraph = extend(Graph, {
   edges: {
-    'quadratic-edge': Extensions.QuadraticEdge,
+    'cubic-horizontal-edge': Extensions.CubicHorizontalEdge,
   },
 });
 

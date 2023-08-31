@@ -232,7 +232,7 @@ const graph = new ExtGraph({
     {
       type: 'map-node-size',
       field: 'degree',
-      range: [4, 24],
+      range: [6, 30],
     },
   ],
   modes: {

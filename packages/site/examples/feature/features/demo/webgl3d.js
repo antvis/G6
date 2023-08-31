@@ -24,7 +24,9 @@ const getDegrees = (data) => {
   return degrees;
 };
 
-fetch('https://assets.antv.antgroup.com/g6/eva-3d.json')
+fetch(
+  'https://raw.githubusercontent.com/antvis/G6/317e63ba19f493317e1f7d7727a06fa96b17f295/packages/g6/tests/datasets/eva-3d-data.json',
+)
   .then((res) => res.json())
   .then((data) => {
     const degrees = getDegrees(data);

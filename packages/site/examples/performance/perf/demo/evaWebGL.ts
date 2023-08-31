@@ -57,7 +57,7 @@ const graph = new ExtGraph({
   width,
   height,
   renderer: 'webgl',
-  transform: [
+  transforms: [
     'data-format',
     {
       type: 'map-node-size',
