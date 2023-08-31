@@ -1,16 +1,11 @@
 import { Graph, Extensions, extend, stdLib } from '@antv/g6';
 
-/**
- * Process the long label, hover to show the complete label, click the icon to copy the label
- * provided by GitHub user @WontonCat
- * Thanks for contributing!
- */
+const container = document.getElementById('container');
 
 const tipDiv = document.createElement('div');
-tipDiv.innerHTML = `Hover to show the complete label, click the icon to copy the content. Hover 显示完整 label，点击左侧 icon 复制 label 内容`;
-document.getElementById('container').appendChild(tipDiv);
+tipDiv.innerHTML = `Click to show the complete label. <br/> Click the icon to copy the content.`;
+container.appendChild(tipDiv);
 
-const container = document.getElementById('container');
 const width = container.scrollWidth;
 const height = container.scrollHeight || 500;
 
@@ -22,9 +17,6 @@ const padding = 7;
 
 class CopyNode extends Extensions.RectNode {
   drawOtherShapes(model, shapeMap, diffData, diffState) {
-    const keyShapeBBox = shapeMap.keyShape.getLocalBounds();
-    const x = -keyShapeBBox.halfExtents[0],
-      y = -keyShapeBBox.halfExtents[1];
     const { data: cfg } = model;
 
     const topGroup = {
@@ -50,13 +42,17 @@ class CopyNode extends Extensions.RectNode {
         {
           // text: fittingString(cfg.topText, nodeWidth - padding * 2 - 10, 14),
           text: cfg.topText,
-          x: 0.5 * nodeWidth,
+          x: cfg.isTopTextEllipsis ? padding : padding + 24,
           y: (0.5 * nodeHeight + padding) * 0.5,
           fontSize: 14,
-          textAlign: 'center',
+          textAlign: 'start',
           textBaseline: 'middle',
           shadowColor: fontColor,
           fill: fontColor,
+          wordWrap: cfg.isTopTextEllipsis,
+          wordWrapWidth: nodeWidth - padding * 2,
+          textOverflow: 'ellipsis',
+          maxLines: 1,
         },
         shapeMap,
         model,
@@ -70,7 +66,7 @@ class CopyNode extends Extensions.RectNode {
           height: 20,
           width: 20,
           img: 'https://gw.alipayobjects.com/zos/antfincdn/FLrTNDvlna/antv.png',
-          opacity: 0,
+          opacity: cfg.isTopTextEllipsis ? 0 : 1,
           cursor: 'pointer',
         },
         shapeMap,
@@ -85,13 +81,17 @@ class CopyNode extends Extensions.RectNode {
         {
           // text: fittingString(cfg.bottomText, nodeWidth - 10, 14),
           text: cfg.bottomText,
-          x: 0.5 * nodeWidth,
+          x: cfg.isBottomTextEllipsis ? padding : padding + 20,
           y: nodeHeight - (0.5 * nodeHeight + padding) * 0.5,
           fontSize: 14,
-          textAlign: 'center',
+          textAlign: 'start',
           textBaseline: 'middle',
           shadowColor: fontColor,
           fill: fontColor,
+          wordWrap: cfg.isBottomTextEllipsis,
+          wordWrapWidth: nodeWidth,
+          textOverflow: 'ellipsis',
+          maxLines: 1,
         },
         shapeMap,
         model,
@@ -105,7 +105,7 @@ class CopyNode extends Extensions.RectNode {
           height: 20,
           width: 20,
           img: 'https://gw.alipayobjects.com/zos/antfincdn/FLrTNDvlna/antv.png',
-          opacity: 0,
+          opacity: cfg.isBottomTextEllipsis ? 0 : 1,
           cursor: 'pointer',
         },
         shapeMap,
@@ -114,12 +114,6 @@ class CopyNode extends Extensions.RectNode {
     };
 
     return { ...topGroup, ...bottomGroup };
-  }
-
-  setState(name, value, item) {
-    const group = item.get('group');
-    const model = item.get('model');
-    const { topText, bottomText } = model;
   }
 }
 
@@ -133,7 +127,6 @@ const graph = new ExtGraph({
   container: 'container',
   width,
   height,
-  autoFit: 'view',
   modes: {
     default: ['drag-node'],
   },
@@ -146,6 +139,8 @@ const graph = new ExtGraph({
           y: 100,
           topText: 'This label is too long to be displayed',
           bottomText: 'This label is too long to be displayed',
+          isTopTextEllipsis: true,
+          isBottomTextEllipsis: true,
         },
       },
       {
@@ -155,6 +150,8 @@ const graph = new ExtGraph({
           y: 200,
           topText: 'Short Label',
           bottomText: 'Click the Logo to Copy!',
+          isTopTextEllipsis: true,
+          isBottomTextEllipsis: true,
         },
       },
     ],
@@ -175,10 +172,68 @@ const graph = new ExtGraph({
   },
 });
 
-graph.on('topText:mouseenter', (e) => {
-  console.log('enter');
-  // graph.setItemState(e.item, "top-group-active", true);
+const copyStr = (str) => {
+  const input = document.createElement('textarea');
+  input.value = str;
+  document.body.appendChild(input);
+  input.select();
+  document.execCommand('Copy');
+  document.body.removeChild(input);
+  alert('Copy Success!');
+};
+
+const resetTextEllipsis = () => {
+  const nodeIds = graph.getAllNodesData().map((node) => node.id);
+  nodeIds.map((nodeId) => {
+    graph.updateData('node', {
+      id: nodeId,
+      data: {
+        isTopTextEllipsis: true,
+        isBottomTextEllipsis: true,
+      },
+    });
+  });
+};
+
+graph.on('node:pointermove', (event) => {
+  const { itemId, target } = event;
+  resetTextEllipsis();
+  if (target.id === 'topText' || target.id === 'topImage') {
+    graph.updateData('node', {
+      id: itemId,
+      data: {
+        isTopTextEllipsis: false,
+      },
+    });
+  }
+  if (target.id === 'bottomText' || target.id === 'bottomImage') {
+    graph.updateData('node', {
+      id: itemId,
+      data: {
+        isBottomTextEllipsis: false,
+      },
+    });
+  }
 });
+
+graph.on('node:click', (event) => {
+  const { itemId, target } = event;
+  if (target.id === 'topImage') {
+    const model = graph.getNodeData(itemId);
+    const text = model.data.topText;
+    copyStr(text);
+  }
+  if (target.id === 'bottomImage') {
+    const model = graph.getNodeData(itemId);
+    const text = model.data.bottomText;
+    copyStr(text);
+  }
+});
+
+graph.on('node:pointerleave', (event) => {
+  resetTextEllipsis();
+});
+
 
 if (typeof window !== 'undefined')
   window.onresize = () => {

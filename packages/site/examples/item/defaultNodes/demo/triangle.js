@@ -43,39 +43,33 @@ const graph = new ExtGraph({
     default: ['zoom-canvas', 'drag-canvas', 'drag-node', 'click-select'],
   },
   data,
-  node: (innerModel) => {
-    return {
-      ...innerModel,
-      data: {
-        ...innerModel.data,
-        labelShape: {
-          text: 'label',
-          position: 'bottom',
-        },
-        labelBackgroundShape: {
-          fill: 'red',
-        },
-        anchorShapes: [
-          {
-            position: [0, 0.5],
-            r: 2,
-            fill: 'red',
-          },
-        ],
-        iconShape: {
-          img: 'https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg',
-          width: 20,
-          height: 20,
-        },
-        badgeShapes: [
-          {
-            text: '1',
-            position: 'rightTop',
-            color: 'blue',
-          },
-        ],
+  node: {
+    labelShape: {
+      text: 'label',
+      position: 'bottom',
+    },
+    labelBackgroundShape: {
+      fill: 'red',
+    },
+    anchorShapes: [
+      {
+        position: [0, 0.5],
+        r: 2,
+        fill: 'red',
       },
-    };
+    ],
+    iconShape: {
+      img: 'https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg',
+      width: 20,
+      height: 20,
+    },
+    badgeShapes: [
+      {
+        text: '1',
+        position: 'rightTop',
+        color: 'blue',
+      },
+    ],
   },
 });
 

@@ -8,9 +8,6 @@ const graph = new Graph({
   container: 'container',
   width,
   height,
-  layout: {
-    type: 'grid',
-  },
   stackCfg: {
     ignoreStateChange: true,
   },
@@ -75,9 +72,9 @@ const graph = new Graph({
   },
   data: {
     nodes: [
-      { id: 'node1', data: { parentId: 'combo1' } },
-      { id: 'node2', data: { parentId: 'combo1' } },
-      { id: 'node3', data: { parentId: 'combo2' } },
+      { id: 'node1', data: { x: 250, y: 150, parentId: 'combo1' } },
+      { id: 'node2', data: { x: 350, y: 150, parentId: 'combo1' } },
+      { id: 'node3', data: { x: 250, y: 300, parentId: 'combo2' } },
     ],
     edges: [],
     combos: [

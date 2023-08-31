@@ -36,16 +36,6 @@ const graph = new ExtGraph({
       ...innerModel,
       data: {
         ...innerModel.data,
-        keyShape: {
-          // x: 0,
-          // y: 0,
-          // width: 185,
-          // height: 70,
-          // stroke: '#C0DCEA',
-          // strokeWidth: '2',
-          // radius: 2,
-          // fill: 'white',
-        },
         labelShape: {
           text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vestibulum dapibus lectus, sit amet volutpat ante commodo et. Nulla auctor metus id mauris iaculis tempus. Nunc tincidunt libero et justo laoreet, id tristique purus efficitur. Integer aliquet risus nec ullamcorper bibendum. Proin luctus enim a odio aliquam, id condimentum lorem fermentum. Vivamus fermentum lacus vitae metus placerat, eu rutrum est lacinia. Aenean ullamcorper rhoncus ligula, a facilisis metus eleifend nec. Sed scelerisque, ipsum eget consectetur fermentum, sapien orci bibendum ligula, eget aliquam dolor augue vitae mauris. Cras at justo at lectus tempor fringilla. In ac dolor et elit semper sollicitudin. Duis ac volutpat nunc, sed fringilla leo. Nunc tempus, justo eu consequat lobortis, sapien eros varius nulla, vitae pretium libero magna nec ligula. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aliquam id nisi vel nibh eleifend tempor. Fusce eget eleifend augue.',
           // offsetX: 0,

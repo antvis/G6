@@ -51,19 +51,10 @@ const graph = new ExtGraph({
              * 控制点数组，不指定时根据 A* 算法自动生成折线。若指定了，则按照 controlPoints 指定的位置进行弯折
              */
             // controlPoints: [],
-
-            // routeCfg: {}
           },
         },
       },
     ],
-  },
-  node: (nodeInnerModel) => {
-    const { id, data } = nodeInnerModel;
-    return {
-      id,
-      data,
-    };
   },
   edge: {
     keyShape: {

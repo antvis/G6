@@ -1,16 +1,10 @@
-import { Graph, Extensions, extend } from '@antv/g6';
+import { Graph } from '@antv/g6';
 
 const container = document.getElementById('container');
 const width = container.scrollWidth;
 const height = container.scrollHeight || 500;
 
-const ExtGraph = extend(Graph, {
-  edges: {
-    'cubic-edge': Extensions.CubicEdge,
-  },
-});
-
-const graph = new ExtGraph({
+const graph = new Graph({
   container: 'container',
   width,
   height,

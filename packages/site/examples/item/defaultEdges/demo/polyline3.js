@@ -7,9 +7,6 @@ const data = {
       data: {
         x: 140,
         y: 130,
-        labelShape: {
-          text: 'node1',
-        },
       },
     },
     {
@@ -17,9 +14,6 @@ const data = {
       data: {
         x: 400,
         y: 200,
-        labelShape: {
-          text: 'node2',
-        },
       },
     },
     {
@@ -27,9 +21,7 @@ const data = {
       data: {
         x: 300,
         y: 90,
-        labelShape: {
-          text: 'obstacle1',
-        },
+        // preventPolylineEdgeOverlap: true,
       },
     },
     {
@@ -37,9 +29,6 @@ const data = {
       data: {
         x: 300,
         y: 200,
-        labelShape: {
-          text: 'obstacle2',
-        },
       },
     },
   ],
@@ -67,7 +56,10 @@ const data = {
            */
           // controlPoints: [],
           routeCfg: {
-            name: 'er',
+            /**
+             * 目前支持正交路由 'orth' 和地铁路由 'er'
+             */
+            // name: 'er',
             /**
              * 是否开启自动避障，默认为 false
              * Whether to enable automatic obstacle avoidance, default is false
@@ -103,6 +95,13 @@ const graph = new ExtGraph({
     keyShape: {
       width: 60,
       height: 30,
+    },
+    labelShape: {
+      text: {
+        fields: ['id'],
+        formatter: (model) => model.id,
+      },
+      position: 'bottom',
     },
   },
   edge: {

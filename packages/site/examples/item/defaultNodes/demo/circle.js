@@ -3,11 +3,10 @@ import G6 from '@antv/g6';
 const data = {
   nodes: [
     {
-      id: 'node1',
+      id: 'circle',
       data: {
         x: 250,
         y: 150,
-        // type: 'circle-node',
       },
     },
   ],
@@ -24,42 +23,39 @@ const graph = new G6.Graph({
     default: ['zoom-canvas', 'drag-canvas', 'drag-node', 'click-select'],
   },
   data,
-  node: (innerModel) => {
-    return {
-      ...innerModel,
-      data: {
-        ...innerModel.data,
-        keyShape: {
-          r: 30,
-        },
-        labelShape: {
-          text: 'label',
-          position: 'bottom',
-        },
-        labelBackgroundShape: {
-          fill: 'red',
-        },
-        anchorShapes: [
-          {
-            position: [0, 0.5],
-            r: 2,
-            fill: 'red',
-          },
-        ],
-        iconShape: {
-          img: 'https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg',
-          width: 20,
-          height: 20,
-        },
-        badgeShapes: [
-          {
-            text: '1',
-            position: 'rightTop',
-            color: 'blue',
-          },
-        ],
+  node: {
+    keyShape: {
+      r: 30,
+    },
+    labelShape: {
+      text: {
+        fields: ['id'],
+        formatter: (model) => model.id,
       },
-    };
+      position: 'bottom',
+    },
+    labelBackgroundShape: {
+      fill: 'red',
+    },
+    anchorShapes: [
+      {
+        position: [0, 0.5],
+        r: 2,
+        fill: 'red',
+      },
+    ],
+    iconShape: {
+      img: 'https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg',
+      width: 20,
+      height: 20,
+    },
+    badgeShapes: [
+      {
+        text: '1',
+        position: 'rightTop',
+        color: 'blue',
+      },
+    ],
   },
 });
 
