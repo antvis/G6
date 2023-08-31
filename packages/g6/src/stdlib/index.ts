@@ -90,6 +90,7 @@ const {
 
 import lassoSelector from './selector/lasso';
 import rectSelector from './selector/rect';
+import Hull from './plugin/hull';
 
 const stdLib = {
   transforms: {
@@ -275,6 +276,7 @@ const Extensions = {
   Fisheye,
   Legend,
   Timebar,
+  Hull
 };
 
 export default registery;

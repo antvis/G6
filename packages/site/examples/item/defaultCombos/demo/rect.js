@@ -1,111 +1,116 @@
-import G6 from '@antv/g6';
+import { Graph } from '@antv/g6';
 
-const data = {
-  nodes: [
-    {
-      id: 'node1',
-      x: 250,
-      y: 150,
-      comboId: 'combo',
-    },
-    {
-      id: 'node2',
-      x: 350,
-      y: 150,
-      comboId: 'combo',
-    },
-    {
-      id: 'node3',
-      x: 250,
-      y: 300,
-      comboId: 'combo2',
-    },
-    {
-      id: 'node4',
-      x: 450,
-      y: 300,
-      comboId: 'combo2',
-    },
-  ],
-  combos: [
-    {
-      id: 'combo',
-      label: 'Combo',
-    },
-    {
-      id: 'combo2',
-      label: 'with substitute icon while collapsed',
-      collapsed: true,
-      collapsedSubstituteIcon: {
-        show: true,
-        img: 'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*IEQFS5VtXX8AAAAAAAAAAABkARQnAQ',
-        width: 72,
-        height: 72
-      }
-    },
-  ],
-};
+const container = document.getElementById('container');
+const width = container.scrollWidth;
+const height = container.scrollHeight || 500;
 
-const width = document.getElementById('container').scrollWidth;
-const height = document.getElementById('container').scrollHeight || 500;
-const graph = new G6.Graph({
+const graph = new Graph({
   container: 'container',
   width,
   height,
-  // translate the graph to align the canvas's center, support by v3.5.1
-  fitCenter: true,
-  // Set groupByTypes to false to get rendering result with reasonable visual zIndex for combos
-  groupByTypes: false,
-  modes: {
-    default: ['drag-canvas', 'drag-node', 'drag-combo', 'collapse-expand-combo'],
+  stackCfg: {
+    ignoreStateChange: true,
   },
-  defaultCombo: {
-    type: 'rect',
-    /* The minimum size of the combo. combo 最小大小 */
-    size: [50, 50],
-    /* style for the keyShape */
-    // style: {
-    //   lineWidth: 1,
-    // },
-    labelCfg: {
-      /* label's offset to the keyShape */
-      // refY: 10,
-      /* label's position, options: center, top, bottom, left, right */
-      position: 'top',
-      /* label's style */
-      // style: {
-      //   fontSize: 18,
-      // },
+  node: {
+    labelShape: {
+      position: 'center',
+      text: {
+        fields: ['id'],
+        formatter: (model) => model.id,
+      },
+    },
+    animates: {
+      update: [
+        {
+          fields: ['opacity'],
+          shapeId: 'haloShape',
+        },
+      ],
     },
   },
-  /* styles for different states, there are built-in styles for states: active, inactive, selected, highlight, disable */
-  /* you can extend it or override it as you want */
-  // comboStateStyles: {
-  //   active: {
-  //     fill: '#f00',
-  //     opacity: 0.5
-  //   },
-  // },
+  combo: (model) => {
+    return {
+      id: model.id,
+      data: {
+        type: 'rect-combo',
+        ...model.data,
+        keyShape: {
+          padding: [10, 20, 30, 40],
+          r: 50,
+        },
+        labelShape: {
+          text: model.id,
+        },
+
+        animates: {
+          buildIn: [
+            {
+              fields: ['opacity'],
+              duration: 500,
+              delay: 500 + Math.random() * 500,
+            },
+          ],
+          buildOut: [
+            {
+              fields: ['opacity'],
+              duration: 200,
+            },
+          ],
+          update: [
+            {
+              fields: ['lineWidth', 'r'],
+              shapeId: 'keyShape',
+            },
+            {
+              fields: ['opacity'],
+              shapeId: 'haloShape',
+            },
+          ],
+        },
+      },
+    };
+  },
+  data: {
+    nodes: [
+      { id: 'node1', data: { x: 250, y: 150, parentId: 'combo1' } },
+      { id: 'node2', data: { x: 350, y: 150, parentId: 'combo1' } },
+      { id: 'node3', data: { x: 250, y: 300, parentId: 'combo2' } },
+    ],
+    edges: [],
+    combos: [
+      { id: 'combo1', data: { parentId: 'combo2' } },
+      { id: 'combo2', data: {} },
+    ],
+  },
+  modes: {
+    default: [
+      'collapse-expand-combo',
+      {
+        type: 'drag-node',
+        enableTransient: false,
+        updateComboStructure: false,
+      },
+      'drag-canvas',
+      {
+        type: 'click-select',
+        itemTypes: ['node', 'edge', 'combo'],
+      },
+      {
+        type: 'hover-activate',
+        itemTypes: ['node', 'edge', 'combo'],
+      },
+      {
+        type: 'drag-combo',
+        enableTransient: true,
+        updateComboStructure: true,
+      },
+    ],
+  },
 });
 
-graph.data(data);
-graph.render();
-
-graph.on('combo:mouseenter', (evt) => {
-  const { item } = evt;
-  graph.setItemState(item, 'active', true);
-});
-
-graph.on('combo:mouseleave', (evt) => {
-  const { item } = evt;
-  graph.setItemState(item, 'active', false);
-});
-graph.on('combo:click', (evt) => {
-  const { item } = evt;
-  graph.setItemState(item, 'selected', true);
-});
-graph.on('canvas:click', (evt) => {
-  graph.getCombos().forEach((combo) => {
-    graph.clearItemStates(combo);
-  });
-});
+if (typeof window !== 'undefined')
+  window.onresize = () => {
+    if (!graph || graph.destroyed) return;
+    if (!container || !container.scrollWidth || !container.scrollHeight) return;
+    graph.setSize([container.scrollWidth, container.scrollHeight]);
+  };

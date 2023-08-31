@@ -28,7 +28,7 @@ export abstract class BaseNode3D extends BaseNode {
 
   /**
    * Draw the label shape of the 3D node
-   * @param model The displayed model of this 3D node, only for drawing and not received by users. 
+   * @param model The displayed model of this 3D node, only for drawing and not received by users.
    * @param shapeMap The shape map that contains all of the elements to show on the 3D node.
    * @param diffData An object that contains previous and current data.
    * @param diffState An object that contains previous and current 3D node's state.
@@ -111,7 +111,7 @@ export abstract class BaseNode3D extends BaseNode {
 
   /**
    * Draw the icon shape of the 3D node
-   * @param model The displayed model of this 3D node, only for drawing and not received by users. 
+   * @param model The displayed model of this 3D node, only for drawing and not received by users.
    * @param shapeMap The shape map that contains all of the elements to show on the 3D node.
    * @param diffData An object that contains previous and current data.
    * @param diffState An object that contains previous and current 3D node's state.
@@ -206,5 +206,5 @@ export abstract class BaseNode3D extends BaseNode {
    * @param shapeMap The shape map that contains all of the elements to show on the node.
    * @param zoom The zoom level of the graph.
    */
-  public onZoom = (shapeMap: NodeShapeMap, zoom: number) => { };
+  public onZoom = (shapeMap: NodeShapeMap, zoom: number) => {};
 }

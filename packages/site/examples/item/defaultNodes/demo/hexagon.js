@@ -3,10 +3,24 @@ import { Graph, Extensions, extend } from '@antv/g6';
 const data = {
   nodes: [
     {
-      id: 'diamond',
+      id: 'hexagon',
       data: {
         x: 250,
         y: 150,
+        type: 'hexagon-node',
+        keyShape: {
+          /**
+           * 六边形的半径，默认为 20
+           * the radius of the hexagon, default is 20
+           */
+          r: 20,
+          /**
+           * 六边形方向，默认为 horizontal
+           * the direction of the hexagon, default is 'horizontal'
+           * supported value: 'horizontal' | 'vertical'
+           */
+          direction: 'horizontal',
+        },
       },
     },
   ],
@@ -18,7 +32,7 @@ const height = container.scrollHeight || 500;
 
 const ExtGraph = extend(Graph, {
   nodes: {
-    'diamond-node': Extensions.DiamondNode,
+    'hexagon-node': Extensions.HexagonNode,
   },
 });
 
@@ -31,10 +45,6 @@ const graph = new ExtGraph({
   },
   data,
   node: {
-    type: 'diamond-node',
-    keyShape: {
-      r: 30,
-    },
     labelShape: {
       text: {
         fields: ['id'],

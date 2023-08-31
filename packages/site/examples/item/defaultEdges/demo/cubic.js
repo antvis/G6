@@ -6,7 +6,7 @@ const height = container.scrollHeight || 500;
 
 const ExtGraph = extend(Graph, {
   edges: {
-    'polyline-edge': Extensions.PolylineEdge,
+    'cubic-edge': Extensions.CubicEdge,
   },
 });
 
@@ -22,13 +22,13 @@ const graph = new ExtGraph({
       {
         id: 'node1',
         data: {
-          x: 140,
-          y: 130,
+          x: 150,
+          y: 100,
         },
       },
       {
         id: 'node2',
-        data: { x: 400, y: 200 },
+        data: { x: 250, y: 200 },
       },
     ],
     edges: [
@@ -37,34 +37,27 @@ const graph = new ExtGraph({
         source: 'node1',
         target: 'node2',
         data: {
-          type: 'polyline-edge',
+          type: 'cubic-edge',
           keyShape: {
             /**
-             * 拐弯处的圆角弧度，默认为直角
+             * 控制点数组，默认：曲线中心附近
+             * precise x-axis, y-axis coordinates of control points. Default is center of the curve
              */
-            radius: 20,
+            controlPoints: [],
             /**
-             * 拐弯处距离节点最小距离, 默认为 5
+             * 控制点在两端点连线上的相对位置，范围 0 - 1
+             * Relative position of the control point on the line between the two endpoints, range 0 - 1
              */
-            // offset: 0,
+            curvePosition: 0.5,
             /**
-             * 控制点数组，不指定时根据 A* 算法自动生成折线。若指定了，则按照 controlPoints 指定的位置进行弯折
+             * 控制点距离两端点连线的距离，可理解为控制边的弯曲程度
+             * Distance of the control point from the line connecting the two end points
              */
-            controlPoints: [
-              { x: 220, y: 220 },
-              { x: 300, y: 130 },
-            ],
+            curveOffset: 30,
           },
         },
       },
     ],
-  },
-  node: (nodeInnerModel) => {
-    const { id, data } = nodeInnerModel;
-    return {
-      id,
-      data,
-    };
   },
   edge: {
     keyShape: {

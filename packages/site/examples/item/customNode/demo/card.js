@@ -1,8 +1,9 @@
-import G6 from '@antv/g6';
+import { Extensions, Graph, extend, stdLib } from '@antv/g6';
 
 let graph;
 
 const ERROR_COLOR = '#F5222D';
+
 const getNodeConfig = (node) => {
   if (node.nodeError) {
     return {
@@ -34,207 +35,68 @@ const getNodeConfig = (node) => {
   return config;
 };
 
-const COLLAPSE_ICON = function COLLAPSE_ICON(x, y, r) {
-  return [
-    ['M', x - r, y],
-    ['a', r, r, 0, 1, 0, r * 2, 0],
-    ['a', r, r, 0, 1, 0, -r * 2, 0],
-    ['M', x - r + 4, y],
-    ['L', x - r + 2 * r - 4, y],
-  ];
-};
-const EXPAND_ICON = function EXPAND_ICON(x, y, r) {
-  return [
-    ['M', x - r, y],
-    ['a', r, r, 0, 1, 0, r * 2, 0],
-    ['a', r, r, 0, 1, 0, -r * 2, 0],
-    ['M', x - r + 4, y],
-    ['L', x - r + 2 * r - 4, y],
-    ['M', x - r + r, y - r + 4],
-    ['L', x, y + r - 4],
-  ];
-};
-const nodeBasicMethod = {
-  createNodeBox: (group, config, w, h, isRoot) => {
-    /* 最外面的大矩形 */
-    const container = group.addShape('rect', {
-      attrs: {
-        x: 0,
-        y: 0,
-        width: w,
-        height: h,
-      },
-      // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
-      name: 'big-rect-shape',
-    });
+class CardNode extends Extensions.RectNode {
+  drawOtherShapes(model, shapeMap) {
+    const { data: cfg } = model;
+    const config = getNodeConfig(cfg);
+
+    const isRoot = cfg.dataType === 'root';
+    const nodeError = cfg.nodeError;
+
+    const otherShapes = {};
+
     if (!isRoot) {
-      /* 左边的小圆点 */
-      group.addShape('circle', {
-        attrs: {
-          x: 3,
-          y: h / 2,
-          r: 6,
-          fill: config.basicColor,
-        },
-        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
-        name: 'left-dot-shape',
-      });
+      otherShapes['left-dot-shape'] = this.upsertShape(
+        'circle',
+        'left-dot-shape',
+        { cx: 3, cy: 32, r: 6, fill: config.basicColor },
+        shapeMap,
+        model,
+      );
     }
-    /* 矩形 */
-    group.addShape('rect', {
-      attrs: {
+
+    /** rect shape */
+    otherShapes['rect-shape'] = this.upsertShape(
+      'rect',
+      'rect-shape',
+      {
         x: 3,
         y: 0,
-        width: w - 19,
-        height: h,
+        width: 243 - 19,
+        height: 64,
         fill: config.bgColor,
         stroke: config.borderColor,
         radius: 2,
         cursor: 'pointer',
+        zIndex: 0,
       },
-      // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
-      name: 'rect-shape',
-    });
+      shapeMap,
+      model,
+    );
 
-    /* 左边的粗线 */
-    group.addShape('rect', {
-      attrs: {
+    /* Left bolder border */
+    otherShapes['left-border-shape'] = this.upsertShape(
+      'rect',
+      'left-border-shape',
+      {
         x: 3,
         y: 0,
         width: 3,
-        height: h,
+        height: 64,
         fill: config.basicColor,
         radius: 1.5,
+        zIndex: 0,
       },
-      // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
-      name: 'left-border-shape',
-    });
-    return container;
-  },
-  /* 生成树上的 marker */
-  createNodeMarker: (group, collapsed, x, y) => {
-    group.addShape('circle', {
-      attrs: {
-        x,
-        y,
-        r: 13,
-        fill: 'rgba(47, 84, 235, 0.05)',
-        opacity: 0,
-        zIndex: -2,
-      },
-      // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
-      name: 'collapse-icon-bg',
-    });
-    group.addShape('marker', {
-      attrs: {
-        x,
-        y,
-        r: 7,
-        symbol: collapsed ? EXPAND_ICON : COLLAPSE_ICON,
-        stroke: 'rgba(0,0,0,0.25)',
-        fill: 'rgba(0,0,0,0)',
-        lineWidth: 1,
-        cursor: 'pointer',
-      },
-      // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
-      name: 'collapse-icon',
-    });
-  },
-  afterDraw: (cfg, group) => {
-    /* 操作 marker 的背景色显示隐藏 */
-    const icon = group.find((element) => element.get('name') === 'collapse-icon');
-    if (icon) {
-      const bg = group.find((element) => element.get('name') === 'collapse-icon-bg');
-      icon.on('mouseenter', () => {
-        bg.attr('opacity', 1);
-        graph.get('canvas').draw();
-      });
-      icon.on('mouseleave', () => {
-        bg.attr('opacity', 0);
-        graph.get('canvas').draw();
-      });
-    }
-    /* ip 显示 */
-    const ipBox = group.find((element) => element.get('name') === 'ip-box');
-    if (ipBox) {
-      /* ip 复制的几个元素 */
-      const ipLine = group.find((element) => element.get('name') === 'ip-cp-line');
-      const ipBG = group.find((element) => element.get('name') === 'ip-cp-bg');
-      const ipIcon = group.find((element) => element.get('name') === 'ip-cp-icon');
-      const ipCPBox = group.find((element) => element.get('name') === 'ip-cp-box');
-
-      const onMouseEnter = () => {
-        ipLine.attr('opacity', 1);
-        ipBG.attr('opacity', 1);
-        ipIcon.attr('opacity', 1);
-        graph.get('canvas').draw();
-      };
-      const onMouseLeave = () => {
-        ipLine.attr('opacity', 0);
-        ipBG.attr('opacity', 0);
-        ipIcon.attr('opacity', 0);
-        graph.get('canvas').draw();
-      };
-      ipBox.on('mouseenter', () => {
-        onMouseEnter();
-      });
-      ipBox.on('mouseleave', () => {
-        onMouseLeave();
-      });
-      ipCPBox.on('mouseenter', () => {
-        onMouseEnter();
-      });
-      ipCPBox.on('mouseleave', () => {
-        onMouseLeave();
-      });
-      ipCPBox.on('click', () => { });
-    }
-  },
-  setState: (name, value, item) => {
-    const hasOpacityClass = [
-      'ip-cp-line',
-      'ip-cp-bg',
-      'ip-cp-icon',
-      'ip-cp-box',
-      'ip-box',
-      'collapse-icon-bg',
-    ];
-    const group = item.getContainer();
-    const childrens = group.get('children');
-    graph.setAutoPaint(false);
-    if (name === 'emptiness') {
-      if (value) {
-        childrens.forEach((shape) => {
-          if (hasOpacityClass.indexOf(shape.get('name')) > -1) {
-            return;
-          }
-          shape.attr('opacity', 0.4);
-        });
-      } else {
-        childrens.forEach((shape) => {
-          if (hasOpacityClass.indexOf(shape.get('name')) > -1) {
-            return;
-          }
-          shape.attr('opacity', 1);
-        });
-      }
-    }
-    graph.setAutoPaint(true);
-  },
-};
-
-G6.registerNode('card-node', {
-  draw: (cfg, group) => {
-    const config = getNodeConfig(cfg);
-    const isRoot = cfg.dataType === 'root';
-    const nodeError = cfg.nodeError;
-    /* the biggest rect */
-    const container = nodeBasicMethod.createNodeBox(group, config, 243, 64, isRoot);
+      shapeMap,
+      model,
+    );
 
     if (cfg.dataType !== 'root') {
       /* the type text */
-      group.addShape('text', {
-        attrs: {
+      otherShapes['type-text-shape'] = this.upsertShape(
+        'text',
+        'type-text-shape',
+        {
           text: cfg.dataType,
           x: 3,
           y: -10,
@@ -243,28 +105,32 @@ G6.registerNode('card-node', {
           textBaseline: 'middle',
           fill: 'rgba(0,0,0,0.65)',
         },
-        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
-        name: 'type-text-shape',
-      });
+        shapeMap,
+        model,
+      );
     }
 
     if (cfg.ip) {
       /* ip start */
       /* ipBox */
-      const ipRect = group.addShape('rect', {
-        attrs: {
-          fill: nodeError ? null : '#FFF',
-          stroke: nodeError ? 'rgba(255,255,255,0.65)' : null,
+      otherShapes['ip-container-shape'] = this.upsertShape(
+        'rect',
+        'ip-container-shape',
+        {
+          fill: nodeError ? 'rgba(0,0,0,0)' : '#fff',
+          stroke: nodeError ? 'rgba(255,255,255,0.65)' : 'rgba(0,0,0,0)',
           radius: 2,
           cursor: 'pointer',
         },
-        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
-        name: 'ip-container-shape',
-      });
+        shapeMap,
+        model,
+      );
 
       /* ip */
-      const ipText = group.addShape('text', {
-        attrs: {
+      otherShapes['ip-text-shape'] = this.upsertShape(
+        'text',
+        'ip-text-shape',
+        {
           text: cfg.ip,
           x: 0,
           y: 19,
@@ -274,42 +140,48 @@ G6.registerNode('card-node', {
           fill: nodeError ? 'rgba(255,255,255,0.85)' : 'rgba(0,0,0,0.65)',
           cursor: 'pointer',
         },
-        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
-        name: 'ip-text-shape',
-      });
+        shapeMap,
+        model,
+      );
 
-      const ipBBox = ipText.getBBox();
+      const ipBBox = otherShapes['ip-text-shape'].getBBox();
+      console.log('ipBBox', ipBBox);
       /* the distance from the IP to the right is 12px */
-      ipText.attr({
+      otherShapes['ip-text-shape'].attr({
         x: 224 - 12 - ipBBox.width,
       });
       /* ipBox */
-      ipRect.attr({
+      otherShapes['ip-container-shape'].attr({
         x: 224 - 12 - ipBBox.width - 4,
-        y: ipBBox.minY - 5,
+        y: ipBBox.y - 5,
         width: ipBBox.width + 8,
         height: ipBBox.height + 10,
+        cursor: 'pointer',
       });
 
       /* a transparent shape on the IP for click listener */
-      group.addShape('rect', {
-        attrs: {
+      otherShapes['ip-box'] = this.upsertShape(
+        'rect',
+        'ip-box',
+        {
           stroke: '',
           cursor: 'pointer',
           x: 224 - 12 - ipBBox.width - 4,
-          y: ipBBox.minY - 5,
+          y: ipBBox.y - 5,
           width: ipBBox.width + 8,
           height: ipBBox.height + 10,
           fill: '#fff',
           opacity: 0,
         },
-        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
-        name: 'ip-box',
-      });
+        shapeMap,
+        model,
+      );
 
       /* copyIpLine */
-      group.addShape('rect', {
-        attrs: {
+      otherShapes['ip-cp-line'] = this.upsertShape(
+        'rect',
+        'ip-cp-line',
+        {
           x: 194,
           y: 7,
           width: 1,
@@ -317,59 +189,60 @@ G6.registerNode('card-node', {
           fill: '#E3E6E8',
           opacity: 0,
         },
-        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
-        name: 'ip-cp-line',
-      });
+        shapeMap,
+        model,
+      );
+
       /* copyIpBG */
-      group.addShape('rect', {
-        attrs: {
+      otherShapes['ip-cp-bg'] = this.upsertShape(
+        'rect',
+        'ip-cp-bg',
+        {
           x: 195,
           y: 8,
           width: 22,
           height: 22,
           fill: '#FFF',
           cursor: 'pointer',
-          opacity: 0,
+          opacity: cfg.showIcon ? 1 : 0,
         },
-        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
-        name: 'ip-cp-bg',
-      });
+        shapeMap,
+        model,
+      );
+
       /* copyIpIcon */
-      group.addShape('image', {
-        attrs: {
+      otherShapes['ip-cp-icon'] = this.upsertShape(
+        'image',
+        'ip-cp-icon',
+        {
           x: 200,
           y: 13,
           height: 12,
-          width: 10,
+          width: 12,
           img: 'https://os.alipayobjects.com/rmsportal/DFhnQEhHyPjSGYW.png',
           cursor: 'pointer',
-          opacity: 0,
+          opacity: cfg.showIcon ? 1 : 0,
         },
-        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
-        name: 'ip-cp-icon',
-      });
-      /* a transparent rect on the icon area for click listener */
-      group.addShape('rect', {
-        attrs: {
-          x: 195,
-          y: 8,
-          width: 22,
-          height: 22,
-          fill: '#FFF',
-          cursor: 'pointer',
-          opacity: 0,
-        },
-        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
-        name: 'ip-cp-box',
-        tooltip: 'Copy the IP',
-      });
+        shapeMap,
+        model,
+      );
 
+      /* a transparent rect on the icon area for click listener */
+      otherShapes['ip-cp-box'] = this.upsertShape(
+        'rect',
+        'ip-cp-box',
+        { x: 195, y: 8, width: 22, height: 22, fill: '#FFF', cursor: 'pointer', opacity: 0 },
+        shapeMap,
+        model,
+      );
       /* ip end */
     }
 
     /* name */
-    group.addShape('text', {
-      attrs: {
+    otherShapes['name-text-shape'] = this.upsertShape(
+      'text',
+      'name-text-shape',
+      {
         text: cfg.name,
         x: 19,
         y: 19,
@@ -380,13 +253,15 @@ G6.registerNode('card-node', {
         fill: config.fontColor,
         cursor: 'pointer',
       },
-      // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
-      name: 'name-text-shape',
-    });
+      shapeMap,
+      model,
+    );
 
     /* the description text */
-    group.addShape('text', {
-      attrs: {
+    otherShapes['bottom-text-shape'] = this.upsertShape(
+      'text',
+      'bottom-text-shape',
+      {
         text: cfg.keyInfo,
         x: 19,
         y: 45,
@@ -396,95 +271,152 @@ G6.registerNode('card-node', {
         fill: config.fontColor,
         cursor: 'pointer',
       },
-      // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
-      name: 'bottom-text-shape',
-    });
+      shapeMap,
+      model,
+    );
 
     if (nodeError) {
-      group.addShape('text', {
-        attrs: {
+      otherShapes['error-text-shape'] = this.upsertShape(
+        'text',
+        'error-text-shape',
+        {
           x: 191,
           y: 62,
           text: '⚠️',
           fill: '#000',
           fontSize: 18,
         },
-        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
-        name: 'error-text-shape',
-      });
+        shapeMap,
+        model,
+      );
     }
 
     const hasChildren = cfg.children && cfg.children.length > 0;
+    const keyShapeBBox = shapeMap.keyShape.getLocalBounds();
     if (hasChildren) {
-      nodeBasicMethod.createNodeMarker(group, cfg.collapsed, 236, 32);
+      otherShapes['marker-shape'] = this.upsertShape(
+        'path',
+        'markerShape',
+        {
+          zIndex: 10,
+          cursor: 'pointer',
+          stroke: '#666',
+          lineWidth: 1,
+          fill: '#fff',
+          path: stdLib.markers.expand(keyShapeBBox.max[0] - 15, keyShapeBBox.center[1], 8),
+        },
+        shapeMap,
+        model,
+      );
     }
-    return container;
+    return otherShapes;
+  }
+}
+
+const ExtGraph = extend(Graph, {
+  nodes: {
+    'card-node': CardNode,
   },
-  afterDraw: nodeBasicMethod.afterDraw,
-  setState: nodeBasicMethod.setState,
 });
 
 const container = document.getElementById('container');
 const width = container.scrollWidth;
 const height = container.scrollHeight || 500;
-graph = new G6.Graph({
-  container: 'container',
-  width,
-  height,
-  // translate the graph to align the canvas's center, support by v3.5.1
-  fitCenter: true,
-  modes: {
-    default: ['drag-node'],
-  },
-  defaultNode: {
-    type: 'card-node',
-  },
-});
 
 const data = {
   nodes: [
     {
-      name: 'cardNodeApp',
-      ip: '127.0.0.1',
-      nodeError: true,
-      dataType: 'root',
-      keyInfo: 'this is a card node info',
-      x: 100,
-      y: 50,
+      id: 'node1',
+      data: {
+        showIcon: false,
+        name: 'cardNodeApp',
+        ip: '127.0.0.1',
+        nodeError: true,
+        dataType: 'root',
+        keyInfo: 'this is a card node info',
+        x: 100,
+        y: 50,
+      },
     },
     {
-      name: 'cardNodeApp',
-      ip: '127.0.0.1',
-      nodeError: false,
-      dataType: 'subRoot',
-      keyInfo: 'this is sub root',
-      x: 100,
-      y: 150,
+      id: 'node2',
+      data: {
+        showIcon: false,
+        name: 'cardNodeApp',
+        ip: '127.0.0.1',
+        nodeError: false,
+        dataType: 'subRoot',
+        keyInfo: 'this is sub root',
+        x: 100,
+        y: 150,
+      },
     },
     {
-      name: 'cardNodeApp',
-      ip: '127.0.0.1',
-      nodeError: false,
-      dataType: 'subRoot',
-      keyInfo: 'this is sub root',
-      x: 100,
-      y: 250,
-      children: [
-        {
-          name: 'sub',
-        },
-      ],
+      id: 'node3',
+      data: {
+        showIcon: false,
+        name: 'cardNodeApp',
+        ip: '127.0.0.1',
+        nodeError: false,
+        dataType: 'subRoot',
+        keyInfo: 'this is sub root',
+        x: 100,
+        y: 250,
+        children: [
+          {
+            name: 'sub',
+          },
+        ],
+      },
     },
   ],
   edges: [],
 };
 
-graph.data(data);
-graph.render();
+graph = new ExtGraph({
+  container,
+  width,
+  height,
+  autoFit: 'center',
+  data,
+  node: {
+    type: 'card-node',
+    keyShape: {
+      x: 243 / 2,
+      y: 32,
+      width: 243,
+      height: 64,
+      fill: 'transport',
+    },
+    otherShapes: {},
+  },
+});
+
+graph.on('node:pointermove', (event) => {
+  const { itemId, target } = event;
+  if (target.id === 'ip-container-shape') {
+    graph.updateData('node', {
+      id: itemId,
+      data: {
+        showIcon: true,
+      },
+    });
+  }
+});
+
+graph.on('node:pointerleave', (event) => {
+  const { itemId } = event;
+  graph.updateData('node', {
+    id: itemId,
+    data: {
+      showIcon: false,
+    },
+  });
+});
 
 if (typeof window !== 'undefined')
   window.onresize = () => {
-    if (!graph || graph.get('destroyed')) return;
+    if (!graph || graph.destroyed) return;
     if (!container || !container.scrollWidth || !container.scrollHeight) return;
-    graph.changeSize(container.scrollWidth, container.scrollHeight);
+    graph.setSize([container.scrollWidth, container.scrollHeight]);
   };
