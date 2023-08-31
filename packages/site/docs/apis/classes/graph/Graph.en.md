@@ -2,7 +2,7 @@
 title: Graph
 ---
 
-[Overview - v5.0.0-alpha.9](../../README.en.md) / [Modules](../../modules.en.md) / [graph](../../modules/graph.en.md) / Graph
+[Overview - v5.0.0-beta.1](../../README.en.md) / [Modules](../../modules.en.md) / [graph](../../modules/graph.en.md) / Graph
 
 [graph](../../modules/graph.en.md).Graph
 
@@ -51,7 +51,7 @@ whether success
 
 #### Defined in
 
-[packages/g6/src/runtime/graph.ts:1543](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/runtime/graph.ts#L1543)
+[packages/g6/src/runtime/graph.ts:1544](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/runtime/graph.ts#L1544)
 
 ___
 
@@ -77,7 +77,7 @@ Collapse a combo.
 
 #### Defined in
 
-[packages/g6/src/runtime/graph.ts:1588](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/runtime/graph.ts#L1588)
+[packages/g6/src/runtime/graph.ts:1589](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/runtime/graph.ts#L1589)
 
 ___
 
@@ -103,7 +103,7 @@ Expand a combo.
 
 #### Defined in
 
-[packages/g6/src/runtime/graph.ts:1608](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/runtime/graph.ts#L1608)
+[packages/g6/src/runtime/graph.ts:1609](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/runtime/graph.ts#L1609)
 
 ___
 
@@ -135,7 +135,7 @@ In fact, it changes the succeed nodes positions to affect the combo's position, 
 
 #### Defined in
 
-[packages/g6/src/runtime/graph.ts:1631](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/runtime/graph.ts#L1631)
+[packages/g6/src/runtime/graph.ts:1632](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/runtime/graph.ts#L1632)
 
 ## Constructors
 
@@ -162,7 +162,7 @@ EventEmitter.constructor
 
 #### Defined in
 
-[packages/g6/src/runtime/graph.ts:100](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/runtime/graph.ts#L100)
+[packages/g6/src/runtime/graph.ts:101](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/runtime/graph.ts#L101)
 
 ## Data
 
@@ -191,7 +191,7 @@ whether success
 
 #### Defined in
 
-[packages/g6/src/runtime/graph.ts:969](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/runtime/graph.ts#L969)
+[packages/g6/src/runtime/graph.ts:970](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/runtime/graph.ts#L970)
 
 ___
 
@@ -218,7 +218,7 @@ Change graph data.
 
 #### Defined in
 
-[packages/g6/src/runtime/graph.ts:450](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/runtime/graph.ts#L450)
+[packages/g6/src/runtime/graph.ts:451](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/runtime/graph.ts#L451)
 
 ___
 
@@ -240,7 +240,7 @@ all combos' inner data on the graph
 
 #### Defined in
 
-[packages/g6/src/runtime/graph.ts:880](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/runtime/graph.ts#L880)
+[packages/g6/src/runtime/graph.ts:881](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/runtime/graph.ts#L881)
 
 ___
 
@@ -262,7 +262,7 @@ all edges' inner data on the graph
 
 #### Defined in
 
-[packages/g6/src/runtime/graph.ts:872](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/runtime/graph.ts#L872)
+[packages/g6/src/runtime/graph.ts:873](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/runtime/graph.ts#L873)
 
 ___
 
@@ -284,7 +284,7 @@ all nodes' inner data on the graph
 
 #### Defined in
 
-[packages/g6/src/runtime/graph.ts:864](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/runtime/graph.ts#L864)
+[packages/g6/src/runtime/graph.ts:865](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/runtime/graph.ts#L865)
 
 ___
 
@@ -312,7 +312,7 @@ children's data array
 
 #### Defined in
 
-[packages/g6/src/runtime/graph.ts:913](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/runtime/graph.ts#L913)
+[packages/g6/src/runtime/graph.ts:914](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/runtime/graph.ts#L914)
 
 ___
 
@@ -340,7 +340,7 @@ result combo's inner data
 
 #### Defined in
 
-[packages/g6/src/runtime/graph.ts:854](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/runtime/graph.ts#L854)
+[packages/g6/src/runtime/graph.ts:855](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/runtime/graph.ts#L855)
 
 ___
 
@@ -368,7 +368,7 @@ result edge's inner data
 
 #### Defined in
 
-[packages/g6/src/runtime/graph.ts:841](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/runtime/graph.ts#L841)
+[packages/g6/src/runtime/graph.ts:842](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/runtime/graph.ts#L842)
 
 ___
 
@@ -394,7 +394,7 @@ Retrieve the nearby edges for a given node using quadtree collision detection.
 
 #### Defined in
 
-[packages/g6/src/runtime/graph.ts:934](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/runtime/graph.ts#L934)
+[packages/g6/src/runtime/graph.ts:935](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/runtime/graph.ts#L935)
 
 ___
 
@@ -423,7 +423,7 @@ one-hop nodes' data array
 
 #### Defined in
 
-[packages/g6/src/runtime/graph.ts:901](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/runtime/graph.ts#L901)
+[packages/g6/src/runtime/graph.ts:902](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/runtime/graph.ts#L902)
 
 ___
 
@@ -451,7 +451,7 @@ result node's inner data
 
 #### Defined in
 
-[packages/g6/src/runtime/graph.ts:830](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/runtime/graph.ts#L830)
+[packages/g6/src/runtime/graph.ts:831](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/runtime/graph.ts#L831)
 
 ___
 
@@ -480,7 +480,7 @@ one-hop edges' data array
 
 #### Defined in
 
-[packages/g6/src/runtime/graph.ts:889](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/runtime/graph.ts#L889)
+[packages/g6/src/runtime/graph.ts:890](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/runtime/graph.ts#L890)
 
 ___
 
@@ -507,7 +507,7 @@ If there is old data, diffs and changes it.
 
 #### Defined in
 
-[packages/g6/src/runtime/graph.ts:399](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/runtime/graph.ts#L399)
+[packages/g6/src/runtime/graph.ts:400](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/runtime/graph.ts#L400)
 
 ___
 
@@ -536,7 +536,7 @@ whether success
 
 #### Defined in
 
-[packages/g6/src/runtime/graph.ts:1026](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/runtime/graph.ts#L1026)
+[packages/g6/src/runtime/graph.ts:1027](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/runtime/graph.ts#L1027)
 
 ___
 
@@ -568,7 +568,7 @@ In fact, it changes the succeed nodes positions to affect the combo's position, 
 
 #### Defined in
 
-[packages/g6/src/runtime/graph.ts:1205](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/runtime/graph.ts#L1205)
+[packages/g6/src/runtime/graph.ts:1206](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/runtime/graph.ts#L1206)
 
 ___
 
@@ -595,7 +595,7 @@ Update one or more node/edge/combo data on the graph.
 
 #### Defined in
 
-[packages/g6/src/runtime/graph.ts:1116](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/runtime/graph.ts#L1116)
+[packages/g6/src/runtime/graph.ts:1117](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/runtime/graph.ts#L1117)
 
 ___
 
@@ -626,7 +626,7 @@ do not update other styles which leads to better performance than updating posit
 
 #### Defined in
 
-[packages/g6/src/runtime/graph.ts:1174](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/runtime/graph.ts#L1174)
+[packages/g6/src/runtime/graph.ts:1175](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/runtime/graph.ts#L1175)
 
 ## Graph Instance
 
@@ -652,7 +652,7 @@ Destroy the graph instance and remove the related canvases.
 
 #### Defined in
 
-[packages/g6/src/runtime/graph.ts:2181](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/runtime/graph.ts#L2181)
+[packages/g6/src/runtime/graph.ts:2192](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/runtime/graph.ts#L2192)
 
 ## Interaction
 
@@ -666,7 +666,7 @@ Add behavior(s) to mode(s).
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `behaviors` | `BehaviorOptionsOf`<`B`\>[] | behavior names or configs |
+| `behaviors` | `BehaviorOptionsOf`<`B`\> \| `BehaviorOptionsOf`<`B`\>[] | behavior names or configs |
 | `modes` | `string` \| `string`[] | mode names |
 
 #### Returns
@@ -679,13 +679,13 @@ Add behavior(s) to mode(s).
 
 #### Defined in
 
-[packages/g6/src/runtime/graph.ts:1771](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/runtime/graph.ts#L1771)
+[packages/g6/src/runtime/graph.ts:1772](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/runtime/graph.ts#L1772)
 
 ___
 
 ### drawTransient
 
-▸ **drawTransient**(`type`, `id`, `config`): `DisplayObject`<`any`, `any`\>
+▸ **drawTransient**(`type`, `id`, `config`, `canvas?`): `DisplayObject`<`any`, `any`\>
 
 Draw or update a G shape or group to the transient canvas.
 
@@ -698,8 +698,9 @@ Draw or update a G shape or group to the transient canvas.
 | `config` | `Object` | - |
 | `config.action` | ``"update"`` \| ``"add"`` \| ``"remove"`` | - |
 | `config.onlyDrawKeyShape?` | `boolean` | - |
-| `config.style` | `Partial`<`CircleStyleProps` & `RectStyleProps` & `EllipseStyleProps` & `PolygonStyleProps` & `LineStyleProps` & `PolylineStyleProps` & `TextStyleProps` & `ImageStyleProps` & `PathStyleProps` & `SphereGeometryProps` & `CubeGeometryProps` & `PlaneGeometryProps` & { `animates?`: `IAnimates` ; `lod?`: `number` ; `visible?`: `boolean`  }\> | - |
+| `config.style` | `Partial`<[`CircleStyleProps`](../../interfaces/item/CircleStyleProps.en.md) & [`RectStyleProps`](../../interfaces/item/RectStyleProps.en.md) & [`EllipseStyleProps`](../../interfaces/item/EllipseStyleProps.en.md) & [`PolygonStyleProps`](../../interfaces/item/PolygonStyleProps.en.md) & [`LineStyleProps`](../../interfaces/item/LineStyleProps.en.md) & [`PolylineStyleProps`](../../interfaces/item/PolylineStyleProps.en.md) & [`TextStyleProps`](../../interfaces/item/TextStyleProps.en.md) & [`ImageStyleProps`](../../interfaces/item/ImageStyleProps.en.md) & [`PathStyleProps`](../../interfaces/item/PathStyleProps.en.md) & [`SphereGeometryProps`](../../interfaces/item/SphereGeometryProps.en.md) & [`CubeGeometryProps`](../../interfaces/item/CubeGeometryProps.en.md) & [`PlaneGeometryProps`](../../interfaces/item/PlaneGeometryProps.en.md) & { `interactive?`: `boolean`  } & { `animates?`: `IAnimates` ; `lod?`: `number` ; `visible?`: `boolean`  }\> | - |
 | `config.upsertAncestors?` | `boolean` | - |
+| `canvas?` | `Canvas` | - |
 
 #### Returns
 
@@ -713,7 +714,7 @@ upserted shape or group
 
 #### Defined in
 
-[packages/g6/src/runtime/graph.ts:1968](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/runtime/graph.ts#L1968)
+[packages/g6/src/runtime/graph.ts:1978](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/runtime/graph.ts#L1978)
 
 ___
 
@@ -735,7 +736,7 @@ mode name
 
 #### Defined in
 
-[packages/g6/src/runtime/graph.ts:1760](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/runtime/graph.ts#L1760)
+[packages/g6/src/runtime/graph.ts:1761](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/runtime/graph.ts#L1761)
 
 ___
 
@@ -762,7 +763,7 @@ Remove behavior(s) from mode(s).
 
 #### Defined in
 
-[packages/g6/src/runtime/graph.ts:1797](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/runtime/graph.ts#L1797)
+[packages/g6/src/runtime/graph.ts:1798](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/runtime/graph.ts#L1798)
 
 ___
 
@@ -788,7 +789,7 @@ Switch mode.
 
 #### Defined in
 
-[packages/g6/src/runtime/graph.ts:1751](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/runtime/graph.ts#L1751)
+[packages/g6/src/runtime/graph.ts:1752](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/runtime/graph.ts#L1752)
 
 ___
 
@@ -815,7 +816,7 @@ Update a behavior on a mode.
 
 #### Defined in
 
-[packages/g6/src/runtime/graph.ts:1824](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/runtime/graph.ts#L1824)
+[packages/g6/src/runtime/graph.ts:1825](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/runtime/graph.ts#L1825)
 
 ___
 
@@ -829,9 +830,7 @@ Update a plugin of the graph.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `plugin` | `Object` | plugin configs, whose key indicates the behavior to be updated |
-| `plugin.key` | `string` | - |
-| `plugin.type` | `string` | - |
+| `plugin` | `Plugin` \| { `[cfg: string]`: `unknown`; `key`: `string` ; `type`: `string`  } | plugin configs, whose key indicates the behavior to be updated |
 
 #### Returns
 
@@ -843,7 +842,7 @@ Update a plugin of the graph.
 
 #### Defined in
 
-[packages/g6/src/runtime/graph.ts:1918](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/runtime/graph.ts#L1918)
+[packages/g6/src/runtime/graph.ts:1924](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/runtime/graph.ts#L1924)
 
 ## Item
 
@@ -869,7 +868,7 @@ Make the item(s) to the back.
 
 #### Defined in
 
-[packages/g6/src/runtime/graph.ts:1394](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/runtime/graph.ts#L1394)
+[packages/g6/src/runtime/graph.ts:1395](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/runtime/graph.ts#L1395)
 
 ___
 
@@ -896,7 +895,7 @@ Clear all the states for item(s).
 
 #### Defined in
 
-[packages/g6/src/runtime/graph.ts:1487](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/runtime/graph.ts#L1487)
+[packages/g6/src/runtime/graph.ts:1488](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/runtime/graph.ts#L1488)
 
 ___
 
@@ -927,7 +926,7 @@ items that is the type and has the state
 
 #### Defined in
 
-[packages/g6/src/runtime/graph.ts:947](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/runtime/graph.ts#L947)
+[packages/g6/src/runtime/graph.ts:948](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/runtime/graph.ts#L948)
 
 ___
 
@@ -953,7 +952,7 @@ Make the item(s) to the front.
 
 #### Defined in
 
-[packages/g6/src/runtime/graph.ts:1375](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/runtime/graph.ts#L1375)
+[packages/g6/src/runtime/graph.ts:1376](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/runtime/graph.ts#L1376)
 
 ___
 
@@ -981,7 +980,7 @@ the state names with value true
 
 #### Defined in
 
-[packages/g6/src/runtime/graph.ts:1476](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/runtime/graph.ts#L1476)
+[packages/g6/src/runtime/graph.ts:1477](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/runtime/graph.ts#L1477)
 
 ___
 
@@ -1010,7 +1009,7 @@ the state value
 
 #### Defined in
 
-[packages/g6/src/runtime/graph.ts:1466](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/runtime/graph.ts#L1466)
+[packages/g6/src/runtime/graph.ts:1467](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/runtime/graph.ts#L1467)
 
 ___
 
@@ -1038,7 +1037,7 @@ visibility for the item, false for invisible or unexistence for the item
 
 #### Defined in
 
-[packages/g6/src/runtime/graph.ts:1530](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/runtime/graph.ts#L1530)
+[packages/g6/src/runtime/graph.ts:1531](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/runtime/graph.ts#L1531)
 
 ___
 
@@ -1068,7 +1067,7 @@ rendering bounding box. returns false if the item is not exist
 
 #### Defined in
 
-[packages/g6/src/runtime/graph.ts:1515](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/runtime/graph.ts#L1515)
+[packages/g6/src/runtime/graph.ts:1516](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/runtime/graph.ts#L1516)
 
 ___
 
@@ -1095,7 +1094,7 @@ Hide the item(s).
 
 #### Defined in
 
-[packages/g6/src/runtime/graph.ts:1346](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/runtime/graph.ts#L1346)
+[packages/g6/src/runtime/graph.ts:1347](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/runtime/graph.ts#L1347)
 
 ___
 
@@ -1123,7 +1122,7 @@ Set state for the item.
 
 #### Defined in
 
-[packages/g6/src/runtime/graph.ts:1433](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/runtime/graph.ts#L1433)
+[packages/g6/src/runtime/graph.ts:1434](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/runtime/graph.ts#L1434)
 
 ___
 
@@ -1150,7 +1149,7 @@ Show the item(s).
 
 #### Defined in
 
-[packages/g6/src/runtime/graph.ts:1318](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/runtime/graph.ts#L1318)
+[packages/g6/src/runtime/graph.ts:1319](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/runtime/graph.ts#L1319)
 
 ## Methods
 
@@ -1178,7 +1177,7 @@ more convenient way without manually invoking `startBatch` and `stopBatch`.
 
 #### Defined in
 
-[packages/g6/src/runtime/graph.ts:2126](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/runtime/graph.ts#L2126)
+[packages/g6/src/runtime/graph.ts:2137](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/runtime/graph.ts#L2137)
 
 ___
 
@@ -1198,7 +1197,7 @@ Indicate whether there are any actions available in the redo stack.
 
 #### Defined in
 
-[packages/g6/src/runtime/graph.ts:2095](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/runtime/graph.ts#L2095)
+[packages/g6/src/runtime/graph.ts:2106](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/runtime/graph.ts#L2106)
 
 ___
 
@@ -1218,7 +1217,7 @@ Indicate whether there are any actions available in the undo stack.
 
 #### Defined in
 
-[packages/g6/src/runtime/graph.ts:2087](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/runtime/graph.ts#L2087)
+[packages/g6/src/runtime/graph.ts:2098](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/runtime/graph.ts#L2098)
 
 ___
 
@@ -1244,7 +1243,7 @@ Change the renderer at runtime.
 
 #### Defined in
 
-[packages/g6/src/runtime/graph.ts:259](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/runtime/graph.ts#L259)
+[packages/g6/src/runtime/graph.ts:260](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/runtime/graph.ts#L260)
 
 ___
 
@@ -1264,7 +1263,7 @@ Clear the graph, means remove all the items on the graph.
 
 #### Defined in
 
-[packages/g6/src/runtime/graph.ts:469](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/runtime/graph.ts#L469)
+[packages/g6/src/runtime/graph.ts:470](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/runtime/graph.ts#L470)
 
 ___
 
@@ -1290,7 +1289,7 @@ Clear history stack
 
 #### Defined in
 
-[packages/g6/src/runtime/graph.ts:2135](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/runtime/graph.ts#L2135)
+[packages/g6/src/runtime/graph.ts:2146](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/runtime/graph.ts#L2146)
 
 ___
 
@@ -1347,7 +1346,7 @@ Execute a callback without allowing any stacking operations.
 
 #### Defined in
 
-[packages/g6/src/runtime/graph.ts:2029](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/runtime/graph.ts#L2029)
+[packages/g6/src/runtime/graph.ts:2040](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/runtime/graph.ts#L2040)
 
 ___
 
@@ -1373,7 +1372,7 @@ Fit the graph center to the view center.
 
 #### Defined in
 
-[packages/g6/src/runtime/graph.ts:705](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/runtime/graph.ts#L705)
+[packages/g6/src/runtime/graph.ts:706](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/runtime/graph.ts#L706)
 
 ___
 
@@ -1402,7 +1401,7 @@ Fit the graph content to the view.
 
 #### Defined in
 
-[packages/g6/src/runtime/graph.ts:637](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/runtime/graph.ts#L637)
+[packages/g6/src/runtime/graph.ts:638](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/runtime/graph.ts#L638)
 
 ___
 
@@ -1429,7 +1428,7 @@ Move the graph to make the item align the view center.
 
 #### Defined in
 
-[packages/g6/src/runtime/graph.ts:720](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/runtime/graph.ts#L720)
+[packages/g6/src/runtime/graph.ts:721](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/runtime/graph.ts#L721)
 
 ___
 
@@ -1465,7 +1464,7 @@ ___
 
 #### Defined in
 
-[packages/g6/src/runtime/graph.ts:1741](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/runtime/graph.ts#L1741)
+[packages/g6/src/runtime/graph.ts:1742](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/runtime/graph.ts#L1742)
 
 ___
 
@@ -1485,7 +1484,7 @@ Retrieve the current undo stack which consists of operations that were undone
 
 #### Defined in
 
-[packages/g6/src/runtime/graph.ts:2050](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/runtime/graph.ts#L2050)
+[packages/g6/src/runtime/graph.ts:2061](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/runtime/graph.ts#L2061)
 
 ___
 
@@ -1507,7 +1506,7 @@ graph specs
 
 #### Defined in
 
-[packages/g6/src/runtime/graph.ts:388](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/runtime/graph.ts#L388)
+[packages/g6/src/runtime/graph.ts:389](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/runtime/graph.ts#L389)
 
 ___
 
@@ -1527,7 +1526,7 @@ Retrieve the complete history stack
 
 #### Defined in
 
-[packages/g6/src/runtime/graph.ts:2059](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/runtime/graph.ts#L2059)
+[packages/g6/src/runtime/graph.ts:2070](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/runtime/graph.ts#L2070)
 
 ___
 
@@ -1547,7 +1546,7 @@ Retrieve the current redo stack which consists of operations that could be undon
 
 #### Defined in
 
-[packages/g6/src/runtime/graph.ts:2042](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/runtime/graph.ts#L2042)
+[packages/g6/src/runtime/graph.ts:2053](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/runtime/graph.ts#L2053)
 
 ___
 
@@ -1567,7 +1566,7 @@ Return the center of viewport, e.g. for a 500 * 500 canvas, its center is [250, 
 
 #### Defined in
 
-[packages/g6/src/runtime/graph.ts:486](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/runtime/graph.ts#L486)
+[packages/g6/src/runtime/graph.ts:487](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/runtime/graph.ts#L487)
 
 ___
 
@@ -1589,7 +1588,7 @@ current zoom
 
 #### Defined in
 
-[packages/g6/src/runtime/graph.ts:587](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/runtime/graph.ts#L587)
+[packages/g6/src/runtime/graph.ts:588](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/runtime/graph.ts#L588)
 
 ___
 
@@ -1609,7 +1608,7 @@ Determine if history (redo/undo) is enabled.
 
 #### Defined in
 
-[packages/g6/src/runtime/graph.ts:1993](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/runtime/graph.ts#L1993)
+[packages/g6/src/runtime/graph.ts:2004](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/runtime/graph.ts#L2004)
 
 ___
 
@@ -1636,7 +1635,7 @@ Layout the graph (with current configurations if cfg is not assigned).
 
 #### Defined in
 
-[packages/g6/src/runtime/graph.ts:1683](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/runtime/graph.ts#L1683)
+[packages/g6/src/runtime/graph.ts:1684](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/runtime/graph.ts#L1684)
 
 ___
 
@@ -1750,7 +1749,7 @@ Pause stacking operation.
 
 #### Defined in
 
-[packages/g6/src/runtime/graph.ts:2012](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/runtime/graph.ts#L2012)
+[packages/g6/src/runtime/graph.ts:2023](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/runtime/graph.ts#L2023)
 
 ___
 
@@ -1778,7 +1777,7 @@ Push the operation(s) onto the specified stack
 
 #### Defined in
 
-[packages/g6/src/runtime/graph.ts:2004](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/runtime/graph.ts#L2004)
+[packages/g6/src/runtime/graph.ts:2015](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/runtime/graph.ts#L2015)
 
 ___
 
@@ -1798,7 +1797,7 @@ Revert recent n operation(s) performed on the graph.
 
 #### Defined in
 
-[packages/g6/src/runtime/graph.ts:2079](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/runtime/graph.ts#L2079)
+[packages/g6/src/runtime/graph.ts:2090](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/runtime/graph.ts#L2090)
 
 ___
 
@@ -1818,7 +1817,7 @@ Resume stacking operation.
 
 #### Defined in
 
-[packages/g6/src/runtime/graph.ts:2020](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/runtime/graph.ts#L2020)
+[packages/g6/src/runtime/graph.ts:2031](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/runtime/graph.ts#L2031)
 
 ___
 
@@ -1846,7 +1845,7 @@ Rotate the graph with a relative angle.
 
 #### Defined in
 
-[packages/g6/src/runtime/graph.ts:597](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/runtime/graph.ts#L597)
+[packages/g6/src/runtime/graph.ts:598](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/runtime/graph.ts#L598)
 
 ___
 
@@ -1874,7 +1873,7 @@ Rotate the graph to an absolute angle.
 
 #### Defined in
 
-[packages/g6/src/runtime/graph.ts:619](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/runtime/graph.ts#L619)
+[packages/g6/src/runtime/graph.ts:620](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/runtime/graph.ts#L620)
 
 ___
 
@@ -1896,7 +1895,7 @@ treated as a single operation when undoing or redoing.
 
 #### Defined in
 
-[packages/g6/src/runtime/graph.ts:2105](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/runtime/graph.ts#L2105)
+[packages/g6/src/runtime/graph.ts:2116](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/runtime/graph.ts#L2116)
 
 ___
 
@@ -1918,7 +1917,7 @@ treated as a single operation when undoing or redoing.
 
 #### Defined in
 
-[packages/g6/src/runtime/graph.ts:2115](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/runtime/graph.ts#L2115)
+[packages/g6/src/runtime/graph.ts:2126](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/runtime/graph.ts#L2126)
 
 ___
 
@@ -1938,7 +1937,7 @@ Some layout algorithms has many iterations which can be stopped at any time.
 
 #### Defined in
 
-[packages/g6/src/runtime/graph.ts:1733](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/runtime/graph.ts#L1733)
+[packages/g6/src/runtime/graph.ts:1734](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/runtime/graph.ts#L1734)
 
 ___
 
@@ -1958,7 +1957,7 @@ Stop the current transition of transform immediately.
 
 #### Defined in
 
-[packages/g6/src/runtime/graph.ts:504](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/runtime/graph.ts#L504)
+[packages/g6/src/runtime/graph.ts:505](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/runtime/graph.ts#L505)
 
 ___
 
@@ -1985,7 +1984,7 @@ Transform the graph with a CSS-Transform-like syntax.
 
 #### Defined in
 
-[packages/g6/src/runtime/graph.ts:490](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/runtime/graph.ts#L490)
+[packages/g6/src/runtime/graph.ts:491](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/runtime/graph.ts#L491)
 
 ___
 
@@ -2012,7 +2011,7 @@ Move the graph with a relative distance under viewport coordinates.
 
 #### Defined in
 
-[packages/g6/src/runtime/graph.ts:514](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/runtime/graph.ts#L514)
+[packages/g6/src/runtime/graph.ts:515](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/runtime/graph.ts#L515)
 
 ___
 
@@ -2039,7 +2038,7 @@ Move the graph to destination under viewport coordinates.
 
 #### Defined in
 
-[packages/g6/src/runtime/graph.ts:535](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/runtime/graph.ts#L535)
+[packages/g6/src/runtime/graph.ts:536](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/runtime/graph.ts#L536)
 
 ___
 
@@ -2059,7 +2058,7 @@ Restore n operations that were last n reverted on the graph.
 
 #### Defined in
 
-[packages/g6/src/runtime/graph.ts:2069](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/runtime/graph.ts#L2069)
+[packages/g6/src/runtime/graph.ts:2080](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/runtime/graph.ts#L2080)
 
 ___
 
@@ -2085,7 +2084,7 @@ Update the specs(configurations).
 
 #### Defined in
 
-[packages/g6/src/runtime/graph.ts:361](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/runtime/graph.ts#L361)
+[packages/g6/src/runtime/graph.ts:362](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/runtime/graph.ts#L362)
 
 ___
 
@@ -2111,7 +2110,7 @@ Update the theme specs (configurations).
 
 #### Defined in
 
-[packages/g6/src/runtime/graph.ts:367](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/runtime/graph.ts#L367)
+[packages/g6/src/runtime/graph.ts:368](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/runtime/graph.ts#L368)
 
 ___
 
@@ -2139,7 +2138,7 @@ Zoom the graph with a relative ratio.
 
 #### Defined in
 
-[packages/g6/src/runtime/graph.ts:549](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/runtime/graph.ts#L549)
+[packages/g6/src/runtime/graph.ts:550](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/runtime/graph.ts#L550)
 
 ___
 
@@ -2167,7 +2166,7 @@ Zoom the graph to a specified ratio.
 
 #### Defined in
 
-[packages/g6/src/runtime/graph.ts:571](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/runtime/graph.ts#L571)
+[packages/g6/src/runtime/graph.ts:572](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/runtime/graph.ts#L572)
 
 ## Plugin
 
@@ -2193,7 +2192,7 @@ Add plugin(s) to graph.
 
 #### Defined in
 
-[packages/g6/src/runtime/graph.ts:1846](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/runtime/graph.ts#L1846)
+[packages/g6/src/runtime/graph.ts:1847](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/runtime/graph.ts#L1847)
 
 ___
 
@@ -2207,7 +2206,7 @@ Remove plugin(s) from graph.
 
 | Name | Type |
 | :------ | :------ |
-| `pluginKeys` | `string`[] |
+| `pluginKeys` | (`string` \| `Plugin`)[] |
 
 #### Returns
 
@@ -2219,7 +2218,7 @@ Remove plugin(s) from graph.
 
 #### Defined in
 
-[packages/g6/src/runtime/graph.ts:1899](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/runtime/graph.ts#L1899)
+[packages/g6/src/runtime/graph.ts:1900](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/runtime/graph.ts#L1900)
 
 ## Properties
 
@@ -2229,7 +2228,7 @@ Remove plugin(s) from graph.
 
 #### Defined in
 
-[packages/g6/src/runtime/graph.ts:78](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/runtime/graph.ts#L78)
+[packages/g6/src/runtime/graph.ts:79](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/runtime/graph.ts#L79)
 
 ___
 
@@ -2243,7 +2242,7 @@ ___
 
 #### Defined in
 
-[packages/g6/src/runtime/graph.ts:68](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/runtime/graph.ts#L68)
+[packages/g6/src/runtime/graph.ts:69](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/runtime/graph.ts#L69)
 
 ___
 
@@ -2257,7 +2256,7 @@ ___
 
 #### Defined in
 
-[packages/g6/src/runtime/graph.ts:70](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/runtime/graph.ts#L70)
+[packages/g6/src/runtime/graph.ts:71](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/runtime/graph.ts#L71)
 
 ___
 
@@ -2271,7 +2270,7 @@ ___
 
 #### Defined in
 
-[packages/g6/src/runtime/graph.ts:72](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/runtime/graph.ts#L72)
+[packages/g6/src/runtime/graph.ts:73](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/runtime/graph.ts#L73)
 
 ___
 
@@ -2285,7 +2284,7 @@ ___
 
 #### Defined in
 
-[packages/g6/src/runtime/graph.ts:66](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/runtime/graph.ts#L66)
+[packages/g6/src/runtime/graph.ts:67](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/runtime/graph.ts#L67)
 
 ___
 
@@ -2299,7 +2298,7 @@ ___
 
 #### Defined in
 
-[packages/g6/src/runtime/graph.ts:74](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/runtime/graph.ts#L74)
+[packages/g6/src/runtime/graph.ts:75](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/runtime/graph.ts#L75)
 
 ___
 
@@ -2313,7 +2312,7 @@ ___
 
 #### Defined in
 
-[packages/g6/src/runtime/graph.ts:76](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/runtime/graph.ts#L76)
+[packages/g6/src/runtime/graph.ts:77](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/runtime/graph.ts#L77)
 
 ## Tree
 
@@ -2341,7 +2340,7 @@ Collapse sub tree(s).
 
 #### Defined in
 
-[packages/g6/src/runtime/graph.ts:2151](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/runtime/graph.ts#L2151)
+[packages/g6/src/runtime/graph.ts:2162](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/runtime/graph.ts#L2162)
 
 ___
 
@@ -2369,7 +2368,7 @@ Expand sub tree(s).
 
 #### Defined in
 
-[packages/g6/src/runtime/graph.ts:2167](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/runtime/graph.ts#L2167)
+[packages/g6/src/runtime/graph.ts:2178](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/runtime/graph.ts#L2178)
 
 ## View
 
@@ -2397,7 +2396,7 @@ rendering coordinate
 
 #### Defined in
 
-[packages/g6/src/runtime/graph.ts:818](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/runtime/graph.ts#L818)
+[packages/g6/src/runtime/graph.ts:819](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/runtime/graph.ts#L819)
 
 ___
 
@@ -2425,7 +2424,7 @@ canvas dom (viewport) coordinate
 
 #### Defined in
 
-[packages/g6/src/runtime/graph.ts:787](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/runtime/graph.ts#L787)
+[packages/g6/src/runtime/graph.ts:788](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/runtime/graph.ts#L788)
 
 ___
 
@@ -2453,7 +2452,7 @@ browser coordinate
 
 #### Defined in
 
-[packages/g6/src/runtime/graph.ts:807](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/runtime/graph.ts#L807)
+[packages/g6/src/runtime/graph.ts:808](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/runtime/graph.ts#L808)
 
 ___
 
@@ -2475,7 +2474,7 @@ Get the size of the graph canvas.
 
 #### Defined in
 
-[packages/g6/src/runtime/graph.ts:759](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/runtime/graph.ts#L759)
+[packages/g6/src/runtime/graph.ts:760](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/runtime/graph.ts#L760)
 
 ___
 
@@ -2503,7 +2502,7 @@ rendering coordinate
 
 #### Defined in
 
-[packages/g6/src/runtime/graph.ts:797](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/runtime/graph.ts#L797)
+[packages/g6/src/runtime/graph.ts:798](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/runtime/graph.ts#L798)
 
 ___
 
@@ -2529,4 +2528,4 @@ Set the size for the graph canvas.
 
 #### Defined in
 
-[packages/g6/src/runtime/graph.ts:769](https://github.com/antvis/G6/blob/ef7751dae9/packages/g6/src/runtime/graph.ts#L769)
+[packages/g6/src/runtime/graph.ts:770](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/runtime/graph.ts#L770)

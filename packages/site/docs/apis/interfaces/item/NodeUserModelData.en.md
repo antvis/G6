@@ -2,7 +2,7 @@
 title: NodeUserModelData
 ---
 
-[Overview - v5.0.0-alpha.9](../../README.en.md) / [Modules](../../modules.en.md) / [item](../../modules/item.en.md) / NodeUserModelData
+[Overview - v5.0.0-beta.1](../../README.en.md) / [Modules](../../modules.en.md) / [item](../../modules/item.en.md) / NodeUserModelData
 
 [item](../../modules/item.en.md).NodeUserModelData
 
@@ -20,25 +20,25 @@ Data in user input model.
 
 • `Optional` **anchorPoints**: `number`[][]
 
-The ratio position of the keyShape for related edges linking into.
+The ratio position of the keyShape for related edges linking into. e.g. `[[0,0.5],[1,0.5]]`
 More styles should be configured in node mapper.
 
 #### Defined in
 
-[packages/g6/src/types/node.ts:67](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/node.ts#L67)
+[packages/g6/src/types/node.ts:73](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/node.ts#L73)
 
 ___
 
 ### badges
 
-• `Optional` **badges**: { `position`: `BadgePosition` ; `text`: `string` ; `type`: ``"text"`` \| ``"icon"``  }[]
+• `Optional` **badges**: { `position`: [`BadgePosition`](../../enums/item/BadgePosition.en.md) ; `text`: `string` ; `type`: ``"text"`` \| ``"icon"``  }[]
 
 The badges to show on the node.
 More styles should be configured in node mapper.
 
 #### Defined in
 
-[packages/g6/src/types/node.ts:72](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/node.ts#L72)
+[packages/g6/src/types/node.ts:78](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/node.ts#L78)
 
 ___
 
@@ -46,12 +46,12 @@ ___
 
 • `Optional` **color**: `string`
 
-Subject color for the keyShape and anchor points.
+The subject color of the node's keyShape and anchor points.
 More styles should be configured in node mapper.
 
 #### Defined in
 
-[packages/g6/src/types/node.ts:36](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/node.ts#L36)
+[packages/g6/src/types/node.ts:42](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/node.ts#L42)
 
 ___
 
@@ -72,7 +72,7 @@ More styles should be configured in node mapper.
 
 #### Defined in
 
-[packages/g6/src/types/node.ts:58](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/node.ts#L58)
+[packages/g6/src/types/node.ts:64](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/node.ts#L64)
 
 ___
 
@@ -84,7 +84,7 @@ Whether to be a root at when used as a tree.
 
 #### Defined in
 
-[packages/g6/src/types/node.ts:53](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/node.ts#L53)
+[packages/g6/src/types/node.ts:59](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/node.ts#L59)
 
 ___
 
@@ -97,7 +97,7 @@ More styles should be configured in node mapper.
 
 #### Defined in
 
-[packages/g6/src/types/node.ts:41](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/node.ts#L41)
+[packages/g6/src/types/node.ts:47](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/node.ts#L47)
 
 ___
 
@@ -105,11 +105,11 @@ ___
 
 • `Optional` **parentId**: `ID`
 
-Reserved for combo.
+The id of parent combo.
 
 #### Defined in
 
-[packages/g6/src/types/node.ts:49](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/node.ts#L49)
+[packages/g6/src/types/node.ts:55](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/node.ts#L55)
 
 ___
 
@@ -117,13 +117,14 @@ ___
 
 • `Optional` **preventPolylineEdgeOverlap**: `boolean`
 
-Whether to prevent overlap with unassociated edges. Used to preempt position.
-Defaults to false.
-Only valid for polyline
+Whether to prevent overlap with unassociated edges.
+- Used to preempt position.
+- Defaults to false.
+- Only valid for polyline
 
 #### Defined in
 
-[packages/g6/src/types/node.ts:82](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/node.ts#L82)
+[packages/g6/src/types/node.ts:89](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/node.ts#L89)
 
 ___
 
@@ -131,11 +132,11 @@ ___
 
 • `Optional` **type**: `string`
 
-Node type, e.g. 'circle-node'.
+The type of node, e.g. `circle-node`.
 
 #### Defined in
 
-[packages/g6/src/types/node.ts:31](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/node.ts#L31)
+[packages/g6/src/types/node.ts:37](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/node.ts#L37)
 
 ___
 
@@ -147,7 +148,7 @@ Whether show the node by default.
 
 #### Defined in
 
-[packages/g6/src/types/node.ts:45](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/node.ts#L45)
+[packages/g6/src/types/node.ts:51](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/node.ts#L51)
 
 ___
 
@@ -155,11 +156,11 @@ ___
 
 • `Optional` **x**: `number`
 
-Node position.
+The x-coordinate of node.
 
 #### Defined in
 
-[packages/g6/src/types/node.ts:25](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/node.ts#L25)
+[packages/g6/src/types/node.ts:25](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/node.ts#L25)
 
 ___
 
@@ -167,9 +168,11 @@ ___
 
 • `Optional` **y**: `number`
 
+The y-coordinate of node.
+
 #### Defined in
 
-[packages/g6/src/types/node.ts:26](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/node.ts#L26)
+[packages/g6/src/types/node.ts:29](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/node.ts#L29)
 
 ___
 
@@ -177,6 +180,8 @@ ___
 
 • `Optional` **z**: `number`
 
+The z-coordinate of node.
+
 #### Defined in
 
-[packages/g6/src/types/node.ts:27](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/node.ts#L27)
+[packages/g6/src/types/node.ts:33](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/node.ts#L33)

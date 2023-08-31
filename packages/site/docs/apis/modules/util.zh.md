@@ -2,93 +2,97 @@
 title: util
 ---
 
-[概述 - v5.0.0-alpha.9](../README.zh.md) / [模块](../modules.zh.md) / util 
+> 📋 中文文档还在翻译中... 欢迎PR
 
- ＃＃ 功能 
+[Overview - v5.0.0-beta.1](../README.zh.md) / [Modules](../modules.zh.md) / util
 
- ＃＃＃ 延长 
+## Functions
 
- ▸ **扩展**<`B1`、`B2`、`T1`、`T2`\>(`GraphClass`、`extendLibrary`): typeof [`Graph`](../classes/graph/Graph. zh.md) 
+### extend
 
- 使用自定义库（extendLibrary）扩展图形类，extendLibrary将合并到useLib中。 
- B1是用户的Behavior库，B2是要扩展的图的Behavior库（内置图） 
- TODO：更多模板，并且可能合并为整个扩展库的两个模板 
+▸ **extend**<`B1`, `B2`, `T1`, `T2`\>(`GraphClass`, `extendLibrary`): typeof [`Graph`](../classes/graph/Graph.zh.md)
 
- #### 类型参数 
+Extend graph class with custom libs (extendLibrary), and extendLibrary will be merged into useLib.
+B1 is the Behavior lib from user, B2 is the Behavior lib of the graph to be extended(built-in graph)
+TODO: more templates, and might be merged to be two templates for the whole extendLibrary
 
- | 名称 | 类型 | 
- | :------ | :------ | 
- | `B1` | 扩展 `BehaviorRegistry` | 
- | 'B2' | 扩展 `BehaviorRegistry` | 
- | `T1` | 扩展 `ThemeRegistry` | 
- | `T2` | 扩展 `ThemeRegistry` | 
+#### Type parameters
 
- ＃＃＃＃ 参数 
+| Name | Type |
+| :------ | :------ |
+| `B1` | extends `BehaviorRegistry` |
+| `B2` | extends `BehaviorRegistry` |
+| `T1` | extends `ThemeRegistry` |
+| `T2` | extends `ThemeRegistry` |
 
- | 名称 | 类型 | 描述 | 
- | :------ | :------ | :------ | 
- | `GraphClass` | typeof [`Graph`](../classes/graph/Graph.zh.md) | 待扩展的图类 | 
- | `扩展库` | `对象` | 要扩展的自定义库 | 
- | `extendLibrary.behaviors？` | `B1` | - | 
- | `extendLibrary.edges？` | `EdgeRegistry` | - | 
- | `extendLibrary.layouts？` | `布局注册表` | - | 
- | `extendLibrary.nodes？` | `节点注册表` | - | 
- | `extendLibrary.plugins？` | `插件注册表` | - | 
- | `extendLibrary.themeSolvers？` | `T1` | - | 
+#### Parameters
 
- #### 返回 
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `GraphClass` | typeof [`Graph`](../classes/graph/Graph.zh.md) | graph class to be extended |
+| `extendLibrary` | `Object` | custom libs to extend |
+| `extendLibrary.behaviors?` | `B1` | - |
+| `extendLibrary.edges?` | `EdgeRegistry` | - |
+| `extendLibrary.layouts?` | `LayoutRegistry` | - |
+| `extendLibrary.nodes?` | `NodeRegistry` | - |
+| `extendLibrary.plugins?` | `PluginRegistry` | - |
+| `extendLibrary.themeSolvers?` | `T1` | - |
 
- typeof [`Graph`](../classes/graph/Graph.zh.md) 
+#### Returns
 
- 扩展图类 
+typeof [`Graph`](../classes/graph/Graph.zh.md)
 
- #### 定义于 
+extended graph class
 
- [packages/g6/src/util/extend.ts:18](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/util/extend.ts#L18) 
+#### Defined in
 
- ___ 
+[packages/g6/src/util/extend.ts:18](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/util/extend.ts#L18)
 
- ### isEncode 
+___
 
- ▸ **isEncode**(`value`): 值为 Encode<any\> 
+### isEncode
 
- ＃＃＃＃ 参数 
+▸ **isEncode**(`value`): value is Encode<any\>
 
- | 名称 | 类型 | 
- | :------ | :------ | 
- | `价值` | `任何` | 
+Whether value is a Encode<T> type with fields and formatter function.
 
- #### 返回 
+#### Parameters
 
- 值为 Encode<any\> 
+| Name | Type |
+| :------ | :------ |
+| `value` | `any` |
 
- #### 定义于 
+#### Returns
 
- [packages/g6/src/util/type.ts:3](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/util/type.ts#L3) 
+value is Encode<any\>
 
- ___ 
+#### Defined in
 
- ＃＃＃ 嘲笑 
+[packages/g6/src/util/type.ts:8](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/util/type.ts#L8)
 
- ▸ **模拟**(`nodeCount`): `对象` 
+___
 
- 模拟图数据 
+### mock
 
- ＃＃＃＃ 参数 
+▸ **mock**(`nodeCount`): `Object`
 
- | 名称 | 类型 | 描述 | 
- | :------ | :------ | :------ | 
- | `nodeCount` | `数字` | 节点数 | 
+mock graph data
 
- #### 返回 
+#### Parameters
 
- `对象` 
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `nodeCount` | `number` | node count |
 
- | 名称 | 类型 | 
- | :------ | :------ | 
- | `圆` | (`centerId`: `string`) => { `edges`: `any`[] ; `节点`: { `数据`: {} = {}; `id`: `字符串` }[] } | 
- | `随机` | (`ratio`: `number`) => { `edges`: `any`[] ; `节点`: { `数据`: {} = {}; `id`: `字符串` }[] } | 
+#### Returns
 
- #### 定义于 
+`Object`
 
- [packages/g6/src/util/mock.ts:7](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/util/mock.ts#L7)
+| Name | Type |
+| :------ | :------ |
+| `circle` | (`centerId`: `string`) => { `edges`: `any`[] ; `nodes`: { `data`: {} = {}; `id`: `string`  }[]  } |
+| `random` | (`ratio`: `number`) => { `edges`: `any`[] ; `nodes`: { `data`: {} = {}; `id`: `string`  }[]  } |
+
+#### Defined in
+
+[packages/g6/src/util/mock.ts:7](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/util/mock.ts#L7)

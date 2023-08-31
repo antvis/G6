@@ -2,13 +2,13 @@
 title: ModelRectNode
 ---
 
-[Overview - v5.0.0-beta.1](../../README.zh.md) / [Modules](../../modules.zh.md) / [item](../../modules/item.zh.md) / ModelRectNode
+[Overview - v5.0.0-beta.1](../../README.en.md) / [Modules](../../modules.en.md) / [item](../../modules/item.en.md) / ModelRectNode
 
-[item](../../modules/item.zh.md).ModelRectNode
+[item](../../modules/item.en.md).ModelRectNode
 
 ## Hierarchy
 
-- [`CustomNode`](CustomNode.zh.md)
+- [`CustomNode`](CustomNode.en.md)
 
   ↳ **`ModelRectNode`**
 
@@ -20,13 +20,13 @@ title: ModelRectNode
 
 #### Parameters
 
-| Name    | Type  |
-| :------ | :---- |
+| Name | Type |
+| :------ | :------ |
 | `props` | `any` |
 
 #### Overrides
 
-[CustomNode](CustomNode.zh.md).[constructor](CustomNode.zh.md#constructor)
+[CustomNode](CustomNode.en.md).[constructor](CustomNode.en.md#constructor)
 
 #### Defined in
 
@@ -42,11 +42,11 @@ Perform additional drawing operations or add custom shapes after drawing node.
 
 #### Parameters
 
-| Name             | Type                                      | Description                                                                   |
-| :--------------- | :---------------------------------------- | :---------------------------------------------------------------------------- |
-| `model`          | `NodeDisplayModel` \| `ComboDisplayModel` | The displayed model of this node, only for drawing and not received by users. |
-| `shapeMap`       | `Object`                                  | The shape map that contains all of the elements to show on the node.          |
-| `shapesChanged?` | `string`[]                                | An array of shape IDs that have changed and need to be updated.               |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `model` | `NodeDisplayModel` \| `ComboDisplayModel` | The displayed model of this node, only for drawing and not received by users. |
+| `shapeMap` | `Object` | The shape map that contains all of the elements to show on the node. |
+| `shapesChanged?` | `string`[] | An array of shape IDs that have changed and need to be updated. |
 
 #### Returns
 
@@ -56,42 +56,42 @@ An object that contains some new shapes to be added to the node.
 
 #### Inherited from
 
-[CustomNode](CustomNode.zh.md).[afterDraw](CustomNode.zh.md#afterdraw)
+[CustomNode](CustomNode.en.md).[afterDraw](CustomNode.en.md#afterdraw)
 
 #### Defined in
 
 [packages/g6/src/stdlib/item/node/base.ts:230](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/item/node/base.ts#L230)
 
----
+___
 
 ### calculateAnchorPosition
 
-▸ **calculateAnchorPosition**(`keyShapeStyle`): [`IAnchorPositionMap`](../../interfaces/item/IAnchorPositionMap.zh.md)
+▸ **calculateAnchorPosition**(`keyShapeStyle`): [`IAnchorPositionMap`](../../interfaces/item/IAnchorPositionMap.en.md)
 
 Configures the anchor positions based on the provided keyShapeStyle and returns the configuration.
 e.g for a CircleNode, it returns: `{"right":keyShapeStyle.x+keyShapeStyle.r, keyShapeStyle.y}`
 
 #### Parameters
 
-| Name            | Type  | Description                                                                    |
-| :-------------- | :---- | :----------------------------------------------------------------------------- |
+| Name | Type | Description |
+| :------ | :------ | :------ |
 | `keyShapeStyle` | `any` | The keyShapeStyle object that contains the style information of the key shape. |
 
 #### Returns
 
-[`IAnchorPositionMap`](../../interfaces/item/IAnchorPositionMap.zh.md)
+[`IAnchorPositionMap`](../../interfaces/item/IAnchorPositionMap.en.md)
 
 The anchor position configuration as an IAnchorPositionMap object.
 
 #### Overrides
 
-[CustomNode](CustomNode.zh.md).[calculateAnchorPosition](CustomNode.zh.md#calculateanchorposition)
+[CustomNode](CustomNode.en.md).[calculateAnchorPosition](CustomNode.en.md#calculateanchorposition)
 
 #### Defined in
 
 [packages/g6/src/stdlib/item/node/modelRect.ts:117](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/item/node/modelRect.ts#L117)
 
----
+___
 
 ### draw
 
@@ -102,16 +102,16 @@ You should call `drawKeyShape` and `drawAnchorShape`,`drawLabelShape`,`drawIconS
 
 #### Parameters
 
-| Name                 | Type                                                                 | Description                                                                   |
-| :------------------- | :------------------------------------------------------------------- | :---------------------------------------------------------------------------- |
-| `model`              | `NodeDisplayModel`                                                   | The displayed model of this node, only for drawing and not received by users. |
-| `shapeMap`           | `NodeShapeMap`                                                       | The shape map that contains all of the elements to show on the node.          |
-| `diffData?`          | `Object`                                                             | An object that contains previous and current data.                            |
-| `diffData.current`   | [`NodeUserModelData`](../../interfaces/item/NodeUserModelData.zh.md) | -                                                                             |
-| `diffData.previous`  | [`NodeUserModelData`](../../interfaces/item/NodeUserModelData.zh.md) | -                                                                             |
-| `diffState?`         | `Object`                                                             | An object that contains previous and current node's state.                    |
-| `diffState.current`  | `State`[]                                                            | -                                                                             |
-| `diffState.previous` | `State`[]                                                            | -                                                                             |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `model` | `NodeDisplayModel` | The displayed model of this node, only for drawing and not received by users. |
+| `shapeMap` | `NodeShapeMap` | The shape map that contains all of the elements to show on the node. |
+| `diffData?` | `Object` | An object that contains previous and current data. |
+| `diffData.current` | [`NodeUserModelData`](../../interfaces/item/NodeUserModelData.en.md) | - |
+| `diffData.previous` | [`NodeUserModelData`](../../interfaces/item/NodeUserModelData.en.md) | - |
+| `diffState?` | `Object` | An object that contains previous and current node's state. |
+| `diffState.current` | `State`[] | - |
+| `diffState.previous` | `State`[] | - |
 
 #### Returns
 
@@ -121,13 +121,13 @@ An object containing the keyShape and optional labelShape, iconShape, and some o
 
 #### Overrides
 
-[CustomNode](CustomNode.zh.md).[draw](CustomNode.zh.md#draw)
+[CustomNode](CustomNode.en.md).[draw](CustomNode.en.md#draw)
 
 #### Defined in
 
 [packages/g6/src/stdlib/item/node/modelRect.ts:47](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/item/node/modelRect.ts#L47)
 
----
+___
 
 ### drawAnchorShapes
 
@@ -137,16 +137,16 @@ Draw the anchors shape of the node
 
 #### Parameters
 
-| Name                 | Type                                                                                     | Description                                                                   |
-| :------------------- | :--------------------------------------------------------------------------------------- | :---------------------------------------------------------------------------- |
-| `model`              | `NodeDisplayModel` \| `ComboDisplayModel`                                                | The displayed model of this node, only for drawing and not received by users. |
-| `shapeMap`           | `NodeShapeMap`                                                                           | The shape map that contains all of the elements to show on the node.          |
-| `diffData?`          | `Object`                                                                                 | An object that contains previous and current data.                            |
-| `diffData.current`   | [`NodeUserModelData`](../../interfaces/item/NodeUserModelData.zh.md) \| `ComboModelData` | -                                                                             |
-| `diffData.previous`  | [`NodeUserModelData`](../../interfaces/item/NodeUserModelData.zh.md) \| `ComboModelData` | -                                                                             |
-| `diffState?`         | `Object`                                                                                 | An object that contains previous and current node's state.                    |
-| `diffState.current`  | `State`[]                                                                                | -                                                                             |
-| `diffState.previous` | `State`[]                                                                                | -                                                                             |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `model` | `NodeDisplayModel` \| `ComboDisplayModel` | The displayed model of this node, only for drawing and not received by users. |
+| `shapeMap` | `NodeShapeMap` | The shape map that contains all of the elements to show on the node. |
+| `diffData?` | `Object` | An object that contains previous and current data. |
+| `diffData.current` | [`NodeUserModelData`](../../interfaces/item/NodeUserModelData.en.md) \| `ComboModelData` | - |
+| `diffData.previous` | [`NodeUserModelData`](../../interfaces/item/NodeUserModelData.en.md) \| `ComboModelData` | - |
+| `diffState?` | `Object` | An object that contains previous and current node's state. |
+| `diffState.current` | `State`[] | - |
+| `diffState.previous` | `State`[] | - |
 
 #### Returns
 
@@ -156,13 +156,13 @@ The display object representing the anchors shape of the node.
 
 #### Inherited from
 
-[CustomNode](CustomNode.zh.md).[drawAnchorShapes](CustomNode.zh.md#drawanchorshapes)
+[CustomNode](CustomNode.en.md).[drawAnchorShapes](CustomNode.en.md#drawanchorshapes)
 
 #### Defined in
 
 [packages/g6/src/stdlib/item/node/base.ts:534](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/item/node/base.ts#L534)
 
----
+___
 
 ### drawBadgeShapes
 
@@ -172,16 +172,16 @@ Draw the badges shape of the node
 
 #### Parameters
 
-| Name                 | Type                                                                                     | Description                                                                   |
-| :------------------- | :--------------------------------------------------------------------------------------- | :---------------------------------------------------------------------------- |
-| `model`              | `NodeDisplayModel` \| `ComboDisplayModel`                                                | The displayed model of this node, only for drawing and not received by users. |
-| `shapeMap`           | `NodeShapeMap`                                                                           | The shape map that contains all of the elements to show on the node.          |
-| `diffData?`          | `Object`                                                                                 | An object that contains previous and current data.                            |
-| `diffData.current`   | [`NodeUserModelData`](../../interfaces/item/NodeUserModelData.zh.md) \| `ComboModelData` | -                                                                             |
-| `diffData.previous`  | [`NodeUserModelData`](../../interfaces/item/NodeUserModelData.zh.md) \| `ComboModelData` | -                                                                             |
-| `diffState?`         | `Object`                                                                                 | An object that contains previous and current node's state.                    |
-| `diffState.current`  | `State`[]                                                                                | -                                                                             |
-| `diffState.previous` | `State`[]                                                                                | -                                                                             |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `model` | `NodeDisplayModel` \| `ComboDisplayModel` | The displayed model of this node, only for drawing and not received by users. |
+| `shapeMap` | `NodeShapeMap` | The shape map that contains all of the elements to show on the node. |
+| `diffData?` | `Object` | An object that contains previous and current data. |
+| `diffData.current` | [`NodeUserModelData`](../../interfaces/item/NodeUserModelData.en.md) \| `ComboModelData` | - |
+| `diffData.previous` | [`NodeUserModelData`](../../interfaces/item/NodeUserModelData.en.md) \| `ComboModelData` | - |
+| `diffState?` | `Object` | An object that contains previous and current node's state. |
+| `diffState.current` | `State`[] | - |
+| `diffState.previous` | `State`[] | - |
 
 #### Returns
 
@@ -191,13 +191,13 @@ The display object representing the badges shape of the node.
 
 #### Inherited from
 
-[CustomNode](CustomNode.zh.md).[drawBadgeShapes](CustomNode.zh.md#drawbadgeshapes)
+[CustomNode](CustomNode.en.md).[drawBadgeShapes](CustomNode.en.md#drawbadgeshapes)
 
 #### Defined in
 
 [packages/g6/src/stdlib/item/node/base.ts:632](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/item/node/base.ts#L632)
 
----
+___
 
 ### drawHaloShape
 
@@ -207,16 +207,16 @@ Draw the halo shape of the node
 
 #### Parameters
 
-| Name                 | Type                                                                                     | Description                                                                   |
-| :------------------- | :--------------------------------------------------------------------------------------- | :---------------------------------------------------------------------------- |
-| `model`              | `NodeDisplayModel` \| `ComboDisplayModel`                                                | The displayed model of this node, only for drawing and not received by users. |
-| `shapeMap`           | `NodeShapeMap`                                                                           | The shape map that contains all of the elements to show on the node.          |
-| `diffData?`          | `Object`                                                                                 | An object that contains previous and current data.                            |
-| `diffData.current`   | [`NodeUserModelData`](../../interfaces/item/NodeUserModelData.zh.md) \| `ComboModelData` | -                                                                             |
-| `diffData.previous`  | [`NodeUserModelData`](../../interfaces/item/NodeUserModelData.zh.md) \| `ComboModelData` | -                                                                             |
-| `diffState?`         | `Object`                                                                                 | An object that contains previous and current node's state.                    |
-| `diffState.current`  | `State`[]                                                                                | -                                                                             |
-| `diffState.previous` | `State`[]                                                                                | -                                                                             |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `model` | `NodeDisplayModel` \| `ComboDisplayModel` | The displayed model of this node, only for drawing and not received by users. |
+| `shapeMap` | `NodeShapeMap` | The shape map that contains all of the elements to show on the node. |
+| `diffData?` | `Object` | An object that contains previous and current data. |
+| `diffData.current` | [`NodeUserModelData`](../../interfaces/item/NodeUserModelData.en.md) \| `ComboModelData` | - |
+| `diffData.previous` | [`NodeUserModelData`](../../interfaces/item/NodeUserModelData.en.md) \| `ComboModelData` | - |
+| `diffState?` | `Object` | An object that contains previous and current node's state. |
+| `diffState.current` | `State`[] | - |
+| `diffState.previous` | `State`[] | - |
 
 #### Returns
 
@@ -226,13 +226,13 @@ The display object representing the halo shape of the node.
 
 #### Inherited from
 
-[CustomNode](CustomNode.zh.md).[drawHaloShape](CustomNode.zh.md#drawhaloshape)
+[CustomNode](CustomNode.en.md).[drawHaloShape](CustomNode.en.md#drawhaloshape)
 
 #### Defined in
 
 [packages/g6/src/stdlib/item/node/base.ts:494](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/item/node/base.ts#L494)
 
----
+___
 
 ### drawIconShape
 
@@ -242,16 +242,16 @@ Draw the icon shape of the node
 
 #### Parameters
 
-| Name                 | Type                                                                                     | Description                                                                   |
-| :------------------- | :--------------------------------------------------------------------------------------- | :---------------------------------------------------------------------------- |
-| `model`              | `NodeDisplayModel` \| `ComboDisplayModel`                                                | The displayed model of this node, only for drawing and not received by users. |
-| `shapeMap`           | `NodeShapeMap`                                                                           | The shape map that contains all of the elements to show on the node.          |
-| `diffData?`          | `Object`                                                                                 | An object that contains previous and current data.                            |
-| `diffData.current`   | [`NodeUserModelData`](../../interfaces/item/NodeUserModelData.zh.md) \| `ComboModelData` | -                                                                             |
-| `diffData.previous`  | [`NodeUserModelData`](../../interfaces/item/NodeUserModelData.zh.md) \| `ComboModelData` | -                                                                             |
-| `diffState?`         | `Object`                                                                                 | An object that contains previous and current node's state.                    |
-| `diffState.current`  | `State`[]                                                                                | -                                                                             |
-| `diffState.previous` | `State`[]                                                                                | -                                                                             |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `model` | `NodeDisplayModel` \| `ComboDisplayModel` | The displayed model of this node, only for drawing and not received by users. |
+| `shapeMap` | `NodeShapeMap` | The shape map that contains all of the elements to show on the node. |
+| `diffData?` | `Object` | An object that contains previous and current data. |
+| `diffData.current` | [`NodeUserModelData`](../../interfaces/item/NodeUserModelData.en.md) \| `ComboModelData` | - |
+| `diffData.previous` | [`NodeUserModelData`](../../interfaces/item/NodeUserModelData.en.md) \| `ComboModelData` | - |
+| `diffState?` | `Object` | An object that contains previous and current node's state. |
+| `diffState.current` | `State`[] | - |
+| `diffState.previous` | `State`[] | - |
 
 #### Returns
 
@@ -261,13 +261,13 @@ The display object representing the icon shape of the node.
 
 #### Inherited from
 
-[CustomNode](CustomNode.zh.md).[drawIconShape](CustomNode.zh.md#drawiconshape)
+[CustomNode](CustomNode.en.md).[drawIconShape](CustomNode.en.md#drawiconshape)
 
 #### Defined in
 
 [packages/g6/src/stdlib/item/node/base.ts:443](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/item/node/base.ts#L443)
 
----
+___
 
 ### drawKeyShape
 
@@ -278,16 +278,16 @@ Draw the key shape of the node based on the provided model and shape map.
 
 #### Parameters
 
-| Name                 | Type                                                                 | Description                                                                   |
-| :------------------- | :------------------------------------------------------------------- | :---------------------------------------------------------------------------- |
-| `model`              | `NodeDisplayModel`                                                   | The displayed model of this node, only for drawing and not received by users. |
-| `shapeMap`           | `NodeShapeMap`                                                       | The shape map that contains all of the elements to show on the node.          |
-| `diffData?`          | `Object`                                                             | An object that contains previous and current data.                            |
-| `diffData.current`   | [`NodeUserModelData`](../../interfaces/item/NodeUserModelData.zh.md) | -                                                                             |
-| `diffData.previous`  | [`NodeUserModelData`](../../interfaces/item/NodeUserModelData.zh.md) | -                                                                             |
-| `diffState?`         | `Object`                                                             | An object that contains previous and current node's state.                    |
-| `diffState.current`  | `State`[]                                                            | -                                                                             |
-| `diffState.previous` | `State`[]                                                            | -                                                                             |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `model` | `NodeDisplayModel` | The displayed model of this node, only for drawing and not received by users. |
+| `shapeMap` | `NodeShapeMap` | The shape map that contains all of the elements to show on the node. |
+| `diffData?` | `Object` | An object that contains previous and current data. |
+| `diffData.current` | [`NodeUserModelData`](../../interfaces/item/NodeUserModelData.en.md) | - |
+| `diffData.previous` | [`NodeUserModelData`](../../interfaces/item/NodeUserModelData.en.md) | - |
+| `diffState?` | `Object` | An object that contains previous and current node's state. |
+| `diffState.current` | `State`[] | - |
+| `diffState.previous` | `State`[] | - |
 
 #### Returns
 
@@ -297,13 +297,13 @@ The display object representing the key shape of the node.
 
 #### Overrides
 
-[CustomNode](CustomNode.zh.md).[drawKeyShape](CustomNode.zh.md#drawkeyshape)
+[CustomNode](CustomNode.en.md).[drawKeyShape](CustomNode.en.md#drawkeyshape)
 
 #### Defined in
 
 [packages/g6/src/stdlib/item/node/modelRect.ts:97](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/item/node/modelRect.ts#L97)
 
----
+___
 
 ### drawLabelBackgroundShape
 
@@ -313,16 +313,16 @@ Draw the label background shape of the node
 
 #### Parameters
 
-| Name                 | Type                                                                                     | Description                                                                   |
-| :------------------- | :--------------------------------------------------------------------------------------- | :---------------------------------------------------------------------------- |
-| `model`              | `NodeDisplayModel` \| `ComboDisplayModel`                                                | The displayed model of this node, only for drawing and not received by users. |
-| `shapeMap`           | `NodeShapeMap`                                                                           | The shape map that contains all of the elements to show on the node.          |
-| `diffData?`          | `Object`                                                                                 | An object that contains previous and current data.                            |
-| `diffData.current`   | [`NodeUserModelData`](../../interfaces/item/NodeUserModelData.zh.md) \| `ComboModelData` | -                                                                             |
-| `diffData.previous`  | [`NodeUserModelData`](../../interfaces/item/NodeUserModelData.zh.md) \| `ComboModelData` | -                                                                             |
-| `diffState?`         | `Object`                                                                                 | An object that contains previous and current node's state.                    |
-| `diffState.newState` | `State`[]                                                                                | -                                                                             |
-| `diffState.oldState` | `State`[]                                                                                | -                                                                             |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `model` | `NodeDisplayModel` \| `ComboDisplayModel` | The displayed model of this node, only for drawing and not received by users. |
+| `shapeMap` | `NodeShapeMap` | The shape map that contains all of the elements to show on the node. |
+| `diffData?` | `Object` | An object that contains previous and current data. |
+| `diffData.current` | [`NodeUserModelData`](../../interfaces/item/NodeUserModelData.en.md) \| `ComboModelData` | - |
+| `diffData.previous` | [`NodeUserModelData`](../../interfaces/item/NodeUserModelData.en.md) \| `ComboModelData` | - |
+| `diffState?` | `Object` | An object that contains previous and current node's state. |
+| `diffState.newState` | `State`[] | - |
+| `diffState.oldState` | `State`[] | - |
 
 #### Returns
 
@@ -332,13 +332,13 @@ The display object representing the label background shape of the node.
 
 #### Inherited from
 
-[CustomNode](CustomNode.zh.md).[drawLabelBackgroundShape](CustomNode.zh.md#drawlabelbackgroundshape)
+[CustomNode](CustomNode.en.md).[drawLabelBackgroundShape](CustomNode.en.md#drawlabelbackgroundshape)
 
 #### Defined in
 
 [packages/g6/src/stdlib/item/node/base.ts:386](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/item/node/base.ts#L386)
 
----
+___
 
 ### drawLabelShape
 
@@ -348,16 +348,16 @@ Draw the label shape of the node
 
 #### Parameters
 
-| Name                 | Type                                                                                     | Description                                                                   |
-| :------------------- | :--------------------------------------------------------------------------------------- | :---------------------------------------------------------------------------- |
-| `model`              | `NodeDisplayModel` \| `ComboDisplayModel`                                                | The displayed model of this node, only for drawing and not received by users. |
-| `shapeMap`           | `NodeShapeMap`                                                                           | The shape map that contains all of the elements to show on the node.          |
-| `diffData?`          | `Object`                                                                                 | An object that contains previous and current data.                            |
-| `diffData.current`   | [`NodeUserModelData`](../../interfaces/item/NodeUserModelData.zh.md) \| `ComboModelData` | -                                                                             |
-| `diffData.previous`  | [`NodeUserModelData`](../../interfaces/item/NodeUserModelData.zh.md) \| `ComboModelData` | -                                                                             |
-| `diffState?`         | `Object`                                                                                 | An object that contains previous and current node's state.                    |
-| `diffState.current`  | `State`[]                                                                                | -                                                                             |
-| `diffState.previous` | `State`[]                                                                                | -                                                                             |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `model` | `NodeDisplayModel` \| `ComboDisplayModel` | The displayed model of this node, only for drawing and not received by users. |
+| `shapeMap` | `NodeShapeMap` | The shape map that contains all of the elements to show on the node. |
+| `diffData?` | `Object` | An object that contains previous and current data. |
+| `diffData.current` | [`NodeUserModelData`](../../interfaces/item/NodeUserModelData.en.md) \| `ComboModelData` | - |
+| `diffData.previous` | [`NodeUserModelData`](../../interfaces/item/NodeUserModelData.en.md) \| `ComboModelData` | - |
+| `diffState?` | `Object` | An object that contains previous and current node's state. |
+| `diffState.current` | `State`[] | - |
+| `diffState.previous` | `State`[] | - |
 
 #### Returns
 
@@ -367,13 +367,13 @@ The display object representing the label shape of the node.
 
 #### Overrides
 
-[CustomNode](CustomNode.zh.md).[drawLabelShape](CustomNode.zh.md#drawlabelshape)
+[CustomNode](CustomNode.en.md).[drawLabelShape](CustomNode.en.md#drawlabelshape)
 
 #### Defined in
 
 [packages/g6/src/stdlib/item/node/modelRect.ts:136](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/item/node/modelRect.ts#L136)
 
----
+___
 
 ### drawOtherShapes
 
@@ -383,16 +383,16 @@ Draw other shapes(such as preRect,stateIcon) of the node
 
 #### Parameters
 
-| Name                 | Type                                                                                     | Description                                                                   |
-| :------------------- | :--------------------------------------------------------------------------------------- | :---------------------------------------------------------------------------- |
-| `model`              | `NodeDisplayModel` \| `ComboDisplayModel`                                                | The displayed model of this node, only for drawing and not received by users. |
-| `shapeMap`           | `NodeShapeMap`                                                                           | The shape map that contains all of the elements to show on the node.          |
-| `diffData?`          | `Object`                                                                                 | An object that contains previous and current data.                            |
-| `diffData.current`   | [`NodeUserModelData`](../../interfaces/item/NodeUserModelData.zh.md) \| `ComboModelData` | -                                                                             |
-| `diffData.previous`  | [`NodeUserModelData`](../../interfaces/item/NodeUserModelData.zh.md) \| `ComboModelData` | -                                                                             |
-| `diffState?`         | `Object`                                                                                 | An object that contains previous and current node's state.                    |
-| `diffState.current`  | `State`[]                                                                                | -                                                                             |
-| `diffState.previous` | `State`[]                                                                                | -                                                                             |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `model` | `NodeDisplayModel` \| `ComboDisplayModel` | The displayed model of this node, only for drawing and not received by users. |
+| `shapeMap` | `NodeShapeMap` | The shape map that contains all of the elements to show on the node. |
+| `diffData?` | `Object` | An object that contains previous and current data. |
+| `diffData.current` | [`NodeUserModelData`](../../interfaces/item/NodeUserModelData.en.md) \| `ComboModelData` | - |
+| `diffData.previous` | [`NodeUserModelData`](../../interfaces/item/NodeUserModelData.en.md) \| `ComboModelData` | - |
+| `diffState?` | `Object` | An object that contains previous and current node's state. |
+| `diffState.current` | `State`[] | - |
+| `diffState.previous` | `State`[] | - |
 
 #### Returns
 
@@ -402,41 +402,41 @@ The display object representing the other shapes of the node.
 
 #### Overrides
 
-[CustomNode](CustomNode.zh.md).[drawOtherShapes](CustomNode.zh.md#drawothershapes)
+[CustomNode](CustomNode.en.md).[drawOtherShapes](CustomNode.en.md#drawothershapes)
 
 #### Defined in
 
 [packages/g6/src/stdlib/item/node/modelRect.ts:187](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/item/node/modelRect.ts#L187)
 
----
+___
 
 ### getMergedStyles
 
-▸ **getMergedStyles**(`model`): [`NodeShapeStyles`](../../interfaces/item/NodeShapeStyles.zh.md)
+▸ **getMergedStyles**(`model`): [`NodeShapeStyles`](../../interfaces/item/NodeShapeStyles.en.md)
 
 Merge style
 
 #### Parameters
 
-| Name    | Type                                      | Description                                                                   |
-| :------ | :---------------------------------------- | :---------------------------------------------------------------------------- |
+| Name | Type | Description |
+| :------ | :------ | :------ |
 | `model` | `NodeDisplayModel` \| `ComboDisplayModel` | The NodeDisplayModel or ComboDisplayModel to retrieve the merged styles from. |
 
 #### Returns
 
-[`NodeShapeStyles`](../../interfaces/item/NodeShapeStyles.zh.md)
+[`NodeShapeStyles`](../../interfaces/item/NodeShapeStyles.en.md)
 
 The merged styles as a NodeShapeStyles object.
 
 #### Inherited from
 
-[CustomNode](CustomNode.zh.md).[getMergedStyles](CustomNode.zh.md#getmergedstyles)
+[CustomNode](CustomNode.en.md).[getMergedStyles](CustomNode.en.md#getmergedstyles)
 
 #### Defined in
 
 [packages/g6/src/stdlib/item/node/base.ts:113](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/item/node/base.ts#L113)
 
----
+___
 
 ### mergeStyles
 
@@ -446,8 +446,8 @@ Get merged styles from `getMergedStyles` and assigns the merged styles to the 'm
 
 #### Parameters
 
-| Name    | Type                                      | Description                                                         |
-| :------ | :---------------------------------------- | :------------------------------------------------------------------ |
+| Name | Type | Description |
+| :------ | :------ | :------ |
 | `model` | `NodeDisplayModel` \| `ComboDisplayModel` | The NodeDisplayModel or ComboDisplayModel to merge the styles from. |
 
 #### Returns
@@ -456,29 +456,28 @@ Get merged styles from `getMergedStyles` and assigns the merged styles to the 'm
 
 #### Inherited from
 
-[CustomNode](CustomNode.zh.md).[mergeStyles](CustomNode.zh.md#mergestyles)
+[CustomNode](CustomNode.en.md).[mergeStyles](CustomNode.en.md#mergestyles)
 
 #### Defined in
 
 [packages/g6/src/stdlib/item/node/base.ts:104](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/item/node/base.ts#L104)
 
----
+___
 
 ### onZoom
 
 ▸ **onZoom**(`shapeMap`, `zoom`): `void`
 
 The listener for graph zooming.
-
 1. show / hide some shapes while zoom level changed;
 2. change the shapes' sizes to make them have same visual size while zooming, e.g. labelShape, labelBackgroundShape.
 
 #### Parameters
 
-| Name       | Type           | Description                                                          |
-| :--------- | :------------- | :------------------------------------------------------------------- |
+| Name | Type | Description |
+| :------ | :------ | :------ |
 | `shapeMap` | `NodeShapeMap` | The shape map that contains all of the elements to show on the node. |
-| `zoom`     | `number`       | The zoom level of the graph.                                         |
+| `zoom` | `number` | The zoom level of the graph. |
 
 #### Returns
 
@@ -486,13 +485,13 @@ The listener for graph zooming.
 
 #### Inherited from
 
-[CustomNode](CustomNode.zh.md).[onZoom](CustomNode.zh.md#onzoom)
+[CustomNode](CustomNode.en.md).[onZoom](CustomNode.en.md#onzoom)
 
 #### Defined in
 
 [packages/g6/src/stdlib/item/node/base.ts:814](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/item/node/base.ts#L814)
 
----
+___
 
 ### updateCache
 
@@ -502,8 +501,8 @@ Call it after calling draw function to update cache about bounds and zoom levels
 
 #### Parameters
 
-| Name       | Type  | Description                                                          |
-| :--------- | :---- | :------------------------------------------------------------------- |
+| Name | Type | Description |
+| :------ | :------ | :------ |
 | `shapeMap` | `any` | The shape map that contains all of the elements to show on the node. |
 
 #### Returns
@@ -512,13 +511,13 @@ Call it after calling draw function to update cache about bounds and zoom levels
 
 #### Inherited from
 
-[CustomNode](CustomNode.zh.md).[updateCache](CustomNode.zh.md#updatecache)
+[CustomNode](CustomNode.en.md).[updateCache](CustomNode.en.md#updatecache)
 
 #### Defined in
 
 [packages/g6/src/stdlib/item/node/base.ts:164](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/item/node/base.ts#L164)
 
----
+___
 
 ### upsertShape
 
@@ -528,13 +527,13 @@ Create (if does not exit in shapeMap) or update the shape according to the confi
 
 #### Parameters
 
-| Name       | Type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | Description                          |
-| :--------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :----------------------------------- |
-| `type`     | `SHAPE_TYPE` \| `SHAPE_TYPE_3D`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | shape's type                         |
-| `id`       | `string`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | unique string to indicates the shape |
-| `style`    | `Partial`<[`CircleStyleProps`](../../interfaces/item/CircleStyleProps.zh.md) & [`RectStyleProps`](../../interfaces/item/RectStyleProps.zh.md) & [`EllipseStyleProps`](../../interfaces/item/EllipseStyleProps.zh.md) & [`PolygonStyleProps`](../../interfaces/item/PolygonStyleProps.zh.md) & [`LineStyleProps`](../../interfaces/item/LineStyleProps.zh.md) & [`PolylineStyleProps`](../../interfaces/item/PolylineStyleProps.zh.md) & [`TextStyleProps`](../../interfaces/item/TextStyleProps.zh.md) & [`ImageStyleProps`](../../interfaces/item/ImageStyleProps.zh.md) & [`PathStyleProps`](../../interfaces/item/PathStyleProps.zh.md) & [`SphereGeometryProps`](../../interfaces/item/SphereGeometryProps.zh.md) & [`CubeGeometryProps`](../../interfaces/item/CubeGeometryProps.zh.md) & [`PlaneGeometryProps`](../../interfaces/item/PlaneGeometryProps.zh.md) & { `interactive?`: `boolean` } & { `animates?`: `IAnimates` ; `lod?`: `number` ; `visible?`: `boolean` }\> | style to be updated                  |
-| `shapeMap` | `NodeShapeMap`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    | the shape map of a node / combo      |
-| `model`    | `NodeDisplayModel` \| `ComboDisplayModel`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | data model of the node / combo       |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `type` | `SHAPE_TYPE` \| `SHAPE_TYPE_3D` | shape's type |
+| `id` | `string` | unique string to indicates the shape |
+| `style` | `Partial`<[`CircleStyleProps`](../../interfaces/item/CircleStyleProps.en.md) & [`RectStyleProps`](../../interfaces/item/RectStyleProps.en.md) & [`EllipseStyleProps`](../../interfaces/item/EllipseStyleProps.en.md) & [`PolygonStyleProps`](../../interfaces/item/PolygonStyleProps.en.md) & [`LineStyleProps`](../../interfaces/item/LineStyleProps.en.md) & [`PolylineStyleProps`](../../interfaces/item/PolylineStyleProps.en.md) & [`TextStyleProps`](../../interfaces/item/TextStyleProps.en.md) & [`ImageStyleProps`](../../interfaces/item/ImageStyleProps.en.md) & [`PathStyleProps`](../../interfaces/item/PathStyleProps.en.md) & [`SphereGeometryProps`](../../interfaces/item/SphereGeometryProps.en.md) & [`CubeGeometryProps`](../../interfaces/item/CubeGeometryProps.en.md) & [`PlaneGeometryProps`](../../interfaces/item/PlaneGeometryProps.en.md) & { `interactive?`: `boolean`  } & { `animates?`: `IAnimates` ; `lod?`: `number` ; `visible?`: `boolean`  }\> | style to be updated |
+| `shapeMap` | `NodeShapeMap` | the shape map of a node / combo |
+| `model` | `NodeDisplayModel` \| `ComboDisplayModel` | data model of the node / combo |
 
 #### Returns
 
@@ -544,7 +543,7 @@ The display object representing the shape.
 
 #### Inherited from
 
-[CustomNode](CustomNode.zh.md).[upsertShape](CustomNode.zh.md#upsertshape)
+[CustomNode](CustomNode.en.md).[upsertShape](CustomNode.en.md#upsertshape)
 
 #### Defined in
 
@@ -558,20 +557,20 @@ The display object representing the shape.
 
 #### Type declaration
 
-| Name                  | Type   |
-| :-------------------- | :----- |
-| `keyShapeLocal?`      | `AABB` |
+| Name | Type |
+| :------ | :------ |
+| `keyShapeLocal?` | `AABB` |
 | `labelShapeGeometry?` | `AABB` |
 
 #### Inherited from
 
-[CustomNode](CustomNode.zh.md).[boundsCache](CustomNode.zh.md#boundscache)
+[CustomNode](CustomNode.en.md).[boundsCache](CustomNode.en.md#boundscache)
 
 #### Defined in
 
 [packages/g6/src/stdlib/item/node/base.ts:44](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/item/node/base.ts#L44)
 
----
+___
 
 ### defaultStyles
 
@@ -579,27 +578,27 @@ The display object representing the shape.
 
 #### Type declaration
 
-| Name                   | Type                                                                                                                                                                                                          |
-| :--------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `keyShape`             | { `fill`: `string` = 'white'; `height`: `number` = 70; `radius`: `number` = 2; `stroke`: `string` = '#C0DCEA'; `strokeWidth`: `string` = '2'; `width`: `number` = 185; `x`: `number` = 0; `y`: `number` = 0 } |
-| `keyShape.fill`        | `string`                                                                                                                                                                                                      |
-| `keyShape.height`      | `number`                                                                                                                                                                                                      |
-| `keyShape.radius`      | `number`                                                                                                                                                                                                      |
-| `keyShape.stroke`      | `string`                                                                                                                                                                                                      |
-| `keyShape.strokeWidth` | `string`                                                                                                                                                                                                      |
-| `keyShape.width`       | `number`                                                                                                                                                                                                      |
-| `keyShape.x`           | `number`                                                                                                                                                                                                      |
-| `keyShape.y`           | `number`                                                                                                                                                                                                      |
+| Name | Type |
+| :------ | :------ |
+| `keyShape` | { `fill`: `string` = 'white'; `height`: `number` = 70; `radius`: `number` = 2; `stroke`: `string` = '#C0DCEA'; `strokeWidth`: `string` = '2'; `width`: `number` = 185; `x`: `number` = 0; `y`: `number` = 0 } |
+| `keyShape.fill` | `string` |
+| `keyShape.height` | `number` |
+| `keyShape.radius` | `number` |
+| `keyShape.stroke` | `string` |
+| `keyShape.strokeWidth` | `string` |
+| `keyShape.width` | `number` |
+| `keyShape.x` | `number` |
+| `keyShape.y` | `number` |
 
 #### Overrides
 
-[CustomNode](CustomNode.zh.md).[defaultStyles](CustomNode.zh.md#defaultstyles)
+[CustomNode](CustomNode.en.md).[defaultStyles](CustomNode.en.md#defaultstyles)
 
 #### Defined in
 
 [packages/g6/src/stdlib/item/node/modelRect.ts:25](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/item/node/modelRect.ts#L25)
 
----
+___
 
 ### lodStrategy
 
@@ -607,13 +606,13 @@ The display object representing the shape.
 
 #### Inherited from
 
-[CustomNode](CustomNode.zh.md).[lodStrategy](CustomNode.zh.md#lodstrategy)
+[CustomNode](CustomNode.en.md).[lodStrategy](CustomNode.en.md#lodstrategy)
 
 #### Defined in
 
 [packages/g6/src/stdlib/item/node/base.ts:43](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/item/node/base.ts#L43)
 
----
+___
 
 ### logoHeight
 
@@ -623,7 +622,7 @@ The display object representing the shape.
 
 [packages/g6/src/stdlib/item/node/modelRect.ts:41](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/item/node/modelRect.ts#L41)
 
----
+___
 
 ### logoWidth
 
@@ -633,7 +632,7 @@ The display object representing the shape.
 
 [packages/g6/src/stdlib/item/node/modelRect.ts:40](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/item/node/modelRect.ts#L40)
 
----
+___
 
 ### logoX
 
@@ -643,7 +642,7 @@ The display object representing the shape.
 
 [packages/g6/src/stdlib/item/node/modelRect.ts:38](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/item/node/modelRect.ts#L38)
 
----
+___
 
 ### logoY
 
@@ -653,25 +652,25 @@ The display object representing the shape.
 
 [packages/g6/src/stdlib/item/node/modelRect.ts:39](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/item/node/modelRect.ts#L39)
 
----
+___
 
 ### mergedStyles
 
-• **mergedStyles**: [`NodeShapeStyles`](../../interfaces/item/NodeShapeStyles.zh.md)
+• **mergedStyles**: [`NodeShapeStyles`](../../interfaces/item/NodeShapeStyles.en.md)
 
 #### Overrides
 
-[CustomNode](CustomNode.zh.md).[mergedStyles](CustomNode.zh.md#mergedstyles)
+[CustomNode](CustomNode.en.md).[mergedStyles](CustomNode.en.md#mergedstyles)
 
 #### Defined in
 
 [packages/g6/src/stdlib/item/node/modelRect.ts:37](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/item/node/modelRect.ts#L37)
 
----
+___
 
 ### setState
 
-• **setState**: (`name`: `string`, `value`: `boolean`, `shapeMap`: { `[shapeId: string]`: `DisplayObject`; }) => `void`
+• **setState**: (`name`: `string`, `value`: `boolean`, `shapeMap`: { `[shapeId: string]`: `DisplayObject`;  }) => `void`
 
 #### Type declaration
 
@@ -681,11 +680,11 @@ Set the state for the node.
 
 ##### Parameters
 
-| Name       | Type      | Description                                                          |
-| :--------- | :-------- | :------------------------------------------------------------------- |
-| `name`     | `string`  | -                                                                    |
-| `value`    | `boolean` | state value                                                          |
-| `shapeMap` | `Object`  | The shape map that contains all of the elements to show on the node. |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `name` | `string` | - |
+| `value` | `boolean` | state value |
+| `shapeMap` | `Object` | The shape map that contains all of the elements to show on the node. |
 
 ##### Returns
 
@@ -693,27 +692,27 @@ Set the state for the node.
 
 #### Inherited from
 
-[CustomNode](CustomNode.zh.md).[setState](CustomNode.zh.md#setstate)
+[CustomNode](CustomNode.en.md).[setState](CustomNode.en.md#setstate)
 
 #### Defined in
 
 [packages/g6/src/stdlib/item/node/base.ts:245](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/item/node/base.ts#L245)
 
----
+___
 
 ### themeStyles
 
-• **themeStyles**: [`NodeShapeStyles`](../../interfaces/item/NodeShapeStyles.zh.md) \| `ComboShapeStyles`
+• **themeStyles**: [`NodeShapeStyles`](../../interfaces/item/NodeShapeStyles.en.md) \| `ComboShapeStyles`
 
 #### Inherited from
 
-[CustomNode](CustomNode.zh.md).[themeStyles](CustomNode.zh.md#themestyles)
+[CustomNode](CustomNode.en.md).[themeStyles](CustomNode.en.md#themestyles)
 
 #### Defined in
 
 [packages/g6/src/stdlib/item/node/base.ts:41](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/item/node/base.ts#L41)
 
----
+___
 
 ### type
 
@@ -721,7 +720,7 @@ Set the state for the node.
 
 #### Inherited from
 
-[CustomNode](CustomNode.zh.md).[type](CustomNode.zh.md#type)
+[CustomNode](CustomNode.en.md).[type](CustomNode.en.md#type)
 
 #### Defined in
 

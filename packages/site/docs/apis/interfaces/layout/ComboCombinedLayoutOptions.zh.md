@@ -2,76 +2,78 @@
 title: ComboCombinedLayoutOptions
 ---
 
-[概述 - v5.0.0-alpha.9](../../README.zh.md) / [模块](../../modules.zh.md) / [布局](../. ./modules/layout.zh.md) / ComboCombinedLayoutOptions 
+> 📋 中文文档还在翻译中... 欢迎PR
 
- [布局](../../modules/layout.zh.md).ComboCombinedLayoutOptions 
+[Overview - v5.0.0-beta.1](../../README.zh.md) / [Modules](../../modules.zh.md) / [layout](../../modules/layout.zh.md) / ComboCombinedLayoutOptions
 
- ＃＃ 特性 
+[layout](../../modules/layout.zh.md).ComboCombinedLayoutOptions
 
- ＃＃＃ 中心 
+## Properties
 
- • `可选` **中心**：`PointTuple` 
+### center
 
- #### 定义于 
+• `Optional` **center**: `PointTuple`
 
- node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:242 
+#### Defined in
 
- ___ 
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:242
 
- ### 组合填充 
+___
 
- • `可选` **comboPadding**：`数字` \| `数字`[] \| (`d?`: `未知`) => `数字` 
+### comboPadding
 
- #### 定义于 
+• `Optional` **comboPadding**: `number` \| `number`[] \| (`d?`: `unknown`) => `number`
 
- node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:247 
+#### Defined in
 
- ___ 
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:247
 
- ### 内部布局 
+___
 
- • `可选` **innerLayout**: `布局`<`任何`\> 
+### innerLayout
 
- #### 定义于 
+• `Optional` **innerLayout**: `Layout`<`any`\>
 
- node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:246 
+#### Defined in
 
- ___ 
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:246
 
- ### 节点大小 
+___
 
- • `可选` **nodeSize**: `number` \| `数字`[] \| (`d?`: `节点`) => `数字` 
+### nodeSize
 
- #### 定义于 
+• `Optional` **nodeSize**: `number` \| `number`[] \| (`d?`: `Node`) => `number`
 
- node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:243 
+#### Defined in
 
- ___ 
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:243
 
- ### 外部布局 
+___
 
- • `可选` **outerLayout**: `布局`<`任何`\> 
+### outerLayout
 
- #### 定义于 
+• `Optional` **outerLayout**: `Layout`<`any`\>
 
- node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:245 
+#### Defined in
 
- ___ 
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:245
 
- ### 间距 
+___
 
- • `可选` **间距**：`数字` \| (`d?`: `节点`) => `数字` 
+### spacing
 
- #### 定义于 
+• `Optional` **spacing**: `number` \| (`d?`: `Node`) => `number`
 
- node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:244 
+#### Defined in
 
- ___ 
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:244
 
- ### 树键 
+___
 
- • `可选` **treeKey**：`字符串` 
+### treeKey
 
- #### 定义于 
+• `Optional` **treeKey**: `string`
 
- node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:248
+#### Defined in
+
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:248
