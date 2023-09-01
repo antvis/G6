@@ -469,11 +469,11 @@ export default defineConfig({
           en: 'News',
         },
         title: {
-          zh: 'G6 5.0 Alpha 优雅登场！',
-          en: 'Elegant G6 5.0 - Alpha Shows up!',
+          zh: 'G6 5.0-beta 闪亮登场',
+          en: 'G6 5.0-beta is released!',
         },
-        date: '2023.06.06',
-        link: 'https://mp.weixin.qq.com/s/gTzG36ldf1voMoCdOzwifw',
+        date: '2023.08.31',
+        link: 'https://zhuanlan.zhihu.com/p/653709725?',
       },
       {
         type: {
@@ -481,11 +481,11 @@ export default defineConfig({
           en: 'News',
         },
         title: {
-          zh: '图可视分析与搭建平台 G6VP 2.0 热浪来袭',
-          en: 'G6VP 2.0 is Comming!',
+          zh: '图可视分析与搭建平台 GraphInsight 开源',
+          en: 'GraphInsight is opened source!',
         },
-        date: '2023.06.06',
-        link: 'https://mp.weixin.qq.com/s/gTzG36ldf1voMoCdOzwifw',
+        date: '2022.11.22',
+        link: 'https://www.yuque.com/antv/blog/nyl5bkhdkicgm7v8',
       },
     ],
     /** 首页特性介绍 */
