@@ -18,7 +18,7 @@
         "zh": "文本超长",
         "en": "Long Label"
       },
-      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*FNzAQKvcW1kAAAAAAAAAAABkARQnAQ"
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*LsGJTIaynVwAAAAAAAAAAAAADmJ7AQ/original"
     },
     {
       "filename": "labelLen1.js",
@@ -26,7 +26,7 @@
         "zh": "多行显示超长文本",
         "en": "Break Line for Long Label"
       },
-      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*EC0-R7tAn0MAAAAAAAAAAABkARQnAQ"
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*UlYDSaAlGLkAAAAAAAAAAAAADmJ7AQ/original"
     }
   ]
 }

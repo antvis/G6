@@ -15,6 +15,14 @@ order: 2
 - 🌠 **多渲染器**，可运行时切换；
 - 📦 **包体积减少**，支持 TreeShaking。
 
+还有其他一些微小而美好的改变：
+
+- 轮廓包裹 Hull 支持文本配置；
+- 折线支持自动避障；
+- 文本自动适配宽度；
+- 采用临时层画布提升交互性能；
+- 图例自动从画布中获取样式。
+
 正式版即将来袭。如果上面 Feature 是您所期待的，现在就可以使用 G6 5.0 Beta 版本进行尝鲜！若遇到任何升级问题，请在 GitHub 给我们留言。
 
 为了支持上述全新能力，G6 v5 相比于 v4 有比较大的 Breaking Change，这可能带来一定的升级成本。希望上面全新能力带来的收益远大于升级成本。
@@ -590,3 +598,31 @@ const stdLib = {
   },
 };
 ```
+
+## 9️⃣. 其他微小而美好的改变
+
+- 轮廓包裹 Hull 支持文本配置：
+
+[Hull 支持文本 DEMO](https://g6-next.antv.antgroup.com/examples/interaction/hull/#hull)
+
+<img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*eXzfTbFrYjMAAAAAAAAAAAAADmJ7AQ/original" />
+
+- 折线支持自动避障：
+
+[Polyline 避障 DEMO](https://g6-next.antv.antgroup.com/examples/item/defaultEdges/#polyline3)
+
+<img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*Giy7R4jheawAAAAAAAAAAAAADmJ7AQ/original" />
+
+- 文本自动适配宽度：
+
+[文本自适应 DEMO](https://g6-next.antv.antgroup.com/examples/item/label/#copyLabel)
+
+<img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*LGuRR7itiQ8AAAAAAAAAAAAADmJ7AQ/original" />
+
+- 采用临时层画布提升交互性能：
+
+<img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*VkT7T4Qzt2gAAAAAAAAAAAAADmJ7AQ/original" />
+
+- 图例自动从画布中获取样式：
+
+<img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*53oGRpdKpwsAAAAAAAAAAAAADmJ7AQ/original" />

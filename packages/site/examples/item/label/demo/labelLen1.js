@@ -45,10 +45,11 @@ const graph = new Graph({
     default: ['drag-node'],
   },
   node: {
+    type: 'rect-node',
     keyShape: {
-      r: {
+      width: {
         fields: ['size'],
-        formatter: (model) => model.data.size / 2,
+        formatter: (model) => model.data.size,
       },
     },
     labelShape: {
@@ -58,6 +59,7 @@ const graph = new Graph({
         fields: ['label'],
         formatter: (model) => model.data.label,
       },
+      maxWidth: '80%',
     },
   },
   edge: {

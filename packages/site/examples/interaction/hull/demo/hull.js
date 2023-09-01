@@ -1,4 +1,13 @@
-import G6, { Extensions } from '@antv/g6';
+import { Graph, extend, Extensions } from '@antv/g6';
+
+const ExtGraph = extend(Graph, {
+  behaviors: {
+    'lasso-select': Extensions.LassoSelect,
+  },
+  plugins: {
+    hull: Extensions.Hull,
+  },
+});
 
 const data = {
   nodes: [
@@ -51,35 +60,23 @@ const hullPlugin = new Extensions.Hull({
   key: 'hull-plugin1',
 });
 
-const graph = new G6.Graph({
+const graph = new ExtGraph({
   container: 'container',
   width,
   height,
   plugins: [hullPlugin],
   modes: {
-    default: ['drag-canvas', 'zoom-canvas', 'drag-node', 'lasso-select'],
+    default: ['drag-canvas', 'zoom-canvas', 'drag-node', 'lasso-select', 'drag-canvas'],
   },
   layout: {
     type: 'force',
     preventOverlap: true,
-    workerEnabled: true,
+    animated: true,
     linkDistance: (d) => {
-      if (d.source === 'node0') {
-        return 300;
+      if (d.source === 'node0' || d.target === 'node0') {
+        return 200;
       }
-      return 60;
-    },
-    nodeStrength: (d) => {
-      if (d.data.isLeaf) {
-        return -50;
-      }
-      return -10;
-    },
-    edgeStrength: (d) => {
-      if (d.source === 'node1' || d.source === 'node2' || d.source === 'node3') {
-        return 0.7;
-      }
-      return 0.1;
+      return 80;
     },
   },
   data,
@@ -117,6 +114,11 @@ graph.on('afterlayout', () => {
       fill: 'lightgreen',
       stroke: 'green',
     },
+    labelShape: {
+      text: 'leafNode-hull-1',
+      position: 'top',
+      offsetY: -2,
+    },
   });
 
   hullPlugin.addHull({
@@ -125,6 +127,11 @@ graph.on('afterlayout', () => {
     style: {
       fill: 'lightgreen',
       stroke: 'green',
+    },
+    labelShape: {
+      text: 'leafNode-hull-2',
+      position: 'right',
+      offsetY: -2,
     },
   });
 });
