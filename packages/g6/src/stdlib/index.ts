@@ -115,7 +115,6 @@ const stdLib = {
     ...Hierarchy,
   },
   behaviors: {
-    
     'drag-canvas': DragCanvas,
     'zoom-canvas': ZoomCanvas,
     'drag-node': DragNode,

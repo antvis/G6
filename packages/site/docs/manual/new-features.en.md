@@ -1,6 +1,6 @@
 ---
 title: 🎉 How to Use New Features
-order: 2
+order: 3
 ---
 
 Compared to G6 v4, G6 v5 introduces new capabilities in the following areas:

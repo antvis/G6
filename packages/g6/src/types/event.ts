@@ -42,6 +42,7 @@ export interface IG6GraphEvent
   currentTarget: IGraph;
   itemType: 'node' | 'edge' | 'combo' | 'canvas';
   itemId: ID;
+  key?: string;
   /** Original event emitted by G */
   gEvent: Event;
 }

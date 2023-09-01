@@ -1,5 +1,5 @@
-import { createContext } from '../utils';
 import { resetEntityCounter } from '@antv/g';
+import { createContext } from '../utils';
 import TimebarTime from '../../demo/plugins/timebar-time';
 
 describe('Default Timebar', () => {

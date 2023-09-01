@@ -154,7 +154,7 @@ export default defineConfig({
           zh: '入门教程',
           en: 'Tutorial',
         },
-        order: 4,
+        order: 5,
       },
       // ===========Concepts===================
       // {
@@ -474,11 +474,11 @@ export default defineConfig({
           en: 'News',
         },
         title: {
-          zh: '图可视分析与搭建平台 GraphInsight 开源',
-          en: 'GraphInsight is opened source!',
+          zh: 'G6 5.0-beta 闪亮登场',
+          en: 'G6 5.0-beta is released!',
         },
-        date: '2022.11.22',
-        link: 'https://www.yuque.com/antv/blog/nyl5bkhdkicgm7v8',
+        date: '2023.08.31',
+        link: 'https://zhuanlan.zhihu.com/p/653709725?',
       },
       {
         type: {
@@ -486,11 +486,11 @@ export default defineConfig({
           en: 'News',
         },
         title: {
-          zh: 'G6 5.0 插件机制与引擎性能蓄势待发',
-          en: 'G6 5.0: extension mechanism and better performance',
+          zh: '图可视分析与搭建平台 GraphInsight 开源',
+          en: 'GraphInsight is opened source!',
         },
         date: '2022.11.22',
-        link: 'https://www.yuque.com/antv/blog/fm6setn8p9m9lmh5',
+        link: 'https://www.yuque.com/antv/blog/nyl5bkhdkicgm7v8',
       },
     ],
     /** 首页特性介绍 */
