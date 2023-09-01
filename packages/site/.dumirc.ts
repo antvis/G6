@@ -154,7 +154,7 @@ export default defineConfig({
           zh: '入门教程',
           en: 'Tutorial',
         },
-        order: 4,
+        order: 5,
       },
       // ===========Concepts===================
       // {
