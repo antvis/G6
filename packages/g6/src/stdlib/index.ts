@@ -60,6 +60,7 @@ const {
   DragNode,
   DragCombo,
   ClickSelect,
+  ShortcutsCall,
 } = Behaviors;
 const {
   History,
@@ -114,6 +115,7 @@ const stdLib = {
     ...Hierarchy,
   },
   behaviors: {
+    
     'drag-canvas': DragCanvas,
     'zoom-canvas': ZoomCanvas,
     'drag-node': DragNode,
