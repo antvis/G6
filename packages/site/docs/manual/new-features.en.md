@@ -15,6 +15,14 @@ Compared to G6 v4, G6 v5 introduces new capabilities in the following areas:
 - 🌠 **Multiple Renderers** that can be switched at runtime.
 - 📦 Reduced package size with support for **TreeShaking**.
 
+And more small and wonderful changes:
+
+- Hull supports text configuration.
+- Polyline supports automatic obstacle avoidance.
+- Text automatically adapts to width.
+- Improved interactive performance by using a temporary layer canvas.
+- Legend automatically retrieves styles from the canvas.
+
 The official version is coming soon. If these features are what you have been waiting for, you can now try the G6 5.0 Beta version! If you encounter any upgrade issues, please leave us a message on GitHub.
 
 To support these new capabilities, there are significant Breaking Changes in G6 5.0 compared to v4, which may require some effort to upgrade. We hope that the benefits brought by the new capabilities outweigh the upgrade costs.

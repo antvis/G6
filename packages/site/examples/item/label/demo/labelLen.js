@@ -57,7 +57,12 @@ const graph = new Graph({
         fields: ['label'],
         formatter: (model) => model.data.label,
       },
+      maxWidth: '80%',
     },
+    labelBackgroundShape: {},
+  },
+  edge: {
+    labelBackgroundShape: {},
   },
   data,
 });

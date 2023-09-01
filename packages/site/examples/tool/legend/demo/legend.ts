@@ -110,7 +110,7 @@ const legend = {
   key: 'default-legend',
   type: 'legend',
   size: [250, 'fit-content'],
-  background: '#ccc',
+  background: 'rgba(0,0,0,0.05)',
   node: {
     enable: true,
     padding: [20, 20],
@@ -137,6 +137,9 @@ new Graph({
   height,
   data,
   plugins: [legend],
+  layout: {
+    type: 'force',
+  },
   theme: {
     type: 'spec',
     specification: {
