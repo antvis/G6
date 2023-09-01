@@ -1,6 +1,6 @@
 import { deepMix, map } from '@antv/util';
-import { PolyPoint } from 'types/common';
-import { ID } from 'types';
+import { ID } from '../types';
+import { Point, PolyPoint } from '../types/common';
 import Node from '../item/node';
 import { simplePathFinder, SortedArray } from './polyline';
 import {
@@ -14,6 +14,7 @@ import { getLineIntersect } from './shape';
 import { eulerDist, manhattanDist } from './math';
 
 export interface RouterCfg {
+  name: 'orth' | 'er';
   /** Spacing between lines and points */
   offset?: number;
   /** Grid size */
@@ -46,6 +47,7 @@ export interface RouterCfg {
 }
 
 const defaultCfg: RouterCfg = {
+  name: 'orth',
   obstacleAvoidance: false,
   offset: 20,
   maxAllowedDirectionChange: Math.PI / 2,
@@ -73,6 +75,7 @@ const straightPath = (start: PolyPoint, end: PolyPoint): PolyPoint[] => {
 };
 
 export const octolinearCfg: RouterCfg = {
+  name: 'er',
   maxAllowedDirectionChange: Math.PI / 4,
   directions: [
     { stepX: 1, stepY: 0 },
@@ -85,7 +88,7 @@ export const octolinearCfg: RouterCfg = {
     { stepX: 1, stepY: -1 },
   ],
   distFunc: eulerDist,
-  fallbackRoute: straightPath,
+  fallbackRoute: simplePathFinder,
 };
 
 /**
@@ -368,6 +371,7 @@ const getControlPoints = (
 
 /** Find the shortest path computed by A* routing algorithm */
 export const pathFinder = (
+  points: Point[],
   sourceNodeId: ID,
   targetNodeId: ID,
   nodeMap: Map<ID, Node>,
@@ -376,11 +380,16 @@ export const pathFinder = (
   const startNode = nodeMap.get(sourceNodeId);
   const endNode = nodeMap.get(targetNodeId);
 
-  const startPoint: PolyPoint = startNode.getPosition();
-  const endPoint: PolyPoint = endNode.getPosition();
+  const startPoint: PolyPoint = startNode?.getPosition() || points[0];
+  const endPoint: PolyPoint =
+    endNode?.getPosition() || points[points.length - 1];
 
   if (isNaN(startPoint.x) || isNaN(endPoint.x)) return [];
-  const cfg: RouterCfg = deepMix(defaultCfg, routerCfg);
+
+  const defaultCfgs =
+    routerCfg.name === 'orth' ? defaultCfg : deepMix(defaultCfg, octolinearCfg);
+
+  const cfg: RouterCfg = deepMix(defaultCfgs, routerCfg);
 
   if (!cfg.obstacleAvoidance) {
     return cfg.fallbackRoute(startPoint, endPoint, startNode, endNode, cfg);

@@ -1,0 +1,64 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+      "filename": "webgl3d.js",
+      "title": {
+        "zh": "3D 图可视化",
+        "en": "3D Graph Vis"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*31L_T5ERnzIAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "lodStrategy.js",
+      "title": {
+        "zh": "信息分层",
+        "en": "Level of Details"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*EtKkRZVxWDAAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "itemAnimates.js",
+      "title": {
+        "zh": "动画 Spec",
+        "en": "Animation Spec"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*uVOySpSIZXkAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "rendererSwitch.js",
+      "title": {
+        "zh": "渲染器运行时切换",
+        "en": "Renderer Switch"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*NUFVRqAJv6QAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "themeSwitch.js",
+      "title": {
+        "zh": "主题切换",
+        "en": "Theme Switch"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*jCYaT7L2E7sAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "treeAndGraph.js",
+      "title": {
+        "zh": "树与图通用",
+        "en": "Tree Data and Graph Data"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*SAkASow3N60AAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "wasmLayouts.js",
+      "title": {
+        "zh": "WASM 布局",
+        "en": "WASM Layout"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*4_4oRaN8hLcAAAAAAAAAAAAADmJ7AQ/original"
+    }
+  ]
+}

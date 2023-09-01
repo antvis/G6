@@ -1,109 +1,152 @@
-import G6 from '@antv/g6';
+import { Graph, Extensions, extend } from '@antv/g6';
+
+const ExtGraph = extend(Graph, {
+  layouts: {
+    dagre: Extensions.DagreLayout,
+  },
+});
+
 const data = {
   nodes: [
     {
       id: '0',
-      label: '0',
+      data: {
+        label: '0',
+      },
     },
     {
       id: '1',
-      label: '1',
+      data: {
+        label: '1',
+      },
     },
     {
       id: '2',
-      label: '2',
+      data: {
+        label: '2',
+      },
     },
     {
       id: '3',
-      label: '3',
+      data: {
+        label: '3',
+      },
     },
     {
       id: '4',
-      label: '4',
-      comboId: 'A',
+      data: {
+        label: '4',
+        parentId: 'A',
+      },
     },
     {
       id: '5',
-      label: '5',
-      comboId: 'B',
+      data: {
+        label: '5',
+        parentId: 'B',
+      },
     },
     {
       id: '6',
-      label: '6',
-      comboId: 'A',
+      data: {
+        label: '6',
+        parentId: 'A',
+      },
     },
     {
       id: '7',
-      label: '7',
-      comboId: 'C',
+      data: {
+        label: '7',
+        parentId: 'C',
+      },
     },
     {
       id: '8',
-      label: '8',
-      comboId: 'C',
+      data: {
+        label: '8',
+        parentId: 'C',
+      },
     },
     {
       id: '9',
-      label: '9',
-      comboId: 'A',
+      data: {
+        label: '9',
+        parentId: 'A',
+      },
     },
     {
       id: '10',
-      label: '10',
-      comboId: 'B',
+      data: {
+        label: '10',
+        parentId: 'B',
+      },
     },
     {
       id: '11',
-      label: '11',
-      comboId: 'B',
+      data: {
+        label: '11',
+        parentId: 'B',
+      },
     },
   ],
   edges: [
     {
+      id: 'edge-102',
       source: '0',
       target: '1',
     },
     {
+      id: 'edge-161',
       source: '0',
       target: '2',
     },
     {
+      id: 'edge-237',
       source: '1',
       target: '4',
     },
     {
+      id: 'edge-253',
       source: '0',
       target: '3',
     },
     {
+      id: 'edge-133',
       source: '3',
       target: '4',
     },
     {
+      id: 'edge-320',
       source: '2',
       target: '5',
     },
     {
+      id: 'edge-355',
       source: '1',
       target: '6',
     },
     {
+      id: 'edge-823',
       source: '1',
       target: '7',
     },
     {
+      id: 'edge-665',
       source: '3',
       target: '8',
     },
     {
+      id: 'edge-884',
       source: '3',
       target: '9',
     },
     {
+      id: 'edge-536',
       source: '5',
       target: '10',
     },
     {
+      id: 'edge-401',
       source: '5',
       target: '11',
     },
@@ -111,123 +154,126 @@ const data = {
   combos: [
     {
       id: 'A',
-      label: 'combo A',
-      style: {
-        fill: '#C4E3B2',
-        stroke: '#C4E3B2',
+      data: {
+        text: 'combo A',
       },
     },
     {
       id: 'B',
-      label: 'combo B',
-      style: {
-        stroke: '#99C0ED',
-        fill: '#99C0ED',
+      data: {
+        label: 'combo B',
       },
     },
     {
       id: 'C',
-      label: 'combo C',
-      style: {
-        stroke: '#eee',
-        fill: '#eee',
+      data: {
+        label: 'combo C',
       },
     },
   ],
 };
 
-data.nodes.forEach((node) => {
-  switch (node.ComboId) {
-    case 'A':
-      node.style = {
-        fill: '#C4E3B2',
-        stroke: '#aaa',
-      };
-      break;
-    case 'B':
-      node.style = {
-        fill: '#99C0ED',
-        stroke: '#aaa',
-      };
-      break;
-    case 'C':
-      node.style = {
-        fill: '#eee',
-        stroke: '#aaa',
-      };
-      break;
-    default:
-      node.style = {
-        fill: '#FDE1CE',
-        stroke: '#aaa',
-      };
-      break;
-  }
-});
-
 let sortByCombo = false;
-const descriptionDiv = document.createElement('button');
-descriptionDiv.innerHTML = 'Enable sortByCombo';
+const descriptionDiv = document.createElement('a');
+descriptionDiv.style.position = 'absolute';
+descriptionDiv.style.zIndex = 10;
+descriptionDiv.innerHTML = '👉 Enable sortByCombo';
+descriptionDiv.style.fontSize = '20px';
+descriptionDiv.style.border = '1px dashed rgba(34, 126, 255, 0.5)';
+descriptionDiv.style.padding = '2px 8px';
 const container = document.getElementById('container');
 container.appendChild(descriptionDiv);
 
 descriptionDiv.addEventListener('click', (e) => {
   sortByCombo = !sortByCombo;
   descriptionDiv.innerHTML = sortByCombo ? 'Disable sortByCombo' : 'Enable sortByCombo';
-  graph.updateLayout({
+  graph.layout({
+    type: 'dagre',
     sortByCombo,
   });
 });
 const width = container.scrollWidth;
 const height = (container.scrollHeight || 500) - 30;
-const graph = new G6.Graph({
+const graph = new ExtGraph({
   container: 'container',
   width,
   height: height - 50,
-  fitView: true,
-  fitViewPadding: 30,
-  animate: true,
-  groupByTypes: false,
+  autoFit: 'center',
   modes: {
-    default: [
-      'drag-combo',
-      'drag-node',
-      'drag-canvas',
-      {
-        type: 'collapse-expand-combo',
-        relayout: false,
-      },
-    ],
+    default: ['drag-combo', 'drag-node', 'drag-canvas', 'zoom-canvas', 'collapse-expand-combo'],
   },
   layout: {
     type: 'dagre',
-    sortByCombo: false,
-    ranksep: 10,
-    nodesep: 10,
+    ranksep: 50,
+    nodesep: 30,
   },
-  defaultNode: {
-    size: [60, 30],
-    type: 'rect',
-    anchorPoints: [[0.5, 0], [0.5, 1]]
-  },
-  defaultEdge: {
-    type: 'line',
-  },
-  defaultCombo: {
-    type: 'rect',
-    style: {
-      fillOpacity: 0.1,
+  theme: {
+    type: 'spec',
+    base: 'light',
+    specification: {
+      node: {
+        dataTypeField: 'parentId',
+      },
     },
   },
+  node: (model) => {
+    const { id, data } = model;
+    return {
+      id,
+      data: {
+        ...data,
+        type: 'rect-node',
+        lodStrategy: {},
+        keyShape: {
+          width: 60,
+          height: 30,
+          radius: 8,
+        },
+        labelShape: {
+          position: 'center',
+          text: id,
+        },
+        anchorPoints: [
+          [0.5, 0],
+          [0.5, 1],
+        ],
+      },
+    };
+  },
+  combo: (model) => {
+    const { id, data } = model;
+    return {
+      id,
+      data: {
+        ...data,
+        type: 'rect-combo',
+        keyShape: {
+          opacity: 0.8,
+          padding: [20, 20, 20, 20],
+          radius: 8,
+        },
+        labelShape: {
+          text: `Combo ${id}`,
+          offsetY: 8,
+        },
+        labelBackgroundShape: {},
+        animates: {
+          update: [
+            {
+              fields: ['width', 'height', 'x', 'y'],
+              shapeId: 'keyShape',
+            },
+          ],
+        },
+      },
+    };
+  },
+  data,
 });
-graph.data(data);
-graph.render();
-
-console.log('comboTrees', graph.get('comboTrees'))
 
 if (typeof window !== 'undefined')
   window.onresize = () => {
-    if (!graph || graph.get('destroyed')) return;
+    if (!graph || graph.destroyed) return;
     if (!container || !container.scrollWidth || !container.scrollHeight) return;
-    graph.changeSize(container.scrollWidth, container.scrollHeight - 30);
+    graph.setSize([container.scrollWidth, container.scrollHeight - 30]);
   };

@@ -194,7 +194,9 @@ export default class Combo extends Node {
           {
             x,
             y,
-            r: collapsed ? keyShapeStyle.r : keyShape.attributes.r,
+            r:
+              (collapsed ? keyShapeStyle?.r : keyShape.attributes.r) ||
+              keyShape.attributes.r,
           },
           point,
         );
@@ -276,9 +278,9 @@ export default class Combo extends Node {
   ) {
     if (onlyKeyShape) {
       const clonedKeyShape = this.shapeMap.keyShape.cloneNode();
-      const { x, y } = this.group.attributes;
+      const pos = this.group.getPosition();
       const clonedGroup = new Group();
-      clonedGroup.setPosition([x, y]);
+      clonedGroup.setPosition(pos);
       clonedGroup.appendChild(clonedKeyShape);
       containerGroup.appendChild(clonedGroup);
       return clonedGroup;

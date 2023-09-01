@@ -1,4 +1,5 @@
-import { Graph } from '../../../src/index';
+import { Graph, Extensions, extend } from '../../../src/index';
+
 import { TestCaseContext } from '../interface';
 export default (context: TestCaseContext) => {
   const data = {
@@ -36,6 +37,11 @@ export default (context: TestCaseContext) => {
     ],
   };
 
+  const ExtGraph = extend(Graph, {
+    plugins: {
+      toolbar: Extensions.Toolbar,
+    },
+  });
   const graph = new Graph({
     ...context,
     type: 'graph',

@@ -1,12 +1,15 @@
 import { Category } from '@antv/gui';
 import { Canvas, DisplayObject, Circle, Line } from '@antv/g';
-import { isFunction, upperFirst } from '@antv/util';
+import { isFunction, isString, upperFirst, uniqueId } from '@antv/util';
 import { createDom } from '@antv/dom-util';
 import { ID } from '@antv/graphlib';
 import { IGraph } from '../../../types';
+import { RendererName } from '../../../types/render';
 import { Plugin as Base, IPluginBaseConfig } from '../../../types/plugin';
 import { createCanvas } from '../../../util/canvas';
-import { formatPadding, ShapeTagMap } from '../../../util/shape';
+import { ShapeTagMap, formatPadding } from '../../../util/shape';
+
+const LEGEND_CATEGORY_ITEM_MARKER = '.legend-category-item-marker';
 
 type ItemLegendConfig = {
   // whether show the item legend
@@ -25,9 +28,13 @@ type ItemLegendConfig = {
   rowPadding?: number;
   // padding of the item legend
   padding?: number | number[];
-  // formatter for the label
+  /**
+   * formatter for the label
+   */
   labelFormatter?: (type: string) => string;
-  // style for the label
+  /**
+   * style for the label, will be passed in GUI Legend's style with `itemLabel` prefix
+   */
   labelStyle?: {
     [shapeAttr: string]: unknown;
   };
@@ -40,32 +47,64 @@ type ItemLegendConfig = {
   };
 };
 
-interface LegendConfig extends IPluginBaseConfig {
-  // container for the legend, using graph's container by default
-  container?: HTMLDivElement | null;
-  // className for the DOM wrapper, "g6-category-legend" by default
+export interface LegendConfig extends IPluginBaseConfig {
+  /**
+   * Container for the legend, using graph's container by default
+   */
+  container?: HTMLDivElement | string;
+  /**
+   * Renderer for the legend canvas, 'canvas' by default
+   */
+  renderer?: RendererName;
+  /**
+   * User-defined GCanvas
+   */
+  canvas?: Canvas;
+  /**
+   * The color used to clear the canvas when it is initialized.
+   * @see https://g.antv.antgroup.com/api/canvas/options#background
+   */
+  background?: string;
+  /**
+   * ClassName for the DOM wrapper, "g6-category-legend" by default
+   */
   className?: string;
-  // size for the legend canvas, 'fit-content', or an array of number(px) and string(percentage with %)
+  /**
+   * Size for the legend canvas, 'fit-content', or an array of number(px) and string(percentage with %)
+   */
   size?: 'fit-content' | [number | string, number | string];
-  // orientation for the legend layout
+  /**
+   * Orientation for the legend layout.
+   */
   orientation?: 'horizontal' | 'vertical';
-  // Selected state name, triggered while clicking a legend item. Click will not take effect if selectedState is not assigned
+  /**
+   * Selected state name, triggered while clicking a legend item. Click will not take effect if selectedState is not assigned
+   */
   selectedState?: string;
   // Active state name, triggered while mouseenter a legend item. Mouseenter will not take effect if activeState is not assigned
   activeState?: string;
   // Inactive state name, triggered on other items while mouseenter a legend item. Mouseleave will not take effect if inactiveState is not assigned
   inactiveState?: string;
-  // config for the node legend
+  // Config for the node legend
   node?: ItemLegendConfig;
-  // config for the edge legend
+  // Config for the edge legend
   edge?: ItemLegendConfig;
 }
 
-export default class Legend extends Base {
+export class Legend extends Base {
+  /**
+   * GUI instance for the node legend.
+   */
   private nodeLegend: Category;
+
+  /**
+   * GUI instance for the edge legend.
+   */
   private edgeLegend: Category;
+
   private wrapper: HTMLDivElement;
   private canvas: Canvas;
+
   private size: ('fit-content' | number)[];
   private selectedTypes: {
     node: Set<string>;
@@ -98,6 +137,7 @@ export default class Legend extends Base {
 
   public getDefaultCfgs(): LegendConfig {
     return {
+      key: `legend-${uniqueId()}`,
       container: null,
       className: 'g6-category-legend',
       orientation: 'horizontal',
@@ -145,20 +185,21 @@ export default class Legend extends Base {
       ];
     }
     // If size is set to "100%", sets the size of the legend canvas to match the size of the graph.
-    if (size[0].includes('%')) {
-      const ratio = Number(size[0].replace('%')) / 100 || 1;
-      this.size[0] = graphSize[0] * ratio;
-    } else if (typeof size[0] === 'number') {
+    if (typeof size[0] === 'number') {
       // Otherwise, sets the size of the legend canvas to the specified size.
       this.size[0] = size[0];
-    }
-    // If size is set to "100%", sets the size of the legend canvas to match the size of the graph.
-    if (size[1] === '100%') {
+    } else if (size[0].includes('%')) {
       const ratio = Number(size[0].replace('%')) / 100 || 1;
-      this.size[1] = graphSize[1] * ratio;
-    } else if (typeof size[1] === 'number') {
+      this.size[0] = graphSize[0] * ratio;
+    }
+
+    if (typeof size[1] === 'number') {
       // Otherwise, sets the size of the legend canvas to the specified size.
       this.size[1] = size[1];
+    } // If size is set to "100%", sets the size of the legend canvas to match the size of the graph.
+    else if (size[1] === '100%') {
+      const ratio = Number(size[0].replace('%')) / 100 || 1;
+      this.size[1] = graphSize[1] * ratio;
     }
   }
 
@@ -168,27 +209,35 @@ export default class Legend extends Base {
   private updateLegend() {
     const { size } = this;
 
-    // If wrapper does not exist, create it
-    if (!this.wrapper) {
-      this.wrapper = this.createWrapper();
-    }
     // If canvas does not exist, create it
     if (!this.canvas) {
       const canvasSize = [
         size[0] === 'fit-content' ? 0 : size[0],
         size[1] === 'fit-content' ? 0 : size[1],
       ];
-      this.canvas = createCanvas(
-        'canvas',
-        this.wrapper,
-        canvasSize[0],
-        canvasSize[1],
-      );
-      // Set canvas background color
-      // TODO: update type define.
-      // @ts-ignore
-      this.canvas.context.config.canvas.style.backgroundColor =
-        'rgba(255, 255, 255, 0.8)';
+
+      const {
+        canvas,
+        background,
+        renderer = 'canvas',
+      } = this.options as LegendConfig;
+      if (canvas) {
+        this.canvas = canvas;
+      } else {
+        // If wrapper does not exist, create it
+        if (!this.wrapper) {
+          this.wrapper = this.createWrapper();
+        }
+
+        this.canvas = createCanvas(
+          renderer,
+          this.wrapper,
+          canvasSize[0],
+          canvasSize[1],
+          undefined,
+          { background },
+        );
+      }
 
       // Add click event listener to canvas
       this.canvas.addEventListener('click', (evt) => {
@@ -258,15 +307,15 @@ export default class Legend extends Base {
    */
   private createWrapper() {
     const { options, graph, size } = this;
-    const { container: propContainer, className } = options;
-    let container: any = propContainer;
+    const { container, className } = options;
+    let $container: HTMLElement;
     // If the container is a string, it will find the corresponding element in the document.
-    if (typeof propContainer === 'string') {
-      container = document.getElementById(propContainer);
+    if (isString(container)) {
+      $container = document.getElementById(container as string);
     }
     // If the container is not found, it will use the graph's container.
-    if (!container) {
-      container = graph.container;
+    if (!$container) {
+      $container = graph.container;
     }
 
     const wrapperSize = [
@@ -276,7 +325,7 @@ export default class Legend extends Base {
     const wrapper = (HTMLDivElement = createDom(
       `<div class='${className}' style='width: ${wrapperSize[0]}px; height: ${wrapperSize[1]}px; overflow: hidden;'></div>`,
     ));
-    container.appendChild(wrapper);
+    $container.appendChild(wrapper);
     return wrapper;
   }
 
@@ -471,8 +520,6 @@ export default class Legend extends Base {
       },
     });
 
-    // TODO: update type define.
-    // @ts-ignore
     canvas.appendChild(legend);
     return legend;
   }
@@ -487,8 +534,14 @@ export default class Legend extends Base {
       const { node, edge, orientation } = options;
       const { order: nodeOrder = 1, padding: nodePadding } = node;
       const { order: edgeOrder = 2, padding: edgePadding } = edge;
-      let firstItem;
-      let secondItem;
+      let firstItem: {
+        padding: number[];
+        legend: Category;
+      };
+      let secondItem: {
+        padding: number[];
+        legend: Category;
+      };
       if (nodeOrder < edgeOrder) {
         firstItem = {
           padding: formatPadding(nodePadding),
@@ -517,19 +570,24 @@ export default class Legend extends Base {
           -bbox.min[1] + firstItem.padding[0],
         ]);
 
-        const firstItemBounds =
-          firstItem.legend.childNodes[1].childNodes[0].childNodes[0].getRenderBounds();
-        const firstBottom = firstItemBounds.max[1] + firstItem.padding[2];
-
-        secondItem.legend.translateLocal([0, firstBottom]);
+        const firstItemBounds = (
+          firstItem.legend.childNodes[1].childNodes[0]
+            .childNodes[0] as DisplayObject
+        ).getRenderBounds();
+        if (firstItemBounds) {
+          const firstBottom = firstItemBounds.max[1] + firstItem.padding[2];
+          secondItem.legend.translateLocal([0, firstBottom]);
+        }
       } else {
         firstItem.legend.translateLocal([
           -bbox.min[0] + firstItem.padding[3],
           0,
         ]);
         const firstRight =
-          firstItem.legend.childNodes[1].childNodes[0].childNodes[0].childNodes[1].getRenderBounds()
-            .max[0] + firstItem.padding[1];
+          (
+            firstItem.legend.childNodes[1].childNodes[0].childNodes[0]
+              .childNodes[1] as DisplayObject
+          ).getRenderBounds().max[0] + firstItem.padding[1];
         secondItem.legend.translateLocal([firstRight, 0]);
       }
     }
@@ -537,6 +595,7 @@ export default class Legend extends Base {
     // If the size of the canvas is set to "fit-content", it resizes the canvas to fit the total bounding box of the legend.
     if (size[0] === 'fit-content' || size[1] === 'fit-content') {
       const totalBBox = this.canvas.getRoot().getRenderBounds();
+
       const canvasSize = [
         size[0] === 'fit-content'
           ? totalBBox.max[0] - totalBBox.min[0]
@@ -546,8 +605,11 @@ export default class Legend extends Base {
           : size[1],
       ];
       this.canvas.resize(canvasSize[0], canvasSize[1]);
-      this.wrapper.style.width = `${canvasSize[1]}px`;
-      this.wrapper.style.height = `${canvasSize[0]}px`;
+      // During serverside rendering, wrapper is not available.
+      if (this.wrapper) {
+        this.wrapper.style.width = `${canvasSize[0]}px`;
+        this.wrapper.style.height = `${canvasSize[1]}px`;
+      }
     }
   }
 
@@ -655,7 +717,7 @@ export default class Legend extends Base {
     activeIds.forEach((id) => this.activeIds[itemType].add(id));
 
     // Update legend style.
-    ele.querySelector('.legend-category-item-marker').style.lineWidth =
+    ele.querySelector(LEGEND_CATEGORY_ITEM_MARKER).style.lineWidth =
       this.styleCache[itemType][type].lineWidth + 2 || 4;
   }
 
@@ -675,10 +737,10 @@ export default class Legend extends Base {
     const { index } = ele.__data__;
     const type = types[index];
     if (this.selectedTypes[itemType].has(type)) {
-      ele.querySelector('.legend-category-item-marker').style.lineWidth =
+      ele.querySelector(LEGEND_CATEGORY_ITEM_MARKER).style.lineWidth =
         this.styleCache[itemType][type].lineWidth + 4 || 6;
     } else {
-      ele.querySelector('.legend-category-item-marker').style.lineWidth =
+      ele.querySelector(LEGEND_CATEGORY_ITEM_MARKER).style.lineWidth =
         this.styleCache[itemType][type].lineWidth || 1;
     }
     graph.setItemState(currentActiveIds, activeState, false);
@@ -706,19 +768,19 @@ export default class Legend extends Base {
       this.selectedTypes[itemType].delete(type);
       ids.forEach((id) => this.selectedIds[itemType].delete(id));
       graph.setItemState(ids, selectedState, false);
-      ele.querySelector('.legend-category-item-marker').style.lineWidth = 4;
+      ele.querySelector(LEGEND_CATEGORY_ITEM_MARKER).style.lineWidth = 4;
     } else {
       this.selectedTypes[itemType].add(type);
       ids.forEach((id) => this.selectedIds[itemType].add(id));
       graph.setItemState(ids, selectedState, true);
-      ele.querySelector('.legend-category-item-marker').style.lineWidth =
+      ele.querySelector(LEGEND_CATEGORY_ITEM_MARKER).style.lineWidth =
         this.styleCache[itemType][type].lineWidth + 4 || 6;
     }
   }
 
   public destroy() {
     super.destroy();
-    this.canvas.destroy();
+    this.canvas?.destroy();
   }
 }
 

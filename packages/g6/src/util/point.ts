@@ -1,3 +1,4 @@
+import { vec2 } from '@antv/matrix-util';
 import { Point } from '../types/common';
 import { isBetween } from './math';
 
@@ -34,8 +35,19 @@ export const getNearestPoint = (
 
 /**
  * Get distance by two points.
- * @param p1 first point
- * @param p2 second point
+ * @param {vec2} p1 first point
+ * @param {vec2} p2 second point
+ */
+export const distanceVec = (p1: vec2, p2: vec2): number => {
+  const vx = p1[0] - p2[0];
+  const vy = p1[1] - p2[1];
+  return Math.sqrt(vx * vx + vy * vy);
+};
+
+/**
+ * Get distance by two points.
+ * @param {Point} p1 first point
+ * @param {Point} p2 second point
  */
 export const distance = (p1: Point, p2: Point): number => {
   const vx = p1.x - p2.x;

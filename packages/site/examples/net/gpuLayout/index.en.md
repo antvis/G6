@@ -1,6 +1,6 @@
 ---
 title: GPU Layout
-order: 12
+order: 14
 ---
 
 G6 4.0 provides two kinds of GPU layout:

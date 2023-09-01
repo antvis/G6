@@ -1,11 +1,11 @@
 // TODO: update type define.
-import { isString, isArray } from '@antv/util';
 import { createDom, modifyCSS } from '@antv/dom-util';
-import insertCss from 'insert-css';
 import { AABB } from '@antv/g';
+import { isArray, isString, uniqueId } from '@antv/util';
+import insertCss from 'insert-css';
 import { IGraph } from '../../../types';
-import { Plugin as Base, IPluginBaseConfig } from '../../../types/plugin';
 import { IG6GraphEvent } from '../../../types/event';
+import { Plugin as Base, IPluginBaseConfig } from '../../../types/plugin';
 
 typeof document !== 'undefined' &&
   insertCss(`
@@ -53,21 +53,40 @@ type Placement =
   | 'bottomRight'
   | 'rightBottom';
 
-interface TooltipConfig extends IPluginBaseConfig {
+/**
+ * The `TooltipConfig` interface contains the following properties:
+
+- `getContent`: An optional function for getting the content of the tooltip. It takes an optional argument of type `IG6GraphEvent`, and returns a value of type HTMLDivElement, string, or Promise (resolving to HTMLDivElement or string).
+- `offsetX`: An optional number representing the offset of the tooltip in the X direction.
+- `offsetY`: An optional number representing the offset of the tooltip in the Y direction.
+- `shouldBegin`: An optional function for determining whether the tooltip should be displayed. It takes an optional argument of type `IG6GraphEvent`, and returns a boolean value.
+- `itemTypes`: An optional array of strings representing the types of items for which the tooltip is allowed to be displayed. The possible values are 'node', 'edge', 'combo', and 'canvas'.
+- `trigger`: An optional string, either 'pointerenter' or 'click', representing the event type that triggers the display of the tooltip.
+- `fixToNode`: An optional array of two numbers, a string representing a placement, or undefined, representing how to fix the tooltip to a node.
+- `loadingContent`: An optional HTMLDivElement or string representing the loading DOM.
+
+ */
+export interface TooltipConfig extends IPluginBaseConfig {
+  /** Function for getting tooltip content */
   getContent?: (
     evt?: IG6GraphEvent,
   ) => HTMLDivElement | string | Promise<HTMLDivElement | string>;
+  /** Offset of tooltip in X direction */
   offsetX?: number;
+  /** Offset of tooltip in Y direction */
   offsetY?: number;
+  /** Determine whether to display tooltip */
   shouldBegin?: (evt?: IG6GraphEvent) => boolean;
-  // more detail type instead of "string[]"
+  /** Types of items for which tooltip is allowed to be displayed */
   itemTypes?: ('node' | 'edge' | 'combo' | 'canvas')[];
+  /** Event type that triggers display of tooltip */
   trigger?: 'pointerenter' | 'click';
+  /** How to fix tooltip to node */
   fixToNode?: [number, number] | Placement | undefined;
+  /** Loading DOM */
   loadingContent?: HTMLDivElement | string;
 }
-
-export default class Tooltip extends Base {
+export class Tooltip extends Base {
   private tooltip;
   private container;
   private currentTarget;
@@ -81,6 +100,7 @@ export default class Tooltip extends Base {
 
   public getDefaultCfgs(): TooltipConfig {
     return {
+      key: `tooltip-${uniqueId()}`,
       offsetX: 0,
       offsetY: 0,
       getContent: (e) => {
@@ -312,12 +332,13 @@ export default class Tooltip extends Base {
       const itemBBox = graph.getRenderBBox(e.itemId) as AABB;
       const itemWidth = itemBBox.max[0] - itemBBox.min[0];
       const itemHeight = itemBBox.max[1] - itemBBox.min[1];
+
       if (isString(fixToNode)) {
         switch (fixToNode) {
           case 'right': {
             point = {
               x: itemBBox.min[0] + itemWidth * 1,
-              y: itemBBox.min[1] + itemHeight * 0.5,
+              y: itemBBox.min[1] - itemHeight * 0.5,
             };
             break;
           }
@@ -325,7 +346,7 @@ export default class Tooltip extends Base {
           case 'topRight': {
             point = {
               x: itemBBox.min[0] + itemWidth * 1,
-              y: itemBBox.min[1] + itemHeight * 0,
+              y: itemBBox.min[1] - itemHeight * 1,
             };
             break;
           }
@@ -333,14 +354,14 @@ export default class Tooltip extends Base {
           case 'bottomRight': {
             point = {
               x: itemBBox.min[0] + itemWidth * 1,
-              y: itemBBox.min[1] + itemHeight * 1,
+              y: itemBBox.min[1],
             };
             break;
           }
           case 'bottom': {
             point = {
               x: itemBBox.min[0] + itemWidth * 0,
-              y: itemBBox.min[1] + itemHeight * 1,
+              y: itemBBox.min[1],
             };
             break;
           }
@@ -356,7 +377,7 @@ export default class Tooltip extends Base {
             const tooltipBBox = tooltip.getBoundingClientRect();
             point = {
               x: itemBBox.min[0] - tooltipBBox.width,
-              y: itemBBox.min[1] + itemHeight * 0.5,
+              y: itemBBox.min[1] - itemHeight * 0.5,
             };
             break;
           }
@@ -365,7 +386,7 @@ export default class Tooltip extends Base {
             const tooltipBBox = tooltip.getBoundingClientRect();
             point = {
               x: itemBBox.min[0] - tooltipBBox.width,
-              y: itemBBox.min[1] + itemHeight * 0,
+              y: itemBBox.min[1] - itemHeight * 1,
             };
             break;
           }
@@ -374,7 +395,7 @@ export default class Tooltip extends Base {
             const tooltipBBox = tooltip.getBoundingClientRect();
             point = {
               x: itemBBox.min[0] - tooltipBBox.width,
-              y: itemBBox.min[1] + itemHeight * 1,
+              y: itemBBox.min[1],
             };
             break;
           }
@@ -382,7 +403,7 @@ export default class Tooltip extends Base {
             //right
             point = {
               x: itemBBox.min[0] + itemWidth * 1,
-              y: itemBBox.min[1] + itemHeight * 0.5,
+              y: itemBBox.min[1] - itemHeight * 0.5,
             };
             console.warn(
               `The '${this.options.fixToNode}' fixToNode position configuration is not supported, please use 'top'|'left'| 'right'| 'bottom'| 'topLeft'| 'leftTop'| 'topRight'| 'rightTop'| 'bottomLeft'| 'leftBottom'| 'bottomRight'| 'rightBottom', or use array to config, like: [0,5,1]`,
@@ -392,12 +413,11 @@ export default class Tooltip extends Base {
       } else if (isArray(fixToNode) && fixToNode.length >= 2) {
         point = {
           x: itemBBox.min[0] + itemWidth * fixToNode[0],
-          y: itemBBox.min[1] + itemHeight * fixToNode[1],
+          y: itemBBox.min[1] - itemHeight * (1 - fixToNode[1]),
         };
       }
     }
-
-    const { x, y } = point;
+    const { x, y } = this.graph.getViewportByCanvas(point);
     const graphContainer = this.graph.container;
     const res = {
       x: x + graphContainer.offsetLeft + offsetX,

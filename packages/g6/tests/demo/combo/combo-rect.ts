@@ -1,4 +1,5 @@
-import G6, { stdLib } from '../../../src/index';
+import { Graph, Extensions, stdLib, extend } from '../../../src/index';
+
 import { container, height, width } from '../../datasets/const';
 import {
   data as comboData,
@@ -6,14 +7,23 @@ import {
 } from '../../datasets/combo-data';
 
 export default () => {
-  const graph = new G6.Graph({
+  const ExtGraph = extend(Graph, {
+    behaviors: {
+      'hover-activate': Extensions.HoverActivate,
+    },
+    layouts: {
+      concentric: Extensions.ConcentricLayout,
+      comboCombined: Extensions.ComboCombinedLayout,
+    },
+  });
+  const graph = new Graph({
     container,
     width,
     height,
     type: 'graph',
     layout: {
       type: 'comboCombined',
-      // innerLayout: new stdLib.layouts['force']({ minMovement: 1 }),
+      // innerLayout: 'concentric',
       innerLayout: new stdLib.layouts['concentric'](),
     },
     node: {

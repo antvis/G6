@@ -32,6 +32,7 @@ import { getWordWrapWidthByEnds } from '../../../util/text';
 import { AnimateCfg } from '../../../types/animate';
 import { getZoomLevel } from '../../../util/zoom';
 import { DEFAULT_ARROW_CONFIG, getArrowPath } from '../../../util/arrow';
+import Node from '../../../item/node';
 
 export abstract class BaseEdge {
   type: string;
@@ -96,9 +97,20 @@ export abstract class BaseEdge {
       ...lodStrategy?.animateCfg,
     };
   }
+
+  /**
+   * Get merged styles from `getMergedStyles` and assigns the merged styles to the 'mergedStyles' property.
+   * @param model - The EdgeDisplayModel to merge the styles from.
+   */
   public mergeStyles(model: EdgeDisplayModel) {
     this.mergedStyles = this.getMergedStyles(model);
   }
+
+  /**
+   * Merge style
+   * @param model - The EdgeDisplayModel to retrieve the merged styles from.
+   * @returns The merged styles as a EdgeShapeStyles object.
+   */
   public getMergedStyles(model: EdgeDisplayModel) {
     const { data } = model;
     const dataStyles = {} as EdgeShapeStyles;
@@ -130,6 +142,7 @@ export abstract class BaseEdge {
 
   /**
    * Call it after calling draw function to update cache about bounds and zoom levels.
+   * @param shapeMap The shape map that contains all of the elements to show on the edge.
    */
   public updateCache(shapeMap) {
     ['labelShape', 'labelBackgroundShape'].forEach((id) => {
@@ -141,7 +154,8 @@ export abstract class BaseEdge {
       }
     });
 
-    const { levelShapes, zoom } = this.zoomCache;
+    const { zoom } = this.zoomCache;
+    const levelShapes = {};
     Object.keys(shapeMap).forEach((shapeId) => {
       const { lod } = shapeMap[shapeId].attributes;
       if (lod !== undefined) {
@@ -149,6 +163,7 @@ export abstract class BaseEdge {
         levelShapes[lod].push(shapeId);
       }
     });
+    this.zoomCache.levelShapes = levelShapes;
 
     const { maxWidth = '60%' } = this.mergedStyles.labelShape || {};
     this.zoomCache.wordWrapWidth = getWordWrapWidthByEnds(
@@ -162,6 +177,15 @@ export abstract class BaseEdge {
     if (zoom !== 1) this.onZoom(shapeMap, zoom);
   }
 
+  /**
+   * Draw all elements related to the edge.
+   * You should call `drawKeyShape` and `drawAnchorShape`,`drawLabelShape`,`drawIconShape`...as you like.
+   * @param model The displayed model of this edge, only for drawing and not received by users.
+   * @param shapeMap The shape map that contains all of the elements to show on the edge.
+   * @param diffData An object that contains previous and current data.
+   * @param diffState An object that contains previous and current edge's state.
+   * @returns An object containing the keyShape and optional labelShape, iconShape, and some otherShapes properties
+   */
   abstract draw(
     model: EdgeDisplayModel,
     sourcePoint: Point,
@@ -175,6 +199,14 @@ export abstract class BaseEdge {
     iconShape?: DisplayObject;
     [otherShapeId: string]: DisplayObject;
   };
+
+  /**
+   * Perform additional drawing operations or add custom shapes after drawing edge.
+   * @param model The displayed model of this edge, only for drawing and not received by users.
+   * @param shapeMap The shape map that contains all of the elements to show on the edge.
+   * @param shapesChanged An array of shape IDs that have changed and need to be updated.
+   * @returns An object that contains some new shapes to be added to the edge.
+   */
   public afterDraw(
     model: EdgeDisplayModel,
     shapeMap: { [shapeId: string]: DisplayObject },
@@ -183,12 +215,27 @@ export abstract class BaseEdge {
     return {};
   }
   // shouldUpdate: (model: EdgeDisplayModel, prevModel: EdgeDisplayModel) => boolean = () => true;
+
+  /**
+   * Set the state for the edge.
+   * @param state state name
+   * @param value state value
+   * @param shapeMap The shape map that contains all of the elements to show on the edge.
+   */
   public setState: (
     name: string,
     value: boolean,
     shapeMap: { [shapeId: string]: DisplayObject },
   ) => void;
 
+  /**
+   * Draw the label shape of the edge
+   * @param model The displayed model of this edge, only for drawing and not received by users.
+   * @param shapeMap The shape map that contains all of the elements to show on the edge.
+   * @param diffData An object that contains previous and current data.
+   * @param diffState An object that contains previous and current edge's state.
+   * @returns The display object representing the label shape of the edge.
+   */
   public drawLabelShape(
     model: EdgeDisplayModel,
     shapeMap: EdgeShapeMap,
@@ -198,6 +245,8 @@ export abstract class BaseEdge {
     const { keyShape } = shapeMap;
 
     const { labelShape: shapeStyle } = this.mergedStyles;
+    if (!shapeStyle || !shapeStyle.text || !model.data.labelShape) return;
+
     const {
       position,
       offsetX: propsOffsetX,
@@ -293,6 +342,14 @@ export abstract class BaseEdge {
     return this.upsertShape('text', 'labelShape', style, shapeMap, model);
   }
 
+  /**
+   * Draw the label background shape of the edge
+   * @param model The displayed model of this edge, only for drawing and not received by users.
+   * @param shapeMap The shape map that contains all of the elements to show on the edge.
+   * @param diffData An object that contains previous and current data.
+   * @param diffState An object that contains previous and current edge's state.
+   * @returns The display object representing the label background shape of the edge.
+   */
   public drawLabelBackgroundShape(
     model: EdgeDisplayModel,
     shapeMap: EdgeShapeMap,
@@ -300,7 +357,7 @@ export abstract class BaseEdge {
     diffState?: { previous: State[]; current: State[] },
   ): DisplayObject {
     const { labelShape } = shapeMap;
-    if (!labelShape || !model.data.labelShape) return;
+    if (!labelShape || !labelShape.style.text || !model.data.labelShape) return;
 
     const { labelBackgroundShape, labelShape: labelShapeStyle } =
       this.mergedStyles;
@@ -352,6 +409,14 @@ export abstract class BaseEdge {
     );
   }
 
+  /**
+   * Draw the icon shape of the edge
+   * @param model The displayed model of this edge, only for drawing and not received by users.
+   * @param shapeMap The shape map that contains all of the elements to show on the edge.
+   * @param diffData An object that contains previous and current data.
+   * @param diffState An object that contains previous and current edge's state.
+   * @returns The display object representing the icon shape of the edge.
+   */
   public drawIconShape(
     model: EdgeDisplayModel,
     shapeMap: EdgeShapeMap,
@@ -438,6 +503,14 @@ export abstract class BaseEdge {
     );
   }
 
+  /**
+   * Draw the halo shape of the edge
+   * @param model The displayed model of this edge, only for drawing and not received by users.
+   * @param shapeMap The shape map that contains all of the elements to show on the edge.
+   * @param diffData An object that contains previous and current data.
+   * @param diffState An object that contains previous and current edge's state.
+   * @returns The display object representing the halo shape of the edge.
+   */
   public drawHaloShape(
     model: EdgeDisplayModel,
     shapeMap: EdgeShapeMap,
@@ -461,12 +534,21 @@ export abstract class BaseEdge {
     );
   }
 
+  public drawOtherShapes(
+    model: EdgeDisplayModel,
+    shapeMap: EdgeShapeMap,
+    diffData?: { previous: EdgeModelData; current: EdgeModelData },
+    diffState?: { previous: State[]; current: State[] },
+  ): { [id: string]: DisplayObject } {
+    return {};
+  }
+
   /**
    * The listener for graph zooming.
    * 1. show / hide some shapes while zoom level changed;
    * 2. change the shapes' sizes to make them have same visual size while zooming, e.g. labelShape, labelBackgroundShape.
-   * @param shapeMap
-   * @param zoom
+   * @param shapeMap The shape map that contains all of the elements to show on the edge.
+   * @param zoom The zoom level of the graph.
    */
   public onZoom = (shapeMap: EdgeShapeMap, zoom: number) => {
     // balance the size for label, badges
@@ -553,7 +635,7 @@ export abstract class BaseEdge {
 
   /**
    * Update the source point { x, y } for the edge. Called in item's draw func.
-   * @param point
+   * @param point source point
    */
   public setSourcePoint(point: Point) {
     this.sourcePoint = point;
@@ -561,7 +643,7 @@ export abstract class BaseEdge {
 
   /**
    * Update the target point { x, y } for the edge. Called in item's draw func.
-   * @param point
+   * @param point target point
    */
   public setTargetPoint(point: Point) {
     this.targetPoint = point;
@@ -569,12 +651,20 @@ export abstract class BaseEdge {
 
   /**
    * Update all visible nodes on the canvas to be aware of obstacles. Called in item's draw func.
-   * @param nodeMap
+   * @param nodeMap The Map object representing the node map, where keys are node IDs and values are nodes.
    */
   public setNodeMap(nodeMap: Map<ID, Node>) {
     this.nodeMap = nodeMap;
   }
 
+  /**
+   * Adds or updates an arrow marker on the specified position of an edge.
+   * @param position - The position where the arrow marker should be added or updated. Can be either 'start' or 'end'.
+   * @param arrowConfig - The configuration for the arrow marker. Can be a boolean indicating whether to use the default arrow configuration, or an ArrowStyle object with custom arrow properties.
+   * @param bodyStyle - The style of the edge body.
+   * @param model - The EdgeDisplayModel that contains the data and style information for the edge.
+   * @param resultStyle - The style object where the arrow marker properties will be added or updated.
+   */
   public upsertArrow(
     position: 'start' | 'end',
     arrowConfig: boolean | ArrowStyle,
@@ -620,6 +710,15 @@ export abstract class BaseEdge {
     resultStyle[`${markerField}Offset`] = width / 2 + offset;
   }
 
+  /**
+   * Create (if does not exit in shapeMap) or update the shape according to the configurations.
+   * @param type shape's type
+   * @param id unique string to indicates the shape
+   * @param style style to be updated
+   * @param shapeMap the shape map of a edge
+   * @param model data model of the edge
+   * @returns The display object representing the shape.
+   */
   public upsertShape(
     type: SHAPE_TYPE,
     id: string,

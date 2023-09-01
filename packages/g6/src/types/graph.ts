@@ -5,14 +5,14 @@ import { Command } from '../stdlib/plugin/history/command';
 import { Hooks } from '../types/hook';
 import { CameraAnimationOptions } from './animate';
 import { BehaviorOptionsOf, BehaviorRegistry } from './behavior';
-import { ComboModel, ComboUserModel } from './combo';
+import { ComboDisplayModel, ComboModel, ComboUserModel } from './combo';
 import { Padding, Point } from './common';
 import { GraphData } from './data';
-import { EdgeModel, EdgeUserModel } from './edge';
+import { EdgeDisplayModel, EdgeModel, EdgeUserModel } from './edge';
 import type { StackType } from './history';
 import { ITEM_TYPE, SHAPE_TYPE } from './item';
 import { LayoutOptions } from './layout';
-import { NodeModel, NodeUserModel } from './node';
+import { NodeDisplayModel, NodeModel, NodeUserModel } from './node';
 import { RendererName } from './render';
 import { Specification } from './spec';
 import { ThemeOptionsOf, ThemeRegistry } from './theme';
@@ -586,13 +586,19 @@ export interface IGraph<
    */
   setMode: (mode: string) => void;
   /**
+   * Get current mode.
+   * @returns mode name
+   * @group Interaction
+   */
+  getMode: () => string;
+  /**
    * Add behavior(s) to mode(s).
    * @param behaviors behavior names or configs
    * @param modes mode names
    * @returns
    */
   addBehaviors: (
-    behaviors: BehaviorOptionsOf<B>[],
+    behaviors: BehaviorOptionsOf<B> | BehaviorOptionsOf<B>[],
     modes: string | string[],
   ) => void;
   /**
@@ -623,6 +629,7 @@ export interface IGraph<
     type: ITEM_TYPE | SHAPE_TYPE,
     id: ID,
     config: any,
+    canvas?: Canvas,
   ) => DisplayObject;
 
   /**

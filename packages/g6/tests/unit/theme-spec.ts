@@ -4,9 +4,8 @@ import { clone } from '@antv/util';
 import G6, { GraphData, IGraph } from '../../src/index';
 import { CircleNode } from '../../src/stdlib/item/node';
 import { LineEdge } from '../../src/stdlib/item/edge';
-import LightTheme from '../../src/stdlib/theme/light';
+import { LightTheme } from '../../src/stdlib/theme/light';
 import { extend } from '../../src/util/extend';
-import { upsertShape } from '../../src/util/shape';
 
 const container = document.createElement('div');
 document.querySelector('body').appendChild(container);

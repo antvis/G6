@@ -1,3 +1,4 @@
+import { uniqueId } from '@antv/util';
 import { GraphCore } from '../../types/data';
 import {
   GraphData,
@@ -12,8 +13,9 @@ import {
  * @param userGraphCore the graph core stores the previous data.
  * @returns formatted data.
  */
-export const validateData = (
+export const ValidateData = (
   data: GraphData,
+  options = {},
   userGraphCore?: GraphCore,
 ): GraphData => {
   const { nodes, edges, combos } = data;
@@ -21,8 +23,12 @@ export const validateData = (
   const nodeIdMap = new Map();
   const comboIdMap = new Map();
 
-  const idAndDataCheck = (item, type) => {
+  const idAndDataCheck = (item, type, generateId = false) => {
     if (item.id === undefined) {
+      if (generateId) {
+        item.id = `${type}-${uniqueId()}`;
+        return;
+      }
       console.error(
         `Unique global id is neccessary for graph items. The ${type} ${JSON.stringify(
           item,
@@ -92,11 +98,13 @@ export const validateData = (
     ?.map((edge) => {
       const { id } = edge;
       let { source, target } = edge;
-      if (!idAndDataCheck(edge, 'edge')) return false;
-      const existEdge = userGraphCore?.getEdge(id);
+      if (!idAndDataCheck(edge, 'edge', true)) return false;
 
-      if (source === undefined) source = existEdge.source;
-      if (target === undefined) target = existEdge.target;
+      if (userGraphCore?.hasEdge(id)) {
+        const existEdge = userGraphCore?.getEdge(id);
+        if (source === undefined) source = existEdge.source;
+        if (target === undefined) target = existEdge.target;
+      }
 
       if (source === undefined) {
         console.error(

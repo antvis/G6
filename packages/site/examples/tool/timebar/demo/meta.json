@@ -5,28 +5,20 @@
   },
   "demos": [
     {
-      "filename": "timebar.js",
+      "filename": "timebar-time.ts",
       "title": {
-        "zh": "趋势时间轴",
-        "en": "TrendTimeBar"
+        "zh": "时间条-时间模式",
+        "en": "Timebar"
       },
-      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*lfvIQJYbs7oAAAAAAAAAAAAAARQnAQ"
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*94CATK7VwhQAAAAAAAAAAAAADmJ7AQ/original"
     },
     {
-      "filename": "simple-timebar.js",
+      "filename": "timebar-chart.ts",
       "title": {
-        "zh": "简易时间轴",
-        "en": "SimperTimeBar"
+        "zh": "时间条-图表模式",
+        "en": "Timebar"
       },
-      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*g2zhQqP6ruYAAAAAAAAAAAAAARQnAQ"
-    },
-    {
-      "filename": "slice-timebar.js",
-      "title": {
-        "zh": "刻度时间轴",
-        "en": "SliceTimeBar"
-      },
-      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*n6ECQ7Jn5pQAAAAAAAAAAAAAARQnAQ"
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*RjCKS6xdRWwAAAAAAAAAAAAADmJ7AQ/original"
     }
   ]
 }

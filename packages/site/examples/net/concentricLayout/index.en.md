@@ -1,6 +1,6 @@
 ---
 title: Concentric Layout
-order: 6
+order: 10
 ---
 
 Concentric Layout places the nodes on concentric circles.

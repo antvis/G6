@@ -1,5 +1,5 @@
 import EventEmitter from '@antv/event-emitter';
-import { AABB, Canvas, DisplayObject, PointLike, runtime } from '@antv/g';
+import { AABB, Canvas, DisplayObject, PointLike } from '@antv/g';
 import { GraphChange, ID } from '@antv/graphlib';
 import {
   clone,
@@ -13,7 +13,7 @@ import {
   isString,
   map,
 } from '@antv/util';
-import History from '../stdlib/plugin/history';
+import { History } from '../stdlib/plugin/history';
 import { Command } from '../stdlib/plugin/history/command';
 import type {
   ComboUserModel,
@@ -25,10 +25,10 @@ import type {
 } from '../types';
 import type { CameraAnimationOptions } from '../types/animate';
 import type { BehaviorOptionsOf, BehaviorRegistry } from '../types/behavior';
-import type { ComboModel } from '../types/combo';
+import type { ComboDisplayModel, ComboModel } from '../types/combo';
 import type { Padding, Point } from '../types/common';
 import type { DataChangeType, DataConfig, GraphCore } from '../types/data';
-import type { EdgeModel, EdgeModelData } from '../types/edge';
+import type { EdgeDisplayModel, EdgeModel, EdgeModelData } from '../types/edge';
 import type { StackType } from '../types/history';
 import type { Hooks, ViewportChangeHookParams } from '../types/hook';
 import type { ITEM_TYPE, SHAPE_TYPE, ShapeStyle } from '../types/item';
@@ -37,7 +37,7 @@ import type {
   LayoutOptions,
   StandardLayoutOptions,
 } from '../types/layout';
-import type { NodeModel, NodeModelData } from '../types/node';
+import type { NodeDisplayModel, NodeModel, NodeModelData } from '../types/node';
 import type { RendererName } from '../types/render';
 import type {
   ThemeOptionsOf,
@@ -47,7 +47,7 @@ import type {
 import { FitViewRules, GraphTransformOptions } from '../types/view';
 import { changeRenderer, createCanvas } from '../util/canvas';
 import { formatPadding } from '../util/shape';
-import Node from '../item/node';
+import { Plugin as PluginBase } from '../types/plugin';
 import {
   DataController,
   ExtensionController,
@@ -59,11 +59,6 @@ import {
 } from './controller';
 import { PluginController } from './controller/plugin';
 import Hook from './hooks';
-
-/**
- * Disable CSS parsing for better performance.
- */
-runtime.enableCSSParsing = false;
 
 export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
   extends EventEmitter
@@ -412,6 +407,26 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       });
       this.emit('afterrender');
 
+      this.once('afterlayout', async () => {
+        const { autoFit } = this.specification;
+        if (autoFit) {
+          if (autoFit === 'view') {
+            await this.fitView();
+          } else if (autoFit === 'center') {
+            await this.fitCenter();
+          } else {
+            const { type, effectTiming, ...others } = autoFit;
+            if (type === 'view') {
+              await this.fitView(others as any, effectTiming);
+            } else if (type === 'center') {
+              await this.fitCenter(effectTiming);
+            } else if (type === 'position') {
+              // TODO: align
+              await this.translateTo((others as any).position, effectTiming);
+            }
+          }
+        }
+      });
       await this.layout();
     };
     if (this.canvasReady) {
@@ -900,9 +915,22 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     return this.dataController.findChildren(comboId, 'combo');
   }
 
+  /*
+   * Get the display model of a node / edge / combo.
+   * @param id item id
+   * @returns display model
+   * @group Data
+   */
+  protected getDisplayModel(
+    id: ID,
+  ): NodeDisplayModel | EdgeDisplayModel | ComboDisplayModel {
+    return this.itemController.findDisplayModel(id);
+  }
+
   /**
    * Retrieve the nearby edges for a given node using quadtree collision detection.
    * @param nodeId node id
+   * @group Data
    */
   public getNearEdgesForNode(nodeId: ID): EdgeModel[] {
     const { graphCore } = this.dataController;
@@ -1016,7 +1044,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       this.emit('afteritemchange', {
         type: itemType,
         action: 'remove',
-        ids,
+        ids: idArr,
         apiName: 'removeData',
         changes,
       });
@@ -1654,13 +1682,18 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * Layout the graph (with current configurations if cfg is not assigned).
    */
   public async layout(options?: LayoutOptions, disableAnimate = false) {
+    this.emit('beforelayout');
     const { graphCore } = this.dataController;
     const formattedOptions = {
       ...this.getSpecification().layout,
       ...options,
     } as LayoutOptions;
 
-    const layoutUnset = !options && !this.getSpecification().layout;
+    this.updateSpecification({ layout: formattedOptions });
+
+    const layoutUnset =
+      (!options && !this.getSpecification().layout) ||
+      !Object.keys(formattedOptions).length;
     if (layoutUnset) {
       const nodes = graphCore.getAllNodes();
       if (nodes.every((node) => isNil(node.data.x) && isNil(node.data.y))) {
@@ -1692,24 +1725,6 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       animate: !disableAnimate,
     });
 
-    const { autoFit } = this.specification;
-    if (autoFit) {
-      if (autoFit === 'view') {
-        await this.fitView();
-      } else if (autoFit === 'center') {
-        await this.fitCenter();
-      } else {
-        const { type, effectTiming, ...others } = autoFit;
-        if (type === 'view') {
-          await this.fitView(others as any, effectTiming);
-        } else if (type === 'center') {
-          await this.fitCenter(effectTiming);
-        } else if (type === 'position') {
-          // TODO: align
-          await this.translateTo((others as any).position, effectTiming);
-        }
-      }
-    }
     this.emit('afterlayout');
   }
 
@@ -1739,6 +1754,15 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
   }
 
   /**
+   * Get current mode.
+   * @returns mode name
+   * @group Interaction
+   */
+  public getMode(): string {
+    return this.interactionController.getMode();
+  }
+
+  /**
    * Add behavior(s) to mode(s).
    * @param behaviors behavior names or configs
    * @param modes mode names
@@ -1746,7 +1770,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * @group Interaction
    */
   public addBehaviors(
-    behaviors: BehaviorOptionsOf<B>[],
+    behaviors: BehaviorOptionsOf<B> | BehaviorOptionsOf<B>[],
     modes: string | string[],
   ) {
     const modesArr = isArray(modes) ? modes : [modes];
@@ -1873,16 +1897,21 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * @returns
    * @group Plugin
    */
-  public removePlugins(pluginKeys: string[]) {
+  public removePlugins(pluginKeys: (PluginBase | string)[]) {
+    const pluginArr = isArray(pluginKeys) ? pluginKeys : [pluginKeys];
     this.hooks.pluginchange.emit({
       action: 'remove',
-      plugins: pluginKeys,
+      plugins: pluginArr,
     });
     // update the graph specification
     const { plugins } = this.specification;
     this.specification.plugins = plugins?.filter((plugin) => {
-      if (isObject(plugin)) return !pluginKeys.includes(plugin.key);
-      return !pluginKeys.includes(plugin);
+      if (isObject(plugin))
+        return !(
+          pluginArr.includes(plugin.key) ||
+          pluginArr.includes(plugin as PluginBase)
+        );
+      return !pluginArr.includes(plugin);
     });
   }
 
@@ -1892,11 +1921,16 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * @returns
    * @group Interaction
    */
-  public updatePlugin(plugin: {
-    key: string;
-    type: string;
-    [cfg: string]: unknown;
-  }) {
+  public updatePlugin(
+    plugin:
+      | {
+          key: string;
+          type: string;
+          [cfg: string]: unknown;
+        }
+      | PluginBase,
+  ) {
+    const { plugins } = this.specification;
     const { key } = plugin;
     if (!key) {
       console.warn(
@@ -1904,7 +1938,6 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       );
       return;
     }
-    const { plugins } = this.specification;
     if (!plugins) {
       console.warn(
         'Update plugin failed, the plugin to be updated does not exist.',
@@ -1951,12 +1984,13 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       onlyDrawKeyShape?: boolean;
       upsertAncestors?: boolean;
     },
+    canvas?: Canvas,
   ): DisplayObject {
     this.hooks.transientupdate.emit({
       type,
       id,
       config,
-      canvas: this.transientCanvas,
+      canvas: canvas || this.transientCanvas,
       graphCore: this.dataController.graphCore,
     });
     return this.itemController.getTransient(String(id));

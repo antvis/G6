@@ -5,20 +5,20 @@
   },
   "demos": [
     {
-      "filename": "minimap.js",
+      "filename": "minimap.ts",
       "title": {
-        "zh": "小地图",
+        "zh": "小地图导航",
         "en": "Minimap"
       },
-      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*r3dAQo-R3BoAAAAAAAAAAABkARQnAQ"
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*9SBGT5nadhoAAAAAAAAAAAAADmJ7AQ/original"
     },
     {
-      "filename": "imageMinimap.js",
+      "filename": "minimap-api.ts",
       "title": {
-        "zh": "使用图片的小地图",
-        "en": "Image Minimap"
+        "zh": "通过 API 控制 Minimap",
+        "en": "Minimap API"
       },
-      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*r3dAQo-R3BoAAAAAAAAAAABkARQnAQ"
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*9SBGT5nadhoAAAAAAAAAAAAADmJ7AQ/original"
     }
   ]
 }

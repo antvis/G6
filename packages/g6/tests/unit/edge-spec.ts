@@ -1140,7 +1140,7 @@ describe('cubic-edge unit test', () => {
           source: 'node1',
           target: 'node2',
           data: {
-            type: 'cubic-horizon-edge',
+            type: 'cubic-horizontal-edge',
             keyShape: {
               stroke: '#f00',
               lineDash: [2, 2],
@@ -1278,7 +1278,7 @@ describe('cubic-edge unit test', () => {
 });
 
 // test cubic horizon edge
-describe('cubic-horizon-edge unit test', () => {
+describe('cubic-horizontal-edge unit test', () => {
   const width = document.getElementById('container')?.clientWidth;
   const height = document.getElementById('container')?.clientHeight;
 
@@ -1308,13 +1308,13 @@ describe('cubic-horizon-edge unit test', () => {
         source: 1,
         target: 2,
         data: {
-          type: 'cubic-horizon-edge',
+          type: 'cubic-horizontal-edge',
         },
       },
     ],
   };
 
-  it.only('new graph with two nodes and one cubic-horizon-edge', (done) => {
+  it.only('new graph with two nodes and one cubic-horizontal-edge', (done) => {
     graph = new Graph({
       container,
       width,
@@ -1333,7 +1333,7 @@ describe('cubic-horizon-edge unit test', () => {
     });
   });
 
-  it.only('update cubic-horizon-edge label', (done) => {
+  it.only('update cubic-horizontal-edge label', (done) => {
     graph.on('afterrender', () => {
       expect(graph.findIdByState('edge', 'selected').length).toBe(0);
       graph.setItemState('edge1', 'selected', true);
@@ -1437,7 +1437,7 @@ describe('cubic-horizon-edge unit test', () => {
 });
 
 // test cubic horizon edge
-describe('cubic-horizon-edge unit test', () => {
+describe('cubic-horizontal-edge unit test', () => {
   const width = document.getElementById('container')?.clientWidth;
   const height = document.getElementById('container')?.clientHeight;
 
@@ -1467,13 +1467,13 @@ describe('cubic-horizon-edge unit test', () => {
         source: 1,
         target: 2,
         data: {
-          type: 'cubic-horizon-edge',
+          type: 'cubic-horizontal-edge',
         },
       },
     ],
   };
 
-  it.only('new graph with two nodes and one cubic-horizon-edge', (done) => {
+  it.only('new graph with two nodes and one cubic-horizontal-edge', (done) => {
     graph = new Graph({
       container,
       width,
@@ -1492,7 +1492,7 @@ describe('cubic-horizon-edge unit test', () => {
     });
   });
 
-  it.only('update cubic-horizon-edge label', (done) => {
+  it.only('update cubic-horizontal-edge label', (done) => {
     const padding = [4, 16, 4, 8];
     graph.updateData('edge', {
       id: 'edge1',
@@ -1567,7 +1567,7 @@ describe('cubic-horizon-edge unit test', () => {
     done();
   });
 
-  it.only('update cubic-horizon-edge icon', (done) => {
+  it.only('update cubic-horizontal-edge icon', (done) => {
     // add image icon to follow the label at path's center
     graph.updateData('edge', {
       id: 'edge1',
@@ -1667,7 +1667,7 @@ describe('cubic-horizon-edge unit test', () => {
     done();
   });
 
-  it.only('set cubic-horizon-edge state', (done) => {
+  it.only('set cubic-horizontal-edge state', (done) => {
     const stateData = {
       nodes: [
         {
@@ -1688,7 +1688,7 @@ describe('cubic-horizon-edge unit test', () => {
           source: 'node1',
           target: 'node2',
           data: {
-            type: 'cubic-horizon-edge',
+            type: 'cubic-horizontal-edge',
             keyShape: {
               stroke: '#f00',
               lineDash: [2, 2],
@@ -2076,7 +2076,7 @@ describe('cubic-vertical-edge unit test', () => {
           source: 'node1',
           target: 'node2',
           data: {
-            type: 'cubic-horizon-edge',
+            type: 'cubic-horizontal-edge',
             keyShape: {
               stroke: '#f00',
               lineDash: [2, 2],
@@ -2464,7 +2464,7 @@ describe('cubic-vertical-edge unit test', () => {
           source: 'node1',
           target: 'node2',
           data: {
-            type: 'cubic-horizon-edge',
+            type: 'cubic-horizontal-edge',
             keyShape: {
               stroke: '#f00',
               lineDash: [2, 2],

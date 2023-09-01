@@ -1,4 +1,10 @@
-import G6 from '@antv/g6';
+import { Graph, Extensions, extend } from '@antv/g6';
+
+const ExtGraph = extend(Graph, {
+  behaviors: {
+    'brush-select': Extensions.BrushSelect,
+  },
+});
 
 const data = {
   nodes: [
@@ -608,7 +614,7 @@ const data = {
 const container = document.getElementById('container');
 const width = container.scrollWidth;
 const height = container.scrollHeight || 500;
-const graph = new G6.Graph({
+const graph = new ExtGraph({
   container: 'container',
   width,
   height,
@@ -673,6 +679,7 @@ const configs = {
     begin: [20, 20],
     width: width - 20,
     height: height - 20,
+    sortBy: 'data',
   },
   Clustering: {
     type: 'grid',
@@ -687,7 +694,7 @@ const btnContainer = document.createElement('div');
 btnContainer.style.position = 'absolute';
 container.appendChild(btnContainer);
 const tip = document.createElement('span');
-tip.innerHTML = 'Change configs:';
+tip.innerHTML = '👉 Change configs:';
 btnContainer.appendChild(tip);
 
 Object.keys(configs).forEach((name, i) => {

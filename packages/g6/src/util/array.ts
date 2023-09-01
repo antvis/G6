@@ -1,3 +1,9 @@
+/**
+ * Whether two array have same element.
+ * @param arr1
+ * @param arr2
+ * @returns
+ */
 export const isArrayOverlap = (arr1, arr2): boolean => {
   if (!arr1?.length || !arr2?.length) return false;
   for (let i = 0; i < arr1.length; i++) {

@@ -22,7 +22,7 @@ export type ComboLabelPosition =
   | 'left'
   | 'left-top'
   | 'right'
-  | 'ouside-top'
+  | 'outside-top'
   | 'outside-left'
   | 'outside-right'
   | 'outside-bottom';

@@ -1,67 +1,57 @@
-import G6 from '@antv/g6';
+import { Graph, extend, Extensions } from '@antv/g6';
 
-/**
- * This demo shows how to custom a behavior to allow drag and zoom canvas with two fingers on touchpad and wheel
- * By Shiwu
- */
-G6.registerBehavior('double-finger-drag-canvas', {
-  getEvents: function getEvents() {
-    return {
-      wheel: 'onWheel',
-    };
-  },
-
-  onWheel: function onWheel(ev) {
-    if (ev.ctrlKey) {
-      const canvas = graph.get('canvas');
-      const point = canvas.getPointByClient(ev.clientX, ev.clientY);
-      let ratio = graph.getZoom();
-      if (ev.wheelDelta > 0) {
-        ratio = ratio + ratio * 0.05;
-      } else {
-        ratio = ratio - ratio * 0.05;
-      }
-      graph.zoomTo(ratio, {
-        x: point.x,
-        y: point.y,
+class TwoFingerScrollCanvas extends Extensions.BaseBehavior {
+  getEvents() {
+    this.graph.canvas
+      .getContextService()
+      .getDomElement()
+      .addEventListener('wheel', (e) => {
+        e.preventDefault();
       });
-    } else {
-      const x = ev.deltaX || ev.movementX;
-      let y = ev.deltaY || ev.movementY;
-      if (!y && navigator.userAgent.indexOf('Firefox') > -1) y = (-ev.wheelDelta * 125) / 3
-      graph.translate(-x, -y);
-    }
-    ev.preventDefault();
+    return {
+      wheel: this.onWheel,
+    };
+  }
+  onWheel = (ev) => {
+    const x = ev.deltaX || ev.movementX || 0;
+    let y = ev.deltaY || ev.movementY || 0;
+    if (!y && navigator.userAgent.indexOf('Firefox') > -1) y = (-ev.wheelDelta * 125) / 3;
+    this.graph.translate({ dx: x, dy: y });
+  };
+}
+
+const ExtGraph = extend(Graph, {
+  behaviors: {
+    'double-finger-drag-canvas': TwoFingerScrollCanvas,
   },
 });
 
 const container = document.getElementById('container');
 const width = container.scrollWidth;
 const height = container.scrollHeight || 500;
-const graph = new G6.Graph({
+const graph = new ExtGraph({
   container: 'container',
   width,
   height,
+  transforms: ['transform-v4-data'],
   modes: {
     default: ['double-finger-drag-canvas'],
   },
   layout: {
     type: 'force',
+    linkDistance: 50,
   },
 });
-
-graph.get('canvas').set('localRefresh', false);
 
 fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')
   .then((res) => res.json())
   .then((data) => {
-    graph.data(data);
-    graph.render();
+    graph.read(data);
   });
 
 if (typeof window !== 'undefined')
   window.onresize = () => {
-    if (!graph || graph.get('destroyed')) return;
+    if (!graph || graph.destroyed) return;
     if (!container || !container.scrollWidth || !container.scrollHeight) return;
-    graph.changeSize(container.scrollWidth, container.scrollHeight);
+    graph.setSize([container.scrollWidth, container.scrollHeight]);
   };

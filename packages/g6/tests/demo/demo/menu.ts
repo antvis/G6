@@ -1,4 +1,5 @@
-import G6 from '../../../src/index';
+import { Graph, Extensions, extend } from '../../../src/index';
+
 import { container, height, width } from '../../datasets/const';
 
 export default () => {
@@ -39,7 +40,12 @@ export default () => {
     ],
   };
 
-  const graph = new G6.Graph({
+  const ExtGraph = extend(Graph, {
+    plugins: {
+      menu: Extensions.Menu,
+    },
+  });
+  const graph = new ExtGraph({
     container,
     width,
     height,

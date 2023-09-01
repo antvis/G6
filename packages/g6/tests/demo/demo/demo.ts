@@ -1,7 +1,8 @@
 import { initThreads, supportsThreads, ForceLayout } from '@antv/layout-wasm';
 // import G6, { Graph, GraphData } from '../../../esm';
 import { labelPropagation } from '@antv/algorithm';
-import G6, { Graph, GraphData } from '../../../src';
+import G6, { Graph, Extensions, extend } from '../../../src/index';
+
 import { container, height, width } from '../../datasets/const';
 import { RendererName } from '../../../src/types/render';
 import { Point } from '../../../src/types/common';
@@ -120,7 +121,16 @@ const create2DGraph = (
   theme = defaultTheme,
   rendererType: RendererName = 'canvas',
 ) => {
-  const graph = new Graph({
+  const ExtGraph = extend(Graph, {
+    behaviors: {
+      'brush-select': Extensions.BrushSelect,
+      'hover-activate': Extensions.HoverActivate,
+    },
+    layouts: {
+      'force-wasm': Extensions.ForceLayout,
+    },
+  });
+  const graph = new ExtGraph({
     container: container as HTMLElement,
     width,
     height: 1400,
@@ -215,10 +225,20 @@ const create2DGraph = (
 };
 
 const create3DGraph = async () => {
-  G6.stdLib.layouts['force-wasm'] = ForceLayout;
   const supported = await supportsThreads();
   const threads = await initThreads(supported);
-  const newGraph = new Graph({
+
+  const ExtGraph = extend(Graph, {
+    behaviors: {
+      'brush-select': Extensions.BrushSelect,
+      'hover-active': Extensions.HoverActivate,
+    },
+    layouts: {
+      'force-wasm': Extensions.ForceLayout,
+    },
+  });
+
+  const newGraph = new ExtGraph({
     container: container as HTMLDivElement,
     width,
     height: 1400,
@@ -734,7 +754,6 @@ export default () => {
 
   rendererSelect.addEventListener('change', (e: any) => {
     const type = e.target.value;
-    console.log('changerenderer', graph);
     handleSwitchRenderer(type.toLowerCase(), graph);
     // graph.changeRenderer(type.toLowerCase());
   });

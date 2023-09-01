@@ -1,78 +1,108 @@
-import G6 from '@antv/g6';
+import { Graph, Extensions, extend } from '@antv/g6';
 
-const tipDiv = document.createElement('div');
-tipDiv.innerHTML = 'Random Layout';
-const container = document.getElementById('container');
-container.appendChild(tipDiv);
+const ExtGraph = extend(Graph, {
+  layouts: {
+    mds: Extensions.MDSLayout,
+    radial: Extensions.RadialLayout,
+  },
+  behaviors: {
+    'brush-select': Extensions.BrushSelect,
+  },
+});
 
 const width = container.scrollWidth;
 const height = (container.scrollHeight || 500) - 20;
-const graph = new G6.Graph({
-  container: 'container',
-  width,
-  height,
-  layout: {
-    type: 'random',
+
+const layoutConfigs = {
+  Circular: {
+    type: 'circular',
   },
-  modes: {
-    default: ['drag-node'],
+  Grid: {
+    type: 'grid',
   },
-  animate: true,
-});
+  Force: {
+    type: 'force',
+    preventOverlap: true,
+  },
+  Radial: {
+    type: 'radial',
+    preventOverlap: true,
+  },
+  Concentric: {
+    type: 'concentric',
+  },
+  MDS: {
+    type: 'mds',
+    linkDistance: 100,
+  },
+};
 
 fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')
   .then((res) => res.json())
   .then((data) => {
-    graph.data(data);
-    graph.render();
-    setTimeout(() => {
-      tipDiv.innerHTML = 'Circular Layout';
-      graph.updateLayout({
-        type: 'circular',
-        radius: 200,
-      });
-    }, 3000);
-    setTimeout(() => {
-      tipDiv.innerHTML = 'Grid Layout';
-      graph.updateLayout({
-        type: 'grid',
-      });
-    }, 6000);
-    setTimeout(() => {
-      tipDiv.innerHTML = 'Force Layout';
-      graph.updateLayout({
-        type: 'force',
-        preventOverlap: true,
-        nodeSize: 20,
-      });
-    }, 9000);
-    setTimeout(() => {
-      tipDiv.innerHTML = 'Radial Layout';
-      graph.updateLayout({
-        type: 'radial',
-        preventOverlap: true,
-        nodeSize: 15,
-      });
-    }, 12000);
-    setTimeout(() => {
-      tipDiv.innerHTML = 'Concentric Layout';
-      graph.updateLayout({
-        type: 'concentric',
-        minNodeSpacing: 30,
-      });
-    }, 15000);
-    setTimeout(() => {
-      tipDiv.innerHTML = 'MDS Layout';
-      graph.updateLayout({
-        type: 'mds',
-        linkDistance: 100,
-      });
-    }, 18000);
-  });
+    const graph = new ExtGraph({
+      container: 'container',
+      width,
+      height,
+      transforms: ['transform-v4-data'],
+      layout: layoutConfigs.Circular,
+      modes: {
+        default: ['zoom-canvas', 'drag-canvas', 'drag-node', 'click-select', 'brush-select'],
+      },
+      node: (model) => {
+        return {
+          id: model.id,
+          data: {
+            ...model.data,
+            labelShape: {
+              text: model.id,
+            },
+            labelBackgroundShape: {},
+            animates: {
+              update: [
+                {
+                  fields: ['x', 'y'],
+                  shapeId: 'group',
+                },
+                {
+                  fields: ['opacity'],
+                  shapeId: 'haloShape',
+                },
+                {
+                  fields: ['lineWidth'],
+                  shapeId: 'keyShape',
+                },
+              ],
+            },
+          },
+        };
+      },
+      data,
+    });
 
-if (typeof window !== 'undefined')
-  window.onresize = () => {
-    if (!graph || graph.get('destroyed')) return;
-    if (!container || !container.scrollWidth || !container.scrollHeight) return;
-    graph.changeSize(container.scrollWidth, container.scrollHeight - 20);
-  };
+    if (typeof window !== 'undefined')
+      window.onresize = () => {
+        if (!graph || graph.destroyed) return;
+        if (!container || !container.scrollWidth || !container.scrollHeight) return;
+        graph.setSize([container.scrollWidth, container.scrollHeight - 20]);
+      };
+
+    const btnContainer = document.createElement('div');
+    btnContainer.style.position = 'absolute';
+    container.appendChild(btnContainer);
+    const tip = document.createElement('span');
+    tip.innerHTML = '👉 Change layoutConfigs:';
+    btnContainer.appendChild(tip);
+
+    Object.keys(layoutConfigs).forEach((name, i) => {
+      const btn = document.createElement('a');
+      btn.innerHTML = name;
+      btn.style.backgroundColor = 'rgba(255, 255, 255, 0.8)';
+      btn.style.padding = '4px';
+      btn.style.marginLeft = i > 0 ? '24px' : '8px';
+      btnContainer.appendChild(btn);
+      btn.addEventListener('click', () => {
+        graph.layout(layoutConfigs[name]);
+      });
+    });
+  });

@@ -1,10 +1,16 @@
 ---
-title: TimeBar
+title: Timebar
 order: 5
 ---
 
-TimeBar is a build-in component in G6.
+Timebar is a build-in Component in G6.
 
 ## Usage
 
-The demo below shows how to use TimeBar on graph. The second demo demonstrates the configurations for the TimeBar.
+The demo below show how to use timebar on graph. Timebar's style can be defined by the CSS with class name `g6-component-timebar`:
+
+```css
+.g6-component-timebar {
+    // css styles
+  }
+```

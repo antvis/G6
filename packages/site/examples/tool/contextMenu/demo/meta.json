@@ -5,12 +5,12 @@
   },
   "demos": [
     {
-      "filename": "contextMenu.js",
+      "filename": "contextMenu.ts",
       "title": {
         "zh": "上下文菜单",
         "en": "Context Menu"
       },
-      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*YtBHR5akE2gAAAAAAAAAAABkARQnAQ"
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*vY6TS7FGvngAAAAAAAAAAAAADmJ7AQ/original"
     }
   ]
 }

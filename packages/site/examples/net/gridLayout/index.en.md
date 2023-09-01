@@ -1,6 +1,6 @@
 ---
 title: Grid
-order: 5
+order: 11
 ---
 
 Grid Layout will order the nodes according to the parameters, and then place the nodes on the grids.

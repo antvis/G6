@@ -1,105 +1,134 @@
-import G6 from '@antv/g6';
+import { Graph, extend, Extensions } from '@antv/g6';
 
-/**
- * 该案例演示切换交互模式，在不同模式下实现拖动节点、增加节点、增加边的交互行为。
- */
-let addedCount = 0;
-// Register a custom behavior: add a node when user click the blank part of canvas
-G6.registerBehavior('click-add-node', {
-  // Set the events and the corresponding responsing function for this behavior
+class ClickAddNodeBehavior extends Extensions.BaseBehavior {
   getEvents() {
     // The event is canvas:click, the responsing function is onClick
     return {
-      'canvas:click': 'onClick',
+      'canvas:click': this.onClick,
     };
-  },
-  // Click event
+  }
   onClick(ev) {
-    const self = this;
-    const graph = self.graph;
     // Add a new node
-    graph.addItem('node', {
-      x: ev.canvasX,
-      y: ev.canvasY,
-      id: `node-${addedCount}`, // Generate the unique id
+    this.graph.addData('node', {
+      id: `node-${Math.random()}`, // Generate the unique id
+      data: {
+        x: ev.canvas.x,
+        y: ev.canvas.y,
+      },
     });
-    addedCount++;
-  },
-});
-// Register a custom behavior: click two end nodes to add an edge
-G6.registerBehavior('click-add-edge', {
-  // Set the events and the corresponding responsing function for this behavior
+  }
+}
+
+// Custom behavior: click two end nodes to add an edge
+class ClickAddEdgeBehavior extends Extensions.BaseBehavior {
+  virtualEdgeId = 'add-edge-virtual-edge';
+  virtualNodeId = 'add-edge-virtual-node';
   getEvents() {
+    // Set the events and the corresponding responsing function for this behavior
     return {
-      'node:click': 'onClick', // The event is canvas:click, the responsing function is onClick
-      mousemove: 'onMousemove', // The event is mousemove, the responsing function is onMousemove
-      'edge:click': 'onEdgeClick', // The event is edge:click, the responsing function is onEdgeClick
+      'node:click': this.onClick, // The event is canvas:click, the responsing function is onClick
+      pointermove: this.onMousemove, // The event is mousemove, the responsing function is onMousemove
+      'edge:click': this.onEdgeClick, // The event is edge:click, the responsing function is onEdgeClick
     };
-  },
+  }
   // The responsing function for node:click defined in getEvents
   onClick(ev) {
-    const self = this;
-    const node = ev.item;
-    const graph = self.graph;
     // The position where the mouse clicks
-    const point = { x: ev.x, y: ev.y };
-    const model = node.getModel();
-    if (self.addingEdge && self.edge) {
-      graph.updateItem(self.edge, {
-        target: model.id,
+    if (this.addingEdge && this.edge) {
+      graph.addData('edge', {
+        id: `actual-edge-${Math.random()}`,
+        target: ev.itemId,
+        source: this.edge.source,
       });
-
-      self.edge = null;
-      self.addingEdge = false;
+      if (this.graph.getNodeData(this.virtualNodeId)) this.graph.removeData('node', this.virtualNodeId);
+      if (this.graph.getEdgeData(this.virtualEdgeId)) this.graph.removeData('edge', this.virtualEdgeId);
+      this.edge = null;
+      this.addingEdge = false;
     } else {
       // Add anew edge, the end node is the current node user clicks
-      self.edge = graph.addItem('edge', {
-        source: model.id,
-        target: model.id,
+      this.graph.addData('node', {
+        id: this.virtualNodeId,
+        data: {
+          x: ev.canvas.x,
+          y: ev.canvas.y,
+          keyShape: {
+            opacity: 0,
+            interactive: false,
+          },
+          labelShape: {
+            opacity: 0,
+            interactive: false,
+          },
+        },
       });
-      self.addingEdge = true;
+      this.edge = graph.addData('edge', {
+        id: this.virtualEdgeId,
+        source: ev.itemId,
+        target: this.virtualNodeId,
+        data: {},
+      });
+      this.addingEdge = true;
     }
-  },
+  }
   // The responsing function for mousemove defined in getEvents
   onMousemove(ev) {
-    const self = this;
     // The current position the mouse clicks
-    const point = { x: ev.x, y: ev.y };
-    if (self.addingEdge && self.edge) {
+    if (this.addingEdge && this.edge) {
       // Update the end node to the current node the mouse clicks
-      self.graph.updateItem(self.edge, {
-        target: point,
+      // this.graph.updateData('edge', {
+      //   id: this.edge.id,
+      //   target: point,
+      // });
+      this.graph.updateData('node', {
+        id: this.virtualNodeId,
+        data: {
+          x: ev.canvas.x,
+          y: ev.canvas.y,
+        },
       });
     }
-  },
+  }
   // The responsing function for edge:click defined in getEvents
   onEdgeClick(ev) {
-    const self = this;
-    const currentEdge = ev.item;
-    if (self.addingEdge && self.edge === currentEdge) {
-      self.graph.removeItem(self.edge);
-      self.edge = null;
-      self.addingEdge = false;
+    if (this.addingEdge && this.edge.id === ev.itemId) {
+      this.graph.removeData('node', this.virtualNodeId);
+      this.graph.removeData('edge', this.virtualEdgeId);
+      this.edge = null;
+      this.addingEdge = false;
     }
+  }
+}
+
+const ExtGraph = extend(Graph, {
+  behaviors: {
+    'click-add-node': ClickAddNodeBehavior,
+    'click-add-edge': ClickAddEdgeBehavior,
   },
 });
+
 // Initial data
 const data = {
   nodes: [
     {
       id: 'node1',
-      x: 100,
-      y: 200,
+      data: {
+        x: 100,
+        y: 200,
+      },
     },
     {
       id: 'node2',
-      x: 300,
-      y: 200,
+      data: {
+        x: 300,
+        y: 200,
+      },
     },
     {
       id: 'node3',
-      x: 300,
-      y: 300,
+      data: {
+        x: 300,
+        y: 300,
+      },
     },
   ],
   edges: [
@@ -116,6 +145,8 @@ const container = document.getElementById('container');
 // Add a selector to DOM
 const selector = document.createElement('select');
 selector.id = 'selector';
+selector.style.position = 'absolute';
+selector.style.zIndex = 10;
 const selection1 = document.createElement('option');
 selection1.value = 'default';
 selection1.innerHTML = 'Default Mode';
@@ -132,31 +163,21 @@ container.appendChild(selector);
 
 const width = container.scrollWidth;
 const height = (container.scrollHeight || 500) - 30;
-const graph = new G6.Graph({
+const graph = new ExtGraph({
   container: 'container',
   width,
   height,
   // The sets of behavior modes
   modes: {
     // Defualt mode
-    default: ['drag-node', 'click-select'],
+    default: ['drag-node', 'click-select', 'drag-canvas'],
     // Adding node mode
     addNode: ['click-add-node', 'click-select'],
     // Adding edge mode
     addEdge: ['click-add-edge', 'click-select'],
   },
-  // The node styles in different states
-  nodeStateStyles: {
-    // The node styles in selected state
-    selected: {
-      stroke: '#666',
-      lineWidth: 2,
-      fill: 'steelblue',
-    },
-  },
+  data,
 });
-graph.data(data);
-graph.render();
 
 // Listen to the selector, change the mode when the selector is changed
 selector.addEventListener('change', (e) => {
@@ -167,7 +188,7 @@ selector.addEventListener('change', (e) => {
 
 if (typeof window !== 'undefined')
   window.onresize = () => {
-    if (!graph || graph.get('destroyed')) return;
+    if (!graph || graph.destroyed) return;
     if (!container || !container.scrollWidth || !container.scrollHeight) return;
-    graph.changeSize(container.scrollWidth, container.scrollHeight - 30);
+    graph.setSize([container.scrollWidth, container.scrollHeight - 30]);
   };

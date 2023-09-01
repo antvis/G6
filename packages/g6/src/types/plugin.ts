@@ -1,4 +1,4 @@
-import { each, deepMix } from '@antv/util';
+import { deepMix, each } from '@antv/util';
 import { IGraph } from './graph';
 
 export interface IPluginBaseConfig {
@@ -13,6 +13,8 @@ interface EventMapType {
 }
 
 export abstract class Plugin {
+  public key: string;
+
   private events: EventMapType;
 
   public options: IPluginBaseConfig;
@@ -74,4 +76,8 @@ export abstract class Plugin {
     (this.options as IPluginBaseConfig | null) = null;
     this.destroyed = true;
   }
+}
+
+export interface PluginRegistry {
+  [key: string]: typeof Plugin;
 }

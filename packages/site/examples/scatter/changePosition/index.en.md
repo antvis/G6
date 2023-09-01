@@ -1,10 +1,12 @@
 ---
-title: Node Move Animation
+title: Animations
 order: 5
 ---
 
-Change the node positions by `changeData` method is a simple way to realize the node animation.
+Configure the animation of the element in the spec of the graph, including the animations of entering, exiting, updating, hiding, and appearing.
+
+If you are calling a view port API of graph, try to configure the effectTiming param for it to enable the animations.
 
 ### Usage
 
-For simple animation, change positions by `changeData` is a straightforward way. But it is not a good solution for complex scenario. Please refer to the document [Animation](/en/docs/manual/middle/animation).
+Configure the animates of node / edge / combo in the spec of the graph. Config effectTiming for graph view port APIs.

@@ -401,11 +401,14 @@ export const getAnimatesExcludePosition = (animates) => {
   const excludedAnimates = [];
   animates.update.forEach((animate) => {
     const { shapeId, fields } = animate;
+    const newFields = [...fields];
     if (!isGroupId(shapeId)) {
-      excludedAnimates.push(animate);
+      excludedAnimates.push({
+        ...animate,
+        fields: newFields,
+      });
       return;
     }
-    const newFields = fields;
     let isGroupPosition = false;
     if (fields.includes('x')) {
       const xFieldIdx = newFields.indexOf('x');
@@ -427,7 +430,10 @@ export const getAnimatesExcludePosition = (animates) => {
         });
       }
     } else {
-      excludedAnimates.push(animate);
+      excludedAnimates.push({
+        ...animate,
+        fields: newFields,
+      });
     }
   });
   return {
@@ -449,13 +455,14 @@ export const fadeIn = (id, shape, style, hiddenShape, animateConfig) => {
   shape.animate([{ opacity: 0 }, { opacity }], animateConfig);
 };
 
-export const fadeOut = (id, shape, hiddenShape, animateConfig) => {
+export const fadeOut = (id, shape, hiddenShapeMap, animateConfig) => {
   if (!shape?.isVisible()) return;
-  hiddenShape[id] = true;
+  hiddenShapeMap[id] = true;
   const { opacity = 1 } = shape.attributes;
   if (opacity === 0) return;
   const animation = shape.animate([{ opacity }, { opacity: 0 }], animateConfig);
-  animation.onfinish = () => shape.hide();
+  if (animation) animation.onfinish = () => shape.hide();
+  else shape.hide();
 };
 
 /**

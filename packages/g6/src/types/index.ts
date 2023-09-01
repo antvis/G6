@@ -1,14 +1,45 @@
 export type { ID } from '@antv/graphlib';
+export type { IAnimate, IAnimates, AnimateTiming, AnimateCfg } from './animate';
+export type { Behavior, BehaviorOptionsOf, BehaviorRegistry } from './behavior';
+export type {
+  NodeDisplayModel,
+  NodeModel,
+  NodeUserModel,
+  NodeEncode,
+  NodeShapeStyles,
+  NodeLabelPosition,
+  NodeShapesEncode,
+  NodeModelData,
+} from './node';
 export type {
   ComboDisplayModel,
+  ComboLabelPosition,
   ComboModel,
+  ComboModelData,
+  ComboShapeStyles,
+  ComboShapesEncode,
   ComboUserModel,
-  ICombo,
 } from './combo';
-export type { GraphData } from './data';
-export type { EdgeDisplayModel, EdgeModel, EdgeUserModel, IEdge } from './edge';
-export type { IG6GraphEvent } from './event';
+export type { Point } from './common';
+export type {
+  DataConfig,
+  DisplayGraphCore,
+  GraphCore,
+  GraphData,
+  TreeData,
+} from './data';
+export type {
+  EdgeDisplayModel,
+  EdgeLabelPosition,
+  EdgeModel,
+  EdgeModelData,
+  EdgeShapeStyles,
+  EdgeShapesEncode,
+  EdgeUserModel,
+} from './edge';
+export type { ICanvasEventType, IG6GraphEvent } from './event';
 export type { IGraph } from './graph';
+export type { StackCfg } from './history';
 export {
   isImmediatelyInvokedLayoutOptions,
   isLayoutWorkerized,
@@ -18,12 +49,6 @@ export type {
   LayoutOptions,
   StandardLayoutOptions,
 } from './layout';
-export type {
-  INode,
-  NodeDisplayModel,
-  NodeModel,
-  NodeUserModel,
-  NodeEncode,
-  NodeModelData,
-} from './node';
+export type { Plugin as PluginBase } from './plugin';
 export type { Specification } from './spec';
+export type { ThemeSpecification } from './theme';

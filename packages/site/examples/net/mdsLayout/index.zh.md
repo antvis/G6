@@ -1,6 +1,6 @@
 ---
 title: MDS 布局
-order: 7
+order: 12
 ---
 
 MDS（Multidemensional Scaling）本是用于高维数据降维的算法。关系图数据可视化中的布局可以看作是高维数据降维到二维屏幕空间中。

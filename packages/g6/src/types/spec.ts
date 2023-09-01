@@ -27,6 +27,7 @@ import { ThemeOptionsOf, ThemeRegistry } from './theme';
 
 import { RendererName } from './render';
 import { StackCfg } from './history';
+import { Plugin } from './plugin';
 
 export interface Specification<
   B extends BehaviorRegistry,
@@ -69,7 +70,7 @@ export interface Specification<
 
   /** data */
   data?: DataConfig;
-  transform?:
+  transforms?:
     | string[]
     | {
         type: string;
@@ -120,6 +121,7 @@ export interface Specification<
         type: string;
         [cfgName: string]: unknown; // TODO: configs from plugins
       }
+    | Plugin
   )[];
 
   /** theme */

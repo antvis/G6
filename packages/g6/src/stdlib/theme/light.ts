@@ -18,7 +18,7 @@ const comboStroke = 'rgba(153,173,209,1)';
 const comboSelectedStroke = 'rgba(27,50,79,1)';
 const disabledStroke = 'rgba(153,173,209,1)';
 
-export default {
+export const LightTheme = {
   node: {
     palette: [
       '#4089FF',

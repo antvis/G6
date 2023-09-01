@@ -1,4 +1,4 @@
-import G6 from '../../../src/index';
+import { Graph, Extensions, extend } from '../../../src/index';
 import { container, height, width } from '../../datasets/const';
 
 export default () => {
@@ -40,16 +40,11 @@ export default () => {
       data: {
         ...data,
         keyShape: {
-          controlPoints: [150, 100],
+          controlPoints: [{ x: 150, y: 200 }],
           // curvePosition: 0.5,
           curveOffset: [0, 20],
           stroke: 'blue',
         },
-        // iconShape: {
-        //    // img: 'https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg',
-        //     text: 'label',
-        //     fill: 'blue'
-        // },
         labelShape: {
           text: 'label',
           position: 'middle',
@@ -61,7 +56,13 @@ export default () => {
       },
     };
   };
-  const graph = new G6.Graph({
+
+  const ExtGraph = extend(Graph, {
+    edges: {
+      'quadratic-edge': Extensions.QuadraticEdge,
+    },
+  });
+  const graph = new ExtGraph({
     container,
     width,
     height,

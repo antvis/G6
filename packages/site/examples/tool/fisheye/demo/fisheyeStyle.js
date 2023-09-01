@@ -1,6 +1,12 @@
-import G6 from '@antv/g6';
+import { Graph as BaseGraph, Extensions, extend } from '@antv/g6';
 
-let fisheye = new G6.Fisheye({
+const Graph = extend(BaseGraph, {
+  plugins: {
+    fisheye: Extensions.Fisheye,
+  },
+});
+
+let fisheye = new Extensions.Fisheye({
   r: 200,
   showLabel: true,
   delegateStyle: {
@@ -9,17 +15,7 @@ let fisheye = new G6.Fisheye({
     stroke: '#666',
   },
 });
-const colors = [
-  '#8FE9FF',
-  '#87EAEF',
-  '#FFC9E3',
-  '#A7C2FF',
-  '#FFA1E3',
-  '#FFE269',
-  '#BFCFEE',
-  '#FFA0C5',
-  '#D5FF86',
-];
+const colors = ['#8FE9FF', '#87EAEF', '#FFC9E3', '#A7C2FF', '#FFA1E3', '#FFE269', '#BFCFEE', '#FFA0C5', '#D5FF86'];
 
 const graphDiv = document.getElementById('container');
 
@@ -50,11 +46,28 @@ graphDiv.parentNode.appendChild(buttonContainer);
 const container = document.getElementById('container');
 const width = container.scrollWidth;
 const height = container.scrollHeight || 500;
-const graph = new G6.Graph({
+const graph = new Graph({
   container: 'container',
   width,
   height,
+  transforms: ['transform-v4-data'],
   plugins: [fisheye],
+  node: (model) => {
+    return {
+      id: model.id,
+      data: {
+        ...model.data,
+        keyShape: {
+          fill: colors[Math.floor(Math.random() * 9)],
+          r: Math.random() * 30 + 10,
+        },
+        labelShape: {
+          visibility: 'hidden',
+          text: model.id,
+        },
+      },
+    };
+  },
 });
 
 clearButton.addEventListener('click', (e) => {
@@ -63,43 +76,26 @@ clearButton.addEventListener('click', (e) => {
 switchButton.addEventListener('click', (e) => {
   if (switchButton.value === 'Disable') {
     switchButton.value = 'Enable';
-    graph.removePlugin(fisheye);
+    graph.removePlugins(fisheye);
   } else {
     switchButton.value = 'Disable';
-    fisheye = new G6.Fisheye({
+    fisheye = new Extensions.Fisheye({
       r: 200,
       showLabel: true,
     });
-    graph.addPlugin(fisheye);
+    graph.addPlugins(fisheye);
   }
 });
 
 fetch('https://gw.alipayobjects.com/os/bmw-prod/afe8b2a6-f691-4070-aa73-46fc07fd1171.json')
   .then((res) => res.json())
   .then((data) => {
-    data.nodes.forEach((node) => {
-      node.label = node.id;
-      node.size = Math.random() * 30 + 10;
-      node.style = {
-        fill: colors[Math.floor(Math.random() * 9)],
-        lineWidth: 0,
-      };
-    });
-    graph.data(data);
-    graph.render();
-    graph.getNodes().forEach((node) => {
-      node
-        .getContainer()
-        .getChildren()
-        .forEach((shape) => {
-          if (shape.get('type') === 'text') shape.hide();
-        });
-    });
+    graph.read(data);
   });
 
 if (typeof window !== 'undefined')
   window.onresize = () => {
-    if (!graph || graph.get('destroyed')) return;
+    if (!graph || graph.destroyed) return;
     if (!container || !container.scrollWidth || !container.scrollHeight) return;
-    graph.changeSize(container.scrollWidth, container.scrollHeight);
+    graph.setSize([container.scrollWidth, container.scrollHeight]);
   };

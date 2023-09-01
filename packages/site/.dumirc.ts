@@ -59,7 +59,7 @@ export default defineConfig({
     themeSwitcher: 'g2',
     versions: {
       // 历史版本以及切换下拉菜单
-      [version]: 'https://g6.antv.antgroup.com',
+      [version]: 'https://g6-next.antv.antgroup.com',
       '4.x': 'https://g6.antv.antgroup.com',
       '3.2.x': 'https://g6-v3-2.antv.vision',
     },
@@ -84,7 +84,7 @@ export default defineConfig({
         },
       },
       {
-        slug: 'docs/api/Graph',
+        slug: 'docs/apis',
         title: {
           zh: 'API',
           en: 'API',
@@ -149,20 +149,12 @@ export default defineConfig({
       //   order: 4,
       // },
       {
-        slug: 'manual/FAQ',
-        title: {
-          zh: 'FAQ',
-          en: 'FAQ',
-        },
-        order: 2,
-      },
-      {
         slug: 'manual/tutorial',
         title: {
           zh: '入门教程',
           en: 'Tutorial',
         },
-        order: 3,
+        order: 4,
       },
       // ===========Concepts===================
       // {
@@ -293,37 +285,70 @@ export default defineConfig({
       // },
       // ==========API====================
       {
-        slug: 'api/graphLayout',
+        slug: 'apis/modules',
         title: {
-          zh: '图布局 Graph Layout',
-          en: 'Graph Layout',
+          zh: 'modules',
+          en: 'modules',
         },
         order: 2,
       },
       {
-        slug: 'api/graphFunc',
+        slug: 'apis/interfaces/graph',
         title: {
-          zh: 'Graph 实例方法',
-          en: 'Graph Functions',
+          zh: 'graph',
+          en: 'graph',
         },
-        order: 1,
+        order: 3,
       },
       {
-        slug: 'api/treeGraphLayout',
+        slug: 'apis/interfaces/item',
         title: {
-          zh: '树图布局 TreeGraph Layout',
-          en: 'TreeGraph Layout',
+          zh: 'item',
+          en: 'item',
+        },
+        order: 4,
+      },
+      {
+        slug: 'apis/interfaces/plugins',
+        title: {
+          zh: 'plugins',
+          en: 'plugins',
+        },
+        order: 7,
+      },
+      {
+        slug: 'apis/interfaces/layout',
+        title: {
+          zh: 'layout',
+          en: 'layout',
         },
         order: 5,
       },
       {
-        slug: 'api/Items',
+        slug: 'apis/interfaces/behaviors',
         title: {
-          zh: '元素方法和配置',
-          en: 'Item Functions & Options',
+          zh: 'behaviors',
+          en: 'behaviors',
         },
         order: 6,
       },
+
+      {
+        slug: 'apis/classes',
+        title: {
+          zh: 'classes',
+          en: 'classes',
+        },
+        order: 8,
+      },
+      // {
+      //   slug: 'apis/interfaces',
+      //   title: {
+      //     zh: 'interfaces',
+      //     en: 'interfaces',
+      //   },
+      //   order: 2,
+      // },
     ],
     tutorials: [
       {
@@ -345,19 +370,19 @@ export default defineConfig({
       //   },
       // },
       {
-        slug: 'net',
-        icon: 'net',
+        slug: 'feature',
+        icon: 'gallery',
         title: {
-          zh: '布局：一般图',
-          en: 'Layout：General Graph',
+          zh: '5.0 新能力',
+          en: '5.0 Features',
         },
       },
       {
-        slug: 'tree',
-        icon: 'tree', // 图标名可以去 https://antv.alipay.com/zh-cn/g2/3.x/demo/index.html 打开控制台查看图标类名
+        slug: 'net',
+        icon: 'net',
         title: {
-          zh: '布局：树图',
-          en: 'Layout：Tree Graph',
+          zh: '图布局',
+          en: 'Graph Layout',
         },
       },
       {
@@ -393,14 +418,6 @@ export default defineConfig({
         },
       },
       {
-        slug: 'algorithm',
-        icon: 'gallery',
-        title: {
-          zh: '算法',
-          en: 'Algorithm',
-        },
-      },
-      {
         slug: 'performance',
         icon: 'net',
         title: {
@@ -427,10 +444,8 @@ export default defineConfig({
         en: 'G6 Graph Visualization Engine',
       },
       description: {
-        zh:
-          'G6 是一个简单、易用、完备的图可视化引擎，它在高定制能力的基础上，提供了一系列设计优雅、便于使用的图可视化解决方案。能帮助开发者搭建属于自己的图可视化、图分析、或图编辑器应用。',
-        en:
-          'G6 is graph visualization engine with simplicity and convenience. Based on the ability of customize, it provides a set of elegant graph visualization solutions, and helps developers to build up applications for graph visualization, graph analysis, and graph editor.',
+        zh: 'G6 是一个简单、易用、完备的图可视化引擎，它在高定制能力的基础上，提供了一系列设计优雅、便于使用的图可视化解决方案。能帮助开发者搭建属于自己的图可视化、图分析、或图编辑器应用。',
+        en: 'G6 is graph visualization engine with simplicity and convenience. Based on the ability of customize, it provides a set of elegant graph visualization solutions, and helps developers to build up applications for graph visualization, graph analysis, and graph editor.',
       },
       image: 'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*j5AqSpmNPdYAAAAAAAAAAABkARQnAQ',
       buttons: [
@@ -517,16 +532,14 @@ export default defineConfig({
     /** 首页案例 */
     cases: [
       {
-        logo:
-          'https://camo.githubusercontent.com/53886f0e306c9f01c96dee2edca3992830b7cbb769118029a7e5d677deb7e67e/68747470733a2f2f67772e616c697061796f626a656374732e636f6d2f7a6f732f616e7466696e63646e2f306234487a4f63454a592f4772617068696e2e737667',
+        logo: 'https://camo.githubusercontent.com/53886f0e306c9f01c96dee2edca3992830b7cbb769118029a7e5d677deb7e67e/68747470733a2f2f67772e616c697061796f626a656374732e636f6d2f7a6f732f616e7466696e63646e2f306234487a4f63454a592f4772617068696e2e737667',
         title: {
           zh: 'Graphin 图可视分析组件',
           en: 'Graphin: Graph Insight',
         },
         description: {
           zh: 'Graphin 是一款基于 G6 封装的 React 分析组件库，专注在关系可视分析领域，简单高效，开箱即用。',
-          en:
-            "Graphin stands for Graph Insight. It's a toolkit based on G6 and React, that focuses on relational visual analysis.It's simple, efficient, out of the box.",
+          en: "Graphin stands for Graph Insight. It's a toolkit based on G6 and React, that focuses on relational visual analysis.It's simple, efficient, out of the box.",
         },
         link: `https://graphin.antv.vision`,
         image: 'https://gw.alipayobjects.com/mdn/rms_00edcb/afts/img/A*LKq7Q5wPA0AAAAAAAAAAAAAAARQnAQ',
@@ -539,8 +552,7 @@ export default defineConfig({
         },
         description: {
           zh: '基于 G6 实现的动态决策树，辅助用户寻找合适的可视化方式。它展示了 G6 强大的自定义节点和动画的能力。',
-          en:
-            'It is an interactive graph for users to find out an appropriate visualization method for their requirements. The demo shows the powerful custom node and animation ability of G6.',
+          en: 'It is an interactive graph for users to find out an appropriate visualization method for their requirements. The demo shows the powerful custom node and animation ability of G6.',
         },
         link: `/examples/case/graphDemos/#decisionBubbles`,
         image: 'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*10b6R5fkyJ4AAAAAAAAAAABkARQnAQ',
@@ -552,10 +564,8 @@ export default defineConfig({
           en: 'Graph Analysis App Powered by G6',
         },
         description: {
-          zh:
-            '社交网络分析是图可视化中一个重要的应用场景。随着社交网络越来越流行，人与人、人与组织之间的关系变得越来越复杂，使用传统的分析手段，已经很难满足我们的分析需求。在这种情况下，图分析及图可视化显得愈发重要。',
-          en:
-            'Social network is an important scenario in graph visualization. The relationships become complicate with the development of social network. Graph visualization and analysis do well on these complex cases.',
+          zh: '社交网络分析是图可视化中一个重要的应用场景。随着社交网络越来越流行，人与人、人与组织之间的关系变得越来越复杂，使用传统的分析手段，已经很难满足我们的分析需求。在这种情况下，图分析及图可视化显得愈发重要。',
+          en: 'Social network is an important scenario in graph visualization. The relationships become complicate with the development of social network. Graph visualization and analysis do well on these complex cases.',
         },
         link: `/manual/cases/relations`,
         image: 'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*RYFQSZYewokAAAAAAAAAAABkARQnAQ',
@@ -567,10 +577,8 @@ export default defineConfig({
           en: 'Dynamic Relationships Analysis Powered by G6',
         },
         description: {
-          zh:
-            '基于 G6 的关系时序分析应用，解决应急过程中流程、影响面、应急预案等一系列应急决策辅助信息和手段，快速止血以减少和避免故障升级。',
-          en:
-            'This is an application for dynamic relationships analysis based on G6, which helps people deal with the flow, influence, and find out solutions to avoid losses and faults.',
+          zh: '基于 G6 的关系时序分析应用，解决应急过程中流程、影响面、应急预案等一系列应急决策辅助信息和手段，快速止血以减少和避免故障升级。',
+          en: 'This is an application for dynamic relationships analysis based on G6, which helps people deal with the flow, influence, and find out solutions to avoid losses and faults.',
         },
         link: `/manual/cases/sequenceTime`,
         image: 'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*m41kSpg17ZkAAAAAAAAAAABkARQnAQ',

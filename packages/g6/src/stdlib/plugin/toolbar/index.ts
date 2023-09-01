@@ -3,11 +3,26 @@ import insertCss from 'insert-css';
 import { IGraph } from '../../../types';
 import { Plugin as Base, IPluginBaseConfig } from '../../../types/plugin';
 
-interface ToolbarConfig extends IPluginBaseConfig {
+/**
+ * The `ToolbarConfig` interface contains the following properties:
+
+- `handleClick`: An optional function for handling clicks on the toolbar. It takes two arguments: `code` (of type string) and `graph` (of type IGraph), and has no return value.
+- `getContent`: A required function for getting the content of the toolbar. It takes an optional argument of type `IGraph`, and returns a value of type HTMLDivElement or string.
+- `zoomSensitivity`: An optional number representing the zoom sensitivity of the toolbar. The default value is 10.
+- `minZoom`: An optional number representing the minimum zoom ratio of the toolbar. The default value is 0.00001.
+- `maxZoom`: An optional number representing the maximum zoom ratio of the toolbar. The default value is 1000.
+
+ */
+export interface ToolbarConfig extends IPluginBaseConfig {
+  /** Function for handling clicks on toolbar */
   handleClick?: (code: string, graph: IGraph) => void;
+  /** Function for getting content of toolbar */
   getContent: (graph?: IGraph) => HTMLDivElement | string;
+  /** Zoom sensitivity of toolbar */
   zoomSensitivity: number;
+  /** Minimum zoom ratio of toolbar */
   minZoom: number;
+  /** Maximum zoom ratio of toolbar */
   maxZoom: number;
 }
 
@@ -35,7 +50,7 @@ const getEventPath = (evt: MouseEvent) => {
   return path;
 };
 
-export default class Toolbar extends Base {
+export class Toolbar extends Base {
   public ToolbarDOM: HTMLDivElement;
   public ContainerDOM: HTMLElement;
   constructor(config: Partial<ToolbarConfig>) {
@@ -135,7 +150,7 @@ export default class Toolbar extends Base {
    * insert css style
    */
   private insertStyle() {
-    if (typeof document !== undefined) {
+    if (typeof document !== 'undefined') {
       insertCss(`
       .g6-component-toolbar {
         position: absolute;

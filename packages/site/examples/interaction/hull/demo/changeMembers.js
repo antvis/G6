@@ -1,132 +1,161 @@
-import G6 from '@antv/g6';
+import { Graph, Extensions, extend } from '@antv/g6';
 
 const data = {
   nodes: [
     {
       id: '1',
-      label: '公司1',
-      group: 1,
+      data: {
+        label: '公司1',
+        group: 1,
+      },
     },
     {
       id: '2',
-      label: '公司2',
-      group: 1,
+      data: {
+        label: '公司2',
+        group: 1,
+      },
     },
     {
       id: '3',
-      label: '公司3',
-      group: 1,
+      data: {
+        label: '公司3',
+        group: 1,
+      },
     },
     {
       id: '4',
-      label: '公司4',
-      group: 1,
+      data: {
+        label: '公司4',
+      },
     },
     {
       id: '5',
-      label: '公司5',
-      group: 2,
+      data: {
+        label: '公司5',
+        group: 1,
+      },
     },
     {
       id: '6',
-      label: '公司6',
-      group: 2,
+      data: {
+        label: '公司6',
+        group: 2,
+      },
     },
     {
       id: '7',
-      label: '公司7',
-      group: 2,
+      data: {
+        label: '公司7',
+        group: 2,
+      },
     },
     {
       id: '8',
-      label: '公司8',
-      group: 2,
+      data: {
+        label: '公司8',
+        group: 1,
+      },
     },
     {
       id: '9',
-      label: '公司9',
-      group: 2,
+      data: {
+        label: '公司9',
+        group: 2,
+      },
     },
   ],
   edges: [
     {
+      id: 'edge1',
       source: '1',
       target: '1',
-      type: 'loop',
+      data: { type: 'loop-edge' },
     },
     {
+      id: 'edge2',
       source: '2',
       target: '2',
-      type: 'loop',
+      data: {
+        type: 'loop-edge',
+      },
     },
     {
+      id: 'edge3',
       source: '1',
       target: '2',
       data: {
-        type: 'A',
+        dataType: 'A',
         amount: '100,000 元',
         date: '2019-08-03',
       },
     },
     {
+      id: 'edge4',
       source: '1',
       target: '3',
       data: {
-        type: 'B',
+        dataType: 'B',
         amount: '100,000 元',
         date: '2019-08-03',
       },
     },
     {
+      id: 'edge5',
       source: '2',
       target: '5',
       data: {
-        type: 'C',
+        dataType: 'C',
         amount: '100,000 元',
         date: '2019-08-03',
       },
     },
     {
+      id: 'edge6',
       source: '5',
       target: '6',
       data: {
-        type: 'B',
+        dataType: 'B',
         amount: '100,000 元',
         date: '2019-08-03',
       },
     },
     {
+      id: 'edge7',
       source: '3',
       target: '4',
       data: {
-        type: 'C',
+        dataType: 'C',
         amount: '100,000 元',
         date: '2019-08-03',
       },
     },
     {
+      id: 'edge8',
       source: '4',
       target: '7',
       data: {
-        type: 'B',
+        dataType: 'B',
         amount: '100,000 元',
         date: '2019-08-03',
       },
     },
     {
+      id: 'edge9',
       source: '1',
       target: '8',
       data: {
-        type: 'B',
+        dataType: 'B',
         amount: '100,000 元',
         date: '2019-08-03',
       },
     },
     {
+      id: 'edge10',
       source: '1',
       target: '9',
       data: {
-        type: 'C',
+        dataType: 'C',
         amount: '100,000 元',
         date: '2019-08-03',
       },
@@ -137,76 +166,114 @@ const data = {
 const container = document.getElementById('container');
 const width = container.scrollWidth;
 const height = container.scrollHeight || 500;
-const graph = new G6.Graph({
-  container: 'container',
+
+const hullPlugin = new Extensions.Hull({
+  key: 'hull-plugin',
+});
+
+const ExtGraph = extend(Graph, {
+  edges: {
+    'loop-edge': Extensions.LoopEdge,
+  },
+});
+
+const graph = new ExtGraph({
+  container,
   width,
   height,
+  plugins: [hullPlugin],
   modes: {
     default: ['drag-canvas', 'zoom-canvas', 'drag-node'],
   },
-  fitView: true,
+  autoFit: 'view',
   layout: {
     type: 'grid',
   },
+  data,
 });
 
-graph.data(data);
-graph.render();
-
-const hull1 = graph.createHull({
+hullPlugin.addHull({
   id: 'hull1',
-  type: 'smooth-convex',
   padding: 15,
-  members: graph.getNodes().filter((node) => node.getModel().group === 1),
+  type: 'smooth-convex', //'bubble' | 'round-convex' | 'smooth-convex';
+  members: graph
+    .getAllNodesData()
+    .filter((model) => model.data.group === 1)
+    .map((node) => node.id),
+  labelShape: {
+    text: 'Group1',
+    position: 'left',
+    offsetY: -2,
+  },
 });
-const hull2 = graph.createHull({
+
+hullPlugin.addHull({
   id: 'hull2',
-  members: graph.getNodes().filter((node) => node.getModel().group === 2),
   padding: 15,
-  type: 'bubble',
+  type: 'round-convex',
+  members: graph
+    .getAllNodesData()
+    .filter((model) => model.data.group === 2)
+    .map((node) => node.id),
+  labelShape: {
+    text: 'Group2',
+    position: 'left',
+    offsetY: -2,
+  },
   style: {
     fill: 'pink',
     stroke: 'red',
   },
-  update: 'drag',
 });
 
-graph.on('canvas:contextmenu', (ev) => {
-  ev.preventDefault();
-  ev.stopPropagation();
-  const item = graph.addItem('node', {
-    x: ev.x,
-    y: ev.y,
-    id: Math.random(),
-    group: 2,
+let memberAdded = false;
+let nonMemberAdded = false;
+
+const updateActions = [
+  {
+    name: 'Add/Delete Member',
+    action: () => {
+      if (!memberAdded) {
+        hullPlugin.addHullMember('hull1', ['4']);
+      } else {
+        hullPlugin.removeHullMember('hull1', ['4']);
+      }
+      memberAdded = !memberAdded;
+    },
+  },
+  {
+    name: 'Update Config',
+    action: () => {
+      hullPlugin.updateHull({
+        id: 'hull1',
+        style: { fill: '#ff0' },
+        labelShape: { text: 'updated-label', position: 'top' },
+      });
+    },
+  },
+];
+
+const btnContainer = document.createElement('div');
+btnContainer.style.position = 'absolute';
+container.appendChild(btnContainer);
+const tip = document.createElement('span');
+tip.innerHTML = `👉 update:`;
+btnContainer.appendChild(tip);
+updateActions.forEach((item, i) => {
+  const btn = document.createElement('a');
+  btn.innerHTML = item.name;
+  btn.style.backgroundColor = 'rgba(255, 255, 255, 0.8)';
+  btn.style.padding = '4px';
+  btn.style.marginLeft = i > 0 ? '24px' : '8px';
+  btnContainer.appendChild(btn);
+  btn.addEventListener('click', () => {
+    item.action();
   });
-  hull2.addMember(item);
-});
-
-graph.on('afterupdateitem', (e) => {
-  if (hull1.members.indexOf(e.item) > -1 || hull1.nonMembers.indexOf(e.item) > -1) {
-    hull1.updateData(hull1.members);
-  }
-});
-
-graph.on('node:dragend', (e) => {
-  const item = e.item;
-  const memberIdx = hull2.members.indexOf(item);
-  if (memberIdx > -1) {
-    // 如果移出原hull范围，则去掉
-    if (!hull2.contain(item)) {
-      hull2.removeMember(item);
-    } else {
-      hull2.updateData(hull2.members);
-    }
-  } else {
-    if (hull2.contain(item)) hull2.addMember(item);
-  }
 });
 
 if (typeof window !== 'undefined')
   window.onresize = () => {
-    if (!graph || graph.get('destroyed')) return;
+    if (!graph || graph.destroyed) return;
     if (!container || !container.scrollWidth || !container.scrollHeight) return;
-    graph.changeSize(container.scrollWidth, container.scrollHeight);
+    graph.setSize([container.scrollWidth, container.scrollHeight]);
   };

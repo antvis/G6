@@ -1,32 +1,41 @@
 // TODO: update type define.
 // @ts-nocheck
-import { Canvas, Group, Rect, DisplayObject } from '@antv/g';
-import { isString, isNil, each, debounce } from '@antv/util';
 import { createDom, modifyCSS } from '@antv/dom-util';
+import { Canvas, DisplayObject, Group, Rect } from '@antv/g';
+import { debounce, each, isNil, isString, uniqueId } from '@antv/util';
 import { IGraph } from '../../../types';
+import { IG6GraphEvent } from '../../../types/event';
 import { ShapeStyle } from '../../../types/item';
 import { Plugin as Base, IPluginBaseConfig } from '../../../types/plugin';
 import { createCanvas } from '../../../util/canvas';
-import { IG6GraphEvent } from '../../../types/event';
 
 const DEFAULT_MODE = 'default';
 const KEYSHAPE_MODE = 'keyShape';
 const DELEGATE_MODE = 'delegate';
 const SVG = 'svg';
 
-interface MiniMapConfig extends IPluginBaseConfig {
+export interface MiniMapConfig extends IPluginBaseConfig {
+  /** Class name of viewport */
   viewportClassName?: string;
+  /** Class name of minimap */
   className?: string;
+  /** Mode of minimap */
   mode?: 'default' | 'keyShape' | 'delegate';
+  /** Size of minimap */
   size?: number[];
+  /** Style of delegate shape */
   delegateStyle?: ShapeStyle;
+  /** Whether to refresh minimap */
   refresh?: boolean;
+  /** Padding of minimap */
   padding?: number;
-  hideEdge?: boolean; // hide the edges on the minimap to enhance the performance
+  /** Whether to hide edges on minimap to enhance performance */
+  hideEdge?: boolean;
+  /** Container for minimap */
   container?: HTMLDivElement | null;
 }
 
-export default class Minimap extends Base {
+export class Minimap extends Base {
   private canvas: Canvas;
   /** The viewport DOM on the minimap. */
   private viewport: HTMLElement | undefined;
@@ -52,6 +61,7 @@ export default class Minimap extends Base {
 
   public getDefaultCfgs(): MiniMapConfig {
     return {
+      key: `minimap-${uniqueId()}`,
       container: null,
       className: 'g6-minimap',
       viewportClassName: 'g6-minimap-viewport',

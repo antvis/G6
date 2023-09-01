@@ -1,4 +1,4 @@
-import { Graph, IGraph } from '../../../../src/index';
+import { Graph, Extensions, extend } from '../../../../src/index';
 import { TestCaseContext } from '../../interface';
 // @ts-nocheck
 
@@ -224,6 +224,11 @@ export default (context: TestCaseContext) => {
   createCtrlContainer(container!);
   createControls();
 
+  const ExtGraph = extend(Graph, {
+    behaviors: {
+      'activate-relations': Extensions.ActivateRelations,
+    },
+  });
   // 2.create graph
   graph = new Graph({
     ...context,

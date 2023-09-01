@@ -5,12 +5,52 @@
   },
   "demos": [
     {
-      "filename": "default.js",
+      "filename": "itemAnimates.js",
       "title": {
-        "zh": "节点移动动画",
-        "en": "Node Move Animation"
+        "zh": "元素动画",
+        "en": "Item Animation"
       },
-      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*M-EGS5v6RnUAAAAAAAAAAABkARQnAQ"
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*uVOySpSIZXkAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "animateOrder.js",
+      "title": {
+        "zh": "动画顺序",
+        "en": "Animation Order"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*sBobRa0n7y8AAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "viewAnimates.js",
+      "title": {
+        "zh": "视口动画",
+        "en": "Viewport Animation"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*savcTIdxucoAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "treeAnimates.js",
+      "title": {
+        "zh": "树图动画",
+        "en": "Tree Collapse Animation"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*Gu1bQJJoqvAAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "circleComboAnimates.js",
+      "title": {
+        "zh": "圆形 Combo 动画",
+        "en": "Circle Combo Animation"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*S0sSR4wHM1gAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "rectComboAnimates.js",
+      "title": {
+        "zh": "矩形 Combo 动画",
+        "en": "Rect Combo Animation"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*syoFQqYr0NoAAAAAAAAAAAAADmJ7AQ/original"
     }
   ]
 }
