@@ -69,8 +69,8 @@ importers:
         specifier: ^1.8.36
         version: 1.8.36(@antv/g-lite@1.2.13)
       '@antv/g-webgl':
-        specifier: ^1.9.18
-        version: 1.9.18
+        specifier: ^1.9.19
+        version: 1.9.19
       '@antv/graphlib':
         specifier: ^2.0.2
         version: 2.0.2
@@ -971,11 +971,11 @@ packages:
       tslib: 2.6.2
     dev: false
 
-  /@antv/g-plugin-webgl-device@1.9.15:
-    resolution: {integrity: sha512-ZvHlILtYN57lM4zWLwqeNPD6TeWtzXZF6WrNlR0WqcvK3NLCSgQ+YsJwo7q4tVqbEbQGqYiyaOESVI7c66pVBg==}
+  /@antv/g-plugin-webgl-device@1.9.16:
+    resolution: {integrity: sha512-KGuDQrLl+HRMHh4unY8yMnswwuq3pWIFaV2cS3ePKEuensELLLOFCWzm/2OZjWZas578Pr2OoY84FWuwfuIVZw==}
     dependencies:
       '@antv/g-lite': 1.2.13
-      '@antv/g-plugin-device-renderer': 1.9.15
+      '@antv/g-plugin-device-renderer': 1.9.16
       '@antv/util': 3.3.4
       eventemitter3: 5.0.1
       tslib: 2.6.2
@@ -1016,15 +1016,15 @@ packages:
       tslib: 2.6.2
     dev: false
 
-  /@antv/g-webgl@1.9.18:
-    resolution: {integrity: sha512-+rRzp3aRQxnSR1qsohImzo6aVnjQ1FUd4u9F6qCedEf+ZbvVUZbbXlMCRKCF9NM5y2Tv9WT0fHk+N+2J/c9XAg==}
+  /@antv/g-webgl@1.9.19:
+    resolution: {integrity: sha512-znMRJdD7ucOZ3QzBagiU04WL971A58H8ubwKJ1XY/Rk1cN56FTUR3kSRRc3vD+ZhaqmnAt/HUSMPB7cFwUmkRA==}
     dependencies:
       '@antv/g-lite': 1.2.13
-      '@antv/g-plugin-device-renderer': 1.9.15
+      '@antv/g-plugin-device-renderer': 1.9.16
       '@antv/g-plugin-dom-interaction': 1.9.13
       '@antv/g-plugin-html-renderer': 1.9.16
       '@antv/g-plugin-image-loader': 1.3.13
-      '@antv/g-plugin-webgl-device': 1.9.15
+      '@antv/g-plugin-webgl-device': 1.9.16
       '@antv/util': 3.3.4
       tslib: 2.6.2
     dev: false

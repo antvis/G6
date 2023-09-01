@@ -1,6 +1,6 @@
 {
   "name": "@antv/g6",
-  "version": "5.0.0-beta.2",
+  "version": "5.0.0-beta.3",
   "description": "A Graph Visualization Framework in JavaScript",
   "keywords": [
     "antv",
@@ -69,7 +69,7 @@
     "@antv/g-plugin-control": "^1.7.43",
     "@antv/g-plugin-dragndrop": "^1.8.1",
     "@antv/g-svg": "^1.8.36",
-    "@antv/g-webgl": "^1.9.18",
+    "@antv/g-webgl": "^1.9.19",
     "@antv/graphlib": "^2.0.2",
     "@antv/gui": "0.5.1-alpha.1",
     "@antv/hierarchy": "latest",
