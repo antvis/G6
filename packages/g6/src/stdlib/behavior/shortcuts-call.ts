@@ -4,7 +4,7 @@ import { Behavior } from '../../types/behavior';
 const DEFAULT_TRIGGER = 'ctrl';
 const ALLOW_TRIGGERS = ['shift', 'ctrl', 'alt', 'control'] as const;
 const DEFAULT_COMBINED_KEY = '1';
-type Trigger = typeof ALLOW_TRIGGERS[number];
+type Trigger = (typeof ALLOW_TRIGGERS)[number];
 
 interface ShortcutsCallOptions {
   /**
@@ -37,7 +37,7 @@ const DEFAULT_OPTIONS: ShortcutsCallOptions = {
   functionParams: [],
 };
 
-export default class ShortcutsCall extends Behavior {
+export class ShortcutsCall extends Behavior {
   triggerKeydown = false;
 
   constructor(options: Partial<ShortcutsCallOptions>) {
