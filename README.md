@@ -1,10 +1,14 @@
-# 🔥🔥G6 5.0 alpha 版本已发布，欢迎尝鲜！🔥🔥
+# 🔥🔥G6 5.0 Beta 版本已发布，欢迎尝鲜！🔥🔥
 
 ## **💻 在线尝鲜**
 
-[官网案例](https://g6.antv.antgroup.com/g6v5) | [Codesandbox](https://codesandbox.io/embed/musing-matan-q255po?fontsize=14&hidenavigation=1&theme=dark)
+[v5 官网](https://g6-next.antv.antgroup.com/) | [Features 案例](https://g6-next.antv.antgroup.com/examples)
 
-## **📹 直播回顾**
+[Beta 发布稿](https://g6-next.antv.antgroup.com/manual/beta-publish) | [新功能怎么用](https://g6-next.antv.antgroup.com/manual/new-features)
+
+[升级指南](https://g6-next.antv.antgroup.com/manual/upgrade)
+
+## **📹 Alpha 直播回顾**
 
 [📺 B站](https://www.bilibili.com/video/BV16u4y1d7kv/?share_source=copy_web&vd_source=8b3a1125d63f0a33dbd2501181fd43bf) | [💬 微信](https://mp.weixin.qq.com/s/2hVjFX-oHRob634Cd6nr-w)
 
