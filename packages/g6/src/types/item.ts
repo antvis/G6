@@ -13,6 +13,7 @@ import {
   Group,
   DisplayObject,
   IAnimation,
+  Shape,
 } from '@antv/g';
 import {
   CubeGeometryProps,
@@ -61,11 +62,20 @@ export type GShapeStyle = CircleStyleProps &
     interactive?: boolean;
   };
 
+export type ClipCfg = {
+  type: SHAPE_TYPE;
+  show: boolean;
+} & CircleStyleProps &
+  RectStyleProps &
+  EllipseStyleProps;
+
 export type ShapeStyle = Partial<
   GShapeStyle & {
     animates?: IAnimates;
     lod?: number;
     visible?: boolean;
+  } & {
+    clipCfg?: ClipCfg;
   }
 >;
 export interface Encode<T> {

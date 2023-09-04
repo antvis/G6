@@ -1,7 +1,6 @@
-import { DisplayObject, Shape } from '@antv/g';
+import { DisplayObject } from '@antv/g';
 import { ComboDisplayModel, NodeDisplayModel } from '../../../types';
 import { State } from '../../../types/item';
-
 import {
   NodeModelData,
   NodeShapeMap,
@@ -11,11 +10,6 @@ import { convertToNumber } from '../../../util/type';
 import { BaseNode } from './base';
 import { ComboModelData, ComboShapeMap } from '../../../types/combo';
 import { ShapeTagMap } from '../../../util/shape';
-
-interface ClipCfg {
-  type: Shape;
-  [attributeName: string]: any;
-}
 
 export class ImageNode extends BaseNode {
   override defaultStyles = {
@@ -39,8 +33,8 @@ export class ImageNode extends BaseNode {
     diffData?: { previous: NodeModelData; current: NodeModelData },
     diffState?: { previous: State[]; current: State[] },
   ): DisplayObject {
-    const clipCfg = this.mergedStyles.keyShape?.clipCfg as ClipCfg;
-    let clipPath;
+    const clipCfg = this.mergedStyles.keyShape?.clipCfg;
+    let clipPath: DisplayObject | undefined;
     if (clipCfg) {
       const { type, ...rest } = clipCfg;
       clipPath = new ShapeTagMap[type]();
@@ -53,11 +47,11 @@ export class ImageNode extends BaseNode {
       {
         ...this.mergedStyles.keyShape,
         x:
-          (this.mergedStyles.keyShape.x as number) -
-          this.mergedStyles.keyShape.width / 2,
+          (this.mergedStyles.keyShape!.x as number) -
+          (this.mergedStyles.keyShape!.width as number) / 2,
         y:
-          (this.mergedStyles.keyShape.y as number) -
-          this.mergedStyles.keyShape.height / 2,
+          (this.mergedStyles.keyShape!.y as number) -
+          (this.mergedStyles.keyShape!.height as number) / 2,
         anchor: '0.5 0.5',
       },
       shapeMap,
