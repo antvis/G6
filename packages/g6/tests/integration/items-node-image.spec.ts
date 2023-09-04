@@ -1,6 +1,6 @@
 import { resetEntityCounter } from '@antv/g';
 import { loadImage } from 'canvas';
-import imageNode from '../demo/item/node/image-node';
+import imageNode from '../demo/item/node/image';
 import './utils/useSnapshotMatchers';
 import { createContext } from './utils';
 

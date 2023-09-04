@@ -31,13 +31,6 @@ export default (context: TestCaseContext<HTMLImageElement>) => {
             src:
               extendedParams ??
               'https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*N4ZMS7gHsUIAAAAAAAAAAABkARQnAQ',
-            // clipPath: new Circle({
-            //   style: {
-            //     cx: x,
-            //     cy: y,
-            //     r: 10,
-            //   },
-            // }),
           },
           labelShape: {
             text: innerModel.id,

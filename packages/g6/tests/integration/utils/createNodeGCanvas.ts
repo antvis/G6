@@ -67,6 +67,10 @@ export function createNodeGCanvas(
       requestAnimationFrame: dom.window.requestAnimationFrame,
       cancelAnimationFrame: dom.window.cancelAnimationFrame,
       supportsMutipleCanvasesInOneContainer: true,
+      createImage: () => {
+        const image = new CanvasImage();
+        return image as any;
+      },
     });
   } else {
     const gl = GL(width, height, {
