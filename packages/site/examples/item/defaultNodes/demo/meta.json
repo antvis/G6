@@ -45,6 +45,14 @@
       "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*R45pQLK7pgYAAAAAAAAAAAAADmJ7AQ/original"
     },
     {
+      "filename": "image.js",
+      "title": {
+        "zh": "图片",
+        "en": "Image"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*NPG3SL_n-CYAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
       "filename": "modelRect.js",
       "title": {
         "zh": "模态矩形",

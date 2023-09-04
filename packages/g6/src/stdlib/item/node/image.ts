@@ -1,5 +1,5 @@
 import { DisplayObject } from '@antv/g';
-import { NodeDisplayModel } from '../../../types';
+import { ComboDisplayModel, NodeDisplayModel } from '../../../types';
 import { State } from '../../../types/item';
 
 import {
@@ -7,7 +7,9 @@ import {
   NodeShapeMap,
   NodeShapeStyles,
 } from '../../../types/node';
+import { convertToNumber } from '../../../util/type';
 import { BaseNode } from './base';
+import { ComboModelData, ComboShapeMap } from '../../../types/combo';
 
 export class ImageNode extends BaseNode {
   override defaultStyles = {
@@ -46,6 +48,22 @@ export class ImageNode extends BaseNode {
       shapeMap,
       model,
     );
+  }
+
+  public override calculateAnchorPosition(keyShapeStyle) {
+    const x = convertToNumber(keyShapeStyle.x);
+    const y = convertToNumber(keyShapeStyle.y);
+    const height = keyShapeStyle.height;
+    const width = keyShapeStyle.width;
+    const anchorPositionMap = {};
+    anchorPositionMap['top'] = [x, y - height / 2];
+    anchorPositionMap['left'] = [x - width / 2, y];
+    anchorPositionMap['right'] = anchorPositionMap['default'] = [
+      x + width / 2,
+      y,
+    ];
+    anchorPositionMap['bottom'] = [x, y + height / 2];
+    return anchorPositionMap;
   }
 
   public draw(
@@ -120,5 +138,39 @@ export class ImageNode extends BaseNode {
       };
     }
     return shapes;
+  }
+
+  public drawHaloShape(
+    model: NodeDisplayModel | ComboDisplayModel,
+    shapeMap: NodeShapeMap | ComboShapeMap,
+    diffData?: {
+      previous: NodeModelData | ComboModelData;
+      current: NodeModelData | ComboModelData;
+    },
+    diffState?: { previous: State[]; current: State[] },
+  ): DisplayObject {
+    const { keyShape } = shapeMap;
+    const { haloShape: haloShapeStyle, keyShape: keyShapeStyle } =
+      this.mergedStyles;
+    if (haloShapeStyle.visible === false) return;
+    const { attributes } = keyShape;
+    const { x, y, fill } = attributes;
+
+    return this.upsertShape(
+      'rect',
+      'haloShape',
+      {
+        ...attributes,
+        ...keyShapeStyle,
+        x,
+        y,
+        stroke: fill,
+        ...haloShapeStyle,
+        fill: 'transparent',
+        batchKey: 'halo',
+      },
+      shapeMap,
+      model,
+    );
   }
 }
