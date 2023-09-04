@@ -9,7 +9,7 @@ G6 is a graph visualization engine. It provides basic graph visualization capabi
 
 ## Introduction to the Tutorial
 
-In this tutorial, we will create a simple graph visualization as shown in the following image, which we will refer to as the **Tutorial Example**, <a href='https://codepen.io/Yanyan-Wang/pen/mdbYZvZ' target='_blank'>Full Code</a>.
+In this tutorial, we will create a simple graph visualization as shown in the following image, which we will refer to as the **Tutorial Example**, <a href='https://codesandbox.io/s/g6-v5-tutorial-j67vnm?file=/index.js' target='_blank'>Full Code</a>.
 
 <img src='https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*9VQjTp0Ipi8AAAAAAAAAAAAADmJ7AQ/original' style="text-align: center;" width=500 alt='img' />
 
