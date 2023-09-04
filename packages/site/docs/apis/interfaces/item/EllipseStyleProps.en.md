@@ -2,7 +2,7 @@
 title: EllipseStyleProps
 ---
 
-[Overview - v5.0.0-beta.2](../../README.en.md) / [Modules](../../modules.en.md) / [item](../../modules/item.en.md) / EllipseStyleProps
+[Overview - v5.0.0-beta.3](../../README.en.md) / [Modules](../../modules.en.md) / [item](../../modules/item.en.md) / EllipseStyleProps
 
 [item](../../modules/item.en.md).EllipseStyleProps
 
