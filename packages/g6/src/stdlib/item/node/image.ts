@@ -1,4 +1,4 @@
-import { DisplayObject } from '@antv/g';
+import { DisplayObject, Shape } from '@antv/g';
 import { ComboDisplayModel, NodeDisplayModel } from '../../../types';
 import { State } from '../../../types/item';
 
@@ -10,6 +10,12 @@ import {
 import { convertToNumber } from '../../../util/type';
 import { BaseNode } from './base';
 import { ComboModelData, ComboShapeMap } from '../../../types/combo';
+import { ShapeTagMap } from '../../../util/shape';
+
+interface ClipCfg {
+  type: Shape;
+  [attributeName: string]: any;
+}
 
 export class ImageNode extends BaseNode {
   override defaultStyles = {
@@ -33,7 +39,15 @@ export class ImageNode extends BaseNode {
     diffData?: { previous: NodeModelData; current: NodeModelData },
     diffState?: { previous: State[]; current: State[] },
   ): DisplayObject {
-    return this.upsertShape(
+    const clipCfg = this.mergedStyles.keyShape?.clipCfg as ClipCfg;
+    let clipPath;
+    if (clipCfg) {
+      const { type, ...rest } = clipCfg;
+      clipPath = new ShapeTagMap[type]();
+      clipPath.attr(rest);
+    }
+
+    const shape = this.upsertShape(
       'image',
       'keyShape',
       {
@@ -44,10 +58,18 @@ export class ImageNode extends BaseNode {
         y:
           (this.mergedStyles.keyShape.y as number) -
           this.mergedStyles.keyShape.height / 2,
+        anchor: '0.5 0.5',
       },
       shapeMap,
       model,
     );
+
+    if (clipPath) {
+      shape.appendChild(clipPath);
+      shape.attr('clipPath', clipPath);
+    }
+
+    return shape;
   }
 
   public override calculateAnchorPosition(keyShapeStyle) {
@@ -152,12 +174,14 @@ export class ImageNode extends BaseNode {
     const { keyShape } = shapeMap;
     const { haloShape: haloShapeStyle, keyShape: keyShapeStyle } =
       this.mergedStyles;
-    if (haloShapeStyle.visible === false) return;
+    if (haloShapeStyle?.visible === false) return;
+
+    const clipShape = haloShapeStyle?.clipCfg?.type || 'rect';
     const { attributes } = keyShape;
     const { x, y, fill } = attributes;
 
     return this.upsertShape(
-      'rect',
+      clipShape,
       'haloShape',
       {
         ...attributes,
