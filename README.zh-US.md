@@ -1,3 +1,26 @@
+# 🔥🔥G6 5.0 Beta is Released！🔥🔥
+
+## **💻 Try it Online **
+
+[v5 Site](https://g6-next.antv.antgroup.com/en/) | [Features Demos](https://g6-next.antv.antgroup.com/en/examples)
+
+[Beta Published Content](https://g6-next.antv.antgroup.com/en/manual/beta-publish) | [How to Use the Features](https://g6-next.antv.antgroup.com/manual/en/new-features)
+
+[How to Upgrade](https://g6-next.antv.antgroup.com/en/manual/upgrade)
+
+
+## **🌌 v5 Screen Shots **
+
+[See the Full Image](https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*qPrmQrdV77gAAAAAAAAAAAAADmJ7AQ/original)
+
+<img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*IUOnSbLisyoAAAAAAAAAAAAADmJ7AQ/original" width=600 height=334 alt='' />
+
+[See the Full Image](https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*1BFvQ4r3P7UAAAAAAAAAAAAADmJ7AQ/original)
+
+
+<img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*tPPGSokdSYsAAAAAAAAAAAAADmJ7AQ/original" width=600 height=367 alt='' />
+
+
 # G6: A Graph Visualization Framework in TypeScript
 
 ![](https://user-images.githubusercontent.com/6113694/45008751-ea465300-b036-11e8-8e2a-166cbb338ce2.png)
