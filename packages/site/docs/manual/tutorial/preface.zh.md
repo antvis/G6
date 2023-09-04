@@ -9,7 +9,7 @@ G6 是一个图可视化引擎。它提供了图的绘制、布局、分析、�
 
 ## 入门教程简介
 
-在本入门教程将会完成一个如下图所示简单的图可视化，我们将在后文中称其为 **Tutorial 案例**，<a href='https://codepen.io/Yanyan-Wang/pen/mdbYZvZ' target='_blank'>完整代码</a>。
+在本入门教程将会完成一个如下图所示简单的图可视化，我们将在后文中称其为 **Tutorial 案例**，<a href='https://codesandbox.io/s/g6-v5-tutorial-j67vnm?file=/index.js' target='_blank'>完整代码</a>。
 
 <img src='https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*9VQjTp0Ipi8AAAAAAAAAAAAADmJ7AQ/original' style="text-align: center;" width=500 alt='img' />
 
