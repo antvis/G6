@@ -167,4 +167,82 @@ describe('Animation node buildIn', () => {
       done();
     });
   });
+
+  it.skip('should be rendered correctly with WebGL', (done) => {
+    const dir = `${__dirname}/snapshots/webgl`;
+    const { backgroundCanvas, canvas, transientCanvas, container } =
+      createContext('webgl', 500, 500);
+
+    const graph = nodeBuildIn({
+      container,
+      backgroundCanvas,
+      canvas,
+      transientCanvas,
+      width: 500,
+      height: 500,
+    });
+
+    graph.on('afterlayout', async () => {
+      const nodes = graph.getAllNodesData();
+
+      /**
+       * Time: 0
+       */
+      nodes.forEach(({ id }) => {
+        const node = graph['getItemById'](id);
+        node.animations.forEach((animation) => {
+          animation.currentTime = 0;
+          animation.pause();
+        });
+      });
+      await expect(canvas).toMatchWebGLSnapshot(
+        dir,
+        'animations-node-build-in-ready',
+      );
+
+      /**
+       * Time: 200
+       */
+      nodes.forEach(({ id }) => {
+        const node = graph['getItemById'](id);
+        node.animations.forEach((animation) => {
+          animation.currentTime = 200;
+          animation.pause();
+        });
+      });
+      await expect(canvas).toMatchWebGLSnapshot(
+        dir,
+        'animations-node-build-in-running',
+      );
+
+      /**
+       * Resume all animations.
+       */
+      nodes.forEach(({ id }) => {
+        const node = graph['getItemById'](id);
+        node.animations.forEach((animation) => {
+          animation.play();
+        });
+      });
+
+      /**
+       * Time: finished
+       */
+      await Promise.all(
+        nodes.map(async ({ id }) => {
+          const node = graph['getItemById'](id);
+          await Promise.all(
+            node.animations.map((animation) => animation.finished),
+          );
+        }),
+      );
+      await expect(canvas).toMatchWebGLSnapshot(
+        dir,
+        'animations-node-build-in-finished',
+      );
+
+      graph.destroy();
+      done();
+    });
+  });
 });

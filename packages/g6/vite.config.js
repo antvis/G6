@@ -10,16 +10,7 @@ export default defineConfig({
     // @see https://github.com/vitejs/vite/issues/10839#issuecomment-1345193175
     // @see https://vitejs.dev/guide/dep-pre-bundling.html#customizing-the-behavior
     // @see https://vitejs.dev/config/dep-optimization-options.html#optimizedeps-exclude
-    exclude: [
-      '@antv/layout-wasm',
-      // '@antv/gui',
-      // '@antv/layout',
-      // '@antv/algorithm',
-      // '@antv/layout-gpu',
-      // '@antv/g',
-      // '@antv/g-canvas',
-      // '@antv/g-webgl',
-    ],
+    exclude: ['@antv/layout-wasm'],
   },
   plugins: [
     {
@@ -29,7 +20,7 @@ export default defineConfig({
         // @see https://gist.github.com/mizchi/afcc5cf233c9e6943720fde4b4579a2b
         server.middlewares.use((_req, res, next) => {
           res.setHeader('Cross-Origin-Opener-Policy', 'same-origin');
-          res.setHeader('Cross-Origin-Embedder-Policy', 'require-corp');
+          res.setHeader('Cross-Origin-Embedder-Policy', 'same-origin');
           next();
         });
       },

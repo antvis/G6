@@ -192,7 +192,11 @@ export default class Node extends Item {
         return;
       }
     }
-    group.setLocalPosition([position.x, position.y, position.z]);
+    group.setLocalPosition([
+      position.x as number,
+      position.y as number,
+      position.z,
+    ]);
     onfinish(displayModel.id, !animate);
   }
 
@@ -297,12 +301,13 @@ export default class Node extends Item {
         intersectPoint = innerPoint;
         break;
       default: {
+        // boundsCache can be removed here since `getBounds` has already done.
         intersectPoint = getRectIntersectByPoint(
           {
             x: keyShapeRenderBBox.min[0],
             y: keyShapeRenderBBox.min[1],
-            width: keyShapeRenderBBox.max[0] - keyShapeRenderBBox.min[0],
-            height: keyShapeRenderBBox.max[1] - keyShapeRenderBBox.min[1],
+            width: keyShapeWidth,
+            height: keyShapeHeight,
           },
           point,
         );

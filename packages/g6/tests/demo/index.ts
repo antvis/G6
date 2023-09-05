@@ -19,6 +19,8 @@ import demo from './demo/demo';
 import demoForPolyline from './demo/demoForPolyline';
 import diamond from './demo/diamond';
 import donut_node from './item/node/donut-node';
+import image_node from './item/node/image';
+import image_clip_node from './item/node/image-clip';
 import ellipse from './demo/ellipse';
 import fisheye from './plugins/fisheye';
 import hexagon from './demo/hexagon';
@@ -80,6 +82,8 @@ export {
   demoForPolyline,
   diamond,
   donut_node,
+  image_node,
+  image_clip_node,
   ellipse,
   fisheye,
   hexagon,
