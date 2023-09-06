@@ -2,7 +2,7 @@
 title: GraphData
 ---
 
-[Overview - v5.0.0-beta.3](../../README.en.md) / [Modules](../../modules.en.md) / [graph](../../modules/graph.en.md) / GraphData
+[Overview - v5.0.0-beta.4](../../README.en.md) / [Modules](../../modules.en.md) / [graph](../../modules/graph.en.md) / GraphData
 
 [graph](../../modules/graph.en.md).GraphData
 

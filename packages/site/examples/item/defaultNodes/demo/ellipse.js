@@ -62,8 +62,9 @@ const graph = new ExtGraph({
         ...data,
         type: 'ellipse-node',
         labelShape: {
-          text: 'label',
+          text: id,
           position: 'bottom',
+          maxWidth: '500%',
         },
         labelBackgroundShape: {},
         iconShape: {

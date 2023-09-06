@@ -59,8 +59,9 @@ const graph = new G6.Graph({
           radius: 4,
         },
         labelShape: {
-          text: 'label',
+          text: id,
           position: 'bottom',
+          maxWidth: '500%',
         },
         labelBackgroundShape: {},
         iconShape: {

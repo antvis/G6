@@ -80,8 +80,9 @@ const graph = new G6.Graph({
           src: 'https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*N4ZMS7gHsUIAAAAAAAAAAABkARQnAQ',
         },
         labelShape: {
-          text: 'label',
+          text: id,
           position: 'bottom',
+          maxWidth: '500%',
         },
         labelBackgroundShape: {},
         haloShape: {},
