@@ -34,11 +34,13 @@ export default (context: TestCaseContext) => {
       ],
     },
     modes: {
-      default: [{ 
-        type: 'drag-canvas', 
-        enableOptimize: true, 
-        // scalableRange: 0.5,
-      }],
+      default: [
+        {
+          type: 'drag-canvas',
+          enableOptimize: true,
+          // scalableRange: 0.5,
+        },
+      ],
     },
   });
 };

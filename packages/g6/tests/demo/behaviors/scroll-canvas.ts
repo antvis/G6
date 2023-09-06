@@ -34,13 +34,15 @@ export default (context: TestCaseContext) => {
       ],
     },
     modes: {
-      default: [{ 
-        type: 'scroll-canvas', 
-        enableOptimize: true, 
-        // scalableRange: 0.5,
-        // direction: 'y',
-        // optimizeZoom: 0.5,
-      }],
+      default: [
+        {
+          type: 'scroll-canvas',
+          enableOptimize: true,
+          // scalableRange: 0.5,
+          // direction: 'y',
+          // optimizeZoom: 0.5,
+        },
+      ],
     },
   });
 };

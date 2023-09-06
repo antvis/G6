@@ -34,11 +34,13 @@ interface ScrollCanvasOptions {
   /**
    * Whether allow trigger this behavior when drag start on nodes / edges / combos.
    */
-  allowDragOnItem?: boolean | {
-    node?: boolean;
-    edge?: boolean;
-    combo?: boolean;
-  }
+  allowDragOnItem?:
+    | boolean
+    | {
+        node?: boolean;
+        edge?: boolean;
+        combo?: boolean;
+      };
 }
 
 const DEFAULT_OPTIONS: ScrollCanvasOptions = {
@@ -50,7 +52,7 @@ const DEFAULT_OPTIONS: ScrollCanvasOptions = {
   // 当设置的值小于 0 时，相当于缩小了可滚动范围
   // 具体实例可参考：https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*IFfoS67_HssAAAAAAAAAAAAAARQnAQ
   scalableRange: 0,
-  allowDragOnItem: true
+  allowDragOnItem: true,
 };
 
 
@@ -58,35 +60,37 @@ export class ScrollCanvas extends Behavior<ScrollCanvasOptions> {
   private hiddenEdgeIds: ID[];
   private hiddenNodeIds: ID[];
 
-  timeout?: number
+  timeout?: number;
   optimized = false;
   constructor(options: Partial<ScrollCanvasOptions>) {
-    const finalOptions = Object.assign(
-      {}, DEFAULT_OPTIONS, options, {
-        zoomKey: initZoomKey(options.zoomKey)
-      })
+    const finalOptions = Object.assign({}, DEFAULT_OPTIONS, options, {
+      zoomKey: initZoomKey(options.zoomKey),
+    });
     super(finalOptions);
   }
 
   getEvents = () => {
     return {
-      wheel: this.onWheel
+      wheel: this.onWheel,
     };
-  }
+  };
 
   onWheel(ev: IG6GraphEvent) {
     if (!this.allowDrag(ev)) return;
     const graph = this.graph;
-    const { zoomKey, scalableRange, direction, enableOptimize } = this.options
+    const { zoomKey, scalableRange, direction, enableOptimize } = this.options;
     const zoomKeys = Array.isArray(zoomKey) ? [].concat(zoomKey) : [zoomKey];
     if (zoomKeys.includes('control')) zoomKeys.push('ctrl');
-    const keyDown = zoomKeys.some(ele => ev[`${ele}Key`]);
+    const keyDown = zoomKeys.some((ele) => ev[`${ele}Key`]);
 
-    const nativeEvent = ev.nativeEvent as WheelEvent & { wheelDelta: number }
+    const nativeEvent = ev.nativeEvent as WheelEvent & { wheelDelta: number };
 
     if (keyDown) {
       const canvas = graph.canvas;
-      const point = canvas.getPointByClient(nativeEvent.clientX, nativeEvent.clientY);
+      const point = canvas.getPointByClient(
+        nativeEvent.clientX,
+        nativeEvent.clientY,
+      );
       let ratio = graph.getZoom();
       if (nativeEvent.wheelDelta > 0) {
         ratio = ratio + ratio * 0.05;
@@ -101,28 +105,30 @@ export class ScrollCanvas extends Behavior<ScrollCanvasOptions> {
       const diffX = nativeEvent.deltaX || nativeEvent.movementX;
       let diffY = nativeEvent.deltaY || nativeEvent.movementY;
 
-      if (!diffY && navigator.userAgent.indexOf('Firefox') > -1) diffY = (-nativeEvent.wheelDelta * 125) / 3
+      if (!diffY && navigator.userAgent.indexOf('Firefox') > -1)
+        diffY = (-nativeEvent.wheelDelta * 125) / 3;
 
-      const { dx, dy } = this.formatDisplacement(diffX, diffY)
+      const { dx, dy } = this.formatDisplacement(diffX, diffY);
       graph.translate({ dx: -dx, dy: -dy });
     }
 
     if (enableOptimize) {
-      const optimized = this.optimized
+      const optimized = this.optimized;
 
       // hiding
       if (!optimized) {
-        this.hideShapes()
-        this.optimized = true
+        this.hideShapes();
+        this.optimized = true;
       }
 
       // showing after 100ms
-      clearTimeout(this.timeout); this.timeout = undefined
+      clearTimeout(this.timeout);
+      this.timeout = undefined;
       const timeout = window.setTimeout(() => {
-        this.showShapes()
-        this.optimized = false
+        this.showShapes();
+        this.optimized = false;
       }, 100);
-      this.timeout = timeout
+      this.timeout = timeout;
     }
   }
   private formatDisplacement(dx: number, dy: number) {
@@ -157,35 +163,35 @@ export class ScrollCanvas extends Behavior<ScrollCanvasOptions> {
       x: graphBBox.max[0],
       y: graphBBox.max[1],
     });
-    const minX = leftTopClient.x
-    const minY = leftTopClient.y
-    const maxX = rightBottomClient.x
-    const maxY = rightBottomClient.y
+    const minX = leftTopClient.x;
+    const minY = leftTopClient.y;
+    const maxX = rightBottomClient.x;
+    const maxY = rightBottomClient.y;
     if (dx > 0) {
-      if (maxX < - expandWidth) {
-        dx = 0
+      if (maxX < -expandWidth) {
+        dx = 0;
       } else if (maxX - dx < -expandWidth) {
-        dx = maxX + expandWidth
+        dx = maxX + expandWidth;
       }
     } else if (dx < 0) {
       if (minX > width + expandWidth) {
-        dx = 0
+        dx = 0;
       } else if (minX - dx > width + expandWidth) {
-        dx = minX - (width + expandWidth)
+        dx = minX - (width + expandWidth);
       }
     }
 
     if (dy > 0) {
       if (maxY < -expandHeight) {
-        dy = 0
+        dy = 0;
       } else if (maxY - dy < -expandHeight) {
-        dy = maxY + expandHeight
+        dy = maxY + expandHeight;
       }
     } else if (dy < 0) {
       if (minY > height + expandHeight) {
-        dy = 0
+        dy = 0;
       } else if (minY - dy > height + expandHeight) {
-        dy = minY - (height + expandHeight)
+        dy = minY - (height + expandHeight);
       }
     }
 
@@ -200,9 +206,10 @@ export class ScrollCanvas extends Behavior<ScrollCanvasOptions> {
 
   private allowDrag(evt: IG6GraphEvent) {
     const { itemType } = evt;
-    const { allowDragOnItem } = this.options
+    const { allowDragOnItem } = this.options;
     const targetIsCanvas = itemType === 'canvas';
-    if (isBoolean(allowDragOnItem) && !allowDragOnItem && !targetIsCanvas) return false;
+    if (isBoolean(allowDragOnItem) && !allowDragOnItem && !targetIsCanvas)
+      return false;
     if (isObject(allowDragOnItem)) {
       const { node, edge, combo } = allowDragOnItem;
       if (!node && itemType === 'node') return false;
@@ -224,9 +231,9 @@ export class ScrollCanvas extends Behavior<ScrollCanvasOptions> {
       graph.hideItem(newHiddenEdgeIds, true);
 
       if (currentZoom < optimizeZoom) {
-        this.hiddenEdgeIds.push(...newHiddenEdgeIds)
+        this.hiddenEdgeIds.push(...newHiddenEdgeIds);
       } else {
-        this.hiddenEdgeIds = newHiddenEdgeIds
+        this.hiddenEdgeIds = newHiddenEdgeIds;
       }
 
       const newHiddenNodeIds = graph
@@ -243,9 +250,9 @@ export class ScrollCanvas extends Behavior<ScrollCanvasOptions> {
       graph.hideItem(newHiddenNodeIds, true);
 
       if (currentZoom < optimizeZoom) {
-        this.hiddenNodeIds.push(...newHiddenNodeIds)
+        this.hiddenNodeIds.push(...newHiddenNodeIds);
       } else {
-        this.hiddenNodeIds = newHiddenNodeIds
+        this.hiddenNodeIds = newHiddenNodeIds;
       }
     }
   }
@@ -260,7 +267,7 @@ export class ScrollCanvas extends Behavior<ScrollCanvasOptions> {
       return;
     }
 
-    this.hiddenEdgeIds = this.hiddenNodeIds = []
+    this.hiddenEdgeIds = this.hiddenNodeIds = [];
     if (!this.options.enableOptimize) {
       return;
     }
@@ -280,21 +287,27 @@ export class ScrollCanvas extends Behavior<ScrollCanvasOptions> {
 const ALLOW_EVENTS = ['shift', 'ctrl', 'alt', 'control', 'meta'];
 
 function initZoomKey(zoomKey?: string | string[]) {
-  const zoomKeys = zoomKey ? (
-    Array.isArray(zoomKey) ? zoomKey : [zoomKey]
-  ) : []
+  const zoomKeys = zoomKey
+    ? Array.isArray(zoomKey)
+      ? zoomKey
+      : [zoomKey]
+    : [];
 
-  const validZoomKeys = zoomKeys.filter(zoomKey => {
-    const keyIsValid = ALLOW_EVENTS.includes(zoomKey)
+  const validZoomKeys = zoomKeys.filter((zoomKey) => {
+    const keyIsValid = ALLOW_EVENTS.includes(zoomKey);
     if (!keyIsValid)
-      console.warn(`Invalid zoomKey: ${zoomKey}, please use a valid zoomKey: ${JSON.stringify(ALLOW_EVENTS)}`)
+      console.warn(
+        `Invalid zoomKey: ${zoomKey}, please use a valid zoomKey: ${JSON.stringify(
+          ALLOW_EVENTS,
+        )}`,
+      );
 
-    return keyIsValid
-  })
+    return keyIsValid;
+  });
 
   if (validZoomKeys.length === 0) {
-    validZoomKeys.push('ctrl')
+    validZoomKeys.push('ctrl');
   }
 
-  return validZoomKeys
+  return validZoomKeys;
 }
