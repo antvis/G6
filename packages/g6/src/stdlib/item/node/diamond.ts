@@ -12,7 +12,7 @@ type PathArray = any; //TODO: cannot import type PathArray
 export class DiamondNode extends BaseNode {
   override defaultStyles = {
     keyShape: {
-      size: [50, 30],
+      size: [32, 32],
       x: 0,
       y: 0,
     },

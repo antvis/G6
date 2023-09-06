@@ -108,7 +108,7 @@ export const LightTheme = {
           },
           haloShape: {
             opacity: 0.25,
-            lineWidth: 20,
+            lineWidth: 12,
             pointerEvents: 'none',
             zIndex: -1,
             visible: true,
@@ -121,7 +121,7 @@ export const LightTheme = {
           },
           haloShape: {
             opacity: 0.25,
-            lineWidth: 20,
+            lineWidth: 12,
             pointerEvents: 'none',
             zIndex: -1,
             visible: true,
@@ -328,7 +328,7 @@ export const LightTheme = {
           },
           haloShape: {
             opacity: 0.25,
-            lineWidth: 20,
+            lineWidth: 12,
             pointerEvents: 'none',
             zIndex: -1,
             visible: true,
@@ -343,7 +343,7 @@ export const LightTheme = {
           },
           haloShape: {
             opacity: 0.25,
-            lineWidth: 20,
+            lineWidth: 12,
             pointerEvents: 'none',
             zIndex: -1,
             visible: true,

@@ -579,8 +579,8 @@ export abstract class BaseNode {
     const keyShapeWidth = keyShapeBBox.max[0] - keyShapeBBox.min[0];
     const keyShapeHeight = keyShapeBBox.max[1] - keyShapeBBox.min[1];
     const defaultPosition: [number, number] = [
-      keyShapeBBox.max[0],
-      keyShapeBBox.min[1],
+      keyShapeBBox.max[0] - keyShapeBBox.center[0],
+      keyShapeBBox.min[1] - keyShapeBBox.center[1],
     ]; //topRight
     if (position instanceof Array) {
       return [
@@ -755,8 +755,6 @@ export abstract class BaseNode {
         (text as string).length <= 1
           ? bgHeight
           : Math.max(bgHeight, bbox.max[0] - bbox.min[0]) + 8;
-      let bgX = isLeft ? pos.x - bgWidth : pos.x;
-      if (isCenter) bgX = pos.x - bgWidth / 2;
       shapes[bgShapeId] = this.upsertShape(
         'rect',
         bgShapeId,
@@ -767,8 +765,8 @@ export abstract class BaseNode {
           width: bgWidth,
           radius: bgHeight / 2,
           zIndex,
-          x: bgX,
-          y: pos.y,
+          x: bbox.center[0] - bgWidth / 2,
+          y: bbox.center[1] - bgHeight / 2,
           ...otherStyles,
         } as GShapeStyle,
         shapeMap,

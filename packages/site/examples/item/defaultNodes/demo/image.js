@@ -66,6 +66,9 @@ const graph = new G6.Graph({
     default: ['zoom-canvas', 'drag-canvas', 'drag-node', 'click-select'],
   },
   data,
+  layout: {
+    type: 'grid',
+  },
   node: (model) => {
     const { id, data } = model;
     const config = {

@@ -3,54 +3,33 @@ import G6 from '@antv/g6';
 const data = {
   nodes: [
     {
-      id: 'node1',
-      data: {
-        x: 250,
-        y: 150,
-      },
+      id: 'circle',
+      data: {},
     },
     {
       id: 'circle-active',
-      data: {
-        x: 250,
-        y: 300,
-      },
+      data: {},
     },
     {
       id: 'circle-selected',
-      data: {
-        x: 250,
-        y: 450,
-      },
+      data: {},
     },
 
     {
       id: 'circle-highlight',
-      data: {
-        x: 400,
-        y: 150,
-      },
+      data: {},
     },
     {
       id: 'circle-inactive',
-      data: {
-        x: 400,
-        y: 300,
-      },
+      data: {},
     },
     {
       id: 'circle-badges',
-      data: {
-        x: 400,
-        y: 450,
-      },
+      data: {},
     },
     {
       id: 'circle-anchorShapes',
-      data: {
-        x: 550,
-        y: 150,
-      },
+      data: {},
     },
   ],
 };
@@ -66,6 +45,9 @@ const graph = new G6.Graph({
     default: ['zoom-canvas', 'drag-canvas', 'drag-node', 'click-select'],
   },
   data,
+  layout: {
+    type: 'grid',
+  },
   node: (model) => {
     const { id, data } = model;
     const config = {

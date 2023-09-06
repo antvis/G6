@@ -10,7 +10,7 @@
         "zh": "圆形",
         "en": "Circle"
       },
-      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*hdvGT4kEmOAAAAAAAAAAAAAADmJ7AQ/original"
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*SuPdRLp1PQgAAAAAAAAAAAAADmJ7AQ/original"
     },
     {
       "filename": "donut.js",
@@ -21,20 +21,12 @@
       "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*c5f5Q7XuOWoAAAAAAAAAAAAADmJ7AQ/original"
     },
     {
-      "filename": "ellipse.js",
-      "title": {
-        "zh": "椭圆",
-        "en": "Ellipse"
-      },
-      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*S9gxRJiRMEkAAAAAAAAAAAAADmJ7AQ/original"
-    },
-    {
       "filename": "rect.js",
       "title": {
         "zh": "矩形",
         "en": "Rect"
       },
-      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*VGpITb2jm7IAAAAAAAAAAAAADmJ7AQ/original"
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*etLSQYZnJAAAAAAAAAAAAAAADmJ7AQ/original"
     },
     {
       "filename": "radiusRect.js",
@@ -42,7 +34,23 @@
         "zh": "圆角矩形",
         "en": "Radius Rect"
       },
-      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*R45pQLK7pgYAAAAAAAAAAAAADmJ7AQ/original"
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*r03cSIy59-UAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "diamond.js",
+      "title": {
+        "zh": "菱形",
+        "en": "Diamond"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*oUSlSZt6rCoAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "hexagon.js",
+      "title": {
+        "zh": "六边形",
+        "en": "Hexagon"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*muosSr4ft8QAAAAAAAAAAAAADmJ7AQ/original"
     },
     {
       "filename": "image.js",
@@ -51,6 +59,22 @@
         "en": "Image"
       },
       "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*NPG3SL_n-CYAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "ellipse.js",
+      "title": {
+        "zh": "椭圆",
+        "en": "Ellipse"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*Vdq4Rb3ESOoAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "star.js",
+      "title": {
+        "zh": "星形",
+        "en": "Star"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*YSVjSLyYNwIAAAAAAAAAAAAADmJ7AQ/original"
     },
     {
       "filename": "modelRect.js",

@@ -46,12 +46,8 @@ export class ImageNode extends BaseNode {
       'keyShape',
       {
         ...this.mergedStyles.keyShape,
-        x:
-          (this.mergedStyles.keyShape!.x as number) -
-          (this.mergedStyles.keyShape!.width as number) / 2,
-        y:
-          (this.mergedStyles.keyShape!.y as number) -
-          (this.mergedStyles.keyShape!.height as number) / 2,
+        x: this.mergedStyles.keyShape!.x,
+        y: this.mergedStyles.keyShape!.y,
         anchor: '0.5 0.5',
       },
       shapeMap,
