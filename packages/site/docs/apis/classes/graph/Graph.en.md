@@ -2,7 +2,7 @@
 title: Graph
 ---
 
-[Overview - v5.0.0-beta.3](../../README.en.md) / [Modules](../../modules.en.md) / [graph](../../modules/graph.en.md) / Graph
+[Overview - v5.0.0-beta.4](../../README.en.md) / [Modules](../../modules.en.md) / [graph](../../modules/graph.en.md) / Graph
 
 [graph](../../modules/graph.en.md).Graph
 

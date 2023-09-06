@@ -66,6 +66,9 @@ const graph = new G6.Graph({
     default: ['zoom-canvas', 'drag-canvas', 'drag-node', 'click-select'],
   },
   data,
+  layout: {
+    type: 'grid',
+  },
   node: (model) => {
     const { id, data } = model;
     const config = {
@@ -77,8 +80,9 @@ const graph = new G6.Graph({
           src: 'https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*N4ZMS7gHsUIAAAAAAAAAAABkARQnAQ',
         },
         labelShape: {
-          text: 'label',
+          text: id,
           position: 'bottom',
+          maxWidth: '500%',
         },
         labelBackgroundShape: {},
         haloShape: {},

@@ -7,6 +7,7 @@ const textColor = 'rgba(255,255,255,0.85)';
 const nodeColor = 'rgb(34,126,255)';
 const edgeColor = 'rgb(153, 173, 209)';
 const comboFill = 'rgb(253, 253, 253)';
+const comboStroke = 'rgba(153,173,209,1)';
 const disabledFill = '#D0E4FF';
 
 const edgeMainStroke = '#637088';
@@ -105,7 +106,7 @@ export const DarkTheme = {
           },
           haloShape: {
             opacity: 0.45,
-            lineWidth: 20,
+            lineWidth: 12,
             zIndex: -1,
             pointerEvents: 'none',
             visible: true,
@@ -118,7 +119,7 @@ export const DarkTheme = {
           },
           haloShape: {
             opacity: 0.25,
-            lineWidth: 20,
+            lineWidth: 12,
             zIndex: -1,
             pointerEvents: 'none',
             visible: true,
@@ -301,6 +302,23 @@ export const DarkTheme = {
             height: 10,
             padding: [25, 20, 15, 20],
           },
+          labelShape: {
+            ...DEFAULT_TEXT_STYLE,
+            fill: textColor,
+            opacity: 0.85,
+            position: 'bottom',
+            zIndex: 2,
+            lod: 0,
+            maxLines: 1,
+          },
+          labelBackgroundShape: {
+            padding: [2, 4, 2, 4],
+            lineWidth: 0,
+            fill: '#000',
+            opacity: 0.75,
+            zIndex: 1,
+            lod: 0,
+          },
         },
         selected: {
           keyShape: {
@@ -311,11 +329,29 @@ export const DarkTheme = {
           labelShape: {
             fontWeight: 700,
           },
+          haloShape: {
+            opacity: 0.25,
+            lineWidth: 12,
+            pointerEvents: 'none',
+            zIndex: -1,
+            visible: true,
+            stroke: comboStroke,
+            droppable: false,
+          },
         },
         active: {
           keyShape: {
             stroke: nodeStroke,
             lineWidth: 1,
+          },
+          haloShape: {
+            opacity: 0.25,
+            lineWidth: 12,
+            pointerEvents: 'none',
+            zIndex: -1,
+            visible: true,
+            stroke: comboStroke,
+            droppable: false,
           },
         },
         highlight: {
@@ -334,6 +370,9 @@ export const DarkTheme = {
             fill: comboFill,
             lineWidth: 1,
           },
+          labelShape: {
+            opacity: 0.65,
+          },
         },
         disable: {
           keyShape: {
@@ -343,6 +382,31 @@ export const DarkTheme = {
           iconShape: {
             fill: disabledFill,
             opacity: 0.25,
+          },
+          labelShape: {
+            opacity: 0.25,
+          },
+        },
+        collapsed: {
+          keyShape: {
+            ...DEFAULT_SHAPE_STYLE,
+            fill: comboFill,
+            lineWidth: 1,
+            stroke: comboStroke,
+            // the collapsed size
+            r: 16,
+            width: 48,
+            height: 24,
+            padding: [25, 20, 15, 20],
+          },
+          iconShape: {
+            ...DEFAULT_TEXT_STYLE,
+            fill: comboStroke,
+            fontSize: 12,
+            zIndex: 1,
+            lod: -1,
+            contentType: 'childCount',
+            visible: true,
           },
         },
       },

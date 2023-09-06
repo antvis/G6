@@ -17,10 +17,10 @@ const offsetAngleMap = {
 export class HexagonNode extends BaseNode {
   override defaultStyles = {
     keyShape: {
-      r: 20,
+      r: 16,
       x: 0,
       y: 0,
-      direction: 'horizontal',
+      direction: 'vertical',
     },
   };
   mergedStyles: NodeShapeStyles;
@@ -166,6 +166,10 @@ export class HexagonNode extends BaseNode {
       const vx = r * Math.cos(angle);
       const vy = r * Math.sin(angle);
       anchorPositionMap[anchorPositionDirection[i]] = [vx, vy];
+    }
+    if (!anchorPositionMap.hasOwnProperty('default')) {
+      anchorPositionMap['default'] =
+        anchorPositionMap[anchorPositionDirection[0]];
     }
     return anchorPositionMap;
   }

@@ -11,8 +11,8 @@ import { BaseNode } from './base';
 export class EllipseNode extends BaseNode {
   override defaultStyles = {
     keyShape: {
-      rx: 30,
-      ry: 20,
+      rx: 16,
+      ry: 12,
       x: 0,
       y: 0,
     },

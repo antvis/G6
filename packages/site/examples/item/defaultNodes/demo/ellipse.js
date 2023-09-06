@@ -9,54 +9,33 @@ const ExtGraph = extend(Graph, {
 const data = {
   nodes: [
     {
-      id: 'node1',
-      data: {
-        x: 250,
-        y: 150,
-      },
+      id: 'ellipse',
+      data: {},
     },
     {
       id: 'ellipse-active',
-      data: {
-        x: 250,
-        y: 300,
-      },
+      data: {},
     },
     {
       id: 'ellipse-selected',
-      data: {
-        x: 250,
-        y: 450,
-      },
+      data: {},
     },
 
     {
       id: 'ellipse-highlight',
-      data: {
-        x: 400,
-        y: 150,
-      },
+      data: {},
     },
     {
       id: 'ellipse-inactive',
-      data: {
-        x: 400,
-        y: 300,
-      },
+      data: {},
     },
     {
       id: 'ellipse-badges',
-      data: {
-        x: 400,
-        y: 450,
-      },
+      data: {},
     },
     {
       id: 'ellipse-anchorShapes',
-      data: {
-        x: 550,
-        y: 150,
-      },
+      data: {},
     },
   ],
 };
@@ -72,6 +51,9 @@ const graph = new ExtGraph({
     default: ['zoom-canvas', 'drag-canvas', 'drag-node', 'click-select'],
   },
   data,
+  layout: {
+    type: 'grid',
+  },
   node: (model) => {
     const { id, data } = model;
     const config = {
@@ -80,8 +62,9 @@ const graph = new ExtGraph({
         ...data,
         type: 'ellipse-node',
         labelShape: {
-          text: 'label',
+          text: id,
           position: 'bottom',
+          maxWidth: '500%',
         },
         labelBackgroundShape: {},
         iconShape: {

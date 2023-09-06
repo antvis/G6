@@ -1,26 +1,40 @@
 import { Graph, Extensions, extend } from '@antv/g6';
+const ExtGraph = extend(Graph, {
+  nodes: {
+    'star-node': Extensions.StarNode,
+  },
+});
 
 const data = {
   nodes: [
     {
-      id: 'node1',
-      data: {
-        x: 250,
-        y: 150,
-        type: 'star-node',
-        keyShape: {
-          /**
-           * 星形的外部半径，默认为 20
-           * outer radius of the star，默认为 20
-           */
-          // outerR: 20,
-          /**
-           * 星形的内部半径，默认为 7.5
-           * inner radius of the star，默认为 7.5
-           */
-          // innerR: 7.5
-        },
-      },
+      id: 'star',
+      data: {},
+    },
+    {
+      id: 'star-active',
+      data: {},
+    },
+    {
+      id: 'star-selected',
+      data: {},
+    },
+
+    {
+      id: 'star-highlight',
+      data: {},
+    },
+    {
+      id: 'star-inactive',
+      data: {},
+    },
+    {
+      id: 'star-badges',
+      data: {},
+    },
+    {
+      id: 'star-anchorShapes',
+      data: {},
     },
   ],
 };
@@ -28,13 +42,6 @@ const data = {
 const container = document.getElementById('container');
 const width = container.scrollWidth;
 const height = container.scrollHeight || 500;
-
-const ExtGraph = extend(Graph, {
-  nodes: {
-    'star-node': Extensions.StarNode,
-  },
-});
-
 const graph = new ExtGraph({
   container: 'container',
   width,
@@ -43,34 +50,85 @@ const graph = new ExtGraph({
     default: ['zoom-canvas', 'drag-canvas', 'drag-node', 'click-select'],
   },
   data,
-  node: {
-    labelShape: {
-      text: 'label',
-      position: 'bottom',
-    },
-    labelBackgroundShape: {
-      fill: 'red',
-    },
-    anchorShapes: [
-      {
-        position: [0, 0.5],
-        r: 2,
-        fill: 'red',
-      },
-    ],
-    iconShape: {
-      img: 'https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg',
-      width: 20,
-      height: 20,
-    },
-    badgeShapes: [
-      {
-        text: '1',
-        position: 'rightTop',
-        color: 'blue',
-      },
-    ],
+  layout: {
+    type: 'grid',
   },
+  node: (model) => {
+    const { id, data } = model;
+    const config = {
+      id,
+      data: {
+        ...data,
+        type: 'star-node',
+        labelShape: {
+          text: id,
+          position: 'bottom',
+          maxWidth: '500%',
+        },
+        labelBackgroundShape: {},
+        iconShape: {
+          img: 'https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg',
+        },
+        animates: {
+          update: [
+            {
+              fields: ['opacity'],
+              shapeId: 'haloShape',
+              states: ['selected', 'active'],
+            },
+            {
+              fields: ['lineWidth'],
+              shapeId: 'keyShape',
+              states: ['selected', 'active'],
+            },
+          ],
+        },
+      },
+    };
+    if (id.includes('badges')) {
+      config.data.badgeShapes = [
+        {
+          text: 'A',
+          position: 'rightTop',
+        },
+        {
+          text: 'Important',
+          position: 'right',
+        },
+        {
+          text: 'Notice',
+          position: 'rightBottom',
+        },
+      ];
+    }
+    if (id.includes('anchorShapes')) {
+      config.data.anchorShapes = [
+        {
+          position: 'top',
+        },
+        {
+          position: 'right',
+        },
+        {
+          position: 'left',
+        },
+        {
+          position: 'leftBottom',
+        },
+        {
+          position: 'rightBottom',
+        },
+      ];
+    }
+    return config;
+  },
+});
+
+graph.on('afterrender', (e) => {
+  graph.setItemState('star-active', 'active', true);
+  graph.setItemState('star-selected', 'selected', true);
+  graph.setItemState('star-highlight', 'highlight', true);
+  graph.setItemState('star-inactive', 'inactive', true);
 });
 
 if (typeof window !== 'undefined')
