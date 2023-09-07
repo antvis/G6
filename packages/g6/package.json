@@ -81,7 +81,6 @@
     "@antv/util": "~2.0.5",
     "color": "^4.2.3",
     "insert-css": "^2.0.0",
-    "lodash": "^4.17.21",
     "stats-js": "^1.0.1",
     "tslib": "^2.5.0",
     "typedoc-plugin-markdown": "^3.16.0",
