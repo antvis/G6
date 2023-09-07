@@ -123,5 +123,5 @@ export {
   comboDagre,
   hull,
   legend,
-  snapline
+  snapline,
 };

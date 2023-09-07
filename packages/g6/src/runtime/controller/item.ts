@@ -415,14 +415,12 @@ export class ItemController {
         if (!item || item.destroyed) return;
         const type = item.getType();
         const innerModel = graphCore.getNode(id);
-        if (
-          onlyMove &&
-          type === 'node' &&
-          isNaN(current.x) &&
-          isNaN(current.y)
-        ) {
-          callback(innerModel, true);
-          return;
+        if (type === 'node' && onlyMove) {
+          const { x, y, fx, fy } = current;
+          if (isNaN(x) && isNaN(y) && isNaN(fx) && isNaN(fy)) {
+            callback(innerModel, true);
+            return;
+          }
         }
 
         const nodeRelatedIdsToUpdate: Set<ID> = new Set<ID>();

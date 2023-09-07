@@ -1,14 +1,15 @@
-import { ID } from '@antv/graphlib';
 import { AABB } from '@antv/g';
-import { Graph as BaseGraph, IGraph, NodeModel, GraphData, Extensions, Util, extend } from '../../../src/index';
-
-
+import {
+  Graph as BaseGraph,
+  IGraph,
+  GraphData,
+  Extensions,
+  extend,
+} from '../../../src/index';
 
 let graph: IGraph;
 
-
 // node数据
-/*
 const defaultData: GraphData = {
   nodes: [
     {
@@ -30,29 +31,29 @@ const defaultData: GraphData = {
       id: '2',
       data: {
         x: 120,
-        y: 80
-      }
+        y: 80,
+      },
     },
     {
       id: '3',
       data: {
         x: 150,
-        y: 80
-      }
+        y: 80,
+      },
     },
     {
       id: '4',
       data: {
         x: 200,
-        y: 200
-      }
+        y: 200,
+      },
     },
     {
       id: '5',
       data: {
         x: 250,
-        y: 250
-      }
+        y: 250,
+      },
     },
   ],
   edges: [
@@ -76,43 +77,6 @@ const defaultData: GraphData = {
     // },
   ],
 };
-*/
-
-
-
-// combo数据
-const defaultData: GraphData = {
-  nodes: [],
-  combos: [
-    {
-      id: '0',
-      data: {
-        x: 0,
-        y: 0,
-        width: 50,
-        height: 50
-      },
-    },
-    {
-      id: '1',
-      data: {
-        x: 100,
-        y: 100,
-        width: 80,
-        height: 80
-      },
-    }
-  ],
-  edges: [
-    {
-      id: 'edge1',
-      source: '0',
-      target: '1',
-      data: {},
-    },
-  ]
-}
-
 
 // create container for controllers
 const createCtrlContainer = () => {
@@ -171,8 +135,6 @@ const createDrawLineButton = () => {
 
   parentEle.appendChild(labelLabel);
   parentEle.appendChild(labelCb);
-
-
 };
 
 const createTestComboButton = () => {
@@ -216,7 +178,7 @@ const createTestComboButton = () => {
               x: 100,
               y: 100,
             },
-          }
+          },
         ],
         edges: [
           {
@@ -225,26 +187,21 @@ const createTestComboButton = () => {
             target: '1',
             data: {},
           },
-        ]
-      }
-      
-      graph.changeData(comboData, 'replace')
+        ],
+      };
 
+      graph.changeData(comboData, 'replace');
     } else {
-      // 
-      graph.changeData(defaultData, 'replace')
+      //
+      graph.changeData(defaultData, 'replace');
     }
   });
 
   parentEle.appendChild(labelLabel);
   parentEle.appendChild(labelCb);
-
 };
 
 const createGraph = () => {
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  //const container = document.getElementById('container')!;
-
   const ExtGraph = extend(BaseGraph, {
     plugins: {
       snapline: Extensions.Snapline,
@@ -273,27 +230,19 @@ const createGraph = () => {
         },
       ],
     },
-    plugins: ['snapline']
+    plugins: ['snapline'],
   });
 
   return graph;
 };
 
 export default () => {
-  createCtrlContainer();
-  createDrawLineButton();
+  //createCtrlContainer();
+  //createDrawLineButton();
 
-  createTestComboButton();
+  //createTestComboButton();
 
   graph = createGraph();
-
-  // graph.on('node:click', (e) => {
-  //   console.log('click: ', e.itemId)
-  //   const bbox = graph.getRenderBBox(e.itemId) as AABB
-  //   console.log(bbox)
-
-  //   graph.updateNodePosition({id: e.itemId, data: {x: bbox.center[0] + 20, y: bbox.center[1] + 20}})
-  // })
 
   return graph;
 };
