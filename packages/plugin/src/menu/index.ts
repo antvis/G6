@@ -158,6 +158,9 @@ export default class Menu extends Base {
     if (y + bbox.height > height) {
       y = e.canvasY - bbox.height - offsetY + graphTop;
     }
+    if (y < 0) {
+        y = 0
+    }
 
     modifyCSS(menuDom, {
       top: `${y}px`,
