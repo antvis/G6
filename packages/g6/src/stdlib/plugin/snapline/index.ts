@@ -24,9 +24,10 @@ type LinePosition = 'top' | 'hcenter' | 'bottom' | 'left' | 'vcenter' | 'right';
  * second point: point on draggingItem
  */
 type DrawLine = { line: [Point, Point]; lp: LinePosition };
+
 /**
- * dl:
- * offset: 偏移量，用于选择出最小的差距的drawline
+ * dl: draw line for choose
+ * offset: offset that selects the drawline with the smallest gap
  */
 type DrawLineForChoose = { dl: DrawLine; offset: Point };
 
@@ -36,52 +37,17 @@ export class Snapline extends Base {
     undefined,
     undefined,
   ];
-  // 获取historyPoints 的距离
-  private getHPDistance(): number | undefined {
-    if (
-      typeof this.historyPoints[0] === 'undefined' ||
-      typeof this.historyPoints[1] === 'undefined'
-    ) {
-      return undefined;
-    }
-
-    return this.historyPoints[1].x - this.historyPoints[0].x;
-  }
-  // 获取historyPoints垂直方向的距离
-  private getHPVDistance(): number | undefined {
-    if (
-      typeof this.historyPoints[0] === 'undefined' ||
-      typeof this.historyPoints[1] === 'undefined'
-    ) {
-      return undefined;
-    }
-
-    return this.historyPoints[1].y - this.historyPoints[0].y;
-  }
-  // 获取historyPoints垂直方向的距离
-  private getHPHDistance(): { x: number; y: number } | undefined {
-    if (
-      typeof this.historyPoints[0] === 'undefined' ||
-      typeof this.historyPoints[1] === 'undefined'
-    ) {
-      return undefined;
-    }
-
-    return {
-      x: this.historyPoints[1].x - this.historyPoints[0].x,
-      y: this.historyPoints[1].y - this.historyPoints[0].y,
-    };
-  }
 
   /**
-   * 刚drag时，光标与node中心的offset (event.canvas - draggingnode.BBox)
+   * when start drag, offset of cursor and node center (event.canvas - draggingnode.BBox)
    */
   private initialOffset: [
     offsetX: number | undefined,
     offsetY: number | undefined,
   ] = [undefined, undefined];
+
   /**
-   * 获取当前的光标与node中心offset - initialOffset
+   * Gets the current cursor node and center offset and then with initialOffset difference
    */
   private getCurOffsetCompareToInitialOffset = (
     e: IG6GraphEvent,
@@ -108,10 +74,11 @@ export class Snapline extends Base {
 
   private dragging = false;
   private draggingBBox: AABB = undefined;
-  //private pointerOffsetWithItemAtStartDragging: {x: number, y: number} = undefined
-  // 最开始drag的时候的差异
+
+  // the offset(cursor and draggingbox) when start to drag
   private nonAbosorbOffset: Point = undefined;
-  // 获取光标和draggingItem之间的偏移
+
+  // Gets the offset between the cursor and draggingItem
   private getPointerOffsetWithItem = (pointer: {
     x: number;
     y: number;
@@ -133,13 +100,12 @@ export class Snapline extends Base {
   }
   //#endregion
 
-  // 所有的v方向的线
+  // All the lines in the vertical direction
   private vContrastPoints: Point[] = [];
   private hContrastPoints: Point[] = [];
 
   /**
-   * DisplayObject 内有id
-   * 这些线落入drag bbox的6条范围内
+   * alignLinesForChoose container
    */
   private alignLinesForChoose: {
     v: DrawLineForChoose[];
@@ -147,8 +113,8 @@ export class Snapline extends Base {
   } = { v: [], h: [] };
 
   /**
-   * 通过drawLine得到ID
-   * 原理：线在画板上是唯一的起止点
+   * getDrawLineId via DrawLine
+   * Principle: the lines on the drawing board is the only load-point
    * @param dl drawLine
    */
   getDrawLineIdByDrawLine(dl: DrawLine): ID {
@@ -165,7 +131,7 @@ export class Snapline extends Base {
   }
 
   /**
-   * 里面所有的AlignLines都满足tolerance中
+   * all AlignLines satisfy conditions: in the tolerance range
    */
   addAlignLinesForChoose() {
     function isInToleranceRange(
@@ -558,14 +524,14 @@ export class Snapline extends Base {
   }
 
   chooseAlignLine(): { v: DrawLine | undefined; h: DrawLine | undefined } {
-    // 原则：
-    // 1. 与tolerance越小越重要
-    // 2. 相同tl，（如果同方向多条线在tolerance范围内）重要程度： 中 > 上 > 下
-    // 3. 最多: v方向一条  h方向一条
-    // 4. 重复的线，以最长的为准 (注意：不能先去重,为了性能,在选择出的数组再对比)
+    // Principles:
+    // 1. Smaller difference from tolerance is more important
+    // 2. Same tolerance, (if multiple lines in the same direction are within the tolerance range) Importance: hcenter > top > bottom; vcenter > left > right
+    // 3. At most: vertical one count;  horizon one count
+    // 4. Repeat line, will be subject to the longest (note: can't go to heavy, for performance, in the array of selected again)
 
-    // v方向使用：draggingBBox的左中右三线和vContrastPoints 对比
-    // h方向使用：draggingBBox的上中下三线和hContrastPoints 对比
+    // v direction line selection rule: draggingBBox's left/vcenter/right compares to vContrastPoints
+    // h direction line selection rule: draggingBBox's top/hcenter/bottom compares to hContrastPoints
 
     if (
       this.alignLinesForChoose.v.length + this.alignLinesForChoose.h.length ===
@@ -577,7 +543,7 @@ export class Snapline extends Base {
     let vTmpLines: DrawLineForChoose[] = [];
     let hTmpLines: DrawLineForChoose[] = [];
 
-    // 1.v,h方向选择最小偏移的线
+    // 1.v,h direction: select the line with minimum offset
     const vMinOffset = Math.min(
       ...this.alignLinesForChoose.v.map((dlFc) => dlFc.offset.x),
     );
@@ -592,7 +558,7 @@ export class Snapline extends Base {
       (dlFc) => dlFc.offset.y === hMinOffset,
     );
 
-    // 2.相同tolerance，重要程度：中 > 上 > 下 （一个方向只选择一条的原则）
+    // 2.same tolerance，hcenter > top > bottom; vcenter > left > right. (The principle of selecting only one direction)
     {
       const vcenter_hasdata = vTmpLines.some(
         (dlFc) => dlFc.dl.lp === 'vcenter',
@@ -608,17 +574,17 @@ export class Snapline extends Base {
           if (!vcenter_hasdata && left_hasdata) {
             return true;
           }
-          return false; // vcenter 或 left 已经存在就不返回
+          return false;
         }
 
         if (dlFc.dl.lp === 'right') {
           if (!vcenter_hasdata && !left_hasdata) {
             return true;
           }
-          return false; // vcenter 或 left 存在时，不返回 bottom
+          return false;
         }
 
-        return false; // 其他情况都不返回
+        return false;
       });
 
       const hcenter_hasdata = hTmpLines.some(
@@ -635,21 +601,21 @@ export class Snapline extends Base {
           if (!hcenter_hasdata && top_hasdata) {
             return true;
           }
-          return false; // hcenter 或 top 已经存在就不返回
+          return false;
         }
 
         if (dlFc.dl.lp === 'bottom') {
           if (!hcenter_hasdata && !top_hasdata) {
             return true;
           }
-          return false; // hcenter 或 top 存在时，不返回 bottom
+          return false;
         }
 
-        return false; // 其他情况都不返回
+        return false;
       });
     }
 
-    // 3.去重
+    // 3.remove duplicates
     const uniVTmpLines = Array.from(
       vTmpLines
         .reduce((map, item) => {
@@ -678,7 +644,7 @@ export class Snapline extends Base {
         .values(),
     );
 
-    // 4.选择offset最大值的 DrawLineForChoose
+    // 4.choose a maximum offset one of DrawLineForChoose
     const vMaxDL = uniVTmpLines.length
       ? uniVTmpLines.reduce(
           (maxItem: DrawLineForChoose, curItem: DrawLineForChoose) => {
@@ -710,22 +676,22 @@ export class Snapline extends Base {
   }
 
   /**
-   * v 方向 和h 方向是否吸附状态
+   * v and h direction adsorption state
    */
-  private isAdsorbed: [boolean, boolean] = [false, false]; // 是否吸附状态
+  private isAdsorbed: [boolean, boolean] = [false, false]; // whether the adsorption state
 
   private dragEvent: IG6GraphEvent = undefined; // drag event
 
-  // 使用 dragItemId 和 dragItemType 避免drag易主
+  // use dragItemId and dragItemType to avoid object changing when dragging
   private dragItemId: ID = undefined;
   private dragItemType: ITEM_TYPE | 'canvas' = undefined;
 
   /**
-   * 历史吸附区域:v和h方向
-   * x0 ~ x1 代表v方向的起止线
-   * y0 ~ y1 代表h方向的起止线
+   * Historical adsorption region: v and h directions
+   * x0 ~ x1: Represents the starting and ending line in the v direction
+   * y0 ~ y1: Represents the starting and ending line in the h direction
    *
-   * 当光标移出此区域 && 非吸附状态 => 设置为undefined
+   * When the cursor moves out of this region && non-adsorbed state => set to undefined
    */
   private historyAbsorbArea: [
     [x0: number, x1: number] | undefined,
@@ -733,12 +699,12 @@ export class Snapline extends Base {
   ] = [undefined, undefined];
 
   /**
-   * 不能吸附 倒计时
+   * Unable to adsorb: countdown
    */
   private canAdsorbCount = 0;
 
   /**
-   * 倒计时方法：倒计时
+   * Countdown method: Countdown
    */
   private canAdsorbCountDown = () => {
     if (this.canAdsorbCount > 0) {
@@ -758,10 +724,6 @@ export class Snapline extends Base {
     this.init(options.graph);
   }
 
-  /**
-   *
-   * @returns
-   */
   public getEvents() {
     return {
       pointerdown: this.onPointerDown,
@@ -771,7 +733,6 @@ export class Snapline extends Base {
   }
 
   public onPointerDown(event: IG6GraphEvent) {
-    //if (!this.options.shouldBegin(event)) return;
     this.historyPoints[1] = { x: event.canvas.x, y: event.canvas.y };
 
     this.dragItemId = event.itemId;
@@ -780,8 +741,6 @@ export class Snapline extends Base {
 
   public onPointerMove(event: IG6GraphEvent) {
     if (!this.historyPoints[1]) return;
-    // 保证是拖拽combo或者node
-    // this.dragItemType !== 'combo' &&
     if (this.dragItemType !== 'node') {
       return;
     }
@@ -831,8 +790,8 @@ export class Snapline extends Base {
 
       this.initAlignLinesForChoose();
 
-      // 控制层： 检查删除掉现有线 & 画线 & 吸附
-      // 设置 historyPoints
+      // control layer：Check to delete existing line & drawed line & adsorption
+      // set historyPoints
 
       this.historyPoints[0] = this.historyPoints[1];
       this.historyPoints[1] = { x: event.canvas.x, y: event.canvas.y };
@@ -842,9 +801,9 @@ export class Snapline extends Base {
       let hlp: LinePosition = undefined;
       let hline: [Point, Point] = undefined;
 
-      // v方向是否保持吸附
+      // v direction: whether keep adsorption
       const checkVShouldHoldAbsorb = (vlp, vline) => {
-        // v方向应该继续吸附与否
+        // v direction: continue to adsorb
         const vShouldAbsorb =
           Math.abs(this.getCurOffsetCompareToInitialOffset(event)[0]) <=
           this.tolerance * this.toleranceFactor;
@@ -864,29 +823,28 @@ export class Snapline extends Base {
             });
           }
 
-          // 更新划线
+          // updarte align line when absorb
           this.updateAlignLineWhenAbsorb([true, false]);
         } else {
-          // 取消吸附
-          // 1.位置更新
+          // cancel absorb
+          // 1.update positon
           this.doUpdatePosition({ fx: undefined });
-          // 2.取消画线 && 状态更新
+          // 2.remove align line && update state
           this.removeAlignLine([true, undefined]);
 
-          // 倒计时
+          // count down to be adsorbable
           this.canAdsorbCount = 10; // 1s
           this.canAdsorbCountDown();
         }
       };
-      // h方向是否保持吸附
+      // h direction: whether keep adsorption
       const checkHShouldHoldAbsorb = (hlp, hline) => {
-        // h方向应该继续吸附与否
+        // h direction: continue to adsorb
         const hShouldAbsorb =
           Math.abs(this.getCurOffsetCompareToInitialOffset(event)[1]) <=
           this.tolerance * this.toleranceFactor;
 
         if (hShouldAbsorb) {
-          //
           if (hlp === 'top') {
             this.doUpdatePosition({
               fy: hline[0].y + this.draggingBBox.halfExtents[1],
@@ -901,47 +859,47 @@ export class Snapline extends Base {
             });
           }
 
-          // 更新划线
+          // update align line
           this.updateAlignLineWhenAbsorb([false, true]);
         } else {
-          // 1.位置更新
+          // 1.update position
           this.doUpdatePosition({ fy: undefined });
-          // 2.取消画线 && 状态更新
+          // 2.remove align line && update state
           this.removeAlignLine([undefined, true]);
 
-          // 倒计时
+          // count down to be adsorbable
           this.canAdsorbCount = 10; // 1s
           this.canAdsorbCountDown();
         }
       };
-      // v方向是否吸附
+      // v direction: whether adsorbed
       const checkVShouldAbsorb = () => {
         const ret: { vdl: DrawLine; hdl: DrawLine } | false =
           this.canDrawLine();
 
-        // 如果在最近脱离吸附区域，不能再马上画线（需要移除脱离区域才能重新划线此区域）
+        // If in recent from adsorption area, can't immediately draw lines (must be removed from the area to reline this area)
         if (ret) {
-          // 画线
+          // draw align lines
           this.drawAlignLines({ vdl: ret.vdl, hdl: undefined });
-          // 吸附
+          // absorb dragging box
           this.absorb({ vdl: ret.vdl, hdl: undefined });
         }
       };
-      // h方向是否吸附
+      // h direction: whether adsorbed
       const checkHShouldAbsorb = () => {
         const ret: { vdl: DrawLine; hdl: DrawLine } | false =
           this.canDrawLine();
 
-        // 如果在最近脱离吸附区域，不能再马上画线（需要移除脱离区域才能重新划线此区域）
+        // If in recent from adsorption area, can't immediately draw lines (must be removed from the area to reline this area)
         if (ret) {
-          // 画线
+          // draw align lines
           this.drawAlignLines({ vdl: undefined, hdl: ret.hdl });
-          // 吸附
+          // absorb dragging box
           this.absorb({ vdl: undefined, hdl: ret.hdl });
         }
       };
 
-      // 1、当前两个方向都是吸附的状态
+      // 1、the current state of the two directions are adsorption
       if (this.isAdsorbed[0] && this.isAdsorbed[1]) {
         vlp = this.drawedLines[0].dl?.lp;
         vline = this.drawedLines[0].dl?.line;
@@ -951,29 +909,29 @@ export class Snapline extends Base {
         checkVShouldHoldAbsorb(vlp, vline);
         checkHShouldHoldAbsorb(hlp, hline);
       } else if (this.isAdsorbed[0] && !this.isAdsorbed[1]) {
-        // 2、当前只v方向吸附
+        // 2、currently, only the v direction is adsorbed
         vlp = this.drawedLines[0].dl?.lp;
         vline = this.drawedLines[0].dl?.line;
 
         checkVShouldHoldAbsorb(vlp, vline);
         checkHShouldAbsorb();
       } else if (!this.isAdsorbed[0] && this.isAdsorbed[1]) {
-        // 3、当前只h方向吸附
+        // 3、currently, only the h direction is adsorbed
         hlp = this.drawedLines[1].dl?.lp;
         hline = this.drawedLines[1].dl?.line;
 
         checkHShouldHoldAbsorb(vlp, vline);
         checkVShouldAbsorb();
       } else if (!this.isAdsorbed[0] && !this.isAdsorbed[1]) {
-        // 4、当前v,h方向均未吸附
+        // 4、currently, v and h directions are not adsorbed
         const ret: { vdl: DrawLine; hdl: DrawLine } | false =
           this.canDrawLine();
 
-        // 如果在最近脱离吸附区域，不能再马上画线（需要移除脱离区域才能重新划线此区域）
+        // If you have recently detached from the attachment area, you cannot draw the line immediately (you need to remove the detached area to redraw the area)
         if (ret) {
-          // 画线
+          // draw align lines
           this.drawAlignLines(ret);
-          // 吸附
+          // absorb dragging box
           this.absorb(ret);
         }
       }
@@ -991,15 +949,15 @@ export class Snapline extends Base {
     this.dragging = false;
     this.dragItemId = undefined;
     this.dragItemType = undefined;
-
-    // 拖动结束时候删除辅助线
   }
 
-  //#region 写好的方法：画线/移除线
+  //#region draw/remove lines
+  // first：v direction; second：h direction;
+  // ddo: drawed DisplayObject, dl: DrawLine
   private drawedLines: [
     { do: DisplayObject | undefined; dl: DrawLine | undefined } | undefined,
     { do: DisplayObject | undefined; dl: DrawLine | undefined } | undefined,
-  ] = [undefined, undefined]; // 第一个：v方向 第二个：h方向;ddo: drawed DisplayObject, dl: DrawLine
+  ] = [undefined, undefined];
 
   drawAlignLines({
     vdl,
@@ -1008,7 +966,7 @@ export class Snapline extends Base {
     vdl: DrawLine | undefined;
     hdl: DrawLine | undefined;
   }) {
-    // 1.画对齐line
+    // 1.draw align line
     const vLineID: ID = vdl ? this.getDrawLineIdByDrawLine(vdl) : undefined;
     const hLineID: ID = hdl ? this.getDrawLineIdByDrawLine(hdl) : undefined;
 
@@ -1024,7 +982,7 @@ export class Snapline extends Base {
           y2: vdl.line[1].y,
         },
       });
-      // 加入alignLines数组
+      // add to alignLines
       this.drawedLines[0] = { do: vLine, dl: vdl };
     }
 
@@ -1040,13 +998,13 @@ export class Snapline extends Base {
           y2: hdl.line[1].y,
         },
       });
-      // 加入alignLines数组
+      // add to alignLines
       this.drawedLines[1] = { do: hLine, dl: hdl };
     }
   }
 
   /**
-   * 移除画线
+   * remove align line
    * @param rvdl: remove vertical drawed line
    * @param rhdl: remove horizon drawed line
    */
@@ -1073,11 +1031,11 @@ export class Snapline extends Base {
   }
 
   /**
-   * 通过ID 移除align line
+   * via ID: remove align line
    * @param rmLineID
    */
   removeAlignLineByID(rmLineID: ID) {
-    // 从数组移除 DisplayObject
+    // remove from DisplayObject
 
     const [vTmpDrawedLine, hTmpDrawedLine] = this.drawedLines;
     this.drawedLines.forEach((line, index) => {
@@ -1100,12 +1058,12 @@ export class Snapline extends Base {
     this.drawedLines[0] = vTmpDrawedLine;
     this.drawedLines[1] = hTmpDrawedLine;
 
-    // 取消
+    // remove drawed line
     this.graph.drawTransient('line', rmLineID, { action: 'remove' });
   }
 
   /**
-   * 基于LinePosition获取draggingBBox的点
+   * get draggingBBox Point based on LinePosition
    */
   getDraggingBBoxPointByLinePosition(lp: LinePosition): Point | undefined {
     if (!this.draggingBBox) {
@@ -1132,7 +1090,7 @@ export class Snapline extends Base {
   }
 
   /**
-   * 在被吸附情况下更新划线
+   * update align line under condition of absorbed
    */
   updateAlignLineWhenAbsorb([v, h]: [boolean, boolean]) {
     if (v) {
@@ -1177,7 +1135,7 @@ export class Snapline extends Base {
   }
 
   /**
-   * 检测是否可以画线
+   * check whether can draw lines
    */
   canDrawLine(): { vdl: DrawLine; hdl: DrawLine } | false {
     const { v, h }: { v: DrawLine | undefined; h: DrawLine | undefined } =
@@ -1190,9 +1148,9 @@ export class Snapline extends Base {
   }
 
   /**
-   * 判断是否可以取消吸附
-   * 两个方向：v h
-   * @return 第一个： v方向是否可取消吸附  第二个：h方向是否可取消吸附； undefine为未吸附
+   * detect whether adsorption can be cancelled
+   * two directions：v h
+   * @return first： v direction ; second：h direction; undefine means no-adsorb
    */
   canCancelAbsorb(): [boolean | undefined, boolean | undefined] {
     // eslint-disable-next-line prefer-const
@@ -1226,7 +1184,7 @@ export class Snapline extends Base {
   //#endregion
 
   /**
-   * 吸附
+   * absorb the dragging box
    */
   absorb(dls: { vdl: DrawLine; hdl: DrawLine }) {
     if (dls.vdl) {
@@ -1248,23 +1206,22 @@ export class Snapline extends Base {
   }
 
   /**
-   * 如果有带dl，那么就吸附到dl；
-   * 不传递dl，就是取消吸附
+   * If there is dl(draw line), then absorb to dl;
+   * don't pass dl, means cancel absorb
    * @param dl drawline [point, point]
    */
   updateDraggingItemPosition(
     dl?: DrawLine,
     shouldChange?: { x?: number; y?: number },
   ) {
-    // 判断如果historyPoints都不存在就不继续
+    // Determine if historyPoints do not exist do not continue
     if (!this.historyPoints[0] && !this.historyPoints[1]) {
       return;
     }
 
-    // 吸附效果
+    // absorb effect
     if (dl) {
-      //let diff = 0
-      // 先算出diff，然后吸附过去
+      // calculate the diff and absorb
       if (dl.lp === 'left') {
         const tmpX = dl.line[0].x + this.draggingBBox.halfExtents[0];
         this.doUpdatePosition({ fx: tmpX });
