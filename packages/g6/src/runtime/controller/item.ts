@@ -4,6 +4,7 @@ import {
   debounce,
   each,
   isArray,
+  isNumber,
   isObject,
   map,
   throttle,
@@ -64,6 +65,8 @@ import { getGroupedChanges } from '../../util/event';
 import { BaseNode } from '../../stdlib/item/node/base';
 import { BaseEdge } from '../../stdlib/item/edge/base';
 import { EdgeCollisionChecker, QuadTree } from '../../util/polyline';
+import { isBBoxInBBox, isPointInBBox } from '../../util/bbox';
+import { convertToNumber } from '../../util/type';
 
 /**
  * Manages and stores the node / edge / combo items.
@@ -207,12 +210,13 @@ export class ItemController {
    * Listener of runtime's render hook.
    * @param param contains inner data stored in graphCore structure
    */
-  private onRender(param: {
+  private async onRender(param: {
     graphCore: GraphCore;
     theme: ThemeSpecification;
     transientCanvas: Canvas;
+    tileFirstRender?: boolean | number;
   }) {
-    const { graphCore, theme = {}, transientCanvas } = param;
+    const { graphCore, theme = {}, transientCanvas, tileFirstRender } = param;
     const { graph } = this;
 
     // 0. clear groups on canvas, and create new groups
@@ -265,9 +269,9 @@ export class ItemController {
       edges: graphCore.getAllEdges(),
     });
 
-    this.renderNodes(nodes, theme.node);
+    await this.renderNodes(nodes, theme.node, tileFirstRender);
     this.renderCombos(combos, theme.combo, graphCore);
-    this.renderEdges(edges, theme.edge);
+    await this.renderEdges(edges, theme.edge, tileFirstRender);
     this.sortByComboTree(graphCore);
     // collapse the combos which has 'collapsed' in initial data
     if (graphCore.hasTreeStructure('combo')) {
@@ -406,6 +410,10 @@ export class ItemController {
         });
       };
       const debounceUpdateRelates = debounce(updateRelates, 16, false);
+      const throttleUpdateRelates = throttle(updateRelates, 16, {
+        leading: true,
+        trailing: true,
+      });
 
       Object.values(nodeComboUpdate).forEach((updateObj: any) => {
         const { isReplace, previous, current, id } = updateObj;
@@ -501,7 +509,7 @@ export class ItemController {
           nodeRelatedIdsToUpdate.add(edge.id);
         });
 
-        item.onframe = () => updateRelates(nodeRelatedIdsToUpdate);
+        item.onframe = () => throttleUpdateRelates(nodeRelatedIdsToUpdate);
         let statesCache;
         if (
           innerModel.data._isCombo &&
@@ -667,8 +675,15 @@ export class ItemController {
     value: boolean;
     graphCore: GraphCore;
     animate?: boolean;
+    keepKeyShape?: boolean;
   }) {
-    const { ids, value, graphCore, animate = true } = param;
+    const {
+      ids,
+      value,
+      graphCore,
+      animate = true,
+      keepKeyShape = false,
+    } = param;
     ids.forEach((id) => {
       const item = this.itemMap.get(id);
       if (!item) {
@@ -698,7 +713,7 @@ export class ItemController {
           });
         }
       } else {
-        item.hide(animate);
+        item.hide(animate, keepKeyShape);
         if (type !== 'edge') {
           const relatedEdges = graphCore.getRelatedEdges(id);
           relatedEdges.forEach(({ id: edgeId }) => {
@@ -749,7 +764,35 @@ export class ItemController {
       const { zoom } = transform;
       if (zoom) {
         const zoomRatio = this.graph.getZoom();
-        this.itemMap.forEach((item) => item.updateZoom(zoomRatio));
+        const range = this.graph.getCanvasRange();
+        const nodeItems = Array.from(this.itemMap, ([key, value]) => value);
+        const itemsInViewport = [];
+        const itemsOutViewport = [];
+        nodeItems.forEach((item) => {
+          const { keyShape } = item.shapeMap;
+          if (!keyShape) return;
+          const renderBounds = keyShape.getRenderBounds();
+          if (isBBoxInBBox(renderBounds, range, 0.4))
+            itemsInViewport.push(item);
+          else itemsOutViewport.push(item);
+        });
+        const sortedItems = itemsInViewport.concat(itemsOutViewport);
+        const size = 1000;
+        const sections = Math.ceil(nodeItems.length / size);
+        const itemSections = Array.from({ length: sections }, (v, i) =>
+          sortedItems.slice(i * size, i * size + size),
+        );
+        let requestId;
+        const update = () => {
+          if (!itemSections.length) {
+            cancelAnimationFrame(requestId);
+            return;
+          }
+          itemSections.shift().forEach((item) => item.updateZoom(zoomRatio));
+          requestId = requestAnimationFrame(update);
+        };
+        requestId = requestAnimationFrame(update);
+        // this.itemMap.forEach((item) => item.updateZoom(zoomRatio));
         this.zoom = zoomRatio;
       }
     },
@@ -970,13 +1013,20 @@ export class ItemController {
    * Create nodes with inner data to canvas.
    * @param models nodes' inner datas
    */
-  private renderNodes(
+  private async renderNodes(
     models: NodeModel[],
     nodeTheme: NodeThemeSpecifications = {},
-  ) {
+    tileFirstRender?: boolean | number,
+  ): Promise<any> {
     const { nodeExtensions, nodeGroup, nodeDataTypeSet, graph } = this;
     const { dataTypeField = '' } = nodeTheme;
     const zoom = graph.getZoom();
+    const delayFirstDraw = isNumber(tileFirstRender)
+      ? models.length > tileFirstRender
+      : tileFirstRender;
+    const itemsInView = [];
+    const itemsOutView = [];
+    const viewRange = this.graph.getCanvasRange();
     models.forEach((node) => {
       // get the base styles from theme
       let dataType;
@@ -988,30 +1038,73 @@ export class ItemController {
         nodeTheme,
       );
 
-      this.itemMap.set(
-        node.id,
-        new Node({
-          model: node,
-          renderExtensions: nodeExtensions,
-          containerGroup: nodeGroup,
-          mapper: this.nodeMapper,
-          stateMapper: this.nodeStateMapper,
-          zoom,
-          theme: itemTheme as {
-            styles: NodeStyleSet;
-            lodStrategy: LodStrategyObj;
-          },
-          device:
-            graph.rendererType === 'webgl-3d'
-              ? // TODO: G type
-                (graph.canvas.context as any).deviceRendererPlugin.getDevice()
-              : undefined,
-        }),
-      );
+      const nodeItem = new Node({
+        delayFirstDraw,
+        model: node,
+        renderExtensions: nodeExtensions,
+        containerGroup: nodeGroup,
+        mapper: this.nodeMapper,
+        stateMapper: this.nodeStateMapper,
+        zoom,
+        theme: itemTheme as {
+          styles: NodeStyleSet;
+          lodStrategy: LodStrategyObj;
+        },
+        device:
+          graph.rendererType === 'webgl-3d'
+            ? // TODO: G type
+              (graph.canvas.context as any).deviceRendererPlugin.getDevice()
+            : undefined,
+      });
+
+      this.itemMap.set(node.id, nodeItem);
+      const { x, y } = nodeItem.model.data;
+      if (
+        isPointInBBox(
+          { x: convertToNumber(x), y: convertToNumber(y) },
+          viewRange,
+        )
+      ) {
+        itemsInView.push(nodeItem);
+      } else {
+        itemsOutView.push(nodeItem);
+      }
     });
+    if (delayFirstDraw) {
+      let requestId;
+      const size = 1000;
+      const items = itemsInView.concat(itemsOutView);
+      const sectionNum = Math.ceil(items.length / size);
+      const sections = Array.from({ length: sectionNum }, (v, i) =>
+        items.slice(i * size, i * size + size),
+      );
+      const update = (resolve) => {
+        if (!sections.length) {
+          cancelAnimationFrame(requestId);
+          // return Promise.resolve();
+          return resolve();
+        }
+        sections
+          .shift()
+          .forEach((item) =>
+            item.draw(
+              item.displayModel as NodeDisplayModel | ComboDisplayModel,
+              undefined,
+              undefined,
+              !item.displayModel.data.disableAnimate,
+            ),
+          );
+        requestId = requestAnimationFrame(() => update(resolve));
+      };
+      return new Promise((resolve) => {
+        requestId = requestAnimationFrame(() => update(resolve));
+      });
+    } else {
+      return Promise.resolve();
+    }
   }
 
-  private renderCombos(
+  private async renderCombos(
     models: ComboModel[],
     comboTheme: ComboThemeSpecifications = {},
     graphCore: GraphCore,
@@ -1082,12 +1175,16 @@ export class ItemController {
   private renderEdges(
     models: EdgeModel[],
     edgeTheme: EdgeThemeSpecifications = {},
+    tileFirstRender?: boolean | number,
   ) {
     const { edgeExtensions, edgeGroup, itemMap, edgeDataTypeSet, graph } = this;
     const { dataTypeField = '' } = edgeTheme;
     const zoom = graph.getZoom();
     const nodeMap = filterItemMapByType(itemMap, 'node') as Map<ID, Node>;
-    models.forEach((edge) => {
+    const delayFirstDraw = isNumber(tileFirstRender)
+      ? models.length > tileFirstRender
+      : tileFirstRender;
+    const items = models.map((edge) => {
       const { source, target, id } = edge;
       const sourceItem = itemMap.get(source) as Node;
       const targetItem = itemMap.get(target) as Node;
@@ -1113,27 +1210,50 @@ export class ItemController {
         edgeTheme,
       );
 
-      itemMap.set(
-        id,
-        new Edge({
-          model: edge,
-          renderExtensions: edgeExtensions,
-          containerGroup: edgeGroup,
-          mapper: this.edgeMapper as DisplayMapper,
-          stateMapper: this.edgeStateMapper as {
-            [stateName: string]: DisplayMapper;
-          },
-          sourceItem,
-          targetItem,
-          nodeMap,
-          zoom,
-          theme: itemTheme as {
-            styles: EdgeStyleSet;
-            lodStrategy: LodStrategyObj;
-          },
-        }),
-      );
+      const edgeItem = new Edge({
+        delayFirstDraw,
+        model: edge,
+        renderExtensions: edgeExtensions,
+        containerGroup: edgeGroup,
+        mapper: this.edgeMapper as DisplayMapper,
+        stateMapper: this.edgeStateMapper as {
+          [stateName: string]: DisplayMapper;
+        },
+        sourceItem,
+        targetItem,
+        nodeMap,
+        zoom,
+        theme: itemTheme as {
+          styles: EdgeStyleSet;
+          lodStrategy: LodStrategyObj;
+        },
+      });
+
+      itemMap.set(id, edgeItem);
+      return edgeItem;
     });
+
+    if (delayFirstDraw) {
+      let requestId;
+      const size = 2000;
+      const sectionNum = Math.ceil(items.length / size);
+      const sections = Array.from({ length: sectionNum }, (v, i) =>
+        items.slice(i * size, i * size + size),
+      );
+      const update = (resolve) => {
+        if (!sections.length) {
+          cancelAnimationFrame(requestId);
+          return resolve();
+        }
+        sections.shift().forEach((item) => item.draw(item.displayModel));
+        requestId = requestAnimationFrame(() => update(resolve));
+      };
+      return new Promise((resolve) => {
+        requestId = requestAnimationFrame(() => update(resolve));
+      });
+    } else {
+      return Promise.resolve();
+    }
   }
 
   /**

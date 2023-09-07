@@ -26,7 +26,7 @@ import type {
 import type { CameraAnimationOptions } from '../types/animate';
 import type { BehaviorOptionsOf, BehaviorRegistry } from '../types/behavior';
 import type { ComboDisplayModel, ComboModel } from '../types/combo';
-import type { Padding, Point } from '../types/common';
+import type { Bounds, Padding, Point } from '../types/common';
 import type { DataChangeType, DataConfig, GraphCore } from '../types/data';
 import type { EdgeDisplayModel, EdgeModel, EdgeModelData } from '../types/edge';
 import type { StackType } from '../types/history';
@@ -101,7 +101,11 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
   constructor(spec: Specification<B, T>) {
     super();
 
-    this.specification = Object.assign({}, this.defaultSpecification, spec);
+    this.specification = Object.assign(
+      {},
+      this.defaultSpecification,
+      this.formatSpecification(spec),
+    );
     this.initHooks();
     this.initCanvas();
     this.initControllers();
@@ -356,11 +360,27 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     };
   }
 
+  private formatSpecification(spec: Specification<B, T>) {
+    return {
+      ...spec,
+      optimize: {
+        behavior: 2000,
+        tileFirstRender: 10000,
+        ...spec.optimize,
+      },
+    };
+  }
+
   /**
    * Update the specs(configurations).
    */
   public updateSpecification(spec: Specification<B, T>): Specification<B, T> {
-    return Object.assign(this.specification, spec);
+    const newSpec = Object.assign(
+      this.specification,
+      this.formatSpecification(spec),
+    );
+    // TODO: update something
+    return newSpec;
   }
   /**
    * Update the theme specs (configurations).
@@ -398,12 +418,14 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * @group Data
    */
   public async read(data: DataConfig) {
+    const { tileFirstRender } = this.specification.optimize || {};
     this.hooks.datachange.emit({ data, type: 'replace' });
     const emitRender = async () => {
-      this.hooks.render.emit({
+      await this.hooks.render.emitLinearAsync({
         graphCore: this.dataController.graphCore,
         theme: this.themeController.specification,
         transientCanvas: this.transientCanvas,
+        tileFirstRender,
       });
       this.emit('afterrender');
 
@@ -452,11 +474,13 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     data: DataConfig,
     type: 'replace' | 'mergeReplace' = 'mergeReplace',
   ) {
+    const { tileFirstRender } = this.specification.optimize || {};
     this.hooks.datachange.emit({ data, type });
     this.hooks.render.emit({
       graphCore: this.dataController.graphCore,
       theme: this.themeController.specification,
       transientCanvas: this.transientCanvas,
+      tileFirstRender,
     });
     this.emit('afterrender');
 
@@ -777,6 +801,26 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     this.specification.width = size[0];
     this.specification.height = size[1];
     this.canvas.resize(size[0], size[1]);
+  }
+
+  public getCanvasRange(): Bounds {
+    const [width, height] = this.getSize();
+    const leftTop = this.getCanvasByViewport({ x: 0, y: 0 });
+    const rightBottom = this.getCanvasByViewport({ x: width, y: height });
+    return {
+      min: [leftTop.x, leftTop.y, leftTop.z],
+      max: [rightBottom.x, rightBottom.y, rightBottom.z],
+      center: [
+        (leftTop.x + rightBottom.x) / 2,
+        (leftTop.y + rightBottom.y) / 2,
+        (leftTop.z + rightBottom.z) / 2,
+      ],
+      halfExtents: [
+        (rightBottom.x - leftTop.x) / 2,
+        (rightBottom.y - leftTop.y) / 2,
+        (rightBottom.z - leftTop.z) / 2,
+      ],
+    };
   }
 
   /**
@@ -1344,7 +1388,11 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * @returns
    * @group Item
    */
-  public hideItem(ids: ID | ID[], disableAnimate = false) {
+  public hideItem(
+    ids: ID | ID[],
+    disableAnimate = false,
+    keepKeyShape = false,
+  ) {
     const idArr = isArray(ids) ? ids : [ids];
     if (isEmpty(idArr)) return;
     const changes = {
@@ -1356,6 +1404,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       value: false,
       graphCore: this.dataController.graphCore,
       animate: !disableAnimate,
+      keepKeyShape,
     });
     this.emit('afteritemvisibilitychange', {
       ids,
@@ -1363,6 +1412,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       animate: !disableAnimate,
       action: 'updateVisibility',
       apiName: 'hideItem',
+      keepKeyShape,
       changes,
     });
   }

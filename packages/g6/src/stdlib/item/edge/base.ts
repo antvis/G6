@@ -550,7 +550,11 @@ export abstract class BaseEdge {
    * @param shapeMap The shape map that contains all of the elements to show on the edge.
    * @param zoom The zoom level of the graph.
    */
-  public onZoom = (shapeMap: EdgeShapeMap, zoom: number) => {
+  public onZoom = (
+    shapeMap: EdgeShapeMap,
+    zoom: number,
+    cacheHiddenShape = {},
+  ) => {
     // balance the size for label, badges
     this.balanceShapeSize(shapeMap, zoom);
 
@@ -574,7 +578,10 @@ export abstract class BaseEdge {
       // zoomLevel changed, from higher to lower, hide something
       if (firstRender) {
         for (let i = currentLevel + 1; i <= maxLevel; i++) {
-          levelShapes[String(i)]?.forEach((id) => shapeMap[id]?.hide());
+          levelShapes[String(i)]?.forEach((id) => {
+            if (!shapeMap[id] || cacheHiddenShape[id]) return;
+            shapeMap[id]?.hide();
+          });
         }
       } else {
         for (let i = currentLevel + 1; i <= maxLevel; i++) {
@@ -586,7 +593,8 @@ export abstract class BaseEdge {
     } else if (currentLevel > previousLevel) {
       // zoomLevel changed, from lower to higher, show something
       for (let i = currentLevel; i >= minLevel; i--) {
-        levelShapes[String(i)]?.forEach((id) =>
+        levelShapes[String(i)]?.forEach((id) => {
+          if (hiddenShape[id]) return;
           fadeIn(
             id,
             shapeMap[id],
@@ -594,8 +602,8 @@ export abstract class BaseEdge {
               this.mergedStyles[id.replace('Background', '')],
             hiddenShape,
             animateConfig,
-          ),
-        );
+          );
+        });
       }
     }
 

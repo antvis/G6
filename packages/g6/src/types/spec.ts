@@ -47,6 +47,10 @@ export interface Specification<
         headless: boolean;
       };
   zoom?: number;
+  optimize?: {
+    tileFirstRender: boolean | number;
+    behavior: boolean | number;
+  };
   autoFit?:
     | 'view'
     | 'center'

@@ -1,6 +1,6 @@
 /* eslint-disable prefer-spread */
 import { AABB } from '@antv/g';
-import { PolyPoint } from 'types/common';
+import { Point, PolyPoint } from 'types/common';
 
 /**
  * Retrieve the width of a bounding box
@@ -295,4 +295,41 @@ export const isSegmentCrossingBBox = (
     );
   }
   return false;
+};
+
+/**
+  Determines whether a given point is inside a given bounding box.
+  @param {Point} point - The point to be checked.
+  @param {AABB} bbox - The bounding box.
+  @returns {boolean} - Returns true if the point is inside the bounding box, false otherwise.
+*/
+export const isPointInBBox = (point: Point, bbox: AABB) => {
+  const { x, y } = point;
+  return (
+    x > bbox.min[0] && x < bbox.max[0] && y > bbox.min[1] && y < bbox.max[1]
+  );
+};
+
+/**
+  Determines whether a given sub-bounding box is fully contained within a given bounding box.
+  @param {AABB} subBBox - The sub-bounding box to be checked.
+  @param {AABB} bbox - The bounding box.
+  @param {number} [scale] - Optional scaling factor to adjust the size of the bounding box.
+  @returns {boolean} - Returns true if the sub-bounding box is fully contained within the bounding box, false otherwise.
+*/
+export const isBBoxInBBox = (subBBox: AABB, bbox: AABB, scale?: number) => {
+  if (scale) {
+    return (
+      subBBox.min[0] > bbox.min[0] - bbox.halfExtents[0] * scale &&
+      subBBox.max[0] < bbox.max[0] + bbox.halfExtents[0] * scale &&
+      subBBox.min[1] > bbox.min[1] - bbox.halfExtents[1] * scale &&
+      subBBox.max[1] < bbox.max[1] + bbox.halfExtents[1] * scale
+    );
+  }
+  return (
+    subBBox.min[0] > bbox.min[0] &&
+    subBBox.max[0] < bbox.max[0] &&
+    subBBox.min[1] > bbox.min[1] &&
+    subBBox.max[1] < bbox.max[1]
+  );
 };
