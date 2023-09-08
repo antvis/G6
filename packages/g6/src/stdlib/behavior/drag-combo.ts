@@ -250,7 +250,7 @@ export class DragCombo extends Behavior {
           selectedComboIds,
           this.hiddenComboTreeRoots,
         );
-        this.graph.executeWithoutStacking(() => {
+        this.graph.executeWithNoStack(() => {
           this.graph.hideItem(
             this.hiddenEdges.map((edge) => edge.id),
             true,
@@ -280,7 +280,7 @@ export class DragCombo extends Behavior {
         });
 
         // Hide original edges and nodes. They will be restored when pointerup.
-        this.graph.executeWithoutStacking(() => {
+        this.graph.executeWithNoStack(() => {
           this.graph.hideItem(selectedComboIds, true);
           this.graph.hideItem(
             this.hiddenEdges.map((edge) => edge.id),
@@ -429,7 +429,7 @@ export class DragCombo extends Behavior {
   }
 
   public restoreHiddenItems(positions?: Position[]) {
-    this.graph.pauseStacking();
+    this.graph.pauseStack();
     if (this.hiddenEdges.length) {
       this.graph.showItem(
         this.hiddenEdges.map((edge) => edge.id),
@@ -452,7 +452,7 @@ export class DragCombo extends Behavior {
         true,
       );
     }
-    this.graph.resumeStacking();
+    this.graph.resumeStack();
   }
 
   public onPointerUp(event: IG6GraphEvent) {
@@ -561,7 +561,7 @@ export class DragCombo extends Behavior {
 
   public onDropCombo(event: IG6GraphEvent) {
     const newParentId = event.itemId;
-    this.graph.startBatch();
+    this.graph.startHistoryBatch();
     this.originPositions.forEach(({ id }) => {
       const model = this.graph.getComboData(id);
       if (!model || model.id === newParentId) return;
@@ -570,12 +570,12 @@ export class DragCombo extends Behavior {
       // event.stopPropagation();
       this.graph.updateData('combo', { id, data: { parentId: newParentId } });
     });
-    this.graph.stopBatch();
+    this.graph.stopHistoryBatch();
     this.onPointerUp(event);
   }
 
   public onDropCanvas(event: IG6GraphEvent) {
-    this.graph.startBatch();
+    this.graph.startHistoryBatch();
     this.originPositions.forEach(({ id }) => {
       const model = this.graph.getComboData(id);
       if (!model) return;
@@ -583,7 +583,7 @@ export class DragCombo extends Behavior {
       if (!parentId) return;
       this.graph.updateData('combo', { id, data: { parentId: undefined } });
     });
-    this.graph.stopBatch();
+    this.graph.stopHistoryBatch();
     this.onPointerUp(event);
   }
 }

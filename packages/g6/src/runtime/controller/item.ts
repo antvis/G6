@@ -539,7 +539,7 @@ export class ItemController {
 
         const parentItem = this.itemMap.get(current.parentId);
         if (current.parentId && parentItem?.model.data.collapsed) {
-          this.graph.executeWithoutStacking(() => {
+          this.graph.executeWithNoStack(() => {
             this.graph.hideItem(innerModel.id, false);
           });
         }
@@ -1286,7 +1286,7 @@ export class ItemController {
     // find the succeeds in collapsed
     graphComboTreeDfs(this.graph, [comboModel], (child) => {
       if (child.id !== comboModel.id) {
-        this.graph.executeWithoutStacking(() => {
+        this.graph.executeWithNoStack(() => {
           this.graph.hideItem(child.id, false);
         });
       }
@@ -1306,7 +1306,7 @@ export class ItemController {
       pairs.push({ source, target });
     });
     // each item in groupedEdges is a virtual edge
-    this.graph.executeWithoutStacking(() => {
+    this.graph.executeWithNoStack(() => {
       this.graph.addData('edge', groupVirtualEdges(pairs));
     });
   }
@@ -1389,7 +1389,7 @@ export class ItemController {
     );
 
     // remove related virtual edges
-    this.graph.executeWithoutStacking(() => {
+    this.graph.executeWithNoStack(() => {
       this.graph.removeData('edge', uniq(relatedVirtualEdgeIds));
       this.graph.showItem(edgesToShow.concat(nodesToShow));
       // add virtual edges by grouping visible ancestor edges

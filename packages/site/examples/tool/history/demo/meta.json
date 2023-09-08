@@ -1,0 +1,16 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+      "filename": "history.ts",
+      "title": {
+        "zh": "撤销重做",
+        "en": "History"
+      },
+      "screenshot": ""
+    }
+  ]
+}

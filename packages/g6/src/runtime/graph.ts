@@ -468,7 +468,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * @returns
    */
   public clear() {
-    this.startBatch();
+    this.startHistoryBatch();
     this.removeData(
       'edge',
       this.getAllEdgesData().map((edge) => edge.id),
@@ -481,7 +481,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       'combo',
       this.getAllCombosData().map((combo) => combo.id),
     );
-    this.stopBatch();
+    this.stopHistoryBatch();
   }
 
   public getViewportCenter(): PointLike {
@@ -1588,7 +1588,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    */
   public collapseCombo(comboIds: ID | ID[]) {
     const ids = isArray(comboIds) ? comboIds : [comboIds];
-    this.executeWithoutStacking(() => {
+    this.executeWithNoStack(() => {
       this.updateData(
         'combo',
         ids.map((id) => ({ id, data: { collapsed: true } })),
@@ -1608,7 +1608,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    */
   public expandCombo(comboIds: ID | ID[]) {
     const ids = isArray(comboIds) ? comboIds : [comboIds];
-    this.executeWithoutStacking(() => {
+    this.executeWithNoStack(() => {
       this.updateData(
         'combo',
         ids.map((id) => ({ id, data: { collapsed: false } })),
@@ -2020,30 +2020,30 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
   /**
    * Pause stacking operation.
    */
-  public pauseStacking(): void {
+  public pauseStack(): void {
     const history = this.getHistoryPlugin();
-    return history?.pauseStacking();
+    return history?.pauseStack();
   }
 
   /**
    * Resume stacking operation.
    */
-  public resumeStacking(): void {
+  public resumeStack(): void {
     const history = this.getHistoryPlugin();
-    return history?.resumeStacking();
+    return history?.resumeStack();
   }
 
   /**
    * Execute a callback without allowing any stacking operations.
    * @param callback
    */
-  public executeWithoutStacking = (callback: () => void): void => {
+  public executeWithNoStack = (callback: () => void): void => {
     const history = this.getHistoryPlugin();
-    history?.pauseStacking();
+    history?.pauseStack();
     try {
       callback();
     } finally {
-      history?.resumeStacking();
+      history?.resumeStack();
     }
   };
 
@@ -2109,41 +2109,41 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
   }
 
   /**
-   * Begin a batch operation.
-   * Any operations performed between `startBatch` and `stopBatch` are grouped together.
+   * Begin a historyBatch operation.
+   * Any operations performed between `startHistoryBatch` and `stopHistoryBatch` are grouped together.
    * treated as a single operation when undoing or redoing.
    */
-  public startBatch() {
+  public startHistoryBatch() {
     const history = this.getHistoryPlugin();
-    history?.startBatch();
+    history?.startHistoryBatch();
   }
 
   /**
-   * End a batch operation.
-   * Any operations performed between `startBatch` and `stopBatch` are grouped together.
+   * End a historyBatch operation.
+   * Any operations performed between `startHistoryBatch` and `stopHistoryBatch` are grouped together.
    * treated as a single operation when undoing or redoing.
    */
-  public stopBatch() {
+  public stopHistoryBatch() {
     const history = this.getHistoryPlugin();
-    history?.stopBatch();
+    history?.stopHistoryBatch();
   }
 
   /**
    * Execute a provided function within a batched context
    * All operations performed inside callback will be treated as a composite operation
-   * more convenient way without manually invoking `startBatch` and `stopBatch`.
+   * more convenient way without manually invoking `startHistoryBatch` and `stopHistoryBatch`.
    * @param callback The func containing operations to be batched together.
    */
-  public batch(callback: () => void) {
+  public historyBatch(callback: () => void) {
     const history = this.getHistoryPlugin();
-    history?.batch(callback);
+    history?.historyBatch(callback);
   }
 
   /**
    * Clear history stack
    * @param {StackType} stackType undo/redo stack
    */
-  public clearStack(stackType?: StackType) {
+  public cleanHistory(stackType?: StackType) {
     const history = this.getHistoryPlugin();
     if (!stackType) return history?.clear();
     return stackType === 'undo'
@@ -2197,7 +2197,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     this.transientCanvas.destroy();
 
     // clear history stack
-    this.clearStack();
+    this.cleanHistory();
 
     callback?.();
     // }, 500);

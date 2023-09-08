@@ -11,7 +11,7 @@ export class ComboCommand implements Command {
   }
 
   undo(graph: IGraph) {
-    graph.executeWithoutStacking(() => {
+    graph.executeWithNoStack(() => {
       this.action === 'expandCombo'
         ? graph.collapseCombo(this.ids)
         : graph.expandCombo(this.ids);
@@ -19,7 +19,7 @@ export class ComboCommand implements Command {
   }
 
   redo(graph: IGraph) {
-    graph.executeWithoutStacking(() => {
+    graph.executeWithNoStack(() => {
       this.action === 'collapseCombo'
         ? graph.collapseCombo(this.ids)
         : graph.expandCombo(this.ids);

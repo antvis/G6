@@ -55,7 +55,7 @@ const toolbar = {
       alert('hello world');
     }
     if (code === 'add') {
-      graph.startBatch();
+      graph.startHistoryBatch();
       graph.addData('node', {
         id: 'node2',
         data: {
@@ -78,7 +78,7 @@ const toolbar = {
           type: 'line-edge',
         },
       });
-      graph.stopBatch();
+      graph.stopHistoryBatch();
     }
     if (code === 'remove') {
       graph.removeData('node', 'node2');
@@ -121,5 +121,5 @@ insertCss(`
     line-height:50px;
     flex:1;
   }
-  
+
 `);
