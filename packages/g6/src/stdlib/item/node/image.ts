@@ -7,9 +7,9 @@ import {
   NodeShapeStyles,
 } from '../../../types/node';
 import { convertToNumber } from '../../../util/type';
-import { BaseNode } from './base';
 import { ComboModelData, ComboShapeMap } from '../../../types/combo';
 import { ShapeTagMap } from '../../../util/shape';
+import { BaseNode } from './base';
 
 export class ImageNode extends BaseNode {
   override defaultStyles = {

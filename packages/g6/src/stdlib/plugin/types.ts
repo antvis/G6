@@ -7,3 +7,4 @@ export type { MiniMapConfig } from './minimap';
 export type { ToolbarConfig } from './toolbar';
 export type { TooltipConfig } from './tooltip';
 export type { TimebarConfig } from './timebar';
+export type { SnapLineConfig } from './snapline';

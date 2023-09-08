@@ -73,6 +73,7 @@ const {
   Legend,
   Toolbar,
   Timebar,
+  Snapline,
 } = Plugins;
 
 const {
@@ -280,6 +281,7 @@ const Extensions = {
   Legend,
   Timebar,
   Hull,
+  Snapline,
 };
 
 export default registery;
