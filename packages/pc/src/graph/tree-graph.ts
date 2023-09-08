@@ -9,10 +9,11 @@ import {
   ShapeStyle,
   TreeGraphData,
   GraphOptions,
-  IPoint
+  IPoint,
 } from '@antv/g6-core';
 import { ITreeGraph } from '../interface/graph';
 import Util from '../util';
+import { deepClone } from '../util/deepClone';
 import Graph from './graph';
 
 const { radialLayout, traverseTree } = Util;
@@ -130,7 +131,7 @@ export default class TreeGraph extends Graph implements ITreeGraph {
       );
     }
     // 渲染到视图上应参考布局的children, 避免多绘制了收起的节点
-    each(treeData.children || [], child => {
+    each(treeData.children || [], (child) => {
       self.innerAddChild(child, node, animate);
     });
     self.emit('afteraddchild', { item: node, parent });
@@ -216,7 +217,7 @@ export default class TreeGraph extends Graph implements ITreeGraph {
       return;
     }
 
-    each(node.get('children'), child => {
+    each(node.get('children'), (child) => {
       self.innerRemoveChild(child.getModel().id, to, animate);
     });
 
@@ -238,8 +239,8 @@ export default class TreeGraph extends Graph implements ITreeGraph {
     const self = this;
 
     // 更改数据源后，取消所有状态
-    this.getNodes().map(node => self.clearItemStates(node));
-    this.getEdges().map(edge => self.clearItemStates(edge));
+    this.getNodes().map((node) => self.clearItemStates(node));
+    this.getEdges().map((edge) => self.clearItemStates(edge));
 
     if (stack && this.get('enabledStack')) {
       this.pushStack('changedata', {
@@ -274,7 +275,12 @@ export default class TreeGraph extends Graph implements ITreeGraph {
    * 更改并应用树布局算法
    * @param {object} layout 布局算法
    */
-  public updateLayout(layout: any, align?: 'center' | 'begin', alignPoint?: IPoint, stack: boolean = true) {
+  public updateLayout(
+    layout: any,
+    align?: 'center' | 'begin',
+    alignPoint?: IPoint,
+    stack: boolean = true,
+  ) {
     const self = this;
     if (!layout) {
       // eslint-disable-next-line no-console
@@ -284,7 +290,7 @@ export default class TreeGraph extends Graph implements ITreeGraph {
     if (stack && this.get('enabledStack')) {
       this.pushStack('layout', {
         before: self.get('layout'),
-        after: layout
+        after: layout,
       });
     }
     self.set('layout', layout);
@@ -343,8 +349,8 @@ export default class TreeGraph extends Graph implements ITreeGraph {
     let layoutData = data;
     if (layoutConfig?.excludeInvisibles) {
       data = clone(self.get('data'));
-      const cacheChidMap = {}
-      traverseTree<TreeGraphData>(data, subTree => {
+      const cacheChidMap = {};
+      traverseTree<TreeGraphData>(data, (subTree) => {
         const siblings = subTree.children;
         if (!siblings?.length) return true;
         for (let i = siblings.length - 1; i >= 0; i--) {
@@ -360,10 +366,10 @@ export default class TreeGraph extends Graph implements ITreeGraph {
         }
       });
       layoutData = layoutMethod ? layoutMethod(data, self.get('layout')) : data;
-      traverseTree<TreeGraphData>(layoutData, subTree => {
+      traverseTree<TreeGraphData>(layoutData, (subTree) => {
         const cachedItems = cacheChidMap[subTree.id];
         if (cachedItems?.length) {
-          for (let i = cachedItems.length - 1; i >= 0; i --) {
+          for (let i = cachedItems.length - 1; i >= 0; i--) {
             const { idx, child } = cachedItems[i];
             subTree.children.splice(idx, 0, child);
           }
@@ -372,7 +378,6 @@ export default class TreeGraph extends Graph implements ITreeGraph {
     } else {
       layoutData = layoutMethod ? layoutMethod(data, self.get('layout')) : data;
     }
-    
 
     const animate: boolean = self.get('animate');
 
@@ -492,9 +497,9 @@ export default class TreeGraph extends Graph implements ITreeGraph {
 
     let parent;
     if (!node) {
-      parent = self.getNodes().find(node => {
+      parent = self.getNodes().find((node) => {
         const children = node.getModel().children || [];
-        return !!children.find(child => child.id === id);
+        return !!children.find((child) => child.id === id);
       });
     } else {
       parent = node?.get('parent');
@@ -530,7 +535,7 @@ export default class TreeGraph extends Graph implements ITreeGraph {
 
     let result: TreeGraphData | null = null;
     // eslint-disable-next-line consistent-return
-    each(parent.children || [], child => {
+    each(parent.children || [], (child) => {
       if (child.id === id) {
         result = child;
         return false;
@@ -562,7 +567,7 @@ export default class TreeGraph extends Graph implements ITreeGraph {
     const animateCfg = this.get('animateCfg');
     self.emit('beforeanimate', { data });
     // 如果边中没有指定锚点，但是本身有锚点控制，在动画过程中保持锚点不变
-    self.getEdges().forEach(edge => {
+    self.getEdges().forEach((edge) => {
       const model = edge.get('model');
       if (!model.sourceAnchor) {
         model.sourceAnchor = edge.get('sourceAnchorIndex');
@@ -571,7 +576,7 @@ export default class TreeGraph extends Graph implements ITreeGraph {
 
     this.get('canvas').animate(
       (ratio: number) => {
-        traverseTree<TreeGraphData>(data, child => {
+        traverseTree<TreeGraphData>(data, (child) => {
           const node = self.findById(child.id);
 
           // 只有当存在node的时候才执行
@@ -598,7 +603,7 @@ export default class TreeGraph extends Graph implements ITreeGraph {
           return true;
         });
 
-        each(self.get('removeList'), node => {
+        each(self.get('removeList'), (node) => {
           const model = node.getModel();
           const from = node.get('originAttrs');
           const to = node.get('to');
@@ -612,11 +617,11 @@ export default class TreeGraph extends Graph implements ITreeGraph {
         duration: animateCfg.duration,
         easing: animateCfg.ease,
         callback: () => {
-          each(self.getNodes(), node => {
+          each(self.getNodes(), (node) => {
             node.set('originAttrs', null);
           });
 
-          each(self.get('removeList'), node => {
+          each(self.get('removeList'), (node) => {
             self.removeItem(node, false);
           });
 
@@ -689,6 +694,6 @@ export default class TreeGraph extends Graph implements ITreeGraph {
    */
   public data(data?: GraphData | TreeGraphData): void {
     super.data(data);
-    this.set('originData', JSON.parse(JSON.stringify(data)));
+    this.set('originData', deepClone(data));
   }
 }
