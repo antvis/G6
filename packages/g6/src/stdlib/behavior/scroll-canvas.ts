@@ -75,7 +75,7 @@ export class ScrollCanvas extends Behavior<ScrollCanvasOptions> {
     };
   };
 
-  onWheel(ev: IG6GraphEvent) {
+  onWheel(ev: IG6GraphEvent & { deltaX?: number; deltaY?: number; }) {
     if (!this.allowDrag(ev)) return;
     const graph = this.graph;
     const { zoomKey, scalableRange, direction, enableOptimize } = this.options;
@@ -83,16 +83,13 @@ export class ScrollCanvas extends Behavior<ScrollCanvasOptions> {
     if (zoomKeys.includes('control')) zoomKeys.push('ctrl');
     const keyDown = zoomKeys.some((ele) => ev[`${ele}Key`]);
 
-    const nativeEvent = ev.nativeEvent as WheelEvent & { wheelDelta: number };
+    const nativeEvent = ev.nativeEvent as WheelEvent & { wheelDelta: number } | undefined;
 
     if (keyDown) {
       const canvas = graph.canvas;
-      const point = canvas.getPointByClient(
-        nativeEvent.clientX,
-        nativeEvent.clientY,
-      );
+      const point = canvas.getPointByClient(ev.client.x, ev.client.y);
       let ratio = graph.getZoom();
-      if (nativeEvent.wheelDelta > 0) {
+      if (nativeEvent && nativeEvent.wheelDelta > 0) {
         ratio = ratio + ratio * 0.05;
       } else {
         ratio = ratio - ratio * 0.05;
@@ -102,11 +99,8 @@ export class ScrollCanvas extends Behavior<ScrollCanvasOptions> {
         y: point.y,
       });
     } else {
-      const diffX = nativeEvent.deltaX || nativeEvent.movementX;
-      let diffY = nativeEvent.deltaY || nativeEvent.movementY;
-
-      if (!diffY && navigator.userAgent.indexOf('Firefox') > -1)
-        diffY = (-nativeEvent.wheelDelta * 125) / 3;
+      const diffX = ev.deltaX || ev.movement.x;
+      const diffY = ev.deltaY || ev.movement.y;
 
       const { dx, dy } = this.formatDisplacement(diffX, diffY);
       graph.translate({ dx: -dx, dy: -dy });
