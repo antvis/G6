@@ -32,6 +32,13 @@ describe('Scroll canvas behavior', () => {
         'behaviors-scroll-canvas',
       );
 
+      graph.emit('wheel', {
+        deltaX: 50,
+        deltaY: 50,
+      });
+
+      await expect(canvas).toMatchSVGSnapshot(dir, 'behaviors-scroll-canvas-scrolled');
+
       graph.destroy();
       done();
     });
@@ -52,10 +59,15 @@ describe('Scroll canvas behavior', () => {
     });
 
     graph.on('afterlayout', async () => {
-      await expect(canvas).toMatchSVGSnapshot(
-        dir,
-        'behaviors-scroll-canvas',
-      );
+      await expect(canvas).toMatchSVGSnapshot(dir, 'behaviors-scroll-canvas');
+
+      graph.emit('wheel', {
+        deltaX: 50,
+        deltaY: 50,
+      });
+
+      await expect(canvas).toMatchSVGSnapshot(dir, 'behaviors-scroll-canvas-scrolled');
+      
       graph.destroy();
       done();
     });
