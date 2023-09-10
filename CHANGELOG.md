@@ -1,5 +1,10 @@
 # ChangeLog
 
+### 4.8.22
+
+- fix: read and clone large data for tree graph;
+- fix: download images with correct file name;
+
 ### 4.8.21
 
 - feat: layout supports relayoutAtChangeData config to disable relayout while changeData of graph is called;
