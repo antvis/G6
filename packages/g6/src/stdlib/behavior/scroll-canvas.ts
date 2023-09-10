@@ -56,10 +56,11 @@ const DEFAULT_OPTIONS: ScrollCanvasOptions = {
 };
 
 
-export class ScrollCanvas extends Behavior<ScrollCanvasOptions> {
+export class ScrollCanvas extends Behavior {
   private hiddenEdgeIds: ID[];
   private hiddenNodeIds: ID[];
 
+  options: ScrollCanvasOptions;
   timeout?: number;
   optimized = false;
   constructor(options: Partial<ScrollCanvasOptions>) {
