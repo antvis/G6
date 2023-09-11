@@ -2,6 +2,17 @@ import { Tuple3Number } from '@antv/g';
 import { vec2 } from '@antv/matrix-util';
 import { LOOP_POSITION, LoopPosition } from '../types/loop';
 
+export const loopPosition = [
+  'top',
+  'top-right',
+  'right',
+  'bottom-right',
+  'bottom',
+  'bottom-left',
+  'left',
+  'top-left',
+];
+
 const PI_OVER_8 = Math.PI / 8;
 
 const radiansMap = {
