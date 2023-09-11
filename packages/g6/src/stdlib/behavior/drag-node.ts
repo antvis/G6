@@ -258,7 +258,7 @@ export class DragNode extends Behavior {
           this.selectedNodeIds,
           this.hiddenComboTreeItems,
         );
-        this.graph.executeWithoutStacking(() => {
+        this.graph.executeWithNoStack(() => {
           this.graph.hideItem(
             this.hiddenEdges.map((edge) => edge.id),
             true,
@@ -292,7 +292,7 @@ export class DragNode extends Behavior {
         });
 
         // Hide original edges and nodes. They will be restored when pointerup.
-        this.graph.executeWithoutStacking(() => {
+        this.graph.executeWithNoStack(() => {
           this.graph.hideItem(this.selectedNodeIds, true);
           this.graph.hideItem(
             this.hiddenEdges.map((edge) => edge.id),
@@ -478,7 +478,7 @@ export class DragNode extends Behavior {
   }
 
   public restoreHiddenItems(positions?: Position[]) {
-    this.graph.pauseStacking();
+    this.graph.pauseStack();
     if (this.hiddenEdges.length) {
       this.graph.showItem(
         this.hiddenEdges.map((edge) => edge.id),
@@ -508,7 +508,7 @@ export class DragNode extends Behavior {
         true,
       );
     }
-    this.graph.resumeStacking();
+    this.graph.resumeStack();
   }
 
   public clearState() {
@@ -608,7 +608,7 @@ export class DragNode extends Behavior {
       ? this.graph.getNodeData(dropId).data.parentId
       : dropId;
 
-    this.graph.startBatch();
+    this.graph.startHistoryBatch();
     this.originPositions.forEach(({ id }) => {
       const model = this.graph.getNodeData(id);
       if (!model) return;
@@ -621,13 +621,13 @@ export class DragNode extends Behavior {
       this.graph.updateData('node', { id, data: { parentId: newParentId } });
     });
     this.onPointerUp(event);
-    this.graph.stopBatch();
+    this.graph.stopHistoryBatch();
   }
 
   public onDropCombo(event: IG6GraphEvent) {
     event.stopPropagation();
     const newParentId = event.itemId;
-    this.graph.startBatch();
+    this.graph.startHistoryBatch();
     this.onPointerUp(event);
     this.originPositions.forEach(({ id }) => {
       const model = this.graph.getNodeData(id);
@@ -637,7 +637,7 @@ export class DragNode extends Behavior {
       this.graph.updateData('node', { id, data: { parentId: newParentId } });
     });
     this.clearState();
-    this.graph.stopBatch();
+    this.graph.stopHistoryBatch();
   }
 
   public onDropCanvas(event: IG6GraphEvent) {
@@ -657,7 +657,7 @@ export class DragNode extends Behavior {
     const parentId = this.graph.getNodeData(dropId)
       ? this.graph.getNodeData(dropId).data.parentId
       : dropId;
-    this.graph.startBatch();
+    this.graph.startHistoryBatch();
     this.onPointerUp(event);
     const nodeToUpdate = [];
     this.originPositions.forEach(({ id }) => {
@@ -671,6 +671,6 @@ export class DragNode extends Behavior {
     });
     if (nodeToUpdate.length) this.graph.updateData('node', nodeToUpdate);
     this.clearState();
-    this.graph.stopBatch();
+    this.graph.stopHistoryBatch();
   }
 }

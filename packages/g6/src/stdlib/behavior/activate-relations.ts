@@ -118,7 +118,7 @@ export class ActivateRelations extends Behavior {
       edgeIds,
     );
 
-    graph.batch(() => {
+    graph.historyBatch(() => {
       /** 节点 */
       graph.setItemState(activeNodeIds, ACTIVE_STATE, true);
       graph.setItemState(inactiveNodeIds, ACTIVE_STATE, false);
@@ -132,7 +132,7 @@ export class ActivateRelations extends Behavior {
   }
   public clearActiveState(e: any) {
     const { activeState: ACTIVE_STATE } = this.options;
-    this.graph.batch(() => {
+    this.graph.historyBatch(() => {
       this.graph.setItemState(this.prevNodeIds, ACTIVE_STATE, false);
       this.graph.setItemState(this.prevEdgeIds, ACTIVE_STATE, false);
     });

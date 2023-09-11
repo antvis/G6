@@ -682,16 +682,16 @@ export interface IGraph<
   /**
    * Pause stacking operation.
    */
-  pauseStacking: () => void;
+  pauseStack: () => void;
   /**
    * Resume stacking operation.
    */
-  resumeStacking: () => void;
+  resumeStack: () => void;
   /**
    * Execute a callback without allowing any stacking operations.
    * @param callback
    */
-  executeWithoutStacking: (callback: () => void) => void;
+  executeWithNoStack: (callback: () => void) => void;
   /**
    * Retrieve the current redo stack which consists of operations that could be undone
    */
@@ -731,33 +731,34 @@ export interface IGraph<
   canRedo: () => void;
 
   /**
-   * Begin a batch operation.
-   * Any operations performed between `startBatch` and `stopBatch` are grouped together.
+   * Begin a historyBatch operation.
+   * Any operations performed between `startHistoryBatch` and `stopHistoryBatch` are grouped together.
    * treated as a single operation when undoing or redoing.
    */
-  startBatch: () => void;
+  startHistoryBatch: () => void;
 
   /**
-   * End a batch operation.
-   * Any operations performed between `startBatch` and `stopBatch` are grouped together.
+   * End a historyBatch operation.
+   * Any operations performed between `startHistoryBatch` and `stopHistoryBatch` are grouped together.
    * treated as a single operation when undoing or redoing.
    */
-  stopBatch: () => void;
+  stopHistoryBatch: () => void;
 
   /**
    * Execute a provided function within a batched context
    * All operations performed inside callback will be treated as a composite operation
-   * more convenient way without manually invoking `startBatch` and `stopBatch`.
+   * more convenient way without manually invoking `startHistoryBatch` and `stopHistoryBatch`.
    * @param callback The func containing operations to be batched together.
    */
-  batch: (callback: () => void) => void;
+  historyBatch: (callback: () => void) => void;
+
   /**
    * Execute a provided function within a batched context
    * All operations performed inside callback will be treated as a composite operation
-   * more convenient way without manually invoking `startBatch` and `stopBatch`.
+   * more convenient way without manually invoking `startHistoryBatch` and `stopHistoryBatch`.
    * @param callback The func containing operations to be batched together.
    */
-  clearStack: (stackType?: StackType) => void;
+  cleanHistory: (stackType?: StackType) => void;
   // ===== tree operations =====
   /**
    * Collapse sub tree(s).

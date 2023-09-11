@@ -137,7 +137,7 @@ export class DragCanvas extends Behavior {
         .getAllEdgesData()
         .map((edge) => edge.id)
         .filter((id) => graph.getItemVisible(id) === true);
-      graph.executeWithoutStacking(() => {
+      graph.executeWithNoStack(() => {
         graph.hideItem(this.hiddenEdgeIds, true);
         this.hiddenNodeIds = graph
           .getAllNodesData()
@@ -243,7 +243,7 @@ export class DragCanvas extends Behavior {
 
     const { graph } = this;
     if (this.options.enableOptimize) {
-      graph.startBatch();
+      graph.startHistoryBatch();
       if (this.hiddenEdgeIds) {
         graph.showItem(this.hiddenEdgeIds, true);
       }
@@ -253,7 +253,7 @@ export class DragCanvas extends Behavior {
       //   });
       //   graph.showItem(this.hiddenNodeIds, true);
       // }
-      graph.stopBatch();
+      graph.stopHistoryBatch();
     }
   }
 
