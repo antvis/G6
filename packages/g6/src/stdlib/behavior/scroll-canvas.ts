@@ -21,6 +21,10 @@ interface ScrollCanvasOptions {
    * Use ```'ctrl'``` by default;
    */
   zoomKey?: string | string[];
+  /** Switch to zooming while pressing the key and wheeling. This option allows you to control the zoom ratio for each event.
+   * Use ```'0.05'``` by default;
+   */
+  zoomRatio?: number;
   /**
    * The range of canvas to limit dragging, 0 by default, which means the graph cannot be dragged totally out of the view port range.
    * If scalableRange is number or a string without 'px', means it is a ratio of the graph content.
@@ -53,6 +57,7 @@ const DEFAULT_OPTIONS: ScrollCanvasOptions = {
   // 具体实例可参考：https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*IFfoS67_HssAAAAAAAAAAAAAARQnAQ
   scalableRange: 0,
   allowDragOnItem: true,
+  zoomRatio: 0.05,
 };
 
 
@@ -60,7 +65,7 @@ export class ScrollCanvas extends Behavior {
   private hiddenEdgeIds: ID[];
   private hiddenNodeIds: ID[];
 
-  options: ScrollCanvasOptions;
+  declare options: ScrollCanvasOptions;
   timeout?: number;
   optimized = false;
   constructor(options: Partial<ScrollCanvasOptions>) {
@@ -79,7 +84,7 @@ export class ScrollCanvas extends Behavior {
   onWheel(ev: IG6GraphEvent & { deltaX?: number; deltaY?: number; }) {
     if (!this.allowDrag(ev)) return;
     const graph = this.graph;
-    const { zoomKey, scalableRange, direction, enableOptimize } = this.options;
+    const { zoomKey, zoomRatio, scalableRange, direction, enableOptimize } = this.options;
     const zoomKeys = Array.isArray(zoomKey) ? [].concat(zoomKey) : [zoomKey];
     if (zoomKeys.includes('control')) zoomKeys.push('ctrl');
     const keyDown = zoomKeys.some((ele) => ev[`${ele}Key`]);
@@ -88,12 +93,12 @@ export class ScrollCanvas extends Behavior {
 
     if (keyDown) {
       const canvas = graph.canvas;
-      const point = canvas.getPointByClient(ev.client.x, ev.client.y);
+      const point = canvas.client2Viewport({ x: ev.client.x, y: ev.client.y});
       let ratio = graph.getZoom();
       if (nativeEvent && nativeEvent.wheelDelta > 0) {
-        ratio = ratio + ratio * 0.05;
+        ratio = ratio + ratio * zoomRatio;
       } else {
-        ratio = ratio - ratio * 0.05;
+        ratio = ratio - ratio * zoomRatio;
       }
       graph.zoomTo(ratio, {
         x: point.x,
