@@ -5,14 +5,14 @@ import { Command } from '../stdlib/plugin/history/command';
 import { Hooks } from '../types/hook';
 import { CameraAnimationOptions } from './animate';
 import { BehaviorOptionsOf, BehaviorRegistry } from './behavior';
-import { ComboDisplayModel, ComboModel, ComboUserModel } from './combo';
+import { ComboModel, ComboUserModel } from './combo';
 import { Padding, Point } from './common';
 import { GraphData } from './data';
-import { EdgeDisplayModel, EdgeModel, EdgeUserModel } from './edge';
+import { EdgeModel, EdgeUserModel } from './edge';
 import type { StackType } from './history';
 import { ITEM_TYPE, SHAPE_TYPE } from './item';
 import { LayoutOptions } from './layout';
-import { NodeDisplayModel, NodeModel, NodeUserModel } from './node';
+import { NodeModel, NodeUserModel } from './node';
 import { RendererName } from './render';
 import { Specification } from './spec';
 import { ThemeOptionsOf, ThemeRegistry } from './theme';
@@ -470,7 +470,11 @@ export interface IGraph<
    * @returns
    * @group Item
    */
-  hideItem: (ids: ID | ID[], disableAnimate?: boolean) => void;
+  hideItem: (
+    ids: ID | ID[],
+    disableAnimate?: boolean,
+    keepKeyShape?: boolean,
+  ) => void;
   /**
    * Make the item(s) to the front.
    * @param ids the item id(s) to front

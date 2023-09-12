@@ -1,6 +1,7 @@
 import { ID, IG6GraphEvent } from 'types';
 import { Behavior } from '../../types/behavior';
 import { Point } from '../../types/common';
+import { isNumber } from '@antv/util';
 
 const VALID_TRIGGERS = ['drag', 'directionKeys'];
 export interface DragCanvasOptions {
@@ -53,7 +54,7 @@ export interface DragCanvasOptions {
 }
 
 const DEFAULT_OPTIONS: Required<DragCanvasOptions> = {
-  enableOptimize: false,
+  enableOptimize: undefined,
   dragOnItems: false,
   trigger: 'drag',
   direction: 'both',
@@ -132,24 +133,43 @@ export class DragCanvas extends Behavior {
 
   private hideShapes() {
     const { graph } = this;
-    if (this.options.enableOptimize) {
+
+    const { tileBehavior: graphBehaviorOptimize, tileBehaviorSize = 1000 } =
+      graph.getSpecification().optimize || {};
+    const optimize = this.options.enableOptimize || graphBehaviorOptimize;
+    const shouldOptimize = isNumber(optimize)
+      ? graph.getAllNodesData().length > optimize
+      : optimize;
+
+    if (shouldOptimize) {
       this.hiddenEdgeIds = graph
         .getAllEdgesData()
         .map((edge) => edge.id)
         .filter((id) => graph.getItemVisible(id) === true);
+      this.hiddenNodeIds = graph
+        .getAllNodesData()
+        .map((node) => node.id)
+        .filter((id) => graph.getItemVisible(id) === true);
+      let requestId;
+      const hiddenIds = [...this.hiddenNodeIds];
+      const sectionNum = Math.ceil(hiddenIds.length / tileBehaviorSize);
+      const sections = Array.from({ length: sectionNum }, (v, i) =>
+        hiddenIds.slice(
+          i * tileBehaviorSize,
+          i * tileBehaviorSize + tileBehaviorSize,
+        ),
+      );
+      const update = () => {
+        if (!sections.length) {
+          cancelAnimationFrame(requestId);
+          return;
+        }
+        const section = sections.shift();
+        graph.hideItem(section, false, true);
+        requestId = requestAnimationFrame(update);
+      };
       graph.executeWithNoStack(() => {
-        graph.hideItem(this.hiddenEdgeIds, true);
-        this.hiddenNodeIds = graph
-          .getAllNodesData()
-          .map((node) => node.id)
-          .filter((id) => graph.getItemVisible(id) === true);
-        // draw node's keyShapes on transient, and then hidden the real nodes;
-        // this.hiddenNodeIds.forEach((id) => {
-        //   graph.drawTransient('node', id, {
-        //     onlyDrawKeyShape: true,
-        //   });
-        // });
-        // graph.hideItem(this.hiddenNodeIds, true);
+        requestId = requestAnimationFrame(update);
       });
     }
   }
@@ -241,19 +261,37 @@ export class DragCanvas extends Behavior {
     this.pointerDownAt = undefined;
     this.dragging = false;
 
-    const { graph } = this;
-    if (this.options.enableOptimize) {
-      graph.startHistoryBatch();
-      if (this.hiddenEdgeIds) {
-        graph.showItem(this.hiddenEdgeIds, true);
+    const { graph, hiddenNodeIds, hiddenEdgeIds = [] } = this;
+    const { tileBehavior: graphBehaviorOptimize, tileBehaviorSize = 1000 } =
+      graph.getSpecification().optimize || {};
+    const optimize = this.options.enableOptimize || graphBehaviorOptimize;
+    const shouldOptimize = isNumber(optimize)
+      ? graph.getAllNodesData().length > optimize
+      : optimize;
+
+    if (shouldOptimize) {
+      if (hiddenNodeIds) {
+        let requestId;
+        const hiddenIds = [...hiddenNodeIds, ...hiddenEdgeIds];
+        const sectionNum = Math.ceil(hiddenIds.length / tileBehaviorSize);
+        const sections = Array.from({ length: sectionNum }, (v, i) =>
+          hiddenIds.slice(
+            i * tileBehaviorSize,
+            i * tileBehaviorSize + tileBehaviorSize,
+          ),
+        );
+        const update = () => {
+          if (!sections.length) {
+            cancelAnimationFrame(requestId);
+            return;
+          }
+          graph.showItem(sections.shift(), false);
+          requestId = requestAnimationFrame(update);
+        };
+        graph.startHistoryBatch();
+        requestId = requestAnimationFrame(update);
+        graph.stopHistoryBatch();
       }
-      // if (this.hiddenNodeIds) {
-      //   this.hiddenNodeIds.forEach((id) => {
-      //     this.graph.drawTransient('node', id, { action: 'remove' });
-      //   });
-      //   graph.showItem(this.hiddenNodeIds, true);
-      // }
-      graph.stopHistoryBatch();
     }
   }
 

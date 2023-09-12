@@ -34,6 +34,7 @@ interface IProps {
   onframe?: Function;
   onfinish?: Function;
   type?: 'node' | 'combo';
+  delayFirstDraw?: boolean;
 }
 export default class Node extends Item {
   public type: 'node' | 'combo';
@@ -41,13 +42,15 @@ export default class Node extends Item {
   constructor(props: IProps) {
     super(props);
     this.init({ ...props, type: props.type || 'node' });
-    this.draw(
-      this.displayModel as NodeDisplayModel | ComboDisplayModel,
-      undefined,
-      undefined,
-      !this.displayModel.data.disableAnimate,
-      props.onfinish,
-    );
+    if (!props.delayFirstDraw) {
+      this.draw(
+        this.displayModel as NodeDisplayModel | ComboDisplayModel,
+        undefined,
+        undefined,
+        !this.displayModel.data.disableAnimate,
+        props.onfinish,
+      );
+    }
   }
   public draw(
     displayModel: NodeDisplayModel | ComboDisplayModel,

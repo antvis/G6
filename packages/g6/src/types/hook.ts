@@ -24,6 +24,7 @@ export interface IHook<T> {
 export type ViewportChangeHookParams = {
   transform: GraphTransformOptions;
   effectTiming?: Partial<CameraAnimationOptions>;
+  tileLodSize?: number;
 };
 
 export interface Hooks {
@@ -53,6 +54,10 @@ export interface Hooks {
     graphCore: GraphCore;
     theme: ThemeSpecification;
     transientCanvas: Canvas;
+    tileOptimize?: {
+      tileFirstRender?: boolean | number;
+      tileFirstRenderSize?: number;
+    };
   }>; // TODO: define param template
   layout: IHook<{
     graphCore: GraphCore;
@@ -82,6 +87,7 @@ export interface Hooks {
     action?: string;
     enableStack?: boolean;
     changes?: any;
+    keepKeyShape?: boolean;
   }>;
   itemzindexchange: IHook<{
     ids: ID[];

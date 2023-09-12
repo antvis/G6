@@ -28,6 +28,7 @@ interface IProps {
   };
   onframe?: Function;
   nodeMap?: Map<ID, Node>;
+  delayFirstDraw?: boolean;
 }
 
 export default class Edge extends Item {
@@ -56,7 +57,9 @@ export default class Edge extends Item {
     if (sourceItem.getType() === 'node') {
       this.nodeMap.set(targetItem.getID(), targetItem as Node);
     }
-    this.draw(this.displayModel);
+    if (!props.delayFirstDraw) {
+      this.draw(this.displayModel);
+    }
   }
   public draw(
     displayModel: EdgeDisplayModel,

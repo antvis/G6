@@ -1,5 +1,6 @@
 import { ID, IG6GraphEvent } from 'types';
 import { Behavior } from '../../types/behavior';
+import { isNumber } from '@antv/util';
 
 const VALID_TRIGGERS = ['wheel', 'upDownKeys'];
 export interface ZoomCanvasOptions {
@@ -56,7 +57,7 @@ export interface ZoomCanvasOptions {
 }
 
 const DEFAULT_OPTIONS: Required<ZoomCanvasOptions> = {
-  enableOptimize: false,
+  enableOptimize: undefined,
   triggerOnItems: true,
   sensitivity: 2,
   trigger: 'wheel',
@@ -114,43 +115,78 @@ export class ZoomCanvas extends Behavior {
 
   private hideShapes() {
     const { graph } = this;
-    if (this.options.enableOptimize) {
+    const { tileBehavior: graphBehaviorOptimize, tileBehaviorSize = 1000 } =
+      graph.getSpecification().optimize || {};
+    const optimize = this.options.enableOptimize || graphBehaviorOptimize;
+    const shouldOptimzie = isNumber(optimize)
+      ? graph.getAllNodesData().length > optimize
+      : optimize;
+    if (shouldOptimzie) {
       this.hiddenEdgeIds = graph
         .getAllEdgesData()
         .map((edge) => edge.id)
         .filter((id) => graph.getItemVisible(id) === true);
-      // TODO
-      graph.hideItem(this.hiddenEdgeIds, false);
       this.hiddenNodeIds = graph
         .getAllNodesData()
         .map((node) => node.id)
         .filter((id) => graph.getItemVisible(id) === true);
-      // draw node's keyShapes on transient, and then hidden the real nodes;
-      // this.hiddenNodeIds.forEach((id) => {
-      //   graph.drawTransient('node', id, {
-      //     onlyDrawKeyShape: true,
-      //   });
-      // });
-      // graph.hideItem(this.hiddenNodeIds, false);
+
+      let requestId;
+      const hiddenIds = [...this.hiddenNodeIds];
+      const sectionNum = Math.ceil(hiddenIds.length / tileBehaviorSize);
+      const sections = Array.from({ length: sectionNum }, (v, i) =>
+        hiddenIds.slice(
+          i * tileBehaviorSize,
+          i * tileBehaviorSize + tileBehaviorSize,
+        ),
+      );
+      const update = () => {
+        if (!sections.length) {
+          cancelAnimationFrame(requestId);
+          return;
+        }
+        const section = sections.shift();
+        graph.hideItem(section, false, true);
+        requestId = requestAnimationFrame(update);
+      };
+      graph.startHistoryBatch();
+      requestId = requestAnimationFrame(update);
+      graph.stopHistoryBatch();
     }
   }
 
   private endZoom() {
-    const { graph, hiddenEdgeIds, hiddenNodeIds } = this;
-    const { enableOptimize } = this.options;
+    const { graph, hiddenEdgeIds = [], hiddenNodeIds } = this;
+    const { tileBehavior: graphBehaviorOptimize, tileBehaviorSize = 1000 } =
+      graph.getSpecification().optimize || {};
+    const optimize = this.options.enableOptimize || graphBehaviorOptimize;
+    const shouldOptimzie = isNumber(optimize)
+      ? graph.getAllNodesData().length > optimize
+      : optimize;
     this.zooming = false;
-    if (enableOptimize) {
-      // restore hidden items
-      if (hiddenEdgeIds) {
-        graph.showItem(hiddenEdgeIds, false);
+    if (shouldOptimzie) {
+      if (hiddenNodeIds) {
+        let requestId;
+        const hiddenIds = [...hiddenNodeIds, ...hiddenEdgeIds];
+        const sectionNum = Math.ceil(hiddenIds.length / tileBehaviorSize);
+        const sections = Array.from({ length: sectionNum }, (v, i) =>
+          hiddenIds.slice(
+            i * tileBehaviorSize,
+            i * tileBehaviorSize + tileBehaviorSize,
+          ),
+        );
+        const update = () => {
+          if (!sections.length) {
+            cancelAnimationFrame(requestId);
+            return;
+          }
+          graph.showItem(sections.shift(), false);
+          requestId = requestAnimationFrame(update);
+        };
+        graph.executeWithNoStack(() => {
+          requestId = requestAnimationFrame(update);
+        });
       }
-      // TODO
-      // if (hiddenNodeIds) {
-      //   hiddenNodeIds.forEach((id) => {
-      //     graph.drawTransient('node', id, { action: 'remove' });
-      //   });
-      //   graph.showItem(hiddenNodeIds, false);
-      // }
     }
     this.hiddenEdgeIds = [];
     this.hiddenNodeIds = [];

@@ -804,7 +804,11 @@ export abstract class BaseNode {
    * @param shapeMap The shape map that contains all of the elements to show on the node.
    * @param zoom The zoom level of the graph.
    */
-  public onZoom = (shapeMap: NodeShapeMap | ComboShapeMap, zoom: number) => {
+  public onZoom = (
+    shapeMap: NodeShapeMap | ComboShapeMap,
+    zoom: number,
+    cacheHiddenShape = {},
+  ) => {
     // zoomLevel changed
     if (this.lodStrategy) {
       const { levels } = this.lodStrategy;
@@ -825,7 +829,7 @@ export abstract class BaseNode {
           // zoomLevel changed, from higher to lower, hide something
           for (let i = currentLevel + 1; i <= maxLevel; i++) {
             levelShapes[String(i)]?.forEach((id) => {
-              if (!shapeMap[id]) return;
+              if (!shapeMap[id] || cacheHiddenShape[id]) return;
               shapeMap[id].hide();
               hiddenShape[id] = true;
             });
@@ -874,8 +878,7 @@ export abstract class BaseNode {
     const balanceRatio = 1 / zoom || 1;
     this.zoomCache.balanceRatio = balanceRatio;
     if (!labelShape || !labelShape.isVisible()) return;
-    const { labelShape: labelStyle } = this.mergedStyles;
-    const { position = 'bottom' } = labelStyle;
+    const { position = 'bottom' } = this.mergedStyles.labelShape;
 
     const keyShapeLocal = keyShape.getLocalBounds();
     if (zoom < 1) {
@@ -917,21 +920,20 @@ export abstract class BaseNode {
     const scaleTransform = `scale(${balanceRatio}, ${balanceRatio})`;
     labelShape.style.transform = `${oriTransform} ${scaleTransform}`;
     this.scaleTransformCache = scaleTransform;
-    const wordWrapWidth = this.zoomCache.wordWrapWidth * zoom;
-    labelShape.style.wordWrapWidth = wordWrapWidth;
+    labelShape.style.wordWrapWidth = this.zoomCache.wordWrapWidth * zoom;
 
     if (!labelBackgroundShape || !labelBackgroundShape.isVisible()) return;
 
-    const { padding } = this.mergedStyles.labelBackgroundShape;
+    const [paddingTop, paddingRight, paddingBottom, paddingLeft] = this
+      .mergedStyles.labelBackgroundShape.padding as number[];
+    const sidePadding = paddingRight + paddingLeft;
     const { width, height, x, y } = labelBackgroundShape.attributes;
-    const [paddingTop, paddingRight, paddingBottom, paddingLeft] =
-      padding as number[];
 
     switch (position) {
       case 'top':
         // if it is zoom-out, do not scale the gap between keyShape and labelShape, differentiate from zoom-in by adjusting transformOrigin
         labelBackgroundShape.style.transformOrigin = `${
-          paddingLeft + (width - paddingLeft - paddingRight) / 2
+          paddingLeft + (width - sidePadding) / 2
         } ${zoom < 1 ? height - paddingBottom : keyShapeLocal.min[1] - y}`;
         break;
       case 'left':
@@ -946,7 +948,7 @@ export abstract class BaseNode {
         break;
       case 'bottom':
         labelBackgroundShape.style.transformOrigin = `${
-          paddingLeft + (width - paddingLeft - paddingRight) / 2
+          paddingLeft + (width - sidePadding) / 2
         } ${
           zoom < 1
             ? paddingTop + (height - paddingTop - paddingBottom) / 2
@@ -956,14 +958,13 @@ export abstract class BaseNode {
       default:
         // center
         labelBackgroundShape.style.transformOrigin = `${
-          paddingLeft + (width - paddingLeft - paddingRight) / 2
+          paddingLeft + (width - sidePadding) / 2
         } ${paddingTop + (height - paddingTop - paddingBottom) / 2}`;
     }
 
     const { labelShapeGeometry: labelBBox } = this.boundsCache;
     const labelWidth = labelBBox.max[0] - labelBBox.min[0];
-    const xAxistRatio =
-      (labelWidth * balanceRatio + paddingLeft + paddingRight) / width;
+    const xAxistRatio = (labelWidth * balanceRatio + sidePadding) / width;
 
     labelBackgroundShape.style.transform = `scale(${xAxistRatio}, ${balanceRatio})`;
   }
