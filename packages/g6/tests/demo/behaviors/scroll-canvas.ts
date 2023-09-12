@@ -38,6 +38,7 @@ export default (context: TestCaseContext) => {
         {
           type: 'scroll-canvas',
           enableOptimize: true,
+          zoomRatio: 0.2,
           // scalableRange: 0.5,
           // direction: 'y',
           // optimizeZoom: 0.5,

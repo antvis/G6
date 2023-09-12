@@ -1,8 +1,15 @@
 import { resetEntityCounter } from '@antv/g';
-import scrollCanvas from '../demo/behaviors/activate-relations';
+import scrollCanvas from '../demo/behaviors/scroll-canvas';
 import './utils/useSnapshotMatchers';
 import { createContext, triggerEvent } from './utils';
 
+function sleep(time: number) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve(null)
+    }, time)
+  })
+}
 describe('Scroll canvas behavior', () => {
   beforeEach(() => {
     /**
@@ -36,8 +43,16 @@ describe('Scroll canvas behavior', () => {
         deltaX: 50,
         deltaY: 50,
       });
+      await sleep(2000)
+      await expect(canvas).toMatchCanvasSnapshot(dir, 'behaviors-scroll-canvas-wheel');
 
-      await expect(canvas).toMatchSVGSnapshot(dir, 'behaviors-scroll-canvas-scrolled');
+      graph.emit('wheel', {
+        client: { x: 50, y: 50 },
+        ctrlKey: true
+      });
+
+      await sleep(2000)
+      await expect(canvas).toMatchCanvasSnapshot(dir, 'behaviors-scroll-canvas-zoom');
 
       graph.destroy();
       done();
@@ -65,9 +80,18 @@ describe('Scroll canvas behavior', () => {
         deltaX: 50,
         deltaY: 50,
       });
-
-      await expect(canvas).toMatchSVGSnapshot(dir, 'behaviors-scroll-canvas-scrolled');
       
+      await sleep(2000)
+      await expect(canvas).toMatchSVGSnapshot(dir, 'behaviors-scroll-canvas-wheel');
+
+      graph.emit('wheel', {
+        client: { x: 50, y: 50 },
+        ctrlKey: true
+      });
+
+      await sleep(2000)
+      await expect(canvas).toMatchSVGSnapshot(dir, 'behaviors-scroll-canvas-zoom');
+
       graph.destroy();
       done();
     });
