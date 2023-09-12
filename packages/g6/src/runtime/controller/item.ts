@@ -214,9 +214,12 @@ export class ItemController {
     graphCore: GraphCore;
     theme: ThemeSpecification;
     transientCanvas: Canvas;
-    tileFirstRender?: boolean | number;
+    tileOptimize?: {
+      tileFirstRender?: boolean | number;
+      tileFirstRenderSize?: number;
+    };
   }) {
-    const { graphCore, theme = {}, transientCanvas, tileFirstRender } = param;
+    const { graphCore, theme = {}, transientCanvas, tileOptimize = {} } = param;
     const { graph } = this;
 
     // 0. clear groups on canvas, and create new groups
@@ -269,9 +272,9 @@ export class ItemController {
       edges: graphCore.getAllEdges(),
     });
 
-    await this.renderNodes(nodes, theme.node, tileFirstRender);
+    await this.renderNodes(nodes, theme.node, tileOptimize);
     this.renderCombos(combos, theme.combo, graphCore);
-    await this.renderEdges(edges, theme.edge, tileFirstRender);
+    await this.renderEdges(edges, theme.edge, tileOptimize);
     this.sortByComboTree(graphCore);
     // collapse the combos which has 'collapsed' in initial data
     if (graphCore.hasTreeStructure('combo')) {
@@ -1016,10 +1019,14 @@ export class ItemController {
   private async renderNodes(
     models: NodeModel[],
     nodeTheme: NodeThemeSpecifications = {},
-    tileFirstRender?: boolean | number,
+    tileOptimize?: {
+      tileFirstRender?: boolean | number;
+      tileFirstRenderSize?: number;
+    },
   ): Promise<any> {
     const { nodeExtensions, nodeGroup, nodeDataTypeSet, graph } = this;
     const { dataTypeField = '' } = nodeTheme;
+    const { tileFirstRender, tileFirstRenderSize = 1000 } = tileOptimize || {};
     const zoom = graph.getZoom();
     const delayFirstDraw = isNumber(tileFirstRender)
       ? models.length > tileFirstRender
@@ -1072,11 +1079,13 @@ export class ItemController {
     });
     if (delayFirstDraw) {
       let requestId;
-      const size = 1000;
       const items = itemsInView.concat(itemsOutView);
-      const sectionNum = Math.ceil(items.length / size);
+      const sectionNum = Math.ceil(items.length / tileFirstRenderSize);
       const sections = Array.from({ length: sectionNum }, (v, i) =>
-        items.slice(i * size, i * size + size),
+        items.slice(
+          i * tileFirstRenderSize,
+          i * tileFirstRenderSize + tileFirstRenderSize,
+        ),
       );
       const update = (resolve) => {
         if (!sections.length) {
@@ -1175,10 +1184,14 @@ export class ItemController {
   private renderEdges(
     models: EdgeModel[],
     edgeTheme: EdgeThemeSpecifications = {},
-    tileFirstRender?: boolean | number,
+    tileOptimize?: {
+      tileFirstRender?: boolean | number;
+      tileFirstRenderSize?: number;
+    },
   ) {
     const { edgeExtensions, edgeGroup, itemMap, edgeDataTypeSet, graph } = this;
     const { dataTypeField = '' } = edgeTheme;
+    const { tileFirstRender, tileFirstRenderSize = 1000 } = tileOptimize || {};
     const zoom = graph.getZoom();
     const nodeMap = filterItemMapByType(itemMap, 'node') as Map<ID, Node>;
     const delayFirstDraw = isNumber(tileFirstRender)
@@ -1235,10 +1248,12 @@ export class ItemController {
 
     if (delayFirstDraw) {
       let requestId;
-      const size = 2000;
-      const sectionNum = Math.ceil(items.length / size);
+      const sectionNum = Math.ceil(items.length / tileFirstRenderSize);
       const sections = Array.from({ length: sectionNum }, (v, i) =>
-        items.slice(i * size, i * size + size),
+        items.slice(
+          i * tileFirstRenderSize,
+          i * tileFirstRenderSize + tileFirstRenderSize,
+        ),
       );
       const update = (resolve) => {
         if (!sections.length) {

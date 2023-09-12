@@ -48,8 +48,10 @@ export interface Specification<
       };
   zoom?: number;
   optimize?: {
-    tileFirstRender: boolean | number;
-    behavior: boolean | number;
+    tileFirstRender?: boolean | number;
+    tileFirstRenderSize?: number;
+    tileBehavior?: boolean | number;
+    tileBehaviorSize?: number;
   };
   autoFit?:
     | 'view'

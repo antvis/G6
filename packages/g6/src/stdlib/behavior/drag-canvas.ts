@@ -134,7 +134,7 @@ export class DragCanvas extends Behavior {
   private hideShapes() {
     const { graph } = this;
 
-    const { behavior: graphBehaviorOptimize } =
+    const { tileBehavior: graphBehaviorOptimize, tileBehaviorSize = 1000 } =
       graph.getSpecification().optimize || {};
     const optimize = this.options.enableOptimize || graphBehaviorOptimize;
     const shouldOptimize = isNumber(optimize)
@@ -152,10 +152,12 @@ export class DragCanvas extends Behavior {
         .filter((id) => graph.getItemVisible(id) === true);
       let requestId;
       const hiddenIds = [...this.hiddenNodeIds];
-      const size = 1000;
-      const sectionNum = Math.ceil(hiddenIds.length / size);
+      const sectionNum = Math.ceil(hiddenIds.length / tileBehaviorSize);
       const sections = Array.from({ length: sectionNum }, (v, i) =>
-        hiddenIds.slice(i * size, i * size + size),
+        hiddenIds.slice(
+          i * tileBehaviorSize,
+          i * tileBehaviorSize + tileBehaviorSize,
+        ),
       );
       const update = () => {
         if (!sections.length) {
@@ -260,7 +262,7 @@ export class DragCanvas extends Behavior {
     this.dragging = false;
 
     const { graph, hiddenNodeIds, hiddenEdgeIds = [] } = this;
-    const { behavior: graphBehaviorOptimize } =
+    const { tileBehavior: graphBehaviorOptimize, tileBehaviorSize = 1000 } =
       graph.getSpecification().optimize || {};
     const optimize = this.options.enableOptimize || graphBehaviorOptimize;
     const shouldOptimize = isNumber(optimize)
@@ -271,10 +273,12 @@ export class DragCanvas extends Behavior {
       if (hiddenNodeIds) {
         let requestId;
         const hiddenIds = [...hiddenNodeIds, ...hiddenEdgeIds];
-        const size = 1000;
-        const sectionNum = Math.ceil(hiddenIds.length / size);
+        const sectionNum = Math.ceil(hiddenIds.length / tileBehaviorSize);
         const sections = Array.from({ length: sectionNum }, (v, i) =>
-          hiddenIds.slice(i * size, i * size + size),
+          hiddenIds.slice(
+            i * tileBehaviorSize,
+            i * tileBehaviorSize + tileBehaviorSize,
+          ),
         );
         const update = () => {
           if (!sections.length) {

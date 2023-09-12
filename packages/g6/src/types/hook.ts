@@ -53,7 +53,10 @@ export interface Hooks {
     graphCore: GraphCore;
     theme: ThemeSpecification;
     transientCanvas: Canvas;
-    tileFirstRender?: number | boolean;
+    tileOptimize?: {
+      tileFirstRender?: boolean | number;
+      tileFirstRenderSize?: number;
+    };
   }>; // TODO: define param template
   layout: IHook<{
     graphCore: GraphCore;

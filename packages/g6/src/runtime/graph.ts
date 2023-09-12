@@ -364,8 +364,10 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     return {
       ...spec,
       optimize: {
-        behavior: 2000,
+        tileBehavior: 2000,
+        tileBehaviorSize: 1000,
         tileFirstRender: 10000,
+        tileFirstRenderSize: 1000,
         ...spec.optimize,
       },
     };
@@ -418,14 +420,18 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * @group Data
    */
   public async read(data: DataConfig) {
-    const { tileFirstRender } = this.specification.optimize || {};
+    const { tileFirstRender, tileFirstRenderSize } =
+      this.specification.optimize || {};
     this.hooks.datachange.emit({ data, type: 'replace' });
     const emitRender = async () => {
       await this.hooks.render.emitLinearAsync({
         graphCore: this.dataController.graphCore,
         theme: this.themeController.specification,
         transientCanvas: this.transientCanvas,
-        tileFirstRender,
+        tileOptimize: {
+          tileFirstRender,
+          tileFirstRenderSize,
+        },
       });
       this.emit('afterrender');
 
@@ -474,13 +480,17 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     data: DataConfig,
     type: 'replace' | 'mergeReplace' = 'mergeReplace',
   ) {
-    const { tileFirstRender } = this.specification.optimize || {};
+    const { tileFirstRender, tileFirstRenderSize } =
+      this.specification.optimize || {};
     this.hooks.datachange.emit({ data, type });
     this.hooks.render.emit({
       graphCore: this.dataController.graphCore,
       theme: this.themeController.specification,
       transientCanvas: this.transientCanvas,
-      tileFirstRender,
+      tileOptimize: {
+        tileFirstRender,
+        tileFirstRenderSize,
+      },
     });
     this.emit('afterrender');
 
