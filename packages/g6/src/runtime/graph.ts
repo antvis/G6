@@ -1996,10 +1996,13 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     });
     return this.itemController.getTransient(String(id));
   }
-  // ===== download operations =====
 
+  // ===== download operations =====
   /**
-   * 返回可见区域的图的 dataUrl，用于生成图片.
+   * Asynchronously generates a Data URL representation of the canvas content, including
+   * background, main content, and transient canvas.
+   * @param The type of the Data URL (e.g., 'image/png', 'image/jpeg').
+   * @returns A Promise that resolves to the Data URL string.
    */
   public async toDataURL(type?: DataURLType): Promise<string> {
     const backgroundCanvas = this.backgroundCanvas;
@@ -2057,7 +2060,11 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
   }
 
   /**
-   * 返回全图的 dataUrl，用于生成图片.
+   * Asynchronously generates a Data URL representation of the full canvas content,
+   * including background, main content, and transient canvas, with optional padding.
+   * @param type The type of the Data URL (e.g., 'image/png', 'image/jpeg').
+   * @param imageConfig Configuration options for the image (optional).
+   * @returns A Promise that resolves to the Data URL string.
    */
   public async toFullDataURL(
     type?: DataURLType,
@@ -2164,7 +2171,11 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
   }
 
   /**
-   * 将dataUrl转换为image
+   * Converts a Data URL to an image file and handles the download of the image.
+   * @param dataURL The Data URL of the image to be converted and downloaded.
+   * @param renderer The renderer type ('svg' or other) used for the canvas.
+   * @param link The HTML link element used for image download.
+   * @param fileName The desired name for the downloaded image file.
    */
   private dataURLToImage(dataURL: string, renderer: string, link, fileName) {
     if (!dataURL || dataURL === 'data:') {
@@ -2211,8 +2222,10 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     }
   }
 
-    /**
-   * 将dataUrl转换为image
+  /**
+   * Initiates the download of the graph as an image with an optional name and type.
+   * @param name The desired name for the downloaded image file (optional).
+   * @param type The type of the image to download (optional, defaults to 'image/png').
    */
   public downloadImage(name?: string, type?: DataURLType): void {
     const self = this;
@@ -2235,6 +2248,12 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     });
   }
 
+  /**
+   * Initiates the download of the entire graph as an image with optional name, type, and padding configuration.
+   * @param name The desired name for the downloaded image file (optional).
+   * @param type The type of the image to download (optional, defaults to 'image/png').
+   * @param imageConfig Configuration options for the image (optional).
+   */
   public downloadFullImage(name?: string, type?: DataURLType, imageConfig?: { padding?: number | number[] }): void {
     const self = this;
     
@@ -2253,6 +2272,11 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     });
   }
 
+  /**
+   * Asynchronously converts the canvas content to a Data URL of the specified type and invokes the provided callback.
+   * @param type The type of the Data URL (optional, defaults to 'image/png').
+   * @param callback A callback function to handle the Data URL (optional).
+   */
   protected asyncToDataUrl(type?: DataURLType, callback?: Function): void {
     let dataURL = '';
     if (!type) type = 'image/png';
@@ -2265,6 +2289,13 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     }, 16);
   }
 
+  /**
+   * Asynchronously converts the entire canvas content to a Data URL of the specified type 
+   * with optional padding, and invokes the provided callback.
+   * @param type The type of the Data URL (optional, defaults to 'image/png').
+   * @param imageConfig Configuration options for the image (optional).
+   * @param callback A callback function to handle the Data URL (optional).
+   */
   protected asyncToFullDataUrl(type?: DataURLType, imageConfig?: { padding?: number | number[] }, callback?: Function): void {
     let dataURL = '';
     if (!type) type = 'image/png';
