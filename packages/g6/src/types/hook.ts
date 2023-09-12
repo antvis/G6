@@ -24,6 +24,7 @@ export interface IHook<T> {
 export type ViewportChangeHookParams = {
   transform: GraphTransformOptions;
   effectTiming?: Partial<CameraAnimationOptions>;
+  tileLodSize?: number;
 };
 
 export interface Hooks {

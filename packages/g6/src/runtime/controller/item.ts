@@ -763,7 +763,11 @@ export class ItemController {
   }
 
   private onViewportChange = debounce(
-    ({ transform, effectTiming }: ViewportChangeHookParams) => {
+    ({
+      transform,
+      effectTiming,
+      tileLodSize = 1000,
+    }: ViewportChangeHookParams) => {
       const { zoom } = transform;
       if (zoom) {
         const zoomRatio = this.graph.getZoom();
@@ -780,10 +784,9 @@ export class ItemController {
           else itemsOutViewport.push(item);
         });
         const sortedItems = itemsInViewport.concat(itemsOutViewport);
-        const size = 1000;
-        const sections = Math.ceil(nodeItems.length / size);
+        const sections = Math.ceil(nodeItems.length / tileLodSize);
         const itemSections = Array.from({ length: sections }, (v, i) =>
-          sortedItems.slice(i * size, i * size + size),
+          sortedItems.slice(i * tileLodSize, i * tileLodSize + tileLodSize),
         );
         let requestId;
         const update = () => {

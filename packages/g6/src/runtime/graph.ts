@@ -526,9 +526,11 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     options: GraphTransformOptions,
     effectTiming?: CameraAnimationOptions,
   ): Promise<void> {
+    const { tileLodSize } = this.specification.optimize || {};
     await this.hooks.viewportchange.emitLinearAsync({
       transform: options,
       effectTiming,
+      tileLodSize,
     });
     this.emit('viewportchange', options);
   }

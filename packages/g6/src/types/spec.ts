@@ -47,11 +47,18 @@ export interface Specification<
         headless: boolean;
       };
   zoom?: number;
+  /** Global optimize configuration. */
   optimize?: {
+    /** Whether enable tile rendering for first time. */
     tileFirstRender?: boolean | number;
+    /** Tile size for first rendering. */
     tileFirstRenderSize?: number;
+    /** Whether enable tile hiding / showing for behaivors, e.g. hiding shapes while drag-canvas, zoom-canvas. The enableOptimize in behavior configuration has higher priority. */
     tileBehavior?: boolean | number;
+    /** Tile size for shape optimizing by behaviors, e.g. hiding shapes while drag-canvas, zoom-canvas.  The enableOptimize in behavior configuration has higher priority. */
     tileBehaviorSize?: number;
+    /** Tile size for level of detial changing. */
+    tileLodSize?: number;
   };
   autoFit?:
     | 'view'
