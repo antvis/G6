@@ -2,7 +2,7 @@
 title: LineStyleProps
 ---
 
-[Overview - v5.0.0-beta.4](../../README.en.md) / [Modules](../../modules.en.md) / [item](../../modules/item.en.md) / LineStyleProps
+[Overview - v5.0.0-beta.5](../../README.en.md) / [Modules](../../modules.en.md) / [item](../../modules/item.en.md) / LineStyleProps
 
 [item](../../modules/item.en.md).LineStyleProps
 

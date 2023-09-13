@@ -264,7 +264,7 @@ export default class Combo extends Node {
   // @ts-ignore
   public clone(
     containerGroup: Group,
-    onlyKeyShape?: boolean,
+    shapeIds?: string[],
     disableAnimate?: boolean,
     getCombinedBounds?: () =>
       | {
@@ -276,14 +276,16 @@ export default class Combo extends Node {
       | false,
     getChildren?: () => (Node | Combo)[],
   ) {
-    if (onlyKeyShape) {
-      const clonedKeyShape = this.shapeMap.keyShape.cloneNode();
-      const pos = this.group.getPosition();
-      const clonedGroup = new Group();
-      clonedGroup.setPosition(pos);
-      clonedGroup.appendChild(clonedKeyShape);
-      containerGroup.appendChild(clonedGroup);
-      return clonedGroup;
+    if (shapeIds?.length) {
+      const group = new Group();
+      shapeIds.forEach((shapeId) => {
+        if (!this.shapeMap[shapeId] || this.shapeMap[shapeId].destroyed) return;
+        const clonedKeyShape = this.shapeMap[shapeId].cloneNode();
+        group.appendChild(clonedKeyShape);
+      });
+      group.setPosition(this.group.getPosition());
+      containerGroup.appendChild(group);
+      return group;
     }
     const clonedModel = clone(this.model);
     clonedModel.data.disableAnimate = disableAnimate;

@@ -864,7 +864,11 @@ export class ItemController {
       // Data to be merged into the transient item.
       data?: Record<string, any>;
       action: 'remove' | 'add' | 'update' | undefined;
-      onlyDrawKeyShape?: boolean;
+      shapeIds?: string[];
+      /** For type: 'edge' */
+      drawSource?: boolean;
+      /** For type: 'edge' */
+      drawTarget?: boolean;
       upsertAncestors?: boolean;
       [shapeConfig: string]: unknown;
     };
@@ -878,7 +882,9 @@ export class ItemController {
       data = {},
       capture,
       action,
-      onlyDrawKeyShape,
+      shapeIds,
+      drawSource,
+      drawTarget,
       upsertAncestors,
     } = config as any;
     const isItemType = type === 'node' || type === 'edge' || type === 'combo';
@@ -902,6 +908,9 @@ export class ItemController {
           );
         }
         if (transientItem && !transientItem.destroyed) {
+          if (!(transientItem as Node | Edge | Combo).getType?.()) {
+            (transientItem as Group).remove();
+          }
           transientItem.destroy();
         }
         this.transientItemMap.delete(id);
@@ -930,11 +939,11 @@ export class ItemController {
         this.transientItemMap,
         this.itemMap,
         graphCore,
-        onlyDrawKeyShape,
+        { shapeIds, drawSource, drawTarget },
         upsertAncestors,
       );
 
-      if (onlyDrawKeyShape) {
+      if (shapeIds) {
         // only update node positions to cloned node container(group)
         if (
           (type === 'node' || type === 'combo') &&

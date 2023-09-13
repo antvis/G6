@@ -2,7 +2,7 @@
 title: graph
 ---
 
-[Overview - v5.0.0-beta.4](../README.en.md) / [Modules](../modules.en.md) / graph
+[Overview - v5.0.0-beta.5](../README.en.md) / [Modules](../modules.en.md) / graph
 
 ## Interfaces
 

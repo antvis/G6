@@ -457,7 +457,7 @@ export class DragNode extends Behavior {
     this.graph.drawTransient('rect', DELEGATE_SHAPE_ID, { action: 'remove' });
   }
 
-  public clearTransientItems() {
+  public clearTransientItems(positions: Array<Position>) {
     this.hiddenEdges.forEach((edge) => {
       this.graph.drawTransient('node', edge.source, { action: 'remove' });
       this.graph.drawTransient('node', edge.target, { action: 'remove' });
@@ -472,7 +472,7 @@ export class DragNode extends Behavior {
         action: 'remove',
       });
     });
-    this.originPositions.forEach(({ id }) => {
+    positions.forEach(({ id }) => {
       this.graph.drawTransient('node', id, { action: 'remove' });
     });
   }
@@ -543,7 +543,7 @@ export class DragNode extends Behavior {
       debounce((positions) => {
         // restore the hidden items after move real nodes done
         if (enableTransient) {
-          this.clearTransientItems();
+          this.clearTransientItems(positions);
         }
 
         if (this.options.enableDelegate) {
@@ -573,7 +573,7 @@ export class DragNode extends Behavior {
       return;
     }
     this.clearDelegate();
-    this.clearTransientItems();
+    this.clearTransientItems(this.originPositions);
     this.restoreHiddenItems();
 
     const enableTransient =
