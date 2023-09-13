@@ -2,7 +2,7 @@
 title: NodeUserModelData
 ---
 
-[Overview - v5.0.0-beta.4](../../README.en.md) / [Modules](../../modules.en.md) / [item](../../modules/item.en.md) / NodeUserModelData
+[Overview - v5.0.0-beta.5](../../README.en.md) / [Modules](../../modules.en.md) / [item](../../modules/item.en.md) / NodeUserModelData
 
 [item](../../modules/item.en.md).NodeUserModelData
 

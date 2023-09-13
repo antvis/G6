@@ -102,8 +102,13 @@ export interface Hooks {
     id: ID;
     canvas: Canvas;
     config: {
-      style: ShapeStyle;
-      action: 'remove' | 'add' | 'update' | undefined;
+      style?: ShapeStyle;
+      action?: 'remove' | 'add' | 'update';
+      shapeIds?: string[];
+      /** For type: 'edge' */
+      drawSource?: boolean;
+      /** For type: 'edge' */
+      upsertAncestors?: boolean;
     };
     graphCore: GraphCore;
   }>;

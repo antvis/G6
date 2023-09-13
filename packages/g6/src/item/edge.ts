@@ -194,15 +194,18 @@ export default class Edge extends Item {
     containerGroup: Group,
     sourceItem: Node | Combo,
     targetItem: Node | Combo,
-    onlyKeyShape?: boolean,
+    shapeIds?: string[],
     disableAnimate?: boolean,
   ) {
-    if (onlyKeyShape) {
-      const clonedKeyShape = this.shapeMap.keyShape.cloneNode();
-      const clonedGroup = new Group();
-      clonedGroup.appendChild(clonedKeyShape);
-      containerGroup.appendChild(clonedGroup);
-      return clonedGroup;
+    if (shapeIds?.length) {
+      const group = new Group();
+      shapeIds.forEach((shapeId) => {
+        if (!this.shapeMap[shapeId] || this.shapeMap[shapeId].destroyed) return;
+        const clonedKeyShape = this.shapeMap[shapeId].cloneNode();
+        group.appendChild(clonedKeyShape);
+      });
+      containerGroup.appendChild(group);
+      return group;
     }
     const clonedModel = clone(this.model);
     clonedModel.data.disableAnimate = disableAnimate;
