@@ -29,6 +29,12 @@ import { RendererName } from './render';
 import { StackCfg } from './history';
 import { Plugin } from './plugin';
 
+export type NodeMapper = ((data: NodeModel) => NodeDisplayModel) | NodeEncode;
+export type EdgeMapper = ((data: EdgeModel) => EdgeDisplayModel) | EdgeEncode;
+export type ComboMapper =
+  | ((data: ComboModel) => ComboDisplayModel)
+  | ComboEncode;
+
 export interface Specification<
   B extends BehaviorRegistry,
   T extends ThemeRegistry,
@@ -92,9 +98,9 @@ export interface Specification<
     | TransformerFn[];
 
   /** item */
-  node?: ((data: NodeModel) => NodeDisplayModel) | NodeEncode;
-  edge?: ((data: EdgeModel) => EdgeDisplayModel) | EdgeEncode;
-  combo?: ((data: ComboModel) => ComboDisplayModel) | ComboEncode;
+  node?: NodeMapper;
+  edge?: EdgeMapper;
+  combo?: ComboMapper;
 
   /** item state styles */
   nodeState?: {

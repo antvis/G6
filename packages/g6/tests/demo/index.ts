@@ -59,11 +59,13 @@ import layouts_combocombined from './layouts/combo-combined';
 import hull from './plugins/hull';
 import legend from './plugins/legend';
 import snapline from './plugins/snapline';
+import mapper from './visual/mapper';
 
 export { default as timebar_time } from './plugins/timebar-time';
 export { default as timebar_chart } from './plugins/timebar-chart';
 
 export {
+  mapper,
   anchor,
   animations_node_build_in,
   arrow,

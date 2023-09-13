@@ -48,6 +48,7 @@ import { FitViewRules, GraphTransformOptions } from '../types/view';
 import { changeRenderer, createCanvas } from '../util/canvas';
 import { formatPadding } from '../util/shape';
 import { Plugin as PluginBase } from '../types/plugin';
+import { ComboMapper, EdgeMapper, NodeMapper } from '../types/spec';
 import {
   DataController,
   ExtensionController,
@@ -349,7 +350,11 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
           main: Canvas;
           transient: Canvas;
         };
-      }>({ name: 'init' }),
+      }>({ name: 'themechange' }),
+      mapperchange: new Hook<{
+        type: ITEM_TYPE;
+        mapper: NodeMapper | EdgeMapper | ComboMapper;
+      }>({ name: 'mapperchange' }),
       treecollapseexpand: new Hook<{
         ids: ID[];
         animate: boolean;
@@ -401,6 +406,32 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     // theme is formatted by themeController, notify the item controller to update the items
     this.hooks.themechange.emit({
       theme: this.themeController.specification,
+    });
+  }
+
+  /**
+   * Update the item display mapper for a specific item type.
+   * @param {ITEM_TYPE} type - The type of item (node, edge, or combo).
+   * @param {NodeMapper | EdgeMapper | ComboMapper} mapper - The mapper to be updated.
+   * */
+  public updateMapper(
+    type: ITEM_TYPE,
+    mapper: NodeMapper | EdgeMapper | ComboMapper,
+  ) {
+    switch (type) {
+      case 'node':
+        this.specification.node = mapper as NodeMapper;
+        break;
+      case 'edge':
+        this.specification.edge = mapper as EdgeMapper;
+        break;
+      case 'combo':
+        this.specification.combo = mapper as ComboMapper;
+        break;
+    }
+    this.hooks.mapperchange.emit({
+      type,
+      mapper,
     });
   }
 
