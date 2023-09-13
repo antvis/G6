@@ -1,11 +1,11 @@
-import { Graph, Extensions, extend } from '../../../src/index';
+import { Graph, Extensions } from '../../../src/index';
 
 export default async () => {
   let trigger = 'mousemove';
   let filterLens = {
     trigger,
     showLabel: 'edge',
-    r: 60,
+    r: 200,
   };
 
   // ================= The DOMs for configurations =============== //
@@ -90,7 +90,8 @@ export default async () => {
   // ========================================================= //
   const container = document.getElementById('container');
   const width = container.scrollWidth;
-  const height = (container.scrollHeight || 500) - 60;
+  const height = container.scrollHeight || 500;
+
   let filterLensPlugin = new Extensions.EdgeFilterLens(filterLens);
   const graph = new Graph({
     container: 'container',
@@ -104,44 +105,66 @@ export default async () => {
       ranksepFunc: () => 1,
     },
     plugins: [filterLensPlugin],
-    // edge: {
-    //   labelCfg: {
-    //     autoRotate: true,
-    //     style: {
-    //       stroke: '#fff',
-    //       lineWidth: 2,
-    //     },
-    //   },
-    // },
-    // node: innerModel => {
-    //   return {
-    //     ...innerModel,
-    //     data: {
-    //       ...innerModel.data,
-    //       keyShape: {
-    //         size: 15,
-    //         color: '#5B8FF9',
-    //         style: {
-    //           lineWidth: 2,
-    //           fill: '#C6E5FF',
-    //         },
-    //       }
-    //     }
-    //   }
-    // },
+    node: (innerModel) => {
+      return {
+        ...innerModel,
+        data: {
+          ...innerModel.data,
+          lodStrategy: {
+            levels: [
+              { zoomRange: [0, 0.9] }, // -1
+              { zoomRange: [0.9, 1], primary: true }, // 0
+              { zoomRange: [1, 1.2] }, // 1
+              { zoomRange: [1.2, 1.5] }, // 2
+              { zoomRange: [1.5, Infinity] }, // 3
+            ],
+            animateCfg: {
+              duration: 500,
+            },
+          },
+          labelShape: {
+            lod: 1, // 图的缩放大于 levels 第一层定义的 zoomRange[0] 时展示，小于时隐藏
+          },
+        }
+      }
+    },
+    edge: (innerModel) => {
+      return {
+        ...innerModel,
+        data: {
+          ...innerModel.data,
+          lodStrategy: {
+            levels: [
+              { zoomRange: [0, 1] }, // -1
+              { zoomRange: [1, 1.1], primary: true }, // 0
+              { zoomRange: [1, 1.2] }, // 1
+              { zoomRange: [1.2, 1.5] }, // 2
+              { zoomRange: [1.5, Infinity] }, // 3
+            ],
+            animateCfg: {
+              duration: 500,
+            },
+          },
+          labelShape: {
+            text: innerModel.data.label,
+            lod: 1, // 图的缩放大于 levels 第一层定义的 zoomRange[0] 时展示，小于时隐藏
+          },
+        }
+      }
+    },
     modes: {
-      default: ['drag-canvas'],
+      default: ['drag-canvas', 'zoom-canvas',],
     },
   });
 
   swithButton.addEventListener('click', (e) => {
     if (swithButton.value === 'Disable') {
       swithButton.value = 'Enable';
-      graph.removePlugin(filterLensPlugin);
+      graph.removePlugins(filterLensPlugin);
     } else {
       swithButton.value = 'Disable';
       filterLensPlugin = new Extensions.EdgeFilterLens(filterLens);
-      graph.addPlugin(filterLensPlugin);
+      graph.addPlugins(filterLensPlugin);
     }
   });
   configScaleRBy.addEventListener('change', (e) => {
@@ -158,20 +181,11 @@ export default async () => {
     .then((res) => res.json())
     .then((data) => {
       data.edges.forEach((edge) => {
-        edge.color = '#aaa';
-        edge.size = 2;
-        edge.style = {
-          opacity: 0.7,
+        edge.id = edge.source + '-' + edge.target;
+        edge.data = {
+          label: 'a'
         };
-        edge.label = 'a';
       });
       graph.read(data);
-      graph.getAllEdgesData().forEach((edge) => {
-        // edge.shap
-          
-        //   .forEach((shape) => {
-        //     if (shape.get('type') === 'text') shape.set('visible', false);
-        //   });
-      });
     });
 } 
