@@ -1,5 +1,5 @@
 import EventEmitter from '@antv/event-emitter';
-import { AABB, Canvas, DisplayObject, PointLike } from '@antv/g';
+import { AABB, Canvas, DataURLType, DisplayObject, PointLike, Rect } from '@antv/g';
 import { GraphChange, ID } from '@antv/graphlib';
 import {
   clone,
@@ -59,6 +59,7 @@ import {
 } from './controller';
 import { PluginController } from './controller/plugin';
 import Hook from './hooks';
+import { createDom } from '@antv/dom-util';
 
 export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
   extends EventEmitter
@@ -2056,6 +2057,317 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       graphCore: this.dataController.graphCore,
     });
     return this.itemController.getTransient(String(id));
+  }
+
+  // ===== download operations =====
+  /**
+   * Asynchronously generates a Data URL representation of the canvas content, including
+   * background, main content, and transient canvas.
+   * @param The type of the Data URL (e.g., 'image/png', 'image/jpeg').
+   * @returns A Promise that resolves to the Data URL string.
+   */
+  public async toDataURL(type?: DataURLType): Promise<string> {
+    const backgroundCanvas = this.backgroundCanvas;
+    const canvas = this.canvas;
+    const transientCanvas = this.transientCanvas;
+    const rendererType = this.rendererType;
+
+    const pixelRatio =
+      typeof window !== 'undefined' ? window.devicePixelRatio : 1;
+    let width = this.getSize()[0];
+    let height = this.getSize()[1];
+
+    const vContainerDOM: HTMLDivElement = createDom(
+      '<div id="virtual-image"></div>',
+    );
+    const vCanvas = createCanvas(
+      rendererType,
+      vContainerDOM,
+      width,
+      height,
+      pixelRatio,
+    );
+    const vCanvasContextService = vCanvas.getContextService();
+    let bgRect;
+    if (rendererType !== 'svg') {
+      bgRect = new Rect({
+        style: {
+          x: 0,
+          y: 0,
+          z: -1,
+          width: vCanvasContextService.getDomElement().width,
+          height: vCanvasContextService.getDomElement().height,
+          //@ts-ignore
+          fill: backgroundCanvas.getContextService().getDomElement().style[
+            'background-color'
+          ],
+        },
+      });
+      vCanvas.appendChild(bgRect);
+    }
+    let backgroundClonedGroup = backgroundCanvas.getRoot().cloneNode(true);
+    let clonedGroup = canvas.getRoot().cloneNode(true);
+    let transientClonedGroup = transientCanvas.getRoot().cloneNode(true);
+    vCanvas.appendChild(backgroundClonedGroup);
+    vCanvas.appendChild(clonedGroup);
+    vCanvas.appendChild(transientClonedGroup);
+    vCanvas.render();
+
+    if (!type) type = 'image/png';
+    let dataURL = '';
+    await vCanvasContextService.toDataURL({ type }).then((url) => {
+      dataURL = url;
+    });
+    return dataURL;
+  }
+
+  /**
+   * Asynchronously generates a Data URL representation of the full canvas content,
+   * including background, main content, and transient canvas, with optional padding.
+   * @param type The type of the Data URL (e.g., 'image/png', 'image/jpeg').
+   * @param imageConfig Configuration options for the image (optional).
+   * @returns A Promise that resolves to the Data URL string.
+   */
+  public async toFullDataURL(
+    type?: DataURLType,
+    imageConfig?: { padding?: number | number[] },
+  ) {
+    const backgroundCanvas = this.backgroundCanvas;
+    const canvas = this.canvas;
+    const transientCanvas = this.transientCanvas;
+    const backgroundRoot = canvas.getRoot();
+    const root = canvas.getRoot();
+    const transientRoot = transientCanvas.getRoot();
+    const rendererType = this.rendererType;
+
+    const backgroundBBox = backgroundRoot.getBBox();
+    const BBox = root.getBBox();
+    const transientBBox = transientRoot.getBBox();
+
+    let padding = imageConfig ? imageConfig.padding : undefined;
+    if (!padding) {
+      padding = [0, 0, 0, 0];
+    } else if (isNumber(padding)) {
+      padding = [padding, padding, padding, padding];
+    }
+
+    const left = (transientBBox.left
+      ? backgroundBBox.left
+        ? Math.min(backgroundBBox.left, BBox.left, transientBBox.left)
+        : Math.min(BBox.left, transientBBox.left)
+      : BBox.left)-padding[3];
+    const right = (transientBBox.right
+    ? backgroundBBox.right
+      ? Math.max(backgroundBBox.right, BBox.right, transientBBox.right)
+      : Math.max(BBox.right, transientBBox.right)
+    : BBox.right)+padding[1];
+    const top = (transientBBox.top
+    ? backgroundBBox.top
+      ? Math.min(backgroundBBox.top, BBox.top, transientBBox.top)
+      : Math.min(BBox.top, transientBBox.top)
+    : BBox.top)-padding[0];
+    const bottom = (transientBBox.bottom
+    ? backgroundBBox.bottom
+      ? Math.max(backgroundBBox.bottom, BBox.bottom, transientBBox.bottom)
+      : Math.max(BBox.bottom, transientBBox.bottom)
+    : BBox.bottom)+padding[2];
+
+    const graphCenterX = (left + right) / 2;
+    const graphCenterY = (top + bottom) / 2;
+    const halfX = (right - left) / 2;
+    const halfY = (bottom - top) / 2;
+
+
+    const pixelRatio =
+      typeof window !== 'undefined' ? window.devicePixelRatio : 1;
+    const vWidth = halfX * 2;
+    const vHeight = halfY * 2;
+    const vContainerDOM: HTMLDivElement = createDom(
+      '<div id="virtual-image"></div>',
+    );
+    const vCanvas = createCanvas(
+      rendererType,
+      vContainerDOM,
+      vWidth,
+      vHeight,
+      pixelRatio,
+    );
+    const vCanvasContextService = vCanvas.getContextService();
+    if (rendererType !== 'svg') {
+      const bgRect = new Rect({
+        style: {
+          x: 0,
+          y: 0,
+          z: -1,
+          width: vCanvasContextService.getDomElement().width,
+          height: vCanvasContextService.getDomElement().height,
+          //@ts-ignore
+          fill: backgroundCanvas.getContextService().getDomElement().style[
+            'background-color'
+          ],
+        },
+      });
+      vCanvas.appendChild(bgRect);
+    }
+    let backgroundClonedGroup = backgroundRoot.cloneNode(true);
+    let clonedGroup = root.cloneNode(true);
+    let transientClonedGroup = transientRoot.cloneNode(true);
+    let transPosition: [number, number] = [
+      -graphCenterX + halfX,
+      -graphCenterY + halfY,
+    ];
+    backgroundClonedGroup.setPosition(transPosition);
+    clonedGroup.setPosition(transPosition);
+    transientClonedGroup.setPosition(transPosition);
+    vCanvas.appendChild(backgroundClonedGroup);
+    vCanvas.appendChild(clonedGroup);
+    vCanvas.appendChild(transientClonedGroup);
+    vCanvas.render();
+
+    if (!type) type = 'image/png';
+    let dataURL = '';
+    await vCanvasContextService.toDataURL({ type }).then((url) => {
+      dataURL = url;
+    });
+    return dataURL;
+  }
+
+  /**
+   * Converts a Data URL to an image file and handles the download of the image.
+   * @param dataURL The Data URL of the image to be converted and downloaded.
+   * @param renderer The renderer type ('svg' or other) used for the canvas.
+   * @param link The HTML link element used for image download.
+   * @param fileName The desired name for the downloaded image file.
+   */
+  private dataURLToImage(dataURL: string, renderer: string, link, fileName) {
+    if (!dataURL || dataURL === 'data:') {
+      console.error(
+        'Download image failed. The graph is too large or there is invalid attribute values in graph items',
+      );
+      return;
+    }
+
+    if (typeof window !== 'undefined') {
+      if (window.Blob && window.URL && renderer !== 'svg') {
+        const arr = dataURL.split(',');
+        let mime = '';
+        if (arr && arr.length > 0) {
+          const match = arr[0].match(/:(.*?);/);
+          // eslint-disable-next-line prefer-destructuring
+          if (match && match.length >= 2) mime = match[1];
+        }
+
+        const bstr = atob(arr[1]);
+        let n = bstr.length;
+        const u8arr = new Uint8Array(n);
+
+        while (n--) {
+          u8arr[n] = bstr.charCodeAt(n);
+        }
+
+        const blobObj = new Blob([u8arr], { type: mime });
+
+        if ((window.navigator as any).msSaveBlob) {
+          (window.navigator as any).msSaveBlob(blobObj, fileName);
+        } else {
+          link.addEventListener('click', () => {
+            link.download = fileName;
+            link.href = window.URL.createObjectURL(blobObj);
+          });
+        }
+      } else {
+        link.addEventListener('click', () => {
+          link.download = fileName;
+          link.href = dataURL;
+        });
+      }
+    }
+  }
+
+  /**
+   * Initiates the download of the graph as an image with an optional name and type.
+   * @param name The desired name for the downloaded image file (optional).
+   * @param type The type of the image to download (optional, defaults to 'image/png').
+   */
+  public downloadImage(name?: string, type?: DataURLType): void {
+    const self = this;
+    // self.stopAnimate();
+
+    const rendererType = this.rendererType;
+    if (!type) type = 'image/png';
+
+    const fileName: string =
+      (name || 'graph') +
+      (rendererType === 'svg' ? '.svg' : type.split('/')[1]);
+
+    const link: HTMLAnchorElement = document.createElement('a');
+
+    self.asyncToDataUrl(type, (dataURL) => {
+      this.dataURLToImage(dataURL, rendererType, link, fileName);
+      const e = document.createEvent('MouseEvents');
+      e.initEvent('click', false, false);
+      link.dispatchEvent(e);
+    });
+  }
+
+  /**
+   * Initiates the download of the entire graph as an image with optional name, type, and padding configuration.
+   * @param name The desired name for the downloaded image file (optional).
+   * @param type The type of the image to download (optional, defaults to 'image/png').
+   * @param imageConfig Configuration options for the image (optional).
+   */
+  public downloadFullImage(name?: string, type?: DataURLType, imageConfig?: { padding?: number | number[] }): void {
+    const self = this;
+    
+    const rendererType = this.rendererType;
+    if (!type) type = 'image/png';
+    const fileName: string =
+      (name || 'graph') +
+      (rendererType === 'svg' ? '.svg' : type.split('/')[1]);
+    const link: HTMLAnchorElement = document.createElement('a');
+
+    self.asyncToFullDataUrl(type, imageConfig, (dataURL) => {
+      this.dataURLToImage(dataURL, rendererType, link, fileName);
+      const e = document.createEvent('MouseEvents');
+      e.initEvent('click', false, false);
+      link.dispatchEvent(e);
+    });
+  }
+
+  /**
+   * Asynchronously converts the canvas content to a Data URL of the specified type and invokes the provided callback.
+   * @param type The type of the Data URL (optional, defaults to 'image/png').
+   * @param callback A callback function to handle the Data URL (optional).
+   */
+  protected asyncToDataUrl(type?: DataURLType, callback?: Function): void {
+    let dataURL = '';
+    if (!type) type = 'image/png';
+
+    setTimeout(async () => {
+      await this.toDataURL(type).then((url) => {
+        dataURL = url;
+      });
+      if (callback) callback(dataURL);
+    }, 16);
+  }
+
+  /**
+   * Asynchronously converts the entire canvas content to a Data URL of the specified type 
+   * with optional padding, and invokes the provided callback.
+   * @param type The type of the Data URL (optional, defaults to 'image/png').
+   * @param imageConfig Configuration options for the image (optional).
+   * @param callback A callback function to handle the Data URL (optional).
+   */
+  protected asyncToFullDataUrl(type?: DataURLType, imageConfig?: { padding?: number | number[] }, callback?: Function): void {
+    let dataURL = '';
+    if (!type) type = 'image/png';
+
+    setTimeout(async () => {
+      await this.toFullDataURL(type, imageConfig).then((url) => {
+        dataURL = url;
+      });
+      if (callback) callback(dataURL);
+    }, 16);
   }
 
   // ===== history operations =====
