@@ -1,5 +1,12 @@
 import EventEmitter from '@antv/event-emitter';
-import { AABB, Canvas, DataURLType, DisplayObject, PointLike, Rect } from '@antv/g';
+import {
+  AABB,
+  Canvas,
+  DataURLType,
+  DisplayObject,
+  PointLike,
+  Rect,
+} from '@antv/g';
 import { GraphChange, ID } from '@antv/graphlib';
 import {
   clone,
@@ -2074,8 +2081,8 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
 
     const pixelRatio =
       typeof window !== 'undefined' ? window.devicePixelRatio : 1;
-    let width = this.getSize()[0];
-    let height = this.getSize()[1];
+    const width = this.getSize()[0];
+    const height = this.getSize()[1];
 
     const vContainerDOM: HTMLDivElement = createDom(
       '<div id="virtual-image"></div>',
@@ -2105,9 +2112,9 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       });
       vCanvas.appendChild(bgRect);
     }
-    let backgroundClonedGroup = backgroundCanvas.getRoot().cloneNode(true);
-    let clonedGroup = canvas.getRoot().cloneNode(true);
-    let transientClonedGroup = transientCanvas.getRoot().cloneNode(true);
+    const backgroundClonedGroup = backgroundCanvas.getRoot().cloneNode(true);
+    const clonedGroup = canvas.getRoot().cloneNode(true);
+    const transientClonedGroup = transientCanvas.getRoot().cloneNode(true);
     vCanvas.appendChild(backgroundClonedGroup);
     vCanvas.appendChild(clonedGroup);
     vCanvas.appendChild(transientClonedGroup);
@@ -2151,32 +2158,35 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       padding = [padding, padding, padding, padding];
     }
 
-    const left = (transientBBox.left
-      ? backgroundBBox.left
-        ? Math.min(backgroundBBox.left, BBox.left, transientBBox.left)
-        : Math.min(BBox.left, transientBBox.left)
-      : BBox.left)-padding[3];
-    const right = (transientBBox.right
-    ? backgroundBBox.right
-      ? Math.max(backgroundBBox.right, BBox.right, transientBBox.right)
-      : Math.max(BBox.right, transientBBox.right)
-    : BBox.right)+padding[1];
-    const top = (transientBBox.top
-    ? backgroundBBox.top
-      ? Math.min(backgroundBBox.top, BBox.top, transientBBox.top)
-      : Math.min(BBox.top, transientBBox.top)
-    : BBox.top)-padding[0];
-    const bottom = (transientBBox.bottom
-    ? backgroundBBox.bottom
-      ? Math.max(backgroundBBox.bottom, BBox.bottom, transientBBox.bottom)
-      : Math.max(BBox.bottom, transientBBox.bottom)
-    : BBox.bottom)+padding[2];
+    const left =
+      (transientBBox.left
+        ? backgroundBBox.left
+          ? Math.min(backgroundBBox.left, BBox.left, transientBBox.left)
+          : Math.min(BBox.left, transientBBox.left)
+        : BBox.left) - padding[3];
+    const right =
+      (transientBBox.right
+        ? backgroundBBox.right
+          ? Math.max(backgroundBBox.right, BBox.right, transientBBox.right)
+          : Math.max(BBox.right, transientBBox.right)
+        : BBox.right) + padding[1];
+    const top =
+      (transientBBox.top
+        ? backgroundBBox.top
+          ? Math.min(backgroundBBox.top, BBox.top, transientBBox.top)
+          : Math.min(BBox.top, transientBBox.top)
+        : BBox.top) - padding[0];
+    const bottom =
+      (transientBBox.bottom
+        ? backgroundBBox.bottom
+          ? Math.max(backgroundBBox.bottom, BBox.bottom, transientBBox.bottom)
+          : Math.max(BBox.bottom, transientBBox.bottom)
+        : BBox.bottom) + padding[2];
 
     const graphCenterX = (left + right) / 2;
     const graphCenterY = (top + bottom) / 2;
     const halfX = (right - left) / 2;
     const halfY = (bottom - top) / 2;
-
 
     const pixelRatio =
       typeof window !== 'undefined' ? window.devicePixelRatio : 1;
@@ -2209,10 +2219,10 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       });
       vCanvas.appendChild(bgRect);
     }
-    let backgroundClonedGroup = backgroundRoot.cloneNode(true);
-    let clonedGroup = root.cloneNode(true);
-    let transientClonedGroup = transientRoot.cloneNode(true);
-    let transPosition: [number, number] = [
+    const backgroundClonedGroup = backgroundRoot.cloneNode(true);
+    const clonedGroup = root.cloneNode(true);
+    const transientClonedGroup = transientRoot.cloneNode(true);
+    const transPosition: [number, number] = [
       -graphCenterX + halfX,
       -graphCenterY + halfY,
     ];
@@ -2316,9 +2326,13 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * @param type The type of the image to download (optional, defaults to 'image/png').
    * @param imageConfig Configuration options for the image (optional).
    */
-  public downloadFullImage(name?: string, type?: DataURLType, imageConfig?: { padding?: number | number[] }): void {
+  public downloadFullImage(
+    name?: string,
+    type?: DataURLType,
+    imageConfig?: { padding?: number | number[] },
+  ): void {
     const self = this;
-    
+
     const rendererType = this.rendererType;
     if (!type) type = 'image/png';
     const fileName: string =
@@ -2352,13 +2366,17 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
   }
 
   /**
-   * Asynchronously converts the entire canvas content to a Data URL of the specified type 
+   * Asynchronously converts the entire canvas content to a Data URL of the specified type
    * with optional padding, and invokes the provided callback.
    * @param type The type of the Data URL (optional, defaults to 'image/png').
    * @param imageConfig Configuration options for the image (optional).
    * @param callback A callback function to handle the Data URL (optional).
    */
-  protected asyncToFullDataUrl(type?: DataURLType, imageConfig?: { padding?: number | number[] }, callback?: Function): void {
+  protected asyncToFullDataUrl(
+    type?: DataURLType,
+    imageConfig?: { padding?: number | number[] },
+    callback?: Function,
+  ): void {
     let dataURL = '';
     if (!type) type = 'image/png';
 
