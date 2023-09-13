@@ -34,43 +34,56 @@ export const upsertTransientItem = (
   transientItemMap: Map<ID, Node | Edge | Combo | Group>,
   itemMap: Map<ID, Node | Edge | Combo>,
   graphCore?: GraphCore,
-  onlyDrawKeyShape?: boolean,
+  drawOptions: {
+    shapeIds?: string[];
+    /** For transient edge */
+    drawSource?: boolean;
+    /** For transient edge */
+    drawTarget?: boolean;
+  } = {},
   upsertAncestors = true,
 ) => {
   let transientItem = transientItemMap.get(item.model.id);
   if (transientItem) {
     return transientItem;
   }
+  const { shapeIds, drawSource = true, drawTarget = true } = drawOptions;
   if (item.type === 'node') {
-    transientItem = item.clone(nodeGroup, onlyDrawKeyShape, true) as Node;
+    transientItem = item.clone(nodeGroup, shapeIds, true) as Node;
   } else if (item.type === 'edge') {
-    const source = upsertTransientItem(
-      item.sourceItem,
-      nodeGroup,
-      edgeGroup,
-      comboGroup,
-      transientItemMap,
-      itemMap,
-      graphCore,
-      onlyDrawKeyShape,
-      false,
-    ) as Node | Combo;
-    const target = upsertTransientItem(
-      item.targetItem,
-      nodeGroup,
-      edgeGroup,
-      comboGroup,
-      transientItemMap,
-      itemMap,
-      graphCore,
-      onlyDrawKeyShape,
-      false,
-    ) as Node | Combo;
+    let source;
+    let target;
+    if (drawSource) {
+      source = upsertTransientItem(
+        item.sourceItem,
+        nodeGroup,
+        edgeGroup,
+        comboGroup,
+        transientItemMap,
+        itemMap,
+        graphCore,
+        drawOptions,
+        false,
+      ) as Node | Combo;
+    }
+    if (drawTarget) {
+      target = upsertTransientItem(
+        item.targetItem,
+        nodeGroup,
+        edgeGroup,
+        comboGroup,
+        transientItemMap,
+        itemMap,
+        graphCore,
+        drawOptions,
+        false,
+      ) as Node | Combo;
+    }
     transientItem = item.clone(
       edgeGroup,
       source,
       target,
-      undefined,
+      shapeIds,
       true,
     ) as Edge;
   } else {
@@ -89,7 +102,7 @@ export const upsertTransientItem = (
             transientItemMap,
             itemMap,
             graphCore,
-            onlyDrawKeyShape,
+            drawOptions,
             false,
           ),
         );
@@ -97,7 +110,7 @@ export const upsertTransientItem = (
     });
     transientItem = (item as Combo).clone(
       comboGroup,
-      onlyDrawKeyShape,
+      shapeIds,
       true,
       () => getCombinedBoundsByItem(childItems), // getCombinedBounds
       () => childItems,
@@ -125,7 +138,7 @@ export const upsertTransientItem = (
           transientItemMap,
           itemMap,
           graphCore,
-          onlyDrawKeyShape,
+          drawOptions,
         );
         transientAncestor.toBack();
       }

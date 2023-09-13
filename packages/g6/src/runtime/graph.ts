@@ -2092,9 +2092,13 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     type: ITEM_TYPE | SHAPE_TYPE,
     id: ID,
     config: {
-      action: 'remove' | 'add' | 'update' | undefined;
-      style: ShapeStyle;
-      onlyDrawKeyShape?: boolean;
+      action?: 'remove' | 'add' | 'update' | undefined;
+      style?: ShapeStyle;
+      /** For type: 'edge' */
+      drawSource?: boolean;
+      /** For type: 'edge' */
+      drawTarget?: boolean;
+      shapeIds?: string[];
       upsertAncestors?: boolean;
     },
     canvas?: Canvas,
