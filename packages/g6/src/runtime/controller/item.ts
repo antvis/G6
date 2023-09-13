@@ -272,9 +272,23 @@ export class ItemController {
       edges: graphCore.getAllEdges(),
     });
 
-    await this.renderNodes(nodes, theme.node, tileOptimize);
+    const renderNodesPromise = this.renderNodes(
+      nodes,
+      theme.node,
+      tileOptimize,
+    );
+    if (renderNodesPromise) {
+      await renderNodesPromise;
+    }
     this.renderCombos(combos, theme.combo, graphCore);
-    await this.renderEdges(edges, theme.edge, tileOptimize);
+    const renderEdgesPromise = this.renderEdges(
+      edges,
+      theme.edge,
+      tileOptimize,
+    );
+    if (renderEdgesPromise) {
+      await renderEdgesPromise;
+    }
     this.sortByComboTree(graphCore);
     // collapse the combos which has 'collapsed' in initial data
     if (graphCore.hasTreeStructure('combo')) {
@@ -1026,7 +1040,7 @@ export class ItemController {
       tileFirstRender?: boolean | number;
       tileFirstRenderSize?: number;
     },
-  ): Promise<any> {
+  ): Promise<any> | undefined {
     const { nodeExtensions, nodeGroup, nodeDataTypeSet, graph } = this;
     const { dataTypeField = '' } = nodeTheme;
     const { tileFirstRender, tileFirstRenderSize = 1000 } = tileOptimize || {};
@@ -1070,6 +1084,7 @@ export class ItemController {
       this.itemMap.set(node.id, nodeItem);
       const { x, y } = nodeItem.model.data;
       if (
+        delayFirstDraw &&
         isPointInBBox(
           { x: convertToNumber(x), y: convertToNumber(y) },
           viewRange,
@@ -1093,7 +1108,6 @@ export class ItemController {
       const update = (resolve) => {
         if (!sections.length) {
           cancelAnimationFrame(requestId);
-          // return Promise.resolve();
           return resolve();
         }
         sections
@@ -1111,8 +1125,6 @@ export class ItemController {
       return new Promise((resolve) => {
         requestId = requestAnimationFrame(() => update(resolve));
       });
-    } else {
-      return Promise.resolve();
     }
   }
 
@@ -1191,7 +1203,7 @@ export class ItemController {
       tileFirstRender?: boolean | number;
       tileFirstRenderSize?: number;
     },
-  ) {
+  ): Promise<any> | undefined {
     const { edgeExtensions, edgeGroup, itemMap, edgeDataTypeSet, graph } = this;
     const { dataTypeField = '' } = edgeTheme;
     const { tileFirstRender, tileFirstRenderSize = 1000 } = tileOptimize || {};
@@ -1269,8 +1281,6 @@ export class ItemController {
       return new Promise((resolve) => {
         requestId = requestAnimationFrame(() => update(resolve));
       });
-    } else {
-      return Promise.resolve();
     }
   }
 

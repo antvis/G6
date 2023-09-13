@@ -207,13 +207,13 @@ const Extensions = {
   ValidateData,
   TransformV4Data,
   MapNodeSize,
-  //themes
+  // themes
   LightTheme,
   DarkTheme,
-  //themeSolvers
+  // themeSolvers
   SpecThemeSolver,
   SubjectThemeSolver,
-  //layout
+  // layout
   ForceLayout,
   GridLayout,
   CircularLayout,
@@ -226,12 +226,12 @@ const Extensions = {
   ForceAtlas2Layout,
   DagreLayout,
   ComboCombinedLayout,
-  //Hierarchy
+  // Hierarchy
   compactBox,
   dendrogram,
   indented,
   mindmap,
-  //nodes
+  // nodes
   CircleNode,
   RectNode,
   DiamondNode,
@@ -253,7 +253,7 @@ const Extensions = {
   // combos
   CircleCombo,
   RectCombo,
-  //behaviors
+  // behaviors
   BaseBehavior,
   ActivateRelations,
   BrushSelect,
@@ -269,7 +269,8 @@ const Extensions = {
   CollapseExpandCombo,
   DragNode,
   DragCombo,
-  //plugins
+  ShortcutsCall,
+  // plugins
   BasePlugin,
   History,
   Toolbar,

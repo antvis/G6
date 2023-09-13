@@ -203,9 +203,6 @@ export default (context) => {
       id,
       data: {
         keyShape: {
-          controlPoints: [150, 100],
-          // curvePosition: 0.5,
-          curveOffset: [0, 20],
           stroke: 'blue',
         },
         // iconShape: {

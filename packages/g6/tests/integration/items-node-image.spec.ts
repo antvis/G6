@@ -14,7 +14,7 @@ describe('Items node image', () => {
   });
 
   it('should be rendered correctly with Canvas2D', async () => {
-    const dir = `${__dirname}/snapshots/canvas`;
+    const dir = `${__dirname}/snapshots/canvas/items/node/image`;
     const { backgroundCanvas, canvas, transientCanvas, container } =
       createContext('canvas', 500, 500);
 
@@ -41,7 +41,7 @@ describe('Items node image', () => {
   });
 
   it('should be rendered correctly with SVG', async () => {
-    const dir = `${__dirname}/snapshots/svg`;
+    const dir = `${__dirname}/snapshots/svg/items/node/image`;
     const { backgroundCanvas, canvas, transientCanvas, container } =
       createContext('svg', 500, 500);
 
@@ -65,7 +65,7 @@ describe('Items node image', () => {
   });
 
   it.skip('should be rendered correctly with WebGL', async () => {
-    const dir = `${__dirname}/snapshots/webgl`;
+    const dir = `${__dirname}/snapshots/webgl/items/node/image`;
     const { backgroundCanvas, canvas, transientCanvas, container } =
       createContext('webgl', 500, 500);
 

@@ -218,13 +218,13 @@ export const updateShapes = (
       if (prevShape !== newShape) {
         prevShape.remove();
       }
-      if (newShape.style.display !== 'none') {
+      if (!newShape.destroyed && newShape.style.display !== 'none') {
         group.appendChild(newShape);
       }
     } else if (!prevShape && newShape) {
       // add newShapeMap - prevShapeMap
       finalShapeMap[id] = newShape;
-      if (newShape.style.display !== 'none') {
+      if (!newShape.destroyed && newShape.style.display !== 'none') {
         group.appendChild(newShape);
       }
     } else if (prevShape && !newShape && removeDiff) {
