@@ -13,7 +13,7 @@ export default (
       'hover-activate': Extensions.HoverActivate,
     },
   });
-  const graph = new Graph({
+  const graph = new ExtGraph({
     ...context,
     layout: {
       type: 'grid',

@@ -33,8 +33,6 @@
   },
   "dependencies": {
     "fs-extra": "latest",
-    "google-translate-api-x": "^10.6.7",
-    "@faker-js/faker": "^8.0.2",
     "@ant-design/icons": "^4.0.6",
     "@antv/algorithm": "^0.1.26",
     "@antv/chart-node-g6": "^0.0.3",

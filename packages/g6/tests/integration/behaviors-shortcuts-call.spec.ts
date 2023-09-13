@@ -1,6 +1,6 @@
 import { resetEntityCounter } from '@antv/g';
 import ShortcutsCall from '../demo/behaviors/shortcuts-call';
-import { createContext } from './utils';
+import { createContext, sleep } from './utils';
 import './utils/useSnapshotMatchers';
 
 describe('Shortcuts-call behavior', () => {
@@ -25,6 +25,7 @@ describe('Shortcuts-call behavior', () => {
     });
 
     graph.on('afterlayout', async () => {
+      await sleep(300);
       await expect(canvas).toMatchCanvasSnapshot(
         dir,
         'behaviors-shortcuts-call',
@@ -66,10 +67,6 @@ describe('Shortcuts-call behavior', () => {
     );
 
     graph.on('afterlayout', async () => {
-      await expect(canvas).toMatchCanvasSnapshot(
-        dir,
-        'behaviors-shortcuts-call',
-      );
       // shift + m to zoom to 0.5
       graph.emit('keydown', {
         key: 'shift',
@@ -77,6 +74,7 @@ describe('Shortcuts-call behavior', () => {
       graph.emit('keydown', {
         key: 'm',
       });
+      await sleep(300);
       await expect(canvas).toMatchCanvasSnapshot(
         dir,
         'behaviors-shortcuts-call-with-zoom',
@@ -99,6 +97,7 @@ describe('Shortcuts-call behavior', () => {
     });
 
     graph.on('afterlayout', async () => {
+      await sleep(300);
       await expect(canvas).toMatchSVGSnapshot(dir, 'behaviors-shortcuts-call');
       graph.destroy();
       done();

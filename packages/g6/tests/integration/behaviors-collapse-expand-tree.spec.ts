@@ -1,7 +1,7 @@
 import { resetEntityCounter } from '@antv/g';
 import './utils/useSnapshotMatchers';
 import collapseExpandTree from '../demo/behaviors/collapse-expand-tree';
-import { createContext } from './utils';
+import { createContext, sleep } from './utils';
 
 describe('Collapse or expand a branch', () => {
   beforeEach(() => {
@@ -26,7 +26,8 @@ describe('Collapse or expand a branch', () => {
       height: 500,
     });
 
-    setTimeout(async () => {
+    graph.on('afterrender', async (e) => {
+      await sleep(100);
       await expect(canvas).toMatchCanvasSnapshot(
         dir,
         'behaviors-collapse-expand',
@@ -34,40 +35,36 @@ describe('Collapse or expand a branch', () => {
 
       // collapse child branch
       graph.emit('node:click', { itemId: 'cnode1', itemType: 'node' });
-      setTimeout(async () => {
-        await expect(canvas).toMatchCanvasSnapshot(
-          dir,
-          'behaviors-collapse-expand-collapse-cnode1',
-        );
+      await sleep(800);
+      await expect(canvas).toMatchCanvasSnapshot(
+        dir,
+        'behaviors-collapse-expand-collapse-cnode1',
+      );
 
-        // collapse parent branch
-        graph.emit('node:click', { itemId: 'node1', itemType: 'node' });
-        setTimeout(async () => {
-          await expect(canvas).toMatchCanvasSnapshot(
-            dir,
-            'behaviors-collapse-expand-collapse-node1',
-          );
+      // collapse parent branch
+      graph.emit('node:click', { itemId: 'node1', itemType: 'node' });
+      await sleep(800);
+      await expect(canvas).toMatchCanvasSnapshot(
+        dir,
+        'behaviors-collapse-expand-collapse-node1',
+      );
 
-          // expand parent branch
-          graph.emit('node:click', { itemId: 'node1', itemType: 'node' });
-          setTimeout(async () => {
-            await expect(canvas).toMatchCanvasSnapshot(
-              dir,
-              'behaviors-collapse-expand-expand-node1',
-            );
-            // expand child branch
-            graph.emit('node:click', { itemId: 'cnode1', itemType: 'node' });
-            setTimeout(async () => {
-              await expect(canvas).toMatchCanvasSnapshot(
-                dir,
-                'behaviors-collapse-expand-expand-cnode1',
-              );
-              graph.destroy();
-              done();
-            }, 500);
-          }, 500);
-        }, 500);
-      }, 500);
-    }, 500);
+      // expand parent branch
+      graph.emit('node:click', { itemId: 'node1', itemType: 'node' });
+      await sleep(1000);
+      await expect(canvas).toMatchCanvasSnapshot(
+        dir,
+        'behaviors-collapse-expand-expand-node1',
+      );
+      // expand child branch
+      graph.emit('node:click', { itemId: 'cnode1', itemType: 'node' });
+      await sleep(1000);
+      await expect(canvas).toMatchCanvasSnapshot(
+        dir,
+        'behaviors-collapse-expand-expand-cnode1',
+      );
+      graph.destroy();
+      done();
+    });
   });
 });
