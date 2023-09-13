@@ -213,6 +213,9 @@ export default class Node extends Item {
       shapeIds.forEach((shapeId) => {
         if (!this.shapeMap[shapeId] || this.shapeMap[shapeId].destroyed) return;
         const clonedKeyShape = this.shapeMap[shapeId].cloneNode();
+        // TODO: other animating attributes?
+        clonedKeyShape.style.opacity =
+          this.renderExt.mergedStyles[shapeId]?.opacity || 1;
         group.appendChild(clonedKeyShape);
       });
       group.setPosition(this.group.getPosition());

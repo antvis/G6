@@ -104,10 +104,14 @@ export interface Hooks {
     config: {
       style?: ShapeStyle;
       action?: 'remove' | 'add' | 'update';
-      shapeIds?: string[];
       /** For type: 'edge' */
       drawSource?: boolean;
       /** For type: 'edge' */
+      drawTarget?: boolean;
+      /** Only shape with id in shapeIds will be cloned while type is ITEM_TYPE. If shapeIds is not assigned, the whole item will be cloned. */
+      shapeIds?: string[];
+      /** Whether show the shapes in shapeIds. True by default. */
+      visible?: boolean;
       upsertAncestors?: boolean;
     };
     graphCore: GraphCore;
