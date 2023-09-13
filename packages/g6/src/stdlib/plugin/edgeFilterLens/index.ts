@@ -1,4 +1,5 @@
 
+import { DisplayObject } from '@antv/g';
 import { clone } from '@antv/util';
 import { Plugin as Base, IPluginBaseConfig } from '../../../types/plugin';
 import { IGraph } from '../../../types';
@@ -21,17 +22,17 @@ interface EdgeFilterLensConfig extends IPluginBaseConfig {
 }
 
 const lensDelegateStyle = {
-  key: 'edegFilter',
   stroke: '#000',
   strokeOpacity: 0.8,
   lineWidth: 2,
-  fillOpacity: 1,
-  fill: '#fff',
+  fillOpacity: 0.1,
+  fill: '#ccc',
 };
+
 export class EdgeFilterLens extends Base {
   private showNodeLabel: boolean;
   private showEdgeLabel: boolean;
-  private delegate: any; // TODO: add type
+  private delegate: DisplayObject;
   private vShapes: any[];
 
   constructor(config?: EdgeFilterLensConfig) {
@@ -64,14 +65,15 @@ export class EdgeFilterLens extends Base {
         break;
       default:
         events = {
-          mousemove: this.filter,
+          pointermove: this.filter,
         };
         break;
     }
     return events;
   }
 
-  public init() {
+  public init(graph: IGraph) {
+    super.init(graph);
     const showLabel = this.options.showLabel;
     const showNodeLabel = showLabel === 'node' || showLabel === 'both';
     const showEdgeLabel = showLabel === 'edge' || showLabel === 'both';
@@ -152,39 +154,27 @@ export class EdgeFilterLens extends Base {
    * @param e mouse event
    */
   protected filter(e: IG6GraphEvent) {
-    const self = this;
-    const graph = self.graph;
-    const nodes = graph.getNodes();
+    const { graph, options, delegate, showNodeLabel, showEdgeLabel } = this;
+    const nodes = graph.getAllNodesData();
     const hitNodesMap = {};
-    const r = self.options.r;
-    const type = self.options.type;
-    const fCenter = { x: e.x, y: e.y };
-    self.updateDelegate(fCenter, r);
-    const shouldShow = self.options.shouldShow;
-
-    let vShapes = self.vShapes;
-    if (vShapes) {
-      vShapes.forEach((shape) => {
-        shape.remove();
-        shape.destroy();
-      });
-    }
-    vShapes = [];
+    const r = options.r;
+    const type = options.type;
+    const fCenter = { x: e.canvas.x, y: e.canvas.y }
+    this.updateDelegate(fCenter, r);
+    const shouldShow = options.shouldShow;
 
     nodes.forEach((node) => {
-      const model = node.getModel();
-      const { x, y } = model;
-      if (distance({ x, y }, fCenter) < r) {
-        hitNodesMap[model.id] = node;
+      const { data, id } = node;
+      if (distance({ x: data.x, y: data.y }, fCenter) < r) {
+        hitNodesMap[id] = node;
       }
     });
-    const edges = graph.getEdges();
+    const edges = graph.getAllEdgesData();
     const hitEdges = [];
     edges.forEach((edge) => {
-      const model = edge.getModel();
-      const sourceId = model.source;
-      const targetId = model.target;
-      if (shouldShow(model)) {
+      const sourceId = edge.source;
+      const targetId = edge.target;
+      if (shouldShow(edge)) {
         if (type === 'only-source' || type === 'one') {
           if (hitNodesMap[sourceId] && !hitNodesMap[targetId]) hitEdges.push(edge);
         } else if (type === 'only-target' || type === 'one') {
@@ -195,42 +185,23 @@ export class EdgeFilterLens extends Base {
       }
     });
 
-    const showNodeLabel = self.showNodeLabel;
-    const showEdgeLabel = self.showEdgeLabel;
-
-    // copy the shapes in hitEdges
-    const group = graph.get('group');
-    hitEdges.forEach((edge) => {
-      const shapes = edge.get('group').get('children');
-      shapes.forEach((shape) => {
-        const shapeType = shape.get('type');
-        const vShape = group.addShape(shapeType, {
-          attrs: shape.attr(),
-        });
-        vShapes.push(vShape);
-        if (showNodeLabel && shapeType === 'text') {
-          vShape.set('visible', true);
-        }
+    if (showNodeLabel) {
+      Object.keys(hitNodesMap).forEach((key) => {
+        const node = hitNodesMap[key];
+        graph.drawTransient('node', node.id, { shapeIds: ['labelShape'] });
       });
-    });
-    // copy the shape sof hitNodes
-    Object.keys(hitNodesMap).forEach((key) => {
-      const node = hitNodesMap[key];
-      const clonedGroup = node.get('group').clone();
-      group.add(clonedGroup);
-      vShapes.push(clonedGroup);
-      if (showEdgeLabel) {
-        const shapes = clonedGroup.get('children');
-        for (let j = 0; j < shapes.length; j++) {
-          const shape = shapes[j];
-          if (shape.get('type') === 'text') {
-            shape.set('visible', true);
-          }
-        }
-      }
-    });
+    }
 
-    self.vShapes = vShapes;
+    if (showEdgeLabel) {
+      graph.hideItem(hitEdges.map((e) => e.id));
+      hitEdges.forEach((edge) => {
+        graph.drawTransient('edge', edge.id, {
+          shapeIds: ['labelShape'], 
+          drawSource: false,
+          drawTarget: false,
+        });
+      });
+    }
   }
 
   /**
@@ -274,44 +245,40 @@ export class EdgeFilterLens extends Base {
    * @param {number} r the radius of the shape
    */
   private updateDelegate(mCenter, r) {
-    const self = this;
-    const graph = self.graph;
-    let lensDelegate = self.delegate;
+    const { graph, options, delegate } = this;
+    let lensDelegate = delegate;
     if (!lensDelegate || lensDelegate.destroyed) {
       // 拖动多个
-      const parent = graph.get('group');
-      const attrs = self.options.delegateStyle || lensDelegateStyle;
+      const attrs = options.delegateStyle || lensDelegateStyle;
 
       // model上的x, y是相对于图形中心的，delegateShape是g实例，x,y是绝对坐标
-      lensDelegate = parent.addShape('circle', {
-        attrs: {
+      lensDelegate = graph.drawTransient('circle', 'lens-shape', {
+        style: {
           r,
-          x: mCenter.x,
-          y: mCenter.y,
+          cx: mCenter.x,
+          cy: mCenter.y,
           ...attrs,
         },
-        name: 'lens-shape',
-        draggable: true,
       });
 
-      if (this.options.trigger !== 'drag') {
+      if (options.trigger !== 'drag') {
         // 调整范围 r 的监听
-        if (this.options.scaleRBy === 'wheel') {
+        if (options.scaleRBy === 'wheel') {
           // 使用滚轮调整 r
           lensDelegate.on('mousewheel', (evt) => {
-            self.scaleRByWheel(evt);
+            this.scaleRByWheel(evt);
           });
         }
       }
     } else {
       lensDelegate.attr({
-        x: mCenter.x,
-        y: mCenter.y,
+        cx: mCenter.x,
+        cy: mCenter.y,
         r,
       });
     }
 
-    self.delegate = lensDelegate;
+    this.delegate = lensDelegate;
   }
 
   /**
