@@ -2098,7 +2098,10 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       drawSource?: boolean;
       /** For type: 'edge' */
       drawTarget?: boolean;
+      /** Only shape with id in shapeIds will be cloned while type is ITEM_TYPE. If shapeIds is not assigned, the whole item will be cloned. */
       shapeIds?: string[];
+      /** Whether show the shapes in shapeIds. True by default. */
+      visible?: boolean;
       upsertAncestors?: boolean;
     },
     canvas?: Canvas,

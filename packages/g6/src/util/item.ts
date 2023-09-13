@@ -40,6 +40,7 @@ export const upsertTransientItem = (
     drawSource?: boolean;
     /** For transient edge */
     drawTarget?: boolean;
+    visible?: boolean;
   } = {},
   upsertAncestors = true,
 ) => {
@@ -47,9 +48,14 @@ export const upsertTransientItem = (
   if (transientItem) {
     return transientItem;
   }
-  const { shapeIds, drawSource = true, drawTarget = true } = drawOptions;
+  const {
+    shapeIds,
+    drawSource = true,
+    drawTarget = true,
+    visible = true,
+  } = drawOptions;
   if (item.type === 'node') {
-    transientItem = item.clone(nodeGroup, shapeIds, true) as Node;
+    transientItem = item.clone(nodeGroup, shapeIds, true);
   } else if (item.type === 'edge') {
     let source;
     let target;
@@ -118,6 +124,7 @@ export const upsertTransientItem = (
     transientItem.toBack();
   }
   transientItemMap.set(item.model.id, transientItem);
+  // @ts-ignore
   transientItem.transient = true;
 
   if (
@@ -144,6 +151,11 @@ export const upsertTransientItem = (
       }
       currentAncestor = graphCore.getParent(currentAncestor.id, 'combo');
     }
+  }
+
+  if (shapeIds?.length && visible) {
+    // @ts-ignore
+    (transientItem as Group).childNodes.forEach((shape) => shape.show());
   }
   return transientItem;
 };
