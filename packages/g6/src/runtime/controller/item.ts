@@ -870,6 +870,7 @@ export class ItemController {
       /** For type: 'edge' */
       drawTarget?: boolean;
       upsertAncestors?: boolean;
+      visible?: boolean;
       [shapeConfig: string]: unknown;
     };
     canvas: Canvas;
@@ -886,6 +887,7 @@ export class ItemController {
       drawSource,
       drawTarget,
       upsertAncestors,
+      visible = true,
     } = config as any;
     const isItemType = type === 'node' || type === 'edge' || type === 'combo';
     // Removing
@@ -939,7 +941,7 @@ export class ItemController {
         this.transientItemMap,
         this.itemMap,
         graphCore,
-        { shapeIds, drawSource, drawTarget },
+        { shapeIds, drawSource, drawTarget, visible },
         upsertAncestors,
       );
 
