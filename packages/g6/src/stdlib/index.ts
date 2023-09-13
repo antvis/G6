@@ -74,6 +74,7 @@ const {
   Toolbar,
   Timebar,
   Snapline,
+  EdgeFilterLens,
 } = Plugins;
 
 const {
@@ -283,6 +284,7 @@ const Extensions = {
   Timebar,
   Hull,
   Snapline,
+  EdgeFilterLens,
 };
 
 export default registery;
