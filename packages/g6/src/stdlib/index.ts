@@ -95,6 +95,7 @@ const {
 import lassoSelector from './selector/lasso';
 import rectSelector from './selector/rect';
 import Hull from './plugin/hull';
+import { WaterMarker } from './plugin/watermaker';
 
 const stdLib = {
   transforms: {
@@ -285,6 +286,7 @@ const Extensions = {
   Timebar,
   Hull,
   Snapline,
+  WaterMarker
 };
 
 export default registery;
