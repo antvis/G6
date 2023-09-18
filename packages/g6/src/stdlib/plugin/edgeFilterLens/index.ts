@@ -178,7 +178,6 @@ export class EdgeFilterLens extends Base {
    * @param e mouse event
    */
   protected filter(e: IG6GraphEvent, mousePos?) {
-    this.restoreCache();
     const { graph, options, showNodeLabel, showEdgeLabel, cachedTransientNodes, cachedTransientEdges } = this;
     const nodes = graph.getAllNodesData();
     const hitNodesMap = {};
@@ -210,41 +209,48 @@ export class EdgeFilterLens extends Base {
       }
     });
 
+    const currentTransientNodes = new Set<string | number>();
+    const currentTransientEdges = new Set<string | number>();
+
     if (showNodeLabel) {
       Object.keys(hitNodesMap).forEach((key) => {
         const node = hitNodesMap[key];
-        graph.drawTransient('node', node.id, { shapeIds: ['labelShape'] });
-        cachedTransientNodes.add(node.id);
+        currentTransientNodes.add(node.id);
+
+        if (cachedTransientNodes.has(node.id)) {
+          cachedTransientNodes.delete(node.id);
+        } else {
+          graph.drawTransient('node', node.id, { shapeIds: ['labelShape'] });
+        }
+      });
+
+      cachedTransientNodes.forEach((id) => {
+        graph.drawTransient('node', id, { action: 'remove' });
       });
     }
 
     if (showEdgeLabel) {
       hitEdges.forEach((edge) => {
-        graph.drawTransient('edge', edge.id, {
-          shapeIds: ['labelShape'],
-          drawSource: false,
-          drawTarget: false,
-        });
-        cachedTransientEdges.add(edge.id);
+        currentTransientEdges.add(edge.id);
+
+        if (cachedTransientEdges.has(edge.id)) {
+          cachedTransientEdges.delete(edge.id);
+        } else {
+          graph.drawTransient('edge', edge.id, {
+            shapeIds: ['labelShape'],
+            drawSource: false,
+            drawTarget: false,
+          });
+        }
+      });
+      
+      cachedTransientEdges.forEach((id) => {
+        graph.drawTransient('edge', id, { action: 'remove' });
       });
     }
-  }
 
-  protected restoreCache() {
-    const { graph, cachedTransientNodes, cachedTransientEdges } = this;
-    cachedTransientNodes.forEach((id) => {
-      graph.drawTransient('node', id, { shapeIds: ['labelShape'], visible: false });
-    });
-    cachedTransientEdges.forEach((id) => {
-      graph.drawTransient('edge', id, {
-        shapeIds: ['labelShape'],
-        drawSource: false,
-        drawTarget: false,
-        visible: false
-      });
-    });
-    cachedTransientNodes.clear();
-    cachedTransientEdges.clear();
+    this.cachedTransientNodes = currentTransientNodes;
+    this.cachedTransientEdges = currentTransientEdges;
   }
 
   /**
