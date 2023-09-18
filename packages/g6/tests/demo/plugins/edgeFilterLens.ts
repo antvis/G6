@@ -1,11 +1,13 @@
-import { Graph, Extensions } from '../../../src/index';
+import { Graph, Extensions, extend } from '../../../src/index';
 
 export default async () => {
   let trigger = 'mousemove';
   let filterLens = {
+    type: 'filterLens',
+    key: 'filterLens1',
     trigger,
     showLabel: 'edge',
-    r: 200,
+    r: 140,
   };
 
   // ================= The DOMs for configurations =============== //
@@ -92,8 +94,12 @@ export default async () => {
   const width = container.scrollWidth;
   const height = container.scrollHeight || 500;
 
-  let filterLensPlugin = new Extensions.EdgeFilterLens(filterLens);
-  const graph = new Graph({
+  const ExtGraph = extend(Graph, {
+    plugins: {
+      filterLens: Extensions.EdgeFilterLens,
+    },
+  });
+  const graph = new ExtGraph({
     container: 'container',
     width,
     height: height,
@@ -104,7 +110,7 @@ export default async () => {
       nodesepFunc: () => 1,
       ranksepFunc: () => 1,
     },
-    plugins: [filterLensPlugin],
+    plugins: [filterLens],
     node: (innerModel) => {
       return {
         ...innerModel,
@@ -123,6 +129,7 @@ export default async () => {
             },
           },
           labelShape: {
+            text: innerModel.data.label,
             lod: 1, // 图的缩放大于 levels 第一层定义的 zoomRange[0] 时展示，小于时隐藏
           },
         }
@@ -135,8 +142,8 @@ export default async () => {
           ...innerModel.data,
           lodStrategy: {
             levels: [
-              { zoomRange: [0, 1] }, // -1
-              { zoomRange: [1, 1.1], primary: true }, // 0
+              { zoomRange: [0, 0.9] }, // -1
+              { zoomRange: [0.9, 1], primary: true }, // 0
               { zoomRange: [1, 1.2] }, // 1
               { zoomRange: [1.2, 1.5] }, // 2
               { zoomRange: [1.5, Infinity] }, // 3
@@ -153,28 +160,30 @@ export default async () => {
       }
     },
     modes: {
-      default: ['drag-canvas', 'zoom-canvas',],
+      // default: ['drag-canvas',],
     },
   });
 
-  swithButton.addEventListener('click', (e) => {
-    if (swithButton.value === 'Disable') {
-      swithButton.value = 'Enable';
-      graph.removePlugins(filterLensPlugin);
-    } else {
-      swithButton.value = 'Disable';
-      filterLensPlugin = new Extensions.EdgeFilterLens(filterLens);
-      graph.addPlugins(filterLensPlugin);
-    }
-  });
-  configScaleRBy.addEventListener('change', (e) => {
-    filterLensPlugin.updateParams({ scaleRBy: e.target.value });
-  });
+  // swithButton.addEventListener('click', (e) => {
+  //   if (swithButton.value === 'Disable') {
+  //     swithButton.value = 'Enable';
+  //     graph.removePlugins(filterLensPlugin);
+  //   } else {
+  //     swithButton.value = 'Disable';
+  //     filterLensPlugin = new Extensions.EdgeFilterLens(filterLens);
+  //     graph.addPlugins(filterLensPlugin);
+  //   }
+  // });
+  // configScaleRBy.addEventListener('change', (e) => {
+  //   filterLensPlugin.updateParams({ scaleRBy: e.target.value });
+  //   graph.updatePlugin(filterLensPlugin);
+  // });
   configTrigger.addEventListener('change', (e) => {
-    graph.removePlugin(filterLensPlugin);
-    trigger = e.target.value;
-    filterLensPlugin = new Extensions.EdgeFilterLens(filterLens);
-    graph.addPlugin(filterLensPlugin);
+    filterLens = {
+      ...filterLens,
+      trigger: e.target.value 
+    }
+    graph.updatePlugin(filterLens);
   });
 
   fetch('https://gw.alipayobjects.com/os/bmw-prod/afe8b2a6-f691-4070-aa73-46fc07fd1171.json')
@@ -187,5 +196,6 @@ export default async () => {
         };
       });
       graph.read(data);
+      graph.zoom(0.6);
     });
 } 
