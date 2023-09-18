@@ -79,8 +79,7 @@ export class ScrollCanvas extends Behavior {
   onWheel(ev: IG6GraphEvent & { deltaX?: number; deltaY?: number }) {
     if (!this.allowDrag(ev)) return;
     const graph = this.graph;
-    const { zoomKey, zoomRatio, scalableRange, direction, enableOptimize } =
-      this.options;
+    const { zoomKey, zoomRatio, enableOptimize } = this.options;
     const zoomKeys = Array.isArray(zoomKey) ? [].concat(zoomKey) : [zoomKey];
     if (zoomKeys.includes('control')) zoomKeys.push('ctrl');
     const keyDown = zoomKeys.some((ele) => ev[`${ele}Key`]);

@@ -20,6 +20,7 @@ import {
   isString,
   map,
 } from '@antv/util';
+import { createDom } from '@antv/dom-util';
 import { History } from '../stdlib/plugin/history';
 import { Command } from '../stdlib/plugin/history/command';
 import type {
@@ -67,7 +68,6 @@ import {
 } from './controller';
 import { PluginController } from './controller/plugin';
 import Hook from './hooks';
-import { createDom } from '@antv/dom-util';
 
 export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
   extends EventEmitter
@@ -2418,7 +2418,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
   protected asyncToFullDataUrl(
     type?: DataURLType,
     imageConfig?: { padding?: number | number[] },
-    callback?: Function,
+    callback?: (dataUrl: string) => void,
   ): void {
     let dataURL = '';
     if (!type) type = 'image/png';
