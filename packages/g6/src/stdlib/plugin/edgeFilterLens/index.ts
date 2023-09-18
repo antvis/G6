@@ -17,7 +17,7 @@ interface EdgeFilterLensConfig extends IPluginBaseConfig {
   scaleRBy?: 'wheel' | undefined;
   maxR?: number;
   minR?: number;
-  type?: 'one' | 'both' | 'only-source' | 'only-target';
+  showType?: 'one' | 'both' | 'only-source' | 'only-target'; // 更名，原名与plugin的type冲突
   shouldShow?: (d?: unknown) => boolean;
 }
 
@@ -33,15 +33,20 @@ export class EdgeFilterLens extends Base {
   private showNodeLabel: boolean;
   private showEdgeLabel: boolean;
   private delegate: DisplayObject;
-  private vShapes: any[];
+  private cachedTransientNodes: Set<string | number>;
+  private cachedTransientEdges: Set<string | number>;
+  private dragging: boolean;
+  private delegateCenterDiff: { x: number; y: number; };
 
   constructor(config?: EdgeFilterLensConfig) {
     super(config);
+    this.cachedTransientNodes = new Set();
+    this.cachedTransientEdges = new Set();
   }
 
   public getDefaultCfgs(): EdgeFilterLensConfig {
     return {
-      type: 'both',
+      showType: 'both',
       trigger: 'mousemove',
       r: 60,
       delegateStyle: clone(lensDelegateStyle),
@@ -51,20 +56,28 @@ export class EdgeFilterLens extends Base {
   }
 
   public getEvents() {
-    let events;
+    let events = {
+      pointerdown: this.onPointerDown,
+      pointerup: this.onPointerUp,
+    } as {
+      [key: string]: any;
+    };
     switch (this.options.trigger) {
       case 'click':
         events = {
+          ...events,
           click: this.filter,
         };
         break;
       case 'drag':
         events = {
-          click: this.createDelegate,
+          ...events,
+          pointermove: this.onPointerMove,
         };
         break;
       default:
         events = {
+          ...events,
           pointermove: this.filter,
         };
         break;
@@ -83,29 +96,41 @@ export class EdgeFilterLens extends Base {
     if (!shouldShow) this.options.shouldShow = () => true;
   }
 
-  // Create the delegate when the trigger is drag
-  protected createDelegate(e: IG6GraphEvent) {
-    const self = this;
-    let lensDelegate = self.delegate;
+  protected onPointerUp(e: IG6GraphEvent) {
+    this.dragging = false;
+  }
+
+  protected onPointerMove(e: IG6GraphEvent) {
+    if (!this.dragging) return;
+    this.moveDelegate(e);
+  }
+
+  protected onPointerDown(e: IG6GraphEvent) {
+    const { delegate: lensDelegate } = this;
+    let cacheCenter;
     if (!lensDelegate || lensDelegate.destroyed) {
-      self.filter(e);
-      lensDelegate = self.delegate;
+      cacheCenter = { x: e.canvas.x, y: e.canvas.y };
+      this.filter(e);
+    } else {
+      cacheCenter = {
+        x: lensDelegate.attr('cx'),
+        y: lensDelegate.attr('cy'),
+      };
+    }
+    this.delegateCenterDiff = {
+      x: e.canvas.x - cacheCenter.x,
+      y: e.canvas.y - cacheCenter.y,
+    };
+    this.dragging = true;
+  }
 
-      // drag to move the lens
-      lensDelegate.on('dragstart', (evt) => { });
-      lensDelegate.on('drag', (evt) => {
-        self.filter(evt);
-      });
-
-      // 绑定调整范围（r）
-      // 由于 drag 用于改变 lens 位置，因此在此模式下，drag 不能用于调整 r
-
-      // scaling r
-      if (this.options.scaleRBy === 'wheel') {
-        lensDelegate.on('mousewheel', (evt) => {
-          self.scaleRByWheel(evt);
-        });
-      }
+  protected moveDelegate(e) {
+    if (this.dragging) {
+      const center = {
+        x: e.canvas.x - this.delegateCenterDiff.x,
+        y: e.canvas.y - this.delegateCenterDiff.y,
+      };
+      this.filter(e, center);
     }
   }
 
@@ -126,7 +151,6 @@ export class EdgeFilterLens extends Base {
         y: lensDelegate.attr('y'),
       }
       : undefined;
-    // TODO: unused code
     const mousePos = lensCenter || graph.getPointByClient(e.clientX, e.clientY);
     if ((e.originalEvent as any).wheelDelta < 0) {
       ratio = 1 - DELTA;
@@ -137,7 +161,7 @@ export class EdgeFilterLens extends Base {
     const minR = self.options.minR;
     let r = self.options.r;
     const graphCanvasEl = graph.canvas.context.config.canvas;
-    const graphHeight = graphCanvasEl?.scrollHeight
+    const graphHeight = graphCanvasEl?.scrollHeight;
     if (
       (r > (maxR || graphHeight) && ratio > 1) ||
       (r < (minR || graphHeight * 0.05) && ratio < 1)
@@ -146,20 +170,21 @@ export class EdgeFilterLens extends Base {
     }
     r *= ratio;
     this.options.r = r;
-    self.filter(e);
+    self.filter(e, mousePos);
   }
 
   /**
    * Response function for mousemove, click, or drag to filter out the edges
    * @param e mouse event
    */
-  protected filter(e: IG6GraphEvent) {
-    const { graph, options, delegate, showNodeLabel, showEdgeLabel } = this;
+  protected filter(e: IG6GraphEvent, mousePos?) {
+    this.restoreCache();
+    const { graph, options, showNodeLabel, showEdgeLabel, cachedTransientNodes, cachedTransientEdges } = this;
     const nodes = graph.getAllNodesData();
     const hitNodesMap = {};
     const r = options.r;
-    const type = options.type;
-    const fCenter = { x: e.canvas.x, y: e.canvas.y }
+    const showType = options.showType;
+    const fCenter = mousePos || { x: e.canvas.x, y: e.canvas.y };
     this.updateDelegate(fCenter, r);
     const shouldShow = options.shouldShow;
 
@@ -175,11 +200,11 @@ export class EdgeFilterLens extends Base {
       const sourceId = edge.source;
       const targetId = edge.target;
       if (shouldShow(edge)) {
-        if (type === 'only-source' || type === 'one') {
+        if (showType === 'only-source' || showType === 'one') {
           if (hitNodesMap[sourceId] && !hitNodesMap[targetId]) hitEdges.push(edge);
-        } else if (type === 'only-target' || type === 'one') {
+        } else if (showType === 'only-target' || showType === 'one') {
           if (hitNodesMap[targetId] && !hitNodesMap[sourceId]) hitEdges.push(edge);
-        } else if (type === 'both' && hitNodesMap[sourceId] && hitNodesMap[targetId]) {
+        } else if (showType === 'both' && hitNodesMap[sourceId] && hitNodesMap[targetId]) {
           hitEdges.push(edge);
         }
       }
@@ -189,23 +214,41 @@ export class EdgeFilterLens extends Base {
       Object.keys(hitNodesMap).forEach((key) => {
         const node = hitNodesMap[key];
         graph.drawTransient('node', node.id, { shapeIds: ['labelShape'] });
+        cachedTransientNodes.add(node.id);
       });
     }
 
     if (showEdgeLabel) {
-      graph.hideItem(hitEdges.map((e) => e.id));
       hitEdges.forEach((edge) => {
         graph.drawTransient('edge', edge.id, {
-          shapeIds: ['labelShape'], 
+          shapeIds: ['labelShape'],
           drawSource: false,
           drawTarget: false,
         });
+        cachedTransientEdges.add(edge.id);
       });
     }
   }
 
+  protected restoreCache() {
+    const { graph, cachedTransientNodes, cachedTransientEdges } = this;
+    cachedTransientNodes.forEach((id) => {
+      graph.drawTransient('node', id, { shapeIds: ['labelShape'], visible: false });
+    });
+    cachedTransientEdges.forEach((id) => {
+      graph.drawTransient('edge', id, {
+        shapeIds: ['labelShape'],
+        drawSource: false,
+        drawTarget: false,
+        visible: false
+      });
+    });
+    cachedTransientNodes.clear();
+    cachedTransientEdges.clear();
+  }
+
   /**
-   * Adjust part of the parameters, including trigger, type, r, maxR, minR, shouldShow, showLabel, and scaleRBy
+   * Adjust part of the parameters, including trigger, showType, r, maxR, minR, shouldShow, showLabel, and scaleRBy
    * @param {EdgeFilterLensConfig} cfg
    */
   public updateParams(cfg: EdgeFilterLensConfig) {
@@ -220,7 +263,7 @@ export class EdgeFilterLens extends Base {
     if (!isNaN(minR)) {
       self.options.minR = minR;
     }
-    if (trigger === 'mousemove' || trigger === 'click') {
+    if (trigger === 'mousemove' || trigger === 'click' || trigger === 'drag') {
       self.options.trigger = trigger;
     }
     if (scaleRBy === 'wheel' || scaleRBy === 'unset') {
@@ -285,21 +328,19 @@ export class EdgeFilterLens extends Base {
    * Clear the filtering
    */
   public clear() {
-    const self = this;
-    let vShapes = self.vShapes;
-    if (vShapes) {
-      vShapes.forEach((shape) => {
-        shape.remove();
-        shape.destroy();
-      });
-    }
-    vShapes = [];
-    self.vShapes = vShapes;
-    const lensDelegate = self.delegate;
+    const { graph, delegate: lensDelegate, cachedTransientNodes, cachedTransientEdges } = this;
+    cachedTransientNodes.clear();
+    cachedTransientEdges.clear();
+
     if (lensDelegate && !lensDelegate.destroyed) {
-      lensDelegate.remove();
-      lensDelegate.destroy();
+      graph.drawTransient('circle', 'lens-shape', { action: 'remove' });
     }
+    cachedTransientNodes.forEach((id) => {
+      graph.drawTransient('node', id, { action: 'remove' });
+    });
+    cachedTransientEdges.forEach((id) => {
+      graph.drawTransient('edge', id, { action: 'remove' });
+    });
   }
 
   /**
