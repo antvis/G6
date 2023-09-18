@@ -1126,11 +1126,17 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
   public removeData(itemType: ITEM_TYPE, ids: ID | ID[]) {
     const idArr = isArray(ids) ? ids : [ids];
     const data = { nodes: [], edges: [], combos: [] };
-    const { userGraphCore, graphCore } = this.dataController;
+    const { graphCore } = this.dataController;
     const { specification } = this.themeController;
-    const getItem =
-      itemType === 'edge' ? userGraphCore.getEdge : userGraphCore.getNode;
-    data[`${itemType}s`] = idArr.map((id) => getItem.bind(userGraphCore)(id));
+    const getItem = itemType === 'edge' ? graphCore.getEdge : graphCore.getNode;
+    const hasItem = itemType === 'edge' ? graphCore.hasEdge : graphCore.hasNode;
+    data[`${itemType}s`] = idArr.map((id) => {
+      if (!hasItem.bind(graphCore)(id)) {
+        console.warn(`The ${itemType} data with id ${id} does not exist. It will be ignored`);
+        return;
+      }
+      return getItem.bind(graphCore)(id);
+    }).filter(Boolean);
     graphCore.once('changed', (event) => {
       if (!event.changes.length) return;
       const changes = event.changes;

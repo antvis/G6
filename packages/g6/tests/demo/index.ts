@@ -64,6 +64,8 @@ import legend from './plugins/legend';
 import snapline from './plugins/snapline';
 import mapper from './visual/mapper';
 import minimap from './plugins/minimap';
+import graphCore from './data/graphCore';
+import dagreUpdate from './layouts/dagre-update';
 
 export { default as timebar_time } from './plugins/timebar-time';
 export { default as timebar_chart } from './plugins/timebar-chart';
@@ -134,4 +136,6 @@ export {
   hull,
   legend,
   snapline,
+  graphCore,
+  dagreUpdate,
 };
