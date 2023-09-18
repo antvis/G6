@@ -259,12 +259,12 @@ export class ScrollCanvas extends Behavior {
           return;
         }
         const section = sections.shift();
+        graph.startHistoryBatch();
         graph.hideItem(section, false, true);
+        graph.stopHistoryBatch();
         requestId = requestAnimationFrame(update);
       };
-      graph.startHistoryBatch();
       requestId = requestAnimationFrame(update);
-      graph.stopHistoryBatch();
 
       if (currentZoom < optimizeZoom) {
         this.hiddenNodeIds.push(...newHiddenNodeIds);
@@ -309,12 +309,12 @@ export class ScrollCanvas extends Behavior {
         cancelAnimationFrame(requestId);
         return;
       }
-      graph.showItem(sections.shift(), false);
+      graph.executeWithNoStack(() => {
+        graph.showItem(sections.shift(), false);
+      });
       requestId = requestAnimationFrame(update);
     };
-    graph.executeWithNoStack(() => {
-      requestId = requestAnimationFrame(update);
-    });
+    requestId = requestAnimationFrame(update);
 
     this.hiddenEdgeIds = this.hiddenNodeIds = [];
   }
