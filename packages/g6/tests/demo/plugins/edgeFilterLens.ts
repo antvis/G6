@@ -82,8 +82,8 @@ export default async () => {
   scaleRByWheel.innerHTML = 'wheel';
   configScaleRBy.appendChild(scaleRByWheel);
   const scaleRByUnset = document.createElement('option');
-  scaleRByUnset.value = undefined;
-  scaleRByUnset.innerHTML = 'undefined';
+  scaleRByUnset.value = 'unset';
+  scaleRByUnset.innerHTML = 'unset';
   configScaleRBy.appendChild(scaleRByUnset);
   buttonContainer.appendChild(configScaleRBy);
 
@@ -164,24 +164,26 @@ export default async () => {
     },
   });
 
-  // swithButton.addEventListener('click', (e) => {
-  //   if (swithButton.value === 'Disable') {
-  //     swithButton.value = 'Enable';
-  //     graph.removePlugins(filterLensPlugin);
-  //   } else {
-  //     swithButton.value = 'Disable';
-  //     filterLensPlugin = new Extensions.EdgeFilterLens(filterLens);
-  //     graph.addPlugins(filterLensPlugin);
-  //   }
-  // });
-  // configScaleRBy.addEventListener('change', (e) => {
-  //   filterLensPlugin.updateParams({ scaleRBy: e.target.value });
-  //   graph.updatePlugin(filterLensPlugin);
-  // });
+  swithButton.addEventListener('click', (e) => {
+    if (swithButton.value === 'Disable') {
+      swithButton.value = 'Enable';
+      graph.removePlugins(['filterLens1']);
+    } else {
+      swithButton.value = 'Disable';
+      graph.addPlugins([filterLens]);
+    }
+  });
+  configScaleRBy.addEventListener('change', (e) => {
+    filterLens = {
+      ...filterLens,
+      scaleRBy: e.target.value
+    }
+    graph.updatePlugin(filterLens);
+  });
   configTrigger.addEventListener('change', (e) => {
     filterLens = {
       ...filterLens,
-      trigger: e.target.value 
+      trigger: e.target.value
     }
     graph.updatePlugin(filterLens);
   });
@@ -195,6 +197,7 @@ export default async () => {
           label: 'a'
         };
       });
+
       graph.read(data);
       graph.zoom(0.6);
     });
