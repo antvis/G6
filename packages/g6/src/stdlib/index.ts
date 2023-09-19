@@ -62,6 +62,7 @@ const {
   DragCombo,
   ClickSelect,
   ShortcutsCall,
+  ScrollCanvas,
 } = Behaviors;
 const {
   History,
@@ -125,6 +126,7 @@ const stdLib = {
     'collapse-expand-combo': CollapseExpandCombo,
     'collapse-expand-tree': CollapseExpandTree,
     'click-select': ClickSelect,
+    'scroll-canvas': ScrollCanvas,
   },
   plugins: {
     history: History,

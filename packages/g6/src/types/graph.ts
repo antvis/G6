@@ -14,7 +14,7 @@ import { ITEM_TYPE, SHAPE_TYPE, ShapeStyle } from './item';
 import { LayoutOptions } from './layout';
 import { NodeModel, NodeUserModel } from './node';
 import { RendererName } from './render';
-import { Specification } from './spec';
+import { ComboMapper, EdgeMapper, NodeMapper, Specification } from './spec';
 import { ThemeOptionsOf, ThemeRegistry } from './theme';
 import { FitViewRules, GraphTransformOptions } from './view';
 
@@ -45,6 +45,12 @@ export interface IGraph<
    * Update the theme specs (configurations).
    */
   updateTheme: (theme: ThemeOptionsOf<T>) => void;
+  /**
+   * Update the item display mapper for a specific item type.
+   * @param {ITEM_TYPE} type - The type of item (node, edge, or combo).
+   * @param {NodeMapper | EdgeMapper | ComboMapper} mapper - The mapper to be updated.
+   * */
+  updateMapper(type: ITEM_TYPE, mapper: NodeMapper | EdgeMapper | ComboMapper);
   /**
    * Get the copy of specs(configurations).
    * @returns graph specs

@@ -177,6 +177,7 @@ export class ItemController {
     this.graph.hooks.transientupdate.tap(this.onTransientUpdate.bind(this));
     this.graph.hooks.viewportchange.tap(this.onViewportChange.bind(this));
     this.graph.hooks.themechange.tap(this.onThemeChange.bind(this));
+    this.graph.hooks.mapperchange.tap(this.onMapperChange.bind(this));
     this.graph.hooks.treecollapseexpand.tap(
       this.onTreeCollapseExpand.bind(this),
     );
@@ -847,6 +848,16 @@ export class ItemController {
           lodStrategy: LodStrategyObj;
         },
       );
+    });
+  };
+
+  private onMapperChange = ({ type, mapper }) => {
+    if (!mapper) return;
+    this.itemMap.forEach((item) => {
+      const itemTye = item.getType();
+      if (itemTye !== type) return;
+      item.mapper = mapper;
+      item.update(item.model, undefined, false);
     });
   };
 

@@ -11,6 +11,7 @@ import { ThemeSpecification } from './theme';
 import { GraphTransformOptions } from './view';
 import { ComboModel } from './combo';
 import { Plugin as PluginBase } from './plugin';
+import { ComboMapper, EdgeMapper, NodeMapper } from './spec';
 
 export interface IHook<T> {
   name: string;
@@ -132,6 +133,10 @@ export interface Hooks {
       main: Canvas;
       transient: Canvas;
     };
+  }>;
+  mapperchange: IHook<{
+    type: ITEM_TYPE;
+    mapper: NodeMapper | EdgeMapper | ComboMapper;
   }>;
   treecollapseexpand: IHook<{
     ids: ID[];

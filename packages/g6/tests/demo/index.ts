@@ -4,6 +4,8 @@ import animations_node_build_in from './animations/node-build-in';
 import arrow from './item/edge/arrow';
 import behaviors_activateRelations from './behaviors/activate-relations';
 import behaviors_shortcuts_call from './behaviors/shortcuts-call';
+import behaviors_dragCanvas from './behaviors/drag-canvas';
+import behaviors_scrollCanvas from './behaviors/scroll-canvas';
 import behaviors_brush_select from './behaviors/brush-select';
 import behaviors_click_select from './behaviors/click-select';
 import behaviors_collapse_expand_tree from './behaviors/collapse-expand-tree';
@@ -60,15 +62,21 @@ import hull from './plugins/hull';
 import legend from './plugins/legend';
 import snapline from './plugins/snapline';
 import edgeFilterLens from './plugins/edgeFilterLens';
+import mapper from './visual/mapper';
+import minimap from './plugins/minimap';
 
 export { default as timebar_time } from './plugins/timebar-time';
 export { default as timebar_chart } from './plugins/timebar-chart';
 
 export {
+  minimap,
+  mapper,
   anchor,
   animations_node_build_in,
   arrow,
   behaviors_activateRelations,
+  behaviors_dragCanvas,
+  behaviors_scrollCanvas,
   behaviors_shortcuts_call,
   behaviors_brush_select,
   behaviors_click_select,
