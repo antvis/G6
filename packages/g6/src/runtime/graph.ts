@@ -1,5 +1,12 @@
 import EventEmitter from '@antv/event-emitter';
-import { AABB, Canvas, DataURLType, DisplayObject, PointLike, Rect } from '@antv/g';
+import {
+  AABB,
+  Canvas,
+  DataURLType,
+  DisplayObject,
+  PointLike,
+  Rect,
+} from '@antv/g';
 import { GraphChange, ID } from '@antv/graphlib';
 import {
   clone,
@@ -48,6 +55,7 @@ import { FitViewRules, GraphTransformOptions } from '../types/view';
 import { changeRenderer, createCanvas } from '../util/canvas';
 import { formatPadding } from '../util/shape';
 import { Plugin as PluginBase } from '../types/plugin';
+import { ComboMapper, EdgeMapper, NodeMapper } from '../types/spec';
 import {
   DataController,
   ExtensionController,
@@ -350,7 +358,11 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
           main: Canvas;
           transient: Canvas;
         };
-      }>({ name: 'init' }),
+      }>({ name: 'themechange' }),
+      mapperchange: new Hook<{
+        type: ITEM_TYPE;
+        mapper: NodeMapper | EdgeMapper | ComboMapper;
+      }>({ name: 'mapperchange' }),
       treecollapseexpand: new Hook<{
         ids: ID[];
         animate: boolean;
@@ -402,6 +414,32 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     // theme is formatted by themeController, notify the item controller to update the items
     this.hooks.themechange.emit({
       theme: this.themeController.specification,
+    });
+  }
+
+  /**
+   * Update the item display mapper for a specific item type.
+   * @param {ITEM_TYPE} type - The type of item (node, edge, or combo).
+   * @param {NodeMapper | EdgeMapper | ComboMapper} mapper - The mapper to be updated.
+   * */
+  public updateMapper(
+    type: ITEM_TYPE,
+    mapper: NodeMapper | EdgeMapper | ComboMapper,
+  ) {
+    switch (type) {
+      case 'node':
+        this.specification.node = mapper as NodeMapper;
+        break;
+      case 'edge':
+        this.specification.edge = mapper as EdgeMapper;
+        break;
+      case 'combo':
+        this.specification.combo = mapper as ComboMapper;
+        break;
+    }
+    this.hooks.mapperchange.emit({
+      type,
+      mapper,
     });
   }
 
@@ -1047,19 +1085,21 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     graphCore.once('changed', (event) => {
       if (!event.changes.length) return;
       const changes = event.changes;
+      const timingParameters = {
+        type: itemType,
+        action: 'add',
+        models,
+        apiName: 'addData',
+        changes,
+      };
+      this.emit('beforeitemchange', timingParameters);
       this.hooks.itemchange.emit({
         type: itemType,
         changes: graphCore.reduceChanges(event.changes),
         graphCore,
         theme: specification,
       });
-      this.emit('afteritemchange', {
-        type: itemType,
-        action: 'add',
-        models,
-        apiName: 'addData',
-        changes,
-      });
+      this.emit('afteritemchange', timingParameters);
     });
 
     const modelArr = isArray(models) ? models : [models];
@@ -1092,19 +1132,21 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     graphCore.once('changed', (event) => {
       if (!event.changes.length) return;
       const changes = event.changes;
+      const timingParameters = {
+        type: itemType,
+        action: 'remove',
+        ids: idArr,
+        apiName: 'removeData',
+        changes,
+      };
+      this.emit('beforeitemchange', timingParameters);
       this.hooks.itemchange.emit({
         type: itemType,
         changes: event.changes,
         graphCore,
         theme: specification,
       });
-      this.emit('afteritemchange', {
-        type: itemType,
-        action: 'remove',
-        ids: idArr,
-        apiName: 'removeData',
-        changes,
-      });
+      this.emit('afteritemchange', timingParameters);
     });
     this.hooks.datachange.emit({
       data,
@@ -1197,19 +1239,21 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     const { specification } = this.themeController;
     graphCore.once('changed', (event) => {
       const changes = this.extendChanges(clone(event.changes));
+      const timingParameters = {
+        type: itemType,
+        action: 'update',
+        models,
+        apiName: 'updateData',
+        changes,
+      };
+      this.emit('beforeitemchange', timingParameters);
       this.hooks.itemchange.emit({
         type: itemType,
         changes: event.changes,
         graphCore,
         theme: specification,
       });
-      this.emit('afteritemchange', {
-        type: itemType,
-        action: 'update',
-        models,
-        apiName: 'updateData',
-        changes,
-      });
+      this.emit('afteritemchange', timingParameters);
     });
 
     this.hooks.datachange.emit({
@@ -1318,6 +1362,15 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       const changes = event.changes.filter(
         (change) => !isEqual(change.newValue, change.oldValue),
       );
+      const timingParameters = {
+        type,
+        action: 'updatePosition',
+        upsertAncestors,
+        models,
+        apiName: 'updatePosition',
+        changes,
+      };
+      this.emit('beforeitemchange', timingParameters);
       this.hooks.itemchange.emit({
         type,
         changes: event.changes,
@@ -1328,14 +1381,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
         animate: !disableAnimate,
         callback,
       });
-      this.emit('afteritemchange', {
-        type,
-        action: 'updatePosition',
-        upsertAncestors,
-        models,
-        apiName: 'updatePosition',
-        changes,
-      });
+      this.emit('afteritemchange', timingParameters);
     });
 
     this.hooks.datachange.emit({
@@ -1610,19 +1656,21 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     graphCore.once('changed', (event) => {
       if (!event.changes.length) return;
       const changes = event.changes;
+      const timingParameters = {
+        type: 'combo',
+        action: 'add',
+        models: [model],
+        apiName: 'addCombo',
+        changes,
+      };
+      this.emit('beforeitemchange', timingParameters);
       this.hooks.itemchange.emit({
         type: 'combo',
         changes: graphCore.reduceChanges(event.changes),
         graphCore,
         theme: specification,
       });
-      this.emit('afteritemchange', {
-        type: 'combo',
-        action: 'add',
-        models: [model],
-        apiName: 'addCombo',
-        changes,
-      });
+      this.emit('afteritemchange', timingParameters);
     });
 
     const data = {
@@ -1708,6 +1756,17 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     graphCore.once('changed', (event) => {
       if (!event.changes.length) return;
       const changes = this.extendChanges(clone(event.changes));
+      const timingParameters = {
+        type: 'combo',
+        ids: idArr,
+        dx,
+        dy,
+        action: 'updatePosition',
+        upsertAncestors,
+        apiName: 'moveCombo',
+        changes,
+      };
+      this.emit('beforeitemchange', timingParameters);
       this.hooks.itemchange.emit({
         type: 'combo',
         changes: event.changes,
@@ -1717,16 +1776,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
         action: 'updatePosition',
         callback,
       });
-      this.emit('afteritemchange', {
-        type: 'combo',
-        ids: idArr,
-        dx,
-        dy,
-        action: 'updatePosition',
-        upsertAncestors,
-        apiName: 'moveCombo',
-        changes,
-      });
+      this.emit('afteritemchange', timingParameters);
     });
 
     this.hooks.datachange.emit({
@@ -2074,8 +2124,8 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
 
     const pixelRatio =
       typeof window !== 'undefined' ? window.devicePixelRatio : 1;
-    let width = this.getSize()[0];
-    let height = this.getSize()[1];
+    const width = this.getSize()[0];
+    const height = this.getSize()[1];
 
     const vContainerDOM: HTMLDivElement = createDom(
       '<div id="virtual-image"></div>',
@@ -2105,9 +2155,9 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       });
       vCanvas.appendChild(bgRect);
     }
-    let backgroundClonedGroup = backgroundCanvas.getRoot().cloneNode(true);
-    let clonedGroup = canvas.getRoot().cloneNode(true);
-    let transientClonedGroup = transientCanvas.getRoot().cloneNode(true);
+    const backgroundClonedGroup = backgroundCanvas.getRoot().cloneNode(true);
+    const clonedGroup = canvas.getRoot().cloneNode(true);
+    const transientClonedGroup = transientCanvas.getRoot().cloneNode(true);
     vCanvas.appendChild(backgroundClonedGroup);
     vCanvas.appendChild(clonedGroup);
     vCanvas.appendChild(transientClonedGroup);
@@ -2151,32 +2201,35 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       padding = [padding, padding, padding, padding];
     }
 
-    const left = (transientBBox.left
-      ? backgroundBBox.left
-        ? Math.min(backgroundBBox.left, BBox.left, transientBBox.left)
-        : Math.min(BBox.left, transientBBox.left)
-      : BBox.left)-padding[3];
-    const right = (transientBBox.right
-    ? backgroundBBox.right
-      ? Math.max(backgroundBBox.right, BBox.right, transientBBox.right)
-      : Math.max(BBox.right, transientBBox.right)
-    : BBox.right)+padding[1];
-    const top = (transientBBox.top
-    ? backgroundBBox.top
-      ? Math.min(backgroundBBox.top, BBox.top, transientBBox.top)
-      : Math.min(BBox.top, transientBBox.top)
-    : BBox.top)-padding[0];
-    const bottom = (transientBBox.bottom
-    ? backgroundBBox.bottom
-      ? Math.max(backgroundBBox.bottom, BBox.bottom, transientBBox.bottom)
-      : Math.max(BBox.bottom, transientBBox.bottom)
-    : BBox.bottom)+padding[2];
+    const left =
+      (transientBBox.left
+        ? backgroundBBox.left
+          ? Math.min(backgroundBBox.left, BBox.left, transientBBox.left)
+          : Math.min(BBox.left, transientBBox.left)
+        : BBox.left) - padding[3];
+    const right =
+      (transientBBox.right
+        ? backgroundBBox.right
+          ? Math.max(backgroundBBox.right, BBox.right, transientBBox.right)
+          : Math.max(BBox.right, transientBBox.right)
+        : BBox.right) + padding[1];
+    const top =
+      (transientBBox.top
+        ? backgroundBBox.top
+          ? Math.min(backgroundBBox.top, BBox.top, transientBBox.top)
+          : Math.min(BBox.top, transientBBox.top)
+        : BBox.top) - padding[0];
+    const bottom =
+      (transientBBox.bottom
+        ? backgroundBBox.bottom
+          ? Math.max(backgroundBBox.bottom, BBox.bottom, transientBBox.bottom)
+          : Math.max(BBox.bottom, transientBBox.bottom)
+        : BBox.bottom) + padding[2];
 
     const graphCenterX = (left + right) / 2;
     const graphCenterY = (top + bottom) / 2;
     const halfX = (right - left) / 2;
     const halfY = (bottom - top) / 2;
-
 
     const pixelRatio =
       typeof window !== 'undefined' ? window.devicePixelRatio : 1;
@@ -2209,10 +2262,10 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       });
       vCanvas.appendChild(bgRect);
     }
-    let backgroundClonedGroup = backgroundRoot.cloneNode(true);
-    let clonedGroup = root.cloneNode(true);
-    let transientClonedGroup = transientRoot.cloneNode(true);
-    let transPosition: [number, number] = [
+    const backgroundClonedGroup = backgroundRoot.cloneNode(true);
+    const clonedGroup = root.cloneNode(true);
+    const transientClonedGroup = transientRoot.cloneNode(true);
+    const transPosition: [number, number] = [
       -graphCenterX + halfX,
       -graphCenterY + halfY,
     ];
@@ -2316,9 +2369,13 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * @param type The type of the image to download (optional, defaults to 'image/png').
    * @param imageConfig Configuration options for the image (optional).
    */
-  public downloadFullImage(name?: string, type?: DataURLType, imageConfig?: { padding?: number | number[] }): void {
+  public downloadFullImage(
+    name?: string,
+    type?: DataURLType,
+    imageConfig?: { padding?: number | number[] },
+  ): void {
     const self = this;
-    
+
     const rendererType = this.rendererType;
     if (!type) type = 'image/png';
     const fileName: string =
@@ -2352,13 +2409,17 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
   }
 
   /**
-   * Asynchronously converts the entire canvas content to a Data URL of the specified type 
+   * Asynchronously converts the entire canvas content to a Data URL of the specified type
    * with optional padding, and invokes the provided callback.
    * @param type The type of the Data URL (optional, defaults to 'image/png').
    * @param imageConfig Configuration options for the image (optional).
    * @param callback A callback function to handle the Data URL (optional).
    */
-  protected asyncToFullDataUrl(type?: DataURLType, imageConfig?: { padding?: number | number[] }, callback?: Function): void {
+  protected asyncToFullDataUrl(
+    type?: DataURLType,
+    imageConfig?: { padding?: number | number[] },
+    callback?: Function,
+  ): void {
     let dataURL = '';
     if (!type) type = 'image/png';
 
