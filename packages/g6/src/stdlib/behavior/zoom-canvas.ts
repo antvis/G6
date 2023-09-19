@@ -152,18 +152,10 @@ export class ZoomCanvas extends Behavior {
         const section = sections.shift();
         graph.startHistoryBatch();
         graph.hideItem(section, false, true);
-<<<<<<< HEAD
         graph.stopHistoryBatch();
-        requestId = requestAnimationFrame(update);
-      };
-      requestId = requestAnimationFrame(update);
-=======
         this.tileRequestId = requestAnimationFrame(update);
       };
-      graph.startHistoryBatch();
       this.tileRequestId = requestAnimationFrame(update);
-      graph.stopHistoryBatch();
->>>>>>> 1f9ef72a9b (fix: edge update problem; fix: autoFit at first render and layout;)
     }
   }
 
@@ -199,21 +191,12 @@ export class ZoomCanvas extends Behavior {
             this.tileRequestId = undefined;
             return;
           }
-<<<<<<< HEAD
           graph.executeWithNoStack(() => {
             graph.showItem(sections.shift(), false);
           });
-          requestId = requestAnimationFrame(update);
-        };
-        requestId = requestAnimationFrame(update);
-=======
-          graph.showItem(sections.shift(), false);
           this.tileRequestId = requestAnimationFrame(update);
         };
-        graph.executeWithNoStack(() => {
-          this.tileRequestId = requestAnimationFrame(update);
-        });
->>>>>>> 1f9ef72a9b (fix: edge update problem; fix: autoFit at first render and layout;)
+        this.tileRequestId = requestAnimationFrame(update);
       }
     }
     this.hiddenEdgeIds = [];
