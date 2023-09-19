@@ -484,20 +484,26 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
           if (autoFit === 'view') {
             await this.fitView({ rules: { boundsType: 'layout' } });
           } else if (autoFit === 'center') {
-            await this.fitCenter();
+            await this.fitCenter('layout');
           } else {
-            const { type, effectTiming, padding, rules } = autoFit;
+            const { type, effectTiming, ...others } = autoFit;
             if (type === 'view') {
-              const fitParams = {
-                padding,
-                rules: {
-                  ...rules,
-                  boundsType: 'layout',
-                },
+              const { padding, rules } = others as {
+                padding: Padding;
+                rules: FitViewRules;
               };
-              await this.fitView(fitParams, effectTiming);
+              await this.fitView(
+                {
+                  padding,
+                  rules: {
+                    ...rules,
+                    boundsType: 'layout',
+                  },
+                },
+                effectTiming,
+              );
             } else if (type === 'center') {
-              await this.fitCenter(effectTiming);
+              await this.fitCenter('layout', effectTiming);
             } else if (type === 'position') {
               // TODO: align
               await this.translateTo((others as any).position, effectTiming);
@@ -738,16 +744,15 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       boundsType = 'render',
     } = rules || {};
 
-    const bounds =
+    const {
+      center: [graphCenterX, graphCenterY],
+      halfExtents,
+    } =
       boundsType === 'render'
         ? // Get the bounds of the whole graph content.
           this.canvas.document.documentElement.getBounds()
         : // Get the bounds of the nodes positions while the graph content is not ready.
           getLayoutBounds(this);
-    const {
-      center: [graphCenterX, graphCenterY],
-      halfExtents,
-    } = bounds;
     const origin = this.canvas.canvas2Viewport({
       x: graphCenterX,
       y: graphCenterY,
@@ -798,11 +803,18 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * Fit the graph center to the view center.
    * @param effectTiming animation configurations
    */
-  public async fitCenter(effectTiming?: CameraAnimationOptions) {
-    // Get the bounds of the whole graph.
+  public async fitCenter(
+    boundsType: 'render' | 'layout' = 'render',
+    effectTiming?: CameraAnimationOptions,
+  ) {
     const {
       center: [graphCenterX, graphCenterY],
-    } = this.canvas.document.documentElement.getBounds();
+    } =
+      boundsType === 'render'
+        ? // Get the bounds of the whole graph content.
+          this.canvas.document.documentElement.getBounds()
+        : // Get the bounds of the nodes positions while the graph content is not ready.
+          getLayoutBounds(this);
     await this.translateTo(
       this.canvas.canvas2Viewport({ x: graphCenterX, y: graphCenterY }),
       effectTiming,

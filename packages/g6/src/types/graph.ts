@@ -406,7 +406,10 @@ export interface IGraph<
    * @returns
    * @group View
    */
-  fitCenter: (effectTiming?: CameraAnimationOptions) => Promise<void>;
+  fitCenter: (
+    boundsType?: 'render' | 'layout',
+    effectTiming?: CameraAnimationOptions,
+  ) => Promise<void>;
   /**
    * Move the graph to make the item align the view center.
    * @param item node/edge/combo item or its id
