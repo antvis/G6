@@ -146,12 +146,12 @@ export class ZoomCanvas extends Behavior {
           return;
         }
         const section = sections.shift();
+        graph.startHistoryBatch();
         graph.hideItem(section, false, true);
+        graph.stopHistoryBatch();
         requestId = requestAnimationFrame(update);
       };
-      graph.startHistoryBatch();
       requestId = requestAnimationFrame(update);
-      graph.stopHistoryBatch();
     }
   }
 
@@ -180,12 +180,12 @@ export class ZoomCanvas extends Behavior {
             cancelAnimationFrame(requestId);
             return;
           }
-          graph.showItem(sections.shift(), false);
+          graph.executeWithNoStack(() => {
+            graph.showItem(sections.shift(), false);
+          });
           requestId = requestAnimationFrame(update);
         };
-        graph.executeWithNoStack(() => {
-          requestId = requestAnimationFrame(update);
-        });
+        requestId = requestAnimationFrame(update);
       }
     }
     this.hiddenEdgeIds = [];

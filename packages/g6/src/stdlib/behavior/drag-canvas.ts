@@ -165,12 +165,12 @@ export class DragCanvas extends Behavior {
           return;
         }
         const section = sections.shift();
-        graph.hideItem(section, false, true);
+        graph.executeWithNoStack(() => {
+          graph.hideItem(section, false, true);
+        });
         requestId = requestAnimationFrame(update);
       };
-      graph.executeWithNoStack(() => {
-        requestId = requestAnimationFrame(update);
-      });
+      requestId = requestAnimationFrame(update);
     }
   }
 
@@ -285,12 +285,12 @@ export class DragCanvas extends Behavior {
             cancelAnimationFrame(requestId);
             return;
           }
+          graph.startHistoryBatch();
           graph.showItem(sections.shift(), false);
+          graph.stopHistoryBatch();
           requestId = requestAnimationFrame(update);
         };
-        graph.startHistoryBatch();
         requestId = requestAnimationFrame(update);
-        graph.stopHistoryBatch();
       }
     }
   }
