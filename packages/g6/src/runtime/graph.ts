@@ -55,6 +55,7 @@ import { FitViewRules, GraphTransformOptions } from '../types/view';
 import { changeRenderer, createCanvas } from '../util/canvas';
 import { formatPadding } from '../util/shape';
 import { Plugin as PluginBase } from '../types/plugin';
+import { ComboMapper, EdgeMapper, NodeMapper } from '../types/spec';
 import {
   DataController,
   ExtensionController,
@@ -357,7 +358,11 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
           main: Canvas;
           transient: Canvas;
         };
-      }>({ name: 'init' }),
+      }>({ name: 'themechange' }),
+      mapperchange: new Hook<{
+        type: ITEM_TYPE;
+        mapper: NodeMapper | EdgeMapper | ComboMapper;
+      }>({ name: 'mapperchange' }),
       treecollapseexpand: new Hook<{
         ids: ID[];
         animate: boolean;
@@ -409,6 +414,32 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     // theme is formatted by themeController, notify the item controller to update the items
     this.hooks.themechange.emit({
       theme: this.themeController.specification,
+    });
+  }
+
+  /**
+   * Update the item display mapper for a specific item type.
+   * @param {ITEM_TYPE} type - The type of item (node, edge, or combo).
+   * @param {NodeMapper | EdgeMapper | ComboMapper} mapper - The mapper to be updated.
+   * */
+  public updateMapper(
+    type: ITEM_TYPE,
+    mapper: NodeMapper | EdgeMapper | ComboMapper,
+  ) {
+    switch (type) {
+      case 'node':
+        this.specification.node = mapper as NodeMapper;
+        break;
+      case 'edge':
+        this.specification.edge = mapper as EdgeMapper;
+        break;
+      case 'combo':
+        this.specification.combo = mapper as ComboMapper;
+        break;
+    }
+    this.hooks.mapperchange.emit({
+      type,
+      mapper,
     });
   }
 
@@ -1054,19 +1085,21 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     graphCore.once('changed', (event) => {
       if (!event.changes.length) return;
       const changes = event.changes;
+      const timingParameters = {
+        type: itemType,
+        action: 'add',
+        models,
+        apiName: 'addData',
+        changes,
+      };
+      this.emit('beforeitemchange', timingParameters);
       this.hooks.itemchange.emit({
         type: itemType,
         changes: graphCore.reduceChanges(event.changes),
         graphCore,
         theme: specification,
       });
-      this.emit('afteritemchange', {
-        type: itemType,
-        action: 'add',
-        models,
-        apiName: 'addData',
-        changes,
-      });
+      this.emit('afteritemchange', timingParameters);
     });
 
     const modelArr = isArray(models) ? models : [models];
@@ -1099,19 +1132,21 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     graphCore.once('changed', (event) => {
       if (!event.changes.length) return;
       const changes = event.changes;
+      const timingParameters = {
+        type: itemType,
+        action: 'remove',
+        ids: idArr,
+        apiName: 'removeData',
+        changes,
+      };
+      this.emit('beforeitemchange', timingParameters);
       this.hooks.itemchange.emit({
         type: itemType,
         changes: event.changes,
         graphCore,
         theme: specification,
       });
-      this.emit('afteritemchange', {
-        type: itemType,
-        action: 'remove',
-        ids: idArr,
-        apiName: 'removeData',
-        changes,
-      });
+      this.emit('afteritemchange', timingParameters);
     });
     this.hooks.datachange.emit({
       data,
@@ -1204,19 +1239,21 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     const { specification } = this.themeController;
     graphCore.once('changed', (event) => {
       const changes = this.extendChanges(clone(event.changes));
+      const timingParameters = {
+        type: itemType,
+        action: 'update',
+        models,
+        apiName: 'updateData',
+        changes,
+      };
+      this.emit('beforeitemchange', timingParameters);
       this.hooks.itemchange.emit({
         type: itemType,
         changes: event.changes,
         graphCore,
         theme: specification,
       });
-      this.emit('afteritemchange', {
-        type: itemType,
-        action: 'update',
-        models,
-        apiName: 'updateData',
-        changes,
-      });
+      this.emit('afteritemchange', timingParameters);
     });
 
     this.hooks.datachange.emit({
@@ -1325,6 +1362,15 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       const changes = event.changes.filter(
         (change) => !isEqual(change.newValue, change.oldValue),
       );
+      const timingParameters = {
+        type,
+        action: 'updatePosition',
+        upsertAncestors,
+        models,
+        apiName: 'updatePosition',
+        changes,
+      };
+      this.emit('beforeitemchange', timingParameters);
       this.hooks.itemchange.emit({
         type,
         changes: event.changes,
@@ -1335,14 +1381,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
         animate: !disableAnimate,
         callback,
       });
-      this.emit('afteritemchange', {
-        type,
-        action: 'updatePosition',
-        upsertAncestors,
-        models,
-        apiName: 'updatePosition',
-        changes,
-      });
+      this.emit('afteritemchange', timingParameters);
     });
 
     this.hooks.datachange.emit({
@@ -1617,19 +1656,21 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     graphCore.once('changed', (event) => {
       if (!event.changes.length) return;
       const changes = event.changes;
+      const timingParameters = {
+        type: 'combo',
+        action: 'add',
+        models: [model],
+        apiName: 'addCombo',
+        changes,
+      };
+      this.emit('beforeitemchange', timingParameters);
       this.hooks.itemchange.emit({
         type: 'combo',
         changes: graphCore.reduceChanges(event.changes),
         graphCore,
         theme: specification,
       });
-      this.emit('afteritemchange', {
-        type: 'combo',
-        action: 'add',
-        models: [model],
-        apiName: 'addCombo',
-        changes,
-      });
+      this.emit('afteritemchange', timingParameters);
     });
 
     const data = {
@@ -1715,6 +1756,17 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     graphCore.once('changed', (event) => {
       if (!event.changes.length) return;
       const changes = this.extendChanges(clone(event.changes));
+      const timingParameters = {
+        type: 'combo',
+        ids: idArr,
+        dx,
+        dy,
+        action: 'updatePosition',
+        upsertAncestors,
+        apiName: 'moveCombo',
+        changes,
+      };
+      this.emit('beforeitemchange', timingParameters);
       this.hooks.itemchange.emit({
         type: 'combo',
         changes: event.changes,
@@ -1724,16 +1776,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
         action: 'updatePosition',
         callback,
       });
-      this.emit('afteritemchange', {
-        type: 'combo',
-        ids: idArr,
-        dx,
-        dy,
-        action: 'updatePosition',
-        upsertAncestors,
-        apiName: 'moveCombo',
-        changes,
-      });
+      this.emit('afteritemchange', timingParameters);
     });
 
     this.hooks.datachange.emit({
