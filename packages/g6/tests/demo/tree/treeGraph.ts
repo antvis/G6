@@ -33,7 +33,7 @@ export default (
       type: layoutType,
     },
     modes: {
-      default: ['drag-canvas', 'drag-node'],
+      default: ['drag-canvas', 'drag-node', 'collapse-expand-tree'],
     },
     node: (innerModel) => {
       const { x, y, labelShape } = innerModel.data;

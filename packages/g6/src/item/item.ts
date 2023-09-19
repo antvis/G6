@@ -412,7 +412,7 @@ export default abstract class Item implements IItem {
   /** Show the item. */
   public show(animate = true) {
     Promise.all(this.stopAnimations()).finally(() => {
-      if (this.destroyed || this.visible) return;
+      if (this.destroyed) return;
       const { animates = {} } = this.displayModel.data;
       if (animate && animates.show?.length) {
         const showAnimateFieldsMap: any = {};
@@ -440,7 +440,7 @@ export default abstract class Item implements IItem {
             shape.show();
           }
         });
-        if (showAnimateFieldsMap.group) {
+        if (showAnimateFieldsMap.group && !this.shapeMap.keyShape.isVisible()) {
           showAnimateFieldsMap.group.forEach((field) => {
             const usingField = field === 'size' ? 'transform' : field;
             if (GROUP_ANIMATE_STYLES[0].hasOwnProperty(usingField)) {
@@ -450,11 +450,13 @@ export default abstract class Item implements IItem {
           });
         }
 
-        this.animations = this.runWithAnimates(
-          animates,
-          'show',
-          targetStyleMap,
-        );
+        if (Object.keys(targetStyleMap).length) {
+          this.animations = this.runWithAnimates(
+            animates,
+            'show',
+            targetStyleMap,
+          );
+        }
       } else {
         Object.keys(this.shapeMap).forEach((id) => {
           const shape = this.shapeMap[id];
@@ -474,14 +476,16 @@ export default abstract class Item implements IItem {
       Object.keys(this.shapeMap).forEach((id) => {
         if (keepKeyShape && id === 'keyShape') return;
         const shape = this.shapeMap[id];
-        if (!this.visible && !shape.isVisible())
+        if (!shape.isVisible()) {
           this.cacheNotHiddenByItem[id] = true;
+          return;
+        }
         shape.hide();
         this.cacheHiddenByItem[id] = true;
       });
     };
     Promise.all(this.stopAnimations()).then(() => {
-      if (this.destroyed || !this.visible) return;
+      if (this.destroyed) return;
       const { animates = {} } = this.displayModel.data;
       if (animate && animates.hide?.length) {
         this.animations = this.runWithAnimates(

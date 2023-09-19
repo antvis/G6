@@ -4,7 +4,7 @@ import { TestCaseContext } from '../interface';
 
 export default (context: TestCaseContext) => {
   const { width, height } = context;
-  return new G6.Graph({
+  const graph = new G6.Graph({
     ...context,
     type: 'graph',
     data: JSON.parse(JSON.stringify(data)),
@@ -13,5 +13,9 @@ export default (context: TestCaseContext) => {
       center: [width! / 2, height! / 2],
       radius: 200,
     },
+    modes: {
+      default: ['drag-canvas', 'zoom-canvas'],
+    },
   });
+  return graph;
 };

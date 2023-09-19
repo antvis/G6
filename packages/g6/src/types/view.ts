@@ -1,7 +1,12 @@
 export interface FitViewRules {
-  onlyOutOfViewPort?: boolean; // Whehter fit it only when the graph is out of the view.
-  direction?: 'x' | 'y' | 'both'; // Axis to fit.
-  ratioRule?: 'max' | 'min'; // Ratio rule to fit.
+  /** Whehter fit it only when the graph is out of the view.  */
+  onlyOutOfViewPort?: boolean;
+  /** Axis to fit.  */
+  direction?: 'x' | 'y' | 'both';
+  /** Ratio rule to fit. */
+  ratioRule?: 'max' | 'min';
+  /** Bounds type. 'render' means calculate the bounds by get rendering bounds. 'layout' for the situation that layout algorithm is done but the positions are not animated rendered. */
+  boundsType?: 'render' | 'layout';
 }
 
 export type GraphAlignment =

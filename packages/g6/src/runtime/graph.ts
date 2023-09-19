@@ -56,6 +56,7 @@ import type {
 import { FitViewRules, GraphTransformOptions } from '../types/view';
 import { changeRenderer, createCanvas } from '../util/canvas';
 import { formatPadding } from '../util/shape';
+import { getLayoutBounds } from '../util/layout';
 import { Plugin as PluginBase } from '../types/plugin';
 import { ComboMapper, EdgeMapper, NodeMapper } from '../types/spec';
 import {
@@ -376,12 +377,14 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
 
   private formatSpecification(spec: Specification<B, T>) {
     return {
+      ...this.specification,
       ...spec,
       optimize: {
         tileBehavior: 2000,
         tileBehaviorSize: 1000,
         tileFirstRender: 10000,
         tileFirstRenderSize: 1000,
+        ...this.specification?.optimize,
         ...spec.optimize,
       },
     };
@@ -479,13 +482,20 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
         const { autoFit } = this.specification;
         if (autoFit) {
           if (autoFit === 'view') {
-            await this.fitView();
+            await this.fitView({ rules: { boundsType: 'layout' } });
           } else if (autoFit === 'center') {
             await this.fitCenter();
           } else {
-            const { type, effectTiming, ...others } = autoFit;
+            const { type, effectTiming, padding, rules } = autoFit;
             if (type === 'view') {
-              await this.fitView(others as any, effectTiming);
+              const fitParams = {
+                padding,
+                rules: {
+                  ...rules,
+                  boundsType: 'layout',
+                },
+              };
+              await this.fitView(fitParams, effectTiming);
             } else if (type === 'center') {
               await this.fitCenter(effectTiming);
             } else if (type === 'position') {
@@ -713,8 +723,8 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    */
   public async fitView(
     options?: {
-      padding: Padding;
-      rules: FitViewRules;
+      padding?: Padding;
+      rules?: FitViewRules;
     },
     effectTiming?: CameraAnimationOptions,
   ) {
@@ -722,13 +732,22 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     const [top, right, bottom, left] = padding
       ? formatPadding(padding)
       : [0, 0, 0, 0];
-    const { direction = 'both', ratioRule = 'min' } = rules || {};
+    const {
+      direction = 'both',
+      ratioRule = 'min',
+      boundsType = 'render',
+    } = rules || {};
 
-    // Get the bounds of the whole graph.
+    const bounds =
+      boundsType === 'render'
+        ? // Get the bounds of the whole graph content.
+          this.canvas.document.documentElement.getBounds()
+        : // Get the bounds of the nodes positions while the graph content is not ready.
+          getLayoutBounds(this);
     const {
       center: [graphCenterX, graphCenterY],
       halfExtents,
-    } = this.canvas.document.documentElement.getBounds();
+    } = bounds;
     const origin = this.canvas.canvas2Viewport({
       x: graphCenterX,
       y: graphCenterY,
@@ -1130,13 +1149,17 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     const { specification } = this.themeController;
     const getItem = itemType === 'edge' ? graphCore.getEdge : graphCore.getNode;
     const hasItem = itemType === 'edge' ? graphCore.hasEdge : graphCore.hasNode;
-    data[`${itemType}s`] = idArr.map((id) => {
-      if (!hasItem.bind(graphCore)(id)) {
-        console.warn(`The ${itemType} data with id ${id} does not exist. It will be ignored`);
-        return;
-      }
-      return getItem.bind(graphCore)(id);
-    }).filter(Boolean);
+    data[`${itemType}s`] = idArr
+      .map((id) => {
+        if (!hasItem.bind(graphCore)(id)) {
+          console.warn(
+            `The ${itemType} data with id ${id} does not exist. It will be ignored`,
+          );
+          return;
+        }
+        return getItem.bind(graphCore)(id);
+      })
+      .filter(Boolean);
     graphCore.once('changed', (event) => {
       if (!event.changes.length) return;
       const changes = event.changes;

@@ -542,7 +542,6 @@ export class ItemController {
           // call after updating finished
           throttle(
             (_, canceled) => {
-              item.onframe?.(true);
               item.onframe = undefined;
               if (statesCache) {
                 statesCache.forEach((state) =>
@@ -1637,7 +1636,6 @@ export class ItemController {
       undefined,
       !animate,
       (model, canceled) => {
-        console.log('position finish');
         this.graph.hideItem(model.id, canceled);
       },
       undefined,

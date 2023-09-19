@@ -395,8 +395,8 @@ export interface IGraph<
    */
   fitView: (
     options?: {
-      padding: Padding;
-      rules: FitViewRules;
+      padding?: Padding;
+      rules?: FitViewRules;
     },
     effectTiming?: CameraAnimationOptions,
   ) => Promise<void>;
