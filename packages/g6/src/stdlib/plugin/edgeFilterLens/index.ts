@@ -7,8 +7,7 @@ import { IG6GraphEvent } from '../../../types/event';
 import { ShapeStyle } from '../../../types/item';
 import { distance } from '../../../util/point';
 
-const DELTA = 0.05;
-
+const DELTA = 0.01;
 interface EdgeFilterLensConfig extends IPluginBaseConfig {
   trigger?: 'mousemove' | 'click' | 'drag';
   r?: number;
@@ -26,7 +25,7 @@ const lensDelegateStyle = {
   strokeOpacity: 0.8,
   lineWidth: 2,
   fillOpacity: 0.1,
-  fill: '#ccc',
+  fill: '#fff',
 };
 
 export class EdgeFilterLens extends Base {
@@ -59,6 +58,7 @@ export class EdgeFilterLens extends Base {
     let events = {
       pointerdown: this.onPointerDown,
       pointerup: this.onPointerUp,
+      wheel: this.onWheel,
     } as {
       [key: string]: any;
     };
@@ -124,8 +124,22 @@ export class EdgeFilterLens extends Base {
     this.dragging = true;
   }
 
+  // Determine whether it is dragged in the delegate
+  protected isInLensDelegate(lensDelegate, pointer): boolean {
+    const { cx: lensX, cy: lensY, r: lensR } = lensDelegate.style;
+    if (
+      pointer.x >= lensX - lensR &&
+      pointer.x <= lensX + lensR &&
+      pointer.y >= lensY - lensR &&
+      pointer.y <= lensY + lensR
+    ) {
+      return true;
+    }
+    return false;
+  }
+
   protected moveDelegate(e) {
-    if (this.dragging) {
+    if (this.isInLensDelegate(this.delegate, { x: e.canvas.x, y: e.canvas.y })) {
       const center = {
         x: e.canvas.x - this.delegateCenterDiff.x,
         y: e.canvas.y - this.delegateCenterDiff.y,
@@ -134,43 +148,37 @@ export class EdgeFilterLens extends Base {
     }
   }
 
+  protected onWheel(e: IG6GraphEvent) {
+    const { delegate: lensDelegate, options } = this;
+    const { scaleRBy } = options;
+    if (!lensDelegate || lensDelegate.destroyed) return;
+    if (scaleRBy !== 'wheel') return;
+    if (this.isInLensDelegate(lensDelegate, { x: e.canvas.x, y: e.canvas.y })) {
+      if (scaleRBy === 'wheel') {
+        this.scaleRByWheel(e);
+      }
+    }
+  }
+
   /**
  * Scale the range by wheel
  * @param e mouse wheel event
  */
   protected scaleRByWheel(e: IG6GraphEvent) {
-    const self = this;
     if (!e || !e.originalEvent) return;
     if (e.preventDefault) e.preventDefault();
-    const graph: IGraph = self.graph;
-    let ratio;
-    const lensDelegate = self.delegate;
-    const lensCenter = lensDelegate
-      ? {
-        x: lensDelegate.attr('x'),
-        y: lensDelegate.attr('y'),
-      }
-      : undefined;
-    const mousePos = lensCenter || graph.getPointByClient(e.clientX, e.clientY);
-    if ((e.originalEvent as any).wheelDelta < 0) {
-      ratio = 1 - DELTA;
-    } else {
-      ratio = 1 / (1 - DELTA);
-    }
-    const maxR = self.options.maxR;
-    const minR = self.options.minR;
-    let r = self.options.r;
+    const { graph, options } = this;
     const graphCanvasEl = graph.canvas.context.config.canvas;
-    const graphHeight = graphCanvasEl?.scrollHeight;
-    if (
-      (r > (maxR || graphHeight) && ratio > 1) ||
-      (r < (minR || graphHeight * 0.05) && ratio < 1)
-    ) {
-      ratio = 1;
-    }
-    r *= ratio;
-    this.options.r = r;
-    self.filter(e, mousePos);
+    const graphHeight = graphCanvasEl?.height || 500;
+    let maxR = options.maxR ? Math.min(options.maxR, graphHeight) : graphHeight;
+    let minR = options.minR ? Math.max(options.minR, graphHeight * DELTA) : graphHeight * DELTA;
+
+    const scale = 1 + (e.originalEvent as any).deltaY * -1 * DELTA;
+    let r = options.r * scale;
+    r = Math.min(r, maxR);
+    r = Math.max(r, minR);
+    options.r = r;
+    this.filter(e);
   }
 
   /**
@@ -179,20 +187,21 @@ export class EdgeFilterLens extends Base {
    */
   protected filter(e: IG6GraphEvent, mousePos?) {
     const { graph, options, showNodeLabel, showEdgeLabel, cachedTransientNodes, cachedTransientEdges } = this;
-    const nodes = graph.getAllNodesData();
-    const hitNodesMap = {};
     const r = options.r;
     const showType = options.showType;
+    const shouldShow = options.shouldShow;
     const fCenter = mousePos || { x: e.canvas.x, y: e.canvas.y };
     this.updateDelegate(fCenter, r);
-    const shouldShow = options.shouldShow;
 
+    const nodes = graph.getAllNodesData();
+    const hitNodesMap = {};
     nodes.forEach((node) => {
       const { data, id } = node;
       if (distance({ x: data.x, y: data.y }, fCenter) < r) {
         hitNodesMap[id] = node;
       }
     });
+
     const edges = graph.getAllEdgesData();
     const hitEdges = [];
     edges.forEach((edge) => {
@@ -243,7 +252,7 @@ export class EdgeFilterLens extends Base {
           });
         }
       });
-      
+
       cachedTransientEdges.forEach((id) => {
         graph.drawTransient('edge', id, { action: 'remove' });
       });
@@ -309,16 +318,6 @@ export class EdgeFilterLens extends Base {
           ...attrs,
         },
       });
-
-      if (options.trigger !== 'drag') {
-        // 调整范围 r 的监听
-        if (options.scaleRBy === 'wheel') {
-          // 使用滚轮调整 r
-          lensDelegate.on('mousewheel', (evt) => {
-            this.scaleRByWheel(evt);
-          });
-        }
-      }
     } else {
       lensDelegate.attr({
         cx: mCenter.x,
