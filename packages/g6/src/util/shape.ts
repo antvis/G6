@@ -270,9 +270,9 @@ export const formatPadding = (
  * @returns
  */
 export const mergeStyles = (styleMaps: ItemShapeStyles[]) => {
-  let currentResult = styleMaps[0];
+  let currentResult = clone(styleMaps[0]);
   styleMaps.forEach((styleMap, i) => {
-    if (i > 0) currentResult = merge2Styles(currentResult, styleMap, i === 1);
+    if (i > 0) currentResult = merge2Styles(currentResult, styleMap);
   });
   return currentResult;
 };
@@ -286,11 +286,10 @@ export const mergeStyles = (styleMaps: ItemShapeStyles[]) => {
 const merge2Styles = (
   styleMap1: ItemShapeStyles,
   styleMap2: ItemShapeStyles,
-  needClone?: boolean,
 ) => {
   if (!styleMap1) return { ...styleMap2 };
   else if (!styleMap2) return { ...styleMap1 };
-  const mergedStyle = needClone ? clone(styleMap1) : styleMap1;
+  const mergedStyle = styleMap1;
   Object.keys(styleMap2).forEach((shapeId) => {
     const style = styleMap2[shapeId];
     if (!style) return;
