@@ -10,7 +10,7 @@ import { Padding, Point } from './common';
 import { GraphData } from './data';
 import { EdgeModel, EdgeUserModel } from './edge';
 import type { StackType } from './history';
-import { ITEM_TYPE, SHAPE_TYPE } from './item';
+import { ITEM_TYPE, SHAPE_TYPE, ShapeStyle } from './item';
 import { LayoutOptions } from './layout';
 import { NodeModel, NodeUserModel } from './node';
 import { RendererName } from './render';
@@ -638,7 +638,22 @@ export interface IGraph<
   drawTransient: (
     type: ITEM_TYPE | SHAPE_TYPE,
     id: ID,
-    config: any,
+    config: {
+      action?: 'remove' | 'add' | 'update' | undefined;
+      /** Data to be merged into the transient item. */
+      data?: Record<string, any>;
+      /** Style to be merged into the transient shape. */
+      style?: ShapeStyle;
+      /** For type: 'edge' */
+      drawSource?: boolean;
+      /** For type: 'edge' */
+      drawTarget?: boolean;
+      /** Only shape with id in shapeIds will be cloned while type is ITEM_TYPE. If shapeIds is not assigned, the whole item will be cloned. */
+      shapeIds?: string[];
+      /** Whether show the shapes in shapeIds. True by default. */
+      visible?: boolean;
+      upsertAncestors?: boolean;
+    },
     canvas?: Canvas,
   ) => DisplayObject;
 

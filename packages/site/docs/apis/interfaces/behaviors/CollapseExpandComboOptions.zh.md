@@ -2,7 +2,7 @@
 title: CollapseExpandComboOptions
 ---
 
-[Overview - v5.0.0-beta.4](../../README.en.md) / [Modules](../../modules.en.md) / [behaviors](../../modules/behaviors.en.md) / CollapseExpandComboOptions
+[Overview - v5.0.0-beta.5](../../README.en.md) / [Modules](../../modules.en.md) / [behaviors](../../modules/behaviors.en.md) / CollapseExpandComboOptions
 
 [behaviors](../../modules/behaviors.en.md).CollapseExpandComboOptions
 
