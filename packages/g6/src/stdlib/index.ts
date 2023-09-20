@@ -127,7 +127,6 @@ const stdLib = {
     'collapse-expand-combo': CollapseExpandCombo,
     'collapse-expand-tree': CollapseExpandTree,
     'click-select': ClickSelect,
-    'scroll-canvas': ScrollCanvas,
   },
   plugins: {
     history: History,
@@ -276,6 +275,7 @@ const Extensions = {
   DragCombo,
   CreateEdge,
   ShortcutsCall,
+  ScrollCanvas,
   // plugins
   BasePlugin,
   History,

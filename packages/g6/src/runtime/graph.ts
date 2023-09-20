@@ -1114,7 +1114,6 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
 
     const { graphCore } = this.dataController;
     const { specification } = this.themeController;
-    // debugger;
     graphCore.once('changed', (event) => {
       if (!event.changes.length) return;
       const changes = event.changes;

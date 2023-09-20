@@ -2,7 +2,7 @@
 title: NodeShapeStyles
 ---
 
-[Overview - v5.0.0-beta.5](../../README.en.md) / [Modules](../../modules.en.md) / [item](../../modules/item.en.md) / NodeShapeStyles
+[Overview - v5.0.0-beta.8](../../README.en.md) / [Modules](../../modules.en.md) / [item](../../modules/item.en.md) / NodeShapeStyles
 
 [item](../../modules/item.en.md).NodeShapeStyles
 

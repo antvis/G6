@@ -2,7 +2,7 @@
 title: OrbitCanvas3DOptions
 ---
 
-[Overview - v5.0.0-beta.5](../../README.en.md) / [Modules](../../modules.en.md) / [behaviors](../../modules/behaviors.en.md) / OrbitCanvas3DOptions
+[Overview - v5.0.0-beta.8](../../README.en.md) / [Modules](../../modules.en.md) / [behaviors](../../modules/behaviors.en.md) / OrbitCanvas3DOptions
 
 [behaviors](../../modules/behaviors.en.md).OrbitCanvas3DOptions
 
