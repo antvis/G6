@@ -502,8 +502,12 @@ export class Minimap extends Base {
     if (!graphEdgeGroup) return;
     let { minimapItem, graphItem } = itemMap.get(edgeModel.id) || {};
     if (minimapItem && !minimapItem.destroyed) {
-      const path = graphItem.style.path;
+      const { path, x1, x2, y1, y2 } = graphItem.style;
       minimapItem.style.path = path;
+      minimapItem.style.x1 = x1;
+      minimapItem.style.x2 = x2;
+      minimapItem.style.y1 = y1;
+      minimapItem.style.y2 = y2;
     } else {
       graphItem = graphEdgeGroup
         .find((ele) => ele.getAttribute('data-item-id') === edgeModel.id)
@@ -596,16 +600,18 @@ export class Minimap extends Base {
     () => {
       const nodeGroup = this.canvas.getRoot().getElementById('node-group');
       const edgeGroup = this.canvas.getRoot().getElementById('edge-group');
-      nodeGroup.childNodes.concat(edgeGroup.childNodes).forEach((child) => {
-        const id = child.getAttribute?.('data-item-id');
-        if (this.visibleCache.hasOwnProperty(id)) {
-          if (this.visibleCache[id]) {
-            child.childNodes.forEach((shape) => shape.show());
-          } else if (this.visibleCache[id] === false) {
-            child.childNodes.forEach((shape) => shape.hide());
+      (nodeGroup?.childNodes || [])
+        .concat(edgeGroup?.childNodes || [])
+        .forEach((child) => {
+          const id = child.getAttribute?.('data-item-id');
+          if (this.visibleCache.hasOwnProperty(id)) {
+            if (this.visibleCache[id]) {
+              child.childNodes.forEach((shape) => shape.show());
+            } else if (this.visibleCache[id] === false) {
+              child.childNodes.forEach((shape) => shape.hide());
+            }
           }
-        }
-      });
+        });
       this.visibleCache = {};
     },
     50,
@@ -763,7 +769,6 @@ export class Minimap extends Base {
 const getMoveAtBorder = (dom, evt) => {
   const bounds = dom.getBoundingClientRect();
   const { clientX, clientY } = evt;
-  console.log('mosemove', bounds.x, clientX);
   if (Math.abs(clientX - bounds.x) < 4 && Math.abs(clientY - bounds.y) < 4) {
     return 'left-top';
   } else if (

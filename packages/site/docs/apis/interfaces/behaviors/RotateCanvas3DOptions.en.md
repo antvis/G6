@@ -2,7 +2,7 @@
 title: RotateCanvas3DOptions
 ---
 
-[Overview - v5.0.0-beta.5](../../README.en.md) / [Modules](../../modules.en.md) / [behaviors](../../modules/behaviors.en.md) / RotateCanvas3DOptions
+[Overview - v5.0.0-beta.7](../../README.en.md) / [Modules](../../modules.en.md) / [behaviors](../../modules/behaviors.en.md) / RotateCanvas3DOptions
 
 [behaviors](../../modules/behaviors.en.md).RotateCanvas3DOptions
 

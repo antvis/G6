@@ -2,7 +2,7 @@
 title: D3ForceLayoutOptions
 ---
 
-[Overview - v5.0.0-beta.5](../../README.en.md) / [Modules](../../modules.en.md) / [layout](../../modules/layout.en.md) / D3ForceLayoutOptions
+[Overview - v5.0.0-beta.7](../../README.en.md) / [Modules](../../modules.en.md) / [layout](../../modules/layout.en.md) / D3ForceLayoutOptions
 
 [layout](../../modules/layout.en.md).D3ForceLayoutOptions
 

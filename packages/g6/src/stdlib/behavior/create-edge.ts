@@ -18,13 +18,11 @@ interface CreateEdgeOptions {
    * Default to `click`.
    */
   trigger: (typeof EVENT_TRIGGERS)[number];
-
   /**
-   * Keyboard keys serve as auxiliary triggers for this interaction.
+   * The assistant secondary key on keyboard. If it is not assigned, the behavior will be triggered when trigger happens.
    * cound be 'shift', 'ctrl', 'control', 'alt', 'meta', undefined.
    */
-  key?: (typeof KEYBOARD_TRIGGERS)[number];
-
+  secondaryKey?: (typeof KEYBOARD_TRIGGERS)[number];
   /**
    * Config of the created edge.
    */
@@ -54,7 +52,7 @@ interface CreateEdgeOptions {
 
 const DEFAULT_OPTIONS: CreateEdgeOptions = {
   trigger: 'click',
-  key: undefined,
+  secondaryKey: undefined,
   shouldBegin: () => true,
   shouldEnd: () => false,
   edgeConfig: {},
@@ -82,19 +80,22 @@ export class CreateEdge extends Behavior {
       this.options.trigger = DEFAULT_OPTIONS.trigger;
     }
 
-    if (options.key && !KEYBOARD_TRIGGERS.includes(options.key)) {
+    if (
+      options.secondaryKey &&
+      !KEYBOARD_TRIGGERS.includes(options.secondaryKey)
+    ) {
       warn({
-        optionName: `create-edge.key`,
+        optionName: `create-edge.secondaryKey`,
         shouldBe: KEYBOARD_TRIGGERS,
-        now: options.key,
+        now: options.secondaryKey,
         scope: 'behavior',
       });
-      this.options.key = DEFAULT_OPTIONS.key;
+      this.options.secondaryKey = DEFAULT_OPTIONS.secondaryKey;
     }
   }
 
   getEvents = () => {
-    const { trigger, key } = this.options;
+    const { trigger, secondaryKey } = this.options;
     const [CLICK_NAME] = EVENT_TRIGGERS;
 
     const triggerEvents =
@@ -113,7 +114,7 @@ export class CreateEdge extends Behavior {
             drop: this.onDrop,
           };
 
-    const keyboardEvents = key
+    const keyboardEvents = secondaryKey
       ? {
           keydown: this.onKeyDown,
           keyup: this.onKeyUp,
@@ -127,7 +128,7 @@ export class CreateEdge extends Behavior {
   };
 
   handleCreateEdge = (e: IG6GraphEvent) => {
-    if (this.options.key && !this.isKeyDown) {
+    if (this.options.secondaryKey && !this.isKeyDown) {
       return;
     }
 
@@ -143,7 +144,7 @@ export class CreateEdge extends Behavior {
 
     if (addingEdge) {
       // create edge end, add the actual edge to graph and remove the virtual edge and node
-      graph.addData('edge', {
+      const actualEdge = graph.addData('edge', {
         id: generateEdgeID(addingEdge.source, currentNodeId),
         source: addingEdge.source,
         target: currentNodeId,
@@ -154,7 +155,7 @@ export class CreateEdge extends Behavior {
         },
       });
       if (createActualEventName) {
-        graph.emit(createActualEventName, { edge: addingEdge });
+        graph.emit(createActualEventName, { edge: actualEdge });
       }
       this.cancelCreating();
 
@@ -192,8 +193,8 @@ export class CreateEdge extends Behavior {
   onDrop = async (e: IG6GraphEvent) => {
     const { addingEdge, options, graph } = this;
 
-    const { edgeConfig, key, createActualEventName } = options;
-    if (key && !this.isKeyDown) {
+    const { edgeConfig, secondaryKey, createActualEventName } = options;
+    if (secondaryKey && !this.isKeyDown) {
       return;
     }
 
@@ -218,7 +219,7 @@ export class CreateEdge extends Behavior {
       return;
     }
 
-    graph.addData('edge', {
+    const actualEdge = graph.addData('edge', {
       id: generateEdgeID(addingEdge.source, dropId),
       source: addingEdge.source,
       target: dropId,
@@ -228,14 +229,14 @@ export class CreateEdge extends Behavior {
       },
     });
     if (createActualEventName) {
-      graph.emit(createActualEventName, { edge: addingEdge });
+      graph.emit(createActualEventName, { edge: actualEdge });
     }
     this.cancelCreating();
   };
 
   updateEndPoint = (e: IG6GraphEvent) => {
     const { options, graph, addingEdge, isKeyDown } = this;
-    if (options.key && !isKeyDown) {
+    if (options.secondaryKey && !isKeyDown) {
       return;
     }
 
@@ -281,7 +282,7 @@ export class CreateEdge extends Behavior {
       return;
     }
 
-    if (code.toLocaleLowerCase() === this.options.key) {
+    if (code.toLocaleLowerCase() === this.options.secondaryKey) {
       this.isKeyDown = true;
     }
   };

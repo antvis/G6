@@ -2,7 +2,7 @@
 title: DagreLayoutOptions
 ---
 
-[Overview - v5.0.0-beta.5](../../README.en.md) / [Modules](../../modules.en.md) / [layout](../../modules/layout.en.md) / DagreLayoutOptions
+[Overview - v5.0.0-beta.7](../../README.en.md) / [Modules](../../modules.en.md) / [layout](../../modules/layout.en.md) / DagreLayoutOptions
 
 [layout](../../modules/layout.en.md).DagreLayoutOptions
 
