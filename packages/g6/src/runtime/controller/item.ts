@@ -871,10 +871,10 @@ export class ItemController {
     type: ITEM_TYPE | SHAPE_TYPE;
     id: ID;
     config: {
-      style?: ShapeStyle;
-      // Data to be merged into the transient item.
-      data?: Record<string, any>;
       action: 'remove' | 'add' | 'update' | undefined;
+      style?: ShapeStyle;
+      /** Data to be merged into the transient item. */
+      data?: Record<string, any>;
       shapeIds?: string[];
       /** For type: 'edge' */
       drawSource?: boolean;
