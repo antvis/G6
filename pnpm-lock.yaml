@@ -116,9 +116,6 @@ importers:
       typescript:
         specifier: ^5.1.6
         version: 5.1.6
-      uuid:
-        specifier: ^9.0.0
-        version: 9.0.0
     devDependencies:
       '@rollup/plugin-terser':
         specifier: ^0.4.3
