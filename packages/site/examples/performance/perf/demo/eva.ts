@@ -1,4 +1,5 @@
 import { Graph, Extensions, extend } from '@antv/g6';
+import Stats from 'stats.js';
 
 const dataFormat = (data, options = {}, userGraphCore) => {
   const map = new Map();
@@ -55,7 +56,7 @@ const graph = new ExtGraph({
   container: 'container',
   width,
   height,
-  transform: [
+  transforms: [
     'data-format',
     {
       type: 'map-node-size',
@@ -64,7 +65,16 @@ const graph = new ExtGraph({
     },
   ],
   modes: {
-    default: ['brush-select', 'zoom-canvas', 'activate-relations', 'drag-canvas', 'drag-node'],
+    default: [
+      'brush-select',
+      {
+        type: 'zoom-canvas',
+        enableOptimize: true,
+      },
+      { type: 'drag-canvas', enableOptimize: true },
+      'activate-relations',
+      'drag-node',
+    ],
   },
   node: (model) => {
     const { id, data } = model;
@@ -166,3 +176,19 @@ fetch('https://gw.alipayobjects.com/os/basement_prod/0b9730ff-0850-46ff-84d0-1d4
     const edgeLen = graph.getAllEdgesData().length;
     descriptionDiv.innerHTML = `节点数量：${nodeLen}, 边数量：${edgeLen}, 图元数量：${nodeLen * 3 + edgeLen}`;
   });
+
+// stats
+const stats = new Stats();
+stats.showPanel(0);
+const $stats = stats.dom;
+$stats.style.position = 'absolute';
+$stats.style.left = '0px';
+$stats.style.top = '0px';
+container.appendChild($stats);
+const update = () => {
+  if (stats) {
+    stats.update();
+  }
+  requestAnimationFrame(update);
+};
+update();

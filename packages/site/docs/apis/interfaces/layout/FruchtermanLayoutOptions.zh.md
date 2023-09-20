@@ -2,194 +2,196 @@
 title: FruchtermanLayoutOptions
 ---
 
-[概述 - v5.0.0-alpha.9](../../README.zh.md) / [模块](../../modules.zh.md) / [布局](../. ./modules/layout.zh.md) / FruchtermanLayoutOptions 
+> 📋 中文文档还在翻译中... 欢迎 PR
 
- [布局](../../modules/layout.zh.md).FruchtermanLayoutOptions 
+[Overview - v5.0.0-beta.5](../../README.zh.md) / [Modules](../../modules.zh.md) / [layout](../../modules/layout.zh.md) / FruchtermanLayoutOptions
 
- ＃＃ 等级制度 
+[layout](../../modules/layout.zh.md).FruchtermanLayoutOptions
 
- - `CommonForceLayoutOptions` 
+## Hierarchy
 
-   ↳ **`FruchtermanLayoutOptions`** 
+- `CommonForceLayoutOptions`
 
- ＃＃ 特性 
+  ↳ **`FruchtermanLayoutOptions`**
 
- ＃＃＃ 中心 
+## Properties
 
- • `可选` **中心**：`PointTuple` 
+### center
 
- ####继承自 
+• `Optional` **center**: `PointTuple`
 
- CommonForceLayoutOptions.center 
+#### Inherited from
 
- #### 定义于 
+CommonForceLayoutOptions.center
 
- node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:252 
+#### Defined in
 
- ___ 
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:252
 
- ### 集群重力 
+---
 
- • `可选` **clusterGravity**：`number` 
+### clusterGravity
 
- #### 定义于 
+• `Optional` **clusterGravity**: `number`
 
- node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:316 
+#### Defined in
 
- ___ 
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:316
 
- ### 聚类 
+---
 
- • `可选` **聚类**：`布尔值` 
+### clustering
 
- #### 定义于 
+• `Optional` **clustering**: `boolean`
 
- node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:315 
+#### Defined in
 
- ___ 
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:315
 
- ＃＃＃ 方面 
+---
 
- • `可选` **尺寸**：`数量` 
+### dimensions
 
- ####继承自 
+• `Optional` **dimensions**: `number`
 
- CommonForceLayoutOptions.dimensions 
+#### Inherited from
 
- #### 定义于 
+CommonForceLayoutOptions.dimensions
 
- node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:251 
+#### Defined in
 
- ___ 
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:251
 
- ### 距离阈值模式 
+---
 
- • `可选` **distanceThresholdMode**：``"min"`` \| ``“最大”`` \| ``“意思”`` 
+### distanceThresholdMode
 
- ####继承自 
+• `Optional` **distanceThresholdMode**: `"min"` \| `"max"` \| `"mean"`
 
- CommonForceLayoutOptions.distanceThresholdMode 
+#### Inherited from
 
- #### 定义于 
+CommonForceLayoutOptions.distanceThresholdMode
 
- node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:255 
+#### Defined in
 
- ___ 
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:255
 
- ###重力 
+---
 
- • `可选` **重力**：`数字` 
+### gravity
 
- #### 定义于 
+• `Optional` **gravity**: `number`
 
- node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:313 
+#### Defined in
 
- ___ 
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:313
 
- ＃＃＃ 高度 
+---
 
- • `可选` **高度**：`数字` 
+### height
 
- #### 定义于 
+• `Optional` **height**: `number`
 
- node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:312 
+#### Defined in
 
- ___ 
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:312
 
- ### 最大距离 
+---
 
- • `可选` **maxDistance**：`数字` 
+### maxDistance
 
- 如果指定了距离，则设置考虑此力的节点之间的最大距离。 
- 如果未指定距离，则返回当前最大距离，默认为无穷大。 
- 指定有限的最大距离可以提高性能并生成更加本地化的布局。 
+• `Optional` **maxDistance**: `number`
 
- ####继承自 
+If distance is specified, sets the maximum distance between nodes over which this force is considered.
+If distance is not specified, returns the current maximum distance, which defaults to infinity.
+Specifying a finite maximum distance improves performance and produces a more localized layout.
 
- CommonForceLayoutOptions.maxDistance 
+#### Inherited from
 
- #### 定义于 
+CommonForceLayoutOptions.maxDistance
 
- node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:261 
+#### Defined in
 
- ___ 
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:261
 
- ### 最大迭代次数 
+---
 
- • `可选` **maxIteration**：`数量` 
+### maxIteration
 
- ####继承自 
+• `Optional` **maxIteration**: `number`
 
- CommonForceLayoutOptions.maxIteration 
+#### Inherited from
 
- #### 定义于 
+CommonForceLayoutOptions.maxIteration
 
- node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:254 
+#### Defined in
 
- ___ 
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:254
 
- ### 最小移动 
+---
 
- • `可选` **minMovement**：`数量` 
+### minMovement
 
- ####继承自 
+• `Optional` **minMovement**: `number`
 
- CommonForceLayoutOptions.minMovement 
+#### Inherited from
 
- #### 定义于 
+CommonForceLayoutOptions.minMovement
 
- node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:253 
+#### Defined in
 
- ___ 
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:253
 
- ### 节点集群 
+---
 
- • `可选` **nodeClusterBy**：`string` 
+### nodeClusterBy
 
- #### 定义于 
+• `Optional` **nodeClusterBy**: `string`
 
- node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:317 
+#### Defined in
 
- ___ 
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:317
 
- ### 勾选 
+---
 
- • `可选` **onTick**: (`data`: `LayoutMapping`) => `void` 
+### onTick
 
- #### 类型声明 
+• `Optional` **onTick**: (`data`: `LayoutMapping`) => `void`
 
- ▸ (`数据`): `无效` 
+#### Type declaration
 
- ＃＃＃＃＃ 参数 
+▸ (`data`): `void`
 
- | 名称 | 类型 | 
- | :------ | :------ | 
- | `数据` | `布局映射` | 
+##### Parameters
 
- ##### 返回 
+| Name   | Type            |
+| :----- | :-------------- |
+| `data` | `LayoutMapping` |
 
- `无效` 
+##### Returns
 
- #### 定义于 
+`void`
 
- node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:318 
+#### Defined in
 
- ___ 
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:318
 
- ＃＃＃ 速度 
+---
 
- • `可选` **速度**：`数字` 
+### speed
 
- #### 定义于 
+• `Optional` **speed**: `number`
 
- node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:314 
+#### Defined in
 
- ___ 
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:314
 
- ＃＃＃ 宽度 
+---
 
- • `可选` **宽度**：`数量` 
+### width
 
- #### 定义于 
+• `Optional` **width**: `number`
 
- node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:311
+#### Defined in
+
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:311

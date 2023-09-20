@@ -61,8 +61,10 @@ export class LassoSelect extends BrushSelect {
     const { graph, options } = this;
     const { brushStyle } = options;
     return graph.drawTransient('path', LASSO_SHAPE_ID, {
-      style: brushStyle,
-      capture: false,
+      style: {
+        pointerEvents: 'none',
+        ...brushStyle,
+      },
     });
   }
 
@@ -82,7 +84,7 @@ export class LassoSelect extends BrushSelect {
 
   getLassoPath = () => {
     const points: Point[] = this.points;
-    const path = [];
+    const path: any = [];
     if (points.length) {
       points.forEach((point, index) => {
         if (index === 0) {

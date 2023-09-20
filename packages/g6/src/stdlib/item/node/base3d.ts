@@ -26,7 +26,14 @@ export abstract class BaseNode3D extends BaseNode {
     this.device = props.device;
   }
 
-  // TODO: 3d text - billboard 2d shape
+  /**
+   * Draw the label shape of the 3D node
+   * @param model The displayed model of this 3D node, only for drawing and not received by users.
+   * @param shapeMap The shape map that contains all of the elements to show on the 3D node.
+   * @param diffData An object that contains previous and current data.
+   * @param diffState An object that contains previous and current 3D node's state.
+   * @returns The display object representing the label shape of the 3D node.
+   */
   public drawLabelShape(
     model: NodeDisplayModel,
     shapeMap: NodeShapeMap,
@@ -48,13 +55,6 @@ export abstract class BaseNode3D extends BaseNode {
       maxWidth,
       ...otherStyle
     } = shapeStyle;
-
-    // TODO
-    // const wordWrapWidth = getWordWrapWidthByBox(
-    //   keyShapeBox,
-    //   maxWidth,
-    //   this.zoomCache.zoom,
-    // );
 
     const positionPreset = {
       x: keyShapeBox.center[0],
@@ -109,7 +109,14 @@ export abstract class BaseNode3D extends BaseNode {
     return this.upsertShape('text', 'labelShape', style, shapeMap);
   }
 
-  // TODO: 3d icon? - billboard image or text for alpha
+  /**
+   * Draw the icon shape of the 3D node
+   * @param model The displayed model of this 3D node, only for drawing and not received by users.
+   * @param shapeMap The shape map that contains all of the elements to show on the 3D node.
+   * @param diffData An object that contains previous and current data.
+   * @param diffState An object that contains previous and current 3D node's state.
+   * @returns The display object representing the icon shape of the 3D node.
+   */
   public drawIconShape(
     model: NodeDisplayModel,
     shapeMap: NodeShapeMap,
@@ -192,5 +199,12 @@ export abstract class BaseNode3D extends BaseNode {
     return upsertShape3D(type, id, style as GShapeStyle, shapeMap, this.device);
   }
 
+  /**
+   * The listener for graph zooming.
+   * 1. show / hide some shapes while zoom level changed;
+   * 2. change the shapes' sizes to make them have same visual size while zooming, e.g. labelShape, labelBackgroundShape.
+   * @param shapeMap The shape map that contains all of the elements to show on the node.
+   * @param zoom The zoom level of the graph.
+   */
   public onZoom = (shapeMap: NodeShapeMap, zoom: number) => {};
 }

@@ -1,3 +1,4 @@
+import { uniqueId } from '@antv/util';
 import { GraphCore } from '../../types/data';
 import {
   GraphData,
@@ -22,8 +23,12 @@ export const ValidateData = (
   const nodeIdMap = new Map();
   const comboIdMap = new Map();
 
-  const idAndDataCheck = (item, type) => {
+  const idAndDataCheck = (item, type, generateId = false) => {
     if (item.id === undefined) {
+      if (generateId) {
+        item.id = `${type}-${uniqueId()}`;
+        return;
+      }
       console.error(
         `Unique global id is neccessary for graph items. The ${type} ${JSON.stringify(
           item,
@@ -93,7 +98,7 @@ export const ValidateData = (
     ?.map((edge) => {
       const { id } = edge;
       let { source, target } = edge;
-      if (!idAndDataCheck(edge, 'edge')) return false;
+      if (!idAndDataCheck(edge, 'edge', true)) return false;
 
       if (userGraphCore?.hasEdge(id)) {
         const existEdge = userGraphCore?.getEdge(id);

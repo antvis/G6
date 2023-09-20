@@ -17,7 +17,7 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')
       container: 'container',
       width,
       height,
-      transform: ['transform-v4-data'],
+      transforms: ['transform-v4-data'],
       node: {
         labelShape: {
           text: {
@@ -30,10 +30,12 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')
           update: [
             {
               fields: ['opacity'],
+              states: ['selected', 'active'],
               shapeId: 'haloShape',
             },
             {
               fields: ['lineWidth'],
+              states: ['selected', 'active'],
               shapeId: 'keyShape',
             },
           ],
@@ -41,23 +43,11 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')
       },
       layout: {
         type: 'fruchterman',
-        speed: 20,
+        speed: 50,
         gravity: 1,
         animated: true,
         maxIteration: 500,
       },
-      theme: {
-        type: 'spec',
-        specification: {
-          node: {
-            dataTypeField: 'cluster',
-          },
-          edge: {
-            dataTypeField: 'cluster',
-          },
-        },
-      },
-      autoFit: 'view',
       modes: {
         default: ['zoom-canvas', 'drag-canvas', 'drag-node', 'click-select'],
       },

@@ -10,8 +10,8 @@ const layoutConfigs = {
   LR: {
     type: 'dendrogram',
     direction: 'LR', // H / V / LR / RL / TB / BT
-    nodeSep: 40,
-    rankSep: 100,
+    nodeSep: 36,
+    rankSep: 250,
   },
   TB: {
     type: 'dendrogram',
@@ -32,13 +32,7 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.j
       container,
       width,
       height,
-      transform: ['transform-v4-data'],
-      layout: {
-        type: 'force',
-        preventOverlap: true,
-        nodeSize: 32,
-        workerEnabled: true,
-      },
+      transforms: ['transform-v4-data'],
       modes: {
         default: ['drag-canvas', 'zoom-canvas', 'drag-node', 'collapse-expand-tree'],
       },

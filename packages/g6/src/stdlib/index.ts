@@ -31,6 +31,7 @@ const {
   TriangleNode,
   EllipseNode,
   ModelRectNode,
+  ImageNode,
 } = Nodes;
 
 const {
@@ -61,14 +62,40 @@ const {
   DragCombo,
   ClickSelect,
   CreateEdge,
+  ShortcutsCall,
+  ScrollCanvas,
 } = Behaviors;
-const { History, Tooltip, Minimap, Grid, Menu, Fisheye, Legend, Toolbar } =
-  Plugins;
+const {
+  History,
+  Tooltip,
+  Minimap,
+  Grid,
+  Menu,
+  Fisheye,
+  Legend,
+  Toolbar,
+  Timebar,
+  Snapline,
+} = Plugins;
 
-const { ForceLayout, GridLayout, CircularLayout, ConcentricLayout } = Layouts;
+const {
+  ForceLayout,
+  GridLayout,
+  CircularLayout,
+  ConcentricLayout,
+  RandomLayout,
+  MDSLayout,
+  RadialLayout,
+  FruchtermanLayout,
+  D3ForceLayout,
+  ForceAtlas2Layout,
+  DagreLayout,
+  ComboCombinedLayout,
+} = Layouts;
 
 import lassoSelector from './selector/lasso';
 import rectSelector from './selector/rect';
+import Hull from './plugin/hull';
 
 const stdLib = {
   transforms: {
@@ -100,6 +127,7 @@ const stdLib = {
     'collapse-expand-combo': CollapseExpandCombo,
     'collapse-expand-tree': CollapseExpandTree,
     'click-select': ClickSelect,
+    'scroll-canvas': ScrollCanvas,
   },
   plugins: {
     history: History,
@@ -107,6 +135,7 @@ const stdLib = {
   nodes: {
     'circle-node': CircleNode,
     'rect-node': RectNode,
+    'image-node': ImageNode,
   },
   edges: {
     'line-edge': LineEdge,
@@ -177,41 +206,37 @@ const utils = {
 };
 
 const registery = { useLib };
-// const Extensions = {
-//   ...Transforms,
-//   ...Themes,
-//   ...ThemeSolvers,
-//   ...Nodes,
-//   ...Edges,
-//   ...Combos,
-//   ...Behaviors,
-//   ...Plugins,
-//   ...Layouts,
-//   ...Hierarchy,
-// };
 
 const Extensions = {
   // transforms
   ValidateData,
   TransformV4Data,
   MapNodeSize,
-  //themes
+  // themes
   LightTheme,
   DarkTheme,
-  //themeSolvers
+  // themeSolvers
   SpecThemeSolver,
   SubjectThemeSolver,
-  //layout
+  // layout
   ForceLayout,
   GridLayout,
   CircularLayout,
   ConcentricLayout,
-  //Hierarchy
+  RandomLayout,
+  MDSLayout,
+  RadialLayout,
+  FruchtermanLayout,
+  D3ForceLayout,
+  ForceAtlas2Layout,
+  DagreLayout,
+  ComboCombinedLayout,
+  // Hierarchy
   compactBox,
   dendrogram,
   indented,
   mindmap,
-  //nodes
+  // nodes
   CircleNode,
   RectNode,
   DiamondNode,
@@ -233,7 +258,7 @@ const Extensions = {
   // combos
   CircleCombo,
   RectCombo,
-  //behaviors
+  // behaviors
   BaseBehavior,
   ActivateRelations,
   BrushSelect,
@@ -250,7 +275,8 @@ const Extensions = {
   DragNode,
   DragCombo,
   CreateEdge,
-  //plugins
+  ShortcutsCall,
+  // plugins
   BasePlugin,
   History,
   Toolbar,
@@ -260,6 +286,9 @@ const Extensions = {
   Menu,
   Fisheye,
   Legend,
+  Timebar,
+  Hull,
+  Snapline,
 };
 
 export default registery;

@@ -17,14 +17,14 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')
       container: 'container',
       width,
       height,
-      transform: ['transform-v4-data'],
+      transforms: ['transform-v4-data'],
       modes: {
-        default: ['zoom-canvas', 'drag-canvas', 'drag-node'],
+        default: ['zoom-canvas', 'drag-canvas', 'drag-node', 'click-select'],
       },
       layout: {
         type: 'forceAtlas2',
         preventOverlap: true,
-        kr: 2,
+        kr: 20,
         center: [250, 250],
       },
       autoFit: 'view',

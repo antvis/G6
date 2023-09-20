@@ -2,126 +2,128 @@
 title: ConcentricLayoutOptions
 ---
 
-[概述 - v5.0.0-alpha.9](../../README.zh.md) / [模块](../../modules.zh.md) / [布局](../. ./modules/layout.zh.md) / ConcentricLayoutOptions 
+> 📋 中文文档还在翻译中... 欢迎 PR
 
- [布局](../../modules/layout.zh.md).ConcentricLayoutOptions 
+[Overview - v5.0.0-beta.5](../../README.zh.md) / [Modules](../../modules.zh.md) / [layout](../../modules/layout.zh.md) / ConcentricLayoutOptions
 
- ＃＃ 特性 
+[layout](../../modules/layout.zh.md).ConcentricLayoutOptions
 
- ＃＃＃ 中心 
+## Properties
 
- • `可选` **中心**：`PointTuple` 
+### center
 
- #### 定义于 
+• `Optional` **center**: `PointTuple`
 
- node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:154 
+#### Defined in
 
- ___ 
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:154
 
- ＃＃＃ 顺时针 
+---
 
- • `可选` **顺时针**：`布尔值` 
+### clockwise
 
- #### 定义于 
+• `Optional` **clockwise**: `boolean`
 
- node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:160 
+#### Defined in
 
- ___ 
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:160
 
- ###等距 
+---
 
- • `可选` **等距**：`布尔值` 
+### equidistant
 
- #### 定义于 
+• `Optional` **equidistant**: `boolean`
 
- node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:158 
+#### Defined in
 
- ___ 
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:158
 
- ＃＃＃ 高度 
+---
 
- • `可选` **高度**：`数字` 
+### height
 
- #### 定义于 
+• `Optional` **height**: `number`
 
- node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:164 
+#### Defined in
 
- ___ 
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:164
 
- ### 最大等级差异 
+---
 
- • `可选` **maxLevelDiff**：`数字` 
+### maxLevelDiff
 
- #### 定义于 
+• `Optional` **maxLevelDiff**: `number`
 
- node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:161 
+#### Defined in
 
- ___ 
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:161
 
- ### 节点大小 
+---
 
- • `可选` **nodeSize**: `number` \| `点元组` \| (`nodeData`: `Node`) => `数字` 
+### nodeSize
 
- #### 定义于 
+• `Optional` **nodeSize**: `number` \| `PointTuple` \| (`nodeData`: `Node`) => `number`
 
- node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:156 
+#### Defined in
 
- ___ 
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:156
 
- ### 节点间距 
+---
 
- • `可选` **nodeSpacing**: `number` \| `数字`[] \| (`节点?`: `节点`) => `数字` 
+### nodeSpacing
 
- #### 定义于 
+• `Optional` **nodeSpacing**: `number` \| `number`[] \| (`node?`: `Node`) => `number`
 
- node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:165 
+#### Defined in
 
- ___ 
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:165
 
- ### 防止重叠 
+---
 
- • `可选` **preventOverlap**：`boolean` 
+### preventOverlap
 
- #### 定义于 
+• `Optional` **preventOverlap**: `boolean`
 
- node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:155 
+#### Defined in
 
- ___ 
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:155
 
- ＃＃＃ 排序方式 
+---
 
- • `可选` **排序依据**：`字符串` 
+### sortBy
 
- #### 定义于 
+• `Optional` **sortBy**: `string`
 
- node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:162 
+#### Defined in
 
- ___ 
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:162
 
- ### 起始角度 
+---
 
- • `可选` **起始角度**：`数字` 
+### startAngle
 
- #### 定义于 
+• `Optional` **startAngle**: `number`
 
- node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:159 
+#### Defined in
 
- ___ 
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:159
 
- ###扫一扫 
+---
 
- • `可选` **扫描**：`数量` 
+### sweep
 
- #### 定义于 
+• `Optional` **sweep**: `number`
 
- node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:157 
+#### Defined in
 
- ___ 
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:157
 
- ＃＃＃ 宽度 
+---
 
- • `可选` **宽度**：`数量` 
+### width
 
- #### 定义于 
+• `Optional` **width**: `number`
 
- node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:163
+#### Defined in
+
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:163

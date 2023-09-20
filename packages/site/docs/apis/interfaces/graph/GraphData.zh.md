@@ -2,36 +2,38 @@
 title: GraphData
 ---
 
-[概述 - v5.0.0-alpha.9](../../README.zh.md) / [模块](../../modules.zh.md) / [图表](../. ./modules/graph.zh.md) / GraphData 
+> 📋 中文文档还在翻译中... 欢迎 PR
 
- [图](../../modules/graph.zh.md).GraphData 
+[Overview - v5.0.0-beta.5](../../README.zh.md) / [Modules](../../modules.zh.md) / [graph](../../modules/graph.zh.md) / GraphData
 
- ＃＃ 特性 
+[graph](../../modules/graph.zh.md).GraphData
 
- ###连击 
+## Properties
 
- • `可选` **组合**：`ComboUserModel`[] 
+### combos
 
- #### 定义于 
+• `Optional` **combos**: `ComboUserModel`[]
 
- [packages/g6/src/types/data.ts:14](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/data.ts#L14) 
+#### Defined in
 
- ___ 
+[packages/g6/src/types/data.ts:14](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/data.ts#L14)
 
- ### 边缘 
+---
 
- • `可选` **边缘**：`EdgeUserModel`[] 
+### edges
 
- #### 定义于 
+• `Optional` **edges**: `EdgeUserModel`[]
 
- [packages/g6/src/types/data.ts:13](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/data.ts#L13) 
+#### Defined in
 
- ___ 
+[packages/g6/src/types/data.ts:13](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/data.ts#L13)
 
- ### 节点 
+---
 
- • `可选` **节点**：`NodeUserModel`[] 
+### nodes
 
- #### 定义于 
+• `Optional` **nodes**: `NodeUserModel`[]
 
- [packages/g6/src/types/data.ts:12](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/data.ts#L12)
+#### Defined in
+
+[packages/g6/src/types/data.ts:12](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/data.ts#L12)

@@ -18,7 +18,7 @@ const graph = new ExtGraph({
   container,
   width,
   height,
-  transform: ['transform-v4-data'],
+  transforms: ['transform-v4-data'],
   modes: {
     default: ['drag-canvas', 'zoom-canvas', 'drag-node', 'collapse-expand-tree', 'click-select'],
   },

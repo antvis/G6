@@ -2,210 +2,212 @@
 title: D3ForceLayoutOptions
 ---
 
-[概述 - v5.0.0-alpha.9](../../README.zh.md) / [模块](../../modules.zh.md) / [布局](../. ./modules/layout.zh.md) / D3ForceLayoutOptions 
+> 📋 中文文档还在翻译中... 欢迎 PR
 
- [布局](../../modules/layout.zh.md).D3ForceLayoutOptions 
+[Overview - v5.0.0-beta.5](../../README.zh.md) / [Modules](../../modules.zh.md) / [layout](../../modules/layout.zh.md) / D3ForceLayoutOptions
 
- ＃＃ 特性 
+[layout](../../modules/layout.zh.md).D3ForceLayoutOptions
 
- ＃＃＃ α 
+## Properties
 
- • `可选` **alpha**：`数字` 
+### alpha
 
- #### 定义于 
+• `Optional` **alpha**: `number`
 
- node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:214 
+#### Defined in
 
- ___ 
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:214
 
- ### 阿尔法衰变 
+---
 
- • `可选` **alphaDecay**：`数字` 
+### alphaDecay
 
- #### 定义于 
+• `Optional` **alphaDecay**: `number`
 
- node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:215 
+#### Defined in
 
- ___ 
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:215
 
- ### 阿尔法最小值 
+---
 
- • `可选` **alphaMin**：`数字` 
+### alphaMin
 
- #### 定义于 
+• `Optional` **alphaMin**: `number`
 
- node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:216 
+#### Defined in
 
- ___ 
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:216
 
- ＃＃＃ 中心 
+---
 
- • `可选` **中心**：`PointTuple` 
+### center
 
- #### 定义于 
+• `Optional` **center**: `PointTuple`
 
- node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:206 
+#### Defined in
 
- ___ 
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:206
 
- ### clusterEdgeDistance 
+---
 
- • `可选` **clusterEdgeDistance**：`number` 
+### clusterEdgeDistance
 
- #### 定义于 
+• `Optional` **clusterEdgeDistance**: `number`
 
- node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:220 
+#### Defined in
 
- ___ 
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:220
 
- ### clusterEdgeStrength 
+---
 
- • `可选` **clusterEdgeStrength**：`数量` 
+### clusterEdgeStrength
 
- #### 定义于 
+• `Optional` **clusterEdgeStrength**: `number`
 
- node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:219 
+#### Defined in
 
- ___ 
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:219
 
- ### clusterFociStrength 
+---
 
- • `可选` **clusterFociStrength**：`数量` 
+### clusterFociStrength
 
- #### 定义于 
+• `Optional` **clusterFociStrength**: `number`
 
- node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:222 
+#### Defined in
 
- ___ 
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:222
 
- ### 集群节点大小 
+---
 
- • `可选` **clusterNodeSize**：`数量` 
+### clusterNodeSize
 
- #### 定义于 
+• `Optional` **clusterNodeSize**: `number`
 
- node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:221 
+#### Defined in
 
- ___ 
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:221
 
- ### clusterNodeStrength 
+---
 
- • `可选` **clusterNodeStrength**：`数量` 
+### clusterNodeStrength
 
- #### 定义于 
+• `Optional` **clusterNodeStrength**: `number`
 
- node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:218 
+#### Defined in
 
- ___ 
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:218
 
- ### 聚类 
+---
 
- • `可选` **聚类**：`布尔值` 
+### clustering
 
- #### 定义于 
+• `Optional` **clustering**: `boolean`
 
- node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:217 
+#### Defined in
 
- ___ 
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:217
 
- ### 碰撞强度 
+---
 
- • `可选` **碰撞强度**：`数字` 
+### collideStrength
 
- #### 定义于 
+• `Optional` **collideStrength**: `number`
 
- node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:211 
+#### Defined in
 
- ___ 
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:211
 
- ### 边缘强度 
+---
 
- • `可选` **边缘强度**：`数字` \| (`边?`: `边`) => `数字` 
+### edgeStrength
 
- #### 定义于 
+• `Optional` **edgeStrength**: `number` \| (`edge?`: `Edge`) => `number`
 
- node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:208 
+#### Defined in
 
- ___ 
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:208
 
- ### 力模拟 
+---
 
- • `可选` **forceSimulation**：`任何` 
+### forceSimulation
 
- #### 定义于 
+• `Optional` **forceSimulation**: `any`
 
- node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:223 
+#### Defined in
 
- ___ 
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:223
 
- ### 链接距离 
+---
 
- • `可选` **linkDistance**：`数字` \| (`边?`: `边`) => `数字` 
+### linkDistance
 
- #### 定义于 
+• `Optional` **linkDistance**: `number` \| (`edge?`: `Edge`) => `number`
 
- node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:207 
+#### Defined in
 
- ___ 
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:207
 
- ### 节点大小 
+---
 
- • `可选` **nodeSize**: `number` \| `数字`[] \| (`节点?`: `节点`) => `数字` 
+### nodeSize
 
- #### 定义于 
+• `Optional` **nodeSize**: `number` \| `number`[] \| (`node?`: `Node`) => `number`
 
- node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:212 
+#### Defined in
 
- ___ 
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:212
 
- ### 节点间距 
+---
 
- • `可选` **nodeSpacing**: `number` \| `数字`[] \| (`节点?`: `节点`) => `数字` 
+### nodeSpacing
 
- #### 定义于 
+• `Optional` **nodeSpacing**: `number` \| `number`[] \| (`node?`: `Node`) => `number`
 
- node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:213 
+#### Defined in
 
- ___ 
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:213
 
- ### 节点强度 
+---
 
- • `可选` **nodeStrength**: `number` \| (`节点?`: `节点`) => `数字` 
+### nodeStrength
 
- #### 定义于 
+• `Optional` **nodeStrength**: `number` \| (`node?`: `Node`) => `number`
 
- node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:209 
+#### Defined in
 
- ___ 
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:209
 
- ### 勾选 
+---
 
- • `可选` **onTick**: (`data`: `LayoutMapping`) => `void` 
+### onTick
 
- #### 类型声明 
+• `Optional` **onTick**: (`data`: `LayoutMapping`) => `void`
 
- ▸ (`数据`): `无效` 
+#### Type declaration
 
- ＃＃＃＃＃ 参数 
+▸ (`data`): `void`
 
- | 名称 | 类型 | 
- | :------ | :------ | 
- | `数据` | `布局映射` | 
+##### Parameters
 
- ##### 返回 
+| Name   | Type            |
+| :----- | :-------------- |
+| `data` | `LayoutMapping` |
 
- `无效` 
+##### Returns
 
- #### 定义于 
+`void`
 
- node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:224 
+#### Defined in
 
- ___ 
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:224
 
- ### 防止重叠 
+---
 
- • `可选` **preventOverlap**：`boolean` 
+### preventOverlap
 
- #### 定义于 
+• `Optional` **preventOverlap**: `boolean`
 
- node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:210
+#### Defined in
+
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:210

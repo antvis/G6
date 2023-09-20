@@ -200,7 +200,7 @@ export class History extends Base {
   /**
    * Pause stacking operations.
    */
-  pauseStacking(): void {
+  pauseStack(): void {
     this.withoutStackingCounter++;
 
     if (this.withoutStackingCounter === 1) {
@@ -212,7 +212,7 @@ export class History extends Base {
   /**
    * Resume stacking operations.
    */
-  resumeStacking(): void {
+  resumeStack(): void {
     if (this.withoutStackingCounter > 0) {
       this.withoutStackingCounter--;
     }
@@ -260,14 +260,14 @@ export class History extends Base {
   }
 
   /**
-   * Begin a batch operation.
-   * Any operations performed between `startBatch` and `stopBatch` are grouped together.
+   * Begin a historyBatch operation.
+   * Any operations performed between `startHistoryBatch` and `stopHistoryBatch` are grouped together.
    * treated as a single operation when undoing or redoing.
    */
-  public startBatch() {
+  public startHistoryBatch() {
     if (this.isBatching) {
       throw new Error(
-        'Ensure that batch processing is stopped before starting.',
+        'Ensure that historyBatch processing is stopped before starting.',
       );
     }
     this.initBatchCommands();
@@ -275,14 +275,14 @@ export class History extends Base {
   }
 
   /**
-   * End a batch operation.
-   * Any operations performed between `startBatch` and `stopBatch` are grouped together.
+   * End a historyBatch operation.
+   * Any operations performed between `startHistoryBatch` and `stopHistoryBatch` are grouped together.
    * treated as a single operation when undoing or redoing.
    */
-  public stopBatch() {
+  public stopHistoryBatch() {
     if (!this.isBatching) {
       throw new Error(
-        'Ensure that batch processing is started before stopping.',
+        'Ensure that historyBatch processing is started before stopping.',
       );
     }
     this.push(this.batchCommands);
@@ -290,13 +290,13 @@ export class History extends Base {
   }
 
   /**
-   * Execute the provided function in a batch mode
+   * Execute the provided function in a historyBatch mode
    * @param callback
    */
-  public batch(callback) {
-    this.startBatch();
+  public historyBatch(callback) {
+    this.startHistoryBatch();
     callback();
-    this.stopBatch();
+    this.stopHistoryBatch();
   }
 
   public getEvents() {

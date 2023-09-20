@@ -7,7 +7,7 @@ const graph = new G6.Graph({
   container: 'container',
   width,
   height,
-  transform: ['transform-v4-data'],
+  transforms: ['transform-v4-data'],
   layout: {
     type: 'force',
     preventOverlap: true,
@@ -20,7 +20,7 @@ const graph = new G6.Graph({
     },
   },
   modes: {
-    default: ['drag-canvas'],
+    default: ['zoom-canvas', 'drag-canvas', 'click-select'],
   },
   data: {
     nodes: [

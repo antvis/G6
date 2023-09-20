@@ -2,33 +2,35 @@
 title: behaviors
 ---
 
-[概述 - v5.0.0-alpha.9](../README.zh.md) / [模块](../modules.zh.md) / 行为 
+> 📋 中文文档还在翻译中... 欢迎 PR
 
- ## 接口 
+[Overview - v5.0.0-beta.5](../README.zh.md) / [Modules](../modules.zh.md) / behaviors
 
- - [ActivateRelationsOptions](../interfaces/behaviors/ActivateRelationsOptions.zh.md) 
- - [BrushSelectOptions](../interfaces/behaviors/BrushSelectOptions.zh.md) 
- - [CollapseExpandComboOptions](../interfaces/behaviors/CollapseExpandComboOptions.zh.md) 
- - [DragCanvasOptions](../interfaces/behaviors/DragCanvasOptions.zh.md) 
- - [DragComboOptions](../interfaces/behaviors/DragComboOptions.zh.md) 
- - [DragNodeOptions](../interfaces/behaviors/DragNodeOptions.zh.md) 
- - [HoverActivateOptions](../interfaces/behaviors/HoverActivateOptions.zh.md) 
- - [IG6GraphEvent](../interfaces/behaviors/IG6GraphEvent.zh.md) 
- - [选项](../interfaces/behaviors/Options.zh.md) 
- - [OrbitCanvas3DOptions](../interfaces/behaviors/OrbitCanvas3DOptions.zh.md) 
- - [RotateCanvas3DOptions](../interfaces/behaviors/RotateCanvas3DOptions.zh.md) 
- - [TrackCanvas3DOptions](../interfaces/behaviors/TrackCanvas3DOptions.zh.md) 
- - [ZoomCanvas3DOptions](../interfaces/behaviors/ZoomCanvas3DOptions.zh.md) 
- - [ZoomCanvasOptions](../interfaces/behaviors/ZoomCanvasOptions.zh.md) 
+## Interfaces
 
- ## 输入别名 
+- [ActivateRelationsOptions](../interfaces/behaviors/ActivateRelationsOptions.zh.md)
+- [BrushSelectOptions](../interfaces/behaviors/BrushSelectOptions.zh.md)
+- [CollapseExpandComboOptions](../interfaces/behaviors/CollapseExpandComboOptions.zh.md)
+- [DragCanvasOptions](../interfaces/behaviors/DragCanvasOptions.zh.md)
+- [DragComboOptions](../interfaces/behaviors/DragComboOptions.zh.md)
+- [DragNodeOptions](../interfaces/behaviors/DragNodeOptions.zh.md)
+- [HoverActivateOptions](../interfaces/behaviors/HoverActivateOptions.zh.md)
+- [IG6GraphEvent](../interfaces/behaviors/IG6GraphEvent.zh.md)
+- [Options](../interfaces/behaviors/Options.zh.md)
+- [OrbitCanvas3DOptions](../interfaces/behaviors/OrbitCanvas3DOptions.zh.md)
+- [RotateCanvas3DOptions](../interfaces/behaviors/RotateCanvas3DOptions.zh.md)
+- [TrackCanvas3DOptions](../interfaces/behaviors/TrackCanvas3DOptions.zh.md)
+- [ZoomCanvas3DOptions](../interfaces/behaviors/ZoomCanvas3DOptions.zh.md)
+- [ZoomCanvasOptions](../interfaces/behaviors/ZoomCanvasOptions.zh.md)
 
- ### ICanvasEventType 
+## Type Aliases
 
- Ƭ **ICanvasEventType**: \`${CANVAS\_EVENT\_TYPE}\` 
+### ICanvasEventType
 
- 事件类型联合 
+Ƭ **ICanvasEventType**: \`${CANVAS_EVENT_TYPE}\`
 
- #### 定义于 
+Event type union
 
- [packages/g6/src/types/event.ts:38](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/event.ts#L38)
+#### Defined in
+
+[packages/g6/src/types/event.ts:38](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/event.ts#L38)

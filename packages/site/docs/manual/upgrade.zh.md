@@ -1,6 +1,6 @@
 ---
 title: 如何升级
-order: 1
+order: 3
 ---
 
 相较于 v4，G6 v5 的新能力体现在：
@@ -14,6 +14,14 @@ order: 1
 - 🚀 **性能**飞跃，包括渲染与布局计算；
 - 🌠 **多渲染器**，可运行时切换；
 - 📦 **包体积减少**，支持 TreeShaking。
+
+还有其他一些微小而美好的改变：
+
+- 轮廓包裹 Hull 支持文本配置；
+- 折线支持自动避障；
+- 文本自动适配宽度；
+- 采用临时层画布提升交互性能；
+- 图例自动从画布中获取样式。
 
 正式版即将来袭。如果上面 Feature 是您所期待的，现在就可以使用 G6 5.0 Beta 版本进行尝鲜！若遇到任何升级问题，请在 GitHub 给我们留言。
 
@@ -29,7 +37,7 @@ order: 1
 
 ```typescript
 const graph = new Graph({
-  transform: ['transform-v4-data'],
+  transforms: ['transform-v4-data'],
   // ... 其他配置
   data: v4data, // 一份 v4 格式的数据
 });
@@ -731,3 +739,47 @@ v4 的坐标系统（三套）见文档：https://g6.antv.antgroup.com/manual/ad
 | 相对于浏览器的坐标系                                                                                                                              | { clientX, clientY }               | client: { x: number; y: number; z: number }   |
 | 相对于 Canvas DOM 的坐标系                                                                                                                        | { canvasX, canvasY }               | viewport: { x: number; y: number; z: number } |
 | 相对于整个屏幕的坐标系 <img src="https://cdn.nlark.com/yuque/0/2023/png/156681/1686301904342-082076d7-62f7-45a3-8ab3-5f83ec1b8102.png" width=100> | 无                                 | screen: { x: number; y: number; z: number }   |
+
+## 🌸. 其他微小而美好的改变
+
+- 轮廓包裹 Hull 支持文本配置：
+
+只需要为 Hull 实例配置 labelShape 即可，可以指定其相对位置(`position`)在 hull 的上、下、左、右四个方向。
+
+[Hull 支持文本 DEMO](https://g6-next.antv.antgroup.com/examples/interaction/hull/#hull)
+
+<img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*eXzfTbFrYjMAAAAAAAAAAAAADmJ7AQ/original" />
+
+- 折线支持自动避障：
+
+设置边的 `keyShape.routeCfg.obstacleAvoidance: true` 即可自动躲避节点。
+
+[Polyline 避障 DEMO](https://g6-next.antv.antgroup.com/examples/item/defaultEdges/#polyline3)
+
+<img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*Giy7R4jheawAAAAAAAAAAAAADmJ7AQ/original" />
+
+- 文本自动适配宽度：
+
+设置节点文本图形的 `maxWidth`，可以为数字代表允许的最大宽度的像素值，也可以是百分比字符串代表占 keyShape 的比例。例如：
+
+```javascript
+const graph = new Graph({
+  node: {
+    labelShape: {
+      maxWidth: '120%',
+    },
+  },
+});
+```
+
+[文本自适应 DEMO](https://g6-next.antv.antgroup.com/examples/item/label/#copyLabel)
+
+<img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*LGuRR7itiQ8AAAAAAAAAAAAADmJ7AQ/original" />
+
+- 采用临时层画布提升交互性能：
+
+<img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*VkT7T4Qzt2gAAAAAAAAAAAAADmJ7AQ/original" />
+
+- 图例自动从画布中获取样式：
+
+<img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*53oGRpdKpwsAAAAAAAAAAAAADmJ7AQ/original" />

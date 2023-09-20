@@ -5,40 +5,43 @@ order: 0
 
 ## What is G6
 
-[G6](https://github.com/antvis/g6) is a graph visualization engine, which provides a set of basic mechanisms, including rendering, layout, analysis, interaction, animation, and other auxiliary tools. G6 aims to simplify the complex relationships, and help people to obtain the insight of relational data.
+G6 is a graph visualization engine. It provides basic graph visualization capabilities such as drawing, layout, analysis, interaction, animation, etc. It aims to make relationships transparent and simple, allowing users to gain insights into relationship data.
 
-## Introduction to The Tutorial
+## Introduction to the Tutorial
 
-We will build a simple graph visualization during this tutorial. We call this demo **Tutorial Demo** in the following Tutorial. <a href='https://codepen.io/Yanyan-Wang/pen/mdbYZvZ' target='_blank'>Complete Code</a>.
+In this tutorial, we will create a simple graph visualization as shown in the following image, which we will refer to as the **Tutorial Example**, <a href='https://codesandbox.io/s/g6-v5-tutorial-j67vnm?file=/index.js' target='_blank'>Full Code</a>.
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*YlTVS54xV3EAAAAAAAAAAABkARQnAQ'  width=500 alt='img' />
+<img src='https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*9VQjTp0Ipi8AAAAAAAAAAAAADmJ7AQ/original' style="text-align: center;" width=500 alt='img' />
 
-<div style="text-align: center;"><b>Tutorial Demo</b> result</div>
+<div style="text-align: center;"><b>Tutorial Example</b></div>
 
-## Preface
+## Introduction
 
-This tutorial introduces how to combine creating and rendering a graph, configuring items, layout, interaction, animation, and other tools to complete the final **Tutorial Demo**. The readers will learn the basic and key concepts of G6 in this tutorial.
+In this tutorial, we will complete the creation, rendering, element configuration, layout, interaction, animation, and tooling of a graph in the Tutorial Example. In this tutorial, readers will learn the basic and core functionalities of G6. After mastering the content of this tutorial, readers will have a preliminary understanding of G6 and lay a foundation for a deeper understanding.
 
-There are 6 chapters in this tutorial:
+This tutorial will be divided into the following sections:
 
-- Create & Render a Graph
-- Items & Their Configurations
-- Utilize Layout
-- Interaction Behaviors
-- Plugins & Tools
-- \*Animation (not Required)
+- Quick Start
+- Creating a Graph
+- Elements and their Configuration
+- Using Graph Layouts
+- Graph Interaction Behavior
+- Plugins and Tools
+- Animation
 
-**Tips:** <br />This tutorial is designed for people who prefer to learn by doing. If you prefer learning concepts from the ground up, check out our [Key Concepts](/en/docs/manual/middle/graph). You might find this tutorial and the guide complementary to each other.
+`Note`
+<br />
+This tutorial is designed for readers who want to learn while doing. More tutorials for G6 5.0 are under development. For now, readers can refer to the [API Doc](https://g6-next.antv.antgroup.com/en/apis).
 
 ## Prerequisites
 
-It doesn't matter if you're not familiar with G6. But we’ll assume that you have some familiarity with HTML and JavaScript, but you should be able to follow along even if you’re coming from a different programming language. You might be tempted to skip if you already know the basics of G6.
+This tutorial demonstrates how to use G6 to create a complete graph visualization application. Before learning, we assume that readers have some knowledge of HTML and JavaScript, but no prior knowledge of G6 is required. If readers are already familiar with the basics of G6, they can skip some content and focus on important points.
 
-## Setup
+## Environment Setup
 
-Any code editor works for this Tutorial. We recommend to run this demo in Chrome. In this tutorial, we import G6 V3.7.1 by CDN. We simplified the code to make it easy. For other environments, please refer to the installation guide in [Getting Started](/en/docs/manual/getting-started).
+It is recommended to use the latest version of the Chrome browser as the runtime environment and any code editor for code writing. This tutorial assumes that G6 is directly imported via CDN. The version used is 3.7.1, which simplifies many features in our code. If readers want to try this tutorial in a different environment, they can refer to the installation and configuration section in the [Quick Start](https://g6-next.antv.antgroup.com/en/manual/getting-started) for guidance.
 
-New an index.html file, and add the code below:
+Create a new index.html file and add the following code:
 
 ```html
 <!DOCTYPE html>
@@ -48,16 +51,14 @@ New an index.html file, and add the code below:
     <title>Tutorial Demo</title>
   </head>
   <body>
-    <!-- import G6 by CDN -->
-    <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.7.1/dist/g6.min.js"></script>
-    <!-- 4.x and later versions -->
-    <!-- <script src="https://gw.alipayobjects.com/os/lib/antv/g6/4.3.11/dist/g6.min.js"></script> -->
+    <!-- Import G6 5.0 beta -->
+    <script src="https://gw.alipayobjects.com/os/lib/antv/g6/5.0.0-beta.5/dist/g6.min.js"></script>
 
     <script>
-      console.log(G6.Global.version);
+      console.log(G6);
     </script>
   </body>
 </html>
 ```
 
-Open index.html with your browser. It is success if there is the version number of G6 printed in the console.
+Open the index.html file in a browser, open the console, and you should see G6 printed, indicating successful import.

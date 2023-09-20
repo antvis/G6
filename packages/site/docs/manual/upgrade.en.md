@@ -1,6 +1,6 @@
 ---
 title: How to Update
-order: 1
+order: 3
 ---
 
 Compared to G6 v4, G6 v5 introduces new capabilities in the following areas:
@@ -14,6 +14,14 @@ Compared to G6 v4, G6 v5 introduces new capabilities in the following areas:
 - 🚀 **Performance Improvements**, including rendering and layout computations;
 - 🌠 **Multiple Renderers** that can be switched at runtime.
 - 📦 Reduced package size with support for **TreeShaking**.
+
+And more small and wonderful changes:
+
+- Hull supports text configuration.
+- Polyline supports automatic obstacle avoidance.
+- Text automatically adapts to width.
+- Improved interactive performance by using a temporary layer canvas.
+- Legend automatically retrieves styles from the canvas.
 
 The official version is coming soon. If these features are what you have been waiting for, you can now try the G6 5.0 Beta version! If you encounter any upgrade issues, please leave us a message on GitHub.
 
@@ -29,7 +37,7 @@ To achieve data layering, prevent data pollution, and better avoid the mixture o
 
 ```typescript
 const graph = new Graph({
-  transform: ['transform-v4-data'],
+  transforms: ['transform-v4-data'],
   // ... other configurations
   data: v4data, // A set of data in v4 format
 });
@@ -684,3 +692,47 @@ It should be noted that the coordinate systems in v5 (four sets) have different 
 | Coordinates relative to the browser coordinate system                                                                                                                | { clientX, clientY }               | client: { x: number; y: number; z: number }   |
 | Coordinates relative to the Canvas DOM coordinate system 系                                                                                                          | { canvasX, canvasY }               | viewport: { x: number; y: number; z: number } |
 | Coordinates relative to the entire screen <img src="https://cdn.nlark.com/yuque/0/2023/png/156681/1686301904342-082076d7-62f7-45a3-8ab3-5f83ec1b8102.png" width=100> | none                               | screen: { x: number; y: number; z: number }   |
+
+## 🌸. More small and wonderful changes
+
+- Hull supports text configuration:
+
+You only need to configure the labelShape for the Hull instance, and you can specify its relative position (`position`) in four directions: above, below, left, or right of the hull.
+
+[Hull with Label DEMO](https://g6-next.antv.antgroup.com/examples/interaction/hull/#hull)
+
+<img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*eXzfTbFrYjMAAAAAAAAAAAAADmJ7AQ/original" />
+
+- Polyline supports automatic obstacle avoidance:
+
+Set `keyShape.routeCfg.obstacleAvoidance: true` for the edge to automatically avoid nodes.
+
+[Polyline Obstacle Avoidance DEMO](https://g6-next.antv.antgroup.com/examples/item/defaultEdges/#polyline3)
+
+<img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*Giy7R4jheawAAAAAAAAAAAAADmJ7AQ/original" />
+
+- Text automatically adapts to width:
+
+Setting the `maxWidth` of the node's text shape allows you to specify the maximum width in pixels as a number or as a percentage of the keyShape. For example:
+
+```javascript
+const graph = new Graph({
+  node: {
+    labelShape: {
+      maxWidth: '120%',
+    },
+  },
+});
+```
+
+[Label Fit Width DEMO](https://g6-next.antv.antgroup.com/examples/item/label/#copyLabel)
+
+<img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*LGuRR7itiQ8AAAAAAAAAAAAADmJ7AQ/original" />
+
+- Improved interactive performance by using a temporary layer canvas:
+
+<img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*VkT7T4Qzt2gAAAAAAAAAAAAADmJ7AQ/original" />
+
+- Legend automatically retrieves styles from the canvas:
+
+<img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*53oGRpdKpwsAAAAAAAAAAAAADmJ7AQ/original" />

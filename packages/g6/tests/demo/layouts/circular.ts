@@ -9,7 +9,7 @@ export default (context: TestCaseContext) => {
     type: 'graph',
     data: JSON.parse(JSON.stringify(data)),
     layout: {
-      type: 'concentric',
+      type: 'circular',
       center: [width! / 2, height! / 2],
       radius: 200,
     },

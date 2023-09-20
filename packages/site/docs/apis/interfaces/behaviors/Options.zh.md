@@ -2,98 +2,98 @@
 title: Options
 ---
 
-[概述 - v5.0.0-alpha.9](../../README.zh.md) / [模块](../../modules.zh.md) / [行为](../. ./modules/behaviors.zh.md) / 选项 
+[概述-v5.0.0-beta.5]（../../ readme.zh.md）/[模块]（../../ modules.zh.md）/[capingiors]（../。 ./modules/behaviors.zh.md）/options
 
- [行为](../../modules/behaviors.zh.md).选项 
+[行为]（../../模块/cravicy.zh.md）.options
 
- ＃＃ 特性 
+＃＃ 特性
 
- ### 禁用动画 
+###残疾人
 
- • **禁用动画**：`布尔值` 
+•**残疾**：`boolean`
 
- 是否禁用此行为触发的折叠/展开动画。 
+是否禁用该行为触发的崩溃 /展开动画。
 
- #### 定义于 
+####定义
 
- [packages/g6/src/stdlib/behavior/collapse-expand-tree.ts:21](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/collapse- 展开树.ts#L21) 
+[packages/g6/src/stdlib/crutive/collapse-expand-tree.ts：21] Expand-tree.ts＃l21）
 
- ___ 
+---
 
- ### 事件名称 
+### eventname
 
- • **事件名称**：`字符串` 
+•** eventname **：`弦乐
 
- 选择/取消选择项目时触发的事件名称。 
+当选择/取消选择项目时，要触发的事件名称。
 
- #### 定义于 
+####定义
 
- [packages/g6/src/stdlib/behavior/collapse-expand-tree.ts:17](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/collapse- 展开树.ts#L17) 
+[packages/g6/src/stdlib/crutive/collapse-expand-tree.ts：17] 扩展-Tree.ts＃l17）
 
- ___ 
+---
 
- ### 应该开始 
+###应该 begin
 
- • **shouldBegin**: (`event`: [`IG6GraphEvent`](IG6GraphEvent.zh.md)) => `boolean` 
+•**应该 begin ** ：（`event`：[```ig6graphevent`]（ig6graphevent.zh.md））=>>'boolean`
 
- #### 类型声明 
+####类型声明
 
- ▸ (`事件`): `布尔值` 
+▸（``event'）：`boolean'
 
- 是否允许该行为发生在当前项目上。 
+是否允许行为发生在当前项目上。
 
- ＃＃＃＃＃ 参数 
+＃＃＃＃＃ 参数
 
- | 名称 | 类型 | 
- | :------ | :------ | 
- | `事件` | [`IG6GraphEvent`](IG6GraphEvent.zh.md) | 
+| 名称| 类型|
+| ：------- | ：------- |
+| `event` | [``ig6graphevent`]（ig6graphevent.zh.md）|
 
- ##### 返回 
+#####返回
 
- `布尔值` 
+布尔'
 
- #### 定义于 
+####定义
 
- [packages/g6/src/stdlib/behavior/collapse-expand-tree.ts:25](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/collapse- 展开树.ts#L25) 
+[packages/g6/src/stdlib/crutive/collapse-expand-tree.ts：25] 扩展-Tree.ts＃l25）
 
- ___ 
+---
 
- ### 应该更新 
+###应该努力
 
- • **shouldUpdate**: (`event`: [`IG6GraphEvent`](IG6GraphEvent.zh.md)) => `boolean` 
+•**应该 update **：（`event`：[```ig6graphevent`]（ig6graphevent.zh.md））=>>'boolean`
 
- #### 类型声明 
+####类型声明
 
- ▸ (`事件`): `布尔值` 
+▸（``event'）：`boolean'
 
- 是否更新项目状态。 
- 如果它返回 false，您可能会监听 `eventName` 并 
- 手动管理状态或数据 
+是否更新项目状态。
+如果返回 false，您可能会收听`eventname''和
+手动管理状态或数据
 
- ＃＃＃＃＃ 参数 
+＃＃＃＃＃ 参数
 
- | 名称 | 类型 | 
- | :------ | :------ | 
- | `事件` | [`IG6GraphEvent`](IG6GraphEvent.zh.md) | 
+| 名称| 类型|
+| ：------- | ：------- |
+| `event` | [``ig6graphevent`]（ig6graphevent.zh.md）|
 
- ##### 返回 
+#####返回
 
- `布尔值` 
+布尔'
 
- #### 定义于 
+####定义
 
- [packages/g6/src/stdlib/behavior/collapse-expand-tree.ts:31](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/collapse- 展开树.ts#L31) 
+[packages/g6/src/stdlib/crutive/collapse-expand-tree.ts：31] 扩展-Tree.ts＃l31）
 
- ___ 
+---
 
- ＃＃＃ 扳机 
+＃＃＃ 扳机
 
- • **触发**：``“单击”`` \| ``“双击”`` 
+•**触发**：``'click'`\ | ````dblclick''
 
- 单击鼠标按下该键以应用多项选择。 
- 默认为“移位”。 
- 可以是“shift”、“ctrl”、“alt”或“meta”。 
+单击鼠标按下以应用多个选择的键。
+默认为```shift''`。
+可以是“换档”，“ CTRL”，“ ALT”或“ META”。
 
- #### 定义于 
+####定义
 
- [packages/g6/src/stdlib/behavior/collapse-expand-tree.ts:13](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/collapse- 展开树.ts#L13)
+[packages/g6/src/stdlib/crutive/collapse-expand-tree.ts：13] 扩展-Tree.ts＃l13）

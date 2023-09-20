@@ -1,97 +1,73 @@
 ---
-title: Utilizing Layout
+title: 使用图布局 Layout
 order: 3
 ---
 
-When there is no node position information in the data, or the location information does not meet the requirements, layouts in G6 will help you to arrange the nodes. There are 9 layouts for general graph and 4 layouts for tree graph in G6:
+When there is no node position information in the data, or when the position information in the data does not meet the requirements, some layout algorithms need to be used to layout the graph. G6 provides 9 general graph layouts and 4 tree graph layouts. In v4, they need to be used separately in graph data and tree data structures. In v5, tree and graph layouts are merged, and now both tree and graph can use the following layout algorithms:
 
-<br />**Layouts for General Graph:**
+<br />
+**General graph layouts:**
 
-- Random Layout: Randomizes the node positions;
-- **Force Layout: Classical force-directed layout algorithm:**
+- Random Layout: random layout;
+- **Force Layout**: classic force-directed layout:
 
-  > In force-directed layout, items are simulated as physical particals with attractive forces and repulsive forces. Lead by the forces, the nodes will move to appropriate positions to balance the forces. It is suitable for describing the relationships between objects, e.g. relationships between person, computer networks.
+  > Force-directed layout: In a layout network, particles have attractive and repulsive forces between them. From the initial random and unordered layout, it gradually evolves to a balanced and stable layout, which is called force-directed layout. It is suitable for describing relationships between things, such as interpersonal relationships, computer network relationships, etc.
 
-- Circular Layout: Arranges the nodes on a circle;
-- Radial Layout: Arranges the nodes radially;
-- MDS Layout: Multidimensional scaling;
-- Fruchterman Layout: A kind of force-directed layout;
-- Dagre Layout: Hierarchical layout;
-- Concentric Layout: Arranges the nodes on concentrics, while the more important (measure with degree by default), the more center the node will be；
-- Grid Layout: Arranges the nodes on the grid according with order (data order by default).
+- Circular Layout;
+- Radial Layout;
+- MDS Layout: dimensionality reduction algorithm layout for high-dimensional data;
+- Fruchterman Layout: a type of force-directed layout;
+- Dagre Layout: hierarchical layout;
+- Concentric Layout: placing important (default measured by degree) nodes in the layout center;
+- Grid Layout: arranging nodes in order (default is data order).
 
-**Layouts for TreeGraph:**
+**Tree graph layouts:**
 
-- Dendrogram Layout;
-- CompactBox Layout;
-- Mindmap Layout;
-- Indented Layout.
+- Dendrogram Layout: tree layout (leaf node layout aligned to the same layer);
+- CompactBox Layout: compact tree layout;
+- Mindmap Layout: mind map layout;
+- Indented Layout: indented layout.
+  F
+  or detailed introductions and configuration of these layouts, please refer to the [Layout API](https://g6-next.antv.antgroup.com/en/apis/interfaces/layout/force-layout-options). In this tutorial, we use the Force Layout.
 
-For more information about each layout algorithm, please refer to [Graph Layout API](/en/docs/api/graphLayout/guide) or [TreeGraph Layout API](/en/docs/api/treeGraphLayout/guide). We will utilize Force Layout in the tutorial.
-
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*qnUwSZVjYOMAAAAAAAAAAABkARQnAQ' width=550  alt='img'/>
-
-## Turnoff the fitView
-
-We used `fitView` to fit the graph to the canvas in the previous Tutorial. From now on, we turn it off by note the line of code below to make further improvements.
-
-```javascript
-const graph = new G6.Graph({
-  // ...
-  // fitView: true,
-  // fitViewPadding: [ 20, 40, 50, 20 ]
-});
-```
+<img src='https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*lJdeTI0qQa8AAAAAAAAAAAAADmJ7AQ/original' width=550 alt='img' />
 
 ## Default Layout
 
-When the `layout` is not assigned to graph instance:
+When instantiating the graph without configuring the layout:
 
-- If there is position information with `x` and `y` in node data, render with these information;
-- If there is no position information in node data, arrange the nodes with Random Layout by default.
+- If the nodes in the data have position information (`x` and `y`), the graph will be drawn according to the position information in the data.
 
-## Configure the Layout
+- If the nodes in the data do not have position information, the default Grid Layout will be used.
 
-It is very simple to configure a layout for a graph in G6. Just assign `layout` to the graph when instantiating. The following code configures the layout with `type: 'force'`, which is the classical force-directed layout algorithm. And set `preventOverlap: true` to avoid node overlappings. More configurations are described in: [Graph Layout API](/en/docs/api/graphLayout/guide) or [TreeGraph Layout API](/en/docs/api/treeGraphLayout/guide).
+## Configuring the Layout
 
-```javascript
-const graph = new G6.Graph({
-  ...                      // Other configurations
-  layout: {                // Object, layout configuration. random by default
-    type: 'force',         // Force layout
-    preventOverlap: true,  // Prevent node overlappings
-    // nodeSize: 30        // The size of nodes for collide detection. Since we have assigned sizes for each node to their data in last chapter, the nodeSize here is not required any more.
-  }
-});
-```
-
-The result:
-
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*w4ZfRJW3b5YAAAAAAAAAAABkARQnAQ' width=350 alt='img' />
-
-The layout balances the forces by moving the nodes. But the nodes are too crowded to show the label clearly now. `linkDistance` in the configuration of force layout can be used to scale the edge length to keep a distance between two adjacent nodes:
+Configuring the layout in G6 is very simple. When instantiating the graph, just add the layout configuration. The code below sets the layout method to `type: 'force'`, which is the force-directed graph layout. At the same time,` animated: true` is enabled to render the graph in real-time during the force calculation process, allowing users to observe the animation effects produced by the interaction between nodes. The parameter `preventOverlap: true` is set to prevent node overlap. For more configuration options of the force-directed layout, please refer to the [Layout API](https://g6-next.antv.antgroup.com/en/apis/interfaces/layout/force-layout-options).
 
 ```javascript
-const graph = new G6.Graph({
-  // ...
+const graph = new Graph({
+  // ...                      // Other configurations
+  // Object, optional, the layout method and its configuration, defaulting to the grid layout.
   layout: {
-    type: 'force',
-    preventOverlap: true,
-    linkDistance: 100, // The link distance is 100
+    type: 'force', // Specify the force-directed layout
+    preventOverlap: true, // Prevent node overlap
+    linkDistance: 50, // Ideal length of edges
+    // nodeSize: 30     // Node size, used for collision detection in the algorithm to prevent node overlap. By default, the node size in the data will be used.
   },
 });
 ```
 
-The result:
+The result is as follows:
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*AXrdQIm3oCIAAAAAAAAAAABkARQnAQ' width=350 alt='img' />
-<br />
+<img src='https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*lJdeTI0qQa8AAAAAAAAAAAAADmJ7AQ/original' width=350 alt='img' />
 
-> Transformation between different layouts and configurations are described in: [Layout Transformation](/en/docs/manual/middle/layout/layout-mechanism).
+> Different layouts and different parameters of the same layout can be dynamically switched and transitioned. For more information, please refer to: [Layout Switching](https://g6-next.antv.antgroup.com/en/examples/net/layoutMechanism/#layoutTranslate).
 
-**Tips:** <br />The layout algorithm will be executed in `graph.render()`.
+Note: If there is data in the graph configuration, the layout calculation will be performed after instantiating the graph. If the graph.read(data) API is used to read the data, the layout will be calculated when it is called.
 
 ## Complete Code
+
+Here is the complete code:
 
 ```html
 <!DOCTYPE html>
@@ -101,77 +77,167 @@ The result:
     <title>Tutorial Demo</title>
   </head>
   <body>
-    <div id="mountNode"></div>
-    <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.7.1/dist/g6.min.js"></script>
-    <!-- 4.x and later versions -->
-    <!-- <script src="https://gw.alipayobjects.com/os/lib/antv/g6/4.3.11/dist/g6.min.js"></script> -->
+    <div id="container"></div>
+    <script src="https://gw.alipayobjects.com/os/lib/antv/g6/5.0.0-beta.5/dist/g6.min.js"></script>
     <script>
-      const graph = new G6.Graph({
-        container: 'mountNode',
-        width: 800,
-        height: 600,
-        defaultNode: {
-          size: 30,
-          labelCfg: {
-            style: {
-              fill: '#fff',
+      const { Graph: GraphBase, extend, Extensions } = G6;
+
+      // Custom data processor - degree calculation
+      const degreeCalculator = (data, options, userGraphCore) => {
+        const { edges, nodes } = data;
+        const degreeMap = new Map();
+        edges.forEach(({ source, target }) => {
+          degreeMap.set(source, (degreeMap.get(source) || 0) + 1);
+          degreeMap.set(target, (degreeMap.get(target) || 0) + 1);
+        });
+        nodes.forEach((node) => {
+          node.data.degree = degreeMap.get(node.id) || 0;
+        });
+        return data;
+      };
+
+      // Custom data processor - node clustering
+      const clusteringNodes = (data, options = {}, userGraphCore) => {
+        if (!Algorithm?.labelPropagation) return;
+        const clusteredData = Algorithm.louvain(data, false);
+        const clusterMap = new Map();
+        clusteredData.clusters.forEach((cluster, i) => {
+          cluster.nodes.forEach((node) => {
+            clusterMap.set(node.id, `c${i}`);
+          });
+        });
+        data.nodes.forEach((node) => {
+          node.data.cluster = clusterMap.get(node.id);
+        });
+        return data;
+      };
+
+      const Graph = extend(BaseGraph, {
+        transforms: {
+          'degree-calculator': degreeCalculator,
+          'node-clustering': clusteringNodes,
+        },
+        nodes: {
+          'triangle-node': Extensions.TriangleNode,
+        },
+      });
+
+      const graph = new Graph({
+        container: 'container',
+        width: 1000,
+        height: 1000,
+        transforms: [
+          'transform-v4-data',
+          'degree-calculator',
+          'node-clustering',
+          {
+            type: 'map-node-size',
+            field: 'degree',
+            range: [16, 60],
+          },
+        ],
+        layout: {
+          type: 'force',
+          animated: true,
+          linkDistance: 50,
+        },
+        theme: {
+          type: 'spec',
+          base: 'light',
+          specification: {
+            node: {
+              dataTypeField: 'cluster',
             },
           },
         },
-        defaultEdge: {
-          labelCfg: {
-            autoRotate: true,
+        node: (model) => {
+          const { id, data } = model;
+          let type = 'circle-node';
+          if (data.degree === 2) type = 'rect-node';
+          else if (data.degree === 1) type = 'triangle-node';
+
+          const badgeShapes = {
+            fontSize: 12,
+            lod: 0,
+          };
+
+          if (data.degree > 10) {
+            badgeShapes[0] = {
+              color: '#F86254',
+              text: 'Important',
+              position: 'rightTop',
+            };
+          }
+          if (data.degree > 5) {
+            badgeShapes[1] = {
+              text: 'A',
+              textAlign: 'center',
+              color: '#EDB74B',
+              position: 'right',
+            };
+          }
+
+          return {
+            id,
+            data: {
+              ...data,
+              type,
+              labelShape: {
+                position: 'bottom',
+                text: id,
+              },
+              labelBackgroundShape: {},
+              iconShape:
+                data.degree <= 2
+                  ? undefined
+                  : {
+                      img: 'https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg',
+                      fill: '#fff',
+                      lod: 0,
+                      fontSize: data.keyShape.r - 4,
+                    },
+              badgeShapes,
+              animates: {
+                update: [
+                  {
+                    fields: ['opacity'],
+                    shapeId: 'haloShape',
+                    states: ['selected', 'active'],
+                  },
+                  {
+                    fields: ['lineWidth'],
+                    shapeId: 'keyShape',
+                    states: ['selected', 'active'],
+                  },
+                ],
+              },
+            },
+          };
+        },
+        edge: {
+          animates: {
+            update: [
+              {
+                fields: ['opacity'],
+                shapeId: 'haloShape',
+                states: ['selected', 'active'],
+              },
+              {
+                fields: ['lineWidth'],
+                shapeId: 'keyShape',
+                states: ['selected', 'active'],
+              },
+            ],
           },
         },
-        layout: {
-          type: 'force', // Force layout
-          linkDistance: 100, // The link distance is 100
-          preventOverlap: true, // Prevent node overlappings
-        },
       });
+
       const main = async () => {
         const response = await fetch(
-          'https://gw.alipayobjects.com/os/basement_prod/6cae02ab-4c29-44b2-b1fd-4005688febcb.json',
+          'https://raw.githubusercontent.com/antvis/G6/v5/packages/g6/tests/datasets/force-data.json',
         );
         const remoteData = await response.json();
-
-        const nodes = remoteData.nodes;
-        const edges = remoteData.edges;
-        nodes.forEach((node) => {
-          if (!node.style) {
-            node.style = {};
-          }
-          node.style.lineWidth = 1;
-          node.style.stroke = '#666';
-          node.style.fill = 'steelblue';
-          switch (node.class) {
-            case 'c0': {
-              node.type = 'circle';
-              break;
-            }
-            case 'c1': {
-              node.type = 'rect';
-              node.size = [35, 20];
-              break;
-            }
-            case 'c2': {
-              node.type = 'ellipse';
-              node.size = [35, 20];
-              break;
-            }
-          }
-        });
-        edges.forEach((edge) => {
-          if (!edge.style) {
-            edge.style = {};
-          }
-          edge.style.lineWidth = edge.weight;
-          edge.style.opacity = 0.6;
-          edge.style.stroke = 'grey';
-        });
-
-        graph.data(remoteData);
-        graph.render();
+        graph.read(remoteData);
       };
       main();
     </script>
@@ -179,4 +245,4 @@ The result:
 </html>
 ```
 
-<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️Attention:</strong></span> <br />Replace the url `'https://gw.alipayobjects.com/os/basement_prod/6cae02ab-4c29-44b2-b1fd-4005688febcb.json'` to change the data into yours.
+**⚠️ Note:** <br /> If you need to replace the data, please replace  `'https://raw.githubusercontent.com/antvis/G6/v5/packages/g6/tests/datasets/force-data.json'` with the new data file address.

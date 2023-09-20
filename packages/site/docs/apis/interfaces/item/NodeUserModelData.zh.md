@@ -2,181 +2,189 @@
 title: NodeUserModelData
 ---
 
-[概述 - v5.0.0-alpha.9](../../README.zh.md) / [模块](../../modules.zh.md) / [项目](../. ./modules/item.zh.md) / NodeUserModelData 
+> 📋 中文文档还在翻译中... 欢迎 PR
 
- [项目](../../modules/item.zh.md).NodeUserModelData 
+[Overview - v5.0.0-beta.5](../../README.zh.md) / [Modules](../../modules.zh.md) / [item](../../modules/item.zh.md) / NodeUserModelData
 
- 用户输入模型中的数据。 
+[item](../../modules/item.zh.md).NodeUserModelData
 
- ＃＃ 等级制度 
+Data in user input model.
 
- - `普通对象` 
+## Hierarchy
 
-   ↳ **`NodeUserModelData`** 
+- `PlainObject`
 
- ＃＃ 特性 
+  ↳ **`NodeUserModelData`**
 
- ### 锚点 
+## Properties
 
- • `可选` **anchorPoints**：`数字`[][] 
+### anchorPoints
 
- 连接相关边的 keyShape 的比例位置。 
- 应该在节点映射器中配置更多样式。 
+• `Optional` **anchorPoints**: `number`[][]
 
- #### 定义于 
+The ratio position of the keyShape for related edges linking into. e.g. `[[0,0.5],[1,0.5]]`
+More styles should be configured in node mapper.
 
- [packages/g6/src/types/node.ts:67](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/node.ts#L67) 
+#### Defined in
 
- ___ 
+[packages/g6/src/types/node.ts:73](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/node.ts#L73)
 
- ### 徽章 
+---
 
- • `可选` **徽章**: { `position`: `BadgePosition` ; `文本`: `字符串`; `类型`: ``"文本"`` \| ``“图标”`` }[] 
+### badges
 
- 要在节点上显示的徽章。 
- 应该在节点映射器中配置更多样式。 
+• `Optional` **badges**: { `position`: [`BadgePosition`](../../enums/item/BadgePosition.zh.md) ; `text`: `string` ; `type`: `"text"` \| `"icon"` }[]
 
- #### 定义于 
+The badges to show on the node.
+More styles should be configured in node mapper.
 
- [packages/g6/src/types/node.ts:72](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/node.ts#L72) 
+#### Defined in
 
- ___ 
+[packages/g6/src/types/node.ts:78](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/node.ts#L78)
 
- ＃＃＃ 颜色 
+---
 
- • `可选` **颜色**：`字符串` 
+### color
 
- keyShape 和锚点的主题颜色。 
- 应该在节点映射器中配置更多样式。 
+• `Optional` **color**: `string`
 
- #### 定义于 
+The subject color of the node's keyShape and anchor points.
+More styles should be configured in node mapper.
 
- [packages/g6/src/types/node.ts:36](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/node.ts#L36) 
+#### Defined in
 
- ___ 
+[packages/g6/src/types/node.ts:42](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/node.ts#L42)
 
- ＃＃＃ 图标 
+---
 
- • `可选` **图标**：`对象` 
+### icon
 
- 显示在节点上的图标。 
- 应该在节点映射器中配置更多样式。 
+• `Optional` **icon**: `Object`
 
- #### 类型声明 
+The icon to show on the node.
+More styles should be configured in node mapper.
 
- | 名称 | 类型 | 
- | :------ | :------ | 
- | `img？` | `字符串` | 
- | `文字？` | `字符串` | 
- | `类型` | ``“文本”`` \| ``“图标”`` | 
+#### Type declaration
 
- #### 定义于 
+| Name    | Type                 |
+| :------ | :------------------- |
+| `img?`  | `string`             |
+| `text?` | `string`             |
+| `type`  | `"text"` \| `"icon"` |
 
- [packages/g6/src/types/node.ts:58](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/node.ts#L58) 
+#### Defined in
 
- ___ 
+[packages/g6/src/types/node.ts:64](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/node.ts#L64)
 
- ### 是根 
+---
 
- • `可选` **isRoot**: `boolean` 
+### isRoot
 
- 用作树时是否为根。 
+• `Optional` **isRoot**: `boolean`
 
- #### 定义于 
+Whether to be a root at when used as a tree.
 
- [packages/g6/src/types/node.ts:53](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/node.ts#L53) 
+#### Defined in
 
- ___ 
+[packages/g6/src/types/node.ts:59](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/node.ts#L59)
 
- ＃＃＃ 标签 
+---
 
- • `可选` **标签**：`字符串` 
+### label
 
- 要在节点上显示的文本。 
- 应该在节点映射器中配置更多样式。 
+• `Optional` **label**: `string`
 
- #### 定义于 
+The text to show on the node.
+More styles should be configured in node mapper.
 
- [packages/g6/src/types/node.ts:41](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/node.ts#L41) 
+#### Defined in
 
- ___ 
+[packages/g6/src/types/node.ts:47](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/node.ts#L47)
 
- ### 父 ID 
+---
 
- • `可选` **parentId**：`ID` 
+### parentId
 
- 保留用于组合。 
+• `Optional` **parentId**: `ID`
 
- #### 定义于 
+The id of parent combo.
 
- [packages/g6/src/types/node.ts:49](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/node.ts#L49) 
+#### Defined in
 
- ___ 
+[packages/g6/src/types/node.ts:55](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/node.ts#L55)
 
- ### 防止PolylineEdgeOverlap 
+---
 
- • `可选` **防止PolylineEdgeOverlap**：`boolean` 
+### preventPolylineEdgeOverlap
 
- 是否防止与不关联的边重叠。 用于抢占位置。 
- 默认为 false。 
- 仅对折线有效 
+• `Optional` **preventPolylineEdgeOverlap**: `boolean`
 
- #### 定义于 
+Whether to prevent overlap with unassociated edges.
 
- [packages/g6/src/types/node.ts:82](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/node.ts#L82) 
+- Used to preempt position.
+- Defaults to false.
+- Only valid for polyline
 
- ___ 
+#### Defined in
 
- ＃＃＃ 类型 
+[packages/g6/src/types/node.ts:89](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/node.ts#L89)
 
- • `可选` **类型**：`字符串` 
+---
 
- 节点类型，例如 '圆节点'。 
+### type
 
- #### 定义于 
+• `Optional` **type**: `string`
 
- [packages/g6/src/types/node.ts:31](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/node.ts#L31) 
+The type of node, e.g. `circle-node`.
 
- ___ 
+#### Defined in
 
- ＃＃＃ 可见的 
+[packages/g6/src/types/node.ts:37](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/node.ts#L37)
 
- • `可选` **可见**：`布尔值` 
+---
 
- 是否默认显示节点。 
+### visible
 
- #### 定义于 
+• `Optional` **visible**: `boolean`
 
- [packages/g6/src/types/node.ts:45](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/node.ts#L45) 
+Whether show the node by default.
 
- ___ 
+#### Defined in
 
- ＃＃＃ X 
+[packages/g6/src/types/node.ts:51](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/node.ts#L51)
 
- • `可选` **x**：`数字` 
+---
 
- 节点位置。 
+### x
 
- #### 定义于 
+• `Optional` **x**: `number`
 
- [packages/g6/src/types/node.ts:25](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/node.ts#L25) 
+The x-coordinate of node.
 
- ___ 
+#### Defined in
 
- ### y 
+[packages/g6/src/types/node.ts:25](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/node.ts#L25)
 
- • `可选` **y**：`数字` 
+---
 
- #### 定义于 
+### y
 
- [packages/g6/src/types/node.ts:26](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/node.ts#L26) 
+• `Optional` **y**: `number`
 
- ___ 
+The y-coordinate of node.
 
- ### z 
+#### Defined in
 
- • `可选` **z**：`数字` 
+[packages/g6/src/types/node.ts:29](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/node.ts#L29)
 
- #### 定义于 
+---
 
- [packages/g6/src/types/node.ts:27](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/node.ts#L27)
+### z
+
+• `Optional` **z**: `number`
+
+The z-coordinate of node.
+
+#### Defined in
+
+[packages/g6/src/types/node.ts:33](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/node.ts#L33)

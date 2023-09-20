@@ -2,26 +2,28 @@
 title: MDSLayoutOptions
 ---
 
-[概述 - v5.0.0-alpha.9](../../README.zh.md) / [模块](../../modules.zh.md) / [布局](../. ./modules/layout.zh.md) / MDSLayoutOptions 
+> 📋 中文文档还在翻译中... 欢迎 PR
 
- [布局](../../modules/layout.zh.md).MDSLayoutOptions 
+[Overview - v5.0.0-beta.5](../../README.zh.md) / [Modules](../../modules.zh.md) / [layout](../../modules/layout.zh.md) / MDSLayoutOptions
 
- ＃＃ 特性 
+[layout](../../modules/layout.zh.md).MDSLayoutOptions
 
- ＃＃＃ 中心 
+## Properties
 
- • `可选` **中心**：`PointTuple` 
+### center
 
- #### 定义于 
+• `Optional` **center**: `PointTuple`
 
- node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:150 
+#### Defined in
 
- ___ 
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:150
 
- ### 链接距离 
+---
 
- • `可选` **linkDistance**：`数字` 
+### linkDistance
 
- #### 定义于 
+• `Optional` **linkDistance**: `number`
 
- node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:151
+#### Defined in
+
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:151

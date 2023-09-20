@@ -3,6 +3,9 @@ import anchor from './item/anchor';
 import animations_node_build_in from './animations/node-build-in';
 import arrow from './item/edge/arrow';
 import behaviors_activateRelations from './behaviors/activate-relations';
+import behaviors_shortcuts_call from './behaviors/shortcuts-call';
+import behaviors_dragCanvas from './behaviors/drag-canvas';
+import behaviors_scrollCanvas from './behaviors/scroll-canvas';
 import behaviors_brush_select from './behaviors/brush-select';
 import behaviors_click_select from './behaviors/click-select';
 import behaviors_collapse_expand_tree from './behaviors/collapse-expand-tree';
@@ -19,6 +22,8 @@ import demo from './demo/demo';
 import demoForPolyline from './demo/demoForPolyline';
 import diamond from './demo/diamond';
 import donut_node from './item/node/donut-node';
+import image_node from './item/node/image';
+import image_clip_node from './item/node/image-clip';
 import ellipse from './demo/ellipse';
 import fisheye from './plugins/fisheye';
 import hexagon from './demo/hexagon';
@@ -56,12 +61,23 @@ import modelRect from './demo/modelRect';
 import layouts_combocombined from './layouts/combo-combined';
 import hull from './plugins/hull';
 import legend from './plugins/legend';
+import snapline from './plugins/snapline';
+import mapper from './visual/mapper';
+import minimap from './plugins/minimap';
+
+export { default as timebar_time } from './plugins/timebar-time';
+export { default as timebar_chart } from './plugins/timebar-chart';
 
 export {
+  minimap,
+  mapper,
   anchor,
   animations_node_build_in,
   arrow,
   behaviors_activateRelations,
+  behaviors_dragCanvas,
+  behaviors_scrollCanvas,
+  behaviors_shortcuts_call,
   behaviors_brush_select,
   behaviors_click_select,
   behaviors_collapse_expand_tree,
@@ -77,6 +93,8 @@ export {
   demoForPolyline,
   diamond,
   donut_node,
+  image_node,
+  image_clip_node,
   ellipse,
   fisheye,
   hexagon,
@@ -115,4 +133,5 @@ export {
   comboDagre,
   hull,
   legend,
+  snapline,
 };

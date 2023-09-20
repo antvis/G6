@@ -2,7 +2,7 @@
 title: ActivateRelationsOptions
 ---
 
-[Overview - v5.0.0-alpha.9](../../README.en.md) / [Modules](../../modules.en.md) / [behaviors](../../modules/behaviors.en.md) / ActivateRelationsOptions
+[Overview - v5.0.0-beta.5](../../README.en.md) / [Modules](../../modules.en.md) / [behaviors](../../modules/behaviors.en.md) / ActivateRelationsOptions
 
 [behaviors](../../modules/behaviors.en.md).ActivateRelationsOptions
 
@@ -10,15 +10,15 @@ title: ActivateRelationsOptions
 
 ### activeState
 
-• `Optional` **activeState**: ``"selected"``
+• `Optional` **activeState**: `"selected"`
 
 Defaults to `"selected"`.
 
 #### Defined in
 
-[packages/g6/src/stdlib/behavior/activate-relations.ts:37](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/activate-relations.ts#L37)
+[packages/g6/src/stdlib/behavior/activate-relations.ts:37](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/activate-relations.ts#L37)
 
-___
+---
 
 ### multiple
 
@@ -30,9 +30,9 @@ If set to false, `trigger` options will be ignored.
 
 #### Defined in
 
-[packages/g6/src/stdlib/behavior/activate-relations.ts:24](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/activate-relations.ts#L24)
+[packages/g6/src/stdlib/behavior/activate-relations.ts:24](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/activate-relations.ts#L24)
 
-___
+---
 
 ### shouldBegin
 
@@ -46,8 +46,8 @@ Whether allow the behavior happen on the current item.
 
 ##### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name    | Type                                   |
+| :------ | :------------------------------------- |
 | `event` | [`IG6GraphEvent`](IG6GraphEvent.en.md) |
 
 ##### Returns
@@ -56,9 +56,9 @@ Whether allow the behavior happen on the current item.
 
 #### Defined in
 
-[packages/g6/src/stdlib/behavior/activate-relations.ts:42](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/activate-relations.ts#L42)
+[packages/g6/src/stdlib/behavior/activate-relations.ts:42](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/activate-relations.ts#L42)
 
-___
+---
 
 ### shouldUpdate
 
@@ -74,8 +74,8 @@ manage states or data manually
 
 ##### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name    | Type                                   |
+| :------ | :------------------------------------- |
 | `event` | [`IG6GraphEvent`](IG6GraphEvent.en.md) |
 
 ##### Returns
@@ -84,13 +84,13 @@ manage states or data manually
 
 #### Defined in
 
-[packages/g6/src/stdlib/behavior/activate-relations.ts:48](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/activate-relations.ts#L48)
+[packages/g6/src/stdlib/behavior/activate-relations.ts:48](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/activate-relations.ts#L48)
 
-___
+---
 
 ### trigger
 
-• `Optional` **trigger**: ``"click"`` \| ``"mouseenter"``
+• `Optional` **trigger**: `"click"` \| `"mouseenter"`
 
 The key to pressed with mouse click to apply multiple selection.
 Defaults to `"click"`.
@@ -98,4 +98,4 @@ Could be "click", "mouseenter".
 
 #### Defined in
 
-[packages/g6/src/stdlib/behavior/activate-relations.ts:30](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/activate-relations.ts#L30)
+[packages/g6/src/stdlib/behavior/activate-relations.ts:30](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/activate-relations.ts#L30)

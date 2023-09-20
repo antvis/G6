@@ -2,7 +2,7 @@
 title: HoverActivateOptions
 ---
 
-[Overview - v5.0.0-alpha.9](../../README.en.md) / [Modules](../../modules.en.md) / [behaviors](../../modules/behaviors.en.md) / HoverActivateOptions
+[Overview - v5.0.0-beta.5](../../README.en.md) / [Modules](../../modules.en.md) / [behaviors](../../modules/behaviors.en.md) / HoverActivateOptions
 
 [behaviors](../../modules/behaviors.en.md).HoverActivateOptions
 
@@ -17,9 +17,9 @@ Defaults to "selected".
 
 #### Defined in
 
-[packages/g6/src/stdlib/behavior/hover-activate.ts:16](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/hover-activate.ts#L16)
+[packages/g6/src/stdlib/behavior/hover-activate.ts:16](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/hover-activate.ts#L16)
 
-___
+---
 
 ### eventName
 
@@ -29,13 +29,13 @@ The event name to trigger when drag end.
 
 #### Defined in
 
-[packages/g6/src/stdlib/behavior/hover-activate.ts:26](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/hover-activate.ts#L26)
+[packages/g6/src/stdlib/behavior/hover-activate.ts:26](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/hover-activate.ts#L26)
 
-___
+---
 
 ### itemTypes
 
-• **itemTypes**: (``"node"`` \| ``"edge"`` \| ``"combo"``)[]
+• **itemTypes**: (`"node"` \| `"edge"` \| `"combo"`)[]
 
 Item types to be able to acitvate.
 Defaults to `["node", "edge"]`.
@@ -43,9 +43,9 @@ Should be an array of "node", "edge", or "combo".
 
 #### Defined in
 
-[packages/g6/src/stdlib/behavior/hover-activate.ts:22](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/hover-activate.ts#L22)
+[packages/g6/src/stdlib/behavior/hover-activate.ts:22](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/hover-activate.ts#L22)
 
-___
+---
 
 ### shouldBegin
 
@@ -59,8 +59,8 @@ Whether allow the behavior happen on the current item.
 
 ##### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name    | Type                                   |
+| :------ | :------------------------------------- |
 | `event` | [`IG6GraphEvent`](IG6GraphEvent.en.md) |
 
 ##### Returns
@@ -69,9 +69,9 @@ Whether allow the behavior happen on the current item.
 
 #### Defined in
 
-[packages/g6/src/stdlib/behavior/hover-activate.ts:30](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/hover-activate.ts#L30)
+[packages/g6/src/stdlib/behavior/hover-activate.ts:30](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/hover-activate.ts#L30)
 
-___
+---
 
 ### throttle
 
@@ -82,4 +82,4 @@ Defaults to 0.
 
 #### Defined in
 
-[packages/g6/src/stdlib/behavior/hover-activate.ts:11](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/hover-activate.ts#L11)
+[packages/g6/src/stdlib/behavior/hover-activate.ts:11](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/hover-activate.ts#L11)

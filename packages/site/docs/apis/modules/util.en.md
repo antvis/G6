@@ -2,7 +2,7 @@
 title: util
 ---
 
-[Overview - v5.0.0-alpha.9](../README.en.md) / [Modules](../modules.en.md) / util
+[Overview - v5.0.0-beta.5](../README.en.md) / [Modules](../modules.en.md) / util
 
 ## Functions
 
@@ -16,25 +16,25 @@ TODO: more templates, and might be merged to be two templates for the whole exte
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name | Type                       |
+| :--- | :------------------------- |
 | `B1` | extends `BehaviorRegistry` |
 | `B2` | extends `BehaviorRegistry` |
-| `T1` | extends `ThemeRegistry` |
-| `T2` | extends `ThemeRegistry` |
+| `T1` | extends `ThemeRegistry`    |
+| `T2` | extends `ThemeRegistry`    |
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `GraphClass` | typeof [`Graph`](../classes/graph/Graph.en.md) | graph class to be extended |
-| `extendLibrary` | `Object` | custom libs to extend |
-| `extendLibrary.behaviors?` | `B1` | - |
-| `extendLibrary.edges?` | `EdgeRegistry` | - |
-| `extendLibrary.layouts?` | `LayoutRegistry` | - |
-| `extendLibrary.nodes?` | `NodeRegistry` | - |
-| `extendLibrary.plugins?` | `PluginRegistry` | - |
-| `extendLibrary.themeSolvers?` | `T1` | - |
+| Name                          | Type                                           | Description                |
+| :---------------------------- | :--------------------------------------------- | :------------------------- |
+| `GraphClass`                  | typeof [`Graph`](../classes/graph/Graph.en.md) | graph class to be extended |
+| `extendLibrary`               | `Object`                                       | custom libs to extend      |
+| `extendLibrary.behaviors?`    | `B1`                                           | -                          |
+| `extendLibrary.edges?`        | `EdgeRegistry`                                 | -                          |
+| `extendLibrary.layouts?`      | `LayoutRegistry`                               | -                          |
+| `extendLibrary.nodes?`        | `NodeRegistry`                                 | -                          |
+| `extendLibrary.plugins?`      | `PluginRegistry`                               | -                          |
+| `extendLibrary.themeSolvers?` | `T1`                                           | -                          |
 
 #### Returns
 
@@ -44,18 +44,20 @@ extended graph class
 
 #### Defined in
 
-[packages/g6/src/util/extend.ts:18](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/util/extend.ts#L18)
+[packages/g6/src/util/extend.ts:18](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/util/extend.ts#L18)
 
-___
+---
 
 ### isEncode
 
 ▸ **isEncode**(`value`): value is Encode<any\>
 
+Whether value is a Encode<T> type with fields and formatter function.
+
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name    | Type  |
+| :------ | :---- |
 | `value` | `any` |
 
 #### Returns
@@ -64,9 +66,9 @@ value is Encode<any\>
 
 #### Defined in
 
-[packages/g6/src/util/type.ts:3](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/util/type.ts#L3)
+[packages/g6/src/util/type.ts:8](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/util/type.ts#L8)
 
-___
+---
 
 ### mock
 
@@ -76,19 +78,19 @@ mock graph data
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `nodeCount` | `number` | node count |
+| Name        | Type     | Description |
+| :---------- | :------- | :---------- |
+| `nodeCount` | `number` | node count  |
 
 #### Returns
 
 `Object`
 
-| Name | Type |
-| :------ | :------ |
-| `circle` | (`centerId`: `string`) => { `edges`: `any`[] ; `nodes`: { `data`: {} = {}; `id`: `string`  }[]  } |
-| `random` | (`ratio`: `number`) => { `edges`: `any`[] ; `nodes`: { `data`: {} = {}; `id`: `string`  }[]  } |
+| Name     | Type                                                                                            |
+| :------- | :---------------------------------------------------------------------------------------------- |
+| `circle` | (`centerId`: `string`) => { `edges`: `any`[] ; `nodes`: { `data`: {} = {}; `id`: `string` }[] } |
+| `random` | (`ratio`: `number`) => { `edges`: `any`[] ; `nodes`: { `data`: {} = {}; `id`: `string` }[] }    |
 
 #### Defined in
 
-[packages/g6/src/util/mock.ts:7](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/util/mock.ts#L7)
+[packages/g6/src/util/mock.ts:7](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/util/mock.ts#L7)

@@ -12,19 +12,6 @@ const renderers = {
 };
 
 const getDefaultNodeAnimates = (delay) => ({
-  buildIn: [
-    {
-      fields: ['opacity'],
-      duration: 1000,
-      delay: delay === undefined ? 1000 + Math.random() * 1000 : delay,
-    },
-  ],
-  buildOut: [
-    {
-      fields: ['opacity'],
-      duration: 200,
-    },
-  ],
   update: [
     {
       fields: ['lineWidth', 'fill', 'r'],
@@ -41,30 +28,9 @@ const getDefaultNodeAnimates = (delay) => ({
   ],
   hide: [
     {
-      fields: ['size'],
-      duration: 200,
-    },
-    {
-      fields: ['opacity'],
-      duration: 200,
-      shapeId: 'keyShape',
-    },
-    {
       fields: ['opacity'],
       duration: 200,
       shapeId: 'labelShape',
-    },
-  ],
-  show: [
-    {
-      fields: ['size'],
-      duration: 200,
-    },
-    {
-      fields: ['opacity'],
-      duration: 200,
-      shapeId: 'keyShape',
-      order: 0,
     },
   ],
 });
@@ -160,7 +126,7 @@ const create3DGraph = async (data) => {
     width,
     height,
     renderer: 'webgl-3d',
-    transform: [
+    transforms: [
       'data-format',
       {
         type: 'map-node-size',
@@ -244,13 +210,14 @@ const create3DGraph = async (data) => {
     },
   });
 };
+
 const create2DGraph = (renderer, data) => {
   return new ExtGraph({
     container,
     width,
     height,
     renderer,
-    transform: [
+    transforms: [
       'data-format',
       {
         type: 'map-node-size',
@@ -260,7 +227,7 @@ const create2DGraph = (renderer, data) => {
     ],
     modes: {
       default: [
-        { type: 'zoom-canvas', key: '123', triggerOnItems: true },
+        { type: 'zoom-canvas', key: '123', triggerOnItems: true, enableOptimize: true },
         'drag-node',
         'drag-canvas',
         'brush-select',

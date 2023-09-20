@@ -1,4 +1,5 @@
 import { Graph, Extensions, extend } from '@antv/g6';
+import Stats from 'stats.js';
 
 const ExtGraph = extend(Graph, {
   behaviors: {
@@ -57,3 +58,19 @@ fetch('https://gw.alipayobjects.com/os/basement_prod/da5a1b47-37d6-44d7-8d10-f3e
       nodes.length * 2 + edges.length
     }`;
   });
+
+// stats
+const stats = new Stats();
+stats.showPanel(0);
+const $stats = stats.dom;
+$stats.style.position = 'absolute';
+$stats.style.left = '0px';
+$stats.style.top = '0px';
+container.appendChild($stats);
+const update = () => {
+  if (stats) {
+    stats.update();
+  }
+  requestAnimationFrame(update);
+};
+update();

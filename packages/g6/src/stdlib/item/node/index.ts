@@ -8,3 +8,4 @@ export * from './ellipse';
 export * from './donut';
 export * from './diamond';
 export * from './modelRect';
+export * from './image';

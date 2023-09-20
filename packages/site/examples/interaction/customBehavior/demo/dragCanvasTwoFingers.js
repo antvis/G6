@@ -13,23 +13,10 @@ class TwoFingerScrollCanvas extends Extensions.BaseBehavior {
     };
   }
   onWheel = (ev) => {
-    if (ev.ctrlKey) {
-      let ratio = graph.getZoom();
-      if (ev.wheelDelta > 0) {
-        ratio = ratio + ratio * 0.05;
-      } else {
-        ratio = ratio - ratio * 0.05;
-      }
-      this.graph.zoomTo(ratio, {
-        x: ev.canvas.x,
-        y: ev.canvas.y,
-      });
-    } else {
-      const x = ev.deltaX || ev.movementX || 0;
-      let y = ev.deltaY || ev.movementY || 0;
-      if (!y && navigator.userAgent.indexOf('Firefox') > -1) y = (-ev.wheelDelta * 125) / 3;
-      this.graph.translate({ dx: x, dy: y });
-    }
+    const x = ev.deltaX || ev.movementX || 0;
+    let y = ev.deltaY || ev.movementY || 0;
+    if (!y && navigator.userAgent.indexOf('Firefox') > -1) y = (-ev.wheelDelta * 125) / 3;
+    this.graph.translate({ dx: x, dy: y });
   };
 }
 
@@ -46,7 +33,7 @@ const graph = new ExtGraph({
   container: 'container',
   width,
   height,
-  transform: ['transform-v4-data'],
+  transforms: ['transform-v4-data'],
   modes: {
     default: ['double-finger-drag-canvas'],
   },

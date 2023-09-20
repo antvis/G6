@@ -165,9 +165,9 @@ export class DataController {
    * Get the extensions from useLib.
    */
   private getExtensions() {
-    const { transform = [] } = this.graph.getSpecification();
+    const { transforms = [] } = this.graph.getSpecification();
     const requiredTransformers = ['validate-data'];
-    return [...transform, ...requiredTransformers]
+    return [...transforms, ...requiredTransformers]
       .map((config) => ({
         config,
         func: getExtension(config, registry.useLib, 'transform'),
@@ -887,7 +887,7 @@ export class DataController {
             x = 0,
             y = 0,
             z = 0,
-          } = this.graph.getDisplayModel(parentMap[id].old)?.data;
+          } = this.graph.getDisplayModel(parentMap[id].old)?.data || {};
           if (!parentChildren.length) {
             graphCore.mergeNodeData(parentMap[id].old, {
               x: convertToNumber(x),

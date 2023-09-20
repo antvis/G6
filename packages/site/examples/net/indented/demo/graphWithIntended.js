@@ -17,7 +17,7 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')
       container,
       width,
       height,
-      transform: ['transform-v4-data'],
+      transforms: ['transform-v4-data'],
       modes: {
         default: ['drag-canvas', 'zoom-canvas', 'drag-node', 'collapse-expand-tree'],
       },
@@ -27,12 +27,6 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')
           data: {
             ...model.data,
             lodStrategy: {},
-            labelShape: {
-              text: model.id,
-              position: 'center',
-              maxWidth: '120%',
-            },
-            labelBackgroundShape: {},
             anchorPoints:
               model.data.layoutDirection === 'TB'
                 ? [

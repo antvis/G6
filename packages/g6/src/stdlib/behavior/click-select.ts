@@ -136,7 +136,7 @@ export class ClickSelect extends Behavior {
 
     // Select/Unselect item.
     if (this.options.shouldUpdate(event)) {
-      this.graph.batch(() => {
+      this.graph.historyBatch(() => {
         if (!multiple) {
           // Not multiple, clear all currently selected items
           this.graph.setItemState(this.selectedIds, state, false);

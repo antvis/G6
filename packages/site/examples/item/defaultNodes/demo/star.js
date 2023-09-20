@@ -1,106 +1,139 @@
-import G6 from '@antv/g6';
+import { Graph, Extensions, extend } from '@antv/g6';
+const ExtGraph = extend(Graph, {
+  nodes: {
+    'star-node': Extensions.StarNode,
+  },
+});
 
 const data = {
   nodes: [
     {
       id: 'star',
-      label: 'Star',
-      x: 250,
-      y: 200,
+      data: {},
+    },
+    {
+      id: 'star-active',
+      data: {},
+    },
+    {
+      id: 'star-selected',
+      data: {},
+    },
+
+    {
+      id: 'star-highlight',
+      data: {},
+    },
+    {
+      id: 'star-inactive',
+      data: {},
+    },
+    {
+      id: 'star-badges',
+      data: {},
+    },
+    {
+      id: 'star-anchorShapes',
+      data: {},
     },
   ],
 };
 
-const width = document.getElementById('container').scrollWidth;
-const height = document.getElementById('container').scrollHeight || 500;
-const graph = new G6.Graph({
+const container = document.getElementById('container');
+const width = container.scrollWidth;
+const height = container.scrollHeight || 500;
+const graph = new ExtGraph({
   container: 'container',
   width,
   height,
-  // translate the graph to align the canvas's center, support by v3.5.1
-  fitCenter: true,
   modes: {
-    default: ['drag-canvas', 'drag-node'],
+    default: ['zoom-canvas', 'drag-canvas', 'drag-node', 'click-select'],
   },
-  defaultNode: {
-    /* node type */
-    type: 'star',
-    /* node size */
-    size: [60, 30],
-    /* style for the keyShape */
-    // style: {
-    //   fill: '#9EC9FF',
-    //   stroke: '#5B8FF9',
-    //   lineWidth: 3,
-    // },
-    labelCfg: {
-      /* label's position, options: center, top, bottom, left, right */
-      position: 'bottom',
-      /* label's offset to the keyShape, 4 by default */
-      offset: 20,
-      /* label's style */
-      //   style: {
-      //     fontSize: 20,
-      //     fill: '#ccc',
-      //     fontWeight: 500
-      //   }
-    },
-    /* configurations for four linkpoints */
-    linkPoints: {
-      top: true,
-      right: true,
-      bottom: true,
-      left: true,
-      /* linkPoints' size, 8 by default */
-      //   size: 5,
-      /* linkPoints' style */
-      //   fill: '#ccc',
-      //   stroke: '#333',
-      //   lineWidth: 2,
-    },
-    /* icon configuration */
-    icon: {
-      /* whether show the icon, false by default */
-      show: true,
-      /* icon's img address, string type */
-      // img: 'https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg',
-      /* icon's size, 20 * 20 by default: */
-      //   width: 40,
-      //   height: 40
-    },
-    /* styles for different states, there are built-in styles for states: active, inactive, selected, highlight, disable */
-    // nodeStateStyles: {
-    //   // node style of active state
-    //   active: {
-    //     fillOpacity: 0.8,
-    //   },
-    //   // node style of selected state
-    //   selected: {
-    //     lineWidth: 5,
-    //   },
-    // },
+  data,
+  layout: {
+    type: 'grid',
+  },
+  node: (model) => {
+    const { id, data } = model;
+    const config = {
+      id,
+      data: {
+        ...data,
+        type: 'star-node',
+        labelShape: {
+          text: id,
+          position: 'bottom',
+          maxWidth: '500%',
+        },
+        labelBackgroundShape: {},
+        iconShape: {
+          img: 'https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg',
+        },
+        animates: {
+          update: [
+            {
+              fields: ['opacity'],
+              shapeId: 'haloShape',
+              states: ['selected', 'active'],
+            },
+            {
+              fields: ['lineWidth'],
+              shapeId: 'keyShape',
+              states: ['selected', 'active'],
+            },
+          ],
+        },
+      },
+    };
+    if (id.includes('badges')) {
+      config.data.badgeShapes = [
+        {
+          text: 'A',
+          position: 'rightTop',
+        },
+        {
+          text: 'Important',
+          position: 'right',
+        },
+        {
+          text: 'Notice',
+          position: 'rightBottom',
+        },
+      ];
+    }
+    if (id.includes('anchorShapes')) {
+      config.data.anchorShapes = [
+        {
+          position: 'top',
+        },
+        {
+          position: 'right',
+        },
+        {
+          position: 'left',
+        },
+        {
+          position: 'leftBottom',
+        },
+        {
+          position: 'rightBottom',
+        },
+      ];
+    }
+    return config;
   },
 });
 
-graph.data(data);
-graph.render();
-
-graph.on('node:mouseenter', (evt) => {
-  const { item } = evt;
-  graph.setItemState(item, 'active', true);
+graph.on('afterrender', (e) => {
+  graph.setItemState('star-active', 'active', true);
+  graph.setItemState('star-selected', 'selected', true);
+  graph.setItemState('star-highlight', 'highlight', true);
+  graph.setItemState('star-inactive', 'inactive', true);
 });
 
-graph.on('node:mouseleave', (evt) => {
-  const { item } = evt;
-  graph.setItemState(item, 'active', false);
-});
-
-graph.on('node:click', (evt) => {
-  const { item } = evt;
-  graph.setItemState(item, 'selected', true);
-});
-graph.on('canvas:click', (evt) => {
-  graph.getNodes().forEach((node) => {
-    graph.clearItemStates(node);
-  });
-});
+if (typeof window !== 'undefined')
+  window.onresize = () => {
+    if (!graph || graph.destroyed) return;
+    if (!container || !container.scrollWidth || !container.scrollHeight) return;
+    graph.setSize([container.scrollWidth, container.scrollHeight]);
+  };

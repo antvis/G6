@@ -3,6 +3,7 @@ import { Graph, Extensions, extend } from '@antv/g6';
 const ExtGraph = extend(Graph, {
   layouts: {
     mds: Extensions.MDSLayout,
+    radial: Extensions.RadialLayout,
   },
   behaviors: {
     'brush-select': Extensions.BrushSelect,
@@ -43,7 +44,7 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')
       container: 'container',
       width,
       height,
-      transform: ['transform-v4-data'],
+      transforms: ['transform-v4-data'],
       layout: layoutConfigs.Circular,
       modes: {
         default: ['zoom-canvas', 'drag-canvas', 'drag-node', 'click-select', 'brush-select'],

@@ -2,7 +2,7 @@
 title: ForceLayoutOptions
 ---
 
-[Overview - v5.0.0-alpha.9](../../README.en.md) / [Modules](../../modules.en.md) / [layout](../../modules/layout.en.md) / ForceLayoutOptions
+[Overview - v5.0.0-beta.5](../../README.en.md) / [Modules](../../modules.en.md) / [layout](../../modules/layout.en.md) / ForceLayoutOptions
 
 [layout](../../modules/layout.en.md).ForceLayoutOptions
 
@@ -26,7 +26,7 @@ CommonForceLayoutOptions.center
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:252
 
-___
+---
 
 ### centripetalOptions
 
@@ -36,7 +36,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:278
 
-___
+---
 
 ### clusterNodeStrength
 
@@ -46,7 +46,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:282
 
-___
+---
 
 ### clustering
 
@@ -56,7 +56,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:280
 
-___
+---
 
 ### collideStrength
 
@@ -66,7 +66,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:283
 
-___
+---
 
 ### coulombDisScale
 
@@ -76,7 +76,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:274
 
-___
+---
 
 ### damping
 
@@ -86,7 +86,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:272
 
-___
+---
 
 ### dimensions
 
@@ -100,11 +100,11 @@ CommonForceLayoutOptions.dimensions
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:251
 
-___
+---
 
 ### distanceThresholdMode
 
-• `Optional` **distanceThresholdMode**: ``"min"`` \| ``"max"`` \| ``"mean"``
+• `Optional` **distanceThresholdMode**: `"min"` \| `"max"` \| `"mean"`
 
 #### Inherited from
 
@@ -114,7 +114,7 @@ CommonForceLayoutOptions.distanceThresholdMode
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:255
 
-___
+---
 
 ### edgeStrength
 
@@ -124,7 +124,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:268
 
-___
+---
 
 ### factor
 
@@ -134,7 +134,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:276
 
-___
+---
 
 ### getCenter
 
@@ -146,9 +146,9 @@ ___
 
 ##### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `node?` | `Node` |
+| Name      | Type     |
+| :-------- | :------- |
+| `node?`   | `Node`   |
 | `degree?` | `number` |
 
 ##### Returns
@@ -159,7 +159,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:286
 
-___
+---
 
 ### getMass
 
@@ -171,8 +171,8 @@ ___
 
 ##### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name    | Type   |
+| :------ | :----- |
 | `node?` | `Node` |
 
 ##### Returns
@@ -183,7 +183,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:285
 
-___
+---
 
 ### gravity
 
@@ -193,7 +193,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:275
 
-___
+---
 
 ### height
 
@@ -203,7 +203,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:265
 
-___
+---
 
 ### interval
 
@@ -213,7 +213,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:277
 
-___
+---
 
 ### leafCluster
 
@@ -223,7 +223,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:279
 
-___
+---
 
 ### linkDistance
 
@@ -233,7 +233,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:266
 
-___
+---
 
 ### maxDistance
 
@@ -251,7 +251,7 @@ CommonForceLayoutOptions.maxDistance
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:261
 
-___
+---
 
 ### maxIteration
 
@@ -265,7 +265,7 @@ CommonForceLayoutOptions.maxIteration
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:254
 
-___
+---
 
 ### maxSpeed
 
@@ -275,7 +275,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:273
 
-___
+---
 
 ### minMovement
 
@@ -289,11 +289,11 @@ CommonForceLayoutOptions.minMovement
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:253
 
-___
+---
 
 ### monitor
 
-• `Optional` **monitor**: (`params`: { `edges`: `Edge`[] ; `energy`: `number` ; `iterations`: `number` ; `nodes`: `Node`[]  }) => `void`
+• `Optional` **monitor**: (`params`: { `edges`: `Edge`[] ; `energy`: `number` ; `iterations`: `number` ; `nodes`: `Node`[] }) => `void`
 
 #### Type declaration
 
@@ -301,13 +301,13 @@ ___
 
 ##### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `params` | `Object` |
-| `params.edges` | `Edge`[] |
-| `params.energy` | `number` |
+| Name                | Type     |
+| :------------------ | :------- |
+| `params`            | `Object` |
+| `params.edges`      | `Edge`[] |
+| `params.energy`     | `number` |
 | `params.iterations` | `number` |
-| `params.nodes` | `Node`[] |
+| `params.nodes`      | `Node`[] |
 
 ##### Returns
 
@@ -317,7 +317,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:287
 
-___
+---
 
 ### nodeClusterBy
 
@@ -327,7 +327,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:281
 
-___
+---
 
 ### nodeSize
 
@@ -337,7 +337,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:270
 
-___
+---
 
 ### nodeSpacing
 
@@ -347,7 +347,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:271
 
-___
+---
 
 ### nodeStrength
 
@@ -357,7 +357,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:267
 
-___
+---
 
 ### onTick
 
@@ -369,8 +369,8 @@ ___
 
 ##### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name   | Type            |
+| :----- | :-------------- |
 | `data` | `LayoutMapping` |
 
 ##### Returns
@@ -381,7 +381,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:284
 
-___
+---
 
 ### preventOverlap
 
@@ -391,7 +391,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:269
 
-___
+---
 
 ### width
 

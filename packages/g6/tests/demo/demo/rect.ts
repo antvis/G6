@@ -74,7 +74,7 @@ export default () => {
           },
           badgeShapes: [
             {
-              text: '1',
+              text: '123',
               position: 'rightTop',
               color: 'blue',
             },

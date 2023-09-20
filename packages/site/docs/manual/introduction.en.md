@@ -73,22 +73,22 @@ G6 concentrates on the principle of 'good by default'. In addition, the custom m
 ## Installation (5.0 Beta)
 
 ```bash
-$ npm install @antv/g6@5.0.0-beta.0
+$ npm install @antv/g6@5.0.0-beta.5
 ```
 
 ## Usage (5.0 Beta)
 
 <img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*M-MTRaLiZN0AAAAAAAAAAAAADmJ7AQ/original" width=437 height=148 alt='' />
 
-The configuration specification of the graph can be refered to: https://github.com/antvis/G6/blob/v5/packages/g6/src/types/spec.ts
+The configuration specification of the graph can be refered to: [Specification Doc](https://g6-next.antv.antgroup.com/en/apis/interfaces/graph/specification)
 
-Graph API: https://github.com/antvis/G6/blob/2b44df189dd2e851447ba5a09541c372b49cd658/packages/g6/src/types/graph.ts#L23
+Graph API: [Graph API](https://g6-next.antv.antgroup.com/en/apis/interfaces/graph/i-graph)
 
 A simple graph demo:
 
 <img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*M-MTRaLiZN0AAAAAAAAAAAAADmJ7AQ/original" width=437 height=138 alt='' />
 
-[![Edit compassionate-lalande-5lxm7](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/musing-matan-q255po?fontsize=14&hidenavigation=1&theme=dark)
+[![Edit compassionate-lalande-5lxm7](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/g6-v5-beta-quick-start-m3yncv?from-embed=&file=/index.js)
 
 ```js
 import G6 from '@antv/g6';

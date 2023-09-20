@@ -2,7 +2,7 @@
 title: D3ForceLayoutOptions
 ---
 
-[Overview - v5.0.0-alpha.9](../../README.en.md) / [Modules](../../modules.en.md) / [layout](../../modules/layout.en.md) / D3ForceLayoutOptions
+[Overview - v5.0.0-beta.5](../../README.en.md) / [Modules](../../modules.en.md) / [layout](../../modules/layout.en.md) / D3ForceLayoutOptions
 
 [layout](../../modules/layout.en.md).D3ForceLayoutOptions
 
@@ -16,7 +16,7 @@ title: D3ForceLayoutOptions
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:214
 
-___
+---
 
 ### alphaDecay
 
@@ -26,7 +26,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:215
 
-___
+---
 
 ### alphaMin
 
@@ -36,7 +36,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:216
 
-___
+---
 
 ### center
 
@@ -46,7 +46,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:206
 
-___
+---
 
 ### clusterEdgeDistance
 
@@ -56,7 +56,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:220
 
-___
+---
 
 ### clusterEdgeStrength
 
@@ -66,7 +66,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:219
 
-___
+---
 
 ### clusterFociStrength
 
@@ -76,7 +76,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:222
 
-___
+---
 
 ### clusterNodeSize
 
@@ -86,7 +86,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:221
 
-___
+---
 
 ### clusterNodeStrength
 
@@ -96,7 +96,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:218
 
-___
+---
 
 ### clustering
 
@@ -106,7 +106,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:217
 
-___
+---
 
 ### collideStrength
 
@@ -116,7 +116,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:211
 
-___
+---
 
 ### edgeStrength
 
@@ -126,7 +126,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:208
 
-___
+---
 
 ### forceSimulation
 
@@ -136,7 +136,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:223
 
-___
+---
 
 ### linkDistance
 
@@ -146,7 +146,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:207
 
-___
+---
 
 ### nodeSize
 
@@ -156,7 +156,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:212
 
-___
+---
 
 ### nodeSpacing
 
@@ -166,7 +166,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:213
 
-___
+---
 
 ### nodeStrength
 
@@ -176,7 +176,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:209
 
-___
+---
 
 ### onTick
 
@@ -188,8 +188,8 @@ ___
 
 ##### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name   | Type            |
+| :----- | :-------------- |
 | `data` | `LayoutMapping` |
 
 ##### Returns
@@ -200,7 +200,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:224
 
-___
+---
 
 ### preventOverlap
 

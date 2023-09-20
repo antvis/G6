@@ -34,6 +34,7 @@ interface IProps {
   onframe?: Function;
   onfinish?: Function;
   type?: 'node' | 'combo';
+  delayFirstDraw?: boolean;
 }
 export default class Node extends Item {
   public type: 'node' | 'combo';
@@ -41,13 +42,15 @@ export default class Node extends Item {
   constructor(props: IProps) {
     super(props);
     this.init({ ...props, type: props.type || 'node' });
-    this.draw(
-      this.displayModel as NodeDisplayModel | ComboDisplayModel,
-      undefined,
-      undefined,
-      !this.displayModel.data.disableAnimate,
-      props.onfinish,
-    );
+    if (!props.delayFirstDraw) {
+      this.draw(
+        this.displayModel as NodeDisplayModel | ComboDisplayModel,
+        undefined,
+        undefined,
+        !this.displayModel.data.disableAnimate,
+        props.onfinish,
+      );
+    }
   }
   public draw(
     displayModel: NodeDisplayModel | ComboDisplayModel,
@@ -192,23 +195,32 @@ export default class Node extends Item {
         return;
       }
     }
-    group.setLocalPosition([position.x, position.y, position.z]);
+    group.setLocalPosition([
+      position.x as number,
+      position.y as number,
+      position.z,
+    ]);
     onfinish(displayModel.id, !animate);
   }
 
   public clone(
     containerGroup: Group,
-    onlyKeyShape?: boolean,
+    shapeIds?: string[],
     disableAnimate?: boolean,
   ) {
-    if (onlyKeyShape) {
-      const clonedKeyShape = this.shapeMap.keyShape.cloneNode();
-      const pos = this.group.getPosition();
-      const clonedGroup = new Group();
-      clonedGroup.setPosition(pos);
-      clonedGroup.appendChild(clonedKeyShape);
-      containerGroup.appendChild(clonedGroup);
-      return clonedGroup;
+    if (shapeIds?.length) {
+      const group = new Group();
+      shapeIds.forEach((shapeId) => {
+        if (!this.shapeMap[shapeId] || this.shapeMap[shapeId].destroyed) return;
+        const clonedKeyShape = this.shapeMap[shapeId].cloneNode();
+        // TODO: other animating attributes?
+        clonedKeyShape.style.opacity =
+          this.renderExt.mergedStyles[shapeId]?.opacity || 1;
+        group.appendChild(clonedKeyShape);
+      });
+      group.setPosition(this.group.getPosition());
+      containerGroup.appendChild(group);
+      return group;
     }
     const clonedModel = clone(this.model);
     clonedModel.data.disableAnimate = disableAnimate;
@@ -297,12 +309,13 @@ export default class Node extends Item {
         intersectPoint = innerPoint;
         break;
       default: {
+        // boundsCache can be removed here since `getBounds` has already done.
         intersectPoint = getRectIntersectByPoint(
           {
             x: keyShapeRenderBBox.min[0],
             y: keyShapeRenderBBox.min[1],
-            width: keyShapeRenderBBox.max[0] - keyShapeRenderBBox.min[0],
-            height: keyShapeRenderBBox.max[1] - keyShapeRenderBBox.min[1],
+            width: keyShapeWidth,
+            height: keyShapeHeight,
           },
           point,
         );

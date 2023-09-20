@@ -2,191 +2,193 @@
 title: DagreLayoutOptions
 ---
 
-[概述 - v5.0.0-alpha.9](../../README.zh.md) / [模块](../../modules.zh.md) / [布局](../. ./modules/layout.zh.md) / DagreLayoutOptions 
+> 📋 中文文档还在翻译中... 欢迎 PR
 
- [布局](../../modules/layout.zh.md).DagreLayoutOptions 
+[Overview - v5.0.0-beta.5](../../README.zh.md) / [Modules](../../modules.zh.md) / [layout](../../modules/layout.zh.md) / DagreLayoutOptions
 
- ＃＃ 特性 
+[layout](../../modules/layout.zh.md).DagreLayoutOptions
 
- ＃＃＃ 对齐 
+## Properties
 
- • `可选` **对齐**：`DagreAlign` 
+### align
 
- #### 定义于 
+• `Optional` **align**: `DagreAlign`
 
- node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:187 
+#### Defined in
 
- ___ 
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:187
 
- ＃＃＃ 开始 
+---
 
- • `可选` **开始**：`PointTuple` 
+### begin
 
- #### 定义于 
+• `Optional` **begin**: `PointTuple`
 
- node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:188 
+#### Defined in
 
- ___ 
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:188
 
- ### 控制点 
+---
 
- • `可选` **控制点**：`布尔值` 
+### controlPoints
 
- #### 定义于 
+• `Optional` **controlPoints**: `boolean`
 
- node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:192 
+#### Defined in
 
- ___ 
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:192
 
- ### 边缘标签空间 
+---
 
- • `可选` **edgeLabelSpace**：`布尔值` 
+### edgeLabelSpace
 
- #### 定义于 
+• `Optional` **edgeLabelSpace**: `boolean`
 
- node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:194 
+#### Defined in
 
- ___ 
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:194
 
- ### 焦点节点 
+---
 
- • `可选` **焦点节点**：`ID` \| `节点` 
+### focusNode
 
- #### 定义于 
+• `Optional` **focusNode**: `ID` \| `Node`
 
- node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:197 
+#### Defined in
 
- ___ 
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:197
 
- ### 节点顺序 
+---
 
- • `可选` **nodeOrder**: `string`[] 
+### nodeOrder
 
- #### 定义于 
+• `Optional` **nodeOrder**: `string`[]
 
- node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:195 
+#### Defined in
 
- ___ 
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:195
 
- ### 节点大小 
+---
 
- • `可选` **nodeSize**: `number` \| `数字`[] \| (`nodeData`: `Node`) => `数字` 
+### nodeSize
 
- #### 定义于 
+• `Optional` **nodeSize**: `number` \| `number`[] \| (`nodeData`: `Node`) => `number`
 
- node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:189 
+#### Defined in
 
- ___ 
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:189
 
- ### 节点 
+---
 
- • `可选` **nodesep**：`数量` 
+### nodesep
 
- #### 定义于 
+• `Optional` **nodesep**: `number`
 
- node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:190 
+#### Defined in
 
- ___ 
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:190
 
- ### 节点epFunc 
+---
 
- • `可选` **nodesepFunc**: (`d?`: `Node`) => `number` 
+### nodesepFunc
 
- #### 类型声明 
+• `Optional` **nodesepFunc**: (`d?`: `Node`) => `number`
 
- ▸ (`d?`): `数字` 
+#### Type declaration
 
- ＃＃＃＃＃ 参数 
+▸ (`d?`): `number`
 
- | 名称 | 类型 | 
- | :------ | :------ | 
- | `d？` | `节点` | 
+##### Parameters
 
- ##### 返回 
+| Name | Type   |
+| :--- | :----- |
+| `d?` | `Node` |
 
- `数字` 
+##### Returns
 
- #### 定义于 
+`number`
 
- node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:202 
+#### Defined in
 
- ___ 
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:202
 
- ###预设 
+---
 
- • `可选` **预设**：`对象` 
+### preset
 
- #### 类型声明 
+• `Optional` **preset**: `Object`
 
- | 名称 | 类型 | 
- | :------ | :------ | 
- | `边缘` | `边缘`[] | 
- | `节点` | `OutNode`[] | 
+#### Type declaration
 
- #### 定义于 
+| Name    | Type        |
+| :------ | :---------- |
+| `edges` | `Edge`[]    |
+| `nodes` | `OutNode`[] |
 
- node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:198 
+#### Defined in
 
- ___ 
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:198
 
- ### 径向 
+---
 
- • `可选` **径向**：`布尔值` 
+### radial
 
- #### 定义于 
+• `Optional` **radial**: `boolean`
 
- node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:196 
+#### Defined in
 
- ___ 
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:196
 
- ### 排名目录 
+---
 
- • `可选` **rankdir**：`DagreRankdir` 
+### rankdir
 
- #### 定义于 
+• `Optional` **rankdir**: `DagreRankdir`
 
- node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:186 
+#### Defined in
 
- ___ 
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:186
 
- ###排名 
+---
 
- • `可选` **ranksep**：`数字` 
+### ranksep
 
- #### 定义于 
+• `Optional` **ranksep**: `number`
 
- node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:191 
+#### Defined in
 
- ___ 
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:191
 
- ###rankepFunc 
+---
 
- • `可选` **ranksepFunc**: (`d?`: `Node`) => `number` 
+### ranksepFunc
 
- #### 类型声明 
+• `Optional` **ranksepFunc**: (`d?`: `Node`) => `number`
 
- ▸ (`d?`): `数字` 
+#### Type declaration
 
- ＃＃＃＃＃ 参数 
+▸ (`d?`): `number`
 
- | 名称 | 类型 | 
- | :------ | :------ | 
- | `d？` | `节点` | 
+##### Parameters
 
- ##### 返回 
+| Name | Type   |
+| :--- | :----- |
+| `d?` | `Node` |
 
- `数字` 
+##### Returns
 
- #### 定义于 
+`number`
 
- node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:203 
+#### Defined in
 
- ___ 
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:203
 
- ### 按组合排序 
+---
 
- • `可选` **sortByCombo**：`布尔值` 
+### sortByCombo
 
- #### 定义于 
+• `Optional` **sortByCombo**: `boolean`
 
- node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:193
+#### Defined in
+
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:193

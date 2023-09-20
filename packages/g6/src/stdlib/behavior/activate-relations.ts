@@ -2,7 +2,7 @@ import type { ID, IG6GraphEvent } from '../../types';
 import { Behavior } from '../../types/behavior';
 
 const KEYBOARD_TRIGGERS = ['shift', 'ctrl', 'alt', 'meta'] as const;
-const MOUSE_TRIGGERS = ['mouseenter', 'click'] as const;
+const MOUSE_TRIGGERS = ['pointerenter', 'click'] as const;
 
 type Trigger = (typeof MOUSE_TRIGGERS)[number];
 
@@ -78,12 +78,12 @@ export class ActivateRelations extends Behavior {
 
   getEvents = () => {
     const { trigger } = this.options;
-    if (trigger === 'mouseenter') {
+    if (trigger === 'pointerenter') {
       return {
-        'node:mouseenter': this.setAllItemStates,
-        'combo:mouseenter': this.setAllItemStates,
-        'node:mouseleave': this.clearActiveState,
-        'combo:mouseleave': this.clearActiveState,
+        'node:pointerenter': this.setAllItemStates,
+        'combo:pointerenter': this.setAllItemStates,
+        'node:pointerleave': this.clearActiveState,
+        'combo:pointerleave': this.clearActiveState,
       };
     }
 
@@ -118,7 +118,7 @@ export class ActivateRelations extends Behavior {
       edgeIds,
     );
 
-    graph.batch(() => {
+    graph.historyBatch(() => {
       /** 节点 */
       graph.setItemState(activeNodeIds, ACTIVE_STATE, true);
       graph.setItemState(inactiveNodeIds, ACTIVE_STATE, false);
@@ -132,7 +132,7 @@ export class ActivateRelations extends Behavior {
   }
   public clearActiveState(e: any) {
     const { activeState: ACTIVE_STATE } = this.options;
-    this.graph.batch(() => {
+    this.graph.historyBatch(() => {
       this.graph.setItemState(this.prevNodeIds, ACTIVE_STATE, false);
       this.graph.setItemState(this.prevEdgeIds, ACTIVE_STATE, false);
     });

@@ -1,8 +1,8 @@
 import { resetEntityCounter } from '@antv/g';
 import activateRelations from '../demo/behaviors/activate-relations';
 import './utils/useSnapshotMatchers';
-import { createContext, sleep, triggerEvent } from './utils';
 import hull from '../demo/plugins/hull';
+import { createContext, sleep, triggerEvent } from './utils';
 
 describe('Hull plugin', () => {
   beforeEach(() => {
@@ -14,7 +14,7 @@ describe('Hull plugin', () => {
   });
 
   it('should be rendered correctly with round-convex type', (done) => {
-    const dir = `${__dirname}/snapshots/canvas`;
+    const dir = `${__dirname}/snapshots/canvas/plugins/hull`;
     const { backgroundCanvas, canvas, transientCanvas, container } =
       createContext('canvas', 500, 500);
 
@@ -125,7 +125,7 @@ describe('Hull plugin', () => {
   });
 
   it('should be rendered correctly with bubble type', (done) => {
-    const dir = `${__dirname}/snapshots/canvas`;
+    const dir = `${__dirname}/snapshots/canvas/plugins/hull`;
     const { backgroundCanvas, canvas, transientCanvas, container } =
       createContext('canvas', 500, 500);
 
@@ -157,7 +157,7 @@ describe('Hull plugin', () => {
   });
 
   it('should be rendered correctly with  smooth-convex type', (done) => {
-    const dir = `${__dirname}/snapshots/canvas`;
+    const dir = `${__dirname}/snapshots/canvas/plugins/hull`;
     const { backgroundCanvas, canvas, transientCanvas, container } =
       createContext('canvas', 500, 500);
 
@@ -188,7 +188,7 @@ describe('Hull plugin', () => {
   });
 
   xit('should be rendered correctly with SVG', (done) => {
-    const dir = `${__dirname}/snapshots/svg`;
+    const dir = `${__dirname}/snapshots/svg/plugins/hull`;
     const { backgroundCanvas, canvas, transientCanvas, container } =
       createContext('svg', 500, 500);
 

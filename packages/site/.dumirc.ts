@@ -149,20 +149,12 @@ export default defineConfig({
       //   order: 4,
       // },
       {
-        slug: 'manual/FAQ',
-        title: {
-          zh: 'FAQ',
-          en: 'FAQ',
-        },
-        order: 2,
-      },
-      {
         slug: 'manual/tutorial',
         title: {
           zh: '入门教程',
           en: 'Tutorial',
         },
-        order: 3,
+        order: 5,
       },
       // ===========Concepts===================
       // {
@@ -295,7 +287,7 @@ export default defineConfig({
       {
         slug: 'apis/modules',
         title: {
-          zh: '模块',
+          zh: 'modules',
           en: 'modules',
         },
         order: 2,
@@ -303,7 +295,7 @@ export default defineConfig({
       {
         slug: 'apis/interfaces/graph',
         title: {
-          zh: 'Graph',
+          zh: 'graph',
           en: 'graph',
         },
         order: 3,
@@ -311,15 +303,23 @@ export default defineConfig({
       {
         slug: 'apis/interfaces/item',
         title: {
-          zh: '元素',
+          zh: 'item',
           en: 'item',
         },
         order: 4,
       },
       {
+        slug: 'apis/interfaces/plugins',
+        title: {
+          zh: 'plugins',
+          en: 'plugins',
+        },
+        order: 7,
+      },
+      {
         slug: 'apis/interfaces/layout',
         title: {
-          zh: '布局',
+          zh: 'layout',
           en: 'layout',
         },
         order: 5,
@@ -327,24 +327,16 @@ export default defineConfig({
       {
         slug: 'apis/interfaces/behaviors',
         title: {
-          zh: '交互',
+          zh: 'behaviors',
           en: 'behaviors',
         },
         order: 6,
       },
 
       {
-        slug: 'apis/interfaces/plugins',
-        title: {
-          zh: '插件',
-          en: 'plugins',
-        },
-        order: 7,
-      },
-      {
         slug: 'apis/classes',
         title: {
-          zh: '类',
+          zh: 'classes',
           en: 'classes',
         },
         order: 8,
@@ -426,14 +418,6 @@ export default defineConfig({
         },
       },
       {
-        slug: 'algorithm',
-        icon: 'gallery',
-        title: {
-          zh: '算法',
-          en: 'Algorithm',
-        },
-      },
-      {
         slug: 'performance',
         icon: 'net',
         title: {
@@ -490,11 +474,11 @@ export default defineConfig({
           en: 'News',
         },
         title: {
-          zh: '图可视分析与搭建平台 GraphInsight 开源',
-          en: 'GraphInsight is opened source!',
+          zh: 'G6 5.0-beta 闪亮登场',
+          en: 'G6 5.0-beta is released!',
         },
-        date: '2022.11.22',
-        link: 'https://www.yuque.com/antv/blog/nyl5bkhdkicgm7v8',
+        date: '2023.08.31',
+        link: 'https://zhuanlan.zhihu.com/p/653709725?',
       },
       {
         type: {
@@ -502,11 +486,11 @@ export default defineConfig({
           en: 'News',
         },
         title: {
-          zh: 'G6 5.0 插件机制与引擎性能蓄势待发',
-          en: 'G6 5.0: extension mechanism and better performance',
+          zh: '图可视分析与搭建平台 GraphInsight 开源',
+          en: 'GraphInsight is opened source!',
         },
         date: '2022.11.22',
-        link: 'https://www.yuque.com/antv/blog/fm6setn8p9m9lmh5',
+        link: 'https://www.yuque.com/antv/blog/nyl5bkhdkicgm7v8',
       },
     ],
     /** 首页特性介绍 */

@@ -2,7 +2,7 @@
 title: behaviors
 ---
 
-[Overview - v5.0.0-alpha.9](../README.en.md) / [Modules](../modules.en.md) / behaviors
+[Overview - v5.0.0-beta.5](../README.en.md) / [Modules](../modules.en.md) / behaviors
 
 ## Interfaces
 
@@ -25,10 +25,10 @@ title: behaviors
 
 ### ICanvasEventType
 
-Ƭ **ICanvasEventType**: \`${CANVAS\_EVENT\_TYPE}\`
+Ƭ **ICanvasEventType**: \`${CANVAS_EVENT_TYPE}\`
 
 Event type union
 
 #### Defined in
 
-[packages/g6/src/types/event.ts:38](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/event.ts#L38)
+[packages/g6/src/types/event.ts:38](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/event.ts#L38)

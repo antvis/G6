@@ -90,7 +90,8 @@ export default abstract class Item implements IItem {
   /** Cache the dirty tags for states when data changed, to re-map the state styles when state changed */
   private stateDirtyMap: { [stateName: string]: boolean } = {};
   private cacheStateStyles: { [stateName: string]: ItemShapeStyles } = {};
-  private cacheHiddenShape: { [shapeId: string]: boolean } = {};
+  private cacheNotHiddenByItem: { [shapeId: string]: boolean } = {};
+  private cacheHiddenByItem: { [shapeId: string]: boolean } = {};
 
   // TODO: props type
   constructor(props) {
@@ -424,7 +425,7 @@ export default abstract class Item implements IItem {
         const targetStyleMap = {};
         Object.keys(this.shapeMap).forEach((id) => {
           const shape = this.shapeMap[id];
-          if (!this.cacheHiddenShape[id]) {
+          if (this.cacheHiddenByItem[id]) {
             // set the animate fields to initial value
             if (showAnimateFieldsMap[id]) {
               targetStyleMap[id] = targetStyleMap[id] || {};
@@ -457,22 +458,26 @@ export default abstract class Item implements IItem {
       } else {
         Object.keys(this.shapeMap).forEach((id) => {
           const shape = this.shapeMap[id];
-          if (!this.cacheHiddenShape[id]) shape.show();
+          if (this.cacheHiddenByItem[id]) shape.show();
         });
       }
 
       this.visible = true;
+      this.cacheHiddenByItem = {};
     });
   }
 
   /** Hides the item. */
-  public hide(animate = true) {
+  public hide(animate = true, keepKeyShape = false) {
+    this.cacheNotHiddenByItem = {};
     const func = () => {
       Object.keys(this.shapeMap).forEach((id) => {
+        if (keepKeyShape && id === 'keyShape') return;
         const shape = this.shapeMap[id];
         if (!this.visible && !shape.isVisible())
-          this.cacheHiddenShape[id] = true;
+          this.cacheNotHiddenByItem[id] = true;
         shape.hide();
+        this.cacheHiddenByItem[id] = true;
       });
     };
     Promise.all(this.stopAnimations()).then(() => {
@@ -802,7 +807,7 @@ export default abstract class Item implements IItem {
    */
   public updateZoom(zoom) {
     this.zoom = zoom;
-    this.renderExt.onZoom(this.shapeMap, zoom);
+    this.renderExt.onZoom(this.shapeMap, zoom, this.cacheHiddenByItem);
   }
 
   /** Destroy the item. */

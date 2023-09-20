@@ -2,15 +2,17 @@
 title: plugins
 ---
 
-[概述 - v5.0.0-alpha.9](../README.zh.md) / [模块](../modules.zh.md) / 插件 
+> 📋 中文文档还在翻译中... 欢迎 PR
 
- ## 接口 
+[Overview - v5.0.0-beta.5](../README.zh.md) / [Modules](../modules.zh.md) / plugins
 
- - [FisheyeConfig](../interfaces/plugins/FisheyeConfig.zh.md) 
- - [GridConfig](../interfaces/plugins/GridConfig.zh.md) 
- - [HistoryConfig](../interfaces/plugins/HistoryConfig.zh.md) 
- - [LegendConfig](../interfaces/plugins/LegendConfig.zh.md) 
- - [MenuConfig](../interfaces/plugins/MenuConfig.zh.md) 
- - [MiniMapConfig](../interfaces/plugins/MiniMapConfig.zh.md) 
- - [ToolbarConfig](../interfaces/plugins/ToolbarConfig.zh.md) 
- - [TooltipConfig](../interfaces/plugins/TooltipConfig.zh.md)
+## Interfaces
+
+- [FisheyeConfig](../interfaces/plugins/FisheyeConfig.zh.md)
+- [GridConfig](../interfaces/plugins/GridConfig.zh.md)
+- [HistoryConfig](../interfaces/plugins/HistoryConfig.zh.md)
+- [LegendConfig](../interfaces/plugins/LegendConfig.zh.md)
+- [MenuConfig](../interfaces/plugins/MenuConfig.zh.md)
+- [MiniMapConfig](../interfaces/plugins/MiniMapConfig.zh.md)
+- [ToolbarConfig](../interfaces/plugins/ToolbarConfig.zh.md)
+- [TooltipConfig](../interfaces/plugins/TooltipConfig.zh.md)

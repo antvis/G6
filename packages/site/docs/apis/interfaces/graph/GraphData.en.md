@@ -2,7 +2,7 @@
 title: GraphData
 ---
 
-[Overview - v5.0.0-alpha.9](../../README.en.md) / [Modules](../../modules.en.md) / [graph](../../modules/graph.en.md) / GraphData
+[Overview - v5.0.0-beta.5](../../README.en.md) / [Modules](../../modules.en.md) / [graph](../../modules/graph.en.md) / GraphData
 
 [graph](../../modules/graph.en.md).GraphData
 
@@ -14,9 +14,9 @@ title: GraphData
 
 #### Defined in
 
-[packages/g6/src/types/data.ts:14](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/data.ts#L14)
+[packages/g6/src/types/data.ts:14](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/data.ts#L14)
 
-___
+---
 
 ### edges
 
@@ -24,9 +24,9 @@ ___
 
 #### Defined in
 
-[packages/g6/src/types/data.ts:13](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/data.ts#L13)
+[packages/g6/src/types/data.ts:13](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/data.ts#L13)
 
-___
+---
 
 ### nodes
 
@@ -34,4 +34,4 @@ ___
 
 #### Defined in
 
-[packages/g6/src/types/data.ts:12](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/data.ts#L12)
+[packages/g6/src/types/data.ts:12](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/data.ts#L12)

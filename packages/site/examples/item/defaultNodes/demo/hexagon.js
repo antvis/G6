@@ -1,0 +1,142 @@
+import { Graph, Extensions, extend } from '@antv/g6';
+const ExtGraph = extend(Graph, {
+  nodes: {
+    'hexagon-node': Extensions.HexagonNode,
+  },
+});
+
+const data = {
+  nodes: [
+    {
+      id: 'hexagon',
+      data: {},
+    },
+    {
+      id: 'hexagon-active',
+      data: {},
+    },
+    {
+      id: 'hexagon-selected',
+      data: {},
+    },
+
+    {
+      id: 'hexagon-highlight',
+      data: {},
+    },
+    {
+      id: 'hexagon-inactive',
+      data: {},
+    },
+    {
+      id: 'hexagon-badges',
+      data: {},
+    },
+    {
+      id: 'hexagon-anchorShapes',
+      data: {},
+    },
+  ],
+};
+
+const container = document.getElementById('container');
+const width = container.scrollWidth;
+const height = container.scrollHeight || 500;
+const graph = new ExtGraph({
+  container: 'container',
+  width,
+  height,
+  modes: {
+    default: ['zoom-canvas', 'drag-canvas', 'drag-node', 'click-select'],
+  },
+  data,
+  layout: {
+    type: 'grid',
+  },
+  node: (model) => {
+    const { id, data } = model;
+    const config = {
+      id,
+      data: {
+        ...data,
+        type: 'hexagon-node',
+        labelShape: {
+          text: id,
+          position: 'bottom',
+          maxWidth: '500%',
+        },
+        labelBackgroundShape: {},
+        iconShape: {
+          img: 'https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg',
+        },
+        animates: {
+          update: [
+            {
+              fields: ['opacity'],
+              shapeId: 'haloShape',
+              states: ['selected', 'active'],
+            },
+            {
+              fields: ['lineWidth'],
+              shapeId: 'keyShape',
+              states: ['selected', 'active'],
+            },
+          ],
+        },
+      },
+    };
+    if (id.includes('badges')) {
+      config.data.badgeShapes = [
+        {
+          text: 'A',
+          position: 'rightTop',
+        },
+        {
+          text: 'Important',
+          position: 'right',
+        },
+        {
+          text: 'Notice',
+          position: 'rightBottom',
+        },
+      ];
+    }
+    if (id.includes('anchorShapes')) {
+      config.data.anchorShapes = [
+        {
+          position: 'top',
+        },
+        {
+          position: 'rightTop',
+        },
+        {
+          position: 'leftTop',
+        },
+        {
+          position: 'rightBottom',
+        },
+        {
+          position: 'leftBottom',
+        },
+        {
+          position: 'bottom',
+        },
+      ];
+    }
+    return config;
+  },
+});
+
+graph.on('afterrender', (e) => {
+  graph.setItemState('hexagon-active', 'active', true);
+  graph.setItemState('hexagon-selected', 'selected', true);
+  graph.setItemState('hexagon-highlight', 'highlight', true);
+  graph.setItemState('hexagon-inactive', 'inactive', true);
+});
+
+if (typeof window !== 'undefined')
+  window.onresize = () => {
+    if (!graph || graph.destroyed) return;
+    if (!container || !container.scrollWidth || !container.scrollHeight) return;
+    graph.setSize([container.scrollWidth, container.scrollHeight]);
+  };

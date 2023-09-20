@@ -9,9 +9,9 @@ G6 是一个图可视化引擎。它提供了图的绘制、布局、分析、�
 
 ## 入门教程简介
 
-我们在本入门教程中将会完成一个如下图所示简单的图可视化，我们将在后文中称其为 **Tutorial 案例**，<a href='https://codepen.io/Yanyan-Wang/pen/mdbYZvZ' target='_blank'>完整代码</a>。
+在本入门教程将会完成一个如下图所示简单的图可视化，我们将在后文中称其为 **Tutorial 案例**，<a href='https://codesandbox.io/s/g6-v5-tutorial-j67vnm?file=/index.js' target='_blank'>完整代码</a>。
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*YlTVS54xV3EAAAAAAAAAAABkARQnAQ'  width=500 alt='img' />
+<img src='https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*9VQjTp0Ipi8AAAAAAAAAAAAADmJ7AQ/original' style="text-align: center;" width=500 alt='img' />
 
 <div style="text-align: center;"><b>Tutorial 案例</b> 效果图</div>
 
@@ -29,7 +29,7 @@ G6 是一个图可视化引擎。它提供了图的绘制、布局、分析、�
 - 插件 & 工具
 - \*动画（选读）
 
-`提示` <br />该入门教程是为希望“边学边做”的读者设计的。如果您更希望从底层概念开始学习 G6，您可以参见：[核心概念](/zh/docs/manual/middle/graph)。
+`提示` <br />该入门教程是为希望“边学边做”的读者设计的。G6 5.0 的更多教程正在建设中，目前可以参考 [API 文档](https://g6-next.antv.antgroup.com/apis)。
 
 ## 基础知识
 
@@ -37,7 +37,7 @@ G6 是一个图可视化引擎。它提供了图的绘制、布局、分析、�
 
 ## 环境准备
 
-建议使用新版的 Chrome 浏览器作为运行环境，用任意的代码编辑器进行代码的编写即可。本教程默认采用 CDN 的方式直接引入 G6 类库，引入的版本是 3.7.1，此版本很多特性会大大简化我们的代码。如果希望在其他环境尝试本教程的学习，读者可以参考 [快速上手](/zh/docs/manual/getting-started) 中的安装配置部分。
+建议使用新版的 Chrome 浏览器作为运行环境，用任意的代码编辑器进行代码的编写即可。本教程默认采用 CDN 的方式直接引入 G6 类库，引入的版本是 3.7.1，此版本很多特性会大大简化我们的代码。如果希望在其他环境尝试本教程的学习，读者可以参考 [快速上手](https://g6-next.antv.antgroup.com/manual/getting-started) 中的安装配置部分。
 
 新建 index.html 文件，并添加如下代码：
 
@@ -49,16 +49,14 @@ G6 是一个图可视化引擎。它提供了图的绘制、布局、分析、�
     <title>Tutorial Demo</title>
   </head>
   <body>
-    <!-- 引入 G6 -->
-    <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.7.1/dist/g6.min.js"></script>
-    <!-- 4.x and later versions -->
-    <!-- <script src="https://gw.alipayobjects.com/os/lib/antv/g6/4.3.11/dist/g6.min.js"></script> -->
+    <!-- 引入 G6 5.0 beta -->
+    <script src="https://gw.alipayobjects.com/os/lib/antv/g6/5.0.0-beta.5/dist/g6.min.js"></script>
 
     <script>
-      console.log(G6.Global.version);
+      console.log(G6);
     </script>
   </body>
 </html>
 ```
 
-使用浏览器打开 index.html 文件，打开控制台，可以看到 G6 的版本号，说明 G6 已成功引入。
+使用浏览器打开 index.html 文件，打开控制台，可以看到打印出的 G6，说明成功引入。

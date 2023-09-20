@@ -14,3 +14,5 @@ export * from './rotate-canvas-3d';
 export * from './track-canvas-3d';
 export * from './zoom-canvas-3d';
 export * from './create-edge'
+export * from './shortcuts-call';
+export * from './scroll-canvas';

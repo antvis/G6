@@ -1,9 +1,9 @@
-import { Canvas } from '@antv/g';
+import { Canvas, CanvasConfig } from '@antv/g';
 import { Renderer as CanvasRenderer } from '@antv/g-canvas';
-import { Renderer as SVGRenderer } from '@antv/g-svg';
-import { Renderer as WebGLRenderer } from '@antv/g-webgl';
 import { Plugin as Plugin3D } from '@antv/g-plugin-3d';
 import { Plugin as DragNDropPlugin } from '@antv/g-plugin-dragndrop';
+import { Renderer as SVGRenderer } from '@antv/g-svg';
+import { Renderer as WebGLRenderer } from '@antv/g-webgl';
 import { RendererName } from '../types/render';
 
 /**
@@ -21,7 +21,7 @@ export const createCanvas = (
   width: number,
   height: number,
   pixelRatio?: number,
-  background?: string,
+  canvasConfig: Partial<CanvasConfig> = {},
 ): Canvas => {
   let renderer: any;
   switch (rendererType.toLowerCase()) {
@@ -53,7 +53,7 @@ export const createCanvas = (
     devicePixelRatio: pixelRatio,
     renderer,
     supportsMutipleCanvasesInOneContainer: true,
-    background,
+    ...canvasConfig,
   });
 };
 

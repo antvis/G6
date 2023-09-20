@@ -28,6 +28,7 @@ interface IProps {
   };
   onframe?: Function;
   nodeMap?: Map<ID, Node>;
+  delayFirstDraw?: boolean;
 }
 
 export default class Edge extends Item {
@@ -37,7 +38,7 @@ export default class Edge extends Item {
   // display data model
   public displayModel: EdgeDisplayModel;
   /** Set to different value in implements */
-  public type: 'edge' = 'edge';
+  public type = 'edge' as const;
   public nodeMap: Map<ID, Node>;
   public sourceItem: Node | Combo;
   public targetItem: Node | Combo;
@@ -56,7 +57,9 @@ export default class Edge extends Item {
     if (sourceItem.getType() === 'node') {
       this.nodeMap.set(targetItem.getID(), targetItem as Node);
     }
-    this.draw(this.displayModel);
+    if (!props.delayFirstDraw) {
+      this.draw(this.displayModel);
+    }
   }
   public draw(
     displayModel: EdgeDisplayModel,
@@ -191,15 +194,21 @@ export default class Edge extends Item {
     containerGroup: Group,
     sourceItem: Node | Combo,
     targetItem: Node | Combo,
-    onlyKeyShape?: boolean,
+    shapeIds?: string[],
     disableAnimate?: boolean,
   ) {
-    if (onlyKeyShape) {
-      const clonedKeyShape = this.shapeMap.keyShape.cloneNode();
-      const clonedGroup = new Group();
-      clonedGroup.appendChild(clonedKeyShape);
-      containerGroup.appendChild(clonedGroup);
-      return clonedGroup;
+    if (shapeIds?.length) {
+      const group = new Group();
+      shapeIds.forEach((shapeId) => {
+        if (!this.shapeMap[shapeId] || this.shapeMap[shapeId].destroyed) return;
+        const clonedKeyShape = this.shapeMap[shapeId].cloneNode();
+        // TODO: other animating attributes?
+        clonedKeyShape.style.opacity =
+          this.renderExt.mergedStyles[shapeId]?.opacity || 1;
+        group.appendChild(clonedKeyShape);
+      });
+      containerGroup.appendChild(group);
+      return group;
     }
     const clonedModel = clone(this.model);
     clonedModel.data.disableAnimate = disableAnimate;

@@ -447,7 +447,7 @@ const graph = new ExtGraph({
   container: 'container',
   width,
   height,
-  transform: ['transform-v4-data'],
+  transforms: ['transform-v4-data'],
   modes: {
     default: ['drag-canvas', 'drag-node', 'click-select', 'zoom-canvas'],
   },
@@ -465,10 +465,12 @@ const graph = new ExtGraph({
       update: [
         {
           fields: ['opacity'],
+          states: ['selected', 'active'],
           shapeId: 'haloShape',
         },
         {
           fields: ['lineWidth'],
+          states: ['selected', 'active'],
           shapeId: 'keyShape',
         },
       ],

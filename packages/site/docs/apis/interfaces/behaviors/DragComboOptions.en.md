@@ -2,7 +2,7 @@
 title: DragComboOptions
 ---
 
-[Overview - v5.0.0-alpha.9](../../README.en.md) / [Modules](../../modules.en.md) / [behaviors](../../modules/behaviors.en.md) / DragComboOptions
+[Overview - v5.0.0-beta.5](../../README.en.md) / [Modules](../../modules.en.md) / [behaviors](../../modules/behaviors.en.md) / DragComboOptions
 
 [behaviors](../../modules/behaviors.en.md).DragComboOptions
 
@@ -21,20 +21,20 @@ Only used when enableDelegate is true.
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `fill?` | `string` |
-| `fillOpacity?` | `number` |
-| `lineDash?` | [`number`, `number`] |
-| `lineWidth?` | `number` |
-| `stroke?` | `string` |
-| `strokeOpacity?` | `number` |
+| Name             | Type                 |
+| :--------------- | :------------------- |
+| `fill?`          | `string`             |
+| `fillOpacity?`   | `number`             |
+| `lineDash?`      | [`number`, `number`] |
+| `lineWidth?`     | `number`             |
+| `stroke?`        | `string`             |
+| `strokeOpacity?` | `number`             |
 
 #### Defined in
 
-[packages/g6/src/stdlib/behavior/drag-combo.ts:27](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/drag-combo.ts#L27)
+[packages/g6/src/stdlib/behavior/drag-combo.ts:27](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/drag-combo.ts#L27)
 
-___
+---
 
 ### enableDelegate
 
@@ -45,9 +45,9 @@ Defaults to false.
 
 #### Defined in
 
-[packages/g6/src/stdlib/behavior/drag-combo.ts:22](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/drag-combo.ts#L22)
+[packages/g6/src/stdlib/behavior/drag-combo.ts:22](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/drag-combo.ts#L22)
 
-___
+---
 
 ### enableTransient
 
@@ -59,9 +59,9 @@ Defaults to true.
 
 #### Defined in
 
-[packages/g6/src/stdlib/behavior/drag-combo.ts:17](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/drag-combo.ts#L17)
+[packages/g6/src/stdlib/behavior/drag-combo.ts:17](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/drag-combo.ts#L17)
 
-___
+---
 
 ### eventName
 
@@ -71,9 +71,9 @@ The event name to trigger when drag end.
 
 #### Defined in
 
-[packages/g6/src/stdlib/behavior/drag-combo.ts:55](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/drag-combo.ts#L55)
+[packages/g6/src/stdlib/behavior/drag-combo.ts:55](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/drag-combo.ts#L55)
 
-___
+---
 
 ### hideRelatedEdges
 
@@ -85,9 +85,9 @@ Defaults to false.
 
 #### Defined in
 
-[packages/g6/src/stdlib/behavior/drag-combo.ts:46](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/drag-combo.ts#L46)
+[packages/g6/src/stdlib/behavior/drag-combo.ts:46](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/drag-combo.ts#L46)
 
-___
+---
 
 ### selectedState
 
@@ -98,9 +98,9 @@ Defaults to "selected".
 
 #### Defined in
 
-[packages/g6/src/stdlib/behavior/drag-combo.ts:51](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/drag-combo.ts#L51)
+[packages/g6/src/stdlib/behavior/drag-combo.ts:51](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/drag-combo.ts#L51)
 
-___
+---
 
 ### shouldBegin
 
@@ -114,8 +114,8 @@ Whether allow the behavior happen on the current item.
 
 ##### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name    | Type                                   |
+| :------ | :------------------------------------- |
 | `event` | [`IG6GraphEvent`](IG6GraphEvent.en.md) |
 
 ##### Returns
@@ -124,9 +124,9 @@ Whether allow the behavior happen on the current item.
 
 #### Defined in
 
-[packages/g6/src/stdlib/behavior/drag-combo.ts:63](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/drag-combo.ts#L63)
+[packages/g6/src/stdlib/behavior/drag-combo.ts:63](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/drag-combo.ts#L63)
 
-___
+---
 
 ### throttle
 
@@ -137,9 +137,9 @@ Defaults to 0.
 
 #### Defined in
 
-[packages/g6/src/stdlib/behavior/drag-combo.ts:40](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/drag-combo.ts#L40)
+[packages/g6/src/stdlib/behavior/drag-combo.ts:40](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/drag-combo.ts#L40)
 
-___
+---
 
 ### updateComboStructure
 
@@ -149,4 +149,4 @@ Whether change the combo hierarchy structure or only change size.
 
 #### Defined in
 
-[packages/g6/src/stdlib/behavior/drag-combo.ts:59](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/drag-combo.ts#L59)
+[packages/g6/src/stdlib/behavior/drag-combo.ts:59](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/drag-combo.ts#L59)

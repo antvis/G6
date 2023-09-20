@@ -1,6 +1,6 @@
 ---
 title: 🎉 新功能怎么用
-order: 2
+order: 3
 ---
 
 相较于 v4，G6 v5 的新能力体现在：
@@ -15,15 +15,23 @@ order: 2
 - 🌠 **多渲染器**，可运行时切换；
 - 📦 **包体积减少**，支持 TreeShaking。
 
+还有其他一些微小而美好的改变：
+
+- 轮廓包裹 Hull 支持文本配置；
+- 折线支持自动避障；
+- 文本自动适配宽度；
+- 采用临时层画布提升交互性能；
+- 图例自动从画布中获取样式。
+
 正式版即将来袭。如果上面 Feature 是您所期待的，现在就可以使用 G6 5.0 Beta 版本进行尝鲜！若遇到任何升级问题，请在 GitHub 给我们留言。
 
 为了支持上述全新能力，G6 v5 相比于 v4 有比较大的 Breaking Change，这可能带来一定的升级成本。希望上面全新能力带来的收益远大于升级成本。
 
 ## 1️⃣. 视觉与动画规范
 
-### JSON spec 定义
+### JSON Spec 定义
 
-【TODO JSON spec api 地址】
+[Specification Doc](https://g6-next.antv.antgroup.com/apis/interfaces/graph/specification)
 
 v5 中我们将所有节点/边/ combo 的图形进行规范化，每种类型的元素基本都有若干个规范的图形名称。包括自定义的元素，也应当遵循这样的规范。如果有额外的图形，统一放入 otherShapes 中。
 
@@ -327,7 +335,7 @@ const graph = new Graph({
 ```typescript
 const graph = new Graph({
   // ... 其他图配置
-  transform: [
+  transforms: [
     'transform-v4-data', // 内置的数据处理器，将 v4 的数据格式转换为 v5
     {
       // 内置的数据处理器，节点大小映射到节点数据的 value 字段上，大小范围归一化到 [4, 28]
@@ -358,7 +366,7 @@ const ExtGraph = extend(Graph, {
 
 const graph = new ExtGraph({
   // ... 其他图配置
-  transform: [
+  transforms: [
     'transform-v4-data', // 内置的数据处理器，将 v4 的数据格式转换为 v5
     'custom-data-transform', // 使用自定义的数据处理器
   ],
@@ -590,3 +598,31 @@ const stdLib = {
   },
 };
 ```
+
+## 9️⃣. 其他微小而美好的改变
+
+- 轮廓包裹 Hull 支持文本配置：
+
+[Hull 支持文本 DEMO](https://g6-next.antv.antgroup.com/examples/interaction/hull/#hull)
+
+<img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*eXzfTbFrYjMAAAAAAAAAAAAADmJ7AQ/original" />
+
+- 折线支持自动避障：
+
+[Polyline 避障 DEMO](https://g6-next.antv.antgroup.com/examples/item/defaultEdges/#polyline3)
+
+<img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*Giy7R4jheawAAAAAAAAAAAAADmJ7AQ/original" />
+
+- 文本自动适配宽度：
+
+[文本自适应 DEMO](https://g6-next.antv.antgroup.com/examples/item/label/#copyLabel)
+
+<img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*LGuRR7itiQ8AAAAAAAAAAAAADmJ7AQ/original" />
+
+- 采用临时层画布提升交互性能：
+
+<img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*VkT7T4Qzt2gAAAAAAAAAAAAADmJ7AQ/original" />
+
+- 图例自动从画布中获取样式：
+
+<img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*53oGRpdKpwsAAAAAAAAAAAAADmJ7AQ/original" />

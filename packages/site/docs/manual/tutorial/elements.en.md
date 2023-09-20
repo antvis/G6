@@ -3,223 +3,356 @@ title: Configure the Items
 order: 2
 ---
 
-There are `Node` and `Edge` two types of items in a graph. In the last chapter, we rendered the **Tutorial Demo** with items with rough styles. Now, we are going to beautify the items while introducing the properties of the items.
+In this chapter, we have already drawn the graph of the **Tutorial example**, but the items and their labels look visually basic. In this article, we will beautify the items from the previous chapter to achieve the following effects and introduce the properties and configuration methods of the items.
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*46GdQaNFiVIAAAAAAAAAAABkARQnAQ' width=450 height=450 alt='img' />
+<img src='https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*K3ADTJct0o4AAAAAAAAAAAAADmJ7AQ/original' width=450 height=450  alt='img'/>
 
-> Figure 1  The **Tutorial Demo** with cofigured items.
+> Figure 1: The **\*Tutorial example** \*after configuring element properties.
 
-## Basic Concept
+## Basic Concepts
 
-### Graph Item
+### Graph Items
 
-There are `Node` and `Edge` two types of items in a graph. Several [Built-in Nodes](/en/docs/manual/middle/elements/nodes/defaultNode) and [Built-in Edges](/en/docs/manual/middle/elements/edges/defaultEdge) are provided by G6. The main difference between different types of items is their [Graphics Shape](/en/docs/manual/middle/elements/shape/shape-keyshape). For example, a node's graphics type can be a circle, a rect, an image, or others.
+Graph items refer to the **nodes** `Node`, **edges** `Edge`, and _node groups_ `Combo` on the graph. G6 provides a series of [built-in nodes](https://g6-next.antv.antgroup.com/en/examples#item-defaultNodes) for users to choose from.
 
-## Properties of Item
+## Element Properties
 
-The properties of an item can be be divided into two categories:
+Whether it is a node or an edge, their properties can be divided into two types:
 
-- **Style Property `style`**: Corresponds to the style in Canvas. When the [State](/en/docs/manual/middle/states/state) of an item is changed, the style can be updated. It is an object named `style`;
-- **Other Property**: Such as graphics `type`, `id`, they are a kind of properties that will not be changed when the [State](/en/docs/manual/middle/states/state) of the item is changed.
+- **Graphic style properties**: Correspond to various styles in the canvas and can be changed when the element's state changes.
+- **Other properties**: For example, the type (`type`), id (`id`), position (`x`, `y`) properties, which cannot be changed when the element's state changes.
 
-For example, When you change the state `'hover'` or `'click'` to `true` for a node A, only the **style properties** of A can be updated, e.g. `fill`, `stroke`, and so on. The **other properties** such as `type` can not be changed. To update the other properties, configure A by [graph.updateItem](/en/docs/api/graphFunc/item#graphupdateitemitem-model-stack) manually.
+For example, when G6 sets a node to be hovered or clicked, it generally uses the Graph's set state API `graph.setItemState` in the event listener to put the node into a certain state, e.g. the selected state. At this time, the node should make certain style changes to respond to the selected state. This can only automatically change the **graphic style properties** of the node (such as `fill` and `stroke` in `keyShape`), and the other properties (such as `type`) cannot be changed. If you need to change other properties, you need to update the data with `graph.updateData`. The **graphic style properties** are stored in the `xxxShape` object of the node/edge/combo's configuration, corresponding to the styles of different shapes.
 
 ### Data Structure
 
-The data structure of a node:
+Taking the node element as an example, the data structure of its properties is as follows:
 
 ```javascript
 {
-	id: 'node0',          // Unique id of the node
-  type: 'circle',      // The type of graphics shape of the node
-  size: 40,             // The size
-  label: 'node0'        // The label
-  visible: true,        // Controls the visible of the node when first render. false means hide the item. All the items are visible by default
-  labelCfg: {           // The configurations for the label
-    positions: 'center',// The relative position of the label
-    style: {            // The style properties of the label
-      fontSize: 12,     // The font size of the label
-      // ...            // Other style properties of the label
+  id: 'node0',            // The id of the element
+  data: {
+    x: 100,               // The position of the node. If the graph does not configure a layout and all node data in the data has x and y information, this information will be used to draw the node's position.
+    y: 100,
+    type: 'circle-node',  // The shape of the element. Compared to v4, it has an extra -node suffix.
+    label: 'node0'        // The label text
+    keyShape: {           // The style properties of the main shape
+      r: 20               // The size of the main shape. If it is a rect-node, it is controlled by width and height.
+      fill: '#000',       // The fill color of the main shape
+      stroke: '#888',     // The stroke color of the main shape
+      // ...              // Other style properties of the main shape
+    },
+    labelShape: {
+      positions: 'center',  // The properties of the label, the position of the label in the element
+      text: 'node-xxx-label'// The text of the element's label. If not configured, it will be filled with data.label
+      fontSize: 12          // The style properties of the label, the font size of the text
+      // ...                // Other style properties of the label
     }
-  }
-  // ...,               // Other properties of the node
-  style: {              // The object of style properties of the node
-    fill: '#000',       // The filling color
-    stroke: '#888',     // The stroke color
-    // ...              // Other styleattribtues of the node
-  }
+    // ...,               // Other properties
+  },
 }
+
 ```
 
-The data structure of an edge is similar to node, but two more properties `source` and `target` in addition, representing the `id` of the source node and the `id` of the target node respectively.
+The data structure of the edge item is similar to that of the node item, except that it has `source` and `target` fields at the same level as `id` and `data`, which represent the ids of the start and end nodes.
 
-<br />We can refine the visual requirements in figure 1 of **Tutorial Demo** into:
+Refining the visual requirements of the **Tutorial example** in Figure 1, we need to achieve the following:
 
-- Visual Effect:
-  - R1: Set the color for stroke and filling for nodes with `fill` and `stroke`;
-  - R2: Set the color for the label with `labelCfg`;
-  - R3: Set the opacity and color for edges with `opacity`，`stroke`;
-  - R4: Set the direction of the label with `labelCfg`;
-- Map the data to visual channels:
-  - R5: Configure the type of nodes with `type` according to the property `class` in node data;
-  - R6: Configure the line widht of edges with `lineWidth` according to the property `weight` in edge data.
+- Visual effects:
+  - R1: Set different node types, `'circle-node'`, `'rect-node'`, `'triangle-node'`.
+  - R2: Draw the icons and badges of the nodes, corresponding properties: `iconShape`, `badgeShapes`.
+  - R3: Arrows on the edges, corresponding to the edge property: `keyShape.endArrow`.
+- Data and visual mapping:
+  - R5: Cluster the nodes and map the colors of the nodes based on categories, corresponding property: `keyShape.fill`.
+  - R6: Map the size of the nodes based on their degree, corresponding property: `keyShape.r`.
 
-## Configure the Properties
+## Properties Configuration
 
-To satisfy different scenario, G6 provides 7 ways to configure the properties for items. Here we will only introduce two of them:
+In G6, there are multiple ways to configure element properties based on different scenario requirements. Here, we introduce the configuration of element properties when instantiating a graph. Compared to v4, where only static global properties can be configured on the graph, v5 supports JSON Spec attribute mapping and function mapping configuration methods:
 
-1. Configure the global properties when instantiating a Graph;
-2. Configure the properties for different items in their data.
+### 1.JSON Spec Configuration when Instantiating the Graph
 
-### 1. Configure the Global Properties When Instantiating a Graph
+**Scenario**: Uniform configuration of properties for all nodes and edges.
 
-**Applicable Scene:** Unify the configurations for all the nodes or edges. <br />**Usage:** Configure it with two configurations of graph:
+**Usage**: Use two configuration options of the graph:
 
-- `defaultNode`: The **Style Property** and **Other Properties** in the default state;
-- `defaultEdge`: The **Style Property** and **Other Properties** in the default state.
-
-<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️Attention:</strong></span> It is a way of unified global configuration, which does not distinguish the nodes with different properties (e.g. `class` and `weight`) in their data. That is to say, only R1, R2, R3, and R4 can be satisfied now:
-
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*bufdS75wcmMAAAAAAAAAAABkARQnAQ' width=450 height=450 alt='img' />
-
-> Figure 2  **Tutorial Demo** with items configured by global configurations.
-
-<br />Configure the `defaultNode` and `defaultEdge` for graph to achieve the expected effect:
+- `node`: The **graphic style properties** and **other properties** of the nodes in the default state.
+- `edge`: The **graphic style properties** and **other properties** of the edges in the default state.
 
 ```javascript
 const graph = new G6.Graph({
   // ...                   // Other configurations of the graph
-  // The style properties and other properties for all the nodes in the default state
-  defaultNode: {
-    size: 30, // The size of nodes
-    // ...                 // The other properties
-    // The style properties of nodes
-    style: {
-      fill: 'steelblue', // The filling color of nodes
-      stroke: '#666', // The stroke color of nodes
-      lineWidth: 1, // The line width of the stroke of nodes
+  // Configuration for the graphic style and other properties of nodes in the default state
+  node: {
+    type: 'circle-node',
+    keyShape: {
+      r: 16, // Node size
+      fill: '#4089FF', // Node fill color
     },
-    // The properties for label of nodes
-    labelCfg: {
-      // The style properties for the label
-      style: {
-        fill: '#fff', // The color of the text
+    // Configuration for the label text on the nodes
+    labelShape: {
+      // All styles support the following mapping, which means that based on the label field in the data model.data, use the result returned by formatter
+      text: {
+        fields: ['label'],
+        formatter: (model) => model.data.label,
       },
+      fill: '#000', // Node label text color
+    },
+    // Animation configuration for nodes
+    animates: {
+      // When data/state updates
+      update: [
+        {
+          shapeId: 'haloShape', // Background halo shape
+          states: ['selected', 'active'], // When in the selected and active states change
+          fields: ['opacity'], // Animated change in opacity
+        },
+        {
+          shapeId: 'keyShape', // Main shape
+          states: ['selected', 'active'], // When in the selected and active states change
+          fields: ['lineWidth'], // Animated change in edge thickness
+        },
+      ],
     },
   },
-  // The style properties and other properties for all the edges in the default state
-  defaultEdge: {
-    // ...                 // The other properties
-    // The style properties of edges
-    style: {
-      opacity: 0.6, // The opacity of edges
-      stroke: 'grey', // The color of the edges
+  // Configuration for the style (style) and other properties of edges in the default state
+  edge: {
+    // ...                 // Other configurations for edges
+    // Edge style configuration
+    type: 'line-edge',
+    keyShape: {
+      opacity: 0.6, // Opacity of the main shape of the edge
+      stroke: 'grey', // Stroke color of the main shape of the edge
     },
-    // The properties for label of edges
-    labelCfg: {
-      autoRotate: true, // Whether to rotate the label according to the edges
+    // Configuration for the label text on the edges
+    labelShape: {
+      autoRotate: true, // Rotate the label text on the edge based on the direction of the edge
+    },
+    // Animation configuration for edges
+    animates: {
+      // When data/state updates
+      update: [
+        {
+          shapeId: 'haloShape', // Background halo shape
+          states: ['selected', 'active'], // When in the selected and active states change
+          fields: ['opacity'], // Animated change in opacity
+        },
+        {
+          shapeId: 'keyShape', // Main shape
+          states: ['selected', 'active'], // When in the selected and active states change
+          fields: ['lineWidth'], // Animated change in edge thickness
+        },
+      ],
     },
   },
 });
 ```
 
-### 2. Configure the Properties in Data
+### 2. Function Mapping Configuration for Instantiating a Graph
 
-**Applicable Scene:** By this way, you can configure different items according to their properties in data. <br />Thus, the R5 and R6 can be satisfied now. <br />**Usage:** Write the properties into each item data, or traverse the data to assign the properties. Here we show assigning the attrbiutes into data by traversing:
+**Scenario**: Different nodes/edges can have different personalized configurations. More flexibility.
 
-```javascript
-const nodes = remoteData.nodes;
-nodes.forEach((node) => {
-  if (!node.style) {
-    node.style = {};
-  }
-  switch (
-    node.class // Configure the graphics type of nodes according to their class
-  ) {
-    case 'c0': {
-      node.type = 'circle'; // The graphics type is circle when class = 'c0'
-      break;
-    }
-    case 'c1': {
-      node.type = 'rect'; // The graphics type is rect when class = 'c1'
-      node.size = [35, 20]; // The node size when class = 'c1'
-      break;
-    }
-    case 'c2': {
-      node.type = 'ellipse'; // The graphics type is ellipse when class = 'c2'
-      node.size = [35, 20]; // The node size when class = 'c2'
-      break;
-    }
-  }
-});
+**Usage:** Before looking at the function mapping code, we know that each node in the original data is relatively simple:
 
-graph.data(remoteData);
+```
+ { "id": "0", "data": { "label": "0" } },
+ { "id": "1", "data": { "label": "1" } },
 ```
 
-The result:
-
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*JU6xRZLKCjcAAAAAAAAAAABkARQnAQ' width=450 height=450 alt='img' />
-
-> Figure 3
-
-From figure 3, we find some nodes are rendered as rects, some are ellipses. We also set the `size` to override the `size` in global configuration. The `size` is an array when the node is a rect or an ellipse. We did not set the `size` for circle node, so `size: 30` in global configuration will still take effect for circle node. That is to say, configuring items by writing into data has higher priority than global configurations.
-
-We further set the line widths for edges according to their weight:
+Generally, the larger the degree (number of one-hop neighbors) of a node in a graph, the more important it is. We can use node size to express this information. At the same time, if the degree is large enough, we can use more additional graphics to highlight its status. We can calculate the degree of the nodes in advance through a data processor:
 
 ```javascript
-// const nodes = ...
-
-// Traverse the egdes data
-const edges = remoteData.edges;
-edges.forEach((edge) => {
-  if (!edge.style) {
-    edge.style = {};
-  }
-  edge.style.lineWidth = edge.weight; // Mapping the weight in data to lineWidth
-});
-
-graph.data(remoteData);
+const degreeCalculator = (data, options, userGraphCore) => {
+  const { edges, nodes } = data;
+  const degreeMap = new Map();
+  edges.forEach(({ source, target }) => {
+    degreeMap.set(source, (degreeMap.get(source) || 0) + 1);
+    degreeMap.set(target, (degreeMap.get(target) || 0) + 1);
+  });
+  nodes.forEach((node) => {
+    node.data.degree = degreeMap.get(node.id) || 0;
+  });
+  return data;
+};
 ```
 
-The result:
+In addition, we hope to use colors to represent the categories of nodes. If the data contains a field indicating the node category, we can use it directly. In this example, we use the clustering algorithm provided by @antv/algorithm to calculate the node clustering based on the graph structure. We also write it as a data processor:
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*46GdQaNFiVIAAAAAAAAAAABkARQnAQ' width=450 height=450 alt='img' />
+```javascript
+const clusteringNodes = (data, options = {}, userGraphCore) => {
+  if (!Algorithm?.labelPropagation) return;
+  const clusteredData = Algorithm.louvain(data, false);
+  const clusterMap = new Map();
+  clusteredData.clusters.forEach((cluster, i) => {
+    cluster.nodes.forEach((node) => {
+      clusterMap.set(node.id, `c${i}`);
+    });
+  });
+  data.nodes.forEach((node) => {
+    node.data.cluster = clusterMap.get(node.id);
+  });
+  return data;
+};
+```
 
-The line width of the edges takes effect in the figure above. But the opacity and color setted in the global configurations are lost. The reason is that the global `style` object in graph instance is overrided by the second configure method. The solution is move all the styles to the data:
+Then register these data processors to the Graph in G6:
+
+```javascript
+import { Graph as GraphBase, extend, Extensions } from '@antv/g6';
+const Graph = extend(GraphBase, {
+  transforms: {
+    'degree-calculator': degreeCalculator,
+    'node-clustering': clusteringNodes,
+  },
+  nodes: {
+    // Note that for package size management, G6 only registers circle-node and rect-node by default. Other built-in or custom node types need to be imported from Extensions and registered as follows
+    'triangle-node': Extensions.TriangleNode,
+  },
+});
+```
+
+In this way, when instantiating the graph, we can configure this data processor on the graph. When data enters the Graph, it will produce data with the degree information through this data processor:
+
+```javascript
+const graph = new Graph({
+  // Note that the extended Graph is used here
+  // ... Other graph configurations
+  transforms: [
+    'transform-v4-data', // Built-in converter that converts v4 formatted data to v5 format
+    'degree-calculator', // Custom data processor that calculates the degree of nodes and stores it in data.degree
+    'node-clustering', // Custom data processor that stores clustering results in the data.cluster field of nodes for the theme module to use later
+    {
+      // Built-in node size mapper that maps the value of the field (the degree field generated by the previous processor here) specified by field to the node size, and normalizes the node size to between 16 and 60
+      type: 'map-node-size',
+      field: 'degree',
+      range: [16, 60],
+    },
+  ],
+});
+```
+
+Now, after the data enters the Graph, it will pass through the data processors specified by `transforms` one by one. Each node of the internal data produced in the internal flow will have some calculated fields, such as:
+
+```
+ { "id": "0", "data": { "label": "0", degree: 1, cluster: 'c0' } },
+ { "id": "1", "data": { "label": "1", degree: 3, cluster: 'c4' } },
+```
+
+Then, in the function mapping configuration of the node, we can use these field values:
 
 ```javascript
 const graph = new G6.Graph({
-  // ...
-  defaultEdge: {
-    // Remove the style here
-    labelCfg: {
-      // The properties for label of edges
-      autoRotate: true, // Whether to rotate the label according to the edges
+  // ... other configurations
+  // transforms: ...
+  // edge: ...
+  // node configuration in the graph configuration
+  node: (model) => {
+    // model is the user input data for the node, transformed and processed internally by G6
+    const { id, data } = model;
+    // Use different node types based on the degree field in the data
+    let type = 'circle-node';
+    if (data.degree === 2) type = 'rect-node';
+    else if (data.degree === 1) type = 'triangle-node';
+    // Badge shapes
+    const badgeShapes = {
+      fontSize: 12,
+      lod: 0,
+    };
+    // Add different badges based on the degree field
+    if (data.degree > 10) {
+      badgeShapes[0] = {
+        color: '#F86254',
+        text: 'Important',
+        position: 'rightTop',
+      };
+    }
+    if (data.degree > 5) {
+      badgeShapes[1] = {
+        text: 'A',
+        textAlign: 'center',
+        color: '#EDB74B',
+        position: 'right',
+      };
+    }
+    return {
+      id,
+      data: {
+        // Make sure to copy data here, otherwise other properties in the data may be lost
+        ...data,
+        type,
+        // Label shape style
+        labelShape: {
+          position: 'bottom',
+          text: id,
+        },
+        // Label background style, if not undefined, a background shape will appear when there is text. More styling properties such as fill color, padding can be configured.
+        labelBackgroundShape: {},
+        // Icon shape, nodes with degree < 2 do not display an icon
+        iconShape:
+          data.degree <= 2
+            ? undefined
+            : {
+                img: 'https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg',
+                fill: '#fff',
+                lod: 0,
+                fontSize: data.keyShape.r - 4,
+              },
+        // Badge shapes
+        badgeShapes,
+        // Animation configuration
+        animates: {
+          update: [
+            {
+              fields: ['opacity'],
+              shapeId: 'haloShape',
+              states: ['selected', 'active'],
+            },
+            {
+              fields: ['lineWidth'],
+              shapeId: 'keyShape',
+              states: ['selected', 'active'],
+            },
+          ],
+        },
+      },
+    };
+  },
+});
+```
+
+In the above node mapping function, the degree field is used. Clusters can be used with the new theme module provided by G6 v5. All you need to do is to configure it on the graph:
+
+```typescript
+const graph = new Graph({
+  // ... other graph configurations
+  // transforms: ...
+  // node: ...
+  // edge: ...
+  // Theme configuration
+  theme: {
+    type: 'spec',
+    base: 'light', // Light theme
+    specification: {
+      node: {
+        // Node color mapping based on the data.cluster field
+        dataTypeField: 'cluster',
+      },
     },
   },
 });
-
-// Traverse the nodes data
-// const nodes = ...
-// nodes.forEach ...
-
-// Traverse the egdes data
-const edges = remoteData.edges;
-edges.forEach((edge) => {
-  if (!edge.style) {
-    edge.style = {};
-  }
-  edge.style.lineWidth = edge.weight; // Mapping the weight in data to lineWidth
-  // The styles are moved to here
-  opt.style.opacity = 0.6;
-  opt.style.stroke = 'grey';
-});
-
-graph.data(remoteData);
-graph.render();
 ```
 
+In the above code, we added four configurations when instantiating the graph: `transform`, `theme`, `node`, and `edge`. The result is shown below:
+
+<img src='https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*K3ADTJct0o4AAAAAAAAAAAAADmJ7AQ/original' width=450 height=450 alt='img' />
+
+> Figure 3
+
+As you can see, the nodes in the graph are rendered as circle, rectangle, and triangle based on their degrees. The sizes of the nodes are mapped to the degrees. The colors of the nodes are mapped to their categories. Similarly, we can also apply various styles mappings to the edges. I won't go into detail here.
+
 ## Complete Code
+
+Here is the complete code:
 
 ```html
 <!DOCTYPE html>
@@ -229,73 +362,162 @@ graph.render();
     <title>Tutorial Demo</title>
   </head>
   <body>
-    <div id="mountNode"></div>
-    <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.7.1/dist/g6.min.js"></script>
-    <!-- 4.x and later versions -->
-    <!-- <script src="https://gw.alipayobjects.com/os/lib/antv/g6/4.3.11/dist/g6.min.js"></script> -->
+    <div id="container"></div>
+    <script src="https://gw.alipayobjects.com/os/lib/antv/g6/5.0.0-beta.5/dist/g6.min.js"></script>
     <script>
-      const graph = new G6.Graph({
-        container: 'mountNode',
-        width: 800,
-        height: 600,
-        fitView: true,
-        fitViewPadding: [20, 40, 50, 20],
-        defaultNode: {
-          size: 30,
-          labelCfg: {
-            style: {
-              fill: '#fff',
+      const { Graph: GraphBase, extend, Extensions } = G6;
+
+      // Custom data processor - degree calculator
+      const degreeCalculator = (data, options, userGraphCore) => {
+        const { edges, nodes } = data;
+        const degreeMap = new Map();
+        edges.forEach(({ source, target }) => {
+          degreeMap.set(source, (degreeMap.get(source) || 0) + 1);
+          degreeMap.set(target, (degreeMap.get(target) || 0) + 1);
+        });
+        nodes.forEach((node) => {
+          node.data.degree = degreeMap.get(node.id) || 0;
+        });
+        return data;
+      };
+
+      // Custom data processor - node clustering
+      const clusteringNodes = (data, options = {}, userGraphCore) => {
+        if (!Algorithm?.labelPropagation) return;
+        const clusteredData = Algorithm.louvain(data, false);
+        const clusterMap = new Map();
+        clusteredData.clusters.forEach((cluster, i) => {
+          cluster.nodes.forEach((node) => {
+            clusterMap.set(node.id, `c${i}`);
+          });
+        });
+        data.nodes.forEach((node) => {
+          node.data.cluster = clusterMap.get(node.id);
+        });
+        return data;
+      };
+
+      const Graph = extend(BaseGraph, {
+        transforms: {
+          'degree-calculator': degreeCalculator,
+          'node-clustering': clusteringNodes,
+        },
+        nodes: {
+          'triangle-node': Extensions.TriangleNode,
+        },
+      });
+
+      const graph = new Graph({
+        container: 'container',
+        width: 1000,
+        height: 1000,
+        transforms: [
+          'transform-v4-data',
+          'degree-calculator',
+          'node-clustering',
+          {
+            type: 'map-node-size',
+            field: 'degree',
+            range: [16, 60],
+          },
+        ],
+        theme: {
+          type: 'spec',
+          base: 'light',
+          specification: {
+            node: {
+              dataTypeField: 'cluster',
             },
           },
         },
-        defaultEdge: {
-          labelCfg: {
-            autoRotate: true,
+        node: (model) => {
+          const { id, data } = model;
+          let type = 'circle-node';
+          if (data.degree === 2) type = 'rect-node';
+          else if (data.degree === 1) type = 'triangle-node';
+
+          const badgeShapes = {
+            fontSize: 12,
+            lod: 0,
+          };
+
+          if (data.degree > 10) {
+            badgeShapes[0] = {
+              color: '#F86254',
+              text: 'Important',
+              position: 'rightTop',
+            };
+          }
+          if (data.degree > 5) {
+            badgeShapes[1] = {
+              text: 'A',
+              textAlign: 'center',
+              color: '#EDB74B',
+              position: 'right',
+            };
+          }
+
+          return {
+            id,
+            data: {
+              ...data,
+              type,
+              labelShape: {
+                position: 'bottom',
+                text: id,
+              },
+              labelBackgroundShape: {},
+              iconShape:
+                data.degree <= 2
+                  ? undefined
+                  : {
+                      img: 'https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg',
+                      fill: '#fff',
+                      lod: 0,
+                      fontSize: data.keyShape.r - 4,
+                    },
+              badgeShapes,
+              animates: {
+                update: [
+                  {
+                    fields: ['opacity'],
+                    shapeId: 'haloShape',
+                    states: ['selected', 'active'],
+                  },
+                  {
+                    fields: ['lineWidth'],
+                    shapeId: 'keyShape',
+                    states: ['selected', 'active'],
+                  },
+                ],
+              },
+            },
+          };
+        },
+        edge: {
+          animates: {
+            update: [
+              {
+                fields: ['opacity'],
+                shapeId: 'haloShape',
+                states: ['selected', 'active'],
+              },
+              {
+                fields: ['lineWidth'],
+                shapeId: 'keyShape',
+                states: ['selected', 'active'],
+              },
+            ],
           },
         },
       });
+
       const main = async () => {
         const response = await fetch(
-          'https://gw.alipayobjects.com/os/basement_prod/6cae02ab-4c29-44b2-b1fd-4005688febcb.json',
+          'https://raw.githubusercontent.com/antvis/G6/v5/packages/g6/tests/datasets/force-data.json',
         );
         const remoteData = await response.json();
-        const nodes = remoteData.nodes;
-        const edges = remoteData.edges;
-        nodes.forEach((node) => {
-          if (!node.style) {
-            node.style = {};
-          }
-          node.style.lineWidth = 1;
-          node.style.stroke = '#666';
-          node.style.fill = 'steelblue';
-          switch (node.class) {
-            case 'c0': {
-              node.type = 'circle';
-              break;
-            }
-            case 'c1': {
-              node.type = 'rect';
-              node.size = [35, 20];
-              break;
-            }
-            case 'c2': {
-              node.type = 'ellipse';
-              node.size = [35, 20];
-              break;
-            }
-          }
-        });
-        edges.forEach((edge) => {
-          if (!edge.style) {
-            edge.style = {};
-          }
-          edge.style.lineWidth = edge.weight;
-          edge.style.opacity = 0.6;
-          edge.style.stroke = 'grey';
-        });
-
-        graph.data(remoteData);
-        graph.render();
+        graph.read(remoteData);
       };
       main();
     </script>
@@ -303,4 +525,4 @@ graph.render();
 </html>
 ```
 
-<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️Attention:</strong></span> <br />Replace the url `'https://gw.alipayobjects.com/os/basement_prod/6cae02ab-4c29-44b2-b1fd-4005688febcb.json'` to change the data into yours.
+**⚠️ Note:** <br /> If you need to replace the data, please replace  `'https://raw.githubusercontent.com/antvis/G6/v5/packages/g6/tests/datasets/force-data.json'` with the new data file address.

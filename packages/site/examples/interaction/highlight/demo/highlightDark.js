@@ -1,5 +1,4 @@
-import G6 from '@antv/g6';
-import insertCss from 'insert-css';
+import { Graph, extend, Extensions } from '@antv/g6';
 
 insertCss(`
   .g6-component-tooltip {
@@ -13,135 +12,144 @@ insertCss(`
   }
 `);
 
-const tooltip = new G6.Tooltip({
-  offsetX: 10,
-  offsetY: 10,
-  fixToNode: [1, 0.5],
-  // the types of items that allow the tooltip show up
-  // 允许出现 tooltip 的 item 类型
-  itemTypes: ['node', 'edge'],
-  // custom the tooltip's content
-  // 自定义 tooltip 内容
-  getContent: (e) => {
-    const outDiv = document.createElement('div');
-    outDiv.style.width = 'fit-content';
-    outDiv.style.height = 'fit-content';
-    const model = e.item.getModel();
-    if (e.item.getType() === 'node') {
-      outDiv.innerHTML = `${model.name}`;
-    } else {
-      const source = e.item.getSource();
-      const target = e.item.getTarget();
-      outDiv.innerHTML = `来源：${source.getModel().name}<br/>去向：${target.getModel().name}`;
-    }
-    return outDiv;
-  },
-});
-
 const container = document.getElementById('container');
 const width = container.scrollWidth;
 const height = container.scrollHeight || 500;
-const graph = new G6.Graph({
-  container: 'container',
-  width,
-  height,
-  plugins: [tooltip],
-  layout: {
-    type: 'force',
-    edgeStrength: 0.7,
+
+const ExtGraph = extend(Graph, {
+  plugins: {
+    tooltip: Extensions.Tooltip,
   },
-  modes: {
-    default: ['drag-canvas'],
-  },
-  defaultNode: {
-    size: [10, 10],
-    style: {
-      lineWidth: 2,
-      fill: '#DEE9FF',
-      stroke: '#5B8FF9',
-    },
-  },
-  defaultEdge: {
-    size: 1,
-    style: {
-      stroke: '#e2e2e2',
-      lineAppendWidth: 2,
-    },
-  },
-  nodeStateStyles: {
-    highlight: {
-      opacity: 1,
-    },
-    dark: {
-      opacity: 0.2,
-    },
-  },
-  edgeStateStyles: {
-    highlight: {
-      stroke: '#999',
-    },
+  behaviors: {
+    'activate-relations': Extensions.ActivateRelations,
   },
 });
-
-function clearAllStats() {
-  graph.setAutoPaint(false);
-  graph.getNodes().forEach(function (node) {
-    graph.clearItemStates(node);
-  });
-  graph.getEdges().forEach(function (edge) {
-    graph.clearItemStates(edge);
-  });
-  graph.paint();
-  graph.setAutoPaint(true);
-}
-
-graph.on('node:mouseenter', function (e) {
-  const item = e.item;
-  graph.setAutoPaint(false);
-  graph.getNodes().forEach(function (node) {
-    graph.clearItemStates(node);
-    graph.setItemState(node, 'dark', true);
-  });
-  graph.setItemState(item, 'dark', false);
-  graph.setItemState(item, 'highlight', true);
-  graph.getEdges().forEach(function (edge) {
-    if (edge.getSource() === item) {
-      graph.setItemState(edge.getTarget(), 'dark', false);
-      graph.setItemState(edge.getTarget(), 'highlight', true);
-      graph.setItemState(edge, 'highlight', true);
-      edge.toFront();
-    } else if (edge.getTarget() === item) {
-      graph.setItemState(edge.getSource(), 'dark', false);
-      graph.setItemState(edge.getSource(), 'highlight', true);
-      graph.setItemState(edge, 'highlight', true);
-      edge.toFront();
-    } else {
-      graph.setItemState(edge, 'highlight', false);
-    }
-  });
-  graph.paint();
-  graph.setAutoPaint(true);
-});
-graph.on('node:mouseleave', clearAllStats);
-graph.on('canvas:click', clearAllStats);
 
 fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/xiaomi.json')
   .then((res) => res.json())
   .then((data) => {
-    graph.data({
-      nodes: data.nodes,
-      edges: data.edges.map(function (edge, i) {
-        edge.id = 'edge' + i;
-        return Object.assign({}, edge);
-      }),
+    console.log('data', data);
+    const graph = new ExtGraph({
+      container: 'container',
+      width,
+      height,
+      autoFit: 'view',
+      layout: {
+        type: 'force',
+        preventOverlap: true,
+        nodeSize: 32,
+        workerEnabled: true,
+      },
+      plugins: [
+        {
+          key: 'tooltip1',
+          type: 'tooltip',
+          trigger: 'pointerenter',
+          getContent: (e) => {
+            let innerHTML;
+            const getNodeNameById = (id) => data.nodes.find((node) => node.id === id).name;
+            if (e.itemType === 'node') {
+              innerHTML = getNodeNameById(e.itemId);
+            } else {
+              const { source, target } = data.edges.find((edge) => edge.id === e.itemId);
+              innerHTML = `来源：${getNodeNameById(source)}<br/>去向：${getNodeNameById(target)}`;
+            }
+            return `
+        <div class='g6-component-tooltip'>
+          ${innerHTML}
+        </div>
+            `;
+          },
+        },
+      ],
+      modes: {
+        default: ['drag-canvas'],
+      },
+      data,
+      node: {
+        keyShape: {
+          r: 10,
+        },
+        highlight: {
+          keyShape: {
+            fill: '#0f0',
+          },
+        },
+        dark: {
+          keyShape: {
+            opacity: 0.2,
+          },
+        },
+      },
+      nodeState: {
+        highlight: {
+          keyShape: {
+            opacity: 1,
+            fill: '#0f0',
+          },
+        },
+        dark: {
+          keyShape: {
+            opacity: 0.2,
+          },
+        },
+      },
+      edge: {
+        keyShape: {
+          stroke: '#aaa',
+          lineAppendWidth: 2,
+          opacity: 0.5,
+        },
+      },
+      edgeState: {
+        highlight: {
+          keyShape: {
+            stroke: '#999',
+          },
+        },
+        dark: {
+          keyshape: {
+            stroke: '#aaa',
+            opacity: 0.3,
+          },
+        },
+      },
     });
 
-    graph.render();
-  });
+    graph.on('node:pointerenter', function (e) {
+      const item = e.itemId;
+      const allNodesId = graph.getAllNodesData().map((node) => node.id);
+      graph.clearItemState(allNodesId);
+      graph.setItemState(allNodesId, 'dark', true);
+      graph.setItemState(item, 'dark', false);
+      graph.setItemState(item, 'highlight', true);
+      graph.getAllEdgesData().forEach(function (edge) {
+        const sourceId = edge.source;
+        const targetId = edge.target;
+        if (sourceId === item) {
+          graph.setItemState(targetId, 'dark', false);
+          graph.setItemState(targetId, 'highlight', true);
+          graph.setItemState(edge.id, 'highlight', true);
+        } else if (targetId === item) {
+          graph.setItemState(sourceId, 'dark', false);
+          graph.setItemState(sourceId, 'highlight', true);
+          graph.setItemState(edge.id, 'highlight', true);
+        } else {
+          graph.setItemState(edge.id, 'highlight', false);
+        }
+      });
+    });
 
-if (typeof window !== 'undefined')
-  window.onresize = () => {
-    if (!graph || graph.get('destroyed')) return;
-    if (!container || !container.scrollWidth || !container.scrollHeight) return;
-    graph.changeSize(container.scrollWidth, container.scrollHeight);
-  };
+    graph.on('node:pointerleave', function (e) {
+      const allNodesIds = graph.getAllNodesData().map((node) => node.id);
+      const allEdgesIds = graph.getAllEdgesData().map((edge) => edge.id);
+      graph.clearItemState([...allNodesIds, ...allEdgesIds]);
+    });
+
+    if (typeof window !== 'undefined')
+      window.onresize = () => {
+        if (!graph || graph.destroyed) return;
+        if (!container || !container.scrollWidth || !container.scrollHeight) return;
+        graph.setSize([container.scrollWidth, container.scrollHeight]);
+      };
+  });

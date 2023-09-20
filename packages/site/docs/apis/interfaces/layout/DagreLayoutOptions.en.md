@@ -2,7 +2,7 @@
 title: DagreLayoutOptions
 ---
 
-[Overview - v5.0.0-alpha.9](../../README.en.md) / [Modules](../../modules.en.md) / [layout](../../modules/layout.en.md) / DagreLayoutOptions
+[Overview - v5.0.0-beta.5](../../README.en.md) / [Modules](../../modules.en.md) / [layout](../../modules/layout.en.md) / DagreLayoutOptions
 
 [layout](../../modules/layout.en.md).DagreLayoutOptions
 
@@ -16,7 +16,7 @@ title: DagreLayoutOptions
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:187
 
-___
+---
 
 ### begin
 
@@ -26,7 +26,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:188
 
-___
+---
 
 ### controlPoints
 
@@ -36,7 +36,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:192
 
-___
+---
 
 ### edgeLabelSpace
 
@@ -46,7 +46,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:194
 
-___
+---
 
 ### focusNode
 
@@ -56,7 +56,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:197
 
-___
+---
 
 ### nodeOrder
 
@@ -66,7 +66,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:195
 
-___
+---
 
 ### nodeSize
 
@@ -76,7 +76,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:189
 
-___
+---
 
 ### nodesep
 
@@ -86,7 +86,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:190
 
-___
+---
 
 ### nodesepFunc
 
@@ -98,8 +98,8 @@ ___
 
 ##### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name | Type   |
+| :--- | :----- |
 | `d?` | `Node` |
 
 ##### Returns
@@ -110,7 +110,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:202
 
-___
+---
 
 ### preset
 
@@ -118,16 +118,16 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `edges` | `Edge`[] |
+| Name    | Type        |
+| :------ | :---------- |
+| `edges` | `Edge`[]    |
 | `nodes` | `OutNode`[] |
 
 #### Defined in
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:198
 
-___
+---
 
 ### radial
 
@@ -137,7 +137,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:196
 
-___
+---
 
 ### rankdir
 
@@ -147,7 +147,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:186
 
-___
+---
 
 ### ranksep
 
@@ -157,7 +157,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:191
 
-___
+---
 
 ### ranksepFunc
 
@@ -169,8 +169,8 @@ ___
 
 ##### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name | Type   |
+| :--- | :----- |
 | `d?` | `Node` |
 
 ##### Returns
@@ -181,7 +181,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:203
 
-___
+---
 
 ### sortByCombo
 

@@ -2,4 +2,6 @@
 title: types
 ---
 
-[概述 - v5.0.0-alpha.9](../README.zh.md) / [模块](../modules.zh.md) / 类型
+> 📋 中文文档还在翻译中... 欢迎 PR
+
+[Overview - v5.0.0-beta.5](../README.zh.md) / [Modules](../modules.zh.md) / types

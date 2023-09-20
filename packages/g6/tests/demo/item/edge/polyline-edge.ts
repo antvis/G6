@@ -1,4 +1,5 @@
 // @ts-nocheck
+import { Extensions, Graph, IGraph, extend } from '../../../../src/index';
 import { TestCaseContext } from '../../interface';
 import { Graph, Extensions, extend } from '../../../../src/index';
 let graph: IGraph;
@@ -348,11 +349,19 @@ export default (context: TestCaseContext) => {
     data: defaultData,
     modes: {
       // supported behavior
-      default: ['activate-relations', 'drag-node'],
+      default: ['drag-node'],
     },
     edge: (edgeInnerModel: any) => {
       const { id, data } = edgeInnerModel;
-      return { id, data };
+      return {
+        id,
+        data: {
+          ...data,
+          keyShape: {
+            ...data.keyShape,
+          },
+        },
+      };
     },
   });
 

@@ -2,95 +2,95 @@
 title: RotateCanvas3DOptions
 ---
 
-[概述 - v5.0.0-alpha.9](../../README.zh.md) / [模块](../../modules.zh.md) / [行为](../. ./modules/behaviors.zh.md) / RotateCanvas3DOptions 
+[概述-v5.0.0-beta.5]（../../ readme.zh.md）/[模块]（../../ modules.zh.md）/[capingiors]（../。 ./modules/behaviors.zh.md）/rotatecanvas3doptions
 
- [行为](../../modules/behaviors.zh.md).RotateCanvas3DOptions 
+[行为]（../../模块/cravuciors.zh.md）.rotatecanvas3doptions
 
- ＃＃ 特性 
+＃＃ 特性
 
- ### 事件名称 
+### eventname
 
- • `可选` **事件名称**：`字符串` 
+•`可选的** eventname **：`string`
 
- 拖动结束时触发的事件名称。 
+拖放结束时要触发的事件名称。
 
- #### 定义于 
+####定义
 
- [packages/g6/src/stdlib/behavior/rotate-canvas-3d.ts:31](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/rotate- canvas-3d.ts#L31) 
+[packages/g6/src/stdlib/thement/rotate-canvas-3d.ts：31] canvas-3d.ts＃l31）
 
- ___ 
+---
 
- ### 辅助键 
+### Secondarykey
 
- • `可选` **辅助密钥**：`字符串` 
+•`可选的** SecondaryKey **：`弦乐
 
- 触发行为的辅助辅助键。 
- 如果未分配，则仅由触发器触发。 
- 您还可以使用键盘上的键来分配它，例如 '转移'， 
- 使行为仅在按下按键并且触发发生时触发。 
+启用行为的辅助键。
+如果未分配，则仅由触发触发。
+您也可以用键盘上的键分配给它。 '转移'，
+仅在钥匙按下并触发触发器时才触发行为。
 
- #### 定义于 
+####定义
 
- [packages/g6/src/stdlib/behavior/rotate-canvas-3d.ts:19](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/rotate- canvas-3d.ts#L19) 
+[packages/g6/src/stdlib/cratevy/rotate-canvas-3d.ts：19] canvas-3d.ts＃l19）
 
- ___ 
+---
 
- ### 应该开始 
+###应该 begin
 
- • `可选` **shouldBegin**: (`event`: [`IG6GraphEvent`](IG6GraphEvent.zh.md)) => `boolean` 
+•`` 可选的** shosebegin ** :（`event`：[ ``Ig6graphevent`]（ig6graphevent.zh.md））=>>'boolean`
 
- #### 类型声明 
+####类型声明
 
- ▸ (`事件`): `布尔值` 
+▸（``event'）：`boolean'
 
- 是否允许该行为发生在当前项目上。 
+是否允许行为发生在当前项目上。
 
- ＃＃＃＃＃ 参数 
+＃＃＃＃＃ 参数
 
- | 名称 | 类型 | 
- | :------ | :------ | 
- | `事件` | [`IG6GraphEvent`](IG6GraphEvent.zh.md) | 
+| 名称| 类型|
+| ：------- | ：------- |
+| `event` | [``ig6graphevent`]（ig6graphevent.zh.md）|
 
- ##### 返回 
+#####返回
 
- `布尔值` 
+布尔'
 
- #### 定义于 
+####定义
 
- [packages/g6/src/stdlib/behavior/rotate-canvas-3d.ts:35](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/rotate- canvas-3d.ts#L35) 
+[packages/g6/src/stdlib/cratevy/rotate-canvas-3d.ts：35]（https://github.com/antvis/antvis/g6/blob/61e525e59b/packages/packages/g6/g6/src/src/src/stdlib/stdlib/behavior-behavior/rotate-/rottate--behavior/rotate-/rotrotate-/rotrotate-- canvas-3d.ts＃l35）
 
- ___ 
+---
 
- ### 加速键 
+### speedupkey
 
- • `可选` **speedUpKey**：`字符串` 
+•`可选的** speepupkey **：`弦乐
 
- 按下方向键（trigger = 'directionKeys'）并旋转画布时可加快旋转速度。 
+在按下 Direciton 键（trigger ='directionkeys'）时，请加快旋转并旋转画布。
 
- #### 定义于 
+####定义
 
- [packages/g6/src/stdlib/behavior/rotate-canvas-3d.ts:23](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/rotate- canvas-3d.ts#L23) 
+[packages/g6/src/stdlib/thement/rotate-canvas-3d.ts：23] canvas-3d.ts＃l23）
 
- ___ 
+---
 
- ＃＃＃ 扳机 
+＃＃＃ 扳机
 
- • `可选` **触发**：``“拖动”`` \| ``“方向键”`` 
+•`` 可选的**触发**：````'drag'`\ |  ``指示键'''
 
- 翻译画布的方式。 'drag'（默认）表示鼠标拖动，'directionKeys' 表示键盘上的上/下/左/右键。 
+将画布塑造的方式。 “拖动”（默认）是指鼠标拖动，“ DirectionKeys”是指键盘上的向上/下/左/右键。
 
- #### 定义于 
+####定义
 
- [packages/g6/src/stdlib/behavior/rotate-canvas-3d.ts:12](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/rotate- canvas-3d.ts#L12) 
+[packages/g6/src/stdlib/行/行为/rotate-canvas-3d.ts：12] canvas-3d.ts＃l12）
 
- ___ 
+---
 
- ### 触发项目 
+### triggeronItems
 
- • `可选` **triggerOnItems**：`布尔值` 
+•`可选的** triggeronItems **：`boolean`
 
- 是否允许在节点/边/组合上缩放画布。 
+是否允许在节点/边缘/组合上放大画布。
 
- #### 定义于 
+####定义
 
- [packages/g6/src/stdlib/behavior/rotate-canvas-3d.ts:27](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/rotate- canvas-3d.ts#L27)
+[packages/g6/src/stdlib/thement/rotate-canvas-3d.ts：27] canvas-3d.ts＃l27）

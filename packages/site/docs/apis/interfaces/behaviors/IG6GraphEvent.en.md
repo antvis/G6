@@ -2,13 +2,13 @@
 title: IG6GraphEvent
 ---
 
-[Overview - v5.0.0-alpha.9](../../README.en.md) / [Modules](../../modules.en.md) / [behaviors](../../modules/behaviors.en.md) / IG6GraphEvent
+[Overview - v5.0.0-beta.5](../../README.en.md) / [Modules](../../modules.en.md) / [behaviors](../../modules/behaviors.en.md) / IG6GraphEvent
 
 [behaviors](../../modules/behaviors.en.md).IG6GraphEvent
 
 ## Hierarchy
 
-- `Omit`<`FederatedPointerEvent`, ``"currentTarget"``\>
+- `Omit`<`FederatedPointerEvent`, `"currentTarget"`\>
 
   ↳ **`IG6GraphEvent`**
 
@@ -42,7 +42,7 @@ Omit.clone
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/dom/FederatedPointerEvent.d.ts:86
 
-___
+---
 
 ### composedPath
 
@@ -56,10 +56,11 @@ The propagation path for this event
 
 **`See`**
 
- - https://developer.mozilla.org/zh-CN/docs/Web/API/Event/composedPath
+- https://developer.mozilla.org/zh-CN/docs/Web/API/Event/composedPath
 
 So composedPath()[0] represents the original target.
- - https://polymer-library.polymer-project.org/3.0/docs/devguide/events#retargeting
+
+- https://polymer-library.polymer-project.org/3.0/docs/devguide/events#retargeting
 
 #### Inherited from
 
@@ -69,7 +70,7 @@ Omit.composedPath
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/dom/FederatedEvent.d.ts:110
 
-___
+---
 
 ### getCoalescedEvents
 
@@ -91,7 +92,7 @@ Omit.getCoalescedEvents
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/dom/FederatedPointerEvent.d.ts:70
 
-___
+---
 
 ### getModifierState
 
@@ -99,8 +100,8 @@ ___
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name  | Type     |
+| :---- | :------- |
 | `key` | `string` |
 
 #### Returns
@@ -115,7 +116,7 @@ Omit.getModifierState
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/dom/FederatedMouseEvent.d.ts:50
 
-___
+---
 
 ### getPredictedEvents
 
@@ -137,7 +138,7 @@ Omit.getPredictedEvents
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/dom/FederatedPointerEvent.d.ts:74
 
-___
+---
 
 ### initEvent
 
@@ -158,7 +159,7 @@ Omit.initEvent
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/dom/FederatedEvent.d.ts:135
 
-___
+---
 
 ### initMouseEvent
 
@@ -176,7 +177,7 @@ Omit.initMouseEvent
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/dom/FederatedMouseEvent.d.ts:51
 
-___
+---
 
 ### initUIEvent
 
@@ -194,7 +195,7 @@ Omit.initUIEvent
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/dom/FederatedEvent.d.ts:136
 
-___
+---
 
 ### preventDefault
 
@@ -216,7 +217,7 @@ Omit.preventDefault
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/dom/FederatedEvent.d.ts:118
 
-___
+---
 
 ### stopImmediatePropagation
 
@@ -238,7 +239,7 @@ Omit.stopImmediatePropagation
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/dom/FederatedEvent.d.ts:122
 
-___
+---
 
 ### stopPropagation
 
@@ -262,47 +263,47 @@ node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/dom/Federa
 
 ## Properties
 
-### AT\_TARGET
+### AT_TARGET
 
-• **AT\_TARGET**: `number`
+• **AT_TARGET**: `number`
 
 #### Inherited from
 
-Omit.AT\_TARGET
+Omit.AT_TARGET
 
 #### Defined in
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/dom/FederatedEvent.d.ts:145
 
-___
+---
 
-### BUBBLING\_PHASE
+### BUBBLING_PHASE
 
-• **BUBBLING\_PHASE**: `number`
+• **BUBBLING_PHASE**: `number`
 
 #### Inherited from
 
-Omit.BUBBLING\_PHASE
+Omit.BUBBLING_PHASE
 
 #### Defined in
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/dom/FederatedEvent.d.ts:146
 
-___
+---
 
-### CAPTURING\_PHASE
+### CAPTURING_PHASE
 
-• **CAPTURING\_PHASE**: `number`
+• **CAPTURING_PHASE**: `number`
 
 #### Inherited from
 
-Omit.CAPTURING\_PHASE
+Omit.CAPTURING_PHASE
 
 #### Defined in
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/dom/FederatedEvent.d.ts:144
 
-___
+---
 
 ### NONE
 
@@ -316,7 +317,7 @@ Omit.NONE
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/dom/FederatedEvent.d.ts:143
 
-___
+---
 
 ### altKey
 
@@ -332,7 +333,7 @@ Omit.altKey
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/dom/FederatedMouseEvent.d.ts:6
 
-___
+---
 
 ### bubbles
 
@@ -350,7 +351,7 @@ Omit.bubbles
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/dom/FederatedEvent.d.ts:36
 
-___
+---
 
 ### button
 
@@ -366,7 +367,7 @@ Omit.button
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/dom/FederatedMouseEvent.d.ts:8
 
-___
+---
 
 ### buttons
 
@@ -382,7 +383,7 @@ Omit.buttons
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/dom/FederatedMouseEvent.d.ts:10
 
-___
+---
 
 ### cancelBubble
 
@@ -400,11 +401,11 @@ Omit.cancelBubble
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/dom/FederatedEvent.d.ts:40
 
-___
+---
 
 ### cancelable
 
-• `Readonly` **cancelable**: ``false``
+• `Readonly` **cancelable**: `false`
 
 **`See`**
 
@@ -418,7 +419,7 @@ Omit.cancelable
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/dom/FederatedEvent.d.ts:44
 
-___
+---
 
 ### canvas
 
@@ -434,7 +435,7 @@ Omit.canvas
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/dom/FederatedEvent.d.ts:86
 
-___
+---
 
 ### canvasX
 
@@ -448,7 +449,7 @@ Omit.canvasX
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/dom/FederatedEvent.d.ts:89
 
-___
+---
 
 ### canvasY
 
@@ -462,7 +463,7 @@ Omit.canvasY
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/dom/FederatedEvent.d.ts:90
 
-___
+---
 
 ### client
 
@@ -478,7 +479,7 @@ Omit.client
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/dom/FederatedMouseEvent.d.ts:22
 
-___
+---
 
 ### clientX
 
@@ -492,7 +493,7 @@ Omit.clientX
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/dom/FederatedMouseEvent.d.ts:23
 
-___
+---
 
 ### clientY
 
@@ -506,11 +507,11 @@ Omit.clientY
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/dom/FederatedMouseEvent.d.ts:24
 
-___
+---
 
 ### composed
 
-• `Readonly` **composed**: ``false``
+• `Readonly` **composed**: `false`
 
 #### Inherited from
 
@@ -520,7 +521,7 @@ Omit.composed
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/dom/FederatedEvent.d.ts:140
 
-___
+---
 
 ### ctrlKey
 
@@ -536,7 +537,7 @@ Omit.ctrlKey
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/dom/FederatedMouseEvent.d.ts:12
 
-___
+---
 
 ### currentTarget
 
@@ -544,9 +545,9 @@ ___
 
 #### Defined in
 
-[packages/g6/src/types/event.ts:42](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/event.ts#L42)
+[packages/g6/src/types/event.ts:42](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/event.ts#L42)
 
-___
+---
 
 ### defaultPrevented
 
@@ -562,7 +563,7 @@ Omit.defaultPrevented
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/dom/FederatedEvent.d.ts:48
 
-___
+---
 
 ### detail
 
@@ -578,7 +579,7 @@ Omit.detail
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/dom/FederatedEvent.d.ts:66
 
-___
+---
 
 ### eventPhase
 
@@ -598,7 +599,7 @@ Omit.eventPhase
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/dom/FederatedEvent.d.ts:27
 
-___
+---
 
 ### gEvent
 
@@ -608,9 +609,9 @@ Original event emitted by G
 
 #### Defined in
 
-[packages/g6/src/types/event.ts:46](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/event.ts#L46)
+[packages/g6/src/types/event.ts:46](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/event.ts#L46)
 
-___
+---
 
 ### global
 
@@ -626,7 +627,7 @@ Omit.global
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/dom/FederatedMouseEvent.d.ts:41
 
-___
+---
 
 ### globalX
 
@@ -640,7 +641,7 @@ Omit.globalX
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/dom/FederatedMouseEvent.d.ts:42
 
-___
+---
 
 ### globalY
 
@@ -654,7 +655,7 @@ Omit.globalY
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/dom/FederatedMouseEvent.d.ts:43
 
-___
+---
 
 ### height
 
@@ -675,7 +676,7 @@ Omit.height
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/dom/FederatedPointerEvent.d.ts:22
 
-___
+---
 
 ### isPrimary
 
@@ -695,7 +696,7 @@ Omit.isPrimary
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/dom/FederatedPointerEvent.d.ts:28
 
-___
+---
 
 ### isTrusted
 
@@ -709,7 +710,7 @@ Omit.isTrusted
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/dom/FederatedEvent.d.ts:141
 
-___
+---
 
 ### itemId
 
@@ -717,19 +718,19 @@ ___
 
 #### Defined in
 
-[packages/g6/src/types/event.ts:44](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/event.ts#L44)
+[packages/g6/src/types/event.ts:44](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/event.ts#L44)
 
-___
+---
 
 ### itemType
 
-• **itemType**: ``"node"`` \| ``"edge"`` \| ``"combo"`` \| ``"canvas"``
+• **itemType**: `"node"` \| `"edge"` \| `"combo"` \| `"canvas"`
 
 #### Defined in
 
-[packages/g6/src/types/event.ts:43](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/types/event.ts#L43)
+[packages/g6/src/types/event.ts:43](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/event.ts#L43)
 
-___
+---
 
 ### layer
 
@@ -746,7 +747,7 @@ Omit.layer
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/dom/FederatedEvent.d.ts:71
 
-___
+---
 
 ### layerX
 
@@ -760,7 +761,7 @@ Omit.layerX
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/dom/FederatedEvent.d.ts:72
 
-___
+---
 
 ### layerY
 
@@ -774,7 +775,7 @@ Omit.layerY
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/dom/FederatedEvent.d.ts:73
 
-___
+---
 
 ### manager
 
@@ -788,7 +789,7 @@ Omit.manager
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/dom/FederatedEvent.d.ts:64
 
-___
+---
 
 ### metaKey
 
@@ -804,7 +805,7 @@ Omit.metaKey
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/dom/FederatedMouseEvent.d.ts:14
 
-___
+---
 
 ### movement
 
@@ -820,7 +821,7 @@ Omit.movement
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/dom/FederatedMouseEvent.d.ts:28
 
-___
+---
 
 ### movementX
 
@@ -834,7 +835,7 @@ Omit.movementX
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/dom/FederatedMouseEvent.d.ts:29
 
-___
+---
 
 ### movementY
 
@@ -848,7 +849,7 @@ Omit.movementY
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/dom/FederatedMouseEvent.d.ts:30
 
-___
+---
 
 ### name
 
@@ -862,7 +863,7 @@ Omit.name
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/dom/FederatedEvent.d.ts:22
 
-___
+---
 
 ### nativeEvent
 
@@ -878,7 +879,7 @@ Omit.nativeEvent
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/dom/FederatedEvent.d.ts:57
 
-___
+---
 
 ### offset
 
@@ -895,7 +896,7 @@ Omit.offset
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/dom/FederatedMouseEvent.d.ts:35
 
-___
+---
 
 ### offsetX
 
@@ -909,7 +910,7 @@ Omit.offsetX
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/dom/FederatedMouseEvent.d.ts:36
 
-___
+---
 
 ### offsetY
 
@@ -923,7 +924,7 @@ Omit.offsetY
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/dom/FederatedMouseEvent.d.ts:37
 
-___
+---
 
 ### originalEvent
 
@@ -939,7 +940,7 @@ Omit.originalEvent
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/dom/FederatedEvent.d.ts:59
 
-___
+---
 
 ### page
 
@@ -961,7 +962,7 @@ Omit.page
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/dom/FederatedEvent.d.ts:80
 
-___
+---
 
 ### pageX
 
@@ -975,7 +976,7 @@ Omit.pageX
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/dom/FederatedEvent.d.ts:81
 
-___
+---
 
 ### pageY
 
@@ -989,7 +990,7 @@ Omit.pageY
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/dom/FederatedEvent.d.ts:82
 
-___
+---
 
 ### path
 
@@ -1003,7 +1004,7 @@ Omit.path
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/dom/FederatedEvent.d.ts:102
 
-___
+---
 
 ### pointerId
 
@@ -1023,7 +1024,7 @@ Omit.pointerId
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/dom/FederatedPointerEvent.d.ts:8
 
-___
+---
 
 ### pointerType
 
@@ -1043,7 +1044,7 @@ Omit.pointerType
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/dom/FederatedPointerEvent.d.ts:34
 
-___
+---
 
 ### pressure
 
@@ -1065,7 +1066,7 @@ Omit.pressure
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/dom/FederatedPointerEvent.d.ts:42
 
-___
+---
 
 ### propagationImmediatelyStopped
 
@@ -1081,7 +1082,7 @@ Omit.propagationImmediatelyStopped
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/dom/FederatedEvent.d.ts:63
 
-___
+---
 
 ### propagationPath
 
@@ -1095,7 +1096,7 @@ Omit.propagationPath
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/dom/FederatedEvent.d.ts:114
 
-___
+---
 
 ### propagationStopped
 
@@ -1111,7 +1112,7 @@ Omit.propagationStopped
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/dom/FederatedEvent.d.ts:61
 
-___
+---
 
 ### relatedTarget
 
@@ -1127,7 +1128,7 @@ Omit.relatedTarget
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/dom/FederatedMouseEvent.d.ts:16
 
-___
+---
 
 ### returnValue
 
@@ -1141,7 +1142,7 @@ Omit.returnValue
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/dom/FederatedEvent.d.ts:138
 
-___
+---
 
 ### screen
 
@@ -1157,7 +1158,7 @@ Omit.screen
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/dom/FederatedMouseEvent.d.ts:47
 
-___
+---
 
 ### screenX
 
@@ -1171,7 +1172,7 @@ Omit.screenX
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/dom/FederatedMouseEvent.d.ts:48
 
-___
+---
 
 ### screenY
 
@@ -1185,7 +1186,7 @@ Omit.screenY
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/dom/FederatedMouseEvent.d.ts:49
 
-___
+---
 
 ### shiftKey
 
@@ -1201,7 +1202,7 @@ Omit.shiftKey
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/dom/FederatedMouseEvent.d.ts:18
 
-___
+---
 
 ### srcElement
 
@@ -1215,7 +1216,7 @@ Omit.srcElement
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/dom/FederatedEvent.d.ts:139
 
-___
+---
 
 ### tangentialPressure
 
@@ -1235,7 +1236,7 @@ Omit.tangentialPressure
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/dom/FederatedPointerEvent.d.ts:48
 
-___
+---
 
 ### target
 
@@ -1255,7 +1256,7 @@ Omit.target
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/dom/FederatedEvent.d.ts:32
 
-___
+---
 
 ### tiltX
 
@@ -1275,7 +1276,7 @@ Omit.tiltX
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/dom/FederatedPointerEvent.d.ts:54
 
-___
+---
 
 ### tiltY
 
@@ -1295,7 +1296,7 @@ Omit.tiltY
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/dom/FederatedPointerEvent.d.ts:60
 
-___
+---
 
 ### timeStamp
 
@@ -1315,7 +1316,7 @@ Omit.timeStamp
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/dom/FederatedEvent.d.ts:53
 
-___
+---
 
 ### twist
 
@@ -1335,18 +1336,19 @@ Omit.twist
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/dom/FederatedPointerEvent.d.ts:66
 
-___
+---
 
 ### type
 
 • **type**: `string`
 
 The type of event, supports the following:
-* pointerdown
-* touchstart
-* mousedown
-* rightdown
-* ...
+
+- pointerdown
+- touchstart
+- mousedown
+- rightdown
+- ...
 
 #### Inherited from
 
@@ -1356,7 +1358,7 @@ Omit.type
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/dom/FederatedEvent.d.ts:18
 
-___
+---
 
 ### view
 
@@ -1374,7 +1376,7 @@ Omit.view
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/dom/FederatedEvent.d.ts:130
 
-___
+---
 
 ### viewport
 
@@ -1390,7 +1392,7 @@ Omit.viewport
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/dom/FederatedEvent.d.ts:94
 
-___
+---
 
 ### viewportX
 
@@ -1404,7 +1406,7 @@ Omit.viewportX
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/dom/FederatedEvent.d.ts:95
 
-___
+---
 
 ### viewportY
 
@@ -1418,7 +1420,7 @@ Omit.viewportY
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/dom/FederatedEvent.d.ts:96
 
-___
+---
 
 ### which
 
@@ -1432,7 +1434,7 @@ Omit.which
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/dom/FederatedEvent.d.ts:137
 
-___
+---
 
 ### width
 
@@ -1453,7 +1455,7 @@ Omit.width
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/dom/FederatedPointerEvent.d.ts:15
 
-___
+---
 
 ### x
 
@@ -1467,7 +1469,7 @@ Omit.x
 
 node_modules/.pnpm/@antv+g-lite@1.2.12/node_modules/@antv/g-lite/dist/dom/FederatedEvent.d.ts:87
 
-___
+---
 
 ### y
 

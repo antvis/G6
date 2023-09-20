@@ -1413,7 +1413,7 @@ export default (context: TestCaseContext, options?: {}) => {
   const { width, height } = context;
   const graph = new CustomGraph({
     ...context,
-    transform: [
+    transforms: [
       'transform-v4-data',
       {
         type: 'map-node-size',
@@ -1479,7 +1479,7 @@ export default (context: TestCaseContext, options?: {}) => {
 
   // const graph = new CustomGraph({
   //   ...context,
-  //   transform: [
+  //   transforms: [
   //     'transform-v4-data',
   //     'edge-cluster',
   //     {

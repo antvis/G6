@@ -24,7 +24,7 @@ const getDegrees = (data) => {
   return degrees;
 };
 
-fetch('https://assets.antv.antgroup.com/g6/eva-3d.json')
+fetch('https://raw.githubusercontent.com/antvis/G6/v5/packages/g6/tests/datasets/eva-3d-data.json')
   .then((res) => res.json())
   .then((data) => {
     const degrees = getDegrees(data);
@@ -60,8 +60,8 @@ fetch('https://assets.antv.antgroup.com/g6/eva-3d.json')
           data: {
             ...innerModel.data,
             keyShape: {
-              lineWidth: 0.6,
-              opacity: 0.6,
+              lineWidth: 0.4,
+              opacity: 0.4,
               stroke: '#fff',
             },
             type: 'line-edge',

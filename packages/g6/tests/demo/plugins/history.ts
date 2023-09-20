@@ -53,7 +53,7 @@ const createOperations = (graph): any => {
   const addNodeButton = document.createElement('button');
   addNodeButton.innerText = 'add data';
   addNodeButton.addEventListener('click', () => {
-    graph.startBatch();
+    graph.startHistoryBatch();
     graph.addData('node', {
       id: 'node3',
       data: {
@@ -69,7 +69,7 @@ const createOperations = (graph): any => {
         type: 'line-edge',
       },
     });
-    graph.stopBatch();
+    graph.stopHistoryBatch();
   });
   parentEle.appendChild(addNodeButton);
 
@@ -77,10 +77,10 @@ const createOperations = (graph): any => {
   const removeButton = document.createElement('button');
   removeButton.innerText = 'remove data';
   removeButton.addEventListener('click', () => {
-    graph.startBatch();
+    graph.startHistoryBatch();
     graph.removeData('edge', 'edge2');
     graph.removeData('node', 'node3');
-    graph.stopBatch();
+    graph.stopHistoryBatch();
   });
   parentEle.appendChild(removeButton);
 
@@ -88,7 +88,7 @@ const createOperations = (graph): any => {
   const updateButton = document.createElement('button');
   updateButton.innerText = 'update data';
   updateButton.addEventListener('click', () => {
-    graph.batch(() => {
+    graph.historyBatch(() => {
       graph.updateData('node', [
         {
           id: 'node1',
@@ -203,9 +203,6 @@ export default (context) => {
       id,
       data: {
         keyShape: {
-          controlPoints: [150, 100],
-          // curvePosition: 0.5,
-          curveOffset: [0, 20],
           stroke: 'blue',
         },
         // iconShape: {

@@ -1,4 +1,5 @@
-import { ID, IG6GraphEvent } from 'types';
+import { isNumber } from '@antv/util';
+import { ID, IG6GraphEvent } from '../../types';
 import { Behavior } from '../../types/behavior';
 
 const VALID_TRIGGERS = ['wheel', 'upDownKeys'];
@@ -56,7 +57,7 @@ export interface ZoomCanvasOptions {
 }
 
 const DEFAULT_OPTIONS: Required<ZoomCanvasOptions> = {
-  enableOptimize: false,
+  enableOptimize: undefined,
   triggerOnItems: true,
   sensitivity: 2,
   trigger: 'wheel',
@@ -114,40 +115,77 @@ export class ZoomCanvas extends Behavior {
 
   private hideShapes() {
     const { graph } = this;
-    if (this.options.enableOptimize) {
+    const { tileBehavior: graphBehaviorOptimize, tileBehaviorSize = 1000 } =
+      graph.getSpecification().optimize || {};
+    const optimize = this.options.enableOptimize || graphBehaviorOptimize;
+    const shouldOptimzie = isNumber(optimize)
+      ? graph.getAllNodesData().length > optimize
+      : optimize;
+    if (shouldOptimzie) {
       this.hiddenEdgeIds = graph
         .getAllEdgesData()
         .map((edge) => edge.id)
         .filter((id) => graph.getItemVisible(id) === true);
-      graph.hideItem(this.hiddenEdgeIds, false);
       this.hiddenNodeIds = graph
         .getAllNodesData()
         .map((node) => node.id)
         .filter((id) => graph.getItemVisible(id) === true);
-      // draw node's keyShapes on transient, and then hidden the real nodes;
-      this.hiddenNodeIds.forEach((id) => {
-        graph.drawTransient('node', id, {
-          onlyDrawKeyShape: true,
-        });
-      });
-      graph.hideItem(this.hiddenNodeIds, false);
+
+      let requestId;
+      const hiddenIds = [...this.hiddenNodeIds];
+      const sectionNum = Math.ceil(hiddenIds.length / tileBehaviorSize);
+      const sections = Array.from({ length: sectionNum }, (v, i) =>
+        hiddenIds.slice(
+          i * tileBehaviorSize,
+          i * tileBehaviorSize + tileBehaviorSize,
+        ),
+      );
+      const update = () => {
+        if (!sections.length) {
+          cancelAnimationFrame(requestId);
+          return;
+        }
+        const section = sections.shift();
+        graph.startHistoryBatch();
+        graph.hideItem(section, false, true);
+        graph.stopHistoryBatch();
+        requestId = requestAnimationFrame(update);
+      };
+      requestId = requestAnimationFrame(update);
     }
   }
 
   private endZoom() {
-    const { graph, hiddenEdgeIds, hiddenNodeIds } = this;
-    const { enableOptimize } = this.options;
+    const { graph, hiddenEdgeIds = [], hiddenNodeIds } = this;
+    const { tileBehavior: graphBehaviorOptimize, tileBehaviorSize = 1000 } =
+      graph.getSpecification().optimize || {};
+    const optimize = this.options.enableOptimize || graphBehaviorOptimize;
+    const shouldOptimzie = isNumber(optimize)
+      ? graph.getAllNodesData().length > optimize
+      : optimize;
     this.zooming = false;
-    if (enableOptimize) {
-      // restore hidden items
-      if (hiddenEdgeIds) {
-        graph.showItem(hiddenEdgeIds, false);
-      }
+    if (shouldOptimzie) {
       if (hiddenNodeIds) {
-        hiddenNodeIds.forEach((id) => {
-          graph.drawTransient('node', id, { action: 'remove' });
-        });
-        graph.showItem(hiddenNodeIds, false);
+        let requestId;
+        const hiddenIds = [...hiddenNodeIds, ...hiddenEdgeIds];
+        const sectionNum = Math.ceil(hiddenIds.length / tileBehaviorSize);
+        const sections = Array.from({ length: sectionNum }, (v, i) =>
+          hiddenIds.slice(
+            i * tileBehaviorSize,
+            i * tileBehaviorSize + tileBehaviorSize,
+          ),
+        );
+        const update = () => {
+          if (!sections.length) {
+            cancelAnimationFrame(requestId);
+            return;
+          }
+          graph.executeWithNoStack(() => {
+            graph.showItem(sections.shift(), false);
+          });
+          requestId = requestAnimationFrame(update);
+        };
+        requestId = requestAnimationFrame(update);
       }
     }
     this.hiddenEdgeIds = [];

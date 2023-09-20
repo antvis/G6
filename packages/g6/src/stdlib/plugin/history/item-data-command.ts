@@ -26,14 +26,14 @@ export class ItemDataCommand implements Command {
 
   private removeChangedData(graph) {
     const ids = this.changes.map((data) => data.value?.id).filter(Boolean);
-    graph.executeWithoutStacking(() => {
+    graph.executeWithNoStack(() => {
       graph.removeData(this.type, ids);
     });
   }
 
   private addChangedData(graph) {
     const models = this.changes.map((data) => data.value).filter(Boolean);
-    graph.executeWithoutStacking(() => {
+    graph.executeWithNoStack(() => {
       graph.addData(this.type, models);
     });
   }
@@ -61,13 +61,13 @@ export class ItemDataCommand implements Command {
       });
     }
 
-    graph.pauseStacking();
+    graph.pauseStack();
     if (onlyMove) {
       graph.updatePosition(this.type, models, this.upsertAncestors);
     } else {
       graph.updateData(this.type, models);
     }
-    graph.resumeStacking();
+    graph.resumeStack();
   }
 
   undo(graph: IGraph) {

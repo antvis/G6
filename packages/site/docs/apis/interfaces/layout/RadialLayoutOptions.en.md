@@ -2,7 +2,7 @@
 title: RadialLayoutOptions
 ---
 
-[Overview - v5.0.0-alpha.9](../../README.en.md) / [Modules](../../modules.en.md) / [layout](../../modules/layout.en.md) / RadialLayoutOptions
+[Overview - v5.0.0-beta.5](../../README.en.md) / [Modules](../../modules.en.md) / [layout](../../modules/layout.en.md) / RadialLayoutOptions
 
 [layout](../../modules/layout.en.md).RadialLayoutOptions
 
@@ -16,7 +16,7 @@ title: RadialLayoutOptions
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:168
 
-___
+---
 
 ### focusNode
 
@@ -26,7 +26,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:173
 
-___
+---
 
 ### height
 
@@ -36,7 +36,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:170
 
-___
+---
 
 ### linkDistance
 
@@ -46,7 +46,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:171
 
-___
+---
 
 ### maxIteration
 
@@ -56,7 +56,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:172
 
-___
+---
 
 ### maxPreventOverlapIteration
 
@@ -66,7 +66,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:178
 
-___
+---
 
 ### nodeSize
 
@@ -76,7 +76,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:176
 
-___
+---
 
 ### nodeSpacing
 
@@ -86,7 +86,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:177
 
-___
+---
 
 ### preventOverlap
 
@@ -96,7 +96,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:175
 
-___
+---
 
 ### sortBy
 
@@ -106,7 +106,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:180
 
-___
+---
 
 ### sortStrength
 
@@ -116,7 +116,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:181
 
-___
+---
 
 ### strictRadial
 
@@ -126,7 +126,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:179
 
-___
+---
 
 ### unitRadius
 
@@ -136,7 +136,7 @@ ___
 
 node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:174
 
-___
+---
 
 ### width
 

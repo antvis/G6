@@ -1,4 +1,10 @@
 import { parsePathString } from '@antv/path-util';
+import { DisplayObject } from '@antv/g';
+import { isArray } from '@antv/util';
+import { ComboModel, ID, IGraph, NodeModel } from '../../../types';
+import { ShapeStyle } from '../../../types/item';
+import { isPolygonsIntersect } from '../../../util/shape';
+import { pathToPoints } from '../../../util/path';
 import {
   getClosedSpline,
   roundedHull,
@@ -9,13 +15,7 @@ import {
 } from './util';
 import { genConvexHull } from './convexHull';
 import { genBubbleSet } from './bubbleset';
-import { ComboModel, ID, IGraph, NodeModel } from '../../../types';
-import { ShapeStyle } from '../../../types/item';
-import { isPolygonsIntersect } from '../../../util/shape';
-import { pathToPoints } from '../../../util/path';
-import { DisplayObject } from '@antv/g';
 import { BubblesetCfg } from './types';
-import { isArray } from '@antv/util';
 
 type LabelPlacement = 'top' | 'bottom' | 'right' | 'left';
 
@@ -51,7 +51,8 @@ interface HullComponentFullOptions extends HullComponentOptions {
 export default class Hull {
   graph: IGraph;
 
-  path: any[][];
+  // TODO: PathArray is not exported by @antv/util 2.x but by 3.x. Correct the type String | PathArray after upgrading @antv/util
+  path: any;
 
   members: (NodeModel | ComboModel)[];
 
@@ -172,9 +173,9 @@ export default class Hull {
     const shape = this.graph.drawTransient('path', this.options.id, {
       style: {
         path: this.path,
+        pointerEvents: 'none',
         ...this.options.style,
       },
-      capture: false,
     });
     const { labelShape } = this.options;
     if (labelShape?.text) {
@@ -183,10 +184,10 @@ export default class Hull {
       const formattedLabelStyle = this.getLabelStyle(labelShape, shapeBounds);
       this.graph.drawTransient('text', `${this.options.id}-label`, {
         style: {
+          pointerEvents: 'none',
           ...labelShapeStyle,
           ...formattedLabelStyle,
         },
-        capture: false,
       });
     }
     shape.toBack();
@@ -426,8 +427,10 @@ export default class Hull {
 
   public updateStyle(style: ShapeStyle) {
     this.graph.drawTransient('path', this.options.id, {
-      style,
-      capture: false,
+      style: {
+        ...style,
+        pointerEvents: 'none',
+      },
     });
   }
 

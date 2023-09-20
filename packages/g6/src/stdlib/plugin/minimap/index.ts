@@ -54,6 +54,8 @@ export class Minimap extends Base {
   private dx: number;
   /** Distance from left of minimap graph to the left of minimap container. */
   private dy: number;
+  /** Cache the visibility while items' visibility changed. And apply them onto the minimap with debounce. */
+  private visibleCache: { [id: string]: boolean } = {};
 
   constructor(options?: MiniMapConfig) {
     super(options);
@@ -80,11 +82,11 @@ export class Minimap extends Base {
 
   public getEvents() {
     return {
-      afterupdateitem: this.handleUpdateCanvas,
       afteritemstatechange: this.handleUpdateCanvas,
       afterlayout: this.handleUpdateCanvas,
       viewportchange: this.handleUpdateCanvas,
       afteritemchange: this.handleUpdateCanvas,
+      afteritemvisibilitychange: this.handleVisibilityChange,
     };
   }
 
@@ -115,12 +117,12 @@ export class Minimap extends Base {
         style='position:absolute;
           left:0;
           top:0;
-          box-sizing:border-box;
           border: 2px solid #1980ff;
+          box-sizing:border-box;
           background: rgba(0, 0, 255, 0.1);
           cursor:move'
         draggable=${isSafari || isFireFox ? false : true}
-      </div>`);
+      />`);
 
     // Last mouse x position
     let x = 0;
@@ -128,11 +130,25 @@ export class Minimap extends Base {
     let y = 0;
     // Whether in dragging status
     let dragging = false;
+    let resizing = false;
 
     const dragstartevent = isSafari || isFireFox ? 'mousedown' : 'dragstart';
+    this.container.addEventListener('mousemove', (e) => {
+      const moveAtBorder = getMoveAtBorder(viewport, e);
+      if (moveAtBorder) {
+        this.container.style.cursor = cursorMap[moveAtBorder];
+        viewport.style.cursor = cursorMap[moveAtBorder];
+      } else {
+        this.container.style.cursor = 'unset';
+        viewport.style.cursor = 'move';
+      }
+    });
     viewport.addEventListener(
       dragstartevent,
       ((e: IG6GraphEvent) => {
+        resizing = getMoveAtBorder(viewport, e);
+        if (resizing) return;
+
         if ((e as any).dataTransfer) {
           const img = new Image();
           img.src =
@@ -159,6 +175,30 @@ export class Minimap extends Base {
     );
 
     const dragListener = (e: IG6GraphEvent) => {
+      const { style } = viewport;
+      const left = parseInt(style.left, 10);
+      const top = parseInt(style.top, 10);
+      const width = parseInt(style.width, 10);
+      const height = parseInt(style.height, 10);
+
+      if (resizing) {
+        const { clientX, clientY } = e;
+        const afterResize = { left, top, width, height };
+        if (resizing.includes('left')) {
+          afterResize.left = `${clientX}px`;
+          afterResize.width = `${left + width - clientX}px`;
+        } else if (resizing.includes('right')) {
+          afterResize.width = `${clientX - left}px`;
+        }
+        if (resizing.includes('top')) {
+          afterResize.top = `${clientY}`;
+          afterResize.height = `${top + height - clientY}`;
+        } else if (resizing.includes('bottom')) {
+          afterResize.height = `${clientY - top}`;
+        }
+        modifyCSS(viewport, afterResize);
+        return;
+      }
       if (!dragging || isNil(e.clientX) || isNil(e.clientY)) {
         return;
       }
@@ -167,12 +207,6 @@ export class Minimap extends Base {
 
       let dx = x - e.clientX;
       let dy = y - e.clientY;
-
-      const { style } = viewport;
-      const left = parseInt(style.left, 10);
-      const top = parseInt(style.top, 10);
-      const width = parseInt(style.width, 10);
-      const height = parseInt(style.height, 10);
 
       // If the viewport is already on the left or right, stop moving x.
       if (left - dx < 0 || left - dx + width >= size[0]) {
@@ -201,6 +235,7 @@ export class Minimap extends Base {
 
     const dragendListener = () => {
       dragging = false;
+      resizing = false;
       this.options.refresh = true;
     };
     const dragendevent = isSafari || isFireFox ? 'mouseup' : 'dragend';
@@ -549,6 +584,34 @@ export class Minimap extends Base {
     false,
   );
 
+  private handleVisibilityChange = (params) => {
+    const { ids, value } = params;
+    ids.forEach((id) => {
+      this.visibleCache[id] = value;
+    });
+    this.debounceCloneVisibility();
+  };
+
+  private debounceCloneVisibility = debounce(
+    () => {
+      const nodeGroup = this.canvas.getRoot().getElementById('node-group');
+      const edgeGroup = this.canvas.getRoot().getElementById('edge-group');
+      nodeGroup.childNodes.concat(edgeGroup.childNodes).forEach((child) => {
+        const id = child.getAttribute?.('data-item-id');
+        if (this.visibleCache.hasOwnProperty(id)) {
+          if (this.visibleCache[id]) {
+            child.childNodes.forEach((shape) => shape.show());
+          } else if (this.visibleCache[id] === false) {
+            child.childNodes.forEach((shape) => shape.hide());
+          }
+        }
+      });
+      this.visibleCache = {};
+    },
+    50,
+    false,
+  );
+
   public init(graph: IGraph) {
     super.init(graph);
     const promise = this.initContainer();
@@ -696,3 +759,45 @@ export class Minimap extends Base {
     if (container?.parentNode) container.parentNode.removeChild(container);
   }
 }
+
+const getMoveAtBorder = (dom, evt) => {
+  const bounds = dom.getBoundingClientRect();
+  const { clientX, clientY } = evt;
+  console.log('mosemove', bounds.x, clientX);
+  if (Math.abs(clientX - bounds.x) < 4 && Math.abs(clientY - bounds.y) < 4) {
+    return 'left-top';
+  } else if (
+    Math.abs(clientX - bounds.x) < 4 &&
+    Math.abs(clientY - bounds.y - bounds.height) < 4
+  ) {
+    return 'left-bottom';
+  } else if (
+    Math.abs(clientX - bounds.x - bounds.width) < 4 &&
+    Math.abs(clientY - bounds.y) < 4
+  ) {
+    return 'right-top';
+  } else if (
+    Math.abs(clientX - bounds.x - bounds.width) < 4 &&
+    Math.abs(clientY - bounds.y - bounds.height) < 4
+  ) {
+    return 'right-bottom';
+  } else if (Math.abs(clientX - bounds.x) < 4) {
+    return 'left';
+  } else if (Math.abs(clientY - bounds.y) < 4) {
+    return 'top';
+  } else if (Math.abs(clientY - bounds.y - bounds.height) < 4) {
+    return 'bottom';
+  }
+  return false;
+};
+
+const cursorMap = {
+  'left-top': 'nwse-resize',
+  'right-bottom': 'nwse-resize',
+  'right-top': 'nesw-resize',
+  'left-bottom': 'nesw-resize',
+  left: 'ew-resize',
+  right: 'ew-resize',
+  top: 'ns-resize',
+  bottom: 'ns-resize',
+};

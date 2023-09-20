@@ -2,7 +2,7 @@
 title: Options
 ---
 
-[Overview - v5.0.0-alpha.9](../../README.en.md) / [Modules](../../modules.en.md) / [behaviors](../../modules/behaviors.en.md) / Options
+[Overview - v5.0.0-beta.5](../../README.en.md) / [Modules](../../modules.en.md) / [behaviors](../../modules/behaviors.en.md) / Options
 
 [behaviors](../../modules/behaviors.en.md).Options
 
@@ -16,9 +16,9 @@ Whether disable the collapse / expand animation triggered by this behavior.
 
 #### Defined in
 
-[packages/g6/src/stdlib/behavior/collapse-expand-tree.ts:21](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/collapse-expand-tree.ts#L21)
+[packages/g6/src/stdlib/behavior/collapse-expand-tree.ts:21](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/collapse-expand-tree.ts#L21)
 
-___
+---
 
 ### eventName
 
@@ -28,9 +28,9 @@ The event name to trigger when select/unselect an item.
 
 #### Defined in
 
-[packages/g6/src/stdlib/behavior/collapse-expand-tree.ts:17](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/collapse-expand-tree.ts#L17)
+[packages/g6/src/stdlib/behavior/collapse-expand-tree.ts:17](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/collapse-expand-tree.ts#L17)
 
-___
+---
 
 ### shouldBegin
 
@@ -44,8 +44,8 @@ Whether allow the behavior happen on the current item.
 
 ##### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name    | Type                                   |
+| :------ | :------------------------------------- |
 | `event` | [`IG6GraphEvent`](IG6GraphEvent.en.md) |
 
 ##### Returns
@@ -54,9 +54,9 @@ Whether allow the behavior happen on the current item.
 
 #### Defined in
 
-[packages/g6/src/stdlib/behavior/collapse-expand-tree.ts:25](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/collapse-expand-tree.ts#L25)
+[packages/g6/src/stdlib/behavior/collapse-expand-tree.ts:25](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/collapse-expand-tree.ts#L25)
 
-___
+---
 
 ### shouldUpdate
 
@@ -72,8 +72,8 @@ manage states or data manually
 
 ##### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name    | Type                                   |
+| :------ | :------------------------------------- |
 | `event` | [`IG6GraphEvent`](IG6GraphEvent.en.md) |
 
 ##### Returns
@@ -82,13 +82,13 @@ manage states or data manually
 
 #### Defined in
 
-[packages/g6/src/stdlib/behavior/collapse-expand-tree.ts:31](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/collapse-expand-tree.ts#L31)
+[packages/g6/src/stdlib/behavior/collapse-expand-tree.ts:31](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/collapse-expand-tree.ts#L31)
 
-___
+---
 
 ### trigger
 
-• **trigger**: ``"click"`` \| ``"dblclick"``
+• **trigger**: `"click"` \| `"dblclick"`
 
 The key to pressed with mouse click to apply multiple selection.
 Defaults to `"shift"`.
@@ -96,4 +96,4 @@ Could be "shift", "ctrl", "alt", or "meta".
 
 #### Defined in
 
-[packages/g6/src/stdlib/behavior/collapse-expand-tree.ts:13](https://github.com/antvis/G6/blob/a69acd5592/packages/g6/src/stdlib/behavior/collapse-expand-tree.ts#L13)
+[packages/g6/src/stdlib/behavior/collapse-expand-tree.ts:13](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/stdlib/behavior/collapse-expand-tree.ts#L13)

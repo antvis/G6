@@ -240,13 +240,7 @@ export default () => {
     data: defaultData,
     modes: {
       // supported behavior
-      default: ['activate-relations'],
-    },
-    node: {
-      anchorPoints: [
-        [0.5, 0],
-        [0.5, 1],
-      ],
+      default: ['activate-relations', 'drag-node'],
     },
   });
 

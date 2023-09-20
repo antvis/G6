@@ -1998,7 +1998,9 @@ const createGraph = async () => {
           keyShape: {
             lineWidth: 0.5,
           },
-          haloShape: {},
+          haloShape: {
+            fill: 'red',
+          },
           animates: {
             buildIn: [
               {
