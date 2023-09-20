@@ -2093,6 +2093,9 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     id: ID,
     config: {
       action?: 'remove' | 'add' | 'update' | undefined;
+      /** Data to be merged into the transient item. */
+      data?: Record<string, any>;
+      /** Style to be merged into the transient shape. */
       style?: ShapeStyle;
       /** For type: 'edge' */
       drawSource?: boolean;
