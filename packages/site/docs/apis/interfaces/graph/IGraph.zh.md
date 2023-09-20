@@ -4,7 +4,7 @@ title: IGraph
 
 > 📋 中文文档还在翻译中... 欢迎 PR
 
-[Overview - v5.0.0-beta.4](../../README.zh.md) / [Modules](../../modules.zh.md) / [graph](../../modules/graph.zh.md) / IGraph
+[Overview - v5.0.0-beta.5](../../README.zh.md) / [Modules](../../modules.zh.md) / [graph](../../modules/graph.zh.md) / IGraph
 
 [graph](../../modules/graph.zh.md).IGraph
 
@@ -1207,9 +1207,9 @@ Add behavior(s) to mode(s).
 
 ---
 
-### batch
+### historyBatch
 
-• **batch**: (`callback`: () => `void`) => `void`
+• **historyBatch**: (`callback`: () => `void`) => `void`
 
 #### Type declaration
 
@@ -1217,7 +1217,7 @@ Add behavior(s) to mode(s).
 
 Execute a provided function within a batched context
 All operations performed inside callback will be treated as a composite operation
-more convenient way without manually invoking `startBatch` and `stopBatch`.
+more convenient way without manually invoking `startHistoryBatch` and `stopHistoryBatch`.
 
 ##### Parameters
 
@@ -1331,9 +1331,9 @@ Clear the graph, means remove all the items on the graph.
 
 ---
 
-### clearStack
+### cleanHistory
 
-• **clearStack**: (`stackType?`: `"redo"` \| `"undo"`) => `void`
+• **cleanHistory**: (`stackType?`: `"redo"` \| `"undo"`) => `void`
 
 #### Type declaration
 
@@ -1341,7 +1341,7 @@ Clear the graph, means remove all the items on the graph.
 
 Execute a provided function within a batched context
 All operations performed inside callback will be treated as a composite operation
-more convenient way without manually invoking `startBatch` and `stopBatch`.
+more convenient way without manually invoking `startHistoryBatch` and `stopHistoryBatch`.
 
 ##### Parameters
 
@@ -1379,9 +1379,9 @@ more convenient way without manually invoking `startBatch` and `stopBatch`.
 
 ---
 
-### executeWithoutStacking
+### executeWithNoStack
 
-• **executeWithoutStacking**: (`callback`: () => `void`) => `void`
+• **executeWithNoStack**: (`callback`: () => `void`) => `void`
 
 #### Type declaration
 
@@ -1696,9 +1696,9 @@ Layout the graph (with current configurations if cfg is not assigned).
 
 ---
 
-### pauseStacking
+### pauseStack
 
-• **pauseStacking**: () => `void`
+• **pauseStack**: () => `void`
 
 #### Type declaration
 
@@ -1773,9 +1773,9 @@ Restore the operation that was last n reverted on the graph.
 
 ---
 
-### resumeStacking
+### resumeStack
 
-• **resumeStacking**: () => `void`
+• **resumeStack**: () => `void`
 
 #### Type declaration
 
@@ -1849,16 +1849,16 @@ Rotate the graph to an absolute angle in clockwise.
 
 ---
 
-### startBatch
+### startHistoryBatch
 
-• **startBatch**: () => `void`
+• **startHistoryBatch**: () => `void`
 
 #### Type declaration
 
 ▸ (): `void`
 
-Begin a batch operation.
-Any operations performed between `startBatch` and `stopBatch` are grouped together.
+Begin a historyBatch operation.
+Any operations performed between `startHistoryBatch` and `stopHistoryBatch` are grouped together.
 treated as a single operation when undoing or redoing.
 
 ##### Returns
@@ -1871,16 +1871,16 @@ treated as a single operation when undoing or redoing.
 
 ---
 
-### stopBatch
+### stopHistoryBatch
 
-• **stopBatch**: () => `void`
+• **stopHistoryBatch**: () => `void`
 
 #### Type declaration
 
 ▸ (): `void`
 
-End a batch operation.
-Any operations performed between `startBatch` and `stopBatch` are grouped together.
+End a historyBatch operation.
+Any operations performed between `startHistoryBatch` and `stopHistoryBatch` are grouped together.
 treated as a single operation when undoing or redoing.
 
 ##### Returns

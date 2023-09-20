@@ -1,6 +1,6 @@
 import { resetEntityCounter } from '@antv/g';
 import activateRelations from '../demo/behaviors/activate-relations';
-import { createContext } from './utils';
+import { createContext, sleep } from './utils';
 import './utils/useSnapshotMatchers';
 
 describe('Activate relations behavior', () => {
@@ -27,6 +27,7 @@ describe('Activate relations behavior', () => {
     });
 
     graph.on('afterlayout', async () => {
+      await sleep(300);
       await expect(canvas).toMatchCanvasSnapshot(
         dir,
         'behaviors-activate-relations',
@@ -69,6 +70,7 @@ describe('Activate relations behavior', () => {
     });
 
     graph.on('afterlayout', async () => {
+      await sleep(300);
       await expect(canvas).toMatchSVGSnapshot(
         dir,
         'behaviors-activate-relations',
@@ -93,6 +95,7 @@ describe('Activate relations behavior', () => {
     });
 
     graph.on('afterlayout', async () => {
+      await sleep(300);
       await expect(canvas).toMatchWebGLSnapshot(
         dir,
         'behaviors-activate-relations',

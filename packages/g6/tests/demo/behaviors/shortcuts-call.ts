@@ -1,12 +1,20 @@
-import G6 from '../../../src/index';
+import { Graph, extend, Extensions } from '../../../src/index';
 import { TestCaseContext } from '../interface';
 
 export default (context: TestCaseContext, options = {}) => {
-  return new G6.Graph({
+  const ExtGraph = extend(Graph, {
+    behaviors: {
+      'shortcuts-call': Extensions.ShortcutsCall,
+    },
+  });
+  return new ExtGraph({
     width: 500,
     height: 500,
     layout: {
       type: 'grid',
+    },
+    optimize: {
+      tileFirstRender: false,
     },
     data: {
       nodes: [

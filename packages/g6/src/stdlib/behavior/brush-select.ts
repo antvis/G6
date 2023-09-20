@@ -345,8 +345,10 @@ export class BrushSelect extends Behavior {
     const { graph, options } = this;
     const { brushStyle } = options;
     const brush = graph.drawTransient('rect', BRUSH_SHAPE_ID, {
-      style: brushStyle,
-      capture: false,
+      style: {
+        ...brushStyle,
+        pointerEvents: 'none',
+      },
     });
     return brush;
   }

@@ -1,11 +1,11 @@
 import modelRect from '../demo/demo/modelRect';
 import './utils/useSnapshotMatchers';
-import { createContext } from './utils';
+import { createContext, sleep } from './utils';
 import { triggerEvent } from './utils/event';
 
 describe('node modelRect', () => {
   it('should be rendered correctly with Canvas2D', (done) => {
-    const dir = `${__dirname}/snapshots/canvas`;
+    const dir = `${__dirname}/snapshots/canvas/items/node/modelRect`;
     const { backgroundCanvas, canvas, transientCanvas, container } =
       createContext('canvas', 500, 500);
 
@@ -19,6 +19,7 @@ describe('node modelRect', () => {
     });
 
     graph.on('afterlayout', async () => {
+      await sleep(300);
       await expect(canvas).toMatchCanvasSnapshot(dir, 'node-modelRect');
       //seleted state
       triggerEvent(graph, 'mousedown', 100, 100);
@@ -30,14 +31,14 @@ describe('node modelRect', () => {
       //normal state
       triggerEvent(graph, 'mousedown', 100, 100);
       triggerEvent(graph, 'mouseup', 100, 100);
-      await expect(canvas).toMatchCanvasSnapshot(dir, 'node-modelRect');
+      await expect(canvas).toMatchCanvasSnapshot(dir, 'node-modelRect-restore');
       graph.destroy();
       done();
     });
   });
 
   it('should be rendered correctly with SVG', (done) => {
-    const dir = `${__dirname}/snapshots/svg`;
+    const dir = `${__dirname}/snapshots/svg/items/node/modelRect`;
     const { backgroundCanvas, canvas, transientCanvas, container } =
       createContext('svg', 500, 500);
 
@@ -51,6 +52,7 @@ describe('node modelRect', () => {
     });
 
     graph.on('afterlayout', async () => {
+      await sleep(300);
       await expect(canvas).toMatchSVGSnapshot(dir, 'node-modelRect');
       const $selected = document.querySelector(
         'input#selected',

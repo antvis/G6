@@ -20,13 +20,13 @@ export class VisibilityUpdatedCommand implements Command {
   }
 
   private toggleItemsVisible(graph: IGraph, values) {
-    graph.pauseStacking();
+    graph.pauseStack();
     each(values, (value) =>
       value.visible
         ? graph.showItem(value.ids, this.disableAnimate)
         : graph.hideItem(value.ids, this.disableAnimate),
     );
-    graph.resumeStacking();
+    graph.resumeStack();
   }
 
   undo(graph: IGraph) {

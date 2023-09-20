@@ -550,7 +550,11 @@ export abstract class BaseEdge {
    * @param shapeMap The shape map that contains all of the elements to show on the edge.
    * @param zoom The zoom level of the graph.
    */
-  public onZoom = (shapeMap: EdgeShapeMap, zoom: number) => {
+  public onZoom = (
+    shapeMap: EdgeShapeMap,
+    zoom: number,
+    cacheHiddenShape = {},
+  ) => {
     // balance the size for label, badges
     this.balanceShapeSize(shapeMap, zoom);
 
@@ -574,7 +578,10 @@ export abstract class BaseEdge {
       // zoomLevel changed, from higher to lower, hide something
       if (firstRender) {
         for (let i = currentLevel + 1; i <= maxLevel; i++) {
-          levelShapes[String(i)]?.forEach((id) => shapeMap[id]?.hide());
+          levelShapes[String(i)]?.forEach((id) => {
+            if (!shapeMap[id] || cacheHiddenShape[id]) return;
+            shapeMap[id]?.hide();
+          });
         }
       } else {
         for (let i = currentLevel + 1; i <= maxLevel; i++) {
@@ -586,7 +593,8 @@ export abstract class BaseEdge {
     } else if (currentLevel > previousLevel) {
       // zoomLevel changed, from lower to higher, show something
       for (let i = currentLevel; i >= minLevel; i--) {
-        levelShapes[String(i)]?.forEach((id) =>
+        levelShapes[String(i)]?.forEach((id) => {
+          if (hiddenShape[id]) return;
           fadeIn(
             id,
             shapeMap[id],
@@ -594,8 +602,8 @@ export abstract class BaseEdge {
               this.mergedStyles[id.replace('Background', '')],
             hiddenShape,
             animateConfig,
-          ),
-        );
+          );
+        });
       }
     }
 
@@ -678,12 +686,9 @@ export abstract class BaseEdge {
       resultStyle[`${markerField}Offset`] = 0;
       return;
     }
-    let arrowStyle = {} as ArrowStyle;
-    if (isBoolean(arrowConfig)) {
-      arrowStyle = { ...DEFAULT_ARROW_CONFIG } as ArrowStyle;
-    } else {
-      arrowStyle = arrowConfig;
-    }
+    const arrowStyle = isBoolean(arrowConfig)
+      ? ({ ...DEFAULT_ARROW_CONFIG } as ArrowStyle)
+      : arrowConfig;
     const {
       type = 'triangle',
       width = 10,
@@ -692,14 +697,13 @@ export abstract class BaseEdge {
       offset = 0,
       ...others
     } = arrowStyle;
-    const path = propPath ? propPath : getArrowPath(type, width, height);
     resultStyle[markerField] = this.upsertShape(
       'path',
       `${markerField}Shape`,
       {
         ...bodyStyle,
         fill: type === 'simple' ? '' : bodyStyle.stroke,
-        path,
+        path: propPath || getArrowPath(type, width, height),
         anchor: '0.5 0.5',
         transformOrigin: 'center',
         ...others,

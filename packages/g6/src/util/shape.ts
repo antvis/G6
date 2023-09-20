@@ -218,13 +218,13 @@ export const updateShapes = (
       if (prevShape !== newShape) {
         prevShape.remove();
       }
-      if (newShape.style.display !== 'none') {
+      if (!newShape.destroyed && newShape.style.display !== 'none') {
         group.appendChild(newShape);
       }
     } else if (!prevShape && newShape) {
       // add newShapeMap - prevShapeMap
       finalShapeMap[id] = newShape;
-      if (newShape.style.display !== 'none') {
+      if (!newShape.destroyed && newShape.style.display !== 'none') {
         group.appendChild(newShape);
       }
     } else if (prevShape && !newShape && removeDiff) {
@@ -270,7 +270,7 @@ export const formatPadding = (
  * @returns
  */
 export const mergeStyles = (styleMaps: ItemShapeStyles[]) => {
-  let currentResult = styleMaps[0];
+  let currentResult = clone(styleMaps[0]);
   styleMaps.forEach((styleMap, i) => {
     if (i > 0) currentResult = merge2Styles(currentResult, styleMap);
   });
@@ -289,15 +289,14 @@ const merge2Styles = (
 ) => {
   if (!styleMap1) return { ...styleMap2 };
   else if (!styleMap2) return { ...styleMap1 };
-  const mergedStyle = clone(styleMap1);
+  const mergedStyle = styleMap1;
   Object.keys(styleMap2).forEach((shapeId) => {
     const style = styleMap2[shapeId];
-    mergedStyle[shapeId] = mergedStyle[shapeId] || {};
     if (!style) return;
-    Object.keys(style).forEach((styleName) => {
-      const value = style[styleName];
-      mergedStyle[shapeId][styleName] = value;
-    });
+    mergedStyle[shapeId] = {
+      ...mergedStyle[shapeId],
+      ...style,
+    };
   });
   return mergedStyle;
 };

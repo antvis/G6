@@ -249,6 +249,7 @@ describe('TreeGraph', () => {
     );
 
     graph.on('afterlayout', async () => {
+      await sleep(300);
       await expect(canvas).toMatchCanvasSnapshot(
         dir,
         'data-validate-combo-no-id',

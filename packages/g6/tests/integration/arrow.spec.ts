@@ -12,7 +12,7 @@ describe('Edge start arrow', () => {
     resetEntityCounter();
   });
   it('Edge with endArrow', (done) => {
-    const dir = `${__dirname}/snapshots/canvas`;
+    const dir = `${__dirname}/snapshots/canvas/items/edge/arrow`;
     const { backgroundCanvas, canvas, transientCanvas, container } =
       createContext('canvas', 500, 500);
 
@@ -82,7 +82,7 @@ describe('Edge start arrow', () => {
   });
 
   it('Edge with startArrow', (done) => {
-    const dir = `${__dirname}/snapshots/canvas`;
+    const dir = `${__dirname}/snapshots/canvas/items/edge/arrow`;
     const { backgroundCanvas, canvas, transientCanvas, container } =
       createContext('canvas', 500, 500);
 

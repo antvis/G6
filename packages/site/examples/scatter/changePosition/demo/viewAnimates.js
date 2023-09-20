@@ -65,7 +65,7 @@ const actions = {
     graph.fitView({}, { duration: 500 });
   },
   'Fit Center': () => {
-    graph.fitCenter({}, { duration: 500 });
+    graph.fitCenter('render', { duration: 500 });
   },
   'Zoom In': () => {
     const currentZoom = graph.getZoom();

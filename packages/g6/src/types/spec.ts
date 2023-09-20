@@ -29,6 +29,12 @@ import { RendererName } from './render';
 import { StackCfg } from './history';
 import { Plugin } from './plugin';
 
+export type NodeMapper = ((data: NodeModel) => NodeDisplayModel) | NodeEncode;
+export type EdgeMapper = ((data: EdgeModel) => EdgeDisplayModel) | EdgeEncode;
+export type ComboMapper =
+  | ((data: ComboModel) => ComboDisplayModel)
+  | ComboEncode;
+
 export interface Specification<
   B extends BehaviorRegistry,
   T extends ThemeRegistry,
@@ -47,6 +53,19 @@ export interface Specification<
         headless: boolean;
       };
   zoom?: number;
+  /** Global optimize configuration. */
+  optimize?: {
+    /** Whether enable tile rendering for first time. */
+    tileFirstRender?: boolean | number;
+    /** Tile size for first rendering. */
+    tileFirstRenderSize?: number;
+    /** Whether enable tile hiding / showing for behaivors, e.g. hiding shapes while drag-canvas, zoom-canvas. The enableOptimize in behavior configuration has higher priority. */
+    tileBehavior?: boolean | number;
+    /** Tile size for shape optimizing by behaviors, e.g. hiding shapes while drag-canvas, zoom-canvas.  The enableOptimize in behavior configuration has higher priority. */
+    tileBehaviorSize?: number;
+    /** Tile size for level of detial changing. */
+    tileLodSize?: number;
+  };
   autoFit?:
     | 'view'
     | 'center'
@@ -79,9 +98,9 @@ export interface Specification<
     | TransformerFn[];
 
   /** item */
-  node?: ((data: NodeModel) => NodeDisplayModel) | NodeEncode;
-  edge?: ((data: EdgeModel) => EdgeDisplayModel) | EdgeEncode;
-  combo?: ((data: ComboModel) => ComboDisplayModel) | ComboEncode;
+  node?: NodeMapper;
+  edge?: EdgeMapper;
+  combo?: ComboMapper;
 
   /** item state styles */
   nodeState?: {

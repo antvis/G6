@@ -1,11 +1,11 @@
 import diamond from '../demo/demo/diamond';
 import './utils/useSnapshotMatchers';
-import { createContext } from './utils';
+import { createContext, sleep } from './utils';
 import { triggerEvent } from './utils/event';
 
 describe('node diamond', () => {
   it('should be rendered correctly with Canvas2D', (done) => {
-    const dir = `${__dirname}/snapshots/canvas`;
+    const dir = `${__dirname}/snapshots/canvas/items/node/diamond`;
     const { backgroundCanvas, canvas, transientCanvas, container } =
       createContext('canvas', 500, 500);
 
@@ -27,14 +27,14 @@ describe('node diamond', () => {
       //normal state
       triggerEvent(graph, 'mousedown', 100, 100);
       triggerEvent(graph, 'mouseup', 100, 100);
-      await expect(canvas).toMatchCanvasSnapshot(dir, 'node-diamond');
+      await expect(canvas).toMatchCanvasSnapshot(dir, 'node-diamond-restore');
       graph.destroy();
       done();
     });
   });
 
   it('should be rendered correctly with SVG', (done) => {
-    const dir = `${__dirname}/snapshots/svg`;
+    const dir = `${__dirname}/snapshots/svg/items/node/diamond`;
     const { backgroundCanvas, canvas, transientCanvas, container } =
       createContext('svg', 500, 500);
 
@@ -48,6 +48,7 @@ describe('node diamond', () => {
     });
 
     graph.on('afterlayout', async () => {
+      await sleep(300);
       await expect(canvas).toMatchSVGSnapshot(dir, 'node-diamond');
       const $selected = document.querySelector(
         'input#selected',

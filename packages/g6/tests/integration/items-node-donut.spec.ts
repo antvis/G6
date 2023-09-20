@@ -1,7 +1,7 @@
 import { resetEntityCounter } from '@antv/g';
 import donutNode from '../demo/item/node/donut-node';
 import './utils/useSnapshotMatchers';
-import { createContext } from './utils';
+import { createContext, sleep } from './utils';
 
 describe('Items node donut', () => {
   beforeEach(() => {
@@ -26,7 +26,8 @@ describe('Items node donut', () => {
       height: 500,
     });
 
-    graph.on('afterlayout', async () => {
+    graph.on('afterrender', async () => {
+      await sleep(1000);
       await expect(canvas).toMatchCanvasSnapshot(dir, 'items-node-donut');
 
       /**
@@ -49,6 +50,7 @@ describe('Items node donut', () => {
         'input',
       )[1] as HTMLInputElement;
       $innerSize.click();
+      await sleep(500);
       await expect(canvas).toMatchCanvasSnapshot(
         dir,
         'items-node-donut-custom-innersize',
@@ -120,6 +122,7 @@ describe('Items node donut', () => {
         'input',
       )[1] as HTMLInputElement;
       $innerSize.click();
+      await sleep(300);
       await expect(canvas).toMatchSVGSnapshot(
         dir,
         'items-node-donut-custom-innersize',

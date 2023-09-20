@@ -90,7 +90,8 @@ export default abstract class Item implements IItem {
   /** Cache the dirty tags for states when data changed, to re-map the state styles when state changed */
   private stateDirtyMap: { [stateName: string]: boolean } = {};
   private cacheStateStyles: { [stateName: string]: ItemShapeStyles } = {};
-  private cacheHiddenShape: { [shapeId: string]: boolean } = {};
+  private cacheNotHiddenByItem: { [shapeId: string]: boolean } = {};
+  private cacheHiddenByItem: { [shapeId: string]: boolean } = {};
 
   // TODO: props type
   constructor(props) {
@@ -411,7 +412,7 @@ export default abstract class Item implements IItem {
   /** Show the item. */
   public show(animate = true) {
     Promise.all(this.stopAnimations()).finally(() => {
-      if (this.destroyed || this.visible) return;
+      if (this.destroyed) return;
       const { animates = {} } = this.displayModel.data;
       if (animate && animates.show?.length) {
         const showAnimateFieldsMap: any = {};
@@ -424,7 +425,7 @@ export default abstract class Item implements IItem {
         const targetStyleMap = {};
         Object.keys(this.shapeMap).forEach((id) => {
           const shape = this.shapeMap[id];
-          if (!this.cacheHiddenShape[id]) {
+          if (this.cacheHiddenByItem[id]) {
             // set the animate fields to initial value
             if (showAnimateFieldsMap[id]) {
               targetStyleMap[id] = targetStyleMap[id] || {};
@@ -439,7 +440,7 @@ export default abstract class Item implements IItem {
             shape.show();
           }
         });
-        if (showAnimateFieldsMap.group) {
+        if (showAnimateFieldsMap.group && !this.shapeMap.keyShape.isVisible()) {
           showAnimateFieldsMap.group.forEach((field) => {
             const usingField = field === 'size' ? 'transform' : field;
             if (GROUP_ANIMATE_STYLES[0].hasOwnProperty(usingField)) {
@@ -449,34 +450,42 @@ export default abstract class Item implements IItem {
           });
         }
 
-        this.animations = this.runWithAnimates(
-          animates,
-          'show',
-          targetStyleMap,
-        );
+        if (Object.keys(targetStyleMap).length) {
+          this.animations = this.runWithAnimates(
+            animates,
+            'show',
+            targetStyleMap,
+          );
+        }
       } else {
         Object.keys(this.shapeMap).forEach((id) => {
           const shape = this.shapeMap[id];
-          if (!this.cacheHiddenShape[id]) shape.show();
+          if (this.cacheHiddenByItem[id]) shape.show();
         });
       }
 
       this.visible = true;
+      this.cacheHiddenByItem = {};
     });
   }
 
   /** Hides the item. */
-  public hide(animate = true) {
+  public hide(animate = true, keepKeyShape = false) {
+    this.cacheNotHiddenByItem = {};
     const func = () => {
       Object.keys(this.shapeMap).forEach((id) => {
+        if (keepKeyShape && id === 'keyShape') return;
         const shape = this.shapeMap[id];
-        if (!this.visible && !shape.isVisible())
-          this.cacheHiddenShape[id] = true;
+        if (!shape.isVisible()) {
+          this.cacheNotHiddenByItem[id] = true;
+          return;
+        }
         shape.hide();
+        this.cacheHiddenByItem[id] = true;
       });
     };
     Promise.all(this.stopAnimations()).then(() => {
-      if (this.destroyed || !this.visible) return;
+      if (this.destroyed) return;
       const { animates = {} } = this.displayModel.data;
       if (animate && animates.hide?.length) {
         this.animations = this.runWithAnimates(
@@ -802,7 +811,7 @@ export default abstract class Item implements IItem {
    */
   public updateZoom(zoom) {
     this.zoom = zoom;
-    this.renderExt.onZoom(this.shapeMap, zoom);
+    this.renderExt.onZoom(this.shapeMap, zoom, this.cacheHiddenByItem);
   }
 
   /** Destroy the item. */

@@ -1,6 +1,6 @@
 import { resetEntityCounter } from '@antv/g';
 import circular from '../demo/layouts/circular';
-import { createContext } from './utils';
+import { createContext, sleep } from './utils';
 import './utils/useSnapshotMatchers';
 
 describe('Circular layout', () => {
@@ -48,6 +48,7 @@ describe('Circular layout', () => {
     });
 
     graph.on('afterlayout', async () => {
+      await sleep(300);
       await expect(canvas).toMatchSVGSnapshot(dir, 'layouts-circular');
       graph.destroy();
       done();

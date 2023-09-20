@@ -16,6 +16,15 @@
         <option value="svg">svg</option>
         <option value="webgl">webgl</option>
       </select>
+      <label for="renderer-select">选择 Image类型 </label>
+      <select id="image-select" style="height: 40px; cursor: pointer">
+        <option value="image/png" selected>image/png</option>
+        <option value="image/jpeg">image/jpeg</option>
+        <option value="image/webp">image/webp</option>
+        <option value="image/bmp">image/bmp</option>
+      </select>
+      <button id="image-download-button">下载图片</button>
+      <button id="full-image-download-button">下载全图</button>
       <div id="container" style="height: 500px; width: 100%"></div>
     </div>
     <script type="module" src="./main.ts"></script>

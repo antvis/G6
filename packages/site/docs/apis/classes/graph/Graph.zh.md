@@ -4,7 +4,7 @@ title: Graph
 
 > 📋 中文文档还在翻译中... 欢迎 PR
 
-[Overview - v5.0.0-beta.4](../../README.zh.md) / [Modules](../../modules.zh.md) / [graph](../../modules/graph.zh.md) / Graph
+[Overview - v5.0.0-beta.5](../../README.zh.md) / [Modules](../../modules.zh.md) / [graph](../../modules/graph.zh.md) / Graph
 
 [graph](../../modules/graph.zh.md).Graph
 
@@ -1155,13 +1155,13 @@ Show the item(s).
 
 ## Methods
 
-### batch
+### historyBatch
 
-▸ **batch**(`callback`): `void`
+▸ **historyBatch**(`callback`): `void`
 
 Execute a provided function within a batched context
 All operations performed inside callback will be treated as a composite operation
-more convenient way without manually invoking `startBatch` and `stopBatch`.
+more convenient way without manually invoking `startHistoryBatch` and `stopHistoryBatch`.
 
 #### Parameters
 
@@ -1175,7 +1175,7 @@ more convenient way without manually invoking `startBatch` and `stopBatch`.
 
 #### Implementation of
 
-[IGraph](../../interfaces/graph/IGraph.zh.md).[batch](../../interfaces/graph/IGraph.zh.md#batch)
+[IGraph](../../interfaces/graph/IGraph.zh.md).[historyBatch](../../interfaces/graph/IGraph.zh.md#historyBatch)
 
 #### Defined in
 
@@ -1326,9 +1326,9 @@ node_modules/.pnpm/@antv+event-emitter@0.1.3/node_modules/@antv/event-emitter/li
 
 ---
 
-### executeWithoutStacking
+### executeWithNoStack
 
-▸ **executeWithoutStacking**(`callback`): `void`
+▸ **executeWithNoStack**(`callback`): `void`
 
 Execute a callback without allowing any stacking operations.
 
@@ -1344,7 +1344,7 @@ Execute a callback without allowing any stacking operations.
 
 #### Implementation of
 
-[IGraph](../../interfaces/graph/IGraph.zh.md).[executeWithoutStacking](../../interfaces/graph/IGraph.zh.md#executewithoutstacking)
+[IGraph](../../interfaces/graph/IGraph.zh.md).[executeWithNoStack](../../interfaces/graph/IGraph.zh.md#executewithoutstacking)
 
 #### Defined in
 
@@ -1735,9 +1735,9 @@ node_modules/.pnpm/@antv+event-emitter@0.1.3/node_modules/@antv/event-emitter/li
 
 ---
 
-### pauseStacking
+### pauseStack
 
-▸ **pauseStacking**(): `void`
+▸ **pauseStack**(): `void`
 
 Pause stacking operation.
 
@@ -1747,7 +1747,7 @@ Pause stacking operation.
 
 #### Implementation of
 
-[IGraph](../../interfaces/graph/IGraph.zh.md).[pauseStacking](../../interfaces/graph/IGraph.zh.md#pausestacking)
+[IGraph](../../interfaces/graph/IGraph.zh.md).[pauseStack](../../interfaces/graph/IGraph.zh.md#pausestacking)
 
 #### Defined in
 
@@ -1803,9 +1803,9 @@ Revert recent n operation(s) performed on the graph.
 
 ---
 
-### resumeStacking
+### resumeStack
 
-▸ **resumeStacking**(): `void`
+▸ **resumeStack**(): `void`
 
 Resume stacking operation.
 
@@ -1815,7 +1815,7 @@ Resume stacking operation.
 
 #### Implementation of
 
-[IGraph](../../interfaces/graph/IGraph.zh.md).[resumeStacking](../../interfaces/graph/IGraph.zh.md#resumestacking)
+[IGraph](../../interfaces/graph/IGraph.zh.md).[resumeStack](../../interfaces/graph/IGraph.zh.md#resumestacking)
 
 #### Defined in
 
@@ -1879,12 +1879,12 @@ Rotate the graph to an absolute angle.
 
 ---
 
-### startBatch
+### startHistoryBatch
 
-▸ **startBatch**(): `void`
+▸ **startHistoryBatch**(): `void`
 
-Begin a batch operation.
-Any operations performed between `startBatch` and `stopBatch` are grouped together.
+Begin a historyBatch operation.
+Any operations performed between `startHistoryBatch` and `stopHistoryBatch` are grouped together.
 treated as a single operation when undoing or redoing.
 
 #### Returns
@@ -1893,7 +1893,7 @@ treated as a single operation when undoing or redoing.
 
 #### Implementation of
 
-[IGraph](../../interfaces/graph/IGraph.zh.md).[startBatch](../../interfaces/graph/IGraph.zh.md#startbatch)
+[IGraph](../../interfaces/graph/IGraph.zh.md).[startHistoryBatch](../../interfaces/graph/IGraph.zh.md#startbatch)
 
 #### Defined in
 
@@ -1901,12 +1901,12 @@ treated as a single operation when undoing or redoing.
 
 ---
 
-### stopBatch
+### stopHistoryBatch
 
-▸ **stopBatch**(): `void`
+▸ **stopHistoryBatch**(): `void`
 
-End a batch operation.
-Any operations performed between `startBatch` and `stopBatch` are grouped together.
+End a historyBatch operation.
+Any operations performed between `startHistoryBatch` and `stopHistoryBatch` are grouped together.
 treated as a single operation when undoing or redoing.
 
 #### Returns
@@ -1915,7 +1915,7 @@ treated as a single operation when undoing or redoing.
 
 #### Implementation of
 
-[IGraph](../../interfaces/graph/IGraph.zh.md).[stopBatch](../../interfaces/graph/IGraph.zh.md#stopbatch)
+[IGraph](../../interfaces/graph/IGraph.zh.md).[stopHistoryBatch](../../interfaces/graph/IGraph.zh.md#stopbatch)
 
 #### Defined in
 

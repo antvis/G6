@@ -34,6 +34,7 @@ interface IProps {
   onframe?: Function;
   onfinish?: Function;
   type?: 'node' | 'combo';
+  delayFirstDraw?: boolean;
 }
 export default class Node extends Item {
   public type: 'node' | 'combo';
@@ -41,13 +42,15 @@ export default class Node extends Item {
   constructor(props: IProps) {
     super(props);
     this.init({ ...props, type: props.type || 'node' });
-    this.draw(
-      this.displayModel as NodeDisplayModel | ComboDisplayModel,
-      undefined,
-      undefined,
-      !this.displayModel.data.disableAnimate,
-      props.onfinish,
-    );
+    if (!props.delayFirstDraw) {
+      this.draw(
+        this.displayModel as NodeDisplayModel | ComboDisplayModel,
+        undefined,
+        undefined,
+        !this.displayModel.data.disableAnimate,
+        props.onfinish,
+      );
+    }
   }
   public draw(
     displayModel: NodeDisplayModel | ComboDisplayModel,
@@ -76,7 +79,9 @@ export default class Node extends Item {
     const { animates, disableAnimate, x = 0, y = 0, z = 0 } = displayModel.data;
     if (firstRendering) {
       // first rendering, move the group
-      group.setLocalPosition(x, y, z);
+      group.style.x = x;
+      group.style.y = y;
+      group.style.z = z;
     } else {
       // terminate previous animations
       this.stopAnimations();
@@ -192,27 +197,30 @@ export default class Node extends Item {
         return;
       }
     }
-    group.setLocalPosition([
-      position.x as number,
-      position.y as number,
-      position.z,
-    ]);
+    group.style.x = position.x;
+    group.style.y = position.y;
+    group.style.z = position.z;
     onfinish(displayModel.id, !animate);
   }
 
   public clone(
     containerGroup: Group,
-    onlyKeyShape?: boolean,
+    shapeIds?: string[],
     disableAnimate?: boolean,
   ) {
-    if (onlyKeyShape) {
-      const clonedKeyShape = this.shapeMap.keyShape.cloneNode();
-      const pos = this.group.getPosition();
-      const clonedGroup = new Group();
-      clonedGroup.setPosition(pos);
-      clonedGroup.appendChild(clonedKeyShape);
-      containerGroup.appendChild(clonedGroup);
-      return clonedGroup;
+    if (shapeIds?.length) {
+      const group = new Group();
+      shapeIds.forEach((shapeId) => {
+        if (!this.shapeMap[shapeId] || this.shapeMap[shapeId].destroyed) return;
+        const clonedKeyShape = this.shapeMap[shapeId].cloneNode();
+        // TODO: other animating attributes?
+        clonedKeyShape.style.opacity =
+          this.renderExt.mergedStyles[shapeId]?.opacity || 1;
+        group.appendChild(clonedKeyShape);
+      });
+      group.setPosition(this.group.getPosition());
+      containerGroup.appendChild(group);
+      return group;
     }
     const clonedModel = clone(this.model);
     clonedModel.data.disableAnimate = disableAnimate;

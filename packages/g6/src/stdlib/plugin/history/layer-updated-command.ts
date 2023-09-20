@@ -11,7 +11,7 @@ export class LayerUpdatedCommand implements Command {
   }
 
   undo(graph: IGraph) {
-    graph.executeWithoutStacking(() => {
+    graph.executeWithNoStack(() => {
       this.action === 'front'
         ? graph.backItem(this.ids)
         : graph.frontItem(this.ids);
@@ -19,7 +19,7 @@ export class LayerUpdatedCommand implements Command {
   }
 
   redo(graph: IGraph) {
-    graph.executeWithoutStacking(() => {
+    graph.executeWithNoStack(() => {
       this.action === 'front'
         ? graph.frontItem(this.ids)
         : graph.backItem(this.ids);

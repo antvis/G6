@@ -13,6 +13,14 @@
       "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*uVOySpSIZXkAAAAAAAAAAAAADmJ7AQ/original"
     },
     {
+      "filename": "loopAnimates.js",
+      "title": {
+        "zh": "持续状态动画",
+        "en": "Loop State Animation"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*HR-tSKcHbD4AAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
       "filename": "animateOrder.js",
       "title": {
         "zh": "动画顺序",

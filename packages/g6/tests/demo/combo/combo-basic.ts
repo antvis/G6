@@ -13,7 +13,7 @@ export default (
       'hover-activate': Extensions.HoverActivate,
     },
   });
-  const graph = new Graph({
+  const graph = new ExtGraph({
     ...context,
     layout: {
       type: 'grid',
@@ -131,6 +131,15 @@ export default (
         },
       ],
     },
+  });
+  graph.on('canvas:click', (e) => {
+    // graph.removeData('combo', 'combo1');
+    graph.updateData('node', {
+      id: 'node5',
+      data: {
+        parentId: 'combo3',
+      },
+    });
   });
   return graph;
 };

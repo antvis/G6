@@ -1,11 +1,11 @@
 import star from '../demo/demo/star';
 import './utils/useSnapshotMatchers';
-import { createContext } from './utils';
+import { createContext, sleep } from './utils';
 import { triggerEvent } from './utils/event';
 
 describe('node star', () => {
   it('should be rendered correctly with Canvas2D', (done) => {
-    const dir = `${__dirname}/snapshots/canvas`;
+    const dir = `${__dirname}/snapshots/canvas/items/node/star`;
     const { backgroundCanvas, canvas, transientCanvas, container } =
       createContext('canvas', 500, 500);
 
@@ -34,7 +34,7 @@ describe('node star', () => {
   });
 
   it('should be rendered correctly with SVG', (done) => {
-    const dir = `${__dirname}/snapshots/svg`;
+    const dir = `${__dirname}/snapshots/svg/items/node/star`;
     const { backgroundCanvas, canvas, transientCanvas, container } =
       createContext('svg', 500, 500);
 
@@ -48,6 +48,7 @@ describe('node star', () => {
     });
 
     graph.on('afterlayout', async () => {
+      await sleep(300);
       await expect(canvas).toMatchSVGSnapshot(dir, 'node-star');
       const $selected = document.querySelector(
         'input#selected',

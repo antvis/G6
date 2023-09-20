@@ -6,6 +6,9 @@ import behaviors_activateRelations from './behaviors/activate-relations';
 import behaviors_brush_select from './behaviors/brush-select';
 import behaviors_click_select from './behaviors/click-select';
 import behaviors_collapse_expand_tree from './behaviors/collapse-expand-tree';
+import behaviors_create_edge from './behaviors/create-edge';
+import behaviors_dragCanvas from './behaviors/drag-canvas';
+import behaviors_scrollCanvas from './behaviors/scroll-canvas';
 import behaviors_shortcuts_call from './behaviors/shortcuts-call';
 import circularUpdate from './layouts/circular-update';
 import comboBasic from './combo/combo-basic';
@@ -14,6 +17,7 @@ import comboRect from './combo/combo-rect';
 import cubic_edge from './item/edge/cubic-edge';
 import cubic_horizon_edge from './item/edge/cubic-horizontal-edge';
 import cubic_vertical_edge from './item/edge/cubic-vertical-edge';
+import dagreUpdate from './layouts/dagre-update';
 import dataValidate from './data/data-validate';
 import demo from './demo/demo';
 import demoForPolyline from './demo/demoForPolyline';
@@ -21,6 +25,7 @@ import diamond from './demo/diamond';
 import donut_node from './item/node/donut-node';
 import ellipse from './demo/ellipse';
 import fisheye from './plugins/fisheye';
+import graphCore from './data/graphCore';
 import hexagon from './demo/hexagon';
 import history from './plugins/history';
 import history_combo from './plugins/history-combo';
@@ -43,7 +48,9 @@ import layouts_grid from './layouts/grid';
 import legend from './plugins/legend';
 import line_edge from './item/edge/line-edge';
 import loop_edge from './item/edge/loop-edge';
+import mapper from './visual/mapper';
 import menu from './demo/menu';
+import minimap from './plugins/minimap';
 import modelRect from './demo/modelRect';
 import performance from './performance/performance';
 import performance_layout from './performance/layout';
@@ -72,6 +79,9 @@ export {
   behaviors_brush_select,
   behaviors_click_select,
   behaviors_collapse_expand_tree,
+  behaviors_create_edge,
+  behaviors_dragCanvas,
+  behaviors_scrollCanvas,
   behaviors_shortcuts_call,
   circularUpdate,
   comboBasic,
@@ -80,6 +90,7 @@ export {
   cubic_edge,
   cubic_horizon_edge,
   cubic_vertical_edge,
+  dagreUpdate,
   dataValidate,
   demo,
   demoForPolyline,
@@ -87,6 +98,7 @@ export {
   donut_node,
   ellipse,
   fisheye,
+  graphCore,
   hexagon,
   history_combo,
   history,
@@ -109,7 +121,9 @@ export {
   legend,
   line_edge,
   loop_edge,
+  mapper,
   menu,
+  minimap,
   modelRect,
   performance_layout_3d,
   performance_layout,

@@ -62,7 +62,9 @@ const {
   DragNode,
   DragCombo,
   ClickSelect,
+  CreateEdge,
   ShortcutsCall,
+  ScrollCanvas,
 } = Behaviors;
 const {
   History,
@@ -122,9 +124,11 @@ const stdLib = {
     'zoom-canvas': ZoomCanvas,
     'drag-node': DragNode,
     'drag-combo': DragCombo,
+    'create-edge': CreateEdge,
     'collapse-expand-combo': CollapseExpandCombo,
     'collapse-expand-tree': CollapseExpandTree,
     'click-select': ClickSelect,
+    'scroll-canvas': ScrollCanvas,
   },
   plugins: {
     history: History,
@@ -136,6 +140,7 @@ const stdLib = {
   },
   edges: {
     'line-edge': LineEdge,
+    'loop-edge': LoopEdge,
   },
   combos: {
     'circle-combo': CircleCombo,
@@ -209,13 +214,13 @@ const Extensions = {
   TransformV4Data,
   MapNodeSize,
   ProcessParallelEdges,
-  //themes
+  // themes
   LightTheme,
   DarkTheme,
-  //themeSolvers
+  // themeSolvers
   SpecThemeSolver,
   SubjectThemeSolver,
-  //layout
+  // layout
   ForceLayout,
   GridLayout,
   CircularLayout,
@@ -228,12 +233,12 @@ const Extensions = {
   ForceAtlas2Layout,
   DagreLayout,
   ComboCombinedLayout,
-  //Hierarchy
+  // Hierarchy
   compactBox,
   dendrogram,
   indented,
   mindmap,
-  //nodes
+  // nodes
   CircleNode,
   RectNode,
   DiamondNode,
@@ -255,7 +260,7 @@ const Extensions = {
   // combos
   CircleCombo,
   RectCombo,
-  //behaviors
+  // behaviors
   BaseBehavior,
   ActivateRelations,
   BrushSelect,
@@ -271,7 +276,9 @@ const Extensions = {
   CollapseExpandCombo,
   DragNode,
   DragCombo,
-  //plugins
+  CreateEdge,
+  ShortcutsCall,
+  // plugins
   BasePlugin,
   History,
   Toolbar,

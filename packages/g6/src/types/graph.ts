@@ -1,20 +1,20 @@
 import EventEmitter from '@antv/event-emitter';
-import { AABB, Canvas, DisplayObject, PointLike } from '@antv/g';
+import { AABB, Canvas, Cursor, DisplayObject, PointLike } from '@antv/g';
 import { ID } from '@antv/graphlib';
 import { Command } from '../stdlib/plugin/history/command';
 import { Hooks } from '../types/hook';
 import { CameraAnimationOptions } from './animate';
 import { BehaviorOptionsOf, BehaviorRegistry } from './behavior';
-import { ComboDisplayModel, ComboModel, ComboUserModel } from './combo';
+import { ComboModel, ComboUserModel } from './combo';
 import { Padding, Point } from './common';
 import { GraphData } from './data';
-import { EdgeDisplayModel, EdgeModel, EdgeUserModel } from './edge';
+import { EdgeModel, EdgeUserModel } from './edge';
 import type { StackType } from './history';
-import { ITEM_TYPE, SHAPE_TYPE } from './item';
+import { ITEM_TYPE, SHAPE_TYPE, ShapeStyle } from './item';
 import { LayoutOptions } from './layout';
-import { NodeDisplayModel, NodeModel, NodeUserModel } from './node';
+import { NodeModel, NodeUserModel } from './node';
 import { RendererName } from './render';
-import { Specification } from './spec';
+import { ComboMapper, EdgeMapper, NodeMapper, Specification } from './spec';
 import { ThemeOptionsOf, ThemeRegistry } from './theme';
 import { FitViewRules, GraphTransformOptions } from './view';
 
@@ -36,7 +36,7 @@ export interface IGraph<
    * @returns
    * @group Graph Instance
    */
-  destroy: (callback?: Function) => void;
+  destroy: (callback?: () => void) => void;
   /**
    * Update the specs (configurations).
    */
@@ -45,6 +45,12 @@ export interface IGraph<
    * Update the theme specs (configurations).
    */
   updateTheme: (theme: ThemeOptionsOf<T>) => void;
+  /**
+   * Update the item display mapper for a specific item type.
+   * @param {ITEM_TYPE} type - The type of item (node, edge, or combo).
+   * @param {NodeMapper | EdgeMapper | ComboMapper} mapper - The mapper to be updated.
+   * */
+  updateMapper(type: ITEM_TYPE, mapper: NodeMapper | EdgeMapper | ComboMapper);
   /**
    * Get the copy of specs(configurations).
    * @returns graph specs
@@ -389,8 +395,8 @@ export interface IGraph<
    */
   fitView: (
     options?: {
-      padding: Padding;
-      rules: FitViewRules;
+      padding?: Padding;
+      rules?: FitViewRules;
     },
     effectTiming?: CameraAnimationOptions,
   ) => Promise<void>;
@@ -400,7 +406,10 @@ export interface IGraph<
    * @returns
    * @group View
    */
-  fitCenter: (effectTiming?: CameraAnimationOptions) => Promise<void>;
+  fitCenter: (
+    boundsType?: 'render' | 'layout',
+    effectTiming?: CameraAnimationOptions,
+  ) => Promise<void>;
   /**
    * Move the graph to make the item align the view center.
    * @param item node/edge/combo item or its id
@@ -470,7 +479,11 @@ export interface IGraph<
    * @returns
    * @group Item
    */
-  hideItem: (ids: ID | ID[], disableAnimate?: boolean) => void;
+  hideItem: (
+    ids: ID | ID[],
+    disableAnimate?: boolean,
+    keepKeyShape?: boolean,
+  ) => void;
   /**
    * Make the item(s) to the front.
    * @param ids the item id(s) to front
@@ -592,6 +605,11 @@ export interface IGraph<
    */
   getMode: () => string;
   /**
+   * Set the cursor. But the cursor in item's style has higher priority.
+   * @param cursor
+   */
+  setCursor: (cursor: Cursor) => void;
+  /**
    * Add behavior(s) to mode(s).
    * @param behaviors behavior names or configs
    * @param modes mode names
@@ -628,7 +646,22 @@ export interface IGraph<
   drawTransient: (
     type: ITEM_TYPE | SHAPE_TYPE,
     id: ID,
-    config: any,
+    config: {
+      action?: 'remove' | 'add' | 'update' | undefined;
+      /** Data to be merged into the transient item. */
+      data?: Record<string, any>;
+      /** Style to be merged into the transient shape. */
+      style?: ShapeStyle;
+      /** For type: 'edge' */
+      drawSource?: boolean;
+      /** For type: 'edge' */
+      drawTarget?: boolean;
+      /** Only shape with id in shapeIds will be cloned while type is ITEM_TYPE. If shapeIds is not assigned, the whole item will be cloned. */
+      shapeIds?: string[];
+      /** Whether show the shapes in shapeIds. True by default. */
+      visible?: boolean;
+      upsertAncestors?: boolean;
+    },
     canvas?: Canvas,
   ) => DisplayObject;
 
@@ -682,16 +715,16 @@ export interface IGraph<
   /**
    * Pause stacking operation.
    */
-  pauseStacking: () => void;
+  pauseStack: () => void;
   /**
    * Resume stacking operation.
    */
-  resumeStacking: () => void;
+  resumeStack: () => void;
   /**
    * Execute a callback without allowing any stacking operations.
    * @param callback
    */
-  executeWithoutStacking: (callback: () => void) => void;
+  executeWithNoStack: (callback: () => void) => void;
   /**
    * Retrieve the current redo stack which consists of operations that could be undone
    */
@@ -731,33 +764,34 @@ export interface IGraph<
   canRedo: () => void;
 
   /**
-   * Begin a batch operation.
-   * Any operations performed between `startBatch` and `stopBatch` are grouped together.
+   * Begin a historyBatch operation.
+   * Any operations performed between `startHistoryBatch` and `stopHistoryBatch` are grouped together.
    * treated as a single operation when undoing or redoing.
    */
-  startBatch: () => void;
+  startHistoryBatch: () => void;
 
   /**
-   * End a batch operation.
-   * Any operations performed between `startBatch` and `stopBatch` are grouped together.
+   * End a historyBatch operation.
+   * Any operations performed between `startHistoryBatch` and `stopHistoryBatch` are grouped together.
    * treated as a single operation when undoing or redoing.
    */
-  stopBatch: () => void;
+  stopHistoryBatch: () => void;
 
   /**
    * Execute a provided function within a batched context
    * All operations performed inside callback will be treated as a composite operation
-   * more convenient way without manually invoking `startBatch` and `stopBatch`.
+   * more convenient way without manually invoking `startHistoryBatch` and `stopHistoryBatch`.
    * @param callback The func containing operations to be batched together.
    */
-  batch: (callback: () => void) => void;
+  historyBatch: (callback: () => void) => void;
+
   /**
    * Execute a provided function within a batched context
    * All operations performed inside callback will be treated as a composite operation
-   * more convenient way without manually invoking `startBatch` and `stopBatch`.
+   * more convenient way without manually invoking `startHistoryBatch` and `stopHistoryBatch`.
    * @param callback The func containing operations to be batched together.
    */
-  clearStack: (stackType?: StackType) => void;
+  cleanHistory: (stackType?: StackType) => void;
   // ===== tree operations =====
   /**
    * Collapse sub tree(s).
