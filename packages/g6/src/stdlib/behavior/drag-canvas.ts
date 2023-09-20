@@ -74,6 +74,7 @@ export class DragCanvas extends Behavior {
   private disableKeydown: boolean;
   private hiddenEdgeIds: ID[];
   private hiddenNodeIds: ID[];
+  private tileRequestId?: number;
 
   constructor(options: Partial<DragCanvasOptions>) {
     const finalOptions = Object.assign({}, DEFAULT_OPTIONS, options);
@@ -136,7 +137,10 @@ export class DragCanvas extends Behavior {
 
     const { tileBehavior: graphBehaviorOptimize, tileBehaviorSize = 1000 } =
       graph.getSpecification().optimize || {};
-    const optimize = this.options.enableOptimize || graphBehaviorOptimize;
+    const optimize =
+      this.options.enableOptimize !== undefined
+        ? this.options.enableOptimize
+        : graphBehaviorOptimize;
     const shouldOptimize = isNumber(optimize)
       ? graph.getAllNodesData().length > optimize
       : optimize;
@@ -150,7 +154,6 @@ export class DragCanvas extends Behavior {
         .getAllNodesData()
         .map((node) => node.id)
         .filter((id) => graph.getItemVisible(id) === true);
-      let requestId;
       const hiddenIds = [...this.hiddenNodeIds];
       const sectionNum = Math.ceil(hiddenIds.length / tileBehaviorSize);
       const sections = Array.from({ length: sectionNum }, (v, i) =>
@@ -160,17 +163,18 @@ export class DragCanvas extends Behavior {
         ),
       );
       const update = () => {
-        if (!sections.length) {
-          cancelAnimationFrame(requestId);
+        if (!sections.length && this.tileRequestId) {
+          cancelAnimationFrame(this.tileRequestId);
+          this.tileRequestId = undefined;
           return;
         }
         const section = sections.shift();
         graph.executeWithNoStack(() => {
           graph.hideItem(section, false, true);
         });
-        requestId = requestAnimationFrame(update);
+        this.tileRequestId = requestAnimationFrame(update);
       };
-      requestId = requestAnimationFrame(update);
+      this.tileRequestId = requestAnimationFrame(update);
     }
   }
 
@@ -264,14 +268,20 @@ export class DragCanvas extends Behavior {
     const { graph, hiddenNodeIds, hiddenEdgeIds = [] } = this;
     const { tileBehavior: graphBehaviorOptimize, tileBehaviorSize = 1000 } =
       graph.getSpecification().optimize || {};
-    const optimize = this.options.enableOptimize || graphBehaviorOptimize;
+    const optimize =
+      this.options.enableOptimize !== undefined
+        ? this.options.enableOptimize
+        : graphBehaviorOptimize;
     const shouldOptimize = isNumber(optimize)
       ? graph.getAllNodesData().length > optimize
       : optimize;
 
     if (shouldOptimize) {
+      if (this.tileRequestId) {
+        cancelAnimationFrame(this.tileRequestId);
+        this.tileRequestId = undefined;
+      }
       if (hiddenNodeIds) {
-        let requestId;
         const hiddenIds = [...hiddenNodeIds, ...hiddenEdgeIds];
         const sectionNum = Math.ceil(hiddenIds.length / tileBehaviorSize);
         const sections = Array.from({ length: sectionNum }, (v, i) =>
@@ -281,16 +291,17 @@ export class DragCanvas extends Behavior {
           ),
         );
         const update = () => {
-          if (!sections.length) {
-            cancelAnimationFrame(requestId);
+          if (!sections.length && this.tileRequestId) {
+            cancelAnimationFrame(this.tileRequestId);
+            this.tileRequestId = undefined;
             return;
           }
           graph.startHistoryBatch();
           graph.showItem(sections.shift(), false);
           graph.stopHistoryBatch();
-          requestId = requestAnimationFrame(update);
+          this.tileRequestId = requestAnimationFrame(update);
         };
-        requestId = requestAnimationFrame(update);
+        this.tileRequestId = requestAnimationFrame(update);
       }
     }
   }

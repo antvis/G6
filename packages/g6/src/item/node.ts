@@ -79,7 +79,9 @@ export default class Node extends Item {
     const { animates, disableAnimate, x = 0, y = 0, z = 0 } = displayModel.data;
     if (firstRendering) {
       // first rendering, move the group
-      group.setLocalPosition(x, y, z);
+      group.style.x = x;
+      group.style.y = y;
+      group.style.z = z;
     } else {
       // terminate previous animations
       this.stopAnimations();
@@ -195,11 +197,9 @@ export default class Node extends Item {
         return;
       }
     }
-    group.setLocalPosition([
-      position.x as number,
-      position.y as number,
-      position.z,
-    ]);
+    group.style.x = position.x;
+    group.style.y = position.y;
+    group.style.z = position.z;
     onfinish(displayModel.id, !animate);
   }
 

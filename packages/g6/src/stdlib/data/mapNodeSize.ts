@@ -9,7 +9,7 @@ import {
 /**
  * Validate and format the graph data.
  * @param data input user data.
- * @param userGraphCore the graph core stores the previous data.
+ * @param graphCore the graph core stores the previous data.
  * @returns formatted data.
  */
 export const MapNodeSize = (
@@ -18,7 +18,7 @@ export const MapNodeSize = (
     field?: string;
     range?: [number, number];
   } = {},
-  userGraphCore?: GraphCore,
+  graphCore?: GraphCore,
 ): GraphData => {
   const { field, range = [8, 40] } = options;
   if (!field) return data;

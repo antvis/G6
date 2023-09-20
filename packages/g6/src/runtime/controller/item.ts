@@ -428,10 +428,6 @@ export class ItemController {
         });
       };
       const debounceUpdateRelates = debounce(updateRelates, 16, false);
-      const throttleUpdateRelates = throttle(updateRelates, 16, {
-        leading: true,
-        trailing: true,
-      });
 
       Object.values(nodeComboUpdate).forEach((updateObj: any) => {
         const { isReplace, previous, current, id } = updateObj;
@@ -527,7 +523,7 @@ export class ItemController {
           nodeRelatedIdsToUpdate.add(edge.id);
         });
 
-        item.onframe = () => throttleUpdateRelates(nodeRelatedIdsToUpdate);
+        item.onframe = () => updateRelates(nodeRelatedIdsToUpdate);
         let statesCache;
         if (
           innerModel.data._isCombo &&
@@ -546,7 +542,6 @@ export class ItemController {
           // call after updating finished
           throttle(
             (_, canceled) => {
-              item.onframe?.(true);
               item.onframe = undefined;
               if (statesCache) {
                 statesCache.forEach((state) =>
@@ -557,7 +552,7 @@ export class ItemController {
             },
             500,
             {
-              leading: false,
+              leading: true,
               trailing: true,
             },
           ),

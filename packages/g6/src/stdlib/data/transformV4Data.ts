@@ -10,13 +10,13 @@ import {
 /**
  * Validate and format the graph data.
  * @param data input user data.
- * @param userGraphCore the graph core stores the previous data.
+ * @param graphCore the graph core stores the previous data.
  * @returns formatted data.
  */
 export const TransformV4Data = (
   data: GraphData,
   options = {},
-  userGraphCore?: GraphCore,
+  graphCore?: GraphCore,
 ): GraphData => {
   const { nodes = [], edges = [], combos = [] } = data;
   const formattedNodes = nodes.map((node: any) => {

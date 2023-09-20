@@ -1,6 +1,6 @@
 import { Circle, Group } from '@antv/g';
 import { clone, throttle } from '@antv/util';
-import { EdgeDisplayModel, EdgeModel, ID } from '../types';
+import { EdgeDisplayModel, EdgeModel, ID, Point } from '../types';
 import { EdgeModelData } from '../types/edge';
 import { DisplayMapper, State, LodStrategyObj } from '../types/item';
 import { updateShapes } from '../util/shape';
@@ -43,6 +43,13 @@ export default class Edge extends Item {
   public sourceItem: Node | Combo;
   public targetItem: Node | Combo;
 
+  /** Caches to avoid unnecessary calculations. */
+  private sourcePositionCache: Point;
+  private targetPositionCache: Point;
+  private controlPointsCache: Point;
+  private sourcePointCache: Point;
+  private targetPointCache: Point;
+
   constructor(props: IProps) {
     super(props);
     this.init({ ...props, type: 'edge' });
@@ -68,40 +75,7 @@ export default class Edge extends Item {
     animate = true,
     onfinish: Function = () => {},
   ) {
-    // get the point near the other end
-    const { sourceAnchor, targetAnchor, keyShape } = displayModel.data;
-    const sourcePosition = this.sourceItem.getPosition();
-    const targetPosition = this.targetItem.getPosition();
-
-    let targetPrevious = sourcePosition;
-    let sourcePrevious = targetPosition;
-
-    // TODO: type
-    // @ts-ignore
-    if (keyShape?.controlPoints?.length) {
-      // @ts-ignore
-      const controlPointsBesideEnds = keyShape.controlPoints.filter(
-        (point) =>
-          !isSamePoint(point, sourcePosition) &&
-          !isSamePoint(point, targetPosition),
-      );
-      sourcePrevious = getNearestPoint(
-        controlPointsBesideEnds,
-        sourcePosition,
-      ).nearestPoint;
-      targetPrevious = getNearestPoint(
-        controlPointsBesideEnds,
-        targetPosition,
-      ).nearestPoint;
-    }
-    const sourcePoint = this.sourceItem.getAnchorPoint(
-      sourcePrevious,
-      sourceAnchor,
-    );
-    const targetPoint = this.targetItem.getAnchorPoint(
-      targetPrevious,
-      targetAnchor,
-    );
+    const { sourcePoint, targetPoint } = this.getEndPoints(displayModel);
     this.renderExt.mergeStyles(displayModel);
     const firstRendering = !this.shapeMap?.keyShape;
     this.renderExt.setSourcePoint(sourcePoint);
@@ -164,16 +138,23 @@ export default class Edge extends Item {
    * Sometimes no changes on edge data, but need to re-draw it
    * e.g. source and target nodes' position changed
    */
-  public forceUpdate = throttle(
-    () => {
-      if (!this.destroyed) this.draw(this.displayModel);
-    },
-    16,
-    {
-      leading: true,
-      trailing: true,
-    },
-  );
+  public forceUpdate() {
+    if (this.destroyed) return;
+    const { sourcePoint, targetPoint, changed } = this.getEndPoints(
+      this.displayModel,
+    );
+    if (!changed) return;
+    this.renderExt.setSourcePoint(sourcePoint);
+    this.renderExt.setTargetPoint(targetPoint);
+    const shapeMap = this.renderExt.draw(
+      this.displayModel,
+      sourcePoint,
+      targetPoint,
+      this.shapeMap,
+    );
+    // add shapes to group, and update shapeMap
+    this.shapeMap = updateShapes(this.shapeMap, shapeMap, this.group);
+  }
 
   /**
    * Update end item for item and re-draw the edge
@@ -186,9 +167,88 @@ export default class Edge extends Item {
     this.draw(this.displayModel);
   }
 
-  // public update(model: EdgeModel) {
-  //   super.update(model);
-  // }
+  /**
+   * Calculate the source and target points according to the source and target nodes and the anchorPoints and controlPoints.
+   * @param displayModel
+   * @returns
+   */
+  private getEndPoints(displayModel: EdgeDisplayModel) {
+    // get the point near the other end
+    const { sourceAnchor, targetAnchor, keyShape } = displayModel.data;
+    const sourcePosition = this.sourceItem.getPosition();
+    const targetPosition = this.targetItem.getPosition();
+
+    if (
+      !this.shouldUpdatePoints(
+        sourcePosition,
+        targetPosition,
+        // @ts-ignore
+        keyShape?.controlPoints,
+      )
+    ) {
+      return {
+        sourcePoint: this.sourcePointCache,
+        targetPoint: this.targetPointCache,
+        changed: false,
+      };
+    }
+
+    let targetPrevious = sourcePosition;
+    let sourcePrevious = targetPosition;
+
+    // TODO: type
+    // @ts-ignore
+    if (keyShape?.controlPoints?.length) {
+      // @ts-ignore
+      const controlPointsBesideEnds = keyShape.controlPoints.filter(
+        (point) =>
+          !isSamePoint(point, sourcePosition) &&
+          !isSamePoint(point, targetPosition),
+      );
+      sourcePrevious = getNearestPoint(
+        controlPointsBesideEnds,
+        sourcePosition,
+      ).nearestPoint;
+      targetPrevious = getNearestPoint(
+        controlPointsBesideEnds,
+        targetPosition,
+      ).nearestPoint;
+    }
+    this.sourcePointCache = this.sourceItem.getAnchorPoint(
+      sourcePrevious,
+      sourceAnchor,
+    );
+    this.targetPointCache = this.targetItem.getAnchorPoint(
+      targetPrevious,
+      targetAnchor,
+    );
+    return {
+      sourcePoint: this.sourcePointCache,
+      targetPoint: this.targetPointCache,
+      changed: true,
+    };
+  }
+
+  /**
+   * Returns false if the source, target, controlPoints are not changed, avoiding unnecessary computations.
+   * @param sourcePosition
+   * @param targetPosition
+   * @param controlPoints
+   * @returns
+   */
+  private shouldUpdatePoints(sourcePosition, targetPosition, controlPoints) {
+    const changed = !(
+      isSamePoint(sourcePosition, this.sourcePositionCache) &&
+      isSamePoint(targetPosition, this.targetPositionCache) &&
+      controlPoints === this.controlPointsCache
+    );
+    if (changed) {
+      this.sourcePositionCache = sourcePosition;
+      this.targetPositionCache = targetPosition;
+      this.controlPointsCache = controlPoints;
+    }
+    return changed;
+  }
 
   public clone(
     containerGroup: Group,

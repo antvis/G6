@@ -76,6 +76,7 @@ export class ZoomCanvas extends Behavior {
   private hiddenEdgeIds: ID[];
   private hiddenNodeIds: ID[];
   private zoomTimer: ReturnType<typeof setTimeout>;
+  private tileRequestId?: number;
 
   constructor(options: Partial<ZoomCanvasOptions>) {
     const finalOptions = Object.assign({}, DEFAULT_OPTIONS, options);
@@ -117,11 +118,14 @@ export class ZoomCanvas extends Behavior {
     const { graph } = this;
     const { tileBehavior: graphBehaviorOptimize, tileBehaviorSize = 1000 } =
       graph.getSpecification().optimize || {};
-    const optimize = this.options.enableOptimize || graphBehaviorOptimize;
-    const shouldOptimzie = isNumber(optimize)
+    const optimize =
+      this.options.enableOptimize !== undefined
+        ? this.options.enableOptimize
+        : graphBehaviorOptimize;
+    const shouldOptimze = isNumber(optimize)
       ? graph.getAllNodesData().length > optimize
       : optimize;
-    if (shouldOptimzie) {
+    if (shouldOptimze) {
       this.hiddenEdgeIds = graph
         .getAllEdgesData()
         .map((edge) => edge.id)
@@ -131,7 +135,6 @@ export class ZoomCanvas extends Behavior {
         .map((node) => node.id)
         .filter((id) => graph.getItemVisible(id) === true);
 
-      let requestId;
       const hiddenIds = [...this.hiddenNodeIds];
       const sectionNum = Math.ceil(hiddenIds.length / tileBehaviorSize);
       const sections = Array.from({ length: sectionNum }, (v, i) =>
@@ -141,17 +144,18 @@ export class ZoomCanvas extends Behavior {
         ),
       );
       const update = () => {
-        if (!sections.length) {
-          cancelAnimationFrame(requestId);
+        if (!sections.length && this.tileRequestId) {
+          cancelAnimationFrame(this.tileRequestId);
+          this.tileRequestId = undefined;
           return;
         }
         const section = sections.shift();
         graph.startHistoryBatch();
         graph.hideItem(section, false, true);
         graph.stopHistoryBatch();
-        requestId = requestAnimationFrame(update);
+        this.tileRequestId = requestAnimationFrame(update);
       };
-      requestId = requestAnimationFrame(update);
+      this.tileRequestId = requestAnimationFrame(update);
     }
   }
 
@@ -159,14 +163,20 @@ export class ZoomCanvas extends Behavior {
     const { graph, hiddenEdgeIds = [], hiddenNodeIds } = this;
     const { tileBehavior: graphBehaviorOptimize, tileBehaviorSize = 1000 } =
       graph.getSpecification().optimize || {};
-    const optimize = this.options.enableOptimize || graphBehaviorOptimize;
-    const shouldOptimzie = isNumber(optimize)
+    const optimize =
+      this.options.enableOptimize !== undefined
+        ? this.options.enableOptimize
+        : graphBehaviorOptimize;
+    const shouldOptimze = isNumber(optimize)
       ? graph.getAllNodesData().length > optimize
       : optimize;
     this.zooming = false;
-    if (shouldOptimzie) {
+    if (shouldOptimze) {
+      if (this.tileRequestId) {
+        cancelAnimationFrame(this.tileRequestId);
+        this.tileRequestId = undefined;
+      }
       if (hiddenNodeIds) {
-        let requestId;
         const hiddenIds = [...hiddenNodeIds, ...hiddenEdgeIds];
         const sectionNum = Math.ceil(hiddenIds.length / tileBehaviorSize);
         const sections = Array.from({ length: sectionNum }, (v, i) =>
@@ -176,16 +186,17 @@ export class ZoomCanvas extends Behavior {
           ),
         );
         const update = () => {
-          if (!sections.length) {
-            cancelAnimationFrame(requestId);
+          if (!sections.length && this.tileRequestId) {
+            cancelAnimationFrame(this.tileRequestId);
+            this.tileRequestId = undefined;
             return;
           }
           graph.executeWithNoStack(() => {
             graph.showItem(sections.shift(), false);
           });
-          requestId = requestAnimationFrame(update);
+          this.tileRequestId = requestAnimationFrame(update);
         };
-        requestId = requestAnimationFrame(update);
+        this.tileRequestId = requestAnimationFrame(update);
       }
     }
     this.hiddenEdgeIds = [];
