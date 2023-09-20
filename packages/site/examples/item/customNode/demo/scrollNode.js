@@ -204,13 +204,13 @@ registerBehavior("dice-er-scroll", {
     }
   },
   mousedown(e) {
-    this.mousedown = true;
+    this.isMousedown = true;
   },
   mouseup(e) {
-    this.mousedown = false;
+    this.isMousedown = false;
   },
   move(e) {
-    if (this.mousedown) return;
+    if (this.isMousedown) return;
     const name = e.shape.get("name");
     const item = e.item;
 
