@@ -150,7 +150,7 @@ The complete code is as follows:
   </head>
   <body>
     <div id="container"></div>
-    <script src="https://gw.alipayobjects.com/os/lib/antv/g6/5.0.0-beta.7/dist/g6.min.js"></script>
+    <script src="https://gw.alipayobjects.com/os/lib/antv/g6/5.0.0-beta.8/dist/g6.min.js"></script>
     <script>
       const graph = new G6.Graph({
         container: 'container',

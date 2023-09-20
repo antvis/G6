@@ -527,6 +527,7 @@ export class DataController {
       const modelsToMove = [];
       combos.forEach((newModel) => {
         const { id, data } = newModel;
+        if (!data) return;
         const { x: comboNewX, y: comboNewY, ...others } = data;
         if (comboNewX !== undefined || comboNewY !== undefined) {
           if (this.graphCore.getChildren(id, 'combo').length) {
