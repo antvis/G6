@@ -1,6 +1,6 @@
 import { resetEntityCounter } from '@antv/g';
-import { createContext } from './utils';
 import createEdge from '../demo/behaviors/create-edge';
+import { createContext } from './utils';
 import './utils/useSnapshotMatchers';
 
 describe('Create edge behavior', () => {

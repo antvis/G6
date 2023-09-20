@@ -7,7 +7,7 @@ import {
   PointLike,
   Rect,
   Cursor,
-} from '@antv/g'
+} from '@antv/g';
 import { GraphChange, ID } from '@antv/graphlib';
 import {
   clone,
