@@ -1,5 +1,5 @@
 import EventEmitter from '@antv/event-emitter';
-import { AABB, Canvas, DisplayObject, PointLike } from '@antv/g';
+import { AABB, Canvas, Cursor, DisplayObject, PointLike } from '@antv/g';
 import { GraphChange, ID } from '@antv/graphlib';
 import {
   clone,
@@ -1761,6 +1761,15 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    */
   public getMode(): string {
     return this.interactionController.getMode();
+  }
+
+  /**
+   * Set the cursor. But the cursor in item's style has higher priority.
+   * @param cursor
+   */
+  public setCursor(cursor: Cursor) {
+    this.canvas.setCursor(cursor);
+    this.transientCanvas.setCursor(cursor);
   }
 
   /**

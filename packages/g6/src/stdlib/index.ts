@@ -110,6 +110,7 @@ const stdLib = {
   },
   edges: {
     'line-edge': LineEdge,
+    'loop-edge': LoopEdge,
   },
   combos: {
     'circle-combo': CircleCombo,
@@ -248,6 +249,7 @@ const Extensions = {
   CollapseExpandCombo,
   DragNode,
   DragCombo,
+  CreateEdge,
   //plugins
   BasePlugin,
   History,

@@ -1,8 +1,20 @@
-import G6 from '../../../src/index';
+import { extend, Graph, Extensions } from '../../../src/index';
 import { TestCaseContext } from '../interface';
 
-export default (context: TestCaseContext) => {
-  return new G6.Graph({
+export default (context: TestCaseContext, options) => {
+  const createEdgeOptions = options || {
+    trigger: 'click',
+    edgeConfig: { keyShape: { stroke: '#f00' } },
+    createVirtualEventName: 'begincreate',
+    cancelCreateEventName: 'cancelcreate',
+  };
+  const ExtGraph = extend(Graph, {
+    behaviors: {
+      'create-edge': Extensions.CreateEdge,
+      'brush-select': Extensions.BrushSelect,
+    },
+  });
+  const graph = new ExtGraph({
     ...context,
     layout: {
       type: 'grid',
@@ -33,7 +45,24 @@ export default (context: TestCaseContext) => {
       ],
     },
     modes: {
-      default: [{ type: 'create-edge', trigger: 'click' }],
+      default: [
+        {
+          type: 'brush-select',
+          eventName: 'afterbrush',
+        },
+        {
+          type: 'create-edge',
+          ...createEdgeOptions,
+        },
+      ],
     },
   });
+
+  graph.on('begincreate', (e) => {
+    graph.setCursor('crosshair');
+  });
+  graph.on('cancelcreate', (e) => {
+    graph.setCursor('default');
+  });
+  return graph;
 };

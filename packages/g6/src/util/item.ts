@@ -1,12 +1,12 @@
 import { ID } from '@antv/graphlib';
 import { Group } from '@antv/g';
+import { uniqueId } from '@antv/util';
 import { IGraph } from '../types';
 import Combo from '../item/combo';
 import Edge from '../item/edge';
 import Node from '../item/node';
 import { GraphCore } from '../types/data';
 import { getCombinedBoundsByItem } from './shape';
-import { v4 as uuidv4 } from 'uuid';
 
 /**
  * Find the edges whose source and target are both in the ids.
@@ -144,5 +144,5 @@ export const upsertTransientItem = (
  * @returns
  */
 export function generateEdgeID(source: ID, target: ID) {
-  return [source, target, uuidv4()].join('->');
+  return [source, target, uniqueId()].join('->');
 }
