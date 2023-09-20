@@ -61,6 +61,7 @@ const {
   DragNode,
   DragCombo,
   ClickSelect,
+  CreateEdge,
   ShortcutsCall,
   ScrollCanvas,
 } = Behaviors;
@@ -122,6 +123,7 @@ const stdLib = {
     'zoom-canvas': ZoomCanvas,
     'drag-node': DragNode,
     'drag-combo': DragCombo,
+    'create-edge': CreateEdge,
     'collapse-expand-combo': CollapseExpandCombo,
     'collapse-expand-tree': CollapseExpandTree,
     'click-select': ClickSelect,
@@ -137,6 +139,7 @@ const stdLib = {
   },
   edges: {
     'line-edge': LineEdge,
+    'loop-edge': LoopEdge,
   },
   combos: {
     'circle-combo': CircleCombo,
@@ -271,6 +274,7 @@ const Extensions = {
   CollapseExpandCombo,
   DragNode,
   DragCombo,
+  CreateEdge,
   ShortcutsCall,
   // plugins
   BasePlugin,

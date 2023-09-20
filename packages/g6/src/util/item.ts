@@ -1,5 +1,6 @@
 import { ID } from '@antv/graphlib';
 import { Group } from '@antv/g';
+import { uniqueId } from '@antv/util';
 import { IGraph } from '../types';
 import Combo from '../item/combo';
 import Edge from '../item/edge';
@@ -159,3 +160,14 @@ export const upsertTransientItem = (
   }
   return transientItem;
 };
+
+/**
+ * generate unique edge id
+ * @todo consider edges with same source and target
+ * @param source
+ * @param target
+ * @returns
+ */
+export function generateEdgeID(source: ID, target: ID) {
+  return [source, target, uniqueId()].join('->');
+}

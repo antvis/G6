@@ -6,7 +6,8 @@ import {
   DisplayObject,
   PointLike,
   Rect,
-} from '@antv/g';
+  Cursor,
+} from '@antv/g'
 import { GraphChange, ID } from '@antv/graphlib';
 import {
   clone,
@@ -1082,6 +1083,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
 
     const { graphCore } = this.dataController;
     const { specification } = this.themeController;
+    // debugger;
     graphCore.once('changed', (event) => {
       if (!event.changes.length) return;
       const changes = event.changes;
@@ -1873,6 +1875,15 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    */
   public getMode(): string {
     return this.interactionController.getMode();
+  }
+
+  /**
+   * Set the cursor. But the cursor in item's style has higher priority.
+   * @param cursor
+   */
+  public setCursor(cursor: Cursor) {
+    this.canvas.setCursor(cursor);
+    this.transientCanvas.setCursor(cursor);
   }
 
   /**

@@ -1,5 +1,5 @@
 import EventEmitter from '@antv/event-emitter';
-import { AABB, Canvas, DisplayObject, PointLike } from '@antv/g';
+import { AABB, Canvas, Cursor, DisplayObject, PointLike } from '@antv/g';
 import { ID } from '@antv/graphlib';
 import { Command } from '../stdlib/plugin/history/command';
 import { Hooks } from '../types/hook';
@@ -601,6 +601,11 @@ export interface IGraph<
    * @group Interaction
    */
   getMode: () => string;
+  /**
+   * Set the cursor. But the cursor in item's style has higher priority.
+   * @param cursor
+   */
+  setCursor: (cursor: Cursor) => void;
   /**
    * Add behavior(s) to mode(s).
    * @param behaviors behavior names or configs
