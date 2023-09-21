@@ -52,7 +52,10 @@ export const distanceVec = (p1: vec2, p2: vec2): number => {
 export const distance = (p1: Point, p2: Point): number => {
   const vx = p1.x - p2.x;
   const vy = p1.y - p2.y;
-  return Math.sqrt(vx * vx + vy * vy);
+  const vz = p1.z - p2.z;
+  return isNaN(vz)
+    ? Math.sqrt(vx * vx + vy * vy)
+    : Math.sqrt(vx * vx + vy * vy + vz * vz);
 };
 
 /**
