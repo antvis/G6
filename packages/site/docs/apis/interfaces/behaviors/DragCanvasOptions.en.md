@@ -2,7 +2,7 @@
 title: DragCanvasOptions
 ---
 
-[Overview - v5.0.0-beta.8](../../README.en.md) / [Modules](../../modules.en.md) / [behaviors](../../modules/behaviors.en.md) / DragCanvasOptions
+[Overview - v5.0.0-beta.9](../../README.en.md) / [Modules](../../modules.en.md) / [behaviors](../../modules/behaviors.en.md) / DragCanvasOptions
 
 [behaviors](../../modules/behaviors.en.md).DragCanvasOptions
 

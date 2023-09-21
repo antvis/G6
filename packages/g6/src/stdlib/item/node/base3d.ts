@@ -21,6 +21,7 @@ export abstract class BaseNode3D extends BaseNode {
   themeStyles: NodeShapeStyles;
   mergedStyles: NodeShapeStyles;
   device: any; // for 3d renderer
+  dimensions: number = 3;
   constructor(props) {
     super(props);
     this.device = props.device;

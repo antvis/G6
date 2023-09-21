@@ -14,7 +14,6 @@ import {
   getRectIntersectByPoint,
 } from '../util/point';
 import { ComboModelData } from '../types/combo';
-import { isArraySame } from '../util/array';
 import Item from './item';
 
 interface IProps {
@@ -278,6 +277,7 @@ export default class Node extends Item {
       };
     });
 
+    console.log('anchorIdx', anchorIdx, anchorPositions, shapeType, innerPoint);
     if (anchorIdx !== undefined && anchorPositions[anchorIdx]) {
       return anchorPositions[anchorIdx];
     }
@@ -323,6 +323,7 @@ export default class Node extends Item {
     }
 
     let linkPoint = intersectPoint;
+    if (!isNaN(z)) linkPoint.z = z;
 
     // If the node has anchorPoints in the data, find the nearest anchor point.
     if (anchorPoints.length) {
@@ -334,7 +335,7 @@ export default class Node extends Item {
     }
     if (!linkPoint) {
       // If the calculations above are all failed, return the data's position
-      return { x, y };
+      return { x, y, z };
     }
     return linkPoint;
   }
@@ -342,7 +343,7 @@ export default class Node extends Item {
   public getPosition(): Point {
     const initiated =
       this.shapeMap.keyShape && this.group.attributes.x !== undefined;
-    if (initiated) {
+    if (initiated && this.renderExt.dimensions !== 3) {
       const { center } = this.shapeMap.keyShape.getRenderBounds();
       return { x: center[0], y: center[1], z: center[2] };
     }

@@ -2,7 +2,7 @@
 title: CustomNode3D
 ---
 
-[Overview - v5.0.0-beta.8](../../README.en.md) / [Modules](../../modules.en.md) / [item](../../modules/item.en.md) / CustomNode3D
+[Overview - v5.0.0-beta.9](../../README.en.md) / [Modules](../../modules.en.md) / [item](../../modules/item.en.md) / CustomNode3D
 
 [item](../../modules/item.en.md).CustomNode3D
 
