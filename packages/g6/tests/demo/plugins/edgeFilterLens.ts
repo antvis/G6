@@ -1,6 +1,7 @@
 import { Graph, Extensions, extend } from '../../../src/index';
+import { TestCaseContext } from '../interface';
 
-export default async () => {
+export default async (context: TestCaseContext) => {
   let trigger = 'mousemove';
   let filterLens = {
     type: 'filterLens',
@@ -100,6 +101,7 @@ export default async () => {
     },
   });
   const graph = new ExtGraph({
+    ...context,
     container: 'container',
     width,
     height: height,
@@ -188,7 +190,7 @@ export default async () => {
     graph.updatePlugin(filterLens);
   });
 
-  fetch('https://gw.alipayobjects.com/os/bmw-prod/afe8b2a6-f691-4070-aa73-46fc07fd1171.json')
+ await fetch('https://gw.alipayobjects.com/os/bmw-prod/afe8b2a6-f691-4070-aa73-46fc07fd1171.json')
     .then((res) => res.json())
     .then((data) => {
       data.edges.forEach((edge) => {
@@ -201,4 +203,6 @@ export default async () => {
       graph.read(data);
       graph.zoom(0.6);
     });
+
+  return graph;
 } 
