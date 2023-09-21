@@ -2,7 +2,7 @@
 title: CubeGeometryProps
 ---
 
-[Overview - v5.0.0-beta.9](../../README.en.md) / [Modules](../../modules.en.md) / [item](../../modules/item.en.md) / CubeGeometryProps
+[Overview - v5.0.0-beta.10](../../README.en.md) / [Modules](../../modules.en.md) / [item](../../modules/item.en.md) / CubeGeometryProps
 
 [item](../../modules/item.en.md).CubeGeometryProps
 

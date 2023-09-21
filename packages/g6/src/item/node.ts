@@ -1,4 +1,4 @@
-import { Circle, Group, Rect } from '@antv/g';
+import { Group } from '@antv/g';
 import { clone } from '@antv/util';
 import { Point } from '../types/common';
 import { ComboDisplayModel, ComboModel, NodeModel } from '../types';
@@ -323,7 +323,6 @@ export default class Node extends Item {
     }
 
     let linkPoint = intersectPoint;
-    if (!isNaN(z)) linkPoint.z = z;
 
     // If the node has anchorPoints in the data, find the nearest anchor point.
     if (anchorPoints.length) {
@@ -337,6 +336,7 @@ export default class Node extends Item {
       // If the calculations above are all failed, return the data's position
       return { x, y, z };
     }
+    if (!isNaN(z)) linkPoint.z = z;
     return linkPoint;
   }
 

@@ -2,7 +2,7 @@
 title: ActivateRelationsOptions
 ---
 
-[Overview - v5.0.0-beta.9](../../README.zh.md) / [Modules](../../modules.zh.md) / [behaviors](../../modules/behaviors.zh.md) / ActivateRelationsOptions
+[Overview - v5.0.0-beta.10](../../README.zh.md) / [Modules](../../modules.zh.md) / [behaviors](../../modules/behaviors.zh.md) / ActivateRelationsOptions
 
 [behaviors](../../modules/behaviors.zh.md).ActivateRelationsOptions
 

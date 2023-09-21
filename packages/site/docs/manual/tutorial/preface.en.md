@@ -52,7 +52,7 @@ Create a new index.html file and add the following code:
   </head>
   <body>
     <!-- Import G6 5.0 beta -->
-    <script src="https://gw.alipayobjects.com/os/lib/antv/g6/5.0.0-beta.9/dist/g6.min.js"></script>
+    <script src="https://gw.alipayobjects.com/os/lib/antv/g6/5.0.0-beta.10/dist/g6.min.js"></script>
 
     <script>
       console.log(G6);

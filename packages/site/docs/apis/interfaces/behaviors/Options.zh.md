@@ -2,7 +2,7 @@
 title: Options
 ---
 
-[概述-v5.0.0-beta.9]（../../ readme.zh.md）/[模块]（../../ modules.zh.md）/[capingiors]（../。 ./modules/behaviors.zh.md）/options
+[概述-v5.0.0-beta.10]（../../ readme.zh.md）/[模块]（../../ modules.zh.md）/[capingiors]（../。 ./modules/behaviors.zh.md）/options
 
 [行为]（../../模块/cravicy.zh.md）.options
 

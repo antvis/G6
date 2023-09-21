@@ -2,7 +2,7 @@
 title: RotateCanvas3DOptions
 ---
 
-[概述-v5.0.0-beta.9]（../../ readme.zh.md）/[模块]（../../ modules.zh.md）/[capingiors]（../。 ./modules/behaviors.zh.md）/rotatecanvas3doptions
+[概述-v5.0.0-beta.10]（../../ readme.zh.md）/[模块]（../../ modules.zh.md）/[capingiors]（../。 ./modules/behaviors.zh.md）/rotatecanvas3doptions
 
 [行为]（../../模块/cravuciors.zh.md）.rotatecanvas3doptions
 

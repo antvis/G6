@@ -21,7 +21,7 @@ order: 1
 **Step 1:** 使用命令行在项目目录下执行以下命令：
 
 ```bash
- npm install --save @antv/g6@5.0.0-beta.9
+ npm install --save @antv/g6@5.0.0-beta.10
 ```
 
 **Step 2:** 在需要用的 G6 的 JS 文件中导入：
@@ -39,7 +39,7 @@ import { Graph } from '@antv/g6';
 
 <span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ 注意:</strong></span>
 
-- 在  `{$version}` 中填写版本号，例如  `5.0.0-beta.9`；
+- 在  `{$version}` 中填写版本号，例如  `5.0.0-beta.10`；
 - 最新版可以在  <a href='https://www.npmjs.com/package/@antv/g6' target='_blank'>NPM</a>  查看最新版本及版本号；
 - 详情参考 Github 分支：<a href='https://github.com/antvis/g6/tree/v5' target='_blank'>https://github.com/antvis/g6/tree/v5</a>。
 
@@ -141,7 +141,7 @@ graph.read(data); // 读取 Step 2 中的数据源到图上
     <div id="container"></div>
 
     /* 引入 G6 */
-    <script src="https://gw.alipayobjects.com/os/lib/antv/g6/5.0.0-beta.9/dist/g6.min.js"></script>
+    <script src="https://gw.alipayobjects.com/os/lib/antv/g6/5.0.0-beta.10/dist/g6.min.js"></script>
 
     <script>
       // 定义数据源

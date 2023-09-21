@@ -2,7 +2,7 @@
 title: OrbitCanvas3DOptions
 ---
 
-[概述-v5.0.0-beta.9]（../../ readme.zh.md）/[模块]（../../ modules.zh.md）/[capingiors]（../。 ./modules/behaviors.zh.md）/orbitcanvas3doptions
+[概述-v5.0.0-beta.10]（../../ readme.zh.md）/[模块]（../../ modules.zh.md）/[capingiors]（../。 ./modules/behaviors.zh.md）/orbitcanvas3doptions
 
 [行为]（../../模块/bepand.zh.md）.orbitcanvas3doptions
 

@@ -2,7 +2,7 @@
 title: BrushSelectOptions
 ---
 
-[Overview - v5.0.0-beta.9](../../README.en.md) / [Modules](../../modules.en.md) / [behaviors](../../modules/behaviors.en.md) / BrushSelectOptions
+[Overview - v5.0.0-beta.10](../../README.en.md) / [Modules](../../modules.en.md) / [behaviors](../../modules/behaviors.en.md) / BrushSelectOptions
 
 [behaviors](../../modules/behaviors.en.md).BrushSelectOptions
 
