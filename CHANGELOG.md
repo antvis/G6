@@ -81,8 +81,8 @@
 - fix: image lost while updating the size for an image node, closes: #3938;
 
 ### 4.7.7
- 
- - feat: getContentPlaceholder and getTitlePlaceholder for Annotation plugin;
+
+- feat: getContentPlaceholder and getTitlePlaceholder for Annotation plugin;
 
 ### 4.7.6
 
@@ -93,9 +93,9 @@
 
 - perf: Annotation support updating positions for outside cards by calling updateOutsideCards;
 
- ### 4.7.4
-  
-  - perf: Annotation min-width and input width;
+### 4.7.4
+
+- perf: Annotation min-width and input width;
 
 ### 4.7.3
 
@@ -192,7 +192,7 @@
 
 - fix: destroyLayout error, closes: #3727;
 - fix: drag combo with stack problem, closes: #3699;
-- fix: updateLayout does not take effect if update layout with same type as graph instance configuration,  closes: #3706;
+- fix: updateLayout does not take effect if update layout with same type as graph instance configuration, closes: #3706;
 - fix: legendStateStyles typo, closes: #3705;
 - perf: zoom-canvas take the maximum and minimum values instead of return directly;
 - perf: minimap cursor move;
@@ -204,7 +204,6 @@
 
 - chore: improve the types of graph events;
 - fix: position animate considers origin attributes;
-
 
 #### 4.6.3
 
@@ -250,17 +249,16 @@
 
 - feat: translate graph with animation;
 - feat: zoom graph with animation;
-- feat: timebar supports filterItemTypes to configure the types of the graph items to be filtered; only nodes can be filtered before; 
+- feat: timebar supports filterItemTypes to configure the types of the graph items to be filtered; only nodes can be filtered before;
 - feat: timebar supports to configure the rotate of the tick labels by tickLabelStyle[dot]rotate;
 - feat: timebar supports container CSS configuration by containerCSS;
 - feat: timebar supports a function getDate to returns the date value according to each node or edge by user;
-- feat: timebar supports afunction getValue  to returns the value (for trend line of trend timebar) according to each node or edge by user;
+- feat: timebar supports afunction getValue to returns the value (for trend line of trend timebar) according to each node or edge by user;
 - feat: timebar supports to configure a boolean changeData to control the filter way, true means filters by graph[dot]changeData, false means filters by graph[dot]showItem and graph[dot]hideItem;
 - feat: timebar supports to configure a function shouldIgnore to return true or false by user to decide whether the node or the edge should be ignored while filtering;
 - fix: simple timebar silder text position strategy and expand the lineAppendWidth for the slider;
 - fix: edge label padding bug, closes: #3346;
 - fix: update node with iconfont icon, the icon is updated to a wrong position, closes: #3348;
-
 
 #### 4.5.0
 
@@ -312,7 +310,6 @@
 - fix: update node position with wrong position;
 - feat: enableStack for drag-node behavior, closes: #3128;
 
-
 #### 4.3.5
 
 - fix: drag a node without comboId by drag-node with onlyChangeComboSize;
@@ -326,7 +323,7 @@
 - fix: when select a node with click-select, selected combos should be deselected;
 - fix: contextmenu with click trigger does not show the menu up, closes: #2982;
 - fix: layout with collapsed combo, closes: #2988;
-- fix: zoom-canvas with optimizeZoom, drag-canvas shows the node shapes hiden by zoom-canvas optimizeZoom, closes: #2996; 
+- fix: zoom-canvas with optimizeZoom, drag-canvas shows the node shapes hiden by zoom-canvas optimizeZoom, closes: #2996;
 
 #### 4.3.3
 
@@ -406,6 +403,7 @@
 - feat: tooltip with trigger configuration, supports mouseenter and click;
 
 #### 4.2.0
+
 #### 4.1.14
 
 - fix: combo edge link position problem;
@@ -1057,7 +1055,7 @@
 - feat: collapse-expand tree support click and dblclick by trigger option
 - fix: drag group bug fix
 
-#### 3.0.5-beta.9
+#### 3.0.5-beta.10
 
 - feat: support render group
 - feat: support drag group, collapse and expand group, drag node in/out group
