@@ -277,7 +277,6 @@ export default class Node extends Item {
       };
     });
 
-    console.log('anchorIdx', anchorIdx, anchorPositions, shapeType, innerPoint);
     if (anchorIdx !== undefined && anchorPositions[anchorIdx]) {
       return anchorPositions[anchorIdx];
     }
