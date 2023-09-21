@@ -269,9 +269,8 @@ export default class Node extends Item {
     const keyShapeWidth = keyShapeRenderBBox.max[0] - keyShapeRenderBBox.min[0];
     const keyShapeHeight =
       keyShapeRenderBBox.max[1] - keyShapeRenderBBox.min[1];
-    const keyShapeDepth = keyShapeRenderBBox.max[2] - keyShapeRenderBBox.min[2];
     const anchorPositions = anchorPoints.map((pointRatio) => {
-      const [xRatio, yRatio, zRatio] = pointRatio;
+      const [xRatio, yRatio] = pointRatio;
       return {
         x: keyShapeWidth * xRatio + keyShapeRenderBBox.min[0],
         y: keyShapeHeight * yRatio + keyShapeRenderBBox.min[1],
