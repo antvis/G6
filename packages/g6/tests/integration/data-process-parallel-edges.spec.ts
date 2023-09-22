@@ -50,6 +50,30 @@ describe('Items edge line', () => {
         'data-parallel-edges-loop',
       );
 
+      graph.addData('edge', [
+        {
+          id: `new-edge-1`,
+          source: 'node1',
+          target: 'node2',
+          data: {
+            label: `1th updated edge of A -> A`,
+          },
+        },
+        {
+          id: `new-edge-2`,
+          source: 'node1',
+          target: 'node2',
+          data: {
+            label: `2th updated edge of A -> A`,
+          },
+        },
+      ]);
+
+      await expect(canvas).toMatchCanvasSnapshot(
+        dir,
+        'data-parallel-edges-add-edges',
+      );
+
       graph.destroy();
       done();
     });

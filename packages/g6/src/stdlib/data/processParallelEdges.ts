@@ -1,6 +1,9 @@
 import { filter, mix } from '@antv/util';
+import { Edge } from '@antv/graphlib';
 import { loopPosition } from '../../util/loop';
-import { GraphData, EdgeUserModel, ID } from '../../types';
+import { GraphData, EdgeUserModel, ID, GraphCore } from '../../types';
+import { uniqBy } from '../../util/array';
+import { EdgeUserModelData } from '../../types/edge';
 
 /**
  * Process edges which might overlap. For edges that share the same target and source nodes.
@@ -21,6 +24,7 @@ export const ProcessParallelEdges = (
     singleEdgeType?: string;
     loopEdgeType?: string;
   } = {},
+  graphCore?: GraphCore,
 ): GraphData => {
   const {
     edgeIds = [],
@@ -29,10 +33,37 @@ export const ProcessParallelEdges = (
     singleEdgeType = undefined,
     loopEdgeType = undefined,
   } = options;
-  const edges =
+  let edges =
     edgeIds.length > 0
       ? filter(data.edges, (edge) => edgeIds.includes(edge.id))
       : data.edges;
+
+  if (graphCore) {
+    const prevEdges = graphCore.getAllEdges();
+
+    const getPrevParallelEdges = (
+      edgeModel: EdgeUserModel,
+      prevEdges: Edge<EdgeUserModelData>[],
+    ) => {
+      const { id, source, target } = edgeModel;
+      return filter(prevEdges, (edge) => {
+        return (
+          (edge.id !== id &&
+            edge.source === source &&
+            edge.target === target) ||
+          (edge.source === target && edge.target === source)
+        );
+      });
+    };
+
+    edges.forEach((newModel) => {
+      const prevParallelEdges = getPrevParallelEdges(newModel, prevEdges);
+      edges = [...edges, ...prevParallelEdges];
+    });
+
+    edges = uniqBy(edges, 'id');
+  }
+
   const len = edges.length;
   const cod = offsetDiff * 2;
 
