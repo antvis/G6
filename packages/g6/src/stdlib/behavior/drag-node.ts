@@ -589,8 +589,8 @@ export class DragNode extends Behavior {
     this.clearState();
   }
 
-  public onDropNode(event: IG6GraphEvent) {
-    const elements = this.graph.canvas.document.elementsFromPointSync(
+  public async onDropNode(event: IG6GraphEvent) {
+    const elements = await this.graph.canvas.document.elementsFromPoint(
       event.canvas.x,
       event.canvas.y,
     );
@@ -640,8 +640,8 @@ export class DragNode extends Behavior {
     this.graph.stopHistoryBatch();
   }
 
-  public onDropCanvas(event: IG6GraphEvent) {
-    const elements = this.graph.canvas.document.elementsFromPointSync(
+  public async onDropCanvas(event: IG6GraphEvent) {
+    const elements = await this.graph.canvas.document.elementsFromPoint(
       event.canvas.x,
       event.canvas.y,
     );

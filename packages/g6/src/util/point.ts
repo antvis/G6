@@ -52,7 +52,10 @@ export const distanceVec = (p1: vec2, p2: vec2): number => {
 export const distance = (p1: Point, p2: Point): number => {
   const vx = p1.x - p2.x;
   const vy = p1.y - p2.y;
-  return Math.sqrt(vx * vx + vy * vy);
+  const vz = p1.z - p2.z;
+  return isNaN(vz)
+    ? Math.sqrt(vx * vx + vy * vy)
+    : Math.sqrt(vx * vx + vy * vy + vz * vz);
 };
 
 /**
@@ -61,8 +64,10 @@ export const distance = (p1: Point, p2: Point): number => {
  * @param p2
  * @returns
  */
-export const isSamePoint = (p1: Point, p2: Point): boolean =>
-  p1.x === p2.x && p1.y === p2.y && p1.z === p2.z;
+export const isSamePoint = (p1: Point, p2: Point): boolean => {
+  if (!p1 || !p2) return false;
+  return p1.x === p2.x && p1.y === p2.y && p1.z === p2.z;
+};
 
 /**
  * Get point and circle intersect point.

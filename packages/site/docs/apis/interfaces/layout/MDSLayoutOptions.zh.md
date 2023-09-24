@@ -4,7 +4,7 @@ title: MDSLayoutOptions
 
 > 📋 中文文档还在翻译中... 欢迎 PR
 
-[Overview - v5.0.0-beta.5](../../README.zh.md) / [Modules](../../modules.zh.md) / [layout](../../modules/layout.zh.md) / MDSLayoutOptions
+[Overview - v5.0.0-beta.11](../../README.zh.md) / [Modules](../../modules.zh.md) / [layout](../../modules/layout.zh.md) / MDSLayoutOptions
 
 [layout](../../modules/layout.zh.md).MDSLayoutOptions
 

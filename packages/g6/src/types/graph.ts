@@ -1,5 +1,5 @@
 import EventEmitter from '@antv/event-emitter';
-import { AABB, Canvas, DisplayObject, PointLike } from '@antv/g';
+import { AABB, Canvas, Cursor, DisplayObject, PointLike } from '@antv/g';
 import { ID } from '@antv/graphlib';
 import { Command } from '../stdlib/plugin/history/command';
 import { Hooks } from '../types/hook';
@@ -36,7 +36,7 @@ export interface IGraph<
    * @returns
    * @group Graph Instance
    */
-  destroy: (callback?: Function) => void;
+  destroy: (callback?: () => void) => void;
   /**
    * Update the specs (configurations).
    */
@@ -395,8 +395,8 @@ export interface IGraph<
    */
   fitView: (
     options?: {
-      padding: Padding;
-      rules: FitViewRules;
+      padding?: Padding;
+      rules?: FitViewRules;
     },
     effectTiming?: CameraAnimationOptions,
   ) => Promise<void>;
@@ -406,7 +406,10 @@ export interface IGraph<
    * @returns
    * @group View
    */
-  fitCenter: (effectTiming?: CameraAnimationOptions) => Promise<void>;
+  fitCenter: (
+    boundsType?: 'render' | 'layout',
+    effectTiming?: CameraAnimationOptions,
+  ) => Promise<void>;
   /**
    * Move the graph to make the item align the view center.
    * @param item node/edge/combo item or its id
@@ -601,6 +604,11 @@ export interface IGraph<
    * @group Interaction
    */
   getMode: () => string;
+  /**
+   * Set the cursor. But the cursor in item's style has higher priority.
+   * @param cursor
+   */
+  setCursor: (cursor: Cursor) => void;
   /**
    * Add behavior(s) to mode(s).
    * @param behaviors behavior names or configs

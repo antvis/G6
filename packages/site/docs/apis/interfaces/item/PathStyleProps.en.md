@@ -2,7 +2,7 @@
 title: PathStyleProps
 ---
 
-[Overview - v5.0.0-beta.5](../../README.en.md) / [Modules](../../modules.en.md) / [item](../../modules/item.en.md) / PathStyleProps
+[Overview - v5.0.0-beta.11](../../README.en.md) / [Modules](../../modules.en.md) / [item](../../modules/item.en.md) / PathStyleProps
 
 [item](../../modules/item.en.md).PathStyleProps
 

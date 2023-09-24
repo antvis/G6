@@ -1,0 +1,32 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+      "filename": "dragCanvas.js",
+      "title": {
+        "zh": "拖拽画布",
+        "en": "Drag Canvas"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*0f81RI8DTF0AAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "scrollBoth.js",
+      "title": {
+        "zh": "双向滚动画布",
+        "en": "Scroll Canvas"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*VoBZR7Z62KEAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "scrollY.js",
+      "title": {
+        "zh": "Y 轴滚动画布",
+        "en": "Scroll Canvas alone Y-asix"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*c5DCSoAYsZQAAAAAAAAAAAAADmJ7AQ/original"
+    }
+  ]
+}

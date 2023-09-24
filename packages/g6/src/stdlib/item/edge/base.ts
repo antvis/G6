@@ -686,12 +686,9 @@ export abstract class BaseEdge {
       resultStyle[`${markerField}Offset`] = 0;
       return;
     }
-    let arrowStyle = {} as ArrowStyle;
-    if (isBoolean(arrowConfig)) {
-      arrowStyle = { ...DEFAULT_ARROW_CONFIG } as ArrowStyle;
-    } else {
-      arrowStyle = arrowConfig;
-    }
+    const arrowStyle = isBoolean(arrowConfig)
+      ? ({ ...DEFAULT_ARROW_CONFIG } as ArrowStyle)
+      : arrowConfig;
     const {
       type = 'triangle',
       width = 10,
@@ -700,14 +697,13 @@ export abstract class BaseEdge {
       offset = 0,
       ...others
     } = arrowStyle;
-    const path = propPath ? propPath : getArrowPath(type, width, height);
     resultStyle[markerField] = this.upsertShape(
       'path',
       `${markerField}Shape`,
       {
         ...bodyStyle,
         fill: type === 'simple' ? '' : bodyStyle.stroke,
-        path,
+        path: propPath || getArrowPath(type, width, height),
         anchor: '0.5 0.5',
         transformOrigin: 'center',
         ...others,
