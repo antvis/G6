@@ -49,6 +49,7 @@ export type {
   LayoutOptions,
   StandardLayoutOptions,
 } from './layout';
-export type { Plugin as PluginBase } from './plugin';
+export type { IPluginBaseConfig } from './plugin';
+export { Plugin as PluginBase } from './plugin';
 export type { Specification } from './spec';
 export type { ThemeSpecification } from './theme';

@@ -69,12 +69,14 @@ import watermarker from './plugins/watermarker';
 import cube from './item/node/cube';
 import graphCore from './data/graphCore';
 import dagreUpdate from './layouts/dagre-update';
+import map from './plugins/map';
 
 export { default as timebar_time } from './plugins/timebar-time';
 export { default as timebar_chart } from './plugins/timebar-chart';
 
 export {
   minimap,
+  map,
   mapper,
   anchor,
   animations_node_build_in,
