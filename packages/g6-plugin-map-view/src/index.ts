@@ -1,8 +1,7 @@
-// TODO: update type define.
 import { Scene, LineLayer, PointLayer } from '@antv/l7';
 import { GaodeMap } from '@antv/l7-maps';
 import { createDom, modifyCSS } from '@antv/dom-util';
-import { isArray, isString, uniqueId } from '@antv/util';
+import { debounce, isArray, isString, uniqueId } from '@antv/util';
 import { IGraph, PluginBase, IPluginBaseConfig } from '@antv/g6';
 
 export interface MapViewConfig extends IPluginBaseConfig {
@@ -28,7 +27,7 @@ export interface MapViewConfig extends IPluginBaseConfig {
   brushKey?: string;
   /** The initial zoom of the map. */
   initialMapZoom?: number;
-  /** The initial view center of the map. */
+  /** The initial view center of the map. Initially focus on China.*/
   initialMapCenter?: [number, number];
   /** The css style of the brush DOM. */
   brushCSS?: Partial<CSSStyleDeclaration>;
@@ -81,8 +80,6 @@ export class MapView extends PluginBase {
       afterrender: this.updateMap,
       afteritemchange: this.updateMap,
       afteritemstatechange: this.updateMapState,
-      // TODO: is it neccessary? since drag-node will hide nodes and draw transients
-      // afteritemvisibilitychange: this.updateVisibility,
     };
   }
 
@@ -347,7 +344,7 @@ export class MapView extends PluginBase {
     }
   }
 
-  private updateMap(e: any = {}) {
+  private updateMap = debounce((e: any = {}) => {
     const { action } = e;
     if (action === 'updatePosition') return;
     const { graph, options, inited } = this;
@@ -428,7 +425,7 @@ export class MapView extends PluginBase {
     this.lineLayer.setData(lines);
     this.pointLayer.setData(points);
     this.labelLayer.setData(labels);
-  }
+  }, 50);
 
   private updateMapState(e) {
     const { ids, value, states } = e;
