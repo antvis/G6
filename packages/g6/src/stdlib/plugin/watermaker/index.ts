@@ -1,6 +1,6 @@
 import { uniqueId, deepMix, isString } from '@antv/util';
 import { createDom, modifyCSS } from '@antv/dom-util';
-import { Canvas } from '@antv/g';
+import { Canvas, CanvasLike } from '@antv/g';
 import { Plugin as Base, IPluginBaseConfig } from '../../../types/plugin';
 import { createCanvas } from '../../../util/canvas';
 import { IGraph } from 'types';
@@ -51,6 +51,8 @@ export interface WaterMarkerConfig extends IPluginBaseConfig {
   height?: number;
   /** (Optional) The mode of the watermark, either 'image' or 'text'. */
   mode?: 'image' | 'text';
+  /** (Optional) The position of the watermark, default: under the main canvas*/
+  position?: 'top' | 'mid' | 'bottom';
   /** (Optional) Configuration for an image watermark (See ImageWaterMarkerConfig). */
   image?: ImageWaterMarkerConfig;
   /** (Optional) Configuration for a text watermark (See TextWaterMarkerConfig). */
@@ -73,6 +75,7 @@ export class WaterMarker extends Base {
       mode: 'image',
       width: 150,
       height: 100,
+      position: 'bottom',
       image: {
         imgURL:
           'https://gw.alipayobjects.com/os/s/prod/antv/assets/image/logo-with-text-73b8a.svg',
@@ -155,7 +158,7 @@ export class WaterMarker extends Base {
    */
   public setImageWaterMarker() {
     const { container, canvas, options } = this;
-    const { className, image } = options;
+    const { className, image, position } = options;
     const { imgURL, x, y, width, height, rotate } = image;
 
     if (canvas) canvas.destroy();
@@ -183,7 +186,30 @@ export class WaterMarker extends Base {
       }
       if (canvas) {
         box.style.cssText = `background-image: url(${dataURL});background-repeat:repeat;position:absolute;top:0;bottom:0;left:0;right:0;pointer-events:none;`;
-        container.appendChild(box);
+        let canvas = this.graph.canvas.getContextService().getDomElement() as any;
+        let transientCanvas = this.graph.transientCanvas
+          .getContextService()
+          .getDomElement() as any;
+        container.removeChild(canvas);
+        container.removeChild(transientCanvas);
+        switch (position) {
+          case 'top':
+            container.appendChild(canvas);
+            container.appendChild(transientCanvas);
+            container.appendChild(box);
+            break;
+          case 'mid':
+            container.appendChild(canvas);
+            container.appendChild(box);
+            container.appendChild(transientCanvas);
+            break;
+          case 'bottom':
+          default:
+            container.appendChild(box);
+            container.appendChild(canvas);
+            container.appendChild(transientCanvas);
+            break;
+        }
       }
     };
   }
@@ -193,7 +219,7 @@ export class WaterMarker extends Base {
    */
   public async setTextWaterMarker() {
     const { container, canvas, options } = this;
-    const { text, className } = options;
+    const { text, className, position } = options;
     const {
       rotate,
       fill,
@@ -230,8 +256,33 @@ export class WaterMarker extends Base {
       box = document.createElement('div');
       box.className = className;
     }
-    box.style.cssText = `background-image: url(${dataURL});background-repeat:repeat;position:absolute;top:0;bottom:0;left:0;right:0;pointer-events:none;`;
-    container.appendChild(box);
+    if(canvas){
+      box.style.cssText = `background-image: url(${dataURL});background-repeat:repeat;position:absolute;top:0;bottom:0;left:0;right:0;pointer-events:none;`;
+      let canvas = this.graph.canvas.getContextService().getDomElement() as any;
+      let transientCanvas = this.graph.transientCanvas
+        .getContextService()
+        .getDomElement() as any;
+      container.removeChild(canvas);
+      container.removeChild(transientCanvas);
+      switch (position) {
+        case 'top':
+          container.appendChild(canvas);
+          container.appendChild(transientCanvas);
+          container.appendChild(box);
+          break;
+        case 'mid':
+          container.appendChild(canvas);
+          container.appendChild(box);
+          container.appendChild(transientCanvas);
+          break;
+        case 'bottom':
+        default:
+          container.appendChild(box);
+          container.appendChild(canvas);
+          container.appendChild(transientCanvas);
+          break;
+      }
+    }
   }
 
   /**
