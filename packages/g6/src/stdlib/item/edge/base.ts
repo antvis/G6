@@ -289,9 +289,10 @@ export abstract class BaseEdge {
       const pointOffset = (keyShape as Line | Polyline).getPoint(
         positionPreset.pointRatio[1],
       );
-      const angle = Math.atan(
+      let angle = Math.atan(
         (point.y - pointOffset.y) / (point.x - pointOffset.x),
-      ); // TODO: NaN
+      );
+      if (isNaN(angle)) angle = 0;
 
       // revert
       isRevert = pointOffset.x < point.x;
@@ -331,6 +332,7 @@ export abstract class BaseEdge {
       maxWidth,
       this.zoomCache.zoom,
     );
+    this.zoomCache.wordWrapWidth = wordWrapWidth;
     const style = {
       ...this.defaultStyles.labelShape,
       textAlign: positionPreset.textAlign,
@@ -339,6 +341,7 @@ export abstract class BaseEdge {
       ...positionStyle,
       ...otherStyle,
     };
+    this.boundsCache.labelShapeTransform = style.transform;
     return this.upsertShape('text', 'labelShape', style, shapeMap, model);
   }
 
