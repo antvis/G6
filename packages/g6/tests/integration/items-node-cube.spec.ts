@@ -1,7 +1,7 @@
 import { resetEntityCounter } from '@antv/g';
 import cube from '../demo/item/node/cube'
 import './utils/useSnapshotMatchers';
-import { createContext } from './utils';
+import { createContext, sleep } from './utils';
 
 describe('Items node cube', () => {
   beforeEach(() => {
@@ -27,7 +27,8 @@ describe('Items node cube', () => {
       renderer: 'webgl-3d',
     });
 
-    graph.on('afterrender', async () => {
+    graph.on('afterlayout', async () => {
+      await sleep(300);
       await expect(canvas).toMatchWebGLSnapshot(dir, 'items-node-cube');
       graph.destroy();
       done();
