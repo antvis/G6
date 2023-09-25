@@ -334,9 +334,7 @@ export class EdgeFilterLens extends Base {
    */
   public clear() {
     const { graph, delegate: lensDelegate, cachedTransientNodes, cachedTransientEdges } = this;
-    cachedTransientNodes.clear();
-    cachedTransientEdges.clear();
-
+    
     if (lensDelegate && !lensDelegate.destroyed) {
       graph.drawTransient('circle', 'lens-shape', { action: 'remove' });
     }
@@ -346,6 +344,9 @@ export class EdgeFilterLens extends Base {
     cachedTransientEdges.forEach((id) => {
       graph.drawTransient('edge', id, { action: 'remove' });
     });
+
+    cachedTransientNodes.clear();
+    cachedTransientEdges.clear();
   }
 
   /**
