@@ -1,14 +1,17 @@
 import { Graph, Extensions, extend } from '../../../src/index';
 import { TestCaseContext } from '../interface';
+import data from '../../datasets/force-data.json';
+import { clone } from '@antv/util';
 
-export default async (context: TestCaseContext) => {
-  let trigger = 'mousemove';
+export default (context: TestCaseContext, options = {}) => {
+  const trigger = 'mousemove';
   let filterLens = {
     type: 'filterLens',
     key: 'filterLens1',
     trigger,
     showLabel: 'edge',
     r: 140,
+    ...options,
   };
 
   // ================= The DOMs for configurations =============== //
@@ -22,7 +25,8 @@ export default async (context: TestCaseContext) => {
 
   // tip
   const tip = document.createElement('span');
-  tip.innerHTML = '点击画布任意位置开始探索。过滤镜中显示两端节点均在过滤镜中的边。';
+  tip.innerHTML =
+    '点击画布任意位置开始探索。过滤镜中显示两端节点均在过滤镜中的边。';
   buttonContainer.appendChild(tip);
 
   buttonContainer.appendChild(document.createElement('br'));
@@ -91,9 +95,6 @@ export default async (context: TestCaseContext) => {
   graphDiv.parentNode.appendChild(buttonContainer);
 
   // ========================================================= //
-  const container = document.getElementById('container');
-  const width = container.scrollWidth;
-  const height = container.scrollHeight || 500;
 
   const ExtGraph = extend(Graph, {
     plugins: {
@@ -102,15 +103,9 @@ export default async (context: TestCaseContext) => {
   });
   const graph = new ExtGraph({
     ...context,
-    container: 'container',
-    width,
-    height: height,
     layout: {
-      type: 'force',
-      rankdir: 'LR',
-      align: 'DL',
-      nodesepFunc: () => 1,
-      ranksepFunc: () => 1,
+      type: 'grid',
+      begin: [0, 0],
     },
     plugins: [filterLens],
     node: (innerModel) => {
@@ -134,8 +129,8 @@ export default async (context: TestCaseContext) => {
             text: innerModel.data.label,
             lod: 1, // 图的缩放大于 levels 第一层定义的 zoomRange[0] 时展示，小于时隐藏
           },
-        }
-      }
+        },
+      };
     },
     edge: (innerModel) => {
       return {
@@ -156,10 +151,11 @@ export default async (context: TestCaseContext) => {
           },
           labelShape: {
             text: innerModel.data.label,
+            maxWidth: '100%',
             lod: 1, // 图的缩放大于 levels 第一层定义的 zoomRange[0] 时展示，小于时隐藏
           },
-        }
-      }
+        },
+      };
     },
     modes: {
       // default: ['drag-canvas',],
@@ -178,31 +174,22 @@ export default async (context: TestCaseContext) => {
   configScaleRBy.addEventListener('change', (e) => {
     filterLens = {
       ...filterLens,
-      scaleRBy: e.target.value
-    }
+      scaleRBy: e.target.value,
+    };
     graph.updatePlugin(filterLens);
   });
   configTrigger.addEventListener('change', (e) => {
     filterLens = {
       ...filterLens,
-      trigger: e.target.value
-    }
+      trigger: e.target.value,
+    };
     graph.updatePlugin(filterLens);
   });
 
- await fetch('https://gw.alipayobjects.com/os/bmw-prod/afe8b2a6-f691-4070-aa73-46fc07fd1171.json')
-    .then((res) => res.json())
-    .then((data) => {
-      data.edges.forEach((edge) => {
-        edge.id = edge.source + '-' + edge.target;
-        edge.data = {
-          label: 'a'
-        };
-      });
-
-      graph.read(data);
-      graph.zoom(0.6);
-    });
+  const cloneData = clone(data);
+  cloneData.edges.forEach((edge) => (edge.data = { label: edge.id }));
+  graph.read(cloneData);
+  graph.zoom(0.6);
 
   return graph;
-} 
+};
