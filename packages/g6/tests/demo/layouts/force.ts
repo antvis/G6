@@ -512,10 +512,8 @@ const data = {
   ],
 };
 export default (context: TestCaseContext) => {
-  const { width, height } = context;
   const graph = new G6.Graph({
     ...context,
-    type: 'graph',
     data: JSON.parse(JSON.stringify(data)),
     node: {
       lodStrategy: {},
