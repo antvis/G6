@@ -289,9 +289,10 @@ export abstract class BaseEdge {
       const pointOffset = (keyShape as Line | Polyline).getPoint(
         positionPreset.pointRatio[1],
       );
-      const angle = Math.atan(
+      let angle = Math.atan(
         (point.y - pointOffset.y) / (point.x - pointOffset.x),
-      ); // TODO: NaN
+      );
+      if (isNaN(angle)) angle = 0;
 
       // revert
       isRevert = pointOffset.x < point.x;
@@ -331,6 +332,7 @@ export abstract class BaseEdge {
       maxWidth,
       this.zoomCache.zoom,
     );
+    this.zoomCache.wordWrapWidth = wordWrapWidth;
     const style = {
       ...this.defaultStyles.labelShape,
       textAlign: positionPreset.textAlign,
@@ -339,6 +341,7 @@ export abstract class BaseEdge {
       ...positionStyle,
       ...otherStyle,
     };
+    this.boundsCache.labelShapeTransform = style.transform;
     return this.upsertShape('text', 'labelShape', style, shapeMap, model);
   }
 
@@ -686,12 +689,9 @@ export abstract class BaseEdge {
       resultStyle[`${markerField}Offset`] = 0;
       return;
     }
-    let arrowStyle = {} as ArrowStyle;
-    if (isBoolean(arrowConfig)) {
-      arrowStyle = { ...DEFAULT_ARROW_CONFIG } as ArrowStyle;
-    } else {
-      arrowStyle = arrowConfig;
-    }
+    const arrowStyle = isBoolean(arrowConfig)
+      ? ({ ...DEFAULT_ARROW_CONFIG } as ArrowStyle)
+      : arrowConfig;
     const {
       type = 'triangle',
       width = 10,
@@ -700,14 +700,13 @@ export abstract class BaseEdge {
       offset = 0,
       ...others
     } = arrowStyle;
-    const path = propPath ? propPath : getArrowPath(type, width, height);
     resultStyle[markerField] = this.upsertShape(
       'path',
       `${markerField}Shape`,
       {
         ...bodyStyle,
         fill: type === 'simple' ? '' : bodyStyle.stroke,
-        path,
+        path: propPath || getArrowPath(type, width, height),
         anchor: '0.5 0.5',
         transformOrigin: 'center',
         ...others,

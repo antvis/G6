@@ -1,8 +1,13 @@
-import G6 from '../../../src/index';
+import { extend, Extensions, Graph } from '../../../src/index';
 import { TestCaseContext } from '../interface';
 
 export default (context: TestCaseContext) => {
-  return new G6.Graph({
+  const ExtGraph = extend(Graph, {
+    behaviors: {
+      'scroll-canvas': Extensions.ScrollCanvas,
+    },
+  });
+  return new ExtGraph({
     ...context,
     type: 'graph',
     layout: {

@@ -2,7 +2,7 @@
 title: RadialLayoutOptions
 ---
 
-[Overview - v5.0.0-beta.4](../../README.en.md) / [Modules](../../modules.en.md) / [layout](../../modules/layout.en.md) / RadialLayoutOptions
+[Overview - v5.0.0-beta.11](../../README.en.md) / [Modules](../../modules.en.md) / [layout](../../modules/layout.en.md) / RadialLayoutOptions
 
 [layout](../../modules/layout.en.md).RadialLayoutOptions
 

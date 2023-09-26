@@ -1759,11 +1759,6 @@ const nodes = data.nodes.map((node) => {
     // @ts-ignore
     node.data.cluster = 0;
   }
-  node.data.layout = {
-    id: node.id,
-    x: node.data.x,
-    y: node.data.y,
-  };
   return node;
 });
 
@@ -2116,7 +2111,7 @@ const createGraph = async () => {
             ],
             show: [
               {
-                fields: ['size'],
+                fields: ['transform'],
                 duration: 200,
               },
               {
@@ -2238,5 +2233,6 @@ export default async () => {
       graph.destroy();
     }
   });
+
   return graph;
 };

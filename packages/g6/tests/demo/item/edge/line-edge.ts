@@ -24,7 +24,12 @@ const defaultData = {
       id: 'edge1',
       source: 'node1',
       target: 'node2',
-      data: {},
+      data: {
+        keyShape: {
+          stroke: '#f00',
+          lineDash: [2, 2],
+        },
+      },
       edgeState: {
         selected: {
           keyShape: {
@@ -225,7 +230,7 @@ export default (context: TestCaseContext) => {
     },
   });
   // 2.create graph
-  graph = new ExtGraph({
+  graph = new Graph({
     ...context,
     data: defaultData,
     modes: {

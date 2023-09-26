@@ -43,27 +43,45 @@ export class ItemDataCommand implements Command {
     operationType: StackType,
     onlyMove = false,
   ) {
-    let models;
+    const modelMap = new Map();
     if (this.type === 'combo' && !onlyMove) {
-      models = this.changes.map((data) => ({
-        id: data.nodeId,
-        data: {
-          parentId: STACK_TYPE.undo ? data.oldParentId : data.newParentId,
-        },
-      }));
+      this.changes.forEach((data) => {
+        const model = modelMap.get(data.nodeId) || {};
+        modelMap.set(data.nodeId, {
+          id: data.nodeId,
+          data: {
+            ...model.data,
+            parentId: STACK_TYPE.undo ? data.oldParentId : data.newParentId,
+          },
+        });
+      });
     } else {
-      models = this.changes.map((data) => {
-        return {
+      this.changes.forEach((data) => {
+        const value =
+          operationType === STACK_TYPE.undo ? data.oldValue : data.newValue;
+        if (
+          (typeof value === 'number' && isNaN(value)) ||
+          (['x', 'y'].includes(data.propertyName) && value === undefined)
+        ) {
+          return;
+        }
+
+        const model = modelMap.get(data.nodeId) || {};
+        modelMap.set(data.id, {
           id: data.id,
-          data:
-            operationType === STACK_TYPE.undo ? data.oldValue : data.newValue,
-        };
+          data: {
+            ...model.data,
+            [data.propertyName]: value,
+          },
+        });
       });
     }
 
     graph.pauseStack();
+    const models = Array.from(modelMap.values());
     if (onlyMove) {
-      graph.updatePosition(this.type, models, this.upsertAncestors);
+      // No matter it is node or combo, update the nodes' positions
+      graph.updateNodePosition(models, this.upsertAncestors);
     } else {
       graph.updateData(this.type, models);
     }

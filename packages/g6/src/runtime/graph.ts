@@ -6,6 +6,7 @@ import {
   DisplayObject,
   PointLike,
   Rect,
+  Cursor,
 } from '@antv/g';
 import { GraphChange, ID } from '@antv/graphlib';
 import {
@@ -20,6 +21,7 @@ import {
   isString,
   map,
 } from '@antv/util';
+import { createDom } from '@antv/dom-util';
 import { History } from '../stdlib/plugin/history';
 import { Command } from '../stdlib/plugin/history/command';
 import type {
@@ -54,6 +56,7 @@ import type {
 import { FitViewRules, GraphTransformOptions } from '../types/view';
 import { changeRenderer, createCanvas } from '../util/canvas';
 import { formatPadding } from '../util/shape';
+import { getLayoutBounds } from '../util/layout';
 import { Plugin as PluginBase } from '../types/plugin';
 import { ComboMapper, EdgeMapper, NodeMapper } from '../types/spec';
 import {
@@ -67,7 +70,6 @@ import {
 } from './controller';
 import { PluginController } from './controller/plugin';
 import Hook from './hooks';
-import { createDom } from '@antv/dom-util';
 
 export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
   extends EventEmitter
@@ -375,12 +377,14 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
 
   private formatSpecification(spec: Specification<B, T>) {
     return {
+      ...this.specification,
       ...spec,
       optimize: {
         tileBehavior: 2000,
         tileBehaviorSize: 1000,
         tileFirstRender: 10000,
         tileFirstRenderSize: 1000,
+        ...this.specification?.optimize,
         ...spec.optimize,
       },
     };
@@ -478,15 +482,28 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
         const { autoFit } = this.specification;
         if (autoFit) {
           if (autoFit === 'view') {
-            await this.fitView();
+            await this.fitView({ rules: { boundsType: 'layout' } });
           } else if (autoFit === 'center') {
-            await this.fitCenter();
+            await this.fitCenter('layout');
           } else {
             const { type, effectTiming, ...others } = autoFit;
             if (type === 'view') {
-              await this.fitView(others as any, effectTiming);
+              const { padding, rules } = others as {
+                padding: Padding;
+                rules: FitViewRules;
+              };
+              await this.fitView(
+                {
+                  padding,
+                  rules: {
+                    ...rules,
+                    boundsType: 'layout',
+                  },
+                },
+                effectTiming,
+              );
             } else if (type === 'center') {
-              await this.fitCenter(effectTiming);
+              await this.fitCenter('layout', effectTiming);
             } else if (type === 'position') {
               // TODO: align
               await this.translateTo((others as any).position, effectTiming);
@@ -712,8 +729,8 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    */
   public async fitView(
     options?: {
-      padding: Padding;
-      rules: FitViewRules;
+      padding?: Padding;
+      rules?: FitViewRules;
     },
     effectTiming?: CameraAnimationOptions,
   ) {
@@ -721,13 +738,21 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     const [top, right, bottom, left] = padding
       ? formatPadding(padding)
       : [0, 0, 0, 0];
-    const { direction = 'both', ratioRule = 'min' } = rules || {};
+    const {
+      direction = 'both',
+      ratioRule = 'min',
+      boundsType = 'render',
+    } = rules || {};
 
-    // Get the bounds of the whole graph.
     const {
       center: [graphCenterX, graphCenterY],
       halfExtents,
-    } = this.canvas.document.documentElement.getBounds();
+    } =
+      boundsType === 'render'
+        ? // Get the bounds of the whole graph content.
+          this.canvas.document.documentElement.getBounds()
+        : // Get the bounds of the nodes positions while the graph content is not ready.
+          getLayoutBounds(this);
     const origin = this.canvas.canvas2Viewport({
       x: graphCenterX,
       y: graphCenterY,
@@ -778,11 +803,18 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * Fit the graph center to the view center.
    * @param effectTiming animation configurations
    */
-  public async fitCenter(effectTiming?: CameraAnimationOptions) {
-    // Get the bounds of the whole graph.
+  public async fitCenter(
+    boundsType: 'render' | 'layout' = 'render',
+    effectTiming?: CameraAnimationOptions,
+  ) {
     const {
       center: [graphCenterX, graphCenterY],
-    } = this.canvas.document.documentElement.getBounds();
+    } =
+      boundsType === 'render'
+        ? // Get the bounds of the whole graph content.
+          this.canvas.document.documentElement.getBounds()
+        : // Get the bounds of the nodes positions while the graph content is not ready.
+          getLayoutBounds(this);
     await this.translateTo(
       this.canvas.canvas2Viewport({ x: graphCenterX, y: graphCenterY }),
       effectTiming,
@@ -1124,11 +1156,21 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
   public removeData(itemType: ITEM_TYPE, ids: ID | ID[]) {
     const idArr = isArray(ids) ? ids : [ids];
     const data = { nodes: [], edges: [], combos: [] };
-    const { userGraphCore, graphCore } = this.dataController;
+    const { graphCore } = this.dataController;
     const { specification } = this.themeController;
-    const getItem =
-      itemType === 'edge' ? userGraphCore.getEdge : userGraphCore.getNode;
-    data[`${itemType}s`] = idArr.map((id) => getItem.bind(userGraphCore)(id));
+    const getItem = itemType === 'edge' ? graphCore.getEdge : graphCore.getNode;
+    const hasItem = itemType === 'edge' ? graphCore.hasEdge : graphCore.hasNode;
+    data[`${itemType}s`] = idArr
+      .map((id) => {
+        if (!hasItem.bind(graphCore)(id)) {
+          console.warn(
+            `The ${itemType} data with id ${id} does not exist. It will be ignored`,
+          );
+          return;
+        }
+        return getItem.bind(graphCore)(id);
+      })
+      .filter(Boolean);
     graphCore.once('changed', (event) => {
       if (!event.changes.length) return;
       const changes = event.changes;
@@ -1876,6 +1918,15 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
   }
 
   /**
+   * Set the cursor. But the cursor in item's style has higher priority.
+   * @param cursor
+   */
+  public setCursor(cursor: Cursor) {
+    this.canvas.setCursor(cursor);
+    this.transientCanvas.setCursor(cursor);
+  }
+
+  /**
    * Add behavior(s) to mode(s).
    * @param behaviors behavior names or configs
    * @param modes mode names
@@ -2092,9 +2143,19 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     type: ITEM_TYPE | SHAPE_TYPE,
     id: ID,
     config: {
-      action: 'remove' | 'add' | 'update' | undefined;
-      style: ShapeStyle;
-      onlyDrawKeyShape?: boolean;
+      action?: 'remove' | 'add' | 'update' | undefined;
+      /** Data to be merged into the transient item. */
+      data?: Record<string, any>;
+      /** Style to be merged into the transient shape. */
+      style?: ShapeStyle;
+      /** For type: 'edge' */
+      drawSource?: boolean;
+      /** For type: 'edge' */
+      drawTarget?: boolean;
+      /** Only shape with id in shapeIds will be cloned while type is ITEM_TYPE. If shapeIds is not assigned, the whole item will be cloned. */
+      shapeIds?: string[];
+      /** Whether show the shapes in shapeIds. True by default. */
+      visible?: boolean;
       upsertAncestors?: boolean;
     },
     canvas?: Canvas,
@@ -2418,7 +2479,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
   protected asyncToFullDataUrl(
     type?: DataURLType,
     imageConfig?: { padding?: number | number[] },
-    callback?: Function,
+    callback?: (dataUrl: string) => void,
   ): void {
     let dataURL = '';
     if (!type) type = 'image/png';

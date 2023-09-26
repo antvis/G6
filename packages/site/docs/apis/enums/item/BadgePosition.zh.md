@@ -4,7 +4,7 @@ title: BadgePosition
 
 > 📋 中文文档还在翻译中... 欢迎 PR
 
-[Overview - v5.0.0-beta.4](../../README.zh.md) / [Modules](../../modules.zh.md) / [item](../../modules/item.zh.md) / BadgePosition
+[Overview - v5.0.0-beta.11](../../README.zh.md) / [Modules](../../modules.zh.md) / [item](../../modules/item.zh.md) / BadgePosition
 
 [item](../../modules/item.zh.md).BadgePosition
 

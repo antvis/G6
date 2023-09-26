@@ -2,7 +2,7 @@ import { ID } from '@antv/graphlib';
 import { AABB, DisplayObject } from '@antv/g';
 import { throttle } from '@antv/util';
 import { ITEM_TYPE, ShapeStyle } from '../../../types/item';
-import { IG6GraphEvent, IGraph } from '../../../types';
+import { IG6GraphEvent, IGraph, NodeModel } from '../../../types';
 import { Plugin as Base, IPluginBaseConfig } from '../../../types/plugin';
 import { Point } from '../../../types/common';
 
@@ -47,6 +47,11 @@ export class Snapline extends Base {
   ] = [undefined, undefined];
 
   /**
+   * Cache the nodes' positions to be throttly updated.
+   */
+  private updateCache: Map<ID, NodeModel> = new Map();
+
+  /**
    * Gets the current cursor node and center offset and then with initialOffset difference
    */
   private getCurOffsetCompareToInitialOffset = (
@@ -70,13 +75,8 @@ export class Snapline extends Base {
     ];
   };
 
-  //#endregion
-
   private dragging = false;
   private draggingBBox: AABB = undefined;
-
-  // the offset(cursor and draggingbox) when start to drag
-  private nonAbosorbOffset: Point = undefined;
 
   // Gets the offset between the cursor and draggingItem
   private getPointerOffsetWithItem = (pointer: {
@@ -118,6 +118,7 @@ export class Snapline extends Base {
    * @param dl drawLine
    */
   getDrawLineIdByDrawLine(dl: DrawLine): ID {
+    if (!dl) return;
     return `${dl.line[0].x}-${dl.line[0].y}-${dl.line[1].x}-${dl.line[1].y}`;
   }
   /**
@@ -777,11 +778,6 @@ export class Snapline extends Base {
       event.canvas.x - this.draggingBBox.center[0],
       event.canvas.y - this.draggingBBox.center[1],
     ];
-
-    this.nonAbosorbOffset = this.getPointerOffsetWithItem({
-      x: event.canvas.x,
-      y: event.canvas.y,
-    });
   }
 
   onDrag = throttle(
@@ -790,7 +786,7 @@ export class Snapline extends Base {
 
       this.initAlignLinesForChoose();
 
-      // control layer：Check to delete existing line & drawed line & adsorption
+      // control layer: Check to delete existing line & drawed line & adsorption
       // set historyPoints
 
       this.historyPoints[0] = this.historyPoints[1];
@@ -936,10 +932,10 @@ export class Snapline extends Base {
         }
       }
     }).bind(this),
-    10,
+    16,
     {
-      leading: true,
-      trailing: false,
+      leading: false,
+      trailing: true,
     },
   );
 
@@ -1272,6 +1268,30 @@ export class Snapline extends Base {
   }
 
   doUpdatePosition(data) {
-    this.graph.updateNodePosition({ id: this.dragItemId, data }, false, true);
+    const cache = this.updateCache.get(this.dragItemId);
+    this.updateCache.set(this.dragItemId, {
+      id: this.dragItemId,
+      data: {
+        ...cache?.data,
+        ...data,
+      },
+    });
+    this.throttleUpdate();
   }
+
+  throttleUpdate = throttle(
+    () => {
+      this.graph.updateNodePosition(
+        Array.from(this.updateCache.values()),
+        false,
+        true,
+      );
+      this.updateCache.clear();
+    },
+    16,
+    {
+      leading: true,
+      trailing: true,
+    },
+  );
 }
