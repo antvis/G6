@@ -1,6 +1,7 @@
-import { G6Event, IG6GraphEvent, INode, ICombo, IEdge } from '@antv/g6-core';
+import { G6Event, ICombo, IEdge, IG6GraphEvent, INode } from '@antv/g6-core';
 import { throttle } from '@antv/util';
 
+let clickNodeId = null;
 export default {
   getDefaultCfg(): object {
     return {
@@ -10,6 +11,7 @@ export default {
       activeState: 'active',
       inactiveState: 'inactive',
       resetSelected: false,
+      shouldClearStatusOnSecond: false,
       shouldUpdate() {
         return true;
       },
@@ -73,9 +75,13 @@ export default {
   },
   clearActiveState(e: any) {
     // avoid clear state frequently, it costs a lot since all the items' states on the graph need to be cleared
+    var shouldClearStatusOnSecond = this.shouldClearStatusOnSecond;
+    if (shouldClearStatusOnSecond) {
+      clickNodeId = null;
+    }
     this.timer = setTimeout(() => {
       this.throttleClearActiveState(e, this);
-    }, 50)
+    }, 50);
   },
   throttleSetAllItemStates: throttle(
     (e, self) => {
@@ -86,6 +92,15 @@ export default {
       if (!self.shouldUpdate(e.item, { event: e, action: 'activate' }, self)) {
         return;
       }
+
+      var shouldClearStatusOnSecond = self.shouldClearStatusOnSecond;
+      var currentNodeId = item.getModel().id;
+      if (clickNodeId === currentNodeId && shouldClearStatusOnSecond) {
+        self.throttleClearActiveState(e, self);
+        clickNodeId = null;
+        return;
+      }
+
       const activeState = self.activeState;
       const inactiveState = self.inactiveState;
       const nodes = graph.getNodes();
@@ -205,13 +220,18 @@ export default {
       }
       self.activeItems = activeItems;
       self.inactiveItems = inactiveItems;
+
+      if (shouldClearStatusOnSecond) {
+        clickNodeId = item.getModel().id;
+      }
+
       graph.emit('afteractivaterelations', { item: e.item, action: 'activate' });
     },
     50,
     {
       trailing: true,
-      leading: true
-    }
+      leading: true,
+    },
   ),
   throttleClearActiveState: throttle(
     (e, self) => {
@@ -225,12 +245,16 @@ export default {
       const activeItems = self.activeItems || {};
       const inactiveItems = self.inactiveItems || {};
 
-      Object.values(activeItems).filter((item: INode | IEdge | ICombo) => !item.destroyed).forEach(item => {
-        graph.clearItemStates(item, activeState);
-      });
-      Object.values(inactiveItems).filter((item: INode | IEdge | ICombo) => !item.destroyed).forEach(item => {
-        graph.clearItemStates(item, inactiveState);
-      });
+      Object.values(activeItems)
+        .filter((item: INode | IEdge | ICombo) => !item.destroyed)
+        .forEach((item) => {
+          graph.clearItemStates(item, activeState);
+        });
+      Object.values(inactiveItems)
+        .filter((item: INode | IEdge | ICombo) => !item.destroyed)
+        .forEach((item) => {
+          graph.clearItemStates(item, inactiveState);
+        });
       self.activeItems = {};
       self.inactiveItems = {};
       graph.emit('afteractivaterelations', {
@@ -241,7 +265,7 @@ export default {
     50,
     {
       trailing: true,
-      leading: true
-    }
-  )
+      leading: true,
+    },
+  ),
 };
