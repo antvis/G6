@@ -32,6 +32,9 @@ export default (
     layout: {
       type: layoutType,
     },
+    modes: {
+      default: ['drag-canvas', 'drag-node', 'collapse-expand-tree'],
+    },
     node: (innerModel) => {
       const { x, y, labelShape } = innerModel.data;
       return {
@@ -190,5 +193,8 @@ export default (
 
   graph.translateTo({ x: 100, y: 100 });
 
+  graph.on('edge:click', (e) => {
+    console.log('clickedge', e.itemId);
+  });
   return graph;
 };

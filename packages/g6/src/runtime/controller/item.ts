@@ -428,10 +428,6 @@ export class ItemController {
         });
       };
       const debounceUpdateRelates = debounce(updateRelates, 16, false);
-      const throttleUpdateRelates = throttle(updateRelates, 16, {
-        leading: true,
-        trailing: true,
-      });
 
       Object.values(nodeComboUpdate).forEach((updateObj: any) => {
         const { isReplace, previous, current, id } = updateObj;
@@ -527,7 +523,7 @@ export class ItemController {
           nodeRelatedIdsToUpdate.add(edge.id);
         });
 
-        item.onframe = () => throttleUpdateRelates(nodeRelatedIdsToUpdate);
+        item.onframe = () => updateRelates(nodeRelatedIdsToUpdate);
         let statesCache;
         if (
           innerModel.data._isCombo &&
@@ -557,7 +553,7 @@ export class ItemController {
             },
             500,
             {
-              leading: false,
+              leading: true,
               trailing: true,
             },
           ),
@@ -871,12 +867,17 @@ export class ItemController {
     type: ITEM_TYPE | SHAPE_TYPE;
     id: ID;
     config: {
-      style?: ShapeStyle;
-      // Data to be merged into the transient item.
-      data?: Record<string, any>;
       action: 'remove' | 'add' | 'update' | undefined;
-      onlyDrawKeyShape?: boolean;
+      style?: ShapeStyle;
+      /** Data to be merged into the transient item. */
+      data?: Record<string, any>;
+      shapeIds?: string[];
+      /** For type: 'edge' */
+      drawSource?: boolean;
+      /** For type: 'edge' */
+      drawTarget?: boolean;
       upsertAncestors?: boolean;
+      visible?: boolean;
       [shapeConfig: string]: unknown;
     };
     canvas: Canvas;
@@ -889,8 +890,11 @@ export class ItemController {
       data = {},
       capture,
       action,
-      onlyDrawKeyShape,
+      shapeIds,
+      drawSource,
+      drawTarget,
       upsertAncestors,
+      visible = true,
     } = config as any;
     const isItemType = type === 'node' || type === 'edge' || type === 'combo';
     // Removing
@@ -913,6 +917,9 @@ export class ItemController {
           );
         }
         if (transientItem && !transientItem.destroyed) {
+          if (!(transientItem as Node | Edge | Combo).getType?.()) {
+            (transientItem as Group).remove();
+          }
           transientItem.destroy();
         }
         this.transientItemMap.delete(id);
@@ -941,11 +948,11 @@ export class ItemController {
         this.transientItemMap,
         this.itemMap,
         graphCore,
-        onlyDrawKeyShape,
+        { shapeIds, drawSource, drawTarget, visible },
         upsertAncestors,
       );
 
-      if (onlyDrawKeyShape) {
+      if (shapeIds) {
         // only update node positions to cloned node container(group)
         if (
           (type === 'node' || type === 'combo') &&

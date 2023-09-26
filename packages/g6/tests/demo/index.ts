@@ -9,6 +9,7 @@ import behaviors_scrollCanvas from './behaviors/scroll-canvas';
 import behaviors_brush_select from './behaviors/brush-select';
 import behaviors_click_select from './behaviors/click-select';
 import behaviors_collapse_expand_tree from './behaviors/collapse-expand-tree';
+import behaviors_create_edge from './behaviors/create-edge';
 import circularUpdate from './layouts/circular-update';
 import comboBasic from './combo/combo-basic';
 import comboRect from './combo/combo-rect';
@@ -64,6 +65,9 @@ import snapline from './plugins/snapline';
 import mapper from './visual/mapper';
 import minimap from './plugins/minimap';
 import watermarker from './plugins/watermarker';
+import cube from './item/node/cube';
+import graphCore from './data/graphCore';
+import dagreUpdate from './layouts/dagre-update';
 
 export { default as timebar_time } from './plugins/timebar-time';
 export { default as timebar_chart } from './plugins/timebar-chart';
@@ -81,6 +85,7 @@ export {
   behaviors_brush_select,
   behaviors_click_select,
   behaviors_collapse_expand_tree,
+  behaviors_create_edge,
   circularUpdate,
   comboBasic,
   comboRect,
@@ -134,4 +139,7 @@ export {
   legend,
   snapline,
   watermarker
+  cube,
+  graphCore,
+  dagreUpdate,
 };

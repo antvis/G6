@@ -526,8 +526,8 @@ export class DragCombo extends Behavior {
     this.originPositions = [];
   }
 
-  public onDropNode(event: IG6GraphEvent) {
-    const elements = this.graph.canvas.document.elementsFromPointSync(
+  public async onDropNode(event: IG6GraphEvent) {
+    const elements = await this.graph.canvas.document.elementsFromPoint(
       event.canvas.x,
       event.canvas.y,
     );

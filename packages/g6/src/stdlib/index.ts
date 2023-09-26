@@ -32,6 +32,7 @@ const {
   EllipseNode,
   ModelRectNode,
   ImageNode,
+  CubeNode,
 } = Nodes;
 
 const {
@@ -61,6 +62,7 @@ const {
   DragNode,
   DragCombo,
   ClickSelect,
+  CreateEdge,
   ShortcutsCall,
   ScrollCanvas,
 } = Behaviors;
@@ -123,10 +125,10 @@ const stdLib = {
     'zoom-canvas': ZoomCanvas,
     'drag-node': DragNode,
     'drag-combo': DragCombo,
+    'create-edge': CreateEdge,
     'collapse-expand-combo': CollapseExpandCombo,
     'collapse-expand-tree': CollapseExpandTree,
     'click-select': ClickSelect,
-    'scroll-canvas': ScrollCanvas,
   },
   plugins: {
     history: History,
@@ -138,6 +140,7 @@ const stdLib = {
   },
   edges: {
     'line-edge': LineEdge,
+    'loop-edge': LoopEdge,
   },
   combos: {
     'circle-combo': CircleCombo,
@@ -245,6 +248,7 @@ const Extensions = {
   TriangleNode,
   EllipseNode,
   ModelRectNode,
+  CubeNode,
   // edges
   LineEdge,
   CubicEdge,
@@ -272,7 +276,9 @@ const Extensions = {
   CollapseExpandCombo,
   DragNode,
   DragCombo,
+  CreateEdge,
   ShortcutsCall,
+  ScrollCanvas,
   // plugins
   BasePlugin,
   History,

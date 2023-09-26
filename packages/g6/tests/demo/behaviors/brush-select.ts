@@ -26,7 +26,7 @@ export default (context: TestCaseContext) => {
       edges: [{ id: 'edge1', source: 'node1', target: 'node2', data: {} }],
     },
     modes: {
-      default: ['brush-select'],
+      default: ['brush-select', 'drag-node'],
     },
   });
 };
