@@ -8,3 +8,4 @@ export type { ToolbarConfig } from './toolbar';
 export type { TooltipConfig } from './tooltip';
 export type { TimebarConfig } from './timebar';
 export type { SnapLineConfig } from './snapline';
+export type { EdgeFilterLens } from './edgeFilterLens';
