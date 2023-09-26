@@ -32,6 +32,7 @@ const {
   EllipseNode,
   ModelRectNode,
   ImageNode,
+  CubeNode,
 } = Nodes;
 
 const {
@@ -246,6 +247,7 @@ const Extensions = {
   TriangleNode,
   EllipseNode,
   ModelRectNode,
+  CubeNode,
   // edges
   LineEdge,
   CubicEdge,

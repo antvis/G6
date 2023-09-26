@@ -64,6 +64,7 @@ import legend from './plugins/legend';
 import snapline from './plugins/snapline';
 import mapper from './visual/mapper';
 import minimap from './plugins/minimap';
+import cube from './item/node/cube';
 import graphCore from './data/graphCore';
 import dagreUpdate from './layouts/dagre-update';
 
@@ -136,6 +137,7 @@ export {
   hull,
   legend,
   snapline,
+  cube,
   graphCore,
   dagreUpdate,
 };
