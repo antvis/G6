@@ -1,0 +1,31 @@
+name: Issue Close Require
+
+on:
+  schedule:
+    - cron: "0 0 * * *"
+
+jobs:
+  close-issues:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Need reproduce
+        uses: actions-cool/issues-helper@main
+        with:
+          actions: 'close-issues'
+          labels: '🤔 need reproduce'
+          inactive-day: 15
+          body: |
+            由于该 issue 被标记为需要复现，却 15 天未收到回应。现关闭 issue，若有任何问题，可另开 issue 并提供复现。
+
+            Since the issue was labeled as "🤔 need reproduce" but no response was received for 15 days. Now close the issue. If you have any questions, feel free to create a new issue with reproduce.
+
+      - name: Needs more info
+        uses: actions-cool/issues-helper@main
+        with:
+          actions: 'close-issues'
+          labels: '👀 need more info'
+          inactive-day: 15
+          body: |
+            由于该 issue 被标记为需要更多信息，却 15 天未收到回应。现关闭 issue，若有任何问题，可另开 issue 并提供复现。
+
+            Since the issue was labeled as "👀 need more info" but no response was received for 15 days. Now close the issue. If you have any questions, feel free to create a new issue with reproduce.
