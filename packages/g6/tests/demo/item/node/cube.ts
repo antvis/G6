@@ -69,7 +69,6 @@ export default (context: TestCaseContext) => {
       //   z: 100
       // },
       // labelBackgroundShape: [],
-
     },
   });
   return graph;

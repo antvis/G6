@@ -1,7 +1,7 @@
+import { clone } from '@antv/util';
 import { Graph, Extensions, extend } from '../../../src/index';
 import { TestCaseContext } from '../interface';
 import data from '../../datasets/force-data.json';
-import { clone } from '@antv/util';
 
 export default (context: TestCaseContext, options = {}) => {
   const trigger = 'mousemove';

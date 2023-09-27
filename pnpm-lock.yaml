@@ -160,7 +160,7 @@ importers:
         version: 28.1.3(@types/node@13.11.1)(ts-node@10.9.1)
       jest-environment-jsdom:
         specifier: ''
-        version: 29.6.3(canvas@2.11.0)
+        version: 29.6.4(canvas@2.11.0)
       jest-extended:
         specifier: ^0.11.2
         version: 0.11.2
@@ -15259,10 +15259,7 @@ packages:
     engines: {node: '>=4'}
     dependencies:
       tslib: 2.6.2
-<<<<<<< HEAD
     dev: false
-=======
->>>>>>> v5
 
   /astral-regex@1.0.0:
     resolution: {integrity: sha512-+Ryf6g3BKoRc7jfp7ad8tM4TtMiaWvbF/1/sQcZPkkS7ag3D5nMBCe2UfOTONtAkaG0tO0ij3C5Lwmf1EiyjHg==}
@@ -17002,10 +16999,7 @@ packages:
     dependencies:
       pascal-case: 3.1.2
       tslib: 2.6.2
-<<<<<<< HEAD
     dev: false
-=======
->>>>>>> v5
 
   /camelcase-css@2.0.1:
     resolution: {integrity: sha512-QOSvevhslijgYwRx6Rv7zKdMF8lbRmx+uQGx2+vDc+KI/eBnsy9kit5aj23AgGu3pa4t9AgwbnXWqS+iOY+2aA==}
@@ -19797,10 +19791,7 @@ packages:
     dependencies:
       no-case: 3.0.4
       tslib: 2.6.2
-<<<<<<< HEAD
     dev: false
-=======
->>>>>>> v5
 
   /dot-prop@4.2.1:
     resolution: {integrity: sha512-l0p4+mIuJIua0mhxGoh4a+iNL9bmeK5DvnSVQa6T0OhrVmaEa1XScX5Etc673FePCJOArq/4Pa2cLGODUWTPOQ==}
@@ -22480,10 +22471,7 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       tslib: 2.6.2
-<<<<<<< HEAD
     dev: false
-=======
->>>>>>> v5
 
   /follow-redirects@1.15.2(debug@4.3.4):
     resolution: {integrity: sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA==}
@@ -26013,8 +26001,8 @@ packages:
       - supports-color
       - utf-8-validate
 
-  /jest-environment-jsdom@29.6.3(canvas@2.11.0):
-    resolution: {integrity: sha512-nMJz/i27Moit9bv8Z323/13Melj4FEQH93yRu7GnilvBmPBMH4EGEkEfBTJXYuubyzhMO7w/VHzljIDV+Q/SeQ==}
+  /jest-environment-jsdom@29.6.4(canvas@2.11.0):
+    resolution: {integrity: sha512-K6wfgUJ16DoMs02JYFid9lOsqfpoVtyJxpRlnTxUHzvZWBnnh2VNGRB9EC1Cro96TQdq5TtSjb3qUjNaJP9IyA==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     peerDependencies:
       canvas: ^2.5.0
@@ -28035,10 +28023,7 @@ packages:
     resolution: {integrity: sha512-7fm3l3NAF9WfN6W3JOmf5drwpVqX78JtoGJ3A6W0a6ZnldM41w2fV5D490psKFTpMds8TJse/eHLFFsNHHjHgg==}
     dependencies:
       tslib: 2.6.2
-<<<<<<< HEAD
     dev: false
-=======
->>>>>>> v5
 
   /lowercase-keys@1.0.1:
     resolution: {integrity: sha512-G2Lj61tXDnVFFOi8VZds+SoQjtQC3dgokKdDG2mTm1tx4m50NUHBOZSBwQQHyy0V12A0JTG4icfZQH+xPyh8VA==}
@@ -28274,10 +28259,7 @@ packages:
     resolution: {integrity: sha512-Qlox3wRM/Q4Ww9rv1cBmYKNJwWVX/WC+eA3+1S3Fv4EOhrqyp812ZEfVFKQk0AP6RfzmPUUOwEZBbJ8IRt8SOw==}
     dependencies:
       remove-accents: 0.4.2
-<<<<<<< HEAD
     dev: false
-=======
->>>>>>> v5
     bundledDependencies:
       - remove-accents
 
@@ -29599,10 +29581,7 @@ packages:
     dependencies:
       lower-case: 2.0.2
       tslib: 2.6.2
-<<<<<<< HEAD
     dev: false
-=======
->>>>>>> v5
 
   /node-abi@3.47.0:
     resolution: {integrity: sha512-2s6B2CWZM//kPgwnuI0KrYwNjfdByE25zvAaEpq9IH4zcNsarH8Ihu/UuX6XMPEogDAxkuUFeZn60pXNHAqn3A==}
@@ -30615,10 +30594,7 @@ packages:
     dependencies:
       dot-case: 3.0.4
       tslib: 2.6.2
-<<<<<<< HEAD
     dev: false
-=======
->>>>>>> v5
 
   /parent-module@1.0.1:
     resolution: {integrity: sha512-GQ2EWRpQV8/o+Aw8YqtfZZPfNRWZYkbidE9k5rpl/hC3vtHHBfGm2Ifi6qWV+coDGkrUKZAxE3Lot5kcsRlh+g==}
@@ -30770,10 +30746,7 @@ packages:
     dependencies:
       no-case: 3.0.4
       tslib: 2.6.2
-<<<<<<< HEAD
     dev: false
-=======
->>>>>>> v5
 
   /pascalcase@0.1.1:
     resolution: {integrity: sha512-XHXfu/yOQRy9vYOtUDVMN60OEJjW013GoObG1o+xwQTpB9eYJX/BjXMsdW13ZDPruFhYYn0AG22w0xgQMwl3Nw==}
@@ -35771,10 +35744,7 @@ packages:
 
   /remove-accents@0.4.2:
     resolution: {integrity: sha512-7pXIJqJOq5tFgG1A2Zxti3Ht8jJF337m4sowbuHsW30ZnkQFnDzy9qBNhgzX8ZLW4+UBcXiiR7SwR6pokHsxiA==}
-<<<<<<< HEAD
     dev: false
-=======
->>>>>>> v5
 
   /remove-bom-buffer@3.0.0:
     resolution: {integrity: sha512-8v2rWhaakv18qcvNeli2mZ/TMTL2nEyAKRvzo1WtnZBl15SHyEhrCu2/xKlJyUFKHiHgfXIyuY6g2dObJJycXQ==}
@@ -40154,10 +40124,7 @@ packages:
     dependencies:
       react: 16.14.0
       tslib: 2.6.2
-<<<<<<< HEAD
     dev: false
-=======
->>>>>>> v5
 
   /use-isomorphic-layout-effect@1.1.2(react@18.1.0):
     resolution: {integrity: sha512-49L8yCO3iGT/ZF9QttjwLF/ZD9Iwto5LnH5LmEdk/6cFmXddqi2ulF0edxTwjj+7mqvpVVGQWvbXZdn32wRSHA==}
@@ -40184,10 +40151,7 @@ packages:
       detect-node-es: 1.1.0
       react: 16.14.0
       tslib: 2.6.2
-<<<<<<< HEAD
     dev: false
-=======
->>>>>>> v5
 
   /use@3.1.1:
     resolution: {integrity: sha512-cwESVXlO3url9YWlFW/TA9cshCEhtu7IKJ/p5soJ/gGpj7vbvFrAY/eIioQ6Dw23KjZhYgiIo8HOs1nQ2vr/oQ==}
@@ -41796,7 +41760,3 @@ packages:
   /zwitch@2.0.4:
     resolution: {integrity: sha512-bXE4cR/kVZhKZX/RjPEflHaKVhUVl85noU3v6b8apfQEc1x4A+zBxjZ4lN8LqGd6WZ3dl98pY4o717VFmoPp+A==}
     dev: false
-
-settings:
-  autoInstallPeers: true
-  excludeLinksFromLockfile: false

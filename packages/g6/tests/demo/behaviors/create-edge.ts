@@ -67,7 +67,6 @@ export default (context: TestCaseContext, options) => {
   });
   graph.on('aftercreate', (e) => {
     const { edge } = e;
-    debugger;
     graph.updateData('edge', {
       id: edge.id,
       data: {

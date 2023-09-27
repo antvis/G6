@@ -582,10 +582,7 @@ export class QuadTree {
   private southwest?: QuadTree;
   private southeast?: QuadTree;
 
-  constructor(
-    public boundary: AABB,
-    capacity: number,
-  ) {
+  constructor(public boundary: AABB, capacity: number) {
     this.capacity = capacity;
   }
 

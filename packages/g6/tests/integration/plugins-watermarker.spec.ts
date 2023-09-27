@@ -64,9 +64,8 @@ describe('plugin', () => {
   it('watermarker with default config', (done) => {
     const graph = createGraph(['watermarker']);
     graph.on('afterlayout', (e) => {
-      const watermakerDiv = document.getElementsByClassName(
-        'g6-watermarker',
-      )?.[0];
+      const watermakerDiv =
+        document.getElementsByClassName('g6-watermarker')?.[0];
       expect(watermakerDiv).not.toBe(undefined);
       graph.destroy();
       done();
@@ -79,13 +78,12 @@ describe('plugin', () => {
         key: 'watermarker-1',
         type: 'watermarker',
         width: 200,
-        height: 200
-      }
+        height: 200,
+      },
     ]);
     graph.on('afterlayout', (e) => {
-      const watermakerDiv = document.getElementsByClassName(
-        'g6-watermarker',
-      )?.[0];
+      const watermakerDiv =
+        document.getElementsByClassName('g6-watermarker')?.[0];
       expect(watermakerDiv).not.toBe(undefined);
       graph.destroy();
       done();
@@ -107,12 +105,11 @@ describe('plugin', () => {
           height: 38,
           rotate: 20,
         },
-      }
+      },
     ]);
     graph.on('afterlayout', (e) => {
-      const watermakerDiv = document.getElementsByClassName(
-        'g6-watermarker',
-      )?.[0];
+      const watermakerDiv =
+        document.getElementsByClassName('g6-watermarker')?.[0];
       expect(watermakerDiv).not.toBe(undefined);
       graph.destroy();
       done();
@@ -136,12 +133,11 @@ describe('plugin', () => {
           fill: 'rgba(255, 0, 0, 1)',
           baseline: 'Middle',
         },
-      }
+      },
     ]);
     graph.on('afterlayout', (e) => {
-      const watermakerDiv = document.getElementsByClassName(
-        'g6-watermarker',
-      )?.[0];
+      const watermakerDiv =
+        document.getElementsByClassName('g6-watermarker')?.[0];
       expect(watermakerDiv).not.toBe(undefined);
       graph.destroy();
       done();

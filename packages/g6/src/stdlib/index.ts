@@ -294,7 +294,7 @@ const Extensions = {
   Hull,
   Snapline,
   EdgeFilterLens,
-  WaterMarker
+  WaterMarker,
 };
 
 export default registery;
