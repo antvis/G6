@@ -1,4 +1,4 @@
-import { isBoolean, isObject } from '@antv/util';
+import { isBoolean, isNumber, isObject } from '@antv/util';
 import { Behavior } from '../../types/behavior';
 import { ID, IG6GraphEvent } from '../../types';
 
@@ -51,10 +51,6 @@ const DEFAULT_OPTIONS: ScrollCanvasOptions = {
   direction: 'both',
   enableOptimize: false,
   zoomKey: 'ctrl',
-  // scroll-canvas 可滚动的扩展范围，默认为 0，即最多可以滚动一屏的位置
-  // 当设置的值大于 0 时，即滚动可以超过一屏
-  // 当设置的值小于 0 时，相当于缩小了可滚动范围
-  // 具体实例可参考：https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*IFfoS67_HssAAAAAAAAAAAAAARQnAQ
   scalableRange: 0,
   allowDragOnItem: true,
   zoomRatio: 0.05,
@@ -83,8 +79,7 @@ export class ScrollCanvas extends Behavior {
   onWheel(ev: IG6GraphEvent & { deltaX?: number; deltaY?: number }) {
     if (!this.allowDrag(ev)) return;
     const graph = this.graph;
-    const { zoomKey, zoomRatio, scalableRange, direction, enableOptimize } =
-      this.options;
+    const { zoomKey, zoomRatio, enableOptimize } = this.options;
     const zoomKeys = Array.isArray(zoomKey) ? [].concat(zoomKey) : [zoomKey];
     if (zoomKeys.includes('control')) zoomKeys.push('ctrl');
     const keyDown = zoomKeys.some((ele) => ev[`${ele}Key`]);
@@ -223,8 +218,14 @@ export class ScrollCanvas extends Behavior {
 
   private hideShapes() {
     const { graph, options } = this;
+    const { tileBehavior: graphBehaviorOptimize, tileBehaviorSize = 1000 } =
+      graph.getSpecification().optimize || {};
     const { optimizeZoom } = options;
-    if (this.options.enableOptimize) {
+    const optimize = this.options.enableOptimize || graphBehaviorOptimize;
+    const shouldOptimzie = isNumber(optimize)
+      ? graph.getAllNodesData().length > optimize
+      : optimize;
+    if (shouldOptimzie) {
       const currentZoom = graph.getZoom();
       const newHiddenEdgeIds = graph
         .getAllEdgesData()
@@ -242,14 +243,27 @@ export class ScrollCanvas extends Behavior {
         .getAllNodesData()
         .map((node) => node.id)
         .filter((id) => graph.getItemVisible(id));
-      // draw node's keyShapes on transient, and then hidden the real nodes;
-      newHiddenNodeIds.forEach((id) => {
-        graph.drawTransient('node', id, {
-          onlyDrawKeyShape: true,
-          upsertAncestors: false,
-        });
-      });
-      graph.hideItem(newHiddenNodeIds, true);
+
+      let requestId;
+      const sectionNum = Math.ceil(newHiddenNodeIds.length / tileBehaviorSize);
+      const sections = Array.from({ length: sectionNum }, (v, i) =>
+        newHiddenNodeIds.slice(
+          i * tileBehaviorSize,
+          i * tileBehaviorSize + tileBehaviorSize,
+        ),
+      );
+      const update = () => {
+        if (!sections.length) {
+          cancelAnimationFrame(requestId);
+          return;
+        }
+        const section = sections.shift();
+        graph.startHistoryBatch();
+        graph.hideItem(section, false, true);
+        graph.stopHistoryBatch();
+        requestId = requestAnimationFrame(update);
+      };
+      requestId = requestAnimationFrame(update);
 
       if (currentZoom < optimizeZoom) {
         this.hiddenNodeIds.push(...newHiddenNodeIds);
@@ -269,20 +283,39 @@ export class ScrollCanvas extends Behavior {
       return;
     }
 
-    this.hiddenEdgeIds = this.hiddenNodeIds = [];
-    if (!this.options.enableOptimize) {
+    const { tileBehavior: graphBehaviorOptimize, tileBehaviorSize = 1000 } =
+      graph.getSpecification().optimize || {};
+    const optimize = this.options.enableOptimize || graphBehaviorOptimize;
+    const shouldOptimzie = isNumber(optimize)
+      ? graph.getAllNodesData().length > optimize
+      : optimize;
+    if (!shouldOptimzie) {
+      this.hiddenEdgeIds = this.hiddenNodeIds = [];
       return;
     }
 
-    if (hiddenEdgeIds) {
-      graph.showItem(hiddenEdgeIds, true);
-    }
-    if (hiddenNodeIds) {
-      hiddenNodeIds.forEach((id) => {
-        this.graph.drawTransient('node', id, { action: 'remove' });
+    let requestId;
+    const hiddenIds = [...hiddenNodeIds, ...hiddenEdgeIds];
+    const sectionNum = Math.ceil(hiddenIds.length / tileBehaviorSize);
+    const sections = Array.from({ length: sectionNum }, (v, i) =>
+      hiddenIds.slice(
+        i * tileBehaviorSize,
+        i * tileBehaviorSize + tileBehaviorSize,
+      ),
+    );
+    const update = () => {
+      if (!sections.length) {
+        cancelAnimationFrame(requestId);
+        return;
+      }
+      graph.executeWithNoStack(() => {
+        graph.showItem(sections.shift(), false);
       });
-      graph.showItem(hiddenNodeIds, true);
-    }
+      requestId = requestAnimationFrame(update);
+    };
+    requestId = requestAnimationFrame(update);
+
+    this.hiddenEdgeIds = this.hiddenNodeIds = [];
   }
 }
 

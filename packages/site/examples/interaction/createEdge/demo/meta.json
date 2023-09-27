@@ -1,0 +1,24 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+      "filename": "createEdgeByDragging.js",
+      "title": {
+        "zh": "从节点拖拽创建边",
+        "en": "Create Edge by Dragging"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*fmolQIbMbB4AAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "createEdgeByClicking.js",
+      "title": {
+        "zh": "点击节点创建边",
+        "en": "Create Edge by Clicking"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*tUZLRLMSaR4AAAAAAAAAAAAADmJ7AQ/original"
+    }
+  ]
+}

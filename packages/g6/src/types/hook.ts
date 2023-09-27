@@ -11,6 +11,7 @@ import { ThemeSpecification } from './theme';
 import { GraphTransformOptions } from './view';
 import { ComboModel } from './combo';
 import { Plugin as PluginBase } from './plugin';
+import { ComboMapper, EdgeMapper, NodeMapper } from './spec';
 
 export interface IHook<T> {
   name: string;
@@ -101,8 +102,17 @@ export interface Hooks {
     id: ID;
     canvas: Canvas;
     config: {
-      style: ShapeStyle;
-      action: 'remove' | 'add' | 'update' | undefined;
+      style?: ShapeStyle;
+      action?: 'remove' | 'add' | 'update';
+      /** For type: 'edge' */
+      drawSource?: boolean;
+      /** For type: 'edge' */
+      drawTarget?: boolean;
+      /** Only shape with id in shapeIds will be cloned while type is ITEM_TYPE. If shapeIds is not assigned, the whole item will be cloned. */
+      shapeIds?: string[];
+      /** Whether show the shapes in shapeIds. True by default. */
+      visible?: boolean;
+      upsertAncestors?: boolean;
     };
     graphCore: GraphCore;
   }>;
@@ -123,6 +133,10 @@ export interface Hooks {
       main: Canvas;
       transient: Canvas;
     };
+  }>;
+  mapperchange: IHook<{
+    type: ITEM_TYPE;
+    mapper: NodeMapper | EdgeMapper | ComboMapper;
   }>;
   treecollapseexpand: IHook<{
     ids: ID[];

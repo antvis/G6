@@ -164,3 +164,48 @@ export const radialLayout = (
   });
   return;
 };
+
+/**
+ * Get the layout (nodes' positions) bounds of a graph.
+ * @param {Graph} graph - The graph object.
+ * @returns {Object} - The layout bounds object containing the minimum, maximum, center, and halfExtents values.
+ */
+export const getLayoutBounds = (graph) => {
+  const min = [Infinity, Infinity];
+  const max = [-Infinity, -Infinity];
+  const borderIds = { min: [], max: [] };
+  graph.getAllNodesData().forEach((model) => {
+    const { x, y } = model.data;
+    if (isNaN(x) || isNaN(y)) return;
+    if (min[0] > x) {
+      min[0] = x;
+      borderIds.min[0] = model.id;
+    }
+    if (min[1] > y) {
+      min[1] = y;
+      borderIds.min[1] = model.id;
+    }
+    if (max[0] < x) {
+      max[0] = x;
+      borderIds.max[0] = model.id;
+    }
+    if (max[1] < y) {
+      max[1] = y;
+      borderIds.max[1] = model.id;
+    }
+  });
+  borderIds.min.forEach((id, i) => {
+    const { halfExtents: nodeHalfSize } = graph.getRenderBBox(id);
+    min[i] -= nodeHalfSize[i];
+  });
+  borderIds.max.forEach((id, i) => {
+    const { halfExtents: nodeHalfSize } = graph.getRenderBBox(id);
+    max[i] += nodeHalfSize[i];
+  });
+  return {
+    min,
+    max,
+    center: min.map((val, i) => (max[i] + val) / 2),
+    halfExtents: min.map((val, i) => (max[i] - val) / 2),
+  };
+};

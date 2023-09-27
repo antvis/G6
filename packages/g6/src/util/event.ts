@@ -9,6 +9,8 @@ import {
   NodeDataUpdated,
   NodeRemoved,
   TreeStructureChanged,
+  TreeStructureAttached,
+  TreeStructureDetached,
 } from '@antv/graphlib';
 import { IG6GraphEvent, IGraph, NodeModelData } from '../types';
 import { GraphCore } from '../types/data';
@@ -84,6 +86,8 @@ export type GroupedChanges = {
   EdgeDataUpdated: EdgeDataUpdated<EdgeModelData>[];
   TreeStructureChanged: TreeStructureChanged[];
   ComboStructureChanged: TreeStructureChanged[];
+  TreeStructureAttached: TreeStructureAttached[];
+  TreeStructureDetached: TreeStructureDetached[];
 };
 
 /**
@@ -106,6 +110,8 @@ export const getGroupedChanges = (
     EdgeDataUpdated: [],
     TreeStructureChanged: [],
     ComboStructureChanged: [],
+    TreeStructureAttached: [],
+    TreeStructureDetached: [],
   };
   changes.forEach((change) => {
     const { type: changeType } = change;
@@ -126,7 +132,14 @@ export const getGroupedChanges = (
       else if (change.treeKey === 'tree')
         groupedChanges.TreeStructureChanged.push(change);
       return;
-    } else if (['NodeRemoved', 'EdgeRemoved'].includes(changeType)) {
+    } else if (
+      [
+        'NodeRemoved',
+        'EdgeRemoved',
+        'TreeStructureAttached',
+        'TreeStructureDetached',
+      ].includes(changeType)
+    ) {
       groupedChanges[changeType].push(change);
     } else {
       const { id: oid } = change.value;

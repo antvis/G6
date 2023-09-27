@@ -439,7 +439,7 @@ describe('viewport', () => {
         expect(py).toBeCloseTo(250, 1);
       });
 
-      await graph.fitCenter({
+      await graph.fitCenter('render', {
         duration: 2000,
         easing: 'ease-in',
       });

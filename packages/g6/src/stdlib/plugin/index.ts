@@ -8,3 +8,4 @@ export * from './toolbar';
 export * from './tooltip';
 export * from './timebar';
 export * from './snapline';
+export * from './edgeFilterLens';
