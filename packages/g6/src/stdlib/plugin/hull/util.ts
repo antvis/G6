@@ -1,4 +1,4 @@
-import { vec2 } from '@antv/matrix-util';
+import { vec2 } from 'gl-matrix';
 import { ID, IGraph } from 'types';
 import { AABB } from '@antv/g';
 import { Bounds, Point } from '../../../types/common';

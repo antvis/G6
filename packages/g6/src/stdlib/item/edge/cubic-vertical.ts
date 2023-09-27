@@ -1,4 +1,3 @@
-import { vec2 } from '@antv/matrix-util';
 import { Point } from '../../../types/common';
 import { CubicEdge } from './cubic';
 

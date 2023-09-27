@@ -14,3 +14,4 @@ export {
   traverse,
 } from './data';
 export { getEdgesBetween } from './item';
+export { transform } from './matrix';

@@ -85,9 +85,6 @@ importers:
       '@antv/layout-wasm':
         specifier: 1.3.1
         version: 1.3.1
-      '@antv/matrix-util':
-        specifier: ^3.0.4
-        version: 3.0.4
       '@antv/path-util':
         specifier: 3.0.1
         version: 3.0.1
@@ -97,6 +94,9 @@ importers:
       color:
         specifier: ^4.2.3
         version: 4.2.3
+      gl-matrix:
+        specifier: ^3.4.3
+        version: 3.4.3
       insert-css:
         specifier: ^2.0.0
         version: 2.0.0
@@ -1231,9 +1231,9 @@ packages:
   /@antv/matrix-util@3.0.4:
     resolution: {integrity: sha512-BAPyu6dUliHcQ7fm9hZSGKqkwcjEDVLVAstlHULLvcMZvANHeLXgHEgV7JqcAV/GIhIz8aZChIlzM1ZboiXpYQ==}
     dependencies:
-      '@antv/util': 2.0.9
+      '@antv/util': 2.0.17
       gl-matrix: 3.4.3
-      tslib: 2.5.0
+      tslib: 2.6.2
     dev: false
 
   /@antv/matrix-util@3.1.0-beta.3:
