@@ -1,5 +1,5 @@
 import { DisplayObject } from '@antv/g';
-import { isArray, PathArray } from '@antv/util';
+import { isArray } from '@antv/util';
 import { ComboModel, ID, IGraph, NodeModel } from '../../../types';
 import { ShapeStyle } from '../../../types/item';
 import { isPolygonsIntersect } from '../../../util/shape';
@@ -50,7 +50,8 @@ interface HullComponentFullOptions extends HullComponentOptions {
 export default class Hull {
   graph: IGraph;
 
-  path: PathArray;
+  // TODO: PathArray is not exported by @antv/util 2.x but by 3.x. Correct the type String | PathArray after upgrading @antv/util
+  path: any;
 
   members: (NodeModel | ComboModel)[];
 
