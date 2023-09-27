@@ -2,19 +2,19 @@ import { mat3 } from 'gl-matrix';
 
 type mat3Type = [number, number, number, number, number, number, number, number, number];
 
-export function leftTranslate(out, a, v) {
+function leftTranslate(out, a, v) {
   const transMat: mat3Type = [ 0, 0, 0, 0, 0, 0, 0, 0, 0 ];
   mat3.fromTranslation(transMat, v);
   return mat3.multiply(out, transMat, a);
 }
 
-export function leftRotate(out, a, rad) {
+function leftRotate(out, a, rad) {
   const rotateMat: mat3Type = [ 0, 0, 0, 0, 0, 0, 0, 0, 0 ];
   mat3.fromRotation(rotateMat, rad);
   return mat3.multiply(out, rotateMat, a);
 }
 
-export function leftScale(out, a, v) {
+function leftScale(out, a, v) {
   const scaleMat: mat3Type = [ 0, 0, 0, 0, 0, 0, 0, 0, 0 ];
   mat3.fromScaling(scaleMat, v);
   return mat3.multiply(out, scaleMat, a);
