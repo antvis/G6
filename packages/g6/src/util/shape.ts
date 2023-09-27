@@ -24,7 +24,6 @@ import {
   ItemShapeStyles,
   ShapeStyle,
   SHAPE_TYPE_3D,
-  ItemModel,
 } from '../types/item';
 import { NodeDisplayModel, NodeShapeMap } from '../types/node';
 import { ComboDisplayModel, IGraph } from '../types';

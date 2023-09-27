@@ -1,8 +1,9 @@
 import { runtime } from '@antv/g';
-import EmptyGraph from './runtime/graph';
+import { Graph as EmptyGraph } from './runtime/graph';
 import { Extensions, stdLib } from './stdlib';
-import Util from './util';
+import * as Util from './util';
 import { extend } from './util/extend';
+
 export * from './types';
 
 /**
@@ -18,8 +19,6 @@ const version = '5.0.0-beta.4';
 
 const Graph = extend(EmptyGraph, stdLib);
 
-const G6 = { Graph, Util, stdLib, Extensions, extend, version };
-
 export { Extensions, Graph, Util, extend, stdLib, version };
 
-export default G6;
+export default { Graph, Util, stdLib, Extensions, extend, version };

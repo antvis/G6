@@ -24,7 +24,7 @@ export interface RouterCfg {
   /** Allowed edge directions */
   directions?: any[];
   /** Penalties */
-  penalties?: {};
+  penalties?: Record<string, any>;
   /** Determine if use simple router for polyline when no obstacles */
   simple?: boolean;
   /** Function to calculate the distance between two points */

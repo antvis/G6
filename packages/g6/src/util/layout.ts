@@ -1,10 +1,11 @@
 import Hierarchy from '@antv/hierarchy';
-
 import { isArray, isNumber } from '@antv/util';
-import { GraphData, ID, NodeModel } from 'types';
+import { GraphData, ID, NodeModel } from '../types';
 import { Point } from '../types/common';
 import { traverse } from './data';
+
 type TreeGraphData = any;
+
 /**
  * Judge the direction according to options of a tree layout.
  * @param type Tree layout type.

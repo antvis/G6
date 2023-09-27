@@ -4,7 +4,7 @@ import { NodeRegistry } from '../types/node';
 import { EdgeRegistry } from '../types/edge';
 import { LayoutRegistry } from '../types/layout';
 import { PluginRegistry } from '../types/plugin';
-import Graph from '../runtime/graph';
+import { Graph } from '../runtime/graph';
 import registry from '../stdlib';
 
 /**
@@ -43,6 +43,5 @@ export const extend = <
       extension.type = type;
     });
   });
-  // @ts-expect-error
-  return GraphClass;
+  return GraphClass as any;
 };

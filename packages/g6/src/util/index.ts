@@ -1,8 +1,8 @@
-import { extend } from './extend';
-import { mock } from './mock';
-import { isEncode } from './type';
-import { getArrowPath } from './arrow';
-import {
+export { extend } from './extend';
+export { mock } from './mock';
+export { isEncode } from './type';
+export { getArrowPath } from './arrow';
+export {
   graphCoreTreeDfs,
   graphComboTreeDfs,
   traverseAncestorsAndSucceeds,
@@ -13,22 +13,4 @@ import {
   graphData2TreeData,
   traverse,
 } from './data';
-import { getEdgesBetween } from './item';
-
-const Util = {
-  extend,
-  isEncode,
-  mock,
-  getArrowPath,
-  graphCoreTreeDfs,
-  graphComboTreeDfs,
-  traverseAncestorsAndSucceeds,
-  traverseGraphAncestors,
-  traverseAncestors,
-  isSucceed,
-  treeData2GraphData,
-  graphData2TreeData,
-  traverse,
-  getEdgesBetween,
-};
-export default Util;
+export { getEdgesBetween } from './item';

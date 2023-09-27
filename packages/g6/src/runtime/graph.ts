@@ -13,6 +13,7 @@ import {
   isString,
   map,
 } from '@antv/util';
+import { createDom } from '@antv/dom-util';
 import { History } from '../stdlib/plugin/history';
 import { Command } from '../stdlib/plugin/history/command';
 import type {
@@ -59,9 +60,8 @@ import {
 } from './controller';
 import { PluginController } from './controller/plugin';
 import Hook from './hooks';
-import { createDom } from '@antv/dom-util';
 
-export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
+export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
   extends EventEmitter
   implements IGraph<B, T>
 {
@@ -2074,8 +2074,8 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
 
     const pixelRatio =
       typeof window !== 'undefined' ? window.devicePixelRatio : 1;
-    let width = this.getSize()[0];
-    let height = this.getSize()[1];
+    const width = this.getSize()[0];
+    const height = this.getSize()[1];
 
     const vContainerDOM: HTMLDivElement = createDom(
       '<div id="virtual-image"></div>',
@@ -2105,9 +2105,9 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       });
       vCanvas.appendChild(bgRect);
     }
-    let backgroundClonedGroup = backgroundCanvas.getRoot().cloneNode(true);
-    let clonedGroup = canvas.getRoot().cloneNode(true);
-    let transientClonedGroup = transientCanvas.getRoot().cloneNode(true);
+    const backgroundClonedGroup = backgroundCanvas.getRoot().cloneNode(true);
+    const clonedGroup = canvas.getRoot().cloneNode(true);
+    const transientClonedGroup = transientCanvas.getRoot().cloneNode(true);
     vCanvas.appendChild(backgroundClonedGroup);
     vCanvas.appendChild(clonedGroup);
     vCanvas.appendChild(transientClonedGroup);
@@ -2209,10 +2209,10 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       });
       vCanvas.appendChild(bgRect);
     }
-    let backgroundClonedGroup = backgroundRoot.cloneNode(true);
-    let clonedGroup = root.cloneNode(true);
-    let transientClonedGroup = transientRoot.cloneNode(true);
-    let transPosition: [number, number] = [
+    const backgroundClonedGroup = backgroundRoot.cloneNode(true);
+    const clonedGroup = root.cloneNode(true);
+    const transientClonedGroup = transientRoot.cloneNode(true);
+    const transPosition: [number, number] = [
       -graphCenterX + halfX,
       -graphCenterY + halfY,
     ];
