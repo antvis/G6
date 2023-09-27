@@ -18,22 +18,20 @@
     "build:cjs": "rimraf ./lib && tsc --module commonjs --outDir lib",
     "build:esm": "rimraf ./esm && tsc --module ESNext --outDir esm",
     "build": "run-p build:*",
-    "bundle-vis": "cross-env BUNDLE_VIS=1 run-p build:umd",
+    "bundle-vis": "cross-env BUNDLE_VIS=1 npm run build:umd",
+    "size": "limit-size",
     "prepublishOnly": "npm run ci",
-    "ci": "run-s lint build",
-    "clean": "rimraf es lib",
-    "coverage": "jest --coverage",
-    "clear:doc": "rimraf ../site/docs/_apis",
-    "doc": "npm run clear:doc && typedoc",
+    "doc": "rimraf ../site/docs/_apis && typedoc",
     "lint": "eslint ./src ./tests --quiet && prettier ./src ./tests --check",
     "lint-staged": "lint-staged",
     "fix": "eslint ./src ./tests --fix && prettier ./src ./tests --write ",
     "test": "jest",
     "test:integration": "node --expose-gc --max-old-space-size=4096 --unhandled-rejections=strict node_modules/jest/bin/jest tests/integration/ --config jest.node.config.js --coverage -i  --logHeapUsage --detectOpenHandles",
     "test:integration_one": "node --expose-gc --max-old-space-size=4096 --unhandled-rejections=strict node_modules/jest/bin/jest tests/integration/items-edge-loop.spec.ts --config jest.node.config.js --coverage -i  --logHeapUsage --detectOpenHandles",
-    "size": "limit-size",
     "test-live": "DEBUG_MODE=1 jest --watch  ./tests/unit/item-animate-spec.ts",
-    "test-behavior": "DEBUG_MODE=1 jest --watch ./tests/unit/item-3d-spec.ts"
+    "test-behavior": "DEBUG_MODE=1 jest --watch ./tests/unit/item-3d-spec.ts",
+    "ci": "run-s lint build",
+    "coverage": "jest --coverage"
   },
   "keywords": [
     "antv",
@@ -90,6 +88,7 @@
     "@umijs/fabric": "^2.0.0",
     "babel-loader": "^8.0.6",
     "canvas": "2.11.0",
+    "cross-env": "^7.0.3",
     "eslint": "^8.48.0",
     "eslint-plugin-import": "^2.28.1",
     "gl": "^6.0.2",
@@ -133,5 +132,5 @@
     "url": "https://github.com/antvis/g6/issues"
   },
   "repository": "git@github.com/antvis/g6.git",
-  "license": "MIT" 
+  "license": "MIT"
 }
