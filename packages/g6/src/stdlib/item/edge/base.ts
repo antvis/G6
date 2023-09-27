@@ -1,5 +1,5 @@
-import { AABB, DisplayObject, Line, Polyline } from '@antv/g';
-import { isNumber, isBoolean } from '@antv/util';
+import { AABB, DisplayObject, Group, Line, Polyline } from '@antv/g';
+import { isNumber, isBoolean, isEmpty, each } from '@antv/util';
 import { ID } from 'types';
 import {
   DEFAULT_LABEL_BG_PADDING,
@@ -30,7 +30,7 @@ import {
 import { DEFAULT_ANIMATE_CFG, fadeIn, fadeOut } from '../../../util/animate';
 import { getWordWrapWidthByEnds } from '../../../util/text';
 import { AnimateCfg } from '../../../types/animate';
-import { getZoomLevel } from '../../../util/zoom';
+import { getZoomLevel, updateStyleOnZoom } from '../../../util/zoom';
 import { DEFAULT_ARROW_CONFIG, getArrowPath } from '../../../util/arrow';
 import Node from '../../../item/node';
 
@@ -145,11 +145,13 @@ export abstract class BaseEdge {
    * @param shapeMap The shape map that contains all of the elements to show on the edge.
    */
   public updateCache(shapeMap) {
-    ['labelShape', 'labelBackgroundShape'].forEach((id) => {
+    Object.keys(shapeMap).forEach((id) => {
       const shape = shapeMap[id];
       if (shape?.getAttribute(LOCAL_BOUNDS_DIRTY_FLAG_KEY)) {
-        this.boundsCache[`${id}Geometry`] = shape.getGeometryBounds();
-        this.boundsCache[`${id}Transform`] = shape.style.transform;
+        if (['labelShape', 'labelBackgroundShape'].includes(id))
+          this.boundsCache[`${id}Geometry`] = shape.getGeometryBounds();
+        if (shape.style.transform)
+          this.boundsCache[`${id}Transform`] = shape.getAttribute('transform');
         shape.setAttribute(LOCAL_BOUNDS_DIRTY_FLAG_KEY, false);
       }
     });
@@ -555,9 +557,6 @@ export abstract class BaseEdge {
     zoom: number,
     cacheHiddenShape = {},
   ) => {
-    // balance the size for label, badges
-    this.balanceShapeSize(shapeMap, zoom);
-
     // zoomLevel changed
     if (!this.lodStrategy) return;
     const { levels } = this.lodStrategy;
@@ -612,34 +611,51 @@ export abstract class BaseEdge {
     this.zoomCache.firstRender = false;
   };
 
-  /**
-   * Update the shapes' sizes e.g. labelShape, labelBackgroundShape, to keep the visual size while zooming.
-   * @param shapeMap
-   * @param zoom
-   * @returns
-   */
-  private balanceShapeSize(shapeMap, zoom) {
-    const { labelShape, labelBackgroundShape } = shapeMap;
+  public balanceShapeSize = (
+    shapeMap: EdgeShapeMap,
+    group: Group,
+    zoom: number,
+    fixed?: boolean,
+    shapeIds?: string[],
+  ) => {
     const balanceRatio = 1 / zoom || 1;
+    const scaleTransform = `scale(${balanceRatio}, ${balanceRatio})`;
     this.zoomCache.balanceRatio = balanceRatio;
-    const { labelShape: labelStyle = {} } = this.mergedStyles;
-    const { position = 'bottom' } = labelStyle;
-    if (!labelShape) return;
+    const newShapeIds = isEmpty(shapeIds) ? Object.keys(shapeMap) : shapeIds;
 
+    if (fixed) {
+      each(newShapeIds, (shapeId) => {
+        const shape = shapeMap[shapeId];
+        const mergedStyle = this.mergedStyles[shapeId];
+        if (shapeId === 'keyShape' || shapeId === 'haloShape') {
+          updateStyleOnZoom(shape, mergedStyle, ['lineWidth'], balanceRatio);
+        } else {
+          const oriTransform = this.boundsCache[`${shapeId}Transform`] || '';
+          shape.style.transform = `${oriTransform} ${scaleTransform}`;
+        }
+      });
+      return;
+    }
+
+    // balance label's size
+    const labelShape = shapeMap['labelShape'];
+    if (!labelShape || !labelShape.isVisible()) return;
+
+    const { position = 'bottom' } = this.mergedStyles.labelShape;
     if (position === 'bottom') labelShape.style.transformOrigin = '0';
     else labelShape.style.transformOrigin = '';
-
     const oriTransform = this.boundsCache.labelShapeTransform;
-    labelShape.style.transform = `${oriTransform} scale(${balanceRatio}, ${balanceRatio})`;
-
-    const wordWrapWidth = this.zoomCache.wordWrapWidth * zoom;
+    labelShape.style.transform = `${oriTransform} ${scaleTransform}`;
+    const wordWrapWidth = this.zoomCache.wordWrapWidth / balanceRatio;
     labelShape.style.wordWrapWidth = wordWrapWidth;
 
-    if (!labelBackgroundShape) return;
+    // balance label background's size
+    const labelBackgroundShape = shapeMap['labelBackgroundShape'];
+    if (!labelBackgroundShape || !labelBackgroundShape.isVisible()) return;
 
-    const oriBgTransform = this.boundsCache.labelBackgroundShapeTransform;
-    labelBackgroundShape.style.transform = `${oriBgTransform} scale(${balanceRatio}, ${balanceRatio})`;
-  }
+    const oriBgTransform = this.boundsCache.labelBackgroundShapeTransform || '';
+    labelBackgroundShape.style.transform = `${oriBgTransform} ${scaleTransform}`;
+  };
 
   /**
    * Update the source point { x, y } for the edge. Called in item's draw func.

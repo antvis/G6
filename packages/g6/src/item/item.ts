@@ -814,6 +814,16 @@ export default abstract class Item implements IItem {
     this.renderExt.onZoom(this.shapeMap, zoom, this.cacheHiddenByItem);
   }
 
+  public balanceShapeSize(zoom: number, fixed?: boolean, shapeIds?: string[]) {
+    this.renderExt.balanceShapeSize(
+      this.shapeMap,
+      this.group,
+      zoom,
+      fixed,
+      shapeIds,
+    );
+  }
+
   /** Destroy the item. */
   public destroy() {
     const func = () => {

@@ -1,4 +1,4 @@
-import { isNumber } from '@antv/util';
+import { each, isNumber } from '@antv/util';
 import { ID, IG6GraphEvent } from '../../types';
 import { Behavior } from '../../types/behavior';
 
@@ -45,14 +45,17 @@ export interface ZoomCanvasOptions {
    * Whether allow the behavior happen on the current item.
    */
   shouldBegin?: (event: IG6GraphEvent) => boolean;
-
-  // TODO: fixSelectedItems, optimizeZoom
-  // fixSelectedItems: {
-  //   fixAll: false,
-  //   fixLineWidth: false,
-  //   fixLabel: false,
-  //   fixState: 'selected',
-  // },
+  /**
+   *
+   */
+  fixSelectedItems?: Partial<{
+    fixAll: boolean;
+    fixLineWidth: boolean;
+    fixLabel: boolean;
+    fixState: string;
+    shapeIds: string[];
+  }>;
+  // TODO: optimizeZoom
   // optimizeZoom: hide shapes when zoom ratio is smaller than optimizeZoom
 }
 
@@ -67,6 +70,11 @@ const DEFAULT_OPTIONS: Required<ZoomCanvasOptions> = {
   minZoom: 0.00001,
   maxZoom: 1000,
   shouldBegin: () => true,
+  fixSelectedItems: {
+    fixState: 'selected',
+    fixAll: true,
+    shapeIds: [],
+  },
 };
 
 export class ZoomCanvas extends Behavior {
@@ -86,6 +94,8 @@ export class ZoomCanvas extends Behavior {
       );
       finalOptions.trigger = 'wheel';
     }
+    if (!finalOptions.fixSelectedItems.fixState)
+      finalOptions.fixSelectedItems.fixState = 'selected';
     super(finalOptions);
   }
 
@@ -214,6 +224,7 @@ export class ZoomCanvas extends Behavior {
       minZoom,
       maxZoom,
       shouldBegin,
+      fixSelectedItems,
     } = this.options;
 
     // TODO: CANVAS
@@ -238,6 +249,19 @@ export class ZoomCanvas extends Behavior {
     const zoomTo = zoomRatio * graph.getZoom();
     if (minZoom && zoomTo < minZoom) return;
     if (maxZoom && zoomTo > maxZoom) return;
+
+    // fix items when zooming
+    const zoom = graph.getZoom();
+    if (zoom < 1) {
+      const { fixAll, fixState, shapeIds } = fixSelectedItems;
+      const fixNodeIds = graph.findIdByState('node', fixState);
+      const fixEdgeIds = graph.findIdByState('edge', fixState);
+
+      each(fixNodeIds.concat(fixEdgeIds), (fixId) => {
+        graph.balanceItemShape(fixId, true, shapeIds);
+      });
+    }
+
     // TODO: the zoom center is wrong?
     graph.zoom(zoomRatio, { x: client.x, y: client.y });
 

@@ -805,7 +805,11 @@ export class ItemController {
             cancelAnimationFrame(requestId);
             return;
           }
-          itemSections.shift().forEach((item) => item.updateZoom(zoomRatio));
+          itemSections.shift().forEach((item) => {
+            item.updateZoom(zoomRatio);
+            // balance the size of label and label background
+            item.balanceShapeSize(zoomRatio, false);
+          });
           requestId = requestAnimationFrame(update);
         };
         requestId = requestAnimationFrame(update);
@@ -1384,6 +1388,32 @@ export class ItemController {
       return false;
     }
     return item.isVisible();
+  }
+
+  public balanceItemShape(
+    id: ID,
+    zoom: number,
+    fixed?: boolean,
+    shapeIds?: string[],
+  ) {
+    const item = this.itemMap.get(id);
+    if (!item) {
+      console.warn(
+        `Fail to balance item shape, the item with id ${id} does not exist.`,
+      );
+      return false;
+    }
+
+    each(shapeIds, (shapeId) => {
+      if (!Object.keys(item.shapeMap).includes(shapeId)) {
+        console.warn(
+          `Fail to balance item shape. The target shapeId ${shapeId} is invalid.`,
+        );
+        return false;
+      }
+    });
+
+    return item.balanceShapeSize(zoom, fixed, shapeIds);
   }
 
   /**

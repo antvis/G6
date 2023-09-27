@@ -1,4 +1,4 @@
-import { AABB, DisplayObject } from '@antv/g';
+import { AABB, DisplayObject, Group } from '@antv/g';
 import { OTHER_SHAPES_FIELD_NAME, RESERVED_SHAPE_IDS } from '../../../constant';
 import { NodeDisplayModel } from '../../../types';
 import {
@@ -34,6 +34,7 @@ import { convertToNumber } from '../../../util/type';
 import { DEFAULT_ANIMATE_CFG, fadeIn, fadeOut } from '../../../util/animate';
 import { getZoomLevel } from '../../../util/zoom';
 import { AnimateCfg } from '../../../types/animate';
+import { each, isEmpty, pick } from '@antv/util';
 
 export abstract class BaseNode {
   type: string;
@@ -160,21 +161,20 @@ export abstract class BaseNode {
    * Call it after calling draw function to update cache about bounds and zoom levels.
    * @param shapeMap The shape map that contains all of the elements to show on the node.
    */
-  public updateCache(shapeMap) {
-    ['keyShape', 'labelShape']
-      .concat(Object.keys(BadgePosition))
-      .map((pos) => `${pos}BadgeShape`)
-      .forEach((id) => {
-        const shape = shapeMap[id];
-        if (shape?.getAttribute(LOCAL_BOUNDS_DIRTY_FLAG_KEY)) {
-          if (id === 'labelShape') {
-            this.boundsCache[`${id}Geometry`] = shape.getGeometryBounds();
-          } else {
-            this.boundsCache[`${id}Local`] = shape.getLocalBounds();
-          }
-          shape.setAttribute(LOCAL_BOUNDS_DIRTY_FLAG_KEY, false);
+  public updateCache(shapeMap: NodeShapeMap) {
+    Object.keys(shapeMap).forEach((id) => {
+      const shape = shapeMap[id];
+      if (shape?.getAttribute(LOCAL_BOUNDS_DIRTY_FLAG_KEY)) {
+        if (id === 'labelShape') {
+          this.boundsCache[`${id}Geometry`] = shape.getGeometryBounds();
+        } else {
+          this.boundsCache[`${id}Local`] = shape.getLocalBounds();
         }
-      });
+        if (shape.style.transform)
+          this.boundsCache[`${id}Transform`] = shape.style.transform;
+        shape.setAttribute(LOCAL_BOUNDS_DIRTY_FLAG_KEY, false);
+      }
+    });
 
     const levelShapes = {};
     Object.keys(shapeMap).forEach((shapeId) => {
@@ -424,7 +424,6 @@ export abstract class BaseNode {
       shapeMap,
       model,
     );
-    this.balanceShapeSize(shapeMap, this.zoomCache.zoom);
 
     return bgShape;
   }
@@ -859,30 +858,37 @@ export abstract class BaseNode {
       }
       this.zoomCache.zoomLevel = currentLevel;
     }
-    this.balanceShapeSize(shapeMap, zoom);
     this.zoomCache.zoom = zoom;
   };
 
-  /**
-   * Update the shapes' sizes e.g. labelShape, labelBackgroundShape, to keep the visual size while zooming.
-   * @param shapeMap
-   * @param zoom
-   * @returns
-   */
-  private balanceShapeSize(
-    shapeMap: NodeShapeMap | ComboShapeMap,
+  public balanceShapeSize = (
+    shapeMap: NodeShapeMap,
+    group: Group,
     zoom: number,
-  ) {
-    // balance the size for label, badges
-    const { keyShape, labelShape, labelBackgroundShape } = shapeMap;
-    const balanceRatio = 1 / zoom || 1;
-    this.zoomCache.balanceRatio = balanceRatio;
-    if (!labelShape || !labelShape.isVisible()) return;
+    fixed = true,
+    shapeIds?: string[],
+  ) => {
+    const balanceRatio = zoom ? 1 / zoom : 1;
+    const scaleTransform = `scale(${balanceRatio}, ${balanceRatio})`;
+
+    if (fixed) {
+      const shapes = !isEmpty(shapeIds)
+        ? pick(shapeMap, shapeIds)
+        : { group: group };
+      each(Object.entries(shapes), ([shapeId, shape]) => {
+        const oriTransform = this.boundsCache[`${shapeId}Transform`] || '';
+        shape.style.transform = `${oriTransform} ${scaleTransform}`;
+      });
+      return;
+    }
+
+    const keyShapeLocal = shapeMap.keyShape.getLocalBounds();
     const { position = 'bottom' } = this.mergedStyles.labelShape;
 
-    const keyShapeLocal = keyShape.getLocalBounds();
+    const labelShape = shapeMap['labelShape'];
+    if (!labelShape && !labelShape.isVisible()) return;
+
     if (zoom < 1) {
-      // if it is zoom-out, do not scale the gap between keyShape and labelShape, differentiate from zoom-in by adjusting transformOrigin
       if (position === 'bottom') labelShape.style.transformOrigin = '0';
       else labelShape.style.transformOrigin = '';
     } else {
@@ -913,19 +919,20 @@ export abstract class BaseNode {
           break;
       }
     }
+
     const oriTransform = (labelShape.style.transform || '').replace(
       this.scaleTransformCache,
       '',
     );
-    const scaleTransform = `scale(${balanceRatio}, ${balanceRatio})`;
     labelShape.style.transform = `${oriTransform} ${scaleTransform}`;
     this.scaleTransformCache = scaleTransform;
-    labelShape.style.wordWrapWidth = this.zoomCache.wordWrapWidth * zoom;
 
-    if (!labelBackgroundShape || !labelBackgroundShape.isVisible()) return;
+    const labelBackgroundShape = shapeMap['labelBackgroundShape'];
+    if (!labelBackgroundShape && !labelBackgroundShape.isVisible()) return;
 
-    const [paddingTop, paddingRight, paddingBottom, paddingLeft] = this
-      .mergedStyles.labelBackgroundShape.padding as number[];
+    const { padding } = this.mergedStyles.labelBackgroundShape;
+    const [paddingTop, paddingRight, paddingBottom, paddingLeft] =
+      padding as number[];
     const sidePadding = paddingRight + paddingLeft;
     const { width, height, x, y } = labelBackgroundShape.attributes;
 
@@ -967,7 +974,7 @@ export abstract class BaseNode {
     const xAxistRatio = (labelWidth * balanceRatio + sidePadding) / width;
 
     labelBackgroundShape.style.transform = `scale(${xAxistRatio}, ${balanceRatio})`;
-  }
+  };
 
   /**
    * Create (if does not exit in shapeMap) or update the shape according to the configurations.

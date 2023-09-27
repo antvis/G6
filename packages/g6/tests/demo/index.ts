@@ -3,13 +3,14 @@ import anchor from './item/anchor';
 import animations_node_build_in from './animations/node-build-in';
 import arrow from './item/edge/arrow';
 import behaviors_activateRelations from './behaviors/activate-relations';
-import behaviors_shortcuts_call from './behaviors/shortcuts-call';
-import behaviors_dragCanvas from './behaviors/drag-canvas';
-import behaviors_scrollCanvas from './behaviors/scroll-canvas';
 import behaviors_brush_select from './behaviors/brush-select';
 import behaviors_click_select from './behaviors/click-select';
 import behaviors_collapse_expand_tree from './behaviors/collapse-expand-tree';
 import behaviors_create_edge from './behaviors/create-edge';
+import behaviors_dragCanvas from './behaviors/drag-canvas';
+import behaviors_scrollCanvas from './behaviors/scroll-canvas';
+import behaviors_shortcuts_call from './behaviors/shortcuts-call';
+import behaviors_zoom_canvas from './behaviors/zoom-canvas';
 import circularUpdate from './layouts/circular-update';
 import comboBasic from './combo/combo-basic';
 import comboRect from './combo/combo-rect';
@@ -77,13 +78,14 @@ export {
   animations_node_build_in,
   arrow,
   behaviors_activateRelations,
-  behaviors_dragCanvas,
-  behaviors_scrollCanvas,
-  behaviors_shortcuts_call,
   behaviors_brush_select,
   behaviors_click_select,
   behaviors_collapse_expand_tree,
   behaviors_create_edge,
+  behaviors_dragCanvas,
+  behaviors_scrollCanvas,
+  behaviors_shortcuts_call,
+  behaviors_zoom_canvas,
   circularUpdate,
   comboBasic,
   comboRect,
