@@ -1,4 +1,3 @@
-import { createDom } from '@antv/dom-util';
 import { Canvas } from '@antv/g';
 import type { TimebarStyleProps } from '@antv/gui';
 import { Timebar as GUITimebar } from '@antv/gui';
@@ -10,6 +9,7 @@ import type { ITEM_TYPE } from '../../../types/item';
 import { Plugin as Base, IPluginBaseConfig } from '../../../types/plugin';
 import { createCanvas } from '../../../util/canvas';
 import { formatPadding } from '../../../util/shape';
+import { createDOM } from '../../../util/dom';
 
 // -- start -- Adapt to GUI -- start --
 type SubStyleProps<T, Prefix extends string> = {
@@ -123,7 +123,7 @@ const tryToGet = <T = any>(
 };
 
 export class Timebar extends Base {
-  private wrapper: HTMLDivElement;
+  private wrapper: HTMLElement;
   private canvas: Canvas;
   private timebar: GUITimebar;
   private graphDataCache: GraphData;
@@ -235,9 +235,9 @@ export class Timebar extends Base {
     const { className } = options;
     const { width, height } = this.containerShape;
 
-    const wrapper = (HTMLDivElement = createDom(
+    const wrapper = createDOM(
       `<div class="${className}" style="width: ${width}px;height: ${height}"></div>`,
-    ));
+    );
     this.container.appendChild(wrapper);
     return wrapper;
   }

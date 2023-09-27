@@ -56,7 +56,11 @@ export function roundedHull(polyPoints: vec2[], padding: number) {
     const p1 = [points[0][0], points[0][1] - padding];
     const p2 = [points[0][0], points[0][1] + padding];
 
-    return `M ${p1} A ${padding},${padding},0,0,0,${p2} A ${padding},${padding},0,0,0,${p1}`;
+    return [
+      ['M', p1],
+      ['A', padding, padding, 0, 0, 0, p2],
+      ['A', padding, padding, 0, 0, 0, p1],
+    ];
   };
 
   // The rounded hull path around two points

@@ -1,11 +1,11 @@
 // TODO: update type define.
-import { createDom, modifyCSS } from '@antv/dom-util';
 import { AABB } from '@antv/g';
 import { isArray, isString, uniqueId } from '@antv/util';
 import insertCss from 'insert-css';
 import { IGraph } from '../../../types';
 import { IG6GraphEvent } from '../../../types/event';
 import { Plugin as Base, IPluginBaseConfig } from '../../../types/plugin';
+import { createDOM, modifyCSS } from '../../../util/dom';
 
 typeof document !== 'undefined' &&
   insertCss(`
@@ -56,21 +56,21 @@ type Placement =
 /**
  * The `TooltipConfig` interface contains the following properties:
 
-- `getContent`: An optional function for getting the content of the tooltip. It takes an optional argument of type `IG6GraphEvent`, and returns a value of type HTMLDivElement, string, or Promise (resolving to HTMLDivElement or string).
+- `getContent`: An optional function for getting the content of the tooltip. It takes an optional argument of type `IG6GraphEvent`, and returns a value of type HTMLElement, string, or Promise (resolving to HTMLElement or string).
 - `offsetX`: An optional number representing the offset of the tooltip in the X direction.
 - `offsetY`: An optional number representing the offset of the tooltip in the Y direction.
 - `shouldBegin`: An optional function for determining whether the tooltip should be displayed. It takes an optional argument of type `IG6GraphEvent`, and returns a boolean value.
 - `itemTypes`: An optional array of strings representing the types of items for which the tooltip is allowed to be displayed. The possible values are 'node', 'edge', 'combo', and 'canvas'.
 - `trigger`: An optional string, either 'pointerenter' or 'click', representing the event type that triggers the display of the tooltip.
 - `fixToNode`: An optional array of two numbers, a string representing a placement, or undefined, representing how to fix the tooltip to a node.
-- `loadingContent`: An optional HTMLDivElement or string representing the loading DOM.
+- `loadingContent`: An optional HTMLElement or string representing the loading DOM.
 
  */
 export interface TooltipConfig extends IPluginBaseConfig {
   /** Function for getting tooltip content */
   getContent?: (
     evt?: IG6GraphEvent,
-  ) => HTMLDivElement | string | Promise<HTMLDivElement | string>;
+  ) => HTMLElement | string | Promise<HTMLElement | string>;
   /** Offset of tooltip in X direction */
   offsetX?: number;
   /** Offset of tooltip in Y direction */
@@ -84,7 +84,7 @@ export interface TooltipConfig extends IPluginBaseConfig {
   /** How to fix tooltip to node */
   fixToNode?: [number, number] | Placement | undefined;
   /** Loading DOM */
-  loadingContent?: HTMLDivElement | string;
+  loadingContent?: HTMLElement | string;
 }
 export class Tooltip extends Base {
   private tooltip;
@@ -153,7 +153,7 @@ export class Tooltip extends Base {
   public init(graph: IGraph) {
     super.init(graph);
     const className = this.options.className;
-    const tooltip = createDom(
+    const tooltip = createDOM(
       `<div class='${className || 'g6-component-tooltip'}'></div>`,
     );
     modifyCSS(tooltip, {
@@ -173,12 +173,12 @@ export class Tooltip extends Base {
       });
     }
     //`container` string type in v5
-    let container: HTMLDivElement | null | string = this.options.container;
+    let container: HTMLElement | null | string = this.options.container;
     if (!container) {
-      container = this.graph.container as HTMLDivElement;
+      container = this.graph.container as HTMLElement;
     }
     if (isString(container)) {
-      container = document.getElementById(container) as HTMLDivElement;
+      container = document.getElementById(container) as HTMLElement;
     }
     container.appendChild(tooltip);
     this.tooltip = tooltip;
@@ -264,7 +264,7 @@ export class Tooltip extends Base {
     });
     if (isString(tooltip)) {
       tooltipDom.innerHTML = tooltip;
-    } else if (tooltip instanceof HTMLDivElement) {
+    } else if (tooltip instanceof HTMLElement) {
       this.clearContainer();
       this.container.appendChild(tooltip);
     } else {

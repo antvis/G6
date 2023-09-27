@@ -1,6 +1,5 @@
-import { uniqueId, deepMix, isString } from '@antv/util';
-import { createDom, modifyCSS } from '@antv/dom-util';
-import { Canvas, CanvasLike } from '@antv/g';
+import { uniqueId, isString } from '@antv/util';
+import { Canvas } from '@antv/g';
 import { IGraph } from 'types';
 import { Plugin as Base, IPluginBaseConfig } from '../../../types/plugin';
 import { createCanvas } from '../../../util/canvas';
@@ -60,7 +59,7 @@ export interface WaterMarkerConfig extends IPluginBaseConfig {
 }
 
 export class WaterMarker extends Base {
-  private container: HTMLDivElement;
+  private container: HTMLElement;
   private canvas: Canvas;
 
   constructor(options?: WaterMarkerConfig) {
@@ -117,15 +116,15 @@ export class WaterMarker extends Base {
     const { graph, options } = this;
     const { width, height } = options;
     let parentNode = options.container;
-    let container: HTMLDivElement;
+    let container: HTMLElement;
 
     if (isString(parentNode)) {
-      parentNode = document.getElementById(parentNode) as HTMLDivElement;
+      parentNode = document.getElementById(parentNode) as HTMLElement;
     }
     if (parentNode) {
       container = parentNode;
     } else {
-      container = graph.container as HTMLDivElement;
+      container = graph.container as HTMLElement;
     }
     if (!container.style.position) {
       container.style.position = 'relative';
@@ -297,13 +296,13 @@ export class WaterMarker extends Base {
     const { className } = options;
 
     const parentNode = options.container;
-    let container: HTMLDivElement;
+    let container: HTMLElement;
 
     if (!parentNode) {
-      container = this.graph.container as HTMLDivElement;
+      container = this.graph.container as HTMLElement;
     }
     if (isString(container)) {
-      container = document.getElementById(container) as HTMLDivElement;
+      container = document.getElementById(container) as HTMLElement;
     }
 
     const box = document.querySelector(`.${className}`) as HTMLElement;

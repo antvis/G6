@@ -1,6 +1,5 @@
-import { parsePathString } from '@antv/path-util';
 import { DisplayObject } from '@antv/g';
-import { isArray } from '@antv/util';
+import { isArray, PathArray } from '@antv/util';
 import { ComboModel, ID, IGraph, NodeModel } from '../../../types';
 import { ShapeStyle } from '../../../types/item';
 import { isPolygonsIntersect } from '../../../util/shape';
@@ -51,8 +50,7 @@ interface HullComponentFullOptions extends HullComponentOptions {
 export default class Hull {
   graph: IGraph;
 
-  // TODO: PathArray is not exported by @antv/util 2.x but by 3.x. Correct the type String | PathArray after upgrading @antv/util
-  path: any;
+  path: PathArray;
 
   members: (NodeModel | ComboModel)[];
 
@@ -141,7 +139,7 @@ export default class Hull {
           contour.map((p) => [p.x, p.y]),
           this.padding,
         );
-        path = parsePathString(hull);
+        path = hull;
         break;
       case 'smooth-convex':
         contour = genConvexHull(members);
@@ -150,7 +148,7 @@ export default class Hull {
             contour.map((p) => [p.x, p.y]),
             this.padding,
           );
-          path = parsePathString(hull);
+          path = hull;
         } else if (contour.length > 2) {
           hull = paddedHull(
             contour.map((p) => [p.x, p.y]),
