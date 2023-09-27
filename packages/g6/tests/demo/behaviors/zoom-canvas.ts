@@ -24,7 +24,7 @@ export default (context: TestCaseContext) => {
     },
     edge: {
       keyShape: {
-        lineWidth: 3,
+        lineWidth: 5,
       },
       labelShape: {
         text: {
@@ -39,10 +39,6 @@ export default (context: TestCaseContext) => {
         id,
         data: {
           ...data,
-          // keyShape: {
-          //   height: 50,
-          //   width: 50,
-          // },
           labelShape: {
             text: 'label',
             position: 'bottom',

@@ -815,12 +815,19 @@ export default abstract class Item implements IItem {
   }
 
   public balanceShapeSize(zoom: number, fixed?: boolean, shapeIds?: string[]) {
+    const { model: displayModel } = this.getDisplayModelAndChanges(this.model);
+    const defaultStyle = this.renderExt.getMergedStyles(
+      displayModel,
+      this.themeStyles['default'],
+    );
     this.renderExt.balanceShapeSize(
       this.shapeMap,
       this.group,
       zoom,
       fixed,
       shapeIds,
+      this.displayModel,
+      defaultStyle,
     );
   }
 

@@ -867,6 +867,8 @@ export abstract class BaseNode {
     zoom: number,
     fixed = true,
     shapeIds?: string[],
+    displayModel?: NodeDisplayModel,
+    defaultStyle?: NodeShapeStyles,
   ) => {
     const balanceRatio = zoom ? 1 / zoom : 1;
     const scaleTransform = `scale(${balanceRatio}, ${balanceRatio})`;

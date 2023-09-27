@@ -111,7 +111,10 @@ export abstract class BaseEdge {
    * @param model - The EdgeDisplayModel to retrieve the merged styles from.
    * @returns The merged styles as a EdgeShapeStyles object.
    */
-  public getMergedStyles(model: EdgeDisplayModel) {
+  public getMergedStyles(
+    model: EdgeDisplayModel,
+    themeStyles?: EdgeShapeStyles,
+  ) {
     const { data } = model;
     const dataStyles = {} as EdgeShapeStyles;
     Object.keys(data).forEach((fieldName) => {
@@ -125,7 +128,7 @@ export abstract class BaseEdge {
       }
     });
     const merged = mergeStyles([
-      this.themeStyles,
+      themeStyles || this.themeStyles,
       this.defaultStyles,
       dataStyles,
     ]) as EdgeShapeStyles;
@@ -617,6 +620,8 @@ export abstract class BaseEdge {
     zoom: number,
     fixed?: boolean,
     shapeIds?: string[],
+    displayModel?: EdgeDisplayModel,
+    defaultStyle?: EdgeShapeStyles,
   ) => {
     const balanceRatio = 1 / zoom || 1;
     const scaleTransform = `scale(${balanceRatio}, ${balanceRatio})`;
@@ -629,6 +634,9 @@ export abstract class BaseEdge {
         const mergedStyle = this.mergedStyles[shapeId];
         if (shapeId === 'keyShape' || shapeId === 'haloShape') {
           updateStyleOnZoom(shape, mergedStyle, ['lineWidth'], balanceRatio);
+          const { lineWidth } = defaultStyle['keyShape'];
+          displayModel.data.keyShape.lineWidth =
+            Number(lineWidth) * balanceRatio;
         } else {
           const oriTransform = this.boundsCache[`${shapeId}Transform`] || '';
           shape.style.transform = `${oriTransform} ${scaleTransform}`;
