@@ -65,6 +65,9 @@ import legend from './plugins/legend';
 import snapline from './plugins/snapline';
 import mapper from './visual/mapper';
 import minimap from './plugins/minimap';
+import edgeFilterLens from './plugins/edgeFilterLens';
+import watermarker from './plugins/watermarker';
+import cube from './item/node/cube';
 import graphCore from './data/graphCore';
 import dagreUpdate from './layouts/dagre-update';
 
@@ -138,6 +141,9 @@ export {
   hull,
   legend,
   snapline,
+  edgeFilterLens,
+  watermarker,
+  cube,
   graphCore,
   dagreUpdate,
 };

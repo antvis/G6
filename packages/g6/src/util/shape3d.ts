@@ -19,7 +19,7 @@ import {
 
 const GeometryTagMap = {
   sphere: SphereGeometry,
-  cubic: CubeGeometry,
+  cube: CubeGeometry,
   plane: PlaneGeometry,
 };
 

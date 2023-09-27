@@ -32,6 +32,7 @@ const {
   EllipseNode,
   ModelRectNode,
   ImageNode,
+  CubeNode,
 } = Nodes;
 
 const {
@@ -76,6 +77,7 @@ const {
   Toolbar,
   Timebar,
   Snapline,
+  EdgeFilterLens,
 } = Plugins;
 
 const {
@@ -96,6 +98,7 @@ const {
 import lassoSelector from './selector/lasso';
 import rectSelector from './selector/rect';
 import Hull from './plugin/hull';
+import { WaterMarker } from './plugin/watermaker';
 
 const stdLib = {
   transforms: {
@@ -246,6 +249,7 @@ const Extensions = {
   TriangleNode,
   EllipseNode,
   ModelRectNode,
+  CubeNode,
   // edges
   LineEdge,
   CubicEdge,
@@ -289,6 +293,8 @@ const Extensions = {
   Timebar,
   Hull,
   Snapline,
+  EdgeFilterLens,
+  WaterMarker
 };
 
 export default registery;
