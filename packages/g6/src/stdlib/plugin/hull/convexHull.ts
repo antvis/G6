@@ -1,4 +1,4 @@
-import { ComboModel, NodeModel } from 'types';
+import { ComboModel, NodeModel } from '../../../types';
 import { Point } from '../../../types/common';
 
 /**
@@ -21,7 +21,7 @@ export const genConvexHull = (models: (NodeModel | ComboModel)[]) => {
       ({
         x: model.data.x,
         y: model.data.y,
-      } as Point),
+      }) as Point,
   );
   points.sort((a, b) => {
     return a.x === b.x ? a.y - b.y : a.x - b.x;

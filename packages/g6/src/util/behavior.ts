@@ -3,7 +3,7 @@ import { BehaviorOptionsOf, BehaviorRegistry } from '../types/behavior';
 import { isArrayOverlap } from './array';
 
 const TREE_BEHAVIORS = ['collapse-expand-tree'];
-export function hasTreeBehaviors (
+export function hasTreeBehaviors(
   behaviors: BehaviorOptionsOf<BehaviorRegistry>[],
 ) {
   if (!behaviors?.length) return false;

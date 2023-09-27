@@ -1,6 +1,6 @@
-import { ID, IG6GraphEvent } from 'types';
-import { Behavior } from '../../types/behavior';
 import { isNumber } from '@antv/util';
+import { ID, IG6GraphEvent } from '../../types';
+import { Behavior } from '../../types/behavior';
 
 const VALID_TRIGGERS = ['wheel', 'upDownKeys'];
 export interface ZoomCanvasOptions {

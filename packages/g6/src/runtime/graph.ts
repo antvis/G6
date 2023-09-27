@@ -1,5 +1,12 @@
 import EventEmitter from '@antv/event-emitter';
-import { AABB, Canvas, DataURLType, DisplayObject, PointLike, Rect } from '@antv/g';
+import {
+  AABB,
+  Canvas,
+  DataURLType,
+  DisplayObject,
+  PointLike,
+  Rect,
+} from '@antv/g';
 import { GraphChange, ID } from '@antv/graphlib';
 import {
   clone,
@@ -2151,32 +2158,35 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       padding = [padding, padding, padding, padding];
     }
 
-    const left = (transientBBox.left
-      ? backgroundBBox.left
-        ? Math.min(backgroundBBox.left, BBox.left, transientBBox.left)
-        : Math.min(BBox.left, transientBBox.left)
-      : BBox.left)-padding[3];
-    const right = (transientBBox.right
-    ? backgroundBBox.right
-      ? Math.max(backgroundBBox.right, BBox.right, transientBBox.right)
-      : Math.max(BBox.right, transientBBox.right)
-    : BBox.right)+padding[1];
-    const top = (transientBBox.top
-    ? backgroundBBox.top
-      ? Math.min(backgroundBBox.top, BBox.top, transientBBox.top)
-      : Math.min(BBox.top, transientBBox.top)
-    : BBox.top)-padding[0];
-    const bottom = (transientBBox.bottom
-    ? backgroundBBox.bottom
-      ? Math.max(backgroundBBox.bottom, BBox.bottom, transientBBox.bottom)
-      : Math.max(BBox.bottom, transientBBox.bottom)
-    : BBox.bottom)+padding[2];
+    const left =
+      (transientBBox.left
+        ? backgroundBBox.left
+          ? Math.min(backgroundBBox.left, BBox.left, transientBBox.left)
+          : Math.min(BBox.left, transientBBox.left)
+        : BBox.left) - padding[3];
+    const right =
+      (transientBBox.right
+        ? backgroundBBox.right
+          ? Math.max(backgroundBBox.right, BBox.right, transientBBox.right)
+          : Math.max(BBox.right, transientBBox.right)
+        : BBox.right) + padding[1];
+    const top =
+      (transientBBox.top
+        ? backgroundBBox.top
+          ? Math.min(backgroundBBox.top, BBox.top, transientBBox.top)
+          : Math.min(BBox.top, transientBBox.top)
+        : BBox.top) - padding[0];
+    const bottom =
+      (transientBBox.bottom
+        ? backgroundBBox.bottom
+          ? Math.max(backgroundBBox.bottom, BBox.bottom, transientBBox.bottom)
+          : Math.max(BBox.bottom, transientBBox.bottom)
+        : BBox.bottom) + padding[2];
 
     const graphCenterX = (left + right) / 2;
     const graphCenterY = (top + bottom) / 2;
     const halfX = (right - left) / 2;
     const halfY = (bottom - top) / 2;
-
 
     const pixelRatio =
       typeof window !== 'undefined' ? window.devicePixelRatio : 1;
@@ -2316,9 +2326,13 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * @param type The type of the image to download (optional, defaults to 'image/png').
    * @param imageConfig Configuration options for the image (optional).
    */
-  public downloadFullImage(name?: string, type?: DataURLType, imageConfig?: { padding?: number | number[] }): void {
+  public downloadFullImage(
+    name?: string,
+    type?: DataURLType,
+    imageConfig?: { padding?: number | number[] },
+  ): void {
     const self = this;
-    
+
     const rendererType = this.rendererType;
     if (!type) type = 'image/png';
     const fileName: string =
@@ -2352,13 +2366,17 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
   }
 
   /**
-   * Asynchronously converts the entire canvas content to a Data URL of the specified type 
+   * Asynchronously converts the entire canvas content to a Data URL of the specified type
    * with optional padding, and invokes the provided callback.
    * @param type The type of the Data URL (optional, defaults to 'image/png').
    * @param imageConfig Configuration options for the image (optional).
    * @param callback A callback function to handle the Data URL (optional).
    */
-  protected asyncToFullDataUrl(type?: DataURLType, imageConfig?: { padding?: number | number[] }, callback?: Function): void {
+  protected asyncToFullDataUrl(
+    type?: DataURLType,
+    imageConfig?: { padding?: number | number[] },
+    callback?: Function,
+  ): void {
     let dataURL = '';
     if (!type) type = 'image/png';
 

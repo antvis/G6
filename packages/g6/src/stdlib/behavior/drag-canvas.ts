@@ -1,7 +1,7 @@
-import { ID, IG6GraphEvent } from 'types';
+import { isNumber } from '@antv/util';
 import { Behavior } from '../../types/behavior';
 import { Point } from '../../types/common';
-import { isNumber } from '@antv/util';
+import { ID, IG6GraphEvent } from '../../types';
 
 const VALID_TRIGGERS = ['drag', 'directionKeys'];
 export interface DragCanvasOptions {

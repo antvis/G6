@@ -6,9 +6,9 @@ import './utils/useSnapshotMatchers';
 function sleep(time: number) {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      resolve(null)
-    }, time)
-  })
+      resolve(null);
+    }, time);
+  });
 }
 describe('Scroll canvas behavior', () => {
   beforeEach(() => {
@@ -43,16 +43,22 @@ describe('Scroll canvas behavior', () => {
         deltaX: 50,
         deltaY: 50,
       });
-      await sleep(2000)
-      await expect(canvas).toMatchCanvasSnapshot(dir, 'behaviors-scroll-canvas-wheel');
+      await sleep(2000);
+      await expect(canvas).toMatchCanvasSnapshot(
+        dir,
+        'behaviors-scroll-canvas-wheel',
+      );
 
       graph.emit('wheel', {
         client: { x: 50, y: 50 },
-        ctrlKey: true
+        ctrlKey: true,
       });
 
-      await sleep(2000)
-      await expect(canvas).toMatchCanvasSnapshot(dir, 'behaviors-scroll-canvas-zoom');
+      await sleep(2000);
+      await expect(canvas).toMatchCanvasSnapshot(
+        dir,
+        'behaviors-scroll-canvas-zoom',
+      );
 
       graph.destroy();
       done();
@@ -80,17 +86,23 @@ describe('Scroll canvas behavior', () => {
         deltaX: 50,
         deltaY: 50,
       });
-      
-      await sleep(2000)
-      await expect(canvas).toMatchSVGSnapshot(dir, 'behaviors-scroll-canvas-wheel');
+
+      await sleep(2000);
+      await expect(canvas).toMatchSVGSnapshot(
+        dir,
+        'behaviors-scroll-canvas-wheel',
+      );
 
       graph.emit('wheel', {
         client: { x: 50, y: 50 },
-        ctrlKey: true
+        ctrlKey: true,
       });
 
-      await sleep(2000)
-      await expect(canvas).toMatchSVGSnapshot(dir, 'behaviors-scroll-canvas-zoom');
+      await sleep(2000);
+      await expect(canvas).toMatchSVGSnapshot(
+        dir,
+        'behaviors-scroll-canvas-zoom',
+      );
 
       graph.destroy();
       done();

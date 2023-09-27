@@ -26,7 +26,7 @@
     "clear:doc": "rimraf ../site/docs/_apis",
     "doc": "npm run clear:doc && typedoc",
     "lint": "eslint ./src ./tests --quiet && prettier ./src ./tests --check",
-    "lint-staged:js": "eslint --ext .js,.jsx,.ts,.tsx",
+    "lint-staged": "lint-staged",
     "fix": "eslint ./src ./tests --fix && prettier ./src ./tests --write ",
     "test": "jest",
     "test:integration": "node --expose-gc --max-old-space-size=4096 --unhandled-rejections=strict node_modules/jest/bin/jest tests/integration/ --config jest.node.config.js --coverage -i  --logHeapUsage --detectOpenHandles",
