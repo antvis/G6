@@ -1,9 +1,14 @@
 import { NodeUserModel } from 'types';
 import { ID, TreeData } from '@antv/graphlib';
 import { NodeUserModelData } from 'types/node';
-import { isArray } from '@antv/util';
+import { clone, each, isArray } from '@antv/util';
 import { depthFirstSearch, connectedComponent } from '@antv/algorithm';
-import { GraphCore, GraphData } from '../types/data';
+import {
+  DataChangeType,
+  GraphCore,
+  GraphData,
+  GraphDataChangeSet,
+} from '../types/data';
 import { IGraph } from '../types/graph';
 import { NodeModel } from '../types';
 
@@ -304,4 +309,39 @@ export const traverse = (treeData, callback) => {
       if (child) traverse(child, callback);
     });
   }
+};
+
+export const DEFAULT_ACTIVE_DATA_LIFECYCLE = ['read'];
+
+export const AVAILABLE_DATA_LIFECYCLE = [
+  'read',
+  'changeData',
+  'updateData',
+  'addData',
+  'removeData',
+];
+
+export const dataLifecycleMap: Record<string, string> = {
+  replace: 'read',
+  mergeReplace: 'changeData',
+  union: 'addData',
+  remove: 'removeData',
+  update: 'updateData',
+};
+
+export const withHandleAUD = (
+  handler: (data: GraphData, options: any, graphCore?: GraphCore) => GraphData,
+  operations: 'A' | 'U' | 'D' | ('A' | 'U' | 'D')[] = ['A', 'U', 'D'],
+) => {
+  return (data: GraphDataChangeSet, options: any, graphCore?: GraphCore) => {
+    const result = clone(data);
+    const operationArray = Array.isArray(operations)
+      ? operations
+      : [operations];
+    each(operationArray, (operation) => {
+      result[operation] = handler(data[operation], options, graphCore);
+    });
+
+    return result;
+  };
 };

@@ -149,15 +149,27 @@ const lodStrategyLevels = [
   { zoomRange: [2.5, Infinity] }, // 4
 ];
 
-const dataFormat = (data, options = {}, userGraphCore) => {
+const withHandleAUD = (handler, operations = ['A', 'U', 'D']) => {
+  return (data, options, graphCore) => {
+    const result = { ...data };
+    const operationArray = Array.isArray(operations) ? operations : [operations];
+    operationArray.forEach((operation) => {
+      result[operation] = handler(data[operation], options, graphCore);
+    });
+
+    return result;
+  };
+};
+
+const dataFormat = withHandleAUD((data = {}, options = {}, userGraphCore) => {
   const map = new Map();
   const nodes = [];
-  data.nodes.forEach((node) => {
+  data.nodes?.forEach((node) => {
     if (map.has(node.id)) return;
     nodes.push(node);
     map.set(node.id, true);
   });
-  data.edges.forEach((edge) => {
+  data.edges?.forEach((edge) => {
     const sourceDegree = map.get(edge.source) || 0;
     map.set(edge.source, sourceDegree + 1);
     const targetDegree = map.get(edge.target) || 0;
@@ -178,14 +190,15 @@ const dataFormat = (data, options = {}, userGraphCore) => {
         },
       };
     }),
-    edges: data.edges.map((edge) => ({
+    edges: data.edges?.map((edge) => ({
       id: `edge-${Math.random()}`,
       source: edge.source,
       target: edge.target,
     })),
   };
-};
-const clusteringNodes = (data, options = {}, userGraphCore) => {
+});
+
+const clusteringNodes = withHandleAUD((data = {}, options = {}, userGraphCore) => {
   if (!Algorithm?.labelPropagation) return;
   const clusteredData = Algorithm.labelPropagation(data, false);
   clusteredData.clusters.forEach((cluster, i) => {
@@ -194,12 +207,13 @@ const clusteringNodes = (data, options = {}, userGraphCore) => {
     });
   });
   return data;
-};
+});
 
 const ExtGraph = extend(Graph, {
   transforms: {
     'data-format': dataFormat,
     'clustering-node': clusteringNodes,
+    'map-node-size': Extensions.MapNodeSize,
   },
   nodes: {
     'sphere-node': Extensions.SphereNode,

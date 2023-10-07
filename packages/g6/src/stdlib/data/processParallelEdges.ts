@@ -1,9 +1,9 @@
-import { filter, mix } from '@antv/util';
 import { Edge } from '@antv/graphlib';
 import { loopPosition } from '../../util/loop';
-import { GraphData, EdgeUserModel, ID, GraphCore } from '../../types';
+import { EdgeUserModel, ID, GraphCore } from '../../types';
 import { uniqBy } from '../../util/array';
 import { EdgeUserModelData } from '../../types/edge';
+import { GraphDataChangeSet } from '../../types/data';
 
 /**
  * Process edges which might overlap. For edges that share the same target and source nodes.
@@ -15,54 +15,118 @@ import { EdgeUserModelData } from '../../types/edge';
  * @param options.loopEdgeType The edge type for a self-loop edge, undefined by default, which means the type of the edge is kept unchanged as it is in the input data.
  * @returns formatted data.
  */
+
+type ParallelEdgesOptions = {
+  edgeIds?: ID[];
+  offsetDiff?: number;
+  multiEdgeType?: string;
+  singleEdgeType?: string;
+  loopEdgeType?: string;
+};
+
 export const ProcessParallelEdges = (
-  data: GraphData,
-  options: {
-    edgeIds?: ID[];
-    offsetDiff?: number;
-    multiEdgeType?: string;
-    singleEdgeType?: string;
-    loopEdgeType?: string;
-  } = {},
+  data: GraphDataChangeSet,
+  options: ParallelEdgesOptions = {},
   graphCore?: GraphCore,
-): GraphData => {
+): GraphDataChangeSet => {
+  // Identify the edges to be processed and their associated edges
+  const { edgeIds = [] } = options;
   const {
-    edgeIds = [],
+    A: { edges: edgesToAdd = [] } = {},
+    U: { edges: edgesToUpdate = [] } = {},
+    D: { edges: edgesToDelete = [] } = {},
+  } = data;
+
+  const prevEdges = graphCore ? graphCore.getAllEdges() : [];
+  const edgeIdsToAdd = new Set(edgesToAdd?.map((edge) => edge.id));
+  const edgeIdsToDelete = new Set(edgesToDelete?.map((edge) => edge.id));
+  const cacheEdges = uniqBy([...prevEdges, ...edgesToUpdate], 'id');
+
+  let edges = [...edgesToDelete, ...edgesToUpdate, ...edgesToAdd];
+
+  // Recognize parallel edges prior to the update
+  edgesToUpdate.forEach((newModel) => {
+    const oldModel = graphCore?.getEdge(newModel.id);
+    if (!oldModel) return;
+    const { id, source, target } = newModel;
+    if (
+      (source && oldModel.source !== source) ||
+      (target && oldModel.target !== target)
+    ) {
+      const prevParallelEdges = getParallelEdges(
+        graphCore.getEdge(id),
+        cacheEdges,
+      );
+      edges = [...prevParallelEdges, ...edges];
+    }
+  });
+
+  // Recognize parallel edges following the modification
+  edges.forEach((newModel) => {
+    const newParallelEdges = getParallelEdges(newModel, cacheEdges);
+    edges = [...newParallelEdges, ...edges];
+  });
+
+  // Remove deleted edges and filter edges based on edgeIds.
+  edges = uniqBy(
+    edges.filter((edge) => !edgeIdsToDelete.has(edge.id)),
+    'id',
+  );
+  if (edgeIds.length > 0) {
+    edges = edges.filter((edge) => edgeIds.includes(edge.id));
+  }
+
+  // Calculate the offset for parallel edges
+  edges = calculateOffset(edges, options);
+
+  // Render based on the type of modification
+  return {
+    ...data,
+    A: {
+      ...data.A,
+      edges: edges.filter((edge) => edgeIdsToAdd.has(edge.id)),
+    },
+    U: {
+      ...data.U,
+      edges: edges.filter((edge) => !edgeIdsToAdd.has(edge.id)),
+    },
+  };
+};
+
+/**
+ * Get all edges parallel to a given edge
+ * @param edgeModel the data model of the edge currently under consideration
+ * @param allEdges the set of all edges in graph
+ */
+const getParallelEdges = (
+  edgeModel: EdgeUserModel,
+  allEdges: Edge<EdgeUserModelData>[],
+) => {
+  const { id, source, target } = edgeModel;
+  return allEdges.filter((edge) => {
+    return (
+      (edge.id !== id && edge.source === source && edge.target === target) ||
+      (edge.source === target && edge.target === source)
+    );
+  });
+};
+
+/**
+ * Calculate the offset for parallel edges.
+ * For each set of parallel edges, alternately assign positive and negative offsets to visually separate them.
+ * @param edges parallel edges affected by the modification
+ * @param options processing configuration
+ */
+const calculateOffset = (
+  edges: EdgeUserModel[],
+  options: ParallelEdgesOptions,
+) => {
+  const {
     offsetDiff = 15,
     multiEdgeType = 'quadratic-edge',
     singleEdgeType = undefined,
     loopEdgeType = undefined,
   } = options;
-  let edges =
-    edgeIds.length > 0
-      ? filter(data.edges, (edge) => edgeIds.includes(edge.id))
-      : data.edges;
-
-  if (graphCore) {
-    const prevEdges = graphCore.getAllEdges();
-
-    const getPrevParallelEdges = (
-      edgeModel: EdgeUserModel,
-      prevEdges: Edge<EdgeUserModelData>[],
-    ) => {
-      const { id, source, target } = edgeModel;
-      return filter(prevEdges, (edge) => {
-        return (
-          (edge.id !== id &&
-            edge.source === source &&
-            edge.target === target) ||
-          (edge.source === target && edge.target === source)
-        );
-      });
-    };
-
-    edges.forEach((newModel) => {
-      const prevParallelEdges = getPrevParallelEdges(newModel, prevEdges);
-      edges = [...edges, ...prevParallelEdges];
-    });
-
-    edges = uniqBy(edges, 'id');
-  }
 
   const len = edges.length;
   const cod = offsetDiff * 2;
@@ -135,5 +199,5 @@ export const ProcessParallelEdges = (
     }
   });
 
-  return { ...data, edges: mix(data.edges, edges) };
+  return edges;
 };

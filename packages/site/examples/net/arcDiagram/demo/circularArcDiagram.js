@@ -4,19 +4,32 @@ const container = document.getElementById('container');
 const width = container.scrollWidth;
 const height = container.scrollHeight || 500;
 
-const edgeClusterTransform = (data, options = {}, userGraphCore) => {
-  const { nodes, edges } = data;
+const withHandleAUD = (handler, operations = ['A', 'U', 'D']) => {
+  return (data, options, graphCore) => {
+    const result = { ...data };
+    const operationArray = Array.isArray(operations) ? operations : [operations];
+    operationArray.forEach((operation) => {
+      result[operation] = handler(data[operation], options, graphCore);
+    });
+    return result;
+  };
+};
+
+const edgeClusterTransform = withHandleAUD((data = {}, options = {}, userGraphCore) => {
+  const { nodes = [], edges = [] } = data;
   const nodeMap = new Map();
   nodes.forEach((node) => nodeMap.set(node.id, node));
   edges.forEach((edge) => {
     edge.data.cluster = nodeMap.get(edge.source).data.cluster;
   });
   return data;
-};
+});
 
 const ExtGraph = extend(Graph, {
   transforms: {
     'edge-cluster': edgeClusterTransform,
+    'transform-v4-data': Extensions.TransformV4Data,
+    'map-node-size': Extensions.MapNodeSize,
   },
   edges: {
     'quadratic-edge': Extensions.QuadraticEdge,

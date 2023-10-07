@@ -30,7 +30,7 @@ const data = {
       source: 'node1',
       target: 'node3',
       data: {
-        label: `A -> C`,
+        label: `0th edge of A -> C`,
       },
     },
     {
@@ -38,8 +38,26 @@ const data = {
       source: 'node3',
       target: 'node1',
       data: {
-        label: `C -> A`,
+        label: `0th edge of C -> A`,
+        keyShape: {
+          stroke: '#0f0',
+          lineWidth: 2,
+        },
       },
+    },
+    {
+      id: 'edge3',
+      source: 'node3',
+      target: 'node1',
+      data: {
+        label: `1th edge of C -> A`,
+      },
+    },
+    {
+      id: 'edge4',
+      source: 'node3',
+      target: 'node3',
+      data: {},
     },
   ],
 };
@@ -82,6 +100,13 @@ export default (context: TestCaseContext) => {
     transforms: [
       {
         type: 'process-parallel-edges',
+        activeLifecycle: [
+          'read',
+          'changeData',
+          'updateData',
+          'addData',
+          'removeData',
+        ], // default: 'read'
         multiEdgeType: 'quadratic-edge',
         loopEdgeType: 'loop-edge',
       },
@@ -99,6 +124,48 @@ export default (context: TestCaseContext) => {
       },
     },
   });
+
+  let currentAction = 'remove';
+  const removeEdgeBtn = document.createElement('button');
+  removeEdgeBtn.id = 'parallelEdges-removeEdge';
+  removeEdgeBtn.textContent = '移除/增加边';
+  removeEdgeBtn.addEventListener('click', (e) => {
+    currentAction = currentAction === 'remove' ? 'add' : 'remove';
+    if (currentAction === 'remove') {
+      graph.removeData('edge', ['new-edge']);
+    } else {
+      graph.addData('edge', {
+        id: 'new-edge',
+        source: 'node1',
+        target: 'node2',
+        data: {
+          label: 'new edge',
+          keyShape: {
+            stroke: '#0f0',
+            lineWidth: 2,
+          },
+        },
+      });
+    }
+  });
+  document.body.appendChild(removeEdgeBtn);
+
+  let updateIndex = 1;
+  const updateEdgeBtn = document.createElement('button');
+  updateEdgeBtn.textContent = '更新边';
+  updateEdgeBtn.id = 'parallelEdges-updateData';
+  updateEdgeBtn.addEventListener('click', (e) => {
+    graph.updateData('edge', {
+      id: 'edge2',
+      source: 'node3',
+      target: `node${updateIndex + 1}`,
+      data: {
+        label: 'update edge',
+      },
+    });
+    updateIndex = (updateIndex + 1) % 3;
+  });
+  document.body.appendChild(updateEdgeBtn);
 
   return graph;
 };

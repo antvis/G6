@@ -75,11 +75,12 @@ const ExtGraph = extend(Graph, {
   },
 });
 
+const container = document.getElementById('container');
 const width = container.scrollWidth;
 const height = container.scrollHeight || 500;
 
 const graph = new ExtGraph({
-  container: 'container',
+  container,
   width,
   height,
   data,
@@ -103,6 +104,52 @@ const graph = new ExtGraph({
     },
   },
 });
+
+let currentAction = 'remove';
+const removeEdgeBtn = document.createElement('button');
+removeEdgeBtn.style.position = 'absolute';
+removeEdgeBtn.style.zIndex = 10;
+removeEdgeBtn.id = 'parallelEdges-removeEdge';
+removeEdgeBtn.textContent = '移除/增加边';
+removeEdgeBtn.addEventListener('click', (e) => {
+  currentAction = currentAction === 'remove' ? 'add' : 'remove';
+  if (currentAction === 'remove') {
+    graph.removeData('edge', ['new-edge']);
+  } else {
+    graph.addData('edge', {
+      id: 'new-edge',
+      source: 'node1',
+      target: 'node2',
+      data: {
+        label: 'new edge',
+        keyShape: {
+          stroke: '#0f0',
+          lineWidth: 2,
+        },
+      },
+    });
+  }
+});
+container.appendChild(removeEdgeBtn);
+
+let updateIndex = 1;
+const updateEdgeBtn = document.createElement('button');
+removeEdgeBtn.style.position = 'absolute';
+removeEdgeBtn.style.zIndex = 10;
+updateEdgeBtn.textContent = '更新边';
+updateEdgeBtn.id = 'parallelEdges-updateData';
+updateEdgeBtn.addEventListener('click', (e) => {
+  graph.updateData('edge', {
+    id: 'edge2',
+    source: 'node3',
+    target: `node${updateIndex + 1}`,
+    data: {
+      label: 'update edge',
+    },
+  });
+  updateIndex = (updateIndex + 1) % 3;
+});
+container.appendChild(updateEdgeBtn);
 
 if (typeof window !== 'undefined')
   window.onresize = () => {

@@ -1,16 +1,19 @@
 import { Layout, LayoutMapping } from '@antv/layout';
-import { Graph, extend, stdLib } from '../../../src/index';
+import { Graph, extend, stdLib, Extensions } from '../../../src/index';
 import { TestCaseContext } from '../interface';
+import { withHandleAUD } from '../../../src/util/data';
 
-const edgeClusterTransform = (data, options = {}, userGraphCore) => {
-  const { nodes, edges } = data;
-  const nodeMap = new Map();
-  nodes.forEach((node) => nodeMap.set(node.id, node));
-  edges.forEach((edge) => {
-    edge.data.cluster = nodeMap.get(edge.source).data.cluster;
-  });
-  return data;
-};
+const edgeClusterTransform = withHandleAUD(
+  (data, options = {}, userGraphCore) => {
+    const { nodes, edges } = data;
+    const nodeMap = new Map();
+    nodes?.forEach((node) => nodeMap.set(node.id, node));
+    edges?.forEach((edge) => {
+      edge.data.cluster = nodeMap.get(edge.source).data.cluster;
+    });
+    return data;
+  },
+);
 
 class LineLayout implements Layout<{}> {
   id = 'line-layout';
@@ -1404,6 +1407,11 @@ export default (context: TestCaseContext, options?: {}) => {
   const CustomGraph = extend(Graph, {
     transforms: {
       'edge-cluster': edgeClusterTransform,
+      'transform-v4-data': Extensions.TransformV4Data,
+      'map-node-size': Extensions.MapNodeSize,
+    },
+    edges: {
+      'quadratic-edge': Extensions.QuadraticEdge,
     },
     layouts: {
       'line-layout': LineLayout,

@@ -1,10 +1,10 @@
 import { resetEntityCounter } from '@antv/g';
 import processParallelEdges from '../demo/data/process-parallel-edges';
 import { EdgeUserModel } from '../../src';
-import { createContext } from './utils';
+import { createContext, sleep } from './utils';
 import './utils/useSnapshotMatchers';
 
-describe('Items edge line', () => {
+describe('Process parallel edges', () => {
   beforeEach(() => {
     /**
      * SVG Snapshot testing will generate a unique id for each element.
@@ -50,28 +50,38 @@ describe('Items edge line', () => {
         'data-parallel-edges-loop',
       );
 
-      graph.addData('edge', [
-        {
-          id: `new-edge-1`,
-          source: 'node1',
-          target: 'node2',
-          data: {
-            label: `1th updated edge of A -> A`,
-          },
-        },
-        {
-          id: `new-edge-2`,
-          source: 'node1',
-          target: 'node2',
-          data: {
-            label: `2th updated edge of A -> A`,
-          },
-        },
-      ]);
-
+      // ====== add/remove edge ======
+      const $changeData = document.getElementById('parallelEdges-removeEdge')!;
+      $changeData.click();
       await expect(canvas).toMatchCanvasSnapshot(
         dir,
-        'data-parallel-edges-add-edges',
+        'data-parallel-edges-add-edge',
+      );
+
+      $changeData.click();
+      await expect(canvas).toMatchCanvasSnapshot(
+        dir,
+        'data-parallel-edges-remove-edge',
+      );
+
+      // ====== update edge's source ======
+      const $updateData = document.getElementById('parallelEdges-updateData')!;
+      $updateData.click();
+      await expect(canvas).toMatchCanvasSnapshot(
+        dir,
+        'data-parallel-edges-update-edge-1',
+      );
+
+      $updateData.click();
+      await expect(canvas).toMatchCanvasSnapshot(
+        dir,
+        'data-parallel-edges-update-edge-2',
+      );
+
+      $updateData.click();
+      await expect(canvas).toMatchCanvasSnapshot(
+        dir,
+        'data-parallel-edges-update-edge-3',
       );
 
       graph.destroy();
@@ -119,7 +129,10 @@ describe('Items edge line', () => {
     });
 
     graph.on('afterlayout', async () => {
-      await expect(canvas).toMatchWebGLSnapshot(dir, 'items-edge-line');
+      await expect(canvas).toMatchWebGLSnapshot(
+        dir,
+        'data-parallel-edges-quadratic',
+      );
       graph.destroy();
       done();
     });

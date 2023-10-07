@@ -19,6 +19,7 @@ import cubic_horizon_edge from './item/edge/cubic-horizontal-edge';
 import cubic_vertical_edge from './item/edge/cubic-vertical-edge';
 import dagreUpdate from './layouts/dagre-update';
 import dataValidate from './data/data-validate';
+import dataV4 from './data/data-from-v4';
 import demo from './demo/demo';
 import demoForPolyline from './demo/demoForPolyline';
 import diamond from './demo/diamond';
@@ -94,6 +95,7 @@ export {
   dataValidate,
   demo,
   demoForPolyline,
+  dataV4,
   diamond,
   donut_node,
   ellipse,

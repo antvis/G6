@@ -5,6 +5,7 @@ import {
   EdgeUserModel,
   NodeUserModel,
 } from '../../types';
+import { withHandleAUD } from '../../util/data';
 
 /**
  * Validate and format the graph data.
@@ -12,45 +13,49 @@ import {
  * @param graphCore the graph core stores the previous data.
  * @returns formatted data.
  */
-export const MapNodeSize = (
-  data: GraphData,
-  options: {
-    field?: string;
-    range?: [number, number];
-  } = {},
-  graphCore?: GraphCore,
-): GraphData => {
-  const { field, range = [8, 40] } = options;
-  if (!field) return data;
-  const { nodes } = data;
+export const MapNodeSize = withHandleAUD(
+  (
+    data: GraphData,
+    options: {
+      field?: string;
+      range?: [number, number];
+    } = {},
+    graphCore?: GraphCore,
+  ): GraphData => {
+    const { field, range = [8, 40] } = options;
+    if (!field) return data;
+    const { nodes } = data;
 
-  const nodeMap = new Map();
-  // map the value to node size
-  let maxValue = -Infinity,
-    minValue = Infinity;
-  nodes.forEach((n) => {
-    nodeMap.set(n.id, n);
-    if (maxValue < (n.data[field] as number))
-      maxValue = n.data[field] as number;
-    if (minValue > (n.data[field] as number))
-      minValue = n.data[field] as number;
-  });
-  const valueRange = [minValue, maxValue];
-  const sizeMap = scaleNodeProp(nodes, field, valueRange, range);
-  sizeMap.forEach((val, id) => {
-    let value = val;
-    if (isNaN(val)) value = range[0];
-    const node = nodeMap.get(id);
-    node.data.keyShape = {
-      ...node.data.keyShape,
-      r: value / 2,
-      width: value,
-      height: value,
-    };
-  });
+    if (!nodes) return data;
 
-  return data;
-};
+    const nodeMap = new Map();
+    // map the value to node size
+    let maxValue = -Infinity,
+      minValue = Infinity;
+    nodes.forEach((n) => {
+      nodeMap.set(n.id, n);
+      if (maxValue < (n.data[field] as number))
+        maxValue = n.data[field] as number;
+      if (minValue > (n.data[field] as number))
+        minValue = n.data[field] as number;
+    });
+    const valueRange = [minValue, maxValue];
+    const sizeMap = scaleNodeProp(nodes, field, valueRange, range);
+    sizeMap.forEach((val, id) => {
+      let value = val;
+      if (isNaN(val)) value = range[0];
+      const node = nodeMap.get(id);
+      node.data.keyShape = {
+        ...node.data.keyShape,
+        r: value / 2,
+        width: value,
+        height: value,
+      };
+    });
+
+    return data;
+  },
+);
 
 const scaleNodeProp = (nodes, field, valueRange, mappedRange) => {
   const outLength = mappedRange[1] - mappedRange[0];
