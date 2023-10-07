@@ -1,8 +1,8 @@
 import { uniqueId, isString } from '@antv/util';
-import { Canvas } from '@antv/g';
-import { IGraph } from 'types';
+import { Canvas, Group, Image, Text, TextStyleProps } from '@antv/g';
 import { Plugin as Base, IPluginBaseConfig } from '../../../types/plugin';
 import { createCanvas } from '../../../util/canvas';
+import { IGraph } from '../../../types';
 
 /** Define configuration types for image and text watermarks */
 type ImageWaterMarkerConfig = {
@@ -12,55 +12,43 @@ type ImageWaterMarkerConfig = {
   width: number;
   /** Height of the image watermark in pixels. */
   height: number;
-  /** Horizontal position of the image watermark on the canvas. */
-  x: number;
-  /** Vertical position of the image watermark on the canvas. */
-  y: number;
   /** Rotation angle of the image watermark in degrees (0 to 360). */
   rotate: number;
 };
-type TextWaterMarkerConfig = {
+interface TextWaterMarkerConfig extends TextStyleProps {
   /** Text or an array of texts to be used as the watermark content. */
   texts: string | string[];
-  /** Horizontal position of the text watermark on the canvas. */
-  x: number;
-  /** Vertical position of the text watermark on the canvas. */
-  y: number;
-  /** Line height between multiple lines of text in pixels. */
-  lineHeight: number;
   /** Rotation angle of the text watermark in degrees (0 to 360). */
   rotate: number;
-  /** Font size of the text in pixels. */
-  fontSize: number;
-  /**  Font family used for the text (e.g., "Microsoft YaHei"). */
-  fontFamily: string;
-  /**  Text fill color (e.g., "rgba(0, 0, 0, 0.1)"). */
-  fill: string;
-  /** Text baseline alignment (e.g., "Middle"). */
-  baseline: string;
-};
+}
 
 /** Define configuration types for watermarks */
 export interface WaterMarkerConfig extends IPluginBaseConfig {
-  /** (Optional) The CSS class name applied to the watermark container. */
-  className?: string;
-  /** (Optional) The width of the watermark canvas in pixels. */
+  /** The watermarker canvas. undefined by default means create a new canvas to draw the markers. */
+  canvas?: Canvas;
+  /** (Optional) The width of the watermark canvas in pixels. undefined by default, means equal to graph's width. */
   width?: number;
-  /** (Optional) The height of the watermark canvas in pixels. */
+  /** (Optional) The height of the watermark canvas in pixels. undefined by default, means equal to graph's height. */
   height?: number;
   /** (Optional) The mode of the watermark, either 'image' or 'text'. */
   mode?: 'image' | 'text';
   /** (Optional) The position of the watermark, default: under the main canvas*/
-  position?: 'top' | 'mid' | 'bottom';
+  position?: 'top' | 'middle' | 'bottom';
   /** (Optional) Configuration for an image watermark (See ImageWaterMarkerConfig). */
-  image?: ImageWaterMarkerConfig;
+  image?: Partial<ImageWaterMarkerConfig>;
   /** (Optional) Configuration for a text watermark (See TextWaterMarkerConfig). */
-  text?: TextWaterMarkerConfig;
+  text?: Partial<TextWaterMarkerConfig>;
+  /** The first marker's position. [0, 0] by default. */
+  begin?: [number, number];
+  /** The gap of x and y between neighbor markers. [100, 100] by default. */
+  seperation?: [number, number];
 }
 
 export class WaterMarker extends Base {
   private container: HTMLElement;
   private canvas: Canvas;
+  private canvasSize: [number, number];
+  private followGraphSize: boolean;
 
   constructor(options?: WaterMarkerConfig) {
     super(options);
@@ -70,30 +58,27 @@ export class WaterMarker extends Base {
     return {
       key: `watermarker-${uniqueId()}`,
       container: null,
-      className: 'g6-watermarker',
+      canvas: undefined,
       mode: 'image',
-      width: 150,
-      height: 100,
+      width: undefined,
+      height: undefined,
       position: 'bottom',
+      begin: [0, 0],
+      seperation: [100, 100],
       image: {
         imgURL:
           'https://gw.alipayobjects.com/os/s/prod/antv/assets/image/logo-with-text-73b8a.svg',
-        x: 0,
-        y: 0,
         width: 94,
         height: 28,
         rotate: 0,
       },
       text: {
         texts: 'AntV',
-        x: 0,
-        y: 60,
-        lineHeight: 20,
         rotate: 20,
         fontSize: 14,
         fontFamily: 'Microsoft YaHei',
         fill: 'rgba(0, 0, 0, 0.1)',
-        baseline: 'Middle',
+        textBaseline: 'top',
       },
     };
   }
@@ -109,14 +94,29 @@ export class WaterMarker extends Base {
     });
   }
 
+  public getEvents() {
+    return {
+      aftersetsize: this.onGraphSetSize,
+    };
+  }
+
   /**
    * Initialize the canvas for watermark rendering.
    */
   public initCanvas() {
     const { graph, options } = this;
-    const { width, height } = options;
+    const { width, height, position, canvas } = options;
     let parentNode = options.container;
     let container: HTMLElement;
+
+    const graphSize = graph.getSize();
+    if (canvas) {
+      this.canvas = canvas;
+      this.canvasSize = [graphSize[0], graphSize[1]];
+      this.followGraphSize = true;
+      this.container = graph.container as HTMLDivElement;
+      return canvas.ready;
+    }
 
     if (isString(parentNode)) {
       parentNode = document.getElementById(parentNode) as HTMLElement;
@@ -130,9 +130,55 @@ export class WaterMarker extends Base {
       container.style.position = 'relative';
     }
 
-    this.canvas = createCanvas('canvas', container, width, height);
+    this.canvasSize = [
+      width === undefined ? graphSize[0] : width,
+      height === undefined ? graphSize[1] : height,
+    ];
+    this.followGraphSize = width === undefined || height === undefined;
+
+    this.canvas = createCanvas(
+      'canvas',
+      container,
+      this.canvasSize[0],
+      this.canvasSize[1],
+    );
+    const $domElement = this.canvas
+      .getContextService()
+      .getDomElement() as unknown as HTMLElement;
+    $domElement.style.position = 'fixed';
+    $domElement.style.outline = 'none';
+    $domElement.style.pointerEvents = 'none';
+    $domElement.style.userSelect = 'none';
     this.container = container;
+
+    const canvasEl = this.canvas.getContextService().getDomElement() as any;
+    this.container.removeChild(canvasEl);
+    const graphCanvasDOM = graph.canvas
+      .getContextService()
+      .getDomElement() as any;
+    const graphTransientCanvasDOM = graph.transientCanvas
+      .getContextService()
+      .getDomElement() as any;
+    switch (position) {
+      case 'top':
+        this.container.appendChild(canvasEl);
+        break;
+      case 'middle':
+        this.container.insertBefore(canvasEl, graphTransientCanvasDOM);
+        break;
+      case 'bottom':
+      default:
+        this.container.insertBefore(canvasEl, graphCanvasDOM);
+    }
+
     return this.canvas.ready;
+  }
+
+  private onGraphSetSize(e) {
+    const { size } = e;
+    if (!this.followGraphSize) return;
+    this.canvas.resize(size[0], size[1]);
+    this.updateWaterMarker();
   }
 
   /**
@@ -140,12 +186,10 @@ export class WaterMarker extends Base {
    */
   public updateWaterMarker() {
     switch (this.options.mode) {
-      case 'image':
-        this.setImageWaterMarker();
-        break;
       case 'text':
         this.setTextWaterMarker();
         break;
+      case 'image':
       default:
         this.setImageWaterMarker();
         break;
@@ -156,135 +200,80 @@ export class WaterMarker extends Base {
    * Render an image watermark on the canvas.
    */
   public setImageWaterMarker() {
-    const { container, canvas, options } = this;
-    const { className, image, position } = options;
-    const { imgURL, x, y, width, height, rotate } = image;
+    const { canvas, options, canvasSize } = this;
+    const { image, begin, seperation } = options;
+    const { imgURL, rotate = 0, ...imageStyles } = image;
 
-    if (canvas) canvas.destroy();
-
-    const canvasContextService = canvas.getContextService();
-    (canvasContextService.getDomElement() as any).style.display = 'none';
-    const ctx = canvasContextService.getContext() as any;
-    ctx.rotate((-rotate * Math.PI) / 180);
-    const img = new Image();
-    img.crossOrigin = 'anonymous';
-    img.src = imgURL;
-    img.onload = async () => {
-      ctx.drawImage(img, x, y, width, height);
-      ctx.rotate((rotate * Math.PI) / 180);
-      let dataURL = '';
-      await canvasContextService
-        .toDataURL({ type: 'image/png' })
-        .then((url) => {
-          dataURL = url;
+    const currentPosition = [...begin];
+    let imageBounds;
+    const getRowGroup = () => {
+      const rowGroup = new Group();
+      while (currentPosition[0] < canvasSize[0]) {
+        const imageShape = new Image({
+          style: {
+            ...imageStyles,
+            img: imgURL,
+            x: currentPosition[0],
+            y: currentPosition[1],
+          },
         });
-      let box = document.querySelector(`.${className}`) as HTMLElement;
-      if (!box) {
-        box = document.createElement('div');
-        box.className = className;
-      }
-      if (canvas) {
-        box.style.cssText = `background-image: url(${dataURL});background-repeat:repeat;position:absolute;top:0;bottom:0;left:0;right:0;pointer-events:none;`;
-        const canvas = this.graph.canvas
-          .getContextService()
-          .getDomElement() as any;
-        const transientCanvas = this.graph.transientCanvas
-          .getContextService()
-          .getDomElement() as any;
-        container.removeChild(canvas);
-        container.removeChild(transientCanvas);
-        switch (position) {
-          case 'top':
-            container.appendChild(canvas);
-            container.appendChild(transientCanvas);
-            container.appendChild(box);
-            break;
-          case 'mid':
-            container.appendChild(canvas);
-            container.appendChild(box);
-            container.appendChild(transientCanvas);
-            break;
-          case 'bottom':
-          default:
-            container.appendChild(box);
-            container.appendChild(canvas);
-            container.appendChild(transientCanvas);
-            break;
+        if (rotate) {
+          imageShape.style.transformOrigin = 'center';
+          imageShape.style.transform = `rotate(${rotate}deg)`;
         }
+        if (!imageBounds) {
+          imageBounds = imageShape.getLocalBounds();
+        }
+        rowGroup.appendChild(imageShape);
+        currentPosition[0] += imageBounds.halfExtents[0] * 2 + seperation[0];
       }
+      return rowGroup;
     };
+    while (currentPosition[1] < canvasSize[1]) {
+      canvas.appendChild(getRowGroup());
+      currentPosition[0] = begin[0];
+      currentPosition[1] += imageBounds.halfExtents[1] * 2 + seperation[1];
+    }
   }
 
   /**
    * Render a text watermark on the canvas.
    */
   public async setTextWaterMarker() {
-    const { container, canvas, options } = this;
-    const { text, className, position } = options;
-    const {
-      rotate,
-      fill,
-      fontFamily,
-      fontSize,
-      baseline,
-      x,
-      y,
-      lineHeight,
-      texts,
-    } = text;
+    const { canvas, options, canvasSize } = this;
+    const { text, seperation, begin } = options;
+    const { texts, rotate, ...textStyles } = text;
 
-    if (canvas) canvas.destroy();
-
-    const canvasContextService = canvas.getContextService();
-    (canvasContextService.getDomElement() as any).style.display = 'none';
-    const ctx = canvasContextService.getContext() as any;
-    ctx.rotate((-rotate * Math.PI) / 180);
-    ctx.font = `${fontSize}px ${fontFamily}`;
-    ctx.fillStyle = fill;
-    ctx.textBaseline = baseline;
+    const currentPosition = [...begin];
     const displayTexts = isString(texts) ? [texts] : texts;
-    for (let i = displayTexts.length - 1; i >= 0; i--) {
-      ctx.fillText(displayTexts[i], x, y + i * lineHeight);
-    }
-    ctx.rotate((rotate * Math.PI) / 180);
-    let dataURL = '';
-    await canvasContextService.toDataURL({ type: 'image/png' }).then((url) => {
-      dataURL = url;
-    });
-
-    let box = document.querySelector(`.${className}`) as HTMLElement;
-    if (!box) {
-      box = document.createElement('div');
-      box.className = className;
-    }
-    if (canvas) {
-      box.style.cssText = `background-image: url(${dataURL});background-repeat:repeat;position:absolute;top:0;bottom:0;left:0;right:0;pointer-events:none;`;
-      const canvas = this.graph.canvas
-        .getContextService()
-        .getDomElement() as any;
-      const transientCanvas = this.graph.transientCanvas
-        .getContextService()
-        .getDomElement() as any;
-      container.removeChild(canvas);
-      container.removeChild(transientCanvas);
-      switch (position) {
-        case 'top':
-          container.appendChild(canvas);
-          container.appendChild(transientCanvas);
-          container.appendChild(box);
-          break;
-        case 'mid':
-          container.appendChild(canvas);
-          container.appendChild(box);
-          container.appendChild(transientCanvas);
-          break;
-        case 'bottom':
-        default:
-          container.appendChild(box);
-          container.appendChild(canvas);
-          container.appendChild(transientCanvas);
-          break;
+    const textContent = displayTexts.join('\n');
+    let textBounds;
+    const getRowGroup = () => {
+      const rowGroup = new Group();
+      while (currentPosition[0] < canvasSize[0]) {
+        const textShape = new Text({
+          style: {
+            ...textStyles,
+            text: textContent,
+            x: currentPosition[0],
+            y: currentPosition[1],
+          },
+        });
+        if (rotate) {
+          textShape.style.transform = `rotate(${rotate}deg)`;
+        }
+        if (!textBounds) {
+          textBounds = textShape.getLocalBounds();
+        }
+        rowGroup.appendChild(textShape);
+        currentPosition[0] += textBounds.halfExtents[0] * 2 + seperation[0];
       }
+      return rowGroup;
+    };
+    while (currentPosition[1] < canvasSize[1]) {
+      canvas.appendChild(getRowGroup());
+      currentPosition[0] = begin[0];
+      currentPosition[1] += textBounds.halfExtents[1] * 2 + seperation[1];
     }
   }
 
@@ -293,7 +282,6 @@ export class WaterMarker extends Base {
    */
   public destroy() {
     const { canvas, options } = this;
-    const { className } = options;
 
     const parentNode = options.container;
     let container: HTMLElement;
@@ -305,8 +293,10 @@ export class WaterMarker extends Base {
       container = document.getElementById(container) as HTMLElement;
     }
 
-    const box = document.querySelector(`.${className}`) as HTMLElement;
-    container.removeChild(box);
+    if (container !== this.graph.container) {
+      container.remove();
+    }
+
     canvas.destroy();
   }
 }

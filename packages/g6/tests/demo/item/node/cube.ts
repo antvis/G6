@@ -12,6 +12,15 @@ export default (context: TestCaseContext) => {
     ...context,
     type: 'graph',
     renderer: 'webgl-3d',
+    modes: {
+      default: [
+        {
+          type: 'orbit-canvas-3d',
+          trigger: 'drag',
+        },
+        'zoom-canvas-3d',
+      ],
+    },
     data: {
       nodes: [
         { id: 'node1', data: { x: 100, y: 200, nodeType: 'a' } },
@@ -71,5 +80,18 @@ export default (context: TestCaseContext) => {
       // labelBackgroundShape: [],
     },
   });
+  // graph.on('afterlayout', () => {
+  //   const camera = graph.canvas.getCamera();
+  //   let counter = 0;
+  //   const tick = () => {
+  //     // if (counter < 80) {
+  //     //   camera.dolly(1);
+  //     //   counter++;
+  //     // }
+  //     camera.rotate(0.4, 0);
+  //     requestAnimationFrame(tick);
+  //   };
+  //   tick();
+  // });
   return graph;
 };

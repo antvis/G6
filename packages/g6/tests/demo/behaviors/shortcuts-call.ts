@@ -27,9 +27,25 @@ export default (context: TestCaseContext, options = {}) => {
     },
     modes: {
       default: [
+        // {
+        //   type: 'shortcuts-call',
+        //   ...options,
+        // },
         {
+          key: 'shortcuts-call-zoom-out',
           type: 'shortcuts-call',
-          ...options,
+          trigger: 'shift',
+          combinedKey: '_',
+          functionName: 'zoom',
+          functionParams: [0.9],
+        },
+        {
+          key: 'shortcuts-call-zoom-in',
+          type: 'shortcuts-call',
+          trigger: 'shift',
+          combinedKey: '+',
+          functionName: 'zoom',
+          functionParams: [1.1],
         },
       ],
     },

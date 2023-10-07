@@ -882,9 +882,14 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       );
       return;
     }
+    const oldSize = [this.specification.width, this.specification.height];
+    this.emit('beforesetsize', { oldSize, size: size });
     this.specification.width = size[0];
     this.specification.height = size[1];
     this.canvas.resize(size[0], size[1]);
+    this.transientCanvas.resize(size[0], size[1]);
+    this.backgroundCanvas.resize(size[0], size[1]);
+    this.emit('aftersetsize', { oldSize, size: size });
   }
 
   public getCanvasRange(): Bounds {

@@ -2,6 +2,7 @@ import { Graph, Extensions, extend } from '@antv/g6';
 const ExtGraph = extend(Graph, {
   nodes: {
     'sphere-node': Extensions.SphereNode,
+    'cube-node': Extensions.CubeNode,
   },
   behaviors: {
     'orbit-canvas-3d': Extensions.OrbitCanvas3D,
@@ -69,14 +70,21 @@ fetch('https://raw.githubusercontent.com/antvis/G6/v5/packages/g6/tests/datasets
         };
       },
       node: (innerModel) => {
+        const isCube = ['c148', 'c498', 'c41', 'c254'].includes(innerModel.data.cluster);
         return {
           ...innerModel,
           data: {
             ...innerModel.data,
-            type: 'sphere-node',
-            keyShape: {
-              r: 12 + degrees[innerModel.id] / 2,
-            },
+            type: isCube ? 'cube-node' : 'sphere-node',
+            keyShape: isCube
+              ? {
+                  width: 400,
+                  height: 400,
+                  depth: 400,
+                }
+              : {
+                  r: 12 + degrees[innerModel.id] / 2,
+                },
             labelShape:
               degrees[innerModel.id] > 20
                 ? {
@@ -84,7 +92,7 @@ fetch('https://raw.githubusercontent.com/antvis/G6/v5/packages/g6/tests/datasets
                     fontSize: 100,
                     lod: -1,
                     fill: 'rgba(255,255,255,0.85)',
-                    wordWrap: false, // FIXME: mesh.getBounds() returns an empty AABB
+                    wordWrap: false,
                     isBillboard: true,
                   }
                 : undefined,
@@ -92,6 +100,27 @@ fetch('https://raw.githubusercontent.com/antvis/G6/v5/packages/g6/tests/datasets
         };
       },
       data,
+    });
+    let frame;
+    graph.on('afterlayout', () => {
+      const camera = graph.canvas.getCamera();
+      let counter = 0;
+      const tick = () => {
+        if (counter < 80) {
+          camera.dolly(4);
+        }
+        camera.rotate(0.4, 0);
+        counter++;
+        frame = requestAnimationFrame(tick);
+        if (counter > 160 && frame) {
+          cancelAnimationFrame(frame);
+        }
+      };
+      tick();
+    });
+    graph.on('pointerdown', (e) => {
+      console.log('frame', frame);
+      if (frame) cancelAnimationFrame(frame);
     });
     if (typeof window !== 'undefined')
       window.onresize = () => {

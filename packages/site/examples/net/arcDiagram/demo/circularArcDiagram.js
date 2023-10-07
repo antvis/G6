@@ -4,7 +4,7 @@ const container = document.getElementById('container');
 const width = container.scrollWidth;
 const height = container.scrollHeight || 500;
 
-const edgeClusterTransform = (data, options = {}, userGraphCore) => {
+const edgeClusterTransform = (data, options = {}, graphCore) => {
   const { nodes, edges } = data;
   const nodeMap = new Map();
   nodes.forEach((node) => nodeMap.set(node.id, node));

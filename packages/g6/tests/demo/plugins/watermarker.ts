@@ -1,6 +1,9 @@
 import { Graph, Extensions, extend } from '../../../src/index';
 import { TestCaseContext } from '../interface';
-export default (context: TestCaseContext) => {
+import { createNodeGCanvas } from '../../integration/utils/createNodeGCanvas';
+
+export default (context: TestCaseContext, options = {}) => {
+  const { watermarkerCanvas, ...pluginConfigs } = options;
   const data = {
     nodes: [
       { id: 'node1', data: { x: 100, y: 200, nodeType: 'a' } },
@@ -41,11 +44,15 @@ export default (context: TestCaseContext) => {
       watermarker: Extensions.WaterMarker,
     },
   });
-  const graph = new Graph({
+  // const testCanvas = createNodeGCanvas('canvas', 500, 500);
+  const graph = new ExtGraph({
     ...context,
     type: 'graph',
     layout: {
       type: 'grid',
+    },
+    modes: {
+      default: ['zoom-canvas', 'drag-canvas', 'drag-node'],
     },
     node: {
       labelShape: {
@@ -55,7 +62,35 @@ export default (context: TestCaseContext) => {
         },
       },
     },
-    plugins: ['watermarker'],
+    plugins: [
+      {
+        type: 'watermarker',
+        position: 'bottom',
+        mode: 'image',
+        begin: [10, 10],
+        seperation: [10, 10],
+        text: {
+          texts: [
+            'hello',
+            'antv',
+            'dasdfasdfaasdfasdfas',
+            'kjadkja',
+            'iy32iuhehfka',
+          ],
+          fill: '#f00',
+          rotate: 30,
+        },
+        image: {
+          imgURL:
+            'https://gw.alipayobjects.com/os/s/prod/antv/assets/image/logo-with-text-73b8a.svg',
+          width: 94,
+          height: 28,
+          rotate: 40,
+        },
+        canvas: watermarkerCanvas,
+        ...pluginConfigs,
+      },
+    ],
     data,
   });
   return graph;

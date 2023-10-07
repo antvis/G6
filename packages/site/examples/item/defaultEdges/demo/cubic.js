@@ -8,6 +8,9 @@ const ExtGraph = extend(Graph, {
   edges: {
     'cubic-edge': Extensions.CubicEdge,
   },
+  layouts: {
+    'radial-layout': Extensions.RadialLayout,
+  },
 });
 
 const graph = new ExtGraph({
@@ -17,53 +20,88 @@ const graph = new ExtGraph({
   modes: {
     default: ['zoom-canvas', 'drag-canvas', 'drag-node', 'click-select'],
   },
+  layout: {
+    type: 'radial-layout',
+    focusNode: 'node1',
+    unitRadius: 250,
+    linkDistance: 250,
+  },
   data: {
     nodes: [
       {
         id: 'node1',
-        data: {
-          x: 150,
-          y: 100,
-        },
+        data: {},
       },
       {
         id: 'node2',
-        data: { x: 250, y: 200 },
+        data: {},
+      },
+      {
+        id: 'node3',
+        data: {},
+      },
+      {
+        id: 'node4',
+        data: {},
+      },
+      {
+        id: 'node5',
+        data: {},
+      },
+      {
+        id: 'node6',
+        data: {},
       },
     ],
     edges: [
       {
-        id: 'edge1',
+        id: 'line-default',
         source: 'node1',
         target: 'node2',
-        data: {
-          type: 'cubic-edge',
-          keyShape: {
-            /**
-             * 控制点数组，默认：曲线中心附近
-             * precise x-axis, y-axis coordinates of control points. Default is center of the curve
-             */
-            controlPoints: [],
-            /**
-             * 控制点在两端点连线上的相对位置，范围 0 - 1
-             * Relative position of the control point on the line between the two endpoints, range 0 - 1
-             */
-            curvePosition: 0.5,
-            /**
-             * 控制点距离两端点连线的距离，可理解为控制边的弯曲程度
-             * Distance of the control point from the line connecting the two end points
-             */
-            curveOffset: 30,
-          },
-        },
+      },
+      {
+        id: 'line-active',
+        source: 'node1',
+        target: 'node3',
+      },
+      {
+        id: 'line-selected',
+        source: 'node1',
+        target: 'node4',
+      },
+      {
+        id: 'line-highlight',
+        source: 'node1',
+        target: 'node5',
+      },
+      {
+        id: 'line-inactive',
+        source: 'node1',
+        target: 'node6',
       },
     ],
   },
   edge: {
+    type: 'cubic-edge',
     keyShape: {
       endArrow: true,
     },
+    haloShape: {},
+    labelShape: {
+      text: {
+        fields: ['id'],
+        formatter: (model) => model.id,
+      },
+    },
+    labelBackgroundShape: {},
   },
+});
+
+graph.on('afterrender', (e) => {
+  graph.setItemState('line-active', 'active', true);
+  graph.setItemState('line-selected', 'selected', true);
+  graph.setItemState('line-highlight', 'highlight', true);
+  graph.setItemState('line-inactive', 'inactive', true);
 });
 
 if (typeof window !== 'undefined')

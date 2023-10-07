@@ -91,7 +91,7 @@ export class EllipseNode extends BaseNode {
     if (data.otherShapes && this.drawOtherShapes) {
       shapes = {
         ...shapes,
-        ...this.drawOtherShapes(model, shapeMap, diffData),
+        ...this.(model, shapeMap, diffData),
       };
     }
     return shapes;

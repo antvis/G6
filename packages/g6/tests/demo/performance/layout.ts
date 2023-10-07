@@ -147,7 +147,7 @@ export default async () => {
     });
 
     let timer;
-    graph.on('startlayout', () => {
+    graph.on('beforelayout', () => {
       const startTime = performance.now();
       timer = setInterval(() => {
         $timer1.innerHTML = `Time: ${(performance.now() - startTime).toFixed(
@@ -156,7 +156,7 @@ export default async () => {
       }, 1);
     });
 
-    graph.on('endlayout', () => {
+    graph.on('afterlayout', () => {
       clearInterval(timer);
       graph.zoom(0.1, undefined, {
         duration: 1000,
@@ -182,7 +182,7 @@ export default async () => {
     });
 
     let timer;
-    graph.on('startlayout', () => {
+    graph.on('beforelayout', () => {
       const startTime = performance.now();
       timer = setInterval(() => {
         $timer2.innerHTML = `Time: ${(performance.now() - startTime).toFixed(
@@ -191,7 +191,7 @@ export default async () => {
       }, 1);
     });
 
-    graph.on('endlayout', () => {
+    graph.on('afterlayout', () => {
       clearInterval(timer);
 
       graph.zoom(0.1, undefined, {

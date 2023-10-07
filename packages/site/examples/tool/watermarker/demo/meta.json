@@ -1,0 +1,24 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+      "filename": "textWaterMarker.ts",
+      "title": {
+        "zh": "文本水印",
+        "en": "Text WaterMarker"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*GPRuRqBUIsoAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "imgWaterMarker.ts",
+      "title": {
+        "zh": "图片水印",
+        "en": "Image WaterMarker"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*_FYsQ7SYtcAAAAAAAAAAAAAADmJ7AQ/original"
+    }
+  ]
+}

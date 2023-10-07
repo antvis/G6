@@ -1,4 +1,4 @@
-import { Graph } from '@antv/g6';
+import { Graph as BaseGraph, Extensions, extend } from '@antv/g6';
 
 const container = document.getElementById('container');
 const width = container.scrollWidth;
@@ -9,6 +9,11 @@ descriptionDiv.innerHTML =
   'Double click the combo to collapse/expand it. Drag the node or combo to change the hierarchy.';
 container.appendChild(descriptionDiv);
 
+const Graph = extend(BaseGraph, {
+  behaviors: {
+    'hover-activate': Extensions.HoverActivate,
+  },
+});
 const graph = new Graph({
   container: 'container',
   width,
