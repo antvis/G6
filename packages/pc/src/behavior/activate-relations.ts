@@ -93,8 +93,8 @@ export default {
         return;
       }
 
-      var shouldClearStatusOnSecond = self.shouldClearStatusOnSecond;
-      var currentNodeId = item.getModel().id;
+      const shouldClearStatusOnSecond = self.shouldClearStatusOnSecond;
+      const currentNodeId = item.getModel().id;
       if (clickNodeId === currentNodeId && shouldClearStatusOnSecond) {
         self.throttleClearActiveState(e, self);
         clickNodeId = null;
