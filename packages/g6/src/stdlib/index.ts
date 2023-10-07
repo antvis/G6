@@ -33,6 +33,8 @@ const {
   ModelRectNode,
   ImageNode,
   CubeNode,
+  BaseNode,
+  BaseNode3D,
 } = Nodes;
 
 const {
@@ -126,7 +128,6 @@ const stdLib = {
     'zoom-canvas': ZoomCanvas,
     'drag-node': DragNode,
     'drag-combo': DragCombo,
-    'create-edge': CreateEdge,
     'collapse-expand-combo': CollapseExpandCombo,
     'collapse-expand-tree': CollapseExpandTree,
     'click-select': ClickSelect,
@@ -250,6 +251,8 @@ const Extensions = {
   EllipseNode,
   ModelRectNode,
   CubeNode,
+  BaseNode,
+  BaseNode3D,
   // edges
   LineEdge,
   CubicEdge,

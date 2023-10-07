@@ -1,4 +1,10 @@
-import { Graph } from '@antv/g6';
+import { Graph as BaseGraph, extend, Extensions } from '@antv/g6';
+
+const Graph = extend(BaseGraph, {
+  behaviors: {
+    'hover-activate': Extensions.HoverActivate,
+  },
+});
 
 const container = document.getElementById('container');
 const width = container.scrollWidth;

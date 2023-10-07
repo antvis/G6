@@ -124,8 +124,8 @@ type GraphData = {
 
 type NodeModel = {
   id: string;
-  type?: string; // 元素类型，e.g. 可能是 circle-node, rect-node
   data: {
+    type?: string; // 元素类型，e.g. 可能是 circle-node, rect-node
     x?: number;
     y?: number;
     z?: number;

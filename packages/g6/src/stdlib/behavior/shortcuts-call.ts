@@ -78,8 +78,6 @@ export class ShortcutsCall extends Behavior {
         (codeLowerCase === 'ctrl' && triggerLowerCase === 'control')
       ) {
         this.triggerKeydown = true;
-      } else {
-        this.triggerKeydown = false;
       }
     }
 
@@ -114,7 +112,18 @@ export class ShortcutsCall extends Behavior {
     }
   }
 
-  public onKeyUp() {
-    this.triggerKeydown = false;
+  public onKeyUp(e) {
+    const code = e.key;
+    if (!code) return;
+    const { trigger } = this.options;
+    const triggerLowerCase = trigger.toLowerCase();
+    const codeLowerCase = code.toLowerCase();
+    if (
+      codeLowerCase === triggerLowerCase ||
+      (codeLowerCase === 'control' && triggerLowerCase === 'ctrl') ||
+      (codeLowerCase === 'ctrl' && triggerLowerCase === 'control')
+    ) {
+      this.triggerKeydown = false;
+    }
   }
 }

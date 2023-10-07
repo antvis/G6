@@ -23,7 +23,7 @@ const lensDelegateStyle = {
   stroke: '#000',
   strokeOpacity: 0.8,
   lineWidth: 2,
-  fillOpacity: 0.1,
+  fillOpacity: 1,
   fill: '#fff',
 };
 
@@ -207,11 +207,11 @@ export class EdgeFilterLens extends Base {
     this.updateDelegate(fCenter, r);
 
     const nodes = graph.getAllNodesData();
-    const hitNodesMap = {};
+    const hitNodesMap = new Map();
     nodes.forEach((node) => {
       const { data, id } = node;
       if (distance({ x: data.x, y: data.y }, fCenter) < r) {
-        hitNodesMap[id] = node;
+        hitNodesMap.set(id, node);
       }
     });
 
@@ -222,15 +222,15 @@ export class EdgeFilterLens extends Base {
       const targetId = edge.target;
       if (shouldShow(edge)) {
         if (showType === 'only-source' || showType === 'one') {
-          if (hitNodesMap[sourceId] && !hitNodesMap[targetId])
+          if (hitNodesMap.get(sourceId) && !hitNodesMap.get(targetId))
             hitEdges.push(edge);
         } else if (showType === 'only-target' || showType === 'one') {
-          if (hitNodesMap[targetId] && !hitNodesMap[sourceId])
+          if (hitNodesMap.get(targetId) && !hitNodesMap.get(sourceId))
             hitEdges.push(edge);
         } else if (
           showType === 'both' &&
-          hitNodesMap[sourceId] &&
-          hitNodesMap[targetId]
+          hitNodesMap.get(sourceId) &&
+          hitNodesMap.get(targetId)
         ) {
           hitEdges.push(edge);
         }
@@ -240,22 +240,23 @@ export class EdgeFilterLens extends Base {
     const currentTransientNodes = new Set<string | number>();
     const currentTransientEdges = new Set<string | number>();
 
-    if (showNodeLabel) {
-      Object.keys(hitNodesMap).forEach((key) => {
-        const node = hitNodesMap[key];
-        currentTransientNodes.add(node.id);
+    hitNodesMap.forEach((node) => {
+      currentTransientNodes.add(node.id);
 
-        if (cachedTransientNodes.has(node.id)) {
-          cachedTransientNodes.delete(node.id);
-        } else {
-          graph.drawTransient('node', node.id, { shapeIds: ['labelShape'] });
-        }
-      });
+      if (cachedTransientNodes.has(node.id)) {
+        cachedTransientNodes.delete(node.id);
+      } else {
+        graph.drawTransient('node', node.id, {
+          shapeIds: showNodeLabel
+            ? ['labelShape', 'labelBackgroundShape', 'keyShape']
+            : ['keyShape'],
+        });
+      }
+    });
 
-      cachedTransientNodes.forEach((id) => {
-        graph.drawTransient('node', id, { action: 'remove' });
-      });
-    }
+    cachedTransientNodes.forEach((id) => {
+      graph.drawTransient('node', id, { action: 'remove' });
+    });
 
     if (showEdgeLabel) {
       hitEdges.forEach((edge) => {
@@ -265,7 +266,7 @@ export class EdgeFilterLens extends Base {
           cachedTransientEdges.delete(edge.id);
         } else {
           graph.drawTransient('edge', edge.id, {
-            shapeIds: ['labelShape'],
+            shapeIds: ['labelShape', 'labelBackgroundShape', 'keyShape'],
             drawSource: false,
             drawTarget: false,
           });
@@ -334,13 +335,19 @@ export class EdgeFilterLens extends Base {
           r,
           cx: mCenter.x,
           cy: mCenter.y,
+          zIndex: -1,
           ...attrs,
         },
       });
+      lensDelegate.toBack();
     } else {
-      lensDelegate.style.cx = mCenter.x;
-      lensDelegate.style.cy = mCenter.y;
-      lensDelegate.style.r = mCenter.r;
+      lensDelegate = graph.drawTransient('circle', 'lens-shape', {
+        style: {
+          r,
+          cx: mCenter.x,
+          cy: mCenter.y,
+        },
+      });
     }
 
     this.delegate = lensDelegate;

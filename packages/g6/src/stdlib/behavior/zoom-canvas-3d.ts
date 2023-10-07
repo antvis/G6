@@ -123,7 +123,10 @@ export class ZoomCanvas3D extends Behavior {
       ((100 * sign * sensitivity) / currentDistance) *
       Math.sqrt(currentDistance);
     const toDistance = currentDistance + dolly;
-    const cameraFrontOfFocalPoint = camera.getDistanceVector()[2] < 0;
+    const azimuth = camera.getAzimuth();
+    const isFlipped = azimuth < 90 && azimuth > -90 ? 1 : -1;
+    const distancePositive = camera.getDistanceVector()[2] < 0 ? 1 : -1;
+    const cameraFrontOfFocalPoint = isFlipped * distancePositive > 0;
 
     // zoom out constraint
     if (

@@ -6,6 +6,7 @@ const ExtGraph = extend(Graph, {
   behaviors: {
     'orbit-canvas-3d': Extensions.OrbitCanvas3D,
     'zoom-canvas-3d': Extensions.ZoomCanvas3D,
+    'hover-activate': Extensions.HoverActivate,
   },
 });
 const container = document.getElementById('container');

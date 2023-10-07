@@ -97,8 +97,6 @@ export class LayoutController {
       });
     }
 
-    this.graph.emit('startlayout');
-
     const [width, height] = this.graph.getSize();
     const center = [width / 2, height / 2];
 
@@ -227,8 +225,6 @@ export class LayoutController {
       }
     }
 
-    this.graph.emit('endlayout');
-
     // Update nodes' positions.
     this.updateNodesPosition(positions, animate);
   }
@@ -279,7 +275,7 @@ export class LayoutController {
         animationEffectTiming,
       );
     }
-    this.graph.emit('endlayout');
+    this.graph.emit('afterlayout');
     this.updateNodesPosition(
       { nodes: nodePositions, edges: [] },
       animated || animate,

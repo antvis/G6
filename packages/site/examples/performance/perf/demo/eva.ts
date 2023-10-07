@@ -1,7 +1,7 @@
 import { Graph, Extensions, extend } from '@antv/g6';
 import Stats from 'stats.js';
 
-const dataFormat = (data, options = {}, userGraphCore) => {
+const dataFormat = (data, options = {}, graphCore) => {
   const map = new Map();
   const nodes: any = [];
   data.nodes.forEach((node) => {

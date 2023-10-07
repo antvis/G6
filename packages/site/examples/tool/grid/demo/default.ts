@@ -11,7 +11,7 @@ const width = container.scrollWidth;
 const height = (container.scrollHeight || 500) - 110;
 const data = Util.mock(6).circle();
 
-new Graph({
+const graph = new Graph({
   container,
   width,
   height,
@@ -27,3 +27,10 @@ new Graph({
     },
   ],
 });
+
+if (typeof window !== 'undefined')
+  window.onresize = () => {
+    if (!graph || graph.destroyed) return;
+    if (!container || !container.scrollWidth || !container.scrollHeight) return;
+    graph.setSize([container.scrollWidth, container.scrollHeight]);
+  };

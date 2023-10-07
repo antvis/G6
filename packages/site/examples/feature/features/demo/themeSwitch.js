@@ -149,7 +149,7 @@ const lodStrategyLevels = [
   { zoomRange: [2.5, Infinity] }, // 4
 ];
 
-const dataFormat = (data, options = {}, userGraphCore) => {
+const dataFormat = (data, options = {}, graphCore) => {
   const map = new Map();
   const nodes = [];
   data.nodes.forEach((node) => {
@@ -185,7 +185,7 @@ const dataFormat = (data, options = {}, userGraphCore) => {
     })),
   };
 };
-const clusteringNodes = (data, options = {}, userGraphCore) => {
+const clusteringNodes = (data, options = {}, graphCore) => {
   if (!Algorithm?.labelPropagation) return;
   const clusteredData = Algorithm.labelPropagation(data, false);
   clusteredData.clusters.forEach((cluster, i) => {

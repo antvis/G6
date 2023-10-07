@@ -3,7 +3,7 @@ title: Fisheye
 order: 6
 ---
 
-Fisheye is a built-in components for focus+context magnification in G6.
+Fisheye is a built-in components in G6, but not reigstered by default. It needs to be imported into the code and registered with the `extend` method, and then you could configured it to the graph instance.
 
 ## Usage
 

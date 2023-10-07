@@ -1,6 +1,6 @@
 import { Graph, Extensions, extend } from '@antv/g6';
 
-const edgeClusterTransform = (data, options = {}, userGraphCore) => {
+const edgeClusterTransform = (data, options = {}, graphCore) => {
   const { nodes, edges } = data;
   const nodeMap = new Map();
   nodes.forEach((node) => nodeMap.set(node.id, node));

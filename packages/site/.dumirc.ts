@@ -156,6 +156,14 @@ export default defineConfig({
         },
         order: 5,
       },
+      {
+        slug: 'manual/customize',
+        title: {
+          zh: '自定义扩展',
+          en: 'Customzing Extensions',
+        },
+        order: 6,
+      },
       // ===========Concepts===================
       // {
       //   slug: 'manual/middle',

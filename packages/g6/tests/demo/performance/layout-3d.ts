@@ -121,7 +121,7 @@ export default async () => {
     });
 
     let timer;
-    graph.on('startlayout', () => {
+    graph.on('beforelayout', () => {
       const startTime = performance.now();
       timer = setInterval(() => {
         $timer1.innerHTML = `@antv/layout-wasm: ${(
@@ -130,7 +130,7 @@ export default async () => {
       }, 1);
     });
 
-    graph.on('endlayout', () => {
+    graph.on('afterlayout', () => {
       clearInterval(timer);
 
       const camera = graph.canvas.getCamera();
@@ -187,7 +187,7 @@ export default async () => {
     });
 
     let timer;
-    graph.on('startlayout', () => {
+    graph.on('beforelayout', () => {
       const startTime = performance.now();
       timer = setInterval(() => {
         $timer2.innerHTML = `@antv/layout: ${(
@@ -196,7 +196,7 @@ export default async () => {
       }, 1);
     });
 
-    graph.on('endlayout', () => {
+    graph.on('afterlayout', () => {
       clearInterval(timer);
 
       const camera = graph.canvas.getCamera();
