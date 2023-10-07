@@ -2,7 +2,7 @@
 title: ConcentricLayoutOptions
 ---
 
-[Overview - v5.0.0-beta.11](../../README.en.md) / [Modules](../../modules.en.md) / [layout](../../modules/layout.en.md) / ConcentricLayoutOptions
+[Overview - v5.0.0-beta.12](../../README.en.md) / [Modules](../../modules.en.md) / [layout](../../modules/layout.en.md) / ConcentricLayoutOptions
 
 [layout](../../modules/layout.en.md).ConcentricLayoutOptions
 

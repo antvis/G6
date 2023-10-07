@@ -2,7 +2,7 @@
 title: TorusGeometryProps
 ---
 
-[Overview - v5.0.0-beta.11](../../README.en.md) / [Modules](../../modules.en.md) / [item](../../modules/item.en.md) / TorusGeometryProps
+[Overview - v5.0.0-beta.12](../../README.en.md) / [Modules](../../modules.en.md) / [item](../../modules/item.en.md) / TorusGeometryProps
 
 [item](../../modules/item.en.md).TorusGeometryProps
 
