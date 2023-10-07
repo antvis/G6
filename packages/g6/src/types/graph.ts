@@ -554,6 +554,15 @@ export interface IGraph<
    */
   getItemVisible: (id: ID) => boolean;
 
+  /**
+   * Balance the size of the element (including labelShape, labelBackgroundShape, etc) based on graph zoom.
+   * @param id the id for the node / edge / combo
+   * @param fixed Whether if fix the size of element when zooming. Defaults to false.
+   * @param shapeIds ids of shape to operate
+   * @returns
+   */
+  balanceItemShape: (id: ID, fixed?: boolean, shapeIds?: string[]) => void;
+
   // ===== combo operations =====
 
   /**

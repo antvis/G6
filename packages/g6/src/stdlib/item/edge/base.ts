@@ -617,6 +617,17 @@ export abstract class BaseEdge {
     this.zoomCache.firstRender = false;
   };
 
+  /**
+   * Balance the size of the item (including labelShape, labelBackgroundShape, etc) based on graph zoom.
+   * @param shapeMap The shape map that contains all of the elements to show on the edge.
+   * @param zoom The zoom level of the graph.
+   * @param group container graphics group of item
+   * @param fixed Whether if fix the size of element when zooming. Defaults to false.
+   * @param shapeIds ids of shape to fix
+   * @param displayModel The displayed model of this edge, only for drawing and not received by users.
+   * @param defaultStyle The display style of the edge in its default state
+   * @returns
+   */
   public balanceShapeSize = (
     shapeMap: EdgeShapeMap,
     group: Group,
@@ -634,19 +645,25 @@ export abstract class BaseEdge {
     if (fixed) {
       each(newShapeIds, (shapeId) => {
         const shape = shapeMap[shapeId];
+        if (!shape) return;
         const mergedStyle = this.mergedStyles[shapeId];
         if (shapeId === 'keyShape' || shapeId === 'haloShape') {
           updateStyleOnZoom(shape, mergedStyle, ['lineWidth'], balanceRatio);
-          const { lineWidth } = defaultStyle['keyShape'];
+          const { lineWidth, fontSize } = defaultStyle['keyShape'];
           displayModel.data.keyShape.lineWidth =
             Number(lineWidth) * balanceRatio;
+          displayModel.data.keyShape.fontSize = Number(fontSize) * balanceRatio;
         } else {
+          if (shapeId === 'labelShape' || shapeId === 'labelBackgroundShape')
+            return;
           const oriTransform = this.boundsCache[`${shapeId}Transform`] || '';
           shape.style.transform = `${oriTransform} ${scaleTransform}`;
         }
       });
-      return;
     }
+
+    if (fixed && shapeIds.length > 0 && !shapeIds.includes('labelShape'))
+      return;
 
     // balance label's size
     const labelShape = shapeMap['labelShape'];
@@ -659,6 +676,14 @@ export abstract class BaseEdge {
     labelShape.style.transform = `${oriTransform} ${scaleTransform}`;
     const wordWrapWidth = this.zoomCache.wordWrapWidth / balanceRatio;
     labelShape.style.wordWrapWidth = wordWrapWidth;
+    fixed && labelShape.show();
+
+    if (
+      fixed &&
+      shapeIds.length > 0 &&
+      !shapeIds.includes('labelBackgroundShape')
+    )
+      return;
 
     // balance label background's size
     const labelBackgroundShape = shapeMap['labelBackgroundShape'];
@@ -666,6 +691,7 @@ export abstract class BaseEdge {
 
     const oriBgTransform = this.boundsCache.labelBackgroundShapeTransform || '';
     labelBackgroundShape.style.transform = `${oriBgTransform} ${scaleTransform}`;
+    fixed && labelBackgroundShape.show();
   };
 
   /**

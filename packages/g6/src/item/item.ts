@@ -32,6 +32,7 @@ import {
 } from '../util/animate';
 import { AnimateTiming, IAnimates } from '../types/animate';
 import { formatLodStrategy } from '../util/zoom';
+import { ID } from '../types';
 
 export default abstract class Item implements IItem {
   public destroyed = false;
@@ -814,6 +815,12 @@ export default abstract class Item implements IItem {
     this.renderExt.onZoom(this.shapeMap, zoom, this.cacheHiddenByItem);
   }
 
+  /**
+   * Balance the size of the item (including labelShape, labelBackgroundShape, etc) based on graph zoom.
+   * @param zoom  graph zopom
+   * @param fixed Whether if fix the size of element when zooming. Defaults to false.
+   * @param shapeIds ids of shape to operate
+   */
   public balanceShapeSize(zoom: number, fixed?: boolean, shapeIds?: string[]) {
     const { model: displayModel } = this.getDisplayModelAndChanges(this.model);
     const defaultStyle = this.renderExt.getMergedStyles(

@@ -1684,11 +1684,10 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
   }
 
   /**
-   * Scales the specified item.
-   * @param id The ID of the item.
-   * @param zoom The scale ratio. Set to false to disable scaling for the current item.
-   * @param balanceLabel Whether to balance the label size. Defaults to false.
-   * @param shapeIds The IDs of the shapes to be scaled. This property only takes effect when the zoom parameter is a number. By default, the entire element is scaled.
+   * Balance the size of the element (including labelShape, labelBackgroundShape, etc) based on graph zoom.
+   * @param id the id for the node / edge / combo
+   * @param fixed Whether if fix the size of element when zooming. Defaults to false.
+   * @param shapeIds ids of shape to operate
    */
   public balanceItemShape(id: ID, fixed = false, shapeIds?: string[]) {
     const zoom = this.getZoom() || 1;

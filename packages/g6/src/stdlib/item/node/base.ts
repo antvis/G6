@@ -861,6 +861,17 @@ export abstract class BaseNode {
     this.zoomCache.zoom = zoom;
   };
 
+  /**
+   * Balance the size of the item (including labelShape, labelBackgroundShape, etc) based on graph zoom.
+   * @param shapeMap The shape map that contains all of the elements to show on the node.
+   * @param zoom The zoom level of the graph.
+   * @param group container graphics group of item
+   * @param fixed Whether if fix the size of element when zooming. Defaults to false.
+   * @param shapeIds ids of shape to fix
+   * @param displayModel The displayed model of this node, only for drawing and not received by users.
+   * @param defaultStyle The display style of the node in its default state
+   * @returns
+   */
   public balanceShapeSize = (
     shapeMap: NodeShapeMap,
     group: Group,
@@ -874,21 +885,27 @@ export abstract class BaseNode {
     const scaleTransform = `scale(${balanceRatio}, ${balanceRatio})`;
 
     if (fixed) {
-      const shapes = !isEmpty(shapeIds)
-        ? pick(shapeMap, shapeIds)
-        : { group: group };
-      each(Object.entries(shapes), ([shapeId, shape]) => {
-        const oriTransform = this.boundsCache[`${shapeId}Transform`] || '';
-        shape.style.transform = `${oriTransform} ${scaleTransform}`;
-      });
-      return;
+      if (isEmpty(shapeIds)) {
+        group.style.transform = scaleTransform;
+        return;
+      } else {
+        const shapes = pick(shapeMap, shapeIds);
+        each(Object.entries(shapes), ([shapeId, shape]) => {
+          if (shapeId === 'labelShape' || shapeId === 'labelBackgroundShape')
+            return;
+          const oriTransform = this.boundsCache[`${shapeId}Transform`] || '';
+          shape.style.transform = `${oriTransform} ${scaleTransform}`;
+        });
+      }
     }
+
+    if (fixed && !shapeIds.includes('labelShape')) return;
 
     const keyShapeLocal = shapeMap.keyShape.getLocalBounds();
     const { position = 'bottom' } = this.mergedStyles.labelShape;
 
     const labelShape = shapeMap['labelShape'];
-    if (!labelShape && !labelShape.isVisible()) return;
+    if (!labelShape || !labelShape.isVisible()) return;
 
     if (zoom < 1) {
       if (position === 'bottom') labelShape.style.transformOrigin = '0';
@@ -929,8 +946,9 @@ export abstract class BaseNode {
     labelShape.style.transform = `${oriTransform} ${scaleTransform}`;
     this.scaleTransformCache = scaleTransform;
 
+    if (fixed && !shapeIds.includes('labelBackgroundShape')) return;
     const labelBackgroundShape = shapeMap['labelBackgroundShape'];
-    if (!labelBackgroundShape && !labelBackgroundShape.isVisible()) return;
+    if (!labelBackgroundShape || !labelBackgroundShape.isVisible()) return;
 
     const { padding } = this.mergedStyles.labelBackgroundShape;
     const [paddingTop, paddingRight, paddingBottom, paddingLeft] =

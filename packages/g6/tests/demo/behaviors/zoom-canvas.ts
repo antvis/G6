@@ -10,10 +10,6 @@ export default (context: TestCaseContext) => {
       'cubic-edge': Extensions.CubicEdge,
       'loop-edge': Extensions.LoopEdge,
     },
-    behaviors: {
-      'brush-select': Extensions.BrushSelect,
-      'hover-activate': Extensions.HoverActivate,
-    },
   });
 
   return new ExtGraph({
@@ -86,20 +82,16 @@ export default (context: TestCaseContext) => {
           data: {},
         },
         {
-          id: 'edge277777777777',
+          id: 'edge2',
           source: 'node1',
           target: 'node3',
-          data: {
-            // type: 'cubic-edge',
-          },
+          data: {},
         },
         {
           id: 'edge3',
           source: 'node1',
           target: 'node4',
-          data: {
-            // type: 'cubic-edge',
-          },
+          data: {},
         },
         {
           id: 'edge4',
@@ -111,9 +103,7 @@ export default (context: TestCaseContext) => {
           id: 'edge5',
           source: 'node3',
           target: 'node4',
-          data: {
-            // type: 'cubic-edge'
-          },
+          data: {},
         },
         { id: 'edge6', source: 'node4', target: 'node5', data: {} },
       ],
@@ -129,7 +119,6 @@ export default (context: TestCaseContext) => {
         'drag-node',
         'drag-canvas',
         'click-select',
-        'hover-activate',
       ],
     },
   });

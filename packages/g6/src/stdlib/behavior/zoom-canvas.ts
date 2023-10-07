@@ -1,4 +1,4 @@
-import { each, isNumber } from '@antv/util';
+import { clone, each, isEmpty, isNumber } from '@antv/util';
 import { ID, IG6GraphEvent } from '../../types';
 import { Behavior } from '../../types/behavior';
 
@@ -46,13 +46,16 @@ export interface ZoomCanvasOptions {
    */
   shouldBegin?: (event: IG6GraphEvent) => boolean;
   /**
-   *
+   * Configuration for fixing selected items' properties while zooming the canvas
    */
   fixSelectedItems?: Partial<{
+    // Whether to fix the overall size of the elements. Takes priority over fixKeyShape and fixLabel
     fixAll: boolean;
-    fixLineWidth: boolean;
+    // Whether to fix the keyShape of the elements.
+    fixKeyShape: boolean;
+    // Whether to fix the label size of the elements.
     fixLabel: boolean;
-    fixState: string;
+    // IDs of shapes would be fixed
     shapeIds: string[];
   }>;
   // TODO: optimizeZoom
@@ -70,11 +73,7 @@ const DEFAULT_OPTIONS: Required<ZoomCanvasOptions> = {
   minZoom: 0.00001,
   maxZoom: 1000,
   shouldBegin: () => true,
-  fixSelectedItems: {
-    fixState: 'selected',
-    fixAll: true,
-    shapeIds: [],
-  },
+  fixSelectedItems: {},
 };
 
 export class ZoomCanvas extends Behavior {
@@ -94,8 +93,21 @@ export class ZoomCanvas extends Behavior {
       );
       finalOptions.trigger = 'wheel';
     }
-    if (!finalOptions.fixSelectedItems.fixState)
-      finalOptions.fixSelectedItems.fixState = 'selected';
+    if (finalOptions.fixSelectedItems) {
+      let newShapeIds = finalOptions.fixSelectedItems.shapeIds || [];
+      if (finalOptions.fixSelectedItems.fixLabel) {
+        newShapeIds.push('labelShape', 'labelBackgroundShape');
+      }
+      if (finalOptions.fixSelectedItems.fixKeyShape) {
+        newShapeIds.push('keyShape');
+      }
+      if (finalOptions.fixSelectedItems.fixAll) {
+        finalOptions.fixSelectedItems.fixLabel = true;
+        finalOptions.fixSelectedItems.fixKeyShape = true;
+        newShapeIds = [];
+      }
+      finalOptions.fixSelectedItems.shapeIds = newShapeIds;
+    }
     super(finalOptions);
   }
 
@@ -251,15 +263,19 @@ export class ZoomCanvas extends Behavior {
     if (maxZoom && zoomTo > maxZoom) return;
 
     // fix items when zooming
-    const zoom = graph.getZoom();
-    if (zoom < 1) {
-      const { fixAll, fixState, shapeIds } = fixSelectedItems;
-      const fixNodeIds = graph.findIdByState('node', fixState);
-      const fixEdgeIds = graph.findIdByState('edge', fixState);
+    if (fixSelectedItems) {
+      const { fixAll, fixLabel, fixKeyShape, shapeIds } = fixSelectedItems;
+      if (fixAll || fixLabel || fixKeyShape || !isEmpty(shapeIds)) {
+        const zoom = graph.getZoom();
+        if (zoom < 1) {
+          const fixNodeIds = graph.findIdByState('node', 'selected');
+          const fixEdgeIds = graph.findIdByState('edge', 'selected');
 
-      each(fixNodeIds.concat(fixEdgeIds), (fixId) => {
-        graph.balanceItemShape(fixId, true, shapeIds);
-      });
+          each(fixNodeIds.concat(fixEdgeIds), (fixId) => {
+            graph.balanceItemShape(fixId, true, fixSelectedItems.shapeIds);
+          });
+        }
+      }
     }
 
     // TODO: the zoom center is wrong?
