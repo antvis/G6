@@ -75,7 +75,7 @@ export default {
   },
   clearActiveState(e: any) {
     // avoid clear state frequently, it costs a lot since all the items' states on the graph need to be cleared
-    var shouldClearStatusOnSecond = this.shouldClearStatusOnSecond;
+    const shouldClearStatusOnSecond = this.shouldClearStatusOnSecond;
     if (shouldClearStatusOnSecond) {
       clickNodeId = null;
     }
