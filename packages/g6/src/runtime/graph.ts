@@ -236,7 +236,8 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
             .getContextService()
             .getDomElement() as unknown as HTMLElement;
           if ($domElement && $domElement.style) {
-            $domElement.style.position = 'fixed';
+            // Make all these 3 canvas doms overlap each other. The container already has `position: relative` style.
+            $domElement.style.position = 'absolute';
             $domElement.style.outline = 'none';
             $domElement.tabIndex = 1; // Enable keyboard events
             // Transient canvas should let interactive events go through.
