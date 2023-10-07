@@ -20,6 +20,7 @@ export default {
       trigger: DEFAULT_TRIGGER,
       includeEdges: true,
       includeCombos: false,
+      selectOnCombo: false,
       selectedEdges: [],
       selectedNodes: [],
       selectedCombos: [],
@@ -54,9 +55,11 @@ export default {
     // 按在node上面拖动时候不应该是框选
     const { item } = e;
     let { brush } = this;
-    // 如果是在combo上拖动应该保留框选效果
+    const selectOnCombo = this.selectOnCombo;
     const isCombo = item?.getType() === 'combo';
-    if (item && !isCombo) {
+    if (selectOnCombo) {
+      if (item && !isCombo) return;
+    } else if (item) {
       return;
     }
 
