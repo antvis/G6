@@ -1,11 +1,11 @@
-import { createDom, modifyCSS } from '@antv/dom-util';
-import { AABB } from '@antv/g';
 import { isString, uniqueId } from '@antv/util';
 import insertCss from 'insert-css';
 import Item from '../../../item/item';
+import { createDOM, modifyCSS } from '../../../util/dom';
 import { IGraph } from '../../../types';
 import { IG6GraphEvent } from '../../../types/event';
 import { Plugin as Base, IPluginBaseConfig } from '../../../types/plugin';
+
 typeof document !== 'undefined' &&
   insertCss(`
   .g6-component-contextmenu {
@@ -39,14 +39,14 @@ typeof document !== 'undefined' &&
  * The `MenuConfig` interface contains the following properties:
 
 - `handleMenuClick`: An optional function for handling menu click events. It takes two arguments: `target` (of type HTMLElement) and `item` (of type Item), and has no return value.
-- `getContent`: An optional function for getting the content of the menu. It takes an optional argument of type `IG6GraphEvent`, and returns a value of type HTMLDivElement, string, or Promise (resolving to HTMLDivElement or string).
+- `getContent`: An optional function for getting the content of the menu. It takes an optional argument of type `IG6GraphEvent`, and returns a value of type HTMLElement, string, or Promise (resolving to HTMLElement or string).
 - `offsetX`: An optional number representing the offset of the menu in the X direction.
 - `offsetY`: An optional number representing the offset of the menu in the Y direction.
 - `shouldBegin`: An optional function for determining whether the menu should be displayed. It takes an optional argument of type `IG6GraphEvent`, and returns a boolean value.
 - `itemTypes`: An optional array of strings representing the types of items for which the menu is allowed to be displayed.
 - `trigger`: An optional string, either 'click' or 'contextmenu', representing the event type that triggers the display of the menu.
 - `onHide`: An optional function to be executed when the menu is hidden. It takes no arguments and returns a boolean value.
-- `loadingContent`: An optional HTMLDivElement or string representing the loading DOM.
+- `loadingContent`: An optional HTMLElement or string representing the loading DOM.
 - `liHoverStyle`: An optional object representing the style of li elements when hovered over. It can contain any number of key-value pairs, where the key is a style name and the value is a string.
  */
 export interface MenuConfig extends IPluginBaseConfig {
@@ -54,7 +54,7 @@ export interface MenuConfig extends IPluginBaseConfig {
   // return the content of menu, support the `Promise` type return value.
   getContent?: (
     evt?: IG6GraphEvent,
-  ) => HTMLDivElement | string | Promise<HTMLDivElement | string>;
+  ) => HTMLElement | string | Promise<HTMLElement | string>;
   offsetX?: number;
   offsetY?: number;
   shouldBegin?: (evt?: IG6GraphEvent) => boolean;
@@ -62,7 +62,7 @@ export interface MenuConfig extends IPluginBaseConfig {
   trigger?: 'click' | 'contextmenu';
   onHide?: () => boolean;
   //loading Dom
-  loadingContent?: HTMLDivElement | string;
+  loadingContent?: HTMLElement | string;
   liHoverStyle?: { [key: string]: string };
 }
 
@@ -126,16 +126,16 @@ export class Menu extends Base {
               .join('')}
             }
         `);
-    const menu = createDom(
+    const menu = createDOM(
       `<div class=${className || 'g6-component-contextmenu'}></div>`,
     );
     modifyCSS(menu, { top: '0px', position: 'absolute', visibility: 'hidden' });
-    let container: HTMLDivElement | null | string = this.options.container;
+    let container: HTMLElement | null | string = this.options.container;
     if (!container) {
-      container = this.graph.container as HTMLDivElement;
+      container = this.graph.container as HTMLElement;
     }
     if (isString(container)) {
-      container = document.getElementById(container) as HTMLDivElement;
+      container = document.getElementById(container) as HTMLElement;
     }
     container.appendChild(menu);
     this.menu = menu;
@@ -189,7 +189,7 @@ export class Menu extends Base {
     if (isString(menu)) {
       //the type is string
       menuDom.innerHTML = menu;
-    } else if (menu instanceof HTMLDivElement) {
+    } else if (menu instanceof HTMLElement) {
       //the type is htmldom
       menuDom.innerHTML = menu.outerHTML;
     } else {
@@ -264,10 +264,10 @@ export class Menu extends Base {
     if (menu) {
       let container = this.options.container;
       if (!container) {
-        container = this.graph.container as HTMLDivElement;
+        container = this.graph.container as HTMLElement;
       }
       if (isString(container)) {
-        container = document.getElementById(container) as HTMLDivElement;
+        container = document.getElementById(container) as HTMLElement;
       }
       container.removeChild(menu);
     }

@@ -1,9 +1,8 @@
-import { uniqueId, deepMix, isString } from '@antv/util';
-import { createDom, modifyCSS } from '@antv/dom-util';
-import { Canvas, CanvasLike } from '@antv/g';
+import { uniqueId, isString } from '@antv/util';
+import { Canvas } from '@antv/g';
+import { IGraph } from 'types';
 import { Plugin as Base, IPluginBaseConfig } from '../../../types/plugin';
 import { createCanvas } from '../../../util/canvas';
-import { IGraph } from 'types';
 
 /** Define configuration types for image and text watermarks */
 type ImageWaterMarkerConfig = {
@@ -60,7 +59,7 @@ export interface WaterMarkerConfig extends IPluginBaseConfig {
 }
 
 export class WaterMarker extends Base {
-  private container: HTMLDivElement;
+  private container: HTMLElement;
   private canvas: Canvas;
 
   constructor(options?: WaterMarkerConfig) {
@@ -117,15 +116,15 @@ export class WaterMarker extends Base {
     const { graph, options } = this;
     const { width, height } = options;
     let parentNode = options.container;
-    let container: HTMLDivElement;
+    let container: HTMLElement;
 
     if (isString(parentNode)) {
-      parentNode = document.getElementById(parentNode) as HTMLDivElement;
+      parentNode = document.getElementById(parentNode) as HTMLElement;
     }
     if (parentNode) {
       container = parentNode;
     } else {
-      container = graph.container as HTMLDivElement;
+      container = graph.container as HTMLElement;
     }
     if (!container.style.position) {
       container.style.position = 'relative';
@@ -186,8 +185,10 @@ export class WaterMarker extends Base {
       }
       if (canvas) {
         box.style.cssText = `background-image: url(${dataURL});background-repeat:repeat;position:absolute;top:0;bottom:0;left:0;right:0;pointer-events:none;`;
-        let canvas = this.graph.canvas.getContextService().getDomElement() as any;
-        let transientCanvas = this.graph.transientCanvas
+        const canvas = this.graph.canvas
+          .getContextService()
+          .getDomElement() as any;
+        const transientCanvas = this.graph.transientCanvas
           .getContextService()
           .getDomElement() as any;
         container.removeChild(canvas);
@@ -241,7 +242,7 @@ export class WaterMarker extends Base {
     ctx.font = `${fontSize}px ${fontFamily}`;
     ctx.fillStyle = fill;
     ctx.textBaseline = baseline;
-    let displayTexts = isString(texts) ? [texts] : texts;
+    const displayTexts = isString(texts) ? [texts] : texts;
     for (let i = displayTexts.length - 1; i >= 0; i--) {
       ctx.fillText(displayTexts[i], x, y + i * lineHeight);
     }
@@ -256,10 +257,12 @@ export class WaterMarker extends Base {
       box = document.createElement('div');
       box.className = className;
     }
-    if(canvas){
+    if (canvas) {
       box.style.cssText = `background-image: url(${dataURL});background-repeat:repeat;position:absolute;top:0;bottom:0;left:0;right:0;pointer-events:none;`;
-      let canvas = this.graph.canvas.getContextService().getDomElement() as any;
-      let transientCanvas = this.graph.transientCanvas
+      const canvas = this.graph.canvas
+        .getContextService()
+        .getDomElement() as any;
+      const transientCanvas = this.graph.transientCanvas
         .getContextService()
         .getDomElement() as any;
       container.removeChild(canvas);
@@ -292,14 +295,14 @@ export class WaterMarker extends Base {
     const { canvas, options } = this;
     const { className } = options;
 
-    let parentNode = options.container;
-    let container: HTMLDivElement;
+    const parentNode = options.container;
+    let container: HTMLElement;
 
     if (!parentNode) {
-      container = this.graph.container as HTMLDivElement;
+      container = this.graph.container as HTMLElement;
     }
     if (isString(container)) {
-      container = document.getElementById(container) as HTMLDivElement;
+      container = document.getElementById(container) as HTMLElement;
     }
 
     const box = document.querySelector(`.${className}`) as HTMLElement;

@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 describe('template', () => {
   const el = document.createElement('div');
   el.id = 'test-div-id';

@@ -1,4 +1,3 @@
-import { parsePathString } from '@antv/path-util';
 import { DisplayObject } from '@antv/g';
 import { isArray } from '@antv/util';
 import { ComboModel, ID, IGraph, NodeModel } from '../../../types';
@@ -141,7 +140,7 @@ export default class Hull {
           contour.map((p) => [p.x, p.y]),
           this.padding,
         );
-        path = parsePathString(hull);
+        path = hull;
         break;
       case 'smooth-convex':
         contour = genConvexHull(members);
@@ -150,7 +149,7 @@ export default class Hull {
             contour.map((p) => [p.x, p.y]),
             this.padding,
           );
-          path = parsePathString(hull);
+          path = hull;
         } else if (contour.length > 2) {
           hull = paddedHull(
             contour.map((p) => [p.x, p.y]),

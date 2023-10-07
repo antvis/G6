@@ -1,7 +1,7 @@
 // TODO: update type define.
-import { createDom, modifyCSS } from '@antv/dom-util';
 import { Canvas } from '@antv/g';
 import { uniqueId } from '@antv/util';
+import { createDOM, modifyCSS } from '../../../util/dom';
 import { IGraph } from '../../../types';
 import { Plugin as Base, IPluginBaseConfig } from '../../../types/plugin';
 
@@ -28,7 +28,7 @@ interface ViewPortEventParam {
 export class Grid extends Base {
   private canvas: Canvas;
   private viewport: HTMLElement | undefined;
-  private container: HTMLDivElement;
+  private container: HTMLElement;
   constructor(options?: GridConfig) {
     super(options);
   }
@@ -49,11 +49,11 @@ export class Grid extends Base {
     const [width, height] = graph.getSize();
     const img = this.options.img || GRID_PNG;
 
-    const container: HTMLDivElement = createDom(
+    const container: HTMLElement = createDOM(
       `<div class='g6-grid-container' style="position: absolute; left:0;top:0;right:0;bottom:0;overflow: hidden;"></div>`,
     );
 
-    const gridContainer: HTMLDivElement = createDom(
+    const gridContainer: HTMLElement = createDOM(
       `<div 
         class='g6-grid' 
         style='position:absolute;
@@ -96,7 +96,7 @@ export class Grid extends Base {
    * @param param
    */
   protected updateGrid(param: ViewPortEventParam) {
-    const gridContainer: HTMLDivElement = this.container;
+    const gridContainer: HTMLElement = this.container;
     let { matrix } = param;
     if (!matrix) matrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
 
@@ -110,7 +110,7 @@ export class Grid extends Base {
     });
   }
 
-  public getContainer(): HTMLDivElement {
+  public getContainer(): HTMLElement {
     return this.container;
   }
 

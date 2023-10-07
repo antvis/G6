@@ -55,7 +55,8 @@ export const simplifyPolylinePoints = (points: PolyPoint[]): PolyPoint[] => {
 };
 
 /**
- * Use the A* path-finding algorithm to obtain the shortest path. Considering that there is no need to implement automatic obstacle avoidance, use waypoints to plan the path
+ * Use the A* path-finding algorithm to obtain the shortest path.
+ * Considering that there is no need to implement automatic obstacle avoidance, use waypoints to plan the path.
  */
 export const simplePathFinder = (
   start: PolyPoint,

@@ -1,13 +1,13 @@
 import { Category } from '@antv/gui';
 import { Canvas, DisplayObject, Circle, Line } from '@antv/g';
 import { isFunction, isString, upperFirst, uniqueId } from '@antv/util';
-import { createDom } from '@antv/dom-util';
 import { ID } from '@antv/graphlib';
 import { IGraph } from '../../../types';
 import { RendererName } from '../../../types/render';
 import { Plugin as Base, IPluginBaseConfig } from '../../../types/plugin';
 import { createCanvas } from '../../../util/canvas';
 import { ShapeTagMap, formatPadding } from '../../../util/shape';
+import { createDOM } from '../../../util/dom';
 
 const LEGEND_CATEGORY_ITEM_MARKER = '.legend-category-item-marker';
 
@@ -51,7 +51,7 @@ export interface LegendConfig extends IPluginBaseConfig {
   /**
    * Container for the legend, using graph's container by default
    */
-  container?: HTMLDivElement | string;
+  container?: HTMLElement | string;
   /**
    * Renderer for the legend canvas, 'canvas' by default
    */
@@ -102,7 +102,7 @@ export class Legend extends Base {
    */
   private edgeLegend: Category;
 
-  private wrapper: HTMLDivElement;
+  private wrapper: HTMLElement;
   private canvas: Canvas;
 
   private size: ('fit-content' | number)[];
@@ -303,7 +303,7 @@ export class Legend extends Base {
 
   /**
    * Creates a wrapper div element for the graph and appends it to the container.
-   * @returns {HTMLDivElement} - The created wrapper div element.
+   * @returns {HTMLElement} - The created wrapper div element.
    */
   private createWrapper() {
     const { options, graph, size } = this;
@@ -322,9 +322,9 @@ export class Legend extends Base {
       size[0] === 'fit-content' ? 0 : size[0],
       size[1] === 'fit-content' ? 0 : size[1],
     ];
-    const wrapper = (HTMLDivElement = createDom(
+    const wrapper = createDOM(
       `<div class='${className}' style='width: ${wrapperSize[0]}px; height: ${wrapperSize[1]}px; overflow: hidden;'></div>`,
-    ));
+    );
     $container.appendChild(wrapper);
     return wrapper;
   }

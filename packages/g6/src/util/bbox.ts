@@ -1,4 +1,3 @@
-/* eslint-disable prefer-spread */
 import { AABB } from '@antv/g';
 import { Point, PolyPoint } from 'types/common';
 
@@ -40,10 +39,10 @@ export const getBBoxFromPoints = (points: PolyPoint[] = []): AABB => {
     xs.push(p.x);
     ys.push(p.y);
   });
-  const minX = Math.min.apply(Math, xs);
-  const maxX = Math.max.apply(Math, xs);
-  const minY = Math.min.apply(Math, ys);
-  const maxY = Math.max.apply(Math, ys);
+  const minX = Math.min(...xs);
+  const maxX = Math.max(...xs);
+  const minY = Math.min(...ys);
+  const maxY = Math.max(...ys);
   const bbox = new AABB();
   bbox.setMinMax([minX, minY, 0], [maxX, maxY, 0]);
   return bbox;

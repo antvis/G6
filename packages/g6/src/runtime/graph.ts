@@ -21,7 +21,6 @@ import {
   isString,
   map,
 } from '@antv/util';
-import { createDom } from '@antv/dom-util';
 import { History } from '../stdlib/plugin/history';
 import { Command } from '../stdlib/plugin/history/command';
 import type {
@@ -57,6 +56,7 @@ import { FitViewRules, GraphTransformOptions } from '../types/view';
 import { changeRenderer, createCanvas } from '../util/canvas';
 import { formatPadding } from '../util/shape';
 import { getLayoutBounds } from '../util/layout';
+import { createDOM } from '../util/dom';
 import { Plugin as PluginBase } from '../types/plugin';
 import { ComboMapper, EdgeMapper, NodeMapper } from '../types/spec';
 import {
@@ -71,7 +71,7 @@ import {
 import { PluginController } from './controller/plugin';
 import Hook from './hooks';
 
-export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
+export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
   extends EventEmitter
   implements IGraph<B, T>
 {
@@ -180,7 +180,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       this.canvas = canvas;
       this.backgroundCanvas = backgroundCanvas;
       this.transientCanvas = transientCanvas;
-      this.container = container as HTMLDivElement;
+      this.container = container as HTMLElement;
     } else {
       const containerDOM = isString(container)
         ? document.getElementById(container as string)
@@ -2189,7 +2189,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     const width = this.getSize()[0];
     const height = this.getSize()[1];
 
-    const vContainerDOM: HTMLDivElement = createDom(
+    const vContainerDOM: HTMLElement = createDOM(
       '<div id="virtual-image"></div>',
     );
     const vCanvas = createCanvas(
@@ -2297,7 +2297,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       typeof window !== 'undefined' ? window.devicePixelRatio : 1;
     const vWidth = halfX * 2;
     const vHeight = halfY * 2;
-    const vContainerDOM: HTMLDivElement = createDom(
+    const vContainerDOM: HTMLElement = createDOM(
       '<div id="virtual-image"></div>',
     );
     const vCanvas = createCanvas(

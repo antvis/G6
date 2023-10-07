@@ -1,4 +1,4 @@
-import { vec2 } from '@antv/matrix-util';
+import { vec2 } from 'gl-matrix';
 import { Point } from '../types/common';
 import { isBetween } from './math';
 

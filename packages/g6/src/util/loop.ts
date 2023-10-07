@@ -1,5 +1,5 @@
 import { Tuple3Number } from '@antv/g';
-import { vec2 } from '@antv/matrix-util';
+import { vec2 } from 'gl-matrix';
 import { LOOP_POSITION, LoopPosition } from '../types/loop';
 
 const PI_OVER_8 = Math.PI / 8;

@@ -1,5 +1,5 @@
 import { resetEntityCounter } from '@antv/g';
-import cube from '../demo/item/node/cube'
+import cube from '../demo/item/node/cube';
 import './utils/useSnapshotMatchers';
 import { createContext, sleep } from './utils';
 

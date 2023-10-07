@@ -1,5 +1,5 @@
 import { DisplayObject } from '@antv/g';
-import { vec2 } from '@antv/matrix-util';
+import { vec2 } from 'gl-matrix';
 import { Point } from '../../../types/common';
 import { EdgeModelData, EdgeShapeMap } from '../../../types/edge';
 import { State } from '../../../types/item';

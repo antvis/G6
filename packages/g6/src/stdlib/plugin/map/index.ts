@@ -1,6 +1,5 @@
 // TODO: update type define.
 // @ts-nocheck
-import { createDom, modifyCSS } from '@antv/dom-util';
 import { Canvas, DisplayObject, Group, Rect } from '@antv/g';
 import { debounce, each, isNil, isString, uniqueId } from '@antv/util';
 import { IGraph } from '../../../types';
@@ -8,6 +7,7 @@ import { IG6GraphEvent } from '../../../types/event';
 import { ShapeStyle } from '../../../types/item';
 import { Plugin as Base, IPluginBaseConfig } from '../../../types/plugin';
 import { createCanvas } from '../../../util/canvas';
+import { createDOM, modifyCSS } from '../../../util/dom';
 
 const DEFAULT_MODE = 'default';
 const KEYSHAPE_MODE = 'keyShape';
@@ -32,7 +32,7 @@ export interface MiniMapConfig extends IPluginBaseConfig {
   /** Whether to hide edges on minimap to enhance performance */
   hideEdge?: boolean;
   /** Container for minimap */
-  container?: HTMLDivElement | null;
+  container?: HTMLElement | null;
 }
 
 export class Minimap extends Base {
@@ -47,7 +47,7 @@ export class Minimap extends Base {
       graphItem: DisplayObject;
     }
   > = new Map();
-  private container: HTMLDivElement;
+  private container: HTMLElement;
   /** Ratio of (minimap graph size / main graph size). */
   private ratio: number;
   /** Distance from top of minimap graph to the top of minimap container. */
@@ -111,7 +111,7 @@ export class Minimap extends Base {
     const containerDOM = canvas.context.config.container as HTMLElement;
     const isFireFox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
     const isSafari = navigator.userAgent.toLowerCase().indexOf('safari') > -1;
-    const viewport = createDom(`
+    const viewport = createDOM(`
       <div
         class=${viewportClassName}
         style='position:absolute;
@@ -631,12 +631,12 @@ export class Minimap extends Base {
     const { graph, options } = this;
     const { size, className } = options;
     let parentNode = options.container;
-    const container: HTMLDivElement = createDom(
+    const container: HTMLElement = createDOM(
       `<div class='${className}' style='width: ${size[0]}px; height: ${size[1]}px; overflow: hidden;'></div>`,
     );
 
     if (isString(parentNode)) {
-      parentNode = document.getElementById(parentNode) as HTMLDivElement;
+      parentNode = document.getElementById(parentNode) as HTMLElement;
     }
 
     if (parentNode) {
@@ -653,7 +653,7 @@ export class Minimap extends Base {
     }
     this.container = container;
 
-    const containerDOM = createDom(
+    const containerDOM = createDOM(
       '<div class="g6-minimap-container" style="position: relative;"></div>',
     );
     container.appendChild(containerDOM);

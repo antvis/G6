@@ -1,4 +1,5 @@
-import Graph from '../runtime/graph';
-import Util from '../util';
+import * as Util from '../util';
+
+export { Util };
+export { Graph } from '../runtime/graph';
 export type { GraphData, IGraph, Specification } from '../types';
-export { Graph, Util };

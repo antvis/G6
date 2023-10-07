@@ -1,4 +1,4 @@
-import { vec2 } from '@antv/matrix-util';
+import { vec2 } from 'gl-matrix';
 import { getBBoxHeight, getBBoxWidth } from '../../../util/bbox';
 import { distanceVec } from '../../../util/point';
 import {
