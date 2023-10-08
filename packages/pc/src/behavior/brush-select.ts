@@ -57,9 +57,13 @@ export default {
     let { brush } = this;
     const selectOnCombo = this.selectOnCombo;
     const isCombo = item?.getType() === 'combo';
-    if (selectOnCombo) {
-      if (item && !isCombo) return;
-    } else if (item) {
+    // 若在 combo 上操作，且不允许在 combo 上选择，则不继续
+    if (isCombo && !selectOnCombo) {
+      return;
+    }
+
+    // 若不在 combo 上操作，而是其他的 item ，则不继续
+    if (!isCombo && item) {
       return;
     }
 
