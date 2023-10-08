@@ -1,6 +1,6 @@
 {
   "name": "@antv/g6",
-  "version": "5.0.0-beta.12",
+  "version": "5.0.0-beta.13",
   "description": "A Graph Visualization Framework in JavaScript",
   "main": "lib/index.js",
   "module": "esm/index.js",
@@ -111,7 +111,8 @@
     "typedoc-plugin-markdown": "^3.16.0",
     "typescript": "^5.1.6",
     "vite": "^4.2.2",
-    "xmlserializer": "^0.6.1"
+    "xmlserializer": "^0.6.1",
+    "@antv/g6-plugin-map-view": "0.0.1"
   },
   "limit-size": [
     {
