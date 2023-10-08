@@ -5,6 +5,7 @@ if (window) {
   (window as any).Algorithm = require('@antv/algorithm');
   (window as any).layoutWASM = require('@antv/layout-wasm'); // import the source for debugging
   (window as any).GraphLib = require('@antv/graphlib');
+  (window as any).MapView = require('@antv/g6-plugin-map-view');
   // (window as any).g6 = require('@antv/g6/dist/g6.min.js'); // import the package for webworker
   (window as any).insertCss = require('insert-css');
   (window as any).Chart = require('@antv/chart-node-g6');

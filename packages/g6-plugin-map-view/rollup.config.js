@@ -12,7 +12,7 @@ module.exports = [
     input: 'src/index.ts',
     output: {
       file: 'dist/g6-plugin-map-view.min.js',
-      name: 'G6V5',
+      name: 'G6PluginMapView',
       format: 'umd',
       sourcemap: false,
     },

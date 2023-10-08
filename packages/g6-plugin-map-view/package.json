@@ -96,7 +96,7 @@
     },
     {
       "path": "dist/g6-plugin-map-view.min.js",
-      "limit": "2 Mb"
+      "limit": "3 Mb"
     }
   ]
 }

@@ -5,6 +5,7 @@ import { debounce, isArray, isString, uniqueId } from '@antv/util';
 import { IGraph, PluginBase, IPluginBaseConfig } from '@antv/g6';
 
 export interface MapViewConfig extends IPluginBaseConfig {
+  key?: string;
   /** Container for map's container. */
   container?: HTMLDivElement | null;
   /** Class name of map's container. */
