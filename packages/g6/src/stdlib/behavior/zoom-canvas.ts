@@ -3,7 +3,7 @@ import { ID, IG6GraphEvent } from '../../types';
 import { Behavior } from '../../types/behavior';
 
 const VALID_TRIGGERS = ['wheel', 'upDownKeys'];
-const DRAG_DURATION = 250;
+const WHEEL_DURATION = 250;
 export interface ZoomCanvasOptions {
   /**
    * Whether enable optimize strategies, which will hide all the shapes excluding node keyShape while zooming.
@@ -238,7 +238,7 @@ export class ZoomCanvas extends Behavior {
     const now = Date.now();
     if (
       this.lastWheelTriggerTime &&
-      now - this.lastWheelTriggerTime < DRAG_DURATION / 5
+      now - this.lastWheelTriggerTime < WHEEL_DURATION / 5
     ) {
       return;
     }
@@ -250,7 +250,19 @@ export class ZoomCanvas extends Behavior {
     if (minZoom && zoomTo < minZoom) return;
     if (maxZoom && zoomTo > maxZoom) return;
 
-    graph.zoom(zoomRatio, { x: client.x, y: client.y });
+    const { tileBehavior: graphBehaviorOptimize } =
+      graph.getSpecification().optimize || {};
+
+    const shouldAnimate =
+      typeof graphBehaviorOptimize === 'boolean'
+        ? graphBehaviorOptimize
+        : graph.getAllNodesData().length < graphBehaviorOptimize;
+
+    graph.zoom(
+      zoomRatio,
+      { x: client.x, y: client.y },
+      shouldAnimate ? { duration: WHEEL_DURATION / 5 } : undefined,
+    );
 
     this.lastWheelTriggerTime = now;
 

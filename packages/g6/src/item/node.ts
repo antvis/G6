@@ -114,32 +114,6 @@ export default class Node extends Item {
     }
   }
 
-  public update(
-    model: NodeModel,
-    diffData?: {
-      previous: NodeModelData | ComboModelData;
-      current: NodeModelData | ComboModelData;
-    },
-    isReplace?: boolean,
-    theme?: {
-      styles: NodeStyleSet;
-      lodStrategy: LodStrategyObj;
-    },
-    onlyMove?: boolean,
-    animate?: boolean,
-    onfinish?: Function,
-  ) {
-    super.update(
-      model,
-      diffData,
-      isReplace,
-      theme,
-      onlyMove,
-      animate,
-      onfinish,
-    );
-  }
-
   /**
    * Update the node's position,
    * do not update other styles which leads to better performance than updating position by updateData.

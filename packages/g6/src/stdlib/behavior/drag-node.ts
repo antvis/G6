@@ -125,6 +125,7 @@ export class DragNode extends Behavior {
       'node:pointerdown': this.onPointerDown,
       pointermove: this.onPointerMove,
       click: this.onClick,
+      'node:pointerup': this.onPointerUp,
       // FIXME: IG6Event -> keyboard event
       keydown: this.onKeydown as any,
     };

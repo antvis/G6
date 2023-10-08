@@ -94,7 +94,11 @@ export default class Edge extends Item {
     );
 
     // add shapes to group, and update shapeMap
-    this.shapeMap = updateShapes(this.shapeMap, shapeMap, this.group);
+    this.shapeMap = updateShapes(
+      this.shapeMap,
+      { ...shapeMap, ...this.afterDrawShapeMap },
+      this.group,
+    );
 
     // handle shape's and group's animate
     const { animates, disableAnimate } = displayModel.data;

@@ -5,7 +5,6 @@ import Stats from 'stats.js';
 
 const createGraph = async () => {
   const ExtGraph = extend(Graph, {
-    layouts: {},
     behaviors: {
       'brush-select': Extensions.BrushSelect,
       'hover-activate': Extensions.HoverActivate,
@@ -65,6 +64,32 @@ const createGraph = async () => {
   return graph;
 };
 
+const generateData = (nodeNum, edgeNum) => {
+  const nodes = [],
+    edges = [];
+  for (let i = 0; i < nodeNum; i++) {
+    nodes.push({
+      id: `${i}`,
+      data: {
+        x: Math.random() * 900,
+        y: Math.random() * 900,
+      },
+    });
+  }
+  for (let i = 0; i < edgeNum; i++) {
+    edges.push({
+      id: 'e' + i,
+      source: `${Math.floor(Math.random() * nodeNum)}`,
+      target: `${Math.floor(Math.random() * nodeNum)}`,
+      data: {},
+    });
+  }
+  return {
+    nodes,
+    edges,
+  };
+};
+
 export default async () => {
   console.log(
     'graphsize: #NODE:',
@@ -78,6 +103,7 @@ export default async () => {
   // data.nodes.forEach((node) => delete node.data.z);
   // graph.read(data);
 
+  // 1.3w items
   fetch(
     'https://gw.alipayobjects.com/os/bmw-prod/f1565312-d537-4231-adf5-81cb1cd3a0e8.json',
   ).then((res) =>
@@ -85,6 +111,8 @@ export default async () => {
       graph.read(d);
     }),
   );
+
+  // graph.read(generateData(100000, 50000));
 
   const stats = new Stats();
   stats.showPanel(0);

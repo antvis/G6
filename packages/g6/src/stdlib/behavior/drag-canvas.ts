@@ -4,7 +4,7 @@ import { Point } from '../../types/common';
 import { ID, IG6GraphEvent } from '../../types';
 
 const VALID_TRIGGERS = ['drag', 'directionKeys'];
-const ZOOM_DURATION = 250;
+const DRAG_DURATION = 250;
 export interface DragCanvasOptions {
   /**
    * Whether enable optimize strategies, which will hide all the shapes excluding node keyShape while dragging.
@@ -248,7 +248,7 @@ export class DragCanvas extends Behavior {
     const now = Date.now();
     if (
       this.lastDragTriggerTime &&
-      now - this.lastDragTriggerTime < ZOOM_DURATION / 5
+      now - this.lastDragTriggerTime < DRAG_DURATION / 5
     ) {
       return;
     }
