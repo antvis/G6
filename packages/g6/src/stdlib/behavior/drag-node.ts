@@ -490,6 +490,7 @@ export class DragNode extends Behavior {
       this.graph.showItem(
         this.hiddenNearEdges.map((edge) => edge.id),
         true,
+        true,
       );
       this.hiddenNearEdges = [];
     }

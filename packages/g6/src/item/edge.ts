@@ -59,13 +59,6 @@ export default class Edge extends Item {
     this.sourceItem = sourceItem;
     this.targetItem = targetItem;
     this.nodeMap = nodeMap;
-    // todo: combo
-    if (sourceItem.getType() === 'node') {
-      this.nodeMap.set(sourceItem.getID(), sourceItem as Node);
-    }
-    if (sourceItem.getType() === 'node') {
-      this.nodeMap.set(targetItem.getID(), targetItem as Node);
-    }
     if (!props.delayFirstDraw) {
       this.draw(this.displayModel);
     }
@@ -139,13 +132,14 @@ export default class Edge extends Item {
   /**
    * Sometimes no changes on edge data, but need to re-draw it
    * e.g. source and target nodes' position changed
+   * @param force bypass the nodes position change check and force to re-draw
    */
-  public forceUpdate() {
+  public forceUpdate(force = false) {
     if (this.destroyed) return;
     const { sourcePoint, targetPoint, changed } = this.getEndPoints(
       this.displayModel,
     );
-    if (!changed) return;
+    if (!force && !changed) return;
     this.renderExt.setSourcePoint(sourcePoint);
     this.renderExt.setTargetPoint(targetPoint);
     const shapeMap = this.renderExt.draw(
@@ -261,6 +255,7 @@ export default class Edge extends Item {
     targetItem: Node | Combo,
     shapeIds?: string[],
     disableAnimate?: boolean,
+    transientItemMap?: Map<ID, Node | Edge | Combo | Group>,
   ) {
     if (shapeIds?.length) {
       const group = new Group();
@@ -277,6 +272,21 @@ export default class Edge extends Item {
     }
     const clonedModel = clone(this.model);
     clonedModel.data.disableAnimate = disableAnimate;
+
+    // `nodeMap` stores real nodes and transient nodes
+    if (transientItemMap) {
+      this.nodeMap.forEach((node, id) => {
+        const transientItem = transientItemMap.get(id) as Node;
+        if (
+          !transientItem ||
+          !transientItem.isVisible() ||
+          transientItem.type !== 'node'
+        )
+          return;
+        this.nodeMap.set(id, transientItem);
+      });
+    }
+
     const clonedEdge = new Edge({
       model: clonedModel,
       renderExtensions: this.renderExtensions,

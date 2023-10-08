@@ -34,22 +34,10 @@ const defaultData = {
       data: {
         type: 'polyline-edge',
         keyShape: {
-          stroke: '#f00',
           lineDash: [2, 2],
-        },
-      },
-      edgeState: {
-        selected: {
-          keyShape: {
-            stroke: '#0f0',
-            lineWidth: 2,
-          },
-        },
-        highlight: {
-          keyShape: {
-            stroke: '#00f',
-            opacity: 0.5,
-          },
+          endArrow: true,
+          startArrow: true,
+          // controlPoints: [{ x: 150, y: 200 }],
         },
       },
     },
@@ -230,24 +218,9 @@ const createControls = () => {
     'show obstacle',
     () => {
       graph.showItem('obstacle');
-      // graph.updateNodePosition({
-      //   id: 'obstacle',
-      //   data: {
-      //     x: 300,
-      //     y: 100,
-      //   },
-      // });
     },
     () => {
       graph.hideItem('obstacle');
-
-      // graph.updateNodePosition({
-      //   id: 'obstacle',
-      //   data: {
-      //     x: -200,
-      //     y: -100,
-      //   },
-      // });
     },
   );
 
@@ -303,7 +276,7 @@ const createControls = () => {
     },
   );
 
-  // move obstacle
+  // move obstacles
   createLabelCheckbox(
     parentEle,
     'move obstacle',
@@ -351,6 +324,11 @@ export default (context: TestCaseContext) => {
       // supported behavior
       default: ['drag-node'],
     },
+    node: {
+      keyShape: {
+        fill: 'rgba(0,255,0,0.5)',
+      },
+    },
     edge: (edgeInnerModel: any) => {
       const { id, data } = edgeInnerModel;
       return {
@@ -359,6 +337,7 @@ export default (context: TestCaseContext) => {
           ...data,
           keyShape: {
             ...data.keyShape,
+            endArrow: true,
           },
         },
       };

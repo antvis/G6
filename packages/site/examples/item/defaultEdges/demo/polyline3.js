@@ -12,50 +12,59 @@ const data = {
     {
       id: 'node2',
       data: {
+        x: 800,
+        y: 250,
+      },
+    },
+    {
+      id: 'node3',
+      data: {
         x: 400,
-        y: 200,
+        y: 130,
+        preventPolylineEdgeOverlap: true,
+        label: 'A point that preempts the polyline',
       },
     },
     {
-      id: 'obstacle1',
+      id: 'node4',
       data: {
         x: 300,
-        y: 90,
-        // preventPolylineEdgeOverlap: true,
-      },
-    },
-    {
-      id: 'obstacle2',
-      data: {
-        x: 300,
-        y: 200,
+        y: 300,
+        label: 'A normal point',
       },
     },
   ],
   edges: [
+    {
+      id: 'edge0',
+      source: 'node1',
+      target: 'node2',
+      data: {
+        type: 'polyline-edge',
+        labelShape: {
+          text: 'A normal edge',
+          maxLines: 3
+        },
+        keyShape: {
+          routeCfg: {
+            obstacleAvoidance: false
+          }
+        }
+      }
+    },
     {
       id: 'edge1',
       source: 'node1',
       target: 'node2',
       data: {
         type: 'polyline-edge',
+        labelShape: {
+          text: 'An edge that automatically avoids obstacles',
+          maxLines: 3
+        },
         keyShape: {
-          /**
-           * 拐弯处的圆角弧度，默认为直角，值为 0
-           * The radius of the corner rounding, defaults to a right angle
-           */
-          // radius: 20,
-          /**
-           * 拐弯处距离节点最小距离, 默认为 5
-           * Minimum distance from the node at the corner, default is 5.
-           */
-          offset: 20,
-          /**
-           * 控制点数组，不指定时根据 A* 算法自动生成折线。若指定了，则按照 controlPoints 指定的位置进行弯折
-           * An array of control points that, when not specified, automatically generates the bends according to the A* algorithm. If specified, bends are made at the position specified by controlPoints.
-           */
-          // controlPoints: [],
-          routeCfg: {
+           stroke: '#0f0',
+           routeCfg: {
             /**
              * 目前支持正交路由 'orth' 和地铁路由 'er'
              */
@@ -66,6 +75,21 @@ const data = {
              */
             obstacleAvoidance: true,
           },
+          /**
+           * 拐弯处的圆角弧度，默认为直角，值为 0
+           * The radius of the corner rounding, defaults to a right angle
+           */
+          // radius: 20,
+          /**
+           * 拐弯处距离节点最小距离, 默认为 2
+           * Minimum distance from the node at the corner, default is 5.
+           */
+          // offset: 0,
+          /**
+           * 控制点数组，不指定时根据 A* 算法自动生成折线。若指定了，则按照 controlPoints 指定的位置进行弯折
+           * An array of control points that, when not specified, automatically generates the bends according to the A* algorithm. If specified, bends are made at the position specified by controlPoints.
+           */
+          // controlPoints: [],
         },
       },
     },
@@ -94,14 +118,15 @@ const graph = new ExtGraph({
     type: 'rect-node',
     keyShape: {
       width: 60,
-      height: 30,
+      height: 25,
     },
     labelShape: {
       text: {
-        fields: ['id'],
-        formatter: (model) => model.id,
+        fields: ['label'],
+        formatter: (model) => model.data.label,
       },
       position: 'bottom',
+      maxLines: 4,
     },
   },
   edge: {

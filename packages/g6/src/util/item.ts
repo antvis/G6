@@ -92,6 +92,7 @@ export const upsertTransientItem = (
       target,
       shapeIds,
       true,
+      transientItemMap,
     ) as Edge;
   } else {
     // find the succeeds to upsert transients

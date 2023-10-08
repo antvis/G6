@@ -661,6 +661,33 @@ export class ItemController {
         }
       });
     }
+    // === 10. redraw part of polyline which enables automatic obstacle avoidance
+    this.itemMap.forEach((item, id) => {
+      if (item.getType() === 'edge') {
+        const edgeModel = this.graph.getEdgeData(id);
+        const obstacleAvoidance =
+          // @ts-ignore
+          edgeModel.data?.keyShape?.routeCfg?.obstacleAvoidance || false;
+        // Only the edge enables automatic obstacle avoidance and the changed node is not the source/target, redrawing is forced.
+        if (obstacleAvoidance) {
+          const { NodeAdded, NodeDataUpdated, NodeRemoved } = groupedChanges;
+          const relatedNodeIds = new Set(
+            [...NodeAdded, ...NodeDataUpdated, ...NodeRemoved].map(
+              (node) =>
+                // @ts-ignore
+                node.id,
+            ),
+          );
+          if (
+            relatedNodeIds.has(edgeModel.source) ||
+            relatedNodeIds.has(edgeModel.target)
+          )
+            return;
+
+          (item as Edge).forceUpdate(true);
+        }
+      }
+    });
   }
 
   /**
@@ -699,6 +726,7 @@ export class ItemController {
     graphCore: GraphCore;
     animate?: boolean;
     keepKeyShape?: boolean;
+    edgeForceUpdate?: boolean;
   }) {
     const {
       ids,
@@ -706,6 +734,7 @@ export class ItemController {
       graphCore,
       animate = true,
       keepKeyShape = false,
+      edgeForceUpdate = false,
     } = param;
     ids.forEach((id) => {
       const item = this.itemMap.get(id);
@@ -719,6 +748,9 @@ export class ItemController {
       if (value) {
         if (type === 'edge') {
           item.show(animate);
+          if (edgeForceUpdate) {
+            (item as Edge).forceUpdate(true);
+          }
         } else {
           if (graphCore.hasTreeStructure('combo')) {
             let anccestorCollapsed = false;
@@ -1264,7 +1296,6 @@ export class ItemController {
         dataType,
         edgeTheme,
       );
-
       const edgeItem = new Edge({
         delayFirstDraw,
         model: edge,

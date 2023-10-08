@@ -1467,7 +1467,11 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * @returns
    * @group Item
    */
-  public showItem(ids: ID | ID[], disableAnimate = false) {
+  public showItem(
+    ids: ID | ID[],
+    disableAnimate = false,
+    edgeForceUpdate = false,
+  ) {
     const idArr = isArray(ids) ? ids : [ids];
     if (isEmpty(idArr)) return;
     const changes = {
@@ -1479,6 +1483,7 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       value: true,
       graphCore: this.dataController.graphCore,
       animate: !disableAnimate,
+      edgeForceUpdate,
     });
     this.emit('afteritemvisibilitychange', {
       ids,

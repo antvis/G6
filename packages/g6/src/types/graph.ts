@@ -472,7 +472,11 @@ export interface IGraph<
    * @returns
    * @group Data
    */
-  showItem: (ids: ID | ID[], disableAnimate?: boolean) => void;
+  showItem: (
+    ids: ID | ID[],
+    disableAnimate?: boolean,
+    edgeForceUpdate?: boolean,
+  ) => void;
   /**
    * Hide the item(s).
    * @param ids the item id(s) to be hidden
