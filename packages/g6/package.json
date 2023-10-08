@@ -1,6 +1,6 @@
 {
   "name": "@antv/g6",
-  "version": "5.0.0-beta.13",
+  "version": "5.0.0-beta.14",
   "description": "A Graph Visualization Framework in JavaScript",
   "main": "lib/index.js",
   "module": "esm/index.js",
