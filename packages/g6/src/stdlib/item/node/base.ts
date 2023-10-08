@@ -41,6 +41,7 @@ export abstract class BaseNode {
   themeStyles: NodeShapeStyles | ComboShapeStyles;
   mergedStyles: NodeShapeStyles | ComboShapeStyles;
   lodStrategy?: LodStrategyObj;
+  enableBalanceShape?: boolean;
   boundsCache: {
     keyShapeLocal?: AABB;
     labelShapeGeometry?: AABB;
@@ -84,9 +85,10 @@ export abstract class BaseNode {
   };
 
   constructor(props) {
-    const { themeStyles, lodStrategy, zoom } = props;
+    const { themeStyles, lodStrategy, enableBalanceShape, zoom } = props;
     if (themeStyles) this.themeStyles = themeStyles;
     this.lodStrategy = lodStrategy;
+    this.enableBalanceShape = enableBalanceShape;
     this.boundsCache = {};
     this.zoomCache.zoom = zoom;
     this.zoomCache.balanceRatio = 1 / zoom;
@@ -306,6 +308,7 @@ export abstract class BaseNode {
       keyShapeBox as AABB,
       maxWidth,
       this.zoomCache.zoom,
+      this.enableBalanceShape,
     );
 
     const positionPreset = {
@@ -873,6 +876,7 @@ export abstract class BaseNode {
     shapeMap: NodeShapeMap | ComboShapeMap,
     zoom: number,
   ) {
+    if (!this.enableBalanceShape) return;
     // balance the size for label, badges
     const { keyShape, labelShape, labelBackgroundShape } = shapeMap;
     const balanceRatio = 1 / zoom || 1;

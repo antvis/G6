@@ -2,7 +2,7 @@
 title: ZoomCanvasOptions
 ---
 
-[Overview - v5.0.0-beta.12](../../README.en.md) / [Modules](../../modules.en.md) / [behaviors](../../modules/behaviors.en.md) / ZoomCanvasOptions
+[Overview - v5.0.0-beta.13](../../README.en.md) / [Modules](../../modules.en.md) / [behaviors](../../modules/behaviors.en.md) / ZoomCanvasOptions
 
 [behaviors](../../modules/behaviors.en.md).ZoomCanvasOptions
 

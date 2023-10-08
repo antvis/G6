@@ -59,7 +59,7 @@ export interface ZoomCanvasOptions {
 const DEFAULT_OPTIONS: Required<ZoomCanvasOptions> = {
   enableOptimize: undefined,
   triggerOnItems: true,
-  sensitivity: 2,
+  sensitivity: 10,
   trigger: 'wheel',
   secondaryKey: '',
   speedUpKey: 'shift',
@@ -77,6 +77,7 @@ export class ZoomCanvas extends Behavior {
   private hiddenNodeIds: ID[];
   private zoomTimer: ReturnType<typeof setTimeout>;
   private tileRequestId?: number;
+  private lastWheelTriggerTime?: number;
 
   constructor(options: Partial<ZoomCanvasOptions>) {
     const finalOptions = Object.assign({}, DEFAULT_OPTIONS, options);
@@ -232,14 +233,26 @@ export class ZoomCanvas extends Behavior {
       this.hideShapes();
       this.zooming = true;
     }
+
+    const now = Date.now();
+    const MOUSE_ZOOM_DURATION = 250;
+    if (
+      this.lastWheelTriggerTime &&
+      now - this.lastWheelTriggerTime < MOUSE_ZOOM_DURATION / 5
+    ) {
+      return;
+    }
+
     let zoomRatio = 1;
     if (deltaY < 0) zoomRatio = (100 + sensitivity) / 100;
     if (deltaY > 0) zoomRatio = 100 / (100 + sensitivity);
     const zoomTo = zoomRatio * graph.getZoom();
     if (minZoom && zoomTo < minZoom) return;
     if (maxZoom && zoomTo > maxZoom) return;
-    // TODO: the zoom center is wrong?
+
     graph.zoom(zoomRatio, { x: client.x, y: client.y });
+
+    this.lastWheelTriggerTime = now;
 
     clearTimeout(this.zoomTimer);
     this.zoomTimer = setTimeout(() => {

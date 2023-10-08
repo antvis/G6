@@ -75,6 +75,7 @@ export class DragCanvas extends Behavior {
   private hiddenEdgeIds: ID[];
   private hiddenNodeIds: ID[];
   private tileRequestId?: number;
+  private lastDragTriggerTime?: number;
 
   constructor(options: Partial<DragCanvasOptions>) {
     const finalOptions = Object.assign({}, DEFAULT_OPTIONS, options);
@@ -236,6 +237,22 @@ export class DragCanvas extends Behavior {
     const { eventName, direction, secondaryKeyToDisable } = this.options;
     // disabled key is pressing
     if (secondaryKeyToDisable && this.disableKeydown) return;
+
+    // begin dragging
+    if (!this.dragging) {
+      this.hideShapes();
+      this.dragging = true;
+    }
+
+    const now = Date.now();
+    const MOUSE_ZOOM_DURATION = 250;
+    if (
+      this.lastDragTriggerTime &&
+      now - this.lastDragTriggerTime < MOUSE_ZOOM_DURATION / 5
+    ) {
+      return;
+    }
+
     const { graph } = this;
     const { client } = event;
     const diffX = client.x - this.pointerDownAt.x;
@@ -243,12 +260,6 @@ export class DragCanvas extends Behavior {
     if (direction === 'x' && !diffX) return;
     if (direction === 'y' && !diffY) return;
     if (direction === 'both' && !diffX && !diffY) return;
-
-    // begin dragging
-    if (!this.dragging) {
-      this.hideShapes();
-      this.dragging = true;
-    }
 
     const { dx, dy } = this.formatDisplacement(diffX, diffY);
     graph.translate({ dx, dy });
@@ -259,6 +270,7 @@ export class DragCanvas extends Behavior {
     if (eventName) {
       this.graph.emit(eventName, { translate: { dx, dy } });
     }
+    this.lastDragTriggerTime = now;
   }
 
   public onPointerUp() {

@@ -125,6 +125,7 @@ export default abstract class Item implements IItem {
     const {
       type = this.type === 'edge' ? 'line-edge' : `circle-${this.type}`,
       lodStrategy: modelLodStrategy,
+      enableBalanceShape,
     } = this.displayModel.data;
     const RenderExtension = renderExtensions.find((ext) => ext.type === type);
     this.themeStyles = theme.styles;
@@ -149,6 +150,7 @@ export default abstract class Item implements IItem {
     this.renderExt = new RenderExtension({
       themeStyles: this.themeStyles?.default,
       lodStrategy,
+      enableBalanceShape,
       device: this.device,
       zoom: this.zoom,
     });

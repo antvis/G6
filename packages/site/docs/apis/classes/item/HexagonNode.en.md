@@ -2,7 +2,7 @@
 title: HexagonNode
 ---
 
-[Overview - v5.0.0-beta.12](../../README.en.md) / [Modules](../../modules.en.md) / [item](../../modules/item.en.md) / HexagonNode
+[Overview - v5.0.0-beta.13](../../README.en.md) / [Modules](../../modules.en.md) / [item](../../modules/item.en.md) / HexagonNode
 
 [item](../../modules/item.en.md).HexagonNode
 
