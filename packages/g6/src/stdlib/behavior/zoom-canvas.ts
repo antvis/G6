@@ -3,6 +3,7 @@ import { ID, IG6GraphEvent } from '../../types';
 import { Behavior } from '../../types/behavior';
 
 const VALID_TRIGGERS = ['wheel', 'upDownKeys'];
+const DRAG_DURATION = 250;
 export interface ZoomCanvasOptions {
   /**
    * Whether enable optimize strategies, which will hide all the shapes excluding node keyShape while zooming.
@@ -235,10 +236,9 @@ export class ZoomCanvas extends Behavior {
     }
 
     const now = Date.now();
-    const MOUSE_ZOOM_DURATION = 250;
     if (
       this.lastWheelTriggerTime &&
-      now - this.lastWheelTriggerTime < MOUSE_ZOOM_DURATION / 5
+      now - this.lastWheelTriggerTime < DRAG_DURATION / 5
     ) {
       return;
     }

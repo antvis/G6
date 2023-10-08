@@ -205,7 +205,7 @@ export class PluginController {
         !initWithGraph &&
         ['afterrender', 'afterlayout'].includes(eventName)
       ) {
-        listener({} as any);
+        listener({} as IG6GraphEvent);
       }
     });
   };
