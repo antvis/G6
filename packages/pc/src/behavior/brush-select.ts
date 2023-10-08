@@ -1,4 +1,4 @@
-import { Item, G6Event, IG6GraphEvent } from '@antv/g6-core';
+import { G6Event, IG6GraphEvent, Item } from '@antv/g6-core';
 
 const { min, max, abs } = Math;
 
@@ -14,12 +14,13 @@ export default {
         stroke: '#DDEEFE',
         lineWidth: 1,
       },
-      onSelect() { },
-      onDeselect() { },
+      onSelect() {},
+      onDeselect() {},
       selectedState: 'selected',
       trigger: DEFAULT_TRIGGER,
       includeEdges: true,
       includeCombos: false,
+      selectOnCombo: false,
       selectedEdges: [],
       selectedNodes: [],
       selectedCombos: [],
@@ -35,26 +36,34 @@ export default {
     }
     if (this.trigger === 'drag') {
       return {
-        'dragstart': 'onMouseDown',
-        'drag': 'onMouseMove',
-        'dragend': 'onMouseUp',
+        dragstart: 'onMouseDown',
+        drag: 'onMouseMove',
+        dragend: 'onMouseUp',
         'canvas:click': 'clearStates',
       };
     }
     return {
-      'dragstart': 'onMouseDown',
-      'drag': 'onMouseMove',
-      'dragend': 'onMouseUp',
+      dragstart: 'onMouseDown',
+      drag: 'onMouseMove',
+      dragend: 'onMouseUp',
       'canvas:click': 'clearStates',
-      'keyup': 'onKeyUp',
-      'keydown': 'onKeyDown',
+      keyup: 'onKeyUp',
+      keydown: 'onKeyDown',
     };
   },
   onMouseDown(e: IG6GraphEvent) {
     // 按在node上面拖动时候不应该是框选
     const { item } = e;
     let { brush } = this;
-    if (item) {
+    const selectOnCombo = this.selectOnCombo;
+    const isCombo = item?.getType() === 'combo';
+    // 若在 combo 上操作，且不允许在 combo 上选择，则不继续
+    if (isCombo && !selectOnCombo) {
+      return;
+    }
+
+    // 若不在 combo 上操作，而是其他的 item ，则不继续
+    if (!isCombo && item) {
       return;
     }
 
@@ -132,10 +141,7 @@ export default {
   isBBoxCenterInRect(item: Item, left: number, right: number, top: number, bottom: number) {
     const bbox = item.getBBox();
     return (
-      bbox.centerX >= left &&
-      bbox.centerX <= right &&
-      bbox.centerY >= top &&
-      bbox.centerY <= bottom
+      bbox.centerX >= left && bbox.centerX <= right && bbox.centerY >= top && bbox.centerY <= bottom
     );
   },
   getSelectedNodes(e: IG6GraphEvent) {
@@ -196,7 +202,6 @@ export default {
         }
       });
     }
-
 
     this.selectedEdges = selectedEdges;
     this.selectedNodes = selectedNodes;
