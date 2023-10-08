@@ -2,7 +2,7 @@
 title: StarNode
 ---
 
-[Overview - v5.0.0-beta.13](../../README.en.md) / [Modules](../../modules.en.md) / [item](../../modules/item.en.md) / StarNode
+[Overview - v5.0.0-beta.14](../../README.en.md) / [Modules](../../modules.en.md) / [item](../../modules/item.en.md) / StarNode
 
 [item](../../modules/item.en.md).StarNode
 

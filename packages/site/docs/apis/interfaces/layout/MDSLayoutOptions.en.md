@@ -2,7 +2,7 @@
 title: MDSLayoutOptions
 ---
 
-[Overview - v5.0.0-beta.13](../../README.en.md) / [Modules](../../modules.en.md) / [layout](../../modules/layout.en.md) / MDSLayoutOptions
+[Overview - v5.0.0-beta.14](../../README.en.md) / [Modules](../../modules.en.md) / [layout](../../modules/layout.en.md) / MDSLayoutOptions
 
 [layout](../../modules/layout.en.md).MDSLayoutOptions
 
