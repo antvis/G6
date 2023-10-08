@@ -2,7 +2,7 @@
 title: DragNodeOptions
 ---
 
-[Overview - v5.0.0-beta.12](../../README.en.md) / [Modules](../../modules.en.md) / [behaviors](../../modules/behaviors.en.md) / DragNodeOptions
+[Overview - v5.0.0-beta.13](../../README.en.md) / [Modules](../../modules.en.md) / [behaviors](../../modules/behaviors.en.md) / DragNodeOptions
 
 [behaviors](../../modules/behaviors.en.md).DragNodeOptions
 
