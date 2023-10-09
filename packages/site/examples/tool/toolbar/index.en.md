@@ -3,7 +3,7 @@ title: ToolBar
 order: 4
 ---
 
-ToolBar is a build-in Component in G6.
+ToolBar is a build-in Component in G6, but not reigstered by default. It needs to be imported into the code and registered with the `extend` method, and then you could configured it to the graph instance.
 
 ## Usage
 
@@ -11,6 +11,6 @@ The demo below show how to use toolbar on graph. Toolbar's style can be defined 
 
 ```css
 .g6-component-toolbar {
-    // css styles
-  }
+  // css styles
+}
 ```

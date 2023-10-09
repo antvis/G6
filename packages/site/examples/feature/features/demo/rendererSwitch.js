@@ -83,7 +83,7 @@ const defaultTheme = {
   },
 };
 
-const dataFormat = (data, options = {}, userGraphCore) => {
+const dataFormat = (data, options = {}, graphCore) => {
   const map = new Map();
   const nodes = [];
   data.nodes.forEach((node) => {

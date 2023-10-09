@@ -1,4 +1,4 @@
-import { ComboModel, NodeModel } from 'types';
+import { ComboModel, NodeModel } from '../../../types';
 import { Point } from '../../../types/common';
 
 /**

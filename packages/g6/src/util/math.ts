@@ -1,4 +1,4 @@
-import { Point, PolyPoint } from 'types/common';
+import { Point, PolyPoint } from '../types/common';
 
 /**
  * Whether the value is begween the range of [min, max]

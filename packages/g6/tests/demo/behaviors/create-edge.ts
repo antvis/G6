@@ -6,6 +6,7 @@ export default (context: TestCaseContext, options) => {
     trigger: 'click',
     edgeConfig: { keyShape: { stroke: '#f00' } },
     createVirtualEventName: 'begincreate',
+    createActualEventName: 'aftercreate',
     cancelCreateEventName: 'cancelcreate',
   };
   const ExtGraph = extend(Graph, {
@@ -63,6 +64,17 @@ export default (context: TestCaseContext, options) => {
   });
   graph.on('cancelcreate', (e) => {
     graph.setCursor('default');
+  });
+  graph.on('aftercreate', (e) => {
+    const { edge } = e;
+    graph.updateData('edge', {
+      id: edge.id,
+      data: {
+        keyShape: {
+          stroke: '#0f0',
+        },
+      },
+    });
   });
   return graph;
 };

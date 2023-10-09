@@ -21,7 +21,6 @@ import {
   isString,
   map,
 } from '@antv/util';
-import { createDom } from '@antv/dom-util';
 import { History } from '../stdlib/plugin/history';
 import { Command } from '../stdlib/plugin/history/command';
 import type {
@@ -57,6 +56,7 @@ import { FitViewRules, GraphTransformOptions } from '../types/view';
 import { changeRenderer, createCanvas } from '../util/canvas';
 import { formatPadding } from '../util/shape';
 import { getLayoutBounds } from '../util/layout';
+import { createDOM } from '../util/dom';
 import { Plugin as PluginBase } from '../types/plugin';
 import { ComboMapper, EdgeMapper, NodeMapper } from '../types/spec';
 import {
@@ -71,7 +71,7 @@ import {
 import { PluginController } from './controller/plugin';
 import Hook from './hooks';
 
-export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
+export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
   extends EventEmitter
   implements IGraph<B, T>
 {
@@ -180,7 +180,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       this.canvas = canvas;
       this.backgroundCanvas = backgroundCanvas;
       this.transientCanvas = transientCanvas;
-      this.container = container as HTMLDivElement;
+      this.container = container as HTMLElement;
     } else {
       const containerDOM = isString(container)
         ? document.getElementById(container as string)
@@ -236,7 +236,8 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
             .getContextService()
             .getDomElement() as unknown as HTMLElement;
           if ($domElement && $domElement.style) {
-            $domElement.style.position = 'fixed';
+            // Make all these 3 canvas doms overlap each other. The container already has `position: relative` style.
+            $domElement.style.position = 'absolute';
             $domElement.style.outline = 'none';
             $domElement.tabIndex = 1; // Enable keyboard events
             // Transient canvas should let interactive events go through.
@@ -881,9 +882,14 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       );
       return;
     }
+    const oldSize = [this.specification.width, this.specification.height];
+    this.emit('beforesetsize', { oldSize, size: size });
     this.specification.width = size[0];
     this.specification.height = size[1];
     this.canvas.resize(size[0], size[1]);
+    this.transientCanvas.resize(size[0], size[1]);
+    this.backgroundCanvas.resize(size[0], size[1]);
+    this.emit('aftersetsize', { oldSize, size: size });
   }
 
   public getCanvasRange(): Bounds {
@@ -1114,7 +1120,6 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
 
     const { graphCore } = this.dataController;
     const { specification } = this.themeController;
-    // debugger;
     graphCore.once('changed', (event) => {
       if (!event.changes.length) return;
       const changes = event.changes;
@@ -2189,7 +2194,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     const width = this.getSize()[0];
     const height = this.getSize()[1];
 
-    const vContainerDOM: HTMLDivElement = createDom(
+    const vContainerDOM: HTMLElement = createDOM(
       '<div id="virtual-image"></div>',
     );
     const vCanvas = createCanvas(
@@ -2297,7 +2302,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       typeof window !== 'undefined' ? window.devicePixelRatio : 1;
     const vWidth = halfX * 2;
     const vHeight = halfY * 2;
-    const vContainerDOM: HTMLDivElement = createDom(
+    const vContainerDOM: HTMLElement = createDOM(
       '<div id="virtual-image"></div>',
     );
     const vCanvas = createCanvas(

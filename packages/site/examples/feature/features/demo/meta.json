@@ -13,6 +13,14 @@
       "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*31L_T5ERnzIAAAAAAAAAAAAADmJ7AQ/original"
     },
     {
+      "filename": "mapView.js",
+      "title": {
+        "zh": "地图视图",
+        "en": "Map View"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*31L_T5ERnzIAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
       "filename": "lodStrategy.js",
       "title": {
         "zh": "信息分层",

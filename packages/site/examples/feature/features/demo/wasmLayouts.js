@@ -11,6 +11,9 @@ const ExtGraph = extend(Graph, {
     'forceAtlas2-wasm': ForceAtlas2Layout,
     'fruchterman-wasm': FruchtermanLayout,
   },
+  behaviors: {
+    'hover-activate': Extensions.HoverActivate,
+  },
 });
 const container = document.getElementById('container');
 const width = container.scrollWidth;

@@ -33,6 +33,9 @@ const {
   EllipseNode,
   ModelRectNode,
   ImageNode,
+  CubeNode,
+  BaseNode,
+  BaseNode3D,
 } = Nodes;
 
 const {
@@ -77,6 +80,7 @@ const {
   Toolbar,
   Timebar,
   Snapline,
+  EdgeFilterLens,
 } = Plugins;
 
 const {
@@ -97,6 +101,7 @@ const {
 import lassoSelector from './selector/lasso';
 import rectSelector from './selector/rect';
 import Hull from './plugin/hull';
+import { WaterMarker } from './plugin/watermaker';
 
 const stdLib = {
   transforms: {
@@ -124,11 +129,9 @@ const stdLib = {
     'zoom-canvas': ZoomCanvas,
     'drag-node': DragNode,
     'drag-combo': DragCombo,
-    'create-edge': CreateEdge,
     'collapse-expand-combo': CollapseExpandCombo,
     'collapse-expand-tree': CollapseExpandTree,
     'click-select': ClickSelect,
-    'scroll-canvas': ScrollCanvas,
   },
   plugins: {
     history: History,
@@ -249,6 +252,9 @@ const Extensions = {
   TriangleNode,
   EllipseNode,
   ModelRectNode,
+  CubeNode,
+  BaseNode,
+  BaseNode3D,
   // edges
   LineEdge,
   CubicEdge,
@@ -278,6 +284,7 @@ const Extensions = {
   DragCombo,
   CreateEdge,
   ShortcutsCall,
+  ScrollCanvas,
   // plugins
   BasePlugin,
   History,
@@ -291,6 +298,8 @@ const Extensions = {
   Timebar,
   Hull,
   Snapline,
+  EdgeFilterLens,
+  WaterMarker,
 };
 
 export default registery;

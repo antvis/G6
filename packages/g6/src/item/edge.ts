@@ -44,11 +44,13 @@ export default class Edge extends Item {
   public targetItem: Node | Combo;
 
   /** Caches to avoid unnecessary calculations. */
-  private sourcePositionCache: Point;
-  private targetPositionCache: Point;
-  private controlPointsCache: Point;
-  private sourcePointCache: Point;
-  private targetPointCache: Point;
+  private cache: {
+    sourcePositionCache?: Point;
+    targetPositionCache?: Point;
+    controlPointsCache?: Point;
+    sourcePointCache?: Point;
+    targetPointCache?: Point;
+  } = {};
 
   constructor(props: IProps) {
     super(props);
@@ -187,8 +189,8 @@ export default class Edge extends Item {
       )
     ) {
       return {
-        sourcePoint: this.sourcePointCache,
-        targetPoint: this.targetPointCache,
+        sourcePoint: this.cache.sourcePointCache,
+        targetPoint: this.cache.targetPointCache,
         changed: false,
       };
     }
@@ -214,17 +216,17 @@ export default class Edge extends Item {
         targetPosition,
       ).nearestPoint;
     }
-    this.sourcePointCache = this.sourceItem.getAnchorPoint(
+    this.cache.sourcePointCache = this.sourceItem.getAnchorPoint(
       sourcePrevious,
       sourceAnchor,
     );
-    this.targetPointCache = this.targetItem.getAnchorPoint(
+    this.cache.targetPointCache = this.targetItem.getAnchorPoint(
       targetPrevious,
       targetAnchor,
     );
     return {
-      sourcePoint: this.sourcePointCache,
-      targetPoint: this.targetPointCache,
+      sourcePoint: this.cache.sourcePointCache,
+      targetPoint: this.cache.targetPointCache,
       changed: true,
     };
   }
@@ -237,15 +239,18 @@ export default class Edge extends Item {
    * @returns
    */
   private shouldUpdatePoints(sourcePosition, targetPosition, controlPoints) {
-    const changed = !(
-      isSamePoint(sourcePosition, this.sourcePositionCache) &&
-      isSamePoint(targetPosition, this.targetPositionCache) &&
-      controlPoints === this.controlPointsCache
-    );
+    const isComboEnd =
+      this.sourceItem.type === 'combo' || this.targetItem.type === 'combo';
+    const changed =
+      !(
+        isSamePoint(sourcePosition, this.cache.sourcePositionCache) &&
+        isSamePoint(targetPosition, this.cache.targetPositionCache) &&
+        controlPoints === this.cache.controlPointsCache
+      ) || isComboEnd;
     if (changed) {
-      this.sourcePositionCache = sourcePosition;
-      this.targetPositionCache = targetPosition;
-      this.controlPointsCache = controlPoints;
+      this.cache.sourcePositionCache = sourcePosition;
+      this.cache.targetPositionCache = targetPosition;
+      this.cache.controlPointsCache = controlPoints;
     }
     return changed;
   }

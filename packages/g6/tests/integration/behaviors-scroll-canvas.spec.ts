@@ -1,7 +1,7 @@
 import { resetEntityCounter } from '@antv/g';
 import scrollCanvas from '../demo/behaviors/scroll-canvas';
-import './utils/useSnapshotMatchers';
 import { createContext, triggerEvent } from './utils';
+import './utils/useSnapshotMatchers';
 
 function sleep(time: number) {
   return new Promise((resolve, reject) => {

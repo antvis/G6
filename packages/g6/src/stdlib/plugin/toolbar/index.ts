@@ -1,13 +1,13 @@
-import { createDom, modifyCSS } from '@antv/dom-util';
 import insertCss from 'insert-css';
 import { IGraph } from '../../../types';
 import { Plugin as Base, IPluginBaseConfig } from '../../../types/plugin';
+import { createDOM, modifyCSS } from '../../../util/dom';
 
 /**
  * The `ToolbarConfig` interface contains the following properties:
 
 - `handleClick`: An optional function for handling clicks on the toolbar. It takes two arguments: `code` (of type string) and `graph` (of type IGraph), and has no return value.
-- `getContent`: A required function for getting the content of the toolbar. It takes an optional argument of type `IGraph`, and returns a value of type HTMLDivElement or string.
+- `getContent`: A required function for getting the content of the toolbar. It takes an optional argument of type `IGraph`, and returns a value of type HTMLElement or string.
 - `zoomSensitivity`: An optional number representing the zoom sensitivity of the toolbar. The default value is 10.
 - `minZoom`: An optional number representing the minimum zoom ratio of the toolbar. The default value is 0.00001.
 - `maxZoom`: An optional number representing the maximum zoom ratio of the toolbar. The default value is 1000.
@@ -17,7 +17,7 @@ export interface ToolbarConfig extends IPluginBaseConfig {
   /** Function for handling clicks on toolbar */
   handleClick?: (code: string, graph: IGraph) => void;
   /** Function for getting content of toolbar */
-  getContent: (graph?: IGraph) => HTMLDivElement | string;
+  getContent: (graph?: IGraph) => HTMLElement | string;
   /** Zoom sensitivity of toolbar */
   zoomSensitivity: number;
   /** Minimum zoom ratio of toolbar */
@@ -51,12 +51,12 @@ const getEventPath = (evt: MouseEvent) => {
 };
 
 export class Toolbar extends Base {
-  public ToolbarDOM: HTMLDivElement;
+  public ToolbarDOM: HTMLElement;
   public ContainerDOM: HTMLElement;
   constructor(config: Partial<ToolbarConfig>) {
     super(config);
-    this.ToolbarDOM = createDom('<div></div>');
-    this.ContainerDOM = createDom('<div></div>');
+    this.ToolbarDOM = createDOM('<div></div>');
+    this.ContainerDOM = createDOM('<div></div>');
   }
   public getDefaultCfgs(): ToolbarConfig {
     return {
@@ -95,7 +95,7 @@ export class Toolbar extends Base {
   public getContainer() {
     const { container } = this.options;
     if (typeof container === 'string') {
-      this.ContainerDOM = document.getElementById(container) as HTMLDivElement;
+      this.ContainerDOM = document.getElementById(container) as HTMLElement;
     } else {
       this.ContainerDOM = this.graph.container;
     }
@@ -109,7 +109,7 @@ export class Toolbar extends Base {
     const { getContent, className, handleClick, position } = this.options;
     const ToolBarContent = getContent(graph);
     if (typeof ToolBarContent === 'string') {
-      this.ToolbarDOM = createDom(ToolBarContent);
+      this.ToolbarDOM = createDOM(ToolBarContent);
     } else {
       this.ToolbarDOM = ToolBarContent;
     }

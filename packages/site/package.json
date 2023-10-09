@@ -35,6 +35,7 @@
     "fs-extra": "latest",
     "@ant-design/icons": "^4.0.6",
     "@antv/algorithm": "^0.1.26",
+    "@antv/g6-plugin-map-view": "^0.0.1",
     "@antv/chart-node-g6": "^0.0.3",
     "@antv/dumi-theme-antv": "0.3.19-beta.1",
     "@antv/g6": "workspace:*",

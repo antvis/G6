@@ -2,7 +2,7 @@
 title: History
 ---
 
-History is a built-in components in G6.
+History is a built-in components in G6, but not reigstered by default. It needs to be imported into the code and registered with the `extend` method, and then you could configured it to the graph instance.
 
 ## Usage
 
@@ -64,7 +64,6 @@ Retrieve the current undo stack which consists of operations that could be undon
 getUndoStack: () => void;
 ```
 
-
 #### getRedoStack
 
 Retrieve the current redo stack which consists of operations that were undone.
@@ -72,7 +71,6 @@ Retrieve the current redo stack which consists of operations that were undone.
 ```ts
 getRedoStack: () => void;
 ```
-
 
 #### getStack
 
@@ -82,7 +80,6 @@ Retrieve the complete history stack.
 getStack: () => void;
 ```
 
-
 #### undo
 
 Revert the last n operation(s) on the graph.
@@ -91,7 +88,6 @@ Revert the last n operation(s) on the graph.
 undo: () => void;
 ```
 
-
 #### redo
 
 Restore the operation that was last n reverted on the graph.
@@ -99,7 +95,6 @@ Restore the operation that was last n reverted on the graph.
 ```ts
 redo: () => void;
 ```
-
 
 #### canUndo
 
@@ -142,7 +137,7 @@ historyBatch: (callback: () => void) => void;
 ```
 
 **Parameters:**
-*callback*: The function containing operations to be batched together.
+_callback_: The function containing operations to be batched together.
 
 #### cleanHistory
 
@@ -153,5 +148,4 @@ cleanHistory: (stackType?: StackType) => void;
 ```
 
 **Parameters:**
-*stackType (optional)*: The type of stack (undo/redo) to be cleaned. If not provided, all stacks will be cleaned.
-
+_stackType (optional)_: The type of stack (undo/redo) to be cleaned. If not provided, all stacks will be cleaned.

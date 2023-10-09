@@ -2,7 +2,7 @@
 title: PolygonStyleProps
 ---
 
-[Overview - v5.0.0-beta.5](../../README.en.md) / [Modules](../../modules.en.md) / [item](../../modules/item.en.md) / PolygonStyleProps
+[Overview - v5.0.0-beta.12](../../README.en.md) / [Modules](../../modules.en.md) / [item](../../modules/item.en.md) / PolygonStyleProps
 
 [item](../../modules/item.en.md).PolygonStyleProps
 

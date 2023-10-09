@@ -24,7 +24,6 @@ import {
   ItemShapeStyles,
   ShapeStyle,
   SHAPE_TYPE_3D,
-  ItemModel,
 } from '../types/item';
 import { NodeDisplayModel, NodeShapeMap } from '../types/node';
 import { ComboDisplayModel, IGraph } from '../types';
@@ -212,22 +211,27 @@ export const updateShapes = (
     const prevShape = prevShapeMap[id];
     const newShape = newShapeMap[id];
     if (newShape && !shouldUpdate(id)) return;
-    if (prevShape && newShape) {
-      // update intersaction
-      finalShapeMap[id] = newShape;
-      if (prevShape !== newShape) {
+
+    if (newShape) {
+      // Remove dirty shape first.
+      if (prevShape && prevShape !== newShape) {
         prevShape.remove();
       }
-      if (!newShape.destroyed && newShape.style.display !== 'none') {
-        group.appendChild(newShape);
-      }
-    } else if (!prevShape && newShape) {
-      // add newShapeMap - prevShapeMap
       finalShapeMap[id] = newShape;
-      if (!newShape.destroyed && newShape.style.display !== 'none') {
+      if (
+        // NewShape is already in the group, no need to reappend.
+        // Note: If the given child is a reference to an existing node in the document,
+        // appendChild() moves it from its current position to the new position.
+        // @see https://developer.mozilla.org/en-US/docs/Web/API/Node/appendChild
+        newShape.parentElement !== group &&
+        !newShape.destroyed &&
+        newShape.style.display !== 'none'
+      ) {
         group.appendChild(newShape);
       }
-    } else if (prevShape && !newShape && removeDiff) {
+    }
+
+    if (prevShape && !newShape && removeDiff) {
       // remove prevShapeMap - newShapeMap
       delete finalShapeMap[id];
       prevShape.remove();

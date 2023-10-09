@@ -225,9 +225,9 @@ export class ItemController {
 
     // 0. clear groups on canvas, and create new groups
     graph.canvas.removeChildren();
-    const comboGroup = new Group({ id: 'combo-group' });
-    const edgeGroup = new Group({ id: 'edge-group' });
-    const nodeGroup = new Group({ id: 'node-group' });
+    const comboGroup = new Group({ id: 'combo-group', style: { zIndex: 0 } });
+    const edgeGroup = new Group({ id: 'edge-group', style: { zIndex: 1 } });
+    const nodeGroup = new Group({ id: 'node-group', style: { zIndex: 2 } });
     graph.canvas.appendChild(comboGroup);
     graph.canvas.appendChild(edgeGroup);
     graph.canvas.appendChild(nodeGroup);
@@ -237,9 +237,18 @@ export class ItemController {
 
     // Also create transient groups on transient canvas.
     transientCanvas.removeChildren();
-    this.transientComboGroup = new Group({ id: 'combo-group' });
-    this.transientEdgeGroup = new Group({ id: 'edge-group' });
-    this.transientNodeGroup = new Group({ id: 'node-group' });
+    this.transientComboGroup = new Group({
+      id: 'combo-group',
+      style: { zIndex: 0 },
+    });
+    this.transientEdgeGroup = new Group({
+      id: 'edge-group',
+      style: { zIndex: 1 },
+    });
+    this.transientNodeGroup = new Group({
+      id: 'node-group',
+      style: { zIndex: 2 },
+    });
     transientCanvas.appendChild(this.transientComboGroup);
     transientCanvas.appendChild(this.transientEdgeGroup);
     transientCanvas.appendChild(this.transientNodeGroup);
@@ -542,6 +551,7 @@ export class ItemController {
           // call after updating finished
           throttle(
             (_, canceled) => {
+              item.onframe?.(true);
               item.onframe = undefined;
               if (statesCache) {
                 statesCache.forEach((state) =>

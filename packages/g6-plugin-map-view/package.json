@@ -1,0 +1,102 @@
+{
+  "name": "@antv/g6-plugin-map-view",
+  "version": "0.0.1",
+  "description": "A Plugin of G6 to Show a Map View",
+  "keywords": [
+    "antv",
+    "graph",
+    "graph analysis",
+    "graph visualization",
+    "map"
+  ],
+  "homepage": "https://g6.antv.antgroup.com/",
+  "bugs": {
+    "url": "https://github.com/antvis/g6/issues"
+  },
+  "repository": "git@github.com/antvis/g6.git",
+  "license": "MIT",
+  "author": "https://github.com/orgs/antvis/people",
+  "main": "lib/index.js",
+  "module": "esm/index.js",
+  "types": "lib/index.d.ts",
+  "files": [
+    "src",
+    "esm",
+    "lib",
+    "dist"
+  ],
+  "scripts": {
+    "start": "rimraf ./lib && tsc --module commonjs --outDir lib --watch",
+    "build:umd": "rimraf ./dist && rollup -c && npm run size",
+    "build:cjs": "rimraf ./lib && tsc --module commonjs --outDir lib",
+    "build:esm": "rimraf ./esm && tsc --module ESNext --outDir esm",
+    "build": "run-p build:*",
+    "bundle-vis": "cross-env BUNDLE_VIS=1 run-p build:umd",
+    "prepublishOnly": "npm run ci",
+    "ci": "run-s lint build",
+    "clean": "rimraf es lib",
+    "clear:doc": "rimraf ../site/docs/_apis",
+    "doc": "npm run clear:doc && typedoc",
+    "lint": "eslint ./src --quiet && prettier ./src --check",
+    "lint-staged:js": "eslint --ext .js,.jsx,.ts,.tsx",
+    "fix": "eslint ./src ./tests --fix && prettier ./src ./tests --write ",
+    "size": "limit-size"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "eslint --fix",
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "dependencies": {
+    "@antv/dom-util": "^2.0.4",
+    "@antv/graphlib": "^2.0.2",
+    "@antv/util": "~2.0.5",
+    "@antv/l7": "^2.18.3",
+    "@antv/l7-maps": "^2.18.3",
+    "@antv/g6": "^5.0.0-beta.11"
+  },
+  "devDependencies": {
+    "@rollup/plugin-terser": "^0.4.3",
+    "@types/gl": "6.0.2",
+    "@types/jsdom": "^21.1.1",
+    "@types/node": "13.11.1",
+    "@types/pixelmatch": "^5.2.4",
+    "@types/pngjs": "^6.0.1",
+    "@types/xmlserializer": "^0.6.3",
+    "@typescript-eslint/eslint-plugin": "^6.5.0",
+    "@typescript-eslint/parser": "^6.5.0",
+    "@umijs/fabric": "^2.0.0",
+    "babel-loader": "^8.0.6",
+    "eslint": "^8.48.0",
+    "eslint-plugin-import": "^2.28.1",
+    "father": "^2.29.1",
+    "gl": "^6.0.2",
+    "jsdom": "^19.0.0",
+    "limit-size": "^0.1.4",
+    "lint-staged": "^10.5.4",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^3.0.3",
+    "rimraf": "^3.0.0",
+    "rollup": "^2.79.1",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-polyfill-node": "^0.8.0",
+    "rollup-plugin-typescript": "^1.0.1",
+    "rollup-plugin-visualizer": "^5.6.0",
+    "typedoc": "^0.25.0",
+    "tslib": "^2.5.0",
+    "typescript": "^5.1.6"
+  },
+  "limit-size": [
+    {
+      "path": "dist/g6-plugin-map-view.min.js",
+      "limit": "750 Kb",
+      "gzip": true
+    },
+    {
+      "path": "dist/g6-plugin-map-view.min.js",
+      "limit": "3 Mb"
+    }
+  ]
+}

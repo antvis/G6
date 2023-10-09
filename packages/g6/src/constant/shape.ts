@@ -1,4 +1,4 @@
-import type { StandardPadding } from 'types/common';
+import type { StandardPadding } from '../types/common';
 import { ShapeStyle } from '../types/item';
 
 export const RESERVED_SHAPE_IDS = [

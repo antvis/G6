@@ -14,16 +14,18 @@ import circularUpdate from './layouts/circular-update';
 import comboBasic from './combo/combo-basic';
 import comboDagre from './layouts/dagre-combo';
 import comboRect from './combo/combo-rect';
+import cube from './item/node/cube';
 import cubic_edge from './item/edge/cubic-edge';
 import cubic_horizon_edge from './item/edge/cubic-horizontal-edge';
 import cubic_vertical_edge from './item/edge/cubic-vertical-edge';
 import dagreUpdate from './layouts/dagre-update';
-import dataValidate from './data/data-validate';
 import dataV4 from './data/data-from-v4';
+import dataValidate from './data/data-validate';
 import demo from './demo/demo';
 import demoForPolyline from './demo/demoForPolyline';
 import diamond from './demo/diamond';
 import donut_node from './item/node/donut-node';
+import edgeFilterLens from './plugins/edgeFilterLens';
 import ellipse from './demo/ellipse';
 import fisheye from './plugins/fisheye';
 import graphCore from './data/graphCore';
@@ -49,6 +51,7 @@ import layouts_grid from './layouts/grid';
 import legend from './plugins/legend';
 import line_edge from './item/edge/line-edge';
 import loop_edge from './item/edge/loop-edge';
+import map from './plugins/map';
 import mapper from './visual/mapper';
 import menu from './demo/menu';
 import minimap from './plugins/minimap';
@@ -68,6 +71,7 @@ import treeGraph from './tree/treeGraph';
 import triangle from './demo/triangle';
 import user_defined_canvas from './user-defined-canvas/circular';
 import visual from './visual/visual';
+import watermarker from './plugins/watermarker';
 
 export { default as timebar_time } from './plugins/timebar-time';
 export { default as timebar_chart } from './plugins/timebar-chart';
@@ -88,16 +92,18 @@ export {
   comboBasic,
   comboDagre,
   comboRect,
+  cube,
   cubic_edge,
   cubic_horizon_edge,
   cubic_vertical_edge,
   dagreUpdate,
+  dataV4,
   dataValidate,
   demo,
   demoForPolyline,
-  dataV4,
   diamond,
   donut_node,
+  edgeFilterLens,
   ellipse,
   fisheye,
   graphCore,
@@ -123,6 +129,7 @@ export {
   legend,
   line_edge,
   loop_edge,
+  map,
   mapper,
   menu,
   minimap,
@@ -142,4 +149,5 @@ export {
   triangle,
   user_defined_canvas,
   visual,
+  watermarker,
 };

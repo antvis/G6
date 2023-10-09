@@ -1,0 +1,16 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+      "filename": "shortcuts-fitView.js",
+      "title": {
+        "zh": "快捷键自适应画布",
+        "en": "FitView by Shortcuts"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*fmolQIbMbB4AAAAAAAAAAAAADmJ7AQ/original"
+    }
+  ]
+}

@@ -1,4 +1,4 @@
-import { Circle, Group, Rect } from '@antv/g';
+import { Group } from '@antv/g';
 import { clone } from '@antv/util';
 import { Point } from '../types/common';
 import { ComboDisplayModel, ComboModel, NodeModel } from '../types';
@@ -14,7 +14,6 @@ import {
   getRectIntersectByPoint,
 } from '../util/point';
 import { ComboModelData } from '../types/combo';
-import { isArraySame } from '../util/array';
 import Item from './item';
 
 interface IProps {
@@ -334,15 +333,16 @@ export default class Node extends Item {
     }
     if (!linkPoint) {
       // If the calculations above are all failed, return the data's position
-      return { x, y };
+      return { x, y, z };
     }
+    if (!isNaN(z)) linkPoint.z = z;
     return linkPoint;
   }
 
   public getPosition(): Point {
     const initiated =
       this.shapeMap.keyShape && this.group.attributes.x !== undefined;
-    if (initiated) {
+    if (initiated && this.renderExt.dimensions !== 3) {
       const { center } = this.shapeMap.keyShape.getRenderBounds();
       return { x: center[0], y: center[1], z: center[2] };
     }

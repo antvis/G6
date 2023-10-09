@@ -149,19 +149,7 @@ const lodStrategyLevels = [
   { zoomRange: [2.5, Infinity] }, // 4
 ];
 
-const withHandleAUD = (handler, operations = ['A', 'U', 'D']) => {
-  return (data, options, graphCore) => {
-    const result = { ...data };
-    const operationArray = Array.isArray(operations) ? operations : [operations];
-    operationArray.forEach((operation) => {
-      result[operation] = handler(data[operation], options, graphCore);
-    });
-
-    return result;
-  };
-};
-
-const dataFormat = withHandleAUD((data = {}, options = {}, userGraphCore) => {
+const dataFormat = (data, options = {}, graphCore) => {
   const map = new Map();
   const nodes = [];
   data.nodes?.forEach((node) => {
@@ -196,9 +184,8 @@ const dataFormat = withHandleAUD((data = {}, options = {}, userGraphCore) => {
       target: edge.target,
     })),
   };
-});
-
-const clusteringNodes = withHandleAUD((data = {}, options = {}, userGraphCore) => {
+};
+const clusteringNodes = (data, options = {}, graphCore) => {
   if (!Algorithm?.labelPropagation) return;
   const clusteredData = Algorithm.labelPropagation(data, false);
   clusteredData.clusters.forEach((cluster, i) => {
@@ -207,7 +194,7 @@ const clusteringNodes = withHandleAUD((data = {}, options = {}, userGraphCore) =
     });
   });
   return data;
-});
+};
 
 const ExtGraph = extend(Graph, {
   transforms: {

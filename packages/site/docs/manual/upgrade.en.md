@@ -123,8 +123,8 @@ type GraphData = {
 
 type NodeModel = {
   id: string;
-  type?: string; // node type, e.g. circle-node, rect-node
   data: {
+    type?: string; // node type, e.g. circle-node, rect-node
     x?: number;
     y?: number;
     z?: number;
