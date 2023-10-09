@@ -1,11 +1,11 @@
 import { ID, TreeData } from '@antv/graphlib';
-import { clone, each, isArray } from '@antv/util';
+import { isArray } from '@antv/util';
 import { depthFirstSearch, connectedComponent } from '@antv/algorithm';
 import {
   DataChangeType,
   GraphCore,
   GraphData,
-  GraphDataChangeSet,
+  GraphDataChanges,
 } from '../types/data';
 import { IGraph } from '../types/graph';
 import { NodeModel, NodeUserModel } from '../types';
@@ -326,21 +326,4 @@ export const dataLifecycleMap: Record<string, string> = {
   union: 'addData',
   remove: 'removeData',
   update: 'updateData',
-};
-
-export const withHandleAUD = (
-  handler: (data: GraphData, options: any, graphCore?: GraphCore) => GraphData,
-  operations: 'A' | 'U' | 'D' | ('A' | 'U' | 'D')[] = ['A', 'U', 'D'],
-) => {
-  return (data: GraphDataChangeSet, options: any, graphCore?: GraphCore) => {
-    const result = clone(data);
-    const operationArray = Array.isArray(operations)
-      ? operations
-      : [operations];
-    each(operationArray, (operation) => {
-      result[operation] = handler(data[operation], options, graphCore);
-    });
-
-    return result;
-  };
 };

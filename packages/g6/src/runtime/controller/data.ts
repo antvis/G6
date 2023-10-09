@@ -14,7 +14,7 @@ import {
   DataConfig,
   FetchDataConfig,
   GraphCore,
-  GraphDataChangeSet,
+  GraphDataChanges,
   InlineGraphDataConfig,
   InlineTreeDataConfig,
 } from '../../types/data';
@@ -293,13 +293,13 @@ export class DataController {
 
     const preprocessedData = this.preprocessData(data, changeType);
     const {
-      D: dataToDelete,
-      A: dataToAdd,
-      U: dataToUpdate,
+      D: DataRemoved,
+      A: DataAdded,
+      U: DataUpdated,
     } = this.transformData(preprocessedData, changeType);
 
     if (changeType === 'replace') {
-      const { nodes, edges, combos } = dataToAdd;
+      const { nodes, edges, combos } = DataAdded;
       this.graphCore = new GraphLib<NodeModelData, EdgeModelData>(
         clone({
           nodes: nodes.concat(
@@ -341,9 +341,9 @@ export class DataController {
         });
       }
     } else {
-      this.doDelete(dataToDelete);
-      this.doAdd(dataToAdd);
-      this.doUpdate(dataToUpdate);
+      this.doRemove(DataRemoved);
+      this.doAdd(DataAdded);
+      this.doUpdate(DataUpdated);
     }
 
     if (
@@ -364,14 +364,14 @@ export class DataController {
    * Add new data.
    * @param data data to be added which is not in graphCore
    */
-  private doAdd(dataToAdd: GraphData) {
-    if (isEmpty(dataToAdd)) return;
+  private doAdd(data: GraphData) {
+    if (isEmpty(data)) return;
 
     const { graphCore } = this;
-    const { nodes = [], edges = [], combos = [] } = dataToAdd;
+    const { nodes = [], edges = [], combos = [] } = data;
 
     if (nodes.length || combos.length) {
-      const nodesAndCombos = getNodesAndCombos(dataToAdd);
+      const nodesAndCombos = getNodesAndCombos(data);
       graphCore.addNodes(nodesAndCombos);
     }
 
@@ -384,11 +384,11 @@ export class DataController {
    * Update part of old data.
    * @param data data to be updated which is part of old one in the graphCore
    */
-  private doUpdate(dataToUpdate: GraphData) {
-    if (isEmpty(dataToUpdate)) return;
+  private doUpdate(data: GraphData) {
+    if (isEmpty(data)) return;
 
     const { graphCore } = this;
-    const { nodes = [], edges = [], combos = [] } = dataToUpdate;
+    const { nodes = [], edges = [], combos = [] } = data;
 
     // update node
     nodes.forEach((newModel) => {
@@ -481,18 +481,18 @@ export class DataController {
    * Remove part of old data.
    * @param data data to be removed which is part of old one in the graphCore
    */
-  private doDelete(dataToDelete: GraphData) {
-    if (isEmpty(dataToDelete)) return;
+  private doRemove(data: GraphData) {
+    if (isEmpty(data)) return;
 
     const { graphCore } = this;
 
-    if (dataToDelete.edges.length) {
+    if (data.edges.length) {
       // add or update edge
-      const ids = dataToDelete.edges.map((edge) => edge.id);
+      const ids = data.edges.map((edge) => edge.id);
       graphCore.removeEdges(ids);
     }
 
-    const nodesAndCombos = getNodesAndCombos(dataToDelete);
+    const nodesAndCombos = getNodesAndCombos(data);
     // update combo tree view and tree graph view
     nodesAndCombos?.forEach((item) => this.removeNode(item));
   }
@@ -667,7 +667,7 @@ export class DataController {
   private preprocessData(
     data: DataConfig,
     type: DataChangeType,
-  ): GraphDataChangeSet {
+  ): GraphDataChanges {
     const { graphCore } = this;
     const dataCloned: GraphData = clone(data);
     const prevData = graphCore
@@ -679,7 +679,7 @@ export class DataController {
     const { prevMinusNew, newMinusPrev, intersectionOfPrevAndNew } =
       diffGraphData(prevData, dataCloned);
 
-    const dataChangeMap: Record<string, GraphDataChangeSet> = {
+    const dataChangeMap: Record<string, GraphDataChanges> = {
       replace: { A: dataCloned, D: {}, U: {} },
       mergeReplace: {
         A: newMinusPrev,
@@ -718,9 +718,9 @@ export class DataController {
    * @returns transformed data and the id map list
    */
   private transformData(
-    data: GraphDataChangeSet,
+    data: GraphDataChanges,
     changeType: DataChangeType,
-  ): GraphDataChangeSet {
+  ): GraphDataChanges {
     //  transform the data with transform extensions, output innerData and idMaps ===
     this.extensions.forEach(({ func, config }) => {
       if (this.isTransformActive(config, changeType)) {

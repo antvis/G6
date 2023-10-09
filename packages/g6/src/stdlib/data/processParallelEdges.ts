@@ -3,7 +3,7 @@ import { loopPosition } from '../../util/loop';
 import { EdgeUserModel, ID, GraphCore } from '../../types';
 import { uniqBy } from '../../util/array';
 import { EdgeUserModelData } from '../../types/edge';
-import { GraphDataChangeSet } from '../../types/data';
+import { GraphDataChanges } from '../../types/data';
 
 /**
  * Process edges which might overlap. For edges that share the same target and source nodes.
@@ -25,27 +25,27 @@ type ParallelEdgesOptions = {
 };
 
 export const ProcessParallelEdges = (
-  data: GraphDataChangeSet,
+  data: GraphDataChanges,
   options: ParallelEdgesOptions = {},
   graphCore?: GraphCore,
-): GraphDataChangeSet => {
+): GraphDataChanges => {
   // Identify the edges to be processed and their associated edges
   const { edgeIds = [] } = options;
   const {
-    A: { edges: edgesToAdd = [] } = {},
-    U: { edges: edgesToUpdate = [] } = {},
-    D: { edges: edgesToDelete = [] } = {},
+    A: { edges: EdgesAdded = [] } = {},
+    U: { edges: EdgesUpdated = [] } = {},
+    D: { edges: EdgesRemoved = [] } = {},
   } = data;
 
   const prevEdges = graphCore ? graphCore.getAllEdges() : [];
-  const edgeIdsToAdd = new Set(edgesToAdd?.map((edge) => edge.id));
-  const edgeIdsToDelete = new Set(edgesToDelete?.map((edge) => edge.id));
-  const cacheEdges = uniqBy([...prevEdges, ...edgesToUpdate], 'id');
+  const edgeIdsToAdd = new Set(EdgesAdded?.map((edge) => edge.id));
+  const edgeIdsToRemove = new Set(EdgesRemoved?.map((edge) => edge.id));
+  const cacheEdges = uniqBy([...prevEdges, ...EdgesUpdated], 'id');
 
-  let edges = [...edgesToDelete, ...edgesToUpdate, ...edgesToAdd];
+  let edges = [...EdgesRemoved, ...EdgesUpdated, ...EdgesAdded];
 
   // Recognize parallel edges prior to the update
-  edgesToUpdate.forEach((newModel) => {
+  EdgesUpdated.forEach((newModel) => {
     const oldModel = graphCore?.getEdge(newModel.id);
     if (!oldModel) return;
     const { id, source, target } = newModel;
@@ -69,7 +69,7 @@ export const ProcessParallelEdges = (
 
   // Remove deleted edges and filter edges based on edgeIds.
   edges = uniqBy(
-    edges.filter((edge) => !edgeIdsToDelete.has(edge.id)),
+    edges.filter((edge) => !edgeIdsToRemove.has(edge.id)),
     'id',
   );
   if (edgeIds.length > 0) {

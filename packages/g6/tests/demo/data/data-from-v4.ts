@@ -1,10 +1,21 @@
 import { Layout, LayoutMapping } from '@antv/layout';
-import { Graph, extend, stdLib, Extensions } from '../../../src/index';
+import {
+  Graph,
+  extend,
+  stdLib,
+  Extensions,
+  GraphCore,
+} from '../../../src/index';
 import { TestCaseContext } from '../interface';
-import { withHandleAUD } from '../../../src/util/data';
+import { GraphDataChanges } from '../../../src/types/data';
 
-const edgeClusterTransform = withHandleAUD(
-  (data, options = {}, userGraphCore) => {
+const edgeClusterTransform = (
+  data: GraphDataChanges,
+  options = {},
+  graphCore?: GraphCore,
+) => {
+  const { A: DataAdded, U: DataUpdated, D: DataRemoved } = data;
+  const handler = (data, options = {}, userGraphCore) => {
     const { nodes, edges } = data;
     const nodeMap = new Map();
     nodes?.forEach((node) => nodeMap.set(node.id, node));
@@ -12,8 +23,13 @@ const edgeClusterTransform = withHandleAUD(
       edge.data.cluster = nodeMap.get(edge.source).data.cluster;
     });
     return data;
-  },
-);
+  };
+  return {
+    A: handler(DataAdded, options, graphCore),
+    U: handler(DataUpdated, options, graphCore),
+    D: handler(DataRemoved, options, graphCore),
+  };
+};
 
 class LineLayout implements Layout<{}> {
   id = 'line-layout';

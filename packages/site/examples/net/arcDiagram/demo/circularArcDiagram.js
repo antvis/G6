@@ -4,14 +4,22 @@ const container = document.getElementById('container');
 const width = container.scrollWidth;
 const height = container.scrollHeight || 500;
 
-const edgeClusterTransform = (data, options = {}, graphCore) => {
-  const { nodes, edges } = data;
-  const nodeMap = new Map();
-  nodes.forEach((node) => nodeMap.set(node.id, node));
-  edges.forEach((edge) => {
-    edge.data.cluster = nodeMap.get(edge.source).data.cluster;
-  });
-  return data;
+const edgeClusterTransform = (data = {}, options = {}, userGraphCore) => {
+  const { A: DataAdded, U: DataUpdated, D: DataRemoved } = data;
+  const handler = (data = {}, options = {}, userGraphCore) => {
+    const { nodes = [], edges = [] } = data;
+    const nodeMap = new Map();
+    nodes.forEach((node) => nodeMap.set(node.id, node));
+    edges.forEach((edge) => {
+      edge.data.cluster = nodeMap.get(edge.source).data.cluster;
+    });
+    return data;
+  };
+  return {
+    A: handler(DataAdded, options, graphCore),
+    U: handler(DataUpdated, options, graphCore),
+    D: handler(DataRemoved, options, graphCore),
+  };
 };
 
 const ExtGraph = extend(Graph, {

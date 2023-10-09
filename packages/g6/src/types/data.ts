@@ -14,7 +14,7 @@ export interface GraphData {
   combos?: ComboUserModel[];
 }
 
-export interface GraphDataChangeSet {
+export interface GraphDataChanges {
   A: GraphData;
   D: GraphData;
   U: GraphData;
