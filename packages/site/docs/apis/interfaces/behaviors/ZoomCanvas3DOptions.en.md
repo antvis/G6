@@ -2,7 +2,7 @@
 title: ZoomCanvas3DOptions
 ---
 
-[Overview - v5.0.0-beta.18](../../README.en.md) / [Modules](../../modules.en.md) / [behaviors](../../modules/behaviors.en.md) / ZoomCanvas3DOptions
+[Overview - v5.0.0-beta.20](../../README.en.md) / [Modules](../../modules.en.md) / [behaviors](../../modules/behaviors.en.md) / ZoomCanvas3DOptions
 
 [behaviors](../../modules/behaviors.en.md).ZoomCanvas3DOptions
 

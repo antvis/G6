@@ -1606,7 +1606,7 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       value,
     });
     this.emit('afteritemstatechange', {
-      ids,
+      ids: idArr,
       states,
       value,
       action: 'updateState',
@@ -1655,7 +1655,7 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       value: false,
     });
     this.emit('afteritemstatechange', {
-      ids,
+      ids: idArr,
       states,
       value: false,
       action: 'updateState',

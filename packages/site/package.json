@@ -38,7 +38,7 @@
     "@antv/g6-plugin-map-view": "^0.0.1",
     "@antv/chart-node-g6": "^0.0.3",
     "@antv/dumi-theme-antv": "0.3.19-beta.1",
-    "@antv/g6": "5.0.0-beta.18",
+    "@antv/g6": "5.0.0-beta.20",
     "@antv/g6-react-node": "^1.4.5",
     "@antv/graphlib": "^2.0.2",
     "@antv/layout-gpu": "^1.1.5",

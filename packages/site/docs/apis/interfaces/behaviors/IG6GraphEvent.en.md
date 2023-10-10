@@ -2,7 +2,7 @@
 title: IG6GraphEvent
 ---
 
-[Overview - v5.0.0-beta.18](../../README.en.md) / [Modules](../../modules.en.md) / [behaviors](../../modules/behaviors.en.md) / IG6GraphEvent
+[Overview - v5.0.0-beta.20](../../README.en.md) / [Modules](../../modules.en.md) / [behaviors](../../modules/behaviors.en.md) / IG6GraphEvent
 
 [behaviors](../../modules/behaviors.en.md).IG6GraphEvent
 

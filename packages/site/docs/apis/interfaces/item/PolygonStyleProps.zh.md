@@ -4,7 +4,7 @@ title: PolygonStyleProps
 
 > 📋 中文文档还在翻译中... 欢迎 PR
 
-[Overview - v5.0.0-beta.18](../../README.zh.md) / [Modules](../../modules.zh.md) / [item](../../modules/item.zh.md) / PolygonStyleProps
+[Overview - v5.0.0-beta.20](../../README.zh.md) / [Modules](../../modules.zh.md) / [item](../../modules/item.zh.md) / PolygonStyleProps
 
 [item](../../modules/item.zh.md).PolygonStyleProps
 

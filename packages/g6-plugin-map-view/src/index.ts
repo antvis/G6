@@ -449,17 +449,21 @@ export class MapView extends PluginBase {
 
   private updateMapState(e) {
     const { ids, value, states } = e;
-    const nodes = this.pointLayer
-      .getSource()
-      .data.dataArray.filter((nodeMapModel) => ids.includes(nodeMapModel.id));
-    const edges = this.lineLayer
-      .getSource()
-      .data.dataArray.filter((edgeMapModel) => ids.includes(edgeMapModel.id));
-    if (nodes.length) {
-      this.setMapItemState('node', nodes, states, value);
+    if (this.pointLayer) {
+      const nodes = this.pointLayer
+        .getSource()
+        .data.dataArray.filter((nodeMapModel) => ids.includes(nodeMapModel.id));
+      if (nodes.length) {
+        this.setMapItemState('node', nodes, states, value);
+      }
     }
-    if (edges.length) {
-      this.setMapItemState('edge', edges, states, value);
+    if (this.lineLayer) {
+      const edges = this.lineLayer
+        .getSource()
+        .data.dataArray.filter((edgeMapModel) => ids.includes(edgeMapModel.id));
+      if (edges.length) {
+        this.setMapItemState('edge', edges, states, value);
+      }
     }
   }
 

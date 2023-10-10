@@ -2,7 +2,7 @@
 title: util
 ---
 
-[Overview - v5.0.0-beta.18](../README.en.md) / [Modules](../modules.en.md) / util
+[Overview - v5.0.0-beta.20](../README.en.md) / [Modules](../modules.en.md) / util
 
 ## Functions
 

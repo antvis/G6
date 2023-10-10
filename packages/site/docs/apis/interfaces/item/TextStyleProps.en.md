@@ -2,7 +2,7 @@
 title: TextStyleProps
 ---
 
-[Overview - v5.0.0-beta.18](../../README.en.md) / [Modules](../../modules.en.md) / [item](../../modules/item.en.md) / TextStyleProps
+[Overview - v5.0.0-beta.20](../../README.en.md) / [Modules](../../modules.en.md) / [item](../../modules/item.en.md) / TextStyleProps
 
 [item](../../modules/item.en.md).TextStyleProps
 

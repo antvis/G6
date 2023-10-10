@@ -308,11 +308,13 @@ export default abstract class Item implements IItem {
 
     // === mapper is function, displayModel is mapper(model), cannot diff the displayModel, so all the shapes need to be updated ===
     if (isFunction(mapper)) {
+      const mappedModel = {
+        ...defaultMapper(innerModel),
+        ...(mapper as Function)(innerModel),
+      };
       return {
-        model: {
-          ...defaultMapper(innerModel),
-          ...(mapper as Function)(innerModel),
-        },
+        model: mappedModel,
+        typeChange: this.displayModel?.data?.type !== mappedModel.data.type,
       };
     }
 

@@ -140,6 +140,7 @@ export class CreateEdge extends Behavior {
 
     if (addingEdge) {
       if (!this.options.shouldEnd(e)) {
+        this.cancelCreating();
         return;
       }
       // create edge end, add the actual edge to graph and remove the virtual edge and node
@@ -223,6 +224,7 @@ export class CreateEdge extends Behavior {
     }
 
     if (!this.options.shouldEnd(e)) {
+      this.cancelCreating();
       return;
     }
 

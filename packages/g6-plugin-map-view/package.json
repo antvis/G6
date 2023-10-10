@@ -1,6 +1,6 @@
 {
   "name": "@antv/g6-plugin-map-view",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A Plugin of G6 to Show a Map View",
   "keywords": [
     "antv",
