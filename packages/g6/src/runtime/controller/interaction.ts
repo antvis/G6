@@ -297,13 +297,17 @@ export class InteractionController {
       } as FederatedPointerEvent);
     }
 
+    const isRightClick = event.type === 'click' && event.button === 2;
+
     // Canvas Events
     if (event.itemType === 'canvas') {
       if (event.type === 'pointermove') {
         this.handlePointerMove(event);
       }
-      this.graph.emit(`canvas:${gEvent.type}`, event);
-      this.graph.emit(`${gEvent.type}`, event);
+      if (!isRightClick) {
+        this.graph.emit(`canvas:${gEvent.type}`, event);
+        this.graph.emit(`${gEvent.type}`, event);
+      }
 
       // contextmenu event for canvas
       if (event.type === 'pointerdown' && event.button === 2) {
@@ -320,8 +324,10 @@ export class InteractionController {
       if (event.type === 'pointermove' || event.type === 'pointerleave') {
         this.handlePointerMove(event);
       }
-      this.graph.emit(`${itemType}:${gEvent.type}`, event);
-      this.graph.emit(`${gEvent.type}`, event);
+      if (!isRightClick) {
+        this.graph.emit(`${itemType}:${gEvent.type}`, event);
+        this.graph.emit(`${gEvent.type}`, event);
+      }
 
       // contextmenu event for node, edge, or combo
       if (event.type === 'pointerdown' && event.button === 2) {

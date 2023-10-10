@@ -13,8 +13,10 @@ export const getWordWrapWidthByBox = (
   keyShapeBox: AABB,
   maxWidth: string | number,
   zoom = 1,
+  enableBalanceShape = false,
 ) => {
-  const keyShapeWidth = (keyShapeBox.max[0] - keyShapeBox.min[0]) * zoom;
+  const balanceZoom = enableBalanceShape ? zoom : 1;
+  const keyShapeWidth = (keyShapeBox.max[0] - keyShapeBox.min[0]) * balanceZoom;
   return getWordWrapWidthWithBase(keyShapeWidth, maxWidth);
 };
 

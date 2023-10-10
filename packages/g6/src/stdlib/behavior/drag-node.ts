@@ -125,6 +125,7 @@ export class DragNode extends Behavior {
       'node:pointerdown': this.onPointerDown,
       pointermove: this.onPointerMove,
       click: this.onClick,
+      'node:pointerup': this.onPointerUp,
       // FIXME: IG6Event -> keyboard event
       keydown: this.onKeydown as any,
     };
@@ -198,6 +199,14 @@ export class DragNode extends Behavior {
     if (!this.options.shouldBegin(event)) return;
     this.pointerDown = { x: event.canvas.x, y: event.canvas.y };
     this.dragging = false;
+
+    document.addEventListener(
+      'mouseup',
+      (evt) => {
+        this.onPointerUp(event);
+      },
+      { once: true },
+    );
   }
 
   public onPointerMove(event: IG6GraphEvent) {

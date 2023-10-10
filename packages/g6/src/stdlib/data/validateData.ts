@@ -27,14 +27,14 @@ export const ValidateData = (
     if (item.id === undefined) {
       if (generateId) {
         item.id = `${type}-${uniqueId()}`;
-        return;
+      } else {
+        console.error(
+          `Unique global id is neccessary for graph items. The ${type} ${JSON.stringify(
+            item,
+          )} without id will be ignored.`,
+        );
+        return false;
       }
-      console.error(
-        `Unique global id is neccessary for graph items. The ${type} ${JSON.stringify(
-          item,
-        )} without id will be ignored.`,
-      );
-      return false;
     }
     if (idMap.has(item.id)) {
       console.error(

@@ -241,7 +241,7 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
             $domElement.style.outline = 'none';
             $domElement.tabIndex = 1; // Enable keyboard events
             // Transient canvas should let interactive events go through.
-            if (i === 2) {
+            if (i !== 1) {
               $domElement.style.pointerEvents = 'none';
             }
           }
@@ -1405,7 +1405,7 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     const modelArr = isArray(models) ? models : [models];
     const { graphCore } = this.dataController;
     const { specification } = this.themeController;
-    graphCore.once('changed', (event) => {
+    graphCore?.once('changed', (event) => {
       if (!event.changes.length) return;
       const changes = event.changes.filter(
         (change) => !isEqual(change.newValue, change.oldValue),
@@ -1606,7 +1606,7 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       value,
     });
     this.emit('afteritemstatechange', {
-      ids,
+      ids: idArr,
       states,
       value,
       action: 'updateState',
@@ -1655,7 +1655,7 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       value: false,
     });
     this.emit('afteritemstatechange', {
-      ids,
+      ids: idArr,
       states,
       value: false,
       action: 'updateState',

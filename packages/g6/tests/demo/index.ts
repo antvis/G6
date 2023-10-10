@@ -64,20 +64,21 @@ import legend from './plugins/legend';
 import snapline from './plugins/snapline';
 import mapper from './visual/mapper';
 import minimap from './plugins/minimap';
+import map from './plugins/map';
 import edgeFilterLens from './plugins/edgeFilterLens';
 import watermarker from './plugins/watermarker';
 import cube from './item/node/cube';
 import graphCore from './data/graphCore';
 import dagreUpdate from './layouts/dagre-update';
-import map from './plugins/map';
+import fps_test from './performance/fps';
 
 export { default as timebar_time } from './plugins/timebar-time';
 export { default as timebar_chart } from './plugins/timebar-chart';
 
 export {
   minimap,
-  map,
   mapper,
+  map,
   anchor,
   animations_node_build_in,
   arrow,
@@ -126,6 +127,7 @@ export {
   performance_layout_3d,
   performance_layout,
   performance,
+  fps_test,
   polyline,
   quadratic,
   rect,
