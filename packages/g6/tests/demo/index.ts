@@ -64,6 +64,7 @@ import legend from './plugins/legend';
 import snapline from './plugins/snapline';
 import mapper from './visual/mapper';
 import minimap from './plugins/minimap';
+import map from './plugins/map';
 import edgeFilterLens from './plugins/edgeFilterLens';
 import watermarker from './plugins/watermarker';
 import cube from './item/node/cube';
@@ -77,6 +78,7 @@ export { default as timebar_chart } from './plugins/timebar-chart';
 export {
   minimap,
   mapper,
+  map,
   anchor,
   animations_node_build_in,
   arrow,

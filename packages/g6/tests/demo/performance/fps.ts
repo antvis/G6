@@ -16,7 +16,7 @@ const createGraph = async () => {
     width,
     height: 1200,
     renderer: 'webgl',
-    transforms: ['transform-v4-data'],
+    // transforms: ['transform-v4-data'],
     modes: {
       default: [
         { type: 'zoom-canvas', enableOptimize: false },
@@ -24,7 +24,9 @@ const createGraph = async () => {
         'drag-node',
         'brush-select',
         'click-select',
-        'hover-activate',
+        {
+          type: 'hover-activate',
+        },
       ],
     },
     edge: (innerModel) => {
@@ -50,7 +52,7 @@ const createGraph = async () => {
           keyShape: {
             r: 4,
           },
-          haloShape: {},
+          // haloShape: {},
           labelShape: {
             // text: innerModel.id,
             opacity: 0.8,
@@ -104,15 +106,27 @@ export default async () => {
   // graph.read(data);
 
   // 1.3w items
-  fetch(
-    'https://gw.alipayobjects.com/os/bmw-prod/f1565312-d537-4231-adf5-81cb1cd3a0e8.json',
-  ).then((res) =>
-    res.json().then((d) => {
-      graph.read(d);
-    }),
-  );
+  // fetch(
+  //   'https://gw.alipayobjects.com/os/bmw-prod/f1565312-d537-4231-adf5-81cb1cd3a0e8.json',
+  // ).then((res) =>
+  //   res.json().then((d) => {
+  //     graph.read(d);
+  //   }),
+  // );
 
-  // graph.read(generateData(100000, 50000));
+  container.addEventListener('dblclick', (e) => {
+    //   // 5.5w
+    // fetch(
+    //   'https://gw.alipayobjects.com/os/bmw-prod/f1565312-d537-4231-adf5-81cb1cd3a0e8.json',
+    // )
+    //   .then((res) => res.json())
+    //   .then((data) => {
+    //     data.edges.forEach((edge) => (edge.id = `edge-${Math.random()}`));
+    //     graph.read(data);
+    //   });
+    // graph.read(generateData(200000, 100000));
+    graph.read(generateData(10000, 5000));
+  });
 
   const stats = new Stats();
   stats.showPanel(0);

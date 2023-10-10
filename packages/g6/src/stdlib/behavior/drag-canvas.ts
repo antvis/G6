@@ -243,10 +243,20 @@ export class DragCanvas extends Behavior {
     if (!this.dragging) {
       this.hideShapes();
       this.dragging = true;
+      this.graph.canvas.getConfig().disableHitTesting = true;
     }
+
+    const { tileBehavior: graphBehaviorOptimize } =
+      this.graph.getSpecification().optimize || {};
+
+    const shouldDebounce =
+      typeof graphBehaviorOptimize === 'boolean'
+        ? graphBehaviorOptimize
+        : this.graph.getAllNodesData().length < graphBehaviorOptimize;
 
     const now = Date.now();
     if (
+      shouldDebounce &&
       this.lastDragTriggerTime &&
       now - this.lastDragTriggerTime < DRAG_DURATION / 5
     ) {
@@ -276,6 +286,7 @@ export class DragCanvas extends Behavior {
   public onPointerUp() {
     this.pointerDownAt = undefined;
     this.dragging = false;
+    this.graph.canvas.getConfig().disableHitTesting = false;
 
     const { graph, hiddenNodeIds, hiddenEdgeIds = [] } = this;
     const { tileBehavior: graphBehaviorOptimize, tileBehaviorSize = 1000 } =

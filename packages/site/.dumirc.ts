@@ -640,6 +640,6 @@ export default defineConfig({
     '@': __dirname,
   },
   links: [],
-  scripts: [],
+  scripts: ['https://webapi.amap.com/maps?v=2.0&key=ff533602d57df6f8ab3b0fea226ae52f'],
   jsMinifier: 'terser',
 });

@@ -1,7 +1,7 @@
 import { DisplayObject } from '@antv/g';
 import { ID } from '@antv/graphlib';
 import { IG6GraphEvent } from '../../types/event';
-import { utils } from '..';
+import lassoSelector from '../selector/lasso';
 import { Point } from '../../types/common';
 import { IGraph } from '../../types';
 import { BrushSelect } from './brush-select';
@@ -50,7 +50,7 @@ export class LassoSelect extends BrushSelect {
   };
 
   public getSelector() {
-    return utils.lassoSelector;
+    return lassoSelector;
   }
 
   public getPoints() {

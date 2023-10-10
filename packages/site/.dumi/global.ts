@@ -1,11 +1,15 @@
 if (window) {
   // window.g6 = require('@antv/g6/es'); // import the source for debugging
-  (window as any).g6 = require('@antv/g6/lib'); // import the source for debugging
+  // (window as any).g6 = require('@antv/g6/lib'); // import the source for debugging
+  (window as any).g6 = require('/Users/shiwu/code/G6-v5/G6/packages/g6/lib'); // import the source for debugging
+
   (window as any).layoutGPU = require('@antv/layout-gpu'); // import the source for debugging
   (window as any).Algorithm = require('@antv/algorithm');
   (window as any).layoutWASM = require('@antv/layout-wasm'); // import the source for debugging
   (window as any).GraphLib = require('@antv/graphlib');
-  (window as any).MapView = require('@antv/g6-plugin-map-view');
+
+  // (window as any).MapViewPlugin = require('@antv/g6-plugin-map-view');
+  (window as any).MapViewPlugin = require('/Users/shiwu/code/G6-v5/G6/packages/g6-plugin-map-view/lib');
   // (window as any).g6 = require('@antv/g6/dist/g6.min.js'); // import the package for webworker
   (window as any).insertCss = require('insert-css');
   (window as any).Chart = require('@antv/chart-node-g6');

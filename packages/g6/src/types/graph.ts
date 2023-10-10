@@ -50,7 +50,10 @@ export interface IGraph<
    * @param {ITEM_TYPE} type - The type of item (node, edge, or combo).
    * @param {NodeMapper | EdgeMapper | ComboMapper} mapper - The mapper to be updated.
    * */
-  updateMapper(type: ITEM_TYPE, mapper: NodeMapper | EdgeMapper | ComboMapper);
+  updateMapper: (
+    type: ITEM_TYPE,
+    mapper: NodeMapper | EdgeMapper | ComboMapper,
+  ) => void;
   /**
    * Get the copy of specs(configurations).
    * @returns graph specs

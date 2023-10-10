@@ -60,7 +60,7 @@ export interface ZoomCanvasOptions {
 const DEFAULT_OPTIONS: Required<ZoomCanvasOptions> = {
   enableOptimize: undefined,
   triggerOnItems: true,
-  sensitivity: 10,
+  sensitivity: 6,
   trigger: 'wheel',
   secondaryKey: '',
   speedUpKey: 'shift',
@@ -231,12 +231,22 @@ export class ZoomCanvas extends Behavior {
 
     // begin zooming
     if (!this.zooming) {
+      this.graph.canvas.getConfig().disableHitTesting = true;
       this.hideShapes();
       this.zooming = true;
     }
 
+    const { tileBehavior: graphBehaviorOptimize } =
+      graph.getSpecification().optimize || {};
+
+    const shouldDebounce =
+      typeof graphBehaviorOptimize === 'boolean'
+        ? graphBehaviorOptimize
+        : graph.getAllNodesData().length < graphBehaviorOptimize;
+
     const now = Date.now();
     if (
+      shouldDebounce &&
       this.lastWheelTriggerTime &&
       now - this.lastWheelTriggerTime < WHEEL_DURATION / 5
     ) {
@@ -250,25 +260,14 @@ export class ZoomCanvas extends Behavior {
     if (minZoom && zoomTo < minZoom) return;
     if (maxZoom && zoomTo > maxZoom) return;
 
-    const { tileBehavior: graphBehaviorOptimize } =
-      graph.getSpecification().optimize || {};
-
-    const shouldAnimate =
-      typeof graphBehaviorOptimize === 'boolean'
-        ? graphBehaviorOptimize
-        : graph.getAllNodesData().length < graphBehaviorOptimize;
-
-    graph.zoom(
-      zoomRatio,
-      { x: client.x, y: client.y },
-      shouldAnimate ? { duration: WHEEL_DURATION / 5 } : undefined,
-    );
+    graph.zoom(zoomRatio, { x: client.x, y: client.y });
 
     this.lastWheelTriggerTime = now;
 
     clearTimeout(this.zoomTimer);
     this.zoomTimer = setTimeout(() => {
       this.endZoom();
+      this.graph.canvas.getConfig().disableHitTesting = false;
     }, 300);
 
     // Emit event.

@@ -83,7 +83,7 @@ export class PluginController {
 
   private initPlugin(config) {
     const { graph } = this;
-    if (config instanceof PluginBase) {
+    if (typeof config.init === 'function' && config.options) {
       config.init(graph);
       const key = config.key || config.options?.key || `plugin-${uniqueId()}`;
       this.pluginMap.set(key, { type: key, plugin: config });

@@ -282,7 +282,6 @@ export default class Node extends Item {
         intersectPoint = innerPoint;
         break;
       default: {
-        // boundsCache can be removed here since `getBounds` has already done.
         intersectPoint = getRectIntersectByPoint(
           {
             x: keyShapeRenderBBox.min[0],

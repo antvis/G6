@@ -1044,7 +1044,7 @@ export class ItemController {
     );
     transientObjectMap.set(idStr, shape);
     shape.style.pointerEvents = capture ? 'auto' : 'none';
-    canvas.getRoot().appendChild(shape);
+    if (shape.parentNode === null) canvas.getRoot().appendChild(shape);
   }
   public getTransient(id: string) {
     return this.transientObjectMap.get(id);

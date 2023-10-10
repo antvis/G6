@@ -4,7 +4,7 @@ title: DagreLayoutOptions
 
 > 📋 中文文档还在翻译中... 欢迎 PR
 
-[Overview - v5.0.0-beta.14](../../README.zh.md) / [Modules](../../modules.zh.md) / [layout](../../modules/layout.zh.md) / DagreLayoutOptions
+[Overview - v5.0.0-beta.18](../../README.zh.md) / [Modules](../../modules.zh.md) / [layout](../../modules/layout.zh.md) / DagreLayoutOptions
 
 [layout](../../modules/layout.zh.md).DagreLayoutOptions
 

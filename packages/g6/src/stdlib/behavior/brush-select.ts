@@ -1,6 +1,6 @@
 import { DisplayObject } from '@antv/g';
 import { ID } from '@antv/graphlib';
-import { utils } from '../../stdlib';
+import rectSelector from '../selector/rect';
 import { Behavior } from '../../types/behavior';
 import { Point } from '../../types/common';
 import { IG6GraphEvent } from '../../types/event';
@@ -125,6 +125,7 @@ export class BrushSelect extends Behavior {
       pointerdown: this.onMouseDown,
       pointermove: this.onMouseMove,
       pointerup: this.onMouseUp,
+      'canvas:click': this.onCanvasClick,
     };
   };
 
@@ -140,6 +141,10 @@ export class BrushSelect extends Behavior {
     return keyMap[trigger];
   }
 
+  public onCanvasClick(event: IG6GraphEvent) {
+    this.clearStates();
+  }
+
   public onMouseDown(event: IG6GraphEvent) {
     if (!this.options.shouldBegin(event)) return;
     const { itemId, itemType, canvas } = event;
@@ -150,11 +155,6 @@ export class BrushSelect extends Behavior {
       x: canvas.x,
       y: canvas.y,
     };
-
-    if (!this.isKeydown(event as any)) {
-      this.clearStates();
-      return;
-    }
 
     const { brush } = this;
     if (!brush) {
@@ -180,13 +180,12 @@ export class BrushSelect extends Behavior {
 
   public onMouseUp(event: IG6GraphEvent) {
     if (!this.mousedown) return;
-    if (!this.isKeydown(event as any)) {
-      this.clearStates();
-    }
 
     this.removeBrush();
     this.brush = undefined;
-    this.selectedIds = this.selectItems(event);
+    if (this.isKeydown(event as any)) {
+      this.selectedIds = this.selectItems(event);
+    }
     this.dragging = false;
     this.mousedown = false;
   }
@@ -373,7 +372,7 @@ export class BrushSelect extends Behavior {
   }
 
   public getSelector() {
-    return utils.rectSelector;
+    return rectSelector;
   }
 
   public getPoints(event: IG6GraphEvent) {

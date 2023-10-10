@@ -2,7 +2,7 @@
 title: CircleStyleProps
 ---
 
-[Overview - v5.0.0-beta.14](../../README.en.md) / [Modules](../../modules.en.md) / [item](../../modules/item.en.md) / CircleStyleProps
+[Overview - v5.0.0-beta.18](../../README.en.md) / [Modules](../../modules.en.md) / [item](../../modules/item.en.md) / CircleStyleProps
 
 [item](../../modules/item.en.md).CircleStyleProps
 
