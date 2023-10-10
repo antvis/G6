@@ -1,5 +1,11 @@
 # ChangeLog
 
+### 4.8.23
+
+- feat: brush-select supports selecting inside a combo with a configuration;
+- feat: activate-relations supports dehighlight a node by second clicking;
+- fix: simple timeline with invalid highlight fill problem, closes: #5049;
+
 ### 4.8.22
 
 - fix: read and clone large data for tree graph;
