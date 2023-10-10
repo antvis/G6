@@ -44,6 +44,7 @@ export const ShapeTagMap = {
   text: Text,
   image: Image,
   path: Path,
+  group: Group,
 };
 
 const LINE_TYPES = ['line', 'polyline', 'path'];
