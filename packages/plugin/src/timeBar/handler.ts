@@ -40,6 +40,8 @@ const SIMPLE_DEFAULT_STYLE = {
   radius: 2,
   opacity: 1,
   cursor: 'ew-resize',
+  // 高亮的颜色
+  highLightFill: '#0050b3',
 };
 
 export default class Handler {
