@@ -1,7 +1,12 @@
 import { ID, TreeData } from '@antv/graphlib';
 import { isArray } from '@antv/util';
 import { depthFirstSearch, connectedComponent } from '@antv/algorithm';
-import { GraphCore, GraphData } from '../types/data';
+import {
+  DataChangeType,
+  GraphCore,
+  GraphData,
+  GraphDataChanges,
+} from '../types/data';
 import { IGraph } from '../types/graph';
 import { NodeModel, NodeUserModel } from '../types';
 import { NodeUserModelData } from '../types/node';
@@ -303,4 +308,22 @@ export const traverse = (treeData, callback) => {
       if (child) traverse(child, callback);
     });
   }
+};
+
+export const DEFAULT_ACTIVE_DATA_LIFECYCLE = ['read'];
+
+export const AVAILABLE_DATA_LIFECYCLE = [
+  'read',
+  'changeData',
+  'updateData',
+  'addData',
+  'removeData',
+];
+
+export const dataLifecycleMap: Record<string, string> = {
+  replace: 'read',
+  mergeReplace: 'changeData',
+  union: 'addData',
+  remove: 'removeData',
+  update: 'updateData',
 };

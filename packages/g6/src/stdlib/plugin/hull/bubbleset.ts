@@ -463,7 +463,7 @@ export const genBubbleSet = (
   // eslint-disable-next-line no-redeclare
   const options = Object.assign(defaultOps, ops);
   const centroid = getPointsCenter(
-    members.map((model) => ({ x: model.data.x, y: model.data.y } as Point)),
+    members.map((model) => ({ x: model.data.x, y: model.data.y }) as Point),
   );
   // 按照到中心距离远近排序
   members = members.sort(

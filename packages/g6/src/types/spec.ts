@@ -93,6 +93,7 @@ export interface Specification<
     | string[]
     | {
         type: string;
+        activeLifecycle: string | string[];
         [param: string]: unknown; // TODO: generate by plugins
       }[]
     | TransformerFn[];

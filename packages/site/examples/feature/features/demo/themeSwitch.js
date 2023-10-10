@@ -149,57 +149,75 @@ const lodStrategyLevels = [
   { zoomRange: [2.5, Infinity] }, // 4
 ];
 
-const dataFormat = (data, options = {}, graphCore) => {
-  const map = new Map();
-  const nodes = [];
-  data.nodes.forEach((node) => {
-    if (map.has(node.id)) return;
-    nodes.push(node);
-    map.set(node.id, true);
-  });
-  data.edges.forEach((edge) => {
-    const sourceDegree = map.get(edge.source) || 0;
-    map.set(edge.source, sourceDegree + 1);
-    const targetDegree = map.get(edge.target) || 0;
-    map.set(edge.target, targetDegree + 1);
-  });
+const dataFormat = (data = {}, options = {}, userGraphCore) => {
+  const { A: DataAdded, U: DataUpdated, D: DataRemoved } = data;
+  const handler = (data = {}, options = {}, userGraphCore) => {
+    const map = new Map();
+    const nodes = [];
+    data.nodes?.forEach((node) => {
+      if (map.has(node.id)) return;
+      nodes.push(node);
+      map.set(node.id, true);
+    });
+    data.edges?.forEach((edge) => {
+      const sourceDegree = map.get(edge.source) || 0;
+      map.set(edge.source, sourceDegree + 1);
+      const targetDegree = map.get(edge.target) || 0;
+      map.set(edge.target, targetDegree + 1);
+    });
+    return {
+      nodes: nodes.map((node) => {
+        const { id, x, y, z, olabel, data } = node;
+        return {
+          id,
+          data: {
+            x,
+            y,
+            z,
+            label: olabel,
+            ...data,
+            degree: map.get(id),
+          },
+        };
+      }),
+      edges: data.edges?.map((edge) => ({
+        id: `edge-${Math.random()}`,
+        source: edge.source,
+        target: edge.target,
+      })),
+    };
+  };
   return {
-    nodes: nodes.map((node) => {
-      const { id, x, y, z, olabel, data } = node;
-      return {
-        id,
-        data: {
-          x,
-          y,
-          z,
-          label: olabel,
-          ...data,
-          degree: map.get(id),
-        },
-      };
-    }),
-    edges: data.edges.map((edge) => ({
-      id: `edge-${Math.random()}`,
-      source: edge.source,
-      target: edge.target,
-    })),
+    A: handler(DataAdded, options, graphCore),
+    U: handler(DataUpdated, options, graphCore),
+    D: handler(DataRemoved, options, graphCore),
   };
 };
-const clusteringNodes = (data, options = {}, graphCore) => {
-  if (!Algorithm?.labelPropagation) return;
-  const clusteredData = Algorithm.labelPropagation(data, false);
-  clusteredData.clusters.forEach((cluster, i) => {
-    cluster.nodes.forEach((node) => {
-      node.data.cluster = `c${i}`;
+
+const clusteringNodes = (data = {}, options = {}, userGraphCore) => {
+  const { A: DataAdded, U: DataUpdated, D: DataRemoved } = data;
+  const handler = (data = {}, options = {}, userGraphCore) => {
+    if (!Algorithm?.labelPropagation) return;
+    const clusteredData = Algorithm.labelPropagation(data, false);
+    clusteredData.clusters.forEach((cluster, i) => {
+      cluster.nodes.forEach((node) => {
+        node.data.cluster = `c${i}`;
+      });
     });
-  });
-  return data;
+    return data;
+  }
+  return {
+    A: handler(DataAdded, options, graphCore),
+    U: handler(DataUpdated, options, graphCore),
+    D: handler(DataRemoved, options, graphCore),
+  };
 };
 
 const ExtGraph = extend(Graph, {
   transforms: {
     'data-format': dataFormat,
     'clustering-node': clusteringNodes,
+    'map-node-size': Extensions.MapNodeSize,
   },
   nodes: {
     'sphere-node': Extensions.SphereNode,

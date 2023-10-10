@@ -1,4 +1,4 @@
-import { GraphCore } from '../../types/data';
+import { GraphCore, GraphDataChanges } from '../../types/data';
 import {
   GraphData,
   ComboUserModel,
@@ -12,7 +12,24 @@ import {
  * @param graphCore the graph core stores the previous data.
  * @returns formatted data.
  */
+
 export const MapNodeSize = (
+  data: GraphDataChanges,
+  options: {
+    field?: string;
+    range?: [number, number];
+  } = {},
+  graphCore?: GraphCore,
+): GraphDataChanges => {
+  const { dataAdded, dataUpdated, dataRemoved } = data;
+  return {
+    dataAdded: handler(dataAdded, options, graphCore),
+    dataUpdated: handler(dataUpdated, options, graphCore),
+    dataRemoved: handler(dataRemoved, options, graphCore),
+  };
+};
+
+const handler = (
   data: GraphData,
   options: {
     field?: string;
@@ -23,6 +40,8 @@ export const MapNodeSize = (
   const { field, range = [8, 40] } = options;
   if (!field) return data;
   const { nodes } = data;
+
+  if (!nodes) return data;
 
   const nodeMap = new Map();
   // map the value to node size

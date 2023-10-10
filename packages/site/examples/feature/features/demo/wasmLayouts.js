@@ -5,6 +5,7 @@ import { Graph, Extensions, extend } from '@antv/g6';
 const { supportsThreads, initThreads, ForceLayout, FruchtermanLayout, ForceAtlas2Layout } = window.layoutWASM; // WASM layout is not built-in G6 stbLib, you need to exend G6 with it.
 
 const ExtGraph = extend(Graph, {
+  transforms: { 'transform-v4-data': Extensions.TransformV4Data },
   layouts: {
     'force-wasm': ForceLayout,
     'forceAtlas2-wasm': ForceAtlas2Layout,

@@ -1,15 +1,34 @@
 import { Layout, LayoutMapping } from '@antv/layout';
-import { Graph, extend, stdLib } from '../../../src/index';
+import {
+  Graph,
+  extend,
+  stdLib,
+  Extensions,
+  GraphCore,
+} from '../../../src/index';
 import { TestCaseContext } from '../interface';
+import { GraphDataChanges } from '../../../src/types/data';
 
-const edgeClusterTransform = (data, options = {}, userGraphCore) => {
-  const { nodes, edges } = data;
-  const nodeMap = new Map();
-  nodes.forEach((node) => nodeMap.set(node.id, node));
-  edges.forEach((edge) => {
-    edge.data.cluster = nodeMap.get(edge.source).data.cluster;
-  });
-  return data;
+const edgeClusterTransform = (
+  data: GraphDataChanges,
+  options = {},
+  graphCore?: GraphCore,
+): GraphDataChanges => {
+  const { dataAdded, dataRemoved, dataUpdated } = data;
+  const handler = (data, options = {}, userGraphCore) => {
+    const { nodes, edges } = data;
+    const nodeMap = new Map();
+    nodes?.forEach((node) => nodeMap.set(node.id, node));
+    edges?.forEach((edge) => {
+      edge.data.cluster = nodeMap.get(edge.source).data.cluster;
+    });
+    return data;
+  };
+  return {
+    dataAdded: handler(dataAdded, options, graphCore),
+    dataUpdated: handler(dataUpdated, options, graphCore),
+    dataRemoved: handler(dataRemoved, options, graphCore),
+  };
 };
 
 class LineLayout implements Layout<{}> {
@@ -1404,6 +1423,11 @@ export default (context: TestCaseContext, options?: {}) => {
   const CustomGraph = extend(Graph, {
     transforms: {
       'edge-cluster': edgeClusterTransform,
+      'transform-v4-data': Extensions.TransformV4Data,
+      'map-node-size': Extensions.MapNodeSize,
+    },
+    edges: {
+      'quadratic-edge': Extensions.QuadraticEdge,
     },
     layouts: {
       'line-layout': LineLayout,

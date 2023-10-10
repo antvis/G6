@@ -1,19 +1,33 @@
 import { uniqueId } from '@antv/util';
-import { GraphCore } from '../../types/data';
+import { GraphCore, GraphDataChanges } from '../../types/data';
 import {
   GraphData,
   ComboUserModel,
   EdgeUserModel,
   NodeUserModel,
 } from '../../types';
+import { deconstructData } from '../../util/data';
 
 /**
- * Validate and format the graph data.
+ * Validate and format the graph data which will be added.
  * @param data input user data.
  * @param graphCore the graph core stores the previous data.
  * @returns formatted data.
  */
 export const ValidateData = (
+  data: GraphDataChanges,
+  options = {},
+  graphCore?: GraphCore,
+): GraphDataChanges => {
+  const { dataAdded, dataRemoved, dataUpdated } = data;
+  return {
+    dataAdded: handler(dataAdded, options, graphCore),
+    dataRemoved: handler(dataRemoved, options, graphCore),
+    dataUpdated: handler(dataUpdated, options, graphCore),
+  };
+};
+
+const handler = (
   data: GraphData,
   options = {},
   graphCore?: GraphCore,

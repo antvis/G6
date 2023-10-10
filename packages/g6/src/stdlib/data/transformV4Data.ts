@@ -1,5 +1,5 @@
 import { isArray, isNumber, uniqueId } from '@antv/util';
-import { GraphCore } from '../../types/data';
+import { GraphCore, GraphDataChanges } from '../../types/data';
 import {
   GraphData,
   ComboUserModel,
@@ -14,6 +14,19 @@ import {
  * @returns formatted data.
  */
 export const TransformV4Data = (
+  data: GraphDataChanges,
+  options = {},
+  graphCore?: GraphCore,
+): GraphDataChanges => {
+  const { dataAdded, dataUpdated, dataRemoved } = data;
+  return {
+    dataAdded: handler(dataAdded, options, graphCore),
+    dataUpdated: handler(dataUpdated, options, graphCore),
+    dataRemoved: handler(dataRemoved, options, graphCore),
+  };
+};
+
+const handler = (
   data: GraphData,
   options = {},
   graphCore?: GraphCore,
