@@ -32,6 +32,8 @@ export interface MapViewConfig extends IPluginBaseConfig {
   initialMapCenter?: [number, number];
   /** The css style of the brush DOM. */
   brushCSS?: Partial<CSSStyleDeclaration>;
+  /** Gaode's token, we provide a default token but it is not stable, you should replace it in your system. */
+  token?: string;
 }
 
 export class MapView extends PluginBase {
@@ -52,7 +54,7 @@ export class MapView extends PluginBase {
 
   public getDefaultCfgs(): MapViewConfig {
     return {
-      key: `minimap-${uniqueId()}`,
+      key: `mapview-${uniqueId()}`,
       container: null,
       lngPropertyName: 'lng',
       latPropertyName: 'lat',
@@ -73,6 +75,7 @@ export class MapView extends PluginBase {
       brushCSS: {
         border: '1px dashed #227EFF',
       },
+      token: 'ff533602d57df6f8ab3b0fea226ae52f',
     };
   }
 
@@ -106,6 +109,7 @@ export class MapView extends PluginBase {
       theme,
       initialMapZoom,
       initialMapCenter,
+      token,
     } = options;
     let parentNode = options.container;
     const container: HTMLDivElement = createDom(
@@ -149,6 +153,7 @@ export class MapView extends PluginBase {
         style: useTheme,
         center: initialMapCenter,
         zoom: initialMapZoom,
+        token,
       }),
     });
     return new Promise((resolve) => {
@@ -360,69 +365,83 @@ export class MapView extends PluginBase {
     const edgesGroup = graphGroup.getElementById('edge-group') || graphGroup;
 
     const labels = [];
-    const points = graph.getAllNodesData().map((node) => {
-      const itemGroup = nodesGroup.find(
-        (ele) => ele.getAttribute('data-item-id') === node.id,
-      );
-      const keyShape = itemGroup.querySelector('#keyShape');
-      const {
-        fill: keyShapeFill,
-        opacity: keyShapeOpacity = 1,
-        r: keyShapeR = 16,
-        width: keyShapeWidth = 32,
-        height: keyShapeHeight = 32,
-      } = keyShape.attributes;
-      const point = {
-        id: node.id,
-        lng: node.data[lngPropertyName],
-        lat: node.data[latPropertyName],
-        shape: keyShape.nodeName,
-        keyShapeFill,
-        keyShapeOpacity,
-        keyShapeSize:
-          keyShape.nodeName === 'circle'
-            ? keyShapeR
-            : [keyShapeWidth, keyShapeHeight],
-      };
-      pointMap.set(node.id, point);
+    const points = graph
+      .getAllNodesData()
+      .map((node) => {
+        const itemGroup = nodesGroup.find(
+          (ele) => ele.getAttribute('data-item-id') === node.id,
+        );
+        const keyShape = itemGroup.querySelector('#keyShape');
+        const {
+          fill: keyShapeFill,
+          opacity: keyShapeOpacity = 1,
+          r: keyShapeR = 16,
+          width: keyShapeWidth = 32,
+          height: keyShapeHeight = 32,
+        } = keyShape.attributes;
+        if (
+          typeof node.data[lngPropertyName] !== 'number' ||
+          typeof node.data[latPropertyName] !== 'number'
+        )
+          return false;
+        const point = {
+          id: node.id,
+          lng: node.data[lngPropertyName],
+          lat: node.data[latPropertyName],
+          shape: keyShape.nodeName,
+          keyShapeFill,
+          keyShapeOpacity,
+          keyShapeSize:
+            keyShape.nodeName === 'circle'
+              ? keyShapeR
+              : [keyShapeWidth, keyShapeHeight],
+        };
+        pointMap.set(node.id, point);
 
-      const labelShape = itemGroup.querySelector('#labelShape');
-      if (labelShape) {
-        const { text } = labelShape.attributes;
-        text &&
-          labels.push({
-            id: node.id,
-            label: text,
-            lng: point.lng,
-            lat: point.lat,
-          });
-      }
+        const labelShape = itemGroup.querySelector('#labelShape');
+        if (labelShape) {
+          const { text } = labelShape.attributes;
+          text &&
+            labels.push({
+              id: node.id,
+              label: text,
+              lng: point.lng,
+              lat: point.lat,
+            });
+        }
 
-      return point;
-    });
-    const lines = graph.getAllEdgesData().map((edge) => {
-      const { lng: sourceLng, lat: sourceLat } = pointMap.get(edge.source);
-      const { lng: targetLng, lat: targetLat } = pointMap.get(edge.target);
-      const itemGroup = edgesGroup.find(
-        (ele) => ele.getAttribute('data-item-id') === edge.id,
-      );
-      const keyShape = itemGroup.querySelector('#keyShape');
-      const {
-        lineWidth: keyShapeSize = 1,
-        stroke: keyShapeStroke,
-        opacity: keyShapeOpacity = 1,
-      } = keyShape.attributes;
-      return {
-        id: edge.id,
-        sourceLng,
-        sourceLat,
-        targetLng,
-        targetLat,
-        keyShapeSize,
-        keyShapeStroke,
-        keyShapeOpacity,
-      };
-    });
+        return point;
+      })
+      .filter(Boolean);
+    const lines = graph
+      .getAllEdgesData()
+      .map((edge) => {
+        const sourcePoint = pointMap.get(edge.source);
+        const targetPoint = pointMap.get(edge.target);
+        if (!sourcePoint || !targetPoint) return false;
+        const { lng: sourceLng, lat: sourceLat } = pointMap.get(edge.source);
+        const { lng: targetLng, lat: targetLat } = pointMap.get(edge.target);
+        const itemGroup = edgesGroup.find(
+          (ele) => ele.getAttribute('data-item-id') === edge.id,
+        );
+        const keyShape = itemGroup.querySelector('#keyShape');
+        const {
+          lineWidth: keyShapeSize = 1,
+          stroke: keyShapeStroke,
+          opacity: keyShapeOpacity = 1,
+        } = keyShape.attributes;
+        return {
+          id: edge.id,
+          sourceLng,
+          sourceLat,
+          targetLng,
+          targetLat,
+          keyShapeSize,
+          keyShapeStroke,
+          keyShapeOpacity,
+        };
+      })
+      .filter(Boolean);
     this.lineLayer.setData(lines);
     this.pointLayer.setData(points);
     this.labelLayer.setData(labels);
@@ -430,17 +449,21 @@ export class MapView extends PluginBase {
 
   private updateMapState(e) {
     const { ids, value, states } = e;
-    const nodes = this.pointLayer
-      .getSource()
-      .data.dataArray.filter((nodeMapModel) => ids.includes(nodeMapModel.id));
-    const edges = this.lineLayer
-      .getSource()
-      .data.dataArray.filter((edgeMapModel) => ids.includes(edgeMapModel.id));
-    if (nodes.length) {
-      this.setMapItemState('node', nodes, states, value);
+    if (this.pointLayer) {
+      const nodes = this.pointLayer
+        .getSource()
+        .data.dataArray.filter((nodeMapModel) => ids.includes(nodeMapModel.id));
+      if (nodes.length) {
+        this.setMapItemState('node', nodes, states, value);
+      }
     }
-    if (edges.length) {
-      this.setMapItemState('edge', edges, states, value);
+    if (this.lineLayer) {
+      const edges = this.lineLayer
+        .getSource()
+        .data.dataArray.filter((edgeMapModel) => ids.includes(edgeMapModel.id));
+      if (edges.length) {
+        this.setMapItemState('edge', edges, states, value);
+      }
     }
   }
 

@@ -125,6 +125,7 @@ export default abstract class Item implements IItem {
     const {
       type = this.type === 'edge' ? 'line-edge' : `circle-${this.type}`,
       lodStrategy: modelLodStrategy,
+      enableBalanceShape,
     } = this.displayModel.data;
     const RenderExtension = renderExtensions.find((ext) => ext.type === type);
     this.themeStyles = theme.styles;
@@ -149,6 +150,7 @@ export default abstract class Item implements IItem {
     this.renderExt = new RenderExtension({
       themeStyles: this.themeStyles?.default,
       lodStrategy,
+      enableBalanceShape,
       device: this.device,
       zoom: this.zoom,
     });
@@ -306,11 +308,13 @@ export default abstract class Item implements IItem {
 
     // === mapper is function, displayModel is mapper(model), cannot diff the displayModel, so all the shapes need to be updated ===
     if (isFunction(mapper)) {
+      const mappedModel = {
+        ...defaultMapper(innerModel),
+        ...(mapper as Function)(innerModel),
+      };
       return {
-        model: {
-          ...defaultMapper(innerModel),
-          ...(mapper as Function)(innerModel),
-        },
+        model: mappedModel,
+        typeChange: this.displayModel?.data?.type !== mappedModel.data.type,
       };
     }
 

@@ -21,12 +21,7 @@ import {
   State,
   LodStrategyObj,
 } from '../../../types/item';
-import {
-  LOCAL_BOUNDS_DIRTY_FLAG_KEY,
-  formatPadding,
-  mergeStyles,
-  upsertShape,
-} from '../../../util/shape';
+import { formatPadding, mergeStyles, upsertShape } from '../../../util/shape';
 import { DEFAULT_ANIMATE_CFG, fadeIn, fadeOut } from '../../../util/animate';
 import { getWordWrapWidthByEnds } from '../../../util/text';
 import { AnimateCfg } from '../../../types/animate';
@@ -49,9 +44,7 @@ export abstract class BaseEdge {
     transform: string;
     isRevert: boolean;
   };
-  boundsCache: {
-    labelShapeGeometry?: AABB;
-    labelBackgroundShapeGeometry?: AABB;
+  transformCache: {
     labelShapeTransform?: string;
     labelBackgroundShapeTransform?: string;
   };
@@ -89,7 +82,7 @@ export abstract class BaseEdge {
     const { themeStyles, lodStrategy, zoom } = props;
     if (themeStyles) this.themeStyles = themeStyles;
     this.lodStrategy = lodStrategy;
-    this.boundsCache = {};
+    this.transformCache = {};
     this.zoomCache.zoom = zoom;
     this.zoomCache.balanceRatio = 1 / zoom;
     this.zoomCache.animateConfig = {
@@ -147,10 +140,8 @@ export abstract class BaseEdge {
   public updateCache(shapeMap) {
     ['labelShape', 'labelBackgroundShape'].forEach((id) => {
       const shape = shapeMap[id];
-      if (shape?.getAttribute(LOCAL_BOUNDS_DIRTY_FLAG_KEY)) {
-        this.boundsCache[`${id}Geometry`] = shape.getGeometryBounds();
-        this.boundsCache[`${id}Transform`] = shape.style.transform;
-        shape.setAttribute(LOCAL_BOUNDS_DIRTY_FLAG_KEY, false);
+      if (shape) {
+        this.transformCache[`${id}Transform`] = shape.style.transform;
       }
     });
 
@@ -262,7 +253,7 @@ export abstract class BaseEdge {
       offsetY: 0,
       pointRatio: [0.5, 0.501],
     };
-    if (isNumber(position)) {
+    if (typeof position === 'number') {
       positionPreset.pointRatio = [position, position + 0.01];
     }
     switch (position) {
@@ -341,7 +332,7 @@ export abstract class BaseEdge {
       ...positionStyle,
       ...otherStyle,
     };
-    this.boundsCache.labelShapeTransform = style.transform;
+    this.transformCache.labelShapeTransform = style.transform;
     return this.upsertShape('text', 'labelShape', style, shapeMap, model);
   }
 
@@ -365,8 +356,7 @@ export abstract class BaseEdge {
     const { labelBackgroundShape, labelShape: labelShapeStyle } =
       this.mergedStyles;
 
-    const textBBox =
-      this.boundsCache.labelShapeGeometry || labelShape.getGeometryBounds();
+    const textBBox = labelShape.getGeometryBounds();
     const { x, y, transform, isRevert } = this.labelPosition;
     const { padding, ...backgroundStyle } = labelBackgroundShape;
     const { balanceRatio = 1 } = this.zoomCache;
@@ -451,15 +441,9 @@ export abstract class BaseEdge {
       shapeStyle.height = h;
     }
 
-    if (labelShape) {
-      const referShape = labelBackgroundShape || labelShape;
-    }
     if (labelShapeProps) {
       const referShape = labelBackgroundShape || labelShape;
-      const referBounds =
-        this.boundsCache.labelBackgroundShapeGeometry ||
-        this.boundsCache.labelShapeGeometry ||
-        referShape.getGeometryBounds();
+      const referBounds = referShape.getGeometryBounds();
       const {
         min: referMin,
         max: referMax,
@@ -632,7 +616,7 @@ export abstract class BaseEdge {
     if (position === 'bottom') labelShape.style.transformOrigin = '0';
     else labelShape.style.transformOrigin = '';
 
-    const oriTransform = this.boundsCache.labelShapeTransform;
+    const oriTransform = this.transformCache.labelShapeTransform;
     labelShape.style.transform = `${oriTransform} scale(${balanceRatio}, ${balanceRatio})`;
 
     const wordWrapWidth = this.zoomCache.wordWrapWidth * zoom;
@@ -640,7 +624,7 @@ export abstract class BaseEdge {
 
     if (!labelBackgroundShape) return;
 
-    const oriBgTransform = this.boundsCache.labelBackgroundShapeTransform;
+    const oriBgTransform = this.transformCache.labelBackgroundShapeTransform;
     labelBackgroundShape.style.transform = `${oriBgTransform} scale(${balanceRatio}, ${balanceRatio})`;
   }
 

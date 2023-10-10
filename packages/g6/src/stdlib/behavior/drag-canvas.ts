@@ -4,6 +4,7 @@ import { Point } from '../../types/common';
 import { ID, IG6GraphEvent } from '../../types';
 
 const VALID_TRIGGERS = ['drag', 'directionKeys'];
+const DRAG_DURATION = 250;
 export interface DragCanvasOptions {
   /**
    * Whether enable optimize strategies, which will hide all the shapes excluding node keyShape while dragging.
@@ -75,6 +76,7 @@ export class DragCanvas extends Behavior {
   private hiddenEdgeIds: ID[];
   private hiddenNodeIds: ID[];
   private tileRequestId?: number;
+  private lastDragTriggerTime?: number;
 
   constructor(options: Partial<DragCanvasOptions>) {
     const finalOptions = Object.assign({}, DEFAULT_OPTIONS, options);
@@ -236,6 +238,31 @@ export class DragCanvas extends Behavior {
     const { eventName, direction, secondaryKeyToDisable } = this.options;
     // disabled key is pressing
     if (secondaryKeyToDisable && this.disableKeydown) return;
+
+    // begin dragging
+    if (!this.dragging) {
+      this.hideShapes();
+      this.dragging = true;
+      this.graph.canvas.getConfig().disableHitTesting = true;
+    }
+
+    const { tileBehavior: graphBehaviorOptimize } =
+      this.graph.getSpecification().optimize || {};
+
+    const shouldDebounce =
+      typeof graphBehaviorOptimize === 'boolean'
+        ? graphBehaviorOptimize
+        : this.graph.getAllNodesData().length < graphBehaviorOptimize;
+
+    const now = Date.now();
+    if (
+      shouldDebounce &&
+      this.lastDragTriggerTime &&
+      now - this.lastDragTriggerTime < DRAG_DURATION / 5
+    ) {
+      return;
+    }
+
     const { graph } = this;
     const { client } = event;
     const diffX = client.x - this.pointerDownAt.x;
@@ -243,12 +270,6 @@ export class DragCanvas extends Behavior {
     if (direction === 'x' && !diffX) return;
     if (direction === 'y' && !diffY) return;
     if (direction === 'both' && !diffX && !diffY) return;
-
-    // begin dragging
-    if (!this.dragging) {
-      this.hideShapes();
-      this.dragging = true;
-    }
 
     const { dx, dy } = this.formatDisplacement(diffX, diffY);
     graph.translate({ dx, dy });
@@ -259,11 +280,13 @@ export class DragCanvas extends Behavior {
     if (eventName) {
       this.graph.emit(eventName, { translate: { dx, dy } });
     }
+    this.lastDragTriggerTime = now;
   }
 
   public onPointerUp() {
     this.pointerDownAt = undefined;
     this.dragging = false;
+    this.graph.canvas.getConfig().disableHitTesting = false;
 
     const { graph, hiddenNodeIds, hiddenEdgeIds = [] } = this;
     const { tileBehavior: graphBehaviorOptimize, tileBehaviorSize = 1000 } =

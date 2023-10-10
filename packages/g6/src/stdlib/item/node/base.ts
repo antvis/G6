@@ -23,7 +23,6 @@ import {
   ComboShapeMap,
 } from '../../../types/combo';
 import {
-  LOCAL_BOUNDS_DIRTY_FLAG_KEY,
   formatPadding,
   getShapeLocalBoundsByStyle,
   mergeStyles,
@@ -41,10 +40,7 @@ export abstract class BaseNode {
   themeStyles: NodeShapeStyles | ComboShapeStyles;
   mergedStyles: NodeShapeStyles | ComboShapeStyles;
   lodStrategy?: LodStrategyObj;
-  boundsCache: {
-    keyShapeLocal?: AABB;
-    labelShapeGeometry?: AABB;
-  };
+  enableBalanceShape?: boolean;
   //vertex coordinate
 
   /**
@@ -84,10 +80,10 @@ export abstract class BaseNode {
   };
 
   constructor(props) {
-    const { themeStyles, lodStrategy, zoom } = props;
+    const { themeStyles, lodStrategy, enableBalanceShape, zoom } = props;
     if (themeStyles) this.themeStyles = themeStyles;
     this.lodStrategy = lodStrategy;
-    this.boundsCache = {};
+    this.enableBalanceShape = enableBalanceShape;
     this.zoomCache.zoom = zoom;
     this.zoomCache.balanceRatio = 1 / zoom;
     this.zoomCache.animateConfig = {
@@ -161,21 +157,6 @@ export abstract class BaseNode {
    * @param shapeMap The shape map that contains all of the elements to show on the node.
    */
   public updateCache(shapeMap) {
-    ['keyShape', 'labelShape']
-      .concat(Object.keys(BadgePosition))
-      .map((pos) => `${pos}BadgeShape`)
-      .forEach((id) => {
-        const shape = shapeMap[id];
-        if (shape?.getAttribute(LOCAL_BOUNDS_DIRTY_FLAG_KEY)) {
-          if (id === 'labelShape') {
-            this.boundsCache[`${id}Geometry`] = shape.getGeometryBounds();
-          } else {
-            this.boundsCache[`${id}Local`] = shape.getLocalBounds();
-          }
-          shape.setAttribute(LOCAL_BOUNDS_DIRTY_FLAG_KEY, false);
-        }
-      });
-
     const levelShapes = {};
     Object.keys(shapeMap).forEach((shapeId) => {
       const { lod } = shapeMap[shapeId].attributes;
@@ -306,6 +287,7 @@ export abstract class BaseNode {
       keyShapeBox as AABB,
       maxWidth,
       this.zoomCache.zoom,
+      this.enableBalanceShape,
     );
 
     const positionPreset = {
@@ -391,15 +373,8 @@ export abstract class BaseNode {
   ): DisplayObject {
     const { labelShape } = shapeMap;
     if (!labelShape || !labelShape.style.text || !model.data.labelShape) return;
-    if (
-      !this.boundsCache.labelShapeGeometry ||
-      labelShape.getAttribute(LOCAL_BOUNDS_DIRTY_FLAG_KEY)
-    ) {
-      this.boundsCache.labelShapeGeometry = labelShape.getGeometryBounds();
-      labelShape.setAttribute(LOCAL_BOUNDS_DIRTY_FLAG_KEY, false);
-    }
     // label's local bounds, will take scale into acount
-    const { labelShapeGeometry: textBBoxGeo } = this.boundsCache;
+    const textBBoxGeo = labelShape.getGeometryBounds();
     const height = textBBoxGeo.max[1] - textBBoxGeo.min[1];
     const width = Math.min(
       textBBoxGeo.max[0] - textBBoxGeo.min[0] + 2,
@@ -546,13 +521,15 @@ export abstract class BaseNode {
       (style) => style.tag === 'anchorShape',
     );
     if (!individualConfigs.length) return;
-    this.boundsCache.keyShapeLocal =
-      this.boundsCache.keyShapeLocal || shapeMap.keyShape.getLocalBounds();
     const shapes = {};
     const anchorPositionMap = this.calculateAnchorPosition(keyShapeStyle);
     individualConfigs.forEach((config, i) => {
       const { position, fill = keyShapeStyle.fill, ...style } = config;
-      const [cx, cy] = this.getAnchorPosition(position, anchorPositionMap);
+      const [cx, cy] = this.getAnchorPosition(
+        position,
+        anchorPositionMap,
+        shapeMap,
+      );
       const id = `anchorShape${i}`;
       shapes[id] = this.upsertShape(
         'circle',
@@ -574,8 +551,9 @@ export abstract class BaseNode {
   private getAnchorPosition(
     position: string | [number, number],
     anchorPositionMap: IAnchorPositionMap,
+    shapeMap: NodeShapeMap | ComboShapeMap,
   ): [number, number] {
-    const keyShapeBBox = this.boundsCache.keyShapeLocal!;
+    const keyShapeBBox = shapeMap.keyShape.getLocalBounds();
     const keyShapeWidth = keyShapeBBox.max[0] - keyShapeBBox.min[0];
     const keyShapeHeight = keyShapeBBox.max[1] - keyShapeBBox.min[1];
     const defaultPosition: [number, number] = [
@@ -747,8 +725,7 @@ export abstract class BaseNode {
         shapeMap,
         model,
       );
-      this.boundsCache[`${id}Local`] = shapes[id].getLocalBounds();
-      const bbox = this.boundsCache[`${id}Local`];
+      const bbox = shapes[id].getLocalBounds();
 
       const bgShapeId = `${position}BadgeBackgroundShape`;
       const bgWidth =
@@ -873,6 +850,7 @@ export abstract class BaseNode {
     shapeMap: NodeShapeMap | ComboShapeMap,
     zoom: number,
   ) {
+    if (!this.enableBalanceShape) return;
     // balance the size for label, badges
     const { keyShape, labelShape, labelBackgroundShape } = shapeMap;
     const balanceRatio = 1 / zoom || 1;
@@ -962,7 +940,7 @@ export abstract class BaseNode {
         } ${paddingTop + (height - paddingTop - paddingBottom) / 2}`;
     }
 
-    const { labelShapeGeometry: labelBBox } = this.boundsCache;
+    const labelBBox = labelShape.getGeometryBounds();
     const labelWidth = labelBBox.max[0] - labelBBox.min[0];
     const xAxistRatio = (labelWidth * balanceRatio + sidePadding) / width;
 

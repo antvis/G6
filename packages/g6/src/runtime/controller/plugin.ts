@@ -83,7 +83,7 @@ export class PluginController {
 
   private initPlugin(config) {
     const { graph } = this;
-    if (config instanceof PluginBase) {
+    if (typeof config.init === 'function' && config.options) {
       config.init(graph);
       const key = config.key || config.options?.key || `plugin-${uniqueId()}`;
       this.pluginMap.set(key, { type: key, plugin: config });
@@ -116,7 +116,7 @@ export class PluginController {
     if (action === 'add') {
       pluginCfgs.forEach((config) => {
         const { key, plugin } = this.initPlugin(config);
-        this.addListeners(key, plugin);
+        this.addListeners(key, plugin, false);
       });
       return;
     }
@@ -158,7 +158,7 @@ export class PluginController {
         const { plugin } = item;
         plugin.updateCfgs(config);
         this.removeListeners(key);
-        this.addListeners(key, plugin);
+        this.addListeners(key, plugin, false);
       });
       return;
     }
@@ -184,7 +184,11 @@ export class PluginController {
     return plugin;
   }
 
-  private addListeners = (key: string, plugin: PluginBase) => {
+  private addListeners = (
+    key: string,
+    plugin: PluginBase,
+    initWithGraph: boolean = true,
+  ) => {
     const events = plugin.getEvents();
     this.listenersMap[key] = {};
     Object.keys(events).forEach((eventName) => {
@@ -196,6 +200,13 @@ export class PluginController {
       );
       this.graph.on(eventName, listener);
       this.listenersMap[key][eventName] = listener;
+      // The plugin is not initiated with graph, some events are not listened, trigger them manually
+      if (
+        !initWithGraph &&
+        ['afterrender', 'afterlayout'].includes(eventName)
+      ) {
+        listener({} as IG6GraphEvent);
+      }
     });
   };
 

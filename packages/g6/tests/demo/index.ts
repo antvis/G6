@@ -28,6 +28,7 @@ import donut_node from './item/node/donut-node';
 import edgeFilterLens from './plugins/edgeFilterLens';
 import ellipse from './demo/ellipse';
 import fisheye from './plugins/fisheye';
+import fps_test from './performance/fps';
 import graphCore from './data/graphCore';
 import hexagon from './demo/hexagon';
 import history from './plugins/history';
@@ -77,6 +78,7 @@ export { default as timebar_time } from './plugins/timebar-time';
 export { default as timebar_chart } from './plugins/timebar-chart';
 
 export {
+  // map,
   anchor,
   animations_node_build_in,
   arrow,
@@ -106,6 +108,7 @@ export {
   edgeFilterLens,
   ellipse,
   fisheye,
+  fps_test,
   graphCore,
   hexagon,
   history_combo,
@@ -129,7 +132,7 @@ export {
   legend,
   line_edge,
   loop_edge,
-  // map,
+  map,
   mapper,
   menu,
   minimap,

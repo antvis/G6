@@ -80,6 +80,7 @@ export const calculatePointForOtherShapes = (
       [center[0] - pointPadding, center[1] - halfOfHeight],
       [center[0] + pointPadding, center[1] - halfOfHeight],
     ],
+    // @ts-ignore
     [LOOP_POSITION['top-right']]: [
       [center[0] + halfOfWidth - pointPadding, center[1] - halfOfHeight],
       [center[0] + halfOfWidth, center[1] - halfOfHeight + pointPadding],
@@ -88,6 +89,7 @@ export const calculatePointForOtherShapes = (
       [center[0] + halfOfWidth, center[1] - pointPadding],
       [center[0] + halfOfWidth, center[1] + pointPadding],
     ],
+    // @ts-ignore
     [LOOP_POSITION['bottom-right']]: [
       [center[0] + halfOfWidth, center[1] + halfOfHeight - pointPadding],
       [center[0] + halfOfWidth - pointPadding, center[1] + halfOfHeight],
@@ -96,6 +98,7 @@ export const calculatePointForOtherShapes = (
       [center[0] + pointPadding, center[1] + halfOfHeight],
       [center[0] - pointPadding, center[1] + halfOfHeight],
     ],
+    // @ts-ignore
     [LOOP_POSITION['bottom-left']]: [
       [center[0] - halfOfWidth + pointPadding, center[1] + halfOfHeight],
       [center[0] - halfOfWidth, center[1] + halfOfHeight - pointPadding],
@@ -104,6 +107,7 @@ export const calculatePointForOtherShapes = (
       [center[0] - halfOfWidth, center[1] + pointPadding],
       [center[0] - halfOfWidth, center[1] - pointPadding],
     ],
+    // @ts-ignore
     [LOOP_POSITION['top-left']]: [
       [center[0] - halfOfWidth, center[1] - halfOfHeight + pointPadding],
       [center[0] - halfOfWidth + pointPadding, center[1] - halfOfHeight],

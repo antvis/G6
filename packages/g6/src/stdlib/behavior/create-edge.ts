@@ -54,7 +54,7 @@ const DEFAULT_OPTIONS: CreateEdgeOptions = {
   trigger: 'click',
   secondaryKey: undefined,
   shouldBegin: () => true,
-  shouldEnd: () => false,
+  shouldEnd: () => true,
   edgeConfig: {},
 };
 
@@ -132,10 +132,6 @@ export class CreateEdge extends Behavior {
       return;
     }
 
-    if (this.options.shouldEnd(e)) {
-      return;
-    }
-
     const { graph, options, addingEdge } = this;
     const currentNodeId = e.itemId;
 
@@ -143,6 +139,10 @@ export class CreateEdge extends Behavior {
       options;
 
     if (addingEdge) {
+      if (!this.options.shouldEnd(e)) {
+        this.cancelCreating();
+        return;
+      }
       // create edge end, add the actual edge to graph and remove the virtual edge and node
       const actualEdge = graph.addData('edge', {
         id: generateEdgeID(addingEdge.source, currentNodeId),
@@ -159,6 +159,10 @@ export class CreateEdge extends Behavior {
       }
       this.cancelCreating();
 
+      return;
+    }
+
+    if (!this.options.shouldBegin(e)) {
       return;
     }
 
@@ -215,6 +219,11 @@ export class CreateEdge extends Behavior {
     );
 
     if (!dropId) {
+      this.cancelCreating();
+      return;
+    }
+
+    if (!this.options.shouldEnd(e)) {
       this.cancelCreating();
       return;
     }

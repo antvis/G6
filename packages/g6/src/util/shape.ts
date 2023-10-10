@@ -48,8 +48,6 @@ export const ShapeTagMap = {
 
 const LINE_TYPES = ['line', 'polyline', 'path'];
 
-export const LOCAL_BOUNDS_DIRTY_FLAG_KEY = 'data-item-local-bounds-dirty';
-
 export const createShape = (
   type: SHAPE_TYPE,
   style: GShapeStyle,
@@ -132,12 +130,10 @@ export const upsertShape = (
         shape.style[key] = initShapeStyles[key];
       });
     }
-    shape.setAttribute(LOCAL_BOUNDS_DIRTY_FLAG_KEY, true);
   } else if (shape.nodeName !== type) {
     // remove and create for the shape changed type
     shape.remove();
     shape = createShape(type, style, id);
-    shape.setAttribute(LOCAL_BOUNDS_DIRTY_FLAG_KEY, true);
   } else {
     const updateStyles = {};
     const oldStyles = shape.attributes;
@@ -161,9 +157,6 @@ export const upsertShape = (
           }
         }
       });
-    }
-    if (isStyleAffectBBox(type, updateStyles)) {
-      shape.setAttribute(LOCAL_BOUNDS_DIRTY_FLAG_KEY, true);
     }
     if (style.interactive === false) shape.interactive = false;
     else shape.interactive = true;

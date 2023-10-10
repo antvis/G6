@@ -11,11 +11,7 @@ import {
 import { EdgeShapeMap } from '../types/edge';
 import { NodeShapeMap } from '../types/node';
 import { GShapeStyle, SHAPE_TYPE, SHAPE_TYPE_3D } from '../types/item';
-import {
-  LOCAL_BOUNDS_DIRTY_FLAG_KEY,
-  createShape,
-  isStyleAffectBBox,
-} from './shape';
+import { createShape } from './shape';
 
 const GeometryTagMap = {
   sphere: SphereGeometry,
@@ -132,12 +128,10 @@ export const upsertShape3D = (
   if (!shape) {
     // @ts-ignore
     shape = createShape3D(type, style, id, device);
-    shape.setAttribute(LOCAL_BOUNDS_DIRTY_FLAG_KEY, true);
   } else if (shape.nodeName !== type) {
     shape.remove();
     // @ts-ignore
     shape = createShape3D(type, style, id, device);
-    shape.setAttribute(LOCAL_BOUNDS_DIRTY_FLAG_KEY, true);
   } else {
     const updateStyles = {};
     const oldStyles = shape.attributes;
@@ -147,9 +141,6 @@ export const upsertShape3D = (
         shape.style[key] = style[key];
       }
     });
-    if (isStyleAffectBBox(type, updateStyles)) {
-      shape.setAttribute(LOCAL_BOUNDS_DIRTY_FLAG_KEY, true);
-    }
   }
   shapeMap[id] = shape;
   return shape;

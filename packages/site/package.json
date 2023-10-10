@@ -38,7 +38,7 @@
     "@antv/g6-plugin-map-view": "^0.0.1",
     "@antv/chart-node-g6": "^0.0.3",
     "@antv/dumi-theme-antv": "0.3.19-beta.1",
-    "@antv/g6": "workspace:*",
+    "@antv/g6": "5.0.0-beta.20",
     "@antv/g6-react-node": "^1.4.5",
     "@antv/graphlib": "^2.0.2",
     "@antv/layout-gpu": "^1.1.5",
@@ -53,7 +53,7 @@
     "stats.js": "^0.17.0",
     "typedoc": "^0.24.8",
     "typedoc-plugin-markdown": "^3.14.0",
-    "typescript": "^4.6.3"
+    "typescript": "^4.8.4"
   },
   "devDependencies": {
     "cross-env": "^7.0.3",
