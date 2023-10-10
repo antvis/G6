@@ -13,8 +13,8 @@ const edgeClusterTransform = (
   data: GraphDataChanges,
   options = {},
   graphCore?: GraphCore,
-) => {
-  const { A: DataAdded, U: DataUpdated, D: DataRemoved } = data;
+): GraphDataChanges => {
+  const { dataAdded, dataRemoved, dataUpdated } = data;
   const handler = (data, options = {}, userGraphCore) => {
     const { nodes, edges } = data;
     const nodeMap = new Map();
@@ -25,9 +25,9 @@ const edgeClusterTransform = (
     return data;
   };
   return {
-    A: handler(DataAdded, options, graphCore),
-    U: handler(DataUpdated, options, graphCore),
-    D: handler(DataRemoved, options, graphCore),
+    dataAdded: handler(dataAdded, options, graphCore),
+    dataUpdated: handler(dataUpdated, options, graphCore),
+    dataRemoved: handler(dataRemoved, options, graphCore),
   };
 };
 

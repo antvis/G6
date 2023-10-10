@@ -292,14 +292,13 @@ export class DataController {
     this.dataType = dataType;
 
     const preprocessedData = this.preprocessData(data, changeType);
-    const {
-      D: DataRemoved,
-      A: DataAdded,
-      U: DataUpdated,
-    } = this.transformData(preprocessedData, changeType);
+    const { dataAdded, dataRemoved, dataUpdated } = this.transformData(
+      preprocessedData,
+      changeType,
+    );
 
     if (changeType === 'replace') {
-      const { nodes, edges, combos } = DataAdded;
+      const { nodes, edges, combos } = dataAdded;
       this.graphCore = new GraphLib<NodeModelData, EdgeModelData>(
         clone({
           nodes: nodes.concat(
@@ -341,9 +340,9 @@ export class DataController {
         });
       }
     } else {
-      this.doRemove(DataRemoved);
-      this.doAdd(DataAdded);
-      this.doUpdate(DataUpdated);
+      this.doRemove(dataRemoved);
+      this.doAdd(dataAdded);
+      this.doUpdate(dataUpdated);
     }
 
     if (
@@ -680,15 +679,27 @@ export class DataController {
       diffGraphData(prevData, dataCloned);
 
     const dataChangeMap: Record<string, GraphDataChanges> = {
-      replace: { A: dataCloned, D: {}, U: {} },
+      replace: { dataAdded: dataCloned, dataUpdated: {}, dataRemoved: {} },
       mergeReplace: {
-        A: newMinusPrev,
-        D: prevMinusNew,
-        U: intersectionOfPrevAndNew,
+        dataAdded: newMinusPrev,
+        dataUpdated: intersectionOfPrevAndNew,
+        dataRemoved: prevMinusNew,
       },
-      union: { A: newMinusPrev, D: {}, U: intersectionOfPrevAndNew },
-      remove: { A: {}, D: intersectionOfPrevAndNew, U: {} },
-      update: { A: {}, D: {}, U: intersectionOfPrevAndNew },
+      union: {
+        dataAdded: newMinusPrev,
+        dataUpdated: intersectionOfPrevAndNew,
+        dataRemoved: {},
+      },
+      remove: {
+        dataAdded: {},
+        dataUpdated: {},
+        dataRemoved: intersectionOfPrevAndNew,
+      },
+      update: {
+        dataAdded: {},
+        dataUpdated: intersectionOfPrevAndNew,
+        dataRemoved: {},
+      },
     };
 
     return dataChangeMap[type];

@@ -32,20 +32,20 @@ export const ProcessParallelEdges = (
   // Identify the edges to be processed and their associated edges
   const { edgeIds = [] } = options;
   const {
-    A: { edges: EdgesAdded = [] } = {},
-    U: { edges: EdgesUpdated = [] } = {},
-    D: { edges: EdgesRemoved = [] } = {},
+    dataAdded: { edges: edgesAdded = [] } = {},
+    dataUpdated: { edges: edgesUpdated = [] } = {},
+    dataRemoved: { edges: edgesRemoved = [] } = {},
   } = data;
 
   const prevEdges = graphCore ? graphCore.getAllEdges() : [];
-  const edgeIdsToAdd = new Set(EdgesAdded?.map((edge) => edge.id));
-  const edgeIdsToRemove = new Set(EdgesRemoved?.map((edge) => edge.id));
-  const cacheEdges = uniqBy([...prevEdges, ...EdgesUpdated], 'id');
+  const edgeIdsToAdd = new Set(edgesAdded?.map((edge) => edge.id));
+  const edgeIdsToRemove = new Set(edgesRemoved?.map((edge) => edge.id));
+  const cacheEdges = uniqBy([...prevEdges, ...edgesUpdated], 'id');
 
-  let edges = [...EdgesRemoved, ...EdgesUpdated, ...EdgesAdded];
+  let edges = [...edgesRemoved, ...edgesUpdated, ...edgesAdded];
 
   // Recognize parallel edges prior to the update
-  EdgesUpdated.forEach((newModel) => {
+  edgesUpdated.forEach((newModel) => {
     const oldModel = graphCore?.getEdge(newModel.id);
     if (!oldModel) return;
     const { id, source, target } = newModel;
@@ -82,12 +82,12 @@ export const ProcessParallelEdges = (
   // Render based on the type of modification
   return {
     ...data,
-    A: {
-      ...data.A,
+    dataAdded: {
+      ...data.dataAdded,
       edges: edges.filter((edge) => edgeIdsToAdd.has(edge.id)),
     },
-    U: {
-      ...data.U,
+    dataUpdated: {
+      ...data.dataUpdated,
       edges: edges.filter((edge) => !edgeIdsToAdd.has(edge.id)),
     },
   };

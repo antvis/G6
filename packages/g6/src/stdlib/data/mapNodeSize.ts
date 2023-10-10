@@ -21,11 +21,11 @@ export const MapNodeSize = (
   } = {},
   graphCore?: GraphCore,
 ): GraphDataChanges => {
-  const { A: DataAdded, U: DataUpdated, D: DataRemoved } = data;
+  const { dataAdded, dataUpdated, dataRemoved } = data;
   return {
-    A: handler(DataAdded, options, graphCore),
-    U: handler(DataUpdated, options, graphCore),
-    D: handler(DataRemoved, options, graphCore),
+    dataAdded: handler(dataAdded, options, graphCore),
+    dataUpdated: handler(dataUpdated, options, graphCore),
+    dataRemoved: handler(dataRemoved, options, graphCore),
   };
 };
 

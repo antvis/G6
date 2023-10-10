@@ -19,11 +19,11 @@ export const ValidateData = (
   options = {},
   graphCore?: GraphCore,
 ): GraphDataChanges => {
-  const { A: DataAdded, U: DataUpdated, D: DataRemoved } = data;
+  const { dataAdded, dataRemoved, dataUpdated } = data;
   return {
-    A: handler(DataAdded, options, graphCore),
-    U: handler(DataUpdated, options, graphCore),
-    D: handler(DataRemoved, options, graphCore),
+    dataAdded: handler(dataAdded, options, graphCore),
+    dataRemoved: handler(dataRemoved, options, graphCore),
+    dataUpdated: handler(dataUpdated, options, graphCore),
   };
 };
 

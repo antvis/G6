@@ -1,6 +1,6 @@
+import { MapView } from '@antv/g6-plugin-map-view';
 import { Graph, Extensions, extend } from '../../../src/index';
 import { TestCaseContext } from '../interface';
-import { MapView } from '@antv/g6-plugin-map-view';
 
 export default (context: TestCaseContext) => {
   const ExtGraph = extend(Graph, {

@@ -78,7 +78,6 @@ export { default as timebar_time } from './plugins/timebar-time';
 export { default as timebar_chart } from './plugins/timebar-chart';
 
 export {
-  // map,
   anchor,
   animations_node_build_in,
   arrow,

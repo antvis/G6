@@ -15,9 +15,9 @@ export interface GraphData {
 }
 
 export interface GraphDataChanges {
-  A: GraphData;
-  D: GraphData;
-  U: GraphData;
+  dataAdded: GraphData;
+  dataUpdated: GraphData;
+  dataRemoved: GraphData;
 }
 
 export type TreeData =
