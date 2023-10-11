@@ -9,10 +9,6 @@ const container = document.getElementById('container');
 const width = container.scrollWidth;
 const height = container.scrollHeight || 500;
 
-const isEqual = (a, b) => {
-  return JSON.stringify(a) === JSON.stringify(b);
-};
-
 class G2BarChartNode extends Extensions.RectNode {
   drawOtherShapes(model, shapeMap) {
     const { id, data } = model;
@@ -44,7 +40,6 @@ class G2BarChartNode extends Extensions.RectNode {
     // to make group trigger DOMNodeInsertedIntoDocument event
     group.isMutationObserved = true;
     group.addEventListener('DOMNodeInsertedIntoDocument', () => {
-      if (isEqual(group.value, value)) return;
       renderToMountedElement(
         // @antv/g2 Specification
         // https://g2.antv.antgroup.com/examples/general/interval/#column
@@ -73,7 +68,6 @@ class G2BarChartNode extends Extensions.RectNode {
           library: G2Library,
         },
       );
-      group.value = value;
     });
 
     return {
