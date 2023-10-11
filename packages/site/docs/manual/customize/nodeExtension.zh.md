@@ -219,3 +219,52 @@ drawOtherShapes(model, shapeMap, diffData) {
   };
 }
 ```
+
+#### 使用 G2 图表作为自定义节点
+
+通过 `drawOtherShapes` 可以渲染许多自定义图形，这些图形底层都是基于 `@antv/g` 绘制的，因此可以将任何基于 `@antv/g` 构建的图形库的图形作为自定义节点的图形。例如，可以使用 `@antv/g2` 构建的图表作为自定义节点的图形，下面是一个简单的例子：
+
+```typescript
+import { stdlib, renderToMountedElement } from '@antv/g2';
+
+/** stdlib 是 G2 的标准工具库 */
+const G2Library = { ...stdlib() };
+
+// 下面是自定义节点的 drawOtherShapes 方法
+drawOtherShapes(model, shapeMap) {
+  // 创建一个 group
+  const group = this.upsertShape(
+    'group',
+    'g2-chart-group',
+    {},
+    shapeMap,
+    model,
+  );
+  // 让 group 响应事件
+  group.isMutationObserved = true;
+  // 当 group 挂载到画布上时，渲染 G2 图表
+  group.addEventListener('DOMNodeInsertedIntoDocument', () => {
+    // 将 G2 图表渲染到 group 里
+    renderToMountedElement(
+      {
+        // 这里填写 G2 的 Specification
+      },
+      {
+        group,
+        library: G2Library,
+      },
+    );
+  });
+  return {
+    'g2-chart-group': group,
+  };
+}
+```
+
+更多的关于 G2 图表的使用，可以参考 [G2 官网](https://g2.antv.antgroup.com/)。
+
+G6 5.0 也提供了相关案例：
+
+* [使用 G2 自定义的条形图节点](/zh/examples/item/customNode/#g2BarChart) 
+* [使用 G2 自定义的点阵图节点](/zh/examples/item/customNode/#g2LatticeChart) 
+* [使用 G2 自定义的活动图节点](/zh/examples/item/customNode/#g2ActiveChart)

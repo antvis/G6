@@ -115,7 +115,8 @@ export type SHAPE_TYPE =
   | 'polyline'
   | 'line'
   | 'path'
-  | 'text';
+  | 'text'
+  | 'group';
 
 export type SHAPE_TYPE_3D = 'sphere' | 'cube' | 'plane';
 

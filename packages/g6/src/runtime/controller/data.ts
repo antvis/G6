@@ -713,7 +713,7 @@ export class DataController {
   private isTransformActive = (config: any, changeType: DataChangeType) => {
     let activeLifecycle =
       isObject(config) && 'activeLifecycle' in config
-        ? config.activeLifecycle
+        ? (config as any).activeLifecycle
         : DEFAULT_ACTIVE_DATA_LIFECYCLE;
     activeLifecycle = Array.isArray(activeLifecycle)
       ? activeLifecycle
