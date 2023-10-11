@@ -225,3 +225,52 @@ drawOtherShapes(model, shapeMap, diffData) {
   };
 }
 ```
+
+#### Use G2 chart as node
+
+`drawOtherShapes` support drawing many shapes based on `@antv/g`. For example, you can use the charts based on `@antv/g2` as the shapes of the custom nodes. Here is a simple example:
+
+```typescript
+import { stdlib, renderToMountedElement } from '@antv/g2';
+
+/** stdlib is a standard library of G2 */
+const G2Library = { ...stdlib() };
+
+// Here is the drawOtherShapes method of the custom node
+drawOtherShapes(model, shapeMap) {
+  // Create a group
+  const group = this.upsertShape(
+    'group',
+    'g2-chart-group',
+    {},
+    shapeMap,
+    model,
+  );
+  // Make the group respond to events
+  group.isMutationObserved = true;
+  // Render the G2 chart when the group is mounted to the canvas
+  group.addEventListener('DOMNodeInsertedIntoDocument', () => {
+    // Render the G2 chart to the group
+    renderToMountedElement(
+      {
+        // Here is the G2 Specification
+      },
+      {
+        group,
+        library: G2Library,
+      },
+    );
+  });
+  return {
+    'g2-chart-group': group,
+  };
+}
+```
+
+For more information on using G2 charts, you can refer to the [G2 official website] (https://g2.antv.antgroup.com/en/)。
+
+G6 5.0 also provides relevant examples:
+
+- [G2 Bar Chart Node](/en/examples/item/customNode/#g2BarChart)
+- [G2 Lattice Node](/en/examples/item/customNode/#g2LatticeChart)
+- [G2 Active Node](/en/examples/item/customNode/#g2ActiveChart)
