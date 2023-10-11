@@ -2,7 +2,7 @@
 title: SphereGeometryProps
 ---
 
-[Overview - v5.0.0-beta.20](../../README.en.md) / [Modules](../../modules.en.md) / [item](../../modules/item.en.md) / SphereGeometryProps
+[Overview - v5.0.0-beta.21](../../README.en.md) / [Modules](../../modules.en.md) / [item](../../modules/item.en.md) / SphereGeometryProps
 
 [item](../../modules/item.en.md).SphereGeometryProps
 

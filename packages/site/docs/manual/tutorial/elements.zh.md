@@ -354,7 +354,7 @@ const graph = new Graph({
   </head>
   <body>
     <div id="container"></div>
-    <script src="https://gw.alipayobjects.com/os/lib/antv/g6/5.0.0-beta.20/dist/g6.min.js"></script>
+    <script src="https://gw.alipayobjects.com/os/lib/antv/g6/5.0.0-beta.21/dist/g6.min.js"></script>
     <script>
       const { Graph: GraphBase, extend, Extensions } = G6;
 
