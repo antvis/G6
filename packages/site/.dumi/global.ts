@@ -1,4 +1,4 @@
-if window {
+if (window) {
   // window.g6 = require('@antv/g6/es'); // import the source for debugging
   window.g6 = require('@antv/g6/lib'); // import the source for debugging
 
