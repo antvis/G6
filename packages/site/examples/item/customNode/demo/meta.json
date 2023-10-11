@@ -27,6 +27,30 @@
         "en": "Pie Chart Node"
       },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*idENQpnwA1sAAAAAAAAAAABkARQnAQ"
+    },
+    {
+      "filename": "g2BarChart.js",
+      "title": {
+        "zh": "使用 G2 自定义的条形图节点",
+        "en": "G2 Bar Chart Node"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*VcCDR5myr70AAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "g2LatticeChart.js",
+      "title": {
+        "zh": "使用 G2 自定义的点阵图节点",
+        "en": "G2 Lattice Node"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*-ojrRKKxYxMAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "g2ActiveChart.js",
+      "title": {
+        "zh": "使用 G2 自定义的活动图节点",
+        "en": "G2 Active Node"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*GVyoQKk2WIIAAAAAAAAAAAAADmJ7AQ/original"
     }
   ]
 }

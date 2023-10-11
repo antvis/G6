@@ -32,12 +32,11 @@
     "translate": "node translate-api-doc.mjs"
   },
   "dependencies": {
-    "fs-extra": "latest",
     "@ant-design/icons": "^4.0.6",
     "@antv/algorithm": "^0.1.26",
-    "@antv/g6-plugin-map-view": "^0.0.1",
     "@antv/chart-node-g6": "^0.0.3",
     "@antv/dumi-theme-antv": "0.3.19-beta.1",
+    "@antv/g2": "5",
     "@antv/g6": "5.0.0-beta.20",
     "@antv/g6-react-node": "^1.4.5",
     "@antv/graphlib": "^2.0.2",
@@ -48,6 +47,7 @@
     "@faker-js/faker": "^8.0.2",
     "@microsoft/api-extractor": "^7.33.6",
     "dumi": "^2.2.4",
+    "fs-extra": "latest",
     "google-translate-api-x": "^10.6.7",
     "insert-css": "^2.0.0",
     "stats.js": "^0.17.0",
