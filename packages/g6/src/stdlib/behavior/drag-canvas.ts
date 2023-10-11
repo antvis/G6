@@ -252,7 +252,7 @@ export class DragCanvas extends Behavior {
     const shouldDebounce =
       typeof graphBehaviorOptimize === 'boolean'
         ? graphBehaviorOptimize
-        : this.graph.getAllNodesData().length < graphBehaviorOptimize;
+        : this.graph.getAllNodesData().length > graphBehaviorOptimize;
 
     const now = Date.now();
     if (

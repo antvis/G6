@@ -242,7 +242,7 @@ export class ZoomCanvas extends Behavior {
     const shouldDebounce =
       typeof graphBehaviorOptimize === 'boolean'
         ? graphBehaviorOptimize
-        : graph.getAllNodesData().length < graphBehaviorOptimize;
+        : graph.getAllNodesData().length > graphBehaviorOptimize;
 
     const now = Date.now();
     if (

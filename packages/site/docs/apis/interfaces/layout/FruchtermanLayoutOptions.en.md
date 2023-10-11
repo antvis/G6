@@ -2,7 +2,7 @@
 title: FruchtermanLayoutOptions
 ---
 
-[Overview - v5.0.0-beta.20](../../README.en.md) / [Modules](../../modules.en.md) / [layout](../../modules/layout.en.md) / FruchtermanLayoutOptions
+[Overview - v5.0.0-beta.21](../../README.en.md) / [Modules](../../modules.en.md) / [layout](../../modules/layout.en.md) / FruchtermanLayoutOptions
 
 [layout](../../modules/layout.en.md).FruchtermanLayoutOptions
 
