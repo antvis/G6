@@ -92,6 +92,7 @@ export const upsertTransientItem = (
       target,
       shapeIds,
       true,
+      visible,
       transientItemMap,
     ) as Edge;
   } else {

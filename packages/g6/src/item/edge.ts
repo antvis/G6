@@ -7,6 +7,7 @@ import { updateShapes } from '../util/shape';
 import { animateShapes } from '../util/animate';
 import { EdgeStyleSet } from '../types/theme';
 import { isSamePoint, getNearestPoint } from '../util/point';
+import { isPolylineWithObstacleAvoidance } from '../util/polyline';
 import Item from './item';
 import Node from './node';
 import Combo from './combo';
@@ -134,8 +135,9 @@ export default class Edge extends Item {
    * e.g. source and target nodes' position changed
    * @param force bypass the nodes position change check and force to re-draw
    */
-  public forceUpdate(force = false) {
+  public forceUpdate() {
     if (this.destroyed) return;
+    const force = isPolylineWithObstacleAvoidance(this.displayModel);
     const { sourcePoint, targetPoint, changed } = this.getEndPoints(
       this.displayModel,
     );
@@ -255,6 +257,7 @@ export default class Edge extends Item {
     targetItem: Node | Combo,
     shapeIds?: string[],
     disableAnimate?: boolean,
+    visible?: boolean,
     transientItemMap?: Map<ID, Node | Edge | Combo | Group>,
   ) {
     if (shapeIds?.length) {
@@ -302,6 +305,7 @@ export default class Edge extends Item {
         lodStrategy: this.lodStrategy,
       },
     });
+    if (visible) return clonedEdge;
     Object.keys(this.shapeMap).forEach((shapeId) => {
       if (!this.shapeMap[shapeId].isVisible())
         clonedEdge.shapeMap[shapeId]?.hide();

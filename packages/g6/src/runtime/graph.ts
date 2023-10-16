@@ -1027,6 +1027,17 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     return this.dataController.findRelatedEdges(nodeId, direction);
   }
   /**
+   * Get nearby edges from a start node using quadtree collision detection.
+   * @param nodeId id of the start node
+   * @returns nearby edges' data array
+   */
+  public getNearEdgesData(nodeId: ID): EdgeModel[] {
+    const transientItem = this.itemController.getTransientItem(
+      nodeId,
+    ) as unknown as Node;
+    return this.dataController.findNearEdges(nodeId, transientItem);
+  }
+  /**
    * Get one-hop node ids from a start node.
    * @param nodeId id of the start node
    * @returns one-hop nodes' data array
@@ -1058,16 +1069,6 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     id: ID,
   ): NodeDisplayModel | EdgeDisplayModel | ComboDisplayModel {
     return this.itemController.findDisplayModel(id);
-  }
-
-  /**
-   * Retrieve the nearby edges for a given node using quadtree collision detection.
-   * @param nodeId node id
-   * @group Data
-   */
-  public getNearEdgesForNode(nodeId: ID): EdgeModel[] {
-    const { graphCore } = this.dataController;
-    return this.itemController.findNearEdgesByNode(nodeId, graphCore);
   }
 
   /**
@@ -1467,11 +1468,7 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * @returns
    * @group Item
    */
-  public showItem(
-    ids: ID | ID[],
-    disableAnimate = false,
-    edgeForceUpdate = false,
-  ) {
+  public showItem(ids: ID | ID[], disableAnimate = false) {
     const idArr = isArray(ids) ? ids : [ids];
     if (isEmpty(idArr)) return;
     const changes = {
@@ -1483,7 +1480,6 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       value: true,
       graphCore: this.dataController.graphCore,
       animate: !disableAnimate,
-      edgeForceUpdate,
     });
     this.emit('afteritemvisibilitychange', {
       ids,

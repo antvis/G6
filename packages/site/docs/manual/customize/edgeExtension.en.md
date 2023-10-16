@@ -345,6 +345,6 @@ interface RouterCfg {
    * Whether to automatically avoid other nodes (obstacles) on the path
    * Defaults to false.
    */
-  obstacleAvoidance?: boolean;
+  enableObstacleAvoidance?: boolean;
 }
 ```

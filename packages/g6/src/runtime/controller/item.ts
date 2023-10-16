@@ -64,9 +64,9 @@ import {
 import { getGroupedChanges } from '../../util/event';
 import { BaseNode } from '../../stdlib/item/node/base';
 import { BaseEdge } from '../../stdlib/item/edge/base';
-import { EdgeCollisionChecker, QuadTree } from '../../util/polyline';
 import { isBBoxInBBox, isPointInBBox } from '../../util/bbox';
 import { convertToNumber } from '../../util/type';
+import { isPointPreventPolylineOverlap } from '../../util/polyline';
 
 /**
  * Manages and stores the node / edge / combo items.
@@ -136,6 +136,8 @@ export class ItemController {
     ID,
     Node | Edge | Combo | Group
   >();
+  /** Caches */
+  private nearEdgesCache: Map<ID, EdgeModel[]> = new Map<ID, EdgeModel[]>();
 
   constructor(graph: IGraph<any, any>) {
     this.graph = graph;
@@ -519,15 +521,20 @@ export class ItemController {
           );
         }
 
-        const preventPolylineEdgeOverlap =
-          innerModel?.data?.preventPolylineEdgeOverlap || false;
-        const relatedEdgeInnerModels = preventPolylineEdgeOverlap
-          ? this.findNearEdgesByNode(id, graphCore).concat(
-              graphCore.getRelatedEdges(id),
+        const newNearEdges = this.graph.getNearEdgesData(id);
+        const relatedEdges = graphCore.getRelatedEdges(id);
+        const adjacentEdgeInnerModels = isPointPreventPolylineOverlap(
+          innerModel,
+        )
+          ? uniq(
+              (this.nearEdgesCache.get(id) || [])
+                .concat(newNearEdges)
+                .concat(relatedEdges),
             )
-          : graphCore.getRelatedEdges(id);
+          : relatedEdges;
+        this.nearEdgesCache.set(id, newNearEdges);
 
-        relatedEdgeInnerModels.forEach((edge) => {
+        adjacentEdgeInnerModels.forEach((edge) => {
           edgeIdsToUpdate.add(edge.id);
           nodeRelatedIdsToUpdate.add(edge.id);
         });
@@ -661,33 +668,6 @@ export class ItemController {
         }
       });
     }
-    // === 10. redraw part of polyline which enables automatic obstacle avoidance
-    this.itemMap.forEach((item, id) => {
-      if (item.getType() === 'edge') {
-        const edgeModel = this.graph.getEdgeData(id);
-        const obstacleAvoidance =
-          // @ts-ignore
-          edgeModel.data?.keyShape?.routeCfg?.obstacleAvoidance || false;
-        // Only the edge enables automatic obstacle avoidance and the changed node is not the source/target, redrawing is forced.
-        if (obstacleAvoidance) {
-          const { NodeAdded, NodeDataUpdated, NodeRemoved } = groupedChanges;
-          const relatedNodeIds = new Set(
-            [...NodeAdded, ...NodeDataUpdated, ...NodeRemoved].map(
-              (node) =>
-                // @ts-ignore
-                node.id,
-            ),
-          );
-          if (
-            relatedNodeIds.has(edgeModel.source) ||
-            relatedNodeIds.has(edgeModel.target)
-          )
-            return;
-
-          (item as Edge).forceUpdate(true);
-        }
-      }
-    });
   }
 
   /**
@@ -726,7 +706,6 @@ export class ItemController {
     graphCore: GraphCore;
     animate?: boolean;
     keepKeyShape?: boolean;
-    edgeForceUpdate?: boolean;
   }) {
     const {
       ids,
@@ -734,7 +713,6 @@ export class ItemController {
       graphCore,
       animate = true,
       keepKeyShape = false,
-      edgeForceUpdate = false,
     } = param;
     ids.forEach((id) => {
       const item = this.itemMap.get(id);
@@ -748,9 +726,7 @@ export class ItemController {
       if (value) {
         if (type === 'edge') {
           item.show(animate);
-          if (edgeForceUpdate) {
-            (item as Edge).forceUpdate(true);
-          }
+          (item as Edge).forceUpdate();
         } else {
           if (graphCore.hasTreeStructure('combo')) {
             let anccestorCollapsed = false;
@@ -992,7 +968,6 @@ export class ItemController {
         { shapeIds, drawSource, drawTarget, visible },
         upsertAncestors,
       );
-
       if (shapeIds) {
         // only update node positions to cloned node container(group)
         if (
@@ -1081,7 +1056,7 @@ export class ItemController {
   }
 
   public getTransientItem(id: ID) {
-    return this.transientItemMap[id];
+    return this.transientItemMap.get(id);
   }
 
   public findDisplayModel(id: ID) {
@@ -1424,56 +1399,6 @@ export class ItemController {
       return false;
     }
     return item.isVisible();
-  }
-
-  /**
-   * Identify edges that are intersected by a particular node
-   * @param nodeId node id
-   * @param graphCore
-   * @returns
-   */
-  public findNearEdgesByNode(nodeId: ID, graphCore: GraphCore) {
-    const edges = graphCore.getAllEdges();
-
-    const canvasBBox = this.graph.getRenderBBox(undefined) as AABB;
-    const quadTree = new QuadTree(canvasBBox, 4);
-
-    each(edges, (edge) => {
-      const {
-        data: { x: sourceX, y: sourceY },
-      } = graphCore.getNode(edge.source);
-      const {
-        data: { x: targetX, y: targetY },
-      } = graphCore.getNode(edge.target);
-
-      quadTree.insert({
-        id: edge.id,
-        p1: { x: sourceX, y: sourceY },
-        p2: { x: targetX, y: targetY },
-        bbox: this.graph.getRenderBBox(edge.id) as AABB,
-      });
-    });
-
-    // update node position
-    const node = (this.getTransientItem(nodeId) ||
-      this.getItemById(nodeId)) as Node;
-    const nodeBBox = this.graph.getRenderBBox(nodeId) as AABB;
-    const nodeData = node?.model?.data;
-    if (nodeData) {
-      nodeBBox.update(
-        [nodeData.x as number, nodeData.y as number, 0],
-        nodeBBox.halfExtents,
-      );
-    }
-
-    const checker = new EdgeCollisionChecker(quadTree);
-    const collisions = checker.getCollidingEdges(nodeBBox);
-
-    const collidingEdges = map(collisions, (collision) =>
-      graphCore.getEdge(collision.id),
-    );
-
-    return collidingEdges;
   }
 
   public sortByComboTree(graphCore: GraphCore) {

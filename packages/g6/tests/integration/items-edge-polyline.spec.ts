@@ -85,7 +85,7 @@ describe('Items edge polyline', () => {
       const $obstacle = document.querySelectorAll(
         'input',
       )[5] as HTMLInputElement;
-      const $obstacleAvoidance = document.querySelectorAll(
+      const $enableObstacleAvoidance = document.querySelectorAll(
         'input',
       )[6] as HTMLInputElement;
 
@@ -99,7 +99,7 @@ describe('Items edge polyline', () => {
       //   'input',
       // )[8] as HTMLInputElement;
       // $obstacle.click();
-      // $obstacleAvoidance.click();
+      // $enableObstacleAvoidance.click();
       // $preventObstacleOverlapEdges.click();
       // $moveObstacle.click();
       // await expect(canvas).toMatchCanvasSnapshot(
@@ -107,7 +107,7 @@ describe('Items edge polyline', () => {
       //   'items-edge-polyline-prevent-overlap-edges',
       // );
       // $obstacle.click();
-      // $obstacleAvoidance.click();
+      // $enableObstacleAvoidance.click();
       // $preventObstacleOverlapEdges.click();
       // $moveObstacle.click();
 
@@ -189,17 +189,17 @@ describe('Items edge polyline', () => {
       const $obstacle = document.querySelectorAll(
         'input',
       )[5] as HTMLInputElement;
-      const $obstacleAvoidance = document.querySelectorAll(
+      const $enableObstacleAvoidance = document.querySelectorAll(
         'input',
       )[6] as HTMLInputElement;
       // $obstacle.click();
-      // $obstacleAvoidance.click();
+      // $enableObstacleAvoidance.click();
       // await expect(canvas).toMatchSVGSnapshot(
       //   dir,
       //   'items-edge-polyline-obstacle-avoidance',
       // );
       // $obstacle.click();
-      // $obstacleAvoidance.click();
+      // $enableObstacleAvoidance.click();
 
       /**
        * Click the checkbox to prevent obstacle to overlap edges.
@@ -211,7 +211,7 @@ describe('Items edge polyline', () => {
       //   'input',
       // )[8] as HTMLInputElement;
       // $obstacle.click();
-      // $obstacleAvoidance.click();
+      // $enableObstacleAvoidance.click();
       // $preventObstacleOverlapEdges.click();
       // $moveObstacle.click();
       // await expect(canvas).toMatchSVGSnapshot(
@@ -219,7 +219,7 @@ describe('Items edge polyline', () => {
       //   'items-edge-polyline-prevent-overlap-edges',
       // );
       // $obstacle.click();
-      // $obstacleAvoidance.click();
+      // $enableObstacleAvoidance.click();
       // $preventObstacleOverlapEdges.click();
       // $moveObstacle.click();
 

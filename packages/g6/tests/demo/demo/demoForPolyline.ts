@@ -63,7 +63,7 @@ export default () => {
           routeCfg: {
             gridSize: 10,
             maxAllowedDirectionChange: Math.PI / 2,
-            obstacleAvoidance: true,
+            enableObstacleAvoidance: true,
           },
         },
         // labelShape: {

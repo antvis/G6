@@ -114,6 +114,12 @@ export interface IGraph<
     direction?: 'in' | 'out' | 'both',
   ) => EdgeModel[];
   /**
+   * Get nearby edges from a start node using quadtree collision detection.
+   * @param nodeId id of the start node
+   * @returns nearby edges' data array
+   */
+  getNearEdgesData: (nodeId: ID) => EdgeModel[];
+  /**
    * Get one-hop node ids from a start node.
    * @param nodeId id of the start node
    * @returns one-hop node ids
@@ -123,12 +129,6 @@ export interface IGraph<
     nodeId: ID,
     direction?: 'in' | 'out' | 'both',
   ) => NodeModel[];
-  /**
-   * Retrieve the nearby edges for a given node using quadtree collision detection.
-   * @param nodeId target node's id
-   * @returns edges
-   */
-  getNearEdgesForNode: (nodeId: ID) => EdgeModel[];
   /*
    * Get the children's data of a combo.
    * @param comboId combo id
@@ -472,11 +472,7 @@ export interface IGraph<
    * @returns
    * @group Data
    */
-  showItem: (
-    ids: ID | ID[],
-    disableAnimate?: boolean,
-    edgeForceUpdate?: boolean,
-  ) => void;
+  showItem: (ids: ID | ID[], disableAnimate?: boolean) => void;
   /**
    * Hide the item(s).
    * @param ids the item id(s) to be hidden

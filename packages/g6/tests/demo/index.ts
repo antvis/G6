@@ -76,7 +76,7 @@ export { default as timebar_chart } from './plugins/timebar-chart';
 
 export {
   minimap,
-  map,
+  // map,
   mapper,
   anchor,
   animations_node_build_in,

@@ -1,5 +1,6 @@
 import { Graph as GraphLib, ID } from '@antv/graphlib';
-import { clone, isArray, isObject } from '@antv/util';
+import { clone, isArray, isObject, uniq } from '@antv/util';
+import { AABB } from '@antv/g';
 import { registery as registry } from '../../stdlib';
 import { ComboModel, ComboUserModel, GraphData, IGraph } from '../../types';
 import { ComboUserModelData } from '../../types/combo';
@@ -36,6 +37,7 @@ import { getExtension } from '../../util/extension';
 import { convertToNumber } from '../../util/type';
 import { isTreeLayout } from '../../util/layout';
 import { hasTreeBehaviors } from '../../util/behavior';
+import { EdgeCollisionChecker, QuadTree } from '../../util/polyline';
 
 /**
  * Manages the data transform extensions;
@@ -130,6 +132,50 @@ export class DataController {
   ) {
     return this.graphCore.getRelatedEdges(nodeId, direction);
   }
+
+  public findNearEdges(nodeId: ID, transientItem?: Node) {
+    const edges = this.graphCore.getAllEdges();
+
+    const canvasBBox = this.graph.getRenderBBox(undefined) as AABB;
+    const quadTree = new QuadTree(canvasBBox, 4);
+
+    edges.forEach((edge) => {
+      const {
+        data: { x: sourceX, y: sourceY },
+      } = this.graphCore.getNode(edge.source);
+      const {
+        data: { x: targetX, y: targetY },
+      } = this.graphCore.getNode(edge.target);
+
+      quadTree.insert({
+        id: edge.id,
+        p1: { x: sourceX, y: sourceY },
+        p2: { x: targetX, y: targetY },
+        bbox: this.graph.getRenderBBox(edge.id) as AABB,
+      });
+    });
+    const nodeBBox = this.graph.getRenderBBox(nodeId) as AABB;
+
+    if (transientItem) {
+      // @ts-ignore
+      const nodeData = transientItem.displayModel.data;
+      if (nodeData) {
+        nodeBBox.update(
+          [nodeData.x as number, nodeData.y as number, 0],
+          nodeBBox.halfExtents,
+        );
+      }
+    }
+
+    const checker = new EdgeCollisionChecker(quadTree);
+    const collisions = checker.getCollidingEdges(nodeBBox);
+    const collidingEdges = collisions.map((collision) =>
+      this.graphCore.getEdge(collision.id),
+    );
+
+    return collidingEdges;
+  }
+
   public findNeighborNodes(
     nodeId: ID,
     direction: 'in' | 'out' | 'both' = 'both',

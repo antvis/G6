@@ -44,12 +44,12 @@ export interface RouterCfg {
    * Whether to automatically avoid other nodes (obstacles) on the path
    * Defaults to false.
    */
-  obstacleAvoidance?: boolean;
+  enableObstacleAvoidance?: boolean;
 }
 
 const defaultCfg: RouterCfg = {
   name: 'orth',
-  obstacleAvoidance: false,
+  enableObstacleAvoidance: false,
   offset: 2,
   maxAllowedDirectionChange: Math.PI / 2,
   maximumLoops: 2000,
@@ -393,7 +393,7 @@ export const pathFinder = (
 
   const cfg: RouterCfg = deepMix(defaultCfgs, routerCfg);
 
-  if (!cfg.obstacleAvoidance) {
+  if (!cfg.enableObstacleAvoidance) {
     return cfg.fallbackRoute(startPoint, endPoint, startNode, endNode, cfg);
   }
 

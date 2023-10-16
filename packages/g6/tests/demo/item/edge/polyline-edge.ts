@@ -234,7 +234,7 @@ const createControls = () => {
         data: {
           keyShape: {
             routeCfg: {
-              obstacleAvoidance: true,
+              enableObstacleAvoidance: true,
             },
           },
         },
@@ -246,7 +246,7 @@ const createControls = () => {
         data: {
           keyShape: {
             routeCfg: {
-              obstacleAvoidance: false,
+              enableObstacleAvoidance: false,
             },
           },
         },

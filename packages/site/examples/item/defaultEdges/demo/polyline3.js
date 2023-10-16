@@ -47,7 +47,7 @@ const data = {
         },
         keyShape: {
           routeCfg: {
-            obstacleAvoidance: false
+            enableObstacleAvoidance: false
           }
         }
       }
@@ -73,7 +73,7 @@ const data = {
              * 是否开启自动避障，默认为 false
              * Whether to enable automatic obstacle avoidance, default is false
              */
-            obstacleAvoidance: true,
+            enableObstacleAvoidance: true,
           },
           /**
            * 拐弯处的圆角弧度，默认为直角，值为 0

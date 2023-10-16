@@ -89,7 +89,6 @@ export interface Hooks {
     enableStack?: boolean;
     changes?: any;
     keepKeyShape?: boolean;
-    edgeForceUpdate?: boolean;
   }>;
   itemzindexchange: IHook<{
     ids: ID[];
