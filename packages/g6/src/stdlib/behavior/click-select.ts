@@ -141,7 +141,9 @@ export class ClickSelect extends Behavior {
           // Not multiple, clear all currently selected items
           this.graph.setItemState(this.selectedIds, state, false);
         }
-        this.graph.setItemState(itemId, state, isSelectAction);
+        if (!this.selectedIds.includes(itemId)) {
+          this.graph.setItemState(itemId, state, isSelectAction);
+        }
       });
 
       if (isSelectAction) {

@@ -73,11 +73,13 @@ import triangle from './demo/triangle';
 import user_defined_canvas from './user-defined-canvas/circular';
 import visual from './visual/visual';
 import watermarker from './plugins/watermarker';
+import bugplayground from './demo/bugplayground';
 
 export { default as timebar_time } from './plugins/timebar-time';
 export { default as timebar_chart } from './plugins/timebar-chart';
 
 export {
+  bugplayground,
   anchor,
   animations_node_build_in,
   arrow,

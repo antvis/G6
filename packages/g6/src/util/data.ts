@@ -327,3 +327,25 @@ export const dataLifecycleMap: Record<string, string> = {
   remove: 'removeData',
   update: 'updateData',
 };
+
+/**
+ * Whether the graph is empty.
+ * @param graph graph instance.
+ * @param excludeInvisibles whether exclude invisibles. true means the function should test without visible items.
+ * @returns graph is empty or not.
+ */
+export const isEmptyGraph = (graph, excludeInvisibles = false): Boolean => {
+  const nodes = graph.getAllNodesData();
+  const combos = graph.getAllCombosData();
+  if (nodes.length === 0 && combos.length === 0) return true;
+
+  if (excludeInvisibles) {
+    const edges = graph.getAllEdgesData();
+    const hasVisibleItems =
+      nodes.filter((node) => graph.getItemVisible(node.id)).length +
+      edges.filter((edge) => graph.getItemVisible(edge.id)).length +
+      combos.filter((combo) => graph.getItemVisible(combo.id)).length;
+    if (!hasVisibleItems) return true;
+  }
+  return false;
+};

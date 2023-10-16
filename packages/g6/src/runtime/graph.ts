@@ -60,6 +60,7 @@ import { createDOM } from '../util/dom';
 import { getLayoutBounds } from '../util/layout';
 import { formatPadding } from '../util/shape';
 import Node from '../item/node';
+import { isEmptyGraph } from '../util/data';
 import {
   DataController,
   ExtensionController,
@@ -71,6 +72,7 @@ import {
 } from './controller';
 import { PluginController } from './controller/plugin';
 import Hook from './hooks';
+
 export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
   extends EventEmitter
   implements IGraph<B, T>
@@ -583,6 +585,7 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     options: GraphTransformOptions,
     effectTiming?: CameraAnimationOptions,
   ): Promise<void> {
+    if (isEmptyGraph(this, true)) return;
     const { tileLodSize } = this.specification.optimize || {};
     await this.hooks.viewportchange.emitLinearAsync({
       transform: options,
@@ -852,7 +855,7 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
   }
 
   /**
-   * Get item by id. We don't want to
+   * Get item by id. We don't want users call this private API.
    * @param id
    * @returns Node | Edge | Combo
    */
@@ -1066,6 +1069,16 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    */
   public getComboChildrenData(comboId: ID): (ComboModel | NodeModel)[] {
     return this.dataController.findChildren(comboId, 'combo');
+  }
+
+  /**
+   * Get item type by id.
+   * @param id
+   * @returns 'node' | 'edge' | 'combo'
+   * @group Data
+   */
+  public getTypeById(id: ID) {
+    return this.itemController.getItemById(id)?.getType();
   }
 
   /*
@@ -1604,6 +1617,7 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     value: boolean,
   ) {
     const idArr = isArray(ids) ? ids : [ids];
+    if (ids === undefined || !idArr.length) return;
     const stateArr = isArray(states) ? states : [states];
     const stateOption = { ids: idArr, states: stateArr, value };
     const changes = {
@@ -1617,6 +1631,7 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     });
     this.emit('afteritemstatechange', {
       ids: idArr,
+      itemTypes: idArr.map((id) => this.getTypeById(id)),
       states,
       value,
       action: 'updateState',

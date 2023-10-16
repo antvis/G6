@@ -35,8 +35,8 @@ States are the state machine mechanism in G6. Users can set different states for
 Using the built-in behaviors in G6 is very simple. You only need to configure `modes` when instantiating the graph. To manage bundle size, some built-in interactions are not registered to the Graph instance in advance, and need to be registered as follows:
 
 ```javascript
-const { Graph: GraphBase, extend, Extensions } = G6;
-const Graph = extend(GraphBase, {
+const { Graph: BaseGraph, extend, Extensions } = G6;
+const Graph = extend(BaseGraph, {
   behaviors: {
     // 'brush-select' is a built-in interaction, it is not registered in advance and needs to be imported from Extensions and registered as follows:
     'brush-select': Extensions.BrushSelect,
@@ -162,7 +162,7 @@ Here is the complete code:
     <div id="container"></div>
     <script src="https://gw.alipayobjects.com/os/lib/antv/g6/5.0.0-beta.21/dist/g6.min.js"></script>
     <script>
-      const { Graph: GraphBase, extend, Extensions } = G6;
+      const { Graph: BaseGraph, extend, Extensions } = G6;
 
       // Custom data processor - degree calculator
       const degreeCalculator = (data, options, userGraphCore) => {
