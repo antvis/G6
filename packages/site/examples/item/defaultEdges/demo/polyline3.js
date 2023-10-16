@@ -12,86 +12,94 @@ const data = {
     {
       id: 'node2',
       data: {
-        x: 800,
+        x: 550,
         y: 250,
       },
     },
     {
       id: 'node3',
       data: {
-        x: 400,
+        x: 440,
+        y: 60,
+      },
+    },
+        {
+      id: 'node4',
+      data: {
+        x: 340,
         y: 130,
-        preventPolylineEdgeOverlap: true,
-        label: 'A point that preempts the polyline',
       },
     },
     {
-      id: 'node4',
+      id: 'node5',
+      data: {
+        x: 100,
+        y: 350,
+      },
+    },
+    {
+      id: 'node6',
+      data: {
+        x: 300,
+        y: 430,
+      },
+    },
+    {
+      id: 'node7',
+      data: {
+        x: 400,
+        y: 350,
+      },
+    },
+    {
+      id: 'node8',
+      data: {
+        x: 600,
+        y: 480,
+      },
+    },
+    {
+      id: 'enhanced-node',
+      data: {
+        x: 400,
+        y: 130,
+        preventPolylineEdgeOverlap: true,
+        label: 'Enhanced Node'
+      },
+    },
+    {
+      id: 'normal-node',
       data: {
         x: 300,
         y: 300,
-        label: 'A normal point',
+        label: 'Normal Node'
       },
     },
   ],
   edges: [
     {
-      id: 'edge0',
-      source: 'node1',
+      id: 'edge1',
+      source: 'node4',
       target: 'node2',
-      data: {
-        type: 'polyline-edge',
-        labelShape: {
-          text: 'A normal edge',
-          maxLines: 3
-        },
-        keyShape: {
-          routeCfg: {
-            enableObstacleAvoidance: false
-          }
-        }
-      }
+      data: {}
     },
     {
-      id: 'edge1',
+      id: 'edge2',
+      source: 'node5',
+      target: 'node6',
+      data: {}
+    },
+    {
+      id: 'edge3',
+      source: 'node8',
+      target: 'node7',
+      data: {}
+    },
+    {
+      id: 'edge4',
       source: 'node1',
-      target: 'node2',
-      data: {
-        type: 'polyline-edge',
-        labelShape: {
-          text: 'An edge that automatically avoids obstacles',
-          maxLines: 3
-        },
-        keyShape: {
-           stroke: '#0f0',
-           routeCfg: {
-            /**
-             * 目前支持正交路由 'orth' 和地铁路由 'er'
-             */
-            // name: 'er',
-            /**
-             * 是否开启自动避障，默认为 false
-             * Whether to enable automatic obstacle avoidance, default is false
-             */
-            enableObstacleAvoidance: true,
-          },
-          /**
-           * 拐弯处的圆角弧度，默认为直角，值为 0
-           * The radius of the corner rounding, defaults to a right angle
-           */
-          // radius: 20,
-          /**
-           * 拐弯处距离节点最小距离, 默认为 2
-           * Minimum distance from the node at the corner, default is 5.
-           */
-          // offset: 0,
-          /**
-           * 控制点数组，不指定时根据 A* 算法自动生成折线。若指定了，则按照 controlPoints 指定的位置进行弯折
-           * An array of control points that, when not specified, automatically generates the bends according to the A* algorithm. If specified, bends are made at the position specified by controlPoints.
-           */
-          // controlPoints: [],
-        },
-      },
+      target: 'node3',
+      data: {}
     },
   ],
 };
@@ -115,11 +123,7 @@ const graph = new ExtGraph({
   },
   data,
   node: {
-    type: 'rect-node',
-    keyShape: {
-      width: 60,
-      height: 25,
-    },
+    type: 'circle-node',
     labelShape: {
       text: {
         fields: ['label'],
@@ -130,9 +134,37 @@ const graph = new ExtGraph({
     },
   },
   edge: {
+    type: 'polyline-edge',
     keyShape: {
       endArrow: true,
+      routeCfg: {
+        /**
+         * 目前支持正交路由 'orth' 和地铁路由 'er'
+         */
+        // name: 'er',
+        /**
+         * 是否开启自动避障，默认为 false
+         * Whether to enable automatic obstacle avoidance, default is false
+         */
+        enableObstacleAvoidance: true,
+      },
+      /**
+       * 拐弯处的圆角弧度，默认为直角，值为 0
+       * The radius of the corner rounding, defaults to a right angle
+       */
+      // radius: 20,
+      /**
+       * 拐弯处距离节点最小距离, 默认为 2
+       * Minimum distance from the node at the corner, default is 5.
+       */
+      // offset: 0,
+      /**
+       * 控制点数组，不指定时根据 A* 算法自动生成折线。若指定了，则按照 controlPoints 指定的位置进行弯折
+       * An array of control points that, when not specified, automatically generates the bends according to the A* algorithm. If specified, bends are made at the position specified by controlPoints.
+       */
+      // controlPoints: [],
     },
+
   },
 });
 
