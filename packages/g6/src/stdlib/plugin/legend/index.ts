@@ -149,6 +149,7 @@ export class Legend extends Base {
   public getEvents() {
     return {
       afterrender: this.updateLegend,
+      afteritemchange: this.updateLegend,
     };
   }
 
@@ -293,6 +294,7 @@ export class Legend extends Base {
       });
     }
 
+    this.canvas.removeChildren();
     const promise = this.canvas.ready;
     promise.then(() => {
       this.nodeLegend = this.upsertLegend('node');
