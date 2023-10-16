@@ -860,6 +860,8 @@ export class ItemController {
 
   private onMapperChange = ({ type, mapper }) => {
     if (!mapper) return;
+    /** update this.nodeMapper or this.edgeMapper */
+    this[`${type}Mapper`] = mapper;
     this.itemMap.forEach((item) => {
       const itemTye = item.getType();
       if (itemTye !== type) return;

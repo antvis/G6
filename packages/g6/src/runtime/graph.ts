@@ -2,11 +2,11 @@ import EventEmitter from '@antv/event-emitter';
 import {
   AABB,
   Canvas,
+  Cursor,
   DataURLType,
   DisplayObject,
   PointLike,
   Rect,
-  Cursor,
 } from '@antv/g';
 import { GraphChange, ID } from '@antv/graphlib';
 import {
@@ -46,7 +46,9 @@ import type {
   StandardLayoutOptions,
 } from '../types/layout';
 import type { NodeDisplayModel, NodeModel, NodeModelData } from '../types/node';
+import { Plugin as PluginBase } from '../types/plugin';
 import type { RendererName } from '../types/render';
+import { ComboMapper, EdgeMapper, NodeMapper } from '../types/spec';
 import type {
   ThemeOptionsOf,
   ThemeRegistry,
@@ -54,11 +56,9 @@ import type {
 } from '../types/theme';
 import { FitViewRules, GraphTransformOptions } from '../types/view';
 import { changeRenderer, createCanvas } from '../util/canvas';
-import { formatPadding } from '../util/shape';
-import { getLayoutBounds } from '../util/layout';
 import { createDOM } from '../util/dom';
-import { Plugin as PluginBase } from '../types/plugin';
-import { ComboMapper, EdgeMapper, NodeMapper } from '../types/spec';
+import { getLayoutBounds } from '../util/layout';
+import { formatPadding } from '../util/shape';
 import {
   DataController,
   ExtensionController,
@@ -1954,8 +1954,9 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     });
     // update the graph specification
     modesArr.forEach((mode) => {
-      this.specification.modes[mode] =
-        this.specification.modes[mode].concat(behaviorsArr);
+      this.specification.modes[mode] = (
+        this.specification.modes[mode] || []
+      ).concat(behaviorsArr);
     });
   }
   /**
@@ -1975,6 +1976,9 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     // update the graph specification
     modesArr.forEach((mode) => {
       behaviorKeys.forEach((key) => {
+        if (!this.specification.modes[mode]) {
+          return;
+        }
         const oldBehavior = this.specification.modes[mode].find(
           (behavior) => isObject(behavior) && behavior.key === key,
         );
