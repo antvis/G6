@@ -1,7 +1,7 @@
 import { Group } from '@antv/g';
 import { clone } from '@antv/util';
 import { Point } from '../types/common';
-import { ComboDisplayModel, ComboModel, NodeModel } from '../types';
+import { ComboDisplayModel, ComboModel, IGraph, NodeModel } from '../types';
 import { DisplayMapper, State, LodStrategyObj } from '../types/item';
 import { NodeDisplayModel, NodeModelData } from '../types/node';
 import { ComboStyleSet, NodeStyleSet } from '../types/theme';
@@ -17,9 +17,11 @@ import { ComboModelData } from '../types/combo';
 import Item from './item';
 
 interface IProps {
+  graph: IGraph;
   model: NodeModel | ComboModel;
   renderExtensions: any;
   containerGroup: Group;
+  labelContainerGroup?: Group; // TODO: optional?
   mapper?: DisplayMapper;
   stateMapper?: {
     [stateName: string]: DisplayMapper;
@@ -61,7 +63,14 @@ export default class Node extends Item {
     animate = true,
     onfinish: Function = () => {},
   ) {
-    const { group, renderExt, shapeMap: prevShapeMap, model } = this;
+    const {
+      group,
+      labelGroup,
+      renderExt,
+      shapeMap: prevShapeMap,
+      model,
+      graph,
+    } = this;
     renderExt.mergeStyles(displayModel);
 
     const firstRendering = !this.shapeMap?.keyShape;
@@ -71,9 +80,14 @@ export default class Node extends Item {
       diffData,
       diffState,
     );
+    shapeMap.labelShape?.setAttribute('data-is-label', true);
+    shapeMap.labelBackgroundShape?.setAttribute(
+      'data-is-label-background',
+      true,
+    );
 
     // add shapes to group, and update shapeMap
-    this.shapeMap = updateShapes(prevShapeMap, shapeMap, group);
+    this.shapeMap = updateShapes(prevShapeMap, shapeMap, group, labelGroup);
 
     const { animates, disableAnimate, x = 0, y = 0, z = 0 } = displayModel.data;
     if (firstRendering) {
@@ -81,6 +95,10 @@ export default class Node extends Item {
       group.style.x = x;
       group.style.y = y;
       group.style.z = z;
+      const viewportPosition = graph.getViewportByCanvas({ x, y, z });
+      labelGroup.style.x = viewportPosition.x;
+      labelGroup.style.y = viewportPosition.y;
+      labelGroup.style.z = viewportPosition.z;
     } else {
       // terminate previous animations
       this.stopAnimations();
@@ -127,7 +145,7 @@ export default class Node extends Item {
     animate?: boolean,
     onfinish: Function = () => {},
   ) {
-    const { group } = this;
+    const { group, labelGroup, graph } = this;
     const {
       fx,
       fy,
@@ -173,6 +191,10 @@ export default class Node extends Item {
     group.style.x = position.x;
     group.style.y = position.y;
     group.style.z = position.z;
+    const viewportPosition = graph.getViewportByCanvas({ x, y, z });
+    labelGroup.style.x = viewportPosition.x;
+    labelGroup.style.y = viewportPosition.y;
+    labelGroup.style.z = viewportPosition.z;
     onfinish(displayModel.id, !animate);
   }
 
@@ -199,6 +221,7 @@ export default class Node extends Item {
     clonedModel.data.disableAnimate = disableAnimate;
     const clonedNode = new Node({
       model: clonedModel,
+      graph: this.graph,
       renderExtensions: this.renderExtensions,
       containerGroup,
       mapper: this.mapper,

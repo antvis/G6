@@ -9,3 +9,4 @@ export * from './tooltip';
 export * from './timebar';
 export * from './snapline';
 export * from './edgeFilterLens';
+export * from './autoLod';

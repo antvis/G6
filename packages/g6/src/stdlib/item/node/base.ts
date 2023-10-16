@@ -2,7 +2,6 @@ import { AABB, DisplayObject } from '@antv/g';
 import { OTHER_SHAPES_FIELD_NAME, RESERVED_SHAPE_IDS } from '../../../constant';
 import { NodeDisplayModel } from '../../../types';
 import {
-  BadgePosition,
   GShapeStyle,
   SHAPE_TYPE,
   SHAPE_TYPE_3D,
@@ -399,7 +398,6 @@ export abstract class BaseNode {
       shapeMap,
       model,
     );
-    this.balanceShapeSize(shapeMap, this.zoomCache.zoom);
 
     return bgShape;
   }
@@ -836,7 +834,6 @@ export abstract class BaseNode {
       }
       this.zoomCache.zoomLevel = currentLevel;
     }
-    this.balanceShapeSize(shapeMap, zoom);
     this.zoomCache.zoom = zoom;
   };
 

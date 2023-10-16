@@ -1,5 +1,5 @@
 import { Group, DisplayObject, AABB, IAnimation } from '@antv/g';
-import { clone, isFunction, isObject, throttle } from '@antv/util';
+import { clone, isFunction, isObject, pick, throttle } from '@antv/util';
 import { OTHER_SHAPES_FIELD_NAME, RESERVED_SHAPE_IDS } from '../constant';
 import { EdgeShapeMap } from '../types/edge';
 import {
@@ -32,8 +32,10 @@ import {
 } from '../util/animate';
 import { AnimateTiming, IAnimates, IStateAnimate } from '../types/animate';
 import { formatLodStrategy } from '../util/zoom';
+import { IGraph } from '../types';
 
 export default abstract class Item implements IItem {
+  public graph: IGraph;
   public destroyed = false;
   /** Inner model. */
   public model: ItemModel;
@@ -47,6 +49,8 @@ export default abstract class Item implements IItem {
   };
   /** The graphic group for item drawing. */
   public group: Group;
+  /** The graphic group for item'label drawing. */
+  public labelGroup: Group;
   /** The keyShape of the item. */
   public keyShape: DisplayObject;
   /** render extension for this item. */
@@ -62,7 +66,9 @@ export default abstract class Item implements IItem {
   public shapeMap: NodeShapeMap | EdgeShapeMap = {
     keyShape: undefined,
   };
-  public afterDrawShapeMap = {};
+  public afterDrawShapeMap: {
+    [otherShapeId: string]: DisplayObject;
+  } = {};
   /** Set to different value in implements. */
   public type: ITEM_TYPE;
   /** The flag of transient item. */
@@ -102,8 +108,10 @@ export default abstract class Item implements IItem {
   /** Initiate the item. */
   public init(props) {
     const {
+      graph,
       model,
       containerGroup,
+      labelContainerGroup,
       mapper,
       stateMapper,
       renderExtensions,
@@ -112,10 +120,15 @@ export default abstract class Item implements IItem {
       type: itemType,
     } = props;
     this.type = itemType;
+    this.graph = graph;
     this.group = new Group({ style: { zIndex: 0 } });
+    this.labelGroup = new Group({ style: { zIndex: 0 } });
     this.group.setAttribute('data-item-type', this.type);
     this.group.setAttribute('data-item-id', props.model.id);
+    this.labelGroup.setAttribute('data-item-type', this.type);
+    this.labelGroup.setAttribute('data-item-id', props.model.id);
     containerGroup.appendChild(this.group);
+    labelContainerGroup.appendChild(this.labelGroup);
     this.model = model;
     this.mapper = mapper;
     this.zoom = zoom;
@@ -173,10 +186,16 @@ export default abstract class Item implements IItem {
         ...this.shapeMap,
         ...this.afterDrawShapeMap,
       }) || {};
+    this.afterDrawShapeMap.labelShape?.setAttribute('data-is-label', true);
+    this.afterDrawShapeMap.labelBackgroundShape?.setAttribute(
+      'data-is-label-background',
+      true,
+    );
     const shapeMap = updateShapes(
       this.afterDrawShapeMap,
       afterDrawShapeMap,
       this.group,
+      this.labelGroup,
       false,
       (id) => {
         if (RESERVED_SHAPE_IDS.includes(id)) {
@@ -192,6 +211,8 @@ export default abstract class Item implements IItem {
       ...this.shapeMap,
       ...shapeMap,
     };
+    this.changedStates = [];
+    this.updateLabelPosition();
   }
 
   /**
@@ -845,6 +866,77 @@ export default abstract class Item implements IItem {
   public updateZoom(zoom) {
     this.zoom = zoom;
     this.renderExt.onZoom(this.shapeMap, zoom, this.cacheHiddenByItem);
+  }
+
+  public showShapes(shapeIds: string[]) {
+    shapeIds.forEach((id) => {
+      const shape = this.shapeMap[id];
+      if (!shape || shape.isVisible()) return;
+      shape.show();
+    });
+  }
+
+  public hideShapes(shapeIds: string[]) {
+    shapeIds.forEach((id) => {
+      const shape = this.shapeMap[id];
+      if (!shape || !shape.isVisible()) return;
+      shape.hide();
+    });
+  }
+
+  /**
+   * Update label positions on label canvas by getting viewport position from transformed canvas position.
+   */
+  public updateLabelPosition() {
+    const { graph, group, labelGroup, type } = this;
+    if (this.labelGroup.style.visibility === 'hidden') {
+      labelGroup.show();
+    }
+    const [x, y, z] = group.getPosition();
+    const zoom = graph.getZoom();
+    if (type === 'node') {
+      const viewportPosition = graph.getViewportByCanvas({ x, y, z });
+      labelGroup.style.x = viewportPosition.x;
+      labelGroup.style.y = viewportPosition.y;
+      labelGroup.style.z = viewportPosition.z;
+    }
+    labelGroup.children.forEach((shape) => {
+      if (shape.getAttribute('data-is-label-background')) {
+        this.renderExt.drawLabelBackgroundShape(
+          this.displayModel,
+          this.shapeMap,
+        );
+        return;
+      }
+      const fields =
+        shape.nodeName === 'circle' ? ['cx', 'cy', 'cz'] : ['x', 'y', 'z'];
+      if (!shape.getAttribute('data-origin-position')) {
+        const vals = {};
+        fields.forEach((field) => (vals[field] = shape.style[field]));
+        shape.setAttribute('data-origin-position', vals);
+      }
+      const originPosition = shape.getAttribute('data-origin-position');
+      if (type === 'node') {
+        Object.keys(originPosition).forEach((field) => {
+          if (!isNaN(shape.style[field]))
+            shape.style[field] = originPosition[field] * zoom;
+        });
+      } else {
+        const viewportPosition = graph.getViewportByCanvas({
+          x: originPosition.x || originPosition.cx,
+          y: originPosition.y || originPosition.cy,
+          z: originPosition.z || originPosition.cz,
+        });
+        fields.forEach(
+          (field) =>
+            (shape.style[field] = viewportPosition[field.replace('c', '')]),
+        );
+      }
+    });
+  }
+
+  public hideLabel() {
+    if (this.labelGroup.style.visibility !== 'hidden') this.labelGroup.hide();
   }
 
   /** Destroy the item. */

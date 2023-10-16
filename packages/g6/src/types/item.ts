@@ -72,7 +72,7 @@ export type ClipCfg = {
 export type ShapeStyle = Partial<
   GShapeStyle & {
     animates?: IAnimates;
-    lod?: number;
+    lod?: number | 'auto';
     visible?: boolean;
   } & {
     clipCfg?: ClipCfg;

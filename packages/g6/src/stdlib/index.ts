@@ -81,6 +81,7 @@ const {
   Timebar,
   Snapline,
   EdgeFilterLens,
+  AutoLod,
 } = Plugins;
 
 const {
@@ -135,6 +136,7 @@ const stdLib = {
   },
   plugins: {
     history: History,
+    'auto-lod': AutoLod,
   },
   nodes: {
     'circle-node': CircleNode,
@@ -288,6 +290,7 @@ const Extensions = {
   // plugins
   BasePlugin,
   History,
+  AutoLod,
   Toolbar,
   Tooltip,
   Minimap,

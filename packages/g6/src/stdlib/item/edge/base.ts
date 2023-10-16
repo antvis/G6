@@ -311,7 +311,7 @@ export abstract class BaseEdge {
       positionStyle = {
         x: projection.x + offsetY * Math.cos(Math.PI - angle),
         y: projection.y + offsetY * Math.sin(Math.PI - angle),
-        transform: `rotate(${(angle / Math.PI) * 180})`,
+        transform: `rotate(${(angle / Math.PI) * 180}deg)`,
       };
     }
     this.labelPosition = {
@@ -356,21 +356,20 @@ export abstract class BaseEdge {
     const { labelBackgroundShape, labelShape: labelShapeStyle } =
       this.mergedStyles;
 
-    const textBBox = labelShape.getGeometryBounds();
+    const textGeoBBox = labelShape.getGeometryBounds();
     const { x, y, transform, isRevert } = this.labelPosition;
     const { padding, ...backgroundStyle } = labelBackgroundShape;
-    const { balanceRatio = 1 } = this.zoomCache;
-    const textWidth = textBBox.max[0] - textBBox.min[0];
-    const textHeight = textBBox.max[1] - textBBox.min[1];
+    const textWidth = textGeoBBox.max[0] - textGeoBBox.min[0];
+    const textHeight = textGeoBBox.max[1] - textGeoBBox.min[1];
     const bgStyle = {
       fill: '#fff',
       ...backgroundStyle,
-      x: textBBox.min[0] - padding[3] + x,
-      y: textBBox.min[1] - padding[0] / balanceRatio + y,
+      x: textGeoBBox.min[0] - padding[3] + labelShape.style.x,
+      y: textGeoBBox.min[1] - padding[0] + labelShape.style.y,
       width: textWidth + padding[1] + padding[3],
-      height: textHeight + (padding[0] + padding[2]) / balanceRatio,
-      transform: transform,
+      height: textHeight + padding[0] + padding[2],
     };
+    if (transform) bgStyle.transform = transform;
     if (labelShapeStyle.position === 'start') {
       if (isRevert) {
         bgStyle.transformOrigin = `${bgStyle.width - padding[1]} ${
@@ -543,7 +542,7 @@ export abstract class BaseEdge {
     cacheHiddenShape = {},
   ) => {
     // balance the size for label, badges
-    this.balanceShapeSize(shapeMap, zoom);
+    // this.balanceShapeSize(shapeMap, zoom);
 
     // zoomLevel changed
     if (!this.lodStrategy) return;

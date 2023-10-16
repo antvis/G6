@@ -191,6 +191,7 @@ export const updateShapes = (
   prevShapeMap: { [id: string]: DisplayObject },
   newShapeMap: { [id: string]: DisplayObject },
   group: Group,
+  labelGroup: Group,
   removeDiff = true,
   shouldUpdate: (id: string) => boolean = () => true,
 ): NodeShapeMap | EdgeShapeMap => {
@@ -212,16 +213,21 @@ export const updateShapes = (
         prevShape.remove();
       }
       finalShapeMap[id] = newShape;
+      const parentGroup =
+        newShape.getAttribute('data-is-label') ||
+        newShape.getAttribute('data-is-label-background')
+          ? labelGroup
+          : group;
       if (
         // NewShape is already in the group, no need to reappend.
         // Note: If the given child is a reference to an existing node in the document,
         // appendChild() moves it from its current position to the new position.
         // @see https://developer.mozilla.org/en-US/docs/Web/API/Node/appendChild
-        newShape.parentElement !== group &&
+        newShape.parentElement !== parentGroup &&
         !newShape.destroyed &&
         newShape.style.display !== 'none'
       ) {
-        group.appendChild(newShape);
+        parentGroup.appendChild(newShape);
       }
     }
 

@@ -1,4 +1,4 @@
-import { ComboDisplayModel, ComboModel } from 'types';
+import { ComboDisplayModel, ComboModel, IGraph } from '../types';
 import { Group, Tuple3Number } from '@antv/g';
 import { clone, throttle } from '@antv/util';
 import { DisplayMapper, LodStrategyObj, State } from '../types/item';
@@ -14,6 +14,7 @@ import Node from './node';
 
 interface IProps {
   model: ComboModel;
+  graph: IGraph;
   renderExtensions: any;
   containerGroup: Group;
   mapper?: DisplayMapper;
@@ -291,6 +292,7 @@ export default class Combo extends Node {
     clonedModel.data.disableAnimate = disableAnimate;
     const clonedNode = new Combo({
       model: clonedModel,
+      graph: this.graph,
       renderExtensions: this.renderExtensions,
       containerGroup,
       mapper: this.mapper,

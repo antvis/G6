@@ -4,4 +4,4 @@ export * from './item';
 export * from './layout';
 export * from './viewport';
 export * from './theme';
-export * from './extension';
+export * from './plugin';

@@ -1,6 +1,6 @@
 import { Circle, Group } from '@antv/g';
 import { clone, throttle } from '@antv/util';
-import { EdgeDisplayModel, EdgeModel, ID, Point } from '../types';
+import { EdgeDisplayModel, EdgeModel, ID, IGraph, Point } from '../types';
 import { EdgeModelData } from '../types/edge';
 import { DisplayMapper, State, LodStrategyObj } from '../types/item';
 import { updateShapes } from '../util/shape';
@@ -13,9 +13,11 @@ import Node from './node';
 import Combo from './combo';
 
 interface IProps {
+  graph: IGraph;
   model: EdgeModel;
   renderExtensions: any; // TODO: type
   containerGroup: Group;
+  labelContainerGroup?: Group; // TODO: optional?
   mapper?: DisplayMapper;
   stateMapper?: {
     [stateName: string]: DisplayMapper;
@@ -86,12 +88,18 @@ export default class Edge extends Item {
       diffData,
       diffState,
     );
+    shapeMap.labelShape?.setAttribute('data-is-label', true);
+    shapeMap.labelBackgroundShape?.setAttribute(
+      'data-is-label-background',
+      true,
+    );
 
     // add shapes to group, and update shapeMap
     this.shapeMap = updateShapes(
       this.shapeMap,
       { ...shapeMap, ...this.afterDrawShapeMap },
       this.group,
+      this.labelGroup,
     );
 
     // handle shape's and group's animate
@@ -155,8 +163,22 @@ export default class Edge extends Item {
       targetPoint,
       this.shapeMap,
     );
+    shapeMap.labelShape?.setAttribute('data-is-label', true);
+    shapeMap.labelBackgroundShape?.setAttribute(
+      'data-is-label-background',
+      true,
+    );
     // add shapes to group, and update shapeMap
-    this.shapeMap = updateShapes(this.shapeMap, shapeMap, this.group);
+    this.shapeMap = updateShapes(
+      this.shapeMap,
+      shapeMap,
+      this.group,
+      this.labelGroup,
+    );
+    this.labelGroup.children
+      .filter((element) => element.getAttribute('data-is-label'))
+      .forEach((shape) => shape.setAttribute('data-origin-position', ''));
+    this.updateLabelPosition();
   }
 
   /**
@@ -297,6 +319,7 @@ export default class Edge extends Item {
 
     const clonedEdge = new Edge({
       model: clonedModel,
+      graph: this.graph,
       renderExtensions: this.renderExtensions,
       sourceItem,
       targetItem,

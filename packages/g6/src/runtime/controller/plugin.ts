@@ -71,7 +71,8 @@ export class PluginController {
     this.pluginMap.clear();
     const { graph } = this;
     const pluginConfigs = graph.getSpecification().plugins || [];
-    pluginConfigs.forEach(this.initPlugin.bind(this));
+    const requiredPlugins = ['auto-lod'];
+    pluginConfigs.concat(requiredPlugins).forEach(this.initPlugin.bind(this));
 
     // 2. Add listeners for each behavior.
     this.listenersMap = {};

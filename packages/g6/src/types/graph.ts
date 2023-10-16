@@ -25,6 +25,7 @@ export interface IGraph<
   [x: string]: any;
   hooks: Hooks;
   canvas: Canvas;
+  labelCanvas: Canvas;
   transientCanvas: Canvas;
   destroyed: boolean;
   container: HTMLElement;

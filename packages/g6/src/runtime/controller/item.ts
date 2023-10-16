@@ -4,6 +4,7 @@ import {
   debounce,
   each,
   isArray,
+  isEmpty,
   isNumber,
   isObject,
   map,
@@ -32,7 +33,11 @@ import {
 import Node from '../../item/node';
 import Edge from '../../item/edge';
 import Combo from '../../item/combo';
-import { getCombinedBoundsByData, upsertShape } from '../../util/shape';
+import {
+  getCombinedBoundsByData,
+  intersectBBox,
+  upsertShape,
+} from '../../util/shape';
 import { getExtension } from '../../util/extension';
 import { upsertTransientItem } from '../../util/item';
 import {
@@ -120,6 +125,8 @@ export class ItemController {
 
   // if the graph has combos, nodeGroup/edgeGroup/comboGroup point to the same group, so as transient groups.
   private nodeGroup: Group;
+  private nodeLabelGroup: Group;
+  private edgeLabelGroup: Group;
   private edgeGroup: Group;
   private comboGroup: Group;
   private transientNodeGroup: Group;
@@ -181,6 +188,7 @@ export class ItemController {
     this.graph.hooks.itemzindexchange.tap(this.onItemZIndexChange.bind(this));
     this.graph.hooks.transientupdate.tap(this.onTransientUpdate.bind(this));
     this.graph.hooks.viewportchange.tap(this.onViewportChange.bind(this));
+    this.graph.hooks.viewportchange.tap(this.updateLabelPositions.bind(this));
     this.graph.hooks.themechange.tap(this.onThemeChange.bind(this));
     this.graph.hooks.mapperchange.tap(this.onMapperChange.bind(this));
     this.graph.hooks.treecollapseexpand.tap(
@@ -230,15 +238,22 @@ export class ItemController {
 
     // 0. clear groups on canvas, and create new groups
     graph.canvas.removeChildren();
-    const comboGroup = new Group({ id: 'combo-group', style: { zIndex: 0 } });
-    const edgeGroup = new Group({ id: 'edge-group', style: { zIndex: 1 } });
-    const nodeGroup = new Group({ id: 'node-group', style: { zIndex: 2 } });
-    graph.canvas.appendChild(comboGroup);
-    graph.canvas.appendChild(edgeGroup);
-    graph.canvas.appendChild(nodeGroup);
-    this.nodeGroup = nodeGroup;
-    this.edgeGroup = edgeGroup;
-    this.comboGroup = comboGroup;
+    this.comboGroup = new Group({ id: 'combo-group', style: { zIndex: 0 } });
+    this.edgeGroup = new Group({ id: 'edge-group', style: { zIndex: 1 } });
+    this.nodeGroup = new Group({ id: 'node-group', style: { zIndex: 2 } });
+    this.edgeLabelGroup = new Group({
+      id: 'node-label-group',
+      style: { zIndex: 0 },
+    });
+    this.nodeLabelGroup = new Group({
+      id: 'node-label-group',
+      style: { zIndex: 1 },
+    });
+    graph.canvas.appendChild(this.comboGroup);
+    graph.canvas.appendChild(this.edgeGroup);
+    graph.canvas.appendChild(this.nodeGroup);
+    graph.labelCanvas.appendChild(this.edgeLabelGroup);
+    graph.labelCanvas.appendChild(this.nodeLabelGroup);
 
     // Also create transient groups on transient canvas.
     transientCanvas.removeChildren();
@@ -706,6 +721,7 @@ export class ItemController {
 
   private onItemVisibilityChange(param: {
     ids: ID[];
+    shapeIds: string[];
     value: boolean;
     graphCore: GraphCore;
     animate?: boolean;
@@ -713,6 +729,7 @@ export class ItemController {
   }) {
     const {
       ids,
+      shapeIds,
       value,
       graphCore,
       animate = true,
@@ -724,6 +741,14 @@ export class ItemController {
         console.warn(
           `Fail to set visibility for item ${id}, which is not exist.`,
         );
+        return;
+      }
+      if (shapeIds?.length) {
+        if (value) {
+          item.showShapes(shapeIds);
+        } else {
+          item.hideShapes(shapeIds);
+        }
         return;
       }
       const type = item.getType();
@@ -794,6 +819,63 @@ export class ItemController {
     });
   }
 
+  /**
+   * get the items inside viewport
+   * @returns
+   */
+  private groupItemsByView = (
+    containType: 'inside' | 'intersect' = 'inside',
+  ) => {
+    const range = this.graph.getCanvasRange();
+    const items = Array.from(this.itemMap, ([key, value]) => value);
+    const itemsInViewport = [];
+    const itemsOutViewport = [];
+    const containFunc =
+      containType === 'intersect' ? intersectBBox : isBBoxInBBox;
+    items.forEach((item) => {
+      const { keyShape } = item.shapeMap;
+      if (!keyShape) return;
+      const renderBounds = keyShape.getRenderBounds();
+      if (containFunc(renderBounds, range, 0.4)) itemsInViewport.push(item);
+      else itemsOutViewport.push(item);
+    });
+    return {
+      items,
+      inView: itemsInViewport,
+      outView: itemsOutViewport,
+    };
+  };
+
+  private updateLabelPositions = ({
+    transform,
+    effectTiming,
+    tileLodSize = 1000,
+  }: ViewportChangeHookParams) => {
+    const { inView: itemsInView, outView: itemsOutView } =
+      this.groupItemsByView('intersect');
+
+    // TODO: show and hide labels according to quadtree with viewport coordinates
+    // 1. inside current view &&
+    // 2. lod is number and matches the current zoom ratio
+    // 3. lod is 'auto' and filtered by cells)
+    // 1 && (2 || 3)
+    const autoVisibleItems = [];
+    itemsInView.forEach((item) => {
+      const { labelShape, lodStrategy } = item.displayModel.data;
+      if (!labelShape) return;
+      const { visible, lod = 'auto' } = labelShape;
+      if (visible === false) return;
+      // autoVisible
+      if (!lodStrategy || isEmpty(lodStrategy) || typeof lod !== 'number') {
+        autoVisibleItems.push(item);
+      }
+    });
+
+    // adjust labels'positions for visible items
+    itemsInView.forEach((item) => item.updateLabelPosition());
+    itemsOutView.forEach((item) => item.hideLabel());
+  };
+
   private onViewportChange = debounce(
     ({
       transform,
@@ -803,20 +885,13 @@ export class ItemController {
       const { zoom } = transform;
       if (zoom) {
         const zoomRatio = this.graph.getZoom();
-        const range = this.graph.getCanvasRange();
-        const nodeItems = Array.from(this.itemMap, ([key, value]) => value);
-        const itemsInViewport = [];
-        const itemsOutViewport = [];
-        nodeItems.forEach((item) => {
-          const { keyShape } = item.shapeMap;
-          if (!keyShape) return;
-          const renderBounds = keyShape.getRenderBounds();
-          if (isBBoxInBBox(renderBounds, range, 0.4))
-            itemsInViewport.push(item);
-          else itemsOutViewport.push(item);
-        });
-        const sortedItems = itemsInViewport.concat(itemsOutViewport);
-        const sections = Math.ceil(nodeItems.length / tileLodSize);
+        const {
+          items,
+          inView: itemsInview,
+          outView: itemsOutView,
+        } = this.groupItemsByView();
+        const sortedItems = itemsInview.concat(itemsOutView);
+        const sections = Math.ceil(items.length / tileLodSize);
         const itemSections = Array.from({ length: sections }, (v, i) =>
           sortedItems.slice(i * tileLodSize, i * tileLodSize + tileLodSize),
         );
@@ -830,7 +905,6 @@ export class ItemController {
           requestId = requestAnimationFrame(update);
         };
         requestId = requestAnimationFrame(update);
-        // this.itemMap.forEach((item) => item.updateZoom(zoomRatio));
         this.zoom = zoomRatio;
       }
     },
@@ -1085,7 +1159,13 @@ export class ItemController {
       tileFirstRenderSize?: number;
     },
   ): Promise<any> | undefined {
-    const { nodeExtensions, nodeGroup, nodeDataTypeSet, graph } = this;
+    const {
+      nodeExtensions,
+      nodeGroup,
+      nodeLabelGroup,
+      nodeDataTypeSet,
+      graph,
+    } = this;
     const { dataTypeField = '' } = nodeTheme;
     const { tileFirstRender, tileFirstRenderSize = 1000 } = tileOptimize || {};
     const zoom = graph.getZoom();
@@ -1107,10 +1187,12 @@ export class ItemController {
       );
 
       const nodeItem = new Node({
+        graph,
         delayFirstDraw,
         model: node,
         renderExtensions: nodeExtensions,
         containerGroup: nodeGroup,
+        labelContainerGroup: nodeLabelGroup,
         mapper: this.nodeMapper,
         stateMapper: this.nodeStateMapper,
         zoom,
@@ -1208,6 +1290,7 @@ export class ItemController {
       };
       const comboItem = new Combo({
         model: combo,
+        graph: this.graph,
         getCombinedBounds,
         getChildren,
         renderExtensions: comboExtensions,
@@ -1249,7 +1332,14 @@ export class ItemController {
     },
     nodesInView?: Node[],
   ): Promise<any> | undefined {
-    const { edgeExtensions, edgeGroup, itemMap, edgeDataTypeSet, graph } = this;
+    const {
+      edgeExtensions,
+      edgeGroup,
+      edgeLabelGroup,
+      itemMap,
+      edgeDataTypeSet,
+      graph,
+    } = this;
     const { dataTypeField = '' } = edgeTheme;
     const { tileFirstRender, tileFirstRenderSize = 1000 } = tileOptimize || {};
     const zoom = graph.getZoom();
@@ -1286,10 +1376,12 @@ export class ItemController {
         edgeTheme,
       );
       const edgeItem = new Edge({
+        graph,
         delayFirstDraw,
         model: edge,
         renderExtensions: edgeExtensions,
         containerGroup: edgeGroup,
+        labelContainerGroup: edgeLabelGroup,
         mapper: this.edgeMapper as DisplayMapper,
         stateMapper: this.edgeStateMapper as {
           [stateName: string]: DisplayMapper;

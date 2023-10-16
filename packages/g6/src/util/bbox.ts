@@ -1,4 +1,4 @@
-import { AABB } from '@antv/g';
+import { AABB, Canvas } from '@antv/g';
 import { Point, PolyPoint } from 'types/common';
 
 /**
@@ -331,4 +331,29 @@ export const isBBoxInBBox = (subBBox: AABB, bbox: AABB, scale?: number) => {
     subBBox.min[1] > bbox.min[1] &&
     subBBox.max[1] < bbox.max[1]
   );
+};
+
+export const getCombinedCanvasesBounds = (canvases: Canvas[]) => {
+  const combinedBounds = {
+    min: [Infinity, Infinity, Infinity],
+    max: [-Infinity, -Infinity, -Infinity],
+    center: [0, 0, 0],
+    halfExtents: [0, 0, 0],
+  };
+  canvases.forEach((canvas) => {
+    const bounds = canvas.document.documentElement.getBounds();
+    combinedBounds.min = combinedBounds.min.map((val, i) =>
+      Math.min(val || Infinity, bounds.min[i]),
+    );
+    combinedBounds.max = combinedBounds.max.map((val, i) =>
+      Math.max(val || -Infinity, bounds.max[i]),
+    );
+  });
+  combinedBounds.center = combinedBounds.center.map(
+    (_, i) => (combinedBounds.max[i] + combinedBounds.min[i]) / 2,
+  );
+  combinedBounds.halfExtents = combinedBounds.halfExtents.map(
+    (_, i) => (combinedBounds.max[i] - combinedBounds.min[i]) / 2,
+  );
+  return combinedBounds;
 };
