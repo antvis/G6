@@ -521,18 +521,15 @@ export class ItemController {
           );
         }
 
-        const newNearEdges = this.graph.getNearEdgesData(id);
-        const relatedEdges = graphCore.getRelatedEdges(id);
-        const adjacentEdgeInnerModels = isPointPreventPolylineOverlap(
-          innerModel,
-        )
-          ? uniq(
-              (this.nearEdgesCache.get(id) || [])
-                .concat(newNearEdges)
-                .concat(relatedEdges),
-            )
-          : relatedEdges;
-        this.nearEdgesCache.set(id, newNearEdges);
+        const adjacentEdgeInnerModels = graphCore.getRelatedEdges(id);
+
+        if (isPointPreventPolylineOverlap(innerModel)) {
+          const newNearEdges = this.graph.getNearEdgesData(id, true);
+          const prevNearEdges = this.nearEdgesCache.get(id) || [];
+          adjacentEdgeInnerModels.push(...newNearEdges);
+          adjacentEdgeInnerModels.push(...prevNearEdges);
+          this.nearEdgesCache.set(id, newNearEdges);
+        }
 
         adjacentEdgeInnerModels.forEach((edge) => {
           edgeIdsToUpdate.add(edge.id);

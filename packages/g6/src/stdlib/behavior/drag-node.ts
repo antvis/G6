@@ -171,9 +171,11 @@ export class DragNode extends Behavior {
   }
 
   /** Retrieve the nearby edges for a given node using quadtree collision detection. */
-  private getNearEdgesForNodes(nodeIds: ID[]) {
+  private getNearEdgesForNodes(nodeIds: ID[], onlyPolyline?: boolean) {
     return uniq(
-      nodeIds.flatMap((nodeId) => this.graph.getNearEdgesData(nodeId)),
+      nodeIds.flatMap((nodeId) =>
+        this.graph.getNearEdgesData(nodeId, onlyPolyline),
+      ),
     );
   }
 
@@ -341,6 +343,7 @@ export class DragNode extends Behavior {
 
         this.hiddenNearEdges = this.getNearEdgesForNodes(
           preventPolylineOverlapNodeIds,
+          true,
         ).filter((edge) => !hiddenEdgesIds.includes(edge.id));
         const hiddenNearEdgesIds = this.hiddenNearEdges.map((edge) => edge.id);
 

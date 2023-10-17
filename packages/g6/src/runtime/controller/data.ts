@@ -37,7 +37,11 @@ import { getExtension } from '../../util/extension';
 import { convertToNumber } from '../../util/type';
 import { isTreeLayout } from '../../util/layout';
 import { hasTreeBehaviors } from '../../util/behavior';
-import { EdgeCollisionChecker, QuadTree } from '../../util/polyline';
+import {
+  EdgeCollisionChecker,
+  QuadTree,
+  isPolylineWithObstacleAvoidance,
+} from '../../util/polyline';
 
 /**
  * Manages the data transform extensions;
@@ -133,13 +137,18 @@ export class DataController {
     return this.graphCore.getRelatedEdges(nodeId, direction);
   }
 
-  public findNearEdges(nodeId: ID, transientItem?: Node) {
+  public findNearEdges(
+    nodeId: ID,
+    transientItem?: Node,
+    onlyPolyline?: boolean,
+  ) {
     const edges = this.graphCore.getAllEdges();
 
     const canvasBBox = this.graph.getRenderBBox(undefined) as AABB;
     const quadTree = new QuadTree(canvasBBox, 4);
 
     edges.forEach((edge) => {
+      if (onlyPolyline && !isPolylineWithObstacleAvoidance(edge)) return;
       const {
         data: { x: sourceX, y: sourceY },
       } = this.graphCore.getNode(edge.source);

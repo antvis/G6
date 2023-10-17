@@ -118,7 +118,7 @@ export interface IGraph<
    * @param nodeId id of the start node
    * @returns nearby edges' data array
    */
-  getNearEdgesData: (nodeId: ID) => EdgeModel[];
+  getNearEdgesData: (nodeId: ID, onlyPolyline?: boolean) => EdgeModel[];
   /**
    * Get one-hop node ids from a start node.
    * @param nodeId id of the start node

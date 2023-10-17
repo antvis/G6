@@ -1031,11 +1031,15 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * @param nodeId id of the start node
    * @returns nearby edges' data array
    */
-  public getNearEdgesData(nodeId: ID): EdgeModel[] {
+  public getNearEdgesData(nodeId: ID, onlyPolyline?: boolean): EdgeModel[] {
     const transientItem = this.itemController.getTransientItem(
       nodeId,
     ) as unknown as Node;
-    return this.dataController.findNearEdges(nodeId, transientItem);
+    return this.dataController.findNearEdges(
+      nodeId,
+      transientItem,
+      onlyPolyline,
+    );
   }
   /**
    * Get one-hop node ids from a start node.
