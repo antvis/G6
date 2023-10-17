@@ -14,6 +14,12 @@ export interface GraphData {
   combos?: ComboUserModel[];
 }
 
+export interface GraphDataChanges {
+  dataAdded: GraphData;
+  dataUpdated: GraphData;
+  dataRemoved: GraphData;
+}
+
 export type TreeData =
   | ITreeData<NodeUserModelData>
   | ITreeData<NodeUserModelData>[];

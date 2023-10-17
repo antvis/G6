@@ -2,7 +2,7 @@
 title: TrackCanvas3DOptions
 ---
 
-[Overview - v5.0.0-beta.12](../../README.en.md) / [Modules](../../modules.en.md) / [behaviors](../../modules/behaviors.en.md) / TrackCanvas3DOptions
+[Overview - v5.0.0-beta.21](../../README.en.md) / [Modules](../../modules.en.md) / [behaviors](../../modules/behaviors.en.md) / TrackCanvas3DOptions
 
 [behaviors](../../modules/behaviors.en.md).TrackCanvas3DOptions
 

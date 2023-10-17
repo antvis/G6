@@ -4,7 +4,7 @@ title: CustomNode
 
 > 📋 中文文档还在翻译中... 欢迎 PR
 
-[Overview - v5.0.0-beta.12](../../README.zh.md) / [Modules](../../modules.zh.md) / [item](../../modules/item.zh.md) / CustomNode
+[Overview - v5.0.0-beta.21](../../README.zh.md) / [Modules](../../modules.zh.md) / [item](../../modules/item.zh.md) / CustomNode
 
 [item](../../modules/item.zh.md).CustomNode
 

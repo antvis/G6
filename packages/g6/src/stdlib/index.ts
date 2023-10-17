@@ -13,7 +13,8 @@ import * as Themes from './theme';
 import * as ThemeSolvers from './themeSolver';
 import * as Plugins from './plugin';
 
-const { ValidateData, TransformV4Data, MapNodeSize } = Transforms;
+const { ValidateData, TransformV4Data, MapNodeSize, ProcessParallelEdges } =
+  Transforms;
 
 const { compactBox, dendrogram, indented, mindmap } = Hierarchy;
 
@@ -215,6 +216,7 @@ const Extensions = {
   ValidateData,
   TransformV4Data,
   MapNodeSize,
+  ProcessParallelEdges,
   // themes
   LightTheme,
   DarkTheme,

@@ -3,6 +3,7 @@ import { ID, IG6GraphEvent } from '../../types';
 import { Behavior } from '../../types/behavior';
 
 const VALID_TRIGGERS = ['wheel', 'upDownKeys'];
+const WHEEL_DURATION = 250;
 export interface ZoomCanvasOptions {
   /**
    * Whether enable optimize strategies, which will hide all the shapes excluding node keyShape while zooming.
@@ -59,7 +60,7 @@ export interface ZoomCanvasOptions {
 const DEFAULT_OPTIONS: Required<ZoomCanvasOptions> = {
   enableOptimize: undefined,
   triggerOnItems: true,
-  sensitivity: 2,
+  sensitivity: 6,
   trigger: 'wheel',
   secondaryKey: '',
   speedUpKey: 'shift',
@@ -77,6 +78,7 @@ export class ZoomCanvas extends Behavior {
   private hiddenNodeIds: ID[];
   private zoomTimer: ReturnType<typeof setTimeout>;
   private tileRequestId?: number;
+  private lastWheelTriggerTime?: number;
 
   constructor(options: Partial<ZoomCanvasOptions>) {
     const finalOptions = Object.assign({}, DEFAULT_OPTIONS, options);
@@ -229,21 +231,43 @@ export class ZoomCanvas extends Behavior {
 
     // begin zooming
     if (!this.zooming) {
+      this.graph.canvas.getConfig().disableHitTesting = true;
       this.hideShapes();
       this.zooming = true;
     }
+
+    const { tileBehavior: graphBehaviorOptimize } =
+      graph.getSpecification().optimize || {};
+
+    const shouldDebounce =
+      typeof graphBehaviorOptimize === 'boolean'
+        ? graphBehaviorOptimize
+        : graph.getAllNodesData().length > graphBehaviorOptimize;
+
+    const now = Date.now();
+    if (
+      shouldDebounce &&
+      this.lastWheelTriggerTime &&
+      now - this.lastWheelTriggerTime < WHEEL_DURATION / 5
+    ) {
+      return;
+    }
+
     let zoomRatio = 1;
     if (deltaY < 0) zoomRatio = (100 + sensitivity) / 100;
     if (deltaY > 0) zoomRatio = 100 / (100 + sensitivity);
     const zoomTo = zoomRatio * graph.getZoom();
     if (minZoom && zoomTo < minZoom) return;
     if (maxZoom && zoomTo > maxZoom) return;
-    // TODO: the zoom center is wrong?
+
     graph.zoom(zoomRatio, { x: client.x, y: client.y });
+
+    this.lastWheelTriggerTime = now;
 
     clearTimeout(this.zoomTimer);
     this.zoomTimer = setTimeout(() => {
       this.endZoom();
+      this.graph.canvas.getConfig().disableHitTesting = false;
     }, 300);
 
     // Emit event.

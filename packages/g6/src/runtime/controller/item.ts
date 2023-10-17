@@ -289,14 +289,16 @@ export class ItemController {
       theme.node,
       tileOptimize,
     );
+    let nodesInView;
     if (renderNodesPromise) {
-      await renderNodesPromise;
+      nodesInView = await renderNodesPromise;
     }
     this.renderCombos(combos, theme.combo, graphCore);
     const renderEdgesPromise = this.renderEdges(
       edges,
       theme.edge,
       tileOptimize,
+      nodesInView,
     );
     if (renderEdgesPromise) {
       await renderEdgesPromise;
@@ -863,6 +865,8 @@ export class ItemController {
 
   private onMapperChange = ({ type, mapper }) => {
     if (!mapper) return;
+    /** update this.nodeMapper or this.edgeMapper */
+    this[`${type}Mapper`] = mapper;
     this.itemMap.forEach((item) => {
       const itemTye = item.getType();
       if (itemTye !== type) return;
@@ -1046,7 +1050,7 @@ export class ItemController {
     );
     transientObjectMap.set(idStr, shape);
     shape.style.pointerEvents = capture ? 'auto' : 'none';
-    canvas.getRoot().appendChild(shape);
+    if (shape.parentNode === null) canvas.getRoot().appendChild(shape);
   }
   public getTransient(id: string) {
     return this.transientObjectMap.get(id);
@@ -1128,18 +1132,18 @@ export class ItemController {
     });
     if (delayFirstDraw) {
       let requestId;
-      const items = itemsInView.concat(itemsOutView);
-      const sectionNum = Math.ceil(items.length / tileFirstRenderSize);
+      const sectionNum = Math.ceil(itemsOutView.length / tileFirstRenderSize);
       const sections = Array.from({ length: sectionNum }, (v, i) =>
-        items.slice(
+        itemsOutView.slice(
           i * tileFirstRenderSize,
           i * tileFirstRenderSize + tileFirstRenderSize,
         ),
       );
+      sections.unshift(itemsInView);
       const update = (resolve) => {
         if (!sections.length) {
           cancelAnimationFrame(requestId);
-          return resolve();
+          return resolve(itemsInView);
         }
         sections
           .shift()
@@ -1234,6 +1238,7 @@ export class ItemController {
       tileFirstRender?: boolean | number;
       tileFirstRenderSize?: number;
     },
+    nodesInView?: Node[],
   ): Promise<any> | undefined {
     const { edgeExtensions, edgeGroup, itemMap, edgeDataTypeSet, graph } = this;
     const { dataTypeField = '' } = edgeTheme;
@@ -1243,7 +1248,10 @@ export class ItemController {
     const delayFirstDraw = isNumber(tileFirstRender)
       ? models.length > tileFirstRender
       : tileFirstRender;
-    const items = models.map((edge) => {
+    const nodesInViewIds = new Set(nodesInView?.map((node) => node.getID()));
+    const edgesInView = [];
+    const edgesOutView = [];
+    models.forEach((edge) => {
       const { source, target, id } = edge;
       const sourceItem = itemMap.get(source) as Node;
       const targetItem = itemMap.get(target) as Node;
@@ -1288,18 +1296,22 @@ export class ItemController {
       });
 
       itemMap.set(id, edgeItem);
+      if (nodesInViewIds.has(source) || nodesInViewIds.has(target))
+        edgesInView.push(edgeItem);
+      else edgesOutView.push(edgeItem);
       return edgeItem;
     });
 
     if (delayFirstDraw) {
       let requestId;
-      const sectionNum = Math.ceil(items.length / tileFirstRenderSize);
+      const sectionNum = Math.ceil(edgesOutView.length / tileFirstRenderSize);
       const sections = Array.from({ length: sectionNum }, (v, i) =>
-        items.slice(
+        edgesOutView.slice(
           i * tileFirstRenderSize,
           i * tileFirstRenderSize + tileFirstRenderSize,
         ),
       );
+      sections.unshift(edgesInView);
       const update = (resolve) => {
         if (!sections.length) {
           cancelAnimationFrame(requestId);

@@ -202,9 +202,7 @@ export default class Combo extends Node {
         );
         break;
       default: {
-        const bbox =
-          this.renderExt.boundsCache?.keyShapeLocal ||
-          keyShape.getLocalBounds();
+        const bbox = keyShape.getLocalBounds();
 
         intersectPoint = getRectIntersectByPoint(
           collapsed
@@ -227,9 +225,7 @@ export default class Combo extends Node {
 
     let anchorPointsPositions = this.anchorPointsCache;
     if (!anchorPointsPositions) {
-      const keyShapeBBox =
-        this.renderExt.boundsCache?.keyShapeLocal ||
-        this.shapeMap.keyShape.getLocalBounds();
+      const keyShapeBBox = this.shapeMap.keyShape.getLocalBounds();
       const keyShapeWidth = keyShapeBBox.max[0] - keyShapeBBox.min[0];
       const keyShapeHeight = keyShapeBBox.max[1] - keyShapeBBox.min[1];
       anchorPointsPositions = anchorPoints.map((pointRatio) => {

@@ -1,6 +1,7 @@
 import { Graph, Extensions, extend } from '@antv/g6';
 
 const ExtGraph = extend(Graph, {
+  transforms: { 'transform-v4-data': Extensions.TransformV4Data },
   edges: {
     'cubic-horizontal-edge': Extensions.CubicHorizontalEdge,
     'cubic-vertical-edge': Extensions.CubicVerticalEdge,

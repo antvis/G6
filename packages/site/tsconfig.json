@@ -4,9 +4,11 @@
     "target": "ESNext",
     "jsx": "react",
     "lib": ["dom"],
+    "types": ["node"],
     "paths": {
       "@antv/g6": ["../g6/lib/index"]
-    }
+    },
+    "typeRoots": ["global.d.ts"]
   },
   "include": ["example/**/*"],
   "exclude": ["node_modules"]

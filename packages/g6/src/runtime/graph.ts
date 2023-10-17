@@ -2,11 +2,11 @@ import EventEmitter from '@antv/event-emitter';
 import {
   AABB,
   Canvas,
+  Cursor,
   DataURLType,
   DisplayObject,
   PointLike,
   Rect,
-  Cursor,
 } from '@antv/g';
 import { GraphChange, ID } from '@antv/graphlib';
 import {
@@ -46,7 +46,9 @@ import type {
   StandardLayoutOptions,
 } from '../types/layout';
 import type { NodeDisplayModel, NodeModel, NodeModelData } from '../types/node';
+import { Plugin as PluginBase } from '../types/plugin';
 import type { RendererName } from '../types/render';
+import { ComboMapper, EdgeMapper, NodeMapper } from '../types/spec';
 import type {
   ThemeOptionsOf,
   ThemeRegistry,
@@ -54,11 +56,9 @@ import type {
 } from '../types/theme';
 import { FitViewRules, GraphTransformOptions } from '../types/view';
 import { changeRenderer, createCanvas } from '../util/canvas';
-import { formatPadding } from '../util/shape';
-import { getLayoutBounds } from '../util/layout';
 import { createDOM } from '../util/dom';
-import { Plugin as PluginBase } from '../types/plugin';
-import { ComboMapper, EdgeMapper, NodeMapper } from '../types/spec';
+import { getLayoutBounds } from '../util/layout';
+import { formatPadding } from '../util/shape';
 import {
   DataController,
   ExtensionController,
@@ -241,7 +241,7 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
             $domElement.style.outline = 'none';
             $domElement.tabIndex = 1; // Enable keyboard events
             // Transient canvas should let interactive events go through.
-            if (i === 2) {
+            if (i !== 1) {
               $domElement.style.pointerEvents = 'none';
             }
           }
@@ -1410,7 +1410,7 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     const modelArr = isArray(models) ? models : [models];
     const { graphCore } = this.dataController;
     const { specification } = this.themeController;
-    graphCore.once('changed', (event) => {
+    graphCore?.once('changed', (event) => {
       if (!event.changes.length) return;
       const changes = event.changes.filter(
         (change) => !isEqual(change.newValue, change.oldValue),
@@ -1611,7 +1611,7 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       value,
     });
     this.emit('afteritemstatechange', {
-      ids,
+      ids: idArr,
       states,
       value,
       action: 'updateState',
@@ -1660,7 +1660,7 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       value: false,
     });
     this.emit('afteritemstatechange', {
-      ids,
+      ids: idArr,
       states,
       value: false,
       action: 'updateState',
@@ -1959,8 +1959,9 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     });
     // update the graph specification
     modesArr.forEach((mode) => {
-      this.specification.modes[mode] =
-        this.specification.modes[mode].concat(behaviorsArr);
+      this.specification.modes[mode] = (
+        this.specification.modes[mode] || []
+      ).concat(behaviorsArr);
     });
   }
   /**
@@ -1980,6 +1981,9 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     // update the graph specification
     modesArr.forEach((mode) => {
       behaviorKeys.forEach((key) => {
+        if (!this.specification.modes[mode]) {
+          return;
+        }
         const oldBehavior = this.specification.modes[mode].find(
           (behavior) => isObject(behavior) && behavior.key === key,
         );
