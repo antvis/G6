@@ -664,9 +664,10 @@ export class EdgeCollisionChecker {
  */
 export const isPolylineWithObstacleAvoidance = (
   displayModel: EdgeDisplayModel,
+  polylineEdgeType = ['polyline-edge'],
 ) => {
   const { type, keyShape } = displayModel.data;
-  const isPolyline = type === 'polyline-edge';
+  const isPolyline = polylineEdgeType.includes(type);
   if (!isPolyline) return false;
   // @ts-ignore
   const isObstacleAvoidanceEnabled = (keyShape?.routeCfg as RouterCfg)
