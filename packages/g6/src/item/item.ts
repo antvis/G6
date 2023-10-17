@@ -168,14 +168,14 @@ export default abstract class Item implements IItem {
     onfinish: Function = () => {},
   ) {
     // call this.renderExt.draw in extend implementations
-    this.afterDrawShapeMap =
+    const afterDrawShapeMap =
       this.renderExt.afterDraw?.(displayModel, {
         ...this.shapeMap,
         ...this.afterDrawShapeMap,
       }) || {};
-    this.shapeMap = updateShapes(
-      this.shapeMap,
+    const shapeMap = updateShapes(
       this.afterDrawShapeMap,
+      afterDrawShapeMap,
       this.group,
       false,
       (id) => {
@@ -188,7 +188,10 @@ export default abstract class Item implements IItem {
         return true;
       },
     );
-    this.changedStates = [];
+    this.shapeMap = {
+      ...this.shapeMap,
+      ...shapeMap,
+    };
   }
 
   /**

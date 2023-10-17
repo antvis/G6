@@ -22,6 +22,9 @@ export type GraphTransformOptions = {
     dx: number;
     dy: number;
     dz: number;
+    targetX: number;
+    targetY: number;
+    targetZ: number;
   }>;
   rotate?: {
     angle: number;

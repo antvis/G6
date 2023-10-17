@@ -1,28 +1,58 @@
-import G6 from '@antv/g6';
+import { Graph as BaseGraph, extend, Extensions } from '@antv/g6';
+
+const { CubicEdge } = Extensions;
+class CustomEdge extends CubicEdge {
+  afterDraw(model, shapeMap, shapesChanged) {
+    const { keyShape } = shapeMap;
+    console.log('model.data', model.data);
+    const { visible, ...otherStyles } = model.data?.otherShapes?.buShape || {};
+    if (visible) {
+      return {
+        buShape: this.upsertShape(
+          'circle',
+          'buShape',
+          {
+            r: 4,
+            x: 0,
+            y: 0,
+            fill: '#1890ff',
+            offsetPath: keyShape,
+            zIndex: 1,
+            ...otherStyles, // merged style from mappers and states
+          },
+          shapeMap,
+          model,
+        ),
+      };
+    } else {
+      return {};
+    }
+  }
+}
+
+const Graph = extend(BaseGraph, {
+  edges: {
+    'custom-edge': CustomEdge,
+  },
+});
 
 const data = {
   nodes: [
     {
       id: 'a',
       data: {
-        x: 200,
-        y: 100,
         cluster: '1',
       },
     },
     {
       id: 'b',
       data: {
-        x: 100,
-        y: 200,
         cluster: '2',
       },
     },
     {
       id: 'c',
       data: {
-        x: 300,
-        y: 200,
         cluster: '3',
       },
     },
@@ -44,13 +74,14 @@ const data = {
 const container = document.getElementById('container');
 const width = container.scrollWidth;
 const height = container.scrollHeight || 500;
-let graph = new G6.Graph({
+let graph = new Graph({
   container: 'container',
   width,
   height,
   modes: { default: [] },
   layout: {
     type: 'grid',
+    rows: 2,
   },
   theme: {
     type: 'spec',
@@ -104,15 +135,20 @@ let graph = new G6.Graph({
     };
   },
   edge: {
-    keyShape: {
-      lineDash: [0, '100%'],
-    },
+    type: 'custom-edge',
     animates: {
       update: [
         {
           fields: ['lineDash'],
           shapeId: 'keyShape',
           states: ['growing', 'running'],
+          iterations: Infinity,
+          duration: 2000,
+        },
+        {
+          fields: ['offsetDistance'],
+          shapeId: 'buShape',
+          states: ['circleRunning'],
           iterations: Infinity,
           duration: 2000,
         },
@@ -143,7 +179,7 @@ let graph = new G6.Graph({
     growing: {
       keyShape: {
         lineWidth: 2,
-        lineDash: ['100%', 10000],
+        lineDash: ['100%', 0],
       },
     },
     running: {
@@ -151,6 +187,14 @@ let graph = new G6.Graph({
         lineWidth: 2,
         lineDash: [2, 2],
         //  TODO: lineDashOffset
+      },
+    },
+    circleRunning: {
+      otherShapes: {
+        buShape: {
+          visible: true,
+          offsetDistance: 1,
+        },
       },
     },
   },
@@ -186,6 +230,7 @@ const actions = {
         if (graph.getItemState(edge.id, 'growing')) {
           graph.setItemState(edge.id, 'growing', false);
         } else {
+          graph.setItemState(edge.id, 'circleRunning', false);
           graph.setItemState(edge.id, 'running', false);
           graph.setItemState(edge.id, 'growing', true);
         }
@@ -196,8 +241,20 @@ const actions = {
         if (graph.getItemState(edge.id, 'running')) {
           graph.setItemState(edge.id, 'running', false);
         } else {
+          graph.setItemState(edge.id, 'circleRunning', false);
           graph.setItemState(edge.id, 'growing', false);
           graph.setItemState(edge.id, 'running', true);
+        }
+      });
+    },
+    CircleRunning: () => {
+      graph.getAllEdgesData().forEach((edge) => {
+        if (graph.getItemState(edge.id, 'circleRunning')) {
+          graph.setItemState(edge.id, 'circleRunning', false);
+        } else {
+          graph.setItemState(edge.id, 'running', false);
+          graph.setItemState(edge.id, 'growing', false);
+          graph.setItemState(edge.id, 'circleRunning', true);
         }
       });
     },

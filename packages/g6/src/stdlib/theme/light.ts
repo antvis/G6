@@ -21,16 +21,16 @@ const disabledStroke = 'rgba(153,173,209,1)';
 export const LightTheme = {
   node: {
     palette: [
-      '#4089FF',
-      '#CD75FF',
-      '#06B8A8',
-      '#FF8834',
-      '#5888C3',
-      '#FA73CD',
-      '#07BCE0',
-      '#CB962A',
-      '#23AD61',
-      '#FF8075',
+      '#1783FF',
+      '#00C9C9',
+      '#F08F56',
+      '#D580FF',
+      '#7863FF',
+      '#DB9D0D',
+      '#60C42D',
+      '#FF80CA',
+      '#2491B3',
+      '#17C76F',
     ],
     lodStrategy: {
       levels: [
@@ -172,16 +172,16 @@ export const LightTheme = {
   edge: {
     palette: [
       '#99ADD1',
-      '#4089FF',
-      '#CD75FF',
-      '#06B8A8',
-      '#FF8834',
-      '#5888C3',
-      '#FA73CD',
-      '#07BCE0',
-      '#CB962A',
-      '#23AD61',
-      '#FF8075',
+      '#1783FF',
+      '#00C9C9',
+      '#F08F56',
+      '#D580FF',
+      '#7863FF',
+      '#DB9D0D',
+      '#60C42D',
+      '#FF80CA',
+      '#2491B3',
+      '#17C76F',
     ],
     lodStrategy: {
       levels: [

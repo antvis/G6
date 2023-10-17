@@ -616,9 +616,17 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     }>,
     effectTiming?: CameraAnimationOptions,
   ) {
+    const { x: cx, y: cy } = this.getViewportCenter();
+    const { dx, dy, dz } = distance;
     await this.transform(
       {
-        translate: distance,
+        translate: {
+          dx,
+          dy,
+          dz,
+          targetX: cx - dx,
+          targetY: cy - dy,
+        },
       },
       effectTiming,
     );
@@ -634,7 +642,19 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     effectTiming?: CameraAnimationOptions,
   ) {
     const { x: cx, y: cy } = this.getViewportCenter();
-    await this.translate({ dx: cx - x, dy: cy - y }, effectTiming);
+    const canvasPoint = this.canvas.viewport2Canvas({ x, y });
+
+    await this.transform(
+      {
+        translate: {
+          dx: cx - x,
+          dy: cy - y,
+          targetX: canvasPoint.x,
+          targetY: canvasPoint.y,
+        },
+      },
+      effectTiming,
+    );
   }
 
   /**
@@ -746,17 +766,20 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       direction = 'both',
       ratioRule = 'min',
       boundsType = 'render',
+      onlyOutOfViewPort = true,
     } = rules || {};
 
     const {
+      min,
+      max,
       center: [graphCenterX, graphCenterY],
       halfExtents,
-    } =
-      boundsType === 'render'
-        ? // Get the bounds of the whole graph content.
-          this.canvas.document.documentElement.getBounds()
-        : // Get the bounds of the nodes positions while the graph content is not ready.
-          getLayoutBounds(this);
+    } = boundsType === 'render'
+      ? // Get the bounds of the whole graph content.
+        this.canvas.document.documentElement.getBounds()
+      : // Get the bounds of the nodes positions while the graph content is not ready.
+        getLayoutBounds(this);
+
     const origin = this.canvas.canvas2Viewport({
       x: graphCenterX,
       y: graphCenterY,
@@ -771,6 +794,13 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       x: viewportWidth! - right,
       y: viewportHeight! - bottom,
     });
+
+    const isOutOfView =
+      min[0] < tlInCanvas.x ||
+      min[1] < tlInCanvas.y ||
+      max[0] > brInCanvas.x ||
+      max[1] > brInCanvas.y;
+    if (onlyOutOfViewPort && !isOutOfView) return;
 
     const targetViewWidth = brInCanvas.x - tlInCanvas.x;
     const targetViewHeight = brInCanvas.y - tlInCanvas.y;
@@ -795,6 +825,8 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
         translate: {
           dx: viewportWidth! / 2 - origin.x,
           dy: viewportHeight! / 2 - origin.y,
+          targetX: graphCenterX,
+          targetY: graphCenterY,
         },
         zoom: {
           ratio,

@@ -6,14 +6,10 @@ import {
   Path,
   Polyline,
 } from '@antv/g';
-import {
-  AnimateTiming,
-  IAnimate,
-  IAnimates,
-  IStateAnimate,
-} from '../types/animate';
-import { ItemDisplayModel, ItemShapeStyles, ShapeStyle } from '../types/item';
+import { AnimateTiming, IAnimate, IAnimates } from '../types/animate';
+import { ItemShapeStyles, ShapeStyle } from '../types/item';
 import { isArrayOverlap, replaceElements } from './array';
+import { clone, isString, uniq } from '@antv/util';
 
 /**
  * Initial(timing = show) shape animation start from init shape styles, and end to the shape's style config.
@@ -28,9 +24,8 @@ export const getShapeAnimateBeginStyles = (shape) => {
     offsetDistance: 0,
   };
   if (['line', 'polyline', 'path'].includes(shapeType)) {
-    const totalLength = shape.getTotalLength();
     return {
-      lineDash: [0, totalLength],
+      lineDash: [0, '100%'],
       ...commonStyles,
     };
   } else if (shapeType === 'circle') {
@@ -136,13 +131,11 @@ const groupTimingAnimates = (
   const isStateUpdate = segmentedTiming === 'stateUpdate';
   animates[isStateUpdate ? 'update' : segmentedTiming].forEach((item: any) => {
     const { order = 0, states } = item;
-    if (
-      !isStateUpdate ||
-      (isStateUpdate && isArrayOverlap(states, changedStates))
-    ) {
-      timingAnimateGroups[order] = timingAnimateGroups[order] || [];
-      timingAnimateGroups[order].push(item);
+    if (states?.length) {
+      if (!isArrayOverlap(states, changedStates)) return;
     }
+    timingAnimateGroups[order] = timingAnimateGroups[order] || [];
+    timingAnimateGroups[order].push(item);
   });
   return timingAnimateGroups;
 };
@@ -255,7 +248,13 @@ const runAnimateGroupOnShapes = (
     }
     return animation;
   });
-  if (maxDurationIdx > -1) animations[maxDurationIdx].onfinish = onfinish;
+  if (maxDurationIdx > -1) {
+    const selfOnfinish = animations[maxDurationIdx].onfinish;
+    animations[maxDurationIdx].onfinish = () => {
+      selfOnfinish?.();
+      onfinish?.();
+    };
+  }
   return animations;
 };
 
@@ -276,19 +275,51 @@ const runAnimateOnShape = (
   animateConfig,
 ) => {
   let animateArr;
+  let percentLineDash = false;
   if (!fields?.length) {
     animateArr = getStyleDiff(shape.attributes, targetStyle);
   } else {
     animateArr = [{}, {}];
     fields.forEach((key) => {
-      animateArr[0][key] = shape.attributes.hasOwnProperty(key)
-        ? shape.style[key]
-        : beginStyle[key];
-      animateArr[1][key] =
-        targetStyle[key] === undefined ? animateArr[0][key] : targetStyle[key];
-      if (key === 'lineDash' && animateArr[1][key].includes('100%')) {
-        const totalLength = (shape as Line | Polyline | Path).getTotalLength();
-        replaceElements(animateArr[1][key], '100%', totalLength);
+      animateArr[0][key] =
+        shape.style[key] === undefined
+          ? clone(beginStyle[key])
+          : clone(shape.style[key]);
+      if (targetStyle[key] === undefined) return;
+      animateArr[1][key] = clone(targetStyle[key]);
+      if (key === 'lineDash') {
+        const beginPercents = uniq(
+          animateArr[0][key].filter(
+            (val) => isString(val) && val.includes('%'),
+          ),
+        );
+        const targetPercents = uniq(
+          animateArr[1][key].filter(
+            (val) => isString(val) && val.includes('%'),
+          ),
+        );
+        if (beginPercents.length || targetPercents.length) {
+          percentLineDash = clone(animateArr[0].lineDash);
+          const totalLength = (
+            shape as Line | Polyline | Path
+          ).getTotalLength();
+          beginPercents.forEach((percent, i) => {
+            replaceElements(
+              animateArr[0][key],
+              percent,
+              (Number(percent.replace('%', '')) / 100) * totalLength,
+            );
+          });
+          targetPercents.forEach((percent, i) => {
+            replaceElements(
+              animateArr[1][key],
+              percent,
+              (Number(percent.replace('%', '')) / 100) * totalLength,
+            );
+          });
+        }
+      } else if (key === 'offsetDistance') {
+        animateArr[1][key] = animateArr[1][key] || 1;
       }
     });
   }
@@ -300,7 +331,13 @@ const runAnimateOnShape = (
     );
     return;
   }
-  return shape.animate(animateArr, animateConfig);
+  const animation = shape.animate(animateArr, animateConfig);
+  if (percentLineDash) {
+    animation.onfinish = () => {
+      shape.style.lineDash = percentLineDash;
+    };
+  }
+  return animation;
 };
 
 /**

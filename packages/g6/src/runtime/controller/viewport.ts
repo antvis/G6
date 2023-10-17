@@ -26,6 +26,8 @@ export class ViewportController {
   }: ViewportChangeHookParams) {
     const camera = this.graph.canvas.getCamera();
     const transientCamera = this.graph.transientCanvas.getCamera();
+    camera.cancelLandmarkAnimation();
+    transientCamera.cancelLandmarkAnimation();
     const {
       translate,
       rotate,
@@ -48,11 +50,33 @@ export class ViewportController {
       }> = {};
 
       if (translate) {
-        const { dx = 0, dy = 0, dz = 0 } = translate;
         const [px, py, pz] = camera.getPosition();
         const [fx, fy, fz] = camera.getFocalPoint();
-        landmarkOptions.position = [px - dx, py - dy, pz - dz];
-        landmarkOptions.focalPoint = [fx - dx, fy - dy, fz - dz];
+        const { dx = 0, dy = 0, dz = 0, targetX, targetY, targetZ } = translate;
+        const animateTargetPosition = [targetX, targetY, targetZ];
+        const animateTargetFocal = [targetX, targetY, targetZ];
+        if (isNaN(targetX)) {
+          animateTargetPosition[0] = px - dx;
+          animateTargetFocal[0] = fx - dx;
+        }
+        if (isNaN(targetY)) {
+          animateTargetPosition[1] = py - dy;
+          animateTargetFocal[1] = fy - dy;
+        }
+        if (isNaN(targetZ)) {
+          animateTargetPosition[2] = pz - dz;
+          animateTargetFocal[2] = fz - dz;
+        }
+        landmarkOptions.position = animateTargetPosition as [
+          number,
+          number,
+          number,
+        ];
+        landmarkOptions.focalPoint = animateTargetFocal as [
+          number,
+          number,
+          number,
+        ];
       }
 
       if (zoom) {
