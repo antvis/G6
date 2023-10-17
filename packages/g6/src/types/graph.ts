@@ -8,7 +8,7 @@ import { BehaviorOptionsOf, BehaviorRegistry } from './behavior';
 import { ComboModel, ComboUserModel } from './combo';
 import { Padding, Point } from './common';
 import { GraphData } from './data';
-import { EdgeModel, EdgeUserModel } from './edge';
+import { EdgeDisplayModel, EdgeModel, EdgeUserModel } from './edge';
 import type { StackType } from './history';
 import { ITEM_TYPE, SHAPE_TYPE, ShapeStyle } from './item';
 import { LayoutOptions } from './layout';
@@ -121,7 +121,10 @@ export interface IGraph<
    * @param nodeId id of the start node
    * @returns nearby edges' data array
    */
-  getNearEdgesData: (nodeId: ID, onlyPolyline?: boolean) => EdgeModel[];
+  getNearEdgesData: (
+    nodeId: ID,
+    shouldBegin?: (edge: EdgeDisplayModel) => boolean,
+  ) => EdgeModel[];
   /**
    * Get one-hop node ids from a start node.
    * @param nodeId id of the start node

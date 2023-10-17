@@ -5,7 +5,10 @@ import { Behavior } from '../../types/behavior';
 import { IG6GraphEvent } from '../../types/event';
 import { Point } from '../../types/common';
 import { graphComboTreeDfs } from '../../util/data';
-import { isPointPreventPolylineOverlap } from '../../util/polyline';
+import {
+  isPointPreventPolylineOverlap,
+  isPolylineWithObstacleAvoidance,
+} from '../../util/polyline';
 
 const DELEGATE_SHAPE_ID = 'g6-drag-node-delegate-shape';
 
@@ -172,10 +175,13 @@ export class DragNode extends Behavior {
   }
 
   /** Retrieve the nearby edges for a given node using quadtree collision detection. */
-  private getNearEdgesForNodes(nodeIds: ID[], onlyPolyline?: boolean) {
+  private getNearEdgesForNodes(
+    nodeIds: ID[],
+    shouldBegin?: (edge: EdgeModel) => boolean,
+  ) {
     return uniq(
       nodeIds.flatMap((nodeId) =>
-        this.graph.getNearEdgesData(nodeId, onlyPolyline),
+        this.graph.getNearEdgesData(nodeId, shouldBegin),
       ),
     );
   }
@@ -352,7 +358,7 @@ export class DragNode extends Behavior {
 
         this.hiddenNearEdges = this.getNearEdgesForNodes(
           preventPolylineOverlapNodeIds,
-          true,
+          (edge) => isPolylineWithObstacleAvoidance(edge),
         ).filter((edge) => !hiddenEdgesIds.includes(edge.id));
         const hiddenNearEdgesIds = this.hiddenNearEdges.map((edge) => edge.id);
 

@@ -59,6 +59,7 @@ import { changeRenderer, createCanvas } from '../util/canvas';
 import { createDOM } from '../util/dom';
 import { getLayoutBounds } from '../util/layout';
 import { formatPadding } from '../util/shape';
+import Node from '../item/node';
 import {
   DataController,
   ExtensionController,
@@ -70,7 +71,6 @@ import {
 } from './controller';
 import { PluginController } from './controller/plugin';
 import Hook from './hooks';
-
 export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
   extends EventEmitter
   implements IGraph<B, T>
@@ -1031,14 +1031,19 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * @param nodeId id of the start node
    * @returns nearby edges' data array
    */
-  public getNearEdgesData(nodeId: ID, onlyPolyline?: boolean): EdgeModel[] {
+  public getNearEdgesData(
+    nodeId: ID,
+    shouldBegin?: (edge: EdgeDisplayModel) => boolean,
+  ): EdgeModel[] {
     const transientItem = this.itemController.getTransientItem(
       nodeId,
     ) as unknown as Node;
+    const itemMap = this.itemController.getItemMap();
     return this.dataController.findNearEdges(
       nodeId,
+      itemMap,
       transientItem,
-      onlyPolyline,
+      shouldBegin,
     );
   }
   /**

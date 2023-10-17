@@ -66,7 +66,10 @@ import { BaseNode } from '../../stdlib/item/node/base';
 import { BaseEdge } from '../../stdlib/item/edge/base';
 import { isBBoxInBBox, isPointInBBox } from '../../util/bbox';
 import { convertToNumber } from '../../util/type';
-import { isPointPreventPolylineOverlap } from '../../util/polyline';
+import {
+  isPointPreventPolylineOverlap,
+  isPolylineWithObstacleAvoidance,
+} from '../../util/polyline';
 
 /**
  * Manages and stores the node / edge / combo items.
@@ -526,7 +529,9 @@ export class ItemController {
         const adjacentEdgeInnerModels = graphCore.getRelatedEdges(id);
 
         if (isPointPreventPolylineOverlap(innerModel)) {
-          const newNearEdges = this.graph.getNearEdgesData(id, true);
+          const newNearEdges = this.graph.getNearEdgesData(id, (edge) =>
+            isPolylineWithObstacleAvoidance(edge),
+          );
           const prevNearEdges = this.nearEdgesCache.get(id) || [];
           adjacentEdgeInnerModels.push(...newNearEdges);
           adjacentEdgeInnerModels.push(...prevNearEdges);
@@ -1058,6 +1063,10 @@ export class ItemController {
 
   public getTransientItem(id: ID) {
     return this.transientItemMap.get(id);
+  }
+
+  public getItemMap() {
+    return this.itemMap;
   }
 
   public findDisplayModel(id: ID) {

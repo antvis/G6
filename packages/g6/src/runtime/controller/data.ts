@@ -19,6 +19,7 @@ import {
   InlineTreeDataConfig,
 } from '../../types/data';
 import {
+  EdgeDisplayModel,
   EdgeModel,
   EdgeModelData,
   EdgeUserModel,
@@ -46,11 +47,11 @@ import { getExtension } from '../../util/extension';
 import { convertToNumber } from '../../util/type';
 import { isTreeLayout } from '../../util/layout';
 import { hasTreeBehaviors } from '../../util/behavior';
-import {
-  EdgeCollisionChecker,
-  QuadTree,
-  isPolylineWithObstacleAvoidance,
-} from '../../util/polyline';
+import { EdgeCollisionChecker, QuadTree } from '../../util/polyline';
+import { AABB } from '@antv/g';
+import Node from '../../item/node';
+import Edge from '../../item/edge';
+import Combo from '../../item/combo';
 
 /**
  * Manages the data transform extensions;
@@ -148,16 +149,21 @@ export class DataController {
 
   public findNearEdges(
     nodeId: ID,
+    itemMap: Map<ID, Node | Edge | Combo>,
     transientItem?: Node,
-    onlyPolyline?: boolean,
-  ) {
+    shouldBegin?: (edge: EdgeDisplayModel) => boolean,
+  ): EdgeModel[] {
     const edges = this.graphCore.getAllEdges();
 
     const canvasBBox = this.graph.getRenderBBox(undefined) as AABB;
     const quadTree = new QuadTree(canvasBBox, 4);
 
     edges.forEach((edge) => {
-      if (onlyPolyline && !isPolylineWithObstacleAvoidance(edge)) return;
+      // @ts-ignore
+      const edgeDisplayModel = itemMap.get(edge.id)
+        .displayModel as EdgeDisplayModel;
+      if (!shouldBegin(edgeDisplayModel)) return;
+
       const {
         data: { x: sourceX, y: sourceY },
       } = this.graphCore.getNode(edge.source);
