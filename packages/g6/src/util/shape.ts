@@ -563,6 +563,7 @@ export const getShapeLocalBoundsByStyle = (
   min: number[];
   max: number[];
   center: number[];
+  halfExtents: number[];
 } => {
   const {
     r,
@@ -587,12 +588,14 @@ export const getShapeLocalBoundsByStyle = (
         min: [-radius, -radius, 0],
         max: [radius, radius, 0],
         center: [0, 0, 0],
+        halfExtents: [radius, radius, 0],
       };
     case 'sphere':
       return {
         min: [-radius, -radius, -radius],
         max: [radius, radius, radius],
         center: [0, 0, 0],
+        halfExtents: [radius, radius, radius],
       };
     case 'image':
     case 'rect':
@@ -602,18 +605,21 @@ export const getShapeLocalBoundsByStyle = (
         min: [-width / 2, -height / 2, -depth / 2],
         max: [width / 2, height / 2, depth / 2],
         center: [0, 0, 0],
+        halfExtents: [width / 2, height / 2, depth / 2],
       };
     case 'ellipse':
       return {
         min: [-radiusX, -radiusY, 0],
         max: [radiusX, radiusY, 0],
         center: [0, 0, 0],
+        halfExtents: [radiusX, radiusY, 0],
       };
     case 'line':
       return {
         min: [x1, y1, z1],
         max: [x2, y2, z2],
         center: [(x1 + x2) / 2, (y1 + y2) / 2, (z1 + z2) / 2],
+        halfExtents: [(x2 - x1) / 2, (y2 - y1) / 2, (z2 - z1) / 2],
       };
     case 'text':
     case 'polyline':
@@ -638,12 +644,14 @@ export const combineBounds = (
   min: number[];
   max: number[];
   center: number[];
+  halfExtents: number[];
 } => {
   const res = {
     center: [0, 0, 0],
     min: [Infinity, Infinity, Infinity],
     max: [-Infinity, -Infinity, -Infinity],
     size: [0, 0, 0],
+    halfExtents: [0, 0, 0],
   };
   bounds.forEach((bound) => {
     const { min, max } = bound;
@@ -655,6 +663,9 @@ export const combineBounds = (
     });
   });
   res.center = res.center.map((val, i) => (res.max[i] + res.min[i]) / 2);
+  res.halfExtents = res.halfExtents.map(
+    (val, i) => (res.max[i] - res.min[i]) / 2,
+  );
   return res;
 };
 

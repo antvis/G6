@@ -121,10 +121,19 @@ export class LayoutController {
         preset: layoutNodes.map((node) => {
           const { x, y, z } = node.data;
           if (isNaN(x) || isNaN(y)) return;
-          const otherProps = this.previousNodes?.get(node.id);
+          const presetNode = { x, y, z };
+          const otherProps = this.previousNodes?.get(node.id) || {};
+          ['_order', 'layer'].forEach((field) => {
+            presetNode[field] = node.data.hasOwnProperty(field)
+              ? node.data[field]
+              : otherProps[field];
+          });
           return {
             id: node.id,
-            data: { x, y, z, ...otherProps },
+            data: {
+              ...otherProps,
+              ...presetNode,
+            },
           };
         }),
         ...rest,
@@ -185,10 +194,19 @@ export class LayoutController {
               .map((node) => {
                 const { x, y, z } = node.data;
                 if (isNaN(x) || isNaN(y)) return;
-                const otherProps = this.previousNodes?.get(node.id);
+                const presetNode = { x, y, z };
+                const otherProps = this.previousNodes?.get(node.id) || {};
+                ['_order', 'layer'].forEach((field) => {
+                  presetNode[field] = node.data.hasOwnProperty(field)
+                    ? node.data[field]
+                    : otherProps[field];
+                });
                 return {
                   id: node.id,
-                  data: { x, y, z, ...otherProps },
+                  data: {
+                    ...otherProps,
+                    ...presetNode,
+                  },
                 };
               })
               .filter(Boolean)

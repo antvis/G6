@@ -766,6 +766,12 @@ export default abstract class Item implements IItem {
         estimateBounds.min[i] += val;
         estimateBounds.center[i] += val;
       });
+
+      estimateBounds.halfExtents = [
+        (estimateBounds.max[0] - estimateBounds.min[0]) / 2,
+        (estimateBounds.max[1] - estimateBounds.min[1]) / 2,
+        (estimateBounds.max[2] - estimateBounds.min[2]) / 2,
+      ];
       return estimateBounds as AABB;
     }
     return this.group.getRenderBounds();

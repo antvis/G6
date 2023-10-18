@@ -483,34 +483,33 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
 
       this.once('afterlayout', async () => {
         const { autoFit } = this.specification;
-        if (autoFit) {
-          if (autoFit === 'view') {
-            await this.fitView({ rules: { boundsType: 'layout' } });
-          } else if (autoFit === 'center') {
-            await this.fitCenter('layout');
-          } else {
-            const { type, effectTiming, ...others } = autoFit;
-            if (type === 'view') {
-              const { padding, rules } = others as {
-                padding: Padding;
-                rules: FitViewRules;
-              };
-              await this.fitView(
-                {
-                  padding,
-                  rules: {
-                    ...rules,
-                    boundsType: 'layout',
-                  },
+        if (!autoFit) return;
+        if (autoFit === 'view') {
+          await this.fitView({ rules: { boundsType: 'layout' } });
+        } else if (autoFit === 'center') {
+          await this.fitCenter('layout');
+        } else {
+          const { type, effectTiming, ...others } = autoFit;
+          if (type === 'view') {
+            const { padding, rules } = others as {
+              padding: Padding;
+              rules: FitViewRules;
+            };
+            await this.fitView(
+              {
+                padding,
+                rules: {
+                  ...rules,
+                  boundsType: 'layout',
                 },
-                effectTiming,
-              );
-            } else if (type === 'center') {
-              await this.fitCenter('layout', effectTiming);
-            } else if (type === 'position') {
-              // TODO: align
-              await this.translateTo((others as any).position, effectTiming);
-            }
+              },
+              effectTiming,
+            );
+          } else if (type === 'center') {
+            await this.fitCenter('layout', effectTiming);
+          } else if (type === 'position') {
+            // TODO: align
+            await this.translateTo((others as any).position, effectTiming);
           }
         }
       });
@@ -766,7 +765,8 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       direction = 'both',
       ratioRule = 'min',
       boundsType = 'render',
-      onlyOutOfViewPort = true,
+      onlyOutOfViewport = false,
+      onlyZoomAtLargerThanViewport = false,
     } = rules || {};
 
     const {
@@ -800,7 +800,7 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       min[1] < tlInCanvas.y ||
       max[0] > brInCanvas.x ||
       max[1] > brInCanvas.y;
-    if (onlyOutOfViewPort && !isOutOfView) return;
+    if (onlyOutOfViewport && !isOutOfView) return;
 
     const targetViewWidth = brInCanvas.x - tlInCanvas.x;
     const targetViewHeight = brInCanvas.y - tlInCanvas.y;
@@ -819,6 +819,8 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
           ? Math.max(wRatio, hRatio)
           : Math.min(wRatio, hRatio);
     }
+
+    if (onlyZoomAtLargerThanViewport && ratio > 1) ratio = 1;
 
     await this.transform(
       {

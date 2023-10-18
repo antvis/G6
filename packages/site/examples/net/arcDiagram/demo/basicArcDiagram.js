@@ -1,8 +1,8 @@
 import { Graph, Extensions, extend } from '@antv/g6';
 
-const edgeClusterTransform = (data = {}, options = {}, userGraphCore) => {
-  const { A: DataAdded, U: DataUpdated, D: DataRemoved } = data;
-  const handler = (data = {}, options = {}, userGraphCore) => {
+const edgeClusterTransform = (dataAUR = {}, options = {}, graphCore) => {
+  const { dataAdded, dataUpdated, dataRemoved } = dataAUR;
+  const handler = (data = {}, options = {}, core) => {
     const { nodes = [], edges = [] } = data;
     const nodeMap = new Map();
     nodes.forEach((node) => nodeMap.set(node.id, node));
@@ -12,9 +12,9 @@ const edgeClusterTransform = (data = {}, options = {}, userGraphCore) => {
     return data;
   };
   return {
-    A: handler(DataAdded, options, graphCore),
-    U: handler(DataUpdated, options, graphCore),
-    D: handler(DataRemoved, options, graphCore),
+    dataAdded: handler(dataAdded, options, graphCore),
+    dataUpdated: handler(dataUpdated, options, graphCore),
+    dataRemoved: dataRemoved,
   };
 };
 class LineLayout {

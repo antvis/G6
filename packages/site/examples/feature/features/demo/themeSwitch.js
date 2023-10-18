@@ -149,67 +149,72 @@ const lodStrategyLevels = [
   { zoomRange: [2.5, Infinity] }, // 4
 ];
 
-const dataFormat = (data = {}, options = {}, userGraphCore) => {
-  const { A: DataAdded, U: DataUpdated, D: DataRemoved } = data;
-  const handler = (data = {}, options = {}, userGraphCore) => {
-    const map = new Map();
-    const nodes = [];
-    data.nodes?.forEach((node) => {
-      if (map.has(node.id)) return;
-      nodes.push(node);
-      map.set(node.id, true);
-    });
-    data.edges?.forEach((edge) => {
-      const sourceDegree = map.get(edge.source) || 0;
-      map.set(edge.source, sourceDegree + 1);
-      const targetDegree = map.get(edge.target) || 0;
-      map.set(edge.target, targetDegree + 1);
-    });
-    return {
-      nodes: nodes.map((node) => {
-        const { id, x, y, z, olabel, data } = node;
-        return {
-          id,
-          data: {
-            x,
-            y,
-            z,
-            label: olabel,
-            ...data,
-            degree: map.get(id),
-          },
-        };
-      }),
-      edges: data.edges?.map((edge) => ({
-        id: `edge-${Math.random()}`,
-        source: edge.source,
-        target: edge.target,
-      })),
-    };
-  };
+const dataFormat = (dataAUR, options = {}, graphCore) => {
+  const { dataAdded, dataUpdated, dataRemoved } = dataAUR;
   return {
-    A: handler(DataAdded, options, graphCore),
-    U: handler(DataUpdated, options, graphCore),
-    D: handler(DataRemoved, options, graphCore),
+    dataAdded: dataFormatHandler(dataAdded, options, graphCore),
+    dataUpdated: dataFormatHandler(dataUpdated, options, graphCore),
+    dataRemoved,
   };
 };
 
-const clusteringNodes = (data = {}, options = {}, userGraphCore) => {
-  const { A: DataAdded, U: DataUpdated, D: DataRemoved } = data;
-  const handler = (data = {}, options = {}, userGraphCore) => {
-    if (!Algorithm?.labelPropagation) return;
-    const clusteredData = Algorithm.labelPropagation(data, false);
+const dataFormatHandler = (data, options = {}, graphCore) => {
+  if (!data.nodes || !data.edges) return {};
+  const map = new Map();
+  const nodes = [];
+  data.nodes?.forEach((node) => {
+    if (map.has(node.id)) return;
+    nodes.push(node);
+    map.set(node.id, true);
+  });
+  data.edges?.forEach((edge) => {
+    const sourceDegree = map.get(edge.source) || 0;
+    map.set(edge.source, sourceDegree + 1);
+    const targetDegree = map.get(edge.target) || 0;
+    map.set(edge.target, targetDegree + 1);
+  });
+  return {
+    nodes: nodes.map((node) => {
+      const { id, x, y, z, olabel, data } = node;
+      return {
+        id,
+        data: {
+          x,
+          y,
+          z,
+          label: olabel,
+          ...data,
+          degree: map.get(id),
+        },
+      };
+    }),
+    edges:
+      data.edges?.map((edge) => ({
+        id: `edge-${Math.random()}`,
+        source: edge.source,
+        target: edge.target,
+      })) || [],
+  };
+};
+
+const clusteringNodes = (dataAUR = {}, options = {}, graphCore) => {
+  const { dataAdded = {}, dataUpdated = {}, dataRemoved = {} } = dataAUR;
+  const handler = (data = {}, options = {}, core) => {
+    if (!Algorithm?.labelPropagation || !data.nodes?.length) return data;
+    const nodes = graphCore ? core.getAllNodes() : data.nodes;
+    const edges = graphCore ? core.getAllEdges() : data.edges;
+    const clusteredData = Algorithm.labelPropagation({ nodes, edges }, false);
     clusteredData.clusters.forEach((cluster, i) => {
       cluster.nodes.forEach((node) => {
         node.data.cluster = `c${i}`;
       });
     });
     return data;
-  }
+  };
   return {
-    A: handler(DataAdded, options, graphCore),
-    U: handler(DataUpdated, options, graphCore),
-    D: handler(DataRemoved, options, graphCore),
+    dataAdded: handler(dataAdded, options, graphCore),
+    dataUpdated: handler(dataUpdated, options, graphCore),
+    dataRemoved: dataRemoved || {},
   };
 };
 
