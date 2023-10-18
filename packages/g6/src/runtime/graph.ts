@@ -59,6 +59,7 @@ import { changeRenderer, createCanvas } from '../util/canvas';
 import { createDOM } from '../util/dom';
 import { getLayoutBounds } from '../util/layout';
 import { formatPadding } from '../util/shape';
+import Node from '../item/node';
 import {
   DataController,
   ExtensionController,
@@ -70,7 +71,6 @@ import {
 } from './controller';
 import { PluginController } from './controller/plugin';
 import Hook from './hooks';
-
 export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
   extends EventEmitter
   implements IGraph<B, T>
@@ -1027,6 +1027,26 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     return this.dataController.findRelatedEdges(nodeId, direction);
   }
   /**
+   * Get nearby edges from a start node using quadtree collision detection.
+   * @param nodeId id of the start node
+   * @returns nearby edges' data array
+   */
+  public getNearEdgesData(
+    nodeId: ID,
+    shouldBegin?: (edge: EdgeDisplayModel) => boolean,
+  ): EdgeModel[] {
+    const transientItem = this.itemController.getTransientItem(
+      nodeId,
+    ) as unknown as Node;
+    const itemMap = this.itemController.getItemMap();
+    return this.dataController.findNearEdges(
+      nodeId,
+      itemMap,
+      transientItem,
+      shouldBegin,
+    );
+  }
+  /**
    * Get one-hop node ids from a start node.
    * @param nodeId id of the start node
    * @returns one-hop nodes' data array
@@ -1058,16 +1078,6 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     id: ID,
   ): NodeDisplayModel | EdgeDisplayModel | ComboDisplayModel {
     return this.itemController.findDisplayModel(id);
-  }
-
-  /**
-   * Retrieve the nearby edges for a given node using quadtree collision detection.
-   * @param nodeId node id
-   * @group Data
-   */
-  public getNearEdgesForNode(nodeId: ID): EdgeModel[] {
-    const { graphCore } = this.dataController;
-    return this.itemController.findNearEdgesByNode(nodeId, graphCore);
   }
 
   /**

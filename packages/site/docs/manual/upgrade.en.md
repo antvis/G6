@@ -705,7 +705,7 @@ You only need to configure the labelShape for the Hull instance, and you can spe
 
 - Polyline supports automatic obstacle avoidance:
 
-Set `keyShape.routeCfg.obstacleAvoidance: true` for the edge to automatically avoid nodes.
+Set `keyShape.routeCfg.enableObstacleAvoidance: true` for the edge to automatically avoid nodes.
 
 [Polyline Obstacle Avoidance DEMO](https://g6-next.antv.antgroup.com/examples/item/defaultEdges/#polyline3)
 

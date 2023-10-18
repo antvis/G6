@@ -752,7 +752,7 @@ v4 的坐标系统（三套）见文档：https://g6.antv.antgroup.com/manual/ad
 
 - 折线支持自动避障：
 
-设置边的 `keyShape.routeCfg.obstacleAvoidance: true` 即可自动躲避节点。
+设置边的 `keyShape.routeCfg.enableObstacleAvoidance: true` 即可自动躲避节点。
 
 [Polyline 避障 DEMO](https://g6-next.antv.antgroup.com/examples/item/defaultEdges/#polyline3)
 

@@ -12,6 +12,7 @@ import {
 } from './bbox';
 import { getLineIntersect } from './shape';
 import { eulerDist, manhattanDist } from './math';
+import { getNearestPoint } from './point';
 
 export interface RouterCfg {
   name: 'orth' | 'er';
@@ -43,13 +44,13 @@ export interface RouterCfg {
    * Whether to automatically avoid other nodes (obstacles) on the path
    * Defaults to false.
    */
-  obstacleAvoidance?: boolean;
+  enableObstacleAvoidance?: boolean;
 }
 
 const defaultCfg: RouterCfg = {
   name: 'orth',
-  obstacleAvoidance: false,
-  offset: 20,
+  enableObstacleAvoidance: false,
+  offset: 2,
   maxAllowedDirectionChange: Math.PI / 2,
   maximumLoops: 2000,
   gridSize: 10,
@@ -307,11 +308,11 @@ const getControlPoints = (
   cameFrom,
   scaleStartPoint,
   endPoint,
-  startPoint,
+  startPoints,
   scaleEndPoint,
   gridSize,
 ) => {
-  const controlPoints = [endPoint];
+  const controlPoints = [];
   let pointZero = endPoint;
   let currentId = current.id;
   let currentX = current.x;
@@ -321,13 +322,13 @@ const getControlPoints = (
     y: currentY,
     id: currentId,
   };
-  if (getDirectionChange(lastPoint, scaleEndPoint, cameFrom, scaleStartPoint)) {
-    pointZero = {
-      x: scaleEndPoint.x === endPoint.x ? endPoint.x : lastPoint.x * gridSize,
-      y: scaleEndPoint.y === endPoint.y ? endPoint.y : lastPoint.y * gridSize,
-    };
-    controlPoints.unshift(pointZero);
-  }
+  // append endPoint
+  pointZero = {
+    x: scaleEndPoint.x === endPoint.x ? endPoint.x : lastPoint.x * gridSize,
+    y: scaleEndPoint.y === endPoint.y ? endPoint.y : lastPoint.y * gridSize,
+  };
+  controlPoints.unshift(pointZero);
+
   let currentCameFrom = cameFrom[currentId];
   while (currentCameFrom && currentCameFrom.id !== currentId) {
     const point = {
@@ -360,11 +361,12 @@ const getControlPoints = (
     currentCameFrom = cameFrom[currentId];
   }
 
-  // Align with startNode
-  controlPoints[0].x =
-    currentX === scaleStartPoint.x ? startPoint.x : pointZero.x;
-  controlPoints[0].y =
-    currentY === scaleStartPoint.y ? startPoint.y : pointZero.y;
+  // append startPoint
+  const realStartPoints = startPoints.map((point) => ({
+    x: point.x * gridSize,
+    y: point.y * gridSize,
+  }));
+  const startPoint = getNearestPoint(realStartPoints, pointZero).nearestPoint;
   controlPoints.unshift(startPoint);
   return controlPoints;
 };
@@ -391,7 +393,7 @@ export const pathFinder = (
 
   const cfg: RouterCfg = deepMix(defaultCfgs, routerCfg);
 
-  if (!cfg.obstacleAvoidance) {
+  if (!cfg.enableObstacleAvoidance) {
     return cfg.fallbackRoute(startPoint, endPoint, startNode, endNode, cfg);
   }
 
@@ -497,7 +499,7 @@ export const pathFinder = (
         cameFrom,
         scaleStartPoint,
         endPoint,
-        startPoint,
+        startPoints,
         scaleEndPoint,
         gridSize,
       );

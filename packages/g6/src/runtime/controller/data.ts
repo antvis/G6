@@ -19,6 +19,7 @@ import {
   InlineTreeDataConfig,
 } from '../../types/data';
 import {
+  EdgeDisplayModel,
   EdgeModel,
   EdgeModelData,
   EdgeUserModel,
@@ -46,6 +47,11 @@ import { getExtension } from '../../util/extension';
 import { convertToNumber } from '../../util/type';
 import { isTreeLayout } from '../../util/layout';
 import { hasTreeBehaviors } from '../../util/behavior';
+import { EdgeCollisionChecker, QuadTree } from '../../util/polyline';
+import { AABB } from '@antv/g';
+import Node from '../../item/node';
+import Edge from '../../item/edge';
+import Combo from '../../item/combo';
 
 /**
  * Manages the data transform extensions;
@@ -140,6 +146,60 @@ export class DataController {
   ) {
     return this.graphCore.getRelatedEdges(nodeId, direction);
   }
+
+  public findNearEdges(
+    nodeId: ID,
+    itemMap: Map<ID, Node | Edge | Combo>,
+    transientItem?: Node,
+    shouldBegin?: (edge: EdgeDisplayModel) => boolean,
+  ): EdgeModel[] {
+    const edges = this.graphCore.getAllEdges();
+
+    const canvasBBox = this.graph.getRenderBBox(undefined) as AABB;
+    const quadTree = new QuadTree(canvasBBox, 4);
+
+    edges.forEach((edge) => {
+      // @ts-ignore
+      const edgeDisplayModel = itemMap.get(edge.id)
+        .displayModel as EdgeDisplayModel;
+      if (!shouldBegin(edgeDisplayModel)) return;
+
+      const {
+        data: { x: sourceX, y: sourceY },
+      } = this.graphCore.getNode(edge.source);
+      const {
+        data: { x: targetX, y: targetY },
+      } = this.graphCore.getNode(edge.target);
+
+      quadTree.insert({
+        id: edge.id,
+        p1: { x: sourceX, y: sourceY },
+        p2: { x: targetX, y: targetY },
+        bbox: this.graph.getRenderBBox(edge.id) as AABB,
+      });
+    });
+    const nodeBBox = this.graph.getRenderBBox(nodeId) as AABB;
+
+    if (transientItem) {
+      // @ts-ignore
+      const nodeData = transientItem.displayModel.data;
+      if (nodeData) {
+        nodeBBox.update(
+          [nodeData.x as number, nodeData.y as number, 0],
+          nodeBBox.halfExtents,
+        );
+      }
+    }
+
+    const checker = new EdgeCollisionChecker(quadTree);
+    const collisions = checker.getCollidingEdges(nodeBBox);
+    const collidingEdges = collisions.map((collision) =>
+      this.graphCore.getEdge(collision.id),
+    );
+
+    return collidingEdges;
+  }
+
   public findNeighborNodes(
     nodeId: ID,
     direction: 'in' | 'out' | 'both' = 'both',

@@ -5,6 +5,10 @@ import { Behavior } from '../../types/behavior';
 import { IG6GraphEvent } from '../../types/event';
 import { Point } from '../../types/common';
 import { graphComboTreeDfs } from '../../util/data';
+import {
+  isPointPreventPolylineOverlap,
+  isPolylineWithObstacleAvoidance,
+} from '../../util/polyline';
 
 const DELEGATE_SHAPE_ID = 'g6-drag-node-delegate-shape';
 
@@ -108,6 +112,7 @@ export class DragNode extends Behavior {
   private originPositions: Array<Position> = [];
   private pointerDown: Point | undefined = undefined;
   private dragging = false;
+  private hiddenNearEdgesCache: EdgeModel[] = [];
 
   constructor(options: Partial<DragNodeOptions>) {
     const finalOptions = Object.assign({}, DEFAULT_OPTIONS, options);
@@ -170,9 +175,14 @@ export class DragNode extends Behavior {
   }
 
   /** Retrieve the nearby edges for a given node using quadtree collision detection. */
-  private getNearEdgesForNodes(nodeIds: ID[]) {
+  private getNearEdgesForNodes(
+    nodeIds: ID[],
+    shouldBegin?: (edge: EdgeModel) => boolean,
+  ) {
     return uniq(
-      nodeIds.flatMap((nodeId) => this.graph.getNearEdgesForNode(nodeId)),
+      nodeIds.flatMap((nodeId) =>
+        this.graph.getNearEdgesData(nodeId, shouldBegin),
+      ),
     );
   }
 
@@ -332,28 +342,39 @@ export class DragNode extends Behavior {
     }
 
     /**
-     * When dragging nodes, if nodes are set to `preventPolylineEdgeOverlap`,
-     * use quadtree collision detection to identity nearby edges and dynamically update them
+     * When dragging nodes, if nodes are set to `preventPolylineEdgeOverlap`, identity nearby edges and dynamically update them
      */
     if (this.dragging && enableTransient) {
-      const autoRoutedNodesIds = this.selectedNodeIds.filter((nodeId) => {
-        return (
-          this.graph.getNodeData(nodeId)?.data.preventPolylineEdgeOverlap ||
-          false
-        );
-      });
+      const preventPolylineOverlapNodeIds = this.selectedNodeIds.filter(
+        (nodeId) => {
+          const innerModel = this.graph.getNodeData(nodeId);
+          return isPointPreventPolylineOverlap(innerModel);
+        },
+      );
 
-      if (autoRoutedNodesIds) {
+      if (preventPolylineOverlapNodeIds.length) {
         const hiddenEdgesIds = this.hiddenEdges.map((edge) => edge.id);
+        this.hiddenNearEdgesCache = this.hiddenNearEdges;
+
         this.hiddenNearEdges = this.getNearEdgesForNodes(
-          autoRoutedNodesIds,
+          preventPolylineOverlapNodeIds,
+          (edge) => isPolylineWithObstacleAvoidance(edge),
         ).filter((edge) => !hiddenEdgesIds.includes(edge.id));
+        const hiddenNearEdgesIds = this.hiddenNearEdges.map((edge) => edge.id);
+
+        this.hiddenNearEdgesCache.forEach((edge) => {
+          if (!hiddenNearEdgesIds.includes(edge.id)) {
+            this.graph.drawTransient('edge', edge.id, { action: 'remove' });
+            this.graph.showItem(edge.id);
+          }
+        });
 
         if (this.hiddenNearEdges.length) {
           this.hiddenNearEdges.forEach((edge) => {
-            this.graph.drawTransient('edge', edge.id, {});
+            this.graph.drawTransient('edge', edge.id, {
+              visible: true,
+            });
           });
-
           this.graph.hideItem(
             this.hiddenNearEdges.map((edge) => edge.id),
             true,

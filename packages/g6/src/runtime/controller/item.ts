@@ -64,9 +64,12 @@ import {
 import { getGroupedChanges } from '../../util/event';
 import { BaseNode } from '../../stdlib/item/node/base';
 import { BaseEdge } from '../../stdlib/item/edge/base';
-import { EdgeCollisionChecker, QuadTree } from '../../util/polyline';
 import { isBBoxInBBox, isPointInBBox } from '../../util/bbox';
 import { convertToNumber } from '../../util/type';
+import {
+  isPointPreventPolylineOverlap,
+  isPolylineWithObstacleAvoidance,
+} from '../../util/polyline';
 
 /**
  * Manages and stores the node / edge / combo items.
@@ -136,6 +139,8 @@ export class ItemController {
     ID,
     Node | Edge | Combo | Group
   >();
+  /** Caches */
+  private nearEdgesCache: Map<ID, EdgeModel[]> = new Map<ID, EdgeModel[]>();
 
   constructor(graph: IGraph<any, any>) {
     this.graph = graph;
@@ -521,15 +526,19 @@ export class ItemController {
           );
         }
 
-        const preventPolylineEdgeOverlap =
-          innerModel?.data?.preventPolylineEdgeOverlap || false;
-        const relatedEdgeInnerModels = preventPolylineEdgeOverlap
-          ? this.findNearEdgesByNode(id, graphCore).concat(
-              graphCore.getRelatedEdges(id),
-            )
-          : graphCore.getRelatedEdges(id);
+        const adjacentEdgeInnerModels = graphCore.getRelatedEdges(id);
 
-        relatedEdgeInnerModels.forEach((edge) => {
+        if (isPointPreventPolylineOverlap(innerModel)) {
+          const newNearEdges = this.graph.getNearEdgesData(id, (edge) =>
+            isPolylineWithObstacleAvoidance(edge),
+          );
+          const prevNearEdges = this.nearEdgesCache.get(id) || [];
+          adjacentEdgeInnerModels.push(...newNearEdges);
+          adjacentEdgeInnerModels.push(...prevNearEdges);
+          this.nearEdgesCache.set(id, newNearEdges);
+        }
+
+        adjacentEdgeInnerModels.forEach((edge) => {
           edgeIdsToUpdate.add(edge.id);
           nodeRelatedIdsToUpdate.add(edge.id);
         });
@@ -721,6 +730,7 @@ export class ItemController {
       if (value) {
         if (type === 'edge') {
           item.show(animate);
+          (item as Edge).forceUpdate();
         } else {
           if (graphCore.hasTreeStructure('combo')) {
             let anccestorCollapsed = false;
@@ -964,7 +974,6 @@ export class ItemController {
         { shapeIds, drawSource, drawTarget, visible },
         upsertAncestors,
       );
-
       if (shapeIds) {
         // only update node positions to cloned node container(group)
         if (
@@ -1053,7 +1062,11 @@ export class ItemController {
   }
 
   public getTransientItem(id: ID) {
-    return this.transientItemMap[id];
+    return this.transientItemMap.get(id);
+  }
+
+  public getItemMap() {
+    return this.itemMap;
   }
 
   public findDisplayModel(id: ID) {
@@ -1272,7 +1285,6 @@ export class ItemController {
         dataType,
         edgeTheme,
       );
-
       const edgeItem = new Edge({
         delayFirstDraw,
         model: edge,
@@ -1405,56 +1417,6 @@ export class ItemController {
       return false;
     }
     return item.isVisible();
-  }
-
-  /**
-   * Identify edges that are intersected by a particular node
-   * @param nodeId node id
-   * @param graphCore
-   * @returns
-   */
-  public findNearEdgesByNode(nodeId: ID, graphCore: GraphCore) {
-    const edges = graphCore.getAllEdges();
-
-    const canvasBBox = this.graph.getRenderBBox(undefined) as AABB;
-    const quadTree = new QuadTree(canvasBBox, 4);
-
-    each(edges, (edge) => {
-      const {
-        data: { x: sourceX, y: sourceY },
-      } = graphCore.getNode(edge.source);
-      const {
-        data: { x: targetX, y: targetY },
-      } = graphCore.getNode(edge.target);
-
-      quadTree.insert({
-        id: edge.id,
-        p1: { x: sourceX, y: sourceY },
-        p2: { x: targetX, y: targetY },
-        bbox: this.graph.getRenderBBox(edge.id) as AABB,
-      });
-    });
-
-    // update node position
-    const node = (this.getTransientItem(nodeId) ||
-      this.getItemById(nodeId)) as Node;
-    const nodeBBox = this.graph.getRenderBBox(nodeId) as AABB;
-    const nodeData = node?.model?.data;
-    if (nodeData) {
-      nodeBBox.update(
-        [nodeData.x as number, nodeData.y as number, 0],
-        nodeBBox.halfExtents,
-      );
-    }
-
-    const checker = new EdgeCollisionChecker(quadTree);
-    const collisions = checker.getCollidingEdges(nodeBBox);
-
-    const collidingEdges = map(collisions, (collision) =>
-      graphCore.getEdge(collision.id),
-    );
-
-    return collidingEdges;
   }
 
   public sortByComboTree(graphCore: GraphCore) {

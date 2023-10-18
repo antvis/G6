@@ -8,7 +8,7 @@ import { BehaviorOptionsOf, BehaviorRegistry } from './behavior';
 import { ComboModel, ComboUserModel } from './combo';
 import { Padding, Point } from './common';
 import { GraphData } from './data';
-import { EdgeModel, EdgeUserModel } from './edge';
+import { EdgeDisplayModel, EdgeModel, EdgeUserModel } from './edge';
 import type { StackType } from './history';
 import { ITEM_TYPE, SHAPE_TYPE, ShapeStyle } from './item';
 import { LayoutOptions } from './layout';
@@ -117,6 +117,15 @@ export interface IGraph<
     direction?: 'in' | 'out' | 'both',
   ) => EdgeModel[];
   /**
+   * Get nearby edges from a start node using quadtree collision detection.
+   * @param nodeId id of the start node
+   * @returns nearby edges' data array
+   */
+  getNearEdgesData: (
+    nodeId: ID,
+    shouldBegin?: (edge: EdgeDisplayModel) => boolean,
+  ) => EdgeModel[];
+  /**
    * Get one-hop node ids from a start node.
    * @param nodeId id of the start node
    * @returns one-hop node ids
@@ -126,12 +135,6 @@ export interface IGraph<
     nodeId: ID,
     direction?: 'in' | 'out' | 'both',
   ) => NodeModel[];
-  /**
-   * Retrieve the nearby edges for a given node using quadtree collision detection.
-   * @param nodeId target node's id
-   * @returns edges
-   */
-  getNearEdgesForNode: (nodeId: ID) => EdgeModel[];
   /*
    * Get the children's data of a combo.
    * @param comboId combo id

@@ -1,7 +1,10 @@
 import { AABB } from '@antv/g';
 import { each } from '@antv/util';
 import { ID } from '@antv/graphlib';
+import { EdgeDisplayModel } from '../types/edge';
+import { NodeDisplayModel } from '../types';
 import Node from '../item/node';
+import Item from '../item/item';
 import { Point, PolyPoint } from '../types/common';
 import {
   getBBoxFromPoint,
@@ -17,24 +20,6 @@ import {
 import { manhattanDist } from './math';
 import { RouterCfg } from './router';
 import { isBending } from './point';
-
-// class PolylineHistory {
-//   private pathMap: Map<ID, Point[]>;
-
-//   constructor() {
-//     this.pathMap = new Map<ID, Point[]>();
-//   }
-
-//   public addPath(edgeId: ID, points: Point[]): void {
-//     this.pathMap.set(edgeId, points);
-//   }
-
-//   public getPointsById(edgeId: ID): Point[] | undefined {
-//     return this.pathMap.get(edgeId);
-//   }
-// }
-
-// const polylineHistory = new PolylineHistory();
 
 /**
  * Simplify points of polyline by removing duplicated points
@@ -341,9 +326,6 @@ export const getPolylinePath = (
 
   const newPoints = removeRedundantPoint(points);
 
-  // Record polyline points
-  // polylineHistory.addPath(id, newPoints);
-
   return pointsToPolyline(newPoints, radius, z);
 };
 
@@ -436,8 +418,6 @@ export const getPolylinePoints = (
     start,
     end,
   );
-  pathPoints.unshift(start);
-  pathPoints.push(end);
 
   return simplifyPolylinePoints(pathPoints);
 };
@@ -582,7 +562,10 @@ export class QuadTree {
   private southwest?: QuadTree;
   private southeast?: QuadTree;
 
-  constructor(public boundary: AABB, capacity: number) {
+  constructor(
+    public boundary: AABB,
+    capacity: number,
+  ) {
     this.capacity = capacity;
   }
 
@@ -675,3 +658,29 @@ export class EdgeCollisionChecker {
     return potentialCollisions;
   }
 }
+
+/**
+ * Check if the edge is a polyline and obstacle avoidance is enabled
+ */
+export const isPolylineWithObstacleAvoidance = (
+  displayModel: EdgeDisplayModel,
+  polylineEdgeType = ['polyline-edge'],
+) => {
+  const { type, keyShape } = displayModel.data;
+  const isPolyline = polylineEdgeType.includes(type);
+  if (!isPolyline) return false;
+  // @ts-ignore
+  const isObstacleAvoidanceEnabled = (keyShape?.routeCfg as RouterCfg)
+    ?.enableObstacleAvoidance;
+  return isObstacleAvoidanceEnabled;
+};
+
+/**
+ * Check if the node prevents polyline edges from overlapping
+ */
+export const isPointPreventPolylineOverlap = (
+  displayModel: NodeDisplayModel,
+) => {
+  const { preventPolylineEdgeOverlap } = displayModel.data;
+  return preventPolylineEdgeOverlap || false;
+};

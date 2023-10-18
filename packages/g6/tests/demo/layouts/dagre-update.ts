@@ -104,7 +104,7 @@ export default (context: TestCaseContext) => {
         // lineWidth: 2,
         // stroke: '#C2C8D5',
         // routeCfg: {
-        //   obstacleAvoidance: true,
+        //   enableObstacleAvoidance: true,
         // },
       },
     },
