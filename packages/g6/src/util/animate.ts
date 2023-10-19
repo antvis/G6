@@ -169,7 +169,10 @@ const runAnimateGroupOnShapes = (
       ...DEFAULT_ANIMATE_CFG[timing],
       ...animateCfg,
     };
-    const { duration } = animateConfig;
+    const { duration, iterations } = animateConfig;
+    if (iterations === Infinity && animateCfg.fill == undefined) {
+      animateConfig.fill = 'auto';
+    }
 
     let animation;
     if (!shapeId || shapeId === 'group') {

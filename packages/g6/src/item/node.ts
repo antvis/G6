@@ -107,7 +107,7 @@ export default class Node extends Item {
         this.shapeMap, // shapeMap
         group,
         firstRendering ? 'buildIn' : 'update',
-        this.changedStates,
+        diffState?.current.map((state) => state.name) || this.changedStates,
         this.animateFrameListener,
         (canceled) => onfinish(model.id, canceled),
       );

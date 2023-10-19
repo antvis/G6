@@ -32,6 +32,7 @@ import {
 } from '../util/animate';
 import { AnimateTiming, IAnimates } from '../types/animate';
 import { formatLodStrategy } from '../util/zoom';
+import { IStateAnimate } from '../types/animate';
 
 export default abstract class Item implements IItem {
   public destroyed = false;
@@ -473,6 +474,10 @@ export default abstract class Item implements IItem {
 
       this.visible = true;
       this.cacheHiddenByItem = {};
+      // restore the states
+      if (this.states?.length) {
+        this.drawWithStates([]);
+      }
     });
   }
 
@@ -707,13 +712,29 @@ export default abstract class Item implements IItem {
       // merge the states' styles into drawing style
       styles = mergeStyles([styles, mergedStateStyles]);
     });
+    const mergedData = mergeStyles([displayModelData, styles]);
+    const { animates } = mergedData;
+    const displayUpdateAnimates = [];
+    const stateNames = this.states.map((state) => state.name);
+    animates?.update?.forEach((animateCfg) => {
+      const { states } = animateCfg as IStateAnimate;
+      if (states && isArrayOverlap(states, stateNames)) {
+        displayUpdateAnimates.push(animateCfg);
+      }
+    });
 
     // apply the merged styles
     this.draw(
       // displayModel
       {
         ...this.displayModel,
-        data: mergeStyles([displayModelData, styles]),
+        data: {
+          ...mergedData,
+          animates: {
+            ...animates,
+            update: displayUpdateAnimates,
+          },
+        },
       } as ItemDisplayModel,
       // diffData
       undefined,
