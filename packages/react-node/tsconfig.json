@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "declaration": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "jsx": "react",
+    "baseUrl": "./",
+    "paths": {
+      "@@/*": [".dumi/tmp/*"],
+      "@antv/g6-react-node": ["src"],
+      "@antv/g6-react-node/*": ["src/*", "*"]
+    }
+  },
+  "include": [".dumirc.ts", "src/**/*"]
+}

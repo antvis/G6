@@ -1,0 +1,54 @@
+{
+  "name": "@antv/g6-react-node",
+  "version": "2.0.0-beta.0",
+  "description": "Using React Component to Define Your G6 Graph Node",
+  "license": "MIT",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "father build",
+    "build:watch": "father dev",
+    "dev": "dumi dev",
+    "docs:build": "dumi build",
+    "doctor": "father doctor",
+    "prepare": "dumi setup",
+    "prepublishOnly": "father doctor && npm run build",
+    "start": "npm run dev"
+  },
+  "dependencies": {
+    "@antv/g-css-layout-api": "^1.0.38",
+    "@antv/g-layout-blocklike": "^1.7.49",
+    "@antv/g-plugin-yoga": "^1.9.15",
+    "@antv/react-g": "^1.10.17"
+  },
+  "devDependencies": {
+    "@ant-design/icons": "^5.2.6",
+    "@antv/g-canvas": "^1.11.19",
+    "@antv/g-svg": "^1.10.17",
+    "@antv/g-webgl": "^1.9.25",
+    "@antv/g6": "workspace:*",
+    "@types/react": "^18.2.29",
+    "@types/react-dom": "^18.2.14",
+    "antd": "^5.10.2",
+    "dumi": "^2.2.13",
+    "father": "^4.3.5",
+    "prettier": "^3.0.3",
+    "prettier-plugin-organize-imports": "^3.2.3",
+    "prettier-plugin-packagejson": "^2.4.6",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "peerDependencies": {
+    "@antv/g": ">=5.18.16",
+    "@antv/g6": "workspace:*",
+    "react": ">=16.9.0",
+    "react-dom": ">=16.9.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "authors": []
+}
