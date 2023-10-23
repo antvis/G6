@@ -1,26 +1,25 @@
-import { ID } from '@antv/graphlib';
 import {
   AABB,
   CircleStyleProps,
-  RectStyleProps,
+  DisplayObject,
   EllipseStyleProps,
-  PolygonStyleProps,
+  Group,
+  HTMLStyleProps,
+  IAnimation,
+  ImageStyleProps,
   LineStyleProps,
   PathStyleProps,
+  PolygonStyleProps,
   PolylineStyleProps,
-  TextStyleProps,
-  ImageStyleProps,
-  Group,
-  DisplayObject,
-  IAnimation,
-  Shape,
+  RectStyleProps,
+  TextStyleProps
 } from '@antv/g';
 import {
   CubeGeometryProps,
   PlaneGeometryProps,
-  SphereGeometryProps,
-  TorusGeometryProps,
+  SphereGeometryProps
 } from '@antv/g-plugin-3d';
+import { ID } from '@antv/graphlib';
 import { AnimateCfg, IAnimates } from './animate';
 import {
   ComboDisplayModel,
@@ -58,6 +57,7 @@ export type GShapeStyle = CircleStyleProps &
   PathStyleProps &
   SphereGeometryProps &
   CubeGeometryProps &
+  HTMLStyleProps &
   PlaneGeometryProps & {
     interactive?: boolean;
   };
@@ -114,7 +114,8 @@ export type SHAPE_TYPE =
   | 'line'
   | 'path'
   | 'text'
-  | 'group';
+  | 'group'
+  | 'html';
 
 export type SHAPE_TYPE_3D = 'sphere' | 'cube' | 'plane';
 
