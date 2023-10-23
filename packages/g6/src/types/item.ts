@@ -12,12 +12,12 @@ import {
   PolygonStyleProps,
   PolylineStyleProps,
   RectStyleProps,
-  TextStyleProps
+  TextStyleProps,
 } from '@antv/g';
 import {
   CubeGeometryProps,
   PlaneGeometryProps,
-  SphereGeometryProps
+  SphereGeometryProps,
 } from '@antv/g-plugin-3d';
 import { ID } from '@antv/graphlib';
 import { AnimateCfg, IAnimates } from './animate';
