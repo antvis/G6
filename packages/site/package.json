@@ -33,7 +33,7 @@
     "find-unused-demos": "node ./scripts/find-unused-demos.js"
   },
   "dependencies": {
-    "@ant-design/icons": "^4.0.6",
+    "@ant-design/icons": "^5.2.6",
     "@antv/algorithm": "^0.1.26",
     "@antv/chart-node-g6": "^0.0.3",
     "@antv/dumi-theme-antv": "^0.4.1",

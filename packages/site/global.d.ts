@@ -14,5 +14,7 @@ declare global {
     g2: any;
 
     graph: any;
+    React: any;
+    ReactDOM: any;
   }
 }

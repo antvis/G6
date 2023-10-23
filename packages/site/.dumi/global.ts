@@ -13,4 +13,7 @@ if (window) {
   window.util = require('@antv/util');
   window.stats = require('stats.js');
   window.g2 = require('@antv/g2');
+
+  window.React = require('react');
+  window.ReactDOM = require('react-dom');
 }
