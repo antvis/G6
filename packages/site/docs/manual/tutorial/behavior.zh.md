@@ -35,9 +35,9 @@ Mode 是 G6 交互行为的管理机制，一个 mode 是多种行为 Behavior �
 在 G6 中使用内置 Behavior 的方式非常简单，只需要在图实例化时配置 `modes`。为了包体积管理，部分内置交互没有提前注册到 Graph 上，需要如下注册方式：
 
 ```javascript
-const { Graph: GraphBase, extend, Extensions } = G6;
+const { Graph: BaseGraph, extend, Extensions } = G6;
 
-const Graph = extend(GraphBase, {
+const Graph = extend(BaseGraph, {
   behaviors: {
     // 框选节点事内置交互，未提前注册，需要从 Extensions 中引入后如下注册：
     'brush-select': Extensions.BrushSelect,
@@ -162,7 +162,7 @@ graph.on('元素类型:事件名', (e) => {
     <div id="container"></div>
     <script src="https://gw.alipayobjects.com/os/lib/antv/g6/5.0.0-beta.21/dist/g6.min.js"></script>
     <script>
-      const { Graph: GraphBase, extend, Extensions } = G6;
+      const { Graph: BaseGraph, extend, Extensions } = G6;
 
       // 自定义数据处理器 - 度数计算
       const degreeCalculator = (data, options, userGraphCore) => {

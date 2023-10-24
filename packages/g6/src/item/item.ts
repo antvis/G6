@@ -30,7 +30,7 @@ import {
   GROUP_ANIMATE_STYLES,
   stopAnimate,
 } from '../util/animate';
-import { AnimateTiming, IAnimates } from '../types/animate';
+import { AnimateTiming, IAnimates, IStateAnimate } from '../types/animate';
 import { formatLodStrategy } from '../util/zoom';
 
 export default abstract class Item implements IItem {
@@ -168,14 +168,14 @@ export default abstract class Item implements IItem {
     onfinish: Function = () => {},
   ) {
     // call this.renderExt.draw in extend implementations
-    this.afterDrawShapeMap =
+    const afterDrawShapeMap =
       this.renderExt.afterDraw?.(displayModel, {
         ...this.shapeMap,
         ...this.afterDrawShapeMap,
       }) || {};
-    this.shapeMap = updateShapes(
-      this.shapeMap,
+    const shapeMap = updateShapes(
       this.afterDrawShapeMap,
+      afterDrawShapeMap,
       this.group,
       false,
       (id) => {
@@ -188,7 +188,10 @@ export default abstract class Item implements IItem {
         return true;
       },
     );
-    this.changedStates = [];
+    this.shapeMap = {
+      ...this.shapeMap,
+      ...shapeMap,
+    };
   }
 
   /**
@@ -470,6 +473,10 @@ export default abstract class Item implements IItem {
 
       this.visible = true;
       this.cacheHiddenByItem = {};
+      // restore the states
+      if (this.states?.length) {
+        this.drawWithStates([]);
+      }
     });
   }
 
@@ -704,13 +711,29 @@ export default abstract class Item implements IItem {
       // merge the states' styles into drawing style
       styles = mergeStyles([styles, mergedStateStyles]);
     });
+    const mergedData = mergeStyles([displayModelData, styles]);
+    const { animates } = mergedData;
+    const displayUpdateAnimates = [];
+    const stateNames = this.states.map((state) => state.name);
+    animates?.update?.forEach((animateCfg) => {
+      const { states } = animateCfg as IStateAnimate;
+      if (states && isArrayOverlap(states, stateNames)) {
+        displayUpdateAnimates.push(animateCfg);
+      }
+    });
 
     // apply the merged styles
     this.draw(
       // displayModel
       {
         ...this.displayModel,
-        data: mergeStyles([displayModelData, styles]),
+        data: {
+          ...mergedData,
+          animates: {
+            ...animates,
+            update: displayUpdateAnimates,
+          },
+        },
       } as ItemDisplayModel,
       // diffData
       undefined,
@@ -763,6 +786,12 @@ export default abstract class Item implements IItem {
         estimateBounds.min[i] += val;
         estimateBounds.center[i] += val;
       });
+
+      estimateBounds.halfExtents = [
+        (estimateBounds.max[0] - estimateBounds.min[0]) / 2,
+        (estimateBounds.max[1] - estimateBounds.min[1]) / 2,
+        (estimateBounds.max[2] - estimateBounds.min[2]) / 2,
+      ];
       return estimateBounds as AABB;
     }
     return this.group.getRenderBounds();

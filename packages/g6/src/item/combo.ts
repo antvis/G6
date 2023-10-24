@@ -94,6 +94,7 @@ export default class Combo extends Node {
       });
     }
     super.draw(displayModel, diffData, diffState, animate, onfinish);
+    this.changedStates = [];
   }
 
   /**

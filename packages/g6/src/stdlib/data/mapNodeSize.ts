@@ -23,9 +23,9 @@ export const MapNodeSize = (
 ): GraphDataChanges => {
   const { dataAdded, dataUpdated, dataRemoved } = data;
   return {
-    dataAdded: handler(dataAdded, options, graphCore),
-    dataUpdated: handler(dataUpdated, options, graphCore),
-    dataRemoved: handler(dataRemoved, options, graphCore),
+    dataAdded: handler(dataAdded || {}, options, graphCore),
+    dataUpdated: handler(dataUpdated || {}, options, graphCore),
+    dataRemoved: dataRemoved,
   };
 };
 

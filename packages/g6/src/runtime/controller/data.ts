@@ -1,5 +1,6 @@
 import { Graph as GraphLib, ID } from '@antv/graphlib';
 import { clone, isArray, isEmpty, isObject } from '@antv/util';
+import { AABB } from '@antv/g';
 import { registery as registry } from '../../stdlib';
 import {
   ComboModel,
@@ -44,11 +45,9 @@ import {
   validateComboStrucutre,
 } from '../../util/data';
 import { getExtension } from '../../util/extension';
-import { convertToNumber } from '../../util/type';
 import { isTreeLayout } from '../../util/layout';
 import { hasTreeBehaviors } from '../../util/behavior';
 import { EdgeCollisionChecker, QuadTree } from '../../util/polyline';
-import { AABB } from '@antv/g';
 import Node from '../../item/node';
 import Edge from '../../item/edge';
 import Combo from '../../item/combo';

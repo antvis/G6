@@ -1,10 +1,10 @@
 import { DEFAULT_SHAPE_STYLE, DEFAULT_TEXT_STYLE } from '../../constant';
 import { ThemeSpecification } from '../../types/theme';
 
-const subjectColor = 'rgb(34,126,255)';
+const subjectColor = 'rgb(23,131,255)';
 const textColor = 'rgba(255,255,255,0.85)';
 
-const nodeColor = 'rgb(34,126,255)';
+const nodeColor = 'rgb(23,131,255)';
 const edgeColor = 'rgb(153, 173, 209)';
 const comboFill = 'rgb(253, 253, 253)';
 const comboStroke = 'rgba(153,173,209,1)';
@@ -17,16 +17,16 @@ const nodeStroke = '#D0E4FF';
 export const DarkTheme = {
   node: {
     palette: [
-      '#4089FF',
-      '#CD75FF',
-      '#06B8A8',
-      '#FF8834',
-      '#5888C3',
-      '#FA73CD',
-      '#07BCE0',
-      '#CB962A',
-      '#23AD61',
-      '#FF8075',
+      '#1783FF',
+      '#00C9C9',
+      '#F08F56',
+      '#D580FF',
+      '#7863FF',
+      '#DB9D0D',
+      '#60C42D',
+      '#FF80CA',
+      '#2491B3',
+      '#17C76F',
     ],
     lodStrategy: {
       levels: [
@@ -170,16 +170,16 @@ export const DarkTheme = {
   edge: {
     palette: [
       '#637088',
-      '#2A59A6',
-      '#854CA6',
-      '#04786D',
-      '#A65822',
-      '#39587F',
-      '#A34B85',
-      '#057A92',
-      '#84621B',
-      '#17703F',
-      '#A6534C',
+      '#1783FF',
+      '#00C9C9',
+      '#F08F56',
+      '#D580FF',
+      '#7863FF',
+      '#DB9D0D',
+      '#60C42D',
+      '#FF80CA',
+      '#2491B3',
+      '#17C76F',
     ],
     lodStrategy: {
       levels: [

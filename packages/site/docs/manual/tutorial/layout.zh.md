@@ -78,7 +78,7 @@ const graph = new Graph({
     <div id="container"></div>
     <script src="https://gw.alipayobjects.com/os/lib/antv/g6/5.0.0-beta.21/dist/g6.min.js"></script>
     <script>
-      const { Graph: GraphBase, extend, Extensions } = G6;
+      const { Graph: BaseGraph, extend, Extensions } = G6;
 
       // 自定义数据处理器 - 度数计算
       const degreeCalculator = (data, options, userGraphCore) => {

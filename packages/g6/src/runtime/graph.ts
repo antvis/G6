@@ -60,6 +60,7 @@ import { createDOM } from '../util/dom';
 import { getLayoutBounds } from '../util/layout';
 import { formatPadding } from '../util/shape';
 import Node from '../item/node';
+import { isEmptyGraph } from '../util/data';
 import {
   DataController,
   ExtensionController,
@@ -71,6 +72,7 @@ import {
 } from './controller';
 import { PluginController } from './controller/plugin';
 import Hook from './hooks';
+
 export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
   extends EventEmitter
   implements IGraph<B, T>
@@ -481,34 +483,33 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
 
       this.once('afterlayout', async () => {
         const { autoFit } = this.specification;
-        if (autoFit) {
-          if (autoFit === 'view') {
-            await this.fitView({ rules: { boundsType: 'layout' } });
-          } else if (autoFit === 'center') {
-            await this.fitCenter('layout');
-          } else {
-            const { type, effectTiming, ...others } = autoFit;
-            if (type === 'view') {
-              const { padding, rules } = others as {
-                padding: Padding;
-                rules: FitViewRules;
-              };
-              await this.fitView(
-                {
-                  padding,
-                  rules: {
-                    ...rules,
-                    boundsType: 'layout',
-                  },
+        if (!autoFit) return;
+        if (autoFit === 'view') {
+          await this.fitView({ rules: { boundsType: 'layout' } });
+        } else if (autoFit === 'center') {
+          await this.fitCenter('layout');
+        } else {
+          const { type, effectTiming, ...others } = autoFit;
+          if (type === 'view') {
+            const { padding, rules } = others as {
+              padding: Padding;
+              rules: FitViewRules;
+            };
+            await this.fitView(
+              {
+                padding,
+                rules: {
+                  ...rules,
+                  boundsType: 'layout',
                 },
-                effectTiming,
-              );
-            } else if (type === 'center') {
-              await this.fitCenter('layout', effectTiming);
-            } else if (type === 'position') {
-              // TODO: align
-              await this.translateTo((others as any).position, effectTiming);
-            }
+              },
+              effectTiming,
+            );
+          } else if (type === 'center') {
+            await this.fitCenter('layout', effectTiming);
+          } else if (type === 'position') {
+            // TODO: align
+            await this.translateTo((others as any).position, effectTiming);
           }
         }
       });
@@ -583,6 +584,7 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     options: GraphTransformOptions,
     effectTiming?: CameraAnimationOptions,
   ): Promise<void> {
+    if (isEmptyGraph(this, true)) return;
     const { tileLodSize } = this.specification.optimize || {};
     await this.hooks.viewportchange.emitLinearAsync({
       transform: options,
@@ -613,9 +615,17 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     }>,
     effectTiming?: CameraAnimationOptions,
   ) {
+    const { x: cx, y: cy } = this.getViewportCenter();
+    const { dx, dy, dz } = distance;
     await this.transform(
       {
-        translate: distance,
+        translate: {
+          dx,
+          dy,
+          dz,
+          targetX: cx - dx,
+          targetY: cy - dy,
+        },
       },
       effectTiming,
     );
@@ -631,7 +641,19 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     effectTiming?: CameraAnimationOptions,
   ) {
     const { x: cx, y: cy } = this.getViewportCenter();
-    await this.translate({ dx: cx - x, dy: cy - y }, effectTiming);
+    const canvasPoint = this.canvas.viewport2Canvas({ x, y });
+
+    await this.transform(
+      {
+        translate: {
+          dx: cx - x,
+          dy: cy - y,
+          targetX: canvasPoint.x,
+          targetY: canvasPoint.y,
+        },
+      },
+      effectTiming,
+    );
   }
 
   /**
@@ -743,17 +765,21 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       direction = 'both',
       ratioRule = 'min',
       boundsType = 'render',
+      onlyOutOfViewport = false,
+      onlyZoomAtLargerThanViewport = false,
     } = rules || {};
 
     const {
+      min,
+      max,
       center: [graphCenterX, graphCenterY],
       halfExtents,
-    } =
-      boundsType === 'render'
-        ? // Get the bounds of the whole graph content.
-          this.canvas.document.documentElement.getBounds()
-        : // Get the bounds of the nodes positions while the graph content is not ready.
-          getLayoutBounds(this);
+    } = boundsType === 'render'
+      ? // Get the bounds of the whole graph content.
+        this.canvas.document.documentElement.getBounds()
+      : // Get the bounds of the nodes positions while the graph content is not ready.
+        getLayoutBounds(this);
+
     const origin = this.canvas.canvas2Viewport({
       x: graphCenterX,
       y: graphCenterY,
@@ -768,6 +794,13 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       x: viewportWidth! - right,
       y: viewportHeight! - bottom,
     });
+
+    const isOutOfView =
+      min[0] < tlInCanvas.x ||
+      min[1] < tlInCanvas.y ||
+      max[0] > brInCanvas.x ||
+      max[1] > brInCanvas.y;
+    if (onlyOutOfViewport && !isOutOfView) return;
 
     const targetViewWidth = brInCanvas.x - tlInCanvas.x;
     const targetViewHeight = brInCanvas.y - tlInCanvas.y;
@@ -787,11 +820,15 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
           : Math.min(wRatio, hRatio);
     }
 
+    if (onlyZoomAtLargerThanViewport && ratio > 1) ratio = 1;
+
     await this.transform(
       {
         translate: {
           dx: viewportWidth! / 2 - origin.x,
           dy: viewportHeight! / 2 - origin.y,
+          targetX: graphCenterX,
+          targetY: graphCenterY,
         },
         zoom: {
           ratio,
@@ -852,7 +889,7 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
   }
 
   /**
-   * Get item by id. We don't want to
+   * Get item by id. We don't want users call this private API.
    * @param id
    * @returns Node | Edge | Combo
    */
@@ -1066,6 +1103,16 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    */
   public getComboChildrenData(comboId: ID): (ComboModel | NodeModel)[] {
     return this.dataController.findChildren(comboId, 'combo');
+  }
+
+  /**
+   * Get item type by id.
+   * @param id
+   * @returns 'node' | 'edge' | 'combo'
+   * @group Data
+   */
+  public getTypeById(id: ID) {
+    return this.itemController.getItemById(id)?.getType();
   }
 
   /*
@@ -1604,6 +1651,7 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     value: boolean,
   ) {
     const idArr = isArray(ids) ? ids : [ids];
+    if (ids === undefined || !idArr.length) return;
     const stateArr = isArray(states) ? states : [states];
     const stateOption = { ids: idArr, states: stateArr, value };
     const changes = {
@@ -1617,6 +1665,7 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     });
     this.emit('afteritemstatechange', {
       ids: idArr,
+      itemTypes: idArr.map((id) => this.getTypeById(id)),
       states,
       value,
       action: 'updateState',

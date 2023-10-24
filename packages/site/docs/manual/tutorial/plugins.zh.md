@@ -22,9 +22,9 @@ order: 5
 Minimap 是 G6 的提供的插件之一，但未提前注册，需要从 Extensions 引入并注册后，再配置到图上：
 
 ```javascript
-cosnt { Graph as GraphBase, extend, Extensions } = G6;
+cosnt { Graph as BaseGraph, extend, Extensions } = G6;
 
-const ExtGraph = extend(GraphBase, {
+const ExtGraph = extend(BaseGraph, {
   // ... 其他扩展的注册
   // 插件注册
   plugins: {
@@ -58,9 +58,9 @@ const graph = new Graph({
 Tooltip 是 G6 的提供的插件之一，但未提前注册，需要从 Extensions 引入并注册后，再配置到图上：
 
 ```javascript
-cosnt { Graph as GraphBase, extend, Extensions } = G6;
+cosnt { Graph as BaseGraph, extend, Extensions } = G6;
 
-const ExtGraph = extend(GraphBase, {
+const ExtGraph = extend(BaseGraph, {
   // ... 其他扩展的注册
   // 插件注册
   plugins: {

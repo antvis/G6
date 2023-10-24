@@ -143,7 +143,7 @@ export class Menu extends Base {
 
   protected async onMenuShow(e: IG6GraphEvent) {
     const self = this;
-    e.preventDefault();
+    e.preventDefault?.();
     self.onMenuHide();
     const itemTypes = this.options.itemTypes;
     if (!e.itemId) {

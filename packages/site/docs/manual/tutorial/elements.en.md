@@ -198,8 +198,8 @@ const clusteringNodes = (data, options = {}, userGraphCore) => {
 Then register these data processors to the Graph in G6:
 
 ```javascript
-import { Graph as GraphBase, extend, Extensions } from '@antv/g6';
-const Graph = extend(GraphBase, {
+import { Graph as BaseGraph, extend, Extensions } from '@antv/g6';
+const Graph = extend(BaseGraph, {
   transforms: {
     'degree-calculator': degreeCalculator,
     'node-clustering': clusteringNodes,
@@ -365,7 +365,7 @@ Here is the complete code:
     <div id="container"></div>
     <script src="https://gw.alipayobjects.com/os/lib/antv/g6/5.0.0-beta.21/dist/g6.min.js"></script>
     <script>
-      const { Graph: GraphBase, extend, Extensions } = G6;
+      const { Graph: BaseGraph, extend, Extensions } = G6;
 
       // Custom data processor - degree calculator
       const degreeCalculator = (data, options, userGraphCore) => {

@@ -143,6 +143,12 @@ export interface IGraph<
    */
   getComboChildrenData: (comboId: ID) => (ComboModel | NodeModel)[];
   /**
+   * Get item type by id.
+   * @param id
+   * @returns 'node' | 'edge' | 'combo'
+   */
+  getTypeById: (id: ID) => ITEM_TYPE;
+  /**
    * Input data and render the graph.
    * If there is old data, diffs and changes it.
    * @param data

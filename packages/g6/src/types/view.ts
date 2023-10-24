@@ -1,6 +1,8 @@
 export interface FitViewRules {
-  /** Whehter fit it only when the graph is out of the view.  */
-  onlyOutOfViewPort?: boolean;
+  /** Whehter fit it only when the graph is out of the viewport.  */
+  onlyOutOfViewport?: boolean;
+  /** Whether zoom the graph only when the graph is larger than the viewport. */
+  onlyZoomAtLargerThanViewport?: boolean;
   /** Axis to fit.  */
   direction?: 'x' | 'y' | 'both';
   /** Ratio rule to fit. */
@@ -22,6 +24,9 @@ export type GraphTransformOptions = {
     dx: number;
     dy: number;
     dz: number;
+    targetX: number;
+    targetY: number;
+    targetZ: number;
   }>;
   rotate?: {
     angle: number;

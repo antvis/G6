@@ -25,8 +25,8 @@ Now, let's configure a Minimap for the **Tutorial Example**:
 The Minimap is one of the plugins provided by G6, but it is not registered in advance. It needs to be imported from Extensions and registered before being configured on the graph:
 
 ```javascript
-const { Graph as GraphBase, extend, Extensions } = G6;
-const ExtGraph = extend(GraphBase, {
+const { Graph as BaseGraph, extend, Extensions } = G6;
+const ExtGraph = extend(BaseGraph, {
   // ... Other extension registrations
   // Plugin registration
   plugins: {
@@ -59,8 +59,8 @@ The tooltip node prompt box can be used to display detailed information about no
 The Tooltip is one of the plugins provided by G6, but it is not registered in advance. It needs to be imported from Extensions and registered before being configured on the graph:
 
 ```javascript
-const { Graph as GraphBase, extend, Extensions } = G6;
-const ExtGraph = extend(GraphBase, {
+const { Graph as BaseGraph, extend, Extensions } = G6;
+const ExtGraph = extend(BaseGraph, {
   // ... Other extension registrations
   // Plugin registration
   plugins: {

@@ -15,7 +15,7 @@ runtime.enableCSSParsing = false;
  * Extend the graph class with std lib
  */
 
-const version = '5.0.0-beta.21';
+const version = '5.0.0-beta.26';
 
 const Graph = extend(EmptyGraph, stdLib);
 

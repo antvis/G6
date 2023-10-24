@@ -1,6 +1,5 @@
 import { Animation, DisplayObject, IAnimationEffectTiming } from '@antv/g';
-import Hierarchy from '@antv/hierarchy';
-import { Graph as GraphLib } from '@antv/graphlib';
+import { Graph as GraphLib, ID } from '@antv/graphlib';
 import {
   isLayoutWithIterations,
   Layout,
@@ -8,7 +7,7 @@ import {
   OutNode,
   Supervisor,
 } from '@antv/layout';
-import registery, { stdLib } from '../../stdlib';
+import registery, { Extensions, stdLib } from '../../stdlib';
 import {
   IGraph,
   isImmediatelyInvokedLayoutOptions,
@@ -38,6 +37,7 @@ export class LayoutController {
   private currentSupervisor: Supervisor | null;
   private currentAnimation: Animation | null;
   private animatedDisplayObject: DisplayObject;
+  private previousNodes: Map<ID, object>;
 
   constructor(graph: IGraph<any, any>) {
     this.graph = graph;
@@ -118,6 +118,24 @@ export class LayoutController {
         width,
         height,
         center,
+        preset: layoutNodes.map((node) => {
+          const { x, y, z } = node.data;
+          if (isNaN(x) || isNaN(y)) return;
+          const presetNode = { x, y, z };
+          const otherProps = this.previousNodes?.get(node.id) || {};
+          ['_order', 'layer'].forEach((field) => {
+            presetNode[field] = node.data.hasOwnProperty(field)
+              ? node.data[field]
+              : otherProps[field];
+          });
+          return {
+            id: node.id,
+            data: {
+              ...otherProps,
+              ...presetNode,
+            },
+          };
+        }),
         ...rest,
       });
 
@@ -165,11 +183,34 @@ export class LayoutController {
       }
 
       // Initialize layout.
+      const useCache = layoutCtor === Extensions.DagreLayout;
       const layout = new layoutCtor({
         nodeSize,
         width,
         height,
         center,
+        preset: useCache
+          ? layoutNodes
+              .map((node) => {
+                const { x, y, z } = node.data;
+                if (isNaN(x) || isNaN(y)) return;
+                const presetNode = { x, y, z };
+                const otherProps = this.previousNodes?.get(node.id) || {};
+                ['_order', 'layer'].forEach((field) => {
+                  presetNode[field] = node.data.hasOwnProperty(field)
+                    ? node.data[field]
+                    : otherProps[field];
+                });
+                return {
+                  id: node.id,
+                  data: {
+                    ...otherProps,
+                    ...presetNode,
+                  },
+                };
+              })
+              .filter(Boolean)
+          : undefined,
         ...rest,
       });
       this.currentLayout = layout;
@@ -314,7 +355,17 @@ export class LayoutController {
 
   private updateNodesPosition(positions: LayoutMapping, animate = true) {
     const { nodes, edges } = positions;
-    this.graph.updateNodePosition(nodes, undefined, !animate);
+    this.previousNodes = new Map();
+    const nodePositions = nodes.map((node) => {
+      const { x, y, z, ...others } = node.data;
+      this.previousNodes.set(node.id, others);
+      const data = isNaN(z) ? { x, y } : { x, y, z };
+      return {
+        id: node.id,
+        data,
+      };
+    });
+    this.graph.updateNodePosition(nodePositions, undefined, !animate);
     const edgeToUpdate = edges
       .filter((edge) => edge.data.controlPoints)
       .map((edge) => ({

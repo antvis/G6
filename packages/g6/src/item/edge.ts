@@ -122,7 +122,7 @@ export default class Edge extends Item {
         this.shapeMap, // shapeMap
         this.group,
         firstRendering ? 'buildIn' : 'update',
-        this.changedStates,
+        diffState?.current.map((state) => state.name) || this.changedStates,
         this.animateFrameListener,
         (canceled) => onfinish(displayModel.id, canceled),
       );
@@ -132,6 +132,7 @@ export default class Edge extends Item {
       this.visible = true;
       this.hide(false);
     }
+    this.changedStates = [];
   }
 
   /**

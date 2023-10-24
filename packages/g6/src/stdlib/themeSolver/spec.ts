@@ -1,4 +1,4 @@
-import { isArray } from '@antv/util';
+import { isArray, isObject } from '@antv/util';
 import {
   NodeStyleSets,
   EdgeStyleSets,
@@ -50,12 +50,28 @@ export class SpecThemeSolver extends BaseThemeSolver {
 
         if (dataTypeField && !getStyleSets) {
           getStyleSets = (paletteProps) => {
-            return paletteProps.map((color) => ({
-              default: {
-                keyShape:
-                  itemType === 'edge' ? { stroke: color } : { fill: color },
-              },
-            }));
+            if (isArray(paletteProps)) {
+              return paletteProps.map((color) => ({
+                default: {
+                  keyShape:
+                    itemType === 'edge' ? { stroke: color } : { fill: color },
+                },
+              }));
+            }
+            if (isObject(paletteProps)) {
+              const res = {};
+              Object.keys(paletteProps).map((dataType) => {
+                res[dataType] = {
+                  default: {
+                    keyShape:
+                      itemType === 'edge'
+                        ? { stroke: paletteProps[dataType] }
+                        : { fill: paletteProps[dataType] },
+                  },
+                };
+              });
+              return res;
+            }
           };
         }
 

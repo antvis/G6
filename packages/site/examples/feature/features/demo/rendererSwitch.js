@@ -83,15 +83,25 @@ const defaultTheme = {
   },
 };
 
-const dataFormat = (data, options = {}, graphCore) => {
+const dataFormat = (dataAUR, options = {}, graphCore) => {
+  const { dataAdded, dataUpdated, dataRemoved } = dataAUR;
+  return {
+    dataAdded: dataFormatHandler(dataAdded, options, graphCore),
+    dataUpdated: dataFormatHandler(dataUpdated, options, graphCore),
+    dataRemoved,
+  };
+};
+
+const dataFormatHandler = (data, options = {}, graphCore) => {
+  if (!data.nodes || !data.edges) return {};
   const map = new Map();
   const nodes = [];
-  data.nodes.forEach((node) => {
+  data.nodes?.forEach((node) => {
     if (map.has(node.id)) return;
     nodes.push(node);
     map.set(node.id, true);
   });
-  data.edges.forEach((edge) => {
+  data.edges?.forEach((edge) => {
     const sourceDegree = map.get(edge.source) || 0;
     map.set(edge.source, sourceDegree + 1);
     const targetDegree = map.get(edge.target) || 0;
@@ -112,11 +122,12 @@ const dataFormat = (data, options = {}, graphCore) => {
         },
       };
     }),
-    edges: data.edges.map((edge) => ({
-      id: `edge-${Math.random()}`,
-      source: edge.source,
-      target: edge.target,
-    })),
+    edges:
+      data.edges?.map((edge) => ({
+        id: `edge-${Math.random()}`,
+        source: edge.source,
+        target: edge.target,
+      })) || [],
   };
 };
 
