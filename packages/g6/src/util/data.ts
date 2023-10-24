@@ -334,7 +334,7 @@ export const dataLifecycleMap: Record<string, string> = {
  * @param excludeInvisibles whether exclude invisibles. true means the function should test without visible items.
  * @returns graph is empty or not.
  */
-export const isEmptyGraph = (graph, excludeInvisibles = false): Boolean => {
+export const isEmptyGraph = (graph, excludeInvisibles = false): boolean => {
   const nodes = graph.getAllNodesData();
   const combos = graph.getAllCombosData();
   if (nodes.length === 0 && combos.length === 0) return true;

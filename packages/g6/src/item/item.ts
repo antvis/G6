@@ -30,9 +30,8 @@ import {
   GROUP_ANIMATE_STYLES,
   stopAnimate,
 } from '../util/animate';
-import { AnimateTiming, IAnimates } from '../types/animate';
+import { AnimateTiming, IAnimates, IStateAnimate } from '../types/animate';
 import { formatLodStrategy } from '../util/zoom';
-import { IStateAnimate } from '../types/animate';
 
 export default abstract class Item implements IItem {
   public destroyed = false;

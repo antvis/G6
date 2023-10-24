@@ -6,10 +6,10 @@ import {
   Path,
   Polyline,
 } from '@antv/g';
+import { clone, isString, uniq } from '@antv/util';
 import { AnimateTiming, IAnimate, IAnimates } from '../types/animate';
 import { ItemShapeStyles, ShapeStyle } from '../types/item';
 import { isArrayOverlap, replaceElements } from './array';
-import { clone, isString, uniq } from '@antv/util';
 
 /**
  * Initial(timing = show) shape animation start from init shape styles, and end to the shape's style config.
