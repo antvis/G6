@@ -781,6 +781,7 @@ export class ItemController {
         this.cacheWarnMsg[WARN_TYPE.FAIL_SET_STATE] =
           this.cacheWarnMsg[WARN_TYPE.FAIL_SET_STATE] || [];
         this.cacheWarnMsg[WARN_TYPE.FAIL_SET_STATE].push(id);
+        // @ts-ignore
         this.debounceWarn(WARN_TYPE.FAIL_SET_STATE);
         return;
       }
@@ -817,6 +818,7 @@ export class ItemController {
         this.cacheWarnMsg[WARN_TYPE.FAIL_SET_VISIBLE] =
           this.cacheWarnMsg[WARN_TYPE.FAIL_SET_VISIBLE] || [];
         this.cacheWarnMsg[WARN_TYPE.FAIL_SET_VISIBLE].push(id);
+        // @ts-ignore
         this.debounceWarn(WARN_TYPE.FAIL_SET_VISIBLE);
         return;
       }
@@ -1108,6 +1110,7 @@ export class ItemController {
         this.cacheWarnMsg[WARN_TYPE.FAIL_DRAW_TRANSIENT] =
           this.cacheWarnMsg[WARN_TYPE.FAIL_DRAW_TRANSIENT] || [];
         this.cacheWarnMsg[WARN_TYPE.FAIL_DRAW_TRANSIENT].push(id);
+        // @ts-ignore
         this.debounceWarn(WARN_TYPE.FAIL_DRAW_TRANSIENT);
         return;
       }
@@ -1455,6 +1458,7 @@ export class ItemController {
         this.cacheWarnMsg[WARN_TYPE.SOURCE_NOT_EXIST] =
           this.cacheWarnMsg[WARN_TYPE.SOURCE_NOT_EXIST] || [];
         this.cacheWarnMsg[WARN_TYPE.SOURCE_NOT_EXIST].push({ id, source });
+        // @ts-ignore
         this.debounceWarn(WARN_TYPE.SOURCE_NOT_EXIST);
         return;
       }
@@ -1462,6 +1466,7 @@ export class ItemController {
         this.cacheWarnMsg[WARN_TYPE.TARGET_NOT_EXIST] =
           this.cacheWarnMsg[WARN_TYPE.TARGET_NOT_EXIST] || [];
         this.cacheWarnMsg[WARN_TYPE.TARGET_NOT_EXIST].push({ id, source });
+        // @ts-ignore
         this.debounceWarn(WARN_TYPE.TARGET_NOT_EXIST);
         return;
       }
@@ -1558,6 +1563,7 @@ export class ItemController {
       this.cacheWarnMsg[WARN_TYPE.FAIL_GET_STATE] =
         this.cacheWarnMsg[WARN_TYPE.FAIL_GET_STATE] || [];
       this.cacheWarnMsg[WARN_TYPE.FAIL_GET_STATE].push(id);
+      // @ts-ignore
       this.debounceWarn(WARN_TYPE.FAIL_GET_STATE);
       return false;
     }
@@ -1570,6 +1576,7 @@ export class ItemController {
       this.cacheWarnMsg[WARN_TYPE.FAIL_GET_STATE] =
         this.cacheWarnMsg[WARN_TYPE.FAIL_GET_STATE] || [];
       this.cacheWarnMsg[WARN_TYPE.FAIL_GET_STATE].push(id);
+      // @ts-ignore
       this.debounceWarn(WARN_TYPE.FAIL_GET_STATE);
       return [];
     }
@@ -1595,6 +1602,7 @@ export class ItemController {
       this.cacheWarnMsg[WARN_TYPE.FAIL_GET_BBOX] =
         this.cacheWarnMsg[WARN_TYPE.FAIL_GET_BBOX] || [];
       this.cacheWarnMsg[WARN_TYPE.FAIL_GET_BBOX].push(id);
+      // @ts-ignore
       this.debounceWarn(WARN_TYPE.FAIL_GET_BBOX);
       return false;
     }
@@ -1628,6 +1636,7 @@ export class ItemController {
       this.cacheWarnMsg[WARN_TYPE.FAIL_GET_VISIBLE] =
         this.cacheWarnMsg[WARN_TYPE.FAIL_GET_VISIBLE] || [];
       this.cacheWarnMsg[WARN_TYPE.FAIL_GET_VISIBLE].push(id);
+      // @ts-ignore
       this.debounceWarn(WARN_TYPE.FAIL_GET_VISIBLE);
 
       return false;

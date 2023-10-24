@@ -4,10 +4,16 @@ import { IGraph } from '../../types';
 import { getExtension } from '../../util/extension';
 import { Plugin as PluginBase } from '../../types/plugin';
 import { IG6GraphEvent } from '../../types/event';
+import { LodController } from '../../stdlib/plugin';
 
 type Listener = (event: IG6GraphEvent) => void;
 
-const REQUIRED_PLUGINS = ['lod-controller'];
+const REQUIRED_PLUGINS = [
+  {
+    type: 'lod-controller',
+    pluginClass: LodController,
+  },
+];
 
 /**
  * Wraps the listener with error logging.
@@ -74,11 +80,16 @@ export class PluginController {
     const { graph } = this;
     const pluginConfigs = graph.getSpecification().plugins || [];
     const plugins = [...pluginConfigs];
-    REQUIRED_PLUGINS.forEach((type) => {
+    REQUIRED_PLUGINS.forEach((required) => {
       if (
-        !pluginConfigs.find((plugin) => plugin === type || plugin.type === type)
+        !pluginConfigs.find(
+          (plugin) =>
+            plugin === required.type ||
+            (plugin as any).type === required.type ||
+            plugin instanceof required.pluginClass,
+        )
       ) {
-        plugins.push(type);
+        plugins.push(required.type);
       }
     });
 

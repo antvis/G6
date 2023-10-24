@@ -671,12 +671,12 @@ export default abstract class Item implements IItem {
     animates: IAnimates,
     timing: AnimateTiming,
     targetStyleMap: Object,
-    shapeIdsToShow: string[],
+    shapeIdsToShow: string[] | undefined,
     callback: Function = () => {},
   ) {
     let targetStyle = {};
     if (!targetStyleMap) {
-      shapeIdsToShow.forEach((shapeId) => {
+      shapeIdsToShow?.forEach((shapeId) => {
         targetStyle[shapeId] = getShapeAnimateBeginStyles(
           this.shapeMap[shapeId],
         );
@@ -922,6 +922,7 @@ export default abstract class Item implements IItem {
       this.animations = this.runWithAnimates(
         animates,
         'buildOut',
+        undefined,
         undefined,
         func,
       );
