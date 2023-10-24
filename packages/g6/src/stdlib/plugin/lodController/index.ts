@@ -71,7 +71,7 @@ export class LodController extends Base {
       afterrender: this.onAfterRender,
       afterlayout: this.onAfterLayout,
       aftersetsize: this.updateCells,
-      viewportchange: this.updateCells, // TODO: large number of warnings while viewportchange is called after new graph immediately
+      viewportchange: this.updateCells,
       afteritemchange: this.updateCacheModels,
     };
   }
@@ -572,7 +572,6 @@ export class LodController extends Base {
     return displayModel;
   };
   private getRenderBBox = (id) => {
-    // return this.graph.getRenderBBox(id, true);
     let renderBounds;
     if (!this.renderBoundsCache.has(id)) {
       renderBounds = this.graph.getRenderBBox(id, true);
