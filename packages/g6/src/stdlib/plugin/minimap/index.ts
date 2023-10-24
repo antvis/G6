@@ -653,7 +653,7 @@ export class Minimap extends Base {
     }
     this.container = container;
 
-    const containerDOM = createDom(
+    const containerDOM = createDOM(
       '<div class="g6-minimap-container" style="position: relative;"></div>',
     );
     container.appendChild(containerDOM);
