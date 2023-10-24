@@ -43,7 +43,7 @@ export class SpecThemeSolver extends BaseThemeSolver {
         if (!specification[itemType]) return;
         const {
           palette = mergedSpec[itemType].palette,
-          lodStrategy = mergedSpec[itemType].lodStrategy,
+          lodLevels = mergedSpec[itemType].lodLevels,
           dataTypeField,
         } = specification[itemType];
         let { getStyleSets } = specification[itemType];
@@ -109,7 +109,7 @@ export class SpecThemeSolver extends BaseThemeSolver {
         mergedSpec[itemType] = {
           dataTypeField,
           palette,
-          lodStrategy,
+          lodLevels,
           styles: mergedStyles,
         };
       });

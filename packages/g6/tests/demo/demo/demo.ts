@@ -8,7 +8,7 @@ import { RendererName } from '../../../src/types/render';
 import { Point } from '../../../src/types/common';
 import data from './data';
 import data3d from './data3d';
-// import Stats from 'stats.js';
+import Stats from 'stats.js';
 
 let graph: typeof Graph;
 let degrees = {};
@@ -47,34 +47,34 @@ const getDefaultNodeAnimates = (delay?: number) => ({
       shapeId: 'haloShape',
     },
   ],
-  hide: [
-    {
-      fields: ['size'],
-      duration: 200,
-    },
-    {
-      fields: ['opacity'],
-      duration: 200,
-      shapeId: 'keyShape',
-    },
-    {
-      fields: ['opacity'],
-      duration: 200,
-      shapeId: 'labelShape',
-    },
-  ],
-  show: [
-    {
-      fields: ['size'],
-      duration: 200,
-    },
-    {
-      fields: ['opacity'],
-      duration: 200,
-      shapeId: 'keyShape',
-      order: 0,
-    },
-  ],
+  // hide: [
+  //   {
+  //     fields: ['size'],
+  //     duration: 200,
+  //   },
+  //   {
+  //     fields: ['opacity'],
+  //     duration: 200,
+  //     shapeId: 'keyShape',
+  //   },
+  //   {
+  //     fields: ['opacity'],
+  //     duration: 200,
+  //     shapeId: 'labelShape',
+  //   },
+  // ],
+  // show: [
+  //   {
+  //     fields: ['size'],
+  //     duration: 200,
+  //   },
+  //   {
+  //     fields: ['opacity'],
+  //     duration: 200,
+  //     shapeId: 'keyShape',
+  //     order: 0,
+  //   },
+  // ],
 });
 
 const getDefaultEdgeAnimates = (delay?: number) => ({
@@ -134,13 +134,19 @@ const create2DGraph = (
     container: container as HTMLElement,
     width,
     height: 1400,
-    renderer: rendererType,
+    renderer: 'webgl',
+    // rendererType,
     data: dataFor2D,
     modes: {
       default: [
-        { type: 'zoom-canvas', key: '123', triggerOnItems: true },
+        {
+          type: 'zoom-canvas',
+          enableOptimize: false,
+          key: '123',
+          triggerOnItems: true,
+        },
         'drag-node',
-        'drag-canvas',
+        { type: 'drag-canvas', enableOptimize: false },
         'hover-activate',
         'brush-select',
         'click-select',
@@ -171,7 +177,7 @@ const create2DGraph = (
         data: {
           animates: getNodeAnimates(),
           ...innerModel.data,
-          lodStrategy: {
+          lodLevels: {
             levels: [
               { zoomRange: [0, 0.16] }, // -2
               { zoomRange: [0.16, 0.2] }, // -1
@@ -193,14 +199,14 @@ const create2DGraph = (
                   text: innerModel.data.label,
                   maxWidth: '400%',
                   offsetY: 8,
-                  lod: labelLod,
+                  lod: 'auto', // labelLod,
                 }
               : undefined,
 
           labelBackgroundShape:
             degree !== 0
               ? {
-                  lod: labelLod,
+                  lod: 'auto', // labelLod,
                 }
               : undefined,
           iconShape:
@@ -765,18 +771,18 @@ export default () => {
   zoomOut.addEventListener('click', () => handleZoom(graph, false));
 
   // stats
-  // const stats = new Stats();
-  // stats.showPanel(0);
-  // const $stats = stats.dom;
-  // $stats.style.position = 'absolute';
-  // $stats.style.left = '0px';
-  // $stats.style.top = '0px';
-  // document.body.appendChild($stats);
-  // graph.canvas.addEventListener('afterrender', () => {
-  //   if (stats) {
-  //     stats.update();
-  //   }
-  // });
+  const stats = new Stats();
+  stats.showPanel(0);
+  const $stats = stats.dom;
+  $stats.style.position = 'absolute';
+  $stats.style.left = '0px';
+  $stats.style.top = '0px';
+  document.body.appendChild($stats);
+  graph.canvas.addEventListener('afterrender', () => {
+    if (stats) {
+      stats.update();
+    }
+  });
 
   return graph;
 };

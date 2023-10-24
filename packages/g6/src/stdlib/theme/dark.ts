@@ -28,18 +28,13 @@ export const DarkTheme = {
       '#2491B3',
       '#17C76F',
     ],
-    lodStrategy: {
-      levels: [
-        { zoomRange: [0, 0.65] },
-        { zoomRange: [0.65, 0.8] },
-        { zoomRange: [0.8, 1.6], primary: true },
-        { zoomRange: [1.6, 2] },
-        { zoomRange: [2, Infinity] },
-      ],
-      animateCfg: {
-        duration: 200,
-      },
-    },
+    lodLevels: [
+      { zoomRange: [0, 0.65] },
+      { zoomRange: [0.65, 0.8] },
+      { zoomRange: [0.8, 1.6], primary: true },
+      { zoomRange: [1.6, 2] },
+      { zoomRange: [2, Infinity] },
+    ],
     styles: [
       {
         default: {
@@ -181,18 +176,13 @@ export const DarkTheme = {
       '#2491B3',
       '#17C76F',
     ],
-    lodStrategy: {
-      levels: [
-        { zoomRange: [0, 0.65] },
-        { zoomRange: [0.65, 0.8] },
-        { zoomRange: [0.8, 1.6], primary: true },
-        { zoomRange: [1.6, 2] },
-        { zoomRange: [2, Infinity] },
-      ],
-      animateCfg: {
-        duration: 200,
-      },
-    },
+    lodLevels: [
+      { zoomRange: [0, 0.65] },
+      { zoomRange: [0.65, 0.8] },
+      { zoomRange: [0.8, 1.6], primary: true },
+      { zoomRange: [1.6, 2] },
+      { zoomRange: [2, Infinity] },
+    ],
     styles: [
       {
         default: {
@@ -289,6 +279,13 @@ export const DarkTheme = {
   },
   // TODO
   combo: {
+    lodLevels: [
+      { zoomRange: [0, 0.65] },
+      { zoomRange: [0.65, 0.8] },
+      { zoomRange: [0.8, 1.6], primary: true },
+      { zoomRange: [1.6, 2] },
+      { zoomRange: [2, Infinity] },
+    ],
     styles: [
       {
         default: {

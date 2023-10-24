@@ -32,6 +32,8 @@ export const upsertTransientItem = (
   nodeGroup: Group,
   edgeGroup: Group,
   comboGroup: Group,
+  nodeLabelGroup: Group,
+  edgeLabelGroup: Group,
   transientItemMap: Map<ID, Node | Edge | Combo | Group>,
   itemMap: Map<ID, Node | Edge | Combo>,
   graphCore?: GraphCore,
@@ -56,7 +58,7 @@ export const upsertTransientItem = (
     visible = true,
   } = drawOptions;
   if (item.type === 'node') {
-    transientItem = item.clone(nodeGroup, shapeIds, true);
+    transientItem = item.clone(nodeGroup, nodeLabelGroup, shapeIds, true);
   } else if (item.type === 'edge') {
     let source;
     let target;
@@ -66,6 +68,8 @@ export const upsertTransientItem = (
         nodeGroup,
         edgeGroup,
         comboGroup,
+        nodeLabelGroup,
+        edgeLabelGroup,
         transientItemMap,
         itemMap,
         graphCore,
@@ -79,6 +83,8 @@ export const upsertTransientItem = (
         nodeGroup,
         edgeGroup,
         comboGroup,
+        nodeLabelGroup,
+        edgeLabelGroup,
         transientItemMap,
         itemMap,
         graphCore,
@@ -88,6 +94,7 @@ export const upsertTransientItem = (
     }
     transientItem = item.clone(
       edgeGroup,
+      edgeLabelGroup,
       source,
       target,
       shapeIds,
@@ -108,6 +115,8 @@ export const upsertTransientItem = (
             nodeGroup,
             edgeGroup,
             comboGroup,
+            nodeLabelGroup,
+            edgeLabelGroup,
             transientItemMap,
             itemMap,
             graphCore,
@@ -119,6 +128,7 @@ export const upsertTransientItem = (
     });
     transientItem = (item as Combo).clone(
       comboGroup,
+      nodeLabelGroup,
       shapeIds,
       true,
       () => getCombinedBoundsByItem(childItems), // getCombinedBounds
@@ -145,6 +155,8 @@ export const upsertTransientItem = (
           nodeGroup,
           edgeGroup,
           comboGroup,
+          nodeLabelGroup,
+          edgeLabelGroup,
           transientItemMap,
           itemMap,
           graphCore,

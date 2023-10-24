@@ -115,6 +115,7 @@ export default (
           enableTransient: false,
           updateComboStructure: false,
         },
+        'zoom-canvas',
         'drag-canvas',
         {
           type: 'click-select',

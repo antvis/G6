@@ -612,13 +612,13 @@ The display object representing the shape.
 
 ---
 
-### lodStrategy
+### lodLevels
 
-• `Optional` **lodStrategy**: `LodStrategyObj`
+• `Optional` **lodLevels**: `LodStrategyObj`
 
 #### Inherited from
 
-[CustomNode3D](CustomNode3D.zh.md).[lodStrategy](CustomNode3D.zh.md#lodstrategy)
+[CustomNode3D](CustomNode3D.zh.md).[lodLevels](CustomNode3D.zh.md#lodstrategy)
 
 #### Defined in
 

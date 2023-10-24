@@ -485,7 +485,10 @@ export interface IGraph<
    * @returns
    * @group Data
    */
-  showItem: (ids: ID | ID[], disableAnimate?: boolean) => void;
+  showItem: (
+    ids: ID | ID[],
+    options?: { disableAnimate?: boolean; shapeIds?: string[] },
+  ) => void;
   /**
    * Hide the item(s).
    * @param ids the item id(s) to be hidden
@@ -494,8 +497,12 @@ export interface IGraph<
    */
   hideItem: (
     ids: ID | ID[],
-    disableAnimate?: boolean,
-    keepKeyShape?: boolean,
+    options?: {
+      disableAnimate?: boolean;
+      keepKeyShape?: boolean;
+      keepRelated?: boolean;
+      shapeIds?: string[];
+    },
   ) => void;
   /**
    * Make the item(s) to the front.
@@ -566,6 +573,13 @@ export interface IGraph<
    * @returns visibility for the item, false for invisible or unexistence for the item
    */
   getItemVisible: (id: ID) => boolean;
+
+  /**
+   * Get the visible shape ids in a node / edge / combo.
+   * @param id the id for the node / edge / combo
+   * @returns ids of the visible shapes
+   */
+  getItemVisibleShapeIds: (id: ID) => string[];
 
   // ===== combo operations =====
 

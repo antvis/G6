@@ -4,7 +4,6 @@ import {
   debounce,
   each,
   isArray,
-  isEmpty,
   isNumber,
   isObject,
   map,
@@ -44,7 +43,7 @@ import {
   ITEM_TYPE,
   ShapeStyle,
   SHAPE_TYPE,
-  LodStrategyObj,
+  LodLevelRanges,
   DisplayMapper,
 } from '../../types/item';
 import {
@@ -57,7 +56,7 @@ import {
   ComboStyleSet,
 } from '../../types/theme';
 import { ViewportChangeHookParams } from '../../types/hook';
-import { formatLodStrategy } from '../../util/zoom';
+import { formatLodLevels } from '../../util/zoom';
 import {
   deconstructData,
   graphComboTreeDfs,
@@ -76,6 +75,49 @@ import {
   isPolylineWithObstacleAvoidance,
 } from '../../util/polyline';
 
+enum WARN_TYPE {
+  FAIL_GET_BBOX,
+  FAIL_GET_VISIBLE,
+  FAIL_SET_STATE,
+  FAIL_GET_STATE,
+  FAIL_SET_VISIBLE,
+  FAIL_DRAW_TRANSIENT,
+  SOURCE_NOT_EXIST,
+  TARGET_NOT_EXIST,
+}
+
+const getWarnMsg = {
+  [WARN_TYPE.FAIL_GET_BBOX]: (ids) =>
+    `Fail to get items' bboxes, the items with ids ${ids.join(
+      ', ',
+    )} do not exist.`,
+  [WARN_TYPE.FAIL_GET_VISIBLE]: (ids) =>
+    `Fail to get items' visible, the items with ids ${ids.join(
+      ', ',
+    )} do not exist.`,
+  [WARN_TYPE.FAIL_SET_STATE]: (ids) =>
+    `Fail to set states for items ${ids.join(', ')}, which do not exist.`,
+  [WARN_TYPE.FAIL_SET_VISIBLE]: (ids) =>
+    `Fail to set visibility for items ${ids.join(', ')}, which do not exist.`,
+  [WARN_TYPE.FAIL_DRAW_TRANSIENT]: (ids) =>
+    `Fail to draw transient items of ${ids}, which do not exist.`,
+  [WARN_TYPE.SOURCE_NOT_EXIST]: (params) =>
+    `The source nodes ${params
+      .map((p) => p.source)
+      .join(', ')} do not exist in the graph for edges ${params
+      .map((p) => p.id)
+      .join(', ')}, please add the nodes first`,
+  [WARN_TYPE.TARGET_NOT_EXIST]: (params) =>
+    `The target nodes ${params
+      .map((p) => p.target)
+      .join(', ')} do not exist in the graph for edges ${params
+      .map((p) => p.id)
+      .join(', ')}, please add the nodes first`,
+  [WARN_TYPE.FAIL_GET_STATE]: (ids) =>
+    `Fail to get items' states, the items with ids ${ids.join(
+      ', ',
+    )} do not exist.`,
+};
 /**
  * Manages and stores the node / edge / combo items.
  */
@@ -132,6 +174,8 @@ export class ItemController {
   private transientNodeGroup: Group;
   private transientEdgeGroup: Group;
   private transientComboGroup: Group;
+  private transientNodeLabelGroup: Group;
+  private transientEdgeLabelGroup: Group;
 
   private nodeDataTypeSet: Set<string> = new Set();
   private edgeDataTypeSet: Set<string> = new Set();
@@ -148,6 +192,13 @@ export class ItemController {
   >();
   /** Caches */
   private nearEdgesCache: Map<ID, EdgeModel[]> = new Map<ID, EdgeModel[]>();
+
+  private cacheViewItems: {
+    inView: (Node | Edge | Combo)[];
+    outView: (Node | Edge | Combo)[];
+  };
+
+  private cacheWarnMsg = {};
 
   constructor(graph: IGraph<any, any>) {
     this.graph = graph;
@@ -188,7 +239,6 @@ export class ItemController {
     this.graph.hooks.itemzindexchange.tap(this.onItemZIndexChange.bind(this));
     this.graph.hooks.transientupdate.tap(this.onTransientUpdate.bind(this));
     this.graph.hooks.viewportchange.tap(this.onViewportChange.bind(this));
-    this.graph.hooks.viewportchange.tap(this.updateLabelPositions.bind(this));
     this.graph.hooks.themechange.tap(this.onThemeChange.bind(this));
     this.graph.hooks.mapperchange.tap(this.onMapperChange.bind(this));
     this.graph.hooks.treecollapseexpand.tap(
@@ -228,16 +278,27 @@ export class ItemController {
     graphCore: GraphCore;
     theme: ThemeSpecification;
     transientCanvas: Canvas;
+    transientLabelCanvas: Canvas;
     tileOptimize?: {
       tileFirstRender?: boolean | number;
       tileFirstRenderSize?: number;
     };
   }) {
-    const { graphCore, theme = {}, transientCanvas, tileOptimize = {} } = param;
+    const {
+      graphCore,
+      theme = {},
+      transientCanvas,
+      transientLabelCanvas,
+      tileOptimize = {},
+    } = param;
     const { graph } = this;
 
     // 0. clear groups on canvas, and create new groups
     graph.canvas.removeChildren();
+    graph.labelCanvas.removeChildren();
+    graph.transientCanvas.removeChildren();
+    this.itemMap.forEach((item) => item.destroy());
+    this.itemMap.clear();
     this.comboGroup = new Group({ id: 'combo-group', style: { zIndex: 0 } });
     this.edgeGroup = new Group({ id: 'edge-group', style: { zIndex: 1 } });
     this.nodeGroup = new Group({ id: 'node-group', style: { zIndex: 2 } });
@@ -272,6 +333,16 @@ export class ItemController {
     transientCanvas.appendChild(this.transientComboGroup);
     transientCanvas.appendChild(this.transientEdgeGroup);
     transientCanvas.appendChild(this.transientNodeGroup);
+    this.transientEdgeLabelGroup = new Group({
+      id: 'node-label-group',
+      style: { zIndex: 0 },
+    });
+    this.transientNodeLabelGroup = new Group({
+      id: 'node-label-group',
+      style: { zIndex: 1 },
+    });
+    transientLabelCanvas.appendChild(this.transientEdgeLabelGroup);
+    transientLabelCanvas.appendChild(this.transientNodeLabelGroup);
 
     // 1. create lights for webgl 3d rendering
     if (graph.rendererType === 'webgl-3d') {
@@ -597,7 +668,7 @@ export class ItemController {
         const parentItem = this.itemMap.get(current.parentId);
         if (current.parentId && parentItem?.model.data.collapsed) {
           this.graph.executeWithNoStack(() => {
-            this.graph.hideItem(innerModel.id, false);
+            this.graph.hideItem(innerModel.id, { disableAnimate: false });
           });
         }
       });
@@ -680,7 +751,7 @@ export class ItemController {
         let parent = graphCore.getParent(nodeId, 'tree');
         while (parent) {
           if (parent.data.collapsed) {
-            this.graph.hideItem(nodeId, true);
+            this.graph.hideItem(nodeId, { disableAnimate: true });
             break;
           }
           parent = graphCore.getParent(parent.id, 'tree');
@@ -707,7 +778,10 @@ export class ItemController {
     ids.forEach((id) => {
       const item = this.itemMap.get(id);
       if (!item) {
-        console.warn(`Fail to set state for item ${id}, which is not exist.`);
+        this.cacheWarnMsg[WARN_TYPE.FAIL_SET_STATE] =
+          this.cacheWarnMsg[WARN_TYPE.FAIL_SET_STATE] || [];
+        this.cacheWarnMsg[WARN_TYPE.FAIL_SET_STATE].push(id);
+        this.debounceWarn(WARN_TYPE.FAIL_SET_STATE);
         return;
       }
       if (!states || !value) {
@@ -726,6 +800,7 @@ export class ItemController {
     graphCore: GraphCore;
     animate?: boolean;
     keepKeyShape?: boolean;
+    keepRelated?: boolean;
   }) {
     const {
       ids,
@@ -734,20 +809,22 @@ export class ItemController {
       graphCore,
       animate = true,
       keepKeyShape = false,
+      keepRelated = false,
     } = param;
     ids.forEach((id) => {
       const item = this.itemMap.get(id);
       if (!item) {
-        console.warn(
-          `Fail to set visibility for item ${id}, which is not exist.`,
-        );
+        this.cacheWarnMsg[WARN_TYPE.FAIL_SET_VISIBLE] =
+          this.cacheWarnMsg[WARN_TYPE.FAIL_SET_VISIBLE] || [];
+        this.cacheWarnMsg[WARN_TYPE.FAIL_SET_VISIBLE].push(id);
+        this.debounceWarn(WARN_TYPE.FAIL_SET_VISIBLE);
         return;
       }
       if (shapeIds?.length) {
         if (value) {
-          item.showShapes(shapeIds);
+          item.show(animate, shapeIds);
         } else {
-          item.hideShapes(shapeIds);
+          item.hide(animate, false, shapeIds);
         }
         return;
       }
@@ -774,7 +851,7 @@ export class ItemController {
         }
       } else {
         item.hide(animate, keepKeyShape);
-        if (type !== 'edge') {
+        if (type !== 'edge' && !keepRelated) {
           const relatedEdges = graphCore.getRelatedEdges(id);
           relatedEdges.forEach(({ id: edgeId }) => {
             this.itemMap.get(edgeId)?.hide(animate);
@@ -825,55 +902,51 @@ export class ItemController {
    */
   private groupItemsByView = (
     containType: 'inside' | 'intersect' = 'inside',
+    ratio: number = 1,
   ) => {
     const range = this.graph.getCanvasRange();
     const items = Array.from(this.itemMap, ([key, value]) => value);
-    const itemsInViewport = [];
-    const itemsOutViewport = [];
     const containFunc =
       containType === 'intersect' ? intersectBBox : isBBoxInBBox;
-    items.forEach((item) => {
-      const { keyShape } = item.shapeMap;
-      if (!keyShape) return;
-      const renderBounds = keyShape.getRenderBounds();
-      if (containFunc(renderBounds, range, 0.4)) itemsInViewport.push(item);
-      else itemsOutViewport.push(item);
-    });
+    let { inView: itemsInView, outView: itemsOutView } =
+      this.cacheViewItems || {};
+    if (!ratio || ratio === 1 || !this.cacheViewItems) {
+      itemsInView = [];
+      itemsOutView = [];
+      items.forEach((item) => {
+        const { keyShape } = item.shapeMap;
+        if (!keyShape) return;
+        const renderBounds = keyShape.getRenderBounds();
+        if (containFunc(renderBounds, range, 0.4)) itemsInView.push(item);
+        else itemsOutView.push(item);
+      });
+    } else if (ratio < 1) {
+      // zoom-out
+      itemsOutView.forEach((item) => {
+        const { keyShape } = item.shapeMap;
+        if (!keyShape) return;
+        const renderBounds = keyShape.getRenderBounds();
+        if (containFunc(renderBounds, range, 0.4)) {
+          itemsInView.push(item);
+        }
+      });
+    } else if (ratio > 1) {
+      // zoom-in
+      itemsInView.forEach((item) => {
+        const { keyShape } = item.shapeMap;
+        if (!keyShape) return;
+        const renderBounds = keyShape.getRenderBounds();
+        if (!containFunc(renderBounds, range, 0.4)) {
+          itemsOutView.push(item);
+        }
+      });
+    }
+    this.cacheViewItems = { inView: itemsInView, outView: itemsOutView };
     return {
       items,
-      inView: itemsInViewport,
-      outView: itemsOutViewport,
+      inView: itemsInView,
+      outView: itemsOutView,
     };
-  };
-
-  private updateLabelPositions = ({
-    transform,
-    effectTiming,
-    tileLodSize = 1000,
-  }: ViewportChangeHookParams) => {
-    const { inView: itemsInView, outView: itemsOutView } =
-      this.groupItemsByView('intersect');
-
-    // TODO: show and hide labels according to quadtree with viewport coordinates
-    // 1. inside current view &&
-    // 2. lod is number and matches the current zoom ratio
-    // 3. lod is 'auto' and filtered by cells)
-    // 1 && (2 || 3)
-    const autoVisibleItems = [];
-    itemsInView.forEach((item) => {
-      const { labelShape, lodStrategy } = item.displayModel.data;
-      if (!labelShape) return;
-      const { visible, lod = 'auto' } = labelShape;
-      if (visible === false) return;
-      // autoVisible
-      if (!lodStrategy || isEmpty(lodStrategy) || typeof lod !== 'number') {
-        autoVisibleItems.push(item);
-      }
-    });
-
-    // adjust labels'positions for visible items
-    itemsInView.forEach((item) => item.updateLabelPosition());
-    itemsOutView.forEach((item) => item.hideLabel());
   };
 
   private onViewportChange = debounce(
@@ -936,7 +1009,7 @@ export class ItemController {
         false,
         itemTheme as {
           styles: NodeStyleSet;
-          lodStrategy: LodStrategyObj;
+          lodLevels: LodLevelRanges;
         },
       );
     });
@@ -1032,9 +1105,10 @@ export class ItemController {
     if (isItemType) {
       const item = this.itemMap.get(id);
       if (!item) {
-        console.warn(
-          `Fail to draw transient item of ${id}, which is not exist.`,
-        );
+        this.cacheWarnMsg[WARN_TYPE.FAIL_DRAW_TRANSIENT] =
+          this.cacheWarnMsg[WARN_TYPE.FAIL_DRAW_TRANSIENT] || [];
+        this.cacheWarnMsg[WARN_TYPE.FAIL_DRAW_TRANSIENT].push(id);
+        this.debounceWarn(WARN_TYPE.FAIL_DRAW_TRANSIENT);
         return;
       }
       const transientItem = upsertTransientItem(
@@ -1042,6 +1116,8 @@ export class ItemController {
         this.transientNodeGroup,
         this.transientEdgeGroup,
         this.transientComboGroup,
+        this.transientNodeLabelGroup,
+        this.transientEdgeLabelGroup,
         this.transientItemMap,
         this.itemMap,
         graphCore,
@@ -1116,6 +1192,15 @@ export class ItemController {
             ...data,
           },
         });
+        if (type !== 'edge') {
+          const relatedEdges = graphCore.getRelatedEdges(transItem.model.id);
+          relatedEdges.forEach((relatedEdge) => {
+            const transientEdge = this.transientItemMap.get(
+              relatedEdge.id,
+            ) as Edge;
+            if (transientEdge) transientEdge.forceUpdate();
+          });
+        }
       }
       return;
     }
@@ -1143,8 +1228,19 @@ export class ItemController {
     return this.itemMap;
   }
 
-  public findDisplayModel(id: ID) {
-    return this.itemMap.get(id)?.displayModel;
+  public findDisplayModel(
+    id: ID,
+  ): NodeDisplayModel | EdgeDisplayModel | ComboDisplayModel {
+    const item = this.itemMap.get(id);
+    if (!item) return { id, data: {} };
+    return {
+      id,
+      data: {
+        ...item.displayModel,
+        ...item.renderExt.mergedStyles,
+        lodLevels: item.lodLevels,
+      },
+    };
   }
 
   /**
@@ -1198,7 +1294,7 @@ export class ItemController {
         zoom,
         theme: itemTheme as {
           styles: NodeStyleSet;
-          lodStrategy: LodStrategyObj;
+          lodLevels: LodLevelRanges;
         },
         device:
           graph.rendererType === 'webgl-3d'
@@ -1295,6 +1391,7 @@ export class ItemController {
         getChildren,
         renderExtensions: comboExtensions,
         containerGroup: comboGroup,
+        labelContainerGroup: this.nodeLabelGroup,
         mapper: this.comboMapper as DisplayMapper,
         stateMapper: this.comboStateMapper as {
           [stateName: string]: DisplayMapper;
@@ -1302,7 +1399,7 @@ export class ItemController {
         zoom,
         theme: itemTheme as {
           styles: ComboStyleSet;
-          lodStrategy: LodStrategyObj;
+          lodLevels: LodLevelRanges;
         },
         device:
           graph.rendererType === 'webgl-3d'
@@ -1355,15 +1452,17 @@ export class ItemController {
       const sourceItem = itemMap.get(source) as Node;
       const targetItem = itemMap.get(target) as Node;
       if (!sourceItem) {
-        console.warn(
-          `The source node ${source} is not exist in the graph for edge ${id}, please add the node first`,
-        );
+        this.cacheWarnMsg[WARN_TYPE.SOURCE_NOT_EXIST] =
+          this.cacheWarnMsg[WARN_TYPE.SOURCE_NOT_EXIST] || [];
+        this.cacheWarnMsg[WARN_TYPE.SOURCE_NOT_EXIST].push({ id, source });
+        this.debounceWarn(WARN_TYPE.SOURCE_NOT_EXIST);
         return;
       }
       if (!targetItem) {
-        console.warn(
-          `The source node ${source} is not exist in the graph for edge ${id}, please add the node first`,
-        );
+        this.cacheWarnMsg[WARN_TYPE.TARGET_NOT_EXIST] =
+          this.cacheWarnMsg[WARN_TYPE.TARGET_NOT_EXIST] || [];
+        this.cacheWarnMsg[WARN_TYPE.TARGET_NOT_EXIST].push({ id, source });
+        this.debounceWarn(WARN_TYPE.TARGET_NOT_EXIST);
         return;
       }
       // get the base styles from theme
@@ -1392,7 +1491,7 @@ export class ItemController {
         zoom,
         theme: itemTheme as {
           styles: EdgeStyleSet;
-          lodStrategy: LodStrategyObj;
+          lodLevels: LodLevelRanges;
         },
       });
 
@@ -1456,9 +1555,10 @@ export class ItemController {
   public getItemState(id: ID, state: string) {
     const item = this.itemMap.get(id);
     if (!item) {
-      console.warn(
-        `Fail to get item state, the item with id ${id} does not exist.`,
-      );
+      this.cacheWarnMsg[WARN_TYPE.FAIL_GET_STATE] =
+        this.cacheWarnMsg[WARN_TYPE.FAIL_GET_STATE] || [];
+      this.cacheWarnMsg[WARN_TYPE.FAIL_GET_STATE].push(id);
+      this.debounceWarn(WARN_TYPE.FAIL_GET_STATE);
       return false;
     }
     return item.hasState(state);
@@ -1467,9 +1567,10 @@ export class ItemController {
   public getItemAllStates(id: ID): string[] {
     const item = this.itemMap.get(id);
     if (!item) {
-      console.warn(
-        `Fail to get item state, the item with id ${id} does not exist.`,
-      );
+      this.cacheWarnMsg[WARN_TYPE.FAIL_GET_STATE] =
+        this.cacheWarnMsg[WARN_TYPE.FAIL_GET_STATE] || [];
+      this.cacheWarnMsg[WARN_TYPE.FAIL_GET_STATE].push(id);
+      this.debounceWarn(WARN_TYPE.FAIL_GET_STATE);
       return [];
     }
     return item
@@ -1491,21 +1592,44 @@ export class ItemController {
       ? this.transientItemMap.get(id)
       : this.itemMap.get(id);
     if (!item) {
-      console.warn(
-        `Fail to get item bbox, the item with id ${id} does not exist.`,
-      );
+      this.cacheWarnMsg[WARN_TYPE.FAIL_GET_BBOX] =
+        this.cacheWarnMsg[WARN_TYPE.FAIL_GET_BBOX] || [];
+      this.cacheWarnMsg[WARN_TYPE.FAIL_GET_BBOX].push(id);
+      this.debounceWarn(WARN_TYPE.FAIL_GET_BBOX);
       return false;
     }
     if (item instanceof Group) return item.getRenderBounds();
     return isKeyShape ? item.getKeyBBox() : item.getBBox();
   }
 
+  public getItemVisibleShapeIds(id: ID) {
+    const item = this.itemMap.get(id);
+    const shapeIds = [];
+    Object.keys(item.shapeMap).forEach((shapeId) => {
+      if (item.shapeMap[shapeId]?.attributes.visibility !== 'hidden')
+        shapeIds.push(shapeId);
+    });
+    return shapeIds;
+  }
+
+  private debounceWarn = debounce(
+    (type) => {
+      const msg = getWarnMsg[type](this.cacheWarnMsg[type]);
+      console.warn(msg);
+      this.cacheWarnMsg[type] = [];
+    },
+    16,
+    false,
+  );
+
   public getItemVisible(id: ID) {
     const item = this.itemMap.get(id);
     if (!item) {
-      console.warn(
-        `Fail to get item visible, the item with id ${id} does not exist.`,
-      );
+      this.cacheWarnMsg[WARN_TYPE.FAIL_GET_VISIBLE] =
+        this.cacheWarnMsg[WARN_TYPE.FAIL_GET_VISIBLE] || [];
+      this.cacheWarnMsg[WARN_TYPE.FAIL_GET_VISIBLE].push(id);
+      this.debounceWarn(WARN_TYPE.FAIL_GET_VISIBLE);
+
       return false;
     }
     return item.isVisible();
@@ -1528,7 +1652,7 @@ export class ItemController {
     graphComboTreeDfs(this.graph, [comboModel], (child) => {
       if (child.id !== comboModel.id) {
         this.graph.executeWithNoStack(() => {
-          this.graph.hideItem(child.id, false);
+          this.graph.hideItem(child.id, { disableAnimate: false });
         });
       }
       relatedEdges = relatedEdges.concat(graphCore.getRelatedEdges(child.id));
@@ -1712,7 +1836,7 @@ export class ItemController {
       undefined,
       !animate,
       (model, canceled) => {
-        this.graph.hideItem(model.id, canceled);
+        this.graph.hideItem(model.id, { disableAnimate: canceled });
       },
       undefined,
     );
@@ -1761,7 +1885,7 @@ export class ItemController {
       allNodeIds = allNodeIds.concat(nodeIds.filter((id) => id !== root.id));
     });
     const ids = uniq(allNodeIds.concat(allEdgeIds));
-    this.graph.showItem(ids, !animate);
+    this.graph.showItem(ids, { disableAnimate: !animate });
     await this.graph.layout(undefined, !animate);
   }
 }
@@ -1776,16 +1900,16 @@ const getItemTheme = (
     | ComboThemeSpecifications,
 ): {
   styles: NodeStyleSet | EdgeStyleSet;
-  lodStrategy?: LodStrategyObj;
+  lodLevels?: LodLevelRanges;
 } => {
-  const { styles: themeStyles = [], lodStrategy } = itemTheme;
-  const formattedLodStrategy = formatLodStrategy(lodStrategy);
+  const { styles: themeStyles = [], lodLevels } = itemTheme;
+  const formattedLodLevels = formatLodLevels(lodLevels);
   if (!dataTypeField) {
     // dataType field is not assigned
     const styles = isArray(themeStyles)
       ? themeStyles[0]
       : Object.values(themeStyles)[0];
-    return { styles, lodStrategy: formattedLodStrategy };
+    return { styles, lodLevels: formattedLodLevels };
   }
   dataTypeSet.add(dataType as string);
   let themeStyle;
@@ -1800,7 +1924,7 @@ const getItemTheme = (
   }
   return {
     styles: themeStyle,
-    lodStrategy: formattedLodStrategy,
+    lodLevels: formattedLodLevels,
   };
 };
 

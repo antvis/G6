@@ -476,9 +476,9 @@ The display object representing the shape.
 
 ---
 
-### lodStrategy
+### lodLevels
 
-• `Optional` **lodStrategy**: `LodStrategyObj`
+• `Optional` **lodLevels**: `LodStrategyObj`
 
 #### Defined in
 

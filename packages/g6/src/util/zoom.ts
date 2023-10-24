@@ -1,27 +1,22 @@
-import { LodStrategy, LodStrategyObj } from '../types/item';
+import { LodLevel, LodLevelRanges } from '../types/item';
 
 /**
- * Format lodStrategy to the pattern that ratio 1 (primary level) at level 0, and higher the ratio, higher the level.
- * @param lodStrategy
+ * Format lodLevels to the pattern that ratio 1 (primary level) at level 0, and higher the ratio, higher the level.
+ * @param lodLevels
  * @returns
  */
-export const formatLodStrategy = (
-  lodStrategy?: LodStrategy,
-): LodStrategyObj | undefined => {
-  if (!lodStrategy) return;
-  const { levels, animateCfg } = lodStrategy;
-  if (!levels) return;
-  const primaryLevel = levels.find((level) => level.primary);
+export const formatLodLevels = (
+  lodLevels?: LodLevel[],
+): LodLevelRanges | undefined => {
+  if (!lodLevels?.length) return;
+  const primaryLevel = lodLevels.find((level) => level.primary);
   if (!primaryLevel) return;
-  const primaryIndex = levels.indexOf(primaryLevel);
+  const primaryIndex = lodLevels.indexOf(primaryLevel);
   const formattedLevels = {};
-  levels.forEach((level, i) => {
+  lodLevels.forEach((level, i) => {
     formattedLevels[i - primaryIndex] = level.zoomRange;
   });
-  return {
-    animateCfg,
-    levels: formattedLevels,
-  };
+  return formattedLevels;
 };
 
 /**
@@ -30,14 +25,13 @@ export const formatLodStrategy = (
  * @param zoom
  * @returns
  */
-export const getZoomLevel = (
-  levels: { [idx: number | string]: [number, number] },
-  zoom: number,
-) => {
-  let level = 0;
-  Object.keys(levels).forEach((idx) => {
+export const getZoomLevel = (levels: LodLevelRanges, zoom: number) => {
+  const keys = Object.keys(levels);
+  for (let i = 0; i < keys.length; i++) {
+    const idx = keys[i];
     const zoomRange = levels[idx];
-    if (zoom >= zoomRange[0] && zoom < zoomRange[1]) level = Number(idx);
-  });
-  return level;
+    if (zoom >= zoomRange[0] && zoom < zoomRange[1]) {
+      return Number(idx);
+    }
+  }
 };

@@ -104,6 +104,7 @@ type Position = {
 export class DragNode extends Behavior {
   // Private states
   private hiddenEdges: EdgeModel[] = [];
+  private hiddenRelatedNodes: NodeModel[] = [];
   private selectedNodeIds: ID[] = [];
   private hiddenNearEdges: EdgeModel[] = [];
   private hiddenComboTreeItems: (ComboModel | NodeModel)[] = [];
@@ -113,6 +114,7 @@ export class DragNode extends Behavior {
   private pointerDown: Point | undefined = undefined;
   private dragging = false;
   private hiddenNearEdgesCache: EdgeModel[] = [];
+  private hiddenShapeCache: Map<ID, string[]> = new Map();
 
   constructor(options: Partial<DragNodeOptions>) {
     const finalOptions = Object.assign({}, DEFAULT_OPTIONS, options);
@@ -153,25 +155,28 @@ export class DragNode extends Behavior {
   private getRelatedEdges(
     selectedNodeIds: ID[],
     relatedCombo: (ComboModel | NodeModel)[],
-    onlyVisible = true,
   ) {
     const relatedNodeComboIds = [];
     graphComboTreeDfs(this.graph, relatedCombo, (item) =>
       relatedNodeComboIds.push(item.id),
     );
 
-    let edges = uniq(
+    return uniq(
       selectedNodeIds
         .concat(relatedNodeComboIds)
         .flatMap((nodeId) => this.graph.getRelatedEdgesData(nodeId)),
     );
+  }
 
-    if (onlyVisible) {
-      edges = edges.filter((edgeData) =>
-        this.graph.getItemVisible(edgeData.id),
-      );
-    }
-    return edges;
+  private getRelatedNodes(selectedNodeIds: ID[]) {
+    let relatedNodes = [];
+    selectedNodeIds.forEach((id) => {
+      const neighbors = this.graph
+        .getNeighborNodesData(id, 'both')
+        .filter((neighbor) => !selectedNodeIds.includes(neighbor.id));
+      relatedNodes = relatedNodes.concat(neighbors);
+    });
+    return relatedNodes;
   }
 
   /** Retrieve the nearby edges for a given node using quadtree collision detection. */
@@ -277,14 +282,45 @@ export class DragNode extends Behavior {
           this.selectedNodeIds,
           this.hiddenComboTreeItems,
         );
+        this.hiddenRelatedNodes = this.getRelatedNodes(this.selectedNodeIds);
         this.graph.executeWithNoStack(() => {
-          this.graph.hideItem(
-            this.hiddenEdges.map((edge) => edge.id),
-            true,
+          const hiddenEdgeIds = this.hiddenEdges.map((edge) => edge.id);
+          hiddenEdgeIds.forEach((edgeId) => {
+            this.hiddenShapeCache.set(
+              edgeId,
+              this.graph.getItemVisibleShapeIds(edgeId),
+            );
+          });
+          this.graph.hideItem(hiddenEdgeIds, {
+            disableAnimate: true,
+          });
+          const hiddenRelatedNodeIds = this.hiddenRelatedNodes.map(
+            (node) => node.id,
           );
+          hiddenRelatedNodeIds.forEach((nodeId) => {
+            this.hiddenShapeCache.set(
+              nodeId,
+              this.graph.getItemVisibleShapeIds(nodeId),
+            );
+          });
+          this.graph.hideItem(hiddenRelatedNodeIds, {
+            disableAnimate: true,
+            keepRelated: true,
+          });
+          const hiddenComboTreeItemIds = this.hiddenComboTreeItems.map(
+            (child) => child.id,
+          );
+          hiddenComboTreeItemIds.forEach((itemId) => {
+            this.hiddenShapeCache.set(
+              itemId,
+              this.graph.getItemVisibleShapeIds(itemId),
+            );
+          });
           this.graph.hideItem(
             this.hiddenComboTreeItems.map((child) => child.id),
-            true,
+            {
+              disableAnimate: true,
+            },
           );
         });
       }
@@ -300,6 +336,7 @@ export class DragNode extends Behavior {
           this.selectedNodeIds,
           this.hiddenComboTreeItems,
         );
+        this.hiddenRelatedNodes = this.getRelatedNodes(this.selectedNodeIds);
         this.selectedNodeIds.forEach((nodeId) => {
           // draw the nodes' transients and their ancestor combos' transisents
           this.graph.drawTransient('node', nodeId, {
@@ -312,14 +349,47 @@ export class DragNode extends Behavior {
 
         // Hide original edges and nodes. They will be restored when pointerup.
         this.graph.executeWithNoStack(() => {
-          this.graph.hideItem(this.selectedNodeIds, true);
-          this.graph.hideItem(
-            this.hiddenEdges.map((edge) => edge.id),
-            true,
+          this.selectedNodeIds.forEach((itemId) => {
+            this.hiddenShapeCache.set(
+              itemId,
+              this.graph.getItemVisibleShapeIds(itemId),
+            );
+          });
+          this.graph.hideItem(this.selectedNodeIds, { disableAnimate: true });
+
+          const hiddenEdgeIds = this.hiddenEdges.map((edge) => edge.id);
+          hiddenEdgeIds.forEach((itemId) => {
+            this.hiddenShapeCache.set(
+              itemId,
+              this.graph.getItemVisibleShapeIds(itemId),
+            );
+          });
+          this.graph.hideItem(hiddenEdgeIds, { disableAnimate: true });
+          const hiddenRelatedNodeIds = this.hiddenRelatedNodes.map(
+            (node) => node.id,
           );
+          hiddenRelatedNodeIds.forEach((itemId) => {
+            this.hiddenShapeCache.set(
+              itemId,
+              this.graph.getItemVisibleShapeIds(itemId),
+            );
+          });
+          this.graph.hideItem(hiddenRelatedNodeIds, {
+            disableAnimate: true,
+            keepRelated: true,
+          });
+          const hiddenComboTreeItemIds = this.hiddenComboTreeItems.map(
+            (combo) => combo.id,
+          );
+          hiddenComboTreeItemIds.forEach((itemId) => {
+            this.hiddenShapeCache.set(
+              itemId,
+              this.graph.getItemVisibleShapeIds(itemId),
+            );
+          });
           this.graph.hideItem(
             this.hiddenComboTreeItems.map((combo) => combo.id),
-            true,
+            { disableAnimate: true },
           );
         });
       } else {
@@ -375,10 +445,15 @@ export class DragNode extends Behavior {
               visible: true,
             });
           });
-          this.graph.hideItem(
-            this.hiddenNearEdges.map((edge) => edge.id),
-            true,
-          );
+
+          const hiddenNearEdgeIds = this.hiddenNearEdges.map((edge) => edge.id);
+          hiddenNearEdgeIds.forEach((itemId) => {
+            this.hiddenShapeCache.set(
+              itemId,
+              this.graph.getItemVisibleShapeIds(itemId),
+            );
+          });
+          this.graph.hideItem(hiddenNearEdgeIds, { disableAnimate: true });
         }
       }
     }
@@ -510,33 +585,52 @@ export class DragNode extends Behavior {
   public restoreHiddenItems(positions?: Position[]) {
     this.graph.pauseStack();
     if (this.hiddenEdges.length) {
-      this.graph.showItem(
-        this.hiddenEdges.map((edge) => edge.id),
-        true,
-      );
+      this.hiddenEdges.forEach((edge) => {
+        this.graph.showItem(edge.id, {
+          disableAnimate: true,
+          shapeIds: this.hiddenShapeCache.get(edge.id),
+        });
+        this.hiddenShapeCache.delete(edge.id);
+      });
       this.hiddenEdges = [];
     }
+    if (this.hiddenRelatedNodes.length) {
+      this.hiddenRelatedNodes.forEach((node) => {
+        this.graph.showItem(node.id, {
+          disableAnimate: true,
+          shapeIds: this.hiddenShapeCache.get(node.id),
+        });
+        this.hiddenShapeCache.delete(node.id);
+      });
+      this.hiddenRelatedNodes = [];
+    }
     if (this.hiddenNearEdges.length) {
-      this.graph.showItem(
-        this.hiddenNearEdges.map((edge) => edge.id),
-        true,
-      );
+      this.hiddenNearEdges.forEach((edge) => {
+        this.graph.showItem(edge.id, { disableAnimate: true });
+        this.hiddenShapeCache.delete(edge.id);
+      });
       this.hiddenNearEdges = [];
     }
     if (this.hiddenComboTreeItems.length) {
-      this.graph.showItem(
-        this.hiddenComboTreeItems.map((edge) => edge.id),
-        true,
-      );
+      this.hiddenComboTreeItems.forEach((edge) => {
+        this.graph.showItem(edge.id, {
+          disableAnimate: true,
+          shapeIds: this.hiddenShapeCache.get(edge.id),
+        });
+        this.hiddenShapeCache.delete(edge.id);
+      });
       this.hiddenComboTreeItems = [];
     }
     const enableTransient =
       this.options.enableTransient && this.graph.rendererType !== 'webgl-3d';
     if (enableTransient) {
-      this.graph.showItem(
-        this.originPositions.concat(positions).map((position) => position.id),
-        true,
-      );
+      this.originPositions.concat(positions).forEach((pos) => {
+        this.graph.showItem(pos.id, {
+          disableAnimate: true,
+          shapeIds: this.hiddenShapeCache.get(pos.id),
+        });
+        this.hiddenShapeCache.delete(pos.id);
+      });
     }
     this.graph.resumeStack();
   }

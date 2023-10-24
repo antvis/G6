@@ -11,7 +11,7 @@ import {
   ShapeAttrEncode,
   ShapesEncode,
   ShapeStyle,
-  LodStrategy,
+  LodLevel,
 } from './item';
 import { NodeShapeMap, NodeUserModelData } from './node';
 
@@ -137,7 +137,7 @@ export interface ComboShapeStyles extends ItemShapeStyles {
 /** Displayed data, only for drawing and not received by users. */
 export type ComboDisplayModelData = ComboModelData &
   ComboShapeStyles & {
-    lodStrategy?: LodStrategy;
+    lodLevels?: LodLevel[];
     x?: number;
     y?: number;
     z?: number;

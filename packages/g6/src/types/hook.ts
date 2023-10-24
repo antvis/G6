@@ -33,7 +33,9 @@ export interface Hooks {
     canvases: {
       background: Canvas;
       main: Canvas;
+      label: Canvas;
       transient: Canvas;
+      transientLabel: Canvas;
     };
   }>;
   // data
@@ -55,6 +57,7 @@ export interface Hooks {
     graphCore: GraphCore;
     theme: ThemeSpecification;
     transientCanvas: Canvas;
+    transientLabelCanvas: Canvas;
     tileOptimize?: {
       tileFirstRender?: boolean | number;
       tileFirstRenderSize?: number;
@@ -89,6 +92,7 @@ export interface Hooks {
     enableStack?: boolean;
     changes?: any;
     keepKeyShape?: boolean;
+    keepRelated?: boolean;
     shapeIds?: string[];
   }>;
   itemzindexchange: IHook<{

@@ -296,7 +296,7 @@ const graph = new ExtGraph({
       data: {
         animates: getDefaultNodeAnimates(),
         ...innerModel.data,
-        lodStrategy: {
+        lodLevels: {
           levels: lodStrategyLevels,
           animateCfg: {
             duration: 500,

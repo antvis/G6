@@ -7,6 +7,8 @@ import { IG6GraphEvent } from '../../types/event';
 
 type Listener = (event: IG6GraphEvent) => void;
 
+const REQUIRED_PLUGINS = ['lod-controller'];
+
 /**
  * Wraps the listener with error logging.
  * @returns a new listener with error logging.
@@ -71,8 +73,16 @@ export class PluginController {
     this.pluginMap.clear();
     const { graph } = this;
     const pluginConfigs = graph.getSpecification().plugins || [];
-    const requiredPlugins = ['auto-lod'];
-    pluginConfigs.concat(requiredPlugins).forEach(this.initPlugin.bind(this));
+    const plugins = [...pluginConfigs];
+    REQUIRED_PLUGINS.forEach((type) => {
+      if (
+        !pluginConfigs.find((plugin) => plugin === type || plugin.type === type)
+      ) {
+        plugins.push(type);
+      }
+    });
+
+    plugins.forEach(this.initPlugin.bind(this));
 
     // 2. Add listeners for each behavior.
     this.listenersMap = {};
@@ -109,6 +119,14 @@ export class PluginController {
     return { key, type, plugin };
   }
 
+  private pluginIsRequired(config) {
+    if (typeof config.init === 'function' && config.options) {
+      return config.required;
+    }
+    const Plugin = getExtension(config, registry.useLib, 'plugin');
+    return Plugin.required;
+  }
+
   private onPluginChange(params: {
     action: 'update' | 'add' | 'remove';
     plugins: (string | { key: string; type: string; options: any })[];
@@ -116,6 +134,11 @@ export class PluginController {
     const { action, plugins: pluginCfgs } = params;
     if (action === 'add') {
       pluginCfgs.forEach((config) => {
+        if (this.pluginIsRequired(config)) {
+          // update the existing required plugin
+          this.updatePlugin(config);
+          return;
+        }
         const { key, plugin } = this.initPlugin(config);
         this.addListeners(key, plugin, false);
       });
@@ -124,45 +147,57 @@ export class PluginController {
 
     if (action === 'remove') {
       pluginCfgs.forEach((config) => {
-        const key =
-          (typeof config === 'string' ? config : config.key) ||
-          (
-            config as {
-              key: string;
-              type: string;
-              options: any;
-            }
-          ).options?.key ||
-          (
-            config as {
-              key: string;
-              type: string;
-              options: any;
-            }
-          ).type;
-        const item = this.pluginMap.get(key);
-        if (!item) return;
-        const { plugin } = item;
-        this.removeListeners(key);
-        plugin.destroy();
-        this.pluginMap.delete(key);
+        this.removePlugin(config);
+        if (this.pluginIsRequired(config)) {
+          // keep an internal required plugin with default configs
+          const pluginType = typeof config === 'string' ? config : config.type;
+          const { key, plugin } = this.initPlugin(pluginType);
+          this.addListeners(key, plugin, false);
+        }
       });
       return;
     }
 
     if (action === 'update') {
-      pluginCfgs.forEach((config) => {
-        if (typeof config === 'string') return;
-        const key = config.key || config.type;
-        const item = this.pluginMap.get(key);
-        if (!item) return;
-        const { plugin } = item;
-        plugin.updateCfgs(config);
-        this.removeListeners(key);
-        this.addListeners(key, plugin, false);
-      });
+      pluginCfgs.forEach(this.updatePlugin);
       return;
     }
+  }
+
+  private removePlugin(config) {
+    const key =
+      (typeof config === 'string' ? config : config.key) ||
+      (
+        config as {
+          key: string;
+          type: string;
+          options: any;
+        }
+      ).options?.key ||
+      (
+        config as {
+          key: string;
+          type: string;
+          options: any;
+        }
+      ).type;
+    const item = this.pluginMap.get(key);
+    if (!item) return;
+    const { plugin } = item;
+    this.removeListeners(key);
+    plugin.destroy();
+    this.pluginMap.delete(key);
+  }
+
+  private updatePlugin(config) {
+    if (typeof config === 'string') return;
+    const key = config.key || config.type;
+    const item = this.pluginMap.get(key);
+    if (!item) return;
+    const { plugin } = item;
+    plugin.updateCfgs(config);
+    this.removeListeners(key);
+    this.addListeners(key, plugin, false);
   }
 
   /**

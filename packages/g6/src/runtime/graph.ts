@@ -90,6 +90,8 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
   public rendererType: RendererName;
   // for transient shapes for interactions, e.g. transient node and related edges while draging, delegates
   public transientCanvas: Canvas;
+  // for transient items' label shapes
+  public transientLabelCanvas: Canvas;
   // for background shapes, e.g. grid, pipe indices
   public backgroundCanvas: Canvas;
   // the tag indicates all the three canvases are all ready
@@ -129,7 +131,9 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       canvases: {
         background: this.backgroundCanvas,
         main: this.canvas,
+        label: this.labelCanvas,
         transient: this.transientCanvas,
+        transientLabel: this.transientLabelCanvas,
       },
     });
 
@@ -160,6 +164,7 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       canvas,
       backgroundCanvas,
       transientCanvas,
+      transientLabelCanvas,
       width,
       height,
     } = this.specification;
@@ -182,6 +187,7 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       this.canvas = canvas;
       this.backgroundCanvas = backgroundCanvas;
       this.transientCanvas = transientCanvas;
+      this.transientLabelCanvas = transientLabelCanvas;
       this.container = container as HTMLElement;
     } else {
       const containerDOM = isString(container)
@@ -232,6 +238,13 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
         size[1],
         pixelRatio,
       );
+      this.transientLabelCanvas = createCanvas(
+        'canvas',
+        containerDOM,
+        size[0],
+        size[1],
+        pixelRatio,
+      );
     }
 
     Promise.all(
@@ -240,6 +253,7 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
         this.canvas,
         this.labelCanvas,
         this.transientCanvas,
+        this.transientLabelCanvas,
       ].map((canvas) => canvas.ready),
     ).then(() => {
       [
@@ -247,6 +261,7 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
         this.canvas,
         this.labelCanvas,
         this.transientCanvas,
+        this.transientLabelCanvas,
       ].forEach((canvas, i) => {
         const $domElement = canvas
           .getContextService()
@@ -301,8 +316,10 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       init: new Hook<{
         canvases: {
           background: Canvas;
+          label: Canvas;
           main: Canvas;
           transient: Canvas;
+          transientLabel: Canvas;
         };
       }>({ name: 'init' }),
       datachange: new Hook<{ data: GraphData; type: DataChangeType }>({
@@ -320,6 +337,7 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
         graphCore: GraphCore;
         theme: ThemeSpecification;
         transientCanvas: Canvas;
+        transientLabelCanvas: Canvas;
       }>({
         name: 'render',
       }),
@@ -487,6 +505,7 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
         graphCore: this.dataController.graphCore,
         theme: this.themeController.specification,
         transientCanvas: this.transientCanvas,
+        transientLabelCanvas: this.transientLabelCanvas,
         tileOptimize: {
           tileFirstRender,
           tileFirstRenderSize,
@@ -537,6 +556,7 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
           this.canvas,
           this.labelCanvas,
           this.transientCanvas,
+          this.transientLabelCanvas,
         ].map((canvas) => canvas.ready),
       );
       await emitRender();
@@ -561,6 +581,7 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       graphCore: this.dataController.graphCore,
       theme: this.themeController.specification,
       transientCanvas: this.transientCanvas,
+      transientLabelCanvas: this.transientLabelCanvas,
       tileOptimize: {
         tileFirstRender,
         tileFirstRenderSize,
@@ -938,10 +959,15 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     this.emit('beforesetsize', { oldSize, size: size });
     this.specification.width = size[0];
     this.specification.height = size[1];
-    this.canvas.resize(size[0], size[1]);
-    this.labelCanvas.resize(size[0], size[1]);
-    this.transientCanvas.resize(size[0], size[1]);
-    this.backgroundCanvas.resize(size[0], size[1]);
+    [
+      this.canvas,
+      this.labelCanvas,
+      this.transientCanvas,
+      this.transientLabelCanvas,
+      this.backgroundCanvas,
+    ].forEach((canvas) => {
+      canvas.resize(size[0], size[1]);
+    });
     this.emit('aftersetsize', { oldSize, size: size });
   }
 
@@ -1363,7 +1389,7 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       const timingParameters = {
         type: itemType,
         action: 'update',
-        models,
+        models: modelArr,
         apiName: 'updateData',
         changes,
       };
@@ -1540,19 +1566,44 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * @returns
    * @group Item
    */
-  public showItem(ids: ID | ID[], disableAnimate = false) {
+  public showItem(
+    ids: ID | ID[],
+    options?: {
+      disableAnimate?: boolean;
+      shapeIds?: string | string[];
+    },
+  ) {
+    const { disableAnimate = false, shapeIds } = options || {};
     const idArr = isArray(ids) ? ids : [ids];
     if (isEmpty(idArr)) return;
-    const changes = {
-      newValue: [{ ids: idArr, visible: true }],
-      oldValue: this.getItemPreviousVisibility(idArr),
-    };
-    this.hooks.itemvisibilitychange.emit({
-      ids: idArr as ID[],
-      value: true,
-      graphCore: this.dataController.graphCore,
-      animate: !disableAnimate,
-    });
+
+    let changes;
+    if (shapeIds?.length) {
+      const shapeIdsArr = isArray(shapeIds) ? shapeIds : [shapeIds];
+      changes = {
+        newValue: [{ ids: idArr, visible: true, shapeIds: shapeIdsArr }],
+        oldValue: this.getItemPreviousVisibility(idArr),
+      };
+      this.hooks.itemvisibilitychange.emit({
+        ids: idArr as ID[],
+        value: true,
+        graphCore: this.dataController.graphCore,
+        animate: !disableAnimate,
+        shapeIds: shapeIdsArr,
+      });
+    } else {
+      changes = {
+        newValue: [{ ids: idArr, visible: true }],
+        oldValue: this.getItemPreviousVisibility(idArr),
+      };
+      this.hooks.itemvisibilitychange.emit({
+        ids: idArr as ID[],
+        value: true,
+        graphCore: this.dataController.graphCore,
+        animate: !disableAnimate,
+      });
+    }
+
     this.emit('afteritemvisibilitychange', {
       ids,
       value: true,
@@ -1564,28 +1615,60 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
   }
   /**
    * Hide the item(s).
-   * @param item the item to be hidden
+   * @param id the id for the item to be hidden.
+   * @param disableAnimate whether disable the hidden animations.
+   * @param keepKeyShape whether keep the keyShape.
+   * @param keepRelated whether keep the related nodes for edge.
    * @returns
    * @group Item
    */
   public hideItem(
     ids: ID | ID[],
-    disableAnimate = false,
-    keepKeyShape = false,
+    options?: {
+      disableAnimate?: boolean;
+      keepKeyShape?: boolean;
+      keepRelated?: boolean;
+      shapeIds?: string[];
+    },
   ) {
+    const {
+      disableAnimate = false,
+      keepKeyShape = false,
+      keepRelated = false,
+      shapeIds,
+    } = options || {};
     const idArr = isArray(ids) ? ids : [ids];
     if (isEmpty(idArr)) return;
-    const changes = {
-      newValue: [{ ids: idArr, visible: false }],
-      oldValue: this.getItemPreviousVisibility(idArr),
-    };
-    this.hooks.itemvisibilitychange.emit({
-      ids: idArr as ID[],
-      value: false,
-      graphCore: this.dataController.graphCore,
-      animate: !disableAnimate,
-      keepKeyShape,
-    });
+
+    let changes;
+    if (shapeIds?.length) {
+      const shapeIdsArr = isArray(shapeIds) ? shapeIds : [shapeIds];
+      changes = {
+        newValue: [{ ids: idArr, visible: false, shapeIds: shapeIdsArr }],
+        oldValue: this.getItemPreviousVisibility(idArr),
+      };
+      this.hooks.itemvisibilitychange.emit({
+        ids: idArr as ID[],
+        value: false,
+        graphCore: this.dataController.graphCore,
+        animate: !disableAnimate,
+        shapeIds: shapeIdsArr,
+      });
+    } else {
+      changes = {
+        newValue: [{ ids: idArr, visible: false }],
+        oldValue: this.getItemPreviousVisibility(idArr),
+      };
+      this.hooks.itemvisibilitychange.emit({
+        ids: idArr as ID[],
+        value: false,
+        graphCore: this.dataController.graphCore,
+        animate: !disableAnimate,
+        keepKeyShape,
+        keepRelated,
+      });
+    }
+
     this.emit('afteritemvisibilitychange', {
       ids,
       value: false,
@@ -1594,40 +1677,6 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       apiName: 'hideItem',
       keepKeyShape,
       changes,
-    });
-  }
-
-  public showItemShapes(
-    ids: ID | ID[],
-    shapeIds: string | string[],
-    disableAnimate = false,
-  ) {
-    const idArr = isArray(ids) ? ids : [ids];
-    const shapeIdsArr = isArray(shapeIds) ? shapeIds : [shapeIds];
-    if (isEmpty(idArr) || isEmpty(shapeIds)) return;
-    this.hooks.itemvisibilitychange.emit({
-      ids: idArr as ID[],
-      value: true,
-      graphCore: this.dataController.graphCore,
-      animate: !disableAnimate,
-      shapeIds: shapeIdsArr,
-    });
-  }
-
-  public hideItemShapes(
-    ids: ID | ID[],
-    shapeIds: string | string[],
-    disableAnimate = false,
-  ) {
-    const idArr = isArray(ids) ? ids : [ids];
-    const shapeIdsArr = isArray(shapeIds) ? shapeIds : [shapeIds];
-    if (isEmpty(idArr) || isEmpty(shapeIds)) return;
-    this.hooks.itemvisibilitychange.emit({
-      ids: idArr as ID[],
-      value: false,
-      graphCore: this.dataController.graphCore,
-      animate: !disableAnimate,
-      shapeIds: shapeIdsArr,
     });
   }
 
@@ -1796,6 +1845,15 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    */
   public getItemVisible(id: ID) {
     return this.itemController.getItemVisible(id);
+  }
+
+  /**
+   * Get the visible shape ids in a node / edge / combo.
+   * @param id the id for the node / edge / combo
+   * @returns ids of the visible shapes
+   */
+  public getItemVisibleShapeIds(id: ID) {
+    return this.itemController.getItemVisibleShapeIds(id);
   }
 
   // ===== combo operations =====
@@ -2038,7 +2096,9 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    */
   public setCursor(cursor: Cursor) {
     this.canvas.setCursor(cursor);
+    this.labelCanvas.setCursor(cursor);
     this.transientCanvas.setCursor(cursor);
+    this.transientLabelCanvas.setCursor(cursor);
   }
 
   /**
@@ -2312,6 +2372,8 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     const vContainerDOM: HTMLElement = createDOM(
       '<div id="virtual-image"></div>',
     );
+
+    const camera = canvas.getCamera();
     const vCanvas = createCanvas(
       rendererType,
       vContainerDOM,
@@ -2319,13 +2381,48 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       height,
       pixelRatio,
     );
+    await vCanvas.ready;
+
+    const backgroundClonedGroup = backgroundCanvas.getRoot().cloneNode(true);
+    const clonedGroup = canvas.getRoot().cloneNode(true);
+    const transientClonedGroup = transientCanvas.getRoot().cloneNode(true);
+    const labelClonedGroup = labelCanvas.getRoot().cloneNode(true);
+
+    const originViewportLTCanvas = vCanvas.viewport2Canvas({ x: 0, y: 0 });
+    const currentViewportLTCanvas = canvas.viewport2Canvas({ x: 0, y: 0 });
+    labelClonedGroup.translate([
+      currentViewportLTCanvas.x - originViewportLTCanvas.x,
+      currentViewportLTCanvas.y - originViewportLTCanvas.y,
+    ]);
+    labelClonedGroup.scale(1 / canvas.getCamera().getZoom());
+    // TODO: after cloning, label background with rotation take a wrong place, remove it to temporary solve.
+    labelClonedGroup.children[0].children.forEach((childGroup) => {
+      childGroup.children.forEach((shape) => {
+        if (
+          shape.getAttribute('data-is-label-background') &&
+          shape.style.transform
+        )
+          shape.remove();
+      });
+    });
+
+    vCanvas.appendChild(backgroundClonedGroup);
+    vCanvas.appendChild(clonedGroup);
+    vCanvas.appendChild(labelClonedGroup);
+    vCanvas.appendChild(transientClonedGroup);
+
+    const vCamera = vCanvas.getCamera();
+    vCamera.setZoom(camera.getZoom());
+    vCamera.setPosition(camera.getPosition());
+    vCamera.setFocalPoint(camera.getFocalPoint());
+
     const vCanvasContextService = vCanvas.getContextService();
     let bgRect;
     if (rendererType !== 'svg') {
+      const backPositionCanvas = canvas.viewport2Canvas({ x: 0, y: 0 });
       bgRect = new Rect({
         style: {
-          x: 0,
-          y: 0,
+          ...backPositionCanvas,
           z: -1,
           width: vCanvasContextService.getDomElement().width,
           height: vCanvasContextService.getDomElement().height,
@@ -2333,26 +2430,22 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
           fill: backgroundCanvas.getContextService().getDomElement().style[
             'background-color'
           ],
+          zIndex: -10,
         },
       });
       vCanvas.appendChild(bgRect);
     }
-    const backgroundClonedGroup = backgroundCanvas.getRoot().cloneNode(true);
-    const clonedGroup = canvas.getRoot().cloneNode(true);
-    const transientClonedGroup = transientCanvas.getRoot().cloneNode(true);
-    const labeClonedGroup = labelCanvas.getRoot().cloneNode(true);
-    vCanvas.appendChild(backgroundClonedGroup);
-    vCanvas.appendChild(clonedGroup);
-    vCanvas.appendChild(labeClonedGroup);
-    vCanvas.appendChild(transientClonedGroup);
-    vCanvas.render();
 
     if (!type) type = 'image/png';
     let dataURL = '';
-    await vCanvasContextService.toDataURL({ type }).then((url) => {
-      dataURL = url;
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        vCanvasContextService.toDataURL({ type }).then((url) => {
+          dataURL = url;
+          resolve(dataURL);
+        });
+      }, 50);
     });
-    return dataURL;
   }
 
   /**
@@ -2378,10 +2471,10 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     const transientRoot = transientCanvas.getRoot();
     const labelRoot = labelCanvas.getRoot();
 
-    const backgroundBBox = backgroundRoot.getBBox();
-    const BBox = root.getBBox();
-    const transientBBox = transientRoot.getBBox();
-    const labelBBox = labelRoot.getBBox();
+    const backgroundBBox = backgroundRoot.getRenderBounds();
+    const BBox = root.getRenderBounds();
+    const transientBBox = transientRoot.getRenderBounds();
+    const labelBBox = labelRoot.getRenderBounds();
 
     let padding = imageConfig ? imageConfig.padding : undefined;
     if (!padding) {
@@ -2392,31 +2485,31 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
 
     const left =
       Math.min(
-        backgroundBBox.left || Infinity,
-        BBox.left || Infinity,
-        transientBBox.left || Infinity,
-        labelBBox.left || Infinity,
+        backgroundBBox.min[0] || Infinity,
+        BBox.min[0] || Infinity,
+        transientBBox.min[0] || Infinity,
+        labelBBox.min[0] || Infinity,
       ) - padding[3];
     const right =
       Math.max(
-        backgroundBBox.right || -Infinity,
-        BBox.right || -Infinity,
-        transientBBox.right || -Infinity,
-        labelBBox.right || -Infinity,
+        backgroundBBox.max[0] || -Infinity,
+        BBox.max[0] || -Infinity,
+        transientBBox.max[0] || -Infinity,
+        labelBBox.max[0] || -Infinity,
       ) - padding[1];
     const top =
       Math.min(
-        backgroundBBox.top || Infinity,
-        BBox.top || Infinity,
-        transientBBox.top || Infinity,
-        labelBBox.top || Infinity,
+        backgroundBBox.min[1] || Infinity,
+        BBox.min[1] || Infinity,
+        transientBBox.min[1] || Infinity,
+        labelBBox.min[1] || Infinity,
       ) - padding[0];
     const bottom =
       Math.max(
-        backgroundBBox.bottom || -Infinity,
-        BBox.bottom || -Infinity,
-        transientBBox.bottom || -Infinity,
-        labelBBox.bottom || -Infinity,
+        backgroundBBox.max[1] || -Infinity,
+        BBox.max[1] || -Infinity,
+        transientBBox.max[1] || -Infinity,
+        labelBBox.max[1] || -Infinity,
       ) - padding[2];
 
     const graphCenterX = (left + right) / 2;
@@ -2438,6 +2531,7 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       vHeight,
       pixelRatio,
     );
+    await vCanvas.ready;
     const vCanvasContextService = vCanvas.getContextService();
     if (rendererType !== 'svg') {
       const bgRect = new Rect({
@@ -2466,19 +2560,40 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     backgroundClonedGroup.setPosition(transPosition);
     clonedGroup.setPosition(transPosition);
     transientClonedGroup.setPosition(transPosition);
-    labelClonedGroup.setPosition(transPosition);
+
+    const currentViewportLTCanvas = canvas.viewport2Canvas({ x: 0, y: 0 });
+    const labelTransPosition: [number, number] = [
+      transPosition[0] + currentViewportLTCanvas.x,
+      transPosition[1] + currentViewportLTCanvas.y,
+    ];
+    labelClonedGroup.setPosition(labelTransPosition);
+    labelClonedGroup.scale(1 / canvas.getCamera().getZoom());
+    // TODO: after cloning, label background with rotation take a wrong place, remove it to temporary solve.
+    labelClonedGroup.children[0].children.forEach((childGroup) => {
+      childGroup.children.forEach((shape) => {
+        if (
+          shape.getAttribute('data-is-label-background') &&
+          shape.style.transform
+        )
+          shape.remove();
+      });
+    });
+
     vCanvas.appendChild(backgroundClonedGroup);
     vCanvas.appendChild(clonedGroup);
     vCanvas.appendChild(labelClonedGroup);
     vCanvas.appendChild(transientClonedGroup);
-    vCanvas.render();
 
     if (!type) type = 'image/png';
     let dataURL = '';
-    await vCanvasContextService.toDataURL({ type }).then((url) => {
-      dataURL = url;
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        vCanvasContextService.toDataURL({ type }).then((url) => {
+          dataURL = url;
+          resolve(dataURL);
+        });
+      }, 50);
     });
-    return dataURL;
   }
 
   /**
@@ -2621,7 +2736,7 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
 
     setTimeout(async () => {
       await this.toFullDataURL(type, imageConfig).then((url) => {
-        dataURL = url;
+        dataURL = url as string;
       });
       if (callback) callback(dataURL);
     }, 16);
@@ -2821,18 +2936,16 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * @group Graph Instance
    */
   public destroy(callback?: Function) {
-    // TODO: call the destroy functions after items' buildOut animations finished
-    // setTimeout(() => {
     this.canvas.destroy();
     this.labelCanvas.destroy();
     this.backgroundCanvas.destroy();
     this.transientCanvas.destroy();
+    this.transientLabelCanvas.destroy();
 
     // clear history stack
     this.cleanHistory();
 
     callback?.();
-    // }, 500);
 
     this.hooks.destroy.emit({});
 

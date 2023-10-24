@@ -7,7 +7,7 @@ import {
   IItem,
   ItemShapeStyles,
   LabelBackground,
-  LodStrategy,
+  LodLevel,
   ShapeAttrEncode,
   ShapeStyle,
   ShapesEncode,
@@ -81,7 +81,7 @@ export interface EdgeShapeStyles extends ItemShapeStyles {
 }
 
 export type EdgeDisplayModelData = EdgeModelData &
-  EdgeShapeStyles & { lodStrategy?: LodStrategy };
+  EdgeShapeStyles & { lodLevels?: LodLevel[] };
 
 /** User input data. */
 export type EdgeUserModel = GEdge<EdgeUserModelData>;

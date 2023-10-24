@@ -113,7 +113,7 @@ export default (context: TestCaseContext, options = {}) => {
         ...innerModel,
         data: {
           ...innerModel.data,
-          lodStrategy: {
+          lodLevels: {
             levels: [
               { zoomRange: [0, 0.9] }, // -1
               { zoomRange: [0.9, 1], primary: true }, // 0
@@ -137,7 +137,7 @@ export default (context: TestCaseContext, options = {}) => {
         ...innerModel,
         data: {
           ...innerModel.data,
-          lodStrategy: {
+          lodLevels: {
             levels: [
               { zoomRange: [0, 0.9] }, // -1
               { zoomRange: [0.9, 1], primary: true }, // 0

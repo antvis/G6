@@ -1,8 +1,8 @@
 import { Group } from '@antv/g';
-import { clone } from '@antv/util';
+import { clone, debounce, throttle } from '@antv/util';
 import { Point } from '../types/common';
 import { ComboDisplayModel, ComboModel, IGraph, NodeModel } from '../types';
-import { DisplayMapper, State, LodStrategyObj } from '../types/item';
+import { DisplayMapper, State, LodLevelRanges } from '../types/item';
 import { NodeDisplayModel, NodeModelData } from '../types/node';
 import { ComboStyleSet, NodeStyleSet } from '../types/theme';
 import { updateShapes } from '../util/shape';
@@ -29,7 +29,7 @@ interface IProps {
   zoom?: number;
   theme: {
     styles: NodeStyleSet | ComboStyleSet;
-    lodStrategy: LodStrategyObj;
+    lodLevels: LodLevelRanges;
   };
   device?: any; // for 3d shapes
   onframe?: Function;
@@ -80,11 +80,13 @@ export default class Node extends Item {
       diffData,
       diffState,
     );
-    shapeMap.labelShape?.setAttribute('data-is-label', true);
-    shapeMap.labelBackgroundShape?.setAttribute(
-      'data-is-label-background',
-      true,
-    );
+    if (this.shapeMap.labelShape) {
+      this.shapeMap.labelShape.attributes.dataIsLabel = true;
+    }
+    if (this.shapeMap.labelBackgroundShape) {
+      this.shapeMap.labelBackgroundShape.attributes.dataIsLabelBackground =
+        true;
+    }
 
     // add shapes to group, and update shapeMap
     this.shapeMap = updateShapes(prevShapeMap, shapeMap, group, labelGroup);
@@ -123,13 +125,18 @@ export default class Node extends Item {
         animatesExcludePosition, // animates
         renderExt.mergedStyles, // targetStylesMap
         this.shapeMap, // shapeMap
-        group,
+        undefined,
+        [group, labelGroup],
         firstRendering ? 'buildIn' : 'update',
         diffState?.current.map((state) => state.name) || this.changedStates,
         this.animateFrameListener,
         (canceled) => onfinish(model.id, canceled),
       );
     }
+    this.labelGroup.children
+      .filter((element) => element.attributes.dataIsLabel)
+      .forEach((shape) => (shape.attributes.dataOriginPosition = ''));
+    this.updateLabelPosition(true);
   }
 
   /**
@@ -178,7 +185,8 @@ export default class Node extends Item {
           { update: groupAnimates },
           { group: position } as any, // targetStylesMap
           this.shapeMap, // shapeMap
-          group,
+          undefined,
+          [group, labelGroup],
           'update',
           [],
           this.animateFrameListener,
@@ -194,15 +202,70 @@ export default class Node extends Item {
     const viewportPosition = graph.getViewportByCanvas({ x, y, z });
     labelGroup.style.x = viewportPosition.x;
     labelGroup.style.y = viewportPosition.y;
-    labelGroup.style.z = viewportPosition.z;
+    labelGroup.style.z = viewportPosition.z || 0;
     onfinish(displayModel.id, !animate);
+  }
+  /**
+   * Update label positions on label canvas by getting viewport position from transformed canvas position.
+   */
+  public updateLabelPosition(ignoreVisibility?: boolean) {
+    if (!ignoreVisibility && this.labelGroup.style.visibility === 'hidden') {
+      return;
+    }
+    const { graph, group, labelGroup, displayModel, shapeMap, renderExt } =
+      this;
+    const [x, y, z] = group.getPosition();
+    const zoom = graph.getZoom();
+    const { x: vx, y: vy, z: vz } = graph.getViewportByCanvas({ x, y, z });
+    if (labelGroup.style.x !== vx) {
+      labelGroup.style.x = vx;
+    }
+    if (labelGroup.style.y !== vy) {
+      labelGroup.style.y = vy;
+    }
+    if (labelGroup.style.z !== vz) {
+      labelGroup.style.z = vz;
+    }
+
+    labelGroup.children.forEach((shape) => {
+      if (shape.attributes.dataIsLabelBackground) {
+        renderExt.drawLabelBackgroundShape(displayModel, shapeMap);
+        return;
+      }
+      if (shape.attributes.dataIsLabel) {
+        // this.throttleUpdateWordWidth(zoom, shape);
+        const { wordWrapWidth } = shape.style;
+        if (wordWrapWidth) {
+          if (!shape.attributes.dataOriginWordWrapWidth) {
+            shape.style.dataOriginWordWrapWidth = wordWrapWidth;
+          }
+          const originWordWrapWidth = shape.attributes.dataOriginWordWrapWidth;
+          shape.style.wordWrapWidth = originWordWrapWidth * zoom;
+        }
+      }
+      if (!shape.attributes.dataOriginPosition) {
+        shape.attributes.dataOriginPosition = {
+          x: shape.style.x,
+          y: shape.style.y,
+          z: shape.style.z,
+        };
+      }
+      const originPosition = shape.attributes.dataOriginPosition;
+      Object.keys(originPosition).forEach((field) => {
+        if (!isNaN(shape.style[field])) {
+          shape.style[field] = originPosition[field] * zoom;
+        }
+      });
+    });
   }
 
   public clone(
     containerGroup: Group,
+    labelContainerGroup: Group,
     shapeIds?: string[],
     disableAnimate?: boolean,
   ) {
+    // clone specific shapes but not the whole item
     if (shapeIds?.length) {
       const group = new Group();
       shapeIds.forEach((shapeId) => {
@@ -224,17 +287,21 @@ export default class Node extends Item {
       graph: this.graph,
       renderExtensions: this.renderExtensions,
       containerGroup,
+      labelContainerGroup,
       mapper: this.mapper,
       stateMapper: this.stateMapper,
       zoom: this.zoom,
       theme: {
         styles: this.themeStyles,
-        lodStrategy: this.lodStrategy,
+        lodLevels: this.lodLevels,
       },
     });
     Object.keys(this.shapeMap).forEach((shapeId) => {
-      if (!this.shapeMap[shapeId].isVisible())
+      if (!this.shapeMap[shapeId].isVisible()) {
         clonedNode.shapeMap[shapeId].hide();
+      } else {
+        clonedNode.shapeMap[shapeId]?.show();
+      }
     });
     return clonedNode;
   }

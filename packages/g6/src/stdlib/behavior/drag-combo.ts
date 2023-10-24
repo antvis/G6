@@ -253,11 +253,11 @@ export class DragCombo extends Behavior {
         this.graph.executeWithNoStack(() => {
           this.graph.hideItem(
             this.hiddenEdges.map((edge) => edge.id),
-            true,
+            { disableAnimate: true },
           );
           this.graph.hideItem(
             this.hiddenComboTreeRoots.map((child) => child.id),
-            true,
+            { disableAnimate: true },
           );
         });
       }
@@ -281,14 +281,14 @@ export class DragCombo extends Behavior {
 
         // Hide original edges and nodes. They will be restored when pointerup.
         this.graph.executeWithNoStack(() => {
-          this.graph.hideItem(selectedComboIds, true);
+          this.graph.hideItem(selectedComboIds, { disableAnimate: true });
           this.graph.hideItem(
             this.hiddenEdges.map((edge) => edge.id),
-            true,
+            { disableAnimate: true },
           );
           this.graph.hideItem(
             this.hiddenComboTreeRoots.map((child) => child.id),
-            true,
+            { disableAnimate: true },
           );
         });
       } else {
@@ -433,14 +433,14 @@ export class DragCombo extends Behavior {
     if (this.hiddenEdges.length) {
       this.graph.showItem(
         this.hiddenEdges.map((edge) => edge.id),
-        true,
+        { disableAnimate: true },
       );
       this.hiddenEdges = [];
     }
     if (this.hiddenComboTreeRoots.length) {
       this.graph.showItem(
         this.hiddenComboTreeRoots.map((model) => model.id),
-        true,
+        { disableAnimate: true },
       );
       this.hiddenComboTreeRoots = [];
     }
@@ -449,7 +449,7 @@ export class DragCombo extends Behavior {
     if (enableTransient) {
       this.graph.showItem(
         this.originPositions.concat(positions).map((position) => position.id),
-        true,
+        { disableAnimate: true },
       );
     }
     this.graph.resumeStack();

@@ -1,5 +1,11 @@
-import { Graph } from '../../../src/index';
+import { Graph as BaseGraph, extend, Extensions } from '../../../src/index';
 import { TestCaseContext } from '../interface';
+
+const Graph = extend(BaseGraph, {
+  edges: {
+    'cubic-edge': Extensions.CubicEdge,
+  },
+});
 
 const defaultData = {
   nodes: [
@@ -21,7 +27,9 @@ const defaultData = {
       id: 'edge1',
       source: 'node1',
       target: 'node2',
-      data: {},
+      data: {
+        label: 'edge-label',
+      },
     },
   ],
 };
@@ -1702,6 +1710,7 @@ const data = {
     },
   ],
 };
+data.edges.forEach((edge, i) => (edge.id = 'edge' + i));
 
 export default (
   context: TestCaseContext,
@@ -1713,38 +1722,38 @@ export default (
 ) => {
   const graph = new Graph({
     ...context,
-    data,
+    // renderer: 'webgl',
+    data, //: defaultData,
+    plugins: [
+      // {
+      //   type: 'lod-controller',
+      //   // disableLod: true,
+      //   // disableAnimate: false,
+      // },
+    ],
     modes: {
       default: [
         {
           type: 'drag-node',
-          enableTransient: false,
+          // enableTransient: false,
         },
         'zoom-canvas',
         'drag-canvas',
       ],
     },
-    // edge: {
-    //   lodStrategy: {},
-    //   labelShape: {
-    //     // autoRotate: false,
-    //     // position: 'start',
-    //     text: 'edge-label',
-    //   },
-    //   labelBackgroundShape: {
-    //     opacity: 0.1,
-    //     fill: '#00f',
-    //   },
-    // },
-    node: {
+    edge: {
+      // type: 'cubic-edge',
+      // lodLevels: {},
       keyShape: {
-        fill: {
+        stroke: {
           fields: ['id'],
-          formatter: (model) => (model.id === 'node1' ? 'red' : 'blue'),
+          formatter: (model) => (model.id === 'edge221' ? '#f00' : '#ccc'),
         },
       },
       labelShape: {
-        position: 'bottom',
+        // autoRotate: false,
+        // position: 'start',
+        // text: 'edge-label',
         text: {
           fields: ['id'],
           formatter: (model) => model.id,
@@ -1755,15 +1764,91 @@ export default (
         fill: '#00f',
       },
     },
+    node: (model) => {
+      return {
+        id: model.id,
+        data: {
+          ...model.data,
+          animates: {
+            buildIn: [
+              {
+                fields: ['opacity'],
+                duration: 1000,
+                delay: 1000 + Math.random() * 1000,
+              },
+            ],
+            hide: [
+              {
+                fields: ['opacity'],
+                duration: 1000,
+                shapeId: 'labelShape',
+              },
+              {
+                fields: ['opaicty'],
+                duration: 1000,
+                shapeId: 'labelBackgroundShape',
+              },
+            ],
+            show: [
+              {
+                fields: ['opacity'],
+                duration: 1000,
+                shapeId: 'labelShape',
+              },
+              {
+                fields: ['opaicty'],
+                duration: 1000,
+                shapeId: 'labelBackgroundShape',
+              },
+            ],
+          },
+          labelShape: {
+            position: 'bottom',
+            text: model.id,
+            // lod: model.id === 'node1' ? 0 : 'auto',
+            // text: {
+            //   fields: ['label'],
+            //   formatter: (model) => model.data.label, //id,
+            // },
+          },
+          labelBackgroundShape: {
+            opacity: 0.1,
+            fill: '#00f',
+            // lod: model.id === 'node1' ? 0 : 'auto',
+          },
+          iconShape: {
+            img: 'https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg',
+          },
+        },
+      };
+    },
   });
 
   graph.on('canvas:click', (e) => {
-    graph.updateData('node', {
-      id: 'node1',
-      data: {
-        label: 'changedasdfasfasdfasdf',
-      },
-    });
+    // const { x, y } = graph.getNodeData('Mlle.Gillenormand')?.data || {};
+    // graph.updateData('node', {
+    //   id: 'Mlle.Gillenormand',
+    //   data: {
+    //     // label: 'changedasdfasfasdfasdf',
+    //     x: x + 10,
+    //     y: y + 10,
+    //   },
+    // });
+
+    // graph.updateData('node', {
+    //   id: 'node1',
+    //   data: {
+    //     label: 'changedasdfasfasdfasdf',
+    //   },
+    // });
+
+    // graph.downloadFullImage();
+
+    // graph.fitView();
+
+    // graph.changeData(data);
+    graph.hideItem('Marius');
+    graph.showItem('Marius');
   });
   return graph;
 };

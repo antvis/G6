@@ -2062,7 +2062,7 @@ const createGraph = async () => {
         ...innerModel,
         data: {
           ...innerModel.data,
-          lodStrategy: {
+          lodLevels: {
             levels: [
               { zoomRange: [0, 0.8] }, // -2
               { zoomRange: [0.8, 0.9] }, // -1

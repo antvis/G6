@@ -180,19 +180,13 @@ export type ItemShapeStyles = {
   animates?: IAnimates;
 };
 
-export interface LodStrategy {
-  levels: {
-    zoomRange: [number, number];
-    primary?: boolean;
-  }[];
-  animateCfg: AnimateCfg;
+export interface LodLevel {
+  zoomRange: [number, number];
+  primary?: boolean;
 }
 
-export interface LodStrategyObj {
-  levels: {
-    [levelIdx: number]: [number, number];
-  };
-  animateCfg: AnimateCfg;
+export interface LodLevelRanges {
+  [levelIdx: number]: [number, number];
 }
 
 /**
@@ -238,7 +232,7 @@ export interface IItem {
     [stateName: string]: ItemShapeStyles;
   };
   /** The zoom strategy to show and hide shapes according to their lod. */
-  lodStrategy: LodStrategyObj;
+  lodLevels: LodLevelRanges;
   /** Last zoom ratio. */
   zoom: number;
   /** Cache the chaging states which are not consomed by draw  */
@@ -275,7 +269,7 @@ export interface IItem {
     isReplace?: boolean,
     itemTheme?: {
       styles: NodeStyleSet | EdgeStyleSet | ComboStyleSet;
-      lodStrategy: LodStrategyObj;
+      lodLevels: LodLevelRanges;
     },
     onlyMove?: boolean,
     animate?: boolean,

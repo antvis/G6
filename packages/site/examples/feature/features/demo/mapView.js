@@ -589,7 +589,7 @@ const graph = new ExtGraph({
     type: 'force',
   },
   node: {
-    lodStrategy: {},
+    lodLevels: {},
     labelShape: {
       text: {
         fields: ['id'],

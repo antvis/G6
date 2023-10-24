@@ -65,7 +65,7 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')
           id: model.id,
           data: {
             ...model.data,
-            lodStrategy: {},
+            lodLevels: {},
             labelShape: {
               text: model.id,
               position: 'center',

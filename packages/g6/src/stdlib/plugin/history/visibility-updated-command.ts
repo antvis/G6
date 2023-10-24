@@ -23,8 +23,8 @@ export class VisibilityUpdatedCommand implements Command {
     graph.pauseStack();
     each(values, (value) =>
       value.visible
-        ? graph.showItem(value.ids, this.disableAnimate)
-        : graph.hideItem(value.ids, this.disableAnimate),
+        ? graph.showItem(value.ids, { disableAnimate: this.disableAnimate })
+        : graph.hideItem(value.ids, { disableAnimate: this.disableAnimate }),
     );
     graph.resumeStack();
   }

@@ -11,7 +11,7 @@ import {
   ItemShapeStyles,
   ITEM_TYPE,
   State,
-  LodStrategyObj,
+  LodLevelRanges,
 } from '../types/item';
 import { NodeShapeMap } from '../types/node';
 import { EdgeStyleSet, NodeStyleSet } from '../types/theme';
@@ -31,7 +31,7 @@ import {
   stopAnimate,
 } from '../util/animate';
 import { AnimateTiming, IAnimates, IStateAnimate } from '../types/animate';
-import { formatLodStrategy } from '../util/zoom';
+import { formatLodLevels } from '../util/zoom';
 import { IGraph } from '../types';
 
 export default abstract class Item implements IItem {
@@ -84,7 +84,7 @@ export default abstract class Item implements IItem {
     [stateName: string]: ItemShapeStyles;
   };
   /** The zoom strategy to show and hide shapes according to their lod. */
-  public lodStrategy: LodStrategyObj;
+  public lodLevels: LodLevelRanges;
   /** Last zoom ratio. */
   public zoom: number;
   /** Cache the chaging states which are not consomed by draw  */
@@ -137,14 +137,14 @@ export default abstract class Item implements IItem {
     this.renderExtensions = renderExtensions;
     const {
       type = this.type === 'edge' ? 'line-edge' : `circle-${this.type}`,
-      lodStrategy: modelLodStrategy,
+      lodLevels: modelLodLevels,
       enableBalanceShape,
     } = this.displayModel.data;
     const RenderExtension = renderExtensions.find((ext) => ext.type === type);
     this.themeStyles = theme.styles;
-    const lodStrategy = modelLodStrategy
-      ? formatLodStrategy(modelLodStrategy)
-      : theme.lodStrategy;
+    this.lodLevels = modelLodLevels
+      ? formatLodLevels(modelLodLevels)
+      : theme.lodLevels;
     if (!RenderExtension) {
       if (this.type === 'node') {
         throw new Error(
@@ -162,7 +162,7 @@ export default abstract class Item implements IItem {
     }
     this.renderExt = new RenderExtension({
       themeStyles: this.themeStyles?.default,
-      lodStrategy,
+      lodLevels: this.lodLevels,
       enableBalanceShape,
       device: this.device,
       zoom: this.zoom,
@@ -186,11 +186,13 @@ export default abstract class Item implements IItem {
         ...this.shapeMap,
         ...this.afterDrawShapeMap,
       }) || {};
-    this.afterDrawShapeMap.labelShape?.setAttribute('data-is-label', true);
-    this.afterDrawShapeMap.labelBackgroundShape?.setAttribute(
-      'data-is-label-background',
-      true,
-    );
+    if (this.afterDrawShapeMap.labelShape) {
+      this.afterDrawShapeMap.labelShape.attributes.dataIsLabel = true;
+    }
+    if (this.afterDrawShapeMap.labelBackgroundShape) {
+      this.afterDrawShapeMap.labelBackgroundShape.attributes.dataIsLabelBackground =
+        true;
+    }
     const shapeMap = updateShapes(
       this.afterDrawShapeMap,
       afterDrawShapeMap,
@@ -212,7 +214,6 @@ export default abstract class Item implements IItem {
       ...shapeMap,
     };
     this.changedStates = [];
-    this.updateLabelPosition();
   }
 
   /**
@@ -225,7 +226,7 @@ export default abstract class Item implements IItem {
     isReplace?: boolean,
     itemTheme?: {
       styles: NodeStyleSet | EdgeStyleSet;
-      lodStrategy: LodStrategyObj;
+      lodLevels: LodLevelRanges;
     },
     onlyMove?: boolean,
     animate = true,
@@ -244,9 +245,9 @@ export default abstract class Item implements IItem {
     );
     this.displayModel = displayModel;
 
-    this.lodStrategy = displayModel.data.lodStrategy
-      ? formatLodStrategy(displayModel.data.lodStrategy)
-      : itemTheme?.lodStrategy || this.lodStrategy;
+    this.lodLevels = displayModel.data.lodLevels
+      ? formatLodLevels(displayModel.data.lodLevels)
+      : itemTheme?.lodLevels || this.lodLevels;
 
     if (onlyMove) {
       this.updatePosition(displayModel, diffData, animate, onfinish);
@@ -263,13 +264,13 @@ export default abstract class Item implements IItem {
       );
       this.renderExt = new RenderExtension({
         themeStyles: this.themeStyles.default,
-        lodStrategy: this.lodStrategy,
+        lodLevels: this.lodLevels,
         device: this.device,
         zoom: this.zoom,
       });
     } else {
       this.renderExt.themeStyles = this.themeStyles.default;
-      this.renderExt.lodStrategy = this.lodStrategy;
+      this.renderExt.lodLevels = this.lodLevels;
     }
     // 3. call element update fn from useLib
     if (this.states?.length) {
@@ -438,10 +439,23 @@ export default abstract class Item implements IItem {
   }
 
   /** Show the item. */
-  public show(animate = true) {
-    Promise.all(this.stopAnimations()).finally(() => {
+  public show(animate = true, shapeIds = undefined) {
+    const shapeIdsToStop = shapeIds?.filter((id) => {
+      const shape = this.shapeMap[id];
+      return shape && shape.style.visibility === 'hidden';
+    });
+    if (shapeIds?.length && !shapeIdsToStop?.length) return;
+    if (!shapeIdsToStop || shapeIdsToStop.includes('labelShape')) {
+      this.labelGroup.style.visibility = 'visible';
+    }
+    Promise.all(this.stopAnimations(shapeIdsToStop)).finally(() => {
       if (this.destroyed) return;
       const { animates = {} } = this.displayModel.data;
+      const shapeIdsToShow =
+        shapeIdsToStop ||
+        Object.keys(this.shapeMap).filter(
+          (shapeId) => this.cacheHiddenByItem[shapeId],
+        );
       if (animate && animates.show?.length) {
         const showAnimateFieldsMap: any = {};
         Object.values(animates.show).forEach((animate) => {
@@ -451,24 +465,26 @@ export default abstract class Item implements IItem {
           ).concat(animate.fields);
         });
         const targetStyleMap = {};
-        Object.keys(this.shapeMap).forEach((id) => {
+        shapeIdsToShow.forEach((id) => {
           const shape = this.shapeMap[id];
-          if (this.cacheHiddenByItem[id]) {
-            // set the animate fields to initial value
-            if (showAnimateFieldsMap[id]) {
-              targetStyleMap[id] = targetStyleMap[id] || {};
-              const beginStyle = getShapeAnimateBeginStyles(shape);
-              showAnimateFieldsMap[id].forEach((field) => {
-                if (beginStyle.hasOwnProperty(field)) {
-                  targetStyleMap[id][field] = shape.style[field];
-                  shape.style[field] = beginStyle[field];
-                }
-              });
-            }
-            shape.show();
+          // set the animate fields to initial value
+          if (showAnimateFieldsMap[id]) {
+            targetStyleMap[id] = targetStyleMap[id] || {};
+            const beginStyle = getShapeAnimateBeginStyles(shape);
+            showAnimateFieldsMap[id].forEach((field) => {
+              if (beginStyle.hasOwnProperty(field)) {
+                targetStyleMap[id][field] = shape.style[field];
+                shape.style[field] = beginStyle[field];
+              }
+            });
           }
+          shape.show();
+          delete this.cacheHiddenByItem[id];
         });
-        if (showAnimateFieldsMap.group && !this.shapeMap.keyShape.isVisible()) {
+        if (
+          showAnimateFieldsMap.group &&
+          this.shapeMap.keyShape.attributes.visibility === 'hidden'
+        ) {
           showAnimateFieldsMap.group.forEach((field) => {
             const usingField = field === 'size' ? 'transform' : field;
             if (GROUP_ANIMATE_STYLES[0].hasOwnProperty(usingField)) {
@@ -477,18 +493,19 @@ export default abstract class Item implements IItem {
             }
           });
         }
-
         if (Object.keys(targetStyleMap).length) {
           this.animations = this.runWithAnimates(
             animates,
             'show',
             targetStyleMap,
+            shapeIdsToShow,
           );
         }
       } else {
-        Object.keys(this.shapeMap).forEach((id) => {
+        shapeIdsToShow.forEach((id) => {
           const shape = this.shapeMap[id];
-          if (this.cacheHiddenByItem[id]) shape.show();
+          shape.show();
+          delete this.cacheHiddenByItem[id];
         });
       }
 
@@ -502,21 +519,32 @@ export default abstract class Item implements IItem {
   }
 
   /** Hides the item. */
-  public hide(animate = true, keepKeyShape = false) {
+  public hide(animate = true, keepKeyShape = false, shapeIds = undefined) {
+    const shapeIdsToHide =
+      shapeIds?.filter((id) => {
+        const shape = this.shapeMap[id];
+        return (
+          shape &&
+          (shape.attributes.visibility !== 'hidden' ||
+            this.cacheNotHiddenByItem[id])
+        );
+      }) || Object.keys(this.shapeMap);
+    if (!shapeIdsToHide.length) return;
     this.cacheNotHiddenByItem = {};
     const func = () => {
-      Object.keys(this.shapeMap).forEach((id) => {
+      shapeIdsToHide.forEach((id) => {
         if (keepKeyShape && id === 'keyShape') return;
         const shape = this.shapeMap[id];
-        if (!shape.isVisible()) {
+        if (!shape || shape.attributes.visibility === 'hidden') {
           this.cacheNotHiddenByItem[id] = true;
           return;
         }
         shape.hide();
         this.cacheHiddenByItem[id] = true;
+        if (!shapeIds) this.visible = false;
       });
     };
-    Promise.all(this.stopAnimations()).then(() => {
+    Promise.all(this.stopAnimations(shapeIdsToHide)).then(() => {
       if (this.destroyed) return;
       const { animates = {} } = this.displayModel.data;
       if (animate && animates.hide?.length) {
@@ -524,13 +552,13 @@ export default abstract class Item implements IItem {
           animates,
           'hide',
           undefined,
+          shapeIdsToHide,
           func,
         );
       } else {
         // 2. clear group and remove group
         func();
       }
-      this.visible = false;
     });
   }
 
@@ -643,11 +671,12 @@ export default abstract class Item implements IItem {
     animates: IAnimates,
     timing: AnimateTiming,
     targetStyleMap: Object,
+    shapeIdsToShow: string[],
     callback: Function = () => {},
   ) {
     let targetStyle = {};
     if (!targetStyleMap) {
-      Object.keys(this.shapeMap).forEach((shapeId) => {
+      shapeIdsToShow.forEach((shapeId) => {
         targetStyle[shapeId] = getShapeAnimateBeginStyles(
           this.shapeMap[shapeId],
         );
@@ -659,7 +688,8 @@ export default abstract class Item implements IItem {
       animates,
       targetStyle, // targetStylesMap
       this.shapeMap, // shapeMap
-      this.group,
+      shapeIdsToShow,
+      [this.group, this.labelGroup],
       timing,
       [],
       () => {},
@@ -821,15 +851,18 @@ export default abstract class Item implements IItem {
   /**
    * Stop all the animations on the item.
    */
-  public stopAnimations() {
+  public stopAnimations(shapeIds?: string[]) {
     const promises = [];
     if (this.animations?.length) {
-      while (this.animations.length) {
-        const animate = this.animations.pop();
-        if (animate.playState !== 'running') break;
-        promises.push(stopAnimate(animate));
-        // @ts-ignore
-        animate.onManualCancel?.();
+      for (let i = 0; i < this.animations.length; i++) {
+        const animate = this.animations[i];
+        if (!shapeIds?.length || shapeIds.includes(animate.effect.target.id)) {
+          this.animations.pop();
+          if (animate.playState !== 'running') break;
+          promises.push(stopAnimate(animate));
+          // @ts-ignore
+          animate.onManualCancel?.();
+        }
       }
     }
     if (this.groupAnimations?.length) {
@@ -868,81 +901,16 @@ export default abstract class Item implements IItem {
     this.renderExt.onZoom(this.shapeMap, zoom, this.cacheHiddenByItem);
   }
 
-  public showShapes(shapeIds: string[]) {
-    shapeIds.forEach((id) => {
-      const shape = this.shapeMap[id];
-      if (!shape || shape.isVisible()) return;
-      shape.show();
-    });
-  }
-
-  public hideShapes(shapeIds: string[]) {
-    shapeIds.forEach((id) => {
-      const shape = this.shapeMap[id];
-      if (!shape || !shape.isVisible()) return;
-      shape.hide();
-    });
-  }
-
   /**
    * Update label positions on label canvas by getting viewport position from transformed canvas position.
    */
-  public updateLabelPosition() {
-    const { graph, group, labelGroup, type } = this;
-    if (this.labelGroup.style.visibility === 'hidden') {
-      labelGroup.show();
-    }
-    const [x, y, z] = group.getPosition();
-    const zoom = graph.getZoom();
-    if (type === 'node') {
-      const viewportPosition = graph.getViewportByCanvas({ x, y, z });
-      labelGroup.style.x = viewportPosition.x;
-      labelGroup.style.y = viewportPosition.y;
-      labelGroup.style.z = viewportPosition.z;
-    }
-    labelGroup.children.forEach((shape) => {
-      if (shape.getAttribute('data-is-label-background')) {
-        this.renderExt.drawLabelBackgroundShape(
-          this.displayModel,
-          this.shapeMap,
-        );
-        return;
-      }
-      const fields =
-        shape.nodeName === 'circle' ? ['cx', 'cy', 'cz'] : ['x', 'y', 'z'];
-      if (!shape.getAttribute('data-origin-position')) {
-        const vals = {};
-        fields.forEach((field) => (vals[field] = shape.style[field]));
-        shape.setAttribute('data-origin-position', vals);
-      }
-      const originPosition = shape.getAttribute('data-origin-position');
-      if (type === 'node') {
-        Object.keys(originPosition).forEach((field) => {
-          if (!isNaN(shape.style[field]))
-            shape.style[field] = originPosition[field] * zoom;
-        });
-      } else {
-        const viewportPosition = graph.getViewportByCanvas({
-          x: originPosition.x || originPosition.cx,
-          y: originPosition.y || originPosition.cy,
-          z: originPosition.z || originPosition.cz,
-        });
-        fields.forEach(
-          (field) =>
-            (shape.style[field] = viewportPosition[field.replace('c', '')]),
-        );
-      }
-    });
-  }
-
-  public hideLabel() {
-    if (this.labelGroup.style.visibility !== 'hidden') this.labelGroup.hide();
-  }
+  public updateLabelPosition(ignoreVisibility: boolean = false) {}
 
   /** Destroy the item. */
   public destroy() {
     const func = () => {
       this.group.destroy();
+      this.labelGroup.destroy();
       this.model = null;
       this.displayModel = null;
       this.destroyed = true;

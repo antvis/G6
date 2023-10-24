@@ -516,7 +516,7 @@ export default (context: TestCaseContext) => {
     ...context,
     data: JSON.parse(JSON.stringify(data)),
     node: {
-      lodStrategy: {},
+      lodLevels: {},
       labelShape: {
         text: {
           fields: ['id'],

@@ -120,10 +120,12 @@ export const upsertShape = (
     shape = createShape(type, style, id);
     if (style.interactive === false) shape.interactive = false;
     // find the animate styles, set them to be INIT_SHAPE_STYLES
+    // TODO, timing
     if (!disableAnimate && animates) {
       const animateFields = findAnimateFields(
         animates,
-        firstRendering ? 'buildIn' : 'update',
+        'buildIn',
+        // firstRendering ? 'buildIn' : 'update',
         id,
       );
       const initShapeStyles = getShapeAnimateBeginStyles(shape);
@@ -214,8 +216,8 @@ export const updateShapes = (
       }
       finalShapeMap[id] = newShape;
       const parentGroup =
-        newShape.getAttribute('data-is-label') ||
-        newShape.getAttribute('data-is-label-background')
+        newShape.attributes.dataIsLabel ||
+        newShape.attributes.dataIsLabelBackground
           ? labelGroup
           : group;
       if (
@@ -228,6 +230,12 @@ export const updateShapes = (
         newShape.style.display !== 'none'
       ) {
         parentGroup.appendChild(newShape);
+        if (newShape.style.lod === 'auto') {
+          newShape.style.visibility = 'hidden';
+          if (newShape.id === 'labelShape' && parentGroup === labelGroup) {
+            labelGroup.attributes.visibility = 'hidden';
+          }
+        }
       }
     }
 
@@ -403,11 +411,11 @@ export const isPolygonsIntersect = (
 };
 
 export const intersectBBox = (box1: Partial<AABB>, box2: Partial<AABB>) => {
-  return !(
-    box2.min[0] > box1.max[0] ||
-    box2.max[0] < box1.min[0] ||
-    box2.min[1] > box1.max[1] ||
-    box2.max[1] < box1.min[1]
+  return (
+    box2.min[0] <= box1.max[0] &&
+    box2.max[0] >= box1.min[0] &&
+    box2.min[1] <= box1.max[1] &&
+    box2.max[1] >= box1.min[1]
   );
 };
 

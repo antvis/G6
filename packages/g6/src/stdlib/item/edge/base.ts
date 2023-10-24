@@ -19,13 +19,12 @@ import {
   SHAPE_TYPE,
   ShapeStyle,
   State,
-  LodStrategyObj,
+  LodLevelRanges,
 } from '../../../types/item';
 import { formatPadding, mergeStyles, upsertShape } from '../../../util/shape';
 import { DEFAULT_ANIMATE_CFG, fadeIn, fadeOut } from '../../../util/animate';
 import { getWordWrapWidthByEnds } from '../../../util/text';
 import { AnimateCfg } from '../../../types/animate';
-import { getZoomLevel } from '../../../util/zoom';
 import { DEFAULT_ARROW_CONFIG, getArrowPath } from '../../../util/arrow';
 import Node from '../../../item/node';
 
@@ -37,7 +36,7 @@ export abstract class BaseEdge {
   sourcePoint: Point;
   targetPoint: Point;
   nodeMap: Map<ID, Node>;
-  lodStrategy?: LodStrategyObj;
+  lodLevels?: LodLevelRanges;
   labelPosition: {
     x: number;
     y: number;
@@ -50,45 +49,20 @@ export abstract class BaseEdge {
   };
   // cache the zoom level infomations
   private zoomCache: {
-    // the id of shapes which are hidden by zoom changing.
-    hiddenShape: { [shapeId: string]: boolean };
-    // the ratio to scale the size of shapes whose visual size should be kept, e.g. label and badges.
-    balanceRatio: number;
     // last responsed zoom ratio.
     zoom: number;
-    // last responsed zoom level where the zoom ratio at. Zoom ratio 1 at level 0.
-    zoomLevel: number;
-    // shape ids in different zoom levels.
-    levelShapes: {
-      [level: string]: string[];
-    };
     // wordWrapWidth of labelShape according to the maxWidth
     wordWrapWidth: number;
-    // animate configurations for zoom level changing
-    animateConfig: AnimateCfg;
-    // the tag of first rendering
-    firstRender: boolean;
   } = {
-    hiddenShape: {},
-    balanceRatio: 1,
     zoom: 1,
-    zoomLevel: 0,
-    levelShapes: {},
     wordWrapWidth: 50,
-    animateConfig: DEFAULT_ANIMATE_CFG.zoom,
-    firstRender: true,
   };
   constructor(props) {
-    const { themeStyles, lodStrategy, zoom } = props;
+    const { themeStyles, lodLevels, zoom } = props;
     if (themeStyles) this.themeStyles = themeStyles;
-    this.lodStrategy = lodStrategy;
+    this.lodLevels = lodLevels;
     this.transformCache = {};
     this.zoomCache.zoom = zoom;
-    this.zoomCache.balanceRatio = 1 / zoom;
-    this.zoomCache.animateConfig = {
-      ...DEFAULT_ANIMATE_CFG.zoom,
-      ...lodStrategy?.animateCfg,
-    };
   }
 
   /**
@@ -146,15 +120,6 @@ export abstract class BaseEdge {
     });
 
     const { zoom } = this.zoomCache;
-    const levelShapes = {};
-    Object.keys(shapeMap).forEach((shapeId) => {
-      const { lod } = shapeMap[shapeId].attributes;
-      if (lod !== undefined) {
-        levelShapes[lod] = levelShapes[lod] || [];
-        levelShapes[lod].push(shapeId);
-      }
-    });
-    this.zoomCache.levelShapes = levelShapes;
 
     const { maxWidth = '60%' } = this.mergedStyles.labelShape || {};
     this.zoomCache.wordWrapWidth = getWordWrapWidthByEnds(
@@ -164,7 +129,6 @@ export abstract class BaseEdge {
     );
 
     this.zoomCache.zoom = 1;
-    this.zoomCache.zoomLevel = 0;
     if (zoom !== 1) this.onZoom(shapeMap, zoom);
   }
 
@@ -531,8 +495,6 @@ export abstract class BaseEdge {
 
   /**
    * The listener for graph zooming.
-   * 1. show / hide some shapes while zoom level changed;
-   * 2. change the shapes' sizes to make them have same visual size while zooming, e.g. labelShape, labelBackgroundShape.
    * @param shapeMap The shape map that contains all of the elements to show on the edge.
    * @param zoom The zoom level of the graph.
    */
@@ -540,92 +502,7 @@ export abstract class BaseEdge {
     shapeMap: EdgeShapeMap,
     zoom: number,
     cacheHiddenShape = {},
-  ) => {
-    // balance the size for label, badges
-    // this.balanceShapeSize(shapeMap, zoom);
-
-    // zoomLevel changed
-    if (!this.lodStrategy) return;
-    const { levels } = this.lodStrategy;
-    const {
-      levelShapes,
-      hiddenShape,
-      animateConfig,
-      firstRender = true,
-      zoomLevel: previousLevel,
-    } = this.zoomCache;
-
-    // last zoom ratio responsed by zoom changing, which might not equal to zoom.previous in props since the function is debounced.
-    const currentLevel = getZoomLevel(levels, zoom);
-    const levelNums = Object.keys(levelShapes).map(Number);
-    const maxLevel = Math.max(...levelNums);
-    const minLevel = Math.min(...levelNums);
-    if (currentLevel < previousLevel) {
-      // zoomLevel changed, from higher to lower, hide something
-      if (firstRender) {
-        for (let i = currentLevel + 1; i <= maxLevel; i++) {
-          levelShapes[String(i)]?.forEach((id) => {
-            if (!shapeMap[id] || cacheHiddenShape[id]) return;
-            shapeMap[id]?.hide();
-          });
-        }
-      } else {
-        for (let i = currentLevel + 1; i <= maxLevel; i++) {
-          levelShapes[String(i)]?.forEach((id) =>
-            fadeOut(id, shapeMap[id], hiddenShape, animateConfig),
-          );
-        }
-      }
-    } else if (currentLevel > previousLevel) {
-      // zoomLevel changed, from lower to higher, show something
-      for (let i = currentLevel; i >= minLevel; i--) {
-        levelShapes[String(i)]?.forEach((id) => {
-          if (hiddenShape[id]) return;
-          fadeIn(
-            id,
-            shapeMap[id],
-            this.mergedStyles[id] ||
-              this.mergedStyles[id.replace('Background', '')],
-            hiddenShape,
-            animateConfig,
-          );
-        });
-      }
-    }
-
-    this.zoomCache.zoom = zoom;
-    this.zoomCache.zoomLevel = currentLevel;
-    this.zoomCache.firstRender = false;
-  };
-
-  /**
-   * Update the shapes' sizes e.g. labelShape, labelBackgroundShape, to keep the visual size while zooming.
-   * @param shapeMap
-   * @param zoom
-   * @returns
-   */
-  private balanceShapeSize(shapeMap, zoom) {
-    const { labelShape, labelBackgroundShape } = shapeMap;
-    const balanceRatio = 1 / zoom || 1;
-    this.zoomCache.balanceRatio = balanceRatio;
-    const { labelShape: labelStyle = {} } = this.mergedStyles;
-    const { position = 'bottom' } = labelStyle;
-    if (!labelShape) return;
-
-    if (position === 'bottom') labelShape.style.transformOrigin = '0';
-    else labelShape.style.transformOrigin = '';
-
-    const oriTransform = this.transformCache.labelShapeTransform;
-    labelShape.style.transform = `${oriTransform} scale(${balanceRatio}, ${balanceRatio})`;
-
-    const wordWrapWidth = this.zoomCache.wordWrapWidth * zoom;
-    labelShape.style.wordWrapWidth = wordWrapWidth;
-
-    if (!labelBackgroundShape) return;
-
-    const oriBgTransform = this.transformCache.labelBackgroundShapeTransform;
-    labelBackgroundShape.style.transform = `${oriBgTransform} scale(${balanceRatio}, ${balanceRatio})`;
-  }
+  ) => {};
 
   /**
    * Update the source point { x, y } for the edge. Called in item's draw func.

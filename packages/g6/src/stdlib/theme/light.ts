@@ -32,18 +32,13 @@ export const LightTheme = {
       '#2491B3',
       '#17C76F',
     ],
-    lodStrategy: {
-      levels: [
-        { zoomRange: [0, 0.65] },
-        { zoomRange: [0.65, 0.8] },
-        { zoomRange: [0.8, 1.6], primary: true },
-        { zoomRange: [1.6, 2] },
-        { zoomRange: [2, Infinity] },
-      ],
-      animateCfg: {
-        duration: 200,
-      },
-    },
+    lodLevels: [
+      { zoomRange: [0, 0.65] },
+      { zoomRange: [0.65, 0.8] },
+      { zoomRange: [0.8, 1.6], primary: true },
+      { zoomRange: [1.6, 2] },
+      { zoomRange: [2, Infinity] },
+    ],
     styles: [
       {
         default: {
@@ -185,18 +180,13 @@ export const LightTheme = {
       '#2491B3',
       '#17C76F',
     ],
-    lodStrategy: {
-      levels: [
-        { zoomRange: [0, 0.65] },
-        { zoomRange: [0.65, 0.8] },
-        { zoomRange: [0.8, 1.6], primary: true },
-        { zoomRange: [1.6, 2] },
-        { zoomRange: [2, Infinity] },
-      ],
-      animateCfg: {
-        duration: 200,
-      },
-    },
+    lodLevels: [
+      { zoomRange: [0, 0.65] },
+      { zoomRange: [0.65, 0.8] },
+      { zoomRange: [0.8, 1.6], primary: true },
+      { zoomRange: [1.6, 2] },
+      { zoomRange: [2, Infinity] },
+    ],
     styles: [
       {
         default: {
@@ -217,7 +207,7 @@ export const LightTheme = {
             wordWrap: true,
             maxLines: 1,
             maxWidth: '60%',
-            lod: 0,
+            lod: 'auto',
           },
           labelBackgroundShape: {
             padding: [4, 4, 4, 4],
@@ -225,7 +215,7 @@ export const LightTheme = {
             fill: '#fff',
             opacity: 0.75,
             zIndex: 2,
-            lod: 0,
+            lod: 'auto',
           },
           iconShape: {
             ...DEFAULT_TEXT_STYLE,
@@ -289,6 +279,13 @@ export const LightTheme = {
     ],
   },
   combo: {
+    lodLevels: [
+      { zoomRange: [0, 0.65] },
+      { zoomRange: [0.65, 0.8] },
+      { zoomRange: [0.8, 1.6], primary: true },
+      { zoomRange: [1.6, 2] },
+      { zoomRange: [2, Infinity] },
+    ],
     styles: [
       {
         default: {

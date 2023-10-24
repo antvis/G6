@@ -1924,7 +1924,7 @@ describe('graph show up animations', () => {
           ...innerModel,
           data: {
             ...innerModel.data,
-            // lodStrategy: {
+            // lodLevels: {
             //   levels: [
             //     { zoomRange: [0, 0.65] },
             //     { zoomRange: [0.65, 0.8] },
@@ -1985,7 +1985,7 @@ describe('graph show up animations', () => {
             x,
             y,
             // TODO: different for nodes, and config in theme
-            // lodStrategy: {
+            // lodLevels: {
             //   levels: [
             //     { zoomRange: [0, 0.65] },
             //     { zoomRange: [0.65, 0.8] },
@@ -2070,7 +2070,7 @@ describe('graph show up animations', () => {
     //     default: ['zoom-canvas'],
     //   },
     //   node: d => {
-    //     lodStrategy: {
+    //     lodLevels: {
     //       levels: [
     //         { zoomRange: [0, 0.65] },
     //         { zoomRange: [0.65, 0.8] },
