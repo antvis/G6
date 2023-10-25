@@ -9,7 +9,7 @@ import {
   IBadgePosition,
   IItem,
   ItemShapeStyles,
-  LodStrategy,
+  LodLevel,
   ShapeAttrEncode,
   ShapeStyle,
   ShapesEncode,
@@ -193,7 +193,7 @@ export interface NodeShapeStyles extends ItemShapeStyles {
 
 /** Data in display model. */
 export type NodeDisplayModelData = NodeModelData &
-  NodeShapeStyles & { lodStrategy?: LodStrategy };
+  NodeShapeStyles & { lodLevels?: LodLevel[] };
 
 /** User input model. */
 export type NodeUserModel = GNode<NodeUserModelData>;

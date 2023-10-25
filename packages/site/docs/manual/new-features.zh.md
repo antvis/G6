@@ -220,14 +220,14 @@ update: [
 
 ## 2️⃣. 信息分层
 
-[信息分层 DEMO](https://g6-next.antv.antgroup.com/examples/feature/features/#lodStrategy)
+[信息分层 DEMO](https://g6-next.antv.antgroup.com/examples/feature/features/#lodLevels)
 
-信息分层可以为复杂的图减少视觉干扰，在放大图后再显示详细信息。可以在上面介绍的 graph 配置的 `node` / `edge` / `combo` 字段中指定 `lodStrategy` 字段，如下面代码片段所示。其中 levels 定义了信息分层所响应的图缩放层级，animateCfg 配置由信息分层导致的图形变更时的动画方式。然后需要在不同的图形样式配置中配置 `lod` 字段，来指定该图形在 `levels` 对应的哪个层级显示。
+信息分层可以为复杂的图减少视觉干扰，在放大图后再显示详细信息。可以在上面介绍的 graph 配置的 `node` / `edge` / `combo` 字段中指定 `lodLevels` 字段，如下面代码片段所示。其中 levels 定义了信息分层所响应的图缩放层级，animateCfg 配置由信息分层导致的图形变更时的动画方式。然后需要在不同的图形样式配置中配置 `lod` 字段，来指定该图形在 `levels` 对应的哪个层级显示。
 
 ```typescript
 const graph = new Graph({
   node: {
-    lodStrategy: {
+    lodLevels: {
       levels: [
         { zoomRange: [0, 0.5] }, // -1
         { zoomRange: [0.5, 1], primary: true }, // 0
@@ -258,7 +258,7 @@ const graph = new Graph({
       data: {
         ...data,
         // ... 其他配置
-        lodStrategy: {
+        lodLevels: {
           levels: [
             { zoomRange: [0, 0.5] }, // -1
             { zoomRange: [0.5, 1], primary: true }, // 0
@@ -432,7 +432,7 @@ const graph = new ExtGraph({
 
 ## 7️⃣. 性能飞跃 & 多渲染器
 
-G6 支持了 WebGL 的 2D 和 3D 渲染，渲染性能得到极大提升。各个渲染器还可以在运行时切换。只需要在 Graph Shang 配置不同的 renderer [渲染器 DEMO](https://g6-next.antv.antgroup.com/examples/feature/features/#lodStrategy)。
+G6 支持了 WebGL 的 2D 和 3D 渲染，渲染性能得到极大提升。各个渲染器还可以在运行时切换。只需要在 Graph Shang 配置不同的 renderer [渲染器 DEMO](https://g6-next.antv.antgroup.com/examples/feature/features/#lodLevels)。
 
 ```typescript
 const graph = new Graph({

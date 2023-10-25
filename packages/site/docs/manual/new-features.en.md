@@ -219,14 +219,14 @@ update: [
 
 ## 2️⃣. Infomation Level of Detail
 
-[Info Level of Detail DEMO](https://g6-next.antv.antgroup.com/en/examples/feature/features/#lodStrategy)
+[Info Level of Detail DEMO](https://g6-next.antv.antgroup.com/en/examples/feature/features/#lodLevels)
 
-Information layering can reduce visual distractions for complex graphs and display detailed information after zooming in. You can specify the lodStrategy field in the `node` / `edge` / `combo` fields of the graph configuration introduced above, as shown in the code snippet below. The `levels` define the zoom levels at which information layering responds, and the `animateCfg` configuration specifies the animation method for the graph changes caused by information layering. Then, you need to configure the `lod` field in different graphic style configurations to specify at which level the graphic should be displayed in `levels`.
+Information layering can reduce visual distractions for complex graphs and display detailed information after zooming in. You can specify the lodLevels field in the `node` / `edge` / `combo` fields of the graph configuration introduced above, as shown in the code snippet below. The `levels` define the zoom levels at which information layering responds, and the `animateCfg` configuration specifies the animation method for the graph changes caused by information layering. Then, you need to configure the `lod` field in different graphic style configurations to specify at which level the graphic should be displayed in `levels`.
 
 ```typescript
 const graph = new Graph({
   node: {
-    lodStrategy: {
+    lodLevels: {
       levels: [
         { zoomRange: [0, 0.5] }, // -1
         { zoomRange: [0.5, 1], primary: true }, // 0
@@ -257,7 +257,7 @@ const graph = new Graph({
       data: {
         ...data,
         // ... Other configurations
-        lodStrategy: {
+        lodLevels: {
           levels: [
             { zoomRange: [0, 0.5] }, // -1
             { zoomRange: [0.5, 1], primary: true }, // 0
@@ -427,7 +427,7 @@ const graph = new ExtGraph({
 
 ## 7️⃣. Performance Leap & Multiple Renderers
 
-G6 supports 2D and 3D rendering using WebGL, which greatly improves rendering performance. Different renderers can be switched at runtime by configuring the renderer on the Graph [Renderer DEMO](https://g6-next.antv.antgroup.com/en/examples/feature/features/#lodStrategy).
+G6 supports 2D and 3D rendering using WebGL, which greatly improves rendering performance. Different renderers can be switched at runtime by configuring the renderer on the Graph [Renderer DEMO](https://g6-next.antv.antgroup.com/en/examples/feature/features/#lodLevels).
 
 ```typescript
 const graph = new Graph({

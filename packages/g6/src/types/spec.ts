@@ -43,6 +43,7 @@ export interface Specification<
   backgroundCanvas?: Canvas;
   canvas?: Canvas;
   transientCanvas?: Canvas;
+  transientLabelCanvas?: Canvas;
   width?: number;
   height?: number;
   renderer?:

@@ -122,7 +122,7 @@ const graph = new ExtGraph({
       config.data.labelBackgroundShape = {
         lod: labelLod,
       };
-      config.data.lodStrategy = {
+      config.data.lodLevels = {
         levels: [
           { zoomRange: [0, 1] }, // -2
           { zoomRange: [1, 1.2] }, // -1

@@ -55,7 +55,7 @@ export interface DragCanvasOptions {
 }
 
 const DEFAULT_OPTIONS: Required<DragCanvasOptions> = {
-  enableOptimize: undefined,
+  enableOptimize: false,
   dragOnItems: false,
   trigger: 'drag',
   direction: 'both',
@@ -172,7 +172,10 @@ export class DragCanvas extends Behavior {
         }
         const section = sections.shift();
         graph.executeWithNoStack(() => {
-          graph.hideItem(section, false, true);
+          graph.hideItem(section, {
+            disableAnimate: false,
+            keepKeyShape: true,
+          });
         });
         this.tileRequestId = requestAnimationFrame(update);
       };
@@ -320,7 +323,7 @@ export class DragCanvas extends Behavior {
             return;
           }
           graph.startHistoryBatch();
-          graph.showItem(sections.shift(), false);
+          graph.showItem(sections.shift(), { disableAnimate: false });
           graph.stopHistoryBatch();
           this.tileRequestId = requestAnimationFrame(update);
         };

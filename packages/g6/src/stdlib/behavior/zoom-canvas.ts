@@ -58,7 +58,7 @@ export interface ZoomCanvasOptions {
 }
 
 const DEFAULT_OPTIONS: Required<ZoomCanvasOptions> = {
-  enableOptimize: undefined,
+  enableOptimize: false,
   triggerOnItems: true,
   sensitivity: 6,
   trigger: 'wheel',
@@ -153,7 +153,7 @@ export class ZoomCanvas extends Behavior {
         }
         const section = sections.shift();
         graph.startHistoryBatch();
-        graph.hideItem(section, false, true);
+        graph.hideItem(section, { disableAnimate: false, keepKeyShape: true });
         graph.stopHistoryBatch();
         this.tileRequestId = requestAnimationFrame(update);
       };
@@ -194,7 +194,7 @@ export class ZoomCanvas extends Behavior {
             return;
           }
           graph.executeWithNoStack(() => {
-            graph.showItem(sections.shift(), false);
+            graph.showItem(sections.shift(), { disableAnimate: false });
           });
           this.tileRequestId = requestAnimationFrame(update);
         };

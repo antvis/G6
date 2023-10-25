@@ -74,7 +74,7 @@ export default (context: TestCaseContext) => {
         data: {
           ...node.data,
           type: 'rect-node',
-          lodStrategy: {},
+          lodLevels: {},
           keyShape: {
             width: 60,
             height: 30,

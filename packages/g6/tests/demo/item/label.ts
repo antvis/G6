@@ -1,37 +1,38 @@
-// @ts-nocheck
+import { Graph as BaseGraph, extend, Extensions } from '../../../src/index';
+import { TestCaseContext } from '../interface';
 
-import { DisplayObject } from '@antv/g';
-import { clone } from '@antv/util';
-import G6, { EdgeDisplayModel, NodeDisplayModel } from '../../src/index';
-import { LineEdge } from '../../src/stdlib/item/edge';
-import { CircleNode } from '../../src/stdlib/item/node';
-import { NodeModelData, NodeShapeMap } from '../../src/types/node';
-import { extend } from '../../src/util/extend';
-import { upsertShape } from '../../src/util/shape';
+const Graph = extend(BaseGraph, {
+  edges: {
+    'cubic-edge': Extensions.CubicEdge,
+  },
+});
 
-const container = document.createElement('div');
-document.querySelector('body').appendChild(container);
-
-// const data = {
-//   nodes: [
-//     {
-//       id: 'node1',
-//       data: { x: 100, y: 200, a: 'xxx' },
-//     },
-//     {
-//       id: 'node2',
-//       data: { x: 300, y: 200 },
-//     },
-//   ],
-//   edges: [
-//     {
-//       id: 'edge1',
-//       source: 'node1',
-//       target: 'node2',
-//       data: {},
-//     },
-//   ],
-// };
+const defaultData = {
+  nodes: [
+    {
+      id: 'node1',
+      data: {
+        x: 300,
+        y: 100,
+        label: 'red',
+      },
+    },
+    {
+      id: 'node2',
+      data: { x: 100, y: 150, label: 'blue' },
+    },
+  ],
+  edges: [
+    {
+      id: 'edge1',
+      source: 'node1',
+      target: 'node2',
+      data: {
+        label: 'edge-label',
+      },
+    },
+  ],
+};
 
 const data = {
   nodes: [
@@ -1709,482 +1710,145 @@ const data = {
     },
   ],
 };
+data.edges.forEach((edge, i) => (edge.id = 'edge' + i));
 
-class CustomNode extends CircleNode {
-  public defaultStyles = {
-    keyShape: {
-      r: 25,
-      x: 0,
-      y: 0,
-      fill: '#f00',
-      lineWidth: 0,
-      stroke: '#0f0',
-    },
-  };
-  public drawLabelShape(
-    model: NodeDisplayModel,
-    shapeMap: NodeShapeMap,
-    diffData?: { oldData: NodeModelData; newData: NodeModelData },
-  ) {
-    console.log('othsershapestyle', this.defaultStyles);
-    const extraShape = upsertShape(
-      'circle',
-      'extraShape',
-      {
-        r: 4,
-        fill: '#0f0',
-        x: -20,
-        y: 0,
-        ...this.defaultStyles.otherShapes?.extraShape,
-      },
-      shapeMap,
-      model,
-    );
-    const { labelShape: propsLabelStyle } = model.data;
-    const labelStyle = Object.assign(
-      {},
-      this.defaultStyles.labelShape,
-      propsLabelStyle,
-    );
-    const labelShape = upsertShape(
-      'text',
-      'labelShape',
-      {
-        ...labelStyle,
-        text: model.id,
-      },
-      shapeMap,
-      model,
-    );
-    return { labelShape, extraShape };
-  }
-}
-
-class CustomEdge extends LineEdge {
-  public afterDraw(
-    model: EdgeDisplayModel,
-    shapeMap: { [shapeId: string]: DisplayObject<any, any> },
-  ): { [otherShapeId: string]: DisplayObject } {
-    const { keyShape } = shapeMap;
-    const styles = this.mergedStyles.runningCircle;
-    return {
-      runningCircle: upsertShape(
-        'circle',
-        'runningCircle',
-        {
-          ...styles,
-          r: 6,
-          x: 0,
-          y: 0,
-          fill: '#0f0',
-          offsetPath: keyShape,
-        },
-        shapeMap,
-        model,
-      ),
-    };
-  }
-}
-
-const CustomGraph = extend(G6.Graph, {
-  edges: {
-    'custom-edge': CustomEdge,
-  },
-  nodes: {
-    'custom-node': CustomNode,
-  },
-});
-
-const clusters = [
-  [
-    'Count',
-    'Champtercier',
-    'CountessdeLo',
-    'Geborand',
-    'OldMan',
-    'Napoleon',
-    'Cravatte',
-    'Myriel',
-    'Mme.Magloire',
-    'Mlle.Baptistine',
-  ],
-  [
-    'Tholomyes',
-    'Listolier',
-    'Fameuil',
-    'Blacheville',
-    'Favourite',
-    'Dahlia',
-    'Zephine',
-  ],
-  [
-    'Bamatabois',
-    'Judge',
-    'Champmathieu',
-    'Brevet',
-    'Chenildieu',
-    'Cochepaille',
-  ],
-  [
-    'Mabeuf',
-    'Enjolras',
-    'Combeferre',
-    'Prouvaire',
-    'Feuilly',
-    'Courfeyrac',
-    'Bahorel',
-    'Bossuet',
-    'Joly',
-    'Grantaire',
-    'MotherPlutarch',
-    'Mme.Hucheloup',
-  ],
-  ['Jondrette', 'Mme.Burgon', 'Gavroche', 'Child1', 'Child2'],
-  [
-    'Mme.Thenardier',
-    'Thenardier',
-    'Javert',
-    'Fauchelevent',
-    'Woman1',
-    'Eponine',
-    'Anzelma',
-    'MotherInnocent',
-    'Gribier',
-    'Gueulemer',
-    'Babet',
-    'Claquesous',
-    'Montparnasse',
-    'Brujon',
-  ],
-];
-const nodes = data.nodes.map((node) => {
-  node.data.x += 400;
-  node.data.y += 250;
-  let nocluster = true;
-  clusters.forEach((cluster, i) => {
-    if (cluster.includes(node.id)) {
-      node.data.cluster = i + 1;
-      nocluster = false;
-    }
-  });
-  if (nocluster) {
-    node.data.cluster = 0;
-  }
-  return node;
-  // if (!omitNodes.includes(node.id)) return node;
-});
-const edges = data.edges; //.forEach((edge) => {
-//   if (!omitNodes.includes(edge.source) && !omitNodes.includes(edge.target))
-//     return edge;
-// });
-
-const udata = { nodes, edges };
-
-const createGraph = (props) => {
-  const clonedData = clone(udata);
-  return new CustomGraph({
-    container,
+export default (
+  context: TestCaseContext,
+  options: {
+    anchorPoints?: number[][];
+    showAnchorShapes?: boolean;
+    edgeAnchors?: { sourceAnchor: number; targetAnchor: number };
+  } = {},
+) => {
+  const graph = new Graph({
+    ...context,
     // renderer: 'webgl',
-    width: 500,
-    height: 500,
-    data: clonedData,
-    // data: {
-    //   nodes: [clonedData.nodes[0], clonedData.nodes[10]],
-    //   edges: [
-    //     {
-    //       id: 'edge1',
-    //       source: clonedData.nodes[0].id,
-    //       target: clonedData.nodes[10].id,
-    //       data: {},
-    //     },
-    //   ],
-    // },
-    ...props,
-  });
-};
-
-describe('graph show up animations', () => {
-  it.only('in the same time', (done) => {
-    const graph = createGraph({
-      width: 1000,
-      height: 1000,
-      modes: {
-        default: ['zoom-canvas', 'drag-canvas', 'drag-node'],
-      },
-      theme: {
-        type: 'spec',
-        specification: {
-          node: {
-            dataTypeField: 'cluster',
-          },
+    data, //: defaultData,
+    plugins: [
+      // {
+      //   type: 'lod-controller',
+      //   // disableLod: true,
+      //   // disableAnimate: false,
+      // },
+    ],
+    modes: {
+      default: [
+        {
+          type: 'drag-node',
+          // enableTransient: false,
+        },
+        'zoom-canvas',
+        'drag-canvas',
+      ],
+    },
+    edge: {
+      // type: 'cubic-edge',
+      // lodLevels: {},
+      keyShape: {
+        stroke: {
+          fields: ['id'],
+          formatter: (model) => (model.id === 'edge221' ? '#f00' : '#ccc'),
         },
       },
-      edge: (innerModel) => {
-        return {
-          ...innerModel,
-          data: {
-            ...innerModel.data,
-            // lodLevels: {
-            //   levels: [
-            //     { zoomRange: [0, 0.65] },
-            //     { zoomRange: [0.65, 0.8] },
-            //     { zoomRange: [0.8, 1.6], primary: true },
-            //     { zoomRange: [1.6, 2] },
-            //     { zoomRange: [2, Infinity] },
-            //   ],
-            //   animateCfg: {
-            //     duration: 200,
-            //   },
-            // },
-            labelShape: {
-              position: 'end',
-              text:
-                innerModel.data.labelShape?.text ||
-                '123asdfaskdfjaksjhdfjakshdfjkashdfkjahsfjkhaskjflhalkjs',
-            },
-            labelBackgroundShape: {
-              fill: '#f00',
-            },
-            iconShape: {
-              text: 'A',
-            },
-            animates: {
-              buildIn: [
-                {
-                  fields: ['opacity'],
-                  duration: 300,
-                  shapeId: 'keyShape',
-                  delay: 1000,
-                },
-              ],
-            },
-          },
-        };
+      labelShape: {
+        // autoRotate: false,
+        // position: 'start',
+        // text: 'edge-label',
+        text: {
+          fields: ['id'],
+          formatter: (model) => model.id,
+        },
       },
-      node: (innerModel) => {
-        const { x, y, keyShape = {}, labelShape = {} } = innerModel.data;
-        const badgeShapes = [];
-        // if (Math.random() > 0.8) {
-        badgeShapes.push({
-          text: '核心人员',
-          position: 'right',
-          color: '#389e0d',
-        });
-        // }
-        // if (Math.random() > 0.9) {
-        badgeShapes.push({
-          text: 'A',
-          position: 'rightTop',
-          color: '#d4380d',
-        });
-        // }
-        return {
-          ...innerModel,
-          data: {
-            ...innerModel.data,
-            x,
-            y,
-            // TODO: different for nodes, and config in theme
-            // lodLevels: {
-            //   levels: [
-            //     { zoomRange: [0, 0.65] },
-            //     { zoomRange: [0.65, 0.8] },
-            //     { zoomRange: [0.8, 1.6], primary: true },
-            //     { zoomRange: [1.6, 2] },
-            //     { zoomRange: [2, Infinity] },
-            //   ],
-            //   animateCfg: {
-            //     duration: 200,
-            //   },
-            // },
-            animates: {
-              buildIn: [
-                {
-                  fields: ['opacity'],
-                  duration: 1000,
-                  // shapeId: 'keyShape',
-                  delay: 1500 + Math.random() * 500,
-                },
-                // {
-                //   fields: ['opacity'],
-                //   duration: 300,
-                //   shapeId: 'labelShape',
-                //   delay: 500 + Math.random() * 500,
-                // },
-              ],
-              hide: [
-                {
-                  fields: ['size'],
-                  duration: 200,
-                },
-                {
-                  fields: ['opacity'],
-                  duration: 200,
-                  shapeId: 'keyShape',
-                },
-                {
-                  fields: ['opacity'],
-                  duration: 200,
-                  shapeId: 'labelShape',
-                },
-              ],
-              show: [
-                {
-                  fields: ['size'],
-                  duration: 200,
-                },
-                {
-                  fields: ['opacity'],
-                  duration: 200,
-                  shapeId: 'keyShape',
-                  order: 0,
-                },
-              ],
-            },
-            // animate in shapes, unrelated to each other, excuted parallely
-            keyShape: {
-              r: 15,
-              ...keyShape,
-            },
-            iconShape: {
-              text: 'A',
-              // img: 'https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg',
-              fill: '#fff',
-            },
-            labelShape: {
-              text: innerModel.id,
-              opacity: 0.8,
-              ...labelShape,
-              maxWidth: '150%',
-              text: 'safasdfasdfasdfasfasdf',
-            },
-            labelBackgroundShape: {},
-            badgeShapes,
-          },
-        };
+      labelBackgroundShape: {
+        opacity: 0.1,
+        fill: '#00f',
       },
-    });
+    },
+    node: (model) => {
+      return {
+        id: model.id,
+        data: {
+          ...model.data,
+          animates: {
+            buildIn: [
+              {
+                fields: ['opacity'],
+                duration: 1000,
+                delay: 1000 + Math.random() * 1000,
+              },
+            ],
+            hide: [
+              {
+                fields: ['opacity'],
+                duration: 1000,
+                shapeId: 'labelShape',
+              },
+              {
+                fields: ['opaicty'],
+                duration: 1000,
+                shapeId: 'labelBackgroundShape',
+              },
+            ],
+            show: [
+              {
+                fields: ['opacity'],
+                duration: 1000,
+                shapeId: 'labelShape',
+              },
+              {
+                fields: ['opaicty'],
+                duration: 1000,
+                shapeId: 'labelBackgroundShape',
+              },
+            ],
+          },
+          labelShape: {
+            position: 'bottom',
+            text: model.id,
+            // lod: model.id === 'node1' ? 0 : 'auto',
+            // text: {
+            //   fields: ['label'],
+            //   formatter: (model) => model.data.label, //id,
+            // },
+          },
+          labelBackgroundShape: {
+            opacity: 0.1,
+            fill: '#00f',
+            // lod: model.id === 'node1' ? 0 : 'auto',
+          },
+          iconShape: {
+            img: 'https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg',
+          },
+        },
+      };
+    },
+  });
 
-    // const graph = createGraph({
-    //   modes: {
-    //     default: ['zoom-canvas'],
+  graph.on('canvas:click', (e) => {
+    // const { x, y } = graph.getNodeData('Mlle.Gillenormand')?.data || {};
+    // graph.updateData('node', {
+    //   id: 'Mlle.Gillenormand',
+    //   data: {
+    //     // label: 'changedasdfasfasdfasdf',
+    //     x: x + 10,
+    //     y: y + 10,
     //   },
-    //   node: d => {
-    //     lodLevels: {
-    //       levels: [
-    //         { zoomRange: [0, 0.65] },
-    //         { zoomRange: [0.65, 0.8] },
-    //         { zoomRange: [0.8, 1.6], primary: true },
-    //         { zoomRange: [1.6, 2] },
-    //         { zoomRange: [2, Infinity] },
-    //       ],
-    //       animateCfg: {
-    //         duration: 200,
-    //       },
-    //     },
-    //   }
-    // })
-
-    graph.on('canvas:click', (e) => {
-      // graph.updateData('edge', {
-      //   id: 'edge1',
-      //   data: {
-      //     labelShape: {
-      //       text: 'asdfasf',
-      //     },
-      //   },
-      // });
-      //   console.log('updatedata');
-      //   graph.hideItem('node1');
-      //   // graph.updateData('node', {
-      //   //   id: 'node1',
-      //   //   data: {
-      //   //     // labelShape: {
-      //   //     //   text: 'changedlabel',
-      //   //     //   opacity: 0.5
-      //   //     // }
-      //   //     labelShape: {
-      //   //       fill: '#f00',
-      //   //       text: 'asfasdfasdfaslkjflaksdjfklasjf',
-      //   //     },
-      //   //   },
-      //   // });
-    });
-    // graph.on('node:click', (e) => {
-    //   console.log('updatedata');
-    //   graph.showItem('node1');
     // });
-    graph.on('afterrender', () => {
-      // const node1 = graph.itemController.itemMap.get('node1');
-      // const node1KeyShapeBBox = graph.getRenderBBox('node1');
-      // const node2 = graph.itemController.itemMap.get('node2');
-      // const node2KeyShapeBBox = graph.getRenderBBox('node2');
-      // expect(node1.shapeMap.keyShape.attributes.opacity).toBe(0);
-      // expect(node1KeyShapeBBox.max[0] - node1KeyShapeBBox.min[0]).toBe(0);
-      // expect(node2.shapeMap.keyShape.attributes.opacity).toBe(1);
-      // expect(node2KeyShapeBBox.max[0] - node2KeyShapeBBox.min[0]).toBe(0);
-      // setTimeout(() => {
-      //   expect(node1.shapeMap.keyShape.attributes.opacity).not.toBe(0);
-      //   expect(node1KeyShapeBBox.max[0] - node1KeyShapeBBox.min[0]).not.toBe(0);
-      //   expect(node2KeyShapeBBox.max[0] - node2KeyShapeBBox.min[0]).not.toBe(0);
-      //   graph.destroy();
-      done();
-      // }, 2000);
-    });
-  });
-  it('in order', (done) => {
-    setTimeout(() => {
-      const graph = createGraph({
-        node: (innerModel) => {
-          const { x, y, keyShape = {} } = innerModel.data;
-          return {
-            ...innerModel,
-            data: {
-              x,
-              y,
-              animates: {
-                show: [
-                  {
-                    fields: ['opacity'],
-                    shapeId: 'keyShape',
-                    duration: 1000,
-                    order: 0,
-                  },
-                  {
-                    fields: ['lineWidth'],
-                    duration: 1000,
-                    shapeId: 'keyShape',
-                    order: 1,
-                    delay: 500,
-                  },
-                ],
-              },
-              // animate in shapes, unrelated to each other, excuted parallely
-              keyShape: {
-                ...keyShape,
-                r: 15,
-                lineDash: ['100%', 0],
-                lineWidth: 5,
-              },
-            },
-          };
-        },
-      });
 
-      graph.on('afterrender', () => {
-        const node1 = graph.itemController.itemMap.get('node1');
-        expect(node1.shapeMap.keyShape.attributes.opacity).toBe(0);
-        expect(node1.shapeMap.keyShape.attributes.lineWidth).toBe(1);
-        setTimeout(() => {
-          console.log('opacity', node1.shapeMap.keyShape.attributes.opacity);
-          expect(node1.shapeMap.keyShape.attributes.opacity).not.toBe(0);
-          expect(node1.shapeMap.keyShape.attributes.lineWidth).toBe(1);
-          setTimeout(() => {
-            expect(node1.shapeMap.keyShape.attributes.lineWidth > 1).toBe(true);
-            done();
-          }, 2500);
-        }, 1500);
-      });
-    }, 500);
+    // graph.updateData('node', {
+    //   id: 'node1',
+    //   data: {
+    //     label: 'changedasdfasfasdfasdf',
+    //   },
+    // });
+
+    // graph.downloadFullImage();
+
+    // graph.fitView();
+
+    // graph.changeData(data);
+    graph.hideItem('Marius');
+    graph.showItem('Marius');
   });
-});
+  return graph;
+};

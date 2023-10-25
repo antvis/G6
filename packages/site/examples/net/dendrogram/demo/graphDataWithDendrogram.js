@@ -55,7 +55,7 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')
           data: {
             ...model.data,
             type: 'rect-node',
-            // lodStrategy: {},
+            // lodLevels: {},
             keyShape: {
               width: 50,
               height: 20,

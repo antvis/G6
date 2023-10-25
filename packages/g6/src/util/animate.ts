@@ -151,7 +151,8 @@ const groupTimingAnimates = (
  */
 const runAnimateGroupOnShapes = (
   shapeMap: { [shapeId: string]: DisplayObject },
-  group: Group,
+  shapeIds: string[] = undefined,
+  groups: Group[],
   timingAnimates: IAnimate[],
   targetStylesMap: ItemShapeStyles,
   timing: AnimateTiming,
@@ -163,83 +164,104 @@ const runAnimateGroupOnShapes = (
   let maxDurationIdx = -1;
   let hasCanceled = canceled;
   const isOut = timing === 'buildOut' || timing === 'hide';
-  const animations = timingAnimates.map((animate: any, i) => {
-    const { fields, shapeId, order, states, ...animateCfg } = animate;
-    const animateConfig = {
-      ...DEFAULT_ANIMATE_CFG[timing],
-      ...animateCfg,
-    };
-    const { duration, iterations } = animateConfig;
-    if (iterations === Infinity && animateCfg.fill == undefined) {
-      animateConfig.fill = 'auto';
-    }
-
-    let animation;
-    if (!shapeId || shapeId === 'group') {
-      // animate on group
-      const usingFields = [];
-      let hasOpacity = false;
-      fields?.forEach((field) => {
-        if (field === 'size') usingFields.push('transform');
-        else if (field !== 'opacity') usingFields.push(field);
-        else hasOpacity = true;
-      });
-      const targetStyle =
-        targetStylesMap.group || GROUP_ANIMATE_STYLES[isOut ? 0 : 1];
-      if (hasCanceled) {
-        Object.keys(targetStyle).forEach((key) => {
-          group.style[key] = targetStyle[key];
-        });
-      } else {
-        if (hasOpacity) {
-          // opacity on group, animate on all shapes
-          Object.keys(shapeMap).forEach((shapeId) => {
-            const { opacity: targetOpaicty = 1 } =
-              targetStylesMap[shapeId] ||
-              targetStylesMap.otherShapes?.[shapeId] ||
-              {};
-            animation = runAnimateOnShape(
-              shapeMap[shapeId],
-              ['opacity'],
-              { opacity: targetOpaicty },
-              getShapeAnimateBeginStyles(shapeMap[shapeId]),
-              animateConfig,
-            );
-          });
-        }
-        if (usingFields.length) {
-          animation = runAnimateOnShape(
-            group,
-            usingFields,
-            targetStyle,
-            GROUP_ANIMATE_STYLES[isOut ? 1 : 0],
-            animateConfig,
-          );
-        }
+  const shapeIdsToAnimate = shapeIds ? shapeIds : Object.keys(shapeMap);
+  const animations = timingAnimates
+    .map((animateOptions: any) => {
+      const { fields, shapeId, order, states, ...animateCfg } = animateOptions;
+      const animateConfig = {
+        ...DEFAULT_ANIMATE_CFG[timing],
+        ...animateCfg,
+      };
+      const { iterations } = animateConfig;
+      if (iterations === Infinity && animateCfg.fill == undefined) {
+        animateConfig.fill = 'auto';
       }
-    } else {
-      const shape = shapeMap[shapeId];
-      if (shape && shape.style.display !== 'none') {
+
+      let animates = [];
+      if (!shapeId || shapeId === 'group') {
+        // animate on group
+        const usingFields = [];
+        let hasOpacity = false;
+        fields?.forEach((field) => {
+          if (field === 'size') usingFields.push('transform');
+          else if (field !== 'opacity') usingFields.push(field);
+          else hasOpacity = true;
+        });
         const targetStyle =
-          targetStylesMap[shapeId] ||
-          targetStylesMap.otherShapes?.[shapeId] ||
-          {};
+          targetStylesMap.group || GROUP_ANIMATE_STYLES[isOut ? 0 : 1];
         if (hasCanceled) {
           Object.keys(targetStyle).forEach((key) => {
-            shape.style[key] = targetStyle[key];
+            groups.forEach((group) => (group.style[key] = targetStyle[key]));
           });
         } else {
-          animation = runAnimateOnShape(
-            shape,
-            fields,
-            targetStyle,
-            getShapeAnimateBeginStyles(shape),
-            animateConfig,
-          );
+          if (hasOpacity) {
+            // opacity on group, animate on all shapes
+            shapeIdsToAnimate.forEach((sid) => {
+              if (!shapeMap[sid]) return;
+              const { opacity: targetOpacity = 1 } =
+                targetStylesMap[sid] ||
+                targetStylesMap.otherShapes?.[sid] ||
+                {};
+              animates.push(
+                runAnimateOnShape(
+                  shapeMap[sid],
+                  ['opacity'],
+                  { opacity: targetOpacity },
+                  getShapeAnimateBeginStyles(shapeMap[sid]),
+                  animateConfig,
+                ),
+              );
+            });
+          }
+          if (usingFields.length) {
+            animates = animates.concat(
+              groups.map((group) =>
+                runAnimateOnShape(
+                  group,
+                  usingFields,
+                  targetStyle,
+                  GROUP_ANIMATE_STYLES[isOut ? 1 : 0],
+                  animateConfig,
+                ),
+              ),
+            );
+          }
+        }
+      } else {
+        const shape = shapeMap[shapeId];
+        if (
+          shape &&
+          shape.style.display !== 'none' &&
+          shape.style.visibility !== 'hidden'
+        ) {
+          const targetStyle =
+            targetStylesMap[shapeId] ||
+            targetStylesMap.otherShapes?.[shapeId] ||
+            {};
+          if (hasCanceled) {
+            Object.keys(targetStyle).forEach((key) => {
+              shape.style[key] = targetStyle[key];
+            });
+          } else {
+            animates.push(
+              runAnimateOnShape(
+                shape,
+                fields,
+                targetStyle,
+                getShapeAnimateBeginStyles(shape),
+                animateConfig,
+              ),
+            );
+          }
         }
       }
-    }
-    if (maxDuration < duration && animation) {
+      return animates;
+    })
+    .flat()
+    .filter(Boolean);
+  animations.forEach((animation, i) => {
+    const { duration } = animation.effect.timing;
+    if (maxDuration < duration) {
       maxDuration = duration;
       maxDurationIdx = i;
     }
@@ -249,7 +271,6 @@ const runAnimateGroupOnShapes = (
         cancelAnimations();
       };
     }
-    return animation;
   });
   if (maxDurationIdx > -1) {
     const selfOnfinish = animations[maxDurationIdx].onfinish;
@@ -384,7 +405,8 @@ export const animateShapes = (
   animates: IAnimates,
   mergedStyles: ItemShapeStyles,
   shapeMap: { [shapeId: string]: DisplayObject },
-  group: Group,
+  shapeIds: string[] = undefined,
+  groups: Group[],
   timing: AnimateTiming = 'buildIn',
   changedStates: string[] = [],
   onAnimatesFrame: Function = () => {},
@@ -413,7 +435,8 @@ export const animateShapes = (
     }
     const groupAnimations = runAnimateGroupOnShapes(
       shapeMap,
-      group,
+      shapeIds,
+      groups,
       timingAnimateGroups[groupKeys[i]],
       mergedStyles,
       timing,

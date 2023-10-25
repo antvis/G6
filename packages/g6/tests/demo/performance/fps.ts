@@ -48,7 +48,7 @@ const createGraph = async () => {
         ...innerModel,
         data: {
           ...innerModel.data,
-          lodStrategy: {},
+          lodLevels: {},
           keyShape: {
             r: 4,
           },

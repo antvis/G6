@@ -111,7 +111,7 @@ const createGraph = () => {
         ...innerModel,
         data: {
           ...innerModel.data,
-          lodStrategy: {
+          lodLevels: {
             levels: [
               { zoomRange: [0, 0.5] }, // -1
               { zoomRange: [0.5, 1], primary: true }, // 0

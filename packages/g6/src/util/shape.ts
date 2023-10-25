@@ -120,10 +120,12 @@ export const upsertShape = (
     shape = createShape(type, style, id);
     if (style.interactive === false) shape.interactive = false;
     // find the animate styles, set them to be INIT_SHAPE_STYLES
+    // TODO, timing
     if (!disableAnimate && animates) {
       const animateFields = findAnimateFields(
         animates,
-        firstRendering ? 'buildIn' : 'update',
+        'buildIn',
+        // firstRendering ? 'buildIn' : 'update',
         id,
       );
       const initShapeStyles = getShapeAnimateBeginStyles(shape);
@@ -191,6 +193,7 @@ export const updateShapes = (
   prevShapeMap: { [id: string]: DisplayObject },
   newShapeMap: { [id: string]: DisplayObject },
   group: Group,
+  labelGroup: Group,
   removeDiff = true,
   shouldUpdate: (id: string) => boolean = () => true,
 ): NodeShapeMap | EdgeShapeMap => {
@@ -212,16 +215,27 @@ export const updateShapes = (
         prevShape.remove();
       }
       finalShapeMap[id] = newShape;
+      const parentGroup =
+        newShape.attributes.dataIsLabel ||
+        newShape.attributes.dataIsLabelBackground
+          ? labelGroup
+          : group;
       if (
         // NewShape is already in the group, no need to reappend.
         // Note: If the given child is a reference to an existing node in the document,
         // appendChild() moves it from its current position to the new position.
         // @see https://developer.mozilla.org/en-US/docs/Web/API/Node/appendChild
-        newShape.parentElement !== group &&
+        newShape.parentElement !== parentGroup &&
         !newShape.destroyed &&
         newShape.style.display !== 'none'
       ) {
-        group.appendChild(newShape);
+        parentGroup.appendChild(newShape);
+        if (newShape.style.lod === 'auto') {
+          newShape.style.visibility = 'hidden';
+          if (newShape.id === 'labelShape' && parentGroup === labelGroup) {
+            labelGroup.attributes.visibility = 'hidden';
+          }
+        }
       }
     }
 
@@ -397,11 +411,11 @@ export const isPolygonsIntersect = (
 };
 
 export const intersectBBox = (box1: Partial<AABB>, box2: Partial<AABB>) => {
-  return !(
-    box2.min[0] > box1.max[0] ||
-    box2.max[0] < box1.min[0] ||
-    box2.min[1] > box1.max[1] ||
-    box2.max[1] < box1.min[1]
+  return (
+    box2.min[0] <= box1.max[0] &&
+    box2.max[0] >= box1.min[0] &&
+    box2.min[1] <= box1.max[1] &&
+    box2.max[1] >= box1.min[1]
   );
 };
 

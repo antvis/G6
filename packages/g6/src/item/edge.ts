@@ -1,8 +1,8 @@
-import { Circle, Group } from '@antv/g';
+import { Group } from '@antv/g';
 import { clone, throttle } from '@antv/util';
-import { EdgeDisplayModel, EdgeModel, ID, Point } from '../types';
+import { EdgeDisplayModel, EdgeModel, ID, IGraph, Point } from '../types';
 import { EdgeModelData } from '../types/edge';
-import { DisplayMapper, State, LodStrategyObj } from '../types/item';
+import { DisplayMapper, State, LodLevelRanges } from '../types/item';
 import { updateShapes } from '../util/shape';
 import { animateShapes } from '../util/animate';
 import { EdgeStyleSet } from '../types/theme';
@@ -13,9 +13,11 @@ import Node from './node';
 import Combo from './combo';
 
 interface IProps {
+  graph: IGraph;
   model: EdgeModel;
   renderExtensions: any; // TODO: type
   containerGroup: Group;
+  labelContainerGroup?: Group; // TODO: optional?
   mapper?: DisplayMapper;
   stateMapper?: {
     [stateName: string]: DisplayMapper;
@@ -25,7 +27,7 @@ interface IProps {
   zoom?: number;
   theme: {
     styles: EdgeStyleSet;
-    lodStrategy: LodStrategyObj;
+    lodLevels: LodLevelRanges;
   };
   onframe?: Function;
   nodeMap?: Map<ID, Node>;
@@ -86,12 +88,20 @@ export default class Edge extends Item {
       diffData,
       diffState,
     );
+    if (this.shapeMap.labelShape) {
+      this.shapeMap.labelShape.attributes.dataIsLabel = true;
+    }
+    if (this.shapeMap.labelBackgroundShape) {
+      this.shapeMap.labelBackgroundShape.attributes.dataIsLabelBackground =
+        true;
+    }
 
     // add shapes to group, and update shapeMap
     this.shapeMap = updateShapes(
       this.shapeMap,
       { ...shapeMap, ...this.afterDrawShapeMap },
       this.group,
+      this.labelGroup,
     );
 
     // handle shape's and group's animate
@@ -120,7 +130,8 @@ export default class Edge extends Item {
         usingAnimates,
         targetStyles, // targetStylesMap
         this.shapeMap, // shapeMap
-        this.group,
+        undefined,
+        [this.group, this.labelGroup],
         firstRendering ? 'buildIn' : 'update',
         diffState?.current.map((state) => state.name) || this.changedStates,
         this.animateFrameListener,
@@ -133,6 +144,7 @@ export default class Edge extends Item {
       this.hide(false);
     }
     this.changedStates = [];
+    this.updateLabelPosition(true);
   }
 
   /**
@@ -155,8 +167,23 @@ export default class Edge extends Item {
       targetPoint,
       this.shapeMap,
     );
+    if (shapeMap.labelShape) {
+      shapeMap.labelShape.attributes.dataIsLabel = true;
+    }
+    if (shapeMap.labelBackgroundShape) {
+      shapeMap.labelBackgroundShape.attributes.dataIsLabelBackground = true;
+    }
     // add shapes to group, and update shapeMap
-    this.shapeMap = updateShapes(this.shapeMap, shapeMap, this.group);
+    this.shapeMap = updateShapes(
+      this.shapeMap,
+      shapeMap,
+      this.group,
+      this.labelGroup,
+    );
+    this.labelGroup.children
+      .filter((element) => element.attributes.dataIsLabel)
+      .forEach((shape) => (shape.attributes.dataOriginPosition = ''));
+    this.updateLabelPosition();
   }
 
   /**
@@ -256,8 +283,71 @@ export default class Edge extends Item {
     return changed;
   }
 
+  /**
+   * Update label positions on label canvas by getting viewport position from transformed canvas position.
+   */
+  public updateLabelPosition(ignoreVisibility?: boolean) {
+    const { graph, labelGroup } = this;
+    if (!ignoreVisibility && this.labelGroup.style.visibility === 'hidden') {
+      return;
+    }
+    const zoom = graph.getZoom();
+    labelGroup.children.forEach((shape) => {
+      if (shape.attributes.dataIsLabelBackground) {
+        this.renderExt.drawLabelBackgroundShape(
+          this.displayModel,
+          this.shapeMap,
+        );
+        return;
+      }
+      if (shape.attributes.dataIsLabel) {
+        const { maxWidth } = this.renderExt.mergedStyles[shape.id] || {};
+        if (maxWidth) {
+          if (!shape.attributes.dataOriginWordWrapWidth) {
+            shape.attributes.dataOriginWordWrapWidth =
+              shape.style.wordWrapWidth;
+          }
+          shape.style.wordWrapWidth =
+            shape.attributes.dataOriginWordWrapWidth * zoom;
+        }
+      }
+      if (!shape.attributes.dataOriginPosition) {
+        shape.attributes.dataOriginPosition = {
+          x: shape.style.x,
+          y: shape.style.y,
+          z: shape.style.z,
+        };
+      }
+      const viewportPosition = graph.getViewportByCanvas(
+        shape.attributes.dataOriginPosition,
+      );
+      shape.style.x = viewportPosition.x;
+      shape.style.y = viewportPosition.y;
+      shape.style.z = viewportPosition.z;
+    });
+  }
+
+  private throttleUpdateWordWidth = throttle(
+    (zoom, shape) => {
+      const { maxWidth } = this.renderExt.mergedStyles[shape.id] || {};
+      if (maxWidth) {
+        if (!shape.attributes.dataOriginWordWrapWidth) {
+          shape.attributes.dataOriginWordWrapWidth = shape.style.wordWrapWidth;
+        }
+        shape.style.wordWrapWidth =
+          shape.attributes.dataOriginWordWrapWidth * zoom;
+      }
+    },
+    50,
+    {
+      leading: false,
+      trailing: true,
+    },
+  );
+
   public clone(
     containerGroup: Group,
+    labelContainerGroup: Group,
     sourceItem: Node | Combo,
     targetItem: Node | Combo,
     shapeIds?: string[],
@@ -297,23 +387,28 @@ export default class Edge extends Item {
 
     const clonedEdge = new Edge({
       model: clonedModel,
+      graph: this.graph,
       renderExtensions: this.renderExtensions,
       sourceItem,
       targetItem,
       nodeMap: this.nodeMap,
       containerGroup,
+      labelContainerGroup,
       mapper: this.mapper,
       stateMapper: this.stateMapper,
       zoom: this.zoom,
       theme: {
         styles: this.themeStyles,
-        lodStrategy: this.lodStrategy,
+        lodLevels: this.lodLevels,
       },
     });
     if (visible) return clonedEdge;
     Object.keys(this.shapeMap).forEach((shapeId) => {
-      if (!this.shapeMap[shapeId].isVisible())
-        clonedEdge.shapeMap[shapeId]?.hide();
+      if (!this.shapeMap[shapeId].isVisible()) {
+        clonedEdge.shapeMap[shapeId].hide();
+      } else {
+        clonedEdge.shapeMap[shapeId].show();
+      }
     });
     return clonedEdge;
   }

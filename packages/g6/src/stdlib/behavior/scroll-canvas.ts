@@ -231,7 +231,7 @@ export class ScrollCanvas extends Behavior {
         .getAllEdgesData()
         .map((edge) => edge.id)
         .filter((id) => graph.getItemVisible(id));
-      graph.hideItem(newHiddenEdgeIds, true);
+      graph.hideItem(newHiddenEdgeIds, { disableAnimate: true });
 
       if (currentZoom < optimizeZoom) {
         this.hiddenEdgeIds.push(...newHiddenEdgeIds);
@@ -259,7 +259,7 @@ export class ScrollCanvas extends Behavior {
         }
         const section = sections.shift();
         graph.startHistoryBatch();
-        graph.hideItem(section, false, true);
+        graph.hideItem(section, { disableAnimate: false, keepKeyShape: true });
         graph.stopHistoryBatch();
         requestId = requestAnimationFrame(update);
       };
@@ -309,7 +309,7 @@ export class ScrollCanvas extends Behavior {
         return;
       }
       graph.executeWithNoStack(() => {
-        graph.showItem(sections.shift(), false);
+        graph.showItem(sections.shift(), { disableAnimate: false });
       });
       requestId = requestAnimationFrame(update);
     };

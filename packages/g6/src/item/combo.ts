@@ -1,7 +1,7 @@
-import { ComboDisplayModel, ComboModel } from 'types';
+import { ComboDisplayModel, ComboModel, IGraph } from '../types';
 import { Group, Tuple3Number } from '@antv/g';
 import { clone, throttle } from '@antv/util';
-import { DisplayMapper, LodStrategyObj, State } from '../types/item';
+import { DisplayMapper, LodLevelRanges, State } from '../types/item';
 import { ComboStyleSet } from '../types/theme';
 import { ComboModelData, ComboUserModelData } from '../types/combo';
 import { Point } from '../types/common';
@@ -14,8 +14,10 @@ import Node from './node';
 
 interface IProps {
   model: ComboModel;
+  graph: IGraph;
   renderExtensions: any;
   containerGroup: Group;
+  labelContainerGroup: Group;
   mapper?: DisplayMapper;
   stateMapper?: {
     [stateName: string]: DisplayMapper;
@@ -23,7 +25,7 @@ interface IProps {
   zoom?: number;
   theme: {
     styles: ComboStyleSet;
-    lodStrategy: LodStrategyObj;
+    lodLevels: LodLevelRanges;
   };
   device?: any; // for 3d shapes
   onframe?: Function;
@@ -261,6 +263,7 @@ export default class Combo extends Node {
   // @ts-ignore
   public clone(
     containerGroup: Group,
+    labelContainerGroup: Group,
     shapeIds?: string[],
     disableAnimate?: boolean,
     getCombinedBounds?: () =>
@@ -291,21 +294,26 @@ export default class Combo extends Node {
     clonedModel.data.disableAnimate = disableAnimate;
     const clonedNode = new Combo({
       model: clonedModel,
+      graph: this.graph,
       renderExtensions: this.renderExtensions,
       containerGroup,
+      labelContainerGroup,
       mapper: this.mapper,
       stateMapper: this.stateMapper,
       zoom: this.zoom,
       theme: {
         styles: this.themeStyles,
-        lodStrategy: this.lodStrategy,
+        lodLevels: this.lodLevels,
       },
       getCombinedBounds: getCombinedBounds || this.getCombinedBounds,
       getChildren: getChildren || this.getChildren,
     });
     Object.keys(this.shapeMap).forEach((shapeId) => {
-      if (!this.shapeMap[shapeId].isVisible())
+      if (!this.shapeMap[shapeId].isVisible()) {
         clonedNode.shapeMap[shapeId].hide();
+      } else {
+        clonedNode.shapeMap[shapeId]?.show();
+      }
     });
     return clonedNode;
   }

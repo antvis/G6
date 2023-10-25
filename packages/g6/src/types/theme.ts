@@ -1,7 +1,7 @@
 import { BaseThemeSolver } from '../stdlib/themeSolver/base';
 import { ComboShapeStyles } from './combo';
 import { EdgeShapeStyles } from './edge';
-import { LodStrategy } from './item';
+import { LodLevel } from './item';
 import { NodeShapeStyles } from './node';
 
 export interface ThemeOption {}
@@ -122,13 +122,13 @@ export type ComboStyleSets =
  * dataTypeField - the field name in model.data that indicates the data type to map style set.
  * palette - color palette.
  * styles - style sets to map.
- * lodStrategy - level of detail strategy for global setting.
+ * lodLevels - level of detail strategy for global setting.
  */
 export interface NodeThemeSpecifications {
   dataTypeField?: string;
   palette?: string[] | { [dataTypeValue: string]: string };
   styles?: NodeStyleSets;
-  lodStrategy?: LodStrategy;
+  lodLevels?: LodLevel[];
 }
 
 /**
@@ -136,13 +136,13 @@ export interface NodeThemeSpecifications {
  * dataTypeField - the field name in model.data that indicates the data type to map style set.
  * palette - color palette.
  * styles - style sets to map.
- * lodStrategy - level of detail strategy for global setting.
+ * lodLevels - level of detail strategy for global setting.
  */
 export interface EdgeThemeSpecifications {
   dataTypeField?: string;
   palette?: string[] | { [dataTypeValue: string]: string };
   styles?: EdgeStyleSets;
-  lodStrategy?: LodStrategy;
+  lodLevels?: LodLevel[];
 }
 
 /**
@@ -150,13 +150,13 @@ export interface EdgeThemeSpecifications {
  * dataTypeField - the field name in model.data that indicates the data type to map style set.
  * palette - color palette.
  * styles - style sets to map.
- * lodStrategy - level of detail strategy for global setting.
+ * lodLevels - level of detail strategy for global setting.
  */
 export interface ComboThemeSpecifications {
   dataTypeField?: string;
   palette?: string[] | { [dataTypeValue: string]: string };
   styles?: ComboStyleSets;
-  lodStrategy?: LodStrategy;
+  lodLevels?: LodLevel[];
 }
 /**
  * Theme specification with node / edge / combo palette and style mappers. And also canvas DOM CSS settings.

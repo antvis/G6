@@ -81,6 +81,7 @@ const {
   Timebar,
   Snapline,
   EdgeFilterLens,
+  LodController,
 } = Plugins;
 
 const {
@@ -135,6 +136,7 @@ const stdLib = {
   },
   plugins: {
     history: History,
+    'lod-controller': LodController,
   },
   nodes: {
     'circle-node': CircleNode,
@@ -288,6 +290,7 @@ const Extensions = {
   // plugins
   BasePlugin,
   History,
+  LodController,
   Toolbar,
   Tooltip,
   Minimap,

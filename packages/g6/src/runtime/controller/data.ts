@@ -462,6 +462,7 @@ export class DataController {
 
     // update edge
     edges.forEach((newModel) => {
+      if (!graphCore.hasEdge(newModel.id)) return;
       const oldModel = graphCore.getEdge(newModel.id);
       if (!oldModel) return;
       const { id, source, target, data } = newModel;
