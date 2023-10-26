@@ -26,8 +26,12 @@ export class ViewportController {
   }: ViewportChangeHookParams) {
     const camera = this.graph.canvas.getCamera();
     const transientCamera = this.graph.transientCanvas.getCamera();
-    camera.cancelLandmarkAnimation();
-    transientCamera.cancelLandmarkAnimation();
+    // @ts-ignore
+    if (camera.landmarks?.length) {
+      camera.cancelLandmarkAnimation();
+      transientCamera.cancelLandmarkAnimation();
+      this.graph.emit('cancelviewportanimation');
+    }
     const {
       translate,
       rotate,
@@ -37,6 +41,7 @@ export class ViewportController {
     const currentZoom = camera.getZoom();
 
     if (effectTiming) {
+      this.graph.emit('beforeviewportanimation', transform);
       const {
         duration = 1000,
         easing = 'linear',
@@ -109,6 +114,7 @@ export class ViewportController {
           easing,
           easingFunction,
           onfinish: () => {
+            this.graph.emit('afterviewportanimation', transform);
             resolve(undefined);
           },
         });

@@ -6,10 +6,11 @@ import {
   Path,
   Polyline,
 } from '@antv/g';
-import { clone, isString, uniq } from '@antv/util';
+import { isString, uniq } from '@antv/util';
 import { AnimateTiming, IAnimate, IAnimates } from '../types/animate';
 import { ItemShapeStyles, ShapeStyle } from '../types/item';
 import { isArrayOverlap, replaceElements } from './array';
+import { cloneJSON } from './data';
 
 /**
  * Initial(timing = show) shape animation start from init shape styles, and end to the shape's style config.
@@ -307,10 +308,10 @@ const runAnimateOnShape = (
     fields.forEach((key) => {
       animateArr[0][key] =
         shape.style[key] === undefined
-          ? clone(beginStyle[key])
-          : clone(shape.style[key]);
+          ? cloneJSON(beginStyle[key])
+          : cloneJSON(shape.style[key]);
       if (targetStyle[key] === undefined) return;
-      animateArr[1][key] = clone(targetStyle[key]);
+      animateArr[1][key] = cloneJSON(targetStyle[key]);
       if (key === 'lineDash') {
         const beginPercents = uniq(
           animateArr[0][key].filter(
@@ -323,7 +324,7 @@ const runAnimateOnShape = (
           ),
         );
         if (beginPercents.length || targetPercents.length) {
-          percentLineDash = clone(animateArr[0].lineDash);
+          percentLineDash = cloneJSON(animateArr[0].lineDash);
           const totalLength = (
             shape as Line | Polyline | Path
           ).getTotalLength();

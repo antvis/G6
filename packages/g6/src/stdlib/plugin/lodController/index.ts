@@ -46,6 +46,7 @@ export class LodController extends Base {
   private modelCanvasIdxMap: Map<ID, { rowIdx: number; colIdx: number }>;
   private labelPositionDirty: Map<ID, boolean> = new Map();
   private debounce = 16;
+  private animationUpdateTimer: number = 0;
 
   constructor(options?: LodControllerConfig) {
     super(options);
@@ -73,6 +74,9 @@ export class LodController extends Base {
       aftersetsize: this.updateCells,
       viewportchange: this.updateCells,
       afteritemchange: this.updateCacheModels,
+      beforeviewportanimation: this.beforeViewportAnimation,
+      afterviewportanimation: this.afterViewportAnimation,
+      cancelviewportanimation: this.afterViewportAnimation,
     };
   }
 
@@ -215,11 +219,6 @@ export class LodController extends Base {
 
       const { center } = bounds;
       const param = graphZoom / cellSize;
-      const viewport = this.graph.getViewportByCanvas({
-        x: center[0],
-        y: center[1],
-        z: center[2],
-      });
       // rowIdx = (center[i] * graphZoom + offset[i]) - offset[i] / cellSize = center[i] * param
       const rowIdx = Math.floor(center[0] * param);
       const colIdx = Math.floor(center[1] * param);
@@ -551,6 +550,20 @@ export class LodController extends Base {
         this.displayModelCache.delete(model.id);
       }
     });
+  };
+
+  protected beforeViewportAnimation = () => {
+    if (this.animationUpdateTimer) return;
+    this.animationUpdateTimer = setInterval(() => {
+      this.updateLabelPositions();
+    }, 16);
+  };
+
+  protected afterViewportAnimation = () => {
+    if (this.animationUpdateTimer) {
+      clearInterval(this.animationUpdateTimer);
+      this.animationUpdateTimer = 0;
+    }
   };
 
   protected clearCache = () => {

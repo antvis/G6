@@ -82,9 +82,9 @@ export abstract class BaseEdge {
     const { data } = model;
     const dataStyles = {} as EdgeShapeStyles;
     Object.keys(data).forEach((fieldName) => {
-      if (RESERVED_SHAPE_IDS.includes(fieldName))
+      if (RESERVED_SHAPE_IDS.includes(fieldName)) {
         dataStyles[fieldName] = data[fieldName] as ShapeStyle;
-      else if (fieldName === OTHER_SHAPES_FIELD_NAME) {
+      } else if (fieldName === OTHER_SHAPES_FIELD_NAME) {
         Object.keys(data[fieldName]).forEach(
           (otherShapeId) =>
             (dataStyles[otherShapeId] = data[fieldName][otherShapeId]),

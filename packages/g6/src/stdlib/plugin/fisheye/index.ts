@@ -1,10 +1,11 @@
 import { DisplayObject } from '@antv/g';
-import { clone, throttle, uniqueId } from '@antv/util';
+import { throttle, uniqueId } from '@antv/util';
 import { IGraph } from '../../../types';
 import { Point } from '../../../types/common';
 import { IG6GraphEvent } from '../../../types/event';
 import { ShapeStyle } from '../../../types/item';
 import { Plugin as Base, IPluginBaseConfig } from '../../../types/plugin';
+import { cloneJSON } from '../../../util/data';
 
 const DELTA = 0.05;
 /**
@@ -92,7 +93,7 @@ export class Fisheye extends Base {
       trigger: 'mousemove',
       d: 1.5,
       r: 300,
-      delegateStyle: clone(lensDelegateStyle),
+      delegateStyle: cloneJSON(lensDelegateStyle),
       showLabel: true,
       maxD: 5,
       minD: 0,

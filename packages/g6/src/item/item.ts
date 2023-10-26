@@ -24,6 +24,7 @@ import {
 } from '../util/shape';
 import { isEncode } from '../util/type';
 import { DEFAULT_MAPPER } from '../util/mapper';
+import { cloneJSON } from '../util/data';
 import {
   getShapeAnimateBeginStyles,
   animateShapes,
@@ -593,7 +594,7 @@ export default abstract class Item implements IItem {
    * @param value state value
    */
   public setState(state: string, value: string | boolean) {
-    const previousStates = clone(this.states);
+    const previousStates = cloneJSON(this.states);
     const existState = this.states.find((item) => item.name === state);
     if (value) {
       if (existState) existState.value = value;
@@ -622,7 +623,7 @@ export default abstract class Item implements IItem {
    */
   public clearStates(states?: string[]) {
     // if states is not assigned, clear all the states on the item
-    const previousStates = clone(this.states);
+    const previousStates = cloneJSON(this.states);
     const newStates = [];
     let changedStates = [];
     if (states) {

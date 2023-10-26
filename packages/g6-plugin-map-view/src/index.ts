@@ -1,5 +1,5 @@
-import { Scene, LineLayer, PointLayer } from '@antv/l7';
-import { GaodeMap } from '@antv/l7-maps';
+import { Scene, LineLayer, PointLayer, RasterLayer } from '@antv/l7';
+import { Map as BaseMap } from '@antv/l7-maps';
 import { createDom, modifyCSS } from '@antv/dom-util';
 import { debounce, isArray, isString, uniqueId } from '@antv/util';
 import { IGraph, PluginBase, IPluginBaseConfig } from '@antv/g6';
@@ -32,8 +32,6 @@ export interface MapViewConfig extends IPluginBaseConfig {
   initialMapCenter?: [number, number];
   /** The css style of the brush DOM. */
   brushCSS?: Partial<CSSStyleDeclaration>;
-  /** Gaode's token, we provide a default token but it is not stable, you should replace it in your system. */
-  token?: string;
 }
 
 export class MapView extends PluginBase {
@@ -75,7 +73,6 @@ export class MapView extends PluginBase {
       brushCSS: {
         border: '1px dashed #227EFF',
       },
-      token: 'ff533602d57df6f8ab3b0fea226ae52f',
     };
   }
 
@@ -109,7 +106,6 @@ export class MapView extends PluginBase {
       theme,
       initialMapZoom,
       initialMapCenter,
-      token,
     } = options;
     let parentNode = options.container;
     const container: HTMLDivElement = createDom(
@@ -149,15 +145,29 @@ export class MapView extends PluginBase {
     this.scene = new Scene({
       id: container,
       logoVisible: false,
-      map: new GaodeMap({
+      map: new BaseMap({
         style: useTheme,
         center: initialMapCenter,
         zoom: initialMapZoom,
-        token,
       }),
     });
+
+    const baseMapLayer = new RasterLayer({
+      zIndex: 1,
+    }).source(
+      'https://tiles{1-3}.geovisearth.com/base/v1/vec/{z}/{x}/{y}?format=png&tmsIds=w&token=b2a0cfc132cd60b61391b9dd63c15711eadb9b38a9943e3f98160d5710aef788',
+      {
+        parser: {
+          type: 'rasterTile',
+          tileSize: 256,
+          zoomOffset: 0,
+        },
+      },
+    );
+
     return new Promise((resolve) => {
       this.scene.on('loaded', () => {
+        this.scene.addLayer(baseMapLayer);
         const amapCopyRightDom = document.getElementsByClassName(
           'amap-copyright',
         )[0] as HTMLElement;

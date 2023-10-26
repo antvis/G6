@@ -341,11 +341,20 @@ export const isEmptyGraph = (graph, excludeInvisibles = false): boolean => {
 
   if (excludeInvisibles) {
     const edges = graph.getAllEdgesData();
-    const hasVisibleItems =
-      nodes.filter((node) => graph.getItemVisible(node.id)).length +
-      edges.filter((edge) => graph.getItemVisible(edge.id)).length +
-      combos.filter((combo) => graph.getItemVisible(combo.id)).length;
-    if (!hasVisibleItems) return true;
+    if (nodes.find((node) => graph.getItemVisible(node.id))) return false;
+    if (edges.find((edge) => graph.getItemVisible(edge.id))) return false;
+    if (combos.find((combo) => graph.getItemVisible(combo.id))) return false;
+    return true;
   }
   return false;
+};
+
+/**
+ * Clone an object by JSON stringify and parse
+ * @param obj
+ * @returns
+ */
+export const cloneJSON = (obj) => {
+  if (!obj) return obj;
+  return JSON.parse(JSON.stringify(obj));
 };

@@ -160,6 +160,9 @@ const create2DGraph = (
           ...innerModel.data,
           type: 'line-edge',
           animates: getEdgeAnimates(),
+          keyShape: {
+            lineWidth: 0.3,
+          },
         },
       };
     },
@@ -708,12 +711,14 @@ const handleZoom = (graph, isIn = true) => {
 };
 
 const getDataFor2D = (inputData) => {
-  const clusteredData = labelPropagation(inputData, false);
-  clusteredData.clusters.forEach((cluster, i) => {
-    cluster.nodes.forEach((node) => {
-      node.data.cluster = `c${i}`;
-    });
-  });
+  // 过于消耗性能，labelPropagation 的结果已写入原始数据存储
+  // const clusteredData = labelPropagation(inputData, false);
+  // clusteredData.clusters.forEach((cluster, i) => {
+  //   cluster.nodes.forEach((node) => {
+  //     node.data.cluster = `c${i}`;
+  //   });
+  // });
+
   // for 性能测试
   // data.nodes.forEach((node) => {
   //   delete node.data.x;
@@ -733,12 +738,14 @@ const getDataFor2D = (inputData) => {
 };
 
 const getDataFor3D = (inputData) => {
-  const clusteredData3D = labelPropagation(inputData, false);
-  clusteredData3D.clusters.forEach((cluster, i) => {
-    cluster.nodes.forEach((node) => {
-      node.data.cluster = `c${i}`;
-    });
-  });
+  // 过于消耗性能，labelPropagation 的结果已写入原始数据存储
+  // const clusteredData3D = labelPropagation(inputData, false);
+  // clusteredData3D.clusters.forEach((cluster, i) => {
+  //   cluster.nodes.forEach((node) => {
+  //     node.data.cluster = `c${i}`;
+  //   });
+  // });
+
   // data3d.nodes.forEach((node) => {
   //   delete node.data.x;
   //   delete node.data.y;

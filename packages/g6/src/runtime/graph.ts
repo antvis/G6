@@ -60,7 +60,7 @@ import { createDOM } from '../util/dom';
 import { getLayoutBounds } from '../util/layout';
 import { formatPadding } from '../util/shape';
 import Node from '../item/node';
-import { isEmptyGraph } from '../util/data';
+import { cloneJSON, isEmptyGraph } from '../util/data';
 import { getCombinedCanvasesBounds } from '../util/bbox';
 import {
   DataController,
@@ -1385,7 +1385,7 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     const { graphCore } = this.dataController;
     const { specification } = this.themeController;
     graphCore.once('changed', (event) => {
-      const changes = this.extendChanges(clone(event.changes));
+      const changes = this.extendChanges(cloneJSON(event.changes));
       const timingParameters = {
         type: itemType,
         action: 'update',
@@ -2936,6 +2936,15 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * @group Graph Instance
    */
   public destroy(callback?: Function) {
+    const camera = this.canvas.getCamera();
+    const transientCamera = this.transientCanvas.getCamera();
+    // @ts-ignore
+    if (camera.landmarks?.length) {
+      camera.cancelLandmarkAnimation();
+      transientCamera.cancelLandmarkAnimation();
+      this.emit('cancelviewportanimation');
+    }
+
     this.canvas.destroy();
     this.labelCanvas.destroy();
     this.backgroundCanvas.destroy();
