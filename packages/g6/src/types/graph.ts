@@ -164,7 +164,11 @@ export interface IGraph<
    * @returns
    * @group Data
    */
-  changeData: (data: GraphData, type: 'replace' | 'mergeReplace') => void;
+  changeData: (
+    data: GraphData,
+    type?: 'replace' | 'mergeReplace',
+    relayout?: boolean,
+  ) => void;
   /**
    * Clear the graph, means remove all the items on the graph.
    * @returns

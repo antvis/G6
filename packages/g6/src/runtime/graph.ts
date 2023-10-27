@@ -573,6 +573,7 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
   public async changeData(
     data: DataConfig,
     type: 'replace' | 'mergeReplace' = 'mergeReplace',
+    relayout: boolean = true,
   ) {
     const { tileFirstRender, tileFirstRenderSize } =
       this.specification.optimize || {};
@@ -589,7 +590,9 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     });
     this.emit('afterrender');
 
-    await this.layout();
+    if (relayout) {
+      await this.layout();
+    }
   }
 
   /**
