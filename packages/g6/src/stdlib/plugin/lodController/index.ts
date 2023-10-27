@@ -1,4 +1,5 @@
 import { debounce, uniqueId, throttle, isArray } from '@antv/util';
+import { AABB } from '@antv/g';
 import {
   ComboDisplayModel,
   ComboModel,
@@ -13,7 +14,6 @@ import { Plugin as Base, IPluginBaseConfig } from '../../../types/plugin';
 import { intersectBBox } from '../../../util/shape';
 import { getZoomLevel } from '../../../util/zoom';
 import { GraphTransformOptions } from '../../../types/view';
-import { AABB } from '@antv/g';
 
 /**
  * This is an interface named `LodControllerConfig`, which extends the `IPluginBaseConfig` interface. It contains the following properties:

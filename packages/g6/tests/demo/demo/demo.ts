@@ -1,6 +1,7 @@
 import { initThreads, supportsThreads, ForceLayout } from '@antv/layout-wasm';
 // import G6, { Graph, GraphData } from '../../../esm';
 import { labelPropagation } from '@antv/algorithm';
+import Stats from 'stats.js';
 import G6, { Graph, Extensions, extend } from '../../../src/index';
 
 import { container, height, width } from '../../datasets/const';
@@ -8,7 +9,6 @@ import { RendererName } from '../../../src/types/render';
 import { Point } from '../../../src/types/common';
 import data from './data';
 import data3d from './data3d';
-import Stats from 'stats.js';
 
 let graph: typeof Graph;
 let degrees = {};
