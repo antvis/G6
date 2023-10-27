@@ -161,6 +161,7 @@ export interface IGraph<
    * Change graph data.
    * @param data new data
    * @param type the way to change data, 'replace' means discard the old data and use the new one; 'mergeReplace' means merge the common part, remove (old - new), add (new - old)
+   * @param relayout whether relayout the nodes after data changing
    * @returns
    * @group Data
    */
