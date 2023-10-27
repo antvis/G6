@@ -455,7 +455,8 @@ export class LayoutController {
     return (node) => {
       const propGetMassVal = propGetMass?.(node);
       if (!isNaN(propGetMassVal)) return propGetMassVal;
-      const { x, y } = node.data;
+      const { x, y, mass } = node.data;
+      if (!isNaN(mass)) return mass;
       if (!isNaN(x) && !isNaN(y)) return 100;
       return 1;
     };
