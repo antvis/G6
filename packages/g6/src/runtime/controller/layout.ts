@@ -118,6 +118,7 @@ export class LayoutController {
         width,
         height,
         center,
+        getMass: this.genericGetMass(options),
         preset: layoutNodes.map((node) => {
           const { x, y, z } = node.data;
           if (isNaN(x) || isNaN(y)) return;
@@ -189,6 +190,7 @@ export class LayoutController {
         width,
         height,
         center,
+        getMass: this.genericGetMass(options),
         preset: useCache
           ? layoutNodes
               .map((node) => {
@@ -447,4 +449,15 @@ export class LayoutController {
 
     await this.currentAnimation.finished;
   }
+
+  private genericGetMass = (options) => {
+    const { getMass: propGetMass } = options;
+    return (node) => {
+      const propGetMassVal = propGetMass?.(node);
+      if (!isNaN(propGetMassVal)) return propGetMassVal;
+      const { x, y } = node.data;
+      if (!isNaN(x) && !isNaN(y)) return 100;
+      return 1;
+    };
+  };
 }
