@@ -6,13 +6,44 @@ import { NodeShapeMap } from '@antv/g6/lib/types/node';
 import { render } from '@antv/react-g';
 import React from 'react';
 
+const Ctors = {
+  rect: Extensions.RectNode,
+  circle: Extensions.CircleNode,
+} as const;
+
 export const createReactGNode = (
   Component: (props: {
     model?: NodeDisplayModel;
     states?: State[];
   }) => React.ReactNode,
+  shape: keyof typeof Ctors = 'rect',
 ) => {
-  class ReactGNode extends Extensions.RectNode {
+  const Ctor = Ctors[shape];
+  class GNode extends Ctor {
+    drawKeyShape(
+      model: NodeDisplayModel,
+      shapeMap: NodeShapeMap,
+    ): DisplayObject<any, any> {
+      const { data } = model;
+      const {
+        size: [width, height],
+      } = data as any;
+      return this.upsertShape(
+        shape,
+        'keyShape',
+        {
+          x: -width / 2,
+          y: -height / 2,
+          width,
+          height,
+          fill: 'opacity',
+          stroke: 'opacity',
+          lineWidth: 0,
+        },
+        shapeMap,
+        model,
+      );
+    }
     drawOtherShapes(
       model: NodeDisplayModel,
       shapeMap: NodeShapeMap,
@@ -56,5 +87,5 @@ export const createReactGNode = (
     }
   }
 
-  return ReactGNode;
+  return GNode;
 };

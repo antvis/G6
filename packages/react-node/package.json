@@ -22,7 +22,7 @@
     "@antv/g-css-layout-api": "^1.0.38",
     "@antv/g-layout-blocklike": "^1.7.49",
     "@antv/g-plugin-yoga": "^1.9.15",
-    "@antv/react-g": "^1.10.17"
+    "@antv/react-g": "^1.10.19"
   },
   "devDependencies": {
     "@ant-design/icons": "^5.2.6",

@@ -5,27 +5,36 @@
 ```jsx
 import { ArrowDownOutlined, ArrowUpOutlined } from '@ant-design/icons';
 import { Button, Card, Col, Row, Statistic } from 'antd';
-import { createReactGNode, Circle } from '@antv/g6-react-node';
-import { Graph, extend } from '@antv/g6';
-import { useEffect, useRef } from 'react';
+import { createReactGNode, Circle, Rect, Text } from '@antv/g6-react-node';
+import { Graph, extend, Extensions } from '@antv/g6';
+import { useEffect, useRef, useState } from 'react';
 import type { ReactNodeProps } from '@antv/g6-react-node';
 
 const Node = ({ model }) => {
+  const { data } = model;
+  const { value } = data;
+  const [showShadow, setShowShadow] = useState(false);
   return (
-    <Circle
-      cx={100}
-      cy={200}
-      r={10}
-      fill="#1890FF"
-      stroke="#F04864"
-      lineWidth={4}
-      onMouseenter={() => {
-        setSize(100);
-      }}
-      onMouseleave={() => {
-        setSize(50);
-      }}
-    />
+    <Rect
+      width={50}
+      height={50}
+      shadowBlur={showShadow ? 10 : 0}
+      shadowColor="#bebebe"
+      lineWidth={showShadow}
+      fill={'rgba(0, 255, 0, 0.5)'}
+      onMouseenter={() => setShowShadow(true)}
+      onMouseleave={() => setShowShadow(false)}
+    >
+      <Circle cx={25} cy={25} r={20 * value} fill="rgb(255, 255, 0, 0.9)" />
+      <Text
+        x={25}
+        y={25}
+        fill="red"
+        text={value.toFixed(2)}
+        textAlign="center"
+        textBaseline="middle"
+      />
+    </Rect>
   );
 };
 
@@ -61,9 +70,9 @@ export default () => {
       },
       data: {
         nodes: [
-          { id: 'node0', data: { size: [200, 100], value: 0 } },
-          { id: 'node1', data: { size: [200, 100], value: 0.1128 } },
-          { id: 'node2', data: { size: [200, 100], value: -0.093 } },
+          { id: 'node0', data: { size: [50, 50], value: 0.5 } },
+          { id: 'node1', data: { size: [50, 50], value: 0.9 } },
+          { id: 'node2', data: { size: [50, 50], value: 0.7 } },
         ],
         edges: [
           { id: 'edge1', source: 'node0', target: 'node1', data: {} },
@@ -86,8 +95,8 @@ export default () => {
               graphRef.current.updateData('node', {
                 id: `node${i}`,
                 data: {
-                  size: [200, 100],
-                  value: Math.random() * 2 - 1,
+                  size: [50, 50],
+                  value: Math.random() * 0.5 + 0.5,
                 },
               });
             });
