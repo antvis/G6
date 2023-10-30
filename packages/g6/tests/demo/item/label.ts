@@ -1711,6 +1711,10 @@ const data = {
   ],
 };
 data.edges.forEach((edge, i) => (edge.id = 'edge' + i));
+data.nodes.forEach((node) => {
+  delete node.data.x;
+  delete node.data.y;
+});
 
 export default (
   context: TestCaseContext,
@@ -1770,37 +1774,42 @@ export default (
         data: {
           ...model.data,
           animates: {
-            buildIn: [
+            update: [
               {
-                fields: ['opacity'],
-                duration: 1000,
-                delay: 1000 + Math.random() * 1000,
+                fields: ['x', 'y'],
               },
             ],
-            hide: [
-              {
-                fields: ['opacity'],
-                duration: 1000,
-                shapeId: 'labelShape',
-              },
-              {
-                fields: ['opaicty'],
-                duration: 1000,
-                shapeId: 'labelBackgroundShape',
-              },
-            ],
-            show: [
-              {
-                fields: ['opacity'],
-                duration: 1000,
-                shapeId: 'labelShape',
-              },
-              {
-                fields: ['opaicty'],
-                duration: 1000,
-                shapeId: 'labelBackgroundShape',
-              },
-            ],
+            // buildIn: [
+            //   {
+            //     fields: ['opacity'],
+            //     duration: 1000,
+            //     delay: 1000 + Math.random() * 1000,
+            //   },
+            // ],
+            // hide: [
+            //   {
+            //     fields: ['opacity'],
+            //     duration: 1000,
+            //     shapeId: 'labelShape',
+            //   },
+            //   {
+            //     fields: ['opaicty'],
+            //     duration: 1000,
+            //     shapeId: 'labelBackgroundShape',
+            //   },
+            // ],
+            // show: [
+            //   {
+            //     fields: ['opacity'],
+            //     duration: 1000,
+            //     shapeId: 'labelShape',
+            //   },
+            //   {
+            //     fields: ['opaicty'],
+            //     duration: 1000,
+            //     shapeId: 'labelBackgroundShape',
+            //   },
+            // ],
           },
           labelShape: {
             position: 'bottom',
@@ -1822,6 +1831,18 @@ export default (
         },
       };
     },
+    layout: {
+      preset: {
+        type: 'concentric',
+      },
+      type: 'force',
+      linkDistance: 100,
+      edgeStrength: 1000,
+      nodeStrength: 2000,
+      // animated: true,
+      // maxSpeed: 10000,
+      // minMovement: 0.1,
+    },
   });
 
   graph.on('canvas:click', (e) => {
@@ -1834,21 +1855,50 @@ export default (
     //     y: y + 10,
     //   },
     // });
-
     // graph.updateData('node', {
     //   id: 'node1',
     //   data: {
     //     label: 'changedasdfasfasdfasdf',
     //   },
     // });
-
     // graph.downloadFullImage();
-
     // graph.fitView();
-
     // graph.changeData(data);
-    graph.hideItem('Marius');
-    graph.showItem('Marius');
+    // graph.hideItem('Marius');
+    // graph.showItem('Marius');
+
+    console.log(
+      'click',
+      graph.itemController.itemMap.get('Gervais')?.labelGroup,
+    );
+  });
+  let allData = { ...data };
+  graph.on('node:click', (e) => {
+    const newNodes = [];
+    for (let i = 0; i < 5; i++) {
+      newNodes.push({
+        id: `node-${e.itemId}-${i}`,
+        data: {},
+      });
+    }
+    const newEdges = [];
+    for (let i = 0; i < 5; i++) {
+      newEdges.push({
+        id: `newedge-${e.itemId}-${i}`,
+        source: e.itemId,
+        target: `node-${e.itemId}-${i}`,
+        data: {},
+      });
+    }
+    console.log('chagneDat');
+    allData = {
+      nodes: allData.nodes.concat(newNodes),
+      edges: allData.edges.concat(newEdges),
+    };
+    graph.changeData(allData, 'mergeReplace', false);
+    graph.layout({
+      preset: {},
+    });
   });
   return graph;
 };

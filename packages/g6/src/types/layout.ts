@@ -40,19 +40,7 @@ type Workerized = {
   iterations?: number;
 };
 
-export type ImmediatelyInvokedLayoutOptions = {
-  /**
-   * like an IIFE.
-   */
-  execute: (graph: GraphCore, options?: any) => Promise<LayoutMapping>;
-} & Animatable;
-
-type CustomLayout = {
-  type: string;
-  [option: string]: any;
-};
-
-export type StandardLayoutOptions = (
+type PureLayoutOptions =
   | CircularLayout
   | RandomLayout
   | ConcentricLayout
@@ -63,10 +51,27 @@ export type StandardLayoutOptions = (
   | D3ForceLayout
   | ForceLayout
   | ForceAtlas2
-  | CustomLayout
-) &
+  | CustomLayout;
+
+export type ImmediatelyInvokedLayoutOptions = {
+  /**
+   * like an IIFE.
+   */
+  execute: (graph: GraphCore, options?: any) => Promise<LayoutMapping>;
+} & Animatable & {
+    preset?: PureLayoutOptions;
+  };
+
+type CustomLayout = {
+  type: string;
+  [option: string]: any;
+};
+
+export type StandardLayoutOptions = PureLayoutOptions &
   Animatable &
-  Workerized;
+  Workerized & {
+    preset?: PureLayoutOptions;
+  };
 
 export type LayoutOptions =
   | StandardLayoutOptions

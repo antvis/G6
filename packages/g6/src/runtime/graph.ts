@@ -1258,7 +1258,8 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
   }
   /**
    * Remove one or more node/edge/combo data from the graph.
-   * @param item the item to be removed
+   * @param itemType the type the item(s) to be removed.
+   * @param id the id or the ids' array of the items to be removed.
    * @returns whether success
    * @group Data
    */
@@ -1360,8 +1361,8 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
   }
   /**
    * Update one or more node/edge/combo data on the graph.
-   * @param {ITEM_TYPE} itemType 'node' | 'edge' | 'combo'
-   * @param models new configurations for every node/edge/combo, which has id field to indicate the specific item
+   * @param {ITEM_TYPE} itemType the type the item(s) to be udated.
+   * @param models update configs.
    * @group Data
    */
   public updateData(
@@ -1421,7 +1422,10 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
   /**
    * Update one or more nodes' positions,
    * do not update other styles which leads to better performance than updating positions by updateData.
-   * @param models new configurations with x and y for every node, which has id field to indicate the specific item
+   * @param models new configurations with x and y for every node, which has id field to indicate the specific item.
+   * @param upsertAncestors whether update the ancestors in combo tree.
+   * @param disableAnimate whether disable the animation for this call.
+   * @param callback callback function after update nodes done.
    * @group Data
    */
   public updateNodePosition(
@@ -1436,7 +1440,6 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       model: NodeModel | EdgeModel | ComboModel,
       canceled?: boolean,
     ) => void,
-    stack?: boolean,
   ) {
     return this.updatePosition(
       'node',
@@ -1444,7 +1447,6 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       upsertAncestors,
       disableAnimate,
       callback,
-      stack,
     );
   }
 
@@ -1452,7 +1454,10 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * Update one or more combos' positions,
    * do not update other styles which leads to better performance than updating positions by updateData.
    * In fact, it changes the succeed nodes positions to affect the combo's position, but not modify the combo's position directly.
-   * @param models new configurations with x and y for every combo, which has id field to indicate the specific item
+   * @param models new configurations with x and y for every combo, which has id field to indicate the specific item.
+   * @param upsertAncestors whether update the ancestors in combo tree.
+   * @param disableAnimate whether disable the animation for this call.
+   * @param callback callback function after update combos done.
    * @group Data
    */
   public updateComboPosition(
@@ -1464,7 +1469,6 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     upsertAncestors?: boolean,
     disableAnimate = false,
     callback?: (model: NodeModel | EdgeModel | ComboModel) => void,
-    stack?: boolean,
   ) {
     return this.updatePosition(
       'combo',
@@ -1472,7 +1476,6 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       upsertAncestors,
       disableAnimate,
       callback,
-      stack,
     );
   }
 
@@ -1503,7 +1506,6 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       model: NodeModel | EdgeModel | ComboModel,
       canceled?: boolean,
     ) => void,
-    stack?: boolean,
   ) {
     const modelArr = isArray(models) ? models : [models];
     const { graphCore } = this.dataController;
@@ -1865,7 +1867,8 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
   /**
    * Add a new combo to the graph, and update the structure of the existed child in childrenIds to be the children of the new combo.
    * Different from addData with combo type, this API update the succeeds' combo tree strucutres in the same time.
-   * @param model combo user data
+   * @param model combo user data.
+   * @param childrenIds the ids of the children nodes / combos to move into the new combo.
    * @returns whether success
    * @group Combo
    */
@@ -1913,7 +1916,7 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
   }
   /**
    * Collapse a combo.
-   * @param comboId combo ids
+   * @param comboId combo id or ids' array.
    * @group Combo
    */
   public collapseCombo(comboIds: ID | ID[]) {
@@ -1933,7 +1936,7 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
   }
   /**
    * Expand a combo.
-   * @param combo combo ids
+   * @param comboId combo id or ids' array.
    * @group Combo
    */
   public expandCombo(comboIds: ID | ID[]) {
@@ -1956,7 +1959,11 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * Move one or more combos a distance (dx, dy) relatively,
    * do not update other styles which leads to better performance than updating positions by updateData.
    * In fact, it changes the succeed nodes positions to affect the combo's position, but not modify the combo's position directly.
-   * @param models new configurations with x and y for every combo, which has id field to indicate the specific item
+   * @param models new configurations with x and y for every combo, which has id field to indicate the specific item.
+   * @param dx the distance alone x-axis to move the combo.
+   * @param dy the distance alone y-axis to move the combo.
+   * @param upsertAncestors whether update the ancestors in the combo tree.
+   * @param callback callback function after move combo done.
    * @group Combo
    */
   public moveCombo(
@@ -2909,7 +2916,7 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * @returns
    * @group Tree
    */
-  public collapse(ids: ID | ID[], disableAnimate = false, stack?: boolean) {
+  public collapse(ids: ID | ID[], disableAnimate = false) {
     this.hooks.treecollapseexpand.emit({
       ids: isArray(ids) ? ids : [ids],
       action: 'collapse',
@@ -2925,7 +2932,7 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * @returns
    * @group Tree
    */
-  public expand(ids: ID | ID[], disableAnimate = false, stack?: boolean) {
+  public expand(ids: ID | ID[], disableAnimate = false) {
     this.hooks.treecollapseexpand.emit({
       ids: isArray(ids) ? ids : [ids],
       action: 'expand',

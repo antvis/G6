@@ -186,7 +186,7 @@ export default class Node extends Item {
           { group: position } as any, // targetStylesMap
           this.shapeMap, // shapeMap
           undefined,
-          [group, labelGroup],
+          [group],
           'update',
           [],
           this.animateFrameListener,

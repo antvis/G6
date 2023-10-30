@@ -1847,7 +1847,6 @@ export class ItemController {
       (model, canceled) => {
         this.graph.hideItem(model.id, { disableAnimate: canceled });
       },
-      undefined,
     );
   }
 

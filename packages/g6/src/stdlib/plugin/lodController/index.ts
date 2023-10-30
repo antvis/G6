@@ -425,12 +425,12 @@ export class LodController extends Base {
       }
       return false;
     };
-    const inBoundary = (rowIdx, colIdx) => {
+    const outBoundary = (rowIdx, colIdx) => {
       return (
-        rowIdx < canvasCellRowRange[0] ||
-        rowIdx > canvasCellRowRange[1] ||
-        colIdx < canvasCellColRange[0] ||
-        colIdx > canvasCellColRange[1]
+        rowIdx <= canvasCellRowRange[0] ||
+        rowIdx >= canvasCellRowRange[1] ||
+        colIdx <= canvasCellColRange[0] ||
+        colIdx >= canvasCellColRange[1]
       );
     };
     const newlyOutView = [];
@@ -456,7 +456,7 @@ export class LodController extends Base {
             outView.push(model);
             if (!previousOutView.has(model.id)) newlyOutView.push(model);
           }
-        } else if (inBoundary(rowIdx, colIdx)) {
+        } else if (outBoundary(rowIdx, colIdx)) {
           outView.push(model);
           if (!previousOutView.has(model.id)) newlyOutView.push(model);
         } else {
@@ -478,7 +478,7 @@ export class LodController extends Base {
           } else {
             outViewNew.push(model);
           }
-        } else if (inBoundary(rowIdx, colIdx)) {
+        } else if (outBoundary(rowIdx, colIdx)) {
           outViewNew.push(model);
         } else {
           inView.push(model);
@@ -500,7 +500,7 @@ export class LodController extends Base {
           } else {
             inViewNew.push(model);
           }
-        } else if (inBoundary(rowIdx, colIdx)) {
+        } else if (outBoundary(rowIdx, colIdx)) {
           outView.push(model);
           newlyOutView.push(model);
         } else {

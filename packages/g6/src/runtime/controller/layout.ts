@@ -108,9 +108,22 @@ export class LayoutController {
         animationEffectTiming = {
           duration: 1000,
         } as Partial<IAnimationEffectTiming>,
+        preset,
         execute,
         ...rest
       } = options;
+
+      // preset layout
+      const nodesWithPosition = await this.presetLayout(
+        layoutData,
+        nodeSize,
+        width,
+        height,
+        center,
+        preset,
+        params,
+        layoutGraphCore,
+      );
 
       // It will ignore some layout options such as `type` and `workerEnabled`.
       positions = await execute(layoutGraphCore, {
@@ -118,7 +131,7 @@ export class LayoutController {
         width,
         height,
         center,
-        getMass: this.genericGetMass(options),
+        getMass: this.genericGetMass(options, nodesWithPosition),
         preset: layoutNodes.map((node) => {
           const { x, y, z } = node.data;
           if (isNaN(x) || isNaN(y)) return;
@@ -147,130 +160,236 @@ export class LayoutController {
         );
       }
     } else {
-      const {
-        type = 'grid',
-        animated = false,
-        animationEffectTiming = {
-          duration: 1000,
-        } as Partial<IAnimationEffectTiming>,
-        iterations = 300,
-        ...rest
-      } = options;
-      let { workerEnabled = false } = options;
+      const { preset } = options;
 
-      // Find built-in layout algorithms.
-      const layoutCtor = stdLib.layouts[type] || registery.useLib.layouts[type];
-      if (!layoutCtor) {
-        throw new Error(`Unknown layout algorithm: ${type}`);
-      }
-
-      if (isTreeLayout(options)) {
-        // tree layout type
-        await this.handleTreeLayout(
-          type,
-          {
-            nodeSize,
-            width,
-            height,
-            center,
-            ...rest,
-          },
-          animationEffectTiming,
-          graphCore,
-          layoutData,
-          animate,
-        );
-        return;
-      }
-
-      // Initialize layout.
-      const useCache = layoutCtor === Extensions.DagreLayout;
-      const layout = new layoutCtor({
+      // preset layout
+      const nodesWithPosition = await this.presetLayout(
+        layoutData,
         nodeSize,
         width,
         height,
         center,
-        getMass: this.genericGetMass(options),
-        preset: useCache
-          ? layoutNodes
-              .map((node) => {
-                const { x, y, z } = node.data;
-                if (isNaN(x) || isNaN(y)) return;
-                const presetNode = { x, y, z };
-                const otherProps = this.previousNodes?.get(node.id) || {};
-                ['_order', 'layer'].forEach((field) => {
-                  presetNode[field] = node.data.hasOwnProperty(field)
-                    ? node.data[field]
-                    : otherProps[field];
-                });
-                return {
-                  id: node.id,
-                  data: {
-                    ...otherProps,
-                    ...presetNode,
-                  },
-                };
-              })
-              .filter(Boolean)
-          : undefined,
-        ...rest,
-      });
-      this.currentLayout = layout;
+        preset,
+        params,
+        layoutGraphCore,
+      );
 
-      // CustomLayout is not workerized.
-      if (!isLayoutWorkerized(options)) {
-        workerEnabled = false;
-        // TODO: console.warn();
-      }
-
-      if (workerEnabled) {
-        /**
-         * Run algorithm in WebWorker, `animated` option will be ignored.
-         */
-        const supervisor = new Supervisor(layoutGraphCore, layout, {
-          iterations,
-        });
-        this.currentSupervisor = supervisor;
-        positions = await supervisor.execute();
-      } else {
-        // e.g. Force layout
-        if (isLayoutWithIterations(layout)) {
-          if (animated) {
-            /**
-             * `onTick` will get triggered in this case.
-             */
-            positions = await layout.execute(layoutGraphCore, {
-              onTick: (positionsOnTick: LayoutMapping) => {
-                // Display the animated process of layout.
-                this.updateNodesPosition(positionsOnTick);
-                this.graph.emit('tick', positionsOnTick);
-              },
-            });
-          } else {
-            /**
-             * Manually step simulation in a sync way. `onTick` won't get triggered in this case,
-             * there will be no animation either.
-             */
-            layout.execute(layoutGraphCore);
-            layout.stop();
-            positions = layout.tick(iterations);
-          }
-        } else {
-          positions = await layout.execute(layoutGraphCore);
-
-          if (animated) {
-            await this.animateLayoutWithoutIterations(
-              positions,
-              animationEffectTiming,
-            );
-          }
-        }
-      }
+      // layout
+      // TODO: input positions affect the layout
+      positions = await this.layoutOnce(
+        layoutData,
+        nodeSize,
+        width,
+        height,
+        center,
+        options,
+        params,
+        layoutGraphCore,
+        nodesWithPosition,
+      );
     }
 
     // Update nodes' positions.
     this.updateNodesPosition(positions, animate);
   }
+
+  private layoutOnce = async (
+    layoutData,
+    nodeSize,
+    width,
+    height,
+    center,
+    options,
+    params,
+    layoutGraphCore,
+    nodesWithPosition?,
+  ) => {
+    let positions: LayoutMapping;
+    const { graphCore, animate = true } = params;
+    const { nodes: layoutNodes } = layoutData;
+    const {
+      type = 'grid',
+      animated = false,
+      animationEffectTiming = {
+        duration: 1000,
+      } as Partial<IAnimationEffectTiming>,
+      iterations = 300,
+      ...rest
+    } = options;
+    let { workerEnabled = false } = options;
+
+    // Find built-in layout algorithms.
+    const layoutCtor = stdLib.layouts[type] || registery.useLib.layouts[type];
+    if (!layoutCtor) {
+      throw new Error(`Unknown layout algorithm: ${type}`);
+    }
+
+    if (isTreeLayout(options)) {
+      // tree layout type
+      await this.handleTreeLayout(
+        type,
+        {
+          nodeSize,
+          width,
+          height,
+          center,
+          ...rest,
+        },
+        animationEffectTiming,
+        graphCore,
+        layoutData,
+        animate,
+      );
+      return;
+    }
+
+    // Initialize layout.
+    const useCache = layoutCtor === Extensions.DagreLayout;
+    const layout = new layoutCtor({
+      nodeSize,
+      width,
+      height,
+      center,
+      getMass: this.genericGetMass(options, nodesWithPosition),
+      preset: useCache
+        ? layoutNodes
+            .map((node) => {
+              const { x, y, z } = node.data;
+              if (isNaN(x) || isNaN(y)) return;
+              const presetNode = { x, y, z };
+              const otherProps = this.previousNodes?.get(node.id) || {};
+              ['_order', 'layer'].forEach((field) => {
+                presetNode[field] = node.data.hasOwnProperty(field)
+                  ? node.data[field]
+                  : otherProps[field];
+              });
+              return {
+                id: node.id,
+                data: {
+                  ...otherProps,
+                  ...presetNode,
+                },
+              };
+            })
+            .filter(Boolean)
+        : undefined,
+      ...rest,
+    });
+    this.currentLayout = layout;
+
+    // CustomLayout is not workerized.
+    if (!isLayoutWorkerized(options)) {
+      workerEnabled = false;
+      // TODO: console.warn();
+    }
+
+    if (workerEnabled) {
+      /**
+       * Run algorithm in WebWorker, `animated` option will be ignored.
+       */
+      const supervisor = new Supervisor(layoutGraphCore, layout, {
+        iterations,
+      });
+      this.currentSupervisor = supervisor;
+      positions = await supervisor.execute();
+    } else {
+      // e.g. Force layout
+      if (isLayoutWithIterations(layout)) {
+        if (animated) {
+          /**
+           * `onTick` will get triggered in this case.
+           */
+          positions = await layout.execute(layoutGraphCore, {
+            onTick: (positionsOnTick: LayoutMapping) => {
+              // Display the animated process of layout.
+              this.updateNodesPosition(positionsOnTick);
+              this.graph.emit('tick', positionsOnTick);
+            },
+          });
+        } else {
+          /**
+           * Manually step simulation in a sync way. `onTick` won't get triggered in this case,
+           * there will be no animation either.
+           */
+          layout.execute(layoutGraphCore);
+          layout.stop();
+          positions = layout.tick(iterations);
+        }
+      } else {
+        positions = await layout.execute(layoutGraphCore);
+
+        if (animated) {
+          await this.animateLayoutWithoutIterations(
+            positions,
+            animationEffectTiming,
+          );
+        }
+      }
+    }
+    return positions;
+  };
+
+  private presetLayout = async (
+    layoutData,
+    nodeSize,
+    width,
+    height,
+    center,
+    preset,
+    params,
+    layoutGraphCore,
+  ) => {
+    // preset has higher priority than the positions in data
+    if (preset?.type) {
+      const presetPositions = await this.layoutOnce(
+        layoutData,
+        nodeSize,
+        width,
+        height,
+        center,
+        preset,
+        params,
+        layoutGraphCore,
+      );
+      presetPositions.nodes.forEach((node) => {
+        layoutGraphCore.updateNodeData(node.id, {
+          x: node.data.x,
+          y: node.data.y,
+        });
+      });
+      return;
+    }
+
+    const nodeWithPostions = new Map();
+    // find the neighbors' mean center as the initial position for the nodes
+    layoutData.nodes.forEach((node) => {
+      const { x, y } = node.data;
+      if (isNaN(x) || isNaN(y)) {
+        const meanCenter = { x: 0, y: 0, z: 0, count: 0 };
+        layoutGraphCore.getNeighbors(node.id).forEach((neighbor) => {
+          const { x: nx, y: ny, z: nz } = neighbor.data;
+          if (!isNaN(nx) && !isNaN(ny)) {
+            meanCenter.x += nx;
+            meanCenter.y += ny;
+            meanCenter.z += nz;
+            meanCenter.count++;
+          }
+        });
+        if (meanCenter.count) {
+          node.data.x = meanCenter.x / meanCenter.count + Math.random();
+          node.data.y = meanCenter.y / meanCenter.count + Math.random();
+          node.data.z = meanCenter.z / meanCenter.count + Math.random();
+        } else {
+          node.data.x = center[0] + Math.random();
+          node.data.y = center[1] + Math.random();
+          node.data.z = Math.random();
+        }
+      } else {
+        nodeWithPostions.set(node.id, 1);
+      }
+    });
+    return nodeWithPostions;
+  };
 
   async handleTreeLayout(
     type,
@@ -450,14 +569,15 @@ export class LayoutController {
     await this.currentAnimation.finished;
   }
 
-  private genericGetMass = (options) => {
+  private genericGetMass = (options, nodesWithPosition) => {
     const { getMass: propGetMass } = options;
     return (node) => {
       const propGetMassVal = propGetMass?.(node);
       if (!isNaN(propGetMassVal)) return propGetMassVal;
       const { x, y, mass } = node.data;
       if (!isNaN(mass)) return mass;
-      if (!isNaN(x) && !isNaN(y)) return 100;
+      if (nodesWithPosition?.get(node.id)) return 10;
+      if (!nodesWithPosition && !isNaN(x) && !isNaN(y)) return 10;
       return 1;
     };
   };

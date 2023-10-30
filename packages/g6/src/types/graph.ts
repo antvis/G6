@@ -194,7 +194,6 @@ export interface IGraph<
    * Add one or more node/edge/combo data to the graph.
    * @param itemType item type
    * @param model user data
-   * @param stack whether push this operation to stack
    * @returns whehter success
    * @group Data
    */
@@ -207,7 +206,6 @@ export interface IGraph<
       | NodeUserModel[]
       | EdgeUserModel[]
       | ComboUserModel[],
-    stack?: boolean,
   ) =>
     | NodeModel
     | EdgeModel
@@ -217,17 +215,16 @@ export interface IGraph<
     | ComboModel[];
   /**
    * Remove one or more node/edge/combo data from the graph.
-   * @param item the item to be removed
-   * @param stack whether push this operation to stack
+   * @param itemType the type the item(s) to be removed.
+   * @param id the id or the ids' array of the items to be removed.
    * @returns whehter success
    * @group Data
    */
-  removeData: (itemType: ITEM_TYPE, id: ID | ID[], stack?: boolean) => void;
+  removeData: (itemType: ITEM_TYPE, id: ID | ID[]) => void;
   /**
    * Update one or more node/edge/combo data on the graph.
-   * @param item the item to be updated
-   * @param model update configs
-   * @param {boolean} stack whether push this operation to stack
+   * @param itemType the type the item(s) to be udated.
+   * @param models update configs.
    * @group Data
    */
   updateData: (
@@ -241,7 +238,6 @@ export interface IGraph<
           | Partial<EdgeUserModel>[]
           | Partial<ComboUserModel>[]
         >,
-    stack?: boolean,
   ) =>
     | NodeModel
     | EdgeModel
@@ -253,8 +249,10 @@ export interface IGraph<
   /**
    * Update one or more nodes' positions,
    * do not update other styles which leads to better performance than updating positions by updateData.
-   * @param models new configurations with x and y for every node, which has id field to indicate the specific item
-   * @param {boolean} stack whether push this operation into graph's stack, true by default
+   * @param models new configurations with x and y for every node, which has id field to indicate the specific item.
+   * @param upsertAncestors whether update the ancestors in combo tree.
+   * @param disableAnimate whether disable the animation for this call.
+   * @param callback callback function after update nodes done.
    * @group Data
    */
   updateNodePosition: (
@@ -269,14 +267,15 @@ export interface IGraph<
       model: NodeModel | EdgeModel | ComboModel,
       canceled?: boolean,
     ) => void,
-    stack?: boolean,
   ) => NodeModel | ComboModel | NodeModel[] | ComboModel[];
 
   /**
    * Update one or more combos' positions, it is achieved by move the succeed nodes.
    * Do not update other styles which leads to better performance than updating positions by updateData.
-   * @param models new configurations with x and y for every combo, which has id field to indicate the specific item
-   * @param {boolean} stack whether push this operation into graph's stack, true by default
+   * @param models new configurations with x and y for every combo, which has id field to indicate the specific item.
+   * @param upsertAncestors whether update the ancestors in combo tree.
+   * @param disableAnimate whether disable the animation for this call.
+   * @param callback callback function after update combos done.
    * @group Data
    */
   updateComboPosition: (
@@ -288,15 +287,17 @@ export interface IGraph<
     upsertAncestors?: boolean,
     disableAnimate?: boolean,
     callback?: (model: NodeModel | EdgeModel | ComboModel) => void,
-    stack?: boolean,
   ) => NodeModel | ComboModel | NodeModel[] | ComboModel[];
 
   /**
    * Move one or more combos a distance (dx, dy) relatively,
    * do not update other styles which leads to better performance than updating positions by updateData.
    * In fact, it changes the succeed nodes positions to affect the combo's position, but not modify the combo's position directly.
-   * @param models new configurations with x and y for every combo, which has id field to indicate the specific item
-   * @param {boolean} stack whether push this operation into graph's stack, true by default
+   * @param models new configurations with x and y for every combo, which has id field to indicate the specific item.
+   * @param dx the distance alone x-axis to move the combo.
+   * @param dy the distance alone y-axis to move the combo.
+   * @param upsertAncestors whether update the ancestors in the combo tree.
+   * @param callback callback function after move combo done.
    * @group Data
    */
   moveCombo: (
@@ -308,7 +309,6 @@ export interface IGraph<
       model: NodeModel | EdgeModel | ComboModel,
       canceled?: boolean,
     ) => void,
-    stack?: boolean,
   ) => ComboModel[];
 
   // ===== view operations =====
@@ -515,14 +515,14 @@ export interface IGraph<
    * @returns
    * @group Item
    */
-  frontItem: (ids: ID | ID[], stack?: boolean) => void;
+  frontItem: (ids: ID | ID[]) => void;
   /**
    * Make the item(s) to the back.
    * @param ids the item id(s) to back
    * @returns
    * @group Item
    */
-  backItem: (ids: ID | ID[], stack?: boolean) => void;
+  backItem: (ids: ID | ID[]) => void;
   /**
    * Set state for the item(s).
    * @param ids the id(s) for the item(s) to be set
@@ -531,12 +531,7 @@ export interface IGraph<
    * @returns
    * @group Item
    */
-  setItemState: (
-    ids: ID | ID[],
-    state: string,
-    value: boolean,
-    stack?: boolean,
-  ) => void;
+  setItemState: (ids: ID | ID[], state: string, value: boolean) => void;
   /**
    * Get the state value for an item.
    * @param id the id for the item
@@ -559,7 +554,7 @@ export interface IGraph<
    * @returns
    * @group Item
    */
-  clearItemState: (ids: ID | ID[], states?: string[], stack?: boolean) => void;
+  clearItemState: (ids: ID | ID[], states?: string[]) => void;
 
   /**
    * Get the rendering bbox for a node / edge / combo, or the graph (when the id is not assigned).
@@ -591,29 +586,25 @@ export interface IGraph<
   /**
    * Add a new combo to the graph, and update the structure of the existed child in childrenIds to be the children of the new combo.
    * Different from addData with combo type, this API update the succeeds' combo tree strucutres in the same time.
-   * @param model combo user data
-   * @param stack whether push this operation to stack
+   * @param model combo user data.
+   * @param childrenIds the ids of the children nodes / combos to move into the new combo.
    * @returns whether success
    * @group Combo
    */
-  addCombo: (
-    model: ComboUserModel,
-    childrenIds: ID[],
-    stack?: boolean,
-  ) => ComboModel;
+  addCombo: (model: ComboUserModel, childrenIds: ID[]) => ComboModel;
   /**
    * Collapse a combo.
-   * @param comboId combo id or item
+   * @param comboId combo id or ids' array.
    * @group Combo
    */
-  collapseCombo: (comboIds: ID | ID[], stack?: boolean) => void;
+  collapseCombo: (comboIds: ID | ID[]) => void;
   /**
    * Expand a combo.
    * @group Combo
-   * @param combo combo ID 或 combo 实例
+   * @param comboId combo id or ids' array.
    * @group Combo
    */
-  expandCombo: (comboIds: ID | ID[], stack?: boolean) => void;
+  expandCombo: (comboIds: ID | ID[]) => void;
 
   // ===== layout =====
   /**
@@ -829,18 +820,16 @@ export interface IGraph<
    * Collapse sub tree(s).
    * @param ids Root id(s) of the sub trees.
    * @param disableAnimate Whether disable the animations for this operation.
-   * @param stack Whether push this operation to stack.
    * @returns
    * @group Tree
    */
-  collapse: (ids: ID | ID[], disableAnimate?: boolean, stack?: boolean) => void;
+  collapse: (ids: ID | ID[], disableAnimate?: boolean) => void;
   /**
    * Expand sub tree(s).
    * @param ids Root id(s) of the sub trees.
    * @param disableAnimate Whether disable the animations for this operation.
-   * @param stack Whether push this operation to stack.
    * @returns
    * @group Tree
    */
-  expand: (ids: ID | ID[], disableAnimate?: boolean, stack?: boolean) => void;
+  expand: (ids: ID | ID[], disableAnimate?: boolean) => void;
 }
