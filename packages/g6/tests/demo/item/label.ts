@@ -1731,7 +1731,7 @@ export default (
     plugins: [
       // {
       //   type: 'lod-controller',
-      //   // disableLod: true,
+      //   disableLod: true,
       //   // disableAnimate: false,
       // },
     ],
@@ -1821,8 +1821,10 @@ export default (
             // },
           },
           labelBackgroundShape: {
-            opacity: 0.1,
-            fill: '#00f',
+            opacity: 1,
+            fill: '#fff',
+            // opacity: 0.1,
+            // fill: '#00f',
             // lod: model.id === 'node1' ? 0 : 'auto',
           },
           iconShape: {
@@ -1832,9 +1834,9 @@ export default (
       };
     },
     layout: {
-      preset: {
-        type: 'concentric',
-      },
+      // presetLayout: {
+      //   type: 'concentric',
+      // },
       type: 'force',
       linkDistance: 100,
       edgeStrength: 1000,
@@ -1844,6 +1846,8 @@ export default (
       // minMovement: 0.1,
     },
   });
+
+  let disable = false;
 
   graph.on('canvas:click', (e) => {
     // const { x, y } = graph.getNodeData('Mlle.Gillenormand')?.data || {};
@@ -1867,10 +1871,15 @@ export default (
     // graph.hideItem('Marius');
     // graph.showItem('Marius');
 
-    console.log(
-      'click',
-      graph.itemController.itemMap.get('Gervais')?.labelGroup,
-    );
+    disable = !disable;
+    graph.updatePlugin({
+      key: 'lod-controller',
+      type: 'lod-controller',
+      disableLod: disable,
+    });
+
+    // console.log(graph.itemController.itemMap.get('Gillenormand'));
+    // console.log(graph.itemController.itemMap.get('Child2'));
   });
   let allData = { ...data };
   graph.on('node:click', (e) => {
@@ -1897,7 +1906,7 @@ export default (
     };
     graph.changeData(allData, 'mergeReplace', false);
     graph.layout({
-      preset: {},
+      presetLayout: {},
     });
   });
   return graph;

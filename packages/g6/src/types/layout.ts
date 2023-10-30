@@ -59,7 +59,7 @@ export type ImmediatelyInvokedLayoutOptions = {
    */
   execute: (graph: GraphCore, options?: any) => Promise<LayoutMapping>;
 } & Animatable & {
-    preset?: PureLayoutOptions;
+    presetLayout?: Partial<PureLayoutOptions>;
   };
 
 type CustomLayout = {
@@ -70,7 +70,7 @@ type CustomLayout = {
 export type StandardLayoutOptions = PureLayoutOptions &
   Animatable &
   Workerized & {
-    preset?: PureLayoutOptions;
+    presetLayout?: Partial<PureLayoutOptions>;
   };
 
 export type LayoutOptions =

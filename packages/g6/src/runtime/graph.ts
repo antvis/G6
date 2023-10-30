@@ -2020,7 +2020,10 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
   /**
    * Layout the graph (with current configurations if cfg is not assigned).
    */
-  public async layout(options?: LayoutOptions, disableAnimate = false) {
+  public async layout(
+    options?: Partial<LayoutOptions>,
+    disableAnimate = false,
+  ) {
     this.emit('beforelayout');
     const { graphCore } = this.dataController;
     const formattedOptions = {
@@ -2285,12 +2288,15 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       | PluginBase,
   ) {
     const { plugins } = this.specification;
-    const { key } = plugin;
+    const { key, type } = plugin as {
+      key: string;
+      type: string;
+      [cfg: string]: unknown;
+    };
     if (!key) {
       console.warn(
-        'Update plugin failed, the key for the plugin to be updated should be assign.',
+        `The key for the plugin is not found. G6 will update the first plugin with type ${type}`,
       );
-      return;
     }
     if (!plugins) {
       console.warn(
@@ -2299,12 +2305,21 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       return;
     }
     const oldPlugin = plugins?.find((p) => {
-      if (typeof p === 'string') return p === key;
-      return p.key === key;
+      if (typeof p === 'string') return p === key || p === type;
+      return (
+        p.key === key ||
+        (
+          p as {
+            key: string;
+            type: string;
+            [cfg: string]: unknown;
+          }
+        ).type === type
+      );
     });
     if (!oldPlugin) {
       console.warn(
-        'Update plugin failed, the key for the plugin to be updated should be assign.',
+        `Update plugin failed, the plugin with key ${key} or type ${type} is not found.`,
       );
       return;
     }

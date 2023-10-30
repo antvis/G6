@@ -108,19 +108,19 @@ export class LayoutController {
         animationEffectTiming = {
           duration: 1000,
         } as Partial<IAnimationEffectTiming>,
-        preset,
+        presetLayout,
         execute,
         ...rest
       } = options;
 
-      // preset layout
+      // presetLayout layout
       const nodesWithPosition = await this.presetLayout(
         layoutData,
         nodeSize,
         width,
         height,
         center,
-        preset,
+        presetLayout,
         params,
         layoutGraphCore,
       );
@@ -160,16 +160,16 @@ export class LayoutController {
         );
       }
     } else {
-      const { preset } = options;
+      const { presetLayout } = options;
 
-      // preset layout
+      // presetLayout layout
       const nodesWithPosition = await this.presetLayout(
         layoutData,
         nodeSize,
         width,
         height,
         center,
-        preset,
+        presetLayout,
         params,
         layoutGraphCore,
       );
@@ -335,24 +335,24 @@ export class LayoutController {
     width,
     height,
     center,
-    preset,
+    presetLayout,
     params,
     layoutGraphCore,
   ) => {
-    // preset has higher priority than the positions in data
-    if (preset?.type) {
+    // presetLayout has higher priority than the positions in data
+    if (presetLayout?.type) {
       const presetPositions = await this.layoutOnce(
         layoutData,
         nodeSize,
         width,
         height,
         center,
-        preset,
+        presetLayout,
         params,
         layoutGraphCore,
       );
       presetPositions.nodes.forEach((node) => {
-        layoutGraphCore.updateNodeData(node.id, {
+        layoutGraphCore.mergeNodeData(node.id, {
           x: node.data.x,
           y: node.data.y,
         });

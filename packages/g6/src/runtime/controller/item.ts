@@ -1239,7 +1239,7 @@ export class ItemController {
     return {
       id,
       data: {
-        ...item.displayModel,
+        ...item.displayModel.data,
         ...item.renderExt.mergedStyles,
         lodLevels: item.lodLevels,
       },

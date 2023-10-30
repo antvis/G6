@@ -174,6 +174,10 @@ export default class Node extends Item {
       isNaN(position.z as number)
     )
       return;
+    const viewportPosition = graph.getViewportByCanvas(position);
+    labelGroup.style.x = viewportPosition.x;
+    labelGroup.style.y = viewportPosition.y;
+    labelGroup.style.z = viewportPosition.z || 0;
     if (animate && !disableAnimate && animates?.update) {
       const groupAnimates = animates.update.filter(
         ({ shapeId, fields = [] }) =>
@@ -199,10 +203,6 @@ export default class Node extends Item {
     group.style.x = position.x;
     group.style.y = position.y;
     group.style.z = position.z;
-    const viewportPosition = graph.getViewportByCanvas({ x, y, z });
-    labelGroup.style.x = viewportPosition.x;
-    labelGroup.style.y = viewportPosition.y;
-    labelGroup.style.z = viewportPosition.z || 0;
     onfinish(displayModel.id, !animate);
   }
   /**
@@ -214,7 +214,14 @@ export default class Node extends Item {
     }
     const { graph, group, labelGroup, displayModel, shapeMap, renderExt } =
       this;
-    const [x, y, z] = group.getPosition();
+
+    let [x, y, z] = group.getPosition();
+    if (group.getAnimations().length) {
+      const { x: dataX, y: dataY, z: dataZ } = displayModel.data;
+      x = dataX as number;
+      y = dataY as number;
+      z = dataZ as number;
+    }
     const zoom = graph.getZoom();
     const { x: vx, y: vy, z: vz } = graph.getViewportByCanvas({ x, y, z });
     if (labelGroup.style.x !== vx) {
