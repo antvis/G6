@@ -255,7 +255,16 @@ export class LodController extends Base {
           candidateShapeMap.get(id);
 
         if (invisibleShapeIds.length) {
-          graph.hideItem(id, { shapeIds: invisibleShapeIds, disableAnimate });
+          const item = graph.itemController.itemMap.get(id);
+          // Labeling `displayModel` during zooming by setting labelShapeVisible to true.
+          if (
+            !(
+              item.displayModel.labelShapeVisible &&
+              invisibleShapeIds.includes('labelShape')
+            )
+          ) {
+            graph.hideItem(id, { shapeIds: invisibleShapeIds, disableAnimate });
+          }
         }
         const item = graph.itemController.itemMap.get(id);
         if (
@@ -288,16 +297,27 @@ export class LodController extends Base {
               shapeIds: lodVisibleShapeIds,
               disableAnimate,
             });
-          autoVisibleShapeIds.length &&
-            graph.hideItem(id, {
-              shapeIds: autoVisibleShapeIds,
-              disableAnimate,
-            });
+          if (autoVisibleShapeIds.length) {
+            const item = graph.itemController.itemMap.get(id);
+            if (
+              !(
+                item.displayModel.labelShapeVisible &&
+                autoVisibleShapeIds.includes('labelShape')
+              )
+            ) {
+              graph.hideItem(id, {
+                shapeIds: autoVisibleShapeIds,
+                disableAnimate,
+              });
+            }
+          }
         }
       });
     });
     lodInvisibleIds.forEach((shapeIds, id) => {
-      shapeIds.length && graph.hideItem(id, { shapeIds, disableAnimate });
+      if (shapeIds.length) {
+        graph.hideItem(id, { shapeIds, disableAnimate });
+      }
     });
     this.shownIds = shownIds;
   };

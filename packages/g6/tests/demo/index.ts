@@ -10,6 +10,7 @@ import behaviors_create_edge from './behaviors/create-edge';
 import behaviors_dragCanvas from './behaviors/drag-canvas';
 import behaviors_scrollCanvas from './behaviors/scroll-canvas';
 import behaviors_shortcuts_call from './behaviors/shortcuts-call';
+import behaviors_zoomCanvas from './behaviors/zoom-canvas';
 import circularUpdate from './layouts/circular-update';
 import comboBasic from './combo/combo-basic';
 import comboDagre from './layouts/dagre-combo';
@@ -91,6 +92,7 @@ export {
   behaviors_dragCanvas,
   behaviors_scrollCanvas,
   behaviors_shortcuts_call,
+  behaviors_zoomCanvas,
   circularUpdate,
   comboBasic,
   comboDagre,
@@ -133,7 +135,7 @@ export {
   legend,
   line_edge,
   loop_edge,
-  map,
+  // map,
   mapper,
   menu,
   minimap,
