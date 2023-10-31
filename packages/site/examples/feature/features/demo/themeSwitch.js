@@ -139,16 +139,6 @@ const getDefaultEdgeAnimates = (delay) => ({
   ],
 });
 
-const lodStrategyLevels = [
-  { zoomRange: [0, 0.6] }, // -2
-  { zoomRange: [0.6, 0.8] }, // -1
-  { zoomRange: [0.8, 1], primary: true }, // 0
-  { zoomRange: [1, 1.2] }, // 1
-  { zoomRange: [1.2, 1.4] }, // 2
-  { zoomRange: [1.4, 2.5] }, // 3
-  { zoomRange: [2.5, Infinity] }, // 4
-];
-
 const dataFormat = (dataAUR, options = {}, graphCore) => {
   const { dataAdded, dataUpdated, dataRemoved } = dataAUR;
   return {
@@ -277,7 +267,7 @@ const graph = new ExtGraph({
         type: 'line-edge',
         animates: getDefaultEdgeAnimates(),
         keyShape: {
-          lineWidth: 0.3,
+          lineWidth: 0.8,
           opacity: 0.5,
         },
       },
@@ -285,39 +275,21 @@ const graph = new ExtGraph({
   },
   // 节点配置
   node: (innerModel) => {
-    const { degree } = innerModel.data;
-    let labelLod = 3;
-    if (degree > 20) labelLod = -2;
-    else if (degree > 15) labelLod = -1;
-    else if (degree > 10) labelLod = 2;
-    else if (degree > 5) labelLod = 4;
     return {
       ...innerModel,
       data: {
         animates: getDefaultNodeAnimates(),
         ...innerModel.data,
-        lodLevels: {
-          levels: lodStrategyLevels,
-          animateCfg: {
-            duration: 500,
-          },
+        labelShape: {
+          text: innerModel.data.label,
+          maxWidth: '400%',
+          offsetY: 8,
+          lod: 'auto',
         },
-        labelShape:
-          degree > 5
-            ? {
-                text: innerModel.data.label,
-                maxWidth: '400%',
-                offsetY: 8,
-                lod: labelLod,
-              }
-            : undefined,
 
-        labelBackgroundShape:
-          degree > 5
-            ? {
-                lod: labelLod,
-              }
-            : undefined,
+        labelBackgroundShape: {
+          lod: 'auto',
+        },
       },
     };
   },
@@ -358,6 +330,13 @@ fetch('https://gw.alipayobjects.com/os/basement_prod/da5a1b47-37d6-44d7-8d10-f3e
       btnContainer.appendChild(btn);
       btn.addEventListener('click', () => {
         graph.updateTheme(themes[name]);
+        if (name === '🌚 Dark') {
+          tip2.style.color = '#fff';
+          tip.style.color = '#fff';
+        } else {
+          tip2.style.color = '#000';
+          tip.style.color = '#000';
+        }
       });
     });
   });

@@ -1,7 +1,17 @@
 import { Graph, Extensions, extend } from '@antv/g6';
 import Stats from 'stats.js';
 
-const dataFormat = (data, options = {}, graphCore) => {
+const dataFormat = (dataAUR, options = {}, graphCore) => {
+  const { dataAdded, dataUpdated, dataRemoved } = dataAUR;
+  return {
+    dataAdded: dataFormatHandler(dataAdded, options, graphCore),
+    dataUpdated: dataFormatHandler(dataUpdated, options, graphCore),
+    dataRemoved,
+  };
+};
+
+const dataFormatHandler = (data, options = {}, graphCore) => {
+  if (!data.nodes || !data.edges) return {};
   const map = new Map();
   const nodes: any = [];
   data.nodes.forEach((node) => {
@@ -35,6 +45,7 @@ const dataFormat = (data, options = {}, graphCore) => {
     })),
   };
 };
+
 const ExtGraph = extend(Graph, {
   transforms: {
     'data-format': dataFormat,
@@ -122,20 +133,15 @@ const graph = new ExtGraph({
       config.data.labelBackgroundShape = {
         lod: labelLod,
       };
-      config.data.lodLevels = {
-        levels: [
-          { zoomRange: [0, 1] }, // -2
-          { zoomRange: [1, 1.2] }, // -1
-          { zoomRange: [1.2, 0.4], primary: true }, // 0
-          { zoomRange: [1.4, 1.6] }, // 1
-          { zoomRange: [1.6, 1.8] }, // 2
-          { zoomRange: [1.8, 2.5] }, // 3
-          { zoomRange: [2.5, Infinity] }, // 4
-        ],
-        animateCfg: {
-          duration: 500,
-        },
-      };
+      config.data.lodLevels = [
+        { zoomRange: [0, 1] }, // -2
+        { zoomRange: [1, 1.2] }, // -1
+        { zoomRange: [1.2, 0.4], primary: true }, // 0
+        { zoomRange: [1.4, 1.6] }, // 1
+        { zoomRange: [1.6, 1.8] }, // 2
+        { zoomRange: [1.8, 2.5] }, // 3
+        { zoomRange: [2.5, Infinity] }, // 4
+      ];
     }
     return config;
   },

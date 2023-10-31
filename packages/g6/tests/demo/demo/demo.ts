@@ -180,22 +180,17 @@ const create2DGraph = (
         data: {
           animates: getNodeAnimates(),
           ...innerModel.data,
-          lodLevels: {
-            levels: [
-              { zoomRange: [0, 0.16] }, // -2
-              { zoomRange: [0.16, 0.2] }, // -1
-              { zoomRange: [0.2, 0.3], primary: true }, // 0
-              { zoomRange: [0.3, 0.5] }, // 1
-              { zoomRange: [0.5, 0.8] }, // 2
-              { zoomRange: [0.8, 1.5] }, // 3
-              { zoomRange: [1.5, 1.8] }, // 4
-              { zoomRange: [1.8, 2] }, // 5
-              { zoomRange: [2, Infinity] }, // 6
-            ],
-            animateCfg: {
-              duration: 500,
-            },
-          },
+          lodLevels: [
+            { zoomRange: [0, 0.16] }, // -2
+            { zoomRange: [0.16, 0.2] }, // -1
+            { zoomRange: [0.2, 0.3], primary: true }, // 0
+            { zoomRange: [0.3, 0.5] }, // 1
+            { zoomRange: [0.5, 0.8] }, // 2
+            { zoomRange: [0.8, 1.5] }, // 3
+            { zoomRange: [1.5, 1.8] }, // 4
+            { zoomRange: [1.8, 2] }, // 5
+            { zoomRange: [2, Infinity] }, // 6
+          ],
           labelShape:
             degree !== 0
               ? {

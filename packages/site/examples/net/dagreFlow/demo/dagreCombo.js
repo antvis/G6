@@ -199,6 +199,13 @@ const graph = new ExtGraph({
   width,
   height: height - 50,
   autoFit: 'center',
+  plugins: [
+    {
+      // lod-controller will be automatically assigned to graph with `disableLod: false` to graph if it is not configured as following
+      type: 'lod-controller',
+      disableLod: true,
+    },
+  ],
   modes: {
     default: ['drag-combo', 'drag-node', 'drag-canvas', 'zoom-canvas', 'collapse-expand-combo'],
   },
@@ -223,7 +230,7 @@ const graph = new ExtGraph({
       data: {
         ...data,
         type: 'rect-node',
-        lodLevels: {},
+        lodLevels: [],
         keyShape: {
           width: 60,
           height: 30,

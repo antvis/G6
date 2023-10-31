@@ -62,7 +62,6 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')
           id: model.id,
           data: {
             ...model.data,
-            lodLevels: {},
             labelShape: {
               text: model.id,
               position: 'center',
@@ -79,40 +78,40 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')
                     [0, 0.5],
                     [1, 0.5],
                   ],
-            animates: {
-              update: [
-                {
-                  fields: ['x', 'y'],
-                  duration: 500,
-                  shapeId: 'group',
-                  order: 0,
-                },
-              ],
-              hide: [
-                {
-                  fields: ['opacity'],
-                  duration: 200,
-                  shapeId: 'keyShape',
-                },
-                {
-                  fields: ['opacity'],
-                  duration: 200,
-                  shapeId: 'labelShape',
-                },
-              ],
-              show: [
-                {
-                  fields: ['opacity'],
-                  duration: 1000,
-                  shapeId: 'keyShape',
-                },
-                {
-                  fields: ['opacity'],
-                  duration: 1000,
-                  shapeId: 'labelShape',
-                },
-              ],
-            },
+            // animates: {
+            //   update: [
+            //     {
+            //       fields: ['x', 'y'],
+            //       duration: 500,
+            //       shapeId: 'group',
+            //       order: 0,
+            //     },
+            //   ],
+            //   hide: [
+            //     {
+            //       fields: ['opacity'],
+            //       duration: 200,
+            //       shapeId: 'keyShape',
+            //     },
+            //     {
+            //       fields: ['opacity'],
+            //       duration: 200,
+            //       shapeId: 'labelShape',
+            //     },
+            //   ],
+            //   show: [
+            //     {
+            //       fields: ['opacity'],
+            //       duration: 1000,
+            //       shapeId: 'keyShape',
+            //     },
+            //     {
+            //       fields: ['opacity'],
+            //       duration: 1000,
+            //       shapeId: 'labelShape',
+            //     },
+            //   ],
+            // },
           },
         };
       },

@@ -140,16 +140,21 @@ export class ClickSelect extends Behavior {
         if (!multiple) {
           // Not multiple, clear all currently selected items
           this.graph.setItemState(this.selectedIds, state, false);
+          this.selectedIds = [];
         }
-        if (!this.selectedIds.includes(itemId)) {
-          this.graph.setItemState(itemId, state, isSelectAction);
+        if (isSelectAction) {
+          if (!this.selectedIds.includes(itemId)) {
+            this.graph.setItemState(itemId, state, true);
+          }
+        } else {
+          this.graph.setItemState(itemId, state, false);
         }
       });
 
       if (isSelectAction) {
         this.selectedIds.push(itemId);
       } else {
-        this.selectedIds.filter((id) => id !== itemId);
+        this.selectedIds = this.selectedIds.filter((id) => id !== itemId);
       }
     }
 

@@ -124,12 +124,11 @@ export const upsertShape = (
         firstRendering ? 'buildIn' : 'update',
         id,
       );
+      shape = createShape(type, style, id);
       const initShapeStyles = getShapeAnimateBeginStyles(shape);
-      const shapeStyle = { ...style };
       animateFields.forEach((key) => {
-        shapeStyle[key] = initShapeStyles[key];
+        shape.style[key] = initShapeStyles[key];
       });
-      shape = createShape(type, shapeStyle, id);
     } else {
       shape = createShape(type, style, id);
     }
@@ -412,6 +411,7 @@ export const isPolygonsIntersect = (
 };
 
 export const intersectBBox = (box1: Partial<AABB>, box2: Partial<AABB>) => {
+  if (!box2?.min || !box1?.min) return false;
   return (
     box2.min[0] <= box1.max[0] &&
     box2.max[0] >= box1.min[0] &&

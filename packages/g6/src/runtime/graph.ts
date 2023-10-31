@@ -1223,13 +1223,14 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
 
     const { graphCore } = this.dataController;
     const { specification } = this.themeController;
+    const modelArr = isArray(models) ? models : [models];
     graphCore.once('changed', (event) => {
       if (!event.changes.length) return;
       const changes = event.changes;
       const timingParameters = {
         type: itemType,
         action: 'add',
-        models,
+        models: modelArr,
         apiName: 'addData',
         changes,
       };
@@ -1243,7 +1244,6 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       this.emit('afteritemchange', timingParameters);
     });
 
-    const modelArr = isArray(models) ? models : [models];
     const data = { nodes: [], edges: [], combos: [] };
     data[`${itemType}s`] = modelArr;
     this.hooks.datachange.emit({
@@ -1519,7 +1519,7 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
         type,
         action: 'updatePosition',
         upsertAncestors,
-        models,
+        models: modelArr,
         apiName: 'updatePosition',
         changes,
       };
@@ -1611,7 +1611,7 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     }
 
     this.emit('afteritemvisibilitychange', {
-      ids,
+      ids: idArr as ID[],
       value: true,
       animate: !disableAnimate,
       action: 'updateVisibility',
@@ -1643,7 +1643,7 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       keepRelated = false,
       shapeIds,
     } = options || {};
-    const idArr = isArray(ids) ? ids : [ids];
+    const idArr: ID[] = isArray(ids) ? ids : [ids];
     if (isEmpty(idArr)) return;
 
     let changes;
@@ -1654,7 +1654,7 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
         oldValue: this.getItemPreviousVisibility(idArr),
       };
       this.hooks.itemvisibilitychange.emit({
-        ids: idArr as ID[],
+        ids: idArr,
         value: false,
         graphCore: this.dataController.graphCore,
         animate: !disableAnimate,
@@ -1666,7 +1666,7 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
         oldValue: this.getItemPreviousVisibility(idArr),
       };
       this.hooks.itemvisibilitychange.emit({
-        ids: idArr as ID[],
+        ids: idArr,
         value: false,
         graphCore: this.dataController.graphCore,
         animate: !disableAnimate,
@@ -1676,7 +1676,7 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     }
 
     this.emit('afteritemvisibilitychange', {
-      ids,
+      ids: idArr,
       value: false,
       animate: !disableAnimate,
       action: 'updateVisibility',

@@ -437,7 +437,6 @@ export class LayoutController {
         animationEffectTiming,
       );
     }
-    this.graph.emit('afterlayout');
     this.updateNodesPosition(
       { nodes: nodePositions, edges: [] },
       animated || animate,
@@ -475,6 +474,7 @@ export class LayoutController {
   }
 
   private updateNodesPosition(positions: LayoutMapping, animate = true) {
+    if (!positions) return;
     const { nodes, edges } = positions;
     this.previousNodes = new Map();
     const nodePositions = nodes.map((node) => {
@@ -488,7 +488,7 @@ export class LayoutController {
     });
     this.graph.updateNodePosition(nodePositions, undefined, !animate);
     const edgeToUpdate = edges
-      .filter((edge) => edge.data.controlPoints)
+      .filter((edge) => edge.data?.controlPoints)
       .map((edge) => ({
         id: edge.id,
         data: {

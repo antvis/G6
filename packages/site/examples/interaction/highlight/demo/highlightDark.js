@@ -69,16 +69,17 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/xiaomi.json')
       node: {
         keyShape: {
           r: 10,
+          opacity: 1,
         },
-        highlight: {
-          keyShape: {
-            fill: '#0f0',
-          },
-        },
-        dark: {
-          keyShape: {
-            opacity: 0.2,
-          },
+        animates: {
+          update: [
+            {
+              fields: ['opacity'],
+              shapeId: 'keyShape',
+              states: ['dark'],
+              duration: 300,
+            },
+          ],
         },
       },
       nodeState: {
@@ -117,27 +118,36 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/xiaomi.json')
     });
 
     graph.on('node:pointerenter', function (e) {
-      const item = e.itemId;
+      const { itemId } = e;
       const allNodesId = graph.getAllNodesData().map((node) => node.id);
+      const highlightIds = [itemId];
       graph.clearItemState(allNodesId);
-      graph.setItemState(allNodesId, 'dark', true);
-      graph.setItemState(item, 'dark', false);
-      graph.setItemState(item, 'highlight', true);
+      graph.setItemState(itemId, 'dark', false);
+      graph.setItemState(itemId, 'highlight', true);
       graph.getAllEdgesData().forEach(function (edge) {
         const sourceId = edge.source;
         const targetId = edge.target;
-        if (sourceId === item) {
+        if (sourceId === itemId) {
           graph.setItemState(targetId, 'dark', false);
           graph.setItemState(targetId, 'highlight', true);
           graph.setItemState(edge.id, 'highlight', true);
-        } else if (targetId === item) {
+          highlightIds.push(edge.id);
+          highlightIds.push(targetId);
+        } else if (targetId === itemId) {
           graph.setItemState(sourceId, 'dark', false);
           graph.setItemState(sourceId, 'highlight', true);
           graph.setItemState(edge.id, 'highlight', true);
+          highlightIds.push(edge.id);
+          highlightIds.push(sourceId);
         } else {
           graph.setItemState(edge.id, 'highlight', false);
         }
       });
+      graph.setItemState(
+        allNodesId.filter((id) => !highlightIds.includes(id)),
+        'dark',
+        true,
+      );
     });
 
     graph.on('node:pointerleave', function (e) {

@@ -54,7 +54,6 @@ export const LightTheme = {
             fill: '#000',
             position: 'bottom',
             zIndex: 2,
-            // lod: 0,
             lod: 'auto',
             maxWidth: '200%',
             textOverflow: 'ellipsis',
@@ -67,7 +66,6 @@ export const LightTheme = {
             fill: '#fff',
             opacity: 0.75,
             zIndex: 1,
-            // lod: 0,
             lod: 'auto',
           },
           iconShape: {
@@ -407,6 +405,6 @@ export const LightTheme = {
     ],
   },
   canvas: {
-    backgroundColor: '#fff',
+    backgroundColor: 'rgba(255, 255, 255, 0)',
   },
 } as ThemeSpecification;

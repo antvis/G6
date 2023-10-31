@@ -63,12 +63,22 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/xiaomi.json')
         },
       ],
       modes: {
-        default: [{ type: 'activate-relations', trigger: 'pointerenter' }, 'drag-canvas'],
+        default: [{ type: 'activate-relations', trigger: 'pointerenter' }, 'drag-canvas', 'zoom-canvas'],
       },
       data,
       node: {
         keyShape: {
           r: 10,
+        },
+        animates: {
+          update: [
+            {
+              fields: ['opacity'],
+              shapeId: 'haloShape',
+              states: ['selected'],
+              duration: 500,
+            },
+          ],
         },
       },
       edge: {
@@ -76,6 +86,16 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/xiaomi.json')
           stroke: '#aaa',
           lineAppendWidth: 2,
           opacity: 0.3,
+        },
+        animates: {
+          update: [
+            {
+              fields: ['opacity'],
+              shapeId: 'haloShape',
+              states: ['selected'],
+              duration: 500,
+            },
+          ],
         },
       },
     });

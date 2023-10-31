@@ -46,6 +46,7 @@ export const getShapeAnimateBeginStyles = (shape) => {
       opacity: 0,
       strokeOpacity: 0,
       offsetDistance: 0,
+      fill: '#000',
     };
   }
   return {
@@ -76,7 +77,6 @@ export const DEFAULT_ANIMATE_CFG = {
     duration: 500,
     easing: 'cubic-bezier(0.250, 0.460, 0.450, 0.940)',
     iterations: 1,
-    delay: 1000,
     fill: 'both',
   },
   show: {
@@ -199,7 +199,7 @@ const runAnimateGroupOnShapes = (
             // opacity on group, animate on all shapes
             shapeIdsToAnimate.forEach((sid) => {
               if (!shapeMap[sid]) return;
-              const { opacity: targetOpacity = 1 } =
+              const { opacity: targetOpacity = isOut ? 0 : 1 } =
                 targetStylesMap[sid] ||
                 targetStylesMap.otherShapes?.[sid] ||
                 {};
@@ -356,6 +356,8 @@ const runAnimateOnShape = (
     );
     return;
   }
+  if (animateConfig.iterations === -1 || animateConfig.iterations === null)
+    animateConfig.iterations = Infinity;
   const animation = shape.animate(animateArr, animateConfig);
   if (percentLineDash) {
     animation.onfinish = () => {

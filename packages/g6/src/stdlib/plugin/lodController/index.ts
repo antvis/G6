@@ -68,7 +68,7 @@ export class LodController extends Base {
   }
 
   public getEvents() {
-    if (this.graph.rendererType === 'webgl-3d') return;
+    if (this.graph.rendererType === 'webgl-3d') return {};
     return {
       afterrender: this.onAfterRender,
       afterlayout: this.onAfterLayout,
@@ -92,7 +92,9 @@ export class LodController extends Base {
       const nodes = graph.getAllNodesData();
       this.debounce = Math.min(Math.floor(nodes.length / 100), 80);
     }
-    this.debounceUpdateVisible = this.getDebounceFn(this.updateVisible);
+    this.debounceUpdateVisible = this.getDebounceFn(
+      this.updateVisible.bind(this),
+    );
   };
 
   protected onAfterLayout = () => {
@@ -149,6 +151,7 @@ export class LodController extends Base {
         if (shapeId === 'keyShape') return;
         const val = others[shapeId] as any;
         if (
+          !val ||
           typeof val !== 'object' ||
           !Object.keys(val).length ||
           isArray(val)
@@ -269,7 +272,9 @@ export class LodController extends Base {
     this.shownIds = shownIds;
   };
 
-  private debounceUpdateVisible = this.getDebounceFn(this.updateVisible);
+  private debounceUpdateVisible = this.getDebounceFn(
+    this.updateVisible.bind(this),
+  );
 
   private updateLabelPositions = throttle(
     (zoomRatio) => {
@@ -533,6 +538,12 @@ export class LodController extends Base {
       this.renderBoundsCache.delete(model.id);
       if (action !== 'updatePosition') {
         this.displayModelCache.delete(model.id);
+      }
+      if (this.options.disableLod) {
+        this.graph.showItem(model.id, {
+          shapeIds: ['labelShape', 'labelBackgroundShape'],
+          disableAnimate: true,
+        });
       }
     });
   };

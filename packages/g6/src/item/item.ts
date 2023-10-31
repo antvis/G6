@@ -347,7 +347,7 @@ export default abstract class Item implements IItem {
     // === fields' values in mapper are final value or Encode ===
     const dataChangedFields = isReplace
       ? undefined
-      : Object.keys(current).concat(Object.keys(otherFields)); // only fields in current data for partial updating
+      : Object.keys(current || {}).concat(Object.keys(otherFields)); // only fields in current data for partial updating
 
     let typeChange = false;
     const { data, ...otherProps } = innerModel;
@@ -389,6 +389,7 @@ export default abstract class Item implements IItem {
           displayModelData[fieldName] || isObject(innerModel.data[fieldName])
             ? {
                 ...(innerModel.data[fieldName] as object),
+                ...(this.displayModel?.data[fieldName] as object),
               }
             : {};
         updateShapeChange({
@@ -999,12 +1000,12 @@ const updateShapeChange = ({
   });
   Object.keys(mapper).forEach((shapeAttrName) => {
     if (innerModelValue?.hasOwnProperty(shapeAttrName)) return;
-    const { value: mappedValue } = updateChange({
+    const { value: mappedValue, changed } = updateChange({
       innerModel,
       mapper,
       fieldName: shapeAttrName,
       dataChangedFields,
     });
-    shapeConfig[shapeAttrName] = mappedValue;
+    if (changed) shapeConfig[shapeAttrName] = mappedValue;
   });
 };

@@ -65,6 +65,13 @@ const graph = new ExtGraph({
   modes: {
     default: ['drag-node'],
   },
+  plugins: [
+    {
+      // lod-controller will be automatically assigned to graph with `disableLod: false` to graph if it is not configured as following
+      type: 'lod-controller',
+      disableLod: true,
+    },
+  ],
   node: {
     type: 'custom-node',
     keyShape: {

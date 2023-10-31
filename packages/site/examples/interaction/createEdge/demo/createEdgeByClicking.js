@@ -17,6 +17,13 @@ const graph = new ExtGraph({
   layout: {
     type: 'grid',
   },
+  plugins: [
+    {
+      // lod-controller will be automatically assigned to graph with `disableLod: false` to graph if it is not configured as following
+      type: 'lod-controller',
+      disableLod: true,
+    },
+  ],
   node: {
     labelShape: {
       text: {

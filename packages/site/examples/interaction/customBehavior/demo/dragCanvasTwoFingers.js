@@ -16,7 +16,7 @@ class TwoFingerScrollCanvas extends Extensions.BaseBehavior {
     const x = ev.deltaX || ev.movementX || 0;
     let y = ev.deltaY || ev.movementY || 0;
     if (!y && navigator.userAgent.indexOf('Firefox') > -1) y = (-ev.wheelDelta * 125) / 3;
-    this.graph.translate({ dx: x, dy: y });
+    this.graph.translate({ dx: -x, dy: -y });
   };
 }
 

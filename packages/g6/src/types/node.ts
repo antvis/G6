@@ -219,6 +219,7 @@ export interface NodeShapesEncode extends ShapesEncode {
 }
 export interface NodeEncode extends NodeShapesEncode {
   type?: string | Encode<string>;
+  lodLevels?: LodLevel[];
   animates?: IAnimates;
 }
 

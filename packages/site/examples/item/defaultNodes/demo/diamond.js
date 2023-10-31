@@ -49,6 +49,13 @@ const graph = new ExtGraph({
   modes: {
     default: ['zoom-canvas', 'drag-canvas', 'drag-node', 'click-select'],
   },
+  plugins: [
+    {
+      // lod-controller will be automatically assigned to graph with `disableLod: false` to graph if it is not configured as following
+      type: 'lod-controller',
+      disableLod: true,
+    },
+  ],
   data,
   layout: {
     type: 'grid',

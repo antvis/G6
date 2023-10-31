@@ -12,7 +12,6 @@ import { createDOM, modifyCSS } from '../../../util/dom';
 const DEFAULT_MODE = 'default';
 const KEYSHAPE_MODE = 'keyShape';
 const DELEGATE_MODE = 'delegate';
-const SVG = 'svg';
 
 export interface MiniMapConfig extends IPluginBaseConfig {
   /** Class name of viewport */
@@ -111,18 +110,17 @@ export class Minimap extends Base {
     const containerDOM = canvas.context.config.container as HTMLElement;
     const isFireFox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
     const isSafari = navigator.userAgent.toLowerCase().indexOf('safari') > -1;
-    const viewport = createDOM(`
-      <div
-        class=${viewportClassName}
-        style='position:absolute;
-          left:0;
-          top:0;
-          border: 2px solid #1980ff;
-          box-sizing:border-box;
-          background: rgba(0, 0, 255, 0.1);
-          cursor:move'
-        draggable=${isSafari || isFireFox ? false : true}
-      />`);
+    const viewport = createDOM(`<div
+      class=${viewportClassName}
+      style='position:absolute;
+        left:0;
+        top:0;
+        border: 2px solid #1980ff;
+        box-sizing:border-box;
+        background: rgba(0, 0, 255, 0.1);
+        cursor:move'
+      draggable=${isSafari || isFireFox ? false : true}
+    />`);
 
     // Last mouse x position
     let x = 0;
