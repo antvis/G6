@@ -375,7 +375,7 @@ const tip = document.createElement('span');
 tip.innerHTML = '<br />👉 Change Renderer:';
 btnContainer.appendChild(tip);
 
-fetch('https://gw.alipayobjects.com/os/basement_prod/0b9730ff-0850-46ff-84d0-1d4afecd43e6.json')
+fetch('https://raw.githubusercontent.com/antvis/G6/v5/packages/g6/tests/demo/demo/data.json')
   .then((res) => res.json())
   .then((data) => {
     tip2.innerHTML = '🎨 Rendering....';

@@ -7,7 +7,7 @@ import G6, { Graph, Extensions, extend } from '../../../src/index';
 import { container, height, width } from '../../datasets/const';
 import { RendererName } from '../../../src/types/render';
 import { Point } from '../../../src/types/common';
-import data from './data';
+import data from './data.json';
 import data3d from './data3d';
 
 let graph: typeof Graph;
@@ -754,7 +754,7 @@ const getDataFor3D = (inputData) => {
   return inputData;
 };
 
-export default () => {
+export default async () => {
   const result2d = getDataFor2D(data);
   degrees = result2d.degrees;
   dataFor2D = result2d.data;
