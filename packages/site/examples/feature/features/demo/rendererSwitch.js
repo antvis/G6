@@ -61,16 +61,16 @@ const getDefaultEdgeAnimates = (delay) => ({
   ],
 });
 
-const lodStrategyLevels = [
-  { zoomRange: [0, 0.16] }, // -2
-  { zoomRange: [0.16, 0.2] }, // -1
-  { zoomRange: [0.2, 0.3], primary: true }, // 0
-  { zoomRange: [0.3, 0.5] }, // 1
-  { zoomRange: [0.5, 0.8] }, // 2
-  { zoomRange: [0.8, 1.5] }, // 3
-  { zoomRange: [1.5, 1.8] }, // 4
-  { zoomRange: [1.8, 2] }, // 5
-  { zoomRange: [2, Infinity] }, // 6
+const lodLevels = [
+  { zoomRange: [0, 0.16] }, // -4
+  { zoomRange: [0.16, 0.2] }, // -3
+  { zoomRange: [0.2, 0.3] }, // -2
+  { zoomRange: [0.3, 0.5] }, // -1
+  { zoomRange: [0.5, 0.8], primary: true }, // 0
+  { zoomRange: [0.8, 1.5] }, // 1
+  { zoomRange: [1.5, 2.5] }, // 2
+  { zoomRange: [2.5, 5] }, // 3
+  { zoomRange: [5, Infinity] }, // 4
 ];
 
 const defaultTheme = {
@@ -99,7 +99,7 @@ const dataFormatHandler = (data, options = {}, graphCore) => {
   data.nodes?.forEach((node) => {
     if (map.has(node.id)) return;
     nodes.push(node);
-    map.set(node.id, true);
+    map.set(node.id, 0);
   });
   data.edges?.forEach((edge) => {
     const sourceDegree = map.get(edge.source) || 0;
@@ -142,7 +142,7 @@ const create3DGraph = async (data) => {
       {
         type: 'map-node-size',
         field: 'degree',
-        range: [40, 100],
+        range: [40, 200],
       },
     ],
     data,
@@ -234,7 +234,7 @@ const create2DGraph = (renderer, data) => {
       {
         type: 'map-node-size',
         field: 'degree',
-        range: [2, 24],
+        range: [3, 24],
       },
     ],
     modes: {
@@ -264,14 +264,16 @@ const create2DGraph = (renderer, data) => {
     // 节点配置
     node: (innerModel) => {
       const { degree } = innerModel.data;
-      let iconLod = 3;
-      if (degree > 40) iconLod = -1;
+      let iconLod = 4;
+      if (degree > 40) iconLod = -2;
       else if (degree > 20) iconLod = 0;
       else if (degree > 10) iconLod = 1;
       else if (degree > 5) iconLod = 2;
+      else if (degree > 2) iconLod = 3;
       return {
         ...innerModel,
         data: {
+          lodLevels,
           animates: getDefaultNodeAnimates(),
           ...innerModel.data,
           labelShape:
@@ -294,7 +296,7 @@ const create2DGraph = (renderer, data) => {
             degree !== 0
               ? {
                   img: 'https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*7g4nSbYrg6cAAAAAAAAAAAAADmJ7AQ/original',
-                  fontSize: innerModel.data.keyShape.r,
+                  fontSize: innerModel.data.keyShape?.r || 12,
                   opacity: 0.8,
                   lod: iconLod,
                 }

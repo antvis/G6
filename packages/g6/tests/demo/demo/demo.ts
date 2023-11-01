@@ -1,8 +1,7 @@
 import { initThreads, supportsThreads, ForceLayout } from '@antv/layout-wasm';
-// import G6, { Graph, GraphData } from '../../../esm';
 import { labelPropagation } from '@antv/algorithm';
 import Stats from 'stats.js';
-import G6, { Graph, Extensions, extend } from '../../../src/index';
+import G6, { Graph, Extensions, extend, GraphData } from '../../../src/index';
 
 import { container, height, width } from '../../datasets/const';
 import { RendererName } from '../../../src/types/render';
@@ -11,12 +10,59 @@ import data from './data.json';
 import data3d from './data3d';
 
 let graph: typeof Graph;
-let degrees = {};
 let dataFor2D: GraphData = { nodes: [], edges: [] };
 let dataFor3D: GraphData = { nodes: [], edges: [] };
 let colorSelects = [];
 const { nodes, edges } = data;
-export { nodes, edges, degrees };
+export { nodes, edges };
+
+const dataFormat = (dataAUR, options = {}, graphCore) => {
+  const { dataAdded, dataUpdated, dataRemoved } = dataAUR;
+  return {
+    dataAdded: dataFormatHandler(dataAdded, options, graphCore),
+    dataUpdated: dataFormatHandler(dataUpdated, options, graphCore),
+    dataRemoved,
+  };
+};
+
+const dataFormatHandler = (data, options = {}, graphCore) => {
+  if (!data.nodes || !data.edges) return {};
+  const map = new Map();
+  const nodes = [];
+  data.nodes?.forEach((node) => {
+    if (map.has(node.id)) return;
+    nodes.push(node);
+    map.set(node.id, 0);
+  });
+  data.edges?.forEach((edge) => {
+    const sourceDegree = map.get(edge.source) || 0;
+    map.set(edge.source, sourceDegree + 1);
+    const targetDegree = map.get(edge.target) || 0;
+    map.set(edge.target, targetDegree + 1);
+  });
+  return {
+    nodes: nodes.map((node) => {
+      const { id, x, y, z, olabel, data } = node;
+      return {
+        id,
+        data: {
+          x,
+          y,
+          z,
+          label: olabel,
+          ...data,
+          degree: map.get(id),
+        },
+      };
+    }),
+    edges:
+      data.edges?.map((edge) => ({
+        id: `edge-${Math.random()}`,
+        source: edge.source,
+        target: edge.target,
+      })) || [],
+  };
+};
 
 const getDefaultNodeAnimates = (delay?: number) => ({
   buildIn: [
@@ -129,6 +175,9 @@ const create2DGraph = (
     layouts: {
       'force-wasm': Extensions.ForceLayout,
     },
+    transforms: {
+      'data-format': dataFormat,
+    },
   });
   const graph = new ExtGraph({
     container: container as HTMLElement,
@@ -139,6 +188,14 @@ const create2DGraph = (
     renderer: 'webgl',
     rendererType,
     data: dataFor2D,
+    transforms: [
+      'data-format',
+      {
+        type: 'map-node-size',
+        field: 'degree',
+        range: [3, 24],
+      },
+    ],
     modes: {
       default: [
         {
@@ -170,13 +227,13 @@ const create2DGraph = (
     },
     // 节点配置
     node: (innerModel) => {
-      const degree = degrees[innerModel.id] || 0;
-      let labelLod = 3;
-      if (degree > 40) labelLod = -2;
-      else if (degree > 20) labelLod = -1;
-      else if (degree > 10) labelLod = 0;
-      else if (degree > 5) labelLod = 1;
-      else if (degree > 2) labelLod = 2;
+      const { degree } = innerModel.data;
+      let iconLod = 3;
+      if (degree > 40) iconLod = -2;
+      else if (degree > 20) iconLod = -1;
+      else if (degree > 10) iconLod = 0;
+      else if (degree > 5) iconLod = 1;
+      else if (degree > 2) iconLod = 2;
       return {
         ...innerModel,
         data: {
@@ -199,28 +256,25 @@ const create2DGraph = (
                   text: innerModel.data.label,
                   maxWidth: '400%',
                   offsetY: 8,
-                  lod: 'auto', // labelLod,
+                  lod: 'auto',
                 }
               : undefined,
 
           labelBackgroundShape:
             degree !== 0
               ? {
-                  lod: 'auto', // labelLod,
+                  lod: 'auto',
                 }
               : undefined,
           iconShape:
             degree !== 0
               ? {
                   img: 'https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*7g4nSbYrg6cAAAAAAAAAAAAADmJ7AQ/original',
-                  fontSize: 12 + degree / 4,
+                  fontSize: innerModel.data.keyShape?.r || 12,
                   opacity: 0.8,
-                  lod: labelLod + 2,
+                  lod: iconLod,
                 }
               : undefined,
-          keyShape: {
-            r: 12 + degree / 4,
-          },
         },
       };
     },
@@ -252,6 +306,14 @@ const create3DGraph = async () => {
     height: 1400,
     renderer: 'webgl-3d',
     data: dataFor3D,
+    transforms: [
+      'data-format',
+      {
+        type: 'map-node-size',
+        field: 'degree',
+        range: [40, 150],
+      },
+    ],
     // layout: {
     //   type: 'force-wasm',
     //   threads,
@@ -323,11 +385,8 @@ const create3DGraph = async () => {
         data: {
           ...innerModel.data,
           type: 'sphere-node',
-          keyShape: {
-            r: 12 + degrees[innerModel.id] / 2,
-          },
           labelShape:
-            degrees[innerModel.id] > 20
+            degree > 20
               ? {
                   text: innerModel.data.label,
                   fontSize: 100,
@@ -724,16 +783,7 @@ const getDataFor2D = (inputData) => {
   //   delete node.data.y;
   //   delete node.data.z;
   // });
-  const degrees = {};
-  inputData.edges.forEach((edge) => {
-    const { source, target } = edge;
-    degrees[source] = degrees[source] || 0;
-    degrees[target] = degrees[target] || 0;
-    degrees[source]++;
-    degrees[target]++;
-  });
-  inputData.nodes.forEach((node) => delete node.data.z);
-  return { degrees, data: inputData };
+  return inputData;
 };
 
 const getDataFor3D = (inputData) => {
@@ -755,10 +805,8 @@ const getDataFor3D = (inputData) => {
 };
 
 export default async () => {
-  const result2d = getDataFor2D(data);
-  degrees = result2d.degrees;
-  dataFor2D = result2d.data;
-  dataFor3D = result2d.data; //getDataFor3D(data3d);
+  dataFor2D = getDataFor2D(data);
+  dataFor3D = getDataFor3D(data3d);
 
   graph = create2DGraph();
   const { rendererSelect, themeSelect, customThemeSelect, zoomIn, zoomOut } =
