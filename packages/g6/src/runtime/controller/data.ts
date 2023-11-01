@@ -236,7 +236,9 @@ export class DataController {
    */
   private getExtensions() {
     const { transforms = [] } = this.graph.getSpecification();
-    const requiredTransformers = ['validate-data'];
+    const requiredTransformers = [
+      { type: 'validate-data', activeLifecycle: 'all' },
+    ];
     return [...transforms, ...requiredTransformers]
       .map((config) => ({
         config,
@@ -780,7 +782,6 @@ export class DataController {
       : activeLifecycle === 'all'
       ? AVAILABLE_DATA_LIFECYCLE
       : [activeLifecycle];
-
     return (activeLifecycle as string[]).includes(dataLifecycleMap[changeType]);
   };
 

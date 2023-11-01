@@ -6,10 +6,11 @@ import {
   Path,
   Polyline,
 } from '@antv/g';
-import { clone, isString, uniq } from '@antv/util';
+import { isString, uniq } from '@antv/util';
 import { AnimateTiming, IAnimate, IAnimates } from '../types/animate';
 import { ItemShapeStyles, ShapeStyle } from '../types/item';
 import { isArrayOverlap, replaceElements } from './array';
+import { cloneJSON } from './data';
 
 /**
  * Initial(timing = show) shape animation start from init shape styles, and end to the shape's style config.
@@ -45,6 +46,7 @@ export const getShapeAnimateBeginStyles = (shape) => {
       opacity: 0,
       strokeOpacity: 0,
       offsetDistance: 0,
+      fill: '#000',
     };
   }
   return {
@@ -75,7 +77,6 @@ export const DEFAULT_ANIMATE_CFG = {
     duration: 500,
     easing: 'cubic-bezier(0.250, 0.460, 0.450, 0.940)',
     iterations: 1,
-    delay: 1000,
     fill: 'both',
   },
   show: {
@@ -198,7 +199,7 @@ const runAnimateGroupOnShapes = (
             // opacity on group, animate on all shapes
             shapeIdsToAnimate.forEach((sid) => {
               if (!shapeMap[sid]) return;
-              const { opacity: targetOpacity = 1 } =
+              const { opacity: targetOpacity = isOut ? 0 : 1 } =
                 targetStylesMap[sid] ||
                 targetStylesMap.otherShapes?.[sid] ||
                 {};
@@ -307,10 +308,10 @@ const runAnimateOnShape = (
     fields.forEach((key) => {
       animateArr[0][key] =
         shape.style[key] === undefined
-          ? clone(beginStyle[key])
-          : clone(shape.style[key]);
+          ? cloneJSON(beginStyle[key])
+          : cloneJSON(shape.style[key]);
       if (targetStyle[key] === undefined) return;
-      animateArr[1][key] = clone(targetStyle[key]);
+      animateArr[1][key] = cloneJSON(targetStyle[key]);
       if (key === 'lineDash') {
         const beginPercents = uniq(
           animateArr[0][key].filter(
@@ -323,7 +324,7 @@ const runAnimateOnShape = (
           ),
         );
         if (beginPercents.length || targetPercents.length) {
-          percentLineDash = clone(animateArr[0].lineDash);
+          percentLineDash = cloneJSON(animateArr[0].lineDash);
           const totalLength = (
             shape as Line | Polyline | Path
           ).getTotalLength();
@@ -355,6 +356,8 @@ const runAnimateOnShape = (
     );
     return;
   }
+  if (animateConfig.iterations === -1 || animateConfig.iterations === null)
+    animateConfig.iterations = Infinity;
   const animation = shape.animate(animateArr, animateConfig);
   if (percentLineDash) {
     animation.onfinish = () => {

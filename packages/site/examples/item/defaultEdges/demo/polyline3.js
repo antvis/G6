@@ -23,7 +23,7 @@ const data = {
         y: 60,
       },
     },
-        {
+    {
       id: 'node4',
       data: {
         x: 340,
@@ -64,7 +64,7 @@ const data = {
         x: 400,
         y: 130,
         preventPolylineEdgeOverlap: true,
-        label: 'Enhanced Node'
+        label: 'Enhanced Node',
       },
     },
     {
@@ -72,7 +72,7 @@ const data = {
       data: {
         x: 300,
         y: 300,
-        label: 'Normal Node'
+        label: 'Normal Node',
       },
     },
   ],
@@ -81,25 +81,25 @@ const data = {
       id: 'edge1',
       source: 'node4',
       target: 'node2',
-      data: {}
+      data: {},
     },
     {
       id: 'edge2',
       source: 'node5',
       target: 'node6',
-      data: {}
+      data: {},
     },
     {
       id: 'edge3',
       source: 'node8',
       target: 'node7',
-      data: {}
+      data: {},
     },
     {
       id: 'edge4',
       source: 'node1',
       target: 'node3',
-      data: {}
+      data: {},
     },
   ],
 };
@@ -121,6 +121,13 @@ const graph = new ExtGraph({
   modes: {
     default: ['zoom-canvas', 'drag-canvas', 'drag-node', 'click-select'],
   },
+  plugins: [
+    {
+      // lod-controller will be automatically assigned to graph with `disableLod: false` to graph if it is not configured as following
+      type: 'lod-controller',
+      disableLod: true,
+    },
+  ],
   data,
   node: {
     type: 'circle-node',
@@ -164,7 +171,6 @@ const graph = new ExtGraph({
        */
       // controlPoints: [],
     },
-
   },
 });
 

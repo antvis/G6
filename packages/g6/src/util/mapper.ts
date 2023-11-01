@@ -32,7 +32,7 @@ export const DEFAULT_MAPPER = {
   },
   edge: (innerEdgeModel) => {
     const { id, source, target, data } = innerEdgeModel;
-    const { color, label, icon, badge, keyShape } = data;
+    const { color, label, icon, badge, keyShape } = data || {};
     const resultData: NodeDisplayModelData = {
       ...data,
       keyShape: { ...keyShape },

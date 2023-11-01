@@ -16,8 +16,8 @@ const data = {
       id: 'sphere-node',
       data: {
         type: 'sphere-node',
-        x: 450,
-        y: 350,
+        x: 100,
+        y: 100,
         z: 0,
         keyShape: {
           r: 16,
@@ -33,8 +33,8 @@ const data = {
       id: 'cube-node',
       data: {
         type: 'cube-node',
-        x: 450,
-        y: 550,
+        x: 250,
+        y: 250,
         z: 50,
         keyShape: {
           width: 400,

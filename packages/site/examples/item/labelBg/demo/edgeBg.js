@@ -11,6 +11,13 @@ const graph = new Graph({
   modes: {
     default: ['zoom-canvas', 'drag-canvas', 'drag-node', 'click-select'],
   },
+  plugins: [
+    {
+      // lod-controller will be automatically assigned to graph with `disableLod: false` to graph if it is not configured as following
+      type: 'lod-controller',
+      disableLod: true,
+    },
+  ],
   data: {
     nodes: [
       {
@@ -56,7 +63,7 @@ const graph = new Graph({
       position: 'bottom',
     },
     labelBackgroundShape: {
-      fill: 'red',
+      fill: 'linear-gradient(336deg, rgba(0,0,255,.8), rgba(0,0,255,0) 70.71%)',
     },
   },
 });

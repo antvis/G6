@@ -6,8 +6,8 @@ const height = container.scrollHeight || 500;
 
 const renderers = {
   '🐰 Canvas': 'canvas',
-  '🐢 SVG': 'svg',
   '🚀 WebGL': 'webgl',
+  '🐢 SVG': 'svg',
   '⭐️ WebGL-3D': 'webgl-3d',
 };
 
@@ -142,7 +142,7 @@ const create3DGraph = async (data) => {
       {
         type: 'map-node-size',
         field: 'degree',
-        range: [2, 24],
+        range: [40, 100],
       },
     ],
     data,
@@ -228,6 +228,7 @@ const create2DGraph = (renderer, data) => {
     width,
     height,
     renderer,
+    autoFit: 'view',
     transforms: [
       'data-format',
       {
@@ -238,7 +239,7 @@ const create2DGraph = (renderer, data) => {
     ],
     modes: {
       default: [
-        { type: 'zoom-canvas', key: '123', triggerOnItems: true, enableOptimize: true },
+        { type: 'zoom-canvas', key: '123', triggerOnItems: true },
         'drag-node',
         'drag-canvas',
         'brush-select',
@@ -263,35 +264,39 @@ const create2DGraph = (renderer, data) => {
     // 节点配置
     node: (innerModel) => {
       const { degree } = innerModel.data;
-      let labelLod = 3;
-      if (degree > 40) labelLod = -2;
-      else if (degree > 20) labelLod = -1;
-      else if (degree > 10) labelLod = 0;
+      let iconLod = 3;
+      if (degree > 40) iconLod = -1;
+      else if (degree > 20) iconLod = 0;
+      else if (degree > 10) iconLod = 1;
+      else if (degree > 5) iconLod = 2;
       return {
         ...innerModel,
         data: {
           animates: getDefaultNodeAnimates(),
           ...innerModel.data,
-          lodLevels: {
-            levels: lodStrategyLevels,
-            animateCfg: {
-              duration: 500,
-            },
-          },
           labelShape:
-            degree > 10
+            degree !== 0
               ? {
                   text: innerModel.data.label,
                   maxWidth: '400%',
                   offsetY: 8,
-                  lod: labelLod,
+                  lod: 'auto',
                 }
               : undefined,
 
           labelBackgroundShape:
             degree !== 0
               ? {
-                  lod: labelLod,
+                  lod: 'auto',
+                }
+              : undefined,
+          iconShape:
+            degree !== 0
+              ? {
+                  img: 'https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*7g4nSbYrg6cAAAAAAAAAAAAADmJ7AQ/original',
+                  fontSize: innerModel.data.keyShape.r,
+                  opacity: 0.8,
+                  lod: iconLod,
                 }
               : undefined,
         },
@@ -323,11 +328,11 @@ const create2DGraph = (renderer, data) => {
 
 const handleCreateGraph = (renderer, data, prevGraph, tip) => {
   let graph;
-  const func = () => {
+  const func = async () => {
     if (renderer === 'webgl-3d') {
-      graph = create3DGraph(data);
+      graph = await create3DGraph(data);
     } else {
-      graph = create2DGraph(renderer, data);
+      graph = await create2DGraph(renderer, data);
     }
     graph.on('afterrender', (e) => {
       tip.innerHTML = '👌 Done!';
@@ -377,11 +382,22 @@ fetch('https://gw.alipayobjects.com/os/basement_prod/0b9730ff-0850-46ff-84d0-1d4
     Object.keys(renderers).forEach((name, i) => {
       const btn = document.createElement('a');
       btn.innerHTML = name;
-      btn.style.backgroundColor = 'rgba(255, 255, 255, 0.8)';
       btn.style.padding = '4px';
       btn.style.marginLeft = i > 0 ? '24px' : '8px';
+      if (renderers[name] === 'webgl') {
+        btn.style.backgroundColor = 'rgba(135, 59, 244, 0.2)';
+        btn.style.fontWeight = 700;
+      } else {
+        btn.style.backgroundColor = 'rgba(255, 255, 255, 0.8)';
+      }
       btnContainer.appendChild(btn);
       btn.addEventListener('click', () => {
+        btnContainer.childNodes.forEach((child) => {
+          child.style.backgroundColor = 'rgba(255, 255, 255, 0.8)';
+          child.style.fontWeight = 400;
+        });
+        btn.style.backgroundColor = 'rgba(135, 59, 244, 0.2)';
+        btn.style.fontWeight = 700;
         tip2.innerHTML = '🎨 Rendering....';
         if (renderers[name] === 'webgl-3d') {
           if (!graphData3D) {
@@ -400,7 +416,7 @@ fetch('https://gw.alipayobjects.com/os/basement_prod/0b9730ff-0850-46ff-84d0-1d4
       });
     });
 
-    graph = handleCreateGraph('canvas', data, graph, tip2);
+    graph = handleCreateGraph('webgl', data, graph, tip2);
   });
 
 if (typeof window !== 'undefined')

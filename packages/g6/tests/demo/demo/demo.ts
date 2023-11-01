@@ -1,6 +1,7 @@
 import { initThreads, supportsThreads, ForceLayout } from '@antv/layout-wasm';
 // import G6, { Graph, GraphData } from '../../../esm';
 import { labelPropagation } from '@antv/algorithm';
+import Stats from 'stats.js';
 import G6, { Graph, Extensions, extend } from '../../../src/index';
 
 import { container, height, width } from '../../datasets/const';
@@ -8,7 +9,6 @@ import { RendererName } from '../../../src/types/render';
 import { Point } from '../../../src/types/common';
 import data from './data';
 import data3d from './data3d';
-import Stats from 'stats.js';
 
 let graph: typeof Graph;
 let degrees = {};
@@ -132,10 +132,12 @@ const create2DGraph = (
   });
   const graph = new ExtGraph({
     container: container as HTMLElement,
-    width,
-    height: 1400,
+    // width,
+    // height: 1400,
+    width: 1150,
+    height: 400,
     renderer: 'webgl',
-    // rendererType,
+    rendererType,
     data: dataFor2D,
     modes: {
       default: [
@@ -160,6 +162,9 @@ const create2DGraph = (
           ...innerModel.data,
           type: 'line-edge',
           animates: getEdgeAnimates(),
+          keyShape: {
+            lineWidth: 0.3,
+          },
         },
       };
     },
@@ -177,22 +182,17 @@ const create2DGraph = (
         data: {
           animates: getNodeAnimates(),
           ...innerModel.data,
-          lodLevels: {
-            levels: [
-              { zoomRange: [0, 0.16] }, // -2
-              { zoomRange: [0.16, 0.2] }, // -1
-              { zoomRange: [0.2, 0.3], primary: true }, // 0
-              { zoomRange: [0.3, 0.5] }, // 1
-              { zoomRange: [0.5, 0.8] }, // 2
-              { zoomRange: [0.8, 1.5] }, // 3
-              { zoomRange: [1.5, 1.8] }, // 4
-              { zoomRange: [1.8, 2] }, // 5
-              { zoomRange: [2, Infinity] }, // 6
-            ],
-            animateCfg: {
-              duration: 500,
-            },
-          },
+          lodLevels: [
+            { zoomRange: [0, 0.16] }, // -2
+            { zoomRange: [0.16, 0.2] }, // -1
+            { zoomRange: [0.2, 0.3], primary: true }, // 0
+            { zoomRange: [0.3, 0.5] }, // 1
+            { zoomRange: [0.5, 0.8] }, // 2
+            { zoomRange: [0.8, 1.5] }, // 3
+            { zoomRange: [1.5, 1.8] }, // 4
+            { zoomRange: [1.8, 2] }, // 5
+            { zoomRange: [2, Infinity] }, // 6
+          ],
           labelShape:
             degree !== 0
               ? {
@@ -212,7 +212,7 @@ const create2DGraph = (
           iconShape:
             degree !== 0
               ? {
-                  img: 'https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg',
+                  img: 'https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*7g4nSbYrg6cAAAAAAAAAAAAADmJ7AQ/original',
                   fontSize: 12 + degree / 4,
                   opacity: 0.8,
                   lod: labelLod + 2,
@@ -226,7 +226,7 @@ const create2DGraph = (
     },
   });
 
-  graph.zoom(0.15);
+  // graph.zoom(0.15);
   return graph;
 };
 
@@ -243,6 +243,8 @@ const create3DGraph = async () => {
       'force-wasm': Extensions.ForceLayout,
     },
   });
+
+  console.log('create3DGraph', dataFor3D);
 
   const newGraph = new ExtGraph({
     container: container as HTMLDivElement,
@@ -708,12 +710,14 @@ const handleZoom = (graph, isIn = true) => {
 };
 
 const getDataFor2D = (inputData) => {
-  const clusteredData = labelPropagation(inputData, false);
-  clusteredData.clusters.forEach((cluster, i) => {
-    cluster.nodes.forEach((node) => {
-      node.data.cluster = `c${i}`;
-    });
-  });
+  // 过于消耗性能，labelPropagation 的结果已写入原始数据存储
+  // const clusteredData = labelPropagation(inputData, false);
+  // clusteredData.clusters.forEach((cluster, i) => {
+  //   cluster.nodes.forEach((node) => {
+  //     node.data.cluster = `c${i}`;
+  //   });
+  // });
+
   // for 性能测试
   // data.nodes.forEach((node) => {
   //   delete node.data.x;
@@ -733,12 +737,14 @@ const getDataFor2D = (inputData) => {
 };
 
 const getDataFor3D = (inputData) => {
-  const clusteredData3D = labelPropagation(inputData, false);
-  clusteredData3D.clusters.forEach((cluster, i) => {
-    cluster.nodes.forEach((node) => {
-      node.data.cluster = `c${i}`;
-    });
-  });
+  // 过于消耗性能，labelPropagation 的结果已写入原始数据存储
+  // const clusteredData3D = labelPropagation(inputData, false);
+  // clusteredData3D.clusters.forEach((cluster, i) => {
+  //   cluster.nodes.forEach((node) => {
+  //     node.data.cluster = `c${i}`;
+  //   });
+  // });
+
   // data3d.nodes.forEach((node) => {
   //   delete node.data.x;
   //   delete node.data.y;
@@ -752,7 +758,7 @@ export default () => {
   const result2d = getDataFor2D(data);
   degrees = result2d.degrees;
   dataFor2D = result2d.data;
-  dataFor3D = getDataFor3D(data3d);
+  dataFor3D = result2d.data; //getDataFor3D(data3d);
 
   graph = create2DGraph();
   const { rendererSelect, themeSelect, customThemeSelect, zoomIn, zoomOut } =

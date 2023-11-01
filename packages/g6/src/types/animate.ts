@@ -49,7 +49,7 @@ export interface IAnimate {
   order?: number;
   // animate options
   duration?: number;
-  interations?: number;
+  iterations?: number;
   easing?: string;
   delay?: number;
 }

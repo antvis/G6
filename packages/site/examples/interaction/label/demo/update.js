@@ -42,6 +42,13 @@ const graph = new Graph({
   modes: {
     default: ['drag-node'],
   },
+  plugins: [
+    {
+      // lod-controller will be automatically assigned to graph with `disableLod: false` to graph if it is not configured as following
+      type: 'lod-controller',
+      disableLod: true,
+    },
+  ],
   data,
   node: {
     labelShape: {
@@ -73,7 +80,7 @@ graph.on('node:pointerenter', (event) => {
       label: `after been hovered ${itemId}`,
       labelShape: {
         fill: '#0f0',
-      }
+      },
     },
   });
 });
@@ -86,7 +93,7 @@ graph.on('edge:pointerenter', (event) => {
       label: `after been hovered ${itemId}`,
       labelShape: {
         fill: '#0f0',
-      }
+      },
     },
   });
 });
@@ -99,7 +106,7 @@ graph.on('node:pointerleave', (event) => {
       label: 'label before been hovered',
       labelShape: {
         fill: '#000',
-      }
+      },
     },
   });
 });
@@ -112,7 +119,7 @@ graph.on('edge:pointerleave', (event) => {
       label: 'label before been hovered',
       labelShape: {
         fill: '#000',
-      }
+      },
     },
   });
 });

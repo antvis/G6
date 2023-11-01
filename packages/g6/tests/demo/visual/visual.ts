@@ -111,18 +111,13 @@ const createGraph = () => {
         ...innerModel,
         data: {
           ...innerModel.data,
-          lodLevels: {
-            levels: [
-              { zoomRange: [0, 0.5] }, // -1
-              { zoomRange: [0.5, 1], primary: true }, // 0
-              { zoomRange: [1, 1.5] }, // 1
-              { zoomRange: [1.5, 1] }, // 2
-              { zoomRange: [2, Infinity] }, // 3
-            ],
-            animateCfg: {
-              duration: 500,
-            },
-          },
+          lodLevels: [
+            { zoomRange: [0, 0.5] }, // -1
+            { zoomRange: [0.5, 1], primary: true }, // 0
+            { zoomRange: [1, 1.5] }, // 1
+            { zoomRange: [1.5, 1] }, // 2
+            { zoomRange: [2, Infinity] }, // 3
+          ],
 
           animates: {
             buildIn: [

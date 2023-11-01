@@ -49,46 +49,20 @@ const graph = new G6.Graph({
   width,
   height,
   modes: {
-    default: [
-      'drag-node',
-      {
-        type: 'drag-canvas',
-        enableOptimize: true, // enable the optimize to hide the shapes beside nodes' keyShape
-      },
-      {
-        type: 'zoom-canvas',
-        enableOptimize: true, // enable the optimize to hide the shapes beside nodes' keyShape
-      },
-    ],
+    default: ['drag-node', 'drag-canvas', 'zoom-canvas'],
   },
-  // defaultNode: {
-  //   size: [10, 10],
-  //   style: {
-  //     lineWidth: 2,
-  //     fill: '#DEE9FF',
-  //     stroke: '#5B8FF9',
-  //   },
-  // },
-  // defaultEdge: {
-  //   size: 1,
-  //   style: {
-  //     stroke: '#e2e2e2',
-  //     lineAppendWidth: 2,
-  //   },
-  // },
-  // nodeStateStyles: {
-  //   yourStateName: {
-  //     stroke: '#f00',
-  //     lineWidth: 3,
-  //   },
-  // },
-  // edgeStateStyles: {
-  //   yourStateName: {
-  //     stroke: '#f00',
-  //     lineWidth: 3,
-  //   },
-  // },
+  plugins: [
+    // Plugin LodController is default and built-in added in G6, and the default configuration is: { disabledLod: false, numberPerCell: 1 }
+    {
+      type: 'lod-controller',
+      disableLod: false,
+      numberPerCell: 2,
+    },
+  ],
   data,
+  node: {
+    labelBackgroundShape: {},
+  },
 });
 
 if (typeof window !== 'undefined')

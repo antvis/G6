@@ -1924,18 +1924,13 @@ describe('graph show up animations', () => {
           ...innerModel,
           data: {
             ...innerModel.data,
-            // lodLevels: {
-            //   levels: [
+            // lodLevels: [
             //     { zoomRange: [0, 0.65] },
             //     { zoomRange: [0.65, 0.8] },
             //     { zoomRange: [0.8, 1.6], primary: true },
             //     { zoomRange: [1.6, 2] },
             //     { zoomRange: [2, Infinity] },
             //   ],
-            //   animateCfg: {
-            //     duration: 200,
-            //   },
-            // },
             labelShape: {
               position: 'end',
               text:
@@ -1985,18 +1980,13 @@ describe('graph show up animations', () => {
             x,
             y,
             // TODO: different for nodes, and config in theme
-            // lodLevels: {
-            //   levels: [
+            // lodLevels: [
             //     { zoomRange: [0, 0.65] },
             //     { zoomRange: [0.65, 0.8] },
             //     { zoomRange: [0.8, 1.6], primary: true },
             //     { zoomRange: [1.6, 2] },
             //     { zoomRange: [2, Infinity] },
             //   ],
-            //   animateCfg: {
-            //     duration: 200,
-            //   },
-            // },
             animates: {
               buildIn: [
                 {
@@ -2070,18 +2060,13 @@ describe('graph show up animations', () => {
     //     default: ['zoom-canvas'],
     //   },
     //   node: d => {
-    //     lodLevels: {
-    //       levels: [
+    //     lodLevels: [
     //         { zoomRange: [0, 0.65] },
     //         { zoomRange: [0.65, 0.8] },
     //         { zoomRange: [0.8, 1.6], primary: true },
     //         { zoomRange: [1.6, 2] },
     //         { zoomRange: [2, Infinity] },
     //       ],
-    //       animateCfg: {
-    //         duration: 200,
-    //       },
-    //     },
     //   }
     // })
 

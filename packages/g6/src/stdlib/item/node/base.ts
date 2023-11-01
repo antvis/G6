@@ -29,9 +29,6 @@ import {
 } from '../../../util/shape';
 import { getWordWrapWidthByBox } from '../../../util/text';
 import { convertToNumber } from '../../../util/type';
-import { DEFAULT_ANIMATE_CFG, fadeIn, fadeOut } from '../../../util/animate';
-import { getZoomLevel } from '../../../util/zoom';
-import { AnimateCfg } from '../../../types/animate';
 
 export abstract class BaseNode {
   type: string;
@@ -94,6 +91,7 @@ export abstract class BaseNode {
             }
             const { position } = data[fieldName][key];
             dataStyles[`${position}BadgeShape`] = {
+              ...this.themeStyles[fieldName],
               ...data[fieldName][key],
               tag: 'badgeShape',
             };
@@ -101,6 +99,7 @@ export abstract class BaseNode {
         } else if (fieldName === 'anchorShapes') {
           Object.keys(data[fieldName]).forEach((idx) => {
             dataStyles[`anchorShape${idx}`] = {
+              ...this.themeStyles[fieldName],
               ...data[fieldName][idx],
               tag: 'anchorShape',
             };
@@ -441,21 +440,24 @@ export abstract class BaseNode {
     if (haloShapeStyle.visible === false) return;
     const { nodeName, attributes } = keyShape;
     const { x, y, fill } = attributes;
-    return this.upsertShape(
+    const s = {
+      ...attributes,
+      ...keyShapeStyle,
+      x,
+      y,
+      stroke: fill,
+      ...haloShapeStyle,
+      batchKey: 'halo',
+    };
+    delete s.fillOpacity;
+    const shape = this.upsertShape(
       nodeName as SHAPE_TYPE,
       'haloShape',
-      {
-        ...attributes,
-        ...keyShapeStyle,
-        x,
-        y,
-        stroke: fill,
-        ...haloShapeStyle,
-        batchKey: 'halo',
-      },
+      s,
       shapeMap,
       model,
     );
+    return shape;
   }
 
   /**

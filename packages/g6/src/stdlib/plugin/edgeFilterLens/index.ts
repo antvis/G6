@@ -1,10 +1,10 @@
 import { DisplayObject } from '@antv/g';
-import { clone } from '@antv/util';
 import { Plugin as Base, IPluginBaseConfig } from '../../../types/plugin';
 import { IGraph } from '../../../types';
 import { IG6GraphEvent } from '../../../types/event';
 import { ShapeStyle } from '../../../types/item';
 import { distance } from '../../../util/point';
+import { cloneJSON } from '../../../util/data';
 
 const DELTA = 0.01;
 interface EdgeFilterLensConfig extends IPluginBaseConfig {
@@ -47,7 +47,7 @@ export class EdgeFilterLens extends Base {
       showType: 'both',
       trigger: 'mousemove',
       r: 60,
-      delegateStyle: clone(lensDelegateStyle),
+      delegateStyle: cloneJSON(lensDelegateStyle),
       showLabel: 'edge',
       scaleRBy: 'wheel',
     };

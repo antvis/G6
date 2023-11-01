@@ -1239,7 +1239,7 @@ export class ItemController {
     return {
       id,
       data: {
-        ...item.displayModel,
+        ...item.displayModel.data,
         ...item.renderExt.mergedStyles,
         lodLevels: item.lodLevels,
       },
@@ -1847,7 +1847,6 @@ export class ItemController {
       (model, canceled) => {
         this.graph.hideItem(model.id, { disableAnimate: canceled });
       },
-      undefined,
     );
   }
 

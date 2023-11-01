@@ -14,7 +14,7 @@ import {
   AABB,
   Tuple3Number,
 } from '@antv/g';
-import { clone, isArray, isNumber } from '@antv/util';
+import { isArray, isNumber } from '@antv/util';
 import { DEFAULT_LABEL_BG_PADDING } from '../constant';
 import { Padding, Point, StandardPadding } from '../types/common';
 import { EdgeDisplayModel, EdgeShapeMap } from '../types/edge';
@@ -33,6 +33,7 @@ import Combo from '../item/combo';
 import { getShapeAnimateBeginStyles } from './animate';
 import { isArrayOverlap } from './array';
 import { isBetween } from './math';
+import { cloneJSON } from './data';
 
 export const ShapeTagMap = {
   circle: Circle,
@@ -116,23 +117,22 @@ export const upsertShape = (
   const firstRendering = !shapeMap.keyShape;
   const { animates, disableAnimate } = model?.data || {};
   if (!shape) {
-    // create
-    shape = createShape(type, style, id);
-    if (style.interactive === false) shape.interactive = false;
     // find the animate styles, set them to be INIT_SHAPE_STYLES
-    // TODO, timing
     if (!disableAnimate && animates) {
       const animateFields = findAnimateFields(
         animates,
-        'buildIn',
-        // firstRendering ? 'buildIn' : 'update',
+        firstRendering ? 'buildIn' : 'update',
         id,
       );
+      shape = createShape(type, style, id);
       const initShapeStyles = getShapeAnimateBeginStyles(shape);
       animateFields.forEach((key) => {
         shape.style[key] = initShapeStyles[key];
       });
+    } else {
+      shape = createShape(type, style, id);
     }
+    if (style.interactive === false) shape.interactive = false;
   } else if (shape.nodeName !== type) {
     // remove and create for the shape changed type
     shape.remove();
@@ -282,7 +282,7 @@ export const formatPadding = (
  * @returns
  */
 export const mergeStyles = (styleMaps: ItemShapeStyles[]) => {
-  let currentResult = clone(styleMaps[0]);
+  let currentResult = cloneJSON(styleMaps[0]);
   styleMaps.forEach((styleMap, i) => {
     if (i > 0) currentResult = merge2Styles(currentResult, styleMap);
   });
@@ -411,6 +411,7 @@ export const isPolygonsIntersect = (
 };
 
 export const intersectBBox = (box1: Partial<AABB>, box2: Partial<AABB>) => {
+  if (!box2?.min || !box1?.min) return false;
   return (
     box2.min[0] <= box1.max[0] &&
     box2.max[0] >= box1.min[0] &&

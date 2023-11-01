@@ -201,7 +201,7 @@ const graph = new ExtGraph({
       data: {
         ...node.data,
         type: 'rect-node',
-        lodLevels: {},
+        lodLevels: [],
         keyShape: {
           width: 60,
           height: 30,
