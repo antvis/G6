@@ -57,6 +57,11 @@ const PATH_COMMANDS = {
   a: ['rx', 'ry', 'rotation', 'large-arc', 'sweep', 'dx', 'dy'],
 };
 
+/**
+ * Converts a path string to an array of path segments.
+ * @param {string} path - The path string to convert.
+ * @returns {Array} - An array of path segments.
+ **/
 const fromPathToArray = (path: string) => {
   const items = path
     .replace(/[\n\r]/g, '')
@@ -89,6 +94,11 @@ const fromPathToArray = (path: string) => {
   return segments;
 };
 
+/**
+ * Converts a path to an array of points.
+ * @param {Array|string} path - The path to convert to points.
+ * @returns {Array} - An array of points.
+ */
 export const pathToPoints = (path: any[] | string) => {
   const points = [];
   let segments = [];
