@@ -362,6 +362,7 @@ export class LayoutController {
 
     const nodeWithPostions = new Map();
     // find the neighbors' mean center as the initial position for the nodes
+    const initNaNPositions: LayoutMapping = { nodes: [], edges: [] };
     layoutData.nodes.forEach((node) => {
       const { x, y } = node.data;
       if (isNaN(x) || isNaN(y)) {
@@ -384,10 +385,12 @@ export class LayoutController {
           node.data.y = center[1] + Math.random();
           node.data.z = Math.random();
         }
+        initNaNPositions.nodes.push(node);
       } else {
         nodeWithPostions.set(node.id, 1);
       }
     });
+    this.updateNodesPosition(initNaNPositions, false, false);
     return nodeWithPostions;
   };
 
@@ -473,13 +476,17 @@ export class LayoutController {
     }
   }
 
-  private updateNodesPosition(positions: LayoutMapping, animate = true) {
+  private updateNodesPosition(
+    positions: LayoutMapping,
+    animate = true,
+    cache = true,
+  ) {
     if (!positions) return;
     const { nodes, edges } = positions;
-    this.previousNodes = new Map();
+    if (cache) this.previousNodes = new Map();
     const nodePositions = nodes.map((node) => {
       const { x, y, z, ...others } = node.data;
-      this.previousNodes.set(node.id, others);
+      if (cache) this.previousNodes.set(node.id, others);
       const data = isNaN(z) ? { x, y } : { x, y, z };
       return {
         id: node.id,

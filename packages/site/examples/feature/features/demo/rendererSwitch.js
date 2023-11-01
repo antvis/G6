@@ -6,8 +6,8 @@ const height = container.scrollHeight || 500;
 
 const renderers = {
   '🐰 Canvas': 'canvas',
-  '🐢 SVG': 'svg',
   '🚀 WebGL': 'webgl',
+  '🐢 SVG': 'svg',
   '⭐️ WebGL-3D': 'webgl-3d',
 };
 
@@ -142,7 +142,7 @@ const create3DGraph = async (data) => {
       {
         type: 'map-node-size',
         field: 'degree',
-        range: [2, 24],
+        range: [40, 100],
       },
     ],
     data,
@@ -228,6 +228,7 @@ const create2DGraph = (renderer, data) => {
     width,
     height,
     renderer,
+    autoFit: 'view',
     transforms: [
       'data-format',
       {
@@ -264,11 +265,10 @@ const create2DGraph = (renderer, data) => {
     node: (innerModel) => {
       const { degree } = innerModel.data;
       let iconLod = 3;
-      if (degree > 40) iconLod = -2;
-      else if (degree > 20) iconLod = -1;
-      else if (degree > 10) iconLod = 0;
-      else if (degree > 5) iconLod = 1;
-      else if (degree > 2) iconLod = 2;
+      if (degree > 40) iconLod = -1;
+      else if (degree > 20) iconLod = 0;
+      else if (degree > 10) iconLod = 1;
+      else if (degree > 5) iconLod = 2;
       return {
         ...innerModel,
         data: {
@@ -288,6 +288,15 @@ const create2DGraph = (renderer, data) => {
             degree !== 0
               ? {
                   lod: 'auto',
+                }
+              : undefined,
+          iconShape:
+            degree !== 0
+              ? {
+                  img: 'https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*7g4nSbYrg6cAAAAAAAAAAAAADmJ7AQ/original',
+                  fontSize: innerModel.data.keyShape.r,
+                  opacity: 0.8,
+                  lod: iconLod,
                 }
               : undefined,
         },
@@ -319,11 +328,11 @@ const create2DGraph = (renderer, data) => {
 
 const handleCreateGraph = (renderer, data, prevGraph, tip) => {
   let graph;
-  const func = () => {
+  const func = async () => {
     if (renderer === 'webgl-3d') {
-      graph = create3DGraph(data);
+      graph = await create3DGraph(data);
     } else {
-      graph = create2DGraph(renderer, data);
+      graph = await create2DGraph(renderer, data);
     }
     graph.on('afterrender', (e) => {
       tip.innerHTML = '👌 Done!';

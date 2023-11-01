@@ -132,10 +132,12 @@ const create2DGraph = (
   });
   const graph = new ExtGraph({
     container: container as HTMLElement,
-    width,
-    height: 1400,
+    // width,
+    // height: 1400,
+    width: 1150,
+    height: 400,
     renderer: 'webgl',
-    // rendererType,
+    rendererType,
     data: dataFor2D,
     modes: {
       default: [
@@ -210,7 +212,7 @@ const create2DGraph = (
           iconShape:
             degree !== 0
               ? {
-                  img: 'https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg',
+                  img: 'https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*7g4nSbYrg6cAAAAAAAAAAAAADmJ7AQ/original',
                   fontSize: 12 + degree / 4,
                   opacity: 0.8,
                   lod: labelLod + 2,
@@ -224,7 +226,7 @@ const create2DGraph = (
     },
   });
 
-  graph.zoom(0.15);
+  // graph.zoom(0.15);
   return graph;
 };
 
@@ -241,6 +243,8 @@ const create3DGraph = async () => {
       'force-wasm': Extensions.ForceLayout,
     },
   });
+
+  console.log('create3DGraph', dataFor3D);
 
   const newGraph = new ExtGraph({
     container: container as HTMLDivElement,
@@ -754,7 +758,7 @@ export default () => {
   const result2d = getDataFor2D(data);
   degrees = result2d.degrees;
   dataFor2D = result2d.data;
-  dataFor3D = getDataFor3D(data3d);
+  dataFor3D = result2d.data; //getDataFor3D(data3d);
 
   graph = create2DGraph();
   const { rendererSelect, themeSelect, customThemeSelect, zoomIn, zoomOut } =
