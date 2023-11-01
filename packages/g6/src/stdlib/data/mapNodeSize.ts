@@ -58,11 +58,11 @@ const handler = (
   const sizeMap = scaleNodeProp(nodes, field, valueRange, range);
   sizeMap.forEach((val, id) => {
     let value = val;
-    if (isNaN(val)) value = range[0];
+    if (isNaN(val) || !val) value = range[0];
     const node = nodeMap.get(id);
     node.data.keyShape = {
       ...node.data.keyShape,
-      r: value / 2,
+      r: Math.round(value / 2),
       width: value,
       height: value,
     };
