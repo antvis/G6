@@ -104203,5 +104203,5 @@ export default {
       target: '8497',
       data: {},
     },
-  ]
+  ],
 } as GraphData;
