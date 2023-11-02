@@ -463,17 +463,28 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * Update the specs(configurations).
    */
   public updateSpecification(spec: Specification<B, T>): Specification<B, T> {
-    const { node, edge, combo, theme, ...others } = spec;
+    const {
+      node,
+      edge,
+      combo,
+      theme,
+      nodeState,
+      edgeState,
+      comboState,
+      ...others
+    } = spec;
     if (node) this.updateMapper('node', node);
     if (edge) this.updateMapper('edge', edge);
     if (combo) this.updateMapper('combo', combo);
     if (theme) this.updateTheme(theme);
+    if (nodeState) this.updateStateConfig('node', nodeState, 'replace');
+    if (edgeState) this.updateStateConfig('edge', edgeState, 'replace');
+    if (comboState) this.updateStateConfig('combo', comboState, 'replace');
 
     const newSpec = Object.assign(
       this.specification,
       this.formatSpecification(others),
     );
-    // TODO: update something
     return newSpec;
   }
   /**
