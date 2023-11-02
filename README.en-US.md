@@ -154,13 +154,13 @@ const graph = new G6.Graph({
 ## Development (5.0 Alpha)
 
 ```bash
-# enter packages/g6 from root of project
-$ cd packages/g6
+# install dependencies by pnpm in the root directory
+$ pnpm install
 
-# install dependencies
-$ npm install
+# enter packages/g6
+$ cd ./packages/g6
 
-# build
+# build g6
 $ npm run build
 
 # start the integration demos
