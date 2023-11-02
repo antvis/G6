@@ -5,14 +5,29 @@ import { Command } from '../stdlib/plugin/history/command';
 import { Hooks } from '../types/hook';
 import { CameraAnimationOptions } from './animate';
 import { BehaviorOptionsOf, BehaviorRegistry } from './behavior';
-import { ComboModel, ComboUserModel } from './combo';
+import {
+  ComboDisplayModel,
+  ComboModel,
+  ComboShapesEncode,
+  ComboUserModel,
+} from './combo';
 import { Padding, Point } from './common';
 import { GraphData } from './data';
-import { EdgeDisplayModel, EdgeModel, EdgeUserModel } from './edge';
+import {
+  EdgeDisplayModel,
+  EdgeModel,
+  EdgeShapesEncode,
+  EdgeUserModel,
+} from './edge';
 import type { StackType } from './history';
 import { ITEM_TYPE, SHAPE_TYPE, ShapeStyle } from './item';
 import { LayoutOptions } from './layout';
-import { NodeModel, NodeUserModel } from './node';
+import {
+  NodeDisplayModel,
+  NodeModel,
+  NodeShapesEncode,
+  NodeUserModel,
+} from './node';
 import { RendererName } from './render';
 import { ComboMapper, EdgeMapper, NodeMapper, Specification } from './spec';
 import { ThemeOptionsOf, ThemeRegistry } from './theme';
@@ -54,6 +69,32 @@ export interface IGraph<
   updateMapper: (
     type: ITEM_TYPE,
     mapper: NodeMapper | EdgeMapper | ComboMapper,
+  ) => void;
+  /**
+   * Updates the state configuration for the specified item type, corresponds to the nodeState, edgeState, or comboState on the graph spec.
+   * @param {string} itemType - The type of item (node, edge, or combo).
+   * @param {object} stateConfig - The state configuration to update.
+   * @param {string} updateType - The type of update ('mergeReplace' or 'replace'). Default is 'mergeReplace'.
+   **/
+  updateStateConfig: (
+    itemType: ITEM_TYPE,
+    stateConfig:
+      | {
+          [stateName: string]:
+            | ((data: NodeModel) => NodeDisplayModel)
+            | NodeShapesEncode;
+        }
+      | {
+          [stateName: string]:
+            | ((data: EdgeModel) => EdgeDisplayModel)
+            | EdgeShapesEncode;
+        }
+      | {
+          [stateName: string]:
+            | ((data: ComboModel) => ComboDisplayModel)
+            | ComboShapesEncode;
+        },
+    updateType?: 'mergeReplace' | 'replace',
   ) => void;
   /**
    * Get the copy of specs(configurations).
