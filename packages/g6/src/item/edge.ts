@@ -153,7 +153,7 @@ export default class Edge extends Item {
    * @param force bypass the nodes position change check and force to re-draw
    */
   public forceUpdate() {
-    if (this.destroyed) return;
+    if (this.destroyed || !this.shapeMap.keyShape) return;
     const force = isPolylineWithObstacleAvoidance(this.displayModel);
     const { sourcePoint, targetPoint, changed } = this.getEndPoints(
       this.displayModel,
