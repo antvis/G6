@@ -302,7 +302,7 @@ export class LayoutController {
           positions = await layout.execute(layoutGraphCore, {
             onTick: (positionsOnTick: LayoutMapping) => {
               // Display the animated process of layout.
-              this.updateNodesPosition(positionsOnTick);
+              this.updateNodesPosition(positionsOnTick, false);
               this.graph.emit('tick', positionsOnTick);
             },
           });

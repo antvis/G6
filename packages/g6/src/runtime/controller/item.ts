@@ -1680,7 +1680,8 @@ export class ItemController {
 
       return false;
     }
-    return item.isVisible();
+    const transientVisible = this.transientItemMap.get(id);
+    return item.isVisible() || transientVisible?.isVisible();
   }
 
   public sortByComboTree(graphCore: GraphCore) {
