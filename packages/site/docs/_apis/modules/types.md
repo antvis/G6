@@ -1,1 +1,1 @@
-[Overview - v5.0.0-alpha.9](../README.md) / [Modules](../modules.md) / types
+[Overview - v5.0.0-beta.27](../README.md) / types

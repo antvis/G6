@@ -380,17 +380,15 @@ export class LayoutController {
           node.data.x = meanCenter.x / meanCenter.count + Math.random();
           node.data.y = meanCenter.y / meanCenter.count + Math.random();
           node.data.z = meanCenter.z / meanCenter.count + Math.random();
-        } else {
-          node.data.x = center[0] + Math.random();
-          node.data.y = center[1] + Math.random();
-          node.data.z = Math.random();
+          initNaNPositions.nodes.push(node);
         }
-        initNaNPositions.nodes.push(node);
       } else {
         nodeWithPostions.set(node.id, 1);
       }
     });
-    this.updateNodesPosition(initNaNPositions, false, false);
+    if (initNaNPositions.nodes.length) {
+      this.updateNodesPosition(initNaNPositions, false, false);
+    }
     return nodeWithPostions;
   };
 

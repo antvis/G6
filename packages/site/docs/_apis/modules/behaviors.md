@@ -1,4 +1,4 @@
-[Overview - v5.0.0-alpha.9](../README.md) / [Modules](../modules.md) / behaviors
+[Overview - v5.0.0-beta.27](../README.md) / behaviors
 
 ## Interfaces
 
@@ -27,4 +27,4 @@ Event type union
 
 #### Defined in
 
-[packages/g6/src/types/event.ts:38](https://github.com/antvis/G6/blob/4b803837a5/packages/g6/src/types/event.ts#L38)
+[packages/g6/src/types/event.ts:38](https://github.com/antvis/G6/blob/757d405f27/packages/g6/src/types/event.ts#L38)

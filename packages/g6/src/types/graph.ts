@@ -162,6 +162,7 @@ export interface IGraph<
    * Get nearby edges from a start node using quadtree collision detection.
    * @param nodeId id of the start node
    * @returns nearby edges' data array
+   * @group Data
    */
   getNearEdgesData: (
     nodeId: ID,
@@ -214,6 +215,7 @@ export interface IGraph<
   /**
    * Clear the graph, means remove all the items on the graph.
    * @returns
+   * @group Data
    */
   clear: () => void;
   /**
@@ -339,7 +341,7 @@ export interface IGraph<
    * @param dy the distance alone y-axis to move the combo.
    * @param upsertAncestors whether update the ancestors in the combo tree.
    * @param callback callback function after move combo done.
-   * @group Data
+   * @group Combo
    */
   moveCombo: (
     ids: ID[],
@@ -359,6 +361,7 @@ export interface IGraph<
    * @param dx x of the relative vector
    * @param dy y of the relative vector
    * @param effectTiming animation configurations
+   * @group View
    */
   translate: (
     distance: Partial<{
@@ -372,6 +375,7 @@ export interface IGraph<
    * Move the graph and align to a point.
    * @param point position on the canvas to align
    * @param effectTiming animation configurations
+   * @group View
    */
   translateTo: (
     point: PointLike,
@@ -380,6 +384,7 @@ export interface IGraph<
   /**
    * Return the current zoom level of camera.
    * @returns current zoom
+   * @group View
    */
   getZoom: () => number;
   /**
@@ -387,6 +392,7 @@ export interface IGraph<
    * @param ratio relative ratio to zoom
    * @param center zoom center
    * @param effectTiming animation configurations
+   * @group View
    */
   zoom: (
     ratio: number,
@@ -398,6 +404,7 @@ export interface IGraph<
    * @param toRatio specified ratio
    * @param center zoom center
    * @param effectTiming animation configurations
+   * @group View
    */
   zoomTo: (
     toRatio: number,
@@ -409,6 +416,7 @@ export interface IGraph<
    * @param angle
    * @param center
    * @param effectTiming
+   * @group View
    */
   rotate: (
     angle: number,
@@ -420,6 +428,7 @@ export interface IGraph<
    * @param toAngle
    * @param center
    * @param effectTiming
+   * @group View
    */
   rotateTo: (
     toAngle: number,
@@ -431,6 +440,7 @@ export interface IGraph<
    * Transform the graph with a CSS-Transform-like syntax.
    * @param options
    * @param effectTiming
+   * @group View
    */
   transform: (
     options: GraphTransformOptions,
@@ -438,10 +448,12 @@ export interface IGraph<
   ) => Promise<void>;
   /**
    * Stop the current transition of transform immediately.
+   * @group View
    */
   stopTransformTransition: () => void;
   /**
    * Return the center of viewport, e.g. for a 500 * 500 canvas, its center is [250, 250].
+   * @group View
    */
   getViewportCenter: () => PointLike;
   /**
@@ -650,6 +662,7 @@ export interface IGraph<
   // ===== layout =====
   /**
    * Layout the graph (with current configurations if cfg is not assigned).
+   * @group Layout
    */
   layout: (options?: LayoutOptions, disableAnimate?: boolean) => Promise<void>;
   stopLayout: () => void;
@@ -678,6 +691,7 @@ export interface IGraph<
    * @param behaviors behavior names or configs
    * @param modes mode names
    * @returns
+   * @group Interaction
    */
   addBehaviors: (
     behaviors: BehaviorOptionsOf<B> | BehaviorOptionsOf<B>[],
@@ -767,6 +781,7 @@ export interface IGraph<
 
   /**
    * Determine if history (redo/undo) is enabled.
+   * @group History
    */
   isHistoryEnabled: () => void;
 
@@ -774,56 +789,67 @@ export interface IGraph<
    * Push the operation(s) onto the specified stack
    * @param cmd commands to be pushed
    * @param stackType undo/redo stack
+   * @group History
    */
   pushStack: (cmd: Command[], stackType: StackType) => void;
   /**
    * Pause stacking operation.
+   * @group History
    */
   pauseStack: () => void;
   /**
    * Resume stacking operation.
+   * @group History
    */
   resumeStack: () => void;
   /**
    * Execute a callback without allowing any stacking operations.
    * @param callback
+   * @group History
    */
   executeWithNoStack: (callback: () => void) => void;
   /**
    * Retrieve the current redo stack which consists of operations that could be undone
+   * @group History
    */
   getUndoStack: () => void;
 
   /**
    * Retrieve the current undo stack which consists of operations that were undone
+   * @group History
    */
   getRedoStack: () => void;
 
   /**
    * Retrieve the complete history stack
    * @returns
+   * @group History
    */
   getStack: () => void;
 
   /**
    * Revert the last n operation(s) on the graph.
    * @returns
+   * @group History
    */
   undo: () => void;
 
   /**
    * Restore the operation that was last n reverted on the graph.
    * @returns
+   * @group History
    */
   redo: () => void;
 
   /**
    * Indicate whether there are any actions available in the undo stack.
+   * @group History
    */
   canUndo: () => void;
 
   /**
    * Indicate whether there are any actions available in the redo stack.
+   * @group History
    */
   canRedo: () => void;
 
@@ -831,6 +857,7 @@ export interface IGraph<
    * Begin a historyBatch operation.
    * Any operations performed between `startHistoryBatch` and `stopHistoryBatch` are grouped together.
    * treated as a single operation when undoing or redoing.
+   * @group History
    */
   startHistoryBatch: () => void;
 
@@ -838,6 +865,7 @@ export interface IGraph<
    * End a historyBatch operation.
    * Any operations performed between `startHistoryBatch` and `stopHistoryBatch` are grouped together.
    * treated as a single operation when undoing or redoing.
+   * @group History
    */
   stopHistoryBatch: () => void;
 
@@ -846,6 +874,7 @@ export interface IGraph<
    * All operations performed inside callback will be treated as a composite operation
    * more convenient way without manually invoking `startHistoryBatch` and `stopHistoryBatch`.
    * @param callback The func containing operations to be batched together.
+   * @group History
    */
   historyBatch: (callback: () => void) => void;
 
@@ -854,6 +883,7 @@ export interface IGraph<
    * All operations performed inside callback will be treated as a composite operation
    * more convenient way without manually invoking `startHistoryBatch` and `stopHistoryBatch`.
    * @param callback The func containing operations to be batched together.
+   * @group History
    */
   cleanHistory: (stackType?: StackType) => void;
   // ===== tree operations =====

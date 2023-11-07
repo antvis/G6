@@ -301,12 +301,20 @@ export default defineConfig({
         order: 2,
       },
       {
+        slug: 'apis/interfaces/data',
+        title: {
+          zh: 'data',
+          en: 'data',
+        },
+        order: 3,
+      },
+      {
         slug: 'apis/interfaces/graph',
         title: {
           zh: 'graph',
           en: 'graph',
         },
-        order: 3,
+        order: 4,
       },
       {
         slug: 'apis/interfaces/item',
@@ -314,15 +322,7 @@ export default defineConfig({
           zh: 'item',
           en: 'item',
         },
-        order: 4,
-      },
-      {
-        slug: 'apis/interfaces/plugins',
-        title: {
-          zh: 'plugins',
-          en: 'plugins',
-        },
-        order: 7,
+        order: 5,
       },
       {
         slug: 'apis/interfaces/layout',
@@ -330,7 +330,7 @@ export default defineConfig({
           zh: 'layout',
           en: 'layout',
         },
-        order: 5,
+        order: 6,
       },
       {
         slug: 'apis/interfaces/behaviors',
@@ -338,7 +338,15 @@ export default defineConfig({
           zh: 'behaviors',
           en: 'behaviors',
         },
-        order: 6,
+        order: 7,
+      },
+      {
+        slug: 'apis/interfaces/plugins',
+        title: {
+          zh: 'plugins',
+          en: 'plugins',
+        },
+        order: 8,
       },
 
       {
@@ -347,7 +355,7 @@ export default defineConfig({
           zh: 'classes',
           en: 'classes',
         },
-        order: 8,
+        order: 9,
       },
       // {
       //   slug: 'apis/interfaces',
