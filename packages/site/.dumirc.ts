@@ -293,22 +293,6 @@ export default defineConfig({
       // },
       // ==========API====================
       {
-        slug: 'apis/README',
-        title: {
-          zh: 'README',
-          en: 'README',
-        },
-        order: 0,
-      },
-      {
-        slug: 'apis/guideline',
-        title: {
-          zh: '导航',
-          en: 'Guideline',
-        },
-        order: 1,
-      },
-      {
         slug: 'apis/data',
         title: {
           zh: '数据',

@@ -11,7 +11,6 @@ order: 1
 
 - 是否必须：`是`；
 - 类型： [`NodeUserModel[]`](#NodeUserModel)；
-- 定义于：[packages/g6/src/types/data.ts:12](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/data.ts#L12)
 
 #### NodeUserModel
 
@@ -27,7 +26,6 @@ order: 1
 
 - 是否必须：`是`；
 - 类型： `EdgeUserModel`[]；
-- 定义于：[packages/g6/src/types/data.ts:13](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/data.ts#L13)
 
 #### EdgeUserModel
 
@@ -51,7 +49,6 @@ order: 1
 
 - 是否必须：`否`；
 - 类型： `ComboUserModel`[]；
-- 定义于：[packages/g6/src/types/data.ts:14](https://github.com/antvis/G6/blob/61e525e59b/packages/g6/src/types/data.ts#L14)
 
 #### ComboUserModel
 

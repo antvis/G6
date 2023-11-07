@@ -13,7 +13,6 @@ v5 的 Graph 可以读取 `GraphData`、`TreeData`、`TreeData[]`，即可以展
 
 - 是否必须：`是`；
 - 类型： `string | number`；
-- 定义于：[packages/g6/src/types/data.ts:17](https://github.com/antvis/G6/blob/61e525e59b5034ba8aa332ba38baa9816a128012/packages/g6/src/types/data.ts#L17)
 
 节点的唯一 ID，节点创建后，ID 不可被修改。
 
