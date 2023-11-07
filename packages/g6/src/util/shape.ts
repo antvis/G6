@@ -164,7 +164,6 @@ export const upsertShape = (
     if (style.interactive === false) shape.interactive = false;
     else shape.interactive = true;
   }
-  shapeMap[id] = shape;
   return shape;
 };
 
@@ -231,7 +230,6 @@ export const updateShapes = (
       ) {
         parentGroup.appendChild(newShape);
         if (newShape.style.lod === 'auto') {
-          newShape.style.visibility = 'hidden';
           if (newShape.id === 'labelShape' && parentGroup === labelGroup) {
             labelGroup.attributes.visibility = 'hidden';
           }

@@ -34,6 +34,7 @@ import {
 import { AnimateTiming, IAnimates, IStateAnimate } from '../types/animate';
 import { formatLodLevels } from '../util/zoom';
 import { IGraph } from '../types';
+import { camelCase } from '../util/string';
 
 export default abstract class Item implements IItem {
   public graph: IGraph;
@@ -99,6 +100,7 @@ export default abstract class Item implements IItem {
   private cacheStateStyles: { [stateName: string]: ItemShapeStyles } = {};
   private cacheNotHiddenByItem: { [shapeId: string]: boolean } = {};
   private cacheHiddenByItem: { [shapeId: string]: boolean } = {};
+  private cacheShapeMap: { [shapeId: string]: any } = {};
 
   // TODO: props type
   constructor(props) {
@@ -167,6 +169,7 @@ export default abstract class Item implements IItem {
       enableBalanceShape,
       device: this.device,
       zoom: this.zoom,
+      cacheShapeMap: this.cacheShapeMap,
     });
   }
 
@@ -440,10 +443,28 @@ export default abstract class Item implements IItem {
     return this.type;
   }
 
+  private loadCacheShape(id: string) {
+    if (!this.cacheShapeMap[id]) return;
+    const func = camelCase(`draw ${id}`);
+    const shape = this.renderExt[func](this.displayModel, this.shapeMap);
+    if (id === 'labelShape') {
+      shape.attributes.dataIsLabel = true;
+    } else if (id === 'labelBackgroundShape') {
+      shape.attributes.dataIsLabelBackground = true;
+    }
+    const parentGroup =
+      shape.attributes.dataIsLabel || shape.attributes.dataIsLabelBackground
+        ? this.labelGroup
+        : this.group;
+    parentGroup?.appendChild(shape);
+    this.shapeMap[id] = shape;
+    delete this.cacheShapeMap[id];
+  }
+
   /** Show the item. */
   public show(animate = true, shapeIds = undefined) {
     const shapeIdsToStop = shapeIds?.filter((id) => {
-      const shape = this.shapeMap[id];
+      const shape = this.shapeMap[id] || this.loadCacheShape(id);
       return shape && shape.style.visibility === 'hidden';
     });
     if (shapeIds?.length && !shapeIdsToStop?.length) return;
@@ -524,7 +545,7 @@ export default abstract class Item implements IItem {
   public hide(animate = true, keepKeyShape = false, shapeIds = undefined) {
     const shapeIdsToHide =
       shapeIds?.filter((id) => {
-        const shape = this.shapeMap[id];
+        const shape = this.shapeMap[id] || this.loadCacheShape(id);
         return (
           shape &&
           (shape.attributes.visibility !== 'hidden' ||

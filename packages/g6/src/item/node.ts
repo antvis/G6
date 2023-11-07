@@ -74,12 +74,7 @@ export default class Node extends Item {
     renderExt.mergeStyles(displayModel);
 
     const firstRendering = !this.shapeMap?.keyShape;
-    const shapeMap = renderExt.draw(
-      displayModel,
-      this.shapeMap,
-      diffData,
-      diffState,
-    );
+
     if (this.shapeMap.labelShape) {
       this.shapeMap.labelShape.attributes.dataIsLabel = true;
     }
@@ -88,8 +83,31 @@ export default class Node extends Item {
         true;
     }
 
+    const shapeMap = renderExt.draw(
+      displayModel,
+      this.shapeMap,
+      diffData,
+      diffState,
+    );
+
+    const actualRenderedShapeMap = {};
+
+    Object.keys(shapeMap).forEach((id) => {
+      const shape = shapeMap[id];
+      if (this.renderExt.shouldRenderShape(shape)) {
+        actualRenderedShapeMap[id] = shape;
+      } else {
+        this.renderExt.cacheShapeMap[id] = true;
+      }
+    });
+
     // add shapes to group, and update shapeMap
-    this.shapeMap = updateShapes(prevShapeMap, shapeMap, group, labelGroup);
+    this.shapeMap = updateShapes(
+      prevShapeMap,
+      actualRenderedShapeMap,
+      group,
+      labelGroup,
+    );
 
     const { animates, disableAnimate, x = 0, y = 0, z = 0 } = displayModel.data;
     if (firstRendering) {
@@ -304,7 +322,9 @@ export default class Node extends Item {
       },
     });
     Object.keys(this.shapeMap).forEach((shapeId) => {
-      if (!this.shapeMap[shapeId].isVisible()) {
+      const shape = this.shapeMap[shapeId];
+      if (!this.renderExt.shouldRenderShape(shape)) return;
+      if (!shape.isVisible()) {
         clonedNode.shapeMap[shapeId].hide();
       } else {
         clonedNode.shapeMap[shapeId]?.show();

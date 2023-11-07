@@ -224,9 +224,15 @@ export class LodController extends Base {
           graph.hideItem(id, { shapeIds: invisibleShapeIds, disableAnimate });
         }
         const item = graph.itemController.itemMap.get(id);
+
+        const existLabel =
+          item.labelGroup.children.length ||
+          item.cacheShapeMap.labelShape ||
+          item.cacheShapeMap.labelBackgroundShape;
+
         if (
           disableLod ||
-          (item.labelGroup.children.length &&
+          (existLabel &&
             (rest > 0 || (zoomRatio >= 1 && this.shownIds.has(id))))
         ) {
           const shapeIdsToShow = lodVisibleShapeIds.concat(autoVisibleShapeIds);

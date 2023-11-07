@@ -37,6 +37,7 @@ export abstract class BaseNode {
   mergedStyles: NodeShapeStyles | ComboShapeStyles;
   lodLevels?: LodLevelRanges;
   enableBalanceShape?: boolean;
+  cacheShapeMap: { [shapeId: string]: boolean } = {};
   //vertex coordinate
 
   /**
@@ -56,11 +57,13 @@ export abstract class BaseNode {
   };
 
   constructor(props) {
-    const { themeStyles, lodLevels, enableBalanceShape, zoom } = props;
+    const { themeStyles, lodLevels, enableBalanceShape, zoom, cacheShapeMap } =
+      props;
     if (themeStyles) this.themeStyles = themeStyles;
     this.lodLevels = lodLevels;
     this.enableBalanceShape = enableBalanceShape;
     this.zoomCache.zoom = zoom;
+    this.cacheShapeMap = cacheShapeMap;
   }
 
   /**
@@ -768,12 +771,28 @@ export abstract class BaseNode {
     shapeMap: NodeShapeMap | ComboShapeMap,
     model: NodeDisplayModel | ComboDisplayModel,
   ): DisplayObject {
-    return upsertShape(
+    const shape = shapeMap[id];
+    if (!shape && style.lod === 'auto') {
+      style.visibility = 'hidden';
+    }
+
+    const newShape = upsertShape(
       type as SHAPE_TYPE,
       id,
       style as GShapeStyle,
       shapeMap,
       model,
     );
+
+    if (this.shouldRenderShape(newShape)) {
+      shapeMap[id] = newShape;
+    }
+
+    return newShape;
+  }
+
+  public shouldRenderShape(shape) {
+    if (!shape) return false;
+    return shape.attributes.visibility !== 'hidden';
   }
 }

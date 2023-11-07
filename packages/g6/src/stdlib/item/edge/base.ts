@@ -47,6 +47,7 @@ export abstract class BaseEdge {
     labelShapeTransform?: string;
     labelBackgroundShapeTransform?: string;
   };
+  cacheShapeMap: { [shapeId: string]: boolean } = {};
   // cache the zoom level infomations
   private zoomCache: {
     // last responsed zoom ratio.
@@ -58,11 +59,12 @@ export abstract class BaseEdge {
     wordWrapWidth: 50,
   };
   constructor(props) {
-    const { themeStyles, lodLevels, zoom } = props;
+    const { themeStyles, lodLevels, zoom, cacheShapeMap } = props;
     if (themeStyles) this.themeStyles = themeStyles;
     this.lodLevels = lodLevels;
     this.transformCache = {};
     this.zoomCache.zoom = zoom;
+    this.cacheShapeMap = cacheShapeMap;
   }
 
   /**
@@ -593,6 +595,28 @@ export abstract class BaseEdge {
     shapeMap: { [shapeId: string]: DisplayObject },
     model: EdgeDisplayModel,
   ): DisplayObject {
-    return upsertShape(type, id, style as GShapeStyle, shapeMap, model);
+    const shape = shapeMap[id];
+    if (!shape && style.lod === 'auto') {
+      style.visibility = 'hidden';
+    }
+
+    const newShape = upsertShape(
+      type,
+      id,
+      style as GShapeStyle,
+      shapeMap,
+      model,
+    );
+
+    if (this.shouldRenderShape(newShape)) {
+      shapeMap[id] = newShape;
+    }
+
+    return newShape;
+  }
+
+  public shouldRenderShape(shape) {
+    if (!shape) return false;
+    return shape.attributes.visibility !== 'hidden';
   }
 }
