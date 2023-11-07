@@ -89,8 +89,7 @@ import Hook from './hooks';
 
 export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
   extends EventEmitter
-  implements IGraph<B, T>
-{
+  implements IGraph<B, T> {
   public hooks: Hooks;
   // for nodes and edges excluding their labels, which will be separate into groups
   public canvas: Canvas;
@@ -219,6 +218,9 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
           width ?? this.container.scrollWidth,
           height ?? this.container.scrollHeight,
           pixelRatio,
+          undefined,
+          // enable dom interaction only for main canvas
+          name === 'canvas' ? [] : ['dom-interaction'],
         );
     });
 
@@ -238,9 +240,9 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
         this.transientCanvas,
         this.transientLabelCanvas,
       ].forEach((canvas, i) => {
-        const $domElement = canvas
+        const $domElement = (canvas
           .getContextService()
-          .getDomElement() as unknown as HTMLElement;
+          .getDomElement() as unknown) as HTMLElement;
         if ($domElement && $domElement.style) {
           // Make all these 3 canvas doms overlap each other. The container already has `position: relative` style.
           $domElement.style.position = 'absolute';
@@ -869,17 +871,20 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       max,
       center: [graphCenterX, graphCenterY],
       halfExtents,
-    } = boundsType === 'render'
-      ? // Get the bounds of the whole graph content.
-        getCombinedCanvasesBounds([this.canvas, this.labelCanvas])
-      : // Get the b  ounds of the nodes positions while the graph content is not ready.
-        getLayoutBounds(this);
+    } =
+      boundsType === 'render'
+        ? // Get the bounds of the whole graph content.
+          getCombinedCanvasesBounds([this.canvas, this.labelCanvas])
+        : // Get the b  ounds of the nodes positions while the graph content is not ready.
+          getLayoutBounds(this);
     const origin = this.canvas.canvas2Viewport({
       x: graphCenterX,
       y: graphCenterY,
     });
-    const { width: viewportWidth, height: viewportHeight } =
-      this.canvas.getConfig();
+    const {
+      width: viewportWidth,
+      height: viewportHeight,
+    } = this.canvas.getConfig();
 
     const graphWidth = halfExtents[0] * 2;
     const graphHeight = halfExtents[1] * 2;
@@ -1172,9 +1177,9 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     nodeId: ID,
     shouldBegin?: (edge: EdgeDisplayModel) => boolean,
   ): EdgeModel[] {
-    const transientItem = this.itemController.getTransientItem(
+    const transientItem = (this.itemController.getTransientItem(
       nodeId,
-    ) as unknown as Node;
+    ) as unknown) as Node;
     const itemMap = this.itemController.getItemMap();
     return this.dataController.findNearEdges(
       nodeId,
@@ -2219,8 +2224,9 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
         const oldBehavior = this.specification.modes[mode].find(
           (behavior) => isObject(behavior) && behavior.key === key,
         );
-        const indexOfOldBehavior =
-          this.specification.modes[mode].indexOf(oldBehavior);
+        const indexOfOldBehavior = this.specification.modes[mode].indexOf(
+          oldBehavior,
+        );
         this.specification.modes[mode].splice(indexOfOldBehavior, 1);
       });
     });
@@ -2362,13 +2368,11 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       if (typeof p === 'string') return p === key || p === type;
       return (
         p.key === key ||
-        (
-          p as {
-            key: string;
-            type: string;
-            [cfg: string]: unknown;
-          }
-        ).type === type
+        (p as {
+          key: string;
+          type: string;
+          [cfg: string]: unknown;
+        }).type === type
       );
     });
     if (!oldPlugin) {

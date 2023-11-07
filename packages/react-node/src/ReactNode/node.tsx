@@ -35,6 +35,7 @@ export const createReactNode = (
           width,
           height,
           anchor: '0.5 0.5',
+          pointerEvents: 'auto',
         },
         shapeMap,
         model,

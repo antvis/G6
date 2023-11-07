@@ -5,4 +5,5 @@ export default defineConfig({
   themeConfig: {
     name: '@antv/g6-react-node',
   },
+  mfsu: false,
 });

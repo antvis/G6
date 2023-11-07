@@ -22,6 +22,7 @@ export const createCanvas = (
   height: number,
   pixelRatio?: number,
   canvasConfig: Partial<CanvasConfig> = {},
+  unregisterPlugins: string[] = [],
 ): Canvas => {
   let renderer: any;
   switch (rendererType.toLowerCase()) {
@@ -45,6 +46,13 @@ export const createCanvas = (
       dragstartTimeThreshold: 100,
     }),
   );
+
+  if (unregisterPlugins.length) {
+    unregisterPlugins.forEach((name) => {
+      const plugin = renderer.getPlugin(name);
+      renderer.unregisterPlugin(plugin);
+    });
+  }
 
   return new Canvas({
     container,
