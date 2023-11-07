@@ -293,69 +293,76 @@ export default defineConfig({
       // },
       // ==========API====================
       {
-        slug: 'apis/modules',
+        slug: 'apis/README',
         title: {
-          zh: 'modules',
-          en: 'modules',
+          zh: 'README',
+          en: 'README',
+        },
+        order: 0,
+      },
+      {
+        slug: 'apis/guideline',
+        title: {
+          zh: '导航',
+          en: 'Guideline',
+        },
+        order: 1,
+      },
+      {
+        slug: 'apis/data',
+        title: {
+          zh: '数据',
+          en: 'Data',
         },
         order: 2,
       },
       {
-        slug: 'apis/interfaces/data',
+        slug: 'apis/graph',
         title: {
-          zh: 'data',
-          en: 'data',
+          zh: '图实例',
+          en: 'Graph',
+        },
+        order: 2,
+      },
+      {
+        slug: 'apis/item',
+        title: {
+          zh: '元素',
+          en: 'Item',
         },
         order: 3,
       },
       {
-        slug: 'apis/interfaces/graph',
+        slug: 'apis/shape',
         title: {
-          zh: 'graph',
-          en: 'graph',
+          zh: '图形',
+          en: 'Shape',
         },
         order: 4,
       },
       {
-        slug: 'apis/interfaces/item',
+        slug: 'apis/layout',
         title: {
-          zh: 'item',
-          en: 'item',
+          zh: '布局',
+          en: 'layout',
         },
         order: 5,
       },
       {
-        slug: 'apis/interfaces/layout',
+        slug: 'apis/behaviors',
         title: {
-          zh: 'layout',
-          en: 'layout',
+          zh: '交互',
+          en: 'Interaction',
         },
         order: 6,
       },
       {
-        slug: 'apis/interfaces/behaviors',
+        slug: 'apis/plugins',
         title: {
-          zh: 'behaviors',
-          en: 'behaviors',
+          zh: '自由插件',
+          en: 'Plugin',
         },
         order: 7,
-      },
-      {
-        slug: 'apis/interfaces/plugins',
-        title: {
-          zh: 'plugins',
-          en: 'plugins',
-        },
-        order: 8,
-      },
-
-      {
-        slug: 'apis/classes',
-        title: {
-          zh: 'classes',
-          en: 'classes',
-        },
-        order: 9,
       },
       // {
       //   slug: 'apis/interfaces',
