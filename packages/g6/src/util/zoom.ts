@@ -26,9 +26,7 @@ export const formatLodLevels = (
  * @returns
  */
 export const getZoomLevel = (levels: LodLevelRanges, zoom: number) => {
-  const keys = Object.keys(levels);
-  for (let i = 0; i < keys.length; i++) {
-    const idx = keys[i];
+  for (const idx in levels) {
     const zoomRange = levels[idx];
     if (zoom >= zoomRange[0] && zoom < zoomRange[1]) {
       return Number(idx);

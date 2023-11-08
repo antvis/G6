@@ -83,16 +83,13 @@ export abstract class BaseEdge {
   public getMergedStyles(model: EdgeDisplayModel) {
     const { data } = model;
     const dataStyles = {} as EdgeShapeStyles;
-    Object.keys(data).forEach((fieldName) => {
+    for (const fieldName in data) {
       if (RESERVED_SHAPE_IDS.includes(fieldName)) {
-        dataStyles[fieldName] = data[fieldName] as ShapeStyle;
+        dataStyles[fieldName] = data[fieldName];
       } else if (fieldName === OTHER_SHAPES_FIELD_NAME) {
-        Object.keys(data[fieldName]).forEach(
-          (otherShapeId) =>
-            (dataStyles[otherShapeId] = data[fieldName][otherShapeId]),
-        );
+        Object.assign(dataStyles, data[fieldName]);
       }
-    });
+    }
     const merged = mergeStyles([
       this.themeStyles,
       this.defaultStyles,
@@ -608,15 +605,16 @@ export abstract class BaseEdge {
       model,
     );
 
-    if (this.shouldRenderShape(newShape)) {
+    if (this.shouldRenderShape(id, newShape)) {
       shapeMap[id] = newShape;
     }
 
     return newShape;
   }
 
-  public shouldRenderShape(shape) {
+  public shouldRenderShape(id: ID, shape: DisplayObject) {
     if (!shape) return false;
+    if (id === 'keyShape') return true;
     return shape.attributes.visibility !== 'hidden';
   }
 }

@@ -1,6 +1,6 @@
 import { AABB, DisplayObject } from '@antv/g';
 import { OTHER_SHAPES_FIELD_NAME, RESERVED_SHAPE_IDS } from '../../../constant';
-import { NodeDisplayModel } from '../../../types';
+import { ID, NodeDisplayModel } from '../../../types';
 import {
   GShapeStyle,
   SHAPE_TYPE,
@@ -82,41 +82,39 @@ export abstract class BaseNode {
   public getMergedStyles(model: NodeDisplayModel | ComboDisplayModel) {
     const { data } = model;
     const dataStyles = {} as NodeShapeStyles | ComboShapeStyles;
-    Object.keys(data).forEach((fieldName) => {
+    for (const fieldName in data) {
       if (RESERVED_SHAPE_IDS.includes(fieldName)) {
+        const fieldValue = data[fieldName] as any;
         if (fieldName === 'badgeShapes') {
           dataStyles[fieldName] = {};
-          Object.keys(data[fieldName]).forEach((key) => {
+          for (const key in fieldValue) {
             if (isNaN(Number(key))) {
               // key is not a number, it is a common style
-              dataStyles[fieldName][key] = data[fieldName][key];
+              dataStyles[fieldName][key] = fieldValue[key];
               return;
             }
-            const { position } = data[fieldName][key];
+            const { position } = fieldValue[key];
             dataStyles[`${position}BadgeShape`] = {
               ...this.themeStyles[fieldName],
-              ...data[fieldName][key],
+              ...fieldValue[key],
               tag: 'badgeShape',
             };
-          });
+          }
         } else if (fieldName === 'anchorShapes') {
-          Object.keys(data[fieldName]).forEach((idx) => {
+          for (const idx in fieldValue) {
             dataStyles[`anchorShape${idx}`] = {
               ...this.themeStyles[fieldName],
               ...data[fieldName][idx],
               tag: 'anchorShape',
             };
-          });
+          }
         } else {
           dataStyles[fieldName] = data[fieldName] as ShapeStyle;
         }
       } else if (fieldName === OTHER_SHAPES_FIELD_NAME) {
-        Object.keys(data[fieldName]).forEach(
-          (otherShapeId) =>
-            (dataStyles[otherShapeId] = data[fieldName][otherShapeId]),
-        );
+        Object.assign(dataStyles, data[fieldName]);
       }
-    });
+    }
     const merged = mergeStyles([
       this.themeStyles,
       this.defaultStyles,
@@ -784,15 +782,16 @@ export abstract class BaseNode {
       model,
     );
 
-    if (this.shouldRenderShape(newShape)) {
+    if (this.shouldRenderShape(id, newShape)) {
       shapeMap[id] = newShape;
     }
 
     return newShape;
   }
 
-  public shouldRenderShape(shape) {
+  public shouldRenderShape(id: ID, shape: DisplayObject) {
     if (!shape) return false;
+    if (id === 'keyShape') return true;
     return shape.attributes.visibility !== 'hidden';
   }
 }

@@ -196,14 +196,14 @@ export const updateShapes = (
   removeDiff = true,
   shouldUpdate: (id: string) => boolean = () => true,
 ): NodeShapeMap | EdgeShapeMap => {
-  const tolalMap = {
+  const totalMap = {
     ...prevShapeMap,
     ...newShapeMap,
   };
   const finalShapeMap = {
     ...prevShapeMap,
   };
-  Object.keys(tolalMap).forEach((id) => {
+  for (const id in totalMap) {
     const prevShape = prevShapeMap[id];
     const newShape = newShapeMap[id];
     if (newShape && !shouldUpdate(id)) return;
@@ -242,7 +242,8 @@ export const updateShapes = (
       delete finalShapeMap[id];
       prevShape.remove();
     }
-  });
+  }
+
   return finalShapeMap as NodeShapeMap;
 };
 
@@ -299,16 +300,14 @@ const merge2Styles = (
 ) => {
   if (!styleMap1) return { ...styleMap2 };
   else if (!styleMap2) return { ...styleMap1 };
-  const mergedStyle = styleMap1;
-  Object.keys(styleMap2).forEach((shapeId) => {
-    const style = styleMap2[shapeId];
-    if (!style) return;
-    mergedStyle[shapeId] = {
-      ...mergedStyle[shapeId],
-      ...style,
-    };
-  });
-  return mergedStyle;
+  for (const shapeId in styleMap2) {
+    if (!styleMap1[shapeId]) {
+      styleMap1[shapeId] = { ...styleMap2[shapeId] };
+    } else {
+      Object.assign(styleMap1[shapeId], styleMap2[shapeId]);
+    }
+  }
+  return styleMap1;
 };
 
 /**

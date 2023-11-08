@@ -99,12 +99,12 @@ export default class Edge extends Item {
     const newShapeMap = { ...shapeMap, ...this.afterDrawShapeMap };
     const actualRenderedShapeMap = {};
 
-    Object.keys(newShapeMap).forEach((id) => {
-      const shape = newShapeMap[id];
-      if (this.renderExt.shouldRenderShape(shape)) {
-        actualRenderedShapeMap[id] = shape;
+    Object.keys(newShapeMap).forEach((shapeId) => {
+      const shape = newShapeMap[shapeId];
+      if (this.renderExt.shouldRenderShape(shapeId, shape)) {
+        actualRenderedShapeMap[shapeId] = shape;
       } else {
-        this.renderExt.cacheShapeMap[id] = true;
+        this.renderExt.cacheShapeMap[shapeId] = true;
       }
     });
 
@@ -417,11 +417,12 @@ export default class Edge extends Item {
     if (visible) return clonedEdge;
     Object.keys(this.shapeMap).forEach((shapeId) => {
       const shape = this.shapeMap[shapeId];
-      if (!this.renderExt.shouldRenderShape(shape)) return;
-      if (!shape.isVisible()) {
-        clonedEdge.shapeMap[shapeId].hide();
-      } else {
-        clonedEdge.shapeMap[shapeId].show();
+      if (this.renderExt.shouldRenderShape(shapeId, shape)) {
+        if (!shape.isVisible()) {
+          clonedEdge.shapeMap[shapeId].hide();
+        } else {
+          clonedEdge.shapeMap[shapeId].show();
+        }
       }
     });
     return clonedEdge;

@@ -92,12 +92,12 @@ export default class Node extends Item {
 
     const actualRenderedShapeMap = {};
 
-    Object.keys(shapeMap).forEach((id) => {
-      const shape = shapeMap[id];
-      if (this.renderExt.shouldRenderShape(shape)) {
-        actualRenderedShapeMap[id] = shape;
+    Object.keys(shapeMap).forEach((shapeId) => {
+      const shape = shapeMap[shapeId];
+      if (this.renderExt.shouldRenderShape(shapeId, shape)) {
+        actualRenderedShapeMap[shapeId] = shape;
       } else {
-        this.renderExt.cacheShapeMap[id] = true;
+        this.renderExt.cacheShapeMap[shapeId] = true;
       }
     });
 
@@ -323,11 +323,12 @@ export default class Node extends Item {
     });
     Object.keys(this.shapeMap).forEach((shapeId) => {
       const shape = this.shapeMap[shapeId];
-      if (!this.renderExt.shouldRenderShape(shape)) return;
-      if (!shape.isVisible()) {
-        clonedNode.shapeMap[shapeId].hide();
-      } else {
-        clonedNode.shapeMap[shapeId]?.show();
+      if (this.renderExt.shouldRenderShape(shapeId, shape)) {
+        if (!shape.isVisible()) {
+          clonedNode.shapeMap[shapeId].hide();
+        } else {
+          clonedNode.shapeMap[shapeId]?.show();
+        }
       }
     });
     return clonedNode;

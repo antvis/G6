@@ -545,7 +545,7 @@ export default abstract class Item implements IItem {
   public hide(animate = true, keepKeyShape = false, shapeIds = undefined) {
     const shapeIdsToHide =
       shapeIds?.filter((id) => {
-        const shape = this.shapeMap[id] || this.loadCacheShape(id);
+        const shape = this.shapeMap[id];
         return (
           shape &&
           (shape.attributes.visibility !== 'hidden' ||
