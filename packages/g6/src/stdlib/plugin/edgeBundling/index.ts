@@ -7,16 +7,27 @@ import { Plugin as Base, IPluginBaseConfig } from '../../../types/plugin';
 type NodeConfigMap = Record<string, NodeModel>;
 
 interface BundlingConfig extends IPluginBaseConfig {
+  /** |edges| arrays, each one stores the related edges' id */
   edgeBundles?: IEdge[];
+  /** |edges| * divisions edge points */
   edgePoints?: Point[][];
+  /** The strength of the bundling */
   K?: number;
+  /** The initial step length */
   lambda?: number;
+  /** The initial number of division on each edge. It will be multipled by divRate in each cycle */
   divisions?: number;
+  /** Subdivision rate increase */
   divRate?: number;
+  /** Number of cycles to perform */
   cycles?: number;
+  /** The number of outer interations */
   iterations?: number;
+  /** The rate of the iterations decreasement */
   iterRate?: number;
+  /** The edge similarity threshold for bundling. Large number means the edges in one bundle have smaller similarity, in other words, more edges in one bundle */
   bundleThreshold?: number;
+  /** Tolerance value for euclidean distance between polyline bend points */
   eps?: number;
 }
 
@@ -62,7 +73,6 @@ function projectPointToEdge(p: Point, e: VectorPosition): Point {
 
 export class EdgeBundling extends Base {
   private nodeIdMap: NodeConfigMap = {};
-  private ticking: boolean = false;
 
   constructor(config?: BundlingConfig) {
     super(config);
@@ -70,15 +80,15 @@ export class EdgeBundling extends Base {
 
   public getDefaultCfgs(): BundlingConfig {
     return {
-      edgeBundles: [], // |edges| arrays, each one stores the related edges' id
-      edgePoints: [], // |edges| * divisions edge points
-      K: 0.1, // The strength of the bundling
-      lambda: 0.1, // The initial step length
-      divisions: 1, // The initial number of division on each edge. It will be multipled by divRate in each cycle
-      divRate: 2, // subdivision rate increase
-      cycles: 6, // number of cycles to perform
-      iterations: 90, // The number of outer interations
-      iterRate: 0.6666667, // The rate of the iterations decreasement
+      edgeBundles: [],
+      edgePoints: [],
+      K: 0.1,
+      lambda: 0.1,
+      divisions: 1,
+      divRate: 2,
+      cycles: 6,
+      iterations: 90,
+      iterRate: 0.6666667,
       bundleThreshold: 0.6,
       eps: 1e-6,
     };
@@ -101,11 +111,6 @@ export class EdgeBundling extends Base {
 
     const self = this;
     self.setOptionByKey('data', data);
-
-    // 如果正在布局，忽略布局请求
-    if (self.isTicking()) {
-      return;
-    }
 
     const edges = data.edges || [];
     const nodes = data.nodes || [];
@@ -202,10 +207,6 @@ export class EdgeBundling extends Base {
       self.setOptionByKey('data', data);
     }
 
-    if (self.ticking) {
-      self.ticking = false;
-    }
-
     Object.keys(cfg).forEach((key) => {
       self.setOptionByKey(key, cfg[key]);
     });
@@ -284,7 +285,7 @@ export class EdgeBundling extends Base {
   }
 
   /**
-   * 计算边的长度
+   * Compute the length of an edge
    * @param points
    */
   public getEdgeLength(points: Point[]): number {
@@ -510,10 +511,6 @@ export class EdgeBundling extends Base {
     });
 
     return resForce;
-  }
-
-  public isTicking(): boolean {
-    return this.ticking;
   }
 
   public destroy() {
