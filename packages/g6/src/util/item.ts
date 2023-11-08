@@ -183,5 +183,5 @@ export const upsertTransientItem = (
  * @returns
  */
 export function generateEdgeID(source: ID, target: ID) {
-  return [source, uniqueId(), target].join('->');
+  return [source, uniqueId(), target].join('-');
 }

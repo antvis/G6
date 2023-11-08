@@ -105,6 +105,7 @@ export default class Combo extends Node {
    */
   public forceUpdate = throttle(
     () => {
+      if (this.destroyed || !this.shapeMap.keyShape) return;
       this.updateModelByBounds(this.displayModel as ComboDisplayModel);
       if (!this.destroyed) this.draw(this.displayModel as ComboDisplayModel);
     },

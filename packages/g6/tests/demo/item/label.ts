@@ -1841,7 +1841,7 @@ export default (
       linkDistance: 100,
       edgeStrength: 1000,
       nodeStrength: 2000,
-      // animated: true,
+      animated: true,
       // maxSpeed: 10000,
       // minMovement: 0.1,
     },

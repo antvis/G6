@@ -293,61 +293,60 @@ export default defineConfig({
       // },
       // ==========API====================
       {
-        slug: 'apis/modules',
+        slug: 'apis/data',
         title: {
-          zh: 'modules',
-          en: 'modules',
+          zh: '数据',
+          en: 'Data',
         },
         order: 2,
       },
       {
-        slug: 'apis/interfaces/graph',
+        slug: 'apis/graph',
         title: {
-          zh: 'graph',
-          en: 'graph',
+          zh: '图实例',
+          en: 'Graph',
+        },
+        order: 2,
+      },
+      {
+        slug: 'apis/item',
+        title: {
+          zh: '元素',
+          en: 'Item',
         },
         order: 3,
       },
       {
-        slug: 'apis/interfaces/item',
+        slug: 'apis/shape',
         title: {
-          zh: 'item',
-          en: 'item',
+          zh: '图形',
+          en: 'Shape',
         },
         order: 4,
       },
       {
-        slug: 'apis/interfaces/plugins',
+        slug: 'apis/layout',
         title: {
-          zh: 'plugins',
-          en: 'plugins',
-        },
-        order: 7,
-      },
-      {
-        slug: 'apis/interfaces/layout',
-        title: {
-          zh: 'layout',
+          zh: '布局',
           en: 'layout',
         },
         order: 5,
       },
       {
-        slug: 'apis/interfaces/behaviors',
+        slug: 'apis/behaviors',
         title: {
-          zh: 'behaviors',
-          en: 'behaviors',
+          zh: '交互',
+          en: 'Interaction',
         },
         order: 6,
       },
-
       {
-        slug: 'apis/classes',
+        slug: 'apis/plugins',
         title: {
-          zh: 'classes',
-          en: 'classes',
+          zh: '自由插件',
+          en: 'Plugin',
         },
-        order: 8,
+        order: 7,
       },
       // {
       //   slug: 'apis/interfaces',

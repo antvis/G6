@@ -3,13 +3,23 @@ import { GraphChange, ID } from '@antv/graphlib';
 import { CameraAnimationOptions } from './animate';
 import { BehaviorOptionsOf } from './behavior';
 import { DataChangeType, DataConfig, GraphCore } from './data';
-import { EdgeModel, EdgeModelData } from './edge';
+import {
+  EdgeDisplayModel,
+  EdgeModel,
+  EdgeModelData,
+  EdgeShapesEncode,
+} from './edge';
 import { ITEM_TYPE, ShapeStyle, SHAPE_TYPE } from './item';
 import { LayoutOptions } from './layout';
-import { NodeModel, NodeModelData } from './node';
+import {
+  NodeDisplayModel,
+  NodeModel,
+  NodeModelData,
+  NodeShapesEncode,
+} from './node';
 import { ThemeSpecification } from './theme';
 import { GraphTransformOptions } from './view';
-import { ComboModel } from './combo';
+import { ComboDisplayModel, ComboModel, ComboShapesEncode } from './combo';
 import { Plugin as PluginBase } from './plugin';
 import { ComboMapper, EdgeMapper, NodeMapper } from './spec';
 
@@ -82,6 +92,25 @@ export interface Hooks {
     action?: string;
     enableStack?: boolean;
     changes?: any;
+  }>;
+  itemstateconfigchange: IHook<{
+    itemType: ITEM_TYPE;
+    stateConfig:
+      | {
+          [stateName: string]:
+            | ((data: NodeModel) => NodeDisplayModel)
+            | NodeShapesEncode;
+        }
+      | {
+          [stateName: string]:
+            | ((data: EdgeModel) => EdgeDisplayModel)
+            | EdgeShapesEncode;
+        }
+      | {
+          [stateName: string]:
+            | ((data: ComboModel) => ComboDisplayModel)
+            | ComboShapesEncode;
+        };
   }>;
   itemvisibilitychange: IHook<{
     ids: ID[];

@@ -80,9 +80,9 @@ $ npm install @antv/g6@5.0.0-beta.21
 
 <img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*M-MTRaLiZN0AAAAAAAAAAAAADmJ7AQ/original" width=437 height=148 alt='' />
 
-The configuration specification of the graph can be refered to: [Specification Doc](https://g6-next.antv.antgroup.com/en/apis/interfaces/graph/specification)
+The configuration specification of the graph can be refered to: [Specification Doc](https://g6-next.antv.antgroup.com/en/apis/graph/specification)
 
-Graph API: [Graph API](https://g6-next.antv.antgroup.com/en/apis/interfaces/graph/i-graph)
+Graph API: [Graph API](https://g6-next.antv.antgroup.com/en/apis/graph/i-graph)
 
 A simple graph demo:
 

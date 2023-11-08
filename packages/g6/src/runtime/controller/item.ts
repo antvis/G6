@@ -20,14 +20,20 @@ import {
   NodeDisplayModel,
   NodeEncode,
   NodeModelData,
+  NodeShapesEncode,
 } from '../../types';
-import { ComboDisplayModel, ComboEncode } from '../../types/combo';
+import {
+  ComboDisplayModel,
+  ComboEncode,
+  ComboShapesEncode,
+} from '../../types/combo';
 import { GraphCore } from '../../types/data';
 import {
   EdgeDisplayModel,
   EdgeEncode,
   EdgeModel,
   EdgeModelData,
+  EdgeShapesEncode,
 } from '../../types/edge';
 import Node from '../../item/node';
 import Edge from '../../item/edge';
@@ -233,6 +239,9 @@ export class ItemController {
     this.graph.hooks.render.tap(this.onRender.bind(this));
     this.graph.hooks.itemchange.tap(this.onChange.bind(this));
     this.graph.hooks.itemstatechange.tap(this.onItemStateChange.bind(this));
+    this.graph.hooks.itemstateconfigchange.tap(
+      this.onItemStateConfigChange.bind(this),
+    );
     this.graph.hooks.itemvisibilitychange.tap(
       this.onItemVisibilityChange.bind(this),
     );
@@ -790,6 +799,36 @@ export class ItemController {
         item.clearStates(states);
       } else {
         states.forEach((state) => item.setState(state, value));
+      }
+    });
+  }
+
+  private onItemStateConfigChange(param: {
+    itemType: ITEM_TYPE;
+    stateConfig:
+      | {
+          [stateName: string]:
+            | ((data: NodeModel) => NodeDisplayModel)
+            | NodeShapesEncode;
+        }
+      | {
+          [stateName: string]:
+            | ((data: EdgeModel) => EdgeDisplayModel)
+            | EdgeShapesEncode;
+        }
+      | {
+          [stateName: string]:
+            | ((data: ComboModel) => ComboDisplayModel)
+            | ComboShapesEncode;
+        };
+  }) {
+    const { itemType, stateConfig } = param;
+    const fieldName = `${itemType}StateMapper`;
+    this[fieldName] = stateConfig;
+    this.graph.getAllNodesData().forEach((node) => {
+      const item = this.itemMap.get(node.id);
+      if (item) {
+        item.stateMapper = stateConfig;
       }
     });
   }
@@ -1641,7 +1680,8 @@ export class ItemController {
 
       return false;
     }
-    return item.isVisible();
+    const transientVisible = this.transientItemMap.get(id);
+    return item.isVisible() || transientVisible?.isVisible();
   }
 
   public sortByComboTree(graphCore: GraphCore) {

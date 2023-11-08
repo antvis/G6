@@ -66,9 +66,9 @@ $ npm install @antv/g6@5.0.0-beta.21
 
 ## 使用 (5.0 Beta)
 
-图配置 Specification 类型见：[Specification Doc](https://g6-next.antv.antgroup.com/apis/interfaces/graph/specification)
+图配置 Specification 类型见：[Specification Doc](https://g6-next.antv.antgroup.com/apis/graph/specification)
 
-Graph API 见：[Graph API](https://g6-next.antv.antgroup.com/apis/interfaces/graph/i-graph)
+Graph API 见：[Graph API](https://g6-next.antv.antgroup.com/apis/graph/i-graph)
 
 最简单的图 Demo：
 

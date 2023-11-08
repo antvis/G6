@@ -64,7 +64,7 @@ export interface Specification<
     tileBehavior?: boolean | number;
     /** Tile size for shape optimizing by behaviors, e.g. hiding shapes while drag-canvas, zoom-canvas.  The enableOptimize in behavior configuration has higher priority. */
     tileBehaviorSize?: number;
-    /** Tile size for level of detial changing. */
+    /** Tile size for level of detail changing. */
     tileLodSize?: number;
   };
   autoFit?:
@@ -86,7 +86,6 @@ export interface Specification<
         alignment?: GraphAlignment;
         effectTiming?: CameraAnimationOptions;
       };
-  optimizeThreshold?: number;
 
   /** data */
   data?: DataConfig;
