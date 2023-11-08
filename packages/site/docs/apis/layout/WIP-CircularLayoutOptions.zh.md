@@ -2,6 +2,10 @@
 title: CircularLayoutOptions
 ---
 
+| Name     | Type     | Default                        | Description    |
+| :------- | :------- | :----------------------------- | :------------- |
+| `radius` | `number` | 画布宽度与高度较小者的二分之一 | 圆形布局的半径 |
+
 > 📋 中文文档还在翻译中... 欢迎 PR
 
 [Overview - v5.0.0-beta.21](../../README.zh.md) / [Modules](../../modules.zh.md) / [layout](../../modules/layout.zh.md) / CircularLayoutOptions

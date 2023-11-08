@@ -655,23 +655,17 @@ export class ItemController {
           onlyMove,
           animate,
           // call after updating finished
-          throttle(
-            (_, canceled) => {
-              item.onframe?.(true);
-              item.onframe = undefined;
-              if (statesCache) {
-                statesCache.forEach((state) =>
-                  this.graph.setItemState(id, state, true),
-                );
-              }
-              callback(innerModel, canceled);
-            },
-            500,
-            {
-              leading: true,
-              trailing: true,
-            },
-          ),
+          (_, canceled) => {
+            // @ts-ignore
+            debounceUpdateRelates(nodeRelatedIdsToUpdate);
+            item.onframe = undefined;
+            if (statesCache) {
+              statesCache.forEach((state) =>
+                this.graph.setItemState(id, state, true),
+              );
+            }
+            callback(innerModel, canceled);
+          },
         );
 
         const parentItem = this.itemMap.get(current.parentId);
