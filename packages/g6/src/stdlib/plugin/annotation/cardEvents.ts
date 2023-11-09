@@ -1,6 +1,7 @@
 import { createDOM, modifyCSS } from '../../../util/dom';
 import { getPathItem2Card } from './util';
 import { Annotation } from '.';
+import { PathStyleProps } from '@antv/g';
 
 function getIconTypeByEl(target?: HTMLElement) {
     const { classList } = target
@@ -39,8 +40,7 @@ export function bindCardEvent({ plugin, card, itemId }: { plugin: Annotation; ca
         }
         const { link } = cardInfoMap[itemId];
         if (link) {
-            const linkHighlightStyle = plugin.options.linkHighlightStyle || {};
-            link.attr(linkHighlightStyle);
+            link.attr(plugin.options.linkHighlightStyle);
         }
     })
     card.addEventListener('mouseleave', e => {
@@ -52,16 +52,13 @@ export function bindCardEvent({ plugin, card, itemId }: { plugin: Annotation; ca
             const itemHighlightState = plugin.options.itemHighlightState
             graph.setItemState(item, itemHighlightState, false);
         }
-
+        
         const { link } = cardInfoMap[itemId];
         if (link) {
-            const linkHighlightStyle = plugin.options.linkHighlightStyle || {};
-            Object.keys(linkHighlightStyle).forEach(key => {
-                link.attr(key, undefined);
-                link.attr(key, undefined);
+            Object.keys(plugin.options.linkHighlightStyle || {}).forEach((key: keyof PathStyleProps) => {
+                link.removeAttribute(key);
             });
-            const linkStyle = plugin.options.linkStyle;
-            link.attr(linkStyle);
+            link.attr(plugin.options.linkStyle);
         }
     })
     card.addEventListener('click', e => {

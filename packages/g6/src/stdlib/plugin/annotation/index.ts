@@ -1,9 +1,8 @@
 import { isNumber, debounce, throttle } from '@antv/util';
-import { Canvas, Group, Path } from '@antv/g';
+import { Canvas, Group, Path, PathStyleProps } from '@antv/g';
 import { Renderer as CanvasRenderer } from '@antv/g-canvas';
 import { createDOM, modifyCSS } from '../../../util/dom';
 import { Plugin as Base, IPluginBaseConfig } from '../../../types/plugin';
-import { ShapeStyle } from '../../../types/item'
 import { IG6GraphEvent, IGraph } from '../../../types';
 import { getPathItem2Card, px2Num } from './util';
 import { bindCardEvent } from './cardEvents';
@@ -26,8 +25,8 @@ interface AnnotationConfig extends IPluginBaseConfig {
   itemHighlightState?: string,
   defaultData?: CardCfg[],
   cardCfg?: CardCfg,
-  linkStyle?: ShapeStyle,
-  linkHighlightStyle?: ShapeStyle,
+  linkStyle?: PathStyleProps,
+  linkHighlightStyle?: PathStyleProps,
   getTitle?: (item) => string | HTMLDivElement,
   getContent?: (item) => string | HTMLDivElement,
   getTitlePlaceholder?: (item) => string, // getTitle 返回空时使用 getTitlePlaceholder 的返回值
