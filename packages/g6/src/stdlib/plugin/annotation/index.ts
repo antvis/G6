@@ -4,11 +4,11 @@ import { Renderer as CanvasRenderer } from '@antv/g-canvas';
 import { createDOM, modifyCSS } from '../../../util/dom';
 import { Plugin as Base, IPluginBaseConfig } from '../../../types/plugin';
 import { ShapeStyle } from '../../../types/item'
-import { Graph } from '../../../runtime/graph';
-import { IG6GraphEvent } from '../../../types';
+import { IG6GraphEvent, IGraph } from '../../../types';
 import { getPathItem2Card, px2Num } from './util';
 import { bindCardEvent } from './cardEvents';
 import { insertCSS } from './insertCSS';
+import { renderCard } from './renderCard';
 
 insertCSS();
 
@@ -30,11 +30,11 @@ interface AnnotationConfig extends IPluginBaseConfig {
   linkHighlightStyle?: ShapeStyle,
   getTitle?: (item) => string | HTMLDivElement,
   getContent?: (item) => string | HTMLDivElement,
-  getTitlePlaceholder?: (item) => string | HTMLDivElement, // getTitle 返回空时使用 getTitlePlaceholder 的返回值
-  getContentPlaceholder?: (item) => string | HTMLDivElement, // getContent 返回空时使用 getContentPlaceholder 的返回值
+  getTitlePlaceholder?: (item) => string, // getTitle 返回空时使用 getTitlePlaceholder 的返回值
+  getContentPlaceholder?: (item) => string, // getContent 返回空时使用 getContentPlaceholder 的返回值
   onAnnotationChange?: (info: any, action: string) => void;
   // TODO: 不要放在options里
-  cardInfoMap: Record<string, any>;
+  cardInfoMap: CardInfoMap;
 }
 
 
@@ -60,12 +60,14 @@ interface CardCfg {
   onMouseEnterIcon?: (evt: any, id: string, type: 'expand' | 'collapse' | 'close') => void;
   onMouseLeaveIcon?: (evt: any, id: string, type: 'expand' | 'collapse' | 'close') => void;
   onClickIcon?: (evt: any, id: string, type: 'expand' | 'collapse' | 'close') => void;
+  titlePlaceholder?: string;
+  contentPlaceholder?: string;
 }
 
 interface CardInfoMap {
   [id: string]: CardCfg & {
     card: HTMLDivElement,
-    link: IShape,
+    link?: Path,
     isCanvas?: boolean,
     cardBBox?: {
       left: number,
@@ -105,6 +107,7 @@ export class Annotation extends Base {
         borderRadius: 5,
         maxTitleLength: 20
       },
+      cardInfoMap: {}
     };
   }
 
@@ -129,39 +132,8 @@ export class Annotation extends Base {
     return events
   }
 
-  private getDOMContent(cfg) {
-    if (this.destroyed) return;
-    const {
-      collapsed,
-      maxWidth,
-      title = '',
-      content = '',
-      borderRadius: r = 5,
-    } = cfg;
-    const collapseExpandDOM = collapsed ?
-      `<p class='g6-annotation-expand'>+</p>` :
-      `<p class='g6-annotation-collapse'>-</p>`;
-    const contentDOM = collapsed ? '' : ` <p class='g6-annotation-content'>${content}</p>`;
-    const closeDOM = `<p class='g6-annotation-close'>x</p>`
-    const borderRadius = collapsed ? `${r}px` : `${r}px ${r}px 0 0`;
-
-    return `<div class="g6-annotation-wrapper" style="border-radius: ${r}px; max-width: ${maxWidth}px">
-        <div
-          class="g6-annotation-header-wapper"
-          style="border-radius: ${borderRadius};"
-        >
-          <h4 class='g6-annotation-title' title="${title}">${title}</h4>
-          <div class='g6-annotation-header-btns'>
-            ${collapseExpandDOM}
-            ${closeDOM}
-          </div>
-        </div>
-        ${contentDOM}
-      </div>`
-  }
-
   _container: HTMLElement | null = null;
-  public init(graph: Graph<any, any>) {
+  public init(graph: IGraph) {
     super.init(graph);
     if (this.destroyed) return;
     this.graph = graph;
@@ -309,7 +281,7 @@ export class Annotation extends Base {
    */
   public updateOutsideCards(selfObj) {
     const self = selfObj || this;
-    const cardInfoMap = self.options.cardInfoMap || {};
+    const cardInfoMap = self.options.cardInfoMap;
     const graph = self.graph;
     const graphLeftTopCanvas = graph.getViewportByCanvas({ x: 0, y: 0 });
     const [width, height] = graph.getSize();
@@ -354,7 +326,7 @@ export class Annotation extends Base {
   public hideCards() {
     const self = this;
     if (self.destroyed) return;
-    const cardInfoMap = self.options.cardInfoMap || {};
+    const cardInfoMap = self.options.cardInfoMap;
     Object.keys(cardInfoMap).forEach((itemId) => {
       self.hideCard(itemId);
     })
@@ -364,7 +336,7 @@ export class Annotation extends Base {
   public toggleAnnotation(item, cfg: CardCfg = {}) {
     const self = this;
     if (self.destroyed) return;
-    const cardInfoMap = self.options.cardInfoMap || {};
+    const cardInfoMap = self.options.cardInfoMap;
     const graph = self.graph;
     const container = this._container;
     const containerCfg = self.options.containerCfg;
@@ -398,27 +370,25 @@ export class Annotation extends Base {
     const getTitlePlaceHolder = this.options.getTitlePlaceHolder || (() => '');
     const contentPlaceholder = getContentPlaceholder(item);
     const titlePlaceholder = getTitlePlaceHolder(item);
-    const newCard = createDOM(this.getDOMContent({
+
+    let titleData = title || propsTitle || getTitle?.(item)
+    if (typeof titleData === 'string') titleData = titleData.substr(0, maxTitleLength)
+
+    const newCard = renderCard({
       itemId,
       collapsed,
-      title: (title || propsTitle || getTitle?.(item))?.substr(0, maxTitleLength) || titlePlaceholder,
+      title: titleData || titlePlaceholder,
       content: content || propsContent || getContent?.(item) || contentPlaceholder,
+      maxWidth, minWidth,
+      maxHeight, minHeight,
+      width, height,
       ...otherCardCfg
-    }));
-    const minHeightPx = isNumber(minHeight) ? `${minHeight}px` : minHeight
-    const maxHeightPx = isNumber(maxHeight) ? `${maxHeight}px` : maxHeight
-    modifyCSS(newCard, {
-      minWidth: isNumber(minWidth) ? `${minWidth}px` : minWidth,
-      minHeight: collapsed ? 'unset' : minHeightPx,
-      maxWidth: isNumber(maxWidth) ? `${maxWidth}px` : maxWidth,
-      maxHeight: collapsed ? 'unset' : maxHeightPx,
-      height,
-      width,
     });
+    
     const exist = !!card;
     if (exist) {
       // 移除相应连线
-      link?.remove(true);
+      link?.remove();
       // 替换原来的卡片
       container.replaceChild(newCard, card);
     } else {
@@ -596,7 +566,7 @@ export class Annotation extends Base {
     const { card, link } = cardInfo;
     const container = this._container;
     container.removeChild(card);
-    link?.remove(true);
+    link?.remove();
     delete cardInfoMap[id];
     const onAnnotationChange = this.options.onAnnotationChange;
     onAnnotationChange?.(cardInfo, 'remove');
@@ -690,7 +660,7 @@ export class Annotation extends Base {
         item = graph.options.canvas;
       }
       if (!item) {
-        const cardInfoMap = this.options.cardInfoMap || {};
+        const cardInfoMap = this.options.cardInfoMap;
         cardInfoMap[id] = info;
         this.options.cardInfoMap = cardInfoMap;
         return;
@@ -710,7 +680,7 @@ export class Annotation extends Base {
     Object.values(cardInfoMap).forEach(cardInfo => {
       const { card, link } = cardInfo;
       container.removeChild(card);
-      link?.remove(true);
+      link?.remove();
     });
     this.options.cardInfoMap = {};
   }
