@@ -148,18 +148,18 @@ export function bindCardEvent({ plugin, card, itemId }: { plugin: Annotation; ca
             requestAnimationFrame(() => {
                 registerMove = false
                 console.log('clientX, clientY', clientX, clientY)
-                const graphBBox = calcGraphBBox()
+                const containerBBox = plugin.graph.container.getBoundingClientRect()
                 let left = clientX - shiftX, top = clientY - shiftY;
 
-                if (left > graphBBox.width - bbox.width) {
-                    left = graphBBox.width - bbox.width
+                if (left > containerBBox.width - bbox.width) {
+                    left = containerBBox.width - bbox.width
                 }
                 if (left < 0) {
                     left = 0
                 }
 
-                if (top > graphBBox.height - bbox.height) {
-                    top = graphBBox.height - bbox.height
+                if (top > containerBBox.height - bbox.height) {
+                    top = containerBBox.height - bbox.height
                 }
                 if (top < 0) {
                     top = 0
@@ -210,16 +210,4 @@ export function bindCardEvent({ plugin, card, itemId }: { plugin: Annotation; ca
             plugin.options.onAnnotationChange?.(cardInfoMap[itemId], 'update');
         }, { once: true })
     })
-
-    function calcGraphBBox() {
-        const graph = plugin.graph
-        const [width, height] = graph.getSize();
-        const { x: left, y: top } = graph.canvas.viewport2Client({ x: 0, y: 0 });
-        const { x: right, y: bottom } = graph.canvas.viewport2Client({ x: width, y: height });
-        return {
-            left, right,
-            top, bottom,
-            width: right - left, height: bottom - top,
-        }
-    }
 }
