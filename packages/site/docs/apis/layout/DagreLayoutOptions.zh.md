@@ -1,9 +1,9 @@
 ---
-title: DagreLayoutOptions
-order: 1
+title: DagreLayout 层次
+order: 2
 ---
 
-本文展示所有分层/流程图布局的配置项。[Dagre 分层/流程图布局 DEMO](/zh/examples/net/dagreFlow/#dagre)。
+本文展示所有层次/流程图布局的配置项。[Dagre 层次/流程图布局 DEMO](/zh/examples/net/dagreFlow/#dagre)。
 
 <img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*ESU8SrsUnlwAAAAAAAAAAAAADmJ7AQ/original" width=300 />
 <img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*h60aQKusJRcAAAAAAAAAAAAADmJ7AQ/original" width=300 />
@@ -87,7 +87,7 @@ order: 1
 
 ```javascript
 (nodeModel) => {
-  // d 是一个节点的内部流转数据
+  // nodeModel is a node's inner model
   if (nodeModel.id === 'testId') return 100;
   return 10;
 };
@@ -117,7 +117,7 @@ order: 1
 
 ```javascript
 (nodeModel) => {
-  // d 是一个节点的内部流转数据
+  // nodeModel is a node's inner model
   if (nodeModel.id === 'testId') return 100;
   return 10;
 };

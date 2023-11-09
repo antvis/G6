@@ -1,9 +1,9 @@
 ---
-title: CircularLayoutOptions
-order: 3
+title: Circular 环形
+order: 4
 ---
 
-本文展示所有圆形布局配置项。[圆形布局 DEMO](/zh/examples/net/circular/#circularConfigurationTranslate)。
+本文展示所有环形布局配置项。[环形布局 DEMO](/zh/examples/net/circular/#circularConfigurationTranslate)。
 
 <img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*H6DyT6468ZMAAAAAAAAAAAAADmJ7AQ/original" width=300 />
 <img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*1PpVQLFTaQwAAAAAAAAAAAAADmJ7AQ/original" width=300 />
@@ -16,7 +16,7 @@ order: 3
 
 **是否必须**：false
 
-**说明**：圆形布局的半径。若设置了 `radius`，则 `startRadius` 与 `endRadius` 不生效
+**说明**：环形布局的半径。若设置了 `radius`，则 `startRadius` 与 `endRadius` 不生效
 
 ## center
 
@@ -26,7 +26,7 @@ order: 3
 
 **是否必须**：false
 
-**说明**：圆形布局的中心位置
+**说明**：环形布局的中心位置
 
 ## clockwise
 
@@ -96,7 +96,7 @@ order: 3
 
 **是否必须**：false
 
-**说明**： 节点占据的大小，在未指定 `radius` 时用于计算周长以得到圆形布局的半径
+**说明**： 节点占据的大小，在未指定 `radius` 时用于计算周长以得到环形布局的半径
 
 ## workerEnabled
 

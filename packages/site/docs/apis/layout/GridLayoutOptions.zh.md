@@ -1,5 +1,6 @@
 ---
-title: GridLayoutOptions
+title: Grid 网格
+order: 7
 ---
 
 本文展示所有网格布局配置项。[格子布局 DEMO](/zh/examples/net/gridLayout/#grid)。
@@ -96,7 +97,7 @@ title: GridLayoutOptions
 
 **说明**：为 `false` 时表示利用所有可用画布空间，为 `true` 时表示利用最小的画布空间
 
-## condense
+## position
 
 **类型**： (`node?`: `NodeInnerModel`) => { `row?`: `number`; `col?`: `number`; }
 

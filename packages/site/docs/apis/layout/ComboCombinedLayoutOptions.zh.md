@@ -1,6 +1,6 @@
 ---
-title: ComboCombinedLayoutOptions
-order: 2
+title: ComboCombined 复合
+order: 3
 ---
 
 本文展示所有 Combo 复合布局的配置项。[ComboCombined 布局 DEMO](/zh/examples/net/comboLayout/#comboCombined)。
@@ -95,7 +95,7 @@ innerLayout: new G6.Extensions.ConcentricLayout({
 
 **说明**：`preventNodeOverlap` 或 `preventOverlap` 为 `true` 时生效, 防止重叠时节点/ combo 边缘间距的最小值。可以是回调函数, 为不同节点设置不同的最小间距, 如示例
 
-**示例**：
+**Example**:
 
 ```typescript
 (nodeModel: NodeInnerModel) => {

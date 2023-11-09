@@ -1,6 +1,6 @@
 ---
-title: ForceLayoutOptions
-order: 0
+title: Force 力导向
+order: 1
 ---
 
 本文展示所有力导布局配置项。[力导布局 DEMO](/zh/examples/net/forceDirected/#basicForce)。当你希望固定某个节点的位置，不受力的影响时，可以在该节点数据中配置 fx 与 fy 作为固定的坐标。
@@ -284,7 +284,7 @@ order: 0
 
 **是否必须**：false
 
-**说明**：每一次迭代的回调函数
+**说明**：每一次迭代的回调函数，返回值为这一次迭代的布局结果
 
 ## onLayoutEnd
 
