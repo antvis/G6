@@ -75,6 +75,7 @@ import treeGraph from './tree/treeGraph';
 import user_defined_canvas from './user-defined-canvas/circular';
 import mapper from './visual/mapper';
 import visual from './visual/visual';
+import annotation from './plugins/annotation';
 
 export { default as timebar_chart } from './plugins/timebar-chart';
 export { default as timebar_time } from './plugins/timebar-time';
@@ -157,4 +158,5 @@ export {
   user_defined_canvas,
   visual,
   watermarker,
+  annotation,
 };

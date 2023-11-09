@@ -75,6 +75,7 @@ const {
   EdgeFilterLens,
   LodController,
   EdgeBundling,
+  Annotation,
 } = Plugins;
 
 const {
@@ -275,6 +276,7 @@ const Extensions = {
   BasePlugin,
   History,
   LodController,
+  Annotation,
   Toolbar,
   Tooltip,
   Minimap,
