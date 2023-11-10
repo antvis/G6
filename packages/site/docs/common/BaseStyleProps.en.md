@@ -83,9 +83,9 @@
 
 **Description**: Filters can process an already generated image, such as blurring, highlighting, increasing contrast, etc
 
-- CSS Filter：https://developer.mozilla.org/en-US/docs/Web/CSS/filter
-- Canvas Filter：https://developer.mozilla.org/zh-CN/docs/Web/API/CanvasRenderingContext2D/filter
-- SVG Filter：https://developer.mozilla.org/zh-CN/docs/Web/SVG/Element/filter
+- `CSS Filter`：https://developer.mozilla.org/en-US/docs/Web/CSS/filter
+- `Canvas Filter`：https://developer.mozilla.org/zh-CN/docs/Web/API/CanvasRenderingContext2D/filter
+- `SVG Filter`：https://developer.mozilla.org/zh-CN/docs/Web/SVG/Element/filter
 - In WebGL, it is generally called post-processing
 
 ## lineCap
@@ -98,9 +98,9 @@
 
 **Description**: The style of the endpoints of the shape's stroke
 
-- 'butt' Default value. The end of the line segment ends in a square
-- 'round' The end of the line segment ends in a circle
-- 'square' The end of the line segment ends in a square, but adds a rectangle with the same width as the line segment and half the thickness of the line segment
+- `'butt'` Default value. The end of the line segment ends in a square
+- `'round'` The end of the line segment ends in a circle
+- `'square'` The end of the line segment ends in a square, but adds a rectangle with the same width as the line segment and half the thickness of the line segment
 
 ## lineDash
 
@@ -132,9 +132,9 @@
 
 **Description**: The style of the stroke's joints
 
-- 'miter' Default value. By extending the outer edge of the connected part, it intersects at one point to form an additional rhombus area
-- 'round' By filling an additional sector with the center at the end of the connected part, the shape of the corner is drawn. The radius of the rounded corner is the width of the line segment
-- 'bevel' Fill an additional triangular area at the end of the connected part, and each part has its own independent rectangular corner
+- `'miter'` Default value. By extending the outer edge of the connected part, it intersects at one point to form an additional rhombus area
+- `'round'` By filling an additional sector with the center at the end of the connected part, the shape of the corner is drawn. The radius of the rounded corner is the width of the line segment
+- `'bevel'` Fill an additional triangular area at the end of the connected part, and each part has its own independent rectangular corner
 
 ## lineWidth
 

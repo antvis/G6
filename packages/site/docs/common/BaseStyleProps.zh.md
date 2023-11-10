@@ -85,9 +85,9 @@
 
 **说明**：滤镜可以对已生成的图像进行一些处理，例如模糊、高亮、提升对比度等
 
-- CSS Filter：https://developer.mozilla.org/en-US/docs/Web/CSS/filter
-- Canvas Filter：https://developer.mozilla.org/zh-CN/docs/Web/API/CanvasRenderingContext2D/filter
-- SVG Filter：https://developer.mozilla.org/zh-CN/docs/Web/SVG/Element/filter
+- `CSS Filter`：https://developer.mozilla.org/en-US/docs/Web/CSS/filter
+- `Canvas Filter`：https://developer.mozilla.org/zh-CN/docs/Web/API/CanvasRenderingContext2D/filter
+- `SVG Filter`：https://developer.mozilla.org/zh-CN/docs/Web/SVG/Element/filter
 - WebGL 中一般称作后处理
 
 ## lineCap
@@ -100,9 +100,9 @@
 
 **说明**：图形描边的端点样式
 
-- 'butt' 线段末端以方形结束
-- 'round' 线段末端以圆形结束
-- 'square' 线段末端以方形结束，但是增加了一个宽度和线段相同，高度是线段厚度一半的矩形区域
+- `'butt'` 线段末端以方形结束
+- `'round'` 线段末端以圆形结束
+- `'square'` 线段末端以方形结束，但是增加了一个宽度和线段相同，高度是线段厚度一半的矩形区域
 
 ## lineDash
 
@@ -134,9 +134,9 @@
 
 **说明**：连接处样式
 
-- 'miter' 通过延伸相连部分的外边缘，使其相交于一点，形成一个额外的菱形区域
-- 'round' 通过填充一个额外的，圆心在相连部分末端的扇形，绘制拐角的形状。 圆角的半径是线段的宽度
-- 'bevel' 在相连部分的末端填充一个额外的以三角形为底的区域， 每个部分都有各自独立的矩形拐角
+- `'miter'` 通过延伸相连部分的外边缘，使其相交于一点，形成一个额外的菱形区域
+- `'round'` 通过填充一个额外的，圆心在相连部分末端的扇形，绘制拐角的形状。 圆角的半径是线段的宽度
+- `'bevel'` 在相连部分的末端填充一个额外的以三角形为底的区域， 每个部分都有各自独立的矩形拐角
 
 ## lineWidth
 
