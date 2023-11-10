@@ -90,7 +90,7 @@ Inner data is the data generated after the transformation stage in the Transform
 
 Mappers are used to map the inner data to specific visual channels. They map the internal data to specific node styles, edge styles, labels, and other visual attributes based on predefined rules and configurations. Mappers support JSON-based configurations as well as function-based configurations.
 
-Mappers are configured using the `node`, `edge`, or `combo` fields in the graph configuration. The types of mappers can be found in: TODO. [A Demo for Mappers](/en/examples/feature/features/#lodLevels).
+Mappers are configured using the `node`, `edge`, or `combo` fields in the graph configuration. The types of mappers can be found in [specification.node](../graph/Specification.en.md#node), [specification.edge](../graph/Specification.en.md#edge), [specification.combo](../graph/Specification.en.md#combo). [A Demo for Mappers](/en/examples/feature/features/#lodLevels).
 
 ### Display Data
 

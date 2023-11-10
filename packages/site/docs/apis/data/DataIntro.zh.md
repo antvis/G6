@@ -88,7 +88,7 @@ graph.removeData('node', ['node-1', 'node-2']);
 
 数据映射器是用于将内部流转数据映射到具体的视觉通道上。它们根据预定义的规则和配置，将内部数据映射到特定的节点样式、边样式、标签等可视化属性上。数据映射器支持 JSON 格式的配置，也支持函数式的配置。
 
-使用图配置中的 `node`，`edge`，或 `combo`，类型见：TODO。 [Mappers DEMO](/zh/examples/feature/features/#lodLevels).
+使用图配置中的 `node`，`edge`，或 `combo`，类型见：[specification.node](../graph/Specification.zh.md#node), [specification.edge](../graph/Specification.zh.md#edge), [specification.combo](../graph/Specification.zh.md#combo)。 [Mappers DEMO](/zh/examples/feature/features/#lodLevels).
 
 ### Display Data 渲染数据
 
