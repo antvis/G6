@@ -49,7 +49,7 @@ This document showcases all the configuration options for concentric layout. [Co
 
 ## nodeSize
 
-**Type**: `number` \| `number`[] \| (`nodeModel`: `NodeInnerModel`) => `number`
+**Type**: `number` \| `number`[] \| (`nodeModel`: `NodeModel`) => `number`
 
 **Default**: `undefined`
 
@@ -59,7 +59,7 @@ This document showcases all the configuration options for concentric layout. [Co
 
 ## nodeSpacing
 
-**Type**: `number` \| `number`[] \| (`nodeModel`: `NodeInnerModel`) => `number`
+**Type**: `number` \| `number`[] \| (`nodeModel`: `NodeModel`) => `number`
 
 **Default**: `10`
 

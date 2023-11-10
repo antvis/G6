@@ -79,7 +79,7 @@ order: 9
 
 ## nodeSize
 
-**类型**：`number` \| `number`[] \| (`nodeModel`: `NodeInnerModel`) => `number`
+**类型**：`number` \| `number`[] \| (`nodeModel`: `NodeModel`) => `number`
 
 **默认值**：`undefined`
 

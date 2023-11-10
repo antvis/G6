@@ -55,7 +55,7 @@ order: 2
 
 ## nodeSize
 
-**类型**：`number` \| `number`[] \| (`nodeModel`: `NodeInnerModel`) => `number`
+**类型**：`number` \| `number`[] \| (`nodeModel`: `NodeModel`) => `number`
 
 **默认值**：默认取节点中的 `data.size` 值，若无此值则使用 `10`
 
@@ -75,7 +75,7 @@ order: 2
 
 ## nodesepFunc
 
-**类型**：(`nodeModel`: `NodeInnerModel`) => `number`
+**类型**：(`nodeModel`: `NodeModel`) => `number`
 
 **默认值**：undefined
 
@@ -105,7 +105,7 @@ order: 2
 
 ## ranksepFunc
 
-**类型**：(`nodeModel`: `NodeInnerModel`) => `number`
+**类型**：(`nodeModel`: `NodeModel`) => `number`
 
 **默认值**：`undefined`
 

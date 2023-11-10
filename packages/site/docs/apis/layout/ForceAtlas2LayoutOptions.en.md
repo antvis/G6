@@ -79,7 +79,7 @@ This article showcases all the configuration options for the ForceAtlas2 force-d
 
 ## nodeSize
 
-**Type**: `number` \| `number`[] \| (`nodeModel`: `NodeInnerModel`) => `number`
+**Type**: `number` \| `number`[] \| (`nodeModel`: `NodeModel`) => `number`
 
 **Default**: `undefined`
 

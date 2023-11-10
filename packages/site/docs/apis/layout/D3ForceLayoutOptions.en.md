@@ -47,7 +47,7 @@ This document showcases all the configuration options for D3 Force layout.
 
 ## linkDistance
 
-**Type**: `number` \| (`model`: `EdgeInnerModel`) => `number`
+**Type**: `number` \| (`model`: `EdgeModel`) => `number`
 
 **Default**: `50`
 
@@ -99,7 +99,7 @@ This document showcases all the configuration options for D3 Force layout.
 
 ## edgeStrength
 
-**Type**: `number` \| (`model`: `EdgeInnerModel`) => `number`
+**Type**: `number` \| (`model`: `EdgeModel`) => `number`
 
 **Default**: `null`
 

@@ -80,7 +80,7 @@ order: 6
 
 ## nodeSize
 
-**类型**：`number` \| `number`[] \| (`nodeModel`: `NodeInnerModel`) => `number`
+**类型**：`number` \| `number`[] \| (`nodeModel`: `NodeModel`) => `number`
 
 **默认值**：`10`
 
@@ -90,7 +90,7 @@ order: 6
 
 ## nodeSpacing
 
-**类型**：`number` \| `number`[] \| (`nodeModel`: `NodeInnerModel`) => `number`
+**类型**：`number` \| `number`[] \| (`nodeModel`: `NodeModel`) => `number`
 
 **默认值**：`10`
 

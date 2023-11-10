@@ -31,7 +31,7 @@ order: 3
 outerLayout: new G6.Extensions.ForceLayout({
   gravity: 1,
   factor: 2,
-  linkDistance: (edge: EdgeInnerModel, source: NodeInnerModel, target: NodeInnerModel) => {
+  linkDistance: (edge: EdgeModel, source: NodeModel, target: NodeModel) => {
     const nodeSize = ((source.data.size?.[0] || 30) + (target.data.size?.[0] || 30)) / 2;
     return Math.min(nodeSize * 1.5, 700);
   },
@@ -57,7 +57,7 @@ innerLayout: new G6.Extensions.ConcentricLayout({
 
 ## comboPadding
 
-**类型**：`number` \| (`comboModel`: `ComboInnerModel`) => `number`
+**类型**：`number` \| (`comboModel`: `ComboModel`) => `number`
 
 **默认值**：`10`
 
@@ -77,7 +77,7 @@ innerLayout: new G6.Extensions.ConcentricLayout({
 
 ## nodeSize
 
-**类型**：`number` \| `number`[] \| (`nodeModel`: `NodeInnerModel`) => `number`
+**类型**：`number` \| `number`[] \| (`nodeModel`: `NodeModel`) => `number`
 
 **默认值**：`10`
 
@@ -87,7 +87,7 @@ innerLayout: new G6.Extensions.ConcentricLayout({
 
 ## spacing
 
-**类型**：`number` \| `number`[] \| (`nodeModel`: `NodeInnerModel`) => `number`
+**类型**：`number` \| `number`[] \| (`nodeModel`: `NodeModel`) => `number`
 
 **默认值**：`0`
 
@@ -98,7 +98,7 @@ innerLayout: new G6.Extensions.ConcentricLayout({
 **Example**:
 
 ```typescript
-(nodeModel: NodeInnerModel) => {
+(nodeModel: NodeModel) => {
   // d is a node's inner model
   if (nodeModel.id === 'node1') {
     return 100;

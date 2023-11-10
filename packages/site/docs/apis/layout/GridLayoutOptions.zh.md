@@ -69,7 +69,7 @@ order: 7
 
 ## nodeSize
 
-**类型**：`number` \| `number`[] \| (`model`: `NodeInnerModel`) => `number`
+**类型**：`number` \| `number`[] \| (`model`: `NodeModel`) => `number`
 
 **默认值**：读取节点数据中的 `data.size`，若无则默认值为 `10`
 
@@ -99,7 +99,7 @@ order: 7
 
 ## position
 
-**类型**： (`node?`: `NodeInnerModel`) => { `row?`: `number`; `col?`: `number`; }
+**类型**： (`node?`: `NodeModel`) => { `row?`: `number`; `col?`: `number`; }
 
 **默认值**：`undefined`
 

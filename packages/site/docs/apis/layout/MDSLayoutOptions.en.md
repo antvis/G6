@@ -19,7 +19,7 @@ This article shows all the configuration options for the MDS layout, which is us
 
 ## linkDistance
 
-**Type**: `number` \| (`model`: `EdgeInnerModel`) => `number`
+**Type**: `number` \| (`model`: `EdgeModel`) => `number`
 
 **Default**: `200`
 

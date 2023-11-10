@@ -80,7 +80,7 @@ This article shows all the configuration options for the radial layout. [Radial 
 
 ## nodeSize
 
-**Type**: `number` \| `number`[] \| (`nodeModel`: `NodeInnerModel`) => `number`
+**Type**: `number` \| `number`[] \| (`nodeModel`: `NodeModel`) => `number`
 
 **Default**: `10`
 
@@ -90,7 +90,7 @@ This article shows all the configuration options for the radial layout. [Radial 
 
 ## nodeSpacing
 
-**Type**: `number` \| `number`[] \| (`nodeModel`: `NodeInnerModel`) => `number`
+**Type**: `number` \| `number`[] \| (`nodeModel`: `NodeModel`) => `number`
 
 **Default**: `10`
 

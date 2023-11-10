@@ -97,7 +97,7 @@ Node mapper, can be a JSON configuration or a function. The result of the mapper
 
 • **Required**: False
 
-• **Type**: `NodeEncode` \| (`data`: [`NodeInnerModel`](../data/NodeInnerModel.en.md)) => [`NodeDisplayModel`](../data/NodeDisplayModel.en.md)
+• **Type**: `NodeEncode` \| (`data`: [`NodeModel`](../data/NodeModel.en.md)) => [`NodeDisplayModel`](../data/NodeDisplayModel.en.md)
 
 ## edge
 
@@ -105,7 +105,7 @@ Edge mapper, can be a JSON configuration or a function. The result of the mapper
 
 • **Required**: False
 
-• **Type**: `EdgeEncode` \| (`data`: [`EdgeInnerModel`](../data/EdgeInnerModel.en.md)) => [`EdgeDisplayModel`](../data/EdgeDisplayModel.en.md)
+• **Type**: `EdgeEncode` \| (`data`: [`EdgeModel`](../data/EdgeModel.en.md)) => [`EdgeDisplayModel`](../data/EdgeDisplayModel.en.md)
 
 ## combo
 
@@ -113,7 +113,7 @@ Combo mapper, can be a JSON configuration or a function. The result of the mappe
 
 • **Required**: False
 
-• **Type**: `ComboEncode` \| (`data`: [`ComboInnerModel`](../data/ComboInnerModel.en.md)) => [`ComboDisplayModel`](../data/ComboDisplayModel.en.md)
+• **Type**: `ComboEncode` \| (`data`: [`ComboModel`](../data/ComboModel.en.md)) => [`ComboDisplayModel`](../data/ComboDisplayModel.en.md)
 
 ## nodeState
 

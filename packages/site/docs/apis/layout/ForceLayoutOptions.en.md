@@ -50,7 +50,7 @@ This document shows all the options for force-directed layout. [Force-Directed L
 
 ## getCenter
 
-**Type**: (`model`: `NodeInnerModel`) => `number`
+**Type**: (`model`: `NodeModel`) => `number`
 
 **Default**: `undefined`
 
@@ -81,7 +81,7 @@ This document shows all the options for force-directed layout. [Force-Directed L
 
 ## nodeSize
 
-**Type**: `number` \| `number`[] \| (`model`: `NodeInnerModel`) => `number`
+**Type**: `number` \| `number`[] \| (`model`: `NodeModel`) => `number`
 
 **Default**: Read the `data.size` from the node model. If not available, the default value is `10`.
 
@@ -91,7 +91,7 @@ This document shows all the options for force-directed layout. [Force-Directed L
 
 ## nodeSpacing
 
-**Type**: `number` \| `number`[] \| (`model`: `NodeInnerModel`) => `number`
+**Type**: `number` \| `number`[] \| (`model`: `NodeModel`) => `number`
 
 **Default**: `10`
 
@@ -101,7 +101,7 @@ This document shows all the options for force-directed layout. [Force-Directed L
 
 ## linkDistance
 
-**Type**: `number` \| (`model`: `EdgeInnerModel`) => `number`
+**Type**: `number` \| (`model`: `EdgeModel`) => `number`
 
 **Default**: `200`
 
@@ -111,7 +111,7 @@ This document shows all the options for force-directed layout. [Force-Directed L
 
 ## nodeStrength
 
-**Type**: `number` \| (`model`: `NodeInnerModel`) => `number`
+**Type**: `number` \| (`model`: `NodeModel`) => `number`
 
 **Default**: `1000`
 
@@ -121,7 +121,7 @@ This document shows all the options for force-directed layout. [Force-Directed L
 
 ## edgeStrength
 
-**Type**: `number` \| (`model`: `EdgeInnerModel`) => `number`
+**Type**: `number` \| (`model`: `EdgeModel`) => `number`
 
 **Default**: `200`
 
@@ -161,7 +161,7 @@ This document shows all the options for force-directed layout. [Force-Directed L
 
 ## getMass
 
-**Type**: (`model`: `NodeInnerModel`) => `number`
+**Type**: (`model`: `NodeModel`) => `number`
 
 **Default**: In G6, the mass of existing nodes in incremental layout will be increased to maintain the stability of existing content. For other cases, the mass of the node is `1`
 
@@ -229,12 +229,12 @@ This document shows all the options for force-directed layout. [Force-Directed L
 
 **Description**: Centripetal force configuration, including the centripetal center and the strength of the centripetal force for leaf nodes, discrete nodes, and other nodes
 
-| Parameter | Type                                                     | Example                                    | Default             | Description                                                                        |
-| --------- | -------------------------------------------------------- | ------------------------------------------ | ------------------- | ---------------------------------------------------------------------------------- |
-| single    | `number` \｜ (`model`: `NodeInnerModel`) => `number`     | 2                                          | 2,                  | the center force strength for discrete nodes (with 0 degree)                       |
-| leaf      | `number` \｜ (`model`: `NodeInnerModel`) => `number`     | 2                                          | 2                   | the center force strength for leaf nodes (with 1 degree)                           |
-| others    | `number` \｜ (`model`: `NodeInnerModel`) => `number`     | 1                                          | 1                   | the center force strength for other nodes beside leaf and discrete nodes           |
-| center    | (`model`: `NodeInnerModel`) => `{ x: number; y: number}` | (node, nodes, edges) => ({ x: 10, y: 10 }) | center of the graph | the center force's coordinate. You can return different values for different nodes |
+| Parameter | Type                                                | Example                                    | Default             | Description                                                                        |
+| --------- | --------------------------------------------------- | ------------------------------------------ | ------------------- | ---------------------------------------------------------------------------------- |
+| single    | `number` \｜ (`model`: `NodeModel`) => `number`     | 2                                          | 2,                  | the center force strength for discrete nodes (with 0 degree)                       |
+| leaf      | `number` \｜ (`model`: `NodeModel`) => `number`     | 2                                          | 2                   | the center force strength for leaf nodes (with 1 degree)                           |
+| others    | `number` \｜ (`model`: `NodeModel`) => `number`     | 1                                          | 1                   | the center force strength for other nodes beside leaf and discrete nodes           |
+| center    | (`model`: `NodeModel`) => `{ x: number; y: number}` | (node, nodes, edges) => ({ x: 10, y: 10 }) | center of the graph | the center force's coordinate. You can return different values for different nodes |
 
 ## leafCluster
 
@@ -268,7 +268,7 @@ This document shows all the options for force-directed layout. [Force-Directed L
 
 ## clusterNodeStrength
 
-**Type**: `number` \| (`model`: `NodeInnerModel`) => `number`
+**Type**: `number` \| (`model`: `NodeModel`) => `number`
 
 **Default**: `20`
 
