@@ -48,11 +48,11 @@ order: 1
 
 • **参数**:
 
-| Name          | Type                                                                                                                                                                                                                                                                                               | Default value    | Description                                                             |
-| :------------ | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :--------------- | :---------------------------------------------------------------------- |
-| `itemType`    | `ITEM_TYPE`                                                                                                                                                                                                                                                                                        | `undefined`      | 需要更新的元素类型                                                      |
-| `stateConfig` | { `[stateName: string]`: (`data`: `NodeModel`) => `NodeDisplayModel` \| `NodeShapesEncode`; } \| { `[stateName: string]`: (`data`: `EdgeModel`) => `EdgeDisplayModel` \| `EdgeShapesEncode`; } \| { `[stateName: string]`: (`data`: `ComboModel`) => `ComboDisplayModel` \| `ComboShapesEncode`; } | `undefined`      | 更新的状态样式配置                                                      |
-| `updateType`  | `"replace"` \| `"mergeReplace"`                                                                                                                                                                                                                                                                    | `'mergeReplace'` | `'replace'` 表示直接替换，`'mergeReplace'` 表示融合到原 mapper 上后替换 |
+| Name          | Type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | Default value    | Description                                                             |
+| :------------ | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | :--------------- | :---------------------------------------------------------------------- |
+| `itemType`    | `ITEM_TYPE`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               | `undefined`      | 需要更新的元素类型                                                      |
+| `stateConfig` | { `[stateName: string]`: (`data`: [`NodeInnerModel`](../data/NodeInnerModel.zh.md)) => [`NodeDisplayModel`](../data/NodeDisplayModel.zh.md) \| `NodeShapesEncode`; } \| { `[stateName: string]`: (`data`: [`EdgeInnerModel`](../data/EdgeInnerModel.zh.md)) => [`EdgeDisplayModel`](../data/EdgeDisplayModel.zh.md) \| `EdgeShapesEncode`; } \| { `[stateName: string]`: (`data`: [`ComboInnerModel`](../data/ComboInnerModel.zh.md)) => [`ComboDisplayModel`](../data/ComboDisplayModel.zh.md) \| `ComboShapesEncode`; } | `undefined`      | 更新的状态样式配置                                                      |
+| `updateType`  | `"replace"` \| `"mergeReplace"`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | `'mergeReplace'` | `'replace'` 表示直接替换，`'mergeReplace'` 表示融合到原 mapper 上后替换 |
 
 ## 数据
 
@@ -82,7 +82,7 @@ order: 1
 | Name | Type | Description |
 | :--------- | :--------------------------------------------------------------------------------------------------------------------- | :----------------------------------------------------------------------------------------------------- |
 | `itemType` | `ITEM_TYPE` | 需要新增的元素类型，意味着一次调用只能新增一类元素，建议先增加节点再增加边，避免新增边时新增节点不存在 |
-| `model` | `NodeUserModel` \| `EdgeUserModel` \| `ComboUserModel` \| `NodeUserModel`[] \| `EdgeUserModel`[] \| `ComboUserModel`[] | 新增的用户数据，可以是单条数据，也可以是数组 |
+| `model` | [`NodeUserModel`](../data/NodeUserModel.zh.md) \| [`EdgeUserModel`](../data/EdgeUserModel.zh.md) \| [`ComboUserModel`](../data/ComboUserModel.zh.md) \| [`NodeUserModel`](../data/NodeUserModel.zh.md)[] \| [`EdgeUserModel`](../data/EdgeUserModel.zh.md)[] \| [`ComboUserModel`](../data/ComboUserModel.zh.md)[] | 新增的用户数据，可以是单条数据，也可以是数组 |
 
 • **返回值**: 新增的数据
 
@@ -114,14 +114,14 @@ order: 1
 
 • **参数**:
 
-| Name       | Type                                                                                                                                                                                           | Description                                                |
-| :--------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :--------------------------------------------------------- |
-| `itemType` | `ITEM_TYPE`                                                                                                                                                                                    | 需要更新的数据类型，这意味着一次调用只能更新一个类型的数据 |
-| `model`    | `Partial`<`NodeUserModel`\> \| `Partial`<`EdgeUserModel`\> \| `Partial`<`ComboUserModel` \| `Partial`<`NodeUserModel`\>[] \| `Partial`<`EdgeUserModel`\>[] \| `Partial`<`ComboUserModel`\>[]\> | 需要更新的数据，可以是单条数据，或一个数组                 |
+| Name       | Type                                                                                                                                                                                                                                                                                                                                                                                       | Description                                                |
+| :--------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :--------------------------------------------------------- |
+| `itemType` | `ITEM_TYPE`                                                                                                                                                                                                                                                                                                                                                                                | 需要更新的数据类型，这意味着一次调用只能更新一个类型的数据 |
+| `model`    | `Partial`<[`NodeUserModel`](../data/NodeUserModel.zh.md)\> \| `Partial`<[`EdgeUserModel`](../data/EdgeUserModel.zh.md)\> \| `Partial`<[`ComboUserModel`](../data/ComboUserModel.zh.md) \| `Partial`<[`NodeUserModel`](../data/NodeUserModel.zh.md)\>[] \| `Partial`<[`EdgeUserModel`](../data/EdgeUserModel.zh.md)\>[] \| `Partial`<[`ComboUserModel`](../data/ComboUserModel.zh.md)\>[]\> | 需要更新的数据，可以是单条数据，或一个数组                 |
 
 • **返回值**: 更新后的数据
 
-`NodeModel` \| `EdgeModel` \| `ComboModel` \| `NodeModel`[] \| `EdgeModel`[] \| `ComboModel`[]
+[`NodeInnerModel`](../data/NodeInnerModel.zh.md) \| [`EdgeInnerModel`](../data/EdgeInnerModel.zh.md) \| [`ComboInnerModel`](../data/ComboInnerModel.zh.md) \| [`NodeInnerModel`](../data/NodeInnerModel.zh.md)[] \| [`EdgeInnerModel`](../data/EdgeInnerModel.zh.md)[] \| [`ComboInnerModel`](../data/ComboInnerModel.zh.md)[]
 
 ### removeData
 
@@ -139,25 +139,25 @@ order: 1
 
 获取所有的节点数据（内部流转数据）。
 
-• **类型**: () => `NodeModel`[]
+• **类型**: () => [`NodeInnerModel`](../data/NodeInnerModel.zh.md)[]
 
 ### getAllEdgesData
 
 获取所有的边数据（内部流转数据）。
 
-• **类型**: () => `EdgeModel`[]
+• **类型**: () => [`EdgeInnerModel`](../data/EdgeInnerModel.zh.md)[]
 
 ### getAllCombosData
 
 获取所有的 Combo 数据（内部流转数据）。
 
-• **类型**: () => `ComboModel`[]
+• **类型**: () => [`ComboInnerModel`](../data/ComboInnerModel.zh.md)[]
 
 ### getNodeData
 
 获得指定 id 或条件的节点数据（内部流转数据）。
 
-• **类型**: (`condition`: `Function` \| `ID`) => `NodeModel`
+• **类型**: (`condition`: `Function` \| `ID`) => [`NodeInnerModel`](../data/NodeInnerModel.zh.md)
 
 • **参数**:
 | Name | Type | Description |
@@ -168,7 +168,7 @@ order: 1
 
 获得指定 id 或条件的边数据（内部流转数据）。
 
-• **类型**: (`condition`: `Function` \| `ID`) => `EdgeModel`
+• **类型**: (`condition`: `Function` \| `ID`) => [`EdgeInnerModel`](../data/EdgeInnerModel.zh.md)
 
 • **参数**:
 | Name | Type | Description |
@@ -179,7 +179,7 @@ order: 1
 
 获得指定 id 或条件的边数据（内部流转数据）。
 
-• **类型**: (`condition`: `Function` \| `ID`) => `ComboModel`
+• **类型**: (`condition`: `Function` \| `ID`) => [`ComboInnerModel`](../data/ComboInnerModel.zh.md)
 
 • **参数**:
 | Name | Type | Description |
@@ -190,7 +190,7 @@ order: 1
 
 获取指定节点的一跳邻居节点数据（内部流转数据）。
 
-• **类型**: (`nodeId`: `ID`, `direction?`: `"both"` \| `"in"` \| `"out"`) => `NodeModel`[]
+• **类型**: (`nodeId`: `ID`, `direction?`: `"both"` \| `"in"` \| `"out"`) => [`NodeInnerModel`](../data/NodeInnerModel.zh.md)[]
 
 • **参数**:
 | Name | Type | Description |
@@ -204,7 +204,7 @@ order: 1
 
 获取指定节点相关的边数据（内部流转数据）。
 
-• **类型**: (`nodeId`: `ID`, `direction?`: `"both"` \| `"in"` \| `"out"`) => `EdgeModel`[]
+• **类型**: (`nodeId`: `ID`, `direction?`: `"both"` \| `"in"` \| `"out"`) => [`EdgeInnerModel`](../data/EdgeInnerModel.zh.md)[]
 
 • **参数**:
 | Name | Type | Description |
@@ -218,7 +218,7 @@ order: 1
 
 使用四叉树检测获取指定节点周围的相关边。
 
-• **类型**: (`nodeId`: `ID`) => `EdgeModel`[]
+• **类型**: (`nodeId`: `ID`) => [`EdgeInnerModel`](../data/EdgeInnerModel.zh.md)[]
 
 • **参数**:
 | Name | Type | Description |
@@ -239,12 +239,12 @@ order: 1
 
 • **参数**:
 
-| Name               | Type                                                                                                                           | Description                                                                            |
-| :----------------- | :----------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------- |
-| `models`           | `Partial`<`NodeUserModel`\> \| `Partial`<`ComboUserModel` \| `Partial`<`NodeUserModel`\>[] \| `Partial`<`ComboUserModel`\>[]\> | 更新的配置项，每条数据包含节点 id 和 data，data 中包括 x y 信息                        |
-| `upsertAncestors?` | `boolean`                                                                                                                      | 是否同时更新祖先 Combo                                                                 |
-| `disableAnimate?`  | `boolean`                                                                                                                      | 是否禁用动画                                                                           |
-| `callback?`        | (`model`: `NodeModel` \| `EdgeModel` \| `ComboModel`, `canceled?`: `boolean`) => `void`                                        | 位置更新完成后的回调函数。位置更新的渲染可能是异步的，可通过该回调进行更新完成后的逻辑 |
+| Name               | Type                                                                                                                                                                                                                                                         | Description                                                                            |
+| :----------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------- |
+| `models`           | `Partial`<[`NodeUserModel`](../data/NodeUserModel.zh.md)\> \| `Partial`<[`ComboUserModel`](../data/ComboUserModel.zh.md) \| `Partial`<[`NodeUserModel`](../data/NodeUserModel.zh.md)\>[] \| `Partial`<[`ComboUserModel`](../data/ComboUserModel.zh.md)\>[]\> | 更新的配置项，每条数据包含节点 id 和 data，data 中包括 x y 信息                        |
+| `upsertAncestors?` | `boolean`                                                                                                                                                                                                                                                    | 是否同时更新祖先 Combo                                                                 |
+| `disableAnimate?`  | `boolean`                                                                                                                                                                                                                                                    | 是否禁用动画                                                                           |
+| `callback?`        | (`model`: [`NodeInnerModel`](../data/NodeInnerModel.zh.md) \| [`EdgeInnerModel`](../data/EdgeInnerModel.zh.md) \| [`ComboInnerModel`](../data/ComboInnerModel.zh.md), `canceled?`: `boolean`) => `void`                                                      | 位置更新完成后的回调函数。位置更新的渲染可能是异步的，可通过该回调进行更新完成后的逻辑 |
 
 ### clear
 
@@ -271,16 +271,16 @@ order: 1
 
 获取指定状态和类型的元素 id 列表。
 
-• **类型**: (`itemType`: `ITEM_TYPE`, `state`: `string`, `value?`: `string` \| `boolean`, `additionalFilter?`: (`model`: `NodeModel` \| `EdgeModel` \| `ComboModel`) => `boolean`) => `ID`[]
+• **类型**: (`itemType`: `ITEM_TYPE`, `state`: `string`, `value?`: `string` \| `boolean`, `additionalFilter?`: (`model`: [`NodeInnerModel`](../data/NodeInnerModel.zh.md) \| [`EdgeInnerModel`](../data/EdgeInnerModel.zh.md) \| [`ComboInnerModel`](../data/ComboInnerModel.zh.md)) => `boolean`) => `ID`[]
 
 • **参数**:
 
-| Name                | Type                                                               | Description                                        |
-| :------------------ | :----------------------------------------------------------------- | :------------------------------------------------- |
-| `itemType`          | `ITEM_TYPE`                                                        | 元素类型                                           |
-| `state`             | `string`                                                           | 状态名称                                           |
-| `value?`            | `string` \| `boolean`                                              | 状态值，默认为 `true`                              |
-| `additionalFilter?` | (`model`: `NodeModel` \| `EdgeModel` \| `ComboModel`) => `boolean` | 额外的筛选器，入参为满足状态的数据（内部流转数据） |
+| Name                | Type                                                                                                                                                                               | Description                                        |
+| :------------------ | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------------- |
+| `itemType`          | `ITEM_TYPE`                                                                                                                                                                        | 元素类型                                           |
+| `state`             | `string`                                                                                                                                                                           | 状态名称                                           |
+| `value?`            | `string` \| `boolean`                                                                                                                                                              | 状态值，默认为 `true`                              |
+| `additionalFilter?` | (`model`: [`NodeInnerModel`](../data/NodeInnerModel.zh.md) \| [`EdgeInnerModel`](../data/EdgeInnerModel.zh.md) \| [`ComboInnerModel`](../data/ComboInnerModel.zh.md)) => `boolean` | 额外的筛选器，入参为满足状态的数据（内部流转数据） |
 
 • **返回值**: `ID`[]，满足条件的元素的 id 列表。
 
@@ -408,16 +408,16 @@ order: 1
 
 新增 combo，同时更新指定的子节点，从原父 combo 中移动到新 combo 中。本质上是 addData，但在增加 combo 数据的基础上做一些 Combo 层级嵌套树的调整。
 
-• **类型**: (`model`: `ComboUserModel`, `childrenIds`: `ID`[]) => `ComboModel`
+• **类型**: (`model`: [`ComboUserModel`](../data/ComboUserModel.zh.md), `childrenIds`: `ID`[]) => [`ComboInnerModel`](../data/ComboInnerModel.zh.md)
 
 • **参数**:
 
-| Name          | Type             | Description            |
-| :------------ | :--------------- | :--------------------- |
-| `model`       | `ComboUserModel` | Combo 数据（用户数据） |
-| `childrenIds` | `ID`[]           | 子节点 id 列表         |
+| Name          | Type                                             | Description            |
+| :------------ | :----------------------------------------------- | :--------------------- |
+| `model`       | [`ComboUserModel`](../data/ComboUserModel.zh.md) | Combo 数据（用户数据） |
+| `childrenIds` | `ID`[]                                           | 子节点 id 列表         |
 
-• **返回值**: `ComboModel`，新增的 Combo 数据（内部流转数据）。
+• **返回值**: [`ComboInnerModel`](../data/ComboInnerModel.zh.md)，新增的 Combo 数据（内部流转数据）。
 
 ### collapseCombo
 
@@ -447,17 +447,17 @@ order: 1
 
 移动单个/多个 Combo 一个相对的距离（dx，dy）。该 API 将不更新其他样式以提升更新位置的性能。事实上，由于 Combo 的位置取决的内部子元素的分布和位置，因此该 API 实际上是在更新指定 Combo 的后继元素的位置，以影响该 Combo 以达到移动该 Combo 的目的，而不是直接更新该 Combo 的位置。
 
-• **类型**: (`ids`: `ID`[], `dx`: `number`, `dy`: `number`, `upsertAncestors?`: `boolean`, `callback?`: (`model`: `NodeModel` \| `EdgeModel` \| `ComboModel`, `canceled?`: `boolean`) => `void`) => `ComboModel`[]
+• **类型**: (`ids`: `ID`[], `dx`: `number`, `dy`: `number`, `upsertAncestors?`: `boolean`, `callback?`: (`model`: [`NodeInnerModel`](../data/NodeInnerModel.zh.md) \| [`EdgeInnerModel`](../data/EdgeInnerModel.zh.md) \| [`ComboInnerModel`](../data/ComboInnerModel.zh.md), `canceled?`: `boolean`) => `void`) => [`ComboInnerModel`](../data/ComboInnerModel.zh.md)[]
 
 • **参数**:
 
-| Name               | Type                                                                                    | Description            |
-| :----------------- | :-------------------------------------------------------------------------------------- | :--------------------- |
-| `ids`              | `ID`[]                                                                                  | 需要被更新的 Combo id  |
-| `dx`               | `number`                                                                                | 移动的 x 轴相对距离    |
-| `dy`               | `number`                                                                                | 移动的 y 轴相对距离    |
-| `upsertAncestors?` | `boolean`                                                                               | 是否同时更新祖先 Combo |
-| `callback?`        | (`model`: `NodeModel` \| `EdgeModel` \| `ComboModel`, `canceled?`: `boolean`) => `void` | 更新完成后的回调函数   |
+| Name               | Type                                                                                                                                                                                                    | Description            |
+| :----------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | :--------------------- |
+| `ids`              | `ID`[]                                                                                                                                                                                                  | 需要被更新的 Combo id  |
+| `dx`               | `number`                                                                                                                                                                                                | 移动的 x 轴相对距离    |
+| `dy`               | `number`                                                                                                                                                                                                | 移动的 y 轴相对距离    |
+| `upsertAncestors?` | `boolean`                                                                                                                                                                                               | 是否同时更新祖先 Combo |
+| `callback?`        | (`model`: [`NodeInnerModel`](../data/NodeInnerModel.zh.md) \| [`EdgeInnerModel`](../data/EdgeInnerModel.zh.md) \| [`ComboInnerModel`](../data/ComboInnerModel.zh.md), `canceled?`: `boolean`) => `void` | 更新完成后的回调函数   |
 
 • **返回值**: `ComboModel[]`，更新后的 Combo 数据（内部流转数据）。
 
@@ -465,24 +465,24 @@ order: 1
 
 更新单个或多个 Combo 的位置到指定位置（x，y）上。类似节点的对应 API [updateNodePosition](#updatenodeposition)。
 
-• **类型**: (`models`: `Partial`<`ComboUserModel`\> \| `Partial`<`ComboUserModel` \| `Partial`<`NodeUserModel`\>[] \| `Partial`<`ComboUserModel`\>[]\>, `upsertAncestors?`: `boolean`, `disableAnimate?`: `boolean`, `callback?`: (`model`: `NodeModel` \| `EdgeModel` \| `ComboModel`) => `void`) => `NodeModel` \| `ComboModel` \| `NodeModel`[] \| `ComboModel`[]
+• **类型**: (`models`: `Partial`<[`ComboUserModel`](../data/ComboUserModel.zh.md)\> \| `Partial`<[`ComboUserModel`](../data/ComboUserModel.zh.md) \| `Partial`<[`NodeUserModel`](../data/NodeUserModel.zh.md)\>[] \| `Partial`<[`ComboUserModel`](../data/ComboUserModel.zh.md)\>[]\>, `upsertAncestors?`: `boolean`, `disableAnimate?`: `boolean`, `callback?`: (`model`: [`NodeInnerModel`](../data/NodeInnerModel.zh.md) \| [`EdgeInnerModel`](../data/EdgeInnerModel.zh.md) \| [`ComboInnerModel`](../data/ComboInnerModel.zh.md)) => `void`) => [`NodeInnerModel`](../data/NodeInnerModel.zh.md) \| [`ComboInnerModel`](../data/ComboInnerModel.zh.md) \| [`NodeInnerModel`](../data/NodeInnerModel.zh.md)[] \| [`ComboInnerModel`](../data/ComboInnerModel.zh.md)[]
 
 • **参数**:
 
-| Name               | Type                                                                                                                            | Description                                                             |
-| :----------------- | :------------------------------------------------------------------------------------------------------------------------------ | :---------------------------------------------------------------------- |
-| `models`           | `Partial`<`ComboUserModel`\> \| `Partial`<`ComboUserModel` \| `Partial`<`NodeUserModel`\>[] \| `Partial`<`ComboUserModel`\>[]\> | 每条数据带有需要更新的 Combo id 以及 data，data 中包含新的 `x` `y` 信息 |
-| `upsertAncestors?` | `boolean`                                                                                                                       | 是否同时更新祖先 Combo                                                  |
-| `disableAnimate?`  | `boolean`                                                                                                                       | 是否禁用动画                                                            |
-| `callback?`        | (`model`: `NodeModel` \| `EdgeModel` \| `ComboModel`) => `void`                                                                 | 更新完成的回调函数                                                      |
+| Name               | Type                                                                                                                                                                                                                                                           | Description                                                             |
+| :----------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :---------------------------------------------------------------------- |
+| `models`           | `Partial`<[`ComboUserModel`](../data/ComboUserModel.zh.md)\> \| `Partial`<[`ComboUserModel`](../data/ComboUserModel.zh.md) \| `Partial`<[`NodeUserModel`](../data/NodeUserModel.zh.md)\>[] \| `Partial`<[`ComboUserModel`](../data/ComboUserModel.zh.md)\>[]\> | 每条数据带有需要更新的 Combo id 以及 data，data 中包含新的 `x` `y` 信息 |
+| `upsertAncestors?` | `boolean`                                                                                                                                                                                                                                                      | 是否同时更新祖先 Combo                                                  |
+| `disableAnimate?`  | `boolean`                                                                                                                                                                                                                                                      | 是否禁用动画                                                            |
+| `callback?`        | (`model`: [`NodeInnerModel`](../data/NodeInnerModel.zh.md) \| [`EdgeInnerModel`](../data/EdgeInnerModel.zh.md) \| [`ComboInnerModel`](../data/ComboInnerModel.zh.md)) => `void`                                                                                | 更新完成的回调函数                                                      |
 
-• **返回值**: `ComboModel` \| `ComboModel`[]，更新后的 Combo 数据（内部流转数据）。
+• **返回值**: [`ComboInnerModel`](../data/ComboInnerModel.zh.md) \| [`ComboInnerModel`](../data/ComboInnerModel.zh.md)[]，更新后的 Combo 数据（内部流转数据）。
 
 ### getComboChildrenData
 
 获取 Combo 子元素（节点/ Combo）数据（内部流转数据）。
 
-• **类型**: (`comboId`: `ID`) => (`NodeModel` \| `ComboModel`)[]
+• **类型**: (`comboId`: `ID`) => ([`NodeInnerModel`](../data/NodeInnerModel.zh.md) \| [`ComboInnerModel`](../data/ComboInnerModel.zh.md))[]
 
 • **参数**:
 
@@ -490,7 +490,7 @@ order: 1
 | :-------- | :------- |
 | `comboId` | Combo id |
 
-• **返回值**: (`NodeModel` \| `ComboModel`)[]，子元素数据（内部流转数据）。
+• **返回值**: ([`NodeInnerModel`](../data/NodeInnerModel.zh.md) \| [`ComboInnerModel`](../data/ComboInnerModel.zh.md))[]，子元素数据（内部流转数据）。
 
 ## 布局
 
