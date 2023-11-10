@@ -42,4 +42,4 @@ title: EllipseStyleProps
 
 **Description**: The vertical radius of the ellipse
 
-<embed src="./BaseStyleProps.zh.md"></embed>
+<embed src="../../common/BaseStyleProps.en.md"></embed>

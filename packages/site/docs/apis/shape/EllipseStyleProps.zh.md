@@ -42,4 +42,4 @@ title: EllipseStyleProps
 
 **说明**：椭圆的垂直半径
 
-<embed src="./BaseStyleProps.zh.md"></embed>
+<embed src="../../common/BaseStyleProps.zh.md"></embed>

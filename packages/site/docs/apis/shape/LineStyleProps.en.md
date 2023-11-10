@@ -50,7 +50,7 @@ title: LineStyleProps
 
 **Required**: false
 
-**Description**: Add a marker at the start point of the line
+**Description**: Marker at the start point
 
 ## markerEnd
 
@@ -60,7 +60,7 @@ title: LineStyleProps
 
 **Required**: false
 
-**Description**: Add a marker at the end point of the line
+**Description**: Marker at the end point
 
 ## markerStartOffset
 
@@ -70,7 +70,7 @@ title: LineStyleProps
 
 **Required**: false
 
-**Description**: The offset of the start marker in the line
+**Description**: The offset of the start marker
 
 ## markerEndOffset
 
@@ -80,6 +80,6 @@ title: LineStyleProps
 
 **Required**: false
 
-**Description**: The offset of the end marker in the line
+**Description**: The offset of the end marker
 
-<embed src="./BaseStyleProps.zh.md"></embed>
+<embed src="../../common/BaseStyleProps.en.md"></embed>

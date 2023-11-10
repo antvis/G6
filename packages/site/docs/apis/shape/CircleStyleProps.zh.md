@@ -32,4 +32,4 @@ title: CircleStyleProps
 
 **说明**：圆形的半径
 
-<embed src="./BaseStyleProps.zh.md"></embed>
+<embed src="../../common/BaseStyleProps.zh.md"></embed>
