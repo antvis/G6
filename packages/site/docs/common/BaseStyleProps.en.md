@@ -1,12 +1,6 @@
----
-title: BaseStyleProps
----
-
-BaseStyleProps are the basic style configuration items for all shapes. All shapes can use these configurations
-
 ## anchor
 
-**Type**: `string | number[]`
+**Type**: `string` | `number[]`
 
 **Default**: `[0, 0]`
 

@@ -1,7 +1,3 @@
----
-title: MarkerStyleProps
----
-
 ## markerStart
 
 **Type**: `DisplayObject`

@@ -6,7 +6,7 @@ title: RectStyleProps
 
 ## radius
 
-**类型**：`number | number[]`
+**类型**：`number` | `number[]`
 
 **默认值**：`0`
 

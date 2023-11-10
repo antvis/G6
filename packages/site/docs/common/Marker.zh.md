@@ -1,7 +1,3 @@
----
-title: MarkerStyleProps
----
-
 ## markerStart
 
 **类型**：`DisplayObject`

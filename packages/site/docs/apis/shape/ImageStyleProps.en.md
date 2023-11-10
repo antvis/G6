@@ -6,7 +6,7 @@ title: ImageStyleProps
 
 ## img
 
-**Type**: `string | HTMLImageElement`
+**Type**: `string` | `HTMLImageElement`
 
 **Default**: `null`
 

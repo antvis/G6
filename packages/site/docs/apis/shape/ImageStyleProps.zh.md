@@ -6,7 +6,7 @@ title: ImageStyleProps
 
 ## img
 
-**类型**：`string | HTMLImageElement`
+**类型**：`string` | `HTMLImageElement`
 
 **默认值**：`null`
 

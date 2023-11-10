@@ -22,6 +22,6 @@ title: PolygonStyleProps
 
 **说明**：是否闭合
 
-<embed src="../../common/MarkerStyleProps.zh.md"></embed>
+<embed src="../../common/Marker.zh.md"></embed>
 
 <embed src="../../common/BaseStyleProps.zh.md"></embed>
