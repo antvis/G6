@@ -1,5 +1,5 @@
 ---
-title: Sphere 球体
+title: Sphere
 order: 9
 ---
 
@@ -7,30 +7,30 @@ order: 9
 
 ## radius
 
-**Type**: `number`
+**类型**：`number`
 
-**Default**: `0.5`
+**默认值**：`0.5`
 
-**Required**: false
+**是否必须**：false
 
-**Description**: 半径
+**说明**：radius
 
 ## latitudeBands
 
-**Type**: `number`
+**类型**：`number`
 
-**Default**: `16`
+**默认值**：`16`
 
-**Required**: false
+**是否必须**：ffalse
 
-**Description**: latitude bands
+**说明**：latitude bands
 
 ## longitudeBands
 
-**Type**: `number`
+**类型**：`number`
 
-**Default**: `16`
+**默认值**：`16`
 
-**Required**: false
+**是否必须**：ffalse
 
-**Description**: longitude bands
+**说明**：longitude bands
