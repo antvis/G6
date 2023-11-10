@@ -50,7 +50,7 @@ order: 1
 
 ## getCenter
 
-**类型**：(`model`: `NodeInnerModel`) => `number`
+**类型**：(`model`: `NodeModel`) => `number`
 
 **默认值**：`undefined`
 
@@ -81,7 +81,7 @@ order: 1
 
 ## nodeSize
 
-**类型**：`number` \| `number`[] \| (`model`: `NodeInnerModel`) => `number`
+**类型**：`number` \| `number`[] \| (`model`: `NodeModel`) => `number`
 
 **默认值**：读取节点数据中的 `data.size`，若无则默认值为 `10`
 
@@ -91,7 +91,7 @@ order: 1
 
 ## nodeSpacing
 
-**类型**：`number` \| `number`[] \| (`model`: `NodeInnerModel`) => `number`
+**类型**：`number` \| `number`[] \| (`model`: `NodeModel`) => `number`
 
 **默认值**：`10`
 
@@ -101,7 +101,7 @@ order: 1
 
 ## linkDistance
 
-**类型**：`number` \| (`model`: `EdgeInnerModel`) => `number`
+**类型**：`number` \| (`model`: `EdgeModel`) => `number`
 
 **默认值**：`200`
 
@@ -111,7 +111,7 @@ order: 1
 
 ## nodeStrength
 
-**类型**：`number` \| (`model`: `NodeInnerModel`) => `number`
+**类型**：`number` \| (`model`: `NodeModel`) => `number`
 
 **默认值**：`1000`
 
@@ -121,7 +121,7 @@ order: 1
 
 ## edgeStrength
 
-**类型**：`number` \| (`model`: `EdgeInnerModel`) => `number`
+**类型**：`number` \| (`model`: `EdgeModel`) => `number`
 
 **默认值**：`200`
 
@@ -161,7 +161,7 @@ order: 1
 
 ## getMass
 
-**类型**：(`model`: `NodeInnerModel`) => `number`
+**类型**：(`model`: `NodeModel`) => `number`
 
 **默认值**：在 G6 中使用，增量布局时已存在的节点质量将被加大，以保持已有内容的稳定。其他情况下节点质量为 `1`
 
@@ -229,12 +229,12 @@ order: 1
 
 **说明**：向心力配置，包括叶子节点、离散点、其他节点的向心中心及向心力大小
 
-| Parameter | Type                                                     | Example                                    | Default             | Description                                                                        |
-| --------- | -------------------------------------------------------- | ------------------------------------------ | ------------------- | ---------------------------------------------------------------------------------- |
-| single    | `number` \｜ (`model`: `NodeInnerModel`) => `number`     | 2                                          | 2,                  | the center force strength for discrete nodes (with 0 degree)                       |
-| leaf      | `number` \｜ (`model`: `NodeInnerModel`) => `number`     | 2                                          | 2                   | the center force strength for leaf nodes (with 1 degree)                           |
-| others    | `number` \｜ (`model`: `NodeInnerModel`) => `number`     | 1                                          | 1                   | the center force strength for other nodes beside leaf and discrete nodes           |
-| center    | (`model`: `NodeInnerModel`) => `{ x: number; y: number}` | (node, nodes, edges) => ({ x: 10, y: 10 }) | center of the graph | the center force's coordinate. You can return different values for different nodes |
+| Parameter | Type                                                | Example                                    | Default             | Description                                                                        |
+| --------- | --------------------------------------------------- | ------------------------------------------ | ------------------- | ---------------------------------------------------------------------------------- |
+| single    | `number` \｜ (`model`: `NodeModel`) => `number`     | 2                                          | 2,                  | the center force strength for discrete nodes (with 0 degree)                       |
+| leaf      | `number` \｜ (`model`: `NodeModel`) => `number`     | 2                                          | 2                   | the center force strength for leaf nodes (with 1 degree)                           |
+| others    | `number` \｜ (`model`: `NodeModel`) => `number`     | 1                                          | 1                   | the center force strength for other nodes beside leaf and discrete nodes           |
+| center    | (`model`: `NodeModel`) => `{ x: number; y: number}` | (node, nodes, edges) => ({ x: 10, y: 10 }) | center of the graph | the center force's coordinate. You can return different values for different nodes |
 
 ## leafCluster
 
@@ -268,7 +268,7 @@ order: 1
 
 ## clusterNodeStrength
 
-**类型**：`number` \| (`model`: `NodeInnerModel`) => `number`
+**类型**：`number` \| (`model`: `NodeModel`) => `number`
 
 **默认值**：`20`
 

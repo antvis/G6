@@ -19,7 +19,7 @@ order: 12
 
 ## linkDistance
 
-**类型**：`number` \| (`model`: `EdgeInnerModel`) => `number`
+**类型**：`number` \| (`model`: `EdgeModel`) => `number`
 
 **默认值**：`200`
 

@@ -55,7 +55,7 @@ You can specify the layer of nodes by configuring the `data.layer` field in the 
 
 ## nodeSize
 
-**Type**: `number` \| `number`[] \| (`nodeModel`: `NodeInnerModel`) => `number`
+**Type**: `number` \| `number`[] \| (`nodeModel`: `NodeModel`) => `number`
 
 **Default**: Takes the `data.size` value from the node model by default, or uses `10` if it is not available.
 
@@ -75,7 +75,7 @@ You can specify the layer of nodes by configuring the `data.layer` field in the 
 
 ## nodesepFunc
 
-**Type**: (`nodeModel`: `NodeInnerModel`) => `number`
+**Type**: (`nodeModel`: `NodeModel`) => `number`
 
 **Default**: undefined
 
@@ -105,7 +105,7 @@ You can specify the layer of nodes by configuring the `data.layer` field in the 
 
 ## ranksepFunc
 
-**Type**: (`nodeModel`: `NodeInnerModel`) => `number`
+**Type**: (`nodeModel`: `NodeModel`) => `number`
 
 **Default**: `undefined`
 

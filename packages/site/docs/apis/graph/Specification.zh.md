@@ -97,7 +97,7 @@ string[]
 
 • **是否必须**: 否
 
-• **类型**: `NodeEncode` \| (`data`: [`NodeInnerModel`](../data//NodeInnerModel.zh.md)) => [`NodeDisplayModel`](../data/NodeDisplayModel.zh.md)
+• **类型**: `NodeEncode` \| (`data`: [`NodeModel`](../data//NodeModel.zh.md)) => [`NodeDisplayModel`](../data/NodeDisplayModel.zh.md)
 
 ## edge
 
@@ -105,7 +105,7 @@ string[]
 
 • **是否必须**: 否
 
-• **类型**: `EdgeEncode` \| (`data`: [`EdgeInnerModel`](../data/EdgeInnerModel.zh.md)) => [`EdgeDisplayModel`](../data/EdgeDisplayModel.zh.md)
+• **类型**: `EdgeEncode` \| (`data`: [`EdgeModel`](../data/EdgeModel.zh.md)) => [`EdgeDisplayModel`](../data/EdgeDisplayModel.zh.md)
 
 ## combo
 
@@ -113,7 +113,7 @@ Combo 映射器（mapper），可以是 JSON 配置，也可以函数映射。�
 
 • **是否必须**: 否
 
-• **类型**: `ComboEncode` \| (`data`: [`ComboInnerModel`](../data/ComboInnerModel.en.md)) => [`ComboDisplayModel`](../data/ComboDisplayModel.en.md)
+• **类型**: `ComboEncode` \| (`data`: [`ComboModel`](../data/ComboModel.en.md)) => [`ComboDisplayModel`](../data/ComboDisplayModel.en.md)
 
 ## nodeState
 

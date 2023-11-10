@@ -69,7 +69,7 @@ This article shows all the configuration options for the grid layout. [Grid Layo
 
 ## nodeSize
 
-**Type**: `number` \| `number`[] \| (`model`: `NodeInnerModel`) => `number`
+**Type**: `number` \| `number`[] \| (`model`: `NodeModel`) => `number`
 
 **Default**: Reads the `data.size` in the node model. If not specified, the default value is `10`.
 
@@ -99,7 +99,7 @@ This article shows all the configuration options for the grid layout. [Grid Layo
 
 ## position
 
-**Type**: (`node?`: `NodeInnerModel`) => { `row?`: `number`; `col?`: `number`; }
+**Type**: (`node?`: `NodeModel`) => { `row?`: `number`; `col?`: `number`; }
 
 **Default**: `undefined`
 

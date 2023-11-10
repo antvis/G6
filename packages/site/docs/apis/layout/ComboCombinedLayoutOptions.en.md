@@ -31,7 +31,7 @@ This document showcases all the configuration options for the Combo combined lay
 outerLayout: new G6.Extensions.ForceLayout({
   gravity: 1,
   factor: 2,
-  linkDistance: (edge: EdgeInnerModel, source: NodeInnerModel, target: NodeInnerModel) => {
+  linkDistance: (edge: EdgeModel, source: NodeModel, target: NodeModel) => {
     const nodeSize = ((source.data.size?.[0] || 30) + (target.data.size?.[0] || 30)) / 2;
     return Math.min(nodeSize * 1.5, 700);
   },
@@ -56,7 +56,7 @@ innerLayout: new G6.Extensions.ConcentricLayout({
 
 ## comboPadding
 
-**Type**: `number` \| (`comboModel`: `ComboInnerModel`) => `number`
+**Type**: `number` \| (`comboModel`: `ComboModel`) => `number`
 
 **Default**: `10`
 
@@ -76,7 +76,7 @@ innerLayout: new G6.Extensions.ConcentricLayout({
 
 ## nodeSize
 
-**Type**: `number` \| `number`[] \| (`nodeModel`: `NodeInnerModel`) => `number`
+**Type**: `number` \| `number`[] \| (`nodeModel`: `NodeModel`) => `number`
 
 **Default**: `10`
 
@@ -86,7 +86,7 @@ innerLayout: new G6.Extensions.ConcentricLayout({
 
 ## spacing
 
-**Type**: `number` \| `number`[] \| (`nodeModel`: `NodeInnerModel`) => `number`
+**Type**: `number` \| `number`[] \| (`nodeModel`: `NodeModel`) => `number`
 
 **Default**: `0`
 
@@ -97,7 +97,7 @@ innerLayout: new G6.Extensions.ConcentricLayout({
 **示例**：
 
 ```typescript
-(nodeModel: NodeInnerModel) => {
+(nodeModel: NodeModel) => {
   // nodeModel is a node's inner model
   if (nodeModel.id === 'node1') {
     return 100;

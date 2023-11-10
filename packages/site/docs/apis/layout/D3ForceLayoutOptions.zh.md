@@ -47,7 +47,7 @@ order: 11
 
 ## linkDistance
 
-**类型**：`number` \| (`model`: `EdgeInnerModel`) => `number`
+**类型**：`number` \| (`model`: `EdgeModel`) => `number`
 
 **默认值**：`50`
 
@@ -99,7 +99,7 @@ order: 11
 
 ## edgeStrength
 
-**类型**：`number` \| (`model`: `EdgeInnerModel`) => `number`
+**类型**：`number` \| (`model`: `EdgeModel`) => `number`
 
 **默认值**：`null`
 

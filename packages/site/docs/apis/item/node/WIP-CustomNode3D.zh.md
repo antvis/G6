@@ -106,16 +106,16 @@ You should call `drawKeyShape` and `drawAnchorShape`,`drawLabelShape`,`drawIconS
 
 #### Parameters
 
-| Name                 | Type                                                                                           | Description                                                                   |
-| :------------------- | :--------------------------------------------------------------------------------------------- | :---------------------------------------------------------------------------- |
-| `model`              | `NodeDisplayModel` \| `ComboDisplayModel`                                                      | The displayed model of this node, only for drawing and not received by users. |
-| `shapeMap`           | `Object`                                                                                       | The shape map that contains all of the elements to show on the node.          |
-| `diffData?`          | `Object`                                                                                       | An object that contains previous and current data.                            |
-| `diffData.current`   | [`NodeUserModelData`](../data/NodeInnerModel.zh.md#nodeinnermodeldatatype) \| `ComboModelData` | -                                                                             |
-| `diffData.previous`  | [`NodeUserModelData`](../data/NodeInnerModel.zh.md#nodeinnermodeldatatype) \| `ComboModelData` | -                                                                             |
-| `diffState?`         | `Object`                                                                                       | An object that contains previous and current node's state.                    |
-| `diffState.current`  | `State`[]                                                                                      | -                                                                             |
-| `diffState.previous` | `State`[]                                                                                      | -                                                                             |
+| Name                 | Type                                                                                 | Description                                                                   |
+| :------------------- | :----------------------------------------------------------------------------------- | :---------------------------------------------------------------------------- |
+| `model`              | `NodeDisplayModel` \| `ComboDisplayModel`                                            | The displayed model of this node, only for drawing and not received by users. |
+| `shapeMap`           | `Object`                                                                             | The shape map that contains all of the elements to show on the node.          |
+| `diffData?`          | `Object`                                                                             | An object that contains previous and current data.                            |
+| `diffData.current`   | [`NodeUserModelData`](../data/NodeModel.zh.md#nodemodeldatatype) \| `ComboModelData` | -                                                                             |
+| `diffData.previous`  | [`NodeUserModelData`](../data/NodeModel.zh.md#nodemodeldatatype) \| `ComboModelData` | -                                                                             |
+| `diffState?`         | `Object`                                                                             | An object that contains previous and current node's state.                    |
+| `diffState.current`  | `State`[]                                                                            | -                                                                             |
+| `diffState.previous` | `State`[]                                                                            | -                                                                             |
 
 #### Returns
 
@@ -147,16 +147,16 @@ An object containing the keyShape and optional labelShape, iconShape, and some o
 
 #### Parameters
 
-| Name                 | Type                                                                       |
-| :------------------- | :------------------------------------------------------------------------- |
-| `model`              | `NodeDisplayModel`                                                         |
-| `shapeMap`           | `NodeShapeMap`                                                             |
-| `diffData?`          | `Object`                                                                   |
-| `diffData.current`   | [`NodeUserModelData`](../data/NodeInnerModel.zh.md#nodeinnermodeldatatype) |
-| `diffData.previous`  | [`NodeUserModelData`](../data/NodeInnerModel.zh.md#nodeinnermodeldatatype) |
-| `diffState?`         | `Object`                                                                   |
-| `diffState.current`  | `State`[]                                                                  |
-| `diffState.previous` | `State`[]                                                                  |
+| Name                 | Type                                                             |
+| :------------------- | :--------------------------------------------------------------- |
+| `model`              | `NodeDisplayModel`                                               |
+| `shapeMap`           | `NodeShapeMap`                                                   |
+| `diffData?`          | `Object`                                                         |
+| `diffData.current`   | [`NodeUserModelData`](../data/NodeModel.zh.md#nodemodeldatatype) |
+| `diffData.previous`  | [`NodeUserModelData`](../data/NodeModel.zh.md#nodemodeldatatype) |
+| `diffState?`         | `Object`                                                         |
+| `diffState.current`  | `State`[]                                                        |
+| `diffState.previous` | `State`[]                                                        |
 
 #### Returns
 
@@ -180,16 +180,16 @@ Draw the badges shape of the node
 
 #### Parameters
 
-| Name                 | Type                                                                       | Description                                                                   |
-| :------------------- | :------------------------------------------------------------------------- | :---------------------------------------------------------------------------- |
-| `model`              | `NodeDisplayModel`                                                         | The displayed model of this node, only for drawing and not received by users. |
-| `shapeMap`           | `NodeShapeMap`                                                             | The shape map that contains all of the elements to show on the node.          |
-| `diffData?`          | `Object`                                                                   | An object that contains previous and current data.                            |
-| `diffData.current`   | [`NodeUserModelData`](../data/NodeInnerModel.zh.md#nodeinnermodeldatatype) | -                                                                             |
-| `diffData.previous`  | [`NodeUserModelData`](../data/NodeInnerModel.zh.md#nodeinnermodeldatatype) | -                                                                             |
-| `diffState?`         | `Object`                                                                   | An object that contains previous and current node's state.                    |
-| `diffState.current`  | `State`[]                                                                  | -                                                                             |
-| `diffState.previous` | `State`[]                                                                  | -                                                                             |
+| Name                 | Type                                                             | Description                                                                   |
+| :------------------- | :--------------------------------------------------------------- | :---------------------------------------------------------------------------- |
+| `model`              | `NodeDisplayModel`                                               | The displayed model of this node, only for drawing and not received by users. |
+| `shapeMap`           | `NodeShapeMap`                                                   | The shape map that contains all of the elements to show on the node.          |
+| `diffData?`          | `Object`                                                         | An object that contains previous and current data.                            |
+| `diffData.current`   | [`NodeUserModelData`](../data/NodeModel.zh.md#nodemodeldatatype) | -                                                                             |
+| `diffData.previous`  | [`NodeUserModelData`](../data/NodeModel.zh.md#nodemodeldatatype) | -                                                                             |
+| `diffState?`         | `Object`                                                         | An object that contains previous and current node's state.                    |
+| `diffState.current`  | `State`[]                                                        | -                                                                             |
+| `diffState.previous` | `State`[]                                                        | -                                                                             |
 
 #### Returns
 
@@ -215,16 +215,16 @@ Draw the halo shape of the node
 
 #### Parameters
 
-| Name                 | Type                                                                       | Description                                                                   |
-| :------------------- | :------------------------------------------------------------------------- | :---------------------------------------------------------------------------- |
-| `model`              | `NodeDisplayModel`                                                         | The displayed model of this node, only for drawing and not received by users. |
-| `shapeMap`           | `NodeShapeMap`                                                             | The shape map that contains all of the elements to show on the node.          |
-| `diffData?`          | `Object`                                                                   | An object that contains previous and current data.                            |
-| `diffData.current`   | [`NodeUserModelData`](../data/NodeInnerModel.zh.md#nodeinnermodeldatatype) | -                                                                             |
-| `diffData.previous`  | [`NodeUserModelData`](../data/NodeInnerModel.zh.md#nodeinnermodeldatatype) | -                                                                             |
-| `diffState?`         | `Object`                                                                   | An object that contains previous and current node's state.                    |
-| `diffState.current`  | `State`[]                                                                  | -                                                                             |
-| `diffState.previous` | `State`[]                                                                  | -                                                                             |
+| Name                 | Type                                                             | Description                                                                   |
+| :------------------- | :--------------------------------------------------------------- | :---------------------------------------------------------------------------- |
+| `model`              | `NodeDisplayModel`                                               | The displayed model of this node, only for drawing and not received by users. |
+| `shapeMap`           | `NodeShapeMap`                                                   | The shape map that contains all of the elements to show on the node.          |
+| `diffData?`          | `Object`                                                         | An object that contains previous and current data.                            |
+| `diffData.current`   | [`NodeUserModelData`](../data/NodeModel.zh.md#nodemodeldatatype) | -                                                                             |
+| `diffData.previous`  | [`NodeUserModelData`](../data/NodeModel.zh.md#nodemodeldatatype) | -                                                                             |
+| `diffState?`         | `Object`                                                         | An object that contains previous and current node's state.                    |
+| `diffState.current`  | `State`[]                                                        | -                                                                             |
+| `diffState.previous` | `State`[]                                                        | -                                                                             |
 
 #### Returns
 
@@ -250,16 +250,16 @@ Draw the icon shape of the 3D node
 
 #### Parameters
 
-| Name                 | Type                                                                       | Description                                                                      |
-| :------------------- | :------------------------------------------------------------------------- | :------------------------------------------------------------------------------- |
-| `model`              | `NodeDisplayModel`                                                         | The displayed model of this 3D node, only for drawing and not received by users. |
-| `shapeMap`           | `NodeShapeMap`                                                             | The shape map that contains all of the elements to show on the 3D node.          |
-| `diffData?`          | `Object`                                                                   | An object that contains previous and current data.                               |
-| `diffData.current`   | [`NodeUserModelData`](../data/NodeInnerModel.zh.md#nodeinnermodeldatatype) | -                                                                                |
-| `diffData.previous`  | [`NodeUserModelData`](../data/NodeInnerModel.zh.md#nodeinnermodeldatatype) | -                                                                                |
-| `diffState?`         | `Object`                                                                   | An object that contains previous and current 3D node's state.                    |
-| `diffState.current`  | `State`[]                                                                  | -                                                                                |
-| `diffState.previous` | `State`[]                                                                  | -                                                                                |
+| Name                 | Type                                                             | Description                                                                      |
+| :------------------- | :--------------------------------------------------------------- | :------------------------------------------------------------------------------- |
+| `model`              | `NodeDisplayModel`                                               | The displayed model of this 3D node, only for drawing and not received by users. |
+| `shapeMap`           | `NodeShapeMap`                                                   | The shape map that contains all of the elements to show on the 3D node.          |
+| `diffData?`          | `Object`                                                         | An object that contains previous and current data.                               |
+| `diffData.current`   | [`NodeUserModelData`](../data/NodeModel.zh.md#nodemodeldatatype) | -                                                                                |
+| `diffData.previous`  | [`NodeUserModelData`](../data/NodeModel.zh.md#nodemodeldatatype) | -                                                                                |
+| `diffState?`         | `Object`                                                         | An object that contains previous and current 3D node's state.                    |
+| `diffState.current`  | `State`[]                                                        | -                                                                                |
+| `diffState.previous` | `State`[]                                                        | -                                                                                |
 
 #### Returns
 
@@ -286,16 +286,16 @@ Draw the key shape of the node based on the provided model and shape map.
 
 #### Parameters
 
-| Name                 | Type                                                                                           | Description                                                                   |
-| :------------------- | :--------------------------------------------------------------------------------------------- | :---------------------------------------------------------------------------- |
-| `model`              | `NodeDisplayModel` \| `ComboDisplayModel`                                                      | The displayed model of this node, only for drawing and not received by users. |
-| `shapeMap`           | `NodeShapeMap`                                                                                 | The shape map that contains all of the elements to show on the node.          |
-| `diffData?`          | `Object`                                                                                       | An object that contains previous and current data.                            |
-| `diffData.current`   | [`NodeUserModelData`](../data/NodeInnerModel.zh.md#nodeinnermodeldatatype) \| `ComboModelData` | -                                                                             |
-| `diffData.previous`  | [`NodeUserModelData`](../data/NodeInnerModel.zh.md#nodeinnermodeldatatype) \| `ComboModelData` | -                                                                             |
-| `diffState?`         | `Object`                                                                                       | An object that contains previous and current node's state.                    |
-| `diffState.current`  | `State`[]                                                                                      | -                                                                             |
-| `diffState.previous` | `State`[]                                                                                      | -                                                                             |
+| Name                 | Type                                                                                 | Description                                                                   |
+| :------------------- | :----------------------------------------------------------------------------------- | :---------------------------------------------------------------------------- |
+| `model`              | `NodeDisplayModel` \| `ComboDisplayModel`                                            | The displayed model of this node, only for drawing and not received by users. |
+| `shapeMap`           | `NodeShapeMap`                                                                       | The shape map that contains all of the elements to show on the node.          |
+| `diffData?`          | `Object`                                                                             | An object that contains previous and current data.                            |
+| `diffData.current`   | [`NodeUserModelData`](../data/NodeModel.zh.md#nodemodeldatatype) \| `ComboModelData` | -                                                                             |
+| `diffData.previous`  | [`NodeUserModelData`](../data/NodeModel.zh.md#nodemodeldatatype) \| `ComboModelData` | -                                                                             |
+| `diffState?`         | `Object`                                                                             | An object that contains previous and current node's state.                    |
+| `diffState.current`  | `State`[]                                                                            | -                                                                             |
+| `diffState.previous` | `State`[]                                                                            | -                                                                             |
 
 #### Returns
 
@@ -321,16 +321,16 @@ Draw the label background shape of the node
 
 #### Parameters
 
-| Name                 | Type                                                                                           | Description                                                                   |
-| :------------------- | :--------------------------------------------------------------------------------------------- | :---------------------------------------------------------------------------- |
-| `model`              | `NodeDisplayModel` \| `ComboDisplayModel`                                                      | The displayed model of this node, only for drawing and not received by users. |
-| `shapeMap`           | `NodeShapeMap`                                                                                 | The shape map that contains all of the elements to show on the node.          |
-| `diffData?`          | `Object`                                                                                       | An object that contains previous and current data.                            |
-| `diffData.current`   | [`NodeUserModelData`](../data/NodeInnerModel.zh.md#nodeinnermodeldatatype) \| `ComboModelData` | -                                                                             |
-| `diffData.previous`  | [`NodeUserModelData`](../data/NodeInnerModel.zh.md#nodeinnermodeldatatype) \| `ComboModelData` | -                                                                             |
-| `diffState?`         | `Object`                                                                                       | An object that contains previous and current node's state.                    |
-| `diffState.newState` | `State`[]                                                                                      | -                                                                             |
-| `diffState.oldState` | `State`[]                                                                                      | -                                                                             |
+| Name                 | Type                                                                                 | Description                                                                   |
+| :------------------- | :----------------------------------------------------------------------------------- | :---------------------------------------------------------------------------- |
+| `model`              | `NodeDisplayModel` \| `ComboDisplayModel`                                            | The displayed model of this node, only for drawing and not received by users. |
+| `shapeMap`           | `NodeShapeMap`                                                                       | The shape map that contains all of the elements to show on the node.          |
+| `diffData?`          | `Object`                                                                             | An object that contains previous and current data.                            |
+| `diffData.current`   | [`NodeUserModelData`](../data/NodeModel.zh.md#nodemodeldatatype) \| `ComboModelData` | -                                                                             |
+| `diffData.previous`  | [`NodeUserModelData`](../data/NodeModel.zh.md#nodemodeldatatype) \| `ComboModelData` | -                                                                             |
+| `diffState?`         | `Object`                                                                             | An object that contains previous and current node's state.                    |
+| `diffState.newState` | `State`[]                                                                            | -                                                                             |
+| `diffState.oldState` | `State`[]                                                                            | -                                                                             |
 
 #### Returns
 
@@ -356,16 +356,16 @@ Draw the label shape of the 3D node
 
 #### Parameters
 
-| Name                 | Type                                                                       | Description                                                                      |
-| :------------------- | :------------------------------------------------------------------------- | :------------------------------------------------------------------------------- |
-| `model`              | `NodeDisplayModel`                                                         | The displayed model of this 3D node, only for drawing and not received by users. |
-| `shapeMap`           | `NodeShapeMap`                                                             | The shape map that contains all of the elements to show on the 3D node.          |
-| `diffData?`          | `Object`                                                                   | An object that contains previous and current data.                               |
-| `diffData.current`   | [`NodeUserModelData`](../data/NodeInnerModel.zh.md#nodeinnermodeldatatype) | -                                                                                |
-| `diffData.previous`  | [`NodeUserModelData`](../data/NodeInnerModel.zh.md#nodeinnermodeldatatype) | -                                                                                |
-| `diffState?`         | `Object`                                                                   | An object that contains previous and current 3D node's state.                    |
-| `diffState.current`  | `State`[]                                                                  | -                                                                                |
-| `diffState.previous` | `State`[]                                                                  | -                                                                                |
+| Name                 | Type                                                             | Description                                                                      |
+| :------------------- | :--------------------------------------------------------------- | :------------------------------------------------------------------------------- |
+| `model`              | `NodeDisplayModel`                                               | The displayed model of this 3D node, only for drawing and not received by users. |
+| `shapeMap`           | `NodeShapeMap`                                                   | The shape map that contains all of the elements to show on the 3D node.          |
+| `diffData?`          | `Object`                                                         | An object that contains previous and current data.                               |
+| `diffData.current`   | [`NodeUserModelData`](../data/NodeModel.zh.md#nodemodeldatatype) | -                                                                                |
+| `diffData.previous`  | [`NodeUserModelData`](../data/NodeModel.zh.md#nodemodeldatatype) | -                                                                                |
+| `diffState?`         | `Object`                                                         | An object that contains previous and current 3D node's state.                    |
+| `diffState.current`  | `State`[]                                                        | -                                                                                |
+| `diffState.previous` | `State`[]                                                        | -                                                                                |
 
 #### Returns
 
@@ -391,16 +391,16 @@ Draw other shapes(such as preRect,stateIcon) of the node
 
 #### Parameters
 
-| Name                 | Type                                                                       | Description                                                                   |
-| :------------------- | :------------------------------------------------------------------------- | :---------------------------------------------------------------------------- |
-| `model`              | `NodeDisplayModel`                                                         | The displayed model of this node, only for drawing and not received by users. |
-| `shapeMap`           | `NodeShapeMap`                                                             | The shape map that contains all of the elements to show on the node.          |
-| `diffData?`          | `Object`                                                                   | An object that contains previous and current data.                            |
-| `diffData.current`   | [`NodeUserModelData`](../data/NodeInnerModel.zh.md#nodeinnermodeldatatype) | -                                                                             |
-| `diffData.previous`  | [`NodeUserModelData`](../data/NodeInnerModel.zh.md#nodeinnermodeldatatype) | -                                                                             |
-| `diffState?`         | `Object`                                                                   | An object that contains previous and current node's state.                    |
-| `diffState.current`  | `State`[]                                                                  | -                                                                             |
-| `diffState.previous` | `State`[]                                                                  | -                                                                             |
+| Name                 | Type                                                             | Description                                                                   |
+| :------------------- | :--------------------------------------------------------------- | :---------------------------------------------------------------------------- |
+| `model`              | `NodeDisplayModel`                                               | The displayed model of this node, only for drawing and not received by users. |
+| `shapeMap`           | `NodeShapeMap`                                                   | The shape map that contains all of the elements to show on the node.          |
+| `diffData?`          | `Object`                                                         | An object that contains previous and current data.                            |
+| `diffData.current`   | [`NodeUserModelData`](../data/NodeModel.zh.md#nodemodeldatatype) | -                                                                             |
+| `diffData.previous`  | [`NodeUserModelData`](../data/NodeModel.zh.md#nodemodeldatatype) | -                                                                             |
+| `diffState?`         | `Object`                                                         | An object that contains previous and current node's state.                    |
+| `diffState.current`  | `State`[]                                                        | -                                                                             |
+| `diffState.previous` | `State`[]                                                        | -                                                                             |
 
 #### Returns
 

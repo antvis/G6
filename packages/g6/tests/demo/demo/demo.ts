@@ -152,7 +152,7 @@ const getDefaultEdgeAnimates = (delay?: number) => ({
 const defaultTheme = {
   // : ThemeOptionsOf<any>
   type: 'spec',
-  base: 'light',
+  base: 'dark',
   specification: {
     node: {
       dataTypeField: 'cluster',
@@ -179,6 +179,7 @@ const create2DGraph = (
       'data-format': dataFormat,
     },
   });
+  console.log('theme', { ...defaultTheme, ...theme });
   const graph = new ExtGraph({
     container: container as HTMLElement,
     // width,
@@ -186,7 +187,7 @@ const create2DGraph = (
     width: 1150,
     height: 400,
     renderer: 'webgl',
-    rendererType,
+    // rendererType,
     data: dataFor2D,
     transforms: [
       'data-format',
@@ -277,6 +278,21 @@ const create2DGraph = (
               : undefined,
         },
       };
+    },
+    nodeState: {
+      active: {
+        haloShape: {
+          lineWidth: 3,
+        },
+      },
+      selected: {
+        keyShape: {
+          lineWidth: 0.5,
+        },
+        haloShape: {
+          lineWidth: 3,
+        },
+      },
     },
   });
 

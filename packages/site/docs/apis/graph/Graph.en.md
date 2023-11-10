@@ -48,11 +48,11 @@ Update the state style configuration for nodes/edges/combos and re-render the it
 
 • **Parameters**:
 
-| Name          | Type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | Default value    | Description                                                                                                      |
-| :------------ | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | :--------------- | :--------------------------------------------------------------------------------------------------------------- |
-| `itemType`    | `ITEM_TYPE`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               | `undefined`      | The type of items to update                                                                                      |
-| `stateConfig` | { `[stateName: string]`: (`data`: [`NodeInnerModel`](../data/NodeInnerModel.en.md)) => [`NodeDisplayModel`](../data/NodeDisplayModel.en.md) \| `NodeShapesEncode`; } \| { `[stateName: string]`: (`data`: [`EdgeInnerModel`](../data/EdgeInnerModel.en.md)) => [`EdgeDisplayModel`](../data/EdgeDisplayModel.en.md) \| `EdgeShapesEncode`; } \| { `[stateName: string]`: (`data`: [`ComboInnerModel`](../data/ComboInnerModel.en.md)) => [`ComboDisplayModel`](../data/ComboDisplayModel.en.md) \| `ComboShapesEncode`; } | `undefined`      | The updated state style configuration                                                                            |
-| `updateType`  | `"replace"` \| `"mergeReplace"`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | `'mergeReplace'` | `'replace'` means replacing directly, `'mergeReplace'` means merging with the original mapper and then replacing |
+| Name          | Type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        | Default value    | Description                                                                                                      |
+| :------------ | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | :--------------- | :--------------------------------------------------------------------------------------------------------------- |
+| `itemType`    | `ITEM_TYPE`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | `undefined`      | The type of items to update                                                                                      |
+| `stateConfig` | { `[stateName: string]`: (`data`: [`NodeModel`](../data/NodeModel.en.md)) => [`NodeDisplayModel`](../data/NodeDisplayModel.en.md) \| `NodeShapesEncode`; } \| { `[stateName: string]`: (`data`: [`EdgeModel`](../data/EdgeModel.en.md)) => [`EdgeDisplayModel`](../data/EdgeDisplayModel.en.md) \| `EdgeShapesEncode`; } \| { `[stateName: string]`: (`data`: [`ComboModel`](../data/ComboModel.en.md)) => [`ComboDisplayModel`](../data/ComboDisplayModel.en.md) \| `ComboShapesEncode`; } | `undefined`      | The updated state style configuration                                                                            |
+| `updateType`  | `"replace"` \| `"mergeReplace"`                                                                                                                                                                                                                                                                                                                                                                                                                                                             | `'mergeReplace'` | `'replace'` means replacing directly, `'mergeReplace'` means merging with the original mapper and then replacing |
 
 ## Data
 
@@ -121,7 +121,7 @@ Update partial data of a specific type.
 
 • **Returns**: Updated data
 
-[`NodeInnerModel`](../data/NodeInnerModel.en.md) \| [`EdgeInnerModel`](../data/EdgeInnerModel.en.md) \| [`ComboInnerModel`](../data/ComboInnerModel.en.md) \| [`NodeInnerModel`](../data/NodeInnerModel.en.md)[] \| [`EdgeInnerModel`](../data/EdgeInnerModel.en.md)[] \| [`ComboInnerModel`](../data/ComboInnerModel.en.md)[]
+[`NodeModel`](../data/NodeModel.en.md) \| [`EdgeModel`](../data/EdgeModel.en.md) \| [`ComboModel`](../data/ComboModel.en.md) \| [`NodeModel`](../data/NodeModel.en.md)[] \| [`EdgeModel`](../data/EdgeModel.en.md)[] \| [`ComboModel`](../data/ComboModel.en.md)[]
 
 ### removeData
 
@@ -139,25 +139,25 @@ Remove one or more items of the same type.
 
 Get all node data (inner model).
 
-• **Type**: () => [`NodeInnerModel`](../data/NodeInnerModel.en.md)[]
+• **Type**: () => [`NodeModel`](../data/NodeModel.en.md)[]
 
 ### getAllEdgesData
 
 Get all edge data (inner model).
 
-• **Type**: () => [`EdgeInnerModel`](../data/EdgeInnerModel.en.md)[]
+• **Type**: () => [`EdgeModel`](../data/EdgeModel.en.md)[]
 
 ### getAllCombosData
 
 Get all combo data (inner model).
 
-• **Type**: () => [`ComboInnerModel`](../data/ComboInnerModel.en.md)[]
+• **Type**: () => [`ComboModel`](../data/ComboModel.en.md)[]
 
 ### getNodeData
 
 Get node data (inner model) with the specified id or condition.
 
-• **Type**: (`condition`: `Function` \| `ID`) => [`NodeInnerModel`](../data/NodeInnerModel.en.md)
+• **Type**: (`condition`: `Function` \| `ID`) => [`NodeModel`](../data/NodeModel.en.md)
 
 • **Parameters**:
 | Name | Type | Description |
@@ -168,7 +168,7 @@ Get node data (inner model) with the specified id or condition.
 
 Get edge data (inner model) with the specified id or condition.
 
-• **Type**: (`condition`: `Function` \| `ID`) => [`EdgeInnerModel`](../data/EdgeInnerModel.en.md)
+• **Type**: (`condition`: `Function` \| `ID`) => [`EdgeModel`](../data/EdgeModel.en.md)
 
 • **Parameters**:
 | Name | Type | Description |
@@ -179,7 +179,7 @@ Get edge data (inner model) with the specified id or condition.
 
 Get combo data (inner model) with the specified id or condition.
 
-• **Type**: (`condition`: `Function` \| `ID`) => [`ComboInnerModel`](../data/ComboInnerModel.en.md)
+• **Type**: (`condition`: `Function` \| `ID`) => [`ComboModel`](../data/ComboModel.en.md)
 
 • **Parameters**:
 | Name | Type | Description |
@@ -190,7 +190,7 @@ Get combo data (inner model) with the specified id or condition.
 
 Get the one-hop neighbor node data (inner model) of the specified node.
 
-• **Type**: (`nodeId`: `ID`, `direction?`: `"both"` \| `"in"` \| `"out"`) => [`NodeInnerModel`](../data/NodeInnerModel.en.md)[]
+• **Type**: (`nodeId`: `ID`, `direction?`: `"both"` \| `"in"` \| `"out"`) => [`NodeModel`](../data/NodeModel.en.md)[]
 
 • **Parameters**:
 | Name | Type | Description |
@@ -204,7 +204,7 @@ Get the one-hop neighbor node data (inner model) of the specified node.
 
 Get the one-hop neighbor edge data (inner model) of the specified node.
 
-• **Type**: (`nodeId`: `ID`, `direction?`: `"both"` \| `"in"` \| `"out"`) => [`EdgeInnerModel`](../data/EdgeInnerModel.en.md)[]
+• **Type**: (`nodeId`: `ID`, `direction?`: `"both"` \| `"in"` \| `"out"`) => [`EdgeModel`](../data/EdgeModel.en.md)[]
 
 • **Parameters**:
 | Name | Type | Description |
@@ -218,7 +218,7 @@ Get the one-hop neighbor edge data (inner model) of the specified node.
 
 Get the edge data (inner model) related to the specified node.
 
-• **Type**: (`nodeId`: `ID`) => [`EdgeInnerModel`](../data/EdgeInnerModel.en.md)[]
+• **Type**: (`nodeId`: `ID`) => [`EdgeModel`](../data/EdgeModel.en.md)[]
 
 • **Parameters**:
 | Name | Type | Description |
@@ -244,7 +244,7 @@ Update the position of a single or multiple nodes. This API does not update othe
 | `models`           | `Partial`<[`NodeUserModel`](../data/NodeUserModel.en.md)\> \| `Partial`<[`ComboUserModel`](../data/ComboUserModel.en.md) \| `Partial`<[`NodeUserModel`](../data/NodeUserModel.en.md)\>[] \| `Partial`<[`ComboUserModel`](../data/ComboUserModel.en.md)\>[]\> | The configuration options for updating, each data contains the node id and data, including x and y information                                                     |
 | `upsertAncestors?` | `boolean`                                                                                                                                                                                                                                                    | Whether to update ancestor combo at the same time                                                                                                                  |
 | `disableAnimate?`  | `boolean`                                                                                                                                                                                                                                                    | Whether to disable animation                                                                                                                                       |
-| `callback?`        | (`model`: [`NodeInnerModel`](../data/NodeInnerModel.en.md) \| [`EdgeInnerModel`](../data/EdgeInnerModel.en.md) \| [`ComboInnerModel`](../data/ComboInnerModel.en.md), `canceled?`: `boolean`) => `void`                                                      | Callback function after the position update is complete. The rendering of position update may be asynchronous, and this callback can be used for post-update logic |
+| `callback?`        | (`model`: [`NodeModel`](../data/NodeModel.en.md) \| [`EdgeModel`](../data/EdgeModel.en.md) \| [`ComboModel`](../data/ComboModel.en.md), `canceled?`: `boolean`) => `void`                                                                                    | Callback function after the position update is complete. The rendering of position update may be asynchronous, and this callback can be used for post-update logic |
 
 ### clear
 
@@ -271,16 +271,16 @@ Switch the renderer at runtime.
 
 Get a list of item IDs with the specified state and type.
 
-• **Type**: (`itemType`: `ITEM_TYPE`, `state`: `string`, `value?`: `string` \| `boolean`, `additionalFilter?`: (`model`: [`NodeInnerModel`](../data/NodeInnerModel.en.md) \| [`EdgeInnerModel`](../data/EdgeInnerModel.en.md) \| [`ComboInnerModel`](../data/ComboInnerModel.en.md)) => `boolean`) => `ID`[]
+• **Type**: (`itemType`: `ITEM_TYPE`, `state`: `string`, `value?`: `string` \| `boolean`, `additionalFilter?`: (`model`: [`NodeModel`](../data/NodeModel.en.md) \| [`EdgeModel`](../data/EdgeModel.en.md) \| [`ComboModel`](../data/ComboModel.en.md)) => `boolean`) => `ID`[]
 
 • **Parameters**:
 
-| Name                | Type                                                                                                                                                                               | Description                                                                 |
-| :------------------ | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :-------------------------------------------------------------------------- |
-| `itemType`          | `ITEM_TYPE`                                                                                                                                                                        | The type of the item                                                        |
-| `state`             | `string`                                                                                                                                                                           | The name of the state                                                       |
-| `value?`            | `string` \| `boolean`                                                                                                                                                              | The value of the state, defaults to `true`                                  |
-| `additionalFilter?` | (`model`: [`NodeInnerModel`](../data/NodeInnerModel.en.md) \| [`EdgeInnerModel`](../data/EdgeInnerModel.en.md) \| [`ComboInnerModel`](../data/ComboInnerModel.en.md)) => `boolean` | Additional filter, parameter is data that satisfies the state (inner model) |
+| Name                | Type                                                                                                                                                 | Description                                                                 |
+| :------------------ | :--------------------------------------------------------------------------------------------------------------------------------------------------- | :-------------------------------------------------------------------------- |
+| `itemType`          | `ITEM_TYPE`                                                                                                                                          | The type of the item                                                        |
+| `state`             | `string`                                                                                                                                             | The name of the state                                                       |
+| `value?`            | `string` \| `boolean`                                                                                                                                | The value of the state, defaults to `true`                                  |
+| `additionalFilter?` | (`model`: [`NodeModel`](../data/NodeModel.en.md) \| [`EdgeModel`](../data/EdgeModel.en.md) \| [`ComboModel`](../data/ComboModel.en.md)) => `boolean` | Additional filter, parameter is data that satisfies the state (inner model) |
 
 • **Returns**: `ID`[], a list of item IDs that meet the conditions.
 
@@ -408,7 +408,7 @@ Move the specified single or multiple items to the back layer. Note that the lay
 
 Add a new combo and update the specified child nodes by moving them from the original parent combo to the new combo. Essentially, it is addData, but with some adjustments to the Combo hierarchy tree based on the added combo data.
 
-• **Type**: (`model`: [`ComboUserModel`](../data/ComboUserModel.en.md), `childrenIds`: `ID`[]) => [`ComboInnerModel`](../data/ComboInnerModel.en.md)
+• **Type**: (`model`: [`ComboUserModel`](../data/ComboUserModel.en.md), `childrenIds`: `ID`[]) => [`ComboModel`](../data/ComboModel.en.md)
 
 • **Parameters**:
 
@@ -417,7 +417,7 @@ Add a new combo and update the specified child nodes by moving them from the ori
 | `model`       | [`ComboUserModel`](../data/ComboUserModel.en.md) | Combo data (user data) |
 | `childrenIds` | `ID`[]                                           | List of child node IDs |
 
-• **Returns**: [`ComboInnerModel`](../data/ComboInnerModel.en.md), the newly added Combo data (inner model).
+• **Returns**: [`ComboModel`](../data/ComboModel.en.md), the newly added Combo data (inner model).
 
 ### collapseCombo
 
@@ -447,17 +447,17 @@ Expand the specified single or multiple combos. Corresponds to [collapseCombo](#
 
 Move a single or multiple combos by a relative distance (dx, dy). This API will not update other styles to improve the performance of updating the position. In fact, since the position of a combo is determined by the distribution and position of its internal child items, this API actually updates the position of the successor items of the specified combo to affect the combo and achieve the purpose of moving the combo, rather than directly updating the position of the combo.
 
-• **Type**: (`ids`: `ID`[], `dx`: `number`, `dy`: `number`, `upsertAncestors?`: `boolean`, `callback?`: (`model`: [`NodeInnerModel`](../data/NodeInnerModel.en.md) \| [`EdgeInnerModel`](../data/EdgeInnerModel.en.md) \| [`ComboInnerModel`](../data/ComboInnerModel.en.md), `canceled?`: `boolean`) => `void`) => [`ComboInnerModel`](../data/ComboInnerModel.en.md)[]
+• **Type**: (`ids`: `ID`[], `dx`: `number`, `dy`: `number`, `upsertAncestors?`: `boolean`, `callback?`: (`model`: [`NodeModel`](../data/NodeModel.en.md) \| [`EdgeModel`](../data/EdgeModel.en.md) \| [`ComboModel`](../data/ComboModel.en.md), `canceled?`: `boolean`) => `void`) => [`ComboModel`](../data/ComboModel.en.md)[]
 
 • **Parameters**:
 
-| Name               | Type                                                                                                                                                                                                    | Description                                      |
-| :----------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | :----------------------------------------------- |
-| `ids`              | `ID`[]                                                                                                                                                                                                  | The ID or IDs of the combos to be updated        |
-| `dx`               | `number`                                                                                                                                                                                                | The relative distance to move on the x-axis      |
-| `dy`               | `number`                                                                                                                                                                                                | The relative distance to move on the y-axis      |
-| `upsertAncestors?` | `boolean`                                                                                                                                                                                               | 是 Whether to update the ancestor combos as well |
-| `callback?`        | (`model`: [`NodeInnerModel`](../data/NodeInnerModel.en.md) \| [`EdgeInnerModel`](../data/EdgeInnerModel.en.md) \| [`ComboInnerModel`](../data/ComboInnerModel.en.md), `canceled?`: `boolean`) => `void` | Callback function after the update is complete   |
+| Name               | Type                                                                                                                                                                      | Description                                      |
+| :----------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | :----------------------------------------------- |
+| `ids`              | `ID`[]                                                                                                                                                                    | The ID or IDs of the combos to be updated        |
+| `dx`               | `number`                                                                                                                                                                  | The relative distance to move on the x-axis      |
+| `dy`               | `number`                                                                                                                                                                  | The relative distance to move on the y-axis      |
+| `upsertAncestors?` | `boolean`                                                                                                                                                                 | 是 Whether to update the ancestor combos as well |
+| `callback?`        | (`model`: [`NodeModel`](../data/NodeModel.en.md) \| [`EdgeModel`](../data/EdgeModel.en.md) \| [`ComboModel`](../data/ComboModel.en.md), `canceled?`: `boolean`) => `void` | Callback function after the update is complete   |
 
 • **Returns**: `ComboModel[]`, the updated Combo data (inner model).
 
@@ -465,7 +465,7 @@ Move a single or multiple combos by a relative distance (dx, dy). This API will 
 
 Updates the position of one or more Combos to a specified position (x, y). Similar to the corresponding API [updateNodePosition](#updatenodeposition) for nodes.
 
-• **Type**: (`models`: `Partial`<[`ComboUserModel`](../data/ComboUserModel.en.md)\> \| `Partial`<[`ComboUserModel`](../data/ComboUserModel.en.md) \| `Partial`<[`NodeUserModel`](../data/NodeUserModel.en.md)\>[] \| `Partial`<[`ComboUserModel`](../data/ComboUserModel.en.md)\>[]\>, `upsertAncestors?`: `boolean`, `disableAnimate?`: `boolean`, `callback?`: (`model`: [`NodeInnerModel`](../data/NodeInnerModel.en.md) \| [`EdgeInnerModel`](../data/EdgeInnerModel.en.md) \| [`ComboInnerModel`](../data/ComboInnerModel.en.md)) => `void`) => [`NodeInnerModel`](../data/NodeInnerModel.en.md) \| [`ComboInnerModel`](../data/ComboInnerModel.en.md) \| [`NodeInnerModel`](../data/NodeInnerModel.en.md)[] \| [`ComboInnerModel`](../data/ComboInnerModel.en.md)[]
+• **Type**: (`models`: `Partial`<[`ComboUserModel`](../data/ComboUserModel.en.md)\> \| `Partial`<[`ComboUserModel`](../data/ComboUserModel.en.md) \| `Partial`<[`NodeUserModel`](../data/NodeUserModel.en.md)\>[] \| `Partial`<[`ComboUserModel`](../data/ComboUserModel.en.md)\>[]\>, `upsertAncestors?`: `boolean`, `disableAnimate?`: `boolean`, `callback?`: (`model`: [`NodeModel`](../data/NodeModel.en.md) \| [`EdgeModel`](../data/EdgeModel.en.md) \| [`ComboModel`](../data/ComboModel.en.md)) => `void`) => [`NodeModel`](../data/NodeModel.en.md) \| [`ComboModel`](../data/ComboModel.en.md) \| [`NodeModel`](../data/NodeModel.en.md)[] \| [`ComboModel`](../data/ComboModel.en.md)[]
 
 • **Parameters**:
 
@@ -474,15 +474,15 @@ Updates the position of one or more Combos to a specified position (x, y). Simil
 | `models`           | `Partial`<[`ComboUserModel`](../data/ComboUserModel.en.md)\> \| `Partial`<[`ComboUserModel`](../data/ComboUserModel.en.md) \| `Partial`<[`NodeUserModel`](../data/NodeUserModel.en.md)\>[] \| `Partial`<[`ComboUserModel`](../data/ComboUserModel.en.md)\>[]\> | An object with the Combo id and data to be updated, and the data contains the new `x` and `y` information |
 | `upsertAncestors?` | `boolean`                                                                                                                                                                                                                                                      | Whether to update the ancestor Combos at the same time                                                    |
 | `disableAnimate?`  | `boolean`                                                                                                                                                                                                                                                      | Whether to disable animation                                                                              |
-| `callback?`        | (`model`: [`NodeInnerModel`](../data/NodeInnerModel.en.md) \| [`EdgeInnerModel`](../data/EdgeInnerModel.en.md) \| [`ComboInnerModel`](../data/ComboInnerModel.en.md)) => `void`                                                                                | The callback function after the update is completed                                                       |
+| `callback?`        | (`model`: [`NodeModel`](../data/NodeModel.en.md) \| [`EdgeModel`](../data/EdgeModel.en.md) \| [`ComboModel`](../data/ComboModel.en.md)) => `void`                                                                                                              | The callback function after the update is completed                                                       |
 
-• **Returns**: [`ComboInnerModel`](../data/ComboInnerModel.en.md) \| [`ComboInnerModel`](../data/ComboInnerModel.en.md)[], the updated Combo data (inner model).
+• **Returns**: [`ComboModel`](../data/ComboModel.en.md) \| [`ComboModel`](../data/ComboModel.en.md)[], the updated Combo data (inner model).
 
 ### getComboChildrenData
 
 Gets the data of the child items (nodes/combos) of a Combo (inner model).
 
-• **Type**: (`comboId`: `ID`) => ([`NodeInnerModel`](../data/NodeInnerModel.en.md) \| [`ComboInnerModel`](../data/ComboInnerModel.en.md))[]
+• **Type**: (`comboId`: `ID`) => ([`NodeModel`](../data/NodeModel.en.md) \| [`ComboModel`](../data/ComboModel.en.md))[]
 
 • **Parameters**:
 
@@ -490,7 +490,7 @@ Gets the data of the child items (nodes/combos) of a Combo (inner model).
 | :-------- | :------- |
 | `comboId` | Combo id |
 
-• **Returns**: ([`NodeInnerModel`](../data/NodeInnerModel.en.md) \| [`ComboInnerModel`](../data/ComboInnerModel.en.md))[] the data of the children (inner model).
+• **Returns**: ([`NodeModel`](../data/NodeModel.en.md) \| [`ComboModel`](../data/ComboModel.en.md))[] the data of the children (inner model).
 
 ## Layout
 
