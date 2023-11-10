@@ -1,5 +1,6 @@
 ---
-title: CircleStyleProps
+title: Circle
+order: 0
 ---
 
 ## cx

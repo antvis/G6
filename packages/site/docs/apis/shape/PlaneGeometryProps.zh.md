@@ -1,5 +1,6 @@
 ---
-title: PlaneGeometryProps
+title: Plane
+order: 11
 ---
 
 平面，默认躺在 XZ 平面上

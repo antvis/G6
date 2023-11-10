@@ -1,5 +1,6 @@
 ---
-title: LineStyleProps
+title: Line
+order: 4
 ---
 
 ## x1

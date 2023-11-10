@@ -1,5 +1,6 @@
 ---
-title: PathStyleProps
+title: Path
+order: 5
 ---
 
 ## path

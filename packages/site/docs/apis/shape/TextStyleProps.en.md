@@ -1,5 +1,6 @@
 ---
-title: TextStyleProps
+title: Text
+order: 2
 ---
 
 ## dx

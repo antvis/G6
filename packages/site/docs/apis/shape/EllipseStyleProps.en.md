@@ -1,5 +1,6 @@
 ---
-title: EllipseStyleProps
+title: Ellipse
+order: 7
 ---
 
 ## cx

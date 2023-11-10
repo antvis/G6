@@ -1,5 +1,6 @@
 ---
-title: RectStyleProps
+title: Rect
+order: 1
 ---
 
 <embed src="../../common/ShapeStyleProps.en.md"></embed>

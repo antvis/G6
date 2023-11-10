@@ -1,5 +1,6 @@
 ---
-title: TorusGeometryProps
+title: Torus
+order: 12
 ---
 
 Torus Geometry

@@ -1,5 +1,6 @@
 ---
-title: CubeGeometryProps
+title: Cube
+order: 10
 ---
 
 Cube Geometry

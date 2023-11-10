@@ -1,5 +1,6 @@
 ---
-title: PlaneGeometryProps
+title: Plane
+order: 11
 ---
 
 Plane geometry, default lying on the XZ plane

@@ -1,5 +1,6 @@
 ---
-title: PolygonStyleProps
+title: Polygon
+order: 8
 ---
 
 ## points

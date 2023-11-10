@@ -1,5 +1,6 @@
 ---
-title: SphereGeometryProps
+title: Sphere
+order: 9
 ---
 
 球体
