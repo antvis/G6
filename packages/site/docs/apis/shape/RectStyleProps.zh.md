@@ -1,5 +1,5 @@
 ---
-title: Rect
+title: Rect 矩形
 order: 1
 ---
 

@@ -1,9 +1,9 @@
 ---
-title: Plane
+title: Plane 平面
 order: 11
 ---
 
-平面，默认躺在 XZ 平面上
+默认躺在 XZ 平面上
 
 <img alt="plane" src="https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*jN9zQp3RflAAAAAAAAAAAAAAARQnAQ" height='200'/>
 

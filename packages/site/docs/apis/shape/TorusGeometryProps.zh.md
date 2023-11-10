@@ -1,9 +1,7 @@
 ---
-title: Torus
+title: Torus 圆环
 order: 12
 ---
-
-圆环
 
 <img alt="torus" src="https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*So7oT4qDvLkAAAAAAAAAAAAAARQnAQ" height='200'/>
 

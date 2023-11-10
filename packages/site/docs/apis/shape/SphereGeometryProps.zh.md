@@ -1,9 +1,7 @@
 ---
-title: Sphere
+title: Sphere 球体
 order: 9
 ---
-
-球体
 
 <img alt="sphere" src="https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*bsj2S4upLBgAAAAAAAAAAAAAARQnAQ" height='200'/>
 

@@ -1,5 +1,5 @@
 ---
-title: Ellipse
+title: Ellipse 椭圆
 order: 7
 ---
 

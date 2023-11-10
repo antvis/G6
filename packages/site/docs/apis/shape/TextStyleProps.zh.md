@@ -1,5 +1,5 @@
 ---
-title: Text
+title: Text 文本
 order: 2
 ---
 

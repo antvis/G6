@@ -1,9 +1,7 @@
 ---
-title: Cube
+title: Cube 立方体
 order: 10
 ---
-
-立方体
 
 <img alt="cube" src="https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*sHGXQpeIYzoAAAAAAAAAAAAAARQnAQ" height='200'/>
 
