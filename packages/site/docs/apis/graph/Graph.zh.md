@@ -132,7 +132,7 @@ order: 1
 • **参数**:
 | Name | Type | Description |
 | :--------- | :------------- | :----------------------------------- |
-| `itemType` | `ITEM_TYPE` | 需要移除的数据类型，'node' /| 'edge' /| 'combo' |
+| `itemType` | `ITEM_TYPE` | 需要移除的数据类型，'node' \| 'edge' \| 'combo' |
 | `id` | `ID` \| `ID`[] | 需要移除的数据 id，一条或多条 |
 
 ### getAllNodesData
@@ -447,7 +447,7 @@ order: 1
 
 移动单个/多个 Combo 一个相对的距离（dx，dy）。该 API 将不更新其他样式以提升更新位置的性能。事实上，由于 Combo 的位置取决的内部子元素的分布和位置，因此该 API 实际上是在更新指定 Combo 的后继元素的位置，以影响该 Combo 以达到移动该 Combo 的目的，而不是直接更新该 Combo 的位置。
 
-• 类型 (`ids`: `ID`[], `dx`: `number`, `dy`: `number`, `upsertAncestors?`: `boolean`, `callback?`: (`model`: `NodeModel` \| `EdgeModel` \| `ComboModel`, `canceled?`: `boolean`) => `void`) => `ComboModel`[]
+• **类型**: (`ids`: `ID`[], `dx`: `number`, `dy`: `number`, `upsertAncestors?`: `boolean`, `callback?`: (`model`: `NodeModel` \| `EdgeModel` \| `ComboModel`, `canceled?`: `boolean`) => `void`) => `ComboModel`[]
 
 • **参数**:
 
@@ -513,7 +513,7 @@ order: 1
 
 停止布局。适用于带有迭代动画的布局，目前有 `'force'` 属于此类布局，即停止力导布局的迭代，一般用于布局迭代时间过长情况下的手动停止迭代动画，例如在点击画布/节点的监听中调用。
 
-• 类型 () => `void`
+• **类型**: () => `void`
 
 ## 交互与事件
 
@@ -634,11 +634,11 @@ G6 图提供不同的交互模式配置，可以理解为交互的分组。不�
 
 • **参数**:
 
-| Name     | Type                        | Description                                                                                                             |
-| :------- | :-------------------------- | :---------------------------------------------------------------------------------------------------------------------- |
-| `type`   | `ITEM_TYPE` \| `SHAPE_TYPE` | 图形或元素的类型，例如 `'circle'`, `'line'` 等图形类型名称，或 `'node'`, `'edge'`, `'combo'` 以复制现有的元素到临时层。 |
-| `id`     | `ID`                        | 给出临时图形的 id 方便后续检索。若是复制当前画布上的节点 / 边 / Combo，则指定为对应元素的 id                            |
-| `config` | `any`                       | 图形样式的配置，例如大小、颜色等。适用于绘制临时图形，而不是复制元素，因为复制元素将直接使用被复制元素的样式。色        |
+| Name     | Type                        | Description                                                                                                           |
+| :------- | :-------------------------- | :-------------------------------------------------------------------------------------------------------------------- |
+| `type`   | `ITEM_TYPE` \| `SHAPE_TYPE` | 图形或元素的类型，例如 `'circle'`, `'line'` 等图形类型名称，或 `'node'`, `'edge'`, `'combo'` 以复制现有的元素到临时层 |
+| `id`     | `ID`                        | 给出临时图形的 id 方便后续检索。若是复制当前画布上的节点 / 边 / Combo，则指定为对应元素的 id                          |
+| `config` | `any`                       | 图形样式的配置，例如大小、颜色等。适用于绘制临时图形，而不是复制元素，因为复制元素将直接使用被复制元素的样式          |
 
 • **返回值**: `DisplayObject`<`any`, `any`\>，被绘制的图形对象。若为复制元素，则将返回包含所有相关图形的图形分组。
 
@@ -864,7 +864,7 @@ G6 图提供不同的交互模式配置，可以理解为交互的分组。不�
 | `onlyKeyShape?` | `boolean` | 是否仅计算主图形 keyShape 的包围盒                                           |
 | `isTransient?`  | `boolean` | 是计算的是临时图形的包围盒                                                   |
 
-• **返回值**: `false` \| `AABB`。若不存在对应元素则返回 `undefined`
+• **返回值**: `false` \| `AABB`。若不存在对应元素则返回 `false`
 
 ## 树图
 
@@ -1181,11 +1181,11 @@ more convenient way without manually invoking `startHistoryBatch` and `stopHisto
 
 ---
 
-## 插件
+## 自由插件
 
 ### addPlugins
 
-为图实例增加插件。
+为图实例增加自由插件。
 
 • **类型**: (`pluginCfgs`: { `[cfgName: string]`: `unknown`; `key`: `string` ; `type`: `string` }[]) => `void`
 
@@ -1283,18 +1283,6 @@ more convenient way without manually invoking `startHistoryBatch` and `stopHisto
 
 ## 图实例
 
-### destroy
-
-销毁当前图实例。
-
-• **类型**: (`callback?`: `Function`) => `void`
-
-• **参数**:
-
-| Name        | Type       | Description          |
-| :---------- | :--------- | :------------------- |
-| `callback?` | `Function` | 销毁完成后的回调函数 |
-
 ### setCursor
 
 设置和当前的鼠标样式。但元素上的鼠标样式拥有更高的优先级。
@@ -1306,3 +1294,15 @@ more convenient way without manually invoking `startHistoryBatch` and `stopHisto
 | Name     | Type     |
 | :------- | :------- |
 | `cursor` | `Cursor` |
+
+### destroy
+
+销毁当前图实例。
+
+• **类型**: (`callback?`: `Function`) => `void`
+
+• **参数**:
+
+| Name        | Type       | Description          |
+| :---------- | :--------- | :------------------- |
+| `callback?` | `Function` | 销毁完成后的回调函数 |

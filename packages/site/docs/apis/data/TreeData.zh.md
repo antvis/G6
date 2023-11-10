@@ -19,9 +19,9 @@ v5 的 Graph 可以读取 `GraphData`、`TreeData`、`TreeData[]`，即可以展
 ### data
 
 - 是否必须：`是`；
-- 类型：[`NodeUserModelData`](./NodeUserModelData.zh.md)；
+- 类型：[`NodeUserModelData`](./NodeUserModel.zh.md#nodeusermodeldatatype)；
 
-节点除 ID 以外的的数据，建议存放业务数据。若需要进行数据转换，可通过 Graph 实例的 transform 配置转换函数，见 [Specification.transforms](TODO)。转换后的数据成为内部流通的数据 Inner Data，后续所有地方获取的都是这份内部数据。与渲染有关的可以通过 Graph 实例的节点 mapper 进行映射，见 [Specification.node](TODO)，该 mapper 的输入是 Inner Data，生成的结果 Display Data 只交给渲染器消费，用户不会在任何地方获得。
+节点除 ID 以外的的数据，建议存放业务数据。若需要进行数据转换，可通过 Graph 实例的 transform 配置转换函数，见 [Specification.transforms](../graph/Specification.zh.md#transforms)。转换后的数据成为内部流通的数据 Inner Data，后续所有地方获取的都是这份内部数据。与渲染有关的可以通过 Graph 实例的节点 mapper 进行映射，见 [Specification.node](../graph/Specification.zh.md#node)，该 mapper 的输入是 Inner Data，生成的结果 Display Data 只交给渲染器消费，用户不会在任何地方获得。
 
 ### children
 

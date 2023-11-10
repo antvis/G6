@@ -11,7 +11,7 @@ order: 0
 
 ### User Data 用户输入数据
 
-数据类型为 [`GraphData`](./GraphData.zh.md) 或 [`TreeData`](./GraphData.zh.md)。用户输入数据是由用户提供的原始数据，可以是来自业务的数据。是节点、边、Combo 的集合。这些数据可能来自外部数据源，或者是用户通过交互操作生成的。
+数据类型为 [`GraphData`](./GraphData.zh.md) 或 [`TreeData`](./TreeData.zh.md)。用户输入数据是由用户提供的原始数据，可以是来自业务的数据。是节点、边、Combo 的集合。这些数据可能来自外部数据源，或者是用户通过交互操作生成的。
 
 用户数据输入的方式有：
 
@@ -41,13 +41,13 @@ graph.read(data);
 
 3. **调用 API 更新数据**
 
-- 更新全量数据 [changeData](TODO)
+- 更新全量数据 [changeData](../graph//Graph.zh.md#changedata)
 
 ```javascript
 graph.changeData(data);
 ```
 
-- 新增部分数据 [addData](TODO)
+- 新增部分数据 [addData](../graph//Graph.zh.md#adddata)
 
 ```javascript
 graph.addData('node', [
@@ -57,7 +57,7 @@ graph.addData('node', [
 graph.addData('edge', [{ id: 'newedge-1', source: 'newnode-2', target: 'newnode-1', data: {} }]);
 ```
 
-- 更新部分已有数据 [updateData](TODO)
+- 更新部分已有数据 [updateData](../graph//Graph.zh.md#updatedata)
 
 ```javascript
 const nodes = [
@@ -68,7 +68,7 @@ const nodes = [
 graph.updateData('node', nodes);
 ```
 
-- 删除部分数据 [removeData](TODO)
+- 删除部分数据 [removeData](../graph//Graph.zh.md#removedata)
 
 ```javascript
 graph.removeData('node', ['node-1', 'node-2']);
@@ -78,7 +78,7 @@ graph.removeData('node', ['node-1', 'node-2']);
 
 数据转换器是用于对用户输入数据进行转换和处理的功能模块。它们可以执行各种操作，例如属性字段转换、数据过滤、数据聚合等。转换器可以根据实际需求进行自定义配置，以便将输入数据转换为适合后续处理的内部数据格式。
 
-使用图配置中的 `transforms` 字段配置的各种转换器。`transforms` 接受的是转换器配置数组，G6 在读取用户数据时，将按照 `transforms` 中转换器的顺序执行数据转换，前一个转换器的结果将作为下一个转换器的输入。 例如：TODO
+使用图配置中的 `transforms` 字段配置的各种转换器。`transforms` 接受的是转换器配置数组，G6 在读取用户数据时，将按照 `transforms` 中转换器的顺序执行数据转换，前一个转换器的结果将作为下一个转换器的输入 [Transforms DEMO](/en/examples/feature/features/#rendererSwitch).
 
 ### Inner Data 内部流转数据
 
@@ -88,7 +88,7 @@ graph.removeData('node', ['node-1', 'node-2']);
 
 数据映射器是用于将内部流转数据映射到具体的视觉通道上。它们根据预定义的规则和配置，将内部数据映射到特定的节点样式、边样式、标签等可视化属性上。数据映射器支持 JSON 格式的配置，也支持函数式的配置。
 
-使用图配置中的 `node`，`edge`，或 `combo`，类型见：TODO。
+使用图配置中的 `node`，`edge`，或 `combo`，类型见：TODO。 [Mappers DEMO](/zh/examples/feature/features/#lodLevels).
 
 ### Display Data 渲染数据
 
