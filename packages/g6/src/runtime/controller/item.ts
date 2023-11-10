@@ -529,15 +529,21 @@ export class ItemController {
       const { dataTypeField: nodeDataTypeField } = nodeTheme;
       const edgeIdsToUpdate: Set<ID> = new Set<ID>();
       const comboIdsToUpdate: Set<ID> = new Set<ID>();
-      const updateRelates = (edgeIds?: Set<ID>) => {
-        const ids = edgeIds
-          ? [...edgeIds]
-          : [...comboIdsToUpdate, ...edgeIdsToUpdate];
-        ids.forEach((nid) => {
+      const updateRelates = (param: { edgeIds?: Set<ID>; callback?: any }) => {
+        const { edgeIds, callback } = param;
+        edgeIds.forEach((nid) => {
+          const item = itemMap.get(nid) as Edge | Combo;
+          if (item && !item.destroyed) item.forceUpdate();
+        });
+        callback?.();
+      };
+      const updateAllRelates = () => {
+        [...comboIdsToUpdate, ...edgeIdsToUpdate].forEach((nid) => {
           const item = itemMap.get(nid) as Edge | Combo;
           if (item && !item.destroyed) item.forceUpdate();
         });
       };
+      const debounceUpdateAllRelates = debounce(updateAllRelates, 16, false);
       const debounceUpdateRelates = debounce(updateRelates, 16, false);
 
       Object.values(nodeComboUpdate).forEach((updateObj: any) => {
@@ -638,7 +644,7 @@ export class ItemController {
           nodeRelatedIdsToUpdate.add(edge.id);
         });
 
-        item.onframe = () => updateRelates(nodeRelatedIdsToUpdate);
+        item.onframe = () => updateRelates({ edgeIds: nodeRelatedIdsToUpdate });
         let statesCache;
         if (
           innerModel.data._isCombo &&
@@ -655,23 +661,19 @@ export class ItemController {
           onlyMove,
           animate,
           // call after updating finished
-          throttle(
-            (_, canceled) => {
-              item.onframe?.(true);
-              item.onframe = undefined;
-              if (statesCache) {
-                statesCache.forEach((state) =>
-                  this.graph.setItemState(id, state, true),
-                );
-              }
-              callback(innerModel, canceled);
-            },
-            500,
-            {
-              leading: true,
-              trailing: true,
-            },
-          ),
+          (_, canceled) => {
+            item.onframe = undefined;
+            if (statesCache) {
+              statesCache.forEach((state) =>
+                this.graph.setItemState(id, state, true),
+              );
+            }
+            // @ts-ignore
+            debounceUpdateRelates({
+              edgeIds: nodeRelatedIdsToUpdate,
+              callback: () => callback(innerModel, canceled),
+            });
+          },
         );
 
         const parentItem = this.itemMap.get(current.parentId);
@@ -681,7 +683,7 @@ export class ItemController {
           });
         }
       });
-      debounceUpdateRelates();
+      debounceUpdateAllRelates();
     }
     // === 6. update edges' data ===
     if (groupedChanges.EdgeDataUpdated.length) {

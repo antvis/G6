@@ -10,52 +10,14 @@ order: 1
 ### nodes
 
 - 是否必须：`是`；
-- 类型： [`NodeUserModel[]`](#NodeUserModel)；
-
-#### NodeUserModel
-
-• `必须` **id**: `string|number`
-
-节点的唯一 ID，节点创建后，ID 不可被修改。
-
-• `必须` **data**: [`NodeUserModelData`](./NodeUserModelData.zh.md)
-
-节点除 ID 以外的的数据，建议存放业务数据。若需要进行数据转换，可通过 Graph 实例的 transform 配置转换函数，见 [Specification.transforms](TODO)。转换后的数据成为内部流通的数据 Inner Data，后续所有地方获取的都是这份内部数据。与渲染有关的可以通过 Graph 实例的节点 mapper 进行映射，见 [Specification.node](TODO)，该 mapper 的输入是 Inner Data，生成的结果 Display Data 只交给渲染器消费，用户不会在任何地方获得。
+- 类型： [`NodeUserModel`](./NodeUserModel.zh.md)[]；
 
 ### edges
 
 - 是否必须：`是`；
-- 类型： `EdgeUserModel`[]；
-
-#### EdgeUserModel
-
-• `必须` **id**: `string|number`
-
-边的唯一 ID，节点创建后，ID 不可被修改。
-
-• `必须` **source**: `string|number`
-
-边起始节点的 ID，应与 `nodes` 中的一项对应，否则该边数据不会被加入到图中。
-
-• `必须` **target**: `string|number`
-
-边结束节点的 ID，应与 `nodes` 中的一项对应，否则该边数据不会被加入到图中。
-
-• `必须` **data**: [`EdgeUserModelData`](./EgdeUserModelData.zh.md)
-
-边除 ID、起点 ID、终点 ID 以外的数据，建议存放业务数据。若需要进行数据转换，可通过 Graph 实例的 transform 配置转换函数，见 [Specification.transforms](TODO)。转换后的数据成为内部流通的数据 Inner Data，后续所有地方获取的都是这份内部数据。与渲染有关的可以通过 Graph 实例的边 mapper 进行映射，见 [Specification.edge](TODO)，该 mapper 的输入是 Inner Data，生成的结果 Display Data 只交给渲染器消费，用户不会在任何地方获得。
+- 类型： [`EdgeUserModel`](./EdgeUserModel.zh.md)[]；
 
 ### combos
 
 - 是否必须：`否`；
-- 类型： `ComboUserModel`[]；
-
-#### ComboUserModel
-
-• `必须` **id**: `string|number`
-
-Combo 的唯一 ID，Combo 创建后，ID 不可被修改。
-
-• `必须` **data**: [`ComboUserModelData`](./ComboUserModelData.zh.md)
-
-Combo 除 ID 以外的的数据，建议存放业务数据。若需要进行数据转换，可通过 Graph 实例的 transform 配置转换函数，见 [Specification.transforms](TODO)。转换后的数据成为内部流通的数据 Inner Data，后续所有地方获取的都是这份内部数据。与渲染有关的可以通过 Graph 实例的 combo mapper 进行映射，见 [Specification.combo](TODO)，该 mapper 的输入是 Inner Data，生成的结果 Display Data 只交给渲染器消费，用户不会在任何地方获得。
+- 类型： [`ComboUserModel`](./ComboUserModel.zh.md)[]；

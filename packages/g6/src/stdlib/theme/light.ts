@@ -101,6 +101,7 @@ export const LightTheme = {
           },
           labelShape: {
             fontWeight: 700,
+            fontSize: 14,
           },
           haloShape: {
             opacity: 0.25,
@@ -231,6 +232,7 @@ export const LightTheme = {
           },
           labelShape: {
             fontWeight: 700,
+            fontSize: 14,
           },
           haloShape: {
             opacity: 0.25,
@@ -323,6 +325,7 @@ export const LightTheme = {
           },
           labelShape: {
             fontWeight: 700,
+            fontSize: 14,
           },
           haloShape: {
             opacity: 0.25,
