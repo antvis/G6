@@ -309,12 +309,28 @@ export default defineConfig({
         order: 2,
       },
       {
-        slug: 'apis/item',
+        slug: 'apis/item/node',
         title: {
-          zh: '元素',
-          en: 'Item',
+          zh: '元素 - 节点',
+          en: 'Item - Node',
         },
         order: 3,
+      },
+      {
+        slug: 'apis/item/edge',
+        title: {
+          zh: '元素 - 边',
+          en: 'Item - Edge',
+        },
+        order: 4,
+      },
+      {
+        slug: 'apis/item/combo',
+        title: {
+          zh: '元素 - Combo',
+          en: 'Item - Combo',
+        },
+        order: 5,
       },
       {
         slug: 'apis/shape',
@@ -322,7 +338,7 @@ export default defineConfig({
           zh: '图形',
           en: 'Shape',
         },
-        order: 4,
+        order: 6,
       },
       {
         slug: 'apis/layout',
@@ -330,7 +346,7 @@ export default defineConfig({
           zh: '布局',
           en: 'layout',
         },
-        order: 5,
+        order: 7,
       },
       {
         slug: 'apis/behaviors',
@@ -338,7 +354,7 @@ export default defineConfig({
           zh: '交互',
           en: 'Interaction',
         },
-        order: 6,
+        order: 8,
       },
       {
         slug: 'apis/plugins',
@@ -346,7 +362,7 @@ export default defineConfig({
           zh: '自由插件',
           en: 'Plugin',
         },
-        order: 7,
+        order: 9,
       },
       // {
       //   slug: 'apis/interfaces',
