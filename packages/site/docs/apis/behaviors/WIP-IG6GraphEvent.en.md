@@ -1,3 +1,0 @@
----
-title: IG6GraphEvent
----
