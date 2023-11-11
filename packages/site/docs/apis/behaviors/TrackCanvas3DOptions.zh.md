@@ -1,5 +1,5 @@
 ---
-title: TrackCanvas3DOptions
+title: TrackCanvas3D
 ---
 
 固定相机位置绕图旋转

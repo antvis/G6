@@ -1,5 +1,5 @@
 ---
-title: TrackCanvas3DOptions
+title: TrackCanvas3D
 ---
 
 Rotate the camera around the graph with a fixed camera position
