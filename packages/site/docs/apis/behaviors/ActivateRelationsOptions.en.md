@@ -16,15 +16,7 @@ Activate the adjacent nodes of the current node when the interaction is triggere
 
 **Description**: Switch to this state when highlighted
 
-## multiple
-
-**Type**: `boolean`
-
-**Default**: `true`
-
-**Required**: false
-
-**Description**: Whether to allow multiple selection. If set to false, the `trigger` option will be ignored
+<embed src="../../common/BehaviorMultiple.zh.md"></embed>
 
 ## trigger
 
