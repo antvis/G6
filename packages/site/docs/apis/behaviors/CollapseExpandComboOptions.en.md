@@ -15,3 +15,5 @@ title: CollapseExpandCombo
 **Description**: The event that triggers the collapse/expand of the Combo
 
 <embed src="../../common/BehaviorShouldBegin.en.md"></embed>
+
+<embed src="../../common/IG6GraphEvent.en.md"></embed>

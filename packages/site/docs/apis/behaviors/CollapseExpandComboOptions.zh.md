@@ -15,3 +15,5 @@ title: CollapseExpandCombo 收起/展开 Combo
 **说明**：触发收起/展开 Combo 的事件
 
 <embed src="../../common/BehaviorShouldBegin.zh.md"></embed>
+
+<embed src="../../common/IG6GraphEvent.zh.md"></embed>

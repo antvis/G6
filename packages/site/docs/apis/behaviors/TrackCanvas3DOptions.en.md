@@ -23,3 +23,5 @@ Rotate the camera around the graph with a fixed camera position
 **Required**: false
 
 **Description**: The way to trigger interaction
+
+<embed src="../../common/IG6GraphEvent.en.md"></embed>

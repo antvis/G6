@@ -77,3 +77,5 @@ title: DragCanvas
 **Required**: false
 
 **Description**: The event type that triggers the interaction
+
+<embed src="../../common/IG6GraphEvent.en.md"></embed>

@@ -19,3 +19,5 @@ title: ZoomCanvas 画布缩放
 <embed src="../../common/BaseZoonCanvasOptions.zh.md"></embed>
 
 <embed src="../../common/BehaviorSpeedUpKey.zh.md"></embed>
+
+<embed src="../../common/IG6GraphEvent.zh.md"></embed>

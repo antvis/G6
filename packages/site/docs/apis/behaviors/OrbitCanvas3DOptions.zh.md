@@ -23,3 +23,5 @@ title: OrbitCanvas3D
 **是否必须**：false
 
 **说明**：触发交互的方式
+
+<embed src="../../common/IG6GraphEvent.zh.md"></embed>

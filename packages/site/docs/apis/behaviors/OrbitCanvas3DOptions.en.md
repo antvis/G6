@@ -23,3 +23,5 @@ Fixed focalPoint, change camera position
 **Required**: false
 
 **Description**: The way to trigger interaction
+
+<embed src="../../common/IG6GraphEvent.en.md"></embed>

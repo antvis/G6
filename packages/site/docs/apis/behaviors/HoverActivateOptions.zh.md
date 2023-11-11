@@ -24,3 +24,4 @@ title: HoverActivate 指针悬停
 
 <embed src="../../common/BehaviorThrottle.zh.md"></embed>
 
+<embed src="../../common/IG6GraphEvent.zh.md"></embed>

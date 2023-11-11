@@ -20,3 +20,5 @@ Zoom canvas
 
 <embed src="../../common/BehaviorSpeedUpKey.en.md"></embed>
 
+
+<embed src="../../common/IG6GraphEvent.en.md"></embed>

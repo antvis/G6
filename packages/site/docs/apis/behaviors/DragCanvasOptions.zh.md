@@ -77,3 +77,5 @@ title: DragCanvas 拖拽画布
 **是否必须**：false
 
 **说明**：触发交互的事件类型
+
+<embed src="../../common/IG6GraphEvent.zh.md"></embed>
