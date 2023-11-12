@@ -1,6 +1,6 @@
 ---
 title: Snapline
-order: 12
+order: 13
 ---
 
 When two or more elements are aligned horizontally or vertically, alignment lines appear. Alignment lines can help you align elements better in layout

@@ -1,5 +1,6 @@
 ---
 title: TimeBar
+order: 8
 ---
 
 Filter graph elements through the time bar

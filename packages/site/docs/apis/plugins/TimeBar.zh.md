@@ -1,5 +1,6 @@
 ---
 title: TimeBar 时间轴
+order: 8
 ---
 
 通过时间轴对图元素进行过滤
