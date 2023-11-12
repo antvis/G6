@@ -73,7 +73,7 @@ type delegateStyle = {
 
 **说明**：拖拽时切换到该状态
 
-<embed src="./BehaviorThrottle.zh.md"></embed>
+<embed src="./Throttle.zh.md"></embed>
 
 ## updateComboStructure
 

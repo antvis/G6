@@ -2,7 +2,7 @@
 
 **Type**: `number`
 
-**Default**: `0`
+**Default**: `16`
 
 **Required**: false
 

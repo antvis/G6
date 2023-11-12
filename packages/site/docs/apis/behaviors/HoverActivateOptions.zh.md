@@ -25,6 +25,6 @@ order: 7
 
 <embed src="../../common/BehaviorShouldBegin.zh.md"></embed>
 
-<embed src="../../common/BehaviorThrottle.zh.md"></embed>
+<embed src="../../common/Throttle.zh.md"></embed>
 
 <embed src="../../common/IG6GraphEvent.zh.md"></embed>

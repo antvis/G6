@@ -73,7 +73,7 @@ type delegateStyle = {
 
 **Description**: Switch to this state when dragging
 
-<embed src="./BehaviorThrottle.en.md"></embed>
+<embed src="./Throttle.en.md"></embed>
 
 ## updateComboStructure
 
