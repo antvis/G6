@@ -1,5 +1,6 @@
 ---
 title: History
+order: 1
 ---
 
 ## Configurations

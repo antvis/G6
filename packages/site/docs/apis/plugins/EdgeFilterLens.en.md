@@ -1,5 +1,6 @@
 ---
 title: EdgeFilterLens
+order: 9
 ---
 
 Filter out edges that do not exist on one side of the filter

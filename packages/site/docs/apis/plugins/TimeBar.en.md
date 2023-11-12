@@ -232,25 +232,7 @@ type shouldIgnore = (
 
 **Description**: y coordinate
 
-### width
-
-**Type**: `number`
-
-**Default**: `0`
-
-**Required**: false
-
-**Description**: width
-
-### height
-
-**Type**: `number`
-
-**Default**: `0`
-
-**Required**: false
-
-**Description**: height
+<embed src="../../common/PluginSize.en.md"></embed>
 
 ### position
 
