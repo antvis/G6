@@ -1,5 +1,6 @@
 ---
 title: CollapseExpandCombo
+order: 9
 ---
 
 <img alt="collapse and expand canvas" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*I9kZR7OYqhUAAAAAAAAAAAAADmJ7AQ/original" height='300'/>

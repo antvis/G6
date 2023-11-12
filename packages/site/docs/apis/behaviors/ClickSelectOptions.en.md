@@ -1,5 +1,6 @@
 ---
 title: ClickSelect
+order: 4
 ---
 
 <img alt="click select" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*n5nAS6BBD24AAAAAAAAAAAAADmJ7AQ/original" height='300'/>

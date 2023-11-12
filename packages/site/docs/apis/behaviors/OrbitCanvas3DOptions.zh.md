@@ -1,5 +1,6 @@
 ---
 title: OrbitCanvas3D
+order: 14
 ---
 
 固定视点，改变相机位置

@@ -1,5 +1,6 @@
 ---
 title: LassoSelect
+order: 6
 ---
 
 Select a group of nodes by lasso.

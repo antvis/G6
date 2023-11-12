@@ -1,5 +1,6 @@
 ---
 title: BrushSelect
+order: 5
 ---
 
 Brush select a group of nodes

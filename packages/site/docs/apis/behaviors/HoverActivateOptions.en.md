@@ -1,5 +1,6 @@
 ---
 title: HoverActivateOptions
+order: 7
 ---
 
 Activate on hover

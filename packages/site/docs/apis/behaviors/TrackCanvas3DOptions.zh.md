@@ -1,5 +1,6 @@
 ---
 title: TrackCanvas3D
+order: 16
 ---
 
 固定相机位置绕图旋转

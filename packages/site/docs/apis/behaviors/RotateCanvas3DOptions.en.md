@@ -1,5 +1,6 @@
 ---
 title: RotateCanvas3D
+order: 15
 ---
 
 <!-- TODO 旋转效果测试不生效 -->

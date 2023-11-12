@@ -1,5 +1,6 @@
 ---
 title: ActivateRelations 高亮相邻节点
+order: 8
 ---
 
 触发交互时，高亮当前节点的相邻节点

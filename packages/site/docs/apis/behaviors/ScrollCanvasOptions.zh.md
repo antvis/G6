@@ -1,5 +1,6 @@
 ---
 title: ScrollCanvas 画布滚动
+order: 12
 ---
 
 ## allowDragOnItem

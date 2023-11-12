@@ -1,5 +1,6 @@
 ---
 title: LassoSelect 拉索选择
+order: 6
 ---
 
 通过拉索选择一组节点

@@ -1,5 +1,6 @@
 ---
 title: ShortcutsCall 快捷键
+order: 11
 ---
 
 ## combinedKey

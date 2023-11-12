@@ -1,5 +1,6 @@
 ---
 title: ActivateRelations
+order: 8
 ---
 
 Activate the adjacent nodes of the current node when the interaction is triggered

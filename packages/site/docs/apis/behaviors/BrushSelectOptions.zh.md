@@ -1,5 +1,6 @@
 ---
 title: BrushSelect 框选
+order: 5
 ---
 
 框选一组节点
