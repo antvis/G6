@@ -25,6 +25,6 @@ Activate on hover
 
 <embed src="../../common/BehaviorShouldBegin.en.md"></embed>
 
-<embed src="../../common/BehaviorThrottle.en.md"></embed>
+<embed src="../../common/Throttle.en.md"></embed>
 
 <embed src="../../common/IG6GraphEvent.en.md"></embed>
