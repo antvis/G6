@@ -124,7 +124,7 @@ Combo 的文本图形，内置 Combo 或继承内置 Combo（未复写相关内�
   };
 ```
 
-其中，相关的图形样式参考 [`TextStyleProps` 文本图形样式](../shape/TextStyleProps.zh.md)。
+其中，相关的图形样式参考 [Text 图形样式](../shape/TextStyleProps.zh.md)。
 
 ### ComboDisplayModelData.labelBackgroundShape
 

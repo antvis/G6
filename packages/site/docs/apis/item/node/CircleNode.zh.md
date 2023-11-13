@@ -18,3 +18,5 @@ order: 1
 - **是否必须**：否
 - **类型**：`number`
 - **默认值**：`16`
+
+<embed src="../../../common/NodeShapeStyles.zh.md"></embed>
