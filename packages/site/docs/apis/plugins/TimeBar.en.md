@@ -5,6 +5,9 @@ order: 8
 
 Filter graph elements through the time bar
 
+- [Timebar](/en/examples/tool/timebar/#timebar-time)
+- [Chart Timebar](/en/examples/tool/timebar/#timebar-chart)
+
 <img alt="time bar" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*RjCKS6xdRWwAAAAAAAAAAAAADmJ7AQ/original" height='400'/>
 
 ## Configurations

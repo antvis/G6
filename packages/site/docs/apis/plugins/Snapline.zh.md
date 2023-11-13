@@ -5,6 +5,8 @@ order: 13
 
 当两个或多个元素在水平或垂直方向上对齐时，会出现对齐线。对齐线可以帮助你在布局时更好地对齐元素
 
+- [对齐线](/examples/tool/snapline/#snapline)
+
 <img alt="snapline" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*IO2JTarFs0AAAAAAAAAAAAAADmJ7AQ/original" height='300'/>
 
 ## 配置项

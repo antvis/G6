@@ -5,6 +5,9 @@ order: 6
 
 When there is too much content on the canvas, you can use the MiniMap to view the overall content of the canvas, and you can use the MiniMap to move the canvas.
 
+- [Minimap](/en/examples/tool/minimap/#minimap)]
+- [Minimap API](/en/examples/tool/minimap/#minimap-api)
+
 <img alt="minimap" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*XojSQY_-5iIAAAAAAAAAAAAADmJ7AQ/original" height='400'/>
 
 ## Configurations

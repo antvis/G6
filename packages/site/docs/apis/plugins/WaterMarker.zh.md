@@ -3,6 +3,9 @@ title: WaterMarker 水印
 order: 9
 ---
 
+- [文本水印](/examples/tool/watermarker/#textWaterMarker)
+- [图片水印](/examples/tool/watermarker/#imgWaterMarker)
+
 <img alt="water marker" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*EihfS63JehkAAAAAAAAAAAAADmJ7AQ/original" height='300'/>
 
 ## 配置项

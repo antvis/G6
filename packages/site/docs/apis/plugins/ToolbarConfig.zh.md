@@ -3,6 +3,9 @@ title: Toolbar 工具栏
 order: 7
 ---
 
+- [工具栏](/examples/tool/toolbar/#toolbar)
+- [自定义工具栏](/examples/tool/toolbar/#self-toolbar)
+
 <img alt="toolbar" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*B5s4Q6oxrNIAAAAAAAAAAAAADmJ7AQ/original" height='80'/>
 
 ## 配置项

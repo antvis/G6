@@ -5,6 +5,9 @@ order: 12
 
 Add a hull to a group of objects for wrapping
 
+- [Use hulls to wrap the node sets](/examples/tool/hull/#hull)
+- [Interactively change the members in the hull](/examples/tool/hull/#changeMembers)
+
 <img alt="hull" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*GVnERKlGhNgAAAAAAAAAAAAADmJ7AQ/original" height='400'/>
 
 ## Configurations

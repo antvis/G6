@@ -5,6 +5,9 @@ order: 8
 
 通过时间轴对图元素进行过滤
 
+- [时间条-时间模式](/examples/tool/timebar/#timebar-time)
+- [时间条-图表模式](/examples/tool/timebar/#timebar-chart)
+
 <img alt="time bar" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*RjCKS6xdRWwAAAAAAAAAAAAADmJ7AQ/original" height='400'/>
 
 ## 配置项

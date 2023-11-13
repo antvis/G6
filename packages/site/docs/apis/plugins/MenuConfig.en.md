@@ -3,6 +3,8 @@ title: Contextmenu
 order: 5
 ---
 
+- [Context Menu](/en/examples/tool/contextMenu/#contextMenu)
+
 <img alt="contextmenu" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*665CS41sG2oAAAAAAAAAAAAADmJ7AQ/original" height='120'/>
 
 ## Configurations

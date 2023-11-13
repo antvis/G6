@@ -3,6 +3,10 @@ title: Legend
 order: 3
 ---
 
+- [Filtering legend by clicking and hovering](/en/examples/tool/legend/#legend)
+- [Customize legend marker style](/en/examples/tool/legend/#legendCustomMarker)
+- [Render legend with SVG](/en/examples/tool/legend/#legendSVG)
+
 <img alt="legend" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*5rwLT4o1Rd4AAAAAAAAAAAAADmJ7AQ/original" height='400'/>
 
 ## Configurations

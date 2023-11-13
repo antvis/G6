@@ -3,6 +3,8 @@ title: History
 order: 1
 ---
 
+- [History](/en/examples/tool/history/#history)
+
 ## Configurations
 
 <embed src="../../common/IPluginBaseConfig.en.md"></embed>

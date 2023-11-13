@@ -5,6 +5,8 @@ order: 10
 
 Filter out edges that do not exist on one side of the filter
 
+- [Edge Filter Lens](/en/examples/tool/edgeFilterLens/#default)
+
 <img alt="edge filter lens" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*R9ryQrDrntIAAAAAAAAAAAAADmJ7AQ/original" height='400'/>
 
 ## Configurations

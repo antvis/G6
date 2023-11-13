@@ -5,6 +5,9 @@ order: 11
 
 放大透镜中的对象
 
+- [鱼眼放大镜](/examples/tool/fisheye/#fisheye)
+- [鱼眼放大镜样式](/examples/tool/fisheye/#fisheyeStyle)
+
 <img alt="fish eye" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*Wc3aSqIp-4oAAAAAAAAAAAAADmJ7AQ/original" height='400'/>
 
 ## 配置项

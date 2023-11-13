@@ -3,6 +3,10 @@ title: Legend 图例
 order: 3
 ---
 
+- [图例-点击与 hover 筛选](/examples/tool/legend/#legend)
+- [图例-自定义 Marker 样式](/examples/tool/legend/#legendCustomMarker)
+- [图例-使用 SVG 绘制图例](/examples/tool/legend/#legendSVG)
+
 <img alt="legend" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*5rwLT4o1Rd4AAAAAAAAAAAAADmJ7AQ/original" height='400'/>
 
 ## 配置项

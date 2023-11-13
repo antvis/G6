@@ -3,6 +3,9 @@ title: Toolbar
 order: 7
 ---
 
+- [ToolBar](/en/examples/tool/toolbar/#toolbar)
+- [Custom ToolBar](/en/examples/tool/toolbar/#self-toolbar)
+
 <img alt="toolbar" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*B5s4Q6oxrNIAAAAAAAAAAAAADmJ7AQ/original" height='80'/>
 
 ## Configurations

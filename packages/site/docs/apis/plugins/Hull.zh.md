@@ -5,6 +5,9 @@ order: 12
 
 为一组对象添加轮廓进行包裹
 
+- [用轮廓包裹节点集合](/examples/tool/hull/#hull)
+- [修改包裹内部成员](/examples/tool/hull/#changeMembers)
+
 <img alt="hull" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*GVnERKlGhNgAAAAAAAAAAAAADmJ7AQ/original" height='400'/>
 
 ## 配置项

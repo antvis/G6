@@ -5,6 +5,9 @@ order: 6
 
 当画布的内容过多时，可以通过缩略图来查看整体画布的内容，并且可以通过缩略图来移动画布
 
+- [小地图导航](/examples/tool/minimap/#minimap)]
+- [通过 API 控制 Minimap](/examples/tool/minimap/#minimap-api)
+
 <img alt="minimap" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*XojSQY_-5iIAAAAAAAAAAAAADmJ7AQ/original" height='400'/>
 
 ## 配置项

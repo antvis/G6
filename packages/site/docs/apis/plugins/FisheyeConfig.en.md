@@ -3,6 +3,11 @@ title: Fisheye
 order: 11
 ---
 
+Zoom in on objects in the lens
+
+- [Fisheye Lens](/en/examples/tool/fisheye/#fisheye)
+- [Fisheye Lens Style](/en/examples/tool/fisheye/#fisheyeStyle)
+
 <img alt="fish eye" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*Wc3aSqIp-4oAAAAAAAAAAAAADmJ7AQ/original" height='400'/>
 
 ## Configurations

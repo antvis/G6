@@ -3,6 +3,9 @@ title: Tooltip 提示项
 order: 4
 ---
 
+- [提示框插件](/examples/tool/tooltip/#tooltipPlugin)
+- [点击出现提示框](/examples/tool/tooltip/#tooltipClick)
+
 <img alt="tooltip" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*-3OpQKiCgHwAAAAAAAAAAAAADmJ7AQ/original" height='250'/>
 
 ## 配置项

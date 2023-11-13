@@ -5,6 +5,8 @@ order: 10
 
 过滤掉存在一端不在滤镜内的边
 
+- [边过滤镜](/examples/tool/edgeFilterLens/#default)
+
 <img alt="edge filter lens" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*R9ryQrDrntIAAAAAAAAAAAAADmJ7AQ/original" height='400'/>
 
 ## 配置项

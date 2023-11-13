@@ -3,6 +3,8 @@ title: History 历史记录
 order: 1
 ---
 
+- [撤销重做](/examples/tool/history/#history)
+
 ## 配置项
 
 <embed src="../../common/IPluginBaseConfig.zh.md"></embed>
