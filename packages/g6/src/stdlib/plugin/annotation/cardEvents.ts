@@ -1,9 +1,11 @@
+import { PathStyleProps } from '@antv/g';
 import { createDOM, modifyCSS } from '../../../util/dom';
 import { getPathItem2Card } from './util';
-import { Annotation } from '.';
-import { PathStyleProps } from '@antv/g';
+import { EditPosition } from './types';
+import { Annotation } from './index';
 
 function getIconTypeByEl(target?: HTMLElement) {
+    if (!target) return;
     const { classList } = target
     if (classList?.contains('g6-annotation-collapse')) {
         return 'collapse'
@@ -34,12 +36,11 @@ export function bindCardEvent({ plugin, card, itemId }: { plugin: Annotation; ca
         if (!cardInfoMap) return;
         const graph = plugin.graph;
         const item = graph.itemController.getItemById(itemId);
-        if (item) {
-            const itemHighlightState = plugin.options.itemHighlightState
-            graph.setItemState(item, itemHighlightState, true);
+        if (item && plugin.options.itemHighlightState) {
+            graph.setItemState(item, plugin.options.itemHighlightState, true);
         }
         const { link } = cardInfoMap[itemId];
-        if (link) {
+        if (link && plugin.options.linkHighlightStyle) {
             link.attr(plugin.options.linkHighlightStyle);
         }
     })
@@ -48,15 +49,14 @@ export function bindCardEvent({ plugin, card, itemId }: { plugin: Annotation; ca
         if (!cardInfoMap) return;
         const graph = plugin.graph;
         const item = graph.itemController.getItemById(itemId);
-        if (item) {
-            const itemHighlightState = plugin.options.itemHighlightState
-            graph.setItemState(item, itemHighlightState, false);
+        if (item && plugin.options.itemHighlightState) {
+            graph.setItemState(item, plugin.options.itemHighlightState, false);
         }
         
         const { link } = cardInfoMap[itemId];
-        if (link) {
-            Object.keys(plugin.options.linkHighlightStyle || {}).forEach((key: keyof PathStyleProps) => {
-                link.removeAttribute(key);
+        if (link && plugin.options.linkStyle) {
+            Object.keys(plugin.options.linkHighlightStyle || {}).forEach((key) => {
+                link.removeAttribute(key as keyof PathStyleProps);
             });
             link.attr(plugin.options.linkStyle);
         }
@@ -66,7 +66,7 @@ export function bindCardEvent({ plugin, card, itemId }: { plugin: Annotation; ca
         const target = e.target as HTMLElement
         if (target.className === 'g6-annotation-collapse' || target.className === 'g6-annotation-expand') {
             // collapse & expand
-            const { collapseType } = plugin.options.cardCfg;
+            const { collapseType } = plugin.options.cardCfg || {};
             if (collapseType === 'hide') {
                 plugin.hideCard(itemId);
             } else {
@@ -75,7 +75,7 @@ export function bindCardEvent({ plugin, card, itemId }: { plugin: Annotation; ca
             onClickIcon?.(e, itemId, target.className === 'g6-annotation-collapse' ? 'collapse' : 'expand')
         } else if (target.className === 'g6-annotation-close') {
             // close
-            const { closeType } = plugin.options.cardCfg;
+            const { closeType } = plugin.options.cardCfg || {};
             if (closeType === 'remove') {
                 plugin.removeCard(itemId);
             } else {
@@ -85,50 +85,105 @@ export function bindCardEvent({ plugin, card, itemId }: { plugin: Annotation; ca
         }
     });
     // dblclick to edit the title and content text
-    const editable = plugin.options.editable;
+    const { editable, cardCfg } = plugin.options;
     if (editable) {
-        card.addEventListener('dblclick', e => {
-            const cardInfoMap = plugin.options.cardInfoMap;
-            const { maxTitleLength = 20 } = plugin.options.cardCfg || {};
-            if (!cardInfoMap) return;
-            const target = e.target as HTMLElement;
-            const targetClass = target.className;
-            if (targetClass !== 'g6-annotation-title' && targetClass !== 'g6-annotation-content') return;
-            const { width, height } = targetClass === 'g6-annotation-title' ? target.getBoundingClientRect() : (target.parentNode as HTMLElement).getBoundingClientRect();
-            const inputTag = targetClass === 'g6-annotation-title' ? 'input' : 'textarea';
-            const input = createDOM(`<${inputTag} class="${targetClass}-input" type="textarea"/>`) as HTMLInputElement;
-            const inputWrapper = createDOM(`<div class="${targetClass}-input-wrapper" style="width:${width}px; height: ${height}px;" />`);
-            inputWrapper.appendChild(input);
-            target.parentNode.replaceChild(inputWrapper, target);
-            const cardInfo = cardInfoMap[itemId];
-            const { contentPlaceholder, titlePlaceholder, content, title } = cardInfo;
-            let value = content;
-            if (targetClass === 'g6-annotation-title') {
-                input.name = 'title';
-                input.maxLength = maxTitleLength;
-                value = title;
-            } else {
-                input.name = 'content';
-            }
-            if (value) {
-                input.innerHTML = target.innerHTML;
-                input.value = target.innerHTML;
-            } else {
-                input.placeholder = targetClass === 'g6-annotation-title' ? titlePlaceholder : contentPlaceholder;
-            }
-            input.focus();
-            input.addEventListener('blur', blurEvt => {
-                if (input.value) {
-                    target.innerHTML = input.value;
-                    cardInfo[input.name || 'title'] = input.value;
-                }
-                inputWrapper.parentNode.replaceChild(target, inputWrapper);
-
-                const onAnnotationChange = plugin.options.onAnnotationChange;
-                onAnnotationChange?.(cardInfo, 'update');
-            });
+        const titleEl = card.querySelector('.g6-annotation-title') as HTMLElement | null;
+        const contentEl = card.querySelector('.g6-annotation-content') as HTMLElement | null;
+        titleEl?.addEventListener('dblclick', e => {
+            edit('title')?.focus()
         });
+        titleEl?.addEventListener('keydown', async e => {
+            if (e.code === 'Enter') {
+                edit('title')?.focus()
+            }
+        })
+        contentEl?.addEventListener('dblclick', e => {
+            edit('content')?.focus()
+        });
+        contentEl?.addEventListener('keydown', async e => {
+            if (e.code === 'Enter') {
+                edit('content')?.focus()
+            }
+        })
+
+        // init edit
+        if (cardCfg?.focusEditOnInit === true) {
+            edit('title')?.focus();
+            edit('content');
+        } else if (cardCfg?.focusEditOnInit) {
+            edit(cardCfg?.focusEditOnInit)?.focus();
+        }
     }
+    
+    function edit(position: EditPosition): HTMLElement | undefined {
+        const target = getElByPosition(position);
+        if (!target) return;
+
+        const cardInfoMap = plugin.options.cardInfoMap;
+        const { maxTitleLength } = plugin.options.cardCfg || {};
+        if (!cardInfoMap) return;
+        
+        const targetClass = target.className;
+        const { width, height } = target.getBoundingClientRect()
+        const inputTag = position === 'title' ? 'input' : 'textarea';
+        const input = createDOM(`<${inputTag} class="${targetClass}-input" style="width:${width}px; height: ${height}px;" />`) as HTMLInputElement;
+        const inputWrapper = createDOM(`<div class="${targetClass}-input-wrapper"/>`);
+        inputWrapper.appendChild(input);
+        target.parentNode?.replaceChild(inputWrapper, target);
+        const cardInfo = cardInfoMap[itemId];
+        const value = cardInfo[position]
+        if (position === 'title') {
+            if (maxTitleLength !== undefined && maxTitleLength !== null) {
+                input.maxLength = maxTitleLength;
+            }
+        }
+        input.setAttribute('data-annotation-id', position)
+        input.value = value ?? '';
+        if (input.nodeName.toLowerCase() === 'textarea') {
+            input.innerHTML = value ?? '';
+        }
+        input.placeholder = cardInfo[position + 'Placeholder'];
+        
+        input.addEventListener('keydown', e => {
+            const { code, shiftKey } = e
+            if (code !== 'Enter') return;
+            if (position === 'title') {
+                exitEdit(true);
+            } else if (!shiftKey) {
+                exitEdit(true);
+            }
+        });
+        input.addEventListener('blur', () => exitEdit());
+
+        // 如果多个事件同时触发exitEdit（如keydown和blur），isExit防止exitEdit重复执行
+        let isExit = false
+        async function exitEdit(autoFocus = false) {
+            console.log('isExit', isExit)
+            if (isExit || !target) return;
+            isExit = true;
+
+            target.innerHTML = input.value;
+            cardInfo[input.getAttribute('data-annotation-id') ?? ''] = input.value;
+
+            inputWrapper.parentNode?.replaceChild(target, inputWrapper);
+            if (autoFocus) {
+                target.focus();
+            }
+            plugin.options.onAnnotationChange?.(cardInfo, 'update');
+        }
+
+        return input;
+    }
+
+    function getElByPosition(position: EditPosition): HTMLElement | null {
+        if (position === 'title') {
+            return card.querySelector('.g6-annotation-title')
+        } else if (position === 'content') {
+            return card.querySelector('.g6-annotation-content')
+        }
+        return null;
+    }
+
     const unmovableClasses = ['g6-annotation-title', 'g6-annotation-content', 'g6-annotation-title-input', 'g6-annotation-content-input']
     card.addEventListener('mousedown', e => {
         const target = e.target as HTMLElement
@@ -139,10 +194,9 @@ export function bindCardEvent({ plugin, card, itemId }: { plugin: Annotation; ca
         const shiftX = e.clientX - bbox.left + (bbox.left - card.offsetLeft);
         const shiftY = e.clientY - bbox.top + (bbox.top - card.offsetTop);
 
+        card.classList.add('g6-annotation-wrapper-move')
         let registerMove = false
         const onMouseMove = ({ clientX, clientY }: MouseEvent) => {
-            console.log(clientX, clientY)
-            console.log('registerMove', registerMove)
             if (registerMove) return;
             registerMove = true
             requestAnimationFrame(() => {
@@ -187,6 +241,7 @@ export function bindCardEvent({ plugin, card, itemId }: { plugin: Annotation; ca
 
         document.addEventListener('mouseup', e => {
             document.removeEventListener('mousemove', onMouseMove);
+            card.classList.remove('g6-annotation-wrapper-move')
 
             const cardInfoMap = plugin.options.cardInfoMap;
             const dragging = plugin.dragging;

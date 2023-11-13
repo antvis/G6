@@ -22,6 +22,7 @@ export function renderCard(cfg) {
 
     const titleEl = document.createElement('h4')
     titleEl.setAttribute('class', 'g6-annotation-title')
+    titleEl.setAttribute('tabindex', '0')
     titleEl.append(title)
 
     const headerBtns = document.createElement('div')
@@ -36,10 +37,12 @@ export function renderCard(cfg) {
     const contentWrapper = collapsed ? null : document.createElement('div')
     if (contentWrapper) {
       contentWrapper.setAttribute('class', 'g6-annotation-content')
+      contentWrapper.setAttribute('tabindex', '0')
       contentWrapper.append(content)
     }
     
-    wrapper.append(headerWrapper, contentWrapper);
+    wrapper.append(headerWrapper);
+    contentWrapper && wrapper.append(contentWrapper);
 
     const minHeightPx = isNumber(minHeight) ? `${minHeight}px` : minHeight
     const maxHeightPx = isNumber(maxHeight) ? `${maxHeight}px` : maxHeight
