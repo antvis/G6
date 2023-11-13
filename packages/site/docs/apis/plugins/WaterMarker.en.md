@@ -3,8 +3,8 @@ title: WaterMarker
 order: 9
 ---
 
-- [Text WaterMarker](/examples/tool/watermarker/#textWaterMarker)
-- [Image WaterMarker](/examples/tool/watermarker/#imgWaterMarker)
+- [Text WaterMarker](/en/examples/tool/watermarker/#textWaterMarker)
+- [Image WaterMarker](/en/examples/tool/watermarker/#imgWaterMarker)
 
 <img alt="water marker" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*EihfS63JehkAAAAAAAAAAAAADmJ7AQ/original" height='300'/>
 

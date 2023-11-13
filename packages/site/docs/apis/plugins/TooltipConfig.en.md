@@ -3,8 +3,8 @@ title: Tooltip
 order: 4
 ---
 
-- [Tooltip Plugin](/examples/tool/tooltip/#tooltipPlugin)
-- [Tooltip Plugin with Click Trigger](/examples/tool/tooltip/#tooltipClick)
+- [Tooltip Plugin](/en/examples/tool/tooltip/#tooltipPlugin)
+- [Tooltip Plugin with Click Trigger](/en/examples/tool/tooltip/#tooltipClick)
 
 <img alt="tooltip" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*-3OpQKiCgHwAAAAAAAAAAAAADmJ7AQ/original" height='250'/>
 
