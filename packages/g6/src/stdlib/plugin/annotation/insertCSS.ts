@@ -1,7 +1,7 @@
 import insertCss from 'insert-css';
 export function insertCSS() {
-    typeof document !== 'undefined' &&
-        insertCss(`
+  typeof document !== 'undefined' &&
+    insertCss(`
         .g6-annotation-container {
             background-color: rgba(255, 255, 255, 0.3);
             padding: 8px;

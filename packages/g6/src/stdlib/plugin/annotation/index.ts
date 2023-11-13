@@ -13,21 +13,22 @@ import { AnnotationData, EditPosition } from './types';
 insertCSS();
 
 interface AnnotationConfig extends IPluginBaseConfig {
-  trigger?: 'click' | 'fix',
-  containerCfg?: { // 无配置则没有自身容器，直接以图的容器为父容器
-    position?: 'left' | 'right' | 'top' | 'bottom',
-    className?: string,
-    width?: number,
-    height?: number,
-    offsetX?: number,
-    offsetY?: number,
-  },
-  editable?: boolean,
-  itemHighlightState?: string,
-  defaultData?: CardCfg[],
-  cardCfg?: CardCfg,
-  linkStyle?: PathStyleProps,
-  linkHighlightStyle?: PathStyleProps,
+  trigger?: 'click' | 'fix';
+  containerCfg?: {
+    // 无配置则没有自身容器，直接以图的容器为父容器
+    position?: 'left' | 'right' | 'top' | 'bottom';
+    className?: string;
+    width?: number;
+    height?: number;
+    offsetX?: number;
+    offsetY?: number;
+  };
+  editable?: boolean;
+  itemHighlightState?: string;
+  defaultData?: CardCfg[];
+  cardCfg?: CardCfg;
+  linkStyle?: PathStyleProps;
+  linkHighlightStyle?: PathStyleProps;
   getTitle?(item): string;
   getContent?(item): string;
   getTitlePlaceholder?: string; // getTitle 返回空时使用 getTitlePlaceholder 的返回值
@@ -37,29 +38,45 @@ interface AnnotationConfig extends IPluginBaseConfig {
   cardInfoMap: CardInfoMap;
 }
 
-
 interface CardCfg {
-  id?: string,
-  width?: number | 'fit-content',
-  height?: number | 'fit-content',
-  minHeight?: number | string,
-  minWidth?: number | string,
+  id?: string;
+  width?: number | 'fit-content';
+  height?: number | 'fit-content';
+  minHeight?: number | string;
+  minWidth?: number | string;
   collapsed?: boolean;
   // 指定位置，视口坐标系。仅在无 containerCfg 时生效
   x?: number;
   y?: number;
-  title?: string,
-  content?: string,
+  title?: string;
+  content?: string;
   borderRadius?: number;
   maxTitleLength?: number;
   maxWidth?: number;
   maxHeight?: number;
   collapseType?: 'minimize' | 'hide'; // 点击收起按钮(-)的响应，最小化、隐藏
   closeType?: 'hide' | 'remove'; // 点击关闭按钮(x)的相应，隐藏、移除
-  defaultBegin?: { left?: number, top?: number, right?: number, bottom?: number }, // 一个个卡片出生的起始位置，后续卡片会往后排列
-  onMouseEnterIcon?: (evt: any, id: string, type: 'expand' | 'collapse' | 'close') => void;
-  onMouseLeaveIcon?: (evt: any, id: string, type: 'expand' | 'collapse' | 'close') => void;
-  onClickIcon?: (evt: any, id: string, type: 'expand' | 'collapse' | 'close') => void;
+  defaultBegin?: {
+    left?: number;
+    top?: number;
+    right?: number;
+    bottom?: number;
+  }; // 一个个卡片出生的起始位置，后续卡片会往后排列
+  onMouseEnterIcon?: (
+    evt: any,
+    id: string,
+    type: 'expand' | 'collapse' | 'close',
+  ) => void;
+  onMouseLeaveIcon?: (
+    evt: any,
+    id: string,
+    type: 'expand' | 'collapse' | 'close',
+  ) => void;
+  onClickIcon?: (
+    evt: any,
+    id: string,
+    type: 'expand' | 'collapse' | 'close',
+  ) => void;
   titlePlaceholder?: string;
   contentPlaceholder?: string;
   focusEditOnInit?: boolean | EditPosition; // new feature
@@ -67,23 +84,29 @@ interface CardCfg {
 
 interface CardInfoMap {
   [id: string]: CardCfg & {
-    card: HTMLDivElement,
-    link?: Path,
-    isCanvas?: boolean,
+    card: HTMLDivElement;
+    link?: Path;
+    isCanvas?: boolean;
     cardBBox?: {
-      left: number,
-      right: number,
-      top: number,
-      bottom: number,
-    }
-  }
+      left: number;
+      right: number;
+      top: number;
+      bottom: number;
+    };
+  };
 }
 
 const CANVAS_ANNOTATION_ID = 'canvas-annotation';
 
 export class Annotation extends Base {
-  declare public options: AnnotationConfig;
-  dragging?: { x: number; y: number; left: number; top: number; card: HTMLElement };
+  public declare options: AnnotationConfig;
+  dragging?: {
+    x: number;
+    y: number;
+    left: number;
+    top: number;
+    card: HTMLElement;
+  };
 
   constructor(config?: AnnotationConfig) {
     super(config);
@@ -95,7 +118,7 @@ export class Annotation extends Base {
       itemHighlightState: 'highlight',
       linkHighlightStyle: {
         shadowColor: '#5B8FF9',
-        shadowBlur: 10
+        shadowBlur: 10,
       },
       getTitlePlaceHolder() {
         return '按 ↩ 保存';
@@ -114,29 +137,29 @@ export class Annotation extends Base {
         borderRadius: 5,
         maxTitleLength: 20,
       },
-      cardInfoMap: {}
+      cardInfoMap: {},
     };
   }
 
   // class-methods-use-this
   public getEvents() {
-    let events: { [k in string]: Function} = {
-      'viewportchange': this.updateLinks,
-      'afterlayout': this.updateLinks,
-      'aftergraphrefreshposition': this.updateLinks,
-      'afterupdateitem': this.updateLinks,
-      'afterchangedata': this.onGraphDataChange,
-      'afteritemvisibilitychange': this.onGraphItemVisibilityChange
-    }
+    let events: { [k in string]: Function } = {
+      viewportchange: this.updateLinks,
+      afterlayout: this.updateLinks,
+      aftergraphrefreshposition: this.updateLinks,
+      afterupdateitem: this.updateLinks,
+      afterchangedata: this.onGraphDataChange,
+      afteritemvisibilitychange: this.onGraphItemVisibilityChange,
+    };
     switch (this.options.trigger) {
       case 'click':
         events = {
           ...events,
           'node:click': this.showAnnotation,
           'edge:click': this.showAnnotation,
-        }
+        };
     }
-    return events
+    return events;
   }
 
   _container: HTMLElement;
@@ -149,16 +172,16 @@ export class Annotation extends Base {
     const containerCfg = this.options.containerCfg;
     if (containerCfg) {
       this._container = this.createContainer();
-      graphCantainer.appendChild(this._container)
+      graphCantainer.appendChild(this._container);
     } else {
       this._container = graphCantainer;
     }
 
-    const linkCanvasEl = document.createElement('canvas')
-    linkCanvasEl.setAttribute('data-id', 'g6-annotation-canvas')
+    const linkCanvasEl = document.createElement('canvas');
+    linkCanvasEl.setAttribute('data-id', 'g6-annotation-canvas');
     // 绘制连接 annotation 和元素的连线的画布
     const graphContainerBBox = graphCantainer.getBoundingClientRect();
-    console.log('graphCantainer', graphCantainer, graphContainerBBox)
+    console.log('graphCantainer', graphCantainer, graphContainerBBox);
     const linkCanvas = new Canvas({
       container: graphCantainer,
       width: graphContainerBBox.right - graphContainerBBox.left,
@@ -167,25 +190,24 @@ export class Annotation extends Base {
       canvas: linkCanvasEl,
     });
 
-    
     modifyCSS(linkCanvasEl, {
       position: 'absolute',
       top: 0,
       left: 0,
-      pointerEvents: 'none'
-    })
+      pointerEvents: 'none',
+    });
     // 需要传入 self，无法 removeEventListener，只能在内部判断 self 被销毁则不继续
     window.addEventListener('resize', this.debouncedResizeCanvas);
     const linkGroup = new Group({ id: 'annotation-link-group' });
-    linkCanvas.appendChild(linkGroup)
-    this.options.linkGroup = linkGroup
-    this.options.canvas = linkCanvas
+    linkCanvas.appendChild(linkGroup);
+    this.options.linkGroup = linkGroup;
+    this.options.canvas = linkCanvas;
 
     if (!this.options.getTitle) {
       this.options.getTitle = (item) => {
         const { data, id } = item?.model || {};
         return data?.label || id || '-';
-      }
+      };
     }
     if (!this.options.getContent) {
       this.options.getContent = (item) => {
@@ -194,7 +216,7 @@ export class Annotation extends Base {
         const type = item.getType?.();
         const suffix = type ? `${type}: ` : '';
         return `${suffix}${data?.label || id || ''}`;
-      }
+      };
     }
 
     // init with defaultData
@@ -206,28 +228,39 @@ export class Annotation extends Base {
     const containerCfg = this.options.containerCfg || {};
     const graph = this.graph;
     const graphContainer = graph.getContainer();
-    const { left: gLeft, right: gRight, top: gTop, bottom: gBottom } = graphContainer.getBoundingClientRect();
+    const {
+      left: gLeft,
+      right: gRight,
+      top: gTop,
+      bottom: gBottom,
+    } = graphContainer.getBoundingClientRect();
     const graphContainerHeight = gBottom - gTop;
     const graphContainerWidth = gRight - gLeft;
-    const { position = 'top', offsetX = 0, offsetY = 0, ...otherStyle } = containerCfg;
+    const {
+      position = 'top',
+      offsetX = 0,
+      offsetY = 0,
+      ...otherStyle
+    } = containerCfg;
     let { height = 'fit-content', width = graph.getWidth() } = containerCfg;
     if (height === '100%') height = graphContainerHeight;
     if (width === '100%') width = graphContainerWidth;
-    let maxHeight = 'unset', maxWidth = 'unset';
+    let maxHeight = 'unset',
+      maxWidth = 'unset';
 
     let containerPosition: any = {};
     switch (position) {
       case 'right':
         maxHeight = `${graphContainerHeight}px`;
         containerPosition = { top: 0, right: 0 };
-        containerPosition.right += (gLeft + offsetX);
-        containerPosition.top += (gTop + offsetY);
+        containerPosition.right += gLeft + offsetX;
+        containerPosition.top += gTop + offsetY;
         break;
       case 'bottom':
         maxWidth = `${graphContainerWidth}px`;
         containerPosition = { bottom: 0, left: 0 };
-        containerPosition.left += (gLeft + offsetX);
-        containerPosition.bottom += (gTop + offsetY);
+        containerPosition.left += gLeft + offsetX;
+        containerPosition.bottom += gTop + offsetY;
         break;
       case 'top':
         maxWidth = `${graphContainerWidth}px`;
@@ -235,30 +268,33 @@ export class Annotation extends Base {
         maxHeight = `${graphContainerHeight}px`;
       default:
         containerPosition = { top: 0, left: 0 };
-        containerPosition.left += (gLeft + offsetX);
-        containerPosition.top += (gTop + offsetY);
+        containerPosition.left += gLeft + offsetX;
+        containerPosition.top += gTop + offsetY;
         break;
     }
-    Object.keys(containerPosition).forEach(key => {
+    Object.keys(containerPosition).forEach((key) => {
       containerPosition[key] = `${containerPosition[key]}px`;
     });
 
-    const container = createDOM(`<div class='${containerCfg?.className} g6-annotation-container'></div>`);
+    const container = createDOM(
+      `<div class='${containerCfg?.className} g6-annotation-container'></div>`,
+    );
     modifyCSS(container, {
       position: 'absolute',
-      display: position === 'top' || position === 'bottom' ? 'inline-flex' : 'unset',
+      display:
+        position === 'top' || position === 'bottom' ? 'inline-flex' : 'unset',
       width: isNumber(width) ? `${width}px` : width,
       height: isNumber(height) ? `${height}px` : height,
       maxHeight,
       maxWidth,
       overflow: 'scroll',
       ...containerPosition,
-      ...otherStyle
+      ...otherStyle,
     });
     graphContainer.appendChild(container);
-    container.addEventListener('scroll', e => {
+    container.addEventListener('scroll', (e) => {
       this.updateLinks();
-    })
+    });
     return container;
   }
 
@@ -270,16 +306,13 @@ export class Annotation extends Base {
       if (!this || this.destroyed) return;
       const cBBox = this._container.getBoundingClientRect();
       const newWidth = cBBox.right - cBBox.left;
-      const newHeight = cBBox.bottom - cBBox.top
-      this.options.canvas.changeSize(
-        newWidth,
-        newHeight
-      )
+      const newHeight = cBBox.bottom - cBBox.top;
+      this.options.canvas.changeSize(newWidth, newHeight);
       this.updateOutsideCards(this);
     }, 250);
   }
 
-  private debouncedResizeCanvas = debounce(() => this.resizeCanvas(), 100)
+  private debouncedResizeCanvas = debounce(() => this.resizeCanvas(), 100);
 
   /**
    * 更新超出视口范围的卡片位置
@@ -291,9 +324,18 @@ export class Annotation extends Base {
     const graph = self.graph;
     const graphLeftTopCanvas = graph.getViewportByCanvas({ x: 0, y: 0 });
     const [width, height] = graph.getSize();
-    const graphRightBottomCanvas = graph.getViewportByCanvas({ x: width, y: height });
-    const { x: graphLeft, y: graphTop } = graph.canvas.viewport2Client({ x: graphLeftTopCanvas.x, y: graphLeftTopCanvas.y });
-    const { x: graphRight, y: graphBottom } = graph.canvas.viewport2Client({ x: graphRightBottomCanvas.x, y: graphRightBottomCanvas.y });
+    const graphRightBottomCanvas = graph.getViewportByCanvas({
+      x: width,
+      y: height,
+    });
+    const { x: graphLeft, y: graphTop } = graph.canvas.viewport2Client({
+      x: graphLeftTopCanvas.x,
+      y: graphLeftTopCanvas.y,
+    });
+    const { x: graphRight, y: graphBottom } = graph.canvas.viewport2Client({
+      x: graphRightBottomCanvas.x,
+      y: graphRightBottomCanvas.y,
+    });
     Object.values(cardInfoMap).forEach((cardInfo: any) => {
       const { card } = cardInfo;
       if (!card) return;
@@ -317,7 +359,7 @@ export class Annotation extends Base {
       }
       modifyCSS(card, {
         left: `${newLeft}px`,
-        top: `${newTop}px`
+        top: `${newTop}px`,
       });
     });
     self.updateLinks();
@@ -325,7 +367,7 @@ export class Annotation extends Base {
 
   public showAnnotation(evt: IG6GraphEvent) {
     if (this.destroyed) return;
-    const item = this.graph.itemController.getItemById(evt.itemId)
+    const item = this.graph.itemController.getItemById(evt.itemId);
     this.toggleAnnotation(item);
   }
 
@@ -335,9 +377,8 @@ export class Annotation extends Base {
     const cardInfoMap = self.options.cardInfoMap;
     Object.keys(cardInfoMap).forEach((itemId) => {
       self.hideCard(itemId);
-    })
+    });
   }
-
 
   public toggleAnnotation(item, cfg: CardCfg = {}) {
     const self = this;
@@ -368,31 +409,44 @@ export class Annotation extends Base {
     const isCanvas = item.isCanvas?.();
 
     const itemId = isCanvas ? CANVAS_ANNOTATION_ID : item.getID();
-    let { card, link, x, y, title, content } = cardInfoMap[itemId] || {};
+    const cardInfo = cardInfoMap[itemId];
+
+    let link = cardInfo?.link,
+      x = cardInfo?.x,
+      y = cardInfo?.y;
+    const card = cardInfo?.card,
+      title = cardInfo?.title,
+      content = cardInfo?.content;
 
     const getTitle = this.options.getTitle;
     const getContent = this.options.getContent;
-    const getContentPlaceholder = this.options.getContentPlaceholder || (() => '');
+    const getContentPlaceholder =
+      this.options.getContentPlaceholder || (() => '');
     const getTitlePlaceHolder = this.options.getTitlePlaceHolder || (() => '');
     const contentPlaceholder = getContentPlaceholder(item);
     const titlePlaceholder = getTitlePlaceHolder(item);
 
-    let titleData = title || propsTitle || getTitle?.(item)
-    if (typeof titleData === 'string') titleData = titleData.substr(0, maxTitleLength)
-    titleData = titleData || titlePlaceholder
-    
-    const contentData = content || propsContent || getContent?.(item) || contentPlaceholder
+    let titleData = title || propsTitle || getTitle?.(item);
+    if (typeof titleData === 'string')
+      titleData = titleData.substr(0, maxTitleLength);
+    titleData = titleData || titlePlaceholder;
+
+    const contentData =
+      content || propsContent || getContent?.(item) || contentPlaceholder;
     const newCard = renderCard({
       itemId,
       collapsed,
       title: titleData,
       content: contentData,
-      maxWidth, minWidth,
-      maxHeight, minHeight,
-      width, height,
-      ...otherCardCfg
+      maxWidth,
+      minWidth,
+      maxHeight,
+      minHeight,
+      width,
+      height,
+      ...otherCardCfg,
     });
-    
+
     const exist = !!card;
     if (exist) {
       // 移除相应连线
@@ -413,7 +467,12 @@ export class Annotation extends Base {
       } else if (!exist && !isCanvas) {
         // 第一次创建，且无 conatiner，初始化位置
         const { top: containerTop } = containerBBox;
-        const { left: beginLeft, right: propsBeginRight = 16, top: propsBeginTop = 8, bottom: beginBottom } = defaultBegin || {};
+        const {
+          left: beginLeft,
+          right: propsBeginRight = 16,
+          top: propsBeginTop = 8,
+          bottom: beginBottom,
+        } = defaultBegin || {};
         let beginRight = propsBeginRight;
         let beginTop = propsBeginTop;
         if (isNumber(beginLeft) && !Number.isNaN(beginLeft)) {
@@ -423,10 +482,14 @@ export class Annotation extends Base {
           beginTop = container.scrollHeight - beginBottom;
         }
         const cardWidth = isNumber(minWidth) ? minWidth : 100;
-        x = container.scrollWidth - newCard.scrollWidth - (rows.length - 1) * cardWidth - beginRight;
+        x =
+          container.scrollWidth -
+          newCard.scrollWidth -
+          (rows.length - 1) * cardWidth -
+          beginRight;
         const currentRow = rows[rows.length - 1];
         const { bbox: lastCardBBox } = currentRow[currentRow.length - 1] || {};
-        y = (lastCardBBox?.bottom - containerTop) || beginTop
+        y = lastCardBBox?.bottom - containerTop || beginTop;
       }
       modifyCSS(newCard, {
         position: 'absolute',
@@ -436,9 +499,9 @@ export class Annotation extends Base {
       });
     }
 
-    const cardBBox = newCard.getBoundingClientRect()
+    const cardBBox = newCard.getBoundingClientRect();
     cardInfoMap[itemId] = {
-      ...(cardInfoMap[itemId] || {}),
+      ...cardInfo,
       id: itemId,
       collapsed,
       card: newCard,
@@ -450,7 +513,7 @@ export class Annotation extends Base {
       title: titleData,
       contentPlaceholder,
       titlePlaceholder,
-      isCanvas
+      isCanvas,
     };
     self.options.cardInfoMap = cardInfoMap;
 
@@ -460,7 +523,7 @@ export class Annotation extends Base {
       // 创建相关连线
       const path = getPathItem2Card(item, cardBBox, graph, this.options.canvas);
       const linkStyle = this.options.linkStyle;
-      
+
       link = linkGroup.appendChild(
         new Path({
           attrs: {
@@ -468,25 +531,34 @@ export class Annotation extends Base {
             lineDash: [5, 5],
             stroke: '#ccc',
             path,
-            ...linkStyle
-          }
-        })
+            ...linkStyle,
+          },
+        }),
       );
     }
     if (containerCfg) {
       this.updateCardPositionsInConatainer();
       this.updateLinks();
     } else {
-      const hasPropsPosition = (isNumber(propsX) && !Number.isNaN(propsX)) && (isNumber(propsY) && !Number.isNaN(propsY));
+      const hasPropsPosition =
+        isNumber(propsX) &&
+        !Number.isNaN(propsX) &&
+        isNumber(propsY) &&
+        !Number.isNaN(propsY);
       if (!exist && !isCanvas && !hasPropsPosition) {
         // 没有 container、新增 card 时，记录当前列中最下方位置，方便换行
-        const { bottom: containerBottom = 0, top: containerTop } = containerBBox;
+        const { bottom: containerBottom = 0, top: containerTop } =
+          containerBBox;
         rows[rows.length - 1].push({
           id: itemId,
-          bbox: cardBBox
+          bbox: cardBBox,
         });
-        if (cardBBox.top > containerBottom - containerTop - cardBBox.height - 16) rows.push([]);
-        this.options.rows = rows
+        if (
+          cardBBox.top >
+          containerBottom - containerTop - cardBBox.height - 16
+        )
+          rows.push([]);
+        this.options.rows = rows;
       }
     }
 
@@ -502,20 +574,24 @@ export class Annotation extends Base {
     const { position } = this.options.containerCfg || {};
     let { width: containerWidth } = container.getBoundingClientRect();
     const computeStyle = getComputedStyle(container);
-    const sidePadding = px2Num(computeStyle['paddingLeft']) + px2Num(computeStyle['paddingRight'])
+    const sidePadding =
+      px2Num(computeStyle['paddingLeft']) +
+      px2Num(computeStyle['paddingRight']);
     containerWidth -= sidePadding;
     Object.values(cardInfoMap).forEach(({ card }: any) => {
       const { width: cardWidth } = card.getBoundingClientRect();
       switch (position) {
         case 'right':
           modifyCSS(card, {
-            marginLeft: containerWidth ? `${containerWidth - cardWidth}px` : '0px'
+            marginLeft: containerWidth
+              ? `${containerWidth - cardWidth}px`
+              : '0px',
           });
           break;
         case 'top':
         case 'bottom':
           modifyCSS(card, {
-            marginLeft: '8px'
+            marginLeft: '8px',
           });
         default:
           break;
@@ -542,14 +618,14 @@ export class Annotation extends Base {
 
     cardInfoMap[id] = {
       ...cardInfoMap[id],
-      collapsed: !collapsed
-    }
+      collapsed: !collapsed,
+    };
   }
 
   /**
    * 隐藏标注卡片，下次打开还保留隐藏前的配置，包括文本内容、位置等
    * @param id 卡片 id，即元素(节点/边)的 id
-   * @returns 
+   * @returns
    */
   public hideCard(id) {
     if (this.destroyed) return;
@@ -565,13 +641,13 @@ export class Annotation extends Base {
   /**
    * 移除标注卡片，下一次生成时将被初始化
    * @param id 卡片 id，即元素(节点/边)的 id
-   * @returns 
+   * @returns
    */
   public removeCard(id) {
     if (this.destroyed) return;
     const cardInfoMap = this.options.cardInfoMap;
     if (!cardInfoMap) return;
-    const cardInfo = cardInfoMap[id]
+    const cardInfo = cardInfoMap[id];
     const { card, link } = cardInfo;
     const container = this._container;
     container.removeChild(card);
@@ -582,7 +658,7 @@ export class Annotation extends Base {
   }
 
   private bindListener(card: HTMLElement, itemId: string) {
-    bindCardEvent({ card, itemId, plugin: this })
+    bindCardEvent({ card, itemId, plugin: this });
   }
 
   public updateLink({ item }) {
@@ -594,8 +670,13 @@ export class Annotation extends Base {
     const id = item.getID();
     const { link, card } = cardInfoMap[id] || {};
     if (link) {
-      const path = getPathItem2Card(item, card.getBoundingClientRect(), graph, canvas);
-      link.attr('path', path)
+      const path = getPathItem2Card(
+        item,
+        card.getBoundingClientRect(),
+        graph,
+        canvas,
+      );
+      link.attr('path', path);
     }
   }
 
@@ -604,18 +685,18 @@ export class Annotation extends Base {
     const cardInfoMap: CardInfoMap = this.options.cardInfoMap;
     if (!cardInfoMap) return;
     const graph = this.graph;
-    Object.values(cardInfoMap).forEach(cardInfo => {
+    Object.values(cardInfoMap).forEach((cardInfo) => {
       const { id } = cardInfo;
       const item = graph.itemController.getItemById(id);
       this.updateLink({ item });
-    })
+    });
   }
 
   public onGraphDataChange() {
     const cardInfoMap: CardInfoMap = this.options.cardInfoMap;
     if (!cardInfoMap) return;
     const graph = this.graph;
-    Object.values(cardInfoMap).forEach(info => {
+    Object.values(cardInfoMap).forEach((info) => {
       const { id, card, isCanvas } = info;
       if (!card || isCanvas || card.style.display === 'none') return;
       const item = graph.itemController.getItemById(id);
@@ -624,7 +705,7 @@ export class Annotation extends Base {
       } else {
         this.hideCard(id);
       }
-    })
+    });
   }
 
   public onGraphItemVisibilityChange({ item, visible }) {
@@ -643,7 +724,7 @@ export class Annotation extends Base {
     const getTitle = this.options.getTitle;
     const getContent = this.options.getContent;
     const data: AnnotationData = [];
-    Object.values(cardInfoMap).forEach(info => {
+    Object.values(cardInfoMap).forEach((info) => {
       const { title, content, x, y, id, collapsed, card } = info;
       if (card && card.style.display === 'none' && !saveClosed) return;
       const item = graph.itemController.getItemById(id) || graph.options.canvas;
@@ -654,15 +735,15 @@ export class Annotation extends Base {
         collapsed,
         title: title || getTitle?.(item),
         content: content || getContent?.(item),
-        visible: card && card.style.display !== 'none'
-      })
+        visible: card && card.style.display !== 'none',
+      });
     });
     return data;
   }
 
   public readData(data) {
     const graph = this.graph;
-    data.forEach(info => {
+    data.forEach((info) => {
       const { id, x, y, title, content, collapsed, visible } = info;
       let item = graph.itemController.getItemById(id);
       if (!item && id === CANVAS_ANNOTATION_ID) {
@@ -686,7 +767,7 @@ export class Annotation extends Base {
     const cardInfoMap: CardInfoMap = this.options.cardInfoMap;
     if (!cardInfoMap) return;
     const container = this._container;
-    Object.values(cardInfoMap).forEach(cardInfo => {
+    Object.values(cardInfoMap).forEach((cardInfo) => {
       const { card, link } = cardInfo;
       container.removeChild(card);
       link?.remove();
