@@ -3,6 +3,8 @@ title: ShortcutsCall 快捷键
 order: 11
 ---
 
+- [快捷键自适应画布](/examples/interaction/shortcutsCall/#shortcuts-fitView)
+
 ## combinedKey
 
 **类型**：`string`

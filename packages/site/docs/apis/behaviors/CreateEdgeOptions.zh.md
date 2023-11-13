@@ -3,6 +3,9 @@ title: CreateEdge 创建边
 order: 13
 ---
 
+- [从节点拖拽创建边](/examples/interaction/createEdge/#createEdgeByDragging)
+- [点击节点创建边](/examples/interaction/createEdge/#createEdgeByClicking)
+
 <img alt="create edge" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*W0EqR6-dp_oAAAAAAAAAAAAADmJ7AQ/original" height='300'/>
 
 ## cancelCreateEventName

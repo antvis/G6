@@ -3,6 +3,9 @@ title: ScrollCanvas
 order: 12
 ---
 
+- [Scroll Canvas](/examples/interaction/moveCanvas/#scrollBoth)
+- [Scroll Canvas alone Y-asix](/examples/interaction/moveCanvas/#scrollY)
+
 ## allowDragOnItem
 
 **Type**: `boolean` | `{node?: boolean; edge?: boolean; combo?: boolean}`

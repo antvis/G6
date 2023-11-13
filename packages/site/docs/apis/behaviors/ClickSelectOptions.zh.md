@@ -3,6 +3,8 @@ title: ClickSelect 点击选中
 order: 4
 ---
 
+- [点击单选或多选](/examples/interaction/select/#click)
+
 <img alt="click select" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*n5nAS6BBD24AAAAAAAAAAAAADmJ7AQ/original" height='300'/>
 
 <embed src="../../common/BehaviorEventName.zh.md"></embed>

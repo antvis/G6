@@ -3,6 +3,8 @@ title: ShortcutsCall
 order: 11
 ---
 
+- [FitView by Shortcuts](/en/examples/interaction/shortcutsCall/#shortcuts-fitView)
+
 ## combinedKey
 
 **Type**: `string`
@@ -31,7 +33,7 @@ order: 11
 
 **Required**: false
 
-**Description**:  function params
+**Description**: function params
 
 ## trigger
 

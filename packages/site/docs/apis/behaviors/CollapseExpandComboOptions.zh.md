@@ -3,7 +3,12 @@ title: CollapseExpandCombo 收起/展开 Combo
 order: 9
 ---
 
-<img alt="collapse and expand canvas" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*I9kZR7OYqhUAAAAAAAAAAAAADmJ7AQ/original" height='300'/>
+- [圆形 Combo](/examples/interaction/combo/#circle)
+- [矩形 Combo](/examples/interaction/combo/#rect)
+- [扩展圆形 Combo](/examples/interaction/combo#cCircle)
+- [扩展矩形 Combo](/examples/interaction/combo/#cRect)
+
+  <img alt="collapse and expand canvas" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*I9kZR7OYqhUAAAAAAAAAAAAADmJ7AQ/original" height='300'/>
 
 ## trigger
 

@@ -3,6 +3,8 @@ title: DragCanvas 拖拽画布
 order: 1
 ---
 
+- [拖拽画布](/examples/interaction/moveCanvas/#dragCanvas)
+
 <img alt="drag canvas" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*zG5VTJ6tPakAAAAAAAAAAAAADmJ7AQ/original" height='300'/>
 
 <embed src="../../common/BehaviorEnableOptimize.zh.md"></embed>

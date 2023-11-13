@@ -5,6 +5,8 @@ order: 7
 
 指针悬停激活
 
+- [更新节点或边上的标签](/examples/interaction/label/#update)
+
 <img alt="hover activate" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*tU9BQZd9bDYAAAAAAAAAAAAADmJ7AQ/original" height='400'/>
 
 ## activateState

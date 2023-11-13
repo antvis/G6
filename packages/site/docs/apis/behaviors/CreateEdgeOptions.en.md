@@ -3,6 +3,9 @@ title: CreateEdge
 order: 13
 ---
 
+- [Create Edge by Dragging](/en/examples/interaction/createEdge/#createEdgeByDragging)
+- [Create Edge by Clicking](/en/examples/interaction/createEdge/#createEdgeByClicking)
+
 <img alt="create edge" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*W0EqR6-dp_oAAAAAAAAAAAAADmJ7AQ/original" height='300'/>
 
 ## cancelCreateEventName

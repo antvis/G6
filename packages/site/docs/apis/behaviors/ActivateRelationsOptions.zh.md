@@ -5,6 +5,9 @@ order: 8
 
 触发交互时，高亮当前节点的相邻节点
 
+- [内置的高亮节点](/examples/interaction/highlight/#activateRelations)
+- [自定义高亮](/examples/interaction/highlight/#highlightDark)
+
 <img alt="activate relations" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*e3FgR60eSRoAAAAAAAAAAAAADmJ7AQ/original" height='300'/>
 
 ## activeState

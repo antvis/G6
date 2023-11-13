@@ -3,6 +3,8 @@ title: CollapseExpandCombo
 order: 10
 ---
 
+- [Using changeData](/en/examples/interaction/treeBehavior/#changeData)
+
 <img alt="collapse and expand tree" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*hNYdS4_BSX8AAAAAAAAAAAAADmJ7AQ/original" height='300'/>
 
 ## disableAnimate

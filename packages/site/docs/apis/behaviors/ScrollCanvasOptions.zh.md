@@ -3,6 +3,9 @@ title: ScrollCanvas 画布滚动
 order: 12
 ---
 
+- [双向滚动画布](/examples/interaction/moveCanvas/#scrollBoth)
+- [Y 轴滚动画布](/examples/interaction/moveCanvas/#scrollY)
+
 ## allowDragOnItem
 
 **类型**：`boolean` | `{node?: boolean; edge?: boolean; combo?: boolean}`
