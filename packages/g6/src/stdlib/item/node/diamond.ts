@@ -117,8 +117,10 @@ export class DiamondNode extends BaseNode {
   }
 
   private getDiamondPath(keyShapeStyle): PathArray {
-    const width = keyShapeStyle.size[0];
-    const height = keyShapeStyle.size[1];
+    const { size } = keyShapeStyle;
+    const sizeArr = Array.isArray(size) ? size : [size, size];
+    const width = sizeArr[0];
+    const height = sizeArr[1];
     const path = [
       ['M', 0, -height / 2], // top
       ['L', width / 2, 0], // right
@@ -133,8 +135,10 @@ export class DiamondNode extends BaseNode {
     keyShapeStyle: any,
   ): IAnchorPositionMap {
     const anchorPositionMap = {};
-    const width = keyShapeStyle.size[0];
-    const height = keyShapeStyle.size[1];
+    const { size } = keyShapeStyle;
+    const sizeArr = Array.isArray(size) ? size : [size, size];
+    const width = sizeArr[0];
+    const height = sizeArr[1];
     anchorPositionMap['bottom'] = [0, height / 2];
     anchorPositionMap['left'] = [-width / 2, 0];
     anchorPositionMap['right'] = anchorPositionMap['default'] = [width / 2, 0];

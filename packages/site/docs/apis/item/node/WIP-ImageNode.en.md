@@ -1,3 +1,4 @@
 ---
-title: ImageNode
+title: Image
+order: 3
 ---

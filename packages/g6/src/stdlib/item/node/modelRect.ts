@@ -14,11 +14,6 @@ import {
   ComboShapeMap,
 } from '../../../types/combo';
 import { convertToNumber } from '../../../util/type';
-import {
-  getWordWrapWidthByBox,
-  getWordWrapWidthByEnds,
-} from '../../../util/text';
-import { getShapeLocalBoundsByStyle } from '../../../util/shape';
 import { BaseNode } from './base';
 
 export class ModelRectNode extends BaseNode {

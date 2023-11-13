@@ -1,5 +1,6 @@
 ---
-title: DonutNode
+title: Donut
+order: 2
 ---
 
 [Overview - v5.0.0-beta.21](../../README.en.md) / [Modules](../../modules.en.md) / [item](../../modules/item.en.md) / DonutNode
