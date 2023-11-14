@@ -52,18 +52,5 @@ graph.updateMapper('node', (model) => {
 - [Ellipse Node](./EllipseNode.zh.md)：椭圆节点，适用于表示范围或流程的数据。
 - [Cube Node](./CubeNode.zh.md)：立方体节点，用于三维数据展示或特殊视觉效果。
 - [Sphere Node](./SphereNode.zh.md)：球体节点，适合于表示全局性或三维空间的数据。
-
-当然，也可以自定义节点
-
-- [Custom Node](./CustomNode.zh.md)：自定义节点
+- [Custom Node](./CustomNode.zh.md)：如果内置边不能满足特定需求，G6 提供了自定义节点的能力。
 - [Custom 3D Node](./Custom3DNode.zh.md)：自定义 3D 节点
-
-<br />
-<br />
-
-## 通用属性
-
-| 配置项  | 类型               | 默认值 | 描述 |
-| ------- | ------------------ | ------ | ---- |
-| lod     | `number \| 'auto'` | 预设值 |      |
-| visible | `boolean`          | `true` |      |

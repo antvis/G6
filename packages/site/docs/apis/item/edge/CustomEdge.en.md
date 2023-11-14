@@ -1,43 +1,42 @@
 ---
-title: 自定义边
+title: Custom Edge
 order: 8
 ---
 
-在 G6 中，如果内置边不能满足特定需求，可以通过扩展已有的边类型来创建自定义边。这允许您利用 G6 强大的内置功能的同时，为边添加特有的逻辑和样式。
+In G6, if a built-in edge does not meet a specific need, you can create a custom edge by extending an existing edge Type. This allows you to leverage the powerful built-in functionality of G6 while adding unique logic and style to the edge.
 
-可以通过继承内置的边（例如 LineEdge），来创建自定义边。可继承图形参见： [边类型](/manual/customize/extension-cats#2-边类型edges)
+Custom edges can be created by inheriting from built-in edges, such as LineEdge. For inheritable graphics, see: [Edge Type](/en/manual/customize/extension-cats#2-边Typeedges).
 
 ```ts
 import { Graph, Extensions, extend } from '@antv/g6';
 
-// 创建自定义边，继承自 LineEdge
+// Create a custom edge, inheriting from LineEdge
 class CustomEdge extends Extensions.LineEdge {
-  // overwrite member method
-  // 重载成员方法，自定义绘制逻辑
+  // Override member methods for custom drawing logic
 }
 
-// 使用 extend 方法扩展 Graph 类，注册自定义边
+// Use `extend` method to extend the Graph class and register the custom edge
 const ExtGraph = extend(Graph, {
   edges: {
     'custom-edge': CustomEdge,
   },
 });
 
-// 使用扩展后的 Graph 类创建图实例，指定边类型为自定义边
+// Use extended Graph class to create a graph instance
 const graph = new ExtGraph({
   // ...其他配置项
   edge: {
-    type: 'custom-edge', // 指定自定义边
-    // 边的其他配置项详见具体边配置
+    type: 'custom-edge', // Specify the custom edge
+    // Other configuration options for the edge are detailed in the specific edge configuration
   },
 });
 ```
 
-## 重载方法
+## Override method
 
 ### draw
 
-**类型**：
+**Type**:
 
 ```ts
 type draw = (
@@ -53,11 +52,11 @@ type draw = (
 };
 ```
 
-**说明**：用于绘制与边相关的所有图形
+**Description**: Draw all elements related to the edge.
 
 ### drawKeyShape
 
-**类型**：
+**Type**:
 
 ```ts
 type drawKeyShape = (
@@ -68,61 +67,61 @@ type drawKeyShape = (
 ) => DisplayObject;
 ```
 
-**说明**：用于绘制关键图形
+**Description**: Draw the key shape of the edge.
 
 ### drawLabelShape
 
-**类型**：
+**Type**:
 
 ```ts
 type drawLabelShape = (model: EdgeDisplayModel, shapeMap: EdgeShapeMap) => DisplayObject;
 ```
 
-**说明**：绘制边的标签图形
+**Description**: Draw the label shape of the edge.
 
 ### drawLabelBackgroundShape
 
-**类型**：
+**Type**:
 
 ```ts
 type drawLabelBackgroundShape = (model: EdgeDisplayModel, shapeMap: EdgeShapeMap) => DisplayObject;
 ```
 
-**说明**：绘制边的文本的背景图形
+**Description**: Draw the label background shape of the edge.
 
 ### drawIconShape
 
-**类型**：
+**Type**:
 
 ```ts
 type drawIconShape = (model: EdgeDisplayModel, shapeMap: EdgeShapeMap) => DisplayObject;
 ```
 
-**说明**：绘制边的图标图形
+**Description**: Draw the icon shape of the edge.
 
 ### drawHaloShape
 
-**类型**：
+**Type**:
 
 ```ts
 type drawHaloShape = (model: EdgeDisplayModel, shapeMap: EdgeShapeMap) => DisplayObject;
 ```
 
-**说明**：绘制边的光晕图形
+**Description**: Draw the halo shape of the edge.
 
 ### drawOtherShapes
 
-**类型**：
+**Type**:
 
 ```ts
 type drawOtherShapes = (model: EdgeDisplayModel, shapeMap: EdgeShapeMap) => { [id: string]: DisplayObject };
 ```
 
-**说明**：绘制边的其他图形。自定义边中的其他图形应当定义和配置在 `otherShapes` 中。
+**Description**: Draws other shapes of the edge. Other shapes in a custom edge should be defined and configured in `otherShapes`.
 
 ### afterDraw
 
-**类型**：
+**Type**:
 
 ```ts
 type afterDraw = (
@@ -132,25 +131,25 @@ type afterDraw = (
 ) => { [otherShapeId: string]: DisplayObject };
 ```
 
-**说明**：绘制边后执行其他绘图操作或添加自定义形状
+**Description**: Perform additional drawing operations or add custom shapes after drawing edge.
 
 ### getMergedStyles
 
-**类型**：
+**Type**:
 
 ```ts
 type getMergedStyles = (model: EdgeDisplayModel) => EdgeDisplayModel;
 ```
 
-**说明**：将 display model 数据中定义的样式与边的默认和主题样式合并
+**Description**: 将 display model 数据中定义的样式与边的默认和主题样式合并
 
-## 成员方法
+## Member Methods
 
-继承的图形提供下列方法调用
+Inherited shapes provide the following method calls
 
 ### upsertShape
 
-**类型**：
+**Type**:
 
 ```ts
 type upserShape = (
@@ -162,11 +161,11 @@ type upserShape = (
 ) => DisplayObject;
 ```
 
-**说明**：根据配置创建（如果在 shapeMap 中不存在）或更新形状
+**Description**: Create (if not existing in shapeMap) or update a shape based on configuration.
 
 ### upsertArrow
 
-**类型**：
+**Type**:
 
 ```ts
 type upsertArrow = (
@@ -178,7 +177,7 @@ type upsertArrow = (
 ) => void;
 ```
 
-**说明**：在边的指定位置添加或更新箭头标记
+**Description**: Add or update an arrow marker at the specified position on the edge.
 
 ---
 

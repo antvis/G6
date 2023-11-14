@@ -1,3 +1,5 @@
+`ArrowProps` 定义如下：
+
 ```typescript
 type ArrowType = 'triangle' | 'circle' | 'diamond' | 'rect' | 'vee' | 'triangle-rect' | 'simple';
 
@@ -7,9 +9,14 @@ type ArrowStyle = PathStyleProps & {
   height: number;
   offset?: number;
 };
-```
 
-箭头相关此处图形样式参考 [Path 图形样式](../apis/shape/PathStyleProps.zh.md)
+type ArrowProps = {
+  // 边的起始端箭头
+  startArrow?: boolean | ArrowStyle;
+  // 边的结束端箭头
+  endArrow?: boolean | ArrowStyle;
+};
+```
 
 `ArrowType` 可选值如下：
 

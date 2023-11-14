@@ -3,18 +3,33 @@ title: Diamond 菱形
 order: 5
 ---
 
-本文展示 Diamond 菱形节点 `keyShape` 配置项的详细说明。对于其它配置项，可以参考[通用配置](/apis/item/node/node-intro#通用属性)。[Diamond 菱形节点 DEMO](/zh/examples/item/defaultNodes/#diamond)。
+本文展示所有 Diamond 菱形节点 `keyShape` 配置项。[Diamond 菱形节点 DEMO](/zh/examples/item/defaultNodes/#diamond)。
 
 <img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*oUSlSZt6rCoAAAAAAAAAAAAADmJ7AQ/original" width=600 />
 
-## KeyShapeStyle
+## keyShape
 
-相关的图形样式参考 [`PathStyleProps`](../../shape/PathStyleProps.zh.md), 扩展属性如下：
+- **类型**：
 
-### KeyShapeStyle.size
+```typescript
+StyleProps & {
+  /**
+   * 菱形的宽高。`size` 为一个数值时，宽高相同
+   */
+  size?: number | [number, number];
+};
+```
 
-菱形的宽高。`size` 为一个数值时，宽高相同。
+其中，相关的图形样式参考 [Path 图形样式](../shape/PathStyleProps.zh.md)。
+
+- **默认值**：
+
+```json
+{
+  "size": [32, 32]
+}
+```
 
 - **是否必须**：否
-- **类型**：`number | [number, number]`
-- **默认值**：`[32, 32]`
+
+<embed src="../../../common/NodeShapeStyles.zh.md"></embed>
