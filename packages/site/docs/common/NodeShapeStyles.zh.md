@@ -95,7 +95,6 @@ Partial<
 
 在内置的节点和主题中，`haloShape` 指的是节点在 `active`（一般在鼠标 hover 时该状态被触发） 和 `selected`（一般在选中状态下该状态被触发） 状态下，主图形 (`keyShape`) 周围展示的光晕效果的图形。在内置节点的逻辑中，`haloShape` 的图形类型、颜色跟随主图形 (`keyShape`)。
 
-- **是否必须**: 否；
 - **类型**: `ShapeStyle`，`haloShape` 的图形类型跟随主图形(`keyShape`)。根据不同的主图形，图形样式配置项不同。例如 `'circle-node'` 的主图形是 `'circle'` 参考 [Circle 图形样式](../shape/CircleStyleProps.zh.md)；`'image-node'` 的主图形是 `'image'` 参考 [Image 图形样式](../shape/ImageStyleProps.zh.md)。
 
 - **默认值**：undefined
@@ -177,18 +176,18 @@ type IBadgePosition =
 // 外层可配置对所有连接桩（圆形）的样式，优先级低于单独的连接桩配置
 StyleProps & {
   // 单独的连接桩图形配置，优先级高于外层的 CircleStyleProps
-  [key: number]: CircleStyleProps & {
+  [key: number]: StyleProps & {
     // 该连接桩的位置，可配置字符串或数字数组表示相对于主图形 (keyShape) 包围盒的百分比位置，例如 [0.5, 1] 表示位于主图形的右侧中间
     position?: 'top' | 'left' | 'bottom' | 'right' | [number, number];
   };
 };
 ```
 
+其中，相关的图形样式参考 [Circle 图形样式](../shape/CircleStyleProps.zh.md)。
+
 - **默认值**： undefined
 
 - **是否必须**：否
-
-其中，相关的图形样式参考 [Circle 图形样式](../shape/CircleStyleProps.zh.md)。
 
 ## otherShapes
 

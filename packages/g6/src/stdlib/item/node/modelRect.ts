@@ -23,10 +23,42 @@ export class ModelRectNode extends BaseNode {
       y: 0,
       width: 185,
       height: 70,
-      stroke: '#C0DCEA',
-      strokeWidth: '2',
-      radius: 2,
-      fill: 'white',
+      stroke: '#69c0ff',
+      fill: '#ffffff',
+      lineWidth: 1,
+      radius: 5,
+    },
+    preRect: {
+      show: true,
+      width: 5,
+      fill: '#69c0ff',
+      radius: 5,
+    },
+    logoIcon: {
+      show: true,
+      width: 16,
+      height: 16,
+      offsetX: 0,
+      offsetY: 0,
+      img: 'https://gw.alipayobjects.com/zos/basement_prod/4f81893c-1806-4de4-aff3-9a6b266bc8a2.svg',
+    },
+    stateIcon: {
+      show: true,
+      width: 16,
+      height: 16,
+      offsetX: 0,
+      offsetY: 0,
+      img: 'https://gw.alipayobjects.com/zos/basement_prod/300a2523-67e0-4cbf-9d4a-67c077b40395.svg',
+    },
+    description: {
+      show: true,
+      maxLines: 1,
+      textOverflow: 'ellipsis',
+      fill: '#C2C2C2',
+      textBaseline: 'middle',
+      textAlign: 'left',
+      offsetX: 0,
+      offsetY: 0,
     },
   };
   mergedStyles: NodeShapeStyles;
@@ -114,12 +146,10 @@ export class ModelRectNode extends BaseNode {
   ): IAnchorPositionMap {
     const x = convertToNumber(keyShapeStyle.x);
     const y = convertToNumber(keyShapeStyle.y);
-    const height = keyShapeStyle.height;
-    const width = keyShapeStyle.width;
-    const leftX = x - width / 2 - ((this.mergedStyles as any).preRect ? 5 : 0);
+    const { height, width } = keyShapeStyle;
     const anchorPositionMap = {};
     anchorPositionMap['top'] = [x, y - height / 2];
-    anchorPositionMap['left'] = [leftX, y];
+    anchorPositionMap['left'] = [x - width / 2, y];
     anchorPositionMap['right'] = anchorPositionMap['default'] = [
       x + width / 2,
       y,
@@ -142,34 +172,40 @@ export class ModelRectNode extends BaseNode {
       description: descriptionStyle,
       keyShape: keyShapeStyle,
     } = this.mergedStyles as any;
+
     if (!labelShapeStyle) return;
     const { width, height, x, y } = keyShapeStyle;
+
     const { offsetX: labelOffsetX = 0, offsetY: labelOffsetY = 0 } =
       labelShapeStyle;
 
-    const mixDisplay = labelShapeStyle && descriptionStyle ? true : false; //false: only display label
+    const mixDisplay = descriptionStyle.show;
     const defaultLabelFontSize = mixDisplay
-      ? Math.min(height, width) / 5
+      ? Math.min(height, width) / 4
       : Math.min(height, width) / 6; //match with keyShape
+
+    const logoIconBBox = shapeMap['logoIcon']?.getBBox();
     const defaultLabelX = mixDisplay
-      ? this.logoX + this.logoWidth + width / 20
+      ? -width / 2 + logoIconBBox?.width + width / 10
       : 0;
     const defaultLabelY = mixDisplay ? 0 - height / 7 : 0;
     const defaultWordWrapWidth =
       width / 2 -
-      (this.logoX + this.logoWidth + width / 20) -
-      defaultLabelFontSize * 2;
+      (logoIconBBox.left + logoIconBBox.width + width / 20) -
+      defaultLabelFontSize * 2 -
+      labelOffsetX;
     labelShapeStyle.maxWidth = defaultWordWrapWidth;
+
     return this.upsertShape(
       'text',
       'labelShape',
       {
+        x: defaultLabelX + labelOffsetX,
+        y: defaultLabelY + labelOffsetY,
         wordWrap: true,
         textOverflow: 'ellipsis',
         textBaseline: 'middle',
         textAlign: mixDisplay ? 'left' : 'middle',
-        x: defaultLabelX + labelOffsetX,
-        y: defaultLabelY + labelOffsetY,
         maxLines: 1,
         wordWrapWidth: defaultWordWrapWidth,
         ...labelShapeStyle,
@@ -189,24 +225,42 @@ export class ModelRectNode extends BaseNode {
     diffState?: { previous: State[]; current: State[] },
   ): { [id: string]: DisplayObject } {
     const {
-      logoIcon: logoIconStyle,
+      keyShape: keyShapeStyle,
+      label: labelStyle,
       preRect: preRectStyle,
+      logoIcon: logoIconStyle,
       stateIcon: stateIconStyle,
       description: descriptionStyle,
-      label: labelStyle,
-      keyShape: keyShapeStyle,
     } = this.mergedStyles as any;
-    return {
-      ...this.drawPreRectShape(preRectStyle, keyShapeStyle, model, shapeMap),
-      ...this.drawLogoIconShape(logoIconStyle, keyShapeStyle, model, shapeMap),
-      ...this.drawDescriptionShape(
+
+    const shapes = {
+      preRect: this.drawPreRectShape(
+        preRectStyle,
+        keyShapeStyle,
+        model,
+        shapeMap,
+      ),
+      logoIcon: this.drawLogoIconShape(
+        logoIconStyle,
+        keyShapeStyle,
+        model,
+        shapeMap,
+      ),
+      description: this.drawDescriptionShape(
         descriptionStyle,
         keyShapeStyle,
         model,
         shapeMap,
       ),
-      ...this.drawStateIcon(stateIconStyle, keyShapeStyle, model, shapeMap),
+      stateIcon: this.drawStateIcon(
+        stateIconStyle,
+        keyShapeStyle,
+        model,
+        shapeMap,
+      ),
     };
+
+    return shapes;
   }
 
   private drawPreRectShape(
@@ -215,25 +269,22 @@ export class ModelRectNode extends BaseNode {
     model: NodeDisplayModel | ComboDisplayModel,
     shapeMap: NodeShapeMap | ComboShapeMap,
   ) {
-    if (!preRectStyle) return;
+    if (!preRectStyle || !preRectStyle.show) return;
     const { x, y, height, width } = keyShapeStyle;
-    const { width: preRectWidth = 5, fill = '#5CAAF8' } = preRectStyle;
-    return {
-      otherShapePreRect: this.upsertShape(
-        'rect',
-        'otherShapePreRect',
-        {
-          width: preRectWidth,
-          height,
-          x: convertToNumber(x) - convertToNumber(width) / 2 - preRectWidth,
-          y: convertToNumber(y) - convertToNumber(height) / 2,
-          fill,
-          radius: 2,
-        },
-        shapeMap,
-        model,
-      ),
-    };
+    const { width: preRectWidth, ...restPreRectStyle } = preRectStyle;
+    return this.upsertShape(
+      'rect',
+      'preRect',
+      {
+        width: preRectWidth,
+        height,
+        x: convertToNumber(x) - convertToNumber(width) / 2,
+        y: convertToNumber(y) - convertToNumber(height) / 2,
+        ...restPreRectStyle,
+      },
+      shapeMap,
+      model,
+    );
   }
 
   private drawLogoIconShape(
@@ -242,55 +293,42 @@ export class ModelRectNode extends BaseNode {
     model: NodeDisplayModel | ComboDisplayModel,
     shapeMap: NodeShapeMap | ComboShapeMap,
   ) {
-    const { x, y, width, height } = keyShapeStyle;
-    if (!logoIconStyle) {
-      this.logoWidth = 16;
-      this.logoHeight = 16;
-      this.logoX =
-        convertToNumber(x) -
-        convertToNumber(width) / 2 +
-        width / 10 -
-        this.logoWidth / 2;
-      this.logoY = convertToNumber(y) - convertToNumber(this.logoHeight) / 2;
-      return;
-    }
+    if (!logoIconStyle || !logoIconStyle.show) return;
+    const { x, y, width } = keyShapeStyle;
     const {
-      width: logoIconWidth = 16,
-      height: logoIconHeight = 16,
+      width: logoIconWidth,
+      height: logoIconHeight,
       fontSize: logoIconFontSize,
       text: logoIconText,
-      offsetX: logoIconOffsetX = 0,
-      offsetY: logoIconOffsetY = 0,
+      offsetX: logoIconOffsetX,
+      offsetY: logoIconOffsetY,
     } = logoIconStyle;
-    const logoWidth = (this.logoWidth = convertToNumber(
-      logoIconWidth || logoIconFontSize,
-    ));
-    const logoHeight = (this.logoHeight = convertToNumber(
-      logoIconWidth || logoIconFontSize,
-    ));
+    const logoWidth = convertToNumber(logoIconWidth || logoIconFontSize);
+    const logoHeight = convertToNumber(logoIconWidth || logoIconFontSize);
     const logoIconShapeType = logoIconText ? 'text' : 'image';
-    //calculate logo position
-    const logoX = (this.logoX =
+
+    // calculate logo position
+    const logoX =
       convertToNumber(x) -
       convertToNumber(width) / 2 +
       logoIconOffsetX +
       width / 10 -
-      logoIconWidth / 2);
+      logoIconWidth / 2;
 
-    const logoY = (this.logoY = logoIconText
+    const logoY = logoIconText
       ? logoIconOffsetY
       : convertToNumber(y) -
         convertToNumber(logoIconHeight) / 2 +
-        logoIconOffsetY);
+        logoIconOffsetY;
 
     if (logoIconText) {
       logoIconStyle.textAlign = 'center';
       logoIconStyle.textBaseline = 'middle';
     }
-    const shapes = {};
-    shapes['otherShapeLogoIcon'] = this.upsertShape(
+
+    return this.upsertShape(
       logoIconShapeType,
-      'otherShapeLogoIcon',
+      'logoIcon',
       {
         width: logoWidth,
         height: logoHeight,
@@ -301,7 +339,6 @@ export class ModelRectNode extends BaseNode {
       shapeMap,
       model,
     );
-    return shapes;
   }
 
   private drawDescriptionShape(
@@ -310,41 +347,35 @@ export class ModelRectNode extends BaseNode {
     model: NodeDisplayModel | ComboDisplayModel,
     shapeMap: NodeShapeMap | ComboShapeMap,
   ) {
-    if (!descriptionStyle) return;
+    if (!descriptionStyle || !descriptionStyle.show) return;
     const { width, height } = keyShapeStyle;
     const {
-      text: descriptionText,
-      fontSize,
-      offsetX: descriptionOffsetX = 0,
-      offsetY: descriptionOffsetY = 0,
+      fontSize: descFontSize,
+      offsetX: descOffsetX,
+      offsetY: descOffsetY,
     } = descriptionStyle;
-    const defaultLabelFontSize = Math.min(height, width) / 5; //match with keyShape
-    const defaultDescriptionX = this.logoX + this.logoWidth + width / 20;
+
+    const logoIconBBox = shapeMap['logoIcon']?.getBBox();
+    const defaultLabelFontSize = Math.min(height, width) / 5;
+    const defaultDescriptionX = -width / 2 + logoIconBBox?.width + width / 10;
     const defaultWordWrapWidth =
       width / 2 - defaultDescriptionX - defaultLabelFontSize * 2;
-
     const defaultDescriptionFontSize = defaultLabelFontSize / 2;
-    return {
-      otherShapeDescription: this.upsertShape(
-        'text',
-        'otherShapeDescription',
-        {
-          textBaseline: 'middle',
-          textAlign: 'left',
-          fontSize: defaultDescriptionFontSize,
-          x: defaultDescriptionX + descriptionOffsetX,
-          y: 0 + height / 6 + descriptionOffsetY,
-          wordWrap: true,
-          wordWrapWidth: defaultWordWrapWidth,
-          maxLines: 1,
-          textOverflow: 'ellipsis',
-          fill: '#C2C2C2',
-          ...descriptionStyle,
-        },
-        shapeMap,
-        model,
-      ),
-    };
+
+    return this.upsertShape(
+      'text',
+      'description',
+      {
+        fontSize: descFontSize || defaultDescriptionFontSize,
+        x: defaultDescriptionX + descOffsetX,
+        y: 0 + height / 6 + descOffsetY,
+        wordWrap: true,
+        wordWrapWidth: defaultWordWrapWidth,
+        ...descriptionStyle,
+      },
+      shapeMap,
+      model,
+    );
   }
 
   private drawStateIcon(
@@ -353,48 +384,49 @@ export class ModelRectNode extends BaseNode {
     model: NodeDisplayModel | ComboDisplayModel,
     shapeMap: NodeShapeMap | ComboShapeMap,
   ) {
-    if (!stateIconStyle) return;
+    if (!stateIconStyle || !stateIconStyle.show) return;
     const { x, y, width } = keyShapeStyle;
     const {
-      width: stateIconWidth = 16,
-      height: stateIconHeight = 16,
+      width: stateIconWidth,
+      height: stateIconHeight,
       fontSize: stateIconFontSize,
       text: stateIconText,
-      offsetX: stateIconOffsetX = 0,
-      offsetY: stateIconOffsetY = 0,
+      offsetX: stateIconOffsetX,
+      offsetY: stateIconOffsetY,
     } = stateIconStyle;
     const stateWidth = convertToNumber(stateIconWidth || stateIconFontSize);
     const stateHeight = convertToNumber(stateIconWidth || stateIconFontSize);
     const stateIconShapeType = stateIconText ? 'text' : 'image';
-    //calculate state position
+
+    // Calculate state position
     const stateX =
       convertToNumber(x) +
       convertToNumber(width) / 2 -
-      width / 10 +
+      stateIconWidth +
       stateIconOffsetX;
     const stateY = stateIconText
       ? stateIconOffsetY
       : convertToNumber(y) -
         convertToNumber(stateIconHeight || stateIconFontSize) / 2 +
         stateIconOffsetY;
+
     if (stateIconText) {
       stateIconStyle.textAlign = 'center';
       stateIconStyle.textBaseline = 'middle';
     }
-    return {
-      otherShapestateIcon: this.upsertShape(
-        stateIconShapeType,
-        'otherShapestateIcon',
-        {
-          width: stateWidth,
-          height: stateHeight,
-          x: stateX,
-          y: stateY,
-          ...stateIconStyle,
-        },
-        shapeMap,
-        model,
-      ),
-    };
+
+    return this.upsertShape(
+      stateIconShapeType,
+      'stateIcon',
+      {
+        width: stateWidth,
+        height: stateHeight,
+        x: stateX,
+        y: stateY,
+        ...stateIconStyle,
+      },
+      shapeMap,
+      model,
+    );
   }
 }

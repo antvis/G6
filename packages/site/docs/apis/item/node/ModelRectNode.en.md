@@ -1,32 +1,32 @@
 ---
-title: ModelRect 模态矩形
+title: ModelRect
 order: 9
 ---
 
-本文展示所有 ModelRect 模态矩形配置项。[ModelRect 模态矩形 DEMO](/zh/examples/item/defaultNodes/#modelRect)。
+This section details the configuration options for ModelRect nodes, as demonstrated in the [ModelRect Node DEMO](/en/examples/item/defaultNodes/#modelRect).
 
 <img src="https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*w4kQSYQ9djQAAAAAAAAAAABkARQnAQ" width=600 />
 
 ## keyShape
 
-- **类型**：
+- **Type**:
 
 ```typescript
 StyleProps & {
   /**
-   * 矩形的宽度
+   * Width of rect
    */
   width: number;
   /**
-   * 矩形的高度
+   * height of rect
    */
   height: number;
 };
 ```
 
-其中，相关的图形样式参考 [Rect 图形样式](../shape/RectStyleProps.zh.md)。
+The related rect style can be referred to in [`RectStyleProps`](../shape/RectStyleProps.en.md).
 
-- **默认值**：
+- **Default**:
 
 ```json
 {
@@ -39,11 +39,11 @@ StyleProps & {
 }
 ```
 
-- **是否必须**：否
+- **Required**: No
 
 ## otherShapes(extended)
 
-- **类型**：
+- **Type**:
 
 ```typescript
 {
@@ -78,7 +78,7 @@ StyleProps & {
 };
 ```
 
-- **默认值**：
+- **Default**:
 
 ```json
 {
@@ -117,6 +117,6 @@ StyleProps & {
 }
 ```
 
-- **是否必须**：否
+- **Required**: No
 
-<embed src="../../../common/NodeShapeStyles.zh.md"></embed>
+<embed src="../../../common/NodeShapeStyles.en.md"></embed>
