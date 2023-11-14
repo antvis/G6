@@ -7,10 +7,27 @@ order: 1
 
 <img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*Kbk1S5pzSY0AAAAAAAAAAAAADmJ7AQ/original" width=300 />
 
-## parentId
+## keyShape
 
-## KeyShape
+- **类型**：
 
-### KeyShapeStyle.r
+```typescript
+StyleProps & {
+  /** 圆的半径 */
+  r: number;
+};
+```
 
-### KeyShapeStyle.padding
+其中，相关的图形样式参考 [Circle 图形样式](../shape/CircleStyleProps.zh.md)。
+
+- **默认值**：
+
+```json
+{
+  "r": 16
+}
+```
+
+- **是否必须**：否
+
+<embed src="../../../common/ComboShapeStyles.zh.md"></embed>
