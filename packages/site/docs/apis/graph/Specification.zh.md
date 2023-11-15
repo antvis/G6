@@ -79,16 +79,23 @@ interface InlineTreeDataConfig {
 
 • **是否必须**: 否
 
-• **类型**:
+• **类型**: `TransformsConfig`
 
 ```typescript
-string[]
+// 数据生命周期阶段
+type DataLifecycleType = 'read' | 'changeData' | 'updateData' | 'addData' | 'removeData';
+type TransformsConfig =
+  | string[]
   | {
       type: string;
-      activeLifecycle: string | string[];
+      /**
+       * 决定 transform 函数生效时机，默认只在初始化数据时生效
+       * `'all'` 表示在所有数据生命周期阶段激活，也可以指定在一个或多个生命周期阶段
+       */
+      activeLifecycle: 'all' | DataLifecycleType | DataLifecycleType[];
       [param: string]: unknown;
     }[]
-  | TransformerFn[]
+  | TransformerFn[];
 ```
 
 ## node

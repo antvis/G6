@@ -3,6 +3,7 @@ import { isArray } from '@antv/util';
 import { depthFirstSearch, connectedComponent } from '@antv/algorithm';
 import {
   DataChangeType,
+  DataLifecycleType,
   GraphCore,
   GraphData,
   GraphDataChanges,
@@ -320,7 +321,7 @@ export const AVAILABLE_DATA_LIFECYCLE = [
   'removeData',
 ];
 
-export const dataLifecycleMap: Record<string, string> = {
+export const dataLifecycleMap: Record<string, DataLifecycleType> = {
   replace: 'read',
   mergeReplace: 'changeData',
   union: 'addData',

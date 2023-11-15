@@ -116,7 +116,7 @@ Partial<
 >;
 ```
 
-其中，相关的图形样式参考 [`TextStyleProps` 文本图形样式](../shape/TextStyleProps.zh.md)，和 [`ImageStyleProps` 图片图形样式](../shape/ImageStyleProps.zh.md)。
+其中，相关的图形样式参考 [Text 图形样式](../shape/TextStyleProps.zh.md)，和 [Image 图形样式](../shape/ImageStyleProps.zh.md)。
 
 ### EdgeDisplayModelData.haloShape
 
@@ -161,7 +161,7 @@ Partial<
   };
 ```
 
-其中，相关的图形样式参考 [`TextStyleProps` 文本图形样式](../shape/TextStyleProps.zh.md)。
+其中，相关的图形样式参考 [Text 图形样式](../shape/TextStyleProps.zh.md)。
 
 ### EdgeDisplayModelData.labelBackgroundShape
 
@@ -178,7 +178,7 @@ ShapeStyle & {
 
 其中，参考矩形样式类型 [`RectStyleProps`](../shape/RectStyleProps.zh.md)。
 
-### EdgeDisplayModelData.
+### EdgeDisplayModelData.badgeShape
 
 边的徽标，包括了文本和背景图形。和节点支持多个徽标不同，内置边仅支持一个徽标，位于文本后方。
 

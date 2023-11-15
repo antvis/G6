@@ -10,11 +10,9 @@ import {
 import { BaseNode } from './base';
 
 export class StarNode extends BaseNode {
-  private defaultOuterR = 20;
   override defaultStyles = {
     keyShape: {
-      outerR: this.defaultOuterR,
-      innerR: (this.defaultOuterR * 3) / 8,
+      outerR: 20,
       x: 0,
       y: 0,
     },
@@ -120,7 +118,10 @@ export class StarNode extends BaseNode {
     );
   }
 
-  public getStarPath(outerR: number, innerR: number) {
+  public getStarPath(outerR: number, innerR?: number) {
+    if (!innerR) {
+      innerR = (outerR * 3) / 8;
+    }
     return [
       ['M', 0, -outerR],
       [

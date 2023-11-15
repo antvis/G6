@@ -104,7 +104,7 @@ Partial<
 >;
 ```
 
-其中，相关的图形样式参考 [`TextStyleProps` 文本图形样式](../shape/TextStyleProps.zh.md)，和 [`ImageStyleProps` 图片图形样式](../shape/ImageStyleProps.zh.md)。
+其中，相关的图形样式参考 [Text 图形样式](../shape/TextStyleProps.zh.md)，和 [Image 图形样式](../shape/ImageStyleProps.zh.md)。
 
 ### NodeDisplayModelData.haloShape
 
@@ -149,7 +149,7 @@ Partial<
   };
 ```
 
-其中，相关的图形样式参考 [`TextStyleProps` 文本图形样式](../shape/TextStyleProps.zh.md)。
+其中，相关的图形样式参考 [Text 图形样式](../shape/TextStyleProps.zh.md)。
 
 ### NodeDisplayModelData.labelBackgroundShape
 
