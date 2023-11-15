@@ -1,7 +1,7 @@
 import { Canvas } from '@antv/g';
 import { AnimateCfg, CameraAnimationOptions } from './animate';
 import { Padding, Point } from './common';
-import { DataConfig, TransformerFn } from './data';
+import { DataConfig, DataLifecycleType, TransformerFn } from './data';
 import {
   EdgeDisplayModel,
   EdgeEncode,
@@ -93,7 +93,7 @@ export interface Specification<
     | string[]
     | {
         type: string;
-        activeLifecycle: string | string[];
+        activeLifecycle: 'all' | DataLifecycleType | DataLifecycleType[];
         [param: string]: unknown; // TODO: generate by plugins
       }[]
     | TransformerFn[];
