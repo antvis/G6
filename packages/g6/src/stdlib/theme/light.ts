@@ -74,7 +74,6 @@ export const LightTheme = {
             fontSize: 16,
             zIndex: 1,
             lod: -1,
-            img: 'https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*7g4nSbYrg6cAAAAAAAAAAAAADmJ7AQ/original',
           },
           anchorShapes: {
             lineWidth: 1,
