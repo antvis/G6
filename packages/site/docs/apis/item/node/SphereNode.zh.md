@@ -9,10 +9,10 @@ order: 12
 
 ## keyShape
 
-- **类型**：
+- **类型**：`KeyShapeStyle`
 
 ```typescript
-{
+type KeyShapeStyle = {
   /**
    * 球半径。决定了球体的大小
    */

@@ -9,10 +9,10 @@ This section details the configuration options for Sphere (球体) nodes, as sho
 
 ## keyShape
 
-- **Type**:
+- **Type**: `KeyShapeStyle`
 
 ```typescript
-{
+type KeyShapeStyle = {
   /**
    * The radius of the sphere. Determines the size of the sphere.
    */

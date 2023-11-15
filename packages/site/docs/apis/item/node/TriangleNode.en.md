@@ -9,10 +9,10 @@ This section details the configuration options for Triangle (三角形) nodes, a
 
 ## keyShape
 
-- **Type**:
+- **Type**：`KeyShapeStyle`
 
 ```typescript
-StyleProps & {
+type KeyShapeStyle = StyleProps & {
   /**
    * The size of the triangle. Here, it refers to the radius of the circumscribed circle of the triangle.
    */

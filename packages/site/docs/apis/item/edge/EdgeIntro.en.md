@@ -1,5 +1,5 @@
 ---
-title: Edge Overview
+title: Overview
 order: 0
 ---
 
@@ -16,12 +16,20 @@ const Graph = extend(BaseGraph, {
   },
 });
 
-// Registration is required before use in instantiation or subsequent API calls
+/**
+ * Registration is required before use in instantiation or subsequent API calls
+ */
 const graph = new Graph({
-  // ...other configuration options
+  /**
+ * ...other configuration options
+ */
   edge: {
-    type: 'cubic-edge', // type corresponds to the key named at registration
-    // ... see specific edge configurations for other edge options
+    type: 'cubic-edge', /**
+ * type corresponds to the key named at registration
+ */
+    /**
+ * ... see specific edge configurations for other edge options
+ */
   },
 });
 ```

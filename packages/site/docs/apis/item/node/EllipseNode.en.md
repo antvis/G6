@@ -9,10 +9,10 @@ This section outlines the configuration options for Ellipse (椭圆) nodes, as d
 
 ## keyShape
 
-- **Type**
+- **Type**：`KeyShapeStyle`
 
 ```typescript
-StyleProps & {
+type KeyShapeStyle = StyleProps & {
   /**
    * The horizontal radius of the ellipse. This attribute determines the width of the ellipse.
    */

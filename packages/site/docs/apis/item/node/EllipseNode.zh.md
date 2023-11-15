@@ -9,10 +9,10 @@ order: 10
 
 ## keyShape
 
-- **类型**
+- **类型**：`KeyShapeStyle`
 
 ```typescript
-StyleProps & {
+type KeyShapeStyle = StyleProps & {
   /**
    * 椭圆的水平半径。此属性决定了椭圆的宽度
    */

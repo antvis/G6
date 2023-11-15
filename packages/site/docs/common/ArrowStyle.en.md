@@ -1,3 +1,7 @@
+<details>
+
+<summary><span style="color: #873bf4; cursor: pointer">ArrowProps</span></summary>
+
 ```ts
 type ArrowType = 'triangle' | 'circle' | 'diamond' | 'rect' | 'vee' | 'triangle-rect' | 'simple';
 
@@ -23,3 +27,5 @@ The available `ArrowType` options are as follows:
 | `'rect'`          | <img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*JfstQYm4_g4AAAAAAAAAAAAADmJ7AQ/original" width=240 /> |
 | `'vee'`           | <img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*NlzeT4JPlSMAAAAAAAAAAAAADmJ7AQ/original" width=240 /> |
 | `'triangle-rect'` | <img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*v4EHSo5o5RAAAAAAAAAAAAAADmJ7AQ/original" width=240 /> |
+
+</details>

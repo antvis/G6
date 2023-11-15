@@ -13,6 +13,8 @@ This article presents the configuration options for Line edges. [Line Edge DEMO]
 
 <embed src="../../../common/ArrowStyle.en.md"></embed>
 
+For more detailed style configuration, refer to [Line Graphic Style](../shape/LineStyleProps.en.md).
+
 - **Default**: undefined
 
 - **Required**: No

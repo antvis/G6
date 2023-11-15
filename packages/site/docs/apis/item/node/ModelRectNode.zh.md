@@ -9,10 +9,10 @@ order: 9
 
 ## keyShape
 
-- **类型**：
+- **类型**：`KeyShapeStyle`
 
 ```typescript
-StyleProps & {
+type KeyShapeStyle = StyleProps & {
   /**
    * 矩形的宽度
    */
@@ -43,21 +43,27 @@ StyleProps & {
 
 ## otherShapes(extended)
 
-- **类型**：
+- **类型**：`OtherShapesStyle`
 
 ```typescript
-{
-  // left rect
+type OtherShapesStyle = {
+  /**
+   * left rect
+   */
   preRect: RectStyleProps & {
     show?: boolean;
   };
-  // text description
+  /**
+   * text description
+   */
   description: TextStyleProps & {
     show?: boolean;
     offsetX?: number;
     offsetY?: number;
   };
-  // left icon describing the information
+  /**
+   * left icon describing the information
+   */
   logoIcon: TextStyleProps &
     IconStyleProps & {
       show?: boolean;
@@ -66,7 +72,9 @@ StyleProps & {
       offsetX?: number;
       offsetY?: number;
     };
-  // right icon describing the state
+  /**
+   * right icon describing the state
+   */
   stateIcon: TextStyleProps &
     IconStyleProps & {
       show?: boolean;

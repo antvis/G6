@@ -9,10 +9,10 @@ order: 11
 
 ## keyShape
 
-- **类型**：
+- **类型**：`KeyShapeStyle`
 
 ```typescript
-{
+type KeyShapeStyle = {
   /**
    * 立方体的宽度
    */

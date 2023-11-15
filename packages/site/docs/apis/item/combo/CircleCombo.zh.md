@@ -9,10 +9,10 @@ order: 1
 
 ## keyShape
 
-- **类型**：
+- **类型**：`KeyShapeStyle`
 
 ```typescript
-StyleProps & {
+type KeyShapeStyle = StyleProps & {
   /** 圆的半径 */
   r: number;
 };

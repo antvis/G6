@@ -9,10 +9,10 @@ order: 7
 
 ## keyShape
 
-- **类型**：
+- **类型**：`KeyShapeStyle`
 
 ```typescript
-StyleProps & {
+type KeyShapeStyle = StyleProps & {
   /**
    * 三角形的大小。此处指的是三角形的外接圆半径
    */

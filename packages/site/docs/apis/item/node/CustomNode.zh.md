@@ -7,28 +7,42 @@ order: 13
 
 可以通过继承内置的节点（例如 CircleNode），来创建自定义节点。可继承图形参见： [节点类型](/manual/customize/extension-cats#1-%E8%8A%82%E7%82%B9%E7%B1%BB%E5%9E%8Bnodes)
 
-```ts
+```typescript
 import { Graph, Extensions, extend } from '@antv/g6';
 
-// 创建自定义边，继承自 CircleNode
+/**
+ * 创建自定义边，继承自 CircleNode
+ */
 class CustomNode extends Extensions.CircleNode {
-  // overwrite member method
-  // 重载成员方法，自定义绘制逻辑
+  /**
+   * 重载成员方法，自定义绘制逻辑
+   */
 }
 
-// 使用 extend 方法扩展 Graph 类，注册自定义边
+/**
+ * 使用 extend 方法扩展 Graph 类，注册自定义边
+ */
 const ExtGraph = extend(Graph, {
   nodes: {
     'custom-node': CustomNode,
   },
 });
 
-// 使用扩展后的 Graph 类创建图实例，指定节点类型为自定义节点
+/**
+ * 使用扩展后的 Graph 类创建图实例，指定节点类型为自定义节点
+ */
 const graph = new ExtGraph({
-  // ...其他配置项
+  /**
+   * ...其他配置项
+   */
   node: {
-    type: 'custom-node', // 指定自定义节点
-    // ...其他配置项详见具体节点配置
+    /**
+     * 指定自定义节点
+     */
+    type: 'custom-node',
+    /**
+     * ...其他配置项详见具体节点配置
+     */
   },
 });
 ```
@@ -39,7 +53,7 @@ const graph = new ExtGraph({
 
 **类型**：
 
-```ts
+```typescript
 type draw = (
   model: NodeDisplayModel | ComboDisplayModel,
   shapeMap: { [shapeId: string]: DisplayObject },
@@ -51,15 +65,19 @@ type draw = (
 };
 ```
 
+其中，相关的数据类型定义参考 [NodeDisplayModel 渲染数据](../../data/ComboDisplayModel.zh.md) 和 [ComboDisplayModel 渲染数据](../../data/ComboDisplayModel.zh.md)。
+
 **说明**：用于绘制与节点相关的所有图形
 
 ### drawKeyShape
 
 **类型**：
 
-```ts
+```typescript
 type drawKeyShape = (model: NodeDisplayModel, shapeMap: NodeShapeMap) => DisplayObject;
 ```
+
+其中，相关的数据类型定义参考 [NodeDisplayModel 渲染数据](../../data/ComboDisplayModel.zh.md) 和 [ComboDisplayModel 渲染数据](../../data/ComboDisplayModel.zh.md)。
 
 **说明**：用于绘制关键图形
 
@@ -67,12 +85,14 @@ type drawKeyShape = (model: NodeDisplayModel, shapeMap: NodeShapeMap) => Display
 
 **类型**：
 
-```ts
+```typescript
 type drawLabelShape = (
   model: NodeDisplayModel | ComboDisplayModel,
   shapeMap: NodeShapeMap | ComboShapeMap,
 ) => DisplayObject;
 ```
+
+其中，相关的数据类型定义参考 [NodeDisplayModel 渲染数据](../../data/ComboDisplayModel.zh.md) 和 [ComboDisplayModel 渲染数据](../../data/ComboDisplayModel.zh.md)。
 
 **说明**：绘制节点的文本标签图形
 
@@ -80,12 +100,14 @@ type drawLabelShape = (
 
 **类型**：
 
-```ts
+```typescript
 type drawLabelBackgroundShape = (
   model: NodeDisplayModel | ComboDisplayModel,
   shapeMap: NodeShapeMap | ComboShapeMap,
 ) => DisplayObject;
 ```
+
+其中，相关的数据类型定义参考 [NodeDisplayModel 渲染数据](../../data/ComboDisplayModel.zh.md) 和 [ComboDisplayModel 渲染数据](../../data/ComboDisplayModel.zh.md)。
 
 **说明**：绘制节点的文本的背景图形
 
@@ -93,12 +115,14 @@ type drawLabelBackgroundShape = (
 
 **类型**：
 
-```ts
+```typescript
 type drawIconShape = (
   model: NodeDisplayModel | ComboDisplayModel,
   shapeMap: NodeShapeMap | ComboShapeMap,
 ) => DisplayObject;
 ```
+
+其中，相关的数据类型定义参考 [NodeDisplayModel 渲染数据](../../data/ComboDisplayModel.zh.md) 和 [ComboDisplayModel 渲染数据](../../data/ComboDisplayModel.zh.md)。
 
 **说明**：绘制节点的图标图形
 
@@ -106,12 +130,14 @@ type drawIconShape = (
 
 **类型**：
 
-```ts
+```typescript
 type drawHaloShape = (
   model: NodeDisplayModel | ComboDisplayModel,
   shapeMap: NodeShapeMap | ComboShapeMap,
 ) => DisplayObject;
 ```
+
+其中，相关的数据类型定义参考 [NodeDisplayModel 渲染数据](../../data/ComboDisplayModel.zh.md) 和 [ComboDisplayModel 渲染数据](../../data/ComboDisplayModel.zh.md)。
 
 **说明**：绘制节点的光晕图形
 
@@ -119,7 +145,7 @@ type drawHaloShape = (
 
 **类型**：
 
-```ts
+```typescript
 type drawAnchorShapes = (
   model: NodeDisplayModel | ComboDisplayModel,
   shapeMap: NodeShapeMap | ComboShapeMap,
@@ -128,13 +154,15 @@ type drawAnchorShapes = (
 };
 ```
 
+其中，相关的数据类型定义参考 [NodeDisplayModel 渲染数据](../../data/ComboDisplayModel.zh.md) 和 [ComboDisplayModel 渲染数据](../../data/ComboDisplayModel.zh.md)。
+
 **说明**：绘制节点的锚点图形
 
 ### drawBadgeShapes
 
 **类型**：
 
-```ts
+```typescript
 type drawBadgeShapes = (
   model: NodeDisplayModel | ComboDisplayModel,
   shapeMap: NodeShapeMap | ComboShapeMap,
@@ -143,18 +171,22 @@ type drawBadgeShapes = (
 };
 ```
 
+其中，相关的数据类型定义参考 [NodeDisplayModel 渲染数据](../../data/ComboDisplayModel.zh.md) 和 [ComboDisplayModel 渲染数据](../../data/ComboDisplayModel.zh.md)。
+
 **说明**：绘制节点的徽标图形
 
 ### drawOtherShapes
 
 **类型**：
 
-```ts
+```typescript
 type drawOtherShapes = (
   model: NodeDisplayModel | ComboDisplayModel,
   shapeMap: NodeShapeMap | ComboShapeMap,
 ) => { [id: string]: DisplayObject };
 ```
+
+其中，相关的数据类型定义参考 [NodeDisplayModel 渲染数据](../../data/ComboDisplayModel.zh.md) 和 [ComboDisplayModel 渲染数据](../../data/ComboDisplayModel.zh.md)。
 
 **说明**：绘制边的其他图形。自定义边中的其他图形应当定义和配置在 `otherShapes` 中。
 
@@ -162,13 +194,15 @@ type drawOtherShapes = (
 
 **类型**：
 
-```ts
+```typescript
 type afterDraw = (
-  model: EdgeDisplayModel,
+  model: NodeDisplayModel | ComboDisplayModel,
   shapeMap: { [shapeId: string]: DisplayObject },
   shapesChanged?: string[],
 ) => { [otherShapeId: string]: DisplayObject };
 ```
+
+其中，相关的数据类型定义参考 [NodeDisplayModel 渲染数据](../../data/ComboDisplayModel.zh.md) 和 [ComboDisplayModel 渲染数据](../../data/ComboDisplayModel.zh.md)。
 
 **说明**：绘制后执行其他绘图操作或添加自定义形状
 
@@ -176,9 +210,11 @@ type afterDraw = (
 
 **类型**：
 
-```ts
-type getMergedStyles = (model: EdgeDisplayModel) => EdgeDisplayModel;
+```typescript
+type getMergedStyles = (model: NodeDisplayModel) => NodeDisplayModel;
 ```
+
+其中，相关的数据类型定义参考 [NodeDisplayModel 渲染数据](../../data/ComboDisplayModel.zh.md)。
 
 **说明**：将 display model 数据中定义的样式与默认样式和主题样式合并
 
@@ -190,8 +226,12 @@ type getMergedStyles = (model: EdgeDisplayModel) => EdgeDisplayModel;
 
 **类型**：
 
-```ts
-type upserShape = (
+```typescript
+type SHAPE_TYPE = 'rect' | 'circle' | 'ellipse' | 'polygon' | 'image' | 'polyline' | 'line' | 'path' | 'text' | 'group';
+
+type SHAPE_TYPE_3D = 'sphere' | 'cube' | 'plane';
+
+type upsertShape = (
   type: SHAPE_TYPE | SHAPE_TYPE_3D,
   id: string,
   style: ShapeStyle,
@@ -199,5 +239,7 @@ type upserShape = (
   model: NodeDisplayModel | ComboDisplayModel,
 ) => DisplayObject;
 ```
+
+其中，相关的数据类型定义参考 [NodeDisplayModel 渲染数据](../../data/ComboDisplayModel.zh.md) 和 [ComboDisplayModel 渲染数据](../../data/ComboDisplayModel.zh.md)。
 
 **说明**：根据配置创建（如果在 shapeMap 中不存在）或更新形状

@@ -9,16 +9,15 @@ This section details the configuration options for the keyShape of Diamond (菱�
 
 ## keyShape
 
-- **Type**:
+- **Type**: `KeyShapeStyle`
 
 ```typescript
-StyleProps & {
+type KeyShapeStyle = StyleProps & {
   /**
    * The width and height of the diamond. If `size` is a single number, the width and height are the same.
    */
   size?: number | [number, number];
 };
-
 ```
 
 For more detailed style configuration, refer to [Path](../shape/PathStyleProps.en.md)。

@@ -1,141 +1,130 @@
-### KeyShapeStyle.startArrow
+## iconShape
 
-**Type**: `boolean` | `ArrowStyle`
+The icon shape of the edge (built-in edge support, custom edges that inherit these built-in edges also support it without overriding the relevant content). It is located in front of the text. It can be an image or text, and text supports iconfont.
 
-**Default**: undefined
+- **Type**: `IconShapeType`
 
-**Required**: No
+```typescript
+type IconShapeType = Partial<
+  TextStyleProps &
+    ImageStyleProps &
+    ShapeStyle & {
+      offsetX?: number;
+      offsetY?: number;
+      lod?: number;
+    }
+>;
+```
 
-**Description**: Arrow at the start of the edge.
+Where the relevant graphic styles refer to [`TextStyleProps` Text Shape Style](../shape/TextStyleProps.en.md) and [`ImageStyleProps` Image Shape Style](../shape/ImageStyleProps.en.md).
 
-<embed src="./ArrowStyle.en.md"></embed>
+- **Default**: undefined
 
-### KeyShapeStyle.endArrow
+- **Required**: No
 
-**Type**: `boolean` | `ArrowStyle`
-
-**Default**: undefined
-
-**Required**: No
-
-**Description**: Arrow at the end of the edge. The arrow parameters are as mentioned above.
-
-## LabelShapeStyle
-
-Text graphic for the edge, supported by both built-in edges and custom edges that inherit from built-in edges (without overriding related content).
-
-Basic graphic style refers to [Text Graphic Style](../../shape/TextStyleProps.en.md), with the following extended configurations:
-
-### LabelShapeStyle.position
-
-**Type**: `'start'` | `'middle'` | `'end'`
-
-**Default**: `'middle'`
-
-**Required**: No
-
-**Description**: Position of the text relative to the main graphic (keyShape) of the edge, supporting placement at the start, middle, or end of the edge.
-
-### LabelShapeStyle.offsetX
-
-**Type**: `number`
-
-**Default**: `0`
-
-**Required**: No
-
-**Description**: Offset of the text graphic from the main graphic (keyShape) in the x-direction.
-
-### LabelShapeStyle.offsetY
-
-**Type**: `number`
-
-**Default**: `0`
-
-**Required**: No
-
-**Description**: Offset of the text graphic from the main graphic (keyShape) in the y-direction.
-
-### LabelShapeStyle.offsetZ
-
-**Type**: `number`
-
-**Default**: `0`
-
-**Required**: No
-
-**Description**: Offset of the text graphic from the main graphic (keyShape) in the z-direction.
-
-### LabelShapeStyle.autoRotate
-
-**Type**: `boolean`
-
-**Default**: `true`
-
-**Required**: No
-
-**Description**: Specifies whether the text rotates with the edge.
-
-### LabelShapeStyle.maxWidth
-
-**Type**: `string` | `number`
-
-**Default**: `'200%'`
-
-**Required**: No
-
-**Description**: The maximum allowed width of the text. If specified as a number, it represents the value in pixels. If specified as a text with '%', it represents a percentage relative to the bounding box size of the main graphic (keyShape). The default value of `'200%'` means the maximum width of the text graphic can be up to twice the width of the main graphic. If exceeded, the text is automatically truncated and ellipsis `'...'` is added at the end.
-
-## LabelBackgroundShapeStyle
-
-Background graphic for the text of the edge, which is a rectangle. If not set, it is not displayed. Setting it to `{}` will display the text background graphic using the default style in the theme.
-
-Basic graphic style refers to [Rect Graphic Style](../../shape/RectStyleProps.en.md), with the following extended configurations:
-
-### LabelBackgroundShapeStyle.padding
-
-**Type**: `number` | `number[]`
-
-**Default**: undefined
-
-**Required**: No
-
-**Description**: Padding area around the text within the background rectangle.
-
-## IconShapeStyle
-
-边的图标图形，位于文本前方。
-
-Icon graphic for the edge, located in front of the text.
-
-**Type**: `ShapeStyle`. The `iconShape` graphic style configuration varies depending on the display form. For example, if the icon is text, supporting iconfont, refer to [Text Graphic Style](../../shape/TextStyleProps.en.md); if the icon is an image, refer to [Image Graphic Style](../../shape/ImageStyleProps.en.md).
-
-Extended configurations are as follows:
-
-### IconShapeStyle.offsetX
-
-**Type**: `number`
-
-**Default**: `0`
-
-**Required**: No
-
-**Description**: Offset of the icon graphic from the main graphic (keyShape) in the x-direction.
-
-### IconShapeStyle.offsetY
-
-**Type**: `number`
-
-**Default**: `0`
-
-**Required**: No
-
-**Description**: Offset of the icon graphic from the main graphic (keyShape) in the y-direction.
-
-## HaloShapeStyle
+## haloShape
 
 In built-in edges and themes, haloShape refers to the halo effect graphic displayed around the main graphic (keyShape) of the edge in active (usually triggered when the mouse hovers) and selected (usually triggered in the selected state) states. In the logic of built-in edges, the graphic type and color of haloShape follow the main graphic (keyShape).
 
 **Type**: `ShapeStyle`. The graphic type of `haloShape` follows the main graphic (`keyShape`). The graphic style configuration varies depending on the main graphic. For example, the main graphic of `'line-edge'` is `'line'`, refer to [Line Graphic Style](../shape/LineStyleProps.en.md); the main graphic of `'cubic-edge'` is `'path'`, refer to [Path Graphic Style](../shape/PathStyleProps.en.md).
 
-**Required**: No
+- **Default**: undefined
+
+- **Required**: No
+
+## labelShape
+
+The text shape of the edge.
+
+- **Type**: `LabelShapeStyle`
+
+```typescript
+type LabelShapeStyle = TextStyleProps & {
+  /**
+   * The position of the text relative to the key shape (keyShape) of the edge, supports above, below, left, right, and center
+   */
+  position?: 'start' | 'middle' | 'end';
+  /**
+   * The x offset of the text shape relative to the key shape (keyShape)
+   */
+  offsetX?: number;
+  /**
+   * The y offset of the text shape relative to the key shape (keyShape)
+   */
+  offsetY?: number;
+  /**
+   * The z offset of the text shape relative to the key shape (keyShape)
+   */
+  offsetZ?: number;
+  /**
+   * The maximum width allowed for the text.
+   * If specified as a number, it represents the pixel value.
+   * If specified as a text with '%', it represents a percentage of the key shape (keyShape) bounding box size.
+   * The default value is '200%', which means the maximum width of the text shape cannot exceed twice the width of the key shape.
+   * If it exceeds, it will be automatically truncated and an ellipsis '...' will be added at the end.
+   */
+  maxWidth?: string | number;
+  /**
+   * Specifies whether the text rotates with the edge.
+   */
+  autoRotate?: boolean;
+};
+```
+
+For more detailed style configuration, refer to [Text Graphic Style](../shape/TextStyleProps.en.md).
+
+- **Default**:
+
+```json
+{
+  "position": "middle",
+  "maxWidth": "200%"
+}
+```
+
+- **Required**: No
+
+## labelBackgroundShape
+
+The background shape of the text of the edge.
+
+- **Type**: `LabelBackgroundShapeStyle`
+
+```typescript
+type LabelBackgroundShapeStyle = ShapeStyle & {
+  /**
+   * The padding distance between the text and the background rectangle
+   */
+  padding?: number | number[];
+};
+```
+
+The related rectangle style type can be referred to in [`RectStyleProps`](../shape/RectStyleProps.en.md).
+
+- **Default**: undefined
+
+- **Required**: No
+
+## otherShapes
+
+All the xxShape(s) above are the possible shapes that exist in the G6 defined standard edge. Other shapes in custom nodes should be defined and configured in `otherShapes`.
+
+- **Type**: `OtherShapesStyle`
+
+```typescript
+type OtherShapesStyle = {
+  /**
+   *  key is the shape id, in the format of xxShape specified by the specification
+   */
+  /**
+   *  value is the shape style configuration (different shapes have different configurations, see the relevant shape documents), and the animation of the shape
+   */
+  [shapeId: string]: ShapeStyleProps;
+};
+```
+
+The different shape styles can be referred to in the corresponding shape type documentation under the [Shape Style](../shape/BaseStyleProps.en.md) directory.
+
+- **Default**: undefined
+
+- **Required**: No

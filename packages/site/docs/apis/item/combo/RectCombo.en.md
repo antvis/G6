@@ -9,20 +9,19 @@ This article demonstrates the configuration options for Rect Combo. [Rect Combo 
 
 ## keyShape
 
-- **Type**:
+- **Type**: `KeyShapeStyle`
 
 ```typescript
-StyleProps &
-  {
-    /**
-     * width
-     */
-    width: number,
-    /**
-     * height
-     */
-    height: number,
-  };
+type KeyShapeStyle = StyleProps & {
+  /**
+   * width
+   */
+  width: number;
+  /**
+   * height
+   */
+  height: number;
+};
 ```
 
 The related rect style can be referred to in [`RectStyleProps`](../shape/RectStyleProps.en.md).

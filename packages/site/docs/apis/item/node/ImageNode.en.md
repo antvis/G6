@@ -9,10 +9,10 @@ This section details the configuration options for Image nodes, as demonstrated 
 
 ## keyShape
 
-- **Type**:
+- **Type**：`KeyShapeStyle`
 
 ```typescript
-StyleProps & {
+type KeyShapeStyle = StyleProps & {
   /**
    * The source address of the image. Can be a URL or a base64 encoded image data.
    */

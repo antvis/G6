@@ -13,6 +13,8 @@ order: 1
 
 <embed src="../../../common/ArrowStyle.zh.md"></embed>
 
+其中，相关的图形样式参考 [Line 图形样式](../shape/LineStyleProps.zh.md)。
+
 - **默认值**：undefined
 
 - **是否必须**：否

@@ -17,12 +17,21 @@ const Graph = extend(BaseGraph, {
   },
 });
 
-// 注册后方可在实例化或后续 API 调用中使用
+/**
+ * 注册后方可在实例化或后续 API 调用中使用
+ */
 const graph = new Graph({
-  // ...其他配置项
+  /**
+   * ...其他配置项
+   */
   node: {
-    type: 'ellipse-node', // type 与注册时命名的 key 一致
-    // ... 节点的其他配置项
+    /**
+     * type 与注册时命名的 key 一致
+     */
+    type: 'ellipse-node',
+    /**
+     * ... 节点的其他配置项
+     */
   },
 });
 graph.updateMapper('node', (model) => {
@@ -30,8 +39,13 @@ graph.updateMapper('node', (model) => {
   return {
     id,
     data: {
-      type: 'diamond-node', // type 与注册时命名的 key 一致
-      // ... 节点的其他配置项
+      /**
+       * type 与注册时命名的 key 一致
+       */
+      type: 'diamond-node',
+      /**
+       * ... 节点的其他配置项
+       */
     },
   };
 });

@@ -9,10 +9,10 @@ This section outlines the configuration options for Star (星形) nodes, as demo
 
 ## keyShape
 
-- **Type**:
+- **Type**：`KeyShapeStyle`
 
 ```typescript
-StyleProps & {
+type KeyShapeStyle = StyleProps & {
   /**
    * The size of the pentagram.
    */

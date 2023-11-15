@@ -11,7 +11,7 @@ This article presents the general configuration options for drawing a Cubic thir
 
 - **Type**: `KeyShapeStyle`
 
-```ts
+```typescript
 type Point = {
   x: number;
   y: number;
@@ -20,16 +20,24 @@ type Point = {
 
 type KeyShapeStyle = PathStyleProps &
   ArrowProps & {
-    // Array of control points. Note that drawing a Cubic requires specifying two or more valid control points. If not specified or only one control point is specified, the corresponding control points will be calculated using `curveOffset` and `curvePosition`.
+    /**
+     * Array of control points. Note that drawing a Cubic requires specifying two or more valid control points. If not specified or only one control point is specified, the corresponding control points will be calculated using `curveOffset` and `curvePosition`.
+     */
     controlPoints?: Point[];
-    // The distance of the control points from the line connecting the two endpoints, which can be understood as the degree of curvature of the control edge.
+    /**
+     * The distance of the control points from the line connecting the two endpoints, which can be understood as the degree of curvature of the control edge.
+     */
     curveOffset?: number | number[];
-    // The relative position of the control points on the line connecting the two endpoints, ranging from `0-1`.
+    /**
+     * The relative position of the control points on the line connecting the two endpoints, ranging from `0-1`.
+     */
     curvePosition?: number;
   };
 ```
 
 <embed src="../../../common/ArrowStyle.en.md"></embed>
+
+For more detailed style configuration, refer to [Path Graphic Style](../shape/PathStyleProps.en.md).
 
 - **Default**:
 
@@ -43,5 +51,3 @@ type KeyShapeStyle = PathStyleProps &
 - **Required**: No
 
 <embed src="../../../common/EdgeShapeStyles.en.md"></embed>
-
-- [PathStyleProps](../../shape/PathStyleProps.en.md)

@@ -15,16 +15,24 @@ This article presents the configuration options for Polyline edges. [Polyline Ed
 
 - **Type**: `KeyShapeStyle`
 
-```ts
+```typescript
 type KeyShapeStyle = PathStyleProps &
   ArrowProps & {
-    // The radius of the corners at turns. Default is right angles.
+    /**
+     * The radius of the corners at turns. Default is right angles.
+     */
     radius?: number;
-    // The minimum distance from the node at the turn.
+    /**
+     * The minimum distance from the node at the turn.
+     */
     offset?: number;
-    // Array of control points.
+    /**
+     * Array of control points.
+     */
     controlPoints?: Point[];
-    // 路由参数,在数据中不存在 controlPoints 时生效，此时 polyline 将自动计算路径
+    /**
+     * 路由参数,在数据中不存在 controlPoints 时生效，此时 polyline 将自动计算路径
+     */
     routeCfg?: RouteCfg;
   };
 ```
@@ -32,6 +40,8 @@ type KeyShapeStyle = PathStyleProps &
 `RouteCfg` 如下:
 
 <embed src="../../../common/ArrowStyle.en.md"></embed>
+
+For more detailed style configuration, refer to [Path Graphic Style](../shape/PathStyleProps.en.md).
 
 - **Default**:
 
@@ -54,5 +64,3 @@ Note that, if not specified `controlPoints`, polyline control points are automat
 - **Required**: No
 
 <embed src="../../../common/EdgeShapeStyles.en.md"></embed>
-
-- [PathStyleProps](../../shape/PathStyleProps.en.md)

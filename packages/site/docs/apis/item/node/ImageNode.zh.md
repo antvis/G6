@@ -9,10 +9,10 @@ order: 4
 
 ## keyShape
 
-- **类型**：
+- **类型**：`KeyShapeStyle`
 
 ```typescript
-StyleProps & {
+type KeyShapeStyle = StyleProps & {
   /**
    * 图片的源地址。可以是 URL 或图像数据的 base64 编码
    */

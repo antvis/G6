@@ -9,20 +9,19 @@ order: 2
 
 ## keyShape
 
-- **类型**：
+- **类型**：`KeyShapeStyle`
 
 ```typescript
-StyleProps &
-  {
-    /**
-     * 矩形的宽度
-     */
-    width: number,
-    /**
-     * 矩形的高度
-     */
-    height: number,
-  };
+type KeyShapeStyle = StyleProps & {
+  /**
+   * 矩形的宽度
+   */
+  width: number;
+  /**
+   * 矩形的高度
+   */
+  height: number;
+};
 ```
 
 其中，相关的图形样式参考 [Rect 图形样式](../shape/RectStyleProps.zh.md)。

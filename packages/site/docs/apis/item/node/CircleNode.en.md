@@ -9,10 +9,10 @@ This section details all the configuration options for Circle-shaped nodes. [Cir
 
 ## keyShape
 
-- **Type**:
+- **Type**: `KeyShapeStyle`
 
 ```typescript
-StyleProps & {
+type KeyShapeStyle = StyleProps & {
   /** radius of circle */
   r: number;
 };

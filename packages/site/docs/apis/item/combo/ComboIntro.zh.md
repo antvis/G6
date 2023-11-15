@@ -16,12 +16,21 @@ const Graph = extend(BaseGraph, {
   },
 });
 
-// 注册后方可在实例化或后续 API 调用中使用
+/**
+ * 注册后方可在实例化或后续 API 调用中使用
+ */
 const graph = new Graph({
-  // ...其他配置项
+  /**
+   * ...其他配置项
+   */
   combo: {
-    type: 'custom-combo', // type 与注册时命名的 key 一致
-    // ... 节点的其他配置项
+    /**
+     * type 与注册时命名的 key 一致
+     */
+    type: 'custom-combo',
+    /**
+     * ... 节点的其他配置项
+     */
   },
 });
 ```

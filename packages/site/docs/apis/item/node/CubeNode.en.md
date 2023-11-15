@@ -9,10 +9,10 @@ The following section details the configuration options for Cube (立方体) nod
 
 ## keyShape
 
-- **Type**:
+- **Type**: `KeyShapeStyle`
 
 ```typescript
-{
+type KeyShapeStyle = {
   /**
    * The width of the cube
    */

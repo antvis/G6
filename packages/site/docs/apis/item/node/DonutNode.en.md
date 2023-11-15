@@ -9,10 +9,10 @@ This section provides details on the configuration options for Donut (甜甜圈)
 
 ## keyShape
 
-- **Type**:
+- **Type**：`KeyShapeStyle`
 
 ```typescript
-StyleProps & {
+type KeyShapeStyle = StyleProps & {
   /**
    * The radius of the donut
    */
@@ -34,10 +34,10 @@ For more detailed style configuration, refer to [Circle](../shape/CircleStylePro
 
 ## donutShapes
 
-- **Type**:
+- **Type**: `DonutShapesStyle`
 
 ```typescript
-PathStyleProps & {
+type DonutShapesStyle = PathStyleProps & {
   /**
    * The size of the donut's inner diameter relative to the overall radius. This value determines the size of the central empty area of the donut. A larger ratio means a larger central empty area and a relatively narrower ring. The value ranges from `0` to `1`.
    */

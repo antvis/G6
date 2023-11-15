@@ -10,24 +10,38 @@ Custom Combo can be created by inheriting from built-in Combo such as CircleComb
 ```ts
 import { Graph, Extensions, extend } from '@antv/g6';
 
-// Create custom edges, inheriting from CircleCombo
+/**
+ * Create custom edges, inheriting from CircleCombo
+ */
 class CustomCombo extends Extensions.CircleCombo {
-  // Override member method to customize the drawing logic.
+  /**
+ * Override member method to customize the drawing logic.
+ */
 }
 
-// Extend the Graph class with the extend method to register the custom edge.
+/**
+ * Extend the Graph class with the extend method to register the custom edge.
+ */
 const ExtGraph = extend(Graph, {
   combos: {
     'custom-combo': CustomCombo,
   },
 });
 
-// Create a graph instance using the extended Graph class, specifying ComboType as a custom Combo
+/**
+ * Create a graph instance using the extended Graph class, specifying ComboType as a custom Combo
+ */
 const graph = new ExtGraph({
-  // ... Other configuration items
+  /**
+ * ... Other configuration items
+ */
   combo: {
-    type: 'custom-combo', // Specify custom Combo
-    // ... See Combo-specific configuration for additional configuration items
+    type: 'custom-combo', /**
+ * Specify custom Combo
+ */
+    /**
+ * ... See Combo-specific configuration for additional configuration items
+ */
   },
 });
 ```
@@ -193,7 +207,7 @@ Inherited shapes provide the following method calls
 **Type**:
 
 ```ts
-type upserShape = (
+type upsertShape = (
   type: SHAPE_TYPE | SHAPE_TYPE_3D,
   id: string,
   style: ShapeStyle,

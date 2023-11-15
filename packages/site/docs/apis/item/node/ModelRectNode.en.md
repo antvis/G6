@@ -9,10 +9,10 @@ This section details the configuration options for ModelRect nodes, as demonstra
 
 ## keyShape
 
-- **Type**:
+- **Type**：`KeyShapeStyle`
 
 ```typescript
-StyleProps & {
+type KeyShapeStyle = StyleProps & {
   /**
    * Width of rect
    */
@@ -43,21 +43,27 @@ The related rect style can be referred to in [`RectStyleProps`](../shape/RectSty
 
 ## otherShapes(extended)
 
-- **Type**:
+- **Type**: `OtherShapesStyle`
 
 ```typescript
-{
-  // left rect
+type OtherShapesStyle = {
+  /**
+   * left rect
+   */
   preRect: RectStyleProps & {
     show?: boolean;
   };
-  // text description
+  /**
+   * text description
+   */
   description: TextStyleProps & {
     show?: boolean;
     offsetX?: number;
     offsetY?: number;
   };
-  // left icon describing the information
+  /**
+   * left icon describing the information
+   */
   logoIcon: TextStyleProps &
     IconStyleProps & {
       show?: boolean;
@@ -66,7 +72,9 @@ The related rect style can be referred to in [`RectStyleProps`](../shape/RectSty
       offsetX?: number;
       offsetY?: number;
     };
-  // right icon describing the state
+  /**
+   * right icon describing the state
+   */
   stateIcon: TextStyleProps &
     IconStyleProps & {
       show?: boolean;

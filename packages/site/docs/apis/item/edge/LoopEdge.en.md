@@ -11,18 +11,22 @@ This article presents the configuration options for Loop self-loop edges. [Loop 
 
 - **Type**: `KeyShapeStyle`
 
-```ts
+```typescript
 type LoopPosition = 'top' | 'top-right' | 'right' | 'bottom-right' | 'bottom' | 'bottom-left' | 'left' | 'top-left';
 
 type LoopCfg = {
-  // Specifies the relative position of the self-loop to the node.
+  /**
+   * Specifies the relative position of the self-loop to the node.
+   */
   position?: LoopPosition;
   /**
    * The distance from the edge of the node's keyShape to the topmost point of the self-loop.
    * Used to specify the curvature of the self-loop.
    **/
   dist?: number;
-  // Specifies whether to draw the loop in a clockwise direction.
+  /**
+   * Specifies whether to draw the loop in a clockwise direction.
+   */
   clockwise?: boolean;
   /**
    * For non-circular nodes, it specifies the offset of the connection point from the node center coordinates
@@ -39,6 +43,8 @@ type KeyShapeStyle = PathStyleProps &
 ```
 
 <embed src="../../../common/ArrowStyle.en.md"></embed>
+
+For more detailed style configuration, refer to [Path Graphic Style](../shape/PathStyleProps.en.md).
 
 - **Default**:
 

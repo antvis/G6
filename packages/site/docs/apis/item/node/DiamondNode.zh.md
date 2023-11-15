@@ -9,10 +9,10 @@ order: 5
 
 ## keyShape
 
-- **类型**：
+- **类型**：`KeyShapeStyle`
 
 ```typescript
-StyleProps & {
+type KeyShapeStyle = StyleProps & {
   /**
    * 菱形的宽高。`size` 为一个数值时，宽高相同
    */

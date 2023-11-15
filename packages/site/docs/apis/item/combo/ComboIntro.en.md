@@ -16,12 +16,21 @@ const Graph = extend(BaseGraph, {
   },
 });
 
-// After registration, it can be used in instantiation or subsequent API calls
+/**
+ * After registration, it can be used in instantiation or subsequent API calls
+ */
 const graph = new Graph({
-  // ...other configuration items
+  /**
+   * ...other configuration items
+   */
   combo: {
-    type: 'custom-combo', // The type is consistent with the key name used during registration
-    // ... other configuration items of the combo
+    /**
+     * The type is consistent with the key name used during registration
+     */
+    type: 'custom-combo',
+    /**
+     * ... other configuration items of the combo
+     */
   },
 });
 ```

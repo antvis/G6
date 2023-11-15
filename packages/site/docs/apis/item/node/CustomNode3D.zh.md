@@ -10,25 +10,41 @@ order: 14
 ```ts
 import { Graph, Extensions, extend } from '@antv/g6';
 
-// 创建自定义边，继承自 CircleNode
+/**
+ * 创建自定义边，继承自 CircleNode
+ */
 class CustomNode extends Extensions.SphereNode {
-  // overwrite member method
-  // 重载成员方法，自定义绘制逻辑
+  /**
+ * overwrite member method
+ */
+  /**
+ * 重载成员方法，自定义绘制逻辑
+ */
 }
 
-// 使用 extend 方法扩展 Graph 类，注册自定义边
+/**
+ * 使用 extend 方法扩展 Graph 类，注册自定义边
+ */
 const ExtGraph = extend(Graph, {
   nodes: {
     'custom-node': CustomNode,
   },
 });
 
-// 使用扩展后的 Graph 类创建图实例，指定节点类型为自定义节点
+/**
+ * 使用扩展后的 Graph 类创建图实例，指定节点类型为自定义节点
+ */
 const graph = new ExtGraph({
-  // ...其他配置项
+  /**
+ * ...其他配置项
+ */
   node: {
-    type: 'custom-node', // 指定自定义节点
-    // ...其他配置项详见具体节点配置
+    type: 'custom-node', /**
+ * 指定自定义节点
+ */
+    /**
+ * ...其他配置项详见具体节点配置
+ */
   },
 });
 ```
@@ -191,7 +207,7 @@ type getMergedStyles = (model: EdgeDisplayModel) => EdgeDisplayModel;
 **类型**：
 
 ```ts
-type upserShape = (
+type upsertShape = (
   type: SHAPE_TYPE | SHAPE_TYPE_3D,
   id: string,
   style: ShapeStyle,

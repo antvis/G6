@@ -1,5 +1,5 @@
 ---
-title: Node Overview
+title: Overview
 order: 0
 ---
 
@@ -17,12 +17,21 @@ const Graph = extend(BaseGraph, {
   },
 });
 
-// Register before using in instantiation or subsequent API calls
+/**
+ * Register before using in instantiation or subsequent API calls
+ */
 const graph = new Graph({
-  // ... other configuration options
+  /**
+   * ... other configuration options
+   */
   node: {
-    type: 'ellipse-node', // The type is consistent with the key name used during registration
-    // ... other node configuration options
+    /**
+     * The type is consistent with the key name used during registration
+     */
+    type: 'ellipse-node',
+    /**
+     * ... other node configuration options
+     */
   },
 });
 ```

@@ -9,10 +9,10 @@ This article demonstrates the configuration options for Circle Combo. [Circle Co
 
 ## keyShape
 
-- **Type**:
+- **Type**: `KeyShapeStyle`
 
 ```typescript
-StyleProps & {
+type KeyShapeStyle = StyleProps & {
   /** Radius of the circle */
   r: number;
 };

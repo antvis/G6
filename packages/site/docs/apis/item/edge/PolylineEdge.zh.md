@@ -15,16 +15,24 @@ order: 2
 
 - **类型**：`KeyShapeStyle`
 
-```ts
+```typescript
 type KeyShapeStyle = PathStyleProps &
   ArrowProps & {
-    // 拐弯处的圆角弧度，默认为直角
+    /**
+     * 拐弯处的圆角弧度，默认为直角
+     */
     radius?: number;
-    // 拐弯处距离节点最小距离
+    /**
+     * 拐弯处距离节点最小距离
+     */
     offset?: number;
-    // 控制点数组
+    /**
+     * 控制点数组
+     */
     controlPoints?: Point[];
-    // 路由参数,在数据中不存在 controlPoints 时生效，此时 polyline 将自动计算路径
+    /**
+     * 路由参数,在数据中不存在 controlPoints 时生效，此时 polyline 将自动计算路径
+     */
     routeCfg?: RouteCfg;
   };
 ```
@@ -43,6 +51,8 @@ type KeyShapeStyle = PathStyleProps &
 
 <embed src="../../../common/ArrowStyle.zh.md"></embed>
 
+其中，相关的图形样式参考 [Path 图形样式](../shape/PathStyleProps.zh.md)。
+
 - **默认值**：
 
 ```json
@@ -54,5 +64,3 @@ type KeyShapeStyle = PathStyleProps &
 - **是否必须**：否
 
 <embed src="../../../common/EdgeShapeStyles.zh.md"></embed>
-
-- [PathStyleProps](../../shape/PathStyleProps.zh.md)

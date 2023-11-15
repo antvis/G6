@@ -9,10 +9,10 @@ order: 6
 
 ## keyShape
 
-- **类型**：
+- **类型**：`KeyShapeStyle`
 
 ```typescript
-StyleProps & {
+type KeyShapeStyle = StyleProps & {
   /**
    * 六边形的外接圆半径大小
    */

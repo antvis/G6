@@ -9,10 +9,10 @@ This section details the configuration options for Hexagon (六边形) nodes, as
 
 ## keyShape
 
-- **Type**:
+- **Type**：`KeyShapeStyle`
 
 ```typescript
-StyleProps & {
+type KeyShapeStyle = StyleProps & {
   /**
    * The size of the radius of the hexagon's circumcircle.
    */

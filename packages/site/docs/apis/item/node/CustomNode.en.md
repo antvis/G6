@@ -7,27 +7,40 @@ In G6, if a built-in node does not meet a specific need, you can create a custom
 
 Custom nodes can be created by inheriting from built-in nodes such as CircleNode. See [NodeType](/manual/customize/extension-cats#1-%E8%8A%82%E7%82%B9%E7%B1%BB%E5%9E%8Bnodes) for a graphical representation of what can be inherited.
 
-```ts
+```typescript
 import { Graph, Extensions, extend } from '@antv/g6';
 
-// Create custom edges, inheriting from CircleNode
+/** Create custom edges, inheriting from CircleNode */
 class CustomNode extends Extensions.CircleNode {
-  // Override member method to customize the drawing logic.
+  /**
+   * Override member method to customize the drawing logic.
+   */
 }
 
-// Extend the Graph class with the extend method to register the custom edge.
+/**
+ * Extend the Graph class with the extend method to register the custom edge.
+ */
 const ExtGraph = extend(Graph, {
   nodes: {
     'custom-node': CustomNode,
   },
 });
 
-// Create a graph instance using the extended Graph class, specifying the nodeType as a custom node
+/**
+ * Create a graph instance using the extended Graph class, specifying the nodeType as a custom node
+ */
 const graph = new ExtGraph({
-  // ... Other configuration items
+  /**
+   * ... Other configuration items
+   */
   node: {
-    type: 'custom-node', // Specify custom node
-    // ... See node-specific configuration for additional configuration items
+    type: 'custom-node',
+    /**
+     * Specify custom node
+     */
+    /**
+     * ... See node-specific configuration for additional configuration items
+     */
   },
 });
 ```
@@ -38,7 +51,7 @@ const graph = new ExtGraph({
 
 **Type**:
 
-```ts
+```typescript
 type draw = (
   model: NodeDisplayModel | ComboDisplayModel,
   shapeMap: { [shapeId: string]: DisplayObject },
@@ -50,75 +63,87 @@ type draw = (
 };
 ```
 
+For more detailed data configuration, refer to [NodeDisplayModel](../../data/NodeDisplayModel.en.md) or [ComboDisplayModel](../../data/ComboDisplayModel.en.md).
+
 **Description**: Draw all shapes associated with a node.
 
 ### drawKeyShape
 
 **Type**:
 
-```ts
+```typescript
 type drawKeyShape = (model: NodeDisplayModel, shapeMap: NodeShapeMap) => DisplayObject;
 ```
+
+For more detailed data configuration, refer to [NodeDisplayModel](../../data/NodeDisplayModel.en.md) or [ComboDisplayModel](../../data/ComboDisplayModel.en.md).
 
 **Description**: Draw the key shape
 
 ### drawLabelShape
 
-**类型**：
+**Type**：
 
-```ts
+```typescript
 type drawLabelShape = (
   model: NodeDisplayModel | ComboDisplayModel,
   shapeMap: NodeShapeMap | ComboShapeMap,
 ) => DisplayObject;
 ```
 
-**说明**：Draw the label shape of the node.
+For more detailed data configuration, refer to [NodeDisplayModel](../../data/NodeDisplayModel.en.md) or [ComboDisplayModel](../../data/ComboDisplayModel.en.md).
+
+**Description**：Draw the label shape of the node.
 
 ### drawLabelBackgroundShape
 
-**类型**：
+**Type**：
 
-```ts
+```typescript
 type drawLabelBackgroundShape = (
   model: NodeDisplayModel | ComboDisplayModel,
   shapeMap: NodeShapeMap | ComboShapeMap,
 ) => DisplayObject;
 ```
 
-**说明**：Draw the label background shape of the node.
+For more detailed data configuration, refer to [NodeDisplayModel](../../data/NodeDisplayModel.en.md) or [ComboDisplayModel](../../data/ComboDisplayModel.en.md).
+
+**Description**：Draw the label background shape of the node.
 
 ### drawIconShape
 
-**类型**：
+**Type**：
 
-```ts
+```typescript
 type drawIconShape = (
   model: NodeDisplayModel | ComboDisplayModel,
   shapeMap: NodeShapeMap | ComboShapeMap,
 ) => DisplayObject;
 ```
 
-**说明**：Draw the icon shape of the node.
+For more detailed data configuration, refer to [NodeDisplayModel](../../data/NodeDisplayModel.en.md) or [ComboDisplayModel](../../data/ComboDisplayModel.en.md).
+
+**Description**：Draw the icon shape of the node.
 
 ### drawHaloShape
 
-**类型**：
+**Type**：
 
-```ts
+```typescript
 type drawHaloShape = (
   model: NodeDisplayModel | ComboDisplayModel,
   shapeMap: NodeShapeMap | ComboShapeMap,
 ) => DisplayObject;
 ```
 
-**说明**：Draw the halo shape of the node.
+For more detailed data configuration, refer to [NodeDisplayModel](../../data/NodeDisplayModel.en.md) or [ComboDisplayModel](../../data/ComboDisplayModel.en.md).
+
+**Description**：Draw the halo shape of the node.
 
 ### drawAnchorShapes
 
-**类型**：
+**Type**：
 
-```ts
+```typescript
 type drawAnchorShapes = (
   model: NodeDisplayModel | ComboDisplayModel,
   shapeMap: NodeShapeMap | ComboShapeMap,
@@ -127,13 +152,15 @@ type drawAnchorShapes = (
 };
 ```
 
-**说明**：Draw the anchors shape of the node.
+For more detailed data configuration, refer to [NodeDisplayModel](../../data/NodeDisplayModel.en.md) or [ComboDisplayModel](../../data/ComboDisplayModel.en.md).
+
+**Description**：Draw the anchors shape of the node.
 
 ### drawBadgeShapes
 
-**类型**：
+**Type**：
 
-```ts
+```typescript
 type drawBadgeShapes = (
   model: NodeDisplayModel | ComboDisplayModel,
   shapeMap: NodeShapeMap | ComboShapeMap,
@@ -142,26 +169,30 @@ type drawBadgeShapes = (
 };
 ```
 
-**说明**：Draw the badges shape of the node.
+For more detailed data configuration, refer to [NodeDisplayModel](../../data/NodeDisplayModel.en.md) or [ComboDisplayModel](../../data/ComboDisplayModel.en.md).
+
+**Description**：Draw the badges shape of the node.
 
 ### drawOtherShapes
 
-**类型**：
+**Type**：
 
-```ts
+```typescript
 type drawOtherShapes = (
   model: NodeDisplayModel | ComboDisplayModel,
   shapeMap: NodeShapeMap | ComboShapeMap,
 ) => { [id: string]: DisplayObject };
 ```
 
-**说明**：Draw other shapes(such as preRect,stateIcon) of the node.
+For more detailed data configuration, refer to [NodeDisplayModel](../../data/NodeDisplayModel.en.md) or [ComboDisplayModel](../../data/ComboDisplayModel.en.md).
+
+**Description**：Draw other shapes(such as preRect,stateIcon) of the node.
 
 ### afterDraw
 
-**类型**：
+**Type**：
 
-```ts
+```typescript
 type afterDraw = (
   model: EdgeDisplayModel,
   shapeMap: { [shapeId: string]: DisplayObject },
@@ -169,17 +200,21 @@ type afterDraw = (
 ) => { [otherShapeId: string]: DisplayObject };
 ```
 
-**说明**：Perform additional drawing operations or add custom shapes after drawing node.
+For more detailed data configuration, refer to [NodeDisplayModel](../../data/NodeDisplayModel.en.md) or [ComboDisplayModel](../../data/ComboDisplayModel.en.md).
+
+**Description**：Perform additional drawing operations or add custom shapes after drawing node.
 
 ### getMergedStyles
 
-**类型**：
+**Type**：
 
-```ts
+```typescript
 type getMergedStyles = (model: EdgeDisplayModel) => EdgeDisplayModel;
 ```
 
-**说明**：Merge style.
+For more detailed data configuration, refer to [NodeDisplayModel](../../data/NodeDisplayModel.en.md) or [ComboDisplayModel](../../data/ComboDisplayModel.en.md).
+
+**Description**：Merge style.
 
 ## Member Methods
 
@@ -189,8 +224,12 @@ Inherited shapes provide the following method calls
 
 **Type**:
 
-```ts
-type upserShape = (
+```typescript
+type SHAPE_TYPE = 'rect' | 'circle' | 'ellipse' | 'polygon' | 'image' | 'polyline' | 'line' | 'path' | 'text' | 'group';
+
+type SHAPE_TYPE_3D = 'sphere' | 'cube' | 'plane';
+
+type upsertShape = (
   type: SHAPE_TYPE | SHAPE_TYPE_3D,
   id: string,
   style: ShapeStyle,

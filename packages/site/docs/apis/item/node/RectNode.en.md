@@ -9,20 +9,19 @@ This section provides details on the configuration options for Rect (矩形) nod
 
 ## keyShape
 
-- **Type**:
+- **Type**：`KeyShapeStyle`
 
 ```typescript
-StyleProps &
-  {
-    /**
-     * The width of the rectangle.
-     */
-    width: number,
-    /**
-     * The height of the rectangle.
-     */
-    height: number,
-  };
+type KeyShapeStyle = StyleProps & {
+  /**
+   * The width of the rectangle.
+   */
+  width: number;
+  /**
+   * The height of the rectangle.
+   */
+  height: number;
+};
 ```
 
 For more detailed style configuration, refer to [Rect Graphic Style](../shape/RectStyleProps.en.md).

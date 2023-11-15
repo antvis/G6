@@ -10,25 +10,41 @@ order: 3
 ```ts
 import { Graph, Extensions, extend } from '@antv/g6';
 
-// 创建自定义边，继承自 CircleCombo
+/**
+ * 创建自定义边，继承自 CircleCombo
+ */
 class CustomCombo extends Extensions.CircleCombo {
-  // overwrite member method
-  // 重载成员方法，自定义绘制逻辑
+  /**
+ * overwrite member method
+ */
+  /**
+ * 重载成员方法，自定义绘制逻辑
+ */
 }
 
-// 使用 extend 方法扩展 Graph 类，注册自定义边
+/**
+ * 使用 extend 方法扩展 Graph 类，注册自定义边
+ */
 const ExtGraph = extend(Graph, {
   combos: {
     'custom-combo': CustomCombo,
   },
 });
 
-// 使用扩展后的 Graph 类创建图实例，指定 Combo 类型为自定义 Combo
+/**
+ * 使用扩展后的 Graph 类创建图实例，指定 Combo 类型为自定义 Combo
+ */
 const graph = new ExtGraph({
-  // ...其他配置项
+  /**
+ * ...其他配置项
+ */
   combo: {
-    type: 'custom-combo', // 指定自定义 Combo
-    // ...其他配置项详见具体 Combo 配置
+    type: 'custom-combo', /**
+ * 指定自定义 Combo
+ */
+    /**
+ * ...其他配置项详见具体 Combo 配置
+ */
   },
 });
 ```
@@ -194,7 +210,7 @@ type getMergedStyles = (model: EdgeDisplayModel) => EdgeDisplayModel;
 **类型**：
 
 ```ts
-type upserShape = (
+type upsertShape = (
   type: SHAPE_TYPE | SHAPE_TYPE_3D,
   id: string,
   style: ShapeStyle,

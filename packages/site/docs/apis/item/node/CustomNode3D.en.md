@@ -10,24 +10,38 @@ Custom nodes can be created by inheriting from built-in nodes such as SphereNode
 ```ts
 import { Graph, Extensions, extend } from '@antv/g6';
 
-// Create custom edges, inheriting from CircleNode
+/**
+ * Create custom edges, inheriting from CircleNode
+ */
 class CustomNode extends Extensions.SphereNode {
-  // Override member method to customize the drawing logic.
+  /**
+ * Override member method to customize the drawing logic.
+ */
 }
 
-// Extend the Graph class with the extend method to register the custom edge.
+/**
+ * Extend the Graph class with the extend method to register the custom edge.
+ */
 const ExtGraph = extend(Graph, {
   nodes: {
     'custom-node': CustomNode,
   },
 });
 
-// Create a graph instance using the extended Graph class, specifying the nodeType as a custom node
+/**
+ * Create a graph instance using the extended Graph class, specifying the nodeType as a custom node
+ */
 const graph = new ExtGraph({
-  // ... Other configuration items
+  /**
+ * ... Other configuration items
+ */
   node: {
-    type: 'custom-node', // Specify custom node
-    // ... See node-specific configuration for additional configuration items
+    type: 'custom-node', /**
+ * Specify custom node
+ */
+    /**
+ * ... See node-specific configuration for additional configuration items
+ */
   },
 });
 ```
@@ -190,7 +204,7 @@ Inherited shapes provide the following method calls
 **Type**:
 
 ```ts
-type upserShape = (
+type upsertShape = (
   type: SHAPE_TYPE | SHAPE_TYPE_3D,
   id: string,
   style: ShapeStyle,
