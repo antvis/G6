@@ -26,10 +26,7 @@ export function renderCard(cfg) {
   headerWrapper.setAttribute('class', 'g6-annotation-header-wapper');
   headerWrapper.setAttribute('style', `border-radius: ${borderRadius};`);
 
-  const titleEl = document.createElement('h4');
-  titleEl.setAttribute('class', 'g6-annotation-title');
-  titleEl.setAttribute('tabindex', '0');
-  titleEl.append(title);
+  const titleEl = renderTitle({ title })
 
   const headerBtns = document.createElement('div');
   headerBtns.setAttribute('class', 'g6-annotation-header-btns');
@@ -40,12 +37,7 @@ export function renderCard(cfg) {
   }<p class='g6-annotation-close'>x</p>`;
   headerWrapper.append(titleEl, headerBtns);
 
-  const contentWrapper = collapsed ? null : document.createElement('div');
-  if (contentWrapper) {
-    contentWrapper.setAttribute('class', 'g6-annotation-content');
-    contentWrapper.setAttribute('tabindex', '0');
-    contentWrapper.append(content);
-  }
+  const contentWrapper = renderContent({ collapsed, content })
 
   wrapper.append(headerWrapper);
   contentWrapper && wrapper.append(contentWrapper);
@@ -62,4 +54,22 @@ export function renderCard(cfg) {
   });
 
   return wrapper;
+}
+
+export function renderTitle({ title }: { title?: string | HTMLElement }) {
+  const titleEl = document.createElement('h4');
+  titleEl.setAttribute('class', 'g6-annotation-title');
+  titleEl.setAttribute('tabindex', '0');
+  titleEl.append(title);
+  return titleEl;
+}
+
+export function renderContent({ collapsed, content  }: { content?: string | HTMLElement; collapsed?: boolean }) {
+  const contentWrapper = collapsed ? null : document.createElement('div');
+  if (contentWrapper) {
+    contentWrapper.setAttribute('class', 'g6-annotation-content');
+    contentWrapper.setAttribute('tabindex', '0');
+    contentWrapper.append(content);
+  }
+  return contentWrapper;
 }

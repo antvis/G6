@@ -19,9 +19,6 @@ export const getPathItem2Card = (item, cardBBox, graph, annotationCanvas) => {
       bottom: { x: (minX + maxX) / 2, y: maxY },
     };
   }
-  console.log('item.getPosition()', item.getPosition());
-  // console.log('item.getBBox', JSON.stringify(item.getBBox()))
-  // console.log('itemLinkPoints', JSON.stringify(itemLinkPoints))
 
   // 由 graph 所在 canvas 转换为 Client 坐标系，然后再由 annotation 所在 canvas 转换为绘制坐标系
   Object.keys(itemLinkPoints).forEach((key) => {

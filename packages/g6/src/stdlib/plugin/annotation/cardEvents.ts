@@ -1,7 +1,9 @@
 import { PathStyleProps } from '@antv/g';
 import { createDOM, modifyCSS } from '../../../util/dom';
+import { sleep } from '../../../util/promise';
 import { getPathItem2Card } from './util';
 import { EditPosition } from './types';
+import { renderContent, renderTitle } from './renderCard';
 import { Annotation } from './index';
 
 function getIconTypeByEl(target?: HTMLElement) {
@@ -15,6 +17,7 @@ function getIconTypeByEl(target?: HTMLElement) {
     return 'close';
   }
 }
+
 export function bindCardEvent({
   plugin,
   card,
@@ -40,7 +43,7 @@ export function bindCardEvent({
   });
   // mouseenter and mouseleave to highlight the corresponding items
   card.addEventListener('mouseenter', (e) => {
-    const cardInfoMap = plugin.options.cardInfoMap;
+    const cardInfoMap = plugin.cardInfoMap;
     if (!cardInfoMap) return;
     const graph = plugin.graph;
     const item = graph.itemController.getItemById(itemId);
@@ -53,7 +56,7 @@ export function bindCardEvent({
     }
   });
   card.addEventListener('mouseleave', (e) => {
-    const cardInfoMap = plugin.options.cardInfoMap;
+    const cardInfoMap = plugin.cardInfoMap;
     if (!cardInfoMap) return;
     const graph = plugin.graph;
     const item = graph.itemController.getItemById(itemId);
@@ -102,27 +105,23 @@ export function bindCardEvent({
   // dblclick to edit the title and content text
   const { editable, cardCfg } = plugin.options;
   if (editable) {
-    const titleEl = card.querySelector(
-      '.g6-annotation-title',
-    ) as HTMLElement | null;
-    const contentEl = card.querySelector(
-      '.g6-annotation-content',
-    ) as HTMLElement | null;
-    titleEl?.addEventListener('dblclick', (e) => {
-      edit('title')?.focus();
-    });
-    titleEl?.addEventListener('keydown', async (e) => {
-      if (e.code === 'Enter') {
-        edit('title')?.focus();
+    card.addEventListener('dblclick', (e) => {
+      const editPosition = getPositionByEl(e.target as HTMLElement)
+      if (editPosition) {
+        edit(getPositionByEl(e.target as HTMLElement))?.focus();
       }
     });
-    contentEl?.addEventListener('dblclick', (e) => {
-      edit('content')?.focus();
-    });
-    contentEl?.addEventListener('keydown', async (e) => {
-      if (e.code === 'Enter') {
-        edit('content')?.focus();
+    card.addEventListener('keydown', async (e) => {
+      if (e.code !== 'Enter') return;
+      
+      const editPosition = getPositionByEl(e.target as HTMLElement)
+      if (!editPosition) return;
+
+      // 延迟聚焦，防止textarea末尾出现一个多余的换行
+      if (editPosition === 'content') {
+        await sleep(50)
       }
+      edit(editPosition)?.focus();
     });
 
     // init edit
@@ -134,11 +133,11 @@ export function bindCardEvent({
     }
   }
 
-  function edit(position: EditPosition): HTMLElement | undefined {
+  function edit(position: EditPosition, options?: { value?: any }): HTMLElement | undefined {
     const target = getElByPosition(position);
     if (!target) return;
 
-    const cardInfoMap = plugin.options.cardInfoMap;
+    const cardInfoMap = plugin.cardInfoMap;
     const { maxTitleLength } = plugin.options.cardCfg || {};
     if (!cardInfoMap) return;
 
@@ -154,7 +153,7 @@ export function bindCardEvent({
     inputWrapper.appendChild(input);
     target.parentNode?.replaceChild(inputWrapper, target);
     const cardInfo = cardInfoMap[itemId];
-    const value = cardInfo[position];
+    const value = options?.value ?? cardInfo[position];
     if (position === 'title') {
       if (maxTitleLength !== undefined && maxTitleLength !== null) {
         input.maxLength = maxTitleLength;
@@ -171,31 +170,47 @@ export function bindCardEvent({
       const { code, shiftKey } = e;
       if (code !== 'Enter') return;
       if (position === 'title') {
-        exitEdit(true);
+        exitEditEvent(true);
       } else if (!shiftKey) {
-        exitEdit(true);
+        exitEditEvent(true);
       }
     });
-    input.addEventListener('blur', () => exitEdit());
+    input.addEventListener('blur', () => exitEditEvent());
 
     // 如果多个事件同时触发exitEdit（如keydown和blur），isExit防止exitEdit重复执行
     let isExit = false;
-    async function exitEdit(autoFocus = false) {
-      console.log('isExit', isExit);
+    async function exitEditEvent(autoFocus = false) {
       if (isExit || !target) return;
       isExit = true;
 
-      target.innerHTML = input.value;
-      cardInfo[input.getAttribute('data-annotation-id') ?? ''] = input.value;
+      const newEl = exitEdit(position)
 
-      inputWrapper.parentNode?.replaceChild(target, inputWrapper);
       if (autoFocus) {
-        target.focus();
+        newEl.focus();
       }
       plugin.options.onAnnotationChange?.(cardInfo, 'update');
     }
 
     return input;
+  }
+
+  function exitEdit(position: EditPosition) {
+    const inputEl = card.querySelector<HTMLInputElement | HTMLTextAreaElement | null>(`[data-annotation-id=${position}]`)
+    if (!inputEl) return;
+    
+    const cardInfo = plugin.cardInfoMap[itemId]
+    
+    const value = cardInfo[position] = inputEl.value;
+    const inputWrapper = inputEl.parentNode;
+    let newEl: HTMLElement;
+    if (position === 'title') {
+      newEl = renderTitle({ title: value })
+    } else if (position === 'content') {
+      newEl = renderContent({ content: value, collapsed: cardInfo.collapsed })
+    }
+
+    inputWrapper.parentNode.replaceChild(newEl, inputWrapper)
+    return newEl;
   }
 
   function getElByPosition(position: EditPosition): HTMLElement | null {
@@ -206,6 +221,18 @@ export function bindCardEvent({
     }
     return null;
   }
+
+  function getPositionByEl(el?: HTMLElement): EditPosition | undefined {
+    const styleList = ['g6-annotation-title', 'g6-annotation-content']
+    const editArea = el?.closest(styleList.map(style => '.' + style).join(','));
+    if (!editArea) return;
+
+    if (editArea.classList.contains(styleList[0])) {
+      return 'title'
+    } else {
+      return 'content'
+    }
+  } 
 
   const unmovableClasses = [
     'g6-annotation-title',
@@ -229,7 +256,6 @@ export function bindCardEvent({
       registerMove = true;
       requestAnimationFrame(() => {
         registerMove = false;
-        console.log('clientX, clientY', clientX, clientY);
         const containerBBox = plugin.graph.container.getBoundingClientRect();
         let left = clientX - shiftX,
           top = clientY - shiftY;
@@ -247,29 +273,7 @@ export function bindCardEvent({
         if (top < 0) {
           top = 0;
         }
-
-        modifyCSS(card, {
-          left: `${left}px`,
-          top: `${top}px`,
-        });
-
-        const cardInfoMap = plugin.options.cardInfoMap;
-        if (!cardInfoMap) return;
-        // 更新连线位置
-        const { link } = cardInfoMap[itemId] || {};
-        if (link) {
-          const item = plugin.graph.itemController.getItemById(itemId);
-          // console.log('getPathItem2Card(item, cardBBox, graph, plugin.options.canvas)', getPathItem2Card(item, cardBBox, graph, plugin.options.canvas)[1])
-          link.attr(
-            'path',
-            getPathItem2Card(
-              item,
-              card.getBoundingClientRect(),
-              plugin.graph,
-              plugin.options.canvas,
-            ),
-          );
-        }
+        move(left, top)
         plugin.dragging = { x: clientX, y: clientY, left, top, card };
       });
     };
@@ -282,7 +286,7 @@ export function bindCardEvent({
         document.removeEventListener('mousemove', onMouseMove);
         card.classList.remove('g6-annotation-wrapper-move');
 
-        const cardInfoMap = plugin.options.cardInfoMap;
+        const cardInfoMap = plugin.cardInfoMap;
         const dragging = plugin.dragging;
         if (!cardInfoMap || !dragging) return;
         const { left, top, card: draggingCard } = dragging;
@@ -306,4 +310,30 @@ export function bindCardEvent({
       { once: true },
     );
   });
+
+  function move(x: number, y: number) {
+    modifyCSS(card, {
+      left: `${x}px`,
+      top: `${y}px`,
+    });
+
+    const cardInfoMap = plugin.cardInfoMap;
+    if (!cardInfoMap) return;
+    // 更新连线位置
+    const { link } = cardInfoMap[itemId] || {};
+    if (link) {
+      const item = plugin.graph.itemController.getItemById(itemId);
+      link.attr(
+        'path',
+        getPathItem2Card(
+          item,
+          card.getBoundingClientRect(),
+          plugin.graph,
+          plugin.options.canvas,
+        ),
+      );
+    }
+  }
+
+  return { edit, exitEdit, move, }
 }

@@ -34,8 +34,6 @@ interface AnnotationConfig extends IPluginBaseConfig {
   getTitlePlaceholder?: string; // getTitle 返回空时使用 getTitlePlaceholder 的返回值
   getContentPlaceholder?(item): string; // getContent 返回空时使用 getContentPlaceholder 的返回值
   onAnnotationChange?: (info: any, action: string) => void;
-  // TODO: 不要放在options里
-  cardInfoMap: CardInfoMap;
 }
 
 interface CardCfg {
@@ -83,7 +81,7 @@ interface CardCfg {
 }
 
 interface CardInfoMap {
-  [id: string]: CardCfg & {
+  [id: string]: CardCfg & ReturnType<typeof bindCardEvent> & {
     card: HTMLDivElement;
     link?: Path;
     isCanvas?: boolean;
@@ -108,6 +106,8 @@ export class Annotation extends Base {
     card: HTMLElement;
   };
 
+  cardInfoMap: CardInfoMap = {}
+
   constructor(config?: AnnotationConfig) {
     super(config);
   }
@@ -129,6 +129,7 @@ export class Annotation extends Base {
       cardCfg: {
         maxWidth: 300,
         maxHeight: 500,
+        minWidth: 120,
         minHeight: 60,
         width: 'fit-content',
         height: 'fit-content',
@@ -137,7 +138,6 @@ export class Annotation extends Base {
         borderRadius: 5,
         maxTitleLength: 20,
       },
-      cardInfoMap: {},
     };
   }
 
@@ -181,7 +181,6 @@ export class Annotation extends Base {
     linkCanvasEl.setAttribute('data-id', 'g6-annotation-canvas');
     // 绘制连接 annotation 和元素的连线的画布
     const graphContainerBBox = graphCantainer.getBoundingClientRect();
-    console.log('graphCantainer', graphCantainer, graphContainerBBox);
     const linkCanvas = new Canvas({
       container: graphCantainer,
       width: graphContainerBBox.right - graphContainerBBox.left,
@@ -196,7 +195,7 @@ export class Annotation extends Base {
       left: 0,
       pointerEvents: 'none',
     });
-    // 需要传入 self，无法 removeEventListener，只能在内部判断 self 被销毁则不继续
+
     window.addEventListener('resize', this.debouncedResizeCanvas);
     const linkGroup = new Group({ id: 'annotation-link-group' });
     linkCanvas.appendChild(linkGroup);
@@ -301,6 +300,7 @@ export class Annotation extends Base {
   resizeTimer?: number;
   private resizeCanvas() {
     // 仅在 resize 完成后进行调整
+    console.log(this)
     clearTimeout(this.resizeTimer);
     this.resizeTimer = window.setTimeout(() => {
       if (!this || this.destroyed) return;
@@ -320,7 +320,7 @@ export class Annotation extends Base {
    */
   public updateOutsideCards(selfObj) {
     const self = selfObj || this;
-    const cardInfoMap = self.options.cardInfoMap;
+    const cardInfoMap = self.cardInfoMap;
     const graph = self.graph;
     const graphLeftTopCanvas = graph.getViewportByCanvas({ x: 0, y: 0 });
     const [width, height] = graph.getSize();
@@ -372,21 +372,18 @@ export class Annotation extends Base {
   }
 
   public hideCards() {
-    const self = this;
-    if (self.destroyed) return;
-    const cardInfoMap = self.options.cardInfoMap;
-    Object.keys(cardInfoMap).forEach((itemId) => {
-      self.hideCard(itemId);
+    if (this.destroyed) return;
+    Object.keys(this.cardInfoMap).forEach((itemId) => {
+      this.hideCard(itemId);
     });
   }
 
   public toggleAnnotation(item, cfg: CardCfg = {}) {
-    const self = this;
-    if (self.destroyed) return;
-    const cardInfoMap = self.options.cardInfoMap;
-    const graph = self.graph;
+    if (this.destroyed) return;
+    const cardInfoMap = this.cardInfoMap;
+    const graph = this.graph;
     const container = this._container;
-    const containerCfg = self.options.containerCfg;
+    const containerCfg = this.options.containerCfg;
     const {
       minHeight,
       minWidth,
@@ -402,8 +399,8 @@ export class Annotation extends Base {
       maxTitleLength,
       defaultBegin,
       ...otherCardCfg
-    } = Object.assign({}, self.options.cardCfg || {}, cfg);
-    const linkGroup: Group = self.options.linkGroup;
+    } = Object.assign({}, this.options.cardCfg || {}, cfg);
+    const linkGroup: Group = this.options.linkGroup;
     const rows = this.options.rows || [[]];
 
     const isCanvas = item.isCanvas?.();
@@ -500,25 +497,6 @@ export class Annotation extends Base {
     }
 
     const cardBBox = newCard.getBoundingClientRect();
-    cardInfoMap[itemId] = {
-      ...cardInfo,
-      id: itemId,
-      collapsed,
-      card: newCard,
-      link,
-      x,
-      y,
-      cardBBox,
-      content: contentData,
-      title: titleData,
-      contentPlaceholder,
-      titlePlaceholder,
-      isCanvas,
-    };
-    self.options.cardInfoMap = cardInfoMap;
-
-    this.bindListener(newCard, itemId);
-
     if (!isCanvas) {
       // 创建相关连线
       const path = getPathItem2Card(item, cardBBox, graph, this.options.canvas);
@@ -536,6 +514,26 @@ export class Annotation extends Base {
         }),
       );
     }
+
+    cardInfoMap[itemId] = {
+      ...cardInfo,
+      id: itemId,
+      collapsed,
+      card: newCard,
+      link,
+      x,
+      y,
+      cardBBox,
+      content: contentData,
+      title: titleData,
+      contentPlaceholder,
+      titlePlaceholder,
+      isCanvas,
+    };
+    this.cardInfoMap = cardInfoMap;
+
+    this.bindListener(newCard, itemId);
+
     if (containerCfg) {
       this.updateCardPositionsInConatainer();
       this.updateLinks();
@@ -568,7 +566,7 @@ export class Annotation extends Base {
 
   public updateCardPositionsInConatainer() {
     if (this.destroyed) return;
-    const cardInfoMap = this.options.cardInfoMap;
+    const cardInfoMap = this.cardInfoMap;
     if (!cardInfoMap) return;
     const container = this._container;
     const { position } = this.options.containerCfg || {};
@@ -602,7 +600,7 @@ export class Annotation extends Base {
   public handleExpandCollapseCard(id) {
     if (this.destroyed) return;
     const graph = this.graph;
-    const cardInfoMap = this.options.cardInfoMap;
+    const cardInfoMap = this.cardInfoMap;
     if (!cardInfoMap) return;
     const { collapsed } = cardInfoMap[id];
     const item = graph.itemController.getItemById(id);
@@ -629,13 +627,29 @@ export class Annotation extends Base {
    */
   public hideCard(id) {
     if (this.destroyed) return;
-    const cardInfoMap = this.options.cardInfoMap;
+    const cardInfoMap = this.cardInfoMap;
     if (!cardInfoMap || !cardInfoMap[id]) return;
     const { card, link } = cardInfoMap[id];
     modifyCSS(card, { display: 'none' });
     link?.hide();
     const onAnnotationChange = this.options.onAnnotationChange;
     onAnnotationChange?.(cardInfoMap[id], 'hide');
+  }
+
+  public editCard(id, options?: { position?: EditPosition; value?: any }) {
+    if (this.destroyed) return;
+    
+    return this.cardInfoMap[id].edit(options?.position, options)
+  }
+
+  public exitEditCard(id, options?: { position?: EditPosition; }) {
+    if (this.destroyed) return;
+    
+    return this.cardInfoMap[id].exitEdit(options?.position)
+  }
+
+  public moveCard(id, x: number, y: number) {
+    return this.cardInfoMap[id].move(x, y)
   }
 
   /**
@@ -645,7 +659,7 @@ export class Annotation extends Base {
    */
   public removeCard(id) {
     if (this.destroyed) return;
-    const cardInfoMap = this.options.cardInfoMap;
+    const cardInfoMap = this.cardInfoMap;
     if (!cardInfoMap) return;
     const cardInfo = cardInfoMap[id];
     const { card, link } = cardInfo;
@@ -658,12 +672,13 @@ export class Annotation extends Base {
   }
 
   private bindListener(card: HTMLElement, itemId: string) {
-    bindCardEvent({ card, itemId, plugin: this });
+    const actions = bindCardEvent({ card, itemId, plugin: this });
+    Object.assign(this.cardInfoMap[itemId], actions)
   }
 
   public updateLink({ item }) {
     if (!item) return;
-    const cardInfoMap: CardInfoMap = this.options.cardInfoMap;
+    const cardInfoMap: CardInfoMap = this.cardInfoMap;
     if (!cardInfoMap) return;
     const canvas = this.options.canvas;
     const graph = this.graph;
@@ -682,7 +697,7 @@ export class Annotation extends Base {
 
   public updateLinks() {
     if (this.destroyed) return;
-    const cardInfoMap: CardInfoMap = this.options.cardInfoMap;
+    const cardInfoMap: CardInfoMap = this.cardInfoMap;
     if (!cardInfoMap) return;
     const graph = this.graph;
     Object.values(cardInfoMap).forEach((cardInfo) => {
@@ -693,7 +708,7 @@ export class Annotation extends Base {
   }
 
   public onGraphDataChange() {
-    const cardInfoMap: CardInfoMap = this.options.cardInfoMap;
+    const cardInfoMap: CardInfoMap = this.cardInfoMap;
     if (!cardInfoMap) return;
     const graph = this.graph;
     Object.values(cardInfoMap).forEach((info) => {
@@ -710,7 +725,7 @@ export class Annotation extends Base {
 
   public onGraphItemVisibilityChange({ item, visible }) {
     if (!item || item.destroyed) return;
-    const cardInfoMap: CardInfoMap = this.options.cardInfoMap;
+    const cardInfoMap: CardInfoMap = this.cardInfoMap;
     if (!cardInfoMap) return;
     const id = item.getID();
     if (!cardInfoMap[id]) return;
@@ -718,7 +733,7 @@ export class Annotation extends Base {
   }
 
   public saveData(saveClosed = false) {
-    const cardInfoMap: CardInfoMap = this.options.cardInfoMap;
+    const cardInfoMap: CardInfoMap = this.cardInfoMap;
     if (!cardInfoMap) return;
     const graph = this.graph;
     const getTitle = this.options.getTitle;
@@ -750,9 +765,9 @@ export class Annotation extends Base {
         item = graph.options.canvas;
       }
       if (!item) {
-        const cardInfoMap = this.options.cardInfoMap;
+        const cardInfoMap = this.cardInfoMap;
         cardInfoMap[id] = info;
-        this.options.cardInfoMap = cardInfoMap;
+        this.cardInfoMap = cardInfoMap;
         return;
       }
       this.toggleAnnotation(item, { x, y, title, content, collapsed });
@@ -764,7 +779,7 @@ export class Annotation extends Base {
    * Clear the cards and links
    */
   public clear() {
-    const cardInfoMap: CardInfoMap = this.options.cardInfoMap;
+    const cardInfoMap: CardInfoMap = this.cardInfoMap;
     if (!cardInfoMap) return;
     const container = this._container;
     Object.values(cardInfoMap).forEach((cardInfo) => {
@@ -772,7 +787,7 @@ export class Annotation extends Base {
       container.removeChild(card);
       link?.remove();
     });
-    this.options.cardInfoMap = {};
+    this.cardInfoMap = {};
   }
 
   /**
