@@ -2,44 +2,42 @@ import { Graph, extend, Extensions } from '../../../src/index';
 import type { TestCaseContext } from '../interface';
 
 const ExtGraph = extend(Graph, {
-  behaviors: {
-    'scroll-canvas': Extensions.ScrollCanvas,
-    // 'zoom-canvas': Extensions.ZoomCanvas as any,
-    // 'drag-node': Extensions.DragNode,
-    // 'drag-combo': Extensions.DragCombo,
-    // 'drag-canvas': Extensions.DragCanvas,
-  },
   plugins: {
     annotation: Extensions.Annotation,
   },
 });
 
 export default (context: TestCaseContext) => {
-  const startTime = new Date('2023-08-01').getTime();
-  const diff = 3600 * 24 * 1000;
   const graphData = {
-    nodes: new Array(49).fill(0).map((_, index) => ({
-      id: `node-${index}`,
-      data: {
-        timestamp: startTime + (index % 10) * diff,
-        value: index % 20,
-        label: Math.random().toFixed(20) + '',
-      },
-    })),
-    edges: new Array(49).fill(0).map((_, i) => ({
-      id: `edge-${i}`,
-      source: `node-${i % 30}`,
-      target: `node-${(i % 20) + 29}`,
-      data: {
-        edgeType: 'e1',
-      },
-    })),
+    nodes: [
+      { id: 'node1', data: {} },
+      { id: 'node2', data: {} },
+      { id: 'node3', data: {} },
+      { id: 'node4', data: {} },
+      { id: 'node5', data: {} },
+      { id: 'node6', data: {} },
+      { id: 'node7', data: {} },
+      { id: 'node8', data: {} },
+      { id: 'node9', data: {} },
+      { id: 'node10', data: {} },
+    ],
+    edges: [
+      { id: 'edge1', source: 'node1', target: 'node2', data: {} },
+      { id: 'edge2', source: 'node1', target: 'node3', data: {} },
+      { id: 'edge3', source: 'node1', target: 'node4', data: {} },
+      { id: 'edge4', source: 'node2', target: 'node3', data: {} },
+      { id: 'edge5', source: 'node3', target: 'node4', data: {} },
+      { id: 'edge6', source: 'node4', target: 'node5', data: {} },
+      { id: 'edge7', source: 'node5', target: 'node6', data: {} },
+      { id: 'edge8', source: 'node6', target: 'node7', data: {} },
+      { id: 'edge9', source: 'node7', target: 'node8', data: {} },
+      { id: 'edge10', source: 'node8', target: 'node9', data: {} },
+      { id: 'edge11', source: 'node9', target: 'node10', data: {} },
+    ],
   };
-  (document.querySelector('#app') as HTMLElement).style.height = '2000px'
-  const graph = (window as any).__graph = new ExtGraph({
+
+  const graph = ((globalThis as any).__graph = new ExtGraph({
     ...context,
-    width: 800,
-    height: 500,
     layout: {
       type: 'grid',
     },
@@ -51,30 +49,17 @@ export default (context: TestCaseContext) => {
         },
       },
     },
-    modes: {
-      default: [
-        {
-          type: 'scroll-canvas',
-          enableOptimize: true,
-          zoomRatio: 0.2,
-          // scalableRange: 0.5,
-          // direction: 'y',
-          // optimizeZoom: 0.5,
-        },
-        'zoom-canvas',
-        // 'drag-node',
-        // 'drag-combo',
-        // 'drag-canvas'
-      ],
-    },
     plugins: [
       {
         type: 'annotation',
         key: 'annotation',
+        cardCfg: {
+          focusEditOnInit: 'content',
+        },
       },
     ],
     data: graphData,
-  });
+  }));
 
   return graph;
 };

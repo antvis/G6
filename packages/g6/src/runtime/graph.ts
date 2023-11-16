@@ -67,7 +67,7 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry> extends 
   private viewportController: ViewportController;
   private itemController: ItemController;
   private themeController: ThemeController;
-  private pluginController: PluginController;
+  public pluginController: PluginController;
 
   private defaultSpecification = {
     theme: {
