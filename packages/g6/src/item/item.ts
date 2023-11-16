@@ -1,5 +1,5 @@
 import { Group, DisplayObject, AABB, IAnimation } from '@antv/g';
-import { clone, isFunction, isObject, pick, throttle } from '@antv/util';
+import { isFunction, isObject, throttle } from '@antv/util';
 import { OTHER_SHAPES_FIELD_NAME, RESERVED_SHAPE_IDS } from '../constant';
 import { EdgeShapeMap } from '../types/edge';
 import {
@@ -386,7 +386,9 @@ export default abstract class Item implements IItem {
       if (isReservedShapeId) {
         // reserved shapes, fieldName is shapeId
         displayModelData[fieldName] =
-          displayModelData[fieldName] || isObject(innerModel.data[fieldName])
+          displayModelData[fieldName] ||
+          isObject(innerModel.data[fieldName]) ||
+          isObject(this.displayModel?.data[fieldName])
             ? {
                 ...(innerModel.data[fieldName] as object),
                 ...(this.displayModel?.data[fieldName] as object),
