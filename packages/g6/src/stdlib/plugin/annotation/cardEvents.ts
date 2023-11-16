@@ -65,7 +65,7 @@ export function bindCardEvent({
     }
 
     const { link } = cardInfoMap[itemId];
-    if (link && plugin.options.linkStyle) {
+    if (link) {
       Object.keys(plugin.options.linkHighlightStyle || {}).forEach((key) => {
         link.removeAttribute(key as keyof PathStyleProps);
       });
