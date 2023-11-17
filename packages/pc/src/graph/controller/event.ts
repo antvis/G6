@@ -95,7 +95,6 @@ export default class EventController extends AbstractEvent {
       case  'mousedown':
         this.mousedown = true;
         break;
-      case 'dragend':
       case 'mouseup':
         // mouseup happend before click, so setTimeout to reset the tag for reference in click event
         setTimeout(() => this.mousedown = false);
