@@ -1,8 +1,6 @@
 ---
 title: Introduction
 order: 0
-redirect_from:
-  - /en/docs/manual
 ---
 
 ![](https://user-images.githubusercontent.com/6113694/45008751-ea465300-b036-11e8-8e2a-166cbb338ce2.png)
