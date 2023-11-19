@@ -1,122 +1,56 @@
 ---
-title: 自定义边类型扩展
+title: 自定义边
 order: 2
 ---
 
-G6 5.0 提供了内置、自定义统一的定义和注册逻辑。所有内置、自定义的边类型，应当继承边的基类 `BaseEdge` 或已有的边类型。根据需要，选择性复写以下函数：
+## 示例
 
-## draw
+```js
+import { Graph as BaseGraph, extend, Extensions } from '@antv/g6';
 
-相比于 v4 版本，v5 去除了 `update` 和 `afterUpdate` 方法，目标是减少用户对函数的理解成本和逻辑控制。在 v5，只需要复写 `draw` 方法和 `afterDraw` 方法，G6 将自动根据更新的属性增量更新图形。
-
-draw 方法中，应当调用 `this.drawKeyShape` 以及 `this.drawXShape` 方法交由不同的方法绘制各个图形。G6 边视觉规范中的图形有：
-
-- keyShape: 主图形，每个边必须有；
-- haloShape: 主图形背后的光晕图形，一般形状和 keyShape 一致，在某些状态（如 selected，active 等）状态下显示；
-- labelShape: label 文本图形；
-- labelBackgroundShape: label 文本背景框图形；
-- iconShape: 图标图形。
-
-而不在上述列表中的图形，应当通过 `drawOtherShapes` 来绘制。当然你也可以定义自己的 `drawXShape(s)`，并在 `draw` 方法中调用，将返回的图形写入到一个 key 是图形 id，value 是图形的图形对象中，并作为 `draw` 方法的返回值。
-
-下面是 `line-edge` 类型边的 `draw` 方法，可参考进行复写：
-
-```typescript
-public draw(
-  model: EdgeDisplayModel,
-  sourcePoint: Point,
-  targetPoint: Point,
-  shapeMap: EdgeShapeMap,
-  diffData?: { previous: EdgeModelData; current: EdgeModelData },
-  diffState?: { previous: State[]; current: State[] },
-): EdgeShapeMap {
-  const { data = {} } = model;
-
-  let shapes: EdgeShapeMap = { keyShape: undefined };
-
-  shapes.keyShape = this.drawKeyShape(
-    model,
-    sourcePoint,
-    targetPoint,
-    shapeMap,
-    diffData,
-  );
-
-  if (data.haloShape) {
-    shapes.haloShape = this.drawHaloShape(model, shapeMap, diffData);
-  }
-
-  if (data.labelShape) {
-    shapes.labelShape = this.drawLabelShape(model, shapeMap, diffData);
-  }
-
-  // labelBackgroundShape
-  if (data.labelBackgroundShape) {
-    shapes.labelBackgroundShape = this.drawLabelBackgroundShape(
-      model,
-      shapeMap,
-      diffData,
-    );
-  }
-
-  if (data.iconShape) {
-    shapes.iconShape = this.drawIconShape(model, shapeMap, diffData);
-  }
-
-  // otherShapes
-  if (data.otherShapes) {
-    shapes = {
-      ...shapes,
-      ...this.drawOtherShapes(model, shapeMap, diffData),
-    };
-  }
-
-  return shapes;
+// 自定义变类型，继承一个已有的边类型或边基类 Extensions.BaseEdge
+class CustomNode extends Extensions.LineEdge {
+  // 覆写方法，可覆写的类方法见下文
 }
+
+const Graph = extend(BaseGraph, {
+  // 注册自定义边
+  edges: {
+    'custom-edge': CustomEdge,
+  },
+});
+
+const graph = new Graph({
+  // ... 其他配置
+  edge: {
+    type: 'custom-edge', // 使用注册的节点
+  },
+});
 ```
 
-## afterDraw
+## 覆写方法
 
-在 `draw` 函数完成之后执行的逻辑，例如根据 `draw` 中已绘制的图形的包围盒大小，调整其他相关的图形。也可以用于绘制更多的图形，返回值如同 `draw` 方法，是新增图形的 map。在内置的边类型中，没有对它进行实现。
+### draw
 
-```typescript
-public afterDraw(
-  model: EdgeDisplayModel | ComboDisplayModel,
-  shapeMap: { [shapeId: string]: DisplayObject },
-  shapesChanged?: string[],
-): { [otherShapeId: string]: DisplayObject } {
-  // 返回新增图形的 map，key 是图形 id，value 是图形。
-  return {};
-}
-```
+:::info{title=提示}
+大多数情况下并不需要覆写 draw 方法，更常用的做法是覆写 `drawKeyShape`、`drawLabelShape` 等方法，这些方法将在下文介绍。
+:::
 
-## drawXShape(s)
+G5 5.0 移除了 `update` 和 `afterUpdate` 方法。现在只需要复写 `draw` 方法和 `afterDraw` 方法，G6 将自动根据更新的属性增量更新图形。
 
-绘制 X 图形的方法，例如 `drawKeyShape`、`drawAnchorShapes` 等，下面将举例。所有的 drawXShape(s) 应当调用 `this.upsertShape` 新增/修改图形，该方法将检测传入的 shapeMap 中是否已有对应 id 的图形，若不存在则新建，若存在则增量更新。
+draw 方法通过调用 `this.drawKeyShape` 等方法分别绘制边各部分。
 
-`this.upsertShape(shapeType, shapeId, style, shapeMap, model)` 的参数如下：
+你可以参考 `line-edge` 类型边的 [draw](https://github.com/antvis/G6/blob/6be8f9810ec3b9310371f37de1a2591f14db67f1/packages/g6/src/stdlib/item/edge/line.ts#L28) 方法进行覆写。
 
-- `shapeType`：
-  - 类型：`'rect' | 'circle' | 'ellipse' | 'polygon' | 'image' | 'polyline' | 'line' | 'path' | 'text'`；
-  - 图形类型名称；
-- `shapeId`：
-  - 类型：`string`；
-  - 图形 id，一般和 drawXShape(s) 中的 X 对应（小驼峰式），后续都将使用该 id 进行检索；
-- `style`：
-  - 类型：`ShapeStyle`；
-  - 图形的样式，一般在 `drawXShape(s)` 中从其第一个参数渲染数据 `model` 中解析出来；
-- `shapeMap`：
-  - 类型：`object`；
-  - key 为图形 id，value 为图形的 map 对象，即 `drawXShape(s)` 的第二个参数。
-- `model`：
-  - 类型：`EdgeDisplayModel` 类型；
-  - 边的渲染数据，即 `drawXShape(s)` 的第一个参数。
+### afterDraw
 
-下面举例 `drawKeyShape`、`drawLabelShape`、`drawLabelBackgroundShape`、`drawOtherShapes`。
+在 `draw` 函数完成之后执行的逻辑，也可以用于绘制更多的图形，返回值和 `draw` 方法一致。在内置的节点类型中，没有对它进行实现。
 
-### 例 1: drawKeyShape
+### drawKeyShape
 
-绘制主图形 keyShape 的方法，`line-edge` 的 `drawKeyShape` 实现如下，理论上在自定义边中根据需要更改 upsertShape 的图形类型和对应配置即可：
+绘制主图形(`keyShape`)，该图形是必须的，例如直线边的主图形是一条直线(`line`) 以及首尾箭头(`arrow`)，曲线边的主图形则将直线换成了曲线路径(`path`)。
+
+覆写 `drawKeyShape` 方法绘制**直线边**的示例如下：
 
 ```typescript
 public drawKeyShape(
@@ -124,8 +58,6 @@ public drawKeyShape(
   sourcePoint: Point,
   targetPoint: Point,
   shapeMap: EdgeShapeMap,
-  diffData?: { previous: EdgeModelData; current: EdgeModelData },
-  diffState?: { previous: State[]; current: State[] },
 ) {
   const { keyShape: keyShapeStyle } = this.mergedStyles;
   const { startArrow, endArrow, ...others } = keyShapeStyle;
@@ -147,7 +79,7 @@ public drawKeyShape(
 }
 ```
 
-上面绘制直线边的 keyShape 是 `line` 图形，只需要起点和终点的坐标。若是曲线或折线，则 keyShape 是 `path`，`drawKeyShape` 中应当根据控制点，计算 `path` 值。例如内置的 `quadratic-edge` 的 `drawKeyShape` 方法：
+若要绘制曲线或折线，`drawKeyShape` 中应当根据控制点，计算路径。例如内置的 `quadratic-edge` 的 `drawKeyShape` 方法：
 
 ```typescript
 public drawKeyShape(
@@ -155,8 +87,6 @@ public drawKeyShape(
   sourcePoint: Point,
   targetPoint: Point,
   shapeMap: EdgeShapeMap,
-  diffData?: { previous: EdgeModelData; current: EdgeModelData },
-  diffState?: { previous: State[]; current: State[] },
 ) {
   const { keyShape: keyShapeStyle } = this.mergedStyles as any;
   const { startArrow, endArrow, ...others } = keyShapeStyle;
@@ -184,53 +114,39 @@ public drawKeyShape(
 }
 ```
 
-其中，`this.getControlPoints` 可以进行复写，从而自定义控制点计算逻辑，见 [getControlPoints](#getControlPoints)。
+其中，`this.getControlPoints` 可以进行复写，从而自定义控制点计算逻辑，见 [getControlPoints](#getcontrolpoints)。
 
-### 例 2: drawLabelShape
+### drawHaloShape
 
-绘制文本图形 labelShape 的方法，内置边的 `drawLabelShape` 根据配置中的 `position` （文本相对于 keyShape 的位置）、`autoRotate`（是否跟随 keyShape 切线旋转）、`maxWidth`（文本的最长长度，超过则截断并显示 `…`，值相对于 keyShape 的百分比或绝对的像素值）等非直接图形样式的属性，进行了计算转换为图形样式，使用计算后的样式调用 `this.upsertShape` 绘制 `line` 或 `path` 图形。若自定义边中无需考虑这些配置，可以忽略并完全重新 `drawLabelShape`。若需要考虑，则可以参考 [`baseEdge` 的实现](https://github.com/antvis/G6/blob/fddf9a5c0f7933b4d704038a7474358cb47037d0/packages/g6/src/stdlib/item/edge/base.ts#L239)。
+绘制主图形轮廓图形(`haloShape`)，通常在 `selected`, `active` 状态下显示。
 
-### 例 3: drawLabelBackgroundShape
+若需要覆写，则可以参考 [BaseEdge.drawHaloShape](https://github.com/antvis/G6/blob/6be8f9810ec3b9310371f37de1a2591f14db67f1/packages/g6/src/stdlib/item/edge/base.ts#L464)
 
-绘制文本图形的背景框图形 labelBackgroundShape 的方法，内置的 `drawLabelBackgroundShape` 将根据 `labelShape` 的包围盒大小，计算背景框矩形的大小。这要求了调用本方法时，`labelShape` 应当已经被绘制。因此自定义的时候也应当注意在 `draw` 方法中先调用 `drawLabelShape` 再调用 `drawLabelBackgroundShape`。若其他图形之间存在包围盒大小计算的依赖，也应当参考这一逻辑，只有已经被绘制的图形才能从 `shapeMap` 中取得并使用 `shape.getRenderBounds()` 或 `shape.getLocalBounds()` 获得包围盒。
+### drawLabelShape
 
-内置的 `drawLabelBackgroundShape` 根据配置和 `labelShape` 进行了样式的计算后，使用 `this.upsertShape` 绘制 `rect` 图形，可参考[`baseEdge` 的实现](https://github.com/antvis/G6/blob/fddf9a5c0f7933b4d704038a7474358cb47037d0/packages/g6/src/stdlib/item/edge/base.ts#L356)。
+绘制文本图形（`labelShape`）
 
-### 例 4: drawOtherShapes
+若需要覆写，则可以参考 [BaseEdge.drawLabelShape](https://github.com/antvis/G6/blob/6be8f9810ec3b9310371f37de1a2591f14db67f1/packages/g6/src/stdlib/item/edge/base.ts#L194)
 
-keyShape、haloShape、labelShape、labelBackgroundShape、iconShape 都是 G6 v5 节点样式规范中的图形。若自定义节点中有规范之外的图形，可以在 `drawOtherShapes` 绘制，它们在渲染数据 `model` 中的配置也将被包在 `otherShapes` 字段下：
+### drawLabelBackgroundShape
 
-```typescrirpt
-{
-  id: ID,
-  source: ID,
-  target: ID,
-  data: {
-    keyShape: ShapeStyle,
-    haloShape: ShapeStyle,
-    // ... 其他规范内的图形
-    // 额外的图形：
-    otherShapes: {
-      xxShape: ShapeStyle,
-      yyShape: ShapeStyle,
-      // ... 其他额外图形
-    }
-  }
-}
-```
+绘制文本图形的背景框图形（`labelBackgroundShape`）
 
-从 `model` 中取出对应的字段，或根据自定义的逻辑，传给 `this.upsertShape` 必要的图形样式属性，增加图形，并返回新增图形的 map，例如：
+若需要覆写，则可以参考 [BaseEdge.drawLabelBackgroundShape](https://github.com/antvis/G6/blob/6be8f9810ec3b9310371f37de1a2591f14db67f1/packages/g6/src/stdlib/item/edge/base.ts#L311)
+
+### drawOtherShapes
+
+绘制上述内容之外的图形，可以在 `drawOtherShapes` 中完成，例如额外创建一个圆形：
 
 ```typescript
 public drawOtherShapes(
   model: EdgeDisplayModel,
   shapeMap: EdgeShapeMap,
-  diffData?: { oldData: EdgeModelData; newData: EdgeModelData },
 ) {
   return {
     extraShape: upsertShape(
       'circle',
-      'extraShape',
+      'other-circle-shape',
       {
         r: 4,
         fill: '#0f0',
@@ -243,24 +159,27 @@ public drawOtherShapes(
 }
 ```
 
-## getControlPoints
+## 成员属性及方法
 
-仅在折线、曲线边的 `drawKeyShape` 方法中，将调用改方法获取控制点，从而计算路径。当继承 Extensions.PolylineEdge、Extensions.QuadraticEdge、Extensions.CubicEdge、Extensions.CubicHorizontalEdge、Extensions.CubicVerticalEdge 时，可以通过复写 `getControlPoints` 来修改控制点的逻辑。
+### getControlPoints
+
+获取控制点，通常用于计算路径。例如折线边的控制点是拐点，曲线边的控制点是曲线的控制点。
+
+当继承 Extensions.PolylineEdge、Extensions.QuadraticEdge、Extensions.CubicEdge、Extensions.CubicHorizontalEdge、Extensions.CubicVerticalEdge 时，可以通过复写 `getControlPoints` 来修改控制点的逻辑。
+
 `Extensions.PolylineEdge` 的 `getControlPoints` 类型为：
 
 ```typescript
-/**
- * 计算控制点
- * @param model 渲染数据
- * @param sourcePoint 边的起点
- * @param targetPoint 边的终点
- * @returns 计算后的控制点
- */
-type getControlPoints =(
+(
+  /** 边的渲染数据 */
   model: EdgeDisplayModel,
+  /** 边的起点 */
   sourcePoint: Point,
+  /** 边的终点 */
   targetPoint: Point,
-): {
+) =>
+/** 计算后的控制点 */
+{
   x: number;
   y: number;
   z?: number;
@@ -270,74 +189,78 @@ type getControlPoints =(
 `Extensions.QuadraticEdge`、`Extensions.CubicEdge`、`Extensions.CubicHorizontalEdge`、`Extensions.CubicVerticalEdge` 的 `getControlPoints` 类型为：
 
 ```typescript
-/**
- * 根据 curvePosition|controlPoints|curveOffset 计算控制点
- * @param startPoint 边的起点
- * @param endPoint 边的终点
- * @param percent 控制点的投影在两端点连线上的百分比，范围 0 到 1
- * @param controlPoints 数据中控制点配置
- * @param offset 弧度距离
- * @returns 计算后的控制点
- */
-type getControlPoints = (
+(
+  /** 边的起点 */
   startPoint: Point,
+  /** 边的终点 */
   endPoint: Point,
+  /** 控制点的投影在两端点连线上的百分比，范围 0 到 1 */
   percent: number,
-  contrPointolPoints: Point[],
+  /** 数据中控制点配置 */
+  controlPoints: Point[],
+  /** 弧度距离 */
   offset: number,
-) => {
+) =>
+/** 计算后的控制点 */
+{
   x: number;
   y: number;
   z?: number;
 }[];
 ```
 
-## getPath
+### getPath
 
 `Extensions.PolylineEdge` 的成员方法，仅在继承它来实现自定义边时可复写。由于折线的自动寻径算法比较复杂，因此单独抽出了这个函数。也由于算法复杂性，折线边的性能稍差。如果有确定的折线边绘制规则，可以通过继承内置折线边，自定义 `getPath` 方法覆盖自动寻径的逻辑。函数类型为：
 
 ```typescript
-/**
- * 获取路径
- * @param model 边的渲染数据
- * @param points 起点和终点
- * @param radius 折线拐点的弧度
- * @param routeCfg 折线弯折的配置，类型见下面
- * @param auto 是否使用 A* 算法
- * @returns
- */
-type getPath = (
+(
+  /** 边的渲染数据 */
   model: EdgeDisplayModel,
+  /** 起点和终点 */
   points: Point[],
+  /** 折线拐点的弧度 */
   radius: number,
+  /** 折线弯折的配置 */
   routeCfg?: RouterCfg,
+  /** 是否使用 A* 算法 */
   auto?: boolean,
-) => string;
-
-interface RouterCfg {
-  name: 'orth' | 'er';
-  /** Spacing between lines and points */
-  offset?: number;
-  /** Grid size */
-  gridSize?: number;
-  /** Maximum allowable rotation angle (radian) */
-  maxAllowedDirectionChange?: number;
-  /** Allowed edge directions */
-  directions?: any[];
-  /** Penalties */
-  penalties?: {};
-  /** Determine if use simple router for polyline when no obstacles */
-  simple?: boolean;
-  /** Function to calculate the distance between two points */
-  distFunc?: (p1: PolyPoint, p2: PolyPoint) => number;
-  /** Simplified function to find path */
-  fallbackRoute?: (p1: PolyPoint, p2: PolyPoint, startNode?: Node, endNode?: Node, cfg?: RouterCfg) => PolyPoint[];
-  /** Maximum loops */
-  maximumLoops?: number;
-  /**
-   * Whether to automatically avoid other nodes (obstacles) on the path
-   * Defaults to false.
-   */
-  enableObstacleAvoidance?: boolean;
-}
+) =>
+  /** 路径 */
+  string;
 ```
+
+<details>
+<summary style="color: #873bf4; cursor: pointer;">RouterCfg</summary>
+
+```ts
+type RouterCfg = {
+  name: 'orth' | 'er';
+  /** 线与点之间的间距 */
+  offset?: number;
+  /** 网格大小 */
+  gridSize?: number;
+  /** 最大旋转角度（弧度） */
+  maxAllowedDirectionChange?: number;
+  /** 允许的边的方向 */
+  directions?: any[];
+  /** 起点和终点的权重 */
+  penalties?: {};
+  /** 是否使用简单的折线拐点寻径算法 */
+  simple?: boolean;
+  /** 计算两点之间距离的函数 */
+  distFunc?: (p1: PolyPoint, p2: PolyPoint) => number;
+  /** 简化的寻径函数 */
+  fallbackRoute?: (p1: PolyPoint, p2: PolyPoint, startNode?: Node, endNode?: Node, cfg?: RouterCfg) => PolyPoint[];
+  /** 最大循环次数 */
+  maximumLoops?: number;
+  /** 是否自动避开障碍物，默认为 false */
+  enableObstacleAvoidance?: boolean;
+};
+```
+
+</details>
+
+<embed src="../../common/PluginMergedStyles.zh.md"></embed>
+
+<embed src="../../common/PluginUpsertShape.zh.md"></embed>

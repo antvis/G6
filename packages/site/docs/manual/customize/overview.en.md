@@ -1,75 +1,48 @@
 ---
-title: Custom Extension Overview
+title: Overview
 order: 0
 ---
 
-In the [API documentation](https://g6-next.antv.antgroup.com/en/apis), you can see that G6 provides a rich set of built-in features that can meet most business requirements. When the built-in capabilities are not sufficient, G6 also offers a flexible extension mechanism, allowing you to customize various types of extensions based on your business needs.
-
-One notable difference in the architecture of G6 5.0 compared to previous versions is its full openness. Apart from the Graph itself, all other functionalities are considered as "extensions" in G6. For example, there are built-in extensions for node types such as 'circle-node' and 'rect-node', as well as for interactions like 'drag-node' and 'zoom-canvas'. The syntax for writing these extensions remains consistent with both built-in and custom ones. Therefore, you can refer to the source code of any built-in extension for inheritance and extension purposes.
+G6 provides a free extension mechanism. In addition to Graph itself, all other capabilities are G6's "extensions".
 
 The extension categories in G6 5.0 are as follows:
 
-- Node Type
-- Edge Type
-- Combo Type
+- Node
+- Edge
+- Combo
 - Data Transformer
 - Behavior
 - Layout
 - Plugin
 - Theme
 
-For the mentioned extensions, G6 provides rich built-in functionalities, **but most of them are not automatically registered to the Graph by default**. This is done to achieve Tree Shaking during the bundling process and reduce package size. Therefore, **some built-in functionalities need to be imported from `Extensions` and registered to the Graph using the `extend` method before they can be configured and used on the graph instance**.
-
-Let's take a few examples of built-in functionalities that are not registered by default: ellipse-node, diamond-node, cubic-edge, lasso-select, map-node-size.
+To reduce the package size, G6 5.0 uses on-demand loading. Only when a certain extension is used will the corresponding code be imported. Taking the node extension as an example:
 
 ```javascript
 import { Graph as BaseGraph, extend, Extensions } from '@antv/g6';
 
 /**
- * To extend the Graph and register the required built-in functionalities,
- * you can use the extend method. The second parameter of this method is the registry.
- * */
+ * To extend the Graph and register the required built-in functionalities, you can use the extend method. The second parameter of this method is the registry.
+ */
 const Graph = extend(BaseGraph, {
   nodes: {
-    'ellipse-node': Extensions.EllipseNode,
-    'diamond-node': Extensions: DiamondNode,
+    'custom-node': Extensions.RectNode,
   },
-  edges: {
-    'cubic-edge': Extensions.CubicEdge,
-  },
-  transforms: {
-    'map-node-size':Extensions.MapNodeSize,
-  },
-  behaviors: {
-    'lasso-select': Extensions.LassoSelect
-  }
 });
 
-// Instantiate a class after extending
+// Instantiate using the extended class
 const graph = new Graph({
-  // ... Other configurations
-  transforms: [{ type: 'map-node-size', field: 'degree' range: [16, 60]}],
-  node: model => {
-    return {
-      id: model.id,
-      data: {
-        type: model.data.value > 10 ? 'diamond-node' : 'ellipse-node',
-        // ... Other configurations
-      }
-    }
+  node: {
+    type: 'custom-edge',
   },
-  edge: {
-    type: 'cubic-edge',
-  },
-  modes: {
-    default: ['lasso-select']
-  }
 });
 ```
 
-## Built-in Extensions
+:::warning
+In addition to the default registered extensions, other extensions need to be registered to Graph through the `extend` method before they can be used.
+:::
 
-Here is a list of built-in extensions in G6, along with their default registration status:
+## Built-in Extensions
 
 ### 1. nodes
 
@@ -177,47 +150,3 @@ All built-in and custom plugins should inherit from Extensions.BasePlugin or oth
 | 'hull'        | Extensions.Hull        | No                    | [DEMO](https://g6-next.antv.antgroup.com/en/examples/tool/hull/#hull)                   |                                   |
 | 'snapline'    | Extensions.Snapline    | No                    | [DEMO](https://g6-next.antv.antgroup.com/en/examples/tool/snapline/#snapline)           |                                   |
 | 'watermarker' | Extensions.WaterMarker | No                    | [DEMO](https://g6-next.antv.antgroup.com/en/examples/tool/watermarker/#textWaterMarker) | Supports images or multiple texts |
-
-## Custom Extensions
-
-The registration method for custom extensions is the same as the registration method for built-in extensions, as mentioned in the previous context.
-
-```javascript
-import { Graph as BaseGraph, extend, Extensions } from '@antv/g6';
-
-// To create custom node types, you can inherit from an existing node type or the base node class Extensions.BaseNode.
-class XXCustomNode extends Extensions.CircleNode {
-  // ... To write custom node logic, please refer to the documentation for custom nodes to understand the writing format.
-}
-
-// To create a custom interaction, you can inherit from an existing interaction or the base behavior class Extensions.BaseBehavior.
-class XXCustomBehavior extends Extensions.BaseBehavior {
-  // ... To write custom interaction logic, please refer to the documentation for custom interactions to understand the writing format.
-}
-/**
- * To register the required built-in functionalities, the second parameter is the registry.
- * You can use it to register both built-in extensions and custom extensions simultaneously.
- * */
-const Graph = extend(BaseGraph, {
-  nodes: {
-    'xx-custom-node': XXCustomNode,
-  },
-  behaviors: {
-    'lasso-select': Extensions.LassoSelect
-    'xx-custom-behavior': XXCustomBehavior
-  }
-  // ... Same as other extensions
-});
-
-const graph = new Graph({
-  // ... Other configurations
-  node: {
-    type: 'xx-custom-node', // Using the key from the registry for configuration
-  },
-  modes: {
-    default: ['drag-canvas', 'lasso-select', 'xx-custom-behavior']
-  }
-});
-```
-
-Each type of extension should inherit from the corresponding extension base class or an existing extension of the same type. Please refer to the subsequent documentation in this chapter for the writing format of each type of extension.

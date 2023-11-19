@@ -1,70 +1,48 @@
 ---
-title: 自定义扩展总览
+title: 概述
 order: 0
 ---
 
-在 [API 文档](https://g6-next.antv.antgroup.com/apis)中，您可以看到 G6 提供了丰富的内置功能，基本能够满足大多数业务诉求。当内置的能力无法满足时，G6 还提供了自由的扩展机制，您可以根据业务需求，自定义各个种类的扩展。G6 5.0 与以往版本在架构上的最大不同在于它的全开放性，除了 Graph 本身以外，其他能力都是 G6 的“扩展（Extensions）”，例如节点类型的内置扩展有 'circle-node', 'rect-node' 等，交互的内置扩展有 'drag-node', 'zoom-canvas' 等，且各个类型的扩展在写法上，保持内置和自定义一致。因此，您可以参考任意内置的源码进行继承和扩展。G6 5.0 的扩展分类为：
+G6 提供了自由的扩展机制，除了 Graph 本身以外，其他能力都是 G6 的“扩展（Extensions）”。G6 5.0 的扩展分类为：
 
-- 节点类型
-- 边类型
-- combo 类型
+- 节点
+- 边
+- combo
 - 数据转换器
 - 交互
 - 布局算法
 - 插件
 - 主题
 
-对于上述几种扩展，G6 已经提供了丰富内置功能，**但大多数并没有默认注册到 Graph 上**。这是因为我们希望在打包时实现 TreeShaking 减少包体积。因此，**部分内置功能在使用时从 `Extensions` 引入并需要通过 `extend` 方法注册到 Graph 后再配置到图实例上进行使用**，下面以未默认注册的几个内置功能 ellipse-node, diamond-node, cubic-edge, lasso-select, map-node-size 为例：
+为了减少包体积，G6 5.0 采用了按需加载的方式，只有在使用到某个扩展时才会引入对应的代码，以引入节点扩展为例：
 
-```javascript
+```js
 import { Graph as BaseGraph, extend, Extensions } from '@antv/g6';
 
 /**
  * 扩展 Graph，注册需要使用的内置功能，第二个参数是注册表
- * */
+ */
 const Graph = extend(BaseGraph, {
   nodes: {
-    'ellipse-node': Extensions.EllipseNode,
-    'diamond-node': Extensions: DiamondNode,
+    'custom-node': Extensions.RectNode,
   },
-  edges: {
-    'cubic-edge': Extensions.CubicEdge,
-  },
-  transforms: {
-    'map-node-size':Extensions.MapNodeSize,
-  },
-  behaviors: {
-    'lasso-select': Extensions.LassoSelect
-  }
 });
 
 // 使用扩展后的类进行实例化
 const graph = new Graph({
-  // ... 其他配置
-  transforms: [{ type: 'map-node-size', field: 'degree' range: [16, 60]}],
-  node: model => {
-    return {
-      id: model.id,
-      data: {
-        type: model.data.value > 10 ? 'diamond-node' : 'ellipse-node',
-        // ... 其他配置
-      }
-    }
+  node: {
+    type: 'custom-edge',
   },
-  edge: {
-    type: 'cubic-edge',
-  },
-  modes: {
-    default: ['lasso-select']
-  }
 });
 ```
 
+:::warning{title=注意}
+除了默认注册的扩展，其他扩展都需要通过 `extend` 方法注册到 Graph 上后才能使用
+:::
+
 ## 内置的扩展
 
-这里列举 G6 内置的扩展，以及是否默认注册：
-
-### 1. 节点类型（nodes）
+### 1. 节点（nodes）
 
 | type 名称        | 引入方式                 | 是否默认注册 | Demo                                                                                                                                                                       | 注释                               |
 | :--------------- | :----------------------- | :----------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :--------------------------------- |
@@ -81,7 +59,7 @@ const graph = new Graph({
 | 'sphere-node'    | Extensions.SphereNode    | 否           | [DEMO](https://g6-next.antv.antgroup.com/examples/item/defaultNodes/#3d-node)                                                                                              | 仅在 renderer: 'webgl-3d' 时可使用 |
 | 'cube-node'      | Extensions.CubeNode      | 否           | [DEMO](https://g6-next.antv.antgroup.com/examples/item/defaultNodes/#3d-node)                                                                                              | 仅在 renderer: 'webgl-3d' 时可使用 |
 
-### 2. 边类型（edges）
+### 2. 边（edges）
 
 | type 名称               | 引入方式                       | 是否默认注册 | Demo                                                                                  | 注释 |
 | :---------------------- | :----------------------------- | :----------- | :------------------------------------------------------------------------------------ | :--- |
@@ -93,7 +71,7 @@ const graph = new Graph({
 | 'cubic-horizontal-edge' | Extensions.CubicHorizontalEdge | 否           | [DEMO](https://g6-next.antv.antgroup.com/examples/item/defaultEdges/#horizontalCubic) |      |
 | 'cubic-vertical-edge'   | Extensions.CubicVerticalEdge   | 否           | [DEMO](https://g6-next.antv.antgroup.com/examples/item/defaultEdges/#verticalCubic)   |      |
 
-### 3. Combo 类型 (combos)
+### 3. Combo (combos)
 
 | type 名称      | 引入方式               | 是否默认注册 | Demo                                                                             | 注释 |
 | :------------- | :--------------------- | :----------- | :------------------------------------------------------------------------------- | :--- |
@@ -170,46 +148,3 @@ const graph = new Graph({
 | 'hull'        | Extensions.Hull        | 否           | [DEMO](https://g6-next.antv.antgroup.com/zh/examples/tool/hull/#hull)                   |                  |
 | 'snapline'    | Extensions.Snapline    | 否           | [DEMO](https://g6-next.antv.antgroup.com/zh/examples/tool/snapline/#snapline)           |                  |
 | 'watermarker' | Extensions.WaterMarker | 否           | [DEMO](https://g6-next.antv.antgroup.com/zh/examples/tool/watermarker/#textWaterMarker) | 支持图片或多文本 |
-
-## 自定义扩展
-
-上文介绍了内置扩展的注册方法。自定义的扩展注册与内置扩展注册方式一致：
-
-```javascript
-import { Graph as BaseGraph, extend, Extensions } from '@antv/g6';
-
-// 自定义节点类型，继承一个已有的节点类型或节点基类 Extensions.BaseNode
-class XXCustomNode extends Extensions.CircleNode {
-  // ... 自定义节点逻辑，写法见自定义节点文档
-}
-
-// 自定义交互，继承一个已有的交互或交互基类 Extensions.BaseBehavior
-class XXCustomBehavior extends Extensions.BaseBehavior {
-  // ... 自定义交互逻辑，写法见自定义交互文档
-}
-/**
- * 注册需要使用的内置功能，第二个参数是注册表。可同时注册内置扩展和自定义扩展
- * */
-const Graph = extend(BaseGraph, {
-  nodes: {
-    'xx-custom-node': XXCustomNode,
-  },
-  behaviors: {
-    'lasso-select': Extensions.LassoSelect
-    'xx-custom-behavior': XXCustomBehavior
-  }
-  // ..其他扩展的注册同理
-});
-
-const graph = new Graph({
-  // ... 其他配置
-  node: {
-    type: 'xx-custom-node', // 使用注册表中的 key 进行配置
-  },
-  modes: {
-    default: ['drag-canvas', 'lasso-select', 'xx-custom-behavior']
-  }
-});
-```
-
-每种扩展应当继承对应的扩展基类，或已有的同类扩展。各个类型扩展的写法参见本章节的后续文档。
