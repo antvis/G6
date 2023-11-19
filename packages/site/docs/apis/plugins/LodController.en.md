@@ -13,8 +13,6 @@ LodController renders the text in the graph to a separate canvas, which has the 
 
 ## Configuration
 
-<embed src="../../common/IPluginBaseConfig.en.md"></embed>
-
 ### debounce
 
 **Type**: `'auto'` | `number`

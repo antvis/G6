@@ -7,8 +7,6 @@ order: 1
 
 ## Configurations
 
-<embed src="../../common/IPluginBaseConfig.en.md"></embed>
-
 ### enableStack
 
 **Type**: `boolean`

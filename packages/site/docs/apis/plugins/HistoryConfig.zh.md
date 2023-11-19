@@ -7,8 +7,6 @@ order: 1
 
 ## 配置项
 
-<embed src="../../common/IPluginBaseConfig.zh.md"></embed>
-
 ### enableStack
 
 **类型**：`boolean`

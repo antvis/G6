@@ -13,8 +13,6 @@ LodController 将图中的文本单独渲染到独立的 canvas 上，这样的�
 
 ## 配置项
 
-<embed src="../../common/IPluginBaseConfig.zh.md"></embed>
-
 ### debounce
 
 **类型**：`'auto'` | `number`
