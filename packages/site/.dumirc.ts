@@ -129,7 +129,7 @@ export default defineConfig({
         slug: 'manual/advanced',
         title: {
           zh: '进阶教程',
-          en: 'Tutorial',
+          en: 'Advanced',
         },
         order: 6,
       },
