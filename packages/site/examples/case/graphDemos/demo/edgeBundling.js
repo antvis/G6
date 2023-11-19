@@ -19,9 +19,9 @@ insertCss(`
 `);
 
 const lightBlue = 'rgb(119, 243, 252)';
-const llightBlue16 = '#C8FDFC';
+const lightBlue16 = '#C8FDFC';
 const lightOrange = 'rgb(230, 100, 64)';
-const llightOrange16 = '#FFAA86';
+const lightOrange16 = '#FFAA86';
 
 fetch('https://gw.alipayobjects.com/os/basement_prod/7ba82250-8367-4351-82b2-d48604cd2261.json')
   .then((res) => res.json())
@@ -49,9 +49,9 @@ fetch('https://gw.alipayobjects.com/os/basement_prod/7ba82250-8367-4351-82b2-d48
       if (e.sytle === undefined) e.style = {};
       e.style.lineWidth = 0.7;
       e.style.strokeOpacity = 0.1;
-      e.style.stroke = `l(0) 0:${llightOrange16} 1:${llightBlue16}`;
+      e.style.stroke = `l(0) 0:${lightOrange16} 1:${lightBlue16}`;
       if (nodeIdMap.get(e.source).x < nodeIdMap.get(e.target).x) {
-        e.style.stroke = `l(0) 0:${llightBlue16} 1:${llightOrange16}`;
+        e.style.stroke = `l(0) 0:${lightBlue16} 1:${lightOrange16}`;
       }
     });
     let maxDegree = -9999;
