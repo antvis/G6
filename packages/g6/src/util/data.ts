@@ -311,7 +311,7 @@ export const traverse = (treeData, callback) => {
   }
 };
 
-export const DEFAULT_ACTIVE_DATA_LIFECYCLE = ['read'];
+export const DEFAULT_ACTIVE_DATA_LIFECYCLE = 'all';
 
 export const AVAILABLE_DATA_LIFECYCLE = [
   'read',
