@@ -9,10 +9,16 @@ order: 15
 
 ## direction
 
-**类型**：String<br />**可选值**：'LR' | 'RL' | 'H'<br />**默认值**：'LR'<br />**是否必须**：false<br />**说明**：树布局的方向，默认为 `'LR'`，其他选项说明：
+**类型**：`'LR' | 'RL' | 'H'`
 
-- LR —— 根节点在左，往右布局（下图左）<br />
-- RL —— 根节点在右，往左布局（下图中）<br />
+**默认值**：`'LR'`
+
+树布局的方向，默认为 `'LR'`，其他选项说明：
+
+- LR —— 根节点在左，往右布局（下图左）
+
+- RL —— 根节点在右，往左布局（下图中）
+
 - H —— 根节点在中间，水平对称布局（下图右）
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*mq6YSIKrAt0AAAAAAAAAAABkARQnAQ' width=110 alt='img'/>
@@ -23,7 +29,11 @@ order: 15
 
 ## indent
 
-**类型**：Number | Function<br />**默认值**：20<br />**示例**：
+**类型**：`number | function`
+
+**默认值**：20
+
+**示例**：
 
 ```javascript
 (d) => {
@@ -33,11 +43,13 @@ order: 15
 };
 ```
 
-**是否必须**：false<br />**说明**：类型为 Number 时，列间间距是固定值；类型为 Function 时，节点与根结点的间距是函数返回值。
+类型为 Number 时，列间间距是固定值；类型为 Function 时，节点与根结点的间距是函数返回值。
 
 ## getWidth
 
-**类型**：Number | Function<br />**示例**：
+**类型**：`number | function`
+
+**示例**：
 
 ```javascript
 (d) => {
@@ -47,11 +59,13 @@ order: 15
 };
 ```
 
-**是否必须**：false<br />**说明**：每个节点的宽度，`direction` 为 `'H'` 时有效
+每个节点的宽度，`direction` 为 `'H'` 时有效
 
 ## getHeight
 
-**类型**：Number | Function<br />**示例**：
+**类型**：`number | function`
+
+**示例**：
 
 ```javascript
 (d) => {
@@ -61,11 +75,13 @@ order: 15
 };
 ```
 
-**是否必须**：false<br />**说明**：每个节点的高度
+每个节点的高度
 
 ## getSide
 
-**类型**：Function<br />**示例**：
+**类型**：`function`
+
+**示例**：
 
 ```javascript
 (d) => {
@@ -77,12 +93,8 @@ order: 15
 
 ## dropCap
 
-**类型**：Boolean
+**类型**：`boolean`
 
-<br />
+每个节点的第一个自节点是否位于下一行。默认为 `true`
 
-**是否必须**：false
-
-<br />**说明**：每个节点的第一个自节点是否位于下一行。默认为 `true`
-
-**是否必须**：false<br />**说明**：节点放置在根节点左侧或右侧的回调函数，仅对与根节点直接相连的节点有效，设置后将会影响被设置节点的所有子孙节点。
+节点放置在根节点左侧或右侧的回调函数，仅对与根节点直接相连的节点有效，设置后将会影响被设置节点的所有子孙节点。

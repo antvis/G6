@@ -9,7 +9,11 @@ CompactBox is the default layout for TreeGraph. It will consider the bounding bo
 
 ## direction
 
-**Type**: String<br />**Options**: 'LR' | 'RL' | 'TB' | 'BT' | 'H' | 'V'<br />**Default**: 'LR'<br />**Required**: false<br />**Description**: The direction of layout.
+**Type**: `'LR' | 'RL' | 'TB' | 'BT' | 'H' | 'V'`
+
+**Default**: `'LR'`
+
+The direction of layout.
 
 - TB —— Root is on the top, layout from the top to the bottom
 
@@ -37,7 +41,9 @@ CompactBox is the default layout for TreeGraph. It will consider the bounding bo
 
 ## getSide
 
-**Type**: Function<br />**Example**:
+**Type**: `function`
+
+**Example**:
 
 ```javascript
 (d) => {
@@ -47,11 +53,15 @@ CompactBox is the default layout for TreeGraph. It will consider the bounding bo
 };
 ```
 
-**Default**: 'right'<br />**Required**: false<br />**Description**: The callback function of node position(left or right of root node). Only affects the nodes which are connected to the root node directly. And the descendant nodes will be placed according to it
+**Default**: `'right'`
+
+The callback function of node position(left or right of root node). Only affects the nodes which are connected to the root node directly. And the descendant nodes will be placed according to it
 
 ## getId
 
-**Type**: Function<br />**Example**:
+**Type**: `function`
+
+**Example**:
 
 ```javascript
 (d) => {
@@ -60,11 +70,13 @@ CompactBox is the default layout for TreeGraph. It will consider the bounding bo
 };
 ```
 
-**Required**: false<br />**Description**: Sets the id for each node
+Sets the id for each node
 
 ## getWidth
 
-**Type**: Number | Function<br />**Example**:
+**Type**: `number | function`
+
+**Example**:
 
 ```javascript
 (d) => {
@@ -74,11 +86,13 @@ CompactBox is the default layout for TreeGraph. It will consider the bounding bo
 };
 ```
 
-**Required**: false<br />**Description**: The width of each node
+The width of each node
 
 ## getHeight
 
-**Type**: Number | Function<br />**Example**:
+**Type**: `number | function`
+
+**Example**:
 
 ```javascript
 (d) => {
@@ -88,11 +102,13 @@ CompactBox is the default layout for TreeGraph. It will consider the bounding bo
 };
 ```
 
-**Required**: false<br />**Description**: The height of each node
+The height of each node
 
 ## getHGap
 
-**Type**: Number | Function<br />**Example**:
+**Type**: `number | function`
+
+**Example**:
 
 ```javascript
 (d) => {
@@ -102,11 +118,15 @@ CompactBox is the default layout for TreeGraph. It will consider the bounding bo
 };
 ```
 
-**Default**: 18<br />**Required**: false<br />**Description**: The horizontal separation of nodes
+**Default**: 18
+
+The horizontal separation of nodes
 
 ## getVGap
 
-**Type**: Number | Function<br />**Example**:
+**Type**: `number | function`
+
+**Example**:
 
 ```javascript
 (d) => {
@@ -116,10 +136,16 @@ CompactBox is the default layout for TreeGraph. It will consider the bounding bo
 };
 ```
 
-**Default**: 18<br />**Required**: false<br />**Description**: The vertical separation of nodes
+**Default**: 18
+
+The vertical separation of nodes
 
 ## radial
 
-**Type**: Boolean<br />**Default**: false<br />**Required**: false<br />**Description**: If layout the graph in radial style. If `radial` is `true`, we recommend to set `direction` to `'LR'` or `'RL'`:<br />
+**Type**: `boolean`
+
+**Default**: `false`
+
+If layout the graph in radial style. If `radial` is `true`, we recommend to set `direction` to `'LR'` or `'RL'`:
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*E0c8TIYRPYoAAAAAAAAAAABkARQnAQ' width=200 alt='img'/>

@@ -13,9 +13,7 @@ order: 3
 
 **默认值**：画布中心
 
-**是否必须**：false
-
-**说明**：布局的中心
+布局的中心
 
 ## outerLayout
 
@@ -23,9 +21,7 @@ order: 3
 
 **默认值**：Force 布局
 
-**是否必须**：false
-
-**说明**：最外层的布局算法，默认为 `force`。具体参数详见被使用布局的文档。默认情况下 `force` 布局将使用以下参数：
+最外层的布局算法，默认为 `force`。具体参数详见被使用布局的文档。默认情况下 `force` 布局将使用以下参数：
 
 ```javascript
 outerLayout: new G6.Extensions.ForceLayout({
@@ -44,9 +40,7 @@ outerLayout: new G6.Extensions.ForceLayout({
 
 **默认值**：Concentric 布局
 
-**是否必须**：false
-
-**说明**：combo 内部的布局算法，需要使用同步的布局算法，默认为 `concentric`。具体参数详见被使用布局的文档。
+combo 内部的布局算法，需要使用同步的布局算法，默认为 `concentric`。具体参数详见被使用布局的文档。
 默认情况下 `concentric` 布局将使用以下参数：
 
 ```javascript
@@ -57,13 +51,11 @@ innerLayout: new G6.Extensions.ConcentricLayout({
 
 ## comboPadding
 
-**类型**：`number` \| (`comboModel`: `ComboModel`) => `number`
+**类型**：`number | (comboModel: ComboModel) => number`
 
 **默认值**：`10`
 
-**是否必须**：false
-
-**说明**：Combo 内部的 padding 值，不用于渲染，仅用于计算力。推荐设置为与视图上 Combo 内部 padding 值相同的值
+Combo 内部的 padding 值，不用于渲染，仅用于计算力。推荐设置为与视图上 Combo 内部 padding 值相同的值
 
 ```javascript
 (comboModel) => {
@@ -75,25 +67,15 @@ innerLayout: new G6.Extensions.ConcentricLayout({
 };
 ```
 
-## nodeSize
-
-**类型**：`number` \| `number`[] \| (`nodeModel`: `NodeModel`) => `number`
-
-**默认值**：`10`
-
-**是否必须**：false
-
-**说明**：节点大小（直径）。用于碰撞检测。若不指定，则根据传入的节点数据的 `data.size` 属性计算。若即不指定，节点中也没有 `data.size`，则默认大小为 `10`
+<embed src="../../common/LayoutNodeSize.zh.md"></embed>
 
 ## spacing
 
-**类型**：`number` \| `number`[] \| (`nodeModel`: `NodeModel`) => `number`
+<embed src="../../common/LayoutSizeOrSpacing.zh.md"></embed>
 
 **默认值**：`0`
 
-**是否必须**：false
-
-**说明**：`preventNodeOverlap` 或 `preventOverlap` 为 `true` 时生效, 防止重叠时节点/ combo 边缘间距的最小值。可以是回调函数, 为不同节点设置不同的最小间距, 如示例
+`preventNodeOverlap` 或 `preventOverlap` 为 `true` 时生效, 防止重叠时节点/ combo 边缘间距的最小值。可以是回调函数, 为不同节点设置不同的最小间距, 如示例
 
 **Example**:
 
@@ -107,14 +89,4 @@ innerLayout: new G6.Extensions.ConcentricLayout({
 };
 ```
 
-## workerEnabled
-
-**类型**：`boolean`
-
-**默认值**：`false`
-
-**是否必须**：false
-
-**说明**：是否启用 web-worker 以防布局计算时间过长阻塞页面交互。
-
-<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ 注意:</strong></span> `workerEnabled: true` 时，不支持所有函数类型的参数。
+<embed src="../../common/LayoutWorkerEnabled.zh.md"></embed>

@@ -13,9 +13,7 @@ This article shows all the configuration options for the Fruchterman force-direc
 
 **Default**: `{ type: 'grid' }`
 
-**Required**: false
-
-**Description**: The initial layout for the force-directed layout. It will execute the layout specified by `presetLayout` first and then perform the force-directed calculation. Since the result of the force-directed layout depends heavily on the initial positions of the nodes, configuring `presetLayout` can provide a good initialization for the force-directed layout, allowing the force-directed algorithm to converge faster and produce better results. By default, the initialization of the force-directed layout is the result of the grid layout.
+The initial layout for the force-directed layout. It will execute the layout specified by `presetLayout` first and then perform the force-directed calculation. Since the result of the force-directed layout depends heavily on the initial positions of the nodes, configuring `presetLayout` can provide a good initialization for the force-directed layout, allowing the force-directed algorithm to converge faster and produce better results. By default, the initialization of the force-directed layout is the result of the grid layout.
 
 ## center
 
@@ -23,9 +21,7 @@ This article shows all the configuration options for the Fruchterman force-direc
 
 **Default**: The center position of the current container
 
-**Required**: false
-
-**Description**: The center position of the circular layout.
+The center position of the circular layout.
 
 ## animated
 
@@ -33,9 +29,7 @@ This article shows all the configuration options for the Fruchterman force-direc
 
 **Default**: `false`
 
-**Required**: false
-
-**Description**: Whether to enable animation for each iteration. Note that the force-directed layout simulates the process of force interaction. When this parameter is enabled, the process of force interaction and collision can be observed. The `animated` parameter in the node configuration, on the other hand, is for interpolation animation, which uniformly interpolates from the initial position to the position after the layout. These two layouts should not be used together.
+Whether to enable animation for each iteration. Note that the force-directed layout simulates the process of force interaction. When this parameter is enabled, the process of force interaction and collision can be observed. The `animated` parameter in the node configuration, on the other hand, is for interpolation animation, which uniformly interpolates from the initial position to the position after the layout. These two layouts should not be used together.
 
 ## dimensions
 
@@ -43,9 +37,7 @@ This article shows all the configuration options for the Fruchterman force-direc
 
 **Default**: `2`
 
-**Required**: false
-
-**Description**: The dimension of the layout. Set it to `2` for 2D rendering. If it is set to `3` for 3D rendering, the layout calculation for the z-axis will be performed.
+The dimension of the layout. Set it to `2` for 2D rendering. If it is set to `3` for 3D rendering, the layout calculation for the z-axis will be performed.
 
 ## width
 
@@ -53,9 +45,7 @@ This article shows all the configuration options for the Fruchterman force-direc
 
 **Default**: `undefined`
 
-**Required**: false
-
-**Description**: The width of the layout. By default, it uses the width of the container.
+The width of the layout. By default, it uses the width of the container.
 
 ## height
 
@@ -63,9 +53,7 @@ This article shows all the configuration options for the Fruchterman force-direc
 
 **Default**: `undefined`
 
-**Required**: false
-
-**Description**: The height of the layout. By default, it uses the height of the container.
+The height of the layout. By default, it uses the height of the container.
 
 ## clustering
 
@@ -73,9 +61,7 @@ This article shows all the configuration options for the Fruchterman force-direc
 
 **Default**: `false`
 
-**Required**: false
-
-**Description**: Whether to perform clustering layout.
+Whether to perform clustering layout.
 
 ## nodeClusterBy
 
@@ -83,9 +69,7 @@ This article shows all the configuration options for the Fruchterman force-direc
 
 **Default**: `undefined`
 
-**Required**: false
-
-**Description**: The field name in the node model to be used as the basis for clustering layout. It takes effect when `clustering` is set to `true`.
+The field name in the node model to be used as the basis for clustering layout. It takes effect when `clustering` is set to `true`.
 
 ## clusterGravity
 
@@ -93,9 +77,7 @@ This article shows all the configuration options for the Fruchterman force-direc
 
 **Default**: `10`
 
-**Required**: false
-
-**Description**: The strength of gravity within a cluster, which affects the compactness of the clustering. It takes effect when `clustering` is set to `true`.
+The strength of gravity within a cluster, which affects the compactness of the clustering. It takes effect when `clustering` is set to `true`.
 
 ## gravity
 
@@ -103,9 +85,7 @@ This article shows all the configuration options for the Fruchterman force-direc
 
 **Default**: `10`
 
-**Required**: false
-
-**Description**: The strength of the central force, which attracts all nodes to the `center`. The larger the number, the more compact the layout.
+The strength of the central force, which attracts all nodes to the `center`. The larger the number, the more compact the layout.
 
 ## maxIteration
 
@@ -113,9 +93,7 @@ This article shows all the configuration options for the Fruchterman force-direc
 
 **Default**: `1000`
 
-**Required**: false
-
-**Description**: The maximum number of iterations.
+The maximum number of iterations.
 
 ## speed
 
@@ -123,28 +101,14 @@ This article shows all the configuration options for the Fruchterman force-direc
 
 **Default**: `1`
 
-**Required**: false
-
-**Description**: The speed at which nodes move in each iteration. A high speed may cause strong oscillations.
+The speed at which nodes move in each iteration. A high speed may cause strong oscillations.
 
 ## onTick
 
-**Type**: `Function`
+**Type**: `function`
 
 **Default**: In G6, if `animated: true`, the callback function is called to update the rendering position of nodes on the canvas after each iteration.
 
-**Required**: false
+Callback function for each iteration, returns the layout result for this iteration.
 
-**Description**: Callback function for each iteration, returns the layout result for this iteration.
-
-## workerEnabled
-
-**Type**: `boolean`
-
-**Default**: `false`
-
-**Required**: false
-
-**Description**: Whether to enable web worker for layout calculation to prevent blocking page interaction when the calculation takes too long.
-
-<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ Note:</strong></span> When `workerEnabled: true`, all parameter types of functions are not supported.
+<embed src="../../common/LayoutWorkerEnabled.en.md"></embed>
