@@ -65,7 +65,7 @@ export default class Card {
         return item?.isCanvas?.()
     }
     get container() {
-        return this.plugin._container;
+        return this.plugin.container;
     }
     cfg: CardCfg;
     plugin: Annotation;

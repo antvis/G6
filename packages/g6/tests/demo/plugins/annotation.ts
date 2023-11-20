@@ -53,6 +53,9 @@ export default (context: TestCaseContext) => {
       {
         type: 'annotation',
         key: 'annotation',
+        containerCfg: {
+            className: 'test'
+        },
         cardCfg: {
           focusEditOnInit: 'content',
         },

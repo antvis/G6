@@ -17,8 +17,8 @@ interface AnnotationConfig extends IPluginBaseConfig {
     // 无配置则没有自身容器，直接以图的容器为父容器
     position?: 'left' | 'right' | 'top' | 'bottom';
     className?: string;
-    width?: number;
-    height?: number;
+    width?: number | string;
+    height?: number | string;
     offsetX?: number;
     offsetY?: number;
   };
@@ -36,17 +36,7 @@ interface AnnotationConfig extends IPluginBaseConfig {
 }
 
 interface CardInfoMap {
-  [id: string]: Card & {
-    // card: HTMLDivElement;
-    // link?: Path;
-    // isCanvas?: boolean;
-    // cardBBox?: {
-    //   left: number;
-    //   right: number;
-    //   top: number;
-    //   bottom: number;
-    // };
-  };
+  [id: string]: Card;
 }
 
 const CANVAS_ANNOTATION_ID = 'canvas-annotation';
@@ -116,7 +106,7 @@ export class Annotation extends Base {
     return events;
   }
 
-  _container: HTMLElement;
+  container: HTMLElement;
   public init(graph: IGraph) {
     super.init(graph);
     if (this.destroyed) return;
@@ -125,10 +115,9 @@ export class Annotation extends Base {
 
     const containerCfg = this.options.containerCfg;
     if (containerCfg) {
-      this._container = this.createContainer();
-      graphCantainer.appendChild(this._container);
+      this.container = this.createContainer();
     } else {
-      this._container = graphCantainer;
+      this.container = graphCantainer;
     }
 
     const linkCanvasEl = document.createElement('canvas');
@@ -180,45 +169,43 @@ export class Annotation extends Base {
   private createContainer() {
     const containerCfg = this.options.containerCfg || {};
     const graph = this.graph;
-    const graphContainer = graph.getContainer();
+    const graphContainer = graph.container;
     const {
       left: gLeft,
-      right: gRight,
       top: gTop,
-      bottom: gBottom,
+      width: gWidth,
+      height: gHeight,
     } = graphContainer.getBoundingClientRect();
-    const graphContainerHeight = gBottom - gTop;
-    const graphContainerWidth = gRight - gLeft;
     const {
       position = 'top',
       offsetX = 0,
       offsetY = 0,
       ...otherStyle
     } = containerCfg;
-    let { height = 'fit-content', width = graph.getWidth() } = containerCfg;
-    if (height === '100%') height = graphContainerHeight;
-    if (width === '100%') width = graphContainerWidth;
+    let { height, width } = containerCfg;
+    if (!height || height === '100%') height = gHeight;
+    if (!width || width === '100%') width = gWidth;
     let maxHeight = 'unset',
       maxWidth = 'unset';
 
     let containerPosition: any = {};
     switch (position) {
       case 'right':
-        maxHeight = `${graphContainerHeight}px`;
+        maxHeight = `${gHeight}px`;
         containerPosition = { top: 0, right: 0 };
         containerPosition.right += gLeft + offsetX;
         containerPosition.top += gTop + offsetY;
         break;
       case 'bottom':
-        maxWidth = `${graphContainerWidth}px`;
+        maxWidth = `${gWidth}px`;
         containerPosition = { bottom: 0, left: 0 };
         containerPosition.left += gLeft + offsetX;
         containerPosition.bottom += gTop + offsetY;
         break;
       case 'top':
-        maxWidth = `${graphContainerWidth}px`;
+        maxWidth = `${gWidth}px`;
       case 'left':
-        maxHeight = `${graphContainerHeight}px`;
+        maxHeight = `${gHeight}px`;
       default:
         containerPosition = { top: 0, left: 0 };
         containerPosition.left += gLeft + offsetX;
@@ -258,7 +245,7 @@ export class Annotation extends Base {
     clearTimeout(this.resizeTimer);
     this.resizeTimer = window.setTimeout(() => {
       if (!this || this.destroyed) return;
-      const cBBox = this._container.getBoundingClientRect();
+      const cBBox = this.container.getBoundingClientRect();
       const newWidth = cBBox.right - cBBox.left;
       const newHeight = cBBox.bottom - cBBox.top;
       this.options.canvas.changeSize(newWidth, newHeight);
@@ -342,7 +329,7 @@ export class Annotation extends Base {
     if (this.destroyed) return;
     const cardInfoMap = this.cardInfoMap;
     const graph = this.graph;
-    const container = this._container;
+    const container = this.container;
     const containerCfg = this.options.containerCfg;
     const mixedCardCfg = Object.assign({}, this.options.cardCfg, cfg)
     const {
@@ -430,7 +417,7 @@ export class Annotation extends Base {
     if (this.destroyed) return;
     const cardInfoMap = this.cardInfoMap;
     if (!cardInfoMap) return;
-    const container = this._container;
+    const container = this.container;
     const { position } = this.options.containerCfg || {};
     let { width: containerWidth } = container.getBoundingClientRect();
     const computeStyle = getComputedStyle(container);
@@ -625,7 +612,6 @@ export class Annotation extends Base {
   public clear() {
     const cardInfoMap: CardInfoMap = this.cardInfoMap;
     if (!cardInfoMap) return;
-    const container = this._container;
     Object.values(cardInfoMap).forEach((cardInfo) => {
       cardInfo.destroy()
     });
@@ -641,7 +627,7 @@ export class Annotation extends Base {
     const graph = this.graph;
     if (!graph || graph.destroyed) return;
     if (this.options.containerCfg) {
-      graph.getContainer().removeChild(this.options.container);
+      graph.container.removeChild(this.container);
     }
     this.destroyed = true;
   }
