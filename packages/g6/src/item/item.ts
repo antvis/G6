@@ -514,7 +514,7 @@ export default abstract class Item implements IItem {
       }
 
       this.visible = true;
-      this.cacheHiddenByItem = {};
+      if (!shapeIds) this.cacheHiddenByItem = {};
       // restore the states
       if (this.states?.length) {
         this.drawWithStates([]);
