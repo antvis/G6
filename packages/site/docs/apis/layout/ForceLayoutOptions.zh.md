@@ -178,13 +178,13 @@ order: 1
 
 ```ts
 type CentripetalOptions = {
-  /** the center force strength for discrete nodes (with 0 degree) */
+  /** 离散节点的中心力强度（度为 0 的节点） */
   single?: number | ((model: NodeModel) => number);
-  /** the center force strength for leaf nodes (with 1 degree) */
+  /** 叶子节点的中心力强度（度为 1 的节点） */
   leaf?: number | ((model: NodeModel) => number);
-  /** the center force strength for other nodes beside leaf and discrete nodes */
+  /** 其他节点的中心力强度（除了叶子节点和离散节点） */
   others?: number | ((model: NodeModel) => number);
-  /** the center force's coordinate. You can return different values for different nodes */
+  /** 中心力的坐标，可以为不同的节点返回不同的值 */
   center?: (model: NodeModel) => { x: number; y: number };
 };
 ```
