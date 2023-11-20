@@ -9,7 +9,11 @@ This section outlines the configuration options for Star (星形) nodes, as demo
 
 ## keyShape
 
-- **Type**：`KeyShapeStyle`
+**Type**：`KeyShapeStyle`
+
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">KeyShapeStyle</summary>
 
 ```typescript
 type KeyShapeStyle = StyleProps & {
@@ -26,7 +30,13 @@ type KeyShapeStyle = StyleProps & {
 
 For more detailed style configuration, refer to [Path Graphic Style](../shape/PathStyleProps.en.md).
 
-- **Default**:
+</details>
+
+**Default**:`object`
+
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">object</summary>
 
 ```json
 {
@@ -34,6 +44,6 @@ For more detailed style configuration, refer to [Path Graphic Style](../shape/Pa
 }
 ```
 
-- **Required**: No
+</details>
 
 <embed src="../../../common/NodeShapeStyles.en.md"></embed>

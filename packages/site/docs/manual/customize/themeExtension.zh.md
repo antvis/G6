@@ -21,7 +21,7 @@ G6 允许扩展已有的主题。
 
 <details>
 
-<summary><span style="color: #873bf4; cursor: pointer">SpecThemeCfg</span></summary>
+<summary style="color: #873bf4; cursor: pointer">SpecThemeCfg</summary>
 
 ```typescript
 type SpecThemeCfg = { type: 'spec' } & SpecThemeSolverOptions;
@@ -73,7 +73,7 @@ type SpecThemeSolverOptions = {
 
 <details>
 
-<summary><span style="color: #873bf4; cursor: pointer">SubjectThemeCfg</span></summary>
+<summary style="color: #873bf4; cursor: pointer">SubjectThemeCfg</summary>
 
 ```typescript
 type SubjectThemeCfg = { type: 'subject' } & SubjectThemeSolverOptions;

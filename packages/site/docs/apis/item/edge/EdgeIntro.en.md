@@ -21,15 +21,16 @@ const Graph = extend(BaseGraph, {
  */
 const graph = new Graph({
   /**
- * ...other configuration options
- */
+   * ...other configuration options
+   */
   edge: {
-    type: 'cubic-edge', /**
- * type corresponds to the key named at registration
- */
+    type: 'cubic-edge'
     /**
- * ... see specific edge configurations for other edge options
- */
+     * type corresponds to the key named at registration
+     */,
+    /**
+     * ... see specific edge configurations for other edge options
+     */
   },
 });
 ```

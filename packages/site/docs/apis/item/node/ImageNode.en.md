@@ -9,7 +9,11 @@ This section details the configuration options for Image nodes, as demonstrated 
 
 ## keyShape
 
-- **Type**：`KeyShapeStyle`
+**Type**：`KeyShapeStyle`
+
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">KeyShapeStyle</summary>
 
 ```typescript
 type KeyShapeStyle = StyleProps & {
@@ -30,7 +34,6 @@ type KeyShapeStyle = StyleProps & {
    */
   clipCfg?: ClipCfg;
 };
-
 ```
 
 For more detailed style configuration, refer to [Image Graphic Style](../shape/ImageStyleProps.en.md).
@@ -50,15 +53,22 @@ type ClipCfg = {
 
 This allows specifying the shape type for image clipping and its style. Depending on the target clipping shape type, style configurations vary. For example, for type as `'circle'`, refer to [Circle Graphic Style](../shape/CircleStyleProps.en.md); for `'rect'`, refer to [Rect Graphic Style](../shape/RectStyleProps.en.md).
 
-- **Default**:
+</details>
+
+**Default**:`object`
+
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">object</summary>
 
 ```json
 {
   "width": "32",
   "height": "32
 }
+
 ```
 
-- **Required**: No
+</details>
 
 <embed src="../../../common/NodeShapeStyles.en.md"></embed>

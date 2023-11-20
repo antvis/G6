@@ -9,25 +9,39 @@ order: 1
 
 ## keyShape
 
-- **类型**：`KeyShapeStyle`
+**类型**：`KeyShapeStyle`
+
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">KeyShapeStyle</summary>
 
 ```typescript
 type KeyShapeStyle = StyleProps & {
   /** 圆的半径 */
   r: number;
 };
+
 ```
+
 
 其中，相关的图形样式参考 [Circle 图形样式](../shape/CircleStyleProps.zh.md)。
 
-- **默认值**：
+</details>
+
+**默认值**：`object`
+
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">object</summary>
 
 ```json
 {
   "r": 16
 }
-```
 
-- **是否必须**：否
+```
+</details>
+
+
 
 <embed src="../../../common/NodeShapeStyles.zh.md"></embed>

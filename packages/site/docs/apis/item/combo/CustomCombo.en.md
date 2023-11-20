@@ -7,7 +7,7 @@ In G6, if a built-in Combo does not meet a specific need, you can create a custo
 
 Custom Combo can be created by inheriting from built-in Combo such as CircleCombo. See [ComboType](/en/manual/customize/extension-cats#3-combos) for a graphical representation of what can be inherited.
 
-```ts
+```typescript
 import { Graph, Extensions, extend } from '@antv/g6';
 
 /**
@@ -15,8 +15,8 @@ import { Graph, Extensions, extend } from '@antv/g6';
  */
 class CustomCombo extends Extensions.CircleCombo {
   /**
- * Override member method to customize the drawing logic.
- */
+   * Override member method to customize the drawing logic.
+   */
 }
 
 /**
@@ -33,15 +33,16 @@ const ExtGraph = extend(Graph, {
  */
 const graph = new ExtGraph({
   /**
- * ... Other configuration items
- */
+   * ... Other configuration items
+   */
   combo: {
-    type: 'custom-combo', /**
- * Specify custom Combo
- */
     /**
- * ... See Combo-specific configuration for additional configuration items
- */
+     * Specify custom Combo
+     */
+    type: 'custom-combo',
+    /**
+     * ... See Combo-specific configuration for additional configuration items
+     */
   },
 });
 ```
@@ -50,9 +51,13 @@ const graph = new ExtGraph({
 
 ### draw
 
-**Type**:
+**Type**: `draw`
 
-```ts
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">draw</summary>
+
+```typescript
 type draw = (
   displayModel: ComboDisplayModel,
   diffData?: { previous: ComboUserModelData; current: ComboUserModelData },
@@ -67,75 +72,111 @@ type draw = (
 };
 ```
 
-**Description**: Draw all shapes associated with a Combo.
+</details>
+
+Draw all shapes associated with a Combo.
 
 ### drawKeyShape
 
-**Type**:
+**Type**: `drawKeyShape`
 
-```ts
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">drawKeyShape</summary>
+
+```typescript
 type drawKeyShape = (model: ComboDisplayModel, shapeMap: CombohapeMap) => DisplayObject;
 ```
 
-**Description**: Draw the key shape
+</details>
+
+Draw the key shape
 
 ### drawLabelShape
 
-**类型**：
+**Type**: `drawLabelShape`
 
-```ts
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">drawLabelShape</summary>
+
+```typescript
 type drawLabelShape = (
   model: ComboDisplayModel | ComboDisplayModel,
   shapeMap: CombohapeMap | CombohapeMap,
 ) => DisplayObject;
 ```
 
-**说明**：Draw the label shape of Combo.
+</details>
+
+Draw the label shape of Combo.
 
 ### drawLabelBackgroundShape
 
-**类型**：
+**Type**: `drawLabelBackgroundShape`
 
-```ts
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">drawLabelBackgroundShape</summary>
+
+```typescript
 type drawLabelBackgroundShape = (
   model: ComboDisplayModel | ComboDisplayModel,
   shapeMap: CombohapeMap | CombohapeMap,
 ) => DisplayObject;
 ```
 
-**说明**：Draw the label background shape of Combo.
+</details>
+
+Draw the label background shape of Combo.
 
 ### drawIconShape
 
-**类型**：
+**Type**: `drawIconShape`
 
-```ts
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">drawIconShape</summary>
+
+```typescript
 type drawIconShape = (
   model: ComboDisplayModel | ComboDisplayModel,
   shapeMap: CombohapeMap | CombohapeMap,
 ) => DisplayObject;
 ```
 
-**说明**：Draw the icon shape of Combo.
+</details>
+
+Draw the icon shape of Combo.
 
 ### drawHaloShape
 
-**类型**：
+**Type**: `drawHaloShape`
 
-```ts
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">drawHaloShape</summary>
+
+```typescript
 type drawHaloShape = (
   model: ComboDisplayModel | ComboDisplayModel,
   shapeMap: CombohapeMap | CombohapeMap,
 ) => DisplayObject;
 ```
 
-**说明**：Draw the halo shape of Combo.
+</details>
+
+Draw the halo shape of Combo.
 
 ### drawAnchorShapes
 
-**类型**：
+**Type**: `drawAnchorShapes`
 
-```ts
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">drawAnchorShapes</summary>
+
+```typescript
 type drawAnchorShapes = (
   model: ComboDisplayModel | ComboDisplayModel,
   shapeMap: CombohapeMap | CombohapeMap,
@@ -144,13 +185,19 @@ type drawAnchorShapes = (
 };
 ```
 
-**说明**：Draw the anchors shape of Combo.
+</details>
+
+Draw the anchors shape of Combo.
 
 ### drawBadgeShapes
 
-**类型**：
+**Type**: `drawBadgeShapes`
 
-```ts
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">drawBadgeShapes</summary>
+
+```typescript
 type drawBadgeShapes = (
   model: ComboDisplayModel | ComboDisplayModel,
   shapeMap: CombohapeMap | CombohapeMap,
@@ -159,26 +206,38 @@ type drawBadgeShapes = (
 };
 ```
 
-**说明**：Draw the badges shape of Combo.
+</details>
+
+Draw the badges shape of Combo.
 
 ### drawOtherShapes
 
-**类型**：
+**Type**: `drawOtherShapes`
 
-```ts
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">drawOtherShapes</summary>
+
+```typescript
 type drawOtherShapes = (
   model: ComboDisplayModel | ComboDisplayModel,
   shapeMap: CombohapeMap | CombohapeMap,
 ) => { [id: string]: DisplayObject };
 ```
 
-**说明**：Draw other shapes(such as preRect,stateIcon) of Combo.
+</details>
+
+Draw other shapes(such as preRect,stateIcon) of Combo.
 
 ### afterDraw
 
-**类型**：
+**Type**: `afterDraw`
 
-```ts
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">afterDraw</summary>
+
+```typescript
 type afterDraw = (
   model: EdgeDisplayModel,
   shapeMap: { [shapeId: string]: DisplayObject },
@@ -186,17 +245,25 @@ type afterDraw = (
 ) => { [otherShapeId: string]: DisplayObject };
 ```
 
-**说明**：Perform additional drawing operations or add custom shapes after drawing Combo.
+</details>
+
+Perform additional drawing operations or add custom shapes after drawing Combo.
 
 ### getMergedStyles
 
-**类型**：
+**Type**: `getMergedStyles`
 
-```ts
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">getMergedStyles</summary>
+
+```typescript
 type getMergedStyles = (model: EdgeDisplayModel) => EdgeDisplayModel;
 ```
 
-**说明**：Merge style.
+</details>
+
+Merge style.
 
 ## Member Methods
 
@@ -204,9 +271,13 @@ Inherited shapes provide the following method calls
 
 ### upsertShape
 
-**Type**:
+**Type**: `upsertShape`
 
-```ts
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">upsertShape</summary>
+
+```typescript
 type upsertShape = (
   type: SHAPE_TYPE | SHAPE_TYPE_3D,
   id: string,
@@ -216,4 +287,6 @@ type upsertShape = (
 ) => DisplayObject;
 ```
 
-**Description**: Create (if not existing in shapeMap) or update a shape based on configuration.
+</details>
+
+Create (if not existing in shapeMap) or update a shape based on configuration.

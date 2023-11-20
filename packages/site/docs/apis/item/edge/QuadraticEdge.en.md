@@ -9,7 +9,11 @@ This article presents the configuration options for Quadratic second-order Bézi
 
 ## keyShape
 
-- **Type**: `KeyShapeStyle`
+**Type**: `KeyShapeStyle`
+
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">KeyShapeStyle</summary>
 
 ```typescript
 type KeyShapeStyle = PathStyleProps &
@@ -33,7 +37,13 @@ type KeyShapeStyle = PathStyleProps &
 
 For more detailed style configuration, refer to [Path Graphic Style](../shape/PathStyleProps.en.md).
 
-- **Default**:
+</details>
+
+**Default**:`object`
+
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">object</summary>
 
 ```json
 {
@@ -41,6 +51,8 @@ For more detailed style configuration, refer to [Path Graphic Style](../shape/Pa
   "curvePosition": 0.5
 }
 ```
+
+</details>
 
 - **Required**: 否
 

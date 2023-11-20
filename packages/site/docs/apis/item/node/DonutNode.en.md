@@ -9,7 +9,11 @@ This section provides details on the configuration options for Donut (甜甜圈)
 
 ## keyShape
 
-- **Type**：`KeyShapeStyle`
+**Type**：`KeyShapeStyle`
+
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">KeyShapeStyle</summary>
 
 ```typescript
 type KeyShapeStyle = StyleProps & {
@@ -22,7 +26,13 @@ type KeyShapeStyle = StyleProps & {
 
 For more detailed style configuration, refer to [Circle](../shape/CircleStyleProps.en.md)。
 
-- **Default**:
+</details>
+
+**Default**:`object`
+
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">object</summary>
 
 ```json
 {
@@ -30,42 +40,58 @@ For more detailed style configuration, refer to [Circle](../shape/CircleStylePro
 }
 ```
 
-- **Required**: No
+</details>
 
 ## donutShapes
 
-- **Type**: `DonutShapesStyle`
+**Type**: `DonutShapesStyle`
+
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">DonutShapesStyle</summary>
 
 ```typescript
-type DonutShapesStyle = PathStyleProps & {
+type DonutShapesStyle = TextStyleProps & {
   /**
-   * The size of the donut's inner diameter relative to the overall radius. This value determines the size of the central empty area of the donut. A larger ratio means a larger central empty area and a relatively narrower ring. The value ranges from `0` to `1`.
+   * The position of the text relative to the key shape (keyShape) of the node, supports above, below, left, right, and center
    */
-  innerSize?: number;
+  position?: 'top' | 'bottom' | 'left' | 'right' | 'center';
   /**
-   * Defines the data for the donut node. Each field corresponds to a segment of the donut, with the field value indicating the size of that segment. These values are used to calculate the proportion of each segment in the donut.
+   * The x offset of the text shape relative to the key shape (keyShape)
    */
-  attrs?: PropObject;
+  offsetX?: number;
   /**
-   * Defines the colors for each segment of the donut. Color mapping, where the field names correspond to the field names in `attrs`. If not specified, the default color palette is used.
+   * The y offset of the text shape relative to the key shape (keyShape)
    */
-  colorMap?: PropObject;
+  offsetY?: number;
   /**
-   * Defines the stacking order (z-index) of the donut shape. This property can be used to control the overlap between different shapes.
+   * The z offset of the text shape relative to the key shape (keyShape)
    */
-  zIndex?: number;
+  offsetZ?: number;
+  /**
+   * The maximum width allowed for the text.
+   * If specified as a number, it represents the pixel value.
+   * If specified as a text with '%', it represents a percentage of the key shape (keyShape) bounding box size.
+   * The default value is '200%', which means the maximum width of the text shape cannot exceed twice the width of the key shape.
+   * If it exceeds, it will be automatically truncated and an ellipsis '...' will be added at the end.
+   */
+  maxWidth?: string | number;
+  /**
+   * The rotation angle of the text (in radians)
+   */
+  angle?: number;
 };
 ```
 
-`PropObject` as follows:
+For more detailed style configuration, refer to [Text Graphic Style](../shape/TextStyleProps.en.md).
 
-```typescript
-type PropObject = {
-  [propKey: string]: number;
-};
-```
+</details>
 
-- **Default**:
+**Default**:`object`
+
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">object</summary>
 
 ```json
 {
@@ -74,6 +100,6 @@ type PropObject = {
 }
 ```
 
-- **Required**: Yes
+</details>
 
 <embed src="../../../common/NodeShapeStyles.en.md"></embed>

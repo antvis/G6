@@ -9,7 +9,11 @@ order: 2
 
 ## keyShape
 
-- **类型**：`KeyShapeStyle`
+**类型**：`KeyShapeStyle`
+
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">KeyShapeStyle</summary>
 
 ```typescript
 type KeyShapeStyle = StyleProps &
@@ -23,19 +27,29 @@ type KeyShapeStyle = StyleProps &
      */
     height: number,
   };
+
 ```
+
 
 其中，相关的图形样式参考 [Rect 图形样式](../shape/RectStyleProps.zh.md)。
 
-- **默认值**：
+</details>
+
+**默认值**：`object`
+
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">object</summary>
 
 ```json
 {
   "width": "32",
   "height": "32"
 }
-```
 
-- **是否必须**：否
+```
+</details>
+
+
 
 <embed src="../../../common/ComboShapeStyles.zh.md"></embed>

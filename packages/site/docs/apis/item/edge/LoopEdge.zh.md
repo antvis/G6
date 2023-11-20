@@ -9,7 +9,11 @@ order: 7
 
 ## keyShape
 
-- **类型**：`KeyShapeStyle`
+**类型**：`KeyShapeStyle`
+
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">KeyShapeStyle</summary>
 
 ```typescript
 type LoopPosition = 'top' | 'top-right' | 'right' | 'bottom-right' | 'bottom' | 'bottom-left' | 'left' | 'top-left';
@@ -46,7 +50,13 @@ type KeyShapeStyle = PathStyleProps &
 
 其中，相关的图形样式参考 [Path 图形样式](../shape/PathStyleProps.zh.md)。
 
-- **默认值**：
+</details>
+
+**默认值**：`object`
+
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">object</summary>
 
 ```json
 {
@@ -59,6 +69,6 @@ type KeyShapeStyle = PathStyleProps &
 }
 ```
 
-- **是否必须**：否
+</details>
 
 <embed src="../../../common/EdgeShapeStyles.zh.md"></embed>

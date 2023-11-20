@@ -9,7 +9,11 @@ order: 12
 
 ## keyShape
 
-- **类型**：`KeyShapeStyle`
+**类型**：`KeyShapeStyle`
+
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">KeyShapeStyle</summary>
 
 ```typescript
 type KeyShapeStyle = {
@@ -28,7 +32,13 @@ type KeyShapeStyle = {
 };
 ```
 
-- **默认值**：
+</details>
+
+**默认值**：`object`
+
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">object</summary>
 
 ```json
 {
@@ -38,7 +48,7 @@ type KeyShapeStyle = {
 }
 ```
 
-- **是否必须**：否
+</details>
 
 <embed src="../../../common/NodeShapeStyles.zh.md"></embed>
 

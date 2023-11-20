@@ -34,10 +34,10 @@ const graph = new ExtGraph({
    * ... Other configuration items
    */
   node: {
-    type: 'custom-node',
     /**
      * Specify custom node
      */
+    type: 'custom-node',
     /**
      * ... See node-specific configuration for additional configuration items
      */
@@ -49,7 +49,11 @@ const graph = new ExtGraph({
 
 ### draw
 
-**Type**:
+**Type**: `draw`
+
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">draw</summary>
 
 ```typescript
 type draw = (
@@ -65,11 +69,17 @@ type draw = (
 
 For more detailed data configuration, refer to [NodeDisplayModel](../../data/NodeDisplayModel.en.md) or [ComboDisplayModel](../../data/ComboDisplayModel.en.md).
 
-**Description**: Draw all shapes associated with a node.
+</details>
+
+Draw all shapes associated with a node.
 
 ### drawKeyShape
 
-**Type**:
+**Type**: `drawKeyShape`
+
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">drawKeyShape</summary>
 
 ```typescript
 type drawKeyShape = (model: NodeDisplayModel, shapeMap: NodeShapeMap) => DisplayObject;
@@ -77,11 +87,17 @@ type drawKeyShape = (model: NodeDisplayModel, shapeMap: NodeShapeMap) => Display
 
 For more detailed data configuration, refer to [NodeDisplayModel](../../data/NodeDisplayModel.en.md) or [ComboDisplayModel](../../data/ComboDisplayModel.en.md).
 
-**Description**: Draw the key shape
+</details>
+
+Draw the key shape
 
 ### drawLabelShape
 
-**Type**：
+**Type**: `drawLabelShape`
+
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">drawLabelShape</summary>
 
 ```typescript
 type drawLabelShape = (
@@ -92,11 +108,17 @@ type drawLabelShape = (
 
 For more detailed data configuration, refer to [NodeDisplayModel](../../data/NodeDisplayModel.en.md) or [ComboDisplayModel](../../data/ComboDisplayModel.en.md).
 
-**Description**：Draw the label shape of the node.
+</details>
+
+Draw the label shape of the node.
 
 ### drawLabelBackgroundShape
 
-**Type**：
+**Type**: `drawLabelBackgroundShape`
+
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">drawLabelBackgroundShape</summary>
 
 ```typescript
 type drawLabelBackgroundShape = (
@@ -107,11 +129,17 @@ type drawLabelBackgroundShape = (
 
 For more detailed data configuration, refer to [NodeDisplayModel](../../data/NodeDisplayModel.en.md) or [ComboDisplayModel](../../data/ComboDisplayModel.en.md).
 
-**Description**：Draw the label background shape of the node.
+</details>
+
+Draw the label background shape of the node.
 
 ### drawIconShape
 
-**Type**：
+**Type**: `drawIconShape`
+
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">drawIconShape</summary>
 
 ```typescript
 type drawIconShape = (
@@ -122,11 +150,17 @@ type drawIconShape = (
 
 For more detailed data configuration, refer to [NodeDisplayModel](../../data/NodeDisplayModel.en.md) or [ComboDisplayModel](../../data/ComboDisplayModel.en.md).
 
-**Description**：Draw the icon shape of the node.
+</details>
+
+Draw the icon shape of the node.
 
 ### drawHaloShape
 
-**Type**：
+**Type**: `drawHaloShape`
+
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">drawHaloShape</summary>
 
 ```typescript
 type drawHaloShape = (
@@ -137,11 +171,17 @@ type drawHaloShape = (
 
 For more detailed data configuration, refer to [NodeDisplayModel](../../data/NodeDisplayModel.en.md) or [ComboDisplayModel](../../data/ComboDisplayModel.en.md).
 
-**Description**：Draw the halo shape of the node.
+</details>
+
+Draw the halo shape of the node.
 
 ### drawAnchorShapes
 
-**Type**：
+**Type**: `drawAnchorShapes`
+
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">drawAnchorShapes</summary>
 
 ```typescript
 type drawAnchorShapes = (
@@ -154,11 +194,17 @@ type drawAnchorShapes = (
 
 For more detailed data configuration, refer to [NodeDisplayModel](../../data/NodeDisplayModel.en.md) or [ComboDisplayModel](../../data/ComboDisplayModel.en.md).
 
-**Description**：Draw the anchors shape of the node.
+</details>
+
+Draw the anchors shape of the node.
 
 ### drawBadgeShapes
 
-**Type**：
+**Type**: `drawBadgeShapes`
+
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">drawBadgeShapes</summary>
 
 ```typescript
 type drawBadgeShapes = (
@@ -171,11 +217,17 @@ type drawBadgeShapes = (
 
 For more detailed data configuration, refer to [NodeDisplayModel](../../data/NodeDisplayModel.en.md) or [ComboDisplayModel](../../data/ComboDisplayModel.en.md).
 
-**Description**：Draw the badges shape of the node.
+</details>
+
+Draw the badges shape of the node.
 
 ### drawOtherShapes
 
-**Type**：
+**Type**: `drawOtherShapes`
+
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">drawOtherShapes</summary>
 
 ```typescript
 type drawOtherShapes = (
@@ -186,11 +238,17 @@ type drawOtherShapes = (
 
 For more detailed data configuration, refer to [NodeDisplayModel](../../data/NodeDisplayModel.en.md) or [ComboDisplayModel](../../data/ComboDisplayModel.en.md).
 
-**Description**：Draw other shapes(such as preRect,stateIcon) of the node.
+</details>
+
+Draw other shapes(such as preRect,stateIcon) of the node.
 
 ### afterDraw
 
-**Type**：
+**Type**: `afterDraw`
+
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">afterDraw</summary>
 
 ```typescript
 type afterDraw = (
@@ -202,11 +260,17 @@ type afterDraw = (
 
 For more detailed data configuration, refer to [NodeDisplayModel](../../data/NodeDisplayModel.en.md) or [ComboDisplayModel](../../data/ComboDisplayModel.en.md).
 
-**Description**：Perform additional drawing operations or add custom shapes after drawing node.
+</details>
+
+Perform additional drawing operations or add custom shapes after drawing node.
 
 ### getMergedStyles
 
-**Type**：
+**Type**: `getMergedStyles`
+
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">getMergedStyles</summary>
 
 ```typescript
 type getMergedStyles = (model: EdgeDisplayModel) => EdgeDisplayModel;
@@ -214,7 +278,9 @@ type getMergedStyles = (model: EdgeDisplayModel) => EdgeDisplayModel;
 
 For more detailed data configuration, refer to [NodeDisplayModel](../../data/NodeDisplayModel.en.md) or [ComboDisplayModel](../../data/ComboDisplayModel.en.md).
 
-**Description**：Merge style.
+</details>
+
+Merge style.
 
 ## Member Methods
 
@@ -222,7 +288,11 @@ Inherited shapes provide the following method calls
 
 ### upsertShape
 
-**Type**:
+**Type**: `upsertShape`
+
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">upsertShape</summary>
 
 ```typescript
 type SHAPE_TYPE = 'rect' | 'circle' | 'ellipse' | 'polygon' | 'image' | 'polyline' | 'line' | 'path' | 'text' | 'group';
@@ -238,4 +308,6 @@ type upsertShape = (
 ) => DisplayObject;
 ```
 
-**Description**: Create (if not existing in shapeMap) or update a shape based on configuration.
+</details>
+
+Create (if not existing in shapeMap) or update a shape based on configuration.

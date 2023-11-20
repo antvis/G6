@@ -1,8 +1,10 @@
 ## labelShape
 
-节点的文本图形。
+**类型**：`LabelShapeStyle`
 
-- **类型**：`LabelShapeStyle`
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">LabelShapeStyle</summary>
 
 ```typescript
 type LabelShapeStyle = StyleProps & {
@@ -35,7 +37,13 @@ type LabelShapeStyle = StyleProps & {
 
 其中，相关的图形样式参考 [Text 图形样式](../shape/TextStyleProps.zh.md)。
 
-- **默认值**：
+</details>
+
+**默认值**：`object`
+
+<details>
+
+<summary><span style="color: #873bf4; cursor: pointer">object</span></summary>
 
 ```json
 {
@@ -44,13 +52,17 @@ type LabelShapeStyle = StyleProps & {
 }
 ```
 
-- **是否必须**：否
+</details>
+
+节点的文本图形
 
 ## labelBackgroundShape
 
-节点的文本的背景图形，是一个矩形。若不设置则不显示。设置为 `{}` 将使用主题中默认的样式显示文本背景图形。
+**类型**：`LabelBackgroundShapeStyle`
 
-- **类型**：`LabelBackgroundShapeStyle`
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">LabelBackgroundShapeStyle</summary>
 
 ```typescript
 type LabelBackgroundShapeStyle = ShapeStyle & {
@@ -63,15 +75,19 @@ type LabelBackgroundShapeStyle = ShapeStyle & {
 
 其中，相关的图形样式参考 [Rect 图形样式](../shape/RectStyleProps.zh.md)。
 
-- **默认值**： undefined
+</details>
 
-- **是否必须**：否
+**默认值**： undefined
+
+节点的文本的背景图形，是一个矩形。若不设置则不显示。设置为 `{}` 将使用主题中默认的样式显示文本背景图形。
 
 ## iconShape
 
-节点中心的图标图形（除 `'modelRect-node'` 以外的内置节点支持，继承这些内置节点的自定义节点在无复写相关内容的情况下同样支持），可以是图片或文本，文本支持 iconfont (设置 `fontFamily: 'iconfont'`)。
+**类型**: `IconShapeStyle`
 
-- **类型**: `IconShapeStyle`
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">IconShapeStyle</summary>
 
 ```typescript
 type IconShapeStyle = Partial<
@@ -87,29 +103,55 @@ type IconShapeStyle = Partial<
 
 其中，相关的图形样式参考 [Text 图形样式](../shape/TextStyleProps.zh.md)，和 [Image 图形样式](../shape/ImageStyleProps.zh.md)。
 
-- **默认值**：undefined
+</details>
 
-- **是否必须**：否
+**默认值**：undefined
+
+节点中心的图标图形（除 `'modelRect-node'` 以外的内置节点支持，继承这些内置节点的自定义节点在无复写相关内容的情况下同样支持），可以是图片或文本，文本支持 iconfont (设置 `fontFamily: 'iconfont'`)。
 
 ## haloShape
 
-在内置的节点和主题中，`haloShape` 指的是节点在 `active`（一般在鼠标 hover 时该状态被触发） 和 `selected`（一般在选中状态下该状态被触发） 状态下，主图形 (`keyShape`) 周围展示的光晕效果的图形。在内置节点的逻辑中，`haloShape` 的图形类型、颜色跟随主图形 (`keyShape`)。
+**类型**: `HaloShapeStyle`
 
-- **类型**: `ShapeStyle`
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">HaloShapeStyle</summary>
+
+```typescript
+type HaloShapeStyle = ShapeStyle;
+```
 
 说明，`haloShape` 的图形类型跟随主图形(`keyShape`)。根据不同的主图形，图形样式配置项不同。例如 `'circle-node'` 的主图形是 `'circle'` 参考 [Circle 图形样式](../shape/CircleStyleProps.zh.md)；`'image-node'` 的主图形是 `'image'` 参考 [Image 图形样式](../shape/ImageStyleProps.zh.md)。
 
-- **默认值**：undefined
+</details>
 
-- **是否必须**：否
+**默认值**：undefined
+
+在内置的节点和主题中，`haloShape` 指的是节点在 `active`（一般在鼠标 hover 时该状态被触发） 和 `selected`（一般在选中状态下该状态被触发） 状态下，主图形 (`keyShape`) 周围展示的光晕效果的图形。在内置节点的逻辑中，`haloShape` 的图形类型、颜色跟随主图形 (`keyShape`)。
 
 ## badgeShapes
 
-节点四周的徽标，单个徽标包括了文本和背景图形，`badgeShapes` 配置的是多个徽标。[节点徽标 DEMO](/zh/examples/item/defaultNodes/#circle)。
+**类型**：`BadgeShapesStyle`
 
-- **类型**：`BadgeShapesStyle`
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">BadgeShapesStyle</summary>
 
 ```typescript
+type IBadgePosition =
+  | 'rightTop'
+  | 'right'
+  | 'rightBottom'
+  | 'bottomRight'
+  | 'bottom'
+  | 'bottomLeft'
+  | 'leftBottom'
+  | 'left'
+  | 'leftTop'
+  | 'topLeft'
+  | 'top'
+  | 'topRight';
+
 type BadgeShapesStyle = {
   /**
    * 徽标的背景颜色（对所有徽标生效，优先级低于下面单个徽标的 color 设置）
@@ -144,35 +186,21 @@ type BadgeShapesStyle = {
 };
 ```
 
-`IBadgePosition` 定义如下：
-
-```ts
-type IBadgePosition =
-  | 'rightTop'
-  | 'right'
-  | 'rightBottom'
-  | 'bottomRight'
-  | 'bottom'
-  | 'bottomLeft'
-  | 'leftBottom'
-  | 'left'
-  | 'leftTop'
-  | 'topLeft'
-  | 'top'
-  | 'topRight';
-```
-
 其中，相关的图形样式参考 [Rect 图形样式](../shape/RectStyleProps.zh.md)。
 
-- **默认值**： undefined
+</details>
 
-- **是否必须**：否
+**默认值**： undefined
+
+节点四周的徽标，单个徽标包括了文本和背景图形，`badgeShapes` 配置的是多个徽标。[节点徽标 DEMO](/zh/examples/item/defaultNodes/#circle)。
 
 ## anchorShapes
 
-节点四周的边连入位置圆形图形（连接桩），anchorShapess 配置的是多个连接桩。[节点连接桩 DEMO](/zh/examples/item/defaultNodes/#circle)。
+**类型**：`AnchorShapesStyle`
 
-- **类型**：`AnchorShapesStyle`
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">AnchorShapesStyle</summary>
 
 ```typescript
 /**
@@ -193,15 +221,19 @@ type AnchorShapesStyle = StyleProps & {
 
 其中，相关的图形样式参考 [Circle 图形样式](../shape/CircleStyleProps.zh.md)。
 
-- **默认值**： undefined
+</details>
 
-- **是否必须**：否
+**默认值**： undefined
+
+节点四周的边连入位置圆形图形（连接桩），anchorShapess 配置的是多个连接桩。[节点连接桩 DEMO](/zh/examples/item/defaultNodes/#circle)。
 
 ## otherShapes
 
-上面所有的 xxShape(s) 均为 G6 定义的规范节点中可能存在的图形。自定义节点中的其他图形应当定义和配置在 `otherShapes` 中
+**类型**：`OtherShapesStyle`
 
-- **类型**：`OtherShapesStyle`
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">OtherShapesStyle</summary>
 
 ```typescript
 type OtherShapesStyle = {
@@ -217,6 +249,8 @@ type OtherShapesStyle = {
 
 其中，不同的图形样式参考[图形样式](../shape/BaseStyleProps.zh.md)目录下对应的图形类型文档。
 
-- **默认值**： undefined
+</details>
 
-- **是否必须**：否
+**默认值**： undefined
+
+上面所有的 xxShape(s) 均为 G6 定义的规范节点中可能存在的图形。自定义节点中的其他图形应当定义和配置在 `otherShapes` 中

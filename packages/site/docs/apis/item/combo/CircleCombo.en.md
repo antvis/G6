@@ -9,7 +9,11 @@ This article demonstrates the configuration options for Circle Combo. [Circle Co
 
 ## keyShape
 
-- **Type**: `KeyShapeStyle`
+**Type**: `KeyShapeStyle`
+
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">KeyShapeStyle</summary>
 
 ```typescript
 type KeyShapeStyle = StyleProps & {
@@ -20,7 +24,13 @@ type KeyShapeStyle = StyleProps & {
 
 The related circle style can be referred to in [`CircleStyleProps`](../shape/CircleStyleProps.en.md).
 
-- **Default**:
+</details>
+
+**Default**:`object`
+
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">object</summary>
 
 ```json
 {
@@ -28,6 +38,6 @@ The related circle style can be referred to in [`CircleStyleProps`](../shape/Cir
 }
 ```
 
-- **Required**: No
+</details>
 
 <embed src="../../../common/ComboShapeStyles.en.md"></embed>

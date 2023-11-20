@@ -9,7 +9,11 @@ This section details the configuration options for Sphere (球体) nodes, as sho
 
 ## keyShape
 
-- **Type**: `KeyShapeStyle`
+**Type**: `KeyShapeStyle`
+
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">KeyShapeStyle</summary>
 
 ```typescript
 type KeyShapeStyle = {
@@ -28,7 +32,13 @@ type KeyShapeStyle = {
 };
 ```
 
-- **Default**:
+</details>
+
+**Default**:`object`
+
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">object</summary>
 
 ```json
 {
@@ -38,6 +48,6 @@ type KeyShapeStyle = {
 }
 ```
 
-- **Required**: No
+</details>
 
 <embed src="../../../common/NodeShapeStyles.en.md"></embed>

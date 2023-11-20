@@ -9,7 +9,11 @@ This section details the configuration options for Triangle (三角形) nodes, a
 
 ## keyShape
 
-- **Type**：`KeyShapeStyle`
+**Type**：`KeyShapeStyle`
+
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">KeyShapeStyle</summary>
 
 ```typescript
 type KeyShapeStyle = StyleProps & {
@@ -22,12 +26,17 @@ type KeyShapeStyle = StyleProps & {
    */
   direction?: 'up' | 'left' | 'right' | 'down';
 };
-
 ```
 
 For more detailed style configuration, refer to [Path Graphic Style](../shape/PathStyleProps.en.md).
 
-- **Default**:
+</details>
+
+**Default**:`object`
+
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">object</summary>
 
 ```json
 {
@@ -36,6 +45,6 @@ For more detailed style configuration, refer to [Path Graphic Style](../shape/Pa
 }
 ```
 
-- **Required**: No
+</details>
 
 <embed src="../../../common/NodeShapeStyles.en.md"></embed>

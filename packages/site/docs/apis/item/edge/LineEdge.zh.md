@@ -9,14 +9,24 @@ order: 1
 
 ## keyShape
 
-- **类型**：`LineStyleProps & ArrowProps`
+**类型**：`KeyShapeStyle`
 
-<embed src="../../../common/ArrowStyle.zh.md"></embed>
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">KeyShapeStyle</summary>
+
+```typescript
+type KeyShapeStyle = LineStyleProps & ArrowProps;
+```
 
 其中，相关的图形样式参考 [Line 图形样式](../shape/LineStyleProps.zh.md)。
 
-- **默认值**：undefined
+<embed src="../../../common/ArrowStyle.zh.md"></embed>
 
-- **是否必须**：否
+</details>
+
+**默认值**：undefined
+
+关键图形
 
 <embed src="../../../common/EdgeShapeStyles.zh.md"></embed>

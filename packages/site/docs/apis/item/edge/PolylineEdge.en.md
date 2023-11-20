@@ -13,7 +13,11 @@ This article presents the configuration options for Polyline edges. [Polyline Ed
 
 ## keyShape
 
-- **Type**: `KeyShapeStyle`
+**Type**: `KeyShapeStyle`
+
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">KeyShapeStyle</summary>
 
 ```typescript
 type KeyShapeStyle = PathStyleProps &
@@ -43,13 +47,21 @@ type KeyShapeStyle = PathStyleProps &
 
 For more detailed style configuration, refer to [Path Graphic Style](../shape/PathStyleProps.en.md).
 
-- **Default**:
+</details>
+
+**Default**:`object`
+
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">object</summary>
 
 ```json
 {
   "offset": 2
 }
 ```
+
+</details>
 
 | Props                     | Type               | Default   | Required | Description                                                                                                                                                   |
 | ------------------------- | ------------------ | --------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -60,7 +72,5 @@ For more detailed style configuration, refer to [Path Graphic Style](../shape/Pa
 | enableObstacleAvoidance   | `boolean`          | `false`   | No       | Whether to enable automatic obstacle avoidance                                                                                                                |
 
 Note that, if not specified `controlPoints`, polyline control points are automatically generated based on the [A\* algorithm](https://www.yuque.com/antv/blog/eyi70n). If specified, the polyline will bend at the locations specified by `controlPoints`.
-
-- **Required**: No
 
 <embed src="../../../common/EdgeShapeStyles.en.md"></embed>
