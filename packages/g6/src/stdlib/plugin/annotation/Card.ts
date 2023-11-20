@@ -67,17 +67,7 @@ export default class Card {
     get container() {
         return this.plugin._container;
     }
-    cfg: CardCfg & {
-        // card: HTMLDivElement;
-        // link?: Path;
-        // isCanvas?: boolean;
-        // cardBBox?: {
-        //   left: number;
-        //   right: number;
-        //   top: number;
-        //   bottom: number;
-        // };
-    };
+    cfg: CardCfg;
     plugin: Annotation;
     constructor(plugin: Annotation, cfg: CardCfg) {
         this.cfg = {...cfg};
@@ -121,7 +111,6 @@ export default class Card {
               const { bbox: lastCardBBox } = currentRow[currentRow.length - 1] || {};
               y = lastCardBBox?.bottom - containerTop || beginTop;
             }
-            console.log(x,y)
             this.move(x, y)
           }
 

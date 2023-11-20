@@ -346,18 +346,11 @@ export class Annotation extends Base {
     const containerCfg = this.options.containerCfg;
     const mixedCardCfg = Object.assign({}, this.options.cardCfg, cfg)
     const {
-      minHeight, minWidth,
-      maxWidth, maxHeight,
-      width, height,
       collapsed = false,
-      // x: propsX,
-      // y: propsY,
       title: propsTitle,
       content: propsContent,
       maxTitleLength,
-      defaultBegin,
     } = mixedCardCfg;
-    // const linkGroup: Group = this.options.linkGroup;
     const rows = this.options.rows || [[]];
 
     const isCanvas = item.isCanvas?.();
@@ -365,10 +358,6 @@ export class Annotation extends Base {
     const itemId = isCanvas ? CANVAS_ANNOTATION_ID : item.getID();
     const cardInfo = cardInfoMap[itemId];
 
-    // let link = cardInfo?.link,
-    const x = cardInfo?.cfg.x,
-      y = cardInfo?.cfg.y;
-    // const card = cardInfo?.card,
     const title = cardInfo?.cfg.title,
       content = cardInfo?.cfg.content;
 
@@ -402,87 +391,7 @@ export class Annotation extends Base {
       cardInfo.destroy()
     }
 
-    // let containerBBox;
-    // if (!containerCfg) {
-    //   containerBBox = container.getBoundingClientRect() || {};
-    //   if (propsX !== undefined && propsY !== undefined) {
-    //     // 使用配置的位置
-    //     x = propsX;
-    //     y = propsY;
-    //   } else if (!exist && !isCanvas) {
-    //     // 第一次创建，且无 conatiner，初始化位置
-    //     const { top: containerTop } = containerBBox;
-    //     const {
-    //       left: beginLeft,
-    //       right: propsBeginRight = 16,
-    //       top: propsBeginTop = 8,
-    //       bottom: beginBottom,
-    //     } = defaultBegin || {};
-    //     let beginRight = propsBeginRight;
-    //     let beginTop = propsBeginTop;
-    //     if (isNumber(beginLeft) && !Number.isNaN(beginLeft)) {
-    //       beginRight = container.scrollWidth - beginLeft;
-    //     }
-    //     if (isNumber(beginBottom) && !Number.isNaN(beginBottom)) {
-    //       beginTop = container.scrollHeight - beginBottom;
-    //     }
-    //     const cardWidth = isNumber(minWidth) ? minWidth : 100;
-    //     x =
-    //       container.scrollWidth -
-    //       newCard.$el.scrollWidth -
-    //       (rows.length - 1) * cardWidth -
-    //       beginRight;
-    //     const currentRow = rows[rows.length - 1];
-    //     const { bbox: lastCardBBox } = currentRow[currentRow.length - 1] || {};
-    //     y = lastCardBBox?.bottom - containerTop || beginTop;
-    //   }
-    //   newCard.move(x, y)
-    //   // modifyCSS(newCard, {
-    //   //   position: 'absolute',
-    //   //   left: `${x}px`,
-    //   //   top: `${y}px`,
-    //   //   // cusor: containerCfg ? 'unset' : 'move',
-    //   // });
-    // }
-
-    // const cardBBox = newCard.getBoundingClientRect();
-    // if (!isCanvas) {
-    //   // 创建相关连线
-    //   const path = getPathItem2Card(item, cardBBox, graph, this.options.canvas);
-    //   const linkStyle = this.options.linkStyle;
-
-    //   link = linkGroup.appendChild(
-    //     new Path({
-    //       attrs: {
-    //         lineWidth: 1,
-    //         lineDash: [5, 5],
-    //         stroke: '#ccc',
-    //         path,
-    //         ...linkStyle,
-    //       },
-    //     }),
-    //   );
-    // }
-
     cardInfoMap[itemId] = newCard;
-    // cardInfoMap[itemId] = {
-    //   ...cardInfo,
-    //   id: itemId,
-    //   collapsed,
-    //   card: newCard,
-    //   link,
-    //   x,
-    //   y,
-    //   // cardBBox,
-    //   content: contentData,
-    //   title: titleData,
-    //   contentPlaceholder,
-    //   titlePlaceholder,
-    //   isCanvas,
-    // };
-    // this.cardInfoMap = cardInfoMap;
-
-    // this.bindListener(newCard, itemId);
 
     const cardBBox = newCard.$el.getBoundingClientRect()
     if (containerCfg) {
