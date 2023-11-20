@@ -1,14 +1,13 @@
-import { isNumber, debounce, throttle } from '@antv/util';
-import { Canvas, Group, Path, PathStyleProps } from '@antv/g';
+import { isNumber, debounce } from '@antv/util';
+import { Canvas, Group, PathStyleProps } from '@antv/g';
 import { Renderer as CanvasRenderer } from '@antv/g-canvas';
 import { createDOM, modifyCSS } from '../../../util/dom';
 import { Plugin as Base, IPluginBaseConfig } from '../../../types/plugin';
 import { IG6GraphEvent, IGraph } from '../../../types';
 import { getPathItem2Card, px2Num } from './util';
-import { bindCardEvent } from './cardEvents';
 import { insertCSS } from './insertCSS';
-import { renderCard } from './renderCard';
 import { AnnotationData, EditPosition } from './types';
+import Card, { CardCfg } from './Card';
 
 insertCSS();
 
@@ -36,61 +35,17 @@ interface AnnotationConfig extends IPluginBaseConfig {
   onAnnotationChange?: (info: any, action: string) => void;
 }
 
-interface CardCfg {
-  id?: string;
-  width?: number | 'fit-content';
-  height?: number | 'fit-content';
-  minHeight?: number | string;
-  minWidth?: number | string;
-  collapsed?: boolean;
-  // 指定位置，视口坐标系。仅在无 containerCfg 时生效
-  x?: number;
-  y?: number;
-  title?: string;
-  content?: string;
-  borderRadius?: number;
-  maxTitleLength?: number;
-  maxWidth?: number;
-  maxHeight?: number;
-  collapseType?: 'minimize' | 'hide'; // 点击收起按钮(-)的响应，最小化、隐藏
-  closeType?: 'hide' | 'remove'; // 点击关闭按钮(x)的相应，隐藏、移除
-  defaultBegin?: {
-    left?: number;
-    top?: number;
-    right?: number;
-    bottom?: number;
-  }; // 一个个卡片出生的起始位置，后续卡片会往后排列
-  onMouseEnterIcon?: (
-    evt: any,
-    id: string,
-    type: 'expand' | 'collapse' | 'close',
-  ) => void;
-  onMouseLeaveIcon?: (
-    evt: any,
-    id: string,
-    type: 'expand' | 'collapse' | 'close',
-  ) => void;
-  onClickIcon?: (
-    evt: any,
-    id: string,
-    type: 'expand' | 'collapse' | 'close',
-  ) => void;
-  titlePlaceholder?: string;
-  contentPlaceholder?: string;
-  focusEditOnInit?: boolean | EditPosition; // new feature
-}
-
 interface CardInfoMap {
-  [id: string]: CardCfg & ReturnType<typeof bindCardEvent> & {
-    card: HTMLDivElement;
-    link?: Path;
-    isCanvas?: boolean;
-    cardBBox?: {
-      left: number;
-      right: number;
-      top: number;
-      bottom: number;
-    };
+  [id: string]: Card & {
+    // card: HTMLDivElement;
+    // link?: Path;
+    // isCanvas?: boolean;
+    // cardBBox?: {
+    //   left: number;
+    //   right: number;
+    //   top: number;
+    //   bottom: number;
+    // };
   };
 }
 
@@ -130,12 +85,11 @@ export class Annotation extends Base {
         maxWidth: 300,
         maxHeight: 500,
         minWidth: 120,
-        minHeight: 60,
-        width: 'fit-content',
+        minHeight: 120,
+        width: 120,
         height: 'fit-content',
         collapseType: 'minimize',
         closeType: 'hide',
-        borderRadius: 5,
         maxTitleLength: 20,
       },
     };
@@ -368,7 +322,13 @@ export class Annotation extends Base {
   public showAnnotation(evt: IG6GraphEvent) {
     if (this.destroyed) return;
     const item = this.graph.itemController.getItemById(evt.itemId);
-    this.toggleAnnotation(item);
+    const id = item.getID()
+    if (this.cardInfoMap[id]) {
+      this.showCard(id)
+    } else {
+      this.toggleAnnotation(item);
+    }
+    this.focusCard(id)
   }
 
   public hideCards() {
@@ -384,23 +344,20 @@ export class Annotation extends Base {
     const graph = this.graph;
     const container = this._container;
     const containerCfg = this.options.containerCfg;
+    const mixedCardCfg = Object.assign({}, this.options.cardCfg, cfg)
     const {
-      minHeight,
-      minWidth,
-      maxWidth,
-      maxHeight,
-      width,
-      height,
+      minHeight, minWidth,
+      maxWidth, maxHeight,
+      width, height,
       collapsed = false,
-      x: propsX,
-      y: propsY,
+      // x: propsX,
+      // y: propsY,
       title: propsTitle,
       content: propsContent,
       maxTitleLength,
       defaultBegin,
-      ...otherCardCfg
-    } = Object.assign({}, this.options.cardCfg || {}, cfg);
-    const linkGroup: Group = this.options.linkGroup;
+    } = mixedCardCfg;
+    // const linkGroup: Group = this.options.linkGroup;
     const rows = this.options.rows || [[]];
 
     const isCanvas = item.isCanvas?.();
@@ -408,12 +365,12 @@ export class Annotation extends Base {
     const itemId = isCanvas ? CANVAS_ANNOTATION_ID : item.getID();
     const cardInfo = cardInfoMap[itemId];
 
-    let link = cardInfo?.link,
-      x = cardInfo?.x,
-      y = cardInfo?.y;
-    const card = cardInfo?.card,
-      title = cardInfo?.title,
-      content = cardInfo?.content;
+    // let link = cardInfo?.link,
+    const x = cardInfo?.cfg.x,
+      y = cardInfo?.cfg.y;
+    // const card = cardInfo?.card,
+    const title = cardInfo?.cfg.title,
+      content = cardInfo?.cfg.content;
 
     const getTitle = this.options.getTitle;
     const getContent = this.options.getContent;
@@ -430,141 +387,137 @@ export class Annotation extends Base {
 
     const contentData =
       content || propsContent || getContent?.(item) || contentPlaceholder;
-    const newCard = renderCard({
-      itemId,
-      collapsed,
-      title: titleData,
-      content: contentData,
-      maxWidth,
-      minWidth,
-      maxHeight,
-      minHeight,
-      width,
-      height,
-      ...otherCardCfg,
-    });
-
-    const exist = !!card;
-    if (exist) {
-      // 移除相应连线
-      link?.remove();
-      // 替换原来的卡片
-      container.replaceChild(newCard, card);
-    } else {
-      container.appendChild(newCard);
-    }
-
-    let containerBBox;
-    if (!containerCfg) {
-      containerBBox = container.getBoundingClientRect() || {};
-      if (propsX !== undefined && propsY !== undefined) {
-        // 使用配置的位置
-        x = propsX;
-        y = propsY;
-      } else if (!exist && !isCanvas) {
-        // 第一次创建，且无 conatiner，初始化位置
-        const { top: containerTop } = containerBBox;
-        const {
-          left: beginLeft,
-          right: propsBeginRight = 16,
-          top: propsBeginTop = 8,
-          bottom: beginBottom,
-        } = defaultBegin || {};
-        let beginRight = propsBeginRight;
-        let beginTop = propsBeginTop;
-        if (isNumber(beginLeft) && !Number.isNaN(beginLeft)) {
-          beginRight = container.scrollWidth - beginLeft;
-        }
-        if (isNumber(beginBottom) && !Number.isNaN(beginBottom)) {
-          beginTop = container.scrollHeight - beginBottom;
-        }
-        const cardWidth = isNumber(minWidth) ? minWidth : 100;
-        x =
-          container.scrollWidth -
-          newCard.scrollWidth -
-          (rows.length - 1) * cardWidth -
-          beginRight;
-        const currentRow = rows[rows.length - 1];
-        const { bbox: lastCardBBox } = currentRow[currentRow.length - 1] || {};
-        y = lastCardBBox?.bottom - containerTop || beginTop;
-      }
-      modifyCSS(newCard, {
-        position: 'absolute',
-        left: `${x}px`,
-        top: `${y}px`,
-        cusor: containerCfg ? 'unset' : 'move',
-      });
-    }
-
-    const cardBBox = newCard.getBoundingClientRect();
-    if (!isCanvas) {
-      // 创建相关连线
-      const path = getPathItem2Card(item, cardBBox, graph, this.options.canvas);
-      const linkStyle = this.options.linkStyle;
-
-      link = linkGroup.appendChild(
-        new Path({
-          attrs: {
-            lineWidth: 1,
-            lineDash: [5, 5],
-            stroke: '#ccc',
-            path,
-            ...linkStyle,
-          },
-        }),
-      );
-    }
-
-    cardInfoMap[itemId] = {
-      ...cardInfo,
+    const newCard = new Card(this, {
+      ...mixedCardCfg,
       id: itemId,
       collapsed,
-      card: newCard,
-      link,
-      x,
-      y,
-      cardBBox,
-      content: contentData,
       title: titleData,
-      contentPlaceholder,
       titlePlaceholder,
-      isCanvas,
-    };
-    this.cardInfoMap = cardInfoMap;
+      content: contentData,
+      contentPlaceholder,
+    });
 
-    this.bindListener(newCard, itemId);
+    const exist = !!cardInfo;
+    if (exist) {
+      cardInfo.destroy()
+    }
 
+    // let containerBBox;
+    // if (!containerCfg) {
+    //   containerBBox = container.getBoundingClientRect() || {};
+    //   if (propsX !== undefined && propsY !== undefined) {
+    //     // 使用配置的位置
+    //     x = propsX;
+    //     y = propsY;
+    //   } else if (!exist && !isCanvas) {
+    //     // 第一次创建，且无 conatiner，初始化位置
+    //     const { top: containerTop } = containerBBox;
+    //     const {
+    //       left: beginLeft,
+    //       right: propsBeginRight = 16,
+    //       top: propsBeginTop = 8,
+    //       bottom: beginBottom,
+    //     } = defaultBegin || {};
+    //     let beginRight = propsBeginRight;
+    //     let beginTop = propsBeginTop;
+    //     if (isNumber(beginLeft) && !Number.isNaN(beginLeft)) {
+    //       beginRight = container.scrollWidth - beginLeft;
+    //     }
+    //     if (isNumber(beginBottom) && !Number.isNaN(beginBottom)) {
+    //       beginTop = container.scrollHeight - beginBottom;
+    //     }
+    //     const cardWidth = isNumber(minWidth) ? minWidth : 100;
+    //     x =
+    //       container.scrollWidth -
+    //       newCard.$el.scrollWidth -
+    //       (rows.length - 1) * cardWidth -
+    //       beginRight;
+    //     const currentRow = rows[rows.length - 1];
+    //     const { bbox: lastCardBBox } = currentRow[currentRow.length - 1] || {};
+    //     y = lastCardBBox?.bottom - containerTop || beginTop;
+    //   }
+    //   newCard.move(x, y)
+    //   // modifyCSS(newCard, {
+    //   //   position: 'absolute',
+    //   //   left: `${x}px`,
+    //   //   top: `${y}px`,
+    //   //   // cusor: containerCfg ? 'unset' : 'move',
+    //   // });
+    // }
+
+    // const cardBBox = newCard.getBoundingClientRect();
+    // if (!isCanvas) {
+    //   // 创建相关连线
+    //   const path = getPathItem2Card(item, cardBBox, graph, this.options.canvas);
+    //   const linkStyle = this.options.linkStyle;
+
+    //   link = linkGroup.appendChild(
+    //     new Path({
+    //       attrs: {
+    //         lineWidth: 1,
+    //         lineDash: [5, 5],
+    //         stroke: '#ccc',
+    //         path,
+    //         ...linkStyle,
+    //       },
+    //     }),
+    //   );
+    // }
+
+    cardInfoMap[itemId] = newCard;
+    // cardInfoMap[itemId] = {
+    //   ...cardInfo,
+    //   id: itemId,
+    //   collapsed,
+    //   card: newCard,
+    //   link,
+    //   x,
+    //   y,
+    //   // cardBBox,
+    //   content: contentData,
+    //   title: titleData,
+    //   contentPlaceholder,
+    //   titlePlaceholder,
+    //   isCanvas,
+    // };
+    // this.cardInfoMap = cardInfoMap;
+
+    // this.bindListener(newCard, itemId);
+
+    const cardBBox = newCard.$el.getBoundingClientRect()
     if (containerCfg) {
-      this.updateCardPositionsInConatainer();
+      this.updateCardPositionsInContainer();
       this.updateLinks();
     } else {
+      const containerBBox = container.getBoundingClientRect()
       const hasPropsPosition =
-        isNumber(propsX) &&
-        !Number.isNaN(propsX) &&
-        isNumber(propsY) &&
-        !Number.isNaN(propsY);
+        isNumber(mixedCardCfg.x) &&
+        !Number.isNaN(mixedCardCfg.x) &&
+        isNumber(mixedCardCfg.y) &&
+        !Number.isNaN(mixedCardCfg.y);
       if (!exist && !isCanvas && !hasPropsPosition) {
         // 没有 container、新增 card 时，记录当前列中最下方位置，方便换行
         const { bottom: containerBottom = 0, top: containerTop } =
           containerBBox;
         rows[rows.length - 1].push({
           id: itemId,
-          bbox: cardBBox,
+          get bbox() {
+            return newCard.$el.getBoundingClientRect()
+          }
         });
         if (
           cardBBox.top >
           containerBottom - containerTop - cardBBox.height - 16
         )
-          rows.push([]);
+        rows.push([]);
         this.options.rows = rows;
       }
     }
 
-    const onAnnotationChange = this.options.onAnnotationChange;
-    onAnnotationChange?.(cardInfoMap[itemId], exist ? 'update' : 'create');
+    this.options.onAnnotationChange?.(cardInfoMap[itemId], exist ? 'update' : 'create');
   }
 
-  public updateCardPositionsInConatainer() {
+  public updateCardPositionsInContainer() {
     if (this.destroyed) return;
     const cardInfoMap = this.cardInfoMap;
     if (!cardInfoMap) return;
@@ -596,28 +549,27 @@ export class Annotation extends Base {
       }
     });
   }
-
-  public handleExpandCollapseCard(id) {
+  
+  public showCard(id) {
     if (this.destroyed) return;
-    const graph = this.graph;
-    const cardInfoMap = this.cardInfoMap;
-    if (!cardInfoMap) return;
-    const { collapsed } = cardInfoMap[id];
-    const item = graph.itemController.getItemById(id);
-    if (!item) return;
-    const { collapseType } = this.options.cardCfg || {};
+    const cardInfo = this.cardInfoMap[id]
+    if (!cardInfo) return;
+    cardInfo.show();
+    this.options.onAnnotationChange?.(cardInfo, 'show');
+  }
 
-    if (collapseType === 'hide' && !collapsed) {
-      // collapse 行为被配置为隐藏
-      this.hideCard(id);
-    } else {
-      this.toggleAnnotation(item, { collapsed: !collapsed });
-    }
+  public focusCard(id) {
+    this.cardInfoMap[id]?.focus();
 
-    cardInfoMap[id] = {
-      ...cardInfoMap[id],
-      collapsed: !collapsed,
-    };
+    Object.keys(this.cardInfoMap).forEach(cardId => {
+      if (cardId !== id) {
+        this.blurCard(cardId)
+      }
+    })
+  }
+
+  public blurCard(id) {
+    this.cardInfoMap[id]?.blur()
   }
 
   /**
@@ -627,13 +579,10 @@ export class Annotation extends Base {
    */
   public hideCard(id) {
     if (this.destroyed) return;
-    const cardInfoMap = this.cardInfoMap;
-    if (!cardInfoMap || !cardInfoMap[id]) return;
-    const { card, link } = cardInfoMap[id];
-    modifyCSS(card, { display: 'none' });
-    link?.hide();
-    const onAnnotationChange = this.options.onAnnotationChange;
-    onAnnotationChange?.(cardInfoMap[id], 'hide');
+    const cardInfo = this.cardInfoMap[id]
+    if (!cardInfo) return;
+    cardInfo.hide()
+    this.options.onAnnotationChange?.(cardInfo, 'hide');
   }
 
   public editCard(id, options?: { position?: EditPosition; value?: any }) {
@@ -659,23 +608,13 @@ export class Annotation extends Base {
    */
   public removeCard(id) {
     if (this.destroyed) return;
-    const cardInfoMap = this.cardInfoMap;
-    if (!cardInfoMap) return;
-    const cardInfo = cardInfoMap[id];
-    const { card, link } = cardInfo;
-    const container = this._container;
-    container.removeChild(card);
-    link?.remove();
-    delete cardInfoMap[id];
-    const onAnnotationChange = this.options.onAnnotationChange;
-    onAnnotationChange?.(cardInfo, 'remove');
+    const cardInfo = this.cardInfoMap[id];
+    if (!cardInfo) return;
+    cardInfo.destroy();
+    delete cardInfo[id];
+    this.options.onAnnotationChange?.(cardInfo, 'remove');
   }
-
-  private bindListener(card: HTMLElement, itemId: string) {
-    const actions = bindCardEvent({ card, itemId, plugin: this });
-    Object.assign(this.cardInfoMap[itemId], actions)
-  }
-
+  
   public updateLink({ item }) {
     if (!item) return;
     const cardInfoMap: CardInfoMap = this.cardInfoMap;
@@ -683,11 +622,11 @@ export class Annotation extends Base {
     const canvas = this.options.canvas;
     const graph = this.graph;
     const id = item.getID();
-    const { link, card } = cardInfoMap[id] || {};
+    const { link } = cardInfoMap[id];
     if (link) {
       const path = getPathItem2Card(
         item,
-        card.getBoundingClientRect(),
+        cardInfoMap[id].$el.getBoundingClientRect(),
         graph,
         canvas,
       );
@@ -701,9 +640,7 @@ export class Annotation extends Base {
     if (!cardInfoMap) return;
     const graph = this.graph;
     Object.values(cardInfoMap).forEach((cardInfo) => {
-      const { id } = cardInfo;
-      const item = graph.itemController.getItemById(id);
-      this.updateLink({ item });
+      this.updateLink({ item: cardInfo.item });
     });
   }
 
@@ -712,13 +649,12 @@ export class Annotation extends Base {
     if (!cardInfoMap) return;
     const graph = this.graph;
     Object.values(cardInfoMap).forEach((info) => {
-      const { id, card, isCanvas } = info;
-      if (!card || isCanvas || card.style.display === 'none') return;
-      const item = graph.itemController.getItemById(id);
+      if (!info.$el || info.isCanvas || info.$el.style.display === 'none') return;
+      const item = info.item
       if (item && item.isVisible()) {
         this.toggleAnnotation(item);
       } else {
-        this.hideCard(id);
+        info.hide()
       }
     });
   }
@@ -740,7 +676,8 @@ export class Annotation extends Base {
     const getContent = this.options.getContent;
     const data: AnnotationData = [];
     Object.values(cardInfoMap).forEach((info) => {
-      const { title, content, x, y, id, collapsed, card } = info;
+      const card = info.$el
+      const { title, content, x, y, id, collapsed } = info.cfg;
       if (card && card.style.display === 'none' && !saveClosed) return;
       const item = graph.itemController.getItemById(id) || graph.options.canvas;
       data.push({
@@ -765,9 +702,7 @@ export class Annotation extends Base {
         item = graph.options.canvas;
       }
       if (!item) {
-        const cardInfoMap = this.cardInfoMap;
-        cardInfoMap[id] = info;
-        this.cardInfoMap = cardInfoMap;
+        this.cardInfoMap[item.id] = new Card(this, info);
         return;
       }
       this.toggleAnnotation(item, { x, y, title, content, collapsed });
@@ -783,9 +718,7 @@ export class Annotation extends Base {
     if (!cardInfoMap) return;
     const container = this._container;
     Object.values(cardInfoMap).forEach((cardInfo) => {
-      const { card, link } = cardInfo;
-      container.removeChild(card);
-      link?.remove();
+      cardInfo.destroy()
     });
     this.cardInfoMap = {};
   }

@@ -57,29 +57,35 @@ async function process({dir, context, renderType }: { dir: string; context: Retu
       const annotationWrappers = document.querySelectorAll<HTMLElement>('.g6-annotation-wrapper');
       expect(annotationWrappers.length).toBe(activeNodes.length);
 
-      const editCardEl = annotationWrappers[0];
-      const editCardId = activeNodes[0].id;
+      const cardEl = annotationWrappers[0];
+      const cardId = activeNodes[0].id;
 
-      plugin.editCard(editCardId, { position: 'title', value: 'newTitle' })
-      plugin.editCard(editCardId, { position: 'content', value: 'newContent' })
+      plugin.editCard(cardId, { position: 'title', value: 'newTitle' })
+      plugin.editCard(cardId, { position: 'content', value: 'newContent' })
       await sleep(500)
-      const titleInput = editCardEl.querySelector<HTMLInputElement>('.g6-annotation-title-input');
-      const contentInput = editCardEl.querySelector<HTMLInputElement>('.g6-annotation-content-input');
+      const titleInput = cardEl.querySelector<HTMLInputElement>('.g6-annotation-title-input');
+      const contentInput = cardEl.querySelector<HTMLInputElement>('.g6-annotation-content-input');
       expect(titleInput).not.toBe(undefined);expect(titleInput?.value).toBe('newTitle');
       expect(contentInput).not.toBe(undefined);expect(contentInput?.value).toBe('newContent');
 
-      plugin.exitEditCard(editCardId, { position: 'title' })
-      plugin.exitEditCard(editCardId, { position: 'content' })
-      await sleep(500)
-      expect(editCardEl.querySelector('.g6-annotation-title')).not.toBe(undefined);
-      expect(editCardEl.querySelector('.g6-annotation-content')).not.toBe(undefined);
+      plugin.exitEditCard(cardId, { position: 'title' })
+      plugin.exitEditCard(cardId, { position: 'content' });await sleep(500)
+      expect(cardEl.querySelector('.g6-annotation-title')).not.toBe(undefined);
+      expect(cardEl.querySelector('.g6-annotation-content')).not.toBe(undefined);
 
-      plugin.moveCard(editCardId, 20, 20)
-      await sleep(500)
-      const style = getComputedStyle(editCardEl)
+      plugin.moveCard(cardId, 20, 20);await sleep(500);
+      let style = getComputedStyle(cardEl)
       expect(style.left).toBe('20px');
       expect(style.top).toBe('20px');
 
+      plugin.hideCard(cardId); await sleep(1000);
+      style = getComputedStyle(cardEl)
+      expect(style.display).toBe('none');
+
+      plugin.showCard(cardId); await sleep(1000);
+      style = getComputedStyle(cardEl)
+      expect(style.display).not.toBe('none');
+      
       graph.destroy();
       resolve()
   });
