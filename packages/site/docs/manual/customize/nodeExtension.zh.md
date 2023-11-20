@@ -1,156 +1,63 @@
 ---
-title: 自定义节点类型扩展
+title: 自定义节点
 order: 1
 ---
 
-G6 5.0 提供了内置、自定义统一的定义和注册逻辑。所有内置、自定义的节点类型，应当继承节点的基类 `BaseNode` 或已有的节点类型。根据需要，选择性复写以下函数：
+## 示例
 
-## draw
+```js
+import { Graph as BaseGraph, extend, Extensions } from '@antv/g6';
 
-相比于 v4 版本，v5 去除了 `update` 和 `afterUpdate` 方法，目标是减少用户对函数的理解成本和逻辑控制。在 v5，只需要复写 `draw` 方法和 `afterDraw` 方法，G6 将自动根据更新的属性增量更新图形。
-
-draw 方法中，应当调用 `this.drawKeyShape` 以及 `this.drawXShape` 方法交由不同的方法绘制各个图形。G6 节点视觉规范中的图形有：
-
-- keyShape: 主图形，每个节点必须有；
-- haloShape: 主图形背后的光晕图形，一般形状和 keyShape 一致，在某些状态（如 selected，active 等）状态下显示；
-- labelShape: label 文本图形；
-- labelBackgroundShape: label 文本背景框图形；
-- iconShape: 图标图形；
-- anchorShapes: 若干个图形，表示节点的边连入位置上的圆形；
-- badgeShapes: 若干个图形，表示徽标，每个徽标由一个文本和一个圆角矩形背景组成，全部平铺在 badgeShapes 中。
-
-而不在上述列表中的图形，应当通过 `drawOtherShapes` 来绘制。当然你也可以定义自己的 `drawXShape(s)`，并在 `draw` 方法中调用，将返回的图形写入到一个 key 是图形 id，value 是图形的图形对象中，并作为 `draw` 方法的返回值。
-
-下面是 `circle-node` 类型节点的 `draw` 方法，可参考进行复写：
-
-```typescript
-public draw(
-  model: NodeDisplayModel,
-  shapeMap: NodeShapeMap,
-  diffData?: { previous: NodeModelData; current: NodeModelData },
-  diffState?: { previous: State[]; current: State[] },
-): NodeShapeMap {
-  const { data = {} } = model;
-  let shapes: NodeShapeMap = { keyShape: undefined };
-
-  // 绘制 keyShape，并存储到图形的 map 中
-  shapes.keyShape = this.drawKeyShape(model, shapeMap, diffData);
-
-  // 若配置了 haloShape（keyShape 背后的光晕，一般在某些状态下显示）并有对应的绘制函数，绘制 haloShape 并存储到图形的 map 中
-  if (data.haloShape && this.drawHaloShape) {
-    shapes.haloShape = this.drawHaloShape(model, shapeMap, diffData);
-  }
-
-  // 若配置了 labelShape（节点的文本图形）并有对应的绘制函数，绘制 labelShape 并存储到图形的 map 中
-  if (data.labelShape && this.drawLabelShape) {
-    shapes.labelShape = this.drawLabelShape(model, shapeMap, diffData);
-  }
-
-  // 若配置了 labelBackgroundShape（节点文本图形的背景框）并有对应的绘制函数，绘制 labelBackgroundShape 并存储到图形的 map 中
-  if (data.labelBackgroundShape && this.drawLabelBackgroundShape) {
-    shapes.labelBackgroundShape = this.drawLabelBackgroundShape(
-      model,
-      shapeMap,
-      diffData,
-    );
-  }
-
-  // 若配置了 anchorShapes（节点的边连入位置上的圆形）并有对应的绘制函数，绘制 anchorShapes 并存储到图形的 map 中
-  if (data.anchorShapes && this.drawAnchorShapes) {
-    const anchorShapes = this.drawAnchorShapes(
-      model,
-      shapeMap,
-      diffData,
-      diffState,
-    );
-    // drawAnchorShapes 绘制并返回了多个图形，因此需要如下分别加入图形 map 中
-    shapes = {
-      ...shapes,
-      ...anchorShapes,
-    };
-  }
-
-  // 若配置了 iconShape（节点的图标图形）并有对应的绘制函数，绘制 iconShape 并存储到图形的 map 中
-  if (data.iconShape && this.drawIconShape) {
-    shapes.iconShape = this.drawIconShape(model, shapeMap, diffData);
-  }
-
-  // 若配置了 badgeShapes（节点的徽标图形）并有对应的绘制函数，绘制 badgeShapes 并存储到图形的 map 中
-  if (data.badgeShapes && this.drawBadgeShapes) {
-    const badgeShapes = this.drawBadgeShapes(
-      model,
-      shapeMap,
-      diffData,
-      diffState,
-    );
-    // drawBadgeShapes 绘制并返回了多个图形，因此需要如下分别加入图形 map 中
-    shapes = {
-      ...shapes,
-      ...badgeShapes,
-    };
-  }
-
-  // 若配置了 otherShapes（除了上述规范内的图形以外的其他图形）并有对应的绘制函数，绘制额外的图形并存储到图形的 map 中
-  if (data.otherShapes && this.drawOtherShapes) {
-    // drawOtherShapes 绘制并返回了多个图形，因此需要如下分别加入图形 map 中
-    shapes = {
-      ...shapes,
-      ...this.drawOtherShapes(model, shapeMap, diffData),
-    };
-  }
-  return shapes;
+// 自定义节点类型，继承一个已有的节点类型或节点基类 Extensions.BaseNode
+class CustomNode extends Extensions.CircleNode {
+  // 覆写方法，可覆写的类方法见下文
 }
+
+const Graph = extend(BaseGraph, {
+  // 注册自定义节点
+  nodes: {
+    'custom-node': CustomNode,
+  },
+});
+
+const graph = new Graph({
+  // ... 其他配置
+  node: {
+    type: 'custom-node', // 使用注册的节点
+  },
+});
 ```
 
-## afterDraw
+## 覆写方法
 
-在 `draw` 函数完成之后执行的逻辑，例如根据 `draw` 中已绘制的图形的包围盒大小，调整其他相关的图形。也可以用于绘制更多的图形，返回值如同 `draw` 方法，是新增图形的 map。在内置的节点类型中，没有对它进行实现。
+### draw
 
-```typescript
-public afterDraw(
-  model: NodeDisplayModel | ComboDisplayModel,
-  shapeMap: { [shapeId: string]: DisplayObject },
-  shapesChanged?: string[],
-): { [otherShapeId: string]: DisplayObject } {
-  // 返回新增图形的 map，key 是图形 id，value 是图形。
-  return {};
-}
-```
+:::info{title=提示}
+大多数情况下并不需要覆写 draw 方法，更常用的做法是覆写 `drawKeyShape`、`drawLabelShape` 等方法，这些方法将在下文介绍。
+:::
 
-## drawXShape(s)
+G5 5.0 移除了 `update` 和 `afterUpdate` 方法。现在只需要覆写 `draw` 方法和 `afterDraw` 方法，G6 将自动根据更新的属性增量更新图形。
 
-绘制 X 图形的方法，例如 `drawKeyShape`、`drawAnchorShapes` 等，下面将举例。所有的 drawXShape(s) 应当调用 `this.upsertShape` 新增/修改图形，该方法将检测传入的 shapeMap 中是否已有对应 id 的图形，若不存在则新建，若存在则增量更新。
+draw 方法通过调用 `this.drawKeyShape` 等方法分别绘制节点各部分。
 
-`this.upsertShape(shapeType, shapeId, style, shapeMap, model)` 的参数如下：
+你可以参考 `circle-node` 类型节点的 [draw](https://github.com/antvis/G6/blob/6be8f9810ec3b9310371f37de1a2591f14db67f1/packages/g6/src/stdlib/item/node/circle.ts#L25) 方法进行覆写。
 
-- `shapeType`：
-  - 类型：`'rect' | 'circle' | 'ellipse' | 'polygon' | 'image' | 'polyline' | 'line' | 'path' | 'text'`；
-  - 图形类型名称；
-- `shapeId`：
-  - 类型：`string`；
-  - 图形 id，一般和 drawXShape(s) 中的 X 对应（小驼峰式），后续都将使用该 id 进行检索；
-- `style`：
-  - 类型：`ShapeStyle`；
-  - 图形的样式，一般在 `drawXShape(s)` 中从其第一个参数渲染数据 `model` 中解析出来；
-- `shapeMap`：
-  - 类型：`object`；
-  - key 为图形 id，value 为图形的 map 对象，即 `drawXShape(s)` 的第二个参数；
-- `model`：
-  - 类型：`NodeDisplayModel`；
-  - 节点的渲染数据，即 `drawXShape(s)` 的第一个参数。
+### afterDraw
 
-下面举例 `drawKeyShape`、`drawLabelShape`、`drawLabelBackgroundShape`、`drawOtherShapes`。
+在 `draw` 函数完成之后执行的逻辑，例如根据 `draw` 中已绘制的图形的包围盒大小，调整其他相关的图形。也可以用于绘制更多的图形，返回值和 `draw` 方法一致。
 
-### 例 1: drawKeyShape
+在内置的节点类型中，没有对它进行实现。
 
-绘制主图形 keyShape 的方法，`circle-node` 的 `drawKeyShape` 实现如下，理论上在自定义节点中根据需要更改 upsertShape 的图形类型和对应配置即可：
+### drawKeyShape
+
+绘制主图形(`keyShape`)，该图形是必须的，例如圆形节点的主图形是一个圆形(`circle`)，矩形节点的主图形是一个矩形(`rect`)。
+
+覆写 `drawKeyShape` 方法的示例如下：
 
 ```typescript
 public drawKeyShape(
   model: NodeDisplayModel,
   shapeMap: NodeShapeMap,
-  diffData?: { previous: NodeModelData; current: NodeModelData },
-  diffState?: { previous: State[]; current: State[] },
 ): DisplayObject {
   return this.upsertShape(
     'circle',
@@ -162,55 +69,63 @@ public drawKeyShape(
 }
 ```
 
-### 例 2: drawLabelShape
+### drawHaloShape
 
-绘制文本图形 labelShape 的方法，内置节点的 `drawLabelShape` 根据配置中的 `position` （文本相对于 keyShape 的位置）、`angle`（旋转角度）、`maxWidth`（文本的最长长度，超过则截断并显示 `…`，值相对于 keyShape 的百分比或绝对的像素值）等非直接图形样式的属性，进行了计算转换为图形样式，使用计算后的样式调用 `this.upsertShape` 绘制 `rect` 图形。若自定义节点中无需考虑这些配置，可以忽略并完全重新 `drawLabelShape`。若需要考虑，则可以参考 [`baseNode` 的实现](https://github.com/antvis/G6/blob/fddf9a5c0f7933b4d704038a7474358cb47037d0/packages/g6/src/stdlib/item/node/base.ts#L277)。
+绘制主图形轮廓图形(`haloShape`)，通常在 `selected`, `active` 状态下显示。
 
-### 例 3: drawLabelBackgroundShape
+若需要覆写，则可以参考 [BaseNode.drawHaloShape](https://github.com/antvis/G6/blob/fddf9a5c0f7933b4d704038a7474358cb47037d0/packages/g6/src/stdlib/item/node/base.ts#L491)
 
-绘制文本图形的背景框图形 labelBackgroundShape 的方法，内置的 `drawLabelBackgroundShape` 将根据 `labelShape` 的包围盒大小，计算背景框矩形的大小。这要求了调用本方法时，`labelShape` 应当已经被绘制。因此自定义的时候也应当注意在 `draw` 方法中先调用 `drawLabelShape` 再调用 `drawLabelBackgroundShape`。若其他图形之间存在包围盒大小计算的依赖，也应当参考这一逻辑，只有已经被绘制的图形才能从 `shapeMap` 中取得并使用 `shape.getRenderBounds()` 或 `shape.getLocalBounds()` 获得包围盒。
+### drawLabelShape
 
-内置的 `drawLabelBackgroundShape` 根据配置和 `labelShape` 进行了样式的计算后，使用 `this.upsertShape` 绘制 `rect` 图形，可参考[`baseNode` 的实现](https://github.com/antvis/G6/blob/fddf9a5c0f7933b4d704038a7474358cb47037d0/packages/g6/src/stdlib/item/node/base.ts#L383)。
+绘制文本图形（`labelShape`）
 
-### 例 4: drawOtherShapes
+若需要覆写，则可以参考 [BaseNode.drawLabelShape](https://github.com/antvis/G6/blob/fddf9a5c0f7933b4d704038a7474358cb47037d0/packages/g6/src/stdlib/item/node/base.ts#L277)。
 
-keyShape、haloShape、labelShape、labelBackgroundShape、iconShape、badgeShapes、anchorShapes 都是 G6 v5 节点样式规范中的图形。若自定义节点中有规范之外的图形，可以在 `drawOtherShapes` 绘制，它们在渲染数据 `model` 中的配置也将被包在 `otherShapes` 字段下：
+### drawLabelBackgroundShape
 
-```typescrirpt
-{
-  id: ID,
-  data: {
-    keyShape: ShapeStyle,
-    haloShape: ShapeStyle,
-    // ... 其他规范内的图形
-    // 额外的图形：
-    otherShapes: {
-      xxShape: ShapeStyle,
-      yyShape: ShapeStyle,
-      // ... 其他额外图形
-    }
-  }
-}
-```
+绘制文本图形的背景框图形（`labelBackgroundShape`）
 
-从 `model` 中取出对应的字段，或根据自定义的逻辑，传给 `this.upsertShape` 必要的图形样式属性，增加图形，并返回新增图形的 map，例如：
+若需要覆写，则可以参考 [BaseNode.drawLabelBackgroundShape](https://github.com/antvis/G6/blob/fddf9a5c0f7933b4d704038a7474358cb47037d0/packages/g6/src/stdlib/item/node/base.ts#L383)。
+
+### drawLabelIconShape
+
+绘制文本图形的图标图形（`iconShape`）的方法
+
+若需要覆写，则可以参考 [BaseNode.drawLabelIconShape](https://github.com/antvis/G6/blob/fddf9a5c0f7933b4d704038a7474358cb47037d0/packages/g6/src/stdlib/item/node/base.ts#L440)
+
+### drawAnchorShapes
+
+绘制连接桩图形（`anchorShapes`）的方法
+
+若需要覆写，则可以参考 [BaseNode.drawAnchorShapes](https://github.com/antvis/G6/blob/fddf9a5c0f7933b4d704038a7474358cb47037d0/packages/g6/src/stdlib/item/node/base.ts#L531)
+
+> ⚠️ 注意：`drawAnchorShapes` 返回一个图形 map，key 是图形的 id，value 是图形对象。
+
+### drawBadgeShapes
+
+绘制徽标图形（`badgeShapes`）的方法
+
+若需要覆写，则可以参考 [BaseNode.drawBadgeShapes](https://github.com/antvis/G6/blob/fddf9a5c0f7933b4d704038a7474358cb47037d0/packages/g6/src/stdlib/item/node/base.ts#L629)
+
+> ⚠️ 注意：`drawBadgeShapes` 返回一个图形 map，key 是图形的 id，value 是图形对象。
+
+### drawOtherShapes
+
+绘制上述部分之外的图形，可以在 `drawOtherShapes` 中完成
+
+例如额外创建一个文本：
 
 ```typescript
-drawOtherShapes(model, shapeMap, diffData) {
+drawOtherShapes(model, shapeMap) {
   const { data } = model;
-  const keyShapeBBox = shapeMap.keyShape.getLocalBounds();
+  const text = data.otherShapes.text;
   return {
-    markerShape: this.upsertShape(
-      'path',
-      'markerShape',
+    textShape: this.upsertShape(
+      'text',
+      'other-text-shape',
       {
-        cursor: 'pointer',
-        stroke: '#666',
-        lineWidth: 1,
-        fill: '#fff',
-        path: data.collapsed
-          ? stdLib.markers.expand(keyShapeBBox.center[0], keyShapeBBox.max[1], 8)
-          : stdLib.markers.collapse(keyShapeBBox.center[0], keyShapeBBox.max[1], 8),
+        text,
+        fontSize: 12
       },
       shapeMap,
       model,
@@ -219,6 +134,8 @@ drawOtherShapes(model, shapeMap, diffData) {
   };
 }
 ```
+
+> ⚠️ 注意：`drawOtherShapes` 返回一个图形 map，key 是图形的 id，value 是图形对象。
 
 #### 使用 G2 图表作为自定义节点
 
@@ -265,6 +182,14 @@ drawOtherShapes(model, shapeMap) {
 
 G6 5.0 也提供了相关案例：
 
-* [使用 G2 自定义的条形图节点](/zh/examples/item/customNode/#g2BarChart) 
-* [使用 G2 自定义的点阵图节点](/zh/examples/item/customNode/#g2LatticeChart) 
-* [使用 G2 自定义的活动图节点](/zh/examples/item/customNode/#g2ActiveChart)
+- [使用 G2 自定义的条形图节点](/zh/examples/item/customNode/#g2BarChart)
+- [使用 G2 自定义的点阵图节点](/zh/examples/item/customNode/#g2LatticeChart)
+- [使用 G2 自定义的活动图节点](/zh/examples/item/customNode/#g2ActiveChart)
+
+## 成员属性及方法
+
+`BaseNode` 及其子类提供了一些成员属性和方法，用于方便地新增或更新图形。
+
+<embed src="../../common/PluginMergedStyles.zh.md"></embed>
+
+<embed src="../../common/PluginUpsertShape.zh.md"></embed>

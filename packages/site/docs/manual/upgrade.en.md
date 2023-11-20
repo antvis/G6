@@ -1,6 +1,6 @@
 ---
-title: How to Update
-order: 3
+title: Update from v4 to v5
+order: 4
 ---
 
 Compared to G6 v4, G6 v5 introduces new capabilities in the following areas:

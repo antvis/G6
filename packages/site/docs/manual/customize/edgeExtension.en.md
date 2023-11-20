@@ -1,124 +1,56 @@
 ---
-title: Custom Edge Type Extensions
+title: Custom Edge
 order: 2
 ---
 
-In G6 5.0, there is a unified built-in and custom definition and registration logic provided. All built-in and custom edge types should inherit from the base class `BaseEdge` or an existing edge type. Depending on your requirements, you can selectively override the following functions:
+## Example
 
-## draw
+```js
+import { Graph as BaseGraph, extend, Extensions } from '@antv/g6';
 
-Compared to version 4, version 5 of G6 has removed the `update` and `afterUpdate` methods. The goal is to reduce the cognitive load and logic control for users. In version 5, you only need to override the `draw` method and the `afterDraw` method. G6 will automatically update the graphics based on the updated attributes incrementally.
-
-In the `draw` method, you should call `this.drawKeyShape` and `this.drawXShape(s)` methods to delegate the drawing of different shapes. The visual specification of G6 edges includes the following shapes:
-
-- keyShape: The main shape, also known as the key shape, is a necessary component for every edge. It represents the primary visual appearance of the edge and is required for each edge;
-- haloShape: The halo shape behind the main shape often has the same shape as the key shape and is displayed in certain states such as selected or active. This halo shape provides a visual effect to highlight the edge in specific states;
-- labelShape: Label text shape;
-- labelBackgroundShape: Background rect shape for the label;
-- iconShape: Icon shape, may be text, iconfont, or image;
-
-For shapes that are not included in the aforementioned list, you should use the `drawOtherShapes` method to draw them. Alternatively, you can define your own `drawXShape(s)` methods and call them in the `draw` method. The returned shapes can be written into an object with the shape ID as the key and the shape object as the value. This object can then be returned as the result of the `draw` method.
-
-This approach allows you to define and draw custom shapes in addition to the predefined ones, giving you more flexibility in creating complex visual representations for your edges.
-
-Below is an example of the `draw` method for a `line-edge` type edge. You can use it as a reference for overriding:
-
-```typescript
-public draw(
-  model: EdgeDisplayModel,
-  sourcePoint: Point,
-  targetPoint: Point,
-  shapeMap: EdgeShapeMap,
-  diffData?: { previous: EdgeModelData; current: EdgeModelData },
-  diffState?: { previous: State[]; current: State[] },
-): EdgeShapeMap {
-  const { data = {} } = model;
-
-  let shapes: EdgeShapeMap = { keyShape: undefined };
-
-  shapes.keyShape = this.drawKeyShape(
-    model,
-    sourcePoint,
-    targetPoint,
-    shapeMap,
-    diffData,
-  );
-
-  if (data.haloShape) {
-    shapes.haloShape = this.drawHaloShape(model, shapeMap, diffData);
-  }
-
-  if (data.labelShape) {
-    shapes.labelShape = this.drawLabelShape(model, shapeMap, diffData);
-  }
-
-  // labelBackgroundShape
-  if (data.labelBackgroundShape) {
-    shapes.labelBackgroundShape = this.drawLabelBackgroundShape(
-      model,
-      shapeMap,
-      diffData,
-    );
-  }
-
-  if (data.iconShape) {
-    shapes.iconShape = this.drawIconShape(model, shapeMap, diffData);
-  }
-
-  // otherShapes
-  if (data.otherShapes) {
-    shapes = {
-      ...shapes,
-      ...this.drawOtherShapes(model, shapeMap, diffData),
-    };
-  }
-
-  return shapes;
+// Custom edge type, inherit an existing edge type or edge base class Extensions.BaseEdge
+class CustomNode extends Extensions.LineEdge {
+  // Override methods, see the following section for methods that can be overridden
 }
+
+const Graph = extend(BaseGraph, {
+  // Register custom edge
+  edges: {
+    'custom-edge': CustomEdge,
+  },
+});
+
+const graph = new Graph({
+  // ... Other configurations
+  edge: {
+    type: 'custom-edge', // Use the registered edge
+  },
+});
 ```
 
-## afterDraw
+## Override methods
 
-If you want to execute logic after the `draw` function is completed, for example, adjusting other related shapes based on the bounding box size of the shapes drawn in `draw`, or drawing additional shapes, you can override the `afterDraw` method. This method is not implemented in the built-in edge types but can be added in your custom edge implementation.
+### draw
 
-```typescript
-public afterDraw(
-  model: EdgeDisplayModel | ComboDisplayModel,
-  shapeMap: { [shapeId: string]: DisplayObject },
-  shapesChanged?: string[],
-): { [otherShapeId: string]: DisplayObject } {
-  // Return the shape map with the newly added shapes, where the key is the shape ID and the value is the shape object
-  return {};
-}
-```
+:::info
+In most cases, there is no need to override the draw method. It is more common to override methods such as `drawKeyShape` and `drawLabelShape`, which will be introduced in the following section.
+:::
 
-## drawXShape(s)
+G5 5.0 removes the `update` and `afterUpdate` methods. Now you only need to override the `draw` method and the `afterDraw` method, and G6 will automatically update the shapes incrementally based on the updated attributes.
 
-Draw X shape method, such as `drawKeyShape`, `drawAnchorShapes`, etc. The `this.upsertShape` method should be called within all `drawXShape(s)` methods to add or modify shapes. This method will check if the corresponding shape with the given ID exists in the shapeMap. If it does not exist, a new shape will be created. If it exists, it will be incrementally updated.
+The `draw` method draws each part of the edge by calling methods such as `this.drawKeyShape`.
 
-Parameters of `this.upsertShape(shapeType, shapeId, style, shapeMap, model)` are:
+Refer to the [draw](https://github.com/antvis/G6/blob/6be8f9810ec3b9310371f37de1a2591f14db67f1/packages/g6/src/stdlib/item/edge/line.ts#L28) method of the `line-edge` type edge for overriding.
 
-- `shapeType`:
-  - Type: `'rect' | 'circle' | 'ellipse' | 'polygon' | 'image' | 'polyline' | 'line' | 'path' | 'text'`;
-  - Type of the shape;
-- `shapeId`:
-  - Type: `string`;
-  - ID of the shape, corresponds to X in drawXShape(s) , in camel case;
-- `style`:
-  - Type: `ShapeStyle`;
-  - The styles of the shapes are typically extracted from the model object passed as the first parameter in the drawXShape(s) methods;
-- `shapeMap`：
-  - Type: `object`；
-  - The key represents the shape ID, and the value represents the shape map object, which is the second parameter in the `drawXShape(s)` methods;
-- `model`：
-  - Type: `EdgeDisplayModel`;
-  - The rendering data of the edge, which is the first parameter in the `drawXShape(s)` methods.
+### afterDraw
 
-There goes the examples: `drawKeyShape`, `drawLabelShape`, `drawLabelBackgroundShape`, `drawOtherShapes`.
+The logic executed after the `draw` function is completed can also be used to draw more shapes. The return value is the same as the `draw` method. It is not implemented in the built-in edge types.
 
-### Example 1: drawKeyShape
+### drawKeyShape
 
-The method to draw the main key shape, `drawKeyShape`, for the `line-edge` can be implemented as follows. In a custom edge, you can modify the shape type and its corresponding configuration in the `upsertShape` method based on your requirements.
+Draw the main shape (`keyShape`), which is required. For example, the main shape of a line edge is a straight line (`line`) and the head and tail arrows (`arrow`), and the main shape of a curved edge replaces the straight line with a curved path (`path`).
+
+The following example overrides the `drawKeyShape` method to draw a **straight edge**:
 
 ```typescript
 public drawKeyShape(
@@ -126,8 +58,6 @@ public drawKeyShape(
   sourcePoint: Point,
   targetPoint: Point,
   shapeMap: EdgeShapeMap,
-  diffData?: { previous: EdgeModelData; current: EdgeModelData },
-  diffState?: { previous: State[]; current: State[] },
 ) {
   const { keyShape: keyShapeStyle } = this.mergedStyles;
   const { startArrow, endArrow, ...others } = keyShapeStyle;
@@ -141,15 +71,15 @@ public drawKeyShape(
     z2: targetPoint.z || 0,
     isBillboard: true,
   };
-  // Draw the arrows
+  // upsert arrow
   this.upsertArrow('start', startArrow, others, model, lineStyle);
   this.upsertArrow('end', endArrow, others, model, lineStyle);
-  // Draw and return the keyShape
+  // upsert and return shape
   return this.upsertShape('line', 'keyShape', lineStyle, shapeMap, model);
 }
 ```
 
-If you are drawing curved or polyline edges, the key shape will be a path instead of a line. In the `drawKeyShape` method, you should calculate the path value based on the control points. Here is an example of the `drawKeyShape` method for the built-in `quadratic-edge` edge type:
+If you want to draw a curve or polyline, you should calculate the path based on the control points in `drawKeyShape`. For example, the `drawKeyShape` method of the built-in `quadratic-edge`:
 
 ```typescript
 public drawKeyShape(
@@ -157,13 +87,11 @@ public drawKeyShape(
   sourcePoint: Point,
   targetPoint: Point,
   shapeMap: EdgeShapeMap,
-  diffData?: { previous: EdgeModelData; current: EdgeModelData },
-  diffState?: { previous: State[]; current: State[] },
 ) {
   const { keyShape: keyShapeStyle } = this.mergedStyles as any;
   const { startArrow, endArrow, ...others } = keyShapeStyle;
 
-  // Calculate the control points based on the arc position and arc angle
+  // Calculate control points based on arc position, arc, etc.
   const controlPoint = this.getControlPoints(
     sourcePoint,
     targetPoint,
@@ -178,63 +106,47 @@ public drawKeyShape(
       ['Q', controlPoint.x, controlPoint.y, targetPoint.x, targetPoint.y],
     ],
   };
-  // Draw the arrows
+  // upsert arrow
   this.upsertArrow('start', startArrow, others, model, lineStyle);
   this.upsertArrow('end', endArrow, others, model, lineStyle);
-  // Draw and return the keyShape
+  // upsert and return shape
   return this.upsertShape('path', 'keyShape', lineStyle, shapeMap, model);
 }
 ```
 
-`this.getControlPoints` can be overridden to customize the control point calculation logic, see [getControlPoints](#getControlPoints).
+The `this.getControlPoints` can be overridden to customize the control point calculation logic, see [getControlPoints](#getcontrolpoints).
 
-### Example 2: drawLabelShape
+### drawHaloShape
 
-The `drawLabelShape` method is used to draw the text shape (labelShape) in an edge. In the built-in edge types, such as line or path, the `drawLabelShape` method calculates and converts non-direct graphical properties based on the configuration, such as `position` (the position of the text relative to the keyShape), `autoRotate` (whether the text should follow the tangent of the keyShape when rotating), and `maxWidth` (the maximum length of the text, with truncation and displaying `…` if exceeded, specified as a percentage or an absolute pixel value relative to the keyShape). It then uses the calculated style to call `this.upsertShape` to draw the line or path shape.
+Draw the main shape outline (`haloShape`), which is usually displayed in the `selected` and `active` states.
 
-If you don't need to consider these configurations in your custom edge, you can ignore them and completely redefine the `drawLabelShape` method. If you do need to consider them, you can refer to the implementation in [`baseEdge`](https://github.com/antvis/G6/blob/fddf9a5c0f7933b4d704038a7474358cb47037d0/packages/g6/src/stdlib/item/edge/base.ts#L239) for guidance.
+Refer to [BaseEdge.drawHaloShape](https://github.com/antvis/G6/blob/6be8f9810ec3b9310371f37de1a2591f14db67f1/packages/g6/src/stdlib/item/edge/base.ts#L464) for overriding.
 
-### Example 3: drawLabelBackgroundShape
+### drawLabelShape
 
-The `drawLabelBackgroundShape` method is used to draw the background shape (labelBackgroundShape) behind the text shape (labelShape) in an edge. In the built-in edge types, the `drawLabelBackgroundShape` method calculates the size of the background rectangle based on the bounding box of the labelShape. This requires that the `labelShape` has already been drawn when calling this method. Therefore, when customizing the edge, you should ensure that you call `drawLabelShape` before calling `drawLabelBackgroundShape` in the draw method. If there are dependencies on the bounding box calculations between other shapes, you should also follow this logic, where only the shapes that have already been drawn can be obtained from shapeMap and their bounding boxes can be retrieved using `shape.getRenderBounds()` or `shape.getLocalBounds()`.
+Draw the text shape (`labelShape`)
 
-The built-in `drawLabelBackgroundShape` method, after calculating the styles based on the configuration and `labelShape`, uses `this.upsertShape` to draw a rect shape. You can refer to the implementation in [baseEdge](https://github.com/antvis/G6/blob/fddf9a5c0f7933b4d704038a7474358cb47037d0/packages/g6/src/stdlib/item/edge/base.ts#L356) for more details.
+Refer to [BaseEdge.drawLabelShape](https://github.com/antvis/G6/blob/6be8f9810ec3b9310371f37de1a2591f14db67f1/packages/g6/src/stdlib/item/edge/base.ts#L194) for overriding.
 
-### Example 4: drawOtherShapes
+### drawLabelBackgroundShape
 
-keyShape, haloShape, labelShape, labelBackgroundShape, and iconShape are all standard shapes defined in the G6 v5 edge style specification. If you have additional shapes that are not covered by the specification in your custom edge, you can draw them using the `drawOtherShapes` method. These additional shapes can be configured in the model data under the otherShapes field when rendering:
+Draw the background shape of the text shape (`labelBackgroundShape`)
 
-```typescrirpt
-{
-  id: ID,
-  source: ID,
-  target: ID,
-  data: {
-    keyShape: ShapeStyle,
-    haloShape: ShapeStyle,
-    // ... Other shapes in specification
-    // Extra shapes:
-    otherShapes: {
-      xxShape: ShapeStyle,
-      yyShape: ShapeStyle,
-      // ... Other extra shapes
-    }
-  }
-}
-```
+Refer to [BaseEdge.drawLabelBackgroundShape](https://github.com/antvis/G6/blob/6be8f9810ec3b9310371f37de1a2591f14db67f1/packages/g6/src/stdlib/item/edge/base.ts#L311) for overriding.
 
-To extract the corresponding fields from the `model` or pass necessary graphic style attributes to `this.upsertShape` based on custom logic, and add the shapes, you can update the drawOtherShapes method as follows:
+### drawOtherShapes
+
+Draw shapes other than the above parts, which can be completed in `drawOtherShapes`, such as drawing an extra circle:
 
 ```typescript
 public drawOtherShapes(
   model: EdgeDisplayModel,
   shapeMap: EdgeShapeMap,
-  diffData?: { oldData: EdgeModelData; newData: EdgeModelData },
 ) {
   return {
     extraShape: upsertShape(
       'circle',
-      'extraShape',
+      'other-circle-shape',
       {
         r: 4,
         fill: '#0f0',
@@ -247,81 +159,84 @@ public drawOtherShapes(
 }
 ```
 
-## getControlPoints
+## Member properties and methods
 
-In the drawKeyShape method of polyline (PolylineEdge), quadratic (QuadraticEdge), cubic (CubicEdge), cubic-horizontal (CubicHorizontalEdge), and cubic-vertical (CubicVerticalEdge) edges, the `getControlPoints` method is called to obtain the control points for calculating the path.
+`BaseEdge` and its subclasses provide some member properties and methods that can be used when customizing edges.
 
-If you inherit from these types of edges (Extensions.PolylineEdge, Extensions.QuadraticEdge, Extensions.CubicEdge, Extensions.CubicHorizontalEdge, Extensions.CubicVerticalEdge), you can override the `getControlPoints` method to modify the control point calculation logic.
+### getControlPoints
 
-Type of `Extensions.PolylineEdge`'s `getControlPoints`:
+Get the control points, usually used to calculate the path. For example, the control points of the polyline edge are the turning points, and the control points of the curved edge are the control points of the curve.
+
+When inheriting `Extensions.PolylineEdge`, `Extensions.QuadraticEdge`, `Extensions.CubicEdge`, `Extensions.CubicHorizontalEdge`, `Extensions.CubicVerticalEdge`, you can override `getControlPoints` to modify the logic of the control points.
+
+The `getControlPoints` type of `Extensions.PolylineEdge` is:
 
 ```typescript
-/**
- * Calculate the control points
- * @param model Display model
- * @param sourcePoint source point
- * @param targetPoint target point
- * @returns result control points
- */
-type getControlPoints =(
+(
+  /** Edge rendering data */
   model: EdgeDisplayModel,
+  /** Edge start point */
   sourcePoint: Point,
+  /** Edge end point */
   targetPoint: Point,
-): {
+) =>
+/** Calculated control points */
+{
   x: number;
   y: number;
   z?: number;
 }[]
 ```
 
-Type of `Extensions.QuadraticEdge`、`Extensions.CubicEdge`、`Extensions.CubicHorizontalEdge`、`Extensions.CubicVerticalEdge`'s `getControlPoints`:
+The `getControlPoints` type of `Extensions.QuadraticEdge`、`Extensions.CubicEdge`、`Extensions.CubicHorizontalEdge`、`Extensions.CubicVerticalEdge` is:
 
 ```typescript
-/**
- * calculate the control point by curvePosition|controlPoints|curveOffset
- * @param startPoint: source point position of edge
- * @param endPoint target point position of edge
- * @param percent the proportion of control points' in the segment, Range 0 to 1
- * @param controlPoints the control point position
- * @param offset the curveOffset
- * @returns control points
- */
-type getControlPoints = (
+(
+  /** Edge start point */
   startPoint: Point,
+  /** Edge end point */
   endPoint: Point,
+  /** Percentage of the projection of the control point on the line connecting the two end points, ranging from 0 to 1 */
   percent: number,
-  contrPointolPoints: Point[],
+  /** Control point configuration in data */
+  controlPoints: Point[],
+  /** Arc distance */
   offset: number,
-) => {
+) =>
+/** Calculated control points */
+{
   x: number;
   y: number;
   z?: number;
 }[];
 ```
 
-## getPath
+### getPath
 
-`getPath` is the member methods of `Extensions.PolylineEdge` can only be overridden when inheriting from it to implement custom edges. Due to the complexity of the automatic routing algorithm for polyline edges, this function has been extracted separately. Also, due to the complexity of the algorithm, polyline edges have slightly lower performance. If you have specific rules for drawing polyline edges and want to override the automatic routing logic, you can inherit from the built-in polyline edge and customize the `getPath` method. The function signature is as follows:
+The member method of `Extensions.PolylineEdge` can only be overridden when inheriting it to implement a custom edge. Because the automatic path-finding algorithm of the polyline is more complicated, this function is extracted separately. Also because of the complexity of the algorithm, the performance of the polyline edge is slightly worse. If there is a certain rule for drawing the polyline edge, you can inherit the built-in polyline edge and customize the `getPath` method to override the automatic path-finding logic. The function type is:
 
 ```typescript
-/**
- * Get polyline path
- * @param model edge display model
- * @param points lists of given 2d points
- * @param radius radius of corner
- * @param routeCfg router config
- * @param auto whether calculate the path with A*
- * @returns
- */
-type getPath = (
+(
+  /** Edge rendering data */
   model: EdgeDisplayModel,
+  /** Edge start point */
   points: Point[],
+  /** Radius of the polyline turning point */
   radius: number,
+  /** Edge end point */
   routeCfg?: RouterCfg,
+  /** Whether to use the A* algorithm */
   auto?: boolean,
-) => string;
+) =>
+  /** Path */
+  string;
+```
 
-interface RouterCfg {
+<details>
+<summary style="color: #873bf4; cursor: pointer;">RouterCfg</summary>
+
+```ts
+type RouterCfg = {
   name: 'orth' | 'er';
   /** Spacing between lines and points */
   offset?: number;
@@ -346,5 +261,11 @@ interface RouterCfg {
    * Defaults to false.
    */
   enableObstacleAvoidance?: boolean;
-}
+};
 ```
+
+</details>
+
+<embed src="../../common/PluginMergedStyles.en.md"></embed>
+
+<embed src="../../common/PluginUpsertShape.en.md"></embed>

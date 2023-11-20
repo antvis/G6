@@ -1,5 +1,5 @@
 ---
-title: 🎉 How to Use New Features
+title: Features in v5
 order: 3
 ---
 

@@ -1,13 +1,13 @@
 ---
-title: 图的交互 Behavior
+title: 交互
 order: 4
 ---
 
-G6 封装了一系列交互方法，方便用户直接使用。本文将为 **Tutorial 案例** 增加简单的交互：点击节点、点击边、框选节点、放缩画布、拖拽画布。本节目标效果如下：
+G6 封装了一系列交互方法，方便用户直接使用。本文将在上一节案例的基础上增加简单的交互：点击节点、点击边、框选节点、放缩画布、拖拽画布。本节目标效果如下：
 
 <img src='https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*kgrxQJnxNPoAAAAAAAAAAAAADmJ7AQ/original' width=500 alt='img' />
 
-> 图 1 Tutorial 案例的交互效果。
+> 图 1 交互效果
 
 ## 基本概念
 
@@ -149,7 +149,8 @@ graph.on('元素类型:事件名', (e) => {
 
 ## 完整代码
 
-至此，完整代码如下：
+<details>
+<summary style="color: #873bf4; cursor: pointer;">点击展开完整代码</summary>
 
 ```html
 <!DOCTYPE html>
@@ -333,4 +334,8 @@ graph.on('元素类型:事件名', (e) => {
 </html>
 ```
 
-**⚠️ 注意:** <br /> 若需更换数据，请替换  `'https://raw.githubusercontent.com/antvis/G6/v5/packages/g6/tests/datasets/force-data.json'`  为新的数据文件地址。
+</details>
+
+:::info{title=注意}
+若需更换数据，请替换  `'https://raw.githubusercontent.com/antvis/G6/v5/packages/g6/tests/datasets/force-data.json'`  为实际的数据文件地址。
+:::

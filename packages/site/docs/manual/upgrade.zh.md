@@ -1,6 +1,6 @@
 ---
-title: 如何升级
-order: 3
+title: 从 v4 升级到 v5
+order: 4
 ---
 
 相较于 v4，G6 v5 的新能力体现在：

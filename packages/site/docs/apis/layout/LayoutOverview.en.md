@@ -1,5 +1,5 @@
 ---
-title: Layout Overview
+title: Overview
 order: 0
 ---
 
