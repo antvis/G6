@@ -11,9 +11,7 @@ order: 9
 
 **默认值**：`0.5`
 
-**是否必须**：false
-
-**说明**：radius
+radius
 
 ## latitudeBands
 
@@ -21,9 +19,7 @@ order: 9
 
 **默认值**：`16`
 
-**是否必须**：ffalse
-
-**说明**：latitude bands
+latitude bands
 
 ## longitudeBands
 
@@ -31,6 +27,4 @@ order: 9
 
 **默认值**：`16`
 
-**是否必须**：ffalse
-
-**说明**：longitude bands
+longitude bands

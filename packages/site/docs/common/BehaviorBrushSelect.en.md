@@ -33,9 +33,7 @@ type brushStyle = {
 
 **Default**: `''`
 
-**Required**: false
-
-**Description**: The event name triggered when selected/deselected
+The event name triggered when selected/deselected
 
 <embed src="./BehaviorItemTypes.en.md"></embed>
 
@@ -72,19 +70,15 @@ type onSelect = (selectedIds: { nodes: ID[]; edges: ID[]; combos: ID[] }) => voi
 
 **Default**: `'selected'`
 
-**Required**: false
-
-**Description**: Switch to this state when highlighted
+Switch to this state when highlighted
 
 ## selectSetMode
 
-**Type**: `'union'` | `'intersect'` | `'latest'` | `'latest'`
+**Type**: `'union' | 'intersect' | 'latest' | 'latest'`
 
 **Default**: `'latest'`
 
-**Required**: false
-
-**Description**: The mode of the select set
+The mode of the select set
 
 <embed src="./BehaviorShouldBegin.zh.md"></embed>
 
@@ -104,13 +98,11 @@ type shouldUpdate = (itemType: ITEM_TYPE, id: ID, action: 'select' | 'deselect',
 
 ## trigger
 
-**Type**: `'shift'` | `'ctrl'` | `'alt'` | `'meta'` | `'drag'`
+**Type**: `'shift' | 'ctrl' | 'alt' | 'meta' | 'drag'`
 
 **Default**: `'shift'`
 
-**Required**: false
-
-**Description**: The event type that triggers the interaction
+The event type that triggers the interaction
 
 ---
 

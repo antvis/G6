@@ -4,9 +4,7 @@
 
 **Default**: `null`
 
-**Required**: false
-
-**Description**: Marker at the start point
+Marker at the start point
 
 ## markerMid
 
@@ -14,9 +12,7 @@
 
 **Default**: `null`
 
-**Required**: false
-
-**Description**: Marker at the middle point
+Marker at the middle point
 
 ## markerEnd
 
@@ -24,9 +20,7 @@
 
 **Default**: `null`
 
-**Required**: false
-
-**Description**: Marker at the end point
+Marker at the end point
 
 ## markerStartOffset
 
@@ -34,9 +28,7 @@
 
 **Default**: `0`
 
-**Required**: false
-
-**Description**: The offset of the start marker
+The offset of the start marker
 
 ## markerEndOffset
 
@@ -44,6 +36,4 @@
 
 **Default**: `0`
 
-**Required**: false
-
-**Description**: The offset of the end marker
+The offset of the end marker

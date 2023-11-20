@@ -17,9 +17,7 @@ order: 2
 
 **Default**: `''`
 
-**Required**: false
-
-**Description**: Background image of grid
+Background image of grid
 
 ### follow
 
@@ -27,9 +25,7 @@ order: 2
 
 **Default**: `false`
 
-**Required**: false
-
-**Description**: Whether to follow the canvas movement
+Whether to follow the canvas movement
 
 ## API
 

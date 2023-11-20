@@ -9,9 +9,7 @@ order: 7
 
 **Default**: `0`
 
-**Required**: false
-
-**Description**: The x coordinate of the center of the ellipse
+The x coordinate of the center of the ellipse
 
 ## cy
 
@@ -19,9 +17,7 @@ order: 7
 
 **Default**: `0`
 
-**Required**: false
-
-**Description**: The y coordinate of the center of the ellipse
+The y coordinate of the center of the ellipse
 
 ## rx
 
@@ -29,9 +25,7 @@ order: 7
 
 **Default**: `0`
 
-**Required**: false
-
-**Description**: The horizontal radius of the ellipse
+The horizontal radius of the ellipse
 
 ## ry
 
@@ -39,8 +33,6 @@ order: 7
 
 **Default**: `0`
 
-**Required**: false
-
-**Description**: The vertical radius of the ellipse
+The vertical radius of the ellipse
 
 <embed src="../../common/BaseStyleProps.en.md"></embed>

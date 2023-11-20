@@ -17,13 +17,11 @@ order: 10
 
 ### showType
 
-**类型**：`'one'` | `'both'` | `'only-source'` | `'only-target'`
+**类型**：`'one' | 'both' | 'only-source' | 'only-target'`
 
 **默认值**：`'both`
 
-**是否必须**：false
-
-**说明**：显示的边类型
+显示的边类型
 
 - `'one'`：显示至少有一端在滤镜内的边
 - `'both'`：显示两端都在滤镜内的边
@@ -36,9 +34,7 @@ order: 10
 
 **默认值**：`undefined`
 
-**是否必须**：false
-
-**说明**：是否显示边的回调函数
+是否显示边的回调函数
 
 ## API
 

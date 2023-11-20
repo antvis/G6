@@ -11,8 +11,6 @@ order: 0
 
 <embed src="../../common/BehaviorEnableOptimize.zh.md"></embed>
 
-<embed src="../../common/BaseZoonCanvasOptions.zh.md"></embed>
+<embed src="../../common/BaseZoomCanvasOptions.zh.md"></embed>
 
 <embed src="../../common/BehaviorSpeedUpKey.zh.md"></embed>
-
-<embed src="../../common/IG6GraphEvent.zh.md"></embed>

@@ -4,9 +4,7 @@
 
 **Default**: `0`
 
-**Required**: false
-
-**Description**: x position
+x position
 
 ## y
 
@@ -14,6 +12,4 @@
 
 **Default**: `0`
 
-**Required**: false
-
-**Description**: y position
+y position

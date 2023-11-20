@@ -19,9 +19,7 @@ order: 5
 
 **默认值**：`undefined`
 
-**是否必须**：false
-
-**说明**：点击菜单项的回调函数
+点击菜单项的回调函数
 
 ### itemTypes
 
@@ -29,9 +27,7 @@ order: 5
 
 **默认值**：`['node', 'edge', 'canvas']`
 
-**是否必须**：false
-
-**说明**：添加菜单项的对象类型
+添加菜单项的对象类型
 
 ### liHoverStyle
 
@@ -46,9 +42,7 @@ order: 5
 };
 ```
 
-**是否必须**：false
-
-**说明**：菜单项 hover 状态的样式
+菜单项 hover 状态的样式
 
 <embed src="../../common/PluginLoadingContent.zh.md"></embed>
 
@@ -58,9 +52,7 @@ order: 5
 
 **默认值**：`undefined`
 
-**是否必须**：false
-
-**说明**：菜单隐藏时的回调函数
+菜单隐藏时的回调函数
 
 <embed src="../../common/PluginShouldBegin.zh.md"></embed>
 
@@ -70,14 +62,10 @@ order: 5
 
 **默认值**：`'click'`
 
-**是否必须**：false
-
-**说明**：触发菜单的事件类型
+触发菜单的事件类型
 
 ---
 
 ## API
 
 <embed src="../../common/PluginAPIDestroy.zh.md"></embed>
-
-<embed src="../../common/IG6GraphEvent.zh.md"></embed>

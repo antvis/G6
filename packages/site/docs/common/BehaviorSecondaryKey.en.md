@@ -4,6 +4,4 @@
 
 **Default**: `''`
 
-**Required**: false
-
-**Description**: The secondary key
+The secondary key

@@ -13,9 +13,7 @@ order: 10
 
 **默认值**：`false`
 
-**是否必须**：false
-
-**说明**：是否禁用动画
+是否禁用动画
 
 <embed src="../../common/BehaviorEventName.zh.md"></embed>
 
@@ -23,10 +21,8 @@ order: 10
 
 ## trigger
 
-**类型**：`'click'` | `'dblclick'`
+**类型**：`'click' | 'dblclick'`
 
 **默认值**：`click`
 
-**是否必须**：false
-
-**说明**：触发收起/展开树的事件
+触发收起/展开树的事件

@@ -12,14 +12,12 @@ order: 9
 
 ## trigger
 
-**Type**: `'click'` | `'dblclick'`
+**Type**: `'click' | 'dblclick'`
 
 **Default**: `click`
 
-**Required**: false
-
-**Description**: The event that triggers the collapse/expand of the Combo
+The event that triggers the collapse/expand of the Combo
 
 <embed src="../../common/BehaviorShouldBegin.en.md"></embed>
 
-<embed src="../../common/IG6GraphEvent.en.md"></embed>
+

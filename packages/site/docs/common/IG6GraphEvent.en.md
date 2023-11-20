@@ -1,5 +1,8 @@
----
-
+<details>
+  <summary style="color: #873bf4; cursor: pointer;">
+    IG6GraphEvent
+  </summary>
+  
 ```ts
 type IG6GraphEvent = {
   /** The event occurs on which type of element; `undefined` indicates it occurs on a blank part of the canvas */
@@ -20,3 +23,4 @@ type IG6GraphEvent = {
   preventDefault: () => void;
 };
 ```
+</details>

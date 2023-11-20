@@ -15,9 +15,7 @@ order: 7
 
 **默认值**：`'selected'`
 
-**是否必须**：false
-
-**说明**：激活时的状态
+激活时的状态
 
 <embed src="../../common/BehaviorEventName.zh.md"></embed>
 
@@ -26,5 +24,3 @@ order: 7
 <embed src="../../common/BehaviorShouldBegin.zh.md"></embed>
 
 <embed src="../../common/Throttle.zh.md"></embed>
-
-<embed src="../../common/IG6GraphEvent.zh.md"></embed>

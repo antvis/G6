@@ -18,9 +18,7 @@ order: 9
 
 **Default**: `[0, 0]`
 
-**Required**: false
-
-**Description**: Watermark start position
+Watermark start position
 
 ### image
 
@@ -28,9 +26,7 @@ order: 9
 
 **Default**: `undefined`
 
-**Required**: false
-
-**Description**: Image watermark configuration
+Image watermark configuration
 
 ### mode
 
@@ -38,9 +34,7 @@ order: 9
 
 **Default**: `'image'`
 
-**Required**: false
-
-**Description**: Watermark type
+Watermark type
 
 ### position
 
@@ -48,9 +42,7 @@ order: 9
 
 **Default**: `'middle'`
 
-**Required**: false
-
-**Description**: Watermark position
+Watermark position
 
 - `top`: Top layer canvas (above the graph)
 - `middle`: Middle layer canvas
@@ -62,9 +54,7 @@ order: 9
 
 **Default**: `[100, 100]`
 
-**Required**: false
-
-**Description**: The distance between the watermark and the canvas
+The distance between the watermark and the canvas
 
 <embed src="../../common/PluginSize.en.md"></embed>
 
@@ -74,9 +64,7 @@ order: 9
 
 **Default**: `undefined`
 
-**Required**: false
-
-**Description**: Text watermark configuration
+Text watermark configuration
 
 ## API
 

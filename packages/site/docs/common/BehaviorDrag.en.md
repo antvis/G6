@@ -36,9 +36,7 @@ type delegateStyle = {
 
 **Default**: `true`
 
-**Required**: false
-
-**Description**: Whether to render the interaction target to the transient layer
+Whether to render the interaction target to the transient layer
 
 ## enableDelegate
 
@@ -46,9 +44,7 @@ type delegateStyle = {
 
 **Default**: `false`
 
-**Required**: false
-
-**Description**: Whether to render a delegate rectangle shape when dragging
+Whether to render a delegate rectangle shape when dragging
 
 <img alt="enable delegate" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*ajOlSJlLPpAAAAAAAAAAAAAADmJ7AQ/original
 " height='300'/>
@@ -59,9 +55,7 @@ type delegateStyle = {
 
 **Default**: `false`
 
-**Required**: false
-
-**Description**: Whether to hide the related edges when dragging
+Whether to hide the related edges when dragging
 
 ## selectedState
 
@@ -69,9 +63,7 @@ type delegateStyle = {
 
 **Default**: `selected`
 
-**Required**: false
-
-**Description**: Switch to this state when dragging
+Switch to this state when dragging
 
 <embed src="./Throttle.en.md"></embed>
 
@@ -81,8 +73,6 @@ type delegateStyle = {
 
 **Default**: `true`
 
-**Required**: false
-
-**Description**: Whether to update the structure of the combo when dragging
+Whether to update the structure of the combo when dragging
 
 <embed src="./BehaviorShouldBegin.en.md"></embed>

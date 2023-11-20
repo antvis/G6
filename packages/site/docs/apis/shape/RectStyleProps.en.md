@@ -7,12 +7,10 @@ order: 1
 
 ## radius
 
-**Type**: `number` | `number[]`
+**Type**: `number | number[]`
 
 **Default**: `0`
 
-**Required**: false
-
-**Description**: Radius of rounded corners
+Radius of rounded corners
 
 <embed src="../../common/BaseStyleProps.en.md"></embed>

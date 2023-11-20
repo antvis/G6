@@ -9,9 +9,7 @@ order: 8
 
 **Default**: `[]`
 
-**Required**: false
-
-**Description**: The vertex coordinate array of the polygon
+The vertex coordinate array of the polygon
 
 ## isClosed
 
@@ -19,9 +17,7 @@ order: 8
 
 **Default**: `false`
 
-**Required**: false
-
-**Description**: Whether it is closed
+Whether it is closed
 
 <embed src="../../common/Marker.en.md"></embed>
 

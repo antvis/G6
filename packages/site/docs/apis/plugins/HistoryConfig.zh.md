@@ -13,19 +13,17 @@ order: 1
 
 **默认值**：`false`
 
-**是否必须**：false
+是否启用堆栈
 
-**说明**：是否启用堆栈
-
-### stackCfg
+### stackCfg <Badge type="error">必须</Badge>
 
 **类型**：`StackCfg`
 
+<embed src="../../common/StackCfg.zh.md"></embed>
+
 **默认值**：`{}`
 
-**是否必须**：true
-
-**说明**：堆栈配置
+堆栈配置
 
 ## API
 
@@ -69,17 +67,23 @@ order: 1
 
 **类型**：`() => Record<string, Command[][]>;`
 
+<embed src="../../common/PluginHistoryCommand.zh.md"></embed>
+
 **说明**：获取堆栈
 
 ### getRedoStack
 
 **类型**：`() => Command[][];`
 
+<embed src="../../common/PluginHistoryCommand.zh.md"></embed>
+
 **说明**：获取重做堆栈
 
 ### getUndoStack
 
 **类型**：`() => Command[][];`
+
+<embed src="../../common/PluginHistoryCommand.zh.md"></embed>
 
 **说明**：获取撤销堆栈
 
@@ -98,6 +102,19 @@ order: 1
 ### push
 
 **类型**：`(commands: Command[], stackType: StackType = 'undo', isNew = true) => void;`
+
+<embed src="../../common/PluginHistoryCommand.zh.md"></embed>
+
+<details>
+  <summary style="color: #873bf4; cursor: pointer;">
+    StackType
+  </summary>
+
+```ts
+type StackType = 'redo' | 'undo';
+```
+
+</details>
 
 **说明**：推入堆栈
 
@@ -126,16 +143,3 @@ order: 1
 **说明**：结束历史批处理
 
 <embed src="../../common/PluginAPIDestroy.zh.md"></embed>
-
----
-
-```ts
-type StackType = 'redo' | 'undo';
-
-type Command = {
-  redo: (graph: IGraph) => void;
-  undo: (graph: IGraph) => void;
-};
-```
-
-<embed src="../../common/StackCfg.zh.md"></embed>

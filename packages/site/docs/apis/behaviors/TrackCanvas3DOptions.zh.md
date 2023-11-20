@@ -17,12 +17,8 @@ order: 15
 
 ## trigger
 
-**类型**：`'drag'` | `'directionKeys'`
+**类型**：`'drag' | 'directionKeys'`
 
 **默认值**：`'drag'`
 
-**是否必须**：false
-
-**说明**：触发交互的方式
-
-<embed src="../../common/IG6GraphEvent.zh.md"></embed>
+触发交互的方式

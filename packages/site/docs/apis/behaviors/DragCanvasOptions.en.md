@@ -17,9 +17,7 @@ order: 1
 
 **Default**: `false`
 
-**Required**: false
-
-**Description**: Whether to drag the canvas when dragging the node, edge or combo
+Whether to drag the canvas when dragging the node, edge or combo
 
 <embed src="../../common/BehaviorDirection.en.md"></embed>
 
@@ -33,9 +31,7 @@ order: 1
 
 **Default**: `shift`
 
-**Required**: false
-
-**Description**: The key to disable dragging
+The key to disable dragging
 
 <embed src="../../common/BehaviorShouldBegin.en.md"></embed>
 
@@ -43,12 +39,10 @@ order: 1
 
 ## trigger
 
-**Type**: `'drag'` | `'directionKeys'`
+**Type**: `'drag' | 'directionKeys'`
 
 **Default**: `drag`
 
-**Required**: false
+The event type that triggers the interaction
 
-**Description**: The event type that triggers the interaction
 
-<embed src="../../common/IG6GraphEvent.en.md"></embed>

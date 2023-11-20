@@ -1,13 +1,9 @@
 ## shouldBegin
 
-**类型**：
+**类型**：`(event: IG6GraphEvent) => boolean;`
 
-```ts
-type shouldBegin = (event: IG6GraphEvent) => boolean;
-```
+<embed src="./IG6GraphEvent.zh.md"></embed>
 
 **默认值**：`() => true`
 
-**是否必须**：false
-
-**说明**：是否允许当前节点触发交互
+是否允许当前节点触发交互

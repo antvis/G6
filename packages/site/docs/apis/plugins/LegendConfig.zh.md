@@ -19,9 +19,7 @@ order: 3
 
 **默认值**：`'active'`
 
-**是否必须**：false
-
-**说明**：图例激活后切换到该状态
+图例激活后切换到该状态
 
 ### edge
 
@@ -29,9 +27,7 @@ order: 3
 
 **默认值**：`undefined`
 
-**是否必须**：false
-
-**说明**：边图例配置
+边图例配置
 
 ### inactiveState
 
@@ -39,9 +35,7 @@ order: 3
 
 **默认值**：`''`
 
-**是否必须**：false
-
-**说明**：图例取消激活后切换到该状态
+图例取消激活后切换到该状态
 
 ### node
 
@@ -49,13 +43,11 @@ order: 3
 
 **默认值**：`undefined`
 
-**是否必须**：false
-
-**说明**：节点图例配置
+节点图例配置
 
 ### orientation
 
-**类型**：`'horizontal'` | `'vertical'`
+**类型**：`'horizontal' | 'vertical'`
 
 **默认值**：`'horizontal'`
 
@@ -67,13 +59,11 @@ order: 3
 
 **默认值**：`'selected'`
 
-**是否必须**：false
-
-**说明**：图例选中后切换到该状态
+图例选中后切换到该状态
 
 ### size
 
-**类型**：`'fit-content'` | `[number | string, number | string]`
+**类型**：`'fit-content' | [number | string, number | string]`
 
 **默认值**：`'fit-content'`
 

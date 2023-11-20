@@ -6,9 +6,7 @@
 
 **Default**: `1000`
 
-**Required**: false
-
-**Description**: The max zoom
+The max zoom
 
 ## minZoom
 
@@ -16,9 +14,7 @@
 
 **Default**: `0.00001`
 
-**Required**: false
-
-**Description**: The min zoom
+The min zoom
 
 <embed src="./BehaviorSecondaryKey.en.md"></embed>
 
@@ -28,21 +24,17 @@
 
 **Default**: `6`
 
-**Required**: false
-
-**Description**: The sensitivity of zoom
+The sensitivity of zoom
 
 <embed src="./BehaviorShouldBegin.en.md"></embed>
 
 ## trigger
 
-**Type**: `'wheel'` | `'upDownKeys'`
+**Type**: `'wheel' | 'upDownKeys'`
 
 **Default**: `'wheel'`
 
-**Required**: false
-
-**Description**: The way to trigger interaction
+The way to trigger interaction
 
 ## triggerOnItems
 
@@ -50,6 +42,4 @@
 
 **Default**: `true`
 
-**Required**: false
-
-**Description**: Whether trigger zoom on node/edge/combo
+Whether trigger zoom on node/edge/combo

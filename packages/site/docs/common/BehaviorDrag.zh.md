@@ -36,9 +36,7 @@ type delegateStyle = {
 
 **默认值**：`true`
 
-**是否必须**：false
-
-**说明**：是否允将交互目标渲染到临时层(Transient Layer)
+是否允将交互目标渲染到临时层(Transient Layer)
 
 ## enableDelegate
 
@@ -46,9 +44,7 @@ type delegateStyle = {
 
 **默认值**：`false`
 
-**是否必须**：false
-
-**说明**：创建一个临时矩形来作为交互目标
+创建一个临时矩形来作为交互目标
 
 <img alt="enable delegate" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*ajOlSJlLPpAAAAAAAAAAAAAADmJ7AQ/original
 " height='300'/>
@@ -59,9 +55,7 @@ type delegateStyle = {
 
 **默认值**：`false`
 
-**是否必须**：false
-
-**说明**：是否隐藏与节点相关的边
+是否隐藏与节点相关的边
 
 ## selectedState
 
@@ -69,9 +63,7 @@ type delegateStyle = {
 
 **默认值**：`selected`
 
-**是否必须**：false
-
-**说明**：拖拽时切换到该状态
+拖拽时切换到该状态
 
 <embed src="./Throttle.zh.md"></embed>
 
@@ -81,8 +73,6 @@ type delegateStyle = {
 
 **默认值**：`true`
 
-**是否必须**：false
-
-**说明**：拖拽过程中，是否更新 Combo 结构
+拖拽过程中，是否更新 Combo 结构
 
 <embed src="./BehaviorShouldBegin.zh.md"></embed>

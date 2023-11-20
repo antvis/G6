@@ -9,9 +9,7 @@ order: 4
 
 **Default**: `0`
 
-**Required**: false
-
-**Description**: The x coordinate of the start point
+The x coordinate of the start point
 
 ## y1
 
@@ -19,9 +17,7 @@ order: 4
 
 **Default**: `0`
 
-**Required**: false
-
-**Description**: The y coordinate of the start point
+The y coordinate of the start point
 
 ## x2
 
@@ -29,9 +25,7 @@ order: 4
 
 **Default**: `0`
 
-**Required**: false
-
-**Description**: The x coordinate of the end point
+The x coordinate of the end point
 
 ## y2
 
@@ -39,9 +33,7 @@ order: 4
 
 **Default**: `0`
 
-**Required**: false
-
-**Description**: The y coordinate of the end point
+The y coordinate of the end point
 
 ## markerStart
 
@@ -49,9 +41,7 @@ order: 4
 
 **Default**: `null`
 
-**Required**: false
-
-**Description**: Marker at the start point
+Marker at the start point
 
 ## markerEnd
 
@@ -59,9 +49,7 @@ order: 4
 
 **Default**: `null`
 
-**Required**: false
-
-**Description**: Marker at the end point
+Marker at the end point
 
 ## markerStartOffset
 
@@ -69,9 +57,7 @@ order: 4
 
 **Default**: `0`
 
-**Required**: false
-
-**Description**: The offset of the start marker
+The offset of the start marker
 
 ## markerEndOffset
 
@@ -79,8 +65,6 @@ order: 4
 
 **Default**: `0`
 
-**Required**: false
-
-**Description**: The offset of the end marker
+The offset of the end marker
 
 <embed src="../../common/BaseStyleProps.en.md"></embed>

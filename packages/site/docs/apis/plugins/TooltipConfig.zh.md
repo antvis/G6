@@ -14,13 +14,11 @@ order: 4
 
 ### fixToNode
 
-**类型**：`[number, number]` | `Placement` | `undefined`
+**类型**：`[number, number] | Placement | undefined`
 
 **默认值**：`undefined`
 
-**是否必须**：false
-
-**说明**：固定到节点的位置
+固定到节点的位置
 
 <embed src="../../common/PluginGetContent.zh.md"></embed>
 
@@ -30,9 +28,7 @@ order: 4
 
 **默认值**：`['node', 'edge', 'combo']`
 
-**是否必须**：false
-
-**说明**：添加菜单项的对象类型
+添加菜单项的对象类型
 
 <embed src="../../common/PluginLoadingContent.zh.md"></embed>
 
@@ -42,9 +38,7 @@ order: 4
 
 **默认值**：`0`
 
-**是否必须**：false
-
-**说明**：x 轴偏移量
+x 轴偏移量
 
 ### offsetY
 
@@ -52,21 +46,17 @@ order: 4
 
 **默认值**：`0`
 
-**是否必须**：false
-
-**说明**：y 轴偏移量
+y 轴偏移量
 
 <embed src="../../common/PluginShouldBegin.zh.md"></embed>
 
 ### trigger
 
-**类型**：`'pointerenter'` | `'click'`
+**类型**：`'pointerenter' | 'click'`
 
 **默认值**：`'pointerenter'`
 
-**是否必须**：false
-
-**说明**：触发交互的事件类型
+触发交互的事件类型
 
 ## API
 

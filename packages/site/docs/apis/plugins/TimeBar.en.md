@@ -20,9 +20,7 @@ Filter graph elements through the time bar
 
 **Default**: `{}`
 
-**Required**: false
-
-**Description**: Axis style
+Axis style
 
 ### chartStyle
 
@@ -30,9 +28,7 @@ Filter graph elements through the time bar
 
 **Default**: `{}`
 
-**Required**: false
-
-**Description**: Chart style
+Chart style
 
 ### controllerStyle
 
@@ -40,9 +36,7 @@ Filter graph elements through the time bar
 
 **Default**: `{}`
 
-**Required**: false
-
-**Description**: Controller style
+Controller style
 
 ### data
 
@@ -50,9 +44,7 @@ Filter graph elements through the time bar
 
 **Default**: `[]`
 
-**Required**: false
-
-**Description**: Time bar data
+Time bar data
 
 ### filter
 
@@ -60,29 +52,23 @@ Filter graph elements through the time bar
 
 **Default**: `undefined`
 
-**Required**: false
-
-**Description**: Take over the filtering logic, this callback will be called when the time bar value changes
+Take over the filtering logic, this callback will be called when the time bar value changes
 
 ### filterItemTypes
 
-**Type**: `node` | `edge`
+**Type**: `node | edge`
 
 **Default**: `node`
 
-**Required**: false
-
-**Description**: Filter element type
+Filter element type
 
 ### filterType
 
-**Type**: `'modify'` | `'visibility'`
+**Type**: `'modify' | 'visibility'`
 
 **Default**: `'modify'`
 
-**Required**: false
-
-**Description**: Filter type
+Filter type
 
 - `modify`: Filter by updating graph data
 - `visibility`: Filter by updating graph element visibility
@@ -93,9 +79,7 @@ Filter graph elements through the time bar
 
 **Default**: Get `timestamp`, `time`, `date`, `datetime` field value in turn
 
-**Required**: false
-
-**Description**: Get time value from graph element item
+Get time value from graph element item
 
 ### getTimeFromData
 
@@ -103,9 +87,7 @@ Filter graph elements through the time bar
 
 **Default**: Get `timestamp`, `time`, `date`, `datetime` field value in turn
 
-**Required**: false
-
-**Description**: Get time value from time bar data
+Get time value from time bar data
 
 ### getValueFromData
 
@@ -113,9 +95,7 @@ Filter graph elements through the time bar
 
 **Default**: Get `value`, `date` field value in turn
 
-**Required**: false
-
-**Description**: Get value from time bar data, used to draw in chart mode
+Get value from time bar data, used to draw in chart mode
 
 ### interval
 
@@ -123,9 +103,7 @@ Filter graph elements through the time bar
 
 **Default**: `'day'`
 
-**Required**: false
-
-**Description**: Time interval in chart mode
+Time interval in chart mode
 
 ### labelFormatter
 
@@ -133,9 +111,7 @@ Filter graph elements through the time bar
 
 **Default**: `undefined`
 
-**Required**: false
-
-**Description**: Customize the time value format in chart mode
+Customize the time value format in chart mode
 
 ### loop
 
@@ -143,9 +119,7 @@ Filter graph elements through the time bar
 
 **Default**: `false`
 
-**Required**: false
-
-**Description**: Whether to loop
+Whether to loop
 
 ### padding
 
@@ -153,27 +127,28 @@ Filter graph elements through the time bar
 
 **Default**: `10`
 
-**Required**: false
-
-**Description**: Padding
+Padding
 
 ### playMode
 
-**Type**: `'acc'` | `'slide'`
+**Type**: `'acc' | 'slide'`
 
 **Default**: `'acc'`
 
-**Required**: false
-
-**Description**: Play mode
+Play mode
 
 - `'acc'`: Accumulated play, that is, when playing to the n-th time point, the graph elements from the 1st to the n-th time point will be displayed
 - `'slide'`: Slide play, fixed display of the graph elements of the latest n time points
 
 ### shouldIgnore
 
-**Type**:
+**Type**: `shouldIgnore`
 
+<details>
+  <summary style="color: #873bf4; cursor: pointer;">
+    shouldIgnore
+  </summary>
+  
 ```ts
 type shouldIgnore = (
   model: Model,
@@ -181,6 +156,7 @@ type shouldIgnore = (
   dateRange: number | Date | [number, number] | [Date, Date],
 ) => boolean;
 ```
+</details>
 
 **Default**: `undefined`
 
@@ -190,13 +166,11 @@ type shouldIgnore = (
 
 ### timebarType
 
-**Type**: `'chart'` | `'time'`
+**Type**: `'chart' | 'time'`
 
 **Default**: `'time'`
 
-**Required**: false
-
-**Description**: Time bar type
+Time bar type
 
 - `'chart`: Display as a bar chart
 
@@ -212,9 +186,7 @@ type shouldIgnore = (
 
 **Default**: The value of the first time point
 
-**Required**: false
-
-**Description**: Time bar value or range
+Time bar value or range
 
 ### x
 
@@ -222,9 +194,7 @@ type shouldIgnore = (
 
 **Default**: `0`
 
-**Required**: false
-
-**Description**: x coordinate
+x coordinate
 
 ### y
 
@@ -232,21 +202,17 @@ type shouldIgnore = (
 
 **Default**: `0`
 
-**Required**: false
-
-**Description**: y coordinate
+y coordinate
 
 <embed src="../../common/PluginSize.en.md"></embed>
 
 ### position
 
-**Type**: `'top'` | `'bottom'` | `'left'` | `'right'`
+**Type**: `'top' | 'bottom' | 'left' | 'right'`
 
 **Default**: `'bottom'`
 
-**Required**: false
-
-**Description**: position
+position
 
 > Currently only supports `'bottom'`
 
@@ -256,9 +222,7 @@ type shouldIgnore = (
 
 **Default**: `undefined`
 
-**Required**: false
-
-**Description**: Backward callback
+Backward callback
 
 ### onChange
 
@@ -266,9 +230,7 @@ type shouldIgnore = (
 
 **Default**: `undefined`
 
-**Required**: false
-
-**Description**: Value change callback
+Value change callback
 
 ### onForward
 
@@ -276,9 +238,7 @@ type shouldIgnore = (
 
 **Default**: `undefined`
 
-**Required**: false
-
-**Description**: Forward callback
+Forward callback
 
 ### onPlay
 
@@ -286,9 +246,7 @@ type shouldIgnore = (
 
 **Default**: `undefined`
 
-**Required**: false
-
-**Description**: Play callback
+Play callback
 
 ### onPause
 
@@ -296,9 +254,7 @@ type shouldIgnore = (
 
 **Default**: `undefined`
 
-**Required**: false
-
-**Description**: Pause callback
+Pause callback
 
 ### onReset
 
@@ -306,9 +262,7 @@ type shouldIgnore = (
 
 **Default**: `undefined`
 
-**Required**: false
-
-**Description**: Reset callback
+Reset callback
 
 ### onSelectionTypeChange
 
@@ -316,9 +270,7 @@ type shouldIgnore = (
 
 **Default**: `undefined`
 
-**Required**: false
-
-**Description**: Selection type change callback
+Selection type change callback
 
 ### onChartTypeChange
 
@@ -326,9 +278,7 @@ type shouldIgnore = (
 
 **Default**: `undefined`
 
-**Required**: false
-
-**Description**: Chart type change callback
+Chart type change callback
 
 ## API
 

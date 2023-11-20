@@ -11,8 +11,8 @@ Zoom canvas
 
 <embed src="../../common/BehaviorEnableOptimize.en.md"></embed>
 
-<embed src="../../common/BaseZoonCanvasOptions.en.md"></embed>
+<embed src="../../common/BaseZoomCanvasOptions.en.md"></embed>
 
 <embed src="../../common/BehaviorSpeedUpKey.en.md"></embed>
 
-<embed src="../../common/IG6GraphEvent.en.md"></embed>
+

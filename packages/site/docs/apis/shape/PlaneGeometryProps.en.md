@@ -13,9 +13,7 @@ Plane geometry, default lying on the XZ plane
 
 **Default**: `0`
 
-**Required**: false
-
-**Description**: width
+width
 
 ## depth
 
@@ -23,9 +21,7 @@ Plane geometry, default lying on the XZ plane
 
 **Default**: `0`
 
-**Required**: false
-
-**Description**: depth
+depth
 
 ## widthSegments
 
@@ -33,9 +29,7 @@ Plane geometry, default lying on the XZ plane
 
 **Default**: `1`
 
-**Required**: false
-
-**Description**: width segments
+width segments
 
 ## depthSegments
 
@@ -43,6 +37,4 @@ Plane geometry, default lying on the XZ plane
 
 **Default**: `1`
 
-**Required**: false
-
-**Description**: depth segments
+depth segments

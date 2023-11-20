@@ -9,4 +9,4 @@ order: 2
 
 <embed src="../../common/BehaviorDrag.en.md"></embed>
 
-<embed src="../../common/IG6GraphEvent.en.md"></embed>
+

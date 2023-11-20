@@ -1,12 +1,10 @@
 ### container
 
-**Type**: `string` | `HTMLElement` | `null`
+**Type**: `string | HTMLElement | null`
 
 **Default**: `null`
 
-**Required**: false
-
-**Description**: Container of the plugin
+Container of the plugin
 
 > If not set, a default container will be assigned
 
@@ -16,9 +14,7 @@
 
 **Default**: `''`
 
-**Required**: false
-
-**Description**: The class name of the plugin container
+The class name of the plugin container
 
 ### graph
 
@@ -26,6 +22,4 @@
 
 **Default**: Current graph instance
 
-**Required**: false
-
-**Description**: The graph instance that the plugin belongs to
+The graph instance that the plugin belongs to

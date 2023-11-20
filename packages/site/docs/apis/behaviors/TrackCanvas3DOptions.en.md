@@ -17,12 +17,10 @@ Rotate the camera around the graph with a fixed camera position
 
 ## trigger
 
-**Type**: `'drag'` | `'directionKeys'`
+**Type**: `'drag' | 'directionKeys'`
 
 **Default**: `'drag'`
 
-**Required**: false
+The way to trigger interaction
 
-**Description**: The way to trigger interaction
 
-<embed src="../../common/IG6GraphEvent.en.md"></embed>

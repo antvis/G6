@@ -13,9 +13,7 @@ order: 10
 
 **Default**: `false`
 
-**Required**: false
-
-**Description**: Whether to disable animation
+Whether to disable animation
 
 <embed src="../../common/BehaviorEventName.en.md"></embed>
 
@@ -23,10 +21,8 @@ order: 10
 
 ## trigger
 
-**Type**: `'click'` | `'dblclick'`
+**Type**: `'click' | 'dblclick'`
 
 **Default**: `click`
 
-**Required**: false
-
-**Description**: The event that triggers the collapse/expand of the tree
+The event that triggers the collapse/expand of the tree

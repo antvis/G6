@@ -19,9 +19,7 @@ order: 3
 
 **Default**: `'active'`
 
-**Required**: false
-
-**Description**: Switch to this state after legend is activated
+Switch to this state after legend is activated
 
 ### edge
 
@@ -29,9 +27,7 @@ order: 3
 
 **Default**: `undefined`
 
-**Required**: false
-
-**Description**: Edge legend configuration
+Edge legend configuration
 
 ### inactiveState
 
@@ -39,9 +35,7 @@ order: 3
 
 **Default**: `''`
 
-**Required**: false
-
-**Description**: Switch to this state after legend is deactivated
+Switch to this state after legend is deactivated
 
 ### node
 
@@ -49,13 +43,11 @@ order: 3
 
 **Default**: `undefined`
 
-**Required**: false
-
-**Description**: Node legend configuration
+Node legend configuration
 
 ### orientation
 
-**Type**: `'horizontal'` | `'vertical'`
+**Type**: `'horizontal' | 'vertical'`
 
 **Default**: `'horizontal'`
 
@@ -67,13 +59,11 @@ order: 3
 
 **Default**: `'selected'`
 
-**Required**: false
-
-**Description**: Switch to this state after legend is selected
+Switch to this state after legend is selected
 
 ### size
 
-**Type**: `'fit-content'` | `[number | string, number | string]`
+**Type**: `'fit-content' | [number | string, number | string]`
 
 **Default**: `'fit-content'`
 

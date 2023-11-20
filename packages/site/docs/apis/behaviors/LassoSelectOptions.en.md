@@ -11,4 +11,4 @@ Select a group of nodes by lasso.
 
 <embed src="../../common/BehaviorBrushSelect.en.md"></embed>
 
-<embed src="../../common/IG6GraphEvent.en.md"></embed>
+

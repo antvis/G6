@@ -14,13 +14,11 @@ order: 4
 
 ### fixToNode
 
-**Type**: `[number, number]` | `Placement` | `undefined`
+**Type**: `[number, number] | Placement | undefined`
 
 **Default**: `undefined`
 
-**Required**: false
-
-**Description**: Fix the position to the node
+Fix the position to the node
 
 <embed src="../../common/PluginGetContent.en.md"></embed>
 
@@ -30,9 +28,7 @@ order: 4
 
 **Default**: `['node', 'edge', 'combo']`
 
-**Required**: false
-
-**Description**: The types of the items to add the tooltip
+The types of the items to add the tooltip
 
 <embed src="../../common/PluginLoadingContent.en.md"></embed>
 
@@ -42,9 +38,7 @@ order: 4
 
 **Default**: `0`
 
-**Required**: false
-
-**Description**: x offset
+x offset
 
 ### offsetY
 
@@ -52,21 +46,17 @@ order: 4
 
 **Default**: `0`
 
-**Required**: false
-
-**Description**: y offset
+y offset
 
 <embed src="../../common/PluginShouldBegin.en.md"></embed>
 
 ### trigger
 
-**Type**: `'pointerenter'` | `'click'`
+**Type**: `'pointerenter' | 'click'`
 
 **Default**: `'pointerenter'`
 
-**Required**: false
-
-**Description**: The trigger event type
+The trigger event type
 
 ## API
 

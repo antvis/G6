@@ -15,9 +15,7 @@ Cube Geometry
 
 **Default**: `1`
 
-**Required**: false
-
-**Description**: depth
+depth
 
 ## widthSegments
 
@@ -25,9 +23,7 @@ Cube Geometry
 
 **Default**: `1`
 
-**Required**: false
-
-**Description**: width segments
+width segments
 
 ## heightSegments
 
@@ -35,9 +31,7 @@ Cube Geometry
 
 **Default**: `1`
 
-**Required**: false
-
-**Description**: height segments
+height segments
 
 ## depthSegments
 
@@ -45,6 +39,4 @@ Cube Geometry
 
 **Default**: `1`
 
-**Required**: false
-
-**Description**: depth segments
+depth segments

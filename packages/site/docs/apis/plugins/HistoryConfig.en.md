@@ -13,19 +13,17 @@ order: 1
 
 **Default**: `false`
 
-**Required**: false
+Whether to enable stack
 
-**Description**: Whether to enable stack
-
-### stackCfg
+### stackCfg <Badge type="error">Required</Badge>
 
 **Type**: `StackCfg`
 
+<embed src="../../common/StackCfg.en.md"></embed>
+
 **Default**: `{}`
 
-**Required**: true
-
-**Description**: Stack configuration
+Stack configuration
 
 ## API
 
@@ -69,17 +67,23 @@ order: 1
 
 **Type**: `() => Record<string, Command[][]>;`
 
+<embed src="../../common/PluginHistoryCommand.en.md"></embed>
+
 **Description**: Get stack
 
 ### getRedoStack
 
 **Type**: `() => Command[][];`
 
+<embed src="../../common/PluginHistoryCommand.en.md"></embed>
+
 **Description**: Get redo stack
 
 ### getUndoStack
 
 **Type**: `() => Command[][];`
+
+<embed src="../../common/PluginHistoryCommand.en.md"></embed>
 
 **Description**: Get undo stack
 
@@ -96,6 +100,19 @@ order: 1
 ### push
 
 **Type**: `(commands: Command[], stackType: StackType = 'undo', isNew = true) => void;`
+
+<embed src="../../common/PluginHistoryCommand.en.md"></embed>
+
+<details>
+  <summary style="color: #873bf4; cursor: pointer;">
+    StackType
+  </summary>
+
+```ts
+type StackType = 'redo' | 'undo';
+```
+
+</details>
 
 **Description**: Push stack
 
@@ -126,16 +143,3 @@ order: 1
 **Description**: Stop history batch
 
 <embed src="../../common/PluginAPIDestroy.en.md"></embed>
-
----
-
-```ts
-type StackType = 'redo' | 'undo';
-
-type Command = {
-  redo: (graph: IGraph) => void;
-  undo: (graph: IGraph) => void;
-};
-```
-
-<embed src="../../common/StackCfg.en.md"></embed>
