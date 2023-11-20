@@ -16,9 +16,7 @@ Activate the adjacent nodes of the current node when the interaction is triggere
 
 **Default**: `selected`
 
-**Required**: false
-
-**Description**: Switch to this state when highlighted
+Switch to this state when highlighted
 
 <embed src="../../common/BehaviorMultiple.zh.md"></embed>
 
@@ -26,10 +24,8 @@ Activate the adjacent nodes of the current node when the interaction is triggere
 
 **Type**: `string`
 
-**Default**: `click` | `pointerenter`
+**Default**: `click | pointerenter`
 
-**Required**: false
-
-**Description**: The event type that triggers the interaction
+The event type that triggers the interaction
 
 <embed src="../../common/BehaviorShould.en.md"></embed>

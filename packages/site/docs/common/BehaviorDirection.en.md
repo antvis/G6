@@ -1,9 +1,7 @@
 ## direction
 
-**Type**: `'both'` | `'x'` | `'y'`
+**Type**: `'both' | 'x' | 'y'`
 
 **Default**: `both`
 
-**Required**: false
-
-**Description**: The direction of interaction
+The direction of interaction

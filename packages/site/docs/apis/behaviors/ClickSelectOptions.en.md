@@ -19,18 +19,14 @@ order: 4
 
 **Default**: `selected`
 
-**Required**: false
-
-**Description**: Switch to this state when selected
+Switch to this state when selected
 
 ## trigger
 
-**Type**: `'shift'` | `'ctrl'` | `'alt'` | `'control'`
+**Type**: `'shift' | 'ctrl' | 'alt' | 'control'`
 
 **Default**: `'shift'`
 
-**Required**: false
-
-**Description**: Hold down to select multiple
+Hold down to select multiple
 
 <embed src="../../common/BehaviorShould.en.md"></embed>

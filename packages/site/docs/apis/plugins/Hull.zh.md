@@ -20,9 +20,7 @@ order: 12
 
 **默认值**：`undefined`
 
-**是否必须**：false
-
-**说明**：更精细的配置包裹属性
+更精细的配置包裹属性
 
 > 通常情况下，不需要配置该属性
 
@@ -32,9 +30,7 @@ order: 12
 
 **默认值**：`undefined`
 
-**是否必须**：false
-
-**说明**：启用的轮廓包裹
+启用的轮廓包裹
 
 > 也可以通过 API 来添加、移除、更新轮廓包裹
 
@@ -53,9 +49,7 @@ type labelShape = ShapeSyle & {
 
 **默认值**：`{}`
 
-**是否必须**：false
-
-**说明**：标签样式
+标签样式
 
 ### padding
 
@@ -63,9 +57,7 @@ type labelShape = ShapeSyle & {
 
 **默认值**：`10`
 
-**是否必须**：false
-
-**说明**：轮廓包裹的内边距
+轮廓包裹的内边距
 
 ### style
 
@@ -73,9 +65,7 @@ type labelShape = ShapeSyle & {
 
 **默认值**：`{}`
 
-**是否必须**：false
-
-**说明**：轮廓样式
+轮廓样式
 
 ## API
 
@@ -83,43 +73,43 @@ type labelShape = ShapeSyle & {
 
 **类型**：`(options: HullComponentOptions | HullComponentOptions[]) => void;`
 
-**说明**：添加轮廓包裹
+添加轮廓包裹
 
 ### addHullMember
 
 **类型**：`(id: ID, member: ID | ID[]) => void;`
 
-**说明**：添加轮廓包裹成员
+添加轮廓包裹成员
 
 ### addHullNonMember
 
 **类型**：`(id: ID, member: ID | ID[]) => void;`
 
-**说明**：添加轮廓包裹非成员
+添加轮廓包裹非成员
 
 ### removeHull
 
 **类型**：`(id: ID[]) => void;`
 
-**说明**：移除轮廓包裹
+移除轮廓包裹
 
 ### removeHullMember
 
 **类型**：`(id: ID, member: ID | ID[]) => void;`
 
-**说明**：移除轮廓包裹成员
+移除轮廓包裹成员
 
 ### removeHullNonMember
 
 **类型**：`(id: ID, member: ID | ID[]) => void;`
 
-**说明**：移除轮廓包裹非成员
+移除轮廓包裹非成员
 
 ### updateHull
 
 **类型**：`(options: HullComponentOptions | HullComponentOptions[]) => void;`
 
-**说明**：更新轮廓包裹
+更新轮廓包裹
 
 <embed src="../../common/PluginAPIDestroy.zh.md"></embed>
 

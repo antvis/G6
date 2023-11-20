@@ -1,13 +1,11 @@
 ## shouldBegin
 
-**Type**:
+**Type**: `(event: IG6GraphEvent) => boolean;`
 
-```ts
-type shouldBegin = (event: IG6GraphEvent) => boolean;
-```
+<embed src="./IG6GraphEvent.en.md"></embed>
 
 **Default**: `() => true`
 
 **Required**: false
 
-**Description**: Whether to allow the current node to trigger the interaction
+Whether to allow the current node to trigger the interaction

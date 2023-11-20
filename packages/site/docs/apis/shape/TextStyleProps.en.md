@@ -9,9 +9,7 @@ order: 2
 
 **Default**: `0`
 
-**Required**: false
-
-**Description**: The x-axis offset
+The x-axis offset
 
 ## dy
 
@@ -19,9 +17,7 @@ order: 2
 
 **Default**: `0`
 
-**Required**: false
-
-**Description**: The y-axis offset
+The y-axis offset
 
 ## fontFamily
 
@@ -29,9 +25,7 @@ order: 2
 
 **Default**: `''`
 
-**Required**: false
-
-**Description**: font family
+font family
 
 ## fontSize
 
@@ -39,39 +33,31 @@ order: 2
 
 **Default**: `10`
 
-**Required**: false
-
-**Description**: font size
+font size
 
 ## fontStyle
 
-**Type**: `'normal'` | `'italic'` | `'oblique'`
+**Type**: `'normal' | 'italic' | 'oblique'`
 
 **Default**: `'normal'`
 
-**Required**: false
-
-**Description**: font style
+font style
 
 ## fontVariant
 
-**Type**: `'normal'` | `'small-caps'`
+**Type**: `'normal' | 'small-caps'`
 
 **Default**: `'normal'`
 
-**Required**: false
-
-**Description**: font variant
+font variant
 
 ## fontWeight
 
-**Type**: `'normal'` | `'bold'` | `'bolder'` | `'lighter'` | `number`
+**Type**: `'normal' | 'bold' | 'bolder' | 'lighter' | number`
 
 **Default**: `'normal'`
 
-**Required**: false
-
-**Description**: font weight
+font weight
 
 ## leading
 
@@ -79,9 +65,7 @@ order: 2
 
 **Default**: `0`
 
-**Required**: false
-
-**Description**: leading
+leading
 
 ## letterSpacing
 
@@ -89,9 +73,7 @@ order: 2
 
 **Default**: `0`
 
-**Required**: false
-
-**Description**: letter spacing
+letter spacing
 
 ## lineHeight
 
@@ -99,9 +81,7 @@ order: 2
 
 **Default**: `0`
 
-**Required**: false
-
-**Description**: line height
+line height
 
 ## text
 
@@ -109,29 +89,23 @@ order: 2
 
 **Default**: `''`
 
-**Required**: false
-
-**Description**: text content
+text content
 
 ## textAlign
 
-**Type**: `'start'` | `'center'` | `'middle'` | `'end'` | `'left'` | `'right'`
+**Type**: `'start' | 'center' | 'middle' | 'end' | 'left' | 'right'`
 
 **Default**: `'start'`
 
-**Required**: false
-
-**Description**: text align
+text align
 
 ## textBaseline
 
-**Type**: `'top'` | `'hanging'` | `'middle'` | `'alphabetic'` | `'ideographic'` | `'bottom'`
+**Type**: `'top' | 'hanging' | 'middle' | 'alphabetic' | 'ideographic' | 'bottom'`
 
 **Default**: `'alphabetic'`
 
-**Required**: false
-
-**Description**: text baseline
+text baseline
 
 ## textDecorationColor
 
@@ -139,39 +113,31 @@ order: 2
 
 **Default**: `''`
 
-**Required**: false
-
-**Description**: text decoration color
+text decoration color
 
 ## textDecorationLine
 
-**Type**: `'none'` | `'underline'` | `'overline'` | `'line-through'` | `'blink'`
+**Type**: `'none' | 'underline' | 'overline' | 'line-through' | 'blink'`
 
 **Default**: `'none'`
 
-**Required**: false
-
-**Description**: text decoration line
+text decoration line
 
 ## textDecorationStyle
 
-**Type**: `'solid'` | `'double'` | `'dotted'` | `'dashed'` | `'wavy'`
+**Type**: `'solid' | 'double' | 'dotted' | 'dashed' | 'wavy'`
 
 **Default**: `'solid'`
 
-**Required**: false
-
-**Description**: text decoration style
+text decoration style
 
 ## textOverflow
 
-**Type**: `'ellipsis'` | `'clip'` | `string`
+**Type**: `'ellipsis' | 'clip' | string`
 
 **Default**: `'clip'`
 
-**Required**: false
-
-**Description**: text overflow
+text overflow
 
 ## textPath
 
@@ -179,19 +145,15 @@ order: 2
 
 **Default**: `''`
 
-**Required**: false
-
-**Description**: text path
+text path
 
 ## textPathSide
 
-**Type**: `'left'` | `'right'`
+**Type**: `'left' | 'right'`
 
 **Default**: `'left'`
 
-**Required**: false
-
-**Description**: text path side
+text path side
 
 ## textPathStartOffset
 
@@ -199,9 +161,7 @@ order: 2
 
 **Default**: `0`
 
-**Required**: false
-
-**Description**: text path start offset
+text path start offset
 
 ## wordWrap
 
@@ -209,9 +169,7 @@ order: 2
 
 **Default**: `false`
 
-**Required**: false
-
-**Description**: word wrap
+word wrap
 
 ## wordWrapWidth
 
@@ -219,8 +177,6 @@ order: 2
 
 **Default**: `0`
 
-**Required**: false
-
-**Description**: word wrap width
+word wrap width
 
 <embed src="../../common/Position.en.md"></embed>

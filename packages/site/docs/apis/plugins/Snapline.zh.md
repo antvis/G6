@@ -19,19 +19,15 @@ order: 13
 
 **默认值**：`{}`
 
-**是否必须**：false
-
-**说明**：对齐线样式
+对齐线样式
 
 ### itemAlignType
 
-**类型**：`boolean` | `'horizontal' | 'vertical'` | `'center'`
+**类型**：`boolean | 'horizontal' | 'vertical' | 'center'`
 
 **默认值**：`false`
 
-**是否必须**：false
-
-**说明**：启用对齐线类型
+启用对齐线类型
 
 - `true`：启用中心、水平和垂直对齐线
 - `false`：不启用对齐线

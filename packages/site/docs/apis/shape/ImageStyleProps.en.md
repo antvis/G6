@@ -7,13 +7,11 @@ order: 3
 
 ## img
 
-**Type**: `string` | `HTMLImageElement`
+**Type**: `string | HTMLImageElement`
 
 **Default**: `null`
 
-**Required**: false
-
-**Description**: image object
+image object
 
 ## src
 
@@ -21,8 +19,6 @@ order: 3
 
 **Default**: `null`
 
-**Required**: false
-
-**Description**: image url
+image url
 
 <embed src="../../common/BaseStyleProps.en.md"></embed>

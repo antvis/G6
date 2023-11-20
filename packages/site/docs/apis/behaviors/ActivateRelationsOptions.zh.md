@@ -16,9 +16,7 @@ order: 8
 
 **默认值**：`selected`
 
-**是否必须**：false
-
-**说明**：高亮时切换到该状态
+高亮时切换到该状态
 
 <embed src="../../common/BehaviorMultiple.zh.md"></embed>
 
@@ -26,10 +24,8 @@ order: 8
 
 **类型**：`string`
 
-**默认值**：`click` | `pointerenter`
+**默认值**：`click | pointerenter`
 
-**是否必须**：false
-
-**说明**：触发交互的事件类型
+触发交互的事件类型
 
 <embed src="../../common/BehaviorShould.zh.md"></embed>

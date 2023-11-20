@@ -5,7 +5,7 @@ order: 6
 
 When there is too much content on the canvas, you can use the MiniMap to view the overall content of the canvas, and you can use the MiniMap to move the canvas.
 
-- [Minimap](/en/examples/tool/minimap/#minimap)]
+- [Minimap](/en/examples/tool/minimap/#minimap)
 - [Minimap API](/en/examples/tool/minimap/#minimap-api)
 
 <img alt="minimap" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*XojSQY_-5iIAAAAAAAAAAAAADmJ7AQ/original" height='400'/>
@@ -16,7 +16,7 @@ When there is too much content on the canvas, you can use the MiniMap to view th
 
 ### delegateStyle
 
-**Type**: `StyleConfig`
+**Type**: `ShapeStyle`
 
 **Default**:
 
@@ -37,19 +37,15 @@ When there is too much content on the canvas, you can use the MiniMap to view th
 
 **Default**: `false`
 
-**Required**: false
-
-**Description**: Whether to hide the edge in the MiniMap to improve performance
+Whether to hide the edge in the MiniMap to improve performance
 
 ### mode
 
-**Type**: `'default'` | `'keyShape'` | `'delegate'`
+**Type**: `'default' | 'keyShape' | 'delegate'`
 
 **Default**: `'default'`
 
-**Required**: false
-
-**Description**: The mode of the MiniMap
+The mode of the MiniMap
 
 - `'default'`: The default mode, the MiniMap will display all the content of the canvas
 - `'keyShape'`: Only the keyShape of all nodes in the canvas is displayed
@@ -61,9 +57,7 @@ When there is too much content on the canvas, you can use the MiniMap to view th
 
 **Default**: `10`
 
-**Required**: false
-
-**Description**: The padding of the MiniMap
+The padding of the MiniMap
 
 ### refresh
 
@@ -71,9 +65,7 @@ When there is too much content on the canvas, you can use the MiniMap to view th
 
 **Default**: `true`
 
-**Required**: false
-
-**Description**: Whether to refresh the MiniMap when the canvas is updated
+Whether to refresh the MiniMap when the canvas is updated
 
 ### size
 
@@ -81,9 +73,7 @@ When there is too much content on the canvas, you can use the MiniMap to view th
 
 **Default**: `[200, 120]`
 
-**Required**: false
-
-**Description**: The size of the MiniMap
+The size of the MiniMap
 
 ## API
 

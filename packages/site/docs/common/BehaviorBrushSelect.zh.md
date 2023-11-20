@@ -33,9 +33,7 @@ type brushStyle = {
 
 **默认值**：`''`
 
-**是否必须**：false
-
-**说明**：选中/取消选中时触发的事件名
+选中/取消选中时触发的事件名
 
 <embed src="./BehaviorItemTypes.zh.md"></embed>
 
@@ -72,19 +70,15 @@ type onSelect = (selectedIds: { nodes: ID[]; edges: ID[]; combos: ID[] }) => voi
 
 **默认值**：`'selected'`
 
-**是否必须**：false
-
-**说明**：选中时切换到该状态
+选中时切换到该状态
 
 ## selectSetMode
 
-**类型**：`'union'` | `'intersect'` | `'latest'` | `'latest'`
+**类型**：`'union' | 'intersect' | 'latest' | 'latest'`
 
 **默认值**：`'latest'`
 
-**是否必须**：false
-
-**说明**：选区的选择模式
+选区的选择模式
 
 <embed src="./BehaviorShouldBegin.zh.md"></embed>
 
@@ -104,13 +98,11 @@ type shouldUpdate = (itemType: ITEM_TYPE, id: ID, action: 'select' | 'deselect',
 
 ## trigger
 
-**类型**：`'shift'` | `'ctrl'` | `'alt'` | `'meta'` | `'drag'`
+**类型**：`'shift' | 'ctrl' | 'alt' | 'meta' | 'drag'`
 
 **默认值**：`'shift'`
 
-**是否必须**：false
-
-**说明**：触发交互的事件类型
+触发交互的事件类型
 
 ---
 

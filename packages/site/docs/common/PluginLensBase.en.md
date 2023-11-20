@@ -24,9 +24,7 @@
 
 **Default**: `100`
 
-**Required**: false
-
-**Description**: The maximum value of the radius of the lens
+The maximum value of the radius of the lens
 
 ### minR
 
@@ -34,9 +32,7 @@
 
 **Default**: `50`
 
-**Required**: false
-
-**Description**: The minimum value of the radius of the lens
+The minimum value of the radius of the lens
 
 ### r
 
@@ -44,19 +40,15 @@
 
 **Default**: `300`
 
-**Required**: false
-
-**Description**: The radius of the lens
+The radius of the lens
 
 ### scaleRBy
 
-**Type**: `'wheel'` | `'drag'` | `'unset'`
+**Type**: `'wheel' | 'drag' | 'unset'`
 
 **Default**: `'drag'`
 
-**Required**: false
-
-**Description**: The way to scale the radius of the lens
+The way to scale the radius of the lens
 
 > In the lens, the radius of the lens is scaled by mouse wheel or drag
 
@@ -66,16 +58,12 @@
 
 **Default**: `true`
 
-**Required**: false
-
-**Description**: Whether to show the label of items in the lens
+Whether to show the label of items in the lens
 
 ### trigger
 
-**Type**: `'mousemove'` | `'click'` | `'drag'`
+**Type**: `'mousemove' | 'click' | 'drag'`
 
 **Default**: `'mousemove'`
 
-**Required**: false
-
-**Description**: The way to trigger the interaction
+The way to trigger the interaction

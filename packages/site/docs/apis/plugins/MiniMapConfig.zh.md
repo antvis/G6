@@ -5,7 +5,7 @@ order: 6
 
 当画布的内容过多时，可以通过缩略图来查看整体画布的内容，并且可以通过缩略图来移动画布
 
-- [小地图导航](/examples/tool/minimap/#minimap)]
+- [小地图导航](/examples/tool/minimap/#minimap)
 - [通过 API 控制 Minimap](/examples/tool/minimap/#minimap-api)
 
 <img alt="minimap" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*XojSQY_-5iIAAAAAAAAAAAAADmJ7AQ/original" height='400'/>
@@ -16,7 +16,7 @@ order: 6
 
 ### delegateStyle
 
-**类型**：`StyleConfig`
+**类型**：`ShapeStyle`
 
 **默认值**：
 
@@ -27,9 +27,7 @@ order: 6
 }
 ```
 
-**是否必须**：false
-
-**说明**：mode 为 `'delegate'` 时，缩略图中节点的样式
+mode 为 `'delegate'` 时，缩略图中节点的样式
 
 ### hideEdge
 
@@ -37,19 +35,15 @@ order: 6
 
 **默认值**：`false`
 
-**是否必须**：false
-
-**说明**：是否隐藏缩略图中的边以提高性能
+是否隐藏缩略图中的边以提高性能
 
 ### mode
 
-**类型**：`'default'` | `'keyShape'` | `'delegate'`
+**类型**：`'default' | 'keyShape' | 'delegate'`
 
 **默认值**：`'default'`
 
-**是否必须**：false
-
-**说明**：缩略图的模式
+缩略图的模式
 
 - `'default'`：默认模式，缩略图会显示画布的所有内容
 - `'keyShape'`：只显示画布中所有节点的 keyShape
@@ -61,9 +55,7 @@ order: 6
 
 **默认值**：`10`
 
-**是否必须**：false
-
-**说明**：缩略图的内边距
+缩略图的内边距
 
 ### refresh
 
@@ -71,9 +63,7 @@ order: 6
 
 **默认值**：`true`
 
-**是否必须**：false
-
-**说明**：是否在画布更新时刷新缩略图
+是否在画布更新时刷新缩略图
 
 ### size
 
@@ -81,9 +71,7 @@ order: 6
 
 **默认值**：`[200, 120]`
 
-**是否必须**：false
-
-**说明**：缩略图的大小
+缩略图的大小
 
 ## API
 

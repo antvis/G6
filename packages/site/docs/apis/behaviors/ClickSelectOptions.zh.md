@@ -19,18 +19,14 @@ order: 4
 
 **默认值**：`selected`
 
-**是否必须**：false
-
-**说明**：选中时切换到该状态
+选中时切换到该状态
 
 ## trigger
 
-**类型**：`'shift'` | `'ctrl'` | `'alt'` | `'control'`
+**类型**：`'shift' | 'ctrl' | 'alt' | 'control'`
 
 **默认值**：`'shift'`
 
-**是否必须**：false
-
-**说明**：按住以进行多选
+按住以进行多选
 
 <embed src="../../common/BehaviorShould.zh.md"></embed>

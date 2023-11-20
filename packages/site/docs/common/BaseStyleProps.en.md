@@ -1,12 +1,10 @@
 ## anchor
 
-**Type**: `string` | `number[]`
+**Type**: `string | number[]`
 
 **Default**: `[0, 0]`
 
-**Required**: false
-
-**Description**: The origin (anchor) position of the graphic, based on the bounding box definition, ranging from `[0, 0]` to `[1, 1]`, where `[0, 0]` represents the top-left corner of the bounding box, and `[1, 1]` represents the bottom-right corner
+The origin (anchor) position of the graphic, based on the bounding box definition, ranging from `[0, 0]` to `[1, 1]`, where `[0, 0]` represents the top-left corner of the bounding box, and `[1, 1]` represents the bottom-right corner
 
 - Circle, Ellipse at the center position `[0.5, 0.5]`
 - Rect, Image, Line, Polyline, Polygon, Path at the top-left vertex position of the bounding box `[0, 0]`
@@ -19,9 +17,7 @@
 
 **Default**: `''`
 
-**Required**: false
-
-**Description**: The value of the class attribute of the element. Multiple classes are separated by spaces
+The value of the class attribute of the element. Multiple classes are separated by spaces
 
 ## clipPath
 
@@ -29,9 +25,7 @@
 
 **Default**: `null`
 
-**Required**: false
-
-**Description**: Use clipping to create the displayable area of the element, where the part inside the area is displayed, and the part outside is hidden
+Use clipping to create the displayable area of the element, where the part inside the area is displayed, and the part outside is hidden
 
 ## cursor
 
@@ -39,9 +33,7 @@
 
 **Default**: `'default'`
 
-**Required**: false
-
-**Description**: The style of the pointer when hovering over the element, optional values refer to: [CSS cursor](https://developer.mozilla.org/zh-CN/docs/Web/CSS/cursor)。
+The style of the pointer when hovering over the element, optional values refer to: [CSS cursor](https://developer.mozilla.org/zh-CN/docs/Web/CSS/cursor)。
 
 ## fill
 
@@ -49,9 +41,7 @@
 
 **Default**: `'none'`
 
-**Required**: false
-
-**Description**: The color used to fill the shape
+The color used to fill the shape
 
 ## fillOpacity
 
@@ -59,9 +49,7 @@
 
 **Default**: `1`
 
-**Required**: false
-
-**Description**: The opacity of the shape's fill, with a value range of `[0, 1]`
+The opacity of the shape's fill, with a value range of `[0, 1]`
 
 ## fillRule
 
@@ -69,9 +57,7 @@
 
 **Default**: `'nonzero'`
 
-**Required**: false
-
-**Description**: The rule for filling the shape
+The rule for filling the shape
 
 ## filter
 
@@ -79,9 +65,7 @@
 
 **Default**: `'none'`
 
-**Required**: false
-
-**Description**: Filters can process an already generated image, such as blurring, highlighting, increasing contrast, etc
+Filters can process an already generated image, such as blurring, highlighting, increasing contrast, etc
 
 - `CSS Filter`：https://developer.mozilla.org/en-US/docs/Web/CSS/filter
 - `Canvas Filter`：https://developer.mozilla.org/zh-CN/docs/Web/API/CanvasRenderingContext2D/filter
@@ -94,9 +78,7 @@
 
 **Default**: `'butt'`
 
-**Required**: false
-
-**Description**: The style of the endpoints of the shape's stroke
+The style of the endpoints of the shape's stroke
 
 - `'butt'` Default value. The end of the line segment ends in a square
 - `'round'` The end of the line segment ends in a circle
@@ -108,9 +90,7 @@
 
 **Default**: `[]`
 
-**Required**: false
-
-**Description**: The dash style of the shape's stroke, with values in the array alternating between dash length and spacing
+The dash style of the shape's stroke, with values in the array alternating between dash length and spacing
 
 ## lineDashOffset
 
@@ -118,9 +98,7 @@
 
 **Default**: `0`
 
-**Required**: false
-
-**Description**: The dash offset for the shape's stroke
+The dash offset for the shape's stroke
 
 ## lineJoin
 
@@ -128,9 +106,7 @@
 
 **Default**: `'miter'`
 
-**Required**: false
-
-**Description**: The style of the stroke's joints
+The style of the stroke's joints
 
 - `'miter'` Default value. By extending the outer edge of the connected part, it intersects at one point to form an additional rhombus area
 - `'round'` By filling an additional sector with the center at the end of the connected part, the shape of the corner is drawn. The radius of the rounded corner is the width of the line segment
@@ -142,9 +118,7 @@
 
 **Default**: `1`
 
-**Required**: false
-
-**Description**: The width of the shape's stroke
+The width of the shape's stroke
 
 ## miterLimit
 
@@ -152,9 +126,7 @@
 
 **Default**: `10`(Canvas) `4`(SVG)
 
-**Required**: false
-
-**Description**: When lineJoin is set to 'miter', this sets the miter limit ratio
+When lineJoin is set to 'miter', this sets the miter limit ratio
 
 ## opacity
 
@@ -162,19 +134,15 @@
 
 **Default**: `1`
 
-**Required**: false
-
-**Description**: The opacity of the shape, with a value range of `[0, 1]`
+The opacity of the shape, with a value range of `[0, 1]`
 
 ## pointerEvents
 
-**Type**: `'none'` | `'auto'` | `'stroke'` | `'fill'` | `'painted'` | `'visible'` | `'visiblestroke'` | `'visiblefill'` | `'visiblepainted'` | `'all'` | `'non-transparent-pixel'`
+**Type**: `'none' | 'auto' | 'stroke' | 'fill' | 'painted' | 'visible' | 'visiblestroke' | 'visiblefill' | 'visiblepainted' | 'all' | 'non-transparent-pixel'`
 
 **Default**: `'auto'`
 
-**Required**: false
-
-**Description**: How the shape responds to interactive events, for reference: https://developer.mozilla.org/en-US/docs/Web/CSS/pointer-events
+How the shape responds to interactive events, for reference: https://developer.mozilla.org/en-US/docs/Web/CSS/pointer-events
 
 ## shadowBlur
 
@@ -182,9 +150,7 @@
 
 **Default**: `0`
 
-**Required**: false
-
-**Description**: The level of blur for the shadow, with higher values indicating more blur
+The level of blur for the shadow, with higher values indicating more blur
 
 ## shadowColor
 
@@ -192,19 +158,15 @@
 
 **Default**: `'none'`
 
-**Required**: false
-
-**Description**: The color of the shadow
+The color of the shadow
 
 ## shadowType
 
-**Type**: `'inner'` | `'outer'`
+**Type**: `'inner' | 'outer'`
 
 **Default**: `'outer'`
 
-**Required**: false
-
-**Description**: The type of shadow
+The type of shadow
 
 - `'outer'` Outer shadow, the shadow is outside the shape's fill or stroke
 - `'inner'` Inner shadow, the shadow is inside the shape
@@ -215,9 +177,7 @@
 
 **Default**: `0`
 
-**Required**: false
-
-**Description**: The offset of the shadow in the x-axis direction
+The offset of the shadow in the x-axis direction
 
 ## shadowOffsetY
 
@@ -225,9 +185,7 @@
 
 **Default**: `0`
 
-**Required**: false
-
-**Description**: The offset of the shadow in the y-axis direction
+The offset of the shadow in the y-axis direction
 
 ## stroke
 
@@ -235,9 +193,7 @@
 
 **Default**: `'none'`
 
-**Required**: false
-
-**Description**: The color of the shape's stroke
+The color of the shape's stroke
 
 ## strokeOpacity
 
@@ -245,9 +201,7 @@
 
 **Default**: `1`
 
-**Required**: false
-
-**Description**: The opacity of the shape's stroke, with a value range of `[0, 1]`
+The opacity of the shape's stroke, with a value range of `[0, 1]`
 
 ## visibility
 
@@ -255,9 +209,7 @@
 
 **Default**: `'visible'`
 
-**Required**: false
-
-**Description**: The visibility of the element
+The visibility of the element
 
 ## zIndex
 
@@ -265,6 +217,4 @@
 
 **Default**: `0`
 
-**Required**: false
-
-**Description**: The z-index of the element, with higher values being closer to the top
+The z-index of the element, with higher values being closer to the top

@@ -4,6 +4,4 @@
 
 **Default**: `''`
 
-**Required**: false
-
-**Description**: The event after interaction
+The event after interaction

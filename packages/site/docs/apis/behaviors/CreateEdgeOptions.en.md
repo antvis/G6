@@ -14,9 +14,7 @@ order: 13
 
 **Default**: `undefined`
 
-**Required**: false
-
-**Description**: The event name triggered when canceling the creation of the edge
+The event name triggered when canceling the creation of the edge
 
 ## createActualEventName
 
@@ -24,9 +22,7 @@ order: 13
 
 **Default**: `undefined`
 
-**Required**: false
-
-**Description**: The event name triggered when creating the actual edge
+The event name triggered when creating the actual edge
 
 ## createVirtualEventName
 
@@ -34,9 +30,7 @@ order: 13
 
 **Default**: `undefined`
 
-**Required**: false
-
-**Description**: The event name triggered when creating the virtual edge
+The event name triggered when creating the virtual edge
 
 ## edgeConfig
 
@@ -44,15 +38,13 @@ order: 13
 
 **Default**: `{}`
 
-**Required**: false
-
-**Description**: Edge configuration
+Edge configuration
 
 <embed src="../../common/BehaviorSecondaryKey.en.md"></embed>
 
 ## trigger
 
-**Type**: `'click'` | `'drag'`
+**Type**: `'click' | 'drag'`
 
 <!-- TODO 这里没和Type定义保持一致，需要确认 -->
 

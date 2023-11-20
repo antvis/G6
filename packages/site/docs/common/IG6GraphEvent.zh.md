@@ -1,5 +1,8 @@
----
-
+<details>
+  <summary style="color: #873bf4; cursor: pointer;">
+    IG6GraphEvent
+  </summary>
+  
 ```ts
 type IG6GraphEvent = {
   /** 事件发生在哪一类元素上，`undefined` 表示发生在画布空白处 */
@@ -20,3 +23,4 @@ type IG6GraphEvent = {
   preventDefault: () => void;
 };
 ```
+</details>

@@ -19,19 +19,15 @@ When two or more elements are aligned horizontally or vertically, alignment line
 
 **Default**: `{}`
 
-**Required**: false
-
-**Description**: Snapline style
+Snapline style
 
 ### itemAlignType
 
-**Type**: `boolean` | `'horizontal' | 'vertical'` | `'center'`
+**Type**: `boolean | 'horizontal' | 'vertical' | 'center'`
 
 **Default**: `false`
 
-**Required**: false
-
-**Description**: Enable alignment line type
+Enable alignment line type
 
 - `true`: Enable center, horizontal and vertical alignment lines
 - `false`: Do not enable alignment lines

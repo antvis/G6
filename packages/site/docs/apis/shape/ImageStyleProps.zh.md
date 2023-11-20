@@ -7,13 +7,11 @@ order: 3
 
 ## img
 
-**类型**：`string` | `HTMLImageElement`
+**类型**：`string | HTMLImageElement`
 
 **默认值**：`null`
 
-**是否必须**：false
-
-**说明**：图片对象
+图片对象
 
 ## src
 
@@ -21,8 +19,6 @@ order: 3
 
 **默认值**：`null`
 
-**是否必须**：false
-
-**说明**：图片地址
+图片地址
 
 <embed src="../../common/BaseStyleProps.zh.md"></embed>

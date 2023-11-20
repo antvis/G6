@@ -4,9 +4,7 @@
 
 **Default**: `0`
 
-**Required**: false
-
-**Description**: width
+width
 
 ### height
 
@@ -14,6 +12,4 @@
 
 **Default**: `0`
 
-**Required**: false
-
-**Description**: height
+height

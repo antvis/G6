@@ -17,9 +17,7 @@ order: 1
 
 **默认值**：`false`
 
-**是否必须**：false
-
-**说明**：是否在节点/边/Combo 上触发画布拖拽
+是否在节点/边/Combo 上触发画布拖拽
 
 <embed src="../../common/BehaviorDirection.zh.md"></embed>
 
@@ -33,9 +31,7 @@ order: 1
 
 **默认值**：`shift`
 
-**是否必须**：false
-
-**说明**：禁用拖拽的按键
+禁用拖拽的按键
 
 <embed src="../../common/BehaviorShouldBegin.zh.md"></embed>
 
@@ -43,12 +39,8 @@ order: 1
 
 ## trigger
 
-**类型**：`'drag'` | `'directionKeys'`
+**类型**：`'drag' | 'directionKeys'`
 
 **默认值**：`drag`
 
-**是否必须**：false
-
-**说明**：触发交互的事件类型
-
-<embed src="../../common/IG6GraphEvent.zh.md"></embed>
+触发交互的事件类型

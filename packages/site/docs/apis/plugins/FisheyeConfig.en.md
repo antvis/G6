@@ -20,9 +20,7 @@ Zoom in on objects in the lens
 
 **Default**: `1.5`
 
-**Required**: false
-
-**Description**: The magnification of the fisheye
+The magnification of the fisheye
 
 ### maxD
 
@@ -30,9 +28,7 @@ Zoom in on objects in the lens
 
 **Default**: `5`
 
-**Required**: false
-
-**Description**: The maximum value of the magnification of the fisheye
+The maximum value of the magnification of the fisheye
 
 ### minD
 
@@ -40,19 +36,15 @@ Zoom in on objects in the lens
 
 **Default**: `1`
 
-**Required**: false
-
-**Description**: The minimum value of the magnification of the fisheye
+The minimum value of the magnification of the fisheye
 
 ### scaleDBy
 
-**Type**: `'wheel'` | `'drag'` | `'unset'`
+**Type**: `'wheel' | 'drag' | 'unset'`
 
 **Default**: `'drag'`
 
-**Required**: false
-
-**Description**: The way to scale the magnification of the fisheye
+The way to scale the magnification of the fisheye
 
 > In the fisheye, the magnification of the fisheye is scaled by mouse wheel or drag
 
@@ -62,9 +54,7 @@ Zoom in on objects in the lens
 
 **Default**: `true`
 
-**Required**: false
-
-**Description**: Whether to show the percentage of the magnification (`d`) of the fisheye
+Whether to show the percentage of the magnification (`d`) of the fisheye
 
 <embed src="../../common/Throttle.en.md"></embed>
 

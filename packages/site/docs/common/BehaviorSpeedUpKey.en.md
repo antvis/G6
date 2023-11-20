@@ -4,6 +4,4 @@
 
 **Default**: `'shift'`
 
-**Required**: false
-
-**Description**: The key to speed
+The key to speed

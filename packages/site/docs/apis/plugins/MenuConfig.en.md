@@ -19,9 +19,7 @@ order: 5
 
 **Default**: `undefined`
 
-**Required**: false
-
-**Description**: The callback function when the menu item is clicked
+The callback function when the menu item is clicked
 
 ### itemTypes
 
@@ -29,9 +27,7 @@ order: 5
 
 **Default**: `['node', 'edge', 'canvas']`
 
-**Required**: false
-
-**Description**: The object type to add menu items
+The object type to add menu items
 
 ### liHoverStyle
 
@@ -58,9 +54,7 @@ order: 5
 
 **Default**: `undefined`
 
-**Required**: false
-
-**Description**: The callback function when the menu is hidden
+The callback function when the menu is hidden
 
 <embed src="../../common/PluginShouldBegin.en.md"></embed>
 
@@ -70,14 +64,8 @@ order: 5
 
 **Default**: `'click'`
 
-**Required**: false
-
-**Description**: The trigger type of the menu
-
----
+The trigger type of the menu
 
 ## API
 
 <embed src="../../common/PluginAPIDestroy.en.md"></embed>
-
-<embed src="../../common/IG6GraphEvent.en.md"></embed>

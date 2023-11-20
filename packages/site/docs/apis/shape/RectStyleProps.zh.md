@@ -7,12 +7,10 @@ order: 1
 
 ## radius
 
-**类型**：`number` | `number[]`
+**类型**：`number | number[]`
 
 **默认值**：`0`
 
-**是否必须**：false
-
-**说明**：圆角半径
+圆角半径
 
 <embed src="../../common/BaseStyleProps.zh.md"></embed>

@@ -1,3 +1,8 @@
+<details>
+  <summary style="color: #873bf4; cursor: pointer;">
+    StackCfg
+  </summary>
+
 ```ts
 type StackCfg = {
   /** 历史栈允许存储的最大步数。*/
@@ -22,3 +27,5 @@ type StackCfg = {
   ignoreDisplayChange?: boolean;
 };
 ```
+
+</details>

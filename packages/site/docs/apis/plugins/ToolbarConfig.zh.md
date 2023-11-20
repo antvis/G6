@@ -16,11 +16,11 @@ order: 7
 
 **类型**：`(code: string, evt: IG6GraphEvent) => void`
 
+<embed src="../../common/IG6GraphEvent.zh.md"></embed>
+
 **默认值**：`undefined`
 
-**是否必须**：false
-
-**说明**：点击事件回调
+点击事件回调
 
 <embed src="../../common/PluginGetContent.zh.md"></embed>
 
@@ -32,9 +32,7 @@ order: 7
 
 **默认值**：`0.00001`
 
-**是否必须**：false
-
-**说明**：最小缩放比例
+最小缩放比例
 
 ### maxZoom
 
@@ -42,9 +40,7 @@ order: 7
 
 **默认值**：`1000`
 
-**是否必须**：false
-
-**说明**：最大缩放比例
+最大缩放比例
 
 ### zoomSensitivity
 
@@ -52,9 +48,7 @@ order: 7
 
 **默认值**：`10`
 
-**是否必须**：false
-
-**说明**：缩放灵敏度 -->
+缩放灵敏度 -->
 
 ## API
 
@@ -63,7 +57,3 @@ order: 7
 <!-- TODO 待实现添加 add/update/remove API -->
 
 <embed src="../../common/PluginAPIDestroy.zh.md"></embed>
-
----
-
-<embed src="../../common/IG6GraphEvent.zh.md"></embed>

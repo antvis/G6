@@ -20,9 +20,7 @@ order: 8
 
 **默认值**：`{}`
 
-**是否必须**：false
-
-**说明**：轴样式
+轴样式
 
 ### chartStyle
 
@@ -30,9 +28,7 @@ order: 8
 
 **默认值**：`{}`
 
-**是否必须**：false
-
-**说明**：图表样式
+图表样式
 
 ### controllerStyle
 
@@ -40,9 +36,7 @@ order: 8
 
 **默认值**：`{}`
 
-**是否必须**：false
-
-**说明**：控制器样式
+控制器样式
 
 ### data
 
@@ -50,9 +44,7 @@ order: 8
 
 **默认值**：`[]`
 
-**是否必须**：false
-
-**说明**：时间轴数据
+时间轴数据
 
 ### filter
 
@@ -60,29 +52,23 @@ order: 8
 
 **默认值**：`undefined`
 
-**是否必须**：false
-
-**说明**：接管过滤逻辑，当时间轴值变化时，会调用该回调
+接管过滤逻辑，当时间轴值变化时，会调用该回调
 
 ### filterItemTypes
 
-**类型**：`node` | `edge`
+**类型**：`node | edge`
 
 **默认值**：`node`
 
-**是否必须**：false
-
-**说明**：过滤图元素类型
+过滤图元素类型
 
 ### filterType
 
-**类型**：`'modify'` | `'visibility'`
+**类型**：`'modify' | 'visibility'`
 
 **默认值**：`'modify'`
 
-**是否必须**：false
-
-**说明**：过滤类型
+过滤类型
 
 - `modify`：通过更新图数据的方式进行过滤
 - `visibility`：通过更新图元素的可见性进行过滤
@@ -93,9 +79,7 @@ order: 8
 
 **默认值**：依次尝试取 `timestamp`, `time`, `date`, `datetime` 字段属性值
 
-**是否必须**：false
-
-**说明**：从图元素数据中获取时间值
+从图元素数据中获取时间值
 
 ### getTimeFromData
 
@@ -103,9 +87,7 @@ order: 8
 
 **默认值**：依次尝试取 `timestamp`, `time`, `date`, `datetime` 字段属性值
 
-**是否必须**：false
-
-**说明**：从时间轴数据中获取时间值
+从时间轴数据中获取时间值
 
 ### getValueFromData
 
@@ -113,9 +95,7 @@ order: 8
 
 **默认值**：依次尝试取 `value`, `date` 字段属性值
 
-**是否必须**：false
-
-**说明**：从时间轴数据中获取值，用于在图表模式下进行绘制
+从时间轴数据中获取值，用于在图表模式下进行绘制
 
 ### interval
 
@@ -123,9 +103,7 @@ order: 8
 
 **默认值**：`'day'`
 
-**是否必须**：false
-
-**说明**：图表模式下，需要指定时间间隔
+图表模式下，需要指定时间间隔
 
 ### labelFormatter
 
@@ -133,9 +111,7 @@ order: 8
 
 **默认值**：`undefined`
 
-**是否必须**：false
-
-**说明**：图表模式下，时间值自定义格式化
+图表模式下，时间值自定义格式化
 
 ### loop
 
@@ -143,9 +119,7 @@ order: 8
 
 **默认值**：`false`
 
-**是否必须**：false
-
-**说明**：是否循环播放
+是否循环播放
 
 ### padding
 
@@ -153,27 +127,28 @@ order: 8
 
 **默认值**：`10`
 
-**是否必须**：false
-
-**说明**：时间轴内边距
+时间轴内边距
 
 ### playMode
 
-**类型**：`'acc'` | `'slide'`
+**类型**：`'acc' | 'slide'`
 
 **默认值**：`'acc'`
 
-**是否必须**：false
-
-**说明**：播放模式
+播放模式
 
 - `'acc'`：累加播放，即播放到第 n 个时间点时，会显示第 1 到第 n 个时间点的图元素
 - `'slide'`：滑动播放，固定显示最近 n 个时间点的图元素
 
 ### shouldIgnore
 
-**类型**：
+**类型**：`shouldIgnore`
 
+<details>
+  <summary style="color: #873bf4; cursor: pointer;">
+    shouldIgnore
+  </summary>
+  
 ```ts
 type shouldIgnore = (
   model: Model,
@@ -181,22 +156,19 @@ type shouldIgnore = (
   dateRange: number | Date | [number, number] | [Date, Date],
 ) => boolean;
 ```
+</details>
 
 **默认值**：`undefined`
 
-**是否必须**：false
-
-**说明**：过滤图元素的回调，返回 `true` 表示忽略该图元素
+过滤图元素的回调，返回 `true` 表示忽略该图元素
 
 ### timebarType
 
-**类型**：`'chart'` | `'time'`
+**类型**：`'chart' | 'time'`
 
 **默认值**：`'time'`
 
-**是否必须**：false
-
-**说明**：时间轴类型
+时间轴类型
 
 - `chart`：显示为条形图或柱状图
 
@@ -212,9 +184,7 @@ type shouldIgnore = (
 
 **默认值**：第一个时间点的值
 
-**是否必须**：false
-
-**说明**：时间点/时间范围
+时间点/时间范围
 
 ### x
 
@@ -222,9 +192,7 @@ type shouldIgnore = (
 
 **默认值**：`0`
 
-**是否必须**：false
-
-**说明**：x 坐标
+x 坐标
 
 ### y
 
@@ -232,21 +200,17 @@ type shouldIgnore = (
 
 **默认值**：`0`
 
-**是否必须**：false
-
-**说明**：y 坐标
+y 坐标
 
 <embed src="../../common/PluginSize.zh.md"></embed>
 
 ### position
 
-**类型**：`'top'` | `'bottom'` | `'left'` | `'right'`
+**类型**：`'top' | 'bottom' | 'left' | 'right'`
 
 **默认值**：`'bottom'`
 
-**是否必须**：false
-
-**说明**：位置
+位置
 
 > 目前仅支持 `'bottom'`
 
@@ -256,9 +220,7 @@ type shouldIgnore = (
 
 **默认值**：`undefined`
 
-**是否必须**：false
-
-**说明**：后退回调
+后退回调
 
 ### onChange
 
@@ -266,9 +228,7 @@ type shouldIgnore = (
 
 **默认值**：`undefined`
 
-**是否必须**：false
-
-**说明**：时间值变化回调
+时间值变化回调
 
 ### onForward
 
@@ -276,9 +236,7 @@ type shouldIgnore = (
 
 **默认值**：`undefined`
 
-**是否必须**：false
-
-**说明**：前进回调
+前进回调
 
 ### onPlay
 
@@ -286,9 +244,7 @@ type shouldIgnore = (
 
 **默认值**：`undefined`
 
-**是否必须**：false
-
-**说明**：播放回调
+播放回调
 
 ### onPause
 
@@ -296,9 +252,7 @@ type shouldIgnore = (
 
 **默认值**：`undefined`
 
-**是否必须**：false
-
-**说明**：暂停回调
+暂停回调
 
 ### onReset
 
@@ -306,9 +260,7 @@ type shouldIgnore = (
 
 **默认值**：`undefined`
 
-**是否必须**：false
-
-**说明**：重置回调
+重置回调
 
 ### onSelectionTypeChange
 
@@ -316,9 +268,7 @@ type shouldIgnore = (
 
 **默认值**：`undefined`
 
-**是否必须**：false
-
-**说明**：选择类型变化回调
+选择类型变化回调
 
 ### onChartTypeChange
 
@@ -326,9 +276,7 @@ type shouldIgnore = (
 
 **默认值**：`undefined`
 
-**是否必须**：false
-
-**说明**：图表类型变化回调
+图表类型变化回调
 
 ## API
 
@@ -336,31 +284,31 @@ type shouldIgnore = (
 
 **类型**：`() => void;`
 
-**说明**：后退
+后退
 
 ### forward
 
 **类型**：`() => void;`
 
-**说明**：前进
+前进
 
 ### pause
 
 **类型**：`() => void;`
 
-**说明**：暂停
+暂停
 
 ### play
 
 **类型**：`() => void;`
 
-**说明**：播放
+播放
 
 ### reset
 
 **类型**：`() => void;`
 
-**说明**：重置
+重置
 
 <embed src="../../common/PluginAPIDestroy.zh.md"></embed>
 

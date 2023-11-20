@@ -4,6 +4,4 @@
 
 **Default**: `['node', 'edge']`
 
-**Required**: false
-
-**Description**: The types of elements allowed to be brush selected
+The types of elements allowed to be brush selected

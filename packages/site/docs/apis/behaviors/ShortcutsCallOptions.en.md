@@ -11,9 +11,7 @@ order: 11
 
 **Default**: `'1'`
 
-**Required**: false
-
-**Description**: combined key
+combined key
 
 ## functionName
 
@@ -21,9 +19,7 @@ order: 11
 
 **Default**: `'fitView'`
 
-**Required**: false
-
-**Description**: function name
+function name
 
 ## functionParams
 
@@ -31,16 +27,12 @@ order: 11
 
 **Default**: `[]`
 
-**Required**: false
-
-**Description**: function params
+function params
 
 ## trigger
 
-**Type**: `'shift'` | `'ctrl'` | `'alt'` | `'control'`
+**Type**: `'shift' | 'ctrl' | 'alt' | 'control'`
 
 **Default**: `'ctrl'`
 
-**Required**: false
-
-**Description**: trigger key
+trigger key

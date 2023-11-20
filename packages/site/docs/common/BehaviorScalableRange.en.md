@@ -1,12 +1,10 @@
 ## scalableRange
 
-**Type**: `number` | `string`
+**Type**: `number | string`
 
 **Default**: `0`
 
-**Required**: false
-
-**Description**: The range of the canvas that can be dragged
+The range of the canvas that can be dragged
 
 - `0`: The canvas can be dragged infinitely
 - `0~1`: The space occupied by the graph can exceed the viewport, but not the percentage of the value

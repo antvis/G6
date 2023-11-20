@@ -14,9 +14,7 @@ order: 13
 
 **默认值**：`undefined`
 
-**是否必须**：false
-
-**说明**：取消创建边时，触发的事件名称
+取消创建边时，触发的事件名称
 
 ## createActualEventName
 
@@ -24,9 +22,7 @@ order: 13
 
 **默认值**：`undefined`
 
-**是否必须**：false
-
-**说明**：创建真实边时，触发的事件名称
+创建真实边时，触发的事件名称
 
 ## createVirtualEventName
 
@@ -34,9 +30,7 @@ order: 13
 
 **默认值**：`undefined`
 
-**是否必须**：false
-
-**说明**：创建虚拟边时，触发的事件名称
+创建虚拟边时，触发的事件名称
 
 ## edgeConfig
 
@@ -44,15 +38,13 @@ order: 13
 
 **默认值**：`{}`
 
-**是否必须**：false
-
-**说明**：边的配置项
+边的配置项
 
 <embed src="../../common/BehaviorSecondaryKey.zh.md"></embed>
 
 ## trigger
 
-**类型**：`'click'` | `'drag'`
+**类型**：`'click' | 'drag'`
 
 <!-- TODO 这里没和类型定义保持一致，需要确认 -->
 

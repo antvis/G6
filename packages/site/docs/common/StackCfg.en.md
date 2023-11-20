@@ -1,3 +1,8 @@
+<details>
+  <summary style="color: #873bf4; cursor: pointer;">
+    StackCfg
+  </summary>
+
 ```ts
 type StackCfg = {
   /** The maximum number of steps allowed in the history stack. */
@@ -22,3 +27,5 @@ type StackCfg = {
   ignoreDisplayChange?: boolean;
 };
 ```
+
+</details>

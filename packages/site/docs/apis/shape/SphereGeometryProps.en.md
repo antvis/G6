@@ -13,9 +13,7 @@ Sphere Geometry
 
 **Default**: `0.5`
 
-**Required**: false
-
-**Description**: radius
+radius
 
 ## latitudeBands
 
@@ -23,9 +21,7 @@ Sphere Geometry
 
 **Default**: `16`
 
-**Required**: false
-
-**Description**: latitude bands
+latitude bands
 
 ## longitudeBands
 
@@ -33,6 +29,4 @@ Sphere Geometry
 
 **Default**: `16`
 
-**Required**: false
-
-**Description**: longitude bands
+longitude bands

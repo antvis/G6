@@ -5,13 +5,11 @@ order: 5
 
 ## path
 
-**Type**: `string` | `PathCommand[]`
+**Type**: `string | PathCommand[]`
 
 **Default**: `''`
 
-**Required**: false
-
-**Description**: Path string or path command array
+Path string or path command array
 
 <embed src="../../common/Marker.en.md"></embed>
 

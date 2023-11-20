@@ -13,9 +13,7 @@ Torus Geometry
 
 **Default**: `0.2`
 
-**Required**: false
-
-**Description**: The radius of the tube
+The radius of the tube
 
 ## ringRadius
 
@@ -23,9 +21,7 @@ Torus Geometry
 
 **Default**: `0.3`
 
-**Required**: false
-
-**Description**: The radius of the ring
+The radius of the ring
 
 ## segments
 
@@ -33,9 +29,7 @@ Torus Geometry
 
 **Default**: `30`
 
-**Required**: false
-
-**Description**: The number of segments
+The number of segments
 
 ## sides
 
@@ -43,6 +37,4 @@ Torus Geometry
 
 **Default**: `20`
 
-**Required**: false
-
-**Description**: The number of sides
+The number of sides

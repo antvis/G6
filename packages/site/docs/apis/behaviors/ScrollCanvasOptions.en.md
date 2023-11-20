@@ -8,13 +8,11 @@ order: 12
 
 ## allowDragOnItem
 
-**Type**: `boolean` | `{node?: boolean; edge?: boolean; combo?: boolean}`
+**Type**: `boolean | {node?: boolean; edge?: boolean; combo?: boolean}`
 
 **Default**: `false`
 
-**Required**: false
-
-**Description**: Whether to scroll the canvas when dragging the node, edge or combo
+Whether to scroll the canvas when dragging the node, edge or combo
 
 <embed src="../../common/BehaviorDirection.en.md"></embed>
 
@@ -24,13 +22,11 @@ order: 12
 
 ## zoomKey
 
-**Type**: `string` | `string[]`
+**Type**: `string | string[]`
 
 **Default**: `ctrl`
 
-**Required**: false
-
-**Description**: The key to trigger zooming
+The key to trigger zooming
 
 ## zoomRatio
 
@@ -38,6 +34,4 @@ order: 12
 
 **Default**: `0.05`
 
-**Required**: false
-
-**Description**: The ratio of zooming
+The ratio of zooming

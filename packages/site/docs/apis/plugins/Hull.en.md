@@ -20,9 +20,7 @@ Add a hull to a group of objects for wrapping
 
 **Default**: `undefined`
 
-**Required**: false
-
-**Description**: More detailed configuration of the wrapped properties
+More detailed configuration of the wrapped properties
 
 > Usually, you don't need to configure this property
 
@@ -32,9 +30,7 @@ Add a hull to a group of objects for wrapping
 
 **Default**: `undefined`
 
-**Required**: false
-
-**Description**: Enabled hull wrapping
+Enabled hull wrapping
 
 > You can also add, remove, and update hulls through the API
 
@@ -63,9 +59,7 @@ type labelShape = ShapeSyle & {
 
 **Default**: `10`
 
-**Required**: false
-
-**Description**: The inner padding of the hull
+The inner padding of the hull
 
 ### style
 
@@ -73,9 +67,7 @@ type labelShape = ShapeSyle & {
 
 **Default**: `{}`
 
-**Required**: false
-
-**Description**: Hull style
+Hull style
 
 ## API
 

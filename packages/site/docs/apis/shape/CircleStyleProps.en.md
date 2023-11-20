@@ -9,9 +9,7 @@ order: 0
 
 **Default**: `0`
 
-**Required**: false
-
-**Description**: The x coordinate of the center of the circle
+The x coordinate of the center of the circle
 
 ## cy
 
@@ -19,9 +17,7 @@ order: 0
 
 **Default**: `0`
 
-**Required**: false
-
-**Description**: The y coordinate of the center of the circle
+The y coordinate of the center of the circle
 
 ## r
 
@@ -29,8 +25,6 @@ order: 0
 
 **Default**:  `0`
 
-**Required**: false
-
-**Description**: The radius of the circle
+The radius of the circle
 
 <embed src="../../common/BaseStyleProps.en.md"></embed>

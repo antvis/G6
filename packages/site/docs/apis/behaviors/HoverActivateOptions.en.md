@@ -15,9 +15,7 @@ Activate on hover
 
 **Default**: `'selected'`
 
-**Required**: false
-
-**Description**: The state when activated
+The state when activated
 
 <embed src="../../common/BehaviorEventName.en.md"></embed>
 
@@ -27,4 +25,4 @@ Activate on hover
 
 <embed src="../../common/Throttle.en.md"></embed>
 
-<embed src="../../common/IG6GraphEvent.en.md"></embed>
+

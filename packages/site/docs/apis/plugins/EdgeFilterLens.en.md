@@ -17,13 +17,11 @@ Filter out edges that do not exist on one side of the filter
 
 ### showType
 
-**Type**: `'one'` | `'both'` | `'only-source'` | `'only-target'`
+**Type**: `'one' | 'both' | 'only-source' | 'only-target'`
 
 **Default**: `'both`
 
-**Required**: false
-
-**Description**: The type of edge to display
+The type of edge to display
 
 - `'one'`: Display edges that are at least one side in the filter
 - `'both'`: Display edges that are both ends in the filter
@@ -36,9 +34,7 @@ Filter out edges that do not exist on one side of the filter
 
 **Default**: `undefined`
 
-**Required**: false
-
-**Description**: Whether to display the edge callback function
+Whether to display the edge callback function
 
 ## API
 
