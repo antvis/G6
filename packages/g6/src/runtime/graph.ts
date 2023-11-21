@@ -172,16 +172,7 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
   }
 
   private initCanvas() {
-    const {
-      renderer,
-      container,
-      canvas,
-      backgroundCanvas,
-      transientCanvas,
-      transientLabelCanvas,
-      width,
-      height,
-    } = this.specification;
+    const { renderer, container, width, height } = this.specification;
 
     let pixelRatio: number;
     if (renderer && !isString(renderer)) {
@@ -194,14 +185,7 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       this.rendererType = renderer || 'canvas';
     }
 
-    /**
-     * These 3 canvases can be passed in by users, e.g. when doing serverside rendering we can't use DOM API.
-     */
-    if (canvas) {
-      this.canvas = canvas;
-      this.backgroundCanvas = backgroundCanvas;
-      this.transientCanvas = transientCanvas;
-      this.transientLabelCanvas = transientLabelCanvas;
+    if (container) {
       this.container = container as HTMLElement;
     } else {
       const containerDOM = isString(container)
@@ -215,51 +199,28 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
         this.destroy();
         return;
       }
-
       this.container = containerDOM;
-      const size = [width, height];
-      if (size[0] === undefined) {
-        size[0] = containerDOM.scrollWidth;
-      }
-      if (size[1] === undefined) {
-        size[1] = containerDOM.scrollHeight;
-      }
-      this.backgroundCanvas = createCanvas(
-        this.rendererType,
-        containerDOM,
-        size[0],
-        size[1],
-        pixelRatio,
-      );
-      this.canvas = createCanvas(
-        this.rendererType,
-        containerDOM,
-        size[0],
-        size[1],
-        pixelRatio,
-      );
-      this.labelCanvas = createCanvas(
-        'canvas',
-        containerDOM,
-        size[0],
-        size[1],
-        pixelRatio,
-      );
-      this.transientCanvas = createCanvas(
-        this.rendererType,
-        containerDOM,
-        size[0],
-        size[1],
-        pixelRatio,
-      );
-      this.transientLabelCanvas = createCanvas(
-        'canvas',
-        containerDOM,
-        size[0],
-        size[1],
-        pixelRatio,
-      );
     }
+
+    [
+      'backgroundCanvas',
+      'canvas',
+      'labelCanvas',
+      'transientCanvas',
+      'transientLabelCanvas',
+    ].forEach((name) => {
+      this[name] =
+        this.specification[name] ||
+        createCanvas(
+          ['labelCanvas', 'transientLabelCanvas'].includes(name)
+            ? 'canvas'
+            : this.rendererType,
+          this.container,
+          width ?? this.container.scrollWidth,
+          height ?? this.container.scrollHeight,
+          pixelRatio,
+        );
+    });
 
     Promise.all(
       [
