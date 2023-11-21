@@ -229,7 +229,7 @@ importers:
         specifier: ^2.0.4
         version: 2.0.4
       '@antv/g6':
-        specifier: ^5.0.0-beta.11
+        specifier: ^5.0.0
         version: link:../g6
       '@antv/graphlib':
         specifier: ^2.0.2
@@ -354,7 +354,7 @@ importers:
         version: link:../g6
       '@antv/g6-plugin-map-view':
         specifier: ^0.0.4
-        version: link:../g6-plugin-map-view
+        version: 0.0.4(workerize-loader@2.0.2)
       '@antv/g6-react-node':
         specifier: ^1.4.5
         version: 1.4.5
@@ -722,7 +722,7 @@ packages:
       heap-js: 2.3.0
       lodash: 4.17.21
       regression: 2.0.1
-      tslib: 2.5.0
+      tslib: 2.6.2
     transitivePeerDependencies:
       - '@antv/g2plot'
       - '@antv/g6'
@@ -881,7 +881,7 @@ packages:
       '@antv/g-math': 0.1.9
       '@antv/matrix-util': 3.1.0-beta.3
       '@antv/path-util': 2.0.15
-      '@antv/util': 2.0.9
+      '@antv/util': 2.0.17
       '@types/d3-timer': 1.0.11
       d3-ease: 1.0.7
       d3-interpolate: 1.4.0
@@ -902,7 +902,7 @@ packages:
       d3-interpolate: 3.0.1
       d3-timer: 1.0.10
       detect-browser: 5.3.0
-      tslib: 2.5.0
+      tslib: 2.6.2
     dev: false
 
   /@antv/g-camera-api@1.2.16:
@@ -1244,8 +1244,8 @@ packages:
       '@antv/matrix-util': 3.1.0-beta.3
       '@antv/path-util': 2.0.15
       '@antv/scale': 0.3.18
-      '@antv/util': 2.0.9
-      tslib: 2.5.0
+      '@antv/util': 2.0.17
+      tslib: 2.6.2
     dev: false
 
   /@antv/g2@5.1.5(@antv/g2plot@2.4.31)(@antv/g6@packages+g6):
@@ -1310,8 +1310,23 @@ packages:
       '@antv/matrix-util': 3.1.0-beta.3
       '@antv/path-util': 2.0.15
       '@antv/scale': 0.3.18
-      '@antv/util': 2.0.9
+      '@antv/util': 2.0.17
       ml-matrix: 6.10.7
+    dev: false
+
+  /@antv/g6-plugin-map-view@0.0.4(workerize-loader@2.0.2):
+    resolution: {integrity: sha512-zFdfYq9Np9d/hQ7soMin56JAF1PZ3OlTPYm5Ue1rYk+T/9kjWVhm24GjyWVHmavFQ7KhvTkTfJyF4MRY6yMOAA==}
+    dependencies:
+      '@antv/dom-util': 2.0.4
+      '@antv/g6': 5.0.0-beta.27(workerize-loader@2.0.2)
+      '@antv/graphlib': 2.0.2
+      '@antv/l7': 2.18.3
+      '@antv/l7-maps': 2.18.3
+      '@antv/util': 2.0.17
+    transitivePeerDependencies:
+      - bufferutil
+      - utf-8-validate
+      - workerize-loader
     dev: false
 
   /@antv/g6-react-node@1.4.5:
@@ -1322,6 +1337,34 @@ packages:
       '@types/yoga-layout': 1.9.6
       react: 16.14.0
       yoga-layout-prebuilt: 1.10.0
+    dev: false
+
+  /@antv/g6@5.0.0-beta.27(workerize-loader@2.0.2):
+    resolution: {integrity: sha512-1Zn+jdDquT+lMmQU28zrsws0dJ7wpMkoE3WAaiJs+yZNn27u2FwkqWgD8AaugrZ+fLWnEmn7NLBXMHGYuaOGVg==}
+    dependencies:
+      '@ant-design/colors': 7.0.0
+      '@antv/algorithm': 0.1.26
+      '@antv/event-emitter': 0.1.3
+      '@antv/g': 5.18.17
+      '@antv/g-canvas': 1.11.19
+      '@antv/g-plugin-3d': 1.9.22
+      '@antv/g-plugin-control': 1.9.15
+      '@antv/g-plugin-dragndrop': 1.8.15
+      '@antv/g-svg': 1.10.17
+      '@antv/g-webgl': 1.9.29
+      '@antv/graphlib': 2.0.2
+      '@antv/gui': 0.5.1-alpha.1(@antv/g@5.18.17)
+      '@antv/hierarchy': 0.6.11
+      '@antv/layout': 1.2.12(workerize-loader@2.0.2)
+      '@antv/layout-gpu': 1.1.5(workerize-loader@2.0.2)
+      '@antv/layout-wasm': 1.3.1
+      '@antv/util': 3.3.5
+      color: 4.2.3
+      gl-matrix: 3.4.3
+      insert-css: 2.0.0
+      tslib: 2.6.2
+    transitivePeerDependencies:
+      - workerize-loader
     dev: false
 
   /@antv/g@5.18.17:
@@ -1584,7 +1627,7 @@ packages:
       d3-quadtree: 3.0.1
       eventemitter3: 4.0.7
       ml-matrix: 6.10.7
-      tslib: 2.5.0
+      tslib: 2.6.2
     dev: false
 
   /@antv/layout@1.2.12(workerize-loader@2.0.2):
@@ -1616,7 +1659,7 @@ packages:
       d3-octree: 1.0.2
       d3-quadtree: 3.0.1
       ml-matrix: 6.10.7
-      tslib: 2.5.0
+      tslib: 2.6.2
     transitivePeerDependencies:
       - workerize-loader
     dev: false
@@ -1650,7 +1693,7 @@ packages:
     dependencies:
       gl-matrix: 3.4.3
       lodash-es: 4.17.21
-      tslib: 2.5.0
+      tslib: 2.6.2
     dev: false
 
   /@antv/scale@0.3.18:
@@ -1682,7 +1725,7 @@ packages:
     resolution: {integrity: sha512-o6I9hi5CIUvLGDhth0RxNSFDRwXeywmt6ExR4+RmVAzIi48ps6HUy+svxOCayvrPBN37uE6TAc2KDofRo0nK9Q==}
     dependencies:
       csstype: 3.1.2
-      tslib: 2.5.0
+      tslib: 2.6.2
     dev: false
 
   /@antv/util@2.0.9:
