@@ -312,8 +312,9 @@ export default defineConfig({
       image:
         'https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*6dSUSo3QTk0AAAAAAAAAAAAADmJ7AQ/original',
       imageStyle: {
-        transform: 'scale(0.6)',
-        marginLeft: 0,
+        transform: 'scale(0.7)',
+        marginLeft: '100px',
+        marginTop: '70px',
       },
       buttons: [
         {
