@@ -9,7 +9,11 @@ order: 3
 
 ## keyShape
 
-- **类型**：`KeyShapeStyle`
+**类型**：`KeyShapeStyle`
+
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">KeyShapeStyle</summary>
 
 ```typescript
 type KeyShapeStyle = StyleProps & {
@@ -22,7 +26,13 @@ type KeyShapeStyle = StyleProps & {
 
 其中，相关的图形样式参考 [Circle 图形样式](../shape/CircleStyleProps.zh.md)。
 
-- **默认值**：
+</details>
+
+默认值：`object`
+
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">object</summary>
 
 ```json
 {
@@ -30,42 +40,58 @@ type KeyShapeStyle = StyleProps & {
 }
 ```
 
-- **是否必须**：否
+</details>
 
 ## donutShapes
 
-- **类型**：
+**类型**：`DonutShapesStyle`
+
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">DonutShapesStyle</summary>
 
 ```typescript
-PathStyleProps & {
+type DonutShapesStyle = TextStyleProps & {
   /**
-   * 甜甜圈内径大小相对于整体半径的比例。此值决定了甜甜圈中心空白区域的大小观。比例值越大，甜甜圈中心的空白区域越大，环形部分相对越窄。值为 `0-1`
+   * The position of the text relative to the key shape (keyShape) of the node, supports above, below, left, right, and center
    */
-  innerSize?: number;
+  position?: 'top' | 'bottom' | 'left' | 'right' | 'center';
   /**
-   * 定义甜甜圈节点的数据。每个字段对应甜甜圈的一个部分，字段的值为该部分的数值大小。这些数值将用于计算甜甜圈中每个部分所占的比例
+   * The x offset of the text shape relative to the key shape (keyShape)
    */
-  attrs?: PropObject;
+  offsetX?: number;
   /**
-   * 定义甜甜圈每个部分的颜色。颜色映射，字段名与 attrs 中的字段名对应。不指定则使用默认色板
+   * The y offset of the text shape relative to the key shape (keyShape)
    */
-  colorMap?: PropObject;
+  offsetY?: number;
   /**
-   * 定义甜甜圈形状的堆叠顺序（z 轴索引）。这个属性可以用来控制不同形状之间的覆盖关系
+   * The z offset of the text shape relative to the key shape (keyShape)
    */
-  zIndex?: number;
+  offsetZ?: number;
+  /**
+   * The maximum width allowed for the text.
+   * If specified as a number, it represents the pixel value.
+   * If specified as a text with '%', it represents a percentage of the key shape (keyShape) bounding box size.
+   * The default value is '200%', which means the maximum width of the text shape cannot exceed twice the width of the key shape.
+   * If it exceeds, it will be automatically truncated and an ellipsis '...' will be added at the end.
+   */
+  maxWidth?: string | number;
+  /**
+   * The rotation angle of the text (in radians)
+   */
+  angle?: number;
 };
 ```
 
-`PropObject` 定义如下：
+For more detailed style configuration, refer to [Text Graphic Style](../shape/TextStyleProps.en.md).
 
-```typescript
-type PropObject = {
-  [propKey: string]: number;
-};
-```
+</details>
 
-- **默认值**：
+**默认值**：`object`
+
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">object</summary>
 
 ```json
 {
@@ -74,6 +100,6 @@ type PropObject = {
 }
 ```
 
-- **是否必须**：是
+</details>
 
 <embed src="../../../common/NodeShapeStyles.zh.md"></embed>

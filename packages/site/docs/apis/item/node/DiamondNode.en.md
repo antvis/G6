@@ -9,7 +9,11 @@ This section details the configuration options for the keyShape of Diamond (菱�
 
 ## keyShape
 
-- **Type**: `KeyShapeStyle`
+**Type**: `KeyShapeStyle`
+
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">KeyShapeStyle</summary>
 
 ```typescript
 type KeyShapeStyle = StyleProps & {
@@ -22,7 +26,13 @@ type KeyShapeStyle = StyleProps & {
 
 For more detailed style configuration, refer to [Path](../shape/PathStyleProps.en.md)。
 
-- **Default**:
+</details>
+
+**Default**:`object`
+
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">object</summary>
 
 ```json
 {
@@ -30,6 +40,6 @@ For more detailed style configuration, refer to [Path](../shape/PathStyleProps.e
 }
 ```
 
-- **Required**: No
+</details>
 
 <embed src="../../../common/NodeShapeStyles.en.md"></embed>

@@ -9,7 +9,11 @@ This article presents the configuration options for Loop self-loop edges. [Loop 
 
 ## keyShape
 
-- **Type**: `KeyShapeStyle`
+**Type**: `KeyShapeStyle`
+
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">KeyShapeStyle</summary>
 
 ```typescript
 type LoopPosition = 'top' | 'top-right' | 'right' | 'bottom-right' | 'bottom' | 'bottom-left' | 'left' | 'top-left';
@@ -46,7 +50,13 @@ type KeyShapeStyle = PathStyleProps &
 
 For more detailed style configuration, refer to [Path Graphic Style](../shape/PathStyleProps.en.md).
 
-- **Default**:
+</details>
+
+**Default**:`object`
+
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">object</summary>
 
 ```json
 {
@@ -59,6 +69,6 @@ For more detailed style configuration, refer to [Path Graphic Style](../shape/Pa
 }
 ```
 
-- **Required**: No
+</details>
 
 <embed src="../../../common/EdgeShapeStyles.en.md"></embed>

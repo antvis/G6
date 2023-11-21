@@ -9,7 +9,11 @@ order: 4
 
 ## keyShape
 
-- **类型**：`KeyShapeStyle`
+**类型**：`KeyShapeStyle`
+
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">KeyShapeStyle</summary>
 
 ```typescript
 type KeyShapeStyle = StyleProps & {
@@ -49,15 +53,22 @@ type ClipCfg = {
 
 可以指定裁剪图形的类型及其样式。根据不同的目标裁剪图形类型，样式配置项不同。例如 `type` 是 `'circle'` 参考 [Circle 图形样式](../shape/CircleStyleProps.zh.md)；`'rect'` 参考 [Rect 图形样式](../shape/RectStyleProps.zh.md)。
 
-- **默认值**：
+</details>
+
+**默认值**：`object`
+
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">object</summary>
 
 ```json
 {
   "width": "32",
   "height": "32
 }
+
 ```
 
-- **是否必须**：否
+</details>
 
 <embed src="../../../common/NodeShapeStyles.zh.md"></embed>

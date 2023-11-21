@@ -1,6 +1,6 @@
 <details>
 
-<summary><span style="color: #873bf4; cursor: pointer">ArrowProps</span></summary>
+<summary style="color: #873bf4; cursor: pointer">ArrowProps</summary>
 
 ```typescript
 type ArrowType = 'triangle' | 'circle' | 'diamond' | 'rect' | 'vee' | 'triangle-rect' | 'simple';
@@ -13,9 +13,13 @@ type ArrowStyle = PathStyleProps & {
 };
 
 type ArrowProps = {
-  // 边的起始端箭头
+  /**
+   * 边的起始端箭头
+   */
   startArrow?: boolean | ArrowStyle;
-  // 边的结束端箭头
+  /**
+   * 边的结束端箭头
+   */
   endArrow?: boolean | ArrowStyle;
 };
 ```

@@ -1,8 +1,10 @@
 ## iconShape
 
-The icon shape of the edge (built-in edge support, custom edges that inherit these built-in edges also support it without overriding the relevant content). It is located in front of the text. It can be an image or text, and text supports iconfont.
+**Type**: `IconShapeType`
 
-- **Type**: `IconShapeType`
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">IconShapeType</summary>
 
 ```typescript
 type IconShapeType = Partial<
@@ -18,25 +20,35 @@ type IconShapeType = Partial<
 
 Where the relevant graphic styles refer to [`TextStyleProps` Text Shape Style](../shape/TextStyleProps.en.md) and [`ImageStyleProps` Image Shape Style](../shape/ImageStyleProps.en.md).
 
-- **Default**: undefined
+</details>
 
-- **Required**: No
+**Default**: undefined
+
+The icon shape of the edge (built-in edge support, custom edges that inherit these built-in edges also support it without overriding the relevant content). It is located in front of the text. It can be an image or text, and text supports iconfont.
 
 ## haloShape
 
+**Type**: `HaloShapeStyle`
+
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">HaloShapeStyle</summary>
+
+`ShapeStyle`. The graphic type of `haloShape` follows the main graphic (`keyShape`). The graphic style configuration varies depending on the main graphic. For example, the main graphic of `'line-edge'` is `'line'`, refer to [Line Graphic Style](../shape/LineStyleProps.en.md); the main graphic of `'cubic-edge'` is `'path'`, refer to [Path Graphic Style](../shape/PathStyleProps.en.md).
+
+</details>
+
+**Default**: undefined
+
 In built-in edges and themes, haloShape refers to the halo effect graphic displayed around the main graphic (keyShape) of the edge in active (usually triggered when the mouse hovers) and selected (usually triggered in the selected state) states. In the logic of built-in edges, the graphic type and color of haloShape follow the main graphic (keyShape).
-
-**Type**: `ShapeStyle`. The graphic type of `haloShape` follows the main graphic (`keyShape`). The graphic style configuration varies depending on the main graphic. For example, the main graphic of `'line-edge'` is `'line'`, refer to [Line Graphic Style](../shape/LineStyleProps.en.md); the main graphic of `'cubic-edge'` is `'path'`, refer to [Path Graphic Style](../shape/PathStyleProps.en.md).
-
-- **Default**: undefined
-
-- **Required**: No
 
 ## labelShape
 
-The text shape of the edge.
+**Type**: `LabelShapeStyle`
 
-- **Type**: `LabelShapeStyle`
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">LabelShapeStyle</summary>
 
 ```typescript
 type LabelShapeStyle = TextStyleProps & {
@@ -73,7 +85,13 @@ type LabelShapeStyle = TextStyleProps & {
 
 For more detailed style configuration, refer to [Text Graphic Style](../shape/TextStyleProps.en.md).
 
-- **Default**:
+</details>
+
+**Default**: `object`
+
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">object</summary>
 
 ```json
 {
@@ -82,13 +100,19 @@ For more detailed style configuration, refer to [Text Graphic Style](../shape/Te
 }
 ```
 
-- **Required**: No
+</details>
+
+The text shape of the edge.
 
 ## labelBackgroundShape
 
 The background shape of the text of the edge.
 
-- **Type**: `LabelBackgroundShapeStyle`
+**Type**: `LabelBackgroundShapeStyle`
+
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">LabelBackgroundShapeStyle</summary>
 
 ```typescript
 type LabelBackgroundShapeStyle = ShapeStyle & {
@@ -101,15 +125,19 @@ type LabelBackgroundShapeStyle = ShapeStyle & {
 
 The related rectangle style type can be referred to in [`RectStyleProps`](../shape/RectStyleProps.en.md).
 
-- **Default**: undefined
+</details>
 
-- **Required**: No
+**Default**: undefined
 
 ## otherShapes
 
 All the xxShape(s) above are the possible shapes that exist in the G6 defined standard edge. Other shapes in custom nodes should be defined and configured in `otherShapes`.
 
-- **Type**: `OtherShapesStyle`
+**Type**: `OtherShapesStyle`
+
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">OtherShapesStyle</summary>
 
 ```typescript
 type OtherShapesStyle = {
@@ -125,6 +153,6 @@ type OtherShapesStyle = {
 
 The different shape styles can be referred to in the corresponding shape type documentation under the [Shape Style](../shape/BaseStyleProps.en.md) directory.
 
-- **Default**: undefined
+</details>
 
-- **Required**: No
+**Default**: undefined

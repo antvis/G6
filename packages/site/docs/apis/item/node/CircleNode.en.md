@@ -9,7 +9,11 @@ This section details all the configuration options for Circle-shaped nodes. [Cir
 
 ## keyShape
 
-- **Type**: `KeyShapeStyle`
+**Type**: `KeyShapeStyle`
+
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">KeyShapeStyle</summary>
 
 ```typescript
 type KeyShapeStyle = StyleProps & {
@@ -20,7 +24,13 @@ type KeyShapeStyle = StyleProps & {
 
 For more detailed style configuration, refer to [Circle](../shape/CircleStyleProps.en.md)。
 
-- **Default**:
+</details>
+
+**Default**:`object`
+
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">object</summary>
 
 ```json
 {
@@ -28,6 +38,6 @@ For more detailed style configuration, refer to [Circle](../shape/CircleStylePro
 }
 ```
 
-- **Required**: No
+</details>
 
 <embed src="../../../common/NodeShapeStyles.en.md"></embed>

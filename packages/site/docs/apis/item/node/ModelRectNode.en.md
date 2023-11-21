@@ -9,7 +9,11 @@ This section details the configuration options for ModelRect nodes, as demonstra
 
 ## keyShape
 
-- **Type**：`KeyShapeStyle`
+**Type**：`KeyShapeStyle`
+
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">KeyShapeStyle</summary>
 
 ```typescript
 type KeyShapeStyle = StyleProps & {
@@ -26,7 +30,13 @@ type KeyShapeStyle = StyleProps & {
 
 The related rect style can be referred to in [`RectStyleProps`](../shape/RectStyleProps.en.md).
 
-- **Default**:
+</details>
+
+**Default**:`object`
+
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">object</summary>
 
 ```json
 {
@@ -39,11 +49,11 @@ The related rect style can be referred to in [`RectStyleProps`](../shape/RectSty
 }
 ```
 
-- **Required**: No
+</details>
 
 ## otherShapes(extended)
 
-- **Type**: `OtherShapesStyle`
+**Type**: `OtherShapesStyle`
 
 ```typescript
 type OtherShapesStyle = {
@@ -86,7 +96,11 @@ type OtherShapesStyle = {
 };
 ```
 
-- **Default**:
+**Default**:`object`
+
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">object</summary>
 
 ```json
 {
@@ -125,6 +139,6 @@ type OtherShapesStyle = {
 }
 ```
 
-- **Required**: No
+</details>
 
 <embed src="../../../common/NodeShapeStyles.en.md"></embed>

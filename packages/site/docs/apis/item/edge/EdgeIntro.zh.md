@@ -21,15 +21,16 @@ const Graph = extend(BaseGraph, {
  */
 const graph = new Graph({
   /**
- * ...其他配置项
- */
+   * ...其他配置项
+   */
   edge: {
-    type: 'cubic-edge', /**
- * type 与注册时命名的 key 一致
- */
+    type: 'cubic-edge'
     /**
- * ... 边的其他配置项详见具体边配置
- */
+     * type 与注册时命名的 key 一致
+     */,
+    /**
+     * ... 边的其他配置项详见具体边配置
+     */
   },
 });
 ```

@@ -1,8 +1,10 @@
 ## iconShape
 
-边的图标图形，位于文本前方。
+**类型**：`IconShapeStyle`
 
-- **类型**：`IconShapeStyle`
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">IconShapeStyle</summary>
 
 ```typescript
 type IconShapeStyle = Partial<
@@ -24,27 +26,35 @@ type IconShapeStyle = Partial<
 
 `iconShape` 根据不同的展示形式，图形样式配置项不同。例如图标为文本，支持 **iconfont**，参考 [Text 图形样式](../../shape/TextStyleProps.zh.md)；图标为图片。参考 [Image 图形样式](../../shape/ImageStyleProps.zh.md)。
 
-- **默认值**：undefined
+</details>
 
-- **是否必须**：否
+**默认值**：undefined
+
+边的图标图形，位于文本前方。
 
 ## haloShape
 
-在内置的边和主题中，`haloShape` 指的是边在 `active`（一般在鼠标 hover 时该状态被触发） 和 `selected`（一般在选中状态下该状态被触发） 状态下，主图形 (`keyShape`) 周围展示的光晕效果的图形。在内置边的逻辑中，`haloShape` 的图形类型、颜色跟随主图形 (`keyShape`)。
+**类型**: `HaloShapeStyle`
 
-**类型**: `ShapeStyle`
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">HaloShapeStyle</summary>
 
 说明，`haloShape` 的图形类型跟随主图形(`keyShape`)。根据不同的主图形，图形样式配置项不同。例如 `'line-edge'` 的主图形是 `'line'` 参考 [Line 图形样式](../shape/LineStyleProps.zh.md)；`'cubic-edge'` 的主图形是 `'path'` 参考 [Path 图形样式](../shape/PathStyleProps.zh.md)。
 
-- **默认值**：undefined
+</details>
 
-- **是否必须**：否
+**默认值**：undefined
+
+在内置的边和主题中，`haloShape` 指的是边在 `active`（一般在鼠标 hover 时该状态被触发） 和 `selected`（一般在选中状态下该状态被触发） 状态下，主图形 (`keyShape`) 周围展示的光晕效果的图形。在内置边的逻辑中，`haloShape` 的图形类型、颜色跟随主图形 (`keyShape`)。
 
 ## labelShape
 
-边的文本图形，内置边或继承内置边（未复写相关内容）的自定义边均支持。
+**类型**：`LabelShapeStyle`
 
-- **类型**：`LabelShapeStyle`
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">LabelShapeStyle</summary>
 
 ```typescript
 type LabelShapeStyle = TextStyleProps & {
@@ -78,7 +88,13 @@ type LabelShapeStyle = TextStyleProps & {
 };
 ```
 
-- **默认值**：
+</details>
+
+**默认值**：`object`
+
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">object</summary>
 
 ```json
 {
@@ -90,13 +106,17 @@ type LabelShapeStyle = TextStyleProps & {
 }
 ```
 
-- **是否必须**：否
+</details>
+
+边的文本图形，内置边或继承内置边（未复写相关内容）的自定义边均支持。
 
 ## labelBackgroundShape
 
-边的文本的背景图形，是一个矩形。若不设置则不显示。设置为 `{}` 将使用主题中默认的样式显示文本背景图形。
+**类型**：`LabelShapeStyle`
 
-- **类型**：`LabelShapeStyle`
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">LabelShapeStyle</summary>
 
 ```typescript
 type LabelShapeStyle = RectStyleProps & {
@@ -109,15 +129,19 @@ type LabelShapeStyle = RectStyleProps & {
 
 其中，相关的图形样式参考 [Rect 图形样式](../shape/RectStyleProps.zh.md)。
 
-- **默认值**：undefined
+</details>
 
-- **是否必须**：否
+**默认值**：undefined
+
+边的文本的背景图形，是一个矩形。若不设置则不显示。设置为 `{}` 将使用主题中默认的样式显示文本背景图形。
 
 ## otherShapes
 
-上面所有的 xxShape(s) 均为 G6 定义的规范边中可能存在的图形。自定义边中的其他图形应当定义和配置在 `otherShapes` 中。
+**类型**: `OtherShapesStyle`
 
-- **类型**: `OtherShapesStyle`
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">OtherShapesStyle</summary>
 
 ```typescript
 type OtherShapesStyle = {
@@ -133,6 +157,8 @@ type OtherShapesStyle = {
 
 其中，不同的图形样式参考[图形样式](../shape/BaseStyleProps.zh.md)目录下对应的图形类型文档。
 
-- **默认值**：undefined
+</details>
 
-- **是否必须**：否
+**默认值**：undefined
+
+上面所有的 xxShape(s) 均为 G6 定义的规范边中可能存在的图形。自定义边中的其他图形应当定义和配置在 `otherShapes` 中。

@@ -51,7 +51,11 @@ const graph = new ExtGraph({
 
 ### draw
 
-**Type**:
+**Type**: `draw`
+
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">draw</summary>
 
 ```typescript
 type draw = (
@@ -69,11 +73,17 @@ type draw = (
 
 For more detailed data configuration, refer to [EdgeDisplayModel](../../data/EdgeDisplayModel.en.md).
 
-**Description**: Draw all elements related to the edge.
+</details>
+
+Draw all elements related to the edge.
 
 ### drawKeyShape
 
-**Type**:
+**Type**: `drawKeyShape`
+
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">drawKeyShape</summary>
 
 ```typescript
 type drawKeyShape = (
@@ -86,11 +96,17 @@ type drawKeyShape = (
 
 For more detailed data configuration, refer to [EdgeDisplayModel](../../data/EdgeDisplayModel.en.md).
 
-**Description**: Draw the key shape of the edge.
+</details>
+
+Draw the key shape of the edge.
 
 ### drawLabelShape
 
-**Type**:
+**Type**: `drawLabelShape`
+
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">drawLabelShape</summary>
 
 ```typescript
 type drawLabelShape = (model: EdgeDisplayModel, shapeMap: EdgeShapeMap) => DisplayObject;
@@ -98,11 +114,17 @@ type drawLabelShape = (model: EdgeDisplayModel, shapeMap: EdgeShapeMap) => Displ
 
 For more detailed data configuration, refer to [EdgeDisplayModel](../../data/EdgeDisplayModel.en.md).
 
-**Description**: Draw the label shape of the edge.
+</details>
+
+Draw the label shape of the edge.
 
 ### drawLabelBackgroundShape
 
-**Type**:
+**Type**: `drawLabelBackgroundShape`
+
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">drawLabelBackgroundShape</summary>
 
 ```typescript
 type drawLabelBackgroundShape = (model: EdgeDisplayModel, shapeMap: EdgeShapeMap) => DisplayObject;
@@ -110,11 +132,17 @@ type drawLabelBackgroundShape = (model: EdgeDisplayModel, shapeMap: EdgeShapeMap
 
 For more detailed data configuration, refer to [EdgeDisplayModel](../../data/EdgeDisplayModel.en.md).
 
-**Description**: Draw the label background shape of the edge.
+</details>
+
+Draw the label background shape of the edge.
 
 ### drawIconShape
 
-**Type**:
+**Type**: `drawIconShape`
+
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">drawIconShape</summary>
 
 ```typescript
 type drawIconShape = (model: EdgeDisplayModel, shapeMap: EdgeShapeMap) => DisplayObject;
@@ -122,11 +150,17 @@ type drawIconShape = (model: EdgeDisplayModel, shapeMap: EdgeShapeMap) => Displa
 
 For more detailed data configuration, refer to [EdgeDisplayModel](../../data/EdgeDisplayModel.en.md).
 
-**Description**: Draw the icon shape of the edge.
+</details>
+
+Draw the icon shape of the edge.
 
 ### drawHaloShape
 
-**Type**:
+**Type**: `drawHaloShape`
+
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">drawHaloShape</summary>
 
 ```typescript
 type drawHaloShape = (model: EdgeDisplayModel, shapeMap: EdgeShapeMap) => DisplayObject;
@@ -134,11 +168,17 @@ type drawHaloShape = (model: EdgeDisplayModel, shapeMap: EdgeShapeMap) => Displa
 
 For more detailed data configuration, refer to [EdgeDisplayModel](../../data/EdgeDisplayModel.en.md).
 
-**Description**: Draw the halo shape of the edge.
+</details>
+
+Draw the halo shape of the edge.
 
 ### drawOtherShapes
 
-**Type**:
+**Type**: `drawOtherShapes`
+
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">drawOtherShapes</summary>
 
 ```typescript
 type drawOtherShapes = (model: EdgeDisplayModel, shapeMap: EdgeShapeMap) => { [id: string]: DisplayObject };
@@ -146,11 +186,17 @@ type drawOtherShapes = (model: EdgeDisplayModel, shapeMap: EdgeShapeMap) => { [i
 
 For more detailed data configuration, refer to [EdgeDisplayModel](../../data/EdgeDisplayModel.en.md).
 
-**Description**: Draws other shapes of the edge. Other shapes in a custom edge should be defined and configured in `otherShapes`.
+</details>
+
+Draws other shapes of the edge. Other shapes in a custom edge should be defined and configured in `otherShapes`.
 
 ### afterDraw
 
-**Type**:
+**Type**: `afterDraw`
+
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">afterDraw</summary>
 
 ```typescript
 type afterDraw = (
@@ -162,11 +208,17 @@ type afterDraw = (
 
 For more detailed data configuration, refer to [EdgeDisplayModel](../../data/EdgeDisplayModel.en.md).
 
-**Description**: Perform additional drawing operations or add custom shapes after drawing edge.
+</details>
+
+Perform additional drawing operations or add custom shapes after drawing edge.
 
 ### getMergedStyles
 
-**Type**:
+**Type**: `getMergedStyles`
+
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">getMergedStyles</summary>
 
 ```typescript
 type getMergedStyles = (model: EdgeDisplayModel) => EdgeDisplayModel;
@@ -174,7 +226,9 @@ type getMergedStyles = (model: EdgeDisplayModel) => EdgeDisplayModel;
 
 For more detailed data configuration, refer to [EdgeDisplayModel](../../data/EdgeDisplayModel.en.md).
 
-**Description**: 将 display model 数据中定义的样式与边的默认和主题样式合并
+</details>
+
+将 display model 数据中定义的样式与边的默认和主题样式合并
 
 ## Member Methods
 
@@ -182,7 +236,11 @@ Inherited shapes provide the following method calls
 
 ### upsertShape
 
-**Type**:
+**Type**: `upsertShape`
+
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">upsertShape</summary>
 
 ```typescript
 type SHAPE_TYPE = 'line' | 'path';
@@ -198,11 +256,17 @@ type upsertShape = (
 
 For more detailed data configuration, refer to [EdgeDisplayModel](../../data/EdgeDisplayModel.en.md).
 
-**Description**: Create (if not existing in shapeMap) or update a shape based on configuration.
+</details>
+
+Create (if not existing in shapeMap) or update a shape based on configuration.
 
 ### upsertArrow
 
-**Type**:
+**Type**: `upsertArrow`
+
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">upsertArrow</summary>
 
 ```typescript
 type upsertArrow = (
@@ -216,4 +280,6 @@ type upsertArrow = (
 
 For more detailed data configuration, refer to [EdgeDisplayModel](../../data/EdgeDisplayModel.en.md).
 
-**Description**: Add or update an arrow marker at the specified position on the edge.
+</details>
+
+Add or update an arrow marker at the specified position on the edge.

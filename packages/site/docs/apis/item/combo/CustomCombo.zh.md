@@ -7,7 +7,7 @@ order: 3
 
 可以通过继承内置的 Combo （例如 CircleCombo），来创建自定义 Combo 。可继承图形参见： [Combo 类型](/manual/customize/extension-cats#3-combo-类型-combos)
 
-```ts
+```typescript
 import { Graph, Extensions, extend } from '@antv/g6';
 
 /**
@@ -15,11 +15,8 @@ import { Graph, Extensions, extend } from '@antv/g6';
  */
 class CustomCombo extends Extensions.CircleCombo {
   /**
- * overwrite member method
- */
-  /**
- * 重载成员方法，自定义绘制逻辑
- */
+   * 重载成员方法，自定义绘制逻辑
+   */
 }
 
 /**
@@ -36,15 +33,16 @@ const ExtGraph = extend(Graph, {
  */
 const graph = new ExtGraph({
   /**
- * ...其他配置项
- */
+   * ...其他配置项
+   */
   combo: {
-    type: 'custom-combo', /**
- * 指定自定义 Combo
- */
     /**
- * ...其他配置项详见具体 Combo 配置
- */
+     * 指定自定义 Combo
+     */
+    type: 'custom-combo',
+    /**
+     * ...其他配置项详见具体 Combo 配置
+     */
   },
 });
 ```
@@ -53,9 +51,13 @@ const graph = new ExtGraph({
 
 ### draw
 
-**类型**：
+**类型**：`draw`
 
-```ts
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">draw</summary>
+
+```typescript
 type draw = (
   displayModel: ComboDisplayModel,
   diffData?: { previous: ComboUserModelData; current: ComboUserModelData },
@@ -70,75 +72,111 @@ type draw = (
 };
 ```
 
-**说明**：用于绘制与 Combo 相关的所有图形
+</details>
+
+用于绘制与 Combo 相关的所有图形
 
 ### drawKeyShape
 
-**类型**：
+**类型**：`drawKeyShape`
 
-```ts
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">drawKeyShape</summary>
+
+```typescript
 type drawKeyShape = (model: NodeDisplayModel, shapeMap: NodeShapeMap) => DisplayObject;
 ```
 
-**说明**：用于绘制关键图形
+</details>
+
+用于绘制关键图形
 
 ### drawLabelShape
 
-**类型**：
+**类型**：`drawLabelShape`
 
-```ts
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">drawLabelShape</summary>
+
+```typescript
 type drawLabelShape = (
   model: NodeDisplayModel | ComboDisplayModel,
   shapeMap: NodeShapeMap | ComboShapeMap,
 ) => DisplayObject;
 ```
 
-**说明**：绘制 Combo 的文本标签图形
+</details>
+
+绘制 Combo 的文本标签图形
 
 ### drawLabelBackgroundShape
 
-**类型**：
+**类型**：`drawLabelBackgroundShape`
 
-```ts
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">drawLabelBackgroundShape</summary>
+
+```typescript
 type drawLabelBackgroundShape = (
   model: NodeDisplayModel | ComboDisplayModel,
   shapeMap: NodeShapeMap | ComboShapeMap,
 ) => DisplayObject;
 ```
 
-**说明**：绘制 Combo 的文本的背景图形
+</details>
+
+绘制 Combo 的文本的背景图形
 
 ### drawIconShape
 
-**类型**：
+**类型**：`drawIconShape`
 
-```ts
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">drawIconShape</summary>
+
+```typescript
 type drawIconShape = (
   model: NodeDisplayModel | ComboDisplayModel,
   shapeMap: NodeShapeMap | ComboShapeMap,
 ) => DisplayObject;
 ```
 
-**说明**：绘制 Combo 的图标图形
+</details>
+
+绘制 Combo 的图标图形
 
 ### drawHaloShape
 
-**类型**：
+**类型**：`drawHaloShape`
 
-```ts
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">drawHaloShape</summary>
+
+```typescript
 type drawHaloShape = (
   model: NodeDisplayModel | ComboDisplayModel,
   shapeMap: NodeShapeMap | ComboShapeMap,
 ) => DisplayObject;
 ```
 
-**说明**：绘制 Combo 的光晕图形
+</details>
+
+绘制 Combo 的光晕图形
 
 ### drawAnchorShapes
 
-**类型**：
+**类型**：`drawAnchorShapes`
 
-```ts
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">drawAnchorShapes</summary>
+
+```typescript
 type drawAnchorShapes = (
   model: NodeDisplayModel | ComboDisplayModel,
   shapeMap: NodeShapeMap | ComboShapeMap,
@@ -147,13 +185,19 @@ type drawAnchorShapes = (
 };
 ```
 
-**说明**：绘制 Combo 的锚点图形
+</details>
+
+绘制 Combo 的锚点图形
 
 ### drawBadgeShapes
 
-**类型**：
+**类型**：`drawBadgeShapes`
 
-```ts
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">drawBadgeShapes</summary>
+
+```typescript
 type drawBadgeShapes = (
   model: NodeDisplayModel | ComboDisplayModel,
   shapeMap: NodeShapeMap | ComboShapeMap,
@@ -162,26 +206,38 @@ type drawBadgeShapes = (
 };
 ```
 
-**说明**：绘制 Combo 的徽标图形
+</details>
+
+绘制 Combo 的徽标图形
 
 ### drawOtherShapes
 
-**类型**：
+**类型**：`drawOtherShapes`
 
-```ts
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">drawOtherShapes</summary>
+
+```typescript
 type drawOtherShapes = (
   model: NodeDisplayModel | ComboDisplayModel,
   shapeMap: NodeShapeMap | ComboShapeMap,
 ) => { [id: string]: DisplayObject };
 ```
 
-**说明**：绘制边的其他图形。自定义边中的其他图形应当定义和配置在 `otherShapes` 中。
+</details>
+
+绘制边的其他图形。自定义边中的其他图形应当定义和配置在 `otherShapes` 中。
 
 ### afterDraw
 
-**类型**：
+**类型**：`afterDraw`
 
-```ts
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">afterDraw</summary>
+
+```typescript
 type afterDraw = (
   model: EdgeDisplayModel,
   shapeMap: { [shapeId: string]: DisplayObject },
@@ -189,17 +245,25 @@ type afterDraw = (
 ) => { [otherShapeId: string]: DisplayObject };
 ```
 
-**说明**：绘制后执行其他绘图操作或添加自定义形状
+</details>
+
+绘制后执行其他绘图操作或添加自定义形状
 
 ### getMergedStyles
 
-**类型**：
+**类型**：`getMergedStyles`
 
-```ts
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">getMergedStyles</summary>
+
+```typescript
 type getMergedStyles = (model: EdgeDisplayModel) => EdgeDisplayModel;
 ```
 
-**说明**：将 display model 数据中定义的样式与默认样式和主题样式合并
+</details>
+
+将 display model 数据中定义的样式与默认样式和主题样式合并
 
 ## 成员方法
 
@@ -207,9 +271,13 @@ type getMergedStyles = (model: EdgeDisplayModel) => EdgeDisplayModel;
 
 ### upsertShape
 
-**类型**：
+**类型**：`upsertShape`
 
-```ts
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">upsertShape</summary>
+
+```typescript
 type upsertShape = (
   type: SHAPE_TYPE | SHAPE_TYPE_3D,
   id: string,
@@ -219,4 +287,6 @@ type upsertShape = (
 ) => DisplayObject;
 ```
 
-**说明**：根据配置创建（如果在 shapeMap 中不存在）或更新形状
+</details>
+
+根据配置创建（如果在 shapeMap 中不存在）或更新形状

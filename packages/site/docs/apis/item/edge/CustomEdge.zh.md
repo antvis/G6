@@ -51,7 +51,11 @@ const graph = new ExtGraph({
 
 ### draw
 
-**类型**：
+**类型**：`draw`
+
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">draw</summary>
 
 ```typescript
 type draw = (
@@ -69,11 +73,17 @@ type draw = (
 
 其中，相关的数据类型定义参考 [EdgeDisplayModel 渲染数据](../../data/EdgeDisplayModel.zh.md)。
 
-**说明**：用于绘制与边相关的所有图形
+</details>
+
+用于绘制与边相关的所有图形
 
 ### drawKeyShape
 
-**类型**：
+**类型**：`drawKeyShape`
+
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">drawKeyShape</summary>
 
 ```typescript
 type drawKeyShape = (
@@ -86,11 +96,17 @@ type drawKeyShape = (
 
 其中，相关的数据类型定义参考 [EdgeDisplayModel 渲染数据](../../data/EdgeDisplayModel.zh.md)。
 
-**说明**：用于绘制关键图形
+</details>
+
+用于绘制关键图形
 
 ### drawLabelShape
 
-**类型**：
+**类型**：`drawLabelShape`
+
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">drawLabelShape</summary>
 
 ```typescript
 type drawLabelShape = (model: EdgeDisplayModel, shapeMap: EdgeShapeMap) => DisplayObject;
@@ -98,11 +114,17 @@ type drawLabelShape = (model: EdgeDisplayModel, shapeMap: EdgeShapeMap) => Displ
 
 其中，相关的数据类型定义参考 [EdgeDisplayModel 渲染数据](../../data/EdgeDisplayModel.zh.md)。
 
-**说明**：绘制边的标签图形
+</details>
+
+绘制边的标签图形
 
 ### drawLabelBackgroundShape
 
-**类型**：
+**类型**：`drawLabelBackgroundShape`
+
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">drawLabelBackgroundShape</summary>
 
 ```typescript
 type drawLabelBackgroundShape = (model: EdgeDisplayModel, shapeMap: EdgeShapeMap) => DisplayObject;
@@ -110,11 +132,17 @@ type drawLabelBackgroundShape = (model: EdgeDisplayModel, shapeMap: EdgeShapeMap
 
 其中，相关的数据类型定义参考 [EdgeDisplayModel 渲染数据](../../data/EdgeDisplayModel.zh.md)。
 
-**说明**：绘制边的文本的背景图形
+</details>
+
+绘制边的文本的背景图形
 
 ### drawIconShape
 
-**类型**：
+**类型**：`drawIconShape`
+
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">drawIconShape</summary>
 
 ```typescript
 type drawIconShape = (model: EdgeDisplayModel, shapeMap: EdgeShapeMap) => DisplayObject;
@@ -122,11 +150,17 @@ type drawIconShape = (model: EdgeDisplayModel, shapeMap: EdgeShapeMap) => Displa
 
 其中，相关的数据类型定义参考 [EdgeDisplayModel 渲染数据](../../data/EdgeDisplayModel.zh.md)。
 
-**说明**：绘制边的图标图形
+</details>
+
+绘制边的图标图形
 
 ### drawHaloShape
 
-**类型**：
+**类型**：`drawHaloShape`
+
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">drawHaloShape</summary>
 
 ```typescript
 type drawHaloShape = (model: EdgeDisplayModel, shapeMap: EdgeShapeMap) => DisplayObject;
@@ -134,11 +168,17 @@ type drawHaloShape = (model: EdgeDisplayModel, shapeMap: EdgeShapeMap) => Displa
 
 其中，相关的数据类型定义参考 [EdgeDisplayModel 渲染数据](../../data/EdgeDisplayModel.zh.md)。
 
-**说明**：绘制边的光晕图形
+</details>
+
+绘制边的光晕图形
 
 ### drawOtherShapes
 
-**类型**：
+**类型**：`drawOtherShapes`
+
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">drawOtherShapes</summary>
 
 ```typescript
 type drawOtherShapes = (model: EdgeDisplayModel, shapeMap: EdgeShapeMap) => { [id: string]: DisplayObject };
@@ -146,11 +186,17 @@ type drawOtherShapes = (model: EdgeDisplayModel, shapeMap: EdgeShapeMap) => { [i
 
 其中，相关的数据类型定义参考 [EdgeDisplayModel 渲染数据](../../data/EdgeDisplayModel.zh.md)。
 
-**说明**：绘制边的其他图形。自定义边中的其他图形应当定义和配置在 `otherShapes` 中。
+</details>
+
+绘制边的其他图形。自定义边中的其他图形应当定义和配置在 `otherShapes` 中。
 
 ### afterDraw
 
-**类型**：
+**类型**：`afterDraw`
+
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">afterDraw</summary>
 
 ```typescript
 type afterDraw = (
@@ -162,11 +208,17 @@ type afterDraw = (
 
 其中，相关的数据类型定义参考 [EdgeDisplayModel 渲染数据](../../data/EdgeDisplayModel.zh.md)。
 
-**说明**：绘制边后执行其他绘图操作或添加自定义形状
+</details>
+
+绘制边后执行其他绘图操作或添加自定义形状
 
 ### getMergedStyles
 
-**类型**：
+**类型**：`getMergedStyles`
+
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">getMergedStyles</summary>
 
 ```typescript
 type getMergedStyles = (model: EdgeDisplayModel) => EdgeDisplayModel;
@@ -174,7 +226,9 @@ type getMergedStyles = (model: EdgeDisplayModel) => EdgeDisplayModel;
 
 其中，相关的数据类型定义参考 [EdgeDisplayModel 渲染数据](../../data/EdgeDisplayModel.zh.md)。
 
-**说明**：将 display model 数据中定义的样式与边的默认和主题样式合并
+</details>
+
+将 display model 数据中定义的样式与边的默认和主题样式合并
 
 ## 成员方法
 
@@ -182,7 +236,11 @@ type getMergedStyles = (model: EdgeDisplayModel) => EdgeDisplayModel;
 
 ### upsertShape
 
-**类型**：
+**类型**：`upsertShape`
+
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">upsertShape</summary>
 
 ```typescript
 type SHAPE_TYPE = 'line' | 'path';
@@ -198,11 +256,17 @@ type upsertShape = (
 
 其中，相关的数据类型定义参考 [EdgeDisplayModel 渲染数据](../../data/EdgeDisplayModel.zh.md)。
 
-**说明**：根据配置创建（如果在 shapeMap 中不存在）或更新形状
+</details>
+
+根据配置创建（如果在 shapeMap 中不存在）或更新形状
 
 ### upsertArrow
 
-**类型**：
+**类型**：`upsertArrow`
+
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">upsertArrow</summary>
 
 ```typescript
 type upsertArrow = (
@@ -216,4 +280,6 @@ type upsertArrow = (
 
 其中，相关的数据类型定义参考 [EdgeDisplayModel 渲染数据](../../data/EdgeDisplayModel.zh.md)。
 
-**说明**：在边的指定位置添加或更新箭头标记
+</details>
+
+在边的指定位置添加或更新箭头标记

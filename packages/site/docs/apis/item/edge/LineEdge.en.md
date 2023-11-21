@@ -9,14 +9,12 @@ This article presents the configuration options for Line edges. [Line Edge DEMO]
 
 ## keyShape
 
-- **Type**: `LineStyleProps & ArrowProps`
+**Type**: `LineStyleProps & ArrowProps`
 
 <embed src="../../../common/ArrowStyle.en.md"></embed>
 
 For more detailed style configuration, refer to [Line Graphic Style](../shape/LineStyleProps.en.md).
 
-- **Default**: undefined
-
-- **Required**: No
+**Default**: undefined
 
 <embed src="../../../common/EdgeShapeStyles.en.md"></embed>

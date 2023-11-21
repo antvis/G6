@@ -1,11 +1,11 @@
 <details>
 
-<summary><span style="color: #873bf4; cursor: pointer">ArrowProps</span></summary>
+<summary style="color: #873bf4; cursor: pointer">ArrowProps</summary>
 
-```ts
+```typescript
 type ArrowType = 'triangle' | 'circle' | 'diamond' | 'rect' | 'vee' | 'triangle-rect' | 'simple';
 
-type ArrowStyle = PathStyleProps & {
+type ArrowStyle = StyleProps & {
   type: ArrowType;
   width: number;
   height: number;
