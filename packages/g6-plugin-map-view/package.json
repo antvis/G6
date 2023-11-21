@@ -1,6 +1,6 @@
 {
   "name": "@antv/g6-plugin-map-view",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "A Plugin of G6 to Show a Map View",
   "keywords": [
     "antv",
@@ -55,7 +55,7 @@
     "@antv/util": "~2.0.5",
     "@antv/l7": "^2.18.3",
     "@antv/l7-maps": "^2.18.3",
-    "@antv/g6": "^5.0.0-beta.11"
+    "@antv/g6": "^5.0.0"
   },
   "devDependencies": {
     "@rollup/plugin-terser": "^0.4.3",

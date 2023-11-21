@@ -23,7 +23,7 @@ Using G6 in vanilla HTML only requires importing the G6 JS file, as shown below:
     <!-- 1. Create container -->
     <div id="container"></div>
 
-    <script src="https://gw.alipayobjects.com/os/lib/antv/g6/5.0.0-beta.21/dist/g6.min.js"></script>
+    <script src="https://gw.alipayobjects.com/os/lib/antv/g6/5.0.0/dist/g6.min.js"></script>
 
     <script>
       // 2. prepare data
@@ -81,13 +81,13 @@ Using G6 in vanilla HTML only requires importing the G6 JS file, as shown below:
 
 ```bash
 # Using npm
-npm install --save @antv/g6@5.0.0-beta.21
+npm install --save @antv/g6@5.0.0
 
 # Using yarn
-yarn add @antv/g6@5.0.0-beta.21
+yarn add @antv/g6@5.0.0
 
 # Using pnpm
-pnpm add @antv/g6@5.0.0-beta.21
+pnpm add @antv/g6@5.0.0
 ```
 
 ### Import

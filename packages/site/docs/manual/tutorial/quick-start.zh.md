@@ -23,7 +23,7 @@ order: 1
     <!-- 1. 创建容器 -->
     <div id="container"></div>
 
-    <script src="https://gw.alipayobjects.com/os/lib/antv/g6/5.0.0-beta.21/dist/g6.min.js"></script>
+    <script src="https://gw.alipayobjects.com/os/lib/antv/g6/5.0.0/dist/g6.min.js"></script>
 
     <script>
       // 2. 准备数据
@@ -83,13 +83,13 @@ order: 1
 
 ```bash
 # 使用 npm 安装
-npm install --save @antv/g6@5.0.0-beta.21
+npm install --save @antv/g6@5.0.0
 
 # 使用 yarn 安装
-yarn add @antv/g6@5.0.0-beta.21
+yarn add @antv/g6@5.0.0
 
 # 使用 pnpm 安装
-pnpm add @antv/g6@5.0.0-beta.21
+pnpm add @antv/g6@5.0.0
 ```
 
 ### 引入
