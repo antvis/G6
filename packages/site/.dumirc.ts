@@ -313,21 +313,22 @@ export default defineConfig({
         'https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*6dSUSo3QTk0AAAAAAAAAAAAADmJ7AQ/original',
       imageStyle: {
         transform: 'scale(0.6)',
+        marginLeft: 0,
       },
       buttons: [
-        {
-          text: {
-            zh: '图表示例',
-            en: 'Examples',
-          },
-          link: `/examples`,
-        },
         {
           text: {
             zh: '开始使用',
             en: 'Getting Started',
           },
           link: `/manual/introduction`,
+        },
+        {
+          text: {
+            zh: '图表示例',
+            en: 'Examples',
+          },
+          link: `/examples`,
           type: 'primary',
         },
       ],
