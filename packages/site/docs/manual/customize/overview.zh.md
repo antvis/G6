@@ -44,39 +44,39 @@ const graph = new Graph({
 
 ### 1. 节点（nodes）
 
-| type 名称        | 引入方式                 | 是否默认注册 | Demo                                                                                                                                                                       | 注释                               |
-| :--------------- | :----------------------- | :----------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :--------------------------------- |
-| 'circle-node'    | Extensions.CircleNode    | ✅ 是        | [DEMO](https://g6-next.antv.antgroup.com/examples/item/defaultNodes/#circle)                                                                                               |                                    |
-| 'rect-node'      | Extensions.RectNode      | ✅ 是        | [矩形 DEMO](https://g6-next.antv.antgroup.com/examples/item/defaultNodes/#rect)，[圆角矩形 DEMO](https://g6-next.antv.antgroup.com/examples/item/defaultNodes/#radiusRect) |                                    |
-| 'image-node'     | Extensions.ImageNode     | ✅ 是        | [DEMO](https://g6-next.antv.antgroup.com/examples/item/defaultNodes/#image)                                                                                                |                                    |
-| 'donut-node'     | Extensions.DonutNode     | 否           | [DEMO](https://g6-next.antv.antgroup.com/examples/item/defaultNodes/#donut)                                                                                                |                                    |
-| 'diamond-node'   | Extensions.DiamondNode   | 否           | [DEMO](https://g6-next.antv.antgroup.com/examples/item/defaultNodes/#diamond)                                                                                              |                                    |
-| 'hexagon-node'   | Extensions.HexagonNode   | 否           | [DEMO](https://g6-next.antv.antgroup.com/examples/item/defaultNodes/#hexagon)                                                                                              |                                    |
-| 'star-node'      | Extensions.StarNode      | 否           | [DEMO](https://g6-next.antv.antgroup.com/examples/item/defaultNodes/#star)                                                                                                 |                                    |
-| 'triangle-node'  | Extensions.TriangleNode  | 否           | [DEMO](https://g6-next.antv.antgroup.com/examples/item/defaultNodes/#triangle)                                                                                             |                                    |
-| 'ellipse-node'   | Extensions.EllipseNode   | 否           | [DEMO](https://g6-next.antv.antgroup.com/examples/item/defaultNodes/#ellipse)                                                                                              |                                    |
-| 'modelRect-node' | Extensions.ModelRectNode | 否           | [DEMO](https://g6-next.antv.antgroup.com/examples/item/defaultNodes/#modelRect)                                                                                            |                                    |
-| 'sphere-node'    | Extensions.SphereNode    | 否           | [DEMO](https://g6-next.antv.antgroup.com/examples/item/defaultNodes/#3d-node)                                                                                              | 仅在 renderer: 'webgl-3d' 时可使用 |
-| 'cube-node'      | Extensions.CubeNode      | 否           | [DEMO](https://g6-next.antv.antgroup.com/examples/item/defaultNodes/#3d-node)                                                                                              | 仅在 renderer: 'webgl-3d' 时可使用 |
+| type 名称        | 引入方式                 | 是否默认注册 | Demo                                                                                                     | API                                    | 注释                               |
+| :--------------- | :----------------------- | :----------- | :------------------------------------------------------------------------------------------------------- | :------------------------------------- | :--------------------------------- |
+| 'circle-node'    | Extensions.CircleNode    | ✅ 是        | [DEMO](/examples/item/defaultNodes/#circle)                                                              | [API](/apis/item/node/circle-node)     |                                    |
+| 'rect-node'      | Extensions.RectNode      | ✅ 是        | [矩形 DEMO](/examples/item/defaultNodes/#rect)，[圆角矩形 DEMO](/examples/item/defaultNodes/#radiusRect) | [API](/apis/item/node/circle-node)     |                                    |
+| 'image-node'     | Extensions.ImageNode     | ✅ 是        | [DEMO](/examples/item/defaultNodes/#image)                                                               | [API](/apis/item/node/image-node)      |                                    |
+| 'donut-node'     | Extensions.DonutNode     | 否           | [DEMO](/examples/item/defaultNodes/#donut)                                                               | [API](/apis/item/node/donut-node)      |                                    |
+| 'diamond-node'   | Extensions.DiamondNode   | 否           | [DEMO](/examples/item/defaultNodes/#diamond)                                                             | [API](/apis/item/node/diamond-node)    |                                    |
+| 'hexagon-node'   | Extensions.HexagonNode   | 否           | [DEMO](/examples/item/defaultNodes/#hexagon)                                                             | [API](/apis/item/node/hexagon-node)    |                                    |
+| 'star-node'      | Extensions.StarNode      | 否           | [DEMO](/examples/item/defaultNodes/#star)                                                                | [API](/apis/item/node/star-node)       |                                    |
+| 'triangle-node'  | Extensions.TriangleNode  | 否           | [DEMO](/examples/item/defaultNodes/#triangle)                                                            | [API](/apis/item/node/triangle-node)   |                                    |
+| 'ellipse-node'   | Extensions.EllipseNode   | 否           | [DEMO](/examples/item/defaultNodes/#ellipse)                                                             | [API](/apis/item/node/ellipse-node)    |                                    |
+| 'modelRect-node' | Extensions.ModelRectNode | 否           | [DEMO](/examples/item/defaultNodes/#modelRect)                                                           | [API](/apis/item/node/model-rect-node) |                                    |
+| 'sphere-node'    | Extensions.SphereNode    | 否           | [DEMO](/examples/item/defaultNodes/#3d-node)                                                             | [API](/apis/item/node/sphere-node)     | 仅在 renderer: 'webgl-3d' 时可使用 |
+| 'cube-node'      | Extensions.CubeNode      | 否           | [DEMO](/examples/item/defaultNodes/#3d-node)                                                             | [API](/apis/item/node/cube-node)       | 仅在 renderer: 'webgl-3d' 时可使用 |
 
 ### 2. 边（edges）
 
-| type 名称               | 引入方式                       | 是否默认注册 | Demo                                                                                  | 注释 |
-| :---------------------- | :----------------------------- | :----------- | :------------------------------------------------------------------------------------ | :--- |
-| 'line-edge'             | Extensions.LineEdge            | ✅ 是        | [DEMO](https://g6-next.antv.antgroup.com/examples/item/defaultEdges/#line)            |      |
-| 'loop-edge'             | Extensions.LineEdge            | ✅ 是        | [DEMO](https://g6-next.antv.antgroup.com/examples/item/defaultEdges/#loop)            |      |
-| 'quadratic-edge'        | Extensions.QuadraticEdge       | 否           | [DEMO](https://g6-next.antv.antgroup.com/examples/item/defaultEdges/#quadratic)       |      |
-| 'cubic-edge'            | Extensions.CubicEdge           | 否           | [DEMO](https://g6-next.antv.antgroup.com/examples/item/defaultEdges/#cubic)           |      |
-| 'polyline-edge'         | Extensions.PolylineEdge        | 否           | [DEMO](https://g6-next.antv.antgroup.com/examples/item/defaultEdges/#polyline)        |      |
-| 'cubic-horizontal-edge' | Extensions.CubicHorizontalEdge | 否           | [DEMO](https://g6-next.antv.antgroup.com/examples/item/defaultEdges/#horizontalCubic) |      |
-| 'cubic-vertical-edge'   | Extensions.CubicVerticalEdge   | 否           | [DEMO](https://g6-next.antv.antgroup.com/examples/item/defaultEdges/#verticalCubic)   |      |
+| type 名称               | 引入方式                       | 是否默认注册 | Demo                                                 | API                                          | 注释 |
+| :---------------------- | :----------------------------- | :----------- | :--------------------------------------------------- | :------------------------------------------- | :--- |
+| 'line-edge'             | Extensions.LineEdge            | ✅ 是        | [DEMO](/examples/item/defaultEdges/#line)            | [API](/apis/item/edge/line-edge)             |      |
+| 'loop-edge'             | Extensions.LoopEdge            | ✅ 是        | [DEMO](/examples/item/defaultEdges/#loop)            | [API](/apis/item/edge/loop-edge)             |      |
+| 'quadratic-edge'        | Extensions.QuadraticEdge       | 否           | [DEMO](/examples/item/defaultEdges/#quadratic)       | [API](/apis/item/edge/quadratic-edge)        |      |
+| 'cubic-edge'            | Extensions.CubicEdge           | 否           | [DEMO](/examples/item/defaultEdges/#cubic)           | [API](/apis/item/edge/cubic-edge)            |      |
+| 'polyline-edge'         | Extensions.PolylineEdge        | 否           | [DEMO](/examples/item/defaultEdges/#polyline)        | [API](/apis/item/edge/polyline-edge)         |      |
+| 'cubic-horizontal-edge' | Extensions.CubicHorizontalEdge | 否           | [DEMO](/examples/item/defaultEdges/#horizontalCubic) | [API](/apis/item/edge/cubic-horizontal-edge) |      |
+| 'cubic-vertical-edge'   | Extensions.CubicVerticalEdge   | 否           | [DEMO](/examples/item/defaultEdges/#verticalCubic)   | [API](/apis/item/edge/cubic-vertical-edge)   |      |
 
 ### 3. Combo (combos)
 
-| type 名称      | 引入方式               | 是否默认注册 | Demo                                                                             | 注释 |
-| :------------- | :--------------------- | :----------- | :------------------------------------------------------------------------------- | :--- |
-| 'circle-combo' | Extensions.CircleCombo | ✅ 是        | [DEMO](https://g6-next.antv.antgroup.com/zh/examples/item/defaultCombos/#circle) |      |
-| 'rect-combo'   | Extensions.RectCombo   | ✅ 是        | [DEMO](https://g6-next.antv.antgroup.com/zh/examples/item/defaultCombos/#rect)   |      |
+| type 名称      | 引入方式               | 是否默认注册 | Demo                                         | API                                  | 注释 |
+| :------------- | :--------------------- | :----------- | :------------------------------------------- | :----------------------------------- | :--- |
+| 'circle-combo' | Extensions.CircleCombo | ✅ 是        | [DEMO](/examples/item/defaultCombos/#circle) | [API](/apis/item/combo/circle-combo) |      |
+| 'rect-combo'   | Extensions.RectCombo   | ✅ 是        | [DEMO](/examples/item/defaultCombos/#rect)   | [API](/apis/item/combo/rect-combo)   |      |
 
 ### 4. 数据转换器 (transforms)
 
@@ -91,60 +91,62 @@ const graph = new Graph({
 
 所有内置、自定义交互应当继承 `Extensions.BaseBehavior` 或其他已有的交互。
 
-| type 名称               | 引入方式                       | 是否默认注册 | Demo                                                                                                   | 注释                               |
-| :---------------------- | :----------------------------- | :----------- | :----------------------------------------------------------------------------------------------------- | :--------------------------------- |
-| 'drag-canvas'           | Extensions.DragCanvas          | ✅ 是        | [DEMO](https://g6-next.antv.antgroup.com/zh/examples/interaction/moveCanvas/#dragCanvas)               |                                    |
-| 'zoom-canvas'           | Extensions.ZoomCanvas          | ✅ 是        | [DEMO](https://g6-next.antv.antgroup.com/zh/examples/interaction/dragCanvasHideItem/#hideItem)         |                                    |
-| 'drag-node'             | Extensions.DragNode            | ✅ 是        | [DEMO](https://g6-next.antv.antgroup.com/zh/examples/interaction/dragCanvasHideItem/#hideItem)         |                                    |
-| 'drag-combo'            | Extensions.DragCombo           | ✅ 是        | [DEMO](https://g6-next.antv.antgroup.com/zh/examples/net/comboLayout/#comboCombined)                   |                                    |
-| 'click-select'          | Extensions.ClickSelect         | ✅ 是        | [DEMO](https://g6-next.antv.antgroup.com/zh/examples/interaction/select/#click)                        |                                    |
-| 'collapse-expand-combo' | Extensions.CollapseExpandCombo | ✅ 是        | [DEMO](https://g6-next.antv.antgroup.com/zh/examples/interaction/combo/#circle)                        |                                    |
-| 'collapse-expand-tree'  | Extensions.CollapseExpandTree  | ✅ 是        | [DEMO](https://g6-next.antv.antgroup.com/zh/examples/net/dendrogram/#basicDendrogram)                  |                                    |
-| 'activate-relations'    | Extensions.ActivateRelations   | 否           | [DEMO](https://g6-next.antv.antgroup.com/zh/examples/interaction/highlight/#activateRelations)         |                                    |
-| 'brush-select'          | Extensions.BrushSelect         | 否           | [DEMO](https://g6-next.antv.antgroup.com/zh/examples/interaction/select/#brush)                        |                                    |
-| 'lasso-select'          | Extensions.LassoSelect         | 否           | [DEMO](https://g6-next.antv.antgroup.com/zh/examples/interaction/select/#lasso)                        |                                    |
-| 'create-edge'           | Extensions.CreateEdge          | 否           | [DEMO](https://g6-next.antv.antgroup.com/zh/examples/interaction/createEdge/#createEdgeByDragging)     |                                    |
-| 'shortcuts-call'        | Extensions.ShortcutsCall       | 否           | [DEMO](https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*eUzrSq1VGi0AAAAAAAAAAAAADmJ7AQ/original) |                                    |
-| 'scroll-canvas'         | Extensions.ScrollCanvas        | 否           | [DEMO](https://g6-next.antv.antgroup.com/zh/examples/interaction/shortcutsCall/#shortcuts-fitView)     |                                    |
-| 'orbit-canvas-3d'       | Extensions.OrbitCanvas3D       | 否           | [DEMO](https://g6-next.antv.antgroup.com/zh/examples/feature/features/#webgl3d)                        | 仅在 renderer: 'webgl-3d' 时可使用 |
-| 'zoom-canvas-3d'        | Extensions.ZoomCanvas3D        | 否           | [DEMO](https://g6-next.antv.antgroup.com/zh/examples/feature/features/#webgl3d)                        | 仅在 renderer: 'webgl-3d' 时可使用 |
+| type 名称               | 引入方式                       | 是否默认注册 | Demo                                                                                                   | API                                                  | 注释                               |
+| :---------------------- | :----------------------------- | :----------- | :----------------------------------------------------------------------------------------------------- | :--------------------------------------------------- | :--------------------------------- |
+| 'drag-canvas'           | Extensions.DragCanvas          | ✅ 是        | [DEMO](/examples/interaction/moveCanvas/#dragCanvas)                                                   | [API](/apis/behaviors/drag-canvas-options)           |                                    |
+| 'zoom-canvas'           | Extensions.ZoomCanvas          | ✅ 是        | [DEMO](/examples/interaction/dragCanvasHideItem/#hideItem)                                             | [API](/apis/behaviors/zoom-canvas-options)           |                                    |
+| 'drag-node'             | Extensions.DragNode            | ✅ 是        | [DEMO](/examples/interaction/dragCanvasHideItem/#hideItem)                                             | [API](/apis/behaviors/drag-node-options)             |                                    |
+| 'drag-combo'            | Extensions.DragCombo           | ✅ 是        | [DEMO](/examples/net/comboLayout/#comboCombined)                                                       | [API](/apis/behaviors/drag-combo-options)            |                                    |
+| 'click-select'          | Extensions.ClickSelect         | ✅ 是        | [DEMO](/examples/interaction/select/#click)                                                            | [API](/apis/behaviors/click-select-options)          |                                    |
+| 'collapse-expand-combo' | Extensions.CollapseExpandCombo | ✅ 是        | [DEMO](/examples/interaction/combo/#circle)                                                            | [API](/apis/behaviors/collapse-expand-combo-options) |                                    |
+| 'collapse-expand-tree'  | Extensions.CollapseExpandTree  | ✅ 是        | [DEMO](/examples/net/dendrogram/#basicDendrogram)                                                      | [API](/apis/behaviors/collapse-expand-tree-options)  |                                    |
+| 'activate-relations'    | Extensions.ActivateRelations   | 否           | [DEMO](/examples/interaction/highlight/#activateRelations)                                             | [API](/apis/behaviors/activate-relations-options)    |
+| 'hover-activate'        | Extensions.HoverActivate       | 否           | [DEMO](/examples/interaction/label#update)                                                             | [API](/apis/behaviors/hover-activate-options)        |                                    |
+| 'brush-select'          | Extensions.BrushSelect         | 否           | [DEMO](/examples/interaction/select/#brush)                                                            | [API](/apis/behaviors/brush-select-options)          |                                    |
+| 'lasso-select'          | Extensions.LassoSelect         | 否           | [DEMO](/examples/interaction/select/#lasso)                                                            | [API](/apis/behaviors/lasso-select-options)          |                                    |
+| 'create-edge'           | Extensions.CreateEdge          | 否           | [DEMO](/examples/interaction/createEdge/#createEdgeByDragging)                                         | [API](/apis/behaviors/create-edge-options)           |                                    |
+| 'shortcuts-call'        | Extensions.ShortcutsCall       | 否           | [DEMO](https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*eUzrSq1VGi0AAAAAAAAAAAAADmJ7AQ/original) | [API](/apis/behaviors/shortcuts-call-options)        |                                    |
+| 'scroll-canvas'         | Extensions.ScrollCanvas        | 否           | [DEMO](/examples/interaction/shortcutsCall/#shortcuts-fitView)                                         | [API](/apis/behaviors/scroll-canvas-options)         |                                    |
+| 'orbit-canvas-3d'       | Extensions.OrbitCanvas3D       | 否           | [DEMO](/examples/feature/features/#webgl3d)                                                            | [API](/apis/behaviors/orbit-canvas3-d-options)       | 仅在 renderer: 'webgl-3d' 时可使用 |
+| 'track-canvas-3d'       | Extensions.TrackCanvas3D       | 否           | [DEMO](/examples/feature/features/#webgl3d)                                                            | [API](/apis/behaviors/track-canvas3-d-options)       | 仅在 renderer: 'webgl-3d' 时可使用 |
+| 'zoom-canvas-3d'        | Extensions.ZoomCanvas3D        | 否           | [DEMO](/examples/feature/features/#webgl3d)                                                            | [API](/apis/behaviors/zoom-canvas3-d-options)        | 仅在 renderer: 'webgl-3d' 时可使用 |
 
 ### 5. 布局算法 (layouts)
 
-| type 名称       | 引入方式                       | 是否默认注册 | Demo                                                                                          | 注释 |
-| :-------------- | :----------------------------- | :----------- | :-------------------------------------------------------------------------------------------- | :--- |
-| 'force'         | Extensions.ForceLayout         | ✅ 是        | [DEMO](https://g6-next.antv.antgroup.com/zh/examples/net/forceDirected/#basicForce)           |      |
-| 'grid'          | Extensions.GridLayout          | ✅ 是        | [DEMO](https://g6-next.antv.antgroup.com/zh/examples/net/gridLayout/#grid)                    |      |
-| 'circular'      | Extensions.CircularLayout      | ✅ 是        | [DEMO](https://g6-next.antv.antgroup.com/zh/examples/net/circular/#circular)                  |      |
-| 'concentric'    | Extensions.ConcentricLayout    | ✅ 是        | [DEMO](https://g6-next.antv.antgroup.com/zh/examples/net/concentricLayout/#basicConcentric)   |      |
-| 'random'        | Extensions.RandomLayout        | 否           |                                                                                               |      |
-| 'mds'           | Extensions.MDSLayout           | 否           | [DEMO](https://g6-next.antv.antgroup.com/examples/net/mdsLayout/#basicMDS)                    |      |
-| 'radial'        | Extensions.RadialLayout        | 否           | [DEMO](https://g6-next.antv.antgroup.com/zh/examples/net/radialLayout/#basicRadial)           |      |
-| 'fruchterman'   | Extensions.FruchtermanLayout   | 否           | [DEMO](https://g6-next.antv.antgroup.com/zh/examples/net/furchtermanLayout/#basicFruchterman) |      |
-| 'd3-force'      | Extensions.D3ForceLayout       | 否           |                                                                                               |      |
-| 'force-atlas-2' | Extensions.ForceAtlas2Layout   | 否           | [DEMO](https://g6-next.antv.antgroup.com/zh/examples/net/forceDirected/#basicFA2)             |      |
-| 'dagre'         | Extensions.DagreLayout         | 否           | [DEMO](https://g6-next.antv.antgroup.com/zh/examples/net/dagreFlow/#dagre)                    |      |
-| 'comboCombined' | Extensions.ComboCombinedLayout | 否           | [DEMO](https://g6-next.antv.antgroup.com/zh/examples/net/comboLayout/#comboCombined)          |      |
-| 'compactBox'    | Extensions.compactBox          | 否           | [DEMO](https://g6-next.antv.antgroup.com/zh/examples/net/compactBox/#basicCompactBox)         |      |
-| 'dendrogram'    | Extensions.compactBox          | 否           | [DEMO](https://g6-next.antv.antgroup.com/zh/examples/net/dendrogram/#basicDendrogramx)        |      |
-| 'indented'      | Extensions.compactBox          | 否           | [DEMO](https://g6-next.antv.antgroup.com/zh/examples/net/indented/#intendAlignTop)            |      |
-| 'mindmap'       | Extensions.mindmap             | 否           | [DEMO](https://g6-next.antv.antgroup.com/zh/examples/net/mindmap/#hMindmap)                   |      |
+| type 名称       | 引入方式                       | 是否默认注册 | Demo                                                      | API                                               | 注释 |
+| :-------------- | :----------------------------- | :----------- | :-------------------------------------------------------- | :------------------------------------------------ | :--- |
+| 'force'         | Extensions.ForceLayout         | ✅ 是        | [DEMO](/examples/net/forceDirected/#basicForce)           | [API](/apis/layout/force-layout-options)          |      |
+| 'grid'          | Extensions.GridLayout          | ✅ 是        | [DEMO](/examples/net/gridLayout/#grid)                    | [API](/apis/layout/grid-layout-options)           |      |
+| 'circular'      | Extensions.CircularLayout      | ✅ 是        | [DEMO](/examples/net/circular/#circular)                  | [API](/apis/layout/circular-layout-options)       |      |
+| 'concentric'    | Extensions.ConcentricLayout    | ✅ 是        | [DEMO](/examples/net/concentricLayout/#basicConcentric)   | [API](/apis/layout/concentric-layout-options)     |      |
+| 'random'        | Extensions.RandomLayout        | 否           |                                                           | [API]()                                           |      |
+| 'mds'           | Extensions.MDSLayout           | 否           | [DEMO](/examples/net/mdsLayout/#basicMDS)                 | [API](/apis/layout/mds-layout-options)            |      |
+| 'radial'        | Extensions.RadialLayout        | 否           | [DEMO](/examples/net/radialLayout/#basicRadial)           | [API](/apis/layout/radial-layout-options)         |      |
+| 'fruchterman'   | Extensions.FruchtermanLayout   | 否           | [DEMO](/examples/net/furchtermanLayout/#basicFruchterman) | [API](/apis/layout/fruchterman-layout-options)    |      |
+| 'd3-force'      | Extensions.D3ForceLayout       | 否           |                                                           | [API](/apis/layout/d3-force-layout-options)       |      |
+| 'force-atlas-2' | Extensions.ForceAtlas2Layout   | 否           | [DEMO](/examples/net/forceDirected/#basicFA2)             | [API](/apis/layout/force-atlas2-layout-options)   |      |
+| 'dagre'         | Extensions.DagreLayout         | 否           | [DEMO](/examples/net/dagreFlow/#dagre)                    | [API](/apis/layout/dagre-layout-options)          |      |
+| 'comboCombined' | Extensions.ComboCombinedLayout | 否           | [DEMO](/examples/net/comboLayout/#comboCombined)          | [API](/apis/layout/combo-combined-layout-options) |      |
+| 'compactBox'    | Extensions.compactBox          | 否           | [DEMO](/examples/net/compactBox/#basicCompactBox)         | [API](/apis/layout/compact-box-layout-options)    |      |
+| 'dendrogram'    | Extensions.compactBox          | 否           | [DEMO](/examples/net/dendrogram/#basicDendrogramx)        | [API](/apis/layout/dendrogram-layout-options)     |      |
+| 'indented'      | Extensions.compactBox          | 否           | [DEMO](/examples/net/indented/#intendAlignTop)            | [API](/apis/layout/indented-layout-options)       |      |
+| 'mindmap'       | Extensions.mindmap             | 否           | [DEMO](/examples/net/mindmap/#hMindmap)                   | [API](/apis/layout/mindmap-layout-options)        |      |
 
 ### 6. 插件 (plugins)
 
 所有内置、自定义插件应当继承 `Extensions.BasePlugin` 或其他已有的插件。
 
-| type 名称     | 引入方式               | 是否默认注册 | Demo                                                                                    | 注释             |
-| :------------ | :--------------------- | :----------- | :-------------------------------------------------------------------------------------- | :--------------- |
-| 'history'     | Extensions.History     | ✅ 是        | [DEMO](https://g6-next.antv.antgroup.com/zh/examples/tool/history/#history)             |                  |
-| 'toolbar'     | Extensions.Toolbar     | 否           | [DEMO](https://g6-next.antv.antgroup.com/zh/examples/tool/toolbar/#toolbar)             |                  |
-| 'tooltip'     | Extensions.Tooltip     | 否           | [DEMO](https://g6-next.antv.antgroup.com/zh/examples/tool/tooltip/#tooltipPlugin)       |                  |
-| 'minimap'     | Extensions.Minimap     | 否           | [DEMO](https://g6-next.antv.antgroup.com/zh/examples/tool/minimap/#minimap)             |                  |
-| 'grid'        | Extensions.Grid        | 否           | [DEMO](https://g6-next.antv.antgroup.com/zh/examples/tool/grid/#default)                |                  |
-| 'menu'        | Extensions.Menu        | 否           | [DEMO](https://g6-next.antv.antgroup.com/zh/examples/tool/contextMenu/#contextMenu)     |                  |
-| 'fisheye'     | Extensions.Fisheye     | 否           | [DEMO](https://g6-next.antv.antgroup.com/zh/examples/tool/fisheye/#fisheye)             |                  |
-| 'legend'      | Extensions.Legend      | 否           | [DEMO](https://g6-next.antv.antgroup.com/zh/examples/tool/legend/#legend)               |                  |
-| 'timebar'     | Extensions.Timebar     | 否           | [DEMO](https://g6-next.antv.antgroup.com/zh/examples/tool/timebar/#timebar-time)        |                  |
-| 'hull'        | Extensions.Hull        | 否           | [DEMO](https://g6-next.antv.antgroup.com/zh/examples/tool/hull/#hull)                   |                  |
-| 'snapline'    | Extensions.Snapline    | 否           | [DEMO](https://g6-next.antv.antgroup.com/zh/examples/tool/snapline/#snapline)           |                  |
-| 'watermarker' | Extensions.WaterMarker | 否           | [DEMO](https://g6-next.antv.antgroup.com/zh/examples/tool/watermarker/#textWaterMarker) | 支持图片或多文本 |
+| type 名称     | 引入方式               | 是否默认注册 | Demo                                                | API                                  | 注释             |
+| :------------ | :--------------------- | :----------- | :-------------------------------------------------- | :----------------------------------- | :--------------- |
+| 'history'     | Extensions.History     | ✅ 是        | [DEMO](/examples/tool/history/#history)             | [API](/apis/plugins/history-config)  |                  |
+| 'toolbar'     | Extensions.Toolbar     | 否           | [DEMO](/examples/tool/toolbar/#toolbar)             | [API](/apis/plugins/toolbar-config)  |                  |
+| 'tooltip'     | Extensions.Tooltip     | 否           | [DEMO](/examples/tool/tooltip/#tooltipPlugin)       | [API](/apis/plugins/tooltip-config)  |                  |
+| 'minimap'     | Extensions.Minimap     | 否           | [DEMO](/examples/tool/minimap/#minimap)             | [API](/apis/plugins/mini-map-config) |                  |
+| 'grid'        | Extensions.Grid        | 否           | [DEMO](/examples/tool/grid/#default)                | [API](/apis/plugins/grid-config)     |                  |
+| 'menu'        | Extensions.Menu        | 否           | [DEMO](/examples/tool/contextMenu/#contextMenu)     | [API](/apis/plugins/menu-config)     |                  |
+| 'fisheye'     | Extensions.Fisheye     | 否           | [DEMO](/examples/tool/fisheye/#fisheye)             | [API](/apis/plugins/fisheye-config)  |                  |
+| 'legend'      | Extensions.Legend      | 否           | [DEMO](/examples/tool/legend/#legend)               | [API](/apis/plugins/legend-config)   |                  |
+| 'timebar'     | Extensions.Timebar     | 否           | [DEMO](/examples/tool/timebar/#timebar-time)        | [API](/apis/plugins/time-bar)        |                  |
+| 'hull'        | Extensions.Hull        | 否           | [DEMO](/examples/tool/hull/#hull)                   | [API](/apis/plugins/hull)            |                  |
+| 'snapline'    | Extensions.Snapline    | 否           | [DEMO](/examples/tool/snapline/#snapline)           | [API](/apis/plugins/snapline)        |                  |
+| 'watermarker' | Extensions.WaterMarker | 否           | [DEMO](/examples/tool/watermarker/#textWaterMarker) | [API](/apis/plugins/water-marker)    | 支持图片或多文本 |
