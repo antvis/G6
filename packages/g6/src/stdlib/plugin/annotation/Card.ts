@@ -7,49 +7,74 @@ import { getPathItem2Card } from './util';
 import { Annotation } from './index';
 
 export interface CardCfg {
+    /** The ID of the card is generally equal to item. getID(), where item represents node, etc. */
     id?: string;
+    /** The width of the card */
     width?: number | 'fit-content';
+    /** The height of the card */
     height?: number | 'fit-content';
-    minHeight?: number | string;
+    /** The minWidth of the card */
     minWidth?: number | string;
+    /** The minHeight of the card */
+    minHeight?: number | string;
+    /** The maxWidth of the card */
+    maxWidth?: number;
+    /** The maxHeight of the card */
+    maxHeight?: number;
+    /** Whether the card is initially visible, default to true */
     visible?: boolean;
+    /** Does the card initially collapse, default to false */
     collapsed?: boolean;
-    // 指定位置，视口坐标系。仅在无 containerCfg 时生效
+    /** Specify the location and viewport coordinate system Only effective if there is no containerCfg */
     x?: number;
     y?: number;
+    /** Title of the card */
     title?: string;
+    /** Content of the card */
     content?: string;
+    /** border-radius style of card, default to 2 */
     borderRadius?: number;
+    /** The maximum length of the title, default to 20 */
     maxTitleLength?: number;
-    maxWidth?: number;
-    maxHeight?: number;
-    collapseType?: 'minimize' | 'hide'; // 点击收起按钮(-)的响应，最小化、隐藏
-    closeType?: 'hide' | 'remove'; // 点击关闭按钮(x)的相应，隐藏、移除
+    /** 
+     * How to handle when clicking the collapse button(-) 
+     * 
+     * ```minimize```: will collapse the card, default.
+     * 
+     * ```hide```: hide the card, set display: none
+    */
+    collapseType?: 'minimize' | 'hide';
+    /**
+     * How to handle when clicking the close button(x)
+     * ```hide```: hide the card, set display: none, default;
+     * ```remove```: destroy the card, which will remove the dom and related events;
+     */
+    closeType?: 'hide' | 'remove';
     defaultBegin?: {
-      left?: number;
-      top?: number;
-      right?: number;
-      bottom?: number;
+        left?: number;
+        top?: number;
+        right?: number;
+        bottom?: number;
     }; // 一个个卡片出生的起始位置，后续卡片会往后排列
     onMouseEnterIcon?: (
-      evt: any,
-      id: string,
-      type: 'expand' | 'collapse' | 'close',
+        evt: MouseEvent,
+        id: string,
+        type: 'expand' | 'collapse' | 'close',
     ) => void;
     onMouseLeaveIcon?: (
-      evt: any,
-      id: string,
-      type: 'expand' | 'collapse' | 'close',
+        evt: MouseEvent,
+        id: string,
+        type: 'expand' | 'collapse' | 'close',
     ) => void;
     onClickIcon?: (
-      evt: any,
-      id: string,
-      type: 'expand' | 'collapse' | 'close',
+        evt: MouseEvent,
+        id: string,
+        type: 'expand' | 'collapse' | 'close',
     ) => void;
     titlePlaceholder?: string;
     contentPlaceholder?: string;
     focusEditOnInit?: boolean | EditPosition; // new feature
-  }
+}
 
 export default class Card {
     $el: HTMLElement;
@@ -70,7 +95,7 @@ export default class Card {
     cfg: CardCfg;
     plugin: Annotation;
     constructor(plugin: Annotation, cfg: CardCfg) {
-        this.cfg = {...cfg};
+        this.cfg = { ...cfg };
         this.plugin = plugin;
         this.renderCard();
 
@@ -80,60 +105,66 @@ export default class Card {
         if (!plugin.options.containerCfg) {
             const containerBBox = this.container.getBoundingClientRect();
             if (cfg.x !== undefined && cfg.y !== undefined) {
-              // 使用配置的位置
-              x = cfg.x;
-              y = cfg.y;
+                // 使用配置的位置
+                x = cfg.x;
+                y = cfg.y;
             } else if (!this.isCanvas) {
-              // 无 conatiner，初始化位置
-              const { top: containerTop } = containerBBox;
-              const {
-                left: beginLeft,
-                right: propsBeginRight = 16,
-                top: propsBeginTop = 8,
-                bottom: beginBottom,
-              } = cfg.defaultBegin || {};
-              let beginRight = propsBeginRight;
-              let beginTop = propsBeginTop;
-              if (isNumber(beginLeft) && !Number.isNaN(beginLeft)) {
-                beginRight = this.container.scrollWidth - beginLeft;
-              }
-              if (isNumber(beginBottom) && !Number.isNaN(beginBottom)) {
-                beginTop = this.container.scrollHeight - beginBottom;
-              }
-              const cardWidth = isNumber(cfg.minWidth) ? cfg.minWidth : 100;
-              const rows = plugin.options.rows || [[]];
-              x =
-                this.container.scrollWidth -
-                this.$el.scrollWidth -
-                (rows.length - 1) * cardWidth -
-                beginRight;
-              const currentRow = rows[rows.length - 1];
-              const { bbox: lastCardBBox } = currentRow[currentRow.length - 1] || {};
-              y = lastCardBBox?.bottom - containerTop || beginTop;
+                // 无 conatiner，初始化位置
+                const { top: containerTop } = containerBBox;
+                const {
+                    left: beginLeft,
+                    right: propsBeginRight = 16,
+                    top: propsBeginTop = 8,
+                    bottom: beginBottom,
+                } = cfg.defaultBegin || {};
+                let beginRight = propsBeginRight;
+                let beginTop = propsBeginTop;
+                if (isNumber(beginLeft) && !Number.isNaN(beginLeft)) {
+                    beginRight = this.container.scrollWidth - beginLeft;
+                }
+                if (isNumber(beginBottom) && !Number.isNaN(beginBottom)) {
+                    beginTop = this.container.scrollHeight - beginBottom;
+                }
+                const cardWidth = isNumber(cfg.minWidth) ? cfg.minWidth : 100;
+                const rows = plugin.options.rows || [[]];
+                x =
+                    this.container.scrollWidth -
+                    this.$el.scrollWidth -
+                    (rows.length - 1) * cardWidth -
+                    beginRight;
+                const currentRow = rows[rows.length - 1];
+                const { bbox: lastCardBBox } = currentRow[currentRow.length - 1] || {};
+                y = lastCardBBox?.bottom - containerTop || beginTop;
             }
             this.move(x, y)
-          }
+        }
 
         if (!this.isCanvas) {
             // 创建相关连线
             const cardBBox = this.$el.getBoundingClientRect();
             const path = getPathItem2Card(item, cardBBox, plugin.graph, plugin.options.canvas);
             const linkStyle = plugin.options.linkStyle;
-      
+
             this.link = plugin.options.linkGroup.appendChild(
-              new Path({
-                attrs: {
-                  lineWidth: 1,
-                  lineDash: [5, 5],
-                  stroke: '#ccc',
-                  path,
-                  ...linkStyle,
-                },
-              }),
+                new Path({
+                    attrs: {
+                        lineWidth: 1,
+                        lineDash: [5, 5],
+                        stroke: '#ccc',
+                        path,
+                        ...linkStyle,
+                    },
+                }),
             );
         }
 
         this.bindEvents();
+
+        this.collapse(cfg.collapsed);
+        
+        if (!cfg.visible) {
+            this.hide()
+        }
     }
     renderCard() {
         const {
@@ -178,7 +209,6 @@ export default class Card {
         });
 
         this.container.append(wrapper)
-        this.collapse(collapsed);
     }
 
     renderTitle({ title, wrapper }: { title?: string | HTMLElement, wrapper?: HTMLElement }) {
@@ -229,13 +259,7 @@ export default class Card {
                 target.className === 'g6-annotation-expand'
             ) {
                 // collapse & expand
-                const { collapseType } = plugin.options.cardCfg || {};
-                this.cfg.collapsed = !this.cfg.collapsed
-                if (collapseType === 'hide') {
-                    this.hide()
-                } else {
-                    this.collapse(this.cfg.collapsed)
-                }
+                this.collapse(!this.cfg.collapsed)
                 onClickIcon?.(
                     e,
                     itemId,
@@ -373,14 +397,23 @@ export default class Card {
     }
 
     collapse(collapsed = true) {
+        const { collapseType, maxHeight, minHeight, visible } = this.cfg
+        this.cfg.collapsed = collapsed;
+
         const classList = this.$el.classList
+
+        if (collapseType === 'hide') {
+            collapsed ? this.hide() : this.show();
+            classList.remove('g6-annotation-wrapper-collapsed')
+            return;
+        }
+
         collapsed ? classList.add('g6-annotation-wrapper-collapsed') : classList.remove('g6-annotation-wrapper-collapsed')
         this.$headerBtns.innerHTML = `${collapsed
             ? `<p class='g6-annotation-expand'>+</p>`
             : `<p class='g6-annotation-collapse'>-</p>`
-        }<p class='g6-annotation-close'>x</p>`
+            }<p class='g6-annotation-close'>x</p>`
 
-        const { maxHeight, minHeight } = this.cfg
         const minHeightPx = isNumber(minHeight) ? `${minHeight}px` : minHeight;
         const maxHeightPx = isNumber(maxHeight) ? `${maxHeight}px` : maxHeight;
         modifyCSS(this.$el, {
@@ -496,8 +529,8 @@ export default class Card {
     }
 
     focus() {
-        const {item, link} = this
-        const {itemHighlightState, linkHighlightStyle} = this.plugin.options
+        const { item, link } = this
+        const { itemHighlightState, linkHighlightStyle } = this.plugin.options
         if (item && itemHighlightState) {
             this.plugin.graph.setItemState(item.getID(), itemHighlightState, true);
         }
@@ -505,10 +538,10 @@ export default class Card {
             link.attr(linkHighlightStyle);
         }
     }
-    
+
     blur() {
-        const {item, link} = this
-        const {itemHighlightState, linkHighlightStyle, linkStyle} = this.plugin.options
+        const { item, link } = this
+        const { itemHighlightState, linkHighlightStyle, linkStyle } = this.plugin.options
         if (item && itemHighlightState) {
             this.plugin.graph.setItemState(item.getID(), itemHighlightState, false);
         }

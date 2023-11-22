@@ -13,25 +13,55 @@ insertCSS();
 
 interface AnnotationConfig extends IPluginBaseConfig {
   trigger?: 'click' | 'fix';
+  /**
+   * Set the parent element of the card. 
+   * When there is no containerCfg, the container of the graph will be used as the parent element;
+   */
   containerCfg?: {
-    // 无配置则没有自身容器，直接以图的容器为父容器
     position?: 'left' | 'right' | 'top' | 'bottom';
+    /**
+     * the parent element's className;
+     */
     className?: string;
     width?: number | string;
     height?: number | string;
     offsetX?: number;
     offsetY?: number;
   };
+  /**
+   * Set whether the card is editable
+   */
   editable?: boolean;
+  /** Highlight status of item, set this state when moving to the card. */
   itemHighlightState?: string;
+  /** Initial card data. */
   defaultData?: CardCfg[];
+  /** Detailed configuration of the card, please refer to ```CardCfg``` for details */
   cardCfg?: CardCfg;
+  /** Style of edge between cards and nodes. */
   linkStyle?: PathStyleProps;
+  /** Highlight style of edge, set this state when moving to the style. */
   linkHighlightStyle?: PathStyleProps;
+  /**
+   * Returns the title of the card. When getTitle returns empty, the return of getTitlePlaceholder will be used as the title
+   * @param item 
+   */
   getTitle?(item): string;
+  /**
+   * Returns the content of the card. When getTitle returns empty, the return of getContentPlaceholder will be used as the content
+   * @param item 
+   */
   getContent?(item): string;
-  getTitlePlaceholder?: string; // getTitle 返回空时使用 getTitlePlaceholder 的返回值
-  getContentPlaceholder?(item): string; // getContent 返回空时使用 getContentPlaceholder 的返回值
+  /**
+   * Return the placeholder of the title of the card
+   * @param item 
+   */
+  getTitlePlaceholder?(item): string;
+  /**
+   * Return the placeholder of the content of the card
+   * @param item 
+   */
+  getContentPlaceholder?(item): string;
   onAnnotationChange?: (info: any, action: string) => void;
 }
 
@@ -65,7 +95,7 @@ export class Annotation extends Base {
         shadowColor: '#5B8FF9',
         shadowBlur: 10,
       },
-      getTitlePlaceHolder() {
+      getTitlePlaceholder() {
         return '按 ↩ 保存';
       },
       getContentPlaceholder(item) {
@@ -78,6 +108,8 @@ export class Annotation extends Base {
         minHeight: 120,
         width: 120,
         height: 'fit-content',
+        visible: true,
+        collapsed: false,
         collapseType: 'minimize',
         closeType: 'hide',
         maxTitleLength: 20,
@@ -352,9 +384,9 @@ export class Annotation extends Base {
     const getContent = this.options.getContent;
     const getContentPlaceholder =
       this.options.getContentPlaceholder || (() => '');
-    const getTitlePlaceHolder = this.options.getTitlePlaceHolder || (() => '');
+    const getTitlePlaceholder = this.options.getTitlePlaceholder || (() => '');
     const contentPlaceholder = getContentPlaceholder(item);
-    const titlePlaceholder = getTitlePlaceHolder(item);
+    const titlePlaceholder = getTitlePlaceholder(item);
 
     let titleData = title || propsTitle || getTitle?.(item);
     if (typeof titleData === 'string')
