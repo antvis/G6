@@ -133,7 +133,7 @@ export {
   legend,
   line_edge,
   loop_edge,
-  map,
+  // map,
   mapper,
   menu,
   minimap,

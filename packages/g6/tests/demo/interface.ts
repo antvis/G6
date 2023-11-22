@@ -6,6 +6,8 @@ export type TestCaseContext<ExtendedParams = any> = Partial<{
   renderer: RendererName;
   canvas: Canvas;
   transientCanvas: Canvas;
+  labelCanvas: Canvas;
+  transientLabelCanvas: Canvas;
   backgroundCanvas: Canvas;
   width: number;
   height: number;
