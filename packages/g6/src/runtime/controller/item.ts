@@ -572,7 +572,8 @@ export class ItemController {
               this.expandCombo(graphCore, innerModel as ComboModel);
             }
           }
-          const previousParentId = item.displayModel.data.parentId;
+          const previousParentId =
+            item.displayModel.data.parentId || previous.parentId;
           // update the current parent combo tree
           // if the node has previous parent, related previous parent combo should be updated to
           if (upsertAncestors) {

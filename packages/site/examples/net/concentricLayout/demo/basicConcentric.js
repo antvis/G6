@@ -17,6 +17,7 @@ fetch('https://gw.alipayobjects.com/os/basement_prod/8dacf27e-e1bc-4522-b6d3-4b6
       container: 'container',
       width,
       height,
+      autoFit: 'view',
       modes: {
         default: ['zoom-canvas', 'drag-canvas', 'drag-node', 'click-select', 'brush-select'],
       },

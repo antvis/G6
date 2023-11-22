@@ -33,6 +33,11 @@ const handler = (
 ): GraphData => {
   const { nodes = [], edges = [], combos = [] } = data;
   const formattedNodes = nodes.map((node: any) => {
+    const prevNode = graphCore?.getNode(node.id);
+    const mergedNode = {
+      ...prevNode,
+      ...node,
+    };
     const {
       id,
       type,
@@ -43,8 +48,9 @@ const handler = (
       labelCfg = {},
       icon,
       linkPoints,
+      data = {},
       ...others
-    } = node;
+    } = mergedNode;
     const anchorShapes = [];
     if (linkPoints) {
       const { top, bottom, left, right, ...otherAnchorShapeStyles } =
@@ -60,9 +66,11 @@ const handler = (
       id,
       data: {
         ...others,
+        ...data,
         labelShape: {
           ...labelStyle,
           ...otherLabelStyle,
+          ...data.labelShape,
         },
       },
     };
@@ -100,6 +108,11 @@ const handler = (
   });
 
   const formattedEdges = edges.map((edge: any) => {
+    const prevEdge = graphCore?.getEdge(edge.id);
+    const mergedEdge = {
+      ...prevEdge,
+      ...edge,
+    };
     const {
       id = uniqueId(),
       type,
@@ -112,8 +125,9 @@ const handler = (
       labelCfg = {},
       icon,
       linkPoints,
+      data = {},
       ...others
-    } = edge;
+    } = mergedEdge;
     const { style: labelStyle = {}, ...otherLabelStyle } = labelCfg;
     const { background } = labelStyle;
     const newEdge = {
@@ -122,9 +136,11 @@ const handler = (
       target,
       data: {
         ...others,
+        ...data,
         labelShape: {
           ...labelStyle,
           ...otherLabelStyle,
+          ...data.labelShape,
         },
       },
     };
@@ -152,6 +168,11 @@ const handler = (
   });
 
   const formattedCombos = combos.map((combo: any) => {
+    const prevCombo = graphCore?.getNode(combo.id);
+    const mergedCombo = {
+      ...prevCombo,
+      ...combo,
+    };
     const {
       id,
       type,
@@ -162,17 +183,20 @@ const handler = (
       labelCfg = {},
       icon,
       linkPoints,
+      data = {},
       ...others
-    } = combo;
+    } = mergedCombo;
     const { style: labelStyle = {}, ...otherLabelStyle } = labelCfg;
     const { background } = labelStyle;
     const newCombo = {
       id,
       data: {
         ...others,
+        ...data,
         labelShape: {
           ...labelStyle,
           ...otherLabelStyle,
+          ...data.labelShape,
         },
       },
     };

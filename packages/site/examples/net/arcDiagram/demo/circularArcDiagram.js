@@ -48,6 +48,12 @@ fetch('https://gw.alipayobjects.com/os/basement_prod/70cde3be-22e8-4291-98f1-4d5
         },
         'edge-cluster',
       ],
+      plugins: [
+        {
+          type: 'lod-controller',
+          disableLod: true,
+        },
+      ],
       layout: {
         type: 'circular',
       },

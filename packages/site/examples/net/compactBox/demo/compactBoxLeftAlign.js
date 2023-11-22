@@ -102,6 +102,12 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.j
       modes: {
         default: ['collapse-expand-tree', 'drag-canvas', 'zoom-canvas'],
       },
+      plugins: [
+        {
+          type: 'lod-controller',
+          disableLod: true,
+        },
+      ],
       node: {
         type: 'crect-node',
         anchorPoints: [
