@@ -5,9 +5,10 @@ const edgeClusterTransform = (dataAUR = {}, options = {}, graphCore) => {
   const handler = (data = {}, options = {}, core) => {
     const { nodes = [], edges = [] } = data;
     const nodeMap = new Map();
+    graphCore?.getAllNodes().forEach((node) => nodeMap.set(node.id, node));
     nodes.forEach((node) => nodeMap.set(node.id, node));
     edges.forEach((edge) => {
-      edge.data.cluster = nodeMap.get(edge.source).data.cluster;
+      edge.data.cluster = nodeMap.get(edge.source)?.data.cluster;
     });
     return data;
   };
@@ -102,6 +103,12 @@ fetch('https://gw.alipayobjects.com/os/basement_prod/70cde3be-22e8-4291-98f1-4d5
       height,
       autoFit: 'view',
       transforms: ['transform-v4-data', 'edge-cluster'],
+      plugins: [
+        {
+          type: 'lod-controller',
+          disableLod: true,
+        },
+      ],
       layout: { type: 'line-layout' },
       theme: {
         type: 'spec',

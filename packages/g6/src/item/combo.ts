@@ -81,7 +81,7 @@ export default class Combo extends Node {
     animate = true,
     onfinish: Function = () => {},
   ) {
-    if (displayModel.data.collapsed) {
+    if (displayModel.data.collapsed && this.themeStyles.collapsed) {
       Object.keys(this.themeStyles.collapsed).forEach((shapeId) => {
         displayModel.data[shapeId] = displayModel.data[shapeId] || {};
         displayModel.data[shapeId] = {

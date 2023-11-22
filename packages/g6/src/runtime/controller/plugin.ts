@@ -141,7 +141,7 @@ export class PluginController {
       return config.required;
     }
     const Plugin = getExtension(config, registry.useLib, 'plugin');
-    return Plugin.required;
+    return Plugin?.required;
   }
 
   private onPluginChange(params: {
