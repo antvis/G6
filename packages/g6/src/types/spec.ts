@@ -42,6 +42,7 @@ export interface Specification<
   container?: string | HTMLElement;
   backgroundCanvas?: Canvas;
   canvas?: Canvas;
+  labelCanvas?: Canvas;
   transientCanvas?: Canvas;
   transientLabelCanvas?: Canvas;
   width?: number;
