@@ -1887,7 +1887,9 @@ export class ItemController {
       undefined,
       !animate,
       (model, canceled) => {
-        this.graph.hideItem(model.id, { disableAnimate: canceled });
+        positions.forEach((position) => {
+          this.graph.hideItem(position.id, { disableAnimate: canceled });
+        });
       },
     );
   }

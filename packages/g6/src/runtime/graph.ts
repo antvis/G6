@@ -1636,7 +1636,7 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
         edges: [],
         combos: type === 'combo' ? (modelArr as ComboUserModel[]) : [],
       },
-      type: 'update',
+      type: 'updatePosition',
     });
     const dataList = this.dataController.findData(
       type,

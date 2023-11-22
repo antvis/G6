@@ -60,6 +60,7 @@ export type DataChangeType =
   | 'remove'
   | 'update'
   | 'moveCombo'
-  | 'addCombo';
+  | 'addCombo'
+  | 'updatePosition';
 
 export type DataLifecycleType = (typeof AVAILABLE_DATA_LIFECYCLE)[number];
