@@ -1,9 +1,17 @@
 ### upsertShape
 
-Add a [shape](/apis/shape) if it does not exist, or update it if it exists.
+**Type**: `upsertShape`
 
-```ts
-(
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">upsertShape</summary>
+
+```typescript
+type SHAPE_TYPE = 'rect' | 'circle' | 'ellipse' | 'polygon' | 'image' | 'polyline' | 'line' | 'path' | 'text' | 'group';
+
+type SHAPE_TYPE_3D = 'sphere' | 'cube' | 'plane';
+
+type upsertShape = (
   /** Shape type, in lowercase */
   shapeType: string,
   /** Shape id */
@@ -16,3 +24,7 @@ Add a [shape](/apis/shape) if it does not exist, or update it if it exists.
   model: NodeDisplayModel | EdgeDisplayModel,
 ) => DisplayObject;
 ```
+
+</details>
+
+Add a [shape](/apis/shape) if it does not exist, or update it if it exists.

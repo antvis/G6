@@ -47,7 +47,7 @@ const graph = new ExtGraph({
 });
 ```
 
-## 重载方法
+## 覆写方法
 
 ### draw
 

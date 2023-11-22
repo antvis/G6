@@ -1,9 +1,13 @@
 ### mergedStyles
 
-Style which is merged from user configuration and default style.
+**类型**：`MergedStyles`
+
+<details>
+
+<summary style="color: #873bf4; cursor: pointer">MergedStyles</summary>
 
 ```ts
-{
+type MergedStyles = {
   /** Style of the main shape */
   keyShape: ShapeStyle;
   /** Style of the halo of the main shape */
@@ -18,5 +22,9 @@ Style which is merged from user configuration and default style.
   badge: ShapeStyle;
   /** Port style */
   anchor: ShapeStyle;
-}
+};
 ```
+
+</details>
+
+Style which is merged from user configuration and default style.
