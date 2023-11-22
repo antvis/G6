@@ -377,7 +377,7 @@ const tip = document.createElement('span');
 tip.innerHTML = '<br />👉 Change Renderer:';
 btnContainer.appendChild(tip);
 
-fetch('https://raw.githubusercontent.com/antvis/G6/v5/packages/g6/tests/demo/demo/data.json')
+fetch('https://assets.antv.antgroup.com/g6/eva-2d.json')
   .then((res) => res.json())
   .then((data) => {
     tip2.innerHTML = '🎨 Rendering....';

@@ -327,6 +327,7 @@ export const dataLifecycleMap: Record<string, DataLifecycleType> = {
   union: 'addData',
   remove: 'removeData',
   update: 'updateData',
+  updatePosition: 'updatePosition',
 };
 
 /**
