@@ -9,7 +9,11 @@ order: 14
 
 ## direction
 
-**Type**: String<br />**Options**: 'LR' | 'RL' | 'TB' | 'BT' | 'H' | 'V'<br />**Default**: 'LR'<br />**Required**: false<br />**Description**: The direction of layout.
+**Type**: `'LR' | 'RL' | 'TB' | 'BT' | 'H' | 'V'`
+
+**Default**: `'LR'`
+
+The direction of layout.
 
 - TB —— Root is on the top, layout from the top to the bottom
 
@@ -37,12 +41,26 @@ order: 14
 
 ## nodeSep
 
-**Type**: Number<br />**Default**: 0<br />**Required**: false<br />**Description**: Node separation
+**Type**: `number`
+
+**Default**: `0`
+
+Node separation
 
 ## rankSep
 
-**Type**: Number<br />**Default**: 0<br />**Required**: false<br />**Description**: Level separation
+**Type**: `number`
+
+**Default**: `0`
+
+Level separation
 
 ## radial
 
-**Type**: Boolean<br />**Default**: false<br />**Required**: false<br />**Description**: Wheter layout the graph in radial style. If `radial` is `true`, we recommend to set `direction` to `'LR'` or `'RL'`:<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*MqFcTLAhXIsAAAAAAAAAAABkARQnAQ' width=171 alt='img'/>
+**Type**: `boolean`
+
+**Default**: `false`
+
+Wheter layout the graph in radial style. If `radial` is `true`, we recommend to set `direction` to `'LR'` or `'RL'`:
+
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*MqFcTLAhXIsAAAAAAAAAAABkARQnAQ' width=171 alt='img'/>

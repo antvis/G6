@@ -9,7 +9,11 @@ Mindmap arranged the nodes with same depth on the same level. Different from com
 
 ## direction
 
-**Type**: String<br />**Options**: 'H' | 'V'<br />**Default**: 'H'<br />**Required**: false<br />**Description**: The direction of layout.
+**Type**: `'H' | 'V'`
+
+**Default**: `'H'`
+
+The direction of layout.
 
 - H —— Root is on the middle, layout in horizontal symmetry.
 
@@ -21,7 +25,9 @@ Mindmap arranged the nodes with same depth on the same level. Different from com
 
 ## getWidth
 
-**Type**: Number | Function<br />**Example**:
+**Type**: `number | function`
+
+**Example**:
 
 ```javascript
 (d) => {
@@ -31,11 +37,13 @@ Mindmap arranged the nodes with same depth on the same level. Different from com
 };
 ```
 
-**Required**: false<br />**Description**: The width of each node
+The width of each node
 
 ## getHeight
 
-**Type**: Number | Function<br />**Example**:
+**Type**: `number | function`
+
+**Example**:
 
 ```javascript
 (d) => {
@@ -45,11 +53,13 @@ Mindmap arranged the nodes with same depth on the same level. Different from com
 };
 ```
 
-**Required**: false<br />**Description**: The height of each node
+The height of each node
 
 ## getHGap
 
-**Type**: Number | Function<br />**Example**:
+**Type**: `number | function`
+
+**Example**:
 
 ```javascript
 (d) => {
@@ -59,11 +69,15 @@ Mindmap arranged the nodes with same depth on the same level. Different from com
 };
 ```
 
-**Default**: 18<br />**Required**: false<br />**Description**: The horizontal separation of nodes
+**Default**: `18`
+
+The horizontal separation of nodes
 
 ## getVGap
 
-**Type**: Number | Function<br />**Example**:
+**Type**: `number | function`
+
+**Example**:
 
 ```javascript
 (d) => {
@@ -73,11 +87,15 @@ Mindmap arranged the nodes with same depth on the same level. Different from com
 };
 ```
 
-**Default**: 18<br />**Required**: false<br />**Description**: The vertical separation of nodes
+**Default**: `18`
+
+The vertical separation of nodes
 
 ## getSide
 
-**Type**: Function<br />**Example**:
+**Type**: `function`
+
+**Example**:
 
 ```javascript
 (d) => {
@@ -87,4 +105,6 @@ Mindmap arranged the nodes with same depth on the same level. Different from com
 };
 ```
 
-**Default**: 'right'<br />**Required**: false<br />**Description**: The callback function of node position(left or right of root node). Only affects the nodes which are connected to the root node directly. And the descendant nodes will be placed according to it
+**Default**: `'right'`
+
+The callback function of node position(left or right of root node). Only affects the nodes which are connected to the root node directly. And the descendant nodes will be placed according to it

@@ -9,10 +9,16 @@ Indented layout represents the hierarchy by indent between them. Each node will 
 
 ## direction
 
-**Type**: String<br />**Options**: 'LR' | 'RL' | 'H'<br />**Default**: 'LR'<br />**Required**: false<br />**Description**: The direction of layout:
+**Type**: `'LR' | 'RL' | 'H'`
 
-- LR —— Root is on the left, layout from the left to the right(left image below)<br />
-- RL —— Root is on the right, layout from the right to the left(center image below)<br />
+**Default**: `'LR'`
+
+The direction of layout:
+
+- LR —— Root is on the left, layout from the left to the right(left image below)
+
+- RL —— Root is on the right, layout from the right to the left(center image below)
+
 - H —— Root is on the middle, layout in horizontal symmetry(right image below)
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*mq6YSIKrAt0AAAAAAAAAAABkARQnAQ' width=110 alt='img'/>
@@ -23,7 +29,11 @@ Indented layout represents the hierarchy by indent between them. Each node will 
 
 ## indent
 
-**Type**: Number | Function<br />**Default**: 20<br />**Example**：
+**Type**: `number | function`
+
+**Default**: `20`
+
+**Example**：
 
 ```javascript
 (d) => {
@@ -33,11 +43,13 @@ Indented layout represents the hierarchy by indent between them. Each node will 
 };
 ```
 
-**Required**: false<br />**Description**: When the type is Number, the colunm separation is a fixed value; When the type is Function, the distance between the node and the root node is the returned value of the function.
+When the type is Number, the colunm separation is a fixed value; When the type is Function, the distance between the node and the root node is the returned value of the function.
 
 ## getWidth
 
-**Type**: Number | Function<br />**Example**:
+**Type**: `number | function`
+
+**Example**:
 
 ```javascript
 (d) => {
@@ -47,11 +59,13 @@ Indented layout represents the hierarchy by indent between them. Each node will 
 };
 ```
 
-**Required**: false<br />**Description**: The width of each node. Takes effect only when `direction` is `'H'`
+The width of each node. Takes effect only when `direction` is `'H'`
 
 ## getHeight
 
-**Type**: Number | Function<br />**Example**:
+**Type**: `number | function`
+
+**Example**:
 
 ```javascript
 (d) => {
@@ -61,11 +75,13 @@ Indented layout represents the hierarchy by indent between them. Each node will 
 };
 ```
 
-**Required**: false<br />**Description**: The height of each node
+The height of each node
 
 ## getSide
 
-**Type**: Function<br />**Example**:
+**Type**: `function`
+
+**Example**:
 
 ```javascript
 (d) => {
@@ -75,12 +91,10 @@ Indented layout represents the hierarchy by indent between them. Each node will 
 };
 ```
 
-**Required**: false<br />**Description**: The callback function of node position(left or right of root node). Only affects the nodes which are connected to the root node directly. And the descendant nodes will be placed according to it.
+The callback function of node position(left or right of root node). Only affects the nodes which are connected to the root node directly. And the descendant nodes will be placed according to it.
 
 ## dropCap
 
-**Type**: Boolean
+**Type**: `boolean`
 
-<br />**Required**: false
-
-<br />**Explanation**: Whether place the first child node at the next line. `true` by default
+Whether place the first child node at the next line. `true` by default

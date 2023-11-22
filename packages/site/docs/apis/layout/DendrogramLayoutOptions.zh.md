@@ -9,7 +9,11 @@ order: 14
 
 ## direction
 
-**类型**：String<br />**可选值**：'LR' | 'RL' | 'TB' | 'BT' | 'H' | 'V'<br />**默认值**：'LR'<br />**是否必须**：false<br />**说明**：树布局的方向，默认为 `'LR'`，其他选项说明
+**类型**：`'LR' | 'RL' | 'TB' | 'BT' | 'H' | 'V'`
+
+**默认值**：`'LR'`
+
+树布局的方向，默认为 `'LR'`，其他选项说明
 
 - TB —— 根节点在上，往下布局
 
@@ -37,14 +41,26 @@ order: 14
 
 ## nodeSep
 
-**类型**：Number<br />**默认值**：0<br />**是否必须**：false<br />**说明**：节点间距
+**类型**：`number`
+
+**默认值**：0
+
+节点间距
 
 ## rankSep
 
-**类型**：Number<br />**默认值**：0<br />**是否必须**：false<br />**说明**：层与层之间的间距
+**类型**：`number`
+
+**默认值**：0
+
+层与层之间的间距
 
 ## radial
 
-**类型**：Boolean<br />**默认值**：false<br />**是否必须**：false<br />**说明**：是否按照辐射状布局。若 `radial` 为 `true`，建议 `direction` 设置为 `'LR'` 或 `'RL'`：
+**类型**：`boolean`
+
+**默认值**：false
+
+是否按照辐射状布局。若 `radial` 为 `true`，建议 `direction` 设置为 `'LR'` 或 `'RL'`：
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*AhopQI5j-bcAAAAAAAAAAABkARQnAQ' width=175 alt='img'/>
