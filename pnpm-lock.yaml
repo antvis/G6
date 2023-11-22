@@ -229,7 +229,7 @@ importers:
         specifier: ^2.0.4
         version: 2.0.4
       '@antv/g6':
-        specifier: ^5.0.0-beta.11
+        specifier: ^5.0.0
         version: link:../g6
       '@antv/graphlib':
         specifier: ^2.0.2
@@ -344,8 +344,8 @@ importers:
         specifier: ^0.0.3
         version: 0.0.3(@babel/core@7.23.2)(@storybook/source-loader@7.5.2)(eslint@8.48.0)(jest@28.1.3)(react-dom@16.14.0)(react@16.14.0)(regenerator-runtime@0.14.0)(typescript@5.1.6)
       '@antv/dumi-theme-antv':
-        specifier: 0.3.19-beta.1
-        version: 0.3.19-beta.1(@algolia/client-search@4.20.0)(@babel/core@7.23.2)(dumi@2.2.14)(jquery@3.7.1)(react-dom@16.14.0)(react@16.14.0)(search-insights@2.9.0)
+        specifier: ^0.4.1
+        version: 0.4.1(@algolia/client-search@4.20.0)(@babel/core@7.23.2)(dumi@2.2.14)(jquery@3.7.1)(react-dom@16.14.0)(react@16.14.0)(search-insights@2.9.0)
       '@antv/g2':
         specifier: ^5.1.5
         version: 5.1.5(@antv/g2plot@2.4.31)(@antv/g6@packages+g6)
@@ -353,7 +353,7 @@ importers:
         specifier: workspace:*
         version: link:../g6
       '@antv/g6-plugin-map-view':
-        specifier: ^0.0.4
+        specifier: workspace:*
         version: link:../g6-plugin-map-view
       '@antv/g6-react-node':
         specifier: ^1.4.5
@@ -722,7 +722,7 @@ packages:
       heap-js: 2.3.0
       lodash: 4.17.21
       regression: 2.0.1
-      tslib: 2.5.0
+      tslib: 2.6.2
     transitivePeerDependencies:
       - '@antv/g2plot'
       - '@antv/g6'
@@ -812,8 +812,8 @@ packages:
       tslib: 2.5.0
     dev: false
 
-  /@antv/dumi-theme-antv@0.3.19-beta.1(@algolia/client-search@4.20.0)(@babel/core@7.23.2)(dumi@2.2.14)(jquery@3.7.1)(react-dom@16.14.0)(react@16.14.0)(search-insights@2.9.0):
-    resolution: {integrity: sha512-3SDN20nxpxkPMcH3ztKyRCxhkBX/cVkrt+oT7DytQvqnebDpPOduC7ppX+qSfcIi7i6j2vs5xx/HEB0AV468Qg==}
+  /@antv/dumi-theme-antv@0.4.1(@algolia/client-search@4.20.0)(@babel/core@7.23.2)(dumi@2.2.14)(jquery@3.7.1)(react-dom@16.14.0)(react@16.14.0)(search-insights@2.9.0):
+    resolution: {integrity: sha512-1TqGAYEeKhmkXLPZgz8+pqVv6IN0XTjL5NVSawwc1xgysj5x/zGlV4oYrmZX9X7ZOzZsZ8Oz6I7xYBdBo6qNQQ==}
     peerDependencies:
       dumi: ^2.0.0
       react: '>=16.9.0'
@@ -881,7 +881,7 @@ packages:
       '@antv/g-math': 0.1.9
       '@antv/matrix-util': 3.1.0-beta.3
       '@antv/path-util': 2.0.15
-      '@antv/util': 2.0.9
+      '@antv/util': 2.0.17
       '@types/d3-timer': 1.0.11
       d3-ease: 1.0.7
       d3-interpolate: 1.4.0
@@ -902,7 +902,7 @@ packages:
       d3-interpolate: 3.0.1
       d3-timer: 1.0.10
       detect-browser: 5.3.0
-      tslib: 2.5.0
+      tslib: 2.6.2
     dev: false
 
   /@antv/g-camera-api@1.2.16:
@@ -1244,8 +1244,8 @@ packages:
       '@antv/matrix-util': 3.1.0-beta.3
       '@antv/path-util': 2.0.15
       '@antv/scale': 0.3.18
-      '@antv/util': 2.0.9
-      tslib: 2.5.0
+      '@antv/util': 2.0.17
+      tslib: 2.6.2
     dev: false
 
   /@antv/g2@5.1.5(@antv/g2plot@2.4.31)(@antv/g6@packages+g6):
@@ -1310,7 +1310,7 @@ packages:
       '@antv/matrix-util': 3.1.0-beta.3
       '@antv/path-util': 2.0.15
       '@antv/scale': 0.3.18
-      '@antv/util': 2.0.9
+      '@antv/util': 2.0.17
       ml-matrix: 6.10.7
     dev: false
 
@@ -1584,7 +1584,7 @@ packages:
       d3-quadtree: 3.0.1
       eventemitter3: 4.0.7
       ml-matrix: 6.10.7
-      tslib: 2.5.0
+      tslib: 2.6.2
     dev: false
 
   /@antv/layout@1.2.12(workerize-loader@2.0.2):
@@ -1616,7 +1616,7 @@ packages:
       d3-octree: 1.0.2
       d3-quadtree: 3.0.1
       ml-matrix: 6.10.7
-      tslib: 2.5.0
+      tslib: 2.6.2
     transitivePeerDependencies:
       - workerize-loader
     dev: false
@@ -1650,7 +1650,7 @@ packages:
     dependencies:
       gl-matrix: 3.4.3
       lodash-es: 4.17.21
-      tslib: 2.5.0
+      tslib: 2.6.2
     dev: false
 
   /@antv/scale@0.3.18:
@@ -1682,7 +1682,7 @@ packages:
     resolution: {integrity: sha512-o6I9hi5CIUvLGDhth0RxNSFDRwXeywmt6ExR4+RmVAzIi48ps6HUy+svxOCayvrPBN37uE6TAc2KDofRo0nK9Q==}
     dependencies:
       csstype: 3.1.2
-      tslib: 2.5.0
+      tslib: 2.6.2
     dev: false
 
   /@antv/util@2.0.9:
@@ -12030,7 +12030,7 @@ packages:
     dependencies:
       '@babel/core': 7.23.2
       postcss: 7.0.39
-      postcss-syntax: 0.36.2(postcss@8.4.31)
+      postcss-syntax: 0.36.2(postcss-html@0.36.0)(postcss-jsx@0.36.4)(postcss-less@3.1.4)(postcss-markdown@0.36.0)(postcss-scss@2.1.1)(postcss@7.0.39)
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -12057,7 +12057,7 @@ packages:
       postcss-syntax: '>=0.36.2'
     dependencies:
       postcss: 7.0.39
-      postcss-syntax: 0.36.2(postcss@8.4.31)
+      postcss-syntax: 0.36.2(postcss-html@0.36.0)(postcss-jsx@0.36.4)(postcss-less@3.1.4)(postcss-markdown@0.36.0)(postcss-scss@2.1.1)(postcss@7.0.39)
       remark: 13.0.0
       unist-util-find-all-after: 3.0.2
     transitivePeerDependencies:
@@ -13376,7 +13376,7 @@ packages:
         optional: true
     dependencies:
       '@eslint-community/regexpp': 4.10.0
-      '@typescript-eslint/parser': 5.62.0(eslint@8.48.0)(typescript@5.1.6)
+      '@typescript-eslint/parser': 5.62.0(eslint@7.32.0)(typescript@4.8.4)
       '@typescript-eslint/scope-manager': 5.62.0
       '@typescript-eslint/type-utils': 5.62.0(eslint@7.32.0)(typescript@4.8.4)
       '@typescript-eslint/utils': 5.62.0(eslint@7.32.0)(typescript@4.8.4)
@@ -13616,6 +13616,26 @@ packages:
     transitivePeerDependencies:
       - supports-color
     dev: true
+
+  /@typescript-eslint/parser@5.62.0(eslint@7.32.0)(typescript@4.8.4):
+    resolution: {integrity: sha512-VlJEV0fOQ7BExOsHYAGrgbEiZoi8D+Bl2+f6V2RrXerRSylnp+ZBHmPvaIa8cz0Ajx7WO7Z5RqfgYg7ED1nRhA==}
+    engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
+    peerDependencies:
+      eslint: ^6.0.0 || ^7.0.0 || ^8.0.0
+      typescript: '*'
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+    dependencies:
+      '@typescript-eslint/scope-manager': 5.62.0
+      '@typescript-eslint/types': 5.62.0
+      '@typescript-eslint/typescript-estree': 5.62.0(typescript@4.8.4)
+      debug: 4.3.4(supports-color@5.5.0)
+      eslint: 7.32.0
+      typescript: 4.8.4
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
 
   /@typescript-eslint/parser@5.62.0(eslint@8.48.0)(typescript@5.1.6):
     resolution: {integrity: sha512-VlJEV0fOQ7BExOsHYAGrgbEiZoi8D+Bl2+f6V2RrXerRSylnp+ZBHmPvaIa8cz0Ajx7WO7Z5RqfgYg7ED1nRhA==}
@@ -14276,7 +14296,7 @@ packages:
       '@babel/preset-react': 7.22.15(@babel/core@7.23.2)
       '@babel/preset-typescript': 7.23.2(@babel/core@7.23.2)
       '@typescript-eslint/eslint-plugin': 5.62.0(@typescript-eslint/parser@5.62.0)(eslint@7.32.0)(typescript@4.8.4)
-      '@typescript-eslint/parser': 5.62.0(eslint@8.48.0)(typescript@5.1.6)
+      '@typescript-eslint/parser': 5.62.0(eslint@7.32.0)(typescript@4.8.4)
       chalk: 4.1.2
       eslint: 7.32.0
       eslint-config-prettier: 8.10.0(eslint@7.32.0)
@@ -36125,14 +36145,14 @@ packages:
       react: 16.14.0
       react-dom: 16.14.0(react@16.14.0)
 
-  /react-universal-interface@0.6.2(react@16.14.0)(tslib@2.5.0):
+  /react-universal-interface@0.6.2(react@16.14.0)(tslib@2.6.2):
     resolution: {integrity: sha512-dg8yXdcQmvgR13RIlZbTRQOoUrDciFVoSBZILwjE2LFISxZZ8loVJKAkuzswl5js8BHda79bIb2b84ehU8IjXw==}
     peerDependencies:
       react: '*'
       tslib: '*'
     dependencies:
       react: 16.14.0
-      tslib: 2.5.0
+      tslib: 2.6.2
     dev: false
 
   /react-use@17.4.0(react-dom@16.14.0)(react@16.14.0):
@@ -36150,13 +36170,13 @@ packages:
       nano-css: 5.3.5(react-dom@16.14.0)(react@16.14.0)
       react: 16.14.0
       react-dom: 16.14.0(react@16.14.0)
-      react-universal-interface: 0.6.2(react@16.14.0)(tslib@2.5.0)
+      react-universal-interface: 0.6.2(react@16.14.0)(tslib@2.6.2)
       resize-observer-polyfill: 1.5.1
       screenfull: 5.2.0
       set-harmonic-interval: 1.0.1
       throttle-debounce: 3.0.1
       ts-easing: 0.2.0
-      tslib: 2.5.0
+      tslib: 2.6.2
     dev: false
 
   /react@16.14.0:
@@ -39402,7 +39422,7 @@ packages:
       postcss-sass: 0.4.4
       postcss-scss: 2.1.1
       postcss-selector-parser: 6.0.13
-      postcss-syntax: 0.36.2(postcss@8.4.31)
+      postcss-syntax: 0.36.2(postcss-html@0.36.0)(postcss-jsx@0.36.4)(postcss-less@3.1.4)(postcss-markdown@0.36.0)(postcss-scss@2.1.1)(postcss@7.0.39)
       postcss-value-parser: 4.2.0
       resolve-from: 5.0.0
       slash: 3.0.0
