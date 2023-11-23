@@ -769,7 +769,9 @@ export default abstract class Item implements IItem {
     const mergedData = mergeStyles([displayModelData, styles]);
     const { animates } = mergedData;
     const displayUpdateAnimates = [];
-    const stateNames = this.states.map((state) => state.name);
+    const stateNames = previousStates
+      .concat(this.states)
+      .map((state) => state.name);
     animates?.update?.forEach((animateCfg) => {
       const { states } = animateCfg as IStateAnimate;
       if (states && isArrayOverlap(states, stateNames)) {

@@ -121,6 +121,7 @@ export default class Node extends Item {
     // handle shape's and group's animate
     if (animate && !disableAnimate && animates) {
       const animatesExcludePosition = getAnimatesExcludePosition(animates);
+      const { current = [], previous = [] } = diffState || {};
       this.animations = animateShapes(
         animatesExcludePosition, // animates
         renderExt.mergedStyles, // targetStylesMap
@@ -128,7 +129,8 @@ export default class Node extends Item {
         undefined,
         [group, labelGroup],
         firstRendering ? 'buildIn' : 'update',
-        diffState?.current.map((state) => state.name) || this.changedStates,
+        current.concat(previous).map((state) => state.name) ||
+          this.changedStates,
         this.animateFrameListener,
         (canceled) => onfinish(model.id, canceled),
       );

@@ -314,7 +314,12 @@ export abstract class BaseNode {
     if (angle) {
       style.transform = `rotate(${angle}rad)`;
     }
-    return this.upsertShape('text', 'labelShape', style, shapeMap, model);
+    return this.upsertShape('text', 'labelShape', style, {
+     model,
+      shapeMap,
+      diffData,
+      diffState,
+    });
   }
 
   /**
@@ -332,7 +337,7 @@ export abstract class BaseNode {
       previous: NodeModelData | ComboModelData;
       current: NodeModelData | ComboModelData;
     },
-    diffState?: { oldState: State[]; newState: State[] },
+    diffState?: { previous: State[]; current: State[] },
   ): DisplayObject {
     const { labelShape } = shapeMap;
     if (!labelShape || !labelShape.style.text || !model.data.labelShape) return;
@@ -355,13 +360,12 @@ export abstract class BaseNode {
       width: width + padding[1] + padding[3],
       height: height + padding[0] + padding[2],
     };
-    const bgShape = this.upsertShape(
-      'rect',
-      'labelBackgroundShape',
-      bgStyle,
+    const bgShape = this.upsertShape('rect', 'labelBackgroundShape', bgStyle, {
+     model,
       shapeMap,
-      model,
-    );
+      diffData,
+      diffState,
+    });
 
     return bgShape;
   }
@@ -412,8 +416,12 @@ export abstract class BaseNode {
       iconShapeType,
       'iconShape',
       shapeStyle as GShapeStyle,
-      shapeMap,
-      model,
+      {
+        shapeMap,
+        model,
+        diffData,
+        diffState,
+      },
     );
   }
 
@@ -450,13 +458,12 @@ export abstract class BaseNode {
       batchKey: 'halo',
     };
     delete s.fillOpacity;
-    const shape = this.upsertShape(
-      nodeName as SHAPE_TYPE,
-      'haloShape',
-      s,
+    const shape = this.upsertShape(nodeName as SHAPE_TYPE, 'haloShape', s, {
+     model,
       shapeMap,
-      model,
-    );
+      diffData,
+      diffState,
+    });
     return shape;
   }
 
@@ -506,8 +513,12 @@ export abstract class BaseNode {
           ...commonStyle,
           ...style,
         } as GShapeStyle,
-        shapeMap,
-        model,
+        {
+          shapeMap,
+          model,
+          diffData,
+          diffState,
+        },
       );
     });
     return shapes;
@@ -687,8 +698,12 @@ export abstract class BaseNode {
           textBaseline: 'middle',
           zIndex: (zIndex as number) + 1,
         } as GShapeStyle,
-        shapeMap,
-        model,
+        {
+          shapeMap,
+          model,
+          diffData,
+          diffState,
+        },
       );
       const bbox = shapes[id].getLocalBounds();
 
@@ -711,8 +726,12 @@ export abstract class BaseNode {
           y: bbox.center[1] - bgHeight / 2,
           ...otherStyles,
         } as GShapeStyle,
-        shapeMap,
-        model,
+        {
+          shapeMap,
+          model,
+          diffData,
+          diffState,
+        },
       );
     });
 
@@ -765,15 +784,16 @@ export abstract class BaseNode {
     type: SHAPE_TYPE | SHAPE_TYPE_3D,
     id: string,
     style: ShapeStyle,
-    shapeMap: NodeShapeMap | ComboShapeMap,
-    model: NodeDisplayModel | ComboDisplayModel,
+    config: {
+      model: NodeDisplayModel | ComboDisplayModel;
+      shapeMap: NodeShapeMap | ComboShapeMap;
+      diffData?: {
+        previous: NodeModelData | ComboModelData;
+        current: NodeModelData | ComboModelData;
+      };
+      diffState?: { previous: State[]; current: State[] };
+    },
   ): DisplayObject {
-    return upsertShape(
-      type as SHAPE_TYPE,
-      id,
-      style as GShapeStyle,
-      shapeMap,
-      model,
-    );
+    return upsertShape(type as SHAPE_TYPE, id, style as GShapeStyle, config);
   }
 }

@@ -33,16 +33,26 @@ export class SphereNode extends BaseNode3D {
     let shapes: NodeShapeMap = { keyShape: undefined };
 
     // keyShape
-    shapes.keyShape = this.drawKeyShape(model, shapeMap, diffData);
+    shapes.keyShape = this.drawKeyShape(model, shapeMap, diffData, diffState);
 
     // haloShape
     if (data.haloShape && this.drawHaloShape) {
-      shapes.haloShape = this.drawHaloShape(model, shapeMap, diffData);
+      shapes.haloShape = this.drawHaloShape(
+        model,
+        shapeMap,
+        diffData,
+        diffState,
+      );
     }
 
     // labelShape
     if (data.labelShape) {
-      shapes.labelShape = this.drawLabelShape(model, shapeMap, diffData);
+      shapes.labelShape = this.drawLabelShape(
+        model,
+        shapeMap,
+        diffData,
+        diffState,
+      );
     }
 
     // labelBackgroundShape
@@ -51,12 +61,18 @@ export class SphereNode extends BaseNode3D {
         model,
         shapeMap,
         diffData,
+        diffState,
       );
     }
 
     // iconShape
     if (data.iconShape) {
-      shapes.iconShape = this.drawIconShape(model, shapeMap, diffData);
+      shapes.iconShape = this.drawIconShape(
+        model,
+        shapeMap,
+        diffData,
+        diffState,
+      );
     }
 
     // badgeShape
@@ -77,7 +93,7 @@ export class SphereNode extends BaseNode3D {
     if (data.otherShapes && this.drawOtherShapes) {
       shapes = {
         ...shapes,
-        ...this.drawOtherShapes(model, shapeMap, diffData),
+        ...this.drawOtherShapes(model, shapeMap, diffData, diffState),
       };
     }
     return shapes;
@@ -89,11 +105,11 @@ export class SphereNode extends BaseNode3D {
     diffData?: { previous: NodeModelData; current: NodeModelData },
     diffState?: { previous: State[]; current: State[] },
   ): DisplayObject {
-    return this.upsertShape(
-      'sphere',
-      'keyShape',
-      this.mergedStyles.keyShape,
+    return this.upsertShape('sphere', 'keyShape', this.mergedStyles.keyShape, {
+      model,
       shapeMap,
-    );
+      diffData,
+      diffState,
+    });
   }
 }

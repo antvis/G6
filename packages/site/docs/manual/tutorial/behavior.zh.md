@@ -18,11 +18,11 @@ G6 中的交互行为。G6 **内置**了一系列交互行为，用户可以直�
 - `drag-canvas`：拖拽画布；
 - `zoom-canvas`：缩放画布。
 
-更多详见：[交互行为 Behavior](https://g6-next.antv.antgroup.com/apis/behaviors/activate-relations-options)
+更多详见：[交互行为 Behavior](/apis/behaviors/activate-relations-options)
 
 ### 交互管理 Mode
 
-Mode 是 G6 交互行为的管理机制，一个 mode 是多种行为 Behavior 的组合，允许用户通过切换不同的模式进行交互行为的管理。由于该概念较为复杂，在本入门教程中，读者不需要对该机制深入理解。如有需求，参见 [交互模式 Mode](https://g6-next.antv.antgroup.com/apis/graph/i-graph)。
+Mode 是 G6 交互行为的管理机制，一个 mode 是多种行为 Behavior 的组合，允许用户通过切换不同的模式进行交互行为的管理。由于该概念较为复杂，在本入门教程中，读者不需要对该机制深入理解。如有需求，参见 [交互模式 Mode](/apis/graph/i-graph)。
 
 ### 交互状态 State
 
@@ -45,7 +45,7 @@ const Graph = extend(BaseGraph, {
 });
 ```
 
-所有的内置交互可以在 [交互行为 Behavior](https://g6-next.antv.antgroup.com/apis/behaviors/activate-relations-options) 查看，除了下面这戏鹅已经提前注册的交互，其他需要使用上面方式进行注册。
+所有的内置交互可以在 [交互行为 Behavior](/apis/behaviors/activate-relations-options) 查看，除了下面这戏鹅已经提前注册的交互，其他需要使用上面方式进行注册。
 
 ```javascript
 // 已提前注册的交互
@@ -70,7 +70,7 @@ const graph = new G6.Graph({
 });
 ```
 
-除了直接使用内置交互名称外，也可以为 Behavior 配置参数，例如放缩画布的敏感度、最大/最小放缩程度等，具体用法参见  [交互行为 Behavior](https://g6-next.antv.antgroup.com/apis/behaviors/zoom-canvas-options)。
+除了直接使用内置交互名称外，也可以为 Behavior 配置参数，例如放缩画布的敏感度、最大/最小放缩程度等，具体用法参见  [交互行为 Behavior](/apis/behaviors/zoom-canvas-options)。
 
 上面代码中的 `modes` 定义了 G6 的模式，`default` 是默认的模式，还可以允许有其他的模式，比如：编辑模式 `edit` 等。不同的模式，用户能进行的行为可以不同，比如默认模式能拖拽画布，编辑模式不允许拖拽画布：
 

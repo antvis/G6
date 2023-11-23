@@ -75,7 +75,12 @@ export class LoopEdge extends CubicEdge {
 
     this.upsertArrow('start', startArrow, others, model, lineStyle);
     this.upsertArrow('end', endArrow, others, model, lineStyle);
-    return this.upsertShape('path', 'keyShape', lineStyle, shapeMap, model);
+    return this.upsertShape('path', 'keyShape', lineStyle, {
+      model,
+      shapeMap,
+      diffData,
+      diffState,
+    });
   }
 
   private getPathPoints(

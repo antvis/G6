@@ -31,7 +31,7 @@ To support these new capabilities, there are significant Breaking Changes in G6 
 
 ### JSON Spec Definition
 
-[Specification Doc](https://g6-next.antv.antgroup.com/apis/graph/specification)
+[Specification Doc](/apis/graph/specification)
 
 In v5, we standardize the graphics of all nodes/edges/combos. Each type of element has several standardized graphic names. This standard should also be followed for custom elements. If there are additional graphics, they should be placed in otherShapes.
 
@@ -144,7 +144,7 @@ const graph = new Graph({
 
 ### Animation Configuration
 
-[Animation Configuration Demo](https://g6-next.antv.antgroup.com/en/examples/scatter/changePosition/#itemAnimates)
+[Animation Configuration Demo](/en/examples/scatter/changePosition/#itemAnimates)
 
 In v4, to set animations for nodes, you had to use custom nodes and configure them with the animation API of the graphics. It was also difficult to control when the animation starts and ends. In v5, animations can be defined using JSON spec. You can specify the animates field in the node / edge / combo field of the graph configuration as mentioned above:
 
@@ -219,7 +219,7 @@ update: [
 
 ## 2️⃣. Infomation Level of Detail
 
-[Info Level of Detail DEMO](https://g6-next.antv.antgroup.com/en/examples/feature/features/#lodLevels)
+[Info Level of Detail DEMO](/en/examples/feature/features/#lodLevels)
 
 Information layering can reduce visual distractions for complex graphs and display detailed information after zooming in. You can specify the lodLevels field in the `node` / `edge` / `combo` fields of the graph configuration introduced above, as shown in the code snippet below. The `levels` define the zoom levels at which information layering responds, and the `animateCfg` configuration specifies the animation method for the graph changes caused by information layering. Then, you need to configure the `lod` field in different graphic style configurations to specify at which level the graphic should be displayed in `levels`.
 
@@ -280,7 +280,7 @@ const graph = new Graph({
 
 ## 3️⃣. Theme Configuration
 
-[Theme Config DEMO](https://g6-next.antv.antgroup.com/en/examples/feature/features/#themeSwitch)
+[Theme Config DEMO](/en/examples/feature/features/#themeSwitch)
 
 G6 comes with built-in light and dark themes, and you can also customize them. The usage is as follows:
 
@@ -371,7 +371,7 @@ const graph = new ExtGraph({
 
 ## 5️⃣. Fusion of Tree Graph and Graph
 
-[Graph Data in Tree Layout DEMO](https://g6-next.antv.antgroup.com/en/examples/feature/features/#treeAndGraph)
+[Graph Data in Tree Layout DEMO](/en/examples/feature/features/#treeAndGraph)
 
 v5 introduces new features related to tree graphs:
 
@@ -396,7 +396,7 @@ The `data` field can provide data of type GraphData, so G6 will treat it as a no
 
 ## 6️⃣. 3D Large Graph
 
-[3D DEMO](https://g6-next.antv.antgroup.com/en/examples/feature/features/#webgl3d)
+[3D DEMO](/en/examples/feature/features/#webgl3d)
 
 <img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*31L_T5ERnzIAAAAAAAAAAAAADmJ7AQ/original" width=500 />
 
@@ -427,7 +427,7 @@ const graph = new ExtGraph({
 
 ## 7️⃣. Performance Leap & Multiple Renderers
 
-G6 supports 2D and 3D rendering using WebGL, which greatly improves rendering performance. Different renderers can be switched at runtime by configuring the renderer on the Graph [Renderer DEMO](https://g6-next.antv.antgroup.com/en/examples/feature/features/#lodLevels).
+G6 supports 2D and 3D rendering using WebGL, which greatly improves rendering performance. Different renderers can be switched at runtime by configuring the renderer on the Graph [Renderer DEMO](/en/examples/feature/features/#lodLevels).
 
 ```typescript
 const graph = new Graph({
@@ -436,7 +436,7 @@ const graph = new Graph({
 });
 ```
 
-In addition, the layout package of G6, @antv/layout, supports WASM computation. To use this feature, you need to import the specific layout algorithm from the @antv/layout-wasm package and register it with Graph using extend, and then you can use it. [WASM Layout DEMO](https://g6-next.antv.antgroup.com/en/examples/feature/features/#wasmLayouts).
+In addition, the layout package of G6, @antv/layout, supports WASM computation. To use this feature, you need to import the specific layout algorithm from the @antv/layout-wasm package and register it with Graph using extend, and then you can use it. [WASM Layout DEMO](/en/examples/feature/features/#wasmLayouts).
 
 ```typescript
 import { ForceLayout as ForceLayoutWASM, supportsThreads, initThreads } from '@antv/layout-wasm';

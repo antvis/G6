@@ -51,7 +51,7 @@ const graph = new Graph({
 
 ## tooltip 节点提示框
 
-节点提示框可以用在边的详细信息的展示。当鼠标滑过节点时，显示一个浮层告知节点的详细信息。更多配置参见 [Tooltip 插件](https://g6-next.antv.antgroup.com/apis/plugins/tooltip-config)。
+节点提示框可以用在边的详细信息的展示。当鼠标滑过节点时，显示一个浮层告知节点的详细信息。更多配置参见 [Tooltip 插件](/apis/plugins/tooltip-config)。
 
 **预期效果**
 

@@ -195,8 +195,14 @@ export abstract class BaseNode3D extends BaseNode {
     type: SHAPE_TYPE_3D | SHAPE_TYPE,
     id: string,
     style: ShapeStyle,
-    shapeMap: { [shapeId: string]: DisplayObject },
+    config: {
+      model: NodeDisplayModel;
+      shapeMap: NodeShapeMap;
+      diffData?: { previous: NodeModelData; current: NodeModelData };
+      diffState?: { previous: State[]; current: State[] };
+    },
   ): DisplayObject {
+    const { shapeMap } = config;
     return upsertShape3D(type, id, style as GShapeStyle, shapeMap, this.device);
   }
 

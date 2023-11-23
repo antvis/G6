@@ -297,7 +297,12 @@ export abstract class BaseEdge {
       ...otherStyle,
     };
     this.transformCache.labelShapeTransform = style.transform;
-    return this.upsertShape('text', 'labelShape', style, shapeMap, model);
+    return this.upsertShape('text', 'labelShape', style, {
+      model,
+      shapeMap,
+      diffData,
+      diffState,
+    });
   }
 
   /**
@@ -356,13 +361,12 @@ export abstract class BaseEdge {
       }`;
     }
 
-    return this.upsertShape(
-      'rect',
-      'labelBackgroundShape',
-      bgStyle,
-      shapeMap,
+    return this.upsertShape('rect', 'labelBackgroundShape', bgStyle, {
       model,
-    );
+      shapeMap,
+      diffData,
+      diffState,
+    });
   }
 
   /**
@@ -448,8 +452,12 @@ export abstract class BaseEdge {
       iconShapeType,
       'iconShape',
       shapeStyle as GShapeStyle,
-      shapeMap,
-      model,
+      {
+        model,
+        shapeMap,
+        diffData,
+        diffState,
+      },
     );
   }
 
@@ -479,8 +487,12 @@ export abstract class BaseEdge {
         stroke: attributes.stroke,
         ...haloShapeStyle,
       },
-      shapeMap,
-      model,
+      {
+        model,
+        shapeMap,
+        diffData,
+        diffState,
+      },
     );
   }
 
@@ -571,8 +583,10 @@ export abstract class BaseEdge {
         transformOrigin: 'center',
         ...others,
       },
-      {},
-      model,
+      {
+        model,
+        shapeMap: {},
+      },
     );
     resultStyle[`${markerField}Offset`] = width / 2 + offset;
   }
@@ -590,9 +604,13 @@ export abstract class BaseEdge {
     type: SHAPE_TYPE,
     id: string,
     style: ShapeStyle,
-    shapeMap: { [shapeId: string]: DisplayObject },
-    model: EdgeDisplayModel,
+    config: {
+      model: EdgeDisplayModel;
+      shapeMap?: EdgeShapeMap;
+      diffData?: { previous: EdgeModelData; current: EdgeModelData };
+      diffState?: { previous: State[]; current: State[] };
+    },
   ): DisplayObject {
-    return upsertShape(type, id, style as GShapeStyle, shapeMap, model);
+    return upsertShape(type, id, style as GShapeStyle, config);
   }
 }

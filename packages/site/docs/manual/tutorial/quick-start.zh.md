@@ -143,7 +143,7 @@ export default () => {
 
 ## 更多
 
-本章介绍了如何安装以及最简单的场景，在 [G6 Tutorial 入门教程](https://g6-next.antv.antgroup.com/manual/tutorial/preface) 中其他的章节中您将学习到：
+本章介绍了如何安装以及最简单的场景，在 [G6 Tutorial 入门教程](/manual/tutorial/preface) 中其他的章节中您将学习到：
 
 - 实例化配置
 - 如何设置元素属性、样式

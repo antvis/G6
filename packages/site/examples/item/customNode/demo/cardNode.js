@@ -25,8 +25,12 @@ class CardNode extends Extensions.RectNode {
         'rect',
         'titleBox',
         { x: 0, y: 0, width: 200, height: 20, fill: color, radius: [r, r, 0, 0] },
-        shapeMap,
-        model,
+        {
+          model,
+          shapeMap,
+          diffData,
+          diffState,
+        },
       ),
       // left icon
       nodeIcon: this.upsertShape(
@@ -40,8 +44,12 @@ class CardNode extends Extensions.RectNode {
           cursor: 'pointer',
           img: ICON_MAP[data.nodeType],
         },
-        shapeMap,
-        model,
+        {
+          model,
+          shapeMap,
+          diffData,
+          diffState,
+        },
       ),
       // title text
       title: this.upsertShape(
@@ -56,8 +64,12 @@ class CardNode extends Extensions.RectNode {
           fill: '#fff',
           fontSize: 12,
         },
-        shapeMap,
-        model,
+        {
+          model,
+          shapeMap,
+          diffData,
+          diffState,
+        },
       ),
     };
 
@@ -74,7 +86,12 @@ class CardNode extends Extensions.RectNode {
             ? stdLib.markers.expand(keyShapeBBox.max[0], keyShapeBBox.center[1], 6)
             : stdLib.markers.collapse(keyShapeBBox.max[0], keyShapeBBox.center[1], 6),
         },
-        shapeMap,
+        {
+          model,
+          shapeMap,
+          diffData,
+          diffState,
+        },
       );
     }
 
@@ -92,8 +109,12 @@ class CardNode extends Extensions.RectNode {
           fill: 'rgba(0,0,0,0.4)',
           fontSize: 12,
         },
-        shapeMap,
-        model,
+        {
+          model,
+          shapeMap,
+          diffData,
+          diffState,
+        },
       );
       otherShapes[`panel-value-${index}`] = this.upsertShape(
         'text',
@@ -107,8 +128,12 @@ class CardNode extends Extensions.RectNode {
           fill: '#595959',
           fontSize: 12,
         },
-        shapeMap,
-        model,
+        {
+          model,
+          shapeMap,
+          diffData,
+          diffState,
+        },
       );
     });
 

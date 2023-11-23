@@ -7,7 +7,12 @@ const graph = new G6.Graph({
   container: 'container',
   width,
   height,
-  transforms: ['transform-v4-data'],
+  transforms: [
+    {
+      type: 'transform-v4-data',
+      activeLifecycle: ['read'],
+    },
+  ],
   layout: {
     type: 'force',
     preventOverlap: true,

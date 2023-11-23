@@ -13,7 +13,7 @@ In this chapter, we have already drawn the graph of the **Tutorial example**, bu
 
 ### Graph Items
 
-Graph items refer to the **nodes** `Node`, **edges** `Edge`, and _node groups_ `Combo` on the graph. G6 provides a series of [built-in nodes](https://g6-next.antv.antgroup.com/en/examples#item-defaultNodes) for users to choose from.
+Graph items refer to the **nodes** `Node`, **edges** `Edge`, and _node groups_ `Combo` on the graph. G6 provides a series of [built-in nodes](/en/examples#item-defaultNodes) for users to choose from.
 
 ## Element Properties
 

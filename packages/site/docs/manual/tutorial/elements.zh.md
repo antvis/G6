@@ -13,7 +13,7 @@ order: 2
 
 ### 图的元素
 
-图的元素特指图上的**节点** `Node` 、**边** `Edge` 和**节点分组** `Combo`。G6 内置了一系列 [内置的节点](https://g6-next.antv.antgroup.com/examples#item-defaultNodes)，供用户自由选择。
+图的元素特指图上的**节点** `Node` 、**边** `Edge` 和**节点分组** `Combo`。G6 内置了一系列 [内置的节点](/examples#item-defaultNodes)，供用户自由选择。
 
 ## 元素的属性
 
