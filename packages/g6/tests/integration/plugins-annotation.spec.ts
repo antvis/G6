@@ -48,6 +48,7 @@ async function process({
   graph.on('afterlayout', async () => {
     const plugin = graph.pluginController.getPlugin('annotation') as Annotation;
 
+    // graph是否正常绘制
     if (renderType === 'canvas')
       await expect(context.canvas).toMatchCanvasSnapshot(
         dir,
@@ -60,8 +61,8 @@ async function process({
       );
 
     const nodes = graph.getAllNodesData();
-    const activeNodes = nodes.slice(0, 10);
-    activeNodes.forEach((n) => {
+    const selectNodes = nodes.slice(0, 10);
+    selectNodes.forEach((n) => {
       graph.emit('node:click', {
         itemId: n.id,
         itemType: 'node',
@@ -71,11 +72,17 @@ async function process({
     const annotationWrappers = document.querySelectorAll<HTMLElement>(
       '.g6-annotation-wrapper',
     );
-    expect(annotationWrappers.length).toBe(activeNodes.length);
+
+    // 打开多个card，是否正常渲染card和连线 
+    await sleep(500);
+    const cardList = Object.values(plugin.cardInfoMap)
+    expect(cardList.length).toBe(selectNodes.length);
+    expect(cardList.map(card => card.link).filter(Boolean).length).toBe(selectNodes.length)
 
     const cardEl = annotationWrappers[0];
-    const cardId = activeNodes[0].id;
+    const cardId = selectNodes[0].id;
 
+    // 进入、退出编辑模式
     plugin.editCard(cardId, { position: 'title', value: 'newTitle' });
     plugin.editCard(cardId, { position: 'content', value: 'newContent' });
     await sleep(500);
@@ -96,17 +103,20 @@ async function process({
     expect(cardEl.querySelector('.g6-annotation-title')).not.toBe(undefined);
     expect(cardEl.querySelector('.g6-annotation-content')).not.toBe(undefined);
 
+    // 移动card
     plugin.moveCard(cardId, 20, 20);
     await sleep(500);
     let style = getComputedStyle(cardEl);
     expect(style.left).toBe('20px');
     expect(style.top).toBe('20px');
 
+    // 隐藏card
     plugin.hideCard(cardId);
     await sleep(1000);
     style = getComputedStyle(cardEl);
     expect(style.display).toBe('none');
 
+    // 显示card
     plugin.showCard(cardId);
     await sleep(1000);
     style = getComputedStyle(cardEl);
