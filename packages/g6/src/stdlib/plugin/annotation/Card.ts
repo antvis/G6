@@ -25,6 +25,7 @@ export interface CardCfg {
   visible?: boolean;
   /** Does the card initially collapse, default to false */
   collapsed?: boolean;
+  editable?: boolean;
   /** Specify the location and viewport coordinate system Only effective if there is no containerCfg */
   x?: number;
   y?: number;
@@ -172,6 +173,17 @@ export default class Card {
     if (!cfg.visible) {
       this.hide();
     }
+
+    // init edit
+    this.setEditable();
+    if (this.cfg.editable) {
+        if (this.cfg.focusEditOnInit === true) {
+            this.edit('title')?.focus();
+            this.edit('content');
+        } else if (this.cfg.focusEditOnInit) {
+            this.edit(this.cfg.focusEditOnInit)?.focus();
+        }
+    }
   }
   renderCard() {
     const {
@@ -191,7 +203,7 @@ export default class Card {
     wrapper.setAttribute('style', `max-width: ${maxWidth}px`);
 
     const headerWrapper = document.createElement('div');
-    headerWrapper.setAttribute('class', 'g6-annotation-header-wapper');
+    headerWrapper.setAttribute('class', 'g6-annotation-header-wrapper');
 
     const titleEl = this.renderTitle({ title });
 
@@ -295,16 +307,17 @@ export default class Card {
         onClickIcon?.(e, itemId, 'close');
       }
     });
+
     // dblclick to edit the title and content text
-    const { editable, cardCfg } = plugin.options;
-    if (editable) {
-      card.addEventListener('dblclick', (e) => {
+    card.addEventListener('dblclick', (e) => {
+        if (!this.cfg.editable) return;
         const editPosition = getPositionByEl(e.target as HTMLElement);
         if (editPosition) {
           this.edit(getPositionByEl(e.target as HTMLElement))?.focus();
         }
       });
       card.addEventListener('keydown', async (e) => {
+        if (!this.cfg.editable) return;
         if (e.code !== 'Enter') return;
 
         const editPosition = getPositionByEl(e.target as HTMLElement);
@@ -316,15 +329,6 @@ export default class Card {
         }
         this.edit(editPosition)?.focus();
       });
-
-      // init edit
-      if (cardCfg?.focusEditOnInit === true) {
-        this.edit('title')?.focus();
-        this.edit('content');
-      } else if (cardCfg?.focusEditOnInit) {
-        this.edit(cardCfg?.focusEditOnInit)?.focus();
-      }
-    }
 
     const unmovableClasses = [
       'g6-annotation-title',
@@ -464,6 +468,19 @@ export default class Card {
       );
     }
   }
+
+    setEditable(editable = this.plugin.options.editable) {
+        const card = this.$el
+        const classList = card.classList
+        const className = 'g6-annotation-wrapper-editable';
+    
+        if (editable) {
+            classList.add(className);
+        } else {
+            classList.remove(className);
+        }
+        this.cfg.editable = editable
+    }
 
   edit(
     position: EditPosition,

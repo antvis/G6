@@ -411,6 +411,7 @@ export class Annotation extends Base {
       titlePlaceholder,
       content: contentData,
       contentPlaceholder,
+      editable: this.options.editable ?? true,
     });
 
     const exist = !!cardInfo;

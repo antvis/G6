@@ -23,7 +23,7 @@ export function insertCSS() {
             background-color: rgba(255,255,255, 0.8);
             z-index: 10;
         }
-        .g6-annotation-wrapper-collapsed .g6-annotation-header-wapper {
+        .g6-annotation-wrapper-collapsed .g6-annotation-header-wrapper {
             border-radius: inherit;
         }
         .g6-annotation-wrapper-collapsed .g6-annotation-content {
@@ -33,11 +33,11 @@ export function insertCSS() {
             display: none;
         }
         
-        .g6-annotation-wrapper-move .g6-annotation-header-wapper {
+        .g6-annotation-wrapper-move .g6-annotation-header-wrapper {
             background-color: rgb(91,143,249, 0.8);
         }
 
-        .g6-annotation-header-wapper {
+        .g6-annotation-header-wrapper {
             padding: 4px;
             background-color: rgb(91,143,249);
             display: inline-flex;
@@ -73,7 +73,13 @@ export function insertCSS() {
             overflow: auto;
             white-space: pre-wrap;
             font-size: 14px;
+            flex: 1 1 auto;
         }
+
+        .g6-annotation-wrapper-editable .g6-annotation-title:focus, .g6-annotation-wrapper-editable .g6-annotation-content:focus {
+            outline: 2px dashed #ccc;
+        }
+
         .g6-annotation-title-input-wrapper {
             margin: 0 10px 0 0;
             flex: 1 1 auto;
