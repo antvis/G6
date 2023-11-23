@@ -14,7 +14,7 @@ insertCSS();
 interface AnnotationConfig extends IPluginBaseConfig {
   trigger?: 'click' | 'fix';
   /**
-   * Set the parent element of the card. 
+   * Set the parent element of the card.
    * When there is no containerCfg, the container of the graph will be used as the parent element;
    */
   containerCfg?: {
@@ -44,30 +44,33 @@ interface AnnotationConfig extends IPluginBaseConfig {
   linkHighlightStyle?: PathStyleProps;
   /**
    * Returns the title of the card. When getTitle returns empty, the return of getTitlePlaceholder will be used as the title
-   * @param item 
+   * @param item
    */
   getTitle?(item): string;
   /**
    * Returns the content of the card. When getTitle returns empty, the return of getContentPlaceholder will be used as the content
-   * @param item 
+   * @param item
    */
   getContent?(item): string;
   /**
    * Return the placeholder of the title of the card
-   * @param item 
+   * @param item
    */
   getTitlePlaceholder?(item): string;
   /**
    * Return the placeholder of the content of the card
-   * @param item 
+   * @param item
    */
   getContentPlaceholder?(item): string;
   /**
    * Triggered when annotation changes
-   * @param cardInfo 
-   * @param action 
+   * @param cardInfo
+   * @param action
    */
-  onAnnotationChange?(cardInfo: Card, action: 'create' | 'update' | 'show' | 'hide' | 'remove'): void;
+  onAnnotationChange?(
+    cardInfo: Card,
+    action: 'create' | 'update' | 'show' | 'hide' | 'remove',
+  ): void;
 }
 
 interface CardInfoMap {
@@ -86,7 +89,7 @@ export class Annotation extends Base {
     card: HTMLElement;
   };
 
-  cardInfoMap: CardInfoMap = {}
+  cardInfoMap: CardInfoMap = {};
 
   constructor(config?: AnnotationConfig) {
     super(config);
@@ -278,7 +281,7 @@ export class Annotation extends Base {
   resizeTimer?: number;
   private resizeCanvas() {
     // 仅在 resize 完成后进行调整
-    console.log(this)
+    console.log(this);
     clearTimeout(this.resizeTimer);
     this.resizeTimer = window.setTimeout(() => {
       if (!this || this.destroyed) return;
@@ -346,13 +349,13 @@ export class Annotation extends Base {
   public showAnnotation(evt: IG6GraphEvent) {
     if (this.destroyed) return;
     const item = this.graph.itemController.getItemById(evt.itemId);
-    const id = item.getID()
+    const id = item.getID();
     if (this.cardInfoMap[id]) {
-      this.showCard(id)
+      this.showCard(id);
     } else {
       this.toggleAnnotation(item);
     }
-    this.focusCard(id)
+    this.focusCard(id);
   }
 
   public hideCards() {
@@ -368,7 +371,7 @@ export class Annotation extends Base {
     const graph = this.graph;
     const container = this.container;
     const containerCfg = this.options.containerCfg;
-    const mixedCardCfg = Object.assign({}, this.options.cardCfg, cfg)
+    const mixedCardCfg = Object.assign({}, this.options.cardCfg, cfg);
     const {
       collapsed = false,
       title: propsTitle,
@@ -412,17 +415,17 @@ export class Annotation extends Base {
 
     const exist = !!cardInfo;
     if (exist) {
-      cardInfo.destroy()
+      cardInfo.destroy();
     }
 
     cardInfoMap[itemId] = newCard;
 
-    const cardBBox = newCard.$el.getBoundingClientRect()
+    const cardBBox = newCard.$el.getBoundingClientRect();
     if (containerCfg) {
       this.updateCardPositionsInContainer();
       this.updateLinks();
     } else {
-      const containerBBox = container.getBoundingClientRect()
+      const containerBBox = container.getBoundingClientRect();
       const hasPropsPosition =
         isNumber(mixedCardCfg.x) &&
         !Number.isNaN(mixedCardCfg.x) &&
@@ -435,19 +438,22 @@ export class Annotation extends Base {
         rows[rows.length - 1].push({
           id: itemId,
           get bbox() {
-            return newCard.$el.getBoundingClientRect()
-          }
+            return newCard.$el.getBoundingClientRect();
+          },
         });
         if (
           cardBBox.top >
           containerBottom - containerTop - cardBBox.height - 16
         )
-        rows.push([]);
+          rows.push([]);
         this.options.rows = rows;
       }
     }
 
-    this.options.onAnnotationChange?.(cardInfoMap[itemId], exist ? 'update' : 'create');
+    this.options.onAnnotationChange?.(
+      cardInfoMap[itemId],
+      exist ? 'update' : 'create',
+    );
   }
 
   public updateCardPositionsInContainer() {
@@ -482,10 +488,10 @@ export class Annotation extends Base {
       }
     });
   }
-  
+
   public showCard(id) {
     if (this.destroyed) return;
-    const cardInfo = this.cardInfoMap[id]
+    const cardInfo = this.cardInfoMap[id];
     if (!cardInfo) return;
     cardInfo.show();
     this.options.onAnnotationChange?.(cardInfo, 'show');
@@ -494,15 +500,15 @@ export class Annotation extends Base {
   public focusCard(id) {
     this.cardInfoMap[id]?.focus();
 
-    Object.keys(this.cardInfoMap).forEach(cardId => {
+    Object.keys(this.cardInfoMap).forEach((cardId) => {
       if (cardId !== id) {
-        this.blurCard(cardId)
+        this.blurCard(cardId);
       }
-    })
+    });
   }
 
   public blurCard(id) {
-    this.cardInfoMap[id]?.blur()
+    this.cardInfoMap[id]?.blur();
   }
 
   /**
@@ -512,26 +518,26 @@ export class Annotation extends Base {
    */
   public hideCard(id) {
     if (this.destroyed) return;
-    const cardInfo = this.cardInfoMap[id]
+    const cardInfo = this.cardInfoMap[id];
     if (!cardInfo) return;
-    cardInfo.hide()
+    cardInfo.hide();
     this.options.onAnnotationChange?.(cardInfo, 'hide');
   }
 
   public editCard(id, options?: { position?: EditPosition; value?: any }) {
     if (this.destroyed) return;
-    
-    return this.cardInfoMap[id].edit(options?.position, options)
+
+    return this.cardInfoMap[id].edit(options?.position, options);
   }
 
-  public exitEditCard(id, options?: { position?: EditPosition; }) {
+  public exitEditCard(id, options?: { position?: EditPosition }) {
     if (this.destroyed) return;
-    
-    return this.cardInfoMap[id].exitEdit(options?.position)
+
+    return this.cardInfoMap[id].exitEdit(options?.position);
   }
 
   public moveCard(id, x: number, y: number) {
-    return this.cardInfoMap[id].move(x, y)
+    return this.cardInfoMap[id].move(x, y);
   }
 
   /**
@@ -547,7 +553,7 @@ export class Annotation extends Base {
     delete cardInfo[id];
     this.options.onAnnotationChange?.(cardInfo, 'remove');
   }
-  
+
   public updateLink({ item }) {
     if (!item) return;
     const cardInfoMap: CardInfoMap = this.cardInfoMap;
@@ -582,12 +588,13 @@ export class Annotation extends Base {
     if (!cardInfoMap) return;
     const graph = this.graph;
     Object.values(cardInfoMap).forEach((info) => {
-      if (!info.$el || info.isCanvas || info.$el.style.display === 'none') return;
-      const item = info.item
+      if (!info.$el || info.isCanvas || info.$el.style.display === 'none')
+        return;
+      const item = info.item;
       if (item && item.isVisible()) {
         this.toggleAnnotation(item);
       } else {
-        info.hide()
+        info.hide();
       }
     });
   }
@@ -609,7 +616,7 @@ export class Annotation extends Base {
     const getContent = this.options.getContent;
     const data: AnnotationData = [];
     Object.values(cardInfoMap).forEach((info) => {
-      const card = info.$el
+      const card = info.$el;
       const { title, content, x, y, id, collapsed } = info.cfg;
       if (card && card.style.display === 'none' && !saveClosed) return;
       const item = graph.itemController.getItemById(id) || graph.options.canvas;
@@ -650,7 +657,7 @@ export class Annotation extends Base {
     const cardInfoMap: CardInfoMap = this.cardInfoMap;
     if (!cardInfoMap) return;
     Object.values(cardInfoMap).forEach((cardInfo) => {
-      cardInfo.destroy()
+      cardInfo.destroy();
     });
     this.cardInfoMap = {};
   }

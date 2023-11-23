@@ -36,7 +36,7 @@ export default (context: TestCaseContext) => {
     ],
   };
 
-  const graph = ((globalThis as any).__graph = new ExtGraph({
+  const graph = new ExtGraph({
     ...context,
     layout: {
       type: 'grid',
@@ -54,7 +54,7 @@ export default (context: TestCaseContext) => {
         type: 'annotation',
         key: 'annotation',
         containerCfg: {
-            className: 'test'
+          className: 'test',
         },
         cardCfg: {
           focusEditOnInit: 'content',
@@ -62,7 +62,7 @@ export default (context: TestCaseContext) => {
       },
     ],
     data: graphData,
-  }));
+  });
 
   return graph;
 };
