@@ -95,6 +95,7 @@ const findAnimateFields = (
     diffState || {};
   const states = previousState.concat(currentState);
   animates[timing].forEach(
+    // @ts-ignore
     ({ fields, shapeId: animateShapeId, states: animateStates = [] }) => {
       if (
         isArrayOverlap(
@@ -137,7 +138,7 @@ export const upsertShape = (
   style: GShapeStyle,
   config: {
     model?: NodeDisplayModel | EdgeDisplayModel | ComboDisplayModel;
-    shapeMap: NodeShapeMap | EdgeShapeMap | ComboShapeMap;
+    shapeMap?: { [k: string]: DisplayObject<any, any> };
     diffData?: {
       previous: NodeModelData | EdgeModelData | ComboModelData;
       current: NodeModelData | EdgeModelData | ComboModelData;

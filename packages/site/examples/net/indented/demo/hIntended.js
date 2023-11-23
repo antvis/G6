@@ -18,11 +18,11 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.j
       width,
       height,
       transforms: [
-    {
-      type: 'transform-v4-data',
-      activeLifecycle: ['read'],
-    },
-  ],
+        {
+          type: 'transform-v4-data',
+          activeLifecycle: ['read'],
+        },
+      ],
       modes: {
         default: ['drag-canvas', 'zoom-canvas', 'drag-node', 'collapse-expand-tree'],
       },

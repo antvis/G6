@@ -14,7 +14,7 @@ class CustomPolyline extends Extensions.LineEdge {
     ];
   }
 
-  drawKeyShape(model, sourcePoint, targetPoint, shapeMap, diffData) {
+  drawKeyShape(model, sourcePoint, targetPoint, shapeMap, diffData, diffState) {
     const { keyShape: keyShapeStyle } = this.mergedStyles;
     const { startArrow, endArrow, ...others } = keyShapeStyle;
     const lineStyle = {
@@ -24,7 +24,12 @@ class CustomPolyline extends Extensions.LineEdge {
     };
     this.upsertArrow('start', startArrow, others, model, lineStyle);
     this.upsertArrow('end', endArrow, others, model, lineStyle);
-    return this.upsertShape('path', 'keyShape', lineStyle, shapeMap, model);
+    return this.upsertShape('path', 'keyShape', lineStyle, {
+      model,
+      shapeMap,
+      diffData,
+      diffState,
+    });
   }
 }
 

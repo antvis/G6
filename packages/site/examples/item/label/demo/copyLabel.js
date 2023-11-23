@@ -33,8 +33,12 @@ class CopyNode extends Extensions.RectNode {
           lineWidth: 1.5,
           radius: 4,
         },
-        shapeMap,
-        model,
+        {
+          model,
+          shapeMap,
+          diffData,
+          diffState,
+        },
       ),
       topText: this.upsertShape(
         'text',
@@ -54,7 +58,12 @@ class CopyNode extends Extensions.RectNode {
           textOverflow: 'ellipsis',
           maxLines: 1,
         },
-        shapeMap,
+        {
+          model,
+          shapeMap,
+          diffData,
+          diffState,
+        },
         model,
       ),
       topImage: this.upsertShape(
@@ -69,8 +78,12 @@ class CopyNode extends Extensions.RectNode {
           opacity: cfg.isTopTextEllipsis ? 0 : 1,
           cursor: 'pointer',
         },
-        shapeMap,
-        model,
+        {
+          model,
+          shapeMap,
+          diffData,
+          diffState,
+        },
       ),
     };
 
@@ -93,8 +106,12 @@ class CopyNode extends Extensions.RectNode {
           textOverflow: 'ellipsis',
           maxLines: 1,
         },
-        shapeMap,
-        model,
+        {
+          model,
+          shapeMap,
+          diffData,
+          diffState,
+        },
       ),
       bottomImage: this.upsertShape(
         'image',
@@ -108,8 +125,12 @@ class CopyNode extends Extensions.RectNode {
           opacity: cfg.isBottomTextEllipsis ? 0 : 1,
           cursor: 'pointer',
         },
-        shapeMap,
-        model,
+        {
+          model,
+          shapeMap,
+          diffData,
+          diffState,
+        },
       ),
     };
 
@@ -233,7 +254,6 @@ graph.on('node:click', (event) => {
 graph.on('node:pointerleave', (event) => {
   resetTextEllipsis();
 });
-
 
 if (typeof window !== 'undefined')
   window.onresize = () => {

@@ -4,7 +4,6 @@ const { CubicEdge } = Extensions;
 class CustomEdge extends CubicEdge {
   afterDraw(model, shapeMap, shapesChanged) {
     const { keyShape } = shapeMap;
-    console.log('model.data', model.data);
     const { visible, ...otherStyles } = model.data?.otherShapes?.buShape || {};
     if (visible) {
       return {
@@ -20,8 +19,10 @@ class CustomEdge extends CubicEdge {
             zIndex: 1,
             ...otherStyles, // merged style from mappers and states
           },
-          shapeMap,
-          model,
+          {
+            model,
+            shapeMap,
+          },
         ),
       };
     } else {

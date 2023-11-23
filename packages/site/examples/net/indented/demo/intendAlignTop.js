@@ -8,7 +8,7 @@ class CustomNode extends Extensions.CircleNode {
   defaultStyles = {
     keyShape: {},
   };
-  drawKeyShape(model, shapeMap, diffData) {
+  drawKeyShape(model, shapeMap, diffData, diffState) {
     const { keyShape: keyShapeStyle } = model.data;
     return this.upsertShape(
       'rect',
@@ -26,10 +26,15 @@ class CustomNode extends Extensions.CircleNode {
         fill: '#fff',
         opacity: 1,
       },
-      shapeMap,
+      {
+        model,
+        shapeMap,
+        diffData,
+        diffState,
+      },
     );
   }
-  drawLabelShape(model, shapeMap, diffData) {
+  drawLabelShape(model, shapeMap, diffData, diffState) {
     const { labelShape: propsLabelStyle } = model.data;
     return this.upsertShape(
       'text',
@@ -49,10 +54,15 @@ class CustomNode extends Extensions.CircleNode {
         textOverflow: 'ellipsis',
         wordWrapWidth: 180,
       },
-      shapeMap,
+      {
+        model,
+        shapeMap,
+        diffData,
+        diffState,
+      },
     );
   }
-  drawOtherShapes(model, shapeMap, diffData) {
+  drawOtherShapes(model, shapeMap, diffData, diffState) {
     const { childrenIds, collapsed } = model.data;
     const bbox = shapeMap.keyShape.getRenderBounds();
     const otherShapes = {
@@ -67,7 +77,12 @@ class CustomNode extends Extensions.CircleNode {
           fill: '#4089FF',
           radius: [4, 4, 0, 0],
         },
-        shapeMap,
+        {
+          model,
+          shapeMap,
+          diffData,
+          diffState,
+        },
       ),
       descriptionShape: this.upsertShape(
         'text',
@@ -81,7 +96,12 @@ class CustomNode extends Extensions.CircleNode {
           fill: 'rgba(0,0,0, 1)',
           zIndex: 10,
         },
-        shapeMap,
+        {
+          model,
+          shapeMap,
+          diffData,
+          diffState,
+        },
       ),
     };
     if (childrenIds?.length) {
@@ -97,7 +117,12 @@ class CustomNode extends Extensions.CircleNode {
             ? stdLib.markers.expand(bbox.max[0], bbox.center[1], 6)
             : stdLib.markers.collapse(bbox.max[0], bbox.center[1], 6),
         },
-        shapeMap,
+        {
+          model,
+          shapeMap,
+          diffData,
+          diffState,
+        },
       );
     }
     return otherShapes;
@@ -122,11 +147,11 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.j
       width,
       height,
       transforms: [
-    {
-      type: 'transform-v4-data',
-      activeLifecycle: ['read'],
-    },
-  ],
+        {
+          type: 'transform-v4-data',
+          activeLifecycle: ['read'],
+        },
+      ],
       modes: {
         default: ['drag-canvas', 'zoom-canvas', 'drag-node', 'collapse-expand-tree'],
       },

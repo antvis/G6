@@ -106,11 +106,11 @@ export class CubeNode extends BaseNode3D {
     diffData?: { previous: NodeModelData; current: NodeModelData },
     diffState?: { previous: State[]; current: State[] },
   ): DisplayObject {
-    return this.upsertShape(
-      'cube',
-      'keyShape',
-      this.mergedStyles.keyShape,
+    return this.upsertShape('cube', 'keyShape', this.mergedStyles.keyShape, {
+      model,
       shapeMap,
-    );
+      diffData,
+      diffState,
+    });
   }
 }

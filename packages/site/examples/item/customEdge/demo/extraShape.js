@@ -20,8 +20,10 @@ class CustomEdge extends Extensions.CubicEdge {
         fill: data.midShapeColor,
         ...model.data?.otherShapes?.midShape, // merged style from mappers and states
       },
-      shapeMap,
-      model,
+      {
+        model,
+        shapeMap,
+      },
     );
     // get the coordinate of the quatile on the path
     // 获取路径上的四分位点坐标
@@ -39,8 +41,10 @@ class CustomEdge extends Extensions.CubicEdge {
         fill: data.quatileShapeColor,
         ...model.data?.otherShapes?.quatileShape, // merged style from mappers and states
       },
-      shapeMap,
-      model,
+      {
+        model,
+        shapeMap,
+      },
     );
     return shapeMap;
   }

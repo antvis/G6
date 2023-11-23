@@ -606,7 +606,7 @@ export abstract class BaseEdge {
     style: ShapeStyle,
     config: {
       model: EdgeDisplayModel;
-      shapeMap?: EdgeShapeMap;
+      shapeMap?: { [k: string]: DisplayObject<any, any>; };
       diffData?: { previous: EdgeModelData; current: EdgeModelData };
       diffState?: { previous: State[]; current: State[] };
     },

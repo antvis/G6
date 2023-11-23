@@ -107,7 +107,12 @@ export abstract class BaseNode3D extends BaseNode {
       ...otherStyle,
     };
 
-    return this.upsertShape('text', 'labelShape', style, shapeMap);
+    return this.upsertShape('text', 'labelShape', style, {
+      model,
+      shapeMap,
+      diffData,
+      diffState,
+    });
   }
 
   /**
@@ -146,7 +151,12 @@ export abstract class BaseNode3D extends BaseNode {
         stroke: attributes.fill,
         ...haloShapeStyle,
       },
-      shapeMap,
+      {
+        model,
+        shapeMap,
+        diffData,
+        diffState,
+      },
     );
   }
 
