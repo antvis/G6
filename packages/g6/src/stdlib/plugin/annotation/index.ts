@@ -62,7 +62,12 @@ interface AnnotationConfig extends IPluginBaseConfig {
    * @param item 
    */
   getContentPlaceholder?(item): string;
-  onAnnotationChange?: (info: any, action: string) => void;
+  /**
+   * Triggered when annotation changes
+   * @param cardInfo 
+   * @param action 
+   */
+  onAnnotationChange?(cardInfo: Card, action: 'create' | 'update' | 'show' | 'hide' | 'remove'): void;
 }
 
 interface CardInfoMap {
@@ -96,7 +101,7 @@ export class Annotation extends Base {
         shadowBlur: 10,
       },
       getTitlePlaceholder() {
-        return '按 ↩ 保存';
+        return '按 ↩ 保存'; // TODO: i18n
       },
       getContentPlaceholder(item) {
         return '按 ↩ 保存，按 Shift + ↩ 换行';

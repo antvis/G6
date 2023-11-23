@@ -377,7 +377,7 @@ export default class Card {
                         }
                     });
 
-                    plugin.options.onAnnotationChange?.(this.cfg, 'update');
+                    plugin.options.onAnnotationChange?.(this, 'update');
                 },
                 { once: true },
             );
@@ -496,7 +496,7 @@ export default class Card {
             if (autoFocus) {
                 newEl.focus();
             }
-            plugin.options.onAnnotationChange?.(this.cfg, 'update');
+            plugin.options.onAnnotationChange?.(this, 'update');
         }
 
         return input;
