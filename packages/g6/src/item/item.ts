@@ -183,10 +183,15 @@ export default abstract class Item implements IItem {
   ) {
     // call this.renderExt.draw in extend implementations
     const afterDrawShapeMap =
-      this.renderExt.afterDraw?.(displayModel, {
-        ...this.shapeMap,
-        ...this.afterDrawShapeMap,
-      }) || {};
+      this.renderExt.afterDraw?.(
+        displayModel,
+        {
+          ...this.shapeMap,
+          ...this.afterDrawShapeMap,
+        },
+        diffData,
+        diffState,
+      ) || {};
     if (this.afterDrawShapeMap.labelShape) {
       this.afterDrawShapeMap.labelShape.attributes.dataIsLabel = true;
     }

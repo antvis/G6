@@ -20,6 +20,7 @@ import {
   ShapeStyle,
   State,
   LodLevelRanges,
+  ItemModelData,
 } from '../../../types/item';
 import { formatPadding, mergeStyles, upsertShape } from '../../../util/shape';
 import { DEFAULT_ANIMATE_CFG, fadeIn, fadeOut } from '../../../util/animate';
@@ -165,7 +166,9 @@ export abstract class BaseEdge {
   public afterDraw(
     model: EdgeDisplayModel,
     shapeMap: { [shapeId: string]: DisplayObject },
-    shapesChanged?: string[],
+    // shapesChanged?: string[],
+    diffData?: { previous: EdgeModelData; current: EdgeModelData },
+    diffState?: { previous: State[]; current: State[] },
   ): { [otherShapeId: string]: DisplayObject } {
     return {};
   }
@@ -606,7 +609,7 @@ export abstract class BaseEdge {
     style: ShapeStyle,
     config: {
       model: EdgeDisplayModel;
-      shapeMap?: { [k: string]: DisplayObject<any, any>; };
+      shapeMap?: { [k: string]: DisplayObject<any, any> };
       diffData?: { previous: EdgeModelData; current: EdgeModelData };
       diffState?: { previous: State[]; current: State[] };
     },

@@ -8,6 +8,7 @@ import {
   ShapeStyle,
   State,
   LodLevelRanges,
+  ItemModelData,
 } from '../../../types/item';
 import {
   NodeModelData,
@@ -173,7 +174,12 @@ export abstract class BaseNode {
   public afterDraw(
     model: NodeDisplayModel | ComboDisplayModel,
     shapeMap: { [shapeId: string]: DisplayObject },
-    shapesChanged?: string[],
+    // shapesChanged?: string[],
+    diffData?: {
+      previous: NodeModelData | ComboModelData;
+      current: NodeModelData | ComboModelData;
+    },
+    diffState?: { previous: State[]; current: State[] },
   ): { [otherShapeId: string]: DisplayObject } {
     return {};
   }
@@ -315,7 +321,7 @@ export abstract class BaseNode {
       style.transform = `rotate(${angle}rad)`;
     }
     return this.upsertShape('text', 'labelShape', style, {
-     model,
+      model,
       shapeMap,
       diffData,
       diffState,
@@ -361,7 +367,7 @@ export abstract class BaseNode {
       height: height + padding[0] + padding[2],
     };
     const bgShape = this.upsertShape('rect', 'labelBackgroundShape', bgStyle, {
-     model,
+      model,
       shapeMap,
       diffData,
       diffState,
@@ -459,7 +465,7 @@ export abstract class BaseNode {
     };
     delete s.fillOpacity;
     const shape = this.upsertShape(nodeName as SHAPE_TYPE, 'haloShape', s, {
-     model,
+      model,
       shapeMap,
       diffData,
       diffState,

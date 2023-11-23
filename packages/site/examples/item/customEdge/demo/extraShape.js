@@ -5,7 +5,7 @@ const width = container.scrollWidth;
 const height = container.scrollHeight || 500;
 
 class CustomEdge extends Extensions.CubicEdge {
-  afterDraw(model, shapeMap, shapesChanged) {
+  afterDraw(model, shapeMap, diffData, diffState) {
     const data = model.data;
     const { keyShape } = shapeMap;
     const midPoint = keyShape.getPoint(0.5);
@@ -23,6 +23,8 @@ class CustomEdge extends Extensions.CubicEdge {
       {
         model,
         shapeMap,
+        diffData,
+        diffState,
       },
     );
     // get the coordinate of the quatile on the path

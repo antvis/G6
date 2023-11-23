@@ -2,7 +2,7 @@ import { Graph as BaseGraph, extend, Extensions } from '@antv/g6';
 
 const { CubicEdge } = Extensions;
 class CustomEdge extends CubicEdge {
-  afterDraw(model, shapeMap, shapesChanged) {
+  afterDraw(model, shapeMap, diffData, diffState) {
     const { keyShape } = shapeMap;
     const { visible, ...otherStyles } = model.data?.otherShapes?.buShape || {};
     if (visible) {
@@ -22,6 +22,8 @@ class CustomEdge extends CubicEdge {
           {
             model,
             shapeMap,
+            diffData,
+            diffState,
           },
         ),
       };
