@@ -177,12 +177,12 @@ export default class Card {
     // init edit
     this.setEditable();
     if (this.cfg.editable) {
-        if (this.cfg.focusEditOnInit === true) {
-            this.edit('title')?.focus();
-            this.edit('content');
-        } else if (this.cfg.focusEditOnInit) {
-            this.edit(this.cfg.focusEditOnInit)?.focus();
-        }
+      if (this.cfg.focusEditOnInit === true) {
+        this.edit('title')?.focus();
+        this.edit('content');
+      } else if (this.cfg.focusEditOnInit) {
+        this.edit(this.cfg.focusEditOnInit)?.focus();
+      }
     }
   }
   renderCard() {
@@ -310,25 +310,25 @@ export default class Card {
 
     // dblclick to edit the title and content text
     card.addEventListener('dblclick', (e) => {
-        if (!this.cfg.editable) return;
-        const editPosition = getPositionByEl(e.target as HTMLElement);
-        if (editPosition) {
-          this.edit(getPositionByEl(e.target as HTMLElement))?.focus();
-        }
-      });
-      card.addEventListener('keydown', async (e) => {
-        if (!this.cfg.editable) return;
-        if (e.code !== 'Enter') return;
+      if (!this.cfg.editable) return;
+      const editPosition = getPositionByEl(e.target as HTMLElement);
+      if (editPosition) {
+        this.edit(getPositionByEl(e.target as HTMLElement))?.focus();
+      }
+    });
+    card.addEventListener('keydown', async (e) => {
+      if (!this.cfg.editable) return;
+      if (e.code !== 'Enter') return;
 
-        const editPosition = getPositionByEl(e.target as HTMLElement);
-        if (!editPosition) return;
+      const editPosition = getPositionByEl(e.target as HTMLElement);
+      if (!editPosition) return;
 
-        // 延迟聚焦，防止textarea末尾出现一个多余的换行
-        if (editPosition === 'content') {
-          await sleep(50);
-        }
-        this.edit(editPosition)?.focus();
-      });
+      // 延迟聚焦，防止textarea末尾出现一个多余的换行
+      if (editPosition === 'content') {
+        await sleep(50);
+      }
+      this.edit(editPosition)?.focus();
+    });
 
     const unmovableClasses = [
       'g6-annotation-title',
@@ -469,18 +469,18 @@ export default class Card {
     }
   }
 
-    setEditable(editable = this.plugin.options.editable) {
-        const card = this.$el
-        const classList = card.classList
-        const className = 'g6-annotation-wrapper-editable';
-    
-        if (editable) {
-            classList.add(className);
-        } else {
-            classList.remove(className);
-        }
-        this.cfg.editable = editable
+  setEditable(editable = this.plugin.options.editable) {
+    const card = this.$el;
+    const classList = card.classList;
+    const className = 'g6-annotation-wrapper-editable';
+
+    if (editable) {
+      classList.add(className);
+    } else {
+      classList.remove(className);
     }
+    this.cfg.editable = editable;
+  }
 
   edit(
     position: EditPosition,
