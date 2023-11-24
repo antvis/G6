@@ -53,6 +53,7 @@ export function insertCSS() {
             margin: 0 10px 0 0;
             word-break: break-all;
             padding: 0 4px;
+            min-height: 1em;
         }
         .g6-annotation-header-btns {
             display: inline-flex;
