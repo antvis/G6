@@ -54,6 +54,7 @@ export function insertCSS() {
             word-break: break-all;
             padding: 0 4px;
             min-height: 1em;
+            flex: 1 1 auto;
         }
         .g6-annotation-header-btns {
             display: inline-flex;
@@ -101,7 +102,7 @@ export function insertCSS() {
             word-break: break-all;
             font-family: inherit;
         }
-        .g6-annotation-input:placeholder {
+        .g6-annotation-input::placeholder {
             color: #95999e;
         }
         .g6-annotation-title-input, .g6-annotation-content-input {

@@ -104,17 +104,17 @@ export class Annotation extends Base {
         shadowBlur: 10,
       },
       getTitlePlaceholder() {
-        return '按 ↩ 保存'; // TODO: i18n
+        return '按 回车 保存'; // TODO: i18n
       },
       getContentPlaceholder(item) {
-        return '按 ↩ 保存，按 Shift + ↩ 换行';
+        return '按 回车 保存\n按 Shift + 回车 换行';
       },
       cardCfg: {
         maxWidth: 300,
         maxHeight: 500,
-        minWidth: 120,
+        minWidth: 180,
         minHeight: 120,
-        width: 120,
+        width: 180,
         height: 'fit-content',
         visible: true,
         collapsed: false,
