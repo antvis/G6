@@ -121,6 +121,8 @@ export class Annotation extends Base {
         collapseType: 'minimize',
         closeType: 'hide',
         maxTitleLength: 20,
+        focusEditOnInit: false,
+        // focusEditOnInit: 'content',
       },
     };
   }

@@ -51,30 +51,61 @@ export interface CardCfg {
    * ```remove```: destroy the card, which will remove the dom and related events;
    */
   closeType?: 'hide' | 'remove';
+  /**
+   * Specify the starting position of the card. The default position will be in the upper right corner of the container, and multiple cards will be arranged downwards in sequence
+   */
   defaultBegin?: {
     left?: number;
     top?: number;
     right?: number;
     bottom?: number;
-  }; // 一个个卡片出生的起始位置，后续卡片会往后排列
+  };
+  /**
+   * Hover event for close button and collapse button
+   * @param evt
+   * @param id
+   * @param type
+   * @returns
+   */
   onMouseEnterIcon?: (
     evt: MouseEvent,
     id: string,
     type: 'expand' | 'collapse' | 'close',
   ) => void;
+  /**
+   * Hover event for close button and collapse button
+   * @param evt
+   * @param id
+   * @param type
+   * @returns
+   */
   onMouseLeaveIcon?: (
     evt: MouseEvent,
     id: string,
     type: 'expand' | 'collapse' | 'close',
   ) => void;
-  onClickIcon?: (
+  /**
+   * Click event for close button and collapse button
+   * @param evt
+   * @param id
+   * @param type
+   * @returns
+   */
+  onClickIcon?(
     evt: MouseEvent,
     id: string,
     type: 'expand' | 'collapse' | 'close',
-  ) => void;
+  ): void;
   titlePlaceholder?: string;
   contentPlaceholder?: string;
-  focusEditOnInit?: boolean | EditPosition; // new feature
+  /**
+   * When creating a card, do you enter editing mode and focus on the card
+   * ```title```: Edit and focus on the title area;
+   * ```content```: Edit and focus on the content area;
+   * ```true```: Switch all areas to edit mode and focus on the title area;
+   * ```false```: Will not enter editing mode and requires manual operation, default;
+   */
+  focusEditOnInit?: boolean | EditPosition;
 }
 
 export default class Card {

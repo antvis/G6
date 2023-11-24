@@ -73,11 +73,13 @@ async function process({
       '.g6-annotation-wrapper',
     );
 
-    // 打开多个card，是否正常渲染card和连线 
+    // 打开多个card，是否正常渲染card和连线
     await sleep(500);
-    const cardList = Object.values(plugin.cardInfoMap)
+    const cardList = Object.values(plugin.cardInfoMap);
     expect(cardList.length).toBe(selectNodes.length);
-    expect(cardList.map(card => card.link).filter(Boolean).length).toBe(selectNodes.length)
+    expect(cardList.map((card) => card.link).filter(Boolean).length).toBe(
+      selectNodes.length,
+    );
 
     const cardEl = annotationWrappers[0];
     const cardId = selectNodes[0].id;
