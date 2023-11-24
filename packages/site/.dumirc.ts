@@ -65,6 +65,7 @@ export default defineConfig({
     versions: {
       // 历史版本以及切换下拉菜单
       [version]: 'https://g6.antv.antgroup.com',
+      '5.x': 'https://g6-next.antv.antgroup.com',
       '3.2.x': 'https://g6-v3-2.antv.vision',
     },
     docsearchOptions: {
