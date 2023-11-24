@@ -37,7 +37,7 @@
     "@ant-design/icons": "^4.0.6",
     "@antv/algorithm": "^0.1.8",
     "@antv/chart-node-g6": "^0.0.3",
-    "@antv/dumi-theme-antv": "^0.3.0-beta.5",
+    "@antv/dumi-theme-antv": "^0.4.1",
     "@antv/g6": "^4.8.20",
     "@antv/hierarchy": "^0.6.10",
     "@antv/g6-react-node": "^1.4.5",
