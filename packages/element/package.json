@@ -62,7 +62,8 @@
   "dependencies": {
     "@antv/g-base": "^0.5.1",
     "@antv/g6-core": "0.8.23",
-    "@antv/util": "~2.0.5"
+    "@antv/util": "~2.0.5",
+    "tslib": "^2.1.0"
   },
   "devDependencies": {
     "@antv/g6": "4.5.1",

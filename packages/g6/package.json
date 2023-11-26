@@ -40,7 +40,6 @@
     "ci": "npm run build && npm run coverage",
     "clean": "rimraf es esm lib dist",
     "coverage": "jest --coverage",
-    "demos": "start-storybook -p 8080 -c .storybook",
     "doc": "rimraf apis && typedoc",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx --format=pretty \"./\"",
     "lint:src": "eslint --ext .ts --format=pretty \"./src\"",
