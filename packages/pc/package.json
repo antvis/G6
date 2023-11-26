@@ -86,7 +86,8 @@
     "d3-force": "^2.0.1",
     "dagre": "^0.8.5",
     "insert-css": "^2.0.0",
-    "ml-matrix": "^6.5.0"
+    "ml-matrix": "^6.5.0",
+    "tslib": "^2.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.7.7",
