@@ -2,7 +2,7 @@ import { createDOM, isNumber, modifyCSS } from '@antv/util';
 import { Canvas, Group, Path, PathStyleProps } from '@antv/g';
 import { sleep } from '../../../util/promise';
 import Item from '../../../item/item';
-import { EditPosition } from './types';
+import type { EditPosition } from './types';
 import { getPathItem2Card } from './util';
 import { Annotation } from './index';
 

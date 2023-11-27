@@ -6,7 +6,7 @@ import { Plugin as Base, IPluginBaseConfig } from '../../../types/plugin';
 import { IG6GraphEvent, IGraph } from '../../../types';
 import { getPathItem2Card, px2Num } from './util';
 import { insertCSS } from './insertCSS';
-import { AnnotationData, EditPosition } from './types';
+import type { AnnotationData, EditPosition } from './types';
 import Card, { CardCfg } from './Card';
 
 insertCSS();
