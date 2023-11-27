@@ -34,6 +34,7 @@ const {
   ModelRectNode,
   ImageNode,
   CubeNode,
+  PlaneNode,
   BaseNode,
   BaseNode3D,
 } = Nodes;
@@ -255,6 +256,7 @@ const Extensions = {
   EllipseNode,
   ModelRectNode,
   CubeNode,
+  PlaneNode,
   BaseNode,
   BaseNode3D,
   // edges

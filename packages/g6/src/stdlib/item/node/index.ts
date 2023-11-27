@@ -10,5 +10,6 @@ export * from './diamond';
 export * from './modelRect';
 export * from './image';
 export * from './cube';
+export * from './plane';
 export * from './base';
 export * from './base3d';
