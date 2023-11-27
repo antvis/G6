@@ -127,13 +127,14 @@ For more information of the usage, please refer to [Getting Started](https://g6.
 ## Development
 
 ```bash
-$ npm install
+# install dependencies (with pnpm)
+pnpm install
 
-# lerna bootstrap for multiple packages
-$ npm run bootstrap
+# build
+pnpm build
 
-# build the packages
-$ npm run build:all
+# start the dev server
+pnpm start
 
 # if you wanna watch one of the packages, e.g. packages/core
 $ cd ./packages/core
@@ -185,19 +186,6 @@ Welcome to join the **G6 Communication Group** or **G6 Communication Group-2** (
 ## How to Contribute
 
 Please let us know what you are you going to help. Do check out [issues](https://github.com/antvis/g6/issues) for bug reports or suggestions first.
-
-### Start Project
-
-```bash
-# Install dependencies (with pnpm)
-pnpm install
-
-# Build
-pnpm build
-
-# Start the dev server
-pnpm start
-```
 
 ## License
 
