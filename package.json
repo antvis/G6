@@ -63,6 +63,7 @@
     "typescript": "^5.3.2"
   },
   "devDependencies": {
+    "@changesets/cli": "^2.26.2",
     "@types/react": "^16.9.35",
     "@types/react-dom": "^16.9.8",
     "@umijs/fabric": "^2.3.1",
