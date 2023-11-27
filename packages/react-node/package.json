@@ -29,7 +29,7 @@
     ]
   },
   "dependencies": {
-    "@antv/g6-core": "^0.0.7",
+    "@antv/g6-core": "workspace:*",
     "@antv/g-base": "^0.5.1",
     "@types/yoga-layout": "^1.9.3",
     "react": "^16.12.0",

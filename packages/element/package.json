@@ -61,16 +61,16 @@
   },
   "dependencies": {
     "@antv/g-base": "^0.5.1",
-    "@antv/g6-core": "0.8.23",
+    "@antv/g6-core": "workspace:*",
     "@antv/util": "~2.0.5",
-    "tslib": "^2.1.0"
+    "tslib": "^2.6.2"
   },
   "devDependencies": {
     "@antv/g6": "4.5.1",
     "@babel/core": "^7.7.7",
     "@turf/turf": "^5.1.6",
     "@types/jest": "^25.2.1",
-    "@types/node": "13.11.1",
+    "@types/node": "20.10.0",
     "@typescript-eslint/eslint-plugin": "^4.11.1",
     "@umijs/fabric": "^2.0.0",
     "awesome-typescript-loader": "^5.2.1",
@@ -80,7 +80,7 @@
     "father": "^2.29.1",
     "husky": "^4.2.5",
     "jest": "^26.0.1",
-    "jest-electron": "^0.1.7",
+    "jest-electron": "^0.1.12",
     "jest-extended": "^0.11.2",
     "lint-staged": "^10.2.11",
     "pre-commit": "^1.2.2",
@@ -88,6 +88,6 @@
     "rimraf": "^3.0.0",
     "ts-jest": "^24.1.0",
     "ts-loader": "^7.0.3",
-    "typescript": "^4.6.3"
+    "typescript": "^5.3.2"
   }
 }
