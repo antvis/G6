@@ -142,17 +142,18 @@ graph.render();
 ## 开发
 
 ```bash
-$ npm install
+# 安装依赖 (请使用 pnpm)
+pnpm install
 
-# lerna bootstrap for multiple packages
-$ npm run bootstrap
+# 构建
+pnpm build
 
-# build the packages
-$ npm run build:all
+# 启动站点
+pnpm start
 
-# if you wanna watch one of the packages, e.g. packages/core
-$ cd ./packages/core
-$ npm run watch
+# 更新子包, 例如 packages/core
+cd ./packages/core
+npm run watch
 
 # run test case
 $ npm test
@@ -204,19 +205,6 @@ DEBUG_MODE=1 npm test -- --watch ./tests/unit/algorithm/find-path-spec
 ## 如何贡献
 
 请让我们知道您要解决或贡献什么，所以在贡献之前请先提交 [issues](https://github.com/antvis/g6/issues) 描述 bug 或建议。
-
-### 项目启动
-
-```bash
-# 安装依赖 (请使用 pnpm)
-pnpm install
-
-# 构建
-pnpm build
-
-# 启动站点
-pnpm start
-```
 
 ## License
 
