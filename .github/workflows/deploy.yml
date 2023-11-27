@@ -10,6 +10,9 @@ jobs:
   deploy-site:
     runs-on: ubuntu-latest
     steps:
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8     
       - uses: actions/checkout@v2
       - run: pnpm install
       - run: pnpm build
