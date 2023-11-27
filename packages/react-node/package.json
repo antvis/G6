@@ -1,7 +1,7 @@
 {
   "name": "@antv/g6-react-node",
   "description": "Using React Component to Define Your G6 Graph Node",
-  "version": "1.4.5",
+  "version": "1.4.6",
   "scripts": {
     "start": "dumi dev",
     "build": "father-build",
