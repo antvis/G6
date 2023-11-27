@@ -10,8 +10,7 @@
 
 ## **📹 Alpha 直播回顾**
 
-[📺 B站](https://www.bilibili.com/video/BV16u4y1d7kv/?share_source=copy_web&vd_source=8b3a1125d63f0a33dbd2501181fd43bf) | [💬 微信](https://mp.weixin.qq.com/s/2hVjFX-oHRob634Cd6nr-w)
-
+[📺 B 站](https://www.bilibili.com/video/BV16u4y1d7kv/?share_source=copy_web&vd_source=8b3a1125d63f0a33dbd2501181fd43bf) | [💬 微信](https://mp.weixin.qq.com/s/2hVjFX-oHRob634Cd6nr-w)
 
 ## **🌌 精彩截图**
 
@@ -21,15 +20,14 @@
 
 [查看大图](https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*1BFvQ4r3P7UAAAAAAAAAAAAADmJ7AQ/original)
 
-
 <img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*tPPGSokdSYsAAAAAAAAAAAAADmJ7AQ/original" width=600 height=367 alt='' />
 
 ## 猎捕计划
 
-* 🎉 认领 Issue —— 在该 Issue 评论区回复
-* 🆗 解决 Issue —— 提交 PR，并根据管理员 CR 进行修改
-* ✅ 管理员确认完成，合并到主干分支
-* 💰 获得奖金 —— 管理员手动支付
+- 🎉 认领 Issue —— 在该 Issue 评论区回复
+- 🆗 解决 Issue —— 提交 PR，并根据管理员 CR 进行修改
+- ✅ 管理员确认完成，合并到主干分支
+- 💰 获得奖金 —— 管理员手动支付
 
 更多信息详见 [Issue Hunt](https://github.com/antvis/G6/blob/master/ISSUEHUNT.md)
 
@@ -206,6 +204,19 @@ DEBUG_MODE=1 npm test -- --watch ./tests/unit/algorithm/find-path-spec
 ## 如何贡献
 
 请让我们知道您要解决或贡献什么，所以在贡献之前请先提交 [issues](https://github.com/antvis/g6/issues) 描述 bug 或建议。
+
+### 项目启动
+
+```bash
+# 安装依赖 (请使用 pnpm)
+pnpm install
+
+# 构建
+pnpm build
+
+# 启动站点
+pnpm start
+```
 
 ## License
 

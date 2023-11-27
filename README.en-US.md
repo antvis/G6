@@ -1,6 +1,6 @@
 # 🔥🔥G6 5.0 Beta is Released！🔥🔥
 
-## **💻 Try it Online **
+## **💻 Try it Online**
 
 [v5 Site](https://g6-next.antv.antgroup.com/en/) | [Features Demos](https://g6-next.antv.antgroup.com/en/examples)
 
@@ -8,8 +8,7 @@
 
 [How to Upgrade](https://g6-next.antv.antgroup.com/en/manual/upgrade)
 
-
-## **🌌 v5 Screen Shots **
+## **🌌 v5 Screen Shots**
 
 [See the Full Image](https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*qPrmQrdV77gAAAAAAAAAAAAADmJ7AQ/original)
 
@@ -17,9 +16,7 @@
 
 [See the Full Image](https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*1BFvQ4r3P7UAAAAAAAAAAAAADmJ7AQ/original)
 
-
 <img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*tPPGSokdSYsAAAAAAAAAAAAADmJ7AQ/original" width=600 height=367 alt='' />
-
 
 # G6: A Graph Visualization Framework in TypeScript
 
@@ -42,7 +39,6 @@
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*cDzXR4jIWr8AAAAAAAAAAABkARQnAQ' height=150 alt='' /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*HTasSJGC4koAAAAAAAAAAABkARQnAQ' height=150 alt='' />
 
 <img src="https://user-images.githubusercontent.com/6113694/44995293-02858600-afd5-11e8-840c-349e4730d63d.gif" height=150 alt='' /><img src="https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*I9OdTbXJIi0AAAAAAAAAAABkARQnAQ" height=150 alt='' /><img src="https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*xoufSYcjK2AAAAAAAAAAAABkARQnAQ" height=150 alt='' />
-
 
 ## Features
 
@@ -185,9 +181,23 @@ Welcome to join the **G6 Communication Group** or **G6 Communication Group-2** (
    <img src='https://camo.githubusercontent.com/5e6624abcdde991f9fd89fce4933ad133a48d8fb603d1852c670da329df73ef7/68747470733a2f2f67772e616c697061796f626a656374732e636f6d2f6d646e2f726d735f3430326331612f616674732f696d672f412a2d717a6f54704c672d3163414141414141414141414141414152516e4151' style='width:250px;display:inline-block;vertical-align: top;' alt='' />
   </a>
 </p>
+
 ## How to Contribute
 
 Please let us know what you are you going to help. Do check out [issues](https://github.com/antvis/g6/issues) for bug reports or suggestions first.
+
+### Start Project
+
+```bash
+# Install dependencies (with pnpm)
+pnpm install
+
+# Build
+pnpm build
+
+# Start the dev server
+pnpm start
+```
 
 ## License
 
