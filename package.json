@@ -20,7 +20,7 @@
     "lint:pc": "cd ./packages/pc && npm run lint",
     "lint:g6": "cd ./packages/g6 && npm run lint",
     "lint:all": "npm run lint:core && npm run lint:element && npm run lint:plugin && npm run lint:pc && npm run lint:g6",
-    "build": "lerna run build --include-dependencies --stream",
+    "build": "npm run build:all",
     "lint": "npm run lint:all",
     "test:core": "cd ./packages/core && npm run test",
     "test:element": "cd ./packages/element && npm run test",
@@ -29,12 +29,8 @@
     "test": "npm run test:core && npm run test:element && npm run test:plugin && npm run test:pc",
     "prettier": "prettier --write '**/*.{js,jsx,tsx,ts,less,md,json}'",
     "pretty-quick": "pretty-quick",
-    "clean": "lerna clean -y",
-    "clear": "lerna clean && lerna clean -y",
-    "clean:modules": "rimraf node_modules",
-    "bootstrap": "lerna bootstrap",
-    "ci": "npm run clean && npm run clean:modules && npm install && npm run bootstrap && npm run build:all && npm run lint:all && npm run test",
-    "ls": "lerna list"
+    "clean": "rimraf node_modules",
+    "ci": "npm run clean && npm run clean:modules && npm install && npm run bootstrap && npm run build:all && npm run lint:all && npm run test"
   },
   "husky": {
     "hooks": {
@@ -51,7 +47,6 @@
     "eslint-config-prettier": "^6.7.0",
     "eslint-plugin-import": "^2.22.1",
     "husky": "^4.2.5",
-    "lerna": "^3.19.0",
     "lint-staged": "^10.2.2",
     "monaco-editor": "0.29.1",
     "monaco-editor-webpack-plugin": "5.0.0",
@@ -65,7 +60,7 @@
     "tslint-config-airbnb": "^5.11.2",
     "tslint-config-prettier": "^1.18.0",
     "tslint-eslint-rules": "^5.4.0",
-    "typescript": "^4.6.3"
+    "typescript": "^5.3.2"
   },
   "devDependencies": {
     "@types/react": "^16.9.35",
@@ -79,12 +74,13 @@
     "pre-commit": "^1.2.2",
     "react-scripts": "3.1.2"
   },
-  "resolutions": {
+  "overrides": {
     "@types/react": "^16.9.35",
     "monaco-editor": "0.29.1",
     "monaco-editor-webpack-plugin": "5.0.0",
     "react-monaco-editor": "^0.40.0",
     "normalize-url": "^4.1.0",
-    "sharp": "^0.30.4"
+    "sharp": "^0.30.4",
+    "electron": "23.3.13"
   }
 }
