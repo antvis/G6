@@ -6,7 +6,7 @@
   ],
   "scripts": {
     "build:demos": "cd ./packages/pc && npm run demos",
-    "build:site": "cd ./packages/site && npm run start",
+    "build:site": "cd ./packages/site && npm run site:build",
     "build:core": "cd ./packages/core && npm run build",
     "build:element": "cd ./packages/element && npm run build",
     "build:plugin": "cd ./packages/plugin && npm run build",
@@ -21,6 +21,7 @@
     "lint:g6": "cd ./packages/g6 && npm run lint",
     "lint:all": "npm run lint:core && npm run lint:element && npm run lint:plugin && npm run lint:pc && npm run lint:g6",
     "build": "npm run build:all",
+    "start": "cd ./packages/site && npm run start",
     "lint": "npm run lint:all",
     "test:core": "cd ./packages/core && npm run test",
     "test:element": "cd ./packages/element && npm run test",
