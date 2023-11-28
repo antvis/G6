@@ -5,7 +5,7 @@ import './utils/useSnapshotMatchers';
 const dir = `${__dirname}/snapshots/items/edge/line`;
 
 describe('Items edge line', () => {
-  it('should be rendered correctly with Canvas2D', (done) => {
+  it('should be rendered correctly', (done) => {
     const {
       backgroundCanvas,
       canvas,

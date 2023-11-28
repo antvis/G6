@@ -1,0 +1,181 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="500"
+  height="500"
+  style="background: transparent; position: absolute; outline: none;"
+  color-interpolation-filters="sRGB"
+  tabindex="1"
+>
+  <defs />
+  <g id="g-svg-camera" transform="matrix(1,0,0,1,0,0)">
+    <g id="g-root" fill="none" transform="matrix(1,0,0,1,0,0)">
+      <g id="combo-group" fill="none" transform="matrix(1,0,0,1,0,0)" />
+      <g id="edge-group" fill="none" transform="matrix(1,0,0,1,0,0)">
+        <g id="g-svg-21" fill="none" transform="matrix(1,0,0,1,0,0)">
+          <g transform="matrix(1,0,0,1,118,100)">
+            <path
+              id="haloShape"
+              fill="none"
+              d="M 5,0 L 0,0 L 282,0 L 282,77"
+              opacity="0.25"
+              stroke-width="12"
+              stroke="rgba(153,173,209,1)"
+              stroke-dasharray="2,2"
+              pointer-events="none"
+            />
+            <path
+              id="haloShape"
+              fill="none"
+              d="M 5,0 L 0,0 L 282,0 L 282,77"
+              opacity="0.25"
+              stroke-width="24"
+              stroke="transparent"
+              stroke-dasharray="2,2"
+              pointer-events="none"
+            />
+            <g transform="matrix(1,0,0,1,5,0)">
+              <path
+                id="markerStartShape"
+                fill="rgba(153,173,209,1)"
+                d="M 0,5 L 10,0 L 10,10 Z"
+                transform="translate(-5,-5)"
+                stroke-width="2"
+                stroke="rgba(153,173,209,1)"
+                stroke-dasharray="2,2"
+              />
+              <path
+                id="markerStartShape"
+                fill="transparent"
+                d="M 0,5 L 10,0 L 10,10 Z"
+                transform="translate(-5,-5)"
+                stroke-width="8"
+                stroke="transparent"
+                stroke-dasharray="2,2"
+              />
+            </g>
+            <g transform="matrix(0,-1,1,0,282,77)">
+              <path
+                id="markerEndShape"
+                fill="rgba(153,173,209,1)"
+                d="M 0,5 L 10,0 L 10,10 Z"
+                transform="translate(-5,-5)"
+                stroke-width="2"
+                stroke="rgba(153,173,209,1)"
+                stroke-dasharray="2,2"
+              />
+              <path
+                id="markerEndShape"
+                fill="transparent"
+                d="M 0,5 L 10,0 L 10,10 Z"
+                transform="translate(-5,-5)"
+                stroke-width="8"
+                stroke="transparent"
+                stroke-dasharray="2,2"
+              />
+            </g>
+          </g>
+          <g transform="matrix(1,0,0,1,118,100)">
+            <path
+              id="keyShape"
+              fill="none"
+              d="M 5,0 L 0,0 L 282,0 L 282,77"
+              stroke-width="2"
+              stroke="rgba(153,173,209,1)"
+              stroke-dasharray="2,2"
+            />
+            <path
+              id="keyShape"
+              fill="none"
+              d="M 5,0 L 0,0 L 282,0 L 282,77"
+              stroke-width="2"
+              stroke="transparent"
+              stroke-dasharray="2,2"
+            />
+            <g transform="matrix(1,0,0,1,5,0)">
+              <path
+                id="markerStartShape"
+                fill="rgba(153,173,209,1)"
+                d="M 0,5 L 10,0 L 10,10 Z"
+                transform="translate(-5,-5)"
+                stroke-width="2"
+                stroke="rgba(153,173,209,1)"
+                stroke-dasharray="2,2"
+              />
+              <path
+                id="markerStartShape"
+                fill="transparent"
+                d="M 0,5 L 10,0 L 10,10 Z"
+                transform="translate(-5,-5)"
+                stroke-width="8"
+                stroke="transparent"
+                stroke-dasharray="2,2"
+              />
+            </g>
+            <g transform="matrix(0,-1,1,0,282,77)">
+              <path
+                id="markerEndShape"
+                fill="rgba(153,173,209,1)"
+                d="M 0,5 L 10,0 L 10,10 Z"
+                transform="translate(-5,-5)"
+                stroke-width="2"
+                stroke="rgba(153,173,209,1)"
+                stroke-dasharray="2,2"
+              />
+              <path
+                id="markerEndShape"
+                fill="transparent"
+                d="M 0,5 L 10,0 L 10,10 Z"
+                transform="translate(-5,-5)"
+                stroke-width="8"
+                stroke="transparent"
+                stroke-dasharray="2,2"
+              />
+            </g>
+          </g>
+        </g>
+      </g>
+      <g id="node-group" fill="none" transform="matrix(1,0,0,1,0,0)">
+        <g id="g-svg-12" fill="none" transform="matrix(1,0,0,1,100,100)">
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle
+              id="keyShape"
+              fill="rgba(0,255,0,0.5)"
+              transform="translate(-16,-16)"
+              cx="16"
+              cy="16"
+              r="16"
+              stroke-width="0"
+            />
+          </g>
+        </g>
+        <g id="g-svg-15" fill="none" transform="matrix(1,0,0,1,400,200)">
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle
+              id="keyShape"
+              fill="rgba(0,255,0,0.5)"
+              transform="translate(-16,-16)"
+              cx="16"
+              cy="16"
+              r="16"
+              stroke-width="0"
+            />
+          </g>
+        </g>
+        <g id="g-svg-18" fill="none" transform="matrix(1,0,0,1,300,100)">
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle
+              id="keyShape"
+              fill="rgba(0,255,0,0.5)"
+              transform="translate(-16,-16)"
+              cx="16"
+              cy="16"
+              r="16"
+              stroke-width="0"
+              visibility="hidden"
+            />
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

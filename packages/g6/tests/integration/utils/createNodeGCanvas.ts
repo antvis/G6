@@ -16,11 +16,6 @@ export function createNodeGCanvas(
   const context = new OffscreenCanvasContext(offscreenNodeCanvas);
 
   const renderer = new SVGRenderer();
-  // Remove html plugin to ssr.
-  const htmlRendererPlugin = renderer.getPlugin('html-renderer');
-  renderer.unregisterPlugin(htmlRendererPlugin);
-  const domInteractionPlugin = renderer.getPlugin('dom-interaction');
-  renderer.unregisterPlugin(domInteractionPlugin);
   renderer.registerPlugin(
     new DragAndDropPlugin({ dragstartDistanceThreshold: 10 }),
   );
