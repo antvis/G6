@@ -51,6 +51,22 @@
         "en": "G2 Active Node"
       },
       "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*GVyoQKk2WIIAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "jsx-g-node.js",
+      "title": {
+        "zh": "使用 JSX 写法创建自定义 G 节点",
+        "en": "JSX G Node"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*nFzoQ7qBLvEAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "react-node.js",
+      "title": {
+        "zh": "使用 React 写法创建自定义 G 节点",
+        "en": "React Node"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*wyOxRoAbiPYAAAAAAAAAAAAADmJ7AQ/original"
     }
   ]
 }

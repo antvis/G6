@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 if (window) {
   // window.g6 = require('@antv/g6/es'); // import the source for debugging
   window.g6 = require('@antv/g6/lib'); // import the source for debugging
@@ -13,7 +15,9 @@ if (window) {
   window.util = require('@antv/util');
   window.stats = require('stats.js');
   window.g2 = require('@antv/g2');
+  window.antd = require('antd');
 
   window.React = require('react');
   window.ReactDOM = require('react-dom');
+  window.g6ReactNode = require('@antv/g6-react-node');
 }

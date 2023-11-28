@@ -83,17 +83,22 @@ export const createReactNode = (
             { leading: true, trailing: true },
           ) as EventListener;
 
-          dom.addEventListener('pointermove', onMouseMove);
+          document.addEventListener('pointermove', onMouseMove);
 
           dom.addEventListener(
             'pointerup',
             () => {
               dom.style.userSelect = 'auto';
-              dom.removeEventListener('pointermove', onMouseMove);
+              document.removeEventListener('pointermove', onMouseMove);
             },
             { once: true },
           );
         });
+      });
+
+      html.addEventListener('destroy', () => {
+        html.removeAllEventListeners();
+        html.getDomElement().remove();
       });
 
       html.getRenderBounds = html.getBounds;

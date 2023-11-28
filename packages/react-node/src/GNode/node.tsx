@@ -25,9 +25,7 @@ export const createReactGNode = (
       shapeMap: NodeShapeMap,
     ): DisplayObject<any, any> {
       const { data } = model;
-      const {
-        size: [width, height],
-      } = data as any;
+      const { size: [width, height] = [0, 0] } = data as any;
       return this.upsertShape(
         shape,
         'keyShape',
@@ -79,6 +77,9 @@ export const createReactGNode = (
           <Component model={model} states={diffState?.current || []} />
         );
         render(content, group);
+      });
+      group.addEventListener('destroy', () => {
+        group.removeAllEventListeners();
       });
 
       return {

@@ -16,5 +16,9 @@ declare global {
     graph: any;
     React: any;
     ReactDOM: any;
+    antd: any;
+
+    graph: any;
+    container: any;
   }
 }
