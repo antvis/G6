@@ -19,3 +19,4 @@
 .umi-production
 .umi-test
 .env.local
+.dumi/tmp

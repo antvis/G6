@@ -56,3 +56,12 @@ jobs:
             <!-- Created by actions-cool/maintain-one-comment -->
           emojis: 'eyes'
           body-include: '<!-- Created by actions-cool/maintain-one-comment -->'
+      
+      - name: Upload blob report to GitHub Actions Artifacts
+          if: always()
+          uses: actions/upload-artifact@v3
+          with:
+            name: snapshots
+            path: |
+              packages/g6/tests/integration/snapshots/**/*-actual.svg
+            retention-days: 1
