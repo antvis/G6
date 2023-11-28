@@ -88,7 +88,7 @@ export class LodController extends Base {
     this.clearCache();
 
     this.debounce = 80;
-    if (options.debounce === undefined || options.debounce === 'auto') {
+    if (options?.debounce === undefined || options.debounce === 'auto') {
       const nodes = graph.getAllNodesData();
       this.debounce = Math.min(Math.floor(nodes.length / 100), 80);
     }

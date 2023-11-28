@@ -1,13 +1,13 @@
 ---
-title: 图的交互 Behavior
+title: 交互
 order: 4
 ---
 
-G6 封装了一系列交互方法，方便用户直接使用。本文将为 **Tutorial 案例** 增加简单的交互：点击节点、点击边、框选节点、放缩画布、拖拽画布。本节目标效果如下：
+G6 封装了一系列交互方法，方便用户直接使用。本文将在上一节案例的基础上增加简单的交互：点击节点、点击边、框选节点、放缩画布、拖拽画布。本节目标效果如下：
 
 <img src='https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*kgrxQJnxNPoAAAAAAAAAAAAADmJ7AQ/original' width=500 alt='img' />
 
-> 图 1 Tutorial 案例的交互效果。
+> 图 1 交互效果
 
 ## 基本概念
 
@@ -18,11 +18,11 @@ G6 中的交互行为。G6 **内置**了一系列交互行为，用户可以直�
 - `drag-canvas`：拖拽画布；
 - `zoom-canvas`：缩放画布。
 
-更多详见：[交互行为 Behavior](https://g6-next.antv.antgroup.com/apis/interfaces/behaviors/activate-relations-options)
+更多详见：[交互行为 Behavior](https://g6-next.antv.antgroup.com/apis/behaviors/activate-relations-options)
 
 ### 交互管理 Mode
 
-Mode 是 G6 交互行为的管理机制，一个 mode 是多种行为 Behavior 的组合，允许用户通过切换不同的模式进行交互行为的管理。由于该概念较为复杂，在本入门教程中，读者不需要对该机制深入理解。如有需求，参见 [交互模式 Mode](https://g6-next.antv.antgroup.com/apis/interfaces/graph/i-graph)。
+Mode 是 G6 交互行为的管理机制，一个 mode 是多种行为 Behavior 的组合，允许用户通过切换不同的模式进行交互行为的管理。由于该概念较为复杂，在本入门教程中，读者不需要对该机制深入理解。如有需求，参见 [交互模式 Mode](https://g6-next.antv.antgroup.com/apis/graph/i-graph)。
 
 ### 交互状态 State
 
@@ -45,7 +45,7 @@ const Graph = extend(BaseGraph, {
 });
 ```
 
-所有的内置交互可以在 [交互行为 Behavior](https://g6-next.antv.antgroup.com/apis/interfaces/behaviors/activate-relations-options) 查看，除了下面这戏鹅已经提前注册的交互，其他需要使用上面方式进行注册。
+所有的内置交互可以在 [交互行为 Behavior](https://g6-next.antv.antgroup.com/apis/behaviors/activate-relations-options) 查看，除了下面这戏鹅已经提前注册的交互，其他需要使用上面方式进行注册。
 
 ```javascript
 // 已提前注册的交互
@@ -70,7 +70,7 @@ const graph = new G6.Graph({
 });
 ```
 
-除了直接使用内置交互名称外，也可以为 Behavior 配置参数，例如放缩画布的敏感度、最大/最小放缩程度等，具体用法参见  [交互行为 Behavior](https://g6-next.antv.antgroup.com/apis/interfaces/behaviors/zoom-canvas-options)。
+除了直接使用内置交互名称外，也可以为 Behavior 配置参数，例如放缩画布的敏感度、最大/最小放缩程度等，具体用法参见  [交互行为 Behavior](https://g6-next.antv.antgroup.com/apis/behaviors/zoom-canvas-options)。
 
 上面代码中的 `modes` 定义了 G6 的模式，`default` 是默认的模式，还可以允许有其他的模式，比如：编辑模式 `edit` 等。不同的模式，用户能进行的行为可以不同，比如默认模式能拖拽画布，编辑模式不允许拖拽画布：
 
@@ -149,7 +149,8 @@ graph.on('元素类型:事件名', (e) => {
 
 ## 完整代码
 
-至此，完整代码如下：
+<details>
+<summary style="color: #873bf4; cursor: pointer;">点击展开完整代码</summary>
 
 ```html
 <!DOCTYPE html>
@@ -160,7 +161,7 @@ graph.on('元素类型:事件名', (e) => {
   </head>
   <body>
     <div id="container"></div>
-    <script src="https://gw.alipayobjects.com/os/lib/antv/g6/5.0.0-beta.21/dist/g6.min.js"></script>
+    <script src="https://gw.alipayobjects.com/os/lib/antv/g6/5.0.0/dist/g6.min.js"></script>
     <script>
       const { Graph: BaseGraph, extend, Extensions } = G6;
 
@@ -333,4 +334,8 @@ graph.on('元素类型:事件名', (e) => {
 </html>
 ```
 
-**⚠️ 注意:** <br /> 若需更换数据，请替换  `'https://raw.githubusercontent.com/antvis/G6/v5/packages/g6/tests/datasets/force-data.json'`  为新的数据文件地址。
+</details>
+
+:::info{title=注意}
+若需更换数据，请替换  `'https://raw.githubusercontent.com/antvis/G6/v5/packages/g6/tests/datasets/force-data.json'`  为实际的数据文件地址。
+:::

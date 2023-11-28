@@ -140,6 +140,12 @@ const graph = new ExtGraph({
   modes: {
     default: ['collapse-expand-tree', 'drag-canvas', 'zoom-canvas'],
   },
+  plugins: [
+    {
+      type: 'lod-controller',
+      disableLod: true,
+    },
+  ],
   layout: {
     type: 'indented',
     isHorizontal: true,

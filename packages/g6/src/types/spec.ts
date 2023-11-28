@@ -1,7 +1,7 @@
 import { Canvas } from '@antv/g';
 import { AnimateCfg, CameraAnimationOptions } from './animate';
 import { Padding, Point } from './common';
-import { DataConfig, TransformerFn } from './data';
+import { DataConfig, DataLifecycleType, TransformerFn } from './data';
 import {
   EdgeDisplayModel,
   EdgeEncode,
@@ -42,6 +42,7 @@ export interface Specification<
   container?: string | HTMLElement;
   backgroundCanvas?: Canvas;
   canvas?: Canvas;
+  labelCanvas?: Canvas;
   transientCanvas?: Canvas;
   transientLabelCanvas?: Canvas;
   width?: number;
@@ -64,7 +65,7 @@ export interface Specification<
     tileBehavior?: boolean | number;
     /** Tile size for shape optimizing by behaviors, e.g. hiding shapes while drag-canvas, zoom-canvas.  The enableOptimize in behavior configuration has higher priority. */
     tileBehaviorSize?: number;
-    /** Tile size for level of detial changing. */
+    /** Tile size for level of detail changing. */
     tileLodSize?: number;
   };
   autoFit?:
@@ -86,7 +87,6 @@ export interface Specification<
         alignment?: GraphAlignment;
         effectTiming?: CameraAnimationOptions;
       };
-  optimizeThreshold?: number;
 
   /** data */
   data?: DataConfig;
@@ -94,7 +94,7 @@ export interface Specification<
     | string[]
     | {
         type: string;
-        activeLifecycle: string | string[];
+        activeLifecycle: 'all' | DataLifecycleType | DataLifecycleType[];
         [param: string]: unknown; // TODO: generate by plugins
       }[]
     | TransformerFn[];

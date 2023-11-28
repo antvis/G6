@@ -154,39 +154,9 @@ export interface NodeShapeStyles extends ItemShapeStyles {
     };
   };
   anchorShapes?: ShapeStyle & {
-    /**
-     * Background color of the anchor.
-     */
-    color?: string;
-    /**
-     * Color of the text in anchor.
-     */
-    textColor?: string;
-    /**
-     * Size of the text in anchor.
-     */
-    size?: number;
-    /**
-     * The x-axis offset of the text relative to the current position
-     */
-    offsetX?: number;
-    /**
-     * The y-axis offset of the text relative to the current position
-     */
-    offsetY?: number;
-    /**
-     * The z-axis offset of the text relative to the current position
-     */
-    offsetZ?: number;
     // individual styles and their position
     [key: number]: ShapeStyle & {
-      position?: BadgePosition;
-      color?: string;
-      textColor?: string;
-      size?: number;
-      offsetX?: number;
-      offsetY?: number;
-      offsetZ?: number;
+      position?: 'top' | 'left' | 'bottom' | 'right' | [number, number];
     };
   };
 }

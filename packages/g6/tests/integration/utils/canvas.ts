@@ -8,11 +8,20 @@ export function createContext(
 ) {
   const backgroundCanvas = createNodeGCanvas(rendererName, width, height);
   const canvas = createNodeGCanvas(rendererName, width, height);
+  const labelCanvas = createNodeGCanvas(rendererName, width, height);
   const transientCanvas = createNodeGCanvas(rendererName, width, height);
+  const transientLabelCanvas = createNodeGCanvas(rendererName, width, height);
 
   const container = document.createElement('div');
   container.id = 'container';
   document.body.appendChild(container);
 
-  return { backgroundCanvas, canvas, transientCanvas, container };
+  return {
+    backgroundCanvas,
+    canvas,
+    container,
+    labelCanvas,
+    transientCanvas,
+    transientLabelCanvas,
+  };
 }

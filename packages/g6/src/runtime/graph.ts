@@ -33,10 +33,19 @@ import type {
 } from '../types';
 import type { CameraAnimationOptions } from '../types/animate';
 import type { BehaviorOptionsOf, BehaviorRegistry } from '../types/behavior';
-import type { ComboDisplayModel, ComboModel } from '../types/combo';
+import type {
+  ComboDisplayModel,
+  ComboModel,
+  ComboShapesEncode,
+} from '../types/combo';
 import type { Bounds, Padding, Point } from '../types/common';
 import type { DataChangeType, DataConfig, GraphCore } from '../types/data';
-import type { EdgeDisplayModel, EdgeModel, EdgeModelData } from '../types/edge';
+import type {
+  EdgeDisplayModel,
+  EdgeModel,
+  EdgeModelData,
+  EdgeShapesEncode,
+} from '../types/edge';
 import type { StackType } from '../types/history';
 import type { Hooks, ViewportChangeHookParams } from '../types/hook';
 import type { ITEM_TYPE, SHAPE_TYPE, ShapeStyle } from '../types/item';
@@ -45,7 +54,12 @@ import type {
   LayoutOptions,
   StandardLayoutOptions,
 } from '../types/layout';
-import type { NodeDisplayModel, NodeModel, NodeModelData } from '../types/node';
+import type {
+  NodeDisplayModel,
+  NodeModel,
+  NodeModelData,
+  NodeShapesEncode,
+} from '../types/node';
 import { Plugin as PluginBase } from '../types/plugin';
 import type { RendererName } from '../types/render';
 import { ComboMapper, EdgeMapper, NodeMapper } from '../types/spec';
@@ -158,16 +172,7 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
   }
 
   private initCanvas() {
-    const {
-      renderer,
-      container,
-      canvas,
-      backgroundCanvas,
-      transientCanvas,
-      transientLabelCanvas,
-      width,
-      height,
-    } = this.specification;
+    const { renderer, container, width, height } = this.specification;
 
     let pixelRatio: number;
     if (renderer && !isString(renderer)) {
@@ -180,14 +185,7 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       this.rendererType = renderer || 'canvas';
     }
 
-    /**
-     * These 3 canvases can be passed in by users, e.g. when doing serverside rendering we can't use DOM API.
-     */
-    if (canvas) {
-      this.canvas = canvas;
-      this.backgroundCanvas = backgroundCanvas;
-      this.transientCanvas = transientCanvas;
-      this.transientLabelCanvas = transientLabelCanvas;
+    if (container) {
       this.container = container as HTMLElement;
     } else {
       const containerDOM = isString(container)
@@ -201,51 +199,28 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
         this.destroy();
         return;
       }
-
       this.container = containerDOM;
-      const size = [width, height];
-      if (size[0] === undefined) {
-        size[0] = containerDOM.scrollWidth;
-      }
-      if (size[1] === undefined) {
-        size[1] = containerDOM.scrollHeight;
-      }
-      this.backgroundCanvas = createCanvas(
-        this.rendererType,
-        containerDOM,
-        size[0],
-        size[1],
-        pixelRatio,
-      );
-      this.canvas = createCanvas(
-        this.rendererType,
-        containerDOM,
-        size[0],
-        size[1],
-        pixelRatio,
-      );
-      this.labelCanvas = createCanvas(
-        'canvas',
-        containerDOM,
-        size[0],
-        size[1],
-        pixelRatio,
-      );
-      this.transientCanvas = createCanvas(
-        this.rendererType,
-        containerDOM,
-        size[0],
-        size[1],
-        pixelRatio,
-      );
-      this.transientLabelCanvas = createCanvas(
-        'canvas',
-        containerDOM,
-        size[0],
-        size[1],
-        pixelRatio,
-      );
     }
+
+    [
+      'backgroundCanvas',
+      'canvas',
+      'labelCanvas',
+      'transientCanvas',
+      'transientLabelCanvas',
+    ].forEach((name) => {
+      this[name] =
+        this.specification[name] ||
+        createCanvas(
+          ['labelCanvas', 'transientLabelCanvas'].includes(name)
+            ? 'canvas'
+            : this.rendererType,
+          this.container,
+          width ?? this.container.scrollWidth,
+          height ?? this.container.scrollHeight,
+          pixelRatio,
+        );
+    });
 
     Promise.all(
       [
@@ -360,6 +335,27 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       }>({
         name: 'itemstatechange',
       }),
+      itemstateconfigchange: new Hook<{
+        itemType: ITEM_TYPE;
+        stateConfig:
+          | {
+              [stateName: string]:
+                | ((data: NodeModel) => NodeDisplayModel)
+                | NodeShapesEncode;
+            }
+          | {
+              [stateName: string]:
+                | ((data: EdgeModel) => EdgeDisplayModel)
+                | EdgeShapesEncode;
+            }
+          | {
+              [stateName: string]:
+                | ((data: ComboModel) => ComboDisplayModel)
+                | ComboShapesEncode;
+            };
+      }>({
+        name: 'itemstateconfigchange',
+      }),
       itemvisibilitychange: new Hook<{ ids: ID[]; value: boolean }>({
         name: 'itemvisibilitychange',
       }),
@@ -428,11 +424,28 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * Update the specs(configurations).
    */
   public updateSpecification(spec: Specification<B, T>): Specification<B, T> {
+    const {
+      node,
+      edge,
+      combo,
+      theme,
+      nodeState,
+      edgeState,
+      comboState,
+      ...others
+    } = spec;
+    if (node) this.updateMapper('node', node);
+    if (edge) this.updateMapper('edge', edge);
+    if (combo) this.updateMapper('combo', combo);
+    if (theme) this.updateTheme(theme);
+    if (nodeState) this.updateStateConfig('node', nodeState, 'replace');
+    if (edgeState) this.updateStateConfig('edge', edgeState, 'replace');
+    if (comboState) this.updateStateConfig('combo', comboState, 'replace');
+
     const newSpec = Object.assign(
       this.specification,
-      this.formatSpecification(spec),
+      this.formatSpecification(others),
     );
-    // TODO: update something
     return newSpec;
   }
   /**
@@ -479,6 +492,47 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       type,
       mapper,
     });
+  }
+
+  /**
+   * Updates the state configuration for the specified item type, corresponds to the nodeState, edgeState, or comboState on the graph spec.
+   * @param {string} itemType - The type of item (node, edge, or combo).
+   * @param {object} stateConfig - The state configuration to update.
+   * @param {string} updateType - The type of update ('mergeReplace' or 'replace'). Default is 'mergeReplace'.
+   **/
+  public updateStateConfig(
+    itemType: ITEM_TYPE,
+    stateConfig:
+      | {
+          [stateName: string]:
+            | ((data: NodeModel) => NodeDisplayModel)
+            | NodeShapesEncode;
+        }
+      | {
+          [stateName: string]:
+            | ((data: EdgeModel) => EdgeDisplayModel)
+            | EdgeShapesEncode;
+        }
+      | {
+          [stateName: string]:
+            | ((data: ComboModel) => ComboDisplayModel)
+            | ComboShapesEncode;
+        },
+    updateType: 'mergeReplace' | 'replace' = 'mergeReplace',
+  ) {
+    if (isEmpty(stateConfig)) return;
+    const stateField = `${itemType}State`;
+    if (updateType === 'mergeReplace') {
+      const config = {
+        ...this.specification[stateField],
+        ...stateConfig,
+      };
+      this.specification[itemType] = config;
+      this.hooks.itemstateconfigchange.emit({ itemType, stateConfig: config });
+    } else {
+      this.specification[itemType] = stateConfig;
+      this.hooks.itemstateconfigchange.emit({ itemType, stateConfig });
+    }
   }
 
   /**
@@ -1543,7 +1597,7 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
         edges: [],
         combos: type === 'combo' ? (modelArr as ComboUserModel[]) : [],
       },
-      type: 'update',
+      type: 'updatePosition',
     });
     const dataList = this.dataController.findData(
       type,

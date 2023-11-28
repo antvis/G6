@@ -621,6 +621,12 @@ const graph = new ExtGraph({
   modes: {
     default: ['zoom-canvas', 'drag-canvas', 'drag-node', 'click-select', 'brush-select'],
   },
+  plugins: [
+    {
+      type: 'lod-controller',
+      disableLod: true,
+    },
+  ],
   layout: {
     type: 'grid',
     begin: [20, 20],

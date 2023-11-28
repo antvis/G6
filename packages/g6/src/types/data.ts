@@ -1,4 +1,5 @@
 import { Graph as GraphLib, TreeData as ITreeData } from '@antv/graphlib';
+import { AVAILABLE_DATA_LIFECYCLE } from '../util/data';
 import { ComboUserModel } from './combo';
 import {
   NodeDisplayModelData,
@@ -59,4 +60,7 @@ export type DataChangeType =
   | 'remove'
   | 'update'
   | 'moveCombo'
-  | 'addCombo';
+  | 'addCombo'
+  | 'updatePosition';
+
+export type DataLifecycleType = (typeof AVAILABLE_DATA_LIFECYCLE)[number];

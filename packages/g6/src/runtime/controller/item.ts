@@ -20,14 +20,20 @@ import {
   NodeDisplayModel,
   NodeEncode,
   NodeModelData,
+  NodeShapesEncode,
 } from '../../types';
-import { ComboDisplayModel, ComboEncode } from '../../types/combo';
+import {
+  ComboDisplayModel,
+  ComboEncode,
+  ComboShapesEncode,
+} from '../../types/combo';
 import { GraphCore } from '../../types/data';
 import {
   EdgeDisplayModel,
   EdgeEncode,
   EdgeModel,
   EdgeModelData,
+  EdgeShapesEncode,
 } from '../../types/edge';
 import Node from '../../item/node';
 import Edge from '../../item/edge';
@@ -233,6 +239,9 @@ export class ItemController {
     this.graph.hooks.render.tap(this.onRender.bind(this));
     this.graph.hooks.itemchange.tap(this.onChange.bind(this));
     this.graph.hooks.itemstatechange.tap(this.onItemStateChange.bind(this));
+    this.graph.hooks.itemstateconfigchange.tap(
+      this.onItemStateConfigChange.bind(this),
+    );
     this.graph.hooks.itemvisibilitychange.tap(
       this.onItemVisibilityChange.bind(this),
     );
@@ -520,15 +529,21 @@ export class ItemController {
       const { dataTypeField: nodeDataTypeField } = nodeTheme;
       const edgeIdsToUpdate: Set<ID> = new Set<ID>();
       const comboIdsToUpdate: Set<ID> = new Set<ID>();
-      const updateRelates = (edgeIds?: Set<ID>) => {
-        const ids = edgeIds
-          ? [...edgeIds]
-          : [...comboIdsToUpdate, ...edgeIdsToUpdate];
-        ids.forEach((nid) => {
+      const updateRelates = (param: { edgeIds?: Set<ID>; callback?: any }) => {
+        const { edgeIds, callback } = param;
+        edgeIds.forEach((nid) => {
+          const item = itemMap.get(nid) as Edge | Combo;
+          if (item && !item.destroyed) item.forceUpdate();
+        });
+        callback?.();
+      };
+      const updateAllRelates = () => {
+        [...comboIdsToUpdate, ...edgeIdsToUpdate].forEach((nid) => {
           const item = itemMap.get(nid) as Edge | Combo;
           if (item && !item.destroyed) item.forceUpdate();
         });
       };
+      const debounceUpdateAllRelates = debounce(updateAllRelates, 16, false);
       const debounceUpdateRelates = debounce(updateRelates, 16, false);
 
       Object.values(nodeComboUpdate).forEach((updateObj: any) => {
@@ -557,7 +572,8 @@ export class ItemController {
               this.expandCombo(graphCore, innerModel as ComboModel);
             }
           }
-          const previousParentId = item.displayModel.data.parentId;
+          const previousParentId =
+            item.displayModel.data.parentId || previous.parentId;
           // update the current parent combo tree
           // if the node has previous parent, related previous parent combo should be updated to
           if (upsertAncestors) {
@@ -629,7 +645,7 @@ export class ItemController {
           nodeRelatedIdsToUpdate.add(edge.id);
         });
 
-        item.onframe = () => updateRelates(nodeRelatedIdsToUpdate);
+        item.onframe = () => updateRelates({ edgeIds: nodeRelatedIdsToUpdate });
         let statesCache;
         if (
           innerModel.data._isCombo &&
@@ -646,23 +662,19 @@ export class ItemController {
           onlyMove,
           animate,
           // call after updating finished
-          throttle(
-            (_, canceled) => {
-              item.onframe?.(true);
-              item.onframe = undefined;
-              if (statesCache) {
-                statesCache.forEach((state) =>
-                  this.graph.setItemState(id, state, true),
-                );
-              }
-              callback(innerModel, canceled);
-            },
-            500,
-            {
-              leading: true,
-              trailing: true,
-            },
-          ),
+          (_, canceled) => {
+            item.onframe = undefined;
+            if (statesCache) {
+              statesCache.forEach((state) =>
+                this.graph.setItemState(id, state, true),
+              );
+            }
+            // @ts-ignore
+            debounceUpdateRelates({
+              edgeIds: nodeRelatedIdsToUpdate,
+              callback: () => callback(innerModel, canceled),
+            });
+          },
         );
 
         const parentItem = this.itemMap.get(current.parentId);
@@ -672,7 +684,7 @@ export class ItemController {
           });
         }
       });
-      debounceUpdateRelates();
+      debounceUpdateAllRelates();
     }
     // === 6. update edges' data ===
     if (groupedChanges.EdgeDataUpdated.length) {
@@ -790,6 +802,36 @@ export class ItemController {
         item.clearStates(states);
       } else {
         states.forEach((state) => item.setState(state, value));
+      }
+    });
+  }
+
+  private onItemStateConfigChange(param: {
+    itemType: ITEM_TYPE;
+    stateConfig:
+      | {
+          [stateName: string]:
+            | ((data: NodeModel) => NodeDisplayModel)
+            | NodeShapesEncode;
+        }
+      | {
+          [stateName: string]:
+            | ((data: EdgeModel) => EdgeDisplayModel)
+            | EdgeShapesEncode;
+        }
+      | {
+          [stateName: string]:
+            | ((data: ComboModel) => ComboDisplayModel)
+            | ComboShapesEncode;
+        };
+  }) {
+    const { itemType, stateConfig } = param;
+    const fieldName = `${itemType}StateMapper`;
+    this[fieldName] = stateConfig;
+    this.graph.getAllNodesData().forEach((node) => {
+      const item = this.itemMap.get(node.id);
+      if (item) {
+        item.stateMapper = stateConfig;
       }
     });
   }
@@ -1641,7 +1683,8 @@ export class ItemController {
 
       return false;
     }
-    return item.isVisible();
+    const transientVisible = this.transientItemMap.get(id);
+    return item.isVisible() || transientVisible?.isVisible();
   }
 
   public sortByComboTree(graphCore: GraphCore) {
@@ -1845,7 +1888,9 @@ export class ItemController {
       undefined,
       !animate,
       (model, canceled) => {
-        this.graph.hideItem(model.id, { disableAnimate: canceled });
+        positions.forEach((position) => {
+          this.graph.hideItem(position.id, { disableAnimate: canceled });
+        });
       },
     );
   }

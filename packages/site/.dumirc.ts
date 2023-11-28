@@ -48,6 +48,7 @@ export default defineConfig({
     isAntVSite: false, // 是否是 AntV 的大官网
     siteUrl: homepage, // 官网地址
     githubUrl: repository.url, // GitHub 地址
+    footerTheme: 'light', // 白色 底部主题
     showSearch: true, // 是否显示搜索框
     showGithubCorner: true, // 是否显示头部的 GitHub icon
     showGithubStars: true, // 是否显示 GitHub star 数量
@@ -96,13 +97,6 @@ export default defineConfig({
           en: 'Online Tools',
         },
         dropdownItems: [
-          // {
-          //   url: '/design/overview',
-          //   name: {
-          //     zh: '设计体系',
-          //     en: 'Design System',
-          //   },
-          // },
           {
             url: 'https://www.yuque.com/antv/g6-blog',
             name: {
@@ -113,16 +107,9 @@ export default defineConfig({
           {
             url: 'https://g6.antv.antgroup.com',
             name: {
-              zh: '极速站点',
-              en: 'Fast Site',
+              zh: '国内镜像',
+              en: 'China Site',
             },
-          },
-          {
-            name: {
-              zh: '在线工具',
-              en: 'Graphinsight',
-            },
-            url: 'https://graphinsight.antgroup.com/#/workspace',
           },
         ],
       },
@@ -131,23 +118,6 @@ export default defineConfig({
       // 头部的菜单中的「周边生态」
     ],
     docs: [
-      // ===========Design===================
-      // {
-      //   slug: 'design/global',
-      //   title: {
-      //     zh: '全局规范',
-      //     en: 'Global',
-      //   },
-      //   order: 3,
-      // },
-      // {
-      //   slug: 'design/component',
-      //   title: {
-      //     zh: '组件设计',
-      //     en: 'Component Design',
-      //   },
-      //   order: 4,
-      // },
       {
         slug: 'manual/tutorial',
         title: {
@@ -157,206 +127,94 @@ export default defineConfig({
         order: 5,
       },
       {
+        slug: 'manual/advanced',
+        title: {
+          zh: '进阶教程',
+          en: 'Advanced',
+        },
+        order: 6,
+      },
+      {
         slug: 'manual/customize',
         title: {
           zh: '自定义扩展',
           en: 'Customzing Extensions',
         },
-        order: 6,
+        order: 7,
       },
-      // ===========Concepts===================
-      // {
-      //   slug: 'manual/middle',
-      //   title: {
-      //     zh: '核心概念',
-      //     en: 'Middle',
-      //   },
-      //   order: 4,
-      // },
-
-      // {
-      //   slug: 'manual/middle/elements',
-      //   title: {
-      //     zh: '图元素：节点/边/Combo',
-      //     en: 'Graph Elements',
-      //   },
-      //   order: 2,
-      // },
-
-      // {
-      //   slug: 'manual/middle/elements/shape',
-      //   title: {
-      //     zh: '图形 Shape（选读）',
-      //     en: 'Shape',
-      //   },
-      //   order: 1,
-      // },
-      // {
-      //   slug: 'manual/middle/elements/nodes',
-      //   title: {
-      //     zh: '节点',
-      //     en: 'Node',
-      //   },
-      //   order: 2,
-      // },
-      // {
-      //   slug: 'manual/middle/elements/edges',
-      //   title: {
-      //     zh: '边',
-      //     en: 'Edge',
-      //   },
-      //   order: 3,
-      // },
-      // {
-      //   slug: 'manual/middle/elements/combos',
-      //   title: {
-      //     zh: 'Combo',
-      //     en: 'Combo',
-      //   },
-      //   order: 4,
-      // },
-
-      // {
-      //   slug: 'manual/middle/elements/nodes/built-in',
-      //   title: {
-      //     zh: '内置节点类型',
-      //     en: 'Built-in Nodes',
-      //   },
-      //   order: 1,
-      // },
-      // {
-      //   slug: 'manual/middle/elements/edges/built-in',
-      //   title: {
-      //     zh: '内置边类型',
-      //     en: 'Built-in Edges',
-      //   },
-      //   order: 1,
-      // },
-      // {
-      //   slug: 'manual/middle/elements/combos/built-in',
-      //   title: {
-      //     zh: '内置 Combo',
-      //     en: 'Built-in Combos',
-      //   },
-      //   order: 1,
-      // },
-
-      // {
-      //   slug: 'manual/middle/elements/advanced-style',
-      //   title: {
-      //     zh: '高级样式',
-      //     en: 'Advanced Style',
-      //   },
-      //   order: 5,
-      // },
-      // {
-      //   slug: 'manual/middle/elements/methods',
-      //   title: {
-      //     zh: '高级操作',
-      //     en: 'Advanced operation',
-      //   },
-      //   order: 6,
-      // },
-
-      // {
-      //   slug: 'manual/middle/layout',
-      //   title: {
-      //     zh: '图布局',
-      //     en: 'Graph Layouts',
-      //   },
-      //   order: 3,
-      // },
-      // {
-      //   slug: 'manual/middle/states',
-      //   title: {
-      //     zh: '交互与事件',
-      //     en: 'Behavior & Event',
-      //   },
-      //   order: 4,
-      // },
-      // {
-      //   slug: 'manual/middle/plugins',
-      //   title: {
-      //     zh: '分析组件',
-      //     en: 'Component',
-      //   },
-      //   order: 6,
-      // },
-      // // ==============================
-      // {
-      //   slug: 'manual/advanced',
-      //   title: {
-      //     zh: '拓展阅读',
-      //     en: 'Further Reading',
-      //   },
-      //   order: 5,
-      // },
       // ==========API====================
       {
-        slug: 'apis/modules',
+        slug: 'apis/data',
         title: {
-          zh: 'modules',
-          en: 'modules',
+          zh: '数据',
+          en: 'Data',
         },
         order: 2,
       },
       {
-        slug: 'apis/interfaces/graph',
+        slug: 'apis/graph',
         title: {
-          zh: 'graph',
-          en: 'graph',
+          zh: '图实例',
+          en: 'Graph',
+        },
+        order: 2,
+      },
+      {
+        slug: 'apis/item/node',
+        title: {
+          zh: '元素 - 节点',
+          en: 'Item - Node',
         },
         order: 3,
       },
       {
-        slug: 'apis/interfaces/item',
+        slug: 'apis/item/edge',
         title: {
-          zh: 'item',
-          en: 'item',
+          zh: '元素 - 边',
+          en: 'Item - Edge',
         },
         order: 4,
       },
       {
-        slug: 'apis/interfaces/plugins',
+        slug: 'apis/item/combo',
         title: {
-          zh: 'plugins',
-          en: 'plugins',
-        },
-        order: 7,
-      },
-      {
-        slug: 'apis/interfaces/layout',
-        title: {
-          zh: 'layout',
-          en: 'layout',
+          zh: '元素 - Combo',
+          en: 'Item - Combo',
         },
         order: 5,
       },
       {
-        slug: 'apis/interfaces/behaviors',
+        slug: 'apis/shape',
         title: {
-          zh: 'behaviors',
-          en: 'behaviors',
+          zh: '图形',
+          en: 'Shape',
         },
         order: 6,
       },
-
       {
-        slug: 'apis/classes',
+        slug: 'apis/layout',
         title: {
-          zh: 'classes',
-          en: 'classes',
+          zh: '布局',
+          en: 'layout',
+        },
+        order: 7,
+      },
+      {
+        slug: 'apis/behaviors',
+        title: {
+          zh: '交互',
+          en: 'Interaction',
         },
         order: 8,
       },
-      // {
-      //   slug: 'apis/interfaces',
-      //   title: {
-      //     zh: 'interfaces',
-      //     en: 'interfaces',
-      //   },
-      //   order: 2,
-      // },
+      {
+        slug: 'apis/plugins',
+        title: {
+          zh: '自由插件',
+          en: 'Plugin',
+        },
+        order: 9,
+      },
     ],
     tutorials: [
       {
@@ -369,14 +227,6 @@ export default defineConfig({
       },
     ],
     examples: [
-      // {
-      //   slug: 'case',
-      //   icon: 'gallery',
-      //   title: {
-      //     zh: '场景案例',
-      //     en: 'Case',
-      //   },
-      // },
       {
         slug: 'feature',
         icon: 'gallery',
@@ -447,29 +297,39 @@ export default defineConfig({
     },
     /** 首页技术栈介绍 */
     detail: {
+      engine: {
+        zh: 'G6',
+        en: 'G6',
+      },
       title: {
-        zh: 'G6 图可视化引擎',
-        en: 'G6 Graph Visualization Engine',
+        zh: 'G6·图可视化引擎',
+        en: 'G6·Graph Visualization Engine',
       },
       description: {
         zh: 'G6 是一个简单、易用、完备的图可视化引擎，它在高定制能力的基础上，提供了一系列设计优雅、便于使用的图可视化解决方案。能帮助开发者搭建属于自己的图可视化、图分析、或图编辑器应用。',
         en: 'G6 is graph visualization engine with simplicity and convenience. Based on the ability of customize, it provides a set of elegant graph visualization solutions, and helps developers to build up applications for graph visualization, graph analysis, and graph editor.',
       },
-      image: 'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*j5AqSpmNPdYAAAAAAAAAAABkARQnAQ',
+      image:
+        'https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*6dSUSo3QTk0AAAAAAAAAAAAADmJ7AQ/original',
+      imageStyle: {
+        transform: 'scale(0.7)',
+        marginLeft: '100px',
+        marginTop: '70px',
+      },
       buttons: [
-        {
-          text: {
-            zh: '图表示例',
-            en: 'Examples',
-          },
-          link: `/examples`,
-        },
         {
           text: {
             zh: '开始使用',
             en: 'Getting Started',
           },
           link: `/manual/introduction`,
+        },
+        {
+          text: {
+            zh: '图表示例',
+            en: 'Examples',
+          },
+          link: `/examples`,
           type: 'primary',
         },
       ],
@@ -627,13 +487,6 @@ export default defineConfig({
         img: 'https://gw.alipayobjects.com/mdn/rms_2274c3/afts/img/A*TgV-RZDODJIAAAAAAAAAAABkARQnAQ',
       },
     ],
-    // internalSite: {
-    //   url: 'https://g6.antv.antgroup.com',
-    //   name: {
-    //     zh: '极速站点',
-    //     en: 'Fast Site',
-    //   },
-    // },
   },
   mfsu: false,
   alias: {

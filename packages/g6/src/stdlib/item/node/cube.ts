@@ -11,8 +11,6 @@ import { BaseNode3D } from './base3d';
 export class CubeNode extends BaseNode3D {
   override defaultStyles = {
     keyShape: {
-      latitudeBands: 32,
-      longitudeBands: 32,
       width: 10,
       height: 10,
       depth: 10,

@@ -1,5 +1,5 @@
 ---
-title: 🎉 How to Use New Features
+title: Features in v5
 order: 3
 ---
 
@@ -31,7 +31,7 @@ To support these new capabilities, there are significant Breaking Changes in G6 
 
 ### JSON Spec Definition
 
-[Specification Doc](https://g6-next.antv.antgroup.com/apis/interfaces/graph/specification)
+[Specification Doc](https://g6-next.antv.antgroup.com/apis/graph/specification)
 
 In v5, we standardize the graphics of all nodes/edges/combos. Each type of element has several standardized graphic names. This standard should also be followed for custom elements. If there are additional graphics, they should be placed in otherShapes.
 

@@ -1,11 +1,11 @@
 ---
-title: 使用图布局 Layout
+title: 布局
 order: 3
 ---
 
 当数据中没有节点位置信息，或者数据中的位置信息不满足需求时，需要借助一些布局算法对图进行布局。G6 提供了 9 种一般图的布局和 4 种树图的布局。在 v4 中，它们需要分别使用的图结构数据和树图结构数据中。v5 将树图和图进行了融合，现在不论是树图还是图，都可以使用如下布局算法：
 
-<br />**一般图：**
+<br />**图布局：**
 
 - Random Layout：随机布局；
 - **Force Layout：经典力导向布局：**
@@ -20,14 +20,14 @@ order: 3
 - Concentric Layout：同心圆布局，将重要（默认以度数为度量）的节点放置在布局中心；
 - Grid Layout：格子布局，将节点有序（默认是数据顺序）排列在格子上。
 
-**树图布局：**
+**树布局：**
 
 - Dendrogram Layout：树状布局（叶子节点布局对齐到同一层）；
 - CompactBox Layout：紧凑树布局；
 - Mindmap Layout：脑图布局；
 - Indented Layout：缩进布局。
 
-各种布局方法的具体介绍及其配置参见 [Layout API](https://g6-next.antv.antgroup.com/apis/interfaces/layout/force-layout-options)。本教程中，我们使用的是力导向布局 (Force Layout)。
+各种布局方法的具体介绍及其配置参见 [Layout API](https://g6-next.antv.antgroup.com/apis/layout/force-layout-options)。本教程中，我们使用的是力导向布局 (Force Layout)。
 
 <img src='https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*lJdeTI0qQa8AAAAAAAAAAAAADmJ7AQ/original' width=550 alt='img' />
 
@@ -40,7 +40,7 @@ order: 3
 
 ## 配置布局
 
-G6 使用布局的方式非常简单，在图实例化的时候，加上 layout 配置即可。下面代码在实例化图时设置了布局方法为 `type: 'force'`，即力导向图布局。同时开启了 `animated: true` 使得在力计算过程中实时渲染图，让用户可以观察到图上节点力相互作用产生的动画效果。并设置了参数 `preventOverlap: true` ，表示希望节点不重叠。力导向布局的更多配置项参见：[Layout API](https://g6-next.antv.antgroup.com/apis/interfaces/layout/force-layout-options)。
+G6 使用布局的方式非常简单，在图实例化的时候，加上 layout 配置即可。下面代码在实例化图时设置了布局方法为 `type: 'force'`，即力导向图布局。同时开启了 `animated: true` 使得在力计算过程中实时渲染图，让用户可以观察到图上节点力相互作用产生的动画效果。并设置了参数 `preventOverlap: true` ，表示希望节点不重叠。力导向布局的更多配置项参见：[Layout API](https://g6-next.antv.antgroup.com/apis/layout/force-layout-options)。
 
 ```javascript
 const graph = new Graph({
@@ -65,7 +65,8 @@ const graph = new Graph({
 
 ## 完整代码
 
-至此，完整代码如下：
+<details>
+<summary style="color: #873bf4; cursor: pointer;">点击展开完整代码</summary>
 
 ```html
 <!DOCTYPE html>
@@ -76,7 +77,7 @@ const graph = new Graph({
   </head>
   <body>
     <div id="container"></div>
-    <script src="https://gw.alipayobjects.com/os/lib/antv/g6/5.0.0-beta.21/dist/g6.min.js"></script>
+    <script src="https://gw.alipayobjects.com/os/lib/antv/g6/5.0.0/dist/g6.min.js"></script>
     <script>
       const { Graph: BaseGraph, extend, Extensions } = G6;
 
@@ -244,4 +245,8 @@ const graph = new Graph({
 </html>
 ```
 
-**⚠️ 注意:** <br /> 若需更换数据，请替换  `'https://raw.githubusercontent.com/antvis/G6/v5/packages/g6/tests/datasets/force-data.json'`  为新的数据文件地址。
+</details>
+
+:::info{title=注意}
+若需更换数据，请替换  `'https://raw.githubusercontent.com/antvis/G6/v5/packages/g6/tests/datasets/force-data.json'`  为实际的数据文件地址。
+:::

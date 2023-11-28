@@ -3,11 +3,11 @@ title: 元素及其配置
 order: 2
 ---
 
-图的元素特指图上的**节点** `Node` 、**边** `Edge` 和**节点分组** `Combo`。在上一章节中，我们已经将 **Tutorial 案例**的图绘制了出来，但是各个元素及其 `label`  在视觉上很简陋。本文通过将上一章节中简陋的元素美化成如下效果，介绍元素的属性、配置方法。
+图的元素特指图上的**节点** `Node` 、**边** `Edge` 和**节点分组** `Combo`。本文通过将上一章节中的元素设置成如下效果，介绍元素的属性、配置方法。
 
 <img src='https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*K3ADTJct0o4AAAAAAAAAAAAADmJ7AQ/original' width=450 height=450  alt='img'/>
 
-> 图 1  元素属性配置后的 **Tutorial 案例**。
+> 图 1  元素属性配置后的效果
 
 ## 基本概念
 
@@ -19,10 +19,10 @@ order: 2
 
 不论是节点还是边，它们的属性分为两种：
 
-- **图形样式属性**：对应 Canvas 中的各种样式，在元素状态发生变化时，可以被改变；
+- **样式属性**：对应 Canvas 中的各种样式，在元素状态发生变化时，可以被改变；
 - **其他属性**：例如图形类型（`type`）、id（`id`）、位置（`x`，`y`）一类在元素状态发生变化时不能被改变的属性。
 
-例如，G6 设定 hover 或 click 节点时，一般会通过在事件监听中调用 Graph 的设置状态 API `graph.setItemState` 来使节点进入某个状态，e.g. 选中状态。此时节点应当让上一定的样式变化来让响应选中状态。这只能自动改变节点的**图形样式属性**（如 `keyShape` 中的 `fill`、`stroke` 等**）**，**其他属性**（如 `type`  等）不能被改变。如果需要改变其他属性，需要更新数据 `graph.updateData`。**图形样式属性**存储在节点/边/ combo 的配置的 `xxxShape` 对象中，对应了不同图形的样式。
+例如，G6 设定 hover 或 click 节点时，一般会通过在事件监听中调用 Graph 的设置状态 API `graph.setItemState` 来使节点进入某个状态，e.g. 选中状态。此时节点应当让上一定的样式变化来让响应选中状态。这只能自动改变节点的**图形样式属性**（如 `keyShape` 中的 `fill`、`stroke` 等），**其他属性**（如 `type`  等）不能被改变。如果需要改变其他属性，需要更新数据 `graph.updateData`。**图形样式属性**存储在节点/边/ combo 的配置的 `xxxShape` 对象中，对应了不同图形的样式。
 
 ### 数据结构
 
@@ -53,7 +53,7 @@ order: 2
 }
 ```
 
-边元素的属性数据结构与节点元素相似，只是和 `id` 及 `data` 同级的还有 `source` 和 `target` 字段，代表起始和终止节点的 `id`。<br />细化在图 1 中 **Tutorial 案例** 的视觉需求，我们需要完成：
+边元素的属性数据结构与节点元素相似，只是和 `id` 及 `data` 同级的还有 `source` 和 `target` 字段，代表起始和终止节点的 `id`。<br />细化在图 1 中的视觉需求，我们需要完成：
 
 - 视觉效果：
   - R1: 设置不同的节点类型，`'circle-node'`，`'rect-node'`，`'triangle-node'`；
@@ -69,7 +69,9 @@ order: 2
 
 ### 1. 实例化图时的 JSON Spec 配置方式
 
-**适用场景：**所有节点统一的属性配置，所有边统一的属性配置。<br />**使用方式：**使用图的两个配置项：
+**适用场景：** 所有节点统一的属性配置，所有边统一的属性配置。
+
+**使用方式：** 使用图的两个配置项：
 
 - `node`：节点在默认状态下的**图形样式属性**和**其他属性**；
 - `edge`：边在默认状态下的**图形样式属性**和**其他属性**。
@@ -139,13 +141,17 @@ const graph = new G6.Graph({
 
 ### 2. 实例化图时的函数映射配置方式
 
-**适用场景：**不同节点/边可以有不同的个性化配置。更加灵活。<br />**使用方式：**
+**适用场景：** 不同节点/边可以有不同的个性化配置。更加灵活。
+
+**使用方式：**
 
 在看函数映射代码之前，我们知道原始数据的每个节点比较简单：
 
-```
- { "id": "0", "data": { "label": "0" } },
- { "id": "1", "data": { "label": "1" } },
+```json
+[
+  { "id": "0", "data": { "label": "0" } },
+  { "id": "1", "data": { "label": "1" } }
+]
 ```
 
 一般图中度数（一跳邻居数量）越大的节点，越重要。我们可以用节点大小来表达这个信息。同时，若度数大到一定程度，还可以用更多额外的图形凸显其地位。我们可以通过数据处理器，提前计算节点的度数，
@@ -222,9 +228,11 @@ const graph = new Graph({
 
 现在，数据进入 Graph 后，将依次经过 `transform` 指定的数据处理器，产出的内部流转数据的每一个节点都会存在一些计算得出的字段，例如：
 
-```
- { "id": "0", "data": { "label": "0", degree: 1, cluster: 'c0' } },
- { "id": "1", "data": { "label": "1", degree: 3, cluster: 'c4' } },
+```json
+[
+  { "id": "0", "data": { "label": "0", "degree": 1, "cluster": "c0" } },
+  { "id": "1", "data": { "label": "1", "degree": 3, "cluster": "c4" } }
+]
 ```
 
 然后我们在节点的函数映射配置中，可以使用这些字段值：
@@ -343,7 +351,8 @@ const graph = new Graph({
 
 ## 完整代码
 
-至此，完整代码如下：
+<details>
+<summary style="color: #873bf4; cursor: pointer;">点击展开完整代码</summary>
 
 ```html
 <!DOCTYPE html>
@@ -354,7 +363,7 @@ const graph = new Graph({
   </head>
   <body>
     <div id="container"></div>
-    <script src="https://gw.alipayobjects.com/os/lib/antv/g6/5.0.0-beta.21/dist/g6.min.js"></script>
+    <script src="https://gw.alipayobjects.com/os/lib/antv/g6/5.0.0/dist/g6.min.js"></script>
     <script>
       const { Graph: BaseGraph, extend, Extensions } = G6;
 
@@ -516,4 +525,8 @@ const graph = new Graph({
 </html>
 ```
 
-**⚠️ 注意:** <br /> 若需更换数据，请替换  `'https://raw.githubusercontent.com/antvis/G6/v5/packages/g6/tests/datasets/force-data.json'`  为新的数据文件地址。
+</details>
+
+:::info{title=注意}
+若需更换数据，请替换  `'https://raw.githubusercontent.com/antvis/G6/v5/packages/g6/tests/datasets/force-data.json'`  为实际的数据文件地址。
+:::

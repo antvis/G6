@@ -6,13 +6,21 @@ import { triggerEvent } from './utils/event';
 describe('node star', () => {
   it('should be rendered correctly with Canvas2D', (done) => {
     const dir = `${__dirname}/snapshots/canvas/items/node/star`;
-    const { backgroundCanvas, canvas, transientCanvas, container } =
-      createContext('canvas', 500, 500);
+    const {
+      backgroundCanvas,
+      labelCanvas,
+      transientLabelCanvas,
+      canvas,
+      transientCanvas,
+      container,
+    } = createContext('canvas', 500, 500);
 
     const graph = star({
       container,
       backgroundCanvas,
       canvas,
+      labelCanvas,
+      transientLabelCanvas,
       transientCanvas,
       width: 500,
       height: 500,

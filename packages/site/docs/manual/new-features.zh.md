@@ -1,5 +1,5 @@
 ---
-title: 🎉 新功能怎么用
+title: v5 特性
 order: 3
 ---
 
@@ -31,7 +31,7 @@ order: 3
 
 ### JSON Spec 定义
 
-[Specification Doc](https://g6-next.antv.antgroup.com/apis/interfaces/graph/specification)
+[Specification Doc](https://g6-next.antv.antgroup.com/apis/graph/specification)
 
 v5 中我们将所有节点/边/ combo 的图形进行规范化，每种类型的元素基本都有若干个规范的图形名称。包括自定义的元素，也应当遵循这样的规范。如果有额外的图形，统一放入 otherShapes 中。
 

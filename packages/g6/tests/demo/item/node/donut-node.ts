@@ -66,12 +66,10 @@ const createOperations = (): any => {
       graph.updateData('node', {
         id: 'node1',
         data: {
-          donutShapes: {
-            colorMap: {
-              income: '#78D3F8',
-              outcome: '#F08BB4',
-              unknown: '#65789B',
-            },
+          donutColorMap: {
+            income: '#61DDAA',
+            outcome: '#65789B',
+            unknown: '#F6BD16',
           },
         },
       });
@@ -80,8 +78,10 @@ const createOperations = (): any => {
       graph.updateData('node', {
         id: 'node1',
         data: {
-          donutShapes: {
-            colorMap: {},
+          donutColorMap: {
+            income: '#78D3F8',
+            outcome: '#F08BB4',
+            unknown: '#65789B',
           },
         },
       });
@@ -96,9 +96,7 @@ const createOperations = (): any => {
       graph.updateData('node', {
         id: 'node1',
         data: {
-          donutShapes: {
-            innerSize: 0.8,
-          },
+          innerSize: 0.8,
         },
       });
     },
@@ -106,9 +104,7 @@ const createOperations = (): any => {
       graph.updateData('node', {
         id: 'node1',
         data: {
-          donutShapes: {
-            innerSize: 0.6,
-          },
+          innerSize: 0.6,
         },
       });
     },
@@ -122,10 +118,8 @@ const createOperations = (): any => {
       graph.updateData('node', {
         id: 'node1',
         data: {
-          donutShapes: {
-            attrs: {
-              income: 280,
-            },
+          donutAttr: {
+            income: 280,
           },
         },
       });
@@ -134,12 +128,10 @@ const createOperations = (): any => {
       graph.updateData('node', {
         id: 'node1',
         data: {
-          donutShapes: {
-            attrs: {
-              income: 80,
-              outcome: 40,
-              unknown: 45,
-            },
+          donutAttr: {
+            income: 80,
+            outcome: 40,
+            unknown: 45,
           },
         },
       });
@@ -173,41 +165,17 @@ export default (context) => {
           x: 100,
           y: 100,
           type: 'donut-node',
-          keyShape: {
-            r: 30,
+          text1: 'inner-text',
+          innerSize: 0.6,
+          donutAttr: {
+            income: 80,
+            outcome: 40,
+            unknown: 45,
           },
-          labelShape: {
-            text: 'label',
-            position: 'bottom',
-          },
-          labelBackgroundShape: {
-            fill: 'red',
-          },
-          anchorShapes: [
-            {
-              position: [0, 0.5],
-              r: 2,
-              fill: 'red',
-            },
-          ],
-          // iconShape: {
-          //   img: 'https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg',
-          //   width: 20,
-          //   height: 20,
-          // },
-          badgeShapes: [
-            {
-              text: '1',
-              position: 'rightTop',
-              color: 'blue',
-            },
-          ],
-          donutShapes: {
-            attrs: {
-              income: 80,
-              outcome: 40,
-              unknown: 45,
-            },
+          donutColorMap: {
+            income: '#78D3F8',
+            outcome: '#F08BB4',
+            unknown: '#65789B',
           },
         },
       },
@@ -230,17 +198,47 @@ export default (context) => {
     modes: {
       default: ['drag-canvas', 'drag-node', 'click-select', 'hover-activate'],
     },
-    node: (nodeInnerModel: any) => {
-      const { id, data } = nodeInnerModel;
-      return {
-        id,
-        data: {
-          keyShape: {
-            r: 16,
-          },
-          ...data,
+    node: {
+      keyShape: {
+        r: 30,
+      },
+      donutShapes: {
+        innerSize: {
+          fields: ['innerSize'],
+          formatter: (model) => model.data.innerSize,
         },
-      };
+        attrs: {
+          fields: ['donutAttr'],
+          formatter: (model) => model.data.donutAttr,
+        },
+        colorMap: {
+          fields: ['donutColorMap'],
+          formatter: (model) => model.data.donutColorMap,
+        },
+      },
+      labelShape: {
+        text: {
+          fields: ['text1'],
+          formatter: (model) => model.data.text1,
+        },
+      },
+      labelBackgroundShape: {
+        fill: 'red',
+      },
+      anchorShapes: [
+        {
+          position: [0, 0.5],
+          r: 2,
+          fill: 'red',
+        },
+      ],
+      badgeShapes: [
+        {
+          text: '1',
+          position: 'rightTop',
+          color: 'blue',
+        },
+      ],
     },
   });
 
