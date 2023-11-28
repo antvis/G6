@@ -84,6 +84,10 @@ export default () => {
         otherShapes: {},
       },
     });
+
+    return () => {
+      graphRef.current.destroy();
+    };
   }, []);
 
   return (

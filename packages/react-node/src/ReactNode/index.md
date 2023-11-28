@@ -73,6 +73,10 @@ export default () => {
         type: 'react-node',
       },
     });
+
+    return () => {
+      graphRef.current.destroy();
+    };
   }, []);
 
   return (
