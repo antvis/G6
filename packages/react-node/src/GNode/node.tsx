@@ -15,10 +15,10 @@ export const createReactGNode = (
   Component: (props: {
     model?: NodeDisplayModel;
     states?: State[];
-  }) => React.ReactNode,
+  }) => React.ReactElement,
   shape: keyof typeof Ctors = 'rect',
-) => {
-  const Ctor = Ctors[shape];
+): any => {
+  const Ctor: any = Ctors[shape];
   class GNode extends Ctor {
     drawKeyShape(
       model: NodeDisplayModel,

@@ -1,4 +1,4 @@
-import { DisplayObject, HTML } from '@antv/g';
+import { HTML } from '@antv/g';
 import type { NodeDisplayModel } from '@antv/g6';
 import { Extensions } from '@antv/g6';
 import type { State } from '@antv/g6/lib/types/item';
@@ -13,8 +13,8 @@ export const createReactNode = (
   Component: (props: {
     model?: NodeDisplayModel;
     states?: State[];
-  }) => React.ReactNode,
-) => {
+  }) => React.ReactElement,
+): any => {
   class ReactNode extends Extensions.RectNode {
     drawKeyShape(
       model: NodeDisplayModel,
@@ -23,7 +23,7 @@ export const createReactNode = (
         | { previous: NodeUserModelData; current: NodeUserModelData }
         | undefined,
       diffState?: { previous: State[]; current: State[] } | undefined,
-    ): DisplayObject<any, any> {
+    ) {
       const { data } = model;
       const { size: [width, height] = [200, 50] } = data as any;
 

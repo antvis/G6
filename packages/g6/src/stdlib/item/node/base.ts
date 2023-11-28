@@ -42,13 +42,8 @@ export abstract class BaseNode {
   enableBalanceShape?: boolean;
   //vertex coordinate
 
-  /**
-   * Cache the scale transform calculated by balancing size, for restoring.
-   */
-  protected scaleTransformCache = '';
-
   // cache the zoom level information
-  protected zoomCache: {
+  #zoomCache: {
     // last response zoom ratio.
     zoom: number;
     // wordWrapWidth of labelShape according to the maxWidth
@@ -65,7 +60,7 @@ export abstract class BaseNode {
     this.graph = graph;
     this.lodLevels = lodLevels;
     this.enableBalanceShape = enableBalanceShape;
-    this.zoomCache.zoom = zoom;
+    this.#zoomCache.zoom = zoom;
   }
 
   /**
@@ -137,7 +132,7 @@ export abstract class BaseNode {
   public updateCache(shapeMap) {
     if (shapeMap.labelShape) {
       const { maxWidth = '200%' } = this.mergedStyles.labelShape || {};
-      this.zoomCache.wordWrapWidth = getWordWrapWidthByBox(
+      this.#zoomCache.wordWrapWidth = getWordWrapWidthByBox(
         shapeMap.keyShape.getLocalBounds(),
         maxWidth,
         1,
@@ -259,7 +254,7 @@ export abstract class BaseNode {
     const wordWrapWidth = getWordWrapWidthByBox(
       keyShapeBox as AABB,
       maxWidth,
-      this.zoomCache.zoom,
+      this.#zoomCache.zoom,
       this.enableBalanceShape,
     );
 
@@ -508,7 +503,7 @@ export abstract class BaseNode {
     const anchorPositionMap = this.calculateAnchorPosition(keyShapeStyle);
     individualConfigs.forEach((config, i) => {
       const { position, fill = keyShapeStyle.fill, ...style } = config;
-      const [cx, cy] = this.getAnchorPosition(
+      const [cx, cy] = this.#getAnchorPosition(
         position,
         anchorPositionMap,
         shapeMap,
@@ -535,7 +530,7 @@ export abstract class BaseNode {
     return shapes;
   }
 
-  private getAnchorPosition(
+  #getAnchorPosition(
     position: string | [number, number],
     anchorPositionMap: IAnchorPositionMap,
     shapeMap: NodeShapeMap | ComboShapeMap,
