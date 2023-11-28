@@ -167,6 +167,7 @@ export default abstract class Item implements IItem {
       enableBalanceShape,
       device: this.device,
       zoom: this.zoom,
+      graph: this.graph,
     });
   }
 
@@ -273,6 +274,7 @@ export default abstract class Item implements IItem {
         lodLevels: this.lodLevels,
         device: this.device,
         zoom: this.zoom,
+        graph: this.graph,
       });
     } else {
       this.renderExt.themeStyles = this.themeStyles.default;

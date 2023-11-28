@@ -17,6 +17,7 @@
     "build:umd": "rimraf ./dist && rollup -c && npm run size",
     "build:cjs": "rimraf ./lib && tsc --module commonjs --outDir lib",
     "build:esm": "rimraf ./esm && tsc --module ESNext --outDir esm",
+    "build:esm:watch": "rimraf ./esm && tsc --module ESNext --outDir esm --watch",
     "build": "run-p build:*",
     "bundle-vis": "cross-env BUNDLE_VIS=1 npm run build:umd",
     "size": "limit-size",

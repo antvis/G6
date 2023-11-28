@@ -319,6 +319,9 @@ importers:
       '@antv/react-g':
         specifier: ^1.10.19
         version: 1.10.19(react@18.2.0)
+      '@antv/util':
+        specifier: ^3.3.5
+        version: 3.3.5
     devDependencies:
       '@ant-design/icons':
         specifier: ^5.2.6
@@ -1764,7 +1767,7 @@ packages:
       fast-deep-equal: 3.1.3
       flru: 1.0.2
       gl-matrix: 3.4.3
-      tslib: 2.5.0
+      tslib: 2.6.2
 
   /@antv/vis-predict-engine@0.1.1(seedrandom@2.4.4):
     resolution: {integrity: sha512-WMt/1auGn6KMubLOW3yoyhNrHUcEqlRETKcVkCnCP6StCLzBgjZqCFwbVz5vz0l7bWfYuXULth5lZ8q/JAYTOg==}
@@ -13071,7 +13074,7 @@ packages:
       postcss-preset-env: 7.5.0(postcss@8.4.31)
       rollup-plugin-visualizer: 5.9.0(rollup@2.33.3)
       systemjs: 6.14.2
-      vite: 4.3.1(@types/node@13.11.1)(less@4.1.3)(sass@1.69.5)(stylus@0.54.8)
+      vite: 4.3.1(@types/node@13.11.1)(less@3.13.1)(stylus@0.54.8)
     transitivePeerDependencies:
       - '@types/node'
       - postcss
@@ -22768,7 +22771,6 @@ packages:
       graceful-fs: 4.2.11
       jsonfile: 6.1.0
       universalify: 2.0.1
-    dev: true
 
   /fs-extra@3.0.1:
     resolution: {integrity: sha512-V3Z3WZWVUYd8hoCL5xfXJCaHWYzmtwW5XWYSlLgERi8PWd8bx1kUHUk8L1BT57e49oKnDDD180mjfrHc1yA9rg==}
@@ -39744,7 +39746,7 @@ packages:
       remove-trailing-separator: 1.1.0
       replace-ext: 1.0.1
 
-  /vite@4.3.1(@types/node@13.11.1)(less@4.1.3)(sass@1.69.5)(stylus@0.54.8):
+  /vite@4.3.1(@types/node@13.11.1)(less@3.13.1)(stylus@0.54.8):
     resolution: {integrity: sha512-EPmfPLAI79Z/RofuMvkIS0Yr091T2ReUoXQqc5ppBX/sjFRhHKiPPF/R46cTdoci/XgeQpB23diiJxq5w30vdg==}
     engines: {node: ^14.18.0 || >=16.0.0}
     hasBin: true
@@ -39771,10 +39773,9 @@ packages:
     dependencies:
       '@types/node': 13.11.1
       esbuild: 0.17.19
-      less: 4.1.3
+      less: 3.13.1
       postcss: 8.4.31
       rollup: 3.29.4
-      sass: 1.69.5
       stylus: 0.54.8
     optionalDependencies:
       fsevents: 2.3.3

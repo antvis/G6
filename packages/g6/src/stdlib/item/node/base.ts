@@ -28,11 +28,13 @@ import {
   mergeStyles,
   upsertShape,
 } from '../../../util/shape';
+import type { IGraph } from '../../../types/graph';
 import { getWordWrapWidthByBox } from '../../../util/text';
 import { convertToNumber } from '../../../util/type';
 
 export abstract class BaseNode {
   type: string;
+  graph: IGraph;
   defaultStyles: NodeShapeStyles | ComboShapeStyles;
   themeStyles: NodeShapeStyles | ComboShapeStyles;
   mergedStyles: NodeShapeStyles | ComboShapeStyles;
@@ -45,7 +47,7 @@ export abstract class BaseNode {
    */
   protected scaleTransformCache = '';
 
-  // cache the zoom level infomations
+  // cache the zoom level information
   protected zoomCache: {
     // last response zoom ratio.
     zoom: number;
@@ -57,8 +59,10 @@ export abstract class BaseNode {
   };
 
   constructor(props) {
-    const { themeStyles, lodLevels, enableBalanceShape, zoom } = props;
+    const { graph, themeStyles, lodLevels, enableBalanceShape, zoom } = props;
+
     if (themeStyles) this.themeStyles = themeStyles;
+    this.graph = graph;
     this.lodLevels = lodLevels;
     this.enableBalanceShape = enableBalanceShape;
     this.zoomCache.zoom = zoom;
@@ -294,7 +298,8 @@ export abstract class BaseNode {
         positionPreset.textBaseline = 'middle';
         positionPreset.offsetX = 4;
         break;
-      default: // at bottom by default
+      default:
+        // at bottom by default
         positionPreset.offsetY = 2;
         break;
     }

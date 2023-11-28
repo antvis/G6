@@ -20,7 +20,8 @@
     "start": "npm run dev"
   },
   "dependencies": {
-    "@antv/react-g": "^1.10.19"
+    "@antv/react-g": "^1.10.19",
+    "@antv/util": "^3.3.5"
   },
   "devDependencies": {
     "@ant-design/icons": "^5.2.6",
