@@ -3,40 +3,36 @@ title: Graph Specification
 order: 0
 ---
 
-## container
+## container <Badge type="error">Required</Badge>
 
 The DOM of the graph container, which can be the id of an existing DOM element or a DOM object.
 
-• **Required**: True
-
-• **Type**: `string` \| `HTMLElement`
+**Type**: `string | HTMLElement`
 
 ## height
 
 The height of the canvas DOM. If not specified, it will adapt to the container.
 
-• **Required**: False
-
-• **Type**: `number`
+**Type**: `number`
 
 ## width
 
 The width of the canvas DOM. If not specified, it will adapt to the container.
 
-• **Required**: False
-
-• **Type**: `number`
+**Type**: `number`
 
 ## renderer
 
 The name of the renderer type, default is `'canvas'`. For large-scale data, it is recommended to use` 'webgl'`. If `'webgl-3d'` is used, it should be combined with 3D interactive and element types.
 
-• **Required**: False
+**Type**: `RendererCfg`
 
-• **Type**: `RendererCfg`
+<details>
+  <summary style="color: #873bf4; cursor: pointer;">
+    RendererCfg
+  </summary>
 
 ```typescript
-type RendererName = 'canvas' | 'webgl' | 'svg' | 'webgl-3d';
 type RendererCfg =
   | RendererName
   | {
@@ -47,85 +43,119 @@ type RendererCfg =
       // Pixel ratio, if not specified, it will automatically get the current device pixel ratio. Generally between 1-3. Set a larger value when rendering is blurred
       pixelRatio?: number;
     };
+type RendererName = 'canvas' | 'webgl' | 'svg' | 'webgl-3d';
 ```
+
+</details>
 
 ## data
 
 The data of the graph. It can be provided in this configuration or written to the graph through the Graph API, see [graph.read](./Graph.zh.md#read).
 
-• **Required**: False
+**Type**: `GraphData | InlineGraphDataConfig | InlineTreeDataConfig`
 
-• **Type**: `DataConfig`
+<details>
+  <summary style="color: #873bf4; cursor: pointer;">
+    InlineGraphDataConfig
+  </summary>
 
 ```typescript
-type DataConfig = GraphData | InlineGraphDataConfig | InlineTreeDataConfig;
-
-interface InlineGraphDataConfig {
+type InlineGraphDataConfig = {
   type: 'graphData';
   value: GraphData;
-}
-
-interface InlineTreeDataConfig {
-  type: 'treeData';
-  value: TreeData;
-}
+};
 ```
 
-[`GraphData`](../data/GraphData.zh.md), [`TreeData`](../data/TreeData.zh.md) see the corresponding type definition document for details.
+</details>
+
+<details>
+  <summary style="color: #873bf4; cursor: pointer;">
+    InlineTreeDataConfig
+  </summary>
+
+```typescript
+type InlineTreeDataConfig = {
+  type: 'treeData';
+  value: TreeData;
+};
+```
+
+</details>
+
+- [GraphData](../data/GraphData.en.md)
+
+- [TreeData](../data/TreeData.en.md)
 
 ## transforms
 
-Data transformers. Multiple built-in or custom data transformers can be configured. When the graph reads user data, the data transformers will be executed linearly in the order of the configured array. That is, the result of the previous data processor will be input into the next data processor. After all data processors are completed, the data required for G6's internal flow will be generated. See [Data Introduction](../data/DataIntro.en.md) for details. Custom method see [Custom Data Transformer](../data/CustomTransform.en.md).
+**Type**: `TransformsConfig`
 
-• **Required**: False
-
-• **Type**:
+<details>
+  <summary style="color: #873bf4; cursor: pointer;">
+    TransformsConfig
+  </summary>
 
 ```typescript
-string[]
+type TransformsConfig =
+  | string[]
   | {
       type: string;
-      activeLifecycle: string | string[];
+      activeLifecycle: 'all' | DataLifecycleType | DataLifecycleType[];
       [param: string]: unknown;
     }[]
-  | TransformerFn[]
+  | TransformerFn[];
+type DataLifecycleType = 'read' | 'changeData' | 'updateData' | 'addData' | 'removeData';
 ```
+
+</details>
+
+Data transformers. Multiple built-in or custom data transformers can be configured. When the graph reads user data, the data transformers will be executed linearly in the order of the configured array. That is, the result of the previous data processor will be input into the next data processor. After all data processors are completed, the data required for G6's internal flow will be generated. See [Data Introduction](../data/DataIntro.en.md) for details. Custom method see [Custom Data Transformer](../data/CustomTransform.en.md).
 
 ## node
 
+**Type**: `NodeEncode | (data: NodeModel) => NodeDisplayModel`
+
+- [NodeModel](../data//NodeModel.en.md)
+
+- [NodeDisplayModel](../data/NodeDisplayModel.en.md)
+
 Node mapper, can be a JSON configuration or a function. The result of the mapper should be the rendering data required for rendering the node style, etc. This mapper converts the internal flow data into rendering data each time a node is rendered, see [Data Introduction](../data/DataIntro.en.md) for details.
-
-• **Required**: False
-
-• **Type**: `NodeEncode` \| (`data`: [`NodeModel`](../data/NodeModel.en.md)) => [`NodeDisplayModel`](../data/NodeDisplayModel.en.md)
 
 ## edge
 
+**Type**: `EdgeEncode | (data: EdgeModel) => EdgeDisplayModel`
+
+- [EdgeModel](../data/EdgeModel.en.md)
+
+- [EdgeDisplayModel](../data/EdgeDisplayModel.en.md)
+
 Edge mapper, can be a JSON configuration or a function. The result of the mapper should be the rendering data required for rendering the edge style, etc. This mapper converts the internal flow data into rendering data each time an edge is rendered, see [Data Introduction](../data/DataIntro.en.md) for details.
-
-• **Required**: False
-
-• **Type**: `EdgeEncode` \| (`data`: [`EdgeModel`](../data/EdgeModel.en.md)) => [`EdgeDisplayModel`](../data/EdgeDisplayModel.en.md)
 
 ## combo
 
+**Type**: `ComboEncode | (data: ComboModel) => ComboDisplayModel`
+
+- [ComboModel](../data/ComboModel.en.md)
+
+- [ComboDisplayModel](../data/ComboDisplayModel.en.md)
+
 Combo mapper, can be a JSON configuration or a function. The result of the mapper should be the rendering data required for rendering the combo style, etc. This mapper converts the internal flow data into rendering data each time a combo is rendered, see [Data Introduction](../data/DataIntro.en.md) for details.
-
-• **Required**: False
-
-• **Type**: `ComboEncode` \| (`data`: [`ComboModel`](../data/ComboModel.en.md)) => [`ComboDisplayModel`](../data/ComboDisplayModel.en.md)
 
 ## nodeState
 
 Node state style configuration. The built-in theme has provided the styles of `'selected'`, `'active'`, `'highlight'`, `'inactive'`, `'disable'` states. If you need to modify or set styles for custom state names, you can configure them here.
 
-• **Required**: False
+**Type**: `NodeStateStyles`
 
-• **Type**:
+<details>
+  <summary style="color: #873bf4; cursor: pointer;">
+    NodeStateStyles
+  </summary>
 
 ```typescript
 {
   // The key is the state name, such as 'selected'
+
   [stateName: string]: {
     // The key is the shape name, and the value represents the style of the shape under
     [shapeId]: ShapStyle
@@ -133,13 +163,39 @@ Node state style configuration. The built-in theme has provided the styles of `'
 }
 ```
 
+</details>
+
 ## edgeState
+
+**Type**: `EdgeStateStyles`
+
+<details>
+  <summary style="color: #873bf4; cursor: pointer;">
+    EdgeStateStyles
+  </summary>
+
+```typescript
+type EdgeStateStyles = {
+  // The key is the state name, e.g., 'selected'
+  [stateName: string]: {
+    // The key is the shape name, and the value represents the style of the shape under this state
+    [shapeId]: ShapStyle;
+  };
+};
+```
+
+</details>
 
 Edge state style configuration. The built-in theme already provides styles for `'selected'`, `'active'`, `'highlight'`, `'inactive'`, `'disable'` states. If you need to modify or set styles for custom state names, you can configure them here.
 
-• **Required**: False
+## comboState
 
-• **Type**:
+**Type**: `ComboStateStyles`
+
+<details>
+  <summary style="color: #873bf4; cursor: pointer;">
+    ComboStateStyles
+  </summary>
 
 ```typescript
 {
@@ -151,36 +207,20 @@ Edge state style configuration. The built-in theme already provides styles for `
 }
 ```
 
-## comboState
+</details>
 
 Combo state style configuration. The built-in theme already provides styles for `'selected'`, `'active'`, `'highlight'`, `'inactive'`, `'disable'` states. If you need to modify or set styles for custom state names, you can configure them here.
 
-• **Required**: False
-
-• **Type**:
-
-```typescript
-{
-  // The key is the state name, e.g., 'selected'
-  [stateName: string]: {
-    // The key is the shape name, and the value represents the style of the shape under this state
-    [shapeId]: ShapStyle
-  }
-}
-```
-
 ## theme
 
-Theme configuration. The default theme is the light theme.
+**Type**: `ThemeCfg`
 
-• **Required**: False
-
-• **Type**: `ThemeCfg`
+<details>
+  <summary style="color: #873bf4; cursor: pointer;">
+    ThemeCfg
+  </summary>
 
 ```typescript
-// The type of the color palette, which can be an array of hexadecimal color strings or an object with data type names as keys and hexadecimal colors as values
-type Palette = string[] | { [dataType: string]: string };
-type ITEM_TYPE = 'node' | 'edge' | 'combo';
 type ThemeCfg = {
   type: 'spec';
   // The built-in theme that the custom theme is based on. The default value is 'light'
@@ -207,9 +247,17 @@ type ThemeCfg = {
     };
   };
 };
+// The type of the color palette, which can be an array of hexadecimal color strings or an object with data type names as keys and hexadecimal colors as values
+type Palette = string[] | { [dataType: string]: string };
+type ITEM_TYPE = 'node' | 'edge' | 'combo';
 ```
 
-• Example:
+</details>
+
+<details>
+  <summary style="color: #873bf4; cursor: pointer;">
+    Example
+  </summary>
 
 ```javascript
 const data = {
@@ -237,16 +285,21 @@ const graph = new Graph({
 });
 ```
 
+</details>
+
+Theme configuration. The default theme is the light theme.
+
 ## layout
 
-Layout configuration. If not configured and the nodes in the data have `x` and `y` positions, the graph will be rendered based on the position information in the data. If not configured and the data does not have position information, the graph will be rendered using the 'grid' grid layout. See the [Layout Overview](../layout/LayoutOverview.en.md) for configurations for different layouts.
+**Type**: `LayoutOptions`
 
-• **Required**: False
-
-• **Type**: `LayoutOptions`
+<details>
+  <summary style="color: #873bf4; cursor: pointer;">
+    LayoutOptions
+  </summary>
 
 ```typescript
-type layoutOptions = StandardLayoutOptions
+type LayoutOptions = StandardLayoutOptions
   | ImmediatelyInvokedLayoutOptions;
 
 type PureLayoutOptions = CircularLayout | RandomLayout | ...; // Configurations for various layouts, see the documentation for layout configurations for details
@@ -262,15 +315,24 @@ type StandardLayoutOptions = PureLayoutOptions & {
 };
 ```
 
+</details>
+
+Layout configuration. If not configured and the nodes in the data have `x` and `y` positions, the graph will be rendered based on the position information in the data. If not configured and the data does not have position information, the graph will be rendered using the 'grid' grid layout. See the [Layout Overview](../layout/LayoutOverview.en.md) for configurations for different layouts.
+
 ## modes
 
-Interaction mode configuration. G6 provides different interaction mode configurations for the graph, which can be understood as groups of interactions. Different modes have different interaction configurations, allowing for quick switching between different interaction groups. For example, in read-only mode, you can only drag and zoom the canvas. In edit mode, you can create edges, etc. Here, you can configure the interaction groups on the graph. You can dynamically switch modes and switch interaction modes through the Graph API [`setMode`](#setmode), and get the current interaction mode through [`getMode`](#getmode).
+**Type**: `ModesCfg`
 
-• **Required**: False
-
-• **Type**: `ModesCfg`
+<details>
+  <summary style="color: #873bf4; cursor: pointer;">
+    ModesCfg
+  </summary>
 
 ```typescript
+type ModesCfg = {
+  default: BehaviorCfg[];
+  [mode: string]: BehaviorCfg[];
+};
 type BehaviorCfg =
   | string // You can specify only the type name string
   | {
@@ -280,30 +342,45 @@ type BehaviorCfg =
       // ...Other configurations, different interactions are different
     }
   | BehaviorClass;
-
-type ModesCfg = {
-  default: BehaviorCfg[];
-  [mode: string]: BehaviorCfg[];
-};
 ```
+
+</details>
+
+Interaction mode configuration. G6 provides different interaction mode configurations for the graph, which can be understood as groups of interactions. Different modes have different interaction configurations, allowing for quick switching between different interaction groups. For example, in read-only mode, you can only drag and zoom the canvas. In edit mode, you can create edges, etc. Here, you can configure the interaction groups on the graph. You can dynamically switch modes and switch interaction modes through the Graph API [`setMode`](#setmode), and get the current interaction mode through [`getMode`](#getmode).
 
 ## zoom
 
+**Type**: `number`
+
 The absolute zoom ratio value for the initial rendering.
-
-• **Required**: False
-
-• **Type**: `number`
 
 ## autoFit
 
-Whether to auto-fit the container and the way to auto-fit. `'view'` means zooming and panning to fit the container. `'center'` means only panning without zooming to align the center of the graph content with the center of the container.
+**Type**: `AutoFitType`
 
-• **Required**: False
+<details>
+  <summary style="color: #873bf4; cursor: pointer;">
+    AutoFitType
+  </summary>
 
-• **Type**: `"center"` \| `"view"` \| { `effectTiming?`: `Partial`<`Pick`<`IAnimationEffectTiming`, `"duration"` \| `"easing"` \| `"easingFunction"`\>\> ; `padding?`: `Padding` ; `rules?`: `FitViewRules` ; `type`: `"view"` } \| { `effectTiming?`: `Partial`<`Pick`<`IAnimationEffectTiming`, `"duration"` \| `"easing"` \| `"easingFunction"`\>\> ; `type`: `"center"` } \| { `alignment?`: `GraphAlignment` ; `effectTiming?`: `Partial`<`Pick`<`IAnimationEffectTiming`, `"duration"` \| `"easing"` \| `"easingFunction"`\>\> ; `position`: `Point` ; `type`: `"position"` }
+```ts
+type AutoFitType =
+  | 'center'
+  | 'view'
+  | {
+      effectTiming?: Partial<Pick<IAnimationEffectTiming, 'duration' | 'easing' | 'easingFunction'>>;
+      padding?: Padding;
+      rules?: FitViewRules;
+      type: 'view';
+    }
+  | { effectTiming?: Partial<Pick<IAnimationEffectTiming, 'duration' | 'easing' | 'easingFunction'>>; type: 'center' }
+  | {
+      alignment?: GraphAlignment;
+      effectTiming?: Partial<Pick<IAnimationEffectTiming, 'duration' | 'easing' | 'easingFunction'>>;
+      position: Point;
+      type: 'position';
+    };
 
-```typescript
 type FitViewRules = {
   onlyOutOfViewport?: boolean;
   onlyZoomAtLargerThanViewport?: boolean;
@@ -315,16 +392,21 @@ type FitViewRules = {
 type GraphAlignment = 'left-top' | 'right-top' | 'left-bottom' | 'right-bottom' | 'center' | [number, number];
 ```
 
+</details>
+
+Whether to auto-fit the container and the way to auto-fit. `'view'` means zooming and panning to fit the container. `'center'` means only panning without zooming to align the center of the graph content with the center of the container.
+
 ## animate
 
-Whether to enable global animation, with lower priority than the animation specified by each API.
+**Type**: `AnimateCfg`
 
-• **Required**: False
-
-• **Type**:
+<details>
+  <summary style="color: #873bf4; cursor: pointer;">
+    AnimateCfg
+  </summary>
 
 ```typescript
-interface AnimateCfg {
+type AnimateCfg = {
   /**
    * The duration (in ms) of each animation.
    */
@@ -353,16 +435,21 @@ interface AnimateCfg {
    * The callback function when the animation is resumed.
    */
   resumeCallback?: () => void;
-}
+};
 ```
+
+</details>
+
+Whether to enable global animation, with lower priority than the animation specified by each API.
 
 ## plugins
 
-Free plugins' configurations.
+**Type**: `PluginsCfg`
 
-• **Required**: False
-
-• **Type**: `PluginsCfg`
+<details>
+  <summary style="color: #873bf4; cursor: pointer;">
+    PluginsCfg
+  </summary>
 
 ```typescript
 type PluginsCfg = (
@@ -377,28 +464,33 @@ type PluginsCfg = (
 )[];
 ```
 
+</details>
+
+Free plugins' configurations.
+
 **TODO**: 链接各个插件的配置文档
 
 ## enableStack
 
+**Type**: `boolean`
+
 Whether to enable the history stack.
-
-• **Required**: False
-
-• **Type**: `boolean`
 
 ## stackCfg
 
-• **Required**: False
-
-• **Type**: `StackCfg`
+**Type**: `StackCfg`
 
 <embed src="../../common/StackCfg.en.md"></embed>
 
 ## optimize
 
-Configuration options for performance optimization in a graph instance. This includes controlling first screen tile rendering, tile interaction limits, and other performance-related configurations.
+**Type**: `OptimizeCfg`
 
+<details>
+  <summary style="color: #873bf4; cursor: pointer;">
+    OptimizeCfg
+  </summary>
+  
 ```typescript
 {
   /** Whether to enable tile-based rendering for the initial screen. If specified as a number, it indicates the maximum number of elements for tile-based rendering. */
@@ -413,3 +505,7 @@ Configuration options for performance optimization in a graph instance. This inc
   tileLodSize?: number;
 }
 ```
+
+</details>
+
+Configuration options for performance optimization in a graph instance. This includes controlling first screen tile rendering, tile interaction limits, and other performance-related configurations.

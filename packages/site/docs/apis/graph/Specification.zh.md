@@ -3,40 +3,34 @@ title: Specification 图配置项
 order: 0
 ---
 
-## container
+## container <Badge type="error">必须</Badge>
+
+**类型**：`string | HTMLElement`
 
 图的容器 DOM，可以是已经存在的 DOM id，也可以是 DOM 对象。
 
-• **是否必须**: 是
-
-• **类型**: `string` \| `HTMLElement`
-
 ## height
+
+**类型**：`number`
 
 画布标签 DOM 的高度。未指定，则自适应容器。
 
-• **是否必须**: 否
-
-• **类型**: `number`
-
 ## width
+
+**类型**：`number`
 
 画布标签 DOM 的宽度。未指定，则自适应容器。
 
-• **是否必须**: 否
-
-• **类型**: `number`
-
 ## renderer
 
-渲染器类型名称，默认为 `'canvas'`。大规模数据建议使用 `'webgl'`。若使用 `'webgl-3d'` 应当配合 3D 相关的交互和元素类型。
+**类型**：`RendererCfg`
 
-• **是否必须**: 否
-
-• **类型**: `RendererCfg`
+<details>
+  <summary style="color: #873bf4; cursor: pointer;">
+    RendererCfg
+  </summary>
 
 ```typescript
-type RendererName = 'canvas' | 'webgl' | 'svg' | 'webgl-3d';
 type RendererCfg =
   | RendererName
   | {
@@ -47,43 +41,62 @@ type RendererCfg =
       // 像素比，不指定将自动获取当前设备自动像素比。一般在 1-3 之间。可在渲染模糊的情况下，设置较大的值
       pixelRatio?: number;
     };
+
+type RendererName = 'canvas' | 'webgl' | 'svg' | 'webgl-3d';
 ```
+
+</details>
+
+渲染器类型名称，默认为 `'canvas'`。大规模数据建议使用 `'webgl'`。若使用 `'webgl-3d'` 应当配合 3D 相关的交互和元素类型。
 
 ## data
 
-图数据。可以在此配置项中给出，也可以通过 Graph 的 API 写入，见 [graph.read](./Graph.zh.md#read)。
+**类型**：`GraphData | InlineGraphDataConfig | InlineTreeDataConfig`
 
-• **是否必须**: 否
-
-• **类型**: `DataConfig`
+<details>
+  <summary style="color: #873bf4; cursor: pointer;">
+    InlineGraphDataConfig
+  </summary>
 
 ```typescript
-type DataConfig = GraphData | InlineGraphDataConfig | InlineTreeDataConfig;
-
-interface InlineGraphDataConfig {
+type InlineGraphDataConfig = {
   type: 'graphData';
   value: GraphData;
-}
-
-interface InlineTreeDataConfig {
-  type: 'treeData';
-  value: TreeData;
-}
+};
 ```
 
-其中 [`GraphData`](../data/GraphData.zh.md)，[`TreeData`](../data/TreeData.zh.md) 详见对应类型定义文档。
+</details>
+
+<details>
+  <summary style="color: #873bf4; cursor: pointer;">
+    InlineTreeDataConfig
+  </summary>
+
+```typescript
+type InlineTreeDataConfig = {
+  type: 'treeData';
+  value: TreeData;
+};
+```
+
+</details>
+
+- [GraphData](../data/GraphData.zh.md)
+
+- [TreeData](../data/TreeData.zh.md)
+
+图数据。可以在此配置项中给出，也可以通过 Graph 的 API 写入，见 [graph.read](./Graph.zh.md#read)。
 
 ## transforms
 
-数据转换器。可配置多个内置的或自定义的数据转换器，图读取用户数据时，将按照配置的数组顺序，线性执行数据转换器。即前一个数据处理器的结果将输入到下一个数据处理器中。所有数据处理器完成后，生成 G6 内部流转的数据。详见[数据介绍文档](../data/DataIntro.zh.md)。自定义方式见[自定义数据处理器文档](../data/CustomTransform.zh.md)。
+**类型**：`TransformsConfig`
 
-• **是否必须**: 否
-
-• **类型**: `TransformsConfig`
+<details>
+  <summary style="color: #873bf4; cursor: pointer;">
+    TransformsConfig
+  </summary>
 
 ```typescript
-// 数据生命周期阶段
-type DataLifecycleType = 'read' | 'changeData' | 'updateData' | 'addData' | 'removeData';
 type TransformsConfig =
   | string[]
   | {
@@ -96,39 +109,51 @@ type TransformsConfig =
       [param: string]: unknown;
     }[]
   | TransformerFn[];
+type DataLifecycleType = 'read' | 'changeData' | 'updateData' | 'addData' | 'removeData';
 ```
+
+</details>
+
+数据转换器。可配置多个内置的或自定义的数据转换器，图读取用户数据时，将按照配置的数组顺序，线性执行数据转换器。即前一个数据处理器的结果将输入到下一个数据处理器中。所有数据处理器完成后，生成 G6 内部流转的数据。详见[数据介绍文档](../data/DataIntro.zh.md)。自定义方式见[自定义数据处理器文档](../data/CustomTransform.zh.md)。
 
 ## node
 
+**类型**：`NodeEncode | (data: NodeModel) => NodeDisplayModel`
+
+- [NodeModel](../data//NodeModel.zh.md)
+
+- [NodeDisplayModel](../data/NodeDisplayModel.zh.md)
+
 节点映射器（mapper），可以是 JSON 配置，也可以函数映射。映射器的生成结果应当是渲染所需的图形样式等。这一映射器在每次渲染节点时，将内部流转数据转换为渲染数据，详见[数据介绍文档](../data/DataIntro.zh.md)。
-
-• **是否必须**: 否
-
-• **类型**: `NodeEncode` \| (`data`: [`NodeModel`](../data//NodeModel.zh.md)) => [`NodeDisplayModel`](../data/NodeDisplayModel.zh.md)
 
 ## edge
 
+**类型**：`EdgeEncode | (data: EdgeModel) => EdgeDisplayModel`
+
+- [EdgeModel](../data/EdgeModel.zh.md)
+
+- [EdgeDisplayModel](../data/EdgeDisplayModel.zh.md)
+
 边映射器（mapper），可以是 JSON 配置，也可以函数映射。映射器的生成结果应当是渲染所需的图形样式等。这一映射器在每次渲染边时，将内部流转数据转换为渲染数据，详见[数据介绍文档](../data/DataIntro.zh.md)。
-
-• **是否必须**: 否
-
-• **类型**: `EdgeEncode` \| (`data`: [`EdgeModel`](../data/EdgeModel.zh.md)) => [`EdgeDisplayModel`](../data/EdgeDisplayModel.zh.md)
 
 ## combo
 
+**类型**：`ComboEncode | (data: ComboModel) => ComboDisplayModel`
+
+- [ComboModel](../data/ComboModel.zh.md)
+
+- [ComboDisplayModel](../data/ComboDisplayModel.zh.md)
+
 Combo 映射器（mapper），可以是 JSON 配置，也可以函数映射。映射器的生成结果应当是渲染所需的图形样式等。这一映射器在每次渲染 Combo 时，将内部流转数据转换为渲染数据，详见[数据介绍文档](../data/DataIntro.zh.md)。
-
-• **是否必须**: 否
-
-• **类型**: `ComboEncode` \| (`data`: [`ComboModel`](../data/ComboModel.en.md)) => [`ComboDisplayModel`](../data/ComboDisplayModel.en.md)
 
 ## nodeState
 
-节点的状态样式配置。内置主题中已经提供了 `'selected'`、`'active'`、`'highlight'`、`'inactive'`、`'disable'` 的状态样式。如果需要修改或为自定义状态名设置样式，可在此处配置。
+**类型**：`NodeStateStyles`
 
-• **是否必须**: 否
-
-• **类型**:
+<details>
+  <summary style="color: #873bf4; cursor: pointer;">
+    NodeStateStyles
+  </summary>
 
 ```typescript
 {
@@ -139,32 +164,42 @@ Combo 映射器（mapper），可以是 JSON 配置，也可以函数映射。�
   }
 }
 ```
+
+</details>
+
+节点的状态样式配置。内置主题中已经提供了 `'selected'`、`'active'`、`'highlight'`、`'inactive'`、`'disable'` 的状态样式。如果需要修改或为自定义状态名设置样式，可在此处配置。
 
 ## edgeState
 
-边的状态样式配置。内置主题中已经提供了 `'selected'`、`'active'`、`'highlight'`、`'inactive'`、`'disable'` 的状态样式。如果需要修改或为自定义状态名设置样式，可在此处配置。
+**类型**：`EdgeStateStyles`
 
-• **是否必须**: 否
-
-• **类型**:
+<details>
+  <summary style="color: #873bf4; cursor: pointer;">
+    EdgeStateStyles
+  </summary>
 
 ```typescript
-{
+type EdgeStateStyles = {
   // key 为状态名称，例如 selected
   [stateName: string]: {
     // key 为图形名称，值表示该状态下该图形的样式
-    [shapeId]: ShapStyle
-  }
-}
+    [shapeId]: ShapStyle;
+  };
+};
 ```
+
+</details>
+
+边的状态样式配置。内置主题中已经提供了 `'selected'`、`'active'`、`'highlight'`、`'inactive'`、`'disable'` 的状态样式。如果需要修改或为自定义状态名设置样式，可在此处配置。
 
 ## comboState
 
-Combo 的状态样式配置。内置主题中已经提供了 `'selected'`、`'active'`、`'highlight'`、`'inactive'`、`'disable'` 的状态样式。如果需要修改或为自定义状态名设置样式，可在此处配置。
+**类型**：`ComboStateStyles`
 
-• **是否必须**: 否
-
-• **类型**:
+<details>
+  <summary style="color: #873bf4; cursor: pointer;">
+    ComboStateStyles
+  </summary>
 
 ```typescript
 {
@@ -176,18 +211,20 @@ Combo 的状态样式配置。内置主题中已经提供了 `'selected'`、`'ac
 }
 ```
 
+</details>
+
+Combo 的状态样式配置。内置主题中已经提供了 `'selected'`、`'active'`、`'highlight'`、`'inactive'`、`'disable'` 的状态样式。如果需要修改或为自定义状态名设置样式，可在此处配置。
+
 ## theme
 
-主题配置，默认使用亮色主题。
+**类型**：`ThemeCfg`
 
-• **是否必须**: 否
-
-• **类型**: `ThemeCfg`
+<details>
+  <summary style="color: #873bf4; cursor: pointer;">
+    ThemeCfg
+  </summary>
 
 ```typescript
-// 色板的类型，可以是十六进制颜色字符串数组，也可以是对象形式 key 为数据类型名，value 为十六进制颜色值
-type Palette = string[] | { [dataType: string]: string };
-type ITEM_TYPE = 'node' | 'edge' | 'combo';
 type ThemeCfg = {
   type: 'spec';
   // 自定义主题基于的内置主题，默认为 'light'
@@ -214,9 +251,17 @@ type ThemeCfg = {
     };
   };
 };
+// 色板的类型，可以是十六进制颜色字符串数组，也可以是对象形式 key 为数据类型名，value 为十六进制颜色值
+type Palette = string[] | { [dataType: string]: string };
+type ITEM_TYPE = 'node' | 'edge' | 'combo';
 ```
 
-• 例子:
+</details>
+
+<details>
+  <summary style="color: #873bf4; cursor: pointer;">
+    示例
+  </summary>
 
 ```javascript
 const data = {
@@ -244,16 +289,21 @@ const graph = new Graph({
 });
 ```
 
+</details>
+
+主题配置，默认使用亮色主题。
+
 ## layout
 
-布局的配置。若不配置，且节点数据中存在 `x` `y`，则使用数据中的位置信息进行绘制。若不配置，且数据中无位置信息，则使用 `'grid'` 网格布局进行计算和绘制。各个布局的详细配置见[布局总览](../layout/LayoutOverview.zh.md)下的各个子文档。
+**类型**：`LayoutOptions`
 
-• **是否必须**: 否
-
-• **类型**: `LayoutOptions`
+<details>
+  <summary style="color: #873bf4; cursor: pointer;">
+    LayoutOptions
+  </summary>
 
 ```typescript
-type layoutOptions = StandardLayoutOptions
+type LayoutOptions = StandardLayoutOptions
   | ImmediatelyInvokedLayoutOptions;
 
 type PureLayoutOptions = CircularLayout | RandomLayout | ...; // 各个布局配置，详见布局配置文档
@@ -269,15 +319,24 @@ type StandardLayoutOptions = PureLayoutOptions & {
 };
 ```
 
+</details>
+
+布局的配置。若不配置，且节点数据中存在 `x` `y`，则使用数据中的位置信息进行绘制。若不配置，且数据中无位置信息，则使用 `'grid'` 网格布局进行计算和绘制。各个布局的详细配置见[布局总览](../layout/LayoutOverview.zh.md)下的各个子文档。
+
 ## modes
 
-交互模式配置。G6 图提供不同的交互模式配置，可以理解为交互的分组。不同模式下配置不同交互，以便快速切换不同的交互分组。例如只读模式下，只能拖拽和缩放画布。编辑模式下，可以创建边等。此处可配置图上的交互分组，后续需要动态切换和通过 Graph 的 API [`setMode`](#setmode) 切换交互模式，[`getMode`](#getmode) 获取当前的交互模式。
+**类型**：`ModesCfg`
 
-• **是否必须**: 否
-
-• **类型**: `ModesCfg`
+<details>
+  <summary style="color: #873bf4; cursor: pointer;">
+    ModesCfg
+  </summary>
 
 ```typescript
+type ModesCfg = {
+  default: BehaviorCfg[];
+  [mode: string]: BehaviorCfg[];
+};
 type BehaviorCfg =
   | string // 可只指定 type 类型名称字符串
   | {
@@ -287,30 +346,45 @@ type BehaviorCfg =
       // ...其他配置，各个交互不相同
     }
   | BehaviorClass;
-
-type ModesCfg = {
-  default: BehaviorCfg[];
-  [mode: string]: BehaviorCfg[];
-};
 ```
+
+</details>
+
+交互模式配置。G6 图提供不同的交互模式配置，可以理解为交互的分组。不同模式下配置不同交互，以便快速切换不同的交互分组。例如只读模式下，只能拖拽和缩放画布。编辑模式下，可以创建边等。此处可配置图上的交互分组，后续需要动态切换和通过 Graph 的 API [`setMode`](#setmode) 切换交互模式，[`getMode`](#getmode) 获取当前的交互模式。
 
 ## zoom
 
+**类型**：`number`
+
 初次渲染的绝对缩放比例值。
-
-• **是否必须**: 否
-
-• **类型**: `number`
 
 ## autoFit
 
-是否自适应容器，以及自适应的方式。`'view'` 表示缩放并平移以适配容器。`'center'` 表示仅平移不缩放以时图内容中心对齐容器中心。
+**类型**：`AutoFitType`
 
-• **是否必须**: 否
+<details>
+  <summary style="color: #873bf4; cursor: pointer;">
+    AutoFitType
+  </summary>
 
-• **类型**: `"center"` \| `"view"` \| { `effectTiming?`: `Partial`<`Pick`<`IAnimationEffectTiming`, `"duration"` \| `"easing"` \| `"easingFunction"`\>\> ; `padding?`: `Padding` ; `rules?`: `FitViewRules` ; `type`: `"view"` } \| { `effectTiming?`: `Partial`<`Pick`<`IAnimationEffectTiming`, `"duration"` \| `"easing"` \| `"easingFunction"`\>\> ; `type`: `"center"` } \| { `alignment?`: `GraphAlignment` ; `effectTiming?`: `Partial`<`Pick`<`IAnimationEffectTiming`, `"duration"` \| `"easing"` \| `"easingFunction"`\>\> ; `position`: `Point` ; `type`: `"position"` }
+```ts
+type AutoFitType =
+  | 'center'
+  | 'view'
+  | {
+      effectTiming?: Partial<Pick<IAnimationEffectTiming, 'duration' | 'easing' | 'easingFunction'>>;
+      padding?: Padding;
+      rules?: FitViewRules;
+      type: 'view';
+    }
+  | { effectTiming?: Partial<Pick<IAnimationEffectTiming, 'duration' | 'easing' | 'easingFunction'>>; type: 'center' }
+  | {
+      alignment?: GraphAlignment;
+      effectTiming?: Partial<Pick<IAnimationEffectTiming, 'duration' | 'easing' | 'easingFunction'>>;
+      position: Point;
+      type: 'position';
+    };
 
-```typescript
 type FitViewRules = {
   onlyOutOfViewport?: boolean;
   onlyZoomAtLargerThanViewport?: boolean;
@@ -322,16 +396,21 @@ type FitViewRules = {
 type GraphAlignment = 'left-top' | 'right-top' | 'left-bottom' | 'right-bottom' | 'center' | [number, number];
 ```
 
+</details>
+
+是否自适应容器，以及自适应的方式。`'view'` 表示缩放并平移以适配容器。`'center'` 表示仅平移不缩放以时图内容中心对齐容器中心。
+
 ## animate
 
-是否开启全局动画，优先级低于各 API 指定的动画。
+**类型**：`AnimateCfg`
 
-• **是否必须**: 否
-
-• **类型**:
+<details>
+  <summary style="color: #873bf4; cursor: pointer;">
+    AnimateCfg
+  </summary>
 
 ```typescript
-interface AnimateCfg {
+type AnimateCfg = {
   /**
    * 一次动画执行的时长（ms）。
    */
@@ -360,16 +439,21 @@ interface AnimateCfg {
    * 动画恢复时的回调函数。
    */
   resumeCallback?: () => void;
-}
+};
 ```
+
+</details>
+
+是否开启全局动画，优先级低于各 API 指定的动画。
 
 ## plugins
 
-配置自由插件。
+**类型**：`PluginsCfg`
 
-• **是否必须**: 否
-
-• **类型**: `PluginsCfg`
+<details>
+  <summary style="color: #873bf4; cursor: pointer;">
+    PluginsCfg
+  </summary>
 
 ```typescript
 type PluginsCfg = (
@@ -384,27 +468,32 @@ type PluginsCfg = (
 )[];
 ```
 
+</details>
+
+配置自由插件。
+
 **TODO**: 链接各个插件的配置文档
 
 ## enableStack
 
+**类型**：`boolean`
+
 是否允许开启历史栈。
-
-• **是否必须**: 否
-
-• **类型**: `boolean`
 
 ## stackCfg
 
-• **是否必须**: 否
-
-• **类型**: `StackCfg`
+**类型**：`StackCfg`
 
 <embed src="../../common/StackCfg.zh.md"></embed>
 
 ## optimize
 
-图实例性能优化配置项。控制首屏分片渲染、分片交互等。包括单片的元素数量和开启分片渲染的上限。后续可能继续添加与性能优化有关的配置内容。
+**类型**：`OptimizeCfg`
+
+<details>
+  <summary style="color: #873bf4; cursor: pointer;">
+    OptimizeCfg
+  </summary>
 
 ```typescript
 {
@@ -420,3 +509,7 @@ type PluginsCfg = (
   tileLodSize?: number;
 }
 ```
+
+</details>
+
+图实例性能优化配置项。控制首屏分片渲染、分片交互等。包括单片的元素数量和开启分片渲染的上限。后续可能继续添加与性能优化有关的配置内容。
