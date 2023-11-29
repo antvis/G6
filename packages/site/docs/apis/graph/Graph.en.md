@@ -7,1045 +7,933 @@ order: 1
 
 ### getSpecification
 
-Get a copy of the current graph configuration spec.
+**Type**: `() => Specification<B, T>`
 
-• **Type**: () => [`Specification`](Specification.zh.md)<`B`, `T`\>
+- [Specification](Specification.en.md)
+
+Get a copy of the current graph configuration spec
 
 ### updateSpecification
 
-Update the current graph configuration spec.
+**Type**: `(spec: Specification<B, T>) => Specification<B, T>`
 
-• **Type**: (`spec`: [`Specification`](Specification.zh.md)<`B`, `T`\>) => [`Specification`](Specification.zh.md)<`B`, `T`\>
+- [Specification](Specification.en.md)
 
-• **Parameters**: The incremental configuration to update.
+Update the current graph configuration spec
 
 ### updateTheme
 
-Update the theme section in the current graph configuration spec.
+**Type**: `(theme: ThemeOptionsOf<T>) => void`
 
-• **Type**: (`theme`: `ThemeOptionsOf`<`T`\>) => `void`
-
-• **Parameters**: The theme configuration to update.
+Update the theme section in the current graph configuration spec
 
 ### updateMapper
 
-Update the mapper for nodes/edges/combos and re-render the related items.
+**Type**: `(type: ITEM_TYPE, mapper: NodeMapper | EdgeMapper | ComboMapper) => void`
 
-• **Type**: (`type`, `mapper`): `void`
-
-• **Parameters**:
-
-| Name     | Type                                          | Description                |
-| :------- | :-------------------------------------------- | :------------------------- |
-| `type`   | `ITEM_TYPE`                                   | The type of item to update |
-| `mapper` | `NodeMapper` \| `EdgeMapper` \| `ComboMapper` | The updated mapper         |
+Update the mapper for nodes/edges/combos and re-render the related items
 
 ### updateStateConfig
 
-Update the state style configuration for nodes/edges/combos and re-render the items in the corresponding states.
+**Type**: `UpdateStateConfig`
 
-• **Type**: (`itemType`, `stateConfig`, `updateType?`): `void`
+<details>
+  <summary style='color: #873bf4; cursor: pointer;'>
+    UpdateStateConfig
+  </summary>
 
-• **Parameters**:
+```ts
+type UpdateStateConfig = (
+  /** The type of items to update */
+  itemType: ITEM_TYPE,
+  /** The updated state style configuration */
+  stateConfig:
+    | { [stateName: string]: (data: NodeModel) => NodeDisplayModel | NodeShapesEncode }
+    | { [stateName: string]: (data: EdgeModel) => EdgeDisplayModel | EdgeShapesEncode }
+    | { [stateName: string]: (data: ComboModel) => ComboDisplayModel | ComboShapesEncode },
+  /** 'replace' means replacing directly, 'mergeReplace' means merging with the original mapper and then replacing */
+  updateType?: 'replace' | 'mergeReplace',
+) => void;
+```
 
-| Name          | Type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        | Default value    | Description                                                                                                      |
-| :------------ | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | :--------------- | :--------------------------------------------------------------------------------------------------------------- |
-| `itemType`    | `ITEM_TYPE`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | `undefined`      | The type of items to update                                                                                      |
-| `stateConfig` | { `[stateName: string]`: (`data`: [`NodeModel`](../data/NodeModel.en.md)) => [`NodeDisplayModel`](../data/NodeDisplayModel.en.md) \| `NodeShapesEncode`; } \| { `[stateName: string]`: (`data`: [`EdgeModel`](../data/EdgeModel.en.md)) => [`EdgeDisplayModel`](../data/EdgeDisplayModel.en.md) \| `EdgeShapesEncode`; } \| { `[stateName: string]`: (`data`: [`ComboModel`](../data/ComboModel.en.md)) => [`ComboDisplayModel`](../data/ComboDisplayModel.en.md) \| `ComboShapesEncode`; } | `undefined`      | The updated state style configuration                                                                            |
-| `updateType`  | `"replace"` \| `"mergeReplace"`                                                                                                                                                                                                                                                                                                                                                                                                                                                             | `'mergeReplace'` | `'replace'` means replacing directly, `'mergeReplace'` means merging with the original mapper and then replacing |
+</details>
+
+Update the state style configuration for nodes/edges/combos and re-render the items in the corresponding states
 
 ## Data
 
 ### read
 
-Read and render the data for the first time.
+**Type**: `(data: GraphData) => void`
 
-• **Type**: (`data`: [`GraphData`](GraphData.zh.md)) => `void`
+- [GraphData](GraphData.en.md)
 
-• **Parameters**:
-
-| Name   | Type                           |
-| :----- | :----------------------------- |
-| `data` | [`GraphData`](GraphData.zh.md) |
+Read and render the data for the first time
 
 ### addData
 
-Add data of a specific type.
+**Type**: `AddData`
 
-• **Type**:
+<details>
+  <summary style='color: #873bf4; cursor: pointer;'>
+    AddData
+  </summary>
 
 ```typescript
- (itemType: ITEM_TYPE, model: NodeUserModel | EdgeUserModel | ComboUserModel | NodeUserModel[] | EdgeUserModel[] | ComboUserModel[]) => NodeModel | EdgeModel | ComboModel | NodeModel[] | EdgeModel[] | ComboModel[]
+type AddData = (
+  /** The type of items to add. This means that only one type of item can be added at a time. It is recommended to add nodes first and then add edges to avoid adding edges when the corresponding nodes do not exist */
+  itemType: ITEM_TYPE,
+  /** The user data to add, which can be a single data or an array */
+  model: NodeUserModel | EdgeUserModel | ComboUserModel | NodeUserModel[] | EdgeUserModel[] | ComboUserModel[],
+) => /** The added data */
+NodeModel | EdgeModel | ComboModel | NodeModel[] | EdgeModel[] | ComboModel[];
 ```
 
-• **Parameters**:
-| Name | Type | Description |
-| :--------- | :--------------------------------------------------------------------------------------------------------------------- | :----------------------------------------------------------------------------------------------------- |
-| `itemType` | `ITEM_TYPE` | The type of items to add. This means that only one type of item can be added at a time. It is recommended to add nodes first and then add edges to avoid adding edges when the corresponding nodes do not exist |
-| `model` | [`NodeUserModel`](../data/NodeUserModel.en.md) \| [`EdgeUserModel`](../data/EdgeUserModel.en.md) \| [`ComboUserModel`](../data/ComboUserModel.en.md) \| [`NodeUserModel`](../data/NodeUserModel.en.md)[] \| [`EdgeUserModel`](../data/EdgeUserModel.en.md)[] \| [`ComboUserModel`](../data/ComboUserModel.en.md)[] | The user data to add, which can be a single data or an array |
+</details>
 
-• **Returns**: The added data
+Add data of a specific type
 
 ### changeData
 
-Replace the data completely. There are two ways to replace the data: `"replace"` means completely discarding the original data and using the new data; `"mergeReplace"` means that if the new data contains nodes/edges/combos with certain ids that already exist in the canvas, the original data will be merged with the corresponding data and then replaced by the new data.
+**Type**: `(data: GraphData, type: 'replace' | 'mergeReplace') => void`
 
-• **Type**:
+Replace the data completely
 
-```typescript
-(data: GraphData, type: "replace" | "mergeReplace") => void
-```
+- `'replace'`: completely discarding the original data and using the new data
 
-• **Parameters**:
-| Name | Type | Description |
-| :----- | :------------------------------ | :---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `data` | [`GraphData`](GraphData.zh.md) | The new data |
-| `type` | `"replace"` \| `"mergeReplace"` | The way to replace the data. `"replace"` means completely discarding the original data and using the new data; `"mergeReplace"` means that if the new data contains nodes/edges/combos with certain ids that already exist in the canvas, |
+- `'mergeReplace'`: if the new data contains nodes/edges/combos with certain ids that already exist in the canvas, the original data will be merged with the corresponding data and then replaced by the new data
 
 ### updateData
 
-Update partial data of a specific type.
+**Type**: `UpdateData`
 
-• **Type**:
+<details>
+  <summary style='color: #873bf4; cursor: pointer;'>
+    UpdateData
+  </summary>
 
 ```typescript
-(itemType: ITEM_TYPE, model: Partial<NodeUserModel> | Partial<EdgeUserModel> | Partial<ComboUserModel | Partial<NodeUserModel>[] | Partial<EdgeUserModel>[] | Partial<ComboUserModel>[]>) => NodeModel | EdgeModel | ComboModel | NodeModel[] | EdgeModel[] | ComboModel[]
+type UpdateData = (
+  /** The type of items to update. Only one type of item can be updated at a time */
+  itemType: ITEM_TYPE,
+  /** The data to update. It can be a single item or an array */
+  model:
+    | Partial<NodeUserModel>
+    | Partial<EdgeUserModel>
+    | Partial<ComboUserModel | Partial<NodeUserModel>[] | Partial<EdgeUserModel>[] | Partial<ComboUserModel>[]>,
+) => /** The updated data */
+NodeModel | EdgeModel | ComboModel | NodeModel[] | EdgeModel[] | ComboModel[];
 ```
 
-• **Parameters**:
+</details>
 
-| Name       | Type                                                                                                                                                                                                                                                                                                                                                                                       | Description                                                                 |
-| :--------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :-------------------------------------------------------------------------- |
-| `itemType` | `ITEM_TYPE`                                                                                                                                                                                                                                                                                                                                                                                | The type of data to update. Only one type of data can be updated at a time. |
-| `model`    | `Partial`<[`NodeUserModel`](../data/NodeUserModel.en.md)\> \| `Partial`<[`EdgeUserModel`](../data/EdgeUserModel.en.md)\> \| `Partial`<[`ComboUserModel`](../data/ComboUserModel.en.md) \| `Partial`<[`NodeUserModel`](../data/NodeUserModel.en.md)\>[] \| `Partial`<[`EdgeUserModel`](../data/EdgeUserModel.en.md)\>[] \| `Partial`<[`ComboUserModel`](../data/ComboUserModel.en.md)\>[]\> | The data to update. It can be a single item or an array.                    |
+- [NodeModel](../data/NodeModel.en.md)
 
-• **Returns**: Updated data
+- [NodeUserModel](../data/NodeUserModel.en.md)
 
-[`NodeModel`](../data/NodeModel.en.md) \| [`EdgeModel`](../data/EdgeModel.en.md) \| [`ComboModel`](../data/ComboModel.en.md) \| [`NodeModel`](../data/NodeModel.en.md)[] \| [`EdgeModel`](../data/EdgeModel.en.md)[] \| [`ComboModel`](../data/ComboModel.en.md)[]
+- [EdgeModel](../data/EdgeModel.en.md)
+
+- [EdgeUserModel](../data/EdgeUserModel.en.md)
+
+- [ComboModel](../data/ComboModel.en.md)
+
+- [ComboUserModel](../data/ComboUserModel.en.md)
+
+Update partial data of a specific type
 
 ### removeData
 
-Remove one or more items of the same type.
+**Type**: `(itemType: ITEM_TYPE, id: ID | ID[]) => void`
 
-• **Type**: (`itemType`: `ITEM_TYPE`, `id`: `ID` \| `ID`[]) => `void`
-
-• **Parameters**:
-| Name | Type | Description |
-| :--------- | :------------- | :----------------------------------- |
-| `itemType` | `ITEM_TYPE` | The type of data to remove. `'node'` \| `'edge'` \| `'combo'` |
-| `id` | `ID` \| `ID`[] | The id or ids of the data to remove |
+Remove one or more items of the same type
 
 ### getAllNodesData
 
-Get all node data (inner model).
+**Type**: `() => NodeModel[]`
 
-• **Type**: () => [`NodeModel`](../data/NodeModel.en.md)[]
+- [NodeModel](../data/NodeModel.en.md)
+
+Get all node data (inner model)
 
 ### getAllEdgesData
 
-Get all edge data (inner model).
+**Type**: `() => EdgeModel[]`
 
-• **Type**: () => [`EdgeModel`](../data/EdgeModel.en.md)[]
+- [EdgeModel](../data/EdgeModel.en.md)
+
+Get all edge data (inner model)
 
 ### getAllCombosData
 
-Get all combo data (inner model).
+**Type**: `() => ComboModel[]`
 
-• **Type**: () => [`ComboModel`](../data/ComboModel.en.md)[]
+- [ComboModel](../data/ComboModel.en.md)
+
+Get all combo data (inner model)
 
 ### getNodeData
 
-Get node data (inner model) with the specified id or condition.
+**Type**: `(condition: Function | ID) => NodeModel`
 
-• **Type**: (`condition`: `Function` \| `ID`) => [`NodeModel`](../data/NodeModel.en.md)
+- [NodeModel](../data/NodeModel.en.md)
 
-• **Parameters**:
-| Name | Type | Description |
-| :---------- | :----------------- | :----------------------- |
-| `condition` | `Function` \| `ID` | The id or condition function of the node. The condition function takes the inner model of the node as its parameter |
+Get node data (inner model) with the specified id or condition
 
 ### getEdgeData
 
-Get edge data (inner model) with the specified id or condition.
+**Type**: `(condition: Function | ID) => EdgeModel`
 
-• **Type**: (`condition`: `Function` \| `ID`) => [`EdgeModel`](../data/EdgeModel.en.md)
+- [EdgeModel](../data/EdgeModel.en.md)
 
-• **Parameters**:
-| Name | Type | Description |
-| :---------- | :----------------- | :----------------------- |
-| `condition` | `Function` \| `ID` | The id or condition function of the edge. The condition function takes the inner model of the edge as its parameter |
+Get edge data (inner model) with the specified id or condition
 
 ### getComboData
 
-Get combo data (inner model) with the specified id or condition.
+**Type**: `(condition: Function | ID) => ComboModel`
 
-• **Type**: (`condition`: `Function` \| `ID`) => [`ComboModel`](../data/ComboModel.en.md)
+- [ComboModel](../data/ComboModel.en.md)
 
-• **Parameters**:
-| Name | Type | Description |
-| :---------- | :----------------- | :----------------------- |
-| `condition` | `Function` \| `ID` | The id or condition function of the combo. The condition function takes the inner model of the combo as its parameter. |
+Get combo data (inner model) with the specified id or condition
 
 ### getNeighborNodesData
 
-Get the one-hop neighbor node data (inner model) of the specified node.
+**Type**: `(nodeId: ID, direction?: 'both' | 'in' | 'out') => NodeModel[]`
 
-• **Type**: (`nodeId`: `ID`, `direction?`: `"both"` \| `"in"` \| `"out"`) => [`NodeModel`](../data/NodeModel.en.md)[]
+- [NodeModel](../data/NodeModel.en.md)
 
-• **Parameters**:
-| Name | Type | Description |
-| :----------- | :---------------------------- | :------------------- |
-| `nodeId` | `ID` | The id of the source node |
-| `direction?` | `"both"` \| `"in"` \| `"out"` | The type/direction of the neighbors, including all neighbors ("both"), neighbors pointing to the source node ("in"), neighbors starting from the source node ("out")|
-
-• **Returns**: `NodeModel[]`, The neighbor node data (inner model).
+Get the one-hop neighbor node data (inner model) of the specified node
 
 ### getRelatedEdgesData
 
-Get the one-hop neighbor edge data (inner model) of the specified node.
+**Type**: `(nodeId: ID, direction?: 'both' | 'in' | 'out') => EdgeModel[]`
 
-• **Type**: (`nodeId`: `ID`, `direction?`: `"both"` \| `"in"` \| `"out"`) => [`EdgeModel`](../data/EdgeModel.en.md)[]
+- [EdgeModel](../data/EdgeModel.en.md)
 
-• **Parameters**:
-| Name | Type | Description |
-| :----------- | :---------------------------- | :------------------- |
-| `nodeId` | `ID` | The id of the source node |
-| `direction?` | `"both"` \| `"in"` \| `"out"` | The type/direction of the neighbors, including all neighbors ("both"), neighbors pointing to the source node ("in"), neighbors starting from the source node ("out") |
-
-• **Returns**: `EdgeModel[]`, The neighbor edge data (inner model).
+Get the one-hop neighbor edge data (inner model) of the specified node
 
 ### getNearEdgesData
 
-Get the edge data (inner model) related to the specified node.
+**Type**: `(nodeId: ID) => EdgeModel[]`
 
-• **Type**: (`nodeId`: `ID`) => [`EdgeModel`](../data/EdgeModel.en.md)[]
+- [EdgeModel](../data/EdgeModel.en.md)
 
-• **Parameters**:
-| Name | Type | Description |
-| :------- | :--- | :--------------- |
-| `nodeId` | `ID` | The id of begin node |
-
-• **Returns**: `EdgeModel[]`, the data model (inner model) of the nearby edges.
+Get the edge data (inner model) related to the specified node
 
 ### updateNodePosition
 
-Update the position of a single or multiple nodes. This API does not update other styles passed in, in order to achieve better performance in position updates.
+**Type**: `UpdateNodePosition`
 
-• **Type**:
+<details>
+  <summary style='color: #873bf4; cursor: pointer;'>
+    UpdateNodePosition
+  </summary>
 
-```javascript
- (models: Partial<NodeUserModel> | Partial<ComboUserModel | Partial<NodeUserModel>[] | Partial<ComboUserModel>[]>, upsertAncestors?: boolean, disableAnimate?: boolean, callback?: (model: NodeModel | EdgeModel | ComboModel, canceled?: boolean) => void) => NodeModel | ComboModel | NodeModel[] | ComboModel[]
+```ts
+type UpdateNodePosition = (
+  /** The configuration options for updating, each data contains the node id and data, including x and y information */
+  models: Partial<NodeUserModel> | Partial<NodeUserModel>[],
+  /** Whether to update ancestor combo at the same time */
+  upsertAncestors?: boolean,
+  /** Whether to disable animation */
+  disableAnimate?: boolean,
+  /** Callback function after the position update is complete. The rendering of position update may be asynchronous, and this callback can be used for post-update logic */
+  callback?: (model: NodeModel, canceled?: boolean) => void,
+) => NodeModel | NodeModel[];
 ```
 
-• **Parameters**:
+</details>
 
-| Name               | Type                                                                                                                                                                                                                                                         | Description                                                                                                                                                        |
-| :----------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `models`           | `Partial`<[`NodeUserModel`](../data/NodeUserModel.en.md)\> \| `Partial`<[`ComboUserModel`](../data/ComboUserModel.en.md) \| `Partial`<[`NodeUserModel`](../data/NodeUserModel.en.md)\>[] \| `Partial`<[`ComboUserModel`](../data/ComboUserModel.en.md)\>[]\> | The configuration options for updating, each data contains the node id and data, including x and y information                                                     |
-| `upsertAncestors?` | `boolean`                                                                                                                                                                                                                                                    | Whether to update ancestor combo at the same time                                                                                                                  |
-| `disableAnimate?`  | `boolean`                                                                                                                                                                                                                                                    | Whether to disable animation                                                                                                                                       |
-| `callback?`        | (`model`: [`NodeModel`](../data/NodeModel.en.md) \| [`EdgeModel`](../data/EdgeModel.en.md) \| [`ComboModel`](../data/ComboModel.en.md), `canceled?`: `boolean`) => `void`                                                                                    | Callback function after the position update is complete. The rendering of position update may be asynchronous, and this callback can be used for post-update logic |
+- [NodeModel](../data/NodeModel.en.md)
+
+- [NodeUserModel](../data/NodeUserModel.en.md)
+
+Update the position of a single or multiple nodes. This API does not update other styles passed in, in order to achieve better performance in position updates
 
 ### clear
 
-Clear the graph content, i.e., remove all items.
+**Type**: `() => void`
 
-• **Type**: () => `void`
+Clear the graph content.
 
 ## Renderer
 
 ### changeRenderer
 
+**Type**: `(type: 'canvas' | 'webgl' | 'svg' | 'webgl-3d') => void`
+
 Switch the renderer at runtime.
-
-• **Type**: (`type`: `RendererName`) => `void`
-
-• **Parameters**:
-| Name | Type | Description |
-| :----- | :------------- | :------------ |
-| `type` | `RendererName` | The name of the renderer, which can be 'canvas', 'webgl', 'svg', or 'webgl-3d'. When using 'webgl-3d', the corresponding interaction and item types should be used. |
 
 ## Item
 
 ### findIdByState
 
-Get a list of item IDs with the specified state and type.
+**Type**: `(itemType: ITEM_TYPE, state: string, value?: string | boolean, additionalFilter?: (model: NodeModel | EdgeModel | ComboModel) => boolean) => ID[]`
 
-• **Type**: (`itemType`: `ITEM_TYPE`, `state`: `string`, `value?`: `string` \| `boolean`, `additionalFilter?`: (`model`: [`NodeModel`](../data/NodeModel.en.md) \| [`EdgeModel`](../data/EdgeModel.en.md) \| [`ComboModel`](../data/ComboModel.en.md)) => `boolean`) => `ID`[]
+- [NodeModel](../data/NodeModel.en.md)
 
-• **Parameters**:
+- [EdgeModel](../data/EdgeModel.en.md)
 
-| Name                | Type                                                                                                                                                 | Description                                                                 |
-| :------------------ | :--------------------------------------------------------------------------------------------------------------------------------------------------- | :-------------------------------------------------------------------------- |
-| `itemType`          | `ITEM_TYPE`                                                                                                                                          | The type of the item                                                        |
-| `state`             | `string`                                                                                                                                             | The name of the state                                                       |
-| `value?`            | `string` \| `boolean`                                                                                                                                | The value of the state, defaults to `true`                                  |
-| `additionalFilter?` | (`model`: [`NodeModel`](../data/NodeModel.en.md) \| [`EdgeModel`](../data/EdgeModel.en.md) \| [`ComboModel`](../data/ComboModel.en.md)) => `boolean` | Additional filter, parameter is data that satisfies the state (inner model) |
+- [ComboModel](../data/ComboModel.en.md)
 
-• **Returns**: `ID`[], a list of item IDs that meet the conditions.
+Get a list of item IDs with the specified state and type
 
 ### getItemAllStates
 
-Get all the state names with a value of `true` for the specified item.
+**Type**: `(id: ID) => string[]`
 
-• **Type**: (`id`: `ID`) => `string`[]
-
-• **Parameters**:
-
-| Name | Type | Description             |
-| :--- | :--- | :---------------------- |
-| `id` | `ID` | The specified item's id |
-
-• **Returns**: `string[]`, a list of state names.
+Get all the state names with a value of `true` for the specified item
 
 ### getItemState
 
-Get the value of a specified state for a specified item.
+**Type**: `(id: ID, state: string) => string | boolean`
 
-• **Type**: (`id`: `ID`, `state`: `string`) => `string` \| `boolean`
-
-• **Parameters**:
-
-| Name    | Type     | Description              |
-| :------ | :------- | :----------------------- |
-| `id`    | `ID`     | The specified item ID    |
-| `state` | `string` | The specified state name |
-
-• **Returns**: `string \| boolean`, the value of the specified state for the specified item.
+Get the value of a specified state for a specified item
 
 ### setItemState
 
-Set the state of a single or multiple items.
+**Type**: `(ids: ID | ID[], state: string, value: boolean) => void`
 
-• **Type**: (`ids`: `ID` \| `ID`[], `state`: `string`, `value`: `boolean`) => `void`
-
-• **Parameters**:
-
-| Name    | Type           | Description                          |
-| :------ | :------------- | :----------------------------------- |
-| `ids`   | `ID` \| `ID`[] | The ID or IDs of the items to be set |
-| `state` | `string`       | The state name to be set             |
-| `value` | `boolean`      | The value of the state               |
+Set the state of a single or multiple items
 
 ### clearItemState
 
-Clear the state of specified single or multiple items.
+**Type**: `(ids: ID | ID[], states?: string[]) => void`
 
-• **Type**: (`ids`: `ID` \| `ID`[], `states?`: `string`[]) => `void`
-
-• **Parameters**:
-
-| Name      | Type           | Description                               |
-| :-------- | :------------- | :---------------------------------------- |
-| `ids`     | `ID` \| `ID`[] | The ID or IDs of the items to be cleared  |
-| `states?` | `string`[]     | Optional list of item names to be cleared |
+Clear the state of specified single or multiple items
 
 ### showItem
 
-Show a single or multiple items. Corresponds to [hideItem](#hideitem).
+**Type**: `(ids: ID | ID[], disableAnimate?: boolean) => void`
 
-• **Type**: (`ids`: `ID` \| `ID`[], `disableAnimate?`: `boolean`) => `void`
-
-• **Parameters**:
-
-| Name              | Type           | Description                                       |
-| :---------------- | :------------- | :------------------------------------------------ |
-| `ids`             | `ID` \| `ID`[] | The ID or IDs of the items to be shown            |
-| `disableAnimate?` | `boolean`      | Whether to disable animation, defaults to `false` |
+Show a single or multiple items. Corresponds to [hideItem](#hideitem)
 
 ### hideItem
 
-Hide a single or multiple items. Corresponds to [showItem](#showitem).
+**Type**: `(ids: ID | ID[], disableAnimate?: boolean) => void`
 
-• **Type**: (`ids`: `ID` \| `ID`[], `disableAnimate?`: `boolean`) => `void`
-
-• **Parameters**:
-
-| Name              | Type           | Description                                       |
-| :---------------- | :------------- | :------------------------------------------------ |
-| `ids`             | `ID` \| `ID`[] | The ID or IDs of the items to be hidden           |
-| `disableAnimate?` | `boolean`      | Whether to disable animation, defaults to `false` |
+Hide a single or multiple items. Corresponds to [showItem](#showitem)
 
 ### getItemVisible
 
-Get the visibility of a specified item.
+**Type**: `(id: ID) => boolean`
 
-• **Type**: (`id`: `ID`) => `boolean`
-
-• **Parameters**:
-
-| Name | Type | Description |
-| :--- | :--- | :---------- |
-| `id` | `ID` | The item ID |
+Get the visibility of a specified item
 
 ### frontItem
 
-Move the specified single or multiple items to the front layer. Note that the layer of nodes is always higher than that of edges.
+**Type**: `(ids: ID | ID[]) => void`
 
-• **Type**: (`ids`: `ID` \| `ID`[]) => `void`
-
-• **Parameters**:
-
-| Name  | Type           | Description                               |
-| :---- | :------------- | :---------------------------------------- |
-| `ids` | `ID` \| `ID`[] | The ID or IDs of the items to be adjusted |
+Move the specified single or multiple items to the front layer. Note that the layer of nodes is always higher than that of edges
 
 ### backItem
 
-Move the specified single or multiple items to the back layer. Note that the layer of nodes is always higher than that of edges.
+**Type**: `(ids: ID | ID[]) => void`
 
-• **Type**: (`ids`: `ID` \| `ID`[]) => `void`
-
-• **Parameters**:
-
-| Name  | Type           | Description                               |
-| :---- | :------------- | :---------------------------------------- |
-| `ids` | `ID` \| `ID`[] | The ID or IDs of the items to be adjusted |
+Move the specified single or multiple items to the back layer. Note that the layer of nodes is always higher than that of edges
 
 ## Combo
 
 ### addCombo
 
-Add a new combo and update the specified child nodes by moving them from the original parent combo to the new combo. Essentially, it is addData, but with some adjustments to the Combo hierarchy tree based on the added combo data.
+**Type**: `(model: ComboUserModel, childrenIds: ID[]) => ComboModel`
 
-• **Type**: (`model`: [`ComboUserModel`](../data/ComboUserModel.en.md), `childrenIds`: `ID`[]) => [`ComboModel`](../data/ComboModel.en.md)
+- [ComboModel](../data/ComboModel.en.md)
 
-• **Parameters**:
+- [ComboUserModel](../data/ComboUserModel.en.md)
 
-| Name          | Type                                             | Description            |
-| :------------ | :----------------------------------------------- | :--------------------- |
-| `model`       | [`ComboUserModel`](../data/ComboUserModel.en.md) | Combo data (user data) |
-| `childrenIds` | `ID`[]                                           | List of child node IDs |
+Add a new combo and update the specified child nodes by moving them from the original parent combo to the new combo
 
-• **Returns**: [`ComboModel`](../data/ComboModel.en.md), the newly added Combo data (inner model).
+Essentially, it is addData, but with some adjustments to the Combo hierarchy tree based on the added combo data
 
 ### collapseCombo
 
-Collapse the specified single or multiple combos. Corresponds to [expandCombo](#expandCombo).
+**Type**: `(comboIds: ID | ID[]) => void`
 
-• **Type**: (`comboIds`: `ID` \| `ID`[]) => `void`
-
-• **Parameters**:
-
-| Name       | Type                                        |
-| :--------- | :------------------------------------------ |
-| `comboIds` | The ID or IDs of the combos to be collapsed |
+Collapse the specified single or multiple combos. Corresponds to [expandCombo](#expandCombo)
 
 ### expandCombo
 
-Expand the specified single or multiple combos. Corresponds to [collapseCombo](#collapseCombo).
+**Type**: `(comboIds: ID | ID[]) => void`
 
-• **Type**: (`comboIds`: `ID` \| `ID`[]) => `void`
-
-• **Parameters**:
-
-| Name       | Type                                       |
-| :--------- | :----------------------------------------- |
-| `comboIds` | The ID or IDs of the combos to be expanded |
+Expand the specified single or multiple combos. Corresponds to [collapseCombo](#collapseCombo)
 
 ### moveCombo
 
-Move a single or multiple combos by a relative distance (dx, dy). This API will not update other styles to improve the performance of updating the position. In fact, since the position of a combo is determined by the distribution and position of its internal child items, this API actually updates the position of the successor items of the specified combo to affect the combo and achieve the purpose of moving the combo, rather than directly updating the position of the combo.
+**Type**: `MoveCombo`
 
-• **Type**: (`ids`: `ID`[], `dx`: `number`, `dy`: `number`, `upsertAncestors?`: `boolean`, `callback?`: (`model`: [`NodeModel`](../data/NodeModel.en.md) \| [`EdgeModel`](../data/EdgeModel.en.md) \| [`ComboModel`](../data/ComboModel.en.md), `canceled?`: `boolean`) => `void`) => [`ComboModel`](../data/ComboModel.en.md)[]
+<details>
+  <summary style='color: #873bf4; cursor: pointer;'>
+    MoveCombo
+  </summary>
 
-• **Parameters**:
+```ts
+type MoveCombo = (
+  /** The ID or IDs of the combos to be updated */
+  ids: ID[],
+  /** The relative distance to move on the x-axis */
+  dx: number,
+  /** The relative distance to move on the y-axis */
+  dy: number,
+  /** Whether to update the ancestor combos as well */
+  upsertAncestors?: boolean,
+  /** Callback function after the update is complete */
+  callback?: (model: ComboModel, canceled?: boolean) => void,
+) => /** The updated Combo data (inner model) */
+ComboModel[];
+```
 
-| Name               | Type                                                                                                                                                                      | Description                                      |
-| :----------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | :----------------------------------------------- |
-| `ids`              | `ID`[]                                                                                                                                                                    | The ID or IDs of the combos to be updated        |
-| `dx`               | `number`                                                                                                                                                                  | The relative distance to move on the x-axis      |
-| `dy`               | `number`                                                                                                                                                                  | The relative distance to move on the y-axis      |
-| `upsertAncestors?` | `boolean`                                                                                                                                                                 | 是 Whether to update the ancestor combos as well |
-| `callback?`        | (`model`: [`NodeModel`](../data/NodeModel.en.md) \| [`EdgeModel`](../data/EdgeModel.en.md) \| [`ComboModel`](../data/ComboModel.en.md), `canceled?`: `boolean`) => `void` | Callback function after the update is complete   |
+</details>
 
-• **Returns**: `ComboModel[]`, the updated Combo data (inner model).
+- [ComboModel](../data/ComboModel.en.md)
+
+Move a single or multiple combos by a relative distance (dx, dy).
+
+This API will not update other styles to improve the performance of updating the position. In fact, since the position of a combo is determined by the distribution and position of its internal child items, this API actually updates the position of the successor items of the specified combo to affect the combo and achieve the purpose of moving the combo, rather than directly updating the position of the combo
 
 ### updateComboPosition
 
-Updates the position of one or more Combos to a specified position (x, y). Similar to the corresponding API [updateNodePosition](#updatenodeposition) for nodes.
+**Type**: `UpdateComboPosition`
 
-• **Type**: (`models`: `Partial`<[`ComboUserModel`](../data/ComboUserModel.en.md)\> \| `Partial`<[`ComboUserModel`](../data/ComboUserModel.en.md) \| `Partial`<[`NodeUserModel`](../data/NodeUserModel.en.md)\>[] \| `Partial`<[`ComboUserModel`](../data/ComboUserModel.en.md)\>[]\>, `upsertAncestors?`: `boolean`, `disableAnimate?`: `boolean`, `callback?`: (`model`: [`NodeModel`](../data/NodeModel.en.md) \| [`EdgeModel`](../data/EdgeModel.en.md) \| [`ComboModel`](../data/ComboModel.en.md)) => `void`) => [`NodeModel`](../data/NodeModel.en.md) \| [`ComboModel`](../data/ComboModel.en.md) \| [`NodeModel`](../data/NodeModel.en.md)[] \| [`ComboModel`](../data/ComboModel.en.md)[]
+<details>
+  <summary style='color: #873bf4; cursor: pointer;'>
+    UpdateComboPosition
+  </summary>
 
-• **Parameters**:
+```ts
+type UpdateComboPosition = (
+  /** The configuration options for updating, each data contains the combo id and data, including x and y information */
+  models: Partial<ComboUserModel | Partial<ComboUserModel>[]>,
+  /** Whether to update ancestor combo at the same time */
+  upsertAncestors?: boolean,
+  /** Whether to disable animation */
+  disableAnimate?: boolean,
+  /** Callback function after the position update is complete.  */
+  callback?: (model: ComboModel) => void,
+) => /** The updated Combo data (inner model) */
+ComboModel | ComboModel[];
+```
 
-| Name               | Type                                                                                                                                                                                                                                                           | Description                                                                                               |
-| :----------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :-------------------------------------------------------------------------------------------------------- |
-| `models`           | `Partial`<[`ComboUserModel`](../data/ComboUserModel.en.md)\> \| `Partial`<[`ComboUserModel`](../data/ComboUserModel.en.md) \| `Partial`<[`NodeUserModel`](../data/NodeUserModel.en.md)\>[] \| `Partial`<[`ComboUserModel`](../data/ComboUserModel.en.md)\>[]\> | An object with the Combo id and data to be updated, and the data contains the new `x` and `y` information |
-| `upsertAncestors?` | `boolean`                                                                                                                                                                                                                                                      | Whether to update the ancestor Combos at the same time                                                    |
-| `disableAnimate?`  | `boolean`                                                                                                                                                                                                                                                      | Whether to disable animation                                                                              |
-| `callback?`        | (`model`: [`NodeModel`](../data/NodeModel.en.md) \| [`EdgeModel`](../data/EdgeModel.en.md) \| [`ComboModel`](../data/ComboModel.en.md)) => `void`                                                                                                              | The callback function after the update is completed                                                       |
+</details>
 
-• **Returns**: [`ComboModel`](../data/ComboModel.en.md) \| [`ComboModel`](../data/ComboModel.en.md)[], the updated Combo data (inner model).
+- [ComboModel](../data/ComboModel.en.md)
+
+- [ComboUserModel](../data/ComboUserModel.en.md)
+
+Update the position of a single or multiple combos to the specified position (x, y). Similar to the corresponding API [updateNodePosition](#updatenodeposition) for nodes
 
 ### getComboChildrenData
 
-Gets the data of the child items (nodes/combos) of a Combo (inner model).
+**Type**: `(comboId: ID) => ComboModel[]`
 
-• **Type**: (`comboId`: `ID`) => ([`NodeModel`](../data/NodeModel.en.md) \| [`ComboModel`](../data/ComboModel.en.md))[]
+- [ComboModel](../data/ComboModel.en.md)
 
-• **Parameters**:
-
-| Name      | Type     |
-| :-------- | :------- |
-| `comboId` | Combo id |
-
-• **Returns**: ([`NodeModel`](../data/NodeModel.en.md) \| [`ComboModel`](../data/ComboModel.en.md))[] the data of the children (inner model).
+Gets the data of the child items (nodes/combos) of a Combo (inner model)
 
 ## Layout
 
 ### layout
 
-Performs layout. If no parameters are passed, the layout is re-executed according to the layout configuration in the spec of the graph instance. If parameters are passed, the layout configuration of the graph is updated and the layout is re-executed.
+**Type**: `(options?: LayoutOptions, disableAnimate?: boolean) => Promise<void>`
 
-• **Type**: (`options?`: `LayoutOptions`, `disableAnimate?`: `boolean`) => `Promise`<`void`\>
+Performs layout
 
-• **Parameters**:
+- If no parameters are passed, the layout is re-executed according to the layout configuration in the spec of the graph instance.
 
-| Name              | Type            | Description                                                                  |
-| :---------------- | :-------------- | :--------------------------------------------------------------------------- |
-| `options?`        | `LayoutOptions` | Layout configuration                                                         |
-| `disableAnimate?` | `boolean`       | Whether to disable the interpolation animation after the layout is completed |
-
-• **Returns**: `Promise`<`void`\>, the layout may be executed asynchronously, and the Promise of the layout execution is returned.
+- If parameters are passed, the layout configuration of the graph is updated and the layout is re-executed
 
 ### stopLayout
 
-Stops the layout. It is suitable for layouts with iterative animations, such as `'force'`, which stops the iteration of force-directed layout. It is generally used to manually stop iterative animations when the layout iteration time is too long, for example, by calling it in the click event listener of the canvas/node.
+**Type**: `() => void`
 
-• **Type**: () => `void`
+Stops the layout
+
+It is suitable for layouts with iterative animations, such as `'force'`, which stops the iteration of force-directed layout. It is generally used to manually stop iterative animations when the layout iteration time is too long, for example, by calling it in the click event listener of the canvas/node
 
 ## Interactions and Events
 
 ### on
 
-Listens to an event.
+**Type**: `(eventName: string, listener: (event: IG6GraphEvent) => void) => void`
 
-• **Type**: (`evtName`, `listener`: (`evt`: `IG6GraphEvent`) => `void`): `void`
+<embed src='../../common/IG6GraphEvent.en.md'></embed>
 
-• **Parameters**:
-
-| Name       | Type                                                                    | Description           |
-| :--------- | :---------------------------------------------------------------------- | :-------------------- |
-| `evtName`  | `string`                                                                | The name of the event |
-| `listener` | (`evt`: [`IG6GraphEvent`](../behaviors//IG6GraphEvent.zh.md)) => `void` | The listener function |
+Listens to an event
 
 ### once
 
-Listens to an event only once, and once it is completed, it is destroyed.
+**Type**: `(eventName: string, listener: (event: IG6GraphEvent) => void) => void`
 
-• **Type**: (`evtName`, `listener`: (`evt`: `IG6GraphEvent`) => `void`): `void`
+<embed src='../../common/IG6GraphEvent.en.md'></embed>
 
-• **Parameters**:
-
-| Name       | Type                                                                    | Description           |
-| :--------- | :---------------------------------------------------------------------- | :-------------------- |
-| `evtName`  | `string`                                                                | The name of the event |
-| `listener` | (`evt`: [`IG6GraphEvent`](../behaviors//IG6GraphEvent.zh.md)) => `void` | The listener function |
+Listens to an event only once, and once it is completed, it is destroyed
 
 ### off
 
-Cancels a listener or all listeners under an event name.
+**Type**: `(eventName: string, listener?: (event: IG6GraphEvent) => void) => void`
 
-• **Type**: (`evtName`: `string`, `listener?`: (`evt: IG6GraphEvent`) => `void`): `void`
-
-• **Parameters**:
-
-| Name        | Type       | Description                                                                       |
-| :---------- | :--------- | :-------------------------------------------------------------------------------- |
-| `evtName`   | `string`   | The name of the event                                                             |
-| `listener?` | `Function` | The listener handle. If not specified, cancels all listeners related to `evtName` |
+Cancels a listener or all listeners under an event name
 
 ### emit
 
-Triggers an event.
+**Type**: `(eventName, param: any) => void`
 
-• **Type**: (`evtName`, `param`: `any`): `void`
-
-• **Parameters**:
-
-| Name      | Type     | Description                                                                                                                                                                                                                                                                                  |
-| :-------- | :------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `evtName` | `string` | The name of the event to trigger. Besides triggering interaction events manually, you can also trigger any custom event by specifying any string as `evtName` and then listen to the corresponding event name through `graph.on` to achieve the purpose of custom events and their listeners |
-| `param`   | `any`    | The parameter associated with the triggered event. The content may vary depending on the event type                                                                                                                                                                                          |
+Triggers an event
 
 ### getMode
 
-G6 graph provides different interaction mode configurations, which can be understood as interaction groups. Different interactions are configured under different modes to quickly switch between different interaction groups. For example, in read-only mode, you can only drag and zoom the canvas. In edit mode, you can create edges, etc. Use [`setMode`](#setmode) to switch between interaction modes and [`getMode`](#getmode to get the current interaction mode.
+**Type**: `() => string`
 
-• **Type**: () => `string`
+Get the current [interaction](/en/manual/tutorial/behavior) mode
 
 ### setMode
 
-G6 graph provides different interaction mode configurations, which can be understood as interaction groups. Different interactions are configured under different modes to quickly switch between different interaction groups. For example, in read-only mode, you can only drag and zoom the canvas. In edit mode, you can create edges, etc. Use [`setMode`](#setmode) to switch between interaction modes and [`getMode`](#getmode) to get the current interaction mode.
+**Type**: `(mode: string) => void`
 
-• **Type**: (`mode`: `string`) => `void`
-
-| Name   | Type     | Description                                                                                          |
-| :----- | :------- | :--------------------------------------------------------------------------------------------------- |
-| `mode` | `string` | The mode name, corresponding to the key in the modes object in the graph instance configuration spec |
+Set the current [interaction](/en/manual/tutorial/behavior) mode
 
 ### addBehaviors
 
-Adds one or more interactions to the specified mode (default mode by default).
+**Type**: `(behaviors: BehaviorOptionsOf<B> | BehaviorOptionsOf<B>[], modes: string | string[]) => void`
 
-• **Type**: (`behaviors`: `BehaviorOptionsOf`<`B`\> \| `BehaviorOptionsOf`<`B`\>[], `modes`: `string` \| `string`[]) => `void`
-
-• **Parameters**:
-
-| Name        | Type                                                     | Description                                                                              |
-| :---------- | :------------------------------------------------------- | :--------------------------------------------------------------------------------------- |
-| `behaviors` | `BehaviorOptionsOf`<`B`\> \| `BehaviorOptionsOf`<`B`\>[] | Configuration of one or more interactions                                                |
-| `modes`     | `string` \| `string`[]                                   | The interaction mode(s) to which the interaction(s) will be added. Default is `default`. |
+Adds one or more interactions to the specified mode (default mode by default)
 
 ### removeBehaviors
 
-Removes an interaction from the specified mode (default mode by `default`).
+**Type**: `(behaviorKeys: string[], modes: string | string[]) => void`
 
-• **Type**: (`behaviorKeys`: `string`[], `modes`: `string` \| `string`[]) => `void`
-
-• **Parameters**:
-
-| Name           | Type                   | Description                                                                                                                                                                                                                                               |
-| :------------- | :--------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `behaviorKeys` | `string`[]             | The key(s) of the interaction(s) in the configuration to be removed. If there is a need to remove or update interactions, a unique key must be given in the configuration so that the corresponding interaction can be found for deletion or modification |
-| `modes`        | `string` \| `string`[] | The interaction mode from which the specified interaction(s) will be removed                                                                                                                                                                              |
+Removes an interaction from the specified mode (default mode by `default`)
 
 ### updateBehavior
 
-Updates the configuration of an interaction.
+**Type**: `(behavior: BehaviorOptionsOf<B>, mode?: string) => void`
 
-• **Type**: (`behavior`: `BehaviorOptionsOf`<`B`\>, `mode?`: `string`) => `void`
-
-• **Parameters**:
-
-| Name       | Type                      | Description                                                                                                                                                                                                                                                                             |
-| :--------- | :------------------------ | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `behavior` | `BehaviorOptionsOf`<`B`\> | The configuration of the interaction to be updated, with a corresponding key in the configuration. If there is a need to remove or update interactions, a unique key must be given in the configuration so that the corresponding interaction can be found for deletion or modification |
-| `mode?`    | `string`                  | The name of the interaction mode                                                                                                                                                                                                                                                        |
+Updates the configuration of an interaction
 
 ### drawTransient
 
-Draws a temporary shape, typically used to update temporary shapes during interactions to avoid unnecessary performance overhead of updating shapes in the main graph layer. The principle of using a temporary canvas to improve interaction performance is as follows:
+**Type**: `(type: ITEM_TYPE | SHAPE_TYPE, id: ID, config: any, canvas?: Canvas) => DisplayObject<any, any>`
 
-<img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*VkT7T4Qzt2gAAAAAAAAAAAAADmJ7AQ/original" />
+Draws a temporary shape, typically used to update temporary shapes during interactions to avoid unnecessary performance overhead of updating shapes in the main graph layer
 
-• **Type**: (`type`: `ITEM_TYPE` \| `SHAPE_TYPE`, `id`: `ID`, `config`: `any`, `canvas?`: `Canvas`) => `DisplayObject`<`any`, `any`\>
+The principle of using a temporary canvas to improve interaction performance is as follows:
 
-• **Parameters**:
-
-| Name     | Type                        | Description                                                                                                                                                                                         |
-| :------- | :-------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `type`   | `ITEM_TYPE` \| `SHAPE_TYPE` | The type of the shape or item, such as the shape type name of `'circle'`, `'line'`, or the item type of `'node'`, `'edge'`, `'combo'` to copy existing items to the temporary layer                 |
-| `id`     | `ID`                        | The id of the temporary shape for later retrieval. If copying a node/edge/Combo on the current canvas, specify the id of the corresponding item                                                     |
-| `config` | `any`                       | The configuration of the shape style, such as size, color, etc. Applicable for drawing temporary shapes instead of copying items, as copying items will directly use the styles of the copied items |
-
-• **Returns**: `DisplayObject`<`any`, `any`\>, the drawn shape object. If copying items, it will return a shape group containing all related shapes.
+<img src='https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*VkT7T4Qzt2gAAAAAAAAAAAAADmJ7AQ/original' />
 
 ## View
 
 ### zoom
 
-Zooms the graph by a **relative** zoom ratio and a zoom center.
+**Type**: `Zoom`
 
-• **Type**: (`ratio`: `number`, `center?`: `Point`, `effectTiming?`: `Partial`<`Pick`<`IAnimationEffectTiming`, `"duration"` \| `"easing"` \| `"easingFunction"`\>\>) => `Promise`<`void`\>
+<details>
+  <summary style='color: #873bf4; cursor: pointer;'>
+    Zoom
+  </summary>
 
-• **Parameters**:
+```ts
+type Zoom = (
+  /** The relative zoom ratio */
+  ratio: number,
+  /** The zoom center */
+  center?: Point,
+  /** Animation configuration. If an empty object is specified, the default animation parameters will be used. If not specified, no animation will be performed */
+  effectTiming?: Partial<Pick<IAnimationEffectTiming, 'duration' | 'easing' | 'easingFunction'>>,
+) => Promise<void>;
+```
 
-| Name            | Type                                                                                            | Description                                                                                                                                                |
-| :-------------- | :---------------------------------------------------------------------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `ratio`         | `number`                                                                                        | The relative zoom ratio                                                                                                                                    |
-| `center?`       | `Point`                                                                                         | The zoom center                                                                                                                                            |
-| `effectTiming?` | `Partial`<`Pick`<`IAnimationEffectTiming`, `"duration"` \| `"easing"` \| `"easingFunction"`\>\> | Animation configuration. If an empty object is specified, the default animation parameters will be used. If not specified, no animation will be performed. |
+</details>
 
-• **Returns**: `Promise`<`void`\>, since zooming with animation is performed asynchronously, it returns a Promise.
+Zooms the graph by a **relative** zoom ratio and a zoom center
 
 ### zoomTo
 
-Zooms the graph to a **specified** zoom ratio and a zoom center.
+**Type**: `(toRatio: number, center?: Point, effectTiming?: Partial<Pick<IAnimationEffectTiming, 'duration' | 'easing' | 'easingFunction'>>) => Promise<void>`
 
-• **Type**: (`toRatio`: `number`, `center?`: `Point`, `effectTiming?`: `Partial`<`Pick`<`IAnimationEffectTiming`, `"duration"` \| `"easing"` \| `"easingFunction"`\>\>) => `Promise`<`void`\>
+<details>
+  <summary style='color: #873bf4; cursor: pointer;'>
+    ZoomTo
+  </summary>
 
-• **Parameters**:
+```ts
+type ZoomTo = (
+  /** The absolute zoom ratio */
+  toRatio: number,
+  /** The zoom center */
+  center?: Point,
+  /** Animation configuration. If an empty object is specified, the default animation parameters will be used. If not specified, no animation will be performed */
+  effectTiming?: Partial<Pick<IAnimationEffectTiming, 'duration' | 'easing' | 'easingFunction'>>,
+) => Promise<void>;
+```
 
-| Name            | Type                                                                                            | Description                                                                                                                                               |
-| :-------------- | :---------------------------------------------------------------------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `toRatio`       | `number`                                                                                        | The specified absolute zoom ratio                                                                                                                         |
-| `center?`       | `Point`                                                                                         | The zoom center                                                                                                                                           |
-| `effectTiming?` | `Partial`<`Pick`<`IAnimationEffectTiming`, `"duration"` \| `"easing"` \| `"easingFunction"`\>\> | Animation configuration. If an empty object is specified, the default animation parameters will be used. If not specified, no animation will be performed |
+</details>
 
-• **Returns**: `Promise`<`void`\>, since zooming with animation is performed asynchronously, it returns a Promise.
+Zooms the graph to a **absolute** zoom ratio and a zoom center
 
 ### getZoom
 
-Gets the current zoom ratio of the graph.
+**Type**: `() => number`
 
-• **Type**: () => `number`
+Gets the current zoom ratio of the graph
 
 ### translate
 
-给 Moves the graph canvas by a relative distance (`dx`, `dy`).
+**Type**: `Translate`
 
-• **Type**: (`distance`: `Partial`<{ `dx`: `number` ; `dy`: `number` ; `dz`: `number` }\>, `effectTiming?`: `Partial`<`Pick`<`IAnimationEffectTiming`, `"duration"` \| `"easing"` \| `"easingFunction"`\>\>) => `Promise`<`void`\>
+<details>
+  <summary style='color: #873bf4; cursor: pointer;'>
+    Translate
+  </summary>
 
-• **Parameters**:
+```ts
+type Translate = (
+  /** Relative distance of movement */
+  distance: Partial<{ dx: number; dy: number; dz: number }>,
+  /** Animation configuration. Specify an empty object to use default parameters. If not specified, no animation is performed */
+  effectTiming?: Partial<Pick<IAnimationEffectTiming, 'duration' | 'easing' | 'easingFunction'>>,
+) => Promise<void>;
+```
 
-| Name            | Type                                                                                            | Description                                                                                                             |
-| :-------------- | :---------------------------------------------------------------------------------------------- | :---------------------------------------------------------------------------------------------------------------------- |
-| `distance`      | `Partial`<{ `dx`: `number` ; `dy`: `number` ; `dz`: `number` }\>                                | **Relative** distance of movement                                                                                       |
-| `effectTiming?` | `Partial`<`Pick`<`IAnimationEffectTiming`, `"duration"` \| `"easing"` \| `"easingFunction"`\>\> | Animation configuration. Specify an empty object to use default parameters. If not specified, no animation is performed |
+</details>
 
-• **Returns**: `Promise`<`void`\>, since animated translation is asynchronous, the function returns a Promise.
+Move canvas in the x and y directions by the specified distance
 
 ### translateTo
 
-Moves the content to the specified **absolute** target position (x, y).
+**Type**: `TranslateTo`
 
-• **Type**: (`point`: `PointLike`, `effectTiming?`: `Partial`<`Pick`<`IAnimationEffectTiming`, `"duration"` \| `"easing"` \| `"easingFunction"`\>\>) => `Promise`<`void`\>
+<details>
+  <summary style='color: #873bf4; cursor: pointer;'>
+    TranslateTo
+  </summary>
 
-• **Parameters**:
+```ts
+type TranslateTo = (
+  /** Absolute target position */
+  point: PointLike,
+  /** Animation configuration. Specify an empty object to use default parameters. If not specified, no animation is performed */
+  effectTiming?: Partial<Pick<IAnimationEffectTiming, 'duration' | 'easing' | 'easingFunction'>>,
+) => Promise<void>;
+```
 
-| Name            | Type                                                                                            | Description                                                                                                             |
-| :-------------- | :---------------------------------------------------------------------------------------------- | :---------------------------------------------------------------------------------------------------------------------- |
-| `point`         | `PointLike`                                                                                     | Absolute target position                                                                                                |
-|                 |
-| `effectTiming?` | `Partial`<`Pick`<`IAnimationEffectTiming`, `"duration"` \| `"easing"` \| `"easingFunction"`\>\> | Animation configuration. Specify an empty object to use default parameters. If not specified, no animation is performed |
+</details>
 
-• **Returns**: `Promise`<`void`\>, since animated translation is asynchronous, the function returns a Promise.
+Move the canvas to the specified **absolute** target position (x, y)
 
 ### fitCenter
 
-Moves the content to align the center of the content with the center of the current viewport. No scaling is performed.
+**Type**: `FitCenter`
 
-• **Type**: (`effectTiming?`: `Partial`<`Pick`<`IAnimationEffectTiming`, `"duration"` \| `"easing"` \| `"easingFunction"`\>\>) => `Promise`<`void`\>
+<details>
+  <summary style="color: #873bf4; cursor: pointer;">
+    FitCenter
+  </summary>
 
-• **Parameters**:
+```ts
+type FitCenter = (
+  /** Animation configuration. Specify an empty object to use default parameters. If not specified, no animation is performed */
+  effectTiming?: Partial<Pick<IAnimationEffectTiming, 'duration' | 'easing' | 'easingFunction'>>,
+) => Promise<void>;
+```
 
-| Name            | Type                                                                                            | Description                                                                                                             |
-| :-------------- | :---------------------------------------------------------------------------------------------- | :---------------------------------------------------------------------------------------------------------------------- |
-| `effectTiming?` | `Partial`<`Pick`<`IAnimationEffectTiming`, `"duration"` \| `"easing"` \| `"easingFunction"`\>\> | Animation configuration. Specify an empty object to use default parameters. If not specified, no animation is performed |
+</details>
 
-• **Returns**: `Promise`<`void`\>, since animated fitting is asynchronous, the function returns a Promise.
+Moves the content to align the center of the content with the center of the current viewport. No scaling is performed
 
 ### fitView
 
-Moves and scales the content to fit the current viewport size.
+**Type**: `FitView`
 
-• **Type**: (`options?`: { `padding`: `Padding` ; `rules`: `FitViewRules` }, `effectTiming?`: `Partial`<`Pick`<`IAnimationEffectTiming`, `"duration"` \| `"easing"` \| `"easingFunction"`\>\>) => `Promise`<`void`\>
+<details>
+  <summary style="color: #873bf4; cursor: pointer;">
+    FitView
+  </summary>
 
-• **Parameters**:
+```ts
+type FitView = (
+  options?: {
+    /** Padding of viewport */
+    padding: Padding;
+    /** Rules for fitting the viewport, see below for the types */
+    rules: FitViewRules;
+  },
+  effectTiming?: Partial<Pick<IAnimationEffectTiming, 'duration' | 'easing' | 'easingFunction'>>,
+) => Promise<void>;
 
-| Name              | Type                                                                                            | Description                                                                                                             |
-| :---------------- | :---------------------------------------------------------------------------------------------- | :---------------------------------------------------------------------------------------------------------------------- |
-| `options?`        | `object`                                                                                        | Parameters for fitting the viewport                                                                                     |
-| `options.padding` | `Padding`                                                                                       | Spacing around the content to make room for                                                                             |
-| `options.rules`   | `FitViewRules`                                                                                  | Rules for fitting the viewport, see below for the types                                                                 |
-| `effectTiming?`   | `Partial`<`Pick`<`IAnimationEffectTiming`, `"duration"` \| `"easing"` \| `"easingFunction"`\>\> | Animation configuration. Specify an empty object to use default parameters. If not specified, no animation is performed |
+type FitViewRules = {
+  /** Only performs fitting if the content is out of the viewport */
+  onlyOutOfViewport?: boolean;
+  /** Only performs fitting if the content is larger than the viewport */
+  onlyZoomAtLargerThanViewport?: boolean;
+  /** Restricts the scaling direction during fitting. Default is 'both' */
+  direction?: 'x' | 'y' | 'both';
+  /** Determines whether to scale based on the larger or smaller ratio in the horizontal and vertical directions */
+  ratioRule?: 'max' | 'min';
+  /** Fits based on rendered bounding boxes or layout positions. Default is 'render', 'layout' is used when layout calculations are completed but rendering updates */
+  boundsType?: 'render' | 'layout';
+};
+```
 
-`FitViewRules`'s type is as follows:
+</details>
 
-| Name                            | Type                       | Description                                                                                                                                                       |
-| :------------------------------ | :------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `onlyOutOfViewport?`            | `boolean`                  | Only performs fitting if the content is out of the viewport                                                                                                       |
-| `onlyZoomAtLargerThanViewport?` | `boolean`                  | Only performs fitting if the content is larger than the viewport                                                                                                  |
-|                                 |
-| `direction?`                    | `'x'` \| `'y'` \| `'both'` | Restricts the scaling direction during fitting. Default is `'both'`                                                                                               |
-| `ratioRule?`                    | `'max'` \| `'min'`         | Determines whether to scale based on the larger or smaller ratio in the horizontal and vertical directions                                                        |
-| `boundsType?`                   | `'render'` \| `'layout'`   | Fits based on rendered bounding boxes or layout positions. Default is `'render',` `'layout'` is used when layout calculations are completed but rendering updates |
-
-• **Returns**: `Promise`<`void`\>, due to the asynchronous nature of animated fitting, the function returns a Promise.
+Moves and scales the content to fit the current viewport size
 
 ### focusItem
 
-Translate the canvas to align the specified single or multiple items (average center) to the center of the current viewport.
+**Type**: `FocusItem`
 
-• **Type**: (`id`: `ID` \| `ID`[], `effectTiming?`: `Partial`<`Pick`<`IAnimationEffectTiming`, `"duration"` \| `"easing"` \| `"easingFunction"`\>\>) => `Promise`<`void`\>
+<details>
+  <summary style="color: #873bf4; cursor: pointer;">
+    FocusItem
+  </summary>
 
-• **Parameters**:
+```ts
+type FocusItem = (
+  id: ID | ID[],
+  effectTiming?: Partial<Pick<IAnimationEffectTiming, 'duration' | 'easing' | 'easingFunction'>>,
+) => Promise<void>;
+```
 
-| Name            | Type                                                                                            | Description                                                                                                             |
-| :-------------- | :---------------------------------------------------------------------------------------------- | :---------------------------------------------------------------------------------------------------------------------- |
-| `id`            | `ID` \| `ID`[]                                                                                  | ID of single or multiple items                                                                                          |
-| `effectTiming?` | `Partial`<`Pick`<`IAnimationEffectTiming`, `"duration"` \| `"easing"` \| `"easingFunction"`\>\> | Animation configuration. Specify an empty object to use default parameters. If not specified, no animation is performed |
+</details>
 
-• **Returns**: `Promise`<`void`\>, since the animated translation is asynchronous, the function returns a Promise.
+Translate the canvas to align the specified single or multiple items (average center) to the center of the current viewport
 
 ### stopTransformTransition
 
-Stops all translation and scale-related animations.
+**Type**: `() => void`
 
-• **Type**: () => `void`
+Stops all translation and scale-related animations
 
 ### getSize
 
-Get the current size of the canvas container.
+**Type**: `() => [number, number]`
 
-• **Type**: () => `number`[]
-
-• **Parameters**: `number`[], represents [width, height]
+Get the current size of the canvas container
 
 ### setSize
 
-Set the size of the current canvas container.
+**Type**: `(size: [number, number]) => void`
 
-• **Type**: (`size`: `number`[]) => `void`
-
-• **Parameters**:
-
-| Name   | Type       |
-| :----- | :--------- |
-| `size` | `number`[] |
+Set the size of the current canvas container
 
 ### getViewportCenter
 
-Get the coordinates of the center point of the current viewport. For example, for a 500 \* 500 container, it will return the center value { x: 250, y: 250 }.
+**Type**: `() => { x: number, y: number }`
 
-• **Type**: () => `PointLike`
-
-• **Returns**: `PointLike`, which is `{ x: number, y: number }`
+Get the coordinates of the center point of the current viewport. For example, for a 500 \* 500 container, it will return the center value { x: 250, y: 250 }
 
 ### getCanvasByClient
 
-Convert the given browser coordinates to drawing coordinates on the canvas.
+**Type**: `(ClientPoint: Point) => Point`
 
-• **Type**: (`ClientPoint`: `Point`) => `Point`
-
-• **Parameters**:
-
-| Name          | Type    |
-| :------------ | :------ |
-| `ClientPoint` | `Point` |
+Convert the given browser coordinates to drawing coordinates on the canvas
 
 ### getCanvasByViewport
 
-Convert the given viewport DOM coordinates to drawing coordinates on the canvas.
+**Type**: `(viewportPoint: Point) => Point`
 
-• **Type**: (`viewportPoint`: `Point`) => `Point`
-
-• **Parameters**:
-
-| Name            | Type    |
-| :-------------- | :------ |
-| `viewportPoint` | `Point` |
+Convert the given viewport DOM coordinates to drawing coordinates on the canvas
 
 ### getClientByCanvas
 
-Convert the drawing coordinates on the canvas to browser coordinates.
+**Type**: `(canvasPoint: Point) => Point`
 
-• **Type**: (`canvasPoint`: `Point`) => `Point`
-
-• **Parameters**:
-
-| Name          | Type    |
-| :------------ | :------ |
-| `canvasPoint` | `Point` |
+Convert the drawing coordinates on the canvas to browser coordinates
 
 ### getViewportByCanvas
 
-Convert the drawing coordinates on the canvas to viewport DOM coordinates.
+**Type**: `(canvasPoint: Point) => Point`
 
-• **Type**: (`canvasPoint`: `Point`) => `Point`
-
-• **Parameters**:
-
-| Name          | Type    |
-| :------------ | :------ |
-| `canvasPoint` | `Point` |
+Convert the drawing coordinates on the canvas to viewport DOM coordinates
 
 ### getRenderBBox
 
-Get the bounding box of the specified element. If no element is specified, it represents the overall bounding box of all the currently rendered content.
+**Type**: `(id: ID, onlyKeyShape?: boolean, isTransient?: boolean) => false | AABB`
 
-• **Type**: (`id`: `ID`, `onlyKeyShape?`: `boolean`, `isTransient?`: `boolean`) => `false` \| `AABB`
+<details>
+  <summary style="color: #873bf4; cursor: pointer;">
+    GetRenderBBox
+  </summary>
 
-• **Parameters**:
+```ts
+type GetRenderBBox = (
+  /** ID of the specified element to get the bounding box. If no element is specified, it represents the overall bounding box of all the currently rendered content */
+  id: ID,
+  /** Whether to only calculate the bounding box of the main keyShape */
+  onlyKeyShape?: boolean,
+  /** Calculate the bounding box of transient shapes */
+  isTransient?: boolean,
+) => /** Returns false if there is no corresponding element */
+false | AABB;
+```
 
-| Name            | Type      | Description                                                                                                                                                   |
-| :-------------- | :-------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `id`            | `ID`      | ID of the specified element to get the bounding box. If no element is specified, it represents the overall bounding box of all the currently rendered content |
-| `onlyKeyShape?` | `boolean` | Whether to only calculate the bounding box of the main keyShape                                                                                               |
-| `isTransient?`  | `boolean` | Calculate the bounding box of transient shapes                                                                                                                |
+</details>
 
-• **Returns**: `false` \| `AABB`. Returns `false` if there is no corresponding element
+Get the bounding box of the specified element
 
 ## Tree Operations
 
 ### collapse
 
-Collapse one or multiple subtrees. Corresponds to expanding with [expand](#expand).
+**Type**: `(ids: ID | ID[], disableAnimate?: boolean) => void`
 
-• **Type**: (`ids`: `ID` \| `ID`[], `disableAnimate?`: `boolean`) => `void`
-
-• **Parameters**:
-
-| Name              | Type           | Description                       |
-| :---------------- | :------------- | :-------------------------------- |
-| `ids`             | `ID` \| `ID`[] | IDs of root nodes of the subtrees |
-| `disableAnimate?` | `boolean`      | Whether to disable animation      |
+Collapse one or multiple subtrees
 
 ### expand
 
-Expand one or multiple subtrees. Corresponds to collapsing with [collapse](#collapse).
+**Type**: `(ids: ID | ID[], disableAnimate?: boolean) => void`
 
-• **Type**: (`ids`: `ID` \| `ID`[], `disableAnimate?`: `boolean`) => `void`
-
-• **Parameters**:
-
-| Name              | Type           | Description                       |
-| :---------------- | :------------- | :-------------------------------- |
-| `ids`             | `ID` \| `ID`[] | IDs of root nodes of the subtrees |
-| `disableAnimate?` | `boolean`      | Whether to disable animation      |
+Expand one or multiple subtrees
 
 ## History Stack
 
 ### isHistoryEnabled
 
+**Type**: `() => void`
+
+Determine if history (redo/undo) is enabled
+
 ### getRedoStack
+
+**Type**: `() => void`
+
+Retrieve the current undo stack which consists of operations that were undone
 
 ### getUndoStack
 
+**Type**: `() => void`
+
+Retrieve the current redo stack which consists of operations that could be undone
+
 ### getStack
+
+**Type**: `() => void`
+
+Retrieve the complete history stack
 
 ### pushStack
 
+**Type**: `(cmd: Command[], stackType: 'redo' | 'undo') => void`
+
+Push the operation(s) onto the specified stack
+
 ### pauseStack
+
+**Type**: `() => void`
+
+Pause stacking operation
 
 ### resumeStack
 
+**Type**: `() => void`
+
+Resume stacking operation
+
 ### startHistoryBatch
+
+**Type**: `() => void`
+
+Begin a historyBatch operation
+
+Any operations performed between `startHistoryBatch` and `stopHistoryBatch` are grouped together.
+treated as a single operation when undoing or redoing
 
 ### stopHistoryBatch
 
+**Type**: `() => void`
+
+Stop a historyBatch operation.
+
 ### executeWithNoStack
+
+**Type**: `(callback: () => void) => void`
+
+Execute a callback without allowing any stacking operations
 
 ### undo
 
+**Type**: `() => void`
+
+Revert the last operation on the graph
+
 ### redo
 
+**Type**: `() => void`
+
+Restore the last operation on the graph
+
 ### cleanHistory
+
+**Type**: `(stackType?: 'redo' | 'undo') => void`
+
+Clear history stack
 
 ## Free Plugins
 
 ### addPlugins
 
-Add free plugins to the graph instance.
+**Type**: `AddPlugins`
 
-• **Type**: (`pluginCfgs`: { `[cfgName: string]`: `unknown`; `key`: `string` ; `type`: `string` }[]) => `void`
+<details>
+  <summary style="color: #873bf4; cursor: pointer;">
+    AddPlugins
+  </summary>
 
-• **Parameters**:
+```ts
+type AddPlugins = (pluginCfgs: { [cfgName: string]: unknown; key: string; type: string }[]) => void;
+```
 
-| Name         | Type                                                                     |
-| :----------- | :----------------------------------------------------------------------- |
-| `pluginCfgs` | { `[cfgName: string]`: `unknown`; `key`: `string` ; `type`: `string` }[] |
+</details>
+
+Add free plugins to the graph instance
 
 ### removePlugins
 
+**Type**: `(pluginKeys: string[]) => void`
+
 Remove plugins from the graph instance. If you want to remove or update a plugin, you should configure a unique key for the plugin to facilitate retrieval during deletion or modification.
-
-• **Type**: (`pluginKeys`: `string`[]) => `void`
-
-• **Parameters**:
-
-| Name         | Type       | Description                   |
-| :----------- | :--------- | :---------------------------- |
-| `pluginKeys` | `string`[] | Keys of plugins to be removed |
 
 ### updatePlugin
 
+**Type**: `(pluginCfg: { [cfgName: string]: unknown; key: string ; type: string }) => void`
+
 Update a specific plugin. If you want to remove or update a plugin, you should configure a unique key for the plugin to facilitate retrieval during deletion or modification.
-
-• **Type**: (`pluginCfg`: { `[cfgName: string]`: `unknown`; `key`: `string` ; `type`: `string` }) => `void`
-
-• **Parameters**:
-
-| Name             | Type     | Description                                                                                                 |
-| :--------------- | :------- | :---------------------------------------------------------------------------------------------------------- |
-| `pluginCfg`      | `Object` | Updated parameters                                                                                          |
-| `pluginCfg.key`  | `string` | Unique ID used for retrieval, should be configured when configuring or adding a plugin                      |
-| `pluginCfg.type` | `string` | Type name of the plugin, other configurations in `pluginCfg` are the configurations that need to be updated |
 
 ## Download
 
 ### downloadFullImage
 
-Download an image that contains all the graph content.
+**Type**: `(name?: string, type: DataURLType = 'image/png', imageConfig: { padding: number | number[] }) => void`
 
-• **Type**: (`name?`, `type?`, `imageConfig?`): `void`
-
-• **Parameters**:
-
-| Name                   | Type                   | Description                                 |
-| :--------------------- | :--------------------- | :------------------------------------------ |
-| `name?`                | `string`               | Name of the downloaded image                |
-| `type?`                | `DataURLType`          | Image format type, default is `'image/png'` |
-| `imageConfig?`         | `Object`               | Image configuration                         |
-| `imageConfig.padding?` | `number` \| `number`[] | Padding around the image when downloading   |
+Download an image that contains all the graph content
 
 ### downloadImage
 
-Download the contents in the window as an image.
+**Type**: `(name?: string, type: DataURLType = 'image/png') => void`
 
-• **Type**: (`name?`, `type?`): `void`
-
-• **Parameters**:
-
-| Name    | Type          | Description                                 |
-| :------ | :------------ | :------------------------------------------ |
-| `name?` | `string`      | Name of the downloaded image                |
-| `type?` | `DataURLType` | Image format type, default is `'image/png'` |
+Download the contents in the window as an image
 
 ### toFullDataURL
 
-Generate the URL of an image that contains all the graph content.
+**Type**: `(type: DataURLType = 'image/png', imageConfig: { padding: number | number[] }) => Promise<string>`
 
-• **Type**: (`type?`, `imageConfig?`): `Promise`<`unknown`\>
-
-• **Parameters**:
-
-| Name                   | Type                   | Description                                 |
-| :--------------------- | :--------------------- | :------------------------------------------ |
-| `type?`                | `DataURLType`          | Image format type, default is `'image/png'` |
-| `imageConfig?`         | `Object`               | Image configuration                         |
-| `imageConfig.padding?` | `number` \| `number`[] | Padding around the image when downloading   |
-
-• **Returns**: `Promise`<`string`\>
+Generate the URL of an image that contains all the graph content
 
 ### toDataURL
 
-Generate the URL of the current window content as an image.
+**Type**: `(type: DataURLType = 'image/png') => Promise<string>`
 
-• **Type**: (`type?`): `Promise`<`string`\>
-
-• **Parameters**:
-
-| Name    | Type          | Description                                 |
-| :------ | :------------ | :------------------------------------------ |
-| `type?` | `DataURLType` | Image format type, default is `'image/png'` |
-
-• **Returns**: `Promise`<`string`\>
+Generate the URL of the current window content as an image
 
 ## Graph Instance
 
 ### setCursor
 
-Set the cursor style. However, the cursor style on the element has a higher priority.
+**Type**: `(cursor: Cursor) => void`
 
-• **Type**: (`cursor`): `void`
-
-• **Parameters**:
-
-| Name     | Type     |
-| :------- | :------- |
-| `cursor` | `Cursor` |
+Set the cursor style. However, the cursor style on the element has a higher priority
 
 ### destroy
 
-Destroy the current graph instance.
+**Type**: `(callback?: Function) => void`
 
-• **Type**: (`callback?`: `Function`) => `void`
-
-• **Parameters**:
-
-| Name        | Type       | Description                         |
-| :---------- | :--------- | :---------------------------------- |
-| `callback?` | `Function` | Callback function after destruction |
+Destroy the current graph instance
