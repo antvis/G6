@@ -3,11 +3,11 @@ import { Canvas, Group, PathStyleProps } from '@antv/g';
 import { Renderer as CanvasRenderer } from '@antv/g-canvas';
 import { createDOM, modifyCSS } from '../../../util/dom';
 import { Plugin as Base, IPluginBaseConfig } from '../../../types/plugin';
-import { IG6GraphEvent, IGraph } from '../../../types';
+import type { IG6GraphEvent, IGraph } from '../../../types';
 import { getPathItem2Card, px2Num } from './util';
 import { insertCSS } from './insertCSS';
 import type { AnnotationData, EditPosition } from './types';
-import Card, { CardCfg } from './Card';
+import Card, { CardConfig } from './Card';
 
 insertCSS();
 
@@ -35,9 +35,9 @@ interface AnnotationConfig extends IPluginBaseConfig {
   /** Highlight status of item, set this state when moving to the card. */
   itemHighlightState?: string;
   /** Initial card data. */
-  defaultData?: CardCfg[];
+  defaultData?: CardConfig[];
   /** Detailed configuration of the card, please refer to ```CardCfg``` for details */
-  cardCfg?: CardCfg;
+  cardCfg?: CardConfig;
   /** Style of edge between cards and nodes. */
   linkStyle?: PathStyleProps;
   /** Highlight style of edge, set this state when moving to the style. */
@@ -367,19 +367,19 @@ export class Annotation extends Base {
     });
   }
 
-  public toggleAnnotation(item, cfg: CardCfg = {}) {
+  public toggleAnnotation(item, cardConfig: CardConfig = {}) {
     if (this.destroyed) return;
     const cardInfoMap = this.cardInfoMap;
     const graph = this.graph;
     const container = this.container;
     const containerCfg = this.options.containerCfg;
-    const mixedCardCfg = Object.assign({}, this.options.cardCfg, cfg);
+    const mixedCardConfig = Object.assign({}, this.options.cardCfg, cardConfig);
     const {
       collapsed = false,
       title: propsTitle,
       content: propsContent,
       maxTitleLength,
-    } = mixedCardCfg;
+    } = mixedCardConfig;
     const rows = this.options.rows || [[]];
 
     const isCanvas = item.isCanvas?.();
@@ -387,8 +387,8 @@ export class Annotation extends Base {
     const itemId = isCanvas ? CANVAS_ANNOTATION_ID : item.getID();
     const cardInfo = cardInfoMap[itemId];
 
-    const title = cardInfo?.cfg.title,
-      content = cardInfo?.cfg.content;
+    const title = cardInfo?.config.title,
+      content = cardInfo?.config.content;
 
     const getTitle = this.options.getTitle;
     const getContent = this.options.getContent;
@@ -406,7 +406,7 @@ export class Annotation extends Base {
     const contentData =
       content || propsContent || getContent?.(item) || contentPlaceholder;
     const newCard = new Card(this, {
-      ...mixedCardCfg,
+      ...mixedCardConfig,
       id: itemId,
       collapsed,
       title: titleData,
@@ -430,10 +430,10 @@ export class Annotation extends Base {
     } else {
       const containerBBox = container.getBoundingClientRect();
       const hasPropsPosition =
-        isNumber(mixedCardCfg.x) &&
-        !Number.isNaN(mixedCardCfg.x) &&
-        isNumber(mixedCardCfg.y) &&
-        !Number.isNaN(mixedCardCfg.y);
+        isNumber(mixedCardConfig.x) &&
+        !Number.isNaN(mixedCardConfig.x) &&
+        isNumber(mixedCardConfig.y) &&
+        !Number.isNaN(mixedCardConfig.y);
       if (!exist && !isCanvas && !hasPropsPosition) {
         // 没有 container、新增 card 时，记录当前列中最下方位置，方便换行
         const { bottom: containerBottom = 0, top: containerTop } =
@@ -620,7 +620,7 @@ export class Annotation extends Base {
     const data: AnnotationData = [];
     Object.values(cardInfoMap).forEach((info) => {
       const card = info.$el;
-      const { title, content, x, y, id, collapsed } = info.cfg;
+      const { title, content, x, y, id, collapsed } = info.config;
       if (card && card.style.display === 'none' && !saveClosed) return;
       const item = graph.itemController.getItemById(id) || graph.options.canvas;
       data.push({

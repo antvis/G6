@@ -4,9 +4,9 @@ import { sleep } from '../../../util/promise';
 import Item from '../../../item/item';
 import type { EditPosition } from './types';
 import { getPathItem2Card } from './util';
-import { Annotation } from './index';
+import type { Annotation } from './index';
 
-export interface CardCfg {
+export interface CardConfig {
   /** The ID of the card is generally equal to item. getID(), where item represents node, etc. */
   id?: string;
   /** The width of the card */
@@ -115,21 +115,21 @@ export default class Card {
   }
   link?: Path;
   get item() {
-    return this.plugin.graph.itemController.getItemById(this.cfg.id) as
+    return this.plugin.graph.itemController.getItemById(this.config.id) as
       | Item
       | undefined;
   }
   get isCanvas() {
-    const item = this.plugin.graph.itemController.getItemById(this.cfg.id);
+    const item = this.plugin.graph.itemController.getItemById(this.config.id);
     return item?.isCanvas?.();
   }
   get container() {
     return this.plugin.container;
   }
-  cfg: CardCfg;
+  config: CardConfig;
   plugin: Annotation;
-  constructor(plugin: Annotation, cfg: CardCfg) {
-    this.cfg = { ...cfg };
+  constructor(plugin: Annotation, config: CardConfig) {
+    this.config = { ...config };
     this.plugin = plugin;
     this.renderCard();
 
@@ -138,10 +138,10 @@ export default class Card {
     let x, y;
     if (!plugin.options.containerCfg) {
       const containerBBox = this.container.getBoundingClientRect();
-      if (cfg.x !== undefined && cfg.y !== undefined) {
+      if (config.x !== undefined && config.y !== undefined) {
         // 使用配置的位置
-        x = cfg.x;
-        y = cfg.y;
+        x = config.x;
+        y = config.y;
       } else if (!this.isCanvas) {
         // 无 conatiner，初始化位置
         const { top: containerTop } = containerBBox;
@@ -150,7 +150,7 @@ export default class Card {
           right: propsBeginRight = 16,
           top: propsBeginTop = 8,
           bottom: beginBottom,
-        } = cfg.defaultBegin || {};
+        } = config.defaultBegin || {};
         let beginRight = propsBeginRight;
         let beginTop = propsBeginTop;
         if (isNumber(beginLeft) && !Number.isNaN(beginLeft)) {
@@ -159,7 +159,7 @@ export default class Card {
         if (isNumber(beginBottom) && !Number.isNaN(beginBottom)) {
           beginTop = this.container.scrollHeight - beginBottom;
         }
-        const cardWidth = isNumber(cfg.minWidth) ? cfg.minWidth : 100;
+        const cardWidth = isNumber(config.minWidth) ? config.minWidth : 100;
         const rows = plugin.options.rows || [[]];
         x =
           this.container.scrollWidth -
@@ -199,20 +199,20 @@ export default class Card {
 
     this.bindEvents();
 
-    this.collapse(cfg.collapsed);
+    this.collapse(config.collapsed);
 
-    if (!cfg.visible) {
+    if (!config.visible) {
       this.hide();
     }
 
     // init edit
     this.setEditable();
-    if (this.cfg.editable) {
-      if (this.cfg.focusEditOnInit === true) {
+    if (this.config.editable) {
+      if (this.config.focusEditOnInit === true) {
         this.edit('title')?.focus();
         this.edit('content');
-      } else if (this.cfg.focusEditOnInit) {
-        this.edit(this.cfg.focusEditOnInit)?.focus();
+      } else if (this.config.focusEditOnInit) {
+        this.edit(this.config.focusEditOnInit)?.focus();
       }
     }
   }
@@ -227,7 +227,7 @@ export default class Card {
       height,
       title = '',
       content = '',
-    } = this.cfg;
+    } = this.config;
 
     const wrapper = (this.$el = document.createElement('div'));
     wrapper.setAttribute('class', 'g6-annotation-wrapper');
@@ -290,8 +290,8 @@ export default class Card {
   }
 
   bindEvents() {
-    const { plugin, $el: card, cfg } = this;
-    const itemId = this.cfg.id;
+    const { plugin, $el: card, config } = this;
+    const itemId = config.id;
     card.addEventListener('mousemove', (e) => {
       // icon 的鼠标进入监听，方便外部加 tooltip
       const iconType = getIconTypeByEl(e.target as HTMLElement);
@@ -321,7 +321,7 @@ export default class Card {
         target.className === 'g6-annotation-expand'
       ) {
         // collapse & expand
-        this.collapse(!this.cfg.collapsed);
+        this.collapse(!this.config.collapsed);
         onClickIcon?.(
           e,
           itemId,
@@ -341,14 +341,14 @@ export default class Card {
 
     // dblclick to edit the title and content text
     card.addEventListener('dblclick', (e) => {
-      if (!this.cfg.editable) return;
+      if (!this.config.editable) return;
       const editPosition = getPositionByEl(e.target as HTMLElement);
       if (editPosition) {
         this.edit(getPositionByEl(e.target as HTMLElement))?.focus();
       }
     });
     card.addEventListener('keydown', async (e) => {
-      if (!this.cfg.editable) return;
+      if (!this.config.editable) return;
       if (e.code !== 'Enter') return;
 
       const editPosition = getPositionByEl(e.target as HTMLElement);
@@ -416,8 +416,8 @@ export default class Card {
           const dragging = plugin.dragging;
           if (!dragging) return;
           const { left, top, card: draggingCard } = dragging;
-          this.cfg.x = left;
-          this.cfg.y = top;
+          this.config.x = left;
+          this.config.y = top;
           modifyCSS(draggingCard, {
             visibility: 'visible',
           });
@@ -441,18 +441,18 @@ export default class Card {
   show() {
     this.$el.classList.remove('g6-annotation-wrapper-hide');
     this.link?.show();
-    this.cfg.visible = true;
+    this.config.visible = true;
   }
 
   hide() {
     this.$el.classList.add('g6-annotation-wrapper-hide');
     this.link?.hide();
-    this.cfg.visible = false;
+    this.config.visible = false;
   }
 
   collapse(collapsed = true) {
-    const { collapseType, maxHeight, minHeight, visible } = this.cfg;
-    this.cfg.collapsed = collapsed;
+    const { collapseType, maxHeight, minHeight, visible } = this.config;
+    this.config.collapsed = collapsed;
 
     const classList = this.$el.classList;
 
@@ -510,7 +510,7 @@ export default class Card {
     } else {
       classList.remove(className);
     }
-    this.cfg.editable = editable;
+    this.config.editable = editable;
   }
 
   edit(
@@ -521,7 +521,7 @@ export default class Card {
     const target = this.getElByPosition(position);
     if (!target) return;
 
-    const { maxTitleLength } = this.cfg;
+    const { maxTitleLength } = this.config;
 
     const targetClass = target.className;
     const { width, height } = target.getBoundingClientRect();
@@ -534,7 +534,7 @@ export default class Card {
     );
     inputWrapper.appendChild(input);
     target.parentNode?.replaceChild(inputWrapper, target);
-    const value = options?.value ?? this.cfg[position];
+    const value = options?.value ?? this.config[position];
     if (position === 'title') {
       if (maxTitleLength !== undefined && maxTitleLength !== null) {
         input.maxLength = maxTitleLength;
@@ -545,7 +545,7 @@ export default class Card {
     if (input.nodeName.toLowerCase() === 'textarea') {
       input.innerHTML = value ?? '';
     }
-    input.placeholder = this.cfg[position + 'Placeholder'];
+    input.placeholder = this.config[position + 'Placeholder'];
 
     input.addEventListener('keydown', (e) => {
       const { code, shiftKey } = e;
@@ -590,7 +590,7 @@ export default class Card {
     >(`[data-annotation-id=${position}]`);
     if (!inputEl) return;
 
-    const value = (this.cfg[position] = inputEl.value);
+    const value = (this.config[position] = inputEl.value);
     const inputWrapper = inputEl.parentNode;
     let newEl: HTMLElement;
     if (position === 'title') {
