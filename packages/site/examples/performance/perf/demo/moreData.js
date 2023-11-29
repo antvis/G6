@@ -18,7 +18,12 @@ const graph = new ExtGraph({
   container: 'container',
   width,
   height,
-  transforms: ['transform-v4-data'],
+  transforms: [
+    {
+      type: 'transform-v4-data',
+      activeLifecycle: ['read'],
+    },
+  ],
   modes: {
     default: [
       {

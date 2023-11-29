@@ -36,7 +36,7 @@ const getNodeConfig = (node) => {
 };
 
 class CardNode extends Extensions.RectNode {
-  drawOtherShapes(model, shapeMap) {
+  drawOtherShapes(model, shapeMap, diffData, diffState) {
     const { data: cfg } = model;
     const config = getNodeConfig(cfg);
 
@@ -50,8 +50,12 @@ class CardNode extends Extensions.RectNode {
         'circle',
         'left-dot-shape',
         { cx: 3, cy: 32, r: 6, fill: config.basicColor },
-        shapeMap,
-        model,
+        {
+          model,
+          shapeMap,
+          diffData,
+          diffState,
+        },
       );
     }
 
@@ -70,8 +74,12 @@ class CardNode extends Extensions.RectNode {
         cursor: 'pointer',
         zIndex: 0,
       },
-      shapeMap,
-      model,
+      {
+        model,
+        shapeMap,
+        diffData,
+        diffState,
+      },
     );
 
     /* Left bolder border */
@@ -87,8 +95,12 @@ class CardNode extends Extensions.RectNode {
         radius: 1.5,
         zIndex: 0,
       },
-      shapeMap,
-      model,
+      {
+        model,
+        shapeMap,
+        diffData,
+        diffState,
+      },
     );
 
     if (cfg.dataType !== 'root') {
@@ -105,8 +117,12 @@ class CardNode extends Extensions.RectNode {
           textBaseline: 'middle',
           fill: 'rgba(0,0,0,0.65)',
         },
-        shapeMap,
-        model,
+        {
+          model,
+          shapeMap,
+          diffData,
+          diffState,
+        },
       );
     }
 
@@ -122,8 +138,12 @@ class CardNode extends Extensions.RectNode {
           radius: 2,
           cursor: 'pointer',
         },
-        shapeMap,
-        model,
+        {
+          model,
+          shapeMap,
+          diffData,
+          diffState,
+        },
       );
 
       /* ip */
@@ -140,8 +160,12 @@ class CardNode extends Extensions.RectNode {
           fill: nodeError ? 'rgba(255,255,255,0.85)' : 'rgba(0,0,0,0.65)',
           cursor: 'pointer',
         },
-        shapeMap,
-        model,
+        {
+          model,
+          shapeMap,
+          diffData,
+          diffState,
+        },
       );
 
       const ipBBox = otherShapes['ip-text-shape'].getBBox();
@@ -173,8 +197,12 @@ class CardNode extends Extensions.RectNode {
           fill: '#fff',
           opacity: 0,
         },
-        shapeMap,
-        model,
+        {
+          model,
+          shapeMap,
+          diffData,
+          diffState,
+        },
       );
 
       /* copyIpLine */
@@ -189,8 +217,12 @@ class CardNode extends Extensions.RectNode {
           fill: '#E3E6E8',
           opacity: 0,
         },
-        shapeMap,
-        model,
+        {
+          model,
+          shapeMap,
+          diffData,
+          diffState,
+        },
       );
 
       /* copyIpBG */
@@ -206,8 +238,12 @@ class CardNode extends Extensions.RectNode {
           cursor: 'pointer',
           opacity: cfg.showIcon ? 1 : 0,
         },
-        shapeMap,
-        model,
+        {
+          model,
+          shapeMap,
+          diffData,
+          diffState,
+        },
       );
 
       /* copyIpIcon */
@@ -223,8 +259,12 @@ class CardNode extends Extensions.RectNode {
           cursor: 'pointer',
           opacity: cfg.showIcon ? 1 : 0,
         },
-        shapeMap,
-        model,
+        {
+          model,
+          shapeMap,
+          diffData,
+          diffState,
+        },
       );
 
       /* a transparent rect on the icon area for click listener */
@@ -232,8 +272,12 @@ class CardNode extends Extensions.RectNode {
         'rect',
         'ip-cp-box',
         { x: 195, y: 8, width: 22, height: 22, fill: '#FFF', cursor: 'pointer', opacity: 0 },
-        shapeMap,
-        model,
+        {
+          model,
+          shapeMap,
+          diffData,
+          diffState,
+        },
       );
       /* ip end */
     }
@@ -253,8 +297,12 @@ class CardNode extends Extensions.RectNode {
         fill: config.fontColor,
         cursor: 'pointer',
       },
-      shapeMap,
-      model,
+      {
+        model,
+        shapeMap,
+        diffData,
+        diffState,
+      },
     );
 
     /* the description text */
@@ -271,8 +319,12 @@ class CardNode extends Extensions.RectNode {
         fill: config.fontColor,
         cursor: 'pointer',
       },
-      shapeMap,
-      model,
+      {
+        model,
+        shapeMap,
+        diffData,
+        diffState,
+      },
     );
 
     if (nodeError) {
@@ -286,8 +338,12 @@ class CardNode extends Extensions.RectNode {
           fill: '#000',
           fontSize: 18,
         },
-        shapeMap,
-        model,
+        {
+          model,
+          shapeMap,
+          diffData,
+          diffState,
+        },
       );
     }
 
@@ -305,8 +361,12 @@ class CardNode extends Extensions.RectNode {
           fill: '#fff',
           path: stdLib.markers.expand(keyShapeBBox.max[0] - 15, keyShapeBBox.center[1], 8),
         },
-        shapeMap,
-        model,
+        {
+          model,
+          shapeMap,
+          diffData,
+          diffState,
+        },
       );
     }
     return otherShapes;

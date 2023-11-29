@@ -37,7 +37,12 @@ order: 4
 
 ```typescript
 const graph = new Graph({
-  transforms: ['transform-v4-data'],
+  transforms: [
+    {
+      type: 'transform-v4-data',
+      activeLifecycle: ['read'],
+    },
+  ],
   // ... 其他配置
   data: v4data, // 一份 v4 格式的数据
 });
@@ -227,7 +232,7 @@ export interface FetchDataConfig {
 
 ## 3️⃣. 树图
 
-[图数据与树数据通用 DEMO](https://g6-next.antv.antgroup.com/examples/feature/features/#treeAndGraph)
+[图数据与树数据通用 DEMO](/examples/feature/features/#treeAndGraph)
 
 v5 新增树图相关 feature：
 
@@ -396,7 +401,7 @@ new Graph({
 
 下面展示的是在 v5 中使用新增的 @antv/layout-wasm，首先需要向 G6 的运行时标准库注册，提供一个自定义布局名称，后续将它传给 `layout` 使用。
 
-[WASM 布局 DEMO](https://g6-next.antv.antgroup.com/examples/feature/features/#wasmLayouts)
+[WASM 布局 DEMO](/examples/feature/features/#wasmLayouts)
 
 ```typescript
 import { stdLib, Graph } from '@antv/g6';
@@ -746,7 +751,7 @@ v4 的坐标系统（三套）见文档：https://g6.antv.antgroup.com/manual/ad
 
 只需要为 Hull 实例配置 labelShape 即可，可以指定其相对位置(`position`)在 hull 的上、下、左、右四个方向。
 
-[Hull 支持文本 DEMO](https://g6-next.antv.antgroup.com/examples/interaction/hull/#hull)
+[Hull 支持文本 DEMO](/examples/interaction/hull/#hull)
 
 <img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*eXzfTbFrYjMAAAAAAAAAAAAADmJ7AQ/original" />
 
@@ -754,7 +759,7 @@ v4 的坐标系统（三套）见文档：https://g6.antv.antgroup.com/manual/ad
 
 设置边的 `keyShape.routeCfg.enableObstacleAvoidance: true` 即可自动躲避节点。
 
-[Polyline 避障 DEMO](https://g6-next.antv.antgroup.com/examples/item/defaultEdges/#polyline3)
+[Polyline 避障 DEMO](/examples/item/defaultEdges/#polyline3)
 
 <img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*Giy7R4jheawAAAAAAAAAAAAADmJ7AQ/original" />
 
@@ -772,7 +777,7 @@ const graph = new Graph({
 });
 ```
 
-[文本自适应 DEMO](https://g6-next.antv.antgroup.com/examples/item/label/#copyLabel)
+[文本自适应 DEMO](/examples/item/label/#copyLabel)
 
 <img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*LGuRR7itiQ8AAAAAAAAAAAAADmJ7AQ/original" />
 

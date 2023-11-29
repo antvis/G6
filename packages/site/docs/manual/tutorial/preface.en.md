@@ -31,7 +31,7 @@ This tutorial will be divided into the following sections:
 
 `Note`
 <br />
-This tutorial is designed for readers who want to learn while doing. More tutorials for G6 5.0 are under development. For now, readers can refer to the [API Doc](https://g6-next.antv.antgroup.com/en/apis).
+This tutorial is designed for readers who want to learn while doing. More tutorials for G6 5.0 are under development. For now, readers can refer to the [API Doc](/en/apis).
 
 ## Prerequisites
 
@@ -39,7 +39,7 @@ This tutorial demonstrates how to use G6 to create a complete graph visualizatio
 
 ## Environment Setup
 
-It is recommended to use the latest version of the Chrome browser as the runtime environment and any code editor for code writing. This tutorial assumes that G6 is directly imported via CDN. The version used is 3.7.1, which simplifies many features in our code. If readers want to try this tutorial in a different environment, they can refer to the installation and configuration section in the [Quick Start](https://g6-next.antv.antgroup.com/en/manual/getting-started) for guidance.
+It is recommended to use the latest version of the Chrome browser as the runtime environment and any code editor for code writing. This tutorial assumes that G6 is directly imported via CDN. The version used is 3.7.1, which simplifies many features in our code. If readers want to try this tutorial in a different environment, they can refer to the installation and configuration section in the [Quick Start](/en/manual/getting-started) for guidance.
 
 Create a new index.html file and add the following code:
 

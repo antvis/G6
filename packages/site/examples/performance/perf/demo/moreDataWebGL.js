@@ -19,7 +19,12 @@ const graph = new ExtGraph({
   width,
   height,
   renderer: 'webgl',
-  transforms: ['transform-v4-data'],
+  transforms: [
+    {
+      type: 'transform-v4-data',
+      activeLifecycle: ['read'],
+    },
+  ],
   modes: {
     default: [
       {

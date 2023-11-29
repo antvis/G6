@@ -183,10 +183,15 @@ export default abstract class Item implements IItem {
   ) {
     // call this.renderExt.draw in extend implementations
     const afterDrawShapeMap =
-      this.renderExt.afterDraw?.(displayModel, {
-        ...this.shapeMap,
-        ...this.afterDrawShapeMap,
-      }) || {};
+      this.renderExt.afterDraw?.(
+        displayModel,
+        {
+          ...this.shapeMap,
+          ...this.afterDrawShapeMap,
+        },
+        diffData,
+        diffState,
+      ) || {};
     if (this.afterDrawShapeMap.labelShape) {
       this.afterDrawShapeMap.labelShape.attributes.dataIsLabel = true;
     }
@@ -769,7 +774,9 @@ export default abstract class Item implements IItem {
     const mergedData = mergeStyles([displayModelData, styles]);
     const { animates } = mergedData;
     const displayUpdateAnimates = [];
-    const stateNames = this.states.map((state) => state.name);
+    const stateNames = previousStates
+      .concat(this.states)
+      .map((state) => state.name);
     animates?.update?.forEach((animateCfg) => {
       const { states } = animateCfg as IStateAnimate;
       if (states && isArrayOverlap(states, stateNames)) {

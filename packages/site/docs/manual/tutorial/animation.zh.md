@@ -3,7 +3,7 @@ title: 动画
 order: 6
 ---
 
-[动画配置 DEMO](https://g6-next.antv.antgroup.com/examples/scatter/changePosition/#itemAnimates)
+[动画配置 DEMO](/examples/scatter/changePosition/#itemAnimates)
 
 G6 5.0 提供了规范化的动画描述方式，您可以在实例化图时，为各个元素配置不同场景下的动画。您可以在上面介绍的 graph 配置的 `node` / `edge` / `combo` 字段中指定 `animates` 字段：
 

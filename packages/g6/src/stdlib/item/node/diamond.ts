@@ -33,16 +33,26 @@ export class DiamondNode extends BaseNode {
     let shapes: NodeShapeMap = { keyShape: undefined };
 
     // keyShape
-    shapes.keyShape = this.drawKeyShape(model, shapeMap, diffData);
+    shapes.keyShape = this.drawKeyShape(model, shapeMap, diffData, diffState);
 
     // haloShape
     if (data.haloShape && this.drawHaloShape) {
-      shapes.haloShape = this.drawHaloShape(model, shapeMap, diffData);
+      shapes.haloShape = this.drawHaloShape(
+        model,
+        shapeMap,
+        diffData,
+        diffState,
+      );
     }
 
     // labelShape
     if (data.labelShape) {
-      shapes.labelShape = this.drawLabelShape(model, shapeMap, diffData);
+      shapes.labelShape = this.drawLabelShape(
+        model,
+        shapeMap,
+        diffData,
+        diffState,
+      );
     }
 
     // labelBackgroundShape
@@ -51,6 +61,7 @@ export class DiamondNode extends BaseNode {
         model,
         shapeMap,
         diffData,
+        diffState,
       );
     }
 
@@ -70,7 +81,12 @@ export class DiamondNode extends BaseNode {
 
     // iconShape
     if (data.iconShape) {
-      shapes.iconShape = this.drawIconShape(model, shapeMap, diffData);
+      shapes.iconShape = this.drawIconShape(
+        model,
+        shapeMap,
+        diffData,
+        diffState,
+      );
     }
 
     // badgeShape
@@ -91,7 +107,7 @@ export class DiamondNode extends BaseNode {
     if (data.otherShapes && this.drawOtherShapes) {
       shapes = {
         ...shapes,
-        ...this.drawOtherShapes(model, shapeMap, diffData),
+        ...this.drawOtherShapes(model, shapeMap, diffData, diffState),
       };
     }
     return shapes;
@@ -111,8 +127,12 @@ export class DiamondNode extends BaseNode {
         ...this.mergedStyles.keyShape,
         path: this.getDiamondPath(keyShapeStyle),
       },
-      shapeMap,
-      model,
+      {
+        model,
+        shapeMap,
+        diffData,
+        diffState,
+      },
     );
   }
 

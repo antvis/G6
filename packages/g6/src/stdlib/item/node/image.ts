@@ -50,8 +50,12 @@ export class ImageNode extends BaseNode {
         y: this.mergedStyles.keyShape!.y,
         anchor: '0.5 0.5',
       },
-      shapeMap,
-      model,
+      {
+        model,
+        shapeMap,
+        diffData,
+        diffState,
+      },
     );
 
     if (clipPath) {
@@ -146,7 +150,7 @@ export class ImageNode extends BaseNode {
     if (data.otherShapes && this.drawOtherShapes) {
       shapes = {
         ...shapes,
-        ...this.drawOtherShapes(model, shapeMap, diffData),
+        ...this.drawOtherShapes(model, shapeMap, diffData, diffState),
       };
     }
     return shapes;
@@ -183,8 +187,12 @@ export class ImageNode extends BaseNode {
         fill: 'transparent',
         batchKey: 'halo',
       },
-      shapeMap,
-      model,
+      {
+        model,
+        shapeMap,
+        diffData,
+        diffState,
+      },
     );
   }
 }

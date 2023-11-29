@@ -10,7 +10,7 @@ const width = container.scrollWidth;
 const height = container.scrollHeight || 500;
 
 class G2BarChartNode extends Extensions.RectNode {
-  drawOtherShapes(model, shapeMap) {
+  drawOtherShapes(model, shapeMap, diffData, diffState) {
     const { id, data } = model;
     const { radius = 50, value } = data;
 
@@ -21,8 +21,12 @@ class G2BarChartNode extends Extensions.RectNode {
         r: radius,
         fill: '#fff',
       },
-      shapeMap,
-      model,
+      {
+        model,
+        shapeMap,
+        diffData,
+        diffState,
+      },
     );
 
     const title = this.upsertShape(
@@ -34,8 +38,12 @@ class G2BarChartNode extends Extensions.RectNode {
         text: id,
         textAlign: 'center',
       },
-      shapeMap,
-      model,
+      {
+        model,
+        shapeMap,
+        diffData,
+        diffState,
+      },
     );
 
     // to make group trigger DOMNodeInsertedIntoDocument event

@@ -4,7 +4,7 @@
 import { Graph, Extensions, extend, stdLib } from '@antv/g6';
 
 class PointChartNode extends Extensions.CircleNode {
-  drawOtherShapes(model, shapeMap) {
+  drawOtherShapes(model, shapeMap, diffData, diffState) {
     const { data: cfg } = model;
     const baseR = 30;
     let nowAngle = 0;
@@ -25,8 +25,12 @@ class PointChartNode extends Extensions.CircleNode {
           stroke: '#5ad8a6',
           lineDash: [4, 4],
         },
-        shapeMap,
-        model,
+        {
+          model,
+          shapeMap,
+          diffData,
+          diffState,
+        },
       );
     }
     const everyIncAngle = (2 * Math.PI * (360 / 5 / 5)) / 360;
@@ -48,8 +52,6 @@ class PointChartNode extends Extensions.CircleNode {
         }
       });
 
-      console.log('postions', postions);
-
       // add marks
       postions.forEach((pos, i) => {
         if (i !== 5) {
@@ -57,8 +59,12 @@ class PointChartNode extends Extensions.CircleNode {
             'circle',
             `circle-marker-shape-${dIndex}-${i}`,
             { x: 20 * i, y: 30 * i, r: 3, lineWidth: 2, stroke: cat.color, zIndex: 20, fill: 'red' },
-            shapeMap,
-            model,
+            {
+              model,
+              shapeMap,
+              diffData,
+              diffState,
+            },
           );
         }
       });
@@ -82,8 +88,12 @@ class PointChartNode extends Extensions.CircleNode {
           lineDash: [4, 4],
           stroke: '#5ad8a6',
         },
-        shapeMap,
-        model,
+        {
+          model,
+          shapeMap,
+          diffData,
+          diffState,
+        },
       );
       nowAngle2 += everyIncAngleCat;
     }
@@ -92,8 +102,12 @@ class PointChartNode extends Extensions.CircleNode {
       'circle',
       'circle-shape',
       { x: 0, y: 0, r: baseR, fill: cfg.centerColor, stroke: 'darkgray' },
-      shapeMap,
-      model,
+      {
+        model,
+        shapeMap,
+        diffData,
+        diffState,
+      },
     );
 
     if (cfg.label) {
@@ -101,8 +115,12 @@ class PointChartNode extends Extensions.CircleNode {
         'circle',
         'text-shape',
         { x: 0, y: 0, textAlign: 'center', textBaseline: 'middle', text: cfg.label, fill: '#fff', fontStyle: 'bold' },
-        shapeMap,
-        model,
+        {
+          model,
+          shapeMap,
+          diffData,
+          diffState,
+        },
       );
     }
     console.log('otherShapes', otherShapes);

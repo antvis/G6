@@ -31,7 +31,7 @@ order: 3
 
 ### JSON Spec 定义
 
-[Specification Doc](https://g6-next.antv.antgroup.com/apis/graph/specification)
+[Specification Doc](/apis/graph/specification)
 
 v5 中我们将所有节点/边/ combo 的图形进行规范化，每种类型的元素基本都有若干个规范的图形名称。包括自定义的元素，也应当遵循这样的规范。如果有额外的图形，统一放入 otherShapes 中。
 
@@ -145,7 +145,7 @@ const graph = new Graph({
 
 ### 动画配置
 
-[动画配置 DEMO](https://g6-next.antv.antgroup.com/examples/scatter/changePosition/#itemAnimates)
+[动画配置 DEMO](/examples/scatter/changePosition/#itemAnimates)
 
 在 v4 中需要为节点设置动画，必须使用自定义节点，再用图形的动画 API 进行配置。动画开始和结束的时机也难以控制。v5 提供了 JSON spec 的方式定义动画。您可以在上面介绍的 graph 配置的 `node` / `edge` / `combo` 字段中指定 `animates` 字段：
 
@@ -220,7 +220,7 @@ update: [
 
 ## 2️⃣. 信息分层
 
-[信息分层 DEMO](https://g6-next.antv.antgroup.com/examples/feature/features/#lodLevels)
+[信息分层 DEMO](/examples/feature/features/#lodLevels)
 
 信息分层可以为复杂的图减少视觉干扰，在放大图后再显示详细信息。可以在上面介绍的 graph 配置的 `node` / `edge` / `combo` 字段中指定 `lodLevels` 字段，如下面代码片段所示。其中 levels 定义了信息分层所响应的图缩放层级，animateCfg 配置由信息分层导致的图形变更时的动画方式。然后需要在不同的图形样式配置中配置 `lod` 字段，来指定该图形在 `levels` 对应的哪个层级显示。
 
@@ -281,7 +281,7 @@ const graph = new Graph({
 
 ## 3️⃣. 主题配置
 
-[主题配置 DEMO](https://g6-next.antv.antgroup.com/examples/feature/features/#themeSwitch)
+[主题配置 DEMO](/examples/feature/features/#themeSwitch)
 
 G6 内置了亮色、暗色主题，也可自定义。使用方式如下：
 
@@ -375,7 +375,7 @@ const graph = new ExtGraph({
 
 ## 5️⃣. 树图和图的融合
 
-[图数据与树数据通用 DEMO](https://g6-next.antv.antgroup.com/examples/feature/features/#treeAndGraph)
+[图数据与树数据通用 DEMO](/examples/feature/features/#treeAndGraph)
 
 v5 新增树图相关 feature：
 
@@ -400,7 +400,7 @@ const graph = new Graph({
 
 ## 6️⃣. 3D 大图
 
-[3D DEMO](https://g6-next.antv.antgroup.com/examples/feature/features/#webgl3d)
+[3D DEMO](/examples/feature/features/#webgl3d)
 
 <img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*31L_T5ERnzIAAAAAAAAAAAAADmJ7AQ/original" width=500 />
 
@@ -432,7 +432,7 @@ const graph = new ExtGraph({
 
 ## 7️⃣. 性能飞跃 & 多渲染器
 
-G6 支持了 WebGL 的 2D 和 3D 渲染，渲染性能得到极大提升。各个渲染器还可以在运行时切换。只需要在 Graph Shang 配置不同的 renderer [渲染器 DEMO](https://g6-next.antv.antgroup.com/examples/feature/features/#lodLevels)。
+G6 支持了 WebGL 的 2D 和 3D 渲染，渲染性能得到极大提升。各个渲染器还可以在运行时切换。只需要在 Graph Shang 配置不同的 renderer [渲染器 DEMO](/examples/feature/features/#lodLevels)。
 
 ```typescript
 const graph = new Graph({
@@ -441,7 +441,7 @@ const graph = new Graph({
 });
 ```
 
-同时，G6 的布局包 @antv/layout 支持了 WASM 计算，使用时需要具体布局算法其从 @antv/layout-wasm 包引入，通过 `extend` 注册到 Graph 上，即可使用。[WASM 布局 DEMO](https://g6-next.antv.antgroup.com/examples/feature/features/#wasmLayouts)。
+同时，G6 的布局包 @antv/layout 支持了 WASM 计算，使用时需要具体布局算法其从 @antv/layout-wasm 包引入，通过 `extend` 注册到 Graph 上，即可使用。[WASM 布局 DEMO](/examples/feature/features/#wasmLayouts)。
 
 ```typescript
 import { ForceLayout as ForceLayoutWASM, supportsThreads, initThreads } from '@antv/layout-wasm';
@@ -603,19 +603,19 @@ const stdLib = {
 
 - 轮廓包裹 Hull 支持文本配置：
 
-[Hull 支持文本 DEMO](https://g6-next.antv.antgroup.com/examples/interaction/hull/#hull)
+[Hull 支持文本 DEMO](/examples/interaction/hull/#hull)
 
 <img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*eXzfTbFrYjMAAAAAAAAAAAAADmJ7AQ/original" />
 
 - 折线支持自动避障：
 
-[Polyline 避障 DEMO](https://g6-next.antv.antgroup.com/examples/item/defaultEdges/#polyline3)
+[Polyline 避障 DEMO](/examples/item/defaultEdges/#polyline3)
 
 <img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*Giy7R4jheawAAAAAAAAAAAAADmJ7AQ/original" />
 
 - 文本自动适配宽度：
 
-[文本自适应 DEMO](https://g6-next.antv.antgroup.com/examples/item/label/#copyLabel)
+[文本自适应 DEMO](/examples/item/label/#copyLabel)
 
 <img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*LGuRR7itiQ8AAAAAAAAAAAAADmJ7AQ/original" />
 

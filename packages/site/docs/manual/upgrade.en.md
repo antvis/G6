@@ -37,7 +37,12 @@ To achieve data layering, prevent data pollution, and better avoid the mixture o
 
 ```typescript
 const graph = new Graph({
-  transforms: ['transform-v4-data'],
+  transforms: [
+    {
+      type: 'transform-v4-data',
+      activeLifecycle: ['read'],
+    },
+  ],
   // ... other configurations
   data: v4data, // A set of data in v4 format
 });
@@ -199,7 +204,7 @@ const graph = new Graph({
 
 ## 3️⃣. Tree Graph
 
-[Graph Data in Tree Layout DEMO](https://g6-next.antv.antgroup.com/en/examples/feature/features/#treeAndGraph)
+[Graph Data in Tree Layout DEMO](/en/examples/feature/features/#treeAndGraph)
 
 v5 introduces new features related to Tree Graph:
 
@@ -364,7 +369,7 @@ Compared with v4, G6 needs an additional step of registering the layout to the r
 
 The following example demonstrates the use of the newly added @antv/layout-wasm in v5. First, you need to register it to the runtime standard library of G6 and provide a custom layout name, which will be passed to layout later.
 
-[WASM Layout DEMO](https://g6-next.antv.antgroup.com/en/examples/feature/features/#wasmLayouts)
+[WASM Layout DEMO](/en/examples/feature/features/#wasmLayouts)
 
 ```typescript
 import { stdLib, Graph } from '@antv/g6';
@@ -699,7 +704,7 @@ It should be noted that the coordinate systems in v5 (four sets) have different 
 
 You only need to configure the labelShape for the Hull instance, and you can specify its relative position (`position`) in four directions: above, below, left, or right of the hull.
 
-[Hull with Label DEMO](https://g6-next.antv.antgroup.com/examples/interaction/hull/#hull)
+[Hull with Label DEMO](/examples/interaction/hull/#hull)
 
 <img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*eXzfTbFrYjMAAAAAAAAAAAAADmJ7AQ/original" />
 
@@ -707,7 +712,7 @@ You only need to configure the labelShape for the Hull instance, and you can spe
 
 Set `keyShape.routeCfg.enableObstacleAvoidance: true` for the edge to automatically avoid nodes.
 
-[Polyline Obstacle Avoidance DEMO](https://g6-next.antv.antgroup.com/examples/item/defaultEdges/#polyline3)
+[Polyline Obstacle Avoidance DEMO](/examples/item/defaultEdges/#polyline3)
 
 <img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*Giy7R4jheawAAAAAAAAAAAAADmJ7AQ/original" />
 
@@ -725,7 +730,7 @@ const graph = new Graph({
 });
 ```
 
-[Label Fit Width DEMO](https://g6-next.antv.antgroup.com/examples/item/label/#copyLabel)
+[Label Fit Width DEMO](/examples/item/label/#copyLabel)
 
 <img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*LGuRR7itiQ8AAAAAAAAAAAAADmJ7AQ/original" />
 

@@ -27,7 +27,7 @@ order: 3
 - Mindmap Layout：脑图布局；
 - Indented Layout：缩进布局。
 
-各种布局方法的具体介绍及其配置参见 [Layout API](https://g6-next.antv.antgroup.com/apis/layout/force-layout-options)。本教程中，我们使用的是力导向布局 (Force Layout)。
+各种布局方法的具体介绍及其配置参见 [Layout API](/apis/layout/force-layout-options)。本教程中，我们使用的是力导向布局 (Force Layout)。
 
 <img src='https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*lJdeTI0qQa8AAAAAAAAAAAAADmJ7AQ/original' width=550 alt='img' />
 
@@ -40,7 +40,7 @@ order: 3
 
 ## 配置布局
 
-G6 使用布局的方式非常简单，在图实例化的时候，加上 layout 配置即可。下面代码在实例化图时设置了布局方法为 `type: 'force'`，即力导向图布局。同时开启了 `animated: true` 使得在力计算过程中实时渲染图，让用户可以观察到图上节点力相互作用产生的动画效果。并设置了参数 `preventOverlap: true` ，表示希望节点不重叠。力导向布局的更多配置项参见：[Layout API](https://g6-next.antv.antgroup.com/apis/layout/force-layout-options)。
+G6 使用布局的方式非常简单，在图实例化的时候，加上 layout 配置即可。下面代码在实例化图时设置了布局方法为 `type: 'force'`，即力导向图布局。同时开启了 `animated: true` 使得在力计算过程中实时渲染图，让用户可以观察到图上节点力相互作用产生的动画效果。并设置了参数 `preventOverlap: true` ，表示希望节点不重叠。力导向布局的更多配置项参见：[Layout API](/apis/layout/force-layout-options)。
 
 ```javascript
 const graph = new Graph({
@@ -59,7 +59,7 @@ const graph = new Graph({
 
 <img src='https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*lJdeTI0qQa8AAAAAAAAAAAAADmJ7AQ/original' width=350 alt='img' />
 
-> 不同布局之间、相同布局不同参数允许动态切换和过渡，具体参见：[布局切换](https://g6-next.antv.antgroup.com/examples/net/layoutMechanism/#layoutTranslate)。
+> 不同布局之间、相同布局不同参数允许动态切换和过渡，具体参见：[布局切换](/examples/net/layoutMechanism/#layoutTranslate)。
 
 提示：若图配置中有 data，则在实例化图后进行布局计算。若使用  `graph.read(data)` API 进行数据读取，则将在调用时执行计算。
 

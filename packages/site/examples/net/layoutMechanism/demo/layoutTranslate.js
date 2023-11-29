@@ -44,7 +44,12 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')
       container: 'container',
       width,
       height,
-      transforms: ['transform-v4-data'],
+      transforms: [
+    {
+      type: 'transform-v4-data',
+      activeLifecycle: ['read'],
+    },
+  ],
       layout: layoutConfigs.Circular,
       modes: {
         default: ['zoom-canvas', 'drag-canvas', 'drag-node', 'click-select', 'brush-select'],

@@ -67,9 +67,9 @@ Small package size, big capabilities, making it easy for your projects to perfor
 
 Read this comprehensive guide and you'll understand everything~
 
-- 【[Migrate Guide](https://g6-next.antv.antgroup.com/en/manual/upgrade)】
-- 【[How to use the Features](https://g6-next.antv.antgroup.com/en/manual/new-features)】
-- 【[Feature DEMOs](https://g6-next.antv.antgroup.com/en/examples)】
+- 【[Migrate Guide](/en/manual/upgrade)】
+- 【[How to use the Features](/en/manual/new-features)】
+- 【[Feature DEMOs](/en/examples)】
 
 ## 🌸 More Small and Wonderful Changes
 
@@ -93,6 +93,6 @@ Next, let's move forward to the official version of G6! We continue to recruit c
 
 ![image.png](https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*VmUNR40RdmwAAAAAAAAAAAAADmJ7AQ/original)
 
-Come and join our feast, and experience the charm of AntV G6 5.0 Beta version together! Visit the official website of G6 5.0 at [https://g6-next.antv.antgroup.com/en/](https://g6-next.antv.antgroup.com/en/) to access the 【[Migrate Guide](https://g6-next.antv.antgroup.com/en/manual/upgrade)】,【[How to use the Features](https://g6-next.antv.antgroup.com/en/manual/new-features)】，【[Feature DEMOs](https://g6-next.antv.antgroup.com/en/examples)】. And get more detailed information and example code. We look forward to hearing your astonishment and sharing.
+Come and join our feast, and experience the charm of AntV G6 5.0 Beta version together! Visit the official website of G6 5.0 at [https://g6-next.antv.antgroup.com/en/](/en/) to access the 【[Migrate Guide](/en/manual/upgrade)】,【[How to use the Features](/en/manual/new-features)】，【[Feature DEMOs](/en/examples)】. And get more detailed information and example code. We look forward to hearing your astonishment and sharing.
 
 ⭐️ Please also give us a GitHub Star at [https://github.com/antvis/G6](https://github.com/antvis/G6) to make G6 even more perfect! The AntV G6 development team is looking forward to creating miracles with you!

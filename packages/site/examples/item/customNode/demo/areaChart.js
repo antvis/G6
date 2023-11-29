@@ -11,7 +11,7 @@ const width = container.scrollWidth;
 const height = container.scrollHeight || 500;
 
 class PieNode extends Extensions.CircleNode {
-  drawOtherShapes(model, shapeMap) {
+  drawOtherShapes(model, shapeMap, diffData, diffState) {
     const { data: cfg } = model;
     // node radius
     const radius = cfg.size / 2;
@@ -42,8 +42,12 @@ class PieNode extends Extensions.CircleNode {
           lineWidth: 0,
           fill: lightOrange,
         },
-        shapeMap,
-        model,
+        {
+          model,
+          shapeMap,
+          diffData,
+          diffState,
+        },
       ),
       ['out-fan-shape']: this.upsertShape(
         'path',
@@ -58,8 +62,12 @@ class PieNode extends Extensions.CircleNode {
           lineWidth: 0,
           fill: lightBlue,
         },
-        shapeMap,
-        model,
+        {
+          model,
+          shapeMap,
+          diffData,
+          diffState,
+        },
       ),
     };
     return otherShapes;

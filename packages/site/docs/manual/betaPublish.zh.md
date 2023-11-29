@@ -75,9 +75,9 @@ G6 5.0 Beta 支持图数据和树图数据的读取，提供通用的交互和�
 
 干下这篇十全大补文，你就都懂了～
 
-- 【[迁移指南](https://g6-next.antv.antgroup.com/manual/upgrade)】；
-- 【[新功能怎么用](https://g6-next.antv.antgroup.com/manual/new-features)】；
-- 【[新功能 DEMO](https://g6-next.antv.antgroup.com/examples)】。
+- 【[迁移指南](/manual/upgrade)】；
+- 【[新功能怎么用](/manual/new-features)】；
+- 【[新功能 DEMO](/examples)】。
 
 ### 💪 不止我们在战斗
 
@@ -93,6 +93,6 @@ G6 是社区的 G6，Beta 版能够成功发布，还多亏了社区的贡献者
 
 ![image.png](https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*VmUNR40RdmwAAAAAAAAAAAAADmJ7AQ/original)
 
-快来参与我们的盛宴，一起体验 AntV G6 5.0 Beta 版本的魅力吧！访问 G6 5.0 的官网：[https://g6-next.antv.antgroup.com/](https://g6-next.antv.antgroup.com/)，获取【[迁移指南](https://g6-next.antv.antgroup.com/manual/upgrade)】、【[新功能 DEMO](https://g6-next.antv.antgroup.com/examples)】、【[新功能怎么用](https://g6-next.antv.antgroup.com/manual/new-features)】。更获取更多详细信息和示例代码。我们期待听到你的惊叹和分享。
+快来参与我们的盛宴，一起体验 AntV G6 5.0 Beta 版本的魅力吧！访问 G6 5.0 的官网：[https://g6-next.antv.antgroup.com/](/)，获取【[迁移指南](/manual/upgrade)】、【[新功能 DEMO](/examples)】、【[新功能怎么用](/manual/new-features)】。更获取更多详细信息和示例代码。我们期待听到你的惊叹和分享。
 
 ⭐️ 还请大家为我们点亮 GitHub Star [https://github.com/antvis/G6](https://github.com/antvis/G6)，让 G6 变得更加完美！AntV G6 开发团队，期待与你共创奇迹！

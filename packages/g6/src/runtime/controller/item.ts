@@ -1251,12 +1251,9 @@ export class ItemController {
     }
 
     const idStr = String(id);
-    const shape = upsertShape(
-      type,
-      idStr,
-      style,
-      Object.fromEntries(transientObjectMap),
-    );
+    const shape = upsertShape(type, idStr, style, {
+      shapeMap: Object.fromEntries(transientObjectMap),
+    });
     transientObjectMap.set(idStr, shape);
     shape.style.pointerEvents = capture ? 'auto' : 'none';
     if (shape.parentNode === null) canvas.getRoot().appendChild(shape);

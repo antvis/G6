@@ -21,7 +21,12 @@ fetch('https://gw.alipayobjects.com/os/basement_prod/7bacd7d1-4119-4ac1-8be3-4c4
       container: 'container',
       width,
       height,
-      transforms: ['transform-v4-data'],
+      transforms: [
+    {
+      type: 'transform-v4-data',
+      activeLifecycle: ['read'],
+    },
+  ],
       modes: {
         default: ['drag-canvas', 'drag-node', 'zoom-canvas', 'click-select'],
       },

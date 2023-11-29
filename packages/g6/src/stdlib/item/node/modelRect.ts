@@ -81,11 +81,16 @@ export class ModelRectNode extends BaseNode {
     let shapes: NodeShapeMap = { keyShape: undefined };
 
     // keyShape
-    shapes.keyShape = this.drawKeyShape(model, shapeMap, diffData);
+    shapes.keyShape = this.drawKeyShape(model, shapeMap, diffData, diffState);
 
     // haloShape
     if (data.haloShape && this.drawHaloShape) {
-      shapes.haloShape = this.drawHaloShape(model, shapeMap, diffData);
+      shapes.haloShape = this.drawHaloShape(
+        model,
+        shapeMap,
+        diffData,
+        diffState,
+      );
     }
     // anchor shapes
     if (data.anchorShapes) {
@@ -103,20 +108,30 @@ export class ModelRectNode extends BaseNode {
 
     //logoIconShape
     if (data.iconShape) {
-      shapes.iconShape = this.drawIconShape(model, shapeMap, diffData);
+      shapes.iconShape = this.drawIconShape(
+        model,
+        shapeMap,
+        diffData,
+        diffState,
+      );
     }
 
     // otherShapes
     if (data.otherShapes && this.drawOtherShapes) {
       shapes = {
         ...shapes,
-        ...this.drawOtherShapes(model, shapeMap, diffData),
+        ...this.drawOtherShapes(model, shapeMap, diffData, diffState),
       };
     }
 
     // labelShape (after drawOtherShapes)
     if (data.labelShape) {
-      shapes.labelShape = this.drawLabelShape(model, shapeMap, diffData);
+      shapes.labelShape = this.drawLabelShape(
+        model,
+        shapeMap,
+        diffData,
+        diffState,
+      );
     }
     return shapes;
   }
@@ -136,8 +151,12 @@ export class ModelRectNode extends BaseNode {
         x: convertToNumber(x) - convertToNumber(width) / 2,
         y: convertToNumber(y) - convertToNumber(height) / 2,
       },
-      shapeMap,
-      model,
+      {
+        model,
+        shapeMap,
+        diffData,
+        diffState,
+      },
     );
   }
 
@@ -210,8 +229,12 @@ export class ModelRectNode extends BaseNode {
         wordWrapWidth: defaultWordWrapWidth,
         ...labelShapeStyle,
       },
-      shapeMap,
-      model,
+      {
+        model,
+        shapeMap,
+        diffData,
+        diffState,
+      },
     );
   }
 
@@ -239,24 +262,32 @@ export class ModelRectNode extends BaseNode {
         keyShapeStyle,
         model,
         shapeMap,
+        diffData,
+        diffState,
       ),
       logoIcon: this.drawLogoIconShape(
         logoIconStyle,
         keyShapeStyle,
         model,
         shapeMap,
+        diffData,
+        diffState,
       ),
       description: this.drawDescriptionShape(
         descriptionStyle,
         keyShapeStyle,
         model,
         shapeMap,
+        diffData,
+        diffState,
       ),
       stateIcon: this.drawStateIcon(
         stateIconStyle,
         keyShapeStyle,
         model,
         shapeMap,
+        diffData,
+        diffState,
       ),
     };
 
@@ -268,6 +299,11 @@ export class ModelRectNode extends BaseNode {
     keyShapeStyle,
     model: NodeDisplayModel | ComboDisplayModel,
     shapeMap: NodeShapeMap | ComboShapeMap,
+    diffData?: {
+      previous: NodeModelData | ComboModelData;
+      current: NodeModelData | ComboModelData;
+    },
+    diffState?: { previous: State[]; current: State[] },
   ) {
     if (!preRectStyle || !preRectStyle.show) return;
     const { x, y, height, width } = keyShapeStyle;
@@ -282,8 +318,12 @@ export class ModelRectNode extends BaseNode {
         y: convertToNumber(y) - convertToNumber(height) / 2,
         ...restPreRectStyle,
       },
-      shapeMap,
-      model,
+      {
+        model,
+        shapeMap,
+        diffData,
+        diffState,
+      },
     );
   }
 
@@ -292,6 +332,11 @@ export class ModelRectNode extends BaseNode {
     keyShapeStyle,
     model: NodeDisplayModel | ComboDisplayModel,
     shapeMap: NodeShapeMap | ComboShapeMap,
+    diffData?: {
+      previous: NodeModelData | ComboModelData;
+      current: NodeModelData | ComboModelData;
+    },
+    diffState?: { previous: State[]; current: State[] },
   ) {
     if (!logoIconStyle || !logoIconStyle.show) return;
     const { x, y, width } = keyShapeStyle;
@@ -336,8 +381,12 @@ export class ModelRectNode extends BaseNode {
         y: logoY,
         ...logoIconStyle,
       },
-      shapeMap,
-      model,
+      {
+        model,
+        shapeMap,
+        diffData,
+        diffState,
+      },
     );
   }
 
@@ -346,6 +395,11 @@ export class ModelRectNode extends BaseNode {
     keyShapeStyle,
     model: NodeDisplayModel | ComboDisplayModel,
     shapeMap: NodeShapeMap | ComboShapeMap,
+    diffData?: {
+      previous: NodeModelData | ComboModelData;
+      current: NodeModelData | ComboModelData;
+    },
+    diffState?: { previous: State[]; current: State[] },
   ) {
     if (!descriptionStyle || !descriptionStyle.show) return;
     const { width, height } = keyShapeStyle;
@@ -373,8 +427,12 @@ export class ModelRectNode extends BaseNode {
         wordWrapWidth: defaultWordWrapWidth,
         ...descriptionStyle,
       },
-      shapeMap,
-      model,
+      {
+        model,
+        shapeMap,
+        diffData,
+        diffState,
+      },
     );
   }
 
@@ -383,6 +441,11 @@ export class ModelRectNode extends BaseNode {
     keyShapeStyle,
     model: NodeDisplayModel | ComboDisplayModel,
     shapeMap: NodeShapeMap | ComboShapeMap,
+    diffData?: {
+      previous: NodeModelData | ComboModelData;
+      current: NodeModelData | ComboModelData;
+    },
+    diffState?: { previous: State[]; current: State[] },
   ) {
     if (!stateIconStyle || !stateIconStyle.show) return;
     const { x, y, width } = keyShapeStyle;
@@ -425,8 +488,12 @@ export class ModelRectNode extends BaseNode {
         y: stateY,
         ...stateIconStyle,
       },
-      shapeMap,
-      model,
+      {
+        model,
+        shapeMap,
+        diffData,
+        diffState,
+      },
     );
   }
 }
