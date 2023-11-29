@@ -106,7 +106,7 @@ export const createShape3D = (
       ]);
       break;
     case 'plane':
-      shape.scale(style.width / GEOMETRY_SIZE, style.depth / GEOMETRY_SIZE);
+      shape.scale(style.width / GEOMETRY_SIZE, 1, style.depth / GEOMETRY_SIZE);
       break;
     case 'sphere':
     default: {
