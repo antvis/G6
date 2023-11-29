@@ -17,10 +17,10 @@ type LabelShapeStyle = TextStyleProps & {
     | 'left'
     | 'right'
     | 'left-top'
-    | 'ouside-top'
-    | 'ouside-left'
-    | 'ouside-right'
-    | 'ouside-bottom';
+    | 'outside-top'
+    | 'outside-left'
+    | 'outside-right'
+    | 'outside-bottom';
   /**
    * The offset of the text shape from the key shape (keyShape) in the x-direction.
    */
