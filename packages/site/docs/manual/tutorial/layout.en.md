@@ -28,7 +28,7 @@ When there is no node position information in the data, or when the position inf
 - Mindmap Layout: mind map layout;
 - Indented Layout: indented layout.
   F
-  or detailed introductions and configuration of these layouts, please refer to the [Layout API](https://g6-next.antv.antgroup.com/en/apis/interfaces/layout/force-layout-options). In this tutorial, we use the Force Layout.
+  or detailed introductions and configuration of these layouts, please refer to the [Layout API](/en/apis/layout/force-layout-options). In this tutorial, we use the Force Layout.
 
 <img src='https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*lJdeTI0qQa8AAAAAAAAAAAAADmJ7AQ/original' width=550 alt='img' />
 
@@ -42,7 +42,7 @@ When instantiating the graph without configuring the layout:
 
 ## Configuring the Layout
 
-Configuring the layout in G6 is very simple. When instantiating the graph, just add the layout configuration. The code below sets the layout method to `type: 'force'`, which is the force-directed graph layout. At the same time,` animated: true` is enabled to render the graph in real-time during the force calculation process, allowing users to observe the animation effects produced by the interaction between nodes. The parameter `preventOverlap: true` is set to prevent node overlap. For more configuration options of the force-directed layout, please refer to the [Layout API](https://g6-next.antv.antgroup.com/en/apis/interfaces/layout/force-layout-options).
+Configuring the layout in G6 is very simple. When instantiating the graph, just add the layout configuration. The code below sets the layout method to `type: 'force'`, which is the force-directed graph layout. At the same time,` animated: true` is enabled to render the graph in real-time during the force calculation process, allowing users to observe the animation effects produced by the interaction between nodes. The parameter `preventOverlap: true` is set to prevent node overlap. For more configuration options of the force-directed layout, please refer to the [Layout API](/en/apis/layout/force-layout-options).
 
 ```javascript
 const graph = new Graph({
@@ -61,7 +61,7 @@ The result is as follows:
 
 <img src='https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*lJdeTI0qQa8AAAAAAAAAAAAADmJ7AQ/original' width=350 alt='img' />
 
-> Different layouts and different parameters of the same layout can be dynamically switched and transitioned. For more information, please refer to: [Layout Switching](https://g6-next.antv.antgroup.com/en/examples/net/layoutMechanism/#layoutTranslate).
+> Different layouts and different parameters of the same layout can be dynamically switched and transitioned. For more information, please refer to: [Layout Switching](/en/examples/net/layoutMechanism/#layoutTranslate).
 
 Note: If there is data in the graph configuration, the layout calculation will be performed after instantiating the graph. If the graph.read(data) API is used to read the data, the layout will be calculated when it is called.
 
@@ -78,7 +78,7 @@ Here is the complete code:
   </head>
   <body>
     <div id="container"></div>
-    <script src="https://gw.alipayobjects.com/os/lib/antv/g6/5.0.0-beta.21/dist/g6.min.js"></script>
+    <script src="https://gw.alipayobjects.com/os/lib/antv/g6/5.0.0/dist/g6.min.js"></script>
     <script>
       const { Graph: BaseGraph, extend, Extensions } = G6;
 

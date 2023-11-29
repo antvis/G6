@@ -33,16 +33,26 @@ export class DiamondNode extends BaseNode {
     let shapes: NodeShapeMap = { keyShape: undefined };
 
     // keyShape
-    shapes.keyShape = this.drawKeyShape(model, shapeMap, diffData);
+    shapes.keyShape = this.drawKeyShape(model, shapeMap, diffData, diffState);
 
     // haloShape
     if (data.haloShape && this.drawHaloShape) {
-      shapes.haloShape = this.drawHaloShape(model, shapeMap, diffData);
+      shapes.haloShape = this.drawHaloShape(
+        model,
+        shapeMap,
+        diffData,
+        diffState,
+      );
     }
 
     // labelShape
     if (data.labelShape) {
-      shapes.labelShape = this.drawLabelShape(model, shapeMap, diffData);
+      shapes.labelShape = this.drawLabelShape(
+        model,
+        shapeMap,
+        diffData,
+        diffState,
+      );
     }
 
     // labelBackgroundShape
@@ -51,6 +61,7 @@ export class DiamondNode extends BaseNode {
         model,
         shapeMap,
         diffData,
+        diffState,
       );
     }
 
@@ -70,7 +81,12 @@ export class DiamondNode extends BaseNode {
 
     // iconShape
     if (data.iconShape) {
-      shapes.iconShape = this.drawIconShape(model, shapeMap, diffData);
+      shapes.iconShape = this.drawIconShape(
+        model,
+        shapeMap,
+        diffData,
+        diffState,
+      );
     }
 
     // badgeShape
@@ -91,7 +107,7 @@ export class DiamondNode extends BaseNode {
     if (data.otherShapes && this.drawOtherShapes) {
       shapes = {
         ...shapes,
-        ...this.drawOtherShapes(model, shapeMap, diffData),
+        ...this.drawOtherShapes(model, shapeMap, diffData, diffState),
       };
     }
     return shapes;
@@ -111,14 +127,20 @@ export class DiamondNode extends BaseNode {
         ...this.mergedStyles.keyShape,
         path: this.getDiamondPath(keyShapeStyle),
       },
-      shapeMap,
-      model,
+      {
+        model,
+        shapeMap,
+        diffData,
+        diffState,
+      },
     );
   }
 
   private getDiamondPath(keyShapeStyle): PathArray {
-    const width = keyShapeStyle.size[0];
-    const height = keyShapeStyle.size[1];
+    const { size } = keyShapeStyle;
+    const sizeArr = Array.isArray(size) ? size : [size, size];
+    const width = sizeArr[0];
+    const height = sizeArr[1];
     const path = [
       ['M', 0, -height / 2], // top
       ['L', width / 2, 0], // right
@@ -133,8 +155,10 @@ export class DiamondNode extends BaseNode {
     keyShapeStyle: any,
   ): IAnchorPositionMap {
     const anchorPositionMap = {};
-    const width = keyShapeStyle.size[0];
-    const height = keyShapeStyle.size[1];
+    const { size } = keyShapeStyle;
+    const sizeArr = Array.isArray(size) ? size : [size, size];
+    const width = sizeArr[0];
+    const height = sizeArr[1];
     anchorPositionMap['bottom'] = [0, height / 2];
     anchorPositionMap['left'] = [-width / 2, 0];
     anchorPositionMap['right'] = anchorPositionMap['default'] = [width / 2, 0];

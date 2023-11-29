@@ -9,7 +9,7 @@ descriptionDiv.innerHTML = 'Click the bottom marker to collapse/expand the combo
 container.appendChild(descriptionDiv);
 
 class CCircleCombo extends Extensions.CircleCombo {
-  drawOtherShapes(model, shapeMap, diffData) {
+  drawOtherShapes(model, shapeMap, diffData, diffState) {
     const { data } = model;
     const keyShapeBBox = shapeMap.keyShape.getLocalBounds();
     const otherShapes = {
@@ -25,8 +25,12 @@ class CCircleCombo extends Extensions.CircleCombo {
             ? stdLib.markers.expand(keyShapeBBox.center[0], keyShapeBBox.max[1], 8)
             : stdLib.markers.collapse(keyShapeBBox.center[0], keyShapeBBox.max[1], 8),
         },
-        shapeMap,
-        model,
+        {
+          model,
+          shapeMap,
+          diffData,
+          diffState,
+        },
       ),
     };
     return otherShapes;
@@ -49,6 +53,13 @@ const graph = new ExtGraph({
   stackCfg: {
     ignoreStateChange: true,
   },
+  plugins: [
+    {
+      // lod-controller will be automatically assigned to graph with `disableLod: false` to graph if it is not configured as following
+      type: 'lod-controller',
+      disableLod: true,
+    },
+  ],
   node: {
     labelShape: {
       position: 'center',

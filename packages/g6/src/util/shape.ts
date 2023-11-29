@@ -14,25 +14,34 @@ import {
   AABB,
   Tuple3Number,
 } from '@antv/g';
-import { clone, isArray, isNumber } from '@antv/util';
+import { isArray, isNumber } from '@antv/util';
 import { DEFAULT_LABEL_BG_PADDING } from '../constant';
 import { Padding, Point, StandardPadding } from '../types/common';
-import { EdgeDisplayModel, EdgeShapeMap } from '../types/edge';
+import { EdgeDisplayModel, EdgeModelData, EdgeShapeMap } from '../types/edge';
 import {
   GShapeStyle,
   SHAPE_TYPE,
   ItemShapeStyles,
   ShapeStyle,
   SHAPE_TYPE_3D,
+  State,
 } from '../types/item';
-import { NodeDisplayModel, NodeShapeMap } from '../types/node';
-import { ComboDisplayModel, IGraph } from '../types';
+import { NodeDisplayModel, NodeModelData, NodeShapeMap } from '../types/node';
+import {
+  AnimateTiming,
+  ComboDisplayModel,
+  ComboModelData,
+  IAnimates,
+  IGraph,
+} from '../types';
 import Node from '../item/node';
 import Edge from '../item/edge';
 import Combo from '../item/combo';
 import { getShapeAnimateBeginStyles } from './animate';
 import { isArrayOverlap } from './array';
 import { isBetween } from './math';
+import { cloneJSON } from './data';
+import { ComboShapeMap } from 'types/combo';
 
 export const ShapeTagMap = {
   circle: Circle,
@@ -74,20 +83,39 @@ export const createShape = (
  * @param shapeId
  * @returns
  */
-const findAnimateFields = (animates, timing, shapeId) => {
+const findAnimateFields = (
+  animates: IAnimates,
+  timing: AnimateTiming,
+  shapeId: string,
+  diffState?: { previous?: State[]; current?: State[] },
+) => {
   if (!animates?.[timing]?.length) return [];
   let animateFields = [];
-  animates[timing].forEach(({ fields, shapeId: animateShapeId }) => {
-    if (animateShapeId === shapeId) {
-      animateFields = animateFields.concat(fields);
-    } else if (
-      (!animateShapeId || animateShapeId === 'group') &&
-      fields.includes('opacity')
-    ) {
-      // group opacity, all shapes animates with opacity
-      animateFields.push('opacity');
-    }
-  });
+  const { previous: previousState = [], current: currentState = [] } =
+    diffState || {};
+  const states = previousState.concat(currentState);
+  animates[timing].forEach(
+    // @ts-ignore
+    ({ fields, shapeId: animateShapeId, states: animateStates = [] }) => {
+      if (
+        isArrayOverlap(
+          states.map((state) => state.name),
+          animateStates,
+        ) ||
+        (!states.length && !animateStates.length)
+      ) {
+        if (animateShapeId === shapeId) {
+          animateFields = animateFields.concat(fields);
+        } else if (
+          (!animateShapeId || animateShapeId === 'group') &&
+          fields.includes('opacity')
+        ) {
+          // group opacity, all shapes animates with opacity
+          animateFields.push('opacity');
+        }
+      }
+    },
+  );
   if (animateFields.includes(undefined)) {
     // there is an animate on all styles
     return [];
@@ -108,31 +136,39 @@ export const upsertShape = (
   type: SHAPE_TYPE,
   id: string,
   style: GShapeStyle,
-  shapeMap: { [shapeId: string]: DisplayObject },
-  model?: NodeDisplayModel | EdgeDisplayModel | ComboDisplayModel,
+  config: {
+    model?: NodeDisplayModel | EdgeDisplayModel | ComboDisplayModel;
+    shapeMap?: { [k: string]: DisplayObject<any, any> };
+    diffData?: {
+      previous: NodeModelData | EdgeModelData | ComboModelData;
+      current: NodeModelData | EdgeModelData | ComboModelData;
+    };
+    diffState?: { previous: State[]; current: State[] };
+  },
 ): DisplayObject => {
+  const { model, shapeMap, diffState } = config;
   let shape = shapeMap[id];
   // TODO: it is not decoupling with the shape name 'keyShape'
   const firstRendering = !shapeMap.keyShape;
   const { animates, disableAnimate } = model?.data || {};
   if (!shape) {
-    // create
-    shape = createShape(type, style, id);
-    if (style.interactive === false) shape.interactive = false;
     // find the animate styles, set them to be INIT_SHAPE_STYLES
-    // TODO, timing
     if (!disableAnimate && animates) {
       const animateFields = findAnimateFields(
         animates,
-        'buildIn',
-        // firstRendering ? 'buildIn' : 'update',
+        firstRendering ? 'buildIn' : 'update',
         id,
+        diffState,
       );
+      shape = createShape(type, style, id);
       const initShapeStyles = getShapeAnimateBeginStyles(shape);
       animateFields.forEach((key) => {
         shape.style[key] = initShapeStyles[key];
       });
+    } else {
+      shape = createShape(type, style, id);
     }
+    if (style.interactive === false) shape.interactive = false;
   } else if (shape.nodeName !== type) {
     // remove and create for the shape changed type
     shape.remove();
@@ -142,7 +178,7 @@ export const upsertShape = (
     const oldStyles = shape.attributes;
     // update
     // update the styles excludes the ones in the animate fields
-    const animateFields = findAnimateFields(animates, 'update', id);
+    const animateFields = findAnimateFields(animates, 'update', id, diffState);
     if (disableAnimate || !animates?.update || !animateFields.length) {
       // update all the style directly when there are no animates for update timing
       Object.keys(style).forEach((key) => {
@@ -282,7 +318,7 @@ export const formatPadding = (
  * @returns
  */
 export const mergeStyles = (styleMaps: ItemShapeStyles[]) => {
-  let currentResult = clone(styleMaps[0]);
+  let currentResult = cloneJSON(styleMaps[0]);
   styleMaps.forEach((styleMap, i) => {
     if (i > 0) currentResult = merge2Styles(currentResult, styleMap);
   });
@@ -411,6 +447,7 @@ export const isPolygonsIntersect = (
 };
 
 export const intersectBBox = (box1: Partial<AABB>, box2: Partial<AABB>) => {
+  if (!box2?.min || !box1?.min) return false;
   return (
     box2.min[0] <= box1.max[0] &&
     box2.max[0] >= box1.min[0] &&

@@ -3,6 +3,7 @@ import { isArray } from '@antv/util';
 import { depthFirstSearch, connectedComponent } from '@antv/algorithm';
 import {
   DataChangeType,
+  DataLifecycleType,
   GraphCore,
   GraphData,
   GraphDataChanges,
@@ -310,7 +311,7 @@ export const traverse = (treeData, callback) => {
   }
 };
 
-export const DEFAULT_ACTIVE_DATA_LIFECYCLE = ['read'];
+export const DEFAULT_ACTIVE_DATA_LIFECYCLE = 'all';
 
 export const AVAILABLE_DATA_LIFECYCLE = [
   'read',
@@ -320,12 +321,13 @@ export const AVAILABLE_DATA_LIFECYCLE = [
   'removeData',
 ];
 
-export const dataLifecycleMap: Record<string, string> = {
+export const dataLifecycleMap: Record<string, DataLifecycleType> = {
   replace: 'read',
   mergeReplace: 'changeData',
   union: 'addData',
   remove: 'removeData',
   update: 'updateData',
+  updatePosition: 'updatePosition',
 };
 
 /**
@@ -341,11 +343,20 @@ export const isEmptyGraph = (graph, excludeInvisibles = false): boolean => {
 
   if (excludeInvisibles) {
     const edges = graph.getAllEdgesData();
-    const hasVisibleItems =
-      nodes.filter((node) => graph.getItemVisible(node.id)).length +
-      edges.filter((edge) => graph.getItemVisible(edge.id)).length +
-      combos.filter((combo) => graph.getItemVisible(combo.id)).length;
-    if (!hasVisibleItems) return true;
+    if (nodes.find((node) => graph.getItemVisible(node.id))) return false;
+    if (edges.find((edge) => graph.getItemVisible(edge.id))) return false;
+    if (combos.find((combo) => graph.getItemVisible(combo.id))) return false;
+    return true;
   }
   return false;
+};
+
+/**
+ * Clone an object by JSON stringify and parse
+ * @param obj
+ * @returns
+ */
+export const cloneJSON = (obj) => {
+  if (!obj) return obj;
+  return JSON.parse(JSON.stringify(obj));
 };

@@ -3,7 +3,7 @@ title: Animation*
 order: 6
 ---
 
-[Animation Configuration DEMO](https://g6-next.antv.antgroup.com/examples/scatter/changePosition/#itemAnimates)
+[Animation Configuration DEMO](/examples/scatter/changePosition/#itemAnimates)
 
 G6 5.0 provides a standardized way to describe animations. You can configure animations for different elements in different scenarios when instantiating the graph. You can specify the `animates` field in the `node` / `edge` / `combo` field of the graph configuration mentioned above:
 

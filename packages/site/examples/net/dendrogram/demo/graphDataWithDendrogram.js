@@ -37,7 +37,12 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')
       container,
       width,
       height,
-      transforms: ['transform-v4-data'],
+      transforms: [
+    {
+      type: 'transform-v4-data',
+      activeLifecycle: ['read'],
+    },
+  ],
       modes: {
         default: ['drag-canvas', 'zoom-canvas', 'drag-node', 'collapse-expand-tree', 'activate-relations'],
       },
@@ -55,7 +60,7 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')
           data: {
             ...model.data,
             type: 'rect-node',
-            // lodLevels: {},
+            // lodLevels: [],
             keyShape: {
               width: 50,
               height: 20,

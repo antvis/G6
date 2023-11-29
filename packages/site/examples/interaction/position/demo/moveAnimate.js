@@ -54,6 +54,13 @@ const graph = new G6.Graph({
   container: 'container',
   width,
   height,
+  plugins: [
+    {
+      // lod-controller will be automatically assigned to graph with `disableLod: false` to graph if it is not configured as following
+      type: 'lod-controller',
+      disableLod: true,
+    },
+  ],
   data,
   node: {
     labelShape: {

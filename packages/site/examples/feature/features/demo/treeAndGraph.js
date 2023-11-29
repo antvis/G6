@@ -19,7 +19,12 @@ const graph = new ExtGraph({
   container,
   width,
   height,
-  transforms: ['transform-v4-data'],
+  transforms: [
+    {
+      type: 'transform-v4-data',
+      activeLifecycle: ['read'],
+    },
+  ],
   modes: {
     default: ['drag-canvas', 'zoom-canvas', 'drag-node', 'collapse-expand-tree', 'click-select'],
   },
@@ -37,7 +42,7 @@ const graph = new ExtGraph({
       data: {
         ...model.data,
         type: 'rect-node',
-        // lodLevels: {},
+        // lodLevels: [],
         keyShape: {
           width: 50,
           height: 20,

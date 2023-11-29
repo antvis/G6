@@ -85,7 +85,6 @@ export interface Encode<T> {
 
 export interface ShapeAttrEncode {
   [shapeAttr: string]: unknown | Encode<unknown>;
-  animates?: IAnimates | Encode<IAnimates>;
 }
 
 export interface LabelBackground {
@@ -102,7 +101,6 @@ export interface ShapesEncode {
   otherShapes?: {
     [shapeId: string]: {
       [shapeAtrr: string]: unknown | Encode<unknown>;
-      animates: IAnimates | Encode<IAnimates>;
     };
   };
 }

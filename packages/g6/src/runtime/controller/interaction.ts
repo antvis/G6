@@ -1,7 +1,6 @@
 import { FederatedPointerEvent, IElement } from '@antv/g';
-import { IGraph } from '../../types';
 import { registery } from '../../stdlib';
-import { getExtension } from '../../util/extension';
+import { IGraph } from '../../types';
 import { Behavior } from '../../types/behavior';
 import {
   CANVAS_EVENT_TYPE,
@@ -9,10 +8,11 @@ import {
   IG6GraphEvent,
 } from '../../types/event';
 import {
+  ItemInfo,
   getContextMenuEventProps,
   getItemInfoFromElement,
-  ItemInfo,
 } from '../../util/event';
+import { getExtension } from '../../util/extension';
 
 type Listener = (event: IG6GraphEvent) => void;
 
@@ -119,6 +119,7 @@ export class InteractionController {
 
   private destroyBehavior = (key: string, behavior: Behavior) => {
     try {
+      this.behaviorMap.delete(key);
       behavior.destroy();
     } catch (error) {
       console.error(

@@ -185,7 +185,8 @@ const buildInOutActions = {
     ]);
     newNodes.push(node);
   },
-  'Remo Node(buildout)': () => {
+  'Remove Node(buildout)': () => {
+    console.log('removenode', newNodes.length);
     if (!newNodes.length) return;
     graph.removeData('node', newNodes[0].id);
     newNodes.shift();
@@ -252,11 +253,13 @@ const actions = {
   'animate.update': updateActions,
 };
 
+const controllerContainer = document.createElement('div');
+controllerContainer.style.position = 'absolute';
+container.appendChild(controllerContainer);
+
 Object.keys(actions).forEach((groupName, i) => {
   const btnContainer = document.createElement('div');
-  btnContainer.style.position = 'absolute';
-  btnContainer.style.top = `${i * 30}px`;
-  container.appendChild(btnContainer);
+  controllerContainer.appendChild(btnContainer);
   const tip = document.createElement('span');
   tip.innerHTML = `👉 ${groupName}: `;
   btnContainer.appendChild(tip);

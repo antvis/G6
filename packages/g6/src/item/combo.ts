@@ -1,6 +1,6 @@
-import { ComboDisplayModel, ComboModel, IGraph } from '../types';
 import { Group, Tuple3Number } from '@antv/g';
 import { clone, throttle } from '@antv/util';
+import { ComboDisplayModel, ComboModel, IGraph } from '../types';
 import { DisplayMapper, LodLevelRanges, State } from '../types/item';
 import { ComboStyleSet } from '../types/theme';
 import { ComboModelData, ComboUserModelData } from '../types/combo';
@@ -81,7 +81,7 @@ export default class Combo extends Node {
     animate = true,
     onfinish: Function = () => {},
   ) {
-    if (displayModel.data.collapsed) {
+    if (displayModel.data.collapsed && this.themeStyles.collapsed) {
       Object.keys(this.themeStyles.collapsed).forEach((shapeId) => {
         displayModel.data[shapeId] = displayModel.data[shapeId] || {};
         displayModel.data[shapeId] = {
@@ -105,6 +105,7 @@ export default class Combo extends Node {
    */
   public forceUpdate = throttle(
     () => {
+      if (this.destroyed || !this.shapeMap.keyShape) return;
       this.updateModelByBounds(this.displayModel as ComboDisplayModel);
       if (!this.destroyed) this.draw(this.displayModel as ComboDisplayModel);
     },

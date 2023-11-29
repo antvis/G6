@@ -11,7 +11,7 @@ class CustomNode extends Extensions.CircleNode {
   defaultStyles = {
     keyShape: {},
   };
-  drawKeyShape(model, shapeMap, diffData) {
+  drawKeyShape(model, shapeMap, diffData, diffState) {
     const { keyShape: keyShapeStyle } = model.data;
     const width = model.id.length * 9;
     return this.upsertShape(
@@ -27,10 +27,15 @@ class CustomNode extends Extensions.CircleNode {
         lineWidth: 0,
         opacity: 0,
       },
-      shapeMap,
+      {
+        model,
+        shapeMap,
+        diffData,
+        diffState,
+      },
     );
   }
-  drawLabelShape(model, shapeMap, diffData) {
+  drawLabelShape(model, shapeMap, diffData, diffState) {
     const { labelShape: propsLabelStyle } = model.data;
     return this.upsertShape(
       'text',
@@ -44,10 +49,15 @@ class CustomNode extends Extensions.CircleNode {
         x: 0,
         y: 0,
       },
-      shapeMap,
+      {
+        model,
+        shapeMap,
+        diffData,
+        diffState,
+      },
     );
   }
-  drawOtherShapes(model, shapeMap, diffData) {
+  drawOtherShapes(model, shapeMap, diffData, diffState) {
     const labelBBox = shapeMap.labelShape?.getRenderBounds();
     const bboxWidth = labelBBox.max[0] - labelBBox.min[0];
     shapeMap.keyShape.style.width = bboxWidth;
@@ -61,7 +71,12 @@ class CustomNode extends Extensions.CircleNode {
           r: 3,
           stroke: '#637088',
         },
-        shapeMap,
+        {
+          model,
+          shapeMap,
+          diffData,
+          diffState,
+        },
       ),
       bottomLineShape: this.upsertShape(
         'path',
@@ -74,7 +89,12 @@ class CustomNode extends Extensions.CircleNode {
             ['L', bboxWidth, 0],
           ],
         },
-        shapeMap,
+        {
+          model,
+          shapeMap,
+          diffData,
+          diffState,
+        },
       ),
     };
   }
@@ -98,10 +118,21 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.j
       container: 'container',
       width,
       height,
-      transforms: ['transform-v4-data'],
+      transforms: [
+        {
+          type: 'transform-v4-data',
+          activeLifecycle: ['read'],
+        },
+      ],
       modes: {
         default: ['collapse-expand-tree', 'drag-canvas', 'zoom-canvas'],
       },
+      plugins: [
+        {
+          type: 'lod-controller',
+          disableLod: true,
+        },
+      ],
       node: {
         type: 'crect-node',
         anchorPoints: [

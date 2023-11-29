@@ -52,7 +52,7 @@ class FileNode extends Extensions.CircleNode {
   defaultStyles = {
     keyShape: {},
   };
-  drawKeyShape(model, shapeMap, diffData) {
+  drawKeyShape(model, shapeMap, diffData, diffState) {
     const { keyShape: keyShapeStyle } = model.data;
     return this.upsertShape(
       'rect',
@@ -66,10 +66,15 @@ class FileNode extends Extensions.CircleNode {
         y: -12,
         opacity: 0,
       },
-      shapeMap,
+      {
+        model,
+        shapeMap,
+        diffData,
+        diffState,
+      },
     );
   }
-  drawLabelShape(model, shapeMap, diffData) {
+  drawLabelShape(model, shapeMap, diffData, diffState) {
     const { labelShape: propsLabelStyle } = model.data;
     return this.upsertShape(
       'text',
@@ -84,10 +89,15 @@ class FileNode extends Extensions.CircleNode {
         textAlign: 'left',
         textBaseline: 'bottom',
       },
-      shapeMap,
+      {
+        model,
+        shapeMap,
+        diffData,
+        diffState,
+      },
     );
   }
-  drawOtherShapes(model, shapeMap, diffData) {
+  drawOtherShapes(model, shapeMap, diffData, diffState) {
     const { childrenIds, collapsed } = model.data;
     const otherShapes = {};
     if (childrenIds?.length) {
@@ -99,7 +109,12 @@ class FileNode extends Extensions.CircleNode {
           fill: '#666',
           path: collapsed ? stdLib.markers.upTriangle(20, -8, 4) : stdLib.markers.downTriangle(14, -16, 4),
         },
-        shapeMap,
+        {
+          model,
+          shapeMap,
+          diffData,
+          diffState,
+        },
       );
     }
     return otherShapes;
@@ -140,6 +155,12 @@ const graph = new ExtGraph({
   modes: {
     default: ['collapse-expand-tree', 'drag-canvas', 'zoom-canvas'],
   },
+  plugins: [
+    {
+      type: 'lod-controller',
+      disableLod: true,
+    },
+  ],
   layout: {
     type: 'indented',
     isHorizontal: true,

@@ -126,6 +126,7 @@ export default class Edge extends Item {
     const timing = firstRendering ? 'buildIn' : 'update';
     // handle shape's animate
     if (animate && !disableAnimate && usingAnimates[timing]?.length) {
+      const { current = [], previous = [] } = diffState || {};
       this.animations = animateShapes(
         usingAnimates,
         targetStyles, // targetStylesMap
@@ -133,7 +134,8 @@ export default class Edge extends Item {
         undefined,
         [this.group, this.labelGroup],
         firstRendering ? 'buildIn' : 'update',
-        diffState?.current.map((state) => state.name) || this.changedStates,
+        current.concat(previous).map((state) => state.name) ||
+          this.changedStates,
         this.animateFrameListener,
         (canceled) => onfinish(displayModel.id, canceled),
       );
@@ -153,7 +155,7 @@ export default class Edge extends Item {
    * @param force bypass the nodes position change check and force to re-draw
    */
   public forceUpdate() {
-    if (this.destroyed) return;
+    if (this.destroyed || !this.shapeMap.keyShape) return;
     const force = isPolylineWithObstacleAvoidance(this.displayModel);
     const { sourcePoint, targetPoint, changed } = this.getEndPoints(
       this.displayModel,

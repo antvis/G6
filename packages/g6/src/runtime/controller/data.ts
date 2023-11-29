@@ -236,7 +236,9 @@ export class DataController {
    */
   private getExtensions() {
     const { transforms = [] } = this.graph.getSpecification();
-    const requiredTransformers = ['validate-data'];
+    const requiredTransformers = [
+      { type: 'validate-data', activeLifecycle: 'all' },
+    ];
     return [...transforms, ...requiredTransformers]
       .map((config) => ({
         config,
@@ -261,7 +263,7 @@ export class DataController {
           this.addCombo(data as GraphData);
           break;
         default:
-          // changeType is 'replace' | 'mergeReplace' | 'union' | 'remove' | 'update'
+          // changeType is 'replace' | 'mergeReplace' | 'union' | 'remove' | 'update' | 'updatePosition'
           this.changeData(data, changeType);
           break;
       }
@@ -342,10 +344,7 @@ export class DataController {
    * @param data new data
    * @param changeType type of data change, 'replace' means discard the old data. 'mergeReplace' means merge the common part. 'union' means merge whole sets of old and new one. 'remove' means remove the common part. 'update' means update the comme part.
    */
-  private changeData(
-    dataConfig: DataConfig,
-    changeType: 'replace' | 'mergeReplace' | 'union' | 'remove' | 'update',
-  ) {
+  private changeData(dataConfig: DataConfig, changeType: DataChangeType) {
     const { type: dataType, data } = this.formatData(dataConfig) || {};
     if (!dataType) return;
     this.dataType = dataType;
@@ -760,6 +759,11 @@ export class DataController {
         dataUpdated: intersectionOfPrevAndNew,
         dataRemoved: {},
       },
+      updatePosition: {
+        dataAdded: {},
+        dataUpdated: intersectionOfPrevAndNew,
+        dataRemoved: {},
+      },
     };
 
     return dataChangeMap[type];
@@ -780,7 +784,6 @@ export class DataController {
       : activeLifecycle === 'all'
       ? AVAILABLE_DATA_LIFECYCLE
       : [activeLifecycle];
-
     return (activeLifecycle as string[]).includes(dataLifecycleMap[changeType]);
   };
 

@@ -50,7 +50,12 @@ const graph = new Graph({
   container: 'container',
   width,
   height,
-  transforms: ['transform-v4-data'],
+  transforms: [
+    {
+      type: 'transform-v4-data',
+      activeLifecycle: ['read'],
+    },
+  ],
   plugins: [fisheye],
   node: (model) => {
     return {

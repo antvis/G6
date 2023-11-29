@@ -10,6 +10,7 @@ type Listener = (event: IG6GraphEvent) => void;
 
 const REQUIRED_PLUGINS = [
   {
+    key: 'lod-controller',
     type: 'lod-controller',
     pluginClass: LodController,
   },
@@ -90,6 +91,11 @@ export class PluginController {
         )
       ) {
         plugins.push(required.type);
+
+        if (!this.graph.specification.plugins) {
+          this.graph.specification.plugins = [];
+        }
+        this.graph.specification.plugins.push(required);
       }
     });
 
@@ -135,7 +141,7 @@ export class PluginController {
       return config.required;
     }
     const Plugin = getExtension(config, registry.useLib, 'plugin');
-    return Plugin.required;
+    return Plugin?.required;
   }
 
   private onPluginChange(params: {
@@ -170,7 +176,7 @@ export class PluginController {
     }
 
     if (action === 'update') {
-      pluginCfgs.forEach(this.updatePlugin);
+      pluginCfgs.forEach(this.updatePlugin.bind(this));
       return;
     }
   }

@@ -11,8 +11,6 @@ import { BaseNode3D } from './base3d';
 export class CubeNode extends BaseNode3D {
   override defaultStyles = {
     keyShape: {
-      latitudeBands: 32,
-      longitudeBands: 32,
       width: 10,
       height: 10,
       depth: 10,
@@ -36,16 +34,26 @@ export class CubeNode extends BaseNode3D {
     let shapes: NodeShapeMap = { keyShape: undefined };
 
     // keyShape
-    shapes.keyShape = this.drawKeyShape(model, shapeMap, diffData);
+    shapes.keyShape = this.drawKeyShape(model, shapeMap, diffData, diffState);
 
     // haloShape
     if (data.haloShape && this.drawHaloShape) {
-      shapes.haloShape = this.drawHaloShape(model, shapeMap, diffData);
+      shapes.haloShape = this.drawHaloShape(
+        model,
+        shapeMap,
+        diffData,
+        diffState,
+      );
     }
 
     // labelShape
     if (data.labelShape) {
-      shapes.labelShape = this.drawLabelShape(model, shapeMap, diffData);
+      shapes.labelShape = this.drawLabelShape(
+        model,
+        shapeMap,
+        diffData,
+        diffState,
+      );
     }
 
     // labelBackgroundShape
@@ -54,12 +62,18 @@ export class CubeNode extends BaseNode3D {
         model,
         shapeMap,
         diffData,
+        diffState,
       );
     }
 
     // iconShape
     if (data.iconShape) {
-      shapes.iconShape = this.drawIconShape(model, shapeMap, diffData);
+      shapes.iconShape = this.drawIconShape(
+        model,
+        shapeMap,
+        diffData,
+        diffState,
+      );
     }
 
     // badgeShape
@@ -80,7 +94,7 @@ export class CubeNode extends BaseNode3D {
     if (data.otherShapes && this.drawOtherShapes) {
       shapes = {
         ...shapes,
-        ...this.drawOtherShapes(model, shapeMap, diffData),
+        ...this.drawOtherShapes(model, shapeMap, diffData, diffState),
       };
     }
     return shapes;
@@ -92,11 +106,11 @@ export class CubeNode extends BaseNode3D {
     diffData?: { previous: NodeModelData; current: NodeModelData },
     diffState?: { previous: State[]; current: State[] },
   ): DisplayObject {
-    return this.upsertShape(
-      'cube',
-      'keyShape',
-      this.mergedStyles.keyShape,
+    return this.upsertShape('cube', 'keyShape', this.mergedStyles.keyShape, {
+      model,
       shapeMap,
-    );
+      diffData,
+      diffState,
+    });
   }
 }

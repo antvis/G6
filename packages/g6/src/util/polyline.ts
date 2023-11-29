@@ -678,6 +678,7 @@ export const isPolylineWithObstacleAvoidance = (
 export const isPointPreventPolylineOverlap = (
   displayModel: NodeDisplayModel,
 ) => {
+  if (!displayModel) return false;
   const { preventPolylineEdgeOverlap } = displayModel.data;
   return preventPolylineEdgeOverlap || false;
 };

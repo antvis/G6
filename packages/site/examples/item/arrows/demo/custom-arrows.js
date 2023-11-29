@@ -8,6 +8,13 @@ const graph = new Graph({
   container: 'container',
   width,
   height,
+  plugins: [
+    {
+      // lod-controller will be automatically assigned to graph with `disableLod: false` to graph if it is not configured as following
+      type: 'lod-controller',
+      disableLod: true,
+    },
+  ],
   modes: {
     default: ['zoom-canvas', 'drag-canvas', 'drag-node', 'click-select'],
   },
@@ -47,6 +54,7 @@ const graph = new Graph({
             stroke: '#F6BD16',
             endArrow: {
               path: 'M0,0 L10,4 L14,14 L18,4 L28,0 L18,-4 L14,-14 L10,-4 Z',
+              offset: 10,
               fill: '#F6BD16',
               stroke: '#F6BD16',
             },
@@ -66,6 +74,7 @@ const graph = new Graph({
             stroke: '#F6BD16',
             endArrow: {
               path: 'M 3,-5 L 3,5 L 15,10 L 15,-10 Z',
+              offset: 5,
               fill: '#F6BD16',
               stroke: '#F6BD16',
             },

@@ -22,8 +22,8 @@ export const ValidateData = (
   const { dataAdded, dataRemoved, dataUpdated } = data;
   return {
     dataAdded: handler(dataAdded, options, graphCore),
-    dataRemoved: handler(dataRemoved, options, graphCore),
-    dataUpdated: handler(dataUpdated, options, graphCore),
+    dataRemoved: dataRemoved,
+    dataUpdated: dataUpdated,
   };
 };
 

@@ -13,7 +13,7 @@ In this chapter, we have already drawn the graph of the **Tutorial example**, bu
 
 ### Graph Items
 
-Graph items refer to the **nodes** `Node`, **edges** `Edge`, and _node groups_ `Combo` on the graph. G6 provides a series of [built-in nodes](https://g6-next.antv.antgroup.com/en/examples#item-defaultNodes) for users to choose from.
+Graph items refer to the **nodes** `Node`, **edges** `Edge`, and _node groups_ `Combo` on the graph. G6 provides a series of [built-in nodes](/en/examples#item-defaultNodes) for users to choose from.
 
 ## Element Properties
 
@@ -363,7 +363,7 @@ Here is the complete code:
   </head>
   <body>
     <div id="container"></div>
-    <script src="https://gw.alipayobjects.com/os/lib/antv/g6/5.0.0-beta.21/dist/g6.min.js"></script>
+    <script src="https://gw.alipayobjects.com/os/lib/antv/g6/5.0.0/dist/g6.min.js"></script>
     <script>
       const { Graph: BaseGraph, extend, Extensions } = G6;
 

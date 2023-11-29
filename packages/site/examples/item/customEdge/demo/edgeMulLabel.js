@@ -5,7 +5,7 @@ const width = container.scrollWidth;
 const height = container.scrollHeight || 500;
 
 class MultipleLabelsEdge extends Extensions.LineEdge {
-  drawOtherShapes(model, shapeMap, diffData) {
+  drawOtherShapes(model, shapeMap, diffData, diffState) {
     const labels = model.data.labels;
     // the left label
     const startPoint = shapeMap.keyShape.getPoint(0);
@@ -18,7 +18,12 @@ class MultipleLabelsEdge extends Extensions.LineEdge {
       x: startPoint.x,
       y: startPoint.y,
     };
-    shapeMap.leftTextShape = this.upsertShape('text', 'leftTextShape', leftTextStyle, shapeMap, model);
+    shapeMap.leftTextShape = this.upsertShape('text', 'leftTextShape', leftTextStyle, {
+      model,
+      shapeMap,
+      diffData,
+      diffState,
+    });
 
     // the right label
     const endPoint = shapeMap.keyShape.getPoint(1);
@@ -31,7 +36,12 @@ class MultipleLabelsEdge extends Extensions.LineEdge {
       x: endPoint.x,
       y: endPoint.y,
     };
-    shapeMap.rightTextShape = this.upsertShape('text', 'rightTextShape', rightTextStyle, shapeMap, model);
+    shapeMap.rightTextShape = this.upsertShape('text', 'rightTextShape', rightTextStyle, {
+      model,
+      shapeMap,
+      diffData,
+      diffState,
+    });
     return shapeMap;
   }
 }

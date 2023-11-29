@@ -18,11 +18,11 @@ The interaction behaviors in G6. G6 provides a series of **built-in** interactio
 - `drag-canvas`: Drags the canvas.
 - `zoom-canvas`: Zooms the canvas.
 
-For more information, see [Interaction Behaviors](https://g6-next.antv.antgroup.com/apis/interfaces/behaviors/activate-relations-options).
+For more information, see [Interaction Behaviors](/apis/behaviors/activate-relations-options).
 
 ### Interaction Modes
 
-Modes are the management mechanism for interaction behaviors in G6. A mode is a combination of multiple interaction behaviors and allows users to manage these behaviors by switching different modes. Due to the complexity of this concept, readers do not need to understand it in depth in this tutorial. For more information, see [Interaction Modes](https://g6-next.antv.antgroup.com/apis/interfaces/graph/i-graph).
+Modes are the management mechanism for interaction behaviors in G6. A mode is a combination of multiple interaction behaviors and allows users to manage these behaviors by switching different modes. Due to the complexity of this concept, readers do not need to understand it in depth in this tutorial. For more information, see [Interaction Modes](/apis/graph/i-graph).
 
 ### Interaction States
 
@@ -44,7 +44,7 @@ const Graph = extend(BaseGraph, {
 });
 ```
 
-You can view all the built-in interactions in [Interaction Behaviors](https://g6-next.antv.antgroup.com/apis/interfaces/behaviors/activate-relations-options). Apart from the interactions that are registered in advance, other interactions need to be registered using the above method.
+You can view all the built-in interactions in [Interaction Behaviors](/apis/behaviors/activate-relations-options). Apart from the interactions that are registered in advance, other interactions need to be registered using the above method.
 
 ```javascript
 // Pre-registered interactions
@@ -70,7 +70,7 @@ const graph = new G6.Graph({
 });
 ```
 
-In addition to using the built-in interaction names directly, you can also configure parameters for the behavior, such as the sensitivity of zooming the canvas and the maximum/minimum zoom level. For specific usage, see [Behavior](https://g6-next.antv.antgroup.com/apis/interfaces/behaviors/zoom-canvas-options).
+In addition to using the built-in interaction names directly, you can also configure parameters for the behavior, such as the sensitivity of zooming the canvas and the maximum/minimum zoom level. For specific usage, see [Behavior](/apis/behaviors/zoom-canvas-options).
 
 The modes in the above code defines the `modes` of G6. `default` is the default mode, and other modes can also be allowed, such as the `edit` mode edit. Different modes allow different user behaviors. For example, the default mode allows dragging the canvas, while the edit mode does not allow dragging the canvas:
 
@@ -160,7 +160,7 @@ Here is the complete code:
   </head>
   <body>
     <div id="container"></div>
-    <script src="https://gw.alipayobjects.com/os/lib/antv/g6/5.0.0-beta.21/dist/g6.min.js"></script>
+    <script src="https://gw.alipayobjects.com/os/lib/antv/g6/5.0.0/dist/g6.min.js"></script>
     <script>
       const { Graph: BaseGraph, extend, Extensions } = G6;
 

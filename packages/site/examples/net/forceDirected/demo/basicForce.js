@@ -520,7 +520,7 @@ const graph = new G6.Graph({
   width,
   height,
   node: {
-    lodLevels: {},
+    lodLevels: [],
     keyShape: {
       r: {
         fields: ['size'],

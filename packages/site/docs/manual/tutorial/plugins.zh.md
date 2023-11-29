@@ -1,17 +1,21 @@
 ---
-title: 插件与工具
+title: 插件
 order: 5
 ---
 
-本文将为 **Tutorial 案例** 添加缩略图插件、节点提示框。
+本文将在上一节的基础上添加缩略图插件、节点提示框。
 
-使用插件时，有三个步骤：<br />  Step 1: 引入插件；<br />  Step 2: 注册插件；<br />  Step 3: 在实例化图时将插件的实例配置到图上。
+使用插件时，有三个步骤：
+
+1. 引入插件
+2. 注册插件
+3. 在实例化图时将插件的实例配置到图上。
 
 ## Minimap
 
 缩略图 (Minimap) 是一种常见的用于快速预览和探索图的工具，可作为导航辅助用户探索大规模图。
 
-现在，我们为 **Tutorial 案例** 配置一个 Minimap：
+现在，我们配置一个 Minimap：
 
 **预期效果**
 
@@ -47,7 +51,7 @@ const graph = new Graph({
 
 ## tooltip 节点提示框
 
-节点提示框可以用在边的详细信息的展示。当鼠标滑过节点时，显示一个浮层告知节点的详细信息。更多配置参见 [Tooltip 插件](https://g6-next.antv.antgroup.com/apis/interfaces/plugins/tooltip-config)。
+节点提示框可以用在边的详细信息的展示。当鼠标滑过节点时，显示一个浮层告知节点的详细信息。更多配置参见 [Tooltip 插件](/apis/plugins/tooltip-config)。
 
 **预期效果**
 
@@ -92,9 +96,11 @@ const graph = new Graph({
 
 ## 完整代码
 
-至此，**Tutorial 案例** 完成，完整代码见：<a href='https://codesandbox.io/s/g6-v5-tutorial-j67vnm?file=/index.js' target='_blank'>Tutorial 案例代码</a>。
+完整代码见：<a href='https://codesandbox.io/s/g6-v5-tutorial-j67vnm?file=/index.js' target='_blank'>案例代码</a>。
 
-**⚠️ 注意:** <br /> 若需更换数据，请替换  `'https://raw.githubusercontent.com/antvis/G6/v5/packages/g6/tests/datasets/force-data.json'`  为新的数据文件地址。
+:::info{title=注意}
+若需更换数据，请替换  `'https://raw.githubusercontent.com/antvis/G6/v5/packages/g6/tests/datasets/force-data.json'`  为实际的数据文件地址。
+:::
 
 <iframe src="https://codesandbox.io/embed/g6-v5-tutorial-j67vnm?fontsize=14&hidenavigation=1&theme=light"
      style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"

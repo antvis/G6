@@ -33,6 +33,8 @@ const beginTimer = () => {
 };
 beginTimer();
 
+let graph;
+
 fetch('https://gw.alipayobjects.com/os/basement_prod/da5a1b47-37d6-44d7-8d10-f3e046dabf82.json') //'https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json'
   .then((res) => res.json())
   .then(async (data) => {
@@ -94,12 +96,17 @@ fetch('https://gw.alipayobjects.com/os/basement_prod/da5a1b47-37d6-44d7-8d10-f3e
       delete node.y;
     });
 
-    const graph = new ExtGraph({
+    graph = new ExtGraph({
       container: 'container',
       width,
       height,
       renderer: 'webgl',
-      transforms: ['transform-v4-data'],
+      transforms: [
+    {
+      type: 'transform-v4-data',
+      activeLifecycle: ['read'],
+    },
+  ],
       layout: layoutConfigs['force-wasm'],
       autoFit: 'view',
       modes: {

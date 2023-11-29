@@ -8,6 +8,7 @@ const ExtGraph = extend(Graph, {
     'orbit-canvas-3d': Extensions.OrbitCanvas3D,
     'zoom-canvas-3d': Extensions.ZoomCanvas3D,
     'hover-activate': Extensions.HoverActivate,
+    'brush-select': Extensions.BrushSelect,
   },
 });
 const container = document.getElementById('container');
@@ -30,7 +31,12 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')
       container: 'container',
       width,
       height,
-      transforms: ['transform-v4-data'],
+      transforms: [
+        {
+          type: 'transform-v4-data',
+          activeLifecycle: ['read'],
+        },
+      ],
       layout: {
         type: 'force',
         preventOverlap: true,
@@ -123,22 +129,17 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')
           ...innerModel,
           data: {
             ...innerModel.data,
-            lodLevels: {
-              levels: [
-                { zoomRange: [0, 0.8] }, // -2
-                { zoomRange: [0.8, 0.9] }, // -1
-                { zoomRange: [0.9, 1], primary: true }, // 0
-                { zoomRange: [1, 1.1] }, // 1
-                { zoomRange: [1.1, 0.2] }, // 2
-                { zoomRange: [1.2, 1.3] }, // 3
-                { zoomRange: [1.3, 1.4] }, // 4
-                { zoomRange: [1.4, 1.5] }, // 5
-                { zoomRange: [1.5, Infinity] }, // 6
-              ],
-              animateCfg: {
-                duration: 500,
-              },
-            },
+            lodLevels: [
+              { zoomRange: [0, 0.8] }, // -2
+              { zoomRange: [0.8, 0.9] }, // -1
+              { zoomRange: [0.9, 1], primary: true }, // 0
+              { zoomRange: [1, 1.1] }, // 1
+              { zoomRange: [1.1, 0.2] }, // 2
+              { zoomRange: [1.2, 1.3] }, // 3
+              { zoomRange: [1.3, 1.4] }, // 4
+              { zoomRange: [1.4, 1.5] }, // 5
+              { zoomRange: [1.5, Infinity] }, // 6
+            ],
 
             animates: {
               buildIn: [
@@ -228,6 +229,13 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')
       },
       data,
     });
+
+    if (typeof window !== 'undefined')
+      window.onresize = () => {
+        if (!graph || graph.destroyed) return;
+        if (!container || !container.scrollWidth || !container.scrollHeight) return;
+        graph.setSize([container.scrollWidth, container.scrollHeight - 160]);
+      };
   });
 
 const btnContainer = document.createElement('div');
@@ -237,10 +245,3 @@ btnContainer.style.zIndex = 10;
 const tip = document.createElement('span');
 tip.innerHTML = '👉 Zoom Canvas to See Level of Details:';
 btnContainer.appendChild(tip);
-
-if (typeof window !== 'undefined')
-  window.onresize = () => {
-    if (!graph || graph.destroyed) return;
-    if (!container || !container.scrollWidth || !container.scrollHeight) return;
-    graph.setSize([container.scrollWidth, container.scrollHeight - 160]);
-  };

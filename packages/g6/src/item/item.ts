@@ -1,5 +1,5 @@
 import { Group, DisplayObject, AABB, IAnimation } from '@antv/g';
-import { clone, isFunction, isObject, pick, throttle } from '@antv/util';
+import { isFunction, isObject, throttle } from '@antv/util';
 import { OTHER_SHAPES_FIELD_NAME, RESERVED_SHAPE_IDS } from '../constant';
 import { EdgeShapeMap } from '../types/edge';
 import {
@@ -24,6 +24,7 @@ import {
 } from '../util/shape';
 import { isEncode } from '../util/type';
 import { DEFAULT_MAPPER } from '../util/mapper';
+import { cloneJSON } from '../util/data';
 import {
   getShapeAnimateBeginStyles,
   animateShapes,
@@ -182,10 +183,15 @@ export default abstract class Item implements IItem {
   ) {
     // call this.renderExt.draw in extend implementations
     const afterDrawShapeMap =
-      this.renderExt.afterDraw?.(displayModel, {
-        ...this.shapeMap,
-        ...this.afterDrawShapeMap,
-      }) || {};
+      this.renderExt.afterDraw?.(
+        displayModel,
+        {
+          ...this.shapeMap,
+          ...this.afterDrawShapeMap,
+        },
+        diffData,
+        diffState,
+      ) || {};
     if (this.afterDrawShapeMap.labelShape) {
       this.afterDrawShapeMap.labelShape.attributes.dataIsLabel = true;
     }
@@ -346,7 +352,7 @@ export default abstract class Item implements IItem {
     // === fields' values in mapper are final value or Encode ===
     const dataChangedFields = isReplace
       ? undefined
-      : Object.keys(current).concat(Object.keys(otherFields)); // only fields in current data for partial updating
+      : Object.keys(current || {}).concat(Object.keys(otherFields)); // only fields in current data for partial updating
 
     let typeChange = false;
     const { data, ...otherProps } = innerModel;
@@ -385,9 +391,12 @@ export default abstract class Item implements IItem {
       if (isReservedShapeId) {
         // reserved shapes, fieldName is shapeId
         displayModelData[fieldName] =
-          displayModelData[fieldName] || isObject(innerModel.data[fieldName])
+          displayModelData[fieldName] ||
+          isObject(innerModel.data[fieldName]) ||
+          isObject(this.displayModel?.data[fieldName])
             ? {
                 ...(innerModel.data[fieldName] as object),
+                ...(this.displayModel?.data[fieldName] as object),
               }
             : {};
         updateShapeChange({
@@ -510,7 +519,7 @@ export default abstract class Item implements IItem {
       }
 
       this.visible = true;
-      this.cacheHiddenByItem = {};
+      if (!shapeIds) this.cacheHiddenByItem = {};
       // restore the states
       if (this.states?.length) {
         this.drawWithStates([]);
@@ -593,7 +602,7 @@ export default abstract class Item implements IItem {
    * @param value state value
    */
   public setState(state: string, value: string | boolean) {
-    const previousStates = clone(this.states);
+    const previousStates = cloneJSON(this.states);
     const existState = this.states.find((item) => item.name === state);
     if (value) {
       if (existState) existState.value = value;
@@ -622,7 +631,7 @@ export default abstract class Item implements IItem {
    */
   public clearStates(states?: string[]) {
     // if states is not assigned, clear all the states on the item
-    const previousStates = clone(this.states);
+    const previousStates = cloneJSON(this.states);
     const newStates = [];
     let changedStates = [];
     if (states) {
@@ -765,7 +774,9 @@ export default abstract class Item implements IItem {
     const mergedData = mergeStyles([displayModelData, styles]);
     const { animates } = mergedData;
     const displayUpdateAnimates = [];
-    const stateNames = this.states.map((state) => state.name);
+    const stateNames = previousStates
+      .concat(this.states)
+      .map((state) => state.name);
     animates?.update?.forEach((animateCfg) => {
       const { states } = animateCfg as IStateAnimate;
       if (states && isArrayOverlap(states, stateNames)) {
@@ -998,12 +1009,12 @@ const updateShapeChange = ({
   });
   Object.keys(mapper).forEach((shapeAttrName) => {
     if (innerModelValue?.hasOwnProperty(shapeAttrName)) return;
-    const { value: mappedValue } = updateChange({
+    const { value: mappedValue, changed } = updateChange({
       innerModel,
       mapper,
       fieldName: shapeAttrName,
       dataChangedFields,
     });
-    shapeConfig[shapeAttrName] = mappedValue;
+    if (changed) shapeConfig[shapeAttrName] = mappedValue;
   });
 };

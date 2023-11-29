@@ -6,8 +6,8 @@ const height = container.scrollHeight || 500;
 
 const renderers = {
   '🐰 Canvas': 'canvas',
-  '🐢 SVG': 'svg',
   '🚀 WebGL': 'webgl',
+  '🐢 SVG': 'svg',
   '⭐️ WebGL-3D': 'webgl-3d',
 };
 
@@ -61,16 +61,16 @@ const getDefaultEdgeAnimates = (delay) => ({
   ],
 });
 
-const lodStrategyLevels = [
-  { zoomRange: [0, 0.16] }, // -2
-  { zoomRange: [0.16, 0.2] }, // -1
-  { zoomRange: [0.2, 0.3], primary: true }, // 0
-  { zoomRange: [0.3, 0.5] }, // 1
-  { zoomRange: [0.5, 0.8] }, // 2
-  { zoomRange: [0.8, 1.5] }, // 3
-  { zoomRange: [1.5, 1.8] }, // 4
-  { zoomRange: [1.8, 2] }, // 5
-  { zoomRange: [2, Infinity] }, // 6
+const lodLevels = [
+  { zoomRange: [0, 0.16] }, // -4
+  { zoomRange: [0.16, 0.2] }, // -3
+  { zoomRange: [0.2, 0.3] }, // -2
+  { zoomRange: [0.3, 0.5] }, // -1
+  { zoomRange: [0.5, 0.8], primary: true }, // 0
+  { zoomRange: [0.8, 1.5] }, // 1
+  { zoomRange: [1.5, 2.5] }, // 2
+  { zoomRange: [2.5, 5] }, // 3
+  { zoomRange: [5, Infinity] }, // 4
 ];
 
 const defaultTheme = {
@@ -99,7 +99,7 @@ const dataFormatHandler = (data, options = {}, graphCore) => {
   data.nodes?.forEach((node) => {
     if (map.has(node.id)) return;
     nodes.push(node);
-    map.set(node.id, true);
+    map.set(node.id, 0);
   });
   data.edges?.forEach((edge) => {
     const sourceDegree = map.get(edge.source) || 0;
@@ -142,7 +142,7 @@ const create3DGraph = async (data) => {
       {
         type: 'map-node-size',
         field: 'degree',
-        range: [2, 24],
+        range: [40, 200],
       },
     ],
     data,
@@ -228,17 +228,18 @@ const create2DGraph = (renderer, data) => {
     width,
     height,
     renderer,
+    autoFit: 'view',
     transforms: [
       'data-format',
       {
         type: 'map-node-size',
         field: 'degree',
-        range: [2, 24],
+        range: [3, 24],
       },
     ],
     modes: {
       default: [
-        { type: 'zoom-canvas', key: '123', triggerOnItems: true, enableOptimize: true },
+        { type: 'zoom-canvas', key: '123', triggerOnItems: true },
         'drag-node',
         'drag-canvas',
         'brush-select',
@@ -263,35 +264,41 @@ const create2DGraph = (renderer, data) => {
     // 节点配置
     node: (innerModel) => {
       const { degree } = innerModel.data;
-      let labelLod = 3;
-      if (degree > 40) labelLod = -2;
-      else if (degree > 20) labelLod = -1;
-      else if (degree > 10) labelLod = 0;
+      let iconLod = 4;
+      if (degree > 40) iconLod = -2;
+      else if (degree > 20) iconLod = 0;
+      else if (degree > 10) iconLod = 1;
+      else if (degree > 5) iconLod = 2;
+      else if (degree > 2) iconLod = 3;
       return {
         ...innerModel,
         data: {
+          lodLevels,
           animates: getDefaultNodeAnimates(),
           ...innerModel.data,
-          lodLevels: {
-            levels: lodStrategyLevels,
-            animateCfg: {
-              duration: 500,
-            },
-          },
           labelShape:
-            degree > 10
+            degree !== 0
               ? {
                   text: innerModel.data.label,
                   maxWidth: '400%',
                   offsetY: 8,
-                  lod: labelLod,
+                  lod: 'auto',
                 }
               : undefined,
 
           labelBackgroundShape:
             degree !== 0
               ? {
-                  lod: labelLod,
+                  lod: 'auto',
+                }
+              : undefined,
+          iconShape:
+            degree !== 0
+              ? {
+                  img: 'https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*7g4nSbYrg6cAAAAAAAAAAAAADmJ7AQ/original',
+                  fontSize: innerModel.data.keyShape?.r || 12,
+                  opacity: 0.8,
+                  lod: iconLod,
                 }
               : undefined,
         },
@@ -323,11 +330,11 @@ const create2DGraph = (renderer, data) => {
 
 const handleCreateGraph = (renderer, data, prevGraph, tip) => {
   let graph;
-  const func = () => {
+  const func = async () => {
     if (renderer === 'webgl-3d') {
-      graph = create3DGraph(data);
+      graph = await create3DGraph(data);
     } else {
-      graph = create2DGraph(renderer, data);
+      graph = await create2DGraph(renderer, data);
     }
     graph.on('afterrender', (e) => {
       tip.innerHTML = '👌 Done!';
@@ -370,18 +377,29 @@ const tip = document.createElement('span');
 tip.innerHTML = '<br />👉 Change Renderer:';
 btnContainer.appendChild(tip);
 
-fetch('https://gw.alipayobjects.com/os/basement_prod/0b9730ff-0850-46ff-84d0-1d4afecd43e6.json')
+fetch('https://assets.antv.antgroup.com/g6/eva-2d.json')
   .then((res) => res.json())
   .then((data) => {
     tip2.innerHTML = '🎨 Rendering....';
     Object.keys(renderers).forEach((name, i) => {
       const btn = document.createElement('a');
       btn.innerHTML = name;
-      btn.style.backgroundColor = 'rgba(255, 255, 255, 0.8)';
       btn.style.padding = '4px';
       btn.style.marginLeft = i > 0 ? '24px' : '8px';
+      if (renderers[name] === 'webgl') {
+        btn.style.backgroundColor = 'rgba(135, 59, 244, 0.2)';
+        btn.style.fontWeight = 700;
+      } else {
+        btn.style.backgroundColor = 'rgba(255, 255, 255, 0.8)';
+      }
       btnContainer.appendChild(btn);
       btn.addEventListener('click', () => {
+        btnContainer.childNodes.forEach((child) => {
+          child.style.backgroundColor = 'rgba(255, 255, 255, 0.8)';
+          child.style.fontWeight = 400;
+        });
+        btn.style.backgroundColor = 'rgba(135, 59, 244, 0.2)';
+        btn.style.fontWeight = 700;
         tip2.innerHTML = '🎨 Rendering....';
         if (renderers[name] === 'webgl-3d') {
           if (!graphData3D) {
@@ -400,7 +418,7 @@ fetch('https://gw.alipayobjects.com/os/basement_prod/0b9730ff-0850-46ff-84d0-1d4
       });
     });
 
-    graph = handleCreateGraph('canvas', data, graph, tip2);
+    graph = handleCreateGraph('webgl', data, graph, tip2);
   });
 
 if (typeof window !== 'undefined')

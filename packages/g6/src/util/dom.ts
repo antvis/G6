@@ -4,14 +4,14 @@
  * @returns
  */
 export function createDOM(str: string): HTMLElement {
-  const container = document.createElement('div');
-  container.innerHTML = str;
+  const containerDOM = document.createElement('div');
+  containerDOM.innerHTML = str;
 
-  const dom = container.childNodes[0];
-  if (dom && container.contains(dom)) {
-    container.removeChild(dom);
+  let dom = containerDOM.childNodes[0] as HTMLElement;
+  if (dom && containerDOM.contains(dom)) {
+    dom = containerDOM.removeChild(dom);
   }
-  return dom as HTMLElement;
+  return dom;
 }
 
 /**

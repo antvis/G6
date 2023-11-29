@@ -91,6 +91,13 @@ const graph = new ExtGraph({
       loopEdgeType: 'loop-edge',
     },
   ],
+  plugins: [
+    {
+      // lod-controller will be automatically assigned to graph with `disableLod: false` to graph if it is not configured as following
+      type: 'lod-controller',
+      disableLod: true,
+    },
+  ],
   modes: {
     default: ['drag-node'],
   },

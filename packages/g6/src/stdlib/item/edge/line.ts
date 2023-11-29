@@ -43,14 +43,25 @@ export class LineEdge extends BaseEdge {
       targetPoint,
       shapeMap,
       diffData,
+      diffState,
     );
 
     if (data.haloShape) {
-      shapes.haloShape = this.drawHaloShape(model, shapeMap, diffData);
+      shapes.haloShape = this.drawHaloShape(
+        model,
+        shapeMap,
+        diffData,
+        diffState,
+      );
     }
 
     if (data.labelShape) {
-      shapes.labelShape = this.drawLabelShape(model, shapeMap, diffData);
+      shapes.labelShape = this.drawLabelShape(
+        model,
+        shapeMap,
+        diffData,
+        diffState,
+      );
     }
 
     // labelBackgroundShape
@@ -59,18 +70,24 @@ export class LineEdge extends BaseEdge {
         model,
         shapeMap,
         diffData,
+        diffState,
       );
     }
 
     if (data.iconShape) {
-      shapes.iconShape = this.drawIconShape(model, shapeMap, diffData);
+      shapes.iconShape = this.drawIconShape(
+        model,
+        shapeMap,
+        diffData,
+        diffState,
+      );
     }
 
     // otherShapes
     if (data.otherShapes) {
       shapes = {
         ...shapes,
-        ...this.drawOtherShapes(model, shapeMap, diffData),
+        ...this.drawOtherShapes(model, shapeMap, diffData, diffState),
       };
     }
 
@@ -98,6 +115,11 @@ export class LineEdge extends BaseEdge {
     };
     this.upsertArrow('start', startArrow, others, model, lineStyle);
     this.upsertArrow('end', endArrow, others, model, lineStyle);
-    return this.upsertShape('line', 'keyShape', lineStyle, shapeMap, model);
+    return this.upsertShape('line', 'keyShape', lineStyle, {
+      model,
+      shapeMap,
+      diffData,
+      diffState,
+    });
   }
 }

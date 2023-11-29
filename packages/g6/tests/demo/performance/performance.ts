@@ -2062,22 +2062,17 @@ const createGraph = async () => {
         ...innerModel,
         data: {
           ...innerModel.data,
-          lodLevels: {
-            levels: [
-              { zoomRange: [0, 0.8] }, // -2
-              { zoomRange: [0.8, 0.9] }, // -1
-              { zoomRange: [0.9, 1], primary: true }, // 0
-              { zoomRange: [1, 1.1] }, // 1
-              { zoomRange: [1.1, 0.2] }, // 2
-              { zoomRange: [1.2, 1.3] }, // 3
-              { zoomRange: [1.3, 1.4] }, // 4
-              { zoomRange: [1.4, 1.5] }, // 5
-              { zoomRange: [1.5, Infinity] }, // 6
-            ],
-            animateCfg: {
-              duration: 500,
-            },
-          },
+          lodLevels: [
+            { zoomRange: [0, 0.16] }, // -2
+            { zoomRange: [0.16, 0.2] }, // -1
+            { zoomRange: [0.2, 0.3], primary: true }, // 0
+            { zoomRange: [0.3, 0.5] }, // 1
+            { zoomRange: [0.5, 0.8] }, // 2
+            { zoomRange: [0.8, 1.5] }, // 3
+            { zoomRange: [1.5, 1.8] }, // 4
+            { zoomRange: [1.8, 2] }, // 5
+            { zoomRange: [2, Infinity] }, // 6
+          ],
 
           animates: {
             buildIn: [

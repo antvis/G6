@@ -140,7 +140,7 @@ const graph = new G6.Graph({
 ## 开发 (5.0 Alpha)
 
 ```bash
-# 安装依赖
+# 在项目的根目录安装依赖
 
 $ pnpm install
 

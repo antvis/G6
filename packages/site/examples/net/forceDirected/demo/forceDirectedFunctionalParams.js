@@ -7,7 +7,12 @@ const graph = new G6.Graph({
   container: 'container',
   width,
   height,
-  transforms: ['transform-v4-data'],
+  transforms: [
+    {
+      type: 'transform-v4-data',
+      activeLifecycle: ['read'],
+    },
+  ],
   layout: {
     type: 'force',
     preventOverlap: true,
@@ -20,7 +25,7 @@ const graph = new G6.Graph({
     },
   },
   modes: {
-    default: ['zoom-canvas', 'drag-canvas', 'click-select'],
+    default: ['zoom-canvas', 'drag-canvas', 'click-select', 'drag-node'],
   },
   data: {
     nodes: [
@@ -63,31 +68,9 @@ const graph = new G6.Graph({
   },
 });
 
-graph.on('node:dragstart', function (e) {
-  graph.stopLayout();
-});
-graph.on('node:drag', function (e) {
-  refreshDragedNodePosition(e);
-});
-graph.on('node:dragend', (e) => {
-  graph.layout();
-});
-
 if (typeof window !== 'undefined')
   window.onresize = () => {
     if (!graph || graph.destroyed) return;
     if (!container || !container.scrollWidth || !container.scrollHeight) return;
     graph.setSize([container.scrollWidth, container.scrollHeight]);
   };
-
-function refreshDragedNodePosition(e) {
-  graph.updateData('node', {
-    id: e.itemId,
-    data: {
-      fx: e.canvas.x,
-      fy: e.canvas.y,
-      x: e.canvas.x,
-      y: e.canvas.y,
-    },
-  });
-}

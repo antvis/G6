@@ -113,18 +113,13 @@ export default (context: TestCaseContext, options = {}) => {
         ...innerModel,
         data: {
           ...innerModel.data,
-          lodLevels: {
-            levels: [
-              { zoomRange: [0, 0.9] }, // -1
-              { zoomRange: [0.9, 1], primary: true }, // 0
-              { zoomRange: [1, 1.2] }, // 1
-              { zoomRange: [1.2, 1.5] }, // 2
-              { zoomRange: [1.5, Infinity] }, // 3
-            ],
-            animateCfg: {
-              duration: 500,
-            },
-          },
+          lodLevels: [
+            { zoomRange: [0, 0.9] }, // -1
+            { zoomRange: [0.9, 1], primary: true }, // 0
+            { zoomRange: [1, 1.2] }, // 1
+            { zoomRange: [1.2, 1.5] }, // 2
+            { zoomRange: [1.5, Infinity] }, // 3
+          ],
           labelShape: {
             text: innerModel.data.label,
             lod: 1, // 图的缩放大于 levels 第一层定义的 zoomRange[0] 时展示，小于时隐藏
@@ -137,18 +132,13 @@ export default (context: TestCaseContext, options = {}) => {
         ...innerModel,
         data: {
           ...innerModel.data,
-          lodLevels: {
-            levels: [
-              { zoomRange: [0, 0.9] }, // -1
-              { zoomRange: [0.9, 1], primary: true }, // 0
-              { zoomRange: [1, 1.2] }, // 1
-              { zoomRange: [1.2, 1.5] }, // 2
-              { zoomRange: [1.5, Infinity] }, // 3
-            ],
-            animateCfg: {
-              duration: 500,
-            },
-          },
+          lodLevels: [
+            { zoomRange: [0, 0.9] }, // -1
+            { zoomRange: [0.9, 1], primary: true }, // 0
+            { zoomRange: [1, 1.2] }, // 1
+            { zoomRange: [1.2, 1.5] }, // 2
+            { zoomRange: [1.5, Infinity] }, // 3
+          ],
           labelShape: {
             text: innerModel.data.label,
             maxWidth: '100%',

@@ -14,7 +14,7 @@ Congratulations! You have successfully created a graph visualization application
 
 [Complete Code of Tutorial Demo](https://codesandbox.io/s/g6-v5-tutorial-j67vnm?file=/index.js).
 
-The G6 5.0 documentation is still under construction. For now, you can refer to the [API](https://g6-next.antv.antgroup.com/en/apis) for development.
+The G6 5.0 documentation is still under construction. For now, you can refer to the [API](/en/apis) for development.
 
 <iframe src="https://codesandbox.io/embed/g6-v5-tutorial-j67vnm?fontsize=14&hidenavigation=1&theme=light"
      style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"

@@ -1,8 +1,6 @@
 ---
 title: CompactBox
 order: 3
-redirect_from:
-  - /en/examples
 ---
 
 The nodes with the same depth will be layed on the same level. The node size will be considred while doing layout. <br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*z-ESRoHTpvIAAAAAAAAAAABkARQnAQ' alt='compactbox' width='300'/>

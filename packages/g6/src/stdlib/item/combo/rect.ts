@@ -33,16 +33,26 @@ export class RectCombo extends BaseNode {
     let shapes: ComboShapeMap = { keyShape: undefined };
 
     // keyShape
-    shapes.keyShape = this.drawKeyShape(model, shapeMap, diffData);
+    shapes.keyShape = this.drawKeyShape(model, shapeMap, diffData, diffState);
 
     // haloShape
     if (data.haloShape && this.drawHaloShape) {
-      shapes.haloShape = this.drawHaloShape(model, shapeMap, diffData);
+      shapes.haloShape = this.drawHaloShape(
+        model,
+        shapeMap,
+        diffData,
+        diffState,
+      );
     }
 
     // labelShape
     if (data.labelShape) {
-      shapes.labelShape = this.drawLabelShape(model, shapeMap, diffData);
+      shapes.labelShape = this.drawLabelShape(
+        model,
+        shapeMap,
+        diffData,
+        diffState,
+      );
     }
 
     // labelBackgroundShape
@@ -51,6 +61,7 @@ export class RectCombo extends BaseNode {
         model,
         shapeMap,
         diffData,
+        diffState,
       );
     }
 
@@ -70,7 +81,12 @@ export class RectCombo extends BaseNode {
 
     // iconShape
     if (data.iconShape) {
-      shapes.iconShape = this.drawIconShape(model, shapeMap, diffData);
+      shapes.iconShape = this.drawIconShape(
+        model,
+        shapeMap,
+        diffData,
+        diffState,
+      );
     }
 
     // badgeShape
@@ -91,7 +107,7 @@ export class RectCombo extends BaseNode {
     if (data.otherShapes && this.drawOtherShapes) {
       shapes = {
         ...shapes,
-        ...this.drawOtherShapes(model, shapeMap, diffData),
+        ...this.drawOtherShapes(model, shapeMap, diffData, diffState),
       };
     }
     return shapes;
@@ -103,13 +119,12 @@ export class RectCombo extends BaseNode {
     diffData?: { previous: ComboModelData; current: ComboModelData },
     diffState?: { previous: State[]; current: State[] },
   ): DisplayObject {
-    return this.upsertShape(
-      'rect',
-      'keyShape',
-      this.mergedStyles.keyShape,
-      shapeMap,
+    return this.upsertShape('rect', 'keyShape', this.mergedStyles.keyShape, {
       model,
-    );
+      shapeMap,
+      diffData,
+      diffState,
+    });
   }
 
   public getMergedStyles(model: ComboDisplayModel) {

@@ -2,7 +2,7 @@ import G6 from '@antv/G6';
 import { labelPropagation } from '@antv/algorithm';
 import Stats from 'stats.js';
 import { container, width } from '../../datasets/const';
-import data from './data';
+import data from './data.json';
 
 const nodeIds = [];
 

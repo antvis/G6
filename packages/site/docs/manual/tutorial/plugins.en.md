@@ -48,7 +48,7 @@ const graph = new ExtGraph({
 
 ## Tooltip
 
-The tooltip node prompt box can be used to display detailed information about nodes. When the mouse hovers over a node, a floating layer is displayed to provide detailed information about the node. For more configurations, see [Tooltip Plugin](https://g6-next.antv.antgroup.com/en/apis/interfaces/plugins/tooltip-config).
+The tooltip node prompt box can be used to display detailed information about nodes. When the mouse hovers over a node, a floating layer is displayed to provide detailed information about the node. For more configurations, see [Tooltip Plugin](/en/apis/plugins/tooltip-config).
 
 **Expected Result**
 

@@ -123,6 +123,7 @@ export default class Node extends Item {
     // handle shape's and group's animate
     if (animate && !disableAnimate && animates) {
       const animatesExcludePosition = getAnimatesExcludePosition(animates);
+      const { current = [], previous = [] } = diffState || {};
       this.animations = animateShapes(
         animatesExcludePosition, // animates
         renderExt.mergedStyles, // targetStylesMap
@@ -130,7 +131,8 @@ export default class Node extends Item {
         undefined,
         [group, labelGroup],
         firstRendering ? 'buildIn' : 'update',
-        diffState?.current.map((state) => state.name) || this.changedStates,
+        current.concat(previous).map((state) => state.name) ||
+          this.changedStates,
         this.animateFrameListener,
         (canceled) => onfinish(model.id, canceled),
       );
@@ -176,6 +178,10 @@ export default class Node extends Item {
       isNaN(position.z as number)
     )
       return;
+    const viewportPosition = graph.getViewportByCanvas(position);
+    labelGroup.style.x = viewportPosition.x;
+    labelGroup.style.y = viewportPosition.y;
+    labelGroup.style.z = viewportPosition.z || 0;
     if (animate && !disableAnimate && animates?.update) {
       const groupAnimates = animates.update.filter(
         ({ shapeId, fields = [] }) =>
@@ -188,7 +194,7 @@ export default class Node extends Item {
           { group: position } as any, // targetStylesMap
           this.shapeMap, // shapeMap
           undefined,
-          [group, labelGroup],
+          [group],
           'update',
           [],
           this.animateFrameListener,
@@ -201,10 +207,6 @@ export default class Node extends Item {
     group.style.x = position.x;
     group.style.y = position.y;
     group.style.z = position.z;
-    const viewportPosition = graph.getViewportByCanvas({ x, y, z });
-    labelGroup.style.x = viewportPosition.x;
-    labelGroup.style.y = viewportPosition.y;
-    labelGroup.style.z = viewportPosition.z || 0;
     onfinish(displayModel.id, !animate);
   }
 
@@ -217,7 +219,13 @@ export default class Node extends Item {
     }
     const { graph, group, labelGroup, displayModel, shapeMap, renderExt } =
       this;
-    const [x, y, z] = group.getPosition();
+    let [x, y, z] = group.getPosition();
+    if (group.getAnimations().length) {
+      const { x: dataX, y: dataY, z: dataZ } = displayModel.data;
+      x = dataX as number;
+      y = dataY as number;
+      z = dataZ as number;
+    }
     const renderBounds = group.getRenderBounds();
     const id = this.getID();
     if (!this.renderBoundsCache.has(id)) {
