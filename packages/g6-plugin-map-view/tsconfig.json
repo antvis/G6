@@ -13,7 +13,6 @@
     "isolatedModules": true,
     "pretty": true,
     "lib": ["dom", "esnext"],
-    "types": ["@types/jest"],
     "skipLibCheck": true,
     "sourceRoot": "src",
     "baseUrl": "src",

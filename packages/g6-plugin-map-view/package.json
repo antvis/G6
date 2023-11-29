@@ -51,11 +51,9 @@
   },
   "dependencies": {
     "@antv/dom-util": "^2.0.4",
-    "@antv/graphlib": "^2.0.2",
-    "@antv/util": "~2.0.5",
     "@antv/l7": "^2.18.3",
     "@antv/l7-maps": "^2.18.3",
-    "@antv/g6": "^5.0.0"
+    "@antv/util": "~2.0.5"
   },
   "devDependencies": {
     "@rollup/plugin-terser": "^0.4.3",
@@ -84,8 +82,8 @@
     "rollup-plugin-polyfill-node": "^0.8.0",
     "rollup-plugin-typescript": "^1.0.1",
     "rollup-plugin-visualizer": "^5.6.0",
-    "typedoc": "^0.25.0",
     "tslib": "^2.5.0",
+    "typedoc": "^0.25.0",
     "typescript": "5.1.6"
   },
   "limit-size": [
@@ -98,5 +96,8 @@
       "path": "dist/g6-plugin-map-view.min.js",
       "limit": "3 Mb"
     }
-  ]
+  ],
+  "peerDependencies": {
+    "@antv/g6": "^5.0.0"
+  }
 }

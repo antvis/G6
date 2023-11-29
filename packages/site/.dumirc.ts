@@ -309,8 +309,7 @@ export default defineConfig({
         zh: 'G6 是一个简单、易用、完备的图可视化引擎，它在高定制能力的基础上，提供了一系列设计优雅、便于使用的图可视化解决方案。能帮助开发者搭建属于自己的图可视化、图分析、或图编辑器应用。',
         en: 'G6 is graph visualization engine with simplicity and convenience. Based on the ability of customize, it provides a set of elegant graph visualization solutions, and helps developers to build up applications for graph visualization, graph analysis, and graph editor.',
       },
-      image:
-        'https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*6dSUSo3QTk0AAAAAAAAAAAAADmJ7AQ/original',
+      image: 'https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*6dSUSo3QTk0AAAAAAAAAAAAADmJ7AQ/original',
       imageStyle: {
         transform: 'scale(0.7)',
         marginLeft: '100px',
@@ -494,4 +493,7 @@ export default defineConfig({
   },
   links: [],
   jsMinifier: 'terser',
+  analytics: {
+    ga_v2: 'G-YLQBGDK1GT',
+  },
 });
