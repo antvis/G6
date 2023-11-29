@@ -28,20 +28,18 @@ describe('node ellipse', () => {
     });
 
     graph.on('afterlayout', async () => {
-      try {
-        await expect(canvas).toMatchSVGSnapshot(dir, 'node-ellipse');
-        //seleted state
-        triggerEvent(graph, 'mousedown', 100, 100);
-        triggerEvent(graph, 'mouseup', 100, 100);
-        await expect(canvas).toMatchSVGSnapshot(dir, 'node-ellipse-selected');
-        //normal state
-        triggerEvent(graph, 'mousedown', 100, 100);
-        triggerEvent(graph, 'mouseup', 100, 100);
-        await expect(canvas).toMatchSVGSnapshot(dir, 'node-ellipse');
-      } finally {
-        graph.destroy();
-        done();
-      }
+      await expect(canvas).toMatchSVGSnapshot(dir, 'node-ellipse');
+      //seleted state
+      triggerEvent(graph, 'mousedown', 100, 100);
+      triggerEvent(graph, 'mouseup', 100, 100);
+      await expect(canvas).toMatchSVGSnapshot(dir, 'node-ellipse-selected');
+      //normal state
+      triggerEvent(graph, 'mousedown', 100, 100);
+      triggerEvent(graph, 'mouseup', 100, 100);
+      await expect(canvas).toMatchSVGSnapshot(dir, 'node-ellipse');
+
+      graph.destroy();
+      done();
     });
   });
 });

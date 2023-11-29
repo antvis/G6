@@ -33,54 +33,49 @@ describe('Edge start arrow', () => {
     );
 
     graph.on('afterlayout', async () => {
-      try {
-        await expect(canvas).toMatchSVGSnapshot(dir, 'arrow-end');
+      await expect(canvas).toMatchSVGSnapshot(dir, 'arrow-end');
 
-        const $typeBtn = document.getElementById(
-          'arrow-change-type',
-        ) as HTMLInputElement;
-        $typeBtn.click();
-        await expect(canvas).toMatchSVGSnapshot(
-          dir,
-          'arrow-end-change-type-circle',
-        );
+      const $typeBtn = document.getElementById(
+        'arrow-change-type',
+      ) as HTMLInputElement;
+      $typeBtn.click();
+      await expect(canvas).toMatchSVGSnapshot(
+        dir,
+        'arrow-end-change-type-circle',
+      );
 
-        $typeBtn.click();
-        await expect(canvas).toMatchSVGSnapshot(
-          dir,
-          'arrow-end-change-type-rect',
-        );
+      $typeBtn.click();
+      await expect(canvas).toMatchSVGSnapshot(
+        dir,
+        'arrow-end-change-type-rect',
+      );
 
-        $typeBtn.click();
-        await expect(canvas).toMatchSVGSnapshot(
-          dir,
-          'arrow-end-change-type-diamond',
-        );
+      $typeBtn.click();
+      await expect(canvas).toMatchSVGSnapshot(
+        dir,
+        'arrow-end-change-type-diamond',
+      );
 
-        $typeBtn.click();
-        await expect(canvas).toMatchSVGSnapshot(
-          dir,
-          'arrow-end-change-type-vee',
-        );
+      $typeBtn.click();
+      await expect(canvas).toMatchSVGSnapshot(dir, 'arrow-end-change-type-vee');
 
-        const $colorBtn = document.getElementById(
-          'arrow-change-color',
-        ) as HTMLInputElement;
-        $colorBtn.click();
-        await expect(canvas).toMatchSVGSnapshot(dir, 'arrow-end-change-color');
+      const $colorBtn = document.getElementById(
+        'arrow-change-color',
+      ) as HTMLInputElement;
+      $colorBtn.click();
+      await expect(canvas).toMatchSVGSnapshot(dir, 'arrow-end-change-color');
 
-        const $removeBtn = document.getElementById(
-          'arrow-remove',
-        ) as HTMLInputElement;
-        $removeBtn.click();
-        await expect(canvas).toMatchSVGSnapshot(dir, 'arrow-end-remove');
+      const $removeBtn = document.getElementById(
+        'arrow-remove',
+      ) as HTMLInputElement;
+      $removeBtn.click();
+      await expect(canvas).toMatchSVGSnapshot(dir, 'arrow-end-remove');
 
-        $removeBtn.click();
-        await expect(canvas).toMatchSVGSnapshot(dir, 'arrow-end-add');
-      } finally {
-        graph.destroy();
-        done();
-      }
+      $removeBtn.click();
+      await expect(canvas).toMatchSVGSnapshot(dir, 'arrow-end-add');
+
+      graph.destroy();
+      done();
     });
   });
 
@@ -112,12 +107,9 @@ describe('Edge start arrow', () => {
     );
 
     graph.on('afterlayout', async () => {
-      try {
-        await expect(canvas).toMatchSVGSnapshot(dir, 'arrow-start');
-      } finally {
-        graph.destroy();
-        done();
-      }
+      await expect(canvas).toMatchSVGSnapshot(dir, 'arrow-start');
+      graph.destroy();
+      done();
     });
   });
 });

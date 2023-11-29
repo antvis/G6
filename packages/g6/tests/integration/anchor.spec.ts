@@ -33,12 +33,10 @@ describe('Anchor points and shapes', () => {
     );
 
     graph.on('afterlayout', async () => {
-      try {
-        await expect(canvas).toMatchSVGSnapshot(dir, 'anchor-empty');
-      } finally {
-        graph.destroy();
-        done();
-      }
+      await expect(canvas).toMatchSVGSnapshot(dir, 'anchor-empty');
+
+      graph.destroy();
+      done();
     });
   });
 
@@ -75,26 +73,24 @@ describe('Anchor points and shapes', () => {
     );
 
     graph.on('afterlayout', async () => {
-      try {
-        await expect(canvas).toMatchSVGSnapshot(dir, 'anchor-4-points');
+      await expect(canvas).toMatchSVGSnapshot(dir, 'anchor-4-points');
 
-        // move node, edge find the nearset again
-        graph.updateData('node', {
-          id: 'node1',
-          data: {
-            x: 50,
-            y: 100,
-          },
-        });
+      // move node, edge find the nearset again
+      graph.updateData('node', {
+        id: 'node1',
+        data: {
+          x: 50,
+          y: 100,
+        },
+      });
 
-        await expect(canvas).toMatchSVGSnapshot(
-          dir,
-          'anchor-4-points-update-position',
-        );
-      } finally {
-        graph.destroy();
-        done();
-      }
+      await expect(canvas).toMatchSVGSnapshot(
+        dir,
+        'anchor-4-points-update-position',
+      );
+
+      graph.destroy();
+      done();
     });
   });
 
@@ -131,20 +127,18 @@ describe('Anchor points and shapes', () => {
     );
 
     graph.on('afterlayout', async () => {
-      try {
-        await expect(canvas).toMatchSVGSnapshot(dir, 'anchor-4-shapes');
+      await expect(canvas).toMatchSVGSnapshot(dir, 'anchor-4-shapes');
 
-        graph.updateData('edge', {
-          id: 'edge1',
-          data: {
-            sourceAnchor: 1,
-            targetAnchor: 0,
-          },
-        });
-      } finally {
-        graph.destroy();
-        done();
-      }
+      graph.updateData('edge', {
+        id: 'edge1',
+        data: {
+          sourceAnchor: 1,
+          targetAnchor: 0,
+        },
+      });
+
+      graph.destroy();
+      done();
     });
   });
 });

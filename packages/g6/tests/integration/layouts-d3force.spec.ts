@@ -30,17 +30,15 @@ describe('D3Force layout', () => {
     });
 
     graph.on('afterlayout', async () => {
-      try {
-        await expect(canvas).toMatchSVGSnapshot(dir, 'd3force');
-      } finally {
-        // const layoutAnimation = graph.getLayoutCurrentAnimation()!;
-        // layoutAnimation.
-        // layoutAnimation.currentTime = 0;
-        // await expect(canvas).toMatchSVGSnapshot(dir, 'layouts-d3force-0');
+      await expect(canvas).toMatchSVGSnapshot(dir, 'd3force');
 
-        graph.destroy();
-        done();
-      }
+      // const layoutAnimation = graph.getLayoutCurrentAnimation()!;
+      // layoutAnimation.
+      // layoutAnimation.currentTime = 0;
+      // await expect(canvas).toMatchSVGSnapshot(dir, 'layouts-d3force-0');
+
+      graph.destroy();
+      done();
     });
   });
 });

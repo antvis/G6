@@ -28,20 +28,18 @@ describe('node triangle', () => {
     });
 
     graph.on('afterlayout', async () => {
-      try {
-        await expect(canvas).toMatchSVGSnapshot(dir, 'node-triangle');
-        //seleted state
-        triggerEvent(graph, 'mousedown', 100, 100);
-        triggerEvent(graph, 'mouseup', 100, 100);
-        await expect(canvas).toMatchSVGSnapshot(dir, 'node-triangle-selected');
-        //normal state
-        triggerEvent(graph, 'mousedown', 100, 100);
-        triggerEvent(graph, 'mouseup', 100, 100);
-        await expect(canvas).toMatchSVGSnapshot(dir, 'node-triangle');
-      } finally {
-        graph.destroy();
-        done();
-      }
+      await expect(canvas).toMatchSVGSnapshot(dir, 'node-triangle');
+      //seleted state
+      triggerEvent(graph, 'mousedown', 100, 100);
+      triggerEvent(graph, 'mouseup', 100, 100);
+      await expect(canvas).toMatchSVGSnapshot(dir, 'node-triangle-selected');
+      //normal state
+      triggerEvent(graph, 'mousedown', 100, 100);
+      triggerEvent(graph, 'mouseup', 100, 100);
+      await expect(canvas).toMatchSVGSnapshot(dir, 'node-triangle');
+
+      graph.destroy();
+      done();
     });
   });
 });

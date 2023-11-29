@@ -113,7 +113,7 @@ export class LodController extends Base {
       this.updateLabelPositions(zoom?.ratio);
     }
     // @ts-ignore
-    if (!this.options.disableLod) this.debounceUpdateVisible(zoom?.ratio);
+    if (!this.options?.disableLod) this.debounceUpdateVisible(zoom?.ratio);
   };
 
   private getDebounceFn = (fn) => {
@@ -122,7 +122,8 @@ export class LodController extends Base {
 
   private updateVisible = (zoomRatio = 1) => {
     const { graph, cacheViewModels, options } = this;
-    const { cellSize, numberPerCell, disableAnimate, disableLod } = options;
+    const { cellSize, numberPerCell, disableAnimate, disableLod } =
+      options || {};
     const graphZoom = graph.getZoom();
     const { inView } = cacheViewModels || this.groupItemsByView(1);
 
@@ -296,7 +297,7 @@ export class LodController extends Base {
           !item ||
           !item.labelGroup.children.length ||
           !item.shapeMap.labelShape ||
-          (!options.disableLod &&
+          (!options?.disableLod &&
             (item.labelGroup.style.visibility === 'hidden' ||
               item.shapeMap.labelShape.style.visibility === 'hidden'))
         ) {
@@ -307,7 +308,7 @@ export class LodController extends Base {
         if (!labelShape) return;
         const updatePosition = () => {
           // adjust labels'positions for visible items
-          item.updateLabelPosition(options.disableLod);
+          item.updateLabelPosition(options?.disableLod);
           this.labelPositionDirty.delete(model.id);
         };
         const { visible, lod } = labelShape;
@@ -347,7 +348,7 @@ export class LodController extends Base {
           disableAnimate: true,
         });
       });
-      if (options.disableLod) {
+      if (options?.disableLod) {
         newlyInView.forEach((model) => {
           graph.showItem(model.id, {
             shapeIds: ['labelShape', 'labelBackgroundShape'],
@@ -539,7 +540,7 @@ export class LodController extends Base {
       if (action !== 'updatePosition') {
         this.displayModelCache.delete(model.id);
       }
-      if (this.options.disableLod) {
+      if (this.options?.disableLod) {
         this.graph.showItem(model.id, {
           shapeIds: ['labelShape', 'labelBackgroundShape'],
           disableAnimate: true,

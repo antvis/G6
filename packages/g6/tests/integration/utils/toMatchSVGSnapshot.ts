@@ -6,55 +6,71 @@ import { format } from 'prettier';
 import { sleep } from './sleep';
 
 export type ToMatchSVGSnapshotOptions = {
-  selector?: string;
   fileFormat?: string;
   keepSVGElementId?: boolean;
 };
 const formatSVG = (svg: string, keepSVGElementId: boolean) => {
-  return keepSVGElementId
-    ? svg
-    : svg.replace(/id="[^"]*"/g, '').replace(/clip-path="[^"]*"/g, '');
+  return (
+    keepSVGElementId
+      ? svg
+      : svg.replace(/id="[^"]*"/g, '').replace(/clip-path="[^"]*"/g, '')
+  ).replace('\r\n', '\n');
 };
 
+/**
+ * Merge multiple svg into one.
+ */
 // @see https://jestjs.io/docs/26.x/expect#expectextendmatchers
 export async function toMatchSVGSnapshot(
-  gCanvas: Canvas,
+  gCanvas: Canvas | Canvas[],
   dir: string,
   name: string,
   options: ToMatchSVGSnapshotOptions = {},
 ): Promise<{ message: () => string; pass: boolean }> {
   await sleep(300);
 
-  const { selector, fileFormat = 'svg', keepSVGElementId = true } = options;
+  const { fileFormat = 'svg', keepSVGElementId = true } = options;
   const namePath = path.join(dir, name);
   const actualPath = path.join(dir, `${name}-actual.${fileFormat}`);
   const expectedPath = path.join(dir, `${name}.${fileFormat}`);
-  const dom = gCanvas
-    .getContextService()
-    .getDomElement() as unknown as SVGElement;
+  const gCanvases = Array.isArray(gCanvas) ? gCanvas : [gCanvas];
 
-  let actual;
+  let actual: string = '';
+
+  // Clone <svg>
+  const svg = (
+    gCanvases[0].getContextService().getDomElement() as unknown as SVGElement
+  ).cloneNode(true) as SVGElement;
+  const gRoot = svg.querySelector('#g-root');
+
+  gCanvases.slice(1).forEach((gCanvas) => {
+    const dom = (
+      gCanvas.getContextService().getDomElement() as unknown as SVGElement
+    ).cloneNode(true) as SVGElement;
+
+    gRoot?.append(...(dom.querySelector('#g-root')?.childNodes || []));
+  });
+
+  actual += svg
+    ? formatSVG(
+        format(xmlserializer.serializeToString(svg as any), {
+          parser: 'babel',
+        }),
+        keepSVGElementId,
+      )
+    : 'null';
+
+  // Remove ';' after format by babel.
+  if (actual !== 'null') actual = actual.slice(0, -2);
+
   try {
     if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-
-    actual = dom
-      ? formatSVG(
-          format(xmlserializer.serializeToString(dom as any), {
-            parser: 'babel',
-          }),
-          keepSVGElementId,
-        )
-      : 'null';
-
-    // Remove ';' after format by babel.
-    if (actual !== 'null') actual = actual.slice(0, -2);
-
     if (!fs.existsSync(expectedPath)) {
       if (process.env.CI === 'true') {
         throw new Error(`Please generate golden image for ${namePath}`);
       }
       console.warn(`! generate ${namePath}`);
-      await fs.writeFileSync(expectedPath, actual);
+      fs.writeFileSync(expectedPath, actual);
       return {
         message: () => `generate ${namePath}`,
         pass: true,

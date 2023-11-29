@@ -28,20 +28,17 @@ describe('node star', () => {
     });
 
     graph.on('afterlayout', async () => {
-      try {
-        await expect(canvas).toMatchSVGSnapshot(dir, 'node-star');
-        //seleted state
-        triggerEvent(graph, 'mousedown', 100, 100);
-        triggerEvent(graph, 'mouseup', 100, 100);
-        await expect(canvas).toMatchSVGSnapshot(dir, 'node-star-selected');
-        //normal state
-        triggerEvent(graph, 'mousedown', 100, 100);
-        triggerEvent(graph, 'mouseup', 100, 100);
-        await expect(canvas).toMatchSVGSnapshot(dir, 'node-star');
-      } finally {
-        graph.destroy();
-        done();
-      }
+      await expect(canvas).toMatchSVGSnapshot(dir, 'node-star');
+      //seleted state
+      triggerEvent(graph, 'mousedown', 100, 100);
+      triggerEvent(graph, 'mouseup', 100, 100);
+      await expect(canvas).toMatchSVGSnapshot(dir, 'node-star-selected');
+      //normal state
+      triggerEvent(graph, 'mousedown', 100, 100);
+      triggerEvent(graph, 'mouseup', 100, 100);
+      await expect(canvas).toMatchSVGSnapshot(dir, 'node-star');
+      graph.destroy();
+      done();
     });
   });
 });

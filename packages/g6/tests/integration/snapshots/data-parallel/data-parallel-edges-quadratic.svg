@@ -1,0 +1,400 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="500"
+  height="500"
+  style="background: transparent; position: absolute; outline: none;"
+  color-interpolation-filters="sRGB"
+  tabindex="1"
+>
+  <defs />
+  <g id="g-svg-camera" transform="matrix(1,0,0,1,0,0)">
+    <g id="g-root" fill="none" transform="matrix(1,0,0,1,0,0)">
+      <g id="combo-group" fill="none" transform="matrix(1,0,0,1,0,0)" />
+      <g id="edge-group" fill="none" transform="matrix(1,0,0,1,0,0)">
+        <g id="g-svg-24" fill="none" transform="matrix(1,0,0,1,0,0)">
+          <g transform="matrix(1,0,0,1,66,350)">
+            <path
+              id="keyShape"
+              fill="none"
+              d="M 0,0 Q 184 0,368 0"
+              stroke-width="1"
+              stroke="rgba(153,173,209,1)"
+            />
+            <path
+              id="keyShape"
+              fill="none"
+              d="M 0,0 Q 184 0,368 0"
+              stroke-width="7"
+              stroke="transparent"
+            />
+          </g>
+        </g>
+        <g id="g-svg-28" fill="none" transform="matrix(1,0,0,1,0,0)">
+          <g transform="matrix(1,0,0,1,66,335)">
+            <path
+              id="keyShape"
+              fill="none"
+              d="M 368,15 Q 184 -15,0 15"
+              stroke-width="2"
+              stroke="rgba(0,255,0,1)"
+            />
+            <path
+              id="keyShape"
+              fill="none"
+              d="M 368,15 Q 184 -15,0 15"
+              stroke-width="8"
+              stroke="transparent"
+            />
+          </g>
+        </g>
+        <g id="g-svg-32" fill="none" transform="matrix(1,0,0,1,0,0)">
+          <g transform="matrix(1,0,0,1,66,350)">
+            <path
+              id="keyShape"
+              fill="none"
+              d="M 368,0 Q 184 30,0 0"
+              stroke-width="1"
+              stroke="rgba(153,173,209,1)"
+            />
+            <path
+              id="keyShape"
+              fill="none"
+              d="M 368,0 Q 184 30,0 0"
+              stroke-width="7"
+              stroke="transparent"
+            />
+          </g>
+        </g>
+        <g id="g-svg-36" fill="none" transform="matrix(1,0,0,1,0,0)">
+          <g transform="matrix(1,0,0,1,439.468384,300.572449)">
+            <path
+              id="keyShape"
+              fill="none"
+              d="M 4.408674628495476,34.6454824691732 C -14.725496989759108 -11.548494156391087,35.788716082432984 -11.548494156391087,16.6545444641784 34.6454824691732"
+              stroke-width="1"
+              stroke="rgba(153,173,209,1)"
+            />
+            <path
+              id="keyShape"
+              fill="none"
+              d="M 4.408674628495476,34.6454824691732 C -14.725496989759108 -11.548494156391087,35.788716082432984 -11.548494156391087,16.6545444641784 34.6454824691732"
+              stroke-width="7"
+              stroke="transparent"
+            />
+          </g>
+        </g>
+        <g id="g-svg-39" fill="none" transform="matrix(1,0,0,1,0,0)">
+          <g transform="matrix(1,0,0,1,61.313709,161.313705)">
+            <path
+              id="keyShape"
+              fill="none"
+              d="M 0,177.3725830020305 Q 99.29289321881345 99.29289321881342,177.37258300203047 0"
+              stroke-width="1"
+              stroke="rgba(153,173,209,1)"
+            />
+            <path
+              id="keyShape"
+              fill="none"
+              d="M 0,177.3725830020305 Q 99.29289321881345 99.29289321881342,177.37258300203047 0"
+              stroke-width="7"
+              stroke="transparent"
+            />
+          </g>
+        </g>
+        <g id="g-svg-43" fill="none" transform="matrix(1,0,0,1,0,0)">
+          <g transform="matrix(1,0,0,1,61.313709,161.313705)">
+            <path
+              id="keyShape"
+              fill="none"
+              d="M 0,177.3725830020305 Q 78.07968978321702 78.07968978321702,177.37258300203047 0"
+              stroke-width="1"
+              stroke="rgba(153,173,209,1)"
+            />
+            <path
+              id="keyShape"
+              fill="none"
+              d="M 0,177.3725830020305 Q 78.07968978321702 78.07968978321702,177.37258300203047 0"
+              stroke-width="7"
+              stroke="transparent"
+            />
+          </g>
+        </g>
+        <g id="g-svg-47" fill="none" transform="matrix(1,0,0,1,0,0)">
+          <g transform="matrix(1,0,0,1,61.313709,161.313705)">
+            <path
+              id="keyShape"
+              fill="none"
+              d="M 0,177.3725830020305 Q 120.50609665440987 120.50609665440984,177.37258300203047 0"
+              stroke-width="1"
+              stroke="rgba(153,173,209,1)"
+            />
+            <path
+              id="keyShape"
+              fill="none"
+              d="M 0,177.3725830020305 Q 120.50609665440987 120.50609665440984,177.37258300203047 0"
+              stroke-width="7"
+              stroke="transparent"
+            />
+          </g>
+        </g>
+        <g id="g-svg-51" fill="none" transform="matrix(1,0,0,1,0,0)">
+          <g transform="matrix(1,0,0,1,61.313709,161.313705)">
+            <path
+              id="keyShape"
+              fill="none"
+              d="M 0,177.3725830020305 Q 56.8664863476206 56.866486347620594,177.37258300203047 0"
+              stroke-width="1"
+              stroke="rgba(153,173,209,1)"
+            />
+            <path
+              id="keyShape"
+              fill="none"
+              d="M 0,177.3725830020305 Q 56.8664863476206 56.866486347620594,177.37258300203047 0"
+              stroke-width="7"
+              stroke="transparent"
+            />
+          </g>
+        </g>
+        <g id="g-svg-55" fill="none" transform="matrix(1,0,0,1,0,0)">
+          <g transform="matrix(1,0,0,1,61.313709,161.313705)">
+            <path
+              id="keyShape"
+              fill="none"
+              d="M 0,177.3725830020305 Q 141.7193000900063 141.71930009000627,177.37258300203047 0"
+              stroke-width="1"
+              stroke="rgba(153,173,209,1)"
+            />
+            <path
+              id="keyShape"
+              fill="none"
+              d="M 0,177.3725830020305 Q 141.7193000900063 141.71930009000627,177.37258300203047 0"
+              stroke-width="7"
+              stroke="transparent"
+            />
+          </g>
+        </g>
+        <g id="g-svg-59" fill="none" transform="matrix(1,0,0,1,0,0)">
+          <g transform="matrix(1,0,0,1,61.313709,161.313705)">
+            <path
+              id="keyShape"
+              fill="none"
+              d="M 0,177.3725830020305 Q 35.653282912024174 35.65328291202417,177.37258300203047 0"
+              stroke-width="1"
+              stroke="rgba(153,173,209,1)"
+            />
+            <path
+              id="keyShape"
+              fill="none"
+              d="M 0,177.3725830020305 Q 35.653282912024174 35.65328291202417,177.37258300203047 0"
+              stroke-width="7"
+              stroke="transparent"
+            />
+          </g>
+        </g>
+        <g id="g-svg-63" fill="none" transform="matrix(1,0,0,1,0,0)">
+          <g transform="matrix(1,0,0,1,61.313709,161.313705)">
+            <path
+              id="keyShape"
+              fill="none"
+              d="M 0,177.3725830020305 Q 162.93250352560273 162.9325035256027,177.37258300203047 0"
+              stroke-width="1"
+              stroke="rgba(153,173,209,1)"
+            />
+            <path
+              id="keyShape"
+              fill="none"
+              d="M 0,177.3725830020305 Q 162.93250352560273 162.9325035256027,177.37258300203047 0"
+              stroke-width="7"
+              stroke="transparent"
+            />
+          </g>
+        </g>
+        <g id="g-svg-67" fill="none" transform="matrix(1,0,0,1,0,0)">
+          <g transform="matrix(1,0,0,1,61.313709,161.313705)">
+            <path
+              id="keyShape"
+              fill="none"
+              d="M 0,177.3725830020305 Q 14.440079476427748 14.44007947642777,177.37258300203047 0"
+              stroke-width="1"
+              stroke="rgba(153,173,209,1)"
+            />
+            <path
+              id="keyShape"
+              fill="none"
+              d="M 0,177.3725830020305 Q 14.440079476427748 14.44007947642777,177.37258300203047 0"
+              stroke-width="7"
+              stroke="transparent"
+            />
+          </g>
+        </g>
+        <g id="g-svg-71" fill="none" transform="matrix(1,0,0,1,0,0)">
+          <g transform="matrix(1,0,0,1,61.313709,161.313705)">
+            <path
+              id="keyShape"
+              fill="none"
+              d="M 0,177.3725830020305 Q 184.14570696119915 184.14570696119912,177.37258300203047 0"
+              stroke-width="1"
+              stroke="rgba(153,173,209,1)"
+            />
+            <path
+              id="keyShape"
+              fill="none"
+              d="M 0,177.3725830020305 Q 184.14570696119915 184.14570696119912,177.37258300203047 0"
+              stroke-width="7"
+              stroke="transparent"
+            />
+          </g>
+        </g>
+        <g id="g-svg-75" fill="none" transform="matrix(1,0,0,1,0,0)">
+          <g transform="matrix(1,0,0,1,61.073421,161.073425)">
+            <path
+              id="keyShape"
+              fill="none"
+              d="M 0.24028645024230144,177.6128694522728 Q -6.532837508926377 -6.532837508926349,177.61286945227278 0.24028645024230855"
+              stroke-width="1"
+              stroke="rgba(153,173,209,1)"
+            />
+            <path
+              id="keyShape"
+              fill="none"
+              d="M 0.24028645024230144,177.6128694522728 Q -6.532837508926377 -6.532837508926349,177.61286945227278 0.24028645024230855"
+              stroke-width="7"
+              stroke="transparent"
+            />
+          </g>
+        </g>
+        <g id="g-svg-79" fill="none" transform="matrix(1,0,0,1,0,0)">
+          <g transform="matrix(1,0,0,1,261.313721,161.313705)">
+            <path
+              id="keyShape"
+              fill="none"
+              d="M 0,0 Q 88.68629150101526 88.68629150101523,177.37258300203052 177.3725830020305"
+              stroke-width="1"
+              stroke="rgba(153,173,209,1)"
+            />
+            <path
+              id="keyShape"
+              fill="none"
+              d="M 0,0 Q 88.68629150101526 88.68629150101523,177.37258300203052 177.3725830020305"
+              stroke-width="7"
+              stroke="transparent"
+            />
+          </g>
+        </g>
+        <g id="g-svg-83" fill="none" transform="matrix(1,0,0,1,0,0)">
+          <g transform="matrix(1,0,0,1,261.313721,161.313705)">
+            <path
+              id="keyShape"
+              fill="none"
+              d="M 0,0 Q 109.89949493661169 67.4730880654188,177.37258300203052 177.3725830020305"
+              stroke-width="1"
+              stroke="rgba(153,173,209,1)"
+            />
+            <path
+              id="keyShape"
+              fill="none"
+              d="M 0,0 Q 109.89949493661169 67.4730880654188,177.37258300203052 177.3725830020305"
+              stroke-width="7"
+              stroke="transparent"
+            />
+          </g>
+        </g>
+        <g id="g-svg-87" fill="none" transform="matrix(1,0,0,1,0,0)">
+          <g transform="matrix(1,0,0,1,261.313721,161.313705)">
+            <path
+              id="keyShape"
+              fill="none"
+              d="M 0,0 Q 67.47308806541884 109.89949493661166,177.37258300203052 177.3725830020305"
+              stroke-width="1"
+              stroke="rgba(153,173,209,1)"
+            />
+            <path
+              id="keyShape"
+              fill="none"
+              d="M 0,0 Q 67.47308806541884 109.89949493661166,177.37258300203052 177.3725830020305"
+              stroke-width="7"
+              stroke="transparent"
+            />
+          </g>
+        </g>
+        <g id="g-svg-91" fill="none" transform="matrix(1,0,0,1,0,0)">
+          <g transform="matrix(1,0,0,1,261.313721,161.313705)">
+            <path
+              id="keyShape"
+              fill="none"
+              d="M 0,0 Q 131.11269837220811 46.25988462982238,177.37258300203052 177.3725830020305"
+              stroke-width="1"
+              stroke="rgba(153,173,209,1)"
+            />
+            <path
+              id="keyShape"
+              fill="none"
+              d="M 0,0 Q 131.11269837220811 46.25988462982238,177.37258300203052 177.3725830020305"
+              stroke-width="7"
+              stroke="transparent"
+            />
+          </g>
+        </g>
+        <g id="g-svg-95" fill="none" transform="matrix(1,0,0,1,0,0)">
+          <g transform="matrix(1,0,0,1,261.313721,161.313705)">
+            <path
+              id="keyShape"
+              fill="none"
+              d="M 0,0 Q 46.25988462982241 131.1126983722081,177.37258300203052 177.3725830020305"
+              stroke-width="1"
+              stroke="rgba(153,173,209,1)"
+            />
+            <path
+              id="keyShape"
+              fill="none"
+              d="M 0,0 Q 46.25988462982241 131.1126983722081,177.37258300203052 177.3725830020305"
+              stroke-width="7"
+              stroke="transparent"
+            />
+          </g>
+        </g>
+      </g>
+      <g id="node-group" fill="none" transform="matrix(1,0,0,1,0,0)">
+        <g id="g-svg-12" fill="none" transform="matrix(1,0,0,1,50,350)">
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle
+              id="keyShape"
+              fill="rgba(34,126,255,1)"
+              transform="translate(-16,-16)"
+              cx="16"
+              cy="16"
+              r="16"
+              stroke-width="0"
+            />
+          </g>
+        </g>
+        <g id="g-svg-16" fill="none" transform="matrix(1,0,0,1,250,150)">
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle
+              id="keyShape"
+              fill="rgba(34,126,255,1)"
+              transform="translate(-16,-16)"
+              cx="16"
+              cy="16"
+              r="16"
+              stroke-width="0"
+            />
+          </g>
+        </g>
+        <g id="g-svg-20" fill="none" transform="matrix(1,0,0,1,450,350)">
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle
+              id="keyShape"
+              fill="rgba(34,126,255,1)"
+              transform="translate(-16,-16)"
+              cx="16"
+              cy="16"
+              r="16"
+              stroke-width="0"
+            />
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

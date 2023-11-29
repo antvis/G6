@@ -27,12 +27,10 @@ describe('Dagre layout', () => {
     });
 
     graph.on('afterlayout', async () => {
-      try {
-        await expect(canvas).toMatchSVGSnapshot(dir, 'dagre');
-      } finally {
-        graph.destroy();
-        done();
-      }
+      await expect(canvas).toMatchSVGSnapshot(dir, 'dagre');
+
+      graph.destroy();
+      done();
     });
   });
 });

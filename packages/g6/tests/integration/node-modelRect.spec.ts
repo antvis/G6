@@ -28,20 +28,18 @@ describe('node modelRect', () => {
     });
 
     graph.on('afterlayout', async () => {
-      try {
-        await expect(canvas).toMatchSVGSnapshot(dir, 'node-modelRect');
-        //seleted state
-        triggerEvent(graph, 'mousedown', 100, 100);
-        triggerEvent(graph, 'mouseup', 100, 100);
-        await expect(canvas).toMatchSVGSnapshot(dir, 'node-modelRect-selected');
-        //normal state
-        triggerEvent(graph, 'mousedown', 100, 100);
-        triggerEvent(graph, 'mouseup', 100, 100);
-        await expect(canvas).toMatchSVGSnapshot(dir, 'node-modelRect-restore');
-      } finally {
-        graph.destroy();
-        done();
-      }
+      await expect(canvas).toMatchSVGSnapshot(dir, 'node-modelRect');
+      //seleted state
+      triggerEvent(graph, 'mousedown', 100, 100);
+      triggerEvent(graph, 'mouseup', 100, 100);
+      await expect(canvas).toMatchSVGSnapshot(dir, 'node-modelRect-selected');
+      //normal state
+      triggerEvent(graph, 'mousedown', 100, 100);
+      triggerEvent(graph, 'mouseup', 100, 100);
+      await expect(canvas).toMatchSVGSnapshot(dir, 'node-modelRect-restore');
+
+      graph.destroy();
+      done();
     });
   });
 });

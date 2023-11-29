@@ -27,12 +27,10 @@ describe.skip('Force layout', () => {
     });
 
     graph.on('afterlayout', async () => {
-      try {
-        await expect(canvas).toMatchSVGSnapshot(dir, 'force');
-      } finally {
-        graph.destroy();
-        done();
-      }
+      await expect(canvas).toMatchSVGSnapshot(dir, 'force');
+
+      graph.destroy();
+      done();
     });
   });
 });

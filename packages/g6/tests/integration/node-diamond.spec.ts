@@ -28,20 +28,18 @@ describe('node diamond', () => {
     });
 
     graph.on('afterlayout', async () => {
-      try {
-        await expect(canvas).toMatchSVGSnapshot(dir, 'node-diamond');
-        //seleted state
-        triggerEvent(graph, 'mousedown', 100, 100);
-        triggerEvent(graph, 'mouseup', 100, 100);
-        await expect(canvas).toMatchSVGSnapshot(dir, 'node-diamond-selected');
-        //normal state
-        triggerEvent(graph, 'mousedown', 100, 100);
-        triggerEvent(graph, 'mouseup', 100, 100);
-        await expect(canvas).toMatchSVGSnapshot(dir, 'node-diamond-restore');
-      } finally {
-        graph.destroy();
-        done();
-      }
+      await expect(canvas).toMatchSVGSnapshot(dir, 'node-diamond');
+      //seleted state
+      triggerEvent(graph, 'mousedown', 100, 100);
+      triggerEvent(graph, 'mouseup', 100, 100);
+      await expect(canvas).toMatchSVGSnapshot(dir, 'node-diamond-selected');
+      //normal state
+      triggerEvent(graph, 'mousedown', 100, 100);
+      triggerEvent(graph, 'mouseup', 100, 100);
+      await expect(canvas).toMatchSVGSnapshot(dir, 'node-diamond-restore');
+
+      graph.destroy();
+      done();
     });
   });
 });

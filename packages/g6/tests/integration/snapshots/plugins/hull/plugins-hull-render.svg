@@ -1,0 +1,47 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="500"
+  height="500"
+  style="background: transparent; position: absolute; outline: none; pointer-events: none;"
+  color-interpolation-filters="sRGB"
+  tabindex="1"
+>
+  <defs />
+  <g id="g-svg-camera" transform="matrix(1,0,0,1,0,0)">
+    <g id="g-root" fill="none" transform="matrix(1,0,0,1,0,0)">
+      <g id="combo-group" fill="none" transform="matrix(1,0,0,1,0,0)" />
+      <g id="edge-group" fill="none" transform="matrix(1,0,0,1,0,0)" />
+      <g id="node-group" fill="none" transform="matrix(1,0,0,1,0,0)" />
+      <g transform="matrix(1,0,0,1,100.972893,74.576645)">
+        <path
+          id="hull-plugin1-h1"
+          fill="rgba(173,216,230,1)"
+          d="M 292.4118819689063,32.038579326135135 C 245.08344245444198 -15.289860188329165,1.4120723243222812 -8.260687630530896,0.006237812762634576 40.473586395493044 C -1.399596698797012 89.20786042151698,235.24260087352445 325.8500579938385,283.9768748995484 324.44422348227886 C 332.7111489255724 323.0383889707192,339.7403214833706 79.36701884059943,292.4118819689063 32.038579326135135 C 245.08344245444198 -15.289860188329165,1.4120723243222812 -8.260687630530896,0.006237812762634576 40.473586395493044"
+          pointer-events="none"
+          stroke="rgba(0,0,255,1)"
+          opacity="0.9"
+        />
+      </g>
+      <g transform="matrix(0.707107,0.707107,-0.707107,0.707107,172.590668,234.801880)">
+        <text
+          id="hull-plugin1-h1-label"
+          fill="rgba(0,0,0,1)"
+          dominant-baseline="central"
+          paint-order="stroke"
+          dx="0"
+          dy="-11px"
+          pointer-events="none"
+          font-size="12"
+          font-family="sans-serif"
+          font-weight="normal"
+          font-variant="normal"
+          font-style="normal"
+          stroke-width="0"
+          text-anchor="middle"
+        >
+          hull1-title
+        </text>
+      </g>
+    </g>
+  </g>
+</svg>

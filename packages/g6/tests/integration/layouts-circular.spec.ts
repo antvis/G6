@@ -27,12 +27,10 @@ describe('Circular layout', () => {
     });
 
     graph.on('afterlayout', async () => {
-      try {
-        await expect(canvas).toMatchSVGSnapshot(dir, 'circular');
-      } finally {
-        graph.destroy();
-        done();
-      }
+      await expect(canvas).toMatchSVGSnapshot(dir, 'circular');
+
+      graph.destroy();
+      done();
     });
   });
 });

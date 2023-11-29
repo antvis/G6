@@ -42,40 +42,40 @@ export default (
         data: {
           x,
           y,
-          animates: {
-            update: [
-              {
-                fields: ['x', 'y'],
-                duration: 500,
-                shapeId: 'group',
-                order: 0,
-              },
-            ],
-            hide: [
-              {
-                fields: ['opacity'],
-                duration: 200,
-                shapeId: 'keyShape',
-              },
-              {
-                fields: ['opacity'],
-                duration: 200,
-                shapeId: 'labelShape',
-              },
-            ],
-            show: [
-              {
-                fields: ['opacity'],
-                duration: 1000,
-                shapeId: 'keyShape',
-              },
-              {
-                fields: ['opacity'],
-                duration: 1000,
-                shapeId: 'labelShape',
-              },
-            ],
-          },
+          // animates: {
+          //   update: [
+          //     {
+          //       fields: ['x', 'y'],
+          //       duration: 500,
+          //       shapeId: 'group',
+          //       order: 0,
+          //     },
+          //   ],
+          //   hide: [
+          //     {
+          //       fields: ['opacity'],
+          //       duration: 200,
+          //       shapeId: 'keyShape',
+          //     },
+          //     {
+          //       fields: ['opacity'],
+          //       duration: 200,
+          //       shapeId: 'labelShape',
+          //     },
+          //   ],
+          //   show: [
+          //     {
+          //       fields: ['opacity'],
+          //       duration: 1000,
+          //       shapeId: 'keyShape',
+          //     },
+          //     {
+          //       fields: ['opacity'],
+          //       duration: 1000,
+          //       shapeId: 'labelShape',
+          //     },
+          //   ],
+          // },
           // animate in shapes, unrelated to each other, excuted parallely
           labelShape: {
             text: innerModel.id,
@@ -89,32 +89,32 @@ export default (
         ...innerModel,
         data: {
           ...innerModel.data,
-          animates: {
-            // hide: [
-            //   {
-            //     fields: ['opacity'],
-            //     duration: 200,
-            //     shapeId: 'keyShape',
-            //   },
-            //   {
-            //     fields: ['opacity'],
-            //     duration: 200,
-            //     shapeId: 'labelShape',
-            //   },
-            // ],
-            // show: [
-            //   {
-            //     fields: ['opacity'],
-            //     duration: 1000,
-            //     shapeId: 'keyShape',
-            //   },
-            //   {
-            //     fields: ['opacity'],
-            //     duration: 1000,
-            //     shapeId: 'labelShape',
-            //   },
-            // ],
-          },
+          // animates: {
+          // hide: [
+          //   {
+          //     fields: ['opacity'],
+          //     duration: 200,
+          //     shapeId: 'keyShape',
+          //   },
+          //   {
+          //     fields: ['opacity'],
+          //     duration: 200,
+          //     shapeId: 'labelShape',
+          //   },
+          // ],
+          // show: [
+          //   {
+          //     fields: ['opacity'],
+          //     duration: 1000,
+          //     shapeId: 'keyShape',
+          //   },
+          //   {
+          //     fields: ['opacity'],
+          //     duration: 1000,
+          //     shapeId: 'labelShape',
+          //   },
+          // ],
+          // },
         },
       };
     },

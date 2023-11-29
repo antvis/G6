@@ -1,0 +1,128 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="500"
+  height="500"
+  style="background: transparent; position: absolute; outline: none;"
+  color-interpolation-filters="sRGB"
+  tabindex="1"
+>
+  <defs />
+  <g id="g-svg-camera" transform="matrix(1,0,0,1,0,0)">
+    <g id="g-root" fill="none" transform="matrix(1,0,0,1,0,0)">
+      <g id="combo-group" fill="none" transform="matrix(1,0,0,1,0,0)" />
+      <g id="edge-group" fill="none" transform="matrix(1,0,0,1,0,0)" />
+      <g id="node-group" fill="none" transform="matrix(1,0,0,1,0,0)">
+        <g id="g-svg-12" fill="none" transform="matrix(1,0,0,1,100,100)">
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle
+              id="haloShape"
+              fill="rgba(34,126,255,1)"
+              transform="translate(-30,-30)"
+              cx="30"
+              cy="30"
+              opacity="0.25"
+              r="30"
+              stroke-width="12"
+              pointer-events="none"
+              stroke="rgba(34,126,255,1)"
+            />
+          </g>
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle
+              id="keyShape"
+              fill="rgba(34,126,255,1)"
+              transform="translate(-30,-30)"
+              cx="30"
+              cy="30"
+              r="30"
+              stroke-width="3"
+              stroke="rgba(0,0,0,1)"
+            />
+          </g>
+          <g transform="matrix(1,0,0,1,-23.891327,-24)">
+            <path
+              id="donutShape0"
+              fill="none"
+              d="M 47.891326141754035,24.00000000000001 A 24 24 0 0 0 3.552713678800501e-15 21.71865496069962"
+              stroke="rgba(120,211,248,1)"
+              stroke-width="12"
+            />
+            <path
+              id="donutShape0"
+              fill="none"
+              d="M 47.891326141754035,24.00000000000001 A 24 24 0 0 0 3.552713678800501e-15 21.71865496069962"
+              stroke="transparent"
+              stroke-width="12"
+            />
+          </g>
+          <g transform="matrix(1,0,0,1,-24,-2.281345)">
+            <path
+              id="donutShape1"
+              fill="none"
+              d="M 0.10867385824597164,1.7763568394002505e-15 A 24 24 0 0 0 20.584443881441153 26.037059644442774"
+              stroke="rgba(240,139,180,1)"
+              stroke-width="12"
+            />
+            <path
+              id="donutShape1"
+              fill="none"
+              d="M 0.10867385824597164,1.7763568394002505e-15 A 24 24 0 0 0 20.584443881441153 26.037059644442774"
+              stroke="transparent"
+              stroke-width="12"
+            />
+          </g>
+          <g transform="matrix(1,0,0,1,-3.415556,0)">
+            <path
+              id="donutShape2"
+              fill="none"
+              d="M 3.1086244689504383e-15,23.755714605142373 A 24 24 0 0 0 27.415556118558847 -4.779836400494208e-15"
+              stroke="rgba(101,120,155,1)"
+              stroke-width="12"
+            />
+            <path
+              id="donutShape2"
+              fill="none"
+              d="M 3.1086244689504383e-15,23.755714605142373 A 24 24 0 0 0 27.415556118558847 -4.779836400494208e-15"
+              stroke="transparent"
+              stroke-width="12"
+            />
+          </g>
+          <g transform="matrix(1,0,0,1,-30,0)">
+            <circle
+              id="anchorShape0"
+              fill="rgba(255,0,0,1)"
+              transform="translate(-2,-2)"
+              cx="2"
+              cy="2"
+              stroke-width="1"
+              stroke="rgba(0,0,0,0.65)"
+              r="2"
+            />
+          </g>
+          <g transform="matrix(1,0,0,1,11.580000,-33.200001)">
+            <path
+              id="rightTopBadgeBackgroundShape"
+              fill="rgba(0,0,255,1)"
+              d="M 10,0 l 0,0 a 10,10,0,0,1,10,10 l 0,0 a 10,10,0,0,1,-10,10 l 0,0 a 10,10,0,0,1,-10,-10 l 0,0 a 10,10,0,0,1,10,-10 z"
+              height="20"
+              width="20"
+            />
+          </g>
+          <g transform="matrix(1,0,0,1,17,-23.200001)">
+            <text
+              id="rightTopBadgeShape"
+              fill="rgba(255,255,255,1)"
+              dominant-baseline="central"
+              paint-order="stroke"
+              dx="0.5"
+              font-size="17"
+              text-anchor="left"
+            >
+              1
+            </text>
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

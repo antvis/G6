@@ -27,12 +27,10 @@ describe('Grid layout', () => {
     });
 
     graph.on('afterlayout', async () => {
-      try {
-        await expect(canvas).toMatchSVGSnapshot(dir, 'grid');
-      } finally {
-        graph.destroy();
-        done();
-      }
+      await expect(canvas).toMatchSVGSnapshot(dir, 'grid');
+
+      graph.destroy();
+      done();
     });
   });
 });

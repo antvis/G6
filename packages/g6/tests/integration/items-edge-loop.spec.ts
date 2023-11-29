@@ -27,70 +27,56 @@ describe('Items edge line', () => {
     });
 
     graph.on('afterlayout', async () => {
-      try {
-        await expect(canvas).toMatchSVGSnapshot(dir, 'items-edge-loop');
+      await expect(canvas).toMatchSVGSnapshot(dir, 'items-edge-loop');
 
-        /**
-         * Click the checkbox to switch clockwise.
-         */
-        const $switchClockwise = document.querySelectorAll(
-          'input',
-        )[0] as HTMLInputElement;
-        $switchClockwise.click();
-        await expect(canvas).toMatchSVGSnapshot(
-          dir,
-          'items-edge-loop-clockwise',
-        );
-        $switchClockwise.click();
+      /**
+       * Click the checkbox to switch clockwise.
+       */
+      const $switchClockwise = document.querySelectorAll(
+        'input',
+      )[0] as HTMLInputElement;
+      $switchClockwise.click();
+      await expect(canvas).toMatchSVGSnapshot(dir, 'items-edge-loop-clockwise');
+      $switchClockwise.click();
 
-        /**
-         * Click the checkbox to set custom distance.
-         */
-        const $dist = document.querySelectorAll('input')[1] as HTMLInputElement;
-        $dist.click();
-        await expect(canvas).toMatchSVGSnapshot(
-          dir,
-          'items-edge-loop-distance',
-        );
-        $dist.click();
+      /**
+       * Click the checkbox to set custom distance.
+       */
+      const $dist = document.querySelectorAll('input')[1] as HTMLInputElement;
+      $dist.click();
+      await expect(canvas).toMatchSVGSnapshot(dir, 'items-edge-loop-distance');
+      $dist.click();
 
-        /**
-         * Click the button to change loop position.
-         */
-        const $loopPositionBtn = document.querySelectorAll(
-          'button',
-        )[0] as HTMLButtonElement;
-        $loopPositionBtn.click();
-        await expect(canvas).toMatchSVGSnapshot(
-          dir,
-          'items-edge-loop-top-right',
-        );
-        $loopPositionBtn.click();
-        await expect(canvas).toMatchSVGSnapshot(dir, 'items-edge-loop-right');
-        $loopPositionBtn.click();
-        await expect(canvas).toMatchSVGSnapshot(
-          dir,
-          'items-edge-loop-bottom-right',
-        );
-        $loopPositionBtn.click();
-        await expect(canvas).toMatchSVGSnapshot(dir, 'items-edge-loop-bottom');
-        $loopPositionBtn.click();
-        await expect(canvas).toMatchSVGSnapshot(
-          dir,
-          'items-edge-loop-bottom-left',
-        );
-        $loopPositionBtn.click();
-        await expect(canvas).toMatchSVGSnapshot(dir, 'items-edge-loop-left');
-        $loopPositionBtn.click();
-        await expect(canvas).toMatchSVGSnapshot(
-          dir,
-          'items-edge-loop-top-left',
-        );
-        $loopPositionBtn.click();
-      } finally {
-        graph.destroy();
-        done();
-      }
+      /**
+       * Click the button to change loop position.
+       */
+      const $loopPositionBtn = document.querySelectorAll(
+        'button',
+      )[0] as HTMLButtonElement;
+      $loopPositionBtn.click();
+      await expect(canvas).toMatchSVGSnapshot(dir, 'items-edge-loop-top-right');
+      $loopPositionBtn.click();
+      await expect(canvas).toMatchSVGSnapshot(dir, 'items-edge-loop-right');
+      $loopPositionBtn.click();
+      await expect(canvas).toMatchSVGSnapshot(
+        dir,
+        'items-edge-loop-bottom-right',
+      );
+      $loopPositionBtn.click();
+      await expect(canvas).toMatchSVGSnapshot(dir, 'items-edge-loop-bottom');
+      $loopPositionBtn.click();
+      await expect(canvas).toMatchSVGSnapshot(
+        dir,
+        'items-edge-loop-bottom-left',
+      );
+      $loopPositionBtn.click();
+      await expect(canvas).toMatchSVGSnapshot(dir, 'items-edge-loop-left');
+      $loopPositionBtn.click();
+      await expect(canvas).toMatchSVGSnapshot(dir, 'items-edge-loop-top-left');
+      $loopPositionBtn.click();
+
+      graph.destroy();
+      done();
     });
   });
 });
