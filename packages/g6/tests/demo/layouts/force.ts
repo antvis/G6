@@ -587,4 +587,5 @@ export default (context: TestCaseContext) => {
       },
     });
   }
+  return graph;
 };

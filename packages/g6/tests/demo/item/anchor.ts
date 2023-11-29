@@ -58,9 +58,11 @@ export default (
       keyShape: {
         opacity: 0.1,
       },
+      // @ts-ignore
       anchorPoints,
       anchorShapes,
     },
+    // @ts-ignore
     edge: {
       ...edgeAnchors,
     },

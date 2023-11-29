@@ -5,20 +5,23 @@ const esm = ['internmap', 'd3-*', 'lodash-es']
   .join('|');
 
 module.exports = {
-  testEnvironment: 'jsdom',
   testTimeout: 100000,
   preset: 'ts-jest/presets/js-with-ts',
-  globals: {
-    'ts-jest': {
-      diagnostics: {
-        exclude: ['**'],
+  testEnvironment: 'jsdom',
+  transform: {
+    '^.+\\.[tj]s$': [
+      'ts-jest',
+      {
+        diagnostics: {
+          exclude: ['**'],
+        },
+        tsconfig: {
+          allowJs: true,
+          target: 'esnext',
+          esModuleInterop: true,
+        },
       },
-      tsconfig: {
-        target: 'esnext', // Increase test coverage.
-        allowJs: true,
-        sourceMap: true,
-      },
-    },
+    ],
   },
   collectCoverageFrom: ['src/**/*.ts'],
   moduleFileExtensions: ['ts', 'tsx', 'js', 'json'],

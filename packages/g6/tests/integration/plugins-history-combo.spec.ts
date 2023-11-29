@@ -1,33 +1,33 @@
-import { resetEntityCounter } from '@antv/g';
 import historyCombo from '../demo/plugins/history-combo';
 import './utils/useSnapshotMatchers';
 import { createContext } from './utils';
 
+const dir = `${__dirname}/snapshots/plugins/history`;
+
 describe('Plugins history combo', () => {
-  beforeEach(() => {
-    /**
-     * SVG Snapshot testing will generate a unique id for each element.
-     * Reset to 0 to keep snapshot consistent.
-     */
-    resetEntityCounter();
-  });
-
-  it('should be rendered correctly with Canvas2D', (done) => {
-    const dir = `${__dirname}/snapshots/canvas/plugins/history`;
-    const { backgroundCanvas, canvas, transientCanvas, container } =
-      createContext('canvas', 500, 500);
-
-    const graph = historyCombo({
-      container,
+  it('should be rendered correctly', (done) => {
+    const {
       backgroundCanvas,
       canvas,
+      container,
+      labelCanvas,
       transientCanvas,
+      transientLabelCanvas,
+    } = createContext(500, 500);
+
+    const graph = historyCombo({
+      backgroundCanvas,
+      canvas,
+      container,
+      labelCanvas,
+      transientCanvas,
+      transientLabelCanvas,
       width: 500,
       height: 500,
     });
 
     graph.on('afterlayout', async () => {
-      await expect(canvas).toMatchCanvasSnapshot(
+      await expect(canvas).toMatchSVGSnapshot(
         dir,
         'plugins-history-combo-init',
       );
@@ -43,17 +43,14 @@ describe('Plugins history combo', () => {
         'button',
       )[2] as HTMLInputElement;
       $addCombo.click();
-      await expect(canvas).toMatchCanvasSnapshot(
-        dir,
-        'plugins-history-add-combo',
-      );
+      await expect(canvas).toMatchSVGSnapshot(dir, 'plugins-history-add-combo');
       $undo.click();
-      await expect(canvas).toMatchCanvasSnapshot(
+      await expect(canvas).toMatchSVGSnapshot(
         dir,
         'plugins-history-add-combo-undo',
       );
       $redo.click();
-      await expect(canvas).toMatchCanvasSnapshot(
+      await expect(canvas).toMatchSVGSnapshot(
         dir,
         'plugins-history-add-combo-redo',
       );
@@ -67,17 +64,17 @@ describe('Plugins history combo', () => {
       //   'button',
       // )[3] as HTMLInputElement;
       // $moveCombo.click();
-      // await expect(canvas).toMatchCanvasSnapshot(
+      // await expect(canvas).toMatchSVGSnapshot(
       //   dir,
       //   'plugins-history-move-combo',
       // );
       // $undo.click();
-      // await expect(canvas).toMatchCanvasSnapshot(
+      // await expect(canvas).toMatchSVGSnapshot(
       //   dir,
       //   'plugins-history-move-combo-undo',
       // );
       // $redo.click();
-      // await expect(canvas).toMatchCanvasSnapshot(
+      // await expect(canvas).toMatchSVGSnapshot(
       //   dir,
       //   'plugins-history-move-combo-redo',
       // );
@@ -90,17 +87,17 @@ describe('Plugins history combo', () => {
       //   'button',
       // )[4] as HTMLInputElement;
       // $collapseCombo.click();
-      // await expect(canvas).toMatchCanvasSnapshot(
+      // await expect(canvas).toMatchSVGSnapshot(
       //   dir,
       //   'plugins-history-collapse-combo',
       // );
       // $undo.click();
-      // await expect(canvas).toMatchCanvasSnapshot(
+      // await expect(canvas).toMatchSVGSnapshot(
       //   dir,
       //   'plugins-history-collapse-combo-undo',
       // );
       // $redo.click();
-      // await expect(canvas).toMatchCanvasSnapshot(
+      // await expect(canvas).toMatchSVGSnapshot(
       //   dir,
       //   'plugins-history-collapse-combo-redo',
       // );
@@ -114,17 +111,17 @@ describe('Plugins history combo', () => {
       //   'button',
       // )[5] as HTMLInputElement;
       // $expandCombo.click();
-      // await expect(canvas).toMatchCanvasSnapshot(
+      // await expect(canvas).toMatchSVGSnapshot(
       //   dir,
       //   'plugins-history-expand-combo',
       // );
       // $undo.click();
-      // await expect(canvas).toMatchCanvasSnapshot(
+      // await expect(canvas).toMatchSVGSnapshot(
       //   dir,
       //   'plugins-history-expand-combo-undo',
       // );
       // $redo.click();
-      // await expect(canvas).toMatchCanvasSnapshot(
+      // await expect(canvas).toMatchSVGSnapshot(
       //   dir,
       //   'plugins-history-expand-combo-redo',
       // );

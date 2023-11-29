@@ -1,31 +1,30 @@
-import { resetEntityCounter } from '@antv/g';
-import treeGraph from '../demo/tree/treeGraph';
-import { createContext, sleep } from './utils';
+import { createContext } from './utils';
 import './utils/useSnapshotMatchers';
 import dataValidate from '../demo/data/data-validate';
 
-describe('TreeGraph', () => {
-  beforeEach(() => {
-    /**
-     * SVG Snapshot testing will generate a unique id for each element.
-     * Reset to 0 to keep snapshot consistent.
-     */
-    resetEntityCounter();
-  });
+const dir = `${__dirname}/snapshots/data`;
 
+describe('TreeGraph', () => {
   it('data with error DUPLICATE_NODE_ID', (done) => {
-    const dir = `${__dirname}/snapshots/canvas`;
-    const { backgroundCanvas, canvas, transientCanvas, container } =
-      createContext('canvas', 500, 500);
+    const {
+      backgroundCanvas,
+      canvas,
+      container,
+      labelCanvas,
+      transientCanvas,
+      transientLabelCanvas,
+    } = createContext(500, 500);
 
     const graph = dataValidate(
       {
         backgroundCanvas,
         canvas,
+        container,
+        labelCanvas,
         transientCanvas,
+        transientLabelCanvas,
         width: 500,
         height: 500,
-        container,
       },
       {
         errorType: 'DUPLICATE_NODE_ID',
@@ -33,26 +32,36 @@ describe('TreeGraph', () => {
     );
 
     graph.on('afterlayout', async () => {
-      await expect(canvas).toMatchCanvasSnapshot(
+      await expect(canvas).toMatchSVGSnapshot(
         dir,
         'data-validate-duplicate-node-id',
       );
+
+      graph.destroy();
       done();
     });
   });
+
   it('data with error DUPLICATE_NODE_EDGE_ID', (done) => {
-    const dir = `${__dirname}/snapshots/canvas`;
-    const { backgroundCanvas, canvas, transientCanvas, container } =
-      createContext('canvas', 500, 500);
+    const {
+      backgroundCanvas,
+      canvas,
+      container,
+      labelCanvas,
+      transientCanvas,
+      transientLabelCanvas,
+    } = createContext(500, 500);
 
     const graph = dataValidate(
       {
         backgroundCanvas,
         canvas,
+        container,
+        labelCanvas,
         transientCanvas,
+        transientLabelCanvas,
         width: 500,
         height: 500,
-        container,
       },
       {
         errorType: 'DUPLICATE_NODE_EDGE_ID',
@@ -60,26 +69,36 @@ describe('TreeGraph', () => {
     );
 
     graph.on('afterlayout', async () => {
-      await expect(canvas).toMatchCanvasSnapshot(
+      await expect(canvas).toMatchSVGSnapshot(
         dir,
         'data-validate-duplicate-node-edge-id',
       );
+
+      graph.destroy();
       done();
     });
   });
+
   it('data with error NODE_NO_DATA', (done) => {
-    const dir = `${__dirname}/snapshots/canvas`;
-    const { backgroundCanvas, canvas, transientCanvas, container } =
-      createContext('canvas', 500, 500);
+    const {
+      backgroundCanvas,
+      canvas,
+      container,
+      labelCanvas,
+      transientCanvas,
+      transientLabelCanvas,
+    } = createContext(500, 500);
 
     const graph = dataValidate(
       {
         backgroundCanvas,
         canvas,
+        container,
+        labelCanvas,
         transientCanvas,
+        transientLabelCanvas,
         width: 500,
         height: 500,
-        container,
       },
       {
         errorType: 'NODE_NO_DATA',
@@ -87,26 +106,36 @@ describe('TreeGraph', () => {
     );
 
     graph.on('afterlayout', async () => {
-      await expect(canvas).toMatchCanvasSnapshot(
+      await expect(canvas).toMatchSVGSnapshot(
         dir,
         'data-validate-node-no-data',
       );
+
+      graph.destroy();
       done();
     });
   });
+
   it('data with error NODE_NO_ID', (done) => {
-    const dir = `${__dirname}/snapshots/canvas`;
-    const { backgroundCanvas, canvas, transientCanvas, container } =
-      createContext('canvas', 500, 500);
+    const {
+      backgroundCanvas,
+      canvas,
+      container,
+      labelCanvas,
+      transientCanvas,
+      transientLabelCanvas,
+    } = createContext(500, 500);
 
     const graph = dataValidate(
       {
         backgroundCanvas,
         canvas,
+        container,
+        labelCanvas,
         transientCanvas,
+        transientLabelCanvas,
         width: 500,
         height: 500,
-        container,
       },
       {
         errorType: 'NODE_NO_ID',
@@ -114,26 +143,33 @@ describe('TreeGraph', () => {
     );
 
     graph.on('afterlayout', async () => {
-      await expect(canvas).toMatchCanvasSnapshot(
-        dir,
-        'data-validate-node-no-id',
-      );
+      await expect(canvas).toMatchSVGSnapshot(dir, 'data-validate-node-no-id');
+
+      graph.destroy();
       done();
     });
   });
+
   it('data with error EDGE_NO_ID', (done) => {
-    const dir = `${__dirname}/snapshots/canvas`;
-    const { backgroundCanvas, canvas, transientCanvas, container } =
-      createContext('canvas', 500, 500);
+    const {
+      backgroundCanvas,
+      canvas,
+      container,
+      labelCanvas,
+      transientCanvas,
+      transientLabelCanvas,
+    } = createContext(500, 500);
 
     const graph = dataValidate(
       {
         backgroundCanvas,
         canvas,
+        container,
+        labelCanvas,
         transientCanvas,
+        transientLabelCanvas,
         width: 500,
         height: 500,
-        container,
       },
       {
         errorType: 'EDGE_NO_ID',
@@ -141,26 +177,32 @@ describe('TreeGraph', () => {
     );
 
     graph.on('afterlayout', async () => {
-      await expect(canvas).toMatchCanvasSnapshot(
-        dir,
-        'data-validate-edge-no-id',
-      );
+      await expect(canvas).toMatchSVGSnapshot(dir, 'data-validate-edge-no-id');
+
+      graph.destroy();
       done();
     });
   });
   it('data with error NODE_PARENT_NOT_EXIST', (done) => {
-    const dir = `${__dirname}/snapshots/canvas`;
-    const { backgroundCanvas, canvas, transientCanvas, container } =
-      createContext('canvas', 500, 500);
+    const {
+      backgroundCanvas,
+      canvas,
+      container,
+      labelCanvas,
+      transientCanvas,
+      transientLabelCanvas,
+    } = createContext(500, 500);
 
     const graph = dataValidate(
       {
         backgroundCanvas,
         canvas,
+        container,
+        labelCanvas,
         transientCanvas,
+        transientLabelCanvas,
         width: 500,
         height: 500,
-        container,
       },
       {
         errorType: 'NODE_PARENT_NOT_EXIST',
@@ -168,26 +210,36 @@ describe('TreeGraph', () => {
     );
 
     graph.on('afterlayout', async () => {
-      await expect(canvas).toMatchCanvasSnapshot(
+      await expect(canvas).toMatchSVGSnapshot(
         dir,
         'data-validate-node-parent-not-exist',
       );
+
+      graph.destroy();
       done();
     });
   });
+
   it('data with error EDGE_SOURCE_NOT_EXIST', (done) => {
-    const dir = `${__dirname}/snapshots/canvas`;
-    const { backgroundCanvas, canvas, transientCanvas, container } =
-      createContext('canvas', 500, 500);
+    const {
+      backgroundCanvas,
+      canvas,
+      container,
+      labelCanvas,
+      transientCanvas,
+      transientLabelCanvas,
+    } = createContext(500, 500);
 
     const graph = dataValidate(
       {
         backgroundCanvas,
         canvas,
+        container,
+        labelCanvas,
         transientCanvas,
+        transientLabelCanvas,
         width: 500,
         height: 500,
-        container,
       },
       {
         errorType: 'EDGE_SOURCE_NOT_EXIST',
@@ -195,26 +247,36 @@ describe('TreeGraph', () => {
     );
 
     graph.on('afterlayout', async () => {
-      await expect(canvas).toMatchCanvasSnapshot(
+      await expect(canvas).toMatchSVGSnapshot(
         dir,
         'data-validate-edge-source-not-exist',
       );
+
+      graph.destroy();
       done();
     });
   });
+
   it('data with error EDGE_NO_SOURCE', (done) => {
-    const dir = `${__dirname}/snapshots/canvas`;
-    const { backgroundCanvas, canvas, transientCanvas, container } =
-      createContext('canvas', 500, 500);
+    const {
+      backgroundCanvas,
+      canvas,
+      container,
+      labelCanvas,
+      transientCanvas,
+      transientLabelCanvas,
+    } = createContext(500, 500);
 
     const graph = dataValidate(
       {
         backgroundCanvas,
         canvas,
+        container,
+        labelCanvas,
         transientCanvas,
+        transientLabelCanvas,
         width: 500,
         height: 500,
-        container,
       },
       {
         errorType: 'EDGE_NO_SOURCE',
@@ -222,26 +284,36 @@ describe('TreeGraph', () => {
     );
 
     graph.on('afterlayout', async () => {
-      await expect(canvas).toMatchCanvasSnapshot(
+      await expect(canvas).toMatchSVGSnapshot(
         dir,
         'data-validate-edge-no-source',
       );
+
+      graph.destroy();
       done();
     });
   });
+
   it('data with error COMBO_NO_ID', (done) => {
-    const dir = `${__dirname}/snapshots/canvas`;
-    const { backgroundCanvas, canvas, transientCanvas, container } =
-      createContext('canvas', 500, 500);
+    const {
+      backgroundCanvas,
+      canvas,
+      container,
+      labelCanvas,
+      transientCanvas,
+      transientLabelCanvas,
+    } = createContext(500, 500);
 
     const graph = dataValidate(
       {
         backgroundCanvas,
         canvas,
+        container,
+        labelCanvas,
         transientCanvas,
+        transientLabelCanvas,
         width: 500,
         height: 500,
-        container,
       },
       {
         errorType: 'COMBO_NO_ID',
@@ -249,11 +321,9 @@ describe('TreeGraph', () => {
     );
 
     graph.on('afterlayout', async () => {
-      await sleep(300);
-      await expect(canvas).toMatchCanvasSnapshot(
-        dir,
-        'data-validate-combo-no-id',
-      );
+      await expect(canvas).toMatchSVGSnapshot(dir, 'data-validate-combo-no-id');
+
+      graph.destroy();
       done();
     });
   });

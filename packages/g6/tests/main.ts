@@ -52,6 +52,8 @@ const render = async () => {
     backgroundCanvas: null,
     canvas: null,
     transientCanvas: null,
+    labelCanvas: null,
+    transientLabelCanvas: null,
     width: 500,
     height: 500,
   });

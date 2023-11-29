@@ -1,28 +1,28 @@
-import { resetEntityCounter } from '@antv/g';
 import anchor from '../demo/item/anchor';
 import { createContext } from './utils';
 import './utils/useSnapshotMatchers';
 
-describe('Anchor points and shapes', () => {
-  beforeEach(() => {
-    /**
-     * SVG Snapshot testing will generate a unique id for each element.
-     * Reset to 0 to keep snapshot consistent.
-     */
-    resetEntityCounter();
-  });
+const dir = `${__dirname}/snapshots/anchor`;
 
+describe('Anchor points and shapes', () => {
   it('edges link to node center with empty anchorPoints', (done) => {
-    const dir = `${__dirname}/snapshots/canvas`;
-    const { backgroundCanvas, canvas, transientCanvas, container } =
-      createContext('canvas', 500, 500);
+    const {
+      backgroundCanvas,
+      canvas,
+      container,
+      labelCanvas,
+      transientCanvas,
+      transientLabelCanvas,
+    } = createContext(500, 500);
 
     const graph = anchor(
       {
         container,
         backgroundCanvas,
         canvas,
+        labelCanvas,
         transientCanvas,
+        transientLabelCanvas,
         width: 500,
         height: 500,
       },
@@ -33,23 +33,31 @@ describe('Anchor points and shapes', () => {
     );
 
     graph.on('afterlayout', async () => {
-      await expect(canvas).toMatchCanvasSnapshot(dir, 'anchor-empty');
+      await expect(canvas).toMatchSVGSnapshot(dir, 'anchor-empty');
+
       graph.destroy();
       done();
     });
   });
 
   it('node with 4 anchorPoints and edge find the nearest one', (done) => {
-    const dir = `${__dirname}/snapshots/canvas`;
-    const { backgroundCanvas, canvas, transientCanvas, container } =
-      createContext('canvas', 500, 500);
+    const {
+      backgroundCanvas,
+      canvas,
+      container,
+      labelCanvas,
+      transientCanvas,
+      transientLabelCanvas,
+    } = createContext(500, 500);
 
     const graph = anchor(
       {
-        container,
         backgroundCanvas,
         canvas,
+        container,
+        labelCanvas,
         transientCanvas,
+        transientLabelCanvas,
         width: 500,
         height: 500,
       },
@@ -65,7 +73,7 @@ describe('Anchor points and shapes', () => {
     );
 
     graph.on('afterlayout', async () => {
-      await expect(canvas).toMatchCanvasSnapshot(dir, 'anchor-4-points');
+      await expect(canvas).toMatchSVGSnapshot(dir, 'anchor-4-points');
 
       // move node, edge find the nearset again
       graph.updateData('node', {
@@ -75,7 +83,8 @@ describe('Anchor points and shapes', () => {
           y: 100,
         },
       });
-      await expect(canvas).toMatchCanvasSnapshot(
+
+      await expect(canvas).toMatchSVGSnapshot(
         dir,
         'anchor-4-points-update-position',
       );
@@ -84,17 +93,25 @@ describe('Anchor points and shapes', () => {
       done();
     });
   });
+
   it('node with 4 anchorPoints and anchorShapes and edge find the nearest one', (done) => {
-    const dir = `${__dirname}/snapshots/canvas`;
-    const { backgroundCanvas, canvas, transientCanvas, container } =
-      createContext('canvas', 500, 500);
+    const {
+      backgroundCanvas,
+      canvas,
+      container,
+      labelCanvas,
+      transientCanvas,
+      transientLabelCanvas,
+    } = createContext(500, 500);
 
     const graph = anchor(
       {
-        container,
         backgroundCanvas,
         canvas,
+        container,
+        labelCanvas,
         transientCanvas,
+        transientLabelCanvas,
         width: 500,
         height: 500,
       },
@@ -110,7 +127,7 @@ describe('Anchor points and shapes', () => {
     );
 
     graph.on('afterlayout', async () => {
-      await expect(canvas).toMatchCanvasSnapshot(dir, 'anchor-4-shapes');
+      await expect(canvas).toMatchSVGSnapshot(dir, 'anchor-4-shapes');
 
       graph.updateData('edge', {
         id: 'edge1',

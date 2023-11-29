@@ -1,32 +1,31 @@
-import { resetEntityCounter } from '@antv/g';
 import ShortcutsCall from '../demo/behaviors/shortcuts-call';
-import { createContext, sleep } from './utils';
+import { createContext } from './utils';
 import './utils/useSnapshotMatchers';
 
+const dir = `${__dirname}/snapshots/behaviors`;
+
 describe('Shortcuts-call behavior', () => {
-  beforeEach(() => {
-    /**
-     * SVG Snapshot testing will generate a unique id for each element.
-     * Reset to 0 to keep snapshot consistent.
-     */
-    resetEntityCounter();
-  });
-
-  it('should be rendered correctly with default options in Canvas2D', (done) => {
-    const dir = `${__dirname}/snapshots/canvas`;
-    const { backgroundCanvas, canvas, transientCanvas, container } =
-      createContext('canvas', 500, 500);
-
-    const graph = ShortcutsCall({
-      container,
+  it('should be rendered correctly with default options', (done) => {
+    const {
       backgroundCanvas,
       canvas,
+      container,
+      labelCanvas,
       transientCanvas,
+      transientLabelCanvas,
+    } = createContext(500, 500);
+
+    const graph = ShortcutsCall({
+      backgroundCanvas,
+      canvas,
+      container,
+      labelCanvas,
+      transientCanvas,
+      transientLabelCanvas,
     });
 
     graph.on('afterlayout', async () => {
-      await sleep(300);
-      await expect(canvas).toMatchCanvasSnapshot(
+      await expect([canvas, labelCanvas]).toMatchSVGSnapshot(
         dir,
         'behaviors-shortcuts-call',
       );
@@ -38,7 +37,7 @@ describe('Shortcuts-call behavior', () => {
       graph.emit('keydown', {
         key: '1',
       });
-      await expect(canvas).toMatchCanvasSnapshot(
+      await expect([canvas, labelCanvas]).toMatchSVGSnapshot(
         dir,
         'behaviors-shortcuts-call-with-fitView',
       );
@@ -46,17 +45,25 @@ describe('Shortcuts-call behavior', () => {
       done();
     });
   });
-  it('should be rendered correctly with custom options in Canvas2D', (done) => {
-    const dir = `${__dirname}/snapshots/canvas`;
-    const { backgroundCanvas, canvas, transientCanvas, container } =
-      createContext('canvas', 500, 500);
+
+  it('should be rendered correctly with custom options', (done) => {
+    const {
+      backgroundCanvas,
+      canvas,
+      container,
+      labelCanvas,
+      transientCanvas,
+      transientLabelCanvas,
+    } = createContext(500, 500);
 
     const graph = ShortcutsCall(
       {
-        container,
         backgroundCanvas,
         canvas,
+        container,
+        labelCanvas,
         transientCanvas,
+        transientLabelCanvas,
       },
       {
         trigger: 'shift',
@@ -74,31 +81,10 @@ describe('Shortcuts-call behavior', () => {
       graph.emit('keydown', {
         key: 'm',
       });
-      await sleep(300);
-      await expect(canvas).toMatchCanvasSnapshot(
+      await expect([canvas, labelCanvas]).toMatchSVGSnapshot(
         dir,
         'behaviors-shortcuts-call-with-zoom',
       );
-      graph.destroy();
-      done();
-    });
-  });
-
-  it('should be rendered correctly with SVG', (done) => {
-    const dir = `${__dirname}/snapshots/svg`;
-    const { backgroundCanvas, canvas, transientCanvas, container } =
-      createContext('svg', 500, 500);
-
-    const graph = ShortcutsCall({
-      container,
-      backgroundCanvas,
-      canvas,
-      transientCanvas,
-    });
-
-    graph.on('afterlayout', async () => {
-      await sleep(300);
-      await expect(canvas).toMatchSVGSnapshot(dir, 'behaviors-shortcuts-call');
       graph.destroy();
       done();
     });

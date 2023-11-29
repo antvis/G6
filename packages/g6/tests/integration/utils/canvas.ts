@@ -1,20 +1,14 @@
-import { RendererName } from '../../../src/types/render';
 import { createNodeGCanvas } from './createNodeGCanvas';
 
-export function createContext(
-  rendererName: RendererName,
-  width: number,
-  height: number,
-) {
-  const backgroundCanvas = createNodeGCanvas(rendererName, width, height);
-  const canvas = createNodeGCanvas(rendererName, width, height);
-  const labelCanvas = createNodeGCanvas(rendererName, width, height);
-  const transientCanvas = createNodeGCanvas(rendererName, width, height);
-  const transientLabelCanvas = createNodeGCanvas(rendererName, width, height);
-
+export function createContext(width: number, height: number) {
   const container = document.createElement('div');
-  container.id = 'container';
   document.body.appendChild(container);
+
+  const backgroundCanvas = createNodeGCanvas(container, width, height);
+  const canvas = createNodeGCanvas(container, width, height);
+  const labelCanvas = createNodeGCanvas(container, width, height);
+  const transientCanvas = createNodeGCanvas(container, width, height);
+  const transientLabelCanvas = createNodeGCanvas(container, width, height);
 
   return {
     backgroundCanvas,

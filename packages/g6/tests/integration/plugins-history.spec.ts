@@ -1,33 +1,33 @@
-import { resetEntityCounter } from '@antv/g';
 import history from '../demo/plugins/history';
 import './utils/useSnapshotMatchers';
 import { createContext } from './utils';
 
+const dir = `${__dirname}/snapshots/plugins/history`;
+
 describe('Plugins history', () => {
-  beforeEach(() => {
-    /**
-     * SVG Snapshot testing will generate a unique id for each element.
-     * Reset to 0 to keep snapshot consistent.
-     */
-    resetEntityCounter();
-  });
-
-  it('should be rendered correctly with Canvas2D', (done) => {
-    const dir = `${__dirname}/snapshots/canvas/plugins/history`;
-    const { backgroundCanvas, canvas, transientCanvas, container } =
-      createContext('canvas', 500, 500);
-
-    const graph = history({
-      container,
+  it('should be rendered correctly', (done) => {
+    const {
       backgroundCanvas,
       canvas,
+      container,
+      labelCanvas,
       transientCanvas,
+      transientLabelCanvas,
+    } = createContext(500, 500);
+
+    const graph = history({
+      backgroundCanvas,
+      canvas,
+      container,
+      labelCanvas,
+      transientCanvas,
+      transientLabelCanvas,
       width: 500,
       height: 500,
     });
 
     graph.on('afterlayout', async () => {
-      await expect(canvas).toMatchCanvasSnapshot(dir, 'plugins-history-init');
+      await expect(canvas).toMatchSVGSnapshot(dir, 'plugins-history-init');
 
       const $undo = document.querySelectorAll('button')[0];
       const $redo = document.querySelectorAll('button')[1];
@@ -40,17 +40,17 @@ describe('Plugins history', () => {
         'button',
       )[2] as HTMLInputElement;
       $setState.click();
-      await expect(canvas).toMatchCanvasSnapshot(
+      await expect(canvas).toMatchSVGSnapshot(
         dir,
         'plugins-history-set-item-state',
       );
       $undo.click();
-      await expect(canvas).toMatchCanvasSnapshot(
+      await expect(canvas).toMatchSVGSnapshot(
         dir,
         'plugins-history-set-item-state-undo',
       );
       $redo.click();
-      await expect(canvas).toMatchCanvasSnapshot(
+      await expect(canvas).toMatchSVGSnapshot(
         dir,
         'plugins-history-set-item-state-redo',
       );
@@ -63,17 +63,17 @@ describe('Plugins history', () => {
         'button',
       )[3] as HTMLInputElement;
       $clearState.click();
-      await expect(canvas).toMatchCanvasSnapshot(
+      await expect(canvas).toMatchSVGSnapshot(
         dir,
         'plugins-history-clear-item-state',
       );
       $undo.click();
-      await expect(canvas).toMatchCanvasSnapshot(
+      await expect(canvas).toMatchSVGSnapshot(
         dir,
         'plugins-history-clear-item-state-undo',
       );
       $redo.click();
-      await expect(canvas).toMatchCanvasSnapshot(
+      await expect(canvas).toMatchSVGSnapshot(
         dir,
         'plugins-history-clear-item-state-redo',
       );
@@ -87,17 +87,14 @@ describe('Plugins history', () => {
         'button',
       )[4] as HTMLInputElement;
       $addData.click();
-      await expect(canvas).toMatchCanvasSnapshot(
-        dir,
-        'plugins-history-add-data',
-      );
+      await expect(canvas).toMatchSVGSnapshot(dir, 'plugins-history-add-data');
       $undo.click();
-      await expect(canvas).toMatchCanvasSnapshot(
+      await expect(canvas).toMatchSVGSnapshot(
         dir,
         'plugins-history-add-data-undo',
       );
       $redo.click();
-      await expect(canvas).toMatchCanvasSnapshot(
+      await expect(canvas).toMatchSVGSnapshot(
         dir,
         'plugins-history-add-data-redo',
       );
@@ -110,17 +107,17 @@ describe('Plugins history', () => {
         'button',
       )[5] as HTMLInputElement;
       $deleteData.click();
-      await expect(canvas).toMatchCanvasSnapshot(
+      await expect(canvas).toMatchSVGSnapshot(
         dir,
         'plugins-history-delete-data',
       );
       $undo.click();
-      await expect(canvas).toMatchCanvasSnapshot(
+      await expect(canvas).toMatchSVGSnapshot(
         dir,
         'plugins-history-delete-data-undo',
       );
       $redo.click();
-      await expect(canvas).toMatchCanvasSnapshot(
+      await expect(canvas).toMatchSVGSnapshot(
         dir,
         'plugins-history-delete-data-redo',
       );
@@ -134,17 +131,17 @@ describe('Plugins history', () => {
         'button',
       )[6] as HTMLInputElement;
       $updateData.click();
-      await expect(canvas).toMatchCanvasSnapshot(
+      await expect(canvas).toMatchSVGSnapshot(
         dir,
         'plugins-history-update-data',
       );
       $undo.click();
-      await expect(canvas).toMatchCanvasSnapshot(
+      await expect(canvas).toMatchSVGSnapshot(
         dir,
         'plugins-history-update-data-undo',
       );
       $redo.click();
-      await expect(canvas).toMatchCanvasSnapshot(
+      await expect(canvas).toMatchSVGSnapshot(
         dir,
         'plugins-history-update-data-redo',
       );
@@ -158,17 +155,14 @@ describe('Plugins history', () => {
         'button',
       )[7] as HTMLInputElement;
       $showHideItem.click();
-      await expect(canvas).toMatchCanvasSnapshot(
-        dir,
-        'plugins-history-hide-item',
-      );
+      await expect(canvas).toMatchSVGSnapshot(dir, 'plugins-history-hide-item');
       $undo.click();
-      await expect(canvas).toMatchCanvasSnapshot(
+      await expect(canvas).toMatchSVGSnapshot(
         dir,
         'plugins-history-hide-item-undo',
       );
       $redo.click();
-      await expect(canvas).toMatchCanvasSnapshot(
+      await expect(canvas).toMatchSVGSnapshot(
         dir,
         'plugins-history-hide-item-redo',
       );
@@ -178,17 +172,14 @@ describe('Plugins history', () => {
        * Verify that the API `showItem` supports history.
        */
       $showHideItem.click();
-      await expect(canvas).toMatchCanvasSnapshot(
-        dir,
-        'plugins-history-show-item',
-      );
+      await expect(canvas).toMatchSVGSnapshot(dir, 'plugins-history-show-item');
       $undo.click();
-      await expect(canvas).toMatchCanvasSnapshot(
+      await expect(canvas).toMatchSVGSnapshot(
         dir,
         'plugins-history-show-item-undo',
       );
       $redo.click();
-      await expect(canvas).toMatchCanvasSnapshot(
+      await expect(canvas).toMatchSVGSnapshot(
         dir,
         'plugins-history-show-item-redo',
       );
@@ -202,17 +193,14 @@ describe('Plugins history', () => {
       )[9] as HTMLInputElement;
       $updateData.click();
       $backItem.click();
-      await expect(canvas).toMatchCanvasSnapshot(
-        dir,
-        'plugins-history-back-item',
-      );
+      await expect(canvas).toMatchSVGSnapshot(dir, 'plugins-history-back-item');
       $undo.click();
-      await expect(canvas).toMatchCanvasSnapshot(
+      await expect(canvas).toMatchSVGSnapshot(
         dir,
         'plugins-history-back-item-undo',
       );
       $redo.click();
-      await expect(canvas).toMatchCanvasSnapshot(
+      await expect(canvas).toMatchSVGSnapshot(
         dir,
         'plugins-history-back-item-redo',
       );
@@ -225,17 +213,17 @@ describe('Plugins history', () => {
         'button',
       )[8] as HTMLInputElement;
       $frontItem.click();
-      await expect(canvas).toMatchCanvasSnapshot(
+      await expect(canvas).toMatchSVGSnapshot(
         dir,
         'plugins-history-front-item',
       );
       $undo.click();
-      await expect(canvas).toMatchCanvasSnapshot(
+      await expect(canvas).toMatchSVGSnapshot(
         dir,
         'plugins-history-front-item-undo',
       );
       $redo.click();
-      await expect(canvas).toMatchCanvasSnapshot(
+      await expect(canvas).toMatchSVGSnapshot(
         dir,
         'plugins-history-front-item-redo',
       );

@@ -15,7 +15,7 @@ export default (context: TestCaseContext, options = {}) => {
   };
 
   // ================= The DOMs for configurations =============== //
-  const graphDiv = document.getElementById('container');
+  const graphDiv = context.container!;
 
   const buttonContainer = document.createElement('div');
   buttonContainer.style.display = 'inline-block';
@@ -92,7 +92,7 @@ export default (context: TestCaseContext, options = {}) => {
   configScaleRBy.appendChild(scaleRByUnset);
   buttonContainer.appendChild(configScaleRBy);
 
-  graphDiv.parentNode.appendChild(buttonContainer);
+  graphDiv.parentNode!.appendChild(buttonContainer);
 
   // ========================================================= //
 

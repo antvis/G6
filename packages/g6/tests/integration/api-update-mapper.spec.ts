@@ -1,39 +1,39 @@
-import { resetEntityCounter } from '@antv/g';
 import mapper from '../demo/visual/mapper';
 import { createContext } from './utils';
 import './utils/useSnapshotMatchers';
 
+const dir = `${__dirname}/snapshots/api`;
+
 describe('updateMapper API', () => {
-  beforeEach(() => {
-    /**
-     * SVG Snapshot testing will generate a unique id for each element.
-     * Reset to 0 to keep snapshot consistent.
-     */
-    resetEntityCounter();
-  });
-
   it('node and edge mapper update', (done) => {
-    const dir = `${__dirname}/snapshots/canvas`;
-    const { backgroundCanvas, canvas, transientCanvas, container } =
-      createContext('canvas', 500, 500);
-
-    const graph = mapper({
-      container,
+    const {
       backgroundCanvas,
       canvas,
+      container,
+      labelCanvas,
       transientCanvas,
+      transientLabelCanvas,
+    } = createContext(500, 500);
+
+    const graph = mapper({
+      backgroundCanvas,
+      canvas,
+      container,
+      labelCanvas,
+      transientCanvas,
+      transientLabelCanvas,
       width: 500,
       height: 500,
     });
 
     graph.on('afterlayout', async () => {
-      await expect(canvas).toMatchCanvasSnapshot(dir, 'api-update-mapper-init');
+      await expect(canvas).toMatchSVGSnapshot(dir, 'api-update-mapper-init');
 
       const $updateNodeJson = document.getElementById(
         'change-node-json-mapper',
       );
       $updateNodeJson?.click();
-      await expect(canvas).toMatchCanvasSnapshot(
+      await expect(canvas).toMatchSVGSnapshot(
         dir,
         'api-update-mapper-node-json',
       );
@@ -42,7 +42,7 @@ describe('updateMapper API', () => {
         'change-node-func-mapper',
       );
       $updateNodeFunc?.click();
-      await expect(canvas).toMatchCanvasSnapshot(
+      await expect(canvas).toMatchSVGSnapshot(
         dir,
         'api-update-mapper-node-func',
       );
@@ -51,7 +51,7 @@ describe('updateMapper API', () => {
         'change-edge-json-mapper',
       );
       $updateEdgeJson?.click();
-      await expect(canvas).toMatchCanvasSnapshot(
+      await expect(canvas).toMatchSVGSnapshot(
         dir,
         'api-update-mapper-edge-json',
       );
@@ -60,7 +60,7 @@ describe('updateMapper API', () => {
         'change-edge-func-mapper',
       );
       $updateEdgeFunc?.click();
-      await expect(canvas).toMatchCanvasSnapshot(
+      await expect(canvas).toMatchSVGSnapshot(
         dir,
         'api-update-mapper-edge-func',
       );

@@ -1,29 +1,28 @@
-import { resetEntityCounter } from '@antv/g';
-import activateRelations from '../demo/behaviors/activate-relations';
-import './utils/useSnapshotMatchers';
 import hull from '../demo/plugins/hull';
-import { createContext, sleep, triggerEvent } from './utils';
+import { createContext } from './utils';
+import './utils/useSnapshotMatchers';
+
+const dir = `${__dirname}/snapshots/plugins/hull`;
 
 describe('Hull plugin', () => {
-  beforeEach(() => {
-    /**
-     * SVG Snapshot testing will generate a unique id for each element.
-     * Reset to 0 to keep snapshot consistent.
-     */
-    resetEntityCounter();
-  });
-
   it('should be rendered correctly with round-convex type', (done) => {
-    const dir = `${__dirname}/snapshots/canvas/plugins/hull`;
-    const { backgroundCanvas, canvas, transientCanvas, container } =
-      createContext('canvas', 500, 500);
+    const {
+      backgroundCanvas,
+      canvas,
+      container,
+      labelCanvas,
+      transientCanvas,
+      transientLabelCanvas,
+    } = createContext(500, 500);
 
     const graph = hull(
       {
-        container,
         backgroundCanvas,
         canvas,
+        container,
+        labelCanvas,
         transientCanvas,
+        transientLabelCanvas,
         width: 500,
         height: 500,
       },
@@ -35,7 +34,7 @@ describe('Hull plugin', () => {
     );
 
     graph.on('afterlayout', async () => {
-      await expect(transientCanvas).toMatchCanvasSnapshot(
+      await expect(transientCanvas).toMatchSVGSnapshot(
         dir,
         'plugins-hull-render',
       );
@@ -46,14 +45,14 @@ describe('Hull plugin', () => {
       ) as HTMLInputElement;
       console.log('$removeHull', $removeHull);
       $removeHull.click();
-      await expect(transientCanvas).toMatchCanvasSnapshot(
+      await expect(transientCanvas).toMatchSVGSnapshot(
         dir,
         'plugins-hull-add-hull',
       );
 
       // ========= add hull =========
       $removeHull.click();
-      await expect(transientCanvas).toMatchCanvasSnapshot(
+      await expect(transientCanvas).toMatchSVGSnapshot(
         dir,
         'plugins-hull-remove-hull',
       );
@@ -63,14 +62,14 @@ describe('Hull plugin', () => {
         'hull-removenode',
       ) as HTMLInputElement;
       $removeNode.click();
-      await expect(transientCanvas).toMatchCanvasSnapshot(
+      await expect(transientCanvas).toMatchSVGSnapshot(
         dir,
         'plugins-hull-remove-node',
       );
 
       // ========= add node =========
       $removeNode.click();
-      await expect(transientCanvas).toMatchCanvasSnapshot(
+      await expect(transientCanvas).toMatchSVGSnapshot(
         dir,
         'plugins-hull-add-node',
       );
@@ -80,14 +79,14 @@ describe('Hull plugin', () => {
         'hull-removemember',
       ) as HTMLInputElement;
       $removeMember.click();
-      await expect(transientCanvas).toMatchCanvasSnapshot(
+      await expect(transientCanvas).toMatchSVGSnapshot(
         dir,
         'plugins-hull-remove-member',
       );
 
       // ========= add member =========
       $removeMember.click();
-      await expect(transientCanvas).toMatchCanvasSnapshot(
+      await expect(transientCanvas).toMatchSVGSnapshot(
         dir,
         'plugins-hull-add-member',
       );
@@ -97,14 +96,14 @@ describe('Hull plugin', () => {
         'hull-removenonmember',
       ) as HTMLInputElement;
       $removeNonMember.click();
-      await expect(transientCanvas).toMatchCanvasSnapshot(
+      await expect(transientCanvas).toMatchSVGSnapshot(
         dir,
         'plugins-hull-add-nonmember',
       );
 
       // ========= remove non-member =========
       $removeNonMember.click();
-      await expect(transientCanvas).toMatchCanvasSnapshot(
+      await expect(transientCanvas).toMatchSVGSnapshot(
         dir,
         'plugins-hull-remove-nonmember',
       );
@@ -114,7 +113,7 @@ describe('Hull plugin', () => {
         'hull-updateconfig',
       ) as HTMLInputElement;
       $updateConfig.click();
-      await expect(transientCanvas).toMatchCanvasSnapshot(
+      await expect(transientCanvas).toMatchSVGSnapshot(
         dir,
         'plugins-hull-update-config',
       );
@@ -125,16 +124,23 @@ describe('Hull plugin', () => {
   });
 
   it('should be rendered correctly with bubble type', (done) => {
-    const dir = `${__dirname}/snapshots/canvas/plugins/hull`;
-    const { backgroundCanvas, canvas, transientCanvas, container } =
-      createContext('canvas', 500, 500);
+    const {
+      backgroundCanvas,
+      canvas,
+      container,
+      labelCanvas,
+      transientCanvas,
+      transientLabelCanvas,
+    } = createContext(500, 500);
 
     const graph = hull(
       {
-        container,
         backgroundCanvas,
         canvas,
+        container,
+        labelCanvas,
         transientCanvas,
+        transientLabelCanvas,
         width: 500,
         height: 500,
       },
@@ -146,7 +152,7 @@ describe('Hull plugin', () => {
     );
 
     graph.on('afterlayout', async () => {
-      await expect(transientCanvas).toMatchCanvasSnapshot(
+      await expect(transientCanvas).toMatchSVGSnapshot(
         dir,
         'plugins-hull-render-bubble',
       );
@@ -157,16 +163,23 @@ describe('Hull plugin', () => {
   });
 
   it('should be rendered correctly with  smooth-convex type', (done) => {
-    const dir = `${__dirname}/snapshots/canvas/plugins/hull`;
-    const { backgroundCanvas, canvas, transientCanvas, container } =
-      createContext('canvas', 500, 500);
+    const {
+      backgroundCanvas,
+      canvas,
+      container,
+      labelCanvas,
+      transientCanvas,
+      transientLabelCanvas,
+    } = createContext(500, 500);
 
     const graph = hull(
       {
-        container,
         backgroundCanvas,
         canvas,
+        container,
+        labelCanvas,
         transientCanvas,
+        transientLabelCanvas,
         width: 500,
         height: 500,
       },
@@ -177,35 +190,11 @@ describe('Hull plugin', () => {
     );
 
     graph.on('afterlayout', async () => {
-      await expect(transientCanvas).toMatchCanvasSnapshot(
+      await expect(transientCanvas).toMatchSVGSnapshot(
         dir,
         'plugins-hull-render-smooth-convex',
       );
 
-      graph.destroy();
-      done();
-    });
-  });
-
-  xit('should be rendered correctly with SVG', (done) => {
-    const dir = `${__dirname}/snapshots/svg/plugins/hull`;
-    const { backgroundCanvas, canvas, transientCanvas, container } =
-      createContext('svg', 500, 500);
-
-    const graph = activateRelations({
-      container,
-      backgroundCanvas,
-      canvas,
-      transientCanvas,
-      width: 500,
-      height: 500,
-    });
-
-    graph.on('afterlayout', async () => {
-      await expect(canvas).toMatchSVGSnapshot(
-        dir,
-        'behaviors-activate-relations',
-      );
       graph.destroy();
       done();
     });

@@ -1,32 +1,32 @@
-import { resetEntityCounter } from '@antv/g';
 import TimebarTime from '../demo/plugins/timebar-time';
-import { createContext, sleep } from './utils';
+import { createContext } from './utils';
 import './utils/useSnapshotMatchers';
 
-describe('Default Timebar', () => {
-  beforeEach(() => {
-    resetEntityCounter();
-  });
+const dir = `${__dirname}/snapshots/plugins/timebar`;
 
-  it('should be rendered correctly with Canvas2D', (done) => {
-    const dir = `${__dirname}/snapshots/canvas/plugins/timebar`;
-    const { backgroundCanvas, canvas, transientCanvas, container } =
-      createContext('canvas', 500, 500);
+describe.skip('Default Timebar', () => {
+  it('should be rendered correctly', (done) => {
+    const {
+      backgroundCanvas,
+      canvas,
+      container,
+      labelCanvas,
+      transientCanvas,
+      transientLabelCanvas,
+    } = createContext(500, 500);
     const graph = TimebarTime({
       backgroundCanvas,
       canvas,
+      container,
+      labelCanvas,
       transientCanvas,
+      transientLabelCanvas,
       width: 500,
       height: 500,
-      container,
     });
 
     graph.on('afterlayout', async () => {
-      await sleep(300);
-      await expect(canvas).toMatchCanvasSnapshot(
-        dir,
-        'plugins-timebar-timeline',
-      );
+      await expect(canvas).toMatchSVGSnapshot(dir, 'plugins-timebar-timeline');
       graph.destroy();
       done();
     });

@@ -1,5 +1,4 @@
-import { JSDOM } from 'jsdom';
-import Graph from '../../../src/runtime/graph';
+import { Graph } from '../../../src/runtime/graph';
 
 export function triggerEvent(
   graph: Graph<any, any>,
@@ -7,12 +6,11 @@ export function triggerEvent(
   clientX: number,
   clientY: number,
 ) {
-  const dom = new JSDOM();
   // TODO: TouchEvent
   // const isMouseEvent = type.startsWith('mouse');
   // const isTouchEvent = type.startsWith('touch');
 
-  const event = new dom.window.MouseEvent(type, {
+  const event = new document.defaultView!.MouseEvent(type, {
     clientX,
     clientY,
   });
