@@ -1,3 +1,3 @@
 :::info
-The following content is the sub-attribute of `data` 
+The following content is the sub-properties of `data` 
 :::

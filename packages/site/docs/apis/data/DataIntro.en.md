@@ -1,5 +1,5 @@
 ---
-title: Data Intro
+title: Data Introduction
 order: 0
 ---
 

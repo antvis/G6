@@ -2,7 +2,7 @@
 
 **Type**: `Badge[]`
 
-<embed src="./Badge.zh.md"></embed>
+<embed src="./DataBadge.zh.md"></embed>
 
 The configuration of the badges around the node
 

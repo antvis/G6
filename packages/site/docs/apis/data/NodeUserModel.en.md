@@ -5,20 +5,16 @@ order: 3
 
 The `nodes` part of the user input data.
 
-An example of a data item:
+An example of a data items:
 
 ```json
-{
-  "id": "node-1",
-  "data": {}
-}
+[
+  { "id": "node-1", "data": {} },
+  { "id": "node-2", "data": {} }
+]
 ```
 
-## id <Badge type="error">Required</Badge>
-
-The unique ID of the node. Once the node is created, the ID cannot be changed.
-
-**Type**: `string | number`;
+<embed src="../../common/DataID.en.md"></embed>
 
 ## data <Badge type="error">Required</Badge>
 

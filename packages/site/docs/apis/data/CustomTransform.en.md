@@ -1,6 +1,6 @@
 ---
 title: Custom Data Processor
-order: 13
+order: 12
 ---
 
 > Before proceeding with a custom data processor, please ensure you are familiar with the G6 data flow and structure. Related content can be found in the [Data Introduction Document](./DataIntro.en.md).

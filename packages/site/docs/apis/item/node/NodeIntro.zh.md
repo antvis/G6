@@ -3,6 +3,30 @@ title: 概述
 order: 0
 ---
 
+## 节点构成
+
+在 G6 中，节点通常由 `keyShape`、`haloShape`、`labelShape`、`labelBackgroundShape`、`iconShape`、`anchorShapes` 和 `otherShapes` 组成。
+
+- `keyShape`：节点的主图形，通常用于表示节点的主要形状，也用于计算边的连入位置。
+
+- `haloShape`：节点在 `active`（如**hover**状态）和 `selected`（如**选中**状态） 状态下，主图形 (`keyShape`) 周围展示的光晕效果的图形。
+
+- `labelShape`：节点的文本标签图形，通常用于展示节点的名称或描述。
+
+- `labelBackgroundShape`：节点的文本标签背景图形，通常用于为文本标签提供背景色。
+
+- `iconShape`：节点的图标图形，通常用于展示节点的图标。
+
+- `badgeShapes`：节点的徽标图形，通常用于展示节点的徽标。
+
+- `anchorShapes`：节点四周的边连入位置圆形图形（连接桩），anchorShapes 配置的是多个连接桩。[节点连接桩 DEMO](/zh/examples/item/defaultNodes/#circle)
+
+- `otherShapes`：节点的其他图形，通常用于展示节点的其他信息或状态。
+
+下面以圆形节点为例，其主图形是一个[圆形](/apis/shape/circle-style-props)：
+
+<img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*gwAhTJf__wMAAAAAAAAAAAAADmJ7AQ/original" alt="node sketch" width="400" />
+
 ## 节点的注册和使用
 
 本目录列举了 G6 内置的所有节点。G6 5.0 为了减少包体积，仅默认注册了 `circle-node` 和 `rect-node`。**因此，在使用这些内置节点之前，您也需要将其注册到 G6 中**。同样的，自定义节点也应当如下注册：

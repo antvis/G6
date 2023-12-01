@@ -86,7 +86,7 @@ The related shape style can be referred to as RectStyleProps [`RectStyleProps`](
 
 </details>
 
-**Default**: undefined
+**Default**: `undefined`
 
 The background shape of the text in the Combo, which is a rectangle. If not set, it will not be displayed. Setting it as `{}` will use the default style in the theme to display the text background shape.
 
@@ -106,7 +106,7 @@ type HaloShapeStyle = ShapeStyle;
 
 </details>
 
-**Default**: undefined
+**Default**: `undefined`
 
 In the built-in Combo and themes, `haloShape` refers to the halo effect displayed around the key shape (`keyShape`) of the Combo in the `active` state (usually triggered when the mouse hovers) and `selected` state (usually triggered when selected). In the logic of the built-in Combo, the type and color of the `haloShape` follow the key shape (`keyShape`).
 
@@ -169,7 +169,7 @@ type BadgeShapesStyle = {
 
 </details>
 
-**Default**: undefined
+**Default**: `undefined`
 
 The badges on the four sides of the Combo, where a single badge includes the Combo and background shape. `badgeShapes` configures multiple badges.
 
@@ -202,7 +202,7 @@ The style of the anchor shapes can be referred to as [CircleStyleProps](../shape
 
 </details>
 
-**Default**: undefined
+**Default**: `undefined`
 
 The circular shapes (anchor shapes) at the four sides of the Combo represent the entry points for connections. The anchorShapes configuration specifies multiple anchor shapes.
 
@@ -228,6 +228,6 @@ The style configurations for different shapes can be referred to in the correspo
 
 </details>
 
-**Default**: undefined
+**Default**: `undefined`
 
 The xxShape(s) mentioned above are the predefined shapes in the G6 Combo specification. Other custom shapes in the Combo should be defined and configured in `otherShapes`.

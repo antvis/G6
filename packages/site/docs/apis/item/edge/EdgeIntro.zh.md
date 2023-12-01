@@ -3,6 +3,24 @@ title: 概述
 order: 0
 ---
 
+## 边构成
+
+在 G6 中，边通常由 `keyShape`、`labelShape`、`labelBackgroundShape`、`iconShape`、`otherShapes` 构成。
+
+- `keyShape`：边的主图形，通常用于表示边的主要形状，同时也用于计算边的入射位置。
+
+- `labelShape`：边的文本标签形状，通常用于展示边的名称或描述。
+
+- `labelBackgroundShape`：边的文本标签背景形状，通常用于为文本标签提供背景色。
+
+- `iconShape`：边的图标形状，通常用于展示边的图标。
+
+- `otherShapes`：边的其他形状，通常用于展示边的其他信息或状态。
+
+以折线边为例，其主图形为一个[折线](/apis/shape/polyline-style-props)：
+
+<img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*K4cPQLZ-86gAAAAAAAAAAAAADmJ7AQ/original" alt="node sketch" width="400" />
+
 ## 边的注册和使用
 
 本目录列举了 G6 内置的所有边。G6 5.0 为了减少包体积，仅默认注册了 `line-edge` 和 `loop-edge`。**因此，在使用这些内置节点之前，您也需要将其注册到 G6 中**。同样的，自定义节点也应当如下注册：
@@ -24,10 +42,10 @@ const graph = new Graph({
    * ...其他配置项
    */
   edge: {
-    type: 'cubic-edge'
+    type: 'cubic-edge',
     /**
      * type 与注册时命名的 key 一致
-     */,
+     */
     /**
      * ... 边的其他配置项详见具体边配置
      */

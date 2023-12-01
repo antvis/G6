@@ -22,7 +22,7 @@ Where the relevant graphic styles refer to [`TextStyleProps` Text Shape Style](.
 
 </details>
 
-**Default**: undefined
+**Default**: `undefined`
 
 The icon graphic at the center of the node (except for the built-in node type `'modelRect-node'`, which is supported by other built-in nodes and custom nodes that inherit from them without overriding the relevant content). It can be an image or text, with text supporting iconfont (assign `fontFamily: 'iconfont'`).
 
@@ -38,7 +38,7 @@ The graphic type of `haloShape` follows the main graphic (`keyShape`). The graph
 
 </details>
 
-**Default**: undefined
+**Default**: `undefined`
 
 In built-in nodes and themes, `haloShape` refers to the halo effect graphic displayed around the main graphic (keyShape) of a node when it is in the `active` state (usually triggered when the mouse hovers) or `selected` state (usually triggered when it is selected). In the logic of built-in nodes, the graphic type and color of `haloShape` follow the main graphic (`keyShape`).
 
@@ -122,7 +122,7 @@ The related rectangle style type can be referred to in [`RectStyleProps`](../sha
 
 </details>
 
-**Default**: undefined
+**Default**: `undefined`
 
 The background shape of the text of the node.
 
@@ -190,7 +190,7 @@ Graphic Style Reference refer to [Rect](../shape/RectStyleProps.en.md).
 
 </details>
 
-**Default**: undefined
+**Default**: `undefined`
 
 The badges around the node. A single badge includes text and background shape. The badgeShapes configuration is for multiple badges. [Node Badge Example](/en/examples/item/defaultNodes/#circle).
 
@@ -220,7 +220,7 @@ The related circle style can be referred to in [`CircleStyleProps`](../shape/Cir
 
 </details>
 
-**Default**: undefined
+**Default**: `undefined`
 
 The circular shapes (anchor shapes) of the edges entering each side of the node. The anchorShapes configuration is for multiple anchor shapes. [Node Anchor Example](/en/examples/item/defaultNodes/#circle).
 
@@ -244,6 +244,6 @@ The different shape styles can be referred to in the corresponding shape type do
 
 </details>
 
-**Default**: undefined
+**Default**: `undefined`
 
 All the xxShape(s) above are the possible shapes that exist in the G6 defined standard node. Other shapes in custom nodes should be defined and configured in `otherShapes`.

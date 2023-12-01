@@ -40,7 +40,7 @@ The main color of the primary shape (keyShape) of the node, expressed as a hexad
 
 The text content of the label shape of the node. This is provided for simple configuration. More style configurations should be done in the node mapper of the graph instance, where the text value of the labelShape or other shape styles are configured.
 
-<embed src="./Badges.en.md"></embed>
+<embed src="./DataBadges.en.md"></embed>
 
 <embed src="./DataIcon.en.md"></embed>
 

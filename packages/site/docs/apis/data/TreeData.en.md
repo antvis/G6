@@ -37,11 +37,7 @@ G6 5.0 can read `TreeData`, `TreeData[]`, that is, **tree** and **forest**.
 
 ## Properties
 
-### id <Badge type="error">Required</Badge>
-
-**Type**: `string | number`;
-
-The unique ID of the node. After the node is created, the ID cannot be modified.
+<embed src="../../common/DataID.en.md"></embed>
 
 ### data <Badge type="error">Required</Badge>
 
@@ -51,6 +47,6 @@ The data of the node
 
 ### children
 
-**Type**: `TreeData`;
+**Type**: `TreeData`
 
 The array of child nodes of the current node

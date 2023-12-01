@@ -7,11 +7,11 @@
 type Badge = {
   position: BadgePosition;
   type: 'text' | 'icon';
-  img?: string; // type 为 'text' 时需要提供
-  text?: string; // type 为 'icon' 时需要提供
+  img?: string; // required when type is 'text'
+  text?: string; // required when type is 'icon'
 };
 ```
 
-<embed src="./BadgePosition.zh.md"></embed>
+<embed src="./DataBadgePosition.zh.md"></embed>
 
 </details>

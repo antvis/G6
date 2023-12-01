@@ -37,11 +37,7 @@ G6 5.0 可以读取 `TreeData`、`TreeData[]`，即**树**和**森林**。
 
 ## 属性
 
-### id <Badge type="error">必须</Badge>
-
-**类型**：`string | number`
-
-节点的唯一 ID。节点创建后，ID 不可修改
+<embed src="../../common/DataID.zh.md"></embed>
 
 ### data <Badge type="error">必须</Badge>
 

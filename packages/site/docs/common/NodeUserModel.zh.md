@@ -40,7 +40,7 @@
 
 节点 labelShape 的文本内容。为方便简单配置而提供，更多的样式配置应当在 Graph 实例的节点 mapper 中配置 labelShape 的 text 值或其他图形样式。
 
-<embed src="./Badges.zh.md"></embed>
+<embed src="./DataBadges.zh.md"></embed>
 
 <embed src="./DataIcon.zh.md"></embed>
 

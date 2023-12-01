@@ -2,7 +2,7 @@
 
 **类型**：`Badge[]`
 
-<embed src="./Badge.zh.md"></embed>
+<embed src="./DataBadge.zh.md"></embed>
 
 节点四周的徽标配置
 

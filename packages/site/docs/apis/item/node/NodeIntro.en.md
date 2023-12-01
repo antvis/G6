@@ -3,6 +3,30 @@ title: Overview
 order: 0
 ---
 
+## Composition of Node
+
+In G6, a node is usually composed of `keyShape`, `haloShape`, `labelShape`, `labelBackgroundShape`, `iconShape`, `anchorShapes` and `otherShapes`.
+
+- `keyShape`: The main shape of the node, usually used to represent the main shape of the node, and also used to calculate the incoming position of the edge.
+
+- `haloShape`: The halo effect of the main shape (`keyShape`) of the node when the node is in `active` (such as **hover** state) and `selected` (such as **selected** state).
+
+- `labelShape`: The text label shape of the node, usually used to display the name or description of the node.
+
+- `labelBackgroundShape`: The text label background shape of the node, usually used to provide a background color for the text label.
+
+- `iconShape`: The icon shape of the node, usually used to display the icon of the node.
+
+- `badgeShapes`: The badge shape of the node, usually used to display the badge of the node.
+
+- `anchorShapes`: The circular shape (anchor) of the edge incoming position around the node, anchorShapes configures multiple anchors. [Node Anchor DEMO](/examples/item/defaultNodes/#circle)
+
+- `otherShapes`: Other shapes of the node, usually used to display other information or status of the node.
+
+Taking the circular node as an example, its key shape is a [circle](/en/apis/shape/circle-style-props):
+
+<img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*gwAhTJf__wMAAAAAAAAAAAAADmJ7AQ/original" alt="node sketch" width="400" />
+
 ## Registration and Usage of Nodes
 
 This directory lists all built-in nodes in G6. To reduce package size, G6 version 5.0 only registers `circle-node` and `rect-node` by default. **Therefore, before using these built-in nodes, you need to register them in G6 as well.** Similarly, custom nodes should be registered as follows:

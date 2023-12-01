@@ -27,7 +27,7 @@ type BadgeShapes = {
 };
 ```
 
-<embed src="./BadgePosition.zh.md"></embed>
+<embed src="./DataBadgePosition.zh.md"></embed>
 
 </details>
 

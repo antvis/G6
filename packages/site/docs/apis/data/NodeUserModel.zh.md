@@ -5,20 +5,16 @@ order: 3
 
 用户输入数据中的 `nodes` 部分内容。
 
-下面是一个数据项实例：
+下面是数据实例：
 
 ```json
-{
-  "id": "node-1",
-  "data": {}
-}
+[
+  { "id": "node-1", "data": {} },
+  { "id": "node-2", "data": {} }
+]
 ```
 
-## id <Badge type="error">必须</Badge>
-
-节点的唯一 ID，节点创建后，ID 不可被修改。
-
-**类型**：`string | number`
+<embed src="../../common/DataID.zh.md"></embed>
 
 ## data <Badge type="error">必须</Badge>
 

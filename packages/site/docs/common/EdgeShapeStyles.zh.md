@@ -28,7 +28,7 @@ type IconShapeStyle = Partial<
 
 </details>
 
-**默认值**：undefined
+**默认值**：`undefined`
 
 边的图标图形，位于文本前方。
 
@@ -44,7 +44,7 @@ type IconShapeStyle = Partial<
 
 </details>
 
-**默认值**：undefined
+**默认值**：`undefined`
 
 在内置的边和主题中，`haloShape` 指的是边在 `active`（一般在鼠标 hover 时该状态被触发） 和 `selected`（一般在选中状态下该状态被触发） 状态下，主图形 (`keyShape`) 周围展示的光晕效果的图形。在内置边的逻辑中，`haloShape` 的图形类型、颜色跟随主图形 (`keyShape`)。
 
@@ -131,7 +131,7 @@ type LabelShapeStyle = RectStyleProps & {
 
 </details>
 
-**默认值**：undefined
+**默认值**：`undefined`
 
 边的文本的背景图形，是一个矩形。若不设置则不显示。设置为 `{}` 将使用主题中默认的样式显示文本背景图形。
 
@@ -159,6 +159,6 @@ type OtherShapesStyle = {
 
 </details>
 
-**默认值**：undefined
+**默认值**：`undefined`
 
 上面所有的 xxShape(s) 均为 G6 定义的规范边中可能存在的图形。自定义边中的其他图形应当定义和配置在 `otherShapes` 中。
