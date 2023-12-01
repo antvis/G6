@@ -3,21 +3,43 @@ title: GraphData
 order: 1
 ---
 
-This chapter is type of `GraphData`, which is one of the input data type for graph instance. In the same time, v5's graph also accept the [TreeGraph](./TreeData.zh.md) type data.
+Graph data (GraphData) is one of the data types received by Graph, which contains a collection of nodes, edges, and combos.
+
+An example of a graph data is as follows:
+
+```json
+{
+  "nodes": [
+    { "id": "node-1", "data": { "parentId": "combo-1" } },
+    { "id": "node-2", "data": { "parentId": "combo-1" } }
+  ],
+  "edges": [{ "id": "edge-1", "source": "node-1", "target": "node-2" }],
+  "combos": [{ "id": "combo-1", "data": {} }]
+}
+```
 
 ## Properties
 
-### nodes
+### nodes <Badge type="error">Required</Badge>
 
-- Required: Yes;
-- Type: [`NodeUserModel`](./NodeUserModel.en.md)[];
+**Type**: `NodeUserModel[]`
 
-### edges
+- [NodeUserModel](./NodeUserModel.en.md)
 
-- Required: Yes;
-- Type: [`EdgeUserModel`](./EdgeUserModel.en.md)[];
+Nodes collection
+
+### edges <Badge type="error">Required</Badge>
+
+**Type**: `EdgeUserModel`
+
+- [EdgeUserModel](./EdgeUserModel.en.md)
+
+Edges collection
 
 ### combos
 
-- Required: False;
-- Type: [`ComboUserModel`](./ComboUserModel.en.md)[];
+**Type**: `ComboUserModel`
+
+- [ComboUserModel](./ComboUserModel.en.md)
+
+Combos collection

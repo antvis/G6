@@ -105,7 +105,7 @@ type IconShapeStyle = Partial<
 
 </details>
 
-**默认值**：undefined
+**默认值**：`undefined`
 
 节点中心的图标图形（除 `'modelRect-node'` 以外的内置节点支持，继承这些内置节点的自定义节点在无复写相关内容的情况下同样支持），可以是图片或文本，文本支持 iconfont (设置 `fontFamily: 'iconfont'`)。
 
@@ -125,7 +125,7 @@ type HaloShapeStyle = ShapeStyle;
 
 </details>
 
-**默认值**：undefined
+**默认值**：`undefined`
 
 在内置的节点和主题中，`haloShape` 指的是节点在 `active`（一般在鼠标 hover 时该状态被触发） 和 `selected`（一般在选中状态下该状态被触发） 状态下，主图形 (`keyShape`) 周围展示的光晕效果的图形。在内置节点的逻辑中，`haloShape` 的图形类型、颜色跟随主图形 (`keyShape`)。
 

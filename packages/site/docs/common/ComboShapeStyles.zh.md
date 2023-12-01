@@ -17,10 +17,10 @@ type LabelShapeStyle = TextStyleProps & {
     | 'left'
     | 'right'
     | 'left-top'
-    | 'ouside-top'
-    | 'ouside-left'
-    | 'ouside-right'
-    | 'ouside-bottom';
+    | 'outside-top'
+    | 'outside-left'
+    | 'outside-right'
+    | 'outside-bottom';
   /**
    * 文本图形相对于主图形 (keyShape) 在 x 方向上的偏移量
    */
@@ -82,7 +82,7 @@ type LabelBackgroundShapeStyle = ShapeStyle & {
 
 </details>
 
-**默认值**：undefined
+**默认值**：`undefined`
 
 Combo 的文本的背景图形，是一个矩形。若不设置则不显示。设置为 `{}` 将使用主题中默认的样式显示文本背景图形。
 
@@ -102,7 +102,7 @@ type HaloShapeStyle = ShapeStyle;
 
 </details>
 
-**默认值**：undefined
+**默认值**：`undefined`
 
 在内置的 Combo 和主题中，`haloShape` 指的是 Combo 在 `active`（一般在鼠标 hover 时该状态被触发） 和 `selected`（一般在选中状态下该状态被触发） 状态下，主图形 (`keyShape`) 周围展示的光晕效果的图形。在内置 Combo 的逻辑中，`haloShape` 的图形类型、颜色跟随主图形 (`keyShape`)。
 
@@ -167,7 +167,7 @@ type BadgeShapesStyle = {
 
 </details>
 
-**默认值**：undefined
+**默认值**：`undefined`
 
 Combo 四周的徽标，单个徽标包括了 Combo 和背景图形，badgeShapes 配置的是多个徽标。
 
@@ -200,7 +200,7 @@ type AnchorShapesStyle = StyleProps & {
 
 </details>
 
-**默认值**：undefined
+**默认值**：`undefined`
 
 Combo 四周的边连入位置圆形图形（连接桩），anchorShapes 配置的是多个连接桩。
 
@@ -224,6 +224,6 @@ type OtherShapeStyle = {
 
 </details>
 
-**默认值**：undefined
+**默认值**：`undefined`
 
 上面所有的 xxShape(s) 均为 G6 定义的规范 Combo 中可能存在的图形。自定义 Combo 中的其他图形应当定义和配置在 `otherShapes` 中。

@@ -160,26 +160,33 @@ export default defineConfig({
         order: 2,
       },
       {
+        slug: 'apis/item',
+        title: {
+          zh: '元素',
+          en: 'Elements',
+        },
+      },
+      {
         slug: 'apis/item/node',
         title: {
-          zh: '元素 - 节点',
-          en: 'Item - Node',
+          zh: '节点',
+          en: 'Node',
         },
         order: 3,
       },
       {
         slug: 'apis/item/edge',
         title: {
-          zh: '元素 - 边',
-          en: 'Item - Edge',
+          zh: '边',
+          en: 'Edge',
         },
         order: 4,
       },
       {
         slug: 'apis/item/combo',
         title: {
-          zh: '元素 - Combo',
-          en: 'Item - Combo',
+          zh: 'Combo',
+          en: 'Combo',
         },
         order: 5,
       },

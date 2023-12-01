@@ -22,7 +22,7 @@ Where the relevant graphic styles refer to [`TextStyleProps` Text Shape Style](.
 
 </details>
 
-**Default**: undefined
+**Default**: `undefined`
 
 The icon shape of the edge (built-in edge support, custom edges that inherit these built-in edges also support it without overriding the relevant content). It is located in front of the text. It can be an image or text, and text supports iconfont.
 
@@ -38,7 +38,7 @@ The icon shape of the edge (built-in edge support, custom edges that inherit the
 
 </details>
 
-**Default**: undefined
+**Default**: `undefined`
 
 In built-in edges and themes, haloShape refers to the halo effect graphic displayed around the main graphic (keyShape) of the edge in active (usually triggered when the mouse hovers) and selected (usually triggered in the selected state) states. In the logic of built-in edges, the graphic type and color of haloShape follow the main graphic (keyShape).
 
@@ -127,7 +127,7 @@ The related rectangle style type can be referred to in [`RectStyleProps`](../sha
 
 </details>
 
-**Default**: undefined
+**Default**: `undefined`
 
 ## otherShapes
 
@@ -155,4 +155,4 @@ The different shape styles can be referred to in the corresponding shape type do
 
 </details>
 
-**Default**: undefined
+**Default**: `undefined`
