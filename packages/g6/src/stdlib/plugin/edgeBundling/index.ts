@@ -29,6 +29,8 @@ interface BundlingConfig extends IPluginBaseConfig {
   bundleThreshold?: number;
   /** Tolerance value for euclidean distance between polyline bend points */
   eps?: number;
+  /** A callback executed when each iteration of the edge binding algorithm completes */
+  onTick?: () => void;
 }
 
 interface VectorPosition {
@@ -198,6 +200,12 @@ export class EdgeBundling extends Base {
     const graph = self.graph;
 
     graph.updateData('edge', edges);
+
+    const onTick = this.getOptionByKey('onTick');
+
+    if (onTick) {
+      onTick();
+    }
   }
 
   public updateBundling(cfg: BundlingConfig) {
