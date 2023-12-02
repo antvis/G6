@@ -342,12 +342,7 @@ fetch('https://gw.alipayobjects.com/os/basement_prod/d676014a-0a11-4ea9-9af4-403
       });
     });
 
-    if (typeof window !== 'undefined')
-      window.onresize = () => {
-        if (!graph || graph.get('destroyed')) return;
-        if (!container || !container.scrollWidth || !container.scrollHeight) return;
-        graph.changeSize(container.scrollWidth, container.scrollHeight);
-      };
+window.graph = graph;
   });
 
 const legendContainer = document.createElement('div');

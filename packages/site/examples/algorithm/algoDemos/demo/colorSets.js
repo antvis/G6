@@ -20,12 +20,7 @@ const subjectColors = [
 const backColor = '#fff';
 const theme = 'default';
 const disableColor = '#777';
-const colorSets = G6.Util.getColorSetsBySubjectColors(
-  subjectColors,
-  backColor,
-  theme,
-  disableColor,
-);
+const colorSets = G6.Util.getColorSetsBySubjectColors(subjectColors, backColor, theme, disableColor);
 
 const data = { nodes: [] };
 
@@ -66,11 +61,6 @@ subjectColors.forEach((color, i) => {
     },
   });
 });
-
-// data.nodes.push({
-//   id: `node-custom`,
-//   label: `customColor`
-// })
 
 const container = document.getElementById('container');
 const width = container.scrollWidth;

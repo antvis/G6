@@ -255,9 +255,4 @@ graph.on('node:pointerleave', (event) => {
   resetTextEllipsis();
 });
 
-if (typeof window !== 'undefined')
-  window.onresize = () => {
-    if (!graph || graph.destroyed) return;
-    if (!container || !container.scrollWidth || !container.scrollHeight) return;
-    graph.setSize([container.scrollWidth, container.scrollHeight]);
-  };
+window.graph = graph;

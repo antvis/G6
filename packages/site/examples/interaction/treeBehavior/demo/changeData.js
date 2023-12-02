@@ -171,10 +171,4 @@ tip.innerHTML = 'Click on the leaf node to dynamically add multiple pieces of da
 tip.style.position = 'absolute';
 container.appendChild(tip);
 
-if (typeof window !== 'undefined')
-  window.onresize = () => {
-    if (!graph || graph.destroyed) return;
-    if (!container || !container.scrollWidth || !container.scrollHeight) return;
-    graph.setSize([container.scrollWidth, container.scrollHeight]);
-  };
-// });
+window.graph = graph;// });

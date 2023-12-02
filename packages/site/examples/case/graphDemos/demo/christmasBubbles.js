@@ -673,9 +673,4 @@ graph.on('canvas:click', () => {
   }
 });
 
-if (typeof window !== 'undefined')
-  window.onresize = () => {
-    if (!graph || graph.get('destroyed')) return;
-    if (!container || !container.scrollWidth || !container.scrollHeight) return;
-    graph.changeSize(container.scrollWidth, container.scrollHeight);
-  };
+window.graph = graph;
