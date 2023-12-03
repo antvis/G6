@@ -1,9 +1,5 @@
 import G6 from '@antv/g6';
-
-// 实际开发中把 window.AntVUtil 换成从 @antv/util 引入的相关模块
-// replace window.AntVUtil.isObject with
-// import { isObject } from '@antv/util';
-const isObject = window.AntVUtil.isObject;
+import { isObject } from '@antv/util';
 
 /**
  * Fund Transfer Demo

@@ -1,10 +1,5 @@
 import { Graph, Extensions, extend } from '@antv/g6';
-
-// 实际开发中把 window.MapViewPlugin 换成从 @antv/g6-plugin-map-view 引入的相关模块
-// replace window.MapViewPlugin with
-// import { MapView } from '@antv/g6-plugin-map-view';
-
-const { MapView } = window.MapViewPlugin;
+import { MapView } from '@antv/g6-plugin-map-view';
 
 const ExtGraph = extend(Graph, {
   plugins: {

@@ -1,10 +1,6 @@
 import G6 from '@antv/g6';
 import insertCss from 'insert-css';
-
-// 实际开发中把 window.AntVUtil 换成从 @antv/util 引入的相关模块
-// replace window.AntVUtil.isObject with
-// import { isNumber, isArray } from '@antv/util';
-const { isNumber, isArray } = window.AntVUtil;
+import { isNumber, isArray } from '@antv/util';
 
 insertCss(`
   .g6-component-contextmenu {

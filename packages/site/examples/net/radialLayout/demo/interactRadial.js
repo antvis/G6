@@ -1,10 +1,7 @@
 // TODO: skip this demo sincle sub layout is wrong for this demo
 
 import { Graph, Extensions, extend } from '@antv/g6';
-// import by this way in your project. 在您的项目中请这样引入
-// import { Graph as GraphCore } from '@antv/graphlib';
-
-const { Graph: GraphCore } = window.GraphLib;
+import { Graph as GraphCore } from '@antv/graphlib';
 
 const ExtGraph = extend(Graph, {
   layouts: {

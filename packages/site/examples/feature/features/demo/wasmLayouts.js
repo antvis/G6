@@ -1,9 +1,7 @@
 import { Graph, Extensions, extend } from '@antv/g6';
-// import by this way in your project. 在您的项目中请这样引入
-// import { supportsThreads, initThreads, ForceLayout, FruchtermanLayout, ForceAtlas2Layout } from '@antv/layout-wasm';
+import { supportsThreads, initThreads, ForceLayout, FruchtermanLayout, ForceAtlas2Layout } from '@antv/layout-wasm';
 
-const { supportsThreads, initThreads, ForceLayout, FruchtermanLayout, ForceAtlas2Layout } = window.layoutWASM; // WASM layout is not built-in G6 stbLib, you need to exend G6 with it.
-
+// WASM layout is not built-in G6 stbLib, you need to extend G6 with it.
 const ExtGraph = extend(Graph, {
   transforms: { 'transform-v4-data': Extensions.TransformV4Data },
   layouts: {
@@ -102,11 +100,11 @@ fetch('https://gw.alipayobjects.com/os/basement_prod/da5a1b47-37d6-44d7-8d10-f3e
       height,
       renderer: 'webgl',
       transforms: [
-    {
-      type: 'transform-v4-data',
-      activeLifecycle: ['read'],
-    },
-  ],
+        {
+          type: 'transform-v4-data',
+          activeLifecycle: ['read'],
+        },
+      ],
       layout: layoutConfigs['force-wasm'],
       autoFit: 'view',
       modes: {

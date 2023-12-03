@@ -1,9 +1,5 @@
 import G6 from '@antv/g6';
-
-// 实际开发中把 window.AntVUtil 换成从 @antv/util 引入的相关模块
-// replace window.AntVUtil.isObject with
-// import { mix } from '@antv/util';
-const { mix } = window.AntVUtil;
+import { mix } from '@antv/util';
 
 let showNodes = [];
 let showEdges = [];
@@ -230,15 +226,7 @@ G6.registerNode(
       }
       path.push(['M', sps[0].x, sps[0].y]);
       for (let i = 1; i < spNum; i++) {
-        path.push([
-          'C',
-          cps[2 * i - 1].x,
-          cps[2 * i - 1].y,
-          cps[2 * i].x,
-          cps[2 * i].y,
-          sps[i].x,
-          sps[i].y,
-        ]);
+        path.push(['C', cps[2 * i - 1].x, cps[2 * i - 1].y, cps[2 * i].x, cps[2 * i].y, sps[i].x, sps[i].y]);
       }
       path.push(['C', cps[cpNum - 1].x, cps[cpNum - 1].y, cps[0].x, cps[0].y, sps[0].x, sps[0].y]);
       path.push(['Z']);
