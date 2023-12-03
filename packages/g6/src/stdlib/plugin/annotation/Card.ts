@@ -114,10 +114,8 @@ export default class Card {
     return this.$el.querySelector('.g6-annotation-header-btns');
   }
   link?: Path;
-  get item() {
-    return this.plugin.graph.itemController.getItemById(this.config.id) as
-      | Item
-      | undefined;
+  get item(): Item | undefined {
+    return this.plugin.graph.itemController.getItemById(this.config.id);
   }
   get isCanvas() {
     const item = this.plugin.graph.itemController.getItemById(this.config.id);
@@ -132,8 +130,6 @@ export default class Card {
     this.config = { ...config };
     this.plugin = plugin;
     this.renderCard();
-
-    const item = this.item;
 
     let x, y;
     if (!plugin.options.containerCfg) {
@@ -173,29 +169,7 @@ export default class Card {
       this.move(x, y);
     }
 
-    if (!this.isCanvas) {
-      // 创建相关连线
-      const cardBBox = this.$el.getBoundingClientRect();
-      const path = getPathItem2Card(
-        item,
-        cardBBox,
-        plugin.graph,
-        plugin.options.canvas,
-      );
-      const linkStyle = plugin.options.linkStyle;
-
-      this.link = plugin.options.linkGroup.appendChild(
-        new Path({
-          attrs: {
-            lineWidth: 1,
-            lineDash: [5, 5],
-            stroke: '#ccc',
-            path,
-            ...linkStyle,
-          },
-        }),
-      );
-    }
+    this.updateLink()
 
     this.bindEvents();
 
@@ -313,6 +287,12 @@ export default class Card {
     card.addEventListener('mouseleave', (e) => {
       plugin.blurCard(itemId);
     });
+    card.addEventListener('focusin', e => {
+      plugin.focusCard(itemId)
+    })
+    card.addEventListener('focusout', e => {
+      plugin.blurCard(itemId)
+    })
     card.addEventListener('click', (e) => {
       const { onClickIcon } = plugin.options.cardCfg || {};
       const target = e.target as HTMLElement;
@@ -438,9 +418,51 @@ export default class Card {
     });
   }
 
+  /**
+   * 更新相关连线
+   */
+  updateLink() {
+    const { plugin, isCanvas, item, $el } = this
+    let { link } = this
+    if (isCanvas) {
+      return;
+    }
+
+    if (!item) {
+      link?.hide();
+      return;
+    }
+
+    const cardBBox = $el.getBoundingClientRect();
+    const path = getPathItem2Card(
+      item,
+      cardBBox,
+      plugin.graph,
+      plugin.options.canvas,
+    );
+    if (link) {
+      link.attr('path', path);
+    } else {
+      link = this.link = plugin.options.linkGroup.appendChild(
+        new Path({
+          attrs: {
+            lineWidth: 1,
+            lineDash: [5, 5],
+            stroke: '#ccc',
+            path,
+            ...plugin.options.linkStyle,
+          },
+        }),
+      );
+    }
+    if (!link.isVisible()) {
+      link.show();
+    }
+  }
+
   show() {
     this.$el.classList.remove('g6-annotation-wrapper-hide');
-    this.link?.show();
+    this.updateLink();
     this.config.visible = true;
   }
 
@@ -487,17 +509,7 @@ export default class Card {
     });
 
     // Update the position of the link
-    if (this.link) {
-      this.link.attr(
-        'path',
-        getPathItem2Card(
-          this.item,
-          card.getBoundingClientRect(),
-          this.plugin.graph,
-          this.plugin.options.canvas,
-        ),
-      );
-    }
+    this.updateLink();
   }
 
   setEditable(editable = this.plugin.options.editable) {
