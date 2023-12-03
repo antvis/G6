@@ -12,7 +12,7 @@ import Card, { CardConfig } from './Card';
 insertCSS();
 
 interface AnnotationConfig extends IPluginBaseConfig {
-  trigger?: 'click' | 'fix';
+  trigger?: 'click' | 'manual';
   /**
    * Set the parent element of the card.
    * When there is no containerCfg, the container of the graph will be used as the parent element;
@@ -141,8 +141,8 @@ export class Annotation extends Base {
       case 'click':
         events = {
           ...events,
-          'node:click': this.showAnnotation,
-          'edge:click': this.showAnnotation,
+          'node:click': this.triggerAnnotation,
+          'edge:click': this.triggerAnnotation,
         };
     }
     return events;
@@ -347,11 +347,14 @@ export class Annotation extends Base {
     });
     self.updateLinks();
   }
+  
+  public triggerAnnotation(evt: IG6GraphEvent) {
+    this.showAnnotation({ id: evt.itemId });
+  }
 
-  public showAnnotation(evt: IG6GraphEvent) {
+  public showAnnotation({ id }: { id: string | number }) {
     if (this.destroyed) return;
-    const item = this.graph.itemController.getItemById(evt.itemId);
-    const id = item.getID();
+    const item = this.graph.itemController.getItemById(id);
     if (this.cardInfoMap[id]) {
       this.showCard(id);
     } else {
@@ -514,6 +517,10 @@ export class Annotation extends Base {
     this.cardInfoMap[id]?.blur();
   }
 
+  public collapse(id, collapsed) {
+    this.cardInfoMap[id]?.collapse(collapsed);
+  }
+
   /**
    * 隐藏标注卡片，下次打开还保留隐藏前的配置，包括文本内容、位置等
    * @param id 卡片 id，即元素(节点/边)的 id
@@ -557,32 +564,13 @@ export class Annotation extends Base {
     this.options.onAnnotationChange?.(cardInfo, 'remove');
   }
 
-  public updateLink({ item }) {
-    if (!item) return;
-    const cardInfoMap: CardInfoMap = this.cardInfoMap;
-    if (!cardInfoMap) return;
-    const canvas = this.options.canvas;
-    const graph = this.graph;
-    const id = item.getID();
-    const { link } = cardInfoMap[id];
-    if (link) {
-      const path = getPathItem2Card(
-        item,
-        cardInfoMap[id].$el.getBoundingClientRect(),
-        graph,
-        canvas,
-      );
-      link.attr('path', path);
-    }
-  }
-
   public updateLinks() {
     if (this.destroyed) return;
     const cardInfoMap: CardInfoMap = this.cardInfoMap;
     if (!cardInfoMap) return;
     const graph = this.graph;
     Object.values(cardInfoMap).forEach((cardInfo) => {
-      this.updateLink({ item: cardInfo.item });
+      cardInfo.updateLink();
     });
   }
 
