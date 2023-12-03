@@ -77,8 +77,6 @@ interface CardInfoMap {
   [id: string]: Card;
 }
 
-const CANVAS_ANNOTATION_ID = 'canvas-annotation';
-
 export class Annotation extends Base {
   public declare options: AnnotationConfig;
   dragging?: {
@@ -385,9 +383,7 @@ export class Annotation extends Base {
     } = mixedCardConfig;
     const rows = this.options.rows || [[]];
 
-    const isCanvas = item.isCanvas?.();
-
-    const itemId = isCanvas ? CANVAS_ANNOTATION_ID : item.getID();
+    const itemId = item.getID();
     const cardInfo = cardInfoMap[itemId];
 
     const title = cardInfo?.config.title,
@@ -437,7 +433,7 @@ export class Annotation extends Base {
         !Number.isNaN(mixedCardConfig.x) &&
         isNumber(mixedCardConfig.y) &&
         !Number.isNaN(mixedCardConfig.y);
-      if (!exist && !isCanvas && !hasPropsPosition) {
+      if (!exist && !hasPropsPosition) {
         // 没有 container、新增 card 时，记录当前列中最下方位置，方便换行
         const { bottom: containerBottom = 0, top: containerTop } =
           containerBBox;
@@ -579,7 +575,7 @@ export class Annotation extends Base {
     if (!cardInfoMap) return;
     const graph = this.graph;
     Object.values(cardInfoMap).forEach((info) => {
-      if (!info.$el || info.isCanvas || info.$el.style.display === 'none')
+      if (!info.$el || info.$el.style.display === 'none')
         return;
       const item = info.item;
       if (item && item.isVisible()) {
@@ -628,10 +624,7 @@ export class Annotation extends Base {
     const graph = this.graph;
     data.forEach((info) => {
       const { id, x, y, title, content, collapsed, visible } = info;
-      let item = graph.itemController.getItemById(id);
-      if (!item && id === CANVAS_ANNOTATION_ID) {
-        item = graph.options.canvas;
-      }
+      const item = graph.itemController.getItemById(id);
       if (!item) {
         this.cardInfoMap[item.id] = new Card(this, info);
         return;

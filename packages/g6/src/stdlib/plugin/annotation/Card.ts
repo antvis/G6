@@ -117,10 +117,6 @@ export default class Card {
   get item(): Item | undefined {
     return this.plugin.graph.itemController.getItemById(this.config.id);
   }
-  get isCanvas() {
-    const item = this.plugin.graph.itemController.getItemById(this.config.id);
-    return item?.isCanvas?.();
-  }
   get container() {
     return this.plugin.container;
   }
@@ -138,7 +134,7 @@ export default class Card {
         // 使用配置的位置
         x = config.x;
         y = config.y;
-      } else if (!this.isCanvas) {
+      } else {
         // 无 conatiner，初始化位置
         const { top: containerTop } = containerBBox;
         const {
@@ -422,11 +418,8 @@ export default class Card {
    * 更新相关连线
    */
   updateLink() {
-    const { plugin, isCanvas, item, $el } = this
+    const { plugin, item, $el } = this
     let { link } = this
-    if (isCanvas) {
-      return;
-    }
 
     if (!item) {
       link?.hide();
