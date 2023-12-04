@@ -144,7 +144,7 @@ export default class Ruler extends Base {
         this.changeScale(zoom)
       })
     }
-    
+    this.set('container', this.rulerWrap);
     graphContainer.insertBefore(this.rulerWrap, canvas)
   }
 
@@ -265,6 +265,10 @@ export default class Ruler extends Base {
     this.rulerInstances.forEach(instance => {
       instance.changeScale(scale)
     })
+  }
+
+  public getContainer(): HTMLDivElement {
+    return this.get('container');
   }
 
   public destroy() {
