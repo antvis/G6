@@ -174,8 +174,8 @@ export interface IAbstractGraph extends EventEmitter {
   /**
    * Fits the passed items into the view. If no items are passed it will fit the whole graph
    * @param {Item[]} items Items you want to fit into the view
-   * @param {boolean} zoomToFit Wether to zoom on the passed items
-   * @param {boolean} animate Wheter to animate the transition
+   * @param {boolean} zoomToFit Whether to zoom on the passed items
+   * @param {boolean} animate Whether to animate the transition
    * @param {GraphAnimateConfig} animateCfg Animation configuration
    */
   focusItems: (items: Item[], zoomToFit?: boolean, animate?: boolean, animateCfg?: GraphAnimateConfig) => void;

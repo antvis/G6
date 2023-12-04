@@ -253,14 +253,14 @@ export function parseXML(xml: HTMLElement, cfg) {
 export function getBBox(
   node: NodeInstructure,
   offset: { x: number; y: number },
-  chilrenBBox: { width: number; height: number },
+  childrenBBox: { width: number; height: number },
 ) {
   const { attrs = {} } = node;
   const bbox = {
     x: offset.x || 0,
     y: offset.y || 0,
-    width: chilrenBBox.width || 0,
-    height: chilrenBBox.height || 0,
+    width: childrenBBox.width || 0,
+    height: childrenBBox.height || 0,
   };
 
   let shapeHeight, shapeWidth;
@@ -404,11 +404,11 @@ export function compareTwoTarget(nowTarget: NodeInstructure, formerTarget: NodeI
 
   if (nowTarget.children?.length > 0 || formerTarget.children?.length > 0) {
     const length = Math.max(nowTarget.children?.length, formerTarget.children?.length);
-    const formerChilren = formerTarget.children || [];
-    const nowChilren = nowTarget.children || [];
+    const formerChildren = formerTarget.children || [];
+    const nowChildren = nowTarget.children || [];
 
     for (let index = 0; index < length; index += 1) {
-      children.push(compareTwoTarget(nowChilren[index], formerChilren[index]));
+      children.push(compareTwoTarget(nowChildren[index], formerChildren[index]));
     }
   }
 

@@ -130,7 +130,7 @@ export const pathToPoints = (path: any[]) => {
  */
 export const getClosedSpline = (points: IPoint[]) => {
   if (points.length < 2) {
-    throw new Error(`point length must largn than 2, now it's ${points.length}`);
+    throw new Error(`point length must larger than 2, now it's ${points.length}`);
   }
   const first = points[0];
   const second = points[1];
