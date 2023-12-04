@@ -47,36 +47,52 @@ depth segments
 
 material type
 
-## materialProps material-related parameters
+## materialProps
 
-### wireframe
+**Type**: `MaterialProps`
 
-**Type**：`boolean`
+<details>
+  <summary style="color: #873bf4; cursor: pointer;">
+    MaterialProps
+  </summary>
 
-**Default**：`false`
+```ts
+type MaterialProps = {
+  /** Whether to enable wireframe mode, which is often used to intuitively display triangles */
+  wireframe?: boolean;
+  /** Specify the color after opening wireframe */
+  wireframeColor?: string;
+  /** Specify the line width after opening wireframe */
+  wireframeLineWidth?: number;
+  /**
+   * Specify the cull mode
+   * 0: no culling
+   * 1: cull front
+   * 2: cull back
+   * 3: cull front and back
+   */
+  cullMode?: number;
+};
+```
 
-Enable wireframe，Commonly used to visually display triangular surfaces
+</details>
 
-### wireframeColor
+**Default**: `object`
 
-**Type**：`string`
+<details>
+  <summary style="color: #873bf4; cursor: pointer;">
+    object
+  </summary>
 
-**Default**：`black`
+```json
+{
+  "wireframe": false,
+  "wireframeColor": "black",
+  "wireframeLineWidth": 1,
+  "cullMode": 0
+}
+```
 
-After enabling wireframe, you can specify a color, which defaults to 'black'
+</details>
 
-### wireframeLineWidth
-
-**Type**：`number`
-
-**Default**：`1`
-
-After enabling wireframe, you can specify the line width, which defaults to 1
-
-### cullMode
-
-**Type**：`number`
-
-**Default**：`0`
-
-Turn on face removal, default to 0, which means no removal. 1 is front removal, 2 is back removal, and 3 is front and back removal
+material-related properties

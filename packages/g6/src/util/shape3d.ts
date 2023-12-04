@@ -33,7 +33,11 @@ export const createShape3D = (
   }
 
   // materialType: 'lambert' | 'phong' | 'basic', TODO: type
-  const { materialType = 'lambert', materialProps = {}, ...otherStyles } = style as any;
+  const {
+    materialType = 'lambert',
+    materialProps = {},
+    ...otherStyles
+  } = style as any;
   if (!device.GeometryCache) {
     device.GeometryCache = {};
   }
@@ -59,23 +63,23 @@ export const createShape3D = (
       case 'basic':
         device.MaterialCache[materialType as string] = new MeshBasicMaterial(
           device,
-          materialProps
+          materialProps,
         );
         break;
       case 'phong': {
         device.MaterialCache[materialType as string] = new MeshPhongMaterial(
           device,
-            {
-              shininess: 30,
-              ...materialProps
-            }
+          {
+            shininess: 30,
+            ...materialProps,
+          },
         );
       }
       case 'lambert':
       default: {
         device.MaterialCache[materialType as string] = new MeshLambertMaterial(
           device,
-          materialProps
+          materialProps,
         );
         break;
       }
