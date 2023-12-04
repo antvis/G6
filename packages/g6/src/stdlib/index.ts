@@ -102,7 +102,7 @@ const {
 import lassoSelector from './selector/lasso';
 import rectSelector from './selector/rect';
 import Hull from './plugin/hull';
-import { WaterMarker } from './plugin/watermaker';
+import { WaterMarker } from './plugin/watermarker';
 
 const stdLib = {
   transforms: {
