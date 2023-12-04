@@ -65,7 +65,7 @@ The maximum number of iterations. If set to `0`, it will be adjusted automatical
 
 **Default**: `undefined`
 
-Whether to enable Barnes-Hut acceleration, which is quadtree acceleration. Since the quadtree needs to be updated at each iteration, it is recommended to enable it on large-scale graphs. By default, it is undefined, and it will be activated when the number of nodes exceeds 250. Setting it to `false` will not automatically activate it.
+Whether to enable Barnes-Hut acceleration, which is quad-tree acceleration. Since the quad-tree needs to be updated at each iteration, it is recommended to enable it on large-scale graphs. By default, it is undefined, and it will be activated when the number of nodes exceeds 250. Setting it to `false` will not automatically activate it.
 
 ## dissuadeHubs
 

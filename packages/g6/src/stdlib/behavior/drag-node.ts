@@ -179,7 +179,7 @@ export class DragNode extends Behavior {
     return relatedNodes;
   }
 
-  /** Retrieve the nearby edges for a given node using quadtree collision detection. */
+  /** Retrieve the nearby edges for a given node using quad-tree collision detection. */
   private getNearEdgesForNodes(
     nodeIds: ID[],
     shouldBegin?: (edge: EdgeModel) => boolean,

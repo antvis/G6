@@ -159,7 +159,7 @@ export interface IGraph<
     direction?: 'in' | 'out' | 'both',
   ) => EdgeModel[];
   /**
-   * Get nearby edges from a start node using quadtree collision detection.
+   * Get nearby edges from a start node using quad-tree collision detection.
    * @param nodeId id of the start node
    * @returns nearby edges' data array
    * @group Data
@@ -203,7 +203,7 @@ export interface IGraph<
    * Change graph data.
    * @param data new data
    * @param type the way to change data, 'replace' means discard the old data and use the new one; 'mergeReplace' means merge the common part, remove (old - new), add (new - old)
-   * @param relayout whether relayout the nodes after data changing
+   * @param re-layout whether re-layout the nodes after data changing
    * @returns
    * @group Data
    */
@@ -237,7 +237,7 @@ export interface IGraph<
    * Add one or more node/edge/combo data to the graph.
    * @param itemType item type
    * @param model user data
-   * @returns whehter success
+   * @returns whether success
    * @group Data
    */
   addData: (
@@ -260,7 +260,7 @@ export interface IGraph<
    * Remove one or more node/edge/combo data from the graph.
    * @param itemType the type the item(s) to be removed.
    * @param id the id or the ids' array of the items to be removed.
-   * @returns whehter success
+   * @returns whether success
    * @group Data
    */
   removeData: (itemType: ITEM_TYPE, id: ID | ID[]) => void;
@@ -623,7 +623,7 @@ export interface IGraph<
   /**
    * Get the visibility for a node / edge / combo.
    * @param id the id for the node / edge / combo
-   * @returns visibility for the item, false for invisible or unexistence for the item
+   * @returns visibility for the item, false for invisible or un-existence for the item
    */
   getItemVisible: (id: ID) => boolean;
 
@@ -638,7 +638,7 @@ export interface IGraph<
 
   /**
    * Add a new combo to the graph, and update the structure of the existed child in childrenIds to be the children of the new combo.
-   * Different from addData with combo type, this API update the succeeds' combo tree strucutres in the same time.
+   * Different from addData with combo type, this API update the succeeds' combo tree structures in the same time.
    * @param model combo user data.
    * @param childrenIds the ids of the children nodes / combos to move into the new combo.
    * @returns whether success
@@ -717,7 +717,7 @@ export interface IGraph<
   /**
    * Draw or update a G shape or group to the transient canvas.
    * @param type shape type or item type
-   * @param id new shape id or updated shape id for a interation shape, node/edge/combo id for item interaction group drawing
+   * @param id new shape id or updated shape id for a interaction shape, node/edge/combo id for item interaction group drawing
    * @returns upserted shape or group
    * @group Interaction
    */

@@ -91,13 +91,13 @@ buttonContainer.appendChild(tipEn);
 buttonContainer.appendChild(document.createElement('br'));
 
 // enable/disable the fisheye lens button
-const swithButton = document.createElement('input');
-swithButton.type = 'button';
-swithButton.value = 'Disable';
-swithButton.style.height = '25px';
-swithButton.style.width = '60px';
-swithButton.style.marginLeft = '16px';
-buttonContainer.appendChild(swithButton);
+const switchButton = document.createElement('input');
+switchButton.type = 'button';
+switchButton.value = 'Disable';
+switchButton.style.height = '25px';
+switchButton.style.width = '60px';
+switchButton.style.marginLeft = '16px';
+buttonContainer.appendChild(switchButton);
 
 // list for changing trigger
 const triggerTag = document.createElement('span');
@@ -145,12 +145,12 @@ buttonContainer.appendChild(configScaleRBy);
 
 container.parentNode.appendChild(buttonContainer);
 
-swithButton.addEventListener('click', (e) => {
-  if (swithButton.value === 'Disable') {
-    swithButton.value = 'Enable';
+switchButton.addEventListener('click', (e) => {
+  if (switchButton.value === 'Disable') {
+    switchButton.value = 'Enable';
     graph.removePlugins([filterLensConfig.key]);
   } else {
-    swithButton.value = 'Disable';
+    switchButton.value = 'Disable';
     graph.addPlugins([filterLensConfig]);
   }
 });

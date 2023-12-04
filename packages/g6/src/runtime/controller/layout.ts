@@ -7,7 +7,7 @@ import {
   OutNode,
   Supervisor,
 } from '@antv/layout';
-import registery, { Extensions, stdLib } from '../../stdlib';
+import { Extensions, registry, stdLib } from '../../stdlib';
 import {
   IGraph,
   isImmediatelyInvokedLayoutOptions,
@@ -219,7 +219,7 @@ export class LayoutController {
     let { workerEnabled = false } = options;
 
     // Find built-in layout algorithms.
-    const layoutCtor = stdLib.layouts[type] || registery.useLib.layouts[type];
+    const layoutCtor = stdLib.layouts[type] || registry.useLib.layouts[type];
     if (!layoutCtor) {
       throw new Error(`Unknown layout algorithm: ${type}`);
     }

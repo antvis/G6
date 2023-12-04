@@ -61,7 +61,7 @@ export interface Specification<
     tileFirstRender?: boolean | number;
     /** Tile size for first rendering. */
     tileFirstRenderSize?: number;
-    /** Whether enable tile hiding / showing for behaivors, e.g. hiding shapes while drag-canvas, zoom-canvas. The enableOptimize in behavior configuration has higher priority. */
+    /** Whether enable tile hiding / showing for behaviors, e.g. hiding shapes while drag-canvas, zoom-canvas. The enableOptimize in behavior configuration has higher priority. */
     tileBehavior?: boolean | number;
     /** Tile size for shape optimizing by behaviors, e.g. hiding shapes while drag-canvas, zoom-canvas.  The enableOptimize in behavior configuration has higher priority. */
     tileBehaviorSize?: number;

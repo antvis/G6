@@ -1,8 +1,8 @@
 import { IHook } from '../types/hook';
 
 /**
- * A hook class unified the definitions of tap, untap, and emit.
- * One hook corresponds to one lifecyle on a graph.
+ * A hook class unified the definitions of tap, un-tap, and emit.
+ * One hook corresponds to one lifecycle on a graph.
  */
 export default class Hook<T> implements IHook<T> {
   public name: string;

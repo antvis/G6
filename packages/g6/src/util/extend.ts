@@ -5,7 +5,7 @@ import { EdgeRegistry } from '../types/edge';
 import { LayoutRegistry } from '../types/layout';
 import { PluginRegistry } from '../types/plugin';
 import { Graph } from '../runtime/graph';
-import registry from '../stdlib';
+import { registry } from '../stdlib';
 
 /**
  * Extend graph class with custom libs (extendLibrary), and extendLibrary will be merged into useLib.

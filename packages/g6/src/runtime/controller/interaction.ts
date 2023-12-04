@@ -1,5 +1,5 @@
 import { FederatedPointerEvent, IElement } from '@antv/g';
-import { registery } from '../../stdlib';
+import { registry } from '../../stdlib';
 import { IGraph } from '../../types';
 import { Behavior } from '../../types/behavior';
 import {
@@ -100,7 +100,7 @@ export class InteractionController {
     }
     try {
       // Get behavior extensions from useLib.
-      const BehaviorClass = getExtension(config, registery.useLib, 'behavior');
+      const BehaviorClass = getExtension(config, registry.useLib, 'behavior');
       const options = typeof config === 'string' ? {} : config;
       const behavior = new BehaviorClass(options);
       behavior.graph = this.graph;

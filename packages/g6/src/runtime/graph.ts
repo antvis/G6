@@ -1164,7 +1164,7 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     return this.dataController.findRelatedEdges(nodeId, direction);
   }
   /**
-   * Get nearby edges from a start node using quadtree collision detection.
+   * Get nearby edges from a start node using quad-tree collision detection.
    * @param nodeId id of the start node
    * @returns nearby edges' data array
    */
@@ -1920,7 +1920,7 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
 
   /**
    * Add a new combo to the graph, and update the structure of the existed child in childrenIds to be the children of the new combo.
-   * Different from addData with combo type, this API update the succeeds' combo tree strucutres in the same time.
+   * Different from addData with combo type, this API update the succeeds' combo tree structures in the same time.
    * @param model combo user data.
    * @param childrenIds the ids of the children nodes / combos to move into the new combo.
    * @returns whether success
@@ -2394,7 +2394,7 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
   /**
    * Draw or update a G shape or group to the transient canvas.
    * @param type shape type or item type
-   * @param id new shape id or updated shape id for a interation shape, node/edge/combo id for item interaction group drawing
+   * @param id new shape id or updated shape id for a interaction shape, node/edge/combo id for item interaction group drawing
    * @returns upserted shape or group
    * @group Interaction
    */

@@ -27,7 +27,7 @@ export interface DragCanvasOptions {
    */
   secondaryKey?: string;
   /**
-   * The assistant secondary key on keyboard to prevent the behavior to be tiggered. 'shift' by default.
+   * The assistant secondary key on keyboard to prevent the behavior to be triggered. 'shift' by default.
    */
   secondaryKeyToDisable?: string;
   /**

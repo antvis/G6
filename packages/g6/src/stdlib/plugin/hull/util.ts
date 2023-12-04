@@ -11,7 +11,7 @@ import { getLineIntersect } from '../../../util/shape';
 export const getClosedSpline = (points: Point[]) => {
   if (points.length < 2) {
     throw new Error(
-      `point length must largn than 2, now it's ${points.length}`,
+      `point length must large than 2, now it's ${points.length}`,
     );
   }
   const first = points[0];

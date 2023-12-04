@@ -211,7 +211,7 @@ const utils = {
   lassoSelector,
 };
 
-const registery = { useLib };
+const registry = { useLib };
 
 const Extensions = {
   // transforms
@@ -305,5 +305,5 @@ const Extensions = {
   WaterMarker,
 };
 
-export default registery;
-export { Extensions, registery, stdLib, utils };
+export default registry;
+export { Extensions, registry, stdLib, utils };

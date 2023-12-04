@@ -252,7 +252,7 @@ const getBoxPoints = (
       ];
       for (let i = 0; i < 4; i++) {
         const boundLine = bounds[i];
-        const insterctP = getLineIntersect(
+        const intersectP = getLineIntersect(
           point,
           {
             x: point.x + dir.stepX * getBBoxWidth(expandBBox),
@@ -261,18 +261,18 @@ const getBoxPoints = (
           boundLine[0],
           boundLine[1],
         ) as PolyPoint;
-        if (insterctP && !isSegmentCrossingBBox(point, insterctP, bbox)) {
-          insterctP.id = `${insterctP.x}|||${insterctP.y}`;
-          points.push(insterctP);
+        if (intersectP && !isSegmentCrossingBBox(point, intersectP, bbox)) {
+          intersectP.id = `${intersectP.x}|||${intersectP.y}`;
+          points.push(intersectP);
         }
       }
     }
     return points;
   }
   // If the anchorPoint is on the node, there is only one optional direction
-  const insterctP = getExpandedBBoxPoint(expandBBox, point, anotherPoint);
-  insterctP.id = `${insterctP.x}|||${insterctP.y}`;
-  return [insterctP];
+  const intersectP = getExpandedBBoxPoint(expandBBox, point, anotherPoint);
+  intersectP.id = `${intersectP.x}|||${intersectP.y}`;
+  return [intersectP];
 };
 
 const getDirectionChange = (

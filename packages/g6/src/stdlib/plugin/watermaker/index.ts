@@ -41,7 +41,7 @@ export interface WaterMarkerConfig extends IPluginBaseConfig {
   /** The first marker's position. [0, 0] by default. */
   begin?: [number, number];
   /** The gap of x and y between neighbor markers. [100, 100] by default. */
-  seperation?: [number, number];
+  separation?: [number, number];
 }
 
 export class WaterMarker extends Base {
@@ -64,7 +64,7 @@ export class WaterMarker extends Base {
       height: undefined,
       position: 'bottom',
       begin: [0, 0],
-      seperation: [100, 100],
+      separation: [100, 100],
       image: {
         imgURL:
           'https://gw.alipayobjects.com/os/s/prod/antv/assets/image/logo-with-text-73b8a.svg',
@@ -201,7 +201,7 @@ export class WaterMarker extends Base {
    */
   public setImageWaterMarker() {
     const { canvas, options, canvasSize } = this;
-    const { image, begin, seperation } = options;
+    const { image, begin, separation } = options;
     const { imgURL, rotate = 0, ...imageStyles } = image;
 
     const currentPosition = [...begin];
@@ -225,14 +225,14 @@ export class WaterMarker extends Base {
           imageBounds = imageShape.getLocalBounds();
         }
         rowGroup.appendChild(imageShape);
-        currentPosition[0] += imageBounds.halfExtents[0] * 2 + seperation[0];
+        currentPosition[0] += imageBounds.halfExtents[0] * 2 + separation[0];
       }
       return rowGroup;
     };
     while (currentPosition[1] < canvasSize[1]) {
       canvas.appendChild(getRowGroup());
       currentPosition[0] = begin[0];
-      currentPosition[1] += imageBounds.halfExtents[1] * 2 + seperation[1];
+      currentPosition[1] += imageBounds.halfExtents[1] * 2 + separation[1];
     }
   }
 
@@ -241,7 +241,7 @@ export class WaterMarker extends Base {
    */
   public async setTextWaterMarker() {
     const { canvas, options, canvasSize } = this;
-    const { text, seperation, begin } = options;
+    const { text, separation, begin } = options;
     const { texts, rotate, ...textStyles } = text;
 
     const currentPosition = [...begin];
@@ -266,14 +266,14 @@ export class WaterMarker extends Base {
           textBounds = textShape.getLocalBounds();
         }
         rowGroup.appendChild(textShape);
-        currentPosition[0] += textBounds.halfExtents[0] * 2 + seperation[0];
+        currentPosition[0] += textBounds.halfExtents[0] * 2 + separation[0];
       }
       return rowGroup;
     };
     while (currentPosition[1] < canvasSize[1]) {
       canvas.appendChild(getRowGroup());
       currentPosition[0] = begin[0];
-      currentPosition[1] += textBounds.halfExtents[1] * 2 + seperation[1];
+      currentPosition[1] += textBounds.halfExtents[1] * 2 + separation[1];
     }
   }
 

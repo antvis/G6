@@ -222,10 +222,10 @@ export class ScrollCanvas extends Behavior {
       graph.getSpecification().optimize || {};
     const { optimizeZoom } = options;
     const optimize = this.options.enableOptimize || graphBehaviorOptimize;
-    const shouldOptimzie = isNumber(optimize)
+    const shouldOptimize = isNumber(optimize)
       ? graph.getAllNodesData().length > optimize
       : optimize;
-    if (shouldOptimzie) {
+    if (shouldOptimize) {
       const currentZoom = graph.getZoom();
       const newHiddenEdgeIds = graph
         .getAllEdgesData()
@@ -278,7 +278,7 @@ export class ScrollCanvas extends Behavior {
     const { optimizeZoom } = this.options;
 
     // hide the shapes when the zoom ratio is smaller than optimizeZoom
-    // hide the shapes when zoomming
+    // hide the shapes when zooming
     if (currentZoom < optimizeZoom) {
       return;
     }
@@ -286,10 +286,10 @@ export class ScrollCanvas extends Behavior {
     const { tileBehavior: graphBehaviorOptimize, tileBehaviorSize = 1000 } =
       graph.getSpecification().optimize || {};
     const optimize = this.options.enableOptimize || graphBehaviorOptimize;
-    const shouldOptimzie = isNumber(optimize)
+    const shouldOptimize = isNumber(optimize)
       ? graph.getAllNodesData().length > optimize
       : optimize;
-    if (!shouldOptimzie) {
+    if (!shouldOptimize) {
       this.hiddenEdgeIds = this.hiddenNodeIds = [];
       return;
     }

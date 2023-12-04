@@ -217,7 +217,7 @@ export const getGroupSucceedMap = (
 };
 
 /**
- * Update shapes in the intersaction of prevShapeMap and newShapeMap;
+ * Update shapes in the intersection of prevShapeMap and newShapeMap;
  * Remove shapes in the prevShapeMap - newShapeMap (if removeDiff is true);
  * Add shapes in the newShapeMap - prevShapeMap;
  * @param prevShapeMap previous shape map
@@ -233,14 +233,14 @@ export const updateShapes = (
   removeDiff = true,
   shouldUpdate: (id: string) => boolean = () => true,
 ): NodeShapeMap | EdgeShapeMap => {
-  const tolalMap = {
+  const totalMap = {
     ...prevShapeMap,
     ...newShapeMap,
   };
   const finalShapeMap = {
     ...prevShapeMap,
   };
-  Object.keys(tolalMap).forEach((id) => {
+  Object.keys(totalMap).forEach((id) => {
     const prevShape = prevShapeMap[id];
     const newShape = newShapeMap[id];
     if (newShape && !shouldUpdate(id)) return;
@@ -257,7 +257,7 @@ export const updateShapes = (
           ? labelGroup
           : group;
       if (
-        // NewShape is already in the group, no need to reappend.
+        // NewShape is already in the group, no need to re-append.
         // Note: If the given child is a reference to an existing node in the document,
         // appendChild() moves it from its current position to the new position.
         // @see https://developer.mozilla.org/en-US/docs/Web/API/Node/appendChild
@@ -572,7 +572,7 @@ export const getLineIntersect = (
   return null;
 };
 
-const FEILDS_AFFECT_BBOX = {
+const FIELDS_AFFECT_BBOX = {
   circle: ['r', 'lineWidth'],
   rect: ['width', 'height', 'lineWidth'],
   image: ['width', 'height', 'lineWidth'],
@@ -596,7 +596,7 @@ export const isStyleAffectBBox = (
   type: SHAPE_TYPE | SHAPE_TYPE_3D,
   style: ShapeStyle,
 ) => {
-  return isArrayOverlap(Object.keys(style), FEILDS_AFFECT_BBOX[type]);
+  return isArrayOverlap(Object.keys(style), FIELDS_AFFECT_BBOX[type]);
 };
 
 /**

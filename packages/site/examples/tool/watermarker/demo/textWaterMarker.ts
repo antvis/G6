@@ -25,7 +25,7 @@ const graph = new Graph({
       type: 'water-marker',
       mode: 'text',
       begin: [100, 50],
-      seperation: [50, 50],
+      separation: [50, 50],
       text: {
         texts: ['AntV G6', 'Graph Visualization'],
         lineHeight: 20,

@@ -68,7 +68,7 @@ export default (context: TestCaseContext, options = {}) => {
         position: 'bottom',
         mode: 'image',
         begin: [10, 10],
-        seperation: [10, 10],
+        separation: [10, 10],
         text: {
           texts: [
             'hello',

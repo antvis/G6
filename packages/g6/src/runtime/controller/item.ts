@@ -1287,7 +1287,7 @@ export class ItemController {
 
   /**
    * Create nodes with inner data to canvas.
-   * @param models nodes' inner datas
+   * @param models nodes' inner data
    */
   private async renderNodes(
     models: NodeModel[],
@@ -1460,7 +1460,7 @@ export class ItemController {
 
   /**
    * Create edges with inner data to canvas.
-   * @param models edges' inner datas
+   * @param models edges' inner data
    */
   private renderEdges(
     models: EdgeModel[],

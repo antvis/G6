@@ -190,7 +190,7 @@ export class Menu extends Base {
       //the type is string
       menuDom.innerHTML = menu;
     } else if (menu instanceof HTMLElement) {
-      //the type is htmldom
+      //the type is html dom
       menuDom.innerHTML = menu.outerHTML;
     } else {
       //the type is Promise

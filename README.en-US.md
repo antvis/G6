@@ -62,7 +62,7 @@ The gif is not fully loaded, [Click Here to See the Original Image](https://mdn.
 - (TODO: migrate from v4) Abundant Built-in Items: Nodes and edges with free configurations;
 - (TODO: migrate from v4) Convenient Components: Outstanding ability and performance;
 
-G6 concentrates on the principle of 'good by default'. In addition, the custom mechanism of the item, interation behavior, and layout satisfies the customazation requirements.
+G6 concentrates on the principle of 'good by default'. In addition, the custom mechanism of the item, interaction behavior, and layout satisfies the customazation requirements.
 
 > Abundant Built-in Items
 

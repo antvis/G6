@@ -96,11 +96,11 @@ export class SpecThemeSolver extends BaseThemeSolver {
           mergedStyles = { others: baseStyles };
           Object.keys(incomingStyles).forEach((dataType) => {
             const mergedStatesStyles = { ...baseStyles };
-            const incomintStyle = incomingStyles[dataType];
-            Object.keys(incomintStyle).forEach((stateName) => {
+            const incomingStyle = incomingStyles[dataType];
+            Object.keys(incomingStyle).forEach((stateName) => {
               mergedStatesStyles[stateName] = mergeStyles([
                 baseStyles[stateName],
-                incomintStyle[stateName],
+                incomingStyle[stateName],
               ]);
             });
             mergedStyles[dataType] = mergedStatesStyles;

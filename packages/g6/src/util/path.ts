@@ -6,7 +6,7 @@ import { Point } from '../types/common';
  * @param  {IPoint} startPoint Start point with x and y.
  * @param  {IPoint} endPoint  End point with x and y.
  * @param  {Number} percent   Control point's position percentage between source and end point, ranges from 0 to 1.
- * @param  {Number} offset    Offsest from the control point to the line start at startPoint and end at endPoint.
+ * @param  {Number} offset    Offset from the control point to the line start at startPoint and end at endPoint.
  * @return {IPoint} The control point with x and y.
  */
 export const getControlPoint = (
