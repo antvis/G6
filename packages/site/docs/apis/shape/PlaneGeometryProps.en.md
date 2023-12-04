@@ -11,7 +11,7 @@ Plane geometry, default lying on the XZ plane
 
 **Type**: `number`
 
-**Default**: `0`
+**Default**: `100`
 
 width
 
@@ -19,7 +19,7 @@ width
 
 **Type**: `number`
 
-**Default**: `0`
+**Default**: `100`
 
 depth
 
@@ -27,7 +27,7 @@ depth
 
 **Type**: `number`
 
-**Default**: `1`
+**Default**: `5`
 
 width segments
 
@@ -35,6 +35,48 @@ width segments
 
 **Type**: `number`
 
-**Default**: `1`
+**Default**: `5`
 
 depth segments
+
+## materialType
+
+**Type**：`'basic' | 'phong' | 'lambert'`
+
+**Default**：`basic`
+
+material type
+
+## materialProps material-related parameters
+
+### wireframe
+
+**Type**：`boolean`
+
+**Default**：`false`
+
+Enable wireframe，Commonly used to visually display triangular surfaces
+
+### wireframeColor
+
+**Type**：`string`
+
+**Default**：`black`
+
+After enabling wireframe, you can specify a color, which defaults to 'black'
+
+### wireframeLineWidth
+
+**Type**：`number`
+
+**Default**：`1`
+
+After enabling wireframe, you can specify the line width, which defaults to 1
+
+### cullMode
+
+**Type**：`number`
+
+**Default**：`0`
+
+Turn on face removal, default to 0, which means no removal. 1 is front removal, 2 is back removal, and 3 is front and back removal
