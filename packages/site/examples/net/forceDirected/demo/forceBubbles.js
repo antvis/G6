@@ -152,9 +152,4 @@ graph.on('node:click', function (e) {
   graph.layout({ type: 'force' });
 });
 
-if (typeof window !== 'undefined')
-  window.onresize = () => {
-    if (!graph || graph.destroyed) return;
-    if (!container || !container.scrollWidth || !container.scrollHeight) return;
-    graph.setSize([container.scrollWidth, container.scrollHeight - 20]);
-  };
+window.graph = graph;

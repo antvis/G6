@@ -3,7 +3,7 @@ if (window) {
   window.g6 = require('@antv/g6/lib'); // import the source for debugging
 
   window.layoutGpu = require('@antv/layout-gpu'); // import the source for debugging
-  window.Algorithm = require('@antv/algorithm');
+  window.algorithm = require('@antv/algorithm');
   window.layoutWasm = require('@antv/layout-wasm'); // import the source for debugging
   window.graphlib = require('@antv/graphlib');
 

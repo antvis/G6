@@ -122,10 +122,5 @@ fetch('https://assets.antv.antgroup.com/g6/eva-3d-data.json')
       console.log('frame', frame);
       if (frame) cancelAnimationFrame(frame);
     });
-    if (typeof window !== 'undefined')
-      window.onresize = () => {
-        if (!graph || graph.destroyed) return;
-        if (!container || !container.scrollWidth || !container.scrollHeight) return;
-        graph.setSize([container.scrollWidth, container.scrollHeight - 160]);
-      };
+        window.graph = graph;
   });

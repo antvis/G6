@@ -4,7 +4,7 @@ declare global {
   interface Window {
     g6: any;
     layoutGpu: any;
-    Algorithm: any;
+    algorithm: any;
     layoutWasm: any;
     graphlib: any;
     g6PluginMapView: any;

@@ -59,9 +59,4 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')
     });
   });
 
-if (typeof window !== 'undefined')
-  window.onresize = () => {
-    if (!graph || graph.get('destroyed')) return;
-    if (!container || !container.scrollWidth || !container.scrollHeight) return;
-    graph.changeSize(container.scrollWidth, container.scrollHeight - 20);
-  };
+window.graph = graph;

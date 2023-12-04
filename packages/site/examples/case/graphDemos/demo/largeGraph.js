@@ -34,7 +34,7 @@ insertCss(`
 	}
 `);
 
-const { labelPropagation, louvain, findShortestPath } = G6.Algorithm;
+const { louvain } = G6.Algorithm;
 const { uniqueId } = G6.Util;
 
 const NODESIZEMAPPING = 'degree';
@@ -86,12 +86,7 @@ const subjectColors = [
   '#F08BB4',
 ];
 
-const colorSets = G6.Util.getColorSetsBySubjectColors(
-  subjectColors,
-  darkBackColor,
-  theme,
-  disableColor,
-);
+const colorSets = G6.Util.getColorSetsBySubjectColors(subjectColors, darkBackColor, theme, disableColor);
 
 const global = {
   node: {
@@ -679,15 +674,7 @@ const labelFormatter = (text, minLength = 10) => {
   return text;
 };
 
-const processNodesEdges = (
-  nodes,
-  edges,
-  width,
-  height,
-  largeGraphMode,
-  edgeLabelVisible,
-  isNewGraph = false,
-) => {
+const processNodesEdges = (nodes, edges, width, height, largeGraphMode, edgeLabelVisible, isNewGraph = false) => {
   if (!nodes || nodes.length === 0) return {};
   const currentNodeMap = {};
   let maxNodeCount = -Infinity;
@@ -739,8 +726,7 @@ const processNodesEdges = (
     const sourceNode = currentNodeMap[edge.source];
     const targetNode = currentNodeMap[edge.target];
 
-    if (!sourceNode || !targetNode)
-      console.warn('source or target is not defined!!!', edge, sourceNode, targetNode);
+    if (!sourceNode || !targetNode) console.warn('source or target is not defined!!!', edge, sourceNode, targetNode);
 
     // calculate the degree
     sourceNode.degree++;
@@ -792,8 +778,9 @@ const processNodesEdges = (
     const arrowWidth = Math.max(size / 2 + 2, 3);
     const arrowLength = 10;
     const arrowBeging = targetNode.size + arrowLength;
-    let arrowPath = `M ${arrowBeging},0 L ${arrowBeging + arrowLength},-${arrowWidth} L ${arrowBeging + arrowLength
-      },${arrowWidth} Z`;
+    let arrowPath = `M ${arrowBeging},0 L ${arrowBeging + arrowLength},-${arrowWidth} L ${
+      arrowBeging + arrowLength
+    },${arrowWidth} Z`;
     let d = targetNode.size / 2 + arrowLength;
     if (edge.source === edge.target) {
       edge.type = 'loop';
@@ -803,9 +790,7 @@ const processNodesEdges = (
     const isRealEdge = targetNode.isReal && sourceNode.isReal;
     edge.isReal = isRealEdge;
     const stroke = isRealEdge ? global.edge.style.realEdgeStroke : global.edge.style.stroke;
-    const opacity = isRealEdge
-      ? global.edge.style.realEdgeOpacity
-      : global.edge.style.strokeOpacity;
+    const opacity = isRealEdge ? global.edge.style.realEdgeOpacity : global.edge.style.strokeOpacity;
     const dash = Math.max(size, 2);
     const lineDash = isRealEdge ? undefined : [dash, dash];
     edge.style = {
@@ -817,11 +802,11 @@ const processNodesEdges = (
       lineDash,
       endArrow: arrowPath
         ? {
-          path: arrowPath,
-          d,
-          fill: stroke,
-          strokeOpacity: 0,
-        }
+            path: arrowPath,
+            d,
+            fill: stroke,
+            strokeOpacity: 0,
+          }
         : false,
     };
     edge.labelCfg = {
@@ -981,20 +966,12 @@ const showItems = (graph) => {
     if (!node.isVisible()) graph.showItem(node, false, false);
   });
   graph.getEdges().forEach((edge) => {
-    if (!edge.isVisible()) edge.showItem(edge,false, false);
+    if (!edge.isVisible()) edge.showItem(edge, false, false);
   });
   hiddenItemIds = [];
 };
 
-const handleRefreshGraph = (
-  graph,
-  graphData,
-  width,
-  height,
-  largeGraphMode,
-  edgeLabelVisible,
-  isNewGraph,
-) => {
+const handleRefreshGraph = (graph, graphData, width, height, largeGraphMode, edgeLabelVisible, isNewGraph) => {
   if (!graphData || !graph) return;
   clearFocusItemState(graph);
   // reset the filtering
@@ -1051,14 +1028,7 @@ const handleRefreshGraph = (
   return { nodes, edges };
 };
 
-const getMixedGraph = (
-  aggregatedData,
-  originData,
-  nodeMap,
-  aggregatedNodeMap,
-  expandArray,
-  collapseArray,
-) => {
+const getMixedGraph = (aggregatedData, originData, nodeMap, aggregatedNodeMap, expandArray, collapseArray) => {
   let nodes = [],
     edges = [];
 
@@ -1183,13 +1153,7 @@ const generateNeighbors = (centerNodeModel, step, maxNeighborNumPerNode = 5) => 
   return { nodes, edges };
 };
 
-const getExtractNodeMixedGraph = (
-  extractNodeData,
-  originData,
-  nodeMap,
-  aggregatedNodeMap,
-  currentUnproccessedData,
-) => {
+const getExtractNodeMixedGraph = (extractNodeData, originData, nodeMap, aggregatedNodeMap, currentUnproccessedData) => {
   const extractNodeId = extractNodeData.id;
   // const extractNodeClusterId = extractNodeData.clusterId;
   // push to the current rendering data
@@ -1556,22 +1520,10 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')
             hiddenItemIds.push(model.id);
             break;
           case 'expand':
-            const newArray = manageExpandCollapseArray(
-              graph.getNodes().length,
-              model,
-              collapseArray,
-              expandArray,
-            );
+            const newArray = manageExpandCollapseArray(graph.getNodes().length, model, collapseArray, expandArray);
             expandArray = newArray.expandArray;
             collapseArray = newArray.collapseArray;
-            mixedGraphData = getMixedGraph(
-              clusteredData,
-              data,
-              nodeMap,
-              aggregatedNodeMap,
-              expandArray,
-              collapseArray,
-            );
+            mixedGraphData = getMixedGraph(clusteredData, data, nodeMap, aggregatedNodeMap, expandArray, collapseArray);
             break;
           case 'collapse':
             const aggregatedNode = aggregatedNodeMap[model.clusterId];
@@ -1583,26 +1535,12 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')
                 break;
               }
             }
-            mixedGraphData = getMixedGraph(
-              clusteredData,
-              data,
-              nodeMap,
-              aggregatedNodeMap,
-              expandArray,
-              collapseArray,
-            );
+            mixedGraphData = getMixedGraph(clusteredData, data, nodeMap, aggregatedNodeMap, expandArray, collapseArray);
             break;
           case 'collapseAll':
             expandArray = [];
             collapseArray = [];
-            mixedGraphData = getMixedGraph(
-              clusteredData,
-              data,
-              nodeMap,
-              aggregatedNodeMap,
-              expandArray,
-              collapseArray,
-            );
+            mixedGraphData = getMixedGraph(clusteredData, data, nodeMap, aggregatedNodeMap, expandArray, collapseArray);
             break;
           case 'neighbor':
             const expandNeighborSteps = parseInt(liIdStrs[1]);
@@ -1626,15 +1564,7 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')
         if (mixedGraphData) {
           cachePositions = cacheNodePositions(graph.getNodes());
           currentUnproccessedData = mixedGraphData;
-          handleRefreshGraph(
-            graph,
-            currentUnproccessedData,
-            CANVAS_WIDTH,
-            CANVAS_HEIGHT,
-            largeGraphMode,
-            true,
-            false,
-          );
+          handleRefreshGraph(graph, currentUnproccessedData, CANVAS_WIDTH, CANVAS_HEIGHT, largeGraphMode, true, false);
         }
       },
       // offsetX and offsetY include the padding of the parent container
@@ -1705,10 +1635,4 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')
     graph.render();
   });
 
-if (typeof window !== 'undefined')
-  window.onresize = () => {
-    if (!graph || graph.get('destroyed')) return;
-    const container = document.getElementById('container');
-    if (!container) return;
-    graph.changeSize(container.scrollWidth, container.scrollHeight - 30);
-  };
+window.graph = graph;

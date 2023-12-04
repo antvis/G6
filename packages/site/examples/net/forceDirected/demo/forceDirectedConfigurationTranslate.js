@@ -552,13 +552,6 @@ const graph = new G6.Graph({
   data,
 });
 
-if (typeof window !== 'undefined')
-  window.onresize = () => {
-    if (!graph || graph.destroyed) return;
-    if (!container || !container.scrollWidth || !container.scrollHeight) return;
-    graph.setSize([container.scrollWidth, container.scrollHeight - 30]);
-  };
-
 layoutConfigTranslation();
 
 setInterval(() => {
@@ -584,3 +577,5 @@ function layoutConfigTranslation() {
     });
   }, 5000);
 }
+
+window.graph = graph;

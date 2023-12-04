@@ -50,11 +50,7 @@ fetch('https://gw.alipayobjects.com/os/bmw-prod/b0ca4b15-bd0c-43ec-ae41-c810374a
       clearStates();
       const { findShortestPath } = G6.Algorithm;
       // path 为其中一条最短路径，allPath 为所有的最短路径
-      const { path, allPath } = findShortestPath(
-        data,
-        selectedNodes[0].getID(),
-        selectedNodes[1].getID(),
-      );
+      const { path, allPath } = findShortestPath(data, selectedNodes[0].getID(), selectedNodes[1].getID());
 
       const pathNodeMap = {};
       path.forEach((id) => {
@@ -84,9 +80,4 @@ fetch('https://gw.alipayobjects.com/os/bmw-prod/b0ca4b15-bd0c-43ec-ae41-c810374a
     });
   });
 
-if (typeof window !== 'undefined')
-  window.onresize = () => {
-    if (!graph || graph.get('destroyed')) return;
-    if (!container || !container.scrollWidth || !container.scrollHeight) return;
-    graph.changeSize(container.scrollWidth, container.scrollHeight - 40);
-  };
+window.graph = graph;

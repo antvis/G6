@@ -1,4 +1,4 @@
-import { Graph, Extensions, extend } from '@antv/g6';
+import { Graph, Extensions, extend, stdLib } from '@antv/g6';
 
 const container = document.getElementById('container');
 const width = container.scrollWidth;
@@ -222,5 +222,5 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.j
       },
     });
 
-window.graph = graph;
+    window.graph = graph;
   });

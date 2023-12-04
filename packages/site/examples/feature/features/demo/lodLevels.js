@@ -230,12 +230,7 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')
       data,
     });
 
-    if (typeof window !== 'undefined')
-      window.onresize = () => {
-        if (!graph || graph.destroyed) return;
-        if (!container || !container.scrollWidth || !container.scrollHeight) return;
-        graph.setSize([container.scrollWidth, container.scrollHeight - 160]);
-      };
+    window.graph = graph;
   });
 
 const btnContainer = document.createElement('div');

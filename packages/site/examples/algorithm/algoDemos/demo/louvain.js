@@ -46,22 +46,17 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')
 
     button.addEventListener('click', (e) => {
       const clusteredData = louvain(data, false);
-      
+
       clusteredData.clusters.forEach((cluster, i) => {
         const colorSet = colorSets[i % colorSets.length];
         cluster.nodes.forEach((node) => {
           const model = graph.findById(node.id).getModel();
-          model.style.fill = colorSet.mainFill
-          model.style.stroke = colorSet.mainStroke
+          model.style.fill = colorSet.mainFill;
+          model.style.stroke = colorSet.mainStroke;
         });
       });
       graph.refresh();
     });
   });
 
-if (typeof window !== 'undefined')
-  window.onresize = () => {
-    if (!graph || graph.get('destroyed')) return;
-    if (!container || !container.scrollWidth || !container.scrollHeight) return;
-    graph.changeSize(container.scrollWidth, container.scrollHeight - 20);
-  };
+window.graph = graph;
