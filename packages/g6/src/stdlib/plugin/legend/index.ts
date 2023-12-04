@@ -517,8 +517,7 @@ export class Legend extends Base {
           this.handleMouseEnter(ele, types, typeField, itemType, data),
         mouseleave: (ele) =>
           this.handleMouseLeave(ele, types, typeField, itemType),
-        click: (ele) =>
-          this.handleClick(ele, types, typeField, itemType, data),
+        click: (ele) => this.handleClick(ele, types, typeField, itemType, data),
       },
     });
 
