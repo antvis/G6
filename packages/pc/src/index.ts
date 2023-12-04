@@ -35,6 +35,7 @@ const EdgeFilterLens = Plugin.EdgeFilterLens;
 const SnapLine = Plugin.SnapLine;
 const Legend = Plugin.Legend;
 const Annotation = Plugin.Annotation;
+const Ruler = Plugin.Ruler;
 
 export * from '@antv/g6-core';
 export * from './types';
@@ -62,6 +63,7 @@ export {
   SnapLine,
   Legend,
   Annotation,
+  Ruler,
   Arrow,
   Marker,
   Shape,
@@ -91,6 +93,7 @@ export default {
   ToolBar: Plugin.ToolBar,
   Tooltip: Plugin.Tooltip,
   Legend: Plugin.Legend,
+  Ruler: Plugin.Ruler,
   TimeBar,
   SnapLine,
   Fisheye,

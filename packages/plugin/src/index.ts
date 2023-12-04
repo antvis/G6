@@ -12,6 +12,7 @@ import SnapLine from './snapline';
 import PluginBase from './base';
 import Legend from './legend';
 import Annotation from './annotation';
+import Ruler from './ruler';
 
 export {
   PluginBase,
@@ -27,7 +28,8 @@ export {
   EdgeFilterLens,
   SnapLine,
   Legend,
-  Annotation
+  Annotation,
+  Ruler
 };
 
 const Plugin = {
@@ -44,7 +46,8 @@ const Plugin = {
   EdgeFilterLens,
   SnapLine,
   Legend,
-  Annotation
+  Annotation,
+  Ruler
 };
 
 export default Plugin;

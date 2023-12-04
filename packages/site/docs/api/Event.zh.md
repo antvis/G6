@@ -139,6 +139,7 @@ Combo 继承所有 Node 事件。
 | canvas:touchstart | 在触控屏上，当画布开始被触碰的时候触发的事件 |
 | canvas:touchmove | 在触控屏上，当画布开始被触碰过程中触发的事件 |
 | canvas:touchend | 在触控屏上，当画布开始被触碰结束的时候触发的事件 |
+| canvas:changeSize | 当画布大小发生变化的时候触发 |
 
 ## 时机事件
 

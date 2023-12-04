@@ -96,6 +96,60 @@ Grid 插件在画布上绘制了网格。
 | ---- | ------ | ---------------------------- |
 | img  | String | grid 图片，base64 格式字符串 |
 
+
+
+## Ruler
+
+Ruler 插件在画布上绘制了标尺。通过左上角的锁还可以锁定缩放。
+
+
+### 配置项
+
+| 名称 | 类型   | 描述                         |
+| ---- | ------ | ---------------------------- |
+| directions  | ruleDirection[] 或者  ruleDirection | 方向, 1代表横向, 2代表纵向, 默认[1, 2]|
+| width  | number | 默认横向以canvas宽度, 纵向以canvas高度, 需要注意宽度需要算上`startLen`的大小 |
+| height  | number | 尺子的高度, 默认是`25`, 当存在 startLen 和 height 会取2个最大的值 |
+| startLen  | number | 尺子的开始位置, 默认`25`, 当存在 startLen 和 height 会取2个最大的值 |
+| scale  | number | 当前缩放的大小 |
+| unitInterval  | number | 单位间隔 |
+| showUnitLabel  | boolean | 是否单位间隔的文字 |
+| unitLabelStyle  | CanvasRenderingContext2D['strokeStyle'] | 单位文字的颜色 |
+| font  | CanvasRenderingContext2D['font'] | 文字的字体 |
+| visible  | boolean | 是否可见, 默认true |
+| lineWidth  | number | 线的宽度 |
+| lineHeight  | number | 线的高度 |
+| strokeStyle  | CanvasRenderingContext2D['strokeStyle'] | 线的颜色 |
+| showLock  | number | 是否显示锁icon |
+| lockColor  | string | 锁的颜色 |
+| lockZoom  | boolean | 是否锁住缩放 |
+| monitorZoom  | boolean | 是否监听缩放改变刻度改变, 默认true |
+| monitorSize  | boolean | `changeSize`, 是否改变尺子的大小 |
+
+### 方法
+
+| 名称 | 描述                         |
+| ---- | ---------------------------- |
+| resetRulerSize  | 改变尺子的大小, 默认情况下, 使用`changeSize`方法会自动调用 |
+| toggerVisible  | 切换显示显示 |
+| changeVisible  | 改变是否显示, 接受一个布尔值 |
+| toggerLockZoom  | 切换锁是否可以缩放 |
+| changeLockZoom  | 改变锁是否可以缩放, 接受一个布尔值 |
+| changeScale  | 改变缩放大小 |
+
+### 用法
+
+实例化 Ruler 插件时。
+
+```javascript
+// 实例化 Ruler 插件
+const ruler = new G6.Ruler();
+const graph = new G6.Graph({
+  //... 其他配置项
+  plugins: [ruler], // 配置 Ruler 插件
+});
+```
+
 ## Minimap
 
 Minimap 是用于快速预览和探索图的工具。

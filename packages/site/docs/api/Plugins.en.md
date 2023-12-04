@@ -88,6 +88,58 @@ Grid plugin draws grids on the canvas.
 
 Use the code in [Configure to Graph](#configure-to-graph) to instantiate grid plugin with the following configurations.
 
+## Ruler
+
+The Ruler plugin in G6 can be used to draw rulers on the canvas. It provides various configuration options and methods for customization.
+
+
+### 配置项
+
+| 名称 | 类型   | 描述                         |
+| ---- | ------ | ---------------------------- |
+| directions  | Direction: 1 for horizontal, 2 for vertical, default is [1, 2] |
+| width  | number | Default width based on canvas width for horizontal, canvas height for vertical (including `startLen`) |
+| height  | number | Height of the ruler, default is `25`. Takes the maximum of startLen and height when both are present |
+| startLen  | number | Starting position of the ruler, default is `25`. Takes the maximum of startLen and height when both are present |
+| scale  | number | Current scale size |
+| unitInterval  | number | Unit interval |
+| showUnitLabel  | boolean | Whether to show unit interval labels |
+| unitLabelStyle  | CanvasRenderingContext2D['strokeStyle'] | Color of the unit labels |
+| font  | CanvasRenderingContext2D['font'] | Font for the text |
+| visible  | boolean | Visibility, default is true |
+| lineWidth  | number | Width of the lines |
+| lineHeight  | number | Height of the lines |
+| strokeStyle  | CanvasRenderingContext2D['strokeStyle'] | Color of the lines |
+| showLock  | number | Whether to show the lock icon |
+| lockColor  | string | Color of the lock icon |
+| lockZoom  | boolean | Whether to lock the zoom |
+| monitorZoom  | boolean | Whether to monitor zoom changes and update the scale, default is true |
+| monitorSize  | boolean | `changeSize`, Whether to change the ruler size |
+
+### 方法
+
+| 名称 | 描述                         |
+| ---- | ---------------------------- |
+| resetRulerSize  | Change the size of the ruler, automatically called when using `changeSize` method by default |
+| toggerVisible  | Toggle visibility of the ruler |
+| changeVisible  | Change visibility, accepts a boolean value |
+| toggerLockZoom  | Toggle whether zoom is locked |
+| changeLockZoom  | Change whether zoom is locked, accepts a boolean value |
+| changeScale  | Change the scale size |
+
+### 用法
+
+实例化 Ruler 插件时。
+
+```javascript
+// Instantiate the Ruler plugin
+const ruler = new G6.Ruler();
+const graph = new G6.Graph({
+  //... other configurations
+  plugins: [ruler], // Configure the Ruler plugin
+});
+```
+
 ### Configuration
 
 | Name | Type   | Required | Description                                |
