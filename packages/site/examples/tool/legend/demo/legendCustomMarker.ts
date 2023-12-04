@@ -153,7 +153,7 @@ const legend = {
 };
 
 new Graph({
-  container: 'container',
+  container,
   width,
   height,
   data,
