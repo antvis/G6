@@ -92,7 +92,7 @@ export class Tooltip extends Base {
   private currentTarget;
   private asyncTooltip;
   private currentAsyncTarget;
-  private hidenTimer; //delay hiding tooltip
+  private hiddenTimer; //delay hiding tooltip
 
   constructor(options?: TooltipConfig) {
     super(options);
@@ -245,7 +245,7 @@ export class Tooltip extends Base {
   }
 
   public async showTooltip(e: IG6GraphEvent) {
-    clearTimeout(this.hidenTimer);
+    clearTimeout(this.hiddenTimer);
     if (!e.itemId) {
       return;
     }
@@ -294,11 +294,11 @@ export class Tooltip extends Base {
   public hideTooltip() {
     const tooltip = this.tooltip;
     if (tooltip) {
-      this.hidenTimer = setTimeout(() => {
+      this.hiddenTimer = setTimeout(() => {
         modifyCSS(tooltip, { visibility: 'hidden', display: 'none' });
       }, 100);
       tooltip.addEventListener('pointerenter', (e) => {
-        clearTimeout(this.hidenTimer);
+        clearTimeout(this.hiddenTimer);
       });
       tooltip.addEventListener('pointerleave', (e) => {
         modifyCSS(tooltip, { visibility: 'hidden', display: 'none' });

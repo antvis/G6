@@ -19,7 +19,7 @@ export abstract class Theme {
   destroy() {}
 }
 
-/** Theme regisry table.
+/** Theme registry table.
  * @example { 'drag-node': DragNodeBehavior, 'my-drag-node': MyDragNodeBehavior }
  */
 export interface ThemeRegistry {

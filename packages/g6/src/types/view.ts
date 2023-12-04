@@ -1,5 +1,5 @@
 export interface FitViewRules {
-  /** Whehter fit it only when the graph is out of the viewport.  */
+  /** Whether fit it only when the graph is out of the viewport.  */
   onlyOutOfViewport?: boolean;
   /** Whether zoom the graph only when the graph is larger than the viewport. */
   onlyZoomAtLargerThanViewport?: boolean;

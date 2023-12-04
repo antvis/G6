@@ -465,7 +465,7 @@ export const removeRedundantPoint = (points: Point[]) => {
 };
 
 /**
- * sorted array ascendly
+ * sorted array ascend
  * add new item to proper index when calling add
  */
 export class SortedArray {
@@ -552,7 +552,7 @@ interface ComputedEdge {
   bbox: AABB;
 }
 
-/** Define a quadtree */
+/** Define a quad-tree */
 export class QuadTree {
   private readonly capacity: number;
   private edges: ComputedEdge[] = [];
@@ -590,7 +590,7 @@ export class QuadTree {
     );
   }
 
-  // Divide the quadtree into four subtrees
+  // Divide the quad-tree into four subtrees
   subdivide() {
     const x = this.boundary.center[0];
     const y = this.boundary.center[1];

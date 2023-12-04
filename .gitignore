@@ -36,5 +36,3 @@ packages/g6/tests/integration/snapshots/**/*-diff.*
 site/.dumi/tmp
 site/.dumi/tmp-production
 
-# Editor
-.vscode

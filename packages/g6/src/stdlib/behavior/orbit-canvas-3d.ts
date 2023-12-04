@@ -8,7 +8,7 @@ const VALID_TRIGGERS = ['drag', 'directionKeys'];
 
 export interface OrbitCanvas3DOptions {
   /**
-   * The way to tranlate the canvas. 'drag' (default) means dragged by mouse, 'directionKeys' means the up/down/left/right key on keyBoard.
+   * The way to translate the canvas. 'drag' (default) means dragged by mouse, 'directionKeys' means the up/down/left/right key on keyBoard.
    */
   trigger?: 'drag' | 'directionKeys';
   /**

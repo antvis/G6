@@ -94,10 +94,10 @@ export const graphComboTreeDfs = (
 };
 
 /**
- * Depth first search begin from nodes in g6 graph data, and then search the ancestirs from begin nodes.
+ * Depth first search begin from nodes in g6 graph data, and then search the ancestors from begin nodes.
  * @param graph G6 graph instance
  * @param graphCore graphlib data structure
- * @param nodes begin ndoes
+ * @param nodes begin nodes
  * @param fn will be called while visiting each node
  * @param mode 'TB' - visit from top to bottom; 'BT' - visit from bottom to top;
  * @returns
@@ -135,7 +135,7 @@ export const traverseGraphAncestors = (
 /**
  * Traverse the ancestors from the begin nodes.
  * @param graphCore graphlib data structure
- * @param nodes begin ndoes
+ * @param nodes begin nodes
  * @param fn will be called while visiting each node
  */
 export const traverseAncestors = (graphCore, nodes, fn) => {
@@ -172,7 +172,7 @@ export const isSucceed = (graph, testParent, testSucceed): boolean => {
  * @param toBeAncestorId id of the new parent to check if it is valid to be a parent of the node with id toBeSucceedId
  * @returns
  */
-export const validateComboStrucutre = (
+export const validateComboStructure = (
   graph,
   toBeSucceedId,
   toBeAncestorId,
@@ -298,7 +298,7 @@ export const graphData2TreeData = (
 };
 
 /**
- * Travere a tree data from top to bottom.
+ * Traverse a tree data from top to bottom.
  * @param treeData
  * @param callback
  */
@@ -333,15 +333,15 @@ export const dataLifecycleMap: Record<string, DataLifecycleType> = {
 /**
  * Whether the graph is empty.
  * @param graph graph instance.
- * @param excludeInvisibles whether exclude invisibles. true means the function should test without visible items.
+ * @param excludeInvisible whether exclude invisible. true means the function should test without visible items.
  * @returns graph is empty or not.
  */
-export const isEmptyGraph = (graph, excludeInvisibles = false): boolean => {
+export const isEmptyGraph = (graph, excludeInvisible = false): boolean => {
   const nodes = graph.getAllNodesData();
   const combos = graph.getAllCombosData();
   if (nodes.length === 0 && combos.length === 0) return true;
 
-  if (excludeInvisibles) {
+  if (excludeInvisible) {
     const edges = graph.getAllEdgesData();
     if (nodes.find((node) => graph.getItemVisible(node.id))) return false;
     if (edges.find((edge) => graph.getItemVisible(edge.id))) return false;

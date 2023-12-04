@@ -17,7 +17,7 @@ export interface AnimateCfg {
    */
   delay?: number;
   /**
-   * Iteration number for the animation, Inifinity means repeat.
+   * Iteration number for the animation, Infinity means repeat.
    * @type {number | typeof Infinity}
    */
   iterations?: number | typeof Infinity;
@@ -45,7 +45,7 @@ export interface IAnimate {
   fields?: string[];
   // shapeId for the animate, 'group' by default, means animation on whole graphics group
   shapeId?: string;
-  // the order of the animate, 0 by dfault
+  // the order of the animate, 0 by default
   order?: number;
   // animate options
   duration?: number;

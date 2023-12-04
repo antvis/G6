@@ -20,7 +20,7 @@ type LinePosition = 'top' | 'hcenter' | 'bottom' | 'left' | 'vcenter' | 'right';
 
 /**
  * Line for draw
- * first point: point on constractItem
+ * first point: point on contrastItem
  * second point: point on draggingItem
  */
 type DrawLine = { line: [Point, Point]; lp: LinePosition };
@@ -47,7 +47,7 @@ export class Snapline extends Base {
   ] = [undefined, undefined];
 
   /**
-   * Cache the nodes' positions to be throttly updated.
+   * Cache the nodes' positions to be throttle updated.
    */
   private updateCache: Map<ID, NodeModel> = new Map();
 
@@ -823,7 +823,7 @@ export class Snapline extends Base {
           this.updateAlignLineWhenAbsorb([true, false]);
         } else {
           // cancel absorb
-          // 1.update positon
+          // 1.update position
           this.doUpdatePosition({ fx: undefined });
           // 2.remove align line && update state
           this.removeAlignLine([true, undefined]);

@@ -252,7 +252,7 @@ export class DonutNode extends BaseNode {
     diffData?: { previous: NodeModelData; current: NodeModelData },
     diffState?: { previous: State[]; current: State[] },
   ): {
-    beginAngle: number; // next begin iangle
+    beginAngle: number; // next begin angle
     shouldEnd: boolean; // finish fans drawing
   } => {
     const {

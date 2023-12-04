@@ -265,7 +265,7 @@ export class SubjectThemeSolver extends BaseThemeSolver {
 }
 
 /**
- * get the mix color of backColor and frontColor with alpah
+ * get the mix color of backColor and frontColor with alpha
  * @param backColor background color
  * @param frontColor foreground color
  * @param frontAlpha the opacity of foreground color

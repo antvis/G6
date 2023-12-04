@@ -192,7 +192,7 @@ export default class Hull extends Base {
     const hullComponent = this.hullMap[id];
     if (!hullComponent) {
       console.warn(
-        `Add member to hull faield. The hull with id ${id} is not exist`,
+        `Add member to hull failed. The hull with id ${id} is not exist`,
       );
       return;
     }
@@ -203,7 +203,7 @@ export default class Hull extends Base {
     const hullComponent = this.hullMap[id];
     if (!hullComponent) {
       console.warn(
-        `Remove member from hull faield. The hull with id ${id} is not exist`,
+        `Remove member from hull failed. The hull with id ${id} is not exist`,
       );
       return;
     }
@@ -214,7 +214,7 @@ export default class Hull extends Base {
     const hullComponent = this.hullMap[id];
     if (!hullComponent) {
       console.warn(
-        `Add non member to hull faield. The hull with id ${id} is not exist`,
+        `Add non member to hull failed. The hull with id ${id} is not exist`,
       );
       return;
     }
@@ -225,7 +225,7 @@ export default class Hull extends Base {
     const hullComponent = this.hullMap[id];
     if (!hullComponent) {
       console.warn(
-        `Remove non member from hull faield. The hull with id ${id} is not exist`,
+        `Remove non member from hull failed. The hull with id ${id} is not exist`,
       );
       return;
     }

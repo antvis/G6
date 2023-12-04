@@ -7,7 +7,7 @@ const VALID_TRIGGERS = ['drag', 'directionKeys'];
 
 export interface RotateCanvas3DOptions {
   /**
-   * The way to tranlate the canvas. 'drag' (default) means dragged by mouse, 'directionKeys' means the up/down/left/right key on keyBoard.
+   * The way to translate the canvas. 'drag' (default) means dragged by mouse, 'directionKeys' means the up/down/left/right key on keyBoard.
    */
   trigger?: 'drag' | 'directionKeys';
   /**
@@ -18,7 +18,7 @@ export interface RotateCanvas3DOptions {
    */
   secondaryKey?: string;
   /**
-   * To speed up rotating while pressing and rotate the canvas by direciton keys (trigger = 'directionKeys').
+   * To speed up rotating while pressing and rotate the canvas by direction keys (trigger = 'directionKeys').
    */
   speedUpKey?: string;
   /**

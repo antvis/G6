@@ -48,7 +48,7 @@ Watermark position
 - `middle`: Middle layer canvas
 - `bottom`: Bottom layer canvas (below the graph)
 
-### seperation
+### separation
 
 **Type**: `[number, number]`
 

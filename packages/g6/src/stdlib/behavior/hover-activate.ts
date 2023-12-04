@@ -15,7 +15,7 @@ export interface HoverActivateOptions {
    */
   activateState?: string;
   /**
-   * Item types to be able to acitvate.
+   * Item types to be able to activate.
    * Defaults to `["node", "edge"]`.
    * Should be an array of "node", "edge", or "combo".
    */

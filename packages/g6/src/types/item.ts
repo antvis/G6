@@ -100,7 +100,7 @@ export interface ShapesEncode {
   iconShape?: ShapeAttrEncode | Encode<ShapeStyle>;
   otherShapes?: {
     [shapeId: string]: {
-      [shapeAtrr: string]: unknown | Encode<unknown>;
+      [shapeAttr: string]: unknown | Encode<unknown>;
     };
   };
 }
@@ -198,7 +198,7 @@ export interface IItem {
   displayModel: ItemDisplayModel;
   /** The style mapper configured at graph with field name 'node' / 'edge' / 'combo'. */
   mapper: DisplayMapper;
-  /** The state sstyle mapper configured at traph with field name 'nodeState' / 'edgeState' / 'comboState'. */
+  /** The state style mapper configured at graph with field name 'nodeState' / 'edgeState' / 'comboState'. */
   stateMapper: {
     [stateName: string]: DisplayMapper;
   };
@@ -233,7 +233,7 @@ export interface IItem {
   lodLevels: LodLevelRanges;
   /** Last zoom ratio. */
   zoom: number;
-  /** Cache the chaging states which are not consomed by draw  */
+  /** Cache the changing states which are not consumed by draw  */
   changedStates: string[];
   /** The listener for the animations frames. */
   onframe: Function;
@@ -332,7 +332,7 @@ export interface IItem {
   getBBox: () => AABB;
   /** Stop all the animations on the item. */
   stopAnimations: () => void;
-  /** Animations' frame listemer. */
+  /** Animations' frame listener. */
   animateFrameListener: Function;
   /** Call render extension's onZoom to response the graph zooming. */
   updateZoom: (zoom: number) => void;

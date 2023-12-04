@@ -47,7 +47,7 @@ export abstract class BaseNode {
 
   // cache the zoom level infomations
   protected zoomCache: {
-    // last responsed zoom ratio.
+    // last response zoom ratio.
     zoom: number;
     // wordWrapWidth of labelShape according to the maxWidth
     wordWrapWidth: number;
@@ -347,7 +347,7 @@ export abstract class BaseNode {
   ): DisplayObject {
     const { labelShape } = shapeMap;
     if (!labelShape || !labelShape.style.text || !model.data.labelShape) return;
-    // label's local bounds, will take scale into acount
+    // label's local bounds, will take scale into account
     const textBBoxGeo = labelShape.getGeometryBounds();
     const height = textBBoxGeo.max[1] - textBBoxGeo.min[1];
     const width = Math.min(

@@ -374,11 +374,11 @@ export class Legend extends Base {
     const { size: legendSize, grid } = this.getLegendSize(rows, cols, padding);
 
     // Gets all the data for the given item type and extracts the unique types based on the typeField.
-    const datas =
+    const data =
       itemType === 'node' ? graph.getAllNodesData() : graph.getAllEdgesData();
     const typeSet = new Set<string>();
     const typeModelMap = {};
-    datas.map((model) => {
+    data.map((model) => {
       if (model.data[typeField]) {
         const type = model.data[typeField];
         typeSet.add(type);
@@ -514,11 +514,10 @@ export class Legend extends Base {
             new Shape({ style, id: `marker-${itemType}-${typeValue}` });
         },
         mouseenter: (ele) =>
-          this.handleMouseEnter(ele, types, typeField, itemType, datas),
+          this.handleMouseEnter(ele, types, typeField, itemType, data),
         mouseleave: (ele) =>
           this.handleMouseLeave(ele, types, typeField, itemType),
-        click: (ele) =>
-          this.handleClick(ele, types, typeField, itemType, datas),
+        click: (ele) => this.handleClick(ele, types, typeField, itemType, data),
       },
     });
 
@@ -607,7 +606,7 @@ export class Legend extends Base {
           : size[1],
       ];
       this.canvas.resize(canvasSize[0], canvasSize[1]);
-      // During serverside rendering, wrapper is not available.
+      // During server-side rendering, wrapper is not available.
       if (this.wrapper) {
         this.wrapper.style.width = `${canvasSize[0]}px`;
         this.wrapper.style.height = `${canvasSize[1]}px`;
@@ -703,16 +702,16 @@ export class Legend extends Base {
    * @param {Array} types - An array of all the types on the legend.
    * @param {string} typeField - The field that contains the type information.
    * @param {string} itemType - The type of item, node or edge.
-   * @param {Array} datas - An array of data models.
+   * @param {Array} data - An array of data models.
    */
-  private handleMouseEnter(ele, types, typeField, itemType, datas) {
+  private handleMouseEnter(ele, types, typeField, itemType, data) {
     const { graph, options } = this;
     const { activeState } = options;
     if (!activeState) return;
     const { index } = ele.__data__;
     const type = types[index];
     this.activeType[typeField] = type;
-    const activeIds = datas
+    const activeIds = data
       .filter((model) => model.data[typeField] === type)
       .map((model) => model.id);
     graph.setItemState(activeIds, activeState, true);
@@ -755,15 +754,15 @@ export class Legend extends Base {
    * @param {Array} types - An array of all the types on the legend.
    * @param {string} typeField - The field in the data model that contains the type of the data.
    * @param {string} itemType - The type of the item, node or edge.
-   * @param {Array} datas - An array of data models.
+   * @param {Array} data - An array of data models.
    */
-  private handleClick(ele, types, typeField, itemType, datas) {
+  private handleClick(ele, types, typeField, itemType, data) {
     const { graph, options } = this;
     const { selectedState } = options;
     if (!selectedState) return;
     const { index } = ele.__data__;
     const type = types[index];
-    const ids = datas
+    const ids = data
       .filter((model) => model.data[typeField] === type)
       .map((model) => model.id);
     if (this.selectedTypes[itemType].has(type)) {

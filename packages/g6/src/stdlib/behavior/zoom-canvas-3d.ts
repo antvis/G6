@@ -9,7 +9,7 @@ const VALID_TRIGGERS = ['wheel', 'upDownKeys'];
 
 export interface ZoomCanvas3DOptions {
   /**
-   * The way to tranlate the canvas. 'drag' (default) means dragged by mouse, 'directionKeys' means the up/down/left/right key on keyBoard.
+   * The way to translate the canvas. 'drag' (default) means dragged by mouse, 'directionKeys' means the up/down/left/right key on keyBoard.
    */
   trigger?: 'wheel' | 'upDownKeys';
   /**

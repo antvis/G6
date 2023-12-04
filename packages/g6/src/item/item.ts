@@ -44,7 +44,7 @@ export default abstract class Item implements IItem {
   public displayModel: ItemDisplayModel;
   /** The mapper configured at graph with field name 'node' / 'edge' / 'combo'. */
   public mapper: DisplayMapper;
-  /** The state sstyle mapper configured at traph with field name 'nodeState' / 'edgeState' / 'comboState'. */
+  /** The state style mapper configured at graph with field name 'nodeState' / 'edgeState' / 'comboState'. */
   public stateMapper: {
     [stateName: string]: DisplayMapper;
   };
@@ -88,7 +88,7 @@ export default abstract class Item implements IItem {
   public lodLevels: LodLevelRanges;
   /** Last zoom ratio. */
   public zoom: number;
-  /** Cache the chaging states which are not consomed by draw  */
+  /** Cache the changing states which are not consumed by draw  */
   public changedStates: string[];
   /** The listener for the animations frames. */
   public onframe: Function;

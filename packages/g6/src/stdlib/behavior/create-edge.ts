@@ -20,7 +20,7 @@ interface CreateEdgeOptions {
   trigger: (typeof EVENT_TRIGGERS)[number];
   /**
    * The assistant secondary key on keyboard. If it is not assigned, the behavior will be triggered when trigger happens.
-   * cound be 'shift', 'ctrl', 'control', 'alt', 'meta', undefined.
+   * could be 'shift', 'ctrl', 'control', 'alt', 'meta', undefined.
    */
   secondaryKey?: (typeof KEYBOARD_TRIGGERS)[number];
   /**

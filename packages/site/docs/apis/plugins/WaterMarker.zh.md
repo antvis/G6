@@ -48,9 +48,7 @@ order: 9
 - `middle`：中间层画布
 - `bottom`：底层画布（位于图下层）
 
-<!-- TODO 这里存在拼写错误 -->
-
-### seperation
+### separation
 
 **类型**：`[number, number]`
 

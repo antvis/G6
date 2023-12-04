@@ -35,7 +35,7 @@ type Workerized = {
   workerEnabled?: boolean;
 
   /**
-   * Iterations for iteratable layouts such as Force.
+   * Iterations for iterable layouts such as Force.
    */
   iterations?: number;
 };

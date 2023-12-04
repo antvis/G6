@@ -1,7 +1,7 @@
 import { Graph as GraphLib, ID } from '@antv/graphlib';
 import { clone, isArray, isEmpty, isObject } from '@antv/util';
 import { AABB } from '@antv/g';
-import { registery as registry } from '../../stdlib';
+import { registry } from '../../stdlib';
 import {
   ComboModel,
   ComboUserModel,
@@ -42,7 +42,7 @@ import {
   graphData2TreeData,
   traverse,
   treeData2GraphData,
-  validateComboStrucutre,
+  validateComboStructure,
 } from '../../util/data';
 import { getExtension } from '../../util/extension';
 import { isTreeLayout } from '../../util/layout';
@@ -113,13 +113,13 @@ export class DataController {
           });
       }
     } else if (conditionType === 'function') {
-      const getDatas =
+      const getData =
         type === 'node' ? graphCore.getAllNodes : graphCore.getAllEdges;
       if (type === 'combo') {
-        // TODO getDatas = ?
+        // TODO getData = ?
       }
-      const datas = getDatas() as any;
-      return datas.filter((data) => condition(data));
+      const data = getData() as any;
+      return data.filter((datum) => condition(datum));
     }
   }
 
@@ -373,7 +373,7 @@ export class DataController {
         nodes.forEach((node) => {
           if (node.data.parentId) {
             if (
-              validateComboStrucutre(this.graph, node.id, node.data.parentId)
+              validateComboStructure(this.graph, node.id, node.data.parentId)
             ) {
               this.graphCore.setParent(
                 node.id,
@@ -388,7 +388,7 @@ export class DataController {
         combos.forEach((combo) => {
           if (combo.data.parentId) {
             if (
-              validateComboStrucutre(this.graph, combo.id, combo.data.parentId)
+              validateComboStructure(this.graph, combo.id, combo.data.parentId)
             ) {
               this.graphCore.setParent(combo.id, combo.data.parentId, 'combo');
             } else {
@@ -704,7 +704,7 @@ export class DataController {
       graphCore.addNode({ id, data: { ...others, _isCombo: true } });
     }
 
-    // update strucutre
+    // update structure
     (_children as ID[]).forEach((childId) => {
       if (!this.graphCore.hasNode(childId)) {
         console.warn(

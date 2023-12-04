@@ -124,10 +124,10 @@ export class ZoomCanvas extends Behavior {
       this.options.enableOptimize !== undefined
         ? this.options.enableOptimize
         : graphBehaviorOptimize;
-    const shouldOptimze = isNumber(optimize)
+    const shouldOptimize = isNumber(optimize)
       ? graph.getAllNodesData().length > optimize
       : optimize;
-    if (shouldOptimze) {
+    if (shouldOptimize) {
       this.hiddenEdgeIds = graph
         .getAllEdgesData()
         .map((edge) => edge.id)
@@ -169,11 +169,11 @@ export class ZoomCanvas extends Behavior {
       this.options.enableOptimize !== undefined
         ? this.options.enableOptimize
         : graphBehaviorOptimize;
-    const shouldOptimze = isNumber(optimize)
+    const shouldOptimize = isNumber(optimize)
       ? graph.getAllNodesData().length > optimize
       : optimize;
     this.zooming = false;
-    if (shouldOptimze) {
+    if (shouldOptimize) {
       if (this.tileRequestId) {
         cancelAnimationFrame(this.tileRequestId);
         this.tileRequestId = undefined;

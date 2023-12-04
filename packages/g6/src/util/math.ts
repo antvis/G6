@@ -1,7 +1,7 @@
 import { Point, PolyPoint } from '../types/common';
 
 /**
- * Whether the value is begween the range of [min, max]
+ * Whether the value is between the range of [min, max]
  * @param   {number}       value  the value to be judged
  * @param   {number}       min    the min of the range
  * @param   {number}       max    the max of the range

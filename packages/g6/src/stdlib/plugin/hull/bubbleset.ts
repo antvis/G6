@@ -39,7 +39,7 @@ const defaultOps = {
 };
 
 /**
- * Marching square algorithm for traching the contour of a pixel group
+ * Marching square algorithm for tracking the contour of a pixel group
  * https://www.emanueleferonato.com/2013/03/01/using-marching-squares-algorithm-to-trace-the-contour-of-an-image/
  * @param potentialArea
  * @param threshold
@@ -183,21 +183,21 @@ const pickBestNeighbor = (
   visited: (NodeModel | ComboModel)[],
   nonMembers: (NodeModel | ComboModel)[],
 ): NodeModel | ComboModel | null => {
-  let closestNeighbour = null;
+  let closestNeighbor = null;
   let minCost = Number.POSITIVE_INFINITY;
 
   visited.forEach((neighborModel) => {
     const itemP = { x: model.data.x, y: model.data.y } as Point;
-    const neighbourItemP = {
+    const neighborItemP = {
       x: neighborModel.data.x,
       y: neighborModel.data.y,
     } as Point;
-    const dist = squareDist(itemP, neighbourItemP);
+    const dist = squareDist(itemP, neighborItemP);
     const directLine = new LineStructure(
       itemP.x,
       itemP.y,
-      neighbourItemP.x,
-      neighbourItemP.y,
+      neighborItemP.x,
+      neighborItemP.y,
     );
     const numberObstacles = nonMembers.reduce((count, _item) => {
       if (fractionToLine(graph, _item.id, directLine) > 0) {
@@ -206,11 +206,11 @@ const pickBestNeighbor = (
       return count;
     }, 0);
     if (dist * (numberObstacles + 1) ** 2 < minCost) {
-      closestNeighbour = neighborModel;
+      closestNeighbor = neighborModel;
       minCost = dist * (numberObstacles + 1) ** 2;
     }
   });
-  return closestNeighbour;
+  return closestNeighbor;
 };
 
 /**
@@ -449,7 +449,7 @@ function getRoute(
 }
 
 /**
- * Calculate the countor that includes the  selected items and exclues the non-selected items
+ * Calculate the counter that includes the  selected items and excludes the non-selected items
  * @param members
  * @param nonMembers
  * @param options
@@ -492,7 +492,7 @@ export const genBubbleSet = (
   //   virtualEdges.push(new LineStructure(e.getSource().getModel().x, e.getSource().getModel().y, e.getTarget().getModel().x, e.getTarget().getModel().y));
   // });
 
-  const activeRegion = getActiveRregion(
+  const activeRegion = getActiveRegion(
     graph,
     members,
     virtualEdges,
@@ -567,7 +567,7 @@ export const genBubbleSet = (
       return hull;
     }
 
-    // update parameters for next iteraction
+    // update parameters for next interaction
     options.threshold *= 0.9;
     if (iterations <= options.maxMarchingIterations * 0.5) {
       options.memberInfluenceFactor *= 1.2;
@@ -586,11 +586,11 @@ export const genBubbleSet = (
 };
 
 /**
- * unionboundingbox
+ * union bounding box
  * @param members
  * @param edges
  */
-function getActiveRregion(
+function getActiveRegion(
   graph: IGraph,
   members: (NodeModel | ComboModel)[],
   edges: LineStructure[],
@@ -789,7 +789,7 @@ function rerouteLine(
     );
   }
 
-  // Find the position of the control point according to the intersect of line and boundinb box
+  // Find the position of the control point according to the intersect of line and bounding box
   if (leftIntersect) {
     // If there is a triangle in the intersect area
     if (topIntersect)

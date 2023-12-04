@@ -45,7 +45,7 @@ export abstract class Plugin {
   }
 
   /**
-   * Get the defualt options of the plugin.
+   * Get the default options of the plugin.
    */
   public getDefaultCfgs() {
     return {};

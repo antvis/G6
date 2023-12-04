@@ -82,7 +82,7 @@ export class LodController extends Base {
   }
 
   protected onAfterRender = () => {
-    // show the shapes with lod when diableLod is true
+    // show the shapes with lod when disableLod is true
     const { graph, options } = this;
 
     this.clearCache();
