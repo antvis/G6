@@ -1,8 +1,5 @@
 import { Graph, Extensions, extend } from '@antv/g6';
-
-// This site has mounted Algorithm to window. 本站点已将 Algorithm 挂载到 window 上
-// Import Algorithm for node clustering in your project. 在你的项目中需要引入 Algorithm 用于下面的节点聚类计算
-// import Algorithm from '@antv/layout'
+import Algorithm from '@antv/layout';
 
 const container = document.getElementById('container');
 const width = container.scrollWidth;
@@ -341,9 +338,4 @@ fetch('https://gw.alipayobjects.com/os/basement_prod/da5a1b47-37d6-44d7-8d10-f3e
     });
   });
 
-if (typeof window !== 'undefined')
-  window.onresize = () => {
-    if (!graph || graph.destroyed) return;
-    if (!container || !container.scrollWidth || !container.scrollHeight) return;
-    graph.setSize([container.scrollWidth, container.scrollHeight - 160]);
-  };
+window.graph = graph;

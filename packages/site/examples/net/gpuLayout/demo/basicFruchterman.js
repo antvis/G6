@@ -1,8 +1,7 @@
 import { Graph, extend } from '@antv/g6';
-// import by this way in your project. 在您的项目中请这样引入
-// import { registry as layoutRegistry } from '@antv/layout-gpu';
+import * as layoutGPU from '@antv/layout-gpu';
 
-const layoutGPU = window.layoutGPU; // GPU layout is not built-in G6 stbLib, you need to exend G6 with it.
+// GPU layout is not built-in G6 stbLib, you need to extend G6 with it.
 const ExtGraph = extend(Graph, {
   layouts: {
     'fruchterman-gpu': layoutGPU.FruchtermanLayout,
@@ -586,9 +585,4 @@ const graph = new ExtGraph({
   data,
 });
 
-if (typeof window !== 'undefined')
-  window.onresize = () => {
-    if (!graph || graph.destroyed) return;
-    if (!container || !container.scrollWidth || !container.scrollHeight) return;
-    graph.setSize([container.scrollWidth, container.scrollHeight]);
-  };
+window.graph = graph;

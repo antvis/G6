@@ -89,9 +89,4 @@ graph.on('cancelcreate', (e) => {
   graph.setCursor('default');
 });
 
-if (typeof window !== 'undefined')
-  window.onresize = () => {
-    if (!graph || graph.destroyed) return;
-    if (!container || !container.scrollWidth || !container.scrollHeight) return;
-    graph.setSize([container.scrollWidth, container.scrollHeight - 30]);
-  };
+window.graph = graph;

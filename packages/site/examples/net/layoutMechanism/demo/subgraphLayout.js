@@ -1,8 +1,5 @@
 import { Graph, Extensions } from '@antv/g6';
-// import by this way in your project. 在您的项目中请这样引入
-// import { Graph as GraphCore } from '@antv/graphlib';
-
-const { Graph: GraphCore } = window.GraphLib;
+import { Graph as GraphCore } from '@antv/graphlib';
 
 const data = {
   nodes: [
@@ -574,12 +571,7 @@ const graph = new Graph({
   data,
 });
 
-if (typeof window !== 'undefined')
-  window.onresize = () => {
-    if (!graph || graph.destroyed) return;
-    if (!container || !container.scrollWidth || !container.scrollHeight) return;
-    graph.setSize([container.scrollWidth, container.scrollHeight - 20]);
-  };
+window.graph = graph;
 
 const btn = document.createElement('a');
 btn.style.position = 'absolute';
@@ -589,6 +581,7 @@ btn.style.backgroundColor = 'rgba(255, 255, 255, 0.8)';
 btn.style.border = '2px solid #873bf4';
 btn.style.padding = '4px 8px';
 container.appendChild(btn);
+
 btn.addEventListener('click', async () => {
   const subGridLayout = new Extensions.GridLayout({
     begin: [width / 5, height / 5],

@@ -146,26 +146,6 @@ const create3DGraph = async (data) => {
       },
     ],
     data,
-    // layout: {
-    //   type: 'force-wasm',
-    //   threads,
-    //   dimensions: 2,
-    //   maxIteration: 5000,
-    //   minMovement: 0.1,
-    //   distanceThresholdMode: 'mean',
-    //   height,
-    //   width,
-    //   center: [width / 2, height / 2],
-    //   factor: 1,
-    //   gravity: 5,
-    //   linkDistance: 200,
-    //   edgeStrength: 200,
-    //   nodeStrength: 1000,
-    //   coulombDisScale: 0.005,
-    //   damping: 0.9,
-    //   maxSpeed: 2000,
-    //   interval: 0.02,
-    // },
     modes: {
       default: [
         {
@@ -328,9 +308,10 @@ const create2DGraph = (renderer, data) => {
   });
 };
 
-const handleCreateGraph = (renderer, data, prevGraph, tip) => {
-  let graph;
+let currGraph = null;
+const handleCreateGraph = (renderer, data, tip) => {
   const func = async () => {
+    let graph;
     if (renderer === 'webgl-3d') {
       graph = await create3DGraph(data);
     } else {
@@ -339,15 +320,10 @@ const handleCreateGraph = (renderer, data, prevGraph, tip) => {
     graph.on('afterrender', (e) => {
       tip.innerHTML = '👌 Done!';
     });
+    currGraph = window.graph = graph;
   };
-  if (prevGraph) {
-    prevGraph.destroy(() => {
-      return func();
-    });
-  } else {
-    func();
-  }
-  return graph;
+  if (currGraph) currGraph.destroy(func);
+  else func();
 };
 
 const ExtGraph = extend(Graph, {
@@ -363,7 +339,7 @@ const ExtGraph = extend(Graph, {
     'zoom-canvas-3d': Extensions.ZoomCanvas3D,
   },
 });
-let graph;
+
 let graphData3D;
 
 const btnContainer = document.createElement('div');
@@ -407,23 +383,16 @@ fetch('https://assets.antv.antgroup.com/g6/eva-2d.json')
               .then((res) => res.json())
               .then((data3d) => {
                 graphData3D = data3d;
-                graph = handleCreateGraph(renderers[name], graphData3D, graph, tip2);
+                handleCreateGraph(renderers[name], graphData3D, tip2);
               });
           } else {
-            graph = handleCreateGraph(renderers[name], graphData3D, graph, tip2);
+            handleCreateGraph(renderers[name], graphData3D, tip2);
           }
         } else {
-          graph = handleCreateGraph(renderers[name], data, graph, tip2);
+          handleCreateGraph(renderers[name], data, tip2);
         }
       });
     });
 
-    graph = handleCreateGraph('webgl', data, graph, tip2);
+    handleCreateGraph('webgl', data, tip2);
   });
-
-if (typeof window !== 'undefined')
-  window.onresize = () => {
-    if (!graph || graph.destroyed) return;
-    if (!container || !container.scrollWidth || !container.scrollHeight) return;
-    graph.setSize([container.scrollWidth, container.scrollHeight - 160]);
-  };

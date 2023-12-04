@@ -45,11 +45,11 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')
       width,
       height,
       transforms: [
-    {
-      type: 'transform-v4-data',
-      activeLifecycle: ['read'],
-    },
-  ],
+        {
+          type: 'transform-v4-data',
+          activeLifecycle: ['read'],
+        },
+      ],
       layout: layoutConfigs.Circular,
       modes: {
         default: ['zoom-canvas', 'drag-canvas', 'drag-node', 'click-select', 'brush-select'],
@@ -85,12 +85,7 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')
       data,
     });
 
-    if (typeof window !== 'undefined')
-      window.onresize = () => {
-        if (!graph || graph.destroyed) return;
-        if (!container || !container.scrollWidth || !container.scrollHeight) return;
-        graph.setSize([container.scrollWidth, container.scrollHeight - 20]);
-      };
+    window.graph = graph;
 
     const btnContainer = document.createElement('div');
     btnContainer.style.position = 'absolute';
@@ -98,7 +93,7 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')
     const tip = document.createElement('span');
     tip.innerHTML = '👉 Change layoutConfigs:';
     btnContainer.appendChild(tip);
-
+    
     Object.keys(layoutConfigs).forEach((name, i) => {
       const btn = document.createElement('a');
       btn.innerHTML = name;

@@ -1,7 +1,7 @@
 import { Graph, extend, Extensions } from '@antv/g6';
 
 class CustomNode extends Extensions.CircleNode {
-  drawOtherShapes(model, shapeMap, diffData) {
+  drawOtherShapes(model, shapeMap, diffData, diffState) {
     return {
       responseShape: this.upsertShape(
         'circle',
@@ -13,7 +13,7 @@ class CustomNode extends Extensions.CircleNode {
           cy: -25,
           zIndex: 10,
         },
-        shapeMap,
+        { shapeMap, model, diffData, diffState },
       ),
     };
   }
@@ -121,9 +121,4 @@ graph.on('canvas:click', (event) => {
   );
 });
 
-if (typeof window !== 'undefined')
-  window.onresize = () => {
-    if (!graph || graph.destroyed) return;
-    if (!container || !container.scrollWidth || !container.scrollHeight) return;
-    graph.setSize([container.scrollWidth, container.scrollHeight]);
-  };
+window.graph = graph;

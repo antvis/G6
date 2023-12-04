@@ -15,7 +15,7 @@ const layout = {
 };
 
 new Graph({
-  container: 'container',
+  container,
   width,
   height,
   data,

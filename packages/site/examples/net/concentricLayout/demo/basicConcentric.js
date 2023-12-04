@@ -30,10 +30,5 @@ fetch('https://gw.alipayobjects.com/os/basement_prod/8dacf27e-e1bc-4522-b6d3-4b6
       data,
     });
 
-    if (typeof window !== 'undefined')
-      window.onresize = () => {
-        if (!graph || graph.destroyed) return;
-        if (!container || !container.scrollWidth || !container.scrollHeight) return;
-        graph.setSize([container.scrollWidth, container.scrollHeight]);
-      };
+window.graph = graph;
   });

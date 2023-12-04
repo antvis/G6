@@ -38,7 +38,7 @@ const graphData = {
 };
 
 new Graph({
-  container: 'container',
+  container,
   width,
   height,
   data: graphData,

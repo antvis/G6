@@ -99,7 +99,7 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
   // the container dom for the graph canvas
   public container: HTMLElement;
   // the tag to indicate whether the graph instance is destroyed
-  public destroyed: boolean;
+  public destroyed: boolean = false;
   // the renderer type of current graph
   public rendererType: RendererName;
   // for transient shapes for interactions, e.g. transient node and related edges while draging, delegates

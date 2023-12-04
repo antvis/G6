@@ -132,9 +132,4 @@ const tip = document.createElement('span');
 tip.innerHTML = `The Animations are Ordered as: <br/> 1️⃣ keyShape's r, 2️⃣ keyShape's fill, 3️⃣ keyShape's lineWidth, and 4️⃣ labelShape's fill and fontWeight`;
 btnContainer.appendChild(tip);
 
-if (typeof window !== 'undefined')
-  window.onresize = () => {
-    if (!graph || graph.destroyed) return;
-    if (!container || !container.scrollWidth || !container.scrollHeight) return;
-    graph.setSize([container.scrollWidth, container.scrollHeight]);
-  };
+window.graph = graph;

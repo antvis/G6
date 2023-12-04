@@ -129,9 +129,4 @@ descriptionDiv.innerHTML =
   'Mouse hover over node to update node style and its label text. <br/> Mouse hover over edge to update edge style and its label text';
 container.appendChild(descriptionDiv);
 
-if (typeof window !== 'undefined')
-  window.onresize = () => {
-    if (!graph || graph.destroyed) return;
-    if (!container || !container.scrollWidth || !container.scrollHeight) return;
-    graph.setSize([container.scrollWidth, container.scrollHeight]);
-  };
+window.graph = graph;

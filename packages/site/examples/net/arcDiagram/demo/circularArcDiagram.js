@@ -131,10 +131,5 @@ fetch('https://gw.alipayobjects.com/os/basement_prod/70cde3be-22e8-4291-98f1-4d5
       graph.updateData('node', angleUpdates);
       graph.fitView();
     });
-    if (typeof window !== 'undefined')
-      window.onresize = () => {
-        if (!graph || graph.destroyed) return;
-        if (!container || !container.scrollWidth || !container.scrollHeight) return;
-        graph.setSize([container.scrollWidth, container.scrollHeight]);
-      };
+window.graph = graph;
   });
