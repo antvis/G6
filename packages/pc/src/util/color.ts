@@ -2,7 +2,7 @@ import color from 'color';
 import { generate } from '@ant-design/colors';
 
 /**
- * get the mix color of backColor and frontColor with alpah
+ * get the mix color of backColor and frontColor with alpha
  * @param backColor background color
  * @param frontColor foreground color
  * @param frontAlpha the opacity of foreground color

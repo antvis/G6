@@ -165,7 +165,7 @@ const constructNodes = (
   while (childrenArr[0]) {
     const children = childrenArr.pop() || [];
     const parent = parentArr.pop();
-    const newChilren: ContainerNode[] = [];
+    const newChildren: ContainerNode[] = [];
 
     for (let i = 0; i < children?.length; i += 1) {
       const node = children[i];
@@ -187,14 +187,14 @@ const constructNodes = (
         childrenArr.push(node.children);
       }
 
-      newChilren.push(containerNode);
+      newChildren.push(containerNode);
     }
 
     if (!parent) {
-      resultNode = newChilren[0];
-      basicContainer.insertChild(newChilren[0].container, 0);
+      resultNode = newChildren[0];
+      basicContainer.insertChild(newChildren[0].container, 0);
     } else {
-      parent.children = newChilren;
+      parent.children = newChildren;
       for (let j = 0; j < parent.children.length; j += 1) {
         parent.container.insertChild(parent.children[j].container, j);
       }
@@ -204,7 +204,7 @@ const constructNodes = (
   return resultNode;
 };
 
-const caculateNodes = (
+const calculateNodes = (
   node: ContainerNode,
   parentBoundaryBox: {
     width: number;
@@ -245,7 +245,7 @@ const caculateNodes = (
   const children: LayoutedNode[] = [];
 
   for (let i = 0; i < restNode.children.length; i += 1) {
-    children.push(caculateNodes(restNode.children[i], actualBondary));
+    children.push(calculateNodes(restNode.children[i], actualBondary));
   }
 
   return {
@@ -269,7 +269,7 @@ const getPositionUsingYoga = (root: RawNode): LayoutedNode => {
     constructNodes(root, basicContainer) ||
     ({ ...root, container: basicContainer } as ContainerNode);
   basicContainer.calculateLayout();
-  const result = caculateNodes(newNodes, {
+  const result = calculateNodes(newNodes, {
     width: 0,
     height: 0,
     x: 0,
