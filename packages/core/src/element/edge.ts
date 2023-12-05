@@ -170,7 +170,7 @@ const singleEdge: ShapeOptions = {
         };
       }
       style = { ...cfg.style };
-      if (style.lineWidth === undefined) style.lineWdith = (isNumber(size) ? size : size?.[0]) || currentAttr.lineWidth
+      if (style.lineWidth === undefined) style.lineWidth = (isNumber(size) ? size : size?.[0]) || currentAttr.lineWidth
       if (style.path === undefined) style.path = path;
       if (style.stroke === undefined) style.stroke = currentAttr.stroke || cfg.color;
     }

@@ -51,10 +51,10 @@ export default abstract class LayoutController {
 
   protected isLayoutTypeSame(cfg): boolean {
     const current = this.getLayoutCfgType(cfg);
-    const preHasPipies = Array.isArray(this.layoutType);
+    const preHasPipes = Array.isArray(this.layoutType);
     const currentHasPipes = Array.isArray(current);
     // already has pipes, and the new one is pipes
-    if (preHasPipies && currentHasPipes) {
+    if (preHasPipes && currentHasPipes) {
       return (this.layoutType as string[]).every((type, index) => type === current[index]);
     }
     // only one of the pre and current is pipes
@@ -333,7 +333,7 @@ export default abstract class LayoutController {
         if (!isFinite(vertiGap) || !horiGap) vertiGap = 0;
         const beginX = center[0] - width / 2;
         const beginY = center[1] - height / 2;
-    
+
         let allHavePos = true;
         for (let i = 0; i < nodeLength; i++) {
           const node = nodesToInit[i];

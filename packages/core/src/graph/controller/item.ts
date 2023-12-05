@@ -176,7 +176,7 @@ export default class ItemController {
         group: comboGroup,
       });
 
-      // if it is a circle combo, diagnal length of the children's bbox should be the diameter of the combo's bbox
+      // if it is a circle combo, diagonal length of the children's bbox should be the diameter of the combo's bbox
       if (!model.collapsed && item.getKeyShape().get('type') === 'circle') {
         comboBBox.width = Math.hypot(comboBBox.height, comboBBox.width);
         comboBBox.height = comboBBox.width;

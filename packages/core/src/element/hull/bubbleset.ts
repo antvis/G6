@@ -357,7 +357,7 @@ function getRoute(
 }
 
 /**
- * Calculate the countor that includes the  selected items and exclues the non-selected items
+ * Calculate the counter that includes the  selected items and exclues the non-selected items
  * @param graph
  * @param members
  * @param nonMembers
@@ -448,7 +448,7 @@ export const genBubbleSet = (members: Item[], nonMembers: Item[], ops?: Bubblese
       return hull;
     }
 
-    // update parameters for next iteraction
+    // update parameters for next iteration
     options.threshold *= 0.9;
     if (iterations <= options.maxMarchingIterations * 0.5) {
       options.memberInfluenceFactor *= 1.2;

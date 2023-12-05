@@ -146,8 +146,8 @@ const singleCombo: ShapeOptions = {
   },
   updateCollapsedIcon(cfg: ComboConfig, item: Item, keyShapeStyle: ShapeStyle) {
     const { collapsed, collapsedSubstituteIcon = {} } = cfg;
-    const subsitututeIconConfig = Object.assign({}, this.options.collapsedSubstituteIcon, collapsedSubstituteIcon)
-    const { show, img, width, height } = subsitututeIconConfig;
+    const substituteIconConfig = Object.assign({}, this.options.collapsedSubstituteIcon, collapsedSubstituteIcon)
+    const { show, img, width, height } = substituteIconConfig;
     const group = item.getContainer();
     let collapsedIconShape = group.find(ele => ele.get('name') === 'combo-collapsed-substitute-icon');
     const iconShapeExist = collapsedIconShape && !collapsedIconShape.destroyed;
