@@ -30,7 +30,6 @@ class TournamentNode extends Extensions.RectNode {
           fontSize: 50,
           textAlign: 'center',
           textBaseline: 'middle',
-          fill: 'white',
         },
       );
     }
@@ -342,10 +341,8 @@ graph.on('afterrender', () => {
     updateItemData('node', info.id, {
       name: info.name,
       state: STATE.PLAYING,
-      score: setScore(),
+      score: 0,
     });
-    const edge = allEdges.find(edge => edge.target === info.id);
-    updateItemData('edge', edge.id, { state: STATE.PLAYING });
   });
   // 更新选手分数
   const updateScore = () => {
