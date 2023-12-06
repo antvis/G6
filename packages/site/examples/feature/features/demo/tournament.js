@@ -311,7 +311,7 @@ const graph = new ExtGraph({
       return d.id.length + 20;
     },
   },
-  autoFit: 'view',
+  autoFit: 'center',
   data: {
     type: 'treeData',
     value: data,
@@ -335,7 +335,7 @@ graph.on('afterrender', () => {
   const playerInfo = Array.from({ length: layer1.length }).map((_, index) => ({
     id: `layer1-${index + 1}`,
     name: `player${index + 1}`,
-    state: 0,
+    state: STATE.INIT,
   }));
   // 选手初登场
   playerInfo.forEach(info => {
@@ -377,7 +377,7 @@ graph.on('afterrender', () => {
     if (!currentLayer) {
       return;
     }
-    Array.from({ length: currentLayer.length }).map((_, index) => {
+    Array.from({ length: currentLayer.length }).forEach((_, index) => {
       let nextLayerId = `layer${layerIndex + 1}-${index + 1}`;
       if (layerIndex === layer.length - 1) {
         nextLayerId = 'winner';
