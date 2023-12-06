@@ -146,6 +146,11 @@ export default class Edge extends Item {
       this.hide(false);
     }
     this.changedStates = [];
+
+    this.labelGroup.children
+      .filter((element) => element.attributes.dataIsLabel)
+      .forEach((shape) => (shape.attributes.dataOriginPosition = ''));
+
     this.updateLabelPosition(true);
   }
 
