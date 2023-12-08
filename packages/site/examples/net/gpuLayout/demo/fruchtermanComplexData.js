@@ -15,7 +15,7 @@ const height = container.scrollHeight || 500;
 fetch('https://gw.alipayobjects.com/os/basement_prod/7bacd7d1-4119-4ac1-8be3-4c4b9bcbc25f.json')
   .then((res) => res.json())
   .then((data) => {
-    const graph = new CustomGraph({
+    window.graph = new CustomGraph({
       container: 'container',
       width,
       height,
@@ -45,5 +45,3 @@ fetch('https://gw.alipayobjects.com/os/basement_prod/7bacd7d1-4119-4ac1-8be3-4c4
       data,
     });
   });
-
-window.graph = graph;
