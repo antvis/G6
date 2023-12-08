@@ -1,7 +1,7 @@
-import { Group } from '@antv/g';
-import { clone, debounce, throttle } from '@antv/util';
+import { Group, AABB } from '@antv/g';
+import { clone } from '@antv/util';
 import { Point } from '../types/common';
-import { ComboDisplayModel, ComboModel, IGraph, NodeModel } from '../types';
+import { ComboDisplayModel, ComboModel, ID, IGraph, NodeModel } from '../types';
 import { DisplayMapper, State, LodLevelRanges } from '../types/item';
 import { NodeDisplayModel, NodeModelData } from '../types/node';
 import { ComboStyleSet, NodeStyleSet } from '../types/theme';
@@ -39,6 +39,8 @@ interface IProps {
 }
 export default class Node extends Item {
   public type: 'node' | 'combo';
+
+  private renderBoundsCache: Map<ID, AABB> = new Map();
 
   constructor(props: IProps) {
     super(props);
@@ -207,6 +209,7 @@ export default class Node extends Item {
     group.style.z = position.z;
     onfinish(displayModel.id, !animate);
   }
+
   /**
    * Update label positions on label canvas by getting viewport position from transformed canvas position.
    */
@@ -216,7 +219,6 @@ export default class Node extends Item {
     }
     const { graph, group, labelGroup, displayModel, shapeMap, renderExt } =
       this;
-
     let [x, y, z] = group.getPosition();
     if (group.getAnimations().length) {
       const { x: dataX, y: dataY, z: dataZ } = displayModel.data;
@@ -224,8 +226,20 @@ export default class Node extends Item {
       y = dataY as number;
       z = dataZ as number;
     }
+    const renderBounds = group.getRenderBounds();
+    const id = this.getID();
+    if (!this.renderBoundsCache.has(id)) {
+      this.renderBoundsCache.set(id, clone(renderBounds));
+    }
+    const dy =
+      renderBounds.halfExtents[1] -
+      this.renderBoundsCache.get(id).halfExtents[1];
     const zoom = graph.getZoom();
-    const { x: vx, y: vy, z: vz } = graph.getViewportByCanvas({ x, y, z });
+    const {
+      x: vx,
+      y: vy,
+      z: vz,
+    } = graph.getViewportByCanvas({ x, y: y + dy, z });
     if (labelGroup.style.x !== vx) {
       labelGroup.style.x = vx;
     }

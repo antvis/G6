@@ -1,4 +1,4 @@
-import { isNumber } from '@antv/util';
+import { isNumber, isBoolean } from '@antv/util';
 import { ID, IG6GraphEvent } from '../../types';
 import { Behavior } from '../../types/behavior';
 
@@ -46,14 +46,22 @@ export interface ZoomCanvasOptions {
    * Whether allow the behavior happen on the current item.
    */
   shouldBegin?: (event: IG6GraphEvent) => boolean;
-
-  // TODO: fixSelectedItems, optimizeZoom
-  // fixSelectedItems: {
-  //   fixAll: false,
-  //   fixLineWidth: false,
-  //   fixLabel: false,
-  //   fixState: 'selected',
-  // },
+  /**
+   * Whether to fix the stroke thickness, text size, overall size, etc. of selected elements. false by default.
+   * @property {boolean} fixAll:  fix the overall size of the element, higher priority than fixSelectedItems.fixLineWidth and fixSelectedItems.fixLabel;
+   * @property {boolean} fixLineWidth: fix the stroke thickness of keyShape;
+   * @property {boolean} fixLabel: fix the text size of labelShape, labelBackgroundShape;
+   * @property {string} fixState: the state of the element to be fixed. Default is `selected` ;
+   */
+  fixSelectedItems:
+    | boolean
+    | {
+        fixAll?: boolean;
+        fixLineWidth?: boolean;
+        fixLabel?: boolean;
+        fixState: string;
+      };
+  // TODO:  optimizeZoom
   // optimizeZoom: hide shapes when zoom ratio is smaller than optimizeZoom
 }
 
@@ -68,6 +76,7 @@ const DEFAULT_OPTIONS: Required<ZoomCanvasOptions> = {
   minZoom: 0.00001,
   maxZoom: 1000,
   shouldBegin: () => true,
+  fixSelectedItems: false,
 };
 
 export class ZoomCanvas extends Behavior {
@@ -80,6 +89,16 @@ export class ZoomCanvas extends Behavior {
   private tileRequestId?: number;
   private lastWheelTriggerTime?: number;
 
+  private zoomCache: {
+    fixIds: Set<ID>;
+    balanceRatio?: Map<ID, number>;
+    lineWidth?: Map<ID, number>;
+  } = {
+    fixIds: new Set(),
+    balanceRatio: new Map(),
+    lineWidth: new Map(),
+  };
+
   constructor(options: Partial<ZoomCanvasOptions>) {
     const finalOptions = Object.assign({}, DEFAULT_OPTIONS, options);
     if (!VALID_TRIGGERS.includes(finalOptions.trigger)) {
@@ -87,6 +106,18 @@ export class ZoomCanvas extends Behavior {
         `The trigger ${finalOptions.trigger} is not valid, 'wheel' will take effect.`,
       );
       finalOptions.trigger = 'wheel';
+    }
+    const { fixSelectedItems } = finalOptions;
+    if (isBoolean(fixSelectedItems) && fixSelectedItems) {
+      finalOptions.fixSelectedItems = {
+        fixAll: true,
+        fixState: 'selected',
+      };
+    }
+    if (!isBoolean(fixSelectedItems)) {
+      if (!fixSelectedItems.fixState)
+        // @ts-ignore
+        finalOptions.fixSelectedItems.fixState = 'selected';
     }
     super(finalOptions);
   }
@@ -233,6 +264,7 @@ export class ZoomCanvas extends Behavior {
     if (!this.zooming) {
       this.graph.canvas.getConfig().disableHitTesting = true;
       this.hideShapes();
+      this.clearCache();
       this.zooming = true;
     }
 
@@ -260,6 +292,11 @@ export class ZoomCanvas extends Behavior {
     if (minZoom && zoomTo < minZoom) return;
     if (maxZoom && zoomTo > maxZoom) return;
 
+    const { fixSelectedItems } = this.options;
+    if (fixSelectedItems) {
+      this.balanceItemSize();
+    }
+
     graph.zoom(zoomRatio, { x: client.x, y: client.y });
 
     this.lastWheelTriggerTime = now;
@@ -273,6 +310,90 @@ export class ZoomCanvas extends Behavior {
     // Emit event.
     if (eventName) {
       graph.emit(eventName, { zoom: { ratio: zoomRatio } });
+    }
+  }
+
+  private clearCache() {
+    this.zoomCache.fixIds.forEach((fixId) => {
+      const item = this.graph.itemController.itemMap.get(fixId);
+      item.displayModel.labelShapeVisible = undefined;
+    });
+    this.zoomCache.fixIds.clear();
+  }
+
+  private balanceItemSize() {
+    const { graph } = this;
+    const zoom = graph.getZoom();
+
+    let fixNodeIds = [];
+    let fixEdgeIds = [];
+
+    if (zoom < 1) {
+      let typeArr = [];
+      const { fixSelectedItems } = this.options;
+      const { fixLabel, fixAll, fixLineWidth, fixState } = fixSelectedItems;
+      if (fixLabel) typeArr.push('labelSize');
+      if (fixLineWidth) typeArr.push('lineWidth');
+      if (fixAll) typeArr = ['fullSize'];
+
+      fixNodeIds = graph.findIdByState('node', fixState);
+      fixEdgeIds = graph.findIdByState('edge', fixState);
+
+      const fixIds = fixNodeIds.concat(fixEdgeIds);
+      if (!fixIds.length) return;
+      this.zoomCache.fixIds = new Set([...fixIds]);
+      fixIds.forEach((id) => {
+        const item = graph.itemController.itemMap.get(id);
+        const balanceRatio = 1 / zoom || 1;
+
+        const itemType = item.getType();
+        if (itemType === 'edge' && typeArr.includes('fullSize')) {
+          typeArr = ['labelSize', 'lineWidth'];
+        }
+
+        const balanceLabelShape = () => {
+          item.updateLabelPosition();
+          item.displayModel.labelShapeVisible = true;
+          graph.showItem(id, {
+            shapeIds: ['labelShape', 'labelBackgroundShape'],
+            disableAnimate: true,
+          });
+        };
+
+        typeArr.forEach((type) => {
+          switch (type) {
+            case 'lineWidth': {
+              const { keyShape } = item.shapeMap;
+              if (!this.zoomCache.lineWidth.has(id)) {
+                this.zoomCache.lineWidth.set(id, keyShape.attributes.lineWidth);
+              }
+              const oriLineWidth = this.zoomCache.lineWidth.get(id);
+              keyShape.attr('lineWidth', oriLineWidth * balanceRatio);
+              break;
+            }
+            case 'fullSize': {
+              const { group } = item;
+              const transform = group.style.transform;
+              if (!this.zoomCache.balanceRatio.has(id)) {
+                const oriBalanceRatio =
+                  Number(transform?.match(/scale\(([\d.]+),/)?.[1]) || 1;
+                this.zoomCache.balanceRatio.set(id, oriBalanceRatio);
+              }
+              const balanceRatioCache = this.zoomCache.balanceRatio.get(id);
+              const newBalanceRatio = balanceRatioCache * balanceRatio;
+              group.style.transform = `scale(${newBalanceRatio}, ${newBalanceRatio})`;
+              balanceLabelShape();
+              break;
+            }
+            case 'labelSize': {
+              balanceLabelShape();
+              break;
+            }
+            default:
+              break;
+          }
+        });
+      });
     }
   }
 
