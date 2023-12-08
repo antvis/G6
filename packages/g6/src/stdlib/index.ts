@@ -83,6 +83,7 @@ const {
   Snapline,
   EdgeFilterLens,
   LodController,
+  EdgeBundling
 } = Plugins;
 
 const {
@@ -305,6 +306,7 @@ const Extensions = {
   Snapline,
   EdgeFilterLens,
   WaterMarker,
+  EdgeBundling
 };
 
 export default registry;

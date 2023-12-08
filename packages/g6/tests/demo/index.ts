@@ -73,6 +73,7 @@ import triangle from './demo/triangle';
 import user_defined_canvas from './user-defined-canvas/circular';
 import visual from './visual/visual';
 import watermarker from './plugins/watermarker';
+import edgeBundling from './plugins/edgeBundling';
 import label from './item/label';
 
 export { default as timebar_time } from './plugins/timebar-time';
@@ -106,6 +107,7 @@ export {
   demoForPolyline,
   diamond,
   donut_node,
+  edgeBundling,
   edgeFilterLens,
   ellipse,
   fisheye,
