@@ -373,7 +373,7 @@
         <g
           id="g-svg-13"
           fill="none"
-          transform="matrix(1,0,0,1,125.000008,83.333344)"
+          transform="matrix(1,0,0,1,125.000008,89.333344)"
         >
           <g transform="matrix(1,0,0,1,0,18)">
             <text
@@ -396,7 +396,7 @@
             </text>
           </g>
         </g>
-        <g id="g-svg-17" fill="none" transform="matrix(1,0,0,1,375,250.000015)">
+        <g id="g-svg-17" fill="none" transform="matrix(1,0,0,1,375,256)">
           <g transform="matrix(1,0,0,1,0,18)">
             <text
               id="labelShape"
@@ -418,7 +418,7 @@
             </text>
           </g>
         </g>
-        <g id="g-svg-21" fill="none" transform="matrix(1,0,0,1,375,83.333344)">
+        <g id="g-svg-21" fill="none" transform="matrix(1,0,0,1,375,89.333344)">
           <g transform="matrix(1,0,0,1,0,18)">
             <text
               id="labelShape"
@@ -440,11 +440,7 @@
             </text>
           </g>
         </g>
-        <g
-          id="g-svg-25"
-          fill="none"
-          transform="matrix(1,0,0,1,125.000008,250.000015)"
-        >
+        <g id="g-svg-25" fill="none" transform="matrix(1,0,0,1,125.000008,256)">
           <g transform="matrix(1,0,0,1,0,18)">
             <text
               id="labelShape"
