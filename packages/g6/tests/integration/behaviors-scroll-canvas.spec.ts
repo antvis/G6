@@ -2,7 +2,7 @@ import scrollCanvas from '../demo/behaviors/scroll-canvas';
 import { createContext } from './utils';
 import './utils/useSnapshotMatchers';
 
-const dir = `${__dirname}/snapshots/behaivors`;
+const dir = `${__dirname}/snapshots/behaviors`;
 
 describe('Scroll canvas behavior', () => {
   it('should be rendered correctly', (done) => {

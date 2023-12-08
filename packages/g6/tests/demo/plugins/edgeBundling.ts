@@ -490,7 +490,7 @@ export default (context: TestCaseContext, options = {}) => {
           fields: ['label'],
           formatter: (model) => model.data.label,
         },
-        fill: '#fff'
+        fill: '#fff',
       },
     },
     plugins: [

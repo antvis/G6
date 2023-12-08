@@ -149,7 +149,7 @@ describe('edge bundling', () => {
 
     function fn() {
       edgeBundling.updateBundling({
-        data: data2
+        data: data2,
       });
     }
     expect(fn).toThrowError(
