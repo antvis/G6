@@ -83,16 +83,16 @@ export default class EventController extends AbstractEvent {
     const { target } = evt;
     const eventType = evt.type;
 
-    switch(eventType) {
-      // solve G's problem: mousemove and mosueup are not triggered with drag and dragend
+    switch (eventType) {
+      // solve G's problem: mousemove and mouseup are not triggered with drag and dragend
       case 'drag':
         this.onCanvasEvents(Object.assign({}, evt, { type: 'mousemove' }));
         break;
       case 'dragend':
         this.onCanvasEvents(Object.assign({}, evt, { type: 'mouseup' }));
         break;
-      // solve G's problem: mousedown on other DOMs, mouseup on canvas, click event is triggered unexpectly
-      case  'mousedown':
+      // solve G's problem: mousedown on other DOMs, mouseup on canvas, click event is triggered unexpectedly
+      case 'mousedown':
         this.mousedown = true;
         break;
       case 'mouseup':

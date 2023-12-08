@@ -222,13 +222,13 @@ export const attributesToTextureData = (
 ): { array: Float32Array; count: number } => {
   const dataArray = [];
   const attributeNum = attributeNames.length;
-  const attributteStringMap = {};
+  const attributeStringMap = {};
   items.forEach((item) => {
     attributeNames.forEach((name, i) => {
-      if (attributteStringMap[item[name]] === undefined) {
-        attributteStringMap[item[name]] = Object.keys(attributteStringMap).length;
+      if (attributeStringMap[item[name]] === undefined) {
+        attributeStringMap[item[name]] = Object.keys(attributeStringMap).length;
       }
-      dataArray.push(attributteStringMap[item[name]]);
+      dataArray.push(attributeStringMap[item[name]]);
       // insure each node's attributes take inter number of grids
       if (i === attributeNum - 1) {
         while (dataArray.length % 4 !== 0) {
@@ -239,7 +239,7 @@ export const attributesToTextureData = (
   });
   return {
     array: new Float32Array(dataArray),
-    count: Object.keys(attributteStringMap).length,
+    count: Object.keys(attributeStringMap).length,
   };
 };
 
