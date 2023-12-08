@@ -1,0 +1,35 @@
+name: Auto Close Issue
+on:
+  issues:
+    types: [labeled]
+
+jobs:
+  auto-close:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Close Outdate issue
+        if: ${{ github.event.label.name == 'Outdate' }}
+        uses: peter-evans/close-issue@v1
+        with:
+          comment: |
+            This issue has been closed because **it has been outdate for a long time**.
+            Please open a new issue if you still need help.
+            这个 issue 已经被关闭，因为 **它已经过期很久了**。
+            如果你仍然需要帮助，请创建一个新的 issue。
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Close Duplicate issue
+        if: ${{ github.event.label.name == 'Duplicate' }}
+        uses: peter-evans/close-issue@v1
+        with:
+          comment: |
+            This issue has been closed because **it is duplicated**.
+            这个 issue 已经被关闭，因为 **它是一个重复的 issue**。
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Close Invalid issue
+        if: ${{ github.event.label.name == 'Invalid' }}
+        uses: peter-evans/close-issue@v1
+        with:
+          comment: |
+            This issue has been closed because **it is invalid**.
+            这个 issue 已经被关闭，因为 **它是无效的**。
+          token: ${{ secrets.GITHUB_TOKEN }}
