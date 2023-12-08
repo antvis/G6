@@ -83,6 +83,14 @@
         "en": "Three Layers Topology Model"
       },
       "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*1oQsT7cSyYUAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "tournament.js",
+      "title": {
+        "zh": "比赛流程图",
+        "en": "tournament"
+      },
+      "screenshot": ""
     }
   ]
 }

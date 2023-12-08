@@ -97,7 +97,7 @@ fetch('https://assets.antv.antgroup.com/g6/3-layer-top.json')
       },
     });
 
-    graph.on('afterlayout', () => {
+    graph.on('afterrender', () => {
       const canvas = graph.canvas;
       const camera = canvas.getCamera();
       camera.createLandmark('reset', {
