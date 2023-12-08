@@ -189,11 +189,13 @@ export class EdgeBundling extends Base {
       e.data.type = 'polyline-edge';
 
       if (typeof e.data.keyShape === 'object') {
-        (e.data.keyShape as Record<string, any>).controlPoints = edgePoints[i].slice(1, edgePoints[i].length - 1)
+        (e.data.keyShape as Record<string, any>).controlPoints = edgePoints[
+          i
+        ].slice(1, edgePoints[i].length - 1);
       } else {
         e.data.keyShape = {
           controlPoints: edgePoints[i].slice(1, edgePoints[i].length - 1),
-        }
+        };
       }
     });
 

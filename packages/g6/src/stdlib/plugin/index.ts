@@ -1,4 +1,4 @@
-export * from './edgeBundling'
+export * from './edgeBundling';
 export * from './fisheye';
 export * from './grid';
 export * from './history';
