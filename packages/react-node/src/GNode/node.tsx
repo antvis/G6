@@ -23,6 +23,13 @@ export const createReactGNode = (
     drawKeyShape(
       model: NodeDisplayModel,
       shapeMap: NodeShapeMap,
+      diffData?:
+        | {
+            previous: NodeModelData | ComboModelData;
+            current: NodeModelData | ComboModelData;
+          }
+        | undefined,
+      diffState?: { previous: State[]; current: State[] } | undefined,
     ): DisplayObject<any, any> {
       const { data } = model;
       const { size: [width, height] = [0, 0] } = data as any;
@@ -38,8 +45,7 @@ export const createReactGNode = (
           stroke: 'opacity',
           lineWidth: 0,
         },
-        shapeMap,
-        model,
+        { shapeMap, model, diffData, diffState },
       );
     }
     drawOtherShapes(
@@ -68,8 +74,7 @@ export const createReactGNode = (
           width,
           height,
         },
-        shapeMap,
-        model,
+        { shapeMap, model, diffData, diffState },
       );
       group.isMutationObserved = true;
       group.addEventListener('DOMNodeInsertedIntoDocument', () => {

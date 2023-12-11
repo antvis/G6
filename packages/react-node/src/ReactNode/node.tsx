@@ -38,8 +38,7 @@ export const createReactNode = (
           anchor: '0.5 0.5',
           pointerEvents: 'auto',
         },
-        shapeMap,
-        model,
+        { shapeMap, model, diffData, diffState },
       ) as HTML;
 
       html.isMutationObserved = true;
