@@ -139,7 +139,7 @@ Combo inherit all the interaction events of Node.
 | canvas:touchstart | On touch screen, this event is activated when user begin to touch the canvas |
 | canvas:touchmove | On touch screen, this event is activated when user is touching the canvas |
 | canvas:touchend | On touch screen, this event is activated when user finish touching the canvas |
-| canvas:changeSize | Triggered when the canvas size changes |
+| canvas:changesize | Triggered when the canvas size changes |
 ## Timing Events
 
 Before and after being called some functions, G6 exports the timing events. These timing events can be listened by the following way:

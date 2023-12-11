@@ -501,7 +501,7 @@ export default class ViewController {
         plugin.positionInit();
       }
     });
-    graph.emit('canvas:changeSize', { width, height });
+    graph.emit('canvas:changesize', { width, height });
   }
 
   public destroy() {

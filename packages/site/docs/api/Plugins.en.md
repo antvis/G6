@@ -92,12 +92,15 @@ Use the code in [Configure to Graph](#configure-to-graph) to instantiate grid pl
 
 The Ruler plugin in G6 can be used to draw rulers on the canvas. It provides various configuration options and methods for customization.
 
+<span><strong>⚠️ notice:</strong></span> Because the ruler will occupy a certain space, the interior will reduce the width and height of the canvas and offset the size of the ruler, and the grid will also need to offset, if necessary, you need to register the grid first
 
-### 配置项
 
-| 名称 | 类型   | 描述                         |
+
+### Configuration
+
+| Name | Type   | Description                         |
 | ---- | ------ | ---------------------------- |
-| directions  | Direction: 1 for horizontal, 2 for vertical, default is [1, 2] |
+| directions  | ruleDirection[] or ruleDirection | 'horizontal' for horizontal, 'vertical' for vertical, default `['horizontal', 'vertical']`|
 | width  | number | Default width based on canvas width for horizontal, canvas height for vertical (including `startLen`) |
 | height  | number | Height of the ruler, default is `25`. Takes the maximum of startLen and height when both are present |
 | startLen  | number | Starting position of the ruler, default is `25`. Takes the maximum of startLen and height when both are present |
@@ -110,26 +113,28 @@ The Ruler plugin in G6 can be used to draw rulers on the canvas. It provides var
 | lineWidth  | number | Width of the lines |
 | lineHeight  | number | Height of the lines |
 | strokeStyle  | CanvasRenderingContext2D['strokeStyle'] | Color of the lines |
+| background  | CanvasRenderingContext2D['fillStyle'] | The color of the ruler |
 | showLock  | number | Whether to show the lock icon |
 | lockColor  | string | Color of the lock icon |
-| lockZoom  | boolean | Whether to lock the zoom |
-| monitorZoom  | boolean | Whether to monitor zoom changes and update the scale, default is true |
-| monitorSize  | boolean | `changeSize`, Whether to change the ruler size |
+| lock  | boolean | Whether to lock |
+| monitorZoom  | boolean | Whether the `wheelzoom` event changes the scale |
+| monitorSize  | boolean |Whether the `changeSize` event changes the size of the ruler |
+| monitorViewPort  | boolean |  Whether the `viewportchange` event changes the scale |
 
-### 方法
+### API
 
-| 名称 | 描述                         |
+| Name | Description                         |
 | ---- | ---------------------------- |
-| resetRulerSize  | Change the size of the ruler, automatically called when using `changeSize` method by default |
+| changeRulerConfig  | Change the configuration of the ruler, such as color, text size, etc. |
 | toggerVisible  | Toggle visibility of the ruler |
 | changeVisible  | Change visibility, accepts a boolean value |
-| toggerLockZoom  | Toggle whether zoom is locked |
-| changeLockZoom  | Change whether zoom is locked, accepts a boolean value |
-| changeScale  | Change the scale size |
+| toggerLock  | Toggle the lock status. When locked, dragging, moving, and scrolling are disabled. |
+| changeLock  | Change the lock status, accepts a boolean value. |
+| changeScale  | Change the scale size. Internally triggers the `graph.zoom` event. |
 
-### 用法
+### Usage
 
-实例化 Ruler 插件时。
+When the Ruler plug-in is instantiated.
 
 ```javascript
 // Instantiate the Ruler plugin

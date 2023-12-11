@@ -102,13 +102,13 @@ Grid 插件在画布上绘制了网格。
 
 Ruler 插件在画布上绘制了标尺。通过左上角的锁还可以锁定缩放。
 
+<span><strong>⚠️ 注意:</strong></span> 因为尺子会占有占一定空间, 所以内部会对`canvas`减少`宽高`以及`偏移尺子的大小`, 并且`grid`也需要偏移, 如需要, 需要先注册`grid`
 
 ### 配置项
 
 | 名称 | 类型   | 描述                         |
 | ---- | ------ | ---------------------------- |
-| directions  | ruleDirection[] 或者  ruleDirection | 方向, 1代表横向, 2代表纵向, 默认[1, 2]|
-| width  | number | 默认横向以canvas宽度, 纵向以canvas高度, 需要注意宽度需要算上`startLen`的大小 |
+| directions  | ruleDirection[] 或者  ruleDirection | 方向, `horizontal`代表横向, `vertical`代表纵向, 默认`['horizontal', 'vertical']`|
 | height  | number | 尺子的高度, 默认是`25`, 当存在 startLen 和 height 会取2个最大的值 |
 | startLen  | number | 尺子的开始位置, 默认`25`, 当存在 startLen 和 height 会取2个最大的值 |
 | scale  | number | 当前缩放的大小 |
@@ -120,22 +120,24 @@ Ruler 插件在画布上绘制了标尺。通过左上角的锁还可以锁定�
 | lineWidth  | number | 线的宽度 |
 | lineHeight  | number | 线的高度 |
 | strokeStyle  | CanvasRenderingContext2D['strokeStyle'] | 线的颜色 |
+| background  | CanvasRenderingContext2D['fillStyle'] | 尺子的颜色 |
 | showLock  | number | 是否显示锁icon |
 | lockColor  | string | 锁的颜色 |
-| lockZoom  | boolean | 是否锁住缩放 |
-| monitorZoom  | boolean | 是否监听缩放改变刻度改变, 默认true |
+| lock  | boolean | 是否锁住 |
+| monitorZoom  | boolean | `wheelzoom`, 事件是否改变刻度 |
 | monitorSize  | boolean | `changeSize`, 是否改变尺子的大小 |
+| monitorViewPort  | boolean | `viewportchange`, 事件是否改变刻度 |
 
 ### 方法
 
 | 名称 | 描述                         |
 | ---- | ---------------------------- |
-| resetRulerSize  | 改变尺子的大小, 默认情况下, 使用`changeSize`方法会自动调用 |
+| changeRulerConfig  | 改变尺子的配置,例如改变颜色、文本大小等 |
 | toggerVisible  | 切换显示显示 |
 | changeVisible  | 改变是否显示, 接受一个布尔值 |
-| toggerLockZoom  | 切换锁是否可以缩放 |
-| changeLockZoom  | 改变锁是否可以缩放, 接受一个布尔值 |
-| changeScale  | 改变缩放大小 |
+| toggerLock  | 切换锁定状态， 锁定状态下， 无法拖拽、移动、滚动 |
+| changeLock  | 改变锁定状态， 接受一个布尔值 |
+| changeScale  | 改变缩放大小, 内部会触发`graph.zoom`事件 |
 
 ### 用法
 
