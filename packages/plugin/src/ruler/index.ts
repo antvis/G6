@@ -271,12 +271,13 @@ export default class Ruler extends Base {
     const modeController = graph.get('modeController')
 
     const lockFlagArr = []
+    this.updateShouldBegin()
 
+    // 初始锁定状态
     this.lockBehaviorKey.forEach(key => {
       const behavior = modeController?.modes[modeController.mode]?.filter(behavior => behavior.type === key)?.[0];
       if (behavior) {
         if (behavior.shouldBegin) {
-          this.shouldBeginFnObj[key] = behavior.shouldBegin
           lockFlagArr.push(!behavior.shouldBegin())
         }
         lockFlagArr.push(false)
@@ -346,6 +347,19 @@ export default class Ruler extends Base {
     })
   }
 
+  public updateShouldBegin() {
+    const graph: IGraph = this.get('graph')
+    const modeController = graph.get('modeController')
+    this.lockBehaviorKey.forEach(key => {
+      const behavior = modeController?.modes[modeController.mode]?.filter(behavior => behavior.type === key)?.[0];
+      if (behavior) {
+        if (behavior.shouldBegin) {
+          this.shouldBeginFnObj[key] = behavior.shouldBegin
+        }
+      }
+    })
+  }
+
   // 改变尺子的配合, 配置改变就会重新绘制尺子, 不管改变什么, 例如改变颜色, 改变缩放
   public changeRulerConfig(config) {
     this.rulerInstances.forEach(rulerInstance => {
@@ -403,7 +417,7 @@ export default class Ruler extends Base {
     }
 
     this.lockBehaviorKey.forEach(key => {
-      graph.updateBehavior(key, { shouldBegin: flag ? () => false : this.shouldBeginFnObj[key] })
+      graph.updateBehavior(key, { shouldBegin: flag ? () => false : this.shouldBeginFnObj[key] || (() => true) })
     })
     this.set('lock', flag)
   }
@@ -450,7 +464,7 @@ export default class Ruler extends Base {
     })
     graphContainer.removeChild(this.rulerWrap as HTMLElement)
     this.lockBehaviorKey.forEach(key => {
-      graph.updateBehavior(key, { shouldBegin: this.shouldBeginFnObj[key] })
+      graph.updateBehavior(key, { shouldBegin: this.shouldBeginFnObj[key] || (() => true) })
     })
   }
 }

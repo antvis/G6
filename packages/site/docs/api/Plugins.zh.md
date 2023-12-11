@@ -138,6 +138,7 @@ Ruler 插件在画布上绘制了标尺。通过左上角的锁还可以锁定�
 | toggerLock  | 切换锁定状态， 锁定状态下， 无法拖拽、移动、滚动 |
 | changeLock  | 改变锁定状态， 接受一个布尔值 |
 | changeScale  | 改变缩放大小, 内部会触发`graph.zoom`事件 |
+| updateShouldBegin  | 缩放、拖拽等行为更新需要调用， 用于锁定切换能保留最新 |
 
 ### 用法
 

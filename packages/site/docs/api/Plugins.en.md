@@ -131,6 +131,7 @@ The Ruler plugin in G6 can be used to draw rulers on the canvas. It provides var
 | toggerLock  | Toggle the lock status. When locked, dragging, moving, and scrolling are disabled. |
 | changeLock  | Change the lock status, accepts a boolean value. |
 | changeScale  | Change the scale size. Internally triggers the `graph.zoom` event. |
+| updateShouldBegin  | Behavioral updates such as scaling, drag and drop need to be called to keep the lock switch up-to-date |
 
 ### Usage
 
