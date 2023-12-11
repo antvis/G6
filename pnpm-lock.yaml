@@ -1,5 +1,9 @@
 lockfileVersion: '6.0'
 
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
 overrides:
   prettier: ^2.8.8
 
@@ -195,7 +199,7 @@ importers:
         specifier: ^2.0.4
         version: 2.0.4
       '@antv/g6':
-        specifier: ^5.0.0
+        specifier: ^5.0.0-beta.28
         version: link:../g6
       '@antv/l7':
         specifier: ^2.18.3
@@ -300,6 +304,9 @@ importers:
       '@antv/g':
         specifier: '>=5.18.23'
         version: 5.18.23
+      '@antv/g6':
+        specifier: workspace:*
+        version: link:../g6
       '@antv/react-g':
         specifier: ^1.10.19
         version: 1.10.19(react@18.2.0)
@@ -319,9 +326,6 @@ importers:
       '@antv/g-webgl':
         specifier: ^1.9.29
         version: 1.9.29
-      '@antv/g6':
-        specifier: workspace:*
-        version: link:../g6
       '@types/react':
         specifier: ^18.2.29
         version: 18.2.34
@@ -377,7 +381,7 @@ importers:
         specifier: workspace:*
         version: link:../g6-plugin-map-view
       '@antv/g6-react-node':
-        specifier: ^2.0.0-beta.0
+        specifier: workspace:*
         version: link:../react-node
       '@antv/graphlib':
         specifier: ^2.0.2
@@ -11251,7 +11255,7 @@ packages:
     dependencies:
       '@babel/core': 7.23.2
       postcss: 8.4.31
-      postcss-syntax: 0.36.2(postcss-html@0.36.0)(postcss-jsx@0.36.4)(postcss-less@3.1.4)(postcss-markdown@0.36.0)(postcss-scss@2.1.1)(postcss@7.0.39)
+      postcss-syntax: 0.36.2(postcss@8.4.31)
     transitivePeerDependencies:
       - supports-color
 
@@ -13160,7 +13164,7 @@ packages:
       esbuild: 0.17.19
       regenerate: 1.4.2
       regenerate-unicode-properties: 10.1.1
-      spdy: 4.0.2(supports-color@6.1.0)
+      spdy: 4.0.2
     transitivePeerDependencies:
       - supports-color
 
@@ -13177,7 +13181,7 @@ packages:
       postcss-preset-env: 7.5.0(postcss@8.4.31)
       rollup-plugin-visualizer: 5.9.0(rollup@2.33.3)
       systemjs: 6.14.2
-      vite: 4.3.1(@types/node@13.11.1)(less@4.1.3)(sass@1.69.5)(stylus@0.54.8)
+      vite: 4.3.1(@types/node@13.11.1)(less@3.13.1)(stylus@0.54.8)
     transitivePeerDependencies:
       - '@types/node'
       - postcss
@@ -13187,6 +13191,32 @@ packages:
       - sugarss
       - supports-color
       - terser
+    dev: false
+
+  /@umijs/bundler-vite@4.0.87(@types/node@20.5.1)(postcss@8.4.31)(sass@1.69.5):
+    resolution: {integrity: sha512-7wqevmol3jEIxQfOzkJdmRD/T302aBrWmxihTIQwyaBZHRoMu76LJsnBIkpTw5ffDv0gwhNxEHW11ET6YklQ0w==}
+    hasBin: true
+    dependencies:
+      '@svgr/core': 6.5.1
+      '@umijs/bundler-utils': 4.0.87
+      '@umijs/utils': 4.0.87
+      '@vitejs/plugin-react': 4.0.0(vite@4.3.1)
+      core-js: 3.28.0
+      less: 4.1.3
+      postcss-preset-env: 7.5.0(postcss@8.4.31)
+      rollup-plugin-visualizer: 5.9.0(rollup@2.33.3)
+      systemjs: 6.14.2
+      vite: 4.3.1(@types/node@20.5.1)(less@4.1.3)(sass@1.69.5)
+    transitivePeerDependencies:
+      - '@types/node'
+      - postcss
+      - rollup
+      - sass
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+    dev: true
 
   /@umijs/bundler-webpack@4.0.87(styled-components@6.1.0)(typescript@5.0.4)(webpack@5.89.0):
     resolution: {integrity: sha512-s2dzSiGbN4ws+MtpGIm3/I2w4/WIhIIDitWncjjBRarwpVraDJdPflWVIlVAsYkRlq1brJMoa4mdLPkVWyw65w==}
@@ -13501,7 +13531,7 @@ packages:
       eslint-plugin-react: 7.33.2(eslint@8.48.0)
       eslint-plugin-react-hooks: 4.6.0(eslint@8.48.0)
       postcss: 8.4.31
-      postcss-syntax: 0.36.2(postcss-html@0.36.0)(postcss-jsx@0.36.4)(postcss-less@3.1.4)(postcss-markdown@0.36.0)(postcss-scss@2.1.1)(postcss@7.0.39)
+      postcss-syntax: 0.36.2(postcss@8.4.31)
       stylelint-config-standard: 25.0.0(stylelint@14.16.1)
     transitivePeerDependencies:
       - eslint
@@ -13599,7 +13629,7 @@ packages:
       '@umijs/babel-preset-umi': 4.0.87(styled-components@6.1.0)
       '@umijs/bundler-esbuild': 4.0.87
       '@umijs/bundler-utils': 4.0.87
-      '@umijs/bundler-vite': 4.0.87(@types/node@13.11.1)(postcss@8.4.31)(rollup@2.33.3)(sass@1.69.5)(stylus@0.54.8)
+      '@umijs/bundler-vite': 4.0.87(@types/node@20.5.1)(postcss@8.4.31)(sass@1.69.5)
       '@umijs/bundler-webpack': 4.0.87(styled-components@6.1.0)(typescript@5.1.6)(webpack@5.89.0)
       '@umijs/core': 4.0.87
       '@umijs/did-you-know': 1.0.3
@@ -13783,7 +13813,7 @@ packages:
       '@babel/plugin-transform-react-jsx-self': 7.22.5(@babel/core@7.23.2)
       '@babel/plugin-transform-react-jsx-source': 7.22.5(@babel/core@7.23.2)
       react-refresh: 0.14.0
-      vite: 4.3.1(@types/node@13.11.1)(less@4.1.3)(sass@1.69.5)(stylus@0.54.8)
+      vite: 4.3.1(@types/node@20.5.1)(less@4.1.3)(sass@1.69.5)
     transitivePeerDependencies:
       - supports-color
 
@@ -18616,6 +18646,7 @@ packages:
 
   /delegate@3.2.0:
     resolution: {integrity: sha512-IofjkYBZaZivn0V8nnsMJGBr4jVLxHDheKSW88PyxS5QC4Vo9ZbZVvhzlSxY87fVq3STR6r+4cGepyHkcWOQSw==}
+    requiresBuild: true
     optional: true
 
   /delegates@1.0.0:
@@ -20956,7 +20987,7 @@ packages:
     peerDependencies:
       eslint: '>=5.0.0'
       eslint-config-prettier: '*'
-      prettier: '>=1.13.0'
+      prettier: ^2.8.8
     peerDependenciesMeta:
       eslint-config-prettier:
         optional: true
@@ -23493,6 +23524,7 @@ packages:
 
   /good-listener@1.2.2:
     resolution: {integrity: sha512-goW1b+d9q/HIwbVYZzZ6SsTr4IgE+WA44A0GmPIQstuOrgsFcT7VEJ48nmr9GaRtNu0XTKacFLGnBPAM6Afouw==}
+    requiresBuild: true
     dependencies:
       delegate: 3.2.0
     optional: true
@@ -31291,6 +31323,29 @@ packages:
       postcss-markdown: 0.36.0(postcss-syntax@0.36.2)(postcss@7.0.39)
       postcss-scss: 2.1.1
 
+  /postcss-syntax@0.36.2(postcss@8.4.31):
+    resolution: {integrity: sha512-nBRg/i7E3SOHWxF3PpF5WnJM/jQ1YpY9000OaVXlAQj6Zp/kIqJxEDWIZ67tAd7NLuk7zqN4yqe9nc0oNAOs1w==}
+    peerDependencies:
+      postcss: '>=5.0.0'
+      postcss-html: '*'
+      postcss-jsx: '*'
+      postcss-less: '*'
+      postcss-markdown: '*'
+      postcss-scss: '*'
+    peerDependenciesMeta:
+      postcss-html:
+        optional: true
+      postcss-jsx:
+        optional: true
+      postcss-less:
+        optional: true
+      postcss-markdown:
+        optional: true
+      postcss-scss:
+        optional: true
+    dependencies:
+      postcss: 8.4.31
+
   /postcss-unique-selectors@4.0.1:
     resolution: {integrity: sha512-+JanVaryLo9QwZjKrmJgkI4Fn8SBgRO6WXQBJi7KiAVPlmxikB5Jzc4EvXMT2H0/m0RjrVVm9rGNhZddm/8Spg==}
     engines: {node: '>=6.9.0'}
@@ -31387,7 +31442,7 @@ packages:
     peerDependencies:
       '@volar/vue-language-plugin-pug': ^1.0.4
       '@volar/vue-typescript': ^1.0.4
-      prettier: '>=2.0'
+      prettier: ^2.8.8
       typescript: '>=2.9'
     peerDependenciesMeta:
       '@volar/vue-language-plugin-pug':
@@ -31401,7 +31456,7 @@ packages:
   /prettier-plugin-packagejson@2.3.0(prettier@2.8.8):
     resolution: {integrity: sha512-2SAPMMk1UDkqsB7DifWKcwCm6VC52JXMrzLHfbcQHJRWhRCj9zziOy+s+2XOyPBeyqFqS+A/1IKzOrxKFTo6pw==}
     peerDependencies:
-      prettier: '>= 1.16.0'
+      prettier: ^2.8.8
     peerDependenciesMeta:
       prettier:
         optional: true
@@ -31413,7 +31468,7 @@ packages:
   /prettier-plugin-packagejson@2.4.3(prettier@2.8.8):
     resolution: {integrity: sha512-kPeeviJiwy0BgOSk7No8NmzzXfW4R9FYWni6ziA5zc1kGVVrKnBzMZdu2TUhI+I7h8/5Htt3vARYOk7KKJTTNQ==}
     peerDependencies:
-      prettier: '>= 1.16.0'
+      prettier: ^2.8.8
     peerDependenciesMeta:
       prettier:
         optional: true
@@ -31425,7 +31480,7 @@ packages:
   /prettier-plugin-packagejson@2.4.6(prettier@2.8.8):
     resolution: {integrity: sha512-5JGfzkJRL0DLNyhwmiAV9mV0hZLHDwddFCs2lc9CNxOChpoWUQVe8K4qTMktmevmDlMpok2uT10nvHUyU59sNw==}
     peerDependencies:
-      prettier: '>= 1.16.0'
+      prettier: ^2.8.8
     peerDependenciesMeta:
       prettier:
         optional: true
@@ -31438,7 +31493,7 @@ packages:
   /prettier-plugin-two-style-order@1.0.1(prettier@2.8.8):
     resolution: {integrity: sha512-ETltO2FRR/Pxc7bsgz2XwuzWSPwafl7/v5+5Rria4S579CTas7dya+xsmbkix0q1tYQiuRjVVdfGnCKlH/aOuQ==}
     peerDependencies:
-      prettier: '>= 2.0.0'
+      prettier: ^2.8.8
     dependencies:
       postcss: 8.4.31
       postcss-less: 4.0.1
@@ -31675,6 +31730,7 @@ packages:
 
   /prr@1.0.1:
     resolution: {integrity: sha512-yPw4Sng1gWghHQWj0B3ZggWUm4qVbPwPFcRG8KyxiU7J2OHFSoEHKS+EZ3fv5l1t9CyCiop6l/ZYeWbrgoQejw==}
+    requiresBuild: true
 
   /pseudomap@1.0.2:
     resolution: {integrity: sha512-b/YwNhb8lk1Zz2+bXXpS/LK9OisiZZ1SNsSLxN1x2OXVEhW2Ckr/7mWE5vrC1ZTiJlD9g19jWszTmJsB+oEpFQ==}
@@ -36457,6 +36513,7 @@ packages:
 
   /select@1.1.2:
     resolution: {integrity: sha512-OwpTSOfy6xSs1+pwcNrv0RBMOzI39Lp3qQKUTPVVPRjCdNa5JH/oPRiqsesIskK8TVgmRiHwO4KXlV2Li9dANA==}
+    requiresBuild: true
     optional: true
 
   /selfsigned@1.10.14:
@@ -37202,6 +37259,18 @@ packages:
   /spdx-license-ids@3.0.16:
     resolution: {integrity: sha512-eWN+LnM3GR6gPu35WxNgbGl8rmY1AEmoMDvL/QD6zYmPWgywxWqJWNdLGT+ke8dKNWrcYgYjPpG5gbTfghP8rw==}
 
+  /spdy-transport@3.0.0:
+    resolution: {integrity: sha512-hsLVFE5SjA6TCisWeJXFKniGGOpBgMLmerfO2aCyCU5s7nJ/rpAepqmFifv/GCbSbueEeAJJnmSQ2rKC/g8Fcw==}
+    dependencies:
+      debug: 4.3.4(supports-color@5.5.0)
+      detect-node: 2.1.0
+      hpack.js: 2.1.6
+      obuf: 1.1.2
+      readable-stream: 3.6.2
+      wbuf: 1.7.3
+    transitivePeerDependencies:
+      - supports-color
+
   /spdy-transport@3.0.0(supports-color@6.1.0):
     resolution: {integrity: sha512-hsLVFE5SjA6TCisWeJXFKniGGOpBgMLmerfO2aCyCU5s7nJ/rpAepqmFifv/GCbSbueEeAJJnmSQ2rKC/g8Fcw==}
     dependencies:
@@ -37211,6 +37280,18 @@ packages:
       obuf: 1.1.2
       readable-stream: 3.6.2
       wbuf: 1.7.3
+    transitivePeerDependencies:
+      - supports-color
+
+  /spdy@4.0.2:
+    resolution: {integrity: sha512-r46gZQZQV+Kl9oItvl1JZZqJKGr+oEkB08A6BzkiR7593/7IbtuncXHd2YoYeTsG4157ZssMu9KYvUHLcjcDoA==}
+    engines: {node: '>=6.0.0'}
+    dependencies:
+      debug: 4.3.4(supports-color@5.5.0)
+      handle-thing: 2.0.1
+      http-deceiver: 1.2.7
+      select-hose: 2.0.0
+      spdy-transport: 3.0.0
     transitivePeerDependencies:
       - supports-color
 
@@ -38669,6 +38750,7 @@ packages:
 
   /tiny-emitter@2.1.0:
     resolution: {integrity: sha512-NB6Dk1A9xgQPMoGqC5CVXn123gWyte215ONT5Pp5a0yt4nlEoO1ZWeCwpncaekPHXO60i47ihFnZPiRPjRMq4Q==}
+    requiresBuild: true
     optional: true
 
   /tiny-invariant@1.3.1:
@@ -40217,7 +40299,7 @@ packages:
       remove-trailing-separator: 1.1.0
       replace-ext: 1.0.1
 
-  /vite@4.3.1(@types/node@13.11.1)(less@4.1.3)(sass@1.69.5)(stylus@0.54.8):
+  /vite@4.3.1(@types/node@13.11.1)(less@3.13.1)(stylus@0.54.8):
     resolution: {integrity: sha512-EPmfPLAI79Z/RofuMvkIS0Yr091T2ReUoXQqc5ppBX/sjFRhHKiPPF/R46cTdoci/XgeQpB23diiJxq5w30vdg==}
     engines: {node: ^14.18.0 || >=16.0.0}
     hasBin: true
@@ -40244,11 +40326,45 @@ packages:
     dependencies:
       '@types/node': 13.11.1
       esbuild: 0.17.19
+      less: 3.13.1
+      postcss: 8.4.31
+      rollup: 3.29.4
+      stylus: 0.54.8
+    optionalDependencies:
+      fsevents: 2.3.3
+    dev: false
+
+  /vite@4.3.1(@types/node@20.5.1)(less@4.1.3)(sass@1.69.5):
+    resolution: {integrity: sha512-EPmfPLAI79Z/RofuMvkIS0Yr091T2ReUoXQqc5ppBX/sjFRhHKiPPF/R46cTdoci/XgeQpB23diiJxq5w30vdg==}
+    engines: {node: ^14.18.0 || >=16.0.0}
+    hasBin: true
+    peerDependencies:
+      '@types/node': '>= 14'
+      less: '*'
+      sass: '*'
+      stylus: '*'
+      sugarss: '*'
+      terser: ^5.4.0
+    peerDependenciesMeta:
+      '@types/node':
+        optional: true
+      less:
+        optional: true
+      sass:
+        optional: true
+      stylus:
+        optional: true
+      sugarss:
+        optional: true
+      terser:
+        optional: true
+    dependencies:
+      '@types/node': 20.5.1
+      esbuild: 0.17.19
       less: 4.1.3
       postcss: 8.4.31
       rollup: 3.29.4
       sass: 1.69.5
-      stylus: 0.54.8
     optionalDependencies:
       fsevents: 2.3.3
 
@@ -41242,7 +41358,3 @@ packages:
 
   /zwitch@2.0.4:
     resolution: {integrity: sha512-bXE4cR/kVZhKZX/RjPEflHaKVhUVl85noU3v6b8apfQEc1x4A+zBxjZ4lN8LqGd6WZ3dl98pY4o717VFmoPp+A==}
-
-settings:
-  autoInstallPeers: true
-  excludeLinksFromLockfile: false

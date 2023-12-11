@@ -28,7 +28,6 @@
     "@antv/g-canvas": "^1.11.22",
     "@antv/g-svg": "^1.10.21",
     "@antv/g-webgl": "^1.9.29",
-    "@antv/g6": "workspace:*",
     "@types/react": "^18.2.29",
     "@types/react-dom": "^18.2.14",
     "antd": "^5.10.2",
