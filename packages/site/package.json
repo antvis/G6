@@ -40,7 +40,7 @@
     "@antv/g2": "^5.1.5",
     "@antv/g6": "workspace:*",
     "@antv/g6-plugin-map-view": "workspace:*",
-    "@antv/g6-react-node": "^2.0.0-beta.0",
+    "@antv/g6-react-node": "workspace:*",
     "@antv/graphlib": "^2.0.2",
     "@antv/layout-gpu": "^1.1.5",
     "@antv/layout-wasm": "^1.3.4",

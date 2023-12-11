@@ -1,6 +1,6 @@
 {
   "name": "@antv/g6-react-node",
-  "version": "2.0.0-beta.0",
+  "version": "2.0.0-beta.1",
   "description": "Using React Component to Define Your G6 Graph Node",
   "repository": "https://github.com/antvis/G6.git",
   "license": "MIT",
