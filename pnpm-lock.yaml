@@ -1,9 +1,5 @@
 lockfileVersion: '6.0'
 
-settings:
-  autoInstallPeers: true
-  excludeLinksFromLockfile: false
-
 overrides:
   prettier: ^2.8.8
 
@@ -39,11 +35,11 @@ importers:
         specifier: latest
         version: 0.1.3
       '@antv/g':
-        specifier: ^5.18.19
-        version: 5.18.19
+        specifier: ^5.18.23
+        version: 5.18.23
       '@antv/g-canvas':
-        specifier: ^1.11.22
-        version: 1.11.22
+        specifier: ^1.11.25
+        version: 1.11.25
       '@antv/g-plugin-3d':
         specifier: ^1.9.26
         version: 1.9.26
@@ -64,7 +60,7 @@ importers:
         version: 2.0.2
       '@antv/gui':
         specifier: 0.5.1-alpha.1
-        version: 0.5.1-alpha.1(@antv/g@5.18.19)
+        version: 0.5.1-alpha.1(@antv/g@5.18.23)
       '@antv/hierarchy':
         specifier: latest
         version: 0.6.11
@@ -302,8 +298,8 @@ importers:
   packages/react-node:
     dependencies:
       '@antv/g':
-        specifier: '>=5.18.16'
-        version: 5.18.19
+        specifier: '>=5.18.23'
+        version: 5.18.23
       '@antv/react-g':
         specifier: ^1.10.19
         version: 1.10.19(react@18.2.0)
@@ -999,10 +995,10 @@ packages:
       tslib: 2.6.2
     dev: false
 
-  /@antv/g-camera-api@1.2.18:
-    resolution: {integrity: sha512-EuV8cx7XPms+CY7RYOiErUiG4JvTLS57F4LerwiQtDRn8LXZb1NACpVlxlKTUu0xDMtDnRGjT1ezp9ejPjY34A==}
+  /@antv/g-camera-api@1.2.21:
+    resolution: {integrity: sha512-5qdqhRV8fYPsOiQkRWusVLWV8z2DycFKXShjrLkIhoZIXW0dpRwLs4ixc0BW0Gbj6Y37DwNx54dggRihhVyujQ==}
     dependencies:
-      '@antv/g-lite': 1.2.17
+      '@antv/g-lite': 1.2.20
       '@antv/util': 3.3.5
       gl-matrix: 3.4.3
       tslib: 2.6.2
@@ -1032,6 +1028,21 @@ packages:
       '@antv/g-plugin-image-loader': 1.3.17
       '@antv/util': 3.3.5
       tslib: 2.6.2
+    dev: true
+
+  /@antv/g-canvas@1.11.25:
+    resolution: {integrity: sha512-8Fx7vpwYdUmaYPUn6fcVdgy/mXVzeymSBfrNXqu1O1jqhTtIUH5Jr8Ui+zTxf8NZkqh7pBFP8TRroXpIWTJ6JQ==}
+    dependencies:
+      '@antv/g-lite': 1.2.20
+      '@antv/g-plugin-canvas-path-generator': 1.3.20
+      '@antv/g-plugin-canvas-picker': 1.10.22
+      '@antv/g-plugin-canvas-renderer': 1.9.22
+      '@antv/g-plugin-dom-interaction': 1.9.20
+      '@antv/g-plugin-html-renderer': 1.9.23
+      '@antv/g-plugin-image-loader': 1.3.20
+      '@antv/util': 3.3.5
+      tslib: 2.6.2
+    dev: false
 
   /@antv/g-device-api@1.3.6:
     resolution: {integrity: sha512-x1h2vPKZxQZwDi6RYfFyvvGcK9iLq6qNccsgBhVp7+tUrMumL8CntoASzSQCnj6CqzDuxz1dzSXrTq/PXMFprA==}
@@ -1048,10 +1059,10 @@ packages:
       '@antv/g-lite': 1.2.16
     dev: false
 
-  /@antv/g-dom-mutation-observer-api@1.2.17:
-    resolution: {integrity: sha512-yd8kFUDluFUlqAz5tnmLENspvgbhM+tnKQAFzh1+knkSMuYbzop0ZrdZLXeR0w0p1Euj9LwZGGApKDwbzzA1aQ==}
+  /@antv/g-dom-mutation-observer-api@1.2.20:
+    resolution: {integrity: sha512-J3EuEtWmIKGC44XWgJXG/nFnsjFY/oH9aAj1YaDVMtYREcyQOjb/aY9jdCfDmZBrNcMYeUHcsZEVhYwpc0wBcw==}
     dependencies:
-      '@antv/g-lite': 1.2.17
+      '@antv/g-lite': 1.2.20
     dev: false
 
   /@antv/g-lite@1.2.16:
@@ -1076,6 +1087,18 @@ packages:
       gl-matrix: 3.4.3
       rbush: 3.0.1
       tslib: 2.6.2
+
+  /@antv/g-lite@1.2.20:
+    resolution: {integrity: sha512-h/0Chyp87e4gEGQw9pn5n3489rGEgttlMVwuhRsYXcOGVAYR92+7/jkDYEArf2eVtSdko11pg+kJKhr0yWk7gA==}
+    dependencies:
+      '@antv/g-math': 2.0.2
+      '@antv/util': 3.3.5
+      d3-color: 1.4.1
+      eventemitter3: 5.0.1
+      gl-matrix: 3.4.3
+      rbush: 3.0.1
+      tslib: 2.6.2
+    dev: false
 
   /@antv/g-math@0.1.9:
     resolution: {integrity: sha512-KHMSfPfZ5XHM1PZnG42Q2gxXfOitYveNTA7L61lR6mhZ8Y/aExsYmHqaKBsSarU0z+6WLrl9C07PQJZaw0uljQ==}
@@ -1109,6 +1132,16 @@ packages:
       '@antv/g-math': 2.0.2
       '@antv/util': 3.3.5
       tslib: 2.6.2
+    dev: true
+
+  /@antv/g-plugin-canvas-path-generator@1.3.20:
+    resolution: {integrity: sha512-q6jQpdRxJem4e3inmmTP4Uv03No5mzt1bT4OeA1bE3xVuD8l3yBNKu1We6bfdp+1PcfLnDAmvGosQL/sMneiRQ==}
+    dependencies:
+      '@antv/g-lite': 1.2.20
+      '@antv/g-math': 2.0.2
+      '@antv/util': 3.3.5
+      tslib: 2.6.2
+    dev: false
 
   /@antv/g-plugin-canvas-picker@1.10.19:
     resolution: {integrity: sha512-qw/vnyd9HU6HNDUQygLXHTo81eU4/NHLizrafvqVPf7b/cPQgC4wPO1eBz/QoVoT/F1FrAQQ5VIzeaPE209/Ug==}
@@ -1120,6 +1153,19 @@ packages:
       '@antv/util': 3.3.5
       gl-matrix: 3.4.3
       tslib: 2.6.2
+    dev: true
+
+  /@antv/g-plugin-canvas-picker@1.10.22:
+    resolution: {integrity: sha512-gj6caACxuuNP1oy3kG5RCLMHfmlyvPnaxkQ9Sv/Rfe39I6xpqNNiAfP3vZbSZqBDyKkhdjHJMjdELEJ24seAJg==}
+    dependencies:
+      '@antv/g-lite': 1.2.20
+      '@antv/g-math': 2.0.2
+      '@antv/g-plugin-canvas-path-generator': 1.3.20
+      '@antv/g-plugin-canvas-renderer': 1.9.22
+      '@antv/util': 3.3.5
+      gl-matrix: 3.4.3
+      tslib: 2.6.2
+    dev: false
 
   /@antv/g-plugin-canvas-renderer@1.9.19:
     resolution: {integrity: sha512-JLNYjuKK4blZFJns5sOg5d+ldZXkDVhNSdFJhzyn3ny33QWQ1lVchFPVYTE4P21V+qdvNGeagh0+RlJ5X7sXJw==}
@@ -1131,6 +1177,19 @@ packages:
       '@antv/util': 3.3.5
       gl-matrix: 3.4.3
       tslib: 2.6.2
+    dev: true
+
+  /@antv/g-plugin-canvas-renderer@1.9.22:
+    resolution: {integrity: sha512-XsEA0LslLKP0Vc7+YOLF1sk7Y2kL1g7Ip9tdiOjLdnl2ZeMOnx7FlOfL0UC9MpQGyM/SwNCmth8gk47KBdo8Yg==}
+    dependencies:
+      '@antv/g-lite': 1.2.20
+      '@antv/g-math': 2.0.2
+      '@antv/g-plugin-canvas-path-generator': 1.3.20
+      '@antv/g-plugin-image-loader': 1.3.20
+      '@antv/util': 3.3.5
+      gl-matrix: 3.4.3
+      tslib: 2.6.2
+    dev: false
 
   /@antv/g-plugin-control@1.9.17:
     resolution: {integrity: sha512-I4YKRnRztFPfQjQGEzLIlqGqHAldw4Nec6U9Trf7xR3814pT6ytfdaMzBM6OYYySjom+uCshB8+r+TBYYgioYg==}
@@ -1161,6 +1220,13 @@ packages:
       '@antv/g-lite': 1.2.17
       tslib: 2.6.2
 
+  /@antv/g-plugin-dom-interaction@1.9.20:
+    resolution: {integrity: sha512-0saRodsOwKIu8G2C8D6adxHysJkcQV9ATJ6QCN2mlqpyL+KWvghon1jibBR0cOQusL7f0baxWttkBgepbYPt1w==}
+    dependencies:
+      '@antv/g-lite': 1.2.20
+      tslib: 2.6.2
+    dev: false
+
   /@antv/g-plugin-dragndrop@1.8.17:
     resolution: {integrity: sha512-lvDVQhLalE3YjD4e8T7+kJ8qPD3ntr8ih524p2A2fnALllfOR/eUsfFmC0IO3GwrfZ69lyYPv748E8fEM/A58Q==}
     dependencies:
@@ -1177,6 +1243,15 @@ packages:
       gl-matrix: 3.4.3
       tslib: 2.6.2
 
+  /@antv/g-plugin-html-renderer@1.9.23:
+    resolution: {integrity: sha512-z4YKoI+K28wQCHWHDciAlY+U4EXAiJ9gyhjFUtkC1OQIeRsuPdoBLwp4lVCrbaliYVjdFfhov4SkG9trU0NEUw==}
+    dependencies:
+      '@antv/g-lite': 1.2.20
+      '@antv/util': 3.3.5
+      gl-matrix: 3.4.3
+      tslib: 2.6.2
+    dev: false
+
   /@antv/g-plugin-image-loader@1.3.17:
     resolution: {integrity: sha512-RnWFn6BjGq2zTbuNdQcNucnDrs64pLPRVIku2JHRV55NtVK7mQDAZD2k28TOUR3dzg5r5bja888CgiTWAs/7aQ==}
     dependencies:
@@ -1184,6 +1259,15 @@ packages:
       '@antv/util': 3.3.5
       gl-matrix: 3.4.3
       tslib: 2.6.2
+
+  /@antv/g-plugin-image-loader@1.3.20:
+    resolution: {integrity: sha512-9ZJfV3/MWlRT4VbuiUtdXPf1pwdmV8HLQlcl/HakN9z9jEA2tPMXuWvcIghDnAGsb+ii2bUNEeZZgbWtHyjwVA==}
+    dependencies:
+      '@antv/g-lite': 1.2.20
+      '@antv/util': 3.3.5
+      gl-matrix: 3.4.3
+      tslib: 2.6.2
+    dev: false
 
   /@antv/g-plugin-svg-picker@1.9.21:
     resolution: {integrity: sha512-jWUleZUCWjn2Xa00EhcJrrlEZBdFLUHYpE79JOE06h8mF8ZcZfvsTD0cXJAOAVAunwjAPWm4Wfoy8Cb3otLImA==}
@@ -1231,10 +1315,10 @@ packages:
       tslib: 2.6.2
     dev: false
 
-  /@antv/g-web-animations-api@1.2.17:
-    resolution: {integrity: sha512-GtBzIffKREZ4/DXq0+01ipT5nEhmEi5nCX4zzHhV1k3NZQDN6Qke6mCC6JkR25caKjlBTiau7RWijw8EHT5GfA==}
+  /@antv/g-web-animations-api@1.2.21:
+    resolution: {integrity: sha512-3LkPDOjpMjQ9b/mYoGgsoocWEOvDIUW2GpoLClbyd0vcIc97EujXVUobUIu7jvFQgvucgTnaxDLkAGDzuPaFvg==}
     dependencies:
-      '@antv/g-lite': 1.2.17
+      '@antv/g-lite': 1.2.20
       '@antv/util': 3.3.5
       tslib: 2.6.2
     dev: false
@@ -1305,11 +1389,11 @@ packages:
       '@antv/ava': 3.1.0(@antv/g2plot@2.4.31)(@antv/g6@packages+g6)
       '@antv/coord': 0.4.6
       '@antv/event-emitter': 0.1.3
-      '@antv/g': 5.18.19
-      '@antv/g-canvas': 1.11.22
+      '@antv/g': 5.18.23
+      '@antv/g-canvas': 1.11.25
       '@antv/g-plugin-3d': 1.9.26
       '@antv/g-plugin-dragndrop': 1.8.17
-      '@antv/gui': 0.5.0(@antv/g@5.18.19)
+      '@antv/gui': 0.5.0(@antv/g@5.18.23)
       '@antv/path-util': 3.0.1
       '@antv/scale': 0.4.12
       '@antv/util': 3.3.5
@@ -1359,13 +1443,13 @@ packages:
       '@antv/g-web-animations-api': 1.2.16
     dev: false
 
-  /@antv/g@5.18.19:
-    resolution: {integrity: sha512-eo22KYRB17SzF6NPiLrqn61vnTBo1fr9hIVC6BGP1YTrjhOb/36wPbpqVaircF9d/0+2eIVmD0fDWhoWPc/wOQ==}
+  /@antv/g@5.18.23:
+    resolution: {integrity: sha512-6O+ODt1w0FC4w98J00Ao7rtqztkV7AWqKF69kog3RqQWh40rYpM7JIfR0cFUAdHf8GLRyr4m+RQR+TZlt+QVEw==}
     dependencies:
-      '@antv/g-camera-api': 1.2.18
-      '@antv/g-dom-mutation-observer-api': 1.2.17
-      '@antv/g-lite': 1.2.17
-      '@antv/g-web-animations-api': 1.2.17
+      '@antv/g-camera-api': 1.2.21
+      '@antv/g-dom-mutation-observer-api': 1.2.20
+      '@antv/g-lite': 1.2.20
+      '@antv/g-web-animations-api': 1.2.21
     dev: false
 
   /@antv/graphlib@2.0.2:
@@ -1374,26 +1458,26 @@ packages:
       '@antv/event-emitter': 0.1.3
     dev: false
 
-  /@antv/gui@0.5.0(@antv/g@5.18.19):
+  /@antv/gui@0.5.0(@antv/g@5.18.23):
     resolution: {integrity: sha512-ZbKhQ3LKM0xFeTV9dU8A63ZslN3te7kD0jQ8KbSD5XfG1eaKYWNFZ4H/7kuKTQyxZZX/67nnWqrOZpKXx7zeMw==}
     peerDependencies:
       '@antv/g': ^5.14.1
     dependencies:
       '@antv/dom-util': 2.0.4
-      '@antv/g': 5.18.19
+      '@antv/g': 5.18.23
       '@antv/scale': 0.4.12
       '@antv/util': 3.3.5
       d3-array: 3.2.4
       svg-path-parser: 1.1.0
     dev: false
 
-  /@antv/gui@0.5.1-alpha.1(@antv/g@5.18.19):
+  /@antv/gui@0.5.1-alpha.1(@antv/g@5.18.23):
     resolution: {integrity: sha512-t3IvpnMIgGrUvw9/DHpZmQ+jqBwhD1YtOj6eusEbiJlZMubSX3UgpuFiSbZWCxIqgCUANSibsD1L6s8/1bfH/g==}
     peerDependencies:
       '@antv/g': ^5.14.1
     dependencies:
       '@antv/dom-util': 2.0.4
-      '@antv/g': 5.18.19
+      '@antv/g': 5.18.23
       '@antv/scale': 0.4.12
       '@antv/util': 3.3.5
       svg-path-parser: 1.1.0
@@ -11167,7 +11251,7 @@ packages:
     dependencies:
       '@babel/core': 7.23.2
       postcss: 8.4.31
-      postcss-syntax: 0.36.2(postcss@8.4.31)
+      postcss-syntax: 0.36.2(postcss-html@0.36.0)(postcss-jsx@0.36.4)(postcss-less@3.1.4)(postcss-markdown@0.36.0)(postcss-scss@2.1.1)(postcss@7.0.39)
     transitivePeerDependencies:
       - supports-color
 
@@ -13076,7 +13160,7 @@ packages:
       esbuild: 0.17.19
       regenerate: 1.4.2
       regenerate-unicode-properties: 10.1.1
-      spdy: 4.0.2
+      spdy: 4.0.2(supports-color@6.1.0)
     transitivePeerDependencies:
       - supports-color
 
@@ -13093,7 +13177,7 @@ packages:
       postcss-preset-env: 7.5.0(postcss@8.4.31)
       rollup-plugin-visualizer: 5.9.0(rollup@2.33.3)
       systemjs: 6.14.2
-      vite: 4.3.1(@types/node@13.11.1)(less@3.13.1)(stylus@0.54.8)
+      vite: 4.3.1(@types/node@13.11.1)(less@4.1.3)(sass@1.69.5)(stylus@0.54.8)
     transitivePeerDependencies:
       - '@types/node'
       - postcss
@@ -13103,32 +13187,6 @@ packages:
       - sugarss
       - supports-color
       - terser
-    dev: false
-
-  /@umijs/bundler-vite@4.0.87(@types/node@20.5.1)(postcss@8.4.31)(sass@1.69.5):
-    resolution: {integrity: sha512-7wqevmol3jEIxQfOzkJdmRD/T302aBrWmxihTIQwyaBZHRoMu76LJsnBIkpTw5ffDv0gwhNxEHW11ET6YklQ0w==}
-    hasBin: true
-    dependencies:
-      '@svgr/core': 6.5.1
-      '@umijs/bundler-utils': 4.0.87
-      '@umijs/utils': 4.0.87
-      '@vitejs/plugin-react': 4.0.0(vite@4.3.1)
-      core-js: 3.28.0
-      less: 4.1.3
-      postcss-preset-env: 7.5.0(postcss@8.4.31)
-      rollup-plugin-visualizer: 5.9.0(rollup@2.33.3)
-      systemjs: 6.14.2
-      vite: 4.3.1(@types/node@20.5.1)(less@4.1.3)(sass@1.69.5)
-    transitivePeerDependencies:
-      - '@types/node'
-      - postcss
-      - rollup
-      - sass
-      - stylus
-      - sugarss
-      - supports-color
-      - terser
-    dev: true
 
   /@umijs/bundler-webpack@4.0.87(styled-components@6.1.0)(typescript@5.0.4)(webpack@5.89.0):
     resolution: {integrity: sha512-s2dzSiGbN4ws+MtpGIm3/I2w4/WIhIIDitWncjjBRarwpVraDJdPflWVIlVAsYkRlq1brJMoa4mdLPkVWyw65w==}
@@ -13443,7 +13501,7 @@ packages:
       eslint-plugin-react: 7.33.2(eslint@8.48.0)
       eslint-plugin-react-hooks: 4.6.0(eslint@8.48.0)
       postcss: 8.4.31
-      postcss-syntax: 0.36.2(postcss@8.4.31)
+      postcss-syntax: 0.36.2(postcss-html@0.36.0)(postcss-jsx@0.36.4)(postcss-less@3.1.4)(postcss-markdown@0.36.0)(postcss-scss@2.1.1)(postcss@7.0.39)
       stylelint-config-standard: 25.0.0(stylelint@14.16.1)
     transitivePeerDependencies:
       - eslint
@@ -13541,7 +13599,7 @@ packages:
       '@umijs/babel-preset-umi': 4.0.87(styled-components@6.1.0)
       '@umijs/bundler-esbuild': 4.0.87
       '@umijs/bundler-utils': 4.0.87
-      '@umijs/bundler-vite': 4.0.87(@types/node@20.5.1)(postcss@8.4.31)(sass@1.69.5)
+      '@umijs/bundler-vite': 4.0.87(@types/node@13.11.1)(postcss@8.4.31)(rollup@2.33.3)(sass@1.69.5)(stylus@0.54.8)
       '@umijs/bundler-webpack': 4.0.87(styled-components@6.1.0)(typescript@5.1.6)(webpack@5.89.0)
       '@umijs/core': 4.0.87
       '@umijs/did-you-know': 1.0.3
@@ -13725,7 +13783,7 @@ packages:
       '@babel/plugin-transform-react-jsx-self': 7.22.5(@babel/core@7.23.2)
       '@babel/plugin-transform-react-jsx-source': 7.22.5(@babel/core@7.23.2)
       react-refresh: 0.14.0
-      vite: 4.3.1(@types/node@20.5.1)(less@4.1.3)(sass@1.69.5)
+      vite: 4.3.1(@types/node@13.11.1)(less@4.1.3)(sass@1.69.5)(stylus@0.54.8)
     transitivePeerDependencies:
       - supports-color
 
@@ -18558,7 +18616,6 @@ packages:
 
   /delegate@3.2.0:
     resolution: {integrity: sha512-IofjkYBZaZivn0V8nnsMJGBr4jVLxHDheKSW88PyxS5QC4Vo9ZbZVvhzlSxY87fVq3STR6r+4cGepyHkcWOQSw==}
-    requiresBuild: true
     optional: true
 
   /delegates@1.0.0:
@@ -20899,7 +20956,7 @@ packages:
     peerDependencies:
       eslint: '>=5.0.0'
       eslint-config-prettier: '*'
-      prettier: ^2.8.8
+      prettier: '>=1.13.0'
     peerDependenciesMeta:
       eslint-config-prettier:
         optional: true
@@ -23436,7 +23493,6 @@ packages:
 
   /good-listener@1.2.2:
     resolution: {integrity: sha512-goW1b+d9q/HIwbVYZzZ6SsTr4IgE+WA44A0GmPIQstuOrgsFcT7VEJ48nmr9GaRtNu0XTKacFLGnBPAM6Afouw==}
-    requiresBuild: true
     dependencies:
       delegate: 3.2.0
     optional: true
@@ -31235,29 +31291,6 @@ packages:
       postcss-markdown: 0.36.0(postcss-syntax@0.36.2)(postcss@7.0.39)
       postcss-scss: 2.1.1
 
-  /postcss-syntax@0.36.2(postcss@8.4.31):
-    resolution: {integrity: sha512-nBRg/i7E3SOHWxF3PpF5WnJM/jQ1YpY9000OaVXlAQj6Zp/kIqJxEDWIZ67tAd7NLuk7zqN4yqe9nc0oNAOs1w==}
-    peerDependencies:
-      postcss: '>=5.0.0'
-      postcss-html: '*'
-      postcss-jsx: '*'
-      postcss-less: '*'
-      postcss-markdown: '*'
-      postcss-scss: '*'
-    peerDependenciesMeta:
-      postcss-html:
-        optional: true
-      postcss-jsx:
-        optional: true
-      postcss-less:
-        optional: true
-      postcss-markdown:
-        optional: true
-      postcss-scss:
-        optional: true
-    dependencies:
-      postcss: 8.4.31
-
   /postcss-unique-selectors@4.0.1:
     resolution: {integrity: sha512-+JanVaryLo9QwZjKrmJgkI4Fn8SBgRO6WXQBJi7KiAVPlmxikB5Jzc4EvXMT2H0/m0RjrVVm9rGNhZddm/8Spg==}
     engines: {node: '>=6.9.0'}
@@ -31354,7 +31387,7 @@ packages:
     peerDependencies:
       '@volar/vue-language-plugin-pug': ^1.0.4
       '@volar/vue-typescript': ^1.0.4
-      prettier: ^2.8.8
+      prettier: '>=2.0'
       typescript: '>=2.9'
     peerDependenciesMeta:
       '@volar/vue-language-plugin-pug':
@@ -31368,7 +31401,7 @@ packages:
   /prettier-plugin-packagejson@2.3.0(prettier@2.8.8):
     resolution: {integrity: sha512-2SAPMMk1UDkqsB7DifWKcwCm6VC52JXMrzLHfbcQHJRWhRCj9zziOy+s+2XOyPBeyqFqS+A/1IKzOrxKFTo6pw==}
     peerDependencies:
-      prettier: ^2.8.8
+      prettier: '>= 1.16.0'
     peerDependenciesMeta:
       prettier:
         optional: true
@@ -31380,7 +31413,7 @@ packages:
   /prettier-plugin-packagejson@2.4.3(prettier@2.8.8):
     resolution: {integrity: sha512-kPeeviJiwy0BgOSk7No8NmzzXfW4R9FYWni6ziA5zc1kGVVrKnBzMZdu2TUhI+I7h8/5Htt3vARYOk7KKJTTNQ==}
     peerDependencies:
-      prettier: ^2.8.8
+      prettier: '>= 1.16.0'
     peerDependenciesMeta:
       prettier:
         optional: true
@@ -31392,7 +31425,7 @@ packages:
   /prettier-plugin-packagejson@2.4.6(prettier@2.8.8):
     resolution: {integrity: sha512-5JGfzkJRL0DLNyhwmiAV9mV0hZLHDwddFCs2lc9CNxOChpoWUQVe8K4qTMktmevmDlMpok2uT10nvHUyU59sNw==}
     peerDependencies:
-      prettier: ^2.8.8
+      prettier: '>= 1.16.0'
     peerDependenciesMeta:
       prettier:
         optional: true
@@ -31405,7 +31438,7 @@ packages:
   /prettier-plugin-two-style-order@1.0.1(prettier@2.8.8):
     resolution: {integrity: sha512-ETltO2FRR/Pxc7bsgz2XwuzWSPwafl7/v5+5Rria4S579CTas7dya+xsmbkix0q1tYQiuRjVVdfGnCKlH/aOuQ==}
     peerDependencies:
-      prettier: ^2.8.8
+      prettier: '>= 2.0.0'
     dependencies:
       postcss: 8.4.31
       postcss-less: 4.0.1
@@ -31642,7 +31675,6 @@ packages:
 
   /prr@1.0.1:
     resolution: {integrity: sha512-yPw4Sng1gWghHQWj0B3ZggWUm4qVbPwPFcRG8KyxiU7J2OHFSoEHKS+EZ3fv5l1t9CyCiop6l/ZYeWbrgoQejw==}
-    requiresBuild: true
 
   /pseudomap@1.0.2:
     resolution: {integrity: sha512-b/YwNhb8lk1Zz2+bXXpS/LK9OisiZZ1SNsSLxN1x2OXVEhW2Ckr/7mWE5vrC1ZTiJlD9g19jWszTmJsB+oEpFQ==}
@@ -36425,7 +36457,6 @@ packages:
 
   /select@1.1.2:
     resolution: {integrity: sha512-OwpTSOfy6xSs1+pwcNrv0RBMOzI39Lp3qQKUTPVVPRjCdNa5JH/oPRiqsesIskK8TVgmRiHwO4KXlV2Li9dANA==}
-    requiresBuild: true
     optional: true
 
   /selfsigned@1.10.14:
@@ -37171,18 +37202,6 @@ packages:
   /spdx-license-ids@3.0.16:
     resolution: {integrity: sha512-eWN+LnM3GR6gPu35WxNgbGl8rmY1AEmoMDvL/QD6zYmPWgywxWqJWNdLGT+ke8dKNWrcYgYjPpG5gbTfghP8rw==}
 
-  /spdy-transport@3.0.0:
-    resolution: {integrity: sha512-hsLVFE5SjA6TCisWeJXFKniGGOpBgMLmerfO2aCyCU5s7nJ/rpAepqmFifv/GCbSbueEeAJJnmSQ2rKC/g8Fcw==}
-    dependencies:
-      debug: 4.3.4(supports-color@5.5.0)
-      detect-node: 2.1.0
-      hpack.js: 2.1.6
-      obuf: 1.1.2
-      readable-stream: 3.6.2
-      wbuf: 1.7.3
-    transitivePeerDependencies:
-      - supports-color
-
   /spdy-transport@3.0.0(supports-color@6.1.0):
     resolution: {integrity: sha512-hsLVFE5SjA6TCisWeJXFKniGGOpBgMLmerfO2aCyCU5s7nJ/rpAepqmFifv/GCbSbueEeAJJnmSQ2rKC/g8Fcw==}
     dependencies:
@@ -37192,18 +37211,6 @@ packages:
       obuf: 1.1.2
       readable-stream: 3.6.2
       wbuf: 1.7.3
-    transitivePeerDependencies:
-      - supports-color
-
-  /spdy@4.0.2:
-    resolution: {integrity: sha512-r46gZQZQV+Kl9oItvl1JZZqJKGr+oEkB08A6BzkiR7593/7IbtuncXHd2YoYeTsG4157ZssMu9KYvUHLcjcDoA==}
-    engines: {node: '>=6.0.0'}
-    dependencies:
-      debug: 4.3.4(supports-color@5.5.0)
-      handle-thing: 2.0.1
-      http-deceiver: 1.2.7
-      select-hose: 2.0.0
-      spdy-transport: 3.0.0
     transitivePeerDependencies:
       - supports-color
 
@@ -38662,7 +38669,6 @@ packages:
 
   /tiny-emitter@2.1.0:
     resolution: {integrity: sha512-NB6Dk1A9xgQPMoGqC5CVXn123gWyte215ONT5Pp5a0yt4nlEoO1ZWeCwpncaekPHXO60i47ihFnZPiRPjRMq4Q==}
-    requiresBuild: true
     optional: true
 
   /tiny-invariant@1.3.1:
@@ -40211,7 +40217,7 @@ packages:
       remove-trailing-separator: 1.1.0
       replace-ext: 1.0.1
 
-  /vite@4.3.1(@types/node@13.11.1)(less@3.13.1)(stylus@0.54.8):
+  /vite@4.3.1(@types/node@13.11.1)(less@4.1.3)(sass@1.69.5)(stylus@0.54.8):
     resolution: {integrity: sha512-EPmfPLAI79Z/RofuMvkIS0Yr091T2ReUoXQqc5ppBX/sjFRhHKiPPF/R46cTdoci/XgeQpB23diiJxq5w30vdg==}
     engines: {node: ^14.18.0 || >=16.0.0}
     hasBin: true
@@ -40238,45 +40244,11 @@ packages:
     dependencies:
       '@types/node': 13.11.1
       esbuild: 0.17.19
-      less: 3.13.1
-      postcss: 8.4.31
-      rollup: 3.29.4
-      stylus: 0.54.8
-    optionalDependencies:
-      fsevents: 2.3.3
-    dev: false
-
-  /vite@4.3.1(@types/node@20.5.1)(less@4.1.3)(sass@1.69.5):
-    resolution: {integrity: sha512-EPmfPLAI79Z/RofuMvkIS0Yr091T2ReUoXQqc5ppBX/sjFRhHKiPPF/R46cTdoci/XgeQpB23diiJxq5w30vdg==}
-    engines: {node: ^14.18.0 || >=16.0.0}
-    hasBin: true
-    peerDependencies:
-      '@types/node': '>= 14'
-      less: '*'
-      sass: '*'
-      stylus: '*'
-      sugarss: '*'
-      terser: ^5.4.0
-    peerDependenciesMeta:
-      '@types/node':
-        optional: true
-      less:
-        optional: true
-      sass:
-        optional: true
-      stylus:
-        optional: true
-      sugarss:
-        optional: true
-      terser:
-        optional: true
-    dependencies:
-      '@types/node': 20.5.1
-      esbuild: 0.17.19
       less: 4.1.3
       postcss: 8.4.31
       rollup: 3.29.4
       sass: 1.69.5
+      stylus: 0.54.8
     optionalDependencies:
       fsevents: 2.3.3
 
@@ -41270,3 +41242,7 @@ packages:
 
   /zwitch@2.0.4:
     resolution: {integrity: sha512-bXE4cR/kVZhKZX/RjPEflHaKVhUVl85noU3v6b8apfQEc1x4A+zBxjZ4lN8LqGd6WZ3dl98pY4o717VFmoPp+A==}
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false

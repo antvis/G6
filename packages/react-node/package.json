@@ -41,7 +41,7 @@
     "react-dom": "^18.2.0"
   },
   "peerDependencies": {
-    "@antv/g": ">=5.18.16",
+    "@antv/g": ">=5.18.23",
     "@antv/g6": "workspace:*",
     "react": ">=16.9.0",
     "react-dom": ">=16.9.0"
