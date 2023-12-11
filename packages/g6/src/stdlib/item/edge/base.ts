@@ -49,7 +49,7 @@ export abstract class BaseEdge {
     labelBackgroundShapeTransform?: string;
   };
   // cache the zoom level infomations
-  private zoomCache: {
+  #zoomCache: {
     // last responsed zoom ratio.
     zoom: number;
     // wordWrapWidth of labelShape according to the maxWidth
@@ -63,7 +63,7 @@ export abstract class BaseEdge {
     if (themeStyles) this.themeStyles = themeStyles;
     this.lodLevels = lodLevels;
     this.transformCache = {};
-    this.zoomCache.zoom = zoom;
+    this.#zoomCache.zoom = zoom;
   }
 
   /**
@@ -120,16 +120,16 @@ export abstract class BaseEdge {
       }
     });
 
-    const { zoom } = this.zoomCache;
+    const { zoom } = this.#zoomCache;
 
     const { maxWidth = '60%' } = this.mergedStyles.labelShape || {};
-    this.zoomCache.wordWrapWidth = getWordWrapWidthByEnds(
+    this.#zoomCache.wordWrapWidth = getWordWrapWidthByEnds(
       [this.sourcePoint, this.targetPoint],
       maxWidth,
       1,
     );
 
-    this.zoomCache.zoom = 1;
+    this.#zoomCache.zoom = 1;
     if (zoom !== 1) this.onZoom(shapeMap, zoom);
   }
 
@@ -288,9 +288,9 @@ export abstract class BaseEdge {
     const wordWrapWidth = getWordWrapWidthByEnds(
       [this.sourcePoint, this.targetPoint],
       maxWidth,
-      this.zoomCache.zoom,
+      this.#zoomCache.zoom,
     );
-    this.zoomCache.wordWrapWidth = wordWrapWidth;
+    this.#zoomCache.wordWrapWidth = wordWrapWidth;
     const style = {
       ...this.defaultStyles.labelShape,
       textAlign: positionPreset.textAlign,

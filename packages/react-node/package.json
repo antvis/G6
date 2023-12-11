@@ -1,47 +1,53 @@
 {
   "name": "@antv/g6-react-node",
+  "version": "2.0.0-beta.0",
   "description": "Using React Component to Define Your G6 Graph Node",
-  "version": "1.4.5",
-  "scripts": {
-    "start": "dumi dev",
-    "build": "father-build",
-    "deploy": "npm run docs:build && npm run docs:deploy",
-    "release": "npm run build && npm publish",
-    "prettier": "prettier --write \"**/*.{js,jsx,tsx,ts,less,md,json}\"",
-    "docs:build": "dumi build",
-    "docs:deploy": "gh-pages -d docs-dist",
-    "test": "umi-test",
-    "test:coverage": "umi-test --coverage"
-  },
+  "repository": "https://github.com/antvis/G6.git",
   "license": "MIT",
-  "main": "dist/index.js",
-  "module": "dist/index.esm.js",
-  "typings": "dist/index.d.ts",
-  "gitHooks": {
-    "pre-commit": "lint-staged"
-  },
-  "lint-staged": {
-    "*.{js,jsx,less,md,json}": [
-      "prettier --write"
-    ],
-    "*.ts?(x)": [
-      "prettier --parser=typescript --write"
-    ]
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "father build",
+    "build:watch": "father dev",
+    "dev": "dumi dev",
+    "docs:build": "dumi build",
+    "doctor": "father doctor",
+    "prepare": "dumi setup",
+    "prepublishOnly": "father doctor && npm run build",
+    "start": "npm run dev"
   },
   "dependencies": {
-    "@antv/g6-core": "^0.0.7",
-    "@antv/g-base": "^0.5.1",
-    "@types/yoga-layout": "^1.9.3",
-    "react": "^16.12.0",
-    "yoga-layout-prebuilt": "^1.10.0"
+    "@antv/react-g": "^1.10.19",
+    "@antv/util": "^3.3.5"
   },
   "devDependencies": {
-    "@umijs/test": "^3.0.5",
-    "dumi": "^1.1.1",
-    "father-build": "^1.17.2",
-    "gh-pages": "^3.0.0",
-    "lint-staged": "^10.0.7",
-     "prettier": "^2.8.8",
-    "yorkie": "^2.0.0"
-  }
+    "@ant-design/icons": "^5.2.6",
+    "@antv/g-canvas": "^1.11.22",
+    "@antv/g-svg": "^1.10.21",
+    "@antv/g-webgl": "^1.9.29",
+    "@antv/g6": "workspace:*",
+    "@types/react": "^18.2.29",
+    "@types/react-dom": "^18.2.14",
+    "antd": "^5.10.2",
+    "dumi": "^2.2.13",
+    "father": "^4.3.5",
+    "prettier": "^3.0.3",
+    "prettier-plugin-organize-imports": "^3.2.3",
+    "prettier-plugin-packagejson": "^2.4.6",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "peerDependencies": {
+    "@antv/g": ">=5.18.23",
+    "@antv/g6": "workspace:*",
+    "react": ">=16.9.0",
+    "react-dom": ">=16.9.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "authors": []
 }

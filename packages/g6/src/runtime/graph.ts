@@ -219,6 +219,9 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
           width ?? this.container.scrollWidth,
           height ?? this.container.scrollHeight,
           pixelRatio,
+          undefined,
+          // enable dom interaction only for main canvas
+          name === 'canvas' ? [] : ['dom-interaction'],
         );
     });
 

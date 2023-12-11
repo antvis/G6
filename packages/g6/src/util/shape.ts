@@ -1,32 +1,25 @@
 import {
+  AABB,
   Circle,
   DisplayObject,
   Ellipse,
   Group,
+  HTML,
   IElement,
+  Image,
   Line,
+  Path,
   Polygon,
   Polyline,
   Rect,
   Text,
-  Image,
-  Path,
-  AABB,
   Tuple3Number,
 } from '@antv/g';
 import { isArray, isNumber } from '@antv/util';
 import { DEFAULT_LABEL_BG_PADDING } from '../constant';
-import { Padding, Point, StandardPadding } from '../types/common';
-import { EdgeDisplayModel, EdgeModelData, EdgeShapeMap } from '../types/edge';
-import {
-  GShapeStyle,
-  SHAPE_TYPE,
-  ItemShapeStyles,
-  ShapeStyle,
-  SHAPE_TYPE_3D,
-  State,
-} from '../types/item';
-import { NodeDisplayModel, NodeModelData, NodeShapeMap } from '../types/node';
+import Combo from '../item/combo';
+import Edge from '../item/edge';
+import Node from '../item/node';
 import {
   AnimateTiming,
   ComboDisplayModel,
@@ -34,14 +27,21 @@ import {
   IAnimates,
   IGraph,
 } from '../types';
-import Node from '../item/node';
-import Edge from '../item/edge';
-import Combo from '../item/combo';
+import { Padding, Point, StandardPadding } from '../types/common';
+import { EdgeDisplayModel, EdgeModelData, EdgeShapeMap } from '../types/edge';
+import {
+  GShapeStyle,
+  ItemShapeStyles,
+  SHAPE_TYPE,
+  SHAPE_TYPE_3D,
+  ShapeStyle,
+  State,
+} from '../types/item';
+import { NodeDisplayModel, NodeModelData, NodeShapeMap } from '../types/node';
 import { getShapeAnimateBeginStyles } from './animate';
 import { isArrayOverlap } from './array';
-import { isBetween } from './math';
 import { cloneJSON } from './data';
-import { ComboShapeMap } from 'types/combo';
+import { isBetween } from './math';
 
 export const ShapeTagMap = {
   circle: Circle,
@@ -54,6 +54,7 @@ export const ShapeTagMap = {
   image: Image,
   path: Path,
   group: Group,
+  html: HTML,
 };
 
 const LINE_TYPES = ['line', 'polyline', 'path'];

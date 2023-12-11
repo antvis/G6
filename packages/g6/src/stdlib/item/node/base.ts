@@ -28,11 +28,13 @@ import {
   mergeStyles,
   upsertShape,
 } from '../../../util/shape';
+import type { IGraph } from '../../../types/graph';
 import { getWordWrapWidthByBox } from '../../../util/text';
 import { convertToNumber } from '../../../util/type';
 
 export abstract class BaseNode {
   type: string;
+  graph: IGraph;
   defaultStyles: NodeShapeStyles | ComboShapeStyles;
   themeStyles: NodeShapeStyles | ComboShapeStyles;
   mergedStyles: NodeShapeStyles | ComboShapeStyles;
@@ -40,13 +42,8 @@ export abstract class BaseNode {
   enableBalanceShape?: boolean;
   //vertex coordinate
 
-  /**
-   * Cache the scale transform calculated by balancing size, for restoring.
-   */
-  protected scaleTransformCache = '';
-
-  // cache the zoom level infomations
-  protected zoomCache: {
+  // cache the zoom level information
+  #zoomCache: {
     // last response zoom ratio.
     zoom: number;
     // wordWrapWidth of labelShape according to the maxWidth
@@ -57,11 +54,13 @@ export abstract class BaseNode {
   };
 
   constructor(props) {
-    const { themeStyles, lodLevels, enableBalanceShape, zoom } = props;
+    const { graph, themeStyles, lodLevels, enableBalanceShape, zoom } = props;
+
     if (themeStyles) this.themeStyles = themeStyles;
+    this.graph = graph;
     this.lodLevels = lodLevels;
     this.enableBalanceShape = enableBalanceShape;
-    this.zoomCache.zoom = zoom;
+    this.#zoomCache.zoom = zoom;
   }
 
   /**
@@ -133,7 +132,7 @@ export abstract class BaseNode {
   public updateCache(shapeMap) {
     if (shapeMap.labelShape) {
       const { maxWidth = '200%' } = this.mergedStyles.labelShape || {};
-      this.zoomCache.wordWrapWidth = getWordWrapWidthByBox(
+      this.#zoomCache.wordWrapWidth = getWordWrapWidthByBox(
         shapeMap.keyShape.getLocalBounds(),
         maxWidth,
         1,
@@ -255,7 +254,7 @@ export abstract class BaseNode {
     const wordWrapWidth = getWordWrapWidthByBox(
       keyShapeBox as AABB,
       maxWidth,
-      this.zoomCache.zoom,
+      this.#zoomCache.zoom,
       this.enableBalanceShape,
     );
 
@@ -294,7 +293,8 @@ export abstract class BaseNode {
         positionPreset.textBaseline = 'middle';
         positionPreset.offsetX = 4;
         break;
-      default: // at bottom by default
+      default:
+        // at bottom by default
         positionPreset.offsetY = 2;
         break;
     }
@@ -503,7 +503,7 @@ export abstract class BaseNode {
     const anchorPositionMap = this.calculateAnchorPosition(keyShapeStyle);
     individualConfigs.forEach((config, i) => {
       const { position, fill = keyShapeStyle.fill, ...style } = config;
-      const [cx, cy] = this.getAnchorPosition(
+      const [cx, cy] = this.#getAnchorPosition(
         position,
         anchorPositionMap,
         shapeMap,
@@ -530,7 +530,7 @@ export abstract class BaseNode {
     return shapes;
   }
 
-  private getAnchorPosition(
+  #getAnchorPosition(
     position: string | [number, number],
     anchorPositionMap: IAnchorPositionMap,
     shapeMap: NodeShapeMap | ComboShapeMap,
