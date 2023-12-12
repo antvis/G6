@@ -83,7 +83,7 @@ order: 1
 
 ```bash
 # 使用 npm 安装
-npm install --save @antv/g6@5.0.0
+npm install --save @antv/g6@5.0.0-beta.28
 
 # 使用 yarn 安装
 yarn add @antv/g6@5.0.0

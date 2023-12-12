@@ -57,7 +57,7 @@ GIF 未完整加载，[点此看原图](https://mdn.alipayobjects.com/huamei_qa8
 ## 安装 (5.0 Alpha)
 
 ```bash
-$ npm install @antv/g6@5.0.0-alpha.8
+$ npm install @antv/g6@5.0.0-beta.28
 ```
 
 ## 使用 (5.0 Alpha)

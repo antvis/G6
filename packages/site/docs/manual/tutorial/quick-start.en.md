@@ -81,7 +81,7 @@ Using G6 in vanilla HTML only requires importing the G6 JS file, as shown below:
 
 ```bash
 # Using npm
-npm install --save @antv/g6@5.0.0
+npm install --save @antv/g6@5.0.0-beta.28
 
 # Using yarn
 yarn add @antv/g6@5.0.0

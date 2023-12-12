@@ -7,11 +7,22 @@ Using React Component to Define Your G6 Graph Node
 
 ## Usage
 
-TODO
+```bash
+pnpm install @antv/g6-react-node@2.0.0-beta.1
+```
 
-## Options
+```jsx
+import { createReactNode, createReactGNode } from '@antv/g6-react-node';
 
-TODO
+const ReactNode = createReactNode({
+  // ... React Component
+});
+
+const ReactGNode = createReactGNode({
+  // ... JSX Component
+});
+```
+
 
 ## Development
 
@@ -27,12 +38,6 @@ $ pnpm run build
 
 # build library source code in watch mode
 $ pnpm run build:watch
-
-# build docs
-$ pnpm run docs:build
-
-# check your project for potential problems
-$ pnpm run doctor
 ```
 
 ## LICENSE
