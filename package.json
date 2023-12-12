@@ -2,20 +2,28 @@
   "name": "g6",
   "private": true,
   "scripts": {
-    "test": "echo passed",
     "postinstall": "husky install",
     "prepare": "husky install",
     "build": "run-s build:*",
     "build:g6": "cd ./packages/g6 && npm run build",
     "build:map-view": "cd ./packages/g6-plugin-map-view && npm run build",
-    "build:site": "cd ./packages/site && npm run site:build"
+    "build:react-node": "cd ./packages/react-node && npm run build",
+    "build:site": "cd ./packages/site && npm run build"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.8.1",
     "@commitlint/config-conventional": "^17.8.1",
     "husky": "^8.0.3",
+    "lint-staged": "^10.5.4",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.8.8"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "eslint --fix",
+      "prettier --write",
+      "git add"
+    ]
   },
   "pnpm": {
     "overrides": {

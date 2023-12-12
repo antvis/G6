@@ -20,6 +20,9 @@ importers:
       husky:
         specifier: ^8.0.3
         version: 8.0.3
+      lint-staged:
+        specifier: ^10.5.4
+        version: 10.5.4
       npm-run-all:
         specifier: ^4.1.5
         version: 4.1.5
@@ -144,9 +147,6 @@ importers:
       limit-size:
         specifier: ^0.1.4
         version: 0.1.4
-      lint-staged:
-        specifier: ^10.5.4
-        version: 10.5.4
       npm-run-all:
         specifier: ^4.1.5
         version: 4.1.5
@@ -262,9 +262,6 @@ importers:
       limit-size:
         specifier: ^0.1.4
         version: 0.1.4
-      lint-staged:
-        specifier: ^10.5.4
-        version: 10.5.4
       npm-run-all:
         specifier: ^4.1.5
         version: 4.1.5
