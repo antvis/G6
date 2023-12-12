@@ -38,16 +38,7 @@
     "clear:doc": "rimraf ../site/docs/_apis",
     "doc": "npm run clear:doc && typedoc",
     "lint": "eslint ./src --quiet && prettier ./src --check",
-    "lint-staged:js": "eslint --ext .js,.jsx,.ts,.tsx",
-    "fix": "eslint ./src ./tests --fix && prettier ./src ./tests --write ",
     "size": "limit-size"
-  },
-  "lint-staged": {
-    "*.{ts,tsx}": [
-      "eslint --fix",
-      "prettier --write",
-      "git add"
-    ]
   },
   "dependencies": {
     "@antv/dom-util": "^2.0.4",
@@ -73,7 +64,6 @@
     "gl": "^6.0.2",
     "jsdom": "^19.0.0",
     "limit-size": "^0.1.4",
-    "lint-staged": "^10.5.4",
     "npm-run-all": "^4.1.5",
     "prettier": "^3.0.3",
     "rimraf": "^3.0.0",

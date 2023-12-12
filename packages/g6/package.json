@@ -24,7 +24,6 @@
     "prepublishOnly": "npm run ci",
     "doc": "rimraf ../site/docs/_apis && typedoc",
     "lint": "eslint ./src ./tests --quiet && prettier ./src ./tests --check",
-    "lint-staged": "lint-staged",
     "fix": "eslint ./src ./tests --fix && prettier ./src ./tests --write ",
     "test": "jest",
     "test:integration": "node --expose-gc --max-old-space-size=4096 --unhandled-rejections=strict node_modules/jest/bin/jest tests/integration/ --config jest.node.config.js --coverage --logHeapUsage --detectOpenHandles",
@@ -43,13 +42,6 @@
     "graph visualization",
     "relational data"
   ],
-  "lint-staged": {
-    "*.{ts,tsx}": [
-      "eslint --fix",
-      "prettier --write",
-      "git add"
-    ]
-  },
   "dependencies": {
     "@ant-design/colors": "^7.0.0",
     "@antv/algorithm": "^0.1.26",
@@ -91,7 +83,6 @@
     "jest-environment-jsdom": "^29.7.0",
     "jsdom": "^19.0.0",
     "limit-size": "^0.1.4",
-    "lint-staged": "^10.5.4",
     "npm-run-all": "^4.1.5",
     "prettier": "^3.0.3",
     "rimraf": "^3.0.0",
