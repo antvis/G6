@@ -23,7 +23,7 @@ order: 1
     <!-- 1. 创建容器 -->
     <div id="container"></div>
 
-    <script src="https://gw.alipayobjects.com/os/lib/antv/g6/5.0.0/dist/g6.min.js"></script>
+    <script src="https://gw.alipayobjects.com/os/lib/antv/g6/5.0.0-beta.28/dist/g6.min.js"></script>
 
     <script>
       // 2. 准备数据
