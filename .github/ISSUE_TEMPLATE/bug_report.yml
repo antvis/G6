@@ -16,6 +16,16 @@ body:
          - G6 Discussion's tab: https://github.com/antvis/G6/discussions
 
         The more information you fill in, the better the community can help you.
+  - type: dropdown
+    id: g6_version
+    attributes:
+      label: G6 Version
+      options:
+        - 5.x
+        - 4.x
+        - Others
+    validations:
+      required: true
   - type: textarea
     id: description
     attributes:

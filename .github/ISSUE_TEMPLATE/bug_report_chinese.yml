@@ -8,6 +8,16 @@ body:
          - [G6 Issues](https://github.com/antvis/G6/issues)
          - [G6 Closed Issues](https://github.com/antvis/G6/issues?q=is%3Aissue+is%3Aclosed)
          - [G6 Discussions](https://github.com/antvis/G6/discussions)
+  - type: dropdown
+    id: g6_version
+    attributes:
+      label: G6 版本
+      options:
+        - 5.x
+        - 4.x
+        - 其他
+    validations:
+      required: true
   - type: textarea
     id: description
     attributes:

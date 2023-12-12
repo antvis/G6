@@ -84,7 +84,7 @@ body:
       value: |
         - 操作系统: [macOS, Windows, Linux, React Native ...]
         - 网页浏览器: [Google Chrome, Safari, Firefox]
-        - G6 版本: [4.5.1 ... ]
+        - 版本: [例如 91.1]
     validations:
       required: true
   - type: textarea
