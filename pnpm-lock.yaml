@@ -304,6 +304,9 @@ importers:
       '@antv/g':
         specifier: '>=5.18.23'
         version: 5.18.23
+      '@antv/g6':
+        specifier: workspace:*
+        version: link:../g6
       '@antv/react-g':
         specifier: ^1.10.19
         version: 1.10.19(react@18.2.0)
@@ -323,9 +326,6 @@ importers:
       '@antv/g-webgl':
         specifier: ^1.9.29
         version: 1.9.29
-      '@antv/g6':
-        specifier: workspace:*
-        version: link:../g6
       '@types/react':
         specifier: ^18.2.29
         version: 18.2.34
@@ -31730,6 +31730,7 @@ packages:
 
   /prr@1.0.1:
     resolution: {integrity: sha512-yPw4Sng1gWghHQWj0B3ZggWUm4qVbPwPFcRG8KyxiU7J2OHFSoEHKS+EZ3fv5l1t9CyCiop6l/ZYeWbrgoQejw==}
+    requiresBuild: true
 
   /pseudomap@1.0.2:
     resolution: {integrity: sha512-b/YwNhb8lk1Zz2+bXXpS/LK9OisiZZ1SNsSLxN1x2OXVEhW2Ckr/7mWE5vrC1ZTiJlD9g19jWszTmJsB+oEpFQ==}
