@@ -146,7 +146,7 @@ type NodeModel = {
       text?: string;
       img?: string;
     };
-    [key: string]: unknown; // other bussiniess properties
+    [key: string]: unknown; // other properties
   };
 };
 
@@ -168,7 +168,7 @@ type EdgeModel = {
       type: 'icon' | 'text';
       text: string;
     };
-    [key: string]: unknown; // other bussiniess properties
+    [key: string]: unknown; // other properties
   };
 };
 ```
@@ -253,13 +253,13 @@ In the "Data Loading" section above, we introduced the types of the data field. 
 
 In other words, in v5, there is no longer a separate TreeGraph class. There is only one Graph class. The APIs specific to the TreeGraph class in v4 can be replaced as follows:
 
-| Functionality                                                                                                                                                     | v4 TreeGraph API                                                                                                 | v5 Alternative                                                                                                                                                                                                                                               |
-| ----------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Add a subtree under a specified parent node                                                                                                                       | treeGraph.addChild(data, parent)                                                                                 | graph.addData('node', { id: 'new-child', { parentId: 'parent-node-id' }})                                                                                                                                                                                    |
-| Remove a specified subtree                                                                                                                                        | treeGraph.removeChild(id)                                                                                        | graph.removeData('node', 'id-of-a-node'), if the removed node is not a leaf node, its child nodes are promoted to roots                                                                                                                                      |
-| Partially update a subtree <img src="https://cdn.nlark.com/yuque/0/2023/png/156681/1689649768051-5c9427d1-b141-40eb-82f6-c35b7ee7a016.png" width=100 alt='img' /> | treeGraph.updateChild(data, parentId)                                                                            | graph.updateItem('node', { id: 'id-of-a-node', data: { ... }}) to update each node individually. If you need to add a child node, use addData('node', { id: 'id-of-new-child', { parentId: 'parent-node-id' }}) and pay attention to the order of operations |
-| Partially update subtrees<img src="https://cdn.nlark.com/yuque/0/2023/png/156681/1689650008815-31a9525b-480a-4f8f-a935-9d1f32e4345c.png" width=100 alt='img' />   | treeGraph.updateChildren(data, parentId)                                                                         | Same as above                                                                                                                                                                                                                                                |
-| Change the parent node                                                                                                                                            | Remove the child node from the original parent node by removeChild and add it to the new parent node by addChild | graph.updateData('node', { id: 'child-id', { parentId: 'new-parent-id' }})                                                                                                                                                                                   |
+| Functionality                                                                                                                                               | v4 TreeGraph API                                                                                                 | v5 Alternative                                                                                                               |
+| ----------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| Add a subtree under a specified parent node                                                                                                                 | treeGraph.addChild(data, parent)                                                                                 | `graph.addData('node', { id: 'new-child' })`;<br/>`graph.addData('edge', { source: 'parent-node-id', target: 'new-child' })` |
+| Remove a specified subtree                                                                                                                                  | treeGraph.removeChild(id)                                                                                        | `graph.removeData('node', 'id-of-a-node')`, if the removed node is not a leaf node, its child nodes are promoted to roots    |
+| Partially update a subtree <img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*6lnkTIoHky0AAAAAAAAAAAAADmJ7AQ/original" width=100 alt='img' /> | treeGraph.updateChild(data, parentId)                                                                            | `graph.updateItem('node', { id: 'id-of-a-node', data: { ... }})` to update each node                                         |
+| Partially update subtrees<img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*KAJITbWg0VAAAAAAAAAAAAAADmJ7AQ/original" width=100 alt='img' />   | treeGraph.updateChildren(data, parentId)                                                                         | Same as above                                                                                                                |
+| Change the parent node                                                                                                                                      | Remove the child node from the original parent node by removeChild and add it to the new parent node by addChild | graph.updateData('node', { id: 'child-id', { parentId: 'new-parent-id' }})                                                   |
 
 ## 4️⃣. Element Type Names
 
@@ -676,16 +676,16 @@ The v4 coordinate systems (three sets) are described in the documentation: https
 
 - v4 - clientX clientY: Coordinates relative to the browser coordinate system
 
-<img src="https://cdn.nlark.com/yuque/0/2023/png/156681/1686302101164-52c701b2-9eef-4cf1-b2ca-95b984a9eb75.png" width=200 />
-<img src="https://cdn.nlark.com/yuque/0/2023/png/156681/1686302087381-e84a47fb-bb3e-47a5-a31b-ec6ee954aeb5.png" width=200 />
+<img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*CjC6RJ7VMMAAAAAAAAAAAAAADmJ7AQ/original" width=200 />
+<img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*su0hSZc4JN4AAAAAAAAAAAAADmJ7AQ/original" width=200 />
 
 - v4 - canvasX canvasY: Coordinates relative to the canvas DOM
 
-<img src="https://cdn.nlark.com/yuque/0/2023/png/156681/1686302135790-b0068b20-c501-417e-92e8-24b0833e8bb6.png" width=400 />
+<img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*PtRlRaP80jgAAAAAAAAAAAAADmJ7AQ/original" width=400 />
 
 - v4 - pointX pointY (same as x y in v4 events): Coordinates for drawing the graph
 
-<img src="https://cdn.nlark.com/yuque/0/2023/png/156681/1686302168542-cd214a5e-d6ea-401d-b425-d4183356e2a2.png" width=400 />
+<img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*j884RIz5kGsAAAAAAAAAAAAADmJ7AQ/original" width=400 />
 
 ### v5 Coordinate Systems
 
@@ -696,7 +696,7 @@ It should be noted that the coordinate systems in v5 (four sets) have different 
 | Coordinates for drawing the graph                                                                                                                                    | { x, y } or { pointerX, pointerY } | canvas: { x: number; y: number; z: number }   |
 | Coordinates relative to the browser coordinate system                                                                                                                | { clientX, clientY }               | client: { x: number; y: number; z: number }   |
 | Coordinates relative to the Canvas DOM coordinate system 系                                                                                                          | { canvasX, canvasY }               | viewport: { x: number; y: number; z: number } |
-| Coordinates relative to the entire screen <img src="https://cdn.nlark.com/yuque/0/2023/png/156681/1686301904342-082076d7-62f7-45a3-8ab3-5f83ec1b8102.png" width=100> | none                               | screen: { x: number; y: number; z: number }   |
+| Coordinates relative to the entire screen <img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*c0EHR5IDzSEAAAAAAAAAAAAADmJ7AQ/original" width=100> | none                               | screen: { x: number; y: number; z: number }   |
 
 ## 🌸. More small and wonderful changes
 
