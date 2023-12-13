@@ -104,19 +104,16 @@ The Ruler plugin in G6 can be used to draw rulers on the canvas. It provides var
 | width  | number | Default width based on canvas width for horizontal, canvas height for vertical (including `startLen`) |
 | height  | number | Height of the ruler, default is `25`. Takes the maximum of startLen and height when both are present |
 | startLen  | number | Starting position of the ruler, default is `25`. Takes the maximum of startLen and height when both are present |
-| scale  | number | Current scale size |
 | unitInterval  | number | Unit interval |
-| showUnitLabel  | boolean | Whether to show unit interval labels |
-| unitLabelStyle  | CanvasRenderingContext2D['strokeStyle'] | Color of the unit labels |
+| showTickLabel  | boolean | Whether to show unit interval labels |
+| tickLabelStyle  | CanvasRenderingContext2D['strokeStyle'] | Color of the unit labels |
 | font  | CanvasRenderingContext2D['font'] | Font for the text |
-| visible  | boolean | Visibility, default is true |
 | lineWidth  | number | Width of the lines |
 | lineHeight  | number | Height of the lines |
 | strokeStyle  | CanvasRenderingContext2D['strokeStyle'] | Color of the lines |
 | background  | CanvasRenderingContext2D['fillStyle'] | The color of the ruler |
 | showLock  | number | Whether to show the lock icon |
 | lockColor  | string | Color of the lock icon |
-| lock  | boolean | Whether to lock |
 | monitorZoom  | boolean | Whether the `wheelzoom` event changes the scale |
 | monitorSize  | boolean |Whether the `changeSize` event changes the size of the ruler |
 | monitorViewPort  | boolean |  Whether the `viewportchange` event changes the scale |

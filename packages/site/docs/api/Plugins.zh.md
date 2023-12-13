@@ -111,19 +111,16 @@ Ruler 插件在画布上绘制了标尺。通过左上角的锁还可以锁定�
 | directions  | ruleDirection[] 或者  ruleDirection | 方向, `horizontal`代表横向, `vertical`代表纵向, 默认`['horizontal', 'vertical']`|
 | height  | number | 尺子的高度, 默认是`25`, 当存在 startLen 和 height 会取2个最大的值 |
 | startLen  | number | 尺子的开始位置, 默认`25`, 当存在 startLen 和 height 会取2个最大的值 |
-| scale  | number | 当前缩放的大小 |
 | unitInterval  | number | 单位间隔 |
-| showUnitLabel  | boolean | 是否单位间隔的文字 |
-| unitLabelStyle  | CanvasRenderingContext2D['strokeStyle'] | 单位文字的颜色 |
+| showTickLabel  | boolean | 是否单位间隔的文字 |
+| tickLabelStyle  | CanvasRenderingContext2D['strokeStyle'] | 单位文字的颜色 |
 | font  | CanvasRenderingContext2D['font'] | 文字的字体 |
-| visible  | boolean | 是否可见, 默认true |
 | lineWidth  | number | 线的宽度 |
 | lineHeight  | number | 线的高度 |
 | strokeStyle  | CanvasRenderingContext2D['strokeStyle'] | 线的颜色 |
 | background  | CanvasRenderingContext2D['fillStyle'] | 尺子的颜色 |
 | showLock  | number | 是否显示锁icon |
 | lockColor  | string | 锁的颜色 |
-| lock  | boolean | 是否锁住 |
 | monitorZoom  | boolean | `wheelzoom`, 事件是否改变刻度 |
 | monitorSize  | boolean | `changeSize`, 是否改变尺子的大小 |
 | monitorViewPort  | boolean | `viewportchange`, 事件是否改变刻度 |

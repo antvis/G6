@@ -2,10 +2,10 @@ import { modifyCSS, createDom } from '@antv/dom-util';
 import { ICanvas } from '@antv/g-base';
 import { IAbstractGraph as IGraph } from '@antv/g6-core';
 import Base from '../base';
-import RulerConstructor, { pointConfig, RulerConf, ruleDirection } from './constructor';
+import RulerConstructor, { PointConfig, RulerConfig, RuleDirection } from './constructor';
 
-export interface RulerConfig extends pointConfig, RulerConf {
-  directions: ruleDirection[] | ruleDirection, // 方向, 默认['horizontal', 'vertical']
+export interface RulerSettings extends PointConfig, RulerConfig {
+  directions: RuleDirection[] | RuleDirection, // 方向, 默认['horizontal', 'vertical']
   startLen: number // 开始长度 / 距离
   showLock: boolean // 是否显示锁
   lockColor: string // 锁颜色
@@ -13,7 +13,7 @@ export interface RulerConfig extends pointConfig, RulerConf {
   visible: boolean // 是否可见
   monitorZoom: boolean // 监听缩放改变刻度
   monitorSize: boolean // 监听大小改变刻度
-  monitorDrag: boolean // 监听拖拽改变刻度
+  monitorViewPort: boolean // 监听视口改变刻度
 }
 
 interface EventFnObj {
@@ -22,29 +22,29 @@ interface EventFnObj {
 
 export default class Ruler extends Base {
 
-  // 锁的容器DOM
+  /** 锁的容器DOM */
   private lockContainer: HTMLElement
 
-  // 标尺的包裹DOM
+  /** 标尺的包裹DOM */
   private rulerWrap: HTMLElement
 
-  // 所有标尺的实例
+  /** 所有标尺的实例 */
   public rulerInstances: RulerConstructor[] = []
 
-  // 缓存行为的是否执行函数
+  /** 缓存行为的是否执行函数 */
   private shouldBeginFnObj: Object = {}
 
-  // 锁定会控制哪些行为
+  /** 锁定会控制哪些行为 */
   private lockBehaviorKey: Array<string> = ['zoom-canvas', 'drag-canvas', 'scroll-canvas']
 
-  // 所有绑定的事件函数, 改变this
+  /** 所有绑定的事件函数, 改变this */
   private eventFnObj: EventFnObj = {}
 
-  constructor(config?: RulerConfig) {
+  constructor(config?: RulerSettings) {
     super(config);
   }
 
-  public getDefaultCfgs(): RulerConfig {
+  public getDefaultCfgs(): RulerSettings {
     return {
       lineWidth: 1,
       lineHeight: 10,
@@ -53,21 +53,21 @@ export default class Ruler extends Base {
       width: 0,
       height: 25,
       unitInterval: 10,
-      showUnitLabel: true,
+      showTickLabel: true,
       lock: false,
-      unitLabelStyle: '#333333',
+      tickLabelStyle: '#333333',
       strokeStyle: '#b8b7b8',
       font: '10px sans-serif',
-      directions: [ruleDirection.HORIZONTAL, ruleDirection.VERTICAL],
+      directions: [RuleDirection.HORIZONTAL, RuleDirection.VERTICAL],
       showLock: true,
       lockColor: '#7F7F7F',
       visible: true,
       monitorZoom: true,
       monitorSize: true,
-      monitorDrag: true,
+      monitorViewPort: true,
       background: '#ffffff',
       startNumber: 0,
-      direction: ruleDirection.HORIZONTAL
+      direction: RuleDirection.HORIZONTAL
     };
   }
 
@@ -81,11 +81,13 @@ export default class Ruler extends Base {
     const showLock = this.get('showLock')
     const monitorSize = this.get('monitorSize')
     const monitorZoom = this.get('monitorZoom')
-    const monitorDrag = this.get('monitorDrag')
+    const monitorViewPort = this.get('monitorViewPort')
+
+    this.set('scale', graph.getZoom())
 
     let startLen = this.get('startLen')
     let directions = this.get('directions')
-    const startNumber = this.get('startNumber')
+
     let rulerHeight = height
 
     this.rulerWrap = createDom(
@@ -107,7 +109,7 @@ export default class Ruler extends Base {
       directions.forEach(direction => {
         const rulerMaxWidth = this.getRulerMaxWidth(direction)
         // 竖向需要增加线的宽度, 跟横向的第一条线对齐
-        if (direction === ruleDirection.VERTICAL) {
+        if (direction === RuleDirection.VERTICAL) {
           rulerHeight += lineWidth
         }
         const container = createDom(
@@ -115,6 +117,7 @@ export default class Ruler extends Base {
         );
 
         this.rulerWrap.append(container)
+        const startNumber = this.getStartNumber(direction)
         const rulerInstance = new RulerConstructor({
           ...this._cfgs,
           width: rulerMaxWidth,
@@ -125,7 +128,7 @@ export default class Ruler extends Base {
         })
         this.rulerInstances.push(rulerInstance)
         const ruleCanvas = rulerInstance.getCanvas()
-        if (direction === ruleDirection.HORIZONTAL) {
+        if (direction === RuleDirection.HORIZONTAL) {
           modifyCSS(container, {
             left: `${startLen}px`,
             top: 0,
@@ -165,7 +168,7 @@ export default class Ruler extends Base {
       graph.on('wheelzoom', this.eventFnObj.wheelzoom)
     }
 
-    if (monitorDrag) {
+    if (monitorViewPort) {
       this.eventFnObj.viewportchange = this.bindViewPortFn.bind(this)
       graph.on('viewportchange', this.eventFnObj.viewportchange)
     }
@@ -174,12 +177,12 @@ export default class Ruler extends Base {
     graphContainer.insertBefore(this.rulerWrap, canvas)
   }
 
-  private getStartNumber(direction: ruleDirection) {
+  private getStartNumber(direction: RuleDirection) {
     const graph: IGraph = this.get('graph');
     const scale = this.get('scale')
     const canvas: HTMLCanvasElement = graph.get<ICanvas>('canvas').get('el');
-    const maxWidth = direction === ruleDirection.HORIZONTAL ? canvas.width : canvas.height
-    const directionKey = direction === ruleDirection.HORIZONTAL ? 'x' : 'y'
+    const maxWidth = direction === RuleDirection.HORIZONTAL ? canvas.width : canvas.height
+    const directionKey = direction === RuleDirection.HORIZONTAL ? 'x' : 'y'
     const centerLoc = this.get('graph').getViewPortCenterPoint()
     const startNumber = centerLoc[directionKey] - (maxWidth / scale) / 2
     return Math.round(startNumber)
@@ -195,7 +198,7 @@ export default class Ruler extends Base {
     const width = graphContainer.clientWidth - startLen
     const lineWidth = this.get('lineWidth')
     let rulerMaxWidth = canvas.clientWidth < width ? canvas.clientWidth : width
-    if (direction === ruleDirection.VERTICAL) {
+    if (direction === RuleDirection.VERTICAL) {
       // 增加top的部分
       const vWidth = graphContainer.clientHeight - startLen + lineWidth
       rulerMaxWidth = canvas.clientHeight < vWidth ? canvas.clientHeight : vWidth
@@ -220,10 +223,10 @@ export default class Ruler extends Base {
     let width = canvas.width
     let height = canvas.height
 
-    /* 兼容只有一个尺子的情况下 */
+    /** 兼容只有一个尺子的情况下 */
     if (this.rulerInstances.length && this.rulerInstances.length < 2) {
       const direction = this.rulerInstances[0].direction
-      if (direction === ruleDirection.HORIZONTAL) {
+      if (direction === RuleDirection.HORIZONTAL) {
         left = 0
       } else {
         top = 0
@@ -266,25 +269,26 @@ export default class Ruler extends Base {
     const graph: IGraph = this.get('graph');
     const background = this.get('background')
     const startLen = this.get('startLen')
-    const lock = this.get('lock')
+    let lock = this.get('lock')
     const lineWidth = this.get('lineWidth')
     const modeController = graph.get('modeController')
-
     const lockFlagArr = []
     this.updateShouldBegin()
 
     // 初始锁定状态
     this.lockBehaviorKey.forEach(key => {
-      const behavior = modeController?.modes[modeController.mode]?.filter(behavior => behavior.type === key)?.[0];
+      const behavior = modeController?.currentBehaves?.find(behavior => behavior.type === key);
       if (behavior) {
         if (behavior.shouldBegin) {
           lockFlagArr.push(!behavior.shouldBegin())
+        } else {
+          lockFlagArr.push(false)
         }
-        lockFlagArr.push(false)
       }
     })
 
-    this.set('lock', lockFlagArr.some(flag => flag))
+    lock = lockFlagArr.some(flag => flag)
+    this.set('lock', lock)
 
     this.lockContainer = createDom(
       `<div class='lock-container' title="${lock ? '解锁' : '锁定'}"></div>`,
@@ -351,7 +355,7 @@ export default class Ruler extends Base {
     const graph: IGraph = this.get('graph')
     const modeController = graph.get('modeController')
     this.lockBehaviorKey.forEach(key => {
-      const behavior = modeController?.modes[modeController.mode]?.filter(behavior => behavior.type === key)?.[0];
+      const behavior = modeController?.currentBehaves?.find(behavior => behavior.type === key)
       if (behavior) {
         if (behavior.shouldBegin) {
           this.shouldBeginFnObj[key] = behavior.shouldBegin
@@ -399,7 +403,6 @@ export default class Ruler extends Base {
   }
 
   public changeLock(flag: boolean) {
-
     const graph: IGraph = this.get('graph');
     const LOCK_SVG_DOM = this.lockContainer.querySelector('.lock-svg') as HTMLElement
     const UNLOCK_SVG_DOM = this.lockContainer.querySelector('.unLock-svg') as HTMLElement
