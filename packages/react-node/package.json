@@ -1,7 +1,7 @@
 {
   "name": "@antv/g6-react-node",
   "description": "Using React Component to Define Your G6 Graph Node",
-  "version": "1.4.6",
+  "version": "1.4.8",
   "scripts": {
     "start": "dumi dev",
     "build": "father-build",
@@ -29,14 +29,17 @@
     ]
   },
   "dependencies": {
-    "@antv/g6-core": "workspace:*",
     "@antv/g-base": "^0.5.1",
+    "@antv/g-canvas": "^0.5.2",
+    "@antv/g6-core": "workspace:*",
     "@types/yoga-layout": "^1.9.3",
     "react": "^16.12.0",
     "yoga-layout-prebuilt": "^1.10.0"
   },
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^4.11.1",
     "@umijs/test": "^3.0.5",
+    "csstype": "^3.1.3",
     "dumi": "^1.1.1",
     "father-build": "^1.17.2",
     "gh-pages": "^3.0.0",

@@ -1,6 +1,7 @@
-import React, { CSSProperties } from 'react';
+import React from 'react';
 import { CommonProps } from '../Group';
 import { CommonShapeProps } from './common';
+import type { Properties as CSSProperties } from 'csstype';
 
 export interface TextStyle extends CommonShapeProps {
   /**

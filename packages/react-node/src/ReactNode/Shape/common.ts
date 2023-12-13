@@ -1,5 +1,5 @@
 import { LayoutAttrs } from '../../Layout/LayoutEnums';
-import { CSSProperties } from 'react';
+import type { Properties as CSSProperties } from 'csstype';
 
 export interface GShapeProps extends Partial<LayoutAttrs> {
   /**
@@ -103,12 +103,12 @@ export type GPath =
 export type Arrow =
   | boolean
   | {
-      /**
-       * SVG path string of arrow
-       */
-      path: string;
-      /**
-       * @description.en-US offset distance of the arrow
-       */
-      d: number;
-    };
+    /**
+     * SVG path string of arrow
+     */
+    path: string;
+    /**
+     * @description.en-US offset distance of the arrow
+     */
+    d: number;
+  };
