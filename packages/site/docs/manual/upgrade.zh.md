@@ -282,13 +282,13 @@ const graph = new Graph({
 
 也就是说，v5 中不再存在 TreeGraph Class，只有一个 Graph Class。那么 v4 中 TreeGraph Class 特有的 API 可以通过如下方式进行替代：
 
-| 功能                                                                                                                                                | v4 TreeGraph API                                | v5 替代方案                                                                                                                                                                                                        |
-| --------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 在指定的父节点下添加子树                                                                                                                            | treeGraph.addChild(data, parent)                | graph.addData('node', { id: 'new-child', { parentId: 'parent-node-id' }})                                                                                                                                          |
-| 删除指定的子树                                                                                                                                      | treeGraph.removeChild(id)                       | graph.removeData('node', 'id-of-a-node')，若移除的不是叶子节点，则其子节点升级为 roots                                                                                                                             |
-| 差量更新子树 <img src="https://cdn.nlark.com/yuque/0/2023/png/156681/1689649768051-5c9427d1-b141-40eb-82f6-c35b7ee7a016.png" width=100 alt='img' /> | treeGraph.updateChild(data, parentId)           | graph.updateItem('node', { id: 'id-of-a-node', data: { ... }}) 分别更新每个节点。若需要新增一子节点，addData('node', { id: 'id-of-new-child', { parentId: 'parent-node-id' }})，需要注意顺序，先添加先继后添加后继 |
-| 差量更新子树<img src="https://cdn.nlark.com/yuque/0/2023/png/156681/1689650008815-31a9525b-480a-4f8f-a935-9d1f32e4345c.png" width=100 alt='img' />  | treeGraph.updateChildren(data, parentId)        | 同上                                                                                                                                                                                                               |
-| 更改所属父节点                                                                                                                                      | 先从原父节点 removeChild，再在新父节点 addChild | graph.updateData('node', { id: 'child-id', { parentId: 'new-parent-id' }})                                                                                                                                         |
+| 功能                                                                                                                                          | v4 TreeGraph API                                | v5 替代方案                                                                                                                                 |
+| --------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| 在指定的父节点下添加子树                                                                                                                      | `treeGraph.addChild(data, parent)`              | `graph.addData('node', { id: 'new-child' });`<br/>`graph.addData('edge', { id: 'edge-id', source: 'parent-node-id', target: 'new-child' })` |
+| 删除指定的子树                                                                                                                                | `treeGraph.removeChild(id)`                     | `graph.removeData('node', 'id-of-a-node')`<br/>若移除的不是叶子节点，则其子节点升级为根节点                                                 |
+| 差量更新子树 <img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*6lnkTIoHky0AAAAAAAAAAAAADmJ7AQ/original" width=100 alt='img' /> | `treeGraph.updateChild(data, parentId)`         | 分别更新每个节点：`graph.updateItem('node', { id: 'id-of-a-node', data: { ... }})`                                                          |
+| 差量更新子树<img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*KAJITbWg0VAAAAAAAAAAAAAADmJ7AQ/original" width=100 alt='img' />  | `treeGraph.updateChildren(data, parentId)`      | 同上                                                                                                                                        |
+| 更改所属父节点                                                                                                                                | 先从原父节点 removeChild，再在新父节点 addChild | `graph.updateData('edge', { id: 'edge-id', source: 'new-parent-node-id', target: 'child-id'})`                                              |
 
 ## 4️⃣. 元素类型名称
 
@@ -721,18 +721,18 @@ v4 的坐标系统（三套）见文档：https://g6.antv.antgroup.com/manual/ad
 - v4 - clientX clientY
   相对于浏览器的坐标系
 
-<img src="https://cdn.nlark.com/yuque/0/2023/png/156681/1686302101164-52c701b2-9eef-4cf1-b2ca-95b984a9eb75.png" width=200 />
-<img src="https://cdn.nlark.com/yuque/0/2023/png/156681/1686302087381-e84a47fb-bb3e-47a5-a31b-ec6ee954aeb5.png" width=200 />
+<img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*CjC6RJ7VMMAAAAAAAAAAAAAADmJ7AQ/original" width=200 />
+<img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*su0hSZc4JN4AAAAAAAAAAAAADmJ7AQ/original" width=200 />
 
 - v4 - canvasX canvasY
   相对于 canvas DOM 的坐标系
 
-<img src="https://cdn.nlark.com/yuque/0/2023/png/156681/1686302135790-b0068b20-c501-417e-92e8-24b0833e8bb6.png" width=400 />
+<img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*PtRlRaP80jgAAAAAAAAAAAAADmJ7AQ/original" width=400 />
 
 - v4 - pointX pointY （= v4 事件中的 x y）
   图形绘制坐标系
 
-<img src="https://cdn.nlark.com/yuque/0/2023/png/156681/1686302168542-cd214a5e-d6ea-401d-b425-d4183356e2a2.png" width=400 />
+<img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*j884RIz5kGsAAAAAAAAAAAAADmJ7AQ/original" width=400 />
 
 ### v5 坐标系
 
@@ -743,7 +743,7 @@ v4 的坐标系统（三套）见文档：https://g6.antv.antgroup.com/manual/ad
 | 图形的绘制坐标                                                                                                                                    | { x, y } 或 { pointerX, pointerY } | canvas: { x: number; y: number; z: number }   |
 | 相对于浏览器的坐标系                                                                                                                              | { clientX, clientY }               | client: { x: number; y: number; z: number }   |
 | 相对于 Canvas DOM 的坐标系                                                                                                                        | { canvasX, canvasY }               | viewport: { x: number; y: number; z: number } |
-| 相对于整个屏幕的坐标系 <img src="https://cdn.nlark.com/yuque/0/2023/png/156681/1686301904342-082076d7-62f7-45a3-8ab3-5f83ec1b8102.png" width=100> | 无                                 | screen: { x: number; y: number; z: number }   |
+| 相对于整个屏幕的坐标系 <img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*c0EHR5IDzSEAAAAAAAAAAAAADmJ7AQ/original" width=100> | 无                                 | screen: { x: number; y: number; z: number }   |
 
 ## 🌸. 其他微小而美好的改变
 
