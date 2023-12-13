@@ -58,6 +58,10 @@ export default defineConfig({
     showChartResize: true, // 是否在 demo 页展示图表视图切换
     showAPIDoc: true, // 是否在 demo 页展示API文档
     themeSwitcher: 'g2',
+    prefersColor: {
+      default: 'light',
+      switch: false,
+    },
     versions: {
       // 历史版本以及切换下拉菜单
       [version]: 'https://g6-next.antv.antgroup.com',
