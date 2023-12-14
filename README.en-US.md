@@ -182,10 +182,6 @@ The documents will be ready after the 5.0 version being stable.
 
 Please let us know what you are you going to help. Do check out [issues](https://github.com/antvis/g6/issues) for bug reports or suggestions first.
 
-### Issue Hunt
-
-Refer to the [Doc of Issue Hunt](https://github.com/antvis/G6/blob/v5-readme/ISSUEHUNT.en-US.md).
-
 ## License
 
 [MIT license](./LICENSE).
