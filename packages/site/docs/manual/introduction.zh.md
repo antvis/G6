@@ -80,10 +80,6 @@ $ npm run test:integration
 $ npm run test:integration_one
 ```
 
-### 赏金猎人计划
-
-参见 [Issue Hunt 计划文档](https://github.com/antvis/G6/blob/v5-readme/ISSUEHUNT.md)。
-
 ## License
 
 [MIT license](./LICENSE).

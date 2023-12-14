@@ -169,10 +169,6 @@ DEBUG_MODE=1 npm test -- --watch ./tests/unit/node-spec
 
 请让我们知道您要解决或贡献什么，所以在贡献之前请先提交 [issues](https://github.com/antvis/g6/issues) 描述 bug 或建议。
 
-### 赏金猎人计划
-
-参见 [Issue Hunt 计划文档](https://github.com/antvis/G6/blob/v5-readme/ISSUEHUNT.md)。
-
 ## License
 
 [MIT license](./LICENSE).

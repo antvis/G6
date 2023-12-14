@@ -80,10 +80,6 @@ $ npm run test:integration
 $ npm run test:integration_one
 ```
 
-### Issue Hunt
-
-See [Issue Hunt Plan Document](https://github.com/antvis/G6/blob/v5-readme/ISSUEHUNT.md).
-
 ## License
 
 [MIT license](./LICENSE).
