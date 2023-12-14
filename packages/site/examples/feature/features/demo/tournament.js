@@ -12,69 +12,56 @@ class TournamentNode extends Extensions.RectNode {
     const { data: cfg, id } = model;
     const afterShapes = {};
     const drawShape = (shapeType, shapeId, shapeCfg) => {
-      afterShapes[shapeId] = this.upsertShape(
-        shapeType,
-        shapeId,
-        shapeCfg,
-        { model, shapeMap, diffData, diffState },
-      );
+      afterShapes[shapeId] = this.upsertShape(shapeType, shapeId, shapeCfg, { model, shapeMap, diffData, diffState });
       return afterShapes[shapeId];
     };
     // 奖杯
     if (id === 'winner') {
-      drawShape('text', 'winner-shape',
-        {
-          text: '🏆',
-          x: 0,
-          y: -50,
-          fontSize: 50,
-          textAlign: 'center',
-          textBaseline: 'middle',
-        },
-      );
+      drawShape('text', 'winner-shape', {
+        text: '🏆',
+        x: 0,
+        y: -50,
+        fontSize: 50,
+        textAlign: 'center',
+        textBaseline: 'middle',
+      });
     }
     // 名称
     if (cfg.name) {
-      drawShape('text', 'name-text-shape',
-        {
-          text: cfg.name,
-          x: 0,
-          y: 0,
-          fontSize: 12,
-          textAlign: id === 'winner' ? 'center' : 'right',
-          textBaseline: 'middle',
-          fill: 'white',
-        },
-      );
+      drawShape('text', 'name-text-shape', {
+        text: cfg.name,
+        x: 0,
+        y: 0,
+        fontSize: 12,
+        textAlign: id === 'winner' ? 'center' : 'right',
+        textBaseline: 'middle',
+        fill: 'white',
+      });
     }
     // 得分
     if (cfg.score) {
-      drawShape('text', 'score-text-shape',
-        {
-          text: `${cfg.score}`,
-          x: 40,
-          y: 0,
-          fontSize: 12,
-          textAlign: 'right',
-          textBaseline: 'middle',
-          fill: 'black',
-        },
-      );
+      drawShape('text', 'score-text-shape', {
+        text: `${cfg.score}`,
+        x: 40,
+        y: 0,
+        fontSize: 12,
+        textAlign: 'right',
+        textBaseline: 'middle',
+        fill: 'black',
+      });
     }
     // lost tag
     if (cfg.state === STATE.LOST) {
-      const lostShape = drawShape('text', 'lost-text-shape',
-        {
-          text: 'LOST',
-          x: 50,
-          y: 0,
-          fontSize: 14,
-          fontWeight: 700,
-          textAlign: 'right',
-          textBaseline: 'middle',
-          fill: 'white',
-        },
-      );
+      const lostShape = drawShape('text', 'lost-text-shape', {
+        text: 'LOST',
+        x: 50,
+        y: 0,
+        fontSize: 14,
+        fontWeight: 700,
+        textAlign: 'right',
+        textBaseline: 'middle',
+        fill: 'white',
+      });
       lostShape.rotate(-45);
       // 输方的shape设置灰度
       Object.keys(shapeMap).forEach((key) => {
@@ -88,18 +75,16 @@ class TournamentNode extends Extensions.RectNode {
     }
     // win tag
     if (cfg.state === STATE.WIN) {
-      const winShape = drawShape('text', 'win-text-shape',
-        {
-          text: 'WIN',
-          x: 50,
-          y: 0,
-          fontSize: 14,
-          fontWeight: 700,
-          textAlign: 'right',
-          textBaseline: 'middle',
-          fill: 'yellow',
-        },
-      );
+      const winShape = drawShape('text', 'win-text-shape', {
+        text: 'WIN',
+        x: 50,
+        y: 0,
+        fontSize: 14,
+        fontWeight: 700,
+        textAlign: 'right',
+        textBaseline: 'middle',
+        fill: 'yellow',
+      });
       winShape.rotate(-45);
     }
     return afterShapes;
@@ -155,102 +140,48 @@ const ExtGraph = extend(Graph, {
 });
 const data = {
   id: 'winner',
-  data: {
-    layer: 4,
-  },
+  data: { layer: 4 },
   children: [
     {
       id: 'layer3-1',
-      data: {
-        layer: 3,
-      },
+      data: { layer: 3 },
       children: [
         {
           id: 'layer2-1',
-          data: {
-            layer: 2,
-          },
+          data: { layer: 2 },
           children: [
-            {
-              id: 'layer1-1',
-              data: {
-                layer: 1,
-              },
-            },
-            {
-              id: 'layer1-2',
-              data: {
-                layer: 1,
-              },
-            },
+            { id: 'layer1-1', data: { layer: 1 } },
+            { id: 'layer1-2', data: { layer: 1 } },
           ],
         },
         {
           id: 'layer2-2',
-          data: {
-            layer: 2,
-          },
+          data: { layer: 2 },
           children: [
-            {
-              id: 'layer1-3',
-              data: {
-                layer: 1,
-              },
-            },
-            {
-              id: 'layer1-4',
-              data: {
-                layer: 1,
-              },
-            },
+            { id: 'layer1-3', data: { layer: 1 } },
+            { id: 'layer1-4', data: { layer: 1 } },
           ],
         },
       ],
     },
     {
       id: 'layer3-2',
-      data: {
-        layer: 3,
-      },
+      data: { layer: 3 },
       children: [
         {
           id: 'layer2-3',
-          data: {
-            layer: 2,
-          },
+          data: { layer: 2 },
           children: [
-            {
-              id: 'layer1-5',
-              data: {
-                layer: 1,
-              },
-            },
-            {
-              id: 'layer1-6',
-              data: {
-                layer: 1,
-              },
-            },
+            { id: 'layer1-5', data: { layer: 1 } },
+            { id: 'layer1-6', data: { layer: 1 } },
           ],
         },
         {
           id: 'layer2-4',
-          data: {
-            layer: 2,
-          },
+          data: { layer: 2 },
           children: [
-            {
-              id: 'layer1-7',
-              data: {
-                layer: 1,
-              },
-            },
-            {
-              id: 'layer1-8',
-              data: {
-                layer: 1,
-              },
-            },
+            { id: 'layer1-7', data: { layer: 1 } },
+            { id: 'layer1-8', data: { layer: 1 } },
           ],
         },
       ],
@@ -323,9 +254,9 @@ graph.on('afterrender', () => {
   const allEdges = graph.getAllEdgesData();
   const allNodes = graph.getAllNodesData();
 
-  const layer1 = allNodes.filter(node => node.data.layer === 1);
-  const layer2 = allNodes.filter(node => node.data.layer === 2);
-  const layer3 = allNodes.filter(node => node.data.layer === 3);
+  const layer1 = allNodes.filter((node) => node.data.layer === 1);
+  const layer2 = allNodes.filter((node) => node.data.layer === 2);
+  const layer3 = allNodes.filter((node) => node.data.layer === 3);
   const layer = [layer1, layer2, layer3, [data]];
 
   const updateItemData = (itemType, id, data) => graph.updateData(itemType, { id, data });
@@ -337,7 +268,7 @@ graph.on('afterrender', () => {
     state: STATE.INIT,
   }));
   // 选手初登场
-  playerInfo.forEach(info => {
+  playerInfo.forEach((info) => {
     updateItemData('node', info.id, {
       name: info.name,
       state: STATE.PLAYING,
@@ -347,14 +278,14 @@ graph.on('afterrender', () => {
   // 更新选手分数
   const updateScore = () => {
     const currentLayer = layer[layerIndex];
-    currentLayer.forEach(info => {
-      const edge = allEdges.find(edge => edge.target === info.id);
+    currentLayer.forEach((info) => {
+      const edge = allEdges.find((edge) => edge.target === info.id);
       updateItemData('edge', edge.id, { state: STATE.PLAYING });
     });
     let index = 0;
     timer = setInterval(() => {
       index++;
-      currentLayer.forEach(info => {
+      currentLayer.forEach((info) => {
         const score = setScore();
         const prevScore = graph.getNodeData(info.id).data.score || 0;
         const totalScore = parseFloat((score + prevScore).toFixed(2));
