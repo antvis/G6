@@ -336,6 +336,88 @@ export const getNeighborPoints = (
   });
   return filterConnectPoints(neighbors);
 };
+
+/**
+ * sorted array ascendly
+ * add new item to proper index when calling add
+ */
+export class SortedArray {
+  public arr: {
+    id: string;
+    value: number;
+  }[] = [];
+  private map: {
+    [id: string]: boolean;
+  } = {};
+  constructor() {
+    this.arr = [];
+    this.map = {};
+  }
+  private _innerAdd(item, length) {
+    const idxRange = [0, length - 1];
+    while (idxRange[1] - idxRange[0] > 1) {
+      const midIdx = Math.floor((idxRange[0] + idxRange[1]) / 2);
+      if (this.arr[midIdx].value > item.value) {
+        idxRange[1] = midIdx;
+      } else if (this.arr[midIdx].value < item.value) {
+        idxRange[0] = midIdx;
+      } else {
+        this.arr.splice(midIdx, 0, item);
+        this.map[item.id] = true;
+        return;
+      }
+    }
+    this.arr.splice(idxRange[1], 0, item);
+    this.map[item.id] = true;
+  }
+  public add(item) {
+    // 已经存在，先移除
+    delete this.map[item.id];
+
+    const length = this.arr.length;
+    if (!length) {
+      this.arr.push(item);
+      this.map[item.id] = true;
+      return;
+    }
+
+    // 比最后一个大，加入尾部
+    if (this.arr[length - 1].value < item.value) {
+      this.arr.push(item);
+      this.map[item.id] = true;
+      return;
+    }
+    this._innerAdd(item, length);
+  }
+  // only remove from the map to avoid cost
+  // clear the invalid (not in the map) item when calling minId(true)
+  public remove(id) {
+    if (!this.map[id]) return;
+    delete this.map[id];
+  }
+  private _clearAndGetMinId() {
+    let res;
+    for (let i = this.arr.length - 1; i >= 0; i--) {
+      if (this.map[this.arr[i].id]) res = this.arr[i].id;
+      else this.arr.splice(i, 1);
+    }
+    return res;
+  }
+  private _findFirstId() {
+    while (this.arr.length) {
+      const first = this.arr.shift();
+      if (this.map[first.id]) return first.id;
+    }
+  }
+  public minId(clear) {
+    if (clear) {
+      return this._clearAndGetMinId();
+    } else {
+      return this._findFirstId();
+    }
+  }
+}
+
 export const pathFinder = (
   points: PolyPoint[],
   start: PolyPoint,
@@ -348,7 +430,7 @@ export const pathFinder = (
   // A-Star Algorithm
   const closedSet = [];
   const openSet = {
-    [start.id]: start
+    [start.id]: start,
   };
   const cameFrom: {
     [key: string]: any;
@@ -367,8 +449,8 @@ export const pathFinder = (
   const sortedOpenSet = new SortedArray();
   sortedOpenSet.add({
     id: start.id,
-    value: fScore[start.id]
-  })
+    value: fScore[start.id],
+  });
 
   const pointById: {
     [key: string]: PolyPoint;
@@ -381,12 +463,12 @@ export const pathFinder = (
   let current;
   while (Object.keys(openSet).length) {
     const minId = sortedOpenSet.minId(false);
-     if (minId) {
-       current = openSet[minId];
-     } else {
-       break;
-     }
-    
+    if (minId) {
+      current = openSet[minId];
+    } else {
+      break;
+    }
+
     // 若 openSet 中 fScore 最小的点就是终点
     if (current === goal) {
       // ending condition
@@ -405,31 +487,31 @@ export const pathFinder = (
         if (closedSet.indexOf(neighbor) !== -1) {
           return;
         }
-  
+
         const neighborId = neighbor.id;
         if (!openSet[neighborId]) {
           openSet[neighborId] = neighbor;
         }
-  
+
         const tentativeGScore = fScore[current.id] + distance(current, neighbor); // + distance(neighbor, goal);
         if (gScore[neighborId] && tentativeGScore >= gScore[neighborId]) {
           sortedOpenSet.add({
             id: neighborId,
-            value: fScore[neighborId]
-          })
+            value: fScore[neighborId],
+          });
           return;
         }
-  
+
         cameFrom[neighborId] = current.id;
         gScore[neighborId] = tentativeGScore;
         fScore[neighborId] =
           gScore[neighborId] + heuristicCostEstimate(neighbor, goal, start, os, ot);
         sortedOpenSet.add({
           id: neighborId,
-          value: fScore[neighborId]
-        })
+          value: fScore[neighborId],
+        });
       });
-    }
+    };
     iterateNeighbors(neighborPoints);
   }
 
@@ -512,11 +594,11 @@ export const getPolylinePoints = (
         maxX: sKeyShapeBBox.maxX + sx,
         minY: sKeyShapeBBox.minY + sy,
         maxY: sKeyShapeBBox.maxY + sy,
-      }
+      };
       sBBox.centerX = (sBBox.minX + sBBox.maxX) / 2;
       sBBox.centerY = (sBBox.minY + sBBox.maxY) / 2;
     } else {
-      sBBox = getBBoxFromPoint(start) as PBBox
+      sBBox = getBBoxFromPoint(start) as PBBox;
     }
   } else {
     sBBox = sNode && sNode.getBBox();
@@ -537,11 +619,11 @@ export const getPolylinePoints = (
         maxX: tKeyShapeBBox.maxX + tx,
         minY: tKeyShapeBBox.minY + ty,
         maxY: tKeyShapeBBox.maxY + ty,
-      }
+      };
       tBBox.centerX = (tBBox.minX + tBBox.maxX) / 2;
       tBBox.centerY = (tBBox.minY + tBBox.maxY) / 2;
     } else {
-      tBBox = getBBoxFromPoint(end) as PBBox
+      tBBox = getBBoxFromPoint(end) as PBBox;
     }
   } else {
     tBBox = tNode && tNode.getBBox();
@@ -614,15 +696,15 @@ export const getPolylinePoints = (
 /**
  * 去除连续同 x 不同 y 的中间点；去除连续同 y 不同 x 的中间点
  * @param points 坐标集合 { x: number, y: number, id: string }[]
- * @returns 
+ * @returns
  */
 export const removeRedundantPoint = (points) => {
   if (!points?.length) return points;
   const beginPoint = points[points.length - 1];
   const current = {
     x: beginPoint.x,
-    y: beginPoint.y
-  }
+    y: beginPoint.y,
+  };
   let continueSameX = [beginPoint];
   let continueSameY = [beginPoint];
   for (let i = points.length - 2; i >= 0; i--) {
@@ -651,86 +733,4 @@ export const removeRedundantPoint = (points) => {
     }
   }
   return points;
-}
-
-/**
- * sorted array ascendly
- * add new item to proper index when calling add
- */
-export class SortedArray {
-  public arr: {
-    id: string,
-    value: number
-  }[] = [];
-  private map: {
-    [id: string]: boolean
-  } = {};
-  constructor() {
-    this.arr = [];
-    this.map = {};
-  }
-  private _innerAdd(item, length) {
-   const idxRange = [0, length - 1];
-   while (idxRange[1] - idxRange[0] > 1) {
-     const midIdx = Math.floor((idxRange[0] + idxRange[1]) / 2);       
-     if (this.arr[midIdx].value > item.value) {
-       idxRange[1] = midIdx;
-     } else if (this.arr[midIdx].value < item.value) {
-       idxRange[0] = midIdx;
-     } else {
-       this.arr.splice(midIdx, 0, item);
-       this.map[item.id] = true;
-       return;
-     }
-   }
-   this.arr.splice(idxRange[1], 0, item);
-   this.map[item.id] = true;
-  }
-  public add(item) {
-    // 已经存在，先移除
-    delete this.map[item.id];
-
-    const length = this.arr.length;
-    if (!length) {
-      this.arr.push(item);
-      this.map[item.id] = true;
-      return;
-    }
-
-    // 比最后一个大，加入尾部
-    if (this.arr[length - 1].value < item.value) {
-      this.arr.push(item);
-      this.map[item.id] = true;
-      return;
-    }
-    this._innerAdd(item, length);
-
-  }
-  // only remove from the map to avoid cost
-  // clear the invalid (not in the map) item when calling minId(true)
-  public remove(id) {
-    if (!this.map[id]) return;
-    delete this.map[id];
-  }
-  private _clearAndGetMinId(){
-    let res;
-    for (let i = this.arr.length - 1; i >= 0; i--) {
-      if (this.map[this.arr[i].id]) res = this.arr[i].id;
-      else this.arr.splice(i, 1);
-    }
-    return res;
-  }
-  private _findFirstId() {
-    while (this.arr.length) {
-      const first = this.arr.shift();
-      if (this.map[first.id]) return first.id;
-    }
-  }
-  public minId(clear) {
-   if (clear) {
-    return this._clearAndGetMinId();
-   } else {
-    return this._findFirstId();
-   }
-  }
-}
+};

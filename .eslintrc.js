@@ -13,7 +13,6 @@ module.exports = {
     'consistent-return': 0,
     'lines-between-class-members': 0,
     'class-methods-use-this': 0,
-    'lines-between-class-members': 0,
     'no-multi-assign': 0,
     'no-continue': 0,
     'no-underscore-dangle': 0,

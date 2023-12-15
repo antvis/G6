@@ -346,7 +346,7 @@ const singleNode: ShapeOptions = {
           name,
         });
       } else {
-        let { width: w, height: h } = icon;
+        const { width: w, height: h } = icon;
         group['shapeMap'][name] = group.addShape('image', {
           attrs: {
             ...icon,

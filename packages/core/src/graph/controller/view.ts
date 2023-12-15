@@ -115,7 +115,7 @@ export default class ViewController {
       realRatio = maxZoom;
       console.warn('fitview failed, ratio out of range, ratio: %f', ratio, 'graph maxzoom has been used instead');
     }
-    let zoomedMatrix = transform(translatedMatrix, [
+    const zoomedMatrix = transform(translatedMatrix, [
       ['t', -viewCenter.x, -viewCenter.y],
       ['s', realRatio, realRatio],
       ['t', viewCenter.x, viewCenter.y],
@@ -425,7 +425,7 @@ export default class ViewController {
     const startMatrix = group.getMatrix() || [1, 0, 0, 0, 1, 0, 0, 0, 1];
     group.resetMatrix();
 
-    let bbox: BBox = {
+    const bbox: BBox = {
       x: 0, y: 0,
       minX: Number.MAX_SAFE_INTEGER, minY: Number.MAX_SAFE_INTEGER,
       maxX: Number.MIN_SAFE_INTEGER, maxY: Number.MIN_SAFE_INTEGER,

@@ -841,9 +841,9 @@ export const lerp = (start: number, end: number, alpha: number): number => {
  * @returns {number[]}
  */
 export const lerpArray = (start: number[], end: number[], alpha: number): number[] => {
-  var len = Math.min(start.length, end.length);
+  const len = Math.min(start.length, end.length);
   const out = new Array(len);
-  for (var i = 0; i < len; i++) {
+  for (let i = 0; i < len; i++) {
     out[i] = lerp(start[i], end[i], alpha);
   }
   return out;

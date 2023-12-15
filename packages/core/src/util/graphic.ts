@@ -83,8 +83,8 @@ export const getLoopCfgs = (cfg: EdgeData): EdgeData => {
   let startPoint = [cfg.startPoint.x, cfg.startPoint.y];
   let endPoint = [cfg.endPoint.x, cfg.endPoint.y];
 
-  let halfOfHeight = bbox.height / 2;
-  let halfOfWidth = bbox.width / 2;
+  const halfOfHeight = bbox.height / 2;
+  const halfOfWidth = bbox.width / 2;
   let rstart = halfOfHeight;
   let rend = halfOfHeight;
 

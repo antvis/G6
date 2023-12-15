@@ -61,7 +61,7 @@ export default {
 
   unbind(graph: IAbstractGraph) {
     const { events } = this;
-    let draggable = graph.get('canvas').get('draggable');
+    const draggable = graph.get('canvas').get('draggable');
     if (
       this.type === 'drag-canvas' ||
       this.type === 'brush-select' ||
