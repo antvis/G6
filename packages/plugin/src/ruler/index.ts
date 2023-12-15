@@ -330,19 +330,19 @@ export default class Ruler extends Base {
     this.lockContainer.addEventListener('click', this.eventFnObj.lock)
   }
 
-  private resetRulerSize(height?) {
+  private resetRulerSize() {
     const graph: IGraph = this.get('graph');
-    if (height) {
-      this.set('height', height)
-    }
     const canvas: HTMLDivElement = graph.get<ICanvas>('canvas').get('el');
-    const maxHeight = this.get('height') || canvas.clientHeight
+    const height = this.get('height') || canvas.clientHeight
+    const startLen = this.get('startLen')
+    const lineWidth = this.get('lineWidth')
+    const maxHeight = Math.max(height, startLen)
     this.rulerInstances.forEach((ruler: RulerConstructor) => {
       const rulerMaxWidth = this.getRulerMaxWidth(ruler.direction)
       const startNumber = this.getStartNumber(ruler.direction)
       ruler.changeConfig({
         width: rulerMaxWidth,
-        height: maxHeight,
+        height: ruler.direction === RuleDirection.HORIZONTAL ? maxHeight : maxHeight + lineWidth,
         startNumber
       })
       modifyCSS(ruler.container, {
