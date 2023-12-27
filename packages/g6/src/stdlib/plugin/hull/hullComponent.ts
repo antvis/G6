@@ -2,19 +2,19 @@ import { DisplayObject } from '@antv/g';
 import { isArray } from '@antv/util';
 import { ComboModel, ID, IGraph, NodeModel } from '../../../types';
 import { ShapeStyle } from '../../../types/item';
-import { isPolygonsIntersect } from '../../../util/shape';
 import { pathToPoints } from '../../../util/path';
+import { isPolygonsIntersect } from '../../../util/shape';
+import { genBubbleSet } from './bubbleset';
+import { genConvexHull } from './convexHull';
+import { BubblesetCfg } from './types';
 import {
   getClosedSpline,
-  roundedHull,
-  paddedHull,
-  getPolygonIntersectByLine,
   getExtendPoint,
   getInvertBaseline,
+  getPolygonIntersectByLine,
+  paddedHull,
+  roundedHull,
 } from './util';
-import { genConvexHull } from './convexHull';
-import { genBubbleSet } from './bubbleset';
-import { BubblesetCfg } from './types';
 
 type LabelPlacement = 'top' | 'bottom' | 'right' | 'left';
 
@@ -71,12 +71,8 @@ export default class Hull {
     const { members: memberIds = [], nonMembers: nonMemberIds = [] } = options;
     this.options = options;
     this.graph = graph;
-    this.members = memberIds.map(
-      (id) => graph.getNodeData(id) || graph.getComboData(id),
-    );
-    this.nonMembers = nonMemberIds.map(
-      (id) => graph.getNodeData(id) || graph.getComboData(id),
-    );
+    this.members = memberIds.map((id) => graph.getNodeData(id) || graph.getComboData(id));
+    this.nonMembers = nonMemberIds.map((id) => graph.getNodeData(id) || graph.getComboData(id));
     this.setPadding();
     this.setType();
 
@@ -99,10 +95,7 @@ export default class Hull {
       const firstBBox = this.graph.getRenderBBox(this.members[0].id);
       if (firstBBox) nodeSize = firstBBox.halfExtents[0];
     }
-    this.padding =
-      this.options.padding > 0
-        ? this.options.padding + nodeSize
-        : 10 + nodeSize;
+    this.padding = this.options.padding > 0 ? this.options.padding + nodeSize : 10 + nodeSize;
     this.bubbleCfg = {
       ...this.options.bubbleCfg,
       nodeR0: this.padding - nodeSize,
@@ -116,11 +109,7 @@ export default class Hull {
     if (this.members.length < 3) {
       this.type = 'round-convex';
     }
-    if (
-      this.type !== 'round-convex' &&
-      this.type !== 'smooth-convex' &&
-      this.type !== 'bubble'
-    ) {
+    if (this.type !== 'round-convex' && this.type !== 'smooth-convex' && this.type !== 'bubble') {
       console.warn(
         'The hull type should be either round-convex, smooth-convex or bubble, round-convex is used by default.',
       );
@@ -128,10 +117,7 @@ export default class Hull {
     }
   }
 
-  getPath(
-    members: (NodeModel | ComboModel)[],
-    nonMembers: (NodeModel | ComboModel)[],
-  ) {
+  getPath(members: (NodeModel | ComboModel)[], nonMembers: (NodeModel | ComboModel)[]) {
     let contour, path, hull;
     switch (this.type) {
       case 'round-convex':
@@ -194,12 +180,7 @@ export default class Hull {
   }
 
   private getLabelStyle(propsStyle, keyShapeBounds) {
-    const {
-      position,
-      offsetX = 0,
-      offsetY = 0,
-      autoRotate = true,
-    } = propsStyle;
+    const { position, offsetX = 0, offsetY = 0, autoRotate = true } = propsStyle;
     const { min, max, center } = keyShapeBounds;
     const style: ShapeStyle = {
       x: 0,
@@ -258,18 +239,13 @@ export default class Hull {
       startPoint = { x: center[0], y: center[1] };
     }
     const extendedPoint = getExtendPoint(point, startPoint, 100);
-    const intersect = getPolygonIntersectByLine(points, [
-      startPoint,
-      extendedPoint,
-    ]);
+    const intersect = getPolygonIntersectByLine(points, [startPoint, extendedPoint]);
     if (intersect) {
       const { point: intersectPoint, line } = intersect;
       style.x = intersectPoint.x + offsetX;
       style.y = intersectPoint.y + offsetY;
       if (autoRotate) {
-        const angle = Math.atan(
-          (line[0].y - line[1].y) / (line[0].x - line[1].x),
-        );
+        const angle = Math.atan((line[0].y - line[1].y) / (line[0].x - line[1].x));
         style.transform = `rotate(${(angle / Math.PI) * 180}deg)`;
         style.textAlign = 'center';
         if (position === 'right' || position === 'left') {
@@ -294,7 +270,7 @@ export default class Hull {
   /**
    * Add a member of hull, and if the member was originally in nonMembers, remove it from nonMembers.
    * @param itemIds id(s) of member nodes/combos
-   * @return boolean Whether successfully added.
+   * @returns boolean Whether successfully added.
    */
   public addMember(itemIds: ID | ID[]): boolean {
     if (!itemIds) return;
@@ -325,7 +301,7 @@ export default class Hull {
   /**
    * Add the nodes that the hull needs to exclude, and if the member was originally in the members, remove it from the members.
    * @param itemIds id(s) of member nodes/combos
-   * @return boolean Whether successfully added.
+   * @returns boolean Whether successfully added.
    */
   public addNonMember(itemIds: ID | ID[]): boolean {
     if (!itemIds) return;
@@ -357,7 +333,7 @@ export default class Hull {
   /**
    * Remove members from the hull.
    * @param itemIds id(s) of member nodes/combos
-   * @return boolean Returns true if the removal is successful, otherwise returns false.
+   * @returns boolean Returns true if the removal is successful, otherwise returns false.
    */
   public removeMember(itemIds: ID | ID[]): boolean {
     if (!itemIds) return;
@@ -383,7 +359,7 @@ export default class Hull {
   /**
    * Remove non members from the hull.
    * @param itemIds id(s) of member nodes/combos
-   * @return boolean Returns true if the removal is successful, otherwise returns false.
+   * @returns boolean Returns true if the removal is successful, otherwise returns false.
    */
   public removeNonMember(itemIds: ID | ID[]): boolean {
     if (!itemIds) return;
@@ -410,15 +386,11 @@ export default class Hull {
   public updateMembers(memberIds?: ID[], nonMemberIds?: ID[]) {
     if (memberIds) {
       this.options.members = memberIds;
-      this.members = memberIds.map(
-        (id) => this.graph.getNodeData(id) || this.graph.getComboData(id),
-      );
+      this.members = memberIds.map((id) => this.graph.getNodeData(id) || this.graph.getComboData(id));
     }
     if (nonMemberIds) {
       this.options.nonMembers = nonMemberIds;
-      this.nonMembers = nonMemberIds.map(
-        (id) => this.graph.getNodeData(id) || this.graph.getComboData(id),
-      );
+      this.nonMembers = nonMemberIds.map((id) => this.graph.getNodeData(id) || this.graph.getComboData(id));
     }
     this.path = this.getPath(this.members, this.nonMembers);
     this.render();
@@ -452,14 +424,10 @@ export default class Hull {
       },
     };
     if (memberIds) {
-      this.members = memberIds.map(
-        (id) => this.graph.getNodeData(id) || this.graph.getComboData(id),
-      );
+      this.members = memberIds.map((id) => this.graph.getNodeData(id) || this.graph.getComboData(id));
     }
     if (nonMemberIds) {
-      this.nonMembers = nonMemberIds.map(
-        (id) => this.graph.getNodeData(id) || this.graph.getComboData(id),
-      );
+      this.nonMembers = nonMemberIds.map((id) => this.graph.getNodeData(id) || this.graph.getComboData(id));
     }
     this.setPadding();
     this.setType();

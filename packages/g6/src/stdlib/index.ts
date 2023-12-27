@@ -1,5 +1,5 @@
-import * as Layouts from '@antv/layout';
 import Hierarchy from '@antv/hierarchy';
+import * as Layouts from '@antv/layout';
 import { Lib } from '../types/stdlib';
 
 import { Behavior as BaseBehavior } from '../types/behavior';
@@ -7,14 +7,13 @@ import { Plugin as BasePlugin } from '../types/plugin';
 import * as Behaviors from './behavior';
 import * as Transforms from './data';
 import * as Combos from './item/combo';
-import * as Nodes from './item/node';
 import * as Edges from './item/edge';
+import * as Nodes from './item/node';
+import * as Plugins from './plugin';
 import * as Themes from './theme';
 import * as ThemeSolvers from './themeSolver';
-import * as Plugins from './plugin';
 
-const { ValidateData, TransformV4Data, MapNodeSize, ProcessParallelEdges } =
-  Transforms;
+const { ValidateData, TransformV4Data, MapNodeSize, ProcessParallelEdges } = Transforms;
 
 const { compactBox, dendrogram, indented, mindmap } = Hierarchy;
 
@@ -39,15 +38,7 @@ const {
   BaseNode3D,
 } = Nodes;
 
-const {
-  LineEdge,
-  CubicEdge,
-  CubicHorizontalEdge,
-  CubicVerticalEdge,
-  LoopEdge,
-  PolylineEdge,
-  QuadraticEdge,
-} = Edges;
+const { LineEdge, CubicEdge, CubicHorizontalEdge, CubicVerticalEdge, LoopEdge, PolylineEdge, QuadraticEdge } = Edges;
 const { CircleCombo, RectCombo } = Combos;
 const {
   ActivateRelations,
@@ -101,10 +92,10 @@ const {
   ComboCombinedLayout,
 } = Layouts;
 
-import lassoSelector from './selector/lasso';
-import rectSelector from './selector/rect';
 import Hull from './plugin/hull';
 import { WaterMarker } from './plugin/watermarker';
+import lassoSelector from './selector/lasso';
+import rectSelector from './selector/rect';
 
 const stdLib = {
   transforms: {
@@ -177,22 +168,12 @@ const stdLib = {
     upTriangle: (x, y, r) => {
       const l1 = r * Math.cos(Math.PI / 6);
       const l2 = r * Math.sin(Math.PI / 6);
-      return [
-        ['M', x - l1, y + l2],
-        ['L', x + l1, y + l2],
-        ['L', x, y - r],
-        ['Z'],
-      ];
+      return [['M', x - l1, y + l2], ['L', x + l1, y + l2], ['L', x, y - r], ['Z']];
     },
     downTriangle: (x, y, r) => {
       const l1 = r * Math.cos(Math.PI / 6);
       const l2 = r * Math.sin(Math.PI / 6);
-      return [
-        ['M', x - l1, y - l2],
-        ['L', x + l1, y - l2],
-        ['L', x, y + r],
-        ['Z'],
-      ];
+      return [['M', x - l1, y - l2], ['L', x + l1, y - l2], ['L', x, y + r], ['Z']];
     },
   },
 };

@@ -1,4 +1,4 @@
-import { Graph, Extensions, extend } from '../../../src/index';
+import { Extensions, Graph, extend } from '../../../src/index';
 import { container, height, width } from '../../datasets/const';
 
 export default () => {
@@ -58,7 +58,10 @@ export default () => {
         type: 'tooltip',
         trigger: 'pointerenter',
         fixToNode: 'leftBottom',
-        /** async string tooltip*/
+        /**
+         * async string tooltip
+         * @param e
+         */
         getContent: (e) => {
           return new Promise((resolve) => {
             const data = `
@@ -74,7 +77,10 @@ export default () => {
         },
       },
     ],
-    /** default tooltip */
+    /**
+     * default tooltip
+     * @param nodeInnerModel
+     */
     // plugins: ['tooltip'],
     node: (nodeInnerModel: any) => {
       const { id, data } = nodeInnerModel;

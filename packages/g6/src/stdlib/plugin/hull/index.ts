@@ -1,12 +1,12 @@
 import { isArray, throttle, uniqueId } from '@antv/util';
-import { ITEM_TYPE, ShapeStyle } from '../../../types/item';
+import { DEFAULT_TEXT_STYLE } from '../../../constant';
 import { ComboModel, EdgeModel, ID, IGraph, NodeModel } from '../../../types';
+import { ComboLabelPosition } from '../../../types/combo';
+import { ITEM_TYPE, ShapeStyle } from '../../../types/item';
 import { Plugin as Base, IPluginBaseConfig } from '../../../types/plugin';
 import { isArrayOverlap } from '../../../util/array';
-import { ComboLabelPosition } from '../../../types/combo';
-import { DEFAULT_TEXT_STYLE } from '../../../constant';
-import { BubblesetCfg } from './types';
 import HullComponent, { HullComponentOptions } from './hullComponent';
+import { BubblesetCfg } from './types';
 
 interface HullConfig extends IPluginBaseConfig {
   /** Common style for the hulls in this plugin. You can also configure individually for each hulls. */
@@ -71,6 +71,10 @@ export default class Hull extends Base {
   /**
    * viewport change
    * @param param
+   * @param param.itemType
+   * @param param.action
+   * @param param.models
+   * @param param.ids
    */
   protected handleNodesChange(param: {
     itemType: ITEM_TYPE;
@@ -93,14 +97,11 @@ export default class Hull extends Base {
       Object.keys(this.hullMap).forEach((id) => {
         const hullComponent = this.hullMap[id];
         if (this.cacheChanges.remove.length) {
-          isArrayOverlap(
-            hullComponent.options.members,
-            this.cacheChanges.remove,
-          ) && hullComponent.removeMember(this.cacheChanges.remove);
+          isArrayOverlap(hullComponent.options.members, this.cacheChanges.remove) &&
+            hullComponent.removeMember(this.cacheChanges.remove);
         } else if (this.cacheChanges.update.length) {
           const modelIds = this.cacheChanges.update.map((model) => model.id);
-          isArrayOverlap(hullComponent.options.members, modelIds) &&
-            hullComponent.updateMembers();
+          isArrayOverlap(hullComponent.options.members, modelIds) && hullComponent.updateMembers();
         }
       });
       this.cacheChanges = { update: [], remove: [] };
@@ -120,16 +121,9 @@ export default class Hull extends Base {
     const { padding, style, bubbleCfg, labelShape } = this.options;
     const configs = isArray(options) ? options : [options];
     configs.forEach((config) => {
-      const {
-        id,
-        style: singleStyle,
-        labelShape: singleLabelShape,
-        members,
-        ...others
-      } = config;
+      const { id, style: singleStyle, labelShape: singleLabelShape, members, ...others } = config;
       const validMembers = members?.filter(
-        (memberId) =>
-          this.graph.getNodeData(memberId) || this.graph.getComboData(memberId),
+        (memberId) => this.graph.getNodeData(memberId) || this.graph.getComboData(memberId),
       );
       if (!validMembers?.length) {
         console.warn(`Create hull failed. There are no valid members.`);
@@ -170,9 +164,7 @@ export default class Hull extends Base {
     configs.forEach((config) => {
       const { id, ...others } = config;
       if (!this.hullMap[id]) {
-        console.warn(
-          `Update hull component failed. The bubble with id ${id} is not existed.`,
-        );
+        console.warn(`Update hull component failed. The bubble with id ${id} is not existed.`);
         return;
       }
       this.hullMap[id].updateOptions(others);
@@ -191,9 +183,7 @@ export default class Hull extends Base {
   public addHullMember(id: ID, members: ID | ID[]) {
     const hullComponent = this.hullMap[id];
     if (!hullComponent) {
-      console.warn(
-        `Add member to hull failed. The hull with id ${id} is not exist`,
-      );
+      console.warn(`Add member to hull failed. The hull with id ${id} is not exist`);
       return;
     }
     hullComponent.addMember(members);
@@ -202,9 +192,7 @@ export default class Hull extends Base {
   public removeHullMember(id: ID, members: ID | ID[]) {
     const hullComponent = this.hullMap[id];
     if (!hullComponent) {
-      console.warn(
-        `Remove member from hull failed. The hull with id ${id} is not exist`,
-      );
+      console.warn(`Remove member from hull failed. The hull with id ${id} is not exist`);
       return;
     }
     hullComponent.removeMember(members);
@@ -213,9 +201,7 @@ export default class Hull extends Base {
   public addHullNonMember(id: ID, members: ID | ID[]) {
     const hullComponent = this.hullMap[id];
     if (!hullComponent) {
-      console.warn(
-        `Add non member to hull failed. The hull with id ${id} is not exist`,
-      );
+      console.warn(`Add non member to hull failed. The hull with id ${id} is not exist`);
       return;
     }
     hullComponent.addNonMember(members);
@@ -224,9 +210,7 @@ export default class Hull extends Base {
   public removeHullNonMember(id: ID, members: ID | ID[]) {
     const hullComponent = this.hullMap[id];
     if (!hullComponent) {
-      console.warn(
-        `Remove non member from hull failed. The hull with id ${id} is not exist`,
-      );
+      console.warn(`Remove non member from hull failed. The hull with id ${id} is not exist`);
       return;
     }
     hullComponent.removeNonMember(members);

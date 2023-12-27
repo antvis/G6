@@ -1,5 +1,5 @@
-import { supportsThreads, initThreads, ForceLayout } from '@antv/layout-wasm';
-import { Graph, Extensions, extend } from '../../../src/index';
+import { initThreads, supportsThreads } from '@antv/layout-wasm';
+import { Extensions, Graph, extend } from '../../../src/index';
 import { loadDataset } from '../../datasets/legacy-format';
 const ExtGraph = extend(Graph, {
   layouts: {
@@ -124,9 +124,7 @@ export default async () => {
     graph.on('beforelayout', () => {
       const startTime = performance.now();
       timer = setInterval(() => {
-        $timer1.innerHTML = `@antv/layout-wasm: ${(
-          performance.now() - startTime
-        ).toFixed(2)}ms`;
+        $timer1.innerHTML = `@antv/layout-wasm: ${(performance.now() - startTime).toFixed(2)}ms`;
       }, 1);
     });
 
@@ -190,9 +188,7 @@ export default async () => {
     graph.on('beforelayout', () => {
       const startTime = performance.now();
       timer = setInterval(() => {
-        $timer2.innerHTML = `@antv/layout: ${(
-          performance.now() - startTime
-        ).toFixed(2)}ms`;
+        $timer2.innerHTML = `@antv/layout: ${(performance.now() - startTime).toFixed(2)}ms`;
       }, 1);
     });
 

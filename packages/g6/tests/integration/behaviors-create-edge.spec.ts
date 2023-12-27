@@ -6,14 +6,10 @@ const dir = `${__dirname}/snapshots/behaviors`;
 
 describe('Create edge behavior', () => {
   it('trigger click should be rendered correctly', (done) => {
-    const {
-      backgroundCanvas,
-      canvas,
-      container,
-      labelCanvas,
-      transientCanvas,
-      transientLabelCanvas,
-    } = createContext(500, 500);
+    const { backgroundCanvas, canvas, container, labelCanvas, transientCanvas, transientLabelCanvas } = createContext(
+      500,
+      500,
+    );
 
     const graph = createEdge(
       {
@@ -41,20 +37,14 @@ describe('Create edge behavior', () => {
         canvas: { x: 100, y: 100 },
       });
       graph.emit('pointermove', { canvas: { x: 100, y: 100 } });
-      await expect([canvas, labelCanvas]).toMatchSVGSnapshot(
-        dir,
-        'behaviors-create-edge-click-begin',
-      );
+      await expect([canvas, labelCanvas]).toMatchSVGSnapshot(dir, 'behaviors-create-edge-click-begin');
 
       graph.emit('node:click', {
         itemId: 'node2',
         itemType: 'node',
         canvas: { x: 100, y: 100 },
       });
-      await expect([canvas, labelCanvas]).toMatchSVGSnapshot(
-        dir,
-        'behaviors-create-edge-click-finish',
-      );
+      await expect([canvas, labelCanvas]).toMatchSVGSnapshot(dir, 'behaviors-create-edge-click-finish');
 
       graph.emit('node:click', {
         itemId: 'node5',
@@ -66,10 +56,7 @@ describe('Create edge behavior', () => {
         itemType: 'node',
         canvas: { x: 100, y: 100 },
       });
-      await expect([canvas, labelCanvas]).toMatchSVGSnapshot(
-        dir,
-        'behaviors-create-edge-click-loop',
-      );
+      await expect([canvas, labelCanvas]).toMatchSVGSnapshot(dir, 'behaviors-create-edge-click-loop');
 
       graph.destroy();
       done();
@@ -77,14 +64,10 @@ describe('Create edge behavior', () => {
   });
 
   it('trigger drag should be rendered correctly', (done) => {
-    const {
-      backgroundCanvas,
-      canvas,
-      container,
-      labelCanvas,
-      transientCanvas,
-      transientLabelCanvas,
-    } = createContext(500, 500);
+    const { backgroundCanvas, canvas, container, labelCanvas, transientCanvas, transientLabelCanvas } = createContext(
+      500,
+      500,
+    );
 
     const graph = createEdge(
       {
@@ -110,10 +93,7 @@ describe('Create edge behavior', () => {
         canvas: { x: 100, y: 100 },
       });
       graph.emit('drag', { canvas: { x: 100, y: 100 } });
-      await expect([canvas, labelCanvas]).toMatchSVGSnapshot(
-        dir,
-        'behaviors-create-edge-drag-begin',
-      );
+      await expect([canvas, labelCanvas]).toMatchSVGSnapshot(dir, 'behaviors-create-edge-drag-begin');
 
       const nodeModel = graph.getNodeData('node2');
       graph.emit('drop', {
@@ -121,10 +101,7 @@ describe('Create edge behavior', () => {
         itemType: 'node',
         canvas: { x: nodeModel?.data.x, y: nodeModel?.data.y },
       });
-      await expect([canvas, labelCanvas]).toMatchSVGSnapshot(
-        dir,
-        'behaviors-create-edge-drag-finish',
-      );
+      await expect([canvas, labelCanvas]).toMatchSVGSnapshot(dir, 'behaviors-create-edge-drag-finish');
 
       graph.emit('node:dragstart', {
         itemId: 'node5',
@@ -138,10 +115,7 @@ describe('Create edge behavior', () => {
         itemType: 'node',
         canvas: { x: node5Model?.data.x, y: node5Model?.data.y },
       });
-      await expect([canvas, labelCanvas]).toMatchSVGSnapshot(
-        dir,
-        'behaviors-create-edge-drag-loop',
-      );
+      await expect([canvas, labelCanvas]).toMatchSVGSnapshot(dir, 'behaviors-create-edge-drag-loop');
 
       graph.destroy();
       done();

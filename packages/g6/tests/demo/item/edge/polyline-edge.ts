@@ -1,7 +1,6 @@
 // @ts-nocheck
 import { Extensions, Graph, IGraph, extend } from '../../../../src/index';
 import { TestCaseContext } from '../../interface';
-import { Graph, Extensions, extend } from '../../../../src/index';
 let graph: IGraph;
 let container: HTMLElement;
 

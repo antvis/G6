@@ -1,4 +1,4 @@
-import { extend, Graph, Extensions } from '../../../src/index';
+import { Extensions, Graph, extend } from '../../../src/index';
 import { TestCaseContext } from '../interface';
 
 export default (context: TestCaseContext) => {
@@ -122,8 +122,7 @@ export default (context: TestCaseContext) => {
   if (typeof window !== 'undefined')
     window.onresize = () => {
       if (!graph || graph.destroyed) return;
-      if (!container || !container.scrollWidth || !container.scrollHeight)
-        return;
+      if (!container || !container.scrollWidth || !container.scrollHeight) return;
       graph.setSize([container.scrollWidth, container.scrollHeight]);
     };
 

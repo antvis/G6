@@ -80,8 +80,7 @@ export interface EdgeShapeStyles extends ItemShapeStyles {
   };
 }
 
-export type EdgeDisplayModelData = EdgeModelData &
-  EdgeShapeStyles & { lodLevels?: LodLevel[] };
+export type EdgeDisplayModelData = EdgeModelData & EdgeShapeStyles & { lodLevels?: LodLevel[] };
 
 /** User input data. */
 export type EdgeUserModel = GEdge<EdgeUserModelData>;
@@ -122,14 +121,7 @@ export interface EdgeShapeMap {
 // TODO
 export type IEdge = IItem;
 
-export type ArrowType =
-  | 'triangle'
-  | 'circle'
-  | 'diamond'
-  | 'rect'
-  | 'vee'
-  | 'triangle-rect'
-  | 'simple';
+export type ArrowType = 'triangle' | 'circle' | 'diamond' | 'rect' | 'vee' | 'triangle-rect' | 'simple';
 
 export type ArrowStyle = PathStyleProps & {
   type: ArrowType;

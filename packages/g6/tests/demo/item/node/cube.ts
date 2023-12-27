@@ -1,5 +1,4 @@
-import { Graph, Extensions, extend } from '../../../../src/index';
-import { data } from '../../../datasets/dataset1';
+import { Extensions, Graph, extend } from '../../../../src/index';
 import { TestCaseContext } from '../../interface';
 
 export default (context: TestCaseContext) => {

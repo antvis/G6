@@ -1,7 +1,7 @@
 import { isNumber } from '@antv/util';
+import { ID, IG6GraphEvent } from '../../types';
 import { Behavior } from '../../types/behavior';
 import { Point } from '../../types/common';
-import { ID, IG6GraphEvent } from '../../types';
 
 const VALID_TRIGGERS = ['drag', 'directionKeys'];
 const DRAG_DURATION = 250;
@@ -81,9 +81,7 @@ export class DragCanvas extends Behavior {
   constructor(options: Partial<DragCanvasOptions>) {
     const finalOptions = Object.assign({}, DEFAULT_OPTIONS, options);
     if (!VALID_TRIGGERS.includes(finalOptions.trigger)) {
-      console.warn(
-        `The trigger ${finalOptions.trigger} is not valid, 'drag' will take effect.`,
-      );
+      console.warn(`The trigger ${finalOptions.trigger} is not valid, 'drag' will take effect.`);
       finalOptions.trigger = 'drag';
     }
     super(finalOptions);
@@ -110,8 +108,7 @@ export class DragCanvas extends Behavior {
   }
 
   public onPointerDown(event) {
-    const { secondaryKey, secondaryKeyToDisable, dragOnItems, shouldBegin } =
-      this.options;
+    const { secondaryKey, secondaryKeyToDisable, dragOnItems, shouldBegin } = this.options;
     // disabled key is pressing
     if (secondaryKeyToDisable && this.disableKeydown) return;
     // assistant key is not pressing
@@ -137,15 +134,9 @@ export class DragCanvas extends Behavior {
   private hideShapes() {
     const { graph } = this;
 
-    const { tileBehavior: graphBehaviorOptimize, tileBehaviorSize = 1000 } =
-      graph.getSpecification().optimize || {};
-    const optimize =
-      this.options.enableOptimize !== undefined
-        ? this.options.enableOptimize
-        : graphBehaviorOptimize;
-    const shouldOptimize = isNumber(optimize)
-      ? graph.getAllNodesData().length > optimize
-      : optimize;
+    const { tileBehavior: graphBehaviorOptimize, tileBehaviorSize = 1000 } = graph.getSpecification().optimize || {};
+    const optimize = this.options.enableOptimize !== undefined ? this.options.enableOptimize : graphBehaviorOptimize;
+    const shouldOptimize = isNumber(optimize) ? graph.getAllNodesData().length > optimize : optimize;
 
     if (shouldOptimize) {
       this.hiddenEdgeIds = graph
@@ -159,10 +150,7 @@ export class DragCanvas extends Behavior {
       const hiddenIds = [...this.hiddenNodeIds];
       const sectionNum = Math.ceil(hiddenIds.length / tileBehaviorSize);
       const sections = Array.from({ length: sectionNum }, (v, i) =>
-        hiddenIds.slice(
-          i * tileBehaviorSize,
-          i * tileBehaviorSize + tileBehaviorSize,
-        ),
+        hiddenIds.slice(i * tileBehaviorSize, i * tileBehaviorSize + tileBehaviorSize),
       );
       const update = () => {
         if (!sections.length && this.tileRequestId) {
@@ -249,8 +237,7 @@ export class DragCanvas extends Behavior {
       this.graph.canvas.getConfig().disableHitTesting = true;
     }
 
-    const { tileBehavior: graphBehaviorOptimize } =
-      this.graph.getSpecification().optimize || {};
+    const { tileBehavior: graphBehaviorOptimize } = this.graph.getSpecification().optimize || {};
 
     const shouldDebounce =
       typeof graphBehaviorOptimize === 'boolean'
@@ -258,11 +245,7 @@ export class DragCanvas extends Behavior {
         : this.graph.getAllNodesData().length > graphBehaviorOptimize;
 
     const now = Date.now();
-    if (
-      shouldDebounce &&
-      this.lastDragTriggerTime &&
-      now - this.lastDragTriggerTime < DRAG_DURATION / 5
-    ) {
+    if (shouldDebounce && this.lastDragTriggerTime && now - this.lastDragTriggerTime < DRAG_DURATION / 5) {
       return;
     }
 
@@ -292,15 +275,9 @@ export class DragCanvas extends Behavior {
     this.graph.canvas.getConfig().disableHitTesting = false;
 
     const { graph, hiddenNodeIds, hiddenEdgeIds = [] } = this;
-    const { tileBehavior: graphBehaviorOptimize, tileBehaviorSize = 1000 } =
-      graph.getSpecification().optimize || {};
-    const optimize =
-      this.options.enableOptimize !== undefined
-        ? this.options.enableOptimize
-        : graphBehaviorOptimize;
-    const shouldOptimize = isNumber(optimize)
-      ? graph.getAllNodesData().length > optimize
-      : optimize;
+    const { tileBehavior: graphBehaviorOptimize, tileBehaviorSize = 1000 } = graph.getSpecification().optimize || {};
+    const optimize = this.options.enableOptimize !== undefined ? this.options.enableOptimize : graphBehaviorOptimize;
+    const shouldOptimize = isNumber(optimize) ? graph.getAllNodesData().length > optimize : optimize;
 
     if (shouldOptimize) {
       if (this.tileRequestId) {
@@ -311,10 +288,7 @@ export class DragCanvas extends Behavior {
         const hiddenIds = [...hiddenNodeIds, ...hiddenEdgeIds];
         const sectionNum = Math.ceil(hiddenIds.length / tileBehaviorSize);
         const sections = Array.from({ length: sectionNum }, (v, i) =>
-          hiddenIds.slice(
-            i * tileBehaviorSize,
-            i * tileBehaviorSize + tileBehaviorSize,
-          ),
+          hiddenIds.slice(i * tileBehaviorSize, i * tileBehaviorSize + tileBehaviorSize),
         );
         const update = () => {
           if (!sections.length && this.tileRequestId) {
@@ -334,14 +308,7 @@ export class DragCanvas extends Behavior {
 
   public onKeydown(event) {
     const { key } = event;
-    const {
-      secondaryKey,
-      secondaryKeyToDisable,
-      trigger,
-      speedUpKey,
-      eventName,
-      shouldBegin,
-    } = this.options;
+    const { secondaryKey, secondaryKeyToDisable, trigger, speedUpKey, eventName, shouldBegin } = this.options;
     if (secondaryKey && secondaryKey === key.toLowerCase()) {
       this.keydown = true;
     }
@@ -374,10 +341,7 @@ export class DragCanvas extends Behavior {
           break;
       }
       if (dx || dy) {
-        const { dx: formattedDx, dy: formattedDy } = this.formatDisplacement(
-          dx,
-          dy,
-        );
+        const { dx: formattedDx, dy: formattedDy } = this.formatDisplacement(dx, dy);
         graph.translate({ dx: formattedDx, dy: formattedDy });
         if (eventName) {
           this.graph.emit(eventName, {

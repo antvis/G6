@@ -37,9 +37,7 @@ describe('zoom-canvas behavior', () => {
     });
 
     graph.on('afterlayout', (e) => {
-      expect(
-        graph.transientCanvas.getRoot().childNodes[1].childNodes.length,
-      ).toBe(0);
+      expect(graph.transientCanvas.getRoot().childNodes[1].childNodes.length).toBe(0);
       // times === 0;
       graph.emit('wheel', {
         canvas: { x: 100, y: 50 },
@@ -49,9 +47,7 @@ describe('zoom-canvas behavior', () => {
       expect(graph.getItemVisible('edge1')).toBe(false);
       expect(graph.getItemVisible('node1')).toBe(false);
       expect(graph.getItemVisible('node2')).toBe(false);
-      expect(
-        graph.transientCanvas.getRoot().childNodes[1].childNodes.length,
-      ).toBe(2);
+      expect(graph.transientCanvas.getRoot().childNodes[1].childNodes.length).toBe(2);
 
       // times === 1;
       graph.emit('wheel', {
@@ -64,9 +60,7 @@ describe('zoom-canvas behavior', () => {
         expect(graph.getItemVisible('edge1')).toBe(true);
         expect(graph.getItemVisible('node1')).toBe(true);
         expect(graph.getItemVisible('node2')).toBe(true);
-        expect(
-          graph.transientCanvas.getRoot().childNodes[1].childNodes.length,
-        ).toBe(0);
+        expect(graph.transientCanvas.getRoot().childNodes[1].childNodes.length).toBe(0);
 
         // hide item first and wheel
         graph.hideItem('edge1');

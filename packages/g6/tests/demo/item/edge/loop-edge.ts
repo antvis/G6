@@ -1,10 +1,5 @@
 import { deepMix } from '@antv/util';
-import {
-  Graph,
-  EdgeUserModel,
-  Extensions,
-  extend,
-} from '../../../../src/index';
+import { EdgeUserModel, Extensions, Graph, extend } from '../../../../src/index';
 
 import { TestCaseContext } from '../../interface';
 // @ts-nocheck
@@ -12,16 +7,7 @@ import { TestCaseContext } from '../../interface';
 let graph: IGraph;
 let container: HTMLElement;
 
-const loopPosition = [
-  'top',
-  'top-right',
-  'right',
-  'bottom-right',
-  'bottom',
-  'bottom-left',
-  'left',
-  'top-left',
-];
+const loopPosition = ['top', 'top-right', 'right', 'bottom-right', 'bottom', 'bottom-left', 'left', 'top-left'];
 
 const defaultData = {
   nodes: [

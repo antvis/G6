@@ -1,9 +1,5 @@
 import { Point } from '../../../types/common';
-import {
-  EdgeDisplayModel,
-  EdgeModelData,
-  EdgeShapeMap,
-} from '../../../types/edge';
+import { EdgeDisplayModel, EdgeModelData, EdgeShapeMap } from '../../../types/edge';
 import { State } from '../../../types/item';
 import { BaseEdge } from './base';
 
@@ -37,50 +33,23 @@ export class LineEdge extends BaseEdge {
 
     let shapes: EdgeShapeMap = { keyShape: undefined };
 
-    shapes.keyShape = this.drawKeyShape(
-      model,
-      sourcePoint,
-      targetPoint,
-      shapeMap,
-      diffData,
-      diffState,
-    );
+    shapes.keyShape = this.drawKeyShape(model, sourcePoint, targetPoint, shapeMap, diffData, diffState);
 
     if (data.haloShape) {
-      shapes.haloShape = this.drawHaloShape(
-        model,
-        shapeMap,
-        diffData,
-        diffState,
-      );
+      shapes.haloShape = this.drawHaloShape(model, shapeMap, diffData, diffState);
     }
 
     if (data.labelShape) {
-      shapes.labelShape = this.drawLabelShape(
-        model,
-        shapeMap,
-        diffData,
-        diffState,
-      );
+      shapes.labelShape = this.drawLabelShape(model, shapeMap, diffData, diffState);
     }
 
     // labelBackgroundShape
     if (data.labelBackgroundShape) {
-      shapes.labelBackgroundShape = this.drawLabelBackgroundShape(
-        model,
-        shapeMap,
-        diffData,
-        diffState,
-      );
+      shapes.labelBackgroundShape = this.drawLabelBackgroundShape(model, shapeMap, diffData, diffState);
     }
 
     if (data.iconShape) {
-      shapes.iconShape = this.drawIconShape(
-        model,
-        shapeMap,
-        diffData,
-        diffState,
-      );
+      shapes.iconShape = this.drawIconShape(model, shapeMap, diffData, diffState);
     }
 
     // otherShapes

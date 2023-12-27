@@ -73,6 +73,7 @@
   },
   "devDependencies": {
     "@antv/g6-plugin-map-view": "workspace:*",
+    "stats.js": "^0.17.0",
     "vite": "^5.0.10"
   },
   "limit-size": [

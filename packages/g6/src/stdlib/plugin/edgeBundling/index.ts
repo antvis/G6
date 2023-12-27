@@ -1,4 +1,4 @@
-import { IGraph, GraphData, NodeModel } from 'types';
+import { GraphData, IGraph, NodeModel } from 'types';
 import { EdgeModel, IEdge } from 'types/edge';
 import { Point } from '../../../types/common';
 
@@ -51,6 +51,12 @@ interface VectorPosition {
   length: number;
 }
 
+/**
+ *
+ * @param pointA
+ * @param pointB
+ * @param eps
+ */
 function getEucliDis(pointA: Point, pointB: Point, eps?: number): number {
   const vx = pointA.x - pointB.x;
   const vy = pointA.y - pointB.y;
@@ -60,15 +66,23 @@ function getEucliDis(pointA: Point, pointB: Point, eps?: number): number {
   return eps;
 }
 
+/**
+ *
+ * @param ei
+ * @param ej
+ */
 function getDotProduct(ei: Point, ej: Point): number {
   return ei.x * ej.x + ei.y * ej.y;
 }
 
+/**
+ *
+ * @param p
+ * @param e
+ */
 function projectPointToEdge(p: Point, e: VectorPosition): Point {
-  const k =
-    (e.source.data.y - e.target.data.y) / (e.source.data.x - e.target.data.x);
-  const x =
-    (k * k * e.source.data.x + k * (p.y - e.source.data.y) + p.x) / (k * k + 1);
+  const k = (e.source.data.y - e.target.data.y) / (e.source.data.x - e.target.data.x);
+  const x = (k * k * e.source.data.x + k * (p.y - e.source.data.y) + p.x) / (k * k + 1);
   const y = k * (x - e.source.data.x) + e.source.data.y;
   return { x, y };
 }
@@ -131,10 +145,7 @@ export class EdgeBundling extends Base {
       nodeIdMap[node.id] = node;
     });
 
-    if (error)
-      throw new Error(
-        'please layout the graph or assign x and y for nodes first',
-      );
+    if (error) throw new Error('please layout the graph or assign x and y for nodes first');
     self.nodeIdMap = nodeIdMap;
 
     // subdivide each edges
@@ -161,12 +172,7 @@ export class EdgeBundling extends Base {
           const source = nodeIdMap[e.source as string];
           const target = nodeIdMap[e.target as string];
 
-          forces[k] = self.getEdgeForces(
-            { source, target },
-            k,
-            divisions,
-            lambda,
-          );
+          forces[k] = self.getEdgeForces({ source, target }, k, divisions, lambda);
 
           for (let p = 0; p < divisions + 1; p++) {
             edgePoints[k][p].x += forces[k][p].x;
@@ -189,9 +195,7 @@ export class EdgeBundling extends Base {
       e.data.type = 'polyline-edge';
 
       if (typeof e.data.keyShape === 'object') {
-        (e.data.keyShape as Record<string, any>).controlPoints = edgePoints[
-          i
-        ].slice(1, edgePoints[i].length - 1);
+        (e.data.keyShape as Record<string, any>).controlPoints = edgePoints[i].slice(1, edgePoints[i].length - 1);
       } else {
         e.data.keyShape = {
           controlPoints: edgePoints[i].slice(1, edgePoints[i].length - 1),
@@ -252,10 +256,7 @@ export class EdgeBundling extends Base {
 
         if (!edgePoints[i]?.length) {
           // it is a straight line
-          edgeLength = getEucliDis(
-            { x: source.data.x!, y: source.data.y! },
-            { x: target.data.x!, y: target.data.y! },
-          );
+          edgeLength = getEucliDis({ x: source.data.x!, y: source.data.y! }, { x: target.data.x!, y: target.data.y! });
         } else {
           edgeLength = self.getEdgeLength(edgePoints[i]);
         }
@@ -334,10 +335,7 @@ export class EdgeBundling extends Base {
         const jSource = nodeIdMap[ej.source as string];
         const jTarget = nodeIdMap[ej.target as string];
 
-        const score = self.getBundleScore(
-          { source: iSource, target: iTarget },
-          { source: jSource, target: jTarget },
-        );
+        const score = self.getBundleScore({ source: iSource, target: iTarget }, { source: jSource, target: jTarget });
 
         if (score >= bundleThreshold) {
           edgeBundles[i].push(j);
@@ -393,19 +391,13 @@ export class EdgeBundling extends Base {
   }
 
   protected getAngleScore(ei: VectorPosition, ej: VectorPosition): number {
-    const dotProduct = getDotProduct(
-      { x: ei.vx, y: ei.vy },
-      { x: ej.vx, y: ej.vy },
-    );
+    const dotProduct = getDotProduct({ x: ei.vx, y: ei.vy }, { x: ej.vx, y: ej.vy });
     return dotProduct / (ei.length * ej.length);
   }
 
   protected getScaleScore(ei: VectorPosition, ej: VectorPosition): number {
     const aLength = (ei.length + ej.length) / 2;
-    const score =
-      2 /
-      (aLength / Math.min(ei.length, ej.length) +
-        Math.max(ei.length, ej.length) / aLength);
+    const score = 2 / (aLength / Math.min(ei.length, ej.length) + Math.max(ei.length, ej.length) / aLength);
     return score;
   }
 
@@ -448,18 +440,12 @@ export class EdgeBundling extends Base {
     return Math.max(0, 1 - (2 * getEucliDis(pMid, iMid)) / getEucliDis(ps, pt));
   }
 
-  protected getEdgeForces(
-    e: any,
-    eidx: number,
-    divisions: number,
-    lambda: number,
-  ): Point[] {
+  protected getEdgeForces(e: any, eidx: number, divisions: number, lambda: number): Point[] {
     const self = this;
     const edgePoints = self.getOptionByKey('edgePoints');
     const K = self.getOptionByKey('K');
 
-    const kp =
-      K / (getEucliDis(e.source.data, e.target.data) * (divisions + 1));
+    const kp = K / (getEucliDis(e.source.data, e.target.data) * (divisions + 1));
     const edgePointForces = [{ x: 0, y: 0 }];
 
     for (let i = 1; i < divisions; i++) {
@@ -509,10 +495,7 @@ export class EdgeBundling extends Base {
       };
 
       if (Math.abs(force.x) > eps || Math.abs(force.y) > eps) {
-        const length = getEucliDis(
-          edgePoints[eb][pidx],
-          edgePoints[eidx][pidx],
-        );
+        const length = getEucliDis(edgePoints[eb][pidx], edgePoints[eidx][pidx]);
 
         const diff = 1 / length;
         resForce.x += force.x * diff;

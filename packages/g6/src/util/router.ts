@@ -1,18 +1,12 @@
 import { deepMix, map } from '@antv/util';
+import Node from '../item/node';
 import { ID } from '../types';
 import { Point, PolyPoint } from '../types/common';
-import Node from '../item/node';
-import { simplePathFinder, SortedArray } from './polyline';
-import {
-  getBBoxWidth,
-  getBBoxHeight,
-  getExpandedBBox,
-  getExpandedBBoxPoint,
-  isSegmentCrossingBBox,
-} from './bbox';
-import { getLineIntersect } from './shape';
+import { getBBoxHeight, getBBoxWidth, getExpandedBBox, getExpandedBBoxPoint, isSegmentCrossingBBox } from './bbox';
 import { eulerDist, manhattanDist } from './math';
 import { getNearestPoint } from './point';
+import { SortedArray, simplePathFinder } from './polyline';
+import { getLineIntersect } from './shape';
 
 export interface RouterCfg {
   name: 'orth' | 'er';
@@ -31,13 +25,7 @@ export interface RouterCfg {
   /** Function to calculate the distance between two points */
   distFunc?: (p1: PolyPoint, p2: PolyPoint) => number;
   /** Simplified function to find path */
-  fallbackRoute?: (
-    p1: PolyPoint,
-    p2: PolyPoint,
-    startNode?: Node,
-    endNode?: Node,
-    cfg?: RouterCfg,
-  ) => PolyPoint[];
+  fallbackRoute?: (p1: PolyPoint, p2: PolyPoint, startNode?: Node, endNode?: Node, cfg?: RouterCfg) => PolyPoint[];
   /** Maximum loops */
   maximumLoops?: number;
   /**
@@ -104,25 +92,13 @@ const pos2GridIx = (pos: number, gridSize: number) => {
   return gridIx < 0 ? 0 : sign * gridIx;
 };
 
-const getObstacleMap = (
-  items: Map<ID, Node>,
-  gridSize: number,
-  offset: number,
-) => {
+const getObstacleMap = (items: Map<ID, Node>, gridSize: number, offset: number) => {
   const obstacleMap = {};
   items.forEach((item: Node) => {
     if (!item || !item.isVisible()) return;
     const bbox = getExpandedBBox(item.getBBox(), offset);
-    for (
-      let x = pos2GridIx(bbox.min[0], gridSize);
-      x <= pos2GridIx(bbox.max[0], gridSize);
-      x += 1
-    ) {
-      for (
-        let y = pos2GridIx(bbox.min[1], gridSize);
-        y <= pos2GridIx(bbox.max[1], gridSize);
-        y += 1
-      ) {
+    for (let x = pos2GridIx(bbox.min[0], gridSize); x <= pos2GridIx(bbox.max[0], gridSize); x += 1) {
+      for (let y = pos2GridIx(bbox.min[1], gridSize); y <= pos2GridIx(bbox.max[1], gridSize); y += 1) {
         obstacleMap[`${x}|||${y}`] = true;
       }
     }
@@ -133,6 +109,8 @@ const getObstacleMap = (
 
 /**
  * Calculate angle between the ray from p1 to p2 (clockwise)
+ * @param p1
+ * @param p2
  */
 const getDirectionAngle = (p1: PolyPoint, p2: PolyPoint) => {
   const deltaX = p2.x - p1.x;
@@ -145,16 +123,19 @@ const getDirectionAngle = (p1: PolyPoint, p2: PolyPoint) => {
 
 /**
  * Get changed direction angle and make sure less than 180 degrees
+ * @param angle1
+ * @param angle2
  */
 const getAngleDiff = (angle1: number, angle2: number) => {
   const directionChange = Math.abs(angle1 - angle2);
-  return directionChange > Math.PI
-    ? 2 * Math.PI - directionChange
-    : directionChange;
+  return directionChange > Math.PI ? 2 * Math.PI - directionChange : directionChange;
 };
 
 /**
  * estimated cost from the starting point to the end point after passing through the current point
+ * @param from
+ * @param endPoints
+ * @param distFunc
  */
 const estimateCost = (from: PolyPoint, endPoints: PolyPoint[], distFunc) => {
   let min = Infinity;
@@ -192,17 +173,12 @@ const getBoxPoints = (
   const { directions, offset } = cfg;
   const bbox = node.getBBox();
   const isInside =
-    oriPoint.x > bbox.min[0] &&
-    oriPoint.x < bbox.max[0] &&
-    oriPoint.y > bbox.min[1] &&
-    oriPoint.y < bbox.max[1];
+    oriPoint.x > bbox.min[0] && oriPoint.x < bbox.max[0] && oriPoint.y > bbox.min[1] && oriPoint.y < bbox.max[1];
 
   const expandBBox = getExpandedBBox(bbox, offset);
 
   for (const i in expandBBox) {
-    expandBBox[i] = map(expandBBox[i], (item: number) =>
-      pos2GridIx(item, cfg.gridSize),
-    );
+    expandBBox[i] = map(expandBBox[i], (item: number) => pos2GridIx(item, cfg.gridSize));
   }
 
   if (isInside) {
@@ -303,15 +279,7 @@ const getDirectionChange = (
   return getAngleDiff(prevDirectionAngle, directionAngle);
 };
 
-const getControlPoints = (
-  current,
-  cameFrom,
-  scaleStartPoint,
-  endPoint,
-  startPoints,
-  scaleEndPoint,
-  gridSize,
-) => {
+const getControlPoints = (current, cameFrom, scaleStartPoint, endPoint, startPoints, scaleEndPoint, gridSize) => {
   const controlPoints = [];
   let pointZero = endPoint;
   let currentId = current.id;
@@ -341,12 +309,7 @@ const getControlPoints = (
       y: currentCameFrom.y,
       id: currentCameFrom.id,
     };
-    const directionChange = getDirectionChange(
-      prePoint,
-      point,
-      cameFrom,
-      scaleStartPoint,
-    );
+    const directionChange = getDirectionChange(prePoint, point, cameFrom, scaleStartPoint);
     if (directionChange) {
       pointZero = {
         x: prePoint.x === point.x ? pointZero.x : prePoint.x * gridSize,
@@ -371,7 +334,14 @@ const getControlPoints = (
   return controlPoints;
 };
 
-/** Find the shortest path computed by A* routing algorithm */
+/**
+ * Find the shortest path computed by A* routing algorithm
+ * @param points
+ * @param sourceNodeId
+ * @param targetNodeId
+ * @param nodeMap
+ * @param routerCfg
+ */
 export const pathFinder = (
   points: Point[],
   sourceNodeId: ID,
@@ -383,13 +353,11 @@ export const pathFinder = (
   const endNode = nodeMap.get(targetNodeId);
 
   const startPoint: PolyPoint = startNode?.getPosition() || points[0];
-  const endPoint: PolyPoint =
-    endNode?.getPosition() || points[points.length - 1];
+  const endPoint: PolyPoint = endNode?.getPosition() || points[points.length - 1];
 
   if (isNaN(startPoint.x) || isNaN(endPoint.x)) return [];
 
-  const defaultCfgs =
-    routerCfg.name === 'orth' ? defaultCfg : deepMix(defaultCfg, octolinearCfg);
+  const defaultCfgs = routerCfg.name === 'orth' ? defaultCfg : deepMix(defaultCfg, octolinearCfg);
 
   const cfg: RouterCfg = deepMix(defaultCfgs, routerCfg);
 
@@ -412,20 +380,8 @@ export const pathFinder = (
 
   startPoint.id = `${scaleStartPoint.x}|||${scaleStartPoint.y}`;
   endPoint.id = `${scaleEndPoint.x}|||${scaleEndPoint.y}`;
-  const startPoints = getBoxPoints(
-    scaleStartPoint,
-    startPoint,
-    startNode,
-    scaleEndPoint,
-    cfg,
-  );
-  const endPoints = getBoxPoints(
-    scaleEndPoint,
-    endPoint,
-    endNode,
-    scaleStartPoint,
-    cfg,
-  );
+  const startPoints = getBoxPoints(scaleStartPoint, startPoint, startNode, scaleEndPoint, cfg);
+  const endPoints = getBoxPoints(scaleEndPoint, endPoint, endNode, scaleStartPoint, cfg);
   startPoints.forEach((point) => {
     delete obstacleMap[point.id];
   });
@@ -466,12 +422,7 @@ export const pathFinder = (
     });
   }
   let remainLoops = cfg.maximumLoops;
-  let current,
-    direction,
-    neighbor,
-    neighborCost,
-    costFromStart,
-    directionChange;
+  let current, direction, neighbor, neighborCost, costFromStart, directionChange;
   let curCost = Infinity;
   const endPointMap = {};
   endPoints.forEach((point) => {
@@ -494,15 +445,7 @@ export const pathFinder = (
 
     // If the point with the smallest fScore is the endpoint
     if (endPointMap[`${current.x}|||${current.y}`]) {
-      return getControlPoints(
-        current,
-        cameFrom,
-        scaleStartPoint,
-        endPoint,
-        startPoints,
-        scaleEndPoint,
-        gridSize,
-      );
+      return getControlPoints(current, cameFrom, scaleStartPoint, endPoint, startPoints, scaleEndPoint, gridSize);
     }
 
     delete openSet[current.id];
@@ -513,9 +456,7 @@ export const pathFinder = (
     // Take a step in the direction of the candidate point
     for (let i = 0; i < cfg.directions.length; i++) {
       direction = cfg.directions[i];
-      const neighborId = `${Math.round(current.x) + direction.stepX}|||${
-        Math.round(current.y) + direction.stepY
-      }`;
+      const neighborId = `${Math.round(current.x) + direction.stepX}|||${Math.round(current.y) + direction.stepY}`;
       neighbor = {
         x: current.x + direction.stepX,
         y: current.y + direction.stepY,
@@ -523,12 +464,7 @@ export const pathFinder = (
       };
 
       if (closedSet[neighborId]) continue;
-      directionChange = getDirectionChange(
-        current,
-        neighbor,
-        cameFrom,
-        scaleStartPoint,
-      );
+      directionChange = getDirectionChange(current, neighbor, cameFrom, scaleStartPoint);
       if (directionChange > cfg.maxAllowedDirectionChange) continue;
       if (obstacleMap[neighborId]) continue; // skip if intersects
 
@@ -538,9 +474,7 @@ export const pathFinder = (
       }
 
       const directionPenalties = penalties[directionChange];
-      neighborCost =
-        cfg.distFunc(current, neighbor) +
-        (isNaN(directionPenalties) ? gridSize : directionPenalties);
+      neighborCost = cfg.distFunc(current, neighbor) + (isNaN(directionPenalties) ? gridSize : directionPenalties);
       costFromStart = gScore[current.id] + neighborCost;
       const neighborGScore = gScore[neighborId];
       if (neighborGScore && costFromStart >= neighborGScore) {
@@ -549,8 +483,7 @@ export const pathFinder = (
 
       cameFrom[neighborId] = current;
       gScore[neighborId] = costFromStart;
-      fScore[neighborId] =
-        costFromStart + estimateCost(neighbor, endPoints, cfg.distFunc);
+      fScore[neighborId] = costFromStart + estimateCost(neighbor, endPoints, cfg.distFunc);
 
       sortedOpenSet.add({
         id: neighborId,

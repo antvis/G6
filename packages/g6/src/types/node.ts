@@ -162,8 +162,7 @@ export interface NodeShapeStyles extends ItemShapeStyles {
 }
 
 /** Data in display model. */
-export type NodeDisplayModelData = NodeModelData &
-  NodeShapeStyles & { lodLevels?: LodLevel[] };
+export type NodeDisplayModelData = NodeModelData & NodeShapeStyles & { lodLevels?: LodLevel[] };
 
 /** User input model. */
 export type NodeUserModel = GNode<NodeUserModelData>;

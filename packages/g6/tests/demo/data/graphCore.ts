@@ -1,5 +1,4 @@
-import { Layout, LayoutMapping } from '@antv/layout';
-import { Graph, extend, stdLib } from '../../../src/index';
+import { Graph } from '../../../src/index';
 import { TestCaseContext } from '../interface';
 
 const data = {
@@ -1383,13 +1382,7 @@ export default (context: TestCaseContext, options?: {}) => {
       },
     },
     modes: {
-      default: [
-        'drag-node',
-        'click-select',
-        'zoom-canvas',
-        'drag-canvas',
-        'drag-combo',
-      ],
+      default: ['drag-node', 'click-select', 'zoom-canvas', 'drag-canvas', 'drag-combo'],
     },
     data,
   });

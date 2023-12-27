@@ -20,10 +20,7 @@ export function createDOM(str: string): HTMLElement {
  * @param css
  * @returns
  */
-export function modifyCSS(
-  dom: HTMLElement,
-  css: { [key: string]: any },
-): HTMLElement {
+export function modifyCSS(dom: HTMLElement, css: { [key: string]: any }): HTMLElement {
   if (!dom) return;
 
   Object.keys(css).forEach((key) => {

@@ -1,20 +1,16 @@
 import hexagon from '../demo/demo/hexagon';
-import './utils/useSnapshotMatchers';
 import { createContext } from './utils';
 import { triggerEvent } from './utils/event';
+import './utils/useSnapshotMatchers';
 
 const dir = `${__dirname}/snapshots/items/node/hexagon`;
 
 describe('node hexagon', () => {
   it('should be rendered correctly', (done) => {
-    const {
-      backgroundCanvas,
-      canvas,
-      container,
-      labelCanvas,
-      transientCanvas,
-      transientLabelCanvas,
-    } = createContext(500, 500);
+    const { backgroundCanvas, canvas, container, labelCanvas, transientCanvas, transientLabelCanvas } = createContext(
+      500,
+      500,
+    );
 
     const graph = hexagon({
       backgroundCanvas,

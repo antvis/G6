@@ -8,14 +8,12 @@ import type { Padding } from '../../../types/common';
 import type { ITEM_TYPE } from '../../../types/item';
 import { Plugin as Base, IPluginBaseConfig } from '../../../types/plugin';
 import { createCanvas } from '../../../util/canvas';
-import { formatPadding } from '../../../util/shape';
 import { createDOM } from '../../../util/dom';
+import { formatPadding } from '../../../util/shape';
 
 // -- start -- Adapt to GUI -- start --
 type SubStyleProps<T, Prefix extends string> = {
-  [K in keyof T as K extends `${Prefix}${infer Rest}`
-    ? Uncapitalize<Rest>
-    : never]: T[K];
+  [K in keyof T as K extends `${Prefix}${infer Rest}` ? Uncapitalize<Rest> : never]: T[K];
 };
 
 const prefixStyleProps = (style: Record<string, any>, prefix: string) => {
@@ -97,10 +95,7 @@ export interface TimebarConfig
    * manage graph manually when timebar range/value change
    * @description if it is not specified, the graph will be filtered by default
    */
-  filter?: (
-    graph: IGraph,
-    values: Parameters<TimebarStyleProps['onChange']>,
-  ) => void;
+  filter?: (graph: IGraph, values: Parameters<TimebarStyleProps['onChange']>) => void;
   axisStyle?: SubStyleProps<TimebarStyleProps, 'axis'>;
   chartStyle?: SubStyleProps<TimebarStyleProps, 'chart'>;
   controllerStyle?: SubStyleProps<TimebarStyleProps, 'controller'>;
@@ -109,11 +104,7 @@ export interface TimebarConfig
 const prospectiveTimeKeys = ['timestamp', 'time', 'date', 'datetime'];
 const prospectiveValueKeys = ['value', 'date'];
 
-const tryToGet = <T = any>(
-  datum: Datum,
-  optionsKeys: string[],
-  defaultValue?: T,
-) => {
+const tryToGet = <T = any>(datum: Datum, optionsKeys: string[], defaultValue?: T) => {
   for (let i = 0; i < optionsKeys.length; i++) {
     const key = optionsKeys[i];
     const val = datum?.[key] as T;
@@ -165,10 +156,8 @@ export class Timebar extends Base {
       data: [],
       filterItemTypes: ['node'],
       filterType: 'modify',
-      getTimeFromItem: (model) =>
-        tryToGet<number | Date>(model.data, prospectiveTimeKeys, undefined),
-      getTimeFromData: (datum) =>
-        tryToGet<number | Date>(datum, prospectiveTimeKeys, undefined),
+      getTimeFromItem: (model) => tryToGet<number | Date>(model.data, prospectiveTimeKeys, undefined),
+      getTimeFromData: (datum) => tryToGet<number | Date>(datum, prospectiveTimeKeys, undefined),
       getValueFromItem: (datum) => tryToGet(datum, prospectiveValueKeys, 0),
       height: 60,
       padding: 10,
@@ -235,23 +224,14 @@ export class Timebar extends Base {
     const { className } = options;
     const { width, height } = this.containerShape;
 
-    const wrapper = createDOM(
-      `<div class="${className}" style="width: ${width}px;height: ${height}"></div>`,
-    );
+    const wrapper = createDOM(`<div class="${className}" style="width: ${width}px;height: ${height}"></div>`);
     this.container.appendChild(wrapper);
     return wrapper;
   }
 
   private createCanvas() {
     const { width, height } = this.containerShape;
-    const canvas = createCanvas(
-      'canvas',
-      this.wrapper,
-      width,
-      height,
-      undefined,
-      { background: '#fff' },
-    );
+    const canvas = createCanvas('canvas', this.wrapper, width, height, undefined, { background: '#fff' });
     return canvas;
   }
 
@@ -328,8 +308,7 @@ export class Timebar extends Base {
       ...userDefinedOptions,
     };
 
-    if (!this.timebar)
-      this.timebar = this.canvas.appendChild(new GUITimebar({ style }));
+    if (!this.timebar) this.timebar = this.canvas.appendChild(new GUITimebar({ style }));
     else this.timebar.update(style);
     this.updatePosition();
   }
@@ -340,15 +319,11 @@ export class Timebar extends Base {
     this.processValuesChange();
   }
 
-  private handleValuesChange(
-    values: Parameters<TimebarStyleProps['onChange']>[0],
-  ) {
+  private handleValuesChange(values: Parameters<TimebarStyleProps['onChange']>[0]) {
     this.processValuesChange(values);
   }
 
-  private processValuesChange(
-    values: Parameters<TimebarStyleProps['onChange']>[0] = this.timebar.values,
-  ) {
+  private processValuesChange(values: Parameters<TimebarStyleProps['onChange']>[0] = this.timebar.values) {
     const { filter } = this.options;
     if (filter) filter(values);
     else this.filter(values);
@@ -356,16 +331,11 @@ export class Timebar extends Base {
 
   private filter(values: Parameters<TimebarStyleProps['onChange']>[0]) {
     // cache data
-    if (
-      !this.graphDataCache ||
-      (this.graphDataCache.nodes.length === 0 &&
-        this.graphDataCache.edges.length === 0)
-    ) {
+    if (!this.graphDataCache || (this.graphDataCache.nodes.length === 0 && this.graphDataCache.edges.length === 0)) {
       this.graphDataCache = deepMix({}, this.data);
     }
 
-    const { filterType, filterItemTypes, shouldIgnore, getTimeFromItem } =
-      this.options;
+    const { filterType, filterItemTypes, shouldIgnore, getTimeFromItem } = this.options;
 
     const isTimeInValues = (time: number | Date) => {
       if (Array.isArray(values)) {
@@ -390,10 +360,7 @@ export class Timebar extends Base {
 
       const items = this.graphDataCache[key];
       items.forEach((item) => {
-        const queryItem =
-          type === 'node'
-            ? this.graph.getNodeData(item.id)
-            : this.graph.getEdgeData(item.id);
+        const queryItem = type === 'node' ? this.graph.getNodeData(item.id) : this.graph.getEdgeData(item.id);
         const time = getTimeFromItem(item, type);
         const isItemExists = queryItem !== undefined;
         const isItemVisible = queryItem && this.graph.getItemVisible(item.id);

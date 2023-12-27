@@ -1,9 +1,5 @@
 import { isArray, isObject } from '@antv/util';
-import {
-  NodeStyleSets,
-  EdgeStyleSets,
-  ThemeSpecification,
-} from '../../types/theme';
+import { EdgeStyleSets, NodeStyleSets, ThemeSpecification } from '../../types/theme';
 import { mergeStyles } from '../../util/shape';
 import { BaseThemeSolver, ThemeSpecificationMap } from './base';
 
@@ -31,10 +27,7 @@ interface SpecThemeSolverOptions {
   };
 }
 export class SpecThemeSolver extends BaseThemeSolver {
-  public solver(
-    options: SpecThemeSolverOptions,
-    themes: ThemeSpecificationMap,
-  ): ThemeSpecification {
+  public solver(options: SpecThemeSolverOptions, themes: ThemeSpecificationMap): ThemeSpecification {
     const { base = 'light', specification } = options;
     const baseSpec = themes[base];
     const mergedSpec = { ...baseSpec };
@@ -53,8 +46,7 @@ export class SpecThemeSolver extends BaseThemeSolver {
             if (isArray(paletteProps)) {
               return paletteProps.map((color) => ({
                 default: {
-                  keyShape:
-                    itemType === 'edge' ? { stroke: color } : { fill: color },
+                  keyShape: itemType === 'edge' ? { stroke: color } : { fill: color },
                 },
               }));
             }
@@ -64,9 +56,7 @@ export class SpecThemeSolver extends BaseThemeSolver {
                 res[dataType] = {
                   default: {
                     keyShape:
-                      itemType === 'edge'
-                        ? { stroke: paletteProps[dataType] }
-                        : { fill: paletteProps[dataType] },
+                      itemType === 'edge' ? { stroke: paletteProps[dataType] } : { fill: paletteProps[dataType] },
                   },
                 };
               });
@@ -85,10 +75,7 @@ export class SpecThemeSolver extends BaseThemeSolver {
           mergedStyles = incomingStyles.map((incomingStyle) => {
             const mergedStatesStyles = { ...baseStyles };
             Object.keys(incomingStyle).forEach((stateName) => {
-              mergedStatesStyles[stateName] = mergeStyles([
-                baseStyles[stateName],
-                incomingStyle[stateName],
-              ]);
+              mergedStatesStyles[stateName] = mergeStyles([baseStyles[stateName], incomingStyle[stateName]]);
             });
             return mergedStatesStyles;
           });
@@ -98,10 +85,7 @@ export class SpecThemeSolver extends BaseThemeSolver {
             const mergedStatesStyles = { ...baseStyles };
             const incomingStyle = incomingStyles[dataType];
             Object.keys(incomingStyle).forEach((stateName) => {
-              mergedStatesStyles[stateName] = mergeStyles([
-                baseStyles[stateName],
-                incomingStyle[stateName],
-              ]);
+              mergedStatesStyles[stateName] = mergeStyles([baseStyles[stateName], incomingStyle[stateName]]);
             });
             mergedStyles[dataType] = mergedStatesStyles;
           });

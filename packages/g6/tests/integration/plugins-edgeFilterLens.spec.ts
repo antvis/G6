@@ -7,14 +7,10 @@ const dir = `${__dirname}/snapshots/plugins/edgeFilterLens`;
 
 describe('Default EdgeFilterLens', () => {
   it('should be rendered correctly with fitler lens with mousemove', async () => {
-    const {
-      backgroundCanvas,
-      canvas,
-      container,
-      labelCanvas,
-      transientCanvas,
-      transientLabelCanvas,
-    } = createContext(500, 500);
+    const { backgroundCanvas, canvas, container, labelCanvas, transientCanvas, transientLabelCanvas } = createContext(
+      500,
+      500,
+    );
     const graph = EdgeFilterLens({
       backgroundCanvas,
       canvas,
@@ -35,10 +31,7 @@ describe('Default EdgeFilterLens', () => {
     await process;
 
     triggerEvent(graph, 'mousedown', 200, 200);
-    await expect(transientCanvas).toMatchSVGSnapshot(
-      dir,
-      'plugins-edge-filter-lens-transients',
-    );
+    await expect(transientCanvas).toMatchSVGSnapshot(dir, 'plugins-edge-filter-lens-transients');
     graph.destroy();
   });
 });

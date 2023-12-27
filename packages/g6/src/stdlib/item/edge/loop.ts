@@ -1,18 +1,11 @@
 import { vec2 } from 'gl-matrix';
-import { getBBoxHeight, getBBoxWidth } from '../../../util/bbox';
-import { distanceVec } from '../../../util/point';
-import {
-  calculatePointForEllipse,
-  calculatePointForOtherShapes,
-} from '../../../util/loop';
 import { Point } from '../../../types/common';
-import {
-  EdgeDisplayModel,
-  EdgeModelData,
-  EdgeShapeMap,
-} from '../../../types/edge';
+import { EdgeDisplayModel, EdgeModelData, EdgeShapeMap } from '../../../types/edge';
 import { State } from '../../../types/item';
 import { LOOP_POSITION, LoopCfg, LoopPosition } from '../../../types/loop';
+import { getBBoxHeight, getBBoxWidth } from '../../../util/bbox';
+import { calculatePointForEllipse, calculatePointForOtherShapes } from '../../../util/loop';
+import { distanceVec } from '../../../util/point';
 import { CubicEdge } from './cubic';
 
 export class LoopEdge extends CubicEdge {
@@ -61,15 +54,7 @@ export class LoopEdge extends CubicEdge {
       ...keyShapeStyle,
       path: [
         ['M', startPoint.x, startPoint.y],
-        [
-          'C',
-          controlPoints[0].x,
-          controlPoints[0].y,
-          controlPoints[1].x,
-          controlPoints[1].y,
-          endPoint.x,
-          endPoint.y,
-        ],
+        ['C', controlPoints[0].x, controlPoints[0].y, controlPoints[1].x, controlPoints[1].y, endPoint.x, endPoint.y],
       ],
     };
 
@@ -116,12 +101,7 @@ export class LoopEdge extends CubicEdge {
 
     if (startPoint[0] === endPoint[0] && startPoint[1] === endPoint[1]) {
       if (shapeType === 'circle' || shapeType === 'ellipse') {
-        [startPoint, endPoint] = calculatePointForEllipse(
-          position,
-          center,
-          halfOfWidth,
-          halfOfHeight,
-        );
+        [startPoint, endPoint] = calculatePointForEllipse(position, center, halfOfWidth, halfOfHeight);
       } else {
         [startPoint, endPoint] = calculatePointForOtherShapes(
           position,
@@ -142,10 +122,7 @@ export class LoopEdge extends CubicEdge {
     // The distance from the edge of the keyShape
     const dist: number = loopCfg.dist || Math.max(width, height) * 2;
 
-    const startVec: vec2 = [
-      startPoint[0] - center[0],
-      startPoint[1] - center[1],
-    ];
+    const startVec: vec2 = [startPoint[0] - center[0], startPoint[1] - center[1]];
     const endVec: vec2 = [endPoint[0] - center[0], endPoint[1] - center[1]];
     const rstart = distanceVec([0, 0], startVec);
     const rend = distanceVec([0, 0], endVec);

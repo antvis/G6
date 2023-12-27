@@ -1,9 +1,9 @@
 import { Edge } from '@antv/graphlib';
-import { loopPosition } from '../../util/loop';
-import { EdgeUserModel, ID, GraphCore } from '../../types';
-import { uniqBy } from '../../util/array';
-import { EdgeUserModelData } from '../../types/edge';
+import { EdgeUserModel, GraphCore, ID } from '../../types';
 import { GraphDataChanges } from '../../types/data';
+import { EdgeUserModelData } from '../../types/edge';
+import { uniqBy } from '../../util/array';
+import { loopPosition } from '../../util/loop';
 
 /**
  * Process edges which might overlap. For edges that share the same target and source nodes.
@@ -49,14 +49,8 @@ export const ProcessParallelEdges = (
     const oldModel = graphCore?.getEdge(newModel.id);
     if (!oldModel) return;
     const { id, source, target } = newModel;
-    if (
-      (source && oldModel.source !== source) ||
-      (target && oldModel.target !== target)
-    ) {
-      const prevParallelEdges = getParallelEdges(
-        graphCore.getEdge(id),
-        cacheEdges,
-      );
+    if ((source && oldModel.source !== source) || (target && oldModel.target !== target)) {
+      const prevParallelEdges = getParallelEdges(graphCore.getEdge(id), cacheEdges);
       edges = [...prevParallelEdges, ...edges];
     }
   });
@@ -98,10 +92,7 @@ export const ProcessParallelEdges = (
  * @param edgeModel the data model of the edge currently under consideration
  * @param allEdges the set of all edges in graph
  */
-const getParallelEdges = (
-  edgeModel: EdgeUserModel,
-  allEdges: Edge<EdgeUserModelData>[],
-) => {
+const getParallelEdges = (edgeModel: EdgeUserModel, allEdges: Edge<EdgeUserModelData>[]) => {
   const { id, source, target } = edgeModel;
   return allEdges.filter((edge) => {
     return (
@@ -117,10 +108,7 @@ const getParallelEdges = (
  * @param edges parallel edges affected by the modification
  * @param options processing configuration
  */
-const calculateOffset = (
-  edges: EdgeUserModel[],
-  options: ParallelEdgesOptions,
-) => {
+const calculateOffset = (edges: EdgeUserModel[], options: ParallelEdgesOptions) => {
   const {
     offsetDiff = 15,
     multiEdgeType = 'quadratic-edge',
@@ -154,15 +142,11 @@ const calculateOffset = (
       const src = sedge.source;
       const dst = sedge.target;
 
-      if (
-        (source === dst && target === src) ||
-        (source === src && target === dst)
-      ) {
+      if ((source === dst && target === src) || (source === src && target === dst)) {
         edgeMap.get(sourceTarget)!.push(sedge);
         processedEdgesSet.add(j);
         if (source === dst && target === src) {
-          reverses[`${src}|${dst}|${edgeMap.get(sourceTarget)?.length - 1}`] =
-            true;
+          reverses[`${src}|${dst}|${edgeMap.get(sourceTarget)?.length - 1}`] = true;
         }
       }
     }
@@ -186,15 +170,11 @@ const calculateOffset = (
         if (singleEdgeType) current.data.type = singleEdgeType;
       } else {
         current.data.type = multiEdgeType;
-        const sign =
-          (k % 2 === 0 ? 1 : -1) *
-          (reverses[`${current.source}|${current.target}|${k}`] ? -1 : 1);
+        const sign = (k % 2 === 0 ? 1 : -1) * (reverses[`${current.source}|${current.target}|${k}`] ? -1 : 1);
         current.data.keyShape ||= {};
         // @ts-ignore
         current.data.keyShape.curveOffset =
-          length % 2 === 1
-            ? sign * Math.ceil(k / 2) * cod
-            : sign * (Math.floor(k / 2) * cod + offsetDiff);
+          length % 2 === 1 ? sign * Math.ceil(k / 2) * cod : sign * (Math.floor(k / 2) * cod + offsetDiff);
       }
     }
   });

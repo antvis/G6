@@ -9,14 +9,10 @@ describe('D3Force layout', () => {
    * D3 force has some random result, which is hard to test with screenshots.
    */
   it.skip('should be rendered correctly', (done) => {
-    const {
-      backgroundCanvas,
-      canvas,
-      container,
-      labelCanvas,
-      transientCanvas,
-      transientLabelCanvas,
-    } = createContext(500, 500);
+    const { backgroundCanvas, canvas, container, labelCanvas, transientCanvas, transientLabelCanvas } = createContext(
+      500,
+      500,
+    );
 
     const graph = d3force({
       backgroundCanvas,

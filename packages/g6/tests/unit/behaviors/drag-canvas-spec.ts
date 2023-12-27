@@ -59,16 +59,12 @@ describe('drag-canvas behavior', () => {
         client: { x: 200, y: 50 },
       });
       expect(graph.getItemVisible('edge1')).toBe(false);
-      expect(
-        graph.transientCanvas.getRoot().childNodes[1].childNodes.length,
-      ).toBe(2);
+      expect(graph.transientCanvas.getRoot().childNodes[1].childNodes.length).toBe(2);
       graph.emit('pointerup', {
         client: { x: 200, y: 50 },
       });
       expect(graph.getItemVisible('edge1')).toBe(true);
-      expect(
-        graph.transientCanvas.getRoot().childNodes[1].childNodes.length,
-      ).toBe(0);
+      expect(graph.transientCanvas.getRoot().childNodes[1].childNodes.length).toBe(0);
 
       graph.emit('pointerdown', {
         client: { x: 100, y: 50 },
@@ -80,9 +76,7 @@ describe('drag-canvas behavior', () => {
         shiftKey: true,
       });
       expect(graph.getItemVisible('edge1')).toBe(false);
-      expect(
-        graph.transientCanvas.getRoot().childNodes[1].childNodes.length,
-      ).toBe(2);
+      expect(graph.transientCanvas.getRoot().childNodes[1].childNodes.length).toBe(2);
       // times === 3, out of view failed
       graph.emit('pointermove', {
         client: { x: 100, y: 550 },
@@ -91,9 +85,7 @@ describe('drag-canvas behavior', () => {
         client: { x: 200, y: 50 },
       });
       expect(graph.getItemVisible('edge1')).toBe(true);
-      expect(
-        graph.transientCanvas.getRoot().childNodes[1].childNodes.length,
-      ).toBe(0);
+      expect(graph.transientCanvas.getRoot().childNodes[1].childNodes.length).toBe(0);
 
       graph.destroy();
       done();
@@ -214,9 +206,7 @@ describe('drag-canvas behavior', () => {
         client: { x: 200, y: 150 },
       });
       expect(graph.getItemVisible('edge1')).toBe(false);
-      expect(
-        graph.transientCanvas.getRoot().childNodes[1].childNodes.length,
-      ).toBe(2);
+      expect(graph.transientCanvas.getRoot().childNodes[1].childNodes.length).toBe(2);
       graph.emit('pointerup', {
         client: { x: 200, y: 50 },
       });
@@ -263,9 +253,7 @@ describe('drag-canvas behavior', () => {
         client: { x: 200, y: 150 },
       });
       expect(graph.getItemVisible('edge1')).toBe(true);
-      expect(
-        graph.transientCanvas.getRoot().childNodes[1].childNodes.length,
-      ).toBe(0);
+      expect(graph.transientCanvas.getRoot().childNodes[1].childNodes.length).toBe(0);
       graph.emit('pointerup', {
         client: { x: 200, y: 50 },
       });

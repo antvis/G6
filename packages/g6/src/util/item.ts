@@ -1,10 +1,10 @@
-import { ID } from '@antv/graphlib';
 import { Group } from '@antv/g';
+import { ID } from '@antv/graphlib';
 import { uniqueId } from '@antv/util';
-import { IGraph } from '../types';
 import Combo from '../item/combo';
 import Edge from '../item/edge';
 import Node from '../item/node';
+import { IGraph } from '../types';
 import { GraphCore } from '../types/data';
 import { getCombinedBoundsByItem } from './shape';
 
@@ -51,12 +51,7 @@ export const upsertTransientItem = (
   if (transientItem) {
     return transientItem;
   }
-  const {
-    shapeIds,
-    drawSource = true,
-    drawTarget = true,
-    visible = true,
-  } = drawOptions;
+  const { shapeIds, drawSource = true, drawTarget = true, visible = true } = drawOptions;
   if (item.type === 'node') {
     transientItem = item.clone(nodeGroup, nodeLabelGroup, shapeIds, true);
   } else if (item.type === 'edge') {
@@ -140,11 +135,7 @@ export const upsertTransientItem = (
   // @ts-ignore
   transientItem.transient = true;
 
-  if (
-    item.type !== 'edge' &&
-    upsertAncestors &&
-    graphCore.hasTreeStructure('combo')
-  ) {
+  if (item.type !== 'edge' && upsertAncestors && graphCore.hasTreeStructure('combo')) {
     // find the ancestors to upsert transients
     let currentAncestor = graphCore.getParent(item.model.id, 'combo');
     while (currentAncestor) {

@@ -1,15 +1,11 @@
-import { isEmpty, mix } from '@antv/util';
 import { ID } from '@antv/graphlib';
+import { isEmpty, mix } from '@antv/util';
+import Node from '../../../item/node';
 import { Point } from '../../../types/common';
-import {
-  EdgeDisplayModel,
-  EdgeModelData,
-  EdgeShapeMap,
-} from '../../../types/edge';
+import { EdgeDisplayModel, EdgeModelData, EdgeShapeMap } from '../../../types/edge';
 import { State } from '../../../types/item';
 import { getPolylinePath } from '../../../util/polyline';
 import { RouterCfg, pathFinder } from '../../../util/router';
-import Node from '../../../item/node';
 import { LineEdge } from './line';
 export class PolylineEdge extends LineEdge {
   public type = 'polyline-edge';
@@ -41,61 +37,30 @@ export class PolylineEdge extends LineEdge {
 
     const shapes: EdgeShapeMap = { keyShape: undefined };
 
-    shapes.keyShape = this.drawKeyShape(
-      model,
-      sourcePoint,
-      targetPoint,
-      shapeMap,
-      diffData,
-      diffState,
-    );
+    shapes.keyShape = this.drawKeyShape(model, sourcePoint, targetPoint, shapeMap, diffData, diffState);
 
     if (data.haloShape) {
-      shapes.haloShape = this.drawHaloShape(
-        model,
-        shapeMap,
-        diffData,
-        diffState,
-      );
+      shapes.haloShape = this.drawHaloShape(model, shapeMap, diffData, diffState);
     }
 
     if (data.labelShape) {
-      shapes.labelShape = this.drawLabelShape(
-        model,
-        shapeMap,
-        diffData,
-        diffState,
-      );
+      shapes.labelShape = this.drawLabelShape(model, shapeMap, diffData, diffState);
     }
 
     // labelBackgroundShape
     if (data.labelBackgroundShape) {
-      shapes.labelBackgroundShape = this.drawLabelBackgroundShape(
-        model,
-        shapeMap,
-        diffData,
-        diffState,
-      );
+      shapes.labelBackgroundShape = this.drawLabelBackgroundShape(model, shapeMap, diffData, diffState);
     }
 
     if (data.iconShape) {
-      shapes.iconShape = this.drawIconShape(
-        model,
-        shapeMap,
-        diffData,
-        diffState,
-      );
+      shapes.iconShape = this.drawIconShape(model, shapeMap, diffData, diffState);
     }
 
     // TODO: other shapes
 
     return shapes;
   }
-  public getControlPoints(
-    model: EdgeDisplayModel,
-    sourcePoint: Point,
-    targetPoint: Point,
-  ): Point[] {
+  public getControlPoints(model: EdgeDisplayModel, sourcePoint: Point, targetPoint: Point): Point[] {
     const { keyShape: keyShapeStyle } = this.mergedStyles as any;
     return keyShapeStyle.controlPoints;
   }
@@ -118,8 +83,7 @@ export class PolylineEdge extends LineEdge {
     const { id: edgeId, source: sourceNodeId, target: targetNodeId } = model;
 
     // Draw a polyline with control points
-    if (!auto && routeCfg.name !== 'er')
-      return getPolylinePath(edgeId, points, radius);
+    if (!auto && routeCfg.name !== 'er') return getPolylinePath(edgeId, points, radius);
 
     // Find the shortest path computed by A* routing algorithm
     const polylinePoints = pathFinder(
@@ -142,30 +106,16 @@ export class PolylineEdge extends LineEdge {
     diffState?: { previous: State[]; current: State[] },
   ) {
     const { keyShape: keyShapeStyle } = this.mergedStyles as any;
-    const controlPoints = this.getControlPoints(
-      model,
-      sourcePoint,
-      targetPoint,
-    );
+    const controlPoints = this.getControlPoints(model, sourcePoint, targetPoint);
 
     let points = [sourcePoint, targetPoint];
     if (controlPoints) {
       points = [sourcePoint, ...controlPoints, targetPoint];
     }
 
-    const routeCfg = mix(
-      {},
-      { offset: keyShapeStyle.offset, name: 'orth' },
-      keyShapeStyle.routeCfg,
-    );
+    const routeCfg = mix({}, { offset: keyShapeStyle.offset, name: 'orth' }, keyShapeStyle.routeCfg);
 
-    const path = this.getPath(
-      model,
-      points,
-      keyShapeStyle.radius,
-      routeCfg,
-      isEmpty(controlPoints),
-    );
+    const path = this.getPath(model, points, keyShapeStyle.radius, routeCfg, isEmpty(controlPoints));
 
     const { startArrow, endArrow, ...others } = keyShapeStyle;
     const lineStyle = {

@@ -1,12 +1,12 @@
 import { DisplayObject } from '@antv/g';
 import { ID } from '@antv/graphlib';
-import rectSelector from '../selector/rect';
 import { Behavior } from '../../types/behavior';
 import { Point } from '../../types/common';
 import { IG6GraphEvent } from '../../types/event';
 import { ITEM_TYPE } from '../../types/item';
 import { diffSet, intersectSet, unionSet } from '../../util/array';
 import { getEdgesBetween } from '../../util/item';
+import rectSelector from '../selector/rect';
 
 const ALLOWED_TRIGGERS = ['drag', 'shift', 'ctrl', 'alt', 'meta'] as const;
 const BRUSH_SHAPE_ID = 'g6-brush-select-brush-shape';
@@ -61,12 +61,7 @@ export interface BrushSelectOptions {
    * If it returns false, you may probably listen to `eventName` and
    * manage states or data manually
    */
-  shouldUpdate: (
-    itemType: ITEM_TYPE,
-    id: ID,
-    action: 'select' | 'deselect',
-    self: BrushSelect,
-  ) => boolean;
+  shouldUpdate: (itemType: ITEM_TYPE, id: ID, action: 'select' | 'deselect', self: BrushSelect) => boolean;
   /**
    * A callback be called after selecting.
    */
@@ -113,9 +108,7 @@ export class BrushSelect extends Behavior {
     super(Object.assign({}, DEFAULT_OPTIONS, options));
     // Validate options
     if (options.trigger && !ALLOWED_TRIGGERS.includes(options.trigger)) {
-      console.warn(
-        `G6: Invalid trigger option "${options.trigger}" for brush-select behavior!`,
-      );
+      console.warn(`G6: Invalid trigger option "${options.trigger}" for brush-select behavior!`);
       this.options.trigger = DEFAULT_OPTIONS.trigger;
     }
   }
@@ -190,10 +183,7 @@ export class BrushSelect extends Behavior {
     this.mousedown = false;
   }
 
-  public clearStates(
-    clearIds: IDSet | undefined = undefined,
-    restIds = undefined,
-  ) {
+  public clearStates(clearIds: IDSet | undefined = undefined, restIds = undefined) {
     const { graph } = this;
     const { selectedState, eventName, onDeselect } = this.options;
 
@@ -240,23 +230,14 @@ export class BrushSelect extends Behavior {
 
   public selectItems(event: IG6GraphEvent) {
     const { graph, options } = this;
-    const {
-      selectedState,
-      itemTypes,
-      eventName,
-      selectSetMode,
-      shouldUpdate,
-      onSelect,
-    } = options;
+    const { selectedState, itemTypes, eventName, selectSetMode, shouldUpdate, onSelect } = options;
     const selector = this.getSelector();
     const points = this.getPoints(event).filter(Boolean);
     if (points.length < 2) return;
     let selectedIds = selector(graph, points, itemTypes.concat('node'));
     let operateSetFunc = (a, b) => b;
     const currentNotEmpty =
-      this.selectedIds?.nodes.length ||
-      this.selectedIds?.edges.length ||
-      this.selectedIds?.combos.length;
+      this.selectedIds?.nodes.length || this.selectedIds?.edges.length || this.selectedIds?.combos.length;
 
     switch (selectSetMode) {
       case 'diff':
@@ -277,21 +258,19 @@ export class BrushSelect extends Behavior {
         break;
     }
     selectedIds = {
-      nodes: operateSetFunc(this.selectedIds?.nodes, selectedIds.nodes).filter(
-        (id) => shouldUpdate('node', id, 'select', this),
+      nodes: operateSetFunc(this.selectedIds?.nodes, selectedIds.nodes).filter((id) =>
+        shouldUpdate('node', id, 'select', this),
       ),
       edges: [],
-      combos: operateSetFunc(
-        this.selectedIds?.combos,
-        selectedIds.combos,
-      ).filter((id) => shouldUpdate('combo', id, 'select', this)),
+      combos: operateSetFunc(this.selectedIds?.combos, selectedIds.combos).filter((id) =>
+        shouldUpdate('combo', id, 'select', this),
+      ),
     };
     const edgeSelectable = itemTypes.includes('edge');
     if (edgeSelectable) {
-      selectedIds.edges = getEdgesBetween(
-        graph,
-        selectedIds.nodes.concat(selectedIds.combos),
-      ).filter((id) => shouldUpdate('edge', id, 'select', this));
+      selectedIds.edges = getEdgesBetween(graph, selectedIds.nodes.concat(selectedIds.combos)).filter((id) =>
+        shouldUpdate('edge', id, 'select', this),
+      );
     }
     const nodeSelectable = itemTypes.includes('node');
     if (!nodeSelectable) selectedIds.nodes = [];
@@ -300,20 +279,11 @@ export class BrushSelect extends Behavior {
 
     if (selectedState) {
       const diffToClear = {
-        nodes: nodeSelectable
-          ? diffSet(this.selectedIds?.nodes, selectedIds.nodes)
-          : [],
-        edges: edgeSelectable
-          ? diffSet(this.selectedIds?.edges, selectedIds.edges)
-          : [],
-        combos: comboSelectable
-          ? diffSet(this.selectedIds?.combos, selectedIds.combos)
-          : [],
+        nodes: nodeSelectable ? diffSet(this.selectedIds?.nodes, selectedIds.nodes) : [],
+        edges: edgeSelectable ? diffSet(this.selectedIds?.edges, selectedIds.edges) : [],
+        combos: comboSelectable ? diffSet(this.selectedIds?.combos, selectedIds.combos) : [],
       };
-      const clearNotEmpty =
-        diffToClear.nodes.length ||
-        diffToClear.edges.length ||
-        diffToClear.combos.length;
+      const clearNotEmpty = diffToClear.nodes.length || diffToClear.edges.length || diffToClear.combos.length;
       if (clearNotEmpty) {
         this.clearStates(diffToClear, selectedIds as any);
       }
@@ -324,10 +294,7 @@ export class BrushSelect extends Behavior {
         .forEach((id) => graph.setItemState(id, selectedState, true));
     }
     this.selectedIds = selectedIds;
-    const selectNotEmpty =
-      selectedIds.nodes.length ||
-      selectedIds.edges.length ||
-      selectedIds.combos.length;
+    const selectNotEmpty = selectedIds.nodes.length || selectedIds.edges.length || selectedIds.combos.length;
     if (selectNotEmpty) onSelect?.(this.selectedIds);
 
     // Emit an event.

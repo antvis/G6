@@ -1,11 +1,5 @@
 import { AABB } from '@antv/g';
-import {
-  Graph as BaseGraph,
-  IGraph,
-  GraphData,
-  Extensions,
-  extend,
-} from '../../../src/index';
+import { Graph as BaseGraph, Extensions, GraphData, IGraph, extend } from '../../../src/index';
 
 let graph: IGraph;
 

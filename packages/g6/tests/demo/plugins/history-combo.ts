@@ -1,4 +1,4 @@
-import { Graph, Extensions, extend } from '../../../src/index';
+import { Extensions, Graph, extend } from '../../../src/index';
 
 const createOperationContainer = (container: HTMLElement) => {
   const operationContainer = document.createElement('div');

@@ -1,10 +1,5 @@
-import {
-  ForceLayout,
-  FruchtermanLayout,
-  initThreads,
-  supportsThreads,
-} from '@antv/layout-wasm';
-import { Graph, Extensions, extend } from '../../../src/index';
+import { initThreads, supportsThreads } from '@antv/layout-wasm';
+import { Extensions, Graph, extend } from '../../../src/index';
 import { IBadgePosition } from '../../../src/types/item';
 import { container, width } from '../../datasets/const';
 const data = {
@@ -1697,23 +1692,8 @@ const clusters = [
     'Mme.Magloire',
     'Mlle.Baptistine',
   ],
-  [
-    'Tholomyes',
-    'Listolier',
-    'Fameuil',
-    'Blacheville',
-    'Favourite',
-    'Dahlia',
-    'Zephine',
-  ],
-  [
-    'Bamatabois',
-    'Judge',
-    'Champmathieu',
-    'Brevet',
-    'Chenildieu',
-    'Cochepaille',
-  ],
+  ['Tholomyes', 'Listolier', 'Fameuil', 'Blacheville', 'Favourite', 'Dahlia', 'Zephine'],
+  ['Bamatabois', 'Judge', 'Champmathieu', 'Brevet', 'Chenildieu', 'Cochepaille'],
   [
     'Mabeuf',
     'Enjolras',
@@ -1968,14 +1948,7 @@ const createGraph = async () => {
       interval: 0.02,
     },
     modes: {
-      default: [
-        'zoom-canvas',
-        'drag-canvas',
-        'drag-node',
-        'brush-select',
-        'click-select',
-        'hover-activate',
-      ],
+      default: ['zoom-canvas', 'drag-canvas', 'drag-node', 'brush-select', 'click-select', 'hover-activate'],
     },
     theme: {
       type: 'spec',

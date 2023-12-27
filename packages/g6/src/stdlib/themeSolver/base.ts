@@ -11,10 +11,7 @@ export abstract class BaseThemeSolver {
     this.specification = this.solver(options, themes);
     this.options = options;
   }
-  abstract solver(
-    options: ThemeSolverOptions,
-    themes: ThemeSpecificationMap,
-  ): ThemeSpecification;
+  abstract solver(options: ThemeSolverOptions, themes: ThemeSpecificationMap): ThemeSpecification;
   public getSpecification: () => ThemeSpecification = () => {
     return this.specification;
   };

@@ -1,9 +1,5 @@
-import { ID } from '@antv/graphlib';
-import { debounce, uniq } from '@antv/util';
-import { EdgeModel } from '../../types';
 import { Behavior } from '../../types/behavior';
 import { IG6GraphEvent } from '../../types/event';
-import { Point } from '../../types/common';
 
 const VALID_TRIGGERS = ['wheel', 'upDownKeys'];
 
@@ -104,24 +100,14 @@ export class ZoomCanvas3D extends Behavior {
 
   public onWheel(event) {
     const { graph, options } = this;
-    const {
-      secondaryKey,
-      triggerOnItems,
-      eventName,
-      minZoom,
-      maxZoom,
-      sensitivity = 1,
-      shouldBegin,
-    } = options;
+    const { secondaryKey, triggerOnItems, eventName, minZoom, maxZoom, sensitivity = 1, shouldBegin } = options;
     if (event.itemId && !triggerOnItems) return;
     if (!shouldBegin(event)) return;
     if (secondaryKey && !this.keydown) return;
     const camera = graph.canvas.getCamera();
     const sign = event.deltaY > 0 ? 1 : -1;
     const currentDistance = camera.getDistance();
-    const dolly =
-      ((100 * sign * sensitivity) / currentDistance) *
-      Math.sqrt(currentDistance);
+    const dolly = ((100 * sign * sensitivity) / currentDistance) * Math.sqrt(currentDistance);
     const toDistance = currentDistance + dolly;
     const azimuth = camera.getAzimuth();
     const isFlipped = azimuth < 90 && azimuth > -90 ? 1 : -1;
@@ -129,11 +115,7 @@ export class ZoomCanvas3D extends Behavior {
     const cameraFrontOfFocalPoint = isFlipped * distancePositive > 0;
 
     // zoom out constraint
-    if (
-      dolly > 0 &&
-      cameraFrontOfFocalPoint &&
-      toDistance > (1 / minZoom) * 200
-    ) {
+    if (dolly > 0 && cameraFrontOfFocalPoint && toDistance > (1 / minZoom) * 200) {
       return;
     }
     // zoom in constraint

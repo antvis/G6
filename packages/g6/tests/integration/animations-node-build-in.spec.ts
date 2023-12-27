@@ -6,14 +6,10 @@ const dir = `${__dirname}/snapshots/animations`;
 
 describe('Animation node buildIn', () => {
   it('should be rendered correctly', (done) => {
-    const {
-      backgroundCanvas,
-      canvas,
-      container,
-      labelCanvas,
-      transientCanvas,
-      transientLabelCanvas,
-    } = createContext(500, 500);
+    const { backgroundCanvas, canvas, container, labelCanvas, transientCanvas, transientLabelCanvas } = createContext(
+      500,
+      500,
+    );
 
     const graph = nodeBuildIn({
       backgroundCanvas,
@@ -39,10 +35,7 @@ describe('Animation node buildIn', () => {
           animation.pause();
         });
       });
-      await expect(canvas).toMatchSVGSnapshot(
-        dir,
-        'animations-node-build-in-ready',
-      );
+      await expect(canvas).toMatchSVGSnapshot(dir, 'animations-node-build-in-ready');
 
       /**
        * Time: 200
@@ -54,10 +47,7 @@ describe('Animation node buildIn', () => {
           animation.pause();
         });
       });
-      await expect(canvas).toMatchSVGSnapshot(
-        dir,
-        'animations-node-build-in-running',
-      );
+      await expect(canvas).toMatchSVGSnapshot(dir, 'animations-node-build-in-running');
 
       /**
        * Resume all animations.
@@ -75,15 +65,10 @@ describe('Animation node buildIn', () => {
       await Promise.all(
         nodes.map(async ({ id }) => {
           const node = graph['getItemById'](id)!;
-          await Promise.all(
-            node.animations.map((animation) => animation.finished),
-          );
+          await Promise.all(node.animations.map((animation) => animation.finished));
         }),
       );
-      await expect(canvas).toMatchSVGSnapshot(
-        dir,
-        'animations-node-build-in-finished',
-      );
+      await expect(canvas).toMatchSVGSnapshot(dir, 'animations-node-build-in-finished');
 
       graph.destroy();
       done();

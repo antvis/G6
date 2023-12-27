@@ -1,7 +1,7 @@
 // import { Circle } from '@antv/g';
 import { Graph } from '../../../../src/index';
-import { TestCaseContext } from '../../interface';
 import { data } from '../../../datasets/dataset1';
+import { TestCaseContext } from '../../interface';
 
 export default (context: TestCaseContext<HTMLImageElement>) => {
   const { width, height, extendedParams } = context;
@@ -29,8 +29,7 @@ export default (context: TestCaseContext<HTMLImageElement>) => {
           ...innerModel.data,
           keyShape: {
             src:
-              extendedParams ??
-              'https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*N4ZMS7gHsUIAAAAAAAAAAABkARQnAQ',
+              extendedParams ?? 'https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*N4ZMS7gHsUIAAAAAAAAAAABkARQnAQ',
           },
           labelShape: {
             text: innerModel.id,

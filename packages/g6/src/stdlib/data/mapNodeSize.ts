@@ -1,10 +1,5 @@
+import { GraphData } from '../../types';
 import { GraphCore, GraphDataChanges } from '../../types/data';
-import {
-  GraphData,
-  ComboUserModel,
-  EdgeUserModel,
-  NodeUserModel,
-} from '../../types';
 
 /**
  * Validate and format the graph data.
@@ -49,10 +44,8 @@ const handler = (
     minValue = Infinity;
   nodes.forEach((n) => {
     nodeMap.set(n.id, n);
-    if (maxValue < (n.data[field] as number))
-      maxValue = n.data[field] as number;
-    if (minValue > (n.data[field] as number))
-      minValue = n.data[field] as number;
+    if (maxValue < (n.data[field] as number)) maxValue = n.data[field] as number;
+    if (minValue > (n.data[field] as number)) minValue = n.data[field] as number;
   });
   const valueRange = [minValue, maxValue];
   const sizeMap = scaleNodeProp(nodes, field, valueRange, range);
@@ -76,11 +69,7 @@ const scaleNodeProp = (nodes, field, valueRange, mappedRange) => {
   const dataLength = valueRange[1] - valueRange[0];
   const map = new Map();
   nodes.forEach((n) => {
-    map.set(
-      n.id,
-      ((n.data[field] - valueRange[0]) * outLength) / dataLength +
-        mappedRange[0],
-    );
+    map.set(n.id, ((n.data[field] - valueRange[0]) * outLength) / dataLength + mappedRange[0]);
   });
   return map;
 };

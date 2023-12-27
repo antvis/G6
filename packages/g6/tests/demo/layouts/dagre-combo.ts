@@ -1,4 +1,4 @@
-import { Graph, Extensions, extend } from '../../../src/index';
+import { Extensions, Graph, extend } from '../../../src/index';
 
 import { TestCaseContext } from '../interface';
 
@@ -179,13 +179,7 @@ export default (context: TestCaseContext) => {
     ...context,
     autoFit: 'view',
     modes: {
-      default: [
-        'drag-combo',
-        'drag-node',
-        'drag-canvas',
-        'zoom-canvas',
-        'collapse-expand-combo',
-      ],
+      default: ['drag-combo', 'drag-node', 'drag-canvas', 'zoom-canvas', 'collapse-expand-combo'],
     },
     layout: {
       type: 'dagre',

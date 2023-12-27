@@ -11,13 +11,7 @@ export interface FitViewRules {
   boundsType?: 'render' | 'layout';
 }
 
-export type GraphAlignment =
-  | 'left-top'
-  | 'right-top'
-  | 'left-bottom'
-  | 'right-bottom'
-  | 'center'
-  | [number, number];
+export type GraphAlignment = 'left-top' | 'right-top' | 'left-bottom' | 'right-bottom' | 'center' | [number, number];
 
 export type GraphTransformOptions = {
   translate?: Partial<{

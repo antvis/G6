@@ -1,8 +1,4 @@
-import {
-  supportsThreads,
-  initThreads,
-  FruchtermanLayout,
-} from '@antv/layout-wasm';
+import { FruchtermanLayout, initThreads, supportsThreads } from '@antv/layout-wasm';
 import { Graph, extend } from '../../../src/index';
 import { data } from '../../datasets/dataset1';
 import { TestCaseContext } from '../interface';

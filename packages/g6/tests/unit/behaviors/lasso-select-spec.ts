@@ -1346,15 +1346,9 @@ describe('lasso-select behavior with brushStyle', () => {
       });
       // edge group + node group + brush
       expect(graph.transientCanvas.getRoot().childNodes.length).toBe(3);
-      expect(graph.transientCanvas.getRoot().childNodes[2].config.id).toBe(
-        'g6-lasso-select-brush-shape',
-      );
-      expect(graph.transientCanvas.getRoot().childNodes[2].style.fill).toBe(
-        '#f00',
-      );
-      expect(
-        graph.transientCanvas.getRoot().childNodes[2].style.fillOpacity,
-      ).toBe(0.5);
+      expect(graph.transientCanvas.getRoot().childNodes[2].config.id).toBe('g6-lasso-select-brush-shape');
+      expect(graph.transientCanvas.getRoot().childNodes[2].style.fill).toBe('#f00');
+      expect(graph.transientCanvas.getRoot().childNodes[2].style.fillOpacity).toBe(0.5);
       graph.emit('canvas:pointerup', {
         canvas: { x: 200, y: 150 },
         shiftKey: true,

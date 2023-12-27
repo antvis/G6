@@ -1,5 +1,4 @@
 import { Graph } from '../../../src/index';
-import { pxCompare } from '../util';
 
 const container = document.createElement('div');
 document.querySelector('body').appendChild(container);
@@ -37,9 +36,7 @@ describe('tooltip-plugin', () => {
   it('tooltip with default config', (done) => {
     const graph = createGraph(['tooltip']);
     graph.on('afterlayout', (e) => {
-      const toolTipDiv = document.getElementsByClassName(
-        'g6-component-tooltip',
-      )?.[0];
+      const toolTipDiv = document.getElementsByClassName('g6-component-tooltip')?.[0];
       expect(toolTipDiv).not.toBe(undefined);
     });
   });
@@ -61,9 +58,7 @@ describe('tooltip-plugin', () => {
       },
     ]);
     graph.on('afterlayout', (e) => {
-      const toolTipDiv = document.getElementsByClassName(
-        'g6-component-tooltip',
-      )?.[0];
+      const toolTipDiv = document.getElementsByClassName('g6-component-tooltip')?.[0];
       expect(toolTipDiv).not.toBe(undefined);
     });
   });
@@ -78,9 +73,7 @@ describe('tooltip-plugin', () => {
     ]);
 
     graph.on('afterlayout', (e) => {
-      const toolTipDiv = document.getElementsByClassName(
-        'g6-component-tooltip',
-      )?.[0];
+      const toolTipDiv = document.getElementsByClassName('g6-component-tooltip')?.[0];
       expect(toolTipDiv).not.toBe(undefined);
     });
   });
@@ -100,9 +93,7 @@ describe('tooltip-plugin', () => {
       },
     ]);
     graph.on('afterlayout', (e) => {
-      const toolTipDiv = document.getElementsByClassName(
-        'g6-component-tooltip',
-      )?.[0];
+      const toolTipDiv = document.getElementsByClassName('g6-component-tooltip')?.[0];
       expect(toolTipDiv).not.toBe(undefined);
     });
   });
@@ -114,7 +105,10 @@ describe('tooltip-plugin', () => {
         type: 'tooltip',
         trigger: 'click',
         // fixToNode: [1, 0.5],
-        /** async string tooltip */
+        /**
+         * async string tooltip
+         * @param e
+         */
         getContent: (e) => {
           return new Promise((resolve) => {
             const data = `
@@ -131,9 +125,7 @@ describe('tooltip-plugin', () => {
       },
     ]);
     graph.on('afterlayout', (e) => {
-      const toolTipDiv = document.getElementsByClassName(
-        'g6-component-tooltip',
-      )?.[0];
+      const toolTipDiv = document.getElementsByClassName('g6-component-tooltip')?.[0];
       expect(toolTipDiv).not.toBe(undefined);
     });
   });

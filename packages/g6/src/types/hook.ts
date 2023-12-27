@@ -2,26 +2,16 @@ import { Canvas } from '@antv/g';
 import { GraphChange, ID } from '@antv/graphlib';
 import { CameraAnimationOptions } from './animate';
 import { BehaviorOptionsOf } from './behavior';
-import { DataChangeType, DataConfig, GraphCore } from './data';
-import {
-  EdgeDisplayModel,
-  EdgeModel,
-  EdgeModelData,
-  EdgeShapesEncode,
-} from './edge';
-import { ITEM_TYPE, ShapeStyle, SHAPE_TYPE } from './item';
-import { LayoutOptions } from './layout';
-import {
-  NodeDisplayModel,
-  NodeModel,
-  NodeModelData,
-  NodeShapesEncode,
-} from './node';
-import { ThemeSpecification } from './theme';
-import { GraphTransformOptions } from './view';
 import { ComboDisplayModel, ComboModel, ComboShapesEncode } from './combo';
+import { DataChangeType, DataConfig, GraphCore } from './data';
+import { EdgeDisplayModel, EdgeModel, EdgeModelData, EdgeShapesEncode } from './edge';
+import { ITEM_TYPE, SHAPE_TYPE, ShapeStyle } from './item';
+import { LayoutOptions } from './layout';
+import { NodeDisplayModel, NodeModel, NodeModelData, NodeShapesEncode } from './node';
 import { Plugin as PluginBase } from './plugin';
 import { ComboMapper, EdgeMapper, NodeMapper } from './spec';
+import { ThemeSpecification } from './theme';
+import { GraphTransformOptions } from './view';
 
 export interface IHook<T> {
   name: string;
@@ -97,19 +87,13 @@ export interface Hooks {
     itemType: ITEM_TYPE;
     stateConfig:
       | {
-          [stateName: string]:
-            | ((data: NodeModel) => NodeDisplayModel)
-            | NodeShapesEncode;
+          [stateName: string]: ((data: NodeModel) => NodeDisplayModel) | NodeShapesEncode;
         }
       | {
-          [stateName: string]:
-            | ((data: EdgeModel) => EdgeDisplayModel)
-            | EdgeShapesEncode;
+          [stateName: string]: ((data: EdgeModel) => EdgeDisplayModel) | EdgeShapesEncode;
         }
       | {
-          [stateName: string]:
-            | ((data: ComboModel) => ComboDisplayModel)
-            | ComboShapesEncode;
+          [stateName: string]: ((data: ComboModel) => ComboDisplayModel) | ComboShapesEncode;
         };
   }>;
   itemvisibilitychange: IHook<{
@@ -154,11 +138,7 @@ export interface Hooks {
   viewportchange: IHook<ViewportChangeHookParams>;
   pluginchange: IHook<{
     action: 'update' | 'add' | 'remove';
-    plugins: (
-      | string
-      | { key: string; type: string; [cfgName: string]: unknown }
-      | PluginBase
-    )[];
+    plugins: (string | { key: string; type: string; [cfgName: string]: unknown } | PluginBase)[];
   }>;
   themechange: IHook<{
     theme?: ThemeSpecification;

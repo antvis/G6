@@ -1,20 +1,16 @@
 import triangle from '../demo/demo/triangle';
-import './utils/useSnapshotMatchers';
 import { createContext } from './utils';
 import { triggerEvent } from './utils/event';
+import './utils/useSnapshotMatchers';
 
 const dir = `${__dirname}/snapshots/items/node/triangle`;
 
 describe('node triangle', () => {
   it('should be rendered correctly', (done) => {
-    const {
-      backgroundCanvas,
-      canvas,
-      container,
-      labelCanvas,
-      transientCanvas,
-      transientLabelCanvas,
-    } = createContext(500, 500);
+    const { backgroundCanvas, canvas, container, labelCanvas, transientCanvas, transientLabelCanvas } = createContext(
+      500,
+      500,
+    );
 
     const graph = triangle({
       backgroundCanvas,

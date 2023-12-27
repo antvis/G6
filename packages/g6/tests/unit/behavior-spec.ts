@@ -95,11 +95,7 @@ describe('behavior', () => {
   });
   it('register behavior and extend G6', () => {
     class CustomBehavior extends Behavior {
-      constructor(options: {
-        key: string;
-        config: boolean;
-        itemType?: 'node' | 'edge' | 'combo';
-      }) {
+      constructor(options: { key: string; config: boolean; itemType?: 'node' | 'edge' | 'combo' }) {
         super(options);
       }
       public getSpec: undefined; // select getEvents way to implement

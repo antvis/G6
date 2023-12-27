@@ -1,10 +1,10 @@
 import { uniqueId } from '@antv/util';
 import registry from '../../stdlib';
-import { IGraph } from '../../types';
-import { getExtension } from '../../util/extension';
-import { Plugin as PluginBase } from '../../types/plugin';
-import { IG6GraphEvent } from '../../types/event';
 import { LodController } from '../../stdlib/plugin';
+import { IGraph } from '../../types';
+import { IG6GraphEvent } from '../../types/event';
+import { Plugin as PluginBase } from '../../types/plugin';
+import { getExtension } from '../../util/extension';
 
 type Listener = (event: IG6GraphEvent) => void;
 
@@ -18,20 +18,17 @@ const REQUIRED_PLUGINS = [
 
 /**
  * Wraps the listener with error logging.
+ * @param type
+ * @param eventName
+ * @param listener
  * @returns a new listener with error logging.
  */
-const wrapListener = (
-  type: string,
-  eventName: string,
-  listener: Listener,
-): Listener => {
+const wrapListener = (type: string, eventName: string, listener: Listener): Listener => {
   return (event: any) => {
     try {
       listener(event);
     } catch (error) {
-      console.error(
-        `G6: Error occurred in "${eventName}" phase of the plugin "${type}"!`,
-      );
+      console.error(`G6: Error occurred in "${eventName}" phase of the plugin "${type}"!`);
       throw error;
     }
   };
@@ -49,8 +46,7 @@ export class PluginController {
    * @example
    * { 'minimap': Minimap, 'tooltip': Tooltip }
    */
-  private pluginMap: Map<string, { type: string; plugin: PluginBase }> =
-    new Map();
+  private pluginMap: Map<string, { type: string; plugin: PluginBase }> = new Map();
 
   /**
    * Listeners added by all current plugins.
@@ -121,14 +117,9 @@ export class PluginController {
 
     const options = typeof config === 'string' ? {} : config;
     const type = typeof config === 'string' ? config : config.type;
-    const key =
-      typeof config === 'string'
-        ? config
-        : config.key || config.options?.key || type;
+    const key = typeof config === 'string' ? config : config.key || config.options?.key || type;
     if (!Plugin) {
-      throw new Error(
-        `Plugin ${type} not found, please make sure you have registered it first`,
-      );
+      throw new Error(`Plugin ${type} not found, please make sure you have registered it first`);
     }
     const plugin = new Plugin({ ...options, key });
     plugin.init(graph);
@@ -237,27 +228,16 @@ export class PluginController {
     return plugin;
   }
 
-  private addListeners = (
-    key: string,
-    plugin: PluginBase,
-    initWithGraph: boolean = true,
-  ) => {
+  private addListeners = (key: string, plugin: PluginBase, initWithGraph: boolean = true) => {
     const events = plugin.getEvents();
     this.listenersMap[key] = {};
     Object.keys(events).forEach((eventName) => {
       // Wrap the listener with error logging.
-      const listener = wrapListener(
-        key,
-        eventName,
-        events[eventName].bind(plugin),
-      );
+      const listener = wrapListener(key, eventName, events[eventName].bind(plugin));
       this.graph.on(eventName, listener);
       this.listenersMap[key][eventName] = listener;
       // The plugin is not initiated with graph, some events are not listened, trigger them manually
-      if (
-        !initWithGraph &&
-        ['afterrender', 'afterlayout'].includes(eventName)
-      ) {
+      if (!initWithGraph && ['afterrender', 'afterlayout'].includes(eventName)) {
         listener({} as IG6GraphEvent);
       }
     });

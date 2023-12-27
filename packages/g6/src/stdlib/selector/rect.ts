@@ -9,6 +9,9 @@ import { getEdgesBetween } from '../../util/item';
  * A node is selected if the center of its bbox is inside the rect;
  * An edge is selected if both end nodes are inside the rect;
  * A combo is selected if the center of its bbox is inside the rect.
+ * @param graph
+ * @param points
+ * @param itemTypes
  */
 export default (graph: IGraph, points: Point[], itemTypes: ITEM_TYPE[]) => {
   const [p1, p2] = points;
@@ -46,10 +49,7 @@ export default (graph: IGraph, points: Point[], itemTypes: ITEM_TYPE[]) => {
 
   if (itemTypes.includes('edge')) {
     // The edge is selected while both the source and target node are selected.
-    selectedEdgeIds = getEdgesBetween(
-      graph,
-      selectedNodeIds.concat(selectedComboIds),
-    );
+    selectedEdgeIds = getEdgesBetween(graph, selectedNodeIds.concat(selectedComboIds));
   }
 
   return {
@@ -59,20 +59,8 @@ export default (graph: IGraph, points: Point[], itemTypes: ITEM_TYPE[]) => {
   };
 };
 
-const isBBoxCenterInRect = (
-  graph: IGraph,
-  id: ID,
-  left: number,
-  right: number,
-  top: number,
-  bottom: number,
-) => {
+const isBBoxCenterInRect = (graph: IGraph, id: ID, left: number, right: number, top: number, bottom: number) => {
   const bbox = graph.getRenderBBox(id);
   if (!bbox) return false;
-  return (
-    bbox.center[0] >= left &&
-    bbox.center[0] <= right &&
-    bbox.center[1] >= top &&
-    bbox.center[1] <= bottom
-  );
+  return bbox.center[0] >= left && bbox.center[0] <= right && bbox.center[1] >= top && bbox.center[1] <= bottom;
 };

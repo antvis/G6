@@ -1,6 +1,6 @@
 // 这是从外部引入的功能
+import { Extensions, Graph, extend } from '../../../src/index';
 import { TestCaseContext } from '../interface';
-import { Graph, Extensions, extend } from '../../../src/index';
 
 let graph: any;
 

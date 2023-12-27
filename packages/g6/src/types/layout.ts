@@ -73,16 +73,20 @@ export type StandardLayoutOptions = PureLayoutOptions &
     presetLayout?: Partial<PureLayoutOptions>;
   };
 
-export type LayoutOptions =
-  | StandardLayoutOptions
-  | ImmediatelyInvokedLayoutOptions;
+export type LayoutOptions = StandardLayoutOptions | ImmediatelyInvokedLayoutOptions;
 
-export function isImmediatelyInvokedLayoutOptions(
-  options: any,
-): options is ImmediatelyInvokedLayoutOptions {
+/**
+ *
+ * @param options
+ */
+export function isImmediatelyInvokedLayoutOptions(options: any): options is ImmediatelyInvokedLayoutOptions {
   return !!options.execute;
 }
 
+/**
+ *
+ * @param options
+ */
 export function isLayoutWorkerized(options: StandardLayoutOptions) {
   return (
     [

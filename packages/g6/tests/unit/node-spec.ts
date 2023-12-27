@@ -2,17 +2,12 @@
 
 import { DisplayObject } from '@antv/g';
 import { clone } from '@antv/util';
-import G6, {
-  EdgeDisplayModel,
-  Graph,
-  IGraph,
-  NodeDisplayModel,
-} from '../../src/index';
+import G6, { EdgeDisplayModel, Graph, IGraph, NodeDisplayModel } from '../../src/index';
 import { LineEdge } from '../../src/stdlib/item/edge';
 import { CircleNode } from '../../src/stdlib/item/node';
+import { State } from '../../src/types/item';
 import { NodeModelData, NodeShapeMap } from '../../src/types/node';
 import { extend } from '../../src/util/extend';
-import { State } from '../../src/types/item';
 
 const container = document.createElement('div');
 document.querySelector('body').appendChild(container);
@@ -183,16 +178,12 @@ describe('node mapper', () => {
         keyShape: {
           fill: {
             fields: ['buStatus'],
-            formatter: (innerModel) =>
-              innerModel.data.buStatus ? '#0f0' : '#f00',
+            formatter: (innerModel) => (innerModel.data.buStatus ? '#0f0' : '#f00'),
           },
           lineWidth: 5,
           stroke: {
             fields: ['buStatus', 'buType'],
-            formatter: (innerModel) =>
-              innerModel.data.buStatus || innerModel.data.buType
-                ? '#fff'
-                : '#000',
+            formatter: (innerModel) => (innerModel.data.buStatus || innerModel.data.buType ? '#fff' : '#000'),
           },
         },
         labelShape: {},
@@ -245,11 +236,7 @@ describe('register node', () => {
         diffData?: { oldData: NodeModelData; newData: NodeModelData },
       ) {
         const { labelShape: propsLabelStyle } = model.data;
-        const labelStyle = Object.assign(
-          {},
-          this.defaultStyles.labelShape,
-          propsLabelStyle,
-        );
+        const labelStyle = Object.assign({}, this.defaultStyles.labelShape, propsLabelStyle);
         return this.upsertShape(
           'text',
           'labelShape',
@@ -416,18 +403,8 @@ describe('register node', () => {
         shapeMap: NodeShapeMap,
         diffData?: { oldData: NodeModelData; newData: NodeModelData },
       ) {
-        const keyShapeStyle = Object.assign(
-          {},
-          this.defaultStyles.keyShape,
-          model.data.labelShape,
-        );
-        return this.upsertShape(
-          'rect',
-          'keyShape',
-          keyShapeStyle,
-          shapeMap,
-          model,
-        );
+        const keyShapeStyle = Object.assign({}, this.defaultStyles.keyShape, model.data.labelShape);
+        return this.upsertShape('rect', 'keyShape', keyShapeStyle, shapeMap, model);
       }
       public drawOtherShapes(
         model: NodeDisplayModel,
@@ -580,105 +557,48 @@ describe('state', () => {
       graph.setItemState('node1', 'selected', true);
       expect(graph.findIdByState('node', 'selected').length).toBe(1);
       expect(graph.findIdByState('node', 'selected')[0]).toBe('node1');
-      expect(
-        graph.itemController.itemMap.get('node1').shapeMap.keyShape.style
-          .lineWidth,
-      ).toBe(2);
-      expect(
-        graph.itemController.itemMap.get('node1').shapeMap.keyShape.style
-          .stroke,
-      ).toBe('#0f0');
+      expect(graph.itemController.itemMap.get('node1').shapeMap.keyShape.style.lineWidth).toBe(2);
+      expect(graph.itemController.itemMap.get('node1').shapeMap.keyShape.style.stroke).toBe('#0f0');
       graph.setItemState('node1', 'selected', false);
       expect(graph.findIdByState('node', 'selected').length).toBe(0);
-      expect(
-        graph.itemController.itemMap.get('node1').shapeMap.keyShape.style
-          .lineWidth,
-      ).toBe(0);
+      expect(graph.itemController.itemMap.get('node1').shapeMap.keyShape.style.lineWidth).toBe(0);
 
       // set multiple nodes state
       graph.setItemState(['node1', 'node2'], 'selected', true);
       expect(graph.findIdByState('node', 'selected').length).toBe(2);
-      expect(
-        graph.itemController.itemMap.get('node1').shapeMap.keyShape.style
-          .lineWidth,
-      ).toBe(2);
-      expect(
-        graph.itemController.itemMap.get('node1').shapeMap.keyShape.style
-          .stroke,
-      ).toBe('#0f0');
-      expect(
-        graph.itemController.itemMap.get('node2').shapeMap.keyShape.style
-          .lineWidth,
-      ).toBe(2);
-      expect(
-        graph.itemController.itemMap.get('node2').shapeMap.keyShape.style
-          .stroke,
-      ).toBe('#0f0');
+      expect(graph.itemController.itemMap.get('node1').shapeMap.keyShape.style.lineWidth).toBe(2);
+      expect(graph.itemController.itemMap.get('node1').shapeMap.keyShape.style.stroke).toBe('#0f0');
+      expect(graph.itemController.itemMap.get('node2').shapeMap.keyShape.style.lineWidth).toBe(2);
+      expect(graph.itemController.itemMap.get('node2').shapeMap.keyShape.style.stroke).toBe('#0f0');
       graph.setItemState('node1', 'selected', false);
       expect(graph.findIdByState('node', 'selected').length).toBe(1);
       expect(graph.findIdByState('node', 'selected')[0]).toBe('node2');
-      expect(
-        graph.itemController.itemMap.get('node1').shapeMap.keyShape.style
-          .lineWidth,
-      ).toBe(0);
+      expect(graph.itemController.itemMap.get('node1').shapeMap.keyShape.style.lineWidth).toBe(0);
       graph.setItemState(['node1', 'node2'], 'selected', false);
       expect(graph.findIdByState('node', 'selected').length).toBe(0);
-      expect(
-        graph.itemController.itemMap.get('node2').shapeMap.keyShape.style
-          .lineWidth,
-      ).toBe(0);
+      expect(graph.itemController.itemMap.get('node2').shapeMap.keyShape.style.lineWidth).toBe(0);
 
       // set multiple states
       graph.setItemState(['node1', 'node2'], ['selected', 'highlight'], true);
       expect(graph.findIdByState('node', 'selected').length).toBe(2);
       expect(graph.findIdByState('node', 'highlight').length).toBe(2);
       // should be merged styles from selected and highlight
-      expect(
-        graph.itemController.itemMap.get('node1').shapeMap.keyShape.style
-          .lineWidth,
-      ).toBe(3);
-      expect(
-        graph.itemController.itemMap.get('node1').shapeMap.keyShape.style
-          .stroke,
-      ).toBe('#00f');
-      expect(
-        graph.itemController.itemMap.get('node1').shapeMap.keyShape.style.r,
-      ).toBe(30);
-      expect(
-        graph.itemController.itemMap.get('node1').shapeMap.keyShape.style
-          .opacity,
-      ).toBe(0.5);
-      expect(
-        graph.itemController.itemMap.get('node2').shapeMap.keyShape.style
-          .lineWidth,
-      ).toBe(3);
-      expect(
-        graph.itemController.itemMap.get('node2').shapeMap.keyShape.style
-          .stroke,
-      ).toBe('#00f');
-      expect(
-        graph.itemController.itemMap.get('node2').shapeMap.keyShape.style.r,
-      ).toBe(30);
-      expect(
-        graph.itemController.itemMap.get('node2').shapeMap.keyShape.style
-          .opacity,
-      ).toBe(0.5);
+      expect(graph.itemController.itemMap.get('node1').shapeMap.keyShape.style.lineWidth).toBe(3);
+      expect(graph.itemController.itemMap.get('node1').shapeMap.keyShape.style.stroke).toBe('#00f');
+      expect(graph.itemController.itemMap.get('node1').shapeMap.keyShape.style.r).toBe(30);
+      expect(graph.itemController.itemMap.get('node1').shapeMap.keyShape.style.opacity).toBe(0.5);
+      expect(graph.itemController.itemMap.get('node2').shapeMap.keyShape.style.lineWidth).toBe(3);
+      expect(graph.itemController.itemMap.get('node2').shapeMap.keyShape.style.stroke).toBe('#00f');
+      expect(graph.itemController.itemMap.get('node2').shapeMap.keyShape.style.r).toBe(30);
+      expect(graph.itemController.itemMap.get('node2').shapeMap.keyShape.style.opacity).toBe(0.5);
 
       // clear states
       graph.clearItemState(['node1', 'node2']);
       expect(graph.findIdByState('node', 'selected').length).toBe(0);
       expect(graph.findIdByState('node', 'highlight').length).toBe(0);
-      expect(
-        graph.itemController.itemMap.get('node1').shapeMap.keyShape.style.r,
-      ).toBe(16);
-      expect(
-        graph.itemController.itemMap.get('node1').shapeMap.keyShape.style
-          .lineWidth,
-      ).toBe(0);
-      expect(
-        graph.itemController.itemMap.get('node1').shapeMap.keyShape.style
-          .opacity,
-      ).toBe(1);
+      expect(graph.itemController.itemMap.get('node1').shapeMap.keyShape.style.r).toBe(16);
+      expect(graph.itemController.itemMap.get('node1').shapeMap.keyShape.style.lineWidth).toBe(0);
+      expect(graph.itemController.itemMap.get('node1').shapeMap.keyShape.style.opacity).toBe(1);
 
       graph.destroy();
       done();
@@ -748,105 +668,48 @@ describe('state', () => {
       graph.setItemState('node1', 'selected', true);
       expect(graph.findIdByState('node', 'selected').length).toBe(1);
       expect(graph.findIdByState('node', 'selected')[0]).toBe('node1');
-      expect(
-        graph.itemController.itemMap.get('node1').shapeMap.keyShape.style
-          .lineWidth,
-      ).toBe(2);
-      expect(
-        graph.itemController.itemMap.get('node1').shapeMap.keyShape.style
-          .stroke,
-      ).toBe('#0f0');
+      expect(graph.itemController.itemMap.get('node1').shapeMap.keyShape.style.lineWidth).toBe(2);
+      expect(graph.itemController.itemMap.get('node1').shapeMap.keyShape.style.stroke).toBe('#0f0');
       graph.setItemState('node1', 'selected', false);
       expect(graph.findIdByState('node', 'selected').length).toBe(0);
-      expect(
-        graph.itemController.itemMap.get('node1').shapeMap.keyShape.style
-          .lineWidth,
-      ).toBe(0);
+      expect(graph.itemController.itemMap.get('node1').shapeMap.keyShape.style.lineWidth).toBe(0);
 
       // set multiple nodes state
       graph.setItemState(['node1', 'node2'], 'selected', true);
       expect(graph.findIdByState('node', 'selected').length).toBe(2);
-      expect(
-        graph.itemController.itemMap.get('node1').shapeMap.keyShape.style
-          .lineWidth,
-      ).toBe(2);
-      expect(
-        graph.itemController.itemMap.get('node1').shapeMap.keyShape.style
-          .stroke,
-      ).toBe('#0f0');
-      expect(
-        graph.itemController.itemMap.get('node2').shapeMap.keyShape.style
-          .lineWidth,
-      ).toBe(2);
-      expect(
-        graph.itemController.itemMap.get('node2').shapeMap.keyShape.style
-          .stroke,
-      ).toBe('#0f0');
+      expect(graph.itemController.itemMap.get('node1').shapeMap.keyShape.style.lineWidth).toBe(2);
+      expect(graph.itemController.itemMap.get('node1').shapeMap.keyShape.style.stroke).toBe('#0f0');
+      expect(graph.itemController.itemMap.get('node2').shapeMap.keyShape.style.lineWidth).toBe(2);
+      expect(graph.itemController.itemMap.get('node2').shapeMap.keyShape.style.stroke).toBe('#0f0');
       graph.setItemState('node1', 'selected', false);
       expect(graph.findIdByState('node', 'selected').length).toBe(1);
       expect(graph.findIdByState('node', 'selected')[0]).toBe('node2');
-      expect(
-        graph.itemController.itemMap.get('node1').shapeMap.keyShape.style
-          .lineWidth,
-      ).toBe(0);
+      expect(graph.itemController.itemMap.get('node1').shapeMap.keyShape.style.lineWidth).toBe(0);
       graph.setItemState(['node1', 'node2'], 'selected', false);
       expect(graph.findIdByState('node', 'selected').length).toBe(0);
-      expect(
-        graph.itemController.itemMap.get('node2').shapeMap.keyShape.style
-          .lineWidth,
-      ).toBe(0);
+      expect(graph.itemController.itemMap.get('node2').shapeMap.keyShape.style.lineWidth).toBe(0);
 
       // set multiple states
       graph.setItemState(['node1', 'node2'], ['selected', 'highlight'], true);
       expect(graph.findIdByState('node', 'selected').length).toBe(2);
       expect(graph.findIdByState('node', 'highlight').length).toBe(2);
       // should be merged styles from selected and highlight
-      expect(
-        graph.itemController.itemMap.get('node1').shapeMap.keyShape.style
-          .lineWidth,
-      ).toBe(3);
-      expect(
-        graph.itemController.itemMap.get('node1').shapeMap.keyShape.style
-          .stroke,
-      ).toBe('#00f');
-      expect(
-        graph.itemController.itemMap.get('node1').shapeMap.keyShape.style.r,
-      ).toBe(30);
-      expect(
-        graph.itemController.itemMap.get('node1').shapeMap.keyShape.style
-          .opacity,
-      ).toBe(0.5);
-      expect(
-        graph.itemController.itemMap.get('node2').shapeMap.keyShape.style
-          .lineWidth,
-      ).toBe(3);
-      expect(
-        graph.itemController.itemMap.get('node2').shapeMap.keyShape.style
-          .stroke,
-      ).toBe('#00f');
-      expect(
-        graph.itemController.itemMap.get('node2').shapeMap.keyShape.style.r,
-      ).toBe(30);
-      expect(
-        graph.itemController.itemMap.get('node2').shapeMap.keyShape.style
-          .opacity,
-      ).toBe(0.5);
+      expect(graph.itemController.itemMap.get('node1').shapeMap.keyShape.style.lineWidth).toBe(3);
+      expect(graph.itemController.itemMap.get('node1').shapeMap.keyShape.style.stroke).toBe('#00f');
+      expect(graph.itemController.itemMap.get('node1').shapeMap.keyShape.style.r).toBe(30);
+      expect(graph.itemController.itemMap.get('node1').shapeMap.keyShape.style.opacity).toBe(0.5);
+      expect(graph.itemController.itemMap.get('node2').shapeMap.keyShape.style.lineWidth).toBe(3);
+      expect(graph.itemController.itemMap.get('node2').shapeMap.keyShape.style.stroke).toBe('#00f');
+      expect(graph.itemController.itemMap.get('node2').shapeMap.keyShape.style.r).toBe(30);
+      expect(graph.itemController.itemMap.get('node2').shapeMap.keyShape.style.opacity).toBe(0.5);
 
       // clear states
       graph.clearItemState(['node1', 'node2']);
       expect(graph.findIdByState('node', 'selected').length).toBe(0);
       expect(graph.findIdByState('node', 'highlight').length).toBe(0);
-      expect(
-        graph.itemController.itemMap.get('node1').shapeMap.keyShape.style.r,
-      ).toBe(16);
-      expect(
-        graph.itemController.itemMap.get('node1').shapeMap.keyShape.style
-          .lineWidth,
-      ).toBe(0);
-      expect(
-        graph.itemController.itemMap.get('node1').shapeMap.keyShape.style
-          .opacity,
-      ).toBe(1);
+      expect(graph.itemController.itemMap.get('node1').shapeMap.keyShape.style.r).toBe(16);
+      expect(graph.itemController.itemMap.get('node1').shapeMap.keyShape.style.lineWidth).toBe(0);
+      expect(graph.itemController.itemMap.get('node1').shapeMap.keyShape.style.opacity).toBe(1);
 
       graph.destroy();
       done();
@@ -869,11 +732,7 @@ describe('state', () => {
       diffData?: { oldData: NodeModelData; newData: NodeModelData },
     ) {
       const { labelShape: propsLabelStyle } = model.data;
-      const labelStyle = Object.assign(
-        {},
-        this.defaultStyles.labelShape,
-        propsLabelStyle,
-      );
+      const labelStyle = Object.assign({}, this.defaultStyles.labelShape, propsLabelStyle);
       return this.upsertShape(
         'text',
         'labelShape',
@@ -888,9 +747,7 @@ describe('state', () => {
     public drawOtherShapes(
       model: NodeDisplayModel,
       shapeMap: NodeShapeMap,
-      diffData?:
-        | { previous: NodeModelData; current: NodeModelData }
-        | undefined,
+      diffData?: { previous: NodeModelData; current: NodeModelData } | undefined,
       diffState?: { previous: State[]; current: State[] } | undefined,
     ): { [id: string]: DisplayObject<any, any> } {
       const extraShape = this.upsertShape(

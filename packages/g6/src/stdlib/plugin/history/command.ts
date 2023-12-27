@@ -1,11 +1,11 @@
 import { groupBy } from '@antv/util';
 import { ID, IGraph } from '../../../types';
 import type { ITEM_TYPE } from '../../../types/item';
+import { ComboCommand } from './combo-command';
+import { ItemDataCommand } from './item-data-command';
 import { LayerUpdatedCommand } from './layer-updated-command';
 import { StateUpdatedCommand } from './state-updated-command';
 import { VisibilityUpdatedCommand } from './visibility-updated-command';
-import { ItemDataCommand } from './item-data-command';
-import { ComboCommand } from './combo-command';
 
 export interface Command {
   redo: (graph: IGraph) => void;
@@ -15,25 +15,13 @@ interface CreateProps {
   type: ITEM_TYPE;
   ids: ID[];
   changes: any;
-  action?:
-    | 'updatePosition'
-    | 'updateState'
-    | 'updateVisibility'
-    | 'front'
-    | 'back'
-    | 'expandCombo'
-    | 'collapseCombo';
+  action?: 'updatePosition' | 'updateState' | 'updateVisibility' | 'front' | 'back' | 'expandCombo' | 'collapseCombo';
   upsertAncestors?: boolean;
   disableAnimate?: boolean;
 }
 
 export default class CommandFactory {
-  static create({
-    type: itemType,
-    action,
-    changes,
-    ...rest
-  }: CreateProps): Command[] {
+  static create({ type: itemType, action, changes, ...rest }: CreateProps): Command[] {
     const commands = [];
 
     const groupedByType = groupBy(changes, 'type');
@@ -62,10 +50,7 @@ export default class CommandFactory {
 
     const actionCommandMap = {
       updateState: new StateUpdatedCommand(changes),
-      updateVisibility: new VisibilityUpdatedCommand(
-        changes,
-        rest.disableAnimate,
-      ),
+      updateVisibility: new VisibilityUpdatedCommand(changes, rest.disableAnimate),
       front: new LayerUpdatedCommand('front', rest.ids),
       back: new LayerUpdatedCommand('back', rest.ids),
       expandCombo: new ComboCommand('expandCombo', rest.ids),

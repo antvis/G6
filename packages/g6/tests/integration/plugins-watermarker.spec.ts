@@ -7,14 +7,10 @@ const dir = `${__dirname}/snapshots/plugins/watermarker`;
 
 describe('plugin', () => {
   it('watermarker with text config', (done) => {
-    const {
-      backgroundCanvas,
-      canvas,
-      container,
-      labelCanvas,
-      transientCanvas,
-      transientLabelCanvas,
-    } = createContext(500, 500);
+    const { backgroundCanvas, canvas, container, labelCanvas, transientCanvas, transientLabelCanvas } = createContext(
+      500,
+      500,
+    );
 
     const watermarkerContainer = document.createElement('div');
     document.body.appendChild(container);
@@ -37,10 +33,7 @@ describe('plugin', () => {
       },
     );
     graph.on('afterlayout', async () => {
-      await expect(watermarkerCanvas).toMatchSVGSnapshot(
-        dir,
-        'plugins-watermarker-text',
-      );
+      await expect(watermarkerCanvas).toMatchSVGSnapshot(dir, 'plugins-watermarker-text');
       watermarkerCanvas.destroy();
       graph.destroy();
       done();

@@ -1,5 +1,5 @@
-import { TestCaseContext } from '../interface';
 import { Extensions, Graph, extend } from '../../../src/index';
+import { TestCaseContext } from '../interface';
 
 const data = {
   nodes: [
@@ -100,13 +100,7 @@ export default (context: TestCaseContext) => {
     transforms: [
       {
         type: 'process-parallel-edges',
-        activeLifecycle: [
-          'read',
-          'changeData',
-          'updateData',
-          'addData',
-          'removeData',
-        ], // default: 'read'
+        activeLifecycle: ['read', 'changeData', 'updateData', 'addData', 'removeData'], // default: 'read'
         multiEdgeType: 'quadratic-edge',
         loopEdgeType: 'loop-edge',
       },

@@ -6,14 +6,10 @@ const dir = `${__dirname}/snapshots/anchor`;
 
 describe('Anchor points and shapes', () => {
   it('edges link to node center with empty anchorPoints', (done) => {
-    const {
-      backgroundCanvas,
-      canvas,
-      container,
-      labelCanvas,
-      transientCanvas,
-      transientLabelCanvas,
-    } = createContext(500, 500);
+    const { backgroundCanvas, canvas, container, labelCanvas, transientCanvas, transientLabelCanvas } = createContext(
+      500,
+      500,
+    );
 
     const graph = anchor(
       {
@@ -41,14 +37,10 @@ describe('Anchor points and shapes', () => {
   });
 
   it('node with 4 anchorPoints and edge find the nearest one', (done) => {
-    const {
-      backgroundCanvas,
-      canvas,
-      container,
-      labelCanvas,
-      transientCanvas,
-      transientLabelCanvas,
-    } = createContext(500, 500);
+    const { backgroundCanvas, canvas, container, labelCanvas, transientCanvas, transientLabelCanvas } = createContext(
+      500,
+      500,
+    );
 
     const graph = anchor(
       {
@@ -84,10 +76,7 @@ describe('Anchor points and shapes', () => {
         },
       });
 
-      await expect(canvas).toMatchSVGSnapshot(
-        dir,
-        'anchor-4-points-update-position',
-      );
+      await expect(canvas).toMatchSVGSnapshot(dir, 'anchor-4-points-update-position');
 
       graph.destroy();
       done();
@@ -95,14 +84,10 @@ describe('Anchor points and shapes', () => {
   });
 
   it('node with 4 anchorPoints and anchorShapes and edge find the nearest one', (done) => {
-    const {
-      backgroundCanvas,
-      canvas,
-      container,
-      labelCanvas,
-      transientCanvas,
-      transientLabelCanvas,
-    } = createContext(500, 500);
+    const { backgroundCanvas, canvas, container, labelCanvas, transientCanvas, transientLabelCanvas } = createContext(
+      500,
+      500,
+    );
 
     const graph = anchor(
       {

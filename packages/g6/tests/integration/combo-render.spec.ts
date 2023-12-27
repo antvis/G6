@@ -1,19 +1,15 @@
 import comboBasic from '../demo/combo/combo-basic';
-import './utils/useSnapshotMatchers';
 import { createContext } from './utils';
+import './utils/useSnapshotMatchers';
 
 const dir = `${__dirname}/snapshots/items/combo`;
 
 describe('combo circle', () => {
   it('circle combo should be rendered correctly', (done) => {
-    const {
-      backgroundCanvas,
-      canvas,
-      container,
-      labelCanvas,
-      transientCanvas,
-      transientLabelCanvas,
-    } = createContext(500, 500);
+    const { backgroundCanvas, canvas, container, labelCanvas, transientCanvas, transientLabelCanvas } = createContext(
+      500,
+      500,
+    );
 
     const graph = comboBasic(
       {
@@ -50,14 +46,10 @@ describe('combo circle', () => {
   });
 
   it('rect combo should be rendered correctly with Canvas2D', (done) => {
-    const {
-      backgroundCanvas,
-      canvas,
-      container,
-      labelCanvas,
-      transientCanvas,
-      transientLabelCanvas,
-    } = createContext(500, 500);
+    const { backgroundCanvas, canvas, container, labelCanvas, transientCanvas, transientLabelCanvas } = createContext(
+      500,
+      500,
+    );
 
     const graph = comboBasic(
       {

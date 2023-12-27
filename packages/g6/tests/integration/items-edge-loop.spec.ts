@@ -6,14 +6,10 @@ const dir = `${__dirname}/snapshots/items/edge/loop`;
 
 describe('Items edge line', () => {
   it('should be rendered correctly', (done) => {
-    const {
-      backgroundCanvas,
-      canvas,
-      container,
-      labelCanvas,
-      transientCanvas,
-      transientLabelCanvas,
-    } = createContext(500, 500);
+    const { backgroundCanvas, canvas, container, labelCanvas, transientCanvas, transientLabelCanvas } = createContext(
+      500,
+      500,
+    );
 
     const graph = loopEdge({
       backgroundCanvas,
@@ -32,9 +28,7 @@ describe('Items edge line', () => {
       /**
        * Click the checkbox to switch clockwise.
        */
-      const $switchClockwise = document.querySelectorAll(
-        'input',
-      )[0] as HTMLInputElement;
+      const $switchClockwise = document.querySelectorAll('input')[0] as HTMLInputElement;
       $switchClockwise.click();
       await expect(canvas).toMatchSVGSnapshot(dir, 'items-edge-loop-clockwise');
       $switchClockwise.click();
@@ -50,25 +44,17 @@ describe('Items edge line', () => {
       /**
        * Click the button to change loop position.
        */
-      const $loopPositionBtn = document.querySelectorAll(
-        'button',
-      )[0] as HTMLButtonElement;
+      const $loopPositionBtn = document.querySelectorAll('button')[0] as HTMLButtonElement;
       $loopPositionBtn.click();
       await expect(canvas).toMatchSVGSnapshot(dir, 'items-edge-loop-top-right');
       $loopPositionBtn.click();
       await expect(canvas).toMatchSVGSnapshot(dir, 'items-edge-loop-right');
       $loopPositionBtn.click();
-      await expect(canvas).toMatchSVGSnapshot(
-        dir,
-        'items-edge-loop-bottom-right',
-      );
+      await expect(canvas).toMatchSVGSnapshot(dir, 'items-edge-loop-bottom-right');
       $loopPositionBtn.click();
       await expect(canvas).toMatchSVGSnapshot(dir, 'items-edge-loop-bottom');
       $loopPositionBtn.click();
-      await expect(canvas).toMatchSVGSnapshot(
-        dir,
-        'items-edge-loop-bottom-left',
-      );
+      await expect(canvas).toMatchSVGSnapshot(dir, 'items-edge-loop-bottom-left');
       $loopPositionBtn.click();
       await expect(canvas).toMatchSVGSnapshot(dir, 'items-edge-loop-left');
       $loopPositionBtn.click();

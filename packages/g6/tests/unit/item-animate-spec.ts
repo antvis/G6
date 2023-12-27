@@ -64,11 +64,7 @@ class CustomNode extends CircleNode {
       model,
     );
     const { labelShape: propsLabelStyle } = model.data;
-    const labelStyle = Object.assign(
-      {},
-      this.defaultStyles.labelShape,
-      propsLabelStyle,
-    );
+    const labelStyle = Object.assign({}, this.defaultStyles.labelShape, propsLabelStyle);
     const labelShape = upsertShape(
       'text',
       'labelShape',
@@ -534,14 +530,10 @@ describe('node update animations', () => {
       setTimeout(() => {
         graph.setItemState('node1', 'selected', true);
         const node1 = graph.itemController.itemMap.get('node1');
-        expect(node1.shapeMap.keyShape.attributes.fill).toBe(
-          'rgb(239, 244, 255)',
-        );
+        expect(node1.shapeMap.keyShape.attributes.fill).toBe('rgb(239, 244, 255)');
         expect(node1.shapeMap.keyShape.attributes.lineWidth).toBe(1);
         setTimeout(() => {
-          expect(node1.shapeMap.keyShape.attributes.fill).not.toBe(
-            'rgb(239, 244, 255)',
-          );
+          expect(node1.shapeMap.keyShape.attributes.fill).not.toBe('rgb(239, 244, 255)');
           expect(node1.shapeMap.keyShape.attributes.lineWidth > 1).toBe(true);
           graph.destroy();
           done();
@@ -597,19 +589,13 @@ describe('node update animations', () => {
         graph.setItemState('node1', 'selected', true);
         const node1 = graph.itemController.itemMap.get('node1');
         expect(node1.shapeMap.keyShape.attributes.lineWidth).toBe(1);
-        expect(node1.shapeMap.keyShape.attributes.fill).toBe(
-          'rgb(239, 244, 255)',
-        );
+        expect(node1.shapeMap.keyShape.attributes.fill).toBe('rgb(239, 244, 255)');
         setTimeout(() => {
           expect(node1.shapeMap.keyShape.attributes.lineWidth > 1).toBe(true);
-          expect(node1.shapeMap.keyShape.attributes.fill).toBe(
-            'rgb(239, 244, 255)',
-          );
+          expect(node1.shapeMap.keyShape.attributes.fill).toBe('rgb(239, 244, 255)');
           setTimeout(() => {
             expect(node1.shapeMap.keyShape.attributes.lineWidth > 1).toBe(true);
-            expect(node1.shapeMap.keyShape.attributes.fill).toBe(
-              'rgba(255,0,0,1)',
-            );
+            expect(node1.shapeMap.keyShape.attributes.fill).toBe('rgba(255,0,0,1)');
             graph.destroy();
             done();
           }, 1000);
@@ -722,12 +708,8 @@ describe('edge update animations', () => {
           setTimeout(() => {
             expect(edge1.shapeMap.keyShape.attributes.stroke).not.toBe('#000');
             setTimeout(() => {
-              expect(edge1.shapeMap.keyShape.attributes.stroke).not.toBe(
-                '#000',
-              );
-              expect(edge1.shapeMap.keyShape.attributes.lineWidth > 1).toBe(
-                true,
-              );
+              expect(edge1.shapeMap.keyShape.attributes.stroke).not.toBe('#000');
+              expect(edge1.shapeMap.keyShape.attributes.lineWidth > 1).toBe(true);
               graph.destroy();
               done();
             }, 1000);
@@ -890,9 +872,7 @@ describe('node show up animations', () => {
     graph.on('afterrender', () => {
       const node1 = graph.itemController.itemMap.get('node1');
       expect(node1.shapeMap.keyShape.attributes.opacity).toBe(0);
-      expect(node1.shapeMap.keyShape.attributes.fill).toBe(
-        'rgb(239, 244, 255)',
-      );
+      expect(node1.shapeMap.keyShape.attributes.fill).toBe('rgb(239, 244, 255)');
       setTimeout(() => {
         graph.updateData('node', {
           id: 'node1',
@@ -906,9 +886,7 @@ describe('node show up animations', () => {
         expect(node1.shapeMap.keyShape.attributes.opacity).toBe(1);
         setTimeout(() => {
           expect(node1.shapeMap.keyShape.attributes.opacity).toBe(1);
-          expect(node1.shapeMap.keyShape.attributes.fill).not.toBe(
-            'rgb(239, 244, 255)',
-          );
+          expect(node1.shapeMap.keyShape.attributes.fill).not.toBe('rgb(239, 244, 255)');
           graph.destroy();
           done();
         }, 1000);
@@ -945,9 +923,7 @@ describe('node show up animations', () => {
 
     graph.on('afterrender', () => {
       const node1 = graph.itemController.itemMap.get('node1');
-      expect(node1.shapeMap.keyShape.attributes.fill).toBe(
-        'rgb(239, 244, 255)',
-      );
+      expect(node1.shapeMap.keyShape.attributes.fill).toBe('rgb(239, 244, 255)');
       graph.updateData('node', {
         id: 'node1',
         data: {
@@ -956,9 +932,7 @@ describe('node show up animations', () => {
           },
         },
       });
-      expect(node1.shapeMap.keyShape.attributes.fill).toBe(
-        'rgb(239, 244, 255)',
-      );
+      expect(node1.shapeMap.keyShape.attributes.fill).toBe('rgb(239, 244, 255)');
       setTimeout(() => {
         graph.updateData('node', {
           id: 'node1',
@@ -1177,13 +1151,10 @@ describe('custom node animations', () => {
       const edge1 = graph.itemController.itemMap.get('edge1');
       expect(edge1.shapeMap.runningCircle.attributes.offsetDistance).toBe(0);
       setTimeout(() => {
-        const currentOffsetDistance =
-          edge1.shapeMap.runningCircle.attributes.offsetDistance;
+        const currentOffsetDistance = edge1.shapeMap.runningCircle.attributes.offsetDistance;
         expect(currentOffsetDistance).not.toBe(0);
         setTimeout(() => {
-          expect(
-            edge1.shapeMap.runningCircle.attributes.offsetDistance,
-          ).not.toBe(currentOffsetDistance);
+          expect(edge1.shapeMap.runningCircle.attributes.offsetDistance).not.toBe(currentOffsetDistance);
           graph.destroy();
           done();
         }, 200);

@@ -1,6 +1,6 @@
+import { AABB } from '@antv/g';
 import { vec2 } from 'gl-matrix';
 import { ID, IGraph } from 'types';
-import { AABB } from '@antv/g';
 import { Bounds, Point } from '../../../types/common';
 import { getLineIntersect } from '../../../util/shape';
 
@@ -10,9 +10,7 @@ import { getLineIntersect } from '../../../util/shape';
  */
 export const getClosedSpline = (points: Point[]) => {
   if (points.length < 2) {
-    throw new Error(
-      `point length must larges than 2, now it's ${points.length}`,
-    );
+    throw new Error(`point length must larges than 2, now it's ${points.length}`);
   }
   const first = points[0];
   const second = points[1];
@@ -65,11 +63,7 @@ export function roundedHull(polyPoints: vec2[], padding: number) {
 
   // The rounded hull path around two points
   const roundedHull2 = (points: vec2[]) => {
-    const offsetVector = vec2.scale(
-      [0, 0],
-      unitNormal(points[0], points[1]),
-      padding,
-    );
+    const offsetVector = vec2.scale([0, 0], unitNormal(points[0], points[1]), padding);
     const invOffsetVector = vec2.scale([0, 0], offsetVector, -1);
 
     const p0 = vec2.add([0, 0], points[0], offsetVector);
@@ -77,9 +71,12 @@ export function roundedHull(polyPoints: vec2[], padding: number) {
     const p2 = vec2.add([0, 0], points[1], invOffsetVector);
     const p3 = vec2.add([0, 0], points[0], invOffsetVector);
 
-    return `M ${p0} L ${p1} A ${[padding, padding, '0,0,0', p2].join(
-      ',',
-    )} L ${p3} A ${[padding, padding, '0,0,0', p0].join(',')}`;
+    return `M ${p0} L ${p1} A ${[padding, padding, '0,0,0', p2].join(',')} L ${p3} A ${[
+      padding,
+      padding,
+      '0,0,0',
+      p0,
+    ].join(',')}`;
   };
 
   // Special case handling: the number of nodes is less than or equal to 2
@@ -91,19 +88,13 @@ export function roundedHull(polyPoints: vec2[], padding: number) {
 
   // Calculate each offset (outwards) segment of the convex hull.
   for (let segmentIndex = 0; segmentIndex < segments.length; ++segmentIndex) {
-    const p0 =
-      segmentIndex === 0
-        ? polyPoints[polyPoints.length - 1]
-        : polyPoints[segmentIndex - 1];
+    const p0 = segmentIndex === 0 ? polyPoints[polyPoints.length - 1] : polyPoints[segmentIndex - 1];
     const p1 = polyPoints[segmentIndex];
 
     // Compute the offset vector for the line segment, with length = padding.
     const offset = vec2.scale([0, 0], unitNormal(p0, p1), padding);
 
-    segments[segmentIndex] = [
-      vec2.add([0, 0], p0, offset),
-      vec2.add([0, 0], p1, offset),
-    ];
+    segments[segmentIndex] = [vec2.add([0, 0], p0, offset), vec2.add([0, 0], p1, offset)];
   }
 
   const arcData = `A ${[padding, padding, '0,0,0,'].join(',')}`;
@@ -134,12 +125,7 @@ export function paddedHull(polyPoints: vec2[], padding: number) {
     const p1 = [points[0][0], points[0][1] - padding];
     const p2 = [points[0][0], points[0][1] + padding];
 
-    return `M ${p1} A ${[padding, padding, '0,0,0', p2].join(',')} A ${[
-      padding,
-      padding,
-      '0,0,0',
-      p1,
-    ].join(',')}`;
+    return `M ${p1} A ${[padding, padding, '0,0,0', p2].join(',')} A ${[padding, padding, '0,0,0', p1].join(',')}`;
   };
 
   // Returns the path for a rounded hull around two points.
@@ -147,27 +133,18 @@ export function paddedHull(polyPoints: vec2[], padding: number) {
     const v = vecFrom(points[0], points[1]);
     const extensionVec = vecScaleTo(v, padding);
 
-    const extension0 = vec2.add(
-      [0, 0],
-      points[0],
-      vec2.scale([0, 0], extensionVec, -1),
-    );
+    const extension0 = vec2.add([0, 0], points[0], vec2.scale([0, 0], extensionVec, -1));
     const extension1 = vec2.add([0, 0], points[1], extensionVec);
 
     const tangentHalfLength = 1.2 * padding;
-    const controlDelta = vecScaleTo(
-      vec2.normalize([0, 0], v),
-      tangentHalfLength,
-    );
+    const controlDelta = vecScaleTo(vec2.normalize([0, 0], v), tangentHalfLength);
     const invControlDelta = vec2.scale([0, 0], controlDelta, -1);
 
     const control0 = vec2.add([0, 0], extension0, invControlDelta);
     const control1 = vec2.add([0, 0], extension1, invControlDelta);
     const control3 = vec2.add([0, 0], extension0, controlDelta);
 
-    return `M ${extension0} C ${[control0, control1, extension1].join(
-      ',',
-    )} S ${[control3, extension0].join(',')} Z`;
+    return `M ${extension0} C ${[control0, control1, extension1].join(',')} S ${[control3, extension0].join(',')} Z`;
   };
 
   // Handle special cases
@@ -188,17 +165,9 @@ export function paddedHull(polyPoints: vec2[], padding: number) {
     const priorIndex = i > 0 ? i - 1 : pointCount - 1;
     const extensionVec = vec2.normalize(
       [0, 0],
-      vec2.add(
-        [0, 0],
-        hullPoints[priorIndex].v,
-        vec2.scale([0, 0], hullPoints[i].v, -1),
-      ),
+      vec2.add([0, 0], hullPoints[priorIndex].v, vec2.scale([0, 0], hullPoints[i].v, -1)),
     );
-    hullPoints[i].p = vec2.add(
-      [0, 0],
-      hullPoints[i].p as vec2,
-      vec2.scale([0, 0], extensionVec, padding),
-    );
+    hullPoints[i].p = vec2.add([0, 0], hullPoints[i].p as vec2, vec2.scale([0, 0], extensionVec, padding));
   }
 
   return hullPoints.map((obj) => {
@@ -304,11 +273,7 @@ export const squareDist = (a: Point, b: Point): number => {
   return (a.x - b.x) ** 2 + (a.y - b.y) ** 2;
 };
 
-export const fractionToLine = (
-  graph: IGraph,
-  itemId: ID,
-  line: LineStructure,
-) => {
+export const fractionToLine = (graph: IGraph, itemId: ID, line: LineStructure) => {
   const directions = ['top', 'left', 'bottom', 'right'];
   const bbox = graph.getRenderBBox(itemId);
   if (!bbox) return Infinity;
@@ -316,10 +281,7 @@ export const fractionToLine = (
   let countIntersections = 0;
   for (let i = 0; i < 4; i++) {
     const [x1, y1, x2, y2] = getBBoxBoundLine(bbox, directions[i]);
-    let testDistance = fractionAlongLineA(
-      line,
-      new LineStructure(x1, y1, x2, y2),
-    );
+    let testDistance = fractionAlongLineA(line, new LineStructure(x1, y1, x2, y2));
     testDistance = Math.abs(testDistance - 0.5);
     if (testDistance >= 0 && testDistance <= 1) {
       countIntersections += 1;
@@ -343,14 +305,13 @@ export const getBBoxBoundLine = (bbox: AABB, direction: string) => {
 
 /**
  * When calculating the intersection of two line segments, the division ratio of the intersection point to the first line segment.
+ * @param la
+ * @param lb
  */
 const fractionAlongLineA = (la: LineStructure, lb: LineStructure) => {
-  const uaT =
-    (lb.x2 - lb.x1) * (la.y1 - lb.y1) - (lb.y2 - lb.y1) * (la.x1 - lb.x1);
-  const ubT =
-    (la.x2 - la.x1) * (la.y1 - lb.y1) - (la.y2 - la.y1) * (la.x1 - lb.x1);
-  const uB =
-    (lb.y2 - lb.y1) * (la.x2 - la.x1) - (lb.x2 - lb.x1) * (la.y2 - la.y1);
+  const uaT = (lb.x2 - lb.x1) * (la.y1 - lb.y1) - (lb.y2 - lb.y1) * (la.x1 - lb.x1);
+  const ubT = (la.x2 - la.x1) * (la.y1 - lb.y1) - (la.y2 - la.y1) * (la.x1 - lb.x1);
+  const uB = (lb.y2 - lb.y1) * (la.x2 - la.x1) - (lb.x2 - lb.x1) * (la.y2 - la.y1);
   if (uB) {
     const ua = uaT / uB;
     const ub = ubT / uB;
@@ -365,11 +326,7 @@ export const isPointsOverlap = (p1, p2, e = 1e-3) => {
   return (p1.x - p2.x) ** 2 + (p1.y - p2.y) ** 2 < e ** 2;
 };
 
-export const itemIntersectByLine = (
-  graph: IGraph,
-  itemId: ID,
-  line: LineStructure,
-): [Point[], number] => {
+export const itemIntersectByLine = (graph: IGraph, itemId: ID, line: LineStructure): [Point[], number] => {
   const directions = ['top', 'left', 'bottom', 'right'];
   const bbox = graph.getRenderBBox(itemId);
   if (!bbox) return;
@@ -395,11 +352,12 @@ export const itemIntersectByLine = (
  * The square of the distance from the point to the rectangle: the distance from the point inside the rectangle is 0, if the projection of the point outside falls on the side of the rectangle, it is the nearest vertical distance from the point to the side of the rectangle, otherwise it is the distance from the point to the vertex of the rectangle.
  * @param point Point
  * @param rect Rect
+ * @param rect.width
+ * @param rect.height
+ * @param rect.x
+ * @param rect.y
  */
-export const pointRectSquareDist = (
-  point: Point,
-  rect: { width: number; height: number; x: number; y: number },
-) => {
+export const pointRectSquareDist = (point: Point, rect: { width: number; height: number; x: number; y: number }) => {
   const isLeft = point.x < rect.x;
   const isRight = point.x > rect.x + rect.width;
   const isTop = point.y > rect.y + rect.height;
@@ -421,14 +379,8 @@ export const pointRectSquareDist = (
   if (isRight && !isTop && !isBottom) {
     return (rect.x + rect.width - point.x) ** 2;
   }
-  const dx = Math.min(
-    Math.abs(rect.x - point.x),
-    Math.abs(rect.x + rect.width - point.x),
-  );
-  const dy = Math.min(
-    Math.abs(rect.y - point.y),
-    Math.abs(rect.y + rect.height - point.y),
-  );
+  const dx = Math.min(Math.abs(rect.x - point.x), Math.abs(rect.x + rect.width - point.x));
+  const dy = Math.min(Math.abs(rect.y - point.y), Math.abs(rect.y + rect.height - point.y));
   return dx * dx + dy * dy;
 };
 

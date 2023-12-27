@@ -11,10 +11,14 @@ type WarnOption = {
   scope: string;
 };
 
+/**
+ *
+ * @param root0
+ * @param root0.optionName
+ * @param root0.shouldBe
+ * @param root0.now
+ * @param root0.scope
+ */
 export function warn({ optionName, shouldBe, now, scope }: WarnOption) {
-  console.warn(
-    `G6 [${scope}]: Invalid option, ${optionName} must be one of ${shouldBe.join(
-      ', ',
-    )}, but got ${now}`,
-  );
+  console.warn(`G6 [${scope}]: Invalid option, ${optionName} must be one of ${shouldBe.join(', ')}, but got ${now}`);
 }

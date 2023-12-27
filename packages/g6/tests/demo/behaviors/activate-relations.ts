@@ -1,5 +1,5 @@
+import { Extensions, Graph, extend } from '../../../src/index';
 import { TestCaseContext } from '../interface';
-import { Graph, Extensions, extend } from '../../../src/index';
 
 export default (context: TestCaseContext) => {
   const ExtGraph = extend(Graph, {

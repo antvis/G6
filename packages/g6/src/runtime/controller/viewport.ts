@@ -1,6 +1,4 @@
-import { ICamera, PointLike } from '@antv/g';
 import { IGraph } from '../../types';
-import { CameraAnimationOptions } from '../../types/animate';
 import { ViewportChangeHookParams } from '../../types/hook';
 
 let landmarkCounter = 0;
@@ -20,10 +18,7 @@ export class ViewportController {
     this.graph.hooks.viewportchange.tap(this.onViewportChange.bind(this));
   }
 
-  private async onViewportChange({
-    transform,
-    effectTiming,
-  }: ViewportChangeHookParams) {
+  private async onViewportChange({ transform, effectTiming }: ViewportChangeHookParams) {
     const camera = this.graph.canvas.getCamera();
     const transientCamera = this.graph.transientCanvas.getCamera();
     // @ts-ignore
@@ -32,21 +27,12 @@ export class ViewportController {
       transientCamera.cancelLandmarkAnimation();
       this.graph.emit('cancelviewportanimation');
     }
-    const {
-      translate,
-      rotate,
-      zoom,
-      origin = this.graph.getViewportCenter(),
-    } = transform;
+    const { translate, rotate, zoom, origin = this.graph.getViewportCenter() } = transform;
     const currentZoom = camera.getZoom();
 
     if (effectTiming) {
       this.graph.emit('beforeviewportanimation', transform);
-      const {
-        duration = 1000,
-        easing = 'linear',
-        easingFunction,
-      } = effectTiming;
+      const { duration = 1000, easing = 'linear', easingFunction } = effectTiming;
       const landmarkOptions: Partial<{
         position: [number, number] | [number, number, number] | Float32Array;
         focalPoint: [number, number] | [number, number, number] | Float32Array;
@@ -72,16 +58,8 @@ export class ViewportController {
           animateTargetPosition[2] = pz - dz;
           animateTargetFocal[2] = fz - dz;
         }
-        landmarkOptions.position = animateTargetPosition as [
-          number,
-          number,
-          number,
-        ];
-        landmarkOptions.focalPoint = animateTargetFocal as [
-          number,
-          number,
-          number,
-        ];
+        landmarkOptions.position = animateTargetPosition as [number, number, number];
+        landmarkOptions.focalPoint = animateTargetFocal as [number, number, number];
       }
 
       if (zoom) {
@@ -94,14 +72,8 @@ export class ViewportController {
         landmarkOptions.roll = camera.getRoll() + angle;
       }
 
-      const landmark = camera.createLandmark(
-        `mark${landmarkCounter++}`,
-        landmarkOptions,
-      );
-      const transientLandmark = transientCamera.createLandmark(
-        `mark${landmarkCounter}`,
-        landmarkOptions,
-      );
+      const landmark = camera.createLandmark(`mark${landmarkCounter++}`, landmarkOptions);
+      const transientLandmark = transientCamera.createLandmark(`mark${landmarkCounter}`, landmarkOptions);
 
       return new Promise((resolve) => {
         transientCamera.gotoLandmark(transientLandmark, {
@@ -145,14 +117,8 @@ export class ViewportController {
 
       if (zoom) {
         const { ratio } = zoom;
-        camera.setZoomByViewportPoint(currentZoom * ratio, [
-          origin.x,
-          origin.y,
-        ]);
-        transientCamera.setZoomByViewportPoint(currentZoom * ratio, [
-          origin.x,
-          origin.y,
-        ]);
+        camera.setZoomByViewportPoint(currentZoom * ratio, [origin.x, origin.y]);
+        transientCamera.setZoomByViewportPoint(currentZoom * ratio, [origin.x, origin.y]);
       }
     }
   }

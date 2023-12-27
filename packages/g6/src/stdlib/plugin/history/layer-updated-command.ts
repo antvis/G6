@@ -12,17 +12,13 @@ export class LayerUpdatedCommand implements Command {
 
   undo(graph: IGraph) {
     graph.executeWithNoStack(() => {
-      this.action === 'front'
-        ? graph.backItem(this.ids)
-        : graph.frontItem(this.ids);
+      this.action === 'front' ? graph.backItem(this.ids) : graph.frontItem(this.ids);
     });
   }
 
   redo(graph: IGraph) {
     graph.executeWithNoStack(() => {
-      this.action === 'front'
-        ? graph.frontItem(this.ids)
-        : graph.backItem(this.ids);
+      this.action === 'front' ? graph.frontItem(this.ids) : graph.backItem(this.ids);
     });
   }
 }
