@@ -1,11 +1,11 @@
-import { PathArray } from '@antv/util';
+import type { PathArray } from '@antv/util';
 import { getControlPoint } from '../../../util/path';
 
 export const getPathItem2Card = (item, cardBBox, graph, annotationCanvas) => {
   let itemLinkPoints;
   const itemType = item.getType();
   if (itemType === 'edge') {
-    itemLinkPoints = [item.shapeMap.keyShape.getPoint(0.5)]
+    itemLinkPoints = [item.shapeMap.keyShape.getPoint(0.5)];
   } else {
     const bbox = item.shapeMap.keyShape.getBBox();
     const minX = bbox.left,

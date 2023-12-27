@@ -1,7 +1,7 @@
 import { createDOM, isNumber, modifyCSS } from '@antv/util';
 import { Path, PathStyleProps } from '@antv/g';
 import { sleep } from '../../../util/promise';
-import Item from '../../../item/item';
+import type Item from '../../../item/item';
 import type { CardID, EditPosition } from './types';
 import { getPathItem2Card } from './util';
 import type { Annotation } from './index';
