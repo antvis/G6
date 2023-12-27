@@ -52,7 +52,7 @@ export async function toMatchSVGSnapshot(
 
   actual += svg
     ? formatSVG(
-        format(xmlserializer.serializeToString(svg as any), {
+        await format(xmlserializer.serializeToString(svg as any), {
           parser: 'babel',
         }),
         keepSVGElementId,

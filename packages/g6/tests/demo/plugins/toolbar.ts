@@ -42,7 +42,7 @@ export default (context: TestCaseContext) => {
       toolbar: Extensions.Toolbar,
     },
   });
-  const graph = new Graph({
+  const graph = new ExtGraph({
     ...context,
     type: 'graph',
     layout: {

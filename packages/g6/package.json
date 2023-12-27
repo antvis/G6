@@ -45,8 +45,8 @@
     "test": "jest",
     "test-behavior": "DEBUG_MODE=1 jest --watch ./tests/unit/item-3d-spec.ts",
     "test-live": "DEBUG_MODE=1 jest --watch  ./tests/unit/item-animate-spec.ts",
-    "test:integration": "node --expose-gc --max-old-space-size=4096 --unhandled-rejections=strict node_modules/jest/bin/jest tests/integration/ --config jest.node.config.js --coverage --logHeapUsage --detectOpenHandles",
-    "test:integration_one": "node --expose-gc --max-old-space-size=4096 --unhandled-rejections=strict node_modules/jest/bin/jest tests/integration/behavior --config jest.node.config.js  --logHeapUsage --detectOpenHandles"
+    "test:integration": "node --expose-gc --max-old-space-size=4096 --unhandled-rejections=strict --experimental-vm-modules ../../node_modules/jest/bin/jest tests/integration/ --config jest.node.config.js --coverage --logHeapUsage --detectOpenHandles",
+    "test:integration_one": "node --expose-gc --trace-warnings --max-old-space-size=4096 --unhandled-rejections=strict --experimental-vm-modules ../../node_modules/jest/bin/jest tests/integration/toolbar --config jest.node.config.js  --logHeapUsage --detectOpenHandles"
   },
   "dependencies": {
     "@ant-design/colors": "^7.0.0",
@@ -73,8 +73,11 @@
   },
   "devDependencies": {
     "@antv/g6-plugin-map-view": "workspace:*",
+    "@types/jsdom": "^21.1.6",
+    "@types/xmlserializer": "^0.6.6",
     "stats.js": "^0.17.0",
-    "vite": "^5.0.10"
+    "vite": "^5.0.10",
+    "xmlserializer": "^0.6.1"
   },
   "limit-size": [
     {
