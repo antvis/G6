@@ -149,7 +149,7 @@ export class Minimap extends Base {
 
         if ((e as any).dataTransfer) {
           const img = new Image();
-          img.src = `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' %3E%3Cpath /%3E%3C/svg%3E`;
+          img.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' %3E%3Cpath /%3E%3C/svg%3E";
           (e as any).dataTransfer.setDragImage?.(img, 0, 0);
           try {
             (e as any).dataTransfer.setData('text/html', 'view-port-minimap');
@@ -562,9 +562,10 @@ export class Minimap extends Base {
    * Listener for main graph updating, update the viewport DOM.
    */
   private handleUpdateCanvas = debounce(
-    (event) => {
-      if (this.destroyed) return;
-      this.updateCanvas();
+    () => {
+      const self = this;
+      if (self.destroyed) return;
+      self.updateCanvas();
     },
     100,
     false,
