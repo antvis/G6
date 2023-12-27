@@ -1,24 +1,17 @@
 {
   "compilerOptions": {
-    "outDir": "lib",
-    "module": "commonjs",
-    "target": "es6",
-    "jsx": "preserve",
-    "moduleResolution": "node",
-    "experimentalDecorators": true,
-    "declaration": true,
-    "sourceMap": true,
-    "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
-    "isolatedModules": true,
-    "pretty": true,
-    "lib": ["dom", "esnext"],
-    "types": ["@types/jest"],
-    "skipLibCheck": true,
-    "sourceRoot": "src",
     "baseUrl": "src",
-    "resolveJsonModule": true
+    "declaration": true,
+    "experimentalDecorators": true,
+    "lib": ["DOM", "ESNext"],
+    "outDir": "lib",
+    "pretty": true,
+    "resolveJsonModule": true,
+    "sourceMap": true,
+    "sourceRoot": "src",
+    "strict": false // should be true later
   },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "dist", "lib", "esm"],
+  "extends": "../../tsconfig.json",
+  "include": ["src/**/*"]
 }

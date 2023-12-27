@@ -26,19 +26,18 @@
     "dist"
   ],
   "scripts": {
-    "start": "rimraf ./lib && tsc --module commonjs --outDir lib --watch",
-    "build:umd": "rimraf ./dist && rollup -c && npm run size",
+    "build": "run-p build:*",
     "build:cjs": "rimraf ./lib && tsc --module commonjs --outDir lib",
     "build:esm": "rimraf ./esm && tsc --module ESNext --outDir esm",
-    "build": "run-p build:*",
+    "build:umd": "rimraf ./dist && rollup -c && npm run size",
     "bundle-vis": "cross-env BUNDLE_VIS=1 run-p build:umd",
-    "prepublishOnly": "npm run ci",
     "ci": "run-s lint build",
     "clean": "rimraf es lib",
     "clear:doc": "rimraf ../site/docs/_apis",
-    "doc": "npm run clear:doc && typedoc",
     "lint": "eslint ./src --quiet && prettier ./src --check",
-    "size": "limit-size"
+    "prepublishOnly": "npm run ci",
+    "size": "limit-size",
+    "start": "rimraf ./lib && tsc --module commonjs --outDir lib --watch"
   },
   "dependencies": {
     "@antv/dom-util": "^2.0.4",
@@ -46,35 +45,8 @@
     "@antv/l7-maps": "^2.18.3",
     "@antv/util": "~2.0.5"
   },
-  "devDependencies": {
-    "@rollup/plugin-terser": "^0.4.3",
-    "@types/gl": "6.0.2",
-    "@types/jsdom": "^21.1.1",
-    "@types/node": "13.11.1",
-    "@types/pixelmatch": "^5.2.4",
-    "@types/pngjs": "^6.0.1",
-    "@types/xmlserializer": "^0.6.3",
-    "@typescript-eslint/eslint-plugin": "^6.5.0",
-    "@typescript-eslint/parser": "^6.5.0",
-    "@umijs/fabric": "^2.0.0",
-    "babel-loader": "^8.0.6",
-    "eslint": "^8.48.0",
-    "eslint-plugin-import": "^2.28.1",
-    "father": "^2.29.1",
-    "gl": "^6.0.2",
-    "jsdom": "^19.0.0",
-    "limit-size": "^0.1.4",
-    "npm-run-all": "^4.1.5",
-    "prettier": "^3.0.3",
-    "rimraf": "^3.0.0",
-    "rollup": "^2.79.1",
-    "rollup-plugin-node-resolve": "^5.2.0",
-    "rollup-plugin-polyfill-node": "^0.8.0",
-    "rollup-plugin-typescript": "^1.0.1",
-    "rollup-plugin-visualizer": "^5.6.0",
-    "tslib": "^2.5.0",
-    "typedoc": "^0.25.0",
-    "typescript": "5.1.6"
+  "peerDependencies": {
+    "@antv/g6": "^5.0.0-beta.28"
   },
   "limit-size": [
     {
@@ -86,8 +58,5 @@
       "path": "dist/g6-plugin-map-view.min.js",
       "limit": "3 Mb"
     }
-  ],
-  "peerDependencies": {
-    "@antv/g6": "^5.0.0-beta.28"
-  }
+  ]
 }

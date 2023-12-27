@@ -1,30 +1,5 @@
-import { Extractor, ExtractorConfig } from '@microsoft/api-extractor';
 import { defineConfig } from 'dumi';
-import fs from 'fs';
-import path from 'path';
 import { homepage, repository, version } from './package.json';
-
-const getExtraLib = () => {
-  try {
-    const extractorConfig = ExtractorConfig.loadFileAndPrepare(path.resolve('./api-extractor.json'));
-    const extractorResult = Extractor.invoke(extractorConfig, {
-      localBuild: true,
-      showVerboseMessages: true,
-    });
-    if (extractorResult.succeeded) {
-      const typeFilePath = extractorResult.extractorConfig.untrimmedFilePath;
-      if (typeFilePath) {
-        return `declare module '${name}'{
-          ${fs.readFileSync(typeFilePath, `utf8`)}
-        }`;
-      }
-    }
-  } catch (e) {
-    // eslint-disable-next-line no-console
-    console.warn(`api-extractor warn: ${e.message}`);
-  }
-  return '';
-};
 
 export default defineConfig({
   locales: [
@@ -299,9 +274,7 @@ export default defineConfig({
       // 第一个分块的大小
       splitPaneMainSize: '62%',
     },
-    playground: {
-      extraLib: getExtraLib(),
-    },
+    playground: {},
     announcement: {
       zh: '',
       en: '',

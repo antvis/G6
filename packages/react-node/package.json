@@ -24,7 +24,6 @@
     "@antv/util": "^3.3.5"
   },
   "devDependencies": {
-    "@ant-design/icons": "^5.2.6",
     "@antv/g-canvas": "^1.11.22",
     "@antv/g-svg": "^1.10.21",
     "@antv/g-webgl": "^1.9.29",

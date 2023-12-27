@@ -1,13 +1,13 @@
-import terser from '@rollup/plugin-terser';
-import resolve from 'rollup-plugin-node-resolve';
-import typescript from 'rollup-plugin-typescript';
 import commonjs from '@rollup/plugin-commonjs';
+import resolve from '@rollup/plugin-node-resolve';
+import terser from '@rollup/plugin-terser';
+import typescript from '@rollup/plugin-typescript';
 import nodePolyfills from 'rollup-plugin-polyfill-node';
 import { visualizer } from 'rollup-plugin-visualizer';
 
 const isBundleVis = !!process.env.BUNDLE_VIS;
 
-module.exports = [
+export default [
   {
     input: 'src/index.ts',
     output: {
@@ -16,13 +16,6 @@ module.exports = [
       format: 'umd',
       sourcemap: false,
     },
-    plugins: [
-      nodePolyfills(),
-      resolve(),
-      commonjs(),
-      typescript(),
-      terser(),
-      ...(isBundleVis ? [visualizer()] : []),
-    ],
+    plugins: [nodePolyfills(), resolve(), commonjs(), typescript(), terser(), ...(isBundleVis ? [visualizer()] : [])],
   },
 ];
