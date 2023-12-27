@@ -4,9 +4,10 @@ import { Renderer as CanvasRenderer } from '@antv/g-canvas';
 import { createDOM, modifyCSS } from '../../../util/dom';
 import { Plugin as Base, IPluginBaseConfig } from '../../../types/plugin';
 import type { IG6GraphEvent, IGraph } from '../../../types';
+import type Item from '../../../item/item';
 import { getPathItem2Card, px2Num } from './util';
 import { insertCSS } from './insertCSS';
-import type { AnnotationData, EditPosition } from './types';
+import type { AnnotationData, CardID, EditPosition } from './types';
 import Card, { CardConfig } from './Card';
 
 insertCSS();
@@ -14,8 +15,7 @@ insertCSS();
 interface AnnotationConfig extends IPluginBaseConfig {
   trigger?: 'click' | 'manual';
   /**
-   * Set the parent element of the card.
-   * When there is no containerCfg, the container of the graph will be used as the parent element;
+   * Set the parent element of the card, by default, using the container of ```this.graph``` as the parent element;
    */
   containerCfg?: {
     position?: 'left' | 'right' | 'top' | 'bottom';
@@ -32,23 +32,23 @@ interface AnnotationConfig extends IPluginBaseConfig {
    * Set whether the card is editable
    */
   editable?: boolean;
-  /** Highlight status of item, set this state when moving to the card. */
+  /** The highlight status of the item; When the mouse or keyboard is focused on the card, the relevant items will be set to this state. */
   itemHighlightState?: string;
   /** Initial card data. */
   defaultData?: CardConfig[];
   /** Detailed configuration of the card, please refer to ```CardCfg``` for details */
   cardCfg?: CardConfig;
-  /** Style of edge between cards and nodes. */
+  /** The line style between cards and items (nodes, edges, etc.). */
   linkStyle?: PathStyleProps;
-  /** Highlight style of edge, set this state when moving to the style. */
+  /** Highlight the style of the connecting lines between cards and items (nodes, edges, etc.) */
   linkHighlightStyle?: PathStyleProps;
   /**
-   * Returns the title of the card. When getTitle returns empty, the return of getTitlePlaceholder will be used as the title
+   * Initialize the title of the card. When getTitle returns empty, the return of getTitlePlaceholder will be used as the title
    * @param item
    */
-  getTitle?(item): string;
+  getTitle?(item: Item): string;
   /**
-   * Returns the content of the card. When getTitle returns empty, the return of getContentPlaceholder will be used as the content
+   * Initialize the content of the card. When getContent returns empty, the return of getContentPlaceholder will be used as content
    * @param item
    */
   getContent?(item): string;
@@ -74,9 +74,8 @@ interface AnnotationConfig extends IPluginBaseConfig {
 }
 
 interface CardInfoMap {
-  [id: string]: Card;
+  [id: CardID]: Card;
 }
-
 export class Annotation extends Base {
   public declare options: AnnotationConfig;
   dragging?: {
@@ -101,7 +100,7 @@ export class Annotation extends Base {
         shadowColor: '#5B8FF9',
         shadowBlur: 10,
       },
-      getTitlePlaceholder() {
+      getTitlePlaceholder(item) {
         return '按 回车 保存'; // TODO: i18n
       },
       getContentPlaceholder(item) {
@@ -188,7 +187,7 @@ export class Annotation extends Base {
     if (!this.options.getTitle) {
       this.options.getTitle = (item) => {
         const { data, id } = item?.model || {};
-        return data?.label || id || '-';
+        return String(data?.label || id || '-');
       };
     }
     if (!this.options.getContent) {
@@ -203,7 +202,7 @@ export class Annotation extends Base {
 
     // init with defaultData
     const defaultData = this.options.defaultData;
-    if (defaultData) this.readData(defaultData);
+    if (defaultData) this.readData(defaultData as any);
   }
 
   private createContainer() {
@@ -345,23 +344,25 @@ export class Annotation extends Base {
     });
     self.updateLinks();
   }
-  
+
   public triggerAnnotation(evt: IG6GraphEvent) {
-    this.showAnnotation({ id: evt.itemId });
+    this.showCard(evt.itemId);
   }
 
-  public showAnnotation({ id }: { id: string | number }) {
+  public showCard(id: CardID) {
     if (this.destroyed) return;
     const item = this.graph.itemController.getItemById(id);
-    if (this.cardInfoMap[id]) {
-      this.showCard(id);
+    const cardInfo = this.cardInfoMap[id];
+    if (cardInfo) {
+      cardInfo.show();
     } else {
       this.toggleAnnotation(item);
     }
     this.focusCard(id);
+    this.options.onAnnotationChange?.(cardInfo, 'show');
   }
 
-  public hideCards() {
+  public hideAllCard() {
     if (this.destroyed) return;
     Object.keys(this.cardInfoMap).forEach((itemId) => {
       this.hideCard(itemId);
@@ -491,15 +492,7 @@ export class Annotation extends Base {
     });
   }
 
-  public showCard(id) {
-    if (this.destroyed) return;
-    const cardInfo = this.cardInfoMap[id];
-    if (!cardInfo) return;
-    cardInfo.show();
-    this.options.onAnnotationChange?.(cardInfo, 'show');
-  }
-
-  public focusCard(id) {
+  public focusCard(id: CardID) {
     this.cardInfoMap[id]?.focus();
 
     Object.keys(this.cardInfoMap).forEach((cardId) => {
@@ -509,11 +502,11 @@ export class Annotation extends Base {
     });
   }
 
-  public blurCard(id) {
+  public blurCard(id: CardID) {
     this.cardInfoMap[id]?.blur();
   }
 
-  public collapse(id, collapsed) {
+  public collapseCard(id: CardID, collapsed?: boolean) {
     this.cardInfoMap[id]?.collapse(collapsed);
   }
 
@@ -522,7 +515,7 @@ export class Annotation extends Base {
    * @param id 卡片 id，即元素(节点/边)的 id
    * @returns
    */
-  public hideCard(id) {
+  public hideCard(id: CardID) {
     if (this.destroyed) return;
     const cardInfo = this.cardInfoMap[id];
     if (!cardInfo) return;
@@ -530,19 +523,22 @@ export class Annotation extends Base {
     this.options.onAnnotationChange?.(cardInfo, 'hide');
   }
 
-  public editCard(id, options?: { position?: EditPosition; value?: any }) {
+  public editCard(
+    id: CardID,
+    options?: { position?: EditPosition; value?: any },
+  ) {
     if (this.destroyed) return;
 
     return this.cardInfoMap[id].edit(options?.position, options);
   }
 
-  public exitEditCard(id, options?: { position?: EditPosition }) {
+  public exitEditCard(id: CardID, options?: { position?: EditPosition }) {
     if (this.destroyed) return;
 
     return this.cardInfoMap[id].exitEdit(options?.position);
   }
 
-  public moveCard(id, x: number, y: number) {
+  public moveCard(id: CardID, x: number, y: number) {
     return this.cardInfoMap[id].move(x, y);
   }
 
@@ -551,7 +547,7 @@ export class Annotation extends Base {
    * @param id 卡片 id，即元素(节点/边)的 id
    * @returns
    */
-  public removeCard(id) {
+  public removeCard(id: CardID) {
     if (this.destroyed) return;
     const cardInfo = this.cardInfoMap[id];
     if (!cardInfo) return;
@@ -575,8 +571,7 @@ export class Annotation extends Base {
     if (!cardInfoMap) return;
     const graph = this.graph;
     Object.values(cardInfoMap).forEach((info) => {
-      if (!info.$el || info.$el.style.display === 'none')
-        return;
+      if (!info.$el || info.$el.style.display === 'none') return;
       const item = info.item;
       if (item && item.isVisible()) {
         this.toggleAnnotation(item);
@@ -595,32 +590,27 @@ export class Annotation extends Base {
     if (!visible) this.hideCard(id);
   }
 
-  public saveData(saveClosed = false) {
+  public saveData(): AnnotationData {
     const cardInfoMap: CardInfoMap = this.cardInfoMap;
-    if (!cardInfoMap) return;
+
+    if (!cardInfoMap) return [];
+
     const graph = this.graph;
-    const getTitle = this.options.getTitle;
-    const getContent = this.options.getContent;
-    const data: AnnotationData = [];
-    Object.values(cardInfoMap).forEach((info) => {
-      const card = info.$el;
-      const { title, content, x, y, id, collapsed } = info.config;
-      if (card && card.style.display === 'none' && !saveClosed) return;
-      const item = graph.itemController.getItemById(id) || graph.options.canvas;
-      data.push({
+    return Object.values(cardInfoMap).map((card) => {
+      const { title, content, x, y, id, collapsed, visible } = card.config;
+      return {
         id: id!,
         x,
         y,
         collapsed,
-        title: title || getTitle?.(item),
-        content: content || getContent?.(item),
-        visible: card && card.style.display !== 'none',
-      });
+        title,
+        content,
+        visible,
+      };
     });
-    return data;
   }
 
-  public readData(data) {
+  public readData(data: AnnotationData) {
     const graph = this.graph;
     data.forEach((info) => {
       const { id, x, y, title, content, collapsed, visible } = info;

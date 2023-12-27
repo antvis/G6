@@ -1,18 +1,18 @@
 import { createDOM, isNumber, modifyCSS } from '@antv/util';
-import { Canvas, Group, Path, PathStyleProps } from '@antv/g';
+import { Path, PathStyleProps } from '@antv/g';
 import { sleep } from '../../../util/promise';
 import Item from '../../../item/item';
-import type { EditPosition } from './types';
+import type { CardID, EditPosition } from './types';
 import { getPathItem2Card } from './util';
 import type { Annotation } from './index';
 
 export interface CardConfig {
-  /** The ID of the card is generally equal to item. getID(), where item represents node, etc. */
-  id?: string;
+  /** The ID of the card, equivalent to item.getID(), where item can be a node or edge */
+  id?: CardID;
   /** The width of the card */
-  width?: number | 'fit-content';
+  width?: number | string;
   /** The height of the card */
-  height?: number | 'fit-content';
+  height?: number | string;
   /** The minWidth of the card */
   minWidth?: number | string;
   /** The minHeight of the card */
@@ -33,22 +33,20 @@ export interface CardConfig {
   title?: string;
   /** Content of the card */
   content?: string;
-  /** border-radius style of card, default to 2 */
-  borderRadius?: number;
-  /** The maximum length of the title, default to 20 */
+  /** In editing mode, the maximum length of the title input box is set to 20 by default */
   maxTitleLength?: number;
   /**
    * How to handle when clicking the collapse button(-)
    *
-   * ```minimize```: will collapse the card, default.
+   * ```minimize```: will collapse the card, default
    *
-   * ```hide```: hide the card, set display: none
+   * ```hide```: hide card, set CSS attribute display: none
    */
   collapseType?: 'minimize' | 'hide';
   /**
    * How to handle when clicking the close button(x)
-   * ```hide```: hide the card, set display: none, default;
-   * ```remove```: destroy the card, which will remove the dom and related events;
+   * ```hide```: hide the card, set CSS attribute display: none, default
+   * ```remove```: destroy the card, which will delete the card's dom and related events
    */
   closeType?: 'hide' | 'remove';
   /**
@@ -69,7 +67,7 @@ export interface CardConfig {
    */
   onMouseEnterIcon?: (
     evt: MouseEvent,
-    id: string,
+    id: CardID,
     type: 'expand' | 'collapse' | 'close',
   ) => void;
   /**
@@ -81,7 +79,7 @@ export interface CardConfig {
    */
   onMouseLeaveIcon?: (
     evt: MouseEvent,
-    id: string,
+    id: CardID,
     type: 'expand' | 'collapse' | 'close',
   ) => void;
   /**
@@ -93,17 +91,17 @@ export interface CardConfig {
    */
   onClickIcon?(
     evt: MouseEvent,
-    id: string,
+    id: CardID,
     type: 'expand' | 'collapse' | 'close',
   ): void;
   titlePlaceholder?: string;
   contentPlaceholder?: string;
   /**
    * When creating a card, do you enter editing mode and focus on the card
-   * ```title```: Edit and focus on the title area;
-   * ```content```: Edit and focus on the content area;
-   * ```true```: Switch all areas to edit mode and focus on the title area;
-   * ```false```: Will not enter editing mode and requires manual operation, default;
+   * ```false```: Will not enter editing mode and requires manual operation, default
+   * ```title```: Edit and focus on the title area
+   * ```content```: Edit and focus on the content area
+   * ```true```: Switch all areas to edit mode and focus on the title area
    */
   focusEditOnInit?: boolean | EditPosition;
 }
@@ -123,7 +121,7 @@ export default class Card {
   config: CardConfig;
   plugin: Annotation;
   constructor(plugin: Annotation, config: CardConfig) {
-    this.config = { ...config };
+    this.config = { visible: true, ...config };
     this.plugin = plugin;
     this.renderCard();
 
@@ -165,7 +163,7 @@ export default class Card {
       this.move(x, y);
     }
 
-    this.updateLink()
+    this.updateLink();
 
     this.bindEvents();
 
@@ -283,12 +281,12 @@ export default class Card {
     card.addEventListener('mouseleave', (e) => {
       plugin.blurCard(itemId);
     });
-    card.addEventListener('focusin', e => {
-      plugin.focusCard(itemId)
-    })
-    card.addEventListener('focusout', e => {
-      plugin.blurCard(itemId)
-    })
+    card.addEventListener('focusin', (e) => {
+      plugin.focusCard(itemId);
+    });
+    card.addEventListener('focusout', (e) => {
+      plugin.blurCard(itemId);
+    });
     card.addEventListener('click', (e) => {
       const { onClickIcon } = plugin.options.cardCfg || {};
       const target = e.target as HTMLElement;
@@ -418,8 +416,8 @@ export default class Card {
    * 更新相关连线
    */
   updateLink() {
-    const { plugin, item, $el } = this
-    let { link } = this
+    const { plugin, item, $el } = this;
+    let { link } = this;
 
     if (!item) {
       link?.hide();

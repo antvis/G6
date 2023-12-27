@@ -118,55 +118,64 @@ export default (context: TestCaseContext) => {
     ],
     data: graphData,
   });
-  
-  const plugin = (graph as any).pluginController.getPlugin('annotation') as Annotation;
 
-  const body = document.body
+  const plugin = (graph as any).pluginController.getPlugin(
+    'annotation',
+  ) as Annotation;
+
+  const body = document.body;
   // document.querySelector<HTMLElement>('#container')!.style.border = '1px solid #ccc'
-  const setAnnotationBtn = document.createElement('button')
-  setAnnotationBtn.innerHTML = 'setAnnotation'
-  body.append(setAnnotationBtn)
-  let itemIndex = 0
-  setAnnotationBtn.addEventListener('click', e => {
-    const id = graph.getAllNodesData()[itemIndex].id
-    plugin.showAnnotation({ id })
-    itemIndex++
-  })
-  const collapseBtn = document.createElement('button')
-  collapseBtn.innerHTML = 'collapse Annotation'
-  body.append(collapseBtn)
-  collapseBtn.addEventListener('click', e => {
-    Object.values(plugin.cardInfoMap).forEach(card => {
-      card.collapse(!card.config.collapsed)
-    })
-  })
-  const changeDataBtn = document.createElement('button')
-  changeDataBtn.innerHTML = 'change Data'
-  body.append(changeDataBtn)
-  changeDataBtn.addEventListener('click', e => {
-    const deleteNodes = ['node1', 'node2']
-    const newData = {
-      nodes: graphData.nodes.map(n => {
-        return { ...n }
-      }).filter(n => !deleteNodes.includes(n.id)), edges: graphData.edges.map(e => {
-        return { ...e }
-      }).filter(e => !deleteNodes.includes(e.source) && !deleteNodes.includes(e.target))
-    }
-    graph.changeData(newData)
-  })
-  const resetBtn = document.createElement('button')
-  resetBtn.innerHTML = 'reset Data'
-  body.append(resetBtn)
-  resetBtn.addEventListener('click', e => {
-    graph.changeData(graphData)
+  const setAnnotationBtn = document.createElement('button');
+  setAnnotationBtn.innerHTML = 'setAnnotation';
+  body.append(setAnnotationBtn);
+  let itemIndex = 0;
+  setAnnotationBtn.addEventListener('click', (e) => {
+    const id = graph.getAllNodesData()[itemIndex].id;
+    plugin.showCard(id);
+    itemIndex++;
   });
-  
+  const collapseBtn = document.createElement('button');
+  collapseBtn.innerHTML = 'collapse Annotation';
+  body.append(collapseBtn);
+  collapseBtn.addEventListener('click', (e) => {
+    Object.values(plugin.cardInfoMap).forEach((card) => {
+      card.collapse(!card.config.collapsed);
+    });
+  });
+  const changeDataBtn = document.createElement('button');
+  changeDataBtn.innerHTML = 'change Data';
+  body.append(changeDataBtn);
+  changeDataBtn.addEventListener('click', (e) => {
+    const deleteNodes = ['node1', 'node2'];
+    const newData = {
+      nodes: graphData.nodes
+        .map((n) => {
+          return { ...n };
+        })
+        .filter((n) => !deleteNodes.includes(n.id)),
+      edges: graphData.edges
+        .map((e) => {
+          return { ...e };
+        })
+        .filter(
+          (e) =>
+            !deleteNodes.includes(e.source) && !deleteNodes.includes(e.target),
+        ),
+    };
+    graph.changeData(newData);
+  });
+  const resetBtn = document.createElement('button');
+  resetBtn.innerHTML = 'reset Data';
+  body.append(resetBtn);
+  resetBtn.addEventListener('click', (e) => {
+    graph.changeData(graphData);
+  });
 
-  graph.hooks.destroy.tap(e => {
-    body.removeChild(setAnnotationBtn)
-    body.removeChild(collapseBtn)
-    body.removeChild(changeDataBtn)
-    body.removeChild(resetBtn)
-  })
+  graph.hooks.destroy.tap((e) => {
+    body.removeChild(setAnnotationBtn);
+    body.removeChild(collapseBtn);
+    body.removeChild(changeDataBtn);
+    body.removeChild(resetBtn);
+  });
   return graph;
 };
