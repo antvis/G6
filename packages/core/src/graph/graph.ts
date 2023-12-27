@@ -1439,8 +1439,9 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
    * @param {GraphData} data 初始化数据
    */
   public data(data?: GraphData | TreeGraphData): void {
-    dataValidation(data);
-    this.set('data', data);
+    const _data = JSON.parse(JSON.stringify(data))
+    dataValidation(_data);
+    this.set('data', _data);
   }
 
   /**
