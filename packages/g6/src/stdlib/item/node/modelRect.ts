@@ -1,18 +1,8 @@
-import { DisplayObject, AABB } from '@antv/g';
+import { DisplayObject } from '@antv/g';
 import { NodeDisplayModel } from '../../../types';
+import { ComboDisplayModel, ComboModelData, ComboShapeMap } from '../../../types/combo';
 import { State } from '../../../types/item';
-import {
-  IAnchorPositionMap,
-  NodeModelData,
-  NodeShapeMap,
-  NodeShapeStyles,
-  NodeUserModelData,
-} from '../../../types/node';
-import {
-  ComboDisplayModel,
-  ComboModelData,
-  ComboShapeMap,
-} from '../../../types/combo';
+import { IAnchorPositionMap, NodeModelData, NodeShapeMap, NodeShapeStyles } from '../../../types/node';
 import { convertToNumber } from '../../../util/type';
 import { BaseNode } from './base';
 
@@ -61,7 +51,7 @@ export class ModelRectNode extends BaseNode {
       offsetY: 0,
     },
   };
-  mergedStyles: NodeShapeStyles;
+  declare mergedStyles: NodeShapeStyles;
   logoX: number; //The x-coordinate of logoIcon
   logoY: number; //The y-coordinate of logoIcon
   logoWidth: number; //The width of logoIcon
@@ -85,21 +75,11 @@ export class ModelRectNode extends BaseNode {
 
     // haloShape
     if (data.haloShape && this.drawHaloShape) {
-      shapes.haloShape = this.drawHaloShape(
-        model,
-        shapeMap,
-        diffData,
-        diffState,
-      );
+      shapes.haloShape = this.drawHaloShape(model, shapeMap, diffData, diffState);
     }
     // anchor shapes
     if (data.anchorShapes) {
-      const anchorShapes = this.drawAnchorShapes(
-        model,
-        shapeMap,
-        diffData,
-        diffState,
-      );
+      const anchorShapes = this.drawAnchorShapes(model, shapeMap, diffData, diffState);
       shapes = {
         ...shapes,
         ...anchorShapes,
@@ -108,12 +88,7 @@ export class ModelRectNode extends BaseNode {
 
     //logoIconShape
     if (data.iconShape) {
-      shapes.iconShape = this.drawIconShape(
-        model,
-        shapeMap,
-        diffData,
-        diffState,
-      );
+      shapes.iconShape = this.drawIconShape(model, shapeMap, diffData, diffState);
     }
 
     // otherShapes
@@ -126,12 +101,7 @@ export class ModelRectNode extends BaseNode {
 
     // labelShape (after drawOtherShapes)
     if (data.labelShape) {
-      shapes.labelShape = this.drawLabelShape(
-        model,
-        shapeMap,
-        diffData,
-        diffState,
-      );
+      shapes.labelShape = this.drawLabelShape(model, shapeMap, diffData, diffState);
     }
     return shapes;
   }
@@ -160,19 +130,14 @@ export class ModelRectNode extends BaseNode {
     );
   }
 
-  public override calculateAnchorPosition(
-    keyShapeStyle: any,
-  ): IAnchorPositionMap {
+  public override calculateAnchorPosition(keyShapeStyle: any): IAnchorPositionMap {
     const x = convertToNumber(keyShapeStyle.x);
     const y = convertToNumber(keyShapeStyle.y);
     const { height, width } = keyShapeStyle;
     const anchorPositionMap = {};
     anchorPositionMap['top'] = [x, y - height / 2];
     anchorPositionMap['left'] = [x - width / 2, y];
-    anchorPositionMap['right'] = anchorPositionMap['default'] = [
-      x + width / 2,
-      y,
-    ];
+    anchorPositionMap['right'] = anchorPositionMap['default'] = [x + width / 2, y];
     anchorPositionMap['bottom'] = [x, y + height / 2];
     return anchorPositionMap;
   }
@@ -195,24 +160,16 @@ export class ModelRectNode extends BaseNode {
     if (!labelShapeStyle) return;
     const { width, height, x, y } = keyShapeStyle;
 
-    const { offsetX: labelOffsetX = 0, offsetY: labelOffsetY = 0 } =
-      labelShapeStyle;
+    const { offsetX: labelOffsetX = 0, offsetY: labelOffsetY = 0 } = labelShapeStyle;
 
     const mixDisplay = descriptionStyle.show;
-    const defaultLabelFontSize = mixDisplay
-      ? Math.min(height, width) / 4
-      : Math.min(height, width) / 6; //match with keyShape
+    const defaultLabelFontSize = mixDisplay ? Math.min(height, width) / 4 : Math.min(height, width) / 6; //match with keyShape
 
     const logoIconBBox = shapeMap['logoIcon']?.getBBox();
-    const defaultLabelX = mixDisplay
-      ? -width / 2 + logoIconBBox?.width + width / 10
-      : 0;
+    const defaultLabelX = mixDisplay ? -width / 2 + logoIconBBox?.width + width / 10 : 0;
     const defaultLabelY = mixDisplay ? 0 - height / 7 : 0;
     const defaultWordWrapWidth =
-      width / 2 -
-      (logoIconBBox.left + logoIconBBox.width + width / 20) -
-      defaultLabelFontSize * 2 -
-      labelOffsetX;
+      width / 2 - (logoIconBBox.left + logoIconBBox.width + width / 20) - defaultLabelFontSize * 2 - labelOffsetX;
     labelShapeStyle.maxWidth = defaultWordWrapWidth;
 
     return this.upsertShape(
@@ -257,38 +214,10 @@ export class ModelRectNode extends BaseNode {
     } = this.mergedStyles as any;
 
     const shapes = {
-      preRect: this.drawPreRectShape(
-        preRectStyle,
-        keyShapeStyle,
-        model,
-        shapeMap,
-        diffData,
-        diffState,
-      ),
-      logoIcon: this.drawLogoIconShape(
-        logoIconStyle,
-        keyShapeStyle,
-        model,
-        shapeMap,
-        diffData,
-        diffState,
-      ),
-      description: this.drawDescriptionShape(
-        descriptionStyle,
-        keyShapeStyle,
-        model,
-        shapeMap,
-        diffData,
-        diffState,
-      ),
-      stateIcon: this.drawStateIcon(
-        stateIconStyle,
-        keyShapeStyle,
-        model,
-        shapeMap,
-        diffData,
-        diffState,
-      ),
+      preRect: this.drawPreRectShape(preRectStyle, keyShapeStyle, model, shapeMap, diffData, diffState),
+      logoIcon: this.drawLogoIconShape(logoIconStyle, keyShapeStyle, model, shapeMap, diffData, diffState),
+      description: this.drawDescriptionShape(descriptionStyle, keyShapeStyle, model, shapeMap, diffData, diffState),
+      stateIcon: this.drawStateIcon(stateIconStyle, keyShapeStyle, model, shapeMap, diffData, diffState),
     };
 
     return shapes;
@@ -353,18 +282,11 @@ export class ModelRectNode extends BaseNode {
     const logoIconShapeType = logoIconText ? 'text' : 'image';
 
     // calculate logo position
-    const logoX =
-      convertToNumber(x) -
-      convertToNumber(width) / 2 +
-      logoIconOffsetX +
-      width / 10 -
-      logoIconWidth / 2;
+    const logoX = convertToNumber(x) - convertToNumber(width) / 2 + logoIconOffsetX + width / 10 - logoIconWidth / 2;
 
     const logoY = logoIconText
       ? logoIconOffsetY
-      : convertToNumber(y) -
-        convertToNumber(logoIconHeight) / 2 +
-        logoIconOffsetY;
+      : convertToNumber(y) - convertToNumber(logoIconHeight) / 2 + logoIconOffsetY;
 
     if (logoIconText) {
       logoIconStyle.textAlign = 'center';
@@ -403,17 +325,12 @@ export class ModelRectNode extends BaseNode {
   ) {
     if (!descriptionStyle || !descriptionStyle.show) return;
     const { width, height } = keyShapeStyle;
-    const {
-      fontSize: descFontSize,
-      offsetX: descOffsetX,
-      offsetY: descOffsetY,
-    } = descriptionStyle;
+    const { fontSize: descFontSize, offsetX: descOffsetX, offsetY: descOffsetY } = descriptionStyle;
 
     const logoIconBBox = shapeMap['logoIcon']?.getBBox();
     const defaultLabelFontSize = Math.min(height, width) / 5;
     const defaultDescriptionX = -width / 2 + logoIconBBox?.width + width / 10;
-    const defaultWordWrapWidth =
-      width / 2 - defaultDescriptionX - defaultLabelFontSize * 2;
+    const defaultWordWrapWidth = width / 2 - defaultDescriptionX - defaultLabelFontSize * 2;
     const defaultDescriptionFontSize = defaultLabelFontSize / 2;
 
     return this.upsertShape(
@@ -462,16 +379,10 @@ export class ModelRectNode extends BaseNode {
     const stateIconShapeType = stateIconText ? 'text' : 'image';
 
     // Calculate state position
-    const stateX =
-      convertToNumber(x) +
-      convertToNumber(width) / 2 -
-      stateIconWidth +
-      stateIconOffsetX;
+    const stateX = convertToNumber(x) + convertToNumber(width) / 2 - stateIconWidth + stateIconOffsetX;
     const stateY = stateIconText
       ? stateIconOffsetY
-      : convertToNumber(y) -
-        convertToNumber(stateIconHeight || stateIconFontSize) / 2 +
-        stateIconOffsetY;
+      : convertToNumber(y) - convertToNumber(stateIconHeight || stateIconFontSize) / 2 + stateIconOffsetY;
 
     if (stateIconText) {
       stateIconStyle.textAlign = 'center';

@@ -1,11 +1,11 @@
-import { Group, AABB } from '@antv/g';
+import { AABB, Group } from '@antv/g';
 import { clone } from '@antv/util';
-import { Point } from '../types/common';
 import { ComboDisplayModel, ComboModel, ID, IGraph, NodeModel } from '../types';
-import { DisplayMapper, State, LodLevelRanges } from '../types/item';
+import { ComboModelData } from '../types/combo';
+import { Point } from '../types/common';
+import { DisplayMapper, LodLevelRanges, State } from '../types/item';
 import { NodeDisplayModel, NodeModelData } from '../types/node';
 import { ComboStyleSet, NodeStyleSet } from '../types/theme';
-import { updateShapes } from '../util/shape';
 import { animateShapes, getAnimatesExcludePosition } from '../util/animate';
 import {
   getCircleIntersectByPoint,
@@ -13,7 +13,7 @@ import {
   getNearestPoint,
   getRectIntersectByPoint,
 } from '../util/point';
-import { ComboModelData } from '../types/combo';
+import { updateShapes } from '../util/shape';
 import Item from './item';
 
 interface IProps {
@@ -38,7 +38,7 @@ interface IProps {
   delayFirstDraw?: boolean;
 }
 export default class Node extends Item {
-  public type: 'node' | 'combo';
+  public declare type: 'node' | 'combo';
 
   private renderBoundsCache: Map<ID, AABB> = new Map();
 
@@ -65,29 +65,16 @@ export default class Node extends Item {
     animate = true,
     onfinish: Function = () => {},
   ) {
-    const {
-      group,
-      labelGroup,
-      renderExt,
-      shapeMap: prevShapeMap,
-      model,
-      graph,
-    } = this;
+    const { group, labelGroup, renderExt, shapeMap: prevShapeMap, model, graph } = this;
     renderExt.mergeStyles(displayModel);
 
     const firstRendering = !this.shapeMap?.keyShape;
-    const shapeMap = renderExt.draw(
-      displayModel,
-      this.shapeMap,
-      diffData,
-      diffState,
-    );
+    const shapeMap = renderExt.draw(displayModel, this.shapeMap, diffData, diffState);
     if (this.shapeMap.labelShape) {
       this.shapeMap.labelShape.attributes.dataIsLabel = true;
     }
     if (this.shapeMap.labelBackgroundShape) {
-      this.shapeMap.labelBackgroundShape.attributes.dataIsLabelBackground =
-        true;
+      this.shapeMap.labelBackgroundShape.attributes.dataIsLabelBackground = true;
     }
 
     // add shapes to group, and update shapeMap
@@ -131,8 +118,7 @@ export default class Node extends Item {
         undefined,
         [group, labelGroup],
         firstRendering ? 'buildIn' : 'update',
-        current.concat(previous).map((state) => state.name) ||
-          this.changedStates,
+        current.concat(previous).map((state) => state.name) || this.changedStates,
         this.animateFrameListener,
         (canceled) => onfinish(model.id, canceled),
       );
@@ -146,6 +132,12 @@ export default class Node extends Item {
   /**
    * Update the node's position,
    * do not update other styles which leads to better performance than updating position by updateData.
+   * @param displayModel
+   * @param diffData
+   * @param diffData.previous
+   * @param diffData.current
+   * @param animate
+   * @param onfinish
    */
   public updatePosition(
     displayModel: NodeDisplayModel | ComboDisplayModel,
@@ -157,27 +149,13 @@ export default class Node extends Item {
     onfinish: Function = () => {},
   ) {
     const { group, labelGroup, graph } = this;
-    const {
-      fx,
-      fy,
-      fz,
-      x,
-      y,
-      z = 0,
-      animates,
-      disableAnimate,
-    } = displayModel.data;
+    const { fx, fy, fz, x, y, z = 0, animates, disableAnimate } = displayModel.data;
     const position = {
       x: fx === undefined ? x : (fx as number),
       y: fy === undefined ? y : (fy as number),
       z: fz === undefined ? z : (fz as number),
     };
-    if (
-      isNaN(position.x as number) ||
-      isNaN(position.y as number) ||
-      isNaN(position.z as number)
-    )
-      return;
+    if (isNaN(position.x as number) || isNaN(position.y as number) || isNaN(position.z as number)) return;
     const viewportPosition = graph.getViewportByCanvas(position);
     labelGroup.style.x = viewportPosition.x;
     labelGroup.style.y = viewportPosition.y;
@@ -185,8 +163,7 @@ export default class Node extends Item {
     if (animate && !disableAnimate && animates?.update) {
       const groupAnimates = animates.update.filter(
         ({ shapeId, fields = [] }) =>
-          (!shapeId || shapeId === 'group') &&
-          (fields.includes('x') || fields.includes('y')),
+          (!shapeId || shapeId === 'group') && (fields.includes('x') || fields.includes('y')),
       );
       if (groupAnimates.length) {
         const animations = animateShapes(
@@ -212,13 +189,13 @@ export default class Node extends Item {
 
   /**
    * Update label positions on label canvas by getting viewport position from transformed canvas position.
+   * @param ignoreVisibility
    */
   public updateLabelPosition(ignoreVisibility?: boolean) {
     if (!ignoreVisibility && this.labelGroup.style.visibility === 'hidden') {
       return;
     }
-    const { graph, group, labelGroup, displayModel, shapeMap, renderExt } =
-      this;
+    const { graph, group, labelGroup, displayModel, shapeMap, renderExt } = this;
     let [x, y, z] = group.getPosition();
     if (group.getAnimations().length) {
       const { x: dataX, y: dataY, z: dataZ } = displayModel.data;
@@ -231,15 +208,9 @@ export default class Node extends Item {
     if (!this.renderBoundsCache.has(id)) {
       this.renderBoundsCache.set(id, clone(renderBounds));
     }
-    const dy =
-      renderBounds.halfExtents[1] -
-      this.renderBoundsCache.get(id).halfExtents[1];
+    const dy = renderBounds.halfExtents[1] - this.renderBoundsCache.get(id).halfExtents[1];
     const zoom = graph.getZoom();
-    const {
-      x: vx,
-      y: vy,
-      z: vz,
-    } = graph.getViewportByCanvas({ x, y: y + dy, z });
+    const { x: vx, y: vy, z: vz } = graph.getViewportByCanvas({ x, y: y + dy, z });
     if (labelGroup.style.x !== vx) {
       labelGroup.style.x = vx;
     }
@@ -282,12 +253,7 @@ export default class Node extends Item {
     });
   }
 
-  public clone(
-    containerGroup: Group,
-    labelContainerGroup: Group,
-    shapeIds?: string[],
-    disableAnimate?: boolean,
-  ) {
+  public clone(containerGroup: Group, labelContainerGroup: Group, shapeIds?: string[], disableAnimate?: boolean) {
     // clone specific shapes but not the whole item
     if (shapeIds?.length) {
       const group = new Group();
@@ -295,8 +261,7 @@ export default class Node extends Item {
         if (!this.shapeMap[shapeId] || this.shapeMap[shapeId].destroyed) return;
         const clonedKeyShape = this.shapeMap[shapeId].cloneNode();
         // TODO: other animating attributes?
-        clonedKeyShape.style.opacity =
-          this.renderExt.mergedStyles[shapeId]?.opacity || 1;
+        clonedKeyShape.style.opacity = this.renderExt.mergedStyles[shapeId]?.opacity || 1;
         group.appendChild(clonedKeyShape);
       });
       group.setPosition(this.group.getPosition());
@@ -330,32 +295,19 @@ export default class Node extends Item {
   }
 
   public getAnchorPoint(point: Point, anchorIdx?: number) {
-    const { anchorPoints = [] } = this.displayModel.data as
-      | NodeModelData
-      | ComboModelData;
+    const { anchorPoints = [] } = this.displayModel.data as NodeModelData | ComboModelData;
 
-    return this.getIntersectPoint(
-      point,
-      this.getPosition(),
-      anchorPoints,
-      anchorIdx,
-    );
+    return this.getIntersectPoint(point, this.getPosition(), anchorPoints, anchorIdx);
   }
 
-  public getIntersectPoint(
-    point: Point,
-    innerPoint: Point,
-    anchorPoints: number[][],
-    anchorIdx?: number,
-  ) {
+  public getIntersectPoint(point: Point, innerPoint: Point, anchorPoints: number[][], anchorIdx?: number) {
     const { keyShape } = this.shapeMap;
     const shapeType = keyShape.nodeName;
     const { x, y, z } = innerPoint;
 
     const keyShapeRenderBBox = keyShape.getRenderBounds();
     const keyShapeWidth = keyShapeRenderBBox.max[0] - keyShapeRenderBBox.min[0];
-    const keyShapeHeight =
-      keyShapeRenderBBox.max[1] - keyShapeRenderBBox.min[1];
+    const keyShapeHeight = keyShapeRenderBBox.max[1] - keyShapeRenderBBox.min[1];
     const anchorPositions = anchorPoints.map((pointRatio) => {
       const [xRatio, yRatio] = pointRatio;
       return {
@@ -426,8 +378,7 @@ export default class Node extends Item {
   }
 
   public getPosition(): Point {
-    const initiated =
-      this.shapeMap.keyShape && this.group.attributes.x !== undefined;
+    const initiated = this.shapeMap.keyShape && this.group.attributes.x !== undefined;
     if (initiated && this.renderExt.dimensions !== 3) {
       const { center } = this.shapeMap.keyShape.getRenderBounds();
       return { x: center[0], y: center[1], z: center[2] };

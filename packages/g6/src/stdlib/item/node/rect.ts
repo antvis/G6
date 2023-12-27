@@ -2,11 +2,7 @@ import { DisplayObject } from '@antv/g';
 import { NodeDisplayModel } from '../../../types';
 import { State } from '../../../types/item';
 
-import {
-  NodeModelData,
-  NodeShapeMap,
-  NodeShapeStyles,
-} from '../../../types/node';
+import { NodeModelData, NodeShapeMap, NodeShapeStyles } from '../../../types/node';
 import { convertToNumber } from '../../../util/type';
 import { BaseNode } from './base';
 
@@ -19,7 +15,7 @@ export class RectNode extends BaseNode {
       height: 32,
     },
   };
-  mergedStyles: NodeShapeStyles;
+  declare mergedStyles: NodeShapeStyles;
   constructor(props) {
     super(props);
     // suggest to merge default styles like this to avoid style value missing
@@ -37,12 +33,8 @@ export class RectNode extends BaseNode {
       'keyShape',
       {
         ...this.mergedStyles.keyShape,
-        x:
-          (this.mergedStyles.keyShape.x as number) -
-          this.mergedStyles.keyShape.width / 2,
-        y:
-          (this.mergedStyles.keyShape.y as number) -
-          this.mergedStyles.keyShape.height / 2,
+        x: (this.mergedStyles.keyShape.x as number) - this.mergedStyles.keyShape.width / 2,
+        y: (this.mergedStyles.keyShape.y as number) - this.mergedStyles.keyShape.height / 2,
       },
       {
         model,
@@ -61,10 +53,7 @@ export class RectNode extends BaseNode {
     const anchorPositionMap = {};
     anchorPositionMap['top'] = [x, y - height / 2];
     anchorPositionMap['left'] = [x - width / 2, y];
-    anchorPositionMap['right'] = anchorPositionMap['default'] = [
-      x + width / 2,
-      y,
-    ];
+    anchorPositionMap['right'] = anchorPositionMap['default'] = [x + width / 2, y];
     anchorPositionMap['bottom'] = [x, y + height / 2];
     return anchorPositionMap;
   }
@@ -83,42 +72,22 @@ export class RectNode extends BaseNode {
 
     // labelShape
     if (data.labelShape) {
-      shapes.labelShape = this.drawLabelShape(
-        model,
-        shapeMap,
-        diffData,
-        diffState,
-      );
+      shapes.labelShape = this.drawLabelShape(model, shapeMap, diffData, diffState);
     }
 
     // haloShape
     if (data.haloShape && this.drawHaloShape) {
-      shapes.haloShape = this.drawHaloShape(
-        model,
-        shapeMap,
-        diffData,
-        diffState,
-      );
+      shapes.haloShape = this.drawHaloShape(model, shapeMap, diffData, diffState);
     }
 
     // labelBackgroundShape
     if (data.labelBackgroundShape) {
-      shapes.labelBackgroundShape = this.drawLabelBackgroundShape(
-        model,
-        shapeMap,
-        diffData,
-        diffState,
-      );
+      shapes.labelBackgroundShape = this.drawLabelBackgroundShape(model, shapeMap, diffData, diffState);
     }
 
     // anchor shapes
     if (data.anchorShapes) {
-      const anchorShapes = this.drawAnchorShapes(
-        model,
-        shapeMap,
-        diffData,
-        diffState,
-      );
+      const anchorShapes = this.drawAnchorShapes(model, shapeMap, diffData, diffState);
       shapes = {
         ...shapes,
         ...anchorShapes,
@@ -127,22 +96,12 @@ export class RectNode extends BaseNode {
 
     // iconShape
     if (data.iconShape) {
-      shapes.iconShape = this.drawIconShape(
-        model,
-        shapeMap,
-        diffData,
-        diffState,
-      );
+      shapes.iconShape = this.drawIconShape(model, shapeMap, diffData, diffState);
     }
 
     // badgeShape
     if (data.badgeShapes) {
-      const badgeShapes = this.drawBadgeShapes(
-        model,
-        shapeMap,
-        diffData,
-        diffState,
-      );
+      const badgeShapes = this.drawBadgeShapes(model, shapeMap, diffData, diffState);
       shapes = {
         ...shapes,
         ...badgeShapes,

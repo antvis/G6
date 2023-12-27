@@ -1,6 +1,6 @@
 import { isBoolean, isNumber, isObject } from '@antv/util';
-import { Behavior } from '../../types/behavior';
 import { ID, IG6GraphEvent } from '../../types';
+import { Behavior } from '../../types/behavior';
 
 interface ScrollCanvasOptions {
   /**
@@ -21,7 +21,8 @@ interface ScrollCanvasOptions {
    * Use ```'ctrl'``` by default;
    */
   zoomKey?: string | string[];
-  /** Switch to zooming while pressing the key and wheeling. This option allows you to control the zoom ratio for each event.
+  /**
+   * Switch to zooming while pressing the key and wheeling. This option allows you to control the zoom ratio for each event.
    * Use ```'0.05'``` by default;
    */
   zoomRatio?: number;
@@ -84,9 +85,7 @@ export class ScrollCanvas extends Behavior {
     if (zoomKeys.includes('control')) zoomKeys.push('ctrl');
     const keyDown = zoomKeys.some((ele) => ev[`${ele}Key`]);
 
-    const nativeEvent = ev.nativeEvent as
-      | (WheelEvent & { wheelDelta: number })
-      | undefined;
+    const nativeEvent = ev.nativeEvent as (WheelEvent & { wheelDelta: number }) | undefined;
 
     if (keyDown) {
       const canvas = graph.canvas;
@@ -205,8 +204,7 @@ export class ScrollCanvas extends Behavior {
     const { itemType } = evt;
     const { allowDragOnItem } = this.options;
     const targetIsCanvas = itemType === 'canvas';
-    if (isBoolean(allowDragOnItem) && !allowDragOnItem && !targetIsCanvas)
-      return false;
+    if (isBoolean(allowDragOnItem) && !allowDragOnItem && !targetIsCanvas) return false;
     if (isObject(allowDragOnItem)) {
       const { node, edge, combo } = allowDragOnItem;
       if (!node && itemType === 'node') return false;
@@ -218,13 +216,10 @@ export class ScrollCanvas extends Behavior {
 
   private hideShapes() {
     const { graph, options } = this;
-    const { tileBehavior: graphBehaviorOptimize, tileBehaviorSize = 1000 } =
-      graph.getSpecification().optimize || {};
+    const { tileBehavior: graphBehaviorOptimize, tileBehaviorSize = 1000 } = graph.getSpecification().optimize || {};
     const { optimizeZoom } = options;
     const optimize = this.options.enableOptimize || graphBehaviorOptimize;
-    const shouldOptimize = isNumber(optimize)
-      ? graph.getAllNodesData().length > optimize
-      : optimize;
+    const shouldOptimize = isNumber(optimize) ? graph.getAllNodesData().length > optimize : optimize;
     if (shouldOptimize) {
       const currentZoom = graph.getZoom();
       const newHiddenEdgeIds = graph
@@ -247,10 +242,7 @@ export class ScrollCanvas extends Behavior {
       let requestId;
       const sectionNum = Math.ceil(newHiddenNodeIds.length / tileBehaviorSize);
       const sections = Array.from({ length: sectionNum }, (v, i) =>
-        newHiddenNodeIds.slice(
-          i * tileBehaviorSize,
-          i * tileBehaviorSize + tileBehaviorSize,
-        ),
+        newHiddenNodeIds.slice(i * tileBehaviorSize, i * tileBehaviorSize + tileBehaviorSize),
       );
       const update = () => {
         if (!sections.length) {
@@ -283,12 +275,9 @@ export class ScrollCanvas extends Behavior {
       return;
     }
 
-    const { tileBehavior: graphBehaviorOptimize, tileBehaviorSize = 1000 } =
-      graph.getSpecification().optimize || {};
+    const { tileBehavior: graphBehaviorOptimize, tileBehaviorSize = 1000 } = graph.getSpecification().optimize || {};
     const optimize = this.options.enableOptimize || graphBehaviorOptimize;
-    const shouldOptimize = isNumber(optimize)
-      ? graph.getAllNodesData().length > optimize
-      : optimize;
+    const shouldOptimize = isNumber(optimize) ? graph.getAllNodesData().length > optimize : optimize;
     if (!shouldOptimize) {
       this.hiddenEdgeIds = this.hiddenNodeIds = [];
       return;
@@ -298,10 +287,7 @@ export class ScrollCanvas extends Behavior {
     const hiddenIds = [...hiddenNodeIds, ...hiddenEdgeIds];
     const sectionNum = Math.ceil(hiddenIds.length / tileBehaviorSize);
     const sections = Array.from({ length: sectionNum }, (v, i) =>
-      hiddenIds.slice(
-        i * tileBehaviorSize,
-        i * tileBehaviorSize + tileBehaviorSize,
-      ),
+      hiddenIds.slice(i * tileBehaviorSize, i * tileBehaviorSize + tileBehaviorSize),
     );
     const update = () => {
       if (!sections.length) {
@@ -321,21 +307,17 @@ export class ScrollCanvas extends Behavior {
 
 const ALLOW_EVENTS = ['shift', 'ctrl', 'alt', 'control', 'meta'];
 
+/**
+ *
+ * @param zoomKey
+ */
 function initZoomKey(zoomKey?: string | string[]) {
-  const zoomKeys = zoomKey
-    ? Array.isArray(zoomKey)
-      ? zoomKey
-      : [zoomKey]
-    : [];
+  const zoomKeys = zoomKey ? (Array.isArray(zoomKey) ? zoomKey : [zoomKey]) : [];
 
   const validZoomKeys = zoomKeys.filter((zoomKey) => {
     const keyIsValid = ALLOW_EVENTS.includes(zoomKey);
     if (!keyIsValid)
-      console.warn(
-        `Invalid zoomKey: ${zoomKey}, please use a valid zoomKey: ${JSON.stringify(
-          ALLOW_EVENTS,
-        )}`,
-      );
+      console.warn(`Invalid zoomKey: ${zoomKey}, please use a valid zoomKey: ${JSON.stringify(ALLOW_EVENTS)}`);
 
     return keyIsValid;
   });

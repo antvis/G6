@@ -15946,8 +15946,7 @@ export default {
         {
           id: '2335',
           data: {
-            label:
-              'Countryside/Hodgkins/Indian Head Park/Willow Springs Suburban LIFE Citizen (Illinois)',
+            label: 'Countryside/Hodgkins/Indian Head Park/Willow Springs Suburban LIFE Citizen (Illinois)',
             x: 6665.528665655571,
             y: 641.9570084920047,
             z: -238.00546373774057,
@@ -21530,8 +21529,7 @@ export default {
         {
           id: '3017',
           data: {
-            label:
-              'National Rugby League Championship Company (Australia - Asia)',
+            label: 'National Rugby League Championship Company (Australia - Asia)',
             x: 1418.9285794433872,
             y: 2043.2893506199605,
             z: -899.8344252545023,
@@ -21663,8 +21661,7 @@ export default {
         {
           id: '3030',
           data: {
-            label:
-              'PDN Xinren Information Technology Co. Ltd. (Australia - Asia)',
+            label: 'PDN Xinren Information Technology Co. Ltd. (Australia - Asia)',
             x: 1530.797803881288,
             y: 2353.679998459286,
             z: -250.29084276656107,
@@ -61287,8 +61284,7 @@ export default {
         {
           id: '6907',
           data: {
-            label:
-              'Outsource Automated Services and Integrated Systems Reservations Services',
+            label: 'Outsource Automated Services and Integrated Systems Reservations Services',
             x: 7077.1391361480455,
             y: -965.7207905014666,
             z: 2140.2753201072715,
@@ -65766,8 +65762,7 @@ export default {
         {
           id: '6142',
           data: {
-            label:
-              'Automotive Information Center And Its Autosite Web-Based Products',
+            label: 'Automotive Information Center And Its Autosite Web-Based Products',
             x: 5962.936678704428,
             y: 4775.8809934958945,
             z: -398.1871015058835,

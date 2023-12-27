@@ -1,6 +1,4 @@
 import G6 from '../../src/index';
-import { Behavior } from '../../src/types/behavior';
-import { extend } from '../../src/util/extend';
 const container = document.createElement('div');
 document.querySelector('body')?.appendChild(container);
 
@@ -14,7 +12,7 @@ describe('behavior', () => {
       },
     });
     let graphSpec = graph.getSpecification();
-    // @ts-ignore
+    // @ts-expect-error
     expect(graphSpec.modes.default[0]).toBe('drag-canvas');
     // @ts-ignore
     expect(graphSpec.modes.default[1]).toBe('click-select');

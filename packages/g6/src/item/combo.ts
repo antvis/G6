@@ -1,15 +1,11 @@
 import { Group, Tuple3Number } from '@antv/g';
 import { clone, throttle } from '@antv/util';
 import { ComboDisplayModel, ComboModel, IGraph } from '../types';
-import { DisplayMapper, LodLevelRanges, State } from '../types/item';
-import { ComboStyleSet } from '../types/theme';
 import { ComboModelData, ComboUserModelData } from '../types/combo';
 import { Point } from '../types/common';
-import {
-  getCircleIntersectByPoint,
-  getNearestPoint,
-  getRectIntersectByPoint,
-} from '../util/point';
+import { DisplayMapper, LodLevelRanges, State } from '../types/item';
+import { ComboStyleSet } from '../types/theme';
+import { getCircleIntersectByPoint, getNearestPoint, getRectIntersectByPoint } from '../util/point';
 import Node from './node';
 
 interface IProps {
@@ -41,7 +37,7 @@ interface IProps {
   getChildren?: () => (Node | Combo)[];
 }
 export default class Combo extends Node {
-  public type: 'combo';
+  public declare type: 'combo';
   private anchorPointsCache: Point[] | undefined;
 
   private cacheCombinedBounds?:
@@ -89,9 +85,7 @@ export default class Combo extends Node {
           ...this.themeStyles.collapsed[shapeId],
         };
         if (this.themeStyles.collapsed[shapeId].contentType === 'childCount') {
-          (displayModel.data[shapeId] as any).text = `${
-            this.getChildren().length || 0
-          }`;
+          (displayModel.data[shapeId] as any).text = `${this.getChildren().length || 0}`;
         }
       });
     }
@@ -120,7 +114,10 @@ export default class Combo extends Node {
    * Maps (mapper will be function, value, or encode format) model to displayModel and find out the shapes to be update for incremental updating.
    * @param model inner model
    * @param diffData changes from graphCore changed event
+   * @param innerModel
+   * @param diffData.previous
    * @param isReplace whether replace the whole data or partial update
+   * @param diffData.current
    * @returns
    */
   public getDisplayModelAndChanges(
@@ -131,11 +128,7 @@ export default class Combo extends Node {
     model: ComboDisplayModel;
     typeChange?: boolean;
   } {
-    const superResult = super.getDisplayModelAndChanges(
-      innerModel,
-      diffData,
-      isReplace,
-    );
+    const superResult = super.getDisplayModelAndChanges(innerModel, diffData, isReplace);
     const model = superResult.model as ComboDisplayModel;
     return {
       model: this.updateModelByBounds(model),
@@ -166,8 +159,7 @@ export default class Combo extends Node {
 
   public getPosition(): Point {
     const { x = 0, y = 0, z = 0 } = this.model.data;
-    this.cacheCombinedBounds =
-      this.cacheCombinedBounds || this.getCombinedBounds();
+    this.cacheCombinedBounds = this.cacheCombinedBounds || this.getCombinedBounds();
     const { center } = this.cacheCombinedBounds || {};
     return center
       ? {
@@ -182,11 +174,7 @@ export default class Combo extends Node {
         };
   }
 
-  public getIntersectPoint(
-    point: Point,
-    innerPoint: Point,
-    anchorPoints: number[][],
-  ) {
+  public getIntersectPoint(point: Point, innerPoint: Point, anchorPoints: number[][]) {
     const { keyShape } = this.shapeMap;
     const shapeType = keyShape.nodeName;
     const { collapsed, keyShape: keyShapeStyle } = this.displayModel.data;
@@ -198,9 +186,7 @@ export default class Combo extends Node {
           {
             x,
             y,
-            r:
-              (collapsed ? keyShapeStyle?.r : keyShape.attributes.r) ||
-              keyShape.attributes.r,
+            r: (collapsed ? keyShapeStyle?.r : keyShape.attributes.r) || keyShape.attributes.r,
           },
           point,
         );
@@ -249,10 +235,7 @@ export default class Combo extends Node {
         // If the linkPoint is failed to calculate.
         linkPoint = point;
       }
-      linkPoint = getNearestPoint(
-        anchorPointsPositions,
-        linkPoint,
-      ).nearestPoint;
+      linkPoint = getNearestPoint(anchorPointsPositions, linkPoint).nearestPoint;
     }
     if (!linkPoint) {
       // If the calculations above are all failed, return the data's position
@@ -283,8 +266,7 @@ export default class Combo extends Node {
         if (!this.shapeMap[shapeId] || this.shapeMap[shapeId].destroyed) return;
         const clonedKeyShape = this.shapeMap[shapeId].cloneNode();
         // TODO: other animating attributes?
-        clonedKeyShape.style.opacity =
-          this.renderExt.mergedStyles[shapeId]?.opacity || 1;
+        clonedKeyShape.style.opacity = this.renderExt.mergedStyles[shapeId]?.opacity || 1;
         group.appendChild(clonedKeyShape);
       });
       group.setPosition(this.group.getPosition());

@@ -149,8 +149,7 @@ export class Minimap extends Base {
 
         if ((e as any).dataTransfer) {
           const img = new Image();
-          img.src =
-            "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' %3E%3Cpath /%3E%3C/svg%3E";
+          img.src = `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' %3E%3Cpath /%3E%3C/svg%3E`;
           (e as any).dataTransfer.setDragImage?.(img, 0, 0);
           try {
             (e as any).dataTransfer.setData('text/html', 'view-port-minimap');
@@ -248,11 +247,7 @@ export class Minimap extends Base {
     containerDOM.addEventListener('mouseup', dragendListener.bind(this));
 
     if (isSafari || isFireFox) {
-      containerDOM.addEventListener(
-        'mousemove',
-        dragListener.bind(this),
-        false,
-      );
+      containerDOM.addEventListener('mousemove', dragListener.bind(this), false);
     }
 
     this.viewport = viewport;
@@ -271,10 +266,8 @@ export class Minimap extends Base {
 
     const { size } = options;
     const graphCanvasEl = graph.canvas.context.config.canvas;
-    const [
-      graphWidth = graphCanvasEl?.scrollWidth || 500,
-      graphHeight = graphCanvasEl?.scrollHeight || 500,
-    ] = graph.getSize();
+    const [graphWidth = graphCanvasEl?.scrollWidth || 500, graphHeight = graphCanvasEl?.scrollHeight || 500] =
+      graph.getSize();
 
     const graphZoom = graph.getZoom();
     const graphBBox = graph.canvas.getRoot().getRenderBounds();
@@ -396,9 +389,7 @@ export class Minimap extends Base {
    */
   private updateOneNodeKeyShape(nodeModel, group) {
     const { itemMap = new Map(), graph } = this;
-    const graphNodeGroup = graph.canvas
-      .getRoot()
-      .find((ele) => ele.id === 'node-group');
+    const graphNodeGroup = graph.canvas.getRoot().find((ele) => ele.id === 'node-group');
     if (!graphNodeGroup) return;
 
     let { minimapItem, graphItem } = itemMap.get(nodeModel.id) || {};
@@ -494,9 +485,7 @@ export class Minimap extends Base {
    */
   private updateOneEdgeKeyShape(edgeModel, group) {
     const { itemMap = new Map(), graph } = this;
-    const graphEdgeGroup = graph.canvas
-      .getRoot()
-      .find((ele) => ele.id === 'edge-group');
+    const graphEdgeGroup = graph.canvas.getRoot().find((ele) => ele.id === 'edge-group');
     if (!graphEdgeGroup) return;
     let { minimapItem, graphItem } = itemMap.get(edgeModel.id) || {};
     if (minimapItem && !minimapItem.destroyed) {
@@ -529,9 +518,7 @@ export class Minimap extends Base {
     const { itemMap = new Map(), options, graph } = this;
     const { delegateStyle } = options;
 
-    const graphNodeGroup = graph.canvas
-      .getRoot()
-      .find((ele) => ele.id === 'node-group');
+    const graphNodeGroup = graph.canvas.getRoot().find((ele) => ele.id === 'node-group');
     if (!graphNodeGroup) return;
 
     // 差量更新 minimap 上的一个节点，对应主图的 item
@@ -561,9 +548,7 @@ export class Minimap extends Base {
       });
       group.appendChild(minimapItem);
     } else {
-      Object.keys(attrs).forEach(
-        (key) => (minimapItem.style[key] = attrs[key]),
-      );
+      Object.keys(attrs).forEach((key) => (minimapItem.style[key] = attrs[key]));
     }
     minimapItem.toFront();
 
@@ -578,9 +563,8 @@ export class Minimap extends Base {
    */
   private handleUpdateCanvas = debounce(
     (event) => {
-      const self = this;
-      if (self.destroyed) return;
-      self.updateCanvas();
+      if (this.destroyed) return;
+      this.updateCanvas();
     },
     100,
     false,
@@ -598,18 +582,16 @@ export class Minimap extends Base {
     () => {
       const nodeGroup = this.canvas.getRoot().getElementById('node-group');
       const edgeGroup = this.canvas.getRoot().getElementById('edge-group');
-      (nodeGroup?.childNodes || [])
-        .concat(edgeGroup?.childNodes || [])
-        .forEach((child) => {
-          const id = child.getAttribute?.('data-item-id');
-          if (this.visibleCache.hasOwnProperty(id)) {
-            if (this.visibleCache[id]) {
-              child.childNodes.forEach((shape) => shape.show());
-            } else if (this.visibleCache[id] === false) {
-              child.childNodes.forEach((shape) => shape.hide());
-            }
+      (nodeGroup?.childNodes || []).concat(edgeGroup?.childNodes || []).forEach((child) => {
+        const id = child.getAttribute?.('data-item-id');
+        if (id in this.visibleCache) {
+          if (this.visibleCache[id]) {
+            child.childNodes.forEach((shape) => shape.show());
+          } else if (this.visibleCache[id] === false) {
+            child.childNodes.forEach((shape) => shape.hide());
           }
-        });
+        }
+      });
       this.visibleCache = {};
     },
     50,
@@ -651,9 +633,7 @@ export class Minimap extends Base {
     }
     this.container = container;
 
-    const containerDOM = createDOM(
-      '<div class="g6-minimap-container" style="position: relative;"></div>',
-    );
+    const containerDOM = createDOM('<div class="g6-minimap-container" style="position: relative;"></div>');
     container.appendChild(containerDOM);
     containerDOM.addEventListener('dragenter', (e) => {
       e.preventDefault();
@@ -664,13 +644,7 @@ export class Minimap extends Base {
 
     // TODO: graph.rendererType
     const graphCanvas = graph.canvas;
-    this.canvas = createCanvas(
-      'canvas',
-      containerDOM,
-      size[0],
-      size[1],
-      graphCanvas.devicePixelRatio,
-    );
+    this.canvas = createCanvas('canvas', containerDOM, size[0], size[1], graphCanvas.devicePixelRatio);
 
     return this.canvas.ready;
   }
@@ -705,20 +679,13 @@ export class Minimap extends Base {
     const height = graphBBox.max[1] - graphBBox.min[1];
 
     // Scale the graph to fit the size - padding of the minimap container
-    const zoomRatio = Math.min(
-      (size[0] - 2 * padding) / width,
-      (size[1] - 2 * padding) / height,
-    );
+    const zoomRatio = Math.min((size[0] - 2 * padding) / width, (size[1] - 2 * padding) / height);
     const zoomCenter = canvas.viewport2Canvas({ x: 0, y: 0 });
     canvas.getCamera().setFocalPoint(zoomCenter.x, zoomCenter.y);
     canvas.getCamera().setPosition(zoomCenter.x, zoomCenter.y);
     canvas.getCamera().setZoom(zoomRatio);
-    canvas
-      .getCamera()
-      .setPosition(minimapBBox.center[0], minimapBBox.center[1]);
-    canvas
-      .getCamera()
-      .setFocalPoint(minimapBBox.center[0], minimapBBox.center[1]);
+    canvas.getCamera().setPosition(minimapBBox.center[0], minimapBBox.center[1]);
+    canvas.getCamera().setFocalPoint(minimapBBox.center[0], minimapBBox.center[1]);
 
     const { x: dx, y: dy } = canvas.canvas2Viewport({
       x: minimapBBox.min[0],
@@ -734,7 +701,7 @@ export class Minimap extends Base {
 
   /**
    * Get the canvas of the minimap.
-   * @return {Canvas} G Canvas
+   * @returns {Canvas} G Canvas
    */
   public getCanvas(): Canvas {
     return this.canvas;
@@ -742,7 +709,7 @@ export class Minimap extends Base {
 
   /**
    * Get the viewport DOM of the minimap.
-   * @return {HTMLElement} viewport DOM
+   * @returns {HTMLElement} viewport DOM
    */
   public getViewport(): HTMLElement {
     return this.viewport;
@@ -750,7 +717,7 @@ export class Minimap extends Base {
 
   /**
    * Get the container DOM of the minimap.
-   * @return {HTMLElement} container DOM
+   * @returns {HTMLElement} container DOM
    */
   public getContainer(): HTMLElement {
     return this.container;
@@ -769,20 +736,11 @@ const getMoveAtBorder = (dom, evt) => {
   const { clientX, clientY } = evt;
   if (Math.abs(clientX - bounds.x) < 4 && Math.abs(clientY - bounds.y) < 4) {
     return 'left-top';
-  } else if (
-    Math.abs(clientX - bounds.x) < 4 &&
-    Math.abs(clientY - bounds.y - bounds.height) < 4
-  ) {
+  } else if (Math.abs(clientX - bounds.x) < 4 && Math.abs(clientY - bounds.y - bounds.height) < 4) {
     return 'left-bottom';
-  } else if (
-    Math.abs(clientX - bounds.x - bounds.width) < 4 &&
-    Math.abs(clientY - bounds.y) < 4
-  ) {
+  } else if (Math.abs(clientX - bounds.x - bounds.width) < 4 && Math.abs(clientY - bounds.y) < 4) {
     return 'right-top';
-  } else if (
-    Math.abs(clientX - bounds.x - bounds.width) < 4 &&
-    Math.abs(clientY - bounds.y - bounds.height) < 4
-  ) {
+  } else if (Math.abs(clientX - bounds.x - bounds.width) < 4 && Math.abs(clientY - bounds.y - bounds.height) < 4) {
     return 'right-bottom';
   } else if (Math.abs(clientX - bounds.x) < 4) {
     return 'left';

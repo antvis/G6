@@ -1,25 +1,15 @@
 import { DisplayObject } from '@antv/g';
 import { NodeDisplayModel } from '../../../types';
-import {
-  GShapeStyle,
-  SHAPE_TYPE,
-  SHAPE_TYPE_3D,
-  ShapeStyle,
-  State,
-} from '../../../types/item';
-import {
-  NodeModelData,
-  NodeShapeMap,
-  NodeShapeStyles,
-} from '../../../types/node';
+import { GShapeStyle, SHAPE_TYPE, SHAPE_TYPE_3D, ShapeStyle, State } from '../../../types/item';
+import { NodeModelData, NodeShapeMap, NodeShapeStyles } from '../../../types/node';
 import { upsertShape3D } from '../../../util/shape3d';
 import { BaseNode } from './base';
 
 export abstract class BaseNode3D extends BaseNode {
-  type: string;
-  defaultStyles: NodeShapeStyles;
-  themeStyles: NodeShapeStyles;
-  mergedStyles: NodeShapeStyles;
+  declare type: string;
+  declare defaultStyles: NodeShapeStyles;
+  declare themeStyles: NodeShapeStyles;
+  declare mergedStyles: NodeShapeStyles;
   device: any; // for 3d renderer
   dimensions: number = 3;
   constructor(props) {
@@ -33,6 +23,10 @@ export abstract class BaseNode3D extends BaseNode {
    * @param shapeMap The shape map that contains all of the elements to show on the 3D node.
    * @param diffData An object that contains previous and current data.
    * @param diffState An object that contains previous and current 3D node's state.
+   * @param diffData.previous
+   * @param diffData.current
+   * @param diffState.previous
+   * @param diffState.current
    * @returns The display object representing the label shape of the 3D node.
    */
   public drawLabelShape(
@@ -49,13 +43,7 @@ export abstract class BaseNode3D extends BaseNode {
       max: [x + r || width / 2, y + r || height / 2, z + r || depth / 2],
     };
     const { labelShape: shapeStyle } = this.mergedStyles;
-    const {
-      position,
-      offsetX: propsOffsetX,
-      offsetY: propsOffsetY,
-      maxWidth,
-      ...otherStyle
-    } = shapeStyle;
+    const { position, offsetX: propsOffsetX, offsetY: propsOffsetY, maxWidth, ...otherStyle } = shapeStyle;
 
     const positionPreset = {
       x: keyShapeBox.center[0],
@@ -91,12 +79,8 @@ export abstract class BaseNode3D extends BaseNode {
         positionPreset.offsetY = 4;
         break;
     }
-    const offsetX = (
-      propsOffsetX === undefined ? positionPreset.offsetX : propsOffsetX
-    ) as number;
-    const offsetY = (
-      propsOffsetY === undefined ? positionPreset.offsetY : propsOffsetY
-    ) as number;
+    const offsetX = (propsOffsetX === undefined ? positionPreset.offsetX : propsOffsetX) as number;
+    const offsetY = (propsOffsetY === undefined ? positionPreset.offsetY : propsOffsetY) as number;
     positionPreset.x += offsetX;
     positionPreset.y += offsetY;
 
@@ -121,6 +105,10 @@ export abstract class BaseNode3D extends BaseNode {
    * @param shapeMap The shape map that contains all of the elements to show on the 3D node.
    * @param diffData An object that contains previous and current data.
    * @param diffState An object that contains previous and current 3D node's state.
+   * @param diffData.previous
+   * @param diffData.current
+   * @param diffState.previous
+   * @param diffState.current
    * @returns The display object representing the icon shape of the 3D node.
    */
   public drawIconShape(
@@ -166,6 +154,10 @@ export abstract class BaseNode3D extends BaseNode {
    * @param shapeMap
    * @param diffData
    * @param diffState
+   * @param diffData.previous
+   * @param diffData.current
+   * @param diffState.previous
+   * @param diffState.current
    * @returns
    */
   public drawAnchorShapes(

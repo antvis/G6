@@ -268,9 +268,7 @@ describe('layout', () => {
 
     graph.once('afterlayout', () => {
       const nodesData = graph.getAllNodesData();
-      expect(
-        nodesData.every((node) => node.data.x > 0 && node.data.y > 0),
-      ).toBeTruthy();
+      expect(nodesData.every((node) => node.data.x > 0 && node.data.y > 0)).toBeTruthy();
       graph.destroy();
       done();
     });
@@ -393,9 +391,7 @@ describe('layout', () => {
       graph.stopLayout();
 
       const nodesData = graph.getAllNodesData();
-      expect(
-        nodesData.every((node) => node.data.x > 0 && node.data.y > 0),
-      ).toBeTruthy();
+      expect(nodesData.every((node) => node.data.x > 0 && node.data.y > 0)).toBeTruthy();
 
       graph.destroy();
       done();
@@ -420,9 +416,7 @@ describe('layout', () => {
 
     graph.once('afterlayout', () => {
       const nodesData = graph.getAllNodesData();
-      expect(
-        nodesData.every((node) => node.data.x > 0 && node.data.y > 0),
-      ).toBeTruthy();
+      expect(nodesData.every((node) => node.data.x > 0 && node.data.y > 0)).toBeTruthy();
 
       graph.destroy();
       done();
@@ -467,9 +461,7 @@ describe('layout', () => {
 
     graph.once('afterlayout', () => {
       const nodesData = graph.getAllNodesData();
-      expect(
-        nodesData.every((node) => node.data.x === 0 && node.data.y === 0),
-      ).toBeTruthy();
+      expect(nodesData.every((node) => node.data.x === 0 && node.data.y === 0)).toBeTruthy();
 
       graph.destroy();
       done();

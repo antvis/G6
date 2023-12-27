@@ -2,8 +2,8 @@ import { ID } from '@antv/graphlib';
 import { debounce, throttle, uniq } from '@antv/util';
 import { ComboModel, EdgeModel, NodeModel } from '../../types';
 import { Behavior } from '../../types/behavior';
-import { IG6GraphEvent } from '../../types/event';
 import { Point } from '../../types/common';
+import { IG6GraphEvent } from '../../types/event';
 import { graphComboTreeDfs } from '../../util/data';
 
 const DELEGATE_SHAPE_ID = 'g6-drag-combo-delegate-shape';
@@ -139,14 +139,13 @@ export class DragCombo extends Behavior {
     }
   };
 
-  /** Given selected node ids, get their related visible edges. */
-  private getRelatedEdges(
-    selectedComboIds: ID[],
-    comboTreeRoots: (ComboModel | NodeModel)[],
-  ) {
-    let edges = selectedComboIds.flatMap((comboId) =>
-      this.graph.getRelatedEdgesData(comboId),
-    );
+  /**
+   * Given selected node ids, get their related visible edges.
+   * @param selectedComboIds
+   * @param comboTreeRoots
+   */
+  private getRelatedEdges(selectedComboIds: ID[], comboTreeRoots: (ComboModel | NodeModel)[]) {
+    let edges = selectedComboIds.flatMap((comboId) => this.graph.getRelatedEdgesData(comboId));
     graphComboTreeDfs(this.graph, comboTreeRoots, (child) => {
       edges = edges.concat(this.graph.getRelatedEdgesData(child.id));
     });
@@ -177,11 +176,7 @@ export class DragCombo extends Behavior {
 
     const items = begins;
     graphComboTreeDfs(this.graph, begins, (child) => items.push(child), 'TB');
-    return uniq(items).filter(
-      (item) =>
-        !selectedComboIds.includes(item.id) &&
-        this.graph.getItemVisible(item.id),
-    );
+    return uniq(items).filter((item) => !selectedComboIds.includes(item.id) && this.graph.getItemVisible(item.id));
   }
 
   public onPointerDown(event: IG6GraphEvent) {
@@ -197,8 +192,7 @@ export class DragCombo extends Behavior {
     const beginDeltaY = Math.abs(this.pointerDown.y - event.canvas.y);
     if (beginDeltaX < 1 && beginDeltaY < 1) return;
 
-    const enableTransient =
-      this.options.enableTransient && this.graph.rendererType !== 'webgl-3d';
+    const enableTransient = this.options.enableTransient && this.graph.rendererType !== 'webgl-3d';
 
     if (this.dragging) {
       this.originPositions = this.selectedComboIds
@@ -226,19 +220,11 @@ export class DragCombo extends Behavior {
       this.dragging = true;
 
       const currentComboId = event.itemId;
-      let selectedComboIds = this.graph.findIdByState(
-        'combo',
-        this.options.selectedState,
-        true,
-      );
+      let selectedComboIds = this.graph.findIdByState('combo', this.options.selectedState, true);
 
       // If current node is selected, drag all the selected nodes together.
       // Otherwise drag current node.
-      if (
-        currentComboId &&
-        event.itemType === 'combo' &&
-        !selectedComboIds.includes(currentComboId)
-      ) {
+      if (currentComboId && event.itemType === 'combo' && !selectedComboIds.includes(currentComboId)) {
         selectedComboIds = [currentComboId];
       }
       this.selectedComboIds = selectedComboIds;
@@ -246,10 +232,7 @@ export class DragCombo extends Behavior {
       // Hide related edge.
       if (this.options.hideRelatedEdges && !enableTransient) {
         this.hiddenComboTreeRoots = this.getComboTreeItems(selectedComboIds);
-        this.hiddenEdges = this.getRelatedEdges(
-          selectedComboIds,
-          this.hiddenComboTreeRoots,
-        );
+        this.hiddenEdges = this.getRelatedEdges(selectedComboIds, this.hiddenComboTreeRoots);
         this.graph.executeWithNoStack(() => {
           this.graph.hideItem(
             this.hiddenEdges.map((edge) => edge.id),
@@ -266,10 +249,7 @@ export class DragCombo extends Behavior {
       if (enableTransient) {
         // Draw transient edges and nodes.
         this.hiddenComboTreeRoots = this.getComboTreeItems(selectedComboIds);
-        this.hiddenEdges = this.getRelatedEdges(
-          selectedComboIds,
-          this.hiddenComboTreeRoots,
-        );
+        this.hiddenEdges = this.getRelatedEdges(selectedComboIds, this.hiddenComboTreeRoots);
         selectedComboIds.forEach((comboId) => {
           this.graph.drawTransient('combo', comboId, {
             upsertAncestors: !this.options.updateComboStructure,
@@ -297,11 +277,7 @@ export class DragCombo extends Behavior {
 
       // Throttle moving.
       if (this.options.throttle > 0) {
-        this.throttledMoveCombos = throttle(
-          this.moveCombos,
-          this.options.throttle,
-          { leading: true, trailing: true },
-        );
+        this.throttledMoveCombos = throttle(this.moveCombos, this.options.throttle, { leading: true, trailing: true });
       } else {
         this.throttledMoveCombos = this.moveCombos;
       }
@@ -316,24 +292,18 @@ export class DragCombo extends Behavior {
       return;
     }
 
-    // @ts-ignore FIXME: type
+    // @ts-expect-error FIXME: type
     const pointerEvent = event as PointerEvent;
-    // @ts-ignore FIXME: Type
+    // @ts-expect-error FIXME: Type
     const deltaX = pointerEvent.canvas.x - this.previousX;
-    // @ts-ignore FIXME: Type
+    // @ts-expect-error FIXME: Type
     const deltaY = pointerEvent.canvas.y - this.previousY;
 
     if (this.options.enableDelegate) {
       this.moveDelegate(deltaX, deltaY);
     } else {
-      const enableTransient =
-        this.options.enableTransient && this.graph.rendererType !== 'webgl-3d';
-      this.throttledMoveCombos(
-        deltaX,
-        deltaY,
-        enableTransient,
-        !this.options.updateComboStructure,
-      );
+      const enableTransient = this.options.enableTransient && this.graph.rendererType !== 'webgl-3d';
+      this.throttledMoveCombos(deltaX, deltaY, enableTransient, !this.options.updateComboStructure);
     }
   }
 
@@ -384,18 +354,10 @@ export class DragCombo extends Behavior {
   };
 
   public moveDelegate(deltaX: number, deltaY: number) {
-    const x1 = Math.min(
-      ...this.originPositions.map((position) => position.minX),
-    );
-    const y1 = Math.min(
-      ...this.originPositions.map((position) => position.minY),
-    );
-    const x2 = Math.max(
-      ...this.originPositions.map((position) => position.maxX),
-    );
-    const y2 = Math.max(
-      ...this.originPositions.map((position) => position.maxY),
-    );
+    const x1 = Math.min(...this.originPositions.map((position) => position.minX));
+    const y1 = Math.min(...this.originPositions.map((position) => position.minY));
+    const x2 = Math.max(...this.originPositions.map((position) => position.maxX));
+    const y2 = Math.max(...this.originPositions.map((position) => position.maxY));
     this.graph.drawTransient('rect', DELEGATE_SHAPE_ID, {
       style: {
         x: x1 + deltaX,
@@ -444,8 +406,7 @@ export class DragCombo extends Behavior {
       );
       this.hiddenComboTreeRoots = [];
     }
-    const enableTransient =
-      this.options.enableTransient && this.graph.rendererType !== 'webgl-3d';
+    const enableTransient = this.options.enableTransient && this.graph.rendererType !== 'webgl-3d';
     if (enableTransient) {
       this.graph.showItem(
         this.originPositions.concat(positions).map((position) => position.id),
@@ -458,17 +419,16 @@ export class DragCombo extends Behavior {
   public onPointerUp(event: IG6GraphEvent) {
     this.pointerDown = undefined;
     this.dragging = false;
-    const enableTransient =
-      this.options.enableTransient && this.graph.rendererType !== 'webgl-3d';
+    const enableTransient = this.options.enableTransient && this.graph.rendererType !== 'webgl-3d';
     // If transient or delegate was enabled, move the real nodes.
     // if (enableTransient || this.options.enableDelegate) {
-    // @ts-ignore FIXME: type
+    // @ts-expect-error FIXME: type
     const pointerEvent = event as PointerEvent;
     const baseX = enableTransient ? this.originX : this.previousX;
     const baseY = enableTransient ? this.originY : this.previousY;
-    // @ts-ignore FIXME: Type
+    // @ts-expect-error FIXME: Type
     const deltaX = pointerEvent.canvas.x - baseX + 0.01;
-    // @ts-ignore FIXME: Type
+    // @ts-expect-error FIXME: Type
     const deltaY = pointerEvent.canvas.y - baseY + 0.01;
     this.moveCombos(
       deltaX,
@@ -513,8 +473,7 @@ export class DragCombo extends Behavior {
     this.clearTransientItems();
     this.restoreHiddenItems();
 
-    const enableTransient =
-      this.options.enableTransient && this.graph.rendererType !== 'webgl-3d';
+    const enableTransient = this.options.enableTransient && this.graph.rendererType !== 'webgl-3d';
     // Restore node positions.
     if (!enableTransient && !this.options.enableDelegate) {
       const positionChanges = this.originPositions.map(({ id, x, y }) => {
@@ -527,23 +486,16 @@ export class DragCombo extends Behavior {
   }
 
   public async onDropNode(event: IG6GraphEvent) {
-    const elements = await this.graph.canvas.document.elementsFromPoint(
-      event.canvas.x,
-      event.canvas.y,
-    );
+    const elements = await this.graph.canvas.document.elementsFromPoint(event.canvas.x, event.canvas.y);
     const draggingIds = this.originPositions.map(({ id }) => id);
     const currentIds = elements
-      // @ts-ignore TODO: G type
+      // @ts-expect-error TODO: G type
       .map((ele) => ele.parentNode.getAttribute?.('data-item-id'))
       .filter((id) => id !== undefined && !draggingIds.includes(id));
     // the top item which is not in draggingIds
-    const dropId = currentIds.find(
-      (id) => this.graph.getComboData(id) || this.graph.getNodeData(id),
-    );
+    const dropId = currentIds.find((id) => this.graph.getComboData(id) || this.graph.getNodeData(id));
     // drop on a node A, move the dragged node to the same parent of A
-    const newParentId = this.graph.getNodeData(dropId)
-      ? this.graph.getNodeData(dropId).data.parentId
-      : dropId;
+    const newParentId = this.graph.getNodeData(dropId) ? this.graph.getNodeData(dropId).data.parentId : dropId;
 
     this.originPositions.forEach(({ id }) => {
       const model = this.graph.getComboData(id);

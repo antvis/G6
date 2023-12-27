@@ -1,23 +1,15 @@
 import { isArray, isNumber, uniqueId } from '@antv/util';
+import { GraphData } from '../../types';
 import { GraphCore, GraphDataChanges } from '../../types/data';
-import {
-  GraphData,
-  ComboUserModel,
-  EdgeUserModel,
-  NodeUserModel,
-} from '../../types';
 
 /**
  * Validate and format the graph data.
  * @param data input user data.
+ * @param options validate options.
  * @param graphCore the graph core stores the previous data.
  * @returns formatted data.
  */
-export const TransformV4Data = (
-  data: GraphDataChanges,
-  options = {},
-  graphCore?: GraphCore,
-): GraphDataChanges => {
+export const TransformV4Data = (data: GraphDataChanges, options = {}, graphCore?: GraphCore): GraphDataChanges => {
   const { dataAdded, dataUpdated, dataRemoved } = data;
   return {
     dataAdded: handler(dataAdded, options, graphCore),
@@ -26,11 +18,7 @@ export const TransformV4Data = (
   };
 };
 
-const handler = (
-  data: GraphData,
-  options = {},
-  graphCore?: GraphCore,
-): GraphData => {
+const handler = (data: GraphData, options = {}, graphCore?: GraphCore): GraphData => {
   const { nodes = [], edges = [], combos = [] } = data;
   const formattedNodes = nodes.map((node: any) => {
     const prevNode = graphCore?.getNode(node.id);
@@ -38,23 +26,10 @@ const handler = (
       ...prevNode,
       ...node,
     };
-    const {
-      id,
-      type,
-      style,
-      size,
-      color,
-      label,
-      labelCfg = {},
-      icon,
-      linkPoints,
-      data = {},
-      ...others
-    } = mergedNode;
+    const { id, type, style, size, color, label, labelCfg = {}, icon, linkPoints, data = {}, ...others } = mergedNode;
     const anchorShapes = [];
     if (linkPoints) {
-      const { top, bottom, left, right, ...otherAnchorShapeStyles } =
-        linkPoints;
+      const { top, bottom, left, right, ...otherAnchorShapeStyles } = linkPoints;
       Object.keys({ top, bottom, left, right }).forEach((key) => {
         if (!linkPoints[key]) return;
         anchorShapes.push({ position: key, ...otherAnchorShapeStyles });
@@ -173,19 +148,7 @@ const handler = (
       ...prevCombo,
       ...combo,
     };
-    const {
-      id,
-      type,
-      style,
-      size,
-      color,
-      label,
-      labelCfg = {},
-      icon,
-      linkPoints,
-      data = {},
-      ...others
-    } = mergedCombo;
+    const { id, type, style, size, color, label, labelCfg = {}, icon, linkPoints, data = {}, ...others } = mergedCombo;
     const { style: labelStyle = {}, ...otherLabelStyle } = labelCfg;
     const { background } = labelStyle;
     const newCombo = {

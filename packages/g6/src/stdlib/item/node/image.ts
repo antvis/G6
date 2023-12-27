@@ -1,14 +1,10 @@
 import { DisplayObject } from '@antv/g';
 import { ComboDisplayModel, NodeDisplayModel } from '../../../types';
-import { State } from '../../../types/item';
-import {
-  NodeModelData,
-  NodeShapeMap,
-  NodeShapeStyles,
-} from '../../../types/node';
-import { convertToNumber } from '../../../util/type';
 import { ComboModelData, ComboShapeMap } from '../../../types/combo';
+import { State } from '../../../types/item';
+import { NodeModelData, NodeShapeMap, NodeShapeStyles } from '../../../types/node';
 import { ShapeTagMap } from '../../../util/shape';
+import { convertToNumber } from '../../../util/type';
 import { BaseNode } from './base';
 
 export class ImageNode extends BaseNode {
@@ -20,7 +16,7 @@ export class ImageNode extends BaseNode {
       height: 32,
     },
   };
-  mergedStyles: NodeShapeStyles;
+  declare mergedStyles: NodeShapeStyles;
   constructor(props) {
     super(props);
     // suggest to merge default styles like this to avoid style value missing
@@ -74,10 +70,7 @@ export class ImageNode extends BaseNode {
     const anchorPositionMap = {};
     anchorPositionMap['top'] = [x, y - height / 2];
     anchorPositionMap['left'] = [x - width / 2, y];
-    anchorPositionMap['right'] = anchorPositionMap['default'] = [
-      x + width / 2,
-      y,
-    ];
+    anchorPositionMap['right'] = anchorPositionMap['default'] = [x + width / 2, y];
     anchorPositionMap['bottom'] = [x, y + height / 2];
     return anchorPositionMap;
   }
@@ -106,21 +99,12 @@ export class ImageNode extends BaseNode {
 
     // labelBackgroundShape
     if (data.labelBackgroundShape) {
-      shapes.labelBackgroundShape = this.drawLabelBackgroundShape(
-        model,
-        shapeMap,
-        diffData,
-      );
+      shapes.labelBackgroundShape = this.drawLabelBackgroundShape(model, shapeMap, diffData);
     }
 
     // anchor shapes
     if (data.anchorShapes) {
-      const anchorShapes = this.drawAnchorShapes(
-        model,
-        shapeMap,
-        diffData,
-        diffState,
-      );
+      const anchorShapes = this.drawAnchorShapes(model, shapeMap, diffData, diffState);
       shapes = {
         ...shapes,
         ...anchorShapes,
@@ -134,12 +118,7 @@ export class ImageNode extends BaseNode {
 
     // badgeShape
     if (data.badgeShapes) {
-      const badgeShapes = this.drawBadgeShapes(
-        model,
-        shapeMap,
-        diffData,
-        diffState,
-      );
+      const badgeShapes = this.drawBadgeShapes(model, shapeMap, diffData, diffState);
       shapes = {
         ...shapes,
         ...badgeShapes,
@@ -166,8 +145,7 @@ export class ImageNode extends BaseNode {
     diffState?: { previous: State[]; current: State[] },
   ): DisplayObject {
     const { keyShape } = shapeMap;
-    const { haloShape: haloShapeStyle, keyShape: keyShapeStyle } =
-      this.mergedStyles;
+    const { haloShape: haloShapeStyle, keyShape: keyShapeStyle } = this.mergedStyles;
     if (haloShapeStyle?.visible === false) return;
 
     const clipShape = haloShapeStyle?.clipCfg?.type || 'rect';

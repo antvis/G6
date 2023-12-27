@@ -1,39 +1,29 @@
-import { Group, DisplayObject, AABB, IAnimation } from '@antv/g';
+import { AABB, DisplayObject, Group, IAnimation } from '@antv/g';
 import { isFunction, isObject, throttle } from '@antv/util';
 import { OTHER_SHAPES_FIELD_NAME, RESERVED_SHAPE_IDS } from '../constant';
+import { IGraph } from '../types';
+import { AnimateTiming, IAnimates, IStateAnimate } from '../types/animate';
 import { EdgeShapeMap } from '../types/edge';
 import {
   DisplayMapper,
   IItem,
+  ITEM_TYPE,
   ItemDisplayModel,
   ItemModel,
   ItemModelData,
   ItemShapeStyles,
-  ITEM_TYPE,
-  State,
   LodLevelRanges,
+  State,
 } from '../types/item';
 import { NodeShapeMap } from '../types/node';
 import { EdgeStyleSet, NodeStyleSet } from '../types/theme';
+import { GROUP_ANIMATE_STYLES, animateShapes, getShapeAnimateBeginStyles, stopAnimate } from '../util/animate';
 import { isArrayOverlap } from '../util/array';
-import {
-  combineBounds,
-  getShapeLocalBoundsByStyle,
-  mergeStyles,
-  updateShapes,
-} from '../util/shape';
-import { isEncode } from '../util/type';
-import { DEFAULT_MAPPER } from '../util/mapper';
 import { cloneJSON } from '../util/data';
-import {
-  getShapeAnimateBeginStyles,
-  animateShapes,
-  GROUP_ANIMATE_STYLES,
-  stopAnimate,
-} from '../util/animate';
-import { AnimateTiming, IAnimates, IStateAnimate } from '../types/animate';
+import { DEFAULT_MAPPER } from '../util/mapper';
+import { combineBounds, getShapeLocalBoundsByStyle, mergeStyles, updateShapes } from '../util/shape';
+import { isEncode } from '../util/type';
 import { formatLodLevels } from '../util/zoom';
-import { IGraph } from '../types';
 
 export default abstract class Item implements IItem {
   public graph: IGraph;
@@ -106,7 +96,10 @@ export default abstract class Item implements IItem {
     this.onframe = props.onframe;
   }
 
-  /** Initiate the item. */
+  /**
+   * Initiate the item.
+   * @param props
+   */
   public init(props) {
     const {
       graph,
@@ -143,9 +136,7 @@ export default abstract class Item implements IItem {
     } = this.displayModel.data;
     const RenderExtension = renderExtensions.find((ext) => ext.type === type);
     this.themeStyles = theme.styles;
-    this.lodLevels = modelLodLevels
-      ? formatLodLevels(modelLodLevels)
-      : theme.lodLevels;
+    this.lodLevels = modelLodLevels ? formatLodLevels(modelLodLevels) : theme.lodLevels;
     if (!RenderExtension) {
       if (this.type === 'node') {
         throw new Error(
@@ -156,9 +147,7 @@ export default abstract class Item implements IItem {
           `TypeError: RenderExtension is not a constructor. The '${type}' in your data haven't been registered. You can use built-in edge types like 'line-edge', 'quadratic-edge','cubic-edge' or create a custom edge type as you like.`,
         );
       } else {
-        throw new Error(
-          `TypeError: RenderExtension is not a constructor. The '${type}' haven't been registered.`,
-        );
+        throw new Error(`TypeError: RenderExtension is not a constructor. The '${type}' haven't been registered.`);
       }
     }
     this.renderExt = new RenderExtension({
@@ -173,8 +162,17 @@ export default abstract class Item implements IItem {
 
   /**
    * Draws the shapes.
+   * @param displayModel
+   * @param diffData
+   * @param diffData.previous
+   * @param diffData.current
+   * @param diffState
+   * @param diffState.previous
+   * @param diffState.current
+   * @param animate
+   * @param onfinish
    * @internal
-   * */
+   */
   public draw(
     displayModel: ItemDisplayModel,
     diffData?: { previous: ItemModelData; current: ItemModelData },
@@ -197,8 +195,7 @@ export default abstract class Item implements IItem {
       this.afterDrawShapeMap.labelShape.attributes.dataIsLabel = true;
     }
     if (this.afterDrawShapeMap.labelBackgroundShape) {
-      this.afterDrawShapeMap.labelBackgroundShape.attributes.dataIsLabelBackground =
-        true;
+      this.afterDrawShapeMap.labelBackgroundShape.attributes.dataIsLabelBackground = true;
     }
     const shapeMap = updateShapes(
       this.afterDrawShapeMap,
@@ -225,8 +222,19 @@ export default abstract class Item implements IItem {
 
   /**
    * Updates the shapes.
+   * @param model
+   * @param diffData
+   * @param diffData.previous
+   * @param diffData.current
+   * @param isReplace
+   * @param itemTheme
+   * @param itemTheme.styles
+   * @param itemTheme.lodLevels
+   * @param onlyMove
+   * @param animate
+   * @param onfinish
    * @internal
-   * */
+   */
   public update(
     model: ItemModel,
     diffData?: { previous: ItemModelData; current: ItemModelData },
@@ -245,11 +253,7 @@ export default abstract class Item implements IItem {
       this.themeStyles = itemTheme.styles;
     }
     // 2. map new merged model to displayModel, keep prevModel and newModel for 3.
-    const { model: displayModel, typeChange } = this.getDisplayModelAndChanges(
-      this.model,
-      diffData,
-      isReplace,
-    );
+    const { model: displayModel, typeChange } = this.getDisplayModelAndChanges(this.model, diffData, isReplace);
     this.displayModel = displayModel;
 
     this.lodLevels = displayModel.data.lodLevels
@@ -264,11 +268,8 @@ export default abstract class Item implements IItem {
     if (typeChange) {
       Object.values(this.shapeMap).forEach((child) => child.destroy());
       this.shapeMap = { keyShape: undefined };
-      const { type = this.type === 'node' ? 'circle-node' : 'line-edge' } =
-        displayModel.data;
-      const RenderExtension = this.renderExtensions.find(
-        (ext) => ext.type === type,
-      );
+      const { type = this.type === 'node' ? 'circle-node' : 'line-edge' } = displayModel.data;
+      const RenderExtension = this.renderExtensions.find((ext) => ext.type === type);
       this.renderExt = new RenderExtension({
         themeStyles: this.themeStyles.default,
         lodLevels: this.lodLevels,
@@ -295,8 +296,10 @@ export default abstract class Item implements IItem {
    * Update the group's position, e.g. node, combo.
    * @param displayModel
    * @param diffData
+   * @param diffData.previous
+   * @param diffData.current
    * @param onfinish
-   * @returns
+   * @param animate
    */
   public updatePosition(
     displayModel: ItemDisplayModel,
@@ -309,7 +312,10 @@ export default abstract class Item implements IItem {
    * Maps (mapper will be function, value, or encode format) model to displayModel and find out the shapes to be update for incremental updating.
    * @param model inner model
    * @param diffData changes from graphCore changed event
+   * @param innerModel
+   * @param diffData.previous
    * @param isReplace whether replace the whole data or partial update
+   * @param diffData.current
    * @returns
    */
   public getDisplayModelAndChanges(
@@ -352,9 +358,7 @@ export default abstract class Item implements IItem {
     }
 
     // === fields' values in mapper are final value or Encode ===
-    const dataChangedFields = isReplace
-      ? undefined
-      : Object.keys(current || {}).concat(Object.keys(otherFields)); // only fields in current data for partial updating
+    const dataChangedFields = isReplace ? undefined : Object.keys(current || {}).concat(Object.keys(otherFields)); // only fields in current data for partial updating
 
     let typeChange = false;
     const { data, ...otherProps } = innerModel;
@@ -363,12 +367,11 @@ export default abstract class Item implements IItem {
     Object.keys(mapper).forEach((fieldName) => {
       let subMapper = mapper[fieldName];
       const isReservedShapeId = RESERVED_SHAPE_IDS.includes(fieldName);
-      const isShapeId =
-        isReservedShapeId || fieldName === OTHER_SHAPES_FIELD_NAME;
+      const isShapeId = isReservedShapeId || fieldName === OTHER_SHAPES_FIELD_NAME;
 
       if ((isShapeId && isEncode(subMapper)) || !isShapeId) {
         // fields not about shape
-        if (!displayModelData.hasOwnProperty(fieldName)) {
+        if (!(fieldName in displayModelData)) {
           const { changed, value: mappedValue } = updateChange({
             innerModel,
             mapper,
@@ -382,10 +385,7 @@ export default abstract class Item implements IItem {
             displayModelData[fieldName] = mappedValue;
           }
           if (changed && fieldName === 'type') typeChange = true;
-        } else if (
-          fieldName === 'type' &&
-          (!dataChangedFields || dataChangedFields.includes('type'))
-        ) {
+        } else if (fieldName === 'type' && (!dataChangedFields || dataChangedFields.includes('type'))) {
           typeChange = true;
         }
       }
@@ -417,9 +417,8 @@ export default abstract class Item implements IItem {
               }
             : {};
         Object.keys(subMapper).forEach((shapeId) => {
-          if (!displayModelData[fieldName]?.hasOwnProperty(shapeId)) {
-            displayModelData[fieldName][shapeId] =
-              displayModelData[fieldName][shapeId] || {};
+          if (!(shapeId in displayModelData[fieldName])) {
+            displayModelData[fieldName][shapeId] = displayModelData[fieldName][shapeId] || {};
             const shappStyle = subMapper[shapeId];
             updateShapeChange({
               innerModel,
@@ -449,7 +448,11 @@ export default abstract class Item implements IItem {
     return this.type;
   }
 
-  /** Show the item. */
+  /**
+   * Show the item.
+   * @param animate
+   * @param shapeIds
+   */
   public show(animate = true, shapeIds = undefined) {
     const shapeIdsToStop = shapeIds?.filter((id) => {
       const shape = this.shapeMap[id];
@@ -463,17 +466,12 @@ export default abstract class Item implements IItem {
       if (this.destroyed) return;
       const { animates = {} } = this.displayModel.data;
       const shapeIdsToShow =
-        shapeIdsToStop ||
-        Object.keys(this.shapeMap).filter(
-          (shapeId) => this.cacheHiddenByItem[shapeId],
-        );
+        shapeIdsToStop || Object.keys(this.shapeMap).filter((shapeId) => this.cacheHiddenByItem[shapeId]);
       if (animate && animates.show?.length) {
         const showAnimateFieldsMap: any = {};
         Object.values(animates.show).forEach((animate) => {
           const { shapeId = 'group' } = animate;
-          showAnimateFieldsMap[shapeId] = (
-            showAnimateFieldsMap[shapeId] || []
-          ).concat(animate.fields);
+          showAnimateFieldsMap[shapeId] = (showAnimateFieldsMap[shapeId] || []).concat(animate.fields);
         });
         const targetStyleMap = {};
         shapeIdsToShow.forEach((id) => {
@@ -483,7 +481,7 @@ export default abstract class Item implements IItem {
             targetStyleMap[id] = targetStyleMap[id] || {};
             const beginStyle = getShapeAnimateBeginStyles(shape);
             showAnimateFieldsMap[id].forEach((field) => {
-              if (beginStyle.hasOwnProperty(field)) {
+              if (field in beginStyle) {
                 targetStyleMap[id][field] = shape.style[field];
                 shape.style[field] = beginStyle[field];
               }
@@ -492,25 +490,16 @@ export default abstract class Item implements IItem {
           shape.show();
           delete this.cacheHiddenByItem[id];
         });
-        if (
-          showAnimateFieldsMap.group &&
-          this.shapeMap.keyShape.attributes.visibility === 'hidden'
-        ) {
+        if (showAnimateFieldsMap.group && this.shapeMap.keyShape.attributes.visibility === 'hidden') {
           showAnimateFieldsMap.group.forEach((field) => {
             const usingField = field === 'size' ? 'transform' : field;
-            if (GROUP_ANIMATE_STYLES[0].hasOwnProperty(usingField)) {
-              this.group.style[usingField] =
-                GROUP_ANIMATE_STYLES[0][usingField];
+            if (usingField in GROUP_ANIMATE_STYLES[0]) {
+              this.group.style[usingField] = GROUP_ANIMATE_STYLES[0][usingField];
             }
           });
         }
         if (Object.keys(targetStyleMap).length) {
-          this.animations = this.runWithAnimates(
-            animates,
-            'show',
-            targetStyleMap,
-            shapeIdsToShow,
-          );
+          this.animations = this.runWithAnimates(animates, 'show', targetStyleMap, shapeIdsToShow);
         }
       } else {
         shapeIdsToShow.forEach((id) => {
@@ -529,16 +518,17 @@ export default abstract class Item implements IItem {
     });
   }
 
-  /** Hides the item. */
+  /**
+   * Hides the item.
+   * @param animate
+   * @param keepKeyShape
+   * @param shapeIds
+   */
   public hide(animate = true, keepKeyShape = false, shapeIds = undefined) {
     const shapeIdsToHide =
       shapeIds?.filter((id) => {
         const shape = this.shapeMap[id];
-        return (
-          shape &&
-          (shape.attributes.visibility !== 'hidden' ||
-            this.cacheNotHiddenByItem[id])
-        );
+        return shape && (shape.attributes.visibility !== 'hidden' || this.cacheNotHiddenByItem[id]);
       }) || Object.keys(this.shapeMap);
     if (!shapeIdsToHide.length) return;
     this.cacheNotHiddenByItem = {};
@@ -559,13 +549,7 @@ export default abstract class Item implements IItem {
       if (this.destroyed) return;
       const { animates = {} } = this.displayModel.data;
       if (animate && animates.hide?.length) {
-        this.animations = this.runWithAnimates(
-          animates,
-          'hide',
-          undefined,
-          shapeIdsToHide,
-          func,
-        );
+        this.animations = this.runWithAnimates(animates, 'hide', undefined, shapeIdsToHide, func);
       } else {
         // 2. clear group and remove group
         func();
@@ -619,7 +603,7 @@ export default abstract class Item implements IItem {
     }
 
     // if the renderExt overwrote the setState, run the custom setState instead of the default
-    if (this.renderExt.constructor.prototype.hasOwnProperty('setState')) {
+    if ('setState' in this.renderExt.constructor) {
       this.renderExt.setState(state, value, this.shapeMap);
       return;
     }
@@ -653,10 +637,8 @@ export default abstract class Item implements IItem {
     this.states = newStates;
     this.changedStates = changedStates.map((state) => state.name);
     // if the renderExt overwrote the setState, run the custom setState instead of the default
-    if (this.renderExt.constructor.prototype.hasOwnProperty('setState')) {
-      changedStates.forEach(({ name, value }) =>
-        this.renderExt.setState(name, value, this.shapeMap),
-      );
+    if ('setState' in this.renderExt.constructor) {
+      changedStates.forEach(({ name, value }) => this.renderExt.setState(name, value, this.shapeMap));
       return;
     }
     this.drawWithStates(previousStates);
@@ -675,6 +657,7 @@ export default abstract class Item implements IItem {
    * @param animates
    * @param timing
    * @param targetStyleMap
+   * @param shapeIdsToShow
    * @param callback
    * @returns
    */
@@ -688,9 +671,7 @@ export default abstract class Item implements IItem {
     let targetStyle = {};
     if (!targetStyleMap) {
       shapeIdsToShow?.forEach((shapeId) => {
-        targetStyle[shapeId] = getShapeAnimateBeginStyles(
-          this.shapeMap[shapeId],
-        );
+        targetStyle[shapeId] = getShapeAnimateBeginStyles(this.shapeMap[shapeId]);
       });
     } else {
       targetStyle = targetStyleMap;
@@ -711,13 +692,10 @@ export default abstract class Item implements IItem {
   /**
    * Re-draw the item with merged state styles.
    * @param previousStates previous states
-   * @returns
+   * @param animate
+   * @param onfinish
    */
-  private drawWithStates(
-    previousStates: State[],
-    animate = true,
-    onfinish?: Function,
-  ) {
+  private drawWithStates(previousStates: State[], animate = true, onfinish?: Function) {
     const { default: _, ...themeStateStyles } = this.themeStyles;
     const { data: displayModelData } = this.displayModel;
     let styles = {}; // merged styles
@@ -726,12 +704,7 @@ export default abstract class Item implements IItem {
       const mapper = this.stateMapper?.[stateName];
       if (!mapper && !themeStateStyles?.[stateName]) return;
       // re-mapper the state styles for states if they have dirty tags
-      if (
-        mapper &&
-        value &&
-        (!this.stateDirtyMap.hasOwnProperty(stateName) ||
-          this.stateDirtyMap[stateName])
-      ) {
+      if (mapper && value && (!(stateName in this.stateDirtyMap) || this.stateDirtyMap[stateName])) {
         this.stateDirtyMap[stateName] = false;
         Object.keys(mapper).forEach((shapeId) => {
           stateStyles[shapeId] = {
@@ -750,8 +723,7 @@ export default abstract class Item implements IItem {
             // other shapes
             Object.keys(mapper[shapeId]).forEach((otherShapeId) => {
               stateStyles[shapeId] = stateStyles[shapeId] || {};
-              stateStyles[shapeId][otherShapeId] =
-                stateStyles[shapeId][otherShapeId] || {};
+              stateStyles[shapeId][otherShapeId] = stateStyles[shapeId][otherShapeId] || {};
               updateShapeChange({
                 innerModel: this.model,
                 mapper: mapper[shapeId][otherShapeId],
@@ -765,10 +737,7 @@ export default abstract class Item implements IItem {
       }
       this.cacheStateStyles[stateName] = stateStyles;
       // merge the theme state styles
-      const mergedStateStyles = mergeStyles([
-        themeStateStyles[stateName],
-        stateStyles,
-      ]);
+      const mergedStateStyles = mergeStyles([themeStateStyles[stateName], stateStyles]);
 
       // merge the states' styles into drawing style
       styles = mergeStyles([styles, mergedStateStyles]);
@@ -776,9 +745,7 @@ export default abstract class Item implements IItem {
     const mergedData = mergeStyles([displayModelData, styles]);
     const { animates } = mergedData;
     const displayUpdateAnimates = [];
-    const stateNames = previousStates
-      .concat(this.states)
-      .map((state) => state.name);
+    const stateNames = previousStates.concat(this.states).map((state) => state.name);
     animates?.update?.forEach((animateCfg) => {
       const { states } = animateCfg as IStateAnimate;
       if (states && isArrayOverlap(states, stateNames)) {
@@ -822,7 +789,7 @@ export default abstract class Item implements IItem {
 
   /**
    * Get the local bounding box for the keyShape.
-   * */
+   */
   public getLocalKeyBBox(): AABB {
     const { keyShape } = this.shapeMap;
     return keyShape?.getLocalBounds() || ({ center: [0, 0, 0] } as AABB);
@@ -837,8 +804,7 @@ export default abstract class Item implements IItem {
       // during animations, estimate the final bounds by the styles in displayModel
       const { keyShape, labelShape } = this.shapeMap;
       const { x = 0, y = 0, z = 0 } = this.displayModel.data;
-      const { keyShape: keyShapeStyle, labelShape: labelShapeStyle } =
-        this.renderExt.mergedStyles;
+      const { keyShape: keyShapeStyle, labelShape: labelShapeStyle } = this.renderExt.mergedStyles;
       const estimateBounds = labelShape
         ? combineBounds([
             getShapeLocalBoundsByStyle(keyShape, keyShapeStyle),
@@ -863,6 +829,7 @@ export default abstract class Item implements IItem {
 
   /**
    * Stop all the animations on the item.
+   * @param shapeIds
    */
   public stopAnimations(shapeIds?: string[]) {
     const promises = [];
@@ -916,6 +883,7 @@ export default abstract class Item implements IItem {
 
   /**
    * Update label positions on label canvas by getting viewport position from transformed canvas position.
+   * @param ignoreVisibility
    */
   public updateLabelPosition(ignoreVisibility: boolean = false) {}
 
@@ -932,13 +900,7 @@ export default abstract class Item implements IItem {
     this.stopAnimations();
     const { animates } = this.displayModel.data;
     if (animates?.buildOut?.length && !this.transient) {
-      this.animations = this.runWithAnimates(
-        animates,
-        'buildOut',
-        undefined,
-        undefined,
-        func,
-      );
+      this.animations = this.runWithAnimates(animates, 'buildOut', undefined, undefined, func);
     } else {
       // 2. clear group and remove group
       func();
@@ -948,13 +910,17 @@ export default abstract class Item implements IItem {
 
 /**
  * Get the mapped value of a field on innerModel.
- * @param param0: {
+ * @param param0 {
  *  innerModel, // find unmapped field value from innerModel
  *  fieldName, // name of the field to read from innerModel
  *  mapper, // mapper object, contains the field's mapper
  *  dataChangedFields, // fields' names which are changed in data
  * }
- * @returns { changed: boolean, value: unknown } return whether the mapper affects the value, and the mapped result
+ * @param param0.innerModel
+ * @param param0.fieldName
+ * @param param0.mapper
+ * @param param0.dataChangedFields
+ * @returns return whether the mapper affects the value, and the mapped result
  */
 const updateChange = ({
   innerModel,
@@ -988,29 +954,27 @@ const updateChange = ({
 
 /**
  * Update a shape's config according to the mapper.
- * @param param0: {
+ * @param param0 {
  *  innerModel, // find unmapped field value from innerModel
  *  mapper, // mapper object, contains the field's mapper
  *  shapeId, // id of the shape where the fieldName belong to
  *  dataChangedFields, // fields' names which are changed in data
  *  shapeConfig, // the shape's config to be updated
  * }
- * @returns { changed: boolean, value: unknown } return whether the mapper affects the value, and the mapped result
+ * @param param0.innerModel
+ * @param param0.mapper
+ * @param param0.dataChangedFields
+ * @param param0.shapeConfig
+ * @param param0.fieldPath
  */
-const updateShapeChange = ({
-  innerModel,
-  mapper,
-  dataChangedFields,
-  shapeConfig,
-  fieldPath,
-}) => {
+const updateShapeChange = ({ innerModel, mapper, dataChangedFields, shapeConfig, fieldPath }) => {
   if (!mapper) return;
   let innerModelValue = innerModel.data;
   fieldPath?.forEach((field) => {
     innerModelValue = innerModelValue[field] || {};
   });
   Object.keys(mapper).forEach((shapeAttrName) => {
-    if (innerModelValue?.hasOwnProperty(shapeAttrName)) return;
+    if (shapeAttrName in innerModelValue) return;
     const { value: mappedValue, changed } = updateChange({
       innerModel,
       mapper,

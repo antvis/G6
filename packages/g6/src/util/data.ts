@@ -1,15 +1,9 @@
+import { connectedComponent, depthFirstSearch } from '@antv/algorithm';
 import { ID, TreeData } from '@antv/graphlib';
 import { isArray } from '@antv/util';
-import { depthFirstSearch, connectedComponent } from '@antv/algorithm';
-import {
-  DataChangeType,
-  DataLifecycleType,
-  GraphCore,
-  GraphData,
-  GraphDataChanges,
-} from '../types/data';
-import { IGraph } from '../types/graph';
 import { NodeModel, NodeUserModel } from '../types';
+import { DataLifecycleType, GraphCore, GraphData } from '../types/data';
+import { IGraph } from '../types/graph';
 import { NodeUserModelData } from '../types/node';
 
 /**
@@ -38,7 +32,10 @@ export const deconstructData = (data) => {
  * @param nodes begin nodes
  * @param fn will be called while visiting each node
  * @param mode 'TB' - visit from top to bottom; 'BT' - visit from bottom to top;
- * @returns
+ * @param treeKey
+ * @param stopFns
+ * @param stopFns.stopBranchFn
+ * @param stopFns.stopAllFn
  */
 export const graphCoreTreeDfs = (
   graphCore: GraphCore,
@@ -59,14 +56,7 @@ export const graphCoreTreeDfs = (
     if (stopBranchFn?.(node)) continue; // Stop this branch
     if (stopAllFn?.(node)) return; // Stop all
     if (mode === 'TB') fn(node); // Traverse from top to bottom
-    graphCoreTreeDfs(
-      graphCore,
-      graphCore.getChildren(node.id, treeKey),
-      fn,
-      mode,
-      treeKey,
-      stopFns,
-    );
+    graphCoreTreeDfs(graphCore, graphCore.getChildren(node.id, treeKey), fn, mode, treeKey, stopFns);
     if (mode !== 'TB') fn(node); // Traverse from bottom to top
   }
 };
@@ -77,14 +67,8 @@ export const graphCoreTreeDfs = (
  * @param nodes begin nodes
  * @param fn will be called while visiting each node
  * @param mode 'TB' - visit from top to bottom; 'BT' - visit from bottom to top;
- * @returns
  */
-export const graphComboTreeDfs = (
-  graph: IGraph,
-  nodes: NodeUserModel[],
-  fn,
-  mode: 'TB' | 'BT' = 'TB',
-) => {
+export const graphComboTreeDfs = (graph: IGraph, nodes: NodeUserModel[], fn, mode: 'TB' | 'BT' = 'TB') => {
   if (!nodes?.length) return;
   nodes.forEach((node) => {
     if (mode === 'TB') fn(node); // Traverse from top to bottom
@@ -100,7 +84,6 @@ export const graphComboTreeDfs = (
  * @param nodes begin nodes
  * @param fn will be called while visiting each node
  * @param mode 'TB' - visit from top to bottom; 'BT' - visit from bottom to top;
- * @returns
  */
 export const traverseAncestorsAndSucceeds = (
   graph: IGraph,
@@ -115,11 +98,7 @@ export const traverseAncestorsAndSucceeds = (
   return;
 };
 
-export const traverseGraphAncestors = (
-  graph: IGraph,
-  nodes: NodeUserModel[],
-  fn,
-) => {
+export const traverseGraphAncestors = (graph: IGraph, nodes: NodeUserModel[], fn) => {
   if (!nodes?.length) return;
   nodes.forEach((node) => {
     if (!node.data.parentId) return;
@@ -153,6 +132,7 @@ export const traverseAncestors = (graphCore, nodes, fn) => {
  * @param graph G6 graph instance
  * @param testParent id of the node to be the parent
  * @param parentId id of the node to be the succeed
+ * @param testSucceed
  * @returns
  */
 export const isSucceed = (graph, testParent, testSucceed): boolean => {
@@ -172,15 +152,9 @@ export const isSucceed = (graph, testParent, testSucceed): boolean => {
  * @param toBeAncestorId id of the new parent to check if it is valid to be a parent of the node with id toBeSucceedId
  * @returns
  */
-export const validateComboStructure = (
-  graph,
-  toBeSucceedId,
-  toBeAncestorId,
-): boolean => {
+export const validateComboStructure = (graph, toBeSucceedId, toBeAncestorId): boolean => {
   if (toBeAncestorId && !graph.getComboData(toBeAncestorId)) {
-    console.warn(
-      `Setting parent combo failed. The parent combo with id ${toBeAncestorId} does not exist`,
-    );
+    console.warn(`Setting parent combo failed. The parent combo with id ${toBeAncestorId} does not exist`);
     return false;
   }
   if (toBeSucceedId === toBeAncestorId) {
@@ -203,9 +177,7 @@ export const validateComboStructure = (
  * @param treeData Tree structured data or an array of it.
  * @returns Graph formatted data object with nodes, edges and combos.
  */
-export const treeData2GraphData = (
-  treeData: TreeData<NodeUserModelData> | TreeData<NodeUserModelData>[],
-) => {
+export const treeData2GraphData = (treeData: TreeData<NodeUserModelData> | TreeData<NodeUserModelData>[]) => {
   const graphData = {
     nodes: [],
     edges: [],
@@ -243,20 +215,13 @@ export const treeData2GraphData = (
  * @param propRootIds Ids of root nodes. There should be at least one node for each connected component, or the first node in a connected component will be added to the roots array.
  * @returns
  */
-export const graphData2TreeData = (
-  nodeMap: { [id: string]: any },
-  graphData: GraphData,
-  propRootIds: ID[] = [],
-) => {
+export const graphData2TreeData = (nodeMap: { [id: string]: any }, graphData: GraphData, propRootIds: ID[] = []) => {
   const trees = [];
   const graphDataWithoutCombos = {
     nodes: graphData.nodes?.filter((node) => !node.data._isCombo),
     edges: graphData.edges,
   };
-  const connectedComponents = connectedComponent(
-    graphDataWithoutCombos as any,
-    false,
-  ) as NodeModel[][];
+  const connectedComponents = connectedComponent(graphDataWithoutCombos as any, false) as NodeModel[][];
   const rootIds = [];
   const componentsNodeIds: ID[][] = [];
   connectedComponents.forEach((com, i) => {
@@ -277,12 +242,7 @@ export const graphData2TreeData = (
       id,
       {
         enter: ({ previous, current }) => {
-          if (
-            !previous ||
-            current === id ||
-            !componentsNodeIds[i].includes(current)
-          )
-            return;
+          if (!previous || current === id || !componentsNodeIds[i].includes(current)) return;
           nodeMap[previous] = nodeMap[previous] || {
             id: previous,
             children: [],
@@ -313,13 +273,7 @@ export const traverse = (treeData, callback) => {
 
 export const DEFAULT_ACTIVE_DATA_LIFECYCLE = 'all';
 
-export const AVAILABLE_DATA_LIFECYCLE = [
-  'read',
-  'changeData',
-  'updateData',
-  'addData',
-  'removeData',
-];
+export const AVAILABLE_DATA_LIFECYCLE = ['read', 'changeData', 'updateData', 'addData', 'removeData'];
 
 export const dataLifecycleMap: Record<string, DataLifecycleType> = {
   replace: 'read',

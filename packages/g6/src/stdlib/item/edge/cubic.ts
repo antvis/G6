@@ -5,7 +5,6 @@ import { EdgeModelData, EdgeShapeMap } from '../../../types/edge';
 import { State } from '../../../types/item';
 
 import { EdgeDisplayModel } from '../../../types';
-// eslint-disable-next-line import/namespace
 import { BaseEdge } from './base';
 
 export class CubicEdge extends BaseEdge {
@@ -45,50 +44,23 @@ export class CubicEdge extends BaseEdge {
 
     const shapes: EdgeShapeMap = { keyShape: undefined };
 
-    shapes.keyShape = this.drawKeyShape(
-      model,
-      sourcePoint,
-      targetPoint,
-      shapeMap,
-      diffData,
-      diffState,
-    );
+    shapes.keyShape = this.drawKeyShape(model, sourcePoint, targetPoint, shapeMap, diffData, diffState);
 
     if (data.haloShape) {
-      shapes.haloShape = this.drawHaloShape(
-        model,
-        shapeMap,
-        diffData,
-        diffState,
-      );
+      shapes.haloShape = this.drawHaloShape(model, shapeMap, diffData, diffState);
     }
 
     if (data.labelShape) {
-      shapes.labelShape = this.drawLabelShape(
-        model,
-        shapeMap,
-        diffData,
-        diffState,
-      );
+      shapes.labelShape = this.drawLabelShape(model, shapeMap, diffData, diffState);
     }
 
     // labelBackgroundShape
     if (data.labelBackgroundShape) {
-      shapes.labelBackgroundShape = this.drawLabelBackgroundShape(
-        model,
-        shapeMap,
-        diffData,
-        diffState,
-      );
+      shapes.labelBackgroundShape = this.drawLabelBackgroundShape(model, shapeMap, diffData, diffState);
     }
 
     if (data.iconShape) {
-      shapes.iconShape = this.drawIconShape(
-        model,
-        shapeMap,
-        diffData,
-        diffState,
-      );
+      shapes.iconShape = this.drawIconShape(model, shapeMap, diffData, diffState);
     }
 
     // TODO: other shapes
@@ -142,7 +114,7 @@ export class CubicEdge extends BaseEdge {
 
   /**
    * calculate the control points by curvePosition|controlPoints|curveOffset
-   * @param startPoint: source point position of edge
+   * @param startPoint source point position of edge
    * @param endPoint target point position of edge
    * @param percent the proportion of control points' in the segment, Range 0 to 1
    * @param controlPoints the control point position
@@ -155,44 +127,23 @@ export class CubicEdge extends BaseEdge {
     percent: number,
     controlPoints: Point[],
     offset: number,
-  ) => Point[] = (
-    startPoint: Point,
-    endPoint: Point,
-    percent = 0.5,
-    controlPoints,
-    offset = 20,
-  ) => {
+  ) => Point[] = (startPoint: Point, endPoint: Point, percent = 0.5, controlPoints, offset = 20) => {
     if (controlPoints?.length > 1) return controlPoints;
-    const controlPoint1: Point = this.getControlPoint(
-      startPoint,
-      endPoint,
-      percent,
-      offset,
-    );
-    const controlPoint2: Point = this.getControlPoint(
-      startPoint,
-      endPoint,
-      percent,
-      -offset,
-    );
+    const controlPoint1: Point = this.getControlPoint(startPoint, endPoint, percent, offset);
+    const controlPoint2: Point = this.getControlPoint(startPoint, endPoint, percent, -offset);
 
     return [controlPoint1, controlPoint2];
   };
 
   /**
    * control point calculated according to startPoint, endPoint, percent, and offset
-   * @param  {Point} startPoint source point position of edge (x, y)
-   * @param  {Point} endPoint  target point position of edge (x, y)
-   * @param  {Number} percent   the proportion of control points' in the segment, Range 0 to 1
-   * @param  {Number} offset    the curveOffset
-   * @return {Point} control point (x,y)
+   * @param startPoint source point position of edge (x, y)
+   * @param endPoint target point position of edge (x, y)
+   * @param percent the proportion of control points' in the segment, Range 0 to 1
+   * @param offset the curveOffset
+   * @returns control point (x,y)
    */
-  protected getControlPoint: (
-    startPoint: Point,
-    endPoint: Point,
-    percent: number,
-    offset: number,
-  ) => Point = (
+  protected getControlPoint: (startPoint: Point, endPoint: Point, percent: number, offset: number) => Point = (
     startPoint: Point,
     endPoint: Point,
     percent = 0,
@@ -204,10 +155,7 @@ export class CubicEdge extends BaseEdge {
     };
 
     let tangent: vec2 = [0, 0];
-    vec2.normalize(tangent, [
-      endPoint.x - startPoint.x,
-      endPoint.y - startPoint.y,
-    ]);
+    vec2.normalize(tangent, [endPoint.x - startPoint.x, endPoint.y - startPoint.y]);
 
     if (!tangent || (!tangent[0] && !tangent[1])) {
       tangent = [0, 0];

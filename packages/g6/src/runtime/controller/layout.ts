@@ -1,29 +1,17 @@
 import { Animation, DisplayObject, IAnimationEffectTiming } from '@antv/g';
 import { Graph as GraphLib, ID } from '@antv/graphlib';
-import {
-  isLayoutWithIterations,
-  Layout,
-  LayoutMapping,
-  OutNode,
-  Supervisor,
-} from '@antv/layout';
+import { Layout, LayoutMapping, OutNode, Supervisor, isLayoutWithIterations } from '@antv/layout';
 import { Extensions, registry, stdLib } from '../../stdlib';
 import {
   IGraph,
-  isImmediatelyInvokedLayoutOptions,
-  isLayoutWorkerized,
   LayoutOptions,
   NodeModelData,
+  isImmediatelyInvokedLayoutOptions,
+  isLayoutWorkerized,
 } from '../../types';
 import { GraphCore } from '../../types/data';
 import { EdgeModelData } from '../../types/edge';
-import {
-  getNodeSizeFn,
-  isComboLayout,
-  layoutOneTree,
-  radialLayout,
-  isTreeLayout,
-} from '../../util/layout';
+import { getNodeSizeFn, isComboLayout, isTreeLayout, layoutOneTree, radialLayout } from '../../util/layout';
 
 /**
  * Manages layout extensions and graph layout.
@@ -53,11 +41,7 @@ export class LayoutController {
     this.graph.hooks.destroy.tap(this.onDestroy.bind(this));
   }
 
-  private async onLayout(params: {
-    graphCore: GraphCore;
-    options: LayoutOptions;
-    animate?: boolean;
-  }) {
+  private async onLayout(params: { graphCore: GraphCore; options: LayoutOptions; animate?: boolean }) {
     /**
      * The final calculated result.
      */
@@ -69,24 +53,15 @@ export class LayoutController {
     const { graphCore, options, animate = true } = params;
     let layoutNodes = graphCore.getAllNodes();
     if (!isComboLayout(options)) {
-      layoutNodes = layoutNodes.filter(
-        (node) => this.graph.getItemVisible(node.id) && !node.data._isCombo,
-      );
+      layoutNodes = layoutNodes.filter((node) => this.graph.getItemVisible(node.id) && !node.data._isCombo);
     }
     const layoutNodesIdMap = {};
     layoutNodes.forEach((node) => (layoutNodesIdMap[node.id] = true));
     const layoutData = {
       nodes: layoutNodes,
-      edges: graphCore
-        .getAllEdges()
-        .filter(
-          (edge) =>
-            layoutNodesIdMap[edge.source] && layoutNodesIdMap[edge.target],
-        ),
+      edges: graphCore.getAllEdges().filter((edge) => layoutNodesIdMap[edge.source] && layoutNodesIdMap[edge.target]),
     };
-    const layoutGraphCore = new GraphLib<NodeModelData, EdgeModelData>(
-      layoutData,
-    );
+    const layoutGraphCore = new GraphLib<NodeModelData, EdgeModelData>(layoutData);
     if (graphCore.hasTreeStructure('combo')) {
       layoutGraphCore.attachTreeStructure('combo');
       layoutNodes.forEach((node) => {
@@ -138,9 +113,7 @@ export class LayoutController {
           const presetNode = { x, y, z };
           const otherProps = this.previousNodes?.get(node.id) || {};
           ['_order', 'layer'].forEach((field) => {
-            presetNode[field] = node.data.hasOwnProperty(field)
-              ? node.data[field]
-              : otherProps[field];
+            presetNode[field] = field in node.data ? node.data[field] : otherProps[field];
           });
           return {
             id: node.id,
@@ -154,10 +127,7 @@ export class LayoutController {
       });
 
       if (animated) {
-        await this.animateLayoutWithoutIterations(
-          positions,
-          animationEffectTiming,
-        );
+        await this.animateLayoutWithoutIterations(positions, animationEffectTiming);
       }
     } else {
       const { presetLayout } = options;
@@ -259,9 +229,7 @@ export class LayoutController {
               const presetNode = { x, y, z };
               const otherProps = this.previousNodes?.get(node.id) || {};
               ['_order', 'layer'].forEach((field) => {
-                presetNode[field] = node.data.hasOwnProperty(field)
-                  ? node.data[field]
-                  : otherProps[field];
+                presetNode[field] = field in node.data ? node.data[field] : otherProps[field];
               });
               return {
                 id: node.id,
@@ -319,26 +287,14 @@ export class LayoutController {
         positions = await layout.execute(layoutGraphCore);
 
         if (animated) {
-          await this.animateLayoutWithoutIterations(
-            positions,
-            animationEffectTiming,
-          );
+          await this.animateLayoutWithoutIterations(positions, animationEffectTiming);
         }
       }
     }
     return positions;
   };
 
-  private presetLayout = async (
-    layoutData,
-    nodeSize,
-    width,
-    height,
-    center,
-    presetLayout,
-    params,
-    layoutGraphCore,
-  ) => {
+  private presetLayout = async (layoutData, nodeSize, width, height, center, presetLayout, params, layoutGraphCore) => {
     // presetLayout has higher priority than the positions in data
     if (presetLayout?.type) {
       const presetPositions = await this.layoutOnce(
@@ -392,14 +348,7 @@ export class LayoutController {
     return nodeWithPostions;
   };
 
-  async handleTreeLayout(
-    type,
-    options,
-    animationEffectTiming,
-    graphCore,
-    layoutData,
-    animate,
-  ) {
+  async handleTreeLayout(type, options, animationEffectTiming, graphCore, layoutData, animate) {
     const { animated = false, rootIds = [], begin = [0, 0], radial } = options;
     const nodePositions = [];
     const nodeMap = new Map();
@@ -433,15 +382,9 @@ export class LayoutController {
       }
     });
     if (animated) {
-      await this.animateLayoutWithoutIterations(
-        { nodes: nodePositions, edges: [] },
-        animationEffectTiming,
-      );
+      await this.animateLayoutWithoutIterations({ nodes: nodePositions, edges: [] }, animationEffectTiming);
     }
-    this.updateNodesPosition(
-      { nodes: nodePositions, edges: [] },
-      animated || animate,
-    );
+    this.updateNodesPosition({ nodes: nodePositions, edges: [] }, animated || animate);
     return;
   }
 
@@ -474,11 +417,7 @@ export class LayoutController {
     }
   }
 
-  private updateNodesPosition(
-    positions: LayoutMapping,
-    animate = true,
-    cache = true,
-  ) {
+  private updateNodesPosition(positions: LayoutMapping, animate = true, cache = true) {
     if (!positions) return;
     const { nodes, edges } = positions;
     if (cache) this.previousNodes = new Map();
@@ -549,21 +488,18 @@ export class LayoutController {
     // @see https://g.antv.antgroup.com/api/animation/waapi#%E5%B1%9E%E6%80%A7
     this.currentAnimation.onframe = (e) => {
       // @see https://g.antv.antgroup.com/api/animation/waapi#progress
-      const progress = (e.target as Animation).effect.getComputedTiming()
-        .progress as number;
-      const interpolatedNodesPosition = (initialPositions as OutNode[]).map(
-        ({ id, data }, i) => {
-          const { x: fromX = 0, y: fromY = 0 } = data;
-          const { x: toX, y: toY } = positions.nodes[i].data;
-          return {
-            id,
-            data: {
-              x: fromX + (toX - fromX) * progress,
-              y: fromY + (toY - fromY) * progress,
-            },
-          };
-        },
-      );
+      const progress = (e.target as Animation).effect.getComputedTiming().progress as number;
+      const interpolatedNodesPosition = (initialPositions as OutNode[]).map(({ id, data }, i) => {
+        const { x: fromX = 0, y: fromY = 0 } = data;
+        const { x: toX, y: toY } = positions.nodes[i].data;
+        return {
+          id,
+          data: {
+            x: fromX + (toX - fromX) * progress,
+            y: fromY + (toY - fromY) * progress,
+          },
+        };
+      });
 
       this.updateNodesPosition({
         nodes: interpolatedNodesPosition,

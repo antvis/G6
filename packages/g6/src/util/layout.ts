@@ -111,13 +111,11 @@ export const getNodeSizeFn = (options, defaultSize = 32) => {
 /**
  *
  * @param data Tree graph data
+ * @param tree
+ * @param nodeMap
  * @param layout
  */
-export const radialLayout = (
-  tree: TreeGraphData,
-  nodeMap: Map<ID, NodeModel>,
-  layout?: string,
-): GraphData => {
+export const radialLayout = (tree: TreeGraphData, nodeMap: Map<ID, NodeModel>, layout?: string): GraphData => {
   // 布局方式有 H / V / LR / RL / TB / BT
   const VERTICAL_LAYOUTS: string[] = ['V', 'TB', 'BT'];
   const min: Point = {
@@ -153,10 +151,7 @@ export const radialLayout = (
   const root = nodeMap.get(tree.id);
   traverse(tree, (child) => {
     const node = nodeMap.get(child.id);
-    const radial =
-      ((node.data[radScale] - min[radScale]) / radDiff) *
-        (Math.PI * 2 - avgRad) +
-      avgRad;
+    const radial = ((node.data[radScale] - min[radScale]) / radDiff) * (Math.PI * 2 - avgRad) + avgRad;
     const r = Math.abs(node.data[rScale] - root.data[rScale]);
     node.data.x = r * Math.cos(radial);
     node.data.y = r * Math.sin(radial);
@@ -167,8 +162,8 @@ export const radialLayout = (
 
 /**
  * Get the layout (nodes' positions) bounds of a graph.
- * @param {Graph} graph - The graph object.
- * @returns {Object} - The layout bounds object containing the minimum, maximum, center, and halfExtents values.
+ * @param graph - The graph object.
+ * @returns - The layout bounds object containing the minimum, maximum, center, and halfExtents values.
  */
 export const getLayoutBounds = (graph) => {
   const min = [Infinity, Infinity];

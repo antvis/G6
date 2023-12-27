@@ -23,8 +23,10 @@ export abstract class Behavior {
   destroy() {}
 }
 
-/** Behavior registry table.
- * @example { 'drag-node': DragNodeBehavior, 'my-drag-node': MyDragNodeBehavior }
+/**
+ * Behavior registry table.
+ * @example
+ * { 'drag-node': DragNodeBehavior, 'my-drag-node': MyDragNodeBehavior }
  */
 export interface BehaviorRegistry {
   [type: string]: typeof Behavior;
