@@ -5,9 +5,9 @@ import { ComboDisplayModel, ComboModelData, ComboShapeMap, ComboShapeStyles } fr
 import type { IGraph } from '../../../types/graph';
 import { GShapeStyle, LodLevelRanges, SHAPE_TYPE, SHAPE_TYPE_3D, ShapeStyle, State } from '../../../types/item';
 import { IAnchorPositionMap, NodeModelData, NodeShapeMap, NodeShapeStyles } from '../../../types/node';
-import { formatPadding, getShapeLocalBoundsByStyle, mergeStyles, upsertShape } from '../../../util/shape';
-import { getWordWrapWidthByBox } from '../../../util/text';
-import { convertToNumber } from '../../../util/type';
+import { formatPadding, getShapeLocalBoundsByStyle, mergeStyles, upsertShape } from '../../../utils/shape';
+import { getWordWrapWidthByBox } from '../../../utils/text';
+import { convertToNumber } from '../../../utils/type';
 
 export abstract class BaseNode {
   type: string;

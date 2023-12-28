@@ -2,8 +2,8 @@ import { ID } from '@antv/graphlib';
 import { IGraph } from '../../types';
 import { Point } from '../../types/common';
 import { ITEM_TYPE } from '../../types/item';
-import { getEdgesBetween } from '../../util/item';
-import { isPolygonsIntersect } from '../../util/shape';
+import { getEdgesBetween } from '../../utils/item';
+import { isPolygonsIntersect } from '../../utils/shape';
 
 /**
  * Rect selector to find nodes/edge/combos which are in the area of the rect with diagonal points p1 and p2.

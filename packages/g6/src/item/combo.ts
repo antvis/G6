@@ -5,7 +5,7 @@ import { ComboModelData, ComboUserModelData } from '../types/combo';
 import { Point } from '../types/common';
 import { DisplayMapper, LodLevelRanges, State } from '../types/item';
 import { ComboStyleSet } from '../types/theme';
-import { getCircleIntersectByPoint, getNearestPoint, getRectIntersectByPoint } from '../util/point';
+import { getCircleIntersectByPoint, getNearestPoint, getRectIntersectByPoint } from '../utils/point';
 import Node from './node';
 
 interface IProps {

@@ -2,8 +2,8 @@ import { Edge } from '@antv/graphlib';
 import { EdgeUserModel, GraphCore, ID } from '../../types';
 import { GraphDataChanges } from '../../types/data';
 import { EdgeUserModelData } from '../../types/edge';
-import { uniqBy } from '../../util/array';
-import { loopPosition } from '../../util/loop';
+import { uniqBy } from '../../utils/array';
+import { loopPosition } from '../../utils/loop';
 
 /**
  * Process edges which might overlap. For edges that share the same target and source nodes.

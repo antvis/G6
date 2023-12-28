@@ -2,7 +2,7 @@ import { ID } from '@antv/graphlib';
 import { IGraph } from '../../types';
 import { Point } from '../../types/common';
 import { ITEM_TYPE } from '../../types/item';
-import { getEdgesBetween } from '../../util/item';
+import { getEdgesBetween } from '../../utils/item';
 
 /**
  * Rect selector to find nodes/edge/combos which are in the area of the rect with diagonal points p1 and p2.

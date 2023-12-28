@@ -6,8 +6,8 @@ import { IGraph } from '../../../types';
 import { IG6GraphEvent } from '../../../types/event';
 import { ShapeStyle } from '../../../types/item';
 import { Plugin as Base, IPluginBaseConfig } from '../../../types/plugin';
-import { createCanvas } from '../../../util/canvas';
-import { createDOM, modifyCSS } from '../../../util/dom';
+import { createCanvas } from '../../../utils/canvas';
+import { createDOM, modifyCSS } from '../../../utils/dom';
 
 const DEFAULT_MODE = 'default';
 const KEYSHAPE_MODE = 'keyShape';

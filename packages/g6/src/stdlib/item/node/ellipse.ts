@@ -2,7 +2,7 @@ import { DisplayObject } from '@antv/g';
 import { NodeDisplayModel } from '../../../types';
 import { State } from '../../../types/item';
 import { NodeModelData, NodeShapeMap, NodeShapeStyles } from '../../../types/node';
-import { convertToNumber } from '../../../util/type';
+import { convertToNumber } from '../../../utils/type';
 import { BaseNode } from './base';
 export class EllipseNode extends BaseNode {
   override defaultStyles = {

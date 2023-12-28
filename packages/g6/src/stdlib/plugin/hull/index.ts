@@ -4,7 +4,7 @@ import { ComboModel, EdgeModel, ID, IGraph, NodeModel } from '../../../types';
 import { ComboLabelPosition } from '../../../types/combo';
 import { ITEM_TYPE, ShapeStyle } from '../../../types/item';
 import { Plugin as Base, IPluginBaseConfig } from '../../../types/plugin';
-import { isArrayOverlap } from '../../../util/array';
+import { isArrayOverlap } from '../../../utils/array';
 import HullComponent, { HullComponentOptions } from './hullComponent';
 import { BubblesetCfg } from './types';
 

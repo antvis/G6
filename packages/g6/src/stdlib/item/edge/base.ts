@@ -6,9 +6,9 @@ import Node from '../../../item/node';
 import { Point } from '../../../types/common';
 import { ArrowStyle, EdgeDisplayModel, EdgeModelData, EdgeShapeMap, EdgeShapeStyles } from '../../../types/edge';
 import { GShapeStyle, LodLevelRanges, SHAPE_TYPE, ShapeStyle, State } from '../../../types/item';
-import { DEFAULT_ARROW_CONFIG, getArrowPath } from '../../../util/arrow';
-import { formatPadding, mergeStyles, upsertShape } from '../../../util/shape';
-import { getWordWrapWidthByEnds } from '../../../util/text';
+import { DEFAULT_ARROW_CONFIG, getArrowPath } from '../../../utils/arrow';
+import { formatPadding, mergeStyles, upsertShape } from '../../../utils/shape';
+import { getWordWrapWidthByEnds } from '../../../utils/text';
 
 export abstract class BaseEdge {
   type: string;

@@ -1,7 +1,7 @@
 import insertCss from 'insert-css';
 import { IGraph } from '../../../types';
 import { Plugin as Base, IPluginBaseConfig } from '../../../types/plugin';
-import { createDOM, modifyCSS } from '../../../util/dom';
+import { createDOM, modifyCSS } from '../../../utils/dom';
 
 /**
  * The `ToolbarConfig` interface contains the following properties:

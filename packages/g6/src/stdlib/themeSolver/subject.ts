@@ -2,7 +2,7 @@ import { generate } from '@ant-design/colors';
 import { isArray } from '@antv/util';
 import color from 'color';
 import { ThemeSpecification } from '../../types/theme';
-import { mergeStyles } from '../../util/shape';
+import { mergeStyles } from '../../utils/shape';
 import { BaseThemeSolver, ThemeSpecificationMap } from './base';
 
 interface SubjectThemeSolverOptions {

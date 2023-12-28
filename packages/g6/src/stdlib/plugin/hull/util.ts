@@ -2,7 +2,7 @@ import { AABB } from '@antv/g';
 import { vec2 } from 'gl-matrix';
 import { ID, IGraph } from 'types';
 import { Bounds, Point } from '../../../types/common';
-import { getLineIntersect } from '../../../util/shape';
+import { getLineIntersect } from '../../../utils/shape';
 
 /**
  * Generate smooth closed curves.

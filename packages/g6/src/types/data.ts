@@ -1,5 +1,5 @@
 import { Graph as GraphLib, TreeData as ITreeData } from '@antv/graphlib';
-import { AVAILABLE_DATA_LIFECYCLE } from '../util/data';
+import { AVAILABLE_DATA_LIFECYCLE } from '../utils/data';
 import { ComboUserModel } from './combo';
 import { EdgeDisplayModelData, EdgeModelData, EdgeUserModel } from './edge';
 import { NodeDisplayModelData, NodeModelData, NodeUserModel, NodeUserModelData } from './node';

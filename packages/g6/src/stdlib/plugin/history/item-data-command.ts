@@ -1,7 +1,7 @@
 import type { IGraph } from '../../../types';
 import { STACK_TYPE, type StackType } from '../../../types/history';
 import type { ITEM_TYPE } from '../../../types/item';
-import type { GroupedChanges } from '../../../util/event';
+import type { GroupedChanges } from '../../../utils/event';
 import { Command } from './command';
 
 export class ItemDataCommand implements Command {

@@ -6,14 +6,14 @@ import { Point } from '../types/common';
 import { DisplayMapper, LodLevelRanges, State } from '../types/item';
 import { NodeDisplayModel, NodeModelData } from '../types/node';
 import { ComboStyleSet, NodeStyleSet } from '../types/theme';
-import { animateShapes, getAnimatesExcludePosition } from '../util/animate';
+import { animateShapes, getAnimatesExcludePosition } from '../utils/animate';
 import {
   getCircleIntersectByPoint,
   getEllipseIntersectByPoint,
   getNearestPoint,
   getRectIntersectByPoint,
-} from '../util/point';
-import { updateShapes } from '../util/shape';
+} from '../utils/point';
+import { updateShapes } from '../utils/shape';
 import Item from './item';
 
 interface IProps {

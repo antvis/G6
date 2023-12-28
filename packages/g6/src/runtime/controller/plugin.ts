@@ -4,7 +4,7 @@ import { LodController } from '../../stdlib/plugin';
 import { IGraph } from '../../types';
 import { IG6GraphEvent } from '../../types/event';
 import { Plugin as PluginBase } from '../../types/plugin';
-import { getExtension } from '../../util/extension';
+import { getExtension } from '../../utils/extension';
 
 type Listener = (event: IG6GraphEvent) => void;
 

@@ -7,9 +7,9 @@ import { GraphData, IGraph } from '../../../types';
 import type { Padding } from '../../../types/common';
 import type { ITEM_TYPE } from '../../../types/item';
 import { Plugin as Base, IPluginBaseConfig } from '../../../types/plugin';
-import { createCanvas } from '../../../util/canvas';
-import { createDOM } from '../../../util/dom';
-import { formatPadding } from '../../../util/shape';
+import { createCanvas } from '../../../utils/canvas';
+import { createDOM } from '../../../utils/dom';
+import { formatPadding } from '../../../utils/shape';
 
 // -- start -- Adapt to GUI -- start --
 type SubStyleProps<T, Prefix extends string> = {

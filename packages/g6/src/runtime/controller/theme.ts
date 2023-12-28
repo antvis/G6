@@ -1,7 +1,7 @@
 import registry from '../../stdlib';
 import { IGraph } from '../../types';
 import { ThemeSpecification } from '../../types/theme';
-import { getCatExtensions, getExtension } from '../../util/extension';
+import { getCatExtensions, getExtension } from '../../utils/extension';
 
 /**
  * Manages theme extensions for graph.

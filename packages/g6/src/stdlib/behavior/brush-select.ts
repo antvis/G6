@@ -4,8 +4,8 @@ import { Behavior } from '../../types/behavior';
 import { Point } from '../../types/common';
 import { IG6GraphEvent } from '../../types/event';
 import { ITEM_TYPE } from '../../types/item';
-import { diffSet, intersectSet, unionSet } from '../../util/array';
-import { getEdgesBetween } from '../../util/item';
+import { diffSet, intersectSet, unionSet } from '../../utils/array';
+import { getEdgesBetween } from '../../utils/item';
 import rectSelector from '../selector/rect';
 
 const ALLOWED_TRIGGERS = ['drag', 'shift', 'ctrl', 'alt', 'meta'] as const;

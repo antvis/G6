@@ -4,7 +4,7 @@ import Item from '../../../item/item';
 import { IGraph } from '../../../types';
 import { IG6GraphEvent } from '../../../types/event';
 import { Plugin as Base, IPluginBaseConfig } from '../../../types/plugin';
-import { createDOM, modifyCSS } from '../../../util/dom';
+import { createDOM, modifyCSS } from '../../../utils/dom';
 
 typeof document !== 'undefined' &&
   insertCss(`

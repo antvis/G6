@@ -14,7 +14,11 @@ export const isArrayOverlap = (arr1, arr2): boolean => {
   return false;
 };
 
-/** Stringify arrays and compare the strings. */
+/**
+ * Stringify arrays and compare the strings.
+ * @param arr1
+ * @param arr2
+ */
 export const isArraySame = (arr1 = [], arr2 = []): boolean => {
   return JSON.stringify(arr1) === JSON.stringify(arr2);
 };
@@ -58,6 +62,12 @@ export function intersectSet<T>(a: T[], b: T[]): T[] {
   return result;
 }
 
+/**
+ *
+ * @param arr
+ * @param target
+ * @param replaceWith
+ */
 export function replaceElements(arr, target, replaceWith) {
   for (let i = 0; i < arr.length; i++) {
     if (arr[i] === target) {

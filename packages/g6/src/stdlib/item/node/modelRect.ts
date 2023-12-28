@@ -3,7 +3,7 @@ import { NodeDisplayModel } from '../../../types';
 import { ComboDisplayModel, ComboModelData, ComboShapeMap } from '../../../types/combo';
 import { State } from '../../../types/item';
 import { IAnchorPositionMap, NodeModelData, NodeShapeMap, NodeShapeStyles } from '../../../types/node';
-import { convertToNumber } from '../../../util/type';
+import { convertToNumber } from '../../../utils/type';
 import { BaseNode } from './base';
 
 export class ModelRectNode extends BaseNode {

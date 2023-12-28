@@ -1,7 +1,7 @@
 import { AABB } from '@antv/g';
 import { ComboModel, IGraph, NodeModel } from '../../../types';
 import { Bounds, Point } from '../../../types/common';
-import { isPointInPolygon } from '../../../util/shape';
+import { isPointInPolygon } from '../../../utils/shape';
 import { BubblesetCfg } from './types';
 import {
   LineStructure,

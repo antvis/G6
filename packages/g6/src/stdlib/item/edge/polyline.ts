@@ -4,8 +4,8 @@ import Node from '../../../item/node';
 import { Point } from '../../../types/common';
 import { EdgeDisplayModel, EdgeModelData, EdgeShapeMap } from '../../../types/edge';
 import { State } from '../../../types/item';
-import { getPolylinePath } from '../../../util/polyline';
-import { RouterCfg, pathFinder } from '../../../util/router';
+import { getPolylinePath } from '../../../utils/polyline';
+import { RouterCfg, pathFinder } from '../../../utils/router';
 import { LineEdge } from './line';
 export class PolylineEdge extends LineEdge {
   public type = 'polyline-edge';

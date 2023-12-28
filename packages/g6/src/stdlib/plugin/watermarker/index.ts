@@ -2,7 +2,7 @@ import { Canvas, Group, Image, Text, TextStyleProps } from '@antv/g';
 import { isString, uniqueId } from '@antv/util';
 import { IGraph } from '../../../types';
 import { Plugin as Base, IPluginBaseConfig } from '../../../types/plugin';
-import { createCanvas } from '../../../util/canvas';
+import { createCanvas } from '../../../utils/canvas';
 
 /** Define configuration types for image and text watermarks */
 type ImageWaterMarkerConfig = {

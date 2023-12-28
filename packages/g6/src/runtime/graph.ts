@@ -22,12 +22,12 @@ import type { RendererName } from '../types/render';
 import { ComboMapper, EdgeMapper, NodeMapper } from '../types/spec';
 import type { ThemeOptionsOf, ThemeRegistry, ThemeSpecification } from '../types/theme';
 import { FitViewRules, GraphTransformOptions } from '../types/view';
-import { getCombinedCanvasesBounds } from '../util/bbox';
-import { changeRenderer, createCanvas } from '../util/canvas';
-import { cloneJSON, isEmptyGraph } from '../util/data';
-import { createDOM } from '../util/dom';
-import { getLayoutBounds } from '../util/layout';
-import { formatPadding } from '../util/shape';
+import { getCombinedCanvasesBounds } from '../utils/bbox';
+import { changeRenderer, createCanvas } from '../utils/canvas';
+import { cloneJSON, isEmptyGraph } from '../utils/data';
+import { createDOM } from '../utils/dom';
+import { getLayoutBounds } from '../utils/layout';
+import { formatPadding } from '../utils/shape';
 import {
   DataController,
   InteractionController,

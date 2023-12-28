@@ -1,8 +1,8 @@
 import type { IG6GraphEvent } from '../../types';
 import { Behavior } from '../../types/behavior';
 import { EdgeDisplayModelData } from '../../types/edge';
-import { generateEdgeID } from '../../util/item';
-import { warn } from '../../util/warn';
+import { generateEdgeID } from '../../utils/item';
+import { warn } from '../../utils/warn';
 
 const KEYBOARD_TRIGGERS = ['shift', 'ctrl', 'control', 'alt', 'meta'] as const;
 const EVENT_TRIGGERS = ['click', 'drag'] as const;

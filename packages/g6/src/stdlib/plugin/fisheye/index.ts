@@ -5,7 +5,7 @@ import { Point } from '../../../types/common';
 import { IG6GraphEvent } from '../../../types/event';
 import { ShapeStyle } from '../../../types/item';
 import { Plugin as Base, IPluginBaseConfig } from '../../../types/plugin';
-import { cloneJSON } from '../../../util/data';
+import { cloneJSON } from '../../../utils/data';
 
 const DELTA = 0.05;
 /**

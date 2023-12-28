@@ -4,8 +4,8 @@ import { ComboModel, EdgeModel, NodeModel } from '../../types';
 import { Behavior } from '../../types/behavior';
 import { Point } from '../../types/common';
 import { IG6GraphEvent } from '../../types/event';
-import { graphComboTreeDfs } from '../../util/data';
-import { isPointPreventPolylineOverlap, isPolylineWithObstacleAvoidance } from '../../util/polyline';
+import { graphComboTreeDfs } from '../../utils/data';
+import { isPointPreventPolylineOverlap, isPolylineWithObstacleAvoidance } from '../../utils/polyline';
 
 const DELEGATE_SHAPE_ID = 'g6-drag-node-delegate-shape';
 

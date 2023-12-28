@@ -2,7 +2,7 @@ import { DisplayObject } from '@antv/g';
 import { NodeDisplayModel } from '../../../types';
 import { GShapeStyle, SHAPE_TYPE, SHAPE_TYPE_3D, ShapeStyle, State } from '../../../types/item';
 import { NodeModelData, NodeShapeMap, NodeShapeStyles } from '../../../types/node';
-import { upsertShape3D } from '../../../util/shape3d';
+import { upsertShape3D } from '../../../utils/shape3d';
 import { BaseNode } from './base';
 
 export abstract class BaseNode3D extends BaseNode {

@@ -12,8 +12,8 @@ import {
 } from '../../../types';
 import { Plugin as Base, IPluginBaseConfig } from '../../../types/plugin';
 import { GraphTransformOptions } from '../../../types/view';
-import { intersectBBox } from '../../../util/shape';
-import { getZoomLevel } from '../../../util/zoom';
+import { intersectBBox } from '../../../utils/shape';
+import { getZoomLevel } from '../../../utils/zoom';
 
 /**
  * This is an interface named `LodControllerConfig`, which extends the `IPluginBaseConfig` interface. It contains the following properties:

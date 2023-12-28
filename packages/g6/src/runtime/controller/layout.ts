@@ -11,7 +11,7 @@ import {
 } from '../../types';
 import { GraphCore } from '../../types/data';
 import { EdgeModelData } from '../../types/edge';
-import { getNodeSizeFn, isComboLayout, isTreeLayout, layoutOneTree, radialLayout } from '../../util/layout';
+import { getNodeSizeFn, isComboLayout, isTreeLayout, layoutOneTree, radialLayout } from '../../utils/layout';
 
 /**
  * Manages layout extensions and graph layout.

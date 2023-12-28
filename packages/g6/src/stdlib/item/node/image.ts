@@ -3,8 +3,8 @@ import { ComboDisplayModel, NodeDisplayModel } from '../../../types';
 import { ComboModelData, ComboShapeMap } from '../../../types/combo';
 import { State } from '../../../types/item';
 import { NodeModelData, NodeShapeMap, NodeShapeStyles } from '../../../types/node';
-import { ShapeTagMap } from '../../../util/shape';
-import { convertToNumber } from '../../../util/type';
+import { ShapeTagMap } from '../../../utils/shape';
+import { convertToNumber } from '../../../utils/type';
 import { BaseNode } from './base';
 
 export class ImageNode extends BaseNode {

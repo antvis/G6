@@ -1,7 +1,7 @@
 import { Point } from '../../../types/common';
 import { EdgeDisplayModel, EdgeModelData, EdgeShapeMap } from '../../../types/edge';
 import { State } from '../../../types/item';
-import { getControlPoint } from '../../../util/path';
+import { getControlPoint } from '../../../utils/path';
 import { BaseEdge } from './base';
 
 export class QuadraticEdge extends BaseEdge {

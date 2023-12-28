@@ -1,6 +1,6 @@
 import { isArray, isObject } from '@antv/util';
 import { EdgeStyleSets, NodeStyleSets, ThemeSpecification } from '../../types/theme';
-import { mergeStyles } from '../../util/shape';
+import { mergeStyles } from '../../utils/shape';
 import { BaseThemeSolver, ThemeSpecificationMap } from './base';
 
 interface SpecThemeSolverOptions {

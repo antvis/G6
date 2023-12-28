@@ -3,9 +3,9 @@ import { Point } from '../../../types/common';
 import { EdgeDisplayModel, EdgeModelData, EdgeShapeMap } from '../../../types/edge';
 import { State } from '../../../types/item';
 import { LOOP_POSITION, LoopCfg, LoopPosition } from '../../../types/loop';
-import { getBBoxHeight, getBBoxWidth } from '../../../util/bbox';
-import { calculatePointForEllipse, calculatePointForOtherShapes } from '../../../util/loop';
-import { distanceVec } from '../../../util/point';
+import { getBBoxHeight, getBBoxWidth } from '../../../utils/bbox';
+import { calculatePointForEllipse, calculatePointForOtherShapes } from '../../../utils/loop';
+import { distanceVec } from '../../../utils/point';
 import { CubicEdge } from './cubic';
 
 export class LoopEdge extends CubicEdge {

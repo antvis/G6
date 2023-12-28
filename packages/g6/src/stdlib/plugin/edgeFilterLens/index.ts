@@ -3,8 +3,8 @@ import { IGraph } from '../../../types';
 import { IG6GraphEvent } from '../../../types/event';
 import { ShapeStyle } from '../../../types/item';
 import { Plugin as Base, IPluginBaseConfig } from '../../../types/plugin';
-import { cloneJSON } from '../../../util/data';
-import { distance } from '../../../util/point';
+import { cloneJSON } from '../../../utils/data';
+import { distance } from '../../../utils/point';
 
 const DELTA = 0.01;
 interface EdgeFilterLensConfig extends IPluginBaseConfig {
