@@ -7,7 +7,7 @@ export * from './donut';
 export * from './ellipse';
 export * from './hexagon';
 export * from './image';
-export * from './modelRect';
+export * from './model-rect';
 export * from './plane';
 export * from './rect';
 export * from './sphere';

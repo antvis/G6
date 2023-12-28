@@ -1,4 +1,4 @@
-export type { EdgeFilterLens } from './edgeFilterLens';
+export type { EdgeFilterLens } from './edge-filter-lens';
 export type { FisheyeConfig } from './fisheye';
 export type { GridConfig } from './grid';
 export type { HistoryConfig } from './history';
