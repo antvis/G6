@@ -7,7 +7,7 @@ When clicking on a node or edge, annotation content can be added to the pop-up c
 
 <img alt="edge filter lens" src="https://github.com/antvis/G6/assets/6951527/942c5667-63b3-4c46-9e40-6daf64a773da" height='400'/>
 
-## 配置项
+## Configurations
 
 ### trigger
 
