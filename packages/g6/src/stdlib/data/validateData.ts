@@ -1,24 +1,15 @@
 import { uniqueId } from '@antv/util';
+import { ComboUserModel, EdgeUserModel, GraphData, NodeUserModel } from '../../types';
 import { GraphCore, GraphDataChanges } from '../../types/data';
-import {
-  GraphData,
-  ComboUserModel,
-  EdgeUserModel,
-  NodeUserModel,
-} from '../../types';
-import { deconstructData } from '../../util/data';
 
 /**
  * Validate and format the graph data which will be added.
  * @param data input user data.
+ * @param options validate options.
  * @param graphCore the graph core stores the previous data.
  * @returns formatted data.
  */
-export const ValidateData = (
-  data: GraphDataChanges,
-  options = {},
-  graphCore?: GraphCore,
-): GraphDataChanges => {
+export const ValidateData = (data: GraphDataChanges, options = {}, graphCore?: GraphCore): GraphDataChanges => {
   const { dataAdded, dataRemoved, dataUpdated } = data;
   return {
     dataAdded: handler(dataAdded, options, graphCore),
@@ -27,11 +18,7 @@ export const ValidateData = (
   };
 };
 
-const handler = (
-  data: GraphData,
-  options = {},
-  graphCore?: GraphCore,
-): GraphData => {
+const handler = (data: GraphData, options = {}, graphCore?: GraphCore): GraphData => {
   const { nodes, edges, combos } = data;
   const idMap = new Map();
   const nodeIdMap = new Map();
@@ -52,9 +39,9 @@ const handler = (
     }
     if (idMap.has(item.id)) {
       console.error(
-        `Unique global id is neccessary for graph nodes/edges/combos. The ${type} ${JSON.stringify(
-          item,
-        )} with id ${item.id} is duplicated.`,
+        `Unique global id is neccessary for graph nodes/edges/combos. The ${type} ${JSON.stringify(item)} with id ${
+          item.id
+        } is duplicated.`,
       );
       return false;
     }
@@ -75,14 +62,8 @@ const handler = (
 
   formattedCombos?.forEach((combo) => {
     const { parentId } = combo.data;
-    if (
-      parentId !== undefined &&
-      !comboIdMap.has(parentId) &&
-      (!graphCore || !graphCore.hasNode(parentId))
-    ) {
-      console.error(
-        `The parentId of combo with id ${combo.id} will be removed since it is not exist in combos.`,
-      );
+    if (parentId !== undefined && !comboIdMap.has(parentId) && (!graphCore || !graphCore.hasNode(parentId))) {
+      console.error(`The parentId of combo with id ${combo.id} will be removed since it is not exist in combos.`);
       delete combo.data.parentId;
     }
   });
@@ -91,15 +72,9 @@ const handler = (
     ?.map((node) => {
       if (!idAndDataCheck(node, 'node')) return false;
       const { parentId } = node.data;
-      if (
-        parentId !== undefined &&
-        !comboIdMap.has(parentId) &&
-        (!graphCore || !graphCore.hasNode(parentId))
-      ) {
+      if (parentId !== undefined && !comboIdMap.has(parentId) && (!graphCore || !graphCore.hasNode(parentId))) {
         // TODO: parentId is a node in graphCore
-        console.error(
-          `The parentId of node with id ${node.id} will be removed since it is not exist in combos.`,
-        );
+        console.error(`The parentId of node with id ${node.id} will be removed since it is not exist in combos.`);
         delete node.data.parentId;
       }
       idMap.set(node.id, true);
@@ -121,32 +96,20 @@ const handler = (
       }
 
       if (source === undefined) {
-        console.error(
-          `The edge with id ${id} will be ignored since its source is undefined.`,
-        );
+        console.error(`The edge with id ${id} will be ignored since its source is undefined.`);
         return false;
       }
       if (target === undefined) {
-        console.error(
-          `The edge with id ${id} will be ignored since its target is undefined.`,
-        );
+        console.error(`The edge with id ${id} will be ignored since its target is undefined.`);
         return false;
       }
-      if (
-        !nodeIdMap.has(source) &&
-        !comboIdMap.has(source) &&
-        (!graphCore || !graphCore.hasNode(source))
-      ) {
+      if (!nodeIdMap.has(source) && !comboIdMap.has(source) && (!graphCore || !graphCore.hasNode(source))) {
         console.error(
           `The edge with id ${id} will be ignored since its source ${source} is not existed in nodes and combos.`,
         );
         return false;
       }
-      if (
-        !nodeIdMap.has(target) &&
-        !comboIdMap.has(target) &&
-        (!graphCore || !graphCore.hasNode(target))
-      ) {
+      if (!nodeIdMap.has(target) && !comboIdMap.has(target) && (!graphCore || !graphCore.hasNode(target))) {
         console.error(
           `The edge with id ${id} will be ignored since its target ${target} is not existed in nodes and combos.`,
         );

@@ -10,6 +10,9 @@ import { isPolygonsIntersect } from '../../util/shape';
  * A node is selected if the center of its bbox is inside the rect;
  * An edge is selected if both end nodes are inside the rect;
  * A combo is selected if the center of its bbox is inside the rect.
+ * @param graph
+ * @param points
+ * @param itemTypes
  */
 export default (graph: IGraph, points: Point[], itemTypes: ITEM_TYPE[]) => {
   const lassoContour = points.map((point) => [point.x, point.y]);
@@ -40,10 +43,7 @@ export default (graph: IGraph, points: Point[], itemTypes: ITEM_TYPE[]) => {
 
   if (itemTypes.includes('edge')) {
     // an edge is selected only if both the source and target nodes are selected
-    selectedEdgeIds = getEdgesBetween(
-      graph,
-      selectedNodeIds.concat(selectedComboIds),
-    );
+    selectedEdgeIds = getEdgesBetween(graph, selectedNodeIds.concat(selectedComboIds));
   }
 
   return {
@@ -52,11 +52,7 @@ export default (graph: IGraph, points: Point[], itemTypes: ITEM_TYPE[]) => {
     combos: selectedComboIds,
   };
 };
-const isItemIntersectPolygon = (
-  graph: IGraph,
-  id: ID,
-  polyPoints: number[][],
-) => {
+const isItemIntersectPolygon = (graph: IGraph, id: ID, polyPoints: number[][]) => {
   // TODO
   // const shape = item.getKeyShape();
   // if (item.get('type') === 'path') {

@@ -38,9 +38,7 @@ export class ThemeController {
   private getExtension() {
     const { theme = {} } = this.graph.getSpecification();
     this.themeConfig = theme;
-    return theme
-      ? getExtension(theme, registry.useLib, 'themeSolver')
-      : undefined;
+    return theme ? getExtension(theme, registry.useLib, 'themeSolver') : undefined;
   }
 
   private getThemes() {
@@ -49,6 +47,8 @@ export class ThemeController {
 
   /**
    * Graph init listener, create theme solver and generate theme
+   * @param root0
+   * @param root0.canvases
    */
   private onInit({ canvases }) {
     if (this.extension) {

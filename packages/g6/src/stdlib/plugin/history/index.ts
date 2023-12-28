@@ -6,23 +6,23 @@ import CommandFactory, { Command } from './command';
 
 /**
  * The `HistoryConfig` interface contains the following properties:
-
-- `enableStack`: An optional boolean value that indicates whether to enable the stack.
-- `stackCfg`: A required object of type `StackCfg` representing the stack configuration.
-
-The `StackCfg` type is defined as an object with the following properties:
-
-- `stackSize`: An optional number representing the size of the stack.
-- `stackActive`: An optional boolean value indicating whether the stack is active. If active, operations can be pushed onto the stack; otherwise, they cannot.
-- `excludes`: An optional array of strings representing APIs that should be excluded from being put on the stack, even if their operation type is not ignored.
-- `includes`: An optional array of strings representing APIs that should be included in being put on the stack.
-- `ignoreAdd`: An optional boolean value indicating whether to ignore add operations.
-- `ignoreRemove`: An optional boolean value indicating whether to ignore remove operations.
-- `ignoreUpdate`: An optional boolean value indicating whether to ignore update operations.
-- `ignoreStateChange`: An optional boolean value indicating whether to ignore state change operations.
-- `ignoreLayerChange`: An optional boolean value indicating whether to ignore layer change operations.
-- `ignoreDisplayChange`: An optional boolean value indicating whether to ignore display change operations.
-
+ *
+ * - `enableStack`: An optional boolean value that indicates whether to enable the stack.
+ * - `stackCfg`: A required object of type `StackCfg` representing the stack configuration.
+ *
+ * The `StackCfg` type is defined as an object with the following properties:
+ *
+ * - `stackSize`: An optional number representing the size of the stack.
+ * - `stackActive`: An optional boolean value indicating whether the stack is active. If active, operations can be pushed onto the stack; otherwise, they cannot.
+ * - `excludes`: An optional array of strings representing APIs that should be excluded from being put on the stack, even if their operation type is not ignored.
+ * - `includes`: An optional array of strings representing APIs that should be included in being put on the stack.
+ * - `ignoreAdd`: An optional boolean value indicating whether to ignore add operations.
+ * - `ignoreRemove`: An optional boolean value indicating whether to ignore remove operations.
+ * - `ignoreUpdate`: An optional boolean value indicating whether to ignore update operations.
+ * - `ignoreStateChange`: An optional boolean value indicating whether to ignore state change operations.
+ * - `ignoreLayerChange`: An optional boolean value indicating whether to ignore layer change operations.
+ * - `ignoreDisplayChange`: An optional boolean value indicating whether to ignore display change operations.
+ *
  */
 export interface HistoryConfig extends IPluginBaseConfig {
   enableStack?: boolean;
@@ -172,11 +172,7 @@ export class History extends Base {
     return this.enableStack;
   }
 
-  public push(
-    cmd: Command[],
-    stackType: StackType = STACK_TYPE.undo,
-    isNew = true,
-  ) {
+  public push(cmd: Command[], stackType: StackType = STACK_TYPE.undo, isNew = true) {
     if (this.stackActive) {
       if (stackType === STACK_TYPE.undo) {
         if (isNew) {
@@ -191,9 +187,7 @@ export class History extends Base {
       }
       this.graph.emit('history:change', cmd, stackType, isNew);
     } else {
-      console.error(
-        'Stacking operations are currently paused. Unable to push to the stack.',
-      );
+      console.error('Stacking operations are currently paused. Unable to push to the stack.');
     }
   }
 
@@ -266,9 +260,7 @@ export class History extends Base {
    */
   public startHistoryBatch() {
     if (this.isBatching) {
-      throw new Error(
-        'Ensure that historyBatch processing is stopped before starting.',
-      );
+      throw new Error('Ensure that historyBatch processing is stopped before starting.');
     }
     this.initBatchCommands();
     this.isBatching = true;
@@ -281,9 +273,7 @@ export class History extends Base {
    */
   public stopHistoryBatch() {
     if (!this.isBatching) {
-      throw new Error(
-        'Ensure that historyBatch processing is started before stopping.',
-      );
+      throw new Error('Ensure that historyBatch processing is started before stopping.');
     }
     this.push(this.batchCommands);
     this.isBatching = false;
@@ -314,10 +304,7 @@ export class History extends Base {
     const { apiName, changes } = props;
     if (changes && changes.length === 0) return;
     if (this.shouldPushToStack(apiName)) {
-      this.batchCommands = [
-        ...this.batchCommands,
-        ...CommandFactory.create(props),
-      ];
+      this.batchCommands = [...this.batchCommands, ...CommandFactory.create(props)];
       if (this.isBatching) {
         return;
       }
@@ -327,8 +314,7 @@ export class History extends Base {
 
   /**
    * Determine if a given operation should be pushed onto the history stack based on various configurations.
-   * @param {string} apiName name of the API operation.
-   * @param {boolean} stack Optional. whether push this operation into graph's stack.
+   * @param apiName name of the API operation.
    */
   private shouldPushToStack(apiName: string): boolean {
     const { includes = [], excludes = [] } = this.cfg;

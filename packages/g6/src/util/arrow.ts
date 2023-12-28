@@ -7,11 +7,7 @@ import { ArrowType } from '../types/edge';
  * @param height The height of the arrow.
  * @returns
  */
-export const getArrowPath = (
-  type: ArrowType,
-  width: number,
-  height: number,
-) => {
+export const getArrowPath = (type: ArrowType, width: number, height: number) => {
   switch (type) {
     case 'triangle':
       return `M 0,0 L ${width},-${height / 2} L ${width},${height / 2} Z`;

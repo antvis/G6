@@ -1,25 +1,24 @@
 import { AABB } from '@antv/g';
-import { each } from '@antv/util';
 import { ID } from '@antv/graphlib';
-import { EdgeDisplayModel } from '../types/edge';
-import { NodeDisplayModel } from '../types';
+import { each } from '@antv/util';
 import Node from '../item/node';
-import Item from '../item/item';
+import { NodeDisplayModel } from '../types';
 import { Point, PolyPoint } from '../types/common';
+import { EdgeDisplayModel } from '../types/edge';
 import {
+  getBBoxCrossPointsByPoint,
   getBBoxFromPoint,
   getBBoxFromPoints,
-  getExpandedBBox,
   getBBoxPoints,
+  getExpandedBBox,
   getExpandedBBoxPoint,
-  mergeBBox,
-  getBBoxCrossPointsByPoint,
   isPointOutsideBBox,
   isSegmentCrossingBBox,
+  mergeBBox,
 } from './bbox';
 import { manhattanDist } from './math';
-import { RouterCfg } from './router';
 import { isBending } from './point';
+import { RouterCfg } from './router';
 
 /**
  * Simplify points of polyline by removing duplicated points
@@ -42,22 +41,21 @@ export const simplifyPolylinePoints = (points: PolyPoint[]): PolyPoint[] => {
 /**
  * Use the A* path-finding algorithm to obtain the shortest path.
  * Considering that there is no need to implement automatic obstacle avoidance, use waypoints to plan the path.
+ * @param start
+ * @param end
+ * @param startNode
+ * @param endNode
+ * @param cfg
  */
-export const simplePathFinder = (
-  start: PolyPoint,
-  end: PolyPoint,
-  startNode: Node,
-  endNode: Node,
-  cfg: RouterCfg,
-) => {
-  return simplifyPolylinePoints(
-    getPolylinePoints(start, end, cfg.offset, startNode, endNode),
-  );
+export const simplePathFinder = (start: PolyPoint, end: PolyPoint, startNode: Node, endNode: Node, cfg: RouterCfg) => {
+  return simplifyPolylinePoints(getPolylinePoints(start, end, cfg.offset, startNode, endNode));
 };
 
 /**
  * 如果 points 中的一个节点 x 与 p 相等，则消耗 -2。y 同
  * 即优先选择和 points 在同一水平线 / 垂直线上的点
+ * @param p
+ * @param points
  */
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export const _costByPoints = (p: PolyPoint, points: PolyPoint[]): number => {
@@ -78,6 +76,11 @@ export const _costByPoints = (p: PolyPoint, points: PolyPoint[]): number => {
 
 /**
  * ps 经过 p 到 pt 的距离，减去其他路过节点造成的消耗
+ * @param p
+ * @param ps
+ * @param pt
+ * @param source
+ * @param target
  */
 export const heuristicCostEstimate = (
   p: PolyPoint,
@@ -85,10 +88,7 @@ export const heuristicCostEstimate = (
   pt: PolyPoint,
   source?: PolyPoint,
   target?: PolyPoint,
-): number =>
-  manhattanDist(p, ps) +
-  manhattanDist(p, pt) +
-  _costByPoints(p, [ps, pt, source!, target!]);
+): number => manhattanDist(p, ps) + manhattanDist(p, pt) + _costByPoints(p, [ps, pt, source!, target!]);
 
 export const reconstructPath = (
   pathPoints: PolyPoint[],
@@ -98,23 +98,15 @@ export const reconstructPath = (
   iterator = 0,
 ) => {
   pathPoints.unshift(pointById[currentId]);
-  if (
-    cameFrom[currentId] &&
-    cameFrom[currentId] !== currentId &&
-    iterator <= 100
-  ) {
-    reconstructPath(
-      pathPoints,
-      pointById,
-      cameFrom,
-      cameFrom[currentId],
-      iterator + 1,
-    );
+  if (cameFrom[currentId] && cameFrom[currentId] !== currentId && iterator <= 100) {
+    reconstructPath(pathPoints, pointById, cameFrom, cameFrom[currentId], iterator + 1);
   }
 };
 
 /**
  * 从 arr 中删去 item
+ * @param arr
+ * @param item
  */
 export const removeFrom = (arr: PolyPoint[], item: PolyPoint) => {
   const index = arr.indexOf(item);
@@ -125,21 +117,17 @@ export const removeFrom = (arr: PolyPoint[], item: PolyPoint) => {
 
 /**
  * 在 points 中找到满足 x 或 y 和 point 的 x 或 y 相等，且与 point 连线不经过 bbox1 与 bbox2 的点
+ * @param points
+ * @param point
+ * @param bbox1
+ * @param bbox2
  */
-export const getNeighborPoints = (
-  points: PolyPoint[],
-  point: PolyPoint,
-  bbox1: AABB,
-  bbox2: AABB,
-): PolyPoint[] => {
+export const getNeighborPoints = (points: PolyPoint[], point: PolyPoint, bbox1: AABB, bbox2: AABB): PolyPoint[] => {
   const neighbors: Point[] = [];
   points.forEach((p) => {
     if (p === point) return;
     if (p.x === point.x || p.y === point.y) {
-      if (
-        isSegmentCrossingBBox(p, point, bbox1) ||
-        isSegmentCrossingBBox(p, point, bbox2)
-      ) {
+      if (isSegmentCrossingBBox(p, point, bbox1) || isSegmentCrossingBBox(p, point, bbox2)) {
         return;
       }
       neighbors.push(p);
@@ -148,7 +136,16 @@ export const getNeighborPoints = (
   return simplifyPolylinePoints(neighbors);
 };
 
-/** A-Star Algorithm using waypoints */
+/**
+ * A-Star Algorithm using waypoints
+ * @param points
+ * @param start
+ * @param goal
+ * @param sBBox
+ * @param tBBox
+ * @param os
+ * @param ot
+ */
 export const pathFinderUsingWaypoints = (
   points: PolyPoint[],
   start: PolyPoint,
@@ -224,8 +221,7 @@ export const pathFinderUsingWaypoints = (
           openSet[neighborId] = neighbor;
         }
 
-        const tentativeGScore =
-          fScore[current.id] + manhattanDist(current, neighbor); // + manhattanDist(neighbor, goal);
+        const tentativeGScore = fScore[current.id] + manhattanDist(current, neighbor); // + manhattanDist(neighbor, goal);
         if (gScore[neighborId] && tentativeGScore >= gScore[neighborId]) {
           sortedOpenSet.add({
             id: neighborId,
@@ -236,9 +232,7 @@ export const pathFinderUsingWaypoints = (
 
         cameFrom[neighborId] = current.id;
         gScore[neighborId] = tentativeGScore;
-        fScore[neighborId] =
-          gScore[neighborId] +
-          heuristicCostEstimate(neighbor, goal, start, os, ot);
+        fScore[neighborId] = gScore[neighborId] + heuristicCostEstimate(neighbor, goal, start, os, ot);
         sortedOpenSet.add({
           id: neighborId,
           value: fScore[neighborId],
@@ -253,13 +247,12 @@ export const pathFinderUsingWaypoints = (
 
 /**
  * Calculate the two points necessary to draw a rounded corner between three points, given a radius.
+ * @param p0
+ * @param p1
+ * @param p2
+ * @param r
  */
-export const getBorderRadiusPoints = (
-  p0: Point,
-  p1: Point,
-  p2: Point,
-  r: number,
-): Point[] => {
+export const getBorderRadiusPoints = (p0: Point, p1: Point, p2: Point, r: number): Point[] => {
   const d0 = manhattanDist(p0, p1);
   const d1 = manhattanDist(p2, p1);
   const maxR = Math.min(d0, d1) / 2; // calculate the minimum possible radius
@@ -275,12 +268,13 @@ export const getBorderRadiusPoints = (
   return [ps, pt];
 };
 
-/** Draw a polyline path */
-export const pointsToPolyline = (
-  points: Point[],
-  borderRadius?: number,
-  z?: boolean,
-): string => {
+/**
+ * Draw a polyline path
+ * @param points
+ * @param borderRadius
+ * @param z
+ */
+export const pointsToPolyline = (points: Point[], borderRadius?: number, z?: boolean): string => {
   const pathSegments: string[] = [];
   const startPoint = points[0];
   pathSegments.push(`M ${startPoint.x} ${startPoint.y}`);
@@ -314,12 +308,7 @@ export const pointsToPolyline = (
  * @param z  whether is closed from the last point to the first point
  * @returns
  */
-export const getPolylinePath = (
-  id: ID,
-  points: Point[],
-  radius?: number,
-  z?: boolean,
-): string => {
+export const getPolylinePath = (id: ID, points: Point[], radius?: number, z?: boolean): string => {
   if (!points || points.length < 2) {
     return 'M 0 0 L 0 0'; // Cannot draw a single point
   }
@@ -409,15 +398,7 @@ export const getPolylinePoints = (
   connectPoints.unshift(sPoint);
   connectPoints.push(tPoint);
   connectPoints = simplifyPolylinePoints(connectPoints);
-  const pathPoints = pathFinderUsingWaypoints(
-    connectPoints,
-    sPoint,
-    tPoint,
-    sBBox,
-    tBBox,
-    start,
-    end,
-  );
+  const pathPoints = pathFinderUsingWaypoints(connectPoints, sPoint, tPoint, sBBox, tBBox, start, end);
 
   return simplifyPolylinePoints(pathPoints);
 };
@@ -562,7 +543,10 @@ export class QuadTree {
   private southwest?: QuadTree;
   private southeast?: QuadTree;
 
-  constructor(public boundary: AABB, capacity: number) {
+  constructor(
+    public boundary: AABB,
+    capacity: number,
+  ) {
     this.capacity = capacity;
   }
 
@@ -645,7 +629,10 @@ export class EdgeCollisionChecker {
     this.quadTree = quadTree;
   }
 
-  /** Check if node and edge intersect */
+  /**
+   * Check if node and edge intersect
+   * @param nodeBBox
+   */
   getCollidingEdges(nodeBBox: AABB): ComputedEdge[] {
     // Get edge's bounding box intersects moving node's bounding box
     const potentialCollisions = this.quadTree.queryRange(nodeBBox);
@@ -658,6 +645,8 @@ export class EdgeCollisionChecker {
 
 /**
  * Check if the edge is a polyline and obstacle avoidance is enabled
+ * @param displayModel
+ * @param polylineEdgeType
  */
 export const isPolylineWithObstacleAvoidance = (
   displayModel: EdgeDisplayModel,
@@ -667,17 +656,15 @@ export const isPolylineWithObstacleAvoidance = (
   const isPolyline = polylineEdgeType.includes(type);
   if (!isPolyline) return false;
   // @ts-ignore
-  const isObstacleAvoidanceEnabled = (keyShape?.routeCfg as RouterCfg)
-    ?.enableObstacleAvoidance;
+  const isObstacleAvoidanceEnabled = (keyShape?.routeCfg as RouterCfg)?.enableObstacleAvoidance;
   return isObstacleAvoidanceEnabled;
 };
 
 /**
  * Check if the node prevents polyline edges from overlapping
+ * @param displayModel
  */
-export const isPointPreventPolylineOverlap = (
-  displayModel: NodeDisplayModel,
-) => {
+export const isPointPreventPolylineOverlap = (displayModel: NodeDisplayModel) => {
   if (!displayModel) return false;
   const { preventPolylineEdgeOverlap } = displayModel.data;
   return preventPolylineEdgeOverlap || false;

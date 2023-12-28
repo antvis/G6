@@ -1,6 +1,5 @@
-import { Graph, Extensions, extend } from '../../../src/index';
+import { Extensions, Graph, extend } from '../../../src/index';
 import { TestCaseContext } from '../interface';
-import { createNodeGCanvas } from '../../integration/utils/createNodeGCanvas';
 
 export default (context: TestCaseContext, options = {}) => {
   const { watermarkerCanvas, ...pluginConfigs } = options;
@@ -70,19 +69,12 @@ export default (context: TestCaseContext, options = {}) => {
         begin: [10, 10],
         separation: [10, 10],
         text: {
-          texts: [
-            'hello',
-            'antv',
-            'dasdfasdfaasdfasdfas',
-            'kjadkja',
-            'iy32iuhehfka',
-          ],
+          texts: ['hello', 'antv', 'dasdfasdfaasdfasdfas', 'kjadkja', 'iy32iuhehfka'],
           fill: '#f00',
           rotate: 30,
         },
         image: {
-          imgURL:
-            'https://gw.alipayobjects.com/os/s/prod/antv/assets/image/logo-with-text-73b8a.svg',
+          imgURL: 'https://gw.alipayobjects.com/os/s/prod/antv/assets/image/logo-with-text-73b8a.svg',
           width: 94,
           height: 28,
           rotate: 40,

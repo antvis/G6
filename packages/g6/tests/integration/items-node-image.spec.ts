@@ -1,19 +1,15 @@
 import imageNode from '../demo/item/node/image';
-import './utils/useSnapshotMatchers';
 import { createContext } from './utils';
+import './utils/useSnapshotMatchers';
 
 const dir = `${__dirname}/snapshots/items/node/image`;
 
 describe('Items node image', () => {
   it('should be rendered correctly', (done) => {
-    const {
-      backgroundCanvas,
-      canvas,
-      container,
-      labelCanvas,
-      transientCanvas,
-      transientLabelCanvas,
-    } = createContext(500, 500);
+    const { backgroundCanvas, canvas, container, labelCanvas, transientCanvas, transientLabelCanvas } = createContext(
+      500,
+      500,
+    );
 
     const graph = imageNode({
       backgroundCanvas,

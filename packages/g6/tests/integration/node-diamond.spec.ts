@@ -1,20 +1,16 @@
 import diamond from '../demo/demo/diamond';
-import './utils/useSnapshotMatchers';
 import { createContext } from './utils';
 import { triggerEvent } from './utils/event';
+import './utils/useSnapshotMatchers';
 
 const dir = `${__dirname}/snapshots/items/node/diamond`;
 
 describe('node diamond', () => {
   it('should be rendered correctly', (done) => {
-    const {
-      backgroundCanvas,
-      canvas,
-      container,
-      labelCanvas,
-      transientCanvas,
-      transientLabelCanvas,
-    } = createContext(500, 500);
+    const { backgroundCanvas, canvas, container, labelCanvas, transientCanvas, transientLabelCanvas } = createContext(
+      500,
+      500,
+    );
 
     const graph = diamond({
       backgroundCanvas,

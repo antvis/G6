@@ -1,13 +1,8 @@
 import { Graph as GraphLib, TreeData as ITreeData } from '@antv/graphlib';
 import { AVAILABLE_DATA_LIFECYCLE } from '../util/data';
 import { ComboUserModel } from './combo';
-import {
-  NodeDisplayModelData,
-  NodeModelData,
-  NodeUserModel,
-  NodeUserModelData,
-} from './node';
 import { EdgeDisplayModelData, EdgeModelData, EdgeUserModel } from './edge';
+import { NodeDisplayModelData, NodeModelData, NodeUserModel, NodeUserModelData } from './node';
 
 export interface GraphData {
   nodes?: NodeUserModel[];
@@ -21,9 +16,7 @@ export interface GraphDataChanges {
   dataRemoved: GraphData;
 }
 
-export type TreeData =
-  | ITreeData<NodeUserModelData>
-  | ITreeData<NodeUserModelData>[];
+export type TreeData = ITreeData<NodeUserModelData> | ITreeData<NodeUserModelData>[];
 
 export interface InlineGraphDataConfig {
   type: 'graphData';
@@ -39,17 +32,10 @@ export interface FetchDataConfig {
   value: string;
 }
 
-export type DataConfig =
-  | GraphData
-  | InlineGraphDataConfig
-  | InlineTreeDataConfig
-  | FetchDataConfig;
+export type DataConfig = GraphData | InlineGraphDataConfig | InlineTreeDataConfig | FetchDataConfig;
 
 export type GraphCore = GraphLib<NodeModelData, EdgeModelData>;
-export type DisplayGraphCore = GraphLib<
-  NodeDisplayModelData,
-  EdgeDisplayModelData
->;
+export type DisplayGraphCore = GraphLib<NodeDisplayModelData, EdgeDisplayModelData>;
 
 export type TransformerFn = (data: GraphData) => GraphData;
 

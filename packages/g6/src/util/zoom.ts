@@ -5,9 +5,7 @@ import { LodLevel, LodLevelRanges } from '../types/item';
  * @param lodLevels
  * @returns
  */
-export const formatLodLevels = (
-  lodLevels?: LodLevel[],
-): LodLevelRanges | undefined => {
+export const formatLodLevels = (lodLevels?: LodLevel[]): LodLevelRanges | undefined => {
   if (!lodLevels?.length) return;
   const primaryLevel = lodLevels.find((level) => level.primary);
   if (!primaryLevel) return;

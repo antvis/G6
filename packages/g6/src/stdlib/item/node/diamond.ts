@@ -1,12 +1,7 @@
 import { DisplayObject } from '@antv/g';
 import { NodeDisplayModel } from '../../../types';
 import { State } from '../../../types/item';
-import {
-  IAnchorPositionMap,
-  NodeModelData,
-  NodeShapeMap,
-  NodeShapeStyles,
-} from '../../../types/node';
+import { IAnchorPositionMap, NodeModelData, NodeShapeMap, NodeShapeStyles } from '../../../types/node';
 import { BaseNode } from './base';
 type PathArray = any; //TODO: cannot import type PathArray
 export class DiamondNode extends BaseNode {
@@ -17,7 +12,7 @@ export class DiamondNode extends BaseNode {
       y: 0,
     },
   };
-  mergedStyles: NodeShapeStyles;
+  declare mergedStyles: NodeShapeStyles;
   constructor(props) {
     super(props);
     // suggest to merge default styles like this to avoid style value missing
@@ -37,42 +32,22 @@ export class DiamondNode extends BaseNode {
 
     // haloShape
     if (data.haloShape && this.drawHaloShape) {
-      shapes.haloShape = this.drawHaloShape(
-        model,
-        shapeMap,
-        diffData,
-        diffState,
-      );
+      shapes.haloShape = this.drawHaloShape(model, shapeMap, diffData, diffState);
     }
 
     // labelShape
     if (data.labelShape) {
-      shapes.labelShape = this.drawLabelShape(
-        model,
-        shapeMap,
-        diffData,
-        diffState,
-      );
+      shapes.labelShape = this.drawLabelShape(model, shapeMap, diffData, diffState);
     }
 
     // labelBackgroundShape
     if (data.labelBackgroundShape) {
-      shapes.labelBackgroundShape = this.drawLabelBackgroundShape(
-        model,
-        shapeMap,
-        diffData,
-        diffState,
-      );
+      shapes.labelBackgroundShape = this.drawLabelBackgroundShape(model, shapeMap, diffData, diffState);
     }
 
     // anchor shapes
     if (data.anchorShapes) {
-      const anchorShapes = this.drawAnchorShapes(
-        model,
-        shapeMap,
-        diffData,
-        diffState,
-      );
+      const anchorShapes = this.drawAnchorShapes(model, shapeMap, diffData, diffState);
       shapes = {
         ...shapes,
         ...anchorShapes,
@@ -81,22 +56,12 @@ export class DiamondNode extends BaseNode {
 
     // iconShape
     if (data.iconShape) {
-      shapes.iconShape = this.drawIconShape(
-        model,
-        shapeMap,
-        diffData,
-        diffState,
-      );
+      shapes.iconShape = this.drawIconShape(model, shapeMap, diffData, diffState);
     }
 
     // badgeShape
     if (data.badgeShapes) {
-      const badgeShapes = this.drawBadgeShapes(
-        model,
-        shapeMap,
-        diffData,
-        diffState,
-      );
+      const badgeShapes = this.drawBadgeShapes(model, shapeMap, diffData, diffState);
       shapes = {
         ...shapes,
         ...badgeShapes,
@@ -151,9 +116,7 @@ export class DiamondNode extends BaseNode {
     return path;
   }
 
-  public override calculateAnchorPosition(
-    keyShapeStyle: any,
-  ): IAnchorPositionMap {
+  public override calculateAnchorPosition(keyShapeStyle: any): IAnchorPositionMap {
     const anchorPositionMap = {};
     const { size } = keyShapeStyle;
     const sizeArr = Array.isArray(size) ? size : [size, size];

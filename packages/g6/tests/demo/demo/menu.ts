@@ -1,4 +1,4 @@
-import { Graph, Extensions, extend } from '../../../src/index';
+import { Extensions, Graph, extend } from '../../../src/index';
 
 import { container, height, width } from '../../datasets/const';
 
@@ -61,7 +61,10 @@ export default () => {
         handleMenuClick: (e, id) => {
           console.log(id);
         },
-        /** async string menu */
+        /**
+         * async string menu
+         * @param e
+         */
         getContent: (e) => {
           return new Promise((resolve) => {
             const data = `
@@ -77,7 +80,10 @@ export default () => {
         },
       },
     ],
-    /** default menu */
+    /**
+     * default menu
+     * @param nodeInnerModel
+     */
     // plugins: ['menu'],
     node: (nodeInnerModel: any) => {
       const { id, data } = nodeInnerModel;

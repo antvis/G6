@@ -5,13 +5,11 @@ import { createDOM, modifyCSS } from '../../../util/dom';
 
 /**
  * The `ToolbarConfig` interface contains the following properties:
-
-- `handleClick`: An optional function for handling clicks on the toolbar. It takes two arguments: `code` (of type string) and `graph` (of type IGraph), and has no return value.
-- `getContent`: A required function for getting the content of the toolbar. It takes an optional argument of type `IGraph`, and returns a value of type HTMLElement or string.
-- `zoomSensitivity`: An optional number representing the zoom sensitivity of the toolbar. The default value is 10.
-- `minZoom`: An optional number representing the minimum zoom ratio of the toolbar. The default value is 0.00001.
-- `maxZoom`: An optional number representing the maximum zoom ratio of the toolbar. The default value is 1000.
-
+ * - `handleClick`: An optional function for handling clicks on the toolbar. It takes two arguments: `code` (of type string) and `graph` (of type IGraph), and has no return value.
+ * - `getContent`: A required function for getting the content of the toolbar. It takes an optional argument of type `IGraph`, and returns a value of type HTMLElement or string.
+ * - `zoomSensitivity`: An optional number representing the zoom sensitivity of the toolbar. The default value is 10.
+ * - `minZoom`: An optional number representing the minimum zoom ratio of the toolbar. The default value is 0.00001.
+ * - `maxZoom`: An optional number representing the maximum zoom ratio of the toolbar. The default value is 1000.
  */
 export interface ToolbarConfig extends IPluginBaseConfig {
   /** Function for handling clicks on toolbar */
@@ -117,9 +115,7 @@ export class Toolbar extends Base {
     this.containerDOM.appendChild(this.toolbarDOM);
 
     this.toolbarDOM.addEventListener('click', (evt) => {
-      const current = (getEventPath(evt) as HTMLElement[]).filter(
-        (p) => p.nodeName === 'LI',
-      );
+      const current = (getEventPath(evt) as HTMLElement[]).filter((p) => p.nodeName === 'LI');
       if (current.length === 0) {
         return;
       }
@@ -220,7 +216,6 @@ export class Toolbar extends Base {
   /**
    * Handles different types of operations on the Toolbar
    * @param code operation code
-   * @param graph graph instance
    */
   public handleDefaultOperator(code: string) {
     switch (code) {

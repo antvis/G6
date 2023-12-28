@@ -6,14 +6,10 @@ const dir = `${__dirname}/snapshots/behaviors`;
 
 describe('Scroll canvas behavior', () => {
   it('should be rendered correctly', (done) => {
-    const {
-      backgroundCanvas,
-      canvas,
-      container,
-      labelCanvas,
-      transientCanvas,
-      transientLabelCanvas,
-    } = createContext(500, 500);
+    const { backgroundCanvas, canvas, container, labelCanvas, transientCanvas, transientLabelCanvas } = createContext(
+      500,
+      500,
+    );
 
     const graph = scrollCanvas({
       backgroundCanvas,
@@ -34,20 +30,14 @@ describe('Scroll canvas behavior', () => {
         deltaY: 50,
       });
 
-      await expect(canvas).toMatchSVGSnapshot(
-        dir,
-        'behaviors-scroll-canvas-wheel',
-      );
+      await expect(canvas).toMatchSVGSnapshot(dir, 'behaviors-scroll-canvas-wheel');
 
       graph.emit('wheel', {
         client: { x: 50, y: 50 },
         ctrlKey: true,
       });
 
-      await expect(canvas).toMatchSVGSnapshot(
-        dir,
-        'behaviors-scroll-canvas-zoom',
-      );
+      await expect(canvas).toMatchSVGSnapshot(dir, 'behaviors-scroll-canvas-zoom');
 
       graph.destroy();
       done();

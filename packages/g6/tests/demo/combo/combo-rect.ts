@@ -1,10 +1,7 @@
-import { Graph, Extensions, stdLib, extend } from '../../../src/index';
+import { Extensions, Graph, extend, stdLib } from '../../../src/index';
 
+import { data as comboData } from '../../datasets/combo-data';
 import { container, height, width } from '../../datasets/const';
-import {
-  data as comboData,
-  smallData as smallComboData,
-} from '../../datasets/combo-data';
 
 export default () => {
   const ExtGraph = extend(Graph, {

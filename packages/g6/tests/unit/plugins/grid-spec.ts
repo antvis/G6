@@ -1,5 +1,4 @@
 import { Graph } from '../../../src/index';
-import { pxCompare } from '../util';
 
 const container = document.createElement('div');
 container.id = 'container';

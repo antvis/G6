@@ -1,7 +1,7 @@
 import { ICamera } from '@antv/g';
 import { Behavior } from '../../types/behavior';
-import { IG6GraphEvent } from '../../types/event';
 import { Point } from '../../types/common';
+import { IG6GraphEvent } from '../../types/event';
 
 const VALID_TRIGGERS = ['drag', 'directionKeys'];
 

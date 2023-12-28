@@ -44,9 +44,7 @@ export class ShortcutsCall extends Behavior {
     super(Object.assign({}, DEFAULT_OPTIONS, options));
     // Validate options
     if (options.trigger && !ALLOW_TRIGGERS.includes(options.trigger)) {
-      console.warn(
-        `G6: Invalid trigger option "${options.trigger}" for shortcuts-call behavior!`,
-      );
+      console.warn(`G6: Invalid trigger option "${options.trigger}" for shortcuts-call behavior!`);
       this.options.trigger = DEFAULT_OPTIONS.trigger;
     }
     if (options.combinedKey === this.options.trigger) {
@@ -82,9 +80,7 @@ export class ShortcutsCall extends Behavior {
     }
 
     if (!graph[functionName]) {
-      console.warn(
-        `G6: Invalid functionName option: "${functionName}" for shortcuts-call behavior!`,
-      );
+      console.warn(`G6: Invalid functionName option: "${functionName}" for shortcuts-call behavior!`);
       return {};
     }
     if (!this.triggerKeydown) return;

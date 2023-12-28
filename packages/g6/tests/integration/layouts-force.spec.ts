@@ -6,14 +6,10 @@ const dir = `${__dirname}/snapshots/layouts`;
 
 describe.skip('Force layout', () => {
   it('should be rendered correctly', (done) => {
-    const {
-      backgroundCanvas,
-      canvas,
-      container,
-      labelCanvas,
-      transientCanvas,
-      transientLabelCanvas,
-    } = createContext(500, 500);
+    const { backgroundCanvas, canvas, container, labelCanvas, transientCanvas, transientLabelCanvas } = createContext(
+      500,
+      500,
+    );
 
     const graph = force({
       backgroundCanvas,

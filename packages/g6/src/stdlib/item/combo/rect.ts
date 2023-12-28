@@ -1,11 +1,6 @@
 import { DisplayObject } from '@antv/g';
+import { ComboDisplayModel, ComboModelData, ComboShapeMap, ComboShapeStyles } from '../../../types/combo';
 import { State } from '../../../types/item';
-import {
-  ComboDisplayModel,
-  ComboModelData,
-  ComboShapeMap,
-  ComboShapeStyles,
-} from '../../../types/combo';
 import { BaseNode } from '../node/base';
 
 export class RectCombo extends BaseNode {
@@ -17,7 +12,7 @@ export class RectCombo extends BaseNode {
       height: 32,
     },
   };
-  mergedStyles: ComboShapeStyles;
+  declare mergedStyles: ComboShapeStyles;
   constructor(props) {
     super(props);
     // suggest to merge default styles like this to avoid style value missing
@@ -37,42 +32,22 @@ export class RectCombo extends BaseNode {
 
     // haloShape
     if (data.haloShape && this.drawHaloShape) {
-      shapes.haloShape = this.drawHaloShape(
-        model,
-        shapeMap,
-        diffData,
-        diffState,
-      );
+      shapes.haloShape = this.drawHaloShape(model, shapeMap, diffData, diffState);
     }
 
     // labelShape
     if (data.labelShape) {
-      shapes.labelShape = this.drawLabelShape(
-        model,
-        shapeMap,
-        diffData,
-        diffState,
-      );
+      shapes.labelShape = this.drawLabelShape(model, shapeMap, diffData, diffState);
     }
 
     // labelBackgroundShape
     if (data.labelBackgroundShape) {
-      shapes.labelBackgroundShape = this.drawLabelBackgroundShape(
-        model,
-        shapeMap,
-        diffData,
-        diffState,
-      );
+      shapes.labelBackgroundShape = this.drawLabelBackgroundShape(model, shapeMap, diffData, diffState);
     }
 
     // anchor shapes
     if (data.anchorShapes) {
-      const anchorShapes = this.drawAnchorShapes(
-        model,
-        shapeMap,
-        diffData,
-        diffState,
-      );
+      const anchorShapes = this.drawAnchorShapes(model, shapeMap, diffData, diffState);
       shapes = {
         ...shapes,
         ...anchorShapes,
@@ -81,22 +56,12 @@ export class RectCombo extends BaseNode {
 
     // iconShape
     if (data.iconShape) {
-      shapes.iconShape = this.drawIconShape(
-        model,
-        shapeMap,
-        diffData,
-        diffState,
-      );
+      shapes.iconShape = this.drawIconShape(model, shapeMap, diffData, diffState);
     }
 
     // badgeShape
     if (data.badgeShapes) {
-      const badgeShapes = this.drawBadgeShapes(
-        model,
-        shapeMap,
-        diffData,
-        diffState,
-      );
+      const badgeShapes = this.drawBadgeShapes(model, shapeMap, diffData, diffState);
       shapes = {
         ...shapes,
         ...badgeShapes,
@@ -129,10 +94,8 @@ export class RectCombo extends BaseNode {
 
   public getMergedStyles(model: ComboDisplayModel) {
     const merged = super.getMergedStyles(model);
-    merged.keyShape.x =
-      (merged.keyShape.x as number) - merged.keyShape.width / 2;
-    merged.keyShape.y =
-      (merged.keyShape.y as number) - merged.keyShape.height / 2;
+    merged.keyShape.x = (merged.keyShape.x as number) - merged.keyShape.width / 2;
+    merged.keyShape.y = (merged.keyShape.y as number) - merged.keyShape.height / 2;
     return merged;
   }
 }

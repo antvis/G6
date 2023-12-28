@@ -1,6 +1,6 @@
+import { generate } from '@ant-design/colors';
 import { isArray } from '@antv/util';
 import color from 'color';
-import { generate } from '@ant-design/colors';
 import { ThemeSpecification } from '../../types/theme';
 import { mergeStyles } from '../../util/shape';
 import { BaseThemeSolver, ThemeSpecificationMap } from './base';
@@ -28,10 +28,7 @@ interface SubjectThemeSolverOptions {
 }
 
 export class SubjectThemeSolver extends BaseThemeSolver {
-  public solver(
-    options: SubjectThemeSolverOptions,
-    themes: ThemeSpecificationMap,
-  ): ThemeSpecification {
+  public solver(options: SubjectThemeSolverOptions, themes: ThemeSpecificationMap): ThemeSpecification {
     const { base = 'light', baseColor = '#fff', specification } = options;
     const baseSpec = themes[base];
     const mergedSpec = { ...baseSpec };
@@ -47,31 +44,15 @@ export class SubjectThemeSolver extends BaseThemeSolver {
         let mergedStyles;
         if (isArray(palette)) {
           mergedStyles = palette.map((subjectColor) => {
-            const colorSet = getColorsWithSubjectColor(
-              subjectColor,
-              baseColor,
-              base,
-            );
-            return this.getMergeStylesFromColorSet(
-              itemType,
-              colorSet,
-              baseStyles,
-            );
+            const colorSet = getColorsWithSubjectColor(subjectColor, baseColor, base);
+            return this.getMergeStylesFromColorSet(itemType, colorSet, baseStyles);
           });
         } else {
           mergedStyles = { others: baseStyles };
           Object.keys(palette).forEach((dataType) => {
             const subjectColor = palette[dataType];
-            const colorSet = getColorsWithSubjectColor(
-              subjectColor,
-              baseColor,
-              base,
-            );
-            mergedStyles[dataType] = this.getMergeStylesFromColorSet(
-              itemType,
-              colorSet,
-              baseStyles,
-            );
+            const colorSet = getColorsWithSubjectColor(subjectColor, baseColor, base);
+            mergedStyles[dataType] = this.getMergeStylesFromColorSet(itemType, colorSet, baseStyles);
           });
         }
         mergedSpec[itemType] = {
@@ -280,39 +261,17 @@ export const mixColor = (backColor, frontColor, frontAlpha) => {
   ]).rgb();
 };
 
-const getColorsWithDefaultTheme = (
-  subjectColor,
-  backColor = '#fff',
-  disableColor = 'rgb(150, 150, 150)',
-) => {
-  const subjectColor005 = mixColor(backColor, subjectColor, 0.05)
-    .rgb()
-    .toString();
-  const subjectColor01 = mixColor(backColor, subjectColor, 0.1)
-    .rgb()
-    .toString();
-  const subjectColor02 = mixColor(backColor, subjectColor, 0.2)
-    .rgb()
-    .toString();
-  const subjectColor04 = mixColor(backColor, subjectColor, 0.4)
-    .rgb()
-    .toString();
+const getColorsWithDefaultTheme = (subjectColor, backColor = '#fff', disableColor = 'rgb(150, 150, 150)') => {
+  const subjectColor005 = mixColor(backColor, subjectColor, 0.05).rgb().toString();
+  const subjectColor01 = mixColor(backColor, subjectColor, 0.1).rgb().toString();
+  const subjectColor02 = mixColor(backColor, subjectColor, 0.2).rgb().toString();
+  const subjectColor04 = mixColor(backColor, subjectColor, 0.4).rgb().toString();
 
-  const disableColor002 = mixColor(backColor, disableColor, 0.02)
-    .rgb()
-    .toString();
-  const disableColor005 = mixColor(backColor, disableColor, 0.05)
-    .rgb()
-    .toString();
-  const disableColor01 = mixColor(backColor, disableColor, 0.1)
-    .rgb()
-    .toString();
-  const disableColor02 = mixColor(backColor, disableColor, 0.2)
-    .rgb()
-    .toString();
-  const disableColor03 = mixColor(backColor, disableColor, 0.3)
-    .rgb()
-    .toString();
+  const disableColor002 = mixColor(backColor, disableColor, 0.02).rgb().toString();
+  const disableColor005 = mixColor(backColor, disableColor, 0.05).rgb().toString();
+  const disableColor01 = mixColor(backColor, disableColor, 0.1).rgb().toString();
+  const disableColor02 = mixColor(backColor, disableColor, 0.2).rgb().toString();
+  const disableColor03 = mixColor(backColor, disableColor, 0.3).rgb().toString();
 
   const paletteFromSubject = generate(subjectColor, {
     theme: 'default',
@@ -373,39 +332,17 @@ const getColorsWithDefaultTheme = (
   };
 };
 
-const getColorsWithDarkTheme = (
-  subjectColor,
-  backColor = '#fff',
-  disableColor = '#777',
-) => {
-  const subjectColor02 = mixColor(backColor, subjectColor, 0.2)
-    .rgb()
-    .toString();
-  const subjectColor03 = mixColor(backColor, subjectColor, 0.3)
-    .rgb()
-    .toString();
-  const subjectColor06 = mixColor(backColor, subjectColor, 0.6)
-    .rgb()
-    .toString();
-  const subjectColor08 = mixColor(backColor, subjectColor, 0.8)
-    .rgb()
-    .toString();
+const getColorsWithDarkTheme = (subjectColor, backColor = '#fff', disableColor = '#777') => {
+  const subjectColor02 = mixColor(backColor, subjectColor, 0.2).rgb().toString();
+  const subjectColor03 = mixColor(backColor, subjectColor, 0.3).rgb().toString();
+  const subjectColor06 = mixColor(backColor, subjectColor, 0.6).rgb().toString();
+  const subjectColor08 = mixColor(backColor, subjectColor, 0.8).rgb().toString();
 
-  const disableColor02 = mixColor(backColor, disableColor, 0.2)
-    .rgb()
-    .toString();
-  const disableColor025 = mixColor(backColor, disableColor, 0.25)
-    .rgb()
-    .toString();
-  const disableColor03 = mixColor(backColor, disableColor, 0.3)
-    .rgb()
-    .toString();
-  const disableColor04 = mixColor(backColor, disableColor, 0.4)
-    .rgb()
-    .toString();
-  const disableColor05 = mixColor(backColor, disableColor, 0.5)
-    .rgb()
-    .toString();
+  const disableColor02 = mixColor(backColor, disableColor, 0.2).rgb().toString();
+  const disableColor025 = mixColor(backColor, disableColor, 0.25).rgb().toString();
+  const disableColor03 = mixColor(backColor, disableColor, 0.3).rgb().toString();
+  const disableColor04 = mixColor(backColor, disableColor, 0.4).rgb().toString();
+  const disableColor05 = mixColor(backColor, disableColor, 0.5).rgb().toString();
 
   const paletteFromSubject = generate(subjectColor, {
     theme: 'dark',
@@ -470,27 +407,14 @@ const getColorsWithDarkTheme = (
  * get the set of colors according to the subject color and background color
  * @param subjectColor the subject color
  * @param backColor background color
- * @param disableColor the color for disable state
+ * @param theme the theme of the color set
  */
-const getColorsWithSubjectColor = (
-  subjectColor,
-  backColor = '#fff',
-  theme: 'light' | 'dark' = 'light',
-) => {
-  if (theme !== 'light')
-    return getColorsWithDarkTheme(subjectColor, backColor, '#777');
-  return getColorsWithDefaultTheme(
-    subjectColor,
-    backColor,
-    'rgb(150, 150, 150)',
-  );
+const getColorsWithSubjectColor = (subjectColor, backColor = '#fff', theme: 'light' | 'dark' = 'light') => {
+  if (theme !== 'light') return getColorsWithDarkTheme(subjectColor, backColor, '#777');
+  return getColorsWithDefaultTheme(subjectColor, backColor, 'rgb(150, 150, 150)');
 };
 
-const getColorSetsBySubjectColors = (
-  subjectColors,
-  backColor = '#fff',
-  theme: 'light' | 'dark' = 'light',
-) => {
+const getColorSetsBySubjectColors = (subjectColors, backColor = '#fff', theme: 'light' | 'dark' = 'light') => {
   const sets = [];
   subjectColors.forEach((sColor) => {
     sets.push(getColorsWithSubjectColor(sColor, backColor, theme));

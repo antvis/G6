@@ -1,12 +1,7 @@
 import { DisplayObject } from '@antv/g';
 import { NodeDisplayModel } from '../../../types';
 import { State } from '../../../types/item';
-import {
-  IAnchorPositionMap,
-  NodeModelData,
-  NodeShapeMap,
-  NodeShapeStyles,
-} from '../../../types/node';
+import { IAnchorPositionMap, NodeModelData, NodeShapeMap, NodeShapeStyles } from '../../../types/node';
 import { BaseNode } from './base';
 
 const offsetAngleMap = {
@@ -23,7 +18,7 @@ export class HexagonNode extends BaseNode {
       direction: 'vertical',
     },
   };
-  mergedStyles: NodeShapeStyles;
+  declare mergedStyles: NodeShapeStyles;
   constructor(props) {
     super(props);
     // suggest to merge default styles like this to avoid style value missing
@@ -43,42 +38,22 @@ export class HexagonNode extends BaseNode {
 
     // haloShape
     if (data.haloShape && this.drawHaloShape) {
-      shapes.haloShape = this.drawHaloShape(
-        model,
-        shapeMap,
-        diffData,
-        diffState,
-      );
+      shapes.haloShape = this.drawHaloShape(model, shapeMap, diffData, diffState);
     }
 
     // labelShape
     if (data.labelShape) {
-      shapes.labelShape = this.drawLabelShape(
-        model,
-        shapeMap,
-        diffData,
-        diffState,
-      );
+      shapes.labelShape = this.drawLabelShape(model, shapeMap, diffData, diffState);
     }
 
     // labelBackgroundShape
     if (data.labelBackgroundShape) {
-      shapes.labelBackgroundShape = this.drawLabelBackgroundShape(
-        model,
-        shapeMap,
-        diffData,
-        diffState,
-      );
+      shapes.labelBackgroundShape = this.drawLabelBackgroundShape(model, shapeMap, diffData, diffState);
     }
 
     // anchor shapes
     if (data.anchorShapes) {
-      const anchorShapes = this.drawAnchorShapes(
-        model,
-        shapeMap,
-        diffData,
-        diffState,
-      );
+      const anchorShapes = this.drawAnchorShapes(model, shapeMap, diffData, diffState);
       shapes = {
         ...shapes,
         ...anchorShapes,
@@ -87,22 +62,12 @@ export class HexagonNode extends BaseNode {
 
     // iconShape
     if (data.iconShape) {
-      shapes.iconShape = this.drawIconShape(
-        model,
-        shapeMap,
-        diffData,
-        diffState,
-      );
+      shapes.iconShape = this.drawIconShape(model, shapeMap, diffData, diffState);
     }
 
     // badgeShape
     if (data.badgeShapes) {
-      const badgeShapes = this.drawBadgeShapes(
-        model,
-        shapeMap,
-        diffData,
-        diffState,
-      );
+      const badgeShapes = this.drawBadgeShapes(model, shapeMap, diffData, diffState);
       shapes = {
         ...shapes,
         ...badgeShapes,
@@ -154,29 +119,11 @@ export class HexagonNode extends BaseNode {
     return v;
   }
 
-  public override calculateAnchorPosition(
-    keyShapeStyle: any,
-  ): IAnchorPositionMap {
-    const anchorPositionHorizontal = [
-      'right',
-      'rightbottom',
-      'leftbottom',
-      'left',
-      'lefttop',
-      'righttop',
-    ];
-    const anchorPositionVertical = [
-      'bottom',
-      'leftbottom',
-      'lefttop',
-      'top',
-      'righttop',
-      'rightbottom',
-    ];
+  public override calculateAnchorPosition(keyShapeStyle: any): IAnchorPositionMap {
+    const anchorPositionHorizontal = ['right', 'rightbottom', 'leftbottom', 'left', 'lefttop', 'righttop'];
+    const anchorPositionVertical = ['bottom', 'leftbottom', 'lefttop', 'top', 'righttop', 'rightbottom'];
     const anchorPositionDirection =
-      keyShapeStyle.direction === 'horizontal'
-        ? anchorPositionHorizontal
-        : anchorPositionVertical;
+      keyShapeStyle.direction === 'horizontal' ? anchorPositionHorizontal : anchorPositionVertical;
     const angleIncrement = Math.PI / 3; //The angle increment between vertex.
     const offsetAngle = offsetAngleMap[keyShapeStyle.direction];
     const r = keyShapeStyle.r;
@@ -187,9 +134,8 @@ export class HexagonNode extends BaseNode {
       const vy = r * Math.sin(angle);
       anchorPositionMap[anchorPositionDirection[i]] = [vx, vy];
     }
-    if (!anchorPositionMap.hasOwnProperty('default')) {
-      anchorPositionMap['default'] =
-        anchorPositionMap[anchorPositionDirection[0]];
+    if (!('default' in anchorPositionMap)) {
+      anchorPositionMap['default'] = anchorPositionMap[anchorPositionDirection[0]];
     }
     return anchorPositionMap;
   }

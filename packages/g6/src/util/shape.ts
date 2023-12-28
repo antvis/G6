@@ -20,23 +20,10 @@ import { DEFAULT_LABEL_BG_PADDING } from '../constant';
 import Combo from '../item/combo';
 import Edge from '../item/edge';
 import Node from '../item/node';
-import {
-  AnimateTiming,
-  ComboDisplayModel,
-  ComboModelData,
-  IAnimates,
-  IGraph,
-} from '../types';
+import { AnimateTiming, ComboDisplayModel, ComboModelData, IAnimates, IGraph } from '../types';
 import { Padding, Point, StandardPadding } from '../types/common';
 import { EdgeDisplayModel, EdgeModelData, EdgeShapeMap } from '../types/edge';
-import {
-  GShapeStyle,
-  ItemShapeStyles,
-  SHAPE_TYPE,
-  SHAPE_TYPE_3D,
-  ShapeStyle,
-  State,
-} from '../types/item';
+import { GShapeStyle, ItemShapeStyles, SHAPE_TYPE, SHAPE_TYPE_3D, ShapeStyle, State } from '../types/item';
 import { NodeDisplayModel, NodeModelData, NodeShapeMap } from '../types/node';
 import { getShapeAnimateBeginStyles } from './animate';
 import { isArrayOverlap } from './array';
@@ -59,20 +46,13 @@ export const ShapeTagMap = {
 
 const LINE_TYPES = ['line', 'polyline', 'path'];
 
-export const createShape = (
-  type: SHAPE_TYPE,
-  style: GShapeStyle,
-  id: string,
-) => {
+export const createShape = (type: SHAPE_TYPE, style: GShapeStyle, id: string) => {
   const ShapeClass = ShapeTagMap[type];
   const shape = new ShapeClass({ id, style });
   if (style.draggable === undefined) shape.style.draggable = true;
   if (style.droppable === undefined) shape.style.droppable = true;
   if (LINE_TYPES.includes(type)) {
-    shape.style.increasedLineWidthForHitTesting = Math.max(
-      shape.style.lineWidth as number,
-      6,
-    );
+    shape.style.increasedLineWidthForHitTesting = Math.max(shape.style.lineWidth as number, 6);
   }
   return shape;
 };
@@ -82,6 +62,9 @@ export const createShape = (
  * @param animates animate configs
  * @param timing
  * @param shapeId
+ * @param diffState
+ * @param diffState.previous
+ * @param diffState.current
  * @returns
  */
 const findAnimateFields = (
@@ -92,8 +75,7 @@ const findAnimateFields = (
 ) => {
   if (!animates?.[timing]?.length) return [];
   let animateFields = [];
-  const { previous: previousState = [], current: currentState = [] } =
-    diffState || {};
+  const { previous: previousState = [], current: currentState = [] } = diffState || {};
   const states = previousState.concat(currentState);
   animates[timing].forEach(
     // @ts-ignore
@@ -107,10 +89,7 @@ const findAnimateFields = (
       ) {
         if (animateShapeId === shapeId) {
           animateFields = animateFields.concat(fields);
-        } else if (
-          (!animateShapeId || animateShapeId === 'group') &&
-          fields.includes('opacity')
-        ) {
+        } else if ((!animateShapeId || animateShapeId === 'group') && fields.includes('opacity')) {
           // group opacity, all shapes animates with opacity
           animateFields.push('opacity');
         }
@@ -129,8 +108,17 @@ const findAnimateFields = (
  * @param type shape's type
  * @param id unique string to indicates the shape
  * @param style style to be updated
+ * @param config
  * @param shapeMap the shape map of a node / edge / combo
  * @param model data model of the node / edge / combo
+ * @param config.model
+ * @param config.shapeMap
+ * @param config.diffData
+ * @param config.diffData.previous
+ * @param config.diffData.current
+ * @param config.diffState
+ * @param config.diffState.previous
+ * @param config.diffState.current
  * @returns
  */
 export const upsertShape = (
@@ -155,12 +143,7 @@ export const upsertShape = (
   if (!shape) {
     // find the animate styles, set them to be INIT_SHAPE_STYLES
     if (!disableAnimate && animates) {
-      const animateFields = findAnimateFields(
-        animates,
-        firstRendering ? 'buildIn' : 'update',
-        id,
-        diffState,
-      );
+      const animateFields = findAnimateFields(animates, firstRendering ? 'buildIn' : 'update', id, diffState);
       shape = createShape(type, style, id);
       const initShapeStyles = getShapeAnimateBeginStyles(shape);
       animateFields.forEach((key) => {
@@ -205,10 +188,7 @@ export const upsertShape = (
   return shape;
 };
 
-export const getGroupSucceedMap = (
-  group: IElement,
-  map?: { [id: string]: IElement },
-) => {
+export const getGroupSucceedMap = (group: IElement, map?: { [id: string]: IElement }) => {
   const useMap = map || {};
   group.children.forEach((child) => {
     if (child.tagName === 'group') getGroupSucceedMap(child, useMap);
@@ -224,6 +204,9 @@ export const getGroupSucceedMap = (
  * @param prevShapeMap previous shape map
  * @param newShapeMap new shape map
  * @param group container group
+ * @param labelGroup
+ * @param removeDiff
+ * @param shouldUpdate
  * @returns merged shape map
  */
 export const updateShapes = (
@@ -253,10 +236,7 @@ export const updateShapes = (
       }
       finalShapeMap[id] = newShape;
       const parentGroup =
-        newShape.attributes.dataIsLabel ||
-        newShape.attributes.dataIsLabelBackground
-          ? labelGroup
-          : group;
+        newShape.attributes.dataIsLabel || newShape.attributes.dataIsLabelBackground ? labelGroup : group;
       if (
         // NewShape is already in the group, no need to re-append.
         // Note: If the given child is a reference to an existing node in the document,
@@ -332,10 +312,7 @@ export const mergeStyles = (styleMaps: ItemShapeStyles[]) => {
  * @param styleMap2 shapes' styles map as incoming map
  * @returns
  */
-const merge2Styles = (
-  styleMap1: ItemShapeStyles,
-  styleMap2: ItemShapeStyles,
-) => {
+const merge2Styles = (styleMap1: ItemShapeStyles, styleMap2: ItemShapeStyles) => {
   if (!styleMap1) return { ...styleMap2 };
   else if (!styleMap2) return { ...styleMap1 };
   const mergedStyle = styleMap1;
@@ -355,10 +332,7 @@ const merge2Styles = (
  * @param points1 vertex array of polygon1
  * @param points2 vertex array of polygon2
  */
-export const isPolygonsIntersect = (
-  points1: number[][],
-  points2: number[][],
-): boolean => {
+export const isPolygonsIntersect = (points1: number[][], points2: number[][]): boolean => {
   const getBBox = (points): Partial<AABB> => {
     const xArr = points.map((p) => p[0]);
     const yArr = points.map((p) => p[1]);
@@ -450,10 +424,7 @@ export const isPolygonsIntersect = (
 export const intersectBBox = (box1: Partial<AABB>, box2: Partial<AABB>) => {
   if (!box2?.min || !box1?.min) return false;
   return (
-    box2.min[0] <= box1.max[0] &&
-    box2.max[0] >= box1.min[0] &&
-    box2.min[1] <= box1.max[1] &&
-    box2.max[1] >= box1.min[1]
+    box2.min[0] <= box1.max[0] && box2.max[0] >= box1.min[0] && box2.min[1] <= box1.max[1] && box2.max[1] >= box1.min[1]
   );
 };
 
@@ -468,6 +439,10 @@ export const isPointInPolygon = (points: number[][], x: number, y: number) => {
   const n = points.length;
   // 判断两个double在eps精度下的大小关系
   const tolerance = 1e-6;
+  /**
+   *
+   * @param xValue
+   */
   function dcmp(xValue) {
     if (Math.abs(xValue) < tolerance) {
       return 0;
@@ -534,14 +509,9 @@ const lineIntersectPolygon = (lines, line) => {
  * @param  {Point}  p1 end of the first line
  * @param  {Point}  p2 start of the second line
  * @param  {Point}  p3 end of the second line
- * @return {Point}  the intersect point
+ * @returns {Point}  the intersect point
  */
-export const getLineIntersect = (
-  p0: Point,
-  p1: Point,
-  p2: Point,
-  p3: Point,
-): Point | null => {
+export const getLineIntersect = (p0: Point, p1: Point, p2: Point, p3: Point): Point | null => {
   const tolerance = 0.0001;
 
   const E: Point = {
@@ -593,10 +563,7 @@ const FIELDS_AFFECT_BBOX = {
  * @param style style object
  * @returns
  */
-export const isStyleAffectBBox = (
-  type: SHAPE_TYPE | SHAPE_TYPE_3D,
-  style: ShapeStyle,
-) => {
+export const isStyleAffectBBox = (type: SHAPE_TYPE | SHAPE_TYPE_3D, style: ShapeStyle) => {
   return isArrayOverlap(Object.keys(style), FIELDS_AFFECT_BBOX[type]);
 };
 
@@ -605,6 +572,7 @@ export const isStyleAffectBBox = (
  * @param shape target shape
  * @param style computed merged style
  * @param bounds shape's local bounds
+ * @param bbox
  * @returns
  */
 export const getShapeLocalBoundsByStyle = (
@@ -617,20 +585,7 @@ export const getShapeLocalBoundsByStyle = (
   center: number[];
   halfExtents: number[];
 } => {
-  const {
-    r,
-    rx,
-    ry,
-    width,
-    height,
-    depth = 0,
-    x1,
-    x2,
-    y1,
-    y2,
-    z1 = 0,
-    z2 = 0,
-  } = style;
+  const { r, rx, ry, width, height, depth = 0, x1, x2, y1, y2, z1 = 0, z2 = 0 } = style;
   const radius = Number(r);
   const radiusX = Number(rx);
   const radiusY = Number(ry);
@@ -715,9 +670,7 @@ export const combineBounds = (
     });
   });
   res.center = res.center.map((val, i) => (res.max[i] + res.min[i]) / 2);
-  res.halfExtents = res.halfExtents.map(
-    (val, i) => (res.max[i] - res.min[i]) / 2,
-  );
+  res.halfExtents = res.halfExtents.map((val, i) => (res.max[i] - res.min[i]) / 2);
   return res;
 };
 
@@ -751,13 +704,10 @@ export const getCombinedBoundsByData = (
     if (bounds) {
       if (item.model.data._isCombo) {
         // child is combo, move to the correct center
-        const { center: childComboCenter } =
-          (item as Combo).getCombinedBounds() || {};
+        const { center: childComboCenter } = (item as Combo).getCombinedBounds() || {};
         if (childComboCenter) {
           ['min', 'max', 'center'].forEach((field) => {
-            bounds[field] = bounds[field].map(
-              (val, i) => val - bounds.center[i] + childComboCenter[i],
-            );
+            bounds[field] = bounds[field].map((val, i) => val - bounds.center[i] + childComboCenter[i]);
           });
         }
       }
@@ -773,12 +723,8 @@ export const getCombinedBoundsByData = (
     }
   });
   if (!validCounts) return false;
-  resBounds.size = resBounds.size.map(
-    (val, i) => resBounds.max[i] - resBounds.min[i],
-  );
-  resBounds.center = resBounds.center.map(
-    (val, i) => (resBounds.max[i] + resBounds.min[i]) / 2,
-  );
+  resBounds.size = resBounds.size.map((val, i) => resBounds.max[i] - resBounds.min[i]);
+  resBounds.center = resBounds.center.map((val, i) => (resBounds.max[i] + resBounds.min[i]) / 2);
   return resBounds as {
     center: Tuple3Number;
     min: Tuple3Number;
@@ -810,12 +756,8 @@ export const getCombinedBoundsByItem = (items: (Node | Combo | Edge)[]) => {
     }
   });
   if (!validCounts) return false;
-  resBounds.size = resBounds.size.map(
-    (val, i) => resBounds.max[i] - resBounds.min[i],
-  );
-  resBounds.center = resBounds.center.map(
-    (val, i) => (resBounds.max[i] + resBounds.min[i]) / 2,
-  );
+  resBounds.size = resBounds.size.map((val, i) => resBounds.max[i] - resBounds.min[i]);
+  resBounds.center = resBounds.center.map((val, i) => (resBounds.max[i] + resBounds.min[i]) / 2);
   return resBounds as {
     center: Tuple3Number;
     min: Tuple3Number;

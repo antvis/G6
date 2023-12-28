@@ -3,7 +3,6 @@ import { IAnimationEffectTiming } from '@antv/g';
 export interface AnimateCfg {
   /**
    * Duration of one animation.
-   * @type {number}
    */
   duration?: number;
   /**
@@ -13,27 +12,22 @@ export interface AnimateCfg {
   easing?: string;
   /**
    * Delay of the animation.
-   * @type {function}
    */
   delay?: number;
   /**
    * Iteration number for the animation, Infinity means repeat.
-   * @type {number | typeof Infinity}
    */
   iterations?: number | typeof Infinity;
   /**
    * Called after the animation is finished.
-   * @type {function}
    */
   callback?: () => void;
   /**
    * Called after the animation is paused.
-   * @type {function}}
    */
   pauseCallback?: () => void;
   /**
    * Called after the animation is resumed.
-   * @type {function}
    */
   resumeCallback?: () => void;
 }
@@ -66,6 +60,4 @@ export interface IAnimates {
   update?: (IAnimate | IStateAnimate)[];
 }
 
-export type CameraAnimationOptions = Partial<
-  Pick<IAnimationEffectTiming, 'duration' | 'easing' | 'easingFunction'>
->;
+export type CameraAnimationOptions = Partial<Pick<IAnimationEffectTiming, 'duration' | 'easing' | 'easingFunction'>>;

@@ -1,8 +1,9 @@
-import { Scene, LineLayer, PointLayer, RasterLayer } from '@antv/l7';
-import { Map as BaseMap } from '@antv/l7-maps';
+// @ts-nocheck
 import { createDom, modifyCSS } from '@antv/dom-util';
+import { IGraph, IPluginBaseConfig, PluginBase } from '@antv/g6';
+import { LineLayer, PointLayer, RasterLayer, Scene } from '@antv/l7';
+import { Map as BaseMap } from '@antv/l7-maps';
 import { debounce, isArray, isString, uniqueId } from '@antv/util';
-import { IGraph, PluginBase, IPluginBaseConfig } from '@antv/g6';
 
 export interface MapViewConfig extends IPluginBaseConfig {
   key?: string;
@@ -99,14 +100,7 @@ export class MapView extends PluginBase {
    */
   public initMap() {
     const { graph, options } = this;
-    const {
-      size,
-      className,
-      containerStyle,
-      theme,
-      initialMapZoom,
-      initialMapCenter,
-    } = options;
+    const { size, className, containerStyle, theme, initialMapZoom, initialMapCenter } = options;
     let parentNode = options.container;
     const container: HTMLDivElement = createDom(
       `<div class='${className}' style='width: ${size[0]}px; height: ${size[1]}px; overflow: hidden; position: absolute'></div>`,
@@ -168,9 +162,7 @@ export class MapView extends PluginBase {
     return new Promise((resolve) => {
       this.scene.on('loaded', () => {
         this.scene.addLayer(baseMapLayer);
-        const amapCopyRightDom = document.getElementsByClassName(
-          'amap-copyright',
-        )[0] as HTMLElement;
+        const amapCopyRightDom = document.getElementsByClassName('amap-copyright')[0] as HTMLElement;
         amapCopyRightDom?.remove();
         this.scene.setMapStatus({
           dragEnable: true,
@@ -236,12 +228,7 @@ export class MapView extends PluginBase {
   }
 
   private newPointLayer(options: any = {}) {
-    const {
-      sizeField = 'keyShapeSize',
-      sizeNeedScale = true,
-      style,
-      ...others
-    } = options;
+    const { sizeField = 'keyShapeSize', sizeNeedScale = true, style, ...others } = options;
     const layer = new PointLayer(others);
     layer
       .source([], {
@@ -300,13 +287,7 @@ export class MapView extends PluginBase {
 
   private addMapListeners() {
     const { graph, options } = this;
-    const {
-      enableHoverActivate,
-      activateState,
-      enableSelect,
-      selectState,
-      enableBrushSelect,
-    } = options;
+    const { enableHoverActivate, activateState, enableSelect, selectState, enableBrushSelect } = options;
 
     if (enableBrushSelect) {
       this.scene.on('selecting', this.onBrushing.bind(this));
@@ -318,9 +299,7 @@ export class MapView extends PluginBase {
       });
       this.lineLayer.on('mouseout', (e) => {
         const activeEdgeIds = graph.findIdByState('edge', activateState);
-        const features = this.lineLayer
-          .getSource()
-          .data.dataArray.filter((model) => activeEdgeIds.includes(model.id));
+        const features = this.lineLayer.getSource().data.dataArray.filter((model) => activeEdgeIds.includes(model.id));
         this.setItemState('edge', features, activateState, false);
       });
       this.pointLayer.on('mouseenter', (e) => {
@@ -328,9 +307,7 @@ export class MapView extends PluginBase {
       });
       this.pointLayer.on('mouseout', (e) => {
         const activeNodeIds = graph.findIdByState('node', activateState);
-        const features = this.pointLayer
-          .getSource()
-          .data.dataArray.filter((model) => activeNodeIds.includes(model.id));
+        const features = this.pointLayer.getSource().data.dataArray.filter((model) => activeNodeIds.includes(model.id));
         this.setItemState('node', features, activateState, false);
       });
     }
@@ -340,9 +317,7 @@ export class MapView extends PluginBase {
       });
       this.lineLayer.on('unclick', (e) => {
         const activeEdgeIds = graph.findIdByState('edge', selectState);
-        const features = this.lineLayer
-          .getSource()
-          .data.dataArray.filter((model) => activeEdgeIds.includes(model.id));
+        const features = this.lineLayer.getSource().data.dataArray.filter((model) => activeEdgeIds.includes(model.id));
         this.setItemState('edge', features, selectState, false);
         this.setItemState('edge', features, activateState, false);
       });
@@ -351,9 +326,7 @@ export class MapView extends PluginBase {
       });
       this.pointLayer.on('unclick', (e) => {
         const activeNodeIds = graph.findIdByState('node', selectState);
-        const features = this.pointLayer
-          .getSource()
-          .data.dataArray.filter((model) => activeNodeIds.includes(model.id));
+        const features = this.pointLayer.getSource().data.dataArray.filter((model) => activeNodeIds.includes(model.id));
         this.setItemState('node', features, selectState, false);
         this.setItemState('node', features, activateState, false);
       });
@@ -378,9 +351,7 @@ export class MapView extends PluginBase {
     const points = graph
       .getAllNodesData()
       .map((node) => {
-        const itemGroup = nodesGroup.find(
-          (ele) => ele.getAttribute('data-item-id') === node.id,
-        );
+        const itemGroup = nodesGroup.find((ele) => ele.getAttribute('data-item-id') === node.id);
         const keyShape = itemGroup.querySelector('#keyShape');
         const {
           fill: keyShapeFill,
@@ -389,10 +360,7 @@ export class MapView extends PluginBase {
           width: keyShapeWidth = 32,
           height: keyShapeHeight = 32,
         } = keyShape.attributes;
-        if (
-          typeof node.data[lngPropertyName] !== 'number' ||
-          typeof node.data[latPropertyName] !== 'number'
-        )
+        if (typeof node.data[lngPropertyName] !== 'number' || typeof node.data[latPropertyName] !== 'number')
           return false;
         const point = {
           id: node.id,
@@ -401,10 +369,7 @@ export class MapView extends PluginBase {
           shape: keyShape.nodeName,
           keyShapeFill,
           keyShapeOpacity,
-          keyShapeSize:
-            keyShape.nodeName === 'circle'
-              ? keyShapeR
-              : [keyShapeWidth, keyShapeHeight],
+          keyShapeSize: keyShape.nodeName === 'circle' ? keyShapeR : [keyShapeWidth, keyShapeHeight],
         };
         pointMap.set(node.id, point);
 
@@ -431,9 +396,7 @@ export class MapView extends PluginBase {
         if (!sourcePoint || !targetPoint) return false;
         const { lng: sourceLng, lat: sourceLat } = pointMap.get(edge.source);
         const { lng: targetLng, lat: targetLat } = pointMap.get(edge.target);
-        const itemGroup = edgesGroup.find(
-          (ele) => ele.getAttribute('data-item-id') === edge.id,
-        );
+        const itemGroup = edgesGroup.find((ele) => ele.getAttribute('data-item-id') === edge.id);
         const keyShape = itemGroup.querySelector('#keyShape');
         const {
           lineWidth: keyShapeSize = 1,
@@ -460,17 +423,13 @@ export class MapView extends PluginBase {
   private updateMapState(e) {
     const { ids, value, states } = e;
     if (this.pointLayer) {
-      const nodes = this.pointLayer
-        .getSource()
-        .data.dataArray.filter((nodeMapModel) => ids.includes(nodeMapModel.id));
+      const nodes = this.pointLayer.getSource().data.dataArray.filter((nodeMapModel) => ids.includes(nodeMapModel.id));
       if (nodes.length) {
         this.setMapItemState('node', nodes, states, value);
       }
     }
     if (this.lineLayer) {
-      const edges = this.lineLayer
-        .getSource()
-        .data.dataArray.filter((edgeMapModel) => ids.includes(edgeMapModel.id));
+      const edges = this.lineLayer.getSource().data.dataArray.filter((edgeMapModel) => ids.includes(edgeMapModel.id));
       if (edges.length) {
         this.setMapItemState('edge', edges, states, value);
       }
@@ -481,18 +440,14 @@ export class MapView extends PluginBase {
     const { key } = e;
     if (this.options.brushKey === key.toLowerCase()) {
       this.scene.enableBoxSelect(true);
-      const brushDOM = document.getElementsByClassName(
-        'l7-select-box',
-      )[0] as HTMLElement;
+      const brushDOM = document.getElementsByClassName('l7-select-box')[0] as HTMLElement;
       modifyCSS(brushDOM, this.options.brushCSS || {});
     }
   }
   private onKeyUp(e) {
     const { key } = e;
     if (this.options.brushKey === key.toLowerCase()) {
-      const brushDom = document.getElementsByClassName(
-        'l7-select-box',
-      )[0] as HTMLElement;
+      const brushDom = document.getElementsByClassName('l7-select-box')[0] as HTMLElement;
       if (brushDom) brushDom.style.display = 'none';
       this.scene.disableBoxSelect();
     }
@@ -509,30 +464,18 @@ export class MapView extends PluginBase {
     if (!bbox) return;
     const { x: x1, y: y1 } = startEvent;
     const { x: x2, y: y2 } = endEvent;
-    this.pointLayer.boxSelect(
-      [Math.min(x1, x2), Math.min(y1, y2), Math.max(x1, x2), Math.max(y1, y2)],
-      (features) => {
-        this.setItemState('node', features, state, true);
-      },
-    );
-    this.lineLayer.boxSelect(
-      [Math.min(x1, x2), Math.min(y1, y2), Math.max(x1, x2), Math.max(y1, y2)],
-      (features) => {
-        this.setItemState('edge', features, state, true);
-      },
-    );
+    this.pointLayer.boxSelect([Math.min(x1, x2), Math.min(y1, y2), Math.max(x1, x2), Math.max(y1, y2)], (features) => {
+      this.setItemState('node', features, state, true);
+    });
+    this.lineLayer.boxSelect([Math.min(x1, x2), Math.min(y1, y2), Math.max(x1, x2), Math.max(y1, y2)], (features) => {
+      this.setItemState('edge', features, state, true);
+    });
   }
 
   private setMapItemState(itemType, mapNodeModels, state, value) {
     const encodedData = this.pointLayer.getEncodedData();
-    const transientActiveLayer =
-      itemType === 'edge'
-        ? this.transientLineActiveLayer
-        : this.transientPointActiveLayer;
-    const transientSelectLayer =
-      itemType === 'edge'
-        ? this.transientLineSelectLayer
-        : this.transientPointSelectLayer;
+    const transientActiveLayer = itemType === 'edge' ? this.transientLineActiveLayer : this.transientPointActiveLayer;
+    const transientSelectLayer = itemType === 'edge' ? this.transientLineSelectLayer : this.transientPointSelectLayer;
     mapNodeModels.forEach((model) => {
       if (state === this.options.activateState) {
         if (!value) {
@@ -542,9 +485,7 @@ export class MapView extends PluginBase {
         transientActiveLayer.setData(
           mapNodeModels.map((model) => {
             const encoded = encodedData.find((data) => data.id === model._id);
-            const sizeNumber = isArray(encoded.size)
-              ? encoded.size[0]
-              : encoded.size;
+            const sizeNumber = isArray(encoded.size) ? encoded.size[0] : encoded.size;
             return {
               ...model,
               actualSize: sizeNumber + 4,

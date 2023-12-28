@@ -1,13 +1,13 @@
-import { Category } from '@antv/gui';
-import { Canvas, DisplayObject, Circle, Line } from '@antv/g';
-import { isFunction, isString, upperFirst, uniqueId } from '@antv/util';
+import { Canvas, Circle, DisplayObject, Line } from '@antv/g';
 import { ID } from '@antv/graphlib';
+import { Category } from '@antv/gui';
+import { isFunction, isString, uniqueId, upperFirst } from '@antv/util';
 import { IGraph } from '../../../types';
-import { RendererName } from '../../../types/render';
 import { Plugin as Base, IPluginBaseConfig } from '../../../types/plugin';
+import { RendererName } from '../../../types/render';
 import { createCanvas } from '../../../util/canvas';
-import { ShapeTagMap, formatPadding } from '../../../util/shape';
 import { createDOM } from '../../../util/dom';
+import { ShapeTagMap, formatPadding } from '../../../util/shape';
 
 const LEGEND_CATEGORY_ITEM_MARKER = '.legend-category-item-marker';
 
@@ -212,16 +212,9 @@ export class Legend extends Base {
 
     // If canvas does not exist, create it
     if (!this.canvas) {
-      const canvasSize = [
-        size[0] === 'fit-content' ? 0 : size[0],
-        size[1] === 'fit-content' ? 0 : size[1],
-      ];
+      const canvasSize = [size[0] === 'fit-content' ? 0 : size[0], size[1] === 'fit-content' ? 0 : size[1]];
 
-      const {
-        canvas,
-        background,
-        renderer = 'canvas',
-      } = this.options as LegendConfig;
+      const { canvas, background, renderer = 'canvas' } = this.options as LegendConfig;
       if (canvas) {
         this.canvas = canvas;
       } else {
@@ -230,14 +223,7 @@ export class Legend extends Base {
           this.wrapper = this.createWrapper();
         }
 
-        this.canvas = createCanvas(
-          renderer,
-          this.wrapper,
-          canvasSize[0],
-          canvasSize[1],
-          undefined,
-          { background },
-        );
+        this.canvas = createCanvas(renderer, this.wrapper, canvasSize[0], canvasSize[1], undefined, { background });
       }
 
       // Add click event listener to canvas
@@ -248,10 +234,8 @@ export class Legend extends Base {
         // Clear relevant states on the graph
         const { graph, options } = this;
         const { activeState, selectedState } = options;
-        if (this.activeIds.node.size)
-          graph.clearItemState(Array.from(this.activeIds.node), activeState);
-        if (this.activeIds.edge.size)
-          graph.clearItemState(Array.from(this.activeIds.edge), activeState);
+        if (this.activeIds.node.size) graph.clearItemState(Array.from(this.activeIds.node), activeState);
+        if (this.activeIds.edge.size) graph.clearItemState(Array.from(this.activeIds.edge), activeState);
         this.activeIds = {
           node: new Set<ID>(),
           edge: new Set<ID>(),
@@ -268,17 +252,13 @@ export class Legend extends Base {
 
         // Clear legend states
         this.selectedTypes.node.forEach((nodeType) => {
-          const marker = this.canvas
-            .getRoot()
-            .querySelector(`#marker-node-${nodeType}`);
+          const marker = this.canvas.getRoot().querySelector(`#marker-node-${nodeType}`);
           if (!marker) return;
           const lineWidth = this.styleCache.node[nodeType].lineWidth;
           marker.style.lineWidth = lineWidth;
         });
         this.selectedTypes.edge.forEach((edgeType) => {
-          const marker = this.canvas
-            .getRoot()
-            .querySelector(`#marker-edge-${edgeType}`);
+          const marker = this.canvas.getRoot().querySelector(`#marker-edge-${edgeType}`);
           if (!marker) return;
           const lineWidth = this.styleCache.edge[edgeType].lineWidth;
           marker.style.lineWidth = lineWidth;
@@ -320,10 +300,7 @@ export class Legend extends Base {
       $container = graph.container;
     }
 
-    const wrapperSize = [
-      size[0] === 'fit-content' ? 0 : size[0],
-      size[1] === 'fit-content' ? 0 : size[1],
-    ];
+    const wrapperSize = [size[0] === 'fit-content' ? 0 : size[0], size[1] === 'fit-content' ? 0 : size[1]];
     const wrapper = createDOM(
       `<div class='${className}' style='width: ${wrapperSize[0]}px; height: ${wrapperSize[1]}px; overflow: hidden;'></div>`,
     );
@@ -333,8 +310,8 @@ export class Legend extends Base {
 
   /**
    * Creates a legend for the graph based on the given item type (node or edge).
-   * @param {string} itemType - The type of item for which the legend is being created (node or edge).
-   * @returns {Category} - The created legend.
+   * @param itemType - The type of item for which the legend is being created (node or edge).
+   * @returns The created legend.
    */
   private upsertLegend(itemType: 'node' | 'edge' = 'node') {
     const { graph, options, canvas } = this;
@@ -374,8 +351,7 @@ export class Legend extends Base {
     const { size: legendSize, grid } = this.getLegendSize(rows, cols, padding);
 
     // Gets all the data for the given item type and extracts the unique types based on the typeField.
-    const data =
-      itemType === 'node' ? graph.getAllNodesData() : graph.getAllEdgesData();
+    const data = itemType === 'node' ? graph.getAllNodesData() : graph.getAllEdgesData();
     const typeSet = new Set<string>();
     const typeModelMap = {};
     data.map((model) => {
@@ -393,16 +369,7 @@ export class Legend extends Base {
       label: labelFormatter ? labelFormatter(type) : type,
     }));
 
-    const markerStyleKeys = [
-      'fill',
-      'stroke',
-      'fillOpacity',
-      'opacity',
-      'lineWidth',
-      'shadow',
-      'shadowBlur',
-      'size',
-    ];
+    const markerStyleKeys = ['fill', 'stroke', 'fillOpacity', 'opacity', 'lineWidth', 'shadow', 'shadowBlur', 'size'];
 
     // Creates the marker style for the legend based on the propsMarkerStyle or the style of the corresponding element on the graph.
     const markerRelatedStyle: any = {};
@@ -410,8 +377,7 @@ export class Legend extends Base {
     if (!propsMarkerStyle) {
       // 使用图上对应元素的样式
       const graphGroup = graph.canvas.getRoot();
-      const itemTypeGroup =
-        graphGroup.getElementById(`${itemType}-group`) || graphGroup;
+      const itemTypeGroup = graphGroup.getElementById(`${itemType}-group`) || graphGroup;
       const typeStyleMap = {};
       const formatStyles = {
         x1: -10,
@@ -420,9 +386,7 @@ export class Legend extends Base {
         y2: 0,
       };
       types.forEach((type) => {
-        const itemGroup = itemTypeGroup.find(
-          (ele) => ele.getAttribute('data-item-id') === typeModelMap[type].id,
-        );
+        const itemGroup = itemTypeGroup.find((ele) => ele.getAttribute('data-item-id') === typeModelMap[type].id);
         const keyShape = itemGroup.querySelector('#keyShape');
         typeStyleMap[type] = {
           shape: keyShape.nodeName,
@@ -441,9 +405,7 @@ export class Legend extends Base {
             if (typeStyleMap[typeValue].style.r) markerStyleKey = 'r';
             markerStyleKey = 'width';
           }
-          return (
-            typeStyleMap[typeValue].style[markerStyleKey] || defaultStyle[key]
-          );
+          return typeStyleMap[typeValue].style[markerStyleKey] || defaultStyle[key];
         };
       });
       getShape = (item) => {
@@ -456,31 +418,21 @@ export class Legend extends Base {
       };
     } else {
       // 使用 markerStyle 中的样式映射
-      const { shape: markerShape, ...markerStyle } = Object.assign(
-        {},
-        defaultStyle,
-        propsMarkerStyle || {},
-      );
+      const { shape: markerShape, ...markerStyle } = Object.assign({}, defaultStyle, propsMarkerStyle || {});
       getShape = this.getShapeConfig(itemType, markerShape);
       Object.keys(markerStyle).forEach((key) => {
         const styleValue = markerStyle[key];
         let value = styleValue;
         if (typeof styleValue === 'object') {
           value = (item) => {
-            return (
-              styleValue[item.typeValue] ||
-              styleValue[item.typeValue].size ||
-              10
-            );
+            return styleValue[item.typeValue] || styleValue[item.typeValue].size || 10;
           };
         } else if (isFunction(styleValue)) {
           value = (item) => styleValue(item.typeValue);
         }
         if (key === 'color') {
-          markerRelatedStyle['itemMarkerFill'] =
-            markerRelatedStyle['itemMarkerFill'] || value;
-          markerRelatedStyle['itemMarkerStroke'] =
-            markerRelatedStyle['itemMarkerStroke'] || value;
+          markerRelatedStyle['itemMarkerFill'] = markerRelatedStyle['itemMarkerFill'] || value;
+          markerRelatedStyle['itemMarkerStroke'] = markerRelatedStyle['itemMarkerStroke'] || value;
         } else {
           markerRelatedStyle[`itemMarker${upperFirstLetter(key)}`] = value;
         }
@@ -510,13 +462,10 @@ export class Legend extends Base {
           const { Shape, style } = getShape(item as any);
           const { typeValue } = item;
           this.styleCache[itemType][typeValue] = style;
-          return () =>
-            new Shape({ style, id: `marker-${itemType}-${typeValue}` });
+          return () => new Shape({ style, id: `marker-${itemType}-${typeValue}` });
         },
-        mouseenter: (ele) =>
-          this.handleMouseEnter(ele, types, typeField, itemType, data),
-        mouseleave: (ele) =>
-          this.handleMouseLeave(ele, types, typeField, itemType),
+        mouseenter: (ele) => this.handleMouseEnter(ele, types, typeField, itemType, data),
+        mouseleave: (ele) => this.handleMouseLeave(ele, types, typeField, itemType),
         click: (ele) => this.handleClick(ele, types, typeField, itemType, data),
       },
     });
@@ -566,29 +515,20 @@ export class Legend extends Base {
 
       // Positions the legends based on their orientation and padding values.
       if (orientation === 'horizontal') {
-        firstItem.legend.translateLocal([
-          0,
-          -bbox.min[1] + firstItem.padding[0],
-        ]);
+        firstItem.legend.translateLocal([0, -bbox.min[1] + firstItem.padding[0]]);
 
         const firstItemBounds = (
-          firstItem.legend.childNodes[1].childNodes[0]
-            .childNodes[0] as DisplayObject
+          firstItem.legend.childNodes[1].childNodes[0].childNodes[0] as DisplayObject
         ).getRenderBounds();
         if (firstItemBounds) {
           const firstBottom = firstItemBounds.max[1] + firstItem.padding[2];
           secondItem.legend.translateLocal([0, firstBottom]);
         }
       } else {
-        firstItem.legend.translateLocal([
-          -bbox.min[0] + firstItem.padding[3],
-          0,
-        ]);
+        firstItem.legend.translateLocal([-bbox.min[0] + firstItem.padding[3], 0]);
         const firstRight =
-          (
-            firstItem.legend.childNodes[1].childNodes[0].childNodes[0]
-              .childNodes[1] as DisplayObject
-          ).getRenderBounds().max[0] + firstItem.padding[1];
+          (firstItem.legend.childNodes[1].childNodes[0].childNodes[0].childNodes[1] as DisplayObject).getRenderBounds()
+            .max[0] + firstItem.padding[1];
         secondItem.legend.translateLocal([firstRight, 0]);
       }
     }
@@ -598,12 +538,8 @@ export class Legend extends Base {
       const totalBBox = this.canvas.getRoot().getRenderBounds();
 
       const canvasSize = [
-        size[0] === 'fit-content'
-          ? totalBBox.max[0] - totalBBox.min[0]
-          : size[0],
-        size[1] === 'fit-content'
-          ? totalBBox.max[1] - totalBBox.min[1]
-          : size[1],
+        size[0] === 'fit-content' ? totalBBox.max[0] - totalBBox.min[0] : size[0],
+        size[1] === 'fit-content' ? totalBBox.max[1] - totalBBox.min[1] : size[1],
       ];
       this.canvas.resize(canvasSize[0], canvasSize[1]);
       // During server-side rendering, wrapper is not available.
@@ -624,8 +560,7 @@ export class Legend extends Base {
     itemType: 'node' | 'edge',
     markerShape,
   ): (item: { typeValue: string }) => { Shape: DisplayObject; style: any } {
-    const DefaultShape: typeof Circle | typeof Line =
-      itemType === 'node' ? Circle : Line;
+    const DefaultShape: typeof Circle | typeof Line = itemType === 'node' ? Circle : Line;
     const defaultStyle =
       itemType === 'node'
         ? { r: 10, width: 20, height: 20, lineWidth: 1 }
@@ -698,11 +633,11 @@ export class Legend extends Base {
 
   /**
    * Handles the mouse enter event for a given element.
-   * @param {Object} ele - The element (legend item marker) that triggered the event.
-   * @param {Array} types - An array of all the types on the legend.
-   * @param {string} typeField - The field that contains the type information.
-   * @param {string} itemType - The type of item, node or edge.
-   * @param {Array} data - An array of data models.
+   * @param ele - The element (legend item marker) that triggered the event.
+   * @param types - An array of all the types on the legend.
+   * @param typeField - The field that contains the type information.
+   * @param itemType - The type of item, node or edge.
+   * @param data - An array of data models.
    */
   private handleMouseEnter(ele, types, typeField, itemType, data) {
     const { graph, options } = this;
@@ -711,15 +646,12 @@ export class Legend extends Base {
     const { index } = ele.__data__;
     const type = types[index];
     this.activeType[typeField] = type;
-    const activeIds = data
-      .filter((model) => model.data[typeField] === type)
-      .map((model) => model.id);
+    const activeIds = data.filter((model) => model.data[typeField] === type).map((model) => model.id);
     graph.setItemState(activeIds, activeState, true);
     activeIds.forEach((id) => this.activeIds[itemType].add(id));
 
     // Update legend style.
-    ele.querySelector(LEGEND_CATEGORY_ITEM_MARKER).style.lineWidth =
-      this.styleCache[itemType][type].lineWidth + 2 || 4;
+    ele.querySelector(LEGEND_CATEGORY_ITEM_MARKER).style.lineWidth = this.styleCache[itemType][type].lineWidth + 2 || 4;
   }
 
   /**
@@ -741,8 +673,7 @@ export class Legend extends Base {
       ele.querySelector(LEGEND_CATEGORY_ITEM_MARKER).style.lineWidth =
         this.styleCache[itemType][type].lineWidth + 4 || 6;
     } else {
-      ele.querySelector(LEGEND_CATEGORY_ITEM_MARKER).style.lineWidth =
-        this.styleCache[itemType][type].lineWidth || 1;
+      ele.querySelector(LEGEND_CATEGORY_ITEM_MARKER).style.lineWidth = this.styleCache[itemType][type].lineWidth || 1;
     }
     graph.setItemState(currentActiveIds, activeState, false);
     currentActiveIds.forEach((id) => this.activeIds[itemType].delete(id));
@@ -762,9 +693,7 @@ export class Legend extends Base {
     if (!selectedState) return;
     const { index } = ele.__data__;
     const type = types[index];
-    const ids = data
-      .filter((model) => model.data[typeField] === type)
-      .map((model) => model.id);
+    const ids = data.filter((model) => model.data[typeField] === type).map((model) => model.id);
     if (this.selectedTypes[itemType].has(type)) {
       this.selectedTypes[itemType].delete(type);
       ids.forEach((id) => this.selectedIds[itemType].delete(id));

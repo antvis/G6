@@ -2,15 +2,15 @@ import { Group } from '@antv/g';
 import { clone, throttle } from '@antv/util';
 import { EdgeDisplayModel, EdgeModel, ID, IGraph, Point } from '../types';
 import { EdgeModelData } from '../types/edge';
-import { DisplayMapper, State, LodLevelRanges } from '../types/item';
-import { updateShapes } from '../util/shape';
-import { animateShapes } from '../util/animate';
+import { DisplayMapper, LodLevelRanges, State } from '../types/item';
 import { EdgeStyleSet } from '../types/theme';
-import { isSamePoint, getNearestPoint } from '../util/point';
+import { animateShapes } from '../util/animate';
+import { getNearestPoint, isSamePoint } from '../util/point';
 import { isPolylineWithObstacleAvoidance } from '../util/polyline';
+import { updateShapes } from '../util/shape';
+import Combo from './combo';
 import Item from './item';
 import Node from './node';
-import Combo from './combo';
 
 interface IProps {
   graph: IGraph;
@@ -37,9 +37,9 @@ interface IProps {
 export default class Edge extends Item {
   public destroyed = false;
   // inner data model
-  public model: EdgeModel;
+  public declare model: EdgeModel;
   // display data model
-  public displayModel: EdgeDisplayModel;
+  public declare displayModel: EdgeDisplayModel;
   /** Set to different value in implements */
   public type = 'edge' as const;
   public nodeMap: Map<ID, Node>;
@@ -80,20 +80,12 @@ export default class Edge extends Item {
     this.renderExt.setTargetPoint(targetPoint);
     this.renderExt.setNodeMap(this.nodeMap);
 
-    const shapeMap = this.renderExt.draw(
-      displayModel,
-      sourcePoint,
-      targetPoint,
-      this.shapeMap,
-      diffData,
-      diffState,
-    );
+    const shapeMap = this.renderExt.draw(displayModel, sourcePoint, targetPoint, this.shapeMap, diffData, diffState);
     if (this.shapeMap.labelShape) {
       this.shapeMap.labelShape.attributes.dataIsLabel = true;
     }
     if (this.shapeMap.labelBackgroundShape) {
-      this.shapeMap.labelBackgroundShape.attributes.dataIsLabelBackground =
-        true;
+      this.shapeMap.labelBackgroundShape.attributes.dataIsLabelBackground = true;
     }
 
     // add shapes to group, and update shapeMap
@@ -134,8 +126,7 @@ export default class Edge extends Item {
         undefined,
         [this.group, this.labelGroup],
         firstRendering ? 'buildIn' : 'update',
-        current.concat(previous).map((state) => state.name) ||
-          this.changedStates,
+        current.concat(previous).map((state) => state.name) || this.changedStates,
         this.animateFrameListener,
         (canceled) => onfinish(displayModel.id, canceled),
       );
@@ -162,18 +153,11 @@ export default class Edge extends Item {
   public forceUpdate() {
     if (this.destroyed || !this.shapeMap.keyShape) return;
     const force = isPolylineWithObstacleAvoidance(this.displayModel);
-    const { sourcePoint, targetPoint, changed } = this.getEndPoints(
-      this.displayModel,
-    );
+    const { sourcePoint, targetPoint, changed } = this.getEndPoints(this.displayModel);
     if (!force && !changed) return;
     this.renderExt.setSourcePoint(sourcePoint);
     this.renderExt.setTargetPoint(targetPoint);
-    const shapeMap = this.renderExt.draw(
-      this.displayModel,
-      sourcePoint,
-      targetPoint,
-      this.shapeMap,
-    );
+    const shapeMap = this.renderExt.draw(this.displayModel, sourcePoint, targetPoint, this.shapeMap);
     if (shapeMap.labelShape) {
       shapeMap.labelShape.attributes.dataIsLabel = true;
     }
@@ -181,12 +165,7 @@ export default class Edge extends Item {
       shapeMap.labelBackgroundShape.attributes.dataIsLabelBackground = true;
     }
     // add shapes to group, and update shapeMap
-    this.shapeMap = updateShapes(
-      this.shapeMap,
-      shapeMap,
-      this.group,
-      this.labelGroup,
-    );
+    this.shapeMap = updateShapes(this.shapeMap, shapeMap, this.group, this.labelGroup);
     this.labelGroup.children
       .filter((element) => element.attributes.dataIsLabel)
       .forEach((shape) => (shape.attributes.dataOriginPosition = ''));
@@ -238,27 +217,13 @@ export default class Edge extends Item {
     if (keyShape?.controlPoints?.length) {
       // @ts-ignore
       const controlPointsBesideEnds = keyShape.controlPoints.filter(
-        (point) =>
-          !isSamePoint(point, sourcePosition) &&
-          !isSamePoint(point, targetPosition),
+        (point) => !isSamePoint(point, sourcePosition) && !isSamePoint(point, targetPosition),
       );
-      sourcePrevious = getNearestPoint(
-        controlPointsBesideEnds,
-        sourcePosition,
-      ).nearestPoint;
-      targetPrevious = getNearestPoint(
-        controlPointsBesideEnds,
-        targetPosition,
-      ).nearestPoint;
+      sourcePrevious = getNearestPoint(controlPointsBesideEnds, sourcePosition).nearestPoint;
+      targetPrevious = getNearestPoint(controlPointsBesideEnds, targetPosition).nearestPoint;
     }
-    this.cache.sourcePointCache = this.sourceItem.getAnchorPoint(
-      sourcePrevious,
-      sourceAnchor,
-    );
-    this.cache.targetPointCache = this.targetItem.getAnchorPoint(
-      targetPrevious,
-      targetAnchor,
-    );
+    this.cache.sourcePointCache = this.sourceItem.getAnchorPoint(sourcePrevious, sourceAnchor);
+    this.cache.targetPointCache = this.targetItem.getAnchorPoint(targetPrevious, targetAnchor);
     return {
       sourcePoint: this.cache.sourcePointCache,
       targetPoint: this.cache.targetPointCache,
@@ -274,8 +239,7 @@ export default class Edge extends Item {
    * @returns
    */
   private shouldUpdatePoints(sourcePosition, targetPosition, controlPoints) {
-    const isComboEnd =
-      this.sourceItem.type === 'combo' || this.targetItem.type === 'combo';
+    const isComboEnd = this.sourceItem.type === 'combo' || this.targetItem.type === 'combo';
     const changed =
       !(
         isSamePoint(sourcePosition, this.cache.sourcePositionCache) &&
@@ -292,6 +256,7 @@ export default class Edge extends Item {
 
   /**
    * Update label positions on label canvas by getting viewport position from transformed canvas position.
+   * @param ignoreVisibility
    */
   public updateLabelPosition(ignoreVisibility?: boolean) {
     const { graph, labelGroup } = this;
@@ -301,21 +266,16 @@ export default class Edge extends Item {
     const zoom = graph.getZoom();
     labelGroup.children.forEach((shape) => {
       if (shape.attributes.dataIsLabelBackground) {
-        this.renderExt.drawLabelBackgroundShape(
-          this.displayModel,
-          this.shapeMap,
-        );
+        this.renderExt.drawLabelBackgroundShape(this.displayModel, this.shapeMap);
         return;
       }
       if (shape.attributes.dataIsLabel) {
         const { maxWidth } = this.renderExt.mergedStyles[shape.id] || {};
         if (maxWidth) {
           if (!shape.attributes.dataOriginWordWrapWidth) {
-            shape.attributes.dataOriginWordWrapWidth =
-              shape.style.wordWrapWidth;
+            shape.attributes.dataOriginWordWrapWidth = shape.style.wordWrapWidth;
           }
-          shape.style.wordWrapWidth =
-            shape.attributes.dataOriginWordWrapWidth * zoom;
+          shape.style.wordWrapWidth = shape.attributes.dataOriginWordWrapWidth * zoom;
         }
       }
       if (!shape.attributes.dataOriginPosition) {
@@ -325,9 +285,7 @@ export default class Edge extends Item {
           z: shape.style.z,
         };
       }
-      const viewportPosition = graph.getViewportByCanvas(
-        shape.attributes.dataOriginPosition,
-      );
+      const viewportPosition = graph.getViewportByCanvas(shape.attributes.dataOriginPosition);
       shape.style.x = viewportPosition.x;
       shape.style.y = viewportPosition.y;
       shape.style.z = viewportPosition.z;
@@ -341,8 +299,7 @@ export default class Edge extends Item {
         if (!shape.attributes.dataOriginWordWrapWidth) {
           shape.attributes.dataOriginWordWrapWidth = shape.style.wordWrapWidth;
         }
-        shape.style.wordWrapWidth =
-          shape.attributes.dataOriginWordWrapWidth * zoom;
+        shape.style.wordWrapWidth = shape.attributes.dataOriginWordWrapWidth * zoom;
       }
     },
     50,
@@ -368,8 +325,7 @@ export default class Edge extends Item {
         if (!this.shapeMap[shapeId] || this.shapeMap[shapeId].destroyed) return;
         const clonedKeyShape = this.shapeMap[shapeId].cloneNode();
         // TODO: other animating attributes?
-        clonedKeyShape.style.opacity =
-          this.renderExt.mergedStyles[shapeId]?.opacity || 1;
+        clonedKeyShape.style.opacity = this.renderExt.mergedStyles[shapeId]?.opacity || 1;
         group.appendChild(clonedKeyShape);
       });
       containerGroup.appendChild(group);
@@ -382,12 +338,7 @@ export default class Edge extends Item {
     if (transientItemMap) {
       this.nodeMap.forEach((node, id) => {
         const transientItem = transientItemMap.get(id) as Node;
-        if (
-          !transientItem ||
-          !transientItem.isVisible() ||
-          transientItem.type !== 'node'
-        )
-          return;
+        if (!transientItem || !transientItem.isVisible() || transientItem.type !== 'node') return;
         this.nodeMap.set(id, transientItem);
       });
     }

@@ -53,9 +53,7 @@ export const mock = (nodeCount: number) => {
     random: (ratio = 0.5) => {
       const length: number = parseInt(String(nodeCount * ratio));
 
-      const randomArray: string[] = nodeIds
-        .sort(() => Math.random() - 0.5)
-        .slice(0, length);
+      const randomArray: string[] = nodeIds.sort(() => Math.random() - 0.5).slice(0, length);
 
       const edges = fullEdges
         .filter((edge) => {

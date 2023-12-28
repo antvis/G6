@@ -1,8 +1,8 @@
 import type { IG6GraphEvent } from '../../types';
-import { warn } from '../../util/warn';
-import { generateEdgeID } from '../../util/item';
 import { Behavior } from '../../types/behavior';
 import { EdgeDisplayModelData } from '../../types/edge';
+import { generateEdgeID } from '../../util/item';
+import { warn } from '../../util/warn';
 
 const KEYBOARD_TRIGGERS = ['shift', 'ctrl', 'control', 'alt', 'meta'] as const;
 const EVENT_TRIGGERS = ['click', 'drag'] as const;
@@ -80,10 +80,7 @@ export class CreateEdge extends Behavior {
       this.options.trigger = DEFAULT_OPTIONS.trigger;
     }
 
-    if (
-      options.secondaryKey &&
-      !KEYBOARD_TRIGGERS.includes(options.secondaryKey)
-    ) {
+    if (options.secondaryKey && !KEYBOARD_TRIGGERS.includes(options.secondaryKey)) {
       warn({
         optionName: `create-edge.secondaryKey`,
         shouldBe: KEYBOARD_TRIGGERS,
@@ -121,10 +118,7 @@ export class CreateEdge extends Behavior {
         }
       : {};
 
-    return { ...triggerEvents, ...keyboardEvents } as Record<
-      string,
-      (e: IG6GraphEvent) => void
-    >;
+    return { ...triggerEvents, ...keyboardEvents } as Record<string, (e: IG6GraphEvent) => void>;
   };
 
   handleCreateEdge = (e: IG6GraphEvent) => {
@@ -135,8 +129,7 @@ export class CreateEdge extends Behavior {
     const { graph, options, addingEdge } = this;
     const currentNodeId = e.itemId;
 
-    const { edgeConfig, createVirtualEventName, createActualEventName } =
-      options;
+    const { edgeConfig, createVirtualEventName, createActualEventName } = options;
 
     if (addingEdge) {
       if (!this.options.shouldEnd(e)) {
@@ -150,8 +143,7 @@ export class CreateEdge extends Behavior {
         target: currentNodeId,
         data: {
           ...edgeConfig,
-          type:
-            currentNodeId === addingEdge.source ? 'loop-edge' : edgeConfig.type,
+          type: currentNodeId === addingEdge.source ? 'loop-edge' : edgeConfig.type,
         },
       });
       if (createActualEventName) {
@@ -206,17 +198,12 @@ export class CreateEdge extends Behavior {
       return;
     }
 
-    const elements = await this.graph.canvas.document.elementsFromPoint(
-      e.canvas.x,
-      e.canvas.y,
-    );
+    const elements = await this.graph.canvas.document.elementsFromPoint(e.canvas.x, e.canvas.y);
     const currentIds = elements
-      // @ts-ignore TODO: G type
+      // @ts-expect-error TODO: G type
       .map((ele) => ele.parentNode.getAttribute?.('data-item-id'))
       .filter((id) => id !== undefined && !DUMMY_NODE_ID !== id);
-    const dropId = currentIds.find(
-      (id) => this.graph.getComboData(id) || this.graph.getNodeData(id),
-    );
+    const dropId = currentIds.find((id) => this.graph.getComboData(id) || this.graph.getNodeData(id));
 
     if (!dropId) {
       this.cancelCreating();

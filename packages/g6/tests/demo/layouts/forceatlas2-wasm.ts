@@ -1,8 +1,4 @@
-import {
-  supportsThreads,
-  initThreads,
-  ForceAtlas2Layout,
-} from '@antv/layout-wasm';
+import { ForceAtlas2Layout, initThreads, supportsThreads } from '@antv/layout-wasm';
 import { Graph, extend } from '../../../src/index';
 import { data } from '../../datasets/dataset1';
 import { TestCaseContext } from '../interface';

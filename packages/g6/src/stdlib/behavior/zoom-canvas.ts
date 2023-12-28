@@ -1,4 +1,4 @@
-import { isNumber, isBoolean } from '@antv/util';
+import { isBoolean, isNumber } from '@antv/util';
 import { ID, IG6GraphEvent } from '../../types';
 import { Behavior } from '../../types/behavior';
 
@@ -48,10 +48,10 @@ export interface ZoomCanvasOptions {
   shouldBegin?: (event: IG6GraphEvent) => boolean;
   /**
    * Whether to fix the stroke thickness, text size, overall size, etc. of selected elements. false by default.
-   * @property {boolean} fixAll:  fix the overall size of the element, higher priority than fixSelectedItems.fixLineWidth and fixSelectedItems.fixLabel;
-   * @property {boolean} fixLineWidth: fix the stroke thickness of keyShape;
-   * @property {boolean} fixLabel: fix the text size of labelShape, labelBackgroundShape;
-   * @property {string} fixState: the state of the element to be fixed. Default is `selected` ;
+   * - fixAll: fix the overall size of the element, higher priority than fixSelectedItems.fixLineWidth and fixSelectedItems.fixLabel;
+   * - fixLineWidth: fix the stroke thickness of keyShape;
+   * - fixLabel: fix the text size of labelShape, labelBackgroundShape;
+   * - fixState: the state of the element to be fixed. Default is `selected` ;
    */
   fixSelectedItems:
     | boolean
@@ -102,9 +102,7 @@ export class ZoomCanvas extends Behavior {
   constructor(options: Partial<ZoomCanvasOptions>) {
     const finalOptions = Object.assign({}, DEFAULT_OPTIONS, options);
     if (!VALID_TRIGGERS.includes(finalOptions.trigger)) {
-      console.warn(
-        `The trigger ${finalOptions.trigger} is not valid, 'wheel' will take effect.`,
-      );
+      console.warn(`The trigger ${finalOptions.trigger} is not valid, 'wheel' will take effect.`);
       finalOptions.trigger = 'wheel';
     }
     const { fixSelectedItems } = finalOptions;
@@ -115,9 +113,7 @@ export class ZoomCanvas extends Behavior {
       };
     }
     if (!isBoolean(fixSelectedItems)) {
-      if (!fixSelectedItems.fixState)
-        // @ts-ignore
-        finalOptions.fixSelectedItems.fixState = 'selected';
+      if (!fixSelectedItems.fixState) fixSelectedItems.fixState = 'selected';
     }
     super(finalOptions);
   }
@@ -149,15 +145,9 @@ export class ZoomCanvas extends Behavior {
 
   private hideShapes() {
     const { graph } = this;
-    const { tileBehavior: graphBehaviorOptimize, tileBehaviorSize = 1000 } =
-      graph.getSpecification().optimize || {};
-    const optimize =
-      this.options.enableOptimize !== undefined
-        ? this.options.enableOptimize
-        : graphBehaviorOptimize;
-    const shouldOptimize = isNumber(optimize)
-      ? graph.getAllNodesData().length > optimize
-      : optimize;
+    const { tileBehavior: graphBehaviorOptimize, tileBehaviorSize = 1000 } = graph.getSpecification().optimize || {};
+    const optimize = this.options.enableOptimize !== undefined ? this.options.enableOptimize : graphBehaviorOptimize;
+    const shouldOptimize = isNumber(optimize) ? graph.getAllNodesData().length > optimize : optimize;
     if (shouldOptimize) {
       this.hiddenEdgeIds = graph
         .getAllEdgesData()
@@ -171,10 +161,7 @@ export class ZoomCanvas extends Behavior {
       const hiddenIds = [...this.hiddenNodeIds];
       const sectionNum = Math.ceil(hiddenIds.length / tileBehaviorSize);
       const sections = Array.from({ length: sectionNum }, (v, i) =>
-        hiddenIds.slice(
-          i * tileBehaviorSize,
-          i * tileBehaviorSize + tileBehaviorSize,
-        ),
+        hiddenIds.slice(i * tileBehaviorSize, i * tileBehaviorSize + tileBehaviorSize),
       );
       const update = () => {
         if (!sections.length && this.tileRequestId) {
@@ -194,15 +181,9 @@ export class ZoomCanvas extends Behavior {
 
   private endZoom() {
     const { graph, hiddenEdgeIds = [], hiddenNodeIds } = this;
-    const { tileBehavior: graphBehaviorOptimize, tileBehaviorSize = 1000 } =
-      graph.getSpecification().optimize || {};
-    const optimize =
-      this.options.enableOptimize !== undefined
-        ? this.options.enableOptimize
-        : graphBehaviorOptimize;
-    const shouldOptimize = isNumber(optimize)
-      ? graph.getAllNodesData().length > optimize
-      : optimize;
+    const { tileBehavior: graphBehaviorOptimize, tileBehaviorSize = 1000 } = graph.getSpecification().optimize || {};
+    const optimize = this.options.enableOptimize !== undefined ? this.options.enableOptimize : graphBehaviorOptimize;
+    const shouldOptimize = isNumber(optimize) ? graph.getAllNodesData().length > optimize : optimize;
     this.zooming = false;
     if (shouldOptimize) {
       if (this.tileRequestId) {
@@ -213,10 +194,7 @@ export class ZoomCanvas extends Behavior {
         const hiddenIds = [...hiddenNodeIds, ...hiddenEdgeIds];
         const sectionNum = Math.ceil(hiddenIds.length / tileBehaviorSize);
         const sections = Array.from({ length: sectionNum }, (v, i) =>
-          hiddenIds.slice(
-            i * tileBehaviorSize,
-            i * tileBehaviorSize + tileBehaviorSize,
-          ),
+          hiddenIds.slice(i * tileBehaviorSize, i * tileBehaviorSize + tileBehaviorSize),
         );
         const update = () => {
           if (!sections.length && this.tileRequestId) {
@@ -239,23 +217,11 @@ export class ZoomCanvas extends Behavior {
   public onWheel(event) {
     const { graph, keydown } = this;
     const { deltaY, client, itemId } = event;
-    const {
-      eventName,
-      sensitivity,
-      secondaryKey,
-      triggerOnItems,
-      minZoom,
-      maxZoom,
-      shouldBegin,
-    } = this.options;
+    const { eventName, sensitivity, secondaryKey, triggerOnItems, minZoom, maxZoom, shouldBegin } = this.options;
 
     // TODO: CANVAS
     const isOnItem = itemId && itemId !== 'CANVAS';
-    if (
-      (secondaryKey && !keydown) ||
-      (isOnItem && !triggerOnItems) ||
-      !shouldBegin(event)
-    ) {
+    if ((secondaryKey && !keydown) || (isOnItem && !triggerOnItems) || !shouldBegin(event)) {
       this.endZoom();
       return;
     }
@@ -268,8 +234,7 @@ export class ZoomCanvas extends Behavior {
       this.zooming = true;
     }
 
-    const { tileBehavior: graphBehaviorOptimize } =
-      graph.getSpecification().optimize || {};
+    const { tileBehavior: graphBehaviorOptimize } = graph.getSpecification().optimize || {};
 
     const shouldDebounce =
       typeof graphBehaviorOptimize === 'boolean'
@@ -277,11 +242,7 @@ export class ZoomCanvas extends Behavior {
         : graph.getAllNodesData().length > graphBehaviorOptimize;
 
     const now = Date.now();
-    if (
-      shouldDebounce &&
-      this.lastWheelTriggerTime &&
-      now - this.lastWheelTriggerTime < WHEEL_DURATION / 5
-    ) {
+    if (shouldDebounce && this.lastWheelTriggerTime && now - this.lastWheelTriggerTime < WHEEL_DURATION / 5) {
       return;
     }
 
@@ -375,8 +336,7 @@ export class ZoomCanvas extends Behavior {
               const { group } = item;
               const transform = group.style.transform;
               if (!this.zoomCache.balanceRatio.has(id)) {
-                const oriBalanceRatio =
-                  Number(transform?.match(/scale\(([\d.]+),/)?.[1]) || 1;
+                const oriBalanceRatio = Number(transform?.match(/scale\(([\d.]+),/)?.[1]) || 1;
                 this.zoomCache.balanceRatio.set(id, oriBalanceRatio);
               }
               const balanceRatioCache = this.zoomCache.balanceRatio.get(id);
@@ -399,14 +359,7 @@ export class ZoomCanvas extends Behavior {
 
   public onKeydown(event) {
     const { key } = event;
-    const {
-      secondaryKey,
-      trigger,
-      speedUpKey,
-      eventName,
-      sensitivity,
-      shouldBegin,
-    } = this.options;
+    const { secondaryKey, trigger, speedUpKey, eventName, sensitivity, shouldBegin } = this.options;
     if (secondaryKey && secondaryKey === key.toLowerCase()) {
       this.keydown = true;
     }

@@ -88,8 +88,7 @@ describe('theme', () => {
       nodeKeyShape = node.shapeMap.keyShape;
       keyShapeFill = nodeKeyShape.style.fill;
       keyShapeStroke = nodeKeyShape.style.stroke;
-      const { lineWidth: keyShapeLineWidth, shadowColor: keyShapeShadowColor } =
-        nodeKeyShape.style;
+      const { lineWidth: keyShapeLineWidth, shadowColor: keyShapeShadowColor } = nodeKeyShape.style;
       expect(keyShapeFill).toBe('rgb(230, 230, 255)');
       expect(keyShapeStroke).toBe('#00f');
       expect(keyShapeLineWidth).toBe(4);
@@ -193,8 +192,7 @@ describe('theme', () => {
       nodeKeyShape = node.shapeMap.keyShape;
       keyShapeFill = nodeKeyShape.style.fill;
       keyShapeStroke = nodeKeyShape.style.stroke;
-      const { lineWidth: keyShapeLineWidth, shadowColor: keyShapeShadowColor } =
-        nodeKeyShape.style;
+      const { lineWidth: keyShapeLineWidth, shadowColor: keyShapeShadowColor } = nodeKeyShape.style;
       expect(keyShapeFill).toBe('rgb(230, 230, 255)');
       expect(keyShapeStroke).toBe('#00f');
       expect(keyShapeLineWidth).toBe(4);
@@ -204,18 +202,12 @@ describe('theme', () => {
       node = graph.itemController.itemMap.get('node4');
       const { keyShape } = node.shapeMap;
       keyShapeStroke = keyShape.style.stroke;
-      expect(keyShapeStroke).toBe(
-        LightTheme.node.styles[0].default.keyShape.stroke,
-      );
+      expect(keyShapeStroke).toBe(LightTheme.node.styles[0].default.keyShape.stroke);
 
       graph.setItemState('node4', 'selected', true);
       keyShapeStroke = keyShape.style.stroke;
-      expect(keyShapeStroke).toBe(
-        LightTheme.node.styles[0].selected.keyShape.stroke,
-      );
-      expect(keyShape.style.lineWidth).toBe(
-        LightTheme.node.styles[0].selected.keyShape.lineWidth,
-      );
+      expect(keyShapeStroke).toBe(LightTheme.node.styles[0].selected.keyShape.stroke);
+      expect(keyShape.style.lineWidth).toBe(LightTheme.node.styles[0].selected.keyShape.lineWidth);
 
       let edge = graph.itemController.itemMap.get('edge1');
       let { keyShape: edgeKeyShape } = edge.shapeMap;
@@ -231,18 +223,12 @@ describe('theme', () => {
       edge = graph.itemController.itemMap.get('edge3');
       edgeKeyShape = edge.shapeMap.keyShape;
       edgeKeyShapeStroke = edgeKeyShape.style.stroke;
-      expect(edgeKeyShapeStroke).toBe(
-        LightTheme.edge.styles[0].default.keyShape.stroke,
-      );
+      expect(edgeKeyShapeStroke).toBe(LightTheme.edge.styles[0].default.keyShape.stroke);
 
       graph.setItemState('edge3', 'selected', true);
       edgeKeyShapeStroke = edgeKeyShape.style.stroke;
-      expect(edgeKeyShapeStroke).toBe(
-        LightTheme.edge.styles[0].selected.keyShape.stroke,
-      );
-      expect(edgeKeyShape.style.lineWidth).toBe(
-        LightTheme.edge.styles[0].selected.keyShape.lineWidth,
-      );
+      expect(edgeKeyShapeStroke).toBe(LightTheme.edge.styles[0].selected.keyShape.stroke);
+      expect(edgeKeyShape.style.lineWidth).toBe(LightTheme.edge.styles[0].selected.keyShape.lineWidth);
 
       graph.destroy();
       done();
@@ -314,8 +300,7 @@ describe('theme', () => {
       nodeKeyShape = node.shapeMap.keyShape;
       keyShapeFill = nodeKeyShape.style.fill;
       keyShapeStroke = nodeKeyShape.style.stroke;
-      const { lineWidth: keyShapeLineWidth, shadowColor: keyShapeShadowColor } =
-        nodeKeyShape.style;
+      const { lineWidth: keyShapeLineWidth, shadowColor: keyShapeShadowColor } = nodeKeyShape.style;
       expect(keyShapeFill).toBe('rgb(95, 95, 146)');
       expect(keyShapeStroke).toBe('#00f');
       expect(keyShapeLineWidth).toBe(4);

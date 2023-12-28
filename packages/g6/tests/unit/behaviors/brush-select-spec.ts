@@ -1249,15 +1249,9 @@ describe('brush-select behavior with brushStyle', () => {
       });
       // node group + edge group + brush
       expect(graph.transientCanvas.getRoot().childNodes.length).toBe(3);
-      expect(graph.transientCanvas.getRoot().childNodes[2].config.id).toBe(
-        'g6-brush-select-brush-shape',
-      );
-      expect(graph.transientCanvas.getRoot().childNodes[2].style.fill).toBe(
-        '#f00',
-      );
-      expect(
-        graph.transientCanvas.getRoot().childNodes[2].style.fillOpacity,
-      ).toBe(0.5);
+      expect(graph.transientCanvas.getRoot().childNodes[2].config.id).toBe('g6-brush-select-brush-shape');
+      expect(graph.transientCanvas.getRoot().childNodes[2].style.fill).toBe('#f00');
+      expect(graph.transientCanvas.getRoot().childNodes[2].style.fillOpacity).toBe(0.5);
       graph.emit('canvas:pointerup', {
         canvas: { x: 200, y: 150 },
         shiftKey: true,

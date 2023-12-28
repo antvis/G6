@@ -1,6 +1,6 @@
 import { ArrowConfig } from '@antv/g6';
+import { Extensions, Graph, extend } from '../../../../src/index';
 import { TestCaseContext } from '../../interface';
-import { Graph, Extensions, extend } from '../../../../src/index';
 
 const defaultData = {
   nodes: [
@@ -92,15 +92,7 @@ export default (
   });
   document.body.appendChild(removeBtn);
 
-  const arrowTypes = [
-    'triangle',
-    'circle',
-    'rect',
-    'diamond',
-    'vee',
-    'triangle-rect',
-    'simple',
-  ];
+  const arrowTypes = ['triangle', 'circle', 'rect', 'diamond', 'vee', 'triangle-rect', 'simple'];
   let typeIdx = 0;
   const updateBtn = document.createElement('button');
   updateBtn.textContent = '更新箭头类型';

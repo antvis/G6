@@ -1,4 +1,4 @@
-import G6, { ID, Extensions } from '../../../src/index';
+import G6, { Extensions, ID } from '../../../src/index';
 import { ShapeStyle } from '../../../src/types/item';
 export default (
   context,
@@ -9,12 +9,7 @@ export default (
     nonMembers?: ID[];
   } = {},
 ) => {
-  const {
-    hullType = 'smooth-convex',
-    labelPosition = 'left',
-    style,
-    nonMembers = [],
-  } = options;
+  const { hullType = 'smooth-convex', labelPosition = 'left', style, nonMembers = [] } = options;
   const hullPlugin = new Extensions.Hull({
     key: 'hull-plugin1',
     style,

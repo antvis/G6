@@ -1,20 +1,16 @@
 import ellipse from '../demo/demo/ellipse';
-import './utils/useSnapshotMatchers';
 import { createContext } from './utils';
 import { triggerEvent } from './utils/event';
+import './utils/useSnapshotMatchers';
 
 const dir = `${__dirname}/snapshots/items/node/ellipse`;
 
 describe('node ellipse', () => {
   it('should be rendered correctly', (done) => {
-    const {
-      backgroundCanvas,
-      canvas,
-      container,
-      labelCanvas,
-      transientCanvas,
-      transientLabelCanvas,
-    } = createContext(500, 500);
+    const { backgroundCanvas, canvas, container, labelCanvas, transientCanvas, transientLabelCanvas } = createContext(
+      500,
+      500,
+    );
 
     const graph = ellipse({
       backgroundCanvas,

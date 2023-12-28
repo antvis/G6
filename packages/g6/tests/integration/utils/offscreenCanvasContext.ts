@@ -85,6 +85,11 @@ const defaultWidthMap = {
   '…': 82,
 };
 
+/**
+ *
+ * @param text
+ * @param fontSize
+ */
 export function measureText(text: string, fontSize: number) {
   let sum = 0;
   for (let i = 0; i < text.length; i++) {
@@ -100,8 +105,7 @@ export class OffscreenCanvasContext {
 
   set font(font: string) {
     // `${fontStyle} ${fontVariant} ${fontWeight} ${fontSizeString}
-    const [fontStyle, fontVariant, fontWeight, fontSizeString] =
-      font.split(' ');
+    const [fontStyle, fontVariant, fontWeight, fontSizeString] = font.split(' ');
     const fontSize = parseFloat(fontSizeString.replace('px', ''));
     this.fontSize = fontSize;
   }

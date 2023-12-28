@@ -5,21 +5,13 @@ let graph: any;
 let imageType: DataURLType = 'image/png';
 
 // Select for renderers.
-const $rendererSelect = document.getElementById(
-  'renderer-select',
-) as HTMLSelectElement;
+const $rendererSelect = document.getElementById('renderer-select') as HTMLSelectElement;
 $rendererSelect.onchange = async () => {
   graph = await render();
 };
-const $imageSelect = document.getElementById(
-  'image-select',
-) as HTMLSelectElement;
-const $imageSelectDownloadButton = document.getElementById(
-  'image-download-button',
-) as HTMLSelectElement;
-const $fullImageSelectDownloadButton = document.getElementById(
-  'full-image-download-button',
-) as HTMLSelectElement;
+const $imageSelect = document.getElementById('image-select') as HTMLSelectElement;
+const $imageSelectDownloadButton = document.getElementById('image-download-button') as HTMLSelectElement;
+const $fullImageSelectDownloadButton = document.getElementById('full-image-download-button') as HTMLSelectElement;
 $rendererSelect.onchange = async () => {
   graph = await render();
 };

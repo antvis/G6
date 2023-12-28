@@ -1,6 +1,6 @@
 import G6 from '../../../src/index';
+import { graphDataCfg, treeDataCfg } from '../../datasets/dataCfg';
 import { TestCaseContext } from '../interface';
-import { treeDataCfg, graphDataCfg } from '../../datasets/dataCfg';
 
 export default (
   context: TestCaseContext,
@@ -10,11 +10,7 @@ export default (
     defaultCollapse?: boolean;
   } = {},
 ) => {
-  const {
-    dataType = 'graph',
-    layoutType = 'compactBox',
-    defaultCollapse = false,
-  } = options;
+  const { dataType = 'graph', layoutType = 'compactBox', defaultCollapse = false } = options;
 
   const datasets = {
     tree: JSON.parse(JSON.stringify(treeDataCfg)),
@@ -149,12 +145,7 @@ export default (
   layoutBtn.id = 'treegraph-changelayout';
   layoutBtn.textContent = '切换树/图布局';
   layoutBtn.addEventListener('click', (e) => {
-    if (
-      ['compactBox', 'indented', 'mindmap', 'dendrogram'].includes(
-        currentLayout,
-      )
-    )
-      currentLayout = 'grid';
+    if (['compactBox', 'indented', 'mindmap', 'dendrogram'].includes(currentLayout)) currentLayout = 'grid';
     else currentLayout = 'compactBox';
     graph.layout({ type: currentLayout });
   });
@@ -170,9 +161,7 @@ export default (
       graph.removeData('node', ['dynamicNode']);
     } else {
       graph.addData('node', [{ id: 'dynamicNode', data: { x: 10, y: 10 } }]);
-      graph.addData('edge', [
-        { id: 'newedge', source: 'node1', target: 'dynamicNode', data: {} },
-      ]);
+      graph.addData('edge', [{ id: 'newedge', source: 'node1', target: 'dynamicNode', data: {} }]);
     }
     graph.layout();
   });

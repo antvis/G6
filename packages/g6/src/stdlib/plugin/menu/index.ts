@@ -1,10 +1,10 @@
 import { isString, uniqueId } from '@antv/util';
 import insertCss from 'insert-css';
 import Item from '../../../item/item';
-import { createDOM, modifyCSS } from '../../../util/dom';
 import { IGraph } from '../../../types';
 import { IG6GraphEvent } from '../../../types/event';
 import { Plugin as Base, IPluginBaseConfig } from '../../../types/plugin';
+import { createDOM, modifyCSS } from '../../../util/dom';
 
 typeof document !== 'undefined' &&
   insertCss(`
@@ -37,24 +37,21 @@ typeof document !== 'undefined' &&
 `);
 /**
  * The `MenuConfig` interface contains the following properties:
-
-- `handleMenuClick`: An optional function for handling menu click events. It takes two arguments: `target` (of type HTMLElement) and `item` (of type Item), and has no return value.
-- `getContent`: An optional function for getting the content of the menu. It takes an optional argument of type `IG6GraphEvent`, and returns a value of type HTMLElement, string, or Promise (resolving to HTMLElement or string).
-- `offsetX`: An optional number representing the offset of the menu in the X direction.
-- `offsetY`: An optional number representing the offset of the menu in the Y direction.
-- `shouldBegin`: An optional function for determining whether the menu should be displayed. It takes an optional argument of type `IG6GraphEvent`, and returns a boolean value.
-- `itemTypes`: An optional array of strings representing the types of items for which the menu is allowed to be displayed.
-- `trigger`: An optional string, either 'click' or 'contextmenu', representing the event type that triggers the display of the menu.
-- `onHide`: An optional function to be executed when the menu is hidden. It takes no arguments and returns a boolean value.
-- `loadingContent`: An optional HTMLElement or string representing the loading DOM.
-- `liHoverStyle`: An optional object representing the style of li elements when hovered over. It can contain any number of key-value pairs, where the key is a style name and the value is a string.
+ * - `handleMenuClick`: An optional function for handling menu click events. It takes two arguments: `target` (of type HTMLElement) and `item` (of type Item), and has no return value.
+ * - `getContent`: An optional function for getting the content of the menu. It takes an optional argument of type `IG6GraphEvent`, and returns a value of type HTMLElement, string, or Promise (resolving to HTMLElement or string).
+ * - `offsetX`: An optional number representing the offset of the menu in the X direction.
+ * - `offsetY`: An optional number representing the offset of the menu in the Y direction.
+ * - `shouldBegin`: An optional function for determining whether the menu should be displayed. It takes an optional argument of type `IG6GraphEvent`, and returns a boolean value.
+ * - `itemTypes`: An optional array of strings representing the types of items for which the menu is allowed to be displayed.
+ * - `trigger`: An optional string, either 'click' or 'contextmenu', representing the event type that triggers the display of the menu.
+ * - `onHide`: An optional function to be executed when the menu is hidden. It takes no arguments and returns a boolean value.
+ * - `loadingContent`: An optional HTMLElement or string representing the loading DOM.
+ * - `liHoverStyle`: An optional object representing the style of li elements when hovered over. It can contain any number of key-value pairs, where the key is a style name and the value is a string.
  */
 export interface MenuConfig extends IPluginBaseConfig {
   handleMenuClick?: (target: HTMLElement, item: Item) => void;
   // return the content of menu, support the `Promise` type return value.
-  getContent?: (
-    evt?: IG6GraphEvent,
-  ) => HTMLElement | string | Promise<HTMLElement | string>;
+  getContent?: (evt?: IG6GraphEvent) => HTMLElement | string | Promise<HTMLElement | string>;
   offsetX?: number;
   offsetY?: number;
   shouldBegin?: (evt?: IG6GraphEvent) => boolean;
@@ -126,9 +123,7 @@ export class Menu extends Base {
               .join('')}
             }
         `);
-    const menu = createDOM(
-      `<div class=${className || 'g6-component-contextmenu'}></div>`,
-    );
+    const menu = createDOM(`<div class=${className || 'g6-component-contextmenu'}></div>`);
     modifyCSS(menu, { top: '0px', position: 'absolute', visibility: 'hidden' });
     let container: HTMLElement | null | string = this.options.container;
     if (!container) {
@@ -144,16 +139,16 @@ export class Menu extends Base {
   protected async onMenuShow(e: IG6GraphEvent) {
     const self = this;
     e.preventDefault?.();
-    self.onMenuHide();
+    this.onMenuHide();
     const itemTypes = this.options.itemTypes;
     if (!e.itemId) {
       if (itemTypes.indexOf('canvas') === -1) {
-        self.onMenuHide();
+        this.onMenuHide();
         return;
       }
     } else {
       if (e.itemId && e.itemType && itemTypes.indexOf(e.itemType) === -1) {
-        self.onMenuHide();
+        this.onMenuHide();
         return;
       }
     }

@@ -8,12 +8,12 @@ import {
   IItem,
   ItemShapeStyles,
   LabelBackground,
-  ShapeAttrEncode,
-  ShapesEncode,
-  ShapeStyle,
   LodLevel,
+  ShapeAttrEncode,
+  ShapeStyle,
+  ShapesEncode,
 } from './item';
-import { NodeShapeMap, NodeUserModelData } from './node';
+import { NodeShapeMap } from './node';
 
 export type ComboLabelPosition =
   | 'bottom'

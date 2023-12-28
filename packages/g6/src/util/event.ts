@@ -8,8 +8,8 @@ import {
   NodeAdded,
   NodeDataUpdated,
   NodeRemoved,
-  TreeStructureChanged,
   TreeStructureAttached,
+  TreeStructureChanged,
   TreeStructureDetached,
 } from '@antv/graphlib';
 import { IG6GraphEvent, IGraph, NodeModelData } from '../types';
@@ -25,6 +25,7 @@ export type ItemInfo = {
 /**
  * Given an element, which might be a child shape of a node/edge,
  * get its belonging item.
+ * @param element
  */
 export const getItemInfoFromElement = (element: IElement): ItemInfo | null => {
   if (element.nodeName === 'document') {
@@ -54,10 +55,7 @@ export const getItemInfoFromElement = (element: IElement): ItemInfo | null => {
  * @param graph Graph instance.
  * @returns Contextmenu event props.
  */
-export const getContextMenuEventProps = (
-  event: IG6GraphEvent,
-  graph: IGraph,
-): IG6GraphEvent => {
+export const getContextMenuEventProps = (event: IG6GraphEvent, graph: IGraph): IG6GraphEvent => {
   return {
     ...event,
     type: 'contextmenu',
@@ -96,10 +94,7 @@ export type GroupedChanges = {
  * @param changes
  * @returns
  */
-export const getGroupedChanges = (
-  graphCore: GraphCore,
-  changes,
-): GroupedChanges => {
+export const getGroupedChanges = (graphCore: GraphCore, changes): GroupedChanges => {
   const groupedChanges: GroupedChanges = {
     NodeRemoved: [],
     EdgeRemoved: [],
@@ -115,9 +110,7 @@ export const getGroupedChanges = (
   };
   changes.forEach((change) => {
     const { type: changeType } = change;
-    if (
-      ['NodeDataUpdated', 'EdgeUpdated', 'EdgeDataUpdated'].includes(changeType)
-    ) {
+    if (['NodeDataUpdated', 'EdgeUpdated', 'EdgeDataUpdated'].includes(changeType)) {
       const { id: oid } = change;
       if (!graphCore.hasNode(oid) && !graphCore.hasEdge(oid)) {
         const nid = Number(oid);
@@ -127,19 +120,10 @@ export const getGroupedChanges = (
         return;
       }
     } else if (changeType === 'TreeStructureChanged') {
-      if (change.treeKey === 'combo')
-        groupedChanges.ComboStructureChanged.push(change);
-      else if (change.treeKey === 'tree')
-        groupedChanges.TreeStructureChanged.push(change);
+      if (change.treeKey === 'combo') groupedChanges.ComboStructureChanged.push(change);
+      else if (change.treeKey === 'tree') groupedChanges.TreeStructureChanged.push(change);
       return;
-    } else if (
-      [
-        'NodeRemoved',
-        'EdgeRemoved',
-        'TreeStructureAttached',
-        'TreeStructureDetached',
-      ].includes(changeType)
-    ) {
+    } else if (['NodeRemoved', 'EdgeRemoved', 'TreeStructureAttached', 'TreeStructureDetached'].includes(changeType)) {
       groupedChanges[changeType].push(change);
     } else {
       const { id: oid } = change.value;

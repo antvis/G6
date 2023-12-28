@@ -1,19 +1,15 @@
 import historyCombo from '../demo/plugins/history-combo';
-import './utils/useSnapshotMatchers';
 import { createContext } from './utils';
+import './utils/useSnapshotMatchers';
 
 const dir = `${__dirname}/snapshots/plugins/history`;
 
 describe('Plugins history combo', () => {
   it('should be rendered correctly', (done) => {
-    const {
-      backgroundCanvas,
-      canvas,
-      container,
-      labelCanvas,
-      transientCanvas,
-      transientLabelCanvas,
-    } = createContext(500, 500);
+    const { backgroundCanvas, canvas, container, labelCanvas, transientCanvas, transientLabelCanvas } = createContext(
+      500,
+      500,
+    );
 
     const graph = historyCombo({
       backgroundCanvas,
@@ -27,10 +23,7 @@ describe('Plugins history combo', () => {
     });
 
     graph.on('afterlayout', async () => {
-      await expect(canvas).toMatchSVGSnapshot(
-        dir,
-        'plugins-history-combo-init',
-      );
+      await expect(canvas).toMatchSVGSnapshot(dir, 'plugins-history-combo-init');
 
       const $undo = document.querySelectorAll('button')[0];
       const $redo = document.querySelectorAll('button')[1];
@@ -39,21 +32,13 @@ describe('Plugins history combo', () => {
        * Click button to add combo 2.
        * Verify that the API `addCombo` supports history.
        */
-      const $addCombo = document.querySelectorAll(
-        'button',
-      )[2] as HTMLInputElement;
+      const $addCombo = document.querySelectorAll('button')[2] as HTMLInputElement;
       $addCombo.click();
       await expect(canvas).toMatchSVGSnapshot(dir, 'plugins-history-add-combo');
       $undo.click();
-      await expect(canvas).toMatchSVGSnapshot(
-        dir,
-        'plugins-history-add-combo-undo',
-      );
+      await expect(canvas).toMatchSVGSnapshot(dir, 'plugins-history-add-combo-undo');
       $redo.click();
-      await expect(canvas).toMatchSVGSnapshot(
-        dir,
-        'plugins-history-add-combo-redo',
-      );
+      await expect(canvas).toMatchSVGSnapshot(dir, 'plugins-history-add-combo-redo');
       $undo.click();
 
       /**

@@ -1,5 +1,4 @@
 import { Graph } from '../../../src/index';
-import { pxCompare } from '../util';
 
 const container = document.createElement('div');
 document.querySelector('body').appendChild(container);
@@ -37,9 +36,7 @@ describe('plugin', () => {
   it('menu with default config', (done) => {
     const graph = createGraph(['menu']);
     graph.on('afterlayout', (e) => {
-      const contextmenuDiv = document.getElementsByClassName(
-        'g6-component-contextmenu',
-      )?.[0];
+      const contextmenuDiv = document.getElementsByClassName('g6-component-contextmenu')?.[0];
       expect(contextmenuDiv).not.toBe(undefined);
     });
   });
@@ -50,7 +47,10 @@ describe('plugin', () => {
         key: 'menu1',
         type: 'menu',
         trigger: 'contextmenu',
-        /** async string menu */
+        /**
+         * async string menu
+         * @param e
+         */
         getContent: (e) => {
           return `
           <ul class='g6-contextmenu-ul'>
@@ -62,9 +62,7 @@ describe('plugin', () => {
       },
     ]);
     graph.on('afterlayout', (e) => {
-      const contextmenuDiv = document.getElementsByClassName(
-        'g6-component-contextmenu',
-      )?.[0];
+      const contextmenuDiv = document.getElementsByClassName('g6-component-contextmenu')?.[0];
       expect(contextmenuDiv).not.toBe(undefined);
     });
   });
@@ -75,7 +73,10 @@ describe('plugin', () => {
         key: 'menu1',
         type: 'menu',
         trigger: 'contextmenu',
-        /** async string menu */
+        /**
+         * async string menu
+         * @param e
+         */
         getContent: (e) => {
           const outDiv = document.createElement('div');
           outDiv.style.width = '180px';
@@ -91,9 +92,7 @@ describe('plugin', () => {
       },
     ]);
     graph.on('afterlayout', (e) => {
-      const contextmenuDiv = document.getElementsByClassName(
-        'g6-component-contextmenu',
-      )?.[0];
+      const contextmenuDiv = document.getElementsByClassName('g6-component-contextmenu')?.[0];
       expect(contextmenuDiv).not.toBe(undefined);
     });
   });
@@ -104,7 +103,10 @@ describe('plugin', () => {
         key: 'menu1',
         type: 'menu',
         trigger: 'contextmenu',
-        /** async string menu */
+        /**
+         * async string menu
+         * @param e
+         */
         getContent: (e) => {
           return new Promise((resolve) => {
             const data = `
@@ -122,9 +124,7 @@ describe('plugin', () => {
     ]);
 
     graph.on('afterlayout', (e) => {
-      const contextmenuDiv = document.getElementsByClassName(
-        'g6-component-contextmenu',
-      )?.[0];
+      const contextmenuDiv = document.getElementsByClassName('g6-component-contextmenu')?.[0];
       expect(contextmenuDiv).not.toBe(undefined);
     });
   });

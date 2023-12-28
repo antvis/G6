@@ -1,10 +1,10 @@
 import { DisplayObject } from '@antv/g';
-import { Plugin as Base, IPluginBaseConfig } from '../../../types/plugin';
 import { IGraph } from '../../../types';
 import { IG6GraphEvent } from '../../../types/event';
 import { ShapeStyle } from '../../../types/item';
-import { distance } from '../../../util/point';
+import { Plugin as Base, IPluginBaseConfig } from '../../../types/plugin';
 import { cloneJSON } from '../../../util/data';
+import { distance } from '../../../util/point';
 
 const DELTA = 0.01;
 interface EdgeFilterLensConfig extends IPluginBaseConfig {
@@ -138,9 +138,7 @@ export class EdgeFilterLens extends Base {
   }
 
   protected moveDelegate(e) {
-    if (
-      this.isInLensDelegate(this.delegate, { x: e.canvas.x, y: e.canvas.y })
-    ) {
+    if (this.isInLensDelegate(this.delegate, { x: e.canvas.x, y: e.canvas.y })) {
       const center = {
         x: e.canvas.x - this.delegateCenterDiff.x,
         y: e.canvas.y - this.delegateCenterDiff.y,
@@ -171,12 +169,8 @@ export class EdgeFilterLens extends Base {
     const { graph, options } = this;
     const graphCanvasEl = graph.canvas.context.config.canvas;
     const graphHeight = graphCanvasEl?.height || 500;
-    const maxR = options.maxR
-      ? Math.min(options.maxR, graphHeight)
-      : graphHeight;
-    const minR = options.minR
-      ? Math.max(options.minR, graphHeight * DELTA)
-      : graphHeight * DELTA;
+    const maxR = options.maxR ? Math.min(options.maxR, graphHeight) : graphHeight;
+    const minR = options.minR ? Math.max(options.minR, graphHeight * DELTA) : graphHeight * DELTA;
 
     const scale = 1 + (e.originalEvent as any).deltaY * -1 * DELTA;
     let r = options.r * scale;
@@ -190,16 +184,10 @@ export class EdgeFilterLens extends Base {
   /**
    * Response function for mousemove, click, or drag to filter out the edges
    * @param e mouse event
+   * @param mousePos
    */
   protected filter(e: IG6GraphEvent, mousePos?) {
-    const {
-      graph,
-      options,
-      showNodeLabel,
-      showEdgeLabel,
-      cachedTransientNodes,
-      cachedTransientEdges,
-    } = this;
+    const { graph, options, showNodeLabel, showEdgeLabel, cachedTransientNodes, cachedTransientEdges } = this;
     const r = options.r;
     const showType = options.showType;
     const shouldShow = options.shouldShow;
@@ -222,16 +210,10 @@ export class EdgeFilterLens extends Base {
       const targetId = edge.target;
       if (shouldShow(edge)) {
         if (showType === 'only-source' || showType === 'one') {
-          if (hitNodesMap.get(sourceId) && !hitNodesMap.get(targetId))
-            hitEdges.push(edge);
+          if (hitNodesMap.get(sourceId) && !hitNodesMap.get(targetId)) hitEdges.push(edge);
         } else if (showType === 'only-target' || showType === 'one') {
-          if (hitNodesMap.get(targetId) && !hitNodesMap.get(sourceId))
-            hitEdges.push(edge);
-        } else if (
-          showType === 'both' &&
-          hitNodesMap.get(sourceId) &&
-          hitNodesMap.get(targetId)
-        ) {
+          if (hitNodesMap.get(targetId) && !hitNodesMap.get(sourceId)) hitEdges.push(edge);
+        } else if (showType === 'both' && hitNodesMap.get(sourceId) && hitNodesMap.get(targetId)) {
           hitEdges.push(edge);
         }
       }
@@ -247,9 +229,7 @@ export class EdgeFilterLens extends Base {
         cachedTransientNodes.delete(node.id);
       } else {
         graph.drawTransient('node', node.id, {
-          shapeIds: showNodeLabel
-            ? ['labelShape', 'labelBackgroundShape', 'keyShape']
-            : ['keyShape'],
+          shapeIds: showNodeLabel ? ['labelShape', 'labelBackgroundShape', 'keyShape'] : ['keyShape'],
         });
       }
     });
@@ -319,8 +299,8 @@ export class EdgeFilterLens extends Base {
 
   /**
    * Update the delegate shape of the lens
-   * @param {Point} mCenter the center of the shape
-   * @param {number} r the radius of the shape
+   * @param mCenter the center of the shape
+   * @param r the radius of the shape
    */
   private updateDelegate(mCenter, r) {
     const { graph, options, delegate } = this;
@@ -357,12 +337,7 @@ export class EdgeFilterLens extends Base {
    * Clear the filtering
    */
   public clear() {
-    const {
-      graph,
-      delegate: lensDelegate,
-      cachedTransientNodes,
-      cachedTransientEdges,
-    } = this;
+    const { graph, delegate: lensDelegate, cachedTransientNodes, cachedTransientEdges } = this;
 
     if (lensDelegate && !lensDelegate.destroyed) {
       graph.drawTransient('circle', 'lens-shape', { action: 'remove' });

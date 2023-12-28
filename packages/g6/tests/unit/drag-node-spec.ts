@@ -1,8 +1,6 @@
 import G6 from '../../src/index';
 import { DragNodeOptions } from '../../src/stdlib/behavior/drag-node';
 import { IGraph } from '../../src/types';
-import { Behavior } from '../../src/types/behavior';
-import { extend } from '../../src/util/extend';
 const container = document.createElement('div');
 document.querySelector('body').appendChild(container);
 
@@ -110,13 +108,9 @@ describe('drag-node', () => {
       expect(graph.getItemVisible('edge1')).toBe(false);
       expect(graph.getItemVisible('edge2')).toBe(false);
       // @ts-ignore
-      expect(
-        graph.itemController.transientItemMap.get('node1').model.data.x,
-      ).toEqual(250);
+      expect(graph.itemController.transientItemMap.get('node1').model.data.x).toEqual(250);
       // @ts-ignore
-      expect(
-        graph.itemController.transientItemMap.get('node1').model.data.y,
-      ).toEqual(350);
+      expect(graph.itemController.transientItemMap.get('node1').model.data.y).toEqual(350);
 
       // Should update position when drag ends.
       graph.emit('pointerup', { client: { x: 250, y: 350 } });
@@ -177,9 +171,7 @@ describe('drag-node', () => {
       expect(graph.getItemVisible('node1')).toBe(true);
       expect(graph.getItemVisible('edge1')).toBe(true);
       // @ts-ignore
-      expect(graph.itemController.transientObjectMap).toHaveProperty(
-        'g6-drag-node-delegate-shape',
-      );
+      expect(graph.itemController.transientObjectMap).toHaveProperty('g6-drag-node-delegate-shape');
 
       // Should update position when drag ends.
       graph.emit('pointerup', { client: { x: 250, y: 350 } });

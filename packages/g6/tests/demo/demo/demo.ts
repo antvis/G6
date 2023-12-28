@@ -1,11 +1,9 @@
-import { initThreads, supportsThreads, ForceLayout } from '@antv/layout-wasm';
-import { labelPropagation } from '@antv/algorithm';
+import { initThreads, supportsThreads } from '@antv/layout-wasm';
 import Stats from 'stats.js';
-import G6, { Graph, Extensions, extend, GraphData } from '../../../src/index';
+import { Extensions, Graph, GraphData, extend } from '../../../src/index';
 
-import { container, height, width } from '../../datasets/const';
 import { RendererName } from '../../../src/types/render';
-import { Point } from '../../../src/types/common';
+import { container, width } from '../../datasets/const';
 import data from './data.json';
 import data3d from './data3d';
 
@@ -14,7 +12,7 @@ let dataFor2D: GraphData = { nodes: [], edges: [] };
 let dataFor3D: GraphData = { nodes: [], edges: [] };
 let colorSelects = [];
 const { nodes, edges } = data;
-export { nodes, edges };
+export { edges, nodes };
 
 const dataFormat = (dataAUR, options = {}, graphCore) => {
   const { dataAdded, dataUpdated, dataRemoved } = dataAUR;
@@ -443,8 +441,7 @@ const create3DGraph = async () => {
     let i = 0;
     const tick = () => {
       camera.setPosition([oripos[0], oripos[1], oripos[2] + k]);
-      const rdx =
-        i < 100 ? Math.min(i * 0.5, 20) : Math.min((200 - i) * 0.2, 20);
+      const rdx = i < 100 ? Math.min(i * 0.5, 20) : Math.min((200 - i) * 0.2, 20);
       rotate(camera, rdx, rdx, newGraph);
       timer = requestAnimationFrame(tick);
       if (i > 200) cancelAnimationFrame(timer);
@@ -582,9 +579,7 @@ const addButtons = () => {
   addColorBtn.style.color = 'rgb(34, 126, 255)';
   paletteContainer.appendChild(addColorBtn);
   addColorBtn.addEventListener('click', (e) => {
-    colorSelects.push(
-      generateColorSelect(`${colorSelects.length}`, colorsContainer),
-    );
+    colorSelects.push(generateColorSelect(`${colorSelects.length}`, colorsContainer));
   });
 
   const colorsContainer = document.createElement('div');
@@ -683,7 +678,6 @@ const handleSwitchRenderer = (rendererName, oldgraph) => {
       // oldgraph.changeRenderer('webgl');
       break;
     case 'svg':
-    // comming soon
     default:
       break;
   }
@@ -825,8 +819,7 @@ export default async () => {
   dataFor3D = getDataFor3D(data3d);
 
   graph = create2DGraph();
-  const { rendererSelect, themeSelect, customThemeSelect, zoomIn, zoomOut } =
-    addButtons();
+  const { rendererSelect, themeSelect, customThemeSelect, zoomIn, zoomOut } = addButtons();
 
   rendererSelect.addEventListener('change', (e: any) => {
     const type = e.target.value;

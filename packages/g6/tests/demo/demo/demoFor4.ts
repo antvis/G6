@@ -59,12 +59,7 @@ const subjectColors = [
   '#008685',
   '#F08BB4',
 ];
-const colorSets = G6.Util.getColorSetsBySubjectColors(
-  subjectColors,
-  '#fff',
-  'default',
-  '#777',
-);
+const colorSets = G6.Util.getColorSetsBySubjectColors(subjectColors, '#fff', 'default', '#777');
 
 clusteredData.clusters.forEach((cluster, i) => {
   const colorSet = colorSets[i % colorSets.length];

@@ -1,17 +1,17 @@
-export { extend } from './extend';
-export { mock } from './mock';
-export { isEncode } from './type';
 export { getArrowPath } from './arrow';
 export {
-  graphCoreTreeDfs,
   graphComboTreeDfs,
+  graphCoreTreeDfs,
+  graphData2TreeData,
+  isSucceed,
+  traverse,
+  traverseAncestors,
   traverseAncestorsAndSucceeds,
   traverseGraphAncestors,
-  traverseAncestors,
-  isSucceed,
   treeData2GraphData,
-  graphData2TreeData,
-  traverse,
 } from './data';
+export { extend } from './extend';
 export { getEdgesBetween } from './item';
 export { transform } from './matrix';
+export { mock } from './mock';
+export { isEncode } from './type';

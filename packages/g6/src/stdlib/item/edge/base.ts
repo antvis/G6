@@ -1,33 +1,14 @@
-import { AABB, DisplayObject, Line, Polyline } from '@antv/g';
-import { isNumber, isBoolean } from '@antv/util';
+import { DisplayObject, Line, Polyline } from '@antv/g';
+import { isBoolean } from '@antv/util';
 import { ID } from 'types';
-import {
-  DEFAULT_LABEL_BG_PADDING,
-  OTHER_SHAPES_FIELD_NAME,
-  RESERVED_SHAPE_IDS,
-} from '../../../constant';
-import { Point } from '../../../types/common';
-import {
-  ArrowStyle,
-  EdgeDisplayModel,
-  EdgeModelData,
-  EdgeShapeMap,
-  EdgeShapeStyles,
-} from '../../../types/edge';
-import {
-  GShapeStyle,
-  SHAPE_TYPE,
-  ShapeStyle,
-  State,
-  LodLevelRanges,
-  ItemModelData,
-} from '../../../types/item';
-import { formatPadding, mergeStyles, upsertShape } from '../../../util/shape';
-import { DEFAULT_ANIMATE_CFG, fadeIn, fadeOut } from '../../../util/animate';
-import { getWordWrapWidthByEnds } from '../../../util/text';
-import { AnimateCfg } from '../../../types/animate';
-import { DEFAULT_ARROW_CONFIG, getArrowPath } from '../../../util/arrow';
+import { DEFAULT_LABEL_BG_PADDING, OTHER_SHAPES_FIELD_NAME, RESERVED_SHAPE_IDS } from '../../../constant';
 import Node from '../../../item/node';
+import { Point } from '../../../types/common';
+import { ArrowStyle, EdgeDisplayModel, EdgeModelData, EdgeShapeMap, EdgeShapeStyles } from '../../../types/edge';
+import { GShapeStyle, LodLevelRanges, SHAPE_TYPE, ShapeStyle, State } from '../../../types/item';
+import { DEFAULT_ARROW_CONFIG, getArrowPath } from '../../../util/arrow';
+import { formatPadding, mergeStyles, upsertShape } from '../../../util/shape';
+import { getWordWrapWidthByEnds } from '../../../util/text';
 
 export abstract class BaseEdge {
   type: string;
@@ -87,23 +68,15 @@ export abstract class BaseEdge {
         dataStyles[fieldName] = data[fieldName] as ShapeStyle;
       } else if (fieldName === OTHER_SHAPES_FIELD_NAME) {
         Object.keys(data[fieldName]).forEach(
-          (otherShapeId) =>
-            (dataStyles[otherShapeId] = data[fieldName][otherShapeId]),
+          (otherShapeId) => (dataStyles[otherShapeId] = data[fieldName][otherShapeId]),
         );
       }
     });
-    const merged = mergeStyles([
-      this.themeStyles,
-      this.defaultStyles,
-      dataStyles,
-    ]) as EdgeShapeStyles;
+    const merged = mergeStyles([this.themeStyles, this.defaultStyles, dataStyles]) as EdgeShapeStyles;
 
     const padding = merged.labelBackgroundShape?.padding;
     if (padding) {
-      merged.labelBackgroundShape.padding = formatPadding(
-        padding,
-        DEFAULT_LABEL_BG_PADDING,
-      );
+      merged.labelBackgroundShape.padding = formatPadding(padding, DEFAULT_LABEL_BG_PADDING);
     }
     return merged;
   }
@@ -123,11 +96,7 @@ export abstract class BaseEdge {
     const { zoom } = this.#zoomCache;
 
     const { maxWidth = '60%' } = this.mergedStyles.labelShape || {};
-    this.#zoomCache.wordWrapWidth = getWordWrapWidthByEnds(
-      [this.sourcePoint, this.targetPoint],
-      maxWidth,
-      1,
-    );
+    this.#zoomCache.wordWrapWidth = getWordWrapWidthByEnds([this.sourcePoint, this.targetPoint], maxWidth, 1);
 
     this.#zoomCache.zoom = 1;
     if (zoom !== 1) this.onZoom(shapeMap, zoom);
@@ -161,6 +130,12 @@ export abstract class BaseEdge {
    * @param model The displayed model of this edge, only for drawing and not received by users.
    * @param shapeMap The shape map that contains all of the elements to show on the edge.
    * @param shapesChanged An array of shape IDs that have changed and need to be updated.
+   * @param diffData
+   * @param diffData.previous
+   * @param diffData.current
+   * @param diffState
+   * @param diffState.previous
+   * @param diffState.current
    * @returns An object that contains some new shapes to be added to the edge.
    */
   public afterDraw(
@@ -180,11 +155,7 @@ export abstract class BaseEdge {
    * @param value state value
    * @param shapeMap The shape map that contains all of the elements to show on the edge.
    */
-  public setState: (
-    name: string,
-    value: boolean,
-    shapeMap: { [shapeId: string]: DisplayObject },
-  ) => void;
+  public setState: (name: string, value: boolean, shapeMap: { [shapeId: string]: DisplayObject }) => void;
 
   /**
    * Draw the label shape of the edge
@@ -192,6 +163,10 @@ export abstract class BaseEdge {
    * @param shapeMap The shape map that contains all of the elements to show on the edge.
    * @param diffData An object that contains previous and current data.
    * @param diffState An object that contains previous and current edge's state.
+   * @param diffData.previous
+   * @param diffData.current
+   * @param diffState.previous
+   * @param diffState.current
    * @returns The display object representing the label shape of the edge.
    */
   public drawLabelShape(
@@ -238,18 +213,12 @@ export abstract class BaseEdge {
         break;
     }
 
-    const point = (keyShape as Line | Polyline).getPoint(
-      positionPreset.pointRatio[0],
-    );
+    const point = (keyShape as Line | Polyline).getPoint(positionPreset.pointRatio[0]);
     let positionStyle: any = { x: point.x, y: point.y };
     let isRevert = false;
     if (autoRotate) {
-      const pointOffset = (keyShape as Line | Polyline).getPoint(
-        positionPreset.pointRatio[1],
-      );
-      let angle = Math.atan(
-        (point.y - pointOffset.y) / (point.x - pointOffset.x),
-      );
+      const pointOffset = (keyShape as Line | Polyline).getPoint(positionPreset.pointRatio[1]);
+      let angle = Math.atan((point.y - pointOffset.y) / (point.x - pointOffset.x));
       if (isNaN(angle)) angle = 0;
 
       // revert
@@ -263,12 +232,8 @@ export abstract class BaseEdge {
           positionPreset.offsetX = 4;
         }
       }
-      const offsetX = (
-        propsOffsetX === undefined ? positionPreset.offsetX : propsOffsetX
-      ) as number;
-      const offsetY = (
-        propsOffsetY === undefined ? positionPreset.offsetY : propsOffsetY
-      ) as number;
+      const offsetX = (propsOffsetX === undefined ? positionPreset.offsetX : propsOffsetX) as number;
+      const offsetY = (propsOffsetY === undefined ? positionPreset.offsetY : propsOffsetY) as number;
       // the projection is |offsetX| away from point, along the tangent line of the keyShape's path at point
       const projection = {
         x: point.x + offsetX * Math.cos(angle),
@@ -285,11 +250,7 @@ export abstract class BaseEdge {
       ...positionStyle,
       isRevert,
     };
-    const wordWrapWidth = getWordWrapWidthByEnds(
-      [this.sourcePoint, this.targetPoint],
-      maxWidth,
-      this.#zoomCache.zoom,
-    );
+    const wordWrapWidth = getWordWrapWidthByEnds([this.sourcePoint, this.targetPoint], maxWidth, this.#zoomCache.zoom);
     this.#zoomCache.wordWrapWidth = wordWrapWidth;
     const style = {
       ...this.defaultStyles.labelShape,
@@ -314,6 +275,10 @@ export abstract class BaseEdge {
    * @param shapeMap The shape map that contains all of the elements to show on the edge.
    * @param diffData An object that contains previous and current data.
    * @param diffState An object that contains previous and current edge's state.
+   * @param diffData.previous
+   * @param diffData.current
+   * @param diffState.previous
+   * @param diffState.current
    * @returns The display object representing the label background shape of the edge.
    */
   public drawLabelBackgroundShape(
@@ -325,8 +290,7 @@ export abstract class BaseEdge {
     const { labelShape } = shapeMap;
     if (!labelShape || !labelShape.style.text || !model.data.labelShape) return;
 
-    const { labelBackgroundShape, labelShape: labelShapeStyle } =
-      this.mergedStyles;
+    const { labelBackgroundShape, labelShape: labelShapeStyle } = this.mergedStyles;
 
     const textGeoBBox = labelShape.getGeometryBounds();
     const { x, y, transform, isRevert } = this.labelPosition;
@@ -344,9 +308,7 @@ export abstract class BaseEdge {
     if (transform) bgStyle.transform = transform;
     if (labelShapeStyle.position === 'start') {
       if (isRevert) {
-        bgStyle.transformOrigin = `${bgStyle.width - padding[1]} ${
-          bgStyle.height / 2
-        }`;
+        bgStyle.transformOrigin = `${bgStyle.width - padding[1]} ${bgStyle.height / 2}`;
       } else {
         bgStyle.transformOrigin = `${padding[3]} ${bgStyle.height / 2}`;
       }
@@ -354,14 +316,10 @@ export abstract class BaseEdge {
       if (isRevert) {
         bgStyle.transformOrigin = `${padding[3]} ${bgStyle.height / 2}`;
       } else {
-        bgStyle.transformOrigin = `${bgStyle.width - padding[1]} ${
-          bgStyle.height / 2
-        }`;
+        bgStyle.transformOrigin = `${bgStyle.width - padding[1]} ${bgStyle.height / 2}`;
       }
     } else {
-      bgStyle.transformOrigin = `${textWidth / 2 + padding[3]} ${
-        textHeight / 2 + padding[0]
-      }`;
+      bgStyle.transformOrigin = `${textWidth / 2 + padding[3]} ${textHeight / 2 + padding[0]}`;
     }
 
     return this.upsertShape('rect', 'labelBackgroundShape', bgStyle, {
@@ -378,6 +336,10 @@ export abstract class BaseEdge {
    * @param shapeMap The shape map that contains all of the elements to show on the edge.
    * @param diffData An object that contains previous and current data.
    * @param diffState An object that contains previous and current edge's state.
+   * @param diffData.previous
+   * @param diffData.current
+   * @param diffState.previous
+   * @param diffState.current
    * @returns The display object representing the icon shape of the edge.
    */
   public drawIconShape(
@@ -387,17 +349,9 @@ export abstract class BaseEdge {
     diffState?: { previous: State[]; current: State[] },
   ): DisplayObject {
     const { labelShape, labelBackgroundShape, keyShape } = shapeMap;
-    const { iconShape: shapeStyle, labelShape: labelShapeProps } =
-      this.mergedStyles;
+    const { iconShape: shapeStyle, labelShape: labelShapeProps } = this.mergedStyles;
 
-    const {
-      width,
-      height,
-      fontSize,
-      text,
-      offsetX = 0,
-      offsetY = 0,
-    } = shapeStyle;
+    const { width, height, fontSize, text, offsetX = 0, offsetY = 0 } = shapeStyle;
     const w = (width || fontSize) as number;
     const h = (height || fontSize) as number;
 
@@ -414,34 +368,24 @@ export abstract class BaseEdge {
     if (labelShapeProps) {
       const referShape = labelBackgroundShape || labelShape;
       const referBounds = referShape.getGeometryBounds();
-      const {
-        min: referMin,
-        max: referMax,
-        halfExtents: referHalExtents,
-      } = referBounds;
+      const { min: referMin, max: referMax, halfExtents: referHalExtents } = referBounds;
       const referHeight = referMax[1] - referMin[1];
       const referWidth = referMax[0] - referMin[0];
-      const {
-        x: referX,
-        y: referY,
-        transform: referTransform,
-      } = referShape.attributes;
+      const { x: referX, y: referY, transform: referTransform } = referShape.attributes;
       const { textAlign: labelAlign } = labelShape.attributes;
       shapeStyle.x = referMin[0] - w + 4 + referX + offsetX;
       shapeStyle.y = referMin[1] + (referHeight - h) / 2 + referY + offsetY;
       if (referTransform) {
         shapeStyle.transform = referTransform;
         if (labelAlign === 'right') {
-          shapeStyle.transformOrigin = `${
-            referWidth / 2 - w / 2 + 4 + referHalExtents[0] - offsetX
-          } ${h / 2 - offsetY}`;
+          shapeStyle.transformOrigin = `${referWidth / 2 - w / 2 + 4 + referHalExtents[0] - offsetX} ${
+            h / 2 - offsetY
+          }`;
         } else if (labelAlign === 'left') {
           shapeStyle.transformOrigin = `${w + 4 - offsetX} ${h / 2 - offsetY}`;
         } else {
           // labelShape align 'center'
-          shapeStyle.transformOrigin = `${(w + referWidth) / 2 - offsetX} ${
-            h / 2 - offsetY
-          }`;
+          shapeStyle.transformOrigin = `${(w + referWidth) / 2 - offsetX} ${h / 2 - offsetY}`;
         }
       }
     } else {
@@ -451,17 +395,12 @@ export abstract class BaseEdge {
       // TODO: rotate
     }
 
-    return this.upsertShape(
-      iconShapeType,
-      'iconShape',
-      shapeStyle as GShapeStyle,
-      {
-        model,
-        shapeMap,
-        diffData,
-        diffState,
-      },
-    );
+    return this.upsertShape(iconShapeType, 'iconShape', shapeStyle as GShapeStyle, {
+      model,
+      shapeMap,
+      diffData,
+      diffState,
+    });
   }
 
   /**
@@ -470,6 +409,10 @@ export abstract class BaseEdge {
    * @param shapeMap The shape map that contains all of the elements to show on the edge.
    * @param diffData An object that contains previous and current data.
    * @param diffState An object that contains previous and current edge's state.
+   * @param diffData.previous
+   * @param diffData.current
+   * @param diffState.previous
+   * @param diffState.current
    * @returns The display object representing the halo shape of the edge.
    */
   public drawHaloShape(
@@ -512,12 +455,9 @@ export abstract class BaseEdge {
    * The listener for graph zooming.
    * @param shapeMap The shape map that contains all of the elements to show on the edge.
    * @param zoom The zoom level of the graph.
+   * @param cacheHiddenShape
    */
-  public onZoom = (
-    shapeMap: EdgeShapeMap,
-    zoom: number,
-    cacheHiddenShape = {},
-  ) => {};
+  public onZoom = (shapeMap: EdgeShapeMap, zoom: number, cacheHiddenShape = {}) => {};
 
   /**
    * Update the source point { x, y } for the edge. Called in item's draw func.
@@ -564,17 +504,8 @@ export abstract class BaseEdge {
       resultStyle[`${markerField}Offset`] = 0;
       return;
     }
-    const arrowStyle = isBoolean(arrowConfig)
-      ? ({ ...DEFAULT_ARROW_CONFIG } as ArrowStyle)
-      : arrowConfig;
-    const {
-      type = 'triangle',
-      width = 10,
-      height = 10,
-      path: propPath,
-      offset = 0,
-      ...others
-    } = arrowStyle;
+    const arrowStyle = isBoolean(arrowConfig) ? ({ ...DEFAULT_ARROW_CONFIG } as ArrowStyle) : arrowConfig;
+    const { type = 'triangle', width = 10, height = 10, path: propPath, offset = 0, ...others } = arrowStyle;
     resultStyle[markerField] = this.upsertShape(
       'path',
       `${markerField}Shape`,
@@ -599,8 +530,17 @@ export abstract class BaseEdge {
    * @param type shape's type
    * @param id unique string to indicates the shape
    * @param style style to be updated
+   * @param config
    * @param shapeMap the shape map of a edge
    * @param model data model of the edge
+   * @param config.model
+   * @param config.shapeMap
+   * @param config.diffData
+   * @param config.diffData.previous
+   * @param config.diffData.current
+   * @param config.diffState
+   * @param config.diffState.previous
+   * @param config.diffState.current
    * @returns The display object representing the shape.
    */
   public upsertShape(

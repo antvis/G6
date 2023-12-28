@@ -1,11 +1,4 @@
-import {
-  DisplayObject,
-  Group,
-  IAnimation,
-  Line,
-  Path,
-  Polyline,
-} from '@antv/g';
+import { DisplayObject, Group, IAnimation, Line, Path, Polyline } from '@antv/g';
 import { isString, uniq } from '@antv/util';
 import { AnimateTiming, IAnimate, IAnimates } from '../types/animate';
 import { ItemShapeStyles, ShapeStyle } from '../types/item';
@@ -14,6 +7,7 @@ import { cloneJSON } from './data';
 
 /**
  * Initial(timing = show) shape animation start from init shape styles, and end to the shape's style config.
+ * @param shape
  */
 export const getShapeAnimateBeginStyles = (shape) => {
   if (!shape) return {};
@@ -120,7 +114,8 @@ const getStyleDiff = (style1: ShapeStyle, style2: ShapeStyle) => {
 /**
  * Grouping the animates at a timing by order.
  * @param animates
- * @param timing
+ * @param segmentedTiming
+ * @param changedStates
  * @returns
  */
 const groupTimingAnimates = (
@@ -144,11 +139,14 @@ const groupTimingAnimates = (
 /**
  * Execute animations in order at a timing.
  * @param shapeMap
- * @param group
+ * @param shapeIds
+ * @param groups
  * @param timingAnimates
  * @param targetStylesMap
  * @param timing
  * @param onfinish
+ * @param cancelAnimations
+ * @param canceled
  */
 const runAnimateGroupOnShapes = (
   shapeMap: { [shapeId: string]: DisplayObject },
@@ -188,8 +186,7 @@ const runAnimateGroupOnShapes = (
           else if (field !== 'opacity') usingFields.push(field);
           else hasOpacity = true;
         });
-        const targetStyle =
-          targetStylesMap.group || GROUP_ANIMATE_STYLES[isOut ? 0 : 1];
+        const targetStyle = targetStylesMap.group || GROUP_ANIMATE_STYLES[isOut ? 0 : 1];
         if (hasCanceled) {
           Object.keys(targetStyle).forEach((key) => {
             groups.forEach((group) => (group.style[key] = targetStyle[key]));
@@ -200,9 +197,7 @@ const runAnimateGroupOnShapes = (
             shapeIdsToAnimate.forEach((sid) => {
               if (!shapeMap[sid]) return;
               const { opacity: targetOpacity = isOut ? 0 : 1 } =
-                targetStylesMap[sid] ||
-                targetStylesMap.otherShapes?.[sid] ||
-                {};
+                targetStylesMap[sid] || targetStylesMap.otherShapes?.[sid] || {};
               animates.push(
                 runAnimateOnShape(
                   shapeMap[sid],
@@ -217,41 +212,22 @@ const runAnimateGroupOnShapes = (
           if (usingFields.length) {
             animates = animates.concat(
               groups.map((group) =>
-                runAnimateOnShape(
-                  group,
-                  usingFields,
-                  targetStyle,
-                  GROUP_ANIMATE_STYLES[isOut ? 1 : 0],
-                  animateConfig,
-                ),
+                runAnimateOnShape(group, usingFields, targetStyle, GROUP_ANIMATE_STYLES[isOut ? 1 : 0], animateConfig),
               ),
             );
           }
         }
       } else {
         const shape = shapeMap[shapeId];
-        if (
-          shape &&
-          shape.style.display !== 'none' &&
-          shape.style.visibility !== 'hidden'
-        ) {
-          const targetStyle =
-            targetStylesMap[shapeId] ||
-            targetStylesMap.otherShapes?.[shapeId] ||
-            {};
+        if (shape && shape.style.display !== 'none' && shape.style.visibility !== 'hidden') {
+          const targetStyle = targetStylesMap[shapeId] || targetStylesMap.otherShapes?.[shapeId] || {};
           if (hasCanceled) {
             Object.keys(targetStyle).forEach((key) => {
               shape.style[key] = targetStyle[key];
             });
           } else {
             animates.push(
-              runAnimateOnShape(
-                shape,
-                fields,
-                targetStyle,
-                getShapeAnimateBeginStyles(shape),
-                animateConfig,
-              ),
+              runAnimateOnShape(shape, fields, targetStyle, getShapeAnimateBeginStyles(shape), animateConfig),
             );
           }
         }
@@ -306,41 +282,20 @@ const runAnimateOnShape = (
   } else {
     animateArr = [{}, {}];
     fields.forEach((key) => {
-      animateArr[0][key] =
-        shape.style[key] === undefined
-          ? cloneJSON(beginStyle[key])
-          : cloneJSON(shape.style[key]);
+      animateArr[0][key] = shape.style[key] === undefined ? cloneJSON(beginStyle[key]) : cloneJSON(shape.style[key]);
       if (targetStyle[key] === undefined) return;
       animateArr[1][key] = cloneJSON(targetStyle[key]);
       if (key === 'lineDash') {
-        const beginPercents = uniq(
-          animateArr[0][key].filter(
-            (val) => isString(val) && val.includes('%'),
-          ),
-        );
-        const targetPercents = uniq(
-          animateArr[1][key].filter(
-            (val) => isString(val) && val.includes('%'),
-          ),
-        );
+        const beginPercents = uniq(animateArr[0][key].filter((val) => isString(val) && val.includes('%')));
+        const targetPercents = uniq(animateArr[1][key].filter((val) => isString(val) && val.includes('%')));
         if (beginPercents.length || targetPercents.length) {
           percentLineDash = cloneJSON(animateArr[0].lineDash);
-          const totalLength = (
-            shape as Line | Polyline | Path
-          ).getTotalLength();
+          const totalLength = (shape as Line | Polyline | Path).getTotalLength();
           beginPercents.forEach((percent, i) => {
-            replaceElements(
-              animateArr[0][key],
-              percent,
-              (Number(percent.replace('%', '')) / 100) * totalLength,
-            );
+            replaceElements(animateArr[0][key], percent, (Number(percent.replace('%', '')) / 100) * totalLength);
           });
           targetPercents.forEach((percent, i) => {
-            replaceElements(
-              animateArr[1][key],
-              percent,
-              (Number(percent.replace('%', '')) / 100) * totalLength,
-            );
+            replaceElements(animateArr[1][key], percent, (Number(percent.replace('%', '')) / 100) * totalLength);
           });
         }
       } else if (key === 'offsetDistance') {
@@ -351,13 +306,10 @@ const runAnimateOnShape = (
   if (!checkFrames(animateArr, shape)) return;
   if (!shape.isVisible()) {
     // Invisible, do not apply animate. Directly assign the target style instead.
-    Object.keys(animateArr[1]).forEach(
-      (field) => (shape.style[field] = animateArr[1][field]),
-    );
+    Object.keys(animateArr[1]).forEach((field) => (shape.style[field] = animateArr[1][field]));
     return;
   }
-  if (animateConfig.iterations === -1 || animateConfig.iterations === null)
-    animateConfig.iterations = Infinity;
+  if (animateConfig.iterations === -1 || animateConfig.iterations === null) animateConfig.iterations = Infinity;
   const animation = shape.animate(animateArr, animateConfig);
   if (percentLineDash) {
     animation.onfinish = () => {
@@ -376,13 +328,11 @@ const runAnimateOnShape = (
 const checkFrames = (frames, shape) => {
   if (JSON.stringify(frames[0]) === JSON.stringify(frames[1])) return false;
   ['x', 'y'].forEach((dim) => {
-    if (!frames[0].hasOwnProperty(dim)) return;
+    if (!(dim in frames[0])) return;
     let val;
     const formatted = [...frames];
-    if (frames[0][dim] === undefined && frames[0][dim] !== frames[1][dim])
-      val = frames[1][dim];
-    if (frames[1][dim] === undefined && frames[0][dim] !== frames[1][dim])
-      val = frames[1][dim];
+    if (frames[0][dim] === undefined && frames[0][dim] !== frames[1][dim]) val = frames[1][dim];
+    if (frames[1][dim] === undefined && frames[0][dim] !== frames[1][dim]) val = frames[1][dim];
     if (val !== undefined) {
       shape.style[dim] = val;
       delete formatted[0][dim];
@@ -400,8 +350,12 @@ const checkFrames = (frames, shape) => {
  * @param animates
  * @param mergedStyles
  * @param shapeMap
- * @param group
- * @param timing timing to match 'when' in the animate config in style
+ * @param shapeIds
+ * @param groups
+ * @param timing
+ * @param changedStates
+ * @param onAnimatesFrame
+ * @param onAnimatesEnd
  * @returns
  */
 export const animateShapes = (
@@ -419,13 +373,8 @@ export const animateShapes = (
     onAnimatesEnd(false);
     return;
   }
-  const segmentedTiming =
-    timing === 'update' && changedStates?.length ? 'stateUpdate' : timing;
-  const timingAnimateGroups = groupTimingAnimates(
-    animates,
-    segmentedTiming,
-    changedStates,
-  );
+  const segmentedTiming = timing === 'update' && changedStates?.length ? 'stateUpdate' : timing;
+  const timingAnimateGroups = groupTimingAnimates(animates, segmentedTiming, changedStates);
   let i = 0;
   const groupKeys = Object.keys(timingAnimateGroups);
   if (!groupKeys.length) return;

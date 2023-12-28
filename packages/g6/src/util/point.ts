@@ -53,9 +53,7 @@ export const distance = (p1: Point, p2: Point): number => {
   const vx = p1.x - p2.x;
   const vy = p1.y - p2.y;
   const vz = p1.z - p2.z;
-  return isNaN(vz)
-    ? Math.sqrt(vx * vx + vy * vy)
-    : Math.sqrt(vx * vx + vy * vy + vz * vz);
+  return isNaN(vz) ? Math.sqrt(vx * vx + vy * vy) : Math.sqrt(vx * vx + vy * vy + vz * vz);
 };
 
 /**
@@ -71,9 +69,12 @@ export const isSamePoint = (p1: Point, p2: Point): boolean => {
 
 /**
  * Get point and circle intersect point.
- * @param {ICircle} circle Circle's center x,y and radius r
- * @param {Point} point Point x,y
- * @return {Point} calculated intersect point
+ * @param circleProps - Circle's center x,y and radius r
+ * @param circleProps.x
+ * @param point - Point x,y
+ * @param circleProps.y
+ * @param circleProps.r
+ * @returns calculated intersect point
  */
 export const getCircleIntersectByPoint = (
   circleProps: { x: number; y: number; r: number },
@@ -96,9 +97,13 @@ export const getCircleIntersectByPoint = (
 
 /**
  * Get point and ellipse inIntersect.
- * @param {Object} ellipse ellipse center x,y and radius rx,ry
- * @param {Object} point Point x,y
- * @return {object} calculated intersect point
+ * @param ellipseProps - ellipse center x,y and radius rx,ry
+ * @param ellipseProps.rx
+ * @param point - Point x,y
+ * @param ellipseProps.ry
+ * @param ellipseProps.x
+ * @param ellipseProps.y
+ * @returns calculated intersect point
  */
 export const getEllipseIntersectByPoint = (
   ellipseProps: {
@@ -129,9 +134,13 @@ export const getEllipseIntersectByPoint = (
 
 /**
  * Point and rectangular intersection point.
- * @param  {IRect} rect  rect
- * @param  {Point} point point
- * @return {PointPoint} rst;
+ * @param rectProps - rect
+ * @param rectProps.x
+ * @param point - point
+ * @param rectProps.y
+ * @param rectProps.width
+ * @param rectProps.height
+ * @returns rst;
  */
 export const getRectIntersectByPoint = (
   rectProps: { x: number; y: number; width: number; height: number },
@@ -181,14 +190,9 @@ export const getRectIntersectByPoint = (
  * @param  {Point}  p1 The end point of the first line.
  * @param  {Point}  p2 The start point of the second line.
  * @param  {Point}  p3 The end point of the second line.
- * @return {Point}  Calculated intersect point.
+ * @returns {Point}  Calculated intersect point.
  */
-export const getLineIntersect = (
-  p0: Point,
-  p1: Point,
-  p2: Point,
-  p3: Point,
-): Point | null => {
+export const getLineIntersect = (p0: Point, p1: Point, p2: Point, p3: Point): Point | null => {
   const tolerance = 0.0001;
 
   const E: Point = {

@@ -1,7 +1,7 @@
-import type { ITEM_TYPE } from '../../../types/item';
 import type { IGraph } from '../../../types';
-import type { GroupedChanges } from '../../../util/event';
 import { STACK_TYPE, type StackType } from '../../../types/history';
+import type { ITEM_TYPE } from '../../../types/item';
+import type { GroupedChanges } from '../../../util/event';
 import { Command } from './command';
 
 export class ItemDataCommand implements Command {
@@ -38,11 +38,7 @@ export class ItemDataCommand implements Command {
     });
   }
 
-  private updateChangedData(
-    graph: IGraph,
-    operationType: StackType,
-    onlyMove = false,
-  ) {
+  private updateChangedData(graph: IGraph, operationType: StackType, onlyMove = false) {
     const modelMap = new Map();
     if (this.type === 'combo' && !onlyMove) {
       this.changes.forEach((data) => {
@@ -57,8 +53,7 @@ export class ItemDataCommand implements Command {
       });
     } else {
       this.changes.forEach((data) => {
-        const value =
-          operationType === STACK_TYPE.undo ? data.oldValue : data.newValue;
+        const value = operationType === STACK_TYPE.undo ? data.oldValue : data.newValue;
         if (
           (typeof value === 'number' && isNaN(value)) ||
           (['x', 'y'].includes(data.propertyName) && value === undefined)
@@ -93,11 +88,7 @@ export class ItemDataCommand implements Command {
     this.action === 'remove' && this.addChangedData(graph);
     this.action === 'update' && this.updateChangedData(graph, STACK_TYPE.undo);
     this.action === 'updatePosition' &&
-      this.updateChangedData(
-        graph,
-        STACK_TYPE.undo,
-        this.action === 'updatePosition',
-      );
+      this.updateChangedData(graph, STACK_TYPE.undo, this.action === 'updatePosition');
   }
 
   redo(graph: IGraph) {
@@ -105,10 +96,6 @@ export class ItemDataCommand implements Command {
     this.action === 'add' && this.addChangedData(graph);
     this.action === 'update' && this.updateChangedData(graph, STACK_TYPE.redo);
     this.action === 'updatePosition' &&
-      this.updateChangedData(
-        graph,
-        STACK_TYPE.redo,
-        this.action === 'updatePosition',
-      );
+      this.updateChangedData(graph, STACK_TYPE.redo, this.action === 'updatePosition');
   }
 }

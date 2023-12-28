@@ -34,14 +34,7 @@ const createGraph = () => {
       type: 'grid',
     },
     modes: {
-      default: [
-        'zoom-canvas',
-        'drag-canvas',
-        'drag-node',
-        'brush-select',
-        'click-select',
-        'hover-activate',
-      ],
+      default: ['zoom-canvas', 'drag-canvas', 'drag-node', 'brush-select', 'click-select', 'hover-activate'],
     },
     theme: {
       type: 'spec',

@@ -1,5 +1,5 @@
-import { debounce, uniqueId, throttle, isArray } from '@antv/util';
 import { AABB } from '@antv/g';
+import { debounce, isArray, throttle, uniqueId } from '@antv/util';
 import {
   ComboDisplayModel,
   ComboModel,
@@ -11,9 +11,9 @@ import {
   NodeModel,
 } from '../../../types';
 import { Plugin as Base, IPluginBaseConfig } from '../../../types/plugin';
+import { GraphTransformOptions } from '../../../types/view';
 import { intersectBBox } from '../../../util/shape';
 import { getZoomLevel } from '../../../util/zoom';
-import { GraphTransformOptions } from '../../../types/view';
 
 /**
  * This is an interface named `LodControllerConfig`, which extends the `IPluginBaseConfig` interface. It contains the following properties:
@@ -36,10 +36,7 @@ export class LodController extends Base {
     newlyOutView: (NodeModel | EdgeModel | ComboModel)[];
     newlyInView: (NodeModel | EdgeModel | ComboModel)[];
   };
-  private displayModelCache: Map<
-    ID,
-    NodeDisplayModel | EdgeDisplayModel | ComboDisplayModel
-  > = new Map();
+  private displayModelCache: Map<ID, NodeDisplayModel | EdgeDisplayModel | ComboDisplayModel> = new Map();
   private renderBoundsCache: Map<ID, AABB | false> = new Map();
   private canvasCellDirty: boolean = true;
   private canvasCellSize = 100;
@@ -92,9 +89,7 @@ export class LodController extends Base {
       const nodes = graph.getAllNodesData();
       this.debounce = Math.min(Math.floor(nodes.length / 100), 80);
     }
-    this.debounceUpdateVisible = this.getDebounceFn(
-      this.updateVisible.bind(this),
-    );
+    this.debounceUpdateVisible = this.getDebounceFn(this.updateVisible.bind(this));
   };
 
   protected onAfterLayout = () => {
@@ -104,7 +99,7 @@ export class LodController extends Base {
   };
   /**
    * Update grid.
-   * @param param
+   * @param params
    */
   protected updateCells = (params?: GraphTransformOptions) => {
     if (!this.graph.canvasReady) return;
@@ -122,8 +117,7 @@ export class LodController extends Base {
 
   private updateVisible = (zoomRatio = 1) => {
     const { graph, cacheViewModels, options } = this;
-    const { cellSize, numberPerCell, disableAnimate, disableLod } =
-      options || {};
+    const { cellSize, numberPerCell, disableAnimate, disableLod } = options || {};
     const graphZoom = graph.getZoom();
     const { inView } = cacheViewModels || this.groupItemsByView(1);
 
@@ -142,21 +136,14 @@ export class LodController extends Base {
       const displayModel = this.getDisplayModel(model.id);
       const { lodLevels, x, y, z, ...others } = displayModel.data;
       const lodLevelsEmpty = isEmptyObj(lodLevels);
-      const currentZoomLevel = lodLevelsEmpty
-        ? 0
-        : getZoomLevel(lodLevels as any, graphZoom);
+      const currentZoomLevel = lodLevelsEmpty ? 0 : getZoomLevel(lodLevels as any, graphZoom);
       const autoVisibleShapeIds = [];
       const lodVisibleShapeIds = [];
       const invisibleShapeIds = [];
       Object.keys(others).forEach((shapeId) => {
         if (shapeId === 'keyShape') return;
         const val = others[shapeId] as any;
-        if (
-          !val ||
-          typeof val !== 'object' ||
-          !Object.keys(val).length ||
-          isArray(val)
-        ) {
+        if (!val || typeof val !== 'object' || !Object.keys(val).length || isArray(val)) {
           return;
         }
         const { lod, visible } = val;
@@ -204,10 +191,8 @@ export class LodController extends Base {
     cells.forEach((cell) => {
       // priority: lod Visible > shown last time > rest auto
       cell.sort((a, b) => {
-        const { lodVisibleShapeIds: aLodVisibleShapeIds } =
-          candidateShapeMap.get(a);
-        const { lodVisibleShapeIds: bLodVisibleShapeIds } =
-          candidateShapeMap.get(b);
+        const { lodVisibleShapeIds: aLodVisibleShapeIds } = candidateShapeMap.get(a);
+        const { lodVisibleShapeIds: bLodVisibleShapeIds } = candidateShapeMap.get(b);
         if (lodVisibleIds.includes(b) && bLodVisibleShapeIds.length) return 1;
         if (lodVisibleIds.includes(a) && aLodVisibleShapeIds.length) return -1;
         const bShownLastTime = this.shownIds.has(b) && !lodInvisibleIds.has(b);
@@ -218,8 +203,7 @@ export class LodController extends Base {
       });
       let rest = numberPerCell;
       cell.forEach((id) => {
-        const { lodVisibleShapeIds, autoVisibleShapeIds, invisibleShapeIds } =
-          candidateShapeMap.get(id);
+        const { lodVisibleShapeIds, autoVisibleShapeIds, invisibleShapeIds } = candidateShapeMap.get(id);
 
         if (!disableLod && invisibleShapeIds.length) {
           graph.hideItem(id, { shapeIds: invisibleShapeIds, disableAnimate });
@@ -227,8 +211,7 @@ export class LodController extends Base {
         const item = graph.itemController.itemMap.get(id);
         if (
           disableLod ||
-          (item.labelGroup.children.length &&
-            (rest > 0 || (zoomRatio >= 1 && this.shownIds.has(id))))
+          (item.labelGroup.children.length && (rest > 0 || (zoomRatio >= 1 && this.shownIds.has(id))))
         ) {
           const shapeIdsToShow = lodVisibleShapeIds.concat(autoVisibleShapeIds);
           if (shapeIdsToShow.length) {
@@ -244,10 +227,7 @@ export class LodController extends Base {
           shownIds.set(id, 1);
           rest--;
         } else {
-          if (
-            lodVisibleShapeIds.includes('labelShape') &&
-            this.labelPositionDirty.has(id)
-          ) {
+          if (lodVisibleShapeIds.includes('labelShape') && this.labelPositionDirty.has(id)) {
             item.updateLabelPosition(disableLod);
             this.labelPositionDirty.delete(id);
           }
@@ -273,15 +253,12 @@ export class LodController extends Base {
     this.shownIds = shownIds;
   };
 
-  private debounceUpdateVisible = this.getDebounceFn(
-    this.updateVisible.bind(this),
-  );
+  private debounceUpdateVisible = this.getDebounceFn(this.updateVisible.bind(this));
 
   private updateLabelPositions = throttle(
     (zoomRatio) => {
       const { graph, options } = this;
-      const { inView, newlyOutView, newlyInView } =
-        this.groupItemsByView(zoomRatio);
+      const { inView, newlyOutView, newlyInView } = this.groupItemsByView(zoomRatio);
       const graphZoom = graph.getZoom();
       const levelCache = {};
       this.labelPositionDirty.clear();
@@ -298,8 +275,7 @@ export class LodController extends Base {
           !item.labelGroup.children.length ||
           !item.shapeMap.labelShape ||
           (!options?.disableLod &&
-            (item.labelGroup.style.visibility === 'hidden' ||
-              item.shapeMap.labelShape.style.visibility === 'hidden'))
+            (item.labelGroup.style.visibility === 'hidden' || item.shapeMap.labelShape.style.visibility === 'hidden'))
         ) {
           return;
         }
@@ -333,9 +309,7 @@ export class LodController extends Base {
         }
         const levelsKey = JSON.stringify(lodLevels);
         const currentZoomLevel =
-          levelCache[levelsKey] || lodLevelsEmpty
-            ? 0
-            : getZoomLevel(lodLevels as any, graphZoom);
+          levelCache[levelsKey] || lodLevelsEmpty ? 0 : getZoomLevel(lodLevels as any, graphZoom);
         levelCache[levelsKey] = currentZoomLevel;
         if (lod <= currentZoomLevel) {
           // lod visible
@@ -366,6 +340,7 @@ export class LodController extends Base {
 
   /**
    * get the items inside viewport
+   * @param ratio
    * @returns
    */
   private groupItemsByView = (ratio: number = 1) => {
@@ -386,15 +361,13 @@ export class LodController extends Base {
       if (
         rowIdx > canvasCellRowRange[0] &&
         rowIdx < canvasCellRowRange[1] &&
-        (Math.abs(colIdx - canvasCellColRange[0]) < 2 ||
-          Math.abs(colIdx - canvasCellColRange[1]) < 2)
+        (Math.abs(colIdx - canvasCellColRange[0]) < 2 || Math.abs(colIdx - canvasCellColRange[1]) < 2)
       ) {
         return true;
       } else if (
         colIdx > canvasCellColRange[0] &&
         colIdx < canvasCellColRange[1] &&
-        (Math.abs(rowIdx - canvasCellRowRange[0]) < 2 ||
-          Math.abs(rowIdx - canvasCellRowRange[1]) < 2)
+        (Math.abs(rowIdx - canvasCellRowRange[0]) < 2 || Math.abs(rowIdx - canvasCellRowRange[1]) < 2)
       ) {
         return true;
       }
@@ -410,8 +383,7 @@ export class LodController extends Base {
     };
     const newlyOutView = [];
     const newlyInView = [];
-    const cacheIsEmpty =
-      !this.cacheViewModels || (!inView.length && !outView.length);
+    const cacheIsEmpty = !this.cacheViewModels || (!inView.length && !outView.length);
     if (!ratio || ratio === 1 || cacheIsEmpty) {
       const previousOutView = new Map();
       const previousInView = new Map();
@@ -551,7 +523,7 @@ export class LodController extends Base {
 
   protected beforeViewportAnimation = () => {
     if (this.animationUpdateTimer) return;
-    this.animationUpdateTimer = setInterval(() => {
+    this.animationUpdateTimer = window.setInterval(() => {
       this.updateLabelPositions();
     }, 16);
   };

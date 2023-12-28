@@ -1,13 +1,12 @@
 import force3D from '../demo/layouts/force-3d';
-import './utils/useSnapshotMatchers';
 import { createContext } from './utils';
+import './utils/useSnapshotMatchers';
 
 const dir = `${__dirname}/snapshots/layouts`;
 
 describe('Force3D layout', () => {
   it.skip('should be rendered correctly with WebGL', (done) => {
-    const { backgroundCanvas, canvas, transientCanvas, container } =
-      createContext(500, 500);
+    const { backgroundCanvas, canvas, transientCanvas, container } = createContext(500, 500);
 
     const graph = force3D({
       container,

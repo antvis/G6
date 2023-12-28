@@ -13,6 +13,8 @@ import { RendererName } from '../types/render';
  * @param {number} width
  * @param {number} height
  * @param {number} pixelRatio optional
+ * @param canvasConfig
+ * @param unregisterPlugins
  * @returns
  */
 export const createCanvas = (
@@ -71,10 +73,7 @@ export const createCanvas = (
  * @param canvas Canvas instance
  * @returns
  */
-export const changeRenderer = (
-  rendererType: RendererName,
-  canvas: Canvas,
-): Canvas => {
+export const changeRenderer = (rendererType: RendererName, canvas: Canvas): Canvas => {
   let renderer: any;
   switch (rendererType.toLowerCase()) {
     case 'svg':

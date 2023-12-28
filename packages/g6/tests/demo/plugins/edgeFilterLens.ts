@@ -1,7 +1,7 @@
 import { clone } from '@antv/util';
-import { Graph, Extensions, extend } from '../../../src/index';
-import { TestCaseContext } from '../interface';
+import { Extensions, Graph, extend } from '../../../src/index';
 import data from '../../datasets/force-data.json';
+import { TestCaseContext } from '../interface';
 
 export default (context: TestCaseContext, options = {}) => {
   const trigger = 'mousemove';
@@ -25,16 +25,14 @@ export default (context: TestCaseContext, options = {}) => {
 
   // tip
   const tip = document.createElement('span');
-  tip.innerHTML =
-    '点击画布任意位置开始探索。过滤镜中显示两端节点均在过滤镜中的边。';
+  tip.innerHTML = '点击画布任意位置开始探索。过滤镜中显示两端节点均在过滤镜中的边。';
   buttonContainer.appendChild(tip);
 
   buttonContainer.appendChild(document.createElement('br'));
 
   // tip english
   const tipEn = document.createElement('span');
-  tipEn.innerHTML =
-    'Click the canvas to begin. Show the edge whose both end nodes are inside the lens.';
+  tipEn.innerHTML = 'Click the canvas to begin. Show the edge whose both end nodes are inside the lens.';
   buttonContainer.appendChild(tipEn);
 
   buttonContainer.appendChild(document.createElement('br'));

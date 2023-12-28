@@ -5,38 +5,21 @@ import { Command } from '../stdlib/plugin/history/command';
 import { Hooks } from '../types/hook';
 import { CameraAnimationOptions } from './animate';
 import { BehaviorOptionsOf, BehaviorRegistry } from './behavior';
-import {
-  ComboDisplayModel,
-  ComboModel,
-  ComboShapesEncode,
-  ComboUserModel,
-} from './combo';
+import { ComboDisplayModel, ComboModel, ComboShapesEncode, ComboUserModel } from './combo';
 import { Padding, Point } from './common';
 import { GraphData } from './data';
-import {
-  EdgeDisplayModel,
-  EdgeModel,
-  EdgeShapesEncode,
-  EdgeUserModel,
-} from './edge';
+import { EdgeDisplayModel, EdgeModel, EdgeShapesEncode, EdgeUserModel } from './edge';
 import type { StackType } from './history';
 import { ITEM_TYPE, SHAPE_TYPE, ShapeStyle } from './item';
 import { LayoutOptions } from './layout';
-import {
-  NodeDisplayModel,
-  NodeModel,
-  NodeShapesEncode,
-  NodeUserModel,
-} from './node';
+import { NodeDisplayModel, NodeModel, NodeShapesEncode, NodeUserModel } from './node';
 import { RendererName } from './render';
 import { ComboMapper, EdgeMapper, NodeMapper, Specification } from './spec';
 import { ThemeOptionsOf, ThemeRegistry } from './theme';
 import { FitViewRules, GraphTransformOptions } from './view';
 
-export interface IGraph<
-  B extends BehaviorRegistry = BehaviorRegistry,
-  T extends ThemeRegistry = ThemeRegistry,
-> extends EventEmitter {
+export interface IGraph<B extends BehaviorRegistry = BehaviorRegistry, T extends ThemeRegistry = ThemeRegistry>
+  extends EventEmitter {
   [x: string]: any;
   hooks: Hooks;
   canvas: Canvas;
@@ -63,36 +46,27 @@ export interface IGraph<
   updateTheme: (theme: ThemeOptionsOf<T>) => void;
   /**
    * Update the item display mapper for a specific item type.
-   * @param {ITEM_TYPE} type - The type of item (node, edge, or combo).
-   * @param {NodeMapper | EdgeMapper | ComboMapper} mapper - The mapper to be updated.
-   * */
-  updateMapper: (
-    type: ITEM_TYPE,
-    mapper: NodeMapper | EdgeMapper | ComboMapper,
-  ) => void;
+   * @param type - The type of item (node, edge, or combo).
+   * @param mapper - The mapper to be updated.
+   */
+  updateMapper: (type: ITEM_TYPE, mapper: NodeMapper | EdgeMapper | ComboMapper) => void;
   /**
    * Updates the state configuration for the specified item type, corresponds to the nodeState, edgeState, or comboState on the graph spec.
-   * @param {string} itemType - The type of item (node, edge, or combo).
-   * @param {object} stateConfig - The state configuration to update.
-   * @param {string} updateType - The type of update ('mergeReplace' or 'replace'). Default is 'mergeReplace'.
-   **/
+   * @param itemType - The type of item (node, edge, or combo).
+   * @param stateConfig - The state configuration to update.
+   * @param updateType - The type of update ('mergeReplace' or 'replace'). Default is 'mergeReplace'.
+   */
   updateStateConfig: (
     itemType: ITEM_TYPE,
     stateConfig:
       | {
-          [stateName: string]:
-            | ((data: NodeModel) => NodeDisplayModel)
-            | NodeShapesEncode;
+          [stateName: string]: ((data: NodeModel) => NodeDisplayModel) | NodeShapesEncode;
         }
       | {
-          [stateName: string]:
-            | ((data: EdgeModel) => EdgeDisplayModel)
-            | EdgeShapesEncode;
+          [stateName: string]: ((data: EdgeModel) => EdgeDisplayModel) | EdgeShapesEncode;
         }
       | {
-          [stateName: string]:
-            | ((data: ComboModel) => ComboDisplayModel)
-            | ComboShapesEncode;
+          [stateName: string]: ((data: ComboModel) => ComboDisplayModel) | ComboShapesEncode;
         },
     updateType?: 'mergeReplace' | 'replace',
   ) => void;
@@ -154,30 +128,21 @@ export interface IGraph<
    * @returns one-hop edge ids
    * @group Data
    */
-  getRelatedEdgesData: (
-    nodeId: ID,
-    direction?: 'in' | 'out' | 'both',
-  ) => EdgeModel[];
+  getRelatedEdgesData: (nodeId: ID, direction?: 'in' | 'out' | 'both') => EdgeModel[];
   /**
    * Get nearby edges from a start node using quad-tree collision detection.
    * @param nodeId id of the start node
    * @returns nearby edges' data array
    * @group Data
    */
-  getNearEdgesData: (
-    nodeId: ID,
-    shouldBegin?: (edge: EdgeDisplayModel) => boolean,
-  ) => EdgeModel[];
+  getNearEdgesData: (nodeId: ID, shouldBegin?: (edge: EdgeDisplayModel) => boolean) => EdgeModel[];
   /**
    * Get one-hop node ids from a start node.
    * @param nodeId id of the start node
    * @returns one-hop node ids
    * @group Data
    */
-  getNeighborNodesData: (
-    nodeId: ID,
-    direction?: 'in' | 'out' | 'both',
-  ) => NodeModel[];
+  getNeighborNodesData: (nodeId: ID, direction?: 'in' | 'out' | 'both') => NodeModel[];
   /*
    * Get the children's data of a combo.
    * @param comboId combo id
@@ -207,11 +172,7 @@ export interface IGraph<
    * @returns
    * @group Data
    */
-  changeData: (
-    data: GraphData,
-    type?: 'replace' | 'mergeReplace',
-    relayout?: boolean,
-  ) => void;
+  changeData: (data: GraphData, type?: 'replace' | 'mergeReplace', relayout?: boolean) => void;
   /**
    * Clear the graph, means remove all the items on the graph.
    * @returns
@@ -242,20 +203,8 @@ export interface IGraph<
    */
   addData: (
     itemType: ITEM_TYPE,
-    model:
-      | NodeUserModel
-      | EdgeUserModel
-      | ComboUserModel
-      | NodeUserModel[]
-      | EdgeUserModel[]
-      | ComboUserModel[],
-  ) =>
-    | NodeModel
-    | EdgeModel
-    | ComboModel
-    | NodeModel[]
-    | EdgeModel[]
-    | ComboModel[];
+    model: NodeUserModel | EdgeUserModel | ComboUserModel | NodeUserModel[] | EdgeUserModel[] | ComboUserModel[],
+  ) => NodeModel | EdgeModel | ComboModel | NodeModel[] | EdgeModel[] | ComboModel[];
   /**
    * Remove one or more node/edge/combo data from the graph.
    * @param itemType the type the item(s) to be removed.
@@ -275,19 +224,8 @@ export interface IGraph<
     model:
       | Partial<NodeUserModel>
       | Partial<EdgeUserModel>
-      | Partial<
-          | ComboUserModel
-          | Partial<NodeUserModel>[]
-          | Partial<EdgeUserModel>[]
-          | Partial<ComboUserModel>[]
-        >,
-  ) =>
-    | NodeModel
-    | EdgeModel
-    | ComboModel
-    | NodeModel[]
-    | EdgeModel[]
-    | ComboModel[];
+      | Partial<ComboUserModel | Partial<NodeUserModel>[] | Partial<EdgeUserModel>[] | Partial<ComboUserModel>[]>,
+  ) => NodeModel | EdgeModel | ComboModel | NodeModel[] | EdgeModel[] | ComboModel[];
 
   /**
    * Update one or more nodes' positions,
@@ -299,17 +237,10 @@ export interface IGraph<
    * @group Data
    */
   updateNodePosition: (
-    models:
-      | Partial<NodeUserModel>
-      | Partial<
-          ComboUserModel | Partial<NodeUserModel>[] | Partial<ComboUserModel>[]
-        >,
+    models: Partial<NodeUserModel> | Partial<ComboUserModel | Partial<NodeUserModel>[] | Partial<ComboUserModel>[]>,
     upsertAncestors?: boolean,
     disableAnimate?: boolean,
-    callback?: (
-      model: NodeModel | EdgeModel | ComboModel,
-      canceled?: boolean,
-    ) => void,
+    callback?: (model: NodeModel | EdgeModel | ComboModel, canceled?: boolean) => void,
   ) => NodeModel | ComboModel | NodeModel[] | ComboModel[];
 
   /**
@@ -322,11 +253,7 @@ export interface IGraph<
    * @group Data
    */
   updateComboPosition: (
-    models:
-      | Partial<ComboUserModel>
-      | Partial<
-          ComboUserModel | Partial<NodeUserModel>[] | Partial<ComboUserModel>[]
-        >,
+    models: Partial<ComboUserModel> | Partial<ComboUserModel | Partial<NodeUserModel>[] | Partial<ComboUserModel>[]>,
     upsertAncestors?: boolean,
     disableAnimate?: boolean,
     callback?: (model: NodeModel | EdgeModel | ComboModel) => void,
@@ -348,10 +275,7 @@ export interface IGraph<
     dx: number,
     dy: number,
     upsertAncestors?: boolean,
-    callback?: (
-      model: NodeModel | EdgeModel | ComboModel,
-      canceled?: boolean,
-    ) => void,
+    callback?: (model: NodeModel | EdgeModel | ComboModel, canceled?: boolean) => void,
   ) => ComboModel[];
 
   // ===== view operations =====
@@ -377,10 +301,7 @@ export interface IGraph<
    * @param effectTiming animation configurations
    * @group View
    */
-  translateTo: (
-    point: PointLike,
-    effectTiming?: CameraAnimationOptions,
-  ) => Promise<void>;
+  translateTo: (point: PointLike, effectTiming?: CameraAnimationOptions) => Promise<void>;
   /**
    * Return the current zoom level of camera.
    * @returns current zoom
@@ -394,11 +315,7 @@ export interface IGraph<
    * @param effectTiming animation configurations
    * @group View
    */
-  zoom: (
-    ratio: number,
-    center?: Point,
-    effectTiming?: CameraAnimationOptions,
-  ) => Promise<void>;
+  zoom: (ratio: number, center?: Point, effectTiming?: CameraAnimationOptions) => Promise<void>;
   /**
    * Zoom the graph to a specified ratio.
    * @param toRatio specified ratio
@@ -406,11 +323,7 @@ export interface IGraph<
    * @param effectTiming animation configurations
    * @group View
    */
-  zoomTo: (
-    toRatio: number,
-    center?: Point,
-    effectTiming?: CameraAnimationOptions,
-  ) => Promise<void>;
+  zoomTo: (toRatio: number, center?: Point, effectTiming?: CameraAnimationOptions) => Promise<void>;
   /**
    * Rotate the graph with a relative angle in clockwise.
    * @param angle
@@ -418,11 +331,7 @@ export interface IGraph<
    * @param effectTiming
    * @group View
    */
-  rotate: (
-    angle: number,
-    center?: Point,
-    effectTiming?: CameraAnimationOptions,
-  ) => Promise<void>;
+  rotate: (angle: number, center?: Point, effectTiming?: CameraAnimationOptions) => Promise<void>;
   /**
    * Rotate the graph to an absolute angle in clockwise.
    * @param toAngle
@@ -430,11 +339,7 @@ export interface IGraph<
    * @param effectTiming
    * @group View
    */
-  rotateTo: (
-    toAngle: number,
-    center?: Point,
-    effectTiming?: CameraAnimationOptions,
-  ) => Promise<void>;
+  rotateTo: (toAngle: number, center?: Point, effectTiming?: CameraAnimationOptions) => Promise<void>;
 
   /**
    * Transform the graph with a CSS-Transform-like syntax.
@@ -442,10 +347,7 @@ export interface IGraph<
    * @param effectTiming
    * @group View
    */
-  transform: (
-    options: GraphTransformOptions,
-    effectTiming?: CameraAnimationOptions,
-  ) => Promise<void>;
+  transform: (options: GraphTransformOptions, effectTiming?: CameraAnimationOptions) => Promise<void>;
   /**
    * Stop the current transition of transform immediately.
    * @group View
@@ -477,20 +379,14 @@ export interface IGraph<
    * @returns
    * @group View
    */
-  fitCenter: (
-    boundsType?: 'render' | 'layout',
-    effectTiming?: CameraAnimationOptions,
-  ) => Promise<void>;
+  fitCenter: (boundsType?: 'render' | 'layout', effectTiming?: CameraAnimationOptions) => Promise<void>;
   /**
    * Move the graph to make the item align the view center.
    * @param item node/edge/combo item or its id
    * @param effectTiming animation configurations
    * @group View
    */
-  focusItem: (
-    id: ID | ID[],
-    effectTiming?: CameraAnimationOptions,
-  ) => Promise<void>;
+  focusItem: (id: ID | ID[], effectTiming?: CameraAnimationOptions) => Promise<void>;
   /**
    * Get the size of the graph canvas.
    * @returns [width, height]
@@ -543,10 +439,7 @@ export interface IGraph<
    * @returns
    * @group Data
    */
-  showItem: (
-    ids: ID | ID[],
-    options?: { disableAnimate?: boolean; shapeIds?: string[] },
-  ) => void;
+  showItem: (ids: ID | ID[], options?: { disableAnimate?: boolean; shapeIds?: string[] }) => void;
   /**
    * Hide the item(s).
    * @param ids the item id(s) to be hidden
@@ -614,11 +507,7 @@ export interface IGraph<
    * @param id the id for the node / edge / combo, undefined for the whole graph
    * @returns rendering bounding box. returns false if the item is not exist
    */
-  getRenderBBox: (
-    id: ID | undefined,
-    onlyKeyShape?: boolean,
-    isTransient?: boolean,
-  ) => AABB | false;
+  getRenderBBox: (id: ID | undefined, onlyKeyShape?: boolean, isTransient?: boolean) => AABB | false;
 
   /**
    * Get the visibility for a node / edge / combo.
@@ -693,10 +582,7 @@ export interface IGraph<
    * @returns
    * @group Interaction
    */
-  addBehaviors: (
-    behaviors: BehaviorOptionsOf<B> | BehaviorOptionsOf<B>[],
-    modes: string | string[],
-  ) => void;
+  addBehaviors: (behaviors: BehaviorOptionsOf<B> | BehaviorOptionsOf<B>[], modes: string | string[]) => void;
   /**
    * Remove behavior(s) from mode(s).
    * @param behaviors behavior names or configs
@@ -771,11 +657,7 @@ export interface IGraph<
    * @returns
    * @group Plugin
    */
-  updatePlugin: (pluginCfg: {
-    key: string;
-    type: string;
-    [cfgName: string]: unknown;
-  }) => void;
+  updatePlugin: (pluginCfg: { key: string; type: string; [cfgName: string]: unknown }) => void;
 
   // ===== history operations =====
 

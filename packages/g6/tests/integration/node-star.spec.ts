@@ -1,20 +1,16 @@
 import star from '../demo/demo/star';
-import './utils/useSnapshotMatchers';
 import { createContext } from './utils';
 import { triggerEvent } from './utils/event';
+import './utils/useSnapshotMatchers';
 
 const dir = `${__dirname}/snapshots/items/node/star`;
 
 describe('node star', () => {
   it('should be rendered correctly', (done) => {
-    const {
-      backgroundCanvas,
-      canvas,
-      container,
-      labelCanvas,
-      transientCanvas,
-      transientLabelCanvas,
-    } = createContext(500, 500);
+    const { backgroundCanvas, canvas, container, labelCanvas, transientCanvas, transientLabelCanvas } = createContext(
+      500,
+      500,
+    );
 
     const graph = star({
       backgroundCanvas,

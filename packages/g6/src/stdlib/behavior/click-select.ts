@@ -73,9 +73,7 @@ export class ClickSelect extends Behavior {
     super(Object.assign({}, DEFAULT_OPTIONS, options));
     // Validate options
     if (options.trigger && !ALLOWED_TRIGGERS.includes(options.trigger)) {
-      console.warn(
-        `G6: Invalid trigger option "${options.trigger}" for click-select behavior!`,
-      );
+      console.warn(`G6: Invalid trigger option "${options.trigger}" for click-select behavior!`);
       this.options.trigger = DEFAULT_OPTIONS.trigger;
     }
   }
@@ -127,12 +125,8 @@ export class ClickSelect extends Behavior {
     const state = this.options.selectedState;
     const multiple = this.isMultipleSelect(event as any);
     // FIXME: should use graph.getItemState() instead
-    const isSelectAction = !this.graph
-      .findIdByState(itemType, state)
-      .includes(itemId);
-    const action: 'select' | 'unselect' = isSelectAction
-      ? 'select'
-      : 'unselect';
+    const isSelectAction = !this.graph.findIdByState(itemType, state).includes(itemId);
+    const action: 'select' | 'unselect' = isSelectAction ? 'select' : 'unselect';
 
     // Select/Unselect item.
     if (this.options.shouldUpdate(event)) {
@@ -190,8 +184,7 @@ export class ClickSelect extends Behavior {
   }
 
   public onCanvasPointerUp(event: IG6GraphEvent) {
-    if (this.canvasPointerDown && !this.canvasPointerMove)
-      this.onCanvasClick(event);
+    if (this.canvasPointerDown && !this.canvasPointerMove) this.onCanvasClick(event);
     this.canvasPointerDown = undefined;
     this.canvasPointerMove = false;
   }

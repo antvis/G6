@@ -1,16 +1,16 @@
 import { DisplayObject, Group } from '@antv/g';
 import {
-  SphereGeometry,
   CubeGeometry,
   Mesh,
   MeshBasicMaterial,
   MeshLambertMaterial,
   MeshPhongMaterial,
   PlaneGeometry,
+  SphereGeometry,
 } from '@antv/g-plugin-3d';
 import { EdgeShapeMap } from '../types/edge';
-import { NodeShapeMap } from '../types/node';
 import { GShapeStyle, SHAPE_TYPE, SHAPE_TYPE_3D } from '../types/item';
+import { NodeShapeMap } from '../types/node';
 import { createShape } from './shape';
 
 const GeometryTagMap = {
@@ -21,23 +21,14 @@ const GeometryTagMap = {
 
 const GEOMETRY_SIZE = 10;
 
-export const createShape3D = (
-  type: SHAPE_TYPE_3D | SHAPE_TYPE,
-  style: GShapeStyle,
-  id: string,
-  device: any,
-) => {
+export const createShape3D = (type: SHAPE_TYPE_3D | SHAPE_TYPE, style: GShapeStyle, id: string, device: any) => {
   // It is not a 3d Shape but 2d.
   if (!GeometryTagMap[type]) {
     return createShape(type as SHAPE_TYPE, style, id);
   }
 
   // materialType: 'lambert' | 'phong' | 'basic', TODO: type
-  const {
-    materialType = 'lambert',
-    materialProps = {},
-    ...otherStyles
-  } = style as any;
+  const { materialType = 'lambert', materialProps = {}, ...otherStyles } = style as any;
   if (!device.GeometryCache) {
     device.GeometryCache = {};
   }
@@ -45,14 +36,11 @@ export const createShape3D = (
   // Share the same geometry & material between meshes.
   let cachedGeometry = device.GeometryCache[type];
   if (!cachedGeometry) {
-    cachedGeometry = device.GeometryCache[type] = new GeometryTagMap[type](
-      device,
-      {
-        radius: GEOMETRY_SIZE,
-        latitudeBands: 32,
-        longitudeBands: 32,
-      },
-    );
+    cachedGeometry = device.GeometryCache[type] = new GeometryTagMap[type](device, {
+      radius: GEOMETRY_SIZE,
+      latitudeBands: 32,
+      longitudeBands: 32,
+    });
   }
 
   if (!device.MaterialCache) {
@@ -61,26 +49,18 @@ export const createShape3D = (
   if (!device.MaterialCache[materialType as string]) {
     switch (materialType) {
       case 'basic':
-        device.MaterialCache[materialType as string] = new MeshBasicMaterial(
-          device,
-          materialProps,
-        );
+        device.MaterialCache[materialType as string] = new MeshBasicMaterial(device, materialProps);
         break;
       case 'phong': {
-        device.MaterialCache[materialType as string] = new MeshPhongMaterial(
-          device,
-          {
-            shininess: 30,
-            ...materialProps,
-          },
-        );
+        device.MaterialCache[materialType as string] = new MeshPhongMaterial(device, {
+          shininess: 30,
+          ...materialProps,
+        });
+        break;
       }
       case 'lambert':
       default: {
-        device.MaterialCache[materialType as string] = new MeshLambertMaterial(
-          device,
-          materialProps,
-        );
+        device.MaterialCache[materialType as string] = new MeshLambertMaterial(device, materialProps);
         break;
       }
     }
@@ -103,19 +83,14 @@ export const createShape3D = (
   // Scale the shape to the correct size.
   switch (type) {
     case 'cube':
-      shape.scale([
-        style.width / GEOMETRY_SIZE,
-        style.height / GEOMETRY_SIZE,
-        style.depth / GEOMETRY_SIZE,
-      ]);
+      shape.scale([style.width / GEOMETRY_SIZE, style.height / GEOMETRY_SIZE, style.depth / GEOMETRY_SIZE]);
       break;
     case 'plane':
       shape.scale(style.width / GEOMETRY_SIZE, 1, style.depth / GEOMETRY_SIZE);
       break;
     case 'sphere':
     default: {
-      const scaling =
-        (((style as any).r || style.radius) as number) / GEOMETRY_SIZE;
+      const scaling = (((style as any).r || style.radius) as number) / GEOMETRY_SIZE;
       shape.scale(scaling);
     }
   }
@@ -159,6 +134,8 @@ export const upsertShape3D = (
  * @param prevShapeMap previous shape map
  * @param newShapeMap new shape map
  * @param group container group
+ * @param removeDiff
+ * @param shouldUpdate
  * @returns merged shape map
  */
 export const updateShapes3D = (

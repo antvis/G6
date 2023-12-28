@@ -1,9 +1,9 @@
 import { DisplayObject } from '@antv/g';
 import { ID } from '@antv/graphlib';
+import { IGraph } from '../../types';
+import { Point } from '../../types/common';
 import { IG6GraphEvent } from '../../types/event';
 import lassoSelector from '../selector/lasso';
-import { Point } from '../../types/common';
-import { IGraph } from '../../types';
 import { BrushSelect } from './brush-select';
 
 const ALLOWED_TRIGGERS = ['drag', 'shift', 'ctrl', 'alt', 'meta'] as const;
@@ -11,7 +11,7 @@ const LASSO_SHAPE_ID = 'g6-lasso-select-brush-shape';
 type Trigger = (typeof ALLOWED_TRIGGERS)[number];
 
 export class LassoSelect extends BrushSelect {
-  brush: DisplayObject;
+  declare brush: DisplayObject;
   selectedIds: {
     nodes: ID[];
     edges: ID[];
@@ -22,9 +22,9 @@ export class LassoSelect extends BrushSelect {
     combos: [],
   };
   points: Point[] = [];
-  beginPoint: Point;
-  mousedown: boolean;
-  graph: IGraph;
+  declare beginPoint: Point;
+  declare mousedown: boolean;
+  declare graph: IGraph;
 
   public onMouseDown = (event: IG6GraphEvent) => {
     this.points = [];

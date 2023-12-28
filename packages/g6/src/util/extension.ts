@@ -8,11 +8,7 @@ import { StdLibCategory } from '../types/stdlib';
  * @param {StdLibCategory} cat category of the extension
  * @returns
  */
-export const getExtension = (
-  config: string | Function | object,
-  lib,
-  cat: StdLibCategory,
-) => {
+export const getExtension = (config: string | Function | object, lib, cat: StdLibCategory) => {
   const catKey = `${cat}s`;
   // TODO: whether keep function type config?
   if (isFunction(config)) {

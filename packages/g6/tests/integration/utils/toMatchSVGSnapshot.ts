@@ -1,8 +1,8 @@
-import * as path from 'path';
-import * as fs from 'fs';
 import { Canvas } from '@antv/g';
-import xmlserializer from 'xmlserializer';
+import * as fs from 'fs';
+import * as path from 'path';
 import { format } from 'prettier';
+import xmlserializer from 'xmlserializer';
 import { sleep } from './sleep';
 
 export type ToMatchSVGSnapshotOptions = {
@@ -10,15 +10,18 @@ export type ToMatchSVGSnapshotOptions = {
   keepSVGElementId?: boolean;
 };
 const formatSVG = (svg: string, keepSVGElementId: boolean) => {
-  return (
-    keepSVGElementId
-      ? svg
-      : svg.replace(/id="[^"]*"/g, '').replace(/clip-path="[^"]*"/g, '')
-  ).replace('\r\n', '\n');
+  return (keepSVGElementId ? svg : svg.replace(/id="[^"]*"/g, '').replace(/clip-path="[^"]*"/g, '')).replace(
+    '\r\n',
+    '\n',
+  );
 };
 
 /**
  * Merge multiple svg into one.
+ * @param gCanvas
+ * @param dir
+ * @param name
+ * @param options
  */
 // @see https://jestjs.io/docs/26.x/expect#expectextendmatchers
 export async function toMatchSVGSnapshot(
@@ -38,22 +41,18 @@ export async function toMatchSVGSnapshot(
   let actual: string = '';
 
   // Clone <svg>
-  const svg = (
-    gCanvases[0].getContextService().getDomElement() as unknown as SVGElement
-  ).cloneNode(true) as SVGElement;
+  const svg = (gCanvases[0].getContextService().getDomElement() as unknown as SVGElement).cloneNode(true) as SVGElement;
   const gRoot = svg.querySelector('#g-root');
 
   gCanvases.slice(1).forEach((gCanvas) => {
-    const dom = (
-      gCanvas.getContextService().getDomElement() as unknown as SVGElement
-    ).cloneNode(true) as SVGElement;
+    const dom = (gCanvas.getContextService().getDomElement() as unknown as SVGElement).cloneNode(true) as SVGElement;
 
     gRoot?.append(...(dom.querySelector('#g-root')?.childNodes || []));
   });
 
   actual += svg
     ? formatSVG(
-        format(xmlserializer.serializeToString(svg as any), {
+        await format(xmlserializer.serializeToString(svg as any), {
           parser: 'babel',
         }),
         keepSVGElementId,

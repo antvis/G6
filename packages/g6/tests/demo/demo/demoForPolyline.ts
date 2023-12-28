@@ -1,5 +1,5 @@
 import Stats from 'stats.js';
-import { Graph, Extensions, extend } from '../../../src/index';
+import { Extensions, Graph, extend } from '../../../src/index';
 
 import { container, height, width } from '../../datasets/const';
 

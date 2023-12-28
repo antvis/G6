@@ -2,12 +2,7 @@
 
 import { DisplayObject } from '@antv/g';
 import { clone } from '@antv/util';
-import G6, {
-  EdgeDisplayModel,
-  Graph,
-  IGraph,
-  NodeDisplayModel,
-} from '../../src/index';
+import G6, { EdgeDisplayModel, Graph, IGraph, NodeDisplayModel } from '../../src/index';
 import { LineEdge } from '../../src/stdlib/item/edge';
 import { CircleNode } from '../../src/stdlib/item/node';
 import { NodeModelData, NodeShapeMap } from '../../src/types/node';
@@ -84,12 +79,8 @@ describe('edge item', () => {
     expect(edgeItem.shapeMap.labelShape.attributes.text).toBe('edge-label');
     const fill = edgeItem.shapeMap.labelShape.attributes.fill;
     expect(fill).toBe('rgba(0,0,0,0.85)');
-    expect(edgeItem.shapeMap.labelShape.attributes.transform).toBe(
-      'rotate(45)',
-    );
-    expect(edgeItem.shapeMap.labelBackgroundShape.attributes.transform).toBe(
-      'rotate(45)',
-    );
+    expect(edgeItem.shapeMap.labelShape.attributes.transform).toBe('rotate(45)');
+    expect(edgeItem.shapeMap.labelBackgroundShape.attributes.transform).toBe('rotate(45)');
     let labelBounds = edgeItem.shapeMap.labelShape.getGeometryBounds();
     expect(edgeItem.shapeMap.labelBackgroundShape.attributes.width).toBe(
       labelBounds.max[0] - labelBounds.min[0] + padding[1] + padding[3],
@@ -108,15 +99,13 @@ describe('edge item', () => {
       },
     });
     expect(edgeItem.shapeMap.labelShape.attributes.fill).toBe('#00f');
-    expect(
-      edgeItem.shapeMap.labelShape.attributes.x -
-        edgeItem.shapeMap.labelBackgroundShape.attributes.x,
-    ).toBe(padding[3]);
+    expect(edgeItem.shapeMap.labelShape.attributes.x - edgeItem.shapeMap.labelBackgroundShape.attributes.x).toBe(
+      padding[3],
+    );
     labelBounds = edgeItem.shapeMap.labelShape.getGeometryBounds();
     const labelWidth = labelBounds.max[0] - labelBounds.min[0];
     const labelHeight = labelBounds.max[1] - labelBounds.min[1];
-    const labelBgBounds =
-      edgeItem.shapeMap.labelBackgroundShape.getGeometryBounds();
+    const labelBgBounds = edgeItem.shapeMap.labelBackgroundShape.getGeometryBounds();
     const labelBgWidth = labelBgBounds.max[0] - labelBgBounds.min[0];
     const labelBgHeight = labelBgBounds.max[1] - labelBgBounds.min[1];
     expect(labelBgWidth - labelWidth).toBe(padding[1] + padding[3]);
@@ -154,19 +143,11 @@ describe('edge item', () => {
     const edgeItem = graph.itemController.itemMap.get('edge1');
     let { labelShape, iconShape, labelBackgroundShape } = edgeItem.shapeMap;
     expect(iconShape.attributes.x + iconShape.attributes.width + 6).toBe(
-      labelBackgroundShape.getGeometryBounds().min[0] +
-        labelBackgroundShape.attributes.x,
+      labelBackgroundShape.getGeometryBounds().min[0] + labelBackgroundShape.attributes.x,
     );
-    expect(iconShape.attributes.transform).toBe(
-      labelBackgroundShape.attributes.transform,
-    );
-    expect(
-      Math.floor(iconShape.attributes.y + iconShape.attributes.height / 2),
-    ).toBeCloseTo(
-      Math.floor(
-        labelBackgroundShape.getGeometryBounds().center[1] +
-          labelBackgroundShape.attributes.y,
-      ),
+    expect(iconShape.attributes.transform).toBe(labelBackgroundShape.attributes.transform);
+    expect(Math.floor(iconShape.attributes.y + iconShape.attributes.height / 2)).toBeCloseTo(
+      Math.floor(labelBackgroundShape.getGeometryBounds().center[1] + labelBackgroundShape.attributes.y),
       0.01,
     );
 
@@ -185,19 +166,11 @@ describe('edge item', () => {
     iconShape = edgeItem.shapeMap['iconShape'];
     labelBackgroundShape = edgeItem.shapeMap['labelBackgroundShape'];
     expect(iconShape.attributes.x + iconShape.attributes.fontSize + 6).toBe(
-      labelBackgroundShape.getGeometryBounds().min[0] +
-        labelBackgroundShape.attributes.x,
+      labelBackgroundShape.getGeometryBounds().min[0] + labelBackgroundShape.attributes.x,
     );
-    expect(iconShape.attributes.transform).toBe(
-      labelBackgroundShape.attributes.transform,
-    );
-    expect(
-      Math.floor(iconShape.attributes.y + iconShape.attributes.fontSize / 2),
-    ).toBeCloseTo(
-      Math.floor(
-        labelBackgroundShape.getGeometryBounds().center[1] +
-          labelBackgroundShape.attributes.y,
-      ),
+    expect(iconShape.attributes.transform).toBe(labelBackgroundShape.attributes.transform);
+    expect(Math.floor(iconShape.attributes.y + iconShape.attributes.fontSize / 2)).toBeCloseTo(
+      Math.floor(labelBackgroundShape.getGeometryBounds().center[1] + labelBackgroundShape.attributes.y),
       0.01,
     );
 
@@ -214,15 +187,11 @@ describe('edge item', () => {
     iconShape = edgeItem.shapeMap['iconShape'];
     labelBackgroundShape = edgeItem.shapeMap['labelBackgroundShape'];
     expect(iconShape.attributes.x + iconShape.attributes.fontSize + 6).toBe(
-      labelBackgroundShape.getGeometryBounds().min[0] +
-        labelBackgroundShape.attributes.x,
+      labelBackgroundShape.getGeometryBounds().min[0] + labelBackgroundShape.attributes.x,
     );
-    expect(iconShape.attributes.transform).toBe(
-      labelShape.attributes.transform,
-    );
+    expect(iconShape.attributes.transform).toBe(labelShape.attributes.transform);
     expect(iconShape.attributes.y + iconShape.attributes.fontSize / 2).toBe(
-      labelBackgroundShape.getGeometryBounds().center[1] +
-        labelBackgroundShape.attributes.y,
+      labelBackgroundShape.getGeometryBounds().center[1] + labelBackgroundShape.attributes.y,
     );
     graph.destroy();
     done();
@@ -310,23 +279,18 @@ describe('edge mapper', () => {
         keyShape: {
           stroke: {
             fields: ['buStatus'],
-            formatter: (innerModel) =>
-              innerModel.data.buStatus ? '#0f0' : '#f00',
+            formatter: (innerModel) => (innerModel.data.buStatus ? '#0f0' : '#f00'),
           },
           lineWidth: 5,
           lineDash: {
             fields: ['buStatus', 'buType'],
-            formatter: (innerModel) =>
-              innerModel.data.buStatus || innerModel.data.buType
-                ? undefined
-                : [5, 5],
+            formatter: (innerModel) => (innerModel.data.buStatus || innerModel.data.buType ? undefined : [5, 5]),
           },
         },
         labelShape: {
           text: {
             fields: ['buName', 'buType'],
-            formatter: (innerModel) =>
-              `${innerModel.data.buName}-${innerModel.data.buType}`,
+            formatter: (innerModel) => `${innerModel.data.buName}-${innerModel.data.buType}`,
           },
         },
       },
@@ -341,9 +305,7 @@ describe('edge mapper', () => {
       let edge2 = graph.itemController.itemMap.get('edge2');
       expect(edge2.shapeMap.keyShape.attributes.stroke).toBe('#f00');
       expect(edge2.shapeMap.keyShape.attributes.lineWidth).toBe(5);
-      expect(JSON.stringify(edge2.shapeMap.keyShape.attributes.lineDash)).toBe(
-        '[5,5]',
-      );
+      expect(JSON.stringify(edge2.shapeMap.keyShape.attributes.lineDash)).toBe('[5,5]');
       expect(edge2.shapeMap.labelShape.attributes.text).toBe('edge-2-0');
 
       // update user data
@@ -421,96 +383,45 @@ describe('state', () => {
       graph.setItemState('edge1', 'selected', true);
       expect(graph.findIdByState('edge', 'selected').length).toBe(1);
       expect(graph.findIdByState('edge', 'selected')[0]).toBe('edge1');
-      expect(
-        graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style
-          .lineWidth,
-      ).toBe(2);
-      expect(
-        graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style
-          .stroke,
-      ).toBe('#0f0');
+      expect(graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style.lineWidth).toBe(2);
+      expect(graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style.stroke).toBe('#0f0');
       graph.setItemState('edge1', 'selected', false);
       expect(graph.findIdByState('edge', 'selected').length).toBe(0);
-      expect(
-        graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style
-          .lineWidth,
-      ).toBe(1);
+      expect(graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style.lineWidth).toBe(1);
 
       // set multiple edges state
       graph.setItemState(['edge1', 'edge2'], 'selected', true);
       expect(graph.findIdByState('edge', 'selected').length).toBe(2);
-      expect(
-        graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style
-          .lineWidth,
-      ).toBe(2);
-      expect(
-        graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style
-          .stroke,
-      ).toBe('#0f0');
-      expect(
-        graph.itemController.itemMap.get('edge2').shapeMap.keyShape.style
-          .lineWidth,
-      ).toBe(2);
-      expect(
-        graph.itemController.itemMap.get('edge2').shapeMap.keyShape.style
-          .stroke,
-      ).toBe('#0f0');
+      expect(graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style.lineWidth).toBe(2);
+      expect(graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style.stroke).toBe('#0f0');
+      expect(graph.itemController.itemMap.get('edge2').shapeMap.keyShape.style.lineWidth).toBe(2);
+      expect(graph.itemController.itemMap.get('edge2').shapeMap.keyShape.style.stroke).toBe('#0f0');
       graph.setItemState('edge1', 'selected', false);
       expect(graph.findIdByState('edge', 'selected').length).toBe(1);
       expect(graph.findIdByState('edge', 'selected')[0]).toBe('edge2');
-      expect(
-        graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style
-          .lineWidth,
-      ).toBe(1);
+      expect(graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style.lineWidth).toBe(1);
       graph.setItemState(['edge1', 'edge2'], 'selected', false);
       expect(graph.findIdByState('edge', 'selected').length).toBe(0);
-      expect(
-        graph.itemController.itemMap.get('edge2').shapeMap.keyShape.style
-          .lineWidth,
-      ).toBe(1);
+      expect(graph.itemController.itemMap.get('edge2').shapeMap.keyShape.style.lineWidth).toBe(1);
 
       // // set multiple states
       graph.setItemState(['edge2', 'edge1'], ['selected', 'highlight'], true);
       expect(graph.findIdByState('edge', 'selected').length).toBe(2);
       expect(graph.findIdByState('edge', 'highlight').length).toBe(2);
       // should be merged styles from selected and highlight
-      expect(
-        graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style
-          .lineWidth,
-      ).toBe(2);
-      expect(
-        graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style
-          .stroke,
-      ).toBe('#00f');
-      expect(
-        graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style
-          .opacity,
-      ).toBe(0.5);
-      expect(
-        graph.itemController.itemMap.get('edge2').shapeMap.keyShape.style
-          .lineWidth,
-      ).toBe(2);
-      expect(
-        graph.itemController.itemMap.get('edge2').shapeMap.keyShape.style
-          .stroke,
-      ).toBe('#00f');
-      expect(
-        graph.itemController.itemMap.get('edge2').shapeMap.keyShape.style
-          .opacity,
-      ).toBe(0.5);
+      expect(graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style.lineWidth).toBe(2);
+      expect(graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style.stroke).toBe('#00f');
+      expect(graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style.opacity).toBe(0.5);
+      expect(graph.itemController.itemMap.get('edge2').shapeMap.keyShape.style.lineWidth).toBe(2);
+      expect(graph.itemController.itemMap.get('edge2').shapeMap.keyShape.style.stroke).toBe('#00f');
+      expect(graph.itemController.itemMap.get('edge2').shapeMap.keyShape.style.opacity).toBe(0.5);
 
       // clear states
       graph.clearItemState(['edge1', 'edge2']);
       expect(graph.findIdByState('edge', 'selected').length).toBe(0);
       expect(graph.findIdByState('edge', 'highlight').length).toBe(0);
-      expect(
-        graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style
-          .lineWidth,
-      ).toBe(1);
-      expect(
-        graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style
-          .opacity,
-      ).toBe(1);
+      expect(graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style.lineWidth).toBe(1);
+      expect(graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style.opacity).toBe(1);
 
       graph.destroy();
       done();
@@ -581,132 +492,52 @@ describe('state', () => {
       graph.setItemState('edge1', 'selected', true);
       expect(graph.findIdByState('edge', 'selected').length).toBe(1);
       expect(graph.findIdByState('edge', 'selected')[0]).toBe('edge1');
-      expect(
-        graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style
-          .lineWidth,
-      ).toBe(2);
-      expect(
-        graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style
-          .stroke,
-      ).toBe('#0f0');
-      expect(
-        JSON.stringify(
-          graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style
-            .lineDash,
-        ),
-      ).toBe('[2,2]');
+      expect(graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style.lineWidth).toBe(2);
+      expect(graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style.stroke).toBe('#0f0');
+      expect(JSON.stringify(graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style.lineDash)).toBe('[2,2]');
       graph.setItemState('edge1', 'selected', false);
       expect(graph.findIdByState('edge', 'selected').length).toBe(0);
-      expect(
-        graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style
-          .lineWidth,
-      ).toBe(1);
-      expect(
-        graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style
-          .stroke,
-      ).toBe('#f00');
-      expect(
-        JSON.stringify(
-          graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style
-            .lineDash,
-        ),
-      ).toBe('[2,2]');
+      expect(graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style.lineWidth).toBe(1);
+      expect(graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style.stroke).toBe('#f00');
+      expect(JSON.stringify(graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style.lineDash)).toBe('[2,2]');
 
       // set multiple edges state
       graph.setItemState(['edge1', 'edge2'], 'selected', true);
       expect(graph.findIdByState('edge', 'selected').length).toBe(2);
-      expect(
-        graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style
-          .lineWidth,
-      ).toBe(2);
-      expect(
-        graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style
-          .stroke,
-      ).toBe('#0f0');
-      expect(
-        JSON.stringify(
-          graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style
-            .lineDash,
-        ),
-      ).toBe('[2,2]');
-      expect(
-        graph.itemController.itemMap.get('edge2').shapeMap.keyShape.style
-          .lineWidth,
-      ).toBe(2);
-      expect(
-        graph.itemController.itemMap.get('edge2').shapeMap.keyShape.style
-          .stroke,
-      ).toBe('#0f0');
-      expect(
-        JSON.stringify(
-          graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style
-            .lineDash,
-        ),
-      ).toBe('[2,2]');
+      expect(graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style.lineWidth).toBe(2);
+      expect(graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style.stroke).toBe('#0f0');
+      expect(JSON.stringify(graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style.lineDash)).toBe('[2,2]');
+      expect(graph.itemController.itemMap.get('edge2').shapeMap.keyShape.style.lineWidth).toBe(2);
+      expect(graph.itemController.itemMap.get('edge2').shapeMap.keyShape.style.stroke).toBe('#0f0');
+      expect(JSON.stringify(graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style.lineDash)).toBe('[2,2]');
       graph.setItemState('edge1', 'selected', false);
       expect(graph.findIdByState('edge', 'selected').length).toBe(1);
       expect(graph.findIdByState('edge', 'selected')[0]).toBe('edge2');
-      expect(
-        graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style
-          .lineWidth,
-      ).toBe(1);
-      expect(
-        graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style
-          .stroke,
-      ).toBe('#f00');
+      expect(graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style.lineWidth).toBe(1);
+      expect(graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style.stroke).toBe('#f00');
       graph.setItemState(['edge1', 'edge2'], 'selected', false);
       expect(graph.findIdByState('edge', 'selected').length).toBe(0);
-      expect(
-        graph.itemController.itemMap.get('edge2').shapeMap.keyShape.style
-          .lineWidth,
-      ).toBe(1);
-      expect(
-        graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style
-          .stroke,
-      ).toBe('#f00');
+      expect(graph.itemController.itemMap.get('edge2').shapeMap.keyShape.style.lineWidth).toBe(1);
+      expect(graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style.stroke).toBe('#f00');
 
       // set multiple states
       graph.setItemState(['edge2', 'edge1'], ['selected', 'highlight'], true);
       expect(graph.findIdByState('edge', 'selected').length).toBe(2);
       expect(graph.findIdByState('edge', 'highlight').length).toBe(2);
       // should be merged styles from selected and highlight
-      expect(
-        graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style
-          .lineWidth,
-      ).toBe(2);
-      expect(
-        graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style
-          .stroke,
-      ).toBe('#00f');
-      expect(
-        graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style
-          .opacity,
-      ).toBe(0.5);
-      expect(
-        graph.itemController.itemMap.get('edge2').shapeMap.keyShape.style
-          .lineWidth,
-      ).toBe(2);
-      expect(
-        graph.itemController.itemMap.get('edge2').shapeMap.keyShape.style
-          .stroke,
-      ).toBe('#00f');
-      expect(
-        graph.itemController.itemMap.get('edge2').shapeMap.keyShape.style
-          .opacity,
-      ).toBe(0.5);
+      expect(graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style.lineWidth).toBe(2);
+      expect(graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style.stroke).toBe('#00f');
+      expect(graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style.opacity).toBe(0.5);
+      expect(graph.itemController.itemMap.get('edge2').shapeMap.keyShape.style.lineWidth).toBe(2);
+      expect(graph.itemController.itemMap.get('edge2').shapeMap.keyShape.style.stroke).toBe('#00f');
+      expect(graph.itemController.itemMap.get('edge2').shapeMap.keyShape.style.opacity).toBe(0.5);
 
       // clear states
       graph.clearItemState(['edge1', 'edge2']);
       expect(graph.findIdByState('edge', 'selected').length).toBe(0);
       expect(graph.findIdByState('edge', 'highlight').length).toBe(0);
-      expect(
-        graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style
-          .lineWidth,
-      ).toBe(1);
-      expect(
-        graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style
-          .opacity,
-      ).toBe(1);
+      expect(graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style.lineWidth).toBe(1);
+      expect(graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style.opacity).toBe(1);
 
       graph.destroy();
       done();
@@ -729,11 +560,7 @@ describe('state', () => {
       diffData?: { oldData: NodeModelData; newData: NodeModelData },
     ) {
       const { labelShape: propsLabelStyle } = model.data;
-      const labelStyle = Object.assign(
-        {},
-        this.defaultStyles.labelShape,
-        propsLabelStyle,
-      );
+      const labelStyle = Object.assign({}, this.defaultStyles.labelShape, propsLabelStyle);
       return this.upsertShape(
         'text',
         'labelShape',
@@ -989,15 +816,13 @@ describe('cubic-edge unit test', () => {
 
     edgeItem = graph.itemController.itemMap.get('edge1');
     expect(edgeItem.shapeMap.labelShape.attributes.fill).toBe('#00f');
-    expect(
-      edgeItem.shapeMap.labelShape.attributes.x -
-        edgeItem.shapeMap.labelBackgroundShape.attributes.x,
-    ).toBe(padding[3]);
+    expect(edgeItem.shapeMap.labelShape.attributes.x - edgeItem.shapeMap.labelBackgroundShape.attributes.x).toBe(
+      padding[3],
+    );
     labelBounds = edgeItem.shapeMap.labelShape.getGeometryBounds();
     const labelWidth = labelBounds.max[0] - labelBounds.min[0];
     const labelHeight = labelBounds.max[1] - labelBounds.min[1];
-    const labelBgBounds =
-      edgeItem.shapeMap.labelBackgroundShape.getGeometryBounds();
+    const labelBgBounds = edgeItem.shapeMap.labelBackgroundShape.getGeometryBounds();
     const labelBgWidth = labelBgBounds.max[0] - labelBgBounds.min[0];
     const labelBgHeight = labelBgBounds.max[1] - labelBgBounds.min[1];
     expect(labelBgWidth - labelWidth).toBe(padding[1] + padding[3]);
@@ -1040,21 +865,15 @@ describe('cubic-edge unit test', () => {
     const edgeItem = graph.itemController.itemMap.get('edge1');
     let { labelShape, iconShape, labelBackgroundShape } = edgeItem.shapeMap;
     expect(iconShape.attributes.x + iconShape.attributes.width + 6).toBe(
-      labelBackgroundShape.getGeometryBounds().min[0] +
-        labelBackgroundShape.attributes.x,
+      labelBackgroundShape.getGeometryBounds().min[0] + labelBackgroundShape.attributes.x,
     );
 
     // TODO: test transform
     // expect(iconShape.attributes.transform).toBe(
     //   labelBackgroundShape.attributes.transform,
     // );
-    expect(
-      Math.floor(iconShape.attributes.y + iconShape.attributes.height / 2),
-    ).toBeCloseTo(
-      Math.floor(
-        labelBackgroundShape.getGeometryBounds().center[1] +
-          labelBackgroundShape.attributes.y,
-      ),
+    expect(Math.floor(iconShape.attributes.y + iconShape.attributes.height / 2)).toBeCloseTo(
+      Math.floor(labelBackgroundShape.getGeometryBounds().center[1] + labelBackgroundShape.attributes.y),
       0.01,
     );
 
@@ -1073,20 +892,14 @@ describe('cubic-edge unit test', () => {
     iconShape = edgeItem.shapeMap['iconShape'];
     labelBackgroundShape = edgeItem.shapeMap['labelBackgroundShape'];
     expect(iconShape.attributes.x + iconShape.attributes.fontSize + 6).toBe(
-      labelBackgroundShape.getGeometryBounds().min[0] +
-        labelBackgroundShape.attributes.x,
+      labelBackgroundShape.getGeometryBounds().min[0] + labelBackgroundShape.attributes.x,
     );
     // TODO: test transform
     // expect(iconShape.attributes.transform).toBe(
     //   labelBackgroundShape.attributes.transform,
     // );
-    expect(
-      Math.floor(iconShape.attributes.y + iconShape.attributes.fontSize / 2),
-    ).toBeCloseTo(
-      Math.floor(
-        labelBackgroundShape.getGeometryBounds().center[1] +
-          labelBackgroundShape.attributes.y,
-      ),
+    expect(Math.floor(iconShape.attributes.y + iconShape.attributes.fontSize / 2)).toBeCloseTo(
+      Math.floor(labelBackgroundShape.getGeometryBounds().center[1] + labelBackgroundShape.attributes.y),
       0.01,
     );
 
@@ -1103,8 +916,7 @@ describe('cubic-edge unit test', () => {
     iconShape = edgeItem.shapeMap['iconShape'];
     labelBackgroundShape = edgeItem.shapeMap['labelBackgroundShape'];
     expect(iconShape.attributes.x + iconShape.attributes.fontSize + 6).toBe(
-      labelBackgroundShape.getGeometryBounds().min[0] +
-        labelBackgroundShape.attributes.x,
+      labelBackgroundShape.getGeometryBounds().min[0] + labelBackgroundShape.attributes.x,
     );
 
     // TODO: test transform
@@ -1112,8 +924,7 @@ describe('cubic-edge unit test', () => {
     //   labelShape.attributes.transform,
     // );
     expect(iconShape.attributes.y + iconShape.attributes.fontSize / 2).toBe(
-      labelBackgroundShape.getGeometryBounds().center[1] +
-        labelBackgroundShape.attributes.y,
+      labelBackgroundShape.getGeometryBounds().center[1] + labelBackgroundShape.attributes.y,
     );
     graph.destroy();
     done();
@@ -1180,96 +991,45 @@ describe('cubic-edge unit test', () => {
       graph.setItemState('edge1', 'selected', true);
       expect(graph.findIdByState('edge', 'selected').length).toBe(1);
       expect(graph.findIdByState('edge', 'selected')[0]).toBe('edge1');
-      expect(
-        graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style
-          .lineWidth,
-      ).toBe(2);
-      expect(
-        graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style
-          .stroke,
-      ).toBe('#0f0');
+      expect(graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style.lineWidth).toBe(2);
+      expect(graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style.stroke).toBe('#0f0');
       graph.setItemState('edge1', 'selected', false);
       expect(graph.findIdByState('edge', 'selected').length).toBe(0);
-      expect(
-        graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style
-          .lineWidth,
-      ).toBe(1);
+      expect(graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style.lineWidth).toBe(1);
 
       // set multiple edges state
       graph.setItemState(['edge1', 'edge2'], 'selected', true);
       expect(graph.findIdByState('edge', 'selected').length).toBe(2);
-      expect(
-        graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style
-          .lineWidth,
-      ).toBe(2);
-      expect(
-        graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style
-          .stroke,
-      ).toBe('#0f0');
-      expect(
-        graph.itemController.itemMap.get('edge2').shapeMap.keyShape.style
-          .lineWidth,
-      ).toBe(2);
-      expect(
-        graph.itemController.itemMap.get('edge2').shapeMap.keyShape.style
-          .stroke,
-      ).toBe('#0f0');
+      expect(graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style.lineWidth).toBe(2);
+      expect(graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style.stroke).toBe('#0f0');
+      expect(graph.itemController.itemMap.get('edge2').shapeMap.keyShape.style.lineWidth).toBe(2);
+      expect(graph.itemController.itemMap.get('edge2').shapeMap.keyShape.style.stroke).toBe('#0f0');
       graph.setItemState('edge1', 'selected', false);
       expect(graph.findIdByState('edge', 'selected').length).toBe(1);
       expect(graph.findIdByState('edge', 'selected')[0]).toBe('edge2');
-      expect(
-        graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style
-          .lineWidth,
-      ).toBe(1);
+      expect(graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style.lineWidth).toBe(1);
       graph.setItemState(['edge1', 'edge2'], 'selected', false);
       expect(graph.findIdByState('edge', 'selected').length).toBe(0);
-      expect(
-        graph.itemController.itemMap.get('edge2').shapeMap.keyShape.style
-          .lineWidth,
-      ).toBe(1);
+      expect(graph.itemController.itemMap.get('edge2').shapeMap.keyShape.style.lineWidth).toBe(1);
 
       // // set multiple states
       graph.setItemState(['edge2', 'edge1'], ['selected', 'highlight'], true);
       expect(graph.findIdByState('edge', 'selected').length).toBe(2);
       expect(graph.findIdByState('edge', 'highlight').length).toBe(2);
       // should be merged styles from selected and highlight
-      expect(
-        graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style
-          .lineWidth,
-      ).toBe(2);
-      expect(
-        graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style
-          .stroke,
-      ).toBe('#00f');
-      expect(
-        graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style
-          .opacity,
-      ).toBe(0.5);
-      expect(
-        graph.itemController.itemMap.get('edge2').shapeMap.keyShape.style
-          .lineWidth,
-      ).toBe(2);
-      expect(
-        graph.itemController.itemMap.get('edge2').shapeMap.keyShape.style
-          .stroke,
-      ).toBe('#00f');
-      expect(
-        graph.itemController.itemMap.get('edge2').shapeMap.keyShape.style
-          .opacity,
-      ).toBe(0.5);
+      expect(graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style.lineWidth).toBe(2);
+      expect(graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style.stroke).toBe('#00f');
+      expect(graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style.opacity).toBe(0.5);
+      expect(graph.itemController.itemMap.get('edge2').shapeMap.keyShape.style.lineWidth).toBe(2);
+      expect(graph.itemController.itemMap.get('edge2').shapeMap.keyShape.style.stroke).toBe('#00f');
+      expect(graph.itemController.itemMap.get('edge2').shapeMap.keyShape.style.opacity).toBe(0.5);
 
       // clear states
       graph.clearItemState(['edge1', 'edge2']);
       expect(graph.findIdByState('edge', 'selected').length).toBe(0);
       expect(graph.findIdByState('edge', 'highlight').length).toBe(0);
-      expect(
-        graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style
-          .lineWidth,
-      ).toBe(1);
-      expect(
-        graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style
-          .opacity,
-      ).toBe(1);
+      expect(graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style.lineWidth).toBe(1);
+      expect(graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style.opacity).toBe(1);
     });
 
     graph.destroy();
@@ -1339,96 +1099,45 @@ describe('cubic-horizontal-edge unit test', () => {
       graph.setItemState('edge1', 'selected', true);
       expect(graph.findIdByState('edge', 'selected').length).toBe(1);
       expect(graph.findIdByState('edge', 'selected')[0]).toBe('edge1');
-      expect(
-        graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style
-          .lineWidth,
-      ).toBe(2);
-      expect(
-        graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style
-          .stroke,
-      ).toBe('#0f0');
+      expect(graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style.lineWidth).toBe(2);
+      expect(graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style.stroke).toBe('#0f0');
       graph.setItemState('edge1', 'selected', false);
       expect(graph.findIdByState('edge', 'selected').length).toBe(0);
-      expect(
-        graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style
-          .lineWidth,
-      ).toBe(1);
+      expect(graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style.lineWidth).toBe(1);
 
       // set multiple edges state
       graph.setItemState(['edge1', 'edge2'], 'selected', true);
       expect(graph.findIdByState('edge', 'selected').length).toBe(2);
-      expect(
-        graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style
-          .lineWidth,
-      ).toBe(2);
-      expect(
-        graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style
-          .stroke,
-      ).toBe('#0f0');
-      expect(
-        graph.itemController.itemMap.get('edge2').shapeMap.keyShape.style
-          .lineWidth,
-      ).toBe(2);
-      expect(
-        graph.itemController.itemMap.get('edge2').shapeMap.keyShape.style
-          .stroke,
-      ).toBe('#0f0');
+      expect(graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style.lineWidth).toBe(2);
+      expect(graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style.stroke).toBe('#0f0');
+      expect(graph.itemController.itemMap.get('edge2').shapeMap.keyShape.style.lineWidth).toBe(2);
+      expect(graph.itemController.itemMap.get('edge2').shapeMap.keyShape.style.stroke).toBe('#0f0');
       graph.setItemState('edge1', 'selected', false);
       expect(graph.findIdByState('edge', 'selected').length).toBe(1);
       expect(graph.findIdByState('edge', 'selected')[0]).toBe('edge2');
-      expect(
-        graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style
-          .lineWidth,
-      ).toBe(1);
+      expect(graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style.lineWidth).toBe(1);
       graph.setItemState(['edge1', 'edge2'], 'selected', false);
       expect(graph.findIdByState('edge', 'selected').length).toBe(0);
-      expect(
-        graph.itemController.itemMap.get('edge2').shapeMap.keyShape.style
-          .lineWidth,
-      ).toBe(1);
+      expect(graph.itemController.itemMap.get('edge2').shapeMap.keyShape.style.lineWidth).toBe(1);
 
       // // set multiple states
       graph.setItemState(['edge2', 'edge1'], ['selected', 'highlight'], true);
       expect(graph.findIdByState('edge', 'selected').length).toBe(2);
       expect(graph.findIdByState('edge', 'highlight').length).toBe(2);
       // should be merged styles from selected and highlight
-      expect(
-        graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style
-          .lineWidth,
-      ).toBe(2);
-      expect(
-        graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style
-          .stroke,
-      ).toBe('#00f');
-      expect(
-        graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style
-          .opacity,
-      ).toBe(0.5);
-      expect(
-        graph.itemController.itemMap.get('edge2').shapeMap.keyShape.style
-          .lineWidth,
-      ).toBe(2);
-      expect(
-        graph.itemController.itemMap.get('edge2').shapeMap.keyShape.style
-          .stroke,
-      ).toBe('#00f');
-      expect(
-        graph.itemController.itemMap.get('edge2').shapeMap.keyShape.style
-          .opacity,
-      ).toBe(0.5);
+      expect(graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style.lineWidth).toBe(2);
+      expect(graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style.stroke).toBe('#00f');
+      expect(graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style.opacity).toBe(0.5);
+      expect(graph.itemController.itemMap.get('edge2').shapeMap.keyShape.style.lineWidth).toBe(2);
+      expect(graph.itemController.itemMap.get('edge2').shapeMap.keyShape.style.stroke).toBe('#00f');
+      expect(graph.itemController.itemMap.get('edge2').shapeMap.keyShape.style.opacity).toBe(0.5);
 
       // clear states
       graph.clearItemState(['edge1', 'edge2']);
       expect(graph.findIdByState('edge', 'selected').length).toBe(0);
       expect(graph.findIdByState('edge', 'highlight').length).toBe(0);
-      expect(
-        graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style
-          .lineWidth,
-      ).toBe(1);
-      expect(
-        graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style
-          .opacity,
-      ).toBe(1);
+      expect(graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style.lineWidth).toBe(1);
+      expect(graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style.opacity).toBe(1);
     });
 
     graph.destroy();
@@ -1538,15 +1247,13 @@ describe('cubic-horizontal-edge unit test', () => {
 
     edgeItem = graph.itemController.itemMap.get('edge1');
     expect(edgeItem.shapeMap.labelShape.attributes.fill).toBe('#00f');
-    expect(
-      edgeItem.shapeMap.labelShape.attributes.x -
-        edgeItem.shapeMap.labelBackgroundShape.attributes.x,
-    ).toBe(padding[3]);
+    expect(edgeItem.shapeMap.labelShape.attributes.x - edgeItem.shapeMap.labelBackgroundShape.attributes.x).toBe(
+      padding[3],
+    );
     labelBounds = edgeItem.shapeMap.labelShape.getGeometryBounds();
     const labelWidth = labelBounds.max[0] - labelBounds.min[0];
     const labelHeight = labelBounds.max[1] - labelBounds.min[1];
-    const labelBgBounds =
-      edgeItem.shapeMap.labelBackgroundShape.getGeometryBounds();
+    const labelBgBounds = edgeItem.shapeMap.labelBackgroundShape.getGeometryBounds();
     const labelBgWidth = labelBgBounds.max[0] - labelBgBounds.min[0];
     const labelBgHeight = labelBgBounds.max[1] - labelBgBounds.min[1];
     expect(labelBgWidth - labelWidth).toBe(padding[1] + padding[3]);
@@ -1589,21 +1296,15 @@ describe('cubic-horizontal-edge unit test', () => {
     const edgeItem = graph.itemController.itemMap.get('edge1');
     let { labelShape, iconShape, labelBackgroundShape } = edgeItem.shapeMap;
     expect(iconShape.attributes.x + iconShape.attributes.width + 6).toBe(
-      labelBackgroundShape.getGeometryBounds().min[0] +
-        labelBackgroundShape.attributes.x,
+      labelBackgroundShape.getGeometryBounds().min[0] + labelBackgroundShape.attributes.x,
     );
 
     // TODO: test transform
     // expect(iconShape.attributes.transform).toBe(
     //   labelBackgroundShape.attributes.transform,
     // );
-    expect(
-      Math.floor(iconShape.attributes.y + iconShape.attributes.height / 2),
-    ).toBeCloseTo(
-      Math.floor(
-        labelBackgroundShape.getGeometryBounds().center[1] +
-          labelBackgroundShape.attributes.y,
-      ),
+    expect(Math.floor(iconShape.attributes.y + iconShape.attributes.height / 2)).toBeCloseTo(
+      Math.floor(labelBackgroundShape.getGeometryBounds().center[1] + labelBackgroundShape.attributes.y),
       0.01,
     );
 
@@ -1622,20 +1323,14 @@ describe('cubic-horizontal-edge unit test', () => {
     iconShape = edgeItem.shapeMap['iconShape'];
     labelBackgroundShape = edgeItem.shapeMap['labelBackgroundShape'];
     expect(iconShape.attributes.x + iconShape.attributes.fontSize + 6).toBe(
-      labelBackgroundShape.getGeometryBounds().min[0] +
-        labelBackgroundShape.attributes.x,
+      labelBackgroundShape.getGeometryBounds().min[0] + labelBackgroundShape.attributes.x,
     );
     // TODO: test transform
     // expect(iconShape.attributes.transform).toBe(
     //   labelBackgroundShape.attributes.transform,
     // );
-    expect(
-      Math.floor(iconShape.attributes.y + iconShape.attributes.fontSize / 2),
-    ).toBeCloseTo(
-      Math.floor(
-        labelBackgroundShape.getGeometryBounds().center[1] +
-          labelBackgroundShape.attributes.y,
-      ),
+    expect(Math.floor(iconShape.attributes.y + iconShape.attributes.fontSize / 2)).toBeCloseTo(
+      Math.floor(labelBackgroundShape.getGeometryBounds().center[1] + labelBackgroundShape.attributes.y),
       0.01,
     );
 
@@ -1652,16 +1347,14 @@ describe('cubic-horizontal-edge unit test', () => {
     iconShape = edgeItem.shapeMap['iconShape'];
     labelBackgroundShape = edgeItem.shapeMap['labelBackgroundShape'];
     expect(iconShape.attributes.x + iconShape.attributes.fontSize + 6).toBe(
-      labelBackgroundShape.getGeometryBounds().min[0] +
-        labelBackgroundShape.attributes.x,
+      labelBackgroundShape.getGeometryBounds().min[0] + labelBackgroundShape.attributes.x,
     );
     // TODO: test transform
     // expect(iconShape.attributes.transform).toBe(
     //   labelShape.attributes.transform,
     // );
     expect(iconShape.attributes.y + iconShape.attributes.fontSize / 2).toBe(
-      labelBackgroundShape.getGeometryBounds().center[1] +
-        labelBackgroundShape.attributes.y,
+      labelBackgroundShape.getGeometryBounds().center[1] + labelBackgroundShape.attributes.y,
     );
     graph.destroy();
     done();
@@ -1727,96 +1420,45 @@ describe('cubic-horizontal-edge unit test', () => {
       graph.setItemState('edge1', 'selected', true);
       expect(graph.findIdByState('edge', 'selected').length).toBe(1);
       expect(graph.findIdByState('edge', 'selected')[0]).toBe('edge1');
-      expect(
-        graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style
-          .lineWidth,
-      ).toBe(2);
-      expect(
-        graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style
-          .stroke,
-      ).toBe('#0f0');
+      expect(graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style.lineWidth).toBe(2);
+      expect(graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style.stroke).toBe('#0f0');
       graph.setItemState('edge1', 'selected', false);
       expect(graph.findIdByState('edge', 'selected').length).toBe(0);
-      expect(
-        graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style
-          .lineWidth,
-      ).toBe(1);
+      expect(graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style.lineWidth).toBe(1);
 
       // set multiple edges state
       graph.setItemState(['edge1', 'edge2'], 'selected', true);
       expect(graph.findIdByState('edge', 'selected').length).toBe(2);
-      expect(
-        graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style
-          .lineWidth,
-      ).toBe(2);
-      expect(
-        graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style
-          .stroke,
-      ).toBe('#0f0');
-      expect(
-        graph.itemController.itemMap.get('edge2').shapeMap.keyShape.style
-          .lineWidth,
-      ).toBe(2);
-      expect(
-        graph.itemController.itemMap.get('edge2').shapeMap.keyShape.style
-          .stroke,
-      ).toBe('#0f0');
+      expect(graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style.lineWidth).toBe(2);
+      expect(graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style.stroke).toBe('#0f0');
+      expect(graph.itemController.itemMap.get('edge2').shapeMap.keyShape.style.lineWidth).toBe(2);
+      expect(graph.itemController.itemMap.get('edge2').shapeMap.keyShape.style.stroke).toBe('#0f0');
       graph.setItemState('edge1', 'selected', false);
       expect(graph.findIdByState('edge', 'selected').length).toBe(1);
       expect(graph.findIdByState('edge', 'selected')[0]).toBe('edge2');
-      expect(
-        graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style
-          .lineWidth,
-      ).toBe(1);
+      expect(graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style.lineWidth).toBe(1);
       graph.setItemState(['edge1', 'edge2'], 'selected', false);
       expect(graph.findIdByState('edge', 'selected').length).toBe(0);
-      expect(
-        graph.itemController.itemMap.get('edge2').shapeMap.keyShape.style
-          .lineWidth,
-      ).toBe(1);
+      expect(graph.itemController.itemMap.get('edge2').shapeMap.keyShape.style.lineWidth).toBe(1);
 
       // // set multiple states
       graph.setItemState(['edge2', 'edge1'], ['selected', 'highlight'], true);
       expect(graph.findIdByState('edge', 'selected').length).toBe(2);
       expect(graph.findIdByState('edge', 'highlight').length).toBe(2);
       // should be merged styles from selected and highlight
-      expect(
-        graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style
-          .lineWidth,
-      ).toBe(2);
-      expect(
-        graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style
-          .stroke,
-      ).toBe('#00f');
-      expect(
-        graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style
-          .opacity,
-      ).toBe(0.5);
-      expect(
-        graph.itemController.itemMap.get('edge2').shapeMap.keyShape.style
-          .lineWidth,
-      ).toBe(2);
-      expect(
-        graph.itemController.itemMap.get('edge2').shapeMap.keyShape.style
-          .stroke,
-      ).toBe('#00f');
-      expect(
-        graph.itemController.itemMap.get('edge2').shapeMap.keyShape.style
-          .opacity,
-      ).toBe(0.5);
+      expect(graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style.lineWidth).toBe(2);
+      expect(graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style.stroke).toBe('#00f');
+      expect(graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style.opacity).toBe(0.5);
+      expect(graph.itemController.itemMap.get('edge2').shapeMap.keyShape.style.lineWidth).toBe(2);
+      expect(graph.itemController.itemMap.get('edge2').shapeMap.keyShape.style.stroke).toBe('#00f');
+      expect(graph.itemController.itemMap.get('edge2').shapeMap.keyShape.style.opacity).toBe(0.5);
 
       // clear states
       graph.clearItemState(['edge1', 'edge2']);
       expect(graph.findIdByState('edge', 'selected').length).toBe(0);
       expect(graph.findIdByState('edge', 'highlight').length).toBe(0);
-      expect(
-        graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style
-          .lineWidth,
-      ).toBe(1);
-      expect(
-        graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style
-          .opacity,
-      ).toBe(1);
+      expect(graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style.lineWidth).toBe(1);
+      expect(graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style.opacity).toBe(1);
     });
 
     graph.destroy();
@@ -1926,15 +1568,13 @@ describe('cubic-vertical-edge unit test', () => {
 
     edgeItem = graph.itemController.itemMap.get('edge1');
     expect(edgeItem.shapeMap.labelShape.attributes.fill).toBe('#00f');
-    expect(
-      edgeItem.shapeMap.labelShape.attributes.x -
-        edgeItem.shapeMap.labelBackgroundShape.attributes.x,
-    ).toBe(padding[3]);
+    expect(edgeItem.shapeMap.labelShape.attributes.x - edgeItem.shapeMap.labelBackgroundShape.attributes.x).toBe(
+      padding[3],
+    );
     labelBounds = edgeItem.shapeMap.labelShape.getGeometryBounds();
     const labelWidth = labelBounds.max[0] - labelBounds.min[0];
     const labelHeight = labelBounds.max[1] - labelBounds.min[1];
-    const labelBgBounds =
-      edgeItem.shapeMap.labelBackgroundShape.getGeometryBounds();
+    const labelBgBounds = edgeItem.shapeMap.labelBackgroundShape.getGeometryBounds();
     const labelBgWidth = labelBgBounds.max[0] - labelBgBounds.min[0];
     const labelBgHeight = labelBgBounds.max[1] - labelBgBounds.min[1];
     expect(labelBgWidth - labelWidth).toBe(padding[1] + padding[3]);
@@ -1977,21 +1617,15 @@ describe('cubic-vertical-edge unit test', () => {
     const edgeItem = graph.itemController.itemMap.get('edge1');
     let { labelShape, iconShape, labelBackgroundShape } = edgeItem.shapeMap;
     expect(iconShape.attributes.x + iconShape.attributes.width + 6).toBe(
-      labelBackgroundShape.getGeometryBounds().min[0] +
-        labelBackgroundShape.attributes.x,
+      labelBackgroundShape.getGeometryBounds().min[0] + labelBackgroundShape.attributes.x,
     );
 
     // TODO: test transform
     // expect(iconShape.attributes.transform).toBe(
     //   labelBackgroundShape.attributes.transform,
     // );
-    expect(
-      Math.floor(iconShape.attributes.y + iconShape.attributes.height / 2),
-    ).toBeCloseTo(
-      Math.floor(
-        labelBackgroundShape.getGeometryBounds().center[1] +
-          labelBackgroundShape.attributes.y,
-      ),
+    expect(Math.floor(iconShape.attributes.y + iconShape.attributes.height / 2)).toBeCloseTo(
+      Math.floor(labelBackgroundShape.getGeometryBounds().center[1] + labelBackgroundShape.attributes.y),
       0.01,
     );
 
@@ -2010,20 +1644,14 @@ describe('cubic-vertical-edge unit test', () => {
     iconShape = edgeItem.shapeMap['iconShape'];
     labelBackgroundShape = edgeItem.shapeMap['labelBackgroundShape'];
     expect(iconShape.attributes.x + iconShape.attributes.fontSize + 6).toBe(
-      labelBackgroundShape.getGeometryBounds().min[0] +
-        labelBackgroundShape.attributes.x,
+      labelBackgroundShape.getGeometryBounds().min[0] + labelBackgroundShape.attributes.x,
     );
     // TODO: test transform
     // expect(iconShape.attributes.transform).toBe(
     //   labelBackgroundShape.attributes.transform,
     // );
-    expect(
-      Math.floor(iconShape.attributes.y + iconShape.attributes.fontSize / 2),
-    ).toBeCloseTo(
-      Math.floor(
-        labelBackgroundShape.getGeometryBounds().center[1] +
-          labelBackgroundShape.attributes.y,
-      ),
+    expect(Math.floor(iconShape.attributes.y + iconShape.attributes.fontSize / 2)).toBeCloseTo(
+      Math.floor(labelBackgroundShape.getGeometryBounds().center[1] + labelBackgroundShape.attributes.y),
       0.01,
     );
 
@@ -2040,16 +1668,14 @@ describe('cubic-vertical-edge unit test', () => {
     iconShape = edgeItem.shapeMap['iconShape'];
     labelBackgroundShape = edgeItem.shapeMap['labelBackgroundShape'];
     expect(iconShape.attributes.x + iconShape.attributes.fontSize + 6).toBe(
-      labelBackgroundShape.getGeometryBounds().min[0] +
-        labelBackgroundShape.attributes.x,
+      labelBackgroundShape.getGeometryBounds().min[0] + labelBackgroundShape.attributes.x,
     );
     // TODO: test transform
     // expect(iconShape.attributes.transform).toBe(
     //   labelShape.attributes.transform,
     // );
     expect(iconShape.attributes.y + iconShape.attributes.fontSize / 2).toBe(
-      labelBackgroundShape.getGeometryBounds().center[1] +
-        labelBackgroundShape.attributes.y,
+      labelBackgroundShape.getGeometryBounds().center[1] + labelBackgroundShape.attributes.y,
     );
     graph.destroy();
     done();
@@ -2115,96 +1741,45 @@ describe('cubic-vertical-edge unit test', () => {
       graph.setItemState('edge1', 'selected', true);
       expect(graph.findIdByState('edge', 'selected').length).toBe(1);
       expect(graph.findIdByState('edge', 'selected')[0]).toBe('edge1');
-      expect(
-        graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style
-          .lineWidth,
-      ).toBe(2);
-      expect(
-        graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style
-          .stroke,
-      ).toBe('#0f0');
+      expect(graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style.lineWidth).toBe(2);
+      expect(graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style.stroke).toBe('#0f0');
       graph.setItemState('edge1', 'selected', false);
       expect(graph.findIdByState('edge', 'selected').length).toBe(0);
-      expect(
-        graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style
-          .lineWidth,
-      ).toBe(1);
+      expect(graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style.lineWidth).toBe(1);
 
       // set multiple edges state
       graph.setItemState(['edge1', 'edge2'], 'selected', true);
       expect(graph.findIdByState('edge', 'selected').length).toBe(2);
-      expect(
-        graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style
-          .lineWidth,
-      ).toBe(2);
-      expect(
-        graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style
-          .stroke,
-      ).toBe('#0f0');
-      expect(
-        graph.itemController.itemMap.get('edge2').shapeMap.keyShape.style
-          .lineWidth,
-      ).toBe(2);
-      expect(
-        graph.itemController.itemMap.get('edge2').shapeMap.keyShape.style
-          .stroke,
-      ).toBe('#0f0');
+      expect(graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style.lineWidth).toBe(2);
+      expect(graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style.stroke).toBe('#0f0');
+      expect(graph.itemController.itemMap.get('edge2').shapeMap.keyShape.style.lineWidth).toBe(2);
+      expect(graph.itemController.itemMap.get('edge2').shapeMap.keyShape.style.stroke).toBe('#0f0');
       graph.setItemState('edge1', 'selected', false);
       expect(graph.findIdByState('edge', 'selected').length).toBe(1);
       expect(graph.findIdByState('edge', 'selected')[0]).toBe('edge2');
-      expect(
-        graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style
-          .lineWidth,
-      ).toBe(1);
+      expect(graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style.lineWidth).toBe(1);
       graph.setItemState(['edge1', 'edge2'], 'selected', false);
       expect(graph.findIdByState('edge', 'selected').length).toBe(0);
-      expect(
-        graph.itemController.itemMap.get('edge2').shapeMap.keyShape.style
-          .lineWidth,
-      ).toBe(1);
+      expect(graph.itemController.itemMap.get('edge2').shapeMap.keyShape.style.lineWidth).toBe(1);
 
       // // set multiple states
       graph.setItemState(['edge2', 'edge1'], ['selected', 'highlight'], true);
       expect(graph.findIdByState('edge', 'selected').length).toBe(2);
       expect(graph.findIdByState('edge', 'highlight').length).toBe(2);
       // should be merged styles from selected and highlight
-      expect(
-        graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style
-          .lineWidth,
-      ).toBe(2);
-      expect(
-        graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style
-          .stroke,
-      ).toBe('#00f');
-      expect(
-        graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style
-          .opacity,
-      ).toBe(0.5);
-      expect(
-        graph.itemController.itemMap.get('edge2').shapeMap.keyShape.style
-          .lineWidth,
-      ).toBe(2);
-      expect(
-        graph.itemController.itemMap.get('edge2').shapeMap.keyShape.style
-          .stroke,
-      ).toBe('#00f');
-      expect(
-        graph.itemController.itemMap.get('edge2').shapeMap.keyShape.style
-          .opacity,
-      ).toBe(0.5);
+      expect(graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style.lineWidth).toBe(2);
+      expect(graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style.stroke).toBe('#00f');
+      expect(graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style.opacity).toBe(0.5);
+      expect(graph.itemController.itemMap.get('edge2').shapeMap.keyShape.style.lineWidth).toBe(2);
+      expect(graph.itemController.itemMap.get('edge2').shapeMap.keyShape.style.stroke).toBe('#00f');
+      expect(graph.itemController.itemMap.get('edge2').shapeMap.keyShape.style.opacity).toBe(0.5);
 
       // clear states
       graph.clearItemState(['edge1', 'edge2']);
       expect(graph.findIdByState('edge', 'selected').length).toBe(0);
       expect(graph.findIdByState('edge', 'highlight').length).toBe(0);
-      expect(
-        graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style
-          .lineWidth,
-      ).toBe(1);
-      expect(
-        graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style
-          .opacity,
-      ).toBe(1);
+      expect(graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style.lineWidth).toBe(1);
+      expect(graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style.opacity).toBe(1);
     });
 
     graph.destroy();
@@ -2314,15 +1889,13 @@ describe('cubic-vertical-edge unit test', () => {
 
     edgeItem = graph.itemController.itemMap.get('edge1');
     expect(edgeItem.shapeMap.labelShape.attributes.fill).toBe('#00f');
-    expect(
-      edgeItem.shapeMap.labelShape.attributes.x -
-        edgeItem.shapeMap.labelBackgroundShape.attributes.x,
-    ).toBe(padding[3]);
+    expect(edgeItem.shapeMap.labelShape.attributes.x - edgeItem.shapeMap.labelBackgroundShape.attributes.x).toBe(
+      padding[3],
+    );
     labelBounds = edgeItem.shapeMap.labelShape.getGeometryBounds();
     const labelWidth = labelBounds.max[0] - labelBounds.min[0];
     const labelHeight = labelBounds.max[1] - labelBounds.min[1];
-    const labelBgBounds =
-      edgeItem.shapeMap.labelBackgroundShape.getGeometryBounds();
+    const labelBgBounds = edgeItem.shapeMap.labelBackgroundShape.getGeometryBounds();
     const labelBgWidth = labelBgBounds.max[0] - labelBgBounds.min[0];
     const labelBgHeight = labelBgBounds.max[1] - labelBgBounds.min[1];
     expect(labelBgWidth - labelWidth).toBe(padding[1] + padding[3]);
@@ -2365,21 +1938,15 @@ describe('cubic-vertical-edge unit test', () => {
     const edgeItem = graph.itemController.itemMap.get('edge1');
     let { labelShape, iconShape, labelBackgroundShape } = edgeItem.shapeMap;
     expect(iconShape.attributes.x + iconShape.attributes.width + 6).toBe(
-      labelBackgroundShape.getGeometryBounds().min[0] +
-        labelBackgroundShape.attributes.x,
+      labelBackgroundShape.getGeometryBounds().min[0] + labelBackgroundShape.attributes.x,
     );
 
     // TODO: test transform
     // expect(iconShape.attributes.transform).toBe(
     //   labelBackgroundShape.attributes.transform,
     // );
-    expect(
-      Math.floor(iconShape.attributes.y + iconShape.attributes.height / 2),
-    ).toBeCloseTo(
-      Math.floor(
-        labelBackgroundShape.getGeometryBounds().center[1] +
-          labelBackgroundShape.attributes.y,
-      ),
+    expect(Math.floor(iconShape.attributes.y + iconShape.attributes.height / 2)).toBeCloseTo(
+      Math.floor(labelBackgroundShape.getGeometryBounds().center[1] + labelBackgroundShape.attributes.y),
       0.01,
     );
 
@@ -2398,20 +1965,14 @@ describe('cubic-vertical-edge unit test', () => {
     iconShape = edgeItem.shapeMap['iconShape'];
     labelBackgroundShape = edgeItem.shapeMap['labelBackgroundShape'];
     expect(iconShape.attributes.x + iconShape.attributes.fontSize + 6).toBe(
-      labelBackgroundShape.getGeometryBounds().min[0] +
-        labelBackgroundShape.attributes.x,
+      labelBackgroundShape.getGeometryBounds().min[0] + labelBackgroundShape.attributes.x,
     );
     // TODO: test transform
     // expect(iconShape.attributes.transform).toBe(
     //   labelBackgroundShape.attributes.transform,
     // );
-    expect(
-      Math.floor(iconShape.attributes.y + iconShape.attributes.fontSize / 2),
-    ).toBeCloseTo(
-      Math.floor(
-        labelBackgroundShape.getGeometryBounds().center[1] +
-          labelBackgroundShape.attributes.y,
-      ),
+    expect(Math.floor(iconShape.attributes.y + iconShape.attributes.fontSize / 2)).toBeCloseTo(
+      Math.floor(labelBackgroundShape.getGeometryBounds().center[1] + labelBackgroundShape.attributes.y),
       0.01,
     );
 
@@ -2428,16 +1989,14 @@ describe('cubic-vertical-edge unit test', () => {
     iconShape = edgeItem.shapeMap['iconShape'];
     labelBackgroundShape = edgeItem.shapeMap['labelBackgroundShape'];
     expect(iconShape.attributes.x + iconShape.attributes.fontSize + 6).toBe(
-      labelBackgroundShape.getGeometryBounds().min[0] +
-        labelBackgroundShape.attributes.x,
+      labelBackgroundShape.getGeometryBounds().min[0] + labelBackgroundShape.attributes.x,
     );
     // TODO: test transform
     // expect(iconShape.attributes.transform).toBe(
     //   labelShape.attributes.transform,
     // );
     expect(iconShape.attributes.y + iconShape.attributes.fontSize / 2).toBe(
-      labelBackgroundShape.getGeometryBounds().center[1] +
-        labelBackgroundShape.attributes.y,
+      labelBackgroundShape.getGeometryBounds().center[1] + labelBackgroundShape.attributes.y,
     );
     graph.destroy();
     done();
@@ -2503,96 +2062,45 @@ describe('cubic-vertical-edge unit test', () => {
       graph.setItemState('edge1', 'selected', true);
       expect(graph.findIdByState('edge', 'selected').length).toBe(1);
       expect(graph.findIdByState('edge', 'selected')[0]).toBe('edge1');
-      expect(
-        graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style
-          .lineWidth,
-      ).toBe(2);
-      expect(
-        graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style
-          .stroke,
-      ).toBe('#0f0');
+      expect(graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style.lineWidth).toBe(2);
+      expect(graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style.stroke).toBe('#0f0');
       graph.setItemState('edge1', 'selected', false);
       expect(graph.findIdByState('edge', 'selected').length).toBe(0);
-      expect(
-        graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style
-          .lineWidth,
-      ).toBe(1);
+      expect(graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style.lineWidth).toBe(1);
 
       // set multiple edges state
       graph.setItemState(['edge1', 'edge2'], 'selected', true);
       expect(graph.findIdByState('edge', 'selected').length).toBe(2);
-      expect(
-        graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style
-          .lineWidth,
-      ).toBe(2);
-      expect(
-        graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style
-          .stroke,
-      ).toBe('#0f0');
-      expect(
-        graph.itemController.itemMap.get('edge2').shapeMap.keyShape.style
-          .lineWidth,
-      ).toBe(2);
-      expect(
-        graph.itemController.itemMap.get('edge2').shapeMap.keyShape.style
-          .stroke,
-      ).toBe('#0f0');
+      expect(graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style.lineWidth).toBe(2);
+      expect(graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style.stroke).toBe('#0f0');
+      expect(graph.itemController.itemMap.get('edge2').shapeMap.keyShape.style.lineWidth).toBe(2);
+      expect(graph.itemController.itemMap.get('edge2').shapeMap.keyShape.style.stroke).toBe('#0f0');
       graph.setItemState('edge1', 'selected', false);
       expect(graph.findIdByState('edge', 'selected').length).toBe(1);
       expect(graph.findIdByState('edge', 'selected')[0]).toBe('edge2');
-      expect(
-        graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style
-          .lineWidth,
-      ).toBe(1);
+      expect(graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style.lineWidth).toBe(1);
       graph.setItemState(['edge1', 'edge2'], 'selected', false);
       expect(graph.findIdByState('edge', 'selected').length).toBe(0);
-      expect(
-        graph.itemController.itemMap.get('edge2').shapeMap.keyShape.style
-          .lineWidth,
-      ).toBe(1);
+      expect(graph.itemController.itemMap.get('edge2').shapeMap.keyShape.style.lineWidth).toBe(1);
 
       // // set multiple states
       graph.setItemState(['edge2', 'edge1'], ['selected', 'highlight'], true);
       expect(graph.findIdByState('edge', 'selected').length).toBe(2);
       expect(graph.findIdByState('edge', 'highlight').length).toBe(2);
       // should be merged styles from selected and highlight
-      expect(
-        graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style
-          .lineWidth,
-      ).toBe(2);
-      expect(
-        graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style
-          .stroke,
-      ).toBe('#00f');
-      expect(
-        graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style
-          .opacity,
-      ).toBe(0.5);
-      expect(
-        graph.itemController.itemMap.get('edge2').shapeMap.keyShape.style
-          .lineWidth,
-      ).toBe(2);
-      expect(
-        graph.itemController.itemMap.get('edge2').shapeMap.keyShape.style
-          .stroke,
-      ).toBe('#00f');
-      expect(
-        graph.itemController.itemMap.get('edge2').shapeMap.keyShape.style
-          .opacity,
-      ).toBe(0.5);
+      expect(graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style.lineWidth).toBe(2);
+      expect(graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style.stroke).toBe('#00f');
+      expect(graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style.opacity).toBe(0.5);
+      expect(graph.itemController.itemMap.get('edge2').shapeMap.keyShape.style.lineWidth).toBe(2);
+      expect(graph.itemController.itemMap.get('edge2').shapeMap.keyShape.style.stroke).toBe('#00f');
+      expect(graph.itemController.itemMap.get('edge2').shapeMap.keyShape.style.opacity).toBe(0.5);
 
       // clear states
       graph.clearItemState(['edge1', 'edge2']);
       expect(graph.findIdByState('edge', 'selected').length).toBe(0);
       expect(graph.findIdByState('edge', 'highlight').length).toBe(0);
-      expect(
-        graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style
-          .lineWidth,
-      ).toBe(1);
-      expect(
-        graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style
-          .opacity,
-      ).toBe(1);
+      expect(graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style.lineWidth).toBe(1);
+      expect(graph.itemController.itemMap.get('edge1').shapeMap.keyShape.style.opacity).toBe(1);
     });
 
     graph.destroy();

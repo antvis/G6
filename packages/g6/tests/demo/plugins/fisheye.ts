@@ -1,4 +1,4 @@
-import { Graph, Extensions, extend } from '../../../src/index';
+import { Extensions, Graph, extend } from '../../../src/index';
 
 export default async () => {
   let fisheye = {
@@ -10,17 +10,7 @@ export default async () => {
     showLabel: true,
     trigger: 'mousemove',
   };
-  const colors = [
-    '#8FE9FF',
-    '#87EAEF',
-    '#FFC9E3',
-    '#A7C2FF',
-    '#FFA1E3',
-    '#FFE269',
-    '#BFCFEE',
-    '#FFA0C5',
-    '#D5FF86',
-  ];
+  const colors = ['#8FE9FF', '#87EAEF', '#FFC9E3', '#A7C2FF', '#FFA1E3', '#FFE269', '#BFCFEE', '#FFA0C5', '#D5FF86'];
 
   // ================= The DOMs for configurations =============== //
   const graphDiv = document.getElementById('container');
@@ -195,9 +185,7 @@ export default async () => {
     });
   };
 
-  fetch(
-    'https://gw.alipayobjects.com/os/bmw-prod/afe8b2a6-f691-4070-aa73-46fc07fd1171.json',
-  )
+  fetch('https://gw.alipayobjects.com/os/bmw-prod/afe8b2a6-f691-4070-aa73-46fc07fd1171.json')
     .then((res) => res.json())
     .then((data) => {
       data.nodes.forEach((node) => {

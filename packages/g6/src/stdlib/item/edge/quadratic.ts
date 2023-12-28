@@ -1,11 +1,7 @@
-import { getControlPoint } from '../../../util/path';
 import { Point } from '../../../types/common';
-import {
-  EdgeDisplayModel,
-  EdgeModelData,
-  EdgeShapeMap,
-} from '../../../types/edge';
+import { EdgeDisplayModel, EdgeModelData, EdgeShapeMap } from '../../../types/edge';
 import { State } from '../../../types/item';
+import { getControlPoint } from '../../../util/path';
 import { BaseEdge } from './base';
 
 export class QuadraticEdge extends BaseEdge {
@@ -35,50 +31,23 @@ export class QuadraticEdge extends BaseEdge {
 
     const shapes: EdgeShapeMap = { keyShape: undefined };
 
-    shapes.keyShape = this.drawKeyShape(
-      model,
-      sourcePoint,
-      targetPoint,
-      shapeMap,
-      diffData,
-      diffState,
-    );
+    shapes.keyShape = this.drawKeyShape(model, sourcePoint, targetPoint, shapeMap, diffData, diffState);
 
     if (data.haloShape) {
-      shapes.haloShape = this.drawHaloShape(
-        model,
-        shapeMap,
-        diffData,
-        diffState,
-      );
+      shapes.haloShape = this.drawHaloShape(model, shapeMap, diffData, diffState);
     }
 
     if (data.labelShape) {
-      shapes.labelShape = this.drawLabelShape(
-        model,
-        shapeMap,
-        diffData,
-        diffState,
-      );
+      shapes.labelShape = this.drawLabelShape(model, shapeMap, diffData, diffState);
     }
 
     // labelBackgroundShape
     if (data.labelBackgroundShape) {
-      shapes.labelBackgroundShape = this.drawLabelBackgroundShape(
-        model,
-        shapeMap,
-        diffData,
-        diffState,
-      );
+      shapes.labelBackgroundShape = this.drawLabelBackgroundShape(model, shapeMap, diffData, diffState);
     }
 
     if (data.iconShape) {
-      shapes.iconShape = this.drawIconShape(
-        model,
-        shapeMap,
-        diffData,
-        diffState,
-      );
+      shapes.iconShape = this.drawIconShape(model, shapeMap, diffData, diffState);
     }
 
     // TODO: other shapes
@@ -122,7 +91,7 @@ export class QuadraticEdge extends BaseEdge {
 
   /**
    * calculate the control point by curvePosition|controlPoints|curveOffset
-   * @param startPoint: source point position of edge
+   * @param startPoint source point position of edge
    * @param endPoint target point position of edge
    * @param percent the proportion of control points' in the segment, Range 0 to 1
    * @param controlPoints the control point position
@@ -135,21 +104,8 @@ export class QuadraticEdge extends BaseEdge {
     percent: number,
     controlPoints: Point[],
     offset: number,
-  ) => Point[] = (
-    startPoint: Point,
-    endPoint: Point,
-    percent = 0,
-    controlPoints,
-    offset,
-  ) => {
+  ) => Point[] = (startPoint: Point, endPoint: Point, percent = 0, controlPoints, offset) => {
     if (controlPoints?.length) return controlPoints;
-    return [
-      getControlPoint(
-        startPoint as Point,
-        endPoint as Point,
-        percent as number,
-        offset as number,
-      ),
-    ];
+    return [getControlPoint(startPoint as Point, endPoint as Point, percent as number, offset as number)];
   };
 }

@@ -1,5 +1,5 @@
-import { supportsThreads, initThreads, ForceLayout } from '@antv/layout-wasm';
 import { labelPropagation } from '@antv/algorithm';
+import { ForceLayout, initThreads, supportsThreads } from '@antv/layout-wasm';
 import G6 from '../../../src/index';
 import { loadDataset } from '../../datasets/legacy-format';
 
@@ -150,9 +150,7 @@ export default async () => {
     graph.on('beforelayout', () => {
       const startTime = performance.now();
       timer = setInterval(() => {
-        $timer1.innerHTML = `Time: ${(performance.now() - startTime).toFixed(
-          2,
-        )}ms`;
+        $timer1.innerHTML = `Time: ${(performance.now() - startTime).toFixed(2)}ms`;
       }, 1);
     });
 
@@ -185,9 +183,7 @@ export default async () => {
     graph.on('beforelayout', () => {
       const startTime = performance.now();
       timer = setInterval(() => {
-        $timer2.innerHTML = `Time: ${(performance.now() - startTime).toFixed(
-          2,
-        )}ms`;
+        $timer2.innerHTML = `Time: ${(performance.now() - startTime).toFixed(2)}ms`;
       }, 1);
     });
 

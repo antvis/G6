@@ -1,4 +1,4 @@
-import { extend, Graph, Extensions } from '../../../src/index';
+import { Extensions, Graph, extend } from '../../../src/index';
 import { TestCaseContext } from '../interface';
 
 export default (context: TestCaseContext, options) => {

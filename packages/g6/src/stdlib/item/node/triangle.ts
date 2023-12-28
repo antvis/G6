@@ -1,16 +1,8 @@
 import { DisplayObject } from '@antv/g';
 import { NodeDisplayModel } from '../../../types';
-import {
-  ComboDisplayModel,
-  ComboModelData,
-  ComboShapeMap,
-} from '../../../types/combo';
+import { ComboDisplayModel, ComboModelData, ComboShapeMap } from '../../../types/combo';
 import { GShapeStyle, State } from '../../../types/item';
-import {
-  NodeModelData,
-  NodeShapeMap,
-  NodeShapeStyles,
-} from '../../../types/node';
+import { NodeModelData, NodeShapeMap, NodeShapeStyles } from '../../../types/node';
 import { BaseNode } from './base';
 
 type PathArray = any;
@@ -24,7 +16,7 @@ export class TriangleNode extends BaseNode {
       direction: 'up', //'up'|'left'|'right'|'down'
     },
   };
-  mergedStyles: NodeShapeStyles;
+  declare mergedStyles: NodeShapeStyles;
   constructor(props) {
     super(props);
     // suggest to merge default styles like this to avoid style value missing
@@ -44,41 +36,22 @@ export class TriangleNode extends BaseNode {
 
     // haloShape
     if (data.haloShape && this.drawHaloShape) {
-      shapes.haloShape = this.drawHaloShape(
-        model,
-        shapeMap,
-        diffData,
-        diffState,
-      );
+      shapes.haloShape = this.drawHaloShape(model, shapeMap, diffData, diffState);
     }
 
     // labelShape
     if (data.labelShape) {
-      shapes.labelShape = this.drawLabelShape(
-        model,
-        shapeMap,
-        diffData,
-        diffState,
-      );
+      shapes.labelShape = this.drawLabelShape(model, shapeMap, diffData, diffState);
     }
 
     // labelBackgroundShape
     if (data.labelBackgroundShape) {
-      shapes.labelBackgroundShape = this.drawLabelBackgroundShape(
-        model,
-        shapeMap,
-        diffData,
-      );
+      shapes.labelBackgroundShape = this.drawLabelBackgroundShape(model, shapeMap, diffData);
     }
 
     // anchor shapes
     if (data.anchorShapes) {
-      const anchorShapes = this.drawAnchorShapes(
-        model,
-        shapeMap,
-        diffData,
-        diffState,
-      );
+      const anchorShapes = this.drawAnchorShapes(model, shapeMap, diffData, diffState);
       shapes = {
         ...shapes,
         ...anchorShapes,
@@ -87,22 +60,12 @@ export class TriangleNode extends BaseNode {
 
     // iconShape
     if (data.iconShape) {
-      shapes.iconShape = this.drawIconShape(
-        model,
-        shapeMap,
-        diffData,
-        diffState,
-      );
+      shapes.iconShape = this.drawIconShape(model, shapeMap, diffData, diffState);
     }
 
     // badgeShape
     if (data.badgeShapes) {
-      const badgeShapes = this.drawBadgeShapes(
-        model,
-        shapeMap,
-        diffData,
-        diffState,
-      );
+      const badgeShapes = this.drawBadgeShapes(model, shapeMap, diffData, diffState);
       shapes = {
         ...shapes,
         ...badgeShapes,
@@ -141,48 +104,33 @@ export class TriangleNode extends BaseNode {
       },
     );
   }
-  private getTrianglePath(
-    r: number,
-    direction: 'up' | 'down' | 'left' | 'right',
-  ): PathArray {
+  private getTrianglePath(r: number, direction: 'up' | 'down' | 'left' | 'right'): PathArray {
     const halfHeight = (3 * r) / 2;
     const halfLength = (3 * r) / Math.sin((1 / 3) * Math.PI) / 2;
 
     let path: PathArray;
     if (direction === 'down') {
-      path = [
-        ['M', 0, halfHeight],
-        ['L', halfLength, -halfHeight],
-        ['L', -halfLength, -halfHeight],
-        ['Z'],
-      ];
+      path = [['M', 0, halfHeight], ['L', halfLength, -halfHeight], ['L', -halfLength, -halfHeight], ['Z']];
     } else if (direction === 'left') {
-      path = [
-        ['M', -halfHeight, 0],
-        ['L', halfHeight, halfLength],
-        ['L', halfHeight, -halfLength],
-        ['Z'],
-      ];
+      path = [['M', -halfHeight, 0], ['L', halfHeight, halfLength], ['L', halfHeight, -halfLength], ['Z']];
     } else if (direction === 'right') {
-      path = [
-        ['M', halfHeight, 0],
-        ['L', -halfHeight, halfLength],
-        ['L', -halfHeight, -halfLength],
-        ['Z'],
-      ];
+      path = [['M', halfHeight, 0], ['L', -halfHeight, halfLength], ['L', -halfHeight, -halfLength], ['Z']];
     } else {
       //up
-      path = [
-        ['M', 0, -halfHeight],
-        ['L', halfLength, halfHeight],
-        ['L', -halfLength, halfHeight],
-        ['Z'],
-      ];
+      path = [['M', 0, -halfHeight], ['L', halfLength, halfHeight], ['L', -halfLength, halfHeight], ['Z']];
     }
     return path;
   }
 
   /**
+   * @param model
+   * @param shapeMap
+   * @param diffData
+   * @param diffData.previous
+   * @param diffData.current
+   * @param diffState
+   * @param diffState.previous
+   * @param diffState.current
    * @description: add 'defaultOffsetX' and 'defaultOffsetY' making the icon align to the triangle center
    */
   public override drawIconShape(
@@ -209,14 +157,7 @@ export class TriangleNode extends BaseNode {
       defaultOffsetX = 0;
       defaultOffsetY = -keyShapeStyle.r / 4;
     }
-    const {
-      width,
-      height,
-      fontSize,
-      text,
-      offsetX = 0,
-      offsetY = 0,
-    } = shapeStyle;
+    const { width, height, fontSize, text, offsetX = 0, offsetY = 0 } = shapeStyle;
     const w = (width || fontSize) as number;
     const h = (height || fontSize) as number;
     const iconShapeType = text ? 'text' : 'image';
@@ -233,17 +174,12 @@ export class TriangleNode extends BaseNode {
       shapeStyle.fontSize = w;
     }
 
-    return this.upsertShape(
-      iconShapeType,
-      'iconShape',
-      shapeStyle as GShapeStyle,
-      {
-        model,
-        shapeMap,
-        diffData,
-        diffState,
-      },
-    );
+    return this.upsertShape(iconShapeType, 'iconShape', shapeStyle as GShapeStyle, {
+      model,
+      shapeMap,
+      diffData,
+      diffState,
+    });
   }
 
   public override calculateAnchorPosition(keyShapeStyle) {
@@ -255,32 +191,20 @@ export class TriangleNode extends BaseNode {
     const anchorPositionMap = {};
     if (direction === 'down') {
       anchorPositionMap['bottom'] = [0, halfHeight];
-      anchorPositionMap['right'] = anchorPositionMap['default'] = [
-        halfLength,
-        -halfHeight,
-      ];
+      anchorPositionMap['right'] = anchorPositionMap['default'] = [halfLength, -halfHeight];
       anchorPositionMap['left'] = [-halfLength, -halfHeight];
     } else if (direction === 'left') {
       anchorPositionMap['top'] = [halfHeight, -halfLength];
       anchorPositionMap['bottom'] = [halfHeight, halfLength];
-      anchorPositionMap['left'] = anchorPositionMap['default'] = [
-        -halfHeight,
-        0,
-      ];
+      anchorPositionMap['left'] = anchorPositionMap['default'] = [-halfHeight, 0];
     } else if (direction === 'right') {
       anchorPositionMap['top'] = [-halfHeight, -halfLength];
       anchorPositionMap['bottom'] = [-halfHeight, halfLength];
-      anchorPositionMap['right'] = anchorPositionMap['default'] = [
-        halfHeight,
-        0,
-      ];
+      anchorPositionMap['right'] = anchorPositionMap['default'] = [halfHeight, 0];
     } else {
       //up
       anchorPositionMap['left'] = [-halfLength, halfHeight];
-      anchorPositionMap['top'] = anchorPositionMap['default'] = [
-        0,
-        -halfHeight,
-      ];
+      anchorPositionMap['top'] = anchorPositionMap['default'] = [0, -halfHeight];
       anchorPositionMap['right'] = [halfLength, halfHeight];
     }
     return anchorPositionMap;

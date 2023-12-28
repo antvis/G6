@@ -1741,11 +1741,7 @@ class CustomNode extends CircleNode {
       model,
     );
     const { labelShape: propsLabelStyle } = model.data;
-    const labelStyle = Object.assign(
-      {},
-      this.defaultStyles.labelShape,
-      propsLabelStyle,
-    );
+    const labelStyle = Object.assign({}, this.defaultStyles.labelShape, propsLabelStyle);
     const labelShape = upsertShape(
       'text',
       'labelShape',
@@ -1808,23 +1804,8 @@ const clusters = [
     'Mme.Magloire',
     'Mlle.Baptistine',
   ],
-  [
-    'Tholomyes',
-    'Listolier',
-    'Fameuil',
-    'Blacheville',
-    'Favourite',
-    'Dahlia',
-    'Zephine',
-  ],
-  [
-    'Bamatabois',
-    'Judge',
-    'Champmathieu',
-    'Brevet',
-    'Chenildieu',
-    'Cochepaille',
-  ],
+  ['Tholomyes', 'Listolier', 'Fameuil', 'Blacheville', 'Favourite', 'Dahlia', 'Zephine'],
+  ['Bamatabois', 'Judge', 'Champmathieu', 'Brevet', 'Chenildieu', 'Cochepaille'],
   [
     'Mabeuf',
     'Enjolras',
@@ -1933,9 +1914,7 @@ describe('graph show up animations', () => {
             //   ],
             labelShape: {
               position: 'end',
-              text:
-                innerModel.data.labelShape?.text ||
-                '123asdfaskdfjaksjhdfjakshdfjkashdfkjahsfjkhaskjflhalkjs',
+              text: innerModel.data.labelShape?.text || '123asdfaskdfjaksjhdfjakshdfjkashdfkjahsfjkhaskjflhalkjs',
             },
             labelBackgroundShape: {
               fill: '#f00',

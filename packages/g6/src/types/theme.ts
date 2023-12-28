@@ -19,7 +19,8 @@ export abstract class Theme {
   destroy() {}
 }
 
-/** Theme registry table.
+/**
+ * Theme registry table.
  * @example { 'drag-node': DragNodeBehavior, 'my-drag-node': MyDragNodeBehavior }
  */
 export interface ThemeRegistry {
@@ -33,15 +34,11 @@ export interface ThemeRegistry {
 export type ThemeOptionsOf<T extends ThemeRegistry = {}> =
   | Extract<keyof T, string>
   | {
-      [K in keyof T]: T[K] extends { new (options: infer O): any }
-        ? O & { type: K }
-        : { type: K };
+      [K in keyof T]: T[K] extends { new (options: infer O): any } ? O & { type: K } : { type: K };
     }[Extract<keyof T, string>];
 
 export type ThemeObjectOptionsOf<T extends ThemeRegistry = {}> = {
-  [K in keyof T]: T[K] extends { new (options: infer O): any }
-    ? O & { type: K; key: string }
-    : never;
+  [K in keyof T]: T[K] extends { new (options: infer O): any } ? O & { type: K; key: string } : never;
 }[Extract<keyof T, string>];
 
 /** Default and state styles for a node. */
@@ -66,7 +63,8 @@ export type ComboStyleSet = {
   [stateName: string]: ComboShapeStyles;
 };
 
-/** Array of node style sets to map the palette in order.
+/**
+ * Array of node style sets to map the palette in order.
  * e.g.
  * [
  *   { default: { keyShape: { fill: 'red', stroke: 'black' } }, selected: { keyShape: { fill: 'yellow' }} },
@@ -78,12 +76,11 @@ export type ComboStyleSet = {
  *  'cluster1': { default: { keyShape: { fill: 'red', stroke: 'black' } }, selected: { keyShape: { fill: 'yellow' }} },
  *  'cluster2': { default: { keyShape: { fill: 'blue', stroke: 'black' } }, selected: { keyShape: { fill: 'green' }} },
  * }
- **/
-export type NodeStyleSets =
-  | NodeStyleSet[]
-  | { [dataTypeValue: string]: NodeStyleSet };
+ */
+export type NodeStyleSets = NodeStyleSet[] | { [dataTypeValue: string]: NodeStyleSet };
 
-/** Array of edge style sets to map the palette in order.
+/**
+ * Array of edge style sets to map the palette in order.
  * e.g.
  * [
  *   { default: { keyShape: { fill: 'red', stroke: 'black' } }, selected: { keyShape: { fill: 'yellow' }} },
@@ -95,12 +92,11 @@ export type NodeStyleSets =
  *  'cluster1': { default: { keyShape: { fill: 'red', stroke: 'black' } }, selected: { keyShape: { fill: 'yellow' }} },
  *  'cluster2': { default: { keyShape: { fill: 'blue', stroke: 'black' } }, selected: { keyShape: { fill: 'green' }} },
  * }
- **/
-export type EdgeStyleSets =
-  | EdgeStyleSet[]
-  | { [dataTypeValue: string]: EdgeStyleSet };
+ */
+export type EdgeStyleSets = EdgeStyleSet[] | { [dataTypeValue: string]: EdgeStyleSet };
 
-/** Array of combo style sets to map the palette in order.
+/**
+ * Array of combo style sets to map the palette in order.
  * e.g.
  * [
  *   { default: { keyShape: { fill: 'red', stroke: 'black' } }, selected: { keyShape: { fill: 'yellow' }} },
@@ -112,10 +108,8 @@ export type EdgeStyleSets =
  *  'cluster1': { default: { keyShape: { fill: 'red', stroke: 'black' } }, selected: { keyShape: { fill: 'yellow' }} },
  *  'cluster2': { default: { keyShape: { fill: 'blue', stroke: 'black' } }, selected: { keyShape: { fill: 'green' }} },
  * }
- **/
-export type ComboStyleSets =
-  | ComboStyleSet[]
-  | { [dataTypeValue: string]: ComboStyleSet };
+ */
+export type ComboStyleSets = ComboStyleSet[] | { [dataTypeValue: string]: ComboStyleSet };
 
 /**
  * Theme specification for node.

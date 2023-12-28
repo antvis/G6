@@ -2,6 +2,22 @@
   "name": "@antv/g6",
   "version": "5.0.0-beta.28",
   "description": "A Graph Visualization Framework in JavaScript",
+  "keywords": [
+    "antv",
+    "g6",
+    "graph",
+    "graph analysis",
+    "graph editor",
+    "graph visualization",
+    "relational data"
+  ],
+  "homepage": "https://g6.antv.antgroup.com/",
+  "bugs": {
+    "url": "https://github.com/antvis/g6/issues"
+  },
+  "repository": "git@github.com/antvis/g6.git",
+  "license": "MIT",
+  "author": "https://github.com/orgs/antvis/people",
   "main": "lib/index.js",
   "module": "esm/index.js",
   "types": "lib/index.d.ts",
@@ -12,36 +28,26 @@
     "dist"
   ],
   "scripts": {
-    "dev": "vite",
-    "start": "rimraf ./lib && tsc --module commonjs --outDir lib --watch",
-    "build:umd": "rimraf ./dist && rollup -c && npm run size",
+    "build": "run-p build:*",
     "build:cjs": "rimraf ./lib && tsc --module commonjs --outDir lib",
     "build:esm": "rimraf ./esm && tsc --module ESNext --outDir esm",
     "build:esm:watch": "rimraf ./esm && tsc --module ESNext --outDir esm --watch",
-    "build": "run-p build:*",
+    "build:umd": "rimraf ./dist && rollup -c && npm run size",
     "bundle-vis": "cross-env BUNDLE_VIS=1 npm run build:umd",
-    "size": "limit-size",
-    "prepublishOnly": "npm run ci",
-    "doc": "rimraf ../site/docs/_apis && typedoc",
-    "lint": "eslint ./src ./tests --quiet && prettier ./src ./tests --check",
-    "fix": "eslint ./src ./tests --fix && prettier ./src ./tests --write ",
-    "test": "jest",
-    "test:integration": "node --expose-gc --max-old-space-size=4096 --unhandled-rejections=strict node_modules/jest/bin/jest tests/integration/ --config jest.node.config.js --coverage --logHeapUsage --detectOpenHandles",
-    "test:integration_one": "node --expose-gc --max-old-space-size=4096 --unhandled-rejections=strict node_modules/jest/bin/jest tests/integration/behavior --config jest.node.config.js  --logHeapUsage --detectOpenHandles",
-    "test-live": "DEBUG_MODE=1 jest --watch  ./tests/unit/item-animate-spec.ts",
-    "test-behavior": "DEBUG_MODE=1 jest --watch ./tests/unit/item-3d-spec.ts",
     "ci": "run-s lint build test:integration",
-    "coverage": "jest --coverage"
+    "coverage": "jest --coverage",
+    "dev": "vite",
+    "fix": "eslint ./src ./tests --fix && prettier ./src ./tests --write ",
+    "lint": "eslint ./src ./tests --quiet && prettier ./src ./tests --check",
+    "prepublishOnly": "npm run ci",
+    "size": "limit-size",
+    "start": "rimraf ./lib && tsc --module commonjs --outDir lib --watch",
+    "test": "jest",
+    "test-behavior": "DEBUG_MODE=1 jest --watch ./tests/unit/item-3d-spec.ts",
+    "test-live": "DEBUG_MODE=1 jest --watch  ./tests/unit/item-animate-spec.ts",
+    "test:integration": "node --expose-gc --max-old-space-size=4096 --unhandled-rejections=strict --experimental-vm-modules ../../node_modules/jest/bin/jest tests/integration/ --config jest.node.config.js --coverage --logHeapUsage --detectOpenHandles",
+    "test:integration_one": "node --expose-gc --trace-warnings --max-old-space-size=4096 --unhandled-rejections=strict --experimental-vm-modules ../../node_modules/jest/bin/jest tests/integration/toolbar --config jest.node.config.js  --logHeapUsage --detectOpenHandles"
   },
-  "keywords": [
-    "antv",
-    "g6",
-    "graph",
-    "graph analysis",
-    "graph editor",
-    "graph visualization",
-    "relational data"
-  ],
   "dependencies": {
     "@ant-design/colors": "^7.0.0",
     "@antv/algorithm": "^0.1.26",
@@ -63,40 +69,14 @@
     "color": "^4.2.3",
     "gl-matrix": "^3.4.3",
     "insert-css": "^2.0.0",
-    "tslib": "^2.5.0"
+    "tslib": "^2.6.2"
   },
   "devDependencies": {
     "@antv/g6-plugin-map-view": "workspace:*",
-    "@rollup/plugin-terser": "^0.4.3",
-    "@types/jest": "^29.5.1",
-    "@types/jsdom": "^21.1.1",
-    "@types/node": "13.11.1",
-    "@types/xmlserializer": "^0.6.3",
-    "@typescript-eslint/eslint-plugin": "^6.5.0",
-    "@typescript-eslint/parser": "^6.5.0",
-    "@umijs/fabric": "^2.0.0",
-    "babel-loader": "^8.0.6",
-    "cross-env": "^7.0.3",
-    "eslint": "^8.48.0",
-    "eslint-plugin-import": "^2.28.1",
-    "jest": "^29.5.1",
-    "jest-environment-jsdom": "^29.7.0",
-    "jsdom": "^19.0.0",
-    "limit-size": "^0.1.4",
-    "npm-run-all": "^4.1.5",
-    "prettier": "^3.0.3",
-    "rimraf": "^3.0.0",
-    "rollup": "^2.79.1",
-    "rollup-plugin-node-resolve": "^5.2.0",
-    "rollup-plugin-polyfill-node": "^0.8.0",
-    "rollup-plugin-typescript": "^1.0.1",
-    "rollup-plugin-visualizer": "^5.6.0",
+    "@types/jsdom": "^21.1.6",
+    "@types/xmlserializer": "^0.6.6",
     "stats.js": "^0.17.0",
-    "ts-jest": "^29.1.1",
-    "typedoc": "^0.25.0",
-    "typedoc-plugin-markdown": "^3.16.0",
-    "typescript": "5.1.6",
-    "vite": "^4.2.2",
+    "vite": "^5.0.10",
     "xmlserializer": "^0.6.1"
   },
   "limit-size": [
@@ -109,12 +89,5 @@
       "path": "dist/g6.min.js",
       "limit": "2 Mb"
     }
-  ],
-  "author": "https://github.com/orgs/antvis/people",
-  "homepage": "https://g6.antv.antgroup.com/",
-  "bugs": {
-    "url": "https://github.com/antvis/g6/issues"
-  },
-  "repository": "git@github.com/antvis/g6.git",
-  "license": "MIT"
+  ]
 }

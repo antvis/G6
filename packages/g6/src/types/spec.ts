@@ -1,44 +1,24 @@
 import { Canvas } from '@antv/g';
 import { AnimateCfg, CameraAnimationOptions } from './animate';
+import { BehaviorOptionsOf, BehaviorRegistry } from './behavior';
+import { ComboDisplayModel, ComboEncode, ComboModel, ComboShapesEncode } from './combo';
 import { Padding, Point } from './common';
 import { DataConfig, DataLifecycleType, TransformerFn } from './data';
-import {
-  EdgeDisplayModel,
-  EdgeEncode,
-  EdgeModel,
-  EdgeShapesEncode,
-} from './edge';
-import {
-  NodeDisplayModel,
-  NodeEncode,
-  NodeModel,
-  NodeShapesEncode,
-} from './node';
-import { FitViewRules, GraphAlignment } from './view';
-import {
-  ComboDisplayModel,
-  ComboEncode,
-  ComboModel,
-  ComboShapesEncode,
-} from './combo';
-import { BehaviorOptionsOf, BehaviorRegistry } from './behavior';
+import { EdgeDisplayModel, EdgeEncode, EdgeModel, EdgeShapesEncode } from './edge';
 import { LayoutOptions } from './layout';
+import { NodeDisplayModel, NodeEncode, NodeModel, NodeShapesEncode } from './node';
 import { ThemeOptionsOf, ThemeRegistry } from './theme';
+import { FitViewRules, GraphAlignment } from './view';
 
-import { RendererName } from './render';
 import { StackCfg } from './history';
 import { Plugin } from './plugin';
+import { RendererName } from './render';
 
 export type NodeMapper = ((data: NodeModel) => NodeDisplayModel) | NodeEncode;
 export type EdgeMapper = ((data: EdgeModel) => EdgeDisplayModel) | EdgeEncode;
-export type ComboMapper =
-  | ((data: ComboModel) => ComboDisplayModel)
-  | ComboEncode;
+export type ComboMapper = ((data: ComboModel) => ComboDisplayModel) | ComboEncode;
 
-export interface Specification<
-  B extends BehaviorRegistry,
-  T extends ThemeRegistry,
-> {
+export interface Specification<B extends BehaviorRegistry, T extends ThemeRegistry> {
   container?: string | HTMLElement;
   backgroundCanvas?: Canvas;
   canvas?: Canvas;
@@ -106,19 +86,13 @@ export interface Specification<
 
   /** item state styles */
   nodeState?: {
-    [stateName: string]:
-      | ((data: NodeModel) => NodeDisplayModel)
-      | NodeShapesEncode;
+    [stateName: string]: ((data: NodeModel) => NodeDisplayModel) | NodeShapesEncode;
   };
   edgeState?: {
-    [stateName: string]:
-      | ((data: EdgeModel) => EdgeDisplayModel)
-      | EdgeShapesEncode;
+    [stateName: string]: ((data: EdgeModel) => EdgeDisplayModel) | EdgeShapesEncode;
   };
   comboState?: {
-    [stateName: string]:
-      | ((data: ComboModel) => ComboDisplayModel)
-      | ComboShapesEncode;
+    [stateName: string]: ((data: ComboModel) => ComboDisplayModel) | ComboShapesEncode;
   };
 
   /** layout */

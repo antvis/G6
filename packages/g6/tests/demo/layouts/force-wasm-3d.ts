@@ -1,5 +1,5 @@
-import { supportsThreads, initThreads, ForceLayout } from '@antv/layout-wasm';
-import { Graph, Extensions, extend } from '../../../src/index';
+import { ForceLayout, initThreads, supportsThreads } from '@antv/layout-wasm';
+import { Extensions, Graph, extend } from '../../../src/index';
 import { loadDataset } from '../../datasets/legacy-format';
 import { TestCaseContext } from '../interface';
 

@@ -61,10 +61,7 @@ export const getExpandedBBox = (bbox: AABB, offset: number): AABB => {
   } = bbox;
   const expandBBox = new AABB();
   if (getBBoxWidth(bbox) || getBBoxHeight(bbox)) {
-    expandBBox.setMinMax(
-      [minX - offset, minY - offset, 0],
-      [maxX + offset, maxY + offset, 0],
-    );
+    expandBBox.setMinMax([minX - offset, minY - offset, 0], [maxX + offset, maxY + offset, 0]);
   }
   return expandBBox;
 };
@@ -119,9 +116,7 @@ export const getBBoxPoints = (bbox: AABB): PolyPoint[] => {
  */
 export const isPointOutsideBBox = (point: PolyPoint, bbox: AABB): boolean => {
   const { x, y } = point;
-  return (
-    x < bbox.min[0] || x > bbox.max[0] || y < bbox.min[1] || y > bbox.max[1]
-  );
+  return x < bbox.min[0] || x > bbox.max[0] || y < bbox.min[1] || y > bbox.max[1];
 };
 
 /**
@@ -174,10 +169,7 @@ export const getBBoxYCrossPoints = (bbox: AABB, y: number): PolyPoint[] => {
  * @param point a 2d point
  * @returns intersection points
  */
-export const getBBoxCrossPointsByPoint = (
-  bbox: AABB,
-  point: PolyPoint,
-): PolyPoint[] =>
+export const getBBoxCrossPointsByPoint = (bbox: AABB, point: PolyPoint): PolyPoint[] =>
   getBBoxXCrossPoints(bbox, point.x).concat(getBBoxYCrossPoints(bbox, point.y));
 
 /**
@@ -186,10 +178,7 @@ export const getBBoxCrossPointsByPoint = (
  * @param bbox a bounding box
  * @returns 0 if the point is in the center; True if the point is closer to the horizontal axis; False otherwise.
  */
-export const isHorizontalPoint = (
-  point: PolyPoint,
-  bbox: AABB,
-): boolean | number => {
+export const isHorizontalPoint = (point: PolyPoint, bbox: AABB): boolean | number => {
   const dx = Math.abs(point.x - bbox.center[0]);
   const dy = Math.abs(point.y - bbox.center[1]);
   if (dx === 0 && dy === 0) return 0;
@@ -203,11 +192,7 @@ export const isHorizontalPoint = (
  * @param anotherPoint anotherPoint
  * @returns the anchor point of bbox
  */
-export const getExpandedBBoxPoint = (
-  bbox: AABB,
-  point: PolyPoint,
-  anotherPoint: PolyPoint,
-): PolyPoint => {
+export const getExpandedBBoxPoint = (bbox: AABB, point: PolyPoint, anotherPoint: PolyPoint): PolyPoint => {
   const isHorizontal = isHorizontalPoint(point, bbox);
   if (isHorizontal === 0) {
     // Explain that the anchor point is the node center (linkCenter: true)
@@ -249,12 +234,7 @@ export const getExpandedBBoxPoint = (
  * @param p3 Endpoint of the second line segment
  * @returns True if the line segments intersect, False otherwise
  */
-export const isSegmentsIntersected = (
-  p0: PolyPoint,
-  p1: PolyPoint,
-  p2: PolyPoint,
-  p3: PolyPoint,
-): boolean => {
+export const isSegmentsIntersected = (p0: PolyPoint, p1: PolyPoint, p2: PolyPoint, p3: PolyPoint): boolean => {
   const v1x = p2.x - p0.x;
   const v1y = p2.y - p0.y;
   const v2x = p3.x - p0.x;
@@ -279,11 +259,7 @@ export const isSegmentsIntersected = (
  * @param bbox a bounding box
  * @returns True if the line segment intersects with bbox, False otherwise
  */
-export const isSegmentCrossingBBox = (
-  p1: PolyPoint,
-  p2: PolyPoint,
-  bbox: AABB,
-): boolean => {
+export const isSegmentCrossingBBox = (p1: PolyPoint, p2: PolyPoint, bbox: AABB): boolean => {
   if (getBBoxWidth(bbox) || getBBoxHeight(bbox)) {
     const [pa, pb, pc, pd] = getBBoxPoints(bbox);
     return (
@@ -297,25 +273,23 @@ export const isSegmentCrossingBBox = (
 };
 
 /**
-  Determines whether a given point is inside a given bounding box.
-  @param {Point} point - The point to be checked.
-  @param {AABB} bbox - The bounding box.
-  @returns {boolean} - Returns true if the point is inside the bounding box, false otherwise.
-*/
+ * Determines whether a given point is inside a given bounding box.
+ * @param {Point} point - The point to be checked.
+ * @param {AABB} bbox - The bounding box.
+ * @returns {boolean} - Returns true if the point is inside the bounding box, false otherwise.
+ */
 export const isPointInBBox = (point: Point, bbox: AABB) => {
   const { x, y } = point;
-  return (
-    x > bbox.min[0] && x < bbox.max[0] && y > bbox.min[1] && y < bbox.max[1]
-  );
+  return x > bbox.min[0] && x < bbox.max[0] && y > bbox.min[1] && y < bbox.max[1];
 };
 
 /**
-  Determines whether a given sub-bounding box is fully contained within a given bounding box.
-  @param {AABB} subBBox - The sub-bounding box to be checked.
-  @param {AABB} bbox - The bounding box.
-  @param {number} [scale] - Optional scaling factor to adjust the size of the bounding box.
-  @returns {boolean} - Returns true if the sub-bounding box is fully contained within the bounding box, false otherwise.
-*/
+ * Determines whether a given sub-bounding box is fully contained within a given bounding box.
+ * @param {AABB} subBBox - The sub-bounding box to be checked.
+ * @param {AABB} bbox - The bounding box.
+ * @param {number} [scale] - Optional scaling factor to adjust the size of the bounding box.
+ * @returns {boolean} - Returns true if the sub-bounding box is fully contained within the bounding box, false otherwise.
+ */
 export const isBBoxInBBox = (subBBox: AABB, bbox: AABB, scale?: number) => {
   if (scale) {
     return (
@@ -342,16 +316,10 @@ export const getCombinedCanvasesBounds = (canvases: Canvas[]) => {
   };
   canvases.forEach((canvas) => {
     const bounds = canvas.document.documentElement.getBounds();
-    combinedBounds.min = combinedBounds.min.map((val, i) =>
-      Math.min(val || Infinity, bounds.min[i]),
-    );
-    combinedBounds.max = combinedBounds.max.map((val, i) =>
-      Math.max(val || -Infinity, bounds.max[i]),
-    );
+    combinedBounds.min = combinedBounds.min.map((val, i) => Math.min(val || Infinity, bounds.min[i]));
+    combinedBounds.max = combinedBounds.max.map((val, i) => Math.max(val || -Infinity, bounds.max[i]));
   });
-  combinedBounds.center = combinedBounds.center.map(
-    (_, i) => (combinedBounds.max[i] + combinedBounds.min[i]) / 2,
-  );
+  combinedBounds.center = combinedBounds.center.map((_, i) => (combinedBounds.max[i] + combinedBounds.min[i]) / 2);
   combinedBounds.halfExtents = combinedBounds.halfExtents.map(
     (_, i) => (combinedBounds.max[i] - combinedBounds.min[i]) / 2,
   );

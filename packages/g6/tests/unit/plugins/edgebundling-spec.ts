@@ -41,8 +41,7 @@ describe('edge bundling', () => {
   });
 
   it('edge bundling on circular layout with default configs', () => {
-    const { plugin: edgeBundling } =
-      graph.pluginController.pluginMap.get('edgeBundling');
+    const { plugin: edgeBundling } = graph.pluginController.pluginMap.get('edgeBundling');
 
     const graphData = {
       nodes: graph.getAllNodesData(),
@@ -51,16 +50,13 @@ describe('edge bundling', () => {
     edgeBundling.bundling(graphData);
 
     expect(graphData.edges[0].data.type).toEqual('polyline-edge');
-    expect(graphData.edges[0].data.keyShape?.controlPoints.length > 2).toEqual(
-      true,
-    );
+    expect(graphData.edges[0].data.keyShape?.controlPoints.length > 2).toEqual(true);
 
     edgeBundling.destroy();
   });
 
   it('bundling on circular with fixed bundleThreshold and iterations', () => {
-    const { plugin: edgeBundling } =
-      graph.pluginController.pluginMap.get('edgeBundling');
+    const { plugin: edgeBundling } = graph.pluginController.pluginMap.get('edgeBundling');
 
     const graphData = {
       nodes: graph.getAllNodesData(),
@@ -74,9 +70,7 @@ describe('edge bundling', () => {
     });
 
     expect(graphData.edges[0].data.type).toEqual('polyline-edge');
-    expect(graphData.edges[0].data.keyShape?.controlPoints.length > 2).toEqual(
-      true,
-    );
+    expect(graphData.edges[0].data.keyShape?.controlPoints.length > 2).toEqual(true);
 
     edgeBundling.destroy();
   });
@@ -91,8 +85,7 @@ describe('edge bundling', () => {
     };
     graph.changeData(data2);
     graph.on('afterlayout', () => {
-      const { plugin: edgeBundling } =
-        graph.pluginController.pluginMap.get('edgeBundling');
+      const { plugin: edgeBundling } = graph.pluginController.pluginMap.get('edgeBundling');
 
       data2.nodes = [
         {
@@ -131,30 +124,28 @@ describe('edge bundling', () => {
       });
 
       expect(data2.edges[0].data.type).toEqual('polyline-edge');
-      expect(data2.edges[0].data.keyShape?.controlPoints.length > 2).toEqual(
-        true,
-      );
+      expect(data2.edges[0].data.keyShape?.controlPoints.length > 2).toEqual(true);
       edgeBundling.destroy();
     });
   });
 
   it('bundling no position info, throw error', () => {
-    const { plugin: edgeBundling } =
-      graph.pluginController.pluginMap.get('edgeBundling');
+    const { plugin: edgeBundling } = graph.pluginController.pluginMap.get('edgeBundling');
 
     const data2 = {
       nodes: [{ id: 'n0' }, { id: 'n1' }],
       edges: [{ source: 'n0', target: 'n1' }],
     };
 
+    /**
+     *
+     */
     function fn() {
       edgeBundling.updateBundling({
         data: data2,
       });
     }
-    expect(fn).toThrowError(
-      'please layout the graph or assign x and y for nodes first',
-    );
+    expect(fn).toThrowError('please layout the graph or assign x and y for nodes first');
     edgeBundling.destroy();
     graph.destroy();
   });

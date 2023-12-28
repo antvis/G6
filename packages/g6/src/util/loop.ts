@@ -2,16 +2,7 @@ import { Tuple3Number } from '@antv/g';
 import { vec2 } from 'gl-matrix';
 import { LOOP_POSITION, LoopPosition } from '../types/loop';
 
-export const loopPosition = [
-  'top',
-  'top-right',
-  'right',
-  'bottom-right',
-  'bottom',
-  'bottom-left',
-  'left',
-  'top-left',
-];
+export const loopPosition = ['top', 'top-right', 'right', 'bottom-right', 'bottom', 'bottom-left', 'left', 'top-left'];
 
 const PI_OVER_8 = Math.PI / 8;
 
@@ -71,9 +62,7 @@ export const calculatePointForOtherShapes = (
   const defaultPointPadding = Math.min(halfOfHeight / 2, halfOfWidth / 2);
   const maxPointPadding = Math.min(halfOfHeight, halfOfWidth);
 
-  const pointPadding = customPointPadding
-    ? Math.min(maxPointPadding, customPointPadding)
-    : defaultPointPadding;
+  const pointPadding = customPointPadding ? Math.min(maxPointPadding, customPointPadding) : defaultPointPadding;
 
   const pointsPositionMap: Record<LoopPosition, [vec2, vec2]> = {
     [LOOP_POSITION.top]: [
@@ -123,11 +112,7 @@ export const calculatePointForOtherShapes = (
  * @param {number} angleInRadians - The angle in radians.
  * @returns {vec2} - The point on the ellipse at the given angle.
  */
-export const getPointOnEllipseAtAngle = (
-  halfOfWidth: number,
-  halfOfHeight: number,
-  angleInRadians: number,
-): vec2 => {
+export const getPointOnEllipseAtAngle = (halfOfWidth: number, halfOfHeight: number, angleInRadians: number): vec2 => {
   const x = halfOfWidth * Math.cos(angleInRadians);
   const y = halfOfHeight * Math.sin(angleInRadians);
   return [x, y];
@@ -146,15 +131,7 @@ export const getPointsOnEllipseAtAngles = (
   startAngle: number,
   endAngle: number,
 ) => {
-  const [rstartX, rstartY] = getPointOnEllipseAtAngle(
-    halfOfWidth,
-    halfOfHeight,
-    startAngle,
-  );
-  const [rendX, rendY] = getPointOnEllipseAtAngle(
-    halfOfWidth,
-    halfOfHeight,
-    endAngle,
-  );
+  const [rstartX, rstartY] = getPointOnEllipseAtAngle(halfOfWidth, halfOfHeight, startAngle);
+  const [rendX, rendY] = getPointOnEllipseAtAngle(halfOfWidth, halfOfHeight, endAngle);
   return [rstartX, rstartY, rendX, rendY];
 };

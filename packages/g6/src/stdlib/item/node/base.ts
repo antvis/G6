@@ -1,34 +1,11 @@
 import { AABB, DisplayObject } from '@antv/g';
 import { OTHER_SHAPES_FIELD_NAME, RESERVED_SHAPE_IDS } from '../../../constant';
 import { NodeDisplayModel } from '../../../types';
-import {
-  GShapeStyle,
-  SHAPE_TYPE,
-  SHAPE_TYPE_3D,
-  ShapeStyle,
-  State,
-  LodLevelRanges,
-  ItemModelData,
-} from '../../../types/item';
-import {
-  NodeModelData,
-  NodeShapeMap,
-  NodeShapeStyles,
-  IAnchorPositionMap,
-} from '../../../types/node';
-import {
-  ComboDisplayModel,
-  ComboModelData,
-  ComboShapeStyles,
-  ComboShapeMap,
-} from '../../../types/combo';
-import {
-  formatPadding,
-  getShapeLocalBoundsByStyle,
-  mergeStyles,
-  upsertShape,
-} from '../../../util/shape';
+import { ComboDisplayModel, ComboModelData, ComboShapeMap, ComboShapeStyles } from '../../../types/combo';
 import type { IGraph } from '../../../types/graph';
+import { GShapeStyle, LodLevelRanges, SHAPE_TYPE, SHAPE_TYPE_3D, ShapeStyle, State } from '../../../types/item';
+import { IAnchorPositionMap, NodeModelData, NodeShapeMap, NodeShapeStyles } from '../../../types/node';
+import { formatPadding, getShapeLocalBoundsByStyle, mergeStyles, upsertShape } from '../../../util/shape';
 import { getWordWrapWidthByBox } from '../../../util/text';
 import { convertToNumber } from '../../../util/type';
 
@@ -109,16 +86,11 @@ export abstract class BaseNode {
         }
       } else if (fieldName === OTHER_SHAPES_FIELD_NAME) {
         Object.keys(data[fieldName]).forEach(
-          (otherShapeId) =>
-            (dataStyles[otherShapeId] = data[fieldName][otherShapeId]),
+          (otherShapeId) => (dataStyles[otherShapeId] = data[fieldName][otherShapeId]),
         );
       }
     });
-    const merged = mergeStyles([
-      this.themeStyles,
-      this.defaultStyles,
-      dataStyles,
-    ]) as NodeShapeStyles;
+    const merged = mergeStyles([this.themeStyles, this.defaultStyles, dataStyles]) as NodeShapeStyles;
     const padding = merged.labelBackgroundShape?.padding;
     if (padding) {
       merged.labelBackgroundShape.padding = formatPadding(padding);
@@ -132,11 +104,7 @@ export abstract class BaseNode {
   public updateCache(shapeMap) {
     if (shapeMap.labelShape) {
       const { maxWidth = '200%' } = this.mergedStyles.labelShape || {};
-      this.#zoomCache.wordWrapWidth = getWordWrapWidthByBox(
-        shapeMap.keyShape.getLocalBounds(),
-        maxWidth,
-        1,
-      );
+      this.#zoomCache.wordWrapWidth = getWordWrapWidthByBox(shapeMap.keyShape.getLocalBounds(), maxWidth, 1);
     }
   }
   /**
@@ -168,6 +136,12 @@ export abstract class BaseNode {
    * @param model The displayed model of this node, only for drawing and not received by users.
    * @param shapeMap The shape map that contains all of the elements to show on the node.
    * @param shapesChanged An array of shape IDs that have changed and need to be updated.
+   * @param diffData
+   * @param diffData.previous
+   * @param diffData.current
+   * @param diffState
+   * @param diffState.previous
+   * @param diffState.current
    * @returns An object that contains some new shapes to be added to the node.
    */
   public afterDraw(
@@ -190,11 +164,7 @@ export abstract class BaseNode {
    * @param value state value
    * @param shapeMap The shape map that contains all of the elements to show on the node.
    */
-  public setState: (
-    name: string,
-    value: boolean,
-    shapeMap: { [shapeId: string]: DisplayObject },
-  ) => void;
+  public setState: (name: string, value: boolean, shapeMap: { [shapeId: string]: DisplayObject }) => void;
 
   /**
    * The key function of drawing shape.
@@ -221,6 +191,10 @@ export abstract class BaseNode {
    * @param shapeMap The shape map that contains all of the elements to show on the node.
    * @param diffData An object that contains previous and current data.
    * @param diffState An object that contains previous and current node's state.
+   * @param diffData.previous
+   * @param diffData.current
+   * @param diffState.previous
+   * @param diffState.current
    * @returns The display object representing the label shape of the node.
    */
   public drawLabelShape(
@@ -235,11 +209,7 @@ export abstract class BaseNode {
     const { labelShape: shapeStyle } = this.mergedStyles;
     if (!shapeStyle || !shapeStyle.text || !model.data.labelShape) return;
     const { keyShape } = shapeMap;
-    const keyShapeBox = getShapeLocalBoundsByStyle(
-      keyShape,
-      this.mergedStyles.keyShape,
-      keyShape.getLocalBounds(),
-    );
+    const keyShapeBox = getShapeLocalBoundsByStyle(keyShape, this.mergedStyles.keyShape, keyShape.getLocalBounds());
     const {
       position,
       offsetX: propsOffsetX,
@@ -298,15 +268,9 @@ export abstract class BaseNode {
         positionPreset.offsetY = 2;
         break;
     }
-    const offsetX = (
-      propsOffsetX === undefined ? positionPreset.offsetX : propsOffsetX
-    ) as number;
-    const offsetY = (
-      propsOffsetY === undefined ? positionPreset.offsetY : propsOffsetY
-    ) as number;
-    const offsetZ = (
-      propsOffsetZ === undefined ? positionPreset.offsetZ : propsOffsetZ
-    ) as number;
+    const offsetX = (propsOffsetX === undefined ? positionPreset.offsetX : propsOffsetX) as number;
+    const offsetY = (propsOffsetY === undefined ? positionPreset.offsetY : propsOffsetY) as number;
+    const offsetZ = (propsOffsetZ === undefined ? positionPreset.offsetZ : propsOffsetZ) as number;
     positionPreset.x += offsetX;
     positionPreset.y += offsetY;
     positionPreset.z += offsetZ;
@@ -334,6 +298,10 @@ export abstract class BaseNode {
    * @param shapeMap The shape map that contains all of the elements to show on the node.
    * @param diffData An object that contains previous and current data.
    * @param diffState An object that contains previous and current node's state.
+   * @param diffData.previous
+   * @param diffData.current
+   * @param diffState.previous
+   * @param diffState.current
    * @returns The display object representing the label background shape of the node.
    */
   public drawLabelBackgroundShape(
@@ -350,13 +318,9 @@ export abstract class BaseNode {
     // label's local bounds, will take scale into account
     const textBBoxGeo = labelShape.getGeometryBounds();
     const height = textBBoxGeo.max[1] - textBBoxGeo.min[1];
-    const width = Math.min(
-      textBBoxGeo.max[0] - textBBoxGeo.min[0] + 2,
-      labelShape.attributes.wordWrapWidth,
-    );
+    const width = Math.min(textBBoxGeo.max[0] - textBBoxGeo.min[0] + 2, labelShape.attributes.wordWrapWidth);
 
-    const { padding, ...backgroundStyle } =
-      this.mergedStyles.labelBackgroundShape;
+    const { padding, ...backgroundStyle } = this.mergedStyles.labelBackgroundShape;
 
     const bgStyle: any = {
       fill: '#fff',
@@ -382,6 +346,10 @@ export abstract class BaseNode {
    * @param shapeMap The shape map that contains all of the elements to show on the node.
    * @param diffData An object that contains previous and current data.
    * @param diffState An object that contains previous and current node's state.
+   * @param diffData.previous
+   * @param diffData.current
+   * @param diffState.previous
+   * @param diffState.current
    * @returns The display object representing the icon shape of the node.
    */
   public drawIconShape(
@@ -394,14 +362,7 @@ export abstract class BaseNode {
     diffState?: { previous: State[]; current: State[] },
   ): DisplayObject {
     const { iconShape: shapeStyle } = this.mergedStyles;
-    const {
-      width,
-      height,
-      fontSize,
-      text,
-      offsetX = 0,
-      offsetY = 0,
-    } = shapeStyle;
+    const { width, height, fontSize, text, offsetX = 0, offsetY = 0 } = shapeStyle;
     const w = (width || fontSize) as number;
     const h = (height || fontSize) as number;
     const iconShapeType = text ? 'text' : 'image';
@@ -418,17 +379,12 @@ export abstract class BaseNode {
       shapeStyle.fontSize = w;
     }
 
-    return this.upsertShape(
-      iconShapeType,
-      'iconShape',
-      shapeStyle as GShapeStyle,
-      {
-        shapeMap,
-        model,
-        diffData,
-        diffState,
-      },
-    );
+    return this.upsertShape(iconShapeType, 'iconShape', shapeStyle as GShapeStyle, {
+      shapeMap,
+      model,
+      diffData,
+      diffState,
+    });
   }
 
   /**
@@ -437,6 +393,10 @@ export abstract class BaseNode {
    * @param shapeMap The shape map that contains all of the elements to show on the node.
    * @param diffData An object that contains previous and current data.
    * @param diffState An object that contains previous and current node's state.
+   * @param diffData.previous
+   * @param diffData.current
+   * @param diffState.previous
+   * @param diffState.current
    * @returns The display object representing the halo shape of the node.
    */
   public drawHaloShape(
@@ -449,8 +409,7 @@ export abstract class BaseNode {
     diffState?: { previous: State[]; current: State[] },
   ): DisplayObject {
     const { keyShape } = shapeMap;
-    const { haloShape: haloShapeStyle, keyShape: keyShapeStyle } =
-      this.mergedStyles;
+    const { haloShape: haloShapeStyle, keyShape: keyShapeStyle } = this.mergedStyles;
     if (haloShapeStyle.visible === false) return;
     const { nodeName, attributes } = keyShape;
     const { x, y, fill } = attributes;
@@ -479,6 +438,10 @@ export abstract class BaseNode {
    * @param shapeMap The shape map that contains all of the elements to show on the node.
    * @param diffData An object that contains previous and current data.
    * @param diffState An object that contains previous and current node's state.
+   * @param diffData.previous
+   * @param diffData.current
+   * @param diffState.previous
+   * @param diffState.current
    * @returns The display object representing the anchors shape of the node.
    */
   public drawAnchorShapes(
@@ -492,22 +455,15 @@ export abstract class BaseNode {
   ): {
     [shapeId: string]: DisplayObject;
   } {
-    const { anchorShapes: commonStyle, keyShape: keyShapeStyle } =
-      this.mergedStyles;
+    const { anchorShapes: commonStyle, keyShape: keyShapeStyle } = this.mergedStyles;
 
-    const individualConfigs = Object.values(this.mergedStyles).filter(
-      (style) => style.tag === 'anchorShape',
-    );
+    const individualConfigs = Object.values(this.mergedStyles).filter((style) => style.tag === 'anchorShape');
     if (!individualConfigs.length) return;
     const shapes = {};
     const anchorPositionMap = this.calculateAnchorPosition(keyShapeStyle);
     individualConfigs.forEach((config, i) => {
       const { position, fill = keyShapeStyle.fill, ...style } = config;
-      const [cx, cy] = this.#getAnchorPosition(
-        position,
-        anchorPositionMap,
-        shapeMap,
-      );
+      const [cx, cy] = this.#getAnchorPosition(position, anchorPositionMap, shapeMap);
       const id = `anchorShape${i}`;
       shapes[id] = this.upsertShape(
         'circle',
@@ -543,18 +499,11 @@ export abstract class BaseNode {
       keyShapeBBox.min[1] - keyShapeBBox.center[1],
     ]; //topRight
     if (position instanceof Array) {
-      return [
-        keyShapeWidth * (position[0] - 0.5),
-        keyShapeHeight * (position[1] - 0.5),
-      ];
+      return [keyShapeWidth * (position[0] - 0.5), keyShapeHeight * (position[1] - 0.5)];
     } else if (typeof position === 'string') {
       position = position.toLowerCase();
       //receive a unknown string, remind the user.
-      return (
-        anchorPositionMap[position] ||
-        anchorPositionMap['default'] ||
-        defaultPosition
-      );
+      return anchorPositionMap[position] || anchorPositionMap['default'] || defaultPosition;
     }
     //receive a position in unknown type (such as a number or undefined).
     return anchorPositionMap['default'] || defaultPosition;
@@ -584,6 +533,10 @@ export abstract class BaseNode {
    * @param shapeMap The shape map that contains all of the elements to show on the node.
    * @param diffData An object that contains previous and current data.
    * @param diffState An object that contains previous and current node's state.
+   * @param diffData.previous
+   * @param diffData.current
+   * @param diffState.previous
+   * @param diffState.current
    * @returns The display object representing the badges shape of the node.
    */
   public drawBadgeShapes(
@@ -597,21 +550,15 @@ export abstract class BaseNode {
   ): {
     [shapeId: string]: DisplayObject;
   } {
-    const { badgeShapes: commonStyle, keyShape: keyShapeStyle } =
-      this.mergedStyles;
-    const individualConfigs = Object.values(this.mergedStyles).filter(
-      (style) => style.tag === 'badgeShape',
-    );
+    const { badgeShapes: commonStyle, keyShape: keyShapeStyle } = this.mergedStyles;
+    const individualConfigs = Object.values(this.mergedStyles).filter((style) => style.tag === 'badgeShape');
     if (!individualConfigs.length) return {};
     const keyShapeBBox = getShapeLocalBoundsByStyle(
       shapeMap.keyShape,
       keyShapeStyle,
       shapeMap.keyShape.getLocalBounds(),
     );
-    const keyShapeSize = Math.min(
-      keyShapeBBox.max[0] - keyShapeBBox.min[0],
-      keyShapeBBox.max[1] - keyShapeBBox.min[1],
-    );
+    const keyShapeSize = Math.min(keyShapeBBox.max[0] - keyShapeBBox.min[0], keyShapeBBox.max[1] - keyShapeBBox.min[1]);
     const shapes = {};
     individualConfigs.forEach((config, i) => {
       const { position, ...individualStyle } = config;
@@ -620,9 +567,7 @@ export abstract class BaseNode {
         ...commonStyle,
         ...individualStyle,
       };
-      const colorFromPalette = commonStyle.palette
-        ? commonStyle.palette[i % commonStyle.palette.length]
-        : '#7E92B5';
+      const colorFromPalette = commonStyle.palette ? commonStyle.palette[i % commonStyle.palette.length] : '#7E92B5';
       const {
         text = '',
         type,
@@ -714,10 +659,7 @@ export abstract class BaseNode {
       const bbox = shapes[id].getLocalBounds();
 
       const bgShapeId = `${position}BadgeBackgroundShape`;
-      const bgWidth =
-        (text as string).length <= 1
-          ? bgHeight
-          : Math.max(bgHeight, bbox.max[0] - bbox.min[0]) + 8;
+      const bgWidth = (text as string).length <= 1 ? bgHeight : Math.max(bgHeight, bbox.max[0] - bbox.min[0]) + 8;
       shapes[bgShapeId] = this.upsertShape(
         'rect',
         bgShapeId,
@@ -750,6 +692,10 @@ export abstract class BaseNode {
    * @param shapeMap The shape map that contains all of the elements to show on the node.
    * @param diffData An object that contains previous and current data.
    * @param diffState An object that contains previous and current node's state.
+   * @param diffData.previous
+   * @param diffData.current
+   * @param diffState.previous
+   * @param diffState.current
    * @returns The display object representing the other shapes of the node.
    */
   public drawOtherShapes(
@@ -770,20 +716,26 @@ export abstract class BaseNode {
    * 2. change the shapes' sizes to make them have same visual size while zooming, e.g. labelShape, labelBackgroundShape.
    * @param shapeMap The shape map that contains all of the elements to show on the node.
    * @param zoom The zoom level of the graph.
+   * @param cacheHiddenShape
    */
-  public onZoom = (
-    shapeMap: NodeShapeMap | ComboShapeMap,
-    zoom: number,
-    cacheHiddenShape = {},
-  ) => {};
+  public onZoom = (shapeMap: NodeShapeMap | ComboShapeMap, zoom: number, cacheHiddenShape = {}) => {};
 
   /**
    * Create (if does not exit in shapeMap) or update the shape according to the configurations.
    * @param type shape's type
    * @param id unique string to indicates the shape
    * @param style style to be updated
+   * @param config
    * @param shapeMap the shape map of a node / combo
    * @param model data model of the node / combo
+   * @param config.model
+   * @param config.shapeMap
+   * @param config.diffData
+   * @param config.diffData.previous
+   * @param config.diffData.current
+   * @param config.diffState
+   * @param config.diffState.previous
+   * @param config.diffState.current
    * @returns The display object representing the shape.
    */
   public upsertShape(

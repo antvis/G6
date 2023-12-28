@@ -1,6 +1,4 @@
 import G6 from '../../src/index';
-import { Behavior } from '../../src/types/behavior';
-import { extend } from '../../src/util/extend';
 const container = document.createElement('div');
 document.querySelector('body').appendChild(container);
 

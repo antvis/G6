@@ -1,8 +1,8 @@
-import { uniqueId, isString } from '@antv/util';
 import { Canvas, Group, Image, Text, TextStyleProps } from '@antv/g';
+import { isString, uniqueId } from '@antv/util';
+import { IGraph } from '../../../types';
 import { Plugin as Base, IPluginBaseConfig } from '../../../types/plugin';
 import { createCanvas } from '../../../util/canvas';
-import { IGraph } from '../../../types';
 
 /** Define configuration types for image and text watermarks */
 type ImageWaterMarkerConfig = {
@@ -66,8 +66,7 @@ export class WaterMarker extends Base {
       begin: [0, 0],
       separation: [100, 100],
       image: {
-        imgURL:
-          'https://gw.alipayobjects.com/os/s/prod/antv/assets/image/logo-with-text-73b8a.svg',
+        imgURL: 'https://gw.alipayobjects.com/os/s/prod/antv/assets/image/logo-with-text-73b8a.svg',
         width: 94,
         height: 28,
         rotate: 0,
@@ -85,6 +84,7 @@ export class WaterMarker extends Base {
 
   /**
    * Initialize the WaterMarker plugin.
+   * @param graph
    */
   public init(graph: IGraph) {
     super.init(graph);
@@ -130,21 +130,11 @@ export class WaterMarker extends Base {
       container.style.position = 'relative';
     }
 
-    this.canvasSize = [
-      width === undefined ? graphSize[0] : width,
-      height === undefined ? graphSize[1] : height,
-    ];
+    this.canvasSize = [width === undefined ? graphSize[0] : width, height === undefined ? graphSize[1] : height];
     this.followGraphSize = width === undefined || height === undefined;
 
-    this.canvas = createCanvas(
-      'canvas',
-      container,
-      this.canvasSize[0],
-      this.canvasSize[1],
-    );
-    const $domElement = this.canvas
-      .getContextService()
-      .getDomElement() as unknown as HTMLElement;
+    this.canvas = createCanvas('canvas', container, this.canvasSize[0], this.canvasSize[1]);
+    const $domElement = this.canvas.getContextService().getDomElement() as unknown as HTMLElement;
     $domElement.style.position = 'fixed';
     $domElement.style.outline = 'none';
     $domElement.style.pointerEvents = 'none';
@@ -153,12 +143,8 @@ export class WaterMarker extends Base {
 
     const canvasEl = this.canvas.getContextService().getDomElement() as any;
     this.container.removeChild(canvasEl);
-    const graphCanvasDOM = graph.canvas
-      .getContextService()
-      .getDomElement() as any;
-    const graphTransientCanvasDOM = graph.transientCanvas
-      .getContextService()
-      .getDomElement() as any;
+    const graphCanvasDOM = graph.canvas.getContextService().getDomElement() as any;
+    const graphTransientCanvasDOM = graph.transientCanvas.getContextService().getDomElement() as any;
     switch (position) {
       case 'top':
         this.container.appendChild(canvasEl);

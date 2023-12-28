@@ -3,28 +3,20 @@ import { Point } from '../types/common';
 
 /**
  * Calculate the position of control point according to the start, end, and offset.
- * @param  {IPoint} startPoint Start point with x and y.
- * @param  {IPoint} endPoint  End point with x and y.
- * @param  {Number} percent   Control point's position percentage between source and end point, ranges from 0 to 1.
- * @param  {Number} offset    Offset from the control point to the line start at startPoint and end at endPoint.
- * @return {IPoint} The control point with x and y.
+ * @param startPoint Start point with x and y.
+ * @param endPoint End point with x and y.
+ * @param percent Control point's position percentage between source and end point, ranges from 0 to 1.
+ * @param offset Offset from the control point to the line start at startPoint and end at endPoint.
+ * @returns  The control point with x and y.
  */
-export const getControlPoint = (
-  startPoint: Point,
-  endPoint: Point,
-  percent = 0,
-  offset = 0,
-): Point => {
+export const getControlPoint = (startPoint: Point, endPoint: Point, percent = 0, offset = 0): Point => {
   const point: Point = {
     x: (1 - percent) * startPoint.x + percent * endPoint.x,
     y: (1 - percent) * startPoint.y + percent * endPoint.y,
   };
 
   let tangent: vec2 = [0, 0];
-  vec2.normalize(tangent, [
-    endPoint.x - startPoint.x,
-    endPoint.y - startPoint.y,
-  ]);
+  vec2.normalize(tangent, [endPoint.x - startPoint.x, endPoint.y - startPoint.y]);
 
   if (!tangent || (!tangent[0] && !tangent[1])) {
     tangent = [0, 0];
@@ -61,7 +53,7 @@ const PATH_COMMANDS = {
  * Converts a path string to an array of path segments.
  * @param {string} path - The path string to convert.
  * @returns {Array} - An array of path segments.
- **/
+ */
 const fromPathToArray = (path: string) => {
   const items = path
     .replace(/[\n\r]/g, '')
@@ -74,7 +66,7 @@ const fromPathToArray = (path: string) => {
   let currentElement = {};
   while (items.length > 0) {
     let it = items.shift();
-    if (PATH_COMMANDS.hasOwnProperty(it)) {
+    if (it in PATH_COMMANDS) {
       currentCommand = it;
     } else {
       items.unshift(it);

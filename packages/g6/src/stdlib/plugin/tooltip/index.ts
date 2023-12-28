@@ -55,22 +55,18 @@ type Placement =
 
 /**
  * The `TooltipConfig` interface contains the following properties:
-
-- `getContent`: An optional function for getting the content of the tooltip. It takes an optional argument of type `IG6GraphEvent`, and returns a value of type HTMLElement, string, or Promise (resolving to HTMLElement or string).
-- `offsetX`: An optional number representing the offset of the tooltip in the X direction.
-- `offsetY`: An optional number representing the offset of the tooltip in the Y direction.
-- `shouldBegin`: An optional function for determining whether the tooltip should be displayed. It takes an optional argument of type `IG6GraphEvent`, and returns a boolean value.
-- `itemTypes`: An optional array of strings representing the types of items for which the tooltip is allowed to be displayed. The possible values are 'node', 'edge', 'combo', and 'canvas'.
-- `trigger`: An optional string, either 'pointerenter' or 'click', representing the event type that triggers the display of the tooltip.
-- `fixToNode`: An optional array of two numbers, a string representing a placement, or undefined, representing how to fix the tooltip to a node.
-- `loadingContent`: An optional HTMLElement or string representing the loading DOM.
-
+ * - `getContent`: An optional function for getting the content of the tooltip. It takes an optional argument of type `IG6GraphEvent`, and returns a value of type HTMLElement, string, or Promise (resolving to HTMLElement or string).
+ * - `offsetX`: An optional number representing the offset of the tooltip in the X direction.
+ * - `offsetY`: An optional number representing the offset of the tooltip in the Y direction.
+ * - `shouldBegin`: An optional function for determining whether the tooltip should be displayed. It takes an optional argument of type `IG6GraphEvent`, and returns a boolean value.
+ * - `itemTypes`: An optional array of strings representing the types of items for which the tooltip is allowed to be displayed. The possible values are 'node', 'edge', 'combo', and 'canvas'.
+ * - `trigger`: An optional string, either 'pointerenter' or 'click', representing the event type that triggers the display of the tooltip.
+ * - `fixToNode`: An optional array of two numbers, a string representing a placement, or undefined, representing how to fix the tooltip to a node.
+ * - `loadingContent`: An optional HTMLElement or string representing the loading DOM.
  */
 export interface TooltipConfig extends IPluginBaseConfig {
   /** Function for getting tooltip content */
-  getContent?: (
-    evt?: IG6GraphEvent,
-  ) => HTMLElement | string | Promise<HTMLElement | string>;
+  getContent?: (evt?: IG6GraphEvent) => HTMLElement | string | Promise<HTMLElement | string>;
   /** Offset of tooltip in X direction */
   offsetX?: number;
   /** Offset of tooltip in Y direction */
@@ -153,9 +149,7 @@ export class Tooltip extends Base {
   public init(graph: IGraph) {
     super.init(graph);
     const className = this.options.className;
-    const tooltip = createDOM(
-      `<div class='${className || 'g6-component-tooltip'}'></div>`,
-    );
+    const tooltip = createDOM(`<div class='${className || 'g6-component-tooltip'}'></div>`);
     modifyCSS(tooltip, {
       position: 'absolute',
       visibility: 'hidden',
@@ -186,12 +180,7 @@ export class Tooltip extends Base {
   }
 
   public onClick(e: IG6GraphEvent) {
-    if (
-      e.itemId &&
-      e.itemType &&
-      this.options.itemTypes.indexOf(e.itemType) === -1
-    )
-      return;
+    if (e.itemId && e.itemType && this.options.itemTypes.indexOf(e.itemType) === -1) return;
     const { itemId } = e;
     // click the same item twice, tooltip will be hidden
     if (this.currentTarget === itemId) {
@@ -206,12 +195,7 @@ export class Tooltip extends Base {
   }
 
   public onPointerEnter(e: IG6GraphEvent) {
-    if (
-      e.itemId &&
-      e.itemType &&
-      this.options.itemTypes.indexOf(e.itemType) === -1
-    )
-      return;
+    if (e.itemId && e.itemType && this.options.itemTypes.indexOf(e.itemType) === -1) return;
     const { itemId } = e;
     this.currentTarget = itemId;
     this.showTooltip(e);
@@ -219,12 +203,7 @@ export class Tooltip extends Base {
   }
 
   public onPointerMove(e: IG6GraphEvent) {
-    if (
-      e.itemId &&
-      e.itemType &&
-      this.options.itemTypes.indexOf(e.itemType) === -1
-    )
-      return;
+    if (e.itemId && e.itemType && this.options.itemTypes.indexOf(e.itemType) === -1) return;
     if (!this.currentTarget || e.itemId === this.currentTarget) {
       return;
     }

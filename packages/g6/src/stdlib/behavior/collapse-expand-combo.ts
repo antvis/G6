@@ -1,10 +1,5 @@
-import { ID } from '@antv/graphlib';
-import { throttle, uniq } from '@antv/util';
-import { ComboModel, EdgeModel, NodeModel } from '../../types';
 import { Behavior } from '../../types/behavior';
 import { IG6GraphEvent } from '../../types/event';
-import { Point } from '../../types/common';
-import { graphComboTreeDfs } from '../../util/data';
 
 const ALLOWED_TRIGGERS = ['dblclick', 'click'] as const;
 type Trigger = (typeof ALLOWED_TRIGGERS)[number];

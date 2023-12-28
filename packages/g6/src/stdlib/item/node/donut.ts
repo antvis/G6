@@ -2,11 +2,7 @@ import { DisplayObject } from '@antv/g';
 import { each } from '@antv/util';
 import { NodeDisplayModel } from '../../../types';
 import { ShapeStyle, State } from '../../../types/item';
-import {
-  NodeModelData,
-  NodeShapeMap,
-  NodeShapeStyles,
-} from '../../../types/node';
+import { NodeModelData, NodeShapeMap, NodeShapeStyles } from '../../../types/node';
 import { BaseNode } from './base';
 
 const defaultDonutPalette = [
@@ -68,7 +64,7 @@ export class DonutNode extends BaseNode {
       zIndex: 1,
     },
   };
-  mergedStyles: NodeShapeStyles;
+  declare mergedStyles: NodeShapeStyles;
   constructor(props) {
     super(props);
     // suggest to merge default styles like this to avoid style value missing
@@ -88,42 +84,22 @@ export class DonutNode extends BaseNode {
 
     // haloShape
     if (data.haloShape && this.drawHaloShape) {
-      shapes.haloShape = this.drawHaloShape(
-        model,
-        shapeMap,
-        diffData,
-        diffState,
-      );
+      shapes.haloShape = this.drawHaloShape(model, shapeMap, diffData, diffState);
     }
 
     // labelShape
     if (data.labelShape) {
-      shapes.labelShape = this.drawLabelShape(
-        model,
-        shapeMap,
-        diffData,
-        diffState,
-      );
+      shapes.labelShape = this.drawLabelShape(model, shapeMap, diffData, diffState);
     }
 
     // labelBackgroundShape
     if (data.labelBackgroundShape) {
-      shapes.labelBackgroundShape = this.drawLabelBackgroundShape(
-        model,
-        shapeMap,
-        diffData,
-        diffState,
-      );
+      shapes.labelBackgroundShape = this.drawLabelBackgroundShape(model, shapeMap, diffData, diffState);
     }
 
     // anchor shapes
     if (data.anchorShapes) {
-      const anchorShapes = this.drawAnchorShapes(
-        model,
-        shapeMap,
-        diffData,
-        diffState,
-      );
+      const anchorShapes = this.drawAnchorShapes(model, shapeMap, diffData, diffState);
       shapes = {
         ...shapes,
         ...anchorShapes,
@@ -132,22 +108,12 @@ export class DonutNode extends BaseNode {
 
     // iconShape
     if (data.iconShape) {
-      shapes.iconShape = this.drawIconShape(
-        model,
-        shapeMap,
-        diffData,
-        diffState,
-      );
+      shapes.iconShape = this.drawIconShape(model, shapeMap, diffData, diffState);
     }
 
     // badgeShape
     if (data.badgeShapes) {
-      const badgeShapes = this.drawBadgeShapes(
-        model,
-        shapeMap,
-        diffData,
-        diffState,
-      );
+      const badgeShapes = this.drawBadgeShapes(model, shapeMap, diffData, diffState);
       shapes = {
         ...shapes,
         ...badgeShapes,
@@ -156,12 +122,7 @@ export class DonutNode extends BaseNode {
 
     // donutShapes
     if (data.donutShapes) {
-      const donutShapes = this.drawDonutShapes(
-        model,
-        shapeMap,
-        diffData,
-        diffState,
-      );
+      const donutShapes = this.drawDonutShapes(model, shapeMap, diffData, diffState);
       shapes = {
         ...shapes,
         ...donutShapes,
@@ -184,6 +145,10 @@ export class DonutNode extends BaseNode {
    * @param shapeMap
    * @param diffData
    * @param diffState
+   * @param diffData.previous
+   * @param diffData.current
+   * @param diffState.previous
+   * @param diffState.current
    * @returns
    */
   private drawDonutShapes(
@@ -242,6 +207,10 @@ export class DonutNode extends BaseNode {
    * @param shapeMap
    * @param diffData
    * @param diffState
+   * @param diffData.previous
+   * @param diffData.current
+   * @param diffState.previous
+   * @param diffState.current
    * @returns
    */
   private drawDonutSegment = (
@@ -255,16 +224,7 @@ export class DonutNode extends BaseNode {
     beginAngle: number; // next begin angle
     shouldEnd: boolean; // finish fans drawing
   } => {
-    const {
-      arcR,
-      beginAngle,
-      config,
-      index,
-      lineWidth,
-      zIndex,
-      totalValue,
-      drawWhole = false,
-    } = cfg;
+    const { arcR, beginAngle, config, index, lineWidth, zIndex, totalValue, drawWhole = false } = cfg;
     const id = `donutShape${index}`;
     const percent = config.value / totalValue;
     if (percent < 0.001) {
@@ -291,8 +251,7 @@ export class DonutNode extends BaseNode {
         ['M', arcBegin[0], arcBegin[1]],
         ['A', arcR, arcR, 0, isLargeArc, 0, arcEnd[0], arcEnd[1]],
       ],
-      stroke:
-        config.color || defaultDonutPalette[index % defaultDonutPalette.length],
+      stroke: config.color || defaultDonutPalette[index % defaultDonutPalette.length],
       lineWidth,
       zIndex,
     } as ShapeStyle;
@@ -365,6 +324,7 @@ const getDonutConfig = (
 /**
  * calculate the lineWidth and radius for fan shapes according to the keyShape's radius
  * @param keyShape
+ * @param innerSize
  * @returns
  */
 const getDonutSize = (

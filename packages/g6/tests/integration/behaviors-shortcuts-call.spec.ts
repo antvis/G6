@@ -6,14 +6,10 @@ const dir = `${__dirname}/snapshots/behaviors`;
 
 describe('Shortcuts-call behavior', () => {
   it('should be rendered correctly with default options', (done) => {
-    const {
-      backgroundCanvas,
-      canvas,
-      container,
-      labelCanvas,
-      transientCanvas,
-      transientLabelCanvas,
-    } = createContext(500, 500);
+    const { backgroundCanvas, canvas, container, labelCanvas, transientCanvas, transientLabelCanvas } = createContext(
+      500,
+      500,
+    );
 
     const graph = ShortcutsCall({
       backgroundCanvas,
@@ -25,10 +21,7 @@ describe('Shortcuts-call behavior', () => {
     });
 
     graph.on('afterlayout', async () => {
-      await expect([canvas, labelCanvas]).toMatchSVGSnapshot(
-        dir,
-        'behaviors-shortcuts-call',
-      );
+      await expect([canvas, labelCanvas]).toMatchSVGSnapshot(dir, 'behaviors-shortcuts-call');
 
       // default behavior ctrl + 1 to fitView
       graph.emit('keydown', {
@@ -37,24 +30,17 @@ describe('Shortcuts-call behavior', () => {
       graph.emit('keydown', {
         key: '1',
       });
-      await expect([canvas, labelCanvas]).toMatchSVGSnapshot(
-        dir,
-        'behaviors-shortcuts-call-with-fitView',
-      );
+      await expect([canvas, labelCanvas]).toMatchSVGSnapshot(dir, 'behaviors-shortcuts-call-with-fitView');
       graph.destroy();
       done();
     });
   });
 
   it('should be rendered correctly with custom options', (done) => {
-    const {
-      backgroundCanvas,
-      canvas,
-      container,
-      labelCanvas,
-      transientCanvas,
-      transientLabelCanvas,
-    } = createContext(500, 500);
+    const { backgroundCanvas, canvas, container, labelCanvas, transientCanvas, transientLabelCanvas } = createContext(
+      500,
+      500,
+    );
 
     const graph = ShortcutsCall(
       {
@@ -81,10 +67,7 @@ describe('Shortcuts-call behavior', () => {
       graph.emit('keydown', {
         key: 'm',
       });
-      await expect([canvas, labelCanvas]).toMatchSVGSnapshot(
-        dir,
-        'behaviors-shortcuts-call-with-zoom',
-      );
+      await expect([canvas, labelCanvas]).toMatchSVGSnapshot(dir, 'behaviors-shortcuts-call-with-zoom');
       graph.destroy();
       done();
     });

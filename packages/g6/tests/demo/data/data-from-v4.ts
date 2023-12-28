@@ -1,19 +1,9 @@
 import { Layout, LayoutMapping } from '@antv/layout';
-import {
-  Graph,
-  extend,
-  stdLib,
-  Extensions,
-  GraphCore,
-} from '../../../src/index';
-import { TestCaseContext } from '../interface';
+import { Extensions, Graph, GraphCore, extend } from '../../../src/index';
 import { GraphDataChanges } from '../../../src/types/data';
+import { TestCaseContext } from '../interface';
 
-const edgeClusterTransform = (
-  data: GraphDataChanges,
-  options = {},
-  graphCore?: GraphCore,
-): GraphDataChanges => {
+const edgeClusterTransform = (data: GraphDataChanges, options = {}, graphCore?: GraphCore): GraphDataChanges => {
   const { dataAdded, dataRemoved, dataUpdated } = data;
   const handler = (data, options = {}, userGraphCore) => {
     const { nodes, edges } = data;
@@ -39,22 +29,22 @@ class LineLayout implements Layout<{}> {
   }
   /**
    * Return the positions of nodes and edges(if needed).
+   * @param graph
+   * @param options
    */
   async execute(graph, options = {}) {
     return this.genericLineLayout(false, graph, options);
   }
   /**
    * To directly assign the positions to the nodes.
+   * @param graph
+   * @param options
    */
   async assign(graph, options = {}) {
     this.genericLineLayout(true, graph, options);
   }
 
-  private async genericLineLayout(
-    assign: boolean,
-    graph,
-    options = {},
-  ): Promise<LayoutMapping | void> {
+  private async genericLineLayout(assign: boolean, graph, options = {}): Promise<LayoutMapping | void> {
     const { height = 500 } = { ...this.options, ...options };
 
     const nodes = graph.getAllNodes();

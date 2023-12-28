@@ -1,4 +1,4 @@
-import { Graph, extend, Extensions } from '../../../src/index';
+import { Extensions, Graph, extend } from '../../../src/index';
 import type { TestCaseContext } from '../interface';
 
 const ExtGraph = extend(Graph, {

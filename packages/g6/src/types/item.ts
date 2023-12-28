@@ -14,36 +14,12 @@ import {
   RectStyleProps,
   TextStyleProps,
 } from '@antv/g';
-import {
-  CubeGeometryProps,
-  PlaneGeometryProps,
-  SphereGeometryProps,
-} from '@antv/g-plugin-3d';
+import { CubeGeometryProps, PlaneGeometryProps, SphereGeometryProps } from '@antv/g-plugin-3d';
 import { ID } from '@antv/graphlib';
-import { AnimateCfg, IAnimates } from './animate';
-import {
-  ComboDisplayModel,
-  ComboEncode,
-  ComboModel,
-  ComboModelData,
-  ComboUserModel,
-} from './combo';
-import {
-  EdgeDisplayModel,
-  EdgeEncode,
-  EdgeModel,
-  EdgeModelData,
-  EdgeShapeMap,
-  EdgeUserModel,
-} from './edge';
-import {
-  NodeDisplayModel,
-  NodeEncode,
-  NodeModel,
-  NodeModelData,
-  NodeShapeMap,
-  NodeUserModel,
-} from './node';
+import { IAnimates } from './animate';
+import { ComboDisplayModel, ComboEncode, ComboModel, ComboModelData, ComboUserModel } from './combo';
+import { EdgeDisplayModel, EdgeEncode, EdgeModel, EdgeModelData, EdgeShapeMap, EdgeUserModel } from './edge';
+import { NodeDisplayModel, NodeEncode, NodeModel, NodeModelData, NodeShapeMap, NodeUserModel } from './node';
 import { ComboStyleSet, EdgeStyleSet, NodeStyleSet } from './theme';
 
 export type GShapeStyle = CircleStyleProps &
@@ -125,16 +101,9 @@ export type ItemModelData = NodeModelData | EdgeModelData | ComboModelData;
 
 export type ItemModel = NodeModel | EdgeModel | ComboModel;
 
-export type ItemDisplayModel =
-  | NodeDisplayModel
-  | EdgeDisplayModel
-  | ComboDisplayModel;
+export type ItemDisplayModel = NodeDisplayModel | EdgeDisplayModel | ComboDisplayModel;
 
-export type DisplayMapper =
-  | ((model: ItemModel) => ItemDisplayModel)
-  | NodeEncode
-  | EdgeEncode
-  | ComboEncode;
+export type DisplayMapper = ((model: ItemModel) => ItemDisplayModel) | NodeEncode | EdgeEncode | ComboEncode;
 
 export type State = {
   name: string;
@@ -250,7 +219,7 @@ export interface IItem {
   /**
    * Draws the shapes.
    * @internal
-   * */
+   */
   draw: (
     displayModel: ItemDisplayModel,
     diffData?: { previous: ItemModelData; current: ItemModelData },
@@ -261,7 +230,7 @@ export interface IItem {
   /**
    * Updates the shapes.
    * @internal
-   * */
+   */
   update: (
     model: ItemModel,
     diffData: { previous: ItemModelData; current: ItemModelData },

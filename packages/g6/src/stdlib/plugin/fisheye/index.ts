@@ -245,10 +245,7 @@ export class Fisheye extends Base {
       ratio = 1 / (1 - DELTA);
     }
     const graphHeight = graph.canvas.context.config.canvas.height;
-    if (
-      (r > (maxR || graphHeight) && ratio > 1) ||
-      (r < (minR || graphHeight * 0.05) && ratio < 1)
-    ) {
+    if ((r > (maxR || graphHeight) && ratio > 1) || (r < (minR || graphHeight * 0.05) && ratio < 1)) {
       ratio = 1;
     }
     r *= ratio;
@@ -263,11 +260,10 @@ export class Fisheye extends Base {
    * Scale the range by dragging
    * @param e mouse event
    */
-  protected scaleRByDrag = throttle(
-    this.scaleRByDragMethod.bind(this),
-    this.options.throttle,
-    { leading: true, trailing: true },
-  );
+  protected scaleRByDrag = throttle(this.scaleRByDragMethod.bind(this), this.options.throttle, {
+    leading: true,
+    trailing: true,
+  });
   protected scaleRByDragMethod(e: IG6GraphEvent) {
     if (!e) return;
     const { dragPrePos, graph, options } = this;
@@ -280,14 +276,8 @@ export class Fisheye extends Base {
       ratio = 1 / (1 - DELTA);
     }
     const graphCanvasEl = graph.canvas.context.config.canvas;
-    const [
-      graphWidth = graphCanvasEl?.width || 500,
-      graphHeight = graphCanvasEl?.height || 500,
-    ] = graph.getSize();
-    if (
-      (r > (maxR || graphHeight) && ratio > 1) ||
-      (r < (minR || graphHeight * 0.05) && ratio < 1)
-    ) {
+    const [graphWidth = graphCanvasEl?.width || 500, graphHeight = graphCanvasEl?.height || 500] = graph.getSize();
+    if ((r > (maxR || graphHeight) && ratio > 1) || (r < (minR || graphHeight * 0.05) && ratio < 1)) {
       ratio = 1;
     }
     r *= ratio;
@@ -300,7 +290,7 @@ export class Fisheye extends Base {
 
   /**
    * Scale the magnifying factor by wheel
-   * @param e mouse wheel event
+   * @param evt mouse wheel event
    */
   protected scaleDByWheel(evt: IG6GraphEvent) {
     if (!evt && !evt.originalEvent) return;
@@ -332,11 +322,10 @@ export class Fisheye extends Base {
    * Scale the magnifying factor by dragging
    * @param e mouse event
    */
-  protected scaleDByDrag = throttle(
-    this.scaleDByDragMethod.bind(this),
-    this.options.throttle,
-    { leading: true, trailing: true },
-  );
+  protected scaleDByDrag = throttle(this.scaleDByDragMethod.bind(this), this.options.throttle, {
+    leading: true,
+    trailing: true,
+  });
   protected scaleDByDragMethod(e: IG6GraphEvent) {
     const { d, maxD, minD, r } = this.options;
     const delta = e.canvas.x - this.dragPrePos.x > 0 ? 0.1 : -0.1;
@@ -352,18 +341,12 @@ export class Fisheye extends Base {
   /**
    * Response function for mousemove, click, or drag to magnify
    * @param e mouse event
+   * @param mousePos
    */
   protected magnify(e: IG6GraphEvent, mousePos?) {
     this.restoreCache();
-    const {
-      r2,
-      graph,
-      cachedOriginPositions,
-      cachedTransientTexts,
-      molecularParam,
-      delegateCenterDiff,
-      options,
-    } = this;
+    const { r2, graph, cachedOriginPositions, cachedTransientTexts, molecularParam, delegateCenterDiff, options } =
+      this;
     const positions = Object.keys(cachedOriginPositions).map((id) => ({
       id,
       data: {
@@ -375,9 +358,7 @@ export class Fisheye extends Base {
     const nodes = graph.getAllNodesData();
     const nodeLength = nodes.length;
     const point = graph.getCanvasByClient(e.client);
-    let mCenter = mousePos
-      ? { x: mousePos.x, y: mousePos.y }
-      : { x: point.x, y: point.y };
+    let mCenter = mousePos ? { x: mousePos.x, y: mousePos.y } : { x: point.x, y: point.y };
     if (this.dragging && (trigger === 'mousemove' || trigger === 'click')) {
       mCenter = this.cacheCenter;
     }
@@ -391,8 +372,7 @@ export class Fisheye extends Base {
       const { x, y } = cachedOriginPositions[model.id]; // calculate based on the origin positions
       if (isNaN(x) || isNaN(y)) continue;
       // the square of the distance between the node and the magnified center
-      const dist2 =
-        (x - mCenter.x) * (x - mCenter.x) + (y - mCenter.y) * (y - mCenter.y);
+      const dist2 = (x - mCenter.x) * (x - mCenter.x) + (y - mCenter.y) * (y - mCenter.y);
       if (!isNaN(dist2) && dist2 < r2 && dist2 !== 0) {
         const dist = Math.sqrt(dist2);
         // // (r * (d + 1) * (dist / r)) / (d * (dist / r) + 1);
@@ -405,8 +385,7 @@ export class Fisheye extends Base {
           id: model.id,
           data: { x: magnifiedX, y: magnifiedY },
         };
-        const textContent =
-          model.data.label || (model.data.labelShape as any)?.text;
+        const textContent = model.data.label || (model.data.labelShape as any)?.text;
         if (showLabel && 2 * dist < r) {
           const transientTextID = `node-text-${model.id}`;
           const cachedTransientText = cachedTransientTexts[transientTextID];
@@ -506,6 +485,7 @@ export class Fisheye extends Base {
    * Update the delegate shape of the lens
    * @param {Point} mCenter the center of the shape
    * @param {number} r the radius of the shape
+   * @param e
    */
   private updateDelegate(mCenter, r, e) {
     const { graph, dPercentText } = this;
@@ -575,12 +555,7 @@ export class Fisheye extends Base {
    * Clear the fisheye lens
    */
   public clear() {
-    const {
-      graph,
-      delegate: lensDelegate,
-      cachedOriginPositions,
-      dPercentText,
-    } = this;
+    const { graph, delegate: lensDelegate, cachedOriginPositions, dPercentText } = this;
     this.restoreCache();
     graph.updateNodePosition(
       Object.keys(cachedOriginPositions).map((id) => ({

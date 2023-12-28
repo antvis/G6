@@ -1,14 +1,11 @@
+import { AABB } from '@antv/g';
 import { Graph as GraphLib, ID } from '@antv/graphlib';
 import { clone, isArray, isEmpty, isObject } from '@antv/util';
-import { AABB } from '@antv/g';
+import Combo from '../../item/combo';
+import Edge from '../../item/edge';
+import Node from '../../item/node';
 import { registry } from '../../stdlib';
-import {
-  ComboModel,
-  ComboUserModel,
-  GraphData,
-  IGraph,
-  Specification,
-} from '../../types';
+import { ComboModel, ComboUserModel, GraphData, IGraph } from '../../types';
 import { ComboUserModelData } from '../../types/combo';
 import {
   DataChangeType,
@@ -19,20 +16,10 @@ import {
   InlineGraphDataConfig,
   InlineTreeDataConfig,
 } from '../../types/data';
-import {
-  EdgeDisplayModel,
-  EdgeModel,
-  EdgeModelData,
-  EdgeUserModel,
-  EdgeUserModelData,
-} from '../../types/edge';
+import { EdgeDisplayModel, EdgeModel, EdgeModelData, EdgeUserModel, EdgeUserModelData } from '../../types/edge';
 import { ITEM_TYPE } from '../../types/item';
-import {
-  NodeModel,
-  NodeModelData,
-  NodeUserModel,
-  NodeUserModelData,
-} from '../../types/node';
+import { NodeModel, NodeModelData, NodeUserModel, NodeUserModelData } from '../../types/node';
+import { hasTreeBehaviors } from '../../util/behavior';
 import {
   AVAILABLE_DATA_LIFECYCLE,
   DEFAULT_ACTIVE_DATA_LIFECYCLE,
@@ -46,11 +33,7 @@ import {
 } from '../../util/data';
 import { getExtension } from '../../util/extension';
 import { isTreeLayout } from '../../util/layout';
-import { hasTreeBehaviors } from '../../util/behavior';
 import { EdgeCollisionChecker, QuadTree } from '../../util/polyline';
-import Node from '../../item/node';
-import Edge from '../../item/edge';
-import Combo from '../../item/combo';
 
 /**
  * Manages the data transform extensions;
@@ -79,18 +62,11 @@ export class DataController {
     this.tap();
   }
 
-  public findData(
-    type: ITEM_TYPE,
-    condition: ID[] | Function,
-  ): EdgeModel[] | NodeModel[] | ComboModel[] {
+  public findData(type: ITEM_TYPE, condition: ID[] | Function): EdgeModel[] | NodeModel[] | ComboModel[] {
     const { graphCore } = this;
     const conditionType = typeof condition;
     const conditionIsArray = isArray(condition);
-    if (
-      conditionType === 'string' ||
-      conditionType === 'number' ||
-      conditionIsArray
-    ) {
+    if (conditionType === 'string' || conditionType === 'number' || conditionIsArray) {
       const ids = conditionIsArray ? condition : [condition];
       switch (type) {
         case 'node':
@@ -101,9 +77,7 @@ export class DataController {
             return model;
           });
         case 'edge':
-          return ids.map((id) =>
-            graphCore.hasEdge(id) ? graphCore.getEdge(id) : undefined,
-          );
+          return ids.map((id) => (graphCore.hasEdge(id) ? graphCore.getEdge(id) : undefined));
         case 'combo':
           return ids.map((id) => {
             if (!graphCore.hasNode(id)) return undefined;
@@ -113,8 +87,7 @@ export class DataController {
           });
       }
     } else if (conditionType === 'function') {
-      const getData =
-        type === 'node' ? graphCore.getAllNodes : graphCore.getAllEdges;
+      const getData = type === 'node' ? graphCore.getAllNodes : graphCore.getAllEdges;
       if (type === 'combo') {
         // TODO getData = ?
       }
@@ -123,9 +96,7 @@ export class DataController {
     }
   }
 
-  public findAllData(
-    type: ITEM_TYPE,
-  ): EdgeModel[] | NodeModel[] | ComboModel[] {
+  public findAllData(type: ITEM_TYPE): EdgeModel[] | NodeModel[] | ComboModel[] {
     if (!this.graphCore) return [];
     switch (type) {
       case 'node':
@@ -139,10 +110,7 @@ export class DataController {
     }
   }
 
-  public findRelatedEdges(
-    nodeId: ID,
-    direction: 'in' | 'out' | 'both' = 'both',
-  ) {
+  public findRelatedEdges(nodeId: ID, direction: 'in' | 'out' | 'both' = 'both') {
     return this.graphCore.getRelatedEdges(nodeId, direction);
   }
 
@@ -159,8 +127,7 @@ export class DataController {
 
     edges.forEach((edge) => {
       // @ts-ignore
-      const edgeDisplayModel = itemMap.get(edge.id)
-        .displayModel as EdgeDisplayModel;
+      const edgeDisplayModel = itemMap.get(edge.id).displayModel as EdgeDisplayModel;
       if (!shouldBegin(edgeDisplayModel)) return;
 
       const {
@@ -183,26 +150,18 @@ export class DataController {
       // @ts-ignore
       const nodeData = transientItem.displayModel.data;
       if (nodeData) {
-        nodeBBox.update(
-          [nodeData.x as number, nodeData.y as number, 0],
-          nodeBBox.halfExtents,
-        );
+        nodeBBox.update([nodeData.x as number, nodeData.y as number, 0], nodeBBox.halfExtents);
       }
     }
 
     const checker = new EdgeCollisionChecker(quadTree);
     const collisions = checker.getCollidingEdges(nodeBBox);
-    const collidingEdges = collisions.map((collision) =>
-      this.graphCore.getEdge(collision.id),
-    );
+    const collidingEdges = collisions.map((collision) => this.graphCore.getEdge(collision.id));
 
     return collidingEdges;
   }
 
-  public findNeighborNodes(
-    nodeId: ID,
-    direction: 'in' | 'out' | 'both' = 'both',
-  ) {
+  public findNeighborNodes(nodeId: ID, direction: 'in' | 'out' | 'both' = 'both') {
     if (direction === 'in') return this.graphCore.getAncestors(nodeId);
     if (direction === 'out') return this.graphCore.getSuccessors(nodeId);
     return this.graphCore.getNeighbors(nodeId);
@@ -219,9 +178,7 @@ export class DataController {
   private tap() {
     this.extensions = this.getExtensions();
     this.graph.hooks.datachange.tap(this.onDataChange.bind(this));
-    this.graph.hooks.treecollapseexpand.tap(
-      this.onTreeCollapseExpand.bind(this),
-    );
+    this.graph.hooks.treecollapseexpand.tap(this.onTreeCollapseExpand.bind(this));
 
     // check whether use tree layout or behaviors
     // if so, establish tree structure for graph
@@ -236,9 +193,7 @@ export class DataController {
    */
   private getExtensions() {
     const { transforms = [] } = this.graph.getSpecification();
-    const requiredTransformers = [
-      { type: 'validate-data', activeLifecycle: 'all' },
-    ];
+    const requiredTransformers = [{ type: 'validate-data', activeLifecycle: 'all' }];
     return [...transforms, ...requiredTransformers]
       .map((config) => ({
         config,
@@ -250,6 +205,8 @@ export class DataController {
   /**
    * Listener of graph's datachange hook.
    * @param param contains new graph data and type of data change
+   * @param param.data
+   * @param param.type
    */
   private onDataChange(param: { data: DataConfig; type: DataChangeType }) {
     const { data, type: changeType } = param;
@@ -275,10 +232,7 @@ export class DataController {
     }
   }
 
-  private onTreeCollapseExpand(params: {
-    ids: ID[];
-    action: 'collapse' | 'expand';
-  }) {
+  private onTreeCollapseExpand(params: { ids: ID[]; action: 'collapse' | 'expand' }) {
     const { ids, action } = params;
     ids.forEach((id) => {
       this.graphCore.mergeNodeData(id, {
@@ -326,9 +280,7 @@ export class DataController {
     const nodes = this.graphCore.getAllNodes();
     const edges = this.graphCore.getAllEdges();
     // graph data to tree structure and storing
-    const rootIds = nodes
-      .filter((node) => node.data.isRoot)
-      .map((node) => node.id);
+    const rootIds = nodes.filter((node) => node.data.isRoot).map((node) => node.id);
     graphData2TreeData({}, { nodes, edges }, rootIds).forEach((tree) => {
       traverse(tree, (node) => {
         node.children?.forEach((child) => {
@@ -342,6 +294,7 @@ export class DataController {
   /**
    * Change data by replace, merge repalce, union, remove or update.
    * @param data new data
+   * @param dataConfig
    * @param changeType type of data change, 'replace' means discard the old data. 'mergeReplace' means merge the common part. 'union' means merge whole sets of old and new one. 'remove' means remove the common part. 'update' means update the comme part.
    */
   private changeData(dataConfig: DataConfig, changeType: DataChangeType) {
@@ -350,10 +303,7 @@ export class DataController {
     this.dataType = dataType;
 
     const preprocessedData = this.preprocessData(data, changeType);
-    const { dataAdded, dataRemoved, dataUpdated } = this.transformData(
-      preprocessedData,
-      changeType,
-    );
+    const { dataAdded, dataRemoved, dataUpdated } = this.transformData(preprocessedData, changeType);
 
     if (changeType === 'replace') {
       const { nodes, edges, combos } = dataAdded;
@@ -372,14 +322,8 @@ export class DataController {
         this.graphCore.attachTreeStructure('combo');
         nodes.forEach((node) => {
           if (node.data.parentId) {
-            if (
-              validateComboStructure(this.graph, node.id, node.data.parentId)
-            ) {
-              this.graphCore.setParent(
-                node.id,
-                node.data.parentId as ID,
-                'combo',
-              );
+            if (validateComboStructure(this.graph, node.id, node.data.parentId)) {
+              this.graphCore.setParent(node.id, node.data.parentId as ID, 'combo');
             } else {
               this.graphCore.mergeNodeData(node.id, { parentId: undefined });
             }
@@ -387,9 +331,7 @@ export class DataController {
         });
         combos.forEach((combo) => {
           if (combo.data.parentId) {
-            if (
-              validateComboStructure(this.graph, combo.id, combo.data.parentId)
-            ) {
+            if (validateComboStructure(this.graph, combo.id, combo.data.parentId)) {
               this.graphCore.setParent(combo.id, combo.data.parentId, 'combo');
             } else {
               this.graphCore.mergeNodeData(combo.id, { parentId: undefined });
@@ -403,12 +345,7 @@ export class DataController {
       this.doUpdate(dataUpdated);
     }
 
-    if (
-      data.edges?.filter(
-        (edge) =>
-          edge.hasOwnProperty('source') || edge.hasOwnProperty('target'),
-      ).length
-    ) {
+    if (data.edges?.filter((edge) => 'source' in edge || 'target' in edge).length) {
       // convert and store tree structure to graphCore
       this.updateTreeGraph(dataType, {
         nodes: this.graphCore.getAllNodes(),
@@ -454,7 +391,7 @@ export class DataController {
         const mergedData = mergeOneLevelData(graphCore.getNode(id), newModel);
         graphCore.mergeNodeData(id, mergedData);
       }
-      if (data.hasOwnProperty('parentId')) {
+      if ('parentId' in data) {
         graphCore.setParent(id, data.parentId, 'combo');
       }
     });
@@ -465,10 +402,8 @@ export class DataController {
       const oldModel = graphCore.getEdge(newModel.id);
       if (!oldModel) return;
       const { id, source, target, data } = newModel;
-      if (source && oldModel.source !== source)
-        graphCore.updateEdgeSource(id, source);
-      if (target && oldModel.target !== target)
-        graphCore.updateEdgeTarget(id, target);
+      if (source && oldModel.source !== source) graphCore.updateEdgeSource(id, source);
+      if (target && oldModel.target !== target) graphCore.updateEdgeTarget(id, target);
       if (data) {
         const mergedData = mergeOneLevelData(graphCore.getEdge(id), newModel);
         graphCore.mergeEdgeData(id, mergedData);
@@ -523,7 +458,7 @@ export class DataController {
           data: others,
         });
         graphCore.mergeNodeData(id, mergedData);
-        if (others.hasOwnProperty('parentId')) {
+        if ('parentId' in others) {
           graphCore.setParent(id, others.parentId, 'combo');
         }
       }
@@ -579,23 +514,14 @@ export class DataController {
       );
       const succeedEdgeIds = graphCore
         .getAllEdges()
-        .filter(
-          ({ source, target }) =>
-            succeedIds.includes(source) && succeedIds.includes(target),
-        )
+        .filter(({ source, target }) => succeedIds.includes(source) && succeedIds.includes(target))
         .map((edge) => edge.id);
-      this.graph.showItem(
-        succeedIds
-          .filter((succeedId) => succeedId !== id)
-          .concat(succeedEdgeIds),
-      );
+      this.graph.showItem(succeedIds.filter((succeedId) => succeedId !== id).concat(succeedEdgeIds));
 
       // for tree graph view, remove the node from the parent's children list
       graphCore.setParent(id, undefined, 'tree');
       // for tree graph view, make the its children to be roots
-      graphCore
-        .getChildren(id, 'tree')
-        .forEach((child) => graphCore.setParent(child.id, undefined, 'tree'));
+      graphCore.getChildren(id, 'tree').forEach((child) => graphCore.setParent(child.id, undefined, 'tree'));
     }
     graphCore.removeNode(id);
   }
@@ -604,10 +530,7 @@ export class DataController {
     data: GraphData;
     type: 'graphData' | 'treeData' | 'fetch';
   } {
-    const { type, value } = dataConfig as
-      | InlineGraphDataConfig
-      | InlineTreeDataConfig
-      | FetchDataConfig;
+    const { type, value } = dataConfig as InlineGraphDataConfig | InlineTreeDataConfig | FetchDataConfig;
     let data = value;
     if (!type) {
       data = dataConfig as GraphData;
@@ -616,9 +539,7 @@ export class DataController {
     } else if (type === 'fetch') {
       // TODO: fetch
     } else if (!(data as GraphData).nodes) {
-      console.warn(
-        'Input data type is invalid, the type shuold be "graphData", "treeData", or "fetch".',
-      );
+      console.warn('Input data type is invalid, the type shuold be "graphData", "treeData", or "fetch".');
       return;
     }
 
@@ -645,10 +566,7 @@ export class DataController {
           [newModel],
           (succeed) => {
             const { x, y, _isCombo } = succeed.data;
-            if (
-              !_isCombo ||
-              !this.graphCore.getChildren(succeed.id, 'combo').length
-            ) {
+            if (!_isCombo || !this.graphCore.getChildren(succeed.id, 'combo').length) {
               succeedNodesModels.push({
                 id: succeed.id,
                 data: {
@@ -707,9 +625,7 @@ export class DataController {
     // update structure
     (_children as ID[]).forEach((childId) => {
       if (!this.graphCore.hasNode(childId)) {
-        console.warn(
-          `Adding child ${childId} to combo ${id} failed. The child ${childId} does not exist`,
-        );
+        console.warn(`Adding child ${childId} to combo ${id} failed. The child ${childId} does not exist`);
         return;
       }
       graphCore.setParent(childId, id, 'combo');
@@ -722,10 +638,7 @@ export class DataController {
    * @param data new graph data
    * @param type type of data change
    */
-  private preprocessData(
-    data: DataConfig,
-    type: DataChangeType,
-  ): GraphDataChanges {
+  private preprocessData(data: DataConfig, type: DataChangeType): GraphDataChanges {
     const { graphCore } = this;
     const dataCloned: GraphData = clone(data);
     const prevData = graphCore
@@ -734,8 +647,7 @@ export class DataController {
           edges: graphCore.getAllEdges(),
         })
       : {};
-    const { prevMinusNew, newMinusPrev, intersectionOfPrevAndNew } =
-      diffGraphData(prevData, dataCloned);
+    const { prevMinusNew, newMinusPrev, intersectionOfPrevAndNew } = diffGraphData(prevData, dataCloned);
 
     const dataChangeMap: Record<string, GraphDataChanges> = {
       replace: { dataAdded: dataCloned, dataUpdated: {}, dataRemoved: {} },
@@ -776,25 +688,22 @@ export class DataController {
    */
   private isTransformActive = (config: any, changeType: DataChangeType) => {
     let activeLifecycle =
-      isObject(config) && 'activeLifecycle' in config
-        ? (config as any).activeLifecycle
-        : DEFAULT_ACTIVE_DATA_LIFECYCLE;
+      isObject(config) && 'activeLifecycle' in config ? (config as any).activeLifecycle : DEFAULT_ACTIVE_DATA_LIFECYCLE;
     activeLifecycle = Array.isArray(activeLifecycle)
       ? activeLifecycle
       : activeLifecycle === 'all'
-      ? AVAILABLE_DATA_LIFECYCLE
-      : [activeLifecycle];
+        ? AVAILABLE_DATA_LIFECYCLE
+        : [activeLifecycle];
     return (activeLifecycle as string[]).includes(dataLifecycleMap[changeType]);
   };
 
   /**
    * run transforms on preprocessed data
+   * @param data
+   * @param changeType
    * @returns transformed data and the id map list
    */
-  private transformData(
-    data: GraphDataChanges,
-    changeType: DataChangeType,
-  ): GraphDataChanges {
+  private transformData(data: GraphDataChanges, changeType: DataChangeType): GraphDataChanges {
     //  transform the data with transform extensions, output innerData and idMaps ===
     this.extensions.forEach(({ func, config }) => {
       if (this.isTransformActive(config, changeType)) {
@@ -830,18 +739,11 @@ export class DataController {
  * @param index index in linkedList to start from, from the tail by defailt
  * @returns source id list
  */
-const getComesFromLinkedList = (
-  id,
-  linkedList,
-  index = linkedList.length - 1,
-) => {
+const getComesFromLinkedList = (id, linkedList, index = linkedList.length - 1) => {
   let comesFrom = [];
   linkedList[index][id]?.forEach((comesFromId) => {
     if (index === 0) comesFrom.push(comesFromId);
-    else
-      comesFrom = comesFrom.concat(
-        getComesFromLinkedList(comesFromId, linkedList, index - 1),
-      );
+    else comesFrom = comesFrom.concat(getComesFromLinkedList(comesFromId, linkedList, index - 1));
   });
   return comesFrom;
 };
@@ -853,11 +755,7 @@ const getComesFromLinkedList = (
  * @param isNode
  * @returns false for no different, ['data'] for data different
  */
-const diffAt = (
-  newModel,
-  oldModel,
-  isNode,
-): ('data' | 'source' | 'target')[] => {
+const diffAt = (newModel, oldModel, isNode): ('data' | 'source' | 'target')[] => {
   // edge's source or target is changed
   const diff = [];
   if (!isNode) {
@@ -878,17 +776,10 @@ const diffAt = (
     const oldValueIsObject = isObject(oldValue);
     if (newValueIsObject !== oldValueIsObject) return diff.concat('data');
     if (newValueIsObject && oldValueIsObject) {
-      if (JSON.stringify(newValue) !== JSON.stringify(oldValue))
-        return diff.concat('data');
+      if (JSON.stringify(newValue) !== JSON.stringify(oldValue)) return diff.concat('data');
       else continue;
     }
-    if (
-      typeof newValue === 'number' &&
-      typeof oldValue === 'number' &&
-      isNaN(newValue) &&
-      isNaN(oldValue)
-    )
-      return;
+    if (typeof newValue === 'number' && typeof oldValue === 'number' && isNaN(newValue) && isNaN(oldValue)) return;
     if (newValue !== oldValue) return diff.concat('data');
   }
   return diff;
@@ -910,10 +801,7 @@ const mergeOneLevelData = (
   Object.keys(newData).forEach((key) => {
     if (isArray(prevData[key]) || isArray(newData[key])) {
       mergedData[key] = newData[key];
-    } else if (
-      typeof prevData[key] === 'object' &&
-      typeof newData[key] === 'object'
-    ) {
+    } else if (typeof prevData[key] === 'object' && typeof newData[key] === 'object') {
       mergedData[key] = {
         ...(prevData[key] as object),
         ...(newData[key] as object),
@@ -925,11 +813,7 @@ const mergeOneLevelData = (
   return mergedData;
 };
 
-type UserModels = (
-  | Partial<NodeUserModel>
-  | Partial<EdgeUserModel>
-  | Partial<ComboUserModel>
-)[];
+type UserModels = (Partial<NodeUserModel> | Partial<EdgeUserModel> | Partial<ComboUserModel>)[];
 
 /**
  * Generate the difference between two model list

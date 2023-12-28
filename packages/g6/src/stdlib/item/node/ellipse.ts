@@ -1,11 +1,7 @@
 import { DisplayObject } from '@antv/g';
 import { NodeDisplayModel } from '../../../types';
 import { State } from '../../../types/item';
-import {
-  NodeModelData,
-  NodeShapeMap,
-  NodeShapeStyles,
-} from '../../../types/node';
+import { NodeModelData, NodeShapeMap, NodeShapeStyles } from '../../../types/node';
 import { convertToNumber } from '../../../util/type';
 import { BaseNode } from './base';
 export class EllipseNode extends BaseNode {
@@ -17,7 +13,7 @@ export class EllipseNode extends BaseNode {
       y: 0,
     },
   };
-  mergedStyles: NodeShapeStyles;
+  declare mergedStyles: NodeShapeStyles;
   constructor(props) {
     super(props);
     // suggest to merge default styles like this to avoid style value missing
@@ -37,41 +33,22 @@ export class EllipseNode extends BaseNode {
 
     // haloShape
     if (data.haloShape && this.drawHaloShape) {
-      shapes.haloShape = this.drawHaloShape(
-        model,
-        shapeMap,
-        diffData,
-        diffState,
-      );
+      shapes.haloShape = this.drawHaloShape(model, shapeMap, diffData, diffState);
     }
 
     // labelShape
     if (data.labelShape) {
-      shapes.labelShape = this.drawLabelShape(
-        model,
-        shapeMap,
-        diffData,
-        diffState,
-      );
+      shapes.labelShape = this.drawLabelShape(model, shapeMap, diffData, diffState);
     }
 
     // labelBackgroundShape
     if (data.labelBackgroundShape) {
-      shapes.labelBackgroundShape = this.drawLabelBackgroundShape(
-        model,
-        shapeMap,
-        diffData,
-      );
+      shapes.labelBackgroundShape = this.drawLabelBackgroundShape(model, shapeMap, diffData);
     }
 
     // anchor shapes
     if (data.anchorShapes) {
-      const anchorShapes = this.drawAnchorShapes(
-        model,
-        shapeMap,
-        diffData,
-        diffState,
-      );
+      const anchorShapes = this.drawAnchorShapes(model, shapeMap, diffData, diffState);
       shapes = {
         ...shapes,
         ...anchorShapes,
@@ -80,22 +57,12 @@ export class EllipseNode extends BaseNode {
 
     // iconShape
     if (data.iconShape) {
-      shapes.iconShape = this.drawIconShape(
-        model,
-        shapeMap,
-        diffData,
-        diffState,
-      );
+      shapes.iconShape = this.drawIconShape(model, shapeMap, diffData, diffState);
     }
 
     // badgeShape
     if (data.badgeShapes) {
-      const badgeShapes = this.drawBadgeShapes(
-        model,
-        shapeMap,
-        diffData,
-        diffState,
-      );
+      const badgeShapes = this.drawBadgeShapes(model, shapeMap, diffData, diffState);
       shapes = {
         ...shapes,
         ...badgeShapes,
@@ -132,10 +99,7 @@ export class EllipseNode extends BaseNode {
     const anchorPositionMap = {};
     anchorPositionMap['top'] = [x, y - keyShapeStyle.ry];
     anchorPositionMap['left'] = [x - keyShapeStyle.rx, y];
-    anchorPositionMap['right'] = anchorPositionMap['default'] = [
-      x + keyShapeStyle.rx,
-      y,
-    ];
+    anchorPositionMap['right'] = anchorPositionMap['default'] = [x + keyShapeStyle.rx, y];
     anchorPositionMap['bottom'] = [x, y + keyShapeStyle.ry];
     return anchorPositionMap;
   }
