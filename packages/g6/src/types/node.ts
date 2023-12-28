@@ -1,7 +1,7 @@
 import { DisplayObject } from '@antv/g';
 import { Node as GNode, ID, PlainObject } from '@antv/graphlib';
-import { BaseNode } from '../stdlib/item/node/base';
-import { BaseNode3D } from '../stdlib/item/node/base3d';
+import { BaseNode } from '../plugin/item/node/base';
+import { BaseNode3D } from '../plugin/item/node/base3d';
 import { IAnimates } from './animate';
 import {
   BadgePosition,

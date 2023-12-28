@@ -1,5 +1,5 @@
 import { FederatedPointerEvent, IElement } from '@antv/g';
-import { registry } from '../../stdlib';
+import { registry } from '../../plugin';
 import { IGraph } from '../../types';
 import { Behavior } from '../../types/behavior';
 import { CANVAS_EVENT_TYPE, DOM_EVENT_TYPE, IG6GraphEvent } from '../../types/event';

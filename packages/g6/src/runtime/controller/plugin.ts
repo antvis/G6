@@ -1,6 +1,6 @@
 import { uniqueId } from '@antv/util';
-import registry from '../../stdlib';
-import { LodController } from '../../stdlib/plugin';
+import registry from '../../plugin';
+import { LodController } from '../../plugin/widget';
 import { IGraph } from '../../types';
 import { IG6GraphEvent } from '../../types/event';
 import { Plugin as PluginBase } from '../../types/plugin';

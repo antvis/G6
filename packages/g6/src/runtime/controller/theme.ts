@@ -1,4 +1,4 @@
-import registry from '../../stdlib';
+import registry from '../../plugin';
 import { IGraph } from '../../types';
 import { ThemeSpecification } from '../../types/theme';
 import { getCatExtensions, getExtension } from '../../utils/extension';

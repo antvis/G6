@@ -1,7 +1,7 @@
 import { Animation, DisplayObject, IAnimationEffectTiming } from '@antv/g';
 import { Graph as GraphLib, ID } from '@antv/graphlib';
 import { Layout, LayoutMapping, OutNode, Supervisor, isLayoutWithIterations } from '@antv/layout';
-import { Extensions, registry, stdLib } from '../../stdlib';
+import { Extensions, registry, stdLib } from '../../plugin';
 import {
   IGraph,
   LayoutOptions,

@@ -1,7 +1,7 @@
 import EventEmitter from '@antv/event-emitter';
 import { AABB, Canvas, Cursor, DisplayObject, PointLike } from '@antv/g';
 import { ID } from '@antv/graphlib';
-import { Command } from '../stdlib/plugin/history/command';
+import { Command } from '../plugin/widget/history/command';
 import { Hooks } from '../types/hook';
 import { CameraAnimationOptions } from './animate';
 import { BehaviorOptionsOf, BehaviorRegistry } from './behavior';

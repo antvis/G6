@@ -1,4 +1,4 @@
-import { BaseThemeSolver } from '../stdlib/themeSolver/base';
+import { BaseThemeSolver } from '../plugin/theme-solver/base';
 import { ComboShapeStyles } from './combo';
 import { EdgeShapeStyles } from './edge';
 import { LodLevel } from './item';

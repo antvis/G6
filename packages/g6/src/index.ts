@@ -1,6 +1,6 @@
 import { runtime } from '@antv/g';
+import { Extensions, stdLib } from './plugin';
 import { Graph as EmptyGraph } from './runtime/graph';
-import { Extensions, stdLib } from './stdlib';
 import * as Util from './utils';
 import { extend } from './utils/extend';
 

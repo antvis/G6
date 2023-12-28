@@ -9,9 +9,9 @@ import * as Transforms from './data';
 import * as Combos from './item/combo';
 import * as Edges from './item/edge';
 import * as Nodes from './item/node';
-import * as Plugins from './plugin';
 import * as Themes from './theme';
-import * as ThemeSolvers from './themeSolver';
+import * as ThemeSolvers from './theme-solver';
+import * as Plugins from './widget';
 
 const { ValidateData, TransformV4Data, MapNodeSize, ProcessParallelEdges } = Transforms;
 
@@ -92,10 +92,10 @@ const {
   ComboCombinedLayout,
 } = Layouts;
 
-import Hull from './plugin/hull';
-import { WaterMarker } from './plugin/watermarker';
 import lassoSelector from './selector/lasso';
 import rectSelector from './selector/rect';
+import Hull from './widget/hull';
+import { WaterMarker } from './widget/watermarker';
 
 const stdLib = {
   transforms: {

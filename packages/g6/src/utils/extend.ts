@@ -1,5 +1,5 @@
+import { registry } from '../plugin';
 import { Graph } from '../runtime/graph';
-import { registry } from '../stdlib';
 import { BehaviorRegistry } from '../types/behavior';
 import { EdgeRegistry } from '../types/edge';
 import { LayoutRegistry } from '../types/layout';

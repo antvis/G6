@@ -4,7 +4,7 @@ import { clone, isArray, isEmpty, isObject } from '@antv/util';
 import Combo from '../../item/combo';
 import Edge from '../../item/edge';
 import Node from '../../item/node';
-import { registry } from '../../stdlib';
+import { registry } from '../../plugin';
 import { ComboModel, ComboUserModel, GraphData, IGraph } from '../../types';
 import { ComboUserModelData } from '../../types/combo';
 import {

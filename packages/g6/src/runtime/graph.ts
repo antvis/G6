@@ -3,8 +3,8 @@ import { AABB, Canvas, Cursor, DataURLType, DisplayObject, PointLike, Rect } fro
 import { GraphChange, ID } from '@antv/graphlib';
 import { clone, groupBy, isArray, isEmpty, isEqual, isNil, isNumber, isObject, isString, map } from '@antv/util';
 import Node from '../item/node';
-import { History } from '../stdlib/plugin/history';
-import { Command } from '../stdlib/plugin/history/command';
+import { History } from '../plugin/widget/history';
+import { Command } from '../plugin/widget/history/command';
 import type { ComboUserModel, EdgeUserModel, GraphData, IGraph, NodeUserModel, Specification } from '../types';
 import type { CameraAnimationOptions } from '../types/animate';
 import type { BehaviorOptionsOf, BehaviorRegistry } from '../types/behavior';

@@ -5,9 +5,9 @@ import { debounce, isArray, isNumber, isObject, uniq, uniqueId } from '@antv/uti
 import Combo from '../../item/combo';
 import Edge from '../../item/edge';
 import Node from '../../item/node';
-import registry from '../../stdlib';
-import { BaseEdge } from '../../stdlib/item/edge/base';
-import { BaseNode } from '../../stdlib/item/node/base';
+import registry from '../../plugin';
+import { BaseEdge } from '../../plugin/item/edge/base';
+import { BaseNode } from '../../plugin/item/node/base';
 import {
   ComboModel,
   IGraph,
