@@ -153,7 +153,7 @@ If you have a piece of relational data (graph data) and want to quickly visualiz
 
 Welcome to join the **G6 Communication Group**. We also welcome the github issues.
 
-* DingTalk Group: 31065609
+* DingTalk Group: 30088652
 * WeChat Group: Add WeChat **AntVG6** to join the group
 
 <img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*j137TJmS1dEAAAAAAAAAAAAADmJ7AQ/original" width="200" />
