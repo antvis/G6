@@ -29,8 +29,7 @@
     "develop": "dumi dev",
     "find-unused-demos": "node ./scripts/find-unused-demos.js",
     "preview": "dumi preview",
-    "start": "npm run develop",
-    "translate": "node translate-api-doc.mjs"
+    "start": "npm run develop"
   },
   "dependencies": {
     "@antv/algorithm": "^0.1.26",

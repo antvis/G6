@@ -1,10 +1,10 @@
 import { FederatedPointerEvent, IElement } from '@antv/g';
-import { registry } from '../../stdlib';
+import { registry } from '../../plugin';
 import { IGraph } from '../../types';
 import { Behavior } from '../../types/behavior';
 import { CANVAS_EVENT_TYPE, DOM_EVENT_TYPE, IG6GraphEvent } from '../../types/event';
-import { ItemInfo, getContextMenuEventProps, getItemInfoFromElement } from '../../util/event';
-import { getExtension } from '../../util/extension';
+import { ItemInfo, getContextMenuEventProps, getItemInfoFromElement } from '../../utils/event';
+import { getExtension } from '../../utils/extension';
 
 type Listener = (event: IG6GraphEvent) => void;
 

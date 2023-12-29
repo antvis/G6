@@ -4,7 +4,7 @@ import { clone, isArray, isEmpty, isObject } from '@antv/util';
 import Combo from '../../item/combo';
 import Edge from '../../item/edge';
 import Node from '../../item/node';
-import { registry } from '../../stdlib';
+import { registry } from '../../plugin';
 import { ComboModel, ComboUserModel, GraphData, IGraph } from '../../types';
 import { ComboUserModelData } from '../../types/combo';
 import {
@@ -19,7 +19,7 @@ import {
 import { EdgeDisplayModel, EdgeModel, EdgeModelData, EdgeUserModel, EdgeUserModelData } from '../../types/edge';
 import { ITEM_TYPE } from '../../types/item';
 import { NodeModel, NodeModelData, NodeUserModel, NodeUserModelData } from '../../types/node';
-import { hasTreeBehaviors } from '../../util/behavior';
+import { hasTreeBehaviors } from '../../utils/behavior';
 import {
   AVAILABLE_DATA_LIFECYCLE,
   DEFAULT_ACTIVE_DATA_LIFECYCLE,
@@ -30,10 +30,10 @@ import {
   traverse,
   treeData2GraphData,
   validateComboStructure,
-} from '../../util/data';
-import { getExtension } from '../../util/extension';
-import { isTreeLayout } from '../../util/layout';
-import { EdgeCollisionChecker, QuadTree } from '../../util/polyline';
+} from '../../utils/data';
+import { getExtension } from '../../utils/extension';
+import { isTreeLayout } from '../../utils/layout';
+import { EdgeCollisionChecker, QuadTree } from '../../utils/polyline';
 
 /**
  * Manages the data transform extensions;

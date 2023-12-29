@@ -1,6 +1,6 @@
 import { DisplayObject, PathStyleProps } from '@antv/g';
 import { Edge as GEdge, PlainObject } from '@antv/graphlib';
-import { BaseEdge } from '../stdlib/item/edge/base';
+import { BaseEdge } from '../plugin/item/edge/base';
 import { IAnimates } from './animate';
 import {
   Encode,

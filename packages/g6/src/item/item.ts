@@ -17,13 +17,13 @@ import {
 } from '../types/item';
 import { NodeShapeMap } from '../types/node';
 import { EdgeStyleSet, NodeStyleSet } from '../types/theme';
-import { GROUP_ANIMATE_STYLES, animateShapes, getShapeAnimateBeginStyles, stopAnimate } from '../util/animate';
-import { isArrayOverlap } from '../util/array';
-import { cloneJSON } from '../util/data';
-import { DEFAULT_MAPPER } from '../util/mapper';
-import { combineBounds, getShapeLocalBoundsByStyle, mergeStyles, updateShapes } from '../util/shape';
-import { isEncode } from '../util/type';
-import { formatLodLevels } from '../util/zoom';
+import { GROUP_ANIMATE_STYLES, animateShapes, getShapeAnimateBeginStyles, stopAnimate } from '../utils/animate';
+import { isArrayOverlap } from '../utils/array';
+import { cloneJSON } from '../utils/data';
+import { DEFAULT_MAPPER } from '../utils/mapper';
+import { combineBounds, getShapeLocalBoundsByStyle, mergeStyles, updateShapes } from '../utils/shape';
+import { isEncode } from '../utils/type';
+import { formatLodLevels } from '../utils/zoom';
 
 export default abstract class Item implements IItem {
   public graph: IGraph;

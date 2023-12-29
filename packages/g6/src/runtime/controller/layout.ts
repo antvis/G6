@@ -1,7 +1,7 @@
 import { Animation, DisplayObject, IAnimationEffectTiming } from '@antv/g';
 import { Graph as GraphLib, ID } from '@antv/graphlib';
 import { Layout, LayoutMapping, OutNode, Supervisor, isLayoutWithIterations } from '@antv/layout';
-import { Extensions, registry, stdLib } from '../../stdlib';
+import { Extensions, registry, stdLib } from '../../plugin';
 import {
   IGraph,
   LayoutOptions,
@@ -11,7 +11,7 @@ import {
 } from '../../types';
 import { GraphCore } from '../../types/data';
 import { EdgeModelData } from '../../types/edge';
-import { getNodeSizeFn, isComboLayout, isTreeLayout, layoutOneTree, radialLayout } from '../../util/layout';
+import { getNodeSizeFn, isComboLayout, isTreeLayout, layoutOneTree, radialLayout } from '../../utils/layout';
 
 /**
  * Manages layout extensions and graph layout.

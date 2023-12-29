@@ -3,8 +3,8 @@ import { AABB, Canvas, Cursor, DataURLType, DisplayObject, PointLike, Rect } fro
 import { GraphChange, ID } from '@antv/graphlib';
 import { clone, groupBy, isArray, isEmpty, isEqual, isNil, isNumber, isObject, isString, map } from '@antv/util';
 import Node from '../item/node';
-import { History } from '../stdlib/plugin/history';
-import { Command } from '../stdlib/plugin/history/command';
+import { History } from '../plugin/widget/history';
+import { Command } from '../plugin/widget/history/command';
 import type { ComboUserModel, EdgeUserModel, GraphData, IGraph, NodeUserModel, Specification } from '../types';
 import type { CameraAnimationOptions } from '../types/animate';
 import type { BehaviorOptionsOf, BehaviorRegistry } from '../types/behavior';
@@ -22,12 +22,12 @@ import type { RendererName } from '../types/render';
 import { ComboMapper, EdgeMapper, NodeMapper } from '../types/spec';
 import type { ThemeOptionsOf, ThemeRegistry, ThemeSpecification } from '../types/theme';
 import { FitViewRules, GraphTransformOptions } from '../types/view';
-import { getCombinedCanvasesBounds } from '../util/bbox';
-import { changeRenderer, createCanvas } from '../util/canvas';
-import { cloneJSON, isEmptyGraph } from '../util/data';
-import { createDOM } from '../util/dom';
-import { getLayoutBounds } from '../util/layout';
-import { formatPadding } from '../util/shape';
+import { getCombinedCanvasesBounds } from '../utils/bbox';
+import { changeRenderer, createCanvas } from '../utils/canvas';
+import { cloneJSON, isEmptyGraph } from '../utils/data';
+import { createDOM } from '../utils/dom';
+import { getLayoutBounds } from '../utils/layout';
+import { formatPadding } from '../utils/shape';
 import {
   DataController,
   InteractionController,

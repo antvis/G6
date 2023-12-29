@@ -5,9 +5,9 @@ import { debounce, isArray, isNumber, isObject, uniq, uniqueId } from '@antv/uti
 import Combo from '../../item/combo';
 import Edge from '../../item/edge';
 import Node from '../../item/node';
-import registry from '../../stdlib';
-import { BaseEdge } from '../../stdlib/item/edge/base';
-import { BaseNode } from '../../stdlib/item/node/base';
+import registry from '../../plugin';
+import { BaseEdge } from '../../plugin/item/edge/base';
+import { BaseNode } from '../../plugin/item/node/base';
 import {
   ComboModel,
   IGraph,
@@ -31,7 +31,7 @@ import {
   NodeThemeSpecifications,
   ThemeSpecification,
 } from '../../types/theme';
-import { isBBoxInBBox, isPointInBBox } from '../../util/bbox';
+import { isBBoxInBBox, isPointInBBox } from '../../utils/bbox';
 import {
   deconstructData,
   graphComboTreeDfs,
@@ -39,14 +39,14 @@ import {
   traverseAncestors,
   traverseAncestorsAndSucceeds,
   traverseGraphAncestors,
-} from '../../util/data';
-import { getGroupedChanges } from '../../util/event';
-import { getExtension } from '../../util/extension';
-import { upsertTransientItem } from '../../util/item';
-import { isPointPreventPolylineOverlap, isPolylineWithObstacleAvoidance } from '../../util/polyline';
-import { getCombinedBoundsByData, intersectBBox, upsertShape } from '../../util/shape';
-import { convertToNumber } from '../../util/type';
-import { formatLodLevels } from '../../util/zoom';
+} from '../../utils/data';
+import { getGroupedChanges } from '../../utils/event';
+import { getExtension } from '../../utils/extension';
+import { upsertTransientItem } from '../../utils/item';
+import { isPointPreventPolylineOverlap, isPolylineWithObstacleAvoidance } from '../../utils/polyline';
+import { getCombinedBoundsByData, intersectBBox, upsertShape } from '../../utils/shape';
+import { convertToNumber } from '../../utils/type';
+import { formatLodLevels } from '../../utils/zoom';
 
 enum WARN_TYPE {
   FAIL_GET_BBOX,
