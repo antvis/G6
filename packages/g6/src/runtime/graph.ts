@@ -522,6 +522,7 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry> extends 
     type: 'replace' | 'mergeReplace' = 'mergeReplace',
     relayout: boolean = true,
   ) {
+    this.emit('beforechangedata');
     const { tileFirstRender, tileFirstRenderSize } = this.specification.optimize || {};
     this.hooks.datachange.emit({ data, type });
     this.hooks.render.emit({
@@ -535,10 +536,10 @@ export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry> extends 
       },
     });
     this.emit('afterrender');
-
     if (relayout) {
       await this.layout();
     }
+    this.emit('afterchangedata');
   }
 
   /**
