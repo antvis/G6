@@ -159,7 +159,7 @@ DEBUG_MODE=1 npm test -- --watch ./tests/unit/algorithm/find-path-spec
 
 > 由于维护精力有限，**G6 图可视化交流群** 仅供社区同学相互交流，不进行答疑。欢迎对 G6 感兴趣的同学加入到答疑中来，非常感谢！
 
-* 钉钉群：31065609
+* 钉钉群：30088652
 * 微信群：添加微信 **AntVG6** 联系进群
 
 <img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*j137TJmS1dEAAAAAAAAAAAAADmJ7AQ/original" width="200" />
