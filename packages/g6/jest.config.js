@@ -1,25 +1,32 @@
+// Installing third-party modules by tnpm or cnpm will name modules with underscore as prefix.
+// In this case _{module} is also necessary.
+const esm = ['internmap', 'd3-*', 'lodash-es']
+  .map((d) => `_${d}|${d}`)
+  .join('|');
+
 module.exports = {
-  runner: '@kayahr/jest-electron-runner',
-  testEnvironment: '@kayahr/jest-electron-runner/environment',
-  preset: 'ts-jest',
+  testTimeout: 100000,
+  preset: 'ts-jest/presets/js-with-ts',
+  testEnvironment: 'jsdom',
+  transform: {
+    '^.+\\.[tj]s$': [
+      'ts-jest',
+      {
+        diagnostics: {
+          exclude: ['**'],
+        },
+        tsconfig: {
+          allowJs: true,
+          target: 'esnext',
+          esModuleInterop: true,
+        },
+      },
+    ],
+  },
+  collectCoverageFrom: ['src/**/*.ts'],
+  moduleFileExtensions: ['ts', 'tsx', 'js', 'json'],
   collectCoverage: false,
-  collectCoverageFrom: [
-    'src/**/*.{ts,js}',
-    '!**/node_modules/**',
-    '!**/vendor/**',
-  ],
-  testRegex: '/tests/.*-spec\\.ts?$',
-  moduleDirectories: ['node_modules', 'src'],
-  moduleFileExtensions: ['js', 'ts', 'json'],
-  moduleNameMapper: {
-    '@g6/types': '<rootDir>/src/types',
-    '@g6/(.*)': '<rootDir>/src/$1',
-    '^d3-(.*)$': '<rootDir>/node_modules/d3-$1/dist/d3-$1.min.js',
-  },
-  globals: {
-    'ts-jest': {
-      diagnostics: false,
-    },
-  },
-  testTimeout: 450000,
+  testRegex: '(/tests/.*\\.(test|spec))\\.(ts|tsx|js)$',
+  // Transform esm to cjs.
+  transformIgnorePatterns: [`<rootDir>/node_modules/(?!(${esm}))`],
 };
