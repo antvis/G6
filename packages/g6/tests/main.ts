@@ -1,5 +1,5 @@
 import { DataURLType } from '@antv/g';
-import * as graphs from './demo/index';
+import * as graphs from './demo';
 
 let graph: any;
 let imageType: DataURLType = 'image/png';

@@ -36,6 +36,7 @@ export type {
   NodeShapesEncode,
   NodeUserModel,
 } from './node';
+export * from './padding';
 export { Plugin as PluginBase } from './plugin';
 export type { IPluginBaseConfig } from './plugin';
 export type { Specification } from './spec';
