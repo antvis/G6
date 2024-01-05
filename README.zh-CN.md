@@ -6,7 +6,13 @@
 
 ![](https://user-images.githubusercontent.com/6113694/45008751-ea465300-b036-11e8-8e2a-166cbb338ce2.png)
 
-[![travis-ci](https://img.shields.io/travis/antvis/g6.svg)](https://travis-ci.org/antvis/g6) [![codecov](https://codecov.io/gh/antvis/G6/branch/master/graph/badge.svg)](https://codecov.io/gh/antvis/G6) ![typescript](https://img.shields.io/badge/language-typescript-red.svg) ![MIT](https://img.shields.io/badge/license-MIT-000000.svg) [![npm package](https://img.shields.io/npm/v/@antv/g6.svg)](https://www.npmjs.com/package/@antv/g6) [![NPM downloads](http://img.shields.io/npm/dm/@antv/g6.svg)](https://npmjs.org/package/@antv/g6) [![Percentage of issues still open](http://isitmaintained.com/badge/open/antvis/g6.svg)](http://isitmaintained.com/project/antvis/g6 'Percentage of issues still open')
+[![build](https://github.com/antvis/G6/actions/workflows/build.yml/badge.svg?branch=master)](https://github.com/antvis/G6/actions/)
+[![Coverage Status](https://coveralls.io/repos/github/antvis/G6/badge.svg?branch=master)](https://coveralls.io/github/antvis/G6?branch=master)
+![typescript](https://img.shields.io/badge/language-typescript-red.svg) 
+![MIT](https://img.shields.io/badge/license-MIT-000000.svg) 
+[![npm package](https://img.shields.io/npm/v/@antv/g6.svg)](https://www.npmjs.com/package/@antv/g6) 
+[![NPM downloads](http://img.shields.io/npm/dm/@antv/g6.svg)](https://npmjs.org/package/@antv/g6) 
+[![Percentage of issues still open](http://isitmaintained.com/badge/open/antvis/g6.svg)](http://isitmaintained.com/project/antvis/g6)
 
 ## 什么是 G6
 
@@ -144,12 +150,6 @@ DEBUG_MODE=1 npm test -- --watch ./tests/unit/algorithm/find-path-spec
 针对 React 项目集成，我们有一款单独的产品推荐：[Graphin](https://graphin.antv.vision)，它是基于 G6 封装的 React 组件库，专注在关系分析领域，简单高效，开箱即用。
 
 目前 Graphin 在商业图分析项目中均有良好的实践，具体查看[《谁在使用 Graphin》](https://github.com/antvis/Graphin/issues/212)
-
-## 在线分析工具 G6VP
-
-如果你有一份关系数据（图数据），想要快速在线进行可视化，并能够高效分析，那么我们推荐使用官方出品的 [G6VP](https://github.com/antvis/G6VP)，它支持本地文件 JSON，Excel，也支持 TuGraph，Neo4J，GraphScope 等图数据源，内置了 60+ 的分析资产，图分析可以像搭积木一样简单。平台还提供一键导出 SDK，快速集成到业务系统中，大大降 低初始研发门槛 与 后续维护成本。
-
-![G6VP Image](https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*GOVySaZ1iHYAAAAAAAAAAAAADmJ7AQ/original)
 
 ## G6 图可视化交流群
 

@@ -265,7 +265,7 @@ export default class Node extends Item implements INode {
       ))
     ) return 'bbox|label';
 
-    let updateLabel = keys.includes('label') || keys.includes('labelCfg');
+    const updateLabel = keys.includes('label') || keys.includes('labelCfg');
 
     return updateLabel ? 'style|label' : 'style';
   }
