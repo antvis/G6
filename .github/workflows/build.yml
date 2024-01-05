@@ -46,8 +46,8 @@ jobs:
           # pnpm run test
           pnpm run build
 
-      - name: coverall
-        if: success()
-        uses: coverallsapp/github-action@master
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+      # - name: coverall
+      #   if: success()
+      #   uses: coverallsapp/github-action@master
+      #   with:
+      #     github-token: ${{ secrets.GITHUB_TOKEN }}
