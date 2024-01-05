@@ -1,10 +1,10 @@
-import { AbstractShape, AnimateCfg } from '@antv/g-canvas';
+import { AnimateCfg } from '@antv/g-canvas';
 import { animations } from './animateFunc';
 
 export type AnimationConfig = AnimateCfg & { animate: keyof typeof animations };
 
 export const animateShapeWithConfig = (
-  shape: AbstractShape,
+  shape: any,
   config?: Partial<AnimationConfig>,
   initMatrix?: number[],
 ) => {
