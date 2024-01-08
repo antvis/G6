@@ -459,6 +459,7 @@ export default class Hull {
     ];
     // }
     shapePoints = shapePoints.map((canvasPoint) => {
+      // @ts-expect-error TODO: Need to fix the type
       const point = this.graph.getPointByCanvas(canvasPoint[0], canvasPoint[1]);
       return [point.x, point.y];
     });

@@ -276,7 +276,9 @@ export class ZoomCanvas extends Behavior {
 
   private clearCache() {
     this.zoomCache.fixIds.forEach((fixId) => {
+      // @ts-expect-error TODO: Need to fix the type
       const item = this.graph.itemController.itemMap.get(fixId);
+      // @ts-expect-error TODO: Need to fix the type
       item.displayModel.labelShapeVisible = undefined;
     });
     this.zoomCache.fixIds.clear();
@@ -304,6 +306,7 @@ export class ZoomCanvas extends Behavior {
       if (!fixIds.length) return;
       this.zoomCache.fixIds = new Set([...fixIds]);
       fixIds.forEach((id) => {
+        // @ts-expect-error TODO: Need to fix the type
         const item = graph.itemController.itemMap.get(id);
         const balanceRatio = 1 / zoom || 1;
 
@@ -314,6 +317,7 @@ export class ZoomCanvas extends Behavior {
 
         const balanceLabelShape = () => {
           item.updateLabelPosition();
+          // @ts-expect-error TODO: Need to fix the type
           item.displayModel.labelShapeVisible = true;
           graph.showItem(id, {
             shapeIds: ['labelShape', 'labelBackgroundShape'],

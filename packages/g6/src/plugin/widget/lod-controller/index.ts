@@ -102,6 +102,7 @@ export class LodController extends Base {
    * @param params
    */
   protected updateCells = (params?: GraphTransformOptions) => {
+    // @ts-expect-error TODO: Need to fix the type
     if (!this.graph.canvasReady) return;
     const { zoom } = params || {};
     if (params) {
@@ -208,6 +209,7 @@ export class LodController extends Base {
         if (!disableLod && invisibleShapeIds.length) {
           graph.hideItem(id, { shapeIds: invisibleShapeIds, disableAnimate });
         }
+        // @ts-expect-error TODO: Need to fix the type
         const item = graph.itemController.itemMap.get(id);
         if (
           disableLod ||
@@ -269,6 +271,7 @@ export class LodController extends Base {
       // 1 && (2 || 3)
       inView.forEach((model) => {
         this.labelPositionDirty.set(model.id, true);
+        // @ts-expect-error TODO: Need to fix the type
         const item = graph.itemController.itemMap.get(model.id);
         if (
           !item ||
@@ -548,6 +551,7 @@ export class LodController extends Base {
   private getDisplayModel = (id) => {
     let displayModel = this.displayModelCache.get(id);
     if (!displayModel) {
+      // @ts-expect-error TODO: Need to fix the type
       displayModel = this.graph.getDisplayModel(id);
       this.displayModelCache.set(id, displayModel);
     }

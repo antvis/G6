@@ -88,9 +88,12 @@ export class PluginController {
       ) {
         plugins.push(required.type);
 
+        // @ts-expect-error TODO: Need to fix the type
         if (!this.graph.specification.plugins) {
+          // @ts-expect-error TODO: Need to fix the type
           this.graph.specification.plugins = [];
         }
+        // @ts-expect-error TODO: Need to fix the type
         this.graph.specification.plugins.push(required);
       }
     });

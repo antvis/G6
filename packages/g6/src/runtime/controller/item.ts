@@ -802,6 +802,7 @@ export class ItemController {
         const { keyShape } = item.shapeMap;
         if (!keyShape) return;
         const renderBounds = keyShape.getRenderBounds();
+        // @ts-expect-error TODO: Need to fix the type
         if (containFunc(renderBounds, range, 0.4)) itemsInView.push(item);
         else itemsOutView.push(item);
       });
@@ -811,6 +812,7 @@ export class ItemController {
         const { keyShape } = item.shapeMap;
         if (!keyShape) return;
         const renderBounds = keyShape.getRenderBounds();
+        // @ts-expect-error TODO: Need to fix the type
         if (containFunc(renderBounds, range, 0.4)) {
           itemsInView.push(item);
         }
@@ -821,6 +823,7 @@ export class ItemController {
         const { keyShape } = item.shapeMap;
         if (!keyShape) return;
         const renderBounds = keyShape.getRenderBounds();
+        // @ts-expect-error TODO: Need to fix the type
         if (!containFunc(renderBounds, range, 0.4)) {
           itemsOutView.push(item);
         }
@@ -1147,6 +1150,7 @@ export class ItemController {
 
       this.itemMap.set(node.id, nodeItem);
       const { x, y } = nodeItem.model.data;
+      // @ts-expect-error TODO: Need to fix the type
       if (delayFirstDraw && isPointInBBox({ x: convertToNumber(x), y: convertToNumber(y) }, viewRange)) {
         itemsInView.push(nodeItem);
       } else {
