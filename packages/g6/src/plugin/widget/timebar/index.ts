@@ -3,7 +3,7 @@ import type { TimebarStyleProps } from '@antv/gui';
 import { Timebar as GUITimebar } from '@antv/gui';
 import { deepMix } from '@antv/util';
 import type { EdgeModel, NodeModel } from '../../../types';
-import { GraphData, IGraph } from '../../../types';
+import { Graph, GraphData } from '../../../types';
 import type { Padding } from '../../../types/common';
 import type { ITEM_TYPE } from '../../../types/item';
 import { Plugin as Base, IPluginBaseConfig } from '../../../types/plugin';
@@ -95,7 +95,7 @@ export interface TimebarConfig
    * manage graph manually when timebar range/value change
    * @description if it is not specified, the graph will be filtered by default
    */
-  filter?: (graph: IGraph, values: Parameters<TimebarStyleProps['onChange']>) => void;
+  filter?: (graph: Graph, values: Parameters<TimebarStyleProps['onChange']>) => void;
   axisStyle?: SubStyleProps<TimebarStyleProps, 'axis'>;
   chartStyle?: SubStyleProps<TimebarStyleProps, 'chart'>;
   controllerStyle?: SubStyleProps<TimebarStyleProps, 'controller'>;
@@ -175,7 +175,7 @@ export class Timebar extends Base {
     };
   }
 
-  public init(graph: IGraph) {
+  public init(graph: Graph) {
     super.init(graph);
   }
 

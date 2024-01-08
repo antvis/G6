@@ -2,7 +2,7 @@
 import { AABB } from '@antv/g';
 import { isArray, isString, uniqueId } from '@antv/util';
 import insertCss from 'insert-css';
-import { IGraph } from '../../../types';
+import { Graph } from '../../../types';
 import { IG6GraphEvent } from '../../../types/event';
 import { Plugin as Base, IPluginBaseConfig } from '../../../types/plugin';
 import { createDOM, modifyCSS } from '../../../utils/dom';
@@ -146,7 +146,7 @@ export class Tooltip extends Base {
     };
   }
 
-  public init(graph: IGraph) {
+  public init(graph: Graph) {
     super.init(graph);
     const className = this.options.className;
     const tooltip = createDOM(`<div class='${className || 'g6-component-tooltip'}'></div>`);
@@ -295,7 +295,7 @@ export class Tooltip extends Base {
       });
       return;
     }
-    const graph: IGraph = this.graph;
+    const graph: Graph = this.graph;
     const width: number = graph.getSize()[0];
     const height: number = graph.getSize()[1];
     const offsetX = this.options.offsetX || 0;

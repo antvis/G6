@@ -5,8 +5,8 @@
 
 ```ts
 type Command = {
-  redo: (graph: IGraph) => void;
-  undo: (graph: IGraph) => void;
+  redo: (graph: Graph) => void;
+  undo: (graph: Graph) => void;
 };
 ```
 

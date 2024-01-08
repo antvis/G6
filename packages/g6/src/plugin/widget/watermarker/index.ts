@@ -1,6 +1,6 @@
 import { Canvas, Group, Image, Text, TextStyleProps } from '@antv/g';
 import { isString, uniqueId } from '@antv/util';
-import { IGraph } from '../../../types';
+import { Graph } from '../../../types';
 import { Plugin as Base, IPluginBaseConfig } from '../../../types/plugin';
 import { createCanvas } from '../../../utils/canvas';
 
@@ -86,7 +86,7 @@ export class WaterMarker extends Base {
    * Initialize the WaterMarker plugin.
    * @param graph
    */
-  public init(graph: IGraph) {
+  public init(graph: Graph) {
     super.init(graph);
     const promise = this.initCanvas();
     promise.then(() => {

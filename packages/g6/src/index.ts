@@ -6,6 +6,13 @@ import { extend } from './utils/extend';
 
 export * from './types';
 
+export type {
+  /**
+   * @deprecated Please use `Graph` instead
+   */
+  Graph as IGraph,
+} from './types';
+
 /**
  * Disable CSS parsing for better performance.
  */

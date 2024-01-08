@@ -1,5 +1,5 @@
 import { ID } from '@antv/graphlib';
-import { IGraph } from '../../types';
+import { Graph } from '../../types';
 import { Point } from '../../types/common';
 import { ITEM_TYPE } from '../../types/item';
 import { getEdgesBetween } from '../../utils/item';
@@ -14,7 +14,7 @@ import { isPolygonsIntersect } from '../../utils/shape';
  * @param points
  * @param itemTypes
  */
-export default (graph: IGraph, points: Point[], itemTypes: ITEM_TYPE[]) => {
+export default (graph: Graph, points: Point[], itemTypes: ITEM_TYPE[]) => {
   const lassoContour = points.map((point) => [point.x, point.y]);
   const selectedNodeIds = [];
   let selectedEdgeIds = [];
@@ -52,7 +52,7 @@ export default (graph: IGraph, points: Point[], itemTypes: ITEM_TYPE[]) => {
     combos: selectedComboIds,
   };
 };
-const isItemIntersectPolygon = (graph: IGraph, id: ID, polyPoints: number[][]) => {
+const isItemIntersectPolygon = (graph: Graph, id: ID, polyPoints: number[][]) => {
   // TODO
   // const shape = item.getKeyShape();
   // if (item.get('type') === 'path') {

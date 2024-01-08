@@ -5,8 +5,8 @@ import {
   ComboModel,
   EdgeDisplayModel,
   EdgeModel,
+  Graph,
   ID,
-  IGraph,
   NodeDisplayModel,
   NodeModel,
 } from '../../../types';
@@ -60,7 +60,7 @@ export class LodController extends Base {
     };
   }
 
-  public init(graph: IGraph) {
+  public init(graph: Graph) {
     super.init(graph);
   }
 

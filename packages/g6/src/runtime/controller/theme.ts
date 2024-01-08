@@ -1,5 +1,5 @@
 import registry from '../../plugin';
-import { IGraph } from '../../types';
+import { Graph } from '../../types';
 import { ThemeSpecification } from '../../types/theme';
 import { getCatExtensions, getExtension } from '../../utils/extension';
 
@@ -9,7 +9,7 @@ import { getCatExtensions, getExtension } from '../../utils/extension';
  */
 export class ThemeController {
   public extension;
-  public graph: IGraph;
+  public graph: Graph;
 
   private themeConfig;
   private solver;
@@ -18,7 +18,7 @@ export class ThemeController {
     [themeName: string]: ThemeSpecification;
   };
 
-  constructor(graph: IGraph<any, any>) {
+  constructor(graph: Graph<any, any>) {
     this.graph = graph;
     this.tap();
   }

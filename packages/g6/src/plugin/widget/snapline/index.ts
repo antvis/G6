@@ -1,7 +1,7 @@
 import { AABB, DisplayObject } from '@antv/g';
 import { ID } from '@antv/graphlib';
 import { throttle } from '@antv/util';
-import { IG6GraphEvent, IGraph, NodeModel } from '../../../types';
+import { Graph, IG6GraphEvent, NodeModel } from '../../../types';
 import { Point } from '../../../types/common';
 import { ITEM_TYPE, ShapeStyle } from '../../../types/item';
 import { Plugin as Base, IPluginBaseConfig } from '../../../types/plugin';
@@ -705,7 +705,7 @@ export class Snapline extends Base {
     }
   }
 
-  getGraph(event: IG6GraphEvent): IGraph {
+  getGraph(event: IG6GraphEvent): Graph {
     return event.currentTarget;
   }
 

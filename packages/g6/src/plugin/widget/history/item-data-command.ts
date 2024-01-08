@@ -1,4 +1,4 @@
-import type { IGraph } from '../../../types';
+import type { Graph } from '../../../types';
 import { STACK_TYPE, type StackType } from '../../../types/history';
 import type { ITEM_TYPE } from '../../../types/item';
 import type { GroupedChanges } from '../../../utils/event';
@@ -38,7 +38,7 @@ export class ItemDataCommand implements Command {
     });
   }
 
-  private updateChangedData(graph: IGraph, operationType: StackType, onlyMove = false) {
+  private updateChangedData(graph: Graph, operationType: StackType, onlyMove = false) {
     const modelMap = new Map();
     if (this.type === 'combo' && !onlyMove) {
       this.changes.forEach((data) => {
@@ -83,7 +83,7 @@ export class ItemDataCommand implements Command {
     graph.resumeStack();
   }
 
-  undo(graph: IGraph) {
+  undo(graph: Graph) {
     this.action === 'add' && this.removeChangedData(graph);
     this.action === 'remove' && this.addChangedData(graph);
     this.action === 'update' && this.updateChangedData(graph, STACK_TYPE.undo);
@@ -91,7 +91,7 @@ export class ItemDataCommand implements Command {
       this.updateChangedData(graph, STACK_TYPE.undo, this.action === 'updatePosition');
   }
 
-  redo(graph: IGraph) {
+  redo(graph: Graph) {
     this.action === 'remove' && this.removeChangedData(graph);
     this.action === 'add' && this.addChangedData(graph);
     this.action === 'update' && this.updateChangedData(graph, STACK_TYPE.redo);

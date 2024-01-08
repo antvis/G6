@@ -1,7 +1,7 @@
 // TODO: update type define.
 import { Canvas } from '@antv/g';
 import { uniqueId } from '@antv/util';
-import { IGraph } from '../../../types';
+import { Graph } from '../../../types';
 import { Plugin as Base, IPluginBaseConfig } from '../../../types/plugin';
 import { createDOM, modifyCSS } from '../../../utils/dom';
 
@@ -39,7 +39,7 @@ export class Grid extends Base {
     };
   }
 
-  public init(graph: IGraph) {
+  public init(graph: Graph) {
     super.init(graph);
     const minZoom = graph.getZoom();
     const graphContainer = graph.container;

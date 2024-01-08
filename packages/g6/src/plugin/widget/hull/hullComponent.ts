@@ -1,6 +1,6 @@
 import { DisplayObject } from '@antv/g';
 import { isArray } from '@antv/util';
-import { ComboModel, ID, IGraph, NodeModel } from '../../../types';
+import { ComboModel, Graph, ID, NodeModel } from '../../../types';
 import { ShapeStyle } from '../../../types/item';
 import { pathToPoints } from '../../../utils/path';
 import { isPolygonsIntersect } from '../../../utils/shape';
@@ -48,7 +48,7 @@ interface HullComponentFullOptions extends HullComponentOptions {
  * 通By configuring padding, you can adjust the tightness of the wrapping contour to the node.
  */
 export default class Hull {
-  graph: IGraph;
+  graph: Graph;
 
   // TODO: PathArray is not exported by @antv/util 2.x but by 3.x. Correct the type String | PathArray after upgrading @antv/util
   path: any;
@@ -67,7 +67,7 @@ export default class Hull {
 
   options: HullComponentFullOptions;
 
-  constructor(graph: IGraph, options: HullComponentFullOptions) {
+  constructor(graph: Graph, options: HullComponentFullOptions) {
     const { members: memberIds = [], nonMembers: nonMemberIds = [] } = options;
     this.options = options;
     this.graph = graph;

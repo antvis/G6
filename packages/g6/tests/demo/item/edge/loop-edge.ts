@@ -1,5 +1,5 @@
 import { deepMix } from '@antv/util';
-import { EdgeUserModel, Extensions, Graph, extend } from '../../../../src/index';
+import { EdgeUserModel, Extensions, Graph, IGraph, extend } from '../../../../src/index';
 
 import { TestCaseContext } from '../../interface';
 // @ts-nocheck

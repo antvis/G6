@@ -1,5 +1,5 @@
 import { deepMix, each, isEmpty, upperFirst } from '@antv/util';
-import type { IGraph } from 'types';
+import type { Graph } from 'types';
 import { STACK_TYPE, StackCfg, StackType } from '../../../types/history';
 import { Plugin as Base, IPluginBaseConfig } from '../../../types/plugin';
 import CommandFactory, { Command } from './command';
@@ -135,7 +135,7 @@ export class History extends Base {
     };
   }
 
-  public init(graph: IGraph) {
+  public init(graph: Graph) {
     super.init(graph);
     this.clear();
   }

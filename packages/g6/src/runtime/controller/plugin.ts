@@ -1,7 +1,7 @@
 import { uniqueId } from '@antv/util';
 import registry from '../../plugin';
 import { LodController } from '../../plugin/widget';
-import { IGraph } from '../../types';
+import { Graph } from '../../types';
 import { IG6GraphEvent } from '../../types/event';
 import { Plugin as PluginBase } from '../../types/plugin';
 import { getExtension } from '../../utils/extension';
@@ -39,7 +39,7 @@ const wrapListener = (type: string, eventName: string, listener: Listener): List
  */
 export class PluginController {
   public extensions: any = [];
-  public graph: IGraph;
+  public graph: Graph;
 
   /**
    * Plugins on graph.
@@ -57,7 +57,7 @@ export class PluginController {
    */
   private listenersMap: Record<string, Record<string, Listener>> = {};
 
-  constructor(graph: IGraph<any, any>) {
+  constructor(graph: Graph<any, any>) {
     this.graph = graph;
     this.tap();
   }

@@ -1,6 +1,6 @@
 import { AABB } from '@antv/g';
 import { vec2 } from 'gl-matrix';
-import { ID, IGraph } from 'types';
+import { Graph, ID } from 'types';
 import { Bounds, Point } from '../../../types/common';
 import { getLineIntersect } from '../../../utils/shape';
 
@@ -273,7 +273,7 @@ export const squareDist = (a: Point, b: Point): number => {
   return (a.x - b.x) ** 2 + (a.y - b.y) ** 2;
 };
 
-export const fractionToLine = (graph: IGraph, itemId: ID, line: LineStructure) => {
+export const fractionToLine = (graph: Graph, itemId: ID, line: LineStructure) => {
   const directions = ['top', 'left', 'bottom', 'right'];
   const bbox = graph.getRenderBBox(itemId);
   if (!bbox) return Infinity;
@@ -326,7 +326,7 @@ export const isPointsOverlap = (p1, p2, e = 1e-3) => {
   return (p1.x - p2.x) ** 2 + (p1.y - p2.y) ** 2 < e ** 2;
 };
 
-export const itemIntersectByLine = (graph: IGraph, itemId: ID, line: LineStructure): [Point[], number] => {
+export const itemIntersectByLine = (graph: Graph, itemId: ID, line: LineStructure): [Point[], number] => {
   const directions = ['top', 'left', 'bottom', 'right'];
   const bbox = graph.getRenderBBox(itemId);
   if (!bbox) return;

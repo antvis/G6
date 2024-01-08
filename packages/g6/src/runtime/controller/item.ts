@@ -10,7 +10,7 @@ import { BaseEdge } from '../../plugin/item/edge/base';
 import { BaseNode } from '../../plugin/item/node/base';
 import {
   ComboModel,
-  IGraph,
+  Graph,
   NodeDisplayModel,
   NodeEncode,
   NodeModel,
@@ -80,7 +80,7 @@ const getWarnMsg = {
  * Manages and stores the node / edge / combo items.
  */
 export class ItemController {
-  public graph: IGraph;
+  public graph: Graph;
   public nodeExtensions: BaseNode[] = [];
   public edgeExtensions: BaseEdge[] = [];
   public comboExtensions: BaseNode[] = [];
@@ -138,7 +138,7 @@ export class ItemController {
 
   private cacheWarnMsg = {};
 
-  constructor(graph: IGraph<any, any>) {
+  constructor(graph: Graph<any, any>) {
     this.graph = graph;
     // get mapper for node / edge / combo
     const { node, edge, combo, nodeState = {}, edgeState = {}, comboState = {} } = graph.getSpecification();

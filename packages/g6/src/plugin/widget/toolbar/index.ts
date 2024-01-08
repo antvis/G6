@@ -1,21 +1,21 @@
 import insertCss from 'insert-css';
-import { IGraph } from '../../../types';
+import { Graph } from '../../../types';
 import { Plugin as Base, IPluginBaseConfig } from '../../../types/plugin';
 import { createDOM, modifyCSS } from '../../../utils/dom';
 
 /**
  * The `ToolbarConfig` interface contains the following properties:
- * - `handleClick`: An optional function for handling clicks on the toolbar. It takes two arguments: `code` (of type string) and `graph` (of type IGraph), and has no return value.
- * - `getContent`: A required function for getting the content of the toolbar. It takes an optional argument of type `IGraph`, and returns a value of type HTMLElement or string.
+ * - `handleClick`: An optional function for handling clicks on the toolbar. It takes two arguments: `code` (of type string) and `graph`, and has no return value.
+ * - `getContent`: A required function for getting the content of the toolbar. It takes an optional argument of type `Graph`, and returns a value of type HTMLElement or string.
  * - `zoomSensitivity`: An optional number representing the zoom sensitivity of the toolbar. The default value is 10.
  * - `minZoom`: An optional number representing the minimum zoom ratio of the toolbar. The default value is 0.00001.
  * - `maxZoom`: An optional number representing the maximum zoom ratio of the toolbar. The default value is 1000.
  */
 export interface ToolbarConfig extends IPluginBaseConfig {
   /** Function for handling clicks on toolbar */
-  handleClick?: (code: string, graph: IGraph) => void;
+  handleClick?: (code: string, graph: Graph) => void;
   /** Function for getting content of toolbar */
-  getContent: (graph?: IGraph) => HTMLElement | string;
+  getContent: (graph?: Graph) => HTMLElement | string;
   /** Zoom sensitivity of toolbar */
   zoomSensitivity: number;
   /** Minimum zoom ratio of toolbar */
@@ -97,7 +97,7 @@ export class Toolbar extends Base {
     }
     return this.containerDOM;
   }
-  public init(graph: IGraph) {
+  public init(graph: Graph) {
     super.init(graph);
     this.getContainer();
     this.insertStyle();

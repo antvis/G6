@@ -20,7 +20,7 @@ import { DEFAULT_LABEL_BG_PADDING } from '../constant';
 import Combo from '../item/combo';
 import Edge from '../item/edge';
 import Node from '../item/node';
-import { AnimateTiming, ComboDisplayModel, ComboModelData, IAnimates, IGraph } from '../types';
+import { AnimateTiming, ComboDisplayModel, ComboModelData, Graph, IAnimates } from '../types';
 import { Padding, Point, StandardPadding } from '../types/common';
 import { EdgeDisplayModel, EdgeModelData, EdgeShapeMap } from '../types/edge';
 import { GShapeStyle, ItemShapeStyles, SHAPE_TYPE, SHAPE_TYPE_3D, ShapeStyle, State } from '../types/item';
@@ -681,7 +681,7 @@ export const combineBounds = (
  * @returns combined bounds
  */
 export const getCombinedBoundsByData = (
-  graph: IGraph,
+  graph: Graph,
   models: (Node | Combo)[],
 ):
   | {

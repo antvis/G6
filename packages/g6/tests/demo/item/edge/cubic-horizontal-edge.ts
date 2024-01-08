@@ -1,4 +1,4 @@
-import { Extensions, Graph, extend } from '../../../../src/index';
+import { Extensions, Graph, IGraph, extend } from '../../../../src/index';
 
 // @ts-nocheck
 

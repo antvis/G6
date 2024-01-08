@@ -1,5 +1,5 @@
 import { groupBy } from '@antv/util';
-import { ID, IGraph } from '../../../types';
+import { Graph, ID } from '../../../types';
 import type { ITEM_TYPE } from '../../../types/item';
 import { ComboCommand } from './combo-command';
 import { ItemDataCommand } from './item-data-command';
@@ -8,8 +8,8 @@ import { StateUpdatedCommand } from './state-updated-command';
 import { VisibilityUpdatedCommand } from './visibility-updated-command';
 
 export interface Command {
-  redo: (graph: IGraph) => void;
-  undo: (graph: IGraph) => void;
+  redo: (graph: Graph) => void;
+  undo: (graph: Graph) => void;
 }
 interface CreateProps {
   type: ITEM_TYPE;

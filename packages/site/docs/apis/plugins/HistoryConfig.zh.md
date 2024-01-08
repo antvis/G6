@@ -95,7 +95,7 @@ order: 1
 
 ### notify
 
-**类型**：`(graph: IGraph, eventName: string, ...data: any[]) => void;`
+**类型**：`(graph: Graph, eventName: string, ...data: any[]) => void;`
 
 **说明**：事件通知
 
