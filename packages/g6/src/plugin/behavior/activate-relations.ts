@@ -106,24 +106,20 @@ export class ActivateRelations extends Behavior {
     const { active: activeNodeIds, inactive: inactiveNodeIds } = compare(this.prevNodeIds, nodeIds);
     const { active: activeEdgeIds, inactive: inactiveEdgeIds } = compare(this.prevEdgeIds, edgeIds);
 
-    graph.historyBatch(() => {
-      /** 节点 */
-      graph.setItemState(activeNodeIds, ACTIVE_STATE, true);
-      graph.setItemState(inactiveNodeIds, ACTIVE_STATE, false);
-      /** 边 */
-      graph.setItemState(activeEdgeIds, ACTIVE_STATE, true);
-      graph.setItemState(inactiveEdgeIds, ACTIVE_STATE, false);
-    });
+    /** 节点 */
+    graph.setItemState(activeNodeIds, ACTIVE_STATE, true);
+    graph.setItemState(inactiveNodeIds, ACTIVE_STATE, false);
+    /** 边 */
+    graph.setItemState(activeEdgeIds, ACTIVE_STATE, true);
+    graph.setItemState(inactiveEdgeIds, ACTIVE_STATE, false);
 
     this.prevNodeIds = nodeIds;
     this.prevEdgeIds = edgeIds;
   }
   public clearActiveState(e: any) {
     const { activeState: ACTIVE_STATE } = this.options;
-    this.graph.historyBatch(() => {
-      this.graph.setItemState(this.prevNodeIds, ACTIVE_STATE, false);
-      this.graph.setItemState(this.prevEdgeIds, ACTIVE_STATE, false);
-    });
+    this.graph.setItemState(this.prevNodeIds, ACTIVE_STATE, false);
+    this.graph.setItemState(this.prevEdgeIds, ACTIVE_STATE, false);
     this.prevNodeIds = [];
     this.prevEdgeIds = [];
   }

@@ -3,8 +3,6 @@ import { AABB, Canvas, Cursor, DataURLType, DisplayObject, PointLike, Rect } fro
 import { GraphChange, ID } from '@antv/graphlib';
 import { clone, groupBy, isArray, isEmpty, isEqual, isNil, isNumber, isObject, isString, map } from '@antv/util';
 import Node from '../item/node';
-import { History } from '../plugin/widget/history';
-import { Command } from '../plugin/widget/history/command';
 import type { ComboUserModel, EdgeUserModel, GraphData, NodeUserModel, Specification } from '../types';
 import type { CameraAnimationOptions } from '../types/animate';
 import type { BehaviorOptionsOf, BehaviorRegistry } from '../types/behavior';
@@ -12,7 +10,6 @@ import type { ComboDisplayModel, ComboModel, ComboShapesEncode } from '../types/
 import type { Bounds, Padding, Point } from '../types/common';
 import type { DataChangeType, DataConfig, GraphCore } from '../types/data';
 import type { EdgeDisplayModel, EdgeModel, EdgeModelData, EdgeShapesEncode } from '../types/edge';
-import type { StackType } from '../types/history';
 import type { Hooks, ViewportChangeHookParams } from '../types/hook';
 import type { ITEM_TYPE, SHAPE_TYPE, ShapeStyle } from '../types/item';
 import type { ImmediatelyInvokedLayoutOptions, LayoutOptions, StandardLayoutOptions } from '../types/layout';
@@ -84,7 +81,6 @@ export class Graph<B extends BehaviorRegistry = any, T extends ThemeRegistry = a
     this.initHooks();
     this.initCanvas();
     this.initControllers();
-    this.initHistory();
 
     this.hooks.init.emit({
       canvases: {
@@ -183,22 +179,6 @@ export class Graph<B extends BehaviorRegistry = any, T extends ThemeRegistry = a
 
       this.canvasReady = true;
     });
-  }
-
-  private initHistory() {
-    const { enableStack, stackCfg } = this.specification;
-    if (enableStack) {
-      const history = {
-        type: 'history',
-        key: 'history',
-        enableStack,
-        stackCfg,
-      };
-      if (!this.specification.plugins) {
-        this.specification.plugins = [];
-      }
-      this.specification.plugins.push(history);
-    }
   }
 
   /**
@@ -545,7 +525,6 @@ export class Graph<B extends BehaviorRegistry = any, T extends ThemeRegistry = a
    * Clear the graph, means remove all the items on the graph.
    */
   public clear() {
-    this.startHistoryBatch();
     this.removeData(
       'edge',
       this.getAllEdgesData().map((edge) => edge.id),
@@ -558,7 +537,6 @@ export class Graph<B extends BehaviorRegistry = any, T extends ThemeRegistry = a
       'combo',
       this.getAllCombosData().map((combo) => combo.id),
     );
-    this.stopHistoryBatch();
   }
 
   public getViewportCenter(): PointLike {
@@ -1298,17 +1276,6 @@ export class Graph<B extends BehaviorRegistry = any, T extends ThemeRegistry = a
     return this.updatePosition('combo', models, upsertAncestors, disableAnimate, callback);
   }
 
-  /**
-   * Get history plugin instance
-   */
-  private getHistoryPlugin(): History {
-    if (!this.specification.enableStack || !this.pluginController.hasPlugin('history')) {
-      console.error('The history plugin is not loaded or initialized.');
-      return;
-    }
-    return this.pluginController.getPlugin('history') as History;
-  }
-
   private updatePosition(
     type: 'node' | 'combo',
     models: Partial<NodeUserModel> | Partial<ComboUserModel | Partial<NodeUserModel>[] | Partial<ComboUserModel>[]>,
@@ -1721,12 +1688,10 @@ export class Graph<B extends BehaviorRegistry = any, T extends ThemeRegistry = a
    */
   public collapseCombo(comboIds: ID | ID[]) {
     const ids = isArray(comboIds) ? comboIds : [comboIds];
-    this.executeWithNoStack(() => {
-      this.updateData(
-        'combo',
-        ids.map((id) => ({ id, data: { collapsed: true } })),
-      );
-    });
+    this.updateData(
+      'combo',
+      ids.map((id) => ({ id, data: { collapsed: true } })),
+    );
     this.emit('aftercollapsecombo', {
       type: 'combo',
       action: 'collapseCombo',
@@ -1742,12 +1707,10 @@ export class Graph<B extends BehaviorRegistry = any, T extends ThemeRegistry = a
    */
   public expandCombo(comboIds: ID | ID[]) {
     const ids = isArray(comboIds) ? comboIds : [comboIds];
-    this.executeWithNoStack(() => {
-      this.updateData(
-        'combo',
-        ids.map((id) => ({ id, data: { collapsed: false } })),
-      );
-    });
+    this.updateData(
+      'combo',
+      ids.map((id) => ({ id, data: { collapsed: false } })),
+    );
     this.emit('afterexpandcombo', {
       type: 'combo',
       action: 'expandCombo',
@@ -2496,156 +2459,6 @@ export class Graph<B extends BehaviorRegistry = any, T extends ThemeRegistry = a
     }, 16);
   }
 
-  // ===== history operations =====
-
-  /**
-   * Determine if history (redo/undo) is enabled.
-   */
-  public isHistoryEnabled() {
-    const history = this.getHistoryPlugin();
-    return history?.isEnable();
-  }
-
-  /**
-   * Push the operation(s) onto the specified stack
-   * @param cmd commands to be pushed
-   * @param stackType undo/redo stack
-   * @param isNew
-   */
-  public pushStack(cmd: Command[], stackType: StackType, isNew?: boolean) {
-    const history = this.getHistoryPlugin();
-    return history?.push(cmd, stackType, isNew);
-  }
-
-  /**
-   * Pause stacking operation.
-   */
-  public pauseStack(): void {
-    const history = this.getHistoryPlugin();
-    return history?.pauseStack();
-  }
-
-  /**
-   * Resume stacking operation.
-   */
-  public resumeStack(): void {
-    const history = this.getHistoryPlugin();
-    return history?.resumeStack();
-  }
-
-  /**
-   * Execute a callback without allowing any stacking operations.
-   * @param callback
-   */
-  public executeWithNoStack = (callback: () => void): void => {
-    const history = this.getHistoryPlugin();
-    history?.pauseStack();
-    try {
-      callback();
-    } finally {
-      history?.resumeStack();
-    }
-  };
-
-  /**
-   * Retrieve the current redo stack which consists of operations that could be undone
-   */
-  public getUndoStack() {
-    const history = this.getHistoryPlugin();
-    return history?.getUndoStack();
-  }
-
-  /**
-   * Retrieve the current undo stack which consists of operations that were undone
-   */
-  public getRedoStack() {
-    const history = this.getHistoryPlugin();
-    return history?.getRedoStack();
-  }
-
-  /**
-   * Retrieve the complete history stack
-   */
-  public getStack() {
-    const history = this.getHistoryPlugin();
-    return history?.getStack();
-  }
-
-  /**
-   * Restore n operations that were last n reverted on the graph.
-   * @param steps The number of operations to undo. Default to 1.
-   */
-  public undo() {
-    const history = this.getHistoryPlugin();
-    history?.undo();
-  }
-
-  /**
-   * Revert recent n operation(s) performed on the graph.
-   * @param steps The number of operations to redo. Default to 1.
-   */
-  public redo() {
-    const history = this.getHistoryPlugin();
-    history?.redo();
-  }
-
-  /**
-   * Indicate whether there are any actions available in the undo stack.
-   */
-  public canUndo() {
-    const history = this.getHistoryPlugin();
-    return history?.canUndo();
-  }
-
-  /**
-   * Indicate whether there are any actions available in the redo stack.
-   */
-  public canRedo() {
-    const history = this.getHistoryPlugin();
-    return history?.canRedo();
-  }
-
-  /**
-   * Begin a historyBatch operation.
-   * Any operations performed between `startHistoryBatch` and `stopHistoryBatch` are grouped together.
-   * treated as a single operation when undoing or redoing.
-   */
-  public startHistoryBatch() {
-    const history = this.getHistoryPlugin();
-    history?.startHistoryBatch();
-  }
-
-  /**
-   * End a historyBatch operation.
-   * Any operations performed between `startHistoryBatch` and `stopHistoryBatch` are grouped together.
-   * treated as a single operation when undoing or redoing.
-   */
-  public stopHistoryBatch() {
-    const history = this.getHistoryPlugin();
-    history?.stopHistoryBatch();
-  }
-
-  /**
-   * Execute a provided function within a batched context
-   * All operations performed inside callback will be treated as a composite operation
-   * more convenient way without manually invoking `startHistoryBatch` and `stopHistoryBatch`.
-   * @param callback The func containing operations to be batched together.
-   */
-  public historyBatch(callback: () => void) {
-    const history = this.getHistoryPlugin();
-    history?.historyBatch(callback);
-  }
-
-  /**
-   * Clear history stack
-   * @param {StackType} stackType undo/redo stack
-   */
-  public cleanHistory(stackType?: StackType) {
-    const history = this.getHistoryPlugin();
-    if (!stackType) return history?.clear();
-    return stackType === 'undo' ? history?.clearUndoStack() : history?.clearRedoStack();
-  }
-
   /**
    * Collapse sub tree(s).
    * @param ids Root id(s) of the sub trees.
@@ -2697,9 +2510,6 @@ export class Graph<B extends BehaviorRegistry = any, T extends ThemeRegistry = a
     this.backgroundCanvas.destroy();
     this.transientCanvas.destroy();
     this.transientLabelCanvas.destroy();
-
-    // clear history stack
-    this.cleanHistory();
 
     callback?.();
 

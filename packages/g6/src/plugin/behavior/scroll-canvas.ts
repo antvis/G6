@@ -250,9 +250,7 @@ export class ScrollCanvas extends Behavior {
           return;
         }
         const section = sections.shift();
-        graph.startHistoryBatch();
         graph.hideItem(section, { disableAnimate: false, keepKeyShape: true });
-        graph.stopHistoryBatch();
         requestId = requestAnimationFrame(update);
       };
       requestId = requestAnimationFrame(update);
@@ -294,9 +292,7 @@ export class ScrollCanvas extends Behavior {
         cancelAnimationFrame(requestId);
         return;
       }
-      graph.executeWithNoStack(() => {
-        graph.showItem(sections.shift(), { disableAnimate: false });
-      });
+      graph.showItem(sections.shift(), { disableAnimate: false });
       requestId = requestAnimationFrame(update);
     };
     requestId = requestAnimationFrame(update);

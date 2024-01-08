@@ -558,9 +558,7 @@ export class ItemController {
 
         const parentItem = this.itemMap.get(current.parentId);
         if (current.parentId && parentItem?.model.data.collapsed) {
-          this.graph.executeWithNoStack(() => {
-            this.graph.hideItem(innerModel.id, { disableAnimate: false });
-          });
+          this.graph.hideItem(innerModel.id, { disableAnimate: false });
         }
       });
       debounceUpdateAllRelates();
@@ -1455,9 +1453,7 @@ export class ItemController {
     // find the succeeds in collapsed
     graphComboTreeDfs(this.graph, [comboModel], (child) => {
       if (child.id !== comboModel.id) {
-        this.graph.executeWithNoStack(() => {
-          this.graph.hideItem(child.id, { disableAnimate: false });
-        });
+        this.graph.hideItem(child.id, { disableAnimate: false });
       }
       relatedEdges = relatedEdges.concat(graphCore.getRelatedEdges(child.id));
       succeedIds.push(child.id);
@@ -1475,9 +1471,7 @@ export class ItemController {
       pairs.push({ source, target });
     });
     // each item in groupedEdges is a virtual edge
-    this.graph.executeWithNoStack(() => {
-      this.graph.addData('edge', groupVirtualEdges(pairs));
-    });
+    this.graph.addData('edge', groupVirtualEdges(pairs));
   }
 
   private expandCombo(graphCore: GraphCore, comboModel: ComboModel) {
@@ -1546,12 +1540,10 @@ export class ItemController {
     );
 
     // remove related virtual edges
-    this.graph.executeWithNoStack(() => {
-      this.graph.removeData('edge', uniq(relatedVirtualEdgeIds));
-      this.graph.showItem(edgesToShow.concat(nodesToShow));
-      // add virtual edges by grouping visible ancestor edges
-      this.graph.addData('edge', groupVirtualEdges(virtualPairs));
-    });
+    this.graph.removeData('edge', uniq(relatedVirtualEdgeIds));
+    this.graph.showItem(edgesToShow.concat(nodesToShow));
+    // add virtual edges by grouping visible ancestor edges
+    this.graph.addData('edge', groupVirtualEdges(virtualPairs));
   }
 
   /**

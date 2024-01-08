@@ -63,8 +63,6 @@ import performance from './performance/performance';
 import edgeBundling from './plugins/edgeBundling';
 import edgeFilterLens from './plugins/edgeFilterLens';
 import fisheye from './plugins/fisheye';
-import history from './plugins/history';
-import history_combo from './plugins/history-combo';
 import hull from './plugins/hull';
 import legend from './plugins/legend';
 import minimap from './plugins/minimap';
@@ -114,8 +112,6 @@ export {
   fps_test,
   graphCore,
   hexagon,
-  history,
-  history_combo,
   hull,
   image_clip_node,
   image_node,

@@ -141,7 +141,6 @@ All built-in and custom plugins should inherit from Extensions.BasePlugin or oth
 
 | type          | Import from            | Registered by Default | Demo                                                   | API                                     | Note                              |
 | :------------ | :--------------------- | :-------------------- | :----------------------------------------------------- | :-------------------------------------- | :-------------------------------- |
-| 'history'     | Extensions.History     | ✅ Yes                | [DEMO](/en/examples/tool/history/#history)             | [API](/en/apis/plugins/history-config)  |                                   |
 | 'toolbar'     | Extensions.Toolbar     | No                    | [DEMO](/en/examples/tool/toolbar/#toolbar)             | [API](/en/apis/plugins/toolbar-config)  |                                   |
 | 'tooltip'     | Extensions.Tooltip     | No                    | [DEMO](/en/examples/tool/tooltip/#tooltipPlugin)       | [API](/en/apis/plugins/tooltip-config)  |                                   |
 | 'minimap'     | Extensions.Minimap     | No                    | [DEMO](/en/examples/tool/minimap/#minimap)             | [API](/en/apis/plugins/mini-map-config) |                                   |

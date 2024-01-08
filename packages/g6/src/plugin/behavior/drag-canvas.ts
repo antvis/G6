@@ -159,11 +159,9 @@ export class DragCanvas extends Behavior {
           return;
         }
         const section = sections.shift();
-        graph.executeWithNoStack(() => {
-          graph.hideItem(section, {
-            disableAnimate: false,
-            keepKeyShape: true,
-          });
+        graph.hideItem(section, {
+          disableAnimate: false,
+          keepKeyShape: true,
         });
         this.tileRequestId = requestAnimationFrame(update);
       };
@@ -296,9 +294,7 @@ export class DragCanvas extends Behavior {
             this.tileRequestId = undefined;
             return;
           }
-          graph.startHistoryBatch();
           graph.showItem(sections.shift(), { disableAnimate: false });
-          graph.stopHistoryBatch();
           this.tileRequestId = requestAnimationFrame(update);
         };
         this.tileRequestId = requestAnimationFrame(update);
