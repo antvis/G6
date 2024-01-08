@@ -41,7 +41,6 @@ jobs:
 
       - name: Run CI
         run: |
-          cd packages/g6
           npm run ci
 
       - name: Workflow failed alert

@@ -9,7 +9,9 @@
     "build:g6": "cd ./packages/g6 && npm run build",
     "build:map-view": "cd ./packages/g6-plugin-map-view && npm run build",
     "build:react-node": "cd ./packages/react-node && npm run build",
-    "build:site": "cd ./packages/site && npm run build"
+    "build:site": "cd ./packages/site && npm run build",
+    "ci:g6": "cd ./packages/g6 && npm run ci",
+    "ci": "run-s ci:*"
   },
   "commitlint": {
     "extends": [
