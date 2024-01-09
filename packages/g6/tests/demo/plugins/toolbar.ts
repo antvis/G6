@@ -1,4 +1,4 @@
-import { Extensions, Graph } from '../../../src/index';
+import { Extensions, Graph, register } from '../../../src/index';
 import { TestCaseContext } from '../interface';
 
 register('widget', 'toolbar', Extensions.Toolbar);

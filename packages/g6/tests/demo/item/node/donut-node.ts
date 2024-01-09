@@ -4,6 +4,7 @@ let outerTop = 0;
 let graph: IGraph;
 
 register('node', 'donut-node', Extensions.DonutNode);
+register('behavior', 'hover-activate', Extensions.HoverActivate);
 
 const createLabelCheckbox = (
   container: HTMLElement,

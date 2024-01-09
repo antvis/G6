@@ -1,5 +1,7 @@
-import { Extensions, Graph } from '../../../src/index';
+import { Extensions, Graph, register } from '../../../src/index';
 import { TestCaseContext } from '../interface';
+
+register('node', 'triangle-node', Extensions.TriangleNode);
 
 let graph: any;
 
@@ -71,8 +73,6 @@ const data = {
     },
   ],
 };
-
-register('node', 'triangle-node', Extensions.TriangleNode);
 
 export default (context: TestCaseContext) => {
   const { width, height, container } = context;

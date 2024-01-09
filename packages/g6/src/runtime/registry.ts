@@ -1,6 +1,7 @@
 /**
  * @file G6 registry for plugins.
  */
+import { stdPlugins } from '../plugin';
 import { BehaviorRegistry } from '../types/behavior';
 import { EdgeRegistry } from '../types/edge';
 import { LayoutRegistry } from '../types/layout';
@@ -41,6 +42,17 @@ type TransformedPlugins = {
  * <zh/> 插件注册表 | <en/> Plugin registry.
  */
 const plugins: Partial<Plugins> = {};
+let isStdPluginsRegistered = false;
+
+export const registerStdPlugins = () => {
+  if (isStdPluginsRegistered) return;
+  Object.keys(stdPlugins).forEach((cat) => {
+    Object.keys(stdPlugins[cat]).forEach((key) => {
+      register(cat.slice(0, -1) as StdPluginCategory, key, stdPlugins[cat][key]);
+    });
+  });
+  isStdPluginsRegistered = true;
+};
 
 /**
  * <zh/> 注册插件
@@ -55,9 +67,9 @@ function register<T extends StdPluginCategory>(type: T, key: string, pluginClass
   const pluralType: PluginCategory = `${type}s`;
   const typePlugins = plugins[pluralType] || {};
   if (typePlugins[key]) {
-    console.debug(`Plugin with key '${key}' is already registered for type '${pluralType}'.`);
+    console.warn(`Plugin with key '${key}' is already registered for type '${pluralType}'.`);
   } else {
-    // @ts-ignore
+    // @ts-expect-error TODO: Need to fix the type
     pluginClass.type = key;
     typePlugins[key] = pluginClass;
   }

@@ -4,7 +4,6 @@ import { AABB, Canvas, Cursor, DataURLType, DisplayObject, PointLike, Rect } fro
 import { GraphChange, ID } from '@antv/graphlib';
 import { clone, groupBy, isArray, isEmpty, isEqual, isNil, isNumber, isObject, isString, map } from '@antv/util';
 import Node from '../item/node';
-import { stdPlugins } from '../plugin';
 import type { ComboUserModel, EdgeUserModel, GraphData, NodeUserModel, Specification } from '../types';
 import type { CameraAnimationOptions } from '../types/animate';
 import type { BehaviorOptionsOf, BehaviorRegistry } from '../types/behavior';
@@ -37,7 +36,7 @@ import {
   ViewportController,
 } from './controller';
 import Hook from './hooks';
-import { register } from './registry';
+import { registerStdPlugins } from './registry';
 
 export class Graph<B extends BehaviorRegistry = any, T extends ThemeSolverRegistry = any> extends EventEmitter {
   public hooks: Hooks;
@@ -79,7 +78,7 @@ export class Graph<B extends BehaviorRegistry = any, T extends ThemeSolverRegist
 
   constructor(spec: Specification<B, T>) {
     super();
-    this.initPlugins();
+    registerStdPlugins();
     this.specification = Object.assign({}, this.defaultSpecification, this.formatSpecification(spec));
     this.initHooks();
     this.initCanvas();
@@ -113,14 +112,6 @@ export class Graph<B extends BehaviorRegistry = any, T extends ThemeSolverRegist
     this.viewportController = new ViewportController(this);
     this.itemController = new ItemController(this);
     this.pluginController = new PluginController(this);
-  }
-
-  private initPlugins() {
-    Object.keys(stdPlugins).forEach((cat) => {
-      Object.keys(stdPlugins[cat]).forEach((key) => {
-        register(cat.slice(0, -1), key, stdPlugins[cat][key]);
-      });
-    });
   }
 
   private initCanvas() {

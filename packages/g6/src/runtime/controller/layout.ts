@@ -215,9 +215,9 @@ export class LayoutController {
     }
 
     // Initialize layout.
-    // @ts-ignore
+    // @ts-expect-error TODO: Need to fix the type
     const useCache = layoutCtor === Extensions.DagreLayout;
-    // @ts-ignore
+    // @ts-expect-error TODO: Need to fix the type
     const layout = new layoutCtor({
       nodeSize,
       width,

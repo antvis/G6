@@ -123,7 +123,7 @@ export class PluginController {
     if (!Plugin) {
       throw new Error(`Plugin ${type} not found, please make sure you have registered it first`);
     }
-    // @ts-ignore
+    // @ts-expect-error TODO: Need to fix the type
     const plugin = new Plugin({ ...options, key });
     plugin.init(graph);
     this.pluginMap.set(key, { type, plugin });
