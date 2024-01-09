@@ -5,8 +5,6 @@ import { debounce, isArray, isNumber, isObject, uniq, uniqueId } from '@antv/uti
 import Combo from '../../item/combo';
 import Edge from '../../item/edge';
 import Node from '../../item/node';
-import { BaseEdge } from '../../plugin/item/edge/base';
-import { BaseNode } from '../../plugin/item/node/base';
 import {
   ComboModel,
   Graph,
@@ -18,9 +16,17 @@ import {
 } from '../../types';
 import { ComboDisplayModel, ComboEncode, ComboShapesEncode } from '../../types/combo';
 import { GraphCore } from '../../types/data';
-import { EdgeDisplayModel, EdgeEncode, EdgeModel, EdgeModelData, EdgeShapesEncode } from '../../types/edge';
+import {
+  EdgeDisplayModel,
+  EdgeEncode,
+  EdgeModel,
+  EdgeModelData,
+  EdgeRegistry,
+  EdgeShapesEncode,
+} from '../../types/edge';
 import { ViewportChangeHookParams } from '../../types/hook';
 import { DisplayMapper, ITEM_TYPE, LodLevelRanges, SHAPE_TYPE, ShapeStyle } from '../../types/item';
+import { NodeRegistry } from '../../types/node';
 import {
   ComboStyleSet,
   ComboThemeSpecifications,
@@ -80,9 +86,9 @@ const getWarnMsg = {
  */
 export class ItemController {
   public graph: Graph;
-  public nodeExtensions: BaseNode[] = [];
-  public edgeExtensions: BaseEdge[] = [];
-  public comboExtensions: BaseNode[] = [];
+  public nodeExtensions: NodeRegistry[string][] = [];
+  public edgeExtensions: EdgeRegistry[string][] = [];
+  public comboExtensions: NodeRegistry[string][] = [];
 
   public zoom: number;
 

@@ -25,7 +25,6 @@ type Plugins = {
 };
 
 type StdPlugins = Singular<Plugins>;
-
 export type StdPluginCategory = keyof StdPlugins;
 export type PluginCategory = keyof Plugins;
 
@@ -41,7 +40,7 @@ type TransformedPlugins = {
 /**
  * <zh/> 插件注册表 | <en/> Plugin registry.
  */
-const plugins: Plugins = {};
+const plugins: Partial<Plugins> = {};
 
 /**
  * <zh/> 注册插件
@@ -58,6 +57,7 @@ function register<T extends StdPluginCategory>(type: T, key: string, pluginClass
   if (typePlugins[key]) {
     console.debug(`Plugin with key '${key}' is already registered for type '${pluralType}'.`);
   } else {
+    // @ts-ignore
     pluginClass.type = key;
     typePlugins[key] = pluginClass;
   }

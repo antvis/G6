@@ -1,5 +1,5 @@
 import { Graph } from '../../types';
-import { ThemeSpecification } from '../../types/theme';
+import { ThemeRegistry, ThemeSpecification } from '../../types/theme';
 import { getCatExtensions, getExtension } from '../../utils/extension';
 
 /**
@@ -40,11 +40,11 @@ export class ThemeController {
     return theme ? getExtension(theme, 'themeSolver') : undefined;
   }
 
-  private getThemes() {
+  private getThemes(): ThemeRegistry {
     return getCatExtensions('theme').reduce((res, acc) => {
       res[acc.type] = acc;
       return res;
-    }, {});
+    }, {}) as ThemeRegistry;
   }
 
   /**

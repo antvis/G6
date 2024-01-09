@@ -215,7 +215,9 @@ export class LayoutController {
     }
 
     // Initialize layout.
+    // @ts-ignore
     const useCache = layoutCtor === Extensions.DagreLayout;
+    // @ts-ignore
     const layout = new layoutCtor({
       nodeSize,
       width,

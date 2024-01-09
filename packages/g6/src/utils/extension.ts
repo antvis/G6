@@ -1,4 +1,3 @@
-import { isFunction } from '@antv/util';
 import {
   PluginCategory,
   PluginEntry,
@@ -13,11 +12,10 @@ import {
  * @param cat category of the extension
  * @returns
  */
-export const getExtension = (config: string | Function | object, cat: StdPluginCategory) => {
-  // TODO: whether keep function type config?
-  if (isFunction(config)) {
-    return config;
-  }
+export const getExtension = <T extends StdPluginCategory>(
+  config: string | object,
+  cat: T,
+): PluginEntry<T>['plugin'] => {
   const type = typeof config === 'string' ? config : (config as any).type;
   return getRegisterPlugin(cat, type)?.plugin;
 };

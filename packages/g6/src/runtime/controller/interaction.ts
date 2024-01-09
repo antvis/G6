@@ -83,6 +83,7 @@ export class InteractionController {
       // Get behavior extensions from useLib.
       const BehaviorClass = getExtension(config, 'behavior');
       const options = typeof config === 'string' ? {} : config;
+      // @ts-ignore
       const behavior = new BehaviorClass(options);
       behavior.graph = this.graph;
       if (behavior) {
