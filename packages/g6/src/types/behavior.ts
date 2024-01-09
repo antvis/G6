@@ -9,6 +9,7 @@ export interface BehaviorOption {
  * TODO: Support spec mode.
  */
 export abstract class Behavior {
+  static type: string;
   graph: Graph;
   options: any;
   constructor(options: any) {

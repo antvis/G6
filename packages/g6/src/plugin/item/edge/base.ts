@@ -11,7 +11,7 @@ import { formatPadding, mergeStyles, upsertShape } from '../../../utils/shape';
 import { getWordWrapWidthByEnds } from '../../../utils/text';
 
 export abstract class BaseEdge {
-  type: string;
+  static type: string;
   defaultStyles: EdgeShapeStyles = {};
   themeStyles: EdgeShapeStyles;
   mergedStyles: EdgeShapeStyles;

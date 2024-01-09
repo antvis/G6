@@ -1,7 +1,7 @@
 import { runtime } from '@antv/g';
 import { Extensions, stdLib } from './plugin';
+import { getRegisterPlugin, getRegisterPlugins, register, unregister } from './plugin/register';
 import { Graph } from './runtime/graph';
-import { getRegisterPlugin, getRegisterPlugins, register, unregister } from './runtime/registry';
 import * as Util from './utils';
 
 export * from './types';

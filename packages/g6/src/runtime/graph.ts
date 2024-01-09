@@ -36,8 +36,6 @@ import {
   ViewportController,
 } from './controller';
 import Hook from './hooks';
-import { registerStdPlugins } from './registry';
-
 export class Graph<B extends BehaviorRegistry = any, T extends ThemeSolverRegistry = any> extends EventEmitter {
   public hooks: Hooks;
   // for nodes and edges excluding their labels, which will be separate into groups
@@ -78,7 +76,6 @@ export class Graph<B extends BehaviorRegistry = any, T extends ThemeSolverRegist
 
   constructor(spec: Specification<B, T>) {
     super();
-    registerStdPlugins();
     this.specification = Object.assign({}, this.defaultSpecification, this.formatSpecification(spec));
     this.initHooks();
     this.initCanvas();

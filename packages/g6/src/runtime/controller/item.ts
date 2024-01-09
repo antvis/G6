@@ -46,7 +46,7 @@ import {
   traverseGraphAncestors,
 } from '../../utils/data';
 import { getGroupedChanges } from '../../utils/event';
-import { getCatExtensions } from '../../utils/extension';
+import { getExtensionsByCategory } from '../../utils/extension';
 import { upsertTransientItem } from '../../utils/item';
 import { isPointPreventPolylineOverlap, isPolylineWithObstacleAvoidance } from '../../utils/polyline';
 import { getCombinedBoundsByData, intersectBBox, upsertShape } from '../../utils/shape';
@@ -162,10 +162,9 @@ export class ItemController {
    */
   private tap() {
     // item extensions are node / edge / combo type registrations
-    const extensions = this.getExtensions();
-    this.nodeExtensions = extensions.node;
-    this.edgeExtensions = extensions.edge;
-    this.comboExtensions = extensions.combo;
+    this.nodeExtensions = getExtensionsByCategory('node');
+    this.edgeExtensions = getExtensionsByCategory('edge');
+    this.comboExtensions = getExtensionsByCategory('combo');
     this.graph.hooks.render.tap(this.onRender.bind(this));
     this.graph.hooks.itemchange.tap(this.onChange.bind(this));
     this.graph.hooks.itemstatechange.tap(this.onItemStateChange.bind(this));
@@ -178,18 +177,6 @@ export class ItemController {
     this.graph.hooks.mapperchange.tap(this.onMapperChange.bind(this));
     this.graph.hooks.treecollapseexpand.tap(this.onTreeCollapseExpand.bind(this));
     this.graph.hooks.destroy.tap(this.onDestroy.bind(this));
-  }
-
-  /**
-   * Get the extensions from useLib.
-   * @returns extensions
-   */
-  private getExtensions() {
-    return {
-      node: getCatExtensions('node'),
-      edge: getCatExtensions('edge'),
-      combo: getCatExtensions('combo'),
-    };
   }
 
   /**

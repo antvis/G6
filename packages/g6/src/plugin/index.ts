@@ -96,7 +96,7 @@ import rectSelector from './selector/rect';
 import Hull from './widget/hull';
 import { WaterMarker } from './widget/watermarker';
 
-const stdPlugins = {
+const builtInPlugins = {
   transforms: {
     'validate-data': ValidateData,
     'transform-v4-data': TransformV4Data,
@@ -278,4 +278,4 @@ const Extensions = {
   EdgeBundling,
 };
 
-export { Extensions, stdLib, stdPlugins, utils };
+export { Extensions, builtInPlugins, stdLib, utils };

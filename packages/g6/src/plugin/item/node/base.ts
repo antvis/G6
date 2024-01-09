@@ -10,7 +10,7 @@ import { getWordWrapWidthByBox } from '../../../utils/text';
 import { convertToNumber } from '../../../utils/type';
 
 export abstract class BaseNode {
-  type: string;
+  static type: string;
   graph: Graph;
   defaultStyles: NodeShapeStyles | ComboShapeStyles;
   themeStyles: NodeShapeStyles | ComboShapeStyles;

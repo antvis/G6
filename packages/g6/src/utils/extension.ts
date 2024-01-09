@@ -1,33 +1,28 @@
-import {
-  PluginCategory,
-  PluginEntry,
-  StdPluginCategory,
-  getRegisterPlugin,
-  getRegisterPlugins,
-} from '../runtime/registry';
+import { PluginEntry, STDPluginCategory, getRegisterPlugin, getRegisterPlugins } from '../plugin/register';
 
 /**
- * Get one extension from a (std)lib.
- * @param config extension's config
- * @param cat category of the extension
- * @returns
+ * <zh/> 获取指定类型的指定插件类
+ *
+ * <en/> Get a specific plugin class of a specific category.
+ * @param config - <zh/> 插件配置 | <en/> Plugin configuration.
+ * @param category - <zh/> 插件类型 | <en/> Plugin category.
+ * @returns - <zh/> 插件类 | <en/> A plugin class.
  */
-export const getExtension = <T extends StdPluginCategory>(
+export const getExtension = <T extends STDPluginCategory>(
   config: string | object,
-  cat: T,
+  category: T,
 ): PluginEntry<T>['plugin'] => {
   const type = typeof config === 'string' ? config : (config as any).type;
-  return getRegisterPlugin(cat, type)?.plugin;
+  return getRegisterPlugin(category, type)?.plugin;
 };
 
 /**
- * <zh/> 获取某个分类下的所有扩展
+ * <zh/> 获取指定类型的插件类集合
  *
- * <en/> Get all extensions of a category.
- * @param cat - <zh/> 扩展的分类 | <en/> The category of the extensions.
- * @returns - <zh/> 扩展的集合 | <en/> The extensions. Example: [Plugin, Plugin, ...]
+ * <en/> Get a collection of plugin classes of a specific category.
+ * @param category -<zh/> 插件类型 | <en/> Plugin category to retrieve.
+ * @returns - <zh/> 插件类集合 | <en/> A collection of plugin classes.
  */
-export const getCatExtensions = <T extends StdPluginCategory>(cat: T): PluginEntry<T>['plugin'][] => {
-  const catKey: PluginCategory = `${cat}s`;
-  return getRegisterPlugins()?.[catKey]?.map((item) => item.plugin) as PluginEntry<T>['plugin'][];
+export const getExtensionsByCategory = <T extends STDPluginCategory>(category: T): PluginEntry<T>['plugin'][] => {
+  return getRegisterPlugins()?.[`${category}s`]?.map((item) => item.plugin);
 };
