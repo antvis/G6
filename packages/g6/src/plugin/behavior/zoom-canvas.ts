@@ -170,9 +170,7 @@ export class ZoomCanvas extends Behavior {
           return;
         }
         const section = sections.shift();
-        graph.startHistoryBatch();
         graph.hideItem(section, { disableAnimate: false, keepKeyShape: true });
-        graph.stopHistoryBatch();
         this.tileRequestId = requestAnimationFrame(update);
       };
       this.tileRequestId = requestAnimationFrame(update);
@@ -202,9 +200,7 @@ export class ZoomCanvas extends Behavior {
             this.tileRequestId = undefined;
             return;
           }
-          graph.executeWithNoStack(() => {
-            graph.showItem(sections.shift(), { disableAnimate: false });
-          });
+          graph.showItem(sections.shift(), { disableAnimate: false });
           this.tileRequestId = requestAnimationFrame(update);
         };
         this.tileRequestId = requestAnimationFrame(update);

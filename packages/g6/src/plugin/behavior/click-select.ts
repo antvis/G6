@@ -130,20 +130,18 @@ export class ClickSelect extends Behavior {
 
     // Select/Unselect item.
     if (this.options.shouldUpdate(event)) {
-      this.graph.historyBatch(() => {
-        if (!multiple) {
-          // Not multiple, clear all currently selected items
-          this.graph.setItemState(this.selectedIds, state, false);
-          this.selectedIds = [];
+      if (!multiple) {
+        // Not multiple, clear all currently selected items
+        this.graph.setItemState(this.selectedIds, state, false);
+        this.selectedIds = [];
+      }
+      if (isSelectAction) {
+        if (!this.selectedIds.includes(itemId)) {
+          this.graph.setItemState(itemId, state, true);
         }
-        if (isSelectAction) {
-          if (!this.selectedIds.includes(itemId)) {
-            this.graph.setItemState(itemId, state, true);
-          }
-        } else {
-          this.graph.setItemState(itemId, state, false);
-        }
-      });
+      } else {
+        this.graph.setItemState(itemId, state, false);
+      }
 
       if (isSelectAction) {
         this.selectedIds.push(itemId);

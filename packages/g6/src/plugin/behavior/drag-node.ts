@@ -264,33 +264,31 @@ export class DragNode extends Behavior {
         this.hiddenComboTreeItems = this.getComboTreeItems(this.selectedNodeIds);
         this.hiddenEdges = this.getRelatedEdges(this.selectedNodeIds, this.hiddenComboTreeItems);
         this.hiddenRelatedNodes = this.getRelatedNodes(this.selectedNodeIds);
-        this.graph.executeWithNoStack(() => {
-          const hiddenEdgeIds = this.hiddenEdges.map((edge) => edge.id);
-          hiddenEdgeIds.forEach((edgeId) => {
-            this.hiddenShapeCache.set(edgeId, this.graph.getItemVisibleShapeIds(edgeId));
-          });
-          this.graph.hideItem(hiddenEdgeIds, {
-            disableAnimate: true,
-          });
-          const hiddenRelatedNodeIds = this.hiddenRelatedNodes.map((node) => node.id);
-          hiddenRelatedNodeIds.forEach((nodeId) => {
-            this.hiddenShapeCache.set(nodeId, this.graph.getItemVisibleShapeIds(nodeId));
-          });
-          this.graph.hideItem(hiddenRelatedNodeIds, {
-            disableAnimate: true,
-            keepRelated: true,
-          });
-          const hiddenComboTreeItemIds = this.hiddenComboTreeItems.map((child) => child.id);
-          hiddenComboTreeItemIds.forEach((itemId) => {
-            this.hiddenShapeCache.set(itemId, this.graph.getItemVisibleShapeIds(itemId));
-          });
-          this.graph.hideItem(
-            this.hiddenComboTreeItems.map((child) => child.id),
-            {
-              disableAnimate: true,
-            },
-          );
+        const hiddenEdgeIds = this.hiddenEdges.map((edge) => edge.id);
+        hiddenEdgeIds.forEach((edgeId) => {
+          this.hiddenShapeCache.set(edgeId, this.graph.getItemVisibleShapeIds(edgeId));
         });
+        this.graph.hideItem(hiddenEdgeIds, {
+          disableAnimate: true,
+        });
+        const hiddenRelatedNodeIds = this.hiddenRelatedNodes.map((node) => node.id);
+        hiddenRelatedNodeIds.forEach((nodeId) => {
+          this.hiddenShapeCache.set(nodeId, this.graph.getItemVisibleShapeIds(nodeId));
+        });
+        this.graph.hideItem(hiddenRelatedNodeIds, {
+          disableAnimate: true,
+          keepRelated: true,
+        });
+        const hiddenComboTreeItemIds = this.hiddenComboTreeItems.map((child) => child.id);
+        hiddenComboTreeItemIds.forEach((itemId) => {
+          this.hiddenShapeCache.set(itemId, this.graph.getItemVisibleShapeIds(itemId));
+        });
+        this.graph.hideItem(
+          this.hiddenComboTreeItems.map((child) => child.id),
+          {
+            disableAnimate: true,
+          },
+        );
       }
 
       // Draw transient nodes and edges.
@@ -311,34 +309,32 @@ export class DragNode extends Behavior {
         });
 
         // Hide original edges and nodes. They will be restored when pointerup.
-        this.graph.executeWithNoStack(() => {
-          this.selectedNodeIds.forEach((itemId) => {
-            this.hiddenShapeCache.set(itemId, this.graph.getItemVisibleShapeIds(itemId));
-          });
-          this.graph.hideItem(this.selectedNodeIds, { disableAnimate: true });
-
-          const hiddenEdgeIds = this.hiddenEdges.map((edge) => edge.id);
-          hiddenEdgeIds.forEach((itemId) => {
-            this.hiddenShapeCache.set(itemId, this.graph.getItemVisibleShapeIds(itemId));
-          });
-          this.graph.hideItem(hiddenEdgeIds, { disableAnimate: true });
-          const hiddenRelatedNodeIds = this.hiddenRelatedNodes.map((node) => node.id);
-          hiddenRelatedNodeIds.forEach((itemId) => {
-            this.hiddenShapeCache.set(itemId, this.graph.getItemVisibleShapeIds(itemId));
-          });
-          this.graph.hideItem(hiddenRelatedNodeIds, {
-            disableAnimate: true,
-            keepRelated: true,
-          });
-          const hiddenComboTreeItemIds = this.hiddenComboTreeItems.map((combo) => combo.id);
-          hiddenComboTreeItemIds.forEach((itemId) => {
-            this.hiddenShapeCache.set(itemId, this.graph.getItemVisibleShapeIds(itemId));
-          });
-          this.graph.hideItem(
-            this.hiddenComboTreeItems.map((combo) => combo.id),
-            { disableAnimate: true },
-          );
+        this.selectedNodeIds.forEach((itemId) => {
+          this.hiddenShapeCache.set(itemId, this.graph.getItemVisibleShapeIds(itemId));
         });
+        this.graph.hideItem(this.selectedNodeIds, { disableAnimate: true });
+
+        const hiddenEdgeIds = this.hiddenEdges.map((edge) => edge.id);
+        hiddenEdgeIds.forEach((itemId) => {
+          this.hiddenShapeCache.set(itemId, this.graph.getItemVisibleShapeIds(itemId));
+        });
+        this.graph.hideItem(hiddenEdgeIds, { disableAnimate: true });
+        const hiddenRelatedNodeIds = this.hiddenRelatedNodes.map((node) => node.id);
+        hiddenRelatedNodeIds.forEach((itemId) => {
+          this.hiddenShapeCache.set(itemId, this.graph.getItemVisibleShapeIds(itemId));
+        });
+        this.graph.hideItem(hiddenRelatedNodeIds, {
+          disableAnimate: true,
+          keepRelated: true,
+        });
+        const hiddenComboTreeItemIds = this.hiddenComboTreeItems.map((combo) => combo.id);
+        hiddenComboTreeItemIds.forEach((itemId) => {
+          this.hiddenShapeCache.set(itemId, this.graph.getItemVisibleShapeIds(itemId));
+        });
+        this.graph.hideItem(
+          this.hiddenComboTreeItems.map((combo) => combo.id),
+          { disableAnimate: true },
+        );
       } else {
         this.graph.frontItem(this.selectedNodeIds);
       }
@@ -501,7 +497,6 @@ export class DragNode extends Behavior {
   }
 
   public restoreHiddenItems(positions?: Position[]) {
-    this.graph.pauseStack();
     if (this.hiddenEdges.length) {
       this.hiddenEdges.forEach((edge) => {
         this.graph.showItem(edge.id, {
@@ -549,7 +544,6 @@ export class DragNode extends Behavior {
         this.hiddenShapeCache.delete(pos.id);
       });
     }
-    this.graph.resumeStack();
   }
 
   public clearState() {
@@ -640,7 +634,6 @@ export class DragNode extends Behavior {
     // drop on a node A, move the dragged node to the same parent of A
     const newParentId = this.graph.getNodeData(dropId) ? this.graph.getNodeData(dropId).data.parentId : dropId;
 
-    this.graph.startHistoryBatch();
     this.originPositions.forEach(({ id }) => {
       const model = this.graph.getNodeData(id);
       if (!model) return;
@@ -653,13 +646,12 @@ export class DragNode extends Behavior {
       this.graph.updateData('node', { id, data: { parentId: newParentId } });
     });
     this.onPointerUp(event);
-    this.graph.stopHistoryBatch();
   }
 
   public onDropCombo(event: IG6GraphEvent) {
     event.stopPropagation();
     const newParentId = event.itemId;
-    this.graph.startHistoryBatch();
+
     this.onPointerUp(event);
     this.originPositions.forEach(({ id }) => {
       const model = this.graph.getNodeData(id);
@@ -669,7 +661,6 @@ export class DragNode extends Behavior {
       this.graph.updateData('node', { id, data: { parentId: newParentId } });
     });
     this.clearState();
-    this.graph.stopHistoryBatch();
   }
 
   public async onDropCanvas(event: IG6GraphEvent) {
@@ -682,7 +673,7 @@ export class DragNode extends Behavior {
     // the top item which is not in draggingIds
     const dropId = currentIds.find((id) => this.graph.getComboData(id) || this.graph.getNodeData(id));
     const parentId = this.graph.getNodeData(dropId) ? this.graph.getNodeData(dropId).data.parentId : dropId;
-    this.graph.startHistoryBatch();
+
     this.onPointerUp(event);
     const nodeToUpdate = [];
     this.originPositions.forEach(({ id }) => {
@@ -696,6 +687,5 @@ export class DragNode extends Behavior {
     });
     if (nodeToUpdate.length) this.graph.updateData('node', nodeToUpdate);
     this.clearState();
-    this.graph.stopHistoryBatch();
   }
 }

@@ -10,7 +10,6 @@ import { NodeDisplayModel, NodeEncode, NodeModel, NodeShapesEncode } from './nod
 import { ThemeOptionsOf, ThemeRegistry } from './theme';
 import { FitViewRules, GraphAlignment } from './view';
 
-import { StackCfg } from './history';
 import { Plugin } from './plugin';
 import { RendererName } from './render';
 
@@ -121,8 +120,4 @@ export interface Specification<B extends BehaviorRegistry, T extends ThemeRegist
 
   /** theme */
   theme?: ThemeOptionsOf<T>;
-
-  enableStack?: boolean;
-
-  stackCfg?: StackCfg;
 }

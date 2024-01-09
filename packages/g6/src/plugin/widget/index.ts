@@ -2,7 +2,6 @@ export * from './edge-bundling';
 export * from './edge-filter-lens';
 export * from './fisheye';
 export * from './grid';
-export * from './history';
 export * from './legend';
 export * from './lod-controller';
 export * from './menu';

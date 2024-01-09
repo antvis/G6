@@ -62,7 +62,6 @@ const {
   ScrollCanvas,
 } = Behaviors;
 const {
-  History,
   Tooltip,
   Minimap,
   Grid,
@@ -128,7 +127,6 @@ const stdLib = {
     'click-select': ClickSelect,
   },
   plugins: {
-    history: History,
     'lod-controller': LodController,
   },
   nodes: {
