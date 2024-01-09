@@ -1,5 +1,7 @@
 import { AABB } from '@antv/g';
-import { Graph as BaseGraph, Extensions, GraphData, IGraph, extend } from '../../../src/index';
+import { Extensions, Graph, GraphData, IGraph, register } from '../../../src/index';
+
+register('widget', 'snapline', Extensions.Snapline);
 
 let graph: IGraph;
 
@@ -194,15 +196,8 @@ const createTestComboButton = () => {
   parentEle.appendChild(labelLabel);
   parentEle.appendChild(labelCb);
 };
-
 const createGraph = () => {
-  const ExtGraph = extend(BaseGraph, {
-    plugins: {
-      snapline: Extensions.Snapline,
-    },
-  });
-
-  const graph = new ExtGraph({
+  const graph = new Graph({
     container: 'container',
     width: 500,
     height: 500,

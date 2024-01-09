@@ -1,7 +1,9 @@
 import { clone } from '@antv/util';
-import { Extensions, Graph, extend } from '../../../src/index';
+import { Extensions, Graph, register } from '../../../src/index';
 import data from '../../datasets/force-data.json';
 import { TestCaseContext } from '../interface';
+
+register('widget', 'filterLens', Extensions.EdgeFilterLens);
 
 export default (context: TestCaseContext, options = {}) => {
   const trigger = 'mousemove';
@@ -94,12 +96,7 @@ export default (context: TestCaseContext, options = {}) => {
 
   // ========================================================= //
 
-  const ExtGraph = extend(Graph, {
-    plugins: {
-      filterLens: Extensions.EdgeFilterLens,
-    },
-  });
-  const graph = new ExtGraph({
+  const graph = new Graph({
     ...context,
     layout: {
       type: 'grid',

@@ -1,8 +1,10 @@
+// @ts-nocheck
 import EventEmitter from '@antv/event-emitter';
 import { AABB, Canvas, Cursor, DataURLType, DisplayObject, PointLike, Rect } from '@antv/g';
 import { GraphChange, ID } from '@antv/graphlib';
 import { clone, groupBy, isArray, isEmpty, isEqual, isNil, isNumber, isObject, isString, map } from '@antv/util';
 import Node from '../item/node';
+import { stdPlugins } from '../plugin';
 import type { ComboUserModel, EdgeUserModel, GraphData, NodeUserModel, Specification } from '../types';
 import type { CameraAnimationOptions } from '../types/animate';
 import type { BehaviorOptionsOf, BehaviorRegistry } from '../types/behavior';
@@ -17,7 +19,7 @@ import type { NodeDisplayModel, NodeModel, NodeModelData, NodeShapesEncode } fro
 import { Plugin as PluginBase } from '../types/plugin';
 import type { RendererName } from '../types/render';
 import { ComboMapper, EdgeMapper, NodeMapper } from '../types/spec';
-import type { ThemeOptionsOf, ThemeRegistry, ThemeSpecification } from '../types/theme';
+import type { ThemeOptionsOf, ThemeSolverRegistry, ThemeSpecification } from '../types/theme';
 import { FitViewRules, GraphTransformOptions } from '../types/view';
 import { getCombinedCanvasesBounds } from '../utils/bbox';
 import { changeRenderer, createCanvas } from '../utils/canvas';
@@ -35,8 +37,9 @@ import {
   ViewportController,
 } from './controller';
 import Hook from './hooks';
+import { register } from './registry';
 
-export class Graph<B extends BehaviorRegistry = any, T extends ThemeRegistry = any> extends EventEmitter {
+export class Graph<B extends BehaviorRegistry = any, T extends ThemeSolverRegistry = any> extends EventEmitter {
   public hooks: Hooks;
   // for nodes and edges excluding their labels, which will be separate into groups
   public canvas: Canvas;
@@ -76,7 +79,7 @@ export class Graph<B extends BehaviorRegistry = any, T extends ThemeRegistry = a
 
   constructor(spec: Specification<B, T>) {
     super();
-
+    this.initPlugins();
     this.specification = Object.assign({}, this.defaultSpecification, this.formatSpecification(spec));
     this.initHooks();
     this.initCanvas();
@@ -110,6 +113,14 @@ export class Graph<B extends BehaviorRegistry = any, T extends ThemeRegistry = a
     this.viewportController = new ViewportController(this);
     this.itemController = new ItemController(this);
     this.pluginController = new PluginController(this);
+  }
+
+  private initPlugins() {
+    Object.keys(stdPlugins).forEach((cat) => {
+      Object.keys(stdPlugins[cat]).forEach((key) => {
+        register(cat.slice(0, -1), key, stdPlugins[cat][key]);
+      });
+    });
   }
 
   private initCanvas() {

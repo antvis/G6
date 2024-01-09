@@ -1,16 +1,10 @@
-import { Extensions, Graph, extend } from '../../../src/index';
+import { Extensions, Graph, register } from '../../../src/index';
 import { TestCaseContext } from '../interface';
 
-export default (context: TestCaseContext, options = {}) => {
-  const ExtGraph = extend(Graph, {
-    edges: {
-      'polyline-edge': Extensions.PolylineEdge,
-    },
-    plugins: {
-      edgeBundling: Extensions.EdgeBundling,
-    },
-  });
+register('edge', 'polyline-edge', Extensions.PolylineEdge);
+register('widget', 'edgeBundling', Extensions.EdgeBundling);
 
+export default (context: TestCaseContext, options = {}) => {
   const data = {
     nodes: [
       {
@@ -466,7 +460,7 @@ export default (context: TestCaseContext, options = {}) => {
   const width = container.scrollWidth;
   const height = container.scrollHeight || 500;
 
-  const graph = new ExtGraph({
+  const graph = new Graph({
     ...context,
     data,
     width,

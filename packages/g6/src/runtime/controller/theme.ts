@@ -1,4 +1,3 @@
-import registry from '../../plugin';
 import { Graph } from '../../types';
 import { ThemeSpecification } from '../../types/theme';
 import { getCatExtensions, getExtension } from '../../utils/extension';
@@ -38,11 +37,14 @@ export class ThemeController {
   private getExtension() {
     const { theme = {} } = this.graph.getSpecification();
     this.themeConfig = theme;
-    return theme ? getExtension(theme, registry.useLib, 'themeSolver') : undefined;
+    return theme ? getExtension(theme, 'themeSolver') : undefined;
   }
 
   private getThemes() {
-    return getCatExtensions(registry.useLib, 'theme');
+    return getCatExtensions('theme').reduce((res, acc) => {
+      res[acc.type] = acc;
+      return res;
+    }, {});
   }
 
   /**

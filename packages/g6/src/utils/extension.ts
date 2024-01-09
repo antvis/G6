@@ -1,25 +1,35 @@
 import { isFunction } from '@antv/util';
-import { StdLibCategory } from '../types/stdlib';
+import {
+  PluginCategory,
+  PluginEntry,
+  StdPluginCategory,
+  getRegisterPlugin,
+  getRegisterPlugins,
+} from '../runtime/registry';
 
 /**
  * Get one extension from a (std)lib.
  * @param config extension's config
- * @param lib any lib
- * @param {StdLibCategory} cat category of the extension
+ * @param cat category of the extension
  * @returns
  */
-export const getExtension = (config: string | Function | object, lib, cat: StdLibCategory) => {
-  const catKey = `${cat}s`;
+export const getExtension = (config: string | Function | object, cat: StdPluginCategory) => {
   // TODO: whether keep function type config?
   if (isFunction(config)) {
     return config;
   }
   const type = typeof config === 'string' ? config : (config as any).type;
-  const ext = lib[catKey]?.[type];
-  return ext;
+  return getRegisterPlugin(cat, type)?.plugin;
 };
 
-export const getCatExtensions = (lib, cat: StdLibCategory) => {
-  const catKey = `${cat}s`;
-  return lib[catKey];
+/**
+ * <zh/> 获取某个分类下的所有扩展
+ *
+ * <en/> Get all extensions of a category.
+ * @param cat - <zh/> 扩展的分类 | <en/> The category of the extensions.
+ * @returns - <zh/> 扩展的集合 | <en/> The extensions. Example: [Plugin, Plugin, ...]
+ */
+export const getCatExtensions = <T extends StdPluginCategory>(cat: T): PluginEntry<T>['plugin'][] => {
+  const catKey: PluginCategory = `${cat}s`;
+  return getRegisterPlugins()?.[catKey]?.map((item) => item.plugin) as PluginEntry<T>['plugin'][];
 };

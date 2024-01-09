@@ -1,5 +1,5 @@
 import { ArrowConfig } from '@antv/g6';
-import { Extensions, Graph, extend } from '../../../../src/index';
+import { Extensions, Graph, register } from '../../../../src/index';
 import { TestCaseContext } from '../../interface';
 
 const defaultData = {
@@ -37,6 +37,8 @@ const defaultData = {
   ],
 };
 
+register('edge', 'cubic-edge', Extensions.CubicEdge);
+
 export default (
   context: TestCaseContext,
   options: {
@@ -46,11 +48,7 @@ export default (
 ) => {
   const { startArrow = true, endArrow = true } = options;
 
-  const ExtGraph = extend(Graph, {
-    edges: { 'cubic-edge': Extensions.CubicEdge },
-  });
-
-  const graph = new ExtGraph({
+  const graph = new Graph({
     ...context,
     type: 'graph',
     data: JSON.parse(JSON.stringify(defaultData)),

@@ -7,7 +7,7 @@ import { DataConfig, DataLifecycleType, TransformerFn } from './data';
 import { EdgeDisplayModel, EdgeEncode, EdgeModel, EdgeShapesEncode } from './edge';
 import { LayoutOptions } from './layout';
 import { NodeDisplayModel, NodeEncode, NodeModel, NodeShapesEncode } from './node';
-import { ThemeOptionsOf, ThemeRegistry } from './theme';
+import { ThemeOptionsOf, ThemeSolverRegistry } from './theme';
 import { FitViewRules, GraphAlignment } from './view';
 
 import { Plugin } from './plugin';
@@ -17,7 +17,7 @@ export type NodeMapper = ((data: NodeModel) => NodeDisplayModel) | NodeEncode;
 export type EdgeMapper = ((data: EdgeModel) => EdgeDisplayModel) | EdgeEncode;
 export type ComboMapper = ((data: ComboModel) => ComboDisplayModel) | ComboEncode;
 
-export interface Specification<B extends BehaviorRegistry, T extends ThemeRegistry> {
+export interface Specification<B extends BehaviorRegistry, T extends ThemeSolverRegistry> {
   container?: string | HTMLElement;
   backgroundCanvas?: Canvas;
   canvas?: Canvas;

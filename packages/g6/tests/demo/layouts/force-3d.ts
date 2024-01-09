@@ -1,15 +1,13 @@
-import { Extensions, Graph, extend } from '../../../src/index';
+import { Extensions, Graph, register } from '../../../src/index';
 import { data } from '../../datasets/dataset1';
 import { TestCaseContext } from '../interface';
 
+register('node', 'sphere-node', Extensions.SphereNode);
+
 export default (context: TestCaseContext) => {
   const { width, height } = context;
-  const ExtGraph = extend(Graph, {
-    nodes: {
-      'sphere-node': Extensions.SphereNode,
-    },
-  });
-  const graph = new ExtGraph({
+
+  const graph = new Graph({
     ...context,
     type: 'graph',
     renderer: 'webgl-3d',

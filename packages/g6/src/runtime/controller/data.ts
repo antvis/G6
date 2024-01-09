@@ -4,8 +4,7 @@ import { clone, isArray, isEmpty, isObject } from '@antv/util';
 import Combo from '../../item/combo';
 import Edge from '../../item/edge';
 import Node from '../../item/node';
-import { registry } from '../../plugin';
-import { ComboModel, ComboUserModel, Graph, GraphData } from '../../types';
+import { ComboModel, ComboUserModel, GraphData } from '../../types';
 import { ComboUserModelData } from '../../types/combo';
 import {
   DataChangeType,
@@ -197,7 +196,7 @@ export class DataController {
     return [...transforms, ...requiredTransformers]
       .map((config) => ({
         config,
-        func: getExtension(config, registry.useLib, 'transform'),
+        func: getExtension(config, 'transform'),
       }))
       .filter((ext) => !!ext.func);
   }

@@ -1,4 +1,4 @@
-import { Extensions, Graph, IGraph, extend } from '../../../../src/index';
+import { Extensions, Graph, IGraph, register } from '../../../../src/index';
 // @ts-nocheck
 
 let graph: IGraph;
@@ -219,6 +219,9 @@ const createControls = () => {
   parentEle.appendChild(highlightStyleCb);
 };
 
+register('edge', 'cubic-vertical-edge', Extensions.CubicVerticalEdge);
+register('behavior', 'activate-relations', Extensions.ActivateRelations);
+
 export default () => {
   // 1.create control container (for control buttons, etc.)
   createCtrlContainer();
@@ -226,12 +229,6 @@ export default () => {
 
   // 2.create graph
   container = document.getElementById('container')!;
-  const ExtGraph = extend(Graph, {
-    behaviors: {
-      'activate-relations': Extensions.ActivateRelations,
-    },
-    edges: { 'cubic-vertical-edge': Extensions.CubicVerticalEdge },
-  });
 
   graph = new Graph({
     container,

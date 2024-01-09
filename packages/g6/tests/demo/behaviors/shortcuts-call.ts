@@ -1,13 +1,10 @@
-import { Extensions, Graph, extend } from '../../../src/index';
+import { Extensions, Graph, register } from '../../../src/index';
 import { TestCaseContext } from '../interface';
 
+register('behavior', 'shortcuts-call', Extensions.ShortcutsCall);
+
 export default (context: TestCaseContext, options = {}) => {
-  const ExtGraph = extend(Graph, {
-    behaviors: {
-      'shortcuts-call': Extensions.ShortcutsCall,
-    },
-  });
-  return new ExtGraph({
+  return new Graph({
     width: 500,
     height: 500,
     layout: {

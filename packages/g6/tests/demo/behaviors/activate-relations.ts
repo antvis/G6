@@ -1,14 +1,10 @@
-import { Extensions, Graph, extend } from '../../../src/index';
+import { Extensions, Graph, register } from '../../../src/index';
 import { TestCaseContext } from '../interface';
 
-export default (context: TestCaseContext) => {
-  const ExtGraph = extend(Graph, {
-    behaviors: {
-      'activate-relations': Extensions.ActivateRelations,
-    },
-  });
+register('behavior', 'activate-relations', Extensions.ActivateRelations);
 
-  return new ExtGraph({
+export default (context: TestCaseContext) => {
+  return new Graph({
     ...context,
     layout: {
       type: 'grid',

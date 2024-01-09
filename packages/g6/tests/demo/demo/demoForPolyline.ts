@@ -1,7 +1,8 @@
 import Stats from 'stats.js';
-import { Extensions, Graph, extend } from '../../../src/index';
-
+import { Extensions, Graph, register } from '../../../src/index';
 import { container, height, width } from '../../datasets/const';
+
+register('edge', 'polyline-edge', Extensions.PolylineEdge);
 
 export default () => {
   const data = {
@@ -73,12 +74,7 @@ export default () => {
     };
   };
 
-  const ExtGraph = extend(Graph, {
-    edges: {
-      'polyline-edge': Extensions.PolylineEdge,
-    },
-  });
-  const graph = new ExtGraph({
+  const graph = new Graph({
     container,
     width,
     height,

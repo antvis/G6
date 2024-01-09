@@ -1,5 +1,4 @@
 import { uniqueId } from '@antv/util';
-import registry from '../../plugin';
 import { LodController } from '../../plugin/widget';
 import { Graph } from '../../types';
 import { IG6GraphEvent } from '../../types/event';
@@ -116,7 +115,7 @@ export class PluginController {
       this.pluginMap.set(key, { type: key, plugin: config });
       return { key, plugin: config };
     }
-    const Plugin = getExtension(config, registry.useLib, 'plugin');
+    const Plugin = getExtension(config, 'widget');
 
     const options = typeof config === 'string' ? {} : config;
     const type = typeof config === 'string' ? config : config.type;
@@ -134,7 +133,7 @@ export class PluginController {
     if (typeof config.init === 'function' && config.options) {
       return config.required;
     }
-    const Plugin = getExtension(config, registry.useLib, 'plugin');
+    const Plugin = getExtension(config, 'widget');
     return Plugin?.required;
   }
 

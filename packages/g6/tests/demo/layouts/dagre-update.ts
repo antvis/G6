@@ -1,18 +1,12 @@
-import { Extensions, Graph, extend } from '../../../src/index';
+import { Extensions, Graph, register } from '../../../src/index';
 import { TestCaseContext } from '../interface';
 
-export default (context: TestCaseContext) => {
-  const ExtGraph = extend(Graph, {
-    layouts: {
-      dagre: Extensions.DagreLayout,
-    },
-    edges: {
-      'cubic-edge': Extensions.CubicEdge,
-      'quadratic-edge': Extensions.QuadraticEdge,
-      'polyline-edge': Extensions.PolylineEdge,
-    },
-  });
+register('layout', 'dagre', Extensions.DagreLayout);
+register('edge', 'cubic-edge', Extensions.CubicEdge);
+register('edge', 'quadratic-edge', Extensions.QuadraticEdge);
+register('edge', 'polyline-edge', Extensions.PolylineEdge);
 
+export default (context: TestCaseContext) => {
   const data = {
     nodes: [
       {
@@ -65,7 +59,7 @@ export default (context: TestCaseContext) => {
   };
 
   const container = context.container;
-  const graph = new ExtGraph({
+  const graph = new Graph({
     ...context,
     layout: layoutConfigs.Default,
     node: (node) => {

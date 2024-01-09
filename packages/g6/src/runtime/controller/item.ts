@@ -5,7 +5,6 @@ import { debounce, isArray, isNumber, isObject, uniq, uniqueId } from '@antv/uti
 import Combo from '../../item/combo';
 import Edge from '../../item/edge';
 import Node from '../../item/node';
-import registry from '../../plugin';
 import { BaseEdge } from '../../plugin/item/edge/base';
 import { BaseNode } from '../../plugin/item/node/base';
 import {
@@ -41,7 +40,7 @@ import {
   traverseGraphAncestors,
 } from '../../utils/data';
 import { getGroupedChanges } from '../../utils/event';
-import { getExtension } from '../../utils/extension';
+import { getCatExtensions } from '../../utils/extension';
 import { upsertTransientItem } from '../../utils/item';
 import { isPointPreventPolylineOverlap, isPolylineWithObstacleAvoidance } from '../../utils/polyline';
 import { getCombinedBoundsByData, intersectBBox, upsertShape } from '../../utils/shape';
@@ -176,19 +175,14 @@ export class ItemController {
   }
 
   /**
-   * Get the extensions from useLib, stdLib is a subset of useLib.
+   * Get the extensions from useLib.
+   * @returns extensions
    */
   private getExtensions() {
-    // TODO: user need to config using node/edge/combo types from useLib to spec?
-    const { node, edge, combo } = this.graph.getSpecification();
-
-    const nodeTypes = Object.keys(registry.useLib.nodes || {});
-    const edgeTypes = Object.keys(registry.useLib.edges || {});
-    const comboTypes = Object.keys(registry.useLib.combos || {});
     return {
-      node: nodeTypes.map((config) => getExtension(config, registry.useLib, 'node')).filter(Boolean),
-      edge: edgeTypes.map((config) => getExtension(config, registry.useLib, 'edge')).filter(Boolean),
-      combo: comboTypes.map((config) => getExtension(config, registry.useLib, 'combo')).filter(Boolean),
+      node: getCatExtensions('node'),
+      edge: getCatExtensions('edge'),
+      combo: getCatExtensions('combo'),
     };
   }
 

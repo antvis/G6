@@ -1,5 +1,7 @@
-import { Extensions, Graph, extend } from '../../../src/index';
+import { Extensions, Graph, register } from '../../../src/index';
 import { TestCaseContext } from '../interface';
+
+register('widget', 'watermarker', Extensions.WaterMarker);
 
 export default (context: TestCaseContext, options = {}) => {
   const { watermarkerCanvas, ...pluginConfigs } = options;
@@ -38,13 +40,8 @@ export default (context: TestCaseContext, options = {}) => {
     ],
   };
 
-  const ExtGraph = extend(Graph, {
-    plugins: {
-      watermarker: Extensions.WaterMarker,
-    },
-  });
   // const testCanvas = createNodeGCanvas('canvas', 500, 500);
-  const graph = new ExtGraph({
+  const graph = new Graph({
     ...context,
     type: 'graph',
     layout: {

@@ -1,5 +1,7 @@
-import { Extensions, Graph, extend } from '../../../src/index';
+import { Extensions, Graph } from '../../../src/index';
 import { container, height, width } from '../../datasets/const';
+
+register('widget', 'tooltip', Extensions.Tooltip);
 
 export default () => {
   const data = {
@@ -39,12 +41,7 @@ export default () => {
     ],
   };
 
-  const ExtGraph = extend(Graph, {
-    plugins: {
-      tooltip: Extensions.Tooltip,
-    },
-  });
-  const graph = new ExtGraph({
+  const graph = new Graph({
     container,
     width,
     height,
@@ -65,10 +62,10 @@ export default () => {
         getContent: (e) => {
           return new Promise((resolve) => {
             const data = `
-            <div> 
+            <div>
               <h4 class='tooltip-type'>类型: ${e.itemType}</h4>
               <span class='tooltip-id'>ID: ${e.itemId}</span>
-            </div> 
+            </div>
                 `;
             setTimeout(() => {
               resolve(data);

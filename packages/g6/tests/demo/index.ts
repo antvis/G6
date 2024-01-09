@@ -25,8 +25,6 @@ import modelRect from './demo/modelRect';
 import quadratic from './demo/quadratic';
 import rect from './demo/rect';
 import star from './demo/star';
-import tooltip from './demo/tooltip';
-import triangle from './demo/triangle';
 import anchor from './item/anchor';
 import arrow from './item/edge/arrow';
 import cubic_edge from './item/edge/cubic-edge';
@@ -67,12 +65,7 @@ import hull from './plugins/hull';
 import legend from './plugins/legend';
 import minimap from './plugins/minimap';
 import snapline from './plugins/snapline';
-import toolbar from './plugins/toolbar';
-import watermarker from './plugins/watermarker';
-import treeGraph from './tree/treeGraph';
-import user_defined_canvas from './user-defined-canvas/circular';
 import mapper from './visual/mapper';
-import visual from './visual/visual';
 
 export { default as timebar_chart } from './plugins/timebar-chart';
 export { default as timebar_time } from './plugins/timebar-time';
@@ -146,11 +139,4 @@ export {
   rect,
   snapline,
   star,
-  toolbar,
-  tooltip,
-  treeGraph,
-  triangle,
-  user_defined_canvas,
-  visual,
-  watermarker,
 };

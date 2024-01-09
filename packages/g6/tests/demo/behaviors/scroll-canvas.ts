@@ -1,13 +1,10 @@
-import { extend, Extensions, Graph } from '../../../src/index';
+import { Extensions, Graph, register } from '../../../src/index';
 import { TestCaseContext } from '../interface';
 
+register('behavior', 'scroll-canvas', Extensions.ScrollCanvas);
+
 export default (context: TestCaseContext) => {
-  const ExtGraph = extend(Graph, {
-    behaviors: {
-      'scroll-canvas': Extensions.ScrollCanvas,
-    },
-  });
-  return new ExtGraph({
+  return new Graph({
     ...context,
     type: 'graph',
     layout: {
