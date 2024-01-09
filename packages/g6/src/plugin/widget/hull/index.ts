@@ -1,6 +1,6 @@
 import { isArray, throttle, uniqueId } from '@antv/util';
 import { DEFAULT_TEXT_STYLE } from '../../../constant';
-import { ComboModel, EdgeModel, ID, IGraph, NodeModel } from '../../../types';
+import { ComboModel, EdgeModel, Graph, ID, NodeModel } from '../../../types';
 import { ComboLabelPosition } from '../../../types/combo';
 import { ITEM_TYPE, ShapeStyle } from '../../../types/item';
 import { Plugin as Base, IPluginBaseConfig } from '../../../types/plugin';
@@ -56,7 +56,7 @@ export default class Hull extends Base {
     };
   }
 
-  public init(graph: IGraph) {
+  public init(graph: Graph) {
     super.init(graph);
   }
 

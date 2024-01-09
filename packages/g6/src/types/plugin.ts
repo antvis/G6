@@ -1,10 +1,10 @@
 import { deepMix, each } from '@antv/util';
-import { IGraph } from './graph';
+import { Graph } from './graph';
 
 export interface IPluginBaseConfig {
   container?: HTMLElement | string | null;
   className?: string;
-  graph?: IGraph;
+  graph?: Graph;
   [key: string]: any;
 }
 
@@ -23,7 +23,7 @@ export abstract class Plugin {
 
   public destroyed: boolean;
 
-  public graph: IGraph;
+  public graph: Graph;
 
   /**
    * Constructor for the Plugin Base Class.
@@ -53,8 +53,9 @@ export abstract class Plugin {
 
   /**
    * Init.
+   * @param graph
    */
-  public init(graph: IGraph) {
+  public init(graph: Graph) {
     this.graph = graph;
   }
 

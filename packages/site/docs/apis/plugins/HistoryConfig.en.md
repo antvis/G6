@@ -95,7 +95,7 @@ Stack configuration
 
 ### notify
 
-**Type**: `(graph: IGraph, eventName: string, ...data: any[]) => void;`
+**Type**: `(graph: Graph, eventName: string, ...data: any[]) => void;`
 
 ### push
 

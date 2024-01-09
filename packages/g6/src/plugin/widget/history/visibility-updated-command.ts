@@ -1,5 +1,5 @@
 import { each } from '@antv/util';
-import type { ID, IGraph } from '../../../types';
+import type { Graph, ID } from '../../../types';
 import { Command } from './command';
 
 interface Option {
@@ -19,7 +19,7 @@ export class VisibilityUpdatedCommand implements Command {
     this.disableAnimate = disableAnimate;
   }
 
-  private toggleItemsVisible(graph: IGraph, values) {
+  private toggleItemsVisible(graph: Graph, values) {
     graph.pauseStack();
     each(values, (value) =>
       value.visible
@@ -29,12 +29,12 @@ export class VisibilityUpdatedCommand implements Command {
     graph.resumeStack();
   }
 
-  undo(graph: IGraph) {
+  undo(graph: Graph) {
     const { oldValue } = this.changes;
     this.toggleItemsVisible(graph, oldValue);
   }
 
-  redo(graph: IGraph) {
+  redo(graph: Graph) {
     const { newValue } = this.changes;
     this.toggleItemsVisible(graph, newValue);
   }

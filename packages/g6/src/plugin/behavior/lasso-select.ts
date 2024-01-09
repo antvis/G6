@@ -1,6 +1,6 @@
 import { DisplayObject } from '@antv/g';
 import { ID } from '@antv/graphlib';
-import { IGraph } from '../../types';
+import { Graph } from '../../types';
 import { Point } from '../../types/common';
 import { IG6GraphEvent } from '../../types/event';
 import lassoSelector from '../selector/lasso';
@@ -24,7 +24,7 @@ export class LassoSelect extends BrushSelect {
   points: Point[] = [];
   declare beginPoint: Point;
   declare mousedown: boolean;
-  declare graph: IGraph;
+  declare graph: Graph;
 
   public onMouseDown = (event: IG6GraphEvent) => {
     this.points = [];

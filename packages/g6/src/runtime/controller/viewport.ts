@@ -1,12 +1,12 @@
-import { IGraph } from '../../types';
+import { Graph } from '../../types';
 import { ViewportChangeHookParams } from '../../types/hook';
 
 let landmarkCounter = 0;
 
 export class ViewportController {
-  public graph: IGraph;
+  public graph: Graph;
 
-  constructor(graph: IGraph<any, any>) {
+  constructor(graph: Graph<any, any>) {
     this.graph = graph;
     this.tap();
   }

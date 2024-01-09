@@ -1,5 +1,5 @@
 import { DisplayObject } from '@antv/g';
-import { IGraph } from '../../../types';
+import { Graph } from '../../../types';
 import { IG6GraphEvent } from '../../../types/event';
 import { ShapeStyle } from '../../../types/item';
 import { Plugin as Base, IPluginBaseConfig } from '../../../types/plugin';
@@ -84,7 +84,7 @@ export class EdgeFilterLens extends Base {
     return events;
   }
 
-  public init(graph: IGraph) {
+  public init(graph: Graph) {
     super.init(graph);
     const showLabel = this.options.showLabel;
     const showNodeLabel = showLabel === 'node' || showLabel === 'both';

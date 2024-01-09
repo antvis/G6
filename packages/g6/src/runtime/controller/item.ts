@@ -10,7 +10,7 @@ import { BaseEdge } from '../../plugin/item/edge/base';
 import { BaseNode } from '../../plugin/item/node/base';
 import {
   ComboModel,
-  IGraph,
+  Graph,
   NodeDisplayModel,
   NodeEncode,
   NodeModel,
@@ -80,7 +80,7 @@ const getWarnMsg = {
  * Manages and stores the node / edge / combo items.
  */
 export class ItemController {
-  public graph: IGraph;
+  public graph: Graph;
   public nodeExtensions: BaseNode[] = [];
   public edgeExtensions: BaseEdge[] = [];
   public comboExtensions: BaseNode[] = [];
@@ -138,7 +138,7 @@ export class ItemController {
 
   private cacheWarnMsg = {};
 
-  constructor(graph: IGraph<any, any>) {
+  constructor(graph: Graph<any, any>) {
     this.graph = graph;
     // get mapper for node / edge / combo
     const { node, edge, combo, nodeState = {}, edgeState = {}, comboState = {} } = graph.getSpecification();
@@ -802,6 +802,7 @@ export class ItemController {
         const { keyShape } = item.shapeMap;
         if (!keyShape) return;
         const renderBounds = keyShape.getRenderBounds();
+        // @ts-expect-error TODO: Need to fix the type
         if (containFunc(renderBounds, range, 0.4)) itemsInView.push(item);
         else itemsOutView.push(item);
       });
@@ -811,6 +812,7 @@ export class ItemController {
         const { keyShape } = item.shapeMap;
         if (!keyShape) return;
         const renderBounds = keyShape.getRenderBounds();
+        // @ts-expect-error TODO: Need to fix the type
         if (containFunc(renderBounds, range, 0.4)) {
           itemsInView.push(item);
         }
@@ -821,6 +823,7 @@ export class ItemController {
         const { keyShape } = item.shapeMap;
         if (!keyShape) return;
         const renderBounds = keyShape.getRenderBounds();
+        // @ts-expect-error TODO: Need to fix the type
         if (!containFunc(renderBounds, range, 0.4)) {
           itemsOutView.push(item);
         }
@@ -1147,6 +1150,7 @@ export class ItemController {
 
       this.itemMap.set(node.id, nodeItem);
       const { x, y } = nodeItem.model.data;
+      // @ts-expect-error TODO: Need to fix the type
       if (delayFirstDraw && isPointInBBox({ x: convertToNumber(x), y: convertToNumber(y) }, viewRange)) {
         itemsInView.push(nodeItem);
       } else {

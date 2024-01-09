@@ -2,7 +2,7 @@
 // @ts-nocheck
 import { Canvas, DisplayObject, Group, Rect } from '@antv/g';
 import { debounce, each, isNil, isString, uniqueId } from '@antv/util';
-import { IGraph } from '../../../types';
+import { Graph } from '../../../types';
 import { IG6GraphEvent } from '../../../types/event';
 import { ShapeStyle } from '../../../types/item';
 import { Plugin as Base, IPluginBaseConfig } from '../../../types/plugin';
@@ -599,7 +599,7 @@ export class Minimap extends Base {
     false,
   );
 
-  public init(graph: IGraph) {
+  public init(graph: Graph) {
     super.init(graph);
     const promise = this.initContainer();
     promise.then(() => this.updateCanvas());

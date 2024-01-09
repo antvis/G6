@@ -1,5 +1,5 @@
 import { ID } from '@antv/graphlib';
-import { IGraph } from '../../types';
+import { Graph } from '../../types';
 import { Point } from '../../types/common';
 import { ITEM_TYPE } from '../../types/item';
 import { getEdgesBetween } from '../../utils/item';
@@ -13,7 +13,7 @@ import { getEdgesBetween } from '../../utils/item';
  * @param points
  * @param itemTypes
  */
-export default (graph: IGraph, points: Point[], itemTypes: ITEM_TYPE[]) => {
+export default (graph: Graph, points: Point[], itemTypes: ITEM_TYPE[]) => {
   const [p1, p2] = points;
   const left = Math.min(p1.x, p2.x);
   const right = Math.max(p1.x, p2.x);
@@ -59,7 +59,7 @@ export default (graph: IGraph, points: Point[], itemTypes: ITEM_TYPE[]) => {
   };
 };
 
-const isBBoxCenterInRect = (graph: IGraph, id: ID, left: number, right: number, top: number, bottom: number) => {
+const isBBoxCenterInRect = (graph: Graph, id: ID, left: number, right: number, top: number, bottom: number) => {
   const bbox = graph.getRenderBBox(id);
   if (!bbox) return false;
   return bbox.center[0] >= left && bbox.center[0] <= right && bbox.center[1] >= top && bbox.center[1] <= bottom;

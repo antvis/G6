@@ -1,4 +1,4 @@
-import type { ID, IGraph } from '../../../types';
+import type { Graph, ID } from '../../../types';
 import { Command } from './command';
 
 interface StateOption {
@@ -26,11 +26,11 @@ export class StateUpdatedCommand implements Command {
     });
   }
 
-  undo(graph: IGraph) {
+  undo(graph: Graph) {
     this.updateItemsStates(graph, this.changes.oldValue);
   }
 
-  redo(graph: IGraph) {
+  redo(graph: Graph) {
     this.updateItemsStates(graph, this.changes.newValue);
   }
 }

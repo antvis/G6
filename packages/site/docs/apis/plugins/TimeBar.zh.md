@@ -48,7 +48,7 @@ order: 8
 
 ### filter
 
-**类型**：`type filter = (graph: IGraph, values: Values) => void;`
+**类型**：`type filter = (graph: Graph, values: Values) => void;`
 
 **默认值**：`undefined`
 

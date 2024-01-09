@@ -48,7 +48,7 @@ Time bar data
 
 ### filter
 
-**Type**: `type filter = (graph: IGraph, values: Values) => void;`
+**Type**: `type filter = (graph: Graph, values: Values) => void;`
 
 **Default**: `undefined`
 

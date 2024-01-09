@@ -1,6 +1,6 @@
 import { Group } from '@antv/g';
 import { clone, throttle } from '@antv/util';
-import { EdgeDisplayModel, EdgeModel, ID, IGraph, Point } from '../types';
+import { EdgeDisplayModel, EdgeModel, Graph, ID, Point } from '../types';
 import { EdgeModelData } from '../types/edge';
 import { DisplayMapper, LodLevelRanges, State } from '../types/item';
 import { EdgeStyleSet } from '../types/theme';
@@ -13,7 +13,7 @@ import Item from './item';
 import Node from './node';
 
 interface IProps {
-  graph: IGraph;
+  graph: Graph;
   model: EdgeModel;
   renderExtensions: any; // TODO: type
   containerGroup: Group;

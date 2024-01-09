@@ -1,6 +1,6 @@
 import { AABB, Group } from '@antv/g';
 import { clone } from '@antv/util';
-import { ComboDisplayModel, ComboModel, ID, IGraph, NodeModel } from '../types';
+import { ComboDisplayModel, ComboModel, Graph, ID, NodeModel } from '../types';
 import { ComboModelData } from '../types/combo';
 import { Point } from '../types/common';
 import { DisplayMapper, LodLevelRanges, State } from '../types/item';
@@ -17,7 +17,7 @@ import { updateShapes } from '../utils/shape';
 import Item from './item';
 
 interface IProps {
-  graph: IGraph;
+  graph: Graph;
   model: NodeModel | ComboModel;
   renderExtensions: any;
   containerGroup: Group;

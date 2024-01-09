@@ -3,7 +3,7 @@ import { Graph as GraphLib, ID } from '@antv/graphlib';
 import { Layout, LayoutMapping, OutNode, Supervisor, isLayoutWithIterations } from '@antv/layout';
 import { Extensions, registry, stdLib } from '../../plugin';
 import {
-  IGraph,
+  Graph,
   LayoutOptions,
   NodeModelData,
   isImmediatelyInvokedLayoutOptions,
@@ -19,7 +19,7 @@ import { getNodeSizeFn, isComboLayout, isTreeLayout, layoutOneTree, radialLayout
  */
 export class LayoutController {
   public extensions = {};
-  public graph: IGraph;
+  public graph: Graph;
 
   private currentLayout: Layout<any> | null;
   private currentSupervisor: Supervisor | null;
@@ -27,7 +27,7 @@ export class LayoutController {
   private animatedDisplayObject: DisplayObject;
   private previousNodes: Map<ID, object>;
 
-  constructor(graph: IGraph<any, any>) {
+  constructor(graph: Graph<any, any>) {
     this.graph = graph;
     this.animatedDisplayObject = new DisplayObject({});
     this.tap();

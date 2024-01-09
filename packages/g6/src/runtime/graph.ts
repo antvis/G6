@@ -5,7 +5,7 @@ import { clone, groupBy, isArray, isEmpty, isEqual, isNil, isNumber, isObject, i
 import Node from '../item/node';
 import { History } from '../plugin/widget/history';
 import { Command } from '../plugin/widget/history/command';
-import type { ComboUserModel, EdgeUserModel, GraphData, IGraph, NodeUserModel, Specification } from '../types';
+import type { ComboUserModel, EdgeUserModel, GraphData, NodeUserModel, Specification } from '../types';
 import type { CameraAnimationOptions } from '../types/animate';
 import type { BehaviorOptionsOf, BehaviorRegistry } from '../types/behavior';
 import type { ComboDisplayModel, ComboModel, ComboShapesEncode } from '../types/combo';
@@ -39,7 +39,7 @@ import {
 } from './controller';
 import Hook from './hooks';
 
-export class Graph<B extends BehaviorRegistry, T extends ThemeRegistry> extends EventEmitter implements IGraph<B, T> {
+export class Graph<B extends BehaviorRegistry = any, T extends ThemeRegistry = any> extends EventEmitter {
   public hooks: Hooks;
   // for nodes and edges excluding their labels, which will be separate into groups
   public canvas: Canvas;

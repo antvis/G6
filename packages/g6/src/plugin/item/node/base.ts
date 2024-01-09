@@ -1,8 +1,8 @@
 import { AABB, DisplayObject } from '@antv/g';
 import { OTHER_SHAPES_FIELD_NAME, RESERVED_SHAPE_IDS } from '../../../constant';
+import type { Graph } from '../../../types';
 import { NodeDisplayModel } from '../../../types';
 import { ComboDisplayModel, ComboModelData, ComboShapeMap, ComboShapeStyles } from '../../../types/combo';
-import type { IGraph } from '../../../types/graph';
 import { GShapeStyle, LodLevelRanges, SHAPE_TYPE, SHAPE_TYPE_3D, ShapeStyle, State } from '../../../types/item';
 import { IAnchorPositionMap, NodeModelData, NodeShapeMap, NodeShapeStyles } from '../../../types/node';
 import { formatPadding, getShapeLocalBoundsByStyle, mergeStyles, upsertShape } from '../../../utils/shape';
@@ -11,7 +11,7 @@ import { convertToNumber } from '../../../utils/type';
 
 export abstract class BaseNode {
   type: string;
-  graph: IGraph;
+  graph: Graph;
   defaultStyles: NodeShapeStyles | ComboShapeStyles;
   themeStyles: NodeShapeStyles | ComboShapeStyles;
   mergedStyles: NodeShapeStyles | ComboShapeStyles;

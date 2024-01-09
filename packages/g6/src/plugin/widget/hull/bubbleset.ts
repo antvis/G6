@@ -1,5 +1,5 @@
 import { AABB } from '@antv/g';
-import { ComboModel, IGraph, NodeModel } from '../../../types';
+import { ComboModel, Graph, NodeModel } from '../../../types';
 import { Bounds, Point } from '../../../types/common';
 import { isPointInPolygon } from '../../../utils/shape';
 import { BubblesetCfg } from './types';
@@ -177,7 +177,7 @@ const initGridCells = (width: number, height: number, pixelGroupSize: number) =>
  * @param nonMembers
  */
 const pickBestNeighbor = (
-  graph: IGraph,
+  graph: Graph,
   model: NodeModel | ComboModel,
   visited: (NodeModel | ComboModel)[],
   nonMembers: (NodeModel | ComboModel)[],
@@ -214,7 +214,7 @@ const pickBestNeighbor = (
  * @param line
  */
 const getIntersectItem = (
-  graph: IGraph,
+  graph: Graph,
   items: (NodeModel | ComboModel)[],
   line: LineStructure,
 ): NodeModel | ComboModel | null => {
@@ -241,7 +241,7 @@ const getIntersectItem = (
  * @param morphBuffer
  */
 const computeRoute = (
-  graph: IGraph,
+  graph: Graph,
   directLine: LineStructure,
   nonMembers: (NodeModel | ComboModel)[],
   maxRoutingIterations: number,
@@ -264,7 +264,7 @@ const computeRoute = (
     });
     return flag;
   };
-  const isPointInNonMembers = (graph: IGraph, point: Point, _nonMembers: (NodeModel | ComboModel)[]) => {
+  const isPointInNonMembers = (graph: Graph, point: Point, _nonMembers: (NodeModel | ComboModel)[]) => {
     for (const model of _nonMembers) {
       const bbox = graph.getRenderBBox(model.id);
       if (!bbox) continue;
@@ -350,7 +350,7 @@ const computeRoute = (
  * @param morphBuffer
  */
 function getRoute(
-  graph: IGraph,
+  graph: Graph,
   currentModel: NodeModel | ComboModel,
   nonMembers: (NodeModel | ComboModel)[],
   visited: (NodeModel | ComboModel)[],
@@ -403,7 +403,7 @@ function getRoute(
  * @param ops
  */
 export const genBubbleSet = (
-  graph: IGraph,
+  graph: Graph,
   members: (NodeModel | ComboModel)[],
   nonMembers: (NodeModel | ComboModel)[],
   ops?: BubblesetCfg,
@@ -508,7 +508,7 @@ export const genBubbleSet = (
  * @param offset
  */
 function getActiveRegion(
-  graph: IGraph,
+  graph: Graph,
   members: (NodeModel | ComboModel)[],
   edges: LineStructure[],
   offset: number,
@@ -552,7 +552,7 @@ function getActiveRegion(
  * @param options
  */
 function fillPotentialArea(
-  graph: IGraph,
+  graph: Graph,
   members: (NodeModel | ComboModel)[],
   nonMembers: (NodeModel | ComboModel)[],
   edges: LineStructure[],
@@ -590,7 +590,7 @@ function fillPotentialArea(
     const endY = Math.min(pos2GridIx(bbox.max[1], -thresholdR + activeRegion.min[1]), potentialArea.height);
     return [startX, startY, endX, endY];
   };
-  const addItemInfluence = (graph: IGraph, model: NodeModel | ComboModel, influenceFactor: number) => {
+  const addItemInfluence = (graph: Graph, model: NodeModel | ComboModel, influenceFactor: number) => {
     const bbox = graph.getRenderBBox(model.id);
     if (!bbox) return;
     const [startX, startY, endX, endY] = getAffectedRegion(bbox, options.nodeR1);

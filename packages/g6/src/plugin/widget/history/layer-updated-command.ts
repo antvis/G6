@@ -1,4 +1,4 @@
-import type { ID, IGraph } from '../../../types';
+import type { Graph, ID } from '../../../types';
 import { Command } from './command';
 
 export class LayerUpdatedCommand implements Command {
@@ -10,13 +10,13 @@ export class LayerUpdatedCommand implements Command {
     this.ids = ids;
   }
 
-  undo(graph: IGraph) {
+  undo(graph: Graph) {
     graph.executeWithNoStack(() => {
       this.action === 'front' ? graph.backItem(this.ids) : graph.frontItem(this.ids);
     });
   }
 
-  redo(graph: IGraph) {
+  redo(graph: Graph) {
     graph.executeWithNoStack(() => {
       this.action === 'front' ? graph.frontItem(this.ids) : graph.backItem(this.ids);
     });

@@ -2,7 +2,7 @@ import { Canvas, Circle, DisplayObject, Line } from '@antv/g';
 import { ID } from '@antv/graphlib';
 import { Category } from '@antv/gui';
 import { isFunction, isString, uniqueId, upperFirst } from '@antv/util';
-import { IGraph } from '../../../types';
+import { Graph } from '../../../types';
 import { Plugin as Base, IPluginBaseConfig } from '../../../types/plugin';
 import { RendererName } from '../../../types/render';
 import { createCanvas } from '../../../utils/canvas';
@@ -153,7 +153,7 @@ export class Legend extends Base {
     };
   }
 
-  public init(graph: IGraph) {
+  public init(graph: Graph) {
     super.init(graph);
     const { size = 'fit-content', orientation } = this.options;
     const graphSize = graph.getSize();

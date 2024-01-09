@@ -243,11 +243,13 @@ export class CreateEdge extends Behavior {
     const sourceId = addingEdge.source,
       targetId = addingEdge.target;
 
+    // @ts-expect-error TODO: Need to fix the type
     if (!graph.getItemById(sourceId)) {
       this.addingEdge = null;
       return;
     }
 
+    // @ts-expect-error TODO: Need to fix the type
     graph.updatePosition('node', {
       id: targetId,
       data: {

@@ -1,4 +1,4 @@
-import type { ID, IGraph } from '../../../types';
+import type { Graph, ID } from '../../../types';
 import { Command } from './command';
 
 export class ComboCommand implements Command {
@@ -10,13 +10,13 @@ export class ComboCommand implements Command {
     this.ids = ids;
   }
 
-  undo(graph: IGraph) {
+  undo(graph: Graph) {
     graph.executeWithNoStack(() => {
       this.action === 'expandCombo' ? graph.collapseCombo(this.ids) : graph.expandCombo(this.ids);
     });
   }
 
-  redo(graph: IGraph) {
+  redo(graph: Graph) {
     graph.executeWithNoStack(() => {
       this.action === 'collapseCombo' ? graph.collapseCombo(this.ids) : graph.expandCombo(this.ids);
     });

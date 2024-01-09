@@ -3,7 +3,7 @@ import { ID, TreeData } from '@antv/graphlib';
 import { isArray } from '@antv/util';
 import { NodeModel, NodeUserModel } from '../types';
 import { DataLifecycleType, GraphCore, GraphData } from '../types/data';
-import { IGraph } from '../types/graph';
+import { Graph } from '../types/graph';
 import { NodeUserModelData } from '../types/node';
 
 /**
@@ -68,7 +68,7 @@ export const graphCoreTreeDfs = (
  * @param fn will be called while visiting each node
  * @param mode 'TB' - visit from top to bottom; 'BT' - visit from bottom to top;
  */
-export const graphComboTreeDfs = (graph: IGraph, nodes: NodeUserModel[], fn, mode: 'TB' | 'BT' = 'TB') => {
+export const graphComboTreeDfs = (graph: Graph, nodes: NodeUserModel[], fn, mode: 'TB' | 'BT' = 'TB') => {
   if (!nodes?.length) return;
   nodes.forEach((node) => {
     if (mode === 'TB') fn(node); // Traverse from top to bottom
@@ -86,7 +86,7 @@ export const graphComboTreeDfs = (graph: IGraph, nodes: NodeUserModel[], fn, mod
  * @param mode 'TB' - visit from top to bottom; 'BT' - visit from bottom to top;
  */
 export const traverseAncestorsAndSucceeds = (
-  graph: IGraph,
+  graph: Graph,
   graphCore: GraphCore,
   nodes: NodeUserModel[],
   fn,
@@ -98,7 +98,7 @@ export const traverseAncestorsAndSucceeds = (
   return;
 };
 
-export const traverseGraphAncestors = (graph: IGraph, nodes: NodeUserModel[], fn) => {
+export const traverseGraphAncestors = (graph: Graph, nodes: NodeUserModel[], fn) => {
   if (!nodes?.length) return;
   nodes.forEach((node) => {
     if (!node.data.parentId) return;

@@ -18,7 +18,7 @@ The class name of the plugin container
 
 ### graph
 
-**Type**: `IGraph`
+**Type**: `Graph`
 
 **Default**: Current graph instance
 

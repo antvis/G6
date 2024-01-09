@@ -1,6 +1,6 @@
 import { DisplayObject } from '@antv/g';
 import { throttle, uniqueId } from '@antv/util';
-import { IGraph } from '../../../types';
+import { Graph } from '../../../types';
 import { Point } from '../../../types/common';
 import { IG6GraphEvent } from '../../../types/event';
 import { ShapeStyle } from '../../../types/item';
@@ -133,7 +133,7 @@ export class Fisheye extends Base {
     }
   }
 
-  public init(graph: IGraph) {
+  public init(graph: Graph) {
     super.init(graph);
     const { r, d } = this.options;
     this.cachedTransientTexts = {};
