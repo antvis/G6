@@ -1,19 +1,15 @@
 import { FruchtermanLayout } from '@antv/layout-gpu';
-import { Graph, extend } from '../../../src/index';
+import { Graph, register } from '../../../src/index';
 import { data } from '../../datasets/dataset1';
 import { TestCaseContext } from '../interface';
+
+// Register custom layout
+register('layout', 'fruchterman-gpu', FruchtermanLayout);
 
 export default async (context: TestCaseContext) => {
   const { width, height } = context;
 
-  // Register custom layout
-  const ExtGraph = extend(Graph, {
-    layouts: {
-      'fruchterman-gpu': FruchtermanLayout,
-    },
-  });
-
-  return new ExtGraph({
+  return new Graph({
     ...context,
     data: JSON.parse(JSON.stringify(data)),
     layout: {

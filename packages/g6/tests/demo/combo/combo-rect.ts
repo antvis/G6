@@ -1,18 +1,15 @@
-import { Extensions, Graph, extend, stdLib } from '../../../src/index';
+import { Extensions, Graph, getRegisterPlugin, register } from '../../../src/index';
 
 import { data as comboData } from '../../datasets/combo-data';
 import { container, height, width } from '../../datasets/const';
 
+register('behavior', 'hover-activate', Extensions.HoverActivate);
+register('layout', 'concentric', Extensions.ConcentricLayout);
+register('layout', 'comboCombined', Extensions.ComboCombinedLayout);
+
+const layoutClass = getRegisterPlugin('layout', 'concentric').plugin;
+
 export default () => {
-  const ExtGraph = extend(Graph, {
-    behaviors: {
-      'hover-activate': Extensions.HoverActivate,
-    },
-    layouts: {
-      concentric: Extensions.ConcentricLayout,
-      comboCombined: Extensions.ComboCombinedLayout,
-    },
-  });
   const graph = new Graph({
     container,
     width,
@@ -20,8 +17,7 @@ export default () => {
     type: 'graph',
     layout: {
       type: 'comboCombined',
-      // innerLayout: 'concentric',
-      innerLayout: new stdLib.layouts['concentric'](),
+      innerLayout: layoutClass,
     },
     node: {
       labelShape: {

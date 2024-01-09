@@ -1,4 +1,4 @@
-import { Extensions, Graph, extend } from '../../../src/index';
+import { Extensions, Graph, register } from '../../../src/index';
 import { TestCaseContext } from '../interface';
 
 const data = {
@@ -83,18 +83,12 @@ for (let i = 0; i < 5; i++) {
   });
 }
 
-export default (context: TestCaseContext) => {
-  const ExtGraph = extend(Graph, {
-    transforms: {
-      'process-parallel-edges': Extensions.ProcessParallelEdges,
-    },
-    edges: {
-      'quadratic-edge': Extensions.QuadraticEdge,
-      'loop-edge': Extensions.LoopEdge,
-    },
-  });
+register('transform', 'process-parallel-edges', Extensions.ProcessParallelEdges);
+register('edge', 'quadratic-edge', Extensions.QuadraticEdge);
+register('edge', 'loop-edge', Extensions.LoopEdge);
 
-  const graph = new ExtGraph({
+export default (context: TestCaseContext) => {
+  const graph = new Graph({
     ...context,
     data,
     transforms: [

@@ -1,5 +1,5 @@
 import { Layout, LayoutMapping } from '@antv/layout';
-import { Extensions, Graph, GraphCore, extend } from '../../../src/index';
+import { Extensions, Graph, GraphCore, register } from '../../../src/index';
 import { GraphDataChanges } from '../../../src/types/data';
 import { TestCaseContext } from '../interface';
 
@@ -1409,23 +1409,15 @@ const data2 = {
   ],
 };
 
-export default (context: TestCaseContext, options?: {}) => {
-  const CustomGraph = extend(Graph, {
-    transforms: {
-      'edge-cluster': edgeClusterTransform,
-      'transform-v4-data': Extensions.TransformV4Data,
-      'map-node-size': Extensions.MapNodeSize,
-    },
-    edges: {
-      'quadratic-edge': Extensions.QuadraticEdge,
-    },
-    layouts: {
-      'line-layout': LineLayout,
-    },
-  });
+register('transform', 'edge-cluster', edgeClusterTransform);
+register('transform', 'transform-v4-data', Extensions.TransformV4Data);
+register('transform', 'map-node-size', Extensions.MapNodeSize);
+register('edge', 'quadratic-edge', Extensions.QuadraticEdge);
+register('layout', 'line-layout', LineLayout);
 
+export default (context: TestCaseContext, options?: {}) => {
   const { width, height } = context;
-  const graph = new CustomGraph({
+  const graph = new Graph({
     ...context,
     transforms: [
       'transform-v4-data',

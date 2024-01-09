@@ -1,4 +1,6 @@
-import { Extensions, Graph, extend } from '../../../src/index';
+import { Extensions, Graph, register } from '../../../src/index';
+
+register('behavior', 'hover-activate', Extensions.HoverActivate);
 
 export default (
   context,
@@ -8,12 +10,7 @@ export default (
   } = {},
 ) => {
   const { disableAnimate = false, comboType = 'circle-combo' } = options;
-  const ExtGraph = extend(Graph, {
-    behaviors: {
-      'hover-activate': Extensions.HoverActivate,
-    },
-  });
-  const graph = new ExtGraph({
+  const graph = new Graph({
     ...context,
     layout: {
       type: 'grid',

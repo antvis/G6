@@ -1,4 +1,7 @@
-import { Extensions, Graph, extend } from '../../../src/index';
+import { Extensions, Graph, register } from '../../../src/index';
+
+register('widget', 'fisheye', Extensions.Fisheye);
+register('widget', 'hover-active', Extensions.HoverActivate);
 
 export default async () => {
   let fisheye = {
@@ -124,14 +127,9 @@ export default async () => {
     height = container.scrollHeight || 500;
   }
   let graph;
+
   const createGraph = (customData) => {
-    const ExtGraph = extend(Graph, {
-      plugins: {
-        fisheye: Extensions.Fisheye,
-        'hover-active': Extensions.HoverActivate,
-      },
-    });
-    graph = new ExtGraph({
+    graph = new Graph({
       container: 'container',
       width,
       height,

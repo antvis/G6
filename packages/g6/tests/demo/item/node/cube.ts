@@ -1,13 +1,10 @@
-import { Extensions, Graph, extend } from '../../../../src/index';
+import { Extensions, Graph, register } from '../../../../src/index';
 import { TestCaseContext } from '../../interface';
 
+register('node', 'cube-node', Extensions.CubeNode);
+
 export default (context: TestCaseContext) => {
-  const ExtGraph = extend(Graph, {
-    nodes: {
-      'cube-node': Extensions.CubeNode,
-    },
-  });
-  const graph = new ExtGraph({
+  const graph = new Graph({
     ...context,
     type: 'graph',
     renderer: 'webgl-3d',

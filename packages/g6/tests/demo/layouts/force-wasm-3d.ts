@@ -1,7 +1,12 @@
 import { ForceLayout, initThreads, supportsThreads } from '@antv/layout-wasm';
-import { Extensions, Graph, extend } from '../../../src/index';
+import { Extensions, Graph, register } from '../../../src/index';
 import { loadDataset } from '../../datasets/legacy-format';
 import { TestCaseContext } from '../interface';
+
+register('layout', 'force-wasm', ForceLayout);
+register('node', 'sphere-node', Extensions.SphereNode);
+register('behavior', 'orbit-canvas-3d', Extensions.OrbitCanvas3D);
+register('behavior', 'zoom-canvas-3d', Extensions.ZoomCanvas3D);
 
 export default async (context: TestCaseContext) => {
   const { width, height } = context;
@@ -12,20 +17,7 @@ export default async (context: TestCaseContext) => {
   const supported = await supportsThreads();
   const threads = await initThreads(supported);
 
-  // Register custom layout
-  const ExtGraph = extend(Graph, {
-    layouts: {
-      'force-wasm': ForceLayout,
-    },
-    nodes: {
-      'sphere-node': Extensions.SphereNode,
-    },
-    behaviors: {
-      'orbit-canvas-3d': Extensions.OrbitCanvas3D,
-      'zoom-canvas-3d': Extensions.ZoomCanvas3D,
-    },
-  });
-  return new ExtGraph({
+  return new Graph({
     ...context,
     data: JSON.parse(JSON.stringify(data)),
     renderer: 'webgl-3d',

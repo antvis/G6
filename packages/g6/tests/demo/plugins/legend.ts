@@ -1,16 +1,12 @@
-import { Extensions, Graph, extend } from '../../../src/index';
+import { Extensions, Graph, register } from '../../../src/index';
 import { TestCaseContext } from '../interface';
+
+register('widget', 'legend', Extensions.Legend);
 
 export default (context: TestCaseContext) => {
   const { renderer, legendCanvas } = context;
 
-  const ExtGraph = extend(Graph, {
-    plugins: {
-      legend: Extensions.Legend,
-    },
-  });
-
-  return new ExtGraph({
+  return new Graph({
     ...context,
     type: 'graph',
     data: {

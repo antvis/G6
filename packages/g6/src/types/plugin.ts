@@ -13,6 +13,8 @@ interface EventMapType {
 }
 
 export abstract class Plugin {
+  static type: string;
+
   public key: string;
 
   static required: boolean = false;

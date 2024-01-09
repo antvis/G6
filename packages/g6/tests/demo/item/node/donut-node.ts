@@ -1,7 +1,10 @@
-import { Extensions, Graph, IGraph, extend } from '../../../../src/index';
+import { Extensions, Graph, IGraph, register } from '../../../../src/index';
 
 let outerTop = 0;
 let graph: IGraph;
+
+register('node', 'donut-node', Extensions.DonutNode);
+register('behavior', 'hover-activate', Extensions.HoverActivate);
 
 const createLabelCheckbox = (
   container: HTMLElement,
@@ -182,16 +185,8 @@ export default (context) => {
     ],
   };
 
-  const ExtGraph = extend(Graph, {
-    nodes: {
-      'donut-node': Extensions.DonutNode,
-    },
-    behaviors: {
-      'hover-activate': Extensions.HoverActivate,
-    },
-  });
   // @ts-ignore
-  graph = new ExtGraph({
+  graph = new Graph({
     ...context,
     data,
     type: 'graph',

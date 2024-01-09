@@ -1,6 +1,6 @@
 import { initThreads, supportsThreads } from '@antv/layout-wasm';
 import Stats from 'stats.js';
-import { Extensions, Graph, GraphData, extend } from '../../../src/index';
+import { Extensions, Graph, GraphData, register } from '../../../src/index';
 
 import { RendererName } from '../../../src/types/render';
 import { container, width } from '../../datasets/const';
@@ -159,26 +159,18 @@ const defaultTheme = {
 };
 let currentTheme = defaultTheme;
 
+register('behavior', 'brush-select', Extensions.BrushSelect);
+register('behavior', 'hover-activate', Extensions.HoverActivate);
+register('layout', 'force-wasm', Extensions.ForceLayout);
+register('transform', 'data-format', dataFormat);
+
 const create2DGraph = (
   getNodeAnimates = getDefaultNodeAnimates,
   getEdgeAnimates = getDefaultEdgeAnimates,
   theme = defaultTheme,
   rendererType: RendererName = 'canvas',
 ) => {
-  const ExtGraph = extend(Graph, {
-    behaviors: {
-      'brush-select': Extensions.BrushSelect,
-      'hover-activate': Extensions.HoverActivate,
-    },
-    layouts: {
-      'force-wasm': Extensions.ForceLayout,
-    },
-    transforms: {
-      'data-format': dataFormat,
-    },
-  });
-  console.log('theme', { ...defaultTheme, ...theme });
-  const graph = new ExtGraph({
+  const graph = new Graph({
     container: container as HTMLElement,
     // width,
     // height: 1400,
@@ -298,23 +290,17 @@ const create2DGraph = (
   return graph;
 };
 
+register('behavior', 'brush-select', Extensions.BrushSelect);
+register('behavior', 'hover-activate', Extensions.HoverActivate);
+register('layout', 'force-wasm', Extensions.ForceLayout);
+
 const create3DGraph = async () => {
   const supported = await supportsThreads();
   const threads = await initThreads(supported);
 
-  const ExtGraph = extend(Graph, {
-    behaviors: {
-      'brush-select': Extensions.BrushSelect,
-      'hover-active': Extensions.HoverActivate,
-    },
-    layouts: {
-      'force-wasm': Extensions.ForceLayout,
-    },
-  });
-
   console.log('create3DGraph', dataFor3D);
 
-  const newGraph = new ExtGraph({
+  const newGraph = new Graph({
     container: container as HTMLDivElement,
     width,
     height: 1400,

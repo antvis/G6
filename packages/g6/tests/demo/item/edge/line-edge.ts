@@ -1,5 +1,7 @@
-import { Graph } from '../../../../src/index';
+import { Extensions, Graph, register } from '../../../../src/index';
 import { TestCaseContext } from '../../interface';
+
+register('behavior', 'activate-relations', Extensions.ActivateRelations);
 
 let graph: Graph;
 

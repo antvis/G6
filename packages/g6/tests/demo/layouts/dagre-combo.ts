@@ -1,4 +1,4 @@
-import { Extensions, Graph, extend } from '../../../src/index';
+import { Extensions, Graph, register } from '../../../src/index';
 
 import { TestCaseContext } from '../interface';
 
@@ -169,13 +169,10 @@ const data = {
   ],
 };
 
+register('layout', 'dagre', Extensions.DagreLayout);
+
 export default (context: TestCaseContext) => {
-  const ExtGraph = extend(Graph, {
-    layouts: {
-      dagre: Extensions.DagreLayout,
-    },
-  });
-  const graph = new ExtGraph({
+  const graph = new Graph({
     ...context,
     autoFit: 'view',
     modes: {

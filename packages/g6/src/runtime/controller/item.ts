@@ -5,9 +5,6 @@ import { debounce, isArray, isNumber, isObject, uniq, uniqueId } from '@antv/uti
 import Combo from '../../item/combo';
 import Edge from '../../item/edge';
 import Node from '../../item/node';
-import registry from '../../plugin';
-import { BaseEdge } from '../../plugin/item/edge/base';
-import { BaseNode } from '../../plugin/item/node/base';
 import {
   ComboModel,
   Graph,
@@ -19,9 +16,17 @@ import {
 } from '../../types';
 import { ComboDisplayModel, ComboEncode, ComboShapesEncode } from '../../types/combo';
 import { GraphCore } from '../../types/data';
-import { EdgeDisplayModel, EdgeEncode, EdgeModel, EdgeModelData, EdgeShapesEncode } from '../../types/edge';
+import {
+  EdgeDisplayModel,
+  EdgeEncode,
+  EdgeModel,
+  EdgeModelData,
+  EdgeRegistry,
+  EdgeShapesEncode,
+} from '../../types/edge';
 import { ViewportChangeHookParams } from '../../types/hook';
 import { DisplayMapper, ITEM_TYPE, LodLevelRanges, SHAPE_TYPE, ShapeStyle } from '../../types/item';
+import { NodeRegistry } from '../../types/node';
 import {
   ComboStyleSet,
   ComboThemeSpecifications,
@@ -41,7 +46,7 @@ import {
   traverseGraphAncestors,
 } from '../../utils/data';
 import { getGroupedChanges } from '../../utils/event';
-import { getExtension } from '../../utils/extension';
+import { getExtensionsByCategory } from '../../utils/extension';
 import { upsertTransientItem } from '../../utils/item';
 import { isPointPreventPolylineOverlap, isPolylineWithObstacleAvoidance } from '../../utils/polyline';
 import { getCombinedBoundsByData, intersectBBox, upsertShape } from '../../utils/shape';
@@ -81,9 +86,9 @@ const getWarnMsg = {
  */
 export class ItemController {
   public graph: Graph;
-  public nodeExtensions: BaseNode[] = [];
-  public edgeExtensions: BaseEdge[] = [];
-  public comboExtensions: BaseNode[] = [];
+  public nodeExtensions: NodeRegistry[string][] = [];
+  public edgeExtensions: EdgeRegistry[string][] = [];
+  public comboExtensions: NodeRegistry[string][] = [];
 
   public zoom: number;
 
@@ -157,10 +162,9 @@ export class ItemController {
    */
   private tap() {
     // item extensions are node / edge / combo type registrations
-    const extensions = this.getExtensions();
-    this.nodeExtensions = extensions.node;
-    this.edgeExtensions = extensions.edge;
-    this.comboExtensions = extensions.combo;
+    this.nodeExtensions = getExtensionsByCategory('node');
+    this.edgeExtensions = getExtensionsByCategory('edge');
+    this.comboExtensions = getExtensionsByCategory('combo');
     this.graph.hooks.render.tap(this.onRender.bind(this));
     this.graph.hooks.itemchange.tap(this.onChange.bind(this));
     this.graph.hooks.itemstatechange.tap(this.onItemStateChange.bind(this));
@@ -173,23 +177,6 @@ export class ItemController {
     this.graph.hooks.mapperchange.tap(this.onMapperChange.bind(this));
     this.graph.hooks.treecollapseexpand.tap(this.onTreeCollapseExpand.bind(this));
     this.graph.hooks.destroy.tap(this.onDestroy.bind(this));
-  }
-
-  /**
-   * Get the extensions from useLib, stdLib is a subset of useLib.
-   */
-  private getExtensions() {
-    // TODO: user need to config using node/edge/combo types from useLib to spec?
-    const { node, edge, combo } = this.graph.getSpecification();
-
-    const nodeTypes = Object.keys(registry.useLib.nodes || {});
-    const edgeTypes = Object.keys(registry.useLib.edges || {});
-    const comboTypes = Object.keys(registry.useLib.combos || {});
-    return {
-      node: nodeTypes.map((config) => getExtension(config, registry.useLib, 'node')).filter(Boolean),
-      edge: edgeTypes.map((config) => getExtension(config, registry.useLib, 'edge')).filter(Boolean),
-      combo: comboTypes.map((config) => getExtension(config, registry.useLib, 'combo')).filter(Boolean),
-    };
   }
 
   /**

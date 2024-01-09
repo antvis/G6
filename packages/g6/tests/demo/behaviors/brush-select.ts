@@ -1,16 +1,11 @@
-import { Extensions, Graph, extend } from '../../../src/index';
+import { Extensions, Graph, register } from '../../../src/index';
 import { TestCaseContext } from '../interface';
-export default (context: TestCaseContext) => {
-  const ExtGraph = extend(Graph, {
-    behaviors: {
-      'brush-select': Extensions.BrushSelect,
-    },
-    plugins: {
-      grid: Extensions.Grid,
-    },
-  });
 
-  return new ExtGraph({
+register('behavior', 'brush-select', Extensions.BrushSelect);
+register('widget', 'grid', Extensions.Grid);
+
+export default (context: TestCaseContext) => {
+  return new Graph({
     ...context,
     // plugins: ['grid'],
     layout: {

@@ -1,4 +1,4 @@
-import { Extensions, Graph, extend } from '../../../src/index';
+import { Extensions, Graph, register } from '../../../src/index';
 import { TestCaseContext } from '../interface';
 
 let graph: any;
@@ -72,17 +72,14 @@ const data = {
   ],
 };
 
+register('node', 'modelRect-node', Extensions.ModelRectNode);
+
 export default (context: TestCaseContext) => {
   const { width, height, container } = context;
   createCtrlContainer(container!);
   createCtrl();
 
-  const ExtGraph = extend(Graph, {
-    nodes: {
-      'modelRect-node': Extensions.ModelRectNode,
-    },
-  });
-  graph = new ExtGraph({
+  graph = new Graph({
     ...context,
     data,
     modes: {

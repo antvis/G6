@@ -1,4 +1,4 @@
-import { Extensions, Graph, extend } from '../../../src/index';
+import { Extensions, Graph, register } from '../../../src/index';
 import { TestCaseContext } from '../interface';
 
 const data = {
@@ -608,13 +608,11 @@ const data = {
     },
   ],
 };
+
+register('layout', 'comboCombined', Extensions.ComboCombinedLayout);
+
 export default (context: TestCaseContext) => {
-  const ExtGraph = extend(Graph, {
-    layouts: {
-      comboCombined: Extensions.ComboCombinedLayout,
-    },
-  });
-  const graph = new ExtGraph({
+  const graph = new Graph({
     ...context,
     layout: {
       type: 'comboCombined',

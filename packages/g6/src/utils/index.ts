@@ -10,7 +10,6 @@ export {
   traverseGraphAncestors,
   treeData2GraphData,
 } from './data';
-export { extend } from './extend';
 export { getEdgesBetween } from './item';
 export { transform } from './matrix';
 export { mock } from './mock';

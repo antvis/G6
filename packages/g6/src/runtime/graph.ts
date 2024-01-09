@@ -1,3 +1,4 @@
+// @ts-nocheck
 import EventEmitter from '@antv/event-emitter';
 import { AABB, Canvas, Cursor, DataURLType, DisplayObject, PointLike, Rect } from '@antv/g';
 import { GraphChange, ID } from '@antv/graphlib';
@@ -17,7 +18,7 @@ import type { NodeDisplayModel, NodeModel, NodeModelData, NodeShapesEncode } fro
 import { Plugin as PluginBase } from '../types/plugin';
 import type { RendererName } from '../types/render';
 import { ComboMapper, EdgeMapper, NodeMapper } from '../types/spec';
-import type { ThemeOptionsOf, ThemeRegistry, ThemeSpecification } from '../types/theme';
+import type { ThemeOptionsOf, ThemeSolverRegistry, ThemeSpecification } from '../types/theme';
 import { FitViewRules, GraphTransformOptions } from '../types/view';
 import { getCombinedCanvasesBounds } from '../utils/bbox';
 import { changeRenderer, createCanvas } from '../utils/canvas';
@@ -35,8 +36,7 @@ import {
   ViewportController,
 } from './controller';
 import Hook from './hooks';
-
-export class Graph<B extends BehaviorRegistry = any, T extends ThemeRegistry = any> extends EventEmitter {
+export class Graph<B extends BehaviorRegistry = any, T extends ThemeSolverRegistry = any> extends EventEmitter {
   public hooks: Hooks;
   // for nodes and edges excluding their labels, which will be separate into groups
   public canvas: Canvas;
@@ -76,7 +76,6 @@ export class Graph<B extends BehaviorRegistry = any, T extends ThemeRegistry = a
 
   constructor(spec: Specification<B, T>) {
     super();
-
     this.specification = Object.assign({}, this.defaultSpecification, this.formatSpecification(spec));
     this.initHooks();
     this.initCanvas();
