@@ -1,5 +1,5 @@
-import { IAnimationEffectTiming } from '@antv/g';
-import {
+import type { IAnimationEffectTiming } from '@antv/g';
+import type {
   CircularLayoutOptions,
   ConcentricLayoutOptions,
   D3ForceLayoutOptions,
@@ -13,34 +13,9 @@ import {
   RadialLayoutOptions,
   RandomLayoutOptions,
 } from '@antv/layout';
-import { GraphCore } from './data';
+import type { GraphCore } from './data';
 
-type Animatable = {
-  /**
-   * Make layout animated. For layouts with iterations, transitions will happen between ticks.
-   */
-  animated?: boolean;
-
-  /**
-   * Effect timing of animation for layouts without iterations.
-   * @see https://g.antv.antgroup.com/api/animation/waapi#effecttiming
-   */
-  animationEffectTiming?: Partial<IAnimationEffectTiming>;
-};
-
-type Workerized = {
-  /**
-   * Make layout running in WebWorker.
-   */
-  workerEnabled?: boolean;
-
-  /**
-   * Iterations for iterable layouts such as Force.
-   */
-  iterations?: number;
-};
-
-type PureLayoutOptions =
+type BuiltInLayoutOptions =
   | CircularLayout
   | RandomLayout
   | ConcentricLayout
@@ -50,30 +25,20 @@ type PureLayoutOptions =
   | FruchtermanLayout
   | D3ForceLayout
   | ForceLayout
-  | ForceAtlas2
-  | CustomLayout;
+  | ForceAtlas2;
 
+// TODO 后面可能不需要，如果手动布局直接更新数据中位置即可
 export type ImmediatelyInvokedLayoutOptions = {
   /**
    * like an IIFE.
    */
   execute: (graph: GraphCore, options?: any) => Promise<LayoutMapping>;
-} & Animatable & {
-    presetLayout?: Partial<PureLayoutOptions>;
-  };
+} & Animatable &
+  PresetLayoutOptions;
 
-type CustomLayout = {
-  type: string;
-  [option: string]: any;
-};
+export type STDLayoutOptions = BuiltInLayoutOptions & Animatable & Workerized & PresetLayoutOptions;
 
-export type StandardLayoutOptions = PureLayoutOptions &
-  Animatable &
-  Workerized & {
-    presetLayout?: Partial<PureLayoutOptions>;
-  };
-
-export type LayoutOptions = StandardLayoutOptions | ImmediatelyInvokedLayoutOptions;
+export type LayoutOptions = STDLayoutOptions | ImmediatelyInvokedLayoutOptions;
 
 /**
  *
@@ -87,7 +52,7 @@ export function isImmediatelyInvokedLayoutOptions(options: any): options is Imme
  *
  * @param options
  */
-export function isLayoutWorkerized(options: StandardLayoutOptions) {
+export function isLayoutWorkerized(options: STDLayoutOptions) {
   return (
     [
       'circular',
@@ -144,6 +109,35 @@ interface ForceLayout extends ForceLayoutOptions {
 
 interface ForceAtlas2 extends ForceAtlas2LayoutOptions {
   type: 'forceAtlas2';
+}
+
+type Animatable = {
+  /**
+   * Make layout animated. For layouts with iterations, transitions will happen between ticks.
+   */
+  animated?: boolean;
+
+  /**
+   * Effect timing of animation for layouts without iterations.
+   * @see https://g.antv.antgroup.com/api/animation/waapi#effecttiming
+   */
+  animationEffectTiming?: Partial<IAnimationEffectTiming>;
+};
+
+type Workerized = {
+  /**
+   * Make layout running in WebWorker.
+   */
+  workerEnabled?: boolean;
+
+  /**
+   * Iterations for iterable layouts such as Force.
+   */
+  iterations?: number;
+};
+
+interface PresetLayoutOptions {
+  presetLayout?: Partial<BuiltInLayoutOptions>;
 }
 
 export interface LayoutRegistry {

@@ -1,4 +1,4 @@
-import { DisplayObject, PathStyleProps } from '@antv/g';
+import type { BaseStyleProps, DisplayObject, PathStyleProps } from '@antv/g';
 import { Edge as GEdge, PlainObject } from '@antv/graphlib';
 import { BaseEdge } from '../plugin/item/edge/base';
 import { IAnimates } from './animate';
@@ -133,3 +133,26 @@ export type ArrowStyle = PathStyleProps & {
 export interface EdgeRegistry {
   [key: string]: typeof BaseEdge;
 }
+
+/** --------------------- V5.1 --------------------- */
+
+export type EdgeDirection = 'in' | 'out' | 'both';
+
+export type EdgeStyle<Style extends Record<string, unknown> = Record<string, unknown>> = Pick<
+  BaseStyleProps,
+  'cursor' | 'opacity' | 'pointerEvents' | 'visibility' | 'zIndex'
+> & {
+  type?: string;
+  /**
+   * <zh/> 起点连接桩 id
+   *
+   * <en/> source port id
+   */
+  sourcePort?: string;
+  /**
+   * <zh/> 终点连接桩 id
+   *
+   * <en/> target port id
+   */
+  targetPort?: string;
+} & Style;

@@ -1,4 +1,4 @@
-import { IAnimationEffectTiming } from '@antv/g';
+import { IAnimation, IAnimationEffectTiming } from '@antv/g';
 
 export interface AnimateCfg {
   /**
@@ -61,3 +61,43 @@ export interface IAnimates {
 }
 
 export type CameraAnimationOptions = Partial<Pick<IAnimationEffectTiming, 'duration' | 'easing' | 'easingFunction'>>;
+
+/**
+ * <zh/> 动画结果
+ *
+ * <en/> Animation result
+ */
+export type AnimationResult = IAnimation;
+
+/**
+ * <zh/> 动画阶段
+ *
+ * <en/> Animation stage
+ */
+export type AnimationStage = 'enter' | 'exit' | 'update' | 'show' | 'hide';
+
+/**
+ * <zh/> 元素动画配置项
+ *
+ * <en/> Element animation configuration
+ */
+export type AnimationOption<States extends string | undefined = undefined> = {
+  [K in States | 'default']?: {
+    [G in AnimationStage]?: AnimationEffectTiming;
+  };
+};
+
+// TODO update to built-in type
+export type AnimationType<R extends string> = R;
+
+/**
+ * <zh/> 动画配置项
+ *
+ * <en/> Animation configuration
+ * @public
+ */
+export type AnimationEffectTiming = Pick<IAnimationEffectTiming, 'duration' | 'delay' | 'easing' | 'iterations'> & {
+  type: AnimationType<string>;
+  onFinish?: () => void;
+  onCancel?: () => void;
+};
