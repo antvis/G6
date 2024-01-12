@@ -1,7 +1,7 @@
 import type { STDLayoutOptions } from '../../types/layout';
-import type { NodeDataOption } from '../data';
+import type { NodeData } from '../data';
 
-export type LayoutOption = CustomLayoutOption | STDLayoutOptions | PipeLayoutOption[];
+export type LayoutOption = CustomLayout | STDLayoutOptions | PipeLayout[];
 
 // see: https://g6.antv.antgroup.com/api/graph#graphoptionslayoutpipes
 /**
@@ -9,7 +9,7 @@ export type LayoutOption = CustomLayoutOption | STDLayoutOptions | PipeLayoutOpt
  *
  * <en/> Pipeline layout options
  */
-export type PipeLayoutOption = (STDLayoutOptions | CustomLayoutOption) & {
+export type PipeLayout = (STDLayoutOptions | CustomLayout) & {
   /**
    * <zh/> 参与该布局的节点
    *
@@ -17,10 +17,10 @@ export type PipeLayoutOption = (STDLayoutOptions | CustomLayoutOption) & {
    * @param node - <zh/> 节点数据 | <en/> node data
    * @returns <zh/> 是否参与布局 | <en/> Whether to participate in the layout
    */
-  nodesFilter: (node: NodeDataOption) => boolean;
+  nodesFilter: (node: NodeData) => boolean;
 };
 
-export type CustomLayoutOption = {
+export type CustomLayout = {
   type: string;
   [key: string]: any;
 };

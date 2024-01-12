@@ -1,7 +1,7 @@
 import type { AnimationOption } from '../../../types/animate';
 import type { CallableObject } from '../../../types/callable';
-import type { NodeDataOption, NodeLikeStyle } from '../../data';
-import type { PaletteOption } from '../types';
+import type { NodeData, NodeLikeStyle } from '../../data';
+import type { Palette } from '../types';
 
 /**
  * <zh/> 节点配置项
@@ -14,14 +14,14 @@ export type NodeOption = {
    *
    * <en/> Node style
    */
-  style?: NodeStyleOption;
+  style?: CallableNodeStyle;
   /**
    * <zh/> 节点状态样式
    *
    * <en/> Node state style
    */
   state?: {
-    [keys: string]: NodeStyleOption;
+    [keys: string]: CallableNodeStyle;
   };
   /**
    * <zh/> 节点动画
@@ -34,7 +34,7 @@ export type NodeOption = {
    *
    * <en/> Palette
    */
-  palette?: PaletteOption;
+  palette?: Palette;
 };
 
 /**
@@ -42,4 +42,4 @@ export type NodeOption = {
  *
  * <en/> Node style
  */
-type NodeStyleOption = CallableObject<NodeLikeStyle, NodeDataOption>;
+type CallableNodeStyle = CallableObject<NodeLikeStyle, NodeData>;

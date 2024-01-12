@@ -1,7 +1,7 @@
 import type { AnimationOption } from '../../../types/animate';
 import type { CallableObject } from '../../../types/callable';
-import type { NodeDataOption, NodeLikeStyle } from '../../data';
-import type { PaletteOption } from '../types';
+import type { NodeData, NodeLikeStyle } from '../../data';
+import type { Palette } from '../types';
 
 /**
  * <zh/> Combo 配置项
@@ -14,14 +14,14 @@ export type ComboOption = {
    *
    * <en/> Combo style
    */
-  style?: ComboStyleOption;
+  style?: CallableComboStyle;
   /**
    * <zh/> Combo 状态样式
    *
    * <en/> Combo state style
    */
   state?: {
-    [keys: string]: ComboStyleOption;
+    [keys: string]: CallableComboStyle;
   };
   /**
    * <zh/> Combo 动画
@@ -34,7 +34,7 @@ export type ComboOption = {
    *
    * <en/> Palette
    */
-  palette?: PaletteOption;
+  palette?: Palette;
 };
 
 /**
@@ -42,4 +42,4 @@ export type ComboOption = {
  *
  * <en/> Combo style
  */
-type ComboStyleOption = CallableObject<NodeLikeStyle, NodeDataOption>;
+type CallableComboStyle = CallableObject<NodeLikeStyle, NodeData>;

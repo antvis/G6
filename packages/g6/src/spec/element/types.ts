@@ -6,11 +6,11 @@ import type { PaletteColor } from '../../types/palette';
  * <en/> Palette options
  * @public
  */
-export type PaletteOption = PaletteColor | GroupPaletteOption | FieldPaletteOption;
+export type Palette = PaletteColor | GroupPalette | FieldPalette;
 
-export type STDPaletteOption = GroupPaletteOption | FieldPaletteOption;
+export type STDPalette = GroupPalette | FieldPalette;
 
-interface BasePaletteOption {
+interface BasePalette {
   /**
    * <zh/> 色板颜色
    *
@@ -25,7 +25,7 @@ interface BasePaletteOption {
   invert?: boolean;
 }
 
-interface GroupPaletteOption extends BasePaletteOption {
+interface GroupPalette extends BasePalette {
   /**
    * <zh/> 分组取色
    *
@@ -40,7 +40,7 @@ interface GroupPaletteOption extends BasePaletteOption {
   field?: string;
 }
 
-interface FieldPaletteOption extends BasePaletteOption {
+interface FieldPalette extends BasePalette {
   /**
    * <zh/> 基于字段值取色
    *

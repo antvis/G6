@@ -1,6 +1,6 @@
 import type { BaseStyleProps } from '@antv/g';
 import type { ID } from '@antv/graphlib';
-import type { EdgeStyle } from '../../types/edge';
+import type { EdgeStyle } from '../element/edge';
 
 export type DataOption = {
   /**
@@ -8,34 +8,34 @@ export type DataOption = {
    *
    * <en/> node data
    */
-  nodes?: NodeDataOption[];
+  nodes?: NodeData[];
   /**
    * <zh/> 边数据
    *
    * <en/> edge data
    */
-  edges?: EdgeDataOption[];
+  edges?: EdgeData[];
   /**
    * <zh/> Combo 数据
    *
    * <en/> combo data
    */
-  combos?: ComboDataOption[];
+  combos?: ComboData[];
 };
 
-export type NodeDataOption = {
+export type NodeData = {
   id: ID;
   data?: Record<string, any>;
   style?: NodeLikeStyle;
 };
 
-export type ComboDataOption = {
+export type ComboData = {
   id: ID;
   data?: Record<string, any>;
   style?: NodeLikeStyle;
 };
 
-export type EdgeDataOption = {
+export type EdgeData = {
   id: ID;
   source: ID;
   target: ID;
