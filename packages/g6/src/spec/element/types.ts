@@ -24,12 +24,10 @@ export type StatesOption<State extends string, Style> = {
  */
 export type PaletteOption<RegisterPalette extends string | unknown = unknown> =
   | PaletteColor<RegisterPalette>
-  | OrderPaletteOption<RegisterPalette>
   | GroupPaletteOption<RegisterPalette>
   | FieldPaletteOption<RegisterPalette>;
 
 export type STDPaletteOption<RegisterPalette extends string | unknown = unknown> =
-  | OrderPaletteOption<RegisterPalette>
   | GroupPaletteOption<RegisterPalette>
   | FieldPaletteOption<RegisterPalette>;
 
@@ -48,15 +46,6 @@ interface BasePaletteOption<RegisterPalette extends string | unknown> {
   invert?: boolean;
 }
 
-interface OrderPaletteOption<RegisterPalette extends string | unknown> extends BasePaletteOption<RegisterPalette> {
-  /**
-   * <zh/> 按序取色
-   *
-   * <en/> Coloring by order
-   */
-  type: 'order';
-}
-
 interface GroupPaletteOption<RegisterPalette extends string | unknown> extends BasePaletteOption<RegisterPalette> {
   /**
    * <zh/> 分组取色
@@ -65,11 +54,11 @@ interface GroupPaletteOption<RegisterPalette extends string | unknown> extends B
    */
   type: 'group';
   /**
-   * <zh/> 分组字段
+   * <zh/> 分组字段，未指定时基于节点 id 分组
    *
-   * <en/> Group field
+   * <en/> Group field, when not specified, group by node id
    */
-  field: string;
+  field?: string;
 }
 
 interface FieldPaletteOption<RegisterPalette extends string | unknown> extends BasePaletteOption<RegisterPalette> {
@@ -78,7 +67,7 @@ interface FieldPaletteOption<RegisterPalette extends string | unknown> extends B
    *
    * <en/> Coloring based on field value
    */
-  type: 'field';
+  type: 'value';
   /**
    * <zh/> 取值字段
    *
