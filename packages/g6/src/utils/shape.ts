@@ -21,7 +21,7 @@ import Combo from '../item/combo';
 import Edge from '../item/edge';
 import Node from '../item/node';
 import { AnimateTiming, ComboDisplayModel, ComboModelData, Graph, IAnimates } from '../types';
-import { Padding, Point, StandardPadding } from '../types/common';
+import { Padding, Point, STDPadding } from '../types/common';
 import { EdgeDisplayModel, EdgeModelData, EdgeShapeMap } from '../types/edge';
 import { GShapeStyle, ItemShapeStyles, SHAPE_TYPE, SHAPE_TYPE_3D, ShapeStyle, State } from '../types/item';
 import { NodeDisplayModel, NodeModelData, NodeShapeMap } from '../types/node';
@@ -273,7 +273,7 @@ export const updateShapes = (
  */
 export const formatPadding = (
   value: Padding,
-  defaultArr: StandardPadding = DEFAULT_LABEL_BG_PADDING,
+  defaultArr: STDPadding = DEFAULT_LABEL_BG_PADDING,
 ): [number, number, number, number] => {
   if (isArray(value)) {
     switch (value.length) {
