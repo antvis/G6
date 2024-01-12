@@ -5,7 +5,6 @@ import type { LayoutOption } from './layout';
 import type { ModeOption } from './mode';
 import type { OptimizeOption } from './optimize';
 import type { ThemeOption } from './theme';
-import type { SpecGenerics } from './types';
 import type { ViewportOption } from './viewport';
 import type { WidgetOption } from './widget';
 
@@ -15,56 +14,56 @@ import type { WidgetOption } from './widget';
  * <en/> G6 Specification
  * @public
  */
-export type G6Spec<T extends SpecGenerics = any> = CanvasOption &
+export type G6Spec = CanvasOption &
   ViewportOption & {
     /**
      * <zh/> 数据
      *
      * <en/> Data
      */
-    data?: DataOption<T['data']>;
+    data?: DataOption;
     /**
      * <zh/> 布局
      *
      * <en/> Layout
      */
-    layout?: LayoutOption<T['data']['node'], T['layout']>;
+    layout?: LayoutOption;
     /**
      * <zh/> 节点
      *
      * <en/> Node
      */
-    node?: NodeOption<T['data']['node'], T['state'], T['palette']>;
+    node?: NodeOption;
     /**
      * <zh/> 边
      *
      * <en/> Edge
      */
-    edge?: EdgeOption<T['data']['edge'], T['state'], T['palette']>;
+    edge?: EdgeOption;
     /**
      * <zh/> Combo
      *
      * <en/> Combo
      */
-    combo?: ComboOption<T['data']['combo'], T['state'], T['palette']>;
+    combo?: ComboOption;
     /**
      * <zh/> 主题
      *
      * <en/> Theme
      */
-    theme?: ThemeOption<T['theme']>;
+    theme?: ThemeOption;
     /**
      * <zh/> 模式
      *
      * <en/> Mode
      */
-    mode?: ModeOption<T['behavior']>;
+    mode?: ModeOption;
     /**
      * <zh/> 画布插件
      *
      * <en/> Canvas widget
      */
-    widget?: WidgetOption<T['widget']>;
+    widget?: WidgetOption;
     /**
      * <zh/> 优化选项
      *

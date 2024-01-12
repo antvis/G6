@@ -1,43 +1,22 @@
 import type { PaletteColor } from '../../types/palette';
 
 /**
- * <zh/> 状态类型
- *
- * <en/> State type
- */
-export type States<RegisterState extends string> = RegisterState;
-
-/**
- * <zh/> 状态配置项
- *
- * <en/> State options
- */
-export type StatesOption<State extends string, Style> = {
-  [K in State]?: Style;
-};
-
-/**
  * <zh/> 色板配置项
  *
  * <en/> Palette options
  * @public
  */
-export type PaletteOption<RegisterPalette extends string | unknown = unknown> =
-  | PaletteColor<RegisterPalette>
-  | GroupPaletteOption<RegisterPalette>
-  | FieldPaletteOption<RegisterPalette>;
+export type PaletteOption = PaletteColor | GroupPaletteOption | FieldPaletteOption;
 
-export type STDPaletteOption<RegisterPalette extends string | unknown = unknown> =
-  | GroupPaletteOption<RegisterPalette>
-  | FieldPaletteOption<RegisterPalette>;
+export type STDPaletteOption = GroupPaletteOption | FieldPaletteOption;
 
-interface BasePaletteOption<RegisterPalette extends string | unknown> {
+interface BasePaletteOption {
   /**
    * <zh/> 色板颜色
    *
    * <en/> Palette color
    */
-  color: PaletteColor<RegisterPalette>;
+  color: PaletteColor;
   /**
    * <zh/> 倒序取色
    *
@@ -46,7 +25,7 @@ interface BasePaletteOption<RegisterPalette extends string | unknown> {
   invert?: boolean;
 }
 
-interface GroupPaletteOption<RegisterPalette extends string | unknown> extends BasePaletteOption<RegisterPalette> {
+interface GroupPaletteOption extends BasePaletteOption {
   /**
    * <zh/> 分组取色
    *
@@ -61,7 +40,7 @@ interface GroupPaletteOption<RegisterPalette extends string | unknown> extends B
   field?: string;
 }
 
-interface FieldPaletteOption<RegisterPalette extends string | unknown> extends BasePaletteOption<RegisterPalette> {
+interface FieldPaletteOption extends BasePaletteOption {
   /**
    * <zh/> 基于字段值取色
    *

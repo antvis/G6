@@ -1,4 +1,4 @@
-import type { UnknownObject } from '../../types/types';
+export type WidgetOption = Abbr<BuiltInWidget | CustomWidget>[];
 
 // TODO needs to fill the options
 declare type BuiltInWidget =
@@ -17,19 +17,11 @@ declare type BuiltInWidget =
   | { type: 'tooltip' }
   | { type: 'watermarker' };
 
-export interface BaseWidgetOption {
+type CustomWidget = BaseWidget;
+
+export interface BaseWidget {
   type: string;
-  [key: string]: unknown;
+  [key: string]: any;
 }
 
-type Abbr<R extends BaseWidgetOption> = (R & { key?: string }) | R['type'];
-
-export type WidgetOption<RegisterWidget extends BaseWidgetOption = BuiltInWidget> = Abbr<
-  RegisterWidget | BuiltInWidget
->[];
-
-export interface STDWidgetOption<T extends { type: string; options: UnknownObject }> {
-  type: T['type'];
-  key?: string;
-  options?: T['options'];
-}
+type Abbr<R extends BaseWidget> = (R & { key?: string }) | R['type'];

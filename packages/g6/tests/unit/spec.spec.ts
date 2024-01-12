@@ -6,62 +6,12 @@ import type { LayoutOption } from '../../src/spec/layout';
 import type { ModeOption } from '../../src/spec/mode';
 import type { OptimizeOption } from '../../src/spec/optimize';
 import type { ThemeOption } from '../../src/spec/theme';
-import type { SpecGenerics } from '../../src/spec/types';
 import type { WidgetOption } from '../../src/spec/widget';
-import type { EmptyObject } from '../../src/types/types';
 
 // for type check
 describe('spec', () => {
   it('spec', () => {
-    const spec: G6Spec<{
-      behavior: 'my-behavior';
-      state: 'state1' | 'state2';
-      theme: 'red' | 'blue';
-      palette: 'blue' | 'green';
-      data: {
-        node: {
-          data: {
-            value: number;
-          };
-          style: {
-            /**
-             * type description
-             */
-            nodeStyle?: string;
-          };
-        };
-        edge: {
-          data: {
-            weight: number;
-          };
-          style: {
-            edgeStyle?: string;
-          };
-        };
-        combo: {
-          data: {
-            value: number;
-          };
-          style: {
-            comboStyle?: string;
-          };
-        };
-      };
-      widget:
-        | {
-            type: 'my-widget';
-            text?: string;
-            value: number;
-          }
-        | {
-            type: 'another-widget';
-            /**
-             * text description
-             */
-            text: string;
-            value: number;
-          };
-    }> = {
+    const spec: G6Spec = {
       width: 800,
       height: 600,
       renderer: () => {
@@ -110,10 +60,10 @@ describe('spec', () => {
         palette: {
           type: 'group',
           field: 'field',
-          color: 'green',
+          color: 'brBG',
         },
       },
-      theme: 'red',
+      theme: 'light',
       mode: ['drag-canvas', 'my-behavior'],
       widget: ['my-widget', { type: 'another-widget', text: 'text', value: 1 }],
       optimize: {
@@ -125,23 +75,23 @@ describe('spec', () => {
   });
 
   it('infer', () => {
-    class Graph<T extends SpecGenerics> {
-      #spec: G6Spec<T>;
+    class Graph {
+      #spec: G6Spec;
 
-      constructor(spec: G6Spec<T>) {
+      constructor(spec: G6Spec) {
         this.#spec = spec;
       }
 
-      public getData(): NonNullable<G6Spec<T>['data']> {
+      public getData(): NonNullable<G6Spec['data']> {
         return this.#spec.data!;
       }
 
-      public setData(data: G6Spec<T>['data']) {
+      public setData(data: G6Spec['data']) {
         this.#spec.data = data;
       }
     }
 
-    const anySpec: G6Spec = {
+    const anySpec = {
       data: {
         nodes: [
           {
@@ -153,31 +103,14 @@ describe('spec', () => {
       },
     };
 
-    const anyGraph = new Graph(anySpec);
-    const anyData = anyGraph.getData();
+    const graph = new Graph(anySpec);
+    const data = graph.getData();
 
-    // type of anyData.nodes[0].data.value is any
-    expect(anyData.nodes?.[0].data?.value).toBeTruthy();
-
-    const typeSpec: G6Spec<{ data: { node: { data: { value: number }; style: { fill: string } } } }> = {
-      data: {
-        nodes: [{ id: 'node-1', data: { value: 1 }, style: { fill: 'red' } }],
-      },
-    };
-
-    const typeGraph = new Graph(typeSpec);
-    const typeData = typeGraph.getData();
-
-    // type of typeData.nodes[0].data.value is number
-    expect(typeData.nodes?.[0].data?.value).toBeTruthy();
+    expect(data.nodes?.[0].data?.value).toBeTruthy();
   });
 
   it('data', () => {
-    const data: DataOption<{
-      node: { style: { x: number; fill: string } };
-      edge: { style: { stroke: string } };
-      combo: { style: { x: number; fill: string } };
-    }> = {
+    const data: DataOption = {
       nodes: [
         { id: 'node-1' },
         { id: 'node-2', data: { value: 1, field: 'A' } },
@@ -207,7 +140,7 @@ describe('spec', () => {
     const builtInTheme: ThemeOption = 'light';
     expect(builtInTheme).toBeTruthy();
 
-    const registerTheme: ThemeOption<'ghost'> = 'ghost';
+    const registerTheme: ThemeOption = 'ghost';
     expect(registerTheme).toBeTruthy();
   });
 
@@ -215,7 +148,7 @@ describe('spec', () => {
     const builtInBehavior: ModeOption = ['orbit-canvas-3d'];
     expect(builtInBehavior).toBeTruthy();
 
-    const registerBehavior: ModeOption<'my-behavior'> = ['drag-canvas', 'my-behavior'];
+    const registerBehavior: ModeOption = ['drag-canvas', 'my-behavior'];
     expect(registerBehavior).toBeTruthy();
   });
 
@@ -227,10 +160,7 @@ describe('spec', () => {
     };
     expect(builtInLayout).toBeTruthy();
 
-    type RegisterLayout = LayoutOption<
-      EmptyObject,
-      { type: 'layout1'; param: number } | { type: 'layout2'; args: boolean }
-    >;
+    type RegisterLayout = LayoutOption;
 
     const registerLayout1: RegisterLayout = {
       type: 'layout1',
@@ -244,7 +174,7 @@ describe('spec', () => {
     };
     expect(registerLayout2).toBeTruthy();
 
-    const pipeLayout: LayoutOption<{ data: { value: number } }> = [
+    const pipeLayout: LayoutOption = [
       {
         type: 'force',
         nodesFilter: (node) => node.data!.value > 1,
@@ -254,7 +184,7 @@ describe('spec', () => {
   });
 
   it('node', () => {
-    const registerNode: NodeOption<{ style: { nodeStyle: string } }, 'state1' | 'state2'> = {
+    const registerNode: NodeOption = {
       style: {
         nodeStyle: (model) => model.style?.nodeStyle || 'white',
       },
@@ -284,7 +214,7 @@ describe('spec', () => {
   });
 
   it('edge', () => {
-    const registerEdge: EdgeOption<{ style: { edgeStyle: string } }, 'state1' | 'state2', 'my-palette'> = {
+    const registerEdge: EdgeOption = {
       style: {
         edgeStyle: (model) => model.style?.edgeStyle || 'white',
       },
@@ -318,7 +248,7 @@ describe('spec', () => {
   });
 
   it('combo', () => {
-    const registerCombo: ComboOption<{ style: { comboStyle: string } }, 'state1' | 'state2'> = {
+    const registerCombo: ComboOption = {
       style: {
         comboStyle: (model) => model.style?.comboStyle || 'white',
       },
@@ -350,20 +280,7 @@ describe('spec', () => {
     const builtInWidget: WidgetOption = ['hull', { type: 'grid' }];
     expect(builtInWidget).toBeTruthy();
 
-    type RegisterWidget1 = {
-      type: 'widget1';
-      option1: string;
-    };
-    type RegisterWidget2 = {
-      type: 'widget2';
-      option2: number;
-    };
-    const registerWidget: WidgetOption<RegisterWidget1 | RegisterWidget2> = [
-      'widget1',
-      { type: 'widget2', option2: 1 },
-      'grid',
-      { type: 'tooltip' },
-    ];
+    const registerWidget: WidgetOption = ['widget1', { type: 'widget2', option2: 1 }, 'grid', { type: 'tooltip' }];
 
     expect(registerWidget).toBeTruthy();
   });

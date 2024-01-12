@@ -1,3 +1,5 @@
+export type ModeOption = (BuiltInBehavior | CustomBehavior)[];
+
 // TODO import from built in behavior
 declare type BuiltInBehavior =
   | 'activate-relations'
@@ -19,4 +21,4 @@ declare type BuiltInBehavior =
   | 'zoom-canvas-3d'
   | 'zoom-canvas';
 
-export type ModeOption<RegisterBehavior extends string = BuiltInBehavior> = (RegisterBehavior | BuiltInBehavior)[];
+type CustomBehavior = string;

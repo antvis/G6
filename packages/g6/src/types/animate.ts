@@ -81,8 +81,8 @@ export type AnimationStage = 'enter' | 'exit' | 'update' | 'show' | 'hide';
  *
  * <en/> Element animation configuration
  */
-export type AnimationOption<States extends string | undefined = undefined> = {
-  [K in States | 'default']?: {
+export type AnimationOption = {
+  [K in string]?: {
     [G in AnimationStage]?: AnimationEffectTiming;
   };
 };

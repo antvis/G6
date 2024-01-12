@@ -138,10 +138,7 @@ export interface EdgeRegistry {
 
 export type EdgeDirection = 'in' | 'out' | 'both';
 
-export type EdgeStyle<Style extends Record<string, unknown> = Record<string, unknown>> = Pick<
-  BaseStyleProps,
-  'cursor' | 'opacity' | 'pointerEvents' | 'visibility' | 'zIndex'
-> & {
+export type EdgeStyle = Pick<BaseStyleProps, 'cursor' | 'opacity' | 'pointerEvents' | 'visibility' | 'zIndex'> & {
   type?: string;
   /**
    * <zh/> 起点连接桩 id
@@ -155,4 +152,5 @@ export type EdgeStyle<Style extends Record<string, unknown> = Record<string, unk
    * <en/> target port id
    */
   targetPort?: string;
-} & Style;
+  [keys: string]: any;
+};

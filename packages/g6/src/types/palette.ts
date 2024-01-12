@@ -38,8 +38,6 @@ declare type BuiltInPalette =
  *
  * <en/> Palette, can be palette name or color array or a function to generate color
  */
-export type PaletteColor<RegisterPalette extends string | unknown = unknown> = RegisterPalette extends string
-  ? RegisterPalette | BasePaletteColor
-  : BasePaletteColor;
+export type PaletteColor = BasePaletteColor;
 
-type BasePaletteColor = BuiltInPalette | string[] | ((value: number) => string);
+type BasePaletteColor = BuiltInPalette | string | string[] | ((value: number) => string);
