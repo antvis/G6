@@ -1,6 +1,7 @@
 import type { AnimationOption } from '../../../types/animate';
 import type { CallableObject } from '../../../types/callable';
 import type { NodeDataOption, NodeLikeStyle } from '../../data';
+import type { SpecGenerics as Spec } from '../../types';
 import type { PaletteOption, StatesOption } from '../types';
 
 /**
@@ -9,7 +10,7 @@ import type { PaletteOption, StatesOption } from '../types';
  * <en/> Combo spec
  */
 export type ComboOption<
-  Style extends Record<string, unknown> = Record<string, never>,
+  C extends Spec['data']['combo'],
   States extends string | undefined = undefined,
   RegisterPalette extends string | unknown = unknown,
 > = {
@@ -18,13 +19,13 @@ export type ComboOption<
    *
    * <en/> Combo style
    */
-  style?: ComboStyleOption<Style>;
+  style?: ComboStyleOption<C>;
   /**
    * <zh/> Combo 状态样式
    *
    * <en/> Combo state style
    */
-  state?: StatesOption<Exclude<States, 'default'>, ComboStyleOption<Style>>;
+  state?: StatesOption<Exclude<States, 'default'>, ComboStyleOption<C>>;
   /**
    * <zh/> Combo 动画
    *
@@ -44,7 +45,4 @@ export type ComboOption<
  *
  * <en/> Combo style
  */
-type ComboStyleOption<Style extends Record<string, unknown> = Record<string, never>> = CallableObject<
-  NodeLikeStyle<Style>,
-  NodeDataOption<Style>
->;
+type ComboStyleOption<C extends Spec['data']['combo']> = CallableObject<NodeLikeStyle<C['style']>, NodeDataOption<C>>;

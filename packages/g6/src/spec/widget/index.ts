@@ -1,3 +1,5 @@
+import type { UnknownObject } from '../../types/types';
+
 // TODO needs to fill the options
 declare type BuiltInWidget =
   | { type: 'edge-bundling' }
@@ -15,16 +17,18 @@ declare type BuiltInWidget =
   | { type: 'tooltip' }
   | { type: 'watermarker' };
 
-export interface BaseWidget {
+export interface BaseWidgetOption {
   type: string;
   [key: string]: unknown;
 }
 
-type Abbr<R extends BaseWidget> = (R & { key?: string }) | R['type'];
+type Abbr<R extends BaseWidgetOption> = (R & { key?: string }) | R['type'];
 
-export type WidgetOption<RegisterWidget extends BaseWidget = BuiltInWidget> = Abbr<RegisterWidget | BuiltInWidget>[];
+export type WidgetOption<RegisterWidget extends BaseWidgetOption = BuiltInWidget> = Abbr<
+  RegisterWidget | BuiltInWidget
+>[];
 
-export interface STDWidgetOption<T extends { type: string; options: Record<string, unknown> }> {
+export interface STDWidgetOption<T extends { type: string; options: UnknownObject }> {
   type: T['type'];
   key?: string;
   options?: T['options'];

@@ -1,12 +1,13 @@
 import type { CanvasOption } from './canvas';
 import type { DataOption } from './data';
-import type { ComboSpec, EdgeSpec, NodeSpec } from './element';
+import type { ComboOption, EdgeOption, NodeOption } from './element';
 import type { LayoutOption } from './layout';
 import type { ModeOption } from './mode';
 import type { OptimizeOption } from './optimize';
 import type { ThemeOption } from './theme';
+import type { SpecGenerics } from './types';
 import type { ViewportOption } from './viewport';
-import type { BaseWidget, WidgetOption } from './widget';
+import type { WidgetOption } from './widget';
 
 /**
  * <zh/> G6 规范
@@ -14,38 +15,38 @@ import type { BaseWidget, WidgetOption } from './widget';
  * <en/> G6 Specification
  * @public
  */
-export type G6Spec<T extends Generics = Record<string, unknown>> = CanvasOption &
+export type G6Spec<T extends SpecGenerics = any> = CanvasOption &
   ViewportOption & {
     /**
      * <zh/> 数据
      *
      * <en/> Data
      */
-    data?: DataOption<T['node'], T['edge'], T['combo']>;
+    data?: DataOption<T['data']>;
     /**
      * <zh/> 布局
      *
      * <en/> Layout
      */
-    layout?: LayoutOption;
+    layout?: LayoutOption<T['data']['node'], T['layout']>;
     /**
      * <zh/> 节点
      *
      * <en/> Node
      */
-    node?: NodeSpec<T['node'], T['state'], T['palette']>;
+    node?: NodeOption<T['data']['node'], T['state'], T['palette']>;
     /**
      * <zh/> 边
      *
      * <en/> Edge
      */
-    edge?: EdgeSpec<T['edge'], T['state'], T['palette']>;
+    edge?: EdgeOption<T['data']['edge'], T['state'], T['palette']>;
     /**
      * <zh/> Combo
      *
      * <en/> Combo
      */
-    combo?: ComboSpec<T['combo'], T['state'], T['palette']>;
+    combo?: ComboOption<T['data']['combo'], T['state'], T['palette']>;
     /**
      * <zh/> 主题
      *
@@ -71,54 +72,3 @@ export type G6Spec<T extends Generics = Record<string, unknown>> = CanvasOption 
      */
     optimize?: OptimizeOption;
   };
-
-export type Generics = {
-  /**
-   * <zh/> 主题类型
-   *
-   * <en/> Theme type
-   */
-  theme?: string;
-  /**
-   * <zh/> 交互类型
-   *
-   * <en/> Behavior type
-   */
-  behavior?: string;
-  /**
-   * <zh/> 状态类型
-   *
-   * <en/> States type
-   */
-  state?: string;
-  /**
-   * <zh/> 节点数据类型
-   *
-   * <en/> Node data type
-   */
-  node?: Record<string, unknown>;
-  /**
-   * <zh/> 边数据类型
-   *
-   * <en/> Edge data type
-   */
-  edge?: Record<string, unknown>;
-  /**
-   * <zh/> Combo 数据类型
-   *
-   * <en/> Combo data type
-   */
-  combo?: Record<string, unknown>;
-  /**
-   * <zh/> 插件类型
-   *
-   * <en/> Plugin type
-   */
-  widget?: BaseWidget;
-  /**
-   * <zh/> 色板类型
-   *
-   * <en/> Palette type
-   */
-  palette?: string;
-};

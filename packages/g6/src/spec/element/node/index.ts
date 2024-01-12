@@ -1,6 +1,7 @@
 import type { AnimationOption } from '../../../types/animate';
 import type { CallableObject } from '../../../types/callable';
 import type { NodeDataOption, NodeLikeStyle } from '../../data';
+import type { SpecGenerics as Spec } from '../../types';
 import type { PaletteOption, StatesOption } from '../types';
 
 /**
@@ -9,7 +10,7 @@ import type { PaletteOption, StatesOption } from '../types';
  * <en/> Node spec
  */
 export type NodeOption<
-  Style extends Record<string, unknown> = Record<string, never>,
+  N extends Spec['data']['node'],
   States extends string | undefined = undefined,
   RegisterPalette extends string | unknown = unknown,
 > = {
@@ -18,13 +19,13 @@ export type NodeOption<
    *
    * <en/> Node style
    */
-  style?: NodeStyleOption<Style>;
+  style?: NodeStyleOption<N>;
   /**
    * <zh/> 节点状态样式
    *
    * <en/> Node state style
    */
-  state?: StatesOption<Exclude<States, 'default'>, NodeStyleOption<Style>>;
+  state?: StatesOption<Exclude<States, 'default'>, NodeStyleOption<N>>;
   /**
    * <zh/> 节点动画
    *
@@ -44,7 +45,4 @@ export type NodeOption<
  *
  * <en/> Node style
  */
-type NodeStyleOption<Style extends Record<string, unknown> = Record<string, never>> = CallableObject<
-  NodeLikeStyle<Style>,
-  NodeDataOption<Style>
->;
+type NodeStyleOption<N extends Spec['data']['node']> = CallableObject<NodeLikeStyle<N['style']>, NodeDataOption<N>>;

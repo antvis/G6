@@ -1,12 +1,14 @@
 import { Renderer } from '@antv/g-canvas';
 import type { G6Spec } from '../../src/spec';
 import type { DataOption } from '../../src/spec/data';
-import type { ComboSpec, EdgeSpec, NodeSpec } from '../../src/spec/element';
+import type { ComboOption, EdgeOption, NodeOption } from '../../src/spec/element';
 import type { LayoutOption } from '../../src/spec/layout';
 import type { ModeOption } from '../../src/spec/mode';
 import type { OptimizeOption } from '../../src/spec/optimize';
 import type { ThemeOption } from '../../src/spec/theme';
+import type { SpecGenerics } from '../../src/spec/types';
 import type { WidgetOption } from '../../src/spec/widget';
+import type { EmptyObject } from '../../src/types/types';
 
 // for type check
 describe('spec', () => {
@@ -16,14 +18,35 @@ describe('spec', () => {
       state: 'state1' | 'state2';
       theme: 'red' | 'blue';
       palette: 'blue' | 'green';
-      node: {
-        /**
-         * type description
-         */
-        nodeStyle?: string;
+      data: {
+        node: {
+          data: {
+            value: number;
+          };
+          style: {
+            /**
+             * type description
+             */
+            nodeStyle?: string;
+          };
+        };
+        edge: {
+          data: {
+            weight: number;
+          };
+          style: {
+            edgeStyle?: string;
+          };
+        };
+        combo: {
+          data: {
+            value: number;
+          };
+          style: {
+            comboStyle?: string;
+          };
+        };
       };
-      edge: { edgeStyle?: string };
-      combo: { comboStyle?: string };
       widget:
         | {
             type: 'my-widget';
@@ -44,8 +67,6 @@ describe('spec', () => {
       renderer: () => {
         return new Renderer();
       },
-      background: 'pink',
-      cursor: 'pointer',
       devicePixelRatio: 2,
       autoResize: true,
       autoFit: {
@@ -59,7 +80,9 @@ describe('spec', () => {
         nodes: [
           {
             id: 'node-1',
-            data: {},
+            data: {
+              value: 1,
+            },
             style: {
               nodeStyle: 'red',
             },
@@ -101,8 +124,60 @@ describe('spec', () => {
     expect(spec).toBeTruthy();
   });
 
+  it('infer', () => {
+    class Graph<T extends SpecGenerics> {
+      #spec: G6Spec<T>;
+
+      constructor(spec: G6Spec<T>) {
+        this.#spec = spec;
+      }
+
+      public getData(): NonNullable<G6Spec<T>['data']> {
+        return this.#spec.data!;
+      }
+
+      public setData(data: G6Spec<T>['data']) {
+        this.#spec.data = data;
+      }
+    }
+
+    const anySpec: G6Spec = {
+      data: {
+        nodes: [
+          {
+            id: 'node-1',
+            data: { value: 1 },
+            style: { fill: 'red' },
+          },
+        ],
+      },
+    };
+
+    const anyGraph = new Graph(anySpec);
+    const anyData = anyGraph.getData();
+
+    // type of anyData.nodes[0].data.value is any
+    expect(anyData.nodes?.[0].data?.value).toBeTruthy();
+
+    const typeSpec: G6Spec<{ data: { node: { data: { value: number }; style: { fill: string } } } }> = {
+      data: {
+        nodes: [{ id: 'node-1', data: { value: 1 }, style: { fill: 'red' } }],
+      },
+    };
+
+    const typeGraph = new Graph(typeSpec);
+    const typeData = typeGraph.getData();
+
+    // type of typeData.nodes[0].data.value is number
+    expect(typeData.nodes?.[0].data?.value).toBeTruthy();
+  });
+
   it('data', () => {
-    const data: DataOption<{ x: number; fill: string }, { stroke: string }, { x: number; fill: string }> = {
+    const data: DataOption<{
+      node: { style: { x: number; fill: string } };
+      edge: { style: { stroke: string } };
+      combo: { style: { x: number; fill: string } };
+    }> = {
       nodes: [
         { id: 'node-1' },
         { id: 'node-2', data: { value: 1, field: 'A' } },
@@ -152,7 +227,10 @@ describe('spec', () => {
     };
     expect(builtInLayout).toBeTruthy();
 
-    type RegisterLayout = LayoutOption<{ type: 'layout1'; param: number } | { type: 'layout2'; args: boolean }>;
+    type RegisterLayout = LayoutOption<
+      EmptyObject,
+      { type: 'layout1'; param: number } | { type: 'layout2'; args: boolean }
+    >;
 
     const registerLayout1: RegisterLayout = {
       type: 'layout1',
@@ -165,16 +243,24 @@ describe('spec', () => {
       args: true,
     };
     expect(registerLayout2).toBeTruthy();
+
+    const pipeLayout: LayoutOption<{ data: { value: number } }> = [
+      {
+        type: 'force',
+        nodesFilter: (node) => node.data!.value > 1,
+      },
+    ];
+    expect(pipeLayout).toBeTruthy();
   });
 
   it('node', () => {
-    const registerNode: NodeSpec<{ nodeStyle: string }, 'state1' | 'state2'> = {
+    const registerNode: NodeOption<{ style: { nodeStyle: string } }, 'state1' | 'state2'> = {
       style: {
         nodeStyle: (model) => model.style?.nodeStyle || 'white',
       },
       state: {
         state1: {
-          nodeStyle: 'red',
+          nodeStyle: (data) => data.style?.nodeStyle || 'white',
         },
       },
       animate: {
@@ -198,7 +284,7 @@ describe('spec', () => {
   });
 
   it('edge', () => {
-    const registerEdge: EdgeSpec<{ edgeStyle: string }, 'state1' | 'state2', 'my-palette'> = {
+    const registerEdge: EdgeOption<{ style: { edgeStyle: string } }, 'state1' | 'state2', 'my-palette'> = {
       style: {
         edgeStyle: (model) => model.style?.edgeStyle || 'white',
       },
@@ -222,7 +308,7 @@ describe('spec', () => {
         },
       },
       palette: {
-        type: 'order',
+        type: 'group',
         color: 'my-palette',
         invert: true,
       },
@@ -232,7 +318,7 @@ describe('spec', () => {
   });
 
   it('combo', () => {
-    const registerCombo: ComboSpec<{ comboStyle: string }, 'state1' | 'state2'> = {
+    const registerCombo: ComboOption<{ style: { comboStyle: string } }, 'state1' | 'state2'> = {
       style: {
         comboStyle: (model) => model.style?.comboStyle || 'white',
       },

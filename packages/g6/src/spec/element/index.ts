@@ -1,3 +1,3 @@
-export type { ComboOption as ComboSpec } from './combo';
-export type { EdgeOption as EdgeSpec } from './edge';
-export type { NodeOption as NodeSpec } from './node';
+export type { ComboOption } from './combo';
+export type { EdgeOption } from './edge';
+export type { NodeOption } from './node';
