@@ -7,7 +7,7 @@ import type { Layer } from '../../runtime/layered-canvas/types';
  * <en/> Canvas spec
  * @public
  */
-export type CanvasOption = Pick<CanvasConfig, 'devicePixelRatio'> & {
+export type CanvasOption = Pick<CanvasConfig, 'container' | 'devicePixelRatio'> & {
   /**
    * <zh/> 画布宽度
    *
