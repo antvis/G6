@@ -1,11 +1,7 @@
-import { Graph as BaseGraph, extend, Extensions } from '../../../src/index';
+import { Extensions, Graph, register } from '../../../src/index';
 import { TestCaseContext } from '../interface';
 
-const Graph = extend(BaseGraph, {
-  edges: {
-    'cubic-edge': Extensions.CubicEdge,
-  },
-});
+register('edge', 'cubic-edge', Extensions.CubicEdge);
 
 const defaultData = {
   nodes: [

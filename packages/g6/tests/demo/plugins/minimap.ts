@@ -1,14 +1,10 @@
-import { Extensions, Graph, extend } from '../../../src/index';
+import { Extensions, Graph, register } from '../../../src/index';
 import { TestCaseContext } from '../interface';
 
-export default (context: TestCaseContext) => {
-  const ExtGraph = extend(Graph, {
-    plugins: {
-      minimap: Extensions.Minimap,
-    },
-  });
+register('widget', 'minimap', Extensions.Minimap);
 
-  return new ExtGraph({
+export default (context: TestCaseContext) => {
+  return new Graph({
     ...context,
     data: {
       nodes: [

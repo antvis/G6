@@ -1,17 +1,13 @@
 import Stats from 'stats.js';
-import { Extensions, Graph, extend } from '../../../src/index';
+import { Extensions, Graph, register } from '../../../src/index';
 import { container, width } from '../../datasets/const';
 import data from '../../datasets/eva-3d-data.json';
 
-const createGraph = async () => {
-  const ExtGraph = extend(Graph, {
-    behaviors: {
-      'brush-select': Extensions.BrushSelect,
-      'hover-activate': Extensions.HoverActivate,
-    },
-  });
+register('behavior', 'brush-select', Extensions.BrushSelect);
+register('behavior', 'hover-activate', Extensions.HoverActivate);
 
-  const graph = new ExtGraph({
+const createGraph = async () => {
+  const graph = new Graph({
     container: container as HTMLElement,
     width,
     height: 1200,

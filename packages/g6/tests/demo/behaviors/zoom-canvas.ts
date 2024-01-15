@@ -1,5 +1,8 @@
-import { extend, Extensions, Graph } from '../../../src/index';
+import { Extensions, Graph, register } from '../../../src/index';
 import { TestCaseContext } from '../interface';
+
+register('behavior', 'zoom-canvas', Extensions.ZoomCanvas);
+register('transform', 'transform-v4-data', Extensions.TransformV4Data);
 
 export default (context: TestCaseContext) => {
   const data = {
@@ -42,15 +45,7 @@ export default (context: TestCaseContext) => {
     ],
   };
 
-  const ExtGraph = extend(Graph, {
-    transforms: {
-      'transform-v4-data': Extensions.TransformV4Data,
-    },
-    behaviors: {
-      'zoom-canvas': Extensions.ZoomCanvas,
-    },
-  });
-  const graph = new ExtGraph({
+  const graph = new Graph({
     ...context,
     node: {
       lodStrategy: {},

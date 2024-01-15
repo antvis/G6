@@ -1,6 +1,5 @@
 import { FederatedPointerEvent, IElement } from '@antv/g';
-import { registry } from '../../plugin';
-import { IGraph } from '../../types';
+import { Graph } from '../../types';
 import { Behavior } from '../../types/behavior';
 import { CANVAS_EVENT_TYPE, DOM_EVENT_TYPE, IG6GraphEvent } from '../../types/event';
 import { ItemInfo, getContextMenuEventProps, getItemInfoFromElement } from '../../utils/event';
@@ -31,7 +30,7 @@ const wrapListener = (type: string, eventName: string, listener: Listener): List
  * Storage related data.
  */
 export class InteractionController {
-  private graph: IGraph;
+  private graph: Graph;
   private mode: string;
 
   /**
@@ -52,7 +51,7 @@ export class InteractionController {
 
   private prevItemInfo: ItemInfo;
 
-  constructor(graph: IGraph<any, any>) {
+  constructor(graph: Graph<any, any>) {
     this.graph = graph;
     this.initEvents();
     this.tap();
@@ -82,8 +81,9 @@ export class InteractionController {
     }
     try {
       // Get behavior extensions from useLib.
-      const BehaviorClass = getExtension(config, registry.useLib, 'behavior');
+      const BehaviorClass = getExtension(config, 'behavior');
       const options = typeof config === 'string' ? {} : config;
+      // @ts-ignore
       const behavior = new BehaviorClass(options);
       behavior.graph = this.graph;
       if (behavior) {

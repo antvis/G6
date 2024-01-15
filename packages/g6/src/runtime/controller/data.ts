@@ -4,8 +4,7 @@ import { clone, isArray, isEmpty, isObject } from '@antv/util';
 import Combo from '../../item/combo';
 import Edge from '../../item/edge';
 import Node from '../../item/node';
-import { registry } from '../../plugin';
-import { ComboModel, ComboUserModel, GraphData, IGraph } from '../../types';
+import { ComboModel, ComboUserModel, Graph, GraphData } from '../../types';
 import { ComboUserModelData } from '../../types/combo';
 import {
   DataChangeType,
@@ -40,7 +39,7 @@ import { EdgeCollisionChecker, QuadTree } from '../../utils/polyline';
  * Storages user data and inner data.
  */
 export class DataController {
-  public graph: IGraph;
+  public graph: Graph;
   public extensions = [];
   /**
    * Inner data stored in graphCore structure.
@@ -57,7 +56,7 @@ export class DataController {
    */
   private dataType: 'treeData' | 'graphData' | 'fetch';
 
-  constructor(graph: IGraph<any, any>) {
+  constructor(graph: Graph<any, any>) {
     this.graph = graph;
     this.tap();
   }
@@ -197,7 +196,7 @@ export class DataController {
     return [...transforms, ...requiredTransformers]
       .map((config) => ({
         config,
-        func: getExtension(config, registry.useLib, 'transform'),
+        func: getExtension(config, 'transform'),
       }))
       .filter((ext) => !!ext.func);
   }

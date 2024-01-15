@@ -1,5 +1,5 @@
 import { deepMix } from '@antv/util';
-import { EdgeUserModel, Extensions, Graph, extend } from '../../../../src/index';
+import { EdgeUserModel, Extensions, Graph, IGraph, register } from '../../../../src/index';
 
 import { TestCaseContext } from '../../interface';
 // @ts-nocheck
@@ -221,24 +221,18 @@ const createControls = () => {
   parentEle.appendChild(changeLoopPositionBtn);
 };
 
+register('node', 'ellipse-node', Extensions.EllipseNode);
+register('behavior', 'activate-relations', Extensions.ActivateRelations);
+register('edge', 'loop-edge', Extensions.LoopEdge);
+
 export default (context: TestCaseContext) => {
   const { container } = context;
 
   // 1.create control container (for control buttons, etc.)
   createCtrlContainer(container!);
   createControls();
-  const ExtGraph = extend(Graph, {
-    nodes: {
-      'ellipse-node': Extensions.EllipseNode,
-    },
-    behaviors: {
-      'activate-relations': Extensions.ActivateRelations,
-    },
-    edges: {
-      'loop-edge': Extensions.LoopEdge,
-    },
-  });
-  graph = new ExtGraph({
+
+  graph = new Graph({
     ...context,
     data: defaultData,
     modes: {

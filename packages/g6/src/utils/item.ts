@@ -4,7 +4,7 @@ import { uniqueId } from '@antv/util';
 import Combo from '../item/combo';
 import Edge from '../item/edge';
 import Node from '../item/node';
-import { IGraph } from '../types';
+import { Graph } from '../types';
 import { GraphCore } from '../types/data';
 import { getCombinedBoundsByItem } from './shape';
 
@@ -14,7 +14,7 @@ import { getCombinedBoundsByItem } from './shape';
  * @param ids the end nodes/combos id list
  * @returns id list of the edges meet the condition
  */
-export const getEdgesBetween = (graph: IGraph, ids: ID[]): ID[] => {
+export const getEdgesBetween = (graph: Graph, ids: ID[]): ID[] => {
   const edgeIdSet = new Set<ID>();
   ids.forEach((endId) => {
     const edgesData = graph.getRelatedEdgesData(endId);

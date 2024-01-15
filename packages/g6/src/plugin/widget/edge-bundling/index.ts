@@ -1,4 +1,4 @@
-import { GraphData, IGraph, NodeModel } from 'types';
+import { Graph, GraphData, NodeModel } from 'types';
 import { EdgeModel, IEdge } from 'types/edge';
 import { Point } from '../../../types/common';
 
@@ -110,7 +110,7 @@ export class EdgeBundling extends Base {
     };
   }
 
-  public init(graph: IGraph) {
+  public init(graph: Graph) {
     super.init(graph);
   }
 

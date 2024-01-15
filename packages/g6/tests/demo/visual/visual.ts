@@ -1,19 +1,14 @@
-import { Extensions, Graph, extend } from '../../../src/index';
+import { Extensions, Graph, register } from '../../../src/index';
 import { IBadgePosition } from '../../../src/types/item';
 import { container, width } from '../../datasets/const';
 
+register('layout', 'force-wasm', Extensions.ForceLayout);
+register('layout', 'fruchterman-wasm', Extensions.FruchtermanLayout);
+register('behavior', 'brush-select', Extensions.BrushSelect);
+register('behavior', 'hover-activate', Extensions.HoverActivate);
+
 const createGraph = () => {
-  const ExtGraph = extend(Graph, {
-    layouts: {
-      'force-wasm': Extensions.ForceLayout,
-      'fruchterman-wasm': Extensions.FruchtermanLayout,
-    },
-    behaviors: {
-      'brush-select': Extensions.BrushSelect,
-      'hover-activate': Extensions.HoverActivate,
-    },
-  });
-  const graph = new ExtGraph({
+  const graph = new Graph({
     container: container as HTMLElement,
     width,
     height: 1200,

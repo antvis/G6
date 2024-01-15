@@ -1,6 +1,8 @@
-import { Extensions, Graph, extend } from '../../../src/index';
-
+import { Extensions, Graph, register } from '../../../src/index';
 import { TestCaseContext } from '../interface';
+
+register('edge', 'polyline-edge', Extensions.PolylineEdge);
+register('layout', 'dagre', Extensions.DagreLayout);
 
 export default (context: TestCaseContext) => {
   const data = {
@@ -244,15 +246,8 @@ export default (context: TestCaseContext) => {
       },
     ],
   };
-  const ExtGraph = extend(Graph, {
-    layouts: {
-      dagre: Extensions.DagreLayout,
-    },
-    edges: {
-      'polyline-edge': Extensions.PolylineEdge,
-    },
-  });
-  const graph = new ExtGraph({
+
+  const graph = new Graph({
     ...context,
     data: JSON.parse(JSON.stringify(data2)),
     layout: {

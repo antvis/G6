@@ -470,18 +470,6 @@ Free plugins' configurations.
 
 **TODO**: 链接各个插件的配置文档
 
-## enableStack
-
-**Type**: `boolean`
-
-Whether to enable the history stack.
-
-## stackCfg
-
-**Type**: `StackCfg`
-
-<embed src="../../common/StackCfg.en.md"></embed>
-
 ## optimize
 
 **Type**: `OptimizeCfg`

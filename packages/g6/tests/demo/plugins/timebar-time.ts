@@ -1,11 +1,7 @@
-import { Extensions, Graph, extend } from '../../../src/index';
+import { Extensions, Graph, register } from '../../../src/index';
 import type { TestCaseContext } from '../interface';
 
-const ExtGraph = extend(Graph, {
-  plugins: {
-    timebar: Extensions.Timebar,
-  },
-});
+register('widget', 'timebar', Extensions.Timebar);
 
 export default (context: TestCaseContext) => {
   const startTime = new Date('2023-08-01').getTime();
@@ -34,7 +30,7 @@ export default (context: TestCaseContext) => {
     })),
   };
 
-  const graph = new ExtGraph({
+  const graph = new Graph({
     ...context,
     layout: {
       type: 'grid',

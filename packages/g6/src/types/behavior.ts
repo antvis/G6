@@ -1,5 +1,5 @@
 import { IG6GraphEvent } from './event';
-import { IGraph } from './graph';
+import { Graph } from './graph';
 
 export interface BehaviorOption {
   key?: string;
@@ -9,7 +9,8 @@ export interface BehaviorOption {
  * TODO: Support spec mode.
  */
 export abstract class Behavior {
-  graph: IGraph;
+  static type: string;
+  graph: Graph;
   options: any;
   constructor(options: any) {
     this.options = options;

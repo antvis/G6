@@ -1,4 +1,4 @@
-import { Extensions, Graph, extend } from '../../../src/index';
+import { Extensions, Graph, register } from '../../../src/index';
 import { TestCaseContext } from '../interface';
 
 let graph: any;
@@ -72,16 +72,14 @@ const data = {
   ],
 };
 
+register('node', 'hexagon-node', Extensions.HexagonNode);
+
 export default (context: TestCaseContext) => {
   const { width, height, container } = context;
   createCtrlContainer(container!);
   createCtrl();
-  const ExtGraph = extend(Graph, {
-    nodes: {
-      'hexagon-node': Extensions.HexagonNode,
-    },
-  });
-  graph = new ExtGraph({
+
+  graph = new Graph({
     ...context,
     type: 'graph',
     data,

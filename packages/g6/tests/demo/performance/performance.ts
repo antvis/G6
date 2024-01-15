@@ -1,7 +1,13 @@
 import { initThreads, supportsThreads } from '@antv/layout-wasm';
-import { Extensions, Graph, extend } from '../../../src/index';
+import { Extensions, Graph, register } from '../../../src/index';
 import { IBadgePosition } from '../../../src/types/item';
 import { container, width } from '../../datasets/const';
+
+register('layout', 'force-wasm', Extensions.ForceLayout);
+register('layout', 'fruchterman-wasm', Extensions.FruchtermanLayout);
+register('behavior', 'brush-select', Extensions.BrushSelect);
+register('behavior', 'hover-activate', Extensions.HoverActivate);
+
 const data = {
   nodes: [
     { id: 'Myriel', data: { x: 122.619579008568, y: -121.31805520154471 } },
@@ -1914,17 +1920,7 @@ const createGraph = async () => {
   const supported = await supportsThreads();
   const threads = await initThreads(supported);
 
-  const ExtGraph = extend(Graph, {
-    layouts: {
-      'force-wasm': Extensions.ForceLayout,
-      'fruchterman-wasm': Extensions.FruchtermanLayout,
-    },
-    behaviors: {
-      'brush-select': Extensions.BrushSelect,
-      'hover-activate': Extensions.HoverActivate,
-    },
-  });
-  const graph = new ExtGraph({
+  const graph = new Graph({
     container: container as HTMLElement,
     width,
     height: 1200,

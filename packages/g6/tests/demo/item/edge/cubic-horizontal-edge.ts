@@ -1,6 +1,7 @@
-import { Extensions, Graph, extend } from '../../../../src/index';
+import { Extensions, Graph, IGraph, register } from '../../../../src/index';
 
-// @ts-nocheck
+register('edge', 'cubic-horizontal-edge', Extensions.CubicHorizontalEdge);
+register('behavior', 'activate-relations', Extensions.ActivateRelations);
 
 let graph: IGraph;
 let container: HTMLElement;
@@ -230,12 +231,6 @@ export default () => {
 
   // 2.create graph
   container = document.getElementById('container')!;
-  const ExtGraph = extend(Graph, {
-    behaviors: {
-      'activate-relations': Extensions.ActivateRelations,
-    },
-    edges: { 'cubic-horizontal-edge': Extensions.CubicHorizontalEdge },
-  });
 
   graph = new Graph({
     container,

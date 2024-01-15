@@ -1,6 +1,6 @@
 import { Group, Tuple3Number } from '@antv/g';
 import { clone, throttle } from '@antv/util';
-import { ComboDisplayModel, ComboModel, IGraph } from '../types';
+import { ComboDisplayModel, ComboModel, Graph } from '../types';
 import { ComboModelData, ComboUserModelData } from '../types/combo';
 import { Point } from '../types/common';
 import { DisplayMapper, LodLevelRanges, State } from '../types/item';
@@ -10,7 +10,7 @@ import Node from './node';
 
 interface IProps {
   model: ComboModel;
-  graph: IGraph;
+  graph: Graph;
   renderExtensions: any;
   containerGroup: Group;
   labelContainerGroup: Group;

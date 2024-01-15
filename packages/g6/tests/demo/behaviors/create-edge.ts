@@ -1,5 +1,8 @@
-import { Extensions, Graph, extend } from '../../../src/index';
+import { Extensions, Graph, register } from '../../../src/index';
 import { TestCaseContext } from '../interface';
+
+register('behavior', 'create-edge', Extensions.CreateEdge);
+register('behavior', 'brush-select', Extensions.BrushSelect);
 
 export default (context: TestCaseContext, options) => {
   const createEdgeOptions = options || {
@@ -9,13 +12,7 @@ export default (context: TestCaseContext, options) => {
     createActualEventName: 'aftercreate',
     cancelCreateEventName: 'cancelcreate',
   };
-  const ExtGraph = extend(Graph, {
-    behaviors: {
-      'create-edge': Extensions.CreateEdge,
-      'brush-select': Extensions.BrushSelect,
-    },
-  });
-  const graph = new ExtGraph({
+  const graph = new Graph({
     ...context,
     layout: {
       type: 'grid',

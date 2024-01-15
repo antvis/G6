@@ -1,5 +1,7 @@
-import { Extensions, Graph, extend } from '../../../src/index';
+import { Extensions, Graph, register } from '../../../src/index';
 import { TestCaseContext } from '../interface';
+
+register('node', 'triangle-node', Extensions.TriangleNode);
 
 let graph: any;
 
@@ -77,11 +79,6 @@ export default (context: TestCaseContext) => {
   createCtrlContainer(container!);
   createCtrl();
 
-  const ExtGraph = extend(Graph, {
-    nodes: {
-      'triangle-node': Extensions.TriangleNode,
-    },
-  });
   graph = new Graph({
     ...context,
     data,

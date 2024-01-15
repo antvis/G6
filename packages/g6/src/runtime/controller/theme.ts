@@ -1,7 +1,6 @@
-import registry from '../../plugin';
-import { IGraph } from '../../types';
-import { ThemeSpecification } from '../../types/theme';
-import { getCatExtensions, getExtension } from '../../utils/extension';
+import { Graph } from '../../types';
+import { ThemeRegistry, ThemeSpecification } from '../../types/theme';
+import { getExtension, getExtensionsByCategory } from '../../utils/extension';
 
 /**
  * Manages theme extensions for graph.
@@ -9,7 +8,7 @@ import { getCatExtensions, getExtension } from '../../utils/extension';
  */
 export class ThemeController {
   public extension;
-  public graph: IGraph;
+  public graph: Graph;
 
   private themeConfig;
   private solver;
@@ -18,7 +17,7 @@ export class ThemeController {
     [themeName: string]: ThemeSpecification;
   };
 
-  constructor(graph: IGraph<any, any>) {
+  constructor(graph: Graph<any, any>) {
     this.graph = graph;
     this.tap();
   }
@@ -38,11 +37,14 @@ export class ThemeController {
   private getExtension() {
     const { theme = {} } = this.graph.getSpecification();
     this.themeConfig = theme;
-    return theme ? getExtension(theme, registry.useLib, 'themeSolver') : undefined;
+    return theme ? getExtension(theme, 'themeSolver') : undefined;
   }
 
-  private getThemes() {
-    return getCatExtensions(registry.useLib, 'theme');
+  private getThemes(): ThemeRegistry {
+    return getExtensionsByCategory('theme').reduce((res, acc) => {
+      res[acc.type] = acc;
+      return res;
+    }, {}) as ThemeRegistry;
   }
 
   /**

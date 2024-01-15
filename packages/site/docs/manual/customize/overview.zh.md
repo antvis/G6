@@ -138,7 +138,6 @@ const graph = new Graph({
 
 | type 名称     | 引入方式               | 是否默认注册 | Demo                                                   | API                                     | 注释             |
 | :------------ | :--------------------- | :----------- | :----------------------------------------------------- | :-------------------------------------- | :--------------- |
-| 'history'     | Extensions.History     | ✅ 是        | [DEMO](/zh/examples/tool/history/#history)             | [API](/zh/apis/plugins/history-config)  |                  |
 | 'toolbar'     | Extensions.Toolbar     | 否           | [DEMO](/zh/examples/tool/toolbar/#toolbar)             | [API](/zh/apis/plugins/toolbar-config)  |                  |
 | 'tooltip'     | Extensions.Tooltip     | 否           | [DEMO](/zh/examples/tool/tooltip/#tooltipPlugin)       | [API](/zh/apis/plugins/tooltip-config)  |                  |
 | 'minimap'     | Extensions.Minimap     | 否           | [DEMO](/zh/examples/tool/minimap/#minimap)             | [API](/zh/apis/plugins/mini-map-config) |                  |

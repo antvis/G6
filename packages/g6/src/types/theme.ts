@@ -24,6 +24,9 @@ export abstract class Theme {
  * @example { 'drag-node': DragNodeBehavior, 'my-drag-node': MyDragNodeBehavior }
  */
 export interface ThemeRegistry {
+  [type: string]: ThemeSpecification;
+}
+export interface ThemeSolverRegistry {
   [type: string]: typeof BaseThemeSolver;
 }
 
@@ -31,13 +34,13 @@ export interface ThemeRegistry {
  * Type templates, input registry table, output configure type.
  * @example ThemeOptionsOf<{ 'drag-node': typeof DragNodeBehavior }> // 'drag-node' | { type: 'drag-node', key?: 'ctrl' | 'shift' }
  */
-export type ThemeOptionsOf<T extends ThemeRegistry = {}> =
+export type ThemeOptionsOf<T extends ThemeSolverRegistry = {}> =
   | Extract<keyof T, string>
   | {
       [K in keyof T]: T[K] extends { new (options: infer O): any } ? O & { type: K } : { type: K };
     }[Extract<keyof T, string>];
 
-export type ThemeObjectOptionsOf<T extends ThemeRegistry = {}> = {
+export type ThemeObjectOptionsOf<T extends ThemeSolverRegistry = {}> = {
   [K in keyof T]: T[K] extends { new (options: infer O): any } ? O & { type: K; key: string } : never;
 }[Extract<keyof T, string>];
 
@@ -156,6 +159,7 @@ export interface ComboThemeSpecifications {
  * Theme specification with node / edge / combo palette and style mappers. And also canvas DOM CSS settings.
  */
 export interface ThemeSpecification {
+  type?: string;
   node?: NodeThemeSpecifications;
   edge?: EdgeThemeSpecifications;
   combo?: ComboThemeSpecifications;

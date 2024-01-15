@@ -1,6 +1,8 @@
-import { Extensions, Graph, extend } from '../../../src/index';
-
+import { Extensions, Graph, register } from '../../../src/index';
 import { TestCaseContext } from '../interface';
+
+register('widget', 'toolbar', Extensions.Toolbar);
+
 export default (context: TestCaseContext) => {
   const data = {
     nodes: [
@@ -37,12 +39,7 @@ export default (context: TestCaseContext) => {
     ],
   };
 
-  const ExtGraph = extend(Graph, {
-    plugins: {
-      toolbar: Extensions.Toolbar,
-    },
-  });
-  const graph = new ExtGraph({
+  const graph = new Graph({
     ...context,
     type: 'graph',
     layout: {

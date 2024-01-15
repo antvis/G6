@@ -12,7 +12,7 @@ import {
   TreeStructureChanged,
   TreeStructureDetached,
 } from '@antv/graphlib';
-import { IG6GraphEvent, IGraph, NodeModelData } from '../types';
+import { Graph, IG6GraphEvent, NodeModelData } from '../types';
 import { GraphCore } from '../types/data';
 import { EdgeModelData } from '../types/edge';
 
@@ -55,7 +55,7 @@ export const getItemInfoFromElement = (element: IElement): ItemInfo | null => {
  * @param graph Graph instance.
  * @returns Contextmenu event props.
  */
-export const getContextMenuEventProps = (event: IG6GraphEvent, graph: IGraph): IG6GraphEvent => {
+export const getContextMenuEventProps = (event: IG6GraphEvent, graph: Graph): IG6GraphEvent => {
   return {
     ...event,
     type: 'contextmenu',

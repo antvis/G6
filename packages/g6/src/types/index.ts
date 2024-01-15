@@ -23,10 +23,9 @@ export type {
   EdgeUserModel,
 } from './edge';
 export type { ICanvasEventType, IG6GraphEvent } from './event';
-export type { IGraph } from './graph';
-export type { StackCfg } from './history';
+export type { Graph } from './graph';
 export { isImmediatelyInvokedLayoutOptions, isLayoutWorkerized } from './layout'; // function 不应该放在 types 文件下面
-export type { ImmediatelyInvokedLayoutOptions, LayoutOptions, StandardLayoutOptions } from './layout';
+export type { ImmediatelyInvokedLayoutOptions, LayoutOptions, STDLayoutOptions } from './layout';
 export type {
   NodeDisplayModel,
   NodeEncode,

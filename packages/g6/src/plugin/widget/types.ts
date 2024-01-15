@@ -1,7 +1,6 @@
 export type { EdgeFilterLens } from './edge-filter-lens';
 export type { FisheyeConfig } from './fisheye';
 export type { GridConfig } from './grid';
-export type { HistoryConfig } from './history';
 export type { LegendConfig } from './legend';
 export type { MenuConfig } from './menu';
 export type { MiniMapConfig } from './minimap';

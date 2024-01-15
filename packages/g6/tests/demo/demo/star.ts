@@ -1,8 +1,10 @@
 // 这是从外部引入的功能
-import { Extensions, Graph, extend } from '../../../src/index';
+import { Extensions, Graph, register } from '../../../src/index';
 import { TestCaseContext } from '../interface';
 
 let graph: any;
+
+register('node', 'star-node', Extensions.StarNode);
 
 const createCtrlContainer = (container: HTMLElement) => {
   const ctrlContainer = document.createElement('div');
@@ -78,13 +80,7 @@ export default (context: TestCaseContext) => {
   createCtrlContainer(container!);
   createCtrl();
 
-  const ExtGraph = extend(Graph, {
-    nodes: {
-      'star-node': Extensions.StarNode,
-    },
-  });
-
-  graph = new ExtGraph({
+  graph = new Graph({
     ...context,
     type: 'graph',
     data,

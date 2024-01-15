@@ -542,9 +542,7 @@ const stdLib = {
     'collapse-expand-tree': CollapseExpandTree, // Collapse/expand subtree
     'click-select': ClickSelect, // Click to select
   },
-  plugins: {
-    history: History, // History stack
-  },
+  plugins: {},
   nodes: {
     'circle-node': CircleNode, // Circle node
     'rect-node': RectNode, // Rectangular node

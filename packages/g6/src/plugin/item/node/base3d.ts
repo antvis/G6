@@ -6,12 +6,13 @@ import { upsertShape3D } from '../../../utils/shape3d';
 import { BaseNode } from './base';
 
 export abstract class BaseNode3D extends BaseNode {
-  declare type: string;
+  declare static type: string;
   declare defaultStyles: NodeShapeStyles;
   declare themeStyles: NodeShapeStyles;
   declare mergedStyles: NodeShapeStyles;
   device: any; // for 3d renderer
   dimensions: number = 3;
+
   constructor(props) {
     super(props);
     this.device = props.device;

@@ -1,7 +1,7 @@
 import { AABB, DisplayObject, Group, IAnimation } from '@antv/g';
 import { isFunction, isObject, throttle } from '@antv/util';
 import { OTHER_SHAPES_FIELD_NAME, RESERVED_SHAPE_IDS } from '../constant';
-import { IGraph } from '../types';
+import { Graph } from '../types';
 import { AnimateTiming, IAnimates, IStateAnimate } from '../types/animate';
 import { EdgeShapeMap } from '../types/edge';
 import {
@@ -26,7 +26,7 @@ import { isEncode } from '../utils/type';
 import { formatLodLevels } from '../utils/zoom';
 
 export default abstract class Item implements IItem {
-  public graph: IGraph;
+  public graph: Graph;
   public destroyed = false;
   /** Inner model. */
   public model: ItemModel;

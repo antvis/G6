@@ -1,7 +1,7 @@
 import { isString, uniqueId } from '@antv/util';
 import insertCss from 'insert-css';
 import Item from '../../../item/item';
-import { IGraph } from '../../../types';
+import { Graph } from '../../../types';
 import { IG6GraphEvent } from '../../../types/event';
 import { Plugin as Base, IPluginBaseConfig } from '../../../types/plugin';
 import { createDOM, modifyCSS } from '../../../utils/dom';
@@ -111,7 +111,7 @@ export class Menu extends Base {
       : { contextmenu: this.onMenuShow };
   }
 
-  public init(graph: IGraph) {
+  public init(graph: Graph) {
     super.init(graph);
     const className = this.options.className;
     insertCss(`

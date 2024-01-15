@@ -1,6 +1,5 @@
 import Hierarchy from '@antv/hierarchy';
 import * as Layouts from '@antv/layout';
-import { Lib } from '../types/stdlib';
 
 import { Behavior as BaseBehavior } from '../types/behavior';
 import { Plugin as BasePlugin } from '../types/plugin';
@@ -11,7 +10,7 @@ import * as Edges from './item/edge';
 import * as Nodes from './item/node';
 import * as Themes from './theme';
 import * as ThemeSolvers from './theme-solver';
-import * as Plugins from './widget';
+import * as Widgets from './widget';
 
 const { ValidateData, TransformV4Data, MapNodeSize, ProcessParallelEdges } = Transforms;
 
@@ -61,8 +60,8 @@ const {
   ShortcutsCall,
   ScrollCanvas,
 } = Behaviors;
+
 const {
-  History,
   Tooltip,
   Minimap,
   Grid,
@@ -75,7 +74,7 @@ const {
   EdgeFilterLens,
   LodController,
   EdgeBundling,
-} = Plugins;
+} = Widgets;
 
 const {
   ForceLayout,
@@ -97,7 +96,7 @@ import rectSelector from './selector/rect';
 import Hull from './widget/hull';
 import { WaterMarker } from './widget/watermarker';
 
-const stdLib = {
+const builtInPlugins = {
   transforms: {
     'validate-data': ValidateData,
     'transform-v4-data': TransformV4Data,
@@ -127,8 +126,7 @@ const stdLib = {
     'collapse-expand-tree': CollapseExpandTree,
     'click-select': ClickSelect,
   },
-  plugins: {
-    history: History,
+  widgets: {
     'lod-controller': LodController,
   },
   nodes: {
@@ -144,6 +142,9 @@ const stdLib = {
     'circle-combo': CircleCombo,
     'rect-combo': RectCombo,
   },
+};
+
+const stdLib = {
   markers: {
     collapse: (x, y, r) => {
       return [
@@ -178,23 +179,10 @@ const stdLib = {
   },
 };
 
-const useLib: Lib = {
-  transforms: {},
-  themes: {},
-  layouts: {},
-  behaviors: {},
-  plugins: {},
-  nodes: {},
-  edges: {},
-  combos: {},
-};
-
 const utils = {
   rectSelector,
   lassoSelector,
 };
-
-const registry = { useLib };
 
 const Extensions = {
   // transforms
@@ -290,5 +278,4 @@ const Extensions = {
   EdgeBundling,
 };
 
-export default registry;
-export { Extensions, registry, stdLib, utils };
+export { Extensions, builtInPlugins, stdLib, utils };

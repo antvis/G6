@@ -1,18 +1,12 @@
 import { MapView } from '@antv/g6-plugin-map-view';
-import { Extensions, Graph, extend } from '../../../src/index';
+import { Extensions, Graph, register } from '../../../src/index';
 import { TestCaseContext } from '../interface';
 
-export default (context: TestCaseContext) => {
-  const ExtGraph = extend(Graph, {
-    plugins: {
-      'map-view': MapView,
-    },
-    behaviors: {
-      'hover-activate': Extensions.HoverActivate,
-    },
-  });
+register('widget', 'map-view', MapView);
+register('behavior', 'hover-activate', Extensions.HoverActivate);
 
-  const graph = new ExtGraph({
+export default (context: TestCaseContext) => {
+  const graph = new Graph({
     ...context,
     data: {
       nodes: [

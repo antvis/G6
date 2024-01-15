@@ -1,18 +1,12 @@
 import { initThreads, supportsThreads } from '@antv/layout-wasm';
-import { Extensions, Graph, extend } from '../../../src/index';
+import { Extensions, Graph, register } from '../../../src/index';
 import { loadDataset } from '../../datasets/legacy-format';
-const ExtGraph = extend(Graph, {
-  layouts: {
-    'force-wasm': Extensions.ForceLayout,
-  },
-  nodes: {
-    'sphere-node': Extensions.SphereNode,
-  },
-  behaviors: {
-    'orbit-canvas-3d': Extensions.OrbitCanvas3D,
-    'zoom-canvas-3d': Extensions.ZoomCanvas3D,
-  },
-});
+
+register('layout', 'force-wasm', Extensions.ForceLayout);
+register('node', 'sphere-node', Extensions.SphereNode);
+register('behavior', 'orbit-canvas-3d', Extensions.OrbitCanvas3D);
+register('behavior', 'zoom-canvas-3d', Extensions.ZoomCanvas3D);
+
 export default async () => {
   const $container = document.getElementById('container')!;
   $container.style.display = 'none';
@@ -83,7 +77,7 @@ export default async () => {
 
     // Register custom layout
 
-    const graph = new ExtGraph({
+    const graph = new Graph({
       container: $container1,
       width: WIDTH,
       height: HEIGHT,

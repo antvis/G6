@@ -549,9 +549,7 @@ const stdLib = {
     'collapse-expand-tree': CollapseExpandTree, // 展开/收起子树
     'click-select': ClickSelect, // 点击选择
   },
-  plugins: {
-    history: History, // 历史栈
-  },
+  plugins: {},
   nodes: {
     'circle-node': CircleNode, // 圆形节点
     'rect-node': RectNode, // 矩形边

@@ -3,7 +3,6 @@ import insertCss from 'insert-css';
 const Graph = extend(BaseGraph, {
   plugins: {
     toolbar: Extensions.Toolbar,
-    history: Extensions.History,
   },
 });
 
@@ -45,8 +44,6 @@ const toolbar = {
         <li code='alert'>alert</li>
         <li code='add'>add node</li>
         <li code='remove'>random remove node</li>
-        <li code='redo'>redo</li>
-        <li code='undo'>undo</li>
       </ul>
     `;
   },
@@ -55,7 +52,6 @@ const toolbar = {
       alert('hello world');
     }
     if (code === 'add') {
-      graph.startHistoryBatch();
       graph.addData('node', {
         id: 'node2',
         data: {
@@ -78,24 +74,9 @@ const toolbar = {
           type: 'line-edge',
         },
       });
-      graph.stopHistoryBatch();
     }
     if (code === 'remove') {
       graph.removeData('node', 'node2');
-    }
-    if (code === 'redo') {
-      if (graph.canRedo()) {
-        graph.redo();
-      } else {
-        alert('can not redo');
-      }
-    }
-    if (code === 'undo') {
-      if (graph.canUndo()) {
-        graph.undo();
-      } else {
-        alert('can not undo');
-      }
     }
   },
 };

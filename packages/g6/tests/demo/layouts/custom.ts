@@ -1,5 +1,5 @@
 import { Layout, LayoutMapping } from '@antv/layout';
-import { Graph, extend } from '../../../src/index';
+import { Graph, register } from '../../../src/index';
 import { data } from '../../datasets/dataset1';
 import { TestCaseContext } from '../interface';
 
@@ -25,15 +25,10 @@ class MyCustomLayout implements Layout<{}> {
   id: 'myCustomLayout';
 }
 
-export default (context: TestCaseContext) => {
-  // Register custom layout
-  const ExtGraph = extend(Graph, {
-    layouts: {
-      'my-custom-layout': MyCustomLayout,
-    },
-  });
+register('layout', 'my-custom-layout', MyCustomLayout);
 
-  return new ExtGraph({
+export default (context: TestCaseContext) => {
+  return new Graph({
     ...context,
     type: 'graph',
     data: JSON.parse(JSON.stringify(data)),

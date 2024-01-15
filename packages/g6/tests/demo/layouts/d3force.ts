@@ -1,15 +1,13 @@
-import { Extensions, Graph, extend } from '../../../src/index';
+import { Extensions, Graph, register } from '../../../src/index';
 import { data } from '../../datasets/dataset1';
 import { TestCaseContext } from '../interface';
 
+register('layout', 'd3force', Extensions.D3ForceLayout);
+
 export default (context: TestCaseContext) => {
   const { width, height } = context;
-  const ExtGraph = extend(Graph, {
-    layouts: {
-      d3force: Extensions.D3ForceLayout,
-    },
-  });
-  return new ExtGraph({
+
+  return new Graph({
     ...context,
     data: JSON.parse(JSON.stringify(data)),
     layout: {
