@@ -15,6 +15,7 @@ pnpm-lock.yaml
 
 # Node
 node_modules/
+.npmrc
 
 # Build
 dist
@@ -26,3 +27,6 @@ coverage
 
 # Bundle visualizer
 stats.html
+
+# Site
+packages/site/docs/apis/reference

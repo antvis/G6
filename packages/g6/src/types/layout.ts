@@ -43,6 +43,7 @@ export type LayoutOptions = STDLayoutOptions | ImmediatelyInvokedLayoutOptions;
 /**
  *
  * @param options
+ * @internal
  */
 export function isImmediatelyInvokedLayoutOptions(options: any): options is ImmediatelyInvokedLayoutOptions {
   return !!options.execute;
@@ -51,6 +52,7 @@ export function isImmediatelyInvokedLayoutOptions(options: any): options is Imme
 /**
  *
  * @param options
+ * @internal
  */
 export function isLayoutWorkerized(options: STDLayoutOptions) {
   return (

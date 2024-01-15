@@ -1,3 +1,8 @@
+/**
+ * G6 Core API
+ * @packageDocumentation
+ */
+
 import { runtime } from '@antv/g';
 import { Extensions, stdLib } from './plugin';
 import { getRegisterPlugin, getRegisterPlugins, register, unregister } from './plugin/register';

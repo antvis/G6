@@ -123,6 +123,14 @@ export default defineConfig({
       },
       // ==========API====================
       {
+        slug: 'apis/reference',
+        title: {
+          zh: 'API Reference',
+          en: 'API Reference',
+        },
+        order: 1,
+      },
+      {
         slug: 'apis/data',
         title: {
           zh: '数据',
