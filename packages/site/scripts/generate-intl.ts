@@ -6,7 +6,6 @@ import prettier from 'prettier';
 const outputFolder = './docs/apis/reference';
 
 const translationRules = [
-  ['：', ':'],
   ['抽象类', 'Abstract Classes'],
   ['类', 'Classes'],
   ['方法', 'Functions'],
@@ -19,7 +18,7 @@ const translationRules = [
   ['属性', 'Properties'],
   ['方法', 'Methods'],
   ['可选', 'Optional'],
-  ['签名', 'Signature'],
+  ['签名如下：', 'Signature:'],
   ['备注', 'Remarks'],
   ['当前位置', 'Current Location'],
   ['可参考', 'References'],
@@ -81,7 +80,7 @@ const formatContent = (content: string, lang: 'en' | 'zh') => {
          * @example
          * `| Variable  |` => `| 变量名 |`
          */
-        .replace(new RegExp(`(|[ ]*)${en}([ ]*|)`, 'g'), `$1${zh}$2`)
+        .replace(new RegExp(`(\\|[\\s]*)${en}([\\s]*\\|)`, 'g'), `$1${zh}$2`)
         /**
          * @example
          * `## a variable` => `## 变量 a`

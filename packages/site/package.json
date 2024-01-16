@@ -23,8 +23,9 @@
   },
   "license": "MIT",
   "author": "https://github.com/orgs/antvis/people",
+  "type": "module",
   "scripts": {
-    "build": "dumi build",
+    "build": "npm run doc && dumi build",
     "deploy": "npm run build && gh-pages -d dist",
     "develop": "dumi dev",
     "doc": "npm run doc:prepare && ts-node ./scripts/generate-api.ts && ts-node ./scripts/generate-intl.ts",
@@ -59,6 +60,5 @@
     "fs-extra": "^11.2.0",
     "prettier": "^3.1.1",
     "ts-node": "^10.9.2"
-  },
-  "type": "module"
+  }
 }
