@@ -1,4 +1,4 @@
-import { Extensions, ID } from '../../../src/index';
+import { Extensions, Graph, ID } from '../../../src/index';
 import { ShapeStyle } from '../../../src/types/item';
 export default (
   context,
