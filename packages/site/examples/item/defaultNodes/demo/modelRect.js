@@ -1,0 +1,108 @@
+import { Graph, Extensions, extend } from '@antv/g6';
+
+const data = {
+  nodes: [
+    {
+      id: 'node1',
+      data: {
+        x: 250,
+        y: 150,
+        type: 'modelRect-node',
+      },
+    },
+  ],
+};
+
+const container = document.getElementById('container');
+const width = container.scrollWidth;
+const height = container.scrollHeight || 500;
+
+const ExtGraph = extend(Graph, {
+  nodes: {
+    'modelRect-node': Extensions.ModelRectNode,
+  },
+});
+
+const graph = new ExtGraph({
+  container: 'container',
+  width,
+  height,
+  modes: {
+    default: ['zoom-canvas', 'drag-canvas', 'drag-node'],
+  },
+  plugins: [
+    {
+      // lod-controller will be automatically assigned to graph with `disableLod: false` to graph if it is not configured as following
+      type: 'lod-controller',
+      disableLod: true,
+    },
+  ],
+  data,
+  node: (innerModel) => {
+    return {
+      ...innerModel,
+      data: {
+        ...innerModel.data,
+        keyShape: {
+          width: 270,
+          height: 80,
+        },
+        labelShape: {
+          text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vestibulum dapibus lectus, sit amet volutpat ante commodo et. Nulla auctor metus id mauris iaculis tempus. Nunc tincidunt libero et justo laoreet, id tristique purus efficitur. Integer aliquet risus nec ullamcorper bibendum. Proin luctus enim a odio aliquam, id condimentum lorem fermentum. Vivamus fermentum lacus vitae metus placerat, eu rutrum est lacinia. Aenean ullamcorper rhoncus ligula, a facilisis metus eleifend nec. Sed scelerisque, ipsum eget consectetur fermentum, sapien orci bibendum ligula, eget aliquam dolor augue vitae mauris. Cras at justo at lectus tempor fringilla. In ac dolor et elit semper sollicitudin. Duis ac volutpat nunc, sed fringilla leo. Nunc tempus, justo eu consequat lobortis, sapien eros varius nulla, vitae pretium libero magna nec ligula. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aliquam id nisi vel nibh eleifend tempor. Fusce eget eleifend augue.',
+          offsetX: 0,
+          // offsetY: 0,
+          position: 'bottom',
+          maxWidth: '0',
+        },
+        anchorShapes: [
+          {
+            position: 'left',
+            r: 5,
+            lineWidth: 1,
+            fill: '#72CC4A',
+            stroke: '#72CC4A',
+          },
+        ],
+        otherShapes: {
+          // left rect
+          preRect: {
+            show: true,
+            fill: '#5CAAF8',
+            width: 5,
+            radius: 10,
+          },
+          // text description
+          description: {
+            show: true,
+            text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vestibulum dapibus lectus, sit amet volutpat ante commodo et. Nulla auctor metus id mauris iaculis tempus. Nunc tincidunt libero et justo laoreet, id tristique purus efficitur. Integer aliquet risus nec ullamcorper bibendum. Proin luctus enim a odio aliquam, id condimentum lorem fermentum. Vivamus fermentum lacus vitae metus placerat, eu rutrum est lacinia. Aenean ullamcorper rhoncus ligula, a facilisis metus eleifend nec. Sed scelerisque, ipsum eget consectetur fermentum, sapien orci bibendum ligula, eget aliquam dolor augue vitae mauris. Cras at justo at lectus tempor fringilla. In ac dolor et elit semper sollicitudin. Duis ac volutpat nunc, sed fringilla leo. Nunc tempus, justo eu consequat lobortis, sapien eros varius nulla, vitae pretium libero magna nec ligula. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aliquam id nisi vel nibh eleifend tempor. Fusce eget eleifend augue.',
+            fontSize: 12,
+            offsetX: 0,
+            offsetY: 0,
+          },
+          // left icon describing the information
+          logoIcon: {
+            show: true,
+            img: 'https://gw.alipayobjects.com/zos/basement_prod/4f81893c-1806-4de4-aff3-9a6b266bc8a2.svg',
+            // text: 'logo',
+            width: 16,
+            height: 16,
+            offsetX: 0,
+            offsetY: 0,
+          },
+          // right icon describing the state
+          stateIcon: {
+            show: true,
+            img: 'https://gw.alipayobjects.com/zos/basement_prod/300a2523-67e0-4cbf-9d4a-67c077b40395.svg',
+            // text: 'state',
+            width: 16,
+            height: 16,
+            offsetX: -10,
+            offsetY: 0,
+          },
+        },
+      },
+    };
+  },
+});
+
+window.graph = graph;

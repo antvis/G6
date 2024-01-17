@@ -1,0 +1,24 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+      "filename": "basicDendrogram.js",
+      "title": {
+        "zh": "生态树",
+        "en": "Basic Dendrogram Layout"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*P-qOSoDNuckAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "graphDataWithDendrogram.js",
+      "title": {
+        "zh": "图数据使用生态树",
+        "en": "Basic Dendrogram Layout with Graph Data"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*Ti5tSZHz7vgAAAAAAAAAAAAADmJ7AQ/original"
+    }
+  ]
+}

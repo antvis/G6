@@ -1,0 +1,48 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+      "filename": "netscienceWebGL.ts",
+      "title": {
+        "zh": "5000+ 图元使用 WebGL 渲染",
+        "en": "5000+ Graphic Shapes Rendered by WebGL"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*0amkSqk3JnkAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "netscience.ts",
+      "title": {
+        "zh": "5000+ 图元使用 Canvas 渲染",
+        "en": "5000+ Graphic Shapes Rendered by Canvas"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*0amkSqk3JnkAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "evaWebGL.ts",
+      "title": {
+        "zh": "~20000 图元使用 WebGL 渲染",
+        "en": "~20000 Graphic Shapes Rendered by WebGL"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*sZz4QqcPxTkAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "eva.ts",
+      "title": {
+        "zh": "~20000 图元使用 Canvas 渲染",
+        "en": "~20000 Graphic Shapes Rendered by Canvas"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*sZz4QqcPxTkAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "moreDataWebGL.js",
+      "title": {
+        "zh": "60000+ 图元使用 WebGL 渲染",
+        "en": "60000+ Graphic Shapes Rendered by WebGL"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*Pz31S5UcA8AAAAAAAAAAAAAADmJ7AQ/original"
+    }
+  ]
+}

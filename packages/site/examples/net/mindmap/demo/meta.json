@@ -1,0 +1,24 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+      "filename": "hMindmap.js",
+      "title": {
+        "zh": "脑图树-子节点自动两侧分布",
+        "en": "Two Side Mindmap Layout"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*noXTS5TOPdwAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "graphWithMindmap.js",
+      "title": {
+        "zh": "图数据使用脑图树",
+        "en": "Mindmap Layout with Graph Data"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*VzdkSbUVWfoAAAAAAAAAAAAADmJ7AQ/original"
+    }
+  ]
+}

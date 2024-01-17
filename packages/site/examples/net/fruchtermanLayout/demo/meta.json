@@ -1,0 +1,32 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+      "filename": "basicFruchterman.js",
+      "title": {
+        "zh": "基本 Fruchterman 布局",
+        "en": "Basic Fruchterman Layout"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*-s9CTphuwgcAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "fruchtermanWebWorker.js",
+      "title": {
+        "zh": "Fruchterman 使用 Web-worker",
+        "en": "Fruchterman with Web-worker"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*3gn9TZ3oUoIAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "fruchtermanFix.js",
+      "title": {
+        "zh": "Fruchterman 固定被拖拽的节点",
+        "en": "Fruchterman with Fixing Dragged Nodes"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*sbvuTbp3L6sAAAAAAAAAAAAADmJ7AQ/original"
+    }
+  ]
+}

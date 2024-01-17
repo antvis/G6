@@ -1,0 +1,48 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+      "filename": "basicRadial.js",
+      "title": {
+        "zh": "基本 Radial 辐射布局",
+        "en": "Basic Radial Layout"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*DQBoTocVv_EAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "preventOverlapRadial.js",
+      "title": {
+        "zh": "防止节点重叠的严格辐射布局",
+        "en": "Prevent Node Overlappings and Restrict Radial"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*Wed9QJCrM9cAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "preventOverlapUnstrictRadial.js",
+      "title": {
+        "zh": "防止节点重叠的非严格辐射布局",
+        "en": "Prevent Node Overlappings and Unrestrict Radial"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*fonYTKm_WHEAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "radialConfigurationTranslate.js",
+      "title": {
+        "zh": "Radial 布局参数动态变化",
+        "en": "Update Configurations for Radial"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*gbAITpEBjsIAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "sortRadial.js",
+      "title": {
+        "zh": "同层节点按照指定字段聚类",
+        "en": "Order the Level Nodes"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*7DfvS4QOjycAAAAAAAAAAAAADmJ7AQ/original"
+    }
+  ]
+}

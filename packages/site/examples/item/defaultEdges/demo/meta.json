@@ -1,0 +1,80 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+      "filename": "line.js",
+      "title": {
+        "zh": "直线",
+        "en": "Line"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*hi4cS7buP60AAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "polyline1.js",
+      "title": {
+        "zh": "折线",
+        "en": "Polyline"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*snNhSbjzg9EAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "polyline2.js",
+      "title": {
+        "zh": "折线（设置控制点）",
+        "en": "Polyline 2"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*mxXeT7xiFVQAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "polyline3.js",
+      "title": {
+        "zh": "折线（智能寻径）",
+        "en": "Polyline with Router and Obstacles"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*gIZGQ4PokaMAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "quadratic.js",
+      "title": {
+        "zh": "二次贝塞尔曲线",
+        "en": "Quadratic"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*YMZ0SbHABJ4AAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "cubic.js",
+      "title": {
+        "zh": "三次贝塞尔曲线",
+        "en": "Cubic"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*NBvARqo-yacAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "verticalCubic.js",
+      "title": {
+        "zh": "三次贝塞尔曲线-垂直",
+        "en": "Vertical Cubic"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*iDM2TJJmOWwAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "horizontalCubic.js",
+      "title": {
+        "zh": "三次贝塞尔曲线-水平",
+        "en": "Horizontal Cubic"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*WsRIRL8f64sAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "loop.js",
+      "title": {
+        "zh": "自环边",
+        "en": "Loop"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*dU0LRoKrqEIAAAAAAAAAAAAADmJ7AQ/original"
+    }
+  ]
+}

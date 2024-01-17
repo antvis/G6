@@ -1,0 +1,24 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+      "filename": "basicFruchterman.js",
+      "title": {
+        "zh": "GPU Fruchterman 小数据",
+        "en": "GPU Fruchterman Small Data"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*SmXBQ6fv8PoAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "fruchtermanComplexData.js",
+      "title": {
+        "zh": "GPU Fruchterman 复杂数据",
+        "en": "GPU Fruchterman with Complex Data"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*MOhtRqDDV6oAAAAAAAAAAAAADmJ7AQ/original"
+    }
+  ]
+}

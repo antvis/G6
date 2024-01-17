@@ -1,0 +1,32 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+      "filename": "basicCompactBox.js",
+      "title": {
+        "zh": "紧凑树",
+        "en": "CompactBox Layout"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*-FgIT7w4OXwAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "graphWithCompactBox.js",
+      "title": {
+        "zh": "图数据使用紧凑树",
+        "en": "CompactBox Layout on Graph Data"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*dfI9RL0lBmMAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "compactBoxLeftAlign.js",
+      "title": {
+        "zh": "节点左对齐的紧凑树",
+        "en": "CompactBox with Left Align Nodes"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*X26MRo25GKgAAAAAAAAAAAAADmJ7AQ/original"
+    }
+  ]
+}

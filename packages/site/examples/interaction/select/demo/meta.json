@@ -1,0 +1,23 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+      "filename": "click.js",
+      "title": "点击单选或多选",
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*F0RGQ67xbGYAAAAAAAAAAAAAARQnAQ"
+    },
+    {
+      "filename": "brush.js",
+      "title": "框选",
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ZDEiRIQRByEAAAAAAAAAAAAAARQnAQ"
+    },
+    {
+      "filename": "lasso.js",
+      "title": "拉索选择",
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*8WwrRplTPG8AAAAAAAAAAAAAARQnAQ"
+    }
+  ]
+}

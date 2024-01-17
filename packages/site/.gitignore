@@ -1,0 +1,6 @@
+/dist
+.dumi/tmp
+.dumi/tmp-production
+
+## api doc
+.translate-info.txt

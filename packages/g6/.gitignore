@@ -1,0 +1,2 @@
+tests/integration/snapshots/**/*-actual.*
+tests/integration/snapshots/**/*-diff.*

@@ -1,0 +1,24 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+      "filename": "minimap.ts",
+      "title": {
+        "zh": "小地图导航",
+        "en": "Minimap"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*9SBGT5nadhoAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "minimap-api.ts",
+      "title": {
+        "zh": "通过 API 控制 Minimap",
+        "en": "Minimap API"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*9SBGT5nadhoAAAAAAAAAAAAADmJ7AQ/original"
+    }
+  ]
+}

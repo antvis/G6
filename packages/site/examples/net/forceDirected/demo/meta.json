@@ -1,0 +1,40 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+      "filename": "basicForce.js",
+      "title": {
+        "zh": "Force 聚类及固定拖拽节点",
+        "en": "Clustering Force Layout with dragging"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*sA14SZo9BBMAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "basicFA2.js",
+      "title": {
+        "zh": "基本 Force Atlas 2",
+        "en": "Basic Force-Atlas 2 Layout"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*-HgiS6CyuuEAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "forceDirectedFunctionalParams.js",
+      "title": {
+        "zh": "定制不同节点的参数",
+        "en": "Different Configurations for Nodes"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*xQRmQ7pTvZMAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "forceDirectedConfigurationTranslate.js",
+      "title": {
+        "zh": "力导向布局参数动态变化",
+        "en": "Update Configurations for Force-directed Layout"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*2HKeQqGwjQoAAAAAAAAAAAAADmJ7AQ/original"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+      "filename": "changeData.js",
+      "title": {
+        "zh": "使用 changeData",
+        "en": "Using changeData"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*5QGSRJ7EXxQAAAAAAAAAAAAADmJ7AQ/original"
+    }
+  ]
+}

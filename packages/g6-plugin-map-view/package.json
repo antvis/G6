@@ -1,0 +1,62 @@
+{
+  "name": "@antv/g6-plugin-map-view",
+  "version": "0.0.5",
+  "description": "A Plugin of G6 to Show a Map View",
+  "keywords": [
+    "antv",
+    "graph",
+    "graph analysis",
+    "graph visualization",
+    "map"
+  ],
+  "homepage": "https://g6.antv.antgroup.com/",
+  "bugs": {
+    "url": "https://github.com/antvis/g6/issues"
+  },
+  "repository": "git@github.com/antvis/g6.git",
+  "license": "MIT",
+  "author": "https://github.com/orgs/antvis/people",
+  "main": "lib/index.js",
+  "module": "esm/index.js",
+  "types": "lib/index.d.ts",
+  "files": [
+    "src",
+    "esm",
+    "lib",
+    "dist"
+  ],
+  "scripts": {
+    "build": "run-p build:*",
+    "build:cjs": "rimraf ./lib && tsc --module commonjs --outDir lib",
+    "build:esm": "rimraf ./esm && tsc --module ESNext --outDir esm",
+    "build:umd": "rimraf ./dist && rollup -c && npm run size",
+    "bundle-vis": "cross-env BUNDLE_VIS=1 run-p build:umd",
+    "ci": "run-s lint build",
+    "clean": "rimraf es lib",
+    "clear:doc": "rimraf ../site/docs/_apis",
+    "lint": "eslint ./src --quiet && prettier ./src --check",
+    "prepublishOnly": "npm run ci",
+    "size": "limit-size",
+    "start": "rimraf ./lib && tsc --module commonjs --outDir lib --watch"
+  },
+  "dependencies": {
+    "@antv/dom-util": "^2.0.4",
+    "@antv/l7": "^2.18.3",
+    "@antv/l7-maps": "^2.18.3",
+    "@antv/util": "~2.0.5"
+  },
+  "peerDependencies": {
+    "@antv/g6": "^5.0.0-beta.28"
+  },
+  "limit-size": [
+    {
+      "path": "dist/g6-plugin-map-view.min.js",
+      "limit": "750 Kb",
+      "gzip": true
+    },
+    {
+      "path": "dist/g6-plugin-map-view.min.js",
+      "limit": "3 Mb"
+    }
+  ]
+}

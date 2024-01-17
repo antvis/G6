@@ -1,0 +1,24 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+      "filename": "tooltipPlugin.ts",
+      "title": {
+        "zh": "提示框插件",
+        "en": "Tooltip Plugin"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*ErhbR7ErhRwAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "tooltipClick.ts",
+      "title": {
+        "zh": "点击出现提示框",
+        "en": "Tooltip Plugin with Click Trigger"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*ErhbR7ErhRwAAAAAAAAAAAAADmJ7AQ/original"
+    }
+  ]
+}

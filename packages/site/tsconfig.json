@@ -1,0 +1,15 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "jsx": "react",
+    "lib": ["dom"],
+    "paths": {
+      "@antv/g6": ["../g6/lib/index"]
+    }
+  },
+  "include": [".dumirc.ts", "global.d.ts"],
+  "ts-node": {
+    "esm": true
+  }
+}

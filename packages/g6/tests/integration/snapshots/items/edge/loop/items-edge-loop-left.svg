@@ -1,0 +1,174 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="500"
+  height="500"
+  style="background: transparent; position: absolute; outline: none;"
+  color-interpolation-filters="sRGB"
+  tabindex="1"
+>
+  <defs />
+  <g id="g-svg-camera" transform="matrix(1,0,0,1,0,0)">
+    <g id="g-root" fill="none" transform="matrix(1,0,0,1,0,0)">
+      <g id="combo-group" fill="none" transform="matrix(1,0,0,1,0,0)" />
+      <g id="edge-group" fill="none" transform="matrix(1,0,0,1,0,0)">
+        <g id="g-svg-21" fill="none" transform="matrix(1,0,0,1,0,0)">
+          <g transform="matrix(1,0,0,1,40.871712,87.974792)">
+            <path
+              id="keyShape"
+              fill="none"
+              d="M 44.346217560541774,18.14814037625426 C -14.782072520180591 42.63988004762,-14.782072520180591 -18.589469130794342,44.346217560541774 5.9022705405713936 L 39.72681989798534,3.9888533787459464"
+              stroke-width="1"
+              stroke="rgba(153,173,209,1)"
+              marker-end="true"
+            />
+            <path
+              id="keyShape"
+              fill="none"
+              d="M 5.902270540571408,44.346217560541774 C -18.589469130794328 -14.782072520180591,42.63988004762001 -14.782072520180591,18.148140376254275 44.346217560541774 L 20.061557538079725,39.72681989798534"
+              stroke-width="3"
+              stroke="transparent"
+              marker-end="true"
+            />
+            <g transform="matrix(-0.923880,-0.382683,0.382683,-0.923880,39.726818,3.988853)">
+              <path
+                id="markerEndShape"
+                fill="rgba(153,173,209,1)"
+                d="M 0,5 L 10,0 L 10,10 Z"
+                transform="translate(-5,-5)"
+                stroke-width="1"
+                stroke="rgba(153,173,209,1)"
+              />
+              <path
+                id="markerEndShape"
+                fill="transparent"
+                d="M 0,5 L 10,0 L 10,10 Z"
+                transform="translate(-5,-5)"
+                stroke-width="7"
+                stroke="transparent"
+              />
+            </g>
+          </g>
+        </g>
+        <g id="g-svg-26" fill="none" transform="matrix(1,0,0,1,0,0)">
+          <g transform="matrix(1,0,0,1,141.067490,85.233543)">
+            <path
+              id="keyShape"
+              fill="none"
+              d="M 42.93250516799594,22.76645408241032 C -14.310835055998666 51.388124194407624,-14.310835055998666 -21.855216029586984,42.93250516799594 6.76645408241032 L 38.46036921299636,4.530386104910529"
+              stroke-width="1"
+              stroke="rgba(153,173,209,1)"
+              marker-end="true"
+            />
+            <path
+              id="keyShape"
+              fill="none"
+              d="M 6.766454082410348,42.932505167995956 C -21.855216029586956 -14.310835055998652,51.38812419440765 -14.310835055998652,22.76645408241035 42.932505167995956 L 25.002522059910138,38.460369212996376"
+              stroke-width="3"
+              stroke="transparent"
+              marker-end="true"
+            />
+            <g transform="matrix(-0.894427,-0.447214,0.447214,-0.894427,38.460369,4.530386)">
+              <path
+                id="markerEndShape"
+                fill="rgba(153,173,209,1)"
+                d="M 0,5 L 10,0 L 10,10 Z"
+                transform="translate(-5,-5)"
+                stroke-width="1"
+                stroke="rgba(153,173,209,1)"
+              />
+              <path
+                id="markerEndShape"
+                fill="transparent"
+                d="M 0,5 L 10,0 L 10,10 Z"
+                transform="translate(-5,-5)"
+                stroke-width="7"
+                stroke="transparent"
+              />
+            </g>
+          </g>
+        </g>
+        <g id="g-svg-31" fill="none" transform="matrix(1,0,0,1,0,0)">
+          <g transform="matrix(1,0,0,1,289.378937,90.807480)">
+            <path
+              id="keyShape"
+              fill="none"
+              d="M 45.8389847293289,13.784721281207126 C -15.279661576442948 32.77185044150838,-15.279661576442948 -14.38681025585629,45.8389847293289 4.600318904444961 L 41.064090486690475,3.116949438796427"
+              stroke-width="1"
+              stroke="rgba(153,173,209,1)"
+              marker-end="true"
+            />
+            <path
+              id="keyShape"
+              fill="none"
+              d="M 7.721039556575931,42.017761576226206 C -23.2199856975256 -14.00592052540874,50.90793464636039 -14.00592052540874,19.966909392258856 42.017761576226206 L 22.384176990235538,37.640911412035976"
+              stroke-width="3"
+              stroke="transparent"
+              marker-end="true"
+            />
+            <g transform="matrix(-0.954979,-0.296674,0.296674,-0.954979,41.064091,3.116949)">
+              <path
+                id="markerEndShape"
+                fill="rgba(153,173,209,1)"
+                d="M 0,5 L 10,0 L 10,10 Z"
+                transform="translate(-5,-5)"
+                stroke-width="1"
+                stroke="rgba(153,173,209,1)"
+              />
+              <path
+                id="markerEndShape"
+                fill="transparent"
+                d="M 0,5 L 10,0 L 10,10 Z"
+                transform="translate(-5,-5)"
+                stroke-width="7"
+                stroke="transparent"
+              />
+            </g>
+          </g>
+        </g>
+      </g>
+      <g id="node-group" fill="none" transform="matrix(1,0,0,1,0,0)">
+        <g id="g-svg-12" fill="none" transform="matrix(1,0,0,1,100,100)">
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle
+              id="keyShape"
+              fill="rgba(34,126,255,1)"
+              transform="translate(-16,-16)"
+              cx="16"
+              cy="16"
+              r="16"
+              stroke-width="0"
+            />
+          </g>
+        </g>
+        <g id="g-svg-15" fill="none" transform="matrix(1,0,0,1,200,100)">
+          <g transform="matrix(1,0,0,1,-16,-16)">
+            <path
+              id="keyShape"
+              fill="rgba(34,126,255,1)"
+              d="M 0,0 l 32,0 l 0,32 l-32 0 z"
+              r="16"
+              stroke-width="0"
+              width="32"
+              height="32"
+            />
+          </g>
+        </g>
+        <g id="g-svg-18" fill="none" transform="matrix(1,0,0,1,350,100)">
+          <g transform="matrix(1,0,0,1,0,0)">
+            <ellipse
+              id="keyShape"
+              fill="rgba(34,126,255,1)"
+              transform="translate(-16,-12)"
+              cx="16"
+              cy="12"
+              r="16"
+              stroke-width="0"
+              rx="16"
+              ry="12"
+            />
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

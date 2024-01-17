@@ -1,0 +1,51 @@
+{
+  "name": "@antv/g6-react-node",
+  "version": "2.0.0-beta.1",
+  "description": "Using React Component to Define Your G6 Graph Node",
+  "repository": "https://github.com/antvis/G6.git",
+  "license": "MIT",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "father build",
+    "build:watch": "father dev",
+    "dev": "dumi dev",
+    "docs:build": "dumi build",
+    "doctor": "father doctor",
+    "prepare": "dumi setup",
+    "prepublishOnly": "father doctor && npm run build",
+    "start": "npm run dev"
+  },
+  "dependencies": {
+    "@antv/react-g": "^1.10.19",
+    "@antv/util": "^3.3.5"
+  },
+  "devDependencies": {
+    "@antv/g-canvas": "^1.11.22",
+    "@antv/g-svg": "^1.10.21",
+    "@antv/g-webgl": "^1.9.29",
+    "@types/react": "^18.2.29",
+    "@types/react-dom": "^18.2.14",
+    "antd": "^5.10.2",
+    "dumi": "^2.2.13",
+    "father": "^4.3.5",
+    "prettier": "^3.0.3",
+    "prettier-plugin-organize-imports": "^3.2.3",
+    "prettier-plugin-packagejson": "^2.4.6",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "peerDependencies": {
+    "@antv/g": ">=5.18.23",
+    "@antv/g6": "workspace:*",
+    "react": ">=16.9.0",
+    "react-dom": ">=16.9.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "authors": []
+}

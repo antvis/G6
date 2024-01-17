@@ -1,0 +1,24 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+      "filename": "circular.js",
+      "title": {
+        "zh": "Circular 布局",
+        "en": "Circular Layout"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*1PpVQLFTaQwAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "circularConfigurationTranslate.js",
+      "title": {
+        "zh": "Circular 布局参数动态变化",
+        "en": "Update Configurations for Circular Layout"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*H6DyT6468ZMAAAAAAAAAAAAADmJ7AQ/original"
+    }
+  ]
+}

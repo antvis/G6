@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "baseUrl": "src",
+    "declaration": true,
+    "experimentalDecorators": true,
+    "lib": ["DOM", "ESNext"],
+    "outDir": "lib",
+    "pretty": true,
+    "resolveJsonModule": true,
+    "sourceMap": true,
+    "sourceRoot": "src",
+    "strict": false // should be true later
+  },
+  "exclude": ["node_modules", "dist", "lib", "esm"],
+  "extends": "../../tsconfig.json",
+  "include": ["src/**/*"]
+}
