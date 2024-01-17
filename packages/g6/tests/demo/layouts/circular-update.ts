@@ -1,4 +1,4 @@
-import G6 from '../../../src/index';
+import { Graph } from '../../../src/index';
 import { TestCaseContext } from '../interface';
 
 export default (context: TestCaseContext) => {
@@ -641,7 +641,7 @@ export default (context: TestCaseContext) => {
     ],
   };
 
-  const graph = new G6.Graph({
+  const graph = new Graph({
     ...context,
     modes: {
       default: ['drag-canvas', 'drag-node'],
@@ -687,6 +687,9 @@ export default (context: TestCaseContext) => {
   //   layoutConfigTranslation();
   // }, 11500);
 
+  /**
+   *
+   */
   function layoutConfigTranslation() {
     setTimeout(function () {
       graph.layout({

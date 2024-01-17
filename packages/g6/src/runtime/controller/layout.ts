@@ -2,6 +2,7 @@ import { Animation, DisplayObject, IAnimationEffectTiming } from '@antv/g';
 import { Graph as GraphLib, ID } from '@antv/graphlib';
 import { Layout, LayoutMapping, OutNode, Supervisor, isLayoutWithIterations } from '@antv/layout';
 import { Extensions } from '../../plugin';
+import { getPlugin } from '../../plugin/register';
 import {
   Graph,
   LayoutOptions,
@@ -11,7 +12,6 @@ import {
 } from '../../types';
 import { GraphCore } from '../../types/data';
 import { EdgeModelData } from '../../types/edge';
-import { getExtension } from '../../utils/extension';
 import { getNodeSizeFn, isComboLayout, isTreeLayout, layoutOneTree, radialLayout } from '../../utils/layout';
 
 /**
@@ -190,7 +190,7 @@ export class LayoutController {
     let { workerEnabled = false } = options;
 
     // Find built-in layout algorithms.
-    const layoutCtor = getExtension(type, 'layout');
+    const layoutCtor = getPlugin('layout', type);
     if (!layoutCtor) {
       throw new Error(`Unknown layout algorithm: ${type}`);
     }

@@ -1,5 +1,6 @@
 export type { ID } from '@antv/graphlib';
-export type { AnimateCfg, AnimateTiming, IAnimate, IAnimates } from './animate';
+export type { PluginCategory, PluginRegistry } from '../plugin/register';
+export type { AnimateCfg, AnimateTiming, CameraAnimationOptions, IAnimate, IAnimates } from './animate';
 export { Behavior } from './behavior';
 export type { BehaviorOptionsOf, BehaviorRegistry } from './behavior';
 export type {

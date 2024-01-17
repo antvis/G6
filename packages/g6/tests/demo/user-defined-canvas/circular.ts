@@ -1,6 +1,6 @@
 import { Canvas } from '@antv/g';
 import { Renderer } from '@antv/g-canvas';
-import G6 from '../../../src/index';
+import { Graph } from '../../../src/index';
 import { RendererName } from '../../../src/types/render';
 import { data } from '../../datasets/dataset1';
 
@@ -58,7 +58,7 @@ export default ({
     renderer: new Renderer(),
   });
 
-  return new G6.Graph({
+  return new Graph({
     canvas,
     transientCanvas,
     backgroundCanvas,

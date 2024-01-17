@@ -1,4 +1,4 @@
-import G6 from '@antv/g6';
+import { Graph } from '@antv/g6';
 
 const data = {
   nodes: [
@@ -515,7 +515,7 @@ data.nodes.forEach((node) => (node.data.size = Math.random() * 30 + 5));
 const container = document.getElementById('container');
 const width = container.scrollWidth;
 const height = container.scrollHeight || 500;
-const graph = new G6.Graph({
+const graph = new Graph({
   container: 'container',
   width,
   height,

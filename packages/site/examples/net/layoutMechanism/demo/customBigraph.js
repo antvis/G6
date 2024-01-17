@@ -280,7 +280,7 @@ class BiLayout {
   }
 }
 
-const CustomGraph = extend(G6.Graph, {
+const CustomGraph = extend(Graph, {
   layouts: {
     'bi-layout': BiLayout,
   },

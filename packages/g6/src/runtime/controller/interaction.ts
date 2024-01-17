@@ -1,9 +1,9 @@
 import { FederatedPointerEvent, IElement } from '@antv/g';
+import { getPlugin } from '../../plugin/register';
 import { Graph } from '../../types';
 import { Behavior } from '../../types/behavior';
 import { CANVAS_EVENT_TYPE, DOM_EVENT_TYPE, IG6GraphEvent } from '../../types/event';
 import { ItemInfo, getContextMenuEventProps, getItemInfoFromElement } from '../../utils/event';
-import { getExtension } from '../../utils/extension';
 
 type Listener = (event: IG6GraphEvent) => void;
 
@@ -81,7 +81,8 @@ export class InteractionController {
     }
     try {
       // Get behavior extensions from useLib.
-      const BehaviorClass = getExtension(config, 'behavior');
+      const type = typeof config === 'string' ? config : (config as any).type;
+      const BehaviorClass = getPlugin('behavior', type);
       const options = typeof config === 'string' ? {} : config;
       // @ts-ignore
       const behavior = new BehaviorClass(options);

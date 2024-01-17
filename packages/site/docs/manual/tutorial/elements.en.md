@@ -80,7 +80,7 @@ In G6, there are multiple ways to configure element properties based on differen
 - `edge`: The **graphic style properties** and **other properties** of the edges in the default state.
 
 ```javascript
-const graph = new G6.Graph({
+const graph = new Graph({
   // ...                   // Other configurations of the graph
   // Configuration for the graphic style and other properties of nodes in the default state
   node: {
@@ -241,7 +241,7 @@ Now, after the data enters the Graph, it will pass through the data processors s
 Then, in the function mapping configuration of the node, we can use these field values:
 
 ```javascript
-const graph = new G6.Graph({
+const graph = new Graph({
   // ... other configurations
   // transforms: ...
   // edge: ...

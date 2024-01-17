@@ -1,4 +1,4 @@
-import G6 from '@antv/g6';
+import { Graph } from '@antv/g6';
 
 // TODO: do not add this demo, onTick cannot assign the original layout data
 
@@ -58,7 +58,7 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')
       });
     };
 
-    const graph = new G6.Graph({
+    const graph = new Graph({
       container: 'container',
       width,
       height,

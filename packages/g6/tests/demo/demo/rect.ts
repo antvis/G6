@@ -1,4 +1,4 @@
-import G6 from '../../../src/index';
+import { Graph } from '../../../src/index';
 import { container, height, width } from '../../datasets/const';
 
 export default () => {
@@ -46,7 +46,7 @@ export default () => {
     ],
   };
 
-  const graph = new G6.Graph({
+  const graph = new Graph({
     container,
     width,
     height,

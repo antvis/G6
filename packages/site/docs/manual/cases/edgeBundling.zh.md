@@ -214,7 +214,7 @@ const edgeBundling = new Bundling({
   bundleThreshold: 0.6, // 绑定的容忍度。数值越低，被绑定在一起的边相似度越高，即被绑在一起的边更少。
   K: 100, // 绑定的强度
 });
-const graph = new G6.Graph({
+const graph = new Graph({
   container: 'mountNode',
   width: 1000,
   height: 800,

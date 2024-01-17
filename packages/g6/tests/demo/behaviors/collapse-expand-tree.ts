@@ -1,11 +1,11 @@
-import G6 from '../../../src/index';
+import { Graph } from '../../../src/index';
 import { treeDataCfg } from '../../datasets/dataCfg';
 import { TestCaseContext } from '../interface';
 
 export default (context: TestCaseContext, options: { trigger?: string } = {}) => {
   // no animations for testing
   const { trigger = 'click' } = options;
-  const graph = new G6.Graph({
+  const graph = new Graph({
     ...context,
     layout: {
       type: 'compactBox',

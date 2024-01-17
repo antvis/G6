@@ -216,7 +216,7 @@ const edgeBundling = new Bundling({
   bundleThreshold: 0.6, // The tolerance of bundling. Lower number, the higher similarity of the bundled edges is required, the smaller number of edges to be bundled together.
   K: 100, // The strength of the bundling
 });
-const graph = new G6.Graph({
+const graph = new Graph({
   container: 'mountNode',
   width: 1000,
   height: 800,

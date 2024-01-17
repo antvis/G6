@@ -1,9 +1,9 @@
 import { uniqueId } from '@antv/util';
+import { getPlugin } from '../../plugin/register';
 import { LodController } from '../../plugin/widget';
 import { Graph } from '../../types';
 import { IG6GraphEvent } from '../../types/event';
 import { Plugin as PluginBase } from '../../types/plugin';
-import { getExtension } from '../../utils/extension';
 
 type Listener = (event: IG6GraphEvent) => void;
 
@@ -115,10 +115,9 @@ export class PluginController {
       this.pluginMap.set(key, { type: key, plugin: config });
       return { key, plugin: config };
     }
-    const Plugin = getExtension(config, 'widget');
-
-    const options = typeof config === 'string' ? {} : config;
     const type = typeof config === 'string' ? config : config.type;
+    const Plugin = getPlugin('widget', type);
+    const options = typeof config === 'string' ? {} : config;
     const key = typeof config === 'string' ? config : config.key || config.options?.key || type;
     if (!Plugin) {
       throw new Error(`Plugin ${type} not found, please make sure you have registered it first`);
@@ -134,7 +133,8 @@ export class PluginController {
     if (typeof config.init === 'function' && config.options) {
       return config.required;
     }
-    const Plugin = getExtension(config, 'widget');
+    const type = typeof config === 'string' ? config : config.type;
+    const Plugin = getPlugin('widget', type);
     return Plugin?.required;
   }
 

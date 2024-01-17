@@ -73,7 +73,7 @@ Graph API 见：https://github.com/antvis/G6/blob/2b44df189dd2e851447ba5a09541c3
 [![Edit compassionate-lalande-5lxm7](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/musing-matan-q255po?fontsize=14&hidenavigation=1&theme=dark)
 
 ```js
-import G6 from "@antv/g6";
+import { Graph } from "@antv/g6";
 
 const data = {
   nodes: [
@@ -105,7 +105,7 @@ const data = {
   ],
 };
 
-const graph = new G6.Graph({
+const graph = new Graph({
   container: "container",
   width: 500,
   height: 500,

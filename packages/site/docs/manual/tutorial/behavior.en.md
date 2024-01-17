@@ -61,7 +61,7 @@ You can view all the built-in interactions in [Interaction Behaviors](/apis/beha
 
 ```javascript
 // Note that the Graph returned by extend is used here
-const graph = new G6.Graph({
+const graph = new Graph({
   // ...Other configurations
   modes: {
     default: ['drag-canvas', 'zoom-canvas', 'drag-node', 'click-select', 'brush-select'],
@@ -138,7 +138,7 @@ graph.on('canvas:click', (e) => {
 });
 ```
 
-All element listeners in G6 are mounted on the `graph` instance. In the code below, the graph object is an instance of G6.Graph, and the `graph.on()` function listens for a specific event (`click`/`mouseenter`/`mouseleave`, etc.) on a certain type of element (node/edge).
+All element listeners in G6 are mounted on the `graph` instance. In the code below, the graph object is an instance of Graph, and the `graph.on()` function listens for a specific event (`click`/`mouseenter`/`mouseleave`, etc.) on a certain type of element (node/edge).
 
 ```javascript
 // Listeners on graph

@@ -1,4 +1,4 @@
-import G6 from '../../../src/index';
+import { Graph } from '../../../src/index';
 import { graphDataCfg, treeDataCfg } from '../../datasets/dataCfg';
 import { TestCaseContext } from '../interface';
 
@@ -23,7 +23,7 @@ export default (
     else data.value.nodes[2].data.collapsed = true;
   }
 
-  const graph = new G6.Graph({
+  const graph = new Graph({
     ...context,
     layout: {
       type: layoutType,

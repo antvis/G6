@@ -10,7 +10,7 @@ Set the background of the label on Node or Edge.
 Set the background of the label on edge：
 
 ```javascript
-const graph = new G6.Graph({
+const graph = new Graph({
   // ...
   defaultNode: {
     position: 'left',
@@ -30,7 +30,7 @@ const graph = new G6.Graph({
 Set the background of the label on node:
 
 ```javascript
-const graph = new G6.Graph({
+const graph = new Graph({
   // ...
   defaultEdge: {
     autoRotate: true,

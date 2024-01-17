@@ -97,27 +97,27 @@ import Hull from './widget/hull';
 import { WaterMarker } from './widget/watermarker';
 
 const builtInPlugins = {
-  transforms: {
+  transform: {
     'validate-data': ValidateData,
     'transform-v4-data': TransformV4Data,
     'map-node-size': MapNodeSize,
   },
-  themes: {
+  theme: {
     light: LightTheme,
     dark: DarkTheme,
   },
-  themeSolvers: {
+  themeSolver: {
     spec: SpecThemeSolver,
     subject: SubjectThemeSolver,
   },
-  layouts: {
+  layout: {
     force: ForceLayout,
     grid: GridLayout,
     circular: CircularLayout,
     concentric: ConcentricLayout,
     ...Hierarchy,
   },
-  behaviors: {
+  behavior: {
     'drag-canvas': DragCanvas,
     'zoom-canvas': ZoomCanvas,
     'drag-node': DragNode,
@@ -126,19 +126,19 @@ const builtInPlugins = {
     'collapse-expand-tree': CollapseExpandTree,
     'click-select': ClickSelect,
   },
-  widgets: {
+  widget: {
     'lod-controller': LodController,
   },
-  nodes: {
+  node: {
     'circle-node': CircleNode,
     'rect-node': RectNode,
     'image-node': ImageNode,
   },
-  edges: {
+  edge: {
     'line-edge': LineEdge,
     'loop-edge': LoopEdge,
   },
-  combos: {
+  combo: {
     'circle-combo': CircleCombo,
     'rect-combo': RectCombo,
   },
