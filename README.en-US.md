@@ -1,6 +1,6 @@
 # G6: A Graph Visualization Framework in TypeScript
 
-**v5 Online Demo**: https://g6.antv.antgroup.com/g6v5
+> The 5.0 beta version is currently undergoing rapid iteration, with the stable release expected on June 6, 2024. There may be changes to the API during this period, so please exercise caution when using it in stable online product.
 
 ![](https://user-images.githubusercontent.com/6113694/45008751-ea465300-b036-11e8-8e2a-166cbb338ce2.png)
 

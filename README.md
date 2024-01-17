@@ -1,6 +1,6 @@
 # G6：图分析引擎
 
-**v5 在线体验地址**：https://g6.antv.antgroup.com/g6v5
+> 5.0 beta 版本中还在快速迭代中，预计 2024.06.06 发布正式版本，期间可能会有 API 的一些变更，线上业务谨慎使用。
 
 ![](https://user-images.githubusercontent.com/6113694/45008751-ea465300-b036-11e8-8e2a-166cbb338ce2.png)
 
