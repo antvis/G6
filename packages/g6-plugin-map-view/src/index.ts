@@ -1,3 +1,8 @@
+/**
+ * G6 Extended plugin Map View.
+ * @packageDocumentation
+ */
+
 // @ts-nocheck
 import { createDom, modifyCSS } from '@antv/dom-util';
 import { IGraph, IPluginBaseConfig, PluginBase } from '@antv/g6';

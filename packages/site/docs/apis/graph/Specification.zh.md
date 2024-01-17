@@ -474,18 +474,6 @@ type PluginsCfg = (
 
 **TODO**: 链接各个插件的配置文档
 
-## enableStack
-
-**类型**：`boolean`
-
-是否允许开启历史栈。
-
-## stackCfg
-
-**类型**：`StackCfg`
-
-<embed src="../../common/StackCfg.zh.md"></embed>
-
 ## optimize
 
 **类型**：`OptimizeCfg`

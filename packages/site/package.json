@@ -23,13 +23,17 @@
   },
   "license": "MIT",
   "author": "https://github.com/orgs/antvis/people",
+  "type": "module",
   "scripts": {
-    "build": "dumi build",
+    "build": "npm run doc && dumi build",
     "deploy": "npm run build && gh-pages -d dist",
     "develop": "dumi dev",
+    "doc": "npm run doc:prepare && ts-node ./scripts/generate-api.ts && ts-node ./scripts/generate-intl.ts",
+    "doc:prepare": "node ./scripts/env-setup.cjs USE_TS_NODE true",
     "find-unused-demos": "node ./scripts/find-unused-demos.js",
     "preview": "dumi preview",
-    "start": "npm run develop"
+    "start": "npm run start:prepare && npm run develop",
+    "start:prepare": "node ./scripts/env-setup.cjs USE_TS_NODE false"
   },
   "dependencies": {
     "@antv/algorithm": "^0.1.26",
@@ -45,8 +49,16 @@
     "@antv/util": "^2.0.9",
     "antd": "^5.10.2",
     "dumi": "^2.2.14",
-    "fs-extra": "latest",
     "insert-css": "^2.0.0",
     "stats.js": "^0.17.0"
+  },
+  "devDependencies": {
+    "@manypkg/get-packages": "^2.2.0",
+    "@microsoft/api-documenter": "^7.23.16",
+    "@microsoft/api-extractor": "^7.39.1",
+    "@types/fs-extra": "^11.0.4",
+    "fs-extra": "^11.2.0",
+    "prettier": "^3.1.1",
+    "ts-node": "^10.9.2"
   }
 }
