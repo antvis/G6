@@ -4,8 +4,8 @@
  */
 
 import { runtime } from '@antv/g';
-import { Extensions, stdLib } from './plugin';
-import { getRegisterPlugin, getRegisterPlugins, register, unregister } from './plugin/register';
+import { Extensions, builtInPlugins, stdLib } from './plugin';
+import { PluginCategory, register } from './plugin/register';
 import { Graph } from './runtime/graph';
 import * as Util from './utils';
 
@@ -29,16 +29,16 @@ runtime.enableCSSParsing = false;
 
 const version = '5.0.0';
 
-export { Extensions, Graph, Util, getRegisterPlugin, getRegisterPlugins, register, stdLib, unregister, version };
+/**
+ * <zh/> 注册内置插件
+ *
+ * <en/> Register built-in plugins
+ * @internal
+ */
+(function registerBuiltInPlugins() {
+  Object.keys(builtInPlugins).forEach((category: PluginCategory) => {
+    Object.keys(builtInPlugins[category]).forEach((type) => register(category, type, builtInPlugins[category][type]));
+  });
+})();
 
-export default {
-  Graph,
-  Util,
-  stdLib,
-  Extensions,
-  version,
-  register,
-  unregister,
-  getRegisterPlugins,
-  getRegisterPlugin,
-};
+export { Extensions, Graph, Util, register, stdLib, version };

@@ -1,4 +1,4 @@
-import { Extensions, Graph, getRegisterPlugin, register } from '../../../src/index';
+import { Extensions, Graph, register } from '../../../src/index';
 
 import { data as comboData } from '../../datasets/combo-data';
 import { container, height, width } from '../../datasets/const';
@@ -6,8 +6,6 @@ import { container, height, width } from '../../datasets/const';
 register('behavior', 'hover-activate', Extensions.HoverActivate);
 register('layout', 'concentric', Extensions.ConcentricLayout);
 register('layout', 'comboCombined', Extensions.ComboCombinedLayout);
-
-const layoutClass = getRegisterPlugin('layout', 'concentric').plugin;
 
 export default () => {
   const graph = new Graph({
@@ -17,7 +15,7 @@ export default () => {
     type: 'graph',
     layout: {
       type: 'comboCombined',
-      innerLayout: layoutClass,
+      innerLayout: Extensions.ConcentricLayout,
     },
     node: {
       labelShape: {

@@ -1,6 +1,6 @@
 // TODO: skip this demo temporary since pipes is not supported in beta yet.
 
-import G6 from '@antv/g6';
+import { Graph } from '@antv/g6';
 
 const data = { nodes: [], edges: [] };
 for (let i = 0; i < 32; i++) {
@@ -104,7 +104,7 @@ const legend = new G6.Legend({
 const container = document.getElementById('container');
 const width = container.scrollWidth;
 const height = container.scrollHeight || 500;
-const graph = new G6.Graph({
+const graph = new Graph({
   container: 'container',
   width,
   height,

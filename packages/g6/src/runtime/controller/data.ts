@@ -4,6 +4,7 @@ import { clone, isArray, isEmpty, isObject } from '@antv/util';
 import Combo from '../../item/combo';
 import Edge from '../../item/edge';
 import Node from '../../item/node';
+import { getPlugin } from '../../plugin/register';
 import { ComboModel, ComboUserModel, Graph, GraphData } from '../../types';
 import { ComboUserModelData } from '../../types/combo';
 import {
@@ -30,7 +31,6 @@ import {
   treeData2GraphData,
   validateComboStructure,
 } from '../../utils/data';
-import { getExtension } from '../../utils/extension';
 import { isTreeLayout } from '../../utils/layout';
 import { EdgeCollisionChecker, QuadTree } from '../../utils/polyline';
 
@@ -194,10 +194,13 @@ export class DataController {
     const { transforms = [] } = this.graph.getSpecification();
     const requiredTransformers = [{ type: 'validate-data', activeLifecycle: 'all' }];
     return [...transforms, ...requiredTransformers]
-      .map((config) => ({
-        config,
-        func: getExtension(config, 'transform'),
-      }))
+      .map((config) => {
+        const type = typeof config === 'string' ? config : (config as any).type;
+        return {
+          config,
+          func: getPlugin('transform', type),
+        };
+      })
       .filter((ext) => !!ext.func);
   }
 

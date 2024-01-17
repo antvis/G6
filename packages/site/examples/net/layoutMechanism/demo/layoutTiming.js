@@ -1,4 +1,4 @@
-import G6 from '@antv/g6';
+import { Graph } from '@antv/g6';
 
 const tipDiv = document.createElement('div');
 const container = document.getElementById('container');
@@ -9,7 +9,7 @@ const height = container.scrollHeight || 500;
 fetch('https://gw.alipayobjects.com/os/basement_prod/7bacd7d1-4119-4ac1-8be3-4c4b9bcbc25f.json')
   .then((res) => res.json())
   .then((data) => {
-    const graph = new G6.Graph({
+    const graph = new Graph({
       container: 'container',
       width,
       height,

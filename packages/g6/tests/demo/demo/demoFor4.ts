@@ -1,4 +1,4 @@
-import G6 from '@antv/G6';
+import { Graph } from '@antv/G6';
 import { labelPropagation } from '@antv/algorithm';
 import Stats from 'stats.js';
 import { container, width } from '../../datasets/const';
@@ -74,7 +74,7 @@ clusteredData.clusters.forEach((cluster, i) => {
 });
 
 const create2DGraph = () => {
-  const graph = new G6.Graph({
+  const graph = new Graph({
     container: container,
     width,
     height: 800,

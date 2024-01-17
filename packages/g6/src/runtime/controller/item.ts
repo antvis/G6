@@ -5,6 +5,7 @@ import { debounce, isArray, isNumber, isObject, uniq, uniqueId } from '@antv/uti
 import Combo from '../../item/combo';
 import Edge from '../../item/edge';
 import Node from '../../item/node';
+import { getPlugins } from '../../plugin/register';
 import {
   ComboModel,
   Graph,
@@ -46,7 +47,6 @@ import {
   traverseGraphAncestors,
 } from '../../utils/data';
 import { getGroupedChanges } from '../../utils/event';
-import { getExtensionsByCategory } from '../../utils/extension';
 import { upsertTransientItem } from '../../utils/item';
 import { isPointPreventPolylineOverlap, isPolylineWithObstacleAvoidance } from '../../utils/polyline';
 import { getCombinedBoundsByData, intersectBBox, upsertShape } from '../../utils/shape';
@@ -162,9 +162,9 @@ export class ItemController {
    */
   private tap() {
     // item extensions are node / edge / combo type registrations
-    this.nodeExtensions = getExtensionsByCategory('node');
-    this.edgeExtensions = getExtensionsByCategory('edge');
-    this.comboExtensions = getExtensionsByCategory('combo');
+    this.nodeExtensions = getPlugins('node');
+    this.edgeExtensions = getPlugins('edge');
+    this.comboExtensions = getPlugins('combo');
     this.graph.hooks.render.tap(this.onRender.bind(this));
     this.graph.hooks.itemchange.tap(this.onChange.bind(this));
     this.graph.hooks.itemstatechange.tap(this.onItemStateChange.bind(this));

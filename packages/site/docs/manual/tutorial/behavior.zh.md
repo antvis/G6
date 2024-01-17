@@ -62,7 +62,7 @@ const Graph = extend(BaseGraph, {
 
 ```javascript
 // 注意此处使用的是 exnted 返回的 Graph
-const graph = new G6.Graph({
+const graph = new Graph({
   // ...其他配置项
   modes: {
     default: ['drag-canvas', 'zoom-canvas', 'drag-node', 'click-select', 'brush-select'], // 允许拖拽画布、放缩画布、拖拽节点、点选节点、框选节点
@@ -138,7 +138,7 @@ graph.on('canvas:click', (e) => {
 });
 ```
 
-G6 中所有元素监听都挂载在图实例上，如下代码中的 `graph` 对象是 G6.Graph 的实例，`graph.on()`  函数监听了某元素类型（`node` / `edge`）的某种事件（`click` / `mouseenter` / `mouseleave` / ...。
+G6 中所有元素监听都挂载在图实例上，如下代码中的 `graph` 对象是 Graph 的实例，`graph.on()`  函数监听了某元素类型（`node` / `edge`）的某种事件（`click` / `mouseenter` / `mouseleave` / ...。
 
 ```javascript
 // 在图实例 graph 上监听

@@ -1,4 +1,4 @@
-import G6, { Extensions, ID } from '../../../src/index';
+import { Extensions, Graph, ID } from '../../../src/index';
 import { ShapeStyle } from '../../../src/types/item';
 export default (
   context,
@@ -27,7 +27,7 @@ export default (
       },
     ],
   });
-  const graph = new G6.Graph({
+  const graph = new Graph({
     ...context,
     type: 'graph',
     plugins: [hullPlugin],

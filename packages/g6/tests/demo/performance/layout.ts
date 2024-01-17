@@ -1,6 +1,6 @@
 import { labelPropagation } from '@antv/algorithm';
 import { ForceLayout, initThreads, supportsThreads } from '@antv/layout-wasm';
-import G6 from '../../../src/index';
+import { Graph } from '../../../src/index';
 import { loadDataset } from '../../datasets/legacy-format';
 
 export default async () => {
@@ -131,7 +131,7 @@ export default async () => {
     // Register custom layout
     G6.stdLib.layouts['force-wasm'] = ForceLayout;
 
-    const graph = new G6.Graph({
+    const graph = new Graph({
       container: $container1,
       width: WIDTH,
       height: HEIGHT,
@@ -164,7 +164,7 @@ export default async () => {
 
   // Force layout
   (() => {
-    const graph = new G6.Graph({
+    const graph = new Graph({
       container: $container2,
       width: WIDTH,
       height: HEIGHT,

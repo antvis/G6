@@ -1,4 +1,4 @@
-import G6 from '../../../src/index';
+import { Graph } from '../../../src/index';
 // import { data } from '../../datasets/dataset1';
 import { TestCaseContext } from '../interface';
 const data = {
@@ -512,7 +512,7 @@ const data = {
   ],
 };
 export default (context: TestCaseContext) => {
-  const graph = new G6.Graph({
+  const graph = new Graph({
     ...context,
     data: JSON.parse(JSON.stringify(data)),
     node: {
@@ -574,6 +574,10 @@ export default (context: TestCaseContext) => {
   graph.on('node:click', (e) => {
     console.log('data', graph.getNodeData(e.itemId));
   });
+  /**
+   *
+   * @param e
+   */
   function refreshDragedNodePosition(e) {
     console.log('efx', e);
     const { x, y } = e.canvas;

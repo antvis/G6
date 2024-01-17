@@ -1,4 +1,4 @@
-import G6 from '@antv/g6';
+import { Graph } from '@antv/g6';
 
 const layoutConfigs = {
   Dendrogram: {
@@ -37,7 +37,7 @@ const height = container.scrollHeight || 500;
 fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.json')
   .then((res) => res.json())
   .then((data) => {
-    const graph = new G6.Graph({
+    const graph = new Graph({
       container,
       width,
       height,

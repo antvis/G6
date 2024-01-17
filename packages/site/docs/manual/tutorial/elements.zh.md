@@ -77,7 +77,7 @@ order: 2
 - `edge`：边在默认状态下的**图形样式属性**和**其他属性**。
 
 ```javascript
-const graph = new G6.Graph({
+const graph = new Graph({
   // ...                   // 图的其他配置
   // 节点在默认状态下的图形样式配置和其他配置
   node: {
@@ -238,7 +238,7 @@ const graph = new Graph({
 然后我们在节点的函数映射配置中，可以使用这些字段值：
 
 ```javascript
-const graph = new G6.Graph({
+const graph = new Graph({
   // ...其他配置项
   // transforms: ...
   // edge: ...

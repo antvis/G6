@@ -1,6 +1,6 @@
+import { getPlugin, getPlugins } from '../../plugin/register';
 import { Graph } from '../../types';
 import { ThemeRegistry, ThemeSpecification } from '../../types/theme';
-import { getExtension, getExtensionsByCategory } from '../../utils/extension';
 
 /**
  * Manages theme extensions for graph.
@@ -25,7 +25,7 @@ export class ThemeController {
    * Subscribe the lifecycle of graph.
    */
   private tap() {
-    this.extension = this.getExtension();
+    this.extension = this.getPlugin();
     this.themes = this.getThemes();
     this.graph.hooks.init.tap(this.onInit.bind(this));
     this.graph.hooks.themechange.tap(this.onThemeChange.bind(this));
@@ -34,14 +34,15 @@ export class ThemeController {
   /**
    * Get the extensions from useLib.
    */
-  private getExtension() {
+  private getPlugin() {
     const { theme = {} } = this.graph.getSpecification();
     this.themeConfig = theme;
-    return theme ? getExtension(theme, 'themeSolver') : undefined;
+    const type = typeof theme === 'string' ? theme : (theme as any).type;
+    return theme ? getPlugin('themeSolver', type) : undefined;
   }
 
   private getThemes(): ThemeRegistry {
-    return getExtensionsByCategory('theme').reduce((res, acc) => {
+    return getPlugins('theme').reduce((res, acc) => {
       res[acc.type] = acc;
       return res;
     }, {}) as ThemeRegistry;
@@ -69,7 +70,7 @@ export class ThemeController {
 
   private onThemeChange({ canvases }) {
     if (!canvases) return;
-    this.extension = this.getExtension();
+    this.extension = this.getPlugin();
     this.onInit({ canvases });
   }
 }

@@ -1,8 +1,8 @@
-import G6 from '../../../src/index';
+import { Graph } from '../../../src/index';
 import { TestCaseContext } from '../interface';
 
 export default (context: TestCaseContext) => {
-  return new G6.Graph({
+  return new Graph({
     ...context,
     type: 'graph',
     layout: {
