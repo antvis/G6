@@ -13,6 +13,7 @@ import {
   pointRectSquareDist,
   squareDist,
 } from './util';
+import { warn } from '../../../utils/invariant';
 
 const defaultOps = {
   /** number of times to run the algorithm to refine the path finding in difficult areas */
@@ -91,7 +92,7 @@ function MarchingSquares(contour, potentialArea, threshold) {
       // assign the move direction according to state of the square
       switch (state) {
         case -1:
-          console.warn('Marched out of bounds');
+          warn('Marched out of bounds');
           return true;
         case 0:
         case 3:
@@ -133,7 +134,7 @@ function MarchingSquares(contour, potentialArea, threshold) {
           y++; // go down
           break;
         default:
-          console.warn(`Marching squares invalid state: ${state}`);
+          warn(`Marching squares invalid state: ${state}`);
           return true;
       }
     }

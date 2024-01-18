@@ -6,6 +6,7 @@ import { Graph } from '../../../types';
 import { IG6GraphEvent } from '../../../types/event';
 import { Plugin as Base, IPluginBaseConfig } from '../../../types/plugin';
 import { createDOM, modifyCSS } from '../../../utils/dom';
+import { warn } from '../../../utils/invariant';
 
 typeof document !== 'undefined' &&
   insertCss(`
@@ -384,7 +385,7 @@ export class Tooltip extends Base {
               x: itemBBox.min[0] + itemWidth * 1,
               y: itemBBox.min[1] - itemHeight * 0.5,
             };
-            console.warn(
+            warn(
               `The '${this.options.fixToNode}' fixToNode position configuration is not supported, please use 'top'|'left'| 'right'| 'bottom'| 'topLeft'| 'leftTop'| 'topRight'| 'rightTop'| 'bottomLeft'| 'leftBottom'| 'bottomRight'| 'rightBottom', or use array to config, like: [0,5,1]`,
             );
             break;

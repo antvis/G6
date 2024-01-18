@@ -1,6 +1,7 @@
 import { isBoolean, isNumber, isObject } from '@antv/util';
 import { ID, IG6GraphEvent } from '../../types';
 import { Behavior } from '../../types/behavior';
+import { warn } from '../../utils/invariant';
 
 interface ScrollCanvasOptions {
   /**
@@ -313,7 +314,7 @@ function initZoomKey(zoomKey?: string | string[]) {
   const validZoomKeys = zoomKeys.filter((zoomKey) => {
     const keyIsValid = ALLOW_EVENTS.includes(zoomKey);
     if (!keyIsValid)
-      console.warn(`Invalid zoomKey: ${zoomKey}, please use a valid zoomKey: ${JSON.stringify(ALLOW_EVENTS)}`);
+      warn(`Invalid zoomKey: ${zoomKey}, please use a valid zoomKey: ${JSON.stringify(ALLOW_EVENTS)}`);
 
     return keyIsValid;
   });

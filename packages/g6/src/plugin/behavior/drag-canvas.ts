@@ -2,6 +2,7 @@ import { isNumber } from '@antv/util';
 import { ID, IG6GraphEvent } from '../../types';
 import { Behavior } from '../../types/behavior';
 import { Point } from '../../types/common';
+import { warn } from '../../utils/invariant';
 
 const VALID_TRIGGERS = ['drag', 'directionKeys'];
 const DRAG_DURATION = 250;
@@ -81,7 +82,7 @@ export class DragCanvas extends Behavior {
   constructor(options: Partial<DragCanvasOptions>) {
     const finalOptions = Object.assign({}, DEFAULT_OPTIONS, options);
     if (!VALID_TRIGGERS.includes(finalOptions.trigger)) {
-      console.warn(`The trigger ${finalOptions.trigger} is not valid, 'drag' will take effect.`);
+      warn(`The trigger ${finalOptions.trigger} is not valid, 'drag' will take effect.`);
       finalOptions.trigger = 'drag';
     }
     super(finalOptions);

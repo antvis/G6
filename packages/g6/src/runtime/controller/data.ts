@@ -33,6 +33,7 @@ import {
 } from '../../utils/data';
 import { isTreeLayout } from '../../utils/layout';
 import { EdgeCollisionChecker, QuadTree } from '../../utils/polyline';
+import { warn } from '../../utils/invariant';
 
 /**
  * Manages the data transform extensions;
@@ -541,7 +542,7 @@ export class DataController {
     } else if (type === 'fetch') {
       // TODO: fetch
     } else if (!(data as GraphData).nodes) {
-      console.warn('Input data type is invalid, the type shuold be "graphData", "treeData", or "fetch".');
+      warn('Input data type is invalid, the type shuold be "graphData", "treeData", or "fetch".');
       return;
     }
 
@@ -627,7 +628,7 @@ export class DataController {
     // update structure
     (_children as ID[]).forEach((childId) => {
       if (!this.graphCore.hasNode(childId)) {
-        console.warn(`Adding child ${childId} to combo ${id} failed. The child ${childId} does not exist`);
+        warn(`Adding child ${childId} to combo ${id} failed. The child ${childId} does not exist`);
         return;
       }
       graphCore.setParent(childId, id, 'combo');

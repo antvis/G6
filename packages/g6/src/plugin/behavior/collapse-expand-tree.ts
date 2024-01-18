@@ -1,3 +1,4 @@
+import { warn } from '../../utils/invariant';
 import { Behavior } from '../../types/behavior';
 import { IG6GraphEvent } from '../../types/event';
 
@@ -46,7 +47,7 @@ export class CollapseExpandTree extends Behavior {
     super(Object.assign({}, DEFAULT_OPTIONS, options));
     // Validate options
     if (options.trigger && !ALLOWED_TRIGGERS.includes(options.trigger)) {
-      console.warn(`G6: Invalid trigger option "${options.trigger}" for collapse-expand-tree behavior!`);
+      warn(`Invalid trigger option "${options.trigger}" for collapse-expand-tree behavior!`);
       this.options.trigger = DEFAULT_OPTIONS.trigger;
     }
   }
@@ -80,7 +81,7 @@ export class CollapseExpandTree extends Behavior {
 
     const model = this.graph.getNodeData(itemId);
     if (!model) {
-      console.warn(`Node with id ${itemId} is not exist`);
+      warn(`Node with id ${itemId} is not exist`);
       return;
     }
     this.graph.frontItem(itemId);

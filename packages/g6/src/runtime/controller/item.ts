@@ -52,6 +52,7 @@ import { isPointPreventPolylineOverlap, isPolylineWithObstacleAvoidance } from '
 import { getCombinedBoundsByData, intersectBBox, upsertShape } from '../../utils/shape';
 import { convertToNumber } from '../../utils/type';
 import { formatLodLevels } from '../../utils/zoom';
+import { warn } from '../../utils/invariant';
 
 enum WARN_TYPE {
   FAIL_GET_BBOX,
@@ -1403,7 +1404,7 @@ export class ItemController {
   private debounceWarn = debounce(
     (type) => {
       const msg = getWarnMsg[type](this.cacheWarnMsg[type]);
-      console.warn(msg);
+      warn(msg);
       this.cacheWarnMsg[type] = [];
     },
     16,

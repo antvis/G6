@@ -7,6 +7,7 @@ import { ITEM_TYPE } from '../../types/item';
 import { diffSet, intersectSet, unionSet } from '../../utils/array';
 import { getEdgesBetween } from '../../utils/item';
 import rectSelector from '../selector/rect';
+import { warn } from '../../utils/invariant';
 
 const ALLOWED_TRIGGERS = ['drag', 'shift', 'ctrl', 'alt', 'meta'] as const;
 const BRUSH_SHAPE_ID = 'g6-brush-select-brush-shape';
@@ -108,7 +109,7 @@ export class BrushSelect extends Behavior {
     super(Object.assign({}, DEFAULT_OPTIONS, options));
     // Validate options
     if (options.trigger && !ALLOWED_TRIGGERS.includes(options.trigger)) {
-      console.warn(`G6: Invalid trigger option "${options.trigger}" for brush-select behavior!`);
+      warn(`Invalid trigger option "${options.trigger}" for brush-select behavior!`);
       this.options.trigger = DEFAULT_OPTIONS.trigger;
     }
   }

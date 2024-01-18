@@ -2,7 +2,7 @@ import type { IG6GraphEvent } from '../../types';
 import { Behavior } from '../../types/behavior';
 import { EdgeDisplayModelData } from '../../types/edge';
 import { generateEdgeID } from '../../utils/item';
-import { warn } from '../../utils/warn';
+import { warn } from '../../utils/invariant';
 
 const KEYBOARD_TRIGGERS = ['shift', 'ctrl', 'control', 'alt', 'meta'] as const;
 const EVENT_TRIGGERS = ['click', 'drag'] as const;
@@ -70,23 +70,21 @@ export class CreateEdge extends Behavior {
 
   validateOptions(options: Partial<CreateEdgeOptions>) {
     if (options.trigger && !EVENT_TRIGGERS.includes(options.trigger)) {
-      warn({
-        optionName: `create-edge.trigger`,
-        shouldBe: EVENT_TRIGGERS,
-        now: options.trigger,
-        scope: 'behavior',
-      });
+      const optionName = `create-edge.trigger`;
+      const shouldBe = EVENT_TRIGGERS;
+      const now = options.trigger;
+
+      warn(`Invalid option, ${optionName} must be one of ${shouldBe.join(', ')}, but got ${now}.`)
 
       this.options.trigger = DEFAULT_OPTIONS.trigger;
     }
 
     if (options.secondaryKey && !KEYBOARD_TRIGGERS.includes(options.secondaryKey)) {
-      warn({
-        optionName: `create-edge.secondaryKey`,
-        shouldBe: KEYBOARD_TRIGGERS,
-        now: options.secondaryKey,
-        scope: 'behavior',
-      });
+      const optionName = `create-edge.secondaryKey`;
+      const shouldBe = KEYBOARD_TRIGGERS;
+      const now = options.secondaryKey;
+
+      warn(`Invalid option, ${optionName} must be one of ${shouldBe.join(', ')}, but got ${now}.`)
       this.options.secondaryKey = DEFAULT_OPTIONS.secondaryKey;
     }
   }

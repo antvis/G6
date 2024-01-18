@@ -15,6 +15,7 @@ import {
   paddedHull,
   roundedHull,
 } from './util';
+import { warn } from '../../../utils/invariant';
 
 type LabelPlacement = 'top' | 'bottom' | 'right' | 'left';
 
@@ -110,7 +111,7 @@ export default class Hull {
       this.type = 'round-convex';
     }
     if (this.type !== 'round-convex' && this.type !== 'smooth-convex' && this.type !== 'bubble') {
-      console.warn(
+      warn(
         'The hull type should be either round-convex, smooth-convex or bubble, round-convex is used by default.',
       );
       this.type = 'round-convex';
@@ -448,7 +449,7 @@ export default class Hull {
     // } else {
     const shapeBBox = this.graph.getRenderBBox(itemId);
     if (!shapeBBox) {
-      console.warn(`The item with ${itemId} is not existed in the graph.`);
+      warn(`The item with ${itemId} is not existed in the graph.`);
       return;
     }
     shapePoints = [

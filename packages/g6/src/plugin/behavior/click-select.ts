@@ -2,6 +2,7 @@ import { ID } from '@antv/graphlib';
 import { Behavior } from '../../types/behavior';
 import { Point } from '../../types/common';
 import { IG6GraphEvent } from '../../types/event';
+import { warn } from '../../utils/invariant';
 
 const ALLOWED_TRIGGERS = ['shift', 'ctrl', 'alt', 'meta'] as const;
 type Trigger = (typeof ALLOWED_TRIGGERS)[number];
@@ -73,7 +74,7 @@ export class ClickSelect extends Behavior {
     super(Object.assign({}, DEFAULT_OPTIONS, options));
     // Validate options
     if (options.trigger && !ALLOWED_TRIGGERS.includes(options.trigger)) {
-      console.warn(`G6: Invalid trigger option "${options.trigger}" for click-select behavior!`);
+      warn(`Invalid trigger option "${options.trigger}" for click-select behavior!`);
       this.options.trigger = DEFAULT_OPTIONS.trigger;
     }
   }

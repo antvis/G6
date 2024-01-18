@@ -1,6 +1,7 @@
 /**
  * @file Overview registry of built-in plugins and user-defined plugins.
  */
+import { warn } from '../utils/invariant';
 import type { BehaviorRegistry } from '../types/behavior';
 import type { EdgeRegistry } from '../types/edge';
 import type { LayoutRegistry } from '../types/layout';
@@ -59,9 +60,7 @@ function register<T extends PluginCategory>(category: T, type: string, pluginCla
   pluginRegistry[category] ||= new Map();
 
   if (pluginRegistry[category].get(type)) {
-    console.warn(
-      `[G6] The plugin of type '${type}' has been previously registered and has been automatically overwritten by the latest registration.`,
-    );
+    warn(`The plugin of type '${type}' has been previously registered and has been automatically overwritten by the latest registration.`);
   }
 
   pluginClass.type = type;

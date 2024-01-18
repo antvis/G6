@@ -251,7 +251,6 @@ export class LayoutController {
     // CustomLayout is not workerized.
     if (!isLayoutWorkerized(options)) {
       workerEnabled = false;
-      // TODO: console.warn();
     }
 
     if (workerEnabled) {
