@@ -68,7 +68,7 @@ export class ActivateRelations extends Behavior {
     super(Object.assign({}, DEFAULT_OPTIONS, options));
     // Validate options
     if (options.trigger && !MOUSE_TRIGGERS.includes(options.trigger)) {
-      warn(`Invalid trigger option "${options.trigger}" for activate-relations behavior!`)
+      warn(`Invalid trigger option "${options.trigger}" for activate-relations behavior!`);
       this.options.trigger = DEFAULT_OPTIONS.trigger;
     }
     this.prevEdgeIds = [];

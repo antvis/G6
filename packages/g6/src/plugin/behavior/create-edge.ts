@@ -74,7 +74,7 @@ export class CreateEdge extends Behavior {
       const shouldBe = EVENT_TRIGGERS;
       const now = options.trigger;
 
-      warn(`Invalid option, ${optionName} must be one of ${shouldBe.join(', ')}, but got ${now}.`)
+      warn(`Invalid option, ${optionName} must be one of ${shouldBe.join(', ')}, but got ${now}.`);
 
       this.options.trigger = DEFAULT_OPTIONS.trigger;
     }
@@ -84,7 +84,7 @@ export class CreateEdge extends Behavior {
       const shouldBe = KEYBOARD_TRIGGERS;
       const now = options.secondaryKey;
 
-      warn(`Invalid option, ${optionName} must be one of ${shouldBe.join(', ')}, but got ${now}.`)
+      warn(`Invalid option, ${optionName} must be one of ${shouldBe.join(', ')}, but got ${now}.`);
       this.options.secondaryKey = DEFAULT_OPTIONS.secondaryKey;
     }
   }
