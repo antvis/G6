@@ -1,10 +1,10 @@
 /**
  * Whether two array have same element.
- * @param arr1
- * @param arr2
- * @returns
+ * @param arr1 array
+ * @param arr2 array
+ * @returns true/false
  */
-export const isArrayOverlap = (arr1, arr2): boolean => {
+export function isArrayOverlap(arr1, arr2): boolean {
   if (!arr1?.length || !arr2?.length) return false;
   for (let i = 0; i < arr1.length; i++) {
     for (let j = 0; j < arr2.length; j++) {
@@ -12,34 +12,29 @@ export const isArrayOverlap = (arr1, arr2): boolean => {
     }
   }
   return false;
-};
-
-/**
- * Stringify arrays and compare the strings.
- * @param arr1
- * @param arr2
- */
-export const isArraySame = (arr1 = [], arr2 = []): boolean => {
-  return JSON.stringify(arr1) === JSON.stringify(arr2);
-};
+}
 
 /**
  * Get the set of a - b.
- * @param a
- * @param b
+ * @param a array
+ * @param b array
+ * @returns The set of a - b
  */
-export function diffSet<T>(a: T[] = [], b: T[] = []): T[] {
-  const valueMap: any = {};
+export function diffSet<T>(a: T[], b: T[]): T[] {
+  const keyFunc = (v) => (typeof v === 'string' ? v : JSON.stringify(v));
+
+  const valueMap: { [key: string]: boolean } = {};
   b.forEach((value) => {
-    if (typeof value === 'object') valueMap[JSON.stringify(value)] = true;
-    valueMap[value] = true;
+    valueMap[keyFunc(value)] = true;
   });
-  return a.filter((value) => !valueMap[value]);
+  return a.filter((value) => !valueMap[keyFunc(value)]);
 }
+
 /**
  * Get the set of a + b.
- * @param a
- * @param b
+ * @param a array
+ * @param b array
+ * @returns The set of a + b
  */
 export function unionSet<T>(a: T[], b: T[]): T[] {
   const resultSet = new Set(a);
@@ -48,10 +43,12 @@ export function unionSet<T>(a: T[], b: T[]): T[] {
   });
   return Array.from(resultSet);
 }
+
 /**
  * Get the intersect set of a and b.
- * @param a
- * @param b
+ * @param a array
+ * @param b array
+ * @returns The intersect set of a and b
  */
 export function intersectSet<T>(a: T[], b: T[]): T[] {
   const aSet = new Set(a);
@@ -63,10 +60,11 @@ export function intersectSet<T>(a: T[], b: T[]): T[] {
 }
 
 /**
- *
- * @param arr
- * @param target
- * @param replaceWith
+ * Replace elements, mutable.
+ * @param arr array
+ * @param target target
+ * @param replaceWith replaceWith
+ * @returns replaced elements.
  */
 export function replaceElements(arr, target, replaceWith) {
   for (let i = 0; i < arr.length; i++) {
@@ -77,7 +75,13 @@ export function replaceElements(arr, target, replaceWith) {
   return arr;
 }
 
-export const uniqBy = <T>(arr: T[], key: keyof T): T[] => {
+/**
+ * Uniq arry with key.
+ * @param arr array
+ * @param key the uniq key.
+ * @returns uniq array.
+ */
+export function uniqBy<T>(arr: T[], key: keyof T): T[] {
   return Object.values(
     arr.reduce(
       (map, item) => ({
@@ -87,4 +91,4 @@ export const uniqBy = <T>(arr: T[], key: keyof T): T[] => {
       {},
     ),
   );
-};
+}

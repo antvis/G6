@@ -2,13 +2,11 @@
  * G6 Extended plugin Map View.
  * @packageDocumentation
  */
-
 // @ts-nocheck
-import { createDom, modifyCSS } from '@antv/dom-util';
 import { IGraph, IPluginBaseConfig, PluginBase } from '@antv/g6';
 import { LineLayer, PointLayer, RasterLayer, Scene } from '@antv/l7';
 import { Map as BaseMap } from '@antv/l7-maps';
-import { debounce, isArray, isString, uniqueId } from '@antv/util';
+import { createDOM, debounce, isArray, isString, modifyCSS, uniqueId } from '@antv/util';
 
 export interface MapViewConfig extends IPluginBaseConfig {
   key?: string;
@@ -107,7 +105,7 @@ export class MapView extends PluginBase {
     const { graph, options } = this;
     const { size, className, containerStyle, theme, initialMapZoom, initialMapCenter } = options;
     let parentNode = options.container;
-    const container: HTMLDivElement = createDom(
+    const container: HTMLDivElement = createDOM(
       `<div class='${className}' style='width: ${size[0]}px; height: ${size[1]}px; overflow: hidden; position: absolute'></div>`,
     );
     const style = {

@@ -40,10 +40,9 @@
     "start": "rimraf ./lib && tsc --module commonjs --outDir lib --watch"
   },
   "dependencies": {
-    "@antv/dom-util": "^2.0.4",
     "@antv/l7": "^2.18.3",
     "@antv/l7-maps": "^2.18.3",
-    "@antv/util": "~2.0.5"
+    "@antv/util": "^3.3.5"
   },
   "peerDependencies": {
     "@antv/g6": "^5.0.0-beta.28"

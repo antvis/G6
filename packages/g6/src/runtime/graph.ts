@@ -2,7 +2,19 @@
 import EventEmitter from '@antv/event-emitter';
 import { AABB, Canvas, Cursor, DataURLType, DisplayObject, PointLike, Rect } from '@antv/g';
 import { GraphChange, ID } from '@antv/graphlib';
-import { clone, groupBy, isArray, isEmpty, isEqual, isNil, isNumber, isObject, isString, map } from '@antv/util';
+import {
+  clone,
+  createDOM,
+  groupBy,
+  isArray,
+  isEmpty,
+  isEqual,
+  isNil,
+  isNumber,
+  isObject,
+  isString,
+  map,
+} from '@antv/util';
 import Node from '../item/node';
 import type { ComboUserModel, EdgeUserModel, GraphData, NodeUserModel, Specification } from '../types';
 import type { CameraAnimationOptions } from '../types/animate';
@@ -23,7 +35,6 @@ import { FitViewRules, GraphTransformOptions } from '../types/view';
 import { getCombinedCanvasesBounds } from '../utils/bbox';
 import { changeRenderer, createCanvas } from '../utils/canvas';
 import { cloneJSON, isEmptyGraph } from '../utils/data';
-import { createDOM } from '../utils/dom';
 import { error, warn } from '../utils/invariant';
 import { getLayoutBounds } from '../utils/layout';
 import { formatPadding } from '../utils/shape';
