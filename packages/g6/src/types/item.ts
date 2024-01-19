@@ -1,11 +1,7 @@
 import {
-  AABB,
   CircleStyleProps,
-  DisplayObject,
   EllipseStyleProps,
-  Group,
   HTMLStyleProps,
-  IAnimation,
   ImageStyleProps,
   LineStyleProps,
   PathStyleProps,
@@ -15,12 +11,11 @@ import {
   TextStyleProps,
 } from '@antv/g';
 import { CubeGeometryProps, PlaneGeometryProps, SphereGeometryProps } from '@antv/g-plugin-3d';
-import { ID } from '@antv/graphlib';
+import { ComboOptions, EdgeOptions, NodeOptions } from '../spec/element';
 import { IAnimates } from './animate';
-import { ComboDisplayModel, ComboEncode, ComboModel, ComboModelData, ComboUserModel } from './combo';
-import { EdgeDisplayModel, EdgeEncode, EdgeModel, EdgeModelData, EdgeShapeMap, EdgeUserModel } from './edge';
-import { NodeDisplayModel, NodeEncode, NodeModel, NodeModelData, NodeShapeMap, NodeUserModel } from './node';
-import { ComboStyleSet, EdgeStyleSet, NodeStyleSet } from './theme';
+import { ComboDisplayModel, ComboUserModel } from './combo';
+import { EdgeDisplayModel, EdgeUserModel } from './edge';
+import { NodeDisplayModel, NodeUserModel } from './node';
 
 export type GShapeStyle = CircleStyleProps &
   RectStyleProps &
@@ -95,20 +90,13 @@ export type SHAPE_TYPE =
 
 export type SHAPE_TYPE_3D = 'sphere' | 'cube' | 'plane';
 
-export type ITEM_TYPE = 'node' | 'edge' | 'combo';
+export type ItemType = 'node' | 'edge' | 'combo';
 
-export type ItemModelData = NodeModelData | EdgeModelData | ComboModelData;
+export type ItemDisplayModel = NodeDisplayModel | EdgeDisplayModel | ComboDisplayModel | NodeOptions;
 
-export type ItemModel = NodeModel | EdgeModel | ComboModel;
+export type DisplayMapper = NodeOptions | EdgeOptions | ComboOptions;
 
-export type ItemDisplayModel = NodeDisplayModel | EdgeDisplayModel | ComboDisplayModel;
-
-export type DisplayMapper = ((model: ItemModel) => ItemDisplayModel) | NodeEncode | EdgeEncode | ComboEncode;
-
-export type State = {
-  name: string;
-  value: boolean | string | number;
-};
+export type State = string;
 
 export enum BadgePosition {
   rightTop = 'rightTop',
@@ -155,157 +143,4 @@ export interface LodLevel {
 
 export interface LodLevelRanges {
   [levelIdx: number]: [number, number];
-}
-
-/**
- * Base item of node / edge / combo.
- */
-export interface IItem {
-  destroyed: boolean;
-  /** Inner model. */
-  model: ItemModel;
-  /** Display model, user will not touch it. */
-  displayModel: ItemDisplayModel;
-  /** The style mapper configured at graph with field name 'node' / 'edge' / 'combo'. */
-  mapper: DisplayMapper;
-  /** The state style mapper configured at graph with field name 'nodeState' / 'edgeState' / 'comboState'. */
-  stateMapper: {
-    [stateName: string]: DisplayMapper;
-  };
-  /** The graphic group for item drawing. */
-  group: Group;
-  /** The keyShape of the item. */
-  keyShape: DisplayObject;
-  /** render extension for this item. */
-  renderExt;
-  /** Visibility. */
-  visible: boolean;
-  /** The states on the item. */
-  states: {
-    name: string;
-    value: string | boolean;
-  }[];
-  /** The map caches the shapes of the item. The key is the shape id, the value is the g shape. */
-  shapeMap: NodeShapeMap | EdgeShapeMap;
-  afterDrawShapeMap: Object;
-  /** Item's type. Set to different value in implements. */
-  type: ITEM_TYPE;
-  /** Render extensions where could the renderExt be selected from according to the type. */
-  renderExtensions: any;
-  /** Cache the animation instances to stop at next lifecycle. */
-  animations: IAnimation[];
-  /** Theme styles to response the state changes. */
-  themeStyles: {
-    default?: ItemShapeStyles;
-    [stateName: string]: ItemShapeStyles;
-  };
-  /** The zoom strategy to show and hide shapes according to their lod. */
-  lodLevels: LodLevelRanges;
-  /** Last zoom ratio. */
-  zoom: number;
-  /** Cache the changing states which are not consumed by draw  */
-  changedStates: string[];
-  /** The listener for the animations frames. */
-  onframe: Function;
-
-  /** Gets the inner model.  */
-  // getModel: () => ItemModel;
-  /** Gets the id in model. */
-  getID: () => ID;
-  /** Gets the item's type. */
-  getType: () => ITEM_TYPE;
-  /** Initiate the item. */
-  init: (props) => void;
-  /**
-   * Draws the shapes.
-   * @internal
-   */
-  draw: (
-    displayModel: ItemDisplayModel,
-    diffData?: { previous: ItemModelData; current: ItemModelData },
-    diffState?: { previous: State[]; current: State[] },
-    animate?: boolean,
-    onfinish?: Function,
-  ) => void;
-  /**
-   * Updates the shapes.
-   * @internal
-   */
-  update: (
-    model: ItemModel,
-    diffData: { previous: ItemModelData; current: ItemModelData },
-    isReplace?: boolean,
-    itemTheme?: {
-      styles: NodeStyleSet | EdgeStyleSet | ComboStyleSet;
-      lodLevels: LodLevelRanges;
-    },
-    onlyMove?: boolean,
-    animate?: boolean,
-    onfinish?: Function,
-  ) => void;
-
-  /**
-   * Update the group's position, e.g. node, combo.
-   * @param displayModel
-   * @param diffData
-   * @param onfinish
-   * @returns
-   */
-  updatePosition: (
-    displayModel: ItemDisplayModel,
-    diffData?: { previous: ItemModelData; current: ItemModelData },
-    animate?: boolean,
-    onfinish?: Function,
-  ) => void;
-
-  /**
-   * Maps (mapper will be function, value, or encode format) model to displayModel and find out the shapes to be update for incremental updating.
-   * @param model inner model
-   * @param diffData changes from graphCore changed event
-   * @param isReplace whether replace the whole data or partial update
-   * @returns
-   */
-  getDisplayModelAndChanges: (
-    innerModel: ItemModel,
-    diffData?: { previous: ItemModelData; current: ItemModelData },
-    isReplace?: boolean,
-  ) => {
-    model: ItemDisplayModel;
-    typeChange?: boolean;
-  };
-  /** Show the item. */
-  show: (animate: boolean) => void;
-  /** Hides the item. */
-  hide: (animate: boolean) => void;
-  /** Returns the visibility of the item. */
-  isVisible: () => boolean;
-  /** Puts the item to the front in its graphic group. */
-  toFront: () => void;
-  /** Puts the item to the back in its graphic group. */
-  toBack: () => void;
-  /** Sets a state value to the item. */
-  setState: (state: string, value: string | boolean) => void;
-  /** Returns the state if it is true/string. Returns false otherwise. */
-  hasState: (state: string) => string | boolean;
-  /** Get all the true or string states of the item. */
-  getStates: () => {
-    name: string;
-    value: boolean | string;
-  }[];
-  /** Set all the state to false. */
-  clearStates: (states?: string[]) => void;
-  /** Get the rendering bounding box for the keyShape. */
-  getKeyBBox: () => AABB;
-  /** Get the local bounding box for the keyShape. */
-  getLocalKeyBBox: () => AABB;
-  /** Get the rendering bounding box for the whole item. */
-  getBBox: () => AABB;
-  /** Stop all the animations on the item. */
-  stopAnimations: () => void;
-  /** Animations' frame listener. */
-  animateFrameListener: Function;
-  /** Call render extension's onZoom to response the graph zooming. */
-  updateZoom: (zoom: number) => void;
-  /** Destroy the item. */
-  destroy: () => void;
 }

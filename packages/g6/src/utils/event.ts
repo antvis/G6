@@ -12,9 +12,9 @@ import {
   TreeStructureChanged,
   TreeStructureDetached,
 } from '@antv/graphlib';
-import { Graph, IG6GraphEvent, NodeModelData } from '../types';
-import { GraphCore } from '../types/data';
-import { EdgeModelData } from '../types/edge';
+import type { EdgeData, NodeData } from '../spec/data';
+import { Graph, IG6GraphEvent } from '../types';
+import { DataModel } from '../types/data';
 
 export type ItemInfo = {
   itemType: 'canvas' | 'node' | 'edge' | 'combo';
@@ -75,13 +75,13 @@ export const getContextMenuEventProps = (event: IG6GraphEvent, graph: Graph): IG
 };
 
 export type GroupedChanges = {
-  NodeRemoved: NodeRemoved<NodeModelData>[];
-  EdgeRemoved: EdgeRemoved<EdgeModelData>[];
-  NodeAdded: NodeAdded<NodeModelData>[];
-  EdgeAdded: EdgeAdded<EdgeModelData>[];
-  NodeDataUpdated: NodeDataUpdated<NodeModelData>[];
-  EdgeUpdated: EdgeUpdated<EdgeModelData>[];
-  EdgeDataUpdated: EdgeDataUpdated<EdgeModelData>[];
+  NodeRemoved: NodeRemoved<NodeData>[];
+  EdgeRemoved: EdgeRemoved<EdgeData>[];
+  NodeAdded: NodeAdded<NodeData>[];
+  EdgeAdded: EdgeAdded<EdgeData>[];
+  NodeDataUpdated: NodeDataUpdated<NodeData>[];
+  EdgeUpdated: EdgeUpdated<EdgeData>[];
+  EdgeDataUpdated: EdgeDataUpdated<EdgeData>[];
   TreeStructureChanged: TreeStructureChanged[];
   ComboStructureChanged: TreeStructureChanged[];
   TreeStructureAttached: TreeStructureAttached[];
@@ -94,7 +94,7 @@ export type GroupedChanges = {
  * @param changes
  * @returns
  */
-export const getGroupedChanges = (graphCore: GraphCore, changes): GroupedChanges => {
+export const getGroupedChanges = (graphCore: DataModel, changes): GroupedChanges => {
   const groupedChanges: GroupedChanges = {
     NodeRemoved: [],
     EdgeRemoved: [],
