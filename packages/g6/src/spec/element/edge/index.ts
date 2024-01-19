@@ -15,14 +15,14 @@ export type EdgeOptions = {
    *
    * <en/> Edge style
    */
-  style?: CallableObject<EdgeStyle & PortOptions, EdgeData>;
+  style?: CallableEdgeStyle;
   /**
    * <zh/> 边状态样式
    *
    * <en/> Edge state style
    */
   state?: {
-    [keys: string]: CallableObject<EdgeStyle, EdgeData>;
+    [keys: string]: CallableEdgeStyle;
   };
   /**
    * <zh/> 边动画
@@ -38,23 +38,19 @@ export type EdgeOptions = {
   palette?: Palette;
 };
 
+type CallableEdgeStyle = CallableObject<EdgeStyle, EdgeData>;
+
+export type StaticEdgeOptions = {
+  style?: EdgeStyle;
+  state?: {
+    [keys: string]: EdgeStyle;
+  };
+  animate?: AnimationOption;
+  palette?: Palette;
+};
+
 export type EdgeStyle = Pick<BaseStyleProps, 'cursor' | 'opacity' | 'pointerEvents' | 'visibility' | 'zIndex'> & {
   type?: string;
   states?: string[];
   [keys: string]: any;
-};
-
-export type PortOptions = {
-  /**
-   * <zh/> 起点连接桩 id
-   *
-   * <en/> source port id
-   */
-  sourcePort?: string;
-  /**
-   * <zh/> 终点连接桩 id
-   *
-   * <en/> target port id
-   */
-  targetPort?: string;
 };

@@ -40,10 +40,10 @@ export type ViewportOptions = {
  * @internal
  */
 export type STDViewportOption = {
-  autoFit: STDAutoFit;
-  padding: STDPadding;
-  zoom: number;
-  zoomRange: [number, number];
+  autoFit?: STDAutoFit;
+  padding?: STDPadding;
+  zoom?: number;
+  zoomRange?: [number, number];
 };
 
 /**
@@ -55,7 +55,7 @@ export type STDViewportOption = {
 export type STDAutoFit =
   | { type: 'view'; padding?: Padding; rules?: FitViewRules; effectTiming?: CameraAnimationOptions }
   | { type: 'center'; effectTiming?: CameraAnimationOptions }
-  | { type: 'position'; position: Point; alignment?: Position };
+  | { type: 'position'; position: Point; alignment?: Position; effectTiming?: CameraAnimationOptions };
 
 /**
  * <zh/> 视口自适应规则

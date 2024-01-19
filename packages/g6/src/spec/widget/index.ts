@@ -17,11 +17,11 @@ declare type BuiltInWidget =
   | { type: 'tooltip' }
   | { type: 'watermarker' };
 
-type CustomWidget = BaseWidget;
+type CustomWidget = STDWidget;
 
-export interface BaseWidget {
+export interface STDWidget {
   type: string;
   [key: string]: any;
 }
 
-type Abbr<R extends BaseWidget> = (R & { key?: string }) | R['type'];
+type Abbr<R extends STDWidget> = (R & { key?: string }) | R['type'];

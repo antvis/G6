@@ -54,5 +54,6 @@ export type NodeLikeStyle = Pick<BaseStyleProps, 'cursor' | 'opacity' | 'pointer
   x?: number;
   y?: number;
   z?: number;
+} & {
   [keys: string]: any;
 };

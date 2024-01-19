@@ -63,7 +63,7 @@ export type G6Spec = CanvasOptions &
      *
      * <en/> Canvas widget
      */
-    widget?: WidgetOptions;
+    widgets?: WidgetOptions;
     /**
      * <zh/> 优化选项
      *

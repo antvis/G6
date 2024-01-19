@@ -5,7 +5,6 @@ import { Padding } from './common';
 import {
   BadgePosition,
   Encode,
-  IItem,
   ItemShapeStyles,
   LabelBackground,
   LodLevel,
@@ -172,6 +171,3 @@ export interface ComboEncode extends ComboShapesEncode {
 }
 
 export type ComboShapeMap = NodeShapeMap;
-
-// TODO
-export type ICombo = IItem;

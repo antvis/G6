@@ -74,7 +74,7 @@ export type AnimationResult = IAnimation;
  *
  * <en/> Animation stage
  */
-export type AnimationStage = 'enter' | 'exit' | 'update' | 'show' | 'hide';
+export type AnimationStage = 'enter' | 'exit' | 'update' | 'show' | 'hide' | 'translate';
 
 /**
  * <zh/> 元素动画配置项
@@ -82,9 +82,9 @@ export type AnimationStage = 'enter' | 'exit' | 'update' | 'show' | 'hide';
  * <en/> Element animation configuration
  */
 export type AnimationOption = {
-  [K in string]?: {
-    [G in AnimationStage]?: AnimationEffectTiming;
-  };
+  [G in AnimationStage]?: AnimationEffectTiming;
+} & {
+  [keys: string]: AnimationEffectTiming;
 };
 
 // TODO update to built-in type

@@ -13,7 +13,7 @@ import type {
   RadialLayoutOptions,
   RandomLayoutOptions,
 } from '@antv/layout';
-import type { GraphCore } from './data';
+import type { Graph } from '../runtime/graph';
 
 type BuiltInLayoutOptions =
   | CircularLayout
@@ -32,7 +32,7 @@ export type ImmediatelyInvokedLayoutOptions = {
   /**
    * like an IIFE.
    */
-  execute: (graph: GraphCore, options?: any) => Promise<LayoutMapping>;
+  execute: (graph: Graph, options?: any) => Promise<LayoutMapping>;
 } & Animatable &
   PresetLayoutOptions;
 

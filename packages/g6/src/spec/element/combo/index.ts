@@ -43,3 +43,12 @@ export type ComboOptions = {
  * <en/> Combo style
  */
 type CallableComboStyle = CallableObject<NodeLikeStyle, NodeData>;
+
+export type StaticComboOptions = {
+  style?: NodeLikeStyle;
+  state?: {
+    [keys: string]: NodeLikeStyle;
+  };
+  animate?: AnimationOption;
+  palette?: Palette;
+};

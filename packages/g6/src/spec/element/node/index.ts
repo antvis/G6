@@ -43,3 +43,12 @@ export type NodeOptions = {
  * <en/> Node style
  */
 type CallableNodeStyle = CallableObject<NodeLikeStyle, NodeData>;
+
+export type StaticNodeOptions = {
+  style?: NodeLikeStyle;
+  state?: {
+    [keys: string]: NodeLikeStyle;
+  };
+  animate?: AnimationOption;
+  palette?: Palette;
+};

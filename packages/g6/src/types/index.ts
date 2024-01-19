@@ -13,7 +13,7 @@ export type {
   ComboUserModel,
 } from './combo';
 export type { Point } from './common';
-export type { DataConfig, DisplayGraphCore, GraphCore, GraphData, TreeData } from './data';
+export type { DataModel as GraphCore, GraphData } from './data';
 export type {
   EdgeDisplayModel,
   EdgeLabelPosition,

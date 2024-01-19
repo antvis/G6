@@ -6,9 +6,9 @@ import type { PaletteColor } from '../../types/palette';
  * <en/> Palette options
  * @public
  */
-export type Palette = PaletteColor | GroupPalette | FieldPalette;
+export type Palette = PaletteColor | DiscretePalette | ContinuousPalette;
 
-export type STDPalette = GroupPalette | FieldPalette;
+export type STDPalette = DiscretePalette | ContinuousPalette;
 
 interface BasePalette {
   /**
@@ -25,7 +25,7 @@ interface BasePalette {
   invert?: boolean;
 }
 
-interface GroupPalette extends BasePalette {
+interface DiscretePalette extends BasePalette {
   /**
    * <zh/> 分组取色
    *
@@ -40,7 +40,7 @@ interface GroupPalette extends BasePalette {
   field?: string;
 }
 
-interface FieldPalette extends BasePalette {
+interface ContinuousPalette extends BasePalette {
   /**
    * <zh/> 基于字段值取色
    *
