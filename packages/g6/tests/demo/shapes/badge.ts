@@ -1,4 +1,4 @@
-import { Badge } from '../../../src/plugin/shape';
+import { Badge } from '../../../src/shape';
 import { createGCanvas } from '../../integration/utils/createGCanvas';
 import { TestCaseContext } from '../interface';
 

@@ -1,7 +1,7 @@
 import type { DisplayObjectConfig, Group, IAnimation } from '@antv/g';
 import { deepMix } from '@antv/util';
-import type { ReplacePrefix } from '../../../types/prefix';
-import { replacePrefix } from '../../../utils/prefix';
+import type { ReplacePrefix } from '../../types/prefix';
+import { replacePrefix } from '../../utils/prefix';
 import { BaseShape } from '../base';
 import type { LabelStyleProps } from '../label';
 import { Label } from '../label';
@@ -12,7 +12,7 @@ type ParsedBadgeStyleProps = Required<BadgeStyleProps>;
 
 export type BadgeOptions = DisplayObjectConfig<BadgeStyleProps>;
 
-export class Badge extends BaseShape<BadgeStyleProps, ['label', Label]> {
+export class Badge extends BaseShape<BadgeStyleProps> {
   static defaultStyleProps: Partial<BadgeStyleProps> = {};
 
   constructor(options: BadgeOptions) {

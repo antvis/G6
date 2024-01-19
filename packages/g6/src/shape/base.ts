@@ -6,10 +6,7 @@ export interface BaseShapeStyleProps extends GroupStyleProps {}
 
 export interface ParsedBaseStyleProps {}
 
-export abstract class BaseShape<
-  T extends BaseShapeStyleProps,
-  SHAPE extends [string, DisplayObject],
-> extends CustomElement<T> {
+export abstract class BaseShape<T extends BaseShapeStyleProps> extends CustomElement<T> {
   constructor(options: DisplayObjectConfig<T>) {
     super(options);
 
@@ -22,14 +19,14 @@ export abstract class BaseShape<
    *
    * <en> shape instance map
    */
-  protected ShapeMap = {} as Record<SHAPE[0], SHAPE[1]>;
+  protected ShapeMap = {} as Record<string, DisplayObject>;
 
   /**
    * <zh> 动画实例映射表
    *
    * <en> animation instance map
    */
-  protected AnimateMap = {} as Record<SHAPE[0], IAnimation>;
+  protected AnimateMap = {} as Record<string, IAnimation>;
 
   connectedCallback(): void {}
 
@@ -46,7 +43,7 @@ export abstract class BaseShape<
    * @returns <zh> 图形实例 | <en> shape instance
    */
   protected upsert<P extends DisplayObject>(
-    key: SHAPE[0],
+    key: string,
     Ctor: { new (...args: unknown[]): P },
     style: P['attributes'],
     container: DisplayObject,

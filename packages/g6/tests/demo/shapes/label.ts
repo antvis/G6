@@ -1,4 +1,4 @@
-import { Label } from '../../../src/plugin/shape';
+import { Label } from '../../../src/shape';
 import { createGCanvas } from '../../integration/utils/createGCanvas';
 import { TestCaseContext } from '../interface';
 

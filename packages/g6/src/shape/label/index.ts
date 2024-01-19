@@ -1,9 +1,9 @@
 import { DisplayObjectConfig, Group, IAnimation, Rect, RectStyleProps, Text, TextStyleProps } from '@antv/g';
 import { deepMix } from '@antv/util';
-import type { Padding } from '../../../types';
-import type { PrefixObject } from '../../../types/prefix';
-import { parsePadding } from '../../../utils/padding';
-import { startsWith, subStyleProps } from '../../../utils/prefix';
+import type { Padding } from '../../types';
+import type { PrefixObject } from '../../types/prefix';
+import { parsePadding } from '../../utils/padding';
+import { startsWith, subStyleProps } from '../../utils/prefix';
 import { BaseShape, BaseShapeStyleProps } from '../base';
 
 export type LabelStyleProps = BaseShapeStyleProps &
@@ -16,7 +16,7 @@ type ParsedLabelStyleProps = Required<LabelStyleProps>;
 
 export type LabelOptions = DisplayObjectConfig<LabelStyleProps>;
 
-export class Label extends BaseShape<LabelStyleProps, ['text' | 'background', Text | Rect]> {
+export class Label extends BaseShape<LabelStyleProps> {
   static defaultStyleProps: Partial<LabelStyleProps> = {
     padding: 5,
     backgroundZIndex: -1,
