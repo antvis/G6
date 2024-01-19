@@ -1,13 +1,9 @@
-import { DisplayObject } from '@antv/g';
+import type { DisplayObject } from '@antv/g';
 import { Node as GNode, ID, PlainObject } from '@antv/graphlib';
-import { BaseNode } from '../plugin/item/node/base';
-import { BaseNode3D } from '../plugin/item/node/base3d';
-import { IAnimates } from './animate';
 import {
   BadgePosition,
   Encode,
   IBadgePosition,
-  IItem,
   ItemShapeStyles,
   LodLevel,
   ShapeAttrEncode,
@@ -186,11 +182,6 @@ export interface NodeShapesEncode extends ShapesEncode {
   anchorShapes?: ShapeAttrEncode[] | Encode<ShapeStyle[]>;
   badgeShapes?: ShapeAttrEncode[] | Encode<ShapeStyle[]>;
 }
-export interface NodeEncode extends NodeShapesEncode {
-  type?: string | Encode<string>;
-  lodLevels?: LodLevel[];
-  animates?: IAnimates;
-}
 
 export interface NodeShapeMap {
   keyShape: DisplayObject;
@@ -201,13 +192,10 @@ export interface NodeShapeMap {
   [otherShapeId: string]: DisplayObject;
 }
 
-// TODO
-export type INode = IItem;
-
 export interface IAnchorPositionMap {
   [key: string]: [number, number];
 }
 
 export interface NodeRegistry {
-  [key: string]: typeof BaseNode | typeof BaseNode3D;
+  [key: string]: DisplayObject;
 }

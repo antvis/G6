@@ -1,11 +1,9 @@
 import { Node as GNode, PlainObject } from '@antv/graphlib';
 import { ImageStyleProps, TextStyleProps } from '@antv/gui/lib/shapes';
-import { IAnimates } from './animate';
 import { Padding } from './common';
 import {
   BadgePosition,
   Encode,
-  IItem,
   ItemShapeStyles,
   LabelBackground,
   LodLevel,
@@ -166,12 +164,5 @@ export interface ComboShapesEncode extends ShapesEncode {
   fixSize?: number | number[] | Encode<number | number[]>;
   padding?: Padding | Encode<Padding>;
 }
-export interface ComboEncode extends ComboShapesEncode {
-  type?: string | Encode<string>;
-  animates?: IAnimates;
-}
 
 export type ComboShapeMap = NodeShapeMap;
-
-// TODO
-export type ICombo = IItem;

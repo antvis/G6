@@ -1,10 +1,10 @@
 import type { CanvasOption } from './canvas';
 import type { DataOption } from './data';
-import type { ComboOption, EdgeOption, NodeOption } from './element';
+import type { ComboOptions, EdgeOptions, NodeOptions } from './element';
 import type { LayoutOption } from './layout';
 import type { ModeOption } from './mode';
 import type { OptimizeOption } from './optimize';
-import type { ThemeOption } from './theme';
+import type { ThemeOptions } from './theme';
 import type { ViewportOption } from './viewport';
 import type { WidgetOption } from './widget';
 
@@ -33,25 +33,25 @@ export type G6Spec = CanvasOption &
      *
      * <en/> Node
      */
-    node?: NodeOption;
+    node?: NodeOptions;
     /**
      * <zh/> 边
      *
      * <en/> Edge
      */
-    edge?: EdgeOption;
+    edge?: EdgeOptions;
     /**
      * <zh/> Combo
      *
      * <en/> Combo
      */
-    combo?: ComboOption;
+    combo?: ComboOptions;
     /**
      * <zh/> 主题
      *
      * <en/> Theme
      */
-    theme?: ThemeOption;
+    theme?: ThemeOptions;
     /**
      * <zh/> 模式
      *
@@ -63,7 +63,7 @@ export type G6Spec = CanvasOption &
      *
      * <en/> Canvas widget
      */
-    widget?: WidgetOption;
+    widgets?: WidgetOption;
     /**
      * <zh/> 优化选项
      *

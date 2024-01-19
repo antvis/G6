@@ -8,7 +8,7 @@ import type { Palette } from '../types';
  *
  * <en/> Node spec
  */
-export type NodeOption = {
+export type NodeOptions = {
   /**
    * <zh/> 节点样式
    *
@@ -43,3 +43,12 @@ export type NodeOption = {
  * <en/> Node style
  */
 type CallableNodeStyle = CallableObject<NodeLikeStyle, NodeData>;
+
+export type StaticNodeOptions = {
+  style?: NodeLikeStyle;
+  state?: {
+    [keys: string]: NodeLikeStyle;
+  };
+  animate?: AnimationOption;
+  palette?: Palette;
+};

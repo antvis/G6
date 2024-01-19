@@ -1,17 +1,6 @@
 import type { DisplayObject, PathStyleProps } from '@antv/g';
 import { Edge as GEdge, PlainObject } from '@antv/graphlib';
-import { BaseEdge } from '../plugin/item/edge/base';
-import { IAnimates } from './animate';
-import {
-  Encode,
-  IItem,
-  ItemShapeStyles,
-  LabelBackground,
-  LodLevel,
-  ShapeAttrEncode,
-  ShapeStyle,
-  ShapesEncode,
-} from './item';
+import { Encode, ItemShapeStyles, LabelBackground, LodLevel, ShapeAttrEncode, ShapeStyle, ShapesEncode } from './item';
 
 export interface EdgeUserModelData extends PlainObject {
   /**
@@ -106,10 +95,6 @@ export interface EdgeShapesEncode extends ShapesEncode {
   labelBackgroundShape?: LabelBackground | Encode<LabelBackground>;
   badgeShape?: ShapeAttrEncode | Encode<ShapeStyle>;
 }
-export interface EdgeEncode extends EdgeShapesEncode {
-  type?: string | Encode<string>;
-  animates?: IAnimates;
-}
 
 export interface EdgeShapeMap {
   keyShape: DisplayObject;
@@ -117,9 +102,6 @@ export interface EdgeShapeMap {
   iconShape?: DisplayObject;
   [otherShapeId: string]: DisplayObject;
 }
-
-// TODO
-export type IEdge = IItem;
 
 export type ArrowType = 'triangle' | 'circle' | 'diamond' | 'rect' | 'vee' | 'triangle-rect' | 'simple';
 
@@ -131,9 +113,7 @@ export type ArrowStyle = PathStyleProps & {
 };
 
 export interface EdgeRegistry {
-  [key: string]: typeof BaseEdge;
+  [key: string]: DisplayObject;
 }
-
-/** --------------------- V5.1 --------------------- */
 
 export type EdgeDirection = 'in' | 'out' | 'both';

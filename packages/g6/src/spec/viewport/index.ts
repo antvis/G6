@@ -1,4 +1,4 @@
-import type { CameraAnimationOptions } from '../../types/animate';
+import type { AnimationOptions } from '../../types/animate';
 import type { Padding, Point, STDPadding } from '../../types/common';
 import type { Position } from '../../types/position';
 import type { FitViewRules } from '../../types/view';
@@ -40,10 +40,10 @@ export type ViewportOption = {
  * @internal
  */
 export type STDViewportOption = {
-  autoFit: STDAutoFit;
-  padding: STDPadding;
-  zoom: number;
-  zoomRange: [number, number];
+  autoFit?: STDAutoFit;
+  padding?: STDPadding;
+  zoom?: number;
+  zoomRange?: [number, number];
 };
 
 /**
@@ -53,9 +53,9 @@ export type STDViewportOption = {
  * @public
  */
 export type STDAutoFit =
-  | { type: 'view'; padding?: Padding; rules?: FitViewRules; effectTiming?: CameraAnimationOptions }
-  | { type: 'center'; effectTiming?: CameraAnimationOptions }
-  | { type: 'position'; position: Point; alignment?: Position };
+  | { type: 'view'; padding?: Padding; rules?: FitViewRules; effectTiming?: AnimationOptions }
+  | { type: 'center'; effectTiming?: AnimationOptions }
+  | { type: 'position'; position: Point; alignment?: Position; effectTiming?: AnimationOptions };
 
 /**
  * <zh/> 视口自适应规则

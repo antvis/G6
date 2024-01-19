@@ -8,7 +8,7 @@ import type { Palette } from '../types';
  *
  * <en/> Combo spec
  */
-export type ComboOption = {
+export type ComboOptions = {
   /**
    * <zh/> Combo 样式
    *
@@ -43,3 +43,12 @@ export type ComboOption = {
  * <en/> Combo style
  */
 type CallableComboStyle = CallableObject<NodeLikeStyle, NodeData>;
+
+export type StaticComboOptions = {
+  style?: NodeLikeStyle;
+  state?: {
+    [keys: string]: NodeLikeStyle;
+  };
+  animate?: AnimationOption;
+  palette?: Palette;
+};

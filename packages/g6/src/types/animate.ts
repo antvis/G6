@@ -1,37 +1,5 @@
 import { IAnimation, IAnimationEffectTiming } from '@antv/g';
 
-export interface AnimateCfg {
-  /**
-   * Duration of one animation.
-   */
-  duration?: number;
-  /**
-   * Easing function.
-   * @type {string}
-   */
-  easing?: string;
-  /**
-   * Delay of the animation.
-   */
-  delay?: number;
-  /**
-   * Iteration number for the animation, Infinity means repeat.
-   */
-  iterations?: number | typeof Infinity;
-  /**
-   * Called after the animation is finished.
-   */
-  callback?: () => void;
-  /**
-   * Called after the animation is paused.
-   */
-  pauseCallback?: () => void;
-  /**
-   * Called after the animation is resumed.
-   */
-  resumeCallback?: () => void;
-}
-
 export type AnimateTiming = 'buildIn' | 'buildOut' | 'show' | 'hide' | 'update';
 
 export interface IAnimate {
@@ -60,7 +28,7 @@ export interface IAnimates {
   update?: (IAnimate | IStateAnimate)[];
 }
 
-export type CameraAnimationOptions = Partial<Pick<IAnimationEffectTiming, 'duration' | 'easing' | 'easingFunction'>>;
+export type AnimationOptions = Partial<Pick<IAnimationEffectTiming, 'duration' | 'easing' | 'easingFunction'>>;
 
 /**
  * <zh/> 动画结果
@@ -74,7 +42,7 @@ export type AnimationResult = IAnimation;
  *
  * <en/> Animation stage
  */
-export type AnimationStage = 'enter' | 'exit' | 'update' | 'show' | 'hide';
+export type AnimationStage = 'enter' | 'exit' | 'update' | 'show' | 'hide' | 'translate';
 
 /**
  * <zh/> 元素动画配置项
@@ -82,9 +50,9 @@ export type AnimationStage = 'enter' | 'exit' | 'update' | 'show' | 'hide';
  * <en/> Element animation configuration
  */
 export type AnimationOption = {
-  [K in string]?: {
-    [G in AnimationStage]?: AnimationEffectTiming;
-  };
+  [G in AnimationStage]?: AnimationEffectTiming;
+} & {
+  [keys: string]: AnimationEffectTiming;
 };
 
 // TODO update to built-in type

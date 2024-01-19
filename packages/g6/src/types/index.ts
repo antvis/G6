@@ -1,8 +1,8 @@
 export type { ID } from '@antv/graphlib';
 export type { PluginCategory, PluginRegistry } from '../plugin/register';
-export type { AnimateCfg, AnimateTiming, CameraAnimationOptions, IAnimate, IAnimates } from './animate';
+export type { AnimateTiming, IAnimate, IAnimates } from './animate';
 export { Behavior } from './behavior';
-export type { BehaviorOptionsOf, BehaviorRegistry } from './behavior';
+export type { BehaviorRegistry } from './behavior';
 export type {
   ComboDisplayModel,
   ComboLabelPosition,
@@ -13,7 +13,7 @@ export type {
   ComboUserModel,
 } from './combo';
 export type { Point } from './common';
-export type { DataConfig, DisplayGraphCore, GraphCore, GraphData, TreeData } from './data';
+export type { DataModel as GraphCore, GraphData } from './data';
 export type {
   EdgeDisplayModel,
   EdgeLabelPosition,
@@ -29,7 +29,6 @@ export { isImmediatelyInvokedLayoutOptions, isLayoutWorkerized } from './layout'
 export type { ImmediatelyInvokedLayoutOptions, LayoutOptions, STDLayoutOptions } from './layout';
 export type {
   NodeDisplayModel,
-  NodeEncode,
   NodeLabelPosition,
   NodeModel,
   NodeModelData,
@@ -39,5 +38,4 @@ export type {
 } from './node';
 export { Plugin as PluginBase } from './plugin';
 export type { IPluginBaseConfig } from './plugin';
-export type { Specification } from './spec';
 export type { ThemeSpecification } from './theme';
