@@ -2,7 +2,7 @@ import { DisplayObject, Line, Polyline } from '@antv/g';
 import { isBoolean } from '@antv/util';
 import { ID } from 'types';
 import { DEFAULT_LABEL_BG_PADDING, OTHER_SHAPES_FIELD_NAME, RESERVED_SHAPE_IDS } from '../../../constant';
-import Node from '../../../item/node';
+import Node from '../../../element/node';
 import { Point } from '../../../types/common';
 import { ArrowStyle, EdgeDisplayModel, EdgeModelData, EdgeShapeMap, EdgeShapeStyles } from '../../../types/edge';
 import { GShapeStyle, LodLevelRanges, SHAPE_TYPE, ShapeStyle, State } from '../../../types/item';

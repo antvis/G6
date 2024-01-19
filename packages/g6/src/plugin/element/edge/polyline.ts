@@ -1,6 +1,6 @@
 import { ID } from '@antv/graphlib';
 import { isEmpty, mix } from '@antv/util';
-import Node from '../../../item/node';
+import Node from '../../../element/node';
 import { Point } from '../../../types/common';
 import { EdgeDisplayModel, EdgeModelData, EdgeShapeMap } from '../../../types/edge';
 import { State } from '../../../types/item';

@@ -1,44 +1,260 @@
+import type {} from '@antv/g';
 import { AABB, DisplayObject, Group, IAnimation } from '@antv/g';
-import { isFunction, isObject, throttle } from '@antv/util';
-import { OTHER_SHAPES_FIELD_NAME, RESERVED_SHAPE_IDS } from '../constant';
-import { Graph } from '../types';
-import { AnimateTiming, IAnimates, IStateAnimate } from '../types/animate';
-import { EdgeShapeMap } from '../types/edge';
-import {
-  DisplayMapper,
-  IItem,
-  ITEM_TYPE,
-  ItemDisplayModel,
-  ItemModel,
-  ItemModelData,
-  ItemShapeStyles,
-  LodLevelRanges,
-  State,
-} from '../types/item';
-import { NodeShapeMap } from '../types/node';
-import { EdgeStyleSet, NodeStyleSet } from '../types/theme';
-import { GROUP_ANIMATE_STYLES, animateShapes, getShapeAnimateBeginStyles, stopAnimate } from '../utils/animate';
-import { isArrayOverlap } from '../utils/array';
-import { cloneJSON } from '../utils/data';
-import { warn } from '../utils/invariant';
-import { DEFAULT_MAPPER } from '../utils/mapper';
-import { combineBounds, getShapeLocalBoundsByStyle, mergeStyles, updateShapes } from '../utils/shape';
-import { isEncode } from '../utils/type';
-import { formatLodLevels } from '../utils/zoom';
+import { deepMix, isFunction, isObject, throttle } from '@antv/util';
+import { OTHER_SHAPES_FIELD_NAME, RESERVED_SHAPE_IDS } from '../../constant';
+import type { BaseElement } from '../../plugin/element/base';
+import { ThemeOptions } from '../../spec/theme';
+import { Graph } from '../../types';
+import { AnimateTiming, IAnimates, IStateAnimate } from '../../types/animate';
+import { EdgeShapeMap } from '../../types/edge';
+import { ElementRegistry } from '../../types/element';
+import { DisplayMapper, ItemDisplayModel, ItemShapeStyles, ItemType, LodLevelRanges, State } from '../../types/item';
+import { NodeShapeMap } from '../../types/node';
+import { PositionPoint } from '../../types/position';
+import { EdgeStyleSet, NodeStyleSet } from '../../types/theme';
+import type { Visibility } from '../../types/visibility';
+import { GROUP_ANIMATE_STYLES, animateShapes, getShapeAnimateBeginStyles, stopAnimate } from '../../utils/animate';
+import { isArrayOverlap } from '../../utils/array';
+import { cloneJSON } from '../../utils/data';
+import { arrayDiff } from '../../utils/diff';
+import { DEFAULT_MAPPER } from '../../utils/mapper';
+import { combineBounds, getShapeLocalBoundsByStyle, mergeStyles, updateShapes } from '../../utils/shape';
+import { isEncode } from '../../utils/type';
+import { formatLodLevels } from '../../utils/zoom';
+import type { ElementData, ElementOptions, Palettes, StaticElementOptions } from './types';
 
-export default abstract class Item implements IItem {
+export interface BaseElementOptions {
+  /** <zh/> 图实例 | <en/> Graph instance */
+  graph: Graph;
+  /** <zh/> 当前元素所在容器 | <en/> The container of the current element */
+  container: DisplayObject;
+  /** <zh/> 元素数据 | <en/> Element data */
+  data: ElementData;
+  /** <zh/> 元素图形注册表 | <en/> Element shapes registry */
+  shapes: ElementRegistry;
+  /** <zh/> 元素视觉编码 | <en/> Element visual encoding */
+  encoder?: ElementOptions;
+  /** <zh/> 元素状态 | <en/> Element states */
+  states?: string[];
+  /** <zh/> 色板值 | <en/> Palette token colors */
+  palettes?: Palettes;
+  /** <zh/> 主题 | <en/> Theme */
+  theme?: ThemeOptions;
+}
+
+export abstract class Element<T extends BaseElementOptions = BaseElementOptions> {
+  static defaultOptions = {};
+
+  protected abstract type: string;
+
+  protected options: T;
+
+  protected shape: BaseElement<any>;
+
+  #destroyed = false;
+  public get destroyed() {
+    return this.#destroyed;
+  }
+
+  /**
+   * <zh/> 计算动态样式
+   *
+   * <en/> compute dynamic style
+   * @param callableStyle - <zh/> 动态样式 | <en/> dynamic style
+   * @returns <zh/> 静态样式 | <en/> static style
+   */
+  protected getComputedStyle(callableStyle: T['encoder']['style']): StaticElementOptions {
+    const { data } = this.options;
+
+    return Object.fromEntries(
+      Object.entries(callableStyle).map(([key, style]) => {
+        if (isFunction(style)) return [key, style(data)];
+        return [key, style];
+      }),
+    );
+  }
+
+  /**
+   * <zh/> 从数据中提取样式
+   *
+   * <en/> pick style from data
+   * @returns <zh/> shape 可用的样式 | <en/> style for shape
+   * @description
+   * <zh/> `data.style` 中一些样式例如 parentId, collapsed, type 并非直接给 shape 使用，因此给 shape 传递参数时需要过滤掉这些字段
+   *
+   * <en/> Some styles in `data.style` such as parentId, collapsed, type are not directly used by shape, so when passing parameters to shape, these fields need to be filtered out
+   */
+  protected getDataStyle(): Record<string, unknown> {
+    const style = this.options?.data?.style || {};
+    const { parentId, collapsed, type, ...restStyle } = style;
+    return restStyle;
+  }
+
+  protected getDefaultStyle() {
+    const style = this.options?.encoder?.style || {};
+    return this.getComputedStyle(style);
+  }
+
+  protected getStateStyle(state: string) {
+    const stateStyle = this.options?.encoder?.state?.[state] || {};
+    return this.getComputedStyle(stateStyle);
+  }
+
+  protected getStatesStyle() {
+    return Object.assign({}, ...this.getStates().map((state) => this.getStateStyle(state)));
+  }
+
+  protected getPaletteStyle() {
+    // TODO 应该在上层解析，然后传递
+  }
+
+  protected get computedStyle() {
+    const dataStyle = this.getDataStyle();
+    const defaultStyle = this.getDefaultStyle();
+    const statesStyle = this.getStatesStyle();
+
+    return Object.assign(dataStyle, defaultStyle, statesStyle);
+  }
+
+  public get data() {
+    // 这个是 raw data
+    return this.options.data;
+  }
+
+  #states: string[] = [];
+  public get states() {
+    return this.#states;
+  }
+
+  constructor(options: T) {
+    this.options = deepMix({}, Element.defaultOptions, options);
+    this.init();
+  }
+
+  protected getShapeType(options = this.options) {
+    const { data } = options;
+    const type = data?.style?.type;
+    if (type) return type;
+    return this.type === 'edge' ? 'line-edge' : `circle-${this.type}`;
+  }
+
+  protected createShape() {
+    // 如果 shape 已存在，销毁后重新创建
+    // If the shape already exists, destroy it and recreate it
+    this.shape?.destroy();
+
+    const { shapes } = this.options;
+    const type = this.getShapeType();
+
+    const Ctor = shapes[type];
+    if (!Ctor) throw new Error(`Unknown element type: ${type}.`);
+
+    this.shape = new Ctor({
+      style: {
+        graph: this.options.graph,
+        ...this.computedStyle,
+      },
+    });
+  }
+
+  protected init() {
+    this.render();
+  }
+
+  public render() {
+    this.createShape();
+  }
+
+  public update(options: T) {
+    this.handleTypeChange(options);
+    this.handleUpdate(options);
+  }
+
+  protected handleTypeChange(options: T) {
+    const originalShapeType = this.getShapeType();
+    const modifiedShapeType = this.getShapeType(options);
+
+    if (originalShapeType !== modifiedShapeType) {
+      this.createShape();
+    }
+  }
+
+  protected handleUpdate(options: T) {
+    this.options = deepMix(this.options, options);
+    this.updateShape();
+  }
+
+  protected updateShape() {
+    const style = {
+      graph: this.options.graph,
+      ...this.computedStyle,
+    };
+    if ('update' in this.shape) {
+      this.shape.update(style);
+    } else {
+      (this.shape as DisplayObject).attr(style);
+    }
+  }
+
+  public getPosition() {
+    return this.shape.getPosition();
+  }
+
+  public setPosition(point: PositionPoint, animate = true) {
+    const { encoder } = this.options;
+    const animateOptions = encoder?.animate?.translate;
+    const animationType = animateOptions?.type;
+    const useAnimate = animate && animateOptions?.type;
+    const [x = 0, y = 0, z = 0] = point;
+    this.shape.setPosition(point);
+  }
+
+  public getVisibility(): Visibility {
+    return this.shape.style.visibility;
+  }
+
+  public setVisibility(visibility: Visibility) {
+    this.shape.style.visibility = visibility;
+  }
+
+  public getZIndex() {
+    return this.shape.style.zIndex;
+  }
+
+  public setZIndex(zIndex: number) {
+    this.shape.style.zIndex = zIndex;
+  }
+
+  public toFront() {}
+
+  public toBack() {}
+
+  public getStates() {
+    return this.options?.states || [];
+  }
+
+  public setStates(states: State[]) {}
+
+  public destroy() {
+    this.shape.destroy();
+  }
+}
+
+interface ItemProps {
+  device: any;
+  onframe: () => void;
+  renderExtensions: ElementRegistry;
+}
+
+export default abstract class Item {
   public graph: Graph;
   public destroyed = false;
   /** Inner model. */
-  public model: ItemModel;
+  public model: ElementData;
   /** Display model, user will not touch it. */
   public displayModel: ItemDisplayModel;
   /** The mapper configured at graph with field name 'node' / 'edge' / 'combo'. */
   public mapper: DisplayMapper;
-  /** The state style mapper configured at graph with field name 'nodeState' / 'edgeState' / 'comboState'. */
-  public stateMapper: {
-    [stateName: string]: DisplayMapper;
-  };
   /** The graphic group for item drawing. */
   public group: Group;
   /** The graphic group for item'label drawing. */
@@ -46,14 +262,11 @@ export default abstract class Item implements IItem {
   /** The keyShape of the item. */
   public keyShape: DisplayObject;
   /** render extension for this item. */
-  public renderExt;
+  public renderExt: DisplayObject;
   /** Visibility. */
   public visible = true;
   /** The states on the item. */
-  public states: {
-    name: string;
-    value: string | boolean;
-  }[] = [];
+  public states: string[] = [];
   /** The map caches the shapes of the item. The key is the shape id, the value is the g shape. */
   public shapeMap: NodeShapeMap | EdgeShapeMap = {
     keyShape: undefined,
@@ -62,10 +275,10 @@ export default abstract class Item implements IItem {
     [otherShapeId: string]: DisplayObject;
   } = {};
   /** Set to different value in implements. */
-  public type: ITEM_TYPE;
+  public type: ItemType;
   /** The flag of transient item. */
   public transient = false;
-  public renderExtensions: any; // TODO
+  public renderExtensions: ElementRegistry;
   /** Cache the shape animation instances to stop at next lifecycle. */
   public animations: IAnimation[];
   /** Cache the group animation instances to stop at next lifecycle. */
@@ -92,7 +305,7 @@ export default abstract class Item implements IItem {
   private cacheHiddenByItem: { [shapeId: string]: boolean } = {};
 
   // TODO: props type
-  constructor(props) {
+  constructor(props: ItemProps) {
     this.device = props.device;
     this.onframe = props.onframe;
   }
@@ -108,10 +321,8 @@ export default abstract class Item implements IItem {
       containerGroup,
       labelContainerGroup,
       mapper,
-      stateMapper,
       renderExtensions,
       zoom = 1,
-      theme = {},
       type: itemType,
     } = props;
     this.type = itemType;
@@ -127,7 +338,6 @@ export default abstract class Item implements IItem {
     this.model = model;
     this.mapper = mapper;
     this.zoom = zoom;
-    this.stateMapper = stateMapper;
     this.displayModel = this.getDisplayModelAndChanges(model).model;
     this.renderExtensions = renderExtensions;
     const {
@@ -135,25 +345,13 @@ export default abstract class Item implements IItem {
       lodLevels: modelLodLevels,
       enableBalanceShape,
     } = this.displayModel.data;
-    const RenderExtension = renderExtensions.find((ext) => ext.type === type);
-    this.themeStyles = theme.styles;
-    this.lodLevels = modelLodLevels ? formatLodLevels(modelLodLevels) : theme.lodLevels;
+    const RenderExtension = this.renderExtensions[type];
+
     if (!RenderExtension) {
-      if (this.type === 'node') {
-        throw new Error(
-          `TypeError: RenderExtension is not a constructor. The '${type}' in your data haven't been registered. You can use built-in node types like 'rect-node', 'circle-node' or create a custom node type as you like.`,
-        );
-      } else if (this.type == 'edge') {
-        throw new Error(
-          `TypeError: RenderExtension is not a constructor. The '${type}' in your data haven't been registered. You can use built-in edge types like 'line-edge', 'quadratic-edge','cubic-edge' or create a custom edge type as you like.`,
-        );
-      } else {
-        throw new Error(`TypeError: RenderExtension is not a constructor. The '${type}' haven't been registered.`);
-      }
+      throw new Error('Element' + type + " haven't been registered.");
     }
+
     this.renderExt = new RenderExtension({
-      themeStyles: this.themeStyles?.default,
-      lodLevels: this.lodLevels,
       enableBalanceShape,
       device: this.device,
       zoom: this.zoom,
@@ -161,27 +359,13 @@ export default abstract class Item implements IItem {
     });
   }
 
-  /**
-   * Draws the shapes.
-   * @param displayModel
-   * @param diffData
-   * @param diffData.previous
-   * @param diffData.current
-   * @param diffState
-   * @param diffState.previous
-   * @param diffState.current
-   * @param animate
-   * @param onfinish
-   * @internal
-   */
   public draw(
     displayModel: ItemDisplayModel,
-    diffData?: { previous: ItemModelData; current: ItemModelData },
+    diffData?: { previous: ElementData; current: ElementData },
     diffState?: { previous: State[]; current: State[] },
     animate = true,
     onfinish: Function = () => {},
   ) {
-    // call this.renderExt.draw in extend implementations
     const afterDrawShapeMap =
       this.renderExt.afterDraw?.(
         displayModel,
@@ -206,7 +390,7 @@ export default abstract class Item implements IItem {
       false,
       (id) => {
         if (RESERVED_SHAPE_IDS.includes(id)) {
-          warn(
+          console.warn(
             `Shape with id ${id} is reserved and should be returned in draw function, if the shape with ${id} returned by afterDraw is a new one, it will not be added to the group.`,
           );
           return false;
@@ -221,24 +405,9 @@ export default abstract class Item implements IItem {
     this.changedStates = [];
   }
 
-  /**
-   * Updates the shapes.
-   * @param model
-   * @param diffData
-   * @param diffData.previous
-   * @param diffData.current
-   * @param isReplace
-   * @param itemTheme
-   * @param itemTheme.styles
-   * @param itemTheme.lodLevels
-   * @param onlyMove
-   * @param animate
-   * @param onfinish
-   * @internal
-   */
   public update(
-    model: ItemModel,
-    diffData?: { previous: ItemModelData; current: ItemModelData },
+    model: ElementData,
+    diffData?: { previous: ElementData; current: ElementData },
     isReplace?: boolean,
     itemTheme?: {
       styles: NodeStyleSet | EdgeStyleSet;
@@ -299,12 +468,12 @@ export default abstract class Item implements IItem {
    * @param diffData
    * @param diffData.previous
    * @param diffData.current
-   * @param onfinish
    * @param animate
+   * @param onfinish
    */
   public updatePosition(
     displayModel: ItemDisplayModel,
-    diffData?: { previous: ItemModelData; current: ItemModelData },
+    diffData?: { previous: ElementData; current: ElementData },
     animate?: boolean,
     onfinish?: Function,
   ) {}
@@ -320,8 +489,8 @@ export default abstract class Item implements IItem {
    * @returns
    */
   public getDisplayModelAndChanges(
-    innerModel: ItemModel,
-    diffData?: { previous: ItemModelData; current: ItemModelData },
+    innerModel: ElementData,
+    diffData?: { previous: ElementData; current: ElementData },
     isReplace?: boolean,
   ): {
     model: ItemDisplayModel;
@@ -579,33 +748,22 @@ export default abstract class Item implements IItem {
    * @returns { boolean | string } the state value
    */
   public hasState(state: string) {
-    const findState = this.states.find((item) => item.name === state);
-    return findState?.value || false;
+    return state in this.states;
   }
 
-  /**
-   * Set the state for the item.
-   * @param state state name
-   * @param value state value
-   */
-  public setState(state: string, value: string | boolean) {
-    const previousStates = cloneJSON(this.states);
-    const existState = this.states.find((item) => item.name === state);
-    if (value) {
-      if (existState) existState.value = value;
-      else
-        this.states.push({
-          name: state,
-          value,
-        });
-    } else {
-      const idx = this.states.indexOf(existState);
-      this.states.splice(idx, 1);
+  public setState(states: string[]) {
+    if (!states.length) {
+      return this.clearStates();
     }
+    const previousStates = [...this.states];
+
+    const { enter, exit } = arrayDiff(this.states, states, (d) => d);
+
+    this.states = [...states];
 
     // if the renderExt overwrote the setState, run the custom setState instead of the default
     if ('setState' in this.renderExt.constructor) {
-      this.renderExt.setState(state, value, this.shapeMap);
+      this.renderExt.setState(states, this.shapeMap);
       return;
     }
     this.changedStates = [state];
@@ -700,13 +858,13 @@ export default abstract class Item implements IItem {
     const { default: _, ...themeStateStyles } = this.themeStyles;
     const { data: displayModelData } = this.displayModel;
     let styles = {}; // merged styles
-    this.states.forEach(({ name: stateName, value }) => {
-      const stateStyles = this.cacheStateStyles[stateName] || {};
-      const mapper = this.stateMapper?.[stateName];
-      if (!mapper && !themeStateStyles?.[stateName]) return;
+    this.states.forEach((state) => {
+      const stateStyles = this.cacheStateStyles[state] || {};
+      const mapper = this.stateMapper?.[state];
+      if (!mapper && !themeStateStyles?.[state]) return;
       // re-mapper the state styles for states if they have dirty tags
-      if (mapper && value && (!(stateName in this.stateDirtyMap) || this.stateDirtyMap[stateName])) {
-        this.stateDirtyMap[stateName] = false;
+      if (mapper && (!(state in this.stateDirtyMap) || this.stateDirtyMap[state])) {
+        this.stateDirtyMap[state] = false;
         Object.keys(mapper).forEach((shapeId) => {
           stateStyles[shapeId] = {
             ...(displayModelData[shapeId] as Object),
@@ -736,9 +894,9 @@ export default abstract class Item implements IItem {
           }
         });
       }
-      this.cacheStateStyles[stateName] = stateStyles;
+      this.cacheStateStyles[state] = stateStyles;
       // merge the theme state styles
-      const mergedStateStyles = mergeStyles([themeStateStyles[stateName], stateStyles]);
+      const mergedStateStyles = mergeStyles([themeStateStyles[state], stateStyles]);
 
       // merge the states' styles into drawing style
       styles = mergeStyles([styles, mergedStateStyles]);
@@ -777,15 +935,6 @@ export default abstract class Item implements IItem {
       animate,
       onfinish,
     );
-  }
-
-  /**
-   * Get the rendering bouding box of the keyShape.
-   * @returns keyShape's rendering bounding box
-   */
-  public getKeyBBox(): AABB {
-    const { keyShape } = this.shapeMap;
-    return keyShape?.getRenderBounds() || ({ center: [0, 0, 0] } as AABB);
   }
 
   /**

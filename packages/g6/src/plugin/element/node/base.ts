@@ -164,7 +164,7 @@ export abstract class BaseNode {
    * @param value state value
    * @param shapeMap The shape map that contains all of the elements to show on the node.
    */
-  public setState: (name: string, value: boolean, shapeMap: { [shapeId: string]: DisplayObject }) => void;
+  public setState: (states: string[]) => void;
 
   /**
    * The key function of drawing shape.
