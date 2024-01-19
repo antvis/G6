@@ -1,3 +1,5 @@
+import type { Vector2, Vector3 } from './vector';
+
 export type Position =
   | 'top'
   | 'bottom'
@@ -8,3 +10,5 @@ export type Position =
   | 'top-right'
   | 'bottom-left'
   | 'bottom-right';
+
+export type PositionPoint = Vector2 | Vector3;
