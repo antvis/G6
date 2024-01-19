@@ -159,9 +159,7 @@ export const validateComboStructure = (graph, toBeSucceedId, toBeAncestorId): bo
     return false;
   }
   if (toBeSucceedId === toBeAncestorId) {
-    warn(
-      `Setting parent combo failed. Cannot set combo/node with id ${toBeSucceedId} to be the child of itself.`,
-    );
+    warn(`Setting parent combo failed. Cannot set combo/node with id ${toBeSucceedId} to be the child of itself.`);
     return false;
   }
   if (toBeAncestorId && isSucceed(graph, toBeSucceedId, toBeAncestorId)) {

@@ -20,11 +20,11 @@ import { EdgeStyleSet, NodeStyleSet } from '../types/theme';
 import { GROUP_ANIMATE_STYLES, animateShapes, getShapeAnimateBeginStyles, stopAnimate } from '../utils/animate';
 import { isArrayOverlap } from '../utils/array';
 import { cloneJSON } from '../utils/data';
+import { warn } from '../utils/invariant';
 import { DEFAULT_MAPPER } from '../utils/mapper';
 import { combineBounds, getShapeLocalBoundsByStyle, mergeStyles, updateShapes } from '../utils/shape';
 import { isEncode } from '../utils/type';
 import { formatLodLevels } from '../utils/zoom';
-import { warn } from '../utils/invariant';
 
 export default abstract class Item implements IItem {
   public graph: Graph;

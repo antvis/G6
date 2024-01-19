@@ -5,9 +5,9 @@ import { ComboLabelPosition } from '../../../types/combo';
 import { ITEM_TYPE, ShapeStyle } from '../../../types/item';
 import { Plugin as Base, IPluginBaseConfig } from '../../../types/plugin';
 import { isArrayOverlap } from '../../../utils/array';
+import { warn } from '../../../utils/invariant';
 import HullComponent, { HullComponentOptions } from './hullComponent';
 import { BubblesetCfg } from './types';
-import { warn } from '../../../utils/invariant';
 
 interface HullConfig extends IPluginBaseConfig {
   /** Common style for the hulls in this plugin. You can also configure individually for each hulls. */
@@ -131,9 +131,7 @@ export default class Hull extends Base {
         return;
       }
       if (validMembers.length !== members.length) {
-        warn(
-          `Some member of hull ${id} is not exist in the graph. Hull ${id} is added without those invalid members.`,
-        );
+        warn(`Some member of hull ${id} is not exist in the graph. Hull ${id} is added without those invalid members.`);
       }
       const fullOptions = {
         id: `${this.key}-${id}`,

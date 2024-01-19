@@ -1,5 +1,10 @@
 import { createNodeGCanvas } from './createNodeGCanvas';
 
+/**
+ *
+ * @param width
+ * @param height
+ */
 export function createContext(width: number, height: number) {
   const container = document.createElement('div');
   document.body.appendChild(container);

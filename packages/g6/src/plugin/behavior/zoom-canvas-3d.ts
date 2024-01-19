@@ -1,6 +1,6 @@
-import { warn } from '../../utils/invariant';
 import { Behavior } from '../../types/behavior';
 import { IG6GraphEvent } from '../../types/event';
+import { warn } from '../../utils/invariant';
 
 const VALID_TRIGGERS = ['wheel', 'upDownKeys'];
 

@@ -1,6 +1,6 @@
-import { warn } from '../../utils/invariant';
 import type { IG6GraphEvent } from '../../types';
 import { Behavior } from '../../types/behavior';
+import { warn } from '../../utils/invariant';
 
 const DEFAULT_TRIGGER = 'ctrl';
 const ALLOW_TRIGGERS = ['shift', 'ctrl', 'alt', 'control'] as const;
@@ -81,7 +81,7 @@ export class ShortcutsCall extends Behavior {
     }
 
     if (!graph[functionName]) {
-      warn(`G6: Invalid functionName option: "${functionName}" for shortcuts-call behavior!`);
+      warn(`Invalid functionName option: "${functionName}" for shortcuts-call behavior!`);
       return {};
     }
     if (!this.triggerKeydown) return;

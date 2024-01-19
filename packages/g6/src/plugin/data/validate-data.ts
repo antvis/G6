@@ -105,15 +105,11 @@ const handler = (data: GraphData, options = {}, graphCore?: GraphCore): GraphDat
         return false;
       }
       if (!nodeIdMap.has(source) && !comboIdMap.has(source) && (!graphCore || !graphCore.hasNode(source))) {
-        error(
-          `The edge with id ${id} will be ignored since its source ${source} is not existed in nodes and combos.`,
-        );
+        error(`The edge with id ${id} will be ignored since its source ${source} is not existed in nodes and combos.`);
         return false;
       }
       if (!nodeIdMap.has(target) && !comboIdMap.has(target) && (!graphCore || !graphCore.hasNode(target))) {
-        error(
-          `The edge with id ${id} will be ignored since its target ${target} is not existed in nodes and combos.`,
-        );
+        error(`The edge with id ${id} will be ignored since its target ${target} is not existed in nodes and combos.`);
         return false;
       }
       idMap.set(id, true);

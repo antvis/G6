@@ -1,6 +1,7 @@
 import { AABB } from '@antv/g';
 import { ComboModel, Graph, NodeModel } from '../../../types';
 import { Bounds, Point } from '../../../types/common';
+import { warn } from '../../../utils/invariant';
 import { isPointInPolygon } from '../../../utils/shape';
 import { BubblesetCfg } from './types';
 import {
@@ -13,7 +14,6 @@ import {
   pointRectSquareDist,
   squareDist,
 } from './util';
-import { warn } from '../../../utils/invariant';
 
 const defaultOps = {
   /** number of times to run the algorithm to refine the path finding in difficult areas */

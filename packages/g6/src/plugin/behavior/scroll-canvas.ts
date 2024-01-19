@@ -313,8 +313,7 @@ function initZoomKey(zoomKey?: string | string[]) {
 
   const validZoomKeys = zoomKeys.filter((zoomKey) => {
     const keyIsValid = ALLOW_EVENTS.includes(zoomKey);
-    if (!keyIsValid)
-      warn(`Invalid zoomKey: ${zoomKey}, please use a valid zoomKey: ${JSON.stringify(ALLOW_EVENTS)}`);
+    if (!keyIsValid) warn(`Invalid zoomKey: ${zoomKey}, please use a valid zoomKey: ${JSON.stringify(ALLOW_EVENTS)}`);
 
     return keyIsValid;
   });

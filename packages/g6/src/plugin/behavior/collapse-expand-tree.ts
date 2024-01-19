@@ -1,6 +1,6 @@
-import { warn } from '../../utils/invariant';
 import { Behavior } from '../../types/behavior';
 import { IG6GraphEvent } from '../../types/event';
+import { warn } from '../../utils/invariant';
 
 const ALLOWED_TRIGGERS = ['click', 'dblclick'] as const;
 type Trigger = (typeof ALLOWED_TRIGGERS)[number];

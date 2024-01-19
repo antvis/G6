@@ -31,9 +31,9 @@ import {
   treeData2GraphData,
   validateComboStructure,
 } from '../../utils/data';
+import { warn } from '../../utils/invariant';
 import { isTreeLayout } from '../../utils/layout';
 import { EdgeCollisionChecker, QuadTree } from '../../utils/polyline';
-import { warn } from '../../utils/invariant';
 
 /**
  * Manages the data transform extensions;

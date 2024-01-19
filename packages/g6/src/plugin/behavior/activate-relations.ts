@@ -1,6 +1,6 @@
-import { warn } from '../../utils/invariant';
 import type { ID, IG6GraphEvent } from '../../types';
 import { Behavior } from '../../types/behavior';
+import { warn } from '../../utils/invariant';
 
 const KEYBOARD_TRIGGERS = ['shift', 'ctrl', 'alt', 'meta'] as const;
 const MOUSE_TRIGGERS = ['pointerenter', 'click'] as const;

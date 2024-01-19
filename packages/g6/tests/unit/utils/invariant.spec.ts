@@ -1,9 +1,9 @@
-import { invariant, info, warn, error } from '../../../src/utils/invariant';
+import { error, info, invariant, warn } from '../../../src/utils/invariant';
 
 describe('invariant', () => {
   it('invariant', () => {
     expect(() => {
-      invariant('throw hello world!',);
+      invariant('throw hello world!');
     }).toThrow('throw hello world!');
   });
 

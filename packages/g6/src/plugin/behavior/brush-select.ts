@@ -5,9 +5,9 @@ import { Point } from '../../types/common';
 import { IG6GraphEvent } from '../../types/event';
 import { ITEM_TYPE } from '../../types/item';
 import { diffSet, intersectSet, unionSet } from '../../utils/array';
+import { warn } from '../../utils/invariant';
 import { getEdgesBetween } from '../../utils/item';
 import rectSelector from '../selector/rect';
-import { warn } from '../../utils/invariant';
 
 const ALLOWED_TRIGGERS = ['drag', 'shift', 'ctrl', 'alt', 'meta'] as const;
 const BRUSH_SHAPE_ID = 'g6-brush-select-brush-shape';

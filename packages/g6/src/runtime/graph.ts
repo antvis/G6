@@ -24,6 +24,7 @@ import { getCombinedCanvasesBounds } from '../utils/bbox';
 import { changeRenderer, createCanvas } from '../utils/canvas';
 import { cloneJSON, isEmptyGraph } from '../utils/data';
 import { createDOM } from '../utils/dom';
+import { error, warn } from '../utils/invariant';
 import { getLayoutBounds } from '../utils/layout';
 import { formatPadding } from '../utils/shape';
 import {
@@ -36,7 +37,6 @@ import {
   ViewportController,
 } from './controller';
 import Hook from './hooks';
-import { error, warn } from '../utils/invariant';
 
 export class Graph<B extends BehaviorRegistry = any, T extends ThemeSolverRegistry = any> extends EventEmitter {
   public hooks: Hooks;
@@ -836,9 +836,7 @@ export class Graph<B extends BehaviorRegistry = any, T extends ThemeSolverRegist
    */
   public setSize(size: number[]) {
     if (!isArray(size) || size.length < 2) {
-      warn(
-        `Failed to setSize. The parameter size: ${size} is invalid. It must be an array with 2 number elements.`,
-      );
+      warn(`Failed to setSize. The parameter size: ${size} is invalid. It must be an array with 2 number elements.`);
       return;
     }
     const oldSize = [this.specification.width, this.specification.height];
@@ -2329,9 +2327,7 @@ export class Graph<B extends BehaviorRegistry = any, T extends ThemeSolverRegist
    */
   private dataURLToImage(dataURL: string, renderer: string, link, fileName) {
     if (!dataURL || dataURL === 'data:') {
-      error(
-        'Download image failed. The graph is too large or there is invalid attribute values in graph items',
-      );
+      error('Download image failed. The graph is too large or there is invalid attribute values in graph items');
       return;
     }
 

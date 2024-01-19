@@ -1,4 +1,4 @@
-import { isBetween, manhattanDist, eulerDist } from '../../../src/utils/math';
+import { eulerDist, isBetween, manhattanDist } from '../../../src/utils/math';
 
 describe('math', () => {
   it('isBetween', () => {

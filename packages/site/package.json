@@ -39,7 +39,7 @@
     "@antv/algorithm": "^0.1.26",
     "@antv/chart-node-g6": "^0.0.3",
     "@antv/dumi-theme-antv": "^0.4.4",
-    "@antv/g2": "^5.1.5",
+    "@antv/g2": "^5.1.15",
     "@antv/g6": "workspace:*",
     "@antv/g6-plugin-map-view": "workspace:*",
     "@antv/g6-react-node": "workspace:*",

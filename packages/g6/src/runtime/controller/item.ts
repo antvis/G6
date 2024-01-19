@@ -47,12 +47,12 @@ import {
   traverseGraphAncestors,
 } from '../../utils/data';
 import { getGroupedChanges } from '../../utils/event';
+import { warn } from '../../utils/invariant';
 import { upsertTransientItem } from '../../utils/item';
 import { isPointPreventPolylineOverlap, isPolylineWithObstacleAvoidance } from '../../utils/polyline';
 import { getCombinedBoundsByData, intersectBBox, upsertShape } from '../../utils/shape';
 import { convertToNumber } from '../../utils/type';
 import { formatLodLevels } from '../../utils/zoom';
-import { warn } from '../../utils/invariant';
 
 enum WARN_TYPE {
   FAIL_GET_BBOX,
