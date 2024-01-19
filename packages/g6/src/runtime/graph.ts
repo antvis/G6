@@ -24,6 +24,7 @@ import { getCombinedCanvasesBounds } from '../utils/bbox';
 import { changeRenderer, createCanvas } from '../utils/canvas';
 import { cloneJSON, isEmptyGraph } from '../utils/data';
 import { createDOM } from '../utils/dom';
+import { error, warn } from '../utils/invariant';
 import { getLayoutBounds } from '../utils/layout';
 import { formatPadding } from '../utils/shape';
 import {
@@ -36,6 +37,7 @@ import {
   ViewportController,
 } from './controller';
 import Hook from './hooks';
+
 export class Graph<B extends BehaviorRegistry = any, T extends ThemeSolverRegistry = any> extends EventEmitter {
   public hooks: Hooks;
   // for nodes and edges excluding their labels, which will be separate into groups
@@ -133,7 +135,7 @@ export class Graph<B extends BehaviorRegistry = any, T extends ThemeSolverRegist
         : (container as HTMLElement);
 
       if (!containerDOM) {
-        console.error(`Create graph failed. The container for graph ${containerDOM} is not exist.`);
+        error(`Create graph failed. The container for graph ${containerDOM} is not exist.`);
         this.destroy();
         return;
       }
@@ -834,9 +836,7 @@ export class Graph<B extends BehaviorRegistry = any, T extends ThemeSolverRegist
    */
   public setSize(size: number[]) {
     if (!isArray(size) || size.length < 2) {
-      console.warn(
-        `Failed to setSize. The parameter size: ${size} is invalid. It must be an array with 2 number elements.`,
-      );
+      warn(`Failed to setSize. The parameter size: ${size} is invalid. It must be an array with 2 number elements.`);
       return;
     }
     const oldSize = [this.specification.width, this.specification.height];
@@ -1114,7 +1114,7 @@ export class Graph<B extends BehaviorRegistry = any, T extends ThemeSolverRegist
     data[`${itemType}s`] = idArr
       .map((id) => {
         if (!hasItem.bind(graphCore)(id)) {
-          console.warn(`The ${itemType} data with id ${id} does not exist. It will be ignored`);
+          warn(`The ${itemType} data with id ${id} does not exist. It will be ignored`);
           return;
         }
         return getItem.bind(graphCore)(id);
@@ -1975,7 +1975,7 @@ export class Graph<B extends BehaviorRegistry = any, T extends ThemeSolverRegist
         return oldPlugin.key === config.key;
       });
       if (oldPlugin) {
-        console.warn(
+        warn(
           `Add plugin with key ${
             (config as any).key
           } failed, the key is duplicated to the existing plugins on the graph.`,
@@ -2032,10 +2032,10 @@ export class Graph<B extends BehaviorRegistry = any, T extends ThemeSolverRegist
       [cfg: string]: unknown;
     };
     if (!key) {
-      console.warn(`The key for the plugin is not found. G6 will update the first plugin with type ${type}`);
+      warn(`The key for the plugin is not found. G6 will update the first plugin with type ${type}`);
     }
     if (!plugins) {
-      console.warn('Update plugin failed, the plugin to be updated does not exist.');
+      warn('Update plugin failed, the plugin to be updated does not exist.');
       return;
     }
     const oldPlugin = plugins?.find((p) => {
@@ -2052,7 +2052,7 @@ export class Graph<B extends BehaviorRegistry = any, T extends ThemeSolverRegist
       );
     });
     if (!oldPlugin) {
-      console.warn(`Update plugin failed, the plugin with key ${key} or type ${type} is not found.`);
+      warn(`Update plugin failed, the plugin with key ${key} or type ${type} is not found.`);
       return;
     }
     const idx = plugins.indexOf(oldPlugin);
@@ -2327,9 +2327,7 @@ export class Graph<B extends BehaviorRegistry = any, T extends ThemeSolverRegist
    */
   private dataURLToImage(dataURL: string, renderer: string, link, fileName) {
     if (!dataURL || dataURL === 'data:') {
-      console.error(
-        'Download image failed. The graph is too large or there is invalid attribute values in graph items',
-      );
+      error('Download image failed. The graph is too large or there is invalid attribute values in graph items');
       return;
     }
 

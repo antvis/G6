@@ -27,7 +27,7 @@ const wrapListener = (type: string, eventName: string, listener: Listener): List
     try {
       listener(event);
     } catch (error) {
-      console.error(`G6: Error occurred in "${eventName}" phase of the plugin "${type}"!`);
+      error(`Error occurred in "${eventName}" phase of the plugin "${type}"!`);
       throw error;
     }
   };

@@ -47,6 +47,7 @@ import {
   traverseGraphAncestors,
 } from '../../utils/data';
 import { getGroupedChanges } from '../../utils/event';
+import { warn } from '../../utils/invariant';
 import { upsertTransientItem } from '../../utils/item';
 import { isPointPreventPolylineOverlap, isPolylineWithObstacleAvoidance } from '../../utils/polyline';
 import { getCombinedBoundsByData, intersectBBox, upsertShape } from '../../utils/shape';
@@ -1403,7 +1404,7 @@ export class ItemController {
   private debounceWarn = debounce(
     (type) => {
       const msg = getWarnMsg[type](this.cacheWarnMsg[type]);
-      console.warn(msg);
+      warn(msg);
       this.cacheWarnMsg[type] = [];
     },
     16,

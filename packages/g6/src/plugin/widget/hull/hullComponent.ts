@@ -2,6 +2,7 @@ import { DisplayObject } from '@antv/g';
 import { isArray } from '@antv/util';
 import { ComboModel, Graph, ID, NodeModel } from '../../../types';
 import { ShapeStyle } from '../../../types/item';
+import { warn } from '../../../utils/invariant';
 import { pathToPoints } from '../../../utils/path';
 import { isPolygonsIntersect } from '../../../utils/shape';
 import { genBubbleSet } from './bubbleset';
@@ -110,9 +111,7 @@ export default class Hull {
       this.type = 'round-convex';
     }
     if (this.type !== 'round-convex' && this.type !== 'smooth-convex' && this.type !== 'bubble') {
-      console.warn(
-        'The hull type should be either round-convex, smooth-convex or bubble, round-convex is used by default.',
-      );
+      warn('The hull type should be either round-convex, smooth-convex or bubble, round-convex is used by default.');
       this.type = 'round-convex';
     }
   }
@@ -448,7 +447,7 @@ export default class Hull {
     // } else {
     const shapeBBox = this.graph.getRenderBBox(itemId);
     if (!shapeBBox) {
-      console.warn(`The item with ${itemId} is not existed in the graph.`);
+      warn(`The item with ${itemId} is not existed in the graph.`);
       return;
     }
     shapePoints = [

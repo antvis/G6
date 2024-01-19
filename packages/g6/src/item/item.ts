@@ -20,6 +20,7 @@ import { EdgeStyleSet, NodeStyleSet } from '../types/theme';
 import { GROUP_ANIMATE_STYLES, animateShapes, getShapeAnimateBeginStyles, stopAnimate } from '../utils/animate';
 import { isArrayOverlap } from '../utils/array';
 import { cloneJSON } from '../utils/data';
+import { warn } from '../utils/invariant';
 import { DEFAULT_MAPPER } from '../utils/mapper';
 import { combineBounds, getShapeLocalBoundsByStyle, mergeStyles, updateShapes } from '../utils/shape';
 import { isEncode } from '../utils/type';
@@ -205,7 +206,7 @@ export default abstract class Item implements IItem {
       false,
       (id) => {
         if (RESERVED_SHAPE_IDS.includes(id)) {
-          console.warn(
+          warn(
             `Shape with id ${id} is reserved and should be returned in draw function, if the shape with ${id} returned by afterDraw is a new one, it will not be added to the group.`,
           );
           return false;

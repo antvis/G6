@@ -7,6 +7,7 @@ import type { LayoutRegistry } from '../types/layout';
 import type { NodeRegistry } from '../types/node';
 import type { PluginRegistry as WidgetRegistry } from '../types/plugin';
 import type { ThemeRegistry, ThemeSolverRegistry } from '../types/theme';
+import { warn } from '../utils/invariant';
 
 /**
  * <zh/> 定义了各种插件注册表的类型集合。
@@ -59,8 +60,8 @@ function register<T extends PluginCategory>(category: T, type: string, pluginCla
   pluginRegistry[category] ||= new Map();
 
   if (pluginRegistry[category].get(type)) {
-    console.warn(
-      `[G6] The plugin of type '${type}' has been previously registered and has been automatically overwritten by the latest registration.`,
+    warn(
+      `The plugin of type '${type}' has been previously registered and has been automatically overwritten by the latest registration.`,
     );
   }
 

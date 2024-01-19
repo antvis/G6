@@ -5,6 +5,7 @@ import { NodeModel, NodeUserModel } from '../types';
 import { DataLifecycleType, GraphCore, GraphData } from '../types/data';
 import { Graph } from '../types/graph';
 import { NodeUserModelData } from '../types/node';
+import { warn } from './invariant';
 
 /**
  * Deconstruct data and distinguish nodes and combos from graphcore data.
@@ -154,17 +155,15 @@ export const isSucceed = (graph, testParent, testSucceed): boolean => {
  */
 export const validateComboStructure = (graph, toBeSucceedId, toBeAncestorId): boolean => {
   if (toBeAncestorId && !graph.getComboData(toBeAncestorId)) {
-    console.warn(`Setting parent combo failed. The parent combo with id ${toBeAncestorId} does not exist`);
+    warn(`Setting parent combo failed. The parent combo with id ${toBeAncestorId} does not exist`);
     return false;
   }
   if (toBeSucceedId === toBeAncestorId) {
-    console.warn(
-      `Setting parent combo failed. Cannot set combo/node with id ${toBeSucceedId} to be the child of itself.`,
-    );
+    warn(`Setting parent combo failed. Cannot set combo/node with id ${toBeSucceedId} to be the child of itself.`);
     return false;
   }
   if (toBeAncestorId && isSucceed(graph, toBeSucceedId, toBeAncestorId)) {
-    console.warn(
+    warn(
       `Setting parent combo failed, since the parent combo with id ${toBeAncestorId} is a succeed of the combo with id ${toBeSucceedId}.`,
     );
     return false;

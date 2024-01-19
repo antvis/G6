@@ -1,6 +1,7 @@
 import { isBoolean, isNumber } from '@antv/util';
 import { ID, IG6GraphEvent } from '../../types';
 import { Behavior } from '../../types/behavior';
+import { warn } from '../../utils/invariant';
 
 const VALID_TRIGGERS = ['wheel', 'upDownKeys'];
 const WHEEL_DURATION = 250;
@@ -102,7 +103,7 @@ export class ZoomCanvas extends Behavior {
   constructor(options: Partial<ZoomCanvasOptions>) {
     const finalOptions = Object.assign({}, DEFAULT_OPTIONS, options);
     if (!VALID_TRIGGERS.includes(finalOptions.trigger)) {
-      console.warn(`The trigger ${finalOptions.trigger} is not valid, 'wheel' will take effect.`);
+      warn(`The trigger ${finalOptions.trigger} is not valid, 'wheel' will take effect.`);
       finalOptions.trigger = 'wheel';
     }
     const { fixSelectedItems } = finalOptions;

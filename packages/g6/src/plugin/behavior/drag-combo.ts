@@ -5,6 +5,7 @@ import { Behavior } from '../../types/behavior';
 import { Point } from '../../types/common';
 import { IG6GraphEvent } from '../../types/event';
 import { graphComboTreeDfs } from '../../utils/data';
+import { warn } from '../../utils/invariant';
 
 const DELEGATE_SHAPE_ID = 'g6-drag-combo-delegate-shape';
 
@@ -198,7 +199,7 @@ export class DragCombo extends Behavior {
       this.originPositions = this.selectedComboIds
         .map((id) => {
           if (!this.graph.getComboData(id)) {
-            console.warn('combo does not exist', id);
+            warn(`combo with id="${id}" does not exist.`);
             return;
           }
           const bounds = this.graph.getRenderBBox(id, true, enableTransient);

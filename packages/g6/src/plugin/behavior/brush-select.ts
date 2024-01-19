@@ -5,6 +5,7 @@ import { Point } from '../../types/common';
 import { IG6GraphEvent } from '../../types/event';
 import { ITEM_TYPE } from '../../types/item';
 import { diffSet, intersectSet, unionSet } from '../../utils/array';
+import { warn } from '../../utils/invariant';
 import { getEdgesBetween } from '../../utils/item';
 import rectSelector from '../selector/rect';
 
@@ -108,7 +109,7 @@ export class BrushSelect extends Behavior {
     super(Object.assign({}, DEFAULT_OPTIONS, options));
     // Validate options
     if (options.trigger && !ALLOWED_TRIGGERS.includes(options.trigger)) {
-      console.warn(`G6: Invalid trigger option "${options.trigger}" for brush-select behavior!`);
+      warn(`Invalid trigger option "${options.trigger}" for brush-select behavior!`);
       this.options.trigger = DEFAULT_OPTIONS.trigger;
     }
   }

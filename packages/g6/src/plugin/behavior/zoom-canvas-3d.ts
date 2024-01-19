@@ -1,5 +1,6 @@
 import { Behavior } from '../../types/behavior';
 import { IG6GraphEvent } from '../../types/event';
+import { warn } from '../../utils/invariant';
 
 const VALID_TRIGGERS = ['wheel', 'upDownKeys'];
 
@@ -61,7 +62,7 @@ export class ZoomCanvas3D extends Behavior {
   constructor(options: Partial<ZoomCanvas3DOptions>) {
     const finalOptions = Object.assign({}, DEFAULT_OPTIONS, options);
     if (!VALID_TRIGGERS.includes(finalOptions.trigger)) {
-      console.warn(
+      warn(
         `The trigger ${
           finalOptions.trigger
         } is not valid for zoom-canvas-3d behavior, "wheel" will take effect instead. Only "${VALID_TRIGGERS.join(

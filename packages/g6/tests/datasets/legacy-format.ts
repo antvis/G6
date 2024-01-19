@@ -1,3 +1,7 @@
+/**
+ *
+ * @param url
+ */
 export async function loadDataset(url: string) {
   const result = await fetch(url);
   const legacyG6GraphFormat = await result.json();

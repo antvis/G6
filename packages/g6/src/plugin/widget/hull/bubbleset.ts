@@ -1,6 +1,7 @@
 import { AABB } from '@antv/g';
 import { ComboModel, Graph, NodeModel } from '../../../types';
 import { Bounds, Point } from '../../../types/common';
+import { warn } from '../../../utils/invariant';
 import { isPointInPolygon } from '../../../utils/shape';
 import { BubblesetCfg } from './types';
 import {
@@ -91,7 +92,7 @@ function MarchingSquares(contour, potentialArea, threshold) {
       // assign the move direction according to state of the square
       switch (state) {
         case -1:
-          console.warn('Marched out of bounds');
+          warn('Marched out of bounds');
           return true;
         case 0:
         case 3:
@@ -133,7 +134,7 @@ function MarchingSquares(contour, potentialArea, threshold) {
           y++; // go down
           break;
         default:
-          console.warn(`Marching squares invalid state: ${state}`);
+          warn(`Marching squares invalid state: ${state}`);
           return true;
       }
     }

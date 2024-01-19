@@ -4,6 +4,7 @@ import { Graph } from '../../types';
 import { Behavior } from '../../types/behavior';
 import { CANVAS_EVENT_TYPE, DOM_EVENT_TYPE, IG6GraphEvent } from '../../types/event';
 import { ItemInfo, getContextMenuEventProps, getItemInfoFromElement } from '../../utils/event';
+import { error, warn } from '../../utils/invariant';
 
 type Listener = (event: IG6GraphEvent) => void;
 
@@ -18,9 +19,9 @@ const wrapListener = (type: string, eventName: string, listener: Listener): List
   return (event: any) => {
     try {
       listener(event);
-    } catch (error) {
-      console.error(`G6: Error occurred in "${eventName}" phase of the behavior "${type}"!`);
-      throw error;
+    } catch (e) {
+      error(`Error occurred in "${eventName}" phase of the behavior "${type}"!`);
+      throw e;
     }
   };
 };
@@ -76,7 +77,7 @@ export class InteractionController {
   private initBehavior = (config: string | { type: string; key: string }): Behavior | null => {
     const key = typeof config === 'string' ? config : (config as any).key || (config as any).type;
     if (this.behaviorMap.has(key)) {
-      console.error(`G6: Failed to add behavior with key or type "${key}"! It was already added.`);
+      error(`Failed to add behavior with key or type "${key}"! It was already added.`);
       return;
     }
     try {
@@ -91,8 +92,8 @@ export class InteractionController {
         this.behaviorMap.set(key, behavior);
       }
       return behavior;
-    } catch (error) {
-      console.error(`G6: Failed to initialize behavior with key or type "${key}"!`, error);
+    } catch (e) {
+      error(`Failed to initialize behavior with key or type "${key}"!`);
       return null;
     }
   };
@@ -101,8 +102,8 @@ export class InteractionController {
     try {
       this.behaviorMap.delete(key);
       behavior.destroy();
-    } catch (error) {
-      console.error(`G6: Failed to destroy behavior with key or type "${key}"!`, error);
+    } catch (e) {
+      error(`Failed to destroy behavior with key or type "${key}"!`);
     }
   };
 
@@ -138,7 +139,7 @@ export class InteractionController {
     }
 
     if (!this.validateMode(mode)) {
-      console.warn(`G6: Mode "${mode}" was not specified in current graph.`);
+      warn(`Mode "${mode}" was not specified in current graph.`);
     }
 
     this.mode = mode;

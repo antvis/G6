@@ -1,5 +1,6 @@
 import { CameraType } from '@antv/g';
 import { IG6GraphEvent } from '../../types/event';
+import { warn } from '../../utils/invariant';
 import { RotateCanvas3D } from './rotate-canvas-3d';
 
 // TODO: truck canvas
@@ -44,7 +45,7 @@ export class TrackCanvas3D extends RotateCanvas3D {
   constructor(options: Partial<TrackCanvas3DOptions>) {
     const finalOptions = Object.assign({}, DEFAULT_OPTIONS, options);
     if (!VALID_TRIGGERS.includes(finalOptions.trigger)) {
-      console.warn(
+      warn(
         `The trigger ${
           finalOptions.trigger
         } is not valid for track-canvas-3d behavior, "drag" will take effect instead. Only "${VALID_TRIGGERS.join(

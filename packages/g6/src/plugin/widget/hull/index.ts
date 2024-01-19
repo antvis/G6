@@ -5,6 +5,7 @@ import { ComboLabelPosition } from '../../../types/combo';
 import { ITEM_TYPE, ShapeStyle } from '../../../types/item';
 import { Plugin as Base, IPluginBaseConfig } from '../../../types/plugin';
 import { isArrayOverlap } from '../../../utils/array';
+import { warn } from '../../../utils/invariant';
 import HullComponent, { HullComponentOptions } from './hullComponent';
 import { BubblesetCfg } from './types';
 
@@ -126,13 +127,11 @@ export default class Hull extends Base {
         (memberId) => this.graph.getNodeData(memberId) || this.graph.getComboData(memberId),
       );
       if (!validMembers?.length) {
-        console.warn(`Create hull failed. There are no valid members.`);
+        warn(`Create hull failed. There are no valid members.`);
         return;
       }
       if (validMembers.length !== members.length) {
-        console.warn(
-          `Some member of hull ${id} is not exist in the graph. Hull ${id} is added without those invalid members.`,
-        );
+        warn(`Some member of hull ${id} is not exist in the graph. Hull ${id} is added without those invalid members.`);
       }
       const fullOptions = {
         id: `${this.key}-${id}`,
@@ -164,7 +163,7 @@ export default class Hull extends Base {
     configs.forEach((config) => {
       const { id, ...others } = config;
       if (!this.hullMap[id]) {
-        console.warn(`Update hull component failed. The bubble with id ${id} is not existed.`);
+        warn(`Update hull component failed. The bubble with id ${id} is not existed.`);
         return;
       }
       this.hullMap[id].updateOptions(others);
@@ -183,7 +182,7 @@ export default class Hull extends Base {
   public addHullMember(id: ID, members: ID | ID[]) {
     const hullComponent = this.hullMap[id];
     if (!hullComponent) {
-      console.warn(`Add member to hull failed. The hull with id ${id} is not exist`);
+      warn(`Add member to hull failed. The hull with id ${id} is not exist`);
       return;
     }
     hullComponent.addMember(members);
@@ -192,7 +191,7 @@ export default class Hull extends Base {
   public removeHullMember(id: ID, members: ID | ID[]) {
     const hullComponent = this.hullMap[id];
     if (!hullComponent) {
-      console.warn(`Remove member from hull failed. The hull with id ${id} is not exist`);
+      warn(`Remove member from hull failed. The hull with id ${id} is not exist`);
       return;
     }
     hullComponent.removeMember(members);
@@ -201,7 +200,7 @@ export default class Hull extends Base {
   public addHullNonMember(id: ID, members: ID | ID[]) {
     const hullComponent = this.hullMap[id];
     if (!hullComponent) {
-      console.warn(`Add non member to hull failed. The hull with id ${id} is not exist`);
+      warn(`Add non member to hull failed. The hull with id ${id} is not exist`);
       return;
     }
     hullComponent.addNonMember(members);
@@ -210,7 +209,7 @@ export default class Hull extends Base {
   public removeHullNonMember(id: ID, members: ID | ID[]) {
     const hullComponent = this.hullMap[id];
     if (!hullComponent) {
-      console.warn(`Remove non member from hull failed. The hull with id ${id} is not exist`);
+      warn(`Remove non member from hull failed. The hull with id ${id} is not exist`);
       return;
     }
     hullComponent.removeNonMember(members);
