@@ -1,5 +1,6 @@
 import { modifyCSS, createDom } from '@antv/dom-util';
 import { IG6GraphEvent } from '@antv/g6-core';
+import { isString } from '@antv/util';
 
 export default {
   onMouseEnter(e: IG6GraphEvent) {
@@ -37,7 +38,11 @@ export default {
       this.container = container;
     }
     const text = this.formatText(e.item.get('model'), e);
-    container.innerHTML = text;
+    if (isString(text)) {
+      container.innerHTML = text;
+    } else {
+      container.appendChild(text);
+    }
     modifyCSS(this.container, { visibility: 'visible' });
     this.updatePosition(e);
   },
