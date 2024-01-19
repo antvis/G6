@@ -1,0 +1,46 @@
+import { isEqual } from '@antv/util';
+
+export type DiffResult<T> = {
+  enter: T[];
+  update: T[];
+  exit: T[];
+};
+
+/**
+ * <zh/> 数组差异计算
+ *
+ * <en/> Array diff
+ * @param original - <zh/> 原始数组 | <en/> original array
+ * @param modified - <zh/> 修改后的数组 | <en/> modified array
+ * @param key - <zh/> 比较的 key | <en/> key to compare
+ * @returns <zh/> 数组差异 | <en/> array diff
+ */
+export function arrayDiff<T>(original: T[], modified: T[], key: (d: T) => string | number): DiffResult<T> {
+  const originalMap = new Map(original.map((d) => [key(d), d]));
+  const modifiedMap = new Map(modified.map((d) => [key(d), d]));
+
+  const originalSet = new Set(originalMap.keys());
+  const modifiedSet = new Set(modifiedMap.keys());
+
+  const enter: T[] = [];
+  const update: T[] = [];
+  const exit: T[] = [];
+
+  modifiedSet.forEach((key) => {
+    if (originalSet.has(key)) {
+      if (!isEqual(originalMap.get(key), modifiedMap.get(key))) {
+        update.push(modifiedMap.get(key)!);
+      }
+    } else {
+      enter.push(modifiedMap.get(key)!);
+    }
+  });
+
+  originalSet.forEach((key) => {
+    if (!modifiedSet.has(key)) {
+      exit.push(originalMap.get(key)!);
+    }
+  });
+
+  return { enter, update, exit };
+}
