@@ -1,8 +1,10 @@
 {
   "cSpell.words": [
     "AABB",
+    "afterbatch",
     "afterchangedata",
     "aftercollapsecombo",
+    "afterdestroy",
     "afterexpandcombo",
     "afteritemchange",
     "afteritemstatechange",
@@ -14,8 +16,12 @@
     "aftersetsize",
     "afterviewportanimation",
     "bbox",
+    "beforebatch",
+    "beforedestroy",
     "beforeitemchange",
+    "beforeitemstatechange",
     "beforelayout",
+    "beforerender",
     "beforeviewportanimation",
     "behaviorchange",
     "cancelviewportanimation",
@@ -38,11 +44,13 @@
     "pluginchange",
     "snapline",
     "themechange",
+    "themestylechange",
     "tooltipchange",
     "transientupdate",
     "treecollapseexpand",
     "upsert",
     "viewportchange",
-    "watermarker"
+    "watermarker",
+    "widgetchange"
   ]
 }
