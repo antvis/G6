@@ -1,13 +1,14 @@
 // Installing third-party modules by tnpm or cnpm will name modules with underscore as prefix.
 // In this case _{module} is also necessary.
-const esm = ['internmap', 'd3-*', 'lodash-es']
-  .map((d) => `_${d}|${d}`)
-  .join('|');
+const esm = ['internmap', 'd3-*', 'lodash-es'].map((d) => `_${d}|${d}`).join('|');
 
 module.exports = {
   testTimeout: 100000,
   preset: 'ts-jest/presets/js-with-ts',
   testEnvironment: 'jsdom',
+  globals: {
+    structuredClone: (val) => JSON.parse(JSON.stringify(val)),
+  },
   transform: {
     '^.+\\.[tj]s$': [
       'ts-jest',

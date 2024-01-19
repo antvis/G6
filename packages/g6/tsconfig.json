@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
     "baseUrl": "src",
-    "declaration": true,
     "experimentalDecorators": true,
     "lib": ["DOM", "ESNext"],
     "outDir": "lib",
