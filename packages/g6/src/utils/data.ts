@@ -1,31 +1,13 @@
 import { connectedComponent, depthFirstSearch } from '@antv/algorithm';
-import { ID, TreeData } from '@antv/graphlib';
+import { Edge, ID, Node, TreeData } from '@antv/graphlib';
 import { isArray } from '@antv/util';
+import type { Graph } from '../runtime/graph';
+import { ComboData, DataOption, EdgeData, NodeData } from '../spec/data';
 import { NodeModel, NodeUserModel } from '../types';
-import { DataLifecycleType, GraphCore, GraphData } from '../types/data';
-import { Graph } from '../types/graph';
+import { DataModel, GraphData } from '../types/data';
 import { NodeUserModelData } from '../types/node';
+import { idOf } from './id';
 import { warn } from './invariant';
-
-/**
- * Deconstruct data and distinguish nodes and combos from graphcore data.
- * @param data data from graphcore
- * @returns
- */
-export const deconstructData = (data) => {
-  const { nodes: nodesAndCombos = [], edges = [] } = data;
-  const nodes = [];
-  const combos = [];
-  nodesAndCombos.forEach((item) => {
-    if (item.data._isCombo) combos.push(item);
-    else nodes.push(item);
-  });
-  return {
-    nodes,
-    edges,
-    combos,
-  };
-};
 
 /**
  * Depth first search begin from nodes in graphCore data.
@@ -38,8 +20,8 @@ export const deconstructData = (data) => {
  * @param stopFns.stopBranchFn
  * @param stopFns.stopAllFn
  */
-export const graphCoreTreeDfs = (
-  graphCore: GraphCore,
+export const graphCoreTreeDFS = (
+  graphCore: DataModel,
   nodes: NodeUserModel[],
   fn,
   mode: 'TB' | 'BT' = 'TB',
@@ -57,7 +39,7 @@ export const graphCoreTreeDfs = (
     if (stopBranchFn?.(node)) continue; // Stop this branch
     if (stopAllFn?.(node)) return; // Stop all
     if (mode === 'TB') fn(node); // Traverse from top to bottom
-    graphCoreTreeDfs(graphCore, graphCore.getChildren(node.id, treeKey), fn, mode, treeKey, stopFns);
+    graphCoreTreeDFS(graphCore, graphCore.getChildren(node.id, treeKey), fn, mode, treeKey, stopFns);
     if (mode !== 'TB') fn(node); // Traverse from bottom to top
   }
 };
@@ -67,63 +49,69 @@ export const graphCoreTreeDfs = (
  * @param graph G6 graph instance
  * @param nodes begin nodes
  * @param fn will be called while visiting each node
+ * @param callback
  * @param mode 'TB' - visit from top to bottom; 'BT' - visit from bottom to top;
  */
-export const graphComboTreeDfs = (graph: Graph, nodes: NodeUserModel[], fn, mode: 'TB' | 'BT' = 'TB') => {
+export const graphComboTreeDFS = (
+  graph: Graph,
+  nodes: NodeData[],
+  callback: (node: NodeData) => void,
+  mode: 'TB' | 'BT' = 'TB',
+) => {
   if (!nodes?.length) return;
   nodes.forEach((node) => {
-    if (mode === 'TB') fn(node); // Traverse from top to bottom
-    graphComboTreeDfs(graph, graph.getComboChildrenData(node.id), fn, mode);
-    if (mode !== 'TB') fn(node); // Traverse from bottom to top
+    if (mode === 'TB') callback(node); // Traverse from top to bottom
+    graphComboTreeDFS(graph, graph.getComboChildrenData(node.id), callback, mode);
+    if (mode !== 'TB') callback(node); // Traverse from bottom to top
   });
 };
 
 /**
  * Depth first search begin from nodes in g6 graph data, and then search the ancestors from begin nodes.
  * @param graph G6 graph instance
- * @param graphCore graphlib data structure
+ * @param dataModel graphlib data structure
  * @param nodes begin nodes
  * @param fn will be called while visiting each node
  * @param mode 'TB' - visit from top to bottom; 'BT' - visit from bottom to top;
  */
 export const traverseAncestorsAndSucceeds = (
   graph: Graph,
-  graphCore: GraphCore,
-  nodes: NodeUserModel[],
+  dataModel: DataModel,
+  nodes: NodeData[],
   fn,
   mode: 'TB' | 'BT' = 'TB',
 ) => {
   if (!nodes?.length) return;
-  graphComboTreeDfs(graph, nodes, fn, mode);
-  traverseAncestors(graphCore, nodes, fn);
+  graphComboTreeDFS(graph, nodes, fn, mode);
+  traverseAncestors(dataModel, nodes, fn);
   return;
 };
 
-export const traverseGraphAncestors = (graph: Graph, nodes: NodeUserModel[], fn) => {
+export const traverseGraphAncestors = (graph: Graph, nodes: NodeData[], fn) => {
   if (!nodes?.length) return;
   nodes.forEach((node) => {
-    if (!node.data.parentId) return;
-    let ancestor = graph.getComboData(node.data.parentId);
+    if (!node.style.parentId) return;
+    let [ancestor] = graph.getComboData([node.style.parentId]);
     while (ancestor) {
       if (fn(ancestor)) return;
-      if (!ancestor.data.parentId) return;
-      ancestor = graph.getComboData(ancestor.data.parentId);
+      if (!ancestor.style.parentId) return;
+      ancestor = graph.getComboData([ancestor.style.parentId])[0];
     }
   });
 };
 
 /**
  * Traverse the ancestors from the begin nodes.
- * @param graphCore graphlib data structure
+ * @param dataModel graphlib data structure
  * @param nodes begin nodes
  * @param fn will be called while visiting each node
  */
-export const traverseAncestors = (graphCore, nodes, fn) => {
+export const traverseAncestors = (dataModel: DataModel, nodes: NodeData[], fn) => {
   nodes.forEach((node) => {
-    let ancestor = graphCore.getParent(node.id, 'combo');
+    let ancestor = dataModel.getParent(node.id, 'combo');
     while (ancestor) {
       if (fn(ancestor)) return;
-      ancestor = graphCore.getParent(ancestor.id, 'combo');
+      ancestor = dataModel.getParent(ancestor.id, 'combo');
     }
   });
 };
@@ -139,7 +127,7 @@ export const traverseAncestors = (graphCore, nodes, fn) => {
 export const isSucceed = (graph, testParent, testSucceed): boolean => {
   const succeedIds = [];
   if (graph.getNodeData(testParent)) return false;
-  graphComboTreeDfs(graph, [graph.getComboData(testParent)], (node) => {
+  graphComboTreeDFS(graph, [graph.getComboData(testParent)], (node) => {
     succeedIds.push(node.id);
   });
   if (succeedIds.includes(testSucceed)) return true;
@@ -272,17 +260,6 @@ export const traverse = (treeData, callback) => {
 
 export const DEFAULT_ACTIVE_DATA_LIFECYCLE = 'all';
 
-export const AVAILABLE_DATA_LIFECYCLE = ['read', 'changeData', 'updateData', 'addData', 'removeData'];
-
-export const dataLifecycleMap: Record<string, DataLifecycleType> = {
-  replace: 'read',
-  mergeReplace: 'changeData',
-  union: 'addData',
-  remove: 'removeData',
-  update: 'updateData',
-  updatePosition: 'updatePosition',
-};
-
 /**
  * Whether the graph is empty.
  * @param graph graph instance.
@@ -313,3 +290,43 @@ export const cloneJSON = (obj) => {
   if (!obj) return obj;
   return JSON.parse(JSON.stringify(obj));
 };
+
+export function transformSpecDataToGraphlibData<T extends EdgeData>(datums: T[]): Edge<T>[];
+export function transformSpecDataToGraphlibData<T extends NodeData | ComboData>(datums: T[]): Node<T>[];
+/**
+ * <zh/> 将 NodeSpec | EdgeSpec | ComboSpec 转换为 graphlib 的数据结构
+ *
+ * <en/> Transform NodeSpec | EdgeSpec | ComboSpec to graphlib data structure
+ * @param datums - <zh/> 用户数据 | <en/> user data
+ * @returns <zh/> graphlib 数据 | <en/> graphlib data
+ */
+export function transformSpecDataToGraphlibData<T extends NodeData | EdgeData | ComboData>(
+  datums: T[],
+): (Node<T> | Edge<T>)[] {
+  if (!datums.length) return [];
+  if ('source' in datums[0] && 'target' in datums[0]) {
+    return (datums as EdgeData[]).map((edge) => ({
+      id: edge.id,
+      source: edge.source,
+      target: edge.target,
+      data: edge,
+    })) as Edge<T>[];
+  }
+  return datums.map((datum) => ({ id: datum.id, data: datum })) as Node<T>[];
+}
+
+/**
+ * <zh/> 获取节点/边/Combo 的 ID
+ *
+ * <en/> Get the ID of node/edge/combo
+ * @param data - <zh/> 节点/边/Combo 的数据 | <en/> data of node/edge/combo
+ * @returns - <zh/> 节点/边/Combo 的 ID | <en/> ID of node/edge/combo
+ */
+export function dataIdOf(data: DataOption) {
+  const { nodes = [], edges = [], combos = [] } = data;
+  return {
+    nodes: nodes.map(idOf),
+    edges: edges.map(idOf),
+    combos: combos.map(idOf),
+  };
+}
