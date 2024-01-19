@@ -1,4 +1,5 @@
 import { AABB, Canvas } from '@antv/g';
+import { max, min } from '@antv/util';
 import { Point, PolyPoint } from 'types/common';
 
 /**
@@ -28,7 +29,7 @@ export const getBBoxFromPoint = (point: PolyPoint): AABB => {
 };
 
 /**
- * Calculate the bounding box for a list of 2d points
+ * Calculate the bounding box for a list of 2d points.
  * @param points a list of 2d points
  * @returns bbox encompassing all the given points
  */
@@ -39,20 +40,22 @@ export const getBBoxFromPoints = (points: PolyPoint[] = []): AABB => {
     xs.push(p.x);
     ys.push(p.y);
   });
-  const minX = Math.min(...xs);
-  const maxX = Math.max(...xs);
-  const minY = Math.min(...ys);
-  const maxY = Math.max(...ys);
+  const minX = min(xs);
+  const maxX = max(xs);
+  const minY = min(ys);
+  const maxY = max(ys);
+
   const bbox = new AABB();
   bbox.setMinMax([minX, minY, 0], [maxX, maxY, 0]);
+
   return bbox;
 };
 
 /**
  * Expand the given bounding box by a specified offset
- * @param bbox
- * @param offset
- * @returns
+ * @param bbox bbox
+ * @param offset offset
+ * @returns The expanded bbox.
  */
 export const getExpandedBBox = (bbox: AABB, offset: number): AABB => {
   const {
@@ -109,14 +112,24 @@ export const getBBoxPoints = (bbox: AABB): PolyPoint[] => {
 };
 
 /**
+ * Determines whether a given point is inside a given bounding box.
+ * @param {Point} point - The point to be checked.
+ * @param {AABB} bbox - The bounding box.
+ * @returns {boolean} - Returns true if the point is inside the bounding box, false otherwise.
+ */
+export const isPointInBBox = (point: Point, bbox: AABB) => {
+  const { x, y } = point;
+  return x > bbox.min[0] && x < bbox.max[0] && y > bbox.min[1] && y < bbox.max[1];
+};
+
+/**
  * Determine if a given point is outside of the bounding box
  * @param point 2D point
  * @param bbox a bounding box
  * @returns True if the point is outside of box. False otherwise.
  */
 export const isPointOutsideBBox = (point: PolyPoint, bbox: AABB): boolean => {
-  const { x, y } = point;
-  return x < bbox.min[0] || x > bbox.max[0] || y < bbox.min[1] || y > bbox.max[1];
+  return !isPointInBBox(point, bbox);
 };
 
 /**
@@ -178,7 +191,7 @@ export const getBBoxCrossPointsByPoint = (bbox: AABB, point: PolyPoint): PolyPoi
  * @param bbox a bounding box
  * @returns 0 if the point is in the center; True if the point is closer to the horizontal axis; False otherwise.
  */
-export const isHorizontalPoint = (point: PolyPoint, bbox: AABB): boolean | number => {
+const isHorizontalPoint = (point: PolyPoint, bbox: AABB): boolean | number => {
   const dx = Math.abs(point.x - bbox.center[0]);
   const dy = Math.abs(point.y - bbox.center[1]);
   if (dx === 0 && dy === 0) return 0;
@@ -214,7 +227,7 @@ export const getExpandedBBoxPoint = (bbox: AABB, point: PolyPoint, anotherPoint:
     }
     return { x, y };
   }
-  if (isHorizontal) {
+  if (isHorizontalPoint(point, bbox)) {
     return {
       x: point.x > bbox.center[0] ? bbox.max[0] : bbox.min[0],
       y: point.y,
@@ -273,37 +286,18 @@ export const isSegmentCrossingBBox = (p1: PolyPoint, p2: PolyPoint, bbox: AABB):
 };
 
 /**
- * Determines whether a given point is inside a given bounding box.
- * @param {Point} point - The point to be checked.
- * @param {AABB} bbox - The bounding box.
- * @returns {boolean} - Returns true if the point is inside the bounding box, false otherwise.
- */
-export const isPointInBBox = (point: Point, bbox: AABB) => {
-  const { x, y } = point;
-  return x > bbox.min[0] && x < bbox.max[0] && y > bbox.min[1] && y < bbox.max[1];
-};
-
-/**
  * Determines whether a given sub-bounding box is fully contained within a given bounding box.
  * @param {AABB} subBBox - The sub-bounding box to be checked.
  * @param {AABB} bbox - The bounding box.
  * @param {number} [scale] - Optional scaling factor to adjust the size of the bounding box.
  * @returns {boolean} - Returns true if the sub-bounding box is fully contained within the bounding box, false otherwise.
  */
-export const isBBoxInBBox = (subBBox: AABB, bbox: AABB, scale?: number) => {
-  if (scale) {
-    return (
-      subBBox.min[0] > bbox.min[0] - bbox.halfExtents[0] * scale &&
-      subBBox.max[0] < bbox.max[0] + bbox.halfExtents[0] * scale &&
-      subBBox.min[1] > bbox.min[1] - bbox.halfExtents[1] * scale &&
-      subBBox.max[1] < bbox.max[1] + bbox.halfExtents[1] * scale
-    );
-  }
+export const isBBoxInBBox = (subBBox: AABB, bbox: AABB, scale: number = 0) => {
   return (
-    subBBox.min[0] > bbox.min[0] &&
-    subBBox.max[0] < bbox.max[0] &&
-    subBBox.min[1] > bbox.min[1] &&
-    subBBox.max[1] < bbox.max[1]
+    subBBox.min[0] > bbox.min[0] - bbox.halfExtents[0] * scale &&
+    subBBox.max[0] < bbox.max[0] + bbox.halfExtents[0] * scale &&
+    subBBox.min[1] > bbox.min[1] - bbox.halfExtents[1] * scale &&
+    subBBox.max[1] < bbox.max[1] + bbox.halfExtents[1] * scale
   );
 };
 
