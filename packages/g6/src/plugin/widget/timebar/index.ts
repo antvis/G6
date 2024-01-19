@@ -1,14 +1,13 @@
 import { Canvas } from '@antv/g';
 import type { TimebarStyleProps } from '@antv/gui';
 import { Timebar as GUITimebar } from '@antv/gui';
-import { deepMix } from '@antv/util';
+import { createDOM, deepMix } from '@antv/util';
 import type { EdgeModel, NodeModel } from '../../../types';
 import { Graph, GraphData } from '../../../types';
 import type { Padding } from '../../../types/common';
 import type { ITEM_TYPE } from '../../../types/item';
 import { Plugin as Base, IPluginBaseConfig } from '../../../types/plugin';
 import { createCanvas } from '../../../utils/canvas';
-import { createDOM } from '../../../utils/dom';
 import { formatPadding } from '../../../utils/shape';
 
 // -- start -- Adapt to GUI -- start --

@@ -1,11 +1,10 @@
 // TODO: update type define.
 import { AABB } from '@antv/g';
-import { isArray, isString, uniqueId } from '@antv/util';
+import { createDOM, isArray, isString, modifyCSS, uniqueId } from '@antv/util';
 import insertCss from 'insert-css';
 import { Graph } from '../../../types';
 import { IG6GraphEvent } from '../../../types/event';
 import { Plugin as Base, IPluginBaseConfig } from '../../../types/plugin';
-import { createDOM, modifyCSS } from '../../../utils/dom';
 import { warn } from '../../../utils/invariant';
 
 typeof document !== 'undefined' &&

@@ -1,10 +1,9 @@
-import { isString, uniqueId } from '@antv/util';
+import { createDOM, isString, modifyCSS, uniqueId } from '@antv/util';
 import insertCss from 'insert-css';
 import Item from '../../../item/item';
 import { Graph } from '../../../types';
 import { IG6GraphEvent } from '../../../types/event';
 import { Plugin as Base, IPluginBaseConfig } from '../../../types/plugin';
-import { createDOM, modifyCSS } from '../../../utils/dom';
 
 typeof document !== 'undefined' &&
   insertCss(`

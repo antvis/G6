@@ -1,12 +1,11 @@
 import { Canvas, Circle, DisplayObject, Line } from '@antv/g';
 import { ID } from '@antv/graphlib';
 import { Category } from '@antv/gui';
-import { isFunction, isString, uniqueId, upperFirst } from '@antv/util';
+import { createDOM, isFunction, isString, uniqueId, upperFirst } from '@antv/util';
 import { Graph } from '../../../types';
 import { Plugin as Base, IPluginBaseConfig } from '../../../types/plugin';
 import { RendererName } from '../../../types/render';
 import { createCanvas } from '../../../utils/canvas';
-import { createDOM } from '../../../utils/dom';
 import { ShapeTagMap, formatPadding } from '../../../utils/shape';
 
 const LEGEND_CATEGORY_ITEM_MARKER = '.legend-category-item-marker';

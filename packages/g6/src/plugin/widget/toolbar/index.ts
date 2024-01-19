@@ -1,7 +1,7 @@
+import { createDOM, modifyCSS } from '@antv/util';
 import insertCss from 'insert-css';
 import { Graph } from '../../../types';
 import { Plugin as Base, IPluginBaseConfig } from '../../../types/plugin';
-import { createDOM, modifyCSS } from '../../../utils/dom';
 
 /**
  * The `ToolbarConfig` interface contains the following properties:
