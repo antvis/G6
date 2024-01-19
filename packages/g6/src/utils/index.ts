@@ -1,7 +1,7 @@
 export { getArrowPath } from './arrow';
 export {
-  graphComboTreeDfs,
-  graphCoreTreeDfs,
+  graphComboTreeDFS,
+  graphCoreTreeDFS,
   graphData2TreeData,
   isSucceed,
   traverse,
