@@ -4,6 +4,7 @@ export type DiffResult<T> = {
   enter: T[];
   update: T[];
   exit: T[];
+  keep: T[];
 };
 
 /**
@@ -25,11 +26,14 @@ export function arrayDiff<T>(original: T[], modified: T[], key: (d: T) => string
   const enter: T[] = [];
   const update: T[] = [];
   const exit: T[] = [];
+  const keep: T[] = [];
 
   modifiedSet.forEach((key) => {
     if (originalSet.has(key)) {
       if (!isEqual(originalMap.get(key), modifiedMap.get(key))) {
         update.push(modifiedMap.get(key)!);
+      } else {
+        keep.push(modifiedMap.get(key)!);
       }
     } else {
       enter.push(modifiedMap.get(key)!);
@@ -42,5 +46,5 @@ export function arrayDiff<T>(original: T[], modified: T[], key: (d: T) => string
     }
   });
 
-  return { enter, update, exit };
+  return { enter, update, exit, keep };
 }
