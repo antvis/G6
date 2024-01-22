@@ -39,7 +39,7 @@ export type ViewportOptions = {
 /**
  * @internal
  */
-export type STDViewportOption = {
+export type STDViewportOptions = {
   autoFit?: STDAutoFit;
   padding?: STDPadding;
   zoom?: number;

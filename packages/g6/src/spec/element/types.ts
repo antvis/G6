@@ -8,6 +8,11 @@ import type { PaletteColor } from '../../types/palette';
  */
 export type Palette = PaletteColor | DiscretePalette | ContinuousPalette;
 
+/**
+ * <zh/> 标准色板配置
+ *
+ * <en/> Standard palette options
+ */
 export type STDPalette = DiscretePalette | ContinuousPalette;
 
 interface BasePalette {
