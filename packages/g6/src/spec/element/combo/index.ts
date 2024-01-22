@@ -1,6 +1,6 @@
 import type { AnimationOption } from '../../../types/animate';
 import type { CallableObject } from '../../../types/callable';
-import type { NodeData, NodeLikeStyle } from '../../data';
+import type { ComboData, DataOptions, NodeLikeStyle } from '../../data';
 import type { Palette } from '../types';
 
 /**
@@ -42,7 +42,7 @@ export type ComboOptions = {
  *
  * <en/> Combo style
  */
-type CallableComboStyle = CallableObject<NodeLikeStyle, NodeData>;
+type CallableComboStyle = CallableObject<NodeLikeStyle, [ComboData, number, DataOptions]>;
 
 export type StaticComboOptions = {
   style?: NodeLikeStyle;

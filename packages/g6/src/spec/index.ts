@@ -1,12 +1,12 @@
-import type { CanvasOption } from './canvas';
-import type { DataOption } from './data';
+import type { CanvasOptions } from './canvas';
+import type { DataOptions } from './data';
 import type { ComboOptions, EdgeOptions, NodeOptions } from './element';
-import type { LayoutOption } from './layout';
-import type { ModeOption } from './mode';
-import type { OptimizeOption } from './optimize';
+import type { LayoutOptions } from './layout';
+import type { ModeOptions } from './mode';
+import type { OptimizeOptions } from './optimize';
 import type { ThemeOptions } from './theme';
-import type { ViewportOption } from './viewport';
-import type { WidgetOption } from './widget';
+import type { ViewportOptions } from './viewport';
+import type { WidgetOptions } from './widget';
 
 /**
  * <zh/> G6 规范
@@ -14,20 +14,20 @@ import type { WidgetOption } from './widget';
  * <en/> G6 Specification
  * @public
  */
-export type G6Spec = CanvasOption &
-  ViewportOption & {
+export type G6Spec = CanvasOptions &
+  ViewportOptions & {
     /**
      * <zh/> 数据
      *
      * <en/> Data
      */
-    data?: DataOption;
+    data?: DataOptions;
     /**
      * <zh/> 布局
      *
      * <en/> Layout
      */
-    layout?: LayoutOption;
+    layout?: LayoutOptions;
     /**
      * <zh/> 节点
      *
@@ -57,17 +57,17 @@ export type G6Spec = CanvasOption &
      *
      * <en/> Mode
      */
-    mode?: ModeOption;
+    mode?: ModeOptions;
     /**
      * <zh/> 画布插件
      *
      * <en/> Canvas widget
      */
-    widgets?: WidgetOption;
+    widgets?: WidgetOptions;
     /**
      * <zh/> 优化选项
      *
      * <en/> Optimize options
      */
-    optimize?: OptimizeOption;
+    optimize?: OptimizeOptions;
   };

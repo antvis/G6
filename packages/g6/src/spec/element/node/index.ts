@@ -1,6 +1,6 @@
 import type { AnimationOption } from '../../../types/animate';
 import type { CallableObject } from '../../../types/callable';
-import type { NodeData, NodeLikeStyle } from '../../data';
+import type { DataOptions, NodeData, NodeLikeStyle } from '../../data';
 import type { Palette } from '../types';
 
 /**
@@ -42,7 +42,7 @@ export type NodeOptions = {
  *
  * <en/> Node style
  */
-type CallableNodeStyle = CallableObject<NodeLikeStyle, NodeData>;
+type CallableNodeStyle = CallableObject<NodeLikeStyle, [NodeData, number, DataOptions]>;
 
 export type StaticNodeOptions = {
   style?: NodeLikeStyle;

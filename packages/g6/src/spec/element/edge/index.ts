@@ -1,7 +1,7 @@
 import type { BaseStyleProps } from '@antv/g';
 import type { AnimationOption } from '../../../types/animate';
 import type { CallableObject } from '../../../types/callable';
-import type { EdgeData } from '../../data';
+import type { DataOptions, EdgeData } from '../../data';
 import type { Palette } from '../types';
 
 /**
@@ -15,14 +15,14 @@ export type EdgeOptions = {
    *
    * <en/> Edge style
    */
-  style?: CallableObject<EdgeStyle & PortOption, EdgeData>;
+  style?: CallableObject<EdgeStyle & PortOptions, [EdgeData, number, DataOptions]>;
   /**
    * <zh/> 边状态样式
    *
    * <en/> Edge state style
    */
   state?: {
-    [keys: string]: CallableObject<EdgeStyle, EdgeData>;
+    [keys: string]: CallableObject<EdgeStyle, [EdgeData, number, DataOptions]>;
   };
   /**
    * <zh/> 边动画
@@ -39,7 +39,7 @@ export type EdgeOptions = {
 };
 
 export type StaticEdgeOptions = {
-  style?: EdgeStyle & PortOption;
+  style?: EdgeStyle & PortOptions;
   state?: {
     [keys: string]: EdgeStyle;
   };
@@ -49,10 +49,11 @@ export type StaticEdgeOptions = {
 
 export type EdgeStyle = Pick<BaseStyleProps, 'cursor' | 'opacity' | 'pointerEvents' | 'visibility' | 'zIndex'> & {
   type?: string;
+  states?: string[];
   [keys: string]: any;
 };
 
-type PortOption = {
+export type PortOptions = {
   /**
    * <zh/> 起点连接桩 id
    *

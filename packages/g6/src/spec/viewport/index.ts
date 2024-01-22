@@ -9,7 +9,7 @@ import type { FitViewRules } from '../../types/view';
  * <en/> Viewport
  * @public
  */
-export type ViewportOption = {
+export type ViewportOptions = {
   /**
    * <zh/> 是否自动适应
    *
@@ -39,7 +39,7 @@ export type ViewportOption = {
 /**
  * @internal
  */
-export type STDViewportOption = {
+export type STDViewportOptions = {
   autoFit?: STDAutoFit;
   padding?: STDPadding;
   zoom?: number;
