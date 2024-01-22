@@ -96,6 +96,60 @@ Grid 插件在画布上绘制了网格。
 | ---- | ------ | ---------------------------- |
 | img  | String | grid 图片，base64 格式字符串 |
 
+
+
+## Ruler
+
+Ruler 插件在画布上绘制了标尺。通过左上角的锁还可以锁定缩放。
+
+<span><strong>⚠️ 注意:</strong></span> 因为尺子会占有占一定空间, 所以内部会对`canvas`减少`宽高`以及`偏移尺子的大小`, 并且`grid`也需要偏移, 如需要, 需要先注册`grid`
+
+### 配置项
+
+| 名称 | 类型   | 描述                         |
+| ---- | ------ | ---------------------------- |
+| directions  | ruleDirection[] 或者  ruleDirection | 方向, `horizontal`代表横向, `vertical`代表纵向, 默认`['horizontal', 'vertical']`|
+| height  | number | 尺子的高度, 默认是`25`, 当存在 startLen 和 height 会取2个最大的值 |
+| startLen  | number | 尺子的开始位置, 默认`25`, 当存在 startLen 和 height 会取2个最大的值 |
+| unitInterval  | number | 单位间隔 |
+| showTickLabel  | boolean | 是否单位间隔的文字 |
+| tickLabelStyle  | CanvasRenderingContext2D['strokeStyle'] | 单位文字的颜色 |
+| font  | CanvasRenderingContext2D['font'] | 文字的字体 |
+| lineWidth  | number | 线的宽度 |
+| lineHeight  | number | 线的高度 |
+| strokeStyle  | CanvasRenderingContext2D['strokeStyle'] | 线的颜色 |
+| background  | CanvasRenderingContext2D['fillStyle'] | 尺子的颜色 |
+| showLock  | number | 是否显示锁icon |
+| lockColor  | string | 锁的颜色 |
+| monitorZoom  | boolean | `wheelzoom`, 事件是否改变刻度 |
+| monitorSize  | boolean | `changeSize`, 是否改变尺子的大小 |
+| monitorViewPort  | boolean | `viewportchange`, 事件是否改变刻度 |
+
+### 方法
+
+| 名称 | 描述                         |
+| ---- | ---------------------------- |
+| changeRulerConfig  | 改变尺子的配置,例如改变颜色、文本大小等 |
+| toggerVisible  | 切换显示显示 |
+| changeVisible  | 改变是否显示, 接受一个布尔值 |
+| toggerLock  | 切换锁定状态， 锁定状态下， 无法拖拽、移动、滚动 |
+| changeLock  | 改变锁定状态， 接受一个布尔值 |
+| changeScale  | 改变缩放大小, 内部会触发`graph.zoom`事件 |
+| updateShouldBegin  | 缩放、拖拽等行为更新需要调用， 用于锁定切换能保留最新 |
+
+### 用法
+
+实例化 Ruler 插件时。
+
+```javascript
+// 实例化 Ruler 插件
+const ruler = new G6.Ruler();
+const graph = new G6.Graph({
+  //... 其他配置项
+  plugins: [ruler], // 配置 Ruler 插件
+});
+```
+
 ## Minimap
 
 Minimap 是用于快速预览和探索图的工具。
