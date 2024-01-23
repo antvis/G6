@@ -1,7 +1,7 @@
 /**
  * TODO: option should adjust
  */
-export type OptimizeOption = {
+export type OptimizeOptions = {
   /**
    * <zh/> 是否开启首次渲染时的分片渲染，若为 number，则表示开启分片渲染的元素数量上限
    *

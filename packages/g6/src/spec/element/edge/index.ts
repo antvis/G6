@@ -9,7 +9,7 @@ import type { Palette } from '../types';
  *
  * <en/> Edge spec
  */
-export type EdgeOption = {
+export type EdgeOptions = {
   /**
    * <zh/> 边样式
    *

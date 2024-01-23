@@ -8,7 +8,7 @@ import type { Palette } from '../types';
  *
  * <en/> Node spec
  */
-export type NodeOption = {
+export type NodeOptions = {
   /**
    * <zh/> 节点样式
    *

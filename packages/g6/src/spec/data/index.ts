@@ -2,7 +2,7 @@ import type { BaseStyleProps } from '@antv/g';
 import type { ID } from '@antv/graphlib';
 import type { EdgeStyle } from '../element/edge';
 
-export type DataOption = {
+export type DataOptions = {
   /**
    * <zh/> 节点数据
    *

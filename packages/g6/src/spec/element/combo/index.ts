@@ -8,7 +8,7 @@ import type { Palette } from '../types';
  *
  * <en/> Combo spec
  */
-export type ComboOption = {
+export type ComboOptions = {
   /**
    * <zh/> Combo 样式
    *
