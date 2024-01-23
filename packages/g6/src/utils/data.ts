@@ -10,6 +10,26 @@ import { idOf } from './id';
 import { warn } from './invariant';
 
 /**
+ * Deconstruct data and distinguish nodes and combos from graphcore data.
+ * @param data data from graphcore
+ * @returns
+ */
+export const deconstructData = (data) => {
+  const { nodes: nodesAndCombos = [], edges = [] } = data;
+  const nodes = [];
+  const combos = [];
+  nodesAndCombos.forEach((item) => {
+    if (item.data._isCombo) combos.push(item);
+    else nodes.push(item);
+  });
+  return {
+    nodes,
+    edges,
+    combos,
+  };
+};
+
+/**
  * Depth first search begin from nodes in graphCore data.
  * @param graphCore graphlib data structure
  * @param nodes begin nodes
@@ -20,7 +40,7 @@ import { warn } from './invariant';
  * @param stopFns.stopBranchFn
  * @param stopFns.stopAllFn
  */
-export const graphCoreTreeDFS = (
+export const graphCoreTreeDfs = (
   graphCore: DataModel,
   nodes: NodeUserModel[],
   fn,
@@ -39,7 +59,7 @@ export const graphCoreTreeDFS = (
     if (stopBranchFn?.(node)) continue; // Stop this branch
     if (stopAllFn?.(node)) return; // Stop all
     if (mode === 'TB') fn(node); // Traverse from top to bottom
-    graphCoreTreeDFS(graphCore, graphCore.getChildren(node.id, treeKey), fn, mode, treeKey, stopFns);
+    graphCoreTreeDfs(graphCore, graphCore.getChildren(node.id, treeKey), fn, mode, treeKey, stopFns);
     if (mode !== 'TB') fn(node); // Traverse from bottom to top
   }
 };
@@ -52,7 +72,7 @@ export const graphCoreTreeDFS = (
  * @param callback
  * @param mode 'TB' - visit from top to bottom; 'BT' - visit from bottom to top;
  */
-export const graphComboTreeDFS = (
+export const graphComboTreeDfs = (
   graph: Graph,
   nodes: NodeData[],
   callback: (node: NodeData) => void,
@@ -61,7 +81,7 @@ export const graphComboTreeDFS = (
   if (!nodes?.length) return;
   nodes.forEach((node) => {
     if (mode === 'TB') callback(node); // Traverse from top to bottom
-    graphComboTreeDFS(graph, graph.getComboChildrenData(node.id), callback, mode);
+    graphComboTreeDfs(graph, graph.getComboChildrenData(node.id), callback, mode);
     if (mode !== 'TB') callback(node); // Traverse from bottom to top
   });
 };
@@ -82,7 +102,7 @@ export const traverseAncestorsAndSucceeds = (
   mode: 'TB' | 'BT' = 'TB',
 ) => {
   if (!nodes?.length) return;
-  graphComboTreeDFS(graph, nodes, fn, mode);
+  graphComboTreeDfs(graph, nodes, fn, mode);
   traverseAncestors(dataModel, nodes, fn);
   return;
 };
@@ -127,7 +147,7 @@ export const traverseAncestors = (dataModel: DataModel, nodes: NodeData[], fn) =
 export const isSucceed = (graph, testParent, testSucceed): boolean => {
   const succeedIds = [];
   if (graph.getNodeData(testParent)) return false;
-  graphComboTreeDFS(graph, [graph.getComboData(testParent)], (node) => {
+  graphComboTreeDfs(graph, [graph.getComboData(testParent)], (node) => {
     succeedIds.push(node.id);
   });
   if (succeedIds.includes(testSucceed)) return true;

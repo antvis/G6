@@ -6,7 +6,7 @@ import type { DataId } from '../../types/data';
 import { EdgeDirection } from '../../types/edge';
 import type { ITEM_TYPE } from '../../types/item';
 import { PositionPoint } from '../../types/position';
-import { graphComboTreeDFS, transformSpecDataToGraphlibData } from '../../utils/data';
+import { graphComboTreeDfs, transformSpecDataToGraphlibData } from '../../utils/data';
 import { arrayDiff } from '../../utils/diff';
 import { idOf } from '../../utils/id';
 
@@ -260,7 +260,7 @@ export class DataController {
           const dx = modifiedX - originalX;
           const dy = modifiedY - originalY;
 
-          graphComboTreeDFS(
+          graphComboTreeDfs(
             this.graph,
             [modifiedCombo],
             (succeed) => {
@@ -295,7 +295,7 @@ export class DataController {
         const { id } = combo;
         const children = controller.getChildren(id, COMBO_KEY);
         if (children.length) {
-          graphComboTreeDFS(
+          graphComboTreeDfs(
             this.graph,
             [combo],
             (succeed) => {
