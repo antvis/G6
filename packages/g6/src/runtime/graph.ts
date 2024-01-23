@@ -12,7 +12,7 @@ import { STDWidget } from '../spec/widget';
 import type { CameraAnimationOptions } from '../types/animate';
 import type { CallableValue } from '../types/callable';
 import type { ComboDisplayModel } from '../types/combo';
-import type { Bounds, Point } from '../types/common';
+import type { Point } from '../types/common';
 import type { DataId } from '../types/data';
 import type { EdgeDirection, EdgeDisplayModel } from '../types/edge';
 import type { ITEM_TYPE, SHAPE_TYPE, ShapeStyle } from '../types/item';
@@ -585,16 +585,14 @@ export class Graph extends EventEmitter {
   }
 
   // ---------- Spec API ----------
-  public getCanvasRange(): Bounds {
+  public getCanvasRange(): AABB {
     const [width, height] = this.getSize();
     const leftTop = this.getCanvasByViewport({ x: 0, y: 0 });
     const rightBottom = this.getCanvasByViewport({ x: width, y: height });
-    return {
-      min: [leftTop.x, leftTop.y, leftTop.z],
-      max: [rightBottom.x, rightBottom.y, rightBottom.z],
-      center: [(leftTop.x + rightBottom.x) / 2, (leftTop.y + rightBottom.y) / 2, (leftTop.z + rightBottom.z) / 2],
-      halfExtents: [(rightBottom.x - leftTop.x) / 2, (rightBottom.y - leftTop.y) / 2, (rightBottom.z - leftTop.z) / 2],
-    };
+
+    const bbox = new AABB();
+    bbox.setMinMax([leftTop.x, leftTop.y, 0], [rightBottom.x, rightBottom.y, 0]);
+    return bbox;
   }
 
   /**

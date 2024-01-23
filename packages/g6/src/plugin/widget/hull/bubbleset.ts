@@ -1,6 +1,6 @@
 import { AABB } from '@antv/g';
 import { ComboModel, Graph, NodeModel } from '../../../types';
-import { Bounds, Point } from '../../../types/common';
+import { Point } from '../../../types/common';
 import { warn } from '../../../utils/invariant';
 import { isPointInPolygon } from '../../../utils/shape';
 import { BubblesetCfg } from './types';
@@ -584,7 +584,7 @@ function fillPotentialArea(
   const nodeInfA = (options.nodeR0 - options.nodeR1) * (options.nodeR0 - options.nodeR1);
   const edgeInfA = (options.edgeR0 - options.edgeR1) * (options.edgeR0 - options.edgeR1);
 
-  const getAffectedRegion = (bbox: Bounds, thresholdR) => {
+  const getAffectedRegion = (bbox: AABB, thresholdR) => {
     const startX = Math.min(pos2GridIx(bbox.min[0], thresholdR + activeRegion.min[0]), potentialArea.width);
     const startY = Math.min(pos2GridIx(bbox.min[1], thresholdR + activeRegion.min[1]), potentialArea.height);
     const endX = Math.min(pos2GridIx(bbox.max[0], -thresholdR + activeRegion.min[0]), potentialArea.width);

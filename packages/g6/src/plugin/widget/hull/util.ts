@@ -1,7 +1,7 @@
 import { AABB } from '@antv/g';
 import { vec2 } from 'gl-matrix';
 import { Graph, ID } from 'types';
-import { Bounds, Point } from '../../../types/common';
+import { Point } from '../../../types/common';
 import { getLineIntersect } from '../../../utils/shape';
 
 /**
@@ -245,13 +245,10 @@ export class LineStructure {
     const minY = Math.min(this.y1, this.y2);
     const maxX = Math.max(this.x1, this.x2);
     const maxY = Math.max(this.y1, this.y2);
-    const res = {
-      min: [minX, minY],
-      max: [maxX, maxY],
-      center: [(minX + maxX) / 2, (minY + maxY) / 2],
-      halfExtents: [(maxX - minX) / 2, (maxY - minY) / 2],
-    };
-    return res as Bounds;
+
+    const bbox = new AABB();
+    bbox.setMinMax([minX, minY, 0], [maxX, maxY, 0]);
+    return bbox;
   }
 }
 
