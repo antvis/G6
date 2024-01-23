@@ -1,9 +1,9 @@
 import { Renderer } from '@antv/g-canvas';
 import type { G6Spec } from '../../src/spec';
+import type { BehaviorOptions } from '../../src/spec/behavior';
 import type { DataOptions } from '../../src/spec/data';
 import type { ComboOptions, EdgeOptions, NodeOptions } from '../../src/spec/element';
 import type { LayoutOptions } from '../../src/spec/layout';
-import type { ModeOptions } from '../../src/spec/mode';
 import type { OptimizeOptions } from '../../src/spec/optimize';
 import type { ThemeOptions } from '../../src/spec/theme';
 import type { WidgetOptions } from '../../src/spec/widget';
@@ -62,7 +62,7 @@ describe('spec', () => {
         },
       },
       theme: 'light',
-      mode: ['drag-canvas', 'my-behavior'],
+      behaviors: ['drag-canvas', 'my-behavior', { type: 'drag-node' }],
       widgets: ['my-widget', { type: 'another-widget', text: 'text', value: 1 }],
       optimize: {
         tileFirstRender: true,
@@ -143,10 +143,10 @@ describe('spec', () => {
   });
 
   it('behavior', () => {
-    const builtInBehavior: ModeOptions = ['orbit-canvas-3d'];
+    const builtInBehavior: BehaviorOptions = ['orbit-canvas-3d'];
     expect(builtInBehavior).toBeTruthy();
 
-    const registerBehavior: ModeOptions = ['drag-canvas', 'my-behavior'];
+    const registerBehavior: BehaviorOptions = ['drag-canvas', 'my-behavior'];
     expect(registerBehavior).toBeTruthy();
   });
 
@@ -184,11 +184,11 @@ describe('spec', () => {
   it('node', () => {
     const registerNode: NodeOptions = {
       style: {
-        nodeStyle: (model) => model.style?.nodeStyle || 'white',
+        nodeStyle: (model: any) => model.style?.nodeStyle || 'white',
       },
       state: {
         state1: {
-          nodeStyle: (data) => data.style?.nodeStyle || 'white',
+          nodeStyle: (data: any) => data.style?.nodeStyle || 'white',
         },
       },
       animate: {
@@ -210,7 +210,7 @@ describe('spec', () => {
   it('edge', () => {
     const registerEdge: EdgeOptions = {
       style: {
-        edgeStyle: (model) => model.style?.edgeStyle || 'white',
+        edgeStyle: (model: any) => model.style?.edgeStyle || 'white',
       },
       state: {
         state1: {
@@ -240,7 +240,7 @@ describe('spec', () => {
   it('combo', () => {
     const registerCombo: ComboOptions = {
       style: {
-        comboStyle: (model) => model.style?.comboStyle || 'white',
+        comboStyle: (model: any) => model.style?.comboStyle || 'white',
       },
       state: {
         state1: {

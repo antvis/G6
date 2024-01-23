@@ -1,8 +1,8 @@
+import type { BehaviorOptions } from './behavior';
 import type { CanvasOptions } from './canvas';
 import type { DataOptions } from './data';
 import type { ComboOptions, EdgeOptions, NodeOptions } from './element';
 import type { LayoutOptions } from './layout';
-import type { ModeOptions } from './mode';
 import type { OptimizeOptions } from './optimize';
 import type { ThemeOptions } from './theme';
 import type { ViewportOptions } from './viewport';
@@ -53,11 +53,11 @@ export type G6Spec = CanvasOptions &
      */
     theme?: ThemeOptions;
     /**
-     * <zh/> 模式
+     * <zh/> 交互
      *
-     * <en/> Mode
+     * <en/> Behaviors
      */
-    mode?: ModeOptions;
+    behaviors?: BehaviorOptions;
     /**
      * <zh/> 画布插件
      *
