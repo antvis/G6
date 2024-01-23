@@ -5,6 +5,7 @@ import { GraphChange, ID } from '@antv/graphlib';
 import {
   clone,
   createDOM,
+  debounce,
   groupBy,
   isArray,
   isEmpty,
@@ -35,6 +36,7 @@ import { FitViewRules, GraphTransformOptions } from '../types/view';
 import { getCombinedCanvasesBounds } from '../utils/bbox';
 import { changeRenderer, createCanvas } from '../utils/canvas';
 import { cloneJSON, isEmptyGraph } from '../utils/data';
+import { sizeOf } from '../utils/dom';
 import { error, warn } from '../utils/invariant';
 import { getLayoutBounds } from '../utils/layout';
 import { formatPadding } from '../utils/shape';
@@ -79,7 +81,7 @@ export class Graph<B extends BehaviorRegistry = any, T extends ThemeSolverRegist
   private themeController: ThemeController;
   private pluginController: PluginController;
 
-  private defaultSpecification = {
+  private defaultSpecification: Specification = {
     theme: {
       type: 'spec',
       base: 'light',
@@ -109,6 +111,9 @@ export class Graph<B extends BehaviorRegistry = any, T extends ThemeSolverRegist
       // TODO: handle multiple type data configs
       this.read(data as GraphData);
     }
+
+    // Listening window.resize to autoResize.
+    this.specification.autoResize && window.addEventListener('resize', this.onResize);
   }
 
   /**
@@ -2530,6 +2535,16 @@ export class Graph<B extends BehaviorRegistry = any, T extends ThemeSolverRegist
     // this.themeController.destroy();
     // this.itemController.destroy();
 
+    window.removeEventListener('resize', this.onResize);
+
     this.destroyed = true;
   }
+
+  private onResize = debounce(() => {
+    const { width, height } = this.specification;
+    const [w, h] = sizeOf(this.container);
+    if (width !== w || height !== h) {
+      this.setSize([w, h]);
+    }
+  }, 300);
 }

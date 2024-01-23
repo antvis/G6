@@ -26,6 +26,10 @@ export interface Specification<B extends BehaviorRegistry, T extends ThemeSolver
   transientLabelCanvas?: Canvas;
   width?: number;
   height?: number;
+  /**
+   * Auto resize canvas by listening `resize` event. Default is False.
+   */
+  autoResize?: boolean;
   renderer?:
     | RendererName
     | {
