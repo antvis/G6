@@ -1,12 +1,12 @@
 import { Renderer } from '@antv/g-canvas';
 import type { G6Spec } from '../../src/spec';
-import type { DataOption } from '../../src/spec/data';
-import type { ComboOption, EdgeOption, NodeOption } from '../../src/spec/element';
-import type { LayoutOption } from '../../src/spec/layout';
-import type { ModeOption } from '../../src/spec/mode';
-import type { OptimizeOption } from '../../src/spec/optimize';
-import type { ThemeOption } from '../../src/spec/theme';
-import type { WidgetOption } from '../../src/spec/widget';
+import type { BehaviorOptions } from '../../src/spec/behavior';
+import type { DataOptions } from '../../src/spec/data';
+import type { ComboOptions, EdgeOptions, NodeOptions } from '../../src/spec/element';
+import type { LayoutOptions } from '../../src/spec/layout';
+import type { OptimizeOptions } from '../../src/spec/optimize';
+import type { ThemeOptions } from '../../src/spec/theme';
+import type { WidgetOptions } from '../../src/spec/widget';
 
 // for type check
 describe('spec', () => {
@@ -64,7 +64,7 @@ describe('spec', () => {
         },
       },
       theme: 'light',
-      mode: ['drag-canvas', 'my-behavior'],
+      behaviors: ['drag-canvas', 'my-behavior', { type: 'drag-node' }],
       widget: ['my-widget', { type: 'another-widget', text: 'text', value: 1 }],
       optimize: {
         tileFirstRender: true,
@@ -110,7 +110,7 @@ describe('spec', () => {
   });
 
   it('data', () => {
-    const data: DataOption = {
+    const data: DataOptions = {
       nodes: [
         { id: 'node-1' },
         { id: 'node-2', data: { value: 1, field: 'A' } },
@@ -137,30 +137,30 @@ describe('spec', () => {
   });
 
   it('theme', () => {
-    const builtInTheme: ThemeOption = 'light';
+    const builtInTheme: ThemeOptions = 'light';
     expect(builtInTheme).toBeTruthy();
 
-    const registerTheme: ThemeOption = 'ghost';
+    const registerTheme: ThemeOptions = 'ghost';
     expect(registerTheme).toBeTruthy();
   });
 
   it('behavior', () => {
-    const builtInBehavior: ModeOption = ['orbit-canvas-3d'];
+    const builtInBehavior: BehaviorOptions = ['orbit-canvas-3d'];
     expect(builtInBehavior).toBeTruthy();
 
-    const registerBehavior: ModeOption = ['drag-canvas', 'my-behavior'];
+    const registerBehavior: BehaviorOptions = ['drag-canvas', 'my-behavior'];
     expect(registerBehavior).toBeTruthy();
   });
 
   it('layout', () => {
-    const builtInLayout: LayoutOption = {
+    const builtInLayout: LayoutOptions = {
       type: 'concentric',
       clockwise: true,
       height: 100,
     };
     expect(builtInLayout).toBeTruthy();
 
-    type RegisterLayout = LayoutOption;
+    type RegisterLayout = LayoutOptions;
 
     const registerLayout1: RegisterLayout = {
       type: 'layout1',
@@ -174,7 +174,7 @@ describe('spec', () => {
     };
     expect(registerLayout2).toBeTruthy();
 
-    const pipeLayout: LayoutOption = [
+    const pipeLayout: LayoutOptions = [
       {
         type: 'force',
         nodesFilter: (node) => node.data!.value > 1,
@@ -184,13 +184,13 @@ describe('spec', () => {
   });
 
   it('node', () => {
-    const registerNode: NodeOption = {
+    const registerNode: NodeOptions = {
       style: {
-        nodeStyle: (model) => model.style?.nodeStyle || 'white',
+        nodeStyle: (model: any) => model.style?.nodeStyle || 'white',
       },
       state: {
         state1: {
-          nodeStyle: (data) => data.style?.nodeStyle || 'white',
+          nodeStyle: (data: any) => data.style?.nodeStyle || 'white',
         },
       },
       animate: {
@@ -214,9 +214,9 @@ describe('spec', () => {
   });
 
   it('edge', () => {
-    const registerEdge: EdgeOption = {
+    const registerEdge: EdgeOptions = {
       style: {
-        edgeStyle: (model) => model.style?.edgeStyle || 'white',
+        edgeStyle: (model: any) => model.style?.edgeStyle || 'white',
       },
       state: {
         state1: {
@@ -248,9 +248,9 @@ describe('spec', () => {
   });
 
   it('combo', () => {
-    const registerCombo: ComboOption = {
+    const registerCombo: ComboOptions = {
       style: {
-        comboStyle: (model) => model.style?.comboStyle || 'white',
+        comboStyle: (model: any) => model.style?.comboStyle || 'white',
       },
       state: {
         state1: {
@@ -277,16 +277,16 @@ describe('spec', () => {
   });
 
   it('widget', () => {
-    const builtInWidget: WidgetOption = ['hull', { type: 'grid' }];
+    const builtInWidget: WidgetOptions = ['hull', { type: 'grid' }];
     expect(builtInWidget).toBeTruthy();
 
-    const registerWidget: WidgetOption = ['widget1', { type: 'widget2', option2: 1 }, 'grid', { type: 'tooltip' }];
+    const registerWidget: WidgetOptions = ['widget1', { type: 'widget2', option2: 1 }, 'grid', { type: 'tooltip' }];
 
     expect(registerWidget).toBeTruthy();
   });
 
   it('optimize', () => {
-    const optimize: OptimizeOption = {
+    const optimize: OptimizeOptions = {
       tileFirstRender: true,
     };
 
