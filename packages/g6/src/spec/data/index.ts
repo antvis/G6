@@ -47,8 +47,9 @@ export type EdgeData = {
  * Can be a node or combo.
  */
 export type NodeLikeStyle = Pick<BaseStyleProps, 'cursor' | 'opacity' | 'pointerEvents' | 'visibility' | 'zIndex'> & {
-  parentId?: ID;
   collapsed?: boolean;
+  parentId?: ID;
+  states?: string[];
   type?: string;
   x?: number;
   y?: number;

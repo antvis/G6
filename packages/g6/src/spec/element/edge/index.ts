@@ -40,6 +40,7 @@ export type EdgeOptions = {
 
 export type EdgeStyle = Pick<BaseStyleProps, 'cursor' | 'opacity' | 'pointerEvents' | 'visibility' | 'zIndex'> & {
   type?: string;
+  states?: string[];
   [keys: string]: any;
 };
 
