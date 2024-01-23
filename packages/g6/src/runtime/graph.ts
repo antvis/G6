@@ -4,7 +4,6 @@ import type { EdgeDataUpdated, GraphChangedEvent, ID, NodeDataUpdated } from '@a
 import { deepMix, groupBy, isEmpty, isEqual, isFunction, isNil, isString } from '@antv/util';
 import { GraphEvent } from '../constant/event';
 import type { G6Spec } from '../spec';
-import { getAutoFit } from '../spec';
 import type { ComboData, DataOption, EdgeData, NodeData } from '../spec/data';
 import type { ComboOptions, EdgeOptions, NodeOptions } from '../spec/element';
 import type { LayoutOption } from '../spec/layout';
@@ -20,6 +19,7 @@ import type { NodeDisplayModel } from '../types/node';
 import { PositionPoint } from '../types/position';
 import type { FitViewOptions, FitViewRules, GraphTransformOptions, TranslateOptions } from '../types/view';
 import { parseArrayLike } from '../utils/array';
+import { parseAutoFit } from '../utils/auto-fit';
 import { getCombinedCanvasesBounds } from '../utils/bbox';
 import { dataIdOf, isEmptyGraph } from '../utils/data';
 import { getLayoutBounds } from '../utils/layout';
@@ -433,7 +433,7 @@ export class Graph extends EventEmitter {
    * @internal
    */
   protected async autoFit() {
-    const autoFit = getAutoFit(this.options);
+    const autoFit = parseAutoFit(this.options.autoFit);
     if (!autoFit) return;
     const { type, effectTiming } = autoFit;
     if (type === 'view') {
