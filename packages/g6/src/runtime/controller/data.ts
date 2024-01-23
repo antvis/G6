@@ -1,10 +1,10 @@
 import { Graph as GraphLib, ID } from '@antv/graphlib';
 import { isEqual } from '@antv/util';
-import type { ComboData, DataOption, EdgeData, NodeData } from '../../spec/data';
+import type { ComboData, DataOptions, EdgeData, NodeData } from '../../spec/data';
 import type { Graph } from '../../types';
 import type { DataId } from '../../types/data';
 import { EdgeDirection } from '../../types/edge';
-import type { ItemType } from '../../types/item';
+import type { ITEM_TYPE } from '../../types/item';
 import { PositionPoint } from '../../types/position';
 import { graphComboTreeDFS, transformSpecDataToGraphlibData } from '../../utils/data';
 import { arrayDiff } from '../../utils/diff';
@@ -95,7 +95,7 @@ export class DataController {
     return this.getNodeData().find((node) => node.id === id) || this.getComboData().find((node) => node.id === id);
   }
 
-  public setData(data: DataOption) {
+  public setData(data: DataOptions) {
     const { nodes: modifiedNodes = [], edges: modifiedEdges = [], combos: modifiedCombos = [] } = data;
     const { nodes: originalNodes = [], edges: originalEdges = [], combos: originalCombos = [] } = this.getData();
 
@@ -129,7 +129,7 @@ export class DataController {
     return this.model.getChildren(id, COMBO_KEY).map((node) => node.data);
   }
 
-  public addData(data: DataOption) {
+  public addData(data: DataOptions) {
     const { nodes, edges, combos } = data;
     this.model.batch(() => {
       // add combo first
@@ -196,7 +196,7 @@ export class DataController {
     });
   }
 
-  public updateData(data: PartialDataOption) {
+  public updateData(data: PartialDataOptions) {
     const { nodes, edges, combos } = data;
     this.model.batch(() => {
       this.updateNodeData(nodes);
@@ -379,7 +379,7 @@ export class DataController {
     }
   }
 
-  public typeOf(id: ID): ItemType {
+  public typeOf(id: ID): ITEM_TYPE {
     if (this.model.hasEdge(id)) return 'edge';
 
     if (this.model.hasNode(id)) {
@@ -421,7 +421,7 @@ function mergeItemData<T extends NodeData | EdgeData | ComboData>(original: T, m
 
 type PartialItem<T extends NodeData | EdgeData | ComboData> = Partial<T> & { id: T['id'] };
 
-type PartialDataOption = {
+type PartialDataOptions = {
   nodes?: PartialItem<NodeData>[];
   edges?: PartialItem<EdgeData>[];
   combos?: PartialItem<ComboData>[];

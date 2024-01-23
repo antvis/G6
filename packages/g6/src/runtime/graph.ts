@@ -8,7 +8,7 @@ import type { ComboData, DataOptions, EdgeData, NodeData } from '../spec/data';
 import type { ComboOptions, EdgeOptions, NodeOptions } from '../spec/element';
 import type { LayoutOptions } from '../spec/layout';
 import { STDWidget } from '../spec/widget';
-import type { AnimationOptions } from '../types/animate';
+import type { CameraAnimationOptions } from '../types/animate';
 import type { CallableValue } from '../types/callable';
 import type { ComboDisplayModel } from '../types/combo';
 import type { Bounds, Point } from '../types/common';
@@ -22,6 +22,7 @@ import { parseArrayLike } from '../utils/array';
 import { parseAutoFit } from '../utils/auto-fit';
 import { getCombinedCanvasesBounds } from '../utils/bbox';
 import { dataIdOf, isEmptyGraph } from '../utils/data';
+import { warn } from '../utils/invariant';
 import { getLayoutBounds } from '../utils/layout';
 import { createPromise } from '../utils/promise';
 import { formatPadding } from '../utils/shape';
@@ -36,24 +37,24 @@ type PositionOptions = {
 };
 
 export class Graph extends EventEmitter {
-  #hooks = new Hooks();
+  private _hooks = new Hooks();
   public get hooks() {
-    return this.#hooks;
+    return this._hooks;
   }
 
-  #canvas: Canvas;
+  private _canvas: Canvas;
   public get canvas() {
-    return this.#canvas;
+    return this._canvas;
   }
 
-  #container: HTMLElement;
+  private _container: HTMLElement;
   public get container() {
-    return this.#container;
+    return this._container;
   }
 
-  #destroyed: boolean = false;
+  private _destroyed: boolean = false;
   public get destroyed() {
-    return this.#destroyed;
+    return this._destroyed;
   }
 
   private options: G6Spec;
@@ -98,19 +99,19 @@ export class Graph extends EventEmitter {
     const { container } = this.options;
 
     if (container instanceof HTMLElement) {
-      this.#container = container;
+      this._container = container;
       return;
     }
 
     if (isString(container)) {
       const dom = document.getElementById(container);
       if (dom) {
-        this.#container = dom;
+        this._container = dom;
         return;
       }
     }
 
-    console.log('Unable to find the container for the graph instance.');
+    warn('Unable to find the container for the graph instance.');
   }
 
   private initCanvas() {
@@ -118,7 +119,7 @@ export class Graph extends EventEmitter {
 
     this.initContainer();
 
-    this.#canvas = new Canvas({
+    this._canvas = new Canvas({
       container: this.container,
       width,
       height,
@@ -265,7 +266,7 @@ export class Graph extends EventEmitter {
    * });
    * ```
    */
-  public async transform(options: GraphTransformOptions, effectTiming?: AnimationOptions): Promise<void> {
+  public async transform(options: GraphTransformOptions, effectTiming?: CameraAnimationOptions): Promise<void> {
     if (isEmptyGraph(this, true)) return;
     await this.hooks.viewportchange.emitAsync({
       ...this.baseEmitParam,
@@ -295,7 +296,7 @@ export class Graph extends EventEmitter {
    */
   public async translateBy(
     distance: Partial<Pick<TranslateOptions, 'dx' | 'dy' | 'dz'>>,
-    effectTiming?: AnimationOptions,
+    effectTiming?: CameraAnimationOptions,
   ) {
     const { x: cx, y: cy } = this.getViewportCenter();
     const { dx, dy, dz } = distance;
@@ -321,7 +322,7 @@ export class Graph extends EventEmitter {
    * @param effectTiming - <zh/> 动画参数 | <en/> animation options
    * @public
    */
-  public async translateTo(point: Point, effectTiming?: AnimationOptions) {
+  public async translateTo(point: Point, effectTiming?: CameraAnimationOptions) {
     const { x, y } = point;
     const { x: cx, y: cy } = this.getViewportCenter();
     const canvasPoint = this.canvas.viewport2Canvas({ x, y });
@@ -350,7 +351,7 @@ export class Graph extends EventEmitter {
    * @param effectTiming - <zh/> 动画参数 | <en/> animation options
    * @public
    */
-  public async zoomBy(ratio: number, origin?: Point, effectTiming?: AnimationOptions) {
+  public async zoomBy(ratio: number, origin?: Point, effectTiming?: CameraAnimationOptions) {
     await this.transform(
       {
         zoom: {
@@ -371,7 +372,7 @@ export class Graph extends EventEmitter {
    * @param effectTiming - <zh/> 动画参数 | <en/> animation options
    * @public
    */
-  public async zoomTo(zoom: number, origin?: PointLike, effectTiming?: AnimationOptions) {
+  public async zoomTo(zoom: number, origin?: PointLike, effectTiming?: CameraAnimationOptions) {
     await this.zoomBy(zoom / this.canvas.main.getCamera().getZoom(), origin, effectTiming);
   }
 
@@ -393,7 +394,7 @@ export class Graph extends EventEmitter {
    * @param effectTiming - <zh/> 动画参数 | <en/> animation options
    * @public
    */
-  public async rotateBy(angle: number, origin?: PointLike, effectTiming?: AnimationOptions) {
+  public async rotateBy(angle: number, origin?: PointLike, effectTiming?: CameraAnimationOptions) {
     await this.transform(
       {
         rotate: {
@@ -414,7 +415,7 @@ export class Graph extends EventEmitter {
    * @param effectTiming - <zh/> 动画参数 | <en/> animation options
    * @public
    */
-  public async rotateTo(angle: number, origin?: PointLike, effectTiming?: AnimationOptions) {
+  public async rotateTo(angle: number, origin?: PointLike, effectTiming?: CameraAnimationOptions) {
     await this.rotateBy(angle - this.canvas.main.getCamera().getRoll(), origin, effectTiming);
   }
 
@@ -454,7 +455,7 @@ export class Graph extends EventEmitter {
    * @param options - <zh/> 自适应参数 | <en/> auto fit options
    * @param effectTiming - <zh/> 动画参数 | <en/> animation options
    */
-  public async fitView(options?: FitViewOptions, effectTiming?: AnimationOptions) {
+  public async fitView(options?: FitViewOptions, effectTiming?: CameraAnimationOptions) {
     const { padding, rules } = options || {};
     const [top, right, bottom, left] = padding ? formatPadding(padding) : [0, 0, 0, 0];
     const {
@@ -533,7 +534,7 @@ export class Graph extends EventEmitter {
    * @param boundsType - <zh/> 获取的包围盒类型 | <en/> bounds type
    * @param effectTiming - <zh/> 动画参数 | <en/> animation options
    */
-  public async fitCenter(boundsType: FitViewRules['boundsType'] = 'current', effectTiming?: AnimationOptions) {
+  public async fitCenter(boundsType: FitViewRules['boundsType'] = 'current', effectTiming?: CameraAnimationOptions) {
     const {
       center: [graphCenterX, graphCenterY],
     } =
@@ -554,7 +555,7 @@ export class Graph extends EventEmitter {
    * @param id - <zh/> item id | <en/> item id
    * @param effectTiming - <zh/> 动画参数 | <en/> animation options
    */
-  public async focusItem(id: ID | ID[], effectTiming?: AnimationOptions) {
+  public async focusItem(id: ID | ID[], effectTiming?: CameraAnimationOptions) {
     let bounds: AABB | null = null;
     for (const itemId of parseArrayLike(id)) {
       const item = this.getItemById(itemId);
@@ -1041,7 +1042,7 @@ export class Graph extends EventEmitter {
     this.canvas.destroy();
     this.controller.destroy();
     this.hooks.destroy.emit(null);
-    this.#destroyed = true;
+    this._destroyed = true;
   }
 
   // ---------- Element API ----------
@@ -1119,7 +1120,7 @@ export class Graph extends EventEmitter {
           offset,
           options,
         );
-      } else console.debug(`Unsupported item type: ${type} (${items.map(({ id }) => id).join(', ')})})`);
+      } else warn(`Unsupported item type: ${type} (${items.map(({ id }) => id).join(', ')})})`);
     });
   }
 
@@ -1132,7 +1133,7 @@ export class Graph extends EventEmitter {
     if (ITEM_TYPE === 'combo') {
       return this.updateComboPosition([{ id, style: { x, y, z } }], options);
     }
-    console.debug(`Item: ${id} is unsupported to translate.`);
+    warn(`Item: ${id} is unsupported to translate.`);
   }
 
   public getItemPosition() {}

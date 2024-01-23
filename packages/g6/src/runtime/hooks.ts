@@ -1,14 +1,14 @@
 import { GraphChange, ID } from '@antv/graphlib';
 import type { G6Spec } from '../spec';
-import type { DataOption } from '../spec/data';
+import type { DataOptions } from '../spec/data';
 import { ComboOptions, EdgeOptions, NodeOptions } from '../spec/element';
-import { LayoutOption } from '../spec/layout';
+import { LayoutOptions } from '../spec/layout';
 import { STDWidget } from '../spec/widget';
-import { AnimationOptions } from '../types/animate';
+import { CameraAnimationOptions } from '../types/animate';
 import { ComboDisplayModel, ComboModel, ComboShapesEncode } from '../types/combo';
 import type { DataChangeType, DataId } from '../types/data';
 import { EdgeDisplayModel, EdgeModel, EdgeModelData, EdgeShapesEncode } from '../types/edge';
-import { ItemType, SHAPE_TYPE, ShapeStyle, State } from '../types/item';
+import { ITEM_TYPE, SHAPE_TYPE, ShapeStyle, State } from '../types/item';
 import { NodeDisplayModel, NodeModel, NodeModelData, NodeShapesEncode } from '../types/node';
 import { Theme } from '../types/theme';
 import { GraphTransformOptions } from '../types/view';
@@ -163,7 +163,7 @@ export interface InitParams extends BaseParams {}
 export type DataChangeParams =
   | {
       type: Exclude<DataChangeType, 'remove'>;
-      data: DataOption;
+      data: DataOptions;
     }
   | {
       type: Extract<DataChangeType, 'remove'>;
@@ -181,7 +181,7 @@ export interface ItemChangeParams extends BaseParams {
 export interface RenderParams extends BaseParams {}
 
 export interface LayoutParams extends BaseParams {
-  options?: LayoutOption;
+  options?: LayoutOptions;
   animate?: boolean;
 }
 
@@ -200,7 +200,7 @@ export interface ItemStateChangeParams extends BaseParams {
 }
 
 export interface ItemStateConfigChangeParams extends BaseParams {
-  itemType: ItemType;
+  ITEM_TYPE: ITEM_TYPE;
   stateConfig:
     | {
         [stateName: string]: ((data: NodeModel) => NodeDisplayModel) | NodeShapesEncode;
@@ -223,7 +223,7 @@ export interface ItemZIndexChangeParams extends BaseParams {
 }
 
 export interface TransientUpdateParams extends BaseParams {
-  type: ItemType | SHAPE_TYPE;
+  type: ITEM_TYPE | SHAPE_TYPE;
   id: ID;
   config: {
     style?: ShapeStyle;
@@ -242,7 +242,7 @@ export interface TransientUpdateParams extends BaseParams {
 
 export interface ViewportChangeParams extends BaseParams {
   transform: GraphTransformOptions;
-  effectTiming?: Partial<AnimationOptions>;
+  effectTiming?: Partial<CameraAnimationOptions>;
   tileLodSize?: number;
 }
 
@@ -253,7 +253,7 @@ export interface ThemeStyleChangeParams extends BaseParams {
 }
 
 export interface MapperChangeParams extends BaseParams {
-  type: ItemType;
+  type: ITEM_TYPE;
   mapper: NodeOptions | EdgeOptions | ComboOptions;
 }
 
