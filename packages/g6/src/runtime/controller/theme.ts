@@ -17,7 +17,7 @@ export class ThemeController {
     [themeName: string]: ThemeSpecification;
   };
 
-  constructor(graph: Graph<any, any>) {
+  constructor(graph: Graph) {
     this.graph = graph;
     this.tap();
   }

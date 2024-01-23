@@ -56,7 +56,7 @@ export class PluginController {
    */
   private listenersMap: Record<string, Record<string, Listener>> = {};
 
-  constructor(graph: Graph<any, any>) {
+  constructor(graph: Graph) {
     this.graph = graph;
     this.tap();
   }

@@ -52,7 +52,7 @@ export class InteractionController {
 
   private prevItemInfo: ItemInfo;
 
-  constructor(graph: Graph<any, any>) {
+  constructor(graph: Graph) {
     this.graph = graph;
     this.initEvents();
     this.tap();

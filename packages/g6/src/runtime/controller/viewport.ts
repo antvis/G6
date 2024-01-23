@@ -6,7 +6,7 @@ let landmarkCounter = 0;
 export class ViewportController {
   public graph: Graph;
 
-  constructor(graph: Graph<any, any>) {
+  constructor(graph: Graph) {
     this.graph = graph;
     this.tap();
   }

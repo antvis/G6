@@ -28,7 +28,7 @@ export class LayoutController {
   private animatedDisplayObject: DisplayObject;
   private previousNodes: Map<ID, object>;
 
-  constructor(graph: Graph<any, any>) {
+  constructor(graph: Graph) {
     this.graph = graph;
     this.animatedDisplayObject = new DisplayObject({});
     this.tap();

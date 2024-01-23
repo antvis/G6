@@ -144,7 +144,7 @@ export class ItemController {
 
   private cacheWarnMsg = {};
 
-  constructor(graph: Graph<any, any>) {
+  constructor(graph: Graph) {
     this.graph = graph;
     // get mapper for node / edge / combo
     const { node, edge, combo, nodeState = {}, edgeState = {}, comboState = {} } = graph.getSpecification();

@@ -7,7 +7,7 @@ import { Graph } from '../../../src/runtime/graph';
  * @param clientX
  * @param clientY
  */
-export function triggerEvent(graph: Graph<any, any>, type: string, clientX: number, clientY: number) {
+export function triggerEvent(graph: Graph, type: string, clientX: number, clientY: number) {
   // TODO: TouchEvent
   // const isMouseEvent = type.startsWith('mouse');
   // const isTouchEvent = type.startsWith('touch');
