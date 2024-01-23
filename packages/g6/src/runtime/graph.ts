@@ -4,9 +4,9 @@ import type { EdgeDataUpdated, GraphChangedEvent, ID, NodeDataUpdated } from '@a
 import { deepMix, groupBy, isEmpty, isEqual, isFunction, isNil, isString } from '@antv/util';
 import { GraphEvent } from '../constant/event';
 import type { G6Spec } from '../spec';
-import type { ComboData, DataOption, EdgeData, NodeData } from '../spec/data';
+import type { ComboData, DataOptions, EdgeData, NodeData } from '../spec/data';
 import type { ComboOptions, EdgeOptions, NodeOptions } from '../spec/element';
-import type { LayoutOption } from '../spec/layout';
+import type { LayoutOptions } from '../spec/layout';
 import { STDWidget } from '../spec/widget';
 import type { AnimationOptions } from '../types/animate';
 import type { CallableValue } from '../types/callable';
@@ -14,7 +14,7 @@ import type { ComboDisplayModel } from '../types/combo';
 import type { Bounds, Point } from '../types/common';
 import type { DataId } from '../types/data';
 import type { EdgeDirection, EdgeDisplayModel } from '../types/edge';
-import type { ItemType, SHAPE_TYPE, ShapeStyle } from '../types/item';
+import type { ITEM_TYPE, SHAPE_TYPE, ShapeStyle } from '../types/item';
 import type { NodeDisplayModel } from '../types/node';
 import { PositionPoint } from '../types/position';
 import type { FitViewOptions, FitViewRules, GraphTransformOptions, TranslateOptions } from '../types/view';
@@ -183,7 +183,7 @@ export class Graph extends EventEmitter {
     this.setMapper('combo', combo);
   }
 
-  protected setMapper(type: ItemType, mapper: NodeOptions | EdgeOptions | ComboOptions) {
+  protected setMapper(type: ITEM_TYPE, mapper: NodeOptions | EdgeOptions | ComboOptions) {
     this.options[type] = mapper;
     this.hooks.mapperchange.emit({
       ...this.baseEmitParam,
@@ -694,7 +694,7 @@ export class Graph extends EventEmitter {
    * @returns - <zh/> 数据 | <en/> data
    * @public
    */
-  public data(): DataOption;
+  public data(): DataOptions;
   /**
    * <zh/> 设置数据
    *
@@ -702,7 +702,7 @@ export class Graph extends EventEmitter {
    * @param data - <zh/> 数据 | <en/> data
    * @public
    */
-  public data(data: CallableValue<DataOption>): void;
+  public data(data: CallableValue<DataOptions>): void;
   /**
    * <zh/> 获取/设置数据
    *
@@ -711,7 +711,7 @@ export class Graph extends EventEmitter {
    * @returns - <zh/> 数据 | <en/> data
    * @internal
    */
-  public data(data?: CallableValue<DataOption>): DataOption | void {
+  public data(data?: CallableValue<DataOptions>): DataOptions | void {
     if (!data) {
       return this.getData();
     }
@@ -736,7 +736,7 @@ export class Graph extends EventEmitter {
    * @param data - <zh/> 数据 | <en/> data
    * @public
    */
-  protected setData(data: CallableValue<DataOption>) {
+  protected setData(data: CallableValue<DataOptions>) {
     this.controller.data.model.once('changed', this.handleDataChange.bind(this));
 
     this.controller.data.setData(isFunction(data) ? data(this.controller.data.getData()) : data);
@@ -749,7 +749,7 @@ export class Graph extends EventEmitter {
    * @param data - <zh/> 数据 | <en/> data
    * @public
    */
-  public addData(data: CallableValue<DataOption>) {
+  public addData(data: CallableValue<DataOptions>) {
     this.controller.data.model.once('changed', this.handleDataChange.bind(this));
 
     this.controller.data.addData(isFunction(data) ? data(this.controller.data.getData()) : data);
@@ -808,7 +808,7 @@ export class Graph extends EventEmitter {
    * @param data - <zh/> 数据 | <en/> data
    * @public
    */
-  public updateData(data: CallableValue<DataOption>) {
+  public updateData(data: CallableValue<DataOptions>) {
     this.controller.data.model.once('changed', this.handleDataChange.bind(this));
 
     this.controller.data.updateData(isFunction(data) ? data(this.controller.data.getData()) : data);
@@ -864,7 +864,7 @@ export class Graph extends EventEmitter {
    * <en/> Remove data
    * @param id - <zh/> 数据 ID | <en/> data ID
    */
-  public removeData(id: DataId | ((data: DataOption) => DataId)) {
+  public removeData(id: DataId | ((data: DataOptions) => DataId)) {
     this.controller.data.model.once('changed', this.handleDataChange.bind(this));
 
     const { nodes, edges, combos } = isFunction(id) ? id(this.controller.data.getData()) : id;
@@ -1107,12 +1107,12 @@ export class Graph extends EventEmitter {
       });
     });
 
-    const itemTypes = groupBy(
+    const ITEM_TYPEs = groupBy(
       ids.map((id) => ({ type: this.controller.data.typeOf(id), id })),
       'type',
     );
 
-    Object.entries(itemTypes).forEach(([type, items]) => {
+    Object.entries(ITEM_TYPEs).forEach(([type, items]) => {
       if (type === 'combo') {
         this.translateComboBy(
           items.map(({ id }) => id),
@@ -1125,11 +1125,11 @@ export class Graph extends EventEmitter {
 
   public async translateItemTo(id: ID, position: PositionPoint, options: PositionOptions) {
     const [x, y, z] = position;
-    const itemType = this.controller.data.typeOf(id);
-    if (itemType === 'node') {
+    const ITEM_TYPE = this.controller.data.typeOf(id);
+    if (ITEM_TYPE === 'node') {
       return this.updateNodePosition([{ id, style: { x, y, z } }], options);
     }
-    if (itemType === 'combo') {
+    if (ITEM_TYPE === 'combo') {
       return this.updateComboPosition([{ id, style: { x, y, z } }], options);
     }
     console.debug(`Item: ${id} is unsupported to translate.`);
@@ -1256,43 +1256,43 @@ export class Graph extends EventEmitter {
    * <zh/> 根据状态获取节点数据
    *
    * <en/> Get node data by state
-   * @param itemType - <zh/> 节点/边/Combo | <en/> node/edge/combo
+   * @param ITEM_TYPE - <zh/> 节点/边/Combo | <en/> node/edge/combo
    * @param state - <zh/> 状态 | <en/> state
    * @returns <zh/> 数据 | <en/> data
    */
-  public getItemDataByState(itemType: 'node', state: string): NodeData[];
+  public getItemDataByState(ITEM_TYPE: 'node', state: string): NodeData[];
   /**
    * <zh/> 根据状态获取边数据
    *
    * <en/> Get edge data by state
-   * @param itemType - <zh/> 节点/边/Combo | <en/> node/edge/combo
+   * @param ITEM_TYPE - <zh/> 节点/边/Combo | <en/> node/edge/combo
    * @param state - <zh/> 状态 | <en/> state
    * @returns <zh/> 数据 | <en/> data
    */
-  public getItemDataByState(itemType: 'edge', state: string): EdgeData[];
+  public getItemDataByState(ITEM_TYPE: 'edge', state: string): EdgeData[];
   /**
    * <zh/> 根据状态获取 combo 数据
    *
    * <en/> Get combo data by state
-   * @param itemType - <zh/> 节点/边/Combo | <en/> node/edge/combo
+   * @param ITEM_TYPE - <zh/> 节点/边/Combo | <en/> node/edge/combo
    * @param state - <zh/> 状态 | <en/> state
    * @returns <zh/> 数据 | <en/> data
    */
-  public getItemDataByState(itemType: 'combo', state: string): ComboData[];
+  public getItemDataByState(ITEM_TYPE: 'combo', state: string): ComboData[];
   /**
    * <zh/> 根据状态获取数据
    *
    * <en/> Get node data by state
-   * @param itemType - <zh/> 节点/边/Combo | <en/> node/edge/combo
+   * @param ITEM_TYPE - <zh/> 节点/边/Combo | <en/> node/edge/combo
    * @param state - <zh/> 状态 | <en/> state
    * @returns <zh/> 数据 | <en/> data
    */
-  public getItemDataByState(itemType: ItemType, state: string): NodeData[] | EdgeData[] | ComboData[] {
-    const ids = this.controller.item.findIdByState(itemType, state);
+  public getItemDataByState(ITEM_TYPE: ITEM_TYPE, state: string): NodeData[] | EdgeData[] | ComboData[] {
+    const ids = this.controller.item.findIdByState(ITEM_TYPE, state);
 
-    if (itemType === 'node') return this.getNodeData(ids);
-    else if (itemType === 'edge') return this.getEdgeData(ids);
-    else if (itemType === 'combo') return this.getComboData(ids);
+    if (ITEM_TYPE === 'node') return this.getNodeData(ids);
+    else if (ITEM_TYPE === 'edge') return this.getEdgeData(ids);
+    else if (ITEM_TYPE === 'combo') return this.getComboData(ids);
   }
 
   /**
@@ -1358,7 +1358,7 @@ export class Graph extends EventEmitter {
    * @param options - <zh/> 布局配置 | <en/> layout options
    * @public
    */
-  public setLayout(options: CallableValue<LayoutOption>) {
+  public setLayout(options: CallableValue<LayoutOptions>) {
     this.options.layout = isFunction(options) ? options(this.getLayout()) : options;
 
     this.hooks.layout.emitAsync({
@@ -1387,7 +1387,7 @@ export class Graph extends EventEmitter {
   public async layout(animate = true) {
     this.emit(GraphEvent.BEFORE_LAYOUT);
 
-    const emitAsync = (options: LayoutOption) => {
+    const emitAsync = (options: LayoutOptions) => {
       return this.hooks.layout.emitAsync({
         ...this.baseEmitParam,
         options,
@@ -1510,7 +1510,7 @@ export class Graph extends EventEmitter {
   }
 
   public drawTransient(
-    type: ItemType | SHAPE_TYPE,
+    type: ITEM_TYPE | SHAPE_TYPE,
     id: ID,
     config: {
       action?: 'remove' | 'add' | 'update' | undefined;
