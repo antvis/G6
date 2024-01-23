@@ -1409,9 +1409,6 @@ const data2 = {
   ],
 };
 
-register('transform', 'edge-cluster', edgeClusterTransform);
-register('transform', 'transform-v4-data', Extensions.TransformV4Data);
-register('transform', 'map-node-size', Extensions.MapNodeSize);
 register('edge', 'quadratic-edge', Extensions.QuadraticEdge);
 register('layout', 'line-layout', LineLayout);
 

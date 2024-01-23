@@ -83,7 +83,6 @@ for (let i = 0; i < 5; i++) {
   });
 }
 
-register('transform', 'process-parallel-edges', Extensions.ProcessParallelEdges);
 register('edge', 'quadratic-edge', Extensions.QuadraticEdge);
 register('edge', 'loop-edge', Extensions.LoopEdge);
 
@@ -91,14 +90,6 @@ export default (context: TestCaseContext) => {
   const graph = new Graph({
     ...context,
     data,
-    transforms: [
-      {
-        type: 'process-parallel-edges',
-        activeLifecycle: ['read', 'changeData', 'updateData', 'addData', 'removeData'], // default: 'read'
-        multiEdgeType: 'quadratic-edge',
-        loopEdgeType: 'loop-edge',
-      },
-    ],
     modes: {
       default: ['drag-node'],
     },

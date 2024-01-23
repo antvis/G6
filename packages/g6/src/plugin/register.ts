@@ -23,7 +23,6 @@ type PluginRegistry = {
   behavior: BehaviorRegistry;
   themeSolver: ThemeSolverRegistry;
   theme: ThemeRegistry;
-  transform: any; //TODO: 待数据处理移除后删除
 };
 
 /**

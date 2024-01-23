@@ -4,15 +4,12 @@ import * as Layouts from '@antv/layout';
 import { Behavior as BaseBehavior } from '../types/behavior';
 import { Plugin as BasePlugin } from '../types/plugin';
 import * as Behaviors from './behavior';
-import * as Transforms from './data';
 import * as Combos from './item/combo';
 import * as Edges from './item/edge';
 import * as Nodes from './item/node';
 import * as Themes from './theme';
 import * as ThemeSolvers from './theme-solver';
 import * as Widgets from './widget';
-
-const { ValidateData, TransformV4Data, MapNodeSize, ProcessParallelEdges } = Transforms;
 
 const { compactBox, dendrogram, indented, mindmap } = Hierarchy;
 
@@ -97,11 +94,6 @@ import Hull from './widget/hull';
 import { WaterMarker } from './widget/watermarker';
 
 const builtInPlugins = {
-  transform: {
-    'validate-data': ValidateData,
-    'transform-v4-data': TransformV4Data,
-    'map-node-size': MapNodeSize,
-  },
   theme: {
     light: LightTheme,
     dark: DarkTheme,
@@ -185,11 +177,6 @@ const utils = {
 };
 
 const Extensions = {
-  // transforms
-  ValidateData,
-  TransformV4Data,
-  MapNodeSize,
-  ProcessParallelEdges,
   // themes
   LightTheme,
   DarkTheme,

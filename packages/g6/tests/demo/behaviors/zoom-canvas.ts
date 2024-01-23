@@ -2,7 +2,6 @@ import { Extensions, Graph, register } from '../../../src/index';
 import { TestCaseContext } from '../interface';
 
 register('behavior', 'zoom-canvas', Extensions.ZoomCanvas);
-register('transform', 'transform-v4-data', Extensions.TransformV4Data);
 
 export default (context: TestCaseContext) => {
   const data = {
@@ -76,9 +75,6 @@ export default (context: TestCaseContext) => {
       },
     },
     data,
-    transforms: [
-      'transform-v4-data', // 内置的数据处理器，将 v4 的数据格式转换为 v5
-    ],
     plugins: [
       {
         type: 'lod-controller',

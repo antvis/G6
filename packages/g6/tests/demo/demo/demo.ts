@@ -162,7 +162,6 @@ let currentTheme = defaultTheme;
 register('behavior', 'brush-select', Extensions.BrushSelect);
 register('behavior', 'hover-activate', Extensions.HoverActivate);
 register('layout', 'force-wasm', Extensions.ForceLayout);
-register('transform', 'data-format', dataFormat);
 
 const create2DGraph = (
   getNodeAnimates = getDefaultNodeAnimates,
@@ -179,14 +178,6 @@ const create2DGraph = (
     renderer: 'webgl',
     // rendererType,
     data: dataFor2D,
-    transforms: [
-      'data-format',
-      {
-        type: 'map-node-size',
-        field: 'degree',
-        range: [3, 24],
-      },
-    ],
     modes: {
       default: [
         {
