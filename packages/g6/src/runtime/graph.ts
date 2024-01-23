@@ -1360,7 +1360,7 @@ export class Graph extends EventEmitter {
    * @param id - <zh/> item id | <en/> item id
    * @returns <zh/> 包围盒 | <en/> bounding box
    */
-  public getRenderBBox(id: ID): AABB {
+  public getRenderBBox(id: ID) {
     return this.controller.item.getItemBBox(id);
   }
 
@@ -1375,10 +1375,6 @@ export class Graph extends EventEmitter {
    */
   public setLayout(options: CallableValue<LayoutOptions>) {
     this.options.layout = isFunction(options) ? options(this.getLayout()) : options;
-
-    this.hooks.layout.emitAsync({
-      ...this.baseEmitParam,
-    });
   }
 
   /**
