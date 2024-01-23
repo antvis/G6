@@ -47,7 +47,7 @@ describe('Plugin Registration', () => {
     it('should retrieve all plugins for a given category', () => {
       register(category, type, CustomBehavior);
       const plugins = getPlugins(category);
-      expect(plugins).toContain(CustomBehavior);
+      expect(plugins[type]).toBe(CustomBehavior);
     });
   });
 });

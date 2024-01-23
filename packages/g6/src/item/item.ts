@@ -135,7 +135,7 @@ export default abstract class Item implements IItem {
       lodLevels: modelLodLevels,
       enableBalanceShape,
     } = this.displayModel.data;
-    const RenderExtension = renderExtensions.find((ext) => ext.type === type);
+    const RenderExtension = renderExtensions[type];
     this.themeStyles = theme.styles;
     this.lodLevels = modelLodLevels ? formatLodLevels(modelLodLevels) : theme.lodLevels;
     if (!RenderExtension) {
@@ -270,7 +270,7 @@ export default abstract class Item implements IItem {
       Object.values(this.shapeMap).forEach((child) => child.destroy());
       this.shapeMap = { keyShape: undefined };
       const { type = this.type === 'node' ? 'circle-node' : 'line-edge' } = displayModel.data;
-      const RenderExtension = this.renderExtensions.find((ext) => ext.type === type);
+      const RenderExtension = this.renderExtensions[type];
       this.renderExt = new RenderExtension({
         themeStyles: this.themeStyles.default,
         lodLevels: this.lodLevels,

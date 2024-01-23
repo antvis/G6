@@ -65,7 +65,6 @@ function register<T extends PluginCategory>(category: T, type: string, pluginCla
     );
   }
 
-  pluginClass.type = type;
   pluginRegistry[category].set(type, pluginClass);
 }
 
@@ -83,15 +82,15 @@ function getPlugin<T extends PluginCategory>(category: T, type: string): PluginR
 }
 
 /**
- * <zh/> 根据类别获取所有的插件类列表。
+ * <zh/> 根据类别获取所有的插件类。
  *
- * <en/> Retrieves a list of all plugin classes for a given category.
+ * <en/> Retrieves all plugin classes for a given category.
  * @param category - <zh/> 要检索的插件分类 | <en/> Plugin category to retrieve
- * @returns <zh/> 返回指定类别下所有插件类的数组 | <en/> Returns an array of all plugin classes for the specified category
+ * @returns <zh/> 返回指定类别下所有插件类 | <en/> Returns all plugin classes for the specified category
  * @internal
  */
-function getPlugins<T extends PluginCategory>(category: T): PluginRegistry[T][string][] {
-  return Array.from(pluginRegistry[category]?.values() || []);
+function getPlugins<T extends PluginCategory>(category: T) {
+  return Object.fromEntries(pluginRegistry[category]) as PluginRegistry[T];
 }
 
 export { getPlugin, getPlugins, register };
