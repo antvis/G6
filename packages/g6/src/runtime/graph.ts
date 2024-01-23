@@ -35,6 +35,8 @@ import { Hooks } from './hooks';
 type PositionOptions = {
   updateAncestors?: boolean;
   animate?: boolean;
+  oncancel?: () => void;
+  onfinish?: () => void;
 };
 
 export class Graph extends EventEmitter {
@@ -82,6 +84,7 @@ export class Graph extends EventEmitter {
   private get baseEmitParam(): BaseParams {
     return {
       context: {
+        canvas: this.canvas,
         options: this.options,
         graph: this,
         controller: this.controller,
@@ -839,7 +842,15 @@ export class Graph extends EventEmitter {
    * <en/> Update edge data
    * @param edges - <zh/> 边数据 | <en/> edge data
    */
-  public updateEdgeData(edges: EdgeData[]) {
+  public updateEdgeData(
+    // 这里的类型定义是为使得 source 和 target 的成为可选属性
+    // The type definition here is to make source and target optional properties
+    edges: CallableValue<
+      { [K in keyof EdgeData as Exclude<K, 'source' | 'target'>]: EdgeData[K] } & {
+        [K in keyof EdgeData as Extract<K, 'source' | 'target'>]?: EdgeData[K];
+      }
+    >[],
+  ) {
     this.updateData({
       edges: isFunction(edges) ? edges(this.controller.data.getEdgeData()) : edges,
     });
@@ -873,7 +884,7 @@ export class Graph extends EventEmitter {
   public removeData(id: DataId | ((data: DataOptions) => DataId)) {
     this.controller.data.model.once('changed', this.handleDataChange.bind(this));
 
-    const { nodes, edges, combos } = isFunction(id) ? id(this.controller.data.getData()) : id;
+    const { nodes = [], edges = [], combos = [] } = isFunction(id) ? id(this.controller.data.getData()) : id;
 
     const dataController = this.controller.data;
     const data = {
@@ -921,7 +932,7 @@ export class Graph extends EventEmitter {
     });
   }
 
-  protected handleDataChange(event: GraphChangedEvent<NodeData, EdgeData>, extra?: Record<string, unknown>) {
+  protected handleDataChange(event: GraphChangedEvent<NodeData, EdgeData>, options?: Record<string, unknown>) {
     const { changes } = event;
     if (!changes.length) return;
 
@@ -939,7 +950,7 @@ export class Graph extends EventEmitter {
     this.hooks.itemchange.emit({
       ...this.baseEmitParam,
       changes: actualChanges,
-      ...extra,
+      ...options,
     });
     this.emit(GraphEvent.AFTER_ITEM_CHANGE, params);
   }
@@ -1016,18 +1027,16 @@ export class Graph extends EventEmitter {
 
   // ---------- Lifecycle API ----------
 
-  public render() {
-    this.canvas.ready.then(async () => {
-      await this.hooks.render.emitAsync(this.baseEmitParam);
-
-      this.emit(GraphEvent.AFTER_RENDER);
-
-      this.once(GraphEvent.AFTER_LAYOUT, async () => {
-        await this.autoFit();
-      });
-
-      await this.layout();
+  public async render() {
+    this.once(GraphEvent.AFTER_LAYOUT, async () => {
+      await this.autoFit();
     });
+
+    await this.hooks.render.emitAsync(this.baseEmitParam);
+
+    this.emit(GraphEvent.AFTER_RENDER);
+
+    await this.layout();
   }
 
   /**
@@ -1088,7 +1097,7 @@ export class Graph extends EventEmitter {
     return data;
   }
 
-  protected translateComboBy(ids: ID[], offset: PositionPoint, options: PositionOptions) {
+  protected translateComboBy(ids: ID[], offset: PositionPoint, options?: PositionOptions) {
     const [dx, dy, dz] = offset;
     this.controller.data.model.once('changed', (event) => {
       const { changes } = event;
@@ -1106,19 +1115,19 @@ export class Graph extends EventEmitter {
     this.controller.data.translateComboBy(ids, [dx, dy, dz]);
   }
 
-  public async translateItemBy(ids: ID[], offset: PositionPoint, options: PositionOptions) {
+  public async translateItemBy(ids: ID[], offset: PositionPoint, options?: PositionOptions) {
     this.controller.data.model.once('changed', (event) => {
       this.handleDataChange(event, {
         ...options,
       });
     });
 
-    const ITEM_TYPEs = groupBy(
+    const itemTypes = groupBy(
       ids.map((id) => ({ type: this.controller.data.typeOf(id), id })),
       'type',
     );
 
-    Object.entries(ITEM_TYPEs).forEach(([type, items]) => {
+    Object.entries(itemTypes).forEach(([type, items]) => {
       if (type === 'combo') {
         this.translateComboBy(
           items.map(({ id }) => id),
@@ -1129,13 +1138,13 @@ export class Graph extends EventEmitter {
     });
   }
 
-  public async translateItemTo(id: ID, position: PositionPoint, options: PositionOptions) {
+  public async translateItemTo(id: ID, position: PositionPoint, options?: PositionOptions) {
     const [x, y, z] = position;
-    const ITEM_TYPE = this.controller.data.typeOf(id);
-    if (ITEM_TYPE === 'node') {
+    const itemType = this.controller.data.typeOf(id);
+    if (itemType === 'node') {
       return this.updateNodePosition([{ id, style: { x, y, z } }], options);
     }
-    if (ITEM_TYPE === 'combo') {
+    if (itemType === 'combo') {
       return this.updateComboPosition([{ id, style: { x, y, z } }], options);
     }
     warn(`Item: ${id} is unsupported to translate.`);
@@ -1143,7 +1152,7 @@ export class Graph extends EventEmitter {
 
   public getItemPosition() {}
 
-  protected async updateNodePosition(data: NodeData[], options: PositionOptions) {
+  protected async updateNodePosition(data: NodeData[], options?: PositionOptions) {
     const { promise, resolve } = createPromise<void>();
     this.controller.data.model.once('changed', (event) =>
       // TODO 优化
@@ -1158,7 +1167,7 @@ export class Graph extends EventEmitter {
     return promise;
   }
 
-  protected async updateComboPosition(data: NodeData[], options: PositionOptions) {
+  protected async updateComboPosition(data: NodeData[], options?: PositionOptions) {
     const { promise, resolve } = createPromise<void>();
     this.controller.data.model.once('changed', (event) =>
       // TODO 优化
@@ -1262,43 +1271,43 @@ export class Graph extends EventEmitter {
    * <zh/> 根据状态获取节点数据
    *
    * <en/> Get node data by state
-   * @param ITEM_TYPE - <zh/> 节点/边/Combo | <en/> node/edge/combo
+   * @param itemType - <zh/> 节点/边/Combo | <en/> node/edge/combo
    * @param state - <zh/> 状态 | <en/> state
    * @returns <zh/> 数据 | <en/> data
    */
-  public getItemDataByState(ITEM_TYPE: 'node', state: string): NodeData[];
+  public getItemDataByState(itemType: 'node', state: string): NodeData[];
   /**
    * <zh/> 根据状态获取边数据
    *
    * <en/> Get edge data by state
-   * @param ITEM_TYPE - <zh/> 节点/边/Combo | <en/> node/edge/combo
+   * @param itemType - <zh/> 节点/边/Combo | <en/> node/edge/combo
    * @param state - <zh/> 状态 | <en/> state
    * @returns <zh/> 数据 | <en/> data
    */
-  public getItemDataByState(ITEM_TYPE: 'edge', state: string): EdgeData[];
+  public getItemDataByState(itemType: 'edge', state: string): EdgeData[];
   /**
    * <zh/> 根据状态获取 combo 数据
    *
    * <en/> Get combo data by state
-   * @param ITEM_TYPE - <zh/> 节点/边/Combo | <en/> node/edge/combo
+   * @param itemType - <zh/> 节点/边/Combo | <en/> node/edge/combo
    * @param state - <zh/> 状态 | <en/> state
    * @returns <zh/> 数据 | <en/> data
    */
-  public getItemDataByState(ITEM_TYPE: 'combo', state: string): ComboData[];
+  public getItemDataByState(itemType: 'combo', state: string): ComboData[];
   /**
    * <zh/> 根据状态获取数据
    *
    * <en/> Get node data by state
-   * @param ITEM_TYPE - <zh/> 节点/边/Combo | <en/> node/edge/combo
+   * @param itemType - <zh/> 节点/边/Combo | <en/> node/edge/combo
    * @param state - <zh/> 状态 | <en/> state
    * @returns <zh/> 数据 | <en/> data
    */
-  public getItemDataByState(ITEM_TYPE: ITEM_TYPE, state: string): NodeData[] | EdgeData[] | ComboData[] {
-    const ids = this.controller.item.findIdByState(ITEM_TYPE, state);
+  public getItemDataByState(itemType: ITEM_TYPE, state: string): NodeData[] | EdgeData[] | ComboData[] {
+    const ids = this.controller.item.findIdByState(itemType, state);
 
-    if (ITEM_TYPE === 'node') return this.getNodeData(ids);
-    else if (ITEM_TYPE === 'edge') return this.getEdgeData(ids);
-    else if (ITEM_TYPE === 'combo') return this.getComboData(ids);
+    if (itemType === 'node') return this.getNodeData(ids);
+    else if (itemType === 'edge') return this.getEdgeData(ids);
+    else if (itemType === 'combo') return this.getComboData(ids);
   }
 
   /**
