@@ -87,9 +87,9 @@ const getWarnMsg = {
  */
 export class ItemController {
   public graph: Graph;
-  public nodeExtensions: NodeRegistry[string][] = [];
-  public edgeExtensions: EdgeRegistry[string][] = [];
-  public comboExtensions: NodeRegistry[string][] = [];
+  public nodeExtensions: NodeRegistry = {};
+  public edgeExtensions: EdgeRegistry = {};
+  public comboExtensions: NodeRegistry = {};
 
   public zoom: number;
 

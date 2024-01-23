@@ -42,10 +42,7 @@ export class ThemeController {
   }
 
   private getThemes(): ThemeRegistry {
-    return getPlugins('theme').reduce((res, acc) => {
-      res[acc.type] = acc;
-      return res;
-    }, {}) as ThemeRegistry;
+    return getPlugins('theme');
   }
 
   /**
