@@ -92,3 +92,15 @@ export function uniqBy<T>(arr: T[], key: keyof T): T[] {
     ),
   );
 }
+
+/**
+ * <zh/> 解析像 ID | ID[] 这样的参数
+ *
+ * <en/> Parse parameters like ID | ID[]
+ * @param value - <zh/> 参数值 | <en/> parameter value
+ * @returns <zh/> 解析后的数组 | <en/> parsed array
+ */
+export function parseArrayLike<T>(value?: T | T[]): T[] | undefined {
+  if (value === undefined) return undefined;
+  return Array.isArray(value) ? value : [value];
+}

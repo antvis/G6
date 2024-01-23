@@ -1,4 +1,12 @@
-import { diffSet, intersectSet, isArrayOverlap, replaceElements, unionSet, uniqBy } from '../../../src/utils/array';
+import {
+  diffSet,
+  intersectSet,
+  isArrayOverlap,
+  parseArrayLike,
+  replaceElements,
+  unionSet,
+  uniqBy,
+} from '../../../src/utils/array';
 
 describe('array', () => {
   it('isArrayOverlap', () => {
@@ -35,5 +43,11 @@ describe('array', () => {
   it('uniqBy', () => {
     expect(uniqBy([{ a: 1 }, { a: 2 }, { a: 1 }], 'a')).toEqual([{ a: 1 }, { a: 2 }]);
     expect(uniqBy([{ a: 1 }, { a: 2 }], 'a')).toEqual([{ a: 1 }, { a: 2 }]);
+  });
+
+  it('parseArrayLike', () => {
+    expect(parseArrayLike()).toBe(undefined);
+    expect(parseArrayLike([1, 2, 3])).toEqual([1, 2, 3]);
+    expect(parseArrayLike(1)).toEqual([1]);
   });
 });
