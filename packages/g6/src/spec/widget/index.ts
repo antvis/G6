@@ -1,4 +1,4 @@
-export type WidgetOption = Abbr<BuiltInWidget | CustomWidget>[];
+export type WidgetOptions = Abbr<BuiltInWidget | CustomWidget>[];
 
 // TODO needs to fill the options
 declare type BuiltInWidget =

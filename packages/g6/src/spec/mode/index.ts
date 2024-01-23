@@ -1,4 +1,4 @@
-export type ModeOption = (BuiltInBehavior | CustomBehavior)[];
+export type ModeOptions = (BuiltInBehavior | CustomBehavior)[];
 
 // TODO import from built in behavior
 declare type BuiltInBehavior =

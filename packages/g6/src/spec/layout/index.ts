@@ -1,7 +1,7 @@
 import type { STDLayoutOptions } from '../../types/layout';
 import type { NodeData } from '../data';
 
-export type LayoutOption = CustomLayout | STDLayoutOptions | PipeLayout[];
+export type LayoutOptions = CustomLayout | STDLayoutOptions | PipeLayout[];
 
 // see: https://g6.antv.antgroup.com/api/graph#graphoptionslayoutpipes
 /**

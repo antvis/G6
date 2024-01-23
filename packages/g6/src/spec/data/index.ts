@@ -2,7 +2,7 @@ import type { BaseStyleProps } from '@antv/g';
 import type { ID } from '@antv/graphlib';
 import type { EdgeStyle } from '../element/edge';
 
-export type DataOption = {
+export type DataOptions = {
   /**
    * <zh/> 节点数据
    *
@@ -47,8 +47,9 @@ export type EdgeData = {
  * Can be a node or combo.
  */
 export type NodeLikeStyle = Pick<BaseStyleProps, 'cursor' | 'opacity' | 'pointerEvents' | 'visibility' | 'zIndex'> & {
-  parentId?: ID;
   collapsed?: boolean;
+  parentId?: ID;
+  states?: string[];
   type?: string;
   x?: number;
   y?: number;

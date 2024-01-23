@@ -9,7 +9,7 @@ import type { FitViewRules } from '../../types/view';
  * <en/> Viewport
  * @public
  */
-export type ViewportOption = {
+export type ViewportOptions = {
   /**
    * <zh/> 是否自动适应
    *
