@@ -3,6 +3,7 @@ import { AABB, Cursor, DataURLOptions, DisplayObject, PointLike } from '@antv/g'
 import type { EdgeDataUpdated, GraphChangedEvent, ID, NodeDataUpdated } from '@antv/graphlib';
 import { deepMix, groupBy, isEmpty, isEqual, isFunction, isNil, isString } from '@antv/util';
 import { GraphEvent } from '../constant/event';
+import { LodController } from '../plugin/widget';
 import type { G6Spec } from '../spec';
 import type { ComboData, DataOptions, EdgeData, NodeData } from '../spec/data';
 import type { ComboOptions, EdgeOptions, NodeOptions } from '../spec/element';
@@ -63,7 +64,13 @@ export class Graph extends EventEmitter {
 
   private defaultOption: G6Spec = {
     theme: 'light',
-    widgets: [],
+    widgets: [
+      {
+        key: 'lod-controller',
+        type: 'lod-controller',
+        pluginClass: LodController,
+      },
+    ],
     optimize: {
       tileBehavior: 2000,
       tileBehaviorSize: 1000,
