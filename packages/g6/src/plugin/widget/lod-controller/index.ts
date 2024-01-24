@@ -199,7 +199,7 @@ export class LodController extends Base {
         const { lodVisibleShapeIds, autoVisibleShapeIds, invisibleShapeIds } = candidateShapeMap.get(id);
 
         if (!disableLod && invisibleShapeIds.length) {
-          graph.hideItem(id, !disableAnimate, { shapeIds: invisibleShapeIds, disableAnimate });
+          graph.hideItem(id, { shapeIds: invisibleShapeIds, disableAnimate });
         }
         // @ts-expect-error TODO: Need to fix the type
         const item = graph.controller.item.itemMap.get(id);
@@ -209,7 +209,7 @@ export class LodController extends Base {
         ) {
           const shapeIdsToShow = lodVisibleShapeIds.concat(autoVisibleShapeIds);
           if (shapeIdsToShow.length) {
-            graph.showItem(id, !disableAnimate, {
+            graph.showItem(id, {
               shapeIds: lodVisibleShapeIds.concat(autoVisibleShapeIds),
               disableAnimate,
             });
@@ -226,12 +226,12 @@ export class LodController extends Base {
             this.labelPositionDirty.delete(id);
           }
           lodVisibleShapeIds.length &&
-            graph.showItem(id, !disableAnimate, {
+            graph.showItem(id, {
               shapeIds: lodVisibleShapeIds,
               disableAnimate,
             });
           if (!disableLod && autoVisibleShapeIds.length) {
-            graph.hideItem(id, !disableAnimate, {
+            graph.hideItem(id, {
               shapeIds: autoVisibleShapeIds,
               disableAnimate,
             });
@@ -241,7 +241,7 @@ export class LodController extends Base {
     });
     if (!disableLod) {
       lodInvisibleIds.forEach((shapeIds, id) => {
-        shapeIds.length && graph.hideItem(id, !disableAnimate, { shapeIds, disableAnimate });
+        shapeIds.length && graph.hideItem(id, { shapeIds, disableAnimate });
       });
     }
     this.shownIds = shownIds;
@@ -312,14 +312,14 @@ export class LodController extends Base {
         }
       });
       newlyOutView.forEach((model) => {
-        graph.hideItem(model.id, false, {
+        graph.hideItem(model.id, {
           shapeIds: ['labelShape', 'labelBackgroundShape'],
           disableAnimate: true,
         });
       });
       if (options?.disableLod) {
         newlyInView.forEach((model) => {
-          graph.showItem(model.id, false, {
+          graph.showItem(model.id, {
             shapeIds: ['labelShape', 'labelBackgroundShape'],
             disableAnimate: true,
           });
@@ -508,7 +508,7 @@ export class LodController extends Base {
         this.displayModelCache.delete(model.id);
       }
       if (this.options?.disableLod) {
-        this.graph.showItem(model.id, false, {
+        this.graph.showItem(model.id, {
           shapeIds: ['labelShape', 'labelBackgroundShape'],
           disableAnimate: true,
         });

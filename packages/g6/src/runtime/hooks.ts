@@ -6,11 +6,11 @@ import { ComboOptions, EdgeOptions, NodeOptions } from '../spec/element';
 import { LayoutOptions } from '../spec/layout';
 import { STDWidget } from '../spec/widget';
 import { CameraAnimationOptions } from '../types/animate';
-import { ComboDisplayModel, ComboModel, ComboShapesEncode } from '../types/combo';
+import { ComboModel } from '../types/combo';
 import type { DataChangeType, DataId } from '../types/data';
-import { EdgeDisplayModel, EdgeModel, EdgeModelData, EdgeShapesEncode } from '../types/edge';
-import { ITEM_TYPE, SHAPE_TYPE, ShapeStyle, State } from '../types/item';
-import { NodeDisplayModel, NodeModel, NodeModelData, NodeShapesEncode } from '../types/node';
+import { EdgeModel, EdgeModelData } from '../types/edge';
+import { ITEM_TYPE, SHAPE_TYPE, ShapeStyle } from '../types/item';
+import { NodeModel, NodeModelData } from '../types/node';
 import { Theme } from '../types/theme';
 import { GraphTransformOptions } from '../types/view';
 import type { Canvas } from './canvas';
@@ -150,7 +150,18 @@ export interface RuntimeContext {
   controller: Controller;
 }
 
-export interface BaseParams {
+/**
+ * <zh/> 兼容的上下文，后续会逐步移除
+ *
+ * <en/> Compatible context, will be removed gradually
+ * @deprecated
+ */
+interface CompatibleContext {
+  graphCore?: any;
+  dataController?: any;
+}
+
+export interface BaseParams extends CompatibleContext {
   context: RuntimeContext;
 }
 
@@ -190,26 +201,17 @@ export interface BehaviorChangeParams extends BaseParams {
 }
 
 export interface ItemStateChangeParams extends BaseParams {
-  value: Record<string, State[]>;
+  value: Record<ID, string[]>;
 }
 
-export interface ItemStateConfigChangeParams extends BaseParams {
-  ITEM_TYPE: ITEM_TYPE;
-  stateConfig:
-    | {
-        [stateName: string]: ((data: NodeModel) => NodeDisplayModel) | NodeShapesEncode;
-      }
-    | {
-        [stateName: string]: ((data: EdgeModel) => EdgeDisplayModel) | EdgeShapesEncode;
-      }
-    | {
-        [stateName: string]: ((data: ComboModel) => ComboDisplayModel) | ComboShapesEncode;
-      };
-}
-
-export interface ItemVisibilityChangeParams extends BaseParams {
-  value: Record<ID, 'visible' | 'hidden'>;
+export type VisibilityModifyOptions = {
   animate?: boolean;
+  // TODO 兼容性配置 / Compatible Options
+  [keys: string]: any;
+};
+
+export interface ItemVisibilityChangeParams extends CompatibleContext, VisibilityModifyOptions {
+  value: Record<ID, 'visible' | 'hidden'>;
 }
 
 export interface ItemZIndexChangeParams extends BaseParams {

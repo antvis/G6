@@ -31,15 +31,8 @@ import { formatPadding } from '../utils/shape';
 import { parseWidget } from '../utils/widget';
 import { Canvas } from './canvas';
 import { Controller } from './controller';
-import type { BaseParams, ItemVisibilityChangeParams, ItemZIndexChangeParams } from './hooks';
+import type { BaseParams, ItemVisibilityChangeParams, ItemZIndexChangeParams, VisibilityModifyOptions } from './hooks';
 import { Hooks } from './hooks';
-
-type PositionOptions = {
-  updateAncestors?: boolean;
-  animate?: boolean;
-  oncancel?: () => void;
-  onfinish?: () => void;
-};
 
 export class Graph extends EventEmitter {
   private _hooks = new Hooks();
@@ -618,8 +611,8 @@ export class Graph extends EventEmitter {
    * @param options - <zh/> 用于兼容旧逻辑的配置，后续将会移除 | <en/> options for compatibility with old logic, will be removed later
    * @public
    */
-  public showItem(id: ID | ID[], animate: boolean = true, options?: Record<string, unknown>) {
-    this.setItemVisibility(id, 'visible', animate, options);
+  public showItem(id: ID | ID[], options?: VisibilityModifyOptions) {
+    this.setItemVisibility(id, 'visible', options);
   }
 
   /**
@@ -631,8 +624,8 @@ export class Graph extends EventEmitter {
    * @param options - <zh/> 用于兼容旧逻辑的配置，后续将会移除 | <en/> options for compatibility with old logic, will be removed later
    * @public
    */
-  public hideItem(id: ID | ID[], animate: boolean = true, options?: Record<string, unknown>) {
-    this.setItemVisibility(id, 'hidden', animate, options);
+  public hideItem(id: ID | ID[], options?: VisibilityModifyOptions) {
+    this.setItemVisibility(id, 'hidden', options);
   }
 
   /**
@@ -660,8 +653,9 @@ export class Graph extends EventEmitter {
   public setItemVisibility(
     id: ID | ID[],
     visibility: ItemVisibilityChangeParams['value'][ID],
-    animate: boolean = true,
-    options: Record<string, unknown> = {},
+    options: VisibilityModifyOptions = {
+      animate: true,
+    },
   ) {
     const ids = parseArrayLike(id);
     if (ids?.length === 0) return;
@@ -679,7 +673,6 @@ export class Graph extends EventEmitter {
     this.hooks.itemvisibilitychange.emit({
       ...this.baseEmitParam,
       value: newValue,
-      animate,
       ...options,
     });
 
@@ -687,7 +680,7 @@ export class Graph extends EventEmitter {
       ids: ids,
       value: visibility,
       changes: { newValue, oldValue },
-      animate,
+      options,
     });
   }
 
@@ -1686,3 +1679,10 @@ export class Graph extends EventEmitter {
     }
   }
 }
+
+type PositionOptions = {
+  updateAncestors?: boolean;
+  animate?: boolean;
+  oncancel?: () => void;
+  onfinish?: () => void;
+};
