@@ -1,15 +1,7 @@
 import { AABB } from '@antv/g';
 import { debounce, isArray, throttle, uniqueId } from '@antv/util';
-import {
-  ComboDisplayModel,
-  ComboModel,
-  EdgeDisplayModel,
-  EdgeModel,
-  Graph,
-  ID,
-  NodeDisplayModel,
-  NodeModel,
-} from '../../../types';
+import type { ComboData, EdgeData, NodeData } from '../../../spec/data';
+import type { Graph, ID } from '../../../types';
 import { Plugin as Base, IPluginBaseConfig } from '../../../types/plugin';
 import { GraphTransformOptions } from '../../../types/view';
 import { intersectBBox } from '../../../utils/shape';
@@ -31,12 +23,12 @@ export class LodController extends Base {
   static required: boolean = true;
   private shownIds = new Map();
   private cacheViewModels: {
-    inView: (NodeModel | EdgeModel | ComboModel)[];
-    outView: (NodeModel | EdgeModel | ComboModel)[];
-    newlyOutView: (NodeModel | EdgeModel | ComboModel)[];
-    newlyInView: (NodeModel | EdgeModel | ComboModel)[];
+    inView: (NodeData | EdgeData | ComboData)[];
+    outView: (NodeData | EdgeData | ComboData)[];
+    newlyOutView: (NodeData | EdgeData | ComboData)[];
+    newlyInView: (NodeData | EdgeData | ComboData)[];
   };
-  private displayModelCache: Map<ID, NodeDisplayModel | EdgeDisplayModel | ComboDisplayModel> = new Map();
+  private displayModelCache: Map<ID, NodeData | EdgeData | ComboData> = new Map();
   private renderBoundsCache: Map<ID, AABB | false> = new Map();
   private canvasCellDirty: boolean = true;
   private canvasCellSize = 100;
@@ -164,7 +156,7 @@ export class LodController extends Base {
       }
 
       const bounds = this.getRenderBBox(model.id);
-      if (!bounds || !graph.getItemVisible(model.id)) {
+      if (!bounds || !graph.getItemVisibility(model.id)) {
         lodInvisibleIds.set(model.id, invisibleShapeIds);
         return;
       }
@@ -207,7 +199,7 @@ export class LodController extends Base {
         const { lodVisibleShapeIds, autoVisibleShapeIds, invisibleShapeIds } = candidateShapeMap.get(id);
 
         if (!disableLod && invisibleShapeIds.length) {
-          graph.hideItem(id, { shapeIds: invisibleShapeIds, disableAnimate });
+          graph.hideItem(id, !disableAnimate, { shapeIds: invisibleShapeIds, disableAnimate });
         }
         // @ts-expect-error TODO: Need to fix the type
         const item = graph.controller.item.itemMap.get(id);
@@ -217,7 +209,7 @@ export class LodController extends Base {
         ) {
           const shapeIdsToShow = lodVisibleShapeIds.concat(autoVisibleShapeIds);
           if (shapeIdsToShow.length) {
-            graph.showItem(id, {
+            graph.showItem(id, !disableAnimate, {
               shapeIds: lodVisibleShapeIds.concat(autoVisibleShapeIds),
               disableAnimate,
             });
@@ -234,12 +226,12 @@ export class LodController extends Base {
             this.labelPositionDirty.delete(id);
           }
           lodVisibleShapeIds.length &&
-            graph.showItem(id, {
+            graph.showItem(id, !disableAnimate, {
               shapeIds: lodVisibleShapeIds,
               disableAnimate,
             });
           if (!disableLod && autoVisibleShapeIds.length) {
-            graph.hideItem(id, {
+            graph.hideItem(id, !disableAnimate, {
               shapeIds: autoVisibleShapeIds,
               disableAnimate,
             });
@@ -249,7 +241,7 @@ export class LodController extends Base {
     });
     if (!disableLod) {
       lodInvisibleIds.forEach((shapeIds, id) => {
-        shapeIds.length && graph.hideItem(id, { shapeIds, disableAnimate });
+        shapeIds.length && graph.hideItem(id, !disableAnimate, { shapeIds, disableAnimate });
       });
     }
     this.shownIds = shownIds;
@@ -320,14 +312,14 @@ export class LodController extends Base {
         }
       });
       newlyOutView.forEach((model) => {
-        graph.hideItem(model.id, {
+        graph.hideItem(model.id, false, {
           shapeIds: ['labelShape', 'labelBackgroundShape'],
           disableAnimate: true,
         });
       });
       if (options?.disableLod) {
         newlyInView.forEach((model) => {
-          graph.showItem(model.id, {
+          graph.showItem(model.id, false, {
             shapeIds: ['labelShape', 'labelBackgroundShape'],
             disableAnimate: true,
           });
@@ -516,7 +508,7 @@ export class LodController extends Base {
         this.displayModelCache.delete(model.id);
       }
       if (this.options?.disableLod) {
-        this.graph.showItem(model.id, {
+        this.graph.showItem(model.id, false, {
           shapeIds: ['labelShape', 'labelBackgroundShape'],
           disableAnimate: true,
         });
@@ -560,7 +552,7 @@ export class LodController extends Base {
   private getRenderBBox = (id) => {
     let renderBounds;
     if (!this.renderBoundsCache.has(id)) {
-      renderBounds = this.graph.getRenderBBox(id, true);
+      renderBounds = this.graph.getRenderBBox(id);
       this.renderBoundsCache.set(id, renderBounds);
     } else {
       renderBounds = this.renderBoundsCache.get(id);
