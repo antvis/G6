@@ -1361,15 +1361,21 @@ export class Graph extends EventEmitter {
     if (id === undefined || !ids.length) return;
     const states = parseArrayLike(state);
 
-    const newValue: Record<ID, string[]> = ids.reduce((acc, id) => {
-      acc[id] = states;
-      return acc;
-    }, {});
+    const newValue = ids.reduce(
+      (acc, id) => {
+        acc[id] = states;
+        return acc;
+      },
+      {} as Record<ID, string[]>,
+    );
 
-    const oldValue: Record<ID, string[]> = ids.reduce((acc, id) => {
-      acc[id] = this.getItemState(id);
-      return acc;
-    }, {});
+    const oldValue = ids.reduce(
+      (acc, id) => {
+        acc[id] = this.getItemState(id);
+        return acc;
+      },
+      {} as Record<ID, string[]>,
+    );
 
     this.hooks.itemstatechange.emit({
       ...this.baseEmitParam,
@@ -1389,7 +1395,7 @@ export class Graph extends EventEmitter {
    * @returns <zh/> 状态数组 | <en/> state array
    */
   public getItemState(id: ID) {
-    return this.controller.item.getItemState(id);
+    return this.controller.item.getItemStates(id);
   }
 
   /**
