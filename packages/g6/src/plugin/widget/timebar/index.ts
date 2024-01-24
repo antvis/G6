@@ -139,7 +139,7 @@ export class Timebar extends Base {
 
   private get data() {
     const { graph } = this;
-    return { nodes: graph.getAllNodesData(), edges: graph.getAllEdgesData() };
+    return { nodes: graph.getNodeData(), edges: graph.getEdgeData() };
   }
 
   constructor(options?: TimebarConfig) {

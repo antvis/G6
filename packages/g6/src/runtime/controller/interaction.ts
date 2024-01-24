@@ -70,7 +70,7 @@ export class InteractionController {
 
   private validateMode = (mode: string): boolean => {
     if (mode === 'default') return true;
-    const modes = this.graph.getSpecification().modes || {};
+    const modes = this.graph.getOptions().modes || {};
     return Object.keys(modes).includes(mode);
   };
 
@@ -152,7 +152,7 @@ export class InteractionController {
 
     // 2. Initialize new behaviors.
     this.behaviorMap.clear();
-    const behaviorConfigs = this.graph.getSpecification().modes?.[mode] || [];
+    const behaviorConfigs = this.graph.getOptions().modes?.[mode] || [];
     behaviorConfigs.forEach((config) => {
       this.initBehavior(config);
     });

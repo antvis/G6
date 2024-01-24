@@ -169,7 +169,7 @@ export const getLayoutBounds = (graph) => {
   const min = [Infinity, Infinity];
   const max = [-Infinity, -Infinity];
   const borderIds = { min: [], max: [] };
-  graph.getAllNodesData().forEach((model) => {
+  graph.getNodeData().forEach((model) => {
     const { x, y } = model.data;
     if (isNaN(x) || isNaN(y)) return;
     if (min[0] > x) {

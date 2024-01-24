@@ -136,7 +136,7 @@ export class MapView extends PluginBase {
     let useTheme = theme;
     if (theme === 'auto') {
       // @ts-ignore
-      useTheme = graph.getSpecification().theme?.base || 'light';
+      useTheme = graph.getOptions().theme?.base || 'light';
     }
 
     this.scene = new Scene({

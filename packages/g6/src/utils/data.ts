@@ -287,12 +287,12 @@ export const DEFAULT_ACTIVE_DATA_LIFECYCLE = 'all';
  * @returns graph is empty or not.
  */
 export const isEmptyGraph = (graph, excludeInvisible = false): boolean => {
-  const nodes = graph.getAllNodesData();
-  const combos = graph.getAllCombosData();
+  const nodes = graph.getNodeData();
+  const combos = graph.getComboData();
   if (nodes.length === 0 && combos.length === 0) return true;
 
   if (excludeInvisible) {
-    const edges = graph.getAllEdgesData();
+    const edges = graph.getEdgeData();
     if (nodes.find((node) => graph.getItemVisible(node.id))) return false;
     if (edges.find((edge) => graph.getItemVisible(edge.id))) return false;
     if (combos.find((combo) => graph.getItemVisible(combo.id))) return false;

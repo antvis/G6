@@ -1530,11 +1530,11 @@ export default (context: TestCaseContext, options?: {}) => {
   //   },
   // });
   // graph.on('afterlayout', (e) => {
-  //   const edgeDatas = graph.getAllEdgesData().map((edge) => {
+  //   const edgeDatas = graph.getEdgeData().map((edge) => {
   //     const { id, source, target } = edge;
   //     const sourceData = graph.getNodeData(source);
   //     const targetData = graph.getNodeData(target);
-  //     const xSep = (graph.getSize()[0] - 20) / graph.getAllNodesData().length;
+  //     const xSep = (graph.getSize()[0] - 20) / graph.getNodeData().length;
   //     const endsSepStep = (targetData.data.x - sourceData.data.x) / xSep;
   //     const sign = endsSepStep < 0 ? 1 : -1;
   //     return {
@@ -1549,7 +1549,7 @@ export default (context: TestCaseContext, options?: {}) => {
   //   graph.updateData('edge', edgeDatas);
   // });
   graph.on('afterlayout', (e) => {
-    const angleUpdates = graph.getAllNodesData().map((node) => {
+    const angleUpdates = graph.getNodeData().map((node) => {
       const { x, y } = node.data;
       const vecX = x - width / 2;
       const vecY = y - height / 2;

@@ -502,8 +502,8 @@ export default (context: TestCaseContext, options = {}) => {
   const { plugin: edgeBundling } = graph.pluginController.pluginMap.get('edgeBundling');
 
   setTimeout(() => {
-    const nodes = graph.getAllNodesData();
-    const edges = graph.getAllEdgesData();
+    const nodes = graph.getNodeData();
+    const edges = graph.getEdgeData();
 
     edgeBundling.bundling({
       nodes,

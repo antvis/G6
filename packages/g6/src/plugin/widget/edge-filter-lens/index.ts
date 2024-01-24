@@ -194,7 +194,7 @@ export class EdgeFilterLens extends Base {
     const fCenter = mousePos || { x: e.canvas.x, y: e.canvas.y };
     this.updateDelegate(fCenter, r);
 
-    const nodes = graph.getAllNodesData();
+    const nodes = graph.getNodeData();
     const hitNodesMap = new Map();
     nodes.forEach((node) => {
       const { data, id } = node;
@@ -203,7 +203,7 @@ export class EdgeFilterLens extends Base {
       }
     });
 
-    const edges = graph.getAllEdgesData();
+    const edges = graph.getEdgeData();
     const hitEdges = [];
     edges.forEach((edge) => {
       const sourceId = edge.source;

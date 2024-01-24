@@ -217,10 +217,10 @@ export class ScrollCanvas extends Behavior {
 
   private hideShapes() {
     const { graph, options } = this;
-    const { tileBehavior: graphBehaviorOptimize, tileBehaviorSize = 1000 } = graph.getSpecification().optimize || {};
+    const { tileBehavior: graphBehaviorOptimize, tileBehaviorSize = 1000 } = graph.getOptions().optimize || {};
     const { optimizeZoom } = options;
     const optimize = this.options.enableOptimize || graphBehaviorOptimize;
-    const shouldOptimize = isNumber(optimize) ? graph.getAllNodesData().length > optimize : optimize;
+    const shouldOptimize = isNumber(optimize) ? graph.getNodeData().length > optimize : optimize;
     if (shouldOptimize) {
       const currentZoom = graph.getZoom();
       const newHiddenEdgeIds = graph
@@ -274,9 +274,9 @@ export class ScrollCanvas extends Behavior {
       return;
     }
 
-    const { tileBehavior: graphBehaviorOptimize, tileBehaviorSize = 1000 } = graph.getSpecification().optimize || {};
+    const { tileBehavior: graphBehaviorOptimize, tileBehaviorSize = 1000 } = graph.getOptions().optimize || {};
     const optimize = this.options.enableOptimize || graphBehaviorOptimize;
-    const shouldOptimize = isNumber(optimize) ? graph.getAllNodesData().length > optimize : optimize;
+    const shouldOptimize = isNumber(optimize) ? graph.getNodeData().length > optimize : optimize;
     if (!shouldOptimize) {
       this.hiddenEdgeIds = this.hiddenNodeIds = [];
       return;

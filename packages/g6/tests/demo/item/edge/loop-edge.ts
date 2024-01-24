@@ -132,7 +132,7 @@ const createControls = () => {
     parentEle,
     'clockwise',
     () => {
-      graph.getAllEdgesData().forEach((edgeData) => {
+      graph.getEdgeData().forEach((edgeData) => {
         const newData = deepMix({}, edgeData, {
           data: {
             keyShape: {
@@ -146,7 +146,7 @@ const createControls = () => {
       });
     },
     () => {
-      graph.getAllEdgesData().forEach((edgeData) => {
+      graph.getEdgeData().forEach((edgeData) => {
         const newData = deepMix({}, edgeData, {
           data: {
             keyShape: {
@@ -167,7 +167,7 @@ const createControls = () => {
     parentEle,
     'custom dist',
     () => {
-      graph.getAllEdgesData().forEach((edgeData) => {
+      graph.getEdgeData().forEach((edgeData) => {
         const newData = deepMix({}, edgeData, {
           data: {
             keyShape: {
@@ -181,7 +181,7 @@ const createControls = () => {
       });
     },
     () => {
-      graph.getAllEdgesData().forEach((edgeData) => {
+      graph.getEdgeData().forEach((edgeData) => {
         const newData = deepMix({}, edgeData, {
           data: {
             keyShape: {
@@ -204,7 +204,7 @@ const createControls = () => {
   changeLoopPositionBtn.style.left = '16px';
   let i = 1;
   changeLoopPositionBtn.addEventListener('click', () => {
-    graph.getAllEdgesData().forEach((edgeData) => {
+    graph.getEdgeData().forEach((edgeData) => {
       const newData = deepMix({}, edgeData, {
         data: {
           keyShape: {

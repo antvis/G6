@@ -145,7 +145,7 @@ export class Fisheye extends Base {
   private initOriginPositions = () => {
     const { graph } = this;
     const positions = {};
-    graph.getAllNodesData().forEach((node) => {
+    graph.getNodeData().forEach((node) => {
       positions[node.id] = { x: node.data.x, y: node.data.y, texts: [] };
     });
     this.cachedOriginPositions = positions;
@@ -355,7 +355,7 @@ export class Fisheye extends Base {
       },
     }));
     const { r, d, showLabel, trigger } = options;
-    const nodes = graph.getAllNodesData();
+    const nodes = graph.getNodeData();
     const nodeLength = nodes.length;
     const point = graph.getCanvasByClient(e.client);
     let mCenter = mousePos ? { x: mousePos.x, y: mousePos.y } : { x: point.x, y: point.y };

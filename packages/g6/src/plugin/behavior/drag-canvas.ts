@@ -135,9 +135,9 @@ export class DragCanvas extends Behavior {
   private hideShapes() {
     const { graph } = this;
 
-    const { tileBehavior: graphBehaviorOptimize, tileBehaviorSize = 1000 } = graph.getSpecification().optimize || {};
+    const { tileBehavior: graphBehaviorOptimize, tileBehaviorSize = 1000 } = graph.getOptions().optimize || {};
     const optimize = this.options.enableOptimize !== undefined ? this.options.enableOptimize : graphBehaviorOptimize;
-    const shouldOptimize = isNumber(optimize) ? graph.getAllNodesData().length > optimize : optimize;
+    const shouldOptimize = isNumber(optimize) ? graph.getNodeData().length > optimize : optimize;
 
     if (shouldOptimize) {
       this.hiddenEdgeIds = graph
@@ -236,12 +236,12 @@ export class DragCanvas extends Behavior {
       this.graph.canvas.getConfig().disableHitTesting = true;
     }
 
-    const { tileBehavior: graphBehaviorOptimize } = this.graph.getSpecification().optimize || {};
+    const { tileBehavior: graphBehaviorOptimize } = this.graph.getOptions().optimize || {};
 
     const shouldDebounce =
       typeof graphBehaviorOptimize === 'boolean'
         ? graphBehaviorOptimize
-        : this.graph.getAllNodesData().length > graphBehaviorOptimize;
+        : this.graph.getNodeData().length > graphBehaviorOptimize;
 
     const now = Date.now();
     if (shouldDebounce && this.lastDragTriggerTime && now - this.lastDragTriggerTime < DRAG_DURATION / 5) {
@@ -274,9 +274,9 @@ export class DragCanvas extends Behavior {
     this.graph.canvas.getConfig().disableHitTesting = false;
 
     const { graph, hiddenNodeIds, hiddenEdgeIds = [] } = this;
-    const { tileBehavior: graphBehaviorOptimize, tileBehaviorSize = 1000 } = graph.getSpecification().optimize || {};
+    const { tileBehavior: graphBehaviorOptimize, tileBehaviorSize = 1000 } = graph.getOptions().optimize || {};
     const optimize = this.options.enableOptimize !== undefined ? this.options.enableOptimize : graphBehaviorOptimize;
-    const shouldOptimize = isNumber(optimize) ? graph.getAllNodesData().length > optimize : optimize;
+    const shouldOptimize = isNumber(optimize) ? graph.getNodeData().length > optimize : optimize;
 
     if (shouldOptimize) {
       if (this.tileRequestId) {

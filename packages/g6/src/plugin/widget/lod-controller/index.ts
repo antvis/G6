@@ -86,7 +86,7 @@ export class LodController extends Base {
 
     this.debounce = 80;
     if (options?.debounce === undefined || options.debounce === 'auto') {
-      const nodes = graph.getAllNodesData();
+      const nodes = graph.getNodeData();
       this.debounce = Math.min(Math.floor(nodes.length / 100), 80);
     }
     this.debounceUpdateVisible = this.getDebounceFn(this.updateVisible.bind(this));
@@ -349,7 +349,7 @@ export class LodController extends Base {
   private groupItemsByView = (ratio: number = 1) => {
     const { graph } = this;
     const range = graph.getCanvasRange();
-    const models = graph.getAllNodesData().concat(graph.getAllEdgesData());
+    const models = graph.getNodeData().concat(graph.getEdgeData());
     let { inView, outView } = this.cacheViewModels || {};
     if (this.canvasCellDirty) this.updateCanvasCells();
     const canvasCellRowRange = [
@@ -481,7 +481,7 @@ export class LodController extends Base {
     const canvasCells = new Map();
     const idxMap = new Map();
     const { graph, canvasCellSize } = this;
-    graph.getAllNodesData().forEach((model) => {
+    graph.getNodeData().forEach((model) => {
       const { x, y } = model.data;
       const rowIdx = Math.floor(x / canvasCellSize);
       const colIdx = Math.floor(y / canvasCellSize);
@@ -491,7 +491,7 @@ export class LodController extends Base {
       canvasCells.set(cellIdx, cell);
       idxMap.set(model.id, { rowIdx, colIdx });
     });
-    graph.getAllEdgesData().forEach((model) => {
+    graph.getEdgeData().forEach((model) => {
       const { source, target } = model;
       const { rowIdx: sourceRowIdx, colIdx: sourceColIdx } = idxMap.get(source);
       const { rowIdx: targetRowIdx, colIdx: targetColIdx } = idxMap.get(target);

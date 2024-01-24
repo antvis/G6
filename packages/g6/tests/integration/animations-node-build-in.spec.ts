@@ -23,7 +23,7 @@ describe('Animation node buildIn', () => {
     });
 
     graph.on('afterlayout', async () => {
-      const nodes = graph.getAllNodesData();
+      const nodes = graph.getNodeData();
 
       /**
        * Time: 0

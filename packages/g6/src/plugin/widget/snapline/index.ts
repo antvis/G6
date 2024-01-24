@@ -191,10 +191,10 @@ export class Snapline extends Base {
 
     let allIds: ID[] = [];
 
-    this.graph.getAllCombosData().forEach((item) => {
+    this.graph.getComboData().forEach((item) => {
       allIds.push(item.id);
     });
-    this.graph.getAllNodesData().forEach((item) => {
+    this.graph.getNodeData().forEach((item) => {
       allIds.push(item.id);
     });
     allIds = allIds.filter((item) => item !== this.dragItemId); // 排除drag item

@@ -1,4 +1,4 @@
-import { Graph, Extensions, extend } from '@antv/g6';
+import { Extensions, Graph, extend } from '@antv/g6';
 import Stats from 'stats.js';
 
 const dataFormat = (dataAUR, options = {}, graphCore) => {
@@ -178,8 +178,8 @@ fetch('https://gw.alipayobjects.com/os/basement_prod/0b9730ff-0850-46ff-84d0-1d4
   .then((res) => {
     graph.read(res);
 
-    const nodeLen = graph.getAllNodesData().length;
-    const edgeLen = graph.getAllEdgesData().length;
+    const nodeLen = graph.getNodeData().length;
+    const edgeLen = graph.getEdgeData().length;
     descriptionDiv.innerHTML = `节点数量：${nodeLen}, 边数量：${edgeLen}, 图元数量：${nodeLen * 3 + edgeLen}`;
   });
 

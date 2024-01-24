@@ -146,9 +146,9 @@ export class ZoomCanvas extends Behavior {
 
   private hideShapes() {
     const { graph } = this;
-    const { tileBehavior: graphBehaviorOptimize, tileBehaviorSize = 1000 } = graph.getSpecification().optimize || {};
+    const { tileBehavior: graphBehaviorOptimize, tileBehaviorSize = 1000 } = graph.getOptions().optimize || {};
     const optimize = this.options.enableOptimize !== undefined ? this.options.enableOptimize : graphBehaviorOptimize;
-    const shouldOptimize = isNumber(optimize) ? graph.getAllNodesData().length > optimize : optimize;
+    const shouldOptimize = isNumber(optimize) ? graph.getNodeData().length > optimize : optimize;
     if (shouldOptimize) {
       this.hiddenEdgeIds = graph
         .getAllEdgesData()
@@ -180,9 +180,9 @@ export class ZoomCanvas extends Behavior {
 
   private endZoom() {
     const { graph, hiddenEdgeIds = [], hiddenNodeIds } = this;
-    const { tileBehavior: graphBehaviorOptimize, tileBehaviorSize = 1000 } = graph.getSpecification().optimize || {};
+    const { tileBehavior: graphBehaviorOptimize, tileBehaviorSize = 1000 } = graph.getOptions().optimize || {};
     const optimize = this.options.enableOptimize !== undefined ? this.options.enableOptimize : graphBehaviorOptimize;
-    const shouldOptimize = isNumber(optimize) ? graph.getAllNodesData().length > optimize : optimize;
+    const shouldOptimize = isNumber(optimize) ? graph.getNodeData().length > optimize : optimize;
     this.zooming = false;
     if (shouldOptimize) {
       if (this.tileRequestId) {
@@ -231,12 +231,12 @@ export class ZoomCanvas extends Behavior {
       this.zooming = true;
     }
 
-    const { tileBehavior: graphBehaviorOptimize } = graph.getSpecification().optimize || {};
+    const { tileBehavior: graphBehaviorOptimize } = graph.getOptions().optimize || {};
 
     const shouldDebounce =
       typeof graphBehaviorOptimize === 'boolean'
         ? graphBehaviorOptimize
-        : graph.getAllNodesData().length > graphBehaviorOptimize;
+        : graph.getNodeData().length > graphBehaviorOptimize;
 
     const now = Date.now();
     if (shouldDebounce && this.lastWheelTriggerTime && now - this.lastWheelTriggerTime < WHEEL_DURATION / 5) {

@@ -350,7 +350,7 @@ export class Legend extends Base {
     const { size: legendSize, grid } = this.getLegendSize(rows, cols, padding);
 
     // Gets all the data for the given item type and extracts the unique types based on the typeField.
-    const data = itemType === 'node' ? graph.getAllNodesData() : graph.getAllEdgesData();
+    const data = itemType === 'node' ? graph.getNodeData() : graph.getEdgeData();
     const typeSet = new Set<string>();
     const typeModelMap = {};
     data.map((model) => {

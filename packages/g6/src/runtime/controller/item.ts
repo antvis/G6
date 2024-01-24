@@ -147,7 +147,7 @@ export class ItemController {
   constructor(graph: Graph) {
     this.graph = graph;
     // get mapper for node / edge / combo
-    const { node, edge, combo, nodeState = {}, edgeState = {}, comboState = {} } = graph.getSpecification();
+    const { node, edge, combo, nodeState = {}, edgeState = {}, comboState = {} } = graph.getOptions();
     this.nodeMapper = node;
     this.edgeMapper = edge;
     this.comboMapper = combo;
@@ -672,7 +672,7 @@ export class ItemController {
     const { itemType, stateConfig } = param;
     const fieldName = `${itemType}StateMapper`;
     this[fieldName] = stateConfig;
-    this.graph.getAllNodesData().forEach((node) => {
+    this.graph.getNodeData().forEach((node) => {
       const item = this.itemMap.get(node.id);
       if (item) {
         item.stateMapper = stateConfig;

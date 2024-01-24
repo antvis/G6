@@ -35,7 +35,7 @@ export class ThemeController {
    * Get the extensions from useLib.
    */
   private getPlugin() {
-    const { theme = {} } = this.graph.getSpecification();
+    const { theme = {} } = this.graph.getOptions();
     this.themeConfig = theme;
     const type = typeof theme === 'string' ? theme : (theme as any).type;
     return theme ? getPlugin('themeSolver', type) : undefined;
