@@ -57,7 +57,7 @@ export class LodController extends Base {
   }
 
   public getEvents() {
-    if (this.graph.canvas.getRendererType('main') === 'gpu') return {};
+    if (this.graph.canvas.getRendererType() === 'gpu') return {};
     return {
       afterrender: this.onAfterRender,
       afterlayout: this.onAfterLayout,
