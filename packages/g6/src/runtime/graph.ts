@@ -614,10 +614,11 @@ export class Graph extends EventEmitter {
    * <en/> Show the specified item.
    * @param id - <zh/> 元素 id | <en/> item id
    * @param animate - <zh/> 是否使用动画 | <en/> whether to use animation
+   * @param options - <zh/> 用于兼容旧逻辑的配置，后续将会移除 | <en/> options for compatibility with old logic, will be removed later
    * @public
    */
-  public showItem(id: ID | ID[], animate: boolean = true) {
-    this.setItemVisibility(id, 'visible', animate);
+  public showItem(id: ID | ID[], animate: boolean = true, options?: Record<string, unknown>) {
+    this.setItemVisibility(id, 'visible', animate, options);
   }
 
   /**
@@ -626,10 +627,11 @@ export class Graph extends EventEmitter {
    * <en/> Hide the specified item.
    * @param id - <zh/> 元素 id | <en/> item id
    * @param animate - <zh/> 是否使用动画 | <en/> whether to use animation
+   * @param options - <zh/> 用于兼容旧逻辑的配置，后续将会移除 | <en/> options for compatibility with old logic, will be removed later
    * @public
    */
-  public hideItem(id: ID | ID[], animate: boolean = true) {
-    this.setItemVisibility(id, 'hidden', animate);
+  public hideItem(id: ID | ID[], animate: boolean = true, options?: Record<string, unknown>) {
+    this.setItemVisibility(id, 'hidden', animate, options);
   }
 
   /**
@@ -650,6 +652,7 @@ export class Graph extends EventEmitter {
    * @param id - <zh/> item id | <en/> item id
    * @param visibility - <zh/> 可见性 | <en/> visibility
    * @param animate - <zh/> 是否使用动画 | <en/> whether to use animation
+   * @param options - <zh/> 用于兼容旧逻辑的配置，后续将会移除 | <en/> options for compatibility with old logic, will be removed later
    * @description
    * <zh/> 动画配置位于 `options.[node/edge/combo].animate.[show/hide]` 中
    */
@@ -657,6 +660,7 @@ export class Graph extends EventEmitter {
     id: ID | ID[],
     visibility: ItemVisibilityChangeParams['value'][ID],
     animate: boolean = true,
+    options: Record<string, unknown> = {},
   ) {
     const ids = parseArrayLike(id);
     if (ids?.length === 0) return;
@@ -675,6 +679,7 @@ export class Graph extends EventEmitter {
       ...this.baseEmitParam,
       value: newValue,
       animate,
+      ...options,
     });
 
     this.emit('afteritemvisibilitychange', {
