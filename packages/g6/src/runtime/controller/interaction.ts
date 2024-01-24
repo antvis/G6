@@ -1,10 +1,12 @@
 import { FederatedPointerEvent, IElement } from '@antv/g';
 import { getPlugin } from '../../plugin/register';
+import type { BehaviorOptions } from '../../spec/behavior';
 import { Graph } from '../../types';
 import { Behavior } from '../../types/behavior';
 import { CANVAS_EVENT_TYPE, DOM_EVENT_TYPE, IG6GraphEvent } from '../../types/event';
+import { arrayDiff } from '../../utils/diff';
 import { ItemInfo, getContextMenuEventProps, getItemInfoFromElement } from '../../utils/event';
-import { error, warn } from '../../utils/invariant';
+import { error } from '../../utils/invariant';
 
 type Listener = (event: IG6GraphEvent) => void;
 
@@ -26,13 +28,16 @@ const wrapListener = (type: string, eventName: string, listener: Listener): List
   };
 };
 
+const keyOf = (behavior: BehaviorOptions[number]) =>
+  typeof behavior === 'string' ? behavior : behavior.key || behavior.type;
+
 /**
  * Manages the interaction extensions and graph modes;
  * Storage related data.
  */
 export class InteractionController {
   private graph: Graph;
-  private mode: string;
+  private behaviors: BehaviorOptions;
 
   /**
    * Available behaviors of current mode.
@@ -62,27 +67,18 @@ export class InteractionController {
    * Subscribe the lifecycle of graph.
    */
   private tap = (): void => {
-    this.graph.hooks.init.tap(() => this.onModeChange({ mode: 'default' }));
-    this.onModeChange({ mode: 'default' });
-    this.graph.hooks.modechange.tap(this.onModeChange);
     this.graph.hooks.behaviorchange.tap(this.onBehaviorChange);
   };
 
-  private validateMode = (mode: string): boolean => {
-    if (mode === 'default') return true;
-    const modes = this.graph.getOptions().modes || {};
-    return Object.keys(modes).includes(mode);
-  };
-
-  private initBehavior = (config: string | { type: string; key: string }): Behavior | null => {
-    const key = typeof config === 'string' ? config : (config as any).key || (config as any).type;
+  private initBehavior = (config: BehaviorOptions[number]): Behavior | null => {
+    const key = keyOf(config);
     if (this.behaviorMap.has(key)) {
       error(`Failed to add behavior with key or type "${key}"! It was already added.`);
       return;
     }
     try {
       // Get behavior extensions from useLib.
-      const type = typeof config === 'string' ? config : (config as any).type;
+      const type = typeof config === 'string' ? config : config.type;
       const BehaviorClass = getPlugin('behavior', type);
       const options = typeof config === 'string' ? {} : config;
       // @ts-ignore
@@ -125,101 +121,33 @@ export class InteractionController {
     });
   };
 
-  /**
-   * Listener of graph's init hook. Add listeners from behaviors to graph.
-   * @param param contains the mode to switch to
-   * @param param.mode
-   */
-  private onModeChange = (param: { mode: string }) => {
-    const { mode } = param;
+  private onBehaviorChange = (param: { behaviors: BehaviorOptions }) => {
+    const { behaviors } = param;
 
-    // Skip if set to same mode.
-    if (this.mode === mode) {
-      return;
-    }
+    const { enter, update, exit } = arrayDiff(this.behaviors, behaviors, keyOf);
 
-    if (!this.validateMode(mode)) {
-      warn(`Mode "${mode}" was not specified in current graph.`);
-    }
-
-    this.mode = mode;
-
-    // 1. Remove listeners && destroy current behaviors.
-    this.behaviorMap.forEach((behavior, key) => {
-      this.removeListeners(key);
-      this.destroyBehavior(key, behavior);
+    // remove
+    exit.forEach((option) => {
+      const key = keyOf(option);
+      const behavior = this.behaviorMap.get(key);
+      if (behavior) {
+        this.removeListeners(key);
+        this.destroyBehavior(key, behavior);
+      }
     });
 
-    // 2. Initialize new behaviors.
-    this.behaviorMap.clear();
-    const behaviorConfigs = this.graph.getOptions().modes?.[mode] || [];
-    behaviorConfigs.forEach((config) => {
-      this.initBehavior(config);
+    // update
+    update.forEach((option) => {
+      const key = keyOf(option);
+      const behavior = this.behaviorMap.get(key);
+      if (behavior) behavior.updateConfig(option);
     });
 
-    // 3. Add listeners for each behavior.
-    this.listenersMap = {};
-    this.behaviorMap.forEach((behavior, key) => {
-      this.addListeners(key, behavior);
-    });
-  };
-
-  public getMode() {
-    return this.mode;
-  }
-
-  /**
-   * Listener of graph's behaviorchange hook. Update, add, or remove behaviors from modes.
-   * @param param contains action, modes, and behaviors
-   * @param param.action
-   * @param param.modes
-   * @param param.behaviors
-   */
-  private onBehaviorChange = (param: {
-    action: 'update' | 'add' | 'remove';
-    modes: string[];
-    behaviors: (string | { type: string; key: string })[];
-  }) => {
-    const { action, modes, behaviors } = param;
-    modes.forEach((mode) => {
-      // Do nothing if it's not the current mode.
-      // Changes are recorded in `graph.specification`. They are applied in onModeChange.
-      if (mode !== this.mode) {
-        return;
-      }
-
-      if (action === 'add') {
-        behaviors.forEach((config) => {
-          const key = typeof config === 'string' ? config : (config as any).key || (config as any).type;
-          const behavior = this.initBehavior(config);
-          if (behavior) {
-            this.addListeners(key, behavior);
-          }
-        });
-        return;
-      }
-
-      if (action === 'remove') {
-        behaviors.forEach((config) => {
-          const key = typeof config === 'string' ? config : (config as any).key || (config as any).type;
-          const behavior = this.behaviorMap.get(key);
-          if (behavior) {
-            this.removeListeners(key);
-            this.destroyBehavior(key, behavior);
-          }
-        });
-        return;
-      }
-
-      if (action === 'update') {
-        behaviors.forEach((config) => {
-          const key = typeof config === 'string' ? config : (config as any).key || (config as any).type;
-          const behavior = this.behaviorMap.get(key);
-          if (behavior) {
-            behavior.updateConfig(config);
-          }
-        });
-      }
+    // add
+    enter.forEach((option) => {
+      const key = keyOf(option);
+      const behavior = this.initBehavior(option);
+      if (behavior) this.addListeners(key, behavior);
     });
   };
 

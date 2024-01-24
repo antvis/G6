@@ -5,6 +5,7 @@ import { deepMix, groupBy, isEmpty, isEqual, isFunction, isNil, isString } from 
 import { GraphEvent } from '../constant/event';
 import { LodController } from '../plugin/widget';
 import type { G6Spec } from '../spec';
+import type { BehaviorOptions } from '../spec/behavior';
 import type { ComboData, DataOptions, EdgeData, NodeData } from '../spec/data';
 import type { ComboOptions, EdgeOptions, NodeOptions } from '../spec/element';
 import type { LayoutOptions } from '../spec/layout';
@@ -89,6 +90,9 @@ export class Graph extends EventEmitter {
         graph: this,
         controller: this.controller,
       },
+      // @ts-expect-error remove this in next stage
+      graphCore: this.controller.data.model,
+      dataController: this.controller.data,
     };
   }
 
@@ -103,6 +107,12 @@ export class Graph extends EventEmitter {
     });
 
     this.setOptions(options);
+
+    // TODO 用于兼容旧逻辑，会在 item controller 重构后移除
+    // TODO to be removed after item controller refactored
+    if (this.options.data) {
+      this.render();
+    }
   }
 
   private initContainer() {
@@ -630,7 +640,7 @@ export class Graph extends EventEmitter {
    * @returns <zh/> 可见性 | <en/> visibility
    */
   public getItemVisibility(id: ID) {
-    return this.controller.item.getItemVisibility(id);
+    return this.controller.item.getItemVisible(id);
   }
 
   /**
@@ -1439,11 +1449,11 @@ export class Graph extends EventEmitter {
         // Use user-defined position(x/y default to 0).
         await emitAsync({
           execute: async (graph) => {
-            const nodes = graph.getNodeData();
+            const nodes = graph.getAllNodes();
             return {
               nodes: nodes.map((node) => ({
                 id: node.id,
-                data: { x: node.style.x || 0, y: node.style.y || 0 },
+                data: { x: node.data?.style?.x || 0, y: node.data?.style?.y || 0 },
               })),
               edges: [],
             };
@@ -1475,17 +1485,17 @@ export class Graph extends EventEmitter {
    * <zh/> 设置交互模式
    *
    * <en/> Set the interaction mode.
-   * @param mode - <zh/> 交互模式 | <en/> interaction mode
+   * @param behaviors - <zh/> 交互模式 | <en/> interaction mode
    * @public
    * @example
    * ```ts
    * graph.setMode(['drag-canvas', 'drag-node'])
    * ```
    */
-  public setMode(mode: string[]) {
-    this.hooks.modechange.emit({
+  public setBehaviors(behaviors: BehaviorOptions) {
+    this.hooks.behaviorchange.emit({
       ...this.baseEmitParam,
-      mode,
+      behaviors,
     });
   }
 
@@ -1496,8 +1506,8 @@ export class Graph extends EventEmitter {
    * @returns <zh/> 交互模式 | <en/> interaction mode
    * @public
    */
-  public getMode() {
-    return this.options.mode;
+  public getBehaviors() {
+    return this.options.behaviors;
   }
 
   /**

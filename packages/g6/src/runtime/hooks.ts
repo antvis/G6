@@ -1,5 +1,6 @@
 import { GraphChange, ID } from '@antv/graphlib';
 import type { G6Spec } from '../spec';
+import type { BehaviorOptions } from '../spec/behavior';
 import type { DataOptions } from '../spec/data';
 import { ComboOptions, EdgeOptions, NodeOptions } from '../spec/element';
 import { LayoutOptions } from '../spec/layout';
@@ -12,6 +13,7 @@ import { ITEM_TYPE, SHAPE_TYPE, ShapeStyle, State } from '../types/item';
 import { NodeDisplayModel, NodeModel, NodeModelData, NodeShapesEncode } from '../types/node';
 import { Theme } from '../types/theme';
 import { GraphTransformOptions } from '../types/view';
+import type { Canvas } from './canvas';
 import type { Controller } from './controller';
 import type { Graph } from './graph';
 
@@ -74,13 +76,6 @@ export class Hooks {
    * <en/> State change
    */
   public itemstatechange = new Hook<ItemStateChangeParams>('itemstatechange');
-
-  /**
-   * <zh/> 状态配置变化
-   *
-   * <en/> State config change
-   */
-  public itemstateconfigchange = new Hook<ItemStateConfigChangeParams>('itemstateconfigchange');
 
   /**
    * <zh/> 可见性变化
@@ -149,6 +144,7 @@ export class Hooks {
 }
 
 export interface RuntimeContext {
+  canvas: Canvas;
   options: G6Spec;
   graph: Graph;
   controller: Controller;
@@ -190,9 +186,7 @@ export interface ModeChangeParams extends BaseParams {
 }
 
 export interface BehaviorChangeParams extends BaseParams {
-  action: 'update' | 'add' | 'remove';
-  modes: string[];
-  behaviors: (string | any)[];
+  behaviors: BehaviorOptions;
 }
 
 export interface ItemStateChangeParams extends BaseParams {

@@ -2,14 +2,14 @@ import type { Cursor, DataURLOptions, CanvasConfig as GCanvasConfig, IRenderer, 
 import { Canvas as GCanvas } from '@antv/g';
 import { Renderer as CanvasRenderer } from '@antv/g-canvas';
 import { Plugin as DragNDropPlugin } from '@antv/g-plugin-dragndrop';
-import type { CanvasOption } from '../spec/canvas';
-import { createDOM } from '../utils/dom';
+import { createDOM, isFunction } from '@antv/util';
+import type { CanvasOptions } from '../spec/canvas';
 import { createPromise } from '../utils/promise';
 import type { Layer } from './layered-canvas/types';
 
 export interface CanvasConfig
   extends Pick<GCanvasConfig, 'container' | 'devicePixelRatio' | 'width' | 'height' | 'background' | 'cursor'> {
-  renderer: CanvasOption['renderer'];
+  renderer: CanvasOptions['renderer'];
 }
 
 /**
@@ -30,6 +30,10 @@ export class Canvas {
   }
   public get background() {
     return this.canvas.background;
+  }
+
+  public get document() {
+    return this.main.document;
   }
 
   public ready: Promise<void>;
@@ -64,7 +68,7 @@ export class Canvas {
     const { renderer: getRenderer, ...restConfig } = config;
     const names: Layer[] = ['main', 'label', 'transient', 'transientLabel', 'background'];
     names.forEach((name) => {
-      const renderer = getRenderer?.(name) || new CanvasRenderer();
+      const renderer = isFunction(getRenderer) ? getRenderer?.(name) : new CanvasRenderer();
 
       this.renderers[name] = renderer;
 
