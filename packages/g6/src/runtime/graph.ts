@@ -599,6 +599,30 @@ export class Graph extends EventEmitter {
   }
 
   /**
+   * <zh/> 显示指定元素
+   *
+   * <en/> Show the specified item.
+   * @param id - <zh/> 元素 id | <en/> item id
+   * @param animate - <zh/> 是否使用动画 | <en/> whether to use animation
+   * @public
+   */
+  public showItem(id: ID | ID[], animate: boolean = true) {
+    this.setItemVisibility(id, 'visible', animate);
+  }
+
+  /**
+   * <zh/> 隐藏指定元素
+   *
+   * <en/> Hide the specified item.
+   * @param id - <zh/> 元素 id | <en/> item id
+   * @param animate - <zh/> 是否使用动画 | <en/> whether to use animation
+   * @public
+   */
+  public hideItem(id: ID | ID[], animate: boolean = true) {
+    this.setItemVisibility(id, 'hidden', animate);
+  }
+
+  /**
    * <zh/> 获取 item 的可见性
    *
    * <en/> Get the visibility of the item.
@@ -625,7 +649,7 @@ export class Graph extends EventEmitter {
     animate: boolean = true,
   ) {
     const ids = parseArrayLike(id);
-    if (ids.length === 0) return;
+    if (ids?.length === 0) return;
 
     const newValue: ItemVisibilityChangeParams['value'] = ids.reduce((acc, id) => {
       acc[id] = visibility;
