@@ -91,7 +91,7 @@ export class Graph extends EventEmitter {
         graph: this,
         controller: this.controller,
       },
-      // @ts-expect-error remove this in next stage
+      // compatible context
       graphCore: this.controller.data.model,
       dataController: this.controller.data,
     };
@@ -163,13 +163,13 @@ export class Graph extends EventEmitter {
    * @param option - <zh/> 配置项 | <en/> graph specs
    */
   public setOptions(option: G6Spec) {
-    const { data, node, edge, combo, theme, layout, ...restOption } = option;
+    const { data, node, edge, combo, theme, layout, behaviors, ...restOption } = option;
     if (data) this.setData(data);
 
     if (node) this.setNode(node);
     if (edge) this.setEdge(edge);
     if (combo) this.setCombo(combo);
-
+    if (behaviors) this.setBehaviors(behaviors);
     if (theme) this.setTheme(theme);
 
     if (layout) this.setLayout(layout);
@@ -1075,7 +1075,6 @@ export class Graph extends EventEmitter {
     await this.hooks.render.emitAsync(this.baseEmitParam);
 
     this.emit(GraphEvent.AFTER_RENDER);
-
     await this.layout();
   }
 
