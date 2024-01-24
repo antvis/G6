@@ -3,6 +3,7 @@ import { getPlugin } from '../../plugin/register';
 import { Graph } from '../../types';
 import { IG6GraphEvent } from '../../types/event';
 import { Plugin as PluginBase } from '../../types/plugin';
+import { error } from '../../utils/invariant';
 
 type Listener = (event: IG6GraphEvent) => void;
 
@@ -17,9 +18,9 @@ const wrapListener = (type: string, eventName: string, listener: Listener): List
   return (event: any) => {
     try {
       listener(event);
-    } catch (error) {
+    } catch (e) {
       error(`Error occurred in "${eventName}" phase of the plugin "${type}"!`);
-      throw error;
+      throw e;
     }
   };
 };

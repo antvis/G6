@@ -9,7 +9,7 @@ import type { BehaviorOptions } from '../spec/behavior';
 import type { ComboData, DataOptions, EdgeData, NodeData } from '../spec/data';
 import type { ComboOptions, EdgeOptions, NodeOptions } from '../spec/element';
 import type { LayoutOptions } from '../spec/layout';
-import { STDWidget } from '../spec/widget';
+import type { WidgetOptions } from '../spec/widget';
 import type { CameraAnimationOptions } from '../types/animate';
 import type { CallableValue } from '../types/callable';
 import type { ComboDisplayModel } from '../types/combo';
@@ -28,6 +28,7 @@ import { warn } from '../utils/invariant';
 import { getLayoutBounds } from '../utils/layout';
 import { createPromise } from '../utils/promise';
 import { formatPadding } from '../utils/shape';
+import { parseWidget } from '../utils/widget';
 import { Canvas } from './canvas';
 import { Controller } from './controller';
 import type { BaseParams, ItemVisibilityChangeParams, ItemZIndexChangeParams } from './hooks';
@@ -1541,11 +1542,8 @@ export class Graph extends EventEmitter {
    * @returns - <zh/> 组件配置 | <en/> widget options
    * @public
    */
-  public getWidgets(): STDWidget[] {
-    return this.controller.widget.getWidgets().map(([, { type, plugin }]) => ({
-      type,
-      ...plugin.options,
-    }));
+  public getWidgets() {
+    return this.options.widgets;
   }
 
   /**
@@ -1555,13 +1553,13 @@ export class Graph extends EventEmitter {
    * @param widgets - <zh/> 组件配置 | <en/> widget options
    * @public
    */
-  public setWidgets(widgets: CallableValue<STDWidget[]>) {
+  public setWidgets(widgets: CallableValue<WidgetOptions>) {
     const oldValue = [...this.getWidgets()];
     const newValue = isFunction(widgets) ? widgets(oldValue) : widgets;
 
     this.hooks.widgetchange.emit({
       ...this.baseEmitParam,
-      value: newValue,
+      value: newValue.map(parseWidget),
     });
   }
 
