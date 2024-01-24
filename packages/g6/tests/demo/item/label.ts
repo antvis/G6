@@ -1874,8 +1874,8 @@ export default (
       disableLod: disable,
     });
 
-    // console.log(graph.itemController.itemMap.get('Gillenormand'));
-    // console.log(graph.itemController.itemMap.get('Child2'));
+    // console.log(graph.controller.item.itemMap.get('Gillenormand'));
+    // console.log(graph.controller.item.itemMap.get('Child2'));
   });
   let allData = { ...data };
   graph.on('node:click', (e) => {

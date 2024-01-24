@@ -65,7 +65,7 @@ export class LodController extends Base {
   }
 
   public getEvents() {
-    if (this.graph.rendererType === 'webgl-3d') return {};
+    if (this.graph.canvas.getRendererType('main') === 'gpu') return {};
     return {
       afterrender: this.onAfterRender,
       afterlayout: this.onAfterLayout,
@@ -210,7 +210,7 @@ export class LodController extends Base {
           graph.hideItem(id, { shapeIds: invisibleShapeIds, disableAnimate });
         }
         // @ts-expect-error TODO: Need to fix the type
-        const item = graph.itemController.itemMap.get(id);
+        const item = graph.controller.item.itemMap.get(id);
         if (
           disableLod ||
           (item.labelGroup.children.length && (rest > 0 || (zoomRatio >= 1 && this.shownIds.has(id))))
@@ -272,7 +272,7 @@ export class LodController extends Base {
       inView.forEach((model) => {
         this.labelPositionDirty.set(model.id, true);
         // @ts-expect-error TODO: Need to fix the type
-        const item = graph.itemController.itemMap.get(model.id);
+        const item = graph.controller.item.itemMap.get(model.id);
         if (
           !item ||
           !item.labelGroup.children.length ||

@@ -702,7 +702,7 @@ export const getCombinedBoundsByData = (
   models.forEach((item) => {
     const bounds = graph.getRenderBBox(item.model.id);
     if (bounds) {
-      if (item.model.data._isCombo) {
+      if (graph.typeOf(item.model.id) === 'combo') {
         // child is combo, move to the correct center
         const { center: childComboCenter } = (item as Combo).getCombinedBounds() || {};
         if (childComboCenter) {

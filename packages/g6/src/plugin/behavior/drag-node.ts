@@ -199,7 +199,7 @@ export class DragNode extends Behavior {
         ancestors.push(ancestor);
       }
     });
-    return uniq(ancestors).filter((item) => this.graph.getItemVisible(item.id));
+    return uniq(ancestors).filter((item) => this.graph.getItemVisibility(item.id));
   }
 
   public onPointerDown(event: IG6GraphEvent) {

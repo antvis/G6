@@ -151,7 +151,7 @@ export class DragCombo extends Behavior {
       edges = edges.concat(this.graph.getRelatedEdgesData(child.id));
     });
     return uniq(edges).filter((edgeData) => {
-      return this.graph.getItemVisible(edgeData.id);
+      return this.graph.getItemVisibility(edgeData.id);
     });
   }
 
@@ -177,7 +177,7 @@ export class DragCombo extends Behavior {
 
     const items = begins;
     graphComboTreeDfs(this.graph, begins, (child) => items.push(child), 'TB');
-    return uniq(items).filter((item) => !selectedComboIds.includes(item.id) && this.graph.getItemVisible(item.id));
+    return uniq(items).filter((item) => !selectedComboIds.includes(item.id) && this.graph.getItemVisibility(item.id));
   }
 
   public onPointerDown(event: IG6GraphEvent) {
