@@ -2,9 +2,9 @@ import { AABB } from '@antv/g';
 import { ID } from '@antv/graphlib';
 import { each } from '@antv/util';
 import Node from '../item/node';
+import { EdgeData } from '../spec/data';
 import { NodeDisplayModel } from '../types';
 import { Point, PolyPoint } from '../types/common';
-import { EdgeDisplayModel } from '../types/edge';
 import {
   getBBoxCrossPointsByPoint,
   getBBoxFromPoint,
@@ -648,10 +648,7 @@ export class EdgeCollisionChecker {
  * @param displayModel
  * @param polylineEdgeType
  */
-export const isPolylineWithObstacleAvoidance = (
-  displayModel: EdgeDisplayModel,
-  polylineEdgeType = ['polyline-edge'],
-) => {
+export const isPolylineWithObstacleAvoidance = (displayModel: EdgeData, polylineEdgeType = ['polyline-edge']) => {
   const { type, keyShape } = displayModel.data;
   const isPolyline = polylineEdgeType.includes(type);
   if (!isPolyline) return false;

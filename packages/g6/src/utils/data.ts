@@ -3,7 +3,7 @@ import { Edge, ID, Node, TreeData } from '@antv/graphlib';
 import { isArray } from '@antv/util';
 import type { Graph } from '../runtime/graph';
 import { ComboData, DataOptions, EdgeData, NodeData } from '../spec/data';
-import { NodeModel, NodeUserModel } from '../types';
+import { NodeModel } from '../types';
 import { DataModel, GraphData } from '../types/data';
 import { NodeUserModelData } from '../types/node';
 import { idOf } from './id';
@@ -42,13 +42,13 @@ export const deconstructData = (data) => {
  */
 export const graphCoreTreeDfs = (
   graphCore: DataModel,
-  nodes: NodeUserModel[],
-  fn,
+  nodes: NodeData[],
+  fn: (node: NodeData) => void,
   mode: 'TB' | 'BT' = 'TB',
   treeKey = 'combo',
   stopFns: {
-    stopBranchFn?: (node: NodeUserModel) => boolean;
-    stopAllFn?: (node: NodeUserModel) => boolean;
+    stopBranchFn?: (node: NodeData) => boolean;
+    stopAllFn?: (node: NodeData) => boolean;
   } = {},
 ) => {
   if (!nodes?.length) return;
@@ -98,7 +98,7 @@ export const traverseAncestorsAndSucceeds = (
   graph: Graph,
   dataModel: DataModel,
   nodes: NodeData[],
-  fn,
+  fn: (node: NodeData) => void,
   mode: 'TB' | 'BT' = 'TB',
 ) => {
   if (!nodes?.length) return;
@@ -126,12 +126,12 @@ export const traverseGraphAncestors = (graph: Graph, nodes: NodeData[], fn) => {
  * @param nodes begin nodes
  * @param fn will be called while visiting each node
  */
-export const traverseAncestors = (dataModel: DataModel, nodes: NodeData[], fn) => {
+export const traverseAncestors = (dataModel: DataModel, nodes: NodeData[], fn: (data: NodeData) => void | boolean) => {
   nodes.forEach((node) => {
-    let ancestor = dataModel.getParent(node.id, 'combo');
+    let ancestor = dataModel.getParent(node.id, 'combo').data;
     while (ancestor) {
       if (fn(ancestor)) return;
-      ancestor = dataModel.getParent(ancestor.id, 'combo');
+      ancestor = dataModel.getParent(ancestor.id, 'combo').data;
     }
   });
 };

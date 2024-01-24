@@ -12,9 +12,9 @@ import {
   TreeStructureChanged,
   TreeStructureDetached,
 } from '@antv/graphlib';
-import { Graph, IG6GraphEvent, NodeModelData } from '../types';
-import { GraphCore } from '../types/data';
-import { EdgeModelData } from '../types/edge';
+import type { EdgeData, NodeData } from '../spec/data';
+import { Graph, IG6GraphEvent } from '../types';
+import { DataModel } from '../types/data';
 
 export type ItemInfo = {
   itemType: 'canvas' | 'node' | 'edge' | 'combo';
@@ -75,13 +75,13 @@ export const getContextMenuEventProps = (event: IG6GraphEvent, graph: Graph): IG
 };
 
 export type GroupedChanges = {
-  NodeRemoved: NodeRemoved<NodeModelData>[];
-  EdgeRemoved: EdgeRemoved<EdgeModelData>[];
-  NodeAdded: NodeAdded<NodeModelData>[];
-  EdgeAdded: EdgeAdded<EdgeModelData>[];
-  NodeDataUpdated: NodeDataUpdated<NodeModelData>[];
-  EdgeUpdated: EdgeUpdated<EdgeModelData>[];
-  EdgeDataUpdated: EdgeDataUpdated<EdgeModelData>[];
+  NodeRemoved: NodeRemoved<NodeData>[];
+  EdgeRemoved: EdgeRemoved<EdgeData>[];
+  NodeAdded: NodeAdded<NodeData>[];
+  EdgeAdded: EdgeAdded<EdgeData>[];
+  NodeDataUpdated: NodeDataUpdated<NodeData>[];
+  EdgeUpdated: EdgeUpdated<EdgeData>[];
+  EdgeDataUpdated: EdgeDataUpdated<EdgeData>[];
   TreeStructureChanged: TreeStructureChanged[];
   ComboStructureChanged: TreeStructureChanged[];
   TreeStructureAttached: TreeStructureAttached[];
@@ -89,12 +89,12 @@ export type GroupedChanges = {
 };
 
 /**
- * Group the changes with change types from graphCore's changes.
- * @param graphCore
+ * Group the changes with change types from DataModel's changes.
+ * @param dataModel
  * @param changes
  * @returns
  */
-export const getGroupedChanges = (graphCore: GraphCore, changes): GroupedChanges => {
+export const getGroupedChanges = (dataModel: DataModel, changes): GroupedChanges => {
   const groupedChanges: GroupedChanges = {
     NodeRemoved: [],
     EdgeRemoved: [],
@@ -112,9 +112,9 @@ export const getGroupedChanges = (graphCore: GraphCore, changes): GroupedChanges
     const { type: changeType } = change;
     if (['NodeDataUpdated', 'EdgeUpdated', 'EdgeDataUpdated'].includes(changeType)) {
       const { id: oid } = change;
-      if (!graphCore.hasNode(oid) && !graphCore.hasEdge(oid)) {
+      if (!dataModel.hasNode(oid) && !dataModel.hasEdge(oid)) {
         const nid = Number(oid);
-        if ((!isNaN(nid) && graphCore.hasNode(nid)) || graphCore.hasEdge(nid)) {
+        if ((!isNaN(nid) && dataModel.hasNode(nid)) || dataModel.hasEdge(nid)) {
           groupedChanges[changeType].push({ ...change, id: nid });
         }
         return;
@@ -127,9 +127,9 @@ export const getGroupedChanges = (graphCore: GraphCore, changes): GroupedChanges
       groupedChanges[changeType].push(change);
     } else {
       const { id: oid } = change.value;
-      if (!graphCore.hasNode(oid) && !graphCore.hasEdge(oid)) {
+      if (!dataModel.hasNode(oid) && !dataModel.hasEdge(oid)) {
         const nid = Number(oid);
-        if ((!isNaN(nid) && graphCore.hasNode(nid)) || graphCore.hasEdge(nid)) {
+        if ((!isNaN(nid) && dataModel.hasNode(nid)) || dataModel.hasEdge(nid)) {
           groupedChanges[changeType].push({
             ...change,
             value: { ...change.value, id: nid },

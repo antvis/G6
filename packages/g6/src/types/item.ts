@@ -16,10 +16,12 @@ import {
 } from '@antv/g';
 import { CubeGeometryProps, PlaneGeometryProps, SphereGeometryProps } from '@antv/g-plugin-3d';
 import { ID } from '@antv/graphlib';
+import type { ComboData, EdgeData, NodeData } from '../spec/data';
+import type { ComboOptions, EdgeOptions, NodeOptions } from '../spec/element';
 import { IAnimates } from './animate';
-import { ComboDisplayModel, ComboEncode, ComboModel, ComboModelData, ComboUserModel } from './combo';
-import { EdgeDisplayModel, EdgeEncode, EdgeModel, EdgeModelData, EdgeShapeMap, EdgeUserModel } from './edge';
-import { NodeDisplayModel, NodeEncode, NodeModel, NodeModelData, NodeShapeMap, NodeUserModel } from './node';
+import { ComboModelData, ComboUserModel } from './combo';
+import { EdgeModelData, EdgeShapeMap, EdgeUserModel } from './edge';
+import { NodeModelData, NodeShapeMap, NodeUserModel } from './node';
 import { ComboStyleSet, EdgeStyleSet, NodeStyleSet } from './theme';
 
 export type GShapeStyle = CircleStyleProps &
@@ -99,11 +101,11 @@ export type ITEM_TYPE = 'node' | 'edge' | 'combo';
 
 export type ItemModelData = NodeModelData | EdgeModelData | ComboModelData;
 
-export type ItemModel = NodeModel | EdgeModel | ComboModel;
+export type ItemModel = NodeData | EdgeData | ComboData;
 
-export type ItemDisplayModel = NodeDisplayModel | EdgeDisplayModel | ComboDisplayModel;
+export type ItemDisplayModel = NodeData | EdgeData | ComboData;
 
-export type DisplayMapper = ((model: ItemModel) => ItemDisplayModel) | NodeEncode | EdgeEncode | ComboEncode;
+export type DisplayMapper = NodeOptions | EdgeOptions | ComboOptions;
 
 export type State = {
   name: string;
@@ -168,10 +170,6 @@ export interface IItem {
   displayModel: ItemDisplayModel;
   /** The style mapper configured at graph with field name 'node' / 'edge' / 'combo'. */
   mapper: DisplayMapper;
-  /** The state style mapper configured at graph with field name 'nodeState' / 'edgeState' / 'comboState'. */
-  stateMapper: {
-    [stateName: string]: DisplayMapper;
-  };
   /** The graphic group for item drawing. */
   group: Group;
   /** The keyShape of the item. */
