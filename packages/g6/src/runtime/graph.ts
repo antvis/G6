@@ -607,8 +607,7 @@ export class Graph extends EventEmitter {
    *
    * <en/> Show the specified item.
    * @param id - <zh/> 元素 id | <en/> item id
-   * @param animate - <zh/> 是否使用动画 | <en/> whether to use animation
-   * @param options - <zh/> 用于兼容旧逻辑的配置，后续将会移除 | <en/> options for compatibility with old logic, will be removed later
+   * @param options - <zh/> 用于兼容旧逻辑的配置，后续将会调整 | <en/> options for compatibility with old logic, will be amended later
    * @public
    */
   public showItem(id: ID | ID[], options?: VisibilityModifyOptions) {
@@ -620,8 +619,7 @@ export class Graph extends EventEmitter {
    *
    * <en/> Hide the specified item.
    * @param id - <zh/> 元素 id | <en/> item id
-   * @param animate - <zh/> 是否使用动画 | <en/> whether to use animation
-   * @param options - <zh/> 用于兼容旧逻辑的配置，后续将会移除 | <en/> options for compatibility with old logic, will be removed later
+   * @param options - <zh/> 用于兼容旧逻辑的配置，后续将会调整 | <en/> options for compatibility with old logic, will be amended later
    * @public
    */
   public hideItem(id: ID | ID[], options?: VisibilityModifyOptions) {
@@ -636,7 +634,7 @@ export class Graph extends EventEmitter {
    * @returns <zh/> 可见性 | <en/> visibility
    */
   public getItemVisibility(id: ID) {
-    return this.controller.item.getItemVisible(id);
+    return this.controller.item.getItemVisible(id) ? 'visible' : 'hidden';
   }
 
   /**
@@ -645,8 +643,7 @@ export class Graph extends EventEmitter {
    * <en/> Set the visibility of the item.
    * @param id - <zh/> item id | <en/> item id
    * @param visibility - <zh/> 可见性 | <en/> visibility
-   * @param animate - <zh/> 是否使用动画 | <en/> whether to use animation
-   * @param options - <zh/> 用于兼容旧逻辑的配置，后续将会移除 | <en/> options for compatibility with old logic, will be removed later
+   * @param options - <zh/> 用于兼容旧逻辑的配置，后续将会调整 | <en/> options for compatibility with old logic, will be amended later
    * @description
    * <zh/> 动画配置位于 `options.[node/edge/combo].animate.[show/hide]` 中
    */
@@ -989,39 +986,90 @@ export class Graph extends EventEmitter {
   }
 
   /**
-   * <zh/> 根据 ID 获取节点数据。若未传入 ID，则返回所有节点数据
+   * <zh/> 返回所有节点数据
    *
-   * <en/> Get node data by ID. if no ID passed in, return all node data
-   * @param id - <zh/> 节点 ID 或 ID 列表 | <en/> node ID or ID list
+   * <en/> Return all nodes data
+   * @returns <zh/> 节点数据 | <en/> nodes data
+   */
+  public getNodeData(): NodeData[];
+  /**
+   * <zh/> 根据 ID 获取节点数据
+   *
+   * <en/> Get node data by ID
+   * @param id - <zh/> 节点 ID | <en/> node ID
    * @returns <zh/> 节点数据 | <en/> node data
    */
-  public getNodeData(id?: ID | ID[]) {
-    const ids = parseArrayLike(id);
-    return this.controller.data.getNodeData(ids);
+  public getNodeData(id: ID): NodeData;
+  /**
+   * <zh/> 根据 ID 列表获取节点数据
+   *
+   * <en/> Get nodes data by ID list
+   * @param id - <zh/> 节点 ID 列表 | <en/> nodes ID list
+   * @returns <zh/> 节点数据 | <en/> nodes data
+   */
+  public getNodeData(id?: ID[]): NodeData[];
+  public getNodeData(id?: ID | ID[]): NodeData | NodeData[] {
+    if (id === undefined) return this.controller.data.getNodeData();
+    if (Array.isArray(id)) return this.controller.data.getNodeData(id);
+    return this.controller.data.getNodeData([id])?.[0];
   }
 
   /**
-   * <zh/> 根据 ID 获取边数据。若未传入 ID，则返回所有边数据
+   * <zh/> 返回所有边数据
    *
-   * <en/> Get edge data by ID. if no ID passed in, return all edge data
-   * @param id - <zh/> 边 ID 或 ID 列表 | <en/> edge ID or ID list
+   * <en/> Return all edges data
+   * @returns <zh/> 边数据 | <en/> edges data
+   */
+  public getEdgeData(): EdgeData[];
+  /**
+   * <zh/> 根据 ID 获取边数据
+   *
+   * <en/> Get edge data by ID
+   * @param id - <zh/> 边 ID | <en/> edge ID
    * @returns <zh/> 边数据 | <en/> edge data
    */
-  public getEdgeData(id?: ID | ID[]) {
-    const ids = parseArrayLike(id);
-    return this.controller.data.getEdgeData(ids);
+  public getEdgeData(id: ID): EdgeData;
+  /**
+   * <zh/> 根据 ID 列表获取边数据
+   *
+   * <en/> Get edges data by ID list
+   * @param id - <zh/> 边 ID 列表 | <en/> edges ID list
+   * @returns <zh/> 边数据 | <en/> edges data
+   */
+  public getEdgeData(id?: ID[]): EdgeData[];
+  public getEdgeData(id?: ID | ID[]): EdgeData | EdgeData[] {
+    if (id === undefined) return this.controller.data.getEdgeData();
+    if (Array.isArray(id)) return this.controller.data.getEdgeData(id);
+    return this.controller.data.getEdgeData([id])?.[0];
   }
 
   /**
-   * <zh/> 根据 ID 获取 combo 数据。若未传入 ID，则返回所有 combo 数据
+   * <zh/> 返回所有 combo 数据
    *
-   * <en/> Get combo data by ID. if no ID passed in, return all combo data
-   * @param id - <zh/> combo ID 或 ID 列表 | <en/> combo ID or ID list
+   * <en/> Return all combos data
+   * @returns <zh/> combo 数据 | <en/> combos data
+   */
+  public getComboData(): ComboData[];
+  /**
+   * <zh/> 根据 ID 获取 combo 数据
+   *
+   * <en/> Get combo data by ID
+   * @param id - <zh/> combo ID | <en/> combo ID
    * @returns <zh/> combo 数据 | <en/> combo data
    */
-  public getComboData(id?: ID | ID[]) {
-    const ids = parseArrayLike(id);
-    return this.controller.data.getComboData(ids);
+  public getComboData(id: ID): ComboData;
+  /**
+   * <zh/> 根据 ID 列表获取 combo 数据
+   *
+   * <en/> Get combos data by ID list
+   * @param id - <zh/> combo ID 列表 | <en/> combos ID list
+   * @returns <zh/> combo 数据 | <en/> combos data
+   */
+  public getComboData(id?: ID[]): ComboData[];
+  public getComboData(id?: ID | ID[]): ComboData | ComboData[] {
+    if (id === undefined) return this.controller.data.getComboData();
+    if (Array.isArray(id)) return this.controller.data.getComboData(id);
+    return this.controller.data.getComboData([id])?.[0];
   }
 
   /**
