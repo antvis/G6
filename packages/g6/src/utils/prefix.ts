@@ -83,6 +83,23 @@ export function subStyleProps<T extends object>(style: object, prefix: string) {
 }
 
 /**
+ * <zh/> 从样式中排除子样式
+ *
+ * <en/> Omit sub style from style
+ * @param style - <zh/> 样式 | <en/> style
+ * @param prefix - <zh/> 子样式前缀 | <en/> sub style prefix
+ * @returns <zh/> 排除子样式后的样式 | <en/> style without sub style
+ */
+export function omitStyleProps<T extends object>(style: object, prefix: string) {
+  return Object.entries(style).reduce((acc, [key, value]) => {
+    if (!startsWith(key, prefix)) {
+      acc[key] = value;
+    }
+    return acc;
+  }, {} as T);
+}
+
+/**
  * <zh> 创建前缀样式
  *
  * <en> Create prefix style

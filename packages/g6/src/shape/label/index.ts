@@ -3,11 +3,11 @@ import { deepMix } from '@antv/util';
 import type { Padding } from '../../types';
 import type { PrefixObject } from '../../types/prefix';
 import { parsePadding } from '../../utils/padding';
-import { startsWith, subStyleProps } from '../../utils/prefix';
+import { omitStyleProps, startsWith, subStyleProps } from '../../utils/prefix';
 import { BaseShape, BaseShapeStyleProps } from '../base';
 
 export type LabelStyleProps = BaseShapeStyleProps &
-  PrefixObject<TextStyleProps, 'label'> &
+  TextStyleProps &
   PrefixObject<RectStyleProps, 'background'> & {
     padding?: Padding;
   };
@@ -35,12 +35,14 @@ export class Label extends BaseShape<LabelStyleProps> {
   }
 
   protected getTextStyle(attributes: LabelStyleProps = this.attributes) {
-    return subStyleProps<TextStyleProps>(attributes, 'label');
+    const style = this.getGraphicStyle(attributes);
+    return omitStyleProps<TextStyleProps>(style, 'background');
   }
 
   protected getBackgroundStyle(attributes: LabelStyleProps = this.attributes) {
-    const { labelWordWrapWidth, padding } = this.attributes;
-    const backgroundStyle = subStyleProps<RectStyleProps>(attributes, 'background');
+    const style = this.getGraphicStyle(attributes);
+    const { wordWrapWidth, padding } = style;
+    const backgroundStyle = subStyleProps<RectStyleProps>(style, 'background');
 
     const {
       min: [minX, minY],
@@ -52,7 +54,7 @@ export class Label extends BaseShape<LabelStyleProps> {
     Object.assign(backgroundStyle, {
       x: minX - left,
       y: minY - top,
-      width: (labelWordWrapWidth || halfWidth * 2) + left + right,
+      width: (wordWrapWidth || halfWidth * 2) + left + right,
       height: halfHeight * 2 + top + bottom,
     });
 

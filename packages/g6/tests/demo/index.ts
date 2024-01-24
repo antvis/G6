@@ -69,7 +69,9 @@ import mapper from './visual/mapper';
 
 export { default as timebar_chart } from './plugins/timebar-chart';
 export { default as timebar_time } from './plugins/timebar-time';
+export { default as shape_arrow } from './shapes/arrow';
 export { default as shape_badge } from './shapes/badge';
+export { default as shape_circle } from './shapes/circle';
 export { default as shape_label } from './shapes/label';
 
 export {

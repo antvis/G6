@@ -8,10 +8,11 @@ export default ({ container, renderer, width, height }: Required<TestCaseContext
   canvas.appendChild(
     new Label({
       style: {
-        labelText: 'Label Text',
+        fill: 'red',
+        text: 'Label Text',
         x: 10,
         y: 10,
-        labelTextBaseline: 'top',
+        textBaseline: 'top',
         backgroundFill: '#eaebed',
       },
     }),
@@ -20,11 +21,11 @@ export default ({ container, renderer, width, height }: Required<TestCaseContext
   canvas.appendChild(
     new Label({
       style: {
-        labelText: 'Label Text',
+        text: 'Label Text',
         x: 100,
         y: 10,
         fill: '#e36209',
-        labelTextBaseline: 'top',
+        textBaseline: 'top',
         padding: [5, 10],
         backgroundRadius: 5,
         backgroundFill: '#fff1e4',
@@ -35,10 +36,10 @@ export default ({ container, renderer, width, height }: Required<TestCaseContext
   const updateLabel = canvas.appendChild(
     new Label({
       style: {
-        labelText: 'Label Text',
+        text: 'Label Text',
         x: 200,
         y: 10,
-        labelTextBaseline: 'top',
+        textBaseline: 'top',
         backgroundFill: '#eaebed',
       },
     }),
@@ -46,7 +47,7 @@ export default ({ container, renderer, width, height }: Required<TestCaseContext
 
   setTimeout(() => {
     updateLabel.update({
-      labelText: 'Update Label Text',
+      text: 'Update Label Text',
       backgroundFill: '#e45454',
     });
   }, 200);
@@ -54,10 +55,10 @@ export default ({ container, renderer, width, height }: Required<TestCaseContext
   const animateLabel = canvas.appendChild(
     new Label({
       style: {
-        labelText: 'Label Text',
+        text: 'Label Text',
         x: 350,
         y: 10,
-        labelTextBaseline: 'top',
+        textBaseline: 'top',
         backgroundFill: '#eaebed',
       },
     }),
@@ -68,12 +69,12 @@ export default ({ container, renderer, width, height }: Required<TestCaseContext
       [
         {
           x: 350,
-          labelFill: '#000000',
+          fill: '#000000',
           backgroundFill: '#eaebed',
         },
         {
           x: 400,
-          labelFill: '#e45454',
+          fill: '#e45454',
           backgroundFill: '#fce9e9',
         },
       ],
@@ -96,14 +97,14 @@ export default ({ container, renderer, width, height }: Required<TestCaseContext
   canvas.appendChild(
     new Label({
       style: {
-        labelText: 'Long Text Long Text Long Text Long Text Long Text Long Text Long Text Long Text...',
+        text: 'Long Text Long Text Long Text Long Text Long Text Long Text Long Text Long Text...',
         x: 10,
         y: 45,
-        labelWordWrap: true,
-        labelMaxLines: 1,
-        labelWordWrapWidth: 200,
-        labelTextOverflow: '...',
-        labelTextBaseline: 'top',
+        wordWrap: true,
+        maxLines: 1,
+        wordWrapWidth: 200,
+        textOverflow: '...',
+        textBaseline: 'top',
         backgroundFill: '#eaebed',
       },
     }),
@@ -112,16 +113,16 @@ export default ({ container, renderer, width, height }: Required<TestCaseContext
   canvas.appendChild(
     new Label({
       style: {
-        labelText: 'Long Text Long Text Long Text Long Text Long Text Long Text Long Text Long Text...',
+        text: 'Long Text Long Text Long Text Long Text Long Text Long Text Long Text Long Text...',
         x: 10,
         y: 100,
         fill: '#e45454',
-        labelWordWrap: true,
-        labelMaxLines: 2,
+        wordWrap: true,
+        maxLines: 2,
         cursor: 'pointer',
-        labelWordWrapWidth: 250,
-        labelTextOverflow: '...',
-        labelTextBaseline: 'middle',
+        wordWrapWidth: 250,
+        textOverflow: '...',
+        textBaseline: 'middle',
         backgroundFill: '#fce9e9',
         backgroundLineCap: 'butt',
         backgroundLineDash: [5, 5],

@@ -8,12 +8,12 @@ export default ({ container, renderer, width, height }: Required<TestCaseContext
   canvas.appendChild(
     new Badge({
       style: {
-        badgeText: 'Important',
+        text: 'Important',
         x: 10,
         y: 10,
         padding: [5, 10],
-        badgeFill: 'white',
-        badgeTextBaseline: 'top',
+        fill: 'white',
+        textBaseline: 'top',
         backgroundFill: '#e66c5b',
       },
     }),
@@ -22,12 +22,12 @@ export default ({ container, renderer, width, height }: Required<TestCaseContext
   canvas.appendChild(
     new Badge({
       style: {
-        badgeText: 'A',
+        text: 'A',
         x: 70,
         y: 10,
         padding: [5, 10],
-        badgeFill: 'white',
-        badgeTextBaseline: 'top',
+        fill: 'white',
+        textBaseline: 'top',
         backgroundFill: '#8291b2',
       },
     }),
@@ -38,11 +38,11 @@ export default ({ container, renderer, width, height }: Required<TestCaseContext
       style: {
         x: 10,
         y: 30,
-        badgeText: 'Notice',
-        badgeFontSize: 10,
+        text: 'Notice',
+        fontSize: 10,
         padding: [3, 8],
-        badgeFill: 'white',
-        badgeTextBaseline: 'top',
+        fill: 'white',
+        textBaseline: 'top',
         backgroundFill: '#ff8c00',
       },
     }),
@@ -51,12 +51,12 @@ export default ({ container, renderer, width, height }: Required<TestCaseContext
   const updateBadge = canvas.appendChild(
     new Badge({
       style: {
-        badgeText: 'Important',
+        text: 'Important',
         x: 10,
         y: 60,
         padding: [5, 10],
-        badgeFill: 'white',
-        badgeTextBaseline: 'top',
+        fill: 'white',
+        textBaseline: 'top',
         backgroundFill: '#e66c5b',
       },
     }),
@@ -64,7 +64,7 @@ export default ({ container, renderer, width, height }: Required<TestCaseContext
 
   setTimeout(() => {
     updateBadge.update({
-      badgeText: 'Update Badge Text',
+      text: 'Update Badge Text',
       backgroundFill: '#e45454',
     });
   }, 200);
@@ -72,12 +72,12 @@ export default ({ container, renderer, width, height }: Required<TestCaseContext
   const animateBadge = canvas.appendChild(
     new Badge({
       style: {
-        badgeText: 'Important',
+        text: 'Important',
         x: 100,
         y: 60,
         padding: [5, 10],
-        badgeFill: 'white',
-        badgeTextBaseline: 'top',
+        fill: 'white',
+        textBaseline: 'top',
         backgroundFill: '#e66c5b',
       },
     }),
