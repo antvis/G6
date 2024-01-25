@@ -3,15 +3,9 @@ import { Graph as GraphLib, ID } from '@antv/graphlib';
 import { Layout, LayoutMapping, OutNode, Supervisor, isLayoutWithIterations } from '@antv/layout';
 import { Extensions } from '../../plugin';
 import { getPlugin } from '../../plugin/register';
-import {
-  Graph,
-  LayoutOptions,
-  NodeModelData,
-  isImmediatelyInvokedLayoutOptions,
-  isLayoutWorkerized,
-} from '../../types';
-import { GraphCore } from '../../types/data';
-import { EdgeModelData } from '../../types/edge';
+import type { EdgeData, NodeData } from '../../spec/data';
+import { Graph, LayoutOptions, isImmediatelyInvokedLayoutOptions, isLayoutWorkerized } from '../../types';
+import { DataModel as GraphCore } from '../../types/data';
 import { getNodeSizeFn, isComboLayout, isTreeLayout, layoutOneTree, radialLayout } from '../../utils/layout';
 
 /**
@@ -54,7 +48,7 @@ export class LayoutController {
     const { graphCore, options, animate = true } = params;
     let layoutNodes = graphCore.getAllNodes();
     if (!isComboLayout(options)) {
-      layoutNodes = layoutNodes.filter((node) => this.graph.getItemVisible(node.id) && !node.data._isCombo);
+      layoutNodes = layoutNodes.filter((node) => this.graph.getItemVisibility(node.id) && !node.data._isCombo);
     }
     const layoutNodesIdMap = {};
     layoutNodes.forEach((node) => (layoutNodesIdMap[node.id] = true));
@@ -62,7 +56,7 @@ export class LayoutController {
       nodes: layoutNodes,
       edges: graphCore.getAllEdges().filter((edge) => layoutNodesIdMap[edge.source] && layoutNodesIdMap[edge.target]),
     };
-    const layoutGraphCore = new GraphLib<NodeModelData, EdgeModelData>(layoutData);
+    const layoutGraphCore = new GraphLib<NodeData, EdgeData>(layoutData);
     if (graphCore.hasTreeStructure('combo')) {
       layoutGraphCore.attachTreeStructure('combo');
       layoutNodes.forEach((node) => {
@@ -358,7 +352,7 @@ export class LayoutController {
     const trees = graphCore
       .getRoots('tree')
       .filter(
-        (node) => !node.data._isCombo, // this.graph.getItemVisible(node.id) &&
+        (node) => !node.data._isCombo, // this.graph.getItemVisibility(node.id) &&
       )
       .map((node) => ({ id: node.id, children: [] }));
 

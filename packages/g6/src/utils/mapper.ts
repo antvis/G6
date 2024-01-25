@@ -5,57 +5,59 @@ import { NodeDisplayModelData } from '../types/node';
  */
 export const DEFAULT_MAPPER = {
   node: (innerNodeModel) => {
-    const { id, data } = innerNodeModel;
-    const { color, label, icon, badges, keyShape } = data;
-    const resultData: NodeDisplayModelData = {
-      ...data,
+    const { id, style = {}, data = {} } = innerNodeModel;
+    const { color, label, icon, badges, keyShape } = style;
+    const finalStyle: NodeDisplayModelData = {
+      ...style,
       keyShape: { ...keyShape },
     };
     if (color) {
-      resultData.keyShape.fill = color;
+      finalStyle.keyShape.fill = color;
     }
     if (label) {
-      resultData.labelShape = {
+      finalStyle.labelShape = {
         text: label,
       };
     }
     if (icon) {
-      resultData.iconShape = icon;
+      finalStyle.iconShape = icon;
     }
     if (badges) {
-      resultData.badgeShapes = badges;
+      finalStyle.badgeShapes = badges;
     }
     return {
       id,
-      data: resultData,
+      style: finalStyle,
+      data,
     };
   },
   edge: (innerEdgeModel) => {
-    const { id, source, target, data } = innerEdgeModel;
-    const { color, label, icon, badge, keyShape } = data || {};
-    const resultData: NodeDisplayModelData = {
+    const { id, source, target, style = {}, data = {} } = innerEdgeModel;
+    const { color, label, icon, badge, keyShape } = style;
+    const finalStyle: NodeDisplayModelData = {
       ...data,
       keyShape: { ...keyShape },
     };
     if (color) {
-      resultData.keyShape.stroke = color;
+      finalStyle.keyShape.stroke = color;
     }
     if (label) {
-      resultData.labelShape = {
+      finalStyle.labelShape = {
         text: label,
       };
     }
     if (icon) {
-      resultData.iconShape = icon;
+      finalStyle.iconShape = icon;
     }
     if (badge) {
-      resultData.badgeShape = badge;
+      finalStyle.badgeShape = badge;
     }
     return {
       id,
       source,
       target,
-      data: resultData,
+      style: finalStyle,
+      data,
     };
   },
   combo: (innerComboModel) => innerComboModel,

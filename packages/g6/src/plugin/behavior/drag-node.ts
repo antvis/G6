@@ -1,6 +1,7 @@
 import { ID } from '@antv/graphlib';
 import { debounce, throttle, uniq } from '@antv/util';
-import { ComboModel, EdgeModel, NodeModel } from '../../types';
+import { NodeData } from 'spec/data';
+import { ComboModel, EdgeModel, Graph, NodeModel } from '../../types';
 import { Behavior } from '../../types/behavior';
 import { Point } from '../../types/common';
 import { IG6GraphEvent } from '../../types/event';
@@ -167,7 +168,7 @@ export class DragNode extends Behavior {
     let relatedNodes = [];
     selectedNodeIds.forEach((id) => {
       const neighbors = this.graph
-        .getNeighborNodesData(id, 'both')
+        .getNeighborNodesData(id)
         .filter((neighbor) => !selectedNodeIds.includes(neighbor.id));
       relatedNodes = relatedNodes.concat(neighbors);
     });
@@ -188,14 +189,14 @@ export class DragNode extends Behavior {
     if (this.options.updateComboStructure) return ancestors;
     selectedNodeIds.forEach((id) => {
       const nodeData = this.graph.getNodeData(id);
-      if (!nodeData.data.parentId) return;
+      if (!nodeData?.style?.parentId) return;
       let parentId = nodeData.data.parentId;
       let ancestor;
       while (parentId) {
         const parentData = this.graph.getComboData(parentId);
         if (!parentData) break;
         ancestor = parentData;
-        parentId = parentData.data.parentId;
+        parentId = parentData?.style?.parentId;
         ancestors.push(ancestor);
       }
     });
@@ -209,7 +210,7 @@ export class DragNode extends Behavior {
 
     document.addEventListener(
       'mouseup',
-      (evt) => {
+      () => {
         this.onPointerUp(event);
       },
       { once: true },
@@ -223,13 +224,12 @@ export class DragNode extends Behavior {
     const beginDeltaY = Math.abs(this.pointerDown.y - event.canvas.y);
     if (beginDeltaX < 1 && beginDeltaY < 1) return;
 
-    const enableTransient = this.options.enableTransient && this.graph.rendererType !== 'webgl-3d';
-
+    const enableTransient = this.options.enableTransient && !is3DRendering(this.graph);
     // pointerDown + first move = dragging
     if (!this.dragging) {
       this.dragging = true;
       const currentNodeId = event.itemId;
-      this.selectedNodeIds = this.graph.findIdByState('node', this.options.selectedState, true);
+      this.selectedNodeIds = this.graph.getItemDataByState('node', this.options.selectedState).map((item) => item.id);
 
       // If current node is selected, drag all the selected nodes together.
       // Otherwise drag current node.
@@ -243,10 +243,7 @@ export class DragNode extends Behavior {
             warn('node with id = "${id}" does not exist');
             return;
           }
-          const { x, y } = this.graph.getNodeData(id).data as {
-            x: number;
-            y: number;
-          };
+          const { x, y } = this.graph.getNodeData(id)?.style || {};
           // If delegate is enabled, record bbox together.
           if (this.options.enableDelegate) {
             const bbox = this.graph.getRenderBBox(id);
@@ -266,30 +263,18 @@ export class DragNode extends Behavior {
         this.hiddenEdges = this.getRelatedEdges(this.selectedNodeIds, this.hiddenComboTreeItems);
         this.hiddenRelatedNodes = this.getRelatedNodes(this.selectedNodeIds);
         const hiddenEdgeIds = this.hiddenEdges.map((edge) => edge.id);
-        hiddenEdgeIds.forEach((edgeId) => {
-          this.hiddenShapeCache.set(edgeId, this.graph.getItemVisibleShapeIds(edgeId));
-        });
         this.graph.hideItem(hiddenEdgeIds, {
           disableAnimate: true,
         });
         const hiddenRelatedNodeIds = this.hiddenRelatedNodes.map((node) => node.id);
-        hiddenRelatedNodeIds.forEach((nodeId) => {
-          this.hiddenShapeCache.set(nodeId, this.graph.getItemVisibleShapeIds(nodeId));
-        });
         this.graph.hideItem(hiddenRelatedNodeIds, {
           disableAnimate: true,
           keepRelated: true,
         });
         const hiddenComboTreeItemIds = this.hiddenComboTreeItems.map((child) => child.id);
-        hiddenComboTreeItemIds.forEach((itemId) => {
-          this.hiddenShapeCache.set(itemId, this.graph.getItemVisibleShapeIds(itemId));
+        this.graph.hideItem(hiddenComboTreeItemIds, {
+          disableAnimate: true,
         });
-        this.graph.hideItem(
-          this.hiddenComboTreeItems.map((child) => child.id),
-          {
-            disableAnimate: true,
-          },
-        );
       }
 
       // Draw transient nodes and edges.
@@ -302,42 +287,29 @@ export class DragNode extends Behavior {
         this.selectedNodeIds.forEach((nodeId) => {
           // draw the nodes' transients and their ancestor combos' transisents
           this.graph.drawTransient('node', nodeId, {
-            upsertAncestors: !this.options.updateComboStructure,
+            updateAncestors: !this.options.updateComboStructure,
           });
         });
         this.hiddenEdges.forEach((edge) => {
           this.graph.drawTransient('edge', edge.id, {});
         });
 
-        // Hide original edges and nodes. They will be restored when pointerup.
-        this.selectedNodeIds.forEach((itemId) => {
-          this.hiddenShapeCache.set(itemId, this.graph.getItemVisibleShapeIds(itemId));
-        });
         this.graph.hideItem(this.selectedNodeIds, { disableAnimate: true });
 
         const hiddenEdgeIds = this.hiddenEdges.map((edge) => edge.id);
-        hiddenEdgeIds.forEach((itemId) => {
-          this.hiddenShapeCache.set(itemId, this.graph.getItemVisibleShapeIds(itemId));
-        });
         this.graph.hideItem(hiddenEdgeIds, { disableAnimate: true });
+
         const hiddenRelatedNodeIds = this.hiddenRelatedNodes.map((node) => node.id);
-        hiddenRelatedNodeIds.forEach((itemId) => {
-          this.hiddenShapeCache.set(itemId, this.graph.getItemVisibleShapeIds(itemId));
-        });
         this.graph.hideItem(hiddenRelatedNodeIds, {
           disableAnimate: true,
           keepRelated: true,
         });
+
         const hiddenComboTreeItemIds = this.hiddenComboTreeItems.map((combo) => combo.id);
-        hiddenComboTreeItemIds.forEach((itemId) => {
-          this.hiddenShapeCache.set(itemId, this.graph.getItemVisibleShapeIds(itemId));
-        });
-        this.graph.hideItem(
-          this.hiddenComboTreeItems.map((combo) => combo.id),
-          { disableAnimate: true },
-        );
+
+        this.graph.hideItem(hiddenComboTreeItemIds, { disableAnimate: true });
       } else {
-        this.graph.frontItem(this.selectedNodeIds);
+        // this.graph.frontItem(this.selectedNodeIds);
       }
 
       // Throttle moving.
@@ -384,9 +356,6 @@ export class DragNode extends Behavior {
           });
 
           const hiddenNearEdgeIds = this.hiddenNearEdges.map((edge) => edge.id);
-          hiddenNearEdgeIds.forEach((itemId) => {
-            this.hiddenShapeCache.set(itemId, this.graph.getItemVisibleShapeIds(itemId));
-          });
           this.graph.hideItem(hiddenNearEdgeIds, { disableAnimate: true });
         }
       }
@@ -406,7 +375,7 @@ export class DragNode extends Behavior {
     if (this.options.enableDelegate) {
       this.moveDelegate(deltaX, deltaY);
     } else {
-      const enableTransient = this.options.enableTransient && this.graph.rendererType !== 'webgl-3d';
+      const enableTransient = this.options.enableTransient && !is3DRendering(this.graph);
       this.throttledMoveNodes(deltaX, deltaY, enableTransient, !this.options.updateComboStructure);
     }
   }
@@ -415,7 +384,7 @@ export class DragNode extends Behavior {
     deltaX: number,
     deltaY: number,
     transient: boolean,
-    upsertAncestors = true,
+    updateAncestors = true,
     callback?: (positions: Position[]) => void,
   ) {
     if (transient) {
@@ -426,7 +395,7 @@ export class DragNode extends Behavior {
             x: x + deltaX,
             y: y + deltaY,
           },
-          upsertAncestors,
+          updateAncestors,
         });
       });
       // Update transient edges.
@@ -434,17 +403,16 @@ export class DragNode extends Behavior {
         this.graph.drawTransient('edge', edge.id, {});
       });
     } else {
-      const positionChanges = this.originPositions.map(({ id, x, y }) => {
-        return {
-          id,
-          data: {
-            x: x + deltaX,
-            y: y + deltaY,
-          },
-        };
-      });
       const positions = [...this.originPositions];
-      this.graph.updateNodePosition(positionChanges, upsertAncestors, true, () => callback?.(positions));
+
+      Promise.all(
+        this.originPositions.map(({ id, x, y }) => {
+          return this.graph.translateItemTo(id, [x, y], {
+            updateAncestors,
+            animate: false,
+          });
+        }),
+      ).then(() => callback?.(positions));
     }
   }
 
@@ -452,7 +420,7 @@ export class DragNode extends Behavior {
     deltaX: number,
     deltaY: number,
     transient: boolean,
-    upsertAncestors = true,
+    updateAncestors = true,
   ) => {
     // Should be overrided when drag start.
   };
@@ -502,9 +470,7 @@ export class DragNode extends Behavior {
       this.hiddenEdges.forEach((edge) => {
         this.graph.showItem(edge.id, {
           disableAnimate: true,
-          shapeIds: this.hiddenShapeCache.get(edge.id),
         });
-        this.hiddenShapeCache.delete(edge.id);
       });
       this.hiddenEdges = [];
     }
@@ -512,16 +478,13 @@ export class DragNode extends Behavior {
       this.hiddenRelatedNodes.forEach((node) => {
         this.graph.showItem(node.id, {
           disableAnimate: true,
-          shapeIds: this.hiddenShapeCache.get(node.id),
         });
-        this.hiddenShapeCache.delete(node.id);
       });
       this.hiddenRelatedNodes = [];
     }
     if (this.hiddenNearEdges.length) {
       this.hiddenNearEdges.forEach((edge) => {
         this.graph.showItem(edge.id, { disableAnimate: true });
-        this.hiddenShapeCache.delete(edge.id);
       });
       this.hiddenNearEdges = [];
     }
@@ -529,20 +492,16 @@ export class DragNode extends Behavior {
       this.hiddenComboTreeItems.forEach((edge) => {
         this.graph.showItem(edge.id, {
           disableAnimate: true,
-          shapeIds: this.hiddenShapeCache.get(edge.id),
         });
-        this.hiddenShapeCache.delete(edge.id);
       });
       this.hiddenComboTreeItems = [];
     }
-    const enableTransient = this.options.enableTransient && this.graph.rendererType !== 'webgl-3d';
+    const enableTransient = this.options.enableTransient && !is3DRendering(this.graph);
     if (enableTransient) {
       this.originPositions.concat(positions).forEach((pos) => {
         this.graph.showItem(pos.id, {
           disableAnimate: true,
-          shapeIds: this.hiddenShapeCache.get(pos.id),
         });
-        this.hiddenShapeCache.delete(pos.id);
       });
     }
   }
@@ -561,7 +520,7 @@ export class DragNode extends Behavior {
     this.pointerDown = undefined;
     this.dragging = false;
     this.selectedNodeIds = [];
-    const enableTransient = this.options.enableTransient && this.graph.rendererType !== 'webgl-3d';
+    const enableTransient = this.options.enableTransient && !is3DRendering(this.graph);
     // If transient or delegate was enabled, move the real nodes.
     // if (enableTransient || this.options.enableDelegate) {
     // @ts-expect-error FIXME: type
@@ -611,13 +570,12 @@ export class DragNode extends Behavior {
     this.clearTransientItems(this.originPositions);
     this.restoreHiddenItems();
 
-    const enableTransient = this.options.enableTransient && this.graph.rendererType !== 'webgl-3d';
+    const enableTransient = this.options.enableTransient && !is3DRendering(this.graph);
     // Restore node positions.
     if (!enableTransient && !this.options.enableDelegate) {
-      const positionChanges = this.originPositions.map(({ id, x, y }) => {
-        return { id, data: { x, y } };
+      this.originPositions.forEach(({ id, x, y }) => {
+        this.graph.translateItemTo(id, [x, y]);
       });
-      this.graph.updateNodePosition(positionChanges);
     }
 
     this.clearState();
@@ -633,7 +591,7 @@ export class DragNode extends Behavior {
     // the top item which is not in draggingIds
     const dropId = currentIds.find((id) => this.graph.getComboData(id) || this.graph.getNodeData(id));
     // drop on a node A, move the dragged node to the same parent of A
-    const newParentId = this.graph.getNodeData(dropId) ? this.graph.getNodeData(dropId).data.parentId : dropId;
+    const newParentId = this.graph.getNodeData(dropId) ? this.graph.getNodeData(dropId)?.style?.parentId : dropId;
 
     this.originPositions.forEach(({ id }) => {
       const model = this.graph.getNodeData(id);
@@ -644,7 +602,7 @@ export class DragNode extends Behavior {
 
       // update data to change the structure
       // if newParentId is undefined, new parent is the canvas
-      this.graph.updateData('node', { id, data: { parentId: newParentId } });
+      this.graph.updateNodeData([{ id, style: { parentId: newParentId } }]);
     });
     this.onPointerUp(event);
   }
@@ -659,7 +617,7 @@ export class DragNode extends Behavior {
       if (!model) return;
       const { parentId } = model.data;
       if (parentId === newParentId) return;
-      this.graph.updateData('node', { id, data: { parentId: newParentId } });
+      this.graph.updateNodeData([{ id, style: { parentId: newParentId } }]);
     });
     this.clearState();
   }
@@ -673,20 +631,31 @@ export class DragNode extends Behavior {
       .filter((id) => id !== undefined && !draggingIds.includes(id));
     // the top item which is not in draggingIds
     const dropId = currentIds.find((id) => this.graph.getComboData(id) || this.graph.getNodeData(id));
-    const parentId = this.graph.getNodeData(dropId) ? this.graph.getNodeData(dropId).data.parentId : dropId;
+    const parentId = this.graph.getNodeData(dropId) ? this.graph.getNodeData(dropId)?.style?.parentId : dropId;
 
     this.onPointerUp(event);
-    const nodeToUpdate = [];
+    const nodeToUpdate: NodeData[] = [];
     this.originPositions.forEach(({ id }) => {
-      const { parentId: originParentId } = this.graph.getNodeData(id).data;
+      const { parentId: originParentId } = this.graph.getNodeData(id)?.style || {};
       if (parentId && originParentId !== parentId) {
-        nodeToUpdate.push({ id, data: { parentId } });
+        nodeToUpdate.push({ id, style: { parentId } });
         return;
       }
       if (!originParentId) return;
-      nodeToUpdate.push({ id, data: { parentId: undefined } });
+      nodeToUpdate.push({ id, style: { parentId: undefined } });
     });
-    if (nodeToUpdate.length) this.graph.updateData('node', nodeToUpdate);
+    if (nodeToUpdate.length) this.graph.updateNodeData(nodeToUpdate);
     this.clearState();
   }
+}
+
+/**
+ * <zh/> 是否使用了 3D 渲染
+ *
+ * <en/> Whether 3D rendering is used
+ * @param graph - <zh/>图实例 | <en/>graph instance
+ * @returns <zh/>是否使用了 3D 渲染 | <en/>Whether 3D rendering is used
+ */
+function is3DRendering(graph: Graph) {
+  return graph.canvas.getRendererType() === 'gpu';
 }

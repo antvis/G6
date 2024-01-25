@@ -1,8 +1,8 @@
 import { AABB, DisplayObject } from '@antv/g';
 import { OTHER_SHAPES_FIELD_NAME, RESERVED_SHAPE_IDS } from '../../../constant';
 import type { Graph } from '../../../types';
-import { NodeDisplayModel } from '../../../types';
-import { ComboDisplayModel, ComboModelData, ComboShapeMap, ComboShapeStyles } from '../../../types/combo';
+import { NodeData } from '../../../types';
+import { ComboData, ComboModelData, ComboShapeMap, ComboShapeStyles } from '../../../types/combo';
 import { GShapeStyle, LodLevelRanges, SHAPE_TYPE, SHAPE_TYPE_3D, ShapeStyle, State } from '../../../types/item';
 import { IAnchorPositionMap, NodeModelData, NodeShapeMap, NodeShapeStyles } from '../../../types/node';
 import { formatPadding, getShapeLocalBoundsByStyle, mergeStyles, upsertShape } from '../../../utils/shape';
@@ -42,51 +42,53 @@ export abstract class BaseNode {
 
   /**
    * Get merged styles from `getMergedStyles` and assigns the merged styles to the 'mergedStyles' property.
-   * @param model - The NodeDisplayModel or ComboDisplayModel to merge the styles from.
+   * @param model - The NodeData or ComboData to merge the styles from.
    */
-  public mergeStyles(model: NodeDisplayModel | ComboDisplayModel) {
+  public mergeStyles(model: NodeData | ComboData) {
     this.mergedStyles = this.getMergedStyles(model);
   }
 
   /**
    * Merge style
-   * @param model - The NodeDisplayModel or ComboDisplayModel to retrieve the merged styles from.
+   * @param model - The NodeData or ComboData to retrieve the merged styles from.
    * @returns The merged styles as a NodeShapeStyles object.
    */
-  public getMergedStyles(model: NodeDisplayModel | ComboDisplayModel) {
-    const { data } = model;
+  public getMergedStyles(model: NodeData | ComboData) {
+    const {
+      style: { style },
+    } = model;
     const dataStyles = {} as NodeShapeStyles | ComboShapeStyles;
-    Object.keys(data).forEach((fieldName) => {
+    Object.keys(style).forEach((fieldName) => {
       if (RESERVED_SHAPE_IDS.includes(fieldName)) {
         if (fieldName === 'badgeShapes') {
           dataStyles[fieldName] = {};
-          Object.keys(data[fieldName]).forEach((key) => {
+          Object.keys(style[fieldName]).forEach((key) => {
             if (isNaN(Number(key))) {
               // key is not a number, it is a common style
-              dataStyles[fieldName][key] = data[fieldName][key];
+              dataStyles[fieldName][key] = style[fieldName][key];
               return;
             }
-            const { position } = data[fieldName][key];
+            const { position } = style[fieldName][key];
             dataStyles[`${position}BadgeShape`] = {
               ...this.themeStyles[fieldName],
-              ...data[fieldName][key],
+              ...style[fieldName][key],
               tag: 'badgeShape',
             };
           });
         } else if (fieldName === 'anchorShapes') {
-          Object.keys(data[fieldName]).forEach((idx) => {
+          Object.keys(style[fieldName]).forEach((idx) => {
             dataStyles[`anchorShape${idx}`] = {
               ...this.themeStyles[fieldName],
-              ...data[fieldName][idx],
+              ...style[fieldName][idx],
               tag: 'anchorShape',
             };
           });
         } else {
-          dataStyles[fieldName] = data[fieldName] as ShapeStyle;
+          dataStyles[fieldName] = style[fieldName] as ShapeStyle;
         }
       } else if (fieldName === OTHER_SHAPES_FIELD_NAME) {
-        Object.keys(data[fieldName]).forEach(
-          (otherShapeId) => (dataStyles[otherShapeId] = data[fieldName][otherShapeId]),
+        Object.keys(style[fieldName]).forEach(
+          (otherShapeId) => (dataStyles[otherShapeId] = style[fieldName][otherShapeId]),
         );
       }
     });
@@ -117,7 +119,7 @@ export abstract class BaseNode {
    * @returns An object containing the keyShape and optional labelShape, iconShape, and some otherShapes properties
    */
   abstract draw(
-    model: NodeDisplayModel | ComboDisplayModel,
+    model: NodeData | ComboData,
     shapeMap: { [shapeId: string]: DisplayObject },
     diffData?: {
       previous: NodeModelData | ComboModelData;
@@ -145,7 +147,7 @@ export abstract class BaseNode {
    * @returns An object that contains some new shapes to be added to the node.
    */
   public afterDraw(
-    model: NodeDisplayModel | ComboDisplayModel,
+    model: NodeData | ComboData,
     shapeMap: { [shapeId: string]: DisplayObject },
     // shapesChanged?: string[],
     diffData?: {
@@ -156,7 +158,7 @@ export abstract class BaseNode {
   ): { [otherShapeId: string]: DisplayObject } {
     return {};
   }
-  // shouldUpdate: (model: NodeDisplayModel, prevModel: NodeDisplayModel) => boolean = () => true;
+  // shouldUpdate: (model: NodeData, prevModel: NodeData) => boolean = () => true;
 
   /**
    * Set the state for the node.
@@ -176,7 +178,7 @@ export abstract class BaseNode {
    * @returns The display object representing the key shape of the node.
    */
   abstract drawKeyShape(
-    model: NodeDisplayModel | ComboDisplayModel,
+    model: NodeData | ComboData,
     shapeMap: NodeShapeMap | ComboShapeMap,
     diffData?: {
       previous: NodeModelData | ComboModelData;
@@ -198,7 +200,7 @@ export abstract class BaseNode {
    * @returns The display object representing the label shape of the node.
    */
   public drawLabelShape(
-    model: NodeDisplayModel | ComboDisplayModel,
+    model: NodeData | ComboData,
     shapeMap: NodeShapeMap | ComboShapeMap,
     diffData?: {
       previous: NodeModelData | ComboModelData;
@@ -305,7 +307,7 @@ export abstract class BaseNode {
    * @returns The display object representing the label background shape of the node.
    */
   public drawLabelBackgroundShape(
-    model: NodeDisplayModel | ComboDisplayModel,
+    model: NodeData | ComboData,
     shapeMap: NodeShapeMap | ComboShapeMap,
     diffData?: {
       previous: NodeModelData | ComboModelData;
@@ -353,7 +355,7 @@ export abstract class BaseNode {
    * @returns The display object representing the icon shape of the node.
    */
   public drawIconShape(
-    model: NodeDisplayModel | ComboDisplayModel,
+    model: NodeData | ComboData,
     shapeMap: NodeShapeMap | ComboShapeMap,
     diffData?: {
       previous: NodeModelData | ComboModelData;
@@ -400,7 +402,7 @@ export abstract class BaseNode {
    * @returns The display object representing the halo shape of the node.
    */
   public drawHaloShape(
-    model: NodeDisplayModel | ComboDisplayModel,
+    model: NodeData | ComboData,
     shapeMap: NodeShapeMap | ComboShapeMap,
     diffData?: {
       previous: NodeModelData | ComboModelData;
@@ -445,7 +447,7 @@ export abstract class BaseNode {
    * @returns The display object representing the anchors shape of the node.
    */
   public drawAnchorShapes(
-    model: NodeDisplayModel | ComboDisplayModel,
+    model: NodeData | ComboData,
     shapeMap: NodeShapeMap | ComboShapeMap,
     diffData?: {
       previous: NodeModelData | ComboModelData;
@@ -540,7 +542,7 @@ export abstract class BaseNode {
    * @returns The display object representing the badges shape of the node.
    */
   public drawBadgeShapes(
-    model: NodeDisplayModel | ComboDisplayModel,
+    model: NodeData | ComboData,
     shapeMap: NodeShapeMap | ComboShapeMap,
     diffData?: {
       previous: NodeModelData | ComboModelData;
@@ -699,7 +701,7 @@ export abstract class BaseNode {
    * @returns The display object representing the other shapes of the node.
    */
   public drawOtherShapes(
-    model: NodeDisplayModel | ComboDisplayModel,
+    model: NodeData | ComboData,
     shapeMap: NodeShapeMap | ComboShapeMap,
     diffData?: {
       previous: NodeModelData | ComboModelData;
@@ -743,7 +745,7 @@ export abstract class BaseNode {
     id: string,
     style: ShapeStyle,
     config: {
-      model: NodeDisplayModel | ComboDisplayModel;
+      model: NodeData | ComboData;
       shapeMap: NodeShapeMap | ComboShapeMap;
       diffData?: {
         previous: NodeModelData | ComboModelData;

@@ -2,8 +2,7 @@ import { AABB } from '@antv/g';
 import { ID } from '@antv/graphlib';
 import { each } from '@antv/util';
 import Node from '../item/node';
-import { EdgeData } from '../spec/data';
-import { NodeDisplayModel } from '../types';
+import { EdgeData, NodeData } from '../spec/data';
 import { Point, PolyPoint } from '../types/common';
 import {
   getBBoxCrossPointsByPoint,
@@ -661,8 +660,8 @@ export const isPolylineWithObstacleAvoidance = (displayModel: EdgeData, polyline
  * Check if the node prevents polyline edges from overlapping
  * @param displayModel
  */
-export const isPointPreventPolylineOverlap = (displayModel: NodeDisplayModel) => {
+export const isPointPreventPolylineOverlap = (displayModel: NodeData) => {
   if (!displayModel) return false;
-  const { preventPolylineEdgeOverlap } = displayModel.data;
+  const { preventPolylineEdgeOverlap } = displayModel.style;
   return preventPolylineEdgeOverlap || false;
 };

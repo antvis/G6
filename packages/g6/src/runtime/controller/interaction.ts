@@ -37,7 +37,7 @@ const keyOf = (behavior: BehaviorOptions[number]) =>
  */
 export class InteractionController {
   private graph: Graph;
-  private behaviors: BehaviorOptions;
+  private behaviors: BehaviorOptions = [];
 
   /**
    * Available behaviors of current mode.
@@ -124,6 +124,7 @@ export class InteractionController {
   private onBehaviorChange = (param: { behaviors: BehaviorOptions }) => {
     const { behaviors } = param;
 
+    console.log({ behaviors });
     const { enter, update, exit } = arrayDiff(this.behaviors, behaviors, keyOf);
 
     // remove

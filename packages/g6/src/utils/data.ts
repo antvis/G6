@@ -10,26 +10,6 @@ import { idOf } from './id';
 import { warn } from './invariant';
 
 /**
- * Deconstruct data and distinguish nodes and combos from graphcore data.
- * @param data data from graphcore
- * @returns
- */
-export const deconstructData = (data) => {
-  const { nodes: nodesAndCombos = [], edges = [] } = data;
-  const nodes = [];
-  const combos = [];
-  nodesAndCombos.forEach((item) => {
-    if (item.data._isCombo) combos.push(item);
-    else nodes.push(item);
-  });
-  return {
-    nodes,
-    edges,
-    combos,
-  };
-};
-
-/**
  * Depth first search begin from nodes in graphCore data.
  * @param graphCore graphlib data structure
  * @param nodes begin nodes
@@ -110,12 +90,12 @@ export const traverseAncestorsAndSucceeds = (
 export const traverseGraphAncestors = (graph: Graph, nodes: NodeData[], fn) => {
   if (!nodes?.length) return;
   nodes.forEach((node) => {
-    if (!node.style.parentId) return;
-    let [ancestor] = graph.getComboData([node.style.parentId]);
+    if (!node?.style?.parentId) return;
+    let [ancestor] = graph.getComboData([node?.style?.parentId]);
     while (ancestor) {
       if (fn(ancestor)) return;
-      if (!ancestor.style.parentId) return;
-      ancestor = graph.getComboData([ancestor.style.parentId])[0];
+      if (!ancestor?.style?.parentId) return;
+      ancestor = graph.getComboData([ancestor?.style?.parentId])[0];
     }
   });
 };
@@ -128,10 +108,10 @@ export const traverseGraphAncestors = (graph: Graph, nodes: NodeData[], fn) => {
  */
 export const traverseAncestors = (dataModel: DataModel, nodes: NodeData[], fn: (data: NodeData) => void | boolean) => {
   nodes.forEach((node) => {
-    let ancestor = dataModel.getParent(node.id, 'combo').data;
+    let ancestor = dataModel.getParent(node.id, 'combo');
     while (ancestor) {
-      if (fn(ancestor)) return;
-      ancestor = dataModel.getParent(ancestor.id, 'combo').data;
+      if (fn(ancestor.data)) return;
+      ancestor = dataModel.getParent(ancestor.id, 'combo');
     }
   });
 };

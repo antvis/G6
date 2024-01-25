@@ -103,16 +103,25 @@ export class DataController {
     const edgeDiff = arrayDiff(originalEdges, modifiedEdges, (edge) => edge.id);
     const comboDiff = arrayDiff(originalCombos, modifiedCombos, (combo) => combo.id);
 
+    // 添加的顺序为：combo -> node -> edge
+    // The order of addition is: combo -> node -> edge
+
+    this.addComboData(comboDiff.enter);
     this.addNodeData(nodeDiff.enter);
     this.addEdgeData(edgeDiff.enter);
-    this.addComboData(comboDiff.enter);
+
+    // 更新的顺序为：node -> combo -> edge
+    // The order of update is: node -> combo -> edge
 
     this.updateNodeData(nodeDiff.update);
-    this.updateEdgeData(edgeDiff.update);
     this.updateComboData(comboDiff.update);
+    this.updateEdgeData(edgeDiff.update);
 
-    this.removeNodeData(nodeDiff.exit.map(idOf));
+    // 删除的顺序为：edge -> node -> combo
+    // The order of deletion is: edge -> node -> combo
+
     this.removeEdgeData(edgeDiff.exit.map(idOf));
+    this.removeNodeData(nodeDiff.exit.map(idOf));
     this.removeComboData(comboDiff.exit.map(idOf));
   }
 

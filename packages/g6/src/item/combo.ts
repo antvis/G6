@@ -1,23 +1,21 @@
 import { Group, Tuple3Number } from '@antv/g';
 import { clone, throttle } from '@antv/util';
-import { ComboDisplayModel, ComboModel, Graph } from '../types';
-import { ComboModelData, ComboUserModelData } from '../types/combo';
+import type { ComboData } from '../spec/data';
+import type { ComboOptions } from '../spec/element';
+import { ComboDisplayModel, Graph } from '../types';
 import { Point } from '../types/common';
-import { DisplayMapper, LodLevelRanges, State } from '../types/item';
+import { LodLevelRanges, State } from '../types/item';
 import { ComboStyleSet } from '../types/theme';
 import { getCircleIntersectByPoint, getNearestPoint, getRectIntersectByPoint } from '../utils/point';
 import Node from './node';
 
 interface IProps {
-  model: ComboModel;
+  model: ComboData;
   graph: Graph;
   renderExtensions: any;
   containerGroup: Group;
   labelContainerGroup: Group;
-  mapper?: DisplayMapper;
-  stateMapper?: {
-    [stateName: string]: DisplayMapper;
-  };
+  mapper?: ComboOptions;
   zoom?: number;
   theme: {
     styles: ComboStyleSet;
@@ -71,21 +69,21 @@ export default class Combo extends Node {
   }
 
   public draw(
-    displayModel: ComboDisplayModel,
-    diffData?: { previous: ComboUserModelData; current: ComboUserModelData },
+    displayModel: ComboData,
+    diffData?: { previous: ComboData; current: ComboData },
     diffState?: { previous: State[]; current: State[] },
     animate = true,
     onfinish: Function = () => {},
   ) {
-    if (displayModel.data.collapsed && this.themeStyles.collapsed) {
+    if (displayModel?.style.collapsed && this.themeStyles.collapsed) {
       Object.keys(this.themeStyles.collapsed).forEach((shapeId) => {
-        displayModel.data[shapeId] = displayModel.data[shapeId] || {};
-        displayModel.data[shapeId] = {
-          ...(displayModel.data[shapeId] as object),
+        displayModel.style[shapeId] = displayModel.style[shapeId] || {};
+        displayModel.style[shapeId] = {
+          ...(displayModel.style[shapeId] as object),
           ...this.themeStyles.collapsed[shapeId],
         };
         if (this.themeStyles.collapsed[shapeId].contentType === 'childCount') {
-          (displayModel.data[shapeId] as any).text = `${this.getChildren().length || 0}`;
+          (displayModel.style[shapeId] as any).text = `${this.getChildren().length || 0}`;
         }
       });
     }
@@ -121,11 +119,11 @@ export default class Combo extends Node {
    * @returns
    */
   public getDisplayModelAndChanges(
-    innerModel: ComboModel,
-    diffData?: { previous: ComboModelData; current: ComboModelData },
+    innerModel: ComboData,
+    diffData?: { previous: ComboData; current: ComboData },
     isReplace?: boolean,
   ): {
-    model: ComboDisplayModel;
+    model: ComboData;
     typeChange?: boolean;
   } {
     const superResult = super.getDisplayModelAndChanges(innerModel, diffData, isReplace);
@@ -136,29 +134,32 @@ export default class Combo extends Node {
     };
   }
 
-  private updateModelByBounds(model: ComboDisplayModel): ComboDisplayModel {
+  private updateModelByBounds(model: ComboData): ComboData {
     const bounds = this.getCombinedBounds();
     this.cacheCombinedBounds = bounds;
     if (bounds) {
       const { size, center } = bounds;
-      model.data.x = center[0];
-      model.data.y = center[1];
-      model.data.z = center[2];
-      if (!model.data.collapsed) {
-        model.data.keyShape = model.data.keyShape || {};
-        const { padding = [0, 0, 0, 0] } = model.data.keyShape;
+
+      if (!model?.style) model.style = {};
+
+      model.style.x = center[0];
+      model.style.y = center[1];
+      model.style.z = center[2];
+      if (!model.style.collapsed) {
+        model.style.keyShape = model.style.keyShape || {};
+        const { padding = [0, 0, 0, 0] } = model.style.keyShape;
         const width = size[0] + padding[1] + padding[3];
         const height = size[1] + padding[0] + padding[2];
-        model.data.keyShape.width = width;
-        model.data.keyShape.height = height;
-        model.data.keyShape.r = Math.sqrt(width * width + height * height) / 2;
+        model.style.keyShape.width = width;
+        model.style.keyShape.height = height;
+        model.style.keyShape.r = Math.sqrt(width * width + height * height) / 2;
       }
     }
     return model;
   }
 
   public getPosition(): Point {
-    const { x = 0, y = 0, z = 0 } = this.model.data;
+    const { x = 0, y = 0, z = 0 } = this.model?.style || {};
     this.cacheCombinedBounds = this.cacheCombinedBounds || this.getCombinedBounds();
     const { center } = this.cacheCombinedBounds || {};
     return center
@@ -274,7 +275,7 @@ export default class Combo extends Node {
       return group;
     }
     const clonedModel = clone(this.model);
-    clonedModel.data.disableAnimate = disableAnimate;
+    clonedModel.style.disableAnimate = disableAnimate;
     const clonedNode = new Combo({
       model: clonedModel,
       graph: this.graph,
@@ -282,7 +283,6 @@ export default class Combo extends Node {
       containerGroup,
       labelContainerGroup,
       mapper: this.mapper,
-      stateMapper: this.stateMapper,
       zoom: this.zoom,
       theme: {
         styles: this.themeStyles,

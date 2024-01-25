@@ -1,10 +1,12 @@
 import { AABB, Group } from '@antv/g';
 import { clone } from '@antv/util';
-import { ComboDisplayModel, ComboModel, Graph, ID, NodeModel } from '../types';
+import type { ComboData, NodeData } from '../spec/data';
+import type { NodeOptions } from '../spec/element';
+import { Graph, ID } from '../types';
 import { ComboModelData } from '../types/combo';
 import { Point } from '../types/common';
-import { DisplayMapper, LodLevelRanges, State } from '../types/item';
-import { NodeDisplayModel, NodeModelData } from '../types/node';
+import { ItemDisplayModel, LodLevelRanges, State } from '../types/item';
+import { NodeModelData } from '../types/node';
 import { ComboStyleSet, NodeStyleSet } from '../types/theme';
 import { animateShapes, getAnimatesExcludePosition } from '../utils/animate';
 import {
@@ -18,14 +20,11 @@ import Item from './item';
 
 interface IProps {
   graph: Graph;
-  model: NodeModel | ComboModel;
+  model: NodeData | ComboData;
   renderExtensions: any;
   containerGroup: Group;
   labelContainerGroup?: Group; // TODO: optional?
-  mapper?: DisplayMapper;
-  stateMapper?: {
-    [stateName: string]: DisplayMapper;
-  };
+  mapper?: NodeOptions;
   zoom?: number;
   theme: {
     styles: NodeStyleSet | ComboStyleSet;
@@ -46,17 +45,11 @@ export default class Node extends Item {
     super(props);
     this.init({ ...props, type: props.type || 'node' });
     if (!props.delayFirstDraw) {
-      this.draw(
-        this.displayModel as NodeDisplayModel | ComboDisplayModel,
-        undefined,
-        undefined,
-        !this.displayModel.data.disableAnimate,
-        props.onfinish,
-      );
+      this.draw(this.displayModel, undefined, undefined, !this.displayModel?.style?.disableAnimate, props.onfinish);
     }
   }
   public draw(
-    displayModel: NodeDisplayModel | ComboDisplayModel,
+    displayModel: ItemDisplayModel,
     diffData?: {
       previous: NodeModelData | ComboModelData;
       current: NodeModelData | ComboModelData;
@@ -80,7 +73,7 @@ export default class Node extends Item {
     // add shapes to group, and update shapeMap
     this.shapeMap = updateShapes(prevShapeMap, shapeMap, group, labelGroup);
 
-    const { animates, disableAnimate, x = 0, y = 0, z = 0 } = displayModel.data;
+    const { animates, disableAnimate, x = 0, y = 0, z = 0 } = displayModel?.style || {};
     if (firstRendering) {
       // first rendering, move the group
       group.style.x = x;
@@ -140,7 +133,7 @@ export default class Node extends Item {
    * @param onfinish
    */
   public updatePosition(
-    displayModel: NodeDisplayModel | ComboDisplayModel,
+    displayModel: NodeData | ComboData,
     diffData?: {
       previous: NodeModelData | ComboModelData;
       current: NodeModelData | ComboModelData;
@@ -149,7 +142,7 @@ export default class Node extends Item {
     onfinish: Function = () => {},
   ) {
     const { group, labelGroup, graph } = this;
-    const { fx, fy, fz, x, y, z = 0, animates, disableAnimate } = displayModel.data;
+    const { fx, fy, fz, x, y, z = 0, animates, disableAnimate } = displayModel?.style || {};
     const position = {
       x: fx === undefined ? x : (fx as number),
       y: fy === undefined ? y : (fy as number),
@@ -198,7 +191,7 @@ export default class Node extends Item {
     const { graph, group, labelGroup, displayModel, shapeMap, renderExt } = this;
     let [x, y, z] = group.getPosition();
     if (group.getAnimations().length) {
-      const { x: dataX, y: dataY, z: dataZ } = displayModel.data;
+      const { x: dataX, y: dataY, z: dataZ } = displayModel?.style || {};
       x = dataX as number;
       y = dataY as number;
       z = dataZ as number;
@@ -269,7 +262,7 @@ export default class Node extends Item {
       return group;
     }
     const clonedModel = clone(this.model);
-    clonedModel.data.disableAnimate = disableAnimate;
+    clonedModel.style.disableAnimate = disableAnimate;
     const clonedNode = new Node({
       model: clonedModel,
       graph: this.graph,
@@ -277,7 +270,6 @@ export default class Node extends Item {
       containerGroup,
       labelContainerGroup,
       mapper: this.mapper,
-      stateMapper: this.stateMapper,
       zoom: this.zoom,
       theme: {
         styles: this.themeStyles,
@@ -295,7 +287,7 @@ export default class Node extends Item {
   }
 
   public getAnchorPoint(point: Point, anchorIdx?: number) {
-    const { anchorPoints = [] } = this.displayModel.data as NodeModelData | ComboModelData;
+    const { anchorPoints = [] } = this.displayModel?.style || {};
 
     return this.getIntersectPoint(point, this.getPosition(), anchorPoints, anchorIdx);
   }

@@ -69,6 +69,7 @@ import mapper from './visual/mapper';
 
 export { default as timebar_chart } from './plugins/timebar-chart';
 export { default as timebar_time } from './plugins/timebar-time';
+export { default as spec_default } from './spec/spec-default';
 
 export {
   anchor,

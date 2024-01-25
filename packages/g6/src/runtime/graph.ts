@@ -1195,6 +1195,15 @@ export class Graph extends EventEmitter {
     this.controller.data.translateComboBy(ids, [dx, dy, dz]);
   }
 
+  /**
+   * <zh/> 移动节点/Combo
+   *
+   * <en/> Move the node/combo
+   * @param ids - <zh/> 节点/Combo ID 列表 | <en/> node/combo ID list
+   * @param offset - <zh/> 偏移量 | <en/> offset
+   * @param options -  <zh/> 选项 | <en/> options
+   * @returns <zh/> Promise | <en/> Promise
+   */
   public async translateItemBy(ids: ID[], offset: PositionPoint, options?: PositionOptions) {
     this.controller.data.model.once('changed', (event) => {
       this.handleDataChange(event, {
@@ -1216,8 +1225,18 @@ export class Graph extends EventEmitter {
         );
       } else warn(`Unsupported item type: ${type} (${items.map(({ id }) => id).join(', ')})})`);
     });
+    // TODO 完成移动后 resolve Promise | resolve Promise after moving
   }
 
+  /**
+   * <zh/> 移动节点/Combo 到指定位置
+   *
+   * <en/> Move the node/combo to the specified position
+   * @param id - <zh/> 节点/Combo ID | <en/> node/combo ID
+   * @param position - <zh/> 绝对位置 | <en/> absolute position
+   * @param options - <zh/> 选项 | <en/> options
+   * @returns <zh/> Promise | <en/> Promise
+   */
   public async translateItemTo(id: ID, position: PositionPoint, options?: PositionOptions) {
     const [x, y, z] = position;
     const itemType = this.controller.data.typeOf(id);
@@ -1228,6 +1247,7 @@ export class Graph extends EventEmitter {
       return this.updateComboPosition([{ id, style: { x, y, z } }], options);
     }
     warn(`Item: ${id} is unsupported to translate.`);
+    // TODO 完成移动后 resolve Promise | resolve Promise after moving
   }
 
   public getItemPosition() {}

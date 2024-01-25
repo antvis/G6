@@ -35,10 +35,6 @@ export default abstract class Item implements IItem {
   public displayModel: ItemDisplayModel;
   /** The mapper configured at graph with field name 'node' / 'edge' / 'combo'. */
   public mapper: DisplayMapper;
-  /** The state style mapper configured at graph with field name 'nodeState' / 'edgeState' / 'comboState'. */
-  public stateMapper: {
-    [stateName: string]: DisplayMapper;
-  };
   /** The graphic group for item drawing. */
   public group: Group;
   /** The graphic group for item'label drawing. */
@@ -108,7 +104,6 @@ export default abstract class Item implements IItem {
       containerGroup,
       labelContainerGroup,
       mapper,
-      stateMapper,
       renderExtensions,
       zoom = 1,
       theme = {},
@@ -127,14 +122,13 @@ export default abstract class Item implements IItem {
     this.model = model;
     this.mapper = mapper;
     this.zoom = zoom;
-    this.stateMapper = stateMapper;
     this.displayModel = this.getDisplayModelAndChanges(model).model;
     this.renderExtensions = renderExtensions;
     const {
       type = this.type === 'edge' ? 'line-edge' : `circle-${this.type}`,
       lodLevels: modelLodLevels,
       enableBalanceShape,
-    } = this.displayModel.data;
+    } = this.displayModel?.style || {};
     const RenderExtension = renderExtensions[type];
     this.themeStyles = theme.styles;
     this.lodLevels = modelLodLevels ? formatLodLevels(modelLodLevels) : theme.lodLevels;
@@ -257,8 +251,8 @@ export default abstract class Item implements IItem {
     const { model: displayModel, typeChange } = this.getDisplayModelAndChanges(this.model, diffData, isReplace);
     this.displayModel = displayModel;
 
-    this.lodLevels = displayModel.data.lodLevels
-      ? formatLodLevels(displayModel.data.lodLevels)
+    this.lodLevels = displayModel?.style?.lodLevels
+      ? formatLodLevels(displayModel.style.lodLevels)
       : itemTheme?.lodLevels || this.lodLevels;
 
     if (onlyMove) {
@@ -272,14 +266,14 @@ export default abstract class Item implements IItem {
       const { type = this.type === 'node' ? 'circle-node' : 'line-edge' } = displayModel.data;
       const RenderExtension = this.renderExtensions[type];
       this.renderExt = new RenderExtension({
-        themeStyles: this.themeStyles.default,
+        themeStyles: this.themeStyles?.default,
         lodLevels: this.lodLevels,
         device: this.device,
         zoom: this.zoom,
         graph: this.graph,
       });
     } else {
-      this.renderExt.themeStyles = this.themeStyles.default;
+      this.renderExt.themeStyles = this.themeStyles?.default;
       this.renderExt.lodLevels = this.lodLevels;
     }
     // 3. call element update fn from useLib
@@ -299,8 +293,8 @@ export default abstract class Item implements IItem {
    * @param diffData
    * @param diffData.previous
    * @param diffData.current
-   * @param onfinish
    * @param animate
+   * @param onfinish
    */
   public updatePosition(
     displayModel: ItemDisplayModel,
@@ -327,10 +321,11 @@ export default abstract class Item implements IItem {
     model: ItemDisplayModel;
     typeChange?: boolean;
   } {
-    const { mapper, type } = this;
+    const { mapper: oldMapper, type } = this;
+    const mapper = oldMapper.style;
     const defaultMapper = DEFAULT_MAPPER[type];
 
-    const { data: innerModelData, ...otherFields } = innerModel;
+    const { style: innerModelData, ...otherFields } = innerModel;
     const { current = innerModelData } = diffData || {};
 
     // === no mapper, displayModel = model ===
@@ -362,8 +357,8 @@ export default abstract class Item implements IItem {
     const dataChangedFields = isReplace ? undefined : Object.keys(current || {}).concat(Object.keys(otherFields)); // only fields in current data for partial updating
 
     let typeChange = false;
-    const { data, ...otherProps } = innerModel;
-    const displayModelData = defaultMapper(innerModel).data; //clone(data);
+    const { style, ...otherProps } = innerModel;
+    const displayModelData = defaultMapper(innerModel); //clone(data);
     // const defaultMappedModel = defaultMapper(innerModel);
     Object.keys(mapper).forEach((fieldName) => {
       let subMapper = mapper[fieldName];
@@ -395,11 +390,11 @@ export default abstract class Item implements IItem {
         // reserved shapes, fieldName is shapeId
         displayModelData[fieldName] =
           displayModelData[fieldName] ||
-          isObject(innerModel.data[fieldName]) ||
-          isObject(this.displayModel?.data[fieldName])
+          isObject(innerModel.style[fieldName]) ||
+          isObject(this.displayModel?.style[fieldName])
             ? {
-                ...(innerModel.data[fieldName] as object),
-                ...(this.displayModel?.data[fieldName] as object),
+                ...(innerModel.style[fieldName] as object),
+                ...(this.displayModel?.style[fieldName] as object),
               }
             : {};
         updateShapeChange({
@@ -412,9 +407,9 @@ export default abstract class Item implements IItem {
       } else if (fieldName === OTHER_SHAPES_FIELD_NAME) {
         // other shapes
         displayModelData[fieldName] =
-          displayModelData[fieldName] || isObject(innerModel.data[fieldName])
+          displayModelData[fieldName] || isObject(innerModel.style[fieldName])
             ? {
-                ...(innerModel.data[fieldName] as object),
+                ...(innerModel.style[fieldName] as object),
               }
             : {};
         Object.keys(subMapper).forEach((shapeId) => {
@@ -435,7 +430,7 @@ export default abstract class Item implements IItem {
     return {
       model: {
         ...otherProps,
-        data: displayModelData,
+        style: displayModelData,
       },
       typeChange,
     };
@@ -548,7 +543,7 @@ export default abstract class Item implements IItem {
     };
     Promise.all(this.stopAnimations(shapeIdsToHide)).then(() => {
       if (this.destroyed) return;
-      const { animates = {} } = this.displayModel.data;
+      const { animates = {} } = this.displayModel?.style || {};
       if (animate && animates.hide?.length) {
         this.animations = this.runWithAnimates(animates, 'hide', undefined, shapeIdsToHide, func);
       } else {
@@ -899,7 +894,7 @@ export default abstract class Item implements IItem {
     };
     // 1. stop animations, run buildOut animations
     this.stopAnimations();
-    const { animates } = this.displayModel.data;
+    const { animates } = this.displayModel?.style || {};
     if (animates?.buildOut?.length && !this.transient) {
       this.animations = this.runWithAnimates(animates, 'buildOut', undefined, undefined, func);
     } else {

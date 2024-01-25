@@ -1,8 +1,10 @@
 import { Group } from '@antv/g';
 import { clone, throttle } from '@antv/util';
-import { EdgeDisplayModel, EdgeModel, Graph, ID, Point } from '../types';
+import type { EdgeData } from '../spec/data';
+import type { EdgeOptions } from '../spec/element';
+import { EdgeDisplayModel, Graph, ID, Point } from '../types';
 import { EdgeModelData } from '../types/edge';
-import { DisplayMapper, LodLevelRanges, State } from '../types/item';
+import { LodLevelRanges, State } from '../types/item';
 import { EdgeStyleSet } from '../types/theme';
 import { animateShapes } from '../utils/animate';
 import { getNearestPoint, isSamePoint } from '../utils/point';
@@ -14,14 +16,11 @@ import Node from './node';
 
 interface IProps {
   graph: Graph;
-  model: EdgeModel;
+  model: EdgeData;
   renderExtensions: any; // TODO: type
   containerGroup: Group;
   labelContainerGroup?: Group; // TODO: optional?
-  mapper?: DisplayMapper;
-  stateMapper?: {
-    [stateName: string]: DisplayMapper;
-  };
+  mapper?: EdgeOptions;
   sourceItem: Node | Combo;
   targetItem: Node | Combo;
   zoom?: number;
@@ -37,7 +36,7 @@ interface IProps {
 export default class Edge extends Item {
   public destroyed = false;
   // inner data model
-  public declare model: EdgeModel;
+  public declare model: EdgeData;
   // display data model
   public declare displayModel: EdgeDisplayModel;
   /** Set to different value in implements */
@@ -332,7 +331,7 @@ export default class Edge extends Item {
       return group;
     }
     const clonedModel = clone(this.model);
-    clonedModel.data.disableAnimate = disableAnimate;
+    clonedModel.style.disableAnimate = disableAnimate;
 
     // `nodeMap` stores real nodes and transient nodes
     if (transientItemMap) {
@@ -353,7 +352,6 @@ export default class Edge extends Item {
       containerGroup,
       labelContainerGroup,
       mapper: this.mapper,
-      stateMapper: this.stateMapper,
       zoom: this.zoom,
       theme: {
         styles: this.themeStyles,
