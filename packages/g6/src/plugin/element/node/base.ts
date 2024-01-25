@@ -5,11 +5,41 @@ import { NodeDisplayModel } from '../../../types';
 import { ComboDisplayModel, ComboModelData, ComboShapeMap, ComboShapeStyles } from '../../../types/combo';
 import { GShapeStyle, LodLevelRanges, SHAPE_TYPE, SHAPE_TYPE_3D, ShapeStyle, State } from '../../../types/item';
 import { IAnchorPositionMap, NodeModelData, NodeShapeMap, NodeShapeStyles } from '../../../types/node';
+import { Port } from '../../../types/port';
 import { formatPadding, getShapeLocalBoundsByStyle, mergeStyles, upsertShape } from '../../../utils/shape';
 import { getWordWrapWidthByBox } from '../../../utils/text';
 import { convertToNumber } from '../../../utils/type';
+import type { BaseElementStyleProps } from '../base';
+import { BaseElement } from '../base';
 
-export abstract class BaseNode {
+export interface BaseNodeStyleProps extends BaseElementStyleProps {}
+
+export abstract class BaseNode extends BaseElement<BaseNodeStyleProps> {
+  /**
+   * <zh/> 获取节点连接桩
+   *
+   * <en/> Get node ports
+   * @returns <zh/> 节点连接桩 | <en/> node ports
+   */
+  public getPorts(): Port[] {
+    return [];
+  }
+
+  /**
+   * <zh/> 获取节点交点
+   *
+   * <en/> Get node intersect point
+   * @description
+   */
+  public getIntersectPoint() {}
+
+  // 复写该方法，以获取 keyShape 包围盒
+  public getPosition() {
+    return this.shapeMap.keyShape.getPosition();
+  }
+}
+
+export abstract class BaseNode1 {
   static type: string;
   graph: Graph;
   defaultStyles: NodeShapeStyles | ComboShapeStyles;

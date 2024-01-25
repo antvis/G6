@@ -1,7 +1,7 @@
 import type { Graph } from '../../types/graph';
 import { DataController } from './data';
+import { ElementController } from './element';
 import { InteractionController } from './interaction';
-import { ItemController } from './item';
 import { LayoutController } from './layout';
 import { PluginController } from './plugin';
 import { ThemeController } from './theme';
@@ -12,7 +12,7 @@ export class Controller {
 
   public interaction: InteractionController;
 
-  public item: ItemController;
+  public item: ElementController;
 
   public layout: LayoutController;
 
@@ -25,7 +25,7 @@ export class Controller {
   constructor(graph: Graph) {
     this.data = new DataController(graph);
     this.interaction = new InteractionController(graph);
-    this.item = new ItemController(graph);
+    this.item = new ElementController(graph);
     this.layout = new LayoutController(graph);
     this.widget = new PluginController(graph);
     this.theme = new ThemeController(graph);

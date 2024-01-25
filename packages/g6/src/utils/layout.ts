@@ -1,5 +1,6 @@
 import Hierarchy from '@antv/hierarchy';
 import { isArray, isNumber } from '@antv/util';
+import type { Graph } from '../runtime/graph';
 import { GraphData, ID, NodeModel } from '../types';
 import { Point } from '../types/common';
 import { traverse } from './data';
@@ -90,7 +91,7 @@ export const isTreeLayout = (options) => {
   return !!Hierarchy[type];
 };
 
-export const getNodeSizeFn = (options, defaultSize = 32) => {
+export const getNodeSize = (options, defaultSize = 32) => {
   if (options.nodeSize) return options.nodeSize;
   return (node) => {
     const { size, keyShape } = node.data;
@@ -161,15 +162,21 @@ export const radialLayout = (tree: TreeGraphData, nodeMap: Map<ID, NodeModel>, l
 };
 
 /**
- * Get the layout (nodes' positions) bounds of a graph.
- * @param graph - The graph object.
- * @returns - The layout bounds object containing the minimum, maximum, center, and halfExtents values.
+ * <zh/> 计算布局后的画布包围盒
+ *
+ * <en/> Calculate the bounding box of the canvas after layout.
+ * @param graph - <zh/> 图实例 <en/> Graph instance
+ * @returns - <zh/> 包围盒 <en/> Bounding box
+ * @description
+ * <zh/> 布局过程中可能存在动画，此时直接获取 canvas 包围盒只是当前时刻的包围盒，并非布局完成后的包围盒
+ *
+ * <en/> There may be animations during the layout process. At this time, directly obtaining the canvas bounding box is only the bounding box at the current moment, not the bounding box after the layout is completed.
  */
-export const getLayoutBounds = (graph) => {
+export const getLayoutBounds = (graph: Graph) => {
   const min = [Infinity, Infinity];
   const max = [-Infinity, -Infinity];
   const borderIds = { min: [], max: [] };
-  graph.getAllNodesData().forEach((model) => {
+  graph.getNodeData().forEach((model) => {
     const { x, y } = model.data;
     if (isNaN(x) || isNaN(y)) return;
     if (min[0] > x) {

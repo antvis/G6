@@ -1,121 +1,106 @@
-import Hierarchy from '@antv/hierarchy';
-import * as Layouts from '@antv/layout';
-
+import { compactBox, dendrogram, indented, mindmap } from '@antv/hierarchy';
+import {
+  CircularLayout,
+  ComboCombinedLayout,
+  ConcentricLayout,
+  D3ForceLayout,
+  DagreLayout,
+  ForceAtlas2Layout,
+  ForceLayout,
+  FruchtermanLayout,
+  GridLayout,
+  MDSLayout,
+  RadialLayout,
+  RandomLayout,
+} from '@antv/layout';
+import { FadeIn, FadeOut, LinkIn, LinkOut, MoveTo, TransientTo } from '../animation';
 import { Behavior as BaseBehavior } from '../types/behavior';
 import { Plugin as BasePlugin } from '../types/plugin';
-import * as Behaviors from './behavior';
-import * as Transforms from './data';
-import * as Combos from './item/combo';
-import * as Edges from './item/edge';
-import * as Nodes from './item/node';
-import * as Themes from './theme';
-import * as ThemeSolvers from './theme-solver';
-import * as Widgets from './widget';
-
-const { ValidateData, TransformV4Data, MapNodeSize, ProcessParallelEdges } = Transforms;
-
-const { compactBox, dendrogram, indented, mindmap } = Hierarchy;
-
-const { DarkTheme, LightTheme } = Themes;
-const { SpecThemeSolver, SubjectThemeSolver } = ThemeSolvers;
-
-const {
-  CircleNode,
-  RectNode,
-  DiamondNode,
-  DonutNode,
-  SphereNode,
-  StarNode,
-  HexagonNode,
-  TriangleNode,
-  EllipseNode,
-  ModelRectNode,
-  ImageNode,
-  CubeNode,
-  PlaneNode,
-  BaseNode,
-  BaseNode3D,
-} = Nodes;
-
-const { LineEdge, CubicEdge, CubicHorizontalEdge, CubicVerticalEdge, LoopEdge, PolylineEdge, QuadraticEdge } = Edges;
-const { CircleCombo, RectCombo } = Combos;
-const {
+import {
   ActivateRelations,
   BrushSelect,
+  ClickSelect,
+  CollapseExpandCombo,
+  CollapseExpandTree,
+  CreateEdge,
+  DragCanvas,
+  DragCombo,
+  DragNode,
   HoverActivate,
   LassoSelect,
   OrbitCanvas3D,
   RotateCanvas3D,
-  TrackCanvas3D,
-  ZoomCanvas3D,
-  ZoomCanvas,
-
-  DragCanvas,
-  CollapseExpandTree,
-  CollapseExpandCombo,
-  DragNode,
-  DragCombo,
-  ClickSelect,
-  CreateEdge,
-  ShortcutsCall,
   ScrollCanvas,
-} = Behaviors;
-
-const {
-  Tooltip,
-  Minimap,
-  Grid,
-  Menu,
-  Fisheye,
-  Legend,
-  Toolbar,
-  Timebar,
-  Snapline,
-  EdgeFilterLens,
-  LodController,
+  ShortcutsCall,
+  TrackCanvas3D,
+  ZoomCanvas,
+  ZoomCanvas3D,
+} from './behavior';
+import { CircleCombo, RectCombo } from './element/combo';
+import {
+  CubicEdge,
+  CubicHorizontalEdge,
+  CubicVerticalEdge,
+  LineEdge,
+  LoopEdge,
+  PolylineEdge,
+  QuadraticEdge,
+} from './element/edge';
+import {
+  BaseNode,
+  BaseNode3D,
+  CircleNode,
+  CubeNode,
+  DiamondNode,
+  DonutNode,
+  EllipseNode,
+  HexagonNode,
+  ModelRectNode,
+  PlaneNode,
+  RectNode,
+  SimpleNode,
+  SphereNode,
+  StarNode,
+  TriangleNode,
+} from './element/node';
+import { DarkTheme, LightTheme } from './theme';
+import {
   EdgeBundling,
-} = Widgets;
+  EdgeFilterLens,
+  Fisheye,
+  Grid,
+  Legend,
+  LodController,
+  Menu,
+  Minimap,
+  Snapline,
+  Timebar,
+  Toolbar,
+  Tooltip,
+} from './widget';
 
-const {
-  ForceLayout,
-  GridLayout,
-  CircularLayout,
-  ConcentricLayout,
-  RandomLayout,
-  MDSLayout,
-  RadialLayout,
-  FruchtermanLayout,
-  D3ForceLayout,
-  ForceAtlas2Layout,
-  DagreLayout,
-  ComboCombinedLayout,
-} = Layouts;
-
+import { SimpleCombo } from './element/combo/simple';
+import { SimpleEdge } from './element/edge/simple';
 import lassoSelector from './selector/lasso';
 import rectSelector from './selector/rect';
 import Hull from './widget/hull';
 import { WaterMarker } from './widget/watermarker';
 
 const builtInPlugins = {
-  transform: {
-    'validate-data': ValidateData,
-    'transform-v4-data': TransformV4Data,
-    'map-node-size': MapNodeSize,
-  },
+  // TODO 待修改
   theme: {
     light: LightTheme,
     dark: DarkTheme,
-  },
-  themeSolver: {
-    spec: SpecThemeSolver,
-    subject: SubjectThemeSolver,
   },
   layout: {
     force: ForceLayout,
     grid: GridLayout,
     circular: CircularLayout,
     concentric: ConcentricLayout,
-    ...Hierarchy,
+    compactBox,
+    dendrogram,
+    indented,
+    mindmap,
   },
   behavior: {
     'drag-canvas': DragCanvas,
@@ -130,17 +115,28 @@ const builtInPlugins = {
     'lod-controller': LodController,
   },
   node: {
-    'circle-node': CircleNode,
-    'rect-node': RectNode,
-    'image-node': ImageNode,
+    'simple-node': SimpleNode,
+    // 'circle-node': CircleNode,
+    // 'rect-node': RectNode,
+    // 'image-node': ImageNode,
   },
   edge: {
-    'line-edge': LineEdge,
-    'loop-edge': LoopEdge,
+    'simple-edge': SimpleEdge,
+    // 'line-edge': LineEdge,
+    // 'loop-edge': LoopEdge,
   },
   combo: {
-    'circle-combo': CircleCombo,
-    'rect-combo': RectCombo,
+    'simple-combo': SimpleCombo,
+    // 'circle-combo': CircleCombo,
+    // 'rect-combo': RectCombo,
+  },
+  animate: {
+    'fade-in': FadeIn,
+    'fade-out': FadeOut,
+    'move-to': MoveTo,
+    'transient-to': TransientTo,
+    'link-in': LinkIn,
+    'link-out': LinkOut,
   },
 };
 
@@ -185,17 +181,9 @@ const utils = {
 };
 
 const Extensions = {
-  // transforms
-  ValidateData,
-  TransformV4Data,
-  MapNodeSize,
-  ProcessParallelEdges,
   // themes
   LightTheme,
   DarkTheme,
-  // themeSolvers
-  SpecThemeSolver,
-  SubjectThemeSolver,
   // layout
   ForceLayout,
   GridLayout,

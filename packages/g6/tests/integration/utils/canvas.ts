@@ -1,10 +1,6 @@
+/* eslint-disable jsdoc/require-jsdoc */
 import { createNodeGCanvas } from './createNodeGCanvas';
 
-/**
- *
- * @param width
- * @param height
- */
 export function createContext(width: number, height: number) {
   const container = document.createElement('div');
   document.body.appendChild(container);
@@ -23,4 +19,10 @@ export function createContext(width: number, height: number) {
     transientCanvas,
     transientLabelCanvas,
   };
+}
+
+export function createCanvas(width: number = 500, height: number = 500) {
+  const container = document.createElement('div');
+  document.body.appendChild(container);
+  return createNodeGCanvas(container, width, height);
 }

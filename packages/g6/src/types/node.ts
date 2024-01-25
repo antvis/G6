@@ -197,5 +197,5 @@ export interface IAnchorPositionMap {
 }
 
 export interface NodeRegistry {
-  [key: string]: DisplayObject;
+  [key: string]: { new (...args: unknown[]): DisplayObject };
 }

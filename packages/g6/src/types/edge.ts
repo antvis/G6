@@ -113,7 +113,7 @@ export type ArrowStyle = PathStyleProps & {
 };
 
 export interface EdgeRegistry {
-  [key: string]: DisplayObject;
+  [key: string]: { new (...args: unknown[]): DisplayObject };
 }
 
 export type EdgeDirection = 'in' | 'out' | 'both';

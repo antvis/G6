@@ -1,7 +1,7 @@
 import { ID } from '@antv/graphlib';
 import { Graph } from '../../types';
 import { Point } from '../../types/common';
-import { ITEM_TYPE } from '../../types/item';
+import { ItemType } from '../../types/item';
 import { getEdgesBetween } from '../../utils/item';
 import { isPolygonsIntersect } from '../../utils/shape';
 
@@ -14,7 +14,7 @@ import { isPolygonsIntersect } from '../../utils/shape';
  * @param points
  * @param itemTypes
  */
-export default (graph: Graph, points: Point[], itemTypes: ITEM_TYPE[]) => {
+export default (graph: Graph, points: Point[], itemTypes: ItemType[]) => {
   const lassoContour = points.map((point) => [point.x, point.y]);
   const selectedNodeIds = [];
   let selectedEdgeIds = [];
@@ -22,7 +22,7 @@ export default (graph: Graph, points: Point[], itemTypes: ITEM_TYPE[]) => {
   if (itemTypes.includes('node')) {
     graph.getAllNodesData().forEach((node) => {
       const { id } = node;
-      if (!graph.getItemVisible(id)) return; // hidden node is not selectable
+      if (!graph.getItemVisibility(id)) return; // hidden node is not selectable
       if (isItemIntersectPolygon(graph, id, lassoContour)) {
         selectedNodeIds.push(id);
       }
@@ -33,7 +33,7 @@ export default (graph: Graph, points: Point[], itemTypes: ITEM_TYPE[]) => {
     graph.getAllCombosData().forEach((combo) => {
       const { id } = combo;
       if (
-        graph.getItemVisible(id) && // hidden combo is not selectable
+        graph.getItemVisibility(id) && // hidden combo is not selectable
         isItemIntersectPolygon(graph, id, lassoContour)
       ) {
         selectedComboIds.push(id);

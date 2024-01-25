@@ -1,23 +1,16 @@
-import { getPlugin, getPlugins } from '../../plugin/register';
+import { getPlugin } from '../../plugin/register';
+import type { G6Spec } from '../../spec';
 import { Graph } from '../../types';
-import { ThemeRegistry, ThemeSpecification } from '../../types/theme';
+import type { InitParams, ThemeChangeParams } from '../hooks';
 
 /**
  * Manages theme extensions for graph.
  * Themes are the mapper from item's inner model to display model.
  */
 export class ThemeController {
-  public extension;
   public graph: Graph;
 
-  private themeConfig;
-  private solver;
-  public specification: ThemeSpecification;
-  private themes: {
-    [themeName: string]: ThemeSpecification;
-  };
-
-  constructor(graph: Graph<any, any>) {
+  constructor(graph: Graph) {
     this.graph = graph;
     this.tap();
   }
@@ -25,52 +18,51 @@ export class ThemeController {
    * Subscribe the lifecycle of graph.
    */
   private tap() {
-    this.extension = this.getPlugin();
-    this.themes = this.getThemes();
     this.graph.hooks.init.tap(this.onInit.bind(this));
     this.graph.hooks.themechange.tap(this.onThemeChange.bind(this));
   }
 
-  /**
-   * Get the extensions from useLib.
-   */
-  private getPlugin() {
-    const { theme = {} } = this.graph.getSpecification();
-    this.themeConfig = theme;
-    const type = typeof theme === 'string' ? theme : (theme as any).type;
-    return theme ? getPlugin('themeSolver', type) : undefined;
+  private onInit(params: InitParams) {
+    // init background color
+    const { context } = params;
+    const { graph, options } = context;
+    // @ts-expect-error dom element can set background color
+    graph.canvas.canvas.background.getContextService().getDomElement().style.backgroundColor =
+      this.getBackground(options);
   }
 
-  private getThemes(): ThemeRegistry {
-    return getPlugins('theme').reduce((res, acc) => {
-      res[acc.type] = acc;
-      return res;
-    }, {}) as ThemeRegistry;
-  }
+  private onThemeChange(params: ThemeChangeParams) {
+    const { context } = params;
+    const { options } = context;
 
-  /**
-   * Graph init listener, create theme solver and generate theme
-   * @param root0
-   * @param root0.canvases
-   */
-  private onInit({ canvases }) {
-    if (this.extension) {
-      this.solver = new this.extension(this.themeConfig, this.themes);
-      this.specification = this.solver.specification;
-      if (this.specification) {
-        // apply canvas style in theme to the background canvas dom
-        const { canvas } = this.specification;
-        const dom = canvases.background.getContextService().getDomElement();
-        if (dom && dom.style) {
-          Object.keys(canvas).forEach((key) => (dom.style[key] = canvas[key]));
-        }
-      }
+    const themeName = options.theme;
+
+    if (!themeName) {
+      this.graph.hooks.themestylechange.emit({
+        context,
+        value: {},
+      });
+      return;
     }
+
+    const theme = getPlugin('theme', themeName);
+
+    if (!theme) {
+      throw new Error(`Unknown theme type: '${themeName}'.`);
+    }
+
+    this.graph.hooks.themestylechange.emit({
+      context,
+      value: theme,
+    });
   }
 
-  private onThemeChange({ canvases }) {
-    if (!canvases) return;
-    this.extension = this.getPlugin();
-    this.onInit({ canvases });
+  private getBackground(options: G6Spec) {
+    // TODO wait for support background
+    // const { background, theme } = options;
+    // const themeStyle = getPlugin('theme', theme);
+    // return themeStyle?.background || background;
+
+    return '';
   }
 }

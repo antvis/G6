@@ -1,19 +1,11 @@
 import { uniqueId } from '@antv/util';
 import { getPlugin } from '../../plugin/register';
-import { LodController } from '../../plugin/widget';
 import { Graph } from '../../types';
 import { IG6GraphEvent } from '../../types/event';
 import { Plugin as PluginBase } from '../../types/plugin';
+import { error } from '../../utils/invariant';
 
 type Listener = (event: IG6GraphEvent) => void;
-
-const REQUIRED_PLUGINS = [
-  {
-    key: 'lod-controller',
-    type: 'lod-controller',
-    pluginClass: LodController,
-  },
-];
 
 /**
  * Wraps the listener with error logging.
@@ -26,9 +18,9 @@ const wrapListener = (type: string, eventName: string, listener: Listener): List
   return (event: any) => {
     try {
       listener(event);
-    } catch (error) {
+    } catch (err) {
       error(`Error occurred in "${eventName}" phase of the plugin "${type}"!`);
-      throw error;
+      throw err;
     }
   };
 };
@@ -56,7 +48,7 @@ export class PluginController {
    */
   private listenersMap: Record<string, Record<string, Listener>> = {};
 
-  constructor(graph: Graph<any, any>) {
+  constructor(graph: Graph) {
     this.graph = graph;
     this.tap();
   }
@@ -66,7 +58,7 @@ export class PluginController {
    */
   private tap() {
     this.graph.hooks.init.tap(this.onPluginInit.bind(this));
-    this.graph.hooks.pluginchange.tap(this.onPluginChange.bind(this));
+    this.graph.hooks.widgetchange.tap(this.onPluginChange.bind(this));
     this.graph.hooks.destroy.tap(this.onDestroy.bind(this));
   }
 
@@ -74,28 +66,8 @@ export class PluginController {
     // 1. Initialize new behaviors.
     this.pluginMap.clear();
     const { graph } = this;
-    const pluginConfigs = graph.getSpecification().plugins || [];
+    const pluginConfigs = graph.getOptions().widgets || [];
     const plugins = [...pluginConfigs];
-    REQUIRED_PLUGINS.forEach((required) => {
-      if (
-        !pluginConfigs.find(
-          (plugin) =>
-            plugin === required.type ||
-            (plugin as any).type === required.type ||
-            plugin instanceof required.pluginClass,
-        )
-      ) {
-        plugins.push(required.type);
-
-        // @ts-expect-error TODO: Need to fix the type
-        if (!this.graph.specification.plugins) {
-          // @ts-expect-error TODO: Need to fix the type
-          this.graph.specification.plugins = [];
-        }
-        // @ts-expect-error TODO: Need to fix the type
-        this.graph.specification.plugins.push(required);
-      }
-    });
 
     plugins.forEach(this.initPlugin.bind(this));
 
@@ -229,6 +201,10 @@ export class PluginController {
       throw new Error('Plugin not found for key: ' + pluginKey);
     }
     return plugin;
+  }
+
+  public getWidgets() {
+    return Array.from(this.pluginMap.entries());
   }
 
   private addListeners = (key: string, plugin: PluginBase, initWithGraph: boolean = true) => {

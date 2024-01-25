@@ -10,6 +10,7 @@ export * from './image';
 export * from './model-rect';
 export * from './plane';
 export * from './rect';
+export * from './simple';
 export * from './sphere';
 export * from './star';
 export * from './triangle';

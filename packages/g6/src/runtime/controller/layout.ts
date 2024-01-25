@@ -3,16 +3,14 @@ import { Graph as GraphLib, ID } from '@antv/graphlib';
 import { Layout, LayoutMapping, OutNode, Supervisor, isLayoutWithIterations } from '@antv/layout';
 import { Extensions } from '../../plugin';
 import { getPlugin } from '../../plugin/register';
-import {
-  Graph,
-  LayoutOptions,
-  NodeModelData,
-  isImmediatelyInvokedLayoutOptions,
-  isLayoutWorkerized,
-} from '../../types';
-import { GraphCore } from '../../types/data';
-import { EdgeModelData } from '../../types/edge';
-import { getNodeSizeFn, isComboLayout, isTreeLayout, layoutOneTree, radialLayout } from '../../utils/layout';
+import { Graph, isImmediatelyInvokedLayoutOptions, isLayoutWorkerized } from '../../types';
+import { getNodeSize, isComboLayout, isTreeLayout, layoutOneTree, radialLayout } from '../../utils/layout';
+import type { LayoutParams } from '../hooks';
+
+type PresetLayoutOptions = {
+  width: number;
+  height: number;
+};
 
 /**
  * Manages layout extensions and graph layout.
@@ -28,7 +26,7 @@ export class LayoutController {
   private animatedDisplayObject: DisplayObject;
   private previousNodes: Map<ID, object>;
 
-  constructor(graph: Graph<any, any>) {
+  constructor(graph: Graph) {
     this.graph = graph;
     this.animatedDisplayObject = new DisplayObject({});
     this.tap();
@@ -42,7 +40,7 @@ export class LayoutController {
     this.graph.hooks.destroy.tap(this.onDestroy.bind(this));
   }
 
-  private async onLayout(params: { graphCore: GraphCore; options: LayoutOptions; animate?: boolean }) {
+  private async onLayout(params: LayoutParams) {
     /**
      * The final calculated result.
      */
@@ -51,22 +49,28 @@ export class LayoutController {
     // Stop currentLayout if any.
     this.stopLayout();
 
-    const { graphCore, options, animate = true } = params;
-    let layoutNodes = graphCore.getAllNodes();
+    const { options, animate = true, context } = params;
+    const {
+      controller: { data: dataController },
+    } = context;
+    let layoutNodes = dataController.getNodeData();
     if (!isComboLayout(options)) {
-      layoutNodes = layoutNodes.filter((node) => this.graph.getItemVisible(node.id) && !node.data._isCombo);
+      layoutNodes = layoutNodes.filter(
+        (node) => this.graph.getItemVisibility(node.id) === 'visible' && !dataController.isCombo(node.id),
+      );
     }
     const layoutNodesIdMap = {};
+    const ids = layoutNodes.map((node) => node.id);
     layoutNodes.forEach((node) => (layoutNodesIdMap[node.id] = true));
     const layoutData = {
       nodes: layoutNodes,
-      edges: graphCore.getAllEdges().filter((edge) => layoutNodesIdMap[edge.source] && layoutNodesIdMap[edge.target]),
+      edges: dataController.getEdgeData().filter((edge) => ids.includes(edge.source) && ids.includes(edge.target)),
     };
-    const layoutGraphCore = new GraphLib<NodeModelData, EdgeModelData>(layoutData);
-    if (graphCore.hasTreeStructure('combo')) {
+    const layoutGraphCore = new GraphLib(layoutData);
+    if (dataController.model.hasTreeStructure('combo')) {
       layoutGraphCore.attachTreeStructure('combo');
       layoutNodes.forEach((node) => {
-        const parent = graphCore.getParent(node.id, 'combo');
+        const parent = dataController.model.getParent(node.id, 'combo');
         if (parent && layoutGraphCore.hasNode(parent.id)) {
           layoutGraphCore.setParent(node.id, parent.id, 'combo');
         }
@@ -76,7 +80,7 @@ export class LayoutController {
     const [width, height] = this.graph.getSize();
     const center = [width / 2, height / 2];
 
-    const nodeSize = getNodeSizeFn(options, 32);
+    const nodeSize = getNodeSize(options, 32);
 
     if (isImmediatelyInvokedLayoutOptions(options)) {
       const {
@@ -90,7 +94,7 @@ export class LayoutController {
       } = options;
 
       // presetLayout layout
-      const nodesWithPosition = await this.presetLayout(
+      const nodesWithPosition = await this.presetLayout({
         layoutData,
         nodeSize,
         width,
@@ -99,7 +103,7 @@ export class LayoutController {
         presetLayout,
         params,
         layoutGraphCore,
-      );
+      });
 
       // It will ignore some layout options such as `type` and `workerEnabled`.
       positions = await execute(layoutGraphCore, {
@@ -134,7 +138,7 @@ export class LayoutController {
       const { presetLayout } = options;
 
       // presetLayout layout
-      const nodesWithPosition = await this.presetLayout(
+      const nodesWithPosition = await this.presetLayout({
         layoutData,
         nodeSize,
         width,
@@ -143,7 +147,7 @@ export class LayoutController {
         presetLayout,
         params,
         layoutGraphCore,
-      );
+      });
 
       // layout
       // TODO: input positions affect the layout
@@ -296,7 +300,15 @@ export class LayoutController {
     return positions;
   };
 
-  private presetLayout = async (layoutData, nodeSize, width, height, center, presetLayout, params, layoutGraphCore) => {
+  /**
+   * <zh/> 预布局
+   *
+   * <en/> pre-layout
+   * @param options - <zh/> 布局参数 | <en/> layout options
+   * @returns
+   */
+  private presetLayout = async (options: PresetLayoutOptions) => {
+    const { layoutData, nodeSize, width, height, center, presetLayout, params, layoutGraphCore } = options;
     // presetLayout has higher priority than the positions in data
     if (presetLayout?.type) {
       const presetPositions = await this.layoutOnce(
@@ -318,7 +330,7 @@ export class LayoutController {
       return;
     }
 
-    const nodeWithPostions = new Map();
+    const nodeWithPositions = new Map();
     // find the neighbors' mean center as the initial position for the nodes
     const initNaNPositions: LayoutMapping = { nodes: [], edges: [] };
     layoutData.nodes.forEach((node) => {
@@ -341,13 +353,13 @@ export class LayoutController {
           initNaNPositions.nodes.push(node);
         }
       } else {
-        nodeWithPostions.set(node.id, 1);
+        nodeWithPositions.set(node.id, 1);
       }
     });
     if (initNaNPositions.nodes.length) {
       this.updateNodesPosition(initNaNPositions, false, false);
     }
-    return nodeWithPostions;
+    return nodeWithPositions;
   };
 
   async handleTreeLayout(type, options, animationEffectTiming, graphCore, layoutData, animate) {
@@ -469,8 +481,8 @@ export class LayoutController {
 
     // Add a connected displayobject so that we can animate it.
     if (!this.animatedDisplayObject.isConnected) {
-      await this.graph.canvas.ready;
-      this.graph.canvas.appendChild(this.animatedDisplayObject);
+      await this.graph.label.ready;
+      this.graph.label.appendChild(this.animatedDisplayObject);
     }
 
     // Use `opacity` since it is an interpolated property.

@@ -4,24 +4,25 @@ import type { EdgeDataUpdated, GraphChangedEvent, ID, NodeDataUpdated } from '@a
 import { deepMix, groupBy, isEmpty, isEqual, isFunction, isNil, isString } from '@antv/util';
 import { GraphEvent } from '../constant/event';
 import type { G6Spec } from '../spec';
-import { getAutoFit } from '../spec';
-import type { ComboData, DataOption, EdgeData, NodeData } from '../spec/data';
+import type { ComboData, DataOptions, EdgeData, NodeData } from '../spec/data';
 import type { ComboOptions, EdgeOptions, NodeOptions } from '../spec/element';
-import type { LayoutOption } from '../spec/layout';
+import type { LayoutOptions } from '../spec/layout';
 import { STDWidget } from '../spec/widget';
-import type { AnimationOptions } from '../types/animate';
+import type { CameraAnimationOptions } from '../types/animate';
 import type { CallableValue } from '../types/callable';
 import type { ComboDisplayModel } from '../types/combo';
-import type { Bounds, Point } from '../types/common';
+import type { Point } from '../types/common';
 import type { DataId } from '../types/data';
 import type { EdgeDirection, EdgeDisplayModel } from '../types/edge';
-import type { ItemType, SHAPE_TYPE, ShapeStyle } from '../types/item';
+import type { ITEM_TYPE, SHAPE_TYPE, ShapeStyle } from '../types/item';
 import type { NodeDisplayModel } from '../types/node';
 import { PositionPoint } from '../types/position';
 import type { FitViewOptions, FitViewRules, GraphTransformOptions, TranslateOptions } from '../types/view';
 import { parseArrayLike } from '../utils/array';
+import { parseAutoFit } from '../utils/auto-fit';
 import { getCombinedCanvasesBounds } from '../utils/bbox';
 import { dataIdOf, isEmptyGraph } from '../utils/data';
+import { warn } from '../utils/invariant';
 import { getLayoutBounds } from '../utils/layout';
 import { createPromise } from '../utils/promise';
 import { formatPadding } from '../utils/shape';
@@ -33,27 +34,28 @@ import { Hooks } from './hooks';
 type PositionOptions = {
   updateAncestors?: boolean;
   animate?: boolean;
+  onfinish?: () => void;
 };
 
 export class Graph extends EventEmitter {
-  #hooks = new Hooks();
+  private _hooks = new Hooks();
   public get hooks() {
-    return this.#hooks;
+    return this._hooks;
   }
 
-  #canvas: Canvas;
+  private _canvas: Canvas;
   public get canvas() {
-    return this.#canvas;
+    return this._canvas;
   }
 
-  #container: HTMLElement;
+  private _container: HTMLElement;
   public get container() {
-    return this.#container;
+    return this._container;
   }
 
-  #destroyed: boolean = false;
+  private _destroyed: boolean = false;
   public get destroyed() {
-    return this.#destroyed;
+    return this._destroyed;
   }
 
   private options: G6Spec;
@@ -62,7 +64,13 @@ export class Graph extends EventEmitter {
 
   private defaultOption: G6Spec = {
     theme: 'light',
-    widgets: [],
+    widgets: [
+      // {
+      //   key: 'lod-controller',
+      //   type: 'lod-controller',
+      //   pluginClass: LodController,
+      // },
+    ],
     optimize: {
       tileBehavior: 2000,
       tileBehaviorSize: 1000,
@@ -74,6 +82,7 @@ export class Graph extends EventEmitter {
   private get baseEmitParam(): BaseParams {
     return {
       context: {
+        canvas: this.canvas,
         options: this.options,
         graph: this,
         controller: this.controller,
@@ -98,19 +107,19 @@ export class Graph extends EventEmitter {
     const { container } = this.options;
 
     if (container instanceof HTMLElement) {
-      this.#container = container;
+      this._container = container;
       return;
     }
 
     if (isString(container)) {
       const dom = document.getElementById(container);
       if (dom) {
-        this.#container = dom;
+        this._container = dom;
         return;
       }
     }
 
-    console.log('Unable to find the container for the graph instance.');
+    warn('Unable to find the container for the graph instance.');
   }
 
   private initCanvas() {
@@ -118,7 +127,7 @@ export class Graph extends EventEmitter {
 
     this.initContainer();
 
-    this.#canvas = new Canvas({
+    this._canvas = new Canvas({
       container: this.container,
       width,
       height,
@@ -183,7 +192,7 @@ export class Graph extends EventEmitter {
     this.setMapper('combo', combo);
   }
 
-  protected setMapper(type: ItemType, mapper: NodeOptions | EdgeOptions | ComboOptions) {
+  protected setMapper(type: ITEM_TYPE, mapper: NodeOptions | EdgeOptions | ComboOptions) {
     this.options[type] = mapper;
     this.hooks.mapperchange.emit({
       ...this.baseEmitParam,
@@ -265,7 +274,7 @@ export class Graph extends EventEmitter {
    * });
    * ```
    */
-  public async transform(options: GraphTransformOptions, effectTiming?: AnimationOptions): Promise<void> {
+  public async transform(options: GraphTransformOptions, effectTiming?: CameraAnimationOptions): Promise<void> {
     if (isEmptyGraph(this, true)) return;
     await this.hooks.viewportchange.emitAsync({
       ...this.baseEmitParam,
@@ -295,7 +304,7 @@ export class Graph extends EventEmitter {
    */
   public async translateBy(
     distance: Partial<Pick<TranslateOptions, 'dx' | 'dy' | 'dz'>>,
-    effectTiming?: AnimationOptions,
+    effectTiming?: CameraAnimationOptions,
   ) {
     const { x: cx, y: cy } = this.getViewportCenter();
     const { dx, dy, dz } = distance;
@@ -321,7 +330,7 @@ export class Graph extends EventEmitter {
    * @param effectTiming - <zh/> 动画参数 | <en/> animation options
    * @public
    */
-  public async translateTo(point: Point, effectTiming?: AnimationOptions) {
+  public async translateTo(point: Point, effectTiming?: CameraAnimationOptions) {
     const { x, y } = point;
     const { x: cx, y: cy } = this.getViewportCenter();
     const canvasPoint = this.canvas.viewport2Canvas({ x, y });
@@ -350,7 +359,7 @@ export class Graph extends EventEmitter {
    * @param effectTiming - <zh/> 动画参数 | <en/> animation options
    * @public
    */
-  public async zoomBy(ratio: number, origin?: Point, effectTiming?: AnimationOptions) {
+  public async zoomBy(ratio: number, origin?: Point, effectTiming?: CameraAnimationOptions) {
     await this.transform(
       {
         zoom: {
@@ -371,7 +380,7 @@ export class Graph extends EventEmitter {
    * @param effectTiming - <zh/> 动画参数 | <en/> animation options
    * @public
    */
-  public async zoomTo(zoom: number, origin?: PointLike, effectTiming?: AnimationOptions) {
+  public async zoomTo(zoom: number, origin?: PointLike, effectTiming?: CameraAnimationOptions) {
     await this.zoomBy(zoom / this.canvas.main.getCamera().getZoom(), origin, effectTiming);
   }
 
@@ -393,7 +402,7 @@ export class Graph extends EventEmitter {
    * @param effectTiming - <zh/> 动画参数 | <en/> animation options
    * @public
    */
-  public async rotateBy(angle: number, origin?: PointLike, effectTiming?: AnimationOptions) {
+  public async rotateBy(angle: number, origin?: PointLike, effectTiming?: CameraAnimationOptions) {
     await this.transform(
       {
         rotate: {
@@ -414,7 +423,7 @@ export class Graph extends EventEmitter {
    * @param effectTiming - <zh/> 动画参数 | <en/> animation options
    * @public
    */
-  public async rotateTo(angle: number, origin?: PointLike, effectTiming?: AnimationOptions) {
+  public async rotateTo(angle: number, origin?: PointLike, effectTiming?: CameraAnimationOptions) {
     await this.rotateBy(angle - this.canvas.main.getCamera().getRoll(), origin, effectTiming);
   }
 
@@ -433,7 +442,7 @@ export class Graph extends EventEmitter {
    * @internal
    */
   protected async autoFit() {
-    const autoFit = getAutoFit(this.options);
+    const autoFit = parseAutoFit(this.options.autoFit);
     if (!autoFit) return;
     const { type, effectTiming } = autoFit;
     if (type === 'view') {
@@ -454,7 +463,7 @@ export class Graph extends EventEmitter {
    * @param options - <zh/> 自适应参数 | <en/> auto fit options
    * @param effectTiming - <zh/> 动画参数 | <en/> animation options
    */
-  public async fitView(options?: FitViewOptions, effectTiming?: AnimationOptions) {
+  public async fitView(options?: FitViewOptions, effectTiming?: CameraAnimationOptions) {
     const { padding, rules } = options || {};
     const [top, right, bottom, left] = padding ? formatPadding(padding) : [0, 0, 0, 0];
     const {
@@ -533,7 +542,7 @@ export class Graph extends EventEmitter {
    * @param boundsType - <zh/> 获取的包围盒类型 | <en/> bounds type
    * @param effectTiming - <zh/> 动画参数 | <en/> animation options
    */
-  public async fitCenter(boundsType: FitViewRules['boundsType'] = 'current', effectTiming?: AnimationOptions) {
+  public async fitCenter(boundsType: FitViewRules['boundsType'] = 'current', effectTiming?: CameraAnimationOptions) {
     const {
       center: [graphCenterX, graphCenterY],
     } =
@@ -554,7 +563,7 @@ export class Graph extends EventEmitter {
    * @param id - <zh/> item id | <en/> item id
    * @param effectTiming - <zh/> 动画参数 | <en/> animation options
    */
-  public async focusItem(id: ID | ID[], effectTiming?: AnimationOptions) {
+  public async focusItem(id: ID | ID[], effectTiming?: CameraAnimationOptions) {
     let bounds: AABB | null = null;
     for (const itemId of parseArrayLike(id)) {
       const item = this.getItemById(itemId);
@@ -577,16 +586,14 @@ export class Graph extends EventEmitter {
   }
 
   // ---------- Spec API ----------
-  public getCanvasRange(): Bounds {
+  public getCanvasRange(): AABB {
     const [width, height] = this.getSize();
     const leftTop = this.getCanvasByViewport({ x: 0, y: 0 });
     const rightBottom = this.getCanvasByViewport({ x: width, y: height });
-    return {
-      min: [leftTop.x, leftTop.y, leftTop.z],
-      max: [rightBottom.x, rightBottom.y, rightBottom.z],
-      center: [(leftTop.x + rightBottom.x) / 2, (leftTop.y + rightBottom.y) / 2, (leftTop.z + rightBottom.z) / 2],
-      halfExtents: [(rightBottom.x - leftTop.x) / 2, (rightBottom.y - leftTop.y) / 2, (rightBottom.z - leftTop.z) / 2],
-    };
+
+    const bbox = new AABB();
+    bbox.setMinMax([leftTop.x, leftTop.y, 0], [rightBottom.x, rightBottom.y, 0]);
+    return bbox;
   }
 
   /**
@@ -694,7 +701,7 @@ export class Graph extends EventEmitter {
    * @returns - <zh/> 数据 | <en/> data
    * @public
    */
-  public data(): DataOption;
+  public data(): DataOptions;
   /**
    * <zh/> 设置数据
    *
@@ -702,7 +709,7 @@ export class Graph extends EventEmitter {
    * @param data - <zh/> 数据 | <en/> data
    * @public
    */
-  public data(data: CallableValue<DataOption>): void;
+  public data(data: CallableValue<DataOptions>): void;
   /**
    * <zh/> 获取/设置数据
    *
@@ -711,7 +718,7 @@ export class Graph extends EventEmitter {
    * @returns - <zh/> 数据 | <en/> data
    * @internal
    */
-  public data(data?: CallableValue<DataOption>): DataOption | void {
+  public data(data?: CallableValue<DataOptions>): DataOptions | void {
     if (!data) {
       return this.getData();
     }
@@ -736,7 +743,7 @@ export class Graph extends EventEmitter {
    * @param data - <zh/> 数据 | <en/> data
    * @public
    */
-  protected setData(data: CallableValue<DataOption>) {
+  protected setData(data: CallableValue<DataOptions>) {
     this.controller.data.model.once('changed', this.handleDataChange.bind(this));
 
     this.controller.data.setData(isFunction(data) ? data(this.controller.data.getData()) : data);
@@ -749,7 +756,7 @@ export class Graph extends EventEmitter {
    * @param data - <zh/> 数据 | <en/> data
    * @public
    */
-  public addData(data: CallableValue<DataOption>) {
+  public addData(data: CallableValue<DataOptions>) {
     this.controller.data.model.once('changed', this.handleDataChange.bind(this));
 
     this.controller.data.addData(isFunction(data) ? data(this.controller.data.getData()) : data);
@@ -808,7 +815,7 @@ export class Graph extends EventEmitter {
    * @param data - <zh/> 数据 | <en/> data
    * @public
    */
-  public updateData(data: CallableValue<DataOption>) {
+  public updateData(data: CallableValue<DataOptions>) {
     this.controller.data.model.once('changed', this.handleDataChange.bind(this));
 
     this.controller.data.updateData(isFunction(data) ? data(this.controller.data.getData()) : data);
@@ -833,7 +840,15 @@ export class Graph extends EventEmitter {
    * <en/> Update edge data
    * @param edges - <zh/> 边数据 | <en/> edge data
    */
-  public updateEdgeData(edges: EdgeData[]) {
+  public updateEdgeData(
+    // 这里的类型定义是为使得 source 和 target 的成为可选属性
+    // The type definition here is to make source and target optional properties
+    edges: CallableValue<
+      { [K in keyof EdgeData as Exclude<K, 'source' | 'target'>]: EdgeData[K] } & {
+        [K in keyof EdgeData as Extract<K, 'source' | 'target'>]?: EdgeData[K];
+      }
+    >[],
+  ) {
     this.updateData({
       edges: isFunction(edges) ? edges(this.controller.data.getEdgeData()) : edges,
     });
@@ -864,10 +879,10 @@ export class Graph extends EventEmitter {
    * <en/> Remove data
    * @param id - <zh/> 数据 ID | <en/> data ID
    */
-  public removeData(id: DataId | ((data: DataOption) => DataId)) {
+  public removeData(id: DataId | ((data: DataOptions) => DataId)) {
     this.controller.data.model.once('changed', this.handleDataChange.bind(this));
 
-    const { nodes, edges, combos } = isFunction(id) ? id(this.controller.data.getData()) : id;
+    const { nodes = [], edges = [], combos = [] } = isFunction(id) ? id(this.controller.data.getData()) : id;
 
     const dataController = this.controller.data;
     const data = {
@@ -915,7 +930,7 @@ export class Graph extends EventEmitter {
     });
   }
 
-  protected handleDataChange(event: GraphChangedEvent<NodeData, EdgeData>, extra?: Record<string, unknown>) {
+  protected handleDataChange(event: GraphChangedEvent<NodeData, EdgeData>, options?: Record<string, unknown>) {
     const { changes } = event;
     if (!changes.length) return;
 
@@ -930,11 +945,19 @@ export class Graph extends EventEmitter {
 
     const params = { changes: actualChanges };
     this.emit(GraphEvent.BEFORE_ITEM_CHANGE, params);
+
+    this.controller.item.update({
+      ...this.baseEmitParam,
+      changes: actualChanges,
+      ...options,
+    });
+
     this.hooks.itemchange.emit({
       ...this.baseEmitParam,
       changes: actualChanges,
-      ...extra,
+      ...options,
     });
+
     this.emit(GraphEvent.AFTER_ITEM_CHANGE, params);
   }
 
@@ -1010,18 +1033,16 @@ export class Graph extends EventEmitter {
 
   // ---------- Lifecycle API ----------
 
-  public render() {
-    this.canvas.ready.then(async () => {
-      await this.hooks.render.emitAsync(this.baseEmitParam);
-
-      this.emit(GraphEvent.AFTER_RENDER);
-
-      this.once(GraphEvent.AFTER_LAYOUT, async () => {
-        await this.autoFit();
-      });
-
-      await this.layout();
+  public async render() {
+    this.once(GraphEvent.AFTER_LAYOUT, async () => {
+      await this.autoFit();
     });
+
+    await this.controller.item.render(this.baseEmitParam);
+
+    this.emit(GraphEvent.AFTER_RENDER);
+
+    await this.layout();
   }
 
   /**
@@ -1041,7 +1062,7 @@ export class Graph extends EventEmitter {
     this.canvas.destroy();
     this.controller.destroy();
     this.hooks.destroy.emit(null);
-    this.#destroyed = true;
+    this._destroyed = true;
   }
 
   // ---------- Element API ----------
@@ -1082,7 +1103,7 @@ export class Graph extends EventEmitter {
     return data;
   }
 
-  protected translateComboBy(ids: ID[], offset: PositionPoint, options: PositionOptions) {
+  protected translateComboBy(ids: ID[], offset: PositionPoint, options?: PositionOptions) {
     const [dx, dy, dz] = offset;
     this.controller.data.model.once('changed', (event) => {
       const { changes } = event;
@@ -1100,7 +1121,7 @@ export class Graph extends EventEmitter {
     this.controller.data.translateComboBy(ids, [dx, dy, dz]);
   }
 
-  public async translateItemBy(ids: ID[], offset: PositionPoint, options: PositionOptions) {
+  public async translateItemBy(ids: ID[], offset: PositionPoint, options?: PositionOptions) {
     this.controller.data.model.once('changed', (event) => {
       this.handleDataChange(event, {
         ...options,
@@ -1119,11 +1140,11 @@ export class Graph extends EventEmitter {
           offset,
           options,
         );
-      } else console.debug(`Unsupported item type: ${type} (${items.map(({ id }) => id).join(', ')})})`);
+      } else warn(`Unsupported item type: ${type} (${items.map(({ id }) => id).join(', ')})})`);
     });
   }
 
-  public async translateItemTo(id: ID, position: PositionPoint, options: PositionOptions) {
+  public async translateItemTo(id: ID, position: PositionPoint, options?: PositionOptions) {
     const [x, y, z] = position;
     const itemType = this.controller.data.typeOf(id);
     if (itemType === 'node') {
@@ -1132,12 +1153,12 @@ export class Graph extends EventEmitter {
     if (itemType === 'combo') {
       return this.updateComboPosition([{ id, style: { x, y, z } }], options);
     }
-    console.debug(`Item: ${id} is unsupported to translate.`);
+    warn(`Item: ${id} is unsupported to translate.`);
   }
 
   public getItemPosition() {}
 
-  protected async updateNodePosition(data: NodeData[], options: PositionOptions) {
+  protected async updateNodePosition(data: NodeData[], options?: PositionOptions) {
     const { promise, resolve } = createPromise<void>();
     this.controller.data.model.once('changed', (event) =>
       // TODO 优化
@@ -1152,7 +1173,7 @@ export class Graph extends EventEmitter {
     return promise;
   }
 
-  protected async updateComboPosition(data: NodeData[], options: PositionOptions) {
+  protected async updateComboPosition(data: NodeData[], options?: PositionOptions) {
     const { promise, resolve } = createPromise<void>();
     this.controller.data.model.once('changed', (event) =>
       // TODO 优化
@@ -1287,7 +1308,7 @@ export class Graph extends EventEmitter {
    * @param state - <zh/> 状态 | <en/> state
    * @returns <zh/> 数据 | <en/> data
    */
-  public getItemDataByState(itemType: ItemType, state: string): NodeData[] | EdgeData[] | ComboData[] {
+  public getItemDataByState(itemType: ITEM_TYPE, state: string): NodeData[] | EdgeData[] | ComboData[] {
     const ids = this.controller.item.findIdByState(itemType, state);
 
     if (itemType === 'node') return this.getNodeData(ids);
@@ -1358,7 +1379,7 @@ export class Graph extends EventEmitter {
    * @param options - <zh/> 布局配置 | <en/> layout options
    * @public
    */
-  public setLayout(options: CallableValue<LayoutOption>) {
+  public setLayout(options: CallableValue<LayoutOptions>) {
     this.options.layout = isFunction(options) ? options(this.getLayout()) : options;
 
     this.hooks.layout.emitAsync({
@@ -1387,7 +1408,7 @@ export class Graph extends EventEmitter {
   public async layout(animate = true) {
     this.emit(GraphEvent.BEFORE_LAYOUT);
 
-    const emitAsync = (options: LayoutOption) => {
+    const emitAsync = (options: LayoutOptions) => {
       return this.hooks.layout.emitAsync({
         ...this.baseEmitParam,
         options,
@@ -1402,18 +1423,18 @@ export class Graph extends EventEmitter {
         await emitAsync({ type: 'grid' });
       } else {
         // Use user-defined position(x/y default to 0).
-        await emitAsync({
-          execute: async (graph) => {
-            const nodes = graph.getNodeData();
-            return {
-              nodes: nodes.map((node) => ({
-                id: node.id,
-                data: { x: node.style.x || 0, y: node.style.y || 0 },
-              })),
-              edges: [],
-            };
-          },
-        });
+        // await emitAsync({
+        //   execute: async (graph) => {
+        //     const nodes = graph.getNodeData();
+        //     return {
+        //       nodes: nodes.map((node) => ({
+        //         id: node.id,
+        //         data: { x: node.style.x || 0, y: node.style.y || 0 },
+        //       })),
+        //       edges: [],
+        //     };
+        //   },
+        // });
       }
     } else {
       await emitAsync(this.options.layout);
@@ -1510,7 +1531,7 @@ export class Graph extends EventEmitter {
   }
 
   public drawTransient(
-    type: ItemType | SHAPE_TYPE,
+    type: ITEM_TYPE | SHAPE_TYPE,
     id: ID,
     config: {
       action?: 'remove' | 'add' | 'update' | undefined;

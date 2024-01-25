@@ -51,10 +51,8 @@ describe('spec', () => {
           },
         },
         animate: {
-          default: {
-            enter: {
-              type: 'fade-in',
-            },
+          enter: {
+            type: 'fade-in',
           },
         },
         palette: {
@@ -194,17 +192,13 @@ describe('spec', () => {
         },
       },
       animate: {
-        default: {
-          enter: {
-            type: 'fade-in',
-            delay: 100,
-          },
+        enter: {
+          type: 'fade-in',
+          delay: 100,
         },
-        state1: {
-          show: {
-            type: 'wave-in',
-            duration: 100,
-          },
+        show: {
+          type: 'wave-in',
+          duration: 100,
         },
       },
       palette: 'spectral',
@@ -224,17 +218,13 @@ describe('spec', () => {
         },
       },
       animate: {
-        default: {
-          enter: {
-            type: 'fade-in',
-            delay: 100,
-          },
+        enter: {
+          type: 'fade-in',
+          delay: 100,
         },
-        state1: {
-          show: {
-            type: 'wave-in',
-            duration: 100,
-          },
+        show: {
+          type: 'wave-in',
+          duration: 100,
         },
       },
       palette: {
@@ -258,17 +248,13 @@ describe('spec', () => {
         },
       },
       animate: {
-        default: {
-          enter: {
-            type: 'fade-in',
-            delay: 100,
-          },
+        enter: {
+          type: 'fade-in',
+          delay: 100,
         },
-        state1: {
-          show: {
-            type: 'wave-in',
-            duration: 100,
-          },
+        show: {
+          type: 'wave-in',
+          duration: 100,
         },
       },
     };

@@ -4,7 +4,7 @@ import { Graph } from '../../types';
 import { Behavior } from '../../types/behavior';
 import { CANVAS_EVENT_TYPE, DOM_EVENT_TYPE, IG6GraphEvent } from '../../types/event';
 import { ItemInfo, getContextMenuEventProps, getItemInfoFromElement } from '../../utils/event';
-import { error, warn } from '../../utils/invariant';
+import { error } from '../../utils/invariant';
 
 type Listener = (event: IG6GraphEvent) => void;
 
@@ -32,7 +32,7 @@ const wrapListener = (type: string, eventName: string, listener: Listener): List
  */
 export class InteractionController {
   private graph: Graph;
-  private mode: string;
+  private mode: string[];
 
   /**
    * Available behaviors of current mode.
@@ -52,7 +52,7 @@ export class InteractionController {
 
   private prevItemInfo: ItemInfo;
 
-  constructor(graph: Graph<any, any>) {
+  constructor(graph: Graph) {
     this.graph = graph;
     this.initEvents();
     this.tap();
@@ -62,16 +62,10 @@ export class InteractionController {
    * Subscribe the lifecycle of graph.
    */
   private tap = (): void => {
-    this.graph.hooks.init.tap(() => this.onModeChange({ mode: 'default' }));
-    this.onModeChange({ mode: 'default' });
+    this.graph.hooks.init.tap(() => this.onModeChange({ mode: [] }));
+    this.onModeChange({ mode: [] });
     this.graph.hooks.modechange.tap(this.onModeChange);
     this.graph.hooks.behaviorchange.tap(this.onBehaviorChange);
-  };
-
-  private validateMode = (mode: string): boolean => {
-    if (mode === 'default') return true;
-    const modes = this.graph.getSpecification().modes || {};
-    return Object.keys(modes).includes(mode);
   };
 
   private initBehavior = (config: string | { type: string; key: string }): Behavior | null => {
@@ -130,16 +124,12 @@ export class InteractionController {
    * @param param contains the mode to switch to
    * @param param.mode
    */
-  private onModeChange = (param: { mode: string }) => {
+  private onModeChange = (param: { mode: string[] }) => {
     const { mode } = param;
 
     // Skip if set to same mode.
     if (this.mode === mode) {
       return;
-    }
-
-    if (!this.validateMode(mode)) {
-      warn(`Mode "${mode}" was not specified in current graph.`);
     }
 
     this.mode = mode;
@@ -152,7 +142,7 @@ export class InteractionController {
 
     // 2. Initialize new behaviors.
     this.behaviorMap.clear();
-    const behaviorConfigs = this.graph.getSpecification().modes?.[mode] || [];
+    const behaviorConfigs = this.graph.getOptions().modes?.[mode] || [];
     behaviorConfigs.forEach((config) => {
       this.initBehavior(config);
     });
@@ -225,7 +215,7 @@ export class InteractionController {
 
   private initEvents = () => {
     Object.values(CANVAS_EVENT_TYPE).forEach((eventName) => {
-      this.graph.canvas.document.addEventListener(eventName, this.handleCanvasEvent);
+      this.graph.canvas.main.document.addEventListener(eventName, this.handleCanvasEvent);
     });
     const $dom = this.graph.canvas.getContextService().getDomElement();
     Object.values(DOM_EVENT_TYPE).forEach((eventName) => {

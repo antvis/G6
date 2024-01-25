@@ -1,0 +1,32 @@
+{
+  "name": "@antv/g6-utils",
+  "version": "0.0.1",
+  "description": "A utils set of G6",
+  "keywords": [
+    "antv",
+    "g6",
+    "utils"
+  ],
+  "license": "MIT",
+  "author": "Aarebecca",
+  "main": "lib/index.js",
+  "module": "esm/index.js",
+  "types": "lib/index.d.ts",
+  "files": [
+    "src",
+    "esm",
+    "lib",
+    "dist"
+  ],
+  "scripts": {
+    "build": "run-p build:*",
+    "build:cjs": "rimraf ./lib && tsc --module commonjs --outDir lib",
+    "build:esm": "rimraf ./esm && tsc --module ESNext --outDir esm",
+    "build:umd": "rimraf ./dist && rollup -c",
+    "clean": "rimraf es lib dist",
+    "test": ""
+  },
+  "devDependencies": {
+    "@antv/g6": "workspace:*"
+  }
+}

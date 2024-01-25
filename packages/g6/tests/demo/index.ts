@@ -67,8 +67,11 @@ import minimap from './plugins/minimap';
 import snapline from './plugins/snapline';
 import mapper from './visual/mapper';
 
+export { default as base_item } from './item/base-item';
+export { default as simple_node } from './item/node/simple-node';
 export { default as timebar_chart } from './plugins/timebar-chart';
 export { default as timebar_time } from './plugins/timebar-time';
+export { default as spec_default } from './spec/spec-default';
 
 export {
   anchor,

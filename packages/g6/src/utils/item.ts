@@ -1,11 +1,11 @@
 import { Group } from '@antv/g';
 import { ID } from '@antv/graphlib';
 import { uniqueId } from '@antv/util';
-import Combo from '../item/combo';
-import Edge from '../item/edge';
-import Node from '../item/node';
+import Combo from '../element/combo';
+import Edge from '../element/edge';
+import Node from '../element/node';
 import { Graph } from '../types';
-import { GraphCore } from '../types/data';
+import { DataModel } from '../types/data';
 import { getCombinedBoundsByItem } from './shape';
 
 /**
@@ -20,7 +20,7 @@ export const getEdgesBetween = (graph: Graph, ids: ID[]): ID[] => {
     const edgesData = graph.getRelatedEdgesData(endId);
     edgesData.forEach((edge) => {
       const { source, target, id } = edge;
-      if (!graph.getItemVisible(id)) return; // hidden edge is not selectable
+      if (!graph.getItemVisibility(id)) return; // hidden edge is not selectable
       if (ids.includes(source) && ids.includes(target)) edgeIdSet.add(id);
     });
   });
@@ -36,7 +36,7 @@ export const upsertTransientItem = (
   edgeLabelGroup: Group,
   transientItemMap: Map<ID, Node | Edge | Combo | Group>,
   itemMap: Map<ID, Node | Edge | Combo>,
-  graphCore?: GraphCore,
+  graphCore?: DataModel,
   drawOptions: {
     shapeIds?: string[];
     /** For transient edge */
@@ -45,7 +45,7 @@ export const upsertTransientItem = (
     drawTarget?: boolean;
     visible?: boolean;
   } = {},
-  upsertAncestors = true,
+  updateAncestors = true,
 ) => {
   let transientItem = transientItemMap.get(item.model.id);
   if (transientItem) {
@@ -135,7 +135,7 @@ export const upsertTransientItem = (
   // @ts-ignore
   transientItem.transient = true;
 
-  if (item.type !== 'edge' && upsertAncestors && graphCore.hasTreeStructure('combo')) {
+  if (item.type !== 'edge' && updateAncestors && graphCore.hasTreeStructure('combo')) {
     // find the ancestors to upsert transients
     let currentAncestor = graphCore.getParent(item.model.id, 'combo');
     while (currentAncestor) {

@@ -22,3 +22,5 @@ export type DataId = {
   edges?: ID[];
   combos?: ID[];
 };
+
+export type NodeLikeData = NodeData | ComboData;

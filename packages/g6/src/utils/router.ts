@@ -1,5 +1,5 @@
 import { deepMix, map } from '@antv/util';
-import Node from '../item/node';
+import { NodeManager } from '../runtime/controller/element/manager/node';
 import { ID } from '../types';
 import { Point, PolyPoint } from '../types/common';
 import { getBBoxHeight, getBBoxWidth, getExpandedBBox, getExpandedBBoxPoint, isSegmentCrossingBBox } from './bbox';
@@ -25,7 +25,13 @@ export interface RouterCfg {
   /** Function to calculate the distance between two points */
   distFunc?: (p1: PolyPoint, p2: PolyPoint) => number;
   /** Simplified function to find path */
-  fallbackRoute?: (p1: PolyPoint, p2: PolyPoint, startNode?: Node, endNode?: Node, cfg?: RouterCfg) => PolyPoint[];
+  fallbackRoute?: (
+    p1: PolyPoint,
+    p2: PolyPoint,
+    startNode?: NodeManager,
+    endNode?: NodeManager,
+    cfg?: RouterCfg,
+  ) => PolyPoint[];
   /** Maximum loops */
   maximumLoops?: number;
   /**
@@ -92,9 +98,9 @@ const pos2GridIx = (pos: number, gridSize: number) => {
   return gridIx < 0 ? 0 : sign * gridIx;
 };
 
-const getObstacleMap = (items: Map<ID, Node>, gridSize: number, offset: number) => {
+const getObstacleMap = (items: Map<ID, NodeManager>, gridSize: number, offset: number) => {
   const obstacleMap = {};
-  items.forEach((item: Node) => {
+  items.forEach((item: NodeManager) => {
     if (!item || !item.isVisible()) return;
     const bbox = getExpandedBBox(item.getBBox(), offset);
     for (let x = pos2GridIx(bbox.min[0], gridSize); x <= pos2GridIx(bbox.max[0], gridSize); x += 1) {
@@ -160,7 +166,7 @@ const estimateCost = (from: PolyPoint, endPoints: PolyPoint[], distFunc) => {
 const getBoxPoints = (
   point: PolyPoint,
   oriPoint: PolyPoint,
-  node: Node,
+  node: NodeManager,
   anotherPoint: PolyPoint,
   cfg: RouterCfg,
 ): PolyPoint[] => {
@@ -346,7 +352,7 @@ export const pathFinder = (
   points: Point[],
   sourceNodeId: ID,
   targetNodeId: ID,
-  nodeMap: Map<ID, Node>,
+  nodeMap: Map<ID, NodeManager>,
   routerCfg?: RouterCfg,
 ): PolyPoint[] => {
   const startNode = nodeMap.get(sourceNodeId);

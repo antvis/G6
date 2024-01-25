@@ -1,12 +1,12 @@
-import { Graph } from '../../types';
-import { ViewportChangeHookParams } from '../../types/hook';
+import type { Graph } from '../graph';
+import { ViewportChangeParams } from '../hooks';
 
 let landmarkCounter = 0;
 
 export class ViewportController {
   public graph: Graph;
 
-  constructor(graph: Graph<any, any>) {
+  constructor(graph: Graph) {
     this.graph = graph;
     this.tap();
   }
@@ -18,9 +18,9 @@ export class ViewportController {
     this.graph.hooks.viewportchange.tap(this.onViewportChange.bind(this));
   }
 
-  private async onViewportChange({ transform, effectTiming }: ViewportChangeHookParams) {
-    const camera = this.graph.canvas.getCamera();
-    const transientCamera = this.graph.transientCanvas.getCamera();
+  private async onViewportChange({ transform, effectTiming }: ViewportChangeParams) {
+    const camera = this.graph.canvas.main.getCamera();
+    const transientCamera = this.graph.canvas.transient.getCamera();
     // @ts-ignore
     if (camera.landmarks?.length) {
       camera.cancelLandmarkAnimation();

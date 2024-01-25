@@ -4,6 +4,7 @@
  */
 
 import { runtime } from '@antv/g';
+import packageJson from '../package.json';
 import { Extensions, builtInPlugins, stdLib } from './plugin';
 import { PluginCategory, register } from './plugin/register';
 import { Graph } from './runtime/graph';
@@ -23,11 +24,7 @@ export type {
  */
 runtime.enableCSSParsing = false;
 
-/**
- * Extend the graph class with std lib
- */
-
-const version = '5.0.0';
+const version = packageJson.version;
 
 /**
  * <zh/> 注册内置插件

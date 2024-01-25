@@ -1,15 +1,22 @@
-import type { Cursor, DataURLOptions, CanvasConfig as GCanvasConfig, IRenderer, PointLike } from '@antv/g';
+import type {
+  Cursor,
+  DataURLOptions,
+  DisplayObject,
+  CanvasConfig as GCanvasConfig,
+  IRenderer,
+  PointLike,
+} from '@antv/g';
 import { Canvas as GCanvas } from '@antv/g';
 import { Renderer as CanvasRenderer } from '@antv/g-canvas';
 import { Plugin as DragNDropPlugin } from '@antv/g-plugin-dragndrop';
-import type { CanvasOption } from '../spec/canvas';
-import { createDOM } from '../utils/dom';
+import { createDOM } from '@antv/util';
+import type { CanvasOptions } from '../spec/canvas';
 import { createPromise } from '../utils/promise';
 import type { Layer } from './layered-canvas/types';
 
 export interface CanvasConfig
   extends Pick<GCanvasConfig, 'container' | 'devicePixelRatio' | 'width' | 'height' | 'background' | 'cursor'> {
-  renderer: CanvasOption['renderer'];
+  renderer: CanvasOptions['renderer'];
 }
 
 /**
@@ -151,8 +158,8 @@ export class Canvas {
     return this.main.getCamera();
   }
 
-  public appendChild(...args: Parameters<GCanvas['appendChild']>) {
-    return this.main.appendChild(...args);
+  public appendChild<T extends DisplayObject>(child: T): T {
+    return this.main.appendChild(child);
   }
 
   public getContextService() {

@@ -1,25 +1,22 @@
-import type { PositionPoint } from '../types/position';
 import { DEFAULT_ANIMATION_OPTIONS } from './constants';
-import type { AnimationFactor } from './types';
+import type { AnimationFactor, AnimationPresets } from './types';
 
-export const MoveTo: AnimationFactor<{ position: PositionPoint }> =
-  ({ position }) =>
-  (shape, options) => {
-    const [originX = 0, originY = 0, originZ = 0] = shape.getPosition();
-    const [targetX = 0, targetY = 0, targetZ = 0] = position;
+type MoveToAnimationPresets = AnimationPresets;
 
-    const deltaX = targetX - originX;
-    const deltaY = targetY - originY;
-    const deltaZ = targetZ - originZ;
+export const MoveTo: AnimationFactor<MoveToAnimationPresets> = (preset) => (shape, options, source) => {
+  const finalOptions = { ...DEFAULT_ANIMATION_OPTIONS, ...preset.options, ...options };
 
-    const keyframes = [
-      {
-        transform: 'translate(0)',
-      },
-      {
-        transform: `translate(${deltaX}, ${deltaY}, ${deltaZ})`,
-      },
-    ];
+  if (!source) return shape.animate([], finalOptions);
+  const positionAttrs = ['x', 'y', 'z'];
+  if (!positionAttrs.some((attr) => attr in source)) return shape.animate([], finalOptions);
 
-    return shape.animate(keyframes, { ...DEFAULT_ANIMATION_OPTIONS, ...options });
-  };
+  const { x: sourceX = 0, y: sourceY = 0, z: sourceZ = 0 } = source as any;
+
+  const [targetX = 0, targetY = 0, targetZ = 0] = shape.getPosition();
+
+  const keyframes = [
+    { x: sourceX, y: sourceY, z: sourceZ },
+    { x: targetX, y: targetY, z: targetZ },
+  ];
+  return shape.animate(keyframes, finalOptions);
+};

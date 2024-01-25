@@ -8,7 +8,7 @@
  * const prop1: CallableProp = 1;
  * const prop2: CallableProp = (value) => value;
  */
-export type CallableValue<Returns, Params = Returns> = Returns | ((args: Params) => Returns);
+export type CallableValue<Returns, Params extends unknown[] = [Returns]> = Returns | ((...args: Params) => Returns);
 
 /**
  * <zh/> 可回调对象
@@ -26,6 +26,6 @@ export type CallableValue<Returns, Params = Returns> = Returns | ((args: Params)
  *  fill: ({ model }) => model.value,
  * }
  */
-export type CallableObject<Obj extends Record<string, unknown>, Params = unknown> = {
+export type CallableObject<Obj extends Record<string, unknown>, Params extends unknown[] = unknown[]> = {
   [K in keyof Obj]: CallableValue<Obj[K], Params>;
 };

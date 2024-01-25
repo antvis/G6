@@ -1,7 +1,7 @@
 import { AABB } from '@antv/g';
 import { ID } from '@antv/graphlib';
 import { each } from '@antv/util';
-import Node from '../item/node';
+import Node from '../element/node';
 import { NodeDisplayModel } from '../types';
 import { Point, PolyPoint } from '../types/common';
 import { EdgeDisplayModel } from '../types/edge';

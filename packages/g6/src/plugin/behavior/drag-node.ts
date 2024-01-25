@@ -4,7 +4,7 @@ import { ComboModel, EdgeModel, NodeModel } from '../../types';
 import { Behavior } from '../../types/behavior';
 import { Point } from '../../types/common';
 import { IG6GraphEvent } from '../../types/event';
-import { graphComboTreeDfs } from '../../utils/data';
+import { graphComboTreeDFS } from '../../utils/data';
 import { warn } from '../../utils/invariant';
 import { isPointPreventPolylineOverlap, isPolylineWithObstacleAvoidance } from '../../utils/polyline';
 
@@ -156,7 +156,7 @@ export class DragNode extends Behavior {
    */
   private getRelatedEdges(selectedNodeIds: ID[], relatedCombo: (ComboModel | NodeModel)[]) {
     const relatedNodeComboIds = [];
-    graphComboTreeDfs(this.graph, relatedCombo, (item) => relatedNodeComboIds.push(item.id));
+    graphComboTreeDFS(this.graph, relatedCombo, (item) => relatedNodeComboIds.push(item.id));
 
     return uniq(
       selectedNodeIds.concat(relatedNodeComboIds).flatMap((nodeId) => this.graph.getRelatedEdgesData(nodeId)),

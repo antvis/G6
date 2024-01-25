@@ -64,7 +64,10 @@ export type AnimationType<R extends string> = R;
  * <en/> Animation configuration
  * @public
  */
-export type AnimationEffectTiming = Pick<IAnimationEffectTiming, 'duration' | 'delay' | 'easing' | 'iterations'> & {
+export type AnimationEffectTiming = Pick<
+  IAnimationEffectTiming,
+  'duration' | 'delay' | 'easing' | 'iterations' | 'fill'
+> & {
   type: AnimationType<string>;
   onFinish?: () => void;
   onCancel?: () => void;

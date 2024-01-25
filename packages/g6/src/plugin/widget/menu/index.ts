@@ -1,6 +1,6 @@
 import { createDOM, isString, modifyCSS, uniqueId } from '@antv/util';
 import insertCss from 'insert-css';
-import Item from '../../../item/item';
+import Item from '../../../element/item';
 import { Graph } from '../../../types';
 import { IG6GraphEvent } from '../../../types/event';
 import { Plugin as Base, IPluginBaseConfig } from '../../../types/plugin';

@@ -4,7 +4,7 @@ import { ComboModel, EdgeModel, NodeModel } from '../../types';
 import { Behavior } from '../../types/behavior';
 import { Point } from '../../types/common';
 import { IG6GraphEvent } from '../../types/event';
-import { graphComboTreeDfs } from '../../utils/data';
+import { graphComboTreeDFS } from '../../utils/data';
 import { warn } from '../../utils/invariant';
 
 const DELEGATE_SHAPE_ID = 'g6-drag-combo-delegate-shape';
@@ -147,7 +147,7 @@ export class DragCombo extends Behavior {
    */
   private getRelatedEdges(selectedComboIds: ID[], comboTreeRoots: (ComboModel | NodeModel)[]) {
     let edges = selectedComboIds.flatMap((comboId) => this.graph.getRelatedEdgesData(comboId));
-    graphComboTreeDfs(this.graph, comboTreeRoots, (child) => {
+    graphComboTreeDFS(this.graph, comboTreeRoots, (child) => {
       edges = edges.concat(this.graph.getRelatedEdgesData(child.id));
     });
     return uniq(edges).filter((edgeData) => {
@@ -176,7 +176,7 @@ export class DragCombo extends Behavior {
     }
 
     const items = begins;
-    graphComboTreeDfs(this.graph, begins, (child) => items.push(child), 'TB');
+    graphComboTreeDFS(this.graph, begins, (child) => items.push(child), 'TB');
     return uniq(items).filter((item) => !selectedComboIds.includes(item.id) && this.graph.getItemVisible(item.id));
   }
 

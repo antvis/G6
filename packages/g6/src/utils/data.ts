@@ -2,7 +2,7 @@ import { connectedComponent, depthFirstSearch } from '@antv/algorithm';
 import { Edge, ID, Node, TreeData } from '@antv/graphlib';
 import { isArray } from '@antv/util';
 import type { Graph } from '../runtime/graph';
-import { ComboData, DataOption, EdgeData, NodeData } from '../spec/data';
+import { ComboData, DataOptions, EdgeData, NodeData } from '../spec/data';
 import { NodeModel, NodeUserModel } from '../types';
 import { DataModel, GraphData } from '../types/data';
 import { NodeUserModelData } from '../types/node';
@@ -322,7 +322,7 @@ export function transformSpecDataToGraphlibData<T extends NodeData | EdgeData | 
  * @param data - <zh/> 节点/边/Combo 的数据 | <en/> data of node/edge/combo
  * @returns - <zh/> 节点/边/Combo 的 ID | <en/> ID of node/edge/combo
  */
-export function dataIdOf(data: DataOption) {
+export function dataIdOf(data: DataOptions) {
   const { nodes = [], edges = [], combos = [] } = data;
   return {
     nodes: nodes.map(idOf),

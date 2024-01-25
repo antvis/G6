@@ -4,6 +4,7 @@ import { AnimateTiming, IAnimate, IAnimates } from '../types/animate';
 import { ItemShapeStyles, ShapeStyle } from '../types/item';
 import { isArrayOverlap, replaceElements } from './array';
 import { cloneJSON } from './data';
+import { getDescendantShapes } from './shape';
 
 /**
  * Initial(timing = show) shape animation start from init shape styles, and end to the shape's style config.
@@ -320,31 +321,6 @@ const runAnimateOnShape = (
 };
 
 /**
- * Check and format the frames. If the frames are same, return false. If frames contains undefined x or y, format them.
- * @param frames
- * @param shape
- * @returns
- */
-const checkFrames = (frames, shape) => {
-  if (JSON.stringify(frames[0]) === JSON.stringify(frames[1])) return false;
-  ['x', 'y'].forEach((dim) => {
-    if (!(dim in frames[0])) return;
-    let val;
-    const formatted = [...frames];
-    if (frames[0][dim] === undefined && frames[0][dim] !== frames[1][dim]) val = frames[1][dim];
-    if (frames[1][dim] === undefined && frames[0][dim] !== frames[1][dim]) val = frames[1][dim];
-    if (val !== undefined) {
-      shape.style[dim] = val;
-      delete formatted[0][dim];
-      delete formatted[1][dim];
-    }
-  });
-  if (JSON.stringify(frames[0]) === JSON.stringify(frames[1])) return false;
-
-  return true;
-};
-
-/**
  * Handle shape and group animations.
  * Should be called after canvas ready and shape appended.
  * @param animates
@@ -457,29 +433,6 @@ export const getAnimatesExcludePosition = (animates) => {
   };
 };
 
-export const fadeIn = (id, shape, style, hiddenShape, animateConfig) => {
-  // omit in-existence shape and the shape which is not hidden by zoom changing
-  if (!shape || !hiddenShape[id]) return;
-  if (!shape?.isVisible()) {
-    shape.style.opacity = 0;
-    shape.show();
-  }
-  const { opacity: oriOpacity = 1 } = shape.attributes;
-  if (oriOpacity === 1) return;
-  const { opacity = 1 } = style;
-  shape.animate([{ opacity: 0 }, { opacity }], animateConfig);
-};
-
-export const fadeOut = (id, shape, hiddenShapeMap, animateConfig) => {
-  if (!shape?.isVisible()) return;
-  hiddenShapeMap[id] = true;
-  const { opacity = 1 } = shape.attributes;
-  if (opacity === 0) return;
-  const animation = shape.animate([{ opacity }, { opacity: 0 }], animateConfig);
-  if (animation) animation.onfinish = () => shape.hide();
-  else shape.hide();
-};
-
 /**
  * Make the animation to the end frame and clear it from the target shape.
  * @param animation
@@ -490,3 +443,71 @@ export const stopAnimate = (animation: IAnimation): Promise<any> => {
   animation.finish();
   return animation.finished;
 };
+
+/**
+ * <zh/> 对图形执行动画
+ *
+ * <en/> Animate the shape
+ * @param shape - <zh/> 待执行动画的图形 | <en/> the shape to be animated
+ * @param keyframes - <zh/> 动画关键帧 | <en/> keyframes of the animation
+ * @param options - <zh/> 动画配置项 | <en/> animation options
+ * @returns <zh/> 动画对象 | <en/> animation object
+ * @description
+ * <zh/> 在设置 enableCSSParsing 为 false 后，复合图形无法继承父属性，因此对于一些需要继承父属性的动画，需要对所有子图形执行相同的动画
+ *
+ * <en/> After setting enableCSSParsing to false, the compound shape cannot inherit the parent attribute, so for some animations that need to inherit the parent attribute, the same animation needs to be performed on all child shapes
+ */
+export function executeAnimate<T extends DisplayObject>(
+  shape: T,
+  keyframes: Keyframe[],
+  options: KeyframeAnimationOptions,
+) {
+  const inheritedAttrs = ['opacity'];
+
+  const needInheritAnimation = keyframes.some((keyframe) =>
+    Object.keys(keyframe).some((attr) => inheritedAttrs.includes(attr)),
+  );
+
+  if (!needInheritAnimation) return shape.animate(keyframes, options);
+  const inheritAttrsKeyframes = keyframes.map((keyframe) => {
+    const newKeyframe: Keyframe = {};
+    Object.entries(keyframe).forEach(([attr, value]) => {
+      if (inheritedAttrs.includes(attr)) {
+        newKeyframe[attr] = value;
+      }
+    });
+    return newKeyframe;
+  });
+
+  const descendants = getDescendantShapes(shape);
+
+  const keyShapeAnimation = shape.animate(keyframes, options);
+  const descendantAnimations = descendants.map((descendant) => descendant.animate(inheritAttrsKeyframes, options));
+  return createAnimationsProxy(keyShapeAnimation, descendantAnimations);
+}
+
+/**
+ * <zh/> 创建动画代理，对一个动画实例的操作同步到多个动画实例上
+ *
+ * <en/> create animation proxy, synchronize animation to multiple animation instances
+ * @param sourceAnimation - <zh/> 源动画实例 | <en/> source animation instance
+ * @param targetAnimations - <zh/> 目标动画实例 | <en/> target animation instance
+ * @returns <zh/> 动画代理 | <en/> animation proxy
+ */
+export function createAnimationsProxy(sourceAnimation: IAnimation, targetAnimations: IAnimation[]): IAnimation {
+  return new Proxy(sourceAnimation, {
+    get(target, propKey) {
+      if (typeof target[propKey] === 'function') {
+        return (...args: unknown[]) => {
+          target[propKey](...args);
+          targetAnimations.forEach((animation) => animation[propKey]?.(...args));
+        };
+      }
+      return Reflect.get(target, propKey);
+    },
+    set(target, propKey, value) {
+      targetAnimations.forEach((animation) => (animation[propKey] = value));
+      return Reflect.set(target, propKey, value);
+    },
+  });
+}

@@ -1,17 +1,18 @@
 import { GraphChange, ID } from '@antv/graphlib';
 import type { G6Spec } from '../spec';
-import type { DataOption } from '../spec/data';
+import type { ComboData, DataOptions, EdgeData, NodeData } from '../spec/data';
 import { ComboOptions, EdgeOptions, NodeOptions } from '../spec/element';
-import { LayoutOption } from '../spec/layout';
+import { LayoutOptions } from '../spec/layout';
 import { STDWidget } from '../spec/widget';
 import { AnimationOptions } from '../types/animate';
 import { ComboDisplayModel, ComboModel, ComboShapesEncode } from '../types/combo';
 import type { DataChangeType, DataId } from '../types/data';
-import { EdgeDisplayModel, EdgeModel, EdgeModelData, EdgeShapesEncode } from '../types/edge';
+import { EdgeDisplayModel, EdgeModel, EdgeShapesEncode } from '../types/edge';
 import { ItemType, SHAPE_TYPE, ShapeStyle, State } from '../types/item';
-import { NodeDisplayModel, NodeModel, NodeModelData, NodeShapesEncode } from '../types/node';
+import { NodeDisplayModel, NodeModel, NodeShapesEncode } from '../types/node';
 import { Theme } from '../types/theme';
 import { GraphTransformOptions } from '../types/view';
+import { Canvas } from './canvas';
 import type { Controller } from './controller';
 import type { Graph } from './graph';
 
@@ -149,6 +150,7 @@ export class Hooks {
 }
 
 export interface RuntimeContext {
+  canvas: Canvas;
   options: G6Spec;
   graph: Graph;
   controller: Controller;
@@ -163,7 +165,7 @@ export interface InitParams extends BaseParams {}
 export type DataChangeParams =
   | {
       type: Exclude<DataChangeType, 'remove'>;
-      data: DataOption;
+      data: DataOptions;
     }
   | {
       type: Extract<DataChangeType, 'remove'>;
@@ -171,17 +173,20 @@ export type DataChangeParams =
     };
 
 export interface ItemChangeParams extends BaseParams {
-  changes: GraphChange<NodeModelData, EdgeModelData>[];
-  updateAncestors?: boolean;
+  changes: GraphChange<NodeData, EdgeData>[];
   animate?: boolean;
   action?: 'updatePosition';
-  callback?: (model: NodeModel | EdgeModel | ComboModel) => void;
+  callback?: (model: NodeData | EdgeData | ComboData) => void;
 }
 
 export interface RenderParams extends BaseParams {}
 
+export interface ElementUpdateParams extends BaseParams {
+  changes: GraphChange<NodeData, EdgeData>[];
+}
+
 export interface LayoutParams extends BaseParams {
-  options?: LayoutOption;
+  options?: LayoutOptions;
   animate?: boolean;
 }
 
