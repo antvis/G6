@@ -26,7 +26,7 @@ module.exports = {
   collectCoverageFrom: ['src/**/*.ts'],
   moduleFileExtensions: ['ts', 'tsx', 'js', 'json'],
   collectCoverage: false,
-  testRegex: '(/tests/.*\\.(test|spec))\\.(ts|tsx|js)$',
+  testRegex: '(/__tests__/.*\\.(test|spec))\\.(ts|tsx|js)$',
   // Transform esm to cjs.
   transformIgnorePatterns: [`<rootDir>/node_modules/(?!(${esm}))`],
 };

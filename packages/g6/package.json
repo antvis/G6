@@ -37,15 +37,15 @@
     "ci": "run-s lint build test",
     "coverage": "jest --coverage",
     "dev": "vite",
-    "fix": "eslint ./src ./tests --fix && prettier ./src ./tests --write ",
+    "fix": "eslint ./src ./__tests__ --fix && prettier ./src __tests__ --write ",
     "jest:base": "node --expose-gc --max-old-space-size=4096 --unhandled-rejections=strict --experimental-vm-modules ../../node_modules/jest/bin/jest --coverage --logHeapUsage --detectOpenHandles",
-    "lint": "eslint ./src ./tests --quiet && prettier ./src ./tests --check",
+    "lint": "eslint ./src __tests__ --quiet && prettier ./src __tests__ --check",
     "prepublishOnly": "npm run ci",
     "size": "limit-size",
     "start": "rimraf ./lib && tsc --module commonjs --outDir lib --watch",
     "test": "run-s test:*",
-    "test:integration": "npm run jest:base ./tests/integration",
-    "test:unit": "npm run jest:base ./tests/unit"
+    "test:integration": "npm run jest:base __tests__/integration",
+    "test:unit": "npm run jest:base __tests__/unit"
   },
   "dependencies": {
     "@antv/algorithm": "^0.1.26",
