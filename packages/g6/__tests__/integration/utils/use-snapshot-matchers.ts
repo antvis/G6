@@ -1,4 +1,4 @@
-import { toMatchSVGSnapshot, ToMatchSVGSnapshotOptions } from './toMatchSVGSnapshot';
+import { toMatchSVGSnapshot, ToMatchSVGSnapshotOptions } from './to-match-svg-snapshot';
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace

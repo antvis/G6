@@ -2,7 +2,7 @@ import * as staticCases from '../demo/static';
 import { createNodeGCanvas } from './utils/create-node-g-canvas';
 import { getCases } from './utils/get-cases';
 import { sleep } from './utils/sleep';
-import './utils/useSnapshotMatchers';
+import './utils/use-snapshot-matchers';
 
 describe('static', () => {
   const cases = getCases(staticCases);
