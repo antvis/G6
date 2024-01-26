@@ -1,5 +1,5 @@
 import type { ElementData } from '../elements/types';
-import type { EdgeData } from '../spec/data';
+import type { EdgeData } from '../spec';
 
 /**
  * <zh/> 判断是否为边数据
