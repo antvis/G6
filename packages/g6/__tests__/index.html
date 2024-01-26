@@ -6,9 +6,17 @@
     <title>G6: Preview</title>
   </head>
 
-  <body>
+  <body style="font-family: Arial, Helvetica, sans-serif">
     <div id="app">
-      <div id="container" style="height: 500px; width: 100%"></div>
+      <label for="demo-select">Cases: </label>
+      <select id="demo-select" style="cursor: pointer; width: 180px"></select>
+      <label for="renderer-select">Renderer: </label>
+      <select id="renderer-select" style="cursor: pointer">
+        <option value="default" selected>Default</option>
+        <option value="canvas" selected>Canvas</option>
+        <option value="svg">SVG</option>
+        <option value="webgl">WebGL</option>
+      </select>
     </div>
     <script type="module" src="./main.ts"></script>
   </body>
