@@ -35,8 +35,10 @@ export const layeredCanvas: TestCase = async (context) => {
     },
   });
 
-  return canvas.ready.then(() => {
-    canvas.appendChild(circle);
-    canvas.appendChild(rect);
-  });
+  await canvas.init();
+
+  canvas.appendChild(circle);
+  canvas.appendChild(rect);
+
+  return;
 };

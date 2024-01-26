@@ -22,9 +22,6 @@ export interface CanvasConfig
  * @deprecated this canvas will be replace by layered canvas
  */
 export class Canvas {
-  public ready: Promise<void>;
-  protected resolveReady: () => void;
-
   protected config: CanvasConfig;
 
   public background: GCanvas;
@@ -45,15 +42,8 @@ export class Canvas {
 
   public renderers: Record<CanvasLayer, IRenderer>;
 
-  private initReady() {
-    this.ready = new Promise<void>((resolve) => {
-      this.resolveReady = resolve;
-    });
-  }
-
   constructor(config: CanvasConfig) {
     this.config = config;
-    this.initReady();
     const { renderer: getRenderer, ...restConfig } = config;
     const names: CanvasLayer[] = ['main', 'label', 'transient', 'transientLabel', 'background'];
 
@@ -84,21 +74,21 @@ export class Canvas {
 
     this.renderers = Object.fromEntries(renderers);
 
-    Promise.all(Object.values(this.canvas).map((canvas) => canvas.ready))
-      .then(() => {
-        Object.entries(this.canvas).forEach(([name, canvas]) => {
-          const domElement = canvas.getContextService().getDomElement() as unknown as HTMLElement;
+    this.init().then(() => {
+      Object.entries(this.canvas).forEach(([name, canvas]) => {
+        const domElement = canvas.getContextService().getDomElement() as unknown as HTMLElement;
 
-          domElement.style.position = 'absolute';
-          domElement.style.outline = 'none';
-          domElement.tabIndex = 1;
+        domElement.style.position = 'absolute';
+        domElement.style.outline = 'none';
+        domElement.tabIndex = 1;
 
-          if (name !== 'main') domElement.style.pointerEvents = 'none';
-        });
-      })
-      .then(() => {
-        this.resolveReady();
+        if (name !== 'main') domElement.style.pointerEvents = 'none';
       });
+    });
+  }
+
+  public init() {
+    return Promise.all(Object.values(this.canvas).map((canvas) => canvas.ready));
   }
 
   public getRendererType(layer: CanvasLayer = 'main') {
