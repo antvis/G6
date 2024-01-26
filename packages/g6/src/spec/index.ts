@@ -1,6 +1,6 @@
 export type { BehaviorOptions } from './behavior';
 export type { CanvasOptions } from './canvas';
-export type { DataOptions } from './data';
+export type { ComboData, DataOptions, EdgeData, NodeData } from './data';
 export type { ComboOptions } from './element/combo';
 export type { EdgeOptions } from './element/edge';
 export type { NodeOptions } from './element/node';

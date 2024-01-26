@@ -1,9 +1,10 @@
 import type { Edge, Node } from '@antv/graphlib';
 import type { ComboData, EdgeData, NodeData } from '../spec';
+import { NodeLikeData } from '../types/data';
 import { isEdgeData } from './is';
 
 export function toGraphlibData(datums: EdgeData): Edge<EdgeData>;
-export function toGraphlibData(datums: NodeData | ComboData): Node<NodeData | ComboData>;
+export function toGraphlibData(datums: NodeLikeData): Node<NodeLikeData>;
 /**
  * <zh/> 将 NodeData、EdgeData、ComboData 转换为 graphlib 的数据结构
  *
@@ -11,7 +12,7 @@ export function toGraphlibData(datums: NodeData | ComboData): Node<NodeData | Co
  * @param data - <zh/> 节点、边、combo 数据 | <en/> node, combo data
  * @returns <zh/> graphlib 数据 | <en/> graphlib data
  */
-export function toGraphlibData(data: NodeData | EdgeData | ComboData): Node<NodeData | ComboData> | Edge<EdgeData> {
+export function toGraphlibData(data: NodeData | EdgeData | ComboData): Node<NodeLikeData> | Edge<EdgeData> {
   if (isEdgeData(data)) {
     const { style, data: customData, ...rest } = data;
     return {
@@ -19,11 +20,11 @@ export function toGraphlibData(data: NodeData | EdgeData | ComboData): Node<Node
       data,
     } as Edge<EdgeData>;
   }
-  return { id: data.id, data } as Node<NodeData | ComboData>;
+  return { id: data.id, data } as Node<NodeLikeData>;
 }
 
 export function toG6Data<T extends EdgeData>(data: Edge<T>): T;
-export function toG6Data<T extends NodeData | ComboData>(data: Node<T>): T;
+export function toG6Data<T extends NodeLikeData>(data: Node<T>): T;
 /**
  * <zh/> 将 Node、Edge、Combo 转换为 G6 的数据结构
  *
