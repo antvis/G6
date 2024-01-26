@@ -39,7 +39,7 @@ export abstract class BaseShape<T extends BaseShapeStyleProps> extends CustomEle
    */
   protected upsert<P extends DisplayObject>(
     key: string,
-    Ctor: { new (...args: unknown[]): P },
+    Ctor: { new (...args: any[]): P },
     style: P['attributes'],
     container: DisplayObject,
   ) {
@@ -121,19 +121,19 @@ export abstract class BaseShape<T extends BaseShapeStyleProps> extends CustomEle
     keyframes: PropertyIndexedKeyframes | Keyframe[],
     options?: number | KeyframeAnimationOptions,
   ): IAnimation {
-    if (!keyframes) return null;
     this.animateMap = {};
 
-    const result = super.animate(keyframes, options);
+    const result = super.animate(keyframes, options)!;
 
     if (Array.isArray(keyframes) && keyframes.length > 0) {
       Object.entries(this.shapeMap).forEach(([key, shape]) => {
         // 如果存在方法名为 `get${key}Style` 的方法，则使用该方法获取样式，并自动为该图形实例创建动画
         // if there is a method named `get${key}Style`, use this method to get style and automatically create animation for the shape instance
-        const methodName = `get${key[0].toUpperCase()}${key.slice(1)}Style`;
+        const methodName = `get${key[0].toUpperCase()}${key.slice(1)}Style` as keyof this;
+        const method = this[methodName];
 
-        if (typeof this[methodName] === 'function') {
-          const subKeyframes: Keyframe[] = keyframes.map((style) => this[methodName](style));
+        if (typeof method === 'function') {
+          const subKeyframes: Keyframe[] = keyframes.map((style) => method.call(this, style));
 
           // 转化为 PropertyIndexedKeyframes 格式方便后续处理
           // convert to PropertyIndexedKeyframes format for subsequent processing
@@ -174,7 +174,7 @@ export abstract class BaseShape<T extends BaseShapeStyleProps> extends CustomEle
               return acc;
             }, [] as Keyframe[]),
             options,
-          );
+          )!;
         }
       });
     } else {

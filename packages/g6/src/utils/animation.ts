@@ -10,17 +10,17 @@ import type { IAnimation } from '@antv/g';
  */
 export function createAnimationsProxy(sourceAnimation: IAnimation, targetAnimations: IAnimation[]): IAnimation {
   return new Proxy(sourceAnimation, {
-    get(target, propKey) {
+    get(target, propKey: keyof IAnimation) {
       if (typeof target[propKey] === 'function') {
         return (...args: unknown[]) => {
-          target[propKey](...args);
-          targetAnimations.forEach((animation) => animation[propKey]?.(...args));
+          (target[propKey] as any)(...args);
+          targetAnimations.forEach((animation) => (animation[propKey] as any)?.(...args));
         };
       }
       return Reflect.get(target, propKey);
     },
-    set(target, propKey, value) {
-      targetAnimations.forEach((animation) => (animation[propKey] = value));
+    set(target, propKey: keyof IAnimation, value) {
+      targetAnimations.forEach((animation) => ((animation[propKey] as any) = value));
       return Reflect.set(target, propKey, value);
     },
   });
