@@ -1,7 +1,7 @@
 import { Label } from '../../../src/elements/shapes';
 import type { StaticTestCase } from '../types';
 
-export const labelShape: StaticTestCase = async (context) => {
+export const shapeLabel: StaticTestCase = async (context) => {
   const { canvas } = context;
 
   const label1 = new Label({
@@ -40,9 +40,29 @@ export const labelShape: StaticTestCase = async (context) => {
     },
   });
 
+  const label4 = new Label({
+    style: {
+      text: 'Long Text Long Text Long Text Long Text Long Text Long Text Long Text Long Text...',
+      x: 50,
+      y: 350,
+      fill: '#e45454',
+      wordWrap: true,
+      maxLines: 2,
+      cursor: 'pointer',
+      wordWrapWidth: 250,
+      textOverflow: '...',
+      textBaseline: 'middle',
+      backgroundFill: '#fce9e9',
+      backgroundLineCap: 'butt',
+      backgroundLineDash: [5, 5],
+      backgroundStroke: '#e45454',
+    },
+  });
+
   await canvas.init();
 
   canvas.appendChild(label1);
   canvas.appendChild(label2);
   canvas.appendChild(label3);
+  canvas.appendChild(label4);
 };

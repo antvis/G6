@@ -112,6 +112,39 @@
           </text>
         </g>
       </g>
+      <g
+        id="g-svg-14"
+        fill="rgba(228,84,84,1)"
+        stroke="none"
+        transform="matrix(1,0,0,1,50,350)"
+      >
+        <g stroke-dasharray="5px,5px" transform="matrix(1,0,0,1,-5,-36)">
+          <path
+            id="background"
+            fill="rgba(252,233,233,1)"
+            d="M 0,0 l 260,0 l 0,72 l-260 0 z"
+            stroke="rgba(228,84,84,1)"
+            width="260px"
+            height="72px"
+          />
+        </g>
+        <g transform="matrix(1,0,0,1,0,0)">
+          <text
+            id="text"
+            fill="rgba(228,84,84,1)"
+            dominant-baseline="central"
+            paint-order="stroke"
+            stroke="none"
+          >
+            <tspan x="0" dx="0.5" dy="-15.5">
+              Long Text Long Text Long Text
+            </tspan>
+            <tspan x="0" dx="0.5" dy="31">
+              Long Text Long Text Long Te...
+            </tspan>
+          </text>
+        </g>
+      </g>
     </g>
   </g>
 </svg>
