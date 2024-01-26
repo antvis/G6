@@ -1,4 +1,4 @@
-import { DisplayObjectConfig, Group } from '@antv/g';
+import type { DisplayObjectConfig, Group } from '@antv/g';
 import { deepMix } from '@antv/util';
 import { BaseShape } from './base-shape';
 import type { LabelStyleProps } from './label';
