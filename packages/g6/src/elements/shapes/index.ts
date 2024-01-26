@@ -5,7 +5,9 @@
  */
 
 export { Badge } from './badge';
+export { BaseShape } from './base-shape';
 export { Label } from './label';
 
 export type { BadgeOptions } from './badge';
+export type { BaseShapeStyleProps } from './base-shape';
 export type { LabelOptions } from './label';
