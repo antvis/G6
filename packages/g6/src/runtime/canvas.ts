@@ -87,13 +87,13 @@ export class Canvas {
     Promise.all(Object.values(this.canvas).map((canvas) => canvas.ready))
       .then(() => {
         Object.entries(this.canvas).forEach(([name, canvas]) => {
-          const $domElement = canvas.getContextService().getDomElement() as unknown as HTMLElement;
+          const domElement = canvas.getContextService().getDomElement() as unknown as HTMLElement;
 
-          $domElement.style.position = 'absolute';
-          $domElement.style.outline = 'none';
-          $domElement.tabIndex = 1;
+          domElement.style.position = 'absolute';
+          domElement.style.outline = 'none';
+          domElement.tabIndex = 1;
 
-          if (name !== 'main') $domElement.style.pointerEvents = 'none';
+          if (name !== 'main') domElement.style.pointerEvents = 'none';
         });
       })
       .then(() => {
@@ -174,7 +174,7 @@ export class Canvas {
 
     const container: HTMLElement = createDOM('<div id="virtual-image"></div>');
 
-    const $canvas = new GCanvas({
+    const offscreenCanvas = new GCanvas({
       width,
       height,
       renderer: getRenderer('main'),
@@ -183,31 +183,31 @@ export class Canvas {
       background: this.background.getConfig().background,
     });
 
-    await $canvas.ready;
+    await offscreenCanvas.ready;
 
-    $canvas.appendChild(this.background.getRoot().cloneNode(true));
-    $canvas.appendChild(this.main.getRoot().cloneNode(true));
+    offscreenCanvas.appendChild(this.background.getRoot().cloneNode(true));
+    offscreenCanvas.appendChild(this.main.getRoot().cloneNode(true));
 
     // Handle label canvas
     const label = this.label.getRoot().cloneNode(true);
-    const originCanvasPosition = $canvas.viewport2Canvas({ x: 0, y: 0 });
+    const originCanvasPosition = offscreenCanvas.viewport2Canvas({ x: 0, y: 0 });
     const currentCanvasPosition = this.main.viewport2Canvas({ x: 0, y: 0 });
     label.translate([
       currentCanvasPosition.x - originCanvasPosition.x,
       currentCanvasPosition.y - originCanvasPosition.y,
     ]);
     label.scale(1 / this.main.getCamera().getZoom());
-    $canvas.appendChild(label);
+    offscreenCanvas.appendChild(label);
 
-    $canvas.appendChild(this.transient.getRoot().cloneNode(true));
+    offscreenCanvas.appendChild(this.transient.getRoot().cloneNode(true));
 
     const camera = this.main.getCamera();
-    const $camera = $canvas.getCamera();
-    $camera.setZoom(camera.getZoom());
-    $camera.setPosition(camera.getPosition());
-    $camera.setFocalPoint(camera.getFocalPoint());
+    const offscreenCamera = offscreenCanvas.getCamera();
+    offscreenCamera.setZoom(camera.getZoom());
+    offscreenCamera.setPosition(camera.getPosition());
+    offscreenCamera.setFocalPoint(camera.getFocalPoint());
 
-    const contextService = $canvas.getContextService();
+    const contextService = offscreenCanvas.getContextService();
 
     return contextService.toDataURL(options);
   }

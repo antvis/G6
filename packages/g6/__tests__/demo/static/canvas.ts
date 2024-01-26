@@ -2,7 +2,7 @@ import { Circle, Rect } from '@antv/g';
 import { Canvas } from '../../../src/runtime/canvas';
 import type { TestCase } from '../types';
 
-export const LayeredCanvas: TestCase = async (context) => {
+export const layeredCanvas: TestCase = async (context) => {
   const {
     container,
     width,
