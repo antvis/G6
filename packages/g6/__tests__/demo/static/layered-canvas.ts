@@ -1,7 +1,7 @@
 import { Circle, Rect } from '@antv/g';
-import type { TestCase } from '../types';
+import type { StaticTestCase } from '../types';
 
-export const layeredCanvas: TestCase = async (context) => {
+export const layeredCanvas: StaticTestCase = async (context) => {
   const { canvas } = context;
 
   const circle = new Circle({
