@@ -5,23 +5,9 @@ import {
   startsWith,
   subStyleProps,
   superStyleProps,
-  toLowercaseFirstLetter,
-  toUppercaseFirstLetter,
 } from '../../../src/utils/prefix';
 
 describe('prefix', () => {
-  it('toUppercaseFirstLetter', () => {
-    expect(toUppercaseFirstLetter('abc')).toBe('Abc');
-    expect(toUppercaseFirstLetter('Abc')).toBe('Abc');
-    expect(toUppercaseFirstLetter('')).toBe('');
-  });
-
-  it('toLowercaseFirstLetter', () => {
-    expect(toLowercaseFirstLetter('abc')).toBe('abc');
-    expect(toLowercaseFirstLetter('Abc')).toBe('abc');
-    expect(toLowercaseFirstLetter('')).toBe('');
-  });
-
   it('addPrefix', () => {
     expect(addPrefix('abc', 'prefix')).toBe('prefixAbc');
     expect(addPrefix('Abc', 'prefix')).toBe('prefixAbc');
