@@ -18,6 +18,12 @@ module.exports = {
         sourceType: 'script',
       },
     },
+    {
+      files: ['**/__tests__/**'],
+      rules: {
+        'jsdoc/require-jsdoc': 0,
+      },
+    },
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {

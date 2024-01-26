@@ -63,8 +63,10 @@
     "@antv/g-plugin-control": "^1.9.17",
     "@antv/g-svg": "^1.10.21",
     "@antv/g-webgl": "^1.9.29",
+    "@types/xmlserializer": "^0.6.6",
     "stats.js": "^0.17.0",
-    "vite": "^5.0.10"
+    "vite": "^5.0.10",
+    "xmlserializer": "^0.6.1"
   },
   "limit-size": [
     {

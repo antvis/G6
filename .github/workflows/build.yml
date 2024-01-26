@@ -37,5 +37,5 @@ jobs:
         with:
           name: snapshots
           path: |
-            packages/g6/tests/integration/snapshots/**/*-actual.svg
+            packages/g6/__tests__/integration/snapshots/**/*-actual.svg
           retention-days: 1
