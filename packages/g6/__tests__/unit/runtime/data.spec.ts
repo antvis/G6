@@ -1,11 +1,6 @@
 import { clone } from '@antv/util';
 import { DataController } from '../../../src/runtime/data';
 
-class Graph {}
-function newGraph() {
-  return new Graph() as any;
-}
-
 const data = {
   nodes: [
     { id: 'node-1', data: { value: 1 }, style: { fill: 'red' } },
@@ -21,15 +16,14 @@ const data = {
 
 describe('DataController', () => {
   it('init', () => {
-    const controller = new DataController(newGraph());
+    const controller = new DataController();
 
     expect(controller).toBeDefined();
-    expect(controller.graph).toBeInstanceOf(Graph);
     expect(controller.model).toBeDefined();
   });
 
   it('empty data', () => {
-    const controller = new DataController(newGraph());
+    const controller = new DataController();
 
     expect(controller.getData()).toEqual({ nodes: [], edges: [], combos: [] });
 
@@ -39,7 +33,7 @@ describe('DataController', () => {
   });
 
   it('setData', () => {
-    const controller = new DataController(newGraph());
+    const controller = new DataController();
 
     controller.addData(clone(data));
 
@@ -55,7 +49,7 @@ describe('DataController', () => {
   });
 
   it('addData', () => {
-    const controller = new DataController(newGraph());
+    const controller = new DataController();
 
     controller.addData(clone(data));
 
@@ -97,7 +91,7 @@ describe('DataController', () => {
   });
 
   it('getData', () => {
-    const controller = new DataController(newGraph());
+    const controller = new DataController();
 
     controller.addData(clone(data));
 
@@ -111,7 +105,7 @@ describe('DataController', () => {
   });
 
   it('updateData', () => {
-    const controller = new DataController(newGraph());
+    const controller = new DataController();
 
     controller.addData(clone(data));
 
@@ -145,7 +139,7 @@ describe('DataController', () => {
   });
 
   it('updateNodeData', () => {
-    const controller = new DataController(newGraph());
+    const controller = new DataController();
     controller.addNodeData([{ id: 'node-1', data: { value: 1 }, style: { fill: 'red' } }]);
     // no changes
     controller.updateNodeData([{ id: 'node-1', data: { value: 1 }, style: { fill: 'red' } }]);
@@ -154,7 +148,7 @@ describe('DataController', () => {
   });
 
   it('updateEdgeData', () => {
-    const controller = new DataController(newGraph());
+    const controller = new DataController();
     controller.addData({
       nodes: [{ id: 'node-1' }, { id: 'node-2' }],
       edges: [{ id: 'edge-1', source: 'node-1', target: 'node-2', data: { weight: 1 } }],
@@ -195,7 +189,7 @@ describe('DataController', () => {
       ],
     };
 
-    const controller = new DataController(newGraph());
+    const controller = new DataController();
 
     controller.addData(data);
 
@@ -228,7 +222,7 @@ describe('DataController', () => {
   });
 
   it('translateComboBy', () => {
-    const controller = new DataController(newGraph());
+    const controller = new DataController();
 
     controller.addData({
       nodes: [{ id: 'node-1', style: { parentId: 'combo-1' } }],
@@ -245,7 +239,7 @@ describe('DataController', () => {
   });
 
   it('translateComboBy with children', () => {
-    const controller = new DataController(newGraph());
+    const controller = new DataController();
 
     controller.addData({
       nodes: [
@@ -266,7 +260,7 @@ describe('DataController', () => {
   });
 
   it('translateComboBy without children', () => {
-    const controller = new DataController(newGraph());
+    const controller = new DataController();
 
     controller.addData({
       combos: [{ id: 'combo-1' }],
@@ -282,7 +276,7 @@ describe('DataController', () => {
   });
 
   it('translateComboTo', () => {
-    const controller = new DataController(newGraph());
+    const controller = new DataController();
 
     controller.addData({
       nodes: [
@@ -305,7 +299,7 @@ describe('DataController', () => {
   });
 
   it('removeData', () => {
-    const controller = new DataController(newGraph());
+    const controller = new DataController();
 
     controller.addData(clone(data));
 
@@ -360,7 +354,7 @@ describe('DataController', () => {
   });
 
   it('removeComboData', () => {
-    const controller = new DataController(newGraph());
+    const controller = new DataController();
 
     controller.addData(clone(data));
 
@@ -394,7 +388,7 @@ describe('DataController', () => {
       combos: [{ id: 'combo-1', style: { parentId: 'combo-2' } }, { id: 'combo-2' }],
     };
 
-    const controller = new DataController(newGraph());
+    const controller = new DataController();
 
     controller.addData(data);
 
@@ -417,7 +411,7 @@ describe('DataController', () => {
   });
 
   it('getElementData', () => {
-    const controller = new DataController(newGraph());
+    const controller = new DataController();
 
     controller.addData(clone(data));
 
@@ -431,7 +425,7 @@ describe('DataController', () => {
   });
 
   it('getNodeLikeData', () => {
-    const controller = new DataController(newGraph());
+    const controller = new DataController();
 
     controller.addData(clone(data));
 
@@ -445,7 +439,7 @@ describe('DataController', () => {
   });
 
   it('classifyNodeLikeData', () => {
-    const controller = new DataController(newGraph());
+    const controller = new DataController();
 
     controller.addData(clone(data));
     expect(controller.classifyNodeLikeData([...data.combos, ...data.nodes])).toEqual({
@@ -455,7 +449,7 @@ describe('DataController', () => {
   });
 
   it('hasNode', () => {
-    const controller = new DataController(newGraph());
+    const controller = new DataController();
 
     controller.addData(clone(data));
 
@@ -464,7 +458,7 @@ describe('DataController', () => {
   });
 
   it('hasEdge', () => {
-    const controller = new DataController(newGraph());
+    const controller = new DataController();
 
     controller.addData(clone(data));
 
@@ -473,7 +467,7 @@ describe('DataController', () => {
   });
 
   it('hasCombo', () => {
-    const controller = new DataController(newGraph());
+    const controller = new DataController();
 
     controller.addData(clone(data));
 
@@ -482,7 +476,7 @@ describe('DataController', () => {
   });
 
   it('getComboChildrenData', () => {
-    const controller = new DataController(newGraph());
+    const controller = new DataController();
 
     controller.addData(clone(data));
 
@@ -516,7 +510,7 @@ describe('DataController', () => {
   });
 
   it('getParentComboData', () => {
-    const controller = new DataController(newGraph());
+    const controller = new DataController();
 
     controller.addData(clone(data));
 
@@ -530,7 +524,7 @@ describe('DataController', () => {
   });
 
   it('getRelatedEdgesData', () => {
-    const controller = new DataController(newGraph());
+    const controller = new DataController();
 
     controller.addData(clone(data));
 
@@ -554,7 +548,7 @@ describe('DataController', () => {
   });
 
   it('getNeighborNodesData', () => {
-    const controller = new DataController(newGraph());
+    const controller = new DataController();
 
     controller.addData(clone(data));
 
@@ -571,7 +565,7 @@ describe('DataController', () => {
   });
 
   it('getElementType', () => {
-    const controller = new DataController(newGraph());
+    const controller = new DataController();
 
     controller.addData(clone(data));
 

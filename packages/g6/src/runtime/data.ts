@@ -9,15 +9,12 @@ import { arrayDiff } from '../utils/diff';
 import { toG6Data, toGraphlibData } from '../utils/graphlib';
 import { idOf } from '../utils/id';
 import { dfs } from '../utils/traverse';
-import type { Graph } from './graph';
 
 type Graphlib = GraphLib<NodeData, EdgeData>;
 
 const COMBO_KEY = 'combo';
 
 export class DataController {
-  public graph: Graph;
-
   public model: Graphlib;
 
   /**
@@ -34,8 +31,7 @@ export class DataController {
   protected latestRemovedComboIds = new Set<ID>();
   protected comboIds = new Set<ID>();
 
-  constructor(graph: Graph) {
-    this.graph = graph;
+  constructor() {
     this.model = new GraphLib();
   }
 
