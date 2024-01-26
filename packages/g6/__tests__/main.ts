@@ -62,7 +62,5 @@ function initialize() {
   document.getElementById('container')?.remove();
   const container = document.createElement('div');
   container.id = 'container';
-  container.style.width = '500px';
-  container.style.height = '500px';
   document.getElementById('app')?.appendChild(container);
 }
