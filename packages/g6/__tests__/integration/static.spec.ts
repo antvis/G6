@@ -15,12 +15,7 @@ describe('static', () => {
         const { preprocess, postprocess } = testCase;
 
         await preprocess?.();
-        await testCase({
-          container: document.getElementById('container')!,
-          width: 500,
-          height: 500,
-          canvas,
-        });
+        await testCase({ canvas });
         await postprocess?.();
 
         await expect(canvas).toMatchSVGSnapshot(`${__dirname}/snapshots/static`, name);

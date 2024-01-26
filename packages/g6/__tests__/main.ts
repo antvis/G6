@@ -1,6 +1,7 @@
 import { Renderer as CanvasRenderer } from '@antv/g-canvas';
 import { Renderer as SVGRenderer } from '@antv/g-svg';
 import { Renderer as WebGLRenderer } from '@antv/g-webgl';
+import { Canvas } from '../src/runtime/canvas';
 import * as cases from './demo';
 import type { TestCase } from './demo/types';
 
@@ -34,7 +35,14 @@ function loadCasesList(select: HTMLSelectElement) {
 
 function onchange(testCase: TestCase, rendererName: string) {
   const renderer = getRenderer(rendererName);
-  testCase({ renderer, width: 500, height: 500, container: document.getElementById('container')! });
+  testCase({
+    canvas: new Canvas({
+      width: 500,
+      height: 500,
+      container: document.getElementById('container')!,
+      renderer,
+    }),
+  });
 }
 
 function getRenderer(rendererName: string) {
