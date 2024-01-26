@@ -9,7 +9,7 @@
     "resolveJsonModule": true,
     "sourceMap": true,
     "sourceRoot": "src",
-    "strict": false // should be true later
+    "strict": true
   },
   "exclude": ["node_modules", "dist", "lib", "esm"],
   "extends": "../../tsconfig.json",
