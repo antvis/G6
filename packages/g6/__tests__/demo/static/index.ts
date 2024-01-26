@@ -1,1 +1,2 @@
-export * from './canvas';
+export * from './label';
+export * from './layered-canvas';

@@ -13,17 +13,10 @@ describe('static', () => {
 
       try {
         const { preprocess, postprocess } = testCase;
-
         await preprocess?.();
-        await testCase({
-          container: document.getElementById('container')!,
-          width: 500,
-          height: 500,
-          canvas,
-        });
-        await postprocess?.();
-
+        await testCase({ canvas });
         await expect(canvas).toMatchSVGSnapshot(`${__dirname}/snapshots/static`, name);
+        await postprocess?.();
       } finally {
         canvas.destroy();
         await sleep(50);
