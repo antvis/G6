@@ -4,4 +4,6 @@
  * <en/> Shape components, used to build composite elements
  */
 
-export {};
+export { Label } from './label';
+
+export type { LabelOptions } from './label';

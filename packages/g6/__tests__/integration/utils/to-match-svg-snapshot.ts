@@ -56,7 +56,6 @@ export async function toMatchSVGSnapshot(
   if (actual !== 'null') actual = actual.slice(0, -2);
 
   try {
-    console.log('actual', dir, fs.existsSync(dir));
     if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
     if (!fs.existsSync(expectedPath)) {
       if (process.env.CI === 'true') {
