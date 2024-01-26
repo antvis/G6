@@ -1,0 +1,179 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="500"
+  height="500"
+  style="background: transparent; position: absolute; outline: none;"
+  color-interpolation-filters="sRGB"
+  tabindex="1"
+>
+  <defs />
+  <g id="g-svg-camera" transform="matrix(1,0,0,1,0,0)">
+    <g
+      id="g-root"
+      fill="none"
+      stroke="none"
+      visibility="visible"
+      font-size="16px"
+      font-family="sans-serif"
+      font-style="normal"
+      font-weight="normal"
+      font-variant="normal"
+      text-anchor="left"
+      stroke-dashoffset="0px"
+      transform="matrix(1,0,0,1,0,0)"
+    >
+      <g
+        id="g-svg-5"
+        fill="rgba(255,255,255,1)"
+        stroke="none"
+        transform="matrix(1,0,0,1,100,50)"
+      >
+        <g
+          id="label"
+          fill="rgba(255,255,255,1)"
+          stroke="none"
+          transform="matrix(1,0,0,1,0,0)"
+        >
+          <g transform="matrix(1,0,0,1,-10,-5)">
+            <path
+              id="background"
+              fill="rgba(230,108,91,1)"
+              d="M 20.5,0 l 55.040000000000006,0 a 20.5,20.5,0,0,1,20.5,20.5 l 0,0 a 20.5,20.5,0,0,1,-20.5,20.5 l -55.040000000000006,0 a 20.5,20.5,0,0,1,-20.5,-20.5 l 0,0 a 20.5,20.5,0,0,1,20.5,-20.5 z"
+              stroke="none"
+              width="96.04px"
+              height="41px"
+            />
+          </g>
+          <g transform="matrix(1,0,0,1,0,0)">
+            <text
+              id="text"
+              fill="rgba(255,255,255,1)"
+              dominant-baseline="central"
+              paint-order="stroke"
+              dx="0.5"
+              dy="15.5px"
+              stroke="none"
+            >
+              Important
+            </text>
+          </g>
+        </g>
+      </g>
+      <g
+        id="g-svg-9"
+        fill="rgba(255,255,255,1)"
+        stroke="none"
+        transform="matrix(1,0,0,1,100,100)"
+      >
+        <g
+          id="label"
+          fill="rgba(255,255,255,1)"
+          stroke="none"
+          transform="matrix(1,0,0,1,0,0)"
+        >
+          <g transform="matrix(1,0,0,1,-10,-5)">
+            <path
+              id="background"
+              fill="rgba(130,145,178,1)"
+              d="M 16.02,0 l 0,0 a 16.02,16.02,0,0,1,16.02,16.02 l 0,8.96 a 16.02,16.02,0,0,1,-16.02,16.02 l 0,0 a 16.02,16.02,0,0,1,-16.02,-16.02 l 0,-8.96 a 16.02,16.02,0,0,1,16.02,-16.02 z"
+              stroke="none"
+              width="32.04px"
+              height="41px"
+            />
+          </g>
+          <g transform="matrix(1,0,0,1,0,0)">
+            <text
+              id="text"
+              fill="rgba(255,255,255,1)"
+              dominant-baseline="central"
+              paint-order="stroke"
+              dx="0.5"
+              dy="15.5px"
+              stroke="none"
+            >
+              A
+            </text>
+          </g>
+        </g>
+      </g>
+      <g
+        id="g-svg-13"
+        fill="rgba(255,255,255,1)"
+        stroke="none"
+        font-size="10px"
+        transform="matrix(1,0,0,1,100,150)"
+      >
+        <g
+          id="label"
+          fill="rgba(255,255,255,1)"
+          stroke="none"
+          font-size="10px"
+          transform="matrix(1,0,0,1,0,0)"
+        >
+          <g transform="matrix(1,0,0,1,-8,-3)">
+            <path
+              id="background"
+              fill="rgba(255,140,0,1)"
+              d="M 12.5,0 l 23.400000000000006,0 a 12.5,12.5,0,0,1,12.5,12.5 l 0,0 a 12.5,12.5,0,0,1,-12.5,12.5 l -23.400000000000006,0 a 12.5,12.5,0,0,1,-12.5,-12.5 l 0,0 a 12.5,12.5,0,0,1,12.5,-12.5 z"
+              stroke="none"
+              width="48.400000000000006px"
+              height="25px"
+            />
+          </g>
+          <g font-size="10px" transform="matrix(1,0,0,1,0,0)">
+            <text
+              id="text"
+              fill="rgba(255,255,255,1)"
+              dominant-baseline="central"
+              paint-order="stroke"
+              dx="0.5"
+              dy="9.5px"
+              stroke="none"
+            >
+              Notice
+            </text>
+          </g>
+        </g>
+      </g>
+      <g
+        id="g-svg-17"
+        fill="rgba(255,255,255,1)"
+        stroke="rgba(0,0,0,1)"
+        transform="matrix(1,0,0,1,100,200)"
+        opacity="0.4"
+      >
+        <g
+          id="label"
+          fill="rgba(255,255,255,1)"
+          stroke="rgba(0,0,0,1)"
+          transform="matrix(1,0,0,1,0,0)"
+          opacity="0.4"
+        >
+          <g transform="matrix(1,0,0,1,-10,-5)">
+            <path
+              id="background"
+              fill="rgba(255,192,203,1)"
+              d="M 20.5,0 l 128.96,0 a 20.5,20.5,0,0,1,20.5,20.5 l 0,0 a 20.5,20.5,0,0,1,-20.5,20.5 l -128.96,0 a 20.5,20.5,0,0,1,-20.5,-20.5 l 0,0 a 20.5,20.5,0,0,1,20.5,-20.5 z"
+              stroke="none"
+              width="169.96px"
+              height="41px"
+            />
+          </g>
+          <g transform="matrix(1,0,0,1,0,0)" opacity="0.4">
+            <text
+              id="text"
+              fill="rgba(255,255,255,1)"
+              dominant-baseline="central"
+              paint-order="stroke"
+              dx="0.5"
+              dy="15.5px"
+              stroke="rgba(0,0,0,1)"
+            >
+              Update Badge Text
+            </text>
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

@@ -1,26 +1,5 @@
-import type { PrefixKey, PrefixObject, ReplacePrefix } from '../types/prefix';
-
-/**
- * <zh> 首字母大写
- *
- * <en> Uppercase first letter
- * @param str - <zh> 字符串 | <en> string
- * @returns <zh> 首字母大写的字符串 | <en> Uppercase first letter string
- */
-export function toUppercaseFirstLetter<T extends string>(str: T) {
-  return (str.toString().charAt(0).toUpperCase() + str.toString().slice(1)) as Capitalize<T>;
-}
-
-/**
- * <zh> 首字母小写
- *
- * <en> Lowercase first letter
- * @param str - <zh> 字符串 | <en> string
- * @returns <zh> 首字母小写的字符串 | <en> Lowercase first letter string
- */
-export function toLowercaseFirstLetter(str: string) {
-  return str.toString().charAt(0).toLowerCase() + str.toString().slice(1);
-}
+import { lowerFirst, upperFirst } from '@antv/util';
+import type { PrefixObject, ReplacePrefix } from '../types';
 
 /**
  * <zh> 是否以某个前缀开头
@@ -44,8 +23,8 @@ export function startsWith(str: string, prefix: string) {
  * @param prefix - <zh> 前缀 | <en> prefix
  * @returns <zh> 添加前缀后的字符串 | <en> string with prefix
  */
-export function addPrefix(str: string, prefix: string): PrefixKey {
-  return `${prefix}${toUppercaseFirstLetter(str)}`;
+export function addPrefix(str: string, prefix: string): string {
+  return `${prefix}${upperFirst(str)}`;
 }
 
 /**
@@ -61,7 +40,7 @@ export function removePrefix(string: string, prefix?: string, lowercaseFirstLett
   if (!prefix) return string;
   if (!startsWith(string, prefix)) return string;
   const str = string.slice(prefix.length);
-  return lowercaseFirstLetter ? toLowercaseFirstLetter(str) : str;
+  return lowercaseFirstLetter ? lowerFirst(str) : str;
 }
 
 /**

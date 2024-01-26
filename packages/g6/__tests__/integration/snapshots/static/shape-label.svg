@@ -1,0 +1,150 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="500"
+  height="500"
+  style="background: transparent; position: absolute; outline: none;"
+  color-interpolation-filters="sRGB"
+  tabindex="1"
+>
+  <defs />
+  <g id="g-svg-camera" transform="matrix(1,0,0,1,0,0)">
+    <g
+      id="g-root"
+      fill="none"
+      stroke="none"
+      visibility="visible"
+      font-size="16px"
+      font-family="sans-serif"
+      font-style="normal"
+      font-weight="normal"
+      font-variant="normal"
+      text-anchor="left"
+      stroke-dashoffset="0px"
+      transform="matrix(1,0,0,1,0,0)"
+    >
+      <g
+        id="g-svg-5"
+        fill="rgba(0,0,0,1)"
+        stroke="none"
+        font-size="14px"
+        transform="matrix(1,0,0,1,50,50)"
+      >
+        <g transform="matrix(1,0,0,1,-5,-23)">
+          <path
+            id="background"
+            fill="none"
+            d="M 0,0 l 80.16,0 l 0,37 l-80.16 0 z"
+            stroke="none"
+            width="80.16px"
+            height="37px"
+          />
+        </g>
+        <g font-size="14px" transform="matrix(1,0,0,1,0,0)">
+          <text
+            id="text"
+            fill="rgba(0,0,0,1)"
+            dominant-baseline="alphabetic"
+            paint-order="stroke"
+            dx="0.5"
+            stroke="none"
+          >
+            label1 text
+          </text>
+        </g>
+      </g>
+      <g
+        id="g-svg-8"
+        fill="none"
+        stroke="rgba(255,192,203,1)"
+        font-size="20px"
+        transform="matrix(1,0,0,1,50,150)"
+      >
+        <g stroke-width="2px" transform="matrix(1,0,0,1,-5,-30)">
+          <path
+            id="background"
+            fill="none"
+            d="M 0,0 l 112.59999999999998,0 l 0,47 l-112.59999999999998 0 z"
+            stroke="rgba(255,192,203,1)"
+            width="112.59999999999998px"
+            height="47px"
+          />
+        </g>
+        <g font-size="20px" transform="matrix(1,0,0,1,0,0)">
+          <text
+            id="text"
+            fill="none"
+            dominant-baseline="alphabetic"
+            paint-order="stroke"
+            dx="0.5"
+            stroke="rgba(255,192,203,1)"
+          >
+            label2 text
+          </text>
+        </g>
+      </g>
+      <g
+        id="g-svg-11"
+        fill="rgba(255,0,0,1)"
+        stroke="rgba(255,192,203,1)"
+        font-size="32px"
+        transform="matrix(1,0,0,1,50,250)"
+      >
+        <g opacity="0.5" stroke-width="2px" transform="matrix(1,0,0,1,-5,-45)">
+          <path
+            id="background"
+            fill="none"
+            d="M 0,0 l 174.2,0 l 0,69 l-174.2 0 z"
+            stroke="rgba(255,215,0,1)"
+            width="174.2px"
+            height="69px"
+          />
+        </g>
+        <g font-size="32px" transform="matrix(1,0,0,1,0,0)">
+          <text
+            id="text"
+            fill="rgba(255,0,0,1)"
+            dominant-baseline="alphabetic"
+            paint-order="stroke"
+            dx="0.5"
+            stroke="rgba(255,192,203,1)"
+          >
+            label3 text
+          </text>
+        </g>
+      </g>
+      <g
+        id="g-svg-14"
+        fill="rgba(228,84,84,1)"
+        stroke="none"
+        transform="matrix(1,0,0,1,50,350)"
+      >
+        <g stroke-dasharray="5px,5px" transform="matrix(1,0,0,1,-5,-36)">
+          <path
+            id="background"
+            fill="rgba(252,233,233,1)"
+            d="M 0,0 l 260,0 l 0,72 l-260 0 z"
+            stroke="rgba(228,84,84,1)"
+            width="260px"
+            height="72px"
+          />
+        </g>
+        <g transform="matrix(1,0,0,1,0,0)">
+          <text
+            id="text"
+            fill="rgba(228,84,84,1)"
+            dominant-baseline="central"
+            paint-order="stroke"
+            stroke="none"
+          >
+            <tspan x="0" dx="0.5" dy="-15.5">
+              Long Text Long Text Long Text
+            </tspan>
+            <tspan x="0" dx="0.5" dy="31">
+              Long Text Long Text Long Te...
+            </tspan>
+          </text>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>
