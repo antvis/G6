@@ -12,6 +12,7 @@ import type {
 import type { EdgeDirection } from '../types/edge';
 import type { ElementType } from '../types/element';
 import type { Point } from '../types/point';
+import { mergeElementsData } from '../utils/data';
 import { arrayDiff } from '../utils/diff';
 import { toG6Data, toGraphlibData } from '../utils/graphlib';
 import { idOf } from '../utils/id';
@@ -284,7 +285,7 @@ export class DataController {
         const originalNode = this.model.getNode(idOf(modifiedNode));
         if (isEqual(originalNode, modifiedNode)) return;
 
-        this.model.mergeNodeData(idOf(modifiedNode), mergeItemData(originalNode.data, modifiedNode));
+        this.model.mergeNodeData(idOf(modifiedNode), mergeElementsData(originalNode.data, modifiedNode));
       });
 
       this.updateNodeLikeHierarchy(nodes);
@@ -305,7 +306,7 @@ export class DataController {
         if (modifiedEdge.target && originalEdge.target !== modifiedEdge.target) {
           this.model.updateEdgeTarget(idOf(modifiedEdge), modifiedEdge.target);
         }
-        this.model.mergeEdgeData(idOf(modifiedEdge), mergeItemData(originalEdge, modifiedEdge));
+        this.model.mergeEdgeData(idOf(modifiedEdge), mergeElementsData(originalEdge, modifiedEdge));
       });
     });
   }
@@ -326,7 +327,7 @@ export class DataController {
           this.translateComboTo([modifiedComboId], [x, y, z]);
         }
 
-        model.mergeNodeData(modifiedComboId, mergeItemData(originalCombo, modifiedCombo));
+        model.mergeNodeData(modifiedComboId, mergeElementsData(originalCombo, modifiedCombo));
       });
 
       this.updateNodeLikeHierarchy(combos);
@@ -347,7 +348,7 @@ export class DataController {
             const { x = 0, y = 0, z = 0 } = succeed.style || {};
             model.mergeNodeData(
               succeedID,
-              mergeItemData(succeed, {
+              mergeElementsData(succeed, {
                 style: { x: x + dx, y: y + dy, z: z + dz },
               }),
             );
@@ -378,7 +379,7 @@ export class DataController {
             const { x = 0, y = 0, z = 0 } = succeed.style || {};
             model.mergeNodeData(
               succeedID,
-              mergeItemData(succeed, {
+              mergeElementsData(succeed, {
                 style: { x: x + dx, y: y + dy, z: z + dz },
               }),
             );
@@ -442,7 +443,7 @@ export class DataController {
         this.model.setParent(idOf(child), data?.style?.parentId, COMBO_KEY);
         this.model.mergeNodeData(
           idOf(child),
-          mergeItemData(child.data, { id: idOf(child), style: { parentId: data?.style?.parentId } }),
+          mergeElementsData(child.data, { id: idOf(child), style: { parentId: data?.style?.parentId } }),
         );
       });
     }
@@ -465,32 +466,4 @@ export class DataController {
 
     return 'unknown';
   }
-}
-
-/**
- * <zh/> 合并两个 节点/边/Combo 的数据，只会合并第一层的数据
- *
- * <en/> Merge the data of two nodes/edges/combos, only merge the first level data
- * @param original - <zh/> 原始数据 | <en/> original data
- * @param modified - <zh/> 待合并的数据 | <en/> data to be merged
- * @returns <zh/> 合并后的数据 | <en/> merged data
- */
-function mergeItemData<T extends NodeData | EdgeData | ComboData>(original: T, modified: Partial<T>): T {
-  const { data: originalData, style: originalStyle, ...originalAttrs } = original;
-  const { data: modifiedData, style: modifiedStyle, ...modifiedAttrs } = modified;
-
-  const result = {
-    ...originalAttrs,
-    ...modifiedAttrs,
-  };
-
-  if (originalData || modifiedData) {
-    Object.assign(result, { data: { ...originalData, ...modifiedData } });
-  }
-
-  if (originalStyle || modifiedStyle) {
-    Object.assign(result, { style: { ...originalStyle, ...modifiedStyle } });
-  }
-
-  return result as T;
 }
