@@ -1,7 +1,14 @@
 import { Graph as GraphLib, ID } from '@antv/graphlib';
 import { isEqual } from '@antv/util';
 import type { ComboData, DataOptions, EdgeData, NodeData } from '../spec';
-import type { DataID, NodeLikeData } from '../types/data';
+import type {
+  DataID,
+  GraphlibData,
+  NodeLikeData,
+  PartialDataOptions,
+  PartialEdgeData,
+  PartialNodeLikeData,
+} from '../types/data';
 import type { EdgeDirection } from '../types/edge';
 import type { ElementType } from '../types/element';
 import type { Point } from '../types/point';
@@ -10,12 +17,10 @@ import { toG6Data, toGraphlibData } from '../utils/graphlib';
 import { idOf } from '../utils/id';
 import { dfs } from '../utils/traverse';
 
-type Graphlib = GraphLib<NodeData, EdgeData>;
-
 const COMBO_KEY = 'combo';
 
 export class DataController {
-  public model: Graphlib;
+  public model: GraphlibData;
 
   /**
    * <zh/> 最近一次删除的 combo 的 id
@@ -489,13 +494,3 @@ function mergeItemData<T extends NodeData | EdgeData | ComboData>(original: T, m
 
   return result as T;
 }
-
-type PartialNodeLikeData<T extends NodeLikeData> = Partial<T> & Pick<T, 'id'>;
-
-type PartialEdgeData<T extends EdgeData> = (Partial<T> & Pick<T, 'source' | 'target'>) | (Partial<T> & Pick<T, 'id'>);
-
-type PartialDataOptions = {
-  nodes?: PartialNodeLikeData<NodeData>[];
-  edges?: PartialEdgeData<EdgeData>[];
-  combos?: PartialNodeLikeData<ComboData>[];
-};
