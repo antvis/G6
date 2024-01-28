@@ -36,7 +36,7 @@ export type ComboData = {
 };
 
 export type EdgeData = {
-  id: ID;
+  id?: ID;
   source: ID;
   target: ID;
   data?: Record<string, unknown>;

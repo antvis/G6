@@ -55,7 +55,7 @@ export function subStyleProps<T extends object>(style: object, prefix: string) {
   return Object.entries(style).reduce((acc, [key, value]) => {
     if (key === 'className' || key === 'class') return acc;
     if (startsWith(key, prefix)) {
-      acc[removePrefix(key, prefix)] = value;
+      acc[removePrefix(key, prefix) as keyof T] = value;
     }
     return acc;
   }, {} as T);
@@ -72,7 +72,7 @@ export function subStyleProps<T extends object>(style: object, prefix: string) {
 export function omitStyleProps<T extends object>(style: object, prefix: string) {
   return Object.entries(style).reduce((acc, [key, value]) => {
     if (!startsWith(key, prefix)) {
-      acc[key] = value;
+      acc[key as keyof T] = value;
     }
     return acc;
   }, {} as T);
@@ -89,7 +89,7 @@ export function omitStyleProps<T extends object>(style: object, prefix: string) 
 export function superStyleProps<T extends object, P extends string>(style: T, prefix: P): PrefixObject<T, P> {
   return Object.entries(style).reduce(
     (acc, [key, value]) => {
-      acc[addPrefix(key, prefix)] = value;
+      acc[addPrefix(key, prefix) as keyof typeof acc] = value;
       return acc;
     },
     {} as PrefixObject<T, P>,
@@ -109,9 +109,9 @@ export function replacePrefix<T extends object>(style: T, oldPrefix: string, new
   return Object.entries(style).reduce(
     (acc, [key, value]) => {
       if (startsWith(key, oldPrefix)) {
-        acc[addPrefix(removePrefix(key, oldPrefix, false), newPrefix)] = value;
+        acc[addPrefix(removePrefix(key, oldPrefix, false), newPrefix) as keyof typeof acc] = value;
       } else {
-        acc[key] = value;
+        acc[key as keyof typeof acc] = value;
       }
       return acc;
     },

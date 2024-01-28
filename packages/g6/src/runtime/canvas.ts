@@ -24,11 +24,11 @@ export interface CanvasConfig
 export class Canvas {
   protected config: CanvasConfig;
 
-  public background: GCanvas;
-  public main: GCanvas;
-  public label: GCanvas;
-  public transient: GCanvas;
-  public transientLabel: GCanvas;
+  public background!: GCanvas;
+  public main!: GCanvas;
+  public label!: GCanvas;
+  public transient!: GCanvas;
+  public transientLabel!: GCanvas;
 
   public get canvas() {
     return {
@@ -133,7 +133,7 @@ export class Canvas {
   }
 
   public appendChild<T extends DisplayObject>(child: T): T {
-    const layer = child.style?.$layer || 'main';
+    const layer = (child.style?.$layer || 'main') as CanvasLayer;
 
     return this[layer].appendChild(child);
   }
@@ -158,7 +158,7 @@ export class Canvas {
     return this.main.canvas2Viewport(canvas);
   }
 
-  public async toDataURL(options?: Partial<DataURLOptions>) {
+  public async toDataURL(options: Partial<DataURLOptions> = {}) {
     const devicePixelRatio = window.devicePixelRatio || 1;
     const { width, height, renderer: getRenderer } = this.config;
 
@@ -167,7 +167,7 @@ export class Canvas {
     const offscreenCanvas = new GCanvas({
       width,
       height,
-      renderer: getRenderer('main'),
+      renderer: getRenderer?.('main') || new CanvasRenderer(),
       devicePixelRatio,
       container,
       background: this.background.getConfig().background,
