@@ -1,0 +1,658 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="500"
+  height="500"
+  style="background: transparent; position: absolute; outline: none;"
+  color-interpolation-filters="sRGB"
+  tabindex="1"
+>
+  <defs />
+  <g id="g-svg-camera" transform="matrix(1,0,0,1,0,0)">
+    <g
+      id="g-root"
+      fill="none"
+      stroke="none"
+      visibility="visible"
+      font-size="16px"
+      font-family="sans-serif"
+      font-style="normal"
+      font-weight="normal"
+      font-variant="normal"
+      text-anchor="left"
+      stroke-dashoffset="0px"
+      transform="matrix(1,0,0,1,0,0)"
+    >
+      <g
+        id="g-svg-5"
+        fill="none"
+        stroke="rgba(24,144,255,1)"
+        stroke-width="2px"
+        marker-start="false"
+        marker-end="true"
+        transform="matrix(1,0,0,1,0,0)"
+      >
+        <g
+          id="line"
+          fill="none"
+          stroke="rgba(24,144,255,1)"
+          stroke-width="2px"
+          marker-start="false"
+          marker-end="true"
+          transform="matrix(1,0,0,1,0,0)"
+        >
+          <g stroke-width="2px" transform="matrix(1,0,0,1,100,50)">
+            <line
+              id="g-svg-6"
+              fill="none"
+              x1="0"
+              y1="0"
+              x2="200"
+              y2="0"
+              stroke="rgba(24,144,255,1)"
+              marker-start="false"
+              marker-end="true"
+            />
+            <g
+              id="g-svg-10"
+              fill="none"
+              stroke="none"
+              width="10px"
+              height="10px"
+              transform="matrix(1,0,0,1,0,0)"
+            >
+              <g transform="matrix(1,0,0,1,0,-5)">
+                <path
+                  id="arrow"
+                  fill="none"
+                  d="M 0,5 L 10,0 L 10,10 Z"
+                  stroke="none"
+                />
+              </g>
+              <g transform="matrix(1,0,0,1,0,0)">
+                <path id="arrow" fill="none" d="" stroke="none" />
+              </g>
+            </g>
+            <g
+              id="g-svg-15"
+              fill="rgba(24,144,255,1)"
+              stroke="rgba(24,144,255,1)"
+              stroke-width="2px"
+              width="10px"
+              height="10px"
+              marker-start="false"
+              marker-end="true"
+              stroke-dasharray="0px,0px"
+              transform="matrix(-1,0,-0,-1,200,0)"
+            >
+              <g
+                stroke-width="2px"
+                stroke-dasharray="0px,0px"
+                transform="matrix(1,0,0,1,0,-5)"
+              >
+                <path
+                  id="arrow"
+                  fill="rgba(24,144,255,1)"
+                  d="M 0,5 L 10,0 L 10,10 Z"
+                  stroke="rgba(24,144,255,1)"
+                  marker-start="false"
+                  marker-end="true"
+                />
+              </g>
+              <g
+                stroke-width="2px"
+                stroke-dasharray="0px,0px"
+                transform="matrix(1,0,0,1,0,-5)"
+              >
+                <path
+                  id="arrow"
+                  fill="rgba(24,144,255,1)"
+                  d="M 0,5 L 10,0 L 10,10 Z"
+                  stroke="rgba(24,144,255,1)"
+                  marker-start="false"
+                  marker-end="true"
+                />
+              </g>
+            </g>
+          </g>
+          <g
+            id="label"
+            fill="rgba(24,144,255,1)"
+            stroke="none"
+            font-size="12px"
+            text-anchor="middle"
+            transform="matrix(1,0,0,1,200,44)"
+          >
+            <g transform="matrix(1,0,0,1,-32.540001,-20)">
+              <path
+                id="background"
+                fill="none"
+                d="M 0,0 l 67.08000000000001,0 l 0,34 l-67.08000000000001 0 z"
+                stroke="none"
+                width="67.08000000000001px"
+                height="34px"
+              />
+            </g>
+            <g
+              font-size="12px"
+              text-anchor="middle"
+              transform="matrix(1,0,0,1,0,0)"
+            >
+              <text
+                id="text"
+                fill="rgba(24,144,255,1)"
+                dominant-baseline="alphabetic"
+                paint-order="stroke"
+                dx="1"
+                stroke="none"
+              >
+                line-edge
+              </text>
+            </g>
+          </g>
+        </g>
+      </g>
+      <g
+        id="g-svg-21"
+        fill="none"
+        stroke="rgba(24,144,255,1)"
+        stroke-width="2px"
+        stroke-dasharray="10px,10px"
+        marker-start="circle"
+        marker-end="[object Object]"
+        transform="matrix(1,0,0,1,0,0)"
+      >
+        <g
+          id="line"
+          fill="none"
+          stroke="rgba(24,144,255,1)"
+          stroke-width="2px"
+          marker-start="circle"
+          marker-end="[object Object]"
+          stroke-dasharray="10px,10px"
+          transform="matrix(1,0,0,1,0,0)"
+        >
+          <g
+            opacity="0.25"
+            pointer-events="none"
+            stroke-width="12px"
+            stroke-dasharray="0px,0px"
+            transform="matrix(1,0,0,1,100,150)"
+          >
+            <line
+              id="halo"
+              fill="none"
+              x1="0"
+              y1="0"
+              x2="200"
+              y2="50"
+              stroke="rgba(24,144,255,1)"
+              marker-start="circle"
+              marker-end="[object Object]"
+            />
+            <g
+              id="g-svg-35"
+              fill="rgba(24,144,255,1)"
+              stroke="rgba(24,144,255,1)"
+              stroke-width="2px"
+              width="10px"
+              height="10px"
+              stroke-dasharray="0px,0px"
+              marker-start="circle"
+              marker-end="[object Object]"
+              transform="matrix(0.970143,0.242536,-0.242536,0.970143,0,0)"
+            >
+              <g
+                stroke-width="2px"
+                stroke-dasharray="0px,0px"
+                transform="matrix(1,0,0,1,0,-5)"
+              >
+                <path
+                  id="arrow"
+                  fill="rgba(24,144,255,1)"
+                  d="M 0,5 L 10,0 L 10,10 Z"
+                  stroke="rgba(24,144,255,1)"
+                  marker-start="circle"
+                  marker-end="[object Object]"
+                />
+              </g>
+              <g
+                stroke-width="2px"
+                stroke-dasharray="0px,0px"
+                transform="matrix(1,0,0,1,0,-5)"
+              >
+                <path
+                  id="arrow"
+                  fill="rgba(24,144,255,1)"
+                  d="M 0,5 L 10,0 L 10,10 Z"
+                  stroke="rgba(24,144,255,1)"
+                  marker-start="circle"
+                  marker-end="[object Object]"
+                />
+              </g>
+            </g>
+            <g
+              id="g-svg-38"
+              fill="rgba(255,0,0,1)"
+              stroke="rgba(24,144,255,1)"
+              stroke-width="2px"
+              width="10px"
+              height="10px"
+              stroke-dasharray="0px,0px"
+              marker-start="circle"
+              marker-end="[object Object]"
+              transform="matrix(-0.970143,-0.242536,0.242536,-0.970143,200,50)"
+            >
+              <g
+                stroke-width="2px"
+                stroke-dasharray="0px,0px"
+                transform="matrix(1,0,0,1,0,-5)"
+              >
+                <path
+                  id="arrow"
+                  fill="rgba(255,0,0,1)"
+                  d="M 0,5 L 10,0 L 10,10 Z"
+                  stroke="rgba(24,144,255,1)"
+                  marker-start="circle"
+                  marker-end="[object Object]"
+                />
+              </g>
+              <g
+                stroke-width="2px"
+                stroke-dasharray="0px,0px"
+                transform="matrix(1,0,0,1,0,-5)"
+              >
+                <path
+                  id="arrow"
+                  fill="rgba(255,0,0,1)"
+                  d="M 0,5 L 10,0 L 10,10 Z"
+                  stroke="rgba(24,144,255,1)"
+                  marker-start="circle"
+                  marker-end="[object Object]"
+                />
+              </g>
+            </g>
+          </g>
+          <g
+            stroke-width="2px"
+            stroke-dasharray="10px,10px"
+            transform="matrix(1,0,0,1,100,150)"
+          >
+            <line
+              id="g-svg-22"
+              fill="none"
+              x1="0"
+              y1="0"
+              x2="200"
+              y2="50"
+              stroke="rgba(24,144,255,1)"
+              marker-start="circle"
+              marker-end="[object Object]"
+            />
+            <g
+              id="g-svg-26"
+              fill="rgba(24,144,255,1)"
+              stroke="rgba(24,144,255,1)"
+              stroke-width="2px"
+              width="10px"
+              height="10px"
+              stroke-dasharray="0px,0px"
+              marker-start="circle"
+              marker-end="[object Object]"
+              transform="matrix(0.970143,0.242536,-0.242536,0.970143,0,0)"
+            >
+              <g
+                stroke-width="2px"
+                stroke-dasharray="0px,0px"
+                transform="matrix(1,0,0,1,0,-5)"
+              >
+                <path
+                  id="arrow"
+                  fill="rgba(24,144,255,1)"
+                  d="M 0,5 L 10,0 L 10,10 Z"
+                  stroke="rgba(24,144,255,1)"
+                  marker-start="circle"
+                  marker-end="[object Object]"
+                />
+              </g>
+              <g
+                stroke-width="2px"
+                stroke-dasharray="0px,0px"
+                transform="matrix(1,0,0,1,0,-5)"
+              >
+                <path
+                  id="arrow"
+                  fill="rgba(24,144,255,1)"
+                  d="M 0,5 L 10,0 L 10,10 Z"
+                  stroke="rgba(24,144,255,1)"
+                  marker-start="circle"
+                  marker-end="[object Object]"
+                />
+              </g>
+            </g>
+            <g
+              id="g-svg-31"
+              fill="rgba(255,0,0,1)"
+              stroke="rgba(24,144,255,1)"
+              stroke-width="2px"
+              width="10px"
+              height="10px"
+              stroke-dasharray="0px,0px"
+              marker-start="circle"
+              marker-end="[object Object]"
+              transform="matrix(-0.970143,-0.242536,0.242536,-0.970143,200,50)"
+            >
+              <g
+                stroke-width="2px"
+                stroke-dasharray="0px,0px"
+                transform="matrix(1,0,0,1,0,-5)"
+              >
+                <path
+                  id="arrow"
+                  fill="rgba(255,0,0,1)"
+                  d="M 0,5 L 10,0 L 10,10 Z"
+                  stroke="rgba(24,144,255,1)"
+                  marker-start="circle"
+                  marker-end="[object Object]"
+                />
+              </g>
+              <g
+                stroke-width="2px"
+                stroke-dasharray="0px,0px"
+                transform="matrix(1,0,0,1,0,-5)"
+              >
+                <path
+                  id="arrow"
+                  fill="rgba(255,0,0,1)"
+                  d="M 0,5 L 10,0 L 10,10 Z"
+                  stroke="rgba(24,144,255,1)"
+                  marker-start="circle"
+                  marker-end="[object Object]"
+                />
+              </g>
+            </g>
+          </g>
+          <g
+            id="label"
+            fill="rgba(0,0,0,1)"
+            stroke="none"
+            font-size="12px"
+            text-anchor="middle"
+            transform="matrix(0.970143,0.242536,-0.242536,0.970143,201.455215,169.179138)"
+          >
+            <g transform="matrix(1,0,0,1,-33.187054,-28.430595)">
+              <path
+                id="background"
+                fill="none"
+                d="M 0,0 l 68.37411720861238,0 l 0,50.86117678317855 l-68.37411720861238 0 z"
+                stroke="none"
+                width="68.37411720861238px"
+                height="50.86117678317855px"
+              />
+            </g>
+            <g
+              font-size="12px"
+              text-anchor="middle"
+              transform="matrix(1,0,0,1,0,0)"
+            >
+              <text
+                id="text"
+                fill="rgba(0,0,0,1)"
+                dominant-baseline="alphabetic"
+                paint-order="stroke"
+                dx="1"
+                stroke="none"
+              >
+                line-edge
+              </text>
+            </g>
+          </g>
+        </g>
+      </g>
+      <g
+        id="g-svg-46"
+        fill="none"
+        stroke="rgba(24,144,255,1)"
+        stroke-width="2px"
+        stroke-dasharray="10px,10px"
+        marker-start="[object Object]"
+        marker-end="[object Object]"
+        transform="matrix(1,0,0,1,0,0)"
+      >
+        <g
+          id="line"
+          fill="none"
+          stroke="rgba(24,144,255,1)"
+          stroke-width="2px"
+          marker-start="[object Object]"
+          marker-end="[object Object]"
+          stroke-dasharray="10px,10px"
+          transform="matrix(1,0,0,1,0,0)"
+        >
+          <g
+            opacity="0.25"
+            pointer-events="none"
+            stroke-width="12px"
+            stroke-dasharray="0px,0px"
+            transform="matrix(1,0,0,1,100,250)"
+          >
+            <line
+              id="halo"
+              fill="none"
+              x1="200"
+              y1="50"
+              x2="0"
+              y2="0"
+              stroke="rgba(24,144,255,1)"
+              marker-start="[object Object]"
+              marker-end="[object Object]"
+            />
+            <g
+              id="g-svg-62"
+              fill="rgba(24,144,255,1)"
+              stroke="rgba(24,144,255,1)"
+              stroke-width="2px"
+              width="10px"
+              height="10px"
+              stroke-dasharray="0px,0px"
+              marker-start="[object Object]"
+              marker-end="[object Object]"
+              transform="matrix(-0.970143,-0.242536,0.242536,-0.970143,200,50)"
+            >
+              <g transform="matrix(0,1,-1,0,0,0)">
+                <image
+                  id="g-svg-61"
+                  fill="none"
+                  preserveAspectRatio="none"
+                  x="0"
+                  y="0"
+                  href="https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*N4ZMS7gHsUIAAAAAAAAAAABkARQnAQ"
+                  transform="translate(-25,-25)"
+                  stroke="none"
+                  width="50px"
+                  height="50px"
+                />
+              </g>
+              <g transform="matrix(0,1,-1,0,0,0)">
+                <image
+                  id="g-svg-63"
+                  fill="none"
+                  preserveAspectRatio="none"
+                  x="0"
+                  y="0"
+                  href="https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*N4ZMS7gHsUIAAAAAAAAAAABkARQnAQ"
+                  transform="translate(-25,-25)"
+                  stroke="none"
+                  width="50px"
+                  height="50px"
+                />
+              </g>
+            </g>
+            <g
+              id="g-svg-66"
+              fill="rgba(24,144,255,1)"
+              stroke="rgba(24,144,255,1)"
+              stroke-width="2px"
+              width="10px"
+              height="10px"
+              stroke-dasharray="0px,0px"
+              marker-start="[object Object]"
+              marker-end="[object Object]"
+              transform="matrix(0.970143,0.242536,-0.242536,0.970143,0,0)"
+            >
+              <g stroke-width="2px" transform="matrix(1,0,0,1,0,0)">
+                <circle
+                  id="g-svg-65"
+                  fill="none"
+                  transform="translate(-25,-25)"
+                  cx="25"
+                  cy="25"
+                  stroke="rgba(24,144,255,1)"
+                  r="25px"
+                />
+              </g>
+              <g stroke-width="2px" transform="matrix(1,0,0,1,0,0)">
+                <circle
+                  id="g-svg-67"
+                  fill="none"
+                  transform="translate(-25,-25)"
+                  cx="25"
+                  cy="25"
+                  stroke="rgba(24,144,255,1)"
+                  r="25px"
+                />
+              </g>
+            </g>
+          </g>
+          <g
+            stroke-width="2px"
+            stroke-dasharray="10px,10px"
+            transform="matrix(1,0,0,1,100,250)"
+          >
+            <line
+              id="g-svg-47"
+              fill="none"
+              x1="200"
+              y1="50"
+              x2="0"
+              y2="0"
+              stroke="rgba(24,144,255,1)"
+              marker-start="[object Object]"
+              marker-end="[object Object]"
+            />
+            <g
+              id="g-svg-52"
+              fill="rgba(24,144,255,1)"
+              stroke="rgba(24,144,255,1)"
+              stroke-width="2px"
+              width="10px"
+              height="10px"
+              stroke-dasharray="0px,0px"
+              marker-start="[object Object]"
+              marker-end="[object Object]"
+              transform="matrix(-0.970143,-0.242536,0.242536,-0.970143,200,50)"
+            >
+              <g transform="matrix(0,1,-1,0,0,0)">
+                <image
+                  id="g-svg-51"
+                  fill="none"
+                  preserveAspectRatio="none"
+                  x="0"
+                  y="0"
+                  href="https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*N4ZMS7gHsUIAAAAAAAAAAABkARQnAQ"
+                  transform="translate(-25,-25)"
+                  stroke="none"
+                  width="50px"
+                  height="50px"
+                />
+              </g>
+              <g transform="matrix(0,1,-1,0,0,0)">
+                <image
+                  id="g-svg-53"
+                  fill="none"
+                  preserveAspectRatio="none"
+                  x="0"
+                  y="0"
+                  href="https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*N4ZMS7gHsUIAAAAAAAAAAABkARQnAQ"
+                  transform="translate(-25,-25)"
+                  stroke="none"
+                  width="50px"
+                  height="50px"
+                />
+              </g>
+            </g>
+            <g
+              id="g-svg-57"
+              fill="rgba(24,144,255,1)"
+              stroke="rgba(24,144,255,1)"
+              stroke-width="2px"
+              width="10px"
+              height="10px"
+              stroke-dasharray="0px,0px"
+              marker-start="[object Object]"
+              marker-end="[object Object]"
+              transform="matrix(0.970143,0.242536,-0.242536,0.970143,0,0)"
+            >
+              <g stroke-width="2px" transform="matrix(1,0,0,1,0,0)">
+                <circle
+                  id="g-svg-56"
+                  fill="none"
+                  transform="translate(-25,-25)"
+                  cx="25"
+                  cy="25"
+                  stroke="rgba(24,144,255,1)"
+                  r="25px"
+                />
+              </g>
+              <g stroke-width="2px" transform="matrix(1,0,0,1,0,0)">
+                <circle
+                  id="g-svg-58"
+                  fill="none"
+                  transform="translate(-25,-25)"
+                  cx="25"
+                  cy="25"
+                  stroke="rgba(24,144,255,1)"
+                  r="25px"
+                />
+              </g>
+            </g>
+          </g>
+          <g
+            id="label"
+            fill="rgba(0,0,0,1)"
+            stroke="none"
+            font-size="12px"
+            text-anchor="middle"
+            transform="matrix(0.970143,0.242536,-0.242536,0.970143,201.455215,269.179138)"
+          >
+            <g transform="matrix(1,0,0,1,-59.887062,-40.995304)">
+              <path
+                id="background"
+                fill="none"
+                d="M 0,0 l 121.77411656097992,0 l 0,75.99058911262694 l-121.77411656097992 0 z"
+                stroke="none"
+                width="121.77411656097992px"
+                height="75.99058911262694px"
+              />
+            </g>
+            <g
+              font-size="12px"
+              text-anchor="middle"
+              transform="matrix(1,0,0,1,0,0)"
+            >
+              <text
+                id="text"
+                fill="rgba(0,0,0,1)"
+                dominant-baseline="alphabetic"
+                paint-order="stroke"
+                dx="1"
+                stroke="none"
+              >
+                inverted-line-edge
+              </text>
+            </g>
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

@@ -37,10 +37,21 @@ type EdgeLabelStyleProps = {
 } & LabelStyleProps;
 
 export type BaseEdgeStyleProps = BaseShapeStyleProps & {
+  /**
+   * <zh/> 边的主体部分
+   * <en/> keyShape of edge
+   */
   keyShape?: EdgeKeyShape;
+  /**
+   * <zh/> 起点箭头
+   * <en/> arrow at the start of the edge
+   */
   startArrow?: EdgeArrow;
+  /**
+   * <zh/> 终点箭头
+   * <en/> arrow at the end of the edge
+   */
   endArrow?: EdgeArrow;
-  endHeadOffset?: number;
   /**
    * <zh/> 是否显示光晕
    * <en/> whether to show halo
