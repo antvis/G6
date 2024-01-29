@@ -1,5 +1,5 @@
 import type { IAnimation } from '@antv/g';
-import { createAnimationsProxy, parseAnimation } from '../../../src/utils/animation';
+import { createAnimationsProxy, parseAnimation, preprocessKeyframes } from '../../../src/utils/animation';
 
 describe('animation', () => {
   it('createAnimationsProxy', () => {
@@ -38,5 +38,17 @@ describe('animation', () => {
         { fields: ['opacity'], shape: 'halo', duration: 500 },
       ]),
     ).toEqual({ type: 'specification' });
+  });
+
+  it('preprocessKeyframes', () => {
+    expect(
+      preprocessKeyframes([
+        { fill: 'red', opacity: 0, stroke: 1, lineWidth: 0, lineDash: undefined },
+        { fill: 'blue', opacity: 1, lineWidth: 0, lineDash: undefined },
+      ]),
+    ).toEqual([
+      { fill: 'red', opacity: 0 },
+      { fill: 'blue', opacity: 1 },
+    ]);
   });
 });

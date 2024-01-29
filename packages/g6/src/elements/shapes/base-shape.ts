@@ -1,7 +1,7 @@
 import type { DisplayObject, DisplayObjectConfig, Group, GroupStyleProps, IAnimation } from '@antv/g';
 import { CustomElement } from '@antv/g';
-import { deepMix, isNil } from '@antv/util';
-import { createAnimationsProxy } from '../../utils/animation';
+import { deepMix } from '@antv/util';
+import { createAnimationsProxy, preprocessKeyframes } from '../../utils/animation';
 
 export interface BaseShapeStyleProps extends GroupStyleProps {}
 
@@ -135,46 +135,7 @@ export abstract class BaseShape<T extends BaseShapeStyleProps> extends CustomEle
         if (typeof method === 'function') {
           const subKeyframes: Keyframe[] = keyframes.map((style) => method.call(this, style));
 
-          // 转化为 PropertyIndexedKeyframes 格式方便后续处理
-          // convert to PropertyIndexedKeyframes format for subsequent processing
-          const propertyIndexedKeyframes = subKeyframes.reduce(
-            (acc, kf) => {
-              Object.entries(kf).forEach(([key, value]) => {
-                if (acc[key] === undefined) acc[key] = [value];
-                else acc[key].push(value);
-              });
-              return acc;
-            },
-            {} as Record<string, any[]>,
-          );
-
-          // 过滤掉无用动画的属性（属性值为 undefined、或者值完全一致）
-          // filter out useless animation properties (property value is undefined, or value is exactly the same)
-          Object.entries(propertyIndexedKeyframes).forEach(([key, values]) => {
-            if (
-              // 属性值必须在每一帧都存在 / property value must exist in every frame
-              values.length !== subKeyframes.length ||
-              // 属性值不能为空 / property value cannot be empty
-              values.some((value) => isNil(value)) ||
-              // 属性值必须不完全一致 / property value must not be exactly the same
-              values.every((value) => value === values[0])
-            ) {
-              delete propertyIndexedKeyframes[key];
-            }
-          });
-
-          this.animateMap[key] = shape.animate(
-            // 将 PropertyIndexedKeyframes 转化为 Keyframe 格式
-            // convert PropertyIndexedKeyframes to Keyframe format
-            Object.entries(propertyIndexedKeyframes).reduce((acc, [key, values]) => {
-              values.forEach((value, index) => {
-                if (!acc[index]) acc[index] = { [key]: value };
-                else acc[index][key] = value;
-              });
-              return acc;
-            }, [] as Keyframe[]),
-            options,
-          )!;
+          this.animateMap[key] = shape.animate(preprocessKeyframes(subKeyframes), options)!;
         }
       });
     } else {

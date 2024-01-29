@@ -1,5 +1,5 @@
 import type { IAnimation } from '@antv/g';
-import { isArray, isString } from '@antv/util';
+import { isArray, isNil, isString } from '@antv/util';
 import type {
   ComponentAnimationOptions,
   ConfigurableAnimationOptions,
@@ -53,4 +53,51 @@ export function parseAnimation(animation: StageAnimationOptions): ComponentAnima
     };
   }
   return animation;
+}
+
+/**
+ * <zh/> 预处理关键帧，过滤掉无用动画的属性
+ *
+ * <en/> Preprocess keyframes, filter out the properties of useless animations
+ * @param keyframes - <zh/> 关键帧 | <en/> keyframes
+ * @returns <zh/> 关键帧 | <en/> keyframes
+ */
+export function preprocessKeyframes(keyframes: Keyframe[]): Keyframe[] {
+  // 转化为 PropertyIndexedKeyframes 格式方便后续处理
+  // convert to PropertyIndexedKeyframes format for subsequent processing
+  const propertyIndexedKeyframes = keyframes.reduce(
+    (acc, kf) => {
+      Object.entries(kf).forEach(([key, value]) => {
+        if (acc[key] === undefined) acc[key] = [value];
+        else acc[key].push(value);
+      });
+      return acc;
+    },
+    {} as Record<string, any[]>,
+  );
+
+  // 过滤掉无用动画的属性（属性值为 undefined、或者值完全一致）
+  // filter out useless animation properties (property value is undefined, or value is exactly the same)
+  Object.entries(propertyIndexedKeyframes).forEach(([key, values]) => {
+    if (
+      // 属性值必须在每一帧都存在 / property value must exist in every frame
+      values.length !== keyframes.length ||
+      // 属性值不能为空 / property value cannot be empty
+      values.some((value) => isNil(value)) ||
+      // 属性值必须不完全一致 / property value must not be exactly the same
+      values.every((value) => value === values[0])
+    ) {
+      delete propertyIndexedKeyframes[key];
+    }
+  });
+
+  // 将 PropertyIndexedKeyframes 转化为 Keyframe 格式
+  // convert PropertyIndexedKeyframes to Keyframe format
+  return Object.entries(propertyIndexedKeyframes).reduce((acc, [key, values]) => {
+    values.forEach((value, index) => {
+      if (!acc[index]) acc[index] = { [key]: value };
+      else acc[index][key] = value;
+    });
+    return acc;
+  }, [] as Keyframe[]);
 }
