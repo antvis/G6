@@ -1,13 +1,4 @@
-import {
-  DisplayObjectConfig,
-  Circle as GCircle,
-  CircleStyleProps as GCircleStyleProps,
-  Image as GImage,
-  Text as GText,
-  Group,
-  ImageStyleProps,
-  TextStyleProps,
-} from '@antv/g';
+import { DisplayObjectConfig, Circle as GCircle, CircleStyleProps as GCircleStyleProps, Group } from '@antv/g';
 import { deepMix } from '@antv/util';
 import type { PrefixObject } from '../../types';
 import type { AnchorPosition, BadgePosition, LabelPosition } from '../../types/node';
@@ -15,12 +6,13 @@ import { getAnchorPosition, getTextStyleByPosition, getXYByPosition } from '../.
 import { omitStyleProps, subStyleProps } from '../../utils/prefix';
 import { BaseShape, BaseShapeStyleProps } from '../shapes';
 import { Badge, BadgeStyleProps } from '../shapes/badge';
+import { Icon, IconStyleProps } from '../shapes/icon';
 import { Label, LabelStyleProps } from '../shapes/label';
 
 type NodeLabelStyleProps = LabelStyleProps & { position: LabelPosition };
 type NodeBadgeStyleProps = BadgeStyleProps & { position: BadgePosition };
 type NodeAnchorStyleProps = GCircleStyleProps & { position: AnchorPosition };
-type NodeIconStyleProps = ImageStyleProps | TextStyleProps;
+type NodeIconStyleProps = IconStyleProps;
 
 export type CircleStyleProps = BaseShapeStyleProps &
   // Key
@@ -82,12 +74,7 @@ export class Circle extends BaseShape<CircleStyleProps> {
   }
 
   protected getIconStyle(attributes: CircleStyleProps) {
-    const style = subStyleProps<CircleStyleProps>(this.getGraphicStyle(attributes), 'icon');
-    // If src exist, use G Image to draw.
-    // @ts-ignore
-    const defaultStyle = style.src ? { anchor: [0.5, 0.5] } : { textAlign: 'center', textBaseline: 'middle' };
-
-    return { ...defaultStyle, ...style } as NodeIconStyleProps;
+    return subStyleProps<CircleStyleProps>(this.getGraphicStyle(attributes), 'icon');
   }
 
   protected getBadgesStyle(attributes: CircleStyleProps) {
@@ -100,13 +87,13 @@ export class Circle extends BaseShape<CircleStyleProps> {
 
   public render(attributes = this.attributes as ParsedCircleStyleProps, container: Group = this) {
     // 1. key shape
-    const keyShape = this.upsert('node-circle-key', GCircle, this.getKeyStyle(attributes), container);
+    const keyShape = this.upsert('key', GCircle, this.getKeyStyle(attributes), container);
     if (!keyShape) return;
 
     // 2. label
     const { position, ...labelStyle } = this.getLabelStyle(attributes);
     this.upsert(
-      'node-circle-label',
+      'label',
       Label,
       {
         ...getTextStyleByPosition(keyShape.getLocalBounds(), position),
@@ -116,18 +103,20 @@ export class Circle extends BaseShape<CircleStyleProps> {
     );
 
     // TODO: 3. halo
-    this.upsert('node-circle-halo', GCircle, this.getHaloStyle(attributes), container);
+    this.upsert('halo', GCircle, this.getHaloStyle(attributes), container);
 
     // 4. icon
     const iconStyle = this.getIconStyle(attributes);
+    const [iconX, iconY] = getXYByPosition(keyShape.getLocalBounds(), 'center');
+
     this.upsert(
-      'node-circle-icon',
-      // @ts-ignore
-      iconStyle.src ? GImage : GText,
+      'icon',
+      Icon,
       {
-        ...getTextStyleByPosition(keyShape.getLocalBounds(), 'center'),
+        x: iconX,
+        y: iconY,
         ...iconStyle,
-      },
+      } as IconStyleProps,
       container,
     );
 

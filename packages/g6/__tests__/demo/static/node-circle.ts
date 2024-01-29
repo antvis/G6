@@ -18,7 +18,7 @@ export const nodeCircle: StaticTestCase = async (context) => {
     style: {
       // key
       cx: 300,
-      cy: 300,
+      cy: 100,
       fill: 'red',
       r: 40,
       // label
@@ -48,8 +48,23 @@ export const nodeCircle: StaticTestCase = async (context) => {
     },
   });
 
+  const c3 = new Circle({
+    style: {
+      // key
+      cx: 100,
+      cy: 300,
+      fill: 'pink',
+      r: 40,
+      // icon
+      iconText: 'Y',
+      iconFontSize: 32,
+      iconFill: 'black',
+    },
+  });
+
   await canvas.init();
 
   canvas.appendChild(c1);
   canvas.appendChild(c2);
+  canvas.appendChild(c3);
 };

@@ -31,7 +31,7 @@
       >
         <g transform="matrix(1,0,0,1,100,100)">
           <circle
-            id="node-circle-key"
+            id="key"
             fill="rgba(0,128,0,1)"
             transform="translate(-40,-40)"
             cx="40"
@@ -41,7 +41,7 @@
           />
         </g>
         <g
-          id="node-circle-label"
+          id="label"
           fill="none"
           stroke="none"
           text-anchor="middle"
@@ -68,34 +68,35 @@
           </g>
         </g>
         <g transform="matrix(1,0,0,1,0,0)">
-          <circle
-            id="node-circle-halo"
-            fill="none"
-            cx="0"
-            cy="0"
-            stroke="none"
-          />
+          <circle id="halo" fill="none" cx="0" cy="0" stroke="none" />
         </g>
-        <g text-anchor="middle" transform="matrix(1,0,0,1,100,100)">
-          <text
-            id="node-circle-icon"
-            fill="rgba(0,0,0,1)"
-            dominant-baseline="central"
-            paint-order="stroke"
-            stroke="none"
-          />
+        <g
+          id="icon"
+          fill="none"
+          stroke="none"
+          transform="matrix(1,0,0,1,100,100)"
+        >
+          <g text-anchor="middle" transform="matrix(1,0,0,1,0,0)">
+            <text
+              id="icon"
+              fill="none"
+              dominant-baseline="central"
+              paint-order="stroke"
+              stroke="none"
+            />
+          </g>
         </g>
       </g>
       <g
-        id="g-svg-12"
+        id="g-svg-13"
         fill="rgba(255,0,0,1)"
         stroke="none"
         r="40px"
         transform="matrix(1,0,0,1,0,0)"
       >
-        <g transform="matrix(1,0,0,1,300,300)">
+        <g transform="matrix(1,0,0,1,300,100)">
           <circle
-            id="node-circle-key"
+            id="key"
             fill="rgba(255,0,0,1)"
             transform="translate(-40,-40)"
             cx="40"
@@ -105,12 +106,12 @@
           />
         </g>
         <g
-          id="node-circle-label"
+          id="label"
           fill="rgba(255,192,203,1)"
           stroke="none"
           font-size="14px"
           text-anchor="middle"
-          transform="matrix(1,0,0,1,300,340)"
+          transform="matrix(1,0,0,1,300,140)"
         >
           <g transform="matrix(1,0,0,1,-42.310001,-5)">
             <path
@@ -141,34 +142,37 @@
           </g>
         </g>
         <g opacity="0.4" transform="matrix(1,0,0,1,0,0)">
-          <circle
-            id="node-circle-halo"
-            fill="none"
-            cx="0"
-            cy="0"
-            stroke="none"
-          />
+          <circle id="halo" fill="none" cx="0" cy="0" stroke="none" />
         </g>
-        <g text-anchor="middle" transform="matrix(1,0,0,1,300,300)">
-          <image
-            id="node-circle-icon"
-            fill="none"
-            preserveAspectRatio="none"
-            x="0"
-            y="0"
-            href="https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg"
-            transform="translate(-16,-16)"
-            stroke="none"
-            width="32px"
-            height="32px"
-          />
+        <g
+          id="icon"
+          fill="none"
+          stroke="none"
+          width="32px"
+          height="32px"
+          transform="matrix(1,0,0,1,300,100)"
+        >
+          <g transform="matrix(1,0,0,1,0,0)">
+            <image
+              id="icon"
+              fill="none"
+              preserveAspectRatio="none"
+              x="0"
+              y="0"
+              href="https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg"
+              transform="translate(-16,-16)"
+              stroke="none"
+              width="32px"
+              height="32px"
+            />
+          </g>
         </g>
         <g
           id="node-circle-badge-0"
           fill="rgba(255,255,255,1)"
           stroke="none"
           font-size="10px"
-          transform="matrix(1,0,0,1,340,260)"
+          transform="matrix(1,0,0,1,340,60)"
         >
           <g
             id="label"
@@ -206,7 +210,7 @@
           fill="rgba(255,255,255,1)"
           stroke="none"
           font-size="10px"
-          transform="matrix(1,0,0,1,340,300)"
+          transform="matrix(1,0,0,1,340,100)"
         >
           <g
             id="label"
@@ -244,7 +248,7 @@
           fill="rgba(255,255,255,1)"
           stroke="none"
           font-size="10px"
-          transform="matrix(1,0,0,1,260,340)"
+          transform="matrix(1,0,0,1,260,140)"
         >
           <g
             id="label"
@@ -277,7 +281,7 @@
             </g>
           </g>
         </g>
-        <g transform="matrix(1,0,0,1,260,300)">
+        <g transform="matrix(1,0,0,1,260,100)">
           <circle
             id="node-circle-anchor-0"
             fill="none"
@@ -288,7 +292,7 @@
             r="2px"
           />
         </g>
-        <g stroke-width="2px" transform="matrix(1,0,0,1,340,300)">
+        <g stroke-width="2px" transform="matrix(1,0,0,1,340,100)">
           <circle
             id="node-circle-anchor-1"
             fill="none"
@@ -299,7 +303,7 @@
             r="2px"
           />
         </g>
-        <g transform="matrix(1,0,0,1,300,260)">
+        <g transform="matrix(1,0,0,1,300,60)">
           <circle
             id="node-circle-anchor-2"
             fill="none"
@@ -310,7 +314,7 @@
             r="2px"
           />
         </g>
-        <g transform="matrix(1,0,0,1,300,340)">
+        <g transform="matrix(1,0,0,1,300,140)">
           <circle
             id="node-circle-anchor-3"
             fill="none"
@@ -320,6 +324,79 @@
             stroke="rgba(128,128,128,1)"
             r="2px"
           />
+        </g>
+      </g>
+      <g
+        id="g-svg-37"
+        fill="rgba(255,192,203,1)"
+        stroke="none"
+        r="40px"
+        transform="matrix(1,0,0,1,0,0)"
+      >
+        <g transform="matrix(1,0,0,1,100,300)">
+          <circle
+            id="key"
+            fill="rgba(255,192,203,1)"
+            transform="translate(-40,-40)"
+            cx="40"
+            cy="40"
+            stroke="none"
+            r="40px"
+          />
+        </g>
+        <g
+          id="label"
+          fill="none"
+          stroke="none"
+          text-anchor="middle"
+          transform="matrix(1,0,0,1,100,300)"
+        >
+          <g transform="matrix(1,0,0,1,-5,-5)">
+            <path
+              id="background"
+              fill="none"
+              d="M 0,0 l 10,0 l 0,10 l-10 0 z"
+              stroke="none"
+              width="10px"
+              height="10px"
+            />
+          </g>
+          <g text-anchor="middle" transform="matrix(1,0,0,1,0,0)">
+            <text
+              id="text"
+              fill="none"
+              dominant-baseline="central"
+              paint-order="stroke"
+              stroke="none"
+            />
+          </g>
+        </g>
+        <g transform="matrix(1,0,0,1,0,0)">
+          <circle id="halo" fill="none" cx="0" cy="0" stroke="none" />
+        </g>
+        <g
+          id="icon"
+          fill="rgba(0,0,0,1)"
+          stroke="none"
+          font-size="32px"
+          transform="matrix(1,0,0,1,100,300)"
+        >
+          <g
+            font-size="32px"
+            text-anchor="middle"
+            transform="matrix(1,0,0,1,0,0)"
+          >
+            <text
+              id="icon"
+              fill="rgba(0,0,0,1)"
+              dominant-baseline="central"
+              paint-order="stroke"
+              dx="0.5"
+              stroke="none"
+            >
+              Y
+            </text>
+          </g>
         </g>
       </g>
     </g>
