@@ -40,7 +40,7 @@ export abstract class BaseShape<T extends BaseShapeStyleProps> extends CustomEle
   protected upsert<P extends DisplayObject>(
     key: string,
     Ctor: { new (...args: any[]): P },
-    style: P['attributes'],
+    style: P['attributes'] | false,
     container: DisplayObject,
   ) {
     const target = this.shapeMap[key];

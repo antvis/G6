@@ -1,3 +1,4 @@
+export * from './edge-line';
 export * from './layered-canvas';
 export * from './node-circle';
 export * from './shape-badge';
