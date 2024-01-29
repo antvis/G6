@@ -7,14 +7,15 @@ import type { PluginCategory, PluginRegistry } from './types';
  * <en/> Plugin registry
  */
 const PLUGIN_REGISTRY: PluginRegistry = {
-  node: {},
-  edge: {},
-  combo: {},
-  theme: {},
-  layout: {},
-  behavior: {},
-  widget: {},
   animation: {},
+  behavior: {},
+  combo: {},
+  edge: {},
+  layout: {},
+  node: {},
+  palette: {},
+  theme: {},
+  widget: {},
 };
 
 /**
