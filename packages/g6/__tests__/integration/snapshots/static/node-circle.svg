@@ -1,0 +1,105 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="500"
+  height="500"
+  style="background: transparent; position: absolute; outline: none;"
+  color-interpolation-filters="sRGB"
+  tabindex="1"
+>
+  <defs />
+  <g id="g-svg-camera" transform="matrix(1,0,0,1,0,0)">
+    <g
+      id="g-root"
+      fill="none"
+      stroke="none"
+      visibility="visible"
+      font-size="16px"
+      font-family="sans-serif"
+      font-style="normal"
+      font-weight="normal"
+      font-variant="normal"
+      text-anchor="left"
+      stroke-dashoffset="0px"
+      transform="matrix(1,0,0,1,0,0)"
+    >
+      <g
+        id="g-svg-5"
+        fill="rgba(255,0,0,1)"
+        stroke="none"
+        r="40px"
+        transform="matrix(1,0,0,1,0,0)"
+      >
+        <g transform="matrix(1,0,0,1,100,100)">
+          <circle
+            id="node-circle-key"
+            fill="rgba(255,0,0,1)"
+            transform="translate(-40,-40)"
+            cx="40"
+            cy="40"
+            stroke="none"
+            r="40px"
+          />
+        </g>
+        <g
+          id="node-circle-label"
+          fill="rgba(255,192,203,1)"
+          stroke="none"
+          font-size="14px"
+          text-anchor="middle"
+          transform="matrix(1,0,0,1,100,140)"
+        >
+          <g transform="matrix(1,0,0,1,-42.310001,-5)">
+            <path
+              id="background"
+              fill="none"
+              d="M 0,0 l 85.62,0 l 0,37 l-85.62 0 z"
+              stroke="none"
+              width="85.62px"
+              height="37px"
+            />
+          </g>
+          <g
+            font-size="14px"
+            text-anchor="middle"
+            transform="matrix(1,0,0,1,0,0)"
+          >
+            <text
+              id="text"
+              fill="rgba(255,192,203,1)"
+              dominant-baseline="central"
+              paint-order="stroke"
+              dx="0.5"
+              dy="13.5px"
+              stroke="none"
+            >
+              circle node
+            </text>
+          </g>
+        </g>
+        <g opacity="0.4" transform="matrix(1,0,0,1,0,0)">
+          <circle
+            id="node-circle-halo"
+            fill="none"
+            cx="0"
+            cy="0"
+            stroke="none"
+          />
+        </g>
+        <g text-anchor="middle" transform="matrix(1,0,0,1,100,100)">
+          <image
+            id="node-circle-icon"
+            fill="none"
+            preserveAspectRatio="none"
+            x="0"
+            y="0"
+            href="https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg"
+            transform="translate(-16,-16)"
+            stroke="none"
+            width="32px"
+            height="32px"
+          />
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>
