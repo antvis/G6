@@ -15,6 +15,8 @@ describe('element', () => {
     expect(getXYByPosition(bbox, 'right-bottom')).toEqual([200, 200]);
 
     expect(getXYByPosition(bbox, 'center')).toEqual([150, 150]);
+
+    expect(getXYByPosition(bbox)).toEqual([150, 150]);
   });
 
   it('getAnchorPosition', () => {
@@ -69,6 +71,13 @@ describe('element', () => {
     });
 
     expect(getTextStyleByPosition(bbox, 'center')).toEqual({
+      x: 150,
+      y: 150,
+      textAlign: 'center',
+      textBaseline: 'middle',
+    });
+
+    expect(getTextStyleByPosition(bbox)).toEqual({
       x: 150,
       y: 150,
       textAlign: 'center',

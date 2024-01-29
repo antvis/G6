@@ -9,7 +9,7 @@ export type RelativePosition =
   | 'left-top'
   | 'left-bottom'
   | 'right'
-  | 'rigth-top'
+  | 'right-top'
   | 'right-bottom'
   | 'center';
 

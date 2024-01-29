@@ -9,7 +9,7 @@ import type { AnchorPosition, LabelPosition, RelativePosition } from '../types/n
  * @param position The postion relative with element.
  * @returns [x, y]
  */
-export function getXYByPosition(bbox: AABB, position: RelativePosition): Point {
+export function getXYByPosition(bbox: AABB, position: RelativePosition = 'center'): Point {
   const direction = position.split('-');
   const x = direction.includes('left') ? bbox.min[0] : direction.includes('right') ? bbox.max[0] : bbox.center[0];
   const y = direction.includes('top') ? bbox.min[1] : direction.includes('bottom') ? bbox.max[1] : bbox.center[1];
@@ -48,7 +48,7 @@ export function getAnchorPosition(bbox: AABB, position?: AnchorPosition): Point 
  * @param position The postion relative with element.
  * @returns Partial<TextStyleProps>
  */
-export function getTextStyleByPosition(bbox: AABB, position: LabelPosition): Partial<TextStyleProps> {
+export function getTextStyleByPosition(bbox: AABB, position: LabelPosition = 'center'): Partial<TextStyleProps> {
   const direction = position.split('-');
   const [x, y] = getXYByPosition(bbox, position);
 

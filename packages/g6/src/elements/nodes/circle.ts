@@ -48,7 +48,7 @@ export type CircleStyleProps = BaseShapeStyleProps &
 
 type ParsedCircleStyleProps = Required<CircleStyleProps>;
 
-export type CircleOptions = DisplayObjectConfig<ParsedCircleStyleProps>;
+export type CircleOptions = DisplayObjectConfig<CircleStyleProps>;
 
 /**
  * Design document: https://www.yuque.com/antv/g6/gl1iof1xpzg6ed98
@@ -91,11 +91,11 @@ export class Circle extends BaseShape<CircleStyleProps> {
   }
 
   protected getBadgesStyle(attributes: CircleStyleProps) {
-    return this.getGraphicStyle(attributes).badgeOptions as unknown as NodeBadgeStyleProps[];
+    return this.getGraphicStyle(attributes).badgeOptions || ([] as unknown as NodeBadgeStyleProps[]);
   }
 
   protected getAnchorsStyle(attributes: CircleStyleProps) {
-    return this.getGraphicStyle(attributes).badgeOptions as unknown as NodeAnchorStyleProps[];
+    return this.getGraphicStyle(attributes).anchorOptions || ([] as unknown as NodeAnchorStyleProps[]);
   }
 
   public render(attributes = this.attributes as ParsedCircleStyleProps, container: Group = this) {
