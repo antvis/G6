@@ -1,5 +1,5 @@
 import type { IAnimation } from '@antv/g';
-import { createAnimationsProxy } from '../../../src/utils/animation';
+import { createAnimationsProxy, parseAnimation } from '../../../src/utils/animation';
 
 describe('animation', () => {
   it('createAnimationsProxy', () => {
@@ -27,5 +27,16 @@ describe('animation', () => {
 
     expect(sourcePause).toHaveBeenCalledTimes(1);
     expect(targetPause).toHaveBeenCalledTimes(2);
+  });
+
+  it('parseAnimation', () => {
+    expect(parseAnimation('fadeIn')).toEqual({ type: 'fadeIn' });
+    expect(parseAnimation({ type: 'fadeOut', duration: 100 })).toEqual({ type: 'fadeOut', duration: 100 });
+    expect(
+      parseAnimation([
+        { fields: ['opacity', 'size'], shape: 'key', duration: 500 },
+        { fields: ['opacity'], shape: 'halo', duration: 500 },
+      ]),
+    ).toEqual({ type: 'specification' });
   });
 });

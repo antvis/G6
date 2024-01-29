@@ -1,4 +1,10 @@
 import type { IAnimation } from '@antv/g';
+import { isArray, isString } from '@antv/util';
+import type {
+  ComponentAnimationOptions,
+  ConfigurableAnimationOptions,
+  StageAnimationOptions,
+} from '../spec/element/animation';
 
 /**
  * <zh/> 创建动画代理，对一个动画实例的操作同步到多个动画实例上
@@ -24,4 +30,27 @@ export function createAnimationsProxy(sourceAnimation: IAnimation, targetAnimati
       return Reflect.set(target, propKey, value);
     },
   });
+}
+
+export function parseAnimation(animation: string | ComponentAnimationOptions): ComponentAnimationOptions;
+export function parseAnimation(animation: ConfigurableAnimationOptions[]): ComponentAnimationOptions;
+/**
+ * <zh/> 解析动画配置项
+ *
+ * <en/> parse animation options
+ * @param animation - <zh/> 动画配置项 | <en/> animation options
+ * @returns <zh/> 动画配置项 | <en/> animation options
+ */
+export function parseAnimation(animation: StageAnimationOptions): ComponentAnimationOptions {
+  if (isArray(animation)) {
+    return {
+      type: 'specification',
+    };
+  }
+  if (isString(animation)) {
+    return {
+      type: animation,
+    };
+  }
+  return animation;
 }
