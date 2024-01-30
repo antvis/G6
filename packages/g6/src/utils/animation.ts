@@ -1,10 +1,7 @@
 import type { DisplayObject, IAnimation } from '@antv/g';
-import { isArray, isNil, isString } from '@antv/util';
-import type {
-  ComponentAnimationOptions,
-  ConfigurableAnimationOptions,
-  StageAnimationOptions,
-} from '../spec/element/animation';
+import { isNil, isString } from '@antv/util';
+import type { Animation, STDAnimation } from '../animations/types';
+import { getPlugin } from '../registry';
 import { getDescendantShapes } from './shape';
 
 /**
@@ -33,8 +30,6 @@ export function createAnimationsProxy(sourceAnimation: IAnimation, targetAnimati
   });
 }
 
-export function parseAnimation(animation: string | ComponentAnimationOptions): ComponentAnimationOptions;
-export function parseAnimation(animation: ConfigurableAnimationOptions[]): ComponentAnimationOptions;
 /**
  * <zh/> 解析动画配置项
  *
@@ -42,16 +37,9 @@ export function parseAnimation(animation: ConfigurableAnimationOptions[]): Compo
  * @param animation - <zh/> 动画配置项 | <en/> animation options
  * @returns <zh/> 动画配置项 | <en/> animation options
  */
-export function parseAnimation(animation: StageAnimationOptions): ComponentAnimationOptions {
-  if (isArray(animation)) {
-    return {
-      type: 'custom',
-    };
-  }
+export function parseAnimation(animation: Animation): STDAnimation {
   if (isString(animation)) {
-    return {
-      type: animation,
-    };
+    return getPlugin('animation', animation) || [];
   }
   return animation;
 }

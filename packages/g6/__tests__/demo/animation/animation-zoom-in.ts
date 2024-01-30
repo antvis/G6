@@ -1,8 +1,8 @@
 import { Circle, Group } from '@antv/g';
-import { Custom } from '../../../src/animations/custom';
+import { executor } from '../../../src/animations';
+import type { Animation } from '../../../src/animations/types';
 import type { BaseShapeStyleProps } from '../../../src/elements/shapes/base-shape';
 import { BaseShape } from '../../../src/elements/shapes/base-shape';
-import type { ConfigurableAnimationOptions } from '../../../src/spec/element/animation';
 import type { AnimationTestCase } from '../types';
 
 type ShapeStyleProps = BaseShapeStyleProps & { size: number; color: string; outline: number; outlineOpacity: number };
@@ -32,20 +32,12 @@ class Shape extends BaseShape<ShapeStyleProps> {
   }
 }
 
-export const animationCustomBreathe: AnimationTestCase = async ({ canvas }) => {
-  const animation: ConfigurableAnimationOptions[] = [
+export const animationZoomIn: AnimationTestCase = async ({ canvas }) => {
+  const animation: Animation = [
     {
-      fields: ['lineWidth'],
-      shape: 'halo',
-      iterations: Infinity,
-      direction: 'alternate',
+      fields: ['size', 'color'],
     },
   ];
-
-  const factor = Custom({
-    config: animation,
-    options: {},
-  });
 
   const shape = canvas.appendChild(
     new Shape({
@@ -61,11 +53,15 @@ export const animationCustomBreathe: AnimationTestCase = async ({ canvas }) => {
     }),
   );
 
-  return factor(shape, {
-    effectTiming: { duration: 1000, easing: 'linear' },
-    originalStyle: { ...shape.attributes, size: 60, outline: 0, outlineOpacity: 0.1 },
-    states: [],
-  });
+  return executor(
+    shape,
+    animation,
+    { duration: 1000, easing: 'linear', iterations: Infinity, direction: 'alternate' },
+    {
+      originalStyle: { ...shape.attributes, color: 'orange', size: 0, outline: 0, outlineOpacity: 0.1 },
+      states: [],
+    },
+  );
 };
 
-animationCustomBreathe.times = [0, 500, 1000];
+animationZoomIn.times = [0, 500, 1000];

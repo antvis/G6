@@ -1,8 +1,8 @@
 import { Circle, Group } from '@antv/g';
-import { Custom } from '../../../src/animations/custom';
+import { executor } from '../../../src/animations';
+import type { Animation } from '../../../src/animations/types';
 import type { BaseShapeStyleProps } from '../../../src/elements/shapes/base-shape';
 import { BaseShape } from '../../../src/elements/shapes/base-shape';
-import type { ConfigurableAnimationOptions } from '../../../src/spec/element/animation';
 import type { AnimationTestCase } from '../types';
 
 type ShapeStyleProps = BaseShapeStyleProps & { size: number; color: string };
@@ -31,17 +31,12 @@ class Shape extends BaseShape<ShapeStyleProps> {
   }
 }
 
-export const animationCustomFadeIn: AnimationTestCase = async ({ canvas }) => {
-  const animation: ConfigurableAnimationOptions[] = [
+export const animationTranslate: AnimationTestCase = async ({ canvas }) => {
+  const animation: Animation = [
     {
-      fields: ['opacity'],
+      fields: ['x', 'y'],
     },
   ];
-
-  const factor = Custom({
-    config: animation,
-    options: {},
-  });
 
   const shape = canvas.appendChild(
     new Shape({
@@ -49,17 +44,21 @@ export const animationCustomFadeIn: AnimationTestCase = async ({ canvas }) => {
         x: 100,
         y: 100,
         size: 50,
-        color: 'red',
+        color: '#e3640d',
         opacity: 0.8,
       },
     }),
   );
 
-  return factor(shape, {
-    effectTiming: { duration: 1000, easing: 'linear', iterations: Infinity, direction: 'alternate' },
-    originalStyle: { ...shape.attributes, opacity: 0 },
-    states: [],
-  });
+  return executor(
+    shape,
+    animation,
+    { duration: 1000, easing: 'linear', iterations: Infinity, direction: 'alternate' },
+    {
+      originalStyle: { ...shape.attributes, x: 200, y: 200 },
+      states: [],
+    },
+  );
 };
 
-animationCustomFadeIn.times = [0, 500, 1000];
+animationTranslate.times = [0, 500, 1000];
