@@ -1,1 +1,3 @@
-export * from './label';
+import '../../../src/preset';
+
+export * from './shape-label';

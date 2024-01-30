@@ -1,11 +1,11 @@
-import * as staticCases from '../demo/animation';
+import * as animationCases from '../demo/animation';
 import { createNodeGCanvas } from './utils/create-node-g-canvas';
 import { getCases } from './utils/get-cases';
 import { sleep } from './utils/sleep';
 import './utils/use-snapshot-matchers';
 
 describe('static', () => {
-  const cases = getCases(staticCases);
+  const cases = getCases(animationCases);
 
   for (const [name, testCase] of cases) {
     it(`[animation]: ${name}`, async () => {

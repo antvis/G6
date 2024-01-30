@@ -1,7 +1,7 @@
 import { Label } from '../../../src/elements/shapes/label';
 import type { AnimationTestCase } from '../types';
 
-export const labelShape: AnimationTestCase = async (context) => {
+export const shapeLabel: AnimationTestCase = async (context) => {
   const { canvas } = context;
 
   const label = new Label({
@@ -11,6 +11,8 @@ export const labelShape: AnimationTestCase = async (context) => {
       x: 50,
       y: 50,
       stroke: 'pink',
+      fontFamily: 'Arial',
+      fill: 'transparent',
       backgroundLineWidth: 2,
       backgroundStroke: 'pink',
     },
@@ -31,4 +33,4 @@ export const labelShape: AnimationTestCase = async (context) => {
   return result;
 };
 
-labelShape.times = [0, 1000];
+shapeLabel.times = [0, 1000];
