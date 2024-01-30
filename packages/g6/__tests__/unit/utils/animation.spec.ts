@@ -1,4 +1,5 @@
 import type { IAnimation } from '@antv/g';
+import { register } from '../../../src';
 import {
   createAnimationsProxy,
   executeAnimation,
@@ -35,14 +36,22 @@ describe('animation', () => {
   });
 
   it('parseAnimation', () => {
-    expect(parseAnimation('fadeIn')).toEqual({ type: 'fadeIn' });
-    expect(parseAnimation({ type: 'fadeOut', duration: 100 })).toEqual({ type: 'fadeOut', duration: 100 });
+    expect(parseAnimation('custom')).toEqual([]);
+    register('animation', 'custom', [{ fields: ['size'] }]);
+    expect(parseAnimation('custom')).toEqual([{ fields: ['size'] }]);
+
+    // built it
+    expect(parseAnimation('fade')).toEqual([{ fields: ['opacity'] }]);
+    expect(parseAnimation([{ fields: ['opacity'] }])).toEqual([{ fields: ['opacity'] }]);
     expect(
       parseAnimation([
         { fields: ['opacity', 'size'], shape: 'key', duration: 500 },
         { fields: ['opacity'], shape: 'halo', duration: 500 },
       ]),
-    ).toEqual({ type: 'custom' });
+    ).toEqual([
+      { fields: ['opacity', 'size'], shape: 'key', duration: 500 },
+      { fields: ['opacity'], shape: 'halo', duration: 500 },
+    ]);
   });
 
   it('preprocessKeyframes', () => {
