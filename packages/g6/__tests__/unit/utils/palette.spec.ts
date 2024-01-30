@@ -1,3 +1,4 @@
+import '../../../src/preset';
 import { register } from '../../../src/registry';
 import { assignColorByPalette, parsePalette } from '../../../src/utils/palette';
 
@@ -9,9 +10,9 @@ describe('palette', () => {
       color: ['red', 'green', 'blue'],
       field: 'id',
     });
-    expect(parsePalette({ type: 'value', color: 'blues', field: 'value' })).toEqual({
+    expect(parsePalette({ type: 'value', color: 'custom-blues', field: 'value' })).toEqual({
       type: 'value',
-      color: 'blues',
+      color: 'custom-blues',
       field: 'value',
     });
   });
@@ -104,10 +105,23 @@ describe('palette', () => {
       'node-4': '#1f77b4',
       'node-5': '#ff7f0e',
     });
+
+    expect(
+      assignColorByPalette(data5, {
+        type: 'group',
+        color: 'spectral',
+      }),
+    ).toEqual({
+      'node-1': 'rgb(158, 1, 66)',
+      'node-2': 'rgb(213, 62, 79)',
+      'node-3': 'rgb(244, 109, 67)',
+      'node-4': 'rgb(253, 174, 97)',
+      'node-5': 'rgb(254, 224, 139)',
+    });
   });
 
   it('assignColorByPalette continuous', () => {
-    register('palette', 'blues', (value) => `rgb(0, 0, ${(value * 255).toFixed(0)})`);
+    register('palette', 'custom-blues', (value) => `rgb(0, 0, ${(value * 255).toFixed(0)})`);
 
     const createData = (length: number) => {
       return Array.from({ length }, (_, index) => ({ id: `node-${index + 1}`, data: { value: index * 100 + 100 } }));
@@ -118,7 +132,7 @@ describe('palette', () => {
     expect(
       assignColorByPalette(data3, {
         type: 'value',
-        color: 'blues',
+        color: 'custom-blues',
         field: 'value',
       }),
     ).toEqual({
@@ -131,7 +145,7 @@ describe('palette', () => {
     expect(
       assignColorByPalette(data3, {
         type: 'value',
-        color: 'blues',
+        color: 'custom-blues',
         field: 'value',
         invert: true,
       }),
@@ -145,7 +159,7 @@ describe('palette', () => {
     expect(
       assignColorByPalette(data11, {
         type: 'value',
-        color: 'blues',
+        color: 'custom-blues',
         field: 'value',
       }),
     ).toEqual({
