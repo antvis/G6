@@ -72,14 +72,7 @@ export abstract class BaseNode<KT extends object, KS> extends BaseShape<BaseNode
     } as NodeLabelStyleProps;
   }
 
-  protected getHaloStyle(attributes: BaseNodeStyleProps<KT>) {
-    const haloStyle = subStyleProps(this.getGraphicStyle(attributes), 'halo');
-    const keyStyle = this.getKeyStyle(attributes);
-    return {
-      ...keyStyle,
-      ...haloStyle,
-    } as GCircleStyleProps;
-  }
+  protected abstract getHaloStyle(attributes: BaseNodeStyleProps<KT>): KT;
 
   protected getIconStyle(attributes: BaseNodeStyleProps<KT>) {
     const iconStyle = subStyleProps(this.getGraphicStyle(attributes), 'icon');
@@ -125,8 +118,8 @@ export abstract class BaseNode<KT extends object, KS> extends BaseShape<BaseNode
     // 2. label
     this.upsert('label', Label, this.getLabelStyle(attributes), container);
 
-    // 3. halo
-    this.upsert('halo', GCircle, this.getHaloStyle(attributes), container);
+    // 3. halo, use shape same with keyShape
+    this.upsert('halo', keyShape.constructor as any, this.getHaloStyle(attributes), container);
 
     // 4. icon
     this.upsert('icon', Icon, this.getIconStyle(attributes), container);

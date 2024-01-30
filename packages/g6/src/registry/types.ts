@@ -1,5 +1,8 @@
+import type { DisplayObject } from '@antv/g';
+import type { BaseNode, BaseNodeStyleProps } from '../elements/nodes';
+
 // TODO 待使用正式类型定义 / To be used formal type definition
-declare type Node = unknown;
+declare type Node = BaseNode<BaseNodeStyleProps<any>, DisplayObject>;
 declare type Edge = unknown;
 declare type Combo = unknown;
 declare type Theme = unknown;

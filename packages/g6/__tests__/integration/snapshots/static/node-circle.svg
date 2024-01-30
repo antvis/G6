@@ -71,11 +71,10 @@
           <circle
             id="halo"
             fill="rgba(0,128,0,1)"
-            transform="translate(-40,-40)"
-            cx="40"
-            cy="40"
+            cx="0"
+            cy="0"
             stroke="none"
-            r="40px"
+            r="0px"
           />
         </g>
         <g
@@ -158,11 +157,11 @@
           <circle
             id="halo"
             fill="rgba(255,0,0,1)"
-            transform="translate(-40,-40)"
-            cx="40"
-            cy="40"
+            transform="translate(-46,-46)"
+            cx="46"
+            cy="46"
             stroke="rgba(128,128,128,1)"
-            r="40px"
+            r="46px"
           />
         </g>
         <g
@@ -396,11 +395,10 @@
           <circle
             id="halo"
             fill="rgba(255,192,203,1)"
-            transform="translate(-40,-40)"
-            cx="40"
-            cy="40"
+            cx="0"
+            cy="0"
             stroke="none"
-            r="40px"
+            r="0px"
           />
         </g>
         <g

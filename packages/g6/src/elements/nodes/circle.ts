@@ -1,5 +1,6 @@
 import type { DisplayObjectConfig, CircleStyleProps as GCircleStyleProps, Group } from '@antv/g';
 import { Circle as GCircle } from '@antv/g';
+import { subStyleProps } from '../../utils/prefix';
 import type { BaseNodeStyleProps } from './base-node';
 import { BaseNode } from './base-node';
 
@@ -11,10 +12,24 @@ type CircleOptions = DisplayObjectConfig<CircleStyleProps>;
  * Draw circle based on BaseNode, override drawKeyShape.
  */
 export class Circle extends BaseNode<CircleStyleProps, GCircle> {
-  static defaultStyleProps: Partial<CircleStyleProps> = {};
-
   constructor(options: CircleOptions) {
     super(options);
+  }
+
+  protected getHaloStyle(attributes: CircleStyleProps): GCircleStyleProps {
+    const haloStyle = subStyleProps(this.getGraphicStyle(attributes), 'halo') as Partial<GCircleStyleProps>;
+    const keyStyle = this.getKeyStyle(attributes);
+
+    const { lineWidth } = haloStyle;
+    const { r } = keyStyle;
+
+    const haloR = Number(r) + Number(lineWidth) / 2 || 0;
+
+    return {
+      ...keyStyle,
+      r: haloR,
+      ...haloStyle,
+    } as GCircleStyleProps;
   }
 
   protected drawKeyShape(attributes: CircleStyleProps, container: Group): GCircle {

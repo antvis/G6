@@ -7,8 +7,6 @@ export type IconStyleProps = BaseShapeStyleProps & Partial<TextStyleProps> & Par
 type IconOptions = DisplayObjectConfig<IconStyleProps>;
 
 export class Icon extends BaseShape<IconStyleProps> {
-  static defaultStyleProps: Partial<IconStyleProps> = {};
-
   constructor(options: IconOptions) {
     super(options);
   }
