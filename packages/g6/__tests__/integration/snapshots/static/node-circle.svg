@@ -67,8 +67,16 @@
             />
           </g>
         </g>
-        <g transform="matrix(1,0,0,1,0,0)">
-          <circle id="halo" fill="none" cx="0" cy="0" stroke="none" />
+        <g transform="matrix(1,0,0,1,100,100)">
+          <circle
+            id="halo"
+            fill="rgba(0,128,0,1)"
+            transform="translate(-40,-40)"
+            cx="40"
+            cy="40"
+            stroke="none"
+            r="40px"
+          />
         </g>
         <g
           id="icon"
@@ -141,8 +149,21 @@
             </text>
           </g>
         </g>
-        <g opacity="0.4" transform="matrix(1,0,0,1,0,0)">
-          <circle id="halo" fill="none" cx="0" cy="0" stroke="none" />
+        <g
+          opacity="0.4"
+          pointer-events="none"
+          stroke-width="12px"
+          transform="matrix(1,0,0,1,300,100)"
+        >
+          <circle
+            id="halo"
+            fill="rgba(255,0,0,1)"
+            transform="translate(-40,-40)"
+            cx="40"
+            cy="40"
+            stroke="rgba(128,128,128,1)"
+            r="40px"
+          />
         </g>
         <g
           id="icon"
@@ -168,7 +189,7 @@
           </g>
         </g>
         <g
-          id="node-circle-badge-0"
+          id="badge-0"
           fill="rgba(255,255,255,1)"
           stroke="none"
           font-size="10px"
@@ -206,7 +227,7 @@
           </g>
         </g>
         <g
-          id="node-circle-badge-1"
+          id="badge-1"
           fill="rgba(255,255,255,1)"
           stroke="none"
           font-size="10px"
@@ -244,7 +265,7 @@
           </g>
         </g>
         <g
-          id="node-circle-badge-2"
+          id="badge-2"
           fill="rgba(255,255,255,1)"
           stroke="none"
           font-size="10px"
@@ -283,7 +304,7 @@
         </g>
         <g transform="matrix(1,0,0,1,260,100)">
           <circle
-            id="node-circle-anchor-0"
+            id="anchor-0"
             fill="none"
             transform="translate(-2,-2)"
             cx="2"
@@ -294,7 +315,7 @@
         </g>
         <g stroke-width="2px" transform="matrix(1,0,0,1,340,100)">
           <circle
-            id="node-circle-anchor-1"
+            id="anchor-1"
             fill="none"
             transform="translate(-2,-2)"
             cx="2"
@@ -305,7 +326,7 @@
         </g>
         <g transform="matrix(1,0,0,1,300,60)">
           <circle
-            id="node-circle-anchor-2"
+            id="anchor-2"
             fill="none"
             transform="translate(-2,-2)"
             cx="2"
@@ -316,7 +337,7 @@
         </g>
         <g transform="matrix(1,0,0,1,300,140)">
           <circle
-            id="node-circle-anchor-3"
+            id="anchor-3"
             fill="none"
             transform="translate(-2,-2)"
             cx="2"
@@ -371,8 +392,16 @@
             />
           </g>
         </g>
-        <g transform="matrix(1,0,0,1,0,0)">
-          <circle id="halo" fill="none" cx="0" cy="0" stroke="none" />
+        <g transform="matrix(1,0,0,1,100,300)">
+          <circle
+            id="halo"
+            fill="rgba(255,192,203,1)"
+            transform="translate(-40,-40)"
+            cx="40"
+            cy="40"
+            stroke="none"
+            r="40px"
+          />
         </g>
         <g
           id="icon"

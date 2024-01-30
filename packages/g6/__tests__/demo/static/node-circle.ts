@@ -45,6 +45,9 @@ export const nodeCircle: StaticTestCase = async (context) => {
       iconHeight: 32,
       // halo
       haloOpacity: 0.4,
+      haloStroke: 'grey',
+      haloLineWidth: 12,
+      haloPointerEvents: 'none',
     },
   });
 

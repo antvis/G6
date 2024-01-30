@@ -64,25 +64,59 @@ export class Circle extends BaseShape<CircleStyleProps> {
   }
 
   protected getLabelStyle(attributes: CircleStyleProps) {
-    const style = this.getGraphicStyle(attributes);
-    return subStyleProps<CircleStyleProps>(style, 'label') as unknown as NodeLabelStyleProps;
+    const { position, ...labelStyle } = subStyleProps<CircleStyleProps>(
+      this.getGraphicStyle(attributes),
+      'label',
+    ) as unknown as NodeLabelStyleProps;
+    const keyShape = this.shapeMap.key;
+
+    return {
+      ...getTextStyleByPosition(keyShape.getLocalBounds(), position),
+      ...labelStyle,
+    } as NodeLabelStyleProps;
   }
 
   protected getHaloStyle(attributes: CircleStyleProps) {
-    const style = this.getGraphicStyle(attributes);
-    return subStyleProps<CircleStyleProps>(style, 'halo');
+    const haloStyle = subStyleProps<CircleStyleProps>(this.getGraphicStyle(attributes), 'halo');
+    const keyStyle = this.getKeyStyle(attributes);
+    return {
+      ...keyStyle,
+      ...haloStyle,
+    } as GCircleStyleProps;
   }
 
   protected getIconStyle(attributes: CircleStyleProps) {
-    return subStyleProps<CircleStyleProps>(this.getGraphicStyle(attributes), 'icon');
+    const iconStyle = subStyleProps<CircleStyleProps>(this.getGraphicStyle(attributes), 'icon');
+    const keyShape = this.shapeMap.key;
+    const [x, y] = getXYByPosition(keyShape.getLocalBounds(), 'center');
+
+    return {
+      x,
+      y,
+      ...iconStyle,
+    } as IconStyleProps;
   }
 
-  protected getBadgesStyle(attributes: CircleStyleProps) {
-    return this.getGraphicStyle(attributes).badgeOptions || ([] as unknown as NodeBadgeStyleProps[]);
+  protected getBadgesStyle(attributes: CircleStyleProps): NodeBadgeStyleProps[] {
+    const badgesStyle = this.getGraphicStyle(attributes).badgeOptions || [];
+    const keyShape = this.shapeMap.key;
+
+    return badgesStyle.map((badgeStyle) => {
+      const { position, ...style } = badgeStyle;
+      const [x, y] = getXYByPosition(keyShape.getLocalBounds(), position);
+      return { x, y, ...style } as NodeBadgeStyleProps;
+    });
   }
 
-  protected getAnchorsStyle(attributes: CircleStyleProps) {
-    return this.getGraphicStyle(attributes).anchorOptions || ([] as unknown as NodeAnchorStyleProps[]);
+  protected getAnchorsStyle(attributes: CircleStyleProps): NodeAnchorStyleProps[] {
+    const anchorStyle = this.getGraphicStyle(attributes).anchorOptions || [];
+    const keyShape = this.shapeMap.key;
+
+    return anchorStyle.map((anchorStyle) => {
+      const { position, ...style } = anchorStyle;
+      const [cx, cy] = getAnchorPosition(keyShape.getLocalBounds(), position);
+      return { cx, cy, ...style } as NodeAnchorStyleProps;
+    });
   }
 
   public render(attributes = this.attributes as ParsedCircleStyleProps, container: Group = this) {
@@ -91,49 +125,24 @@ export class Circle extends BaseShape<CircleStyleProps> {
     if (!keyShape) return;
 
     // 2. label
-    const { position, ...labelStyle } = this.getLabelStyle(attributes);
-    this.upsert(
-      'label',
-      Label,
-      {
-        ...getTextStyleByPosition(keyShape.getLocalBounds(), position),
-        ...labelStyle,
-      },
-      container,
-    );
+    this.upsert('label', Label, this.getLabelStyle(attributes), container);
 
-    // TODO: 3. halo
+    // 3. halo
     this.upsert('halo', GCircle, this.getHaloStyle(attributes), container);
 
     // 4. icon
-    const iconStyle = this.getIconStyle(attributes);
-    const [iconX, iconY] = getXYByPosition(keyShape.getLocalBounds(), 'center');
-
-    this.upsert(
-      'icon',
-      Icon,
-      {
-        x: iconX,
-        y: iconY,
-        ...iconStyle,
-      } as IconStyleProps,
-      container,
-    );
+    this.upsert('icon', Icon, this.getIconStyle(attributes), container);
 
     // 5. badges
     const badgesStyle = this.getBadgesStyle(attributes);
     badgesStyle.forEach((badgeStyle, i) => {
-      const { position, ...style } = badgeStyle;
-      const [x, y] = getXYByPosition(keyShape.getLocalBounds(), position);
-      this.upsert(`node-circle-badge-${i}`, Badge, { x, y, ...style }, container);
+      this.upsert(`badge-${i}`, Badge, badgeStyle, container);
     });
 
     // 6. anchors
     const anchorStyle = this.getAnchorsStyle(attributes);
     anchorStyle.forEach((anchorStyle, i) => {
-      const { position, ...style } = anchorStyle;
-      const [cx, cy] = getAnchorPosition(keyShape.getLocalBounds(), position);
-      this.upsert(`node-circle-anchor-${i}`, GCircle, { cx, cy, ...style }, container);
+      this.upsert(`anchor-${i}`, GCircle, anchorStyle, container);
     });
   }
 
