@@ -1,18 +1,21 @@
 import type { BaseStyleProps, DisplayObjectConfig, LineStyleProps, PathStyleProps } from '@antv/g';
 import { DisplayObject, Group, Path } from '@antv/g';
-import { Point, deepMix } from '@antv/util';
-import { getPlugin } from '../../registry';
+import { Point, deepMix, isFunction } from '@antv/util';
 import type { PrefixObject } from '../../types';
 import { EdgeKey, EdgeLabelStyleProps } from '../../types/edge';
 import { getLabelPositionStyle } from '../../utils/edge';
 import { omitStyleProps, subStyleProps } from '../../utils/prefix';
+import * as Symbol from '../../utils/symbol';
+import { SymbolFactor } from '../../utils/symbol';
 import type { LabelStyleProps } from '../shapes';
-import { Label, triangle } from '../shapes';
+import { Label } from '../shapes';
 import type { BaseShapeStyleProps } from '../shapes/base-shape';
 import { BaseShape } from '../shapes/base-shape';
 
+type SymbolName = 'triangle' | 'circle' | 'diamond' | 'vee' | 'rect' | 'triangleRect' | 'simple';
+
 type EdgeArrowStyleProps = {
-  type?: string;
+  type?: SymbolName | SymbolFactor;
   ctor?: { new (...args: any[]): DisplayObject };
   width?: number;
   height?: number;
@@ -110,7 +113,7 @@ export abstract class BaseEdge<KT extends object, KS extends DisplayObject> exte
 
     let path;
     if (ctor === Path) {
-      const arrowFn = getPlugin('arrow', type) || triangle;
+      const arrowFn = isFunction(type) ? type : Symbol[type] || Symbol.triangle;
       path = arrowFn(width, height);
     }
 

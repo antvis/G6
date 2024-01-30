@@ -15,7 +15,6 @@ const PLUGIN_REGISTRY: PluginRegistry = {
   behavior: {},
   widget: {},
   animation: {},
-  arrow: {},
 };
 
 /**

@@ -1,6 +1,5 @@
 import { Circle, Image } from '@antv/g';
 import { Line } from '../../../src/elements/edges';
-import '../../../src/preset';
 import type { StaticTestCase } from '../types';
 
 export const edgeLine: StaticTestCase = async (context) => {
@@ -27,7 +26,8 @@ export const edgeLine: StaticTestCase = async (context) => {
       labelFontSize: 12,
       labelFill: '#1890FF',
       // start arrow
-      startArrow: false,
+      startArrow: true,
+      startArrowType: 'diamond',
       // end arrow
       endArrow: true,
     },

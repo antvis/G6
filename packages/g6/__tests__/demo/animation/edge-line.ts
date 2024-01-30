@@ -1,7 +1,7 @@
 import { Line } from '../../../src/elements/edges';
 import type { AnimationTestCase } from '../types';
 
-export const lineEdge: AnimationTestCase = async (context) => {
+export const edgeLine: AnimationTestCase = async (context) => {
   const { canvas } = context;
 
   const line = new Line({
@@ -45,4 +45,4 @@ export const lineEdge: AnimationTestCase = async (context) => {
   return result;
 };
 
-lineEdge.times = [0, 1000];
+edgeLine.times = [0, 1000];

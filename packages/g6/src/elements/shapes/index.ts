@@ -13,5 +13,3 @@ export type { BadgeStyleProps } from './badge';
 export type { BaseShapeStyleProps } from './base-shape';
 export type { IconStyleProps } from './icon';
 export type { LabelStyleProps } from './label';
-
-export { circle, diamond, rect, simple, triangle, triangleRect, vee } from './symbol';
