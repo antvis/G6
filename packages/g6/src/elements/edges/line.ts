@@ -1,32 +1,31 @@
-import type { DisplayObjectConfig, LineStyleProps as GLineStyleProps } from '@antv/g';
-import { Line as GLine, Group } from '@antv/g';
-import { deepMix } from '@antv/util';
-import { BaseShape } from '../shapes/base-shape';
-import { BaseEdge, type BaseEdgeStyleProps } from './base-edge';
+import type { DisplayObjectConfig, LineStyleProps as GLineStyleProps, Group } from '@antv/g';
+import { Line as GLine } from '@antv/g';
+import { Point, deepMix } from '@antv/util';
+import type { BaseEdgeStyleProps } from './base-edge';
+import { BaseEdge } from './base-edge';
 
 export type LineStyleProps = BaseEdgeStyleProps & GLineStyleProps;
 
 type ParsedLineStyleProps = Required<LineStyleProps>;
 
-export type LineOptions = DisplayObjectConfig<ParsedLineStyleProps>;
+type LineOptions = DisplayObjectConfig<ParsedLineStyleProps>;
 
-export class Line extends BaseShape<LineStyleProps> {
-  static defaultStyleProps: Partial<BaseEdgeStyleProps> = {};
+export class Line extends BaseEdge<LineStyleProps> {
+  static defaultStyleProps: Partial<LineStyleProps> = {};
 
   constructor(options: LineOptions) {
     super(deepMix({}, { style: Line.defaultStyleProps }, options));
   }
 
-  private getLineStyle(attributes: ParsedLineStyleProps): false | LineStyleProps {
-    if (!attributes) return false;
-    const keyShape = new GLine({
-      style: { ...attributes },
-    });
-    return Object.assign({}, { keyShape }, attributes);
+  public drawKey(attributes: ParsedLineStyleProps, container: Group): GLine | undefined {
+    return this.upsert('line', GLine, this.getKeyStyle(attributes), container);
   }
 
-  public render(attributes: Required<LineStyleProps>, container: Group): void {
-    // @ts-ignore
-    this.upsert('line', BaseEdge, this.getLineStyle(attributes), container);
+  protected getKeyStyle(attributes: ParsedLineStyleProps): GLineStyleProps {
+    const { sourcePoint, targetPoint, ...keyShape } = super.getKeyStyle(attributes) as GLineStyleProps & {
+      sourcePoint: Point;
+      targetPoint: Point;
+    };
+    return { ...keyShape, x1: sourcePoint.x, y1: sourcePoint.y, x2: targetPoint.x, y2: targetPoint.y };
   }
 }

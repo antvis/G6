@@ -42,7 +42,7 @@ export abstract class BaseShape<T extends BaseShapeStyleProps> extends CustomEle
     Ctor: { new (...args: any[]): P },
     style: P['attributes'] | false,
     container: DisplayObject,
-  ) {
+  ): P | undefined {
     const target = this.shapeMap[key];
     // remove
     // 如果 style 为 false，则删除图形 / remove shape if style is false
@@ -69,7 +69,7 @@ export abstract class BaseShape<T extends BaseShapeStyleProps> extends CustomEle
     if ('update' in target) (target.update as (...args: unknown[]) => unknown)(style);
     else target.attr(style);
 
-    return target;
+    return target as P;
   }
 
   /**
