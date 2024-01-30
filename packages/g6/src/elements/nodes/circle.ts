@@ -10,7 +10,7 @@ import { Badge, BaseShape, Icon, Label } from '../shapes';
 
 type NodeLabelStyleProps = LabelStyleProps & { position: LabelPosition };
 type NodeBadgeStyleProps = BadgeStyleProps & { position: BadgePosition };
-type NodeAnchorStyleProps = GCircleStyleProps & { position: AnchorPosition };
+type NodeAnchorStyleProps = GCircleStyleProps & { key?: string; position: AnchorPosition };
 type NodeIconStyleProps = IconStyleProps;
 
 export type CircleStyleProps = BaseShapeStyleProps &
@@ -141,7 +141,8 @@ export class Circle extends BaseShape<CircleStyleProps> {
     // 6. anchors
     const anchorStyle = this.getAnchorsStyle(attributes);
     anchorStyle.forEach((anchorStyle, i) => {
-      this.upsert(`anchor-${i}`, GCircle, anchorStyle, container);
+      const { key } = anchorStyle;
+      this.upsert(`anchor-${key ? key : i}`, GCircle, anchorStyle, container);
     });
   }
 
