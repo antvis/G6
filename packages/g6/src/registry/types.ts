@@ -1,6 +1,6 @@
 import type { DisplayObject } from '@antv/g';
+import type { STDAnimation } from '../animations/types';
 import type { BaseNode, BaseNodeStyleProps } from '../elements/nodes';
-import type { AnimationFactor } from '../animations/types';
 
 // TODO 待使用正式类型定义 / To be used formal type definition
 declare type Node = BaseNode<BaseNodeStyleProps<any>, DisplayObject>;
@@ -24,7 +24,7 @@ export interface PluginRegistry {
   layout: Record<string, { new (...args: any[]): Layout }>;
   behavior: Record<string, { new (...args: any[]): Behavior }>;
   widget: Record<string, { new (...args: any[]): Widget }>;
-  animation: Record<string, AnimationFactor>; // animation is a function
+  animation: Record<string, STDAnimation>; // animation spec
 }
 
 /**
