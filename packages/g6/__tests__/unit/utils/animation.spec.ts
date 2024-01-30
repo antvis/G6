@@ -1,5 +1,10 @@
 import type { IAnimation } from '@antv/g';
-import { createAnimationsProxy, parseAnimation, preprocessKeyframes } from '../../../src/utils/animation';
+import {
+  createAnimationsProxy,
+  executeAnimation,
+  parseAnimation,
+  preprocessKeyframes,
+} from '../../../src/utils/animation';
 
 describe('animation', () => {
   it('createAnimationsProxy', () => {
@@ -37,7 +42,7 @@ describe('animation', () => {
         { fields: ['opacity', 'size'], shape: 'key', duration: 500 },
         { fields: ['opacity'], shape: 'halo', duration: 500 },
       ]),
-    ).toEqual({ type: 'specification' });
+    ).toEqual({ type: 'custom' });
   });
 
   it('preprocessKeyframes', () => {
@@ -49,6 +54,65 @@ describe('animation', () => {
     ).toEqual([
       { fill: 'red', opacity: 0 },
       { fill: 'blue', opacity: 1 },
+    ]);
+  });
+
+  it('executeAnimation', () => {
+    class Shape {
+      children: Shape[] = [];
+
+      appendChild(shape: Shape) {
+        this.children.push(shape);
+        return shape;
+      }
+
+      animate(keyframes: Keyframe[], options: any) {
+        this.record.push({ keyframes, options });
+        return { keyframes, options };
+      }
+
+      record: any = [];
+    }
+    const node: any = new Shape();
+    const key = new Shape();
+    const halo = new Shape();
+    const label = new Shape();
+
+    node.appendChild(key);
+    node.appendChild(halo);
+    node.appendChild(label);
+
+    const keyframes = [
+      { opacity: 0, x: 100 },
+      { opacity: 1, y: 100 },
+    ];
+
+    const options: KeyframeAnimationOptions = { duration: 1000, fill: 'both' };
+
+    executeAnimation(node, keyframes, options);
+
+    expect(node.record).toEqual([{ keyframes, options }]);
+
+    const subKeyframes = [{ opacity: 0 }, { opacity: 1 }];
+    expect(key.record).toEqual([
+      {
+        keyframes: subKeyframes,
+        options,
+      },
+    ]);
+
+    expect(halo.record).toEqual([
+      {
+        keyframes: subKeyframes,
+        options,
+      },
+    ]);
+
+    expect(label.record).toEqual([
+      {
+        keyframes: subKeyframes,
+        options,
+      },
     ]);
   });
 });

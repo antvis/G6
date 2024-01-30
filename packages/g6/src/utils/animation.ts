@@ -1,10 +1,11 @@
-import type { IAnimation } from '@antv/g';
+import type { DisplayObject, IAnimation } from '@antv/g';
 import { isArray, isNil, isString } from '@antv/util';
 import type {
   ComponentAnimationOptions,
   ConfigurableAnimationOptions,
   StageAnimationOptions,
 } from '../spec/element/animation';
+import { getDescendantShapes } from './shape';
 
 /**
  * <zh/> 创建动画代理，对一个动画实例的操作同步到多个动画实例上
@@ -44,7 +45,7 @@ export function parseAnimation(animation: ConfigurableAnimationOptions[]): Compo
 export function parseAnimation(animation: StageAnimationOptions): ComponentAnimationOptions {
   if (isArray(animation)) {
     return {
-      type: 'specification',
+      type: 'custom',
     };
   }
   if (isString(animation)) {
@@ -100,4 +101,46 @@ export function preprocessKeyframes(keyframes: Keyframe[]): Keyframe[] {
     });
     return acc;
   }, [] as Keyframe[]);
+}
+
+/**
+ * <zh/> 对图形执行动画
+ *
+ * <en/> Animate the shape
+ * @param shape - <zh/> 待执行动画的图形 | <en/> the shape to be animated
+ * @param keyframes - <zh/> 动画关键帧 | <en/> keyframes of the animation
+ * @param options - <zh/> 动画配置项 | <en/> animation options
+ * @returns <zh/> 动画对象 | <en/> animation object
+ * @description
+ * <zh/> 在设置 enableCSSParsing 为 false 后，复合图形无法继承父属性，因此对于一些需要继承父属性的动画，需要对所有子图形执行相同的动画
+ *
+ * <en/> After setting enableCSSParsing to false, the compound shape cannot inherit the parent attribute, so for some animations that need to inherit the parent attribute, the same animation needs to be performed on all child shapes
+ */
+export function executeAnimation<T extends DisplayObject>(
+  shape: T,
+  keyframes: Keyframe[],
+  options: KeyframeAnimationOptions,
+) {
+  const inheritedAttrs = ['opacity'];
+
+  const needInheritAnimation = keyframes.some((keyframe) =>
+    Object.keys(keyframe).some((attr) => inheritedAttrs.includes(attr)),
+  );
+
+  if (!needInheritAnimation) return shape.animate(keyframes, options);
+  const inheritAttrsKeyframes = keyframes.map((keyframe) => {
+    const newKeyframe: Keyframe = {};
+    Object.entries(keyframe).forEach(([attr, value]) => {
+      if (inheritedAttrs.includes(attr)) {
+        newKeyframe[attr] = value;
+      }
+    });
+    return newKeyframe;
+  });
+
+  const descendants = getDescendantShapes(shape);
+
+  const keyShapeAnimation = shape.animate(keyframes, options);
+  const descendantAnimations = descendants.map((descendant) => descendant.animate(inheritAttrsKeyframes, options)!);
+  return createAnimationsProxy(keyShapeAnimation!, descendantAnimations);
 }
