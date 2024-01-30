@@ -5,8 +5,7 @@ import type { LabelStyleProps } from './label';
 import { Label } from './label';
 
 export type BadgeStyleProps = LabelStyleProps;
-type ParsedBadgeStyleProps = Required<BadgeStyleProps>;
-export type BadgeOptions = DisplayObjectConfig<BadgeStyleProps>;
+type BadgeOptions = DisplayObjectConfig<BadgeStyleProps>;
 
 export class Badge extends BaseShape<BadgeStyleProps> {
   static defaultStyleProps: Partial<BadgeStyleProps> = {
@@ -22,7 +21,7 @@ export class Badge extends BaseShape<BadgeStyleProps> {
     return this.getGraphicStyle(attributes);
   }
 
-  public render(attributes = this.attributes as ParsedBadgeStyleProps, container: Group = this) {
+  public render(attributes = this.attributes, container: Group = this) {
     this.upsert('label', Label, this.getBadgeStyle(attributes), container);
   }
 

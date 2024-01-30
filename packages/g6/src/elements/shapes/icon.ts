@@ -1,17 +1,16 @@
 import { DisplayObjectConfig, Image as GImage, Text as GText, Group, ImageStyleProps, TextStyleProps } from '@antv/g';
-import { deepMix } from '@antv/util';
 import type { BaseShapeStyleProps } from './base-shape';
 import { BaseShape } from './base-shape';
 
 export type IconStyleProps = BaseShapeStyleProps & Partial<TextStyleProps> & Partial<ImageStyleProps>;
 
-export type IconOptions = DisplayObjectConfig<IconStyleProps>;
+type IconOptions = DisplayObjectConfig<IconStyleProps>;
 
 export class Icon extends BaseShape<IconStyleProps> {
   static defaultStyleProps: Partial<IconStyleProps> = {};
 
   constructor(options: IconOptions) {
-    super(deepMix({}, { style: Icon.defaultStyleProps }, options));
+    super(options);
   }
 
   private isGImage() {
