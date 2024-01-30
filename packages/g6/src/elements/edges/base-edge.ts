@@ -2,7 +2,7 @@ import type { BaseStyleProps, DisplayObjectConfig, LineStyleProps, PathStyleProp
 import { DisplayObject, Group, Path } from '@antv/g';
 import { deepMix, isFunction } from '@antv/util';
 import type { Point, PrefixObject } from '../../types';
-import { EdgeKey, EdgeLabelStyleProps } from '../../types/edge';
+import type { EdgeKey, EdgeLabelStyleProps } from '../../types/edge';
 import { getLabelPositionStyle } from '../../utils/edge';
 import { omitStyleProps, subStyleProps } from '../../utils/prefix';
 import * as Symbol from '../../utils/symbol';
@@ -41,9 +41,8 @@ export type BaseEdgeOptions<KT extends object> = DisplayObjectConfig<BaseEdgeSty
 export abstract class BaseEdge<KT extends object, KS extends DisplayObject> extends BaseShape<BaseEdgeStyleProps<KT>> {
   static defaultStyleProps: BaseEdgeStyleProps<Record<string, unknown>> = {
     label: true,
-    labelPosition: 'center',
+    labelOffsetX: 4,
     labelOffsetY: -6,
-    labelAutoRotate: true,
     labelIsBillboard: true,
     halo: false,
     haloLineDash: 0,
@@ -72,7 +71,7 @@ export abstract class BaseEdge<KT extends object, KS extends DisplayObject> exte
     if (attributes.label === false) return false;
 
     const labelStyle = subStyleProps<EdgeLabelStyleProps>(this.getGraphicStyle(attributes), 'label');
-    const { position, offsetX, offsetY, autoRotate, ...restStyle } = labelStyle;
+    const { position = 'center', offsetX, offsetY, autoRotate = true, ...restStyle } = labelStyle;
     const labelPositionStyle = getLabelPositionStyle(
       this.shapeMap.key as EdgeKey,
       position,

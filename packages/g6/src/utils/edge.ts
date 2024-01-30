@@ -1,5 +1,6 @@
 import { pick } from '@antv/util';
 import type { EdgeKey, EdgeLabelPosition, EdgeLabelStyleProps } from '../types/edge';
+import { isHorizontal } from './point';
 
 /**
  * <zh/> 获取标签的位置样式
@@ -27,34 +28,16 @@ export function getLabelPositionStyle(
   if (position === 'start') ratio = START_RATIO;
   if (position === 'end') ratio = END_RATIO;
 
-  const positionStyle = initLabelPositionStyle(position!, offsetX, offsetY);
+  const positionStyle: Partial<EdgeLabelStyleProps> = {
+    textAlign: position === 'start' ? 'left' : position === 'end' ? 'right' : 'center',
+    offsetX,
+    offsetY,
+  };
   adjustLabelPosition(key, positionStyle, ratio);
 
   if (autoRotate) applyAutoRotation(key, positionStyle, ratio);
 
   return pick(positionStyle, ['x', 'y', 'textAlign', 'transform']);
-}
-
-/**
- * <zh/> 基于提供的位置、水平和垂直偏移量设置默认的文本对齐和偏移。
- *
- * <en/> Set the default text alignment and offsets based on the provided position, horizontal, and vertical offsets
- * @param position - <zh/> 标签位置 | <en/> Position of the label
- * @param offsetX - <zh/> 标签相对于边的水平偏移量 | <en/> Horizontal offset of the label relative to the edge
- * @param offsetY - <zh/> 标签相对于边的垂直偏移量 | <en/> Vertical offset of the label relative to the edge
- * @returns
- */
-function initLabelPositionStyle(
-  position: EdgeLabelPosition,
-  offsetX?: number,
-  offsetY?: number,
-): Partial<EdgeLabelStyleProps> {
-  const DEFAULT_OFFSET = 4;
-  return {
-    textAlign: position === 'start' ? 'left' : position === 'end' ? 'right' : 'center',
-    offsetX: offsetX ?? DEFAULT_OFFSET,
-    offsetY: offsetY ?? DEFAULT_OFFSET,
-  };
 }
 
 /**
@@ -65,7 +48,6 @@ function initLabelPositionStyle(
  * @param positionStyle - <zh/> 标签的位置样式 | <en/> The style of the label's position
  * @param ratio - <zh/> 沿边的比例位置 | <en/> Ratio along the edge
  * @param angle - <zh/> 旋转角度 | <en/> Rotation angle
- * @param isRevert - <zh/> 是否反转 | <en/> Whether to revert
  */
 function adjustLabelPosition(key: EdgeKey, positionStyle: Partial<EdgeLabelStyleProps>, ratio: number, angle?: number) {
   const { x: pointX, y: pointY } = key.getPoint(ratio);
@@ -95,6 +77,9 @@ function applyAutoRotation(key: EdgeKey, positionStyle: Partial<EdgeLabelStylePr
   const { textAlign } = positionStyle;
   const point = key.getPoint(ratio);
   const pointOffset = key.getPoint(ratio + 0.01);
+
+  if (isHorizontal(point, pointOffset)) return;
+
   let angle = Math.atan2(pointOffset.y - point.y, pointOffset.x - point.x);
 
   const isRevert = pointOffset.x < point.x;
@@ -103,8 +88,6 @@ function applyAutoRotation(key: EdgeKey, positionStyle: Partial<EdgeLabelStylePr
     positionStyle.offsetX! *= -1;
     angle += Math.PI;
   }
-
-  if (angle % Math.PI === 0) return;
 
   adjustLabelPosition(key, positionStyle, ratio, angle);
   positionStyle.transform = `rotate(${(angle / Math.PI) * 180}deg)`;

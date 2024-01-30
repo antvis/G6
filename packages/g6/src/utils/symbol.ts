@@ -1,6 +1,7 @@
 import type { PathArray } from '@antv/util';
 
 export type SymbolFactor = (width: number, height: number) => PathArray;
+
 /**
  * ○
  * @param width
@@ -10,6 +11,7 @@ export const circle: SymbolFactor = (width: number, height: number) => {
   const r = Math.max(width, height) / 2;
   return [['M', 0, 0], ['A', r, r, 0, 1, 0, 2 * r, 0], ['A', r, r, 0, 1, 0, 0, 0], ['Z']];
 };
+
 /**
  * ▷
  * @param width
@@ -18,6 +20,7 @@ export const circle: SymbolFactor = (width: number, height: number) => {
 export const triangle: SymbolFactor = (width: number, height: number) => {
   return [['M', 0, 0], ['L', width, -height / 2], ['L', width, height / 2], ['Z']];
 };
+
 /**
  * ◇
  * @param width

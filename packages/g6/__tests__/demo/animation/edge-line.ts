@@ -6,8 +6,8 @@ export const edgeLine: AnimationTestCase = async (context) => {
 
   const line = new Line({
     style: {
-      sourcePoint: [100, 150],
-      targetPoint: [300, 200],
+      sourcePoint: [100, 50],
+      targetPoint: [300, 50],
       lineWidth: 2,
       lineDash: [10, 10],
       stroke: '#1890FF',
@@ -45,4 +45,4 @@ export const edgeLine: AnimationTestCase = async (context) => {
   return result;
 };
 
-edgeLine.times = [0, 1000];
+edgeLine.times = [0, 500, 1000];

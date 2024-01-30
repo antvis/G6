@@ -1,6 +1,6 @@
 import type { DisplayObjectConfig, LineStyleProps as GLineStyleProps, Group } from '@antv/g';
 import { Line as GLine } from '@antv/g';
-import { Point } from '../../types';
+import type { Point } from '../../types';
 import type { BaseEdgeStyleProps } from './base-edge';
 import { BaseEdge } from './base-edge';
 
