@@ -1,5 +1,6 @@
 import {
   addPrefix,
+  omitStyleProps,
   removePrefix,
   replacePrefix,
   startsWith,
@@ -33,9 +34,15 @@ describe('prefix', () => {
 
   it('subStyleProps', () => {
     expect(subStyleProps({ prefixAbc: 1, prefixDef: 2, Abc: 3 }, 'prefix')).toEqual({ abc: 1, def: 2 });
-    expect(subStyleProps({ prefixAbc: 1, prefixDef: 2, Abc: 3 }, 'prefix')).toEqual({ abc: 1, def: 2 });
     expect(subStyleProps({ Abc: 1, Def: 2 }, 'prefix')).toEqual({});
     expect(subStyleProps({}, 'prefix')).toEqual({});
+  });
+
+  it('omitStyleProps', () => {
+    expect(omitStyleProps({ prefixAbc: 1, prefixDef: 2, Abc: 3 }, 'prefix')).toEqual({ Abc: 3 });
+    expect(omitStyleProps({ Abc: 1, Def: 2 }, 'prefix')).toEqual({ Abc: 1, Def: 2 });
+    expect(omitStyleProps({}, 'prefix')).toEqual({});
+    expect(omitStyleProps({ prefixAbc: 1, prefixDef: 2, labelAbc: 3 }, ['prefix', 'label'])).toEqual({});
   });
 
   it('superStyleProps', () => {

@@ -1,6 +1,6 @@
 import type { DisplayObject, DisplayObjectConfig, Group, GroupStyleProps, IAnimation } from '@antv/g';
 import { CustomElement } from '@antv/g';
-import { deepMix, isBoolean, isNil } from '@antv/util';
+import { deepMix, isNil } from '@antv/util';
 import { createAnimationsProxy } from '../../utils/animation';
 
 export interface BaseShapeStyleProps extends GroupStyleProps {}
@@ -46,7 +46,7 @@ export abstract class BaseShape<T extends BaseShapeStyleProps> extends CustomEle
     const target = this.shapeMap[key];
     // remove
     // 如果 style 为 false，则删除图形 / remove shape if style is false
-    if (target && isBoolean(style) && !style) {
+    if (target && style === false) {
       container.removeChild(target);
       delete this.shapeMap[key];
       return;
