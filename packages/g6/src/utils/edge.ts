@@ -65,17 +65,26 @@ function initLabelPositionStyle(
  * @param positionStyle - <zh/> 标签的位置样式 | <en/> The style of the label's position
  * @param ratio - <zh/> 沿边的比例位置 | <en/> Ratio along the edge
  * @param angle - <zh/> 旋转角度 | <en/> Rotation angle
+ * @param isRevert - <zh/> 是否反转 | <en/> Whether to revert
  */
-function adjustLabelPosition(key: EdgeKey, positionStyle: Partial<EdgeLabelStyleProps>, ratio: number, angle?: number) {
+function adjustLabelPosition(
+  key: EdgeKey,
+  positionStyle: Partial<EdgeLabelStyleProps>,
+  ratio: number,
+  angle?: number,
+  isRevert = false,
+) {
+  const { x: sourcePointX, y: sourcePointY } = key.getPoint(isRevert ? 1 : 0);
   const { x: pointX, y: pointY } = key.getPoint(ratio);
   const { offsetX = 0, offsetY = 0 } = positionStyle;
+  console.log(key.getPoint(0), key.getPoint(ratio));
 
   if (angle) {
-    positionStyle.x = pointX + offsetX * Math.cos(angle) - offsetY * Math.sin(angle);
-    positionStyle.y = pointY + offsetX * Math.sin(angle) + offsetY * Math.cos(angle);
+    positionStyle.x = pointX - sourcePointX + offsetX * Math.cos(angle) - offsetY * Math.sin(angle);
+    positionStyle.y = pointY - sourcePointY + offsetX * Math.sin(angle) + offsetY * Math.cos(angle);
   } else {
-    positionStyle.x = pointX + offsetX;
-    positionStyle.y = pointY + offsetY;
+    positionStyle.x = pointX - sourcePointX + offsetX;
+    positionStyle.y = pointY - sourcePointY + offsetY;
   }
 }
 
@@ -104,6 +113,6 @@ function applyAutoRotation(key: EdgeKey, positionStyle: Partial<EdgeLabelStylePr
 
   if (angle % Math.PI === 0) return;
 
-  adjustLabelPosition(key, positionStyle, ratio, angle);
+  adjustLabelPosition(key, positionStyle, ratio, angle, isRevert);
   positionStyle.transform = `rotate(${(angle / Math.PI) * 180}deg)`;
 }

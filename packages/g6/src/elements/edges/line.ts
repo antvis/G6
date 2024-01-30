@@ -18,7 +18,7 @@ export class Line extends BaseEdge<LineStyleProps> {
   }
 
   public drawKey(attributes: ParsedLineStyleProps, container: Group): GLine | undefined {
-    return this.upsert('line', GLine, this.getKeyStyle(attributes), container);
+    return this.upsert('key', GLine, this.getKeyStyle(attributes), container);
   }
 
   protected getKeyStyle(attributes: ParsedLineStyleProps): GLineStyleProps {

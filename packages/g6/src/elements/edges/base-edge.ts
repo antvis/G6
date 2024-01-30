@@ -6,11 +6,10 @@ import type { PrefixObject } from '../../types';
 import { EdgeKey, EdgeLabelStyleProps } from '../../types/edge';
 import { getLabelPositionStyle } from '../../utils/edge';
 import { omitStyleProps, subStyleProps } from '../../utils/prefix';
-import { Label } from '../shapes';
+import { Label, triangle } from '../shapes';
 import type { BaseShapeStyleProps } from '../shapes/base-shape';
 import { BaseShape } from '../shapes/base-shape';
 import type { LabelStyleProps } from '../shapes/label';
-import { triangle } from '../shapes/symbol';
 
 type EdgeKeyStyleProps = LineStyleProps | PathStyleProps | PolylineStyleProps;
 
@@ -79,7 +78,7 @@ export abstract class BaseEdge<T extends BaseEdgeStyleProps> extends BaseShape<T
     this.upsert('icon', Label, this.getIconStyle(attributes), container);
 
     // 5. label
-    this.upsert('label', Label, this.getLabelStyle(attributes), container);
+    this.upsert('label', Label, this.getLabelStyle(attributes), this.key);
   }
 
   public abstract drawKey(attributes: Required<T>, container: Group): EdgeKey | undefined;
@@ -108,7 +107,13 @@ export abstract class BaseEdge<T extends BaseEdgeStyleProps> extends BaseShape<T
 
     const labelStyle = subStyleProps<EdgeLabelStyleProps>(this.getGraphicStyle(attributes), 'label');
     const { position, offsetX, offsetY, autoRotate, ...restStyle } = labelStyle;
-    const labelPositionStyle = getLabelPositionStyle(this.key, position, autoRotate, offsetX, offsetY);
+    const labelPositionStyle = getLabelPositionStyle(
+      this.shapeMap.key as EdgeKey,
+      position,
+      autoRotate,
+      offsetX,
+      offsetY,
+    );
 
     return { ...labelPositionStyle, ...restStyle } as LabelStyleProps;
   }

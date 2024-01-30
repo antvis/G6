@@ -1,4 +1,4 @@
-import { circle, diamond, rect, simple, triangle, triangleRect, vee } from '../elements/shapes/symbol';
+import { circle, diamond, rect, simple, triangle, triangleRect, vee } from '../elements/shapes';
 
 export const BUILT_IN_PLUGINS = {
   node: {},
