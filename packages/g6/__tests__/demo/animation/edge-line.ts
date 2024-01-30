@@ -6,8 +6,8 @@ export const edgeLine: AnimationTestCase = async (context) => {
 
   const line = new Line({
     style: {
-      sourcePoint: { x: 100, y: 150 },
-      targetPoint: { x: 300, y: 200 },
+      sourcePoint: [100, 150],
+      targetPoint: [300, 200],
       lineWidth: 2,
       lineDash: [10, 10],
       stroke: '#1890FF',
@@ -36,8 +36,8 @@ export const edgeLine: AnimationTestCase = async (context) => {
 
   const result = line.animate(
     [
-      { sourcePoint: { x: 100, y: 150 }, targetPoint: { x: 300, y: 200 }, haloOpacity: 0 },
-      { sourcePoint: { x: 100, y: 150 }, targetPoint: { x: 450, y: 350 }, haloOpacity: 0.25 },
+      { sourcePoint: [100, 150], targetPoint: [300, 200], haloOpacity: 0 },
+      { sourcePoint: [100, 150], targetPoint: [450, 350], haloOpacity: 0.25 },
     ],
     { duration: 1000, fill: 'both' },
   );

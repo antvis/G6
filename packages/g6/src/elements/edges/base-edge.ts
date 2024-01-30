@@ -1,7 +1,7 @@
 import type { BaseStyleProps, DisplayObjectConfig, LineStyleProps, PathStyleProps } from '@antv/g';
 import { DisplayObject, Group, Path } from '@antv/g';
-import { Point, deepMix, isFunction } from '@antv/util';
-import type { PrefixObject } from '../../types';
+import { deepMix, isFunction } from '@antv/util';
+import type { Point, PrefixObject } from '../../types';
 import { EdgeKey, EdgeLabelStyleProps } from '../../types/edge';
 import { getLabelPositionStyle } from '../../utils/edge';
 import { omitStyleProps, subStyleProps } from '../../utils/prefix';

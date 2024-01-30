@@ -8,8 +8,8 @@ export const edgeLine: StaticTestCase = async (context) => {
   const line1 = new Line({
     style: {
       // key shape
-      sourcePoint: { x: 100, y: 50 },
-      targetPoint: { x: 300, y: 50 },
+      sourcePoint: [100, 50],
+      targetPoint: [300, 50],
       stroke: '#1890FF',
       lineWidth: 2,
       cursor: 'pointer',
@@ -35,8 +35,8 @@ export const edgeLine: StaticTestCase = async (context) => {
 
   const line2 = new Line({
     style: {
-      sourcePoint: { x: 100, y: 150 },
-      targetPoint: { x: 300, y: 200 },
+      sourcePoint: [100, 150],
+      targetPoint: [300, 200],
       lineWidth: 2,
       lineDash: [10, 10],
       stroke: '#1890FF',
@@ -61,8 +61,8 @@ export const edgeLine: StaticTestCase = async (context) => {
 
   const line3 = new Line({
     style: {
-      sourcePoint: { x: 300, y: 300 },
-      targetPoint: { x: 100, y: 250 },
+      sourcePoint: [300, 300],
+      targetPoint: [100, 250],
       lineWidth: 2,
       lineDash: [10, 10],
       stroke: '#1890FF',

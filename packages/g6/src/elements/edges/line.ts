@@ -1,6 +1,6 @@
 import type { DisplayObjectConfig, LineStyleProps as GLineStyleProps, Group } from '@antv/g';
 import { Line as GLine } from '@antv/g';
-import { Point } from '@antv/util';
+import { Point } from '../../types';
 import type { BaseEdgeStyleProps } from './base-edge';
 import { BaseEdge } from './base-edge';
 
@@ -25,6 +25,6 @@ export class Line extends BaseEdge<LineStyleProps, GLine> {
       sourcePoint: Point;
       targetPoint: Point;
     };
-    return { ...keyShape, x1: sourcePoint.x, y1: sourcePoint.y, x2: targetPoint.x, y2: targetPoint.y };
+    return { ...keyShape, x1: sourcePoint[0], y1: sourcePoint[1], x2: targetPoint[0], y2: targetPoint[1] };
   }
 }
