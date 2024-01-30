@@ -1,4 +1,5 @@
 import { getPlugin, getPlugins, register, registerBuiltInPlugins } from '../../src/registry';
+import { BUILT_IN_THEMES } from '../../src/themes';
 
 describe('registry', () => {
   it('registerBuiltInPlugins', () => {
@@ -8,15 +9,15 @@ describe('registry', () => {
     expect(getPlugins('node')).toEqual({});
     expect(getPlugins('edge')).toEqual({});
     expect(getPlugins('combo')).toEqual({});
-    expect(getPlugins('theme')).toEqual({});
+    expect(getPlugins('theme')).toEqual(BUILT_IN_THEMES);
   });
 
   it('register, getPlugin, getPlugins', () => {
     class CircleNode {}
     class RectNode {}
     class Edge {}
-    register('node', 'circle-node', CircleNode);
-    register('node', 'rect-node', RectNode);
+    register('node', 'circle-node', CircleNode as any);
+    register('node', 'rect-node', RectNode as any);
     register('edge', 'edge', Edge);
     expect(getPlugin('node', 'circle-node')).toEqual(CircleNode);
     expect(getPlugin('node', 'rect-node')).toEqual(RectNode);
@@ -24,7 +25,7 @@ describe('registry', () => {
     expect(getPlugin('edge', 'edge')).toEqual(Edge);
 
     expect(() => {
-      register('node', 'circle-node', CircleNode);
+      register('node', 'circle-node', CircleNode as any);
     }).toThrow();
 
     expect(getPlugins('node')).toEqual({
