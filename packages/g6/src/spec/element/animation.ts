@@ -1,9 +1,9 @@
-import type { AnimationEffectTiming } from '../../animations/types';
+import type { Animation } from '../../animations/types';
 
 export type AnimationOptions = {
-  [STAGE in AnimationStage]?: StageAnimationOptions;
+  [STAGE in AnimationStage]?: Animation;
 } & {
-  [key: string]: StageAnimationOptions;
+  [key: string]: Animation;
 };
 
 /**
@@ -12,25 +12,3 @@ export type AnimationOptions = {
  * <en/> Animation stage
  */
 export type AnimationStage = 'enter' | 'exit' | 'update' | 'show' | 'hide' | 'transform';
-
-export type StageAnimationOptions = ComponentAnimationOptions | ConfigurableAnimationOptions[];
-
-/**
- * <zh/> 注册动画的配置项
- *
- * <en/> Animation options
- */
-export interface ComponentAnimationOptions extends AnimationEffectTiming {
-  type: string;
-}
-
-/**
- * <zh/> 手动配置动画配置项（G6 5.0 初版方案）
- *
- * <en/> Manually configure animation options (G6 5.0 first edition plan)
- */
-export interface ConfigurableAnimationOptions extends AnimationEffectTiming {
-  fields: string[];
-  shape?: string;
-  states?: string[];
-}
