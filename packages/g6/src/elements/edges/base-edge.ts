@@ -3,14 +3,15 @@ import { DisplayObject, Group, Line, Path, Polyline } from '@antv/g';
 import { deepMix, pick } from '@antv/util';
 import type { PrefixObject } from '../../types';
 import { subStyleProps } from '../../utils/prefix';
-import { Label } from '../shapes';
+import { Arrow, Label } from '../shapes';
+import { ArrowStyleProps } from '../shapes/arrow';
 import type { BaseShapeStyleProps } from '../shapes/base-shape';
 import { BaseShape } from '../shapes/base-shape';
 import type { LabelStyleProps } from '../shapes/label';
 
 type EdgeKeyShape = Line | Path | Polyline;
 type EdgeBodyStyleProps = LineStyleProps | PathStyleProps | PolylineStyleProps;
-type EdgeArrow = boolean | string | { new (...args: any[]): DisplayObject };
+type EdgeArrow = boolean | string | object | DisplayObject;
 
 type EdgeLabelStyleProps = {
   /**
@@ -66,6 +67,8 @@ export class BaseEdge<T extends BaseEdgeStyleProps> extends BaseShape<T> {
     labelIsBillboard: true,
     showHalo: false,
     haloLineDash: 0,
+    startArrow: false,
+    endArrow: false,
   };
 
   private keyShape!: EdgeKeyShape;
@@ -76,6 +79,9 @@ export class BaseEdge<T extends BaseEdgeStyleProps> extends BaseShape<T> {
 
   public render(attributes: Required<T>, container: Group): void {
     this.appendKeyShape(attributes, container);
+
+    this.appendArrow(attributes);
+    this.appendArrow(attributes, false);
 
     this.upsert(
       'halo',
@@ -173,7 +179,7 @@ export class BaseEdge<T extends BaseEdgeStyleProps> extends BaseShape<T> {
     const isRevert = pointOffset.x < point.x;
     if (isRevert) {
       positionStyle.textAlign = textAlign === 'center' ? textAlign : textAlign === 'left' ? 'right' : 'left';
-      positionStyle.offsetX *= -1;
+      positionStyle.offsetX! *= -1;
       angle += Math.PI;
     }
 
@@ -194,5 +200,28 @@ export class BaseEdge<T extends BaseEdgeStyleProps> extends BaseShape<T> {
       positionStyle.x = pointX + offsetX;
       positionStyle.y = pointY + offsetY;
     }
+  }
+
+  protected appendArrow(attributes: Partial<BaseEdgeStyleProps>, isStart = true): void {
+    const targetAttr = isStart ? 'markerStart' : 'markerEnd';
+    // @ts-ignore
+    this.getKeyShape().style[targetAttr] = new Arrow({ style: this.getArrowStyle(attributes, isStart) });
+  }
+
+  private getArrowStyle(attributes: Partial<BaseEdgeStyleProps>, isStart = true): false | ArrowStyleProps {
+    const { markerEnd, markerStart, ...keyShape } = this.getKeyShapeStyle();
+    const arrowCfg = isStart ? attributes.startArrow : attributes.endArrow;
+    if (!arrowCfg) return false;
+    let arrowStyle;
+    if (typeof arrowCfg === 'string') {
+      arrowStyle = { type: arrowCfg };
+    } else if (typeof arrowCfg === 'boolean') {
+      arrowStyle = { type: 'triangle' };
+    } else if (arrowCfg instanceof DisplayObject) {
+      arrowStyle = { type: 'custom', custom: arrowCfg };
+    } else {
+      arrowStyle = { ...arrowCfg };
+    }
+    return { ...keyShape, lineDash: 0, fill: keyShape.stroke, ...arrowStyle };
   }
 }

@@ -46,9 +46,11 @@ export abstract class BaseShape<T extends BaseShapeStyleProps> extends CustomEle
     const target = this.shapeMap[key];
     // remove
     // 如果 style 为 false，则删除图形 / remove shape if style is false
-    if (target && style === false) {
-      container.removeChild(target);
-      delete this.shapeMap[key];
+    if (style === false) {
+      if (target) {
+        container.removeChild(target);
+        delete this.shapeMap[key];
+      }
       return;
     }
 
@@ -112,8 +114,8 @@ export abstract class BaseShape<T extends BaseShapeStyleProps> extends CustomEle
    */
   public getGraphicStyle<T extends Record<string, any>>(
     attributes: T,
-  ): Omit<T, 'x' | 'y' | 'transform' | 'transformOrigin' | 'className'> {
-    const { x, y, className, transform, transformOrigin, ...style } = attributes;
+  ): Omit<T, 'x' | 'y' | 'transform' | 'transformOrigin' | 'className' | 'anchor'> {
+    const { x, y, className, transform, transformOrigin, anchor, ...style } = attributes;
     return style;
   }
 

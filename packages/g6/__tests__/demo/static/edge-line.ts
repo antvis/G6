@@ -1,3 +1,4 @@
+import { Circle, Image } from '@antv/g';
 import { Line } from '../../../src/elements/edges';
 import type { StaticTestCase } from '../types';
 
@@ -24,6 +25,8 @@ export const edgeLine: StaticTestCase = async (context) => {
       labelText: 'line-edge',
       labelFontSize: 12,
       labelFill: '#1890FF',
+      startArrow: false,
+      endArrow: true,
     },
   });
 
@@ -35,7 +38,7 @@ export const edgeLine: StaticTestCase = async (context) => {
       y2: 200,
       lineWidth: 2,
       lineDash: [10, 10],
-      stroke: '#F04864',
+      stroke: '#1890FF',
       cursor: 'pointer',
       showHalo: true,
       haloOpacity: 0.25,
@@ -49,6 +52,11 @@ export const edgeLine: StaticTestCase = async (context) => {
       labelFontSize: 12,
       labelFill: '#000',
       labelPadding: 0,
+      startArrow: 'circle',
+      endArrow: {
+        type: 'circle',
+        fill: 'red',
+      },
     },
   });
 
@@ -60,20 +68,41 @@ export const edgeLine: StaticTestCase = async (context) => {
       y2: 250,
       lineWidth: 2,
       lineDash: [10, 10],
-      stroke: '#F04864',
+      stroke: '#1890FF',
       cursor: 'pointer',
       showHalo: true,
       haloOpacity: 0.25,
       haloLineWidth: 12,
       haloPointerEvents: 'none',
       haloZIndex: -1,
-      haloVisible: true,
       haloDroppable: false,
       showLabel: true,
       labelText: 'inverted-line-edge',
       labelFontSize: 12,
       labelFill: '#000',
       labelPadding: 0,
+      startArrow: {
+        type: 'custom',
+        custom: new Image({
+          style: {
+            width: 50,
+            height: 50,
+            src: 'https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*N4ZMS7gHsUIAAAAAAAAAAABkARQnAQ',
+            anchor: '0.5 0.5',
+            transformOrigin: 'center',
+            transform: 'rotate(90deg)',
+          },
+        }),
+      },
+      endArrow: new Circle({
+        style: {
+          r: 25,
+          anchor: '0.5 0.5',
+          transformOrigin: 'center',
+          stroke: '#1890FF',
+          lineWidth: 2,
+        },
+      }),
     },
   });
 

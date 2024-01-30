@@ -17,22 +17,16 @@ export class Line extends BaseShape<LineStyleProps> {
     super(deepMix({}, { style: Line.defaultStyleProps }, options));
   }
 
-  protected renderKeyShape(attributes: Required<LineStyleProps>): GLine {
-    return new GLine({
+  private getLineStyle(attributes: ParsedLineStyleProps): false | LineStyleProps {
+    if (!attributes) return false;
+    const keyShape = new GLine({
       style: { ...attributes },
     });
+    return Object.assign({}, { keyShape }, attributes);
   }
 
   public render(attributes: Required<LineStyleProps>, container: Group): void {
-    const keyShape = this.renderKeyShape(attributes);
-    this.upsert(
-      'line',
-      BaseEdge,
-      {
-        ...attributes,
-        keyShape,
-      },
-      container,
-    );
+    // @ts-ignore
+    this.upsert('line', BaseEdge, this.getLineStyle(attributes), container);
   }
 }
