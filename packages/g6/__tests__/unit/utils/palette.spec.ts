@@ -4,11 +4,10 @@ import { assignColorByPalette, parsePalette } from '../../../src/utils/palette';
 
 describe('palette', () => {
   it('parsePalette', () => {
-    expect(parsePalette('category3')).toEqual({ type: 'group', color: 'category3', field: 'id' });
+    expect(parsePalette('category3')).toEqual({ type: 'group', color: 'category3' });
     expect(parsePalette(['red', 'green', 'blue'])).toEqual({
       type: 'group',
       color: ['red', 'green', 'blue'],
-      field: 'id',
     });
     expect(parsePalette({ type: 'value', color: 'custom-blues', field: 'value' })).toEqual({
       type: 'value',

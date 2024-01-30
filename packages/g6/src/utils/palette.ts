@@ -28,7 +28,6 @@ export function parsePalette(palette?: PaletteOptions): STDPaletteOptions | unde
     return {
       type: 'group',
       color: palette,
-      field: 'id',
     };
   }
   return palette;
