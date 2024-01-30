@@ -8,18 +8,41 @@
 >
   <defs />
   <g id="g-svg-camera" transform="matrix(1,0,0,1,0,0)">
-    <g id="g-root" fill="none" transform="matrix(1,0,0,1,0,0)">
-      <g id="g-svg-5" fill="none" transform="matrix(1,0,0,1,50,50)">
-        <g transform="matrix(1,0,0,1,0,0)">
+    <g
+      id="g-root"
+      fill="none"
+      stroke="none"
+      visibility="visible"
+      font-size="16px"
+      font-family="sans-serif"
+      font-style="normal"
+      font-weight="normal"
+      font-variant="normal"
+      text-anchor="left"
+      stroke-dashoffset="0px"
+      transform="matrix(1,0,0,1,0,0)"
+    >
+      <g
+        id="g-svg-5"
+        fill="rgba(0,0,0,1)"
+        stroke="none"
+        font-size="24px"
+        font-weight="400"
+        transform="matrix(1,0,0,1,50,50)"
+      >
+        <g
+          font-size="24px"
+          font-weight="400"
+          text-anchor="middle"
+          transform="matrix(1,0,0,1,0,0)"
+        >
           <text
             id="icon"
             fill="rgba(0,0,0,1)"
             dominant-baseline="central"
             paint-order="stroke"
             dx="0.5"
-            font-size="24"
-            font-weight="400"
-            text-anchor="middle"
+            stroke="none"
           >
             text icon
           </text>
@@ -28,8 +51,9 @@
       <g
         id="g-svg-7"
         fill="none"
-        width="128"
-        height="128"
+        stroke="rgba(255,192,203,1)"
+        width="128px"
+        height="128px"
         transform="matrix(1,0,0,1,150,150)"
       >
         <g transform="matrix(1,0,0,1,0,0)">
@@ -41,9 +65,9 @@
             y="0"
             href="https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*N4ZMS7gHsUIAAAAAAAAAAABkARQnAQ"
             transform="translate(-64,-64)"
-            width="128"
-            height="128"
             stroke="rgba(255,192,203,1)"
+            width="128px"
+            height="128px"
           />
         </g>
       </g>

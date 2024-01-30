@@ -9,8 +9,8 @@ describe('edge', () => {
     });
     expect(initLabelPositionStyle('center', 10, 10)).toEqual({
       textAlign: 'center',
-      offsetX: 4,
-      offsetY: 4,
+      offsetX: 10,
+      offsetY: 10,
     });
     expect(initLabelPositionStyle('end')).toEqual({
       textAlign: 'right',
