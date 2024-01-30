@@ -35,10 +35,6 @@ class Shape extends BaseShape<ShapeStyleProps> {
 export const animationCustomBreathe: AnimationTestCase = async ({ canvas }) => {
   const animation: ConfigurableAnimationOptions[] = [
     {
-      fields: ['opacity', 'fill'],
-      shape: 'key',
-    },
-    {
       fields: ['lineWidth'],
       shape: 'halo',
       iterations: Infinity,
