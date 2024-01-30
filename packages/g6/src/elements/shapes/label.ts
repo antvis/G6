@@ -13,9 +13,7 @@ export type LabelStyleProps = BaseShapeStyleProps &
     padding?: Padding;
   };
 
-type ParsedLabelStyleProps = Required<LabelStyleProps>;
-
-export type LabelOptions = DisplayObjectConfig<LabelStyleProps>;
+type LabelOptions = DisplayObjectConfig<LabelStyleProps>;
 
 export class Label extends BaseShape<LabelStyleProps> {
   static defaultStyleProps: Partial<LabelStyleProps> = {
@@ -70,7 +68,7 @@ export class Label extends BaseShape<LabelStyleProps> {
     return backgroundStyle;
   }
 
-  public render(attributes = this.attributes as ParsedLabelStyleProps, container: Group = this): void {
+  public render(attributes = this.attributes, container: Group = this): void {
     this.upsert('text', Text, this.getTextStyle(attributes), container);
     this.upsert('background', Rect, this.getBackgroundStyle(attributes), container);
   }

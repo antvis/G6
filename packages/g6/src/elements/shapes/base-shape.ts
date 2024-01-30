@@ -98,7 +98,7 @@ export abstract class BaseShape<T extends BaseShapeStyleProps> extends CustomEle
    * @param attributes
    * @param container
    */
-  public abstract render(attributes: Required<T>, container: Group): void;
+  public abstract render(attributes: T, container: Group): void;
 
   public bindEvents() {}
 
