@@ -44,7 +44,7 @@ export function getLabelPositionStyle(
  * @param offsetY - <zh/> 标签相对于边的垂直偏移量 | <en/> Vertical offset of the label relative to the edge
  * @returns
  */
-function initLabelPositionStyle(
+export function initLabelPositionStyle(
   position: EdgeLabelPosition,
   offsetX?: number,
   offsetY?: number,
@@ -67,19 +67,14 @@ function initLabelPositionStyle(
  * @param angle - <zh/> 旋转角度 | <en/> Rotation angle
  * @param isRevert - <zh/> 是否反转 | <en/> Whether to revert
  */
-function adjustLabelPosition(
+export function adjustLabelPosition(
   key: EdgeKey,
   positionStyle: Partial<EdgeLabelStyleProps>,
   ratio: number,
   angle?: number,
-  isRevert = false,
 ) {
-  const { x: sourcePointX, y: sourcePointY } = key.getPoint(isRevert ? 1 : 0);
   const { x: pointX, y: pointY } = key.getPoint(ratio);
   const { offsetX = 0, offsetY = 0 } = positionStyle;
-
-  const relativeX = pointX - sourcePointX;
-  const relativeY = pointY - sourcePointY;
 
   let actualOffsetX = offsetX;
   let actualOffsetY = offsetY;
@@ -89,8 +84,8 @@ function adjustLabelPosition(
     actualOffsetY = offsetX * Math.sin(angle) + offsetY * Math.cos(angle);
   }
 
-  positionStyle.x = relativeX + actualOffsetX;
-  positionStyle.y = relativeY + actualOffsetY;
+  positionStyle.x = pointX + actualOffsetX;
+  positionStyle.y = pointY + actualOffsetY;
 }
 
 /**
@@ -101,7 +96,7 @@ function adjustLabelPosition(
  * @param positionStyle - <zh/> 标签的位置样式 | <en/> The style of the label's position
  * @param ratio - <zh/> 沿边的比例位置 | <en/> ratio along the edge
  */
-function applyAutoRotation(key: EdgeKey, positionStyle: Partial<EdgeLabelStyleProps>, ratio: number) {
+export function applyAutoRotation(key: EdgeKey, positionStyle: Partial<EdgeLabelStyleProps>, ratio: number) {
   const { textAlign } = positionStyle;
   const point = key.getPoint(ratio);
   const pointOffset = key.getPoint(ratio + 0.01);
@@ -118,6 +113,6 @@ function applyAutoRotation(key: EdgeKey, positionStyle: Partial<EdgeLabelStylePr
 
   if (angle % Math.PI === 0) return;
 
-  adjustLabelPosition(key, positionStyle, ratio, angle, isRevert);
+  adjustLabelPosition(key, positionStyle, ratio, angle);
   positionStyle.transform = `rotate(${(angle / Math.PI) * 180}deg)`;
 }

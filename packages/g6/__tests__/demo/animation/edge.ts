@@ -37,7 +37,7 @@ export const lineEdge: AnimationTestCase = async (context) => {
   const result = line.animate(
     [
       { sourcePoint: { x: 100, y: 150 }, targetPoint: { x: 300, y: 200 }, haloOpacity: 0 },
-      { sourcePoint: { x: 250, y: 300 }, targetPoint: { x: 450, y: 350 }, haloOpacity: 0.25 },
+      { sourcePoint: { x: 100, y: 150 }, targetPoint: { x: 450, y: 350 }, haloOpacity: 0.25 },
     ],
     { duration: 1000, fill: 'both' },
   );

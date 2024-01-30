@@ -135,7 +135,9 @@ export abstract class BaseShape<T extends BaseShapeStyleProps> extends CustomEle
         const method = this[methodName];
 
         if (typeof method === 'function') {
-          const subKeyframes: Keyframe[] = keyframes.map((style) => method.call(this, style));
+          const subKeyframes: Keyframe[] = keyframes.map((style) =>
+            method.call(this, { ...this.attributes, ...style }),
+          );
 
           // 转化为 PropertyIndexedKeyframes 格式方便后续处理
           // convert to PropertyIndexedKeyframes format for subsequent processing

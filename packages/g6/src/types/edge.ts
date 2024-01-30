@@ -1,5 +1,5 @@
 import { Line, Path, Polyline } from '@antv/g';
-import type { IconStyleProps, LabelStyleProps } from '../elements/shapes';
+import type { LabelStyleProps } from '../elements/shapes';
 
 export type EdgeDirection = 'in' | 'out' | 'both';
 
@@ -29,7 +29,3 @@ export type EdgeLabelStyleProps = {
    */
   autoRotate: boolean;
 } & LabelStyleProps;
-
-export type EdgeIconPosition = 'left' | 'right';
-
-export type EdgeIconStyleProps = { position: EdgeIconPosition } & IconStyleProps;

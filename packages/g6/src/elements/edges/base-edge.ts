@@ -128,6 +128,10 @@ export abstract class BaseEdge<KT extends object, KS extends DisplayObject> exte
 
   protected abstract drawKeyShape(attributes: BaseEdgeStyleProps<KT>, container: Group): KS | undefined;
 
+  protected drawLabelShape(attributes: BaseEdgeStyleProps<KT> = this.attributes, container: Group) {
+    this.upsert('label', Label, this.getLabelStyle(attributes), container);
+  }
+
   public render(attributes: BaseEdgeStyleProps<KT> = this.attributes, container: Group = this): void {
     // 1. key shape
     const keyShape = this.drawKeyShape(attributes, container);
@@ -138,7 +142,7 @@ export abstract class BaseEdge<KT extends object, KS extends DisplayObject> exte
     this.drawArrow(attributes, false);
 
     // 3. label
-    this.upsert('label', Label, this.getLabelStyle(attributes), this.shapeMap.key);
+    this.drawLabelShape(attributes, container);
 
     // 4. halo
     this.upsert(
@@ -149,5 +153,13 @@ export abstract class BaseEdge<KT extends object, KS extends DisplayObject> exte
     );
   }
 
-  connectedCallback() {}
+  animate(keyframes: Keyframe[] | PropertyIndexedKeyframes, options?: number | KeyframeAnimationOptions) {
+    const result = super.animate(keyframes, options);
+
+    result.onframe = () => {
+      this.drawLabelShape(this.attributes, this);
+    };
+
+    return result;
+  }
 }
