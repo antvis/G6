@@ -1,4 +1,4 @@
-import type { IAnimationEffectTiming } from '@antv/g';
+import type { DisplayObject, IAnimation, IAnimationEffectTiming } from '@antv/g';
 import type { State } from '../types';
 
 /**
@@ -39,3 +39,10 @@ export interface AnimationContext {
 export type AnimationEffectTiming = Partial<
   Pick<IAnimationEffectTiming, 'duration' | 'delay' | 'easing' | 'iterations' | 'direction' | 'fill'>
 >;
+
+export type AnimationExecutor = (
+  shape: DisplayObject,
+  animation: Animation | undefined,
+  effectTiming: AnimationEffectTiming,
+  context: AnimationContext,
+) => IAnimation | null;

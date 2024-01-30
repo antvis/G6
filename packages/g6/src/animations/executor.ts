@@ -2,7 +2,7 @@ import type { DisplayObject, IAnimation } from '@antv/g';
 import { upperFirst } from '@antv/util';
 import { createAnimationsProxy, executeAnimation, parseAnimation, preprocessKeyframes } from '../utils/animation';
 import { DEFAULT_ANIMATION_OPTIONS } from './constants';
-import type { Animation, AnimationContext, AnimationEffectTiming } from './types';
+import type { AnimationExecutor } from './types';
 
 /**
  * <zh/> 动画 Spec 执行器
@@ -14,12 +14,8 @@ import type { Animation, AnimationContext, AnimationEffectTiming } from './types
  * @param context - <zh/> 动画执行上下文 | <en/> animation execution context
  * @returns <zh/> 动画实例 | <en/> animation instance
  */
-export function executor(
-  shape: DisplayObject,
-  animation: Animation,
-  effectTiming: AnimationEffectTiming,
-  context: AnimationContext,
-): IAnimation | null {
+export const executor: AnimationExecutor = (shape, animation, effectTiming, context) => {
+  if (animation === undefined) return null;
   const animations = parseAnimation(animation);
   if (animations.length === 0) return null;
 
@@ -90,4 +86,4 @@ export function executor(
     mainResult,
     results.filter((result) => result !== mainResult),
   );
-}
+};
