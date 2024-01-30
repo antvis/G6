@@ -133,7 +133,9 @@ export abstract class BaseShape<T extends BaseShapeStyleProps> extends CustomEle
         const method = this[methodName];
 
         if (typeof method === 'function') {
-          const subKeyframes: Keyframe[] = keyframes.map((style) => method.call(this, style));
+          const subKeyframes: Keyframe[] = keyframes.map((style) =>
+            method.call(this, { ...this.attributes, ...style }),
+          );
 
           this.animateMap[key] = shape.animate(preprocessKeyframes(subKeyframes), options)!;
         }
