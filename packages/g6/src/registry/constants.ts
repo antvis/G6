@@ -1,10 +1,14 @@
+import { Custom } from '../animations';
+
 export const BUILT_IN_PLUGINS = {
-  node: {},
-  edge: {},
-  combo: {},
-  theme: {},
-  layout: {},
+  animation: {
+    custom: Custom,
+  },
   behavior: {},
+  combo: {},
+  edge: {},
+  layout: {},
+  node: {},
+  theme: {},
   widget: {},
-  animation: {},
 };

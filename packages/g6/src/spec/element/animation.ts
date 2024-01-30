@@ -13,7 +13,13 @@ export type AnimationOptions = {
  */
 export type AnimationStage = 'enter' | 'exit' | 'update' | 'show' | 'hide' | 'transform';
 
-export type StageAnimationOptions = ComponentAnimationOptions | ConfigurableAnimationOptions[];
+/**
+ * @description
+ * <zh/> 为 string 时为 ComponentAnimation 简写形式
+ *
+ * <en/> When it is a string, it is the ComponentAnimation shorthand form
+ */
+export type StageAnimationOptions = string | ComponentAnimationOptions | ConfigurableAnimationOptions[];
 
 /**
  * <zh/> 注册动画的配置项
