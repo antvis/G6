@@ -1,27 +1,26 @@
 import type { DisplayObjectConfig, LineStyleProps as GLineStyleProps, Group } from '@antv/g';
 import { Line as GLine } from '@antv/g';
-import { Point, deepMix } from '@antv/util';
+import { Point } from '@antv/util';
 import type { BaseEdgeStyleProps } from './base-edge';
 import { BaseEdge } from './base-edge';
 
-export type LineStyleProps = BaseEdgeStyleProps & GLineStyleProps;
+export type LineStyleProps = BaseEdgeStyleProps<Omit<GLineStyleProps, 'x1' | 'y1' | 'x2' | 'y2'>>;
 
-type ParsedLineStyleProps = Required<LineStyleProps>;
+type LineOptions = DisplayObjectConfig<LineStyleProps>;
 
-type LineOptions = DisplayObjectConfig<ParsedLineStyleProps>;
-
-export class Line extends BaseEdge<LineStyleProps> {
-  static defaultStyleProps: Partial<LineStyleProps> = {};
-
+/**
+ * Draw line based on BaseEdge, override drawKeyShape
+ */
+export class Line extends BaseEdge<LineStyleProps, GLine> {
   constructor(options: LineOptions) {
-    super(deepMix({}, { style: Line.defaultStyleProps }, options));
+    super(options);
   }
 
-  public drawKey(attributes: ParsedLineStyleProps, container: Group): GLine | undefined {
+  protected drawKeyShape(attributes: LineStyleProps, container: Group): GLine | undefined {
     return this.upsert('key', GLine, this.getKeyStyle(attributes), container);
   }
 
-  protected getKeyStyle(attributes: ParsedLineStyleProps): GLineStyleProps {
+  protected getKeyStyle(attributes: LineStyleProps): GLineStyleProps {
     const { sourcePoint, targetPoint, ...keyShape } = super.getKeyStyle(attributes) as GLineStyleProps & {
       sourcePoint: Point;
       targetPoint: Point;

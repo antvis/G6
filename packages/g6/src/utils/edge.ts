@@ -18,7 +18,7 @@ export function getLabelPositionStyle(
   autoRotate: boolean,
   offsetX?: number,
   offsetY?: number,
-) {
+): Partial<EdgeLabelStyleProps> {
   const START_RATIO = 0;
   const MIDDLE_RATIO = 0.5;
   const END_RATIO = 0.99;
@@ -77,15 +77,20 @@ function adjustLabelPosition(
   const { x: sourcePointX, y: sourcePointY } = key.getPoint(isRevert ? 1 : 0);
   const { x: pointX, y: pointY } = key.getPoint(ratio);
   const { offsetX = 0, offsetY = 0 } = positionStyle;
-  console.log(key.getPoint(0), key.getPoint(ratio));
+
+  const relativeX = pointX - sourcePointX;
+  const relativeY = pointY - sourcePointY;
+
+  let actualOffsetX = offsetX;
+  let actualOffsetY = offsetY;
 
   if (angle) {
-    positionStyle.x = pointX - sourcePointX + offsetX * Math.cos(angle) - offsetY * Math.sin(angle);
-    positionStyle.y = pointY - sourcePointY + offsetX * Math.sin(angle) + offsetY * Math.cos(angle);
-  } else {
-    positionStyle.x = pointX - sourcePointX + offsetX;
-    positionStyle.y = pointY - sourcePointY + offsetY;
+    actualOffsetX = offsetX * Math.cos(angle) - offsetY * Math.sin(angle);
+    actualOffsetY = offsetX * Math.sin(angle) + offsetY * Math.cos(angle);
   }
+
+  positionStyle.x = relativeX + actualOffsetX;
+  positionStyle.y = relativeY + actualOffsetY;
 }
 
 /**

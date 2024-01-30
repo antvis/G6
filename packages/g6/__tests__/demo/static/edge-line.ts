@@ -1,5 +1,6 @@
 import { Circle, Image } from '@antv/g';
 import { Line } from '../../../src/elements/edges';
+import '../../../src/preset';
 import type { StaticTestCase } from '../types';
 
 export const edgeLine: StaticTestCase = async (context) => {
@@ -7,22 +8,27 @@ export const edgeLine: StaticTestCase = async (context) => {
 
   const line1 = new Line({
     style: {
+      // key shape
       sourcePoint: { x: 100, y: 50 },
       targetPoint: { x: 300, y: 50 },
       stroke: '#1890FF',
       lineWidth: 2,
       cursor: 'pointer',
+      // halo
       halo: false,
       haloOpacity: 0.25,
       haloLineWidth: 12,
       haloPointerEvents: 'none',
       haloZIndex: -1,
       haloDroppable: false,
+      // label
       label: true,
-      labelText: 'line-edge',
+      labelText: 'line🌲-edge',
       labelFontSize: 12,
       labelFill: '#1890FF',
+      // start arrow
       startArrow: false,
+      // end arrow
       endArrow: true,
     },
   });

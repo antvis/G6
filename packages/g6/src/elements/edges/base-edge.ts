@@ -1,4 +1,4 @@
-import type { DisplayObjectConfig, LineStyleProps, PathStyleProps, PolylineStyleProps } from '@antv/g';
+import type { BaseStyleProps, DisplayObjectConfig, LineStyleProps, PathStyleProps } from '@antv/g';
 import { DisplayObject, Group, Path } from '@antv/g';
 import { Point, deepMix } from '@antv/util';
 import { getPlugin } from '../../registry';
@@ -6,43 +6,37 @@ import type { PrefixObject } from '../../types';
 import { EdgeKey, EdgeLabelStyleProps } from '../../types/edge';
 import { getLabelPositionStyle } from '../../utils/edge';
 import { omitStyleProps, subStyleProps } from '../../utils/prefix';
+import type { LabelStyleProps } from '../shapes';
 import { Label, triangle } from '../shapes';
 import type { BaseShapeStyleProps } from '../shapes/base-shape';
 import { BaseShape } from '../shapes/base-shape';
-import type { LabelStyleProps } from '../shapes/label';
 
-type EdgeKeyStyleProps = LineStyleProps | PathStyleProps | PolylineStyleProps;
-
-type ArrowStyleProps = {
+type EdgeArrowStyleProps = {
   type?: string;
   ctor?: { new (...args: any[]): DisplayObject };
   width?: number;
   height?: number;
 } & PathStyleProps;
 
-export type BaseEdgeStyleProps = BaseShapeStyleProps &
-  EdgeKeyStyleProps & {
-    sourcePoint: Point;
-    targetPoint: Point;
-    halo?: boolean;
+export type BaseEdgeStyleProps<KT extends object> = BaseShapeStyleProps &
+  KT & {
+    sourcePoint?: Point;
+    targetPoint?: Point;
     label?: boolean;
-    icon?: boolean;
+    halo?: boolean;
     startArrow?: boolean;
     endArrow?: boolean;
     startArrowOffset?: number;
     endArrowOffset?: number;
-  } & PrefixObject<EdgeKeyStyleProps, 'halo'> &
-  PrefixObject<EdgeLabelStyleProps, 'label'> &
-  PrefixObject<any, 'icon'> &
-  PrefixObject<ArrowStyleProps, 'startArrow'> &
-  PrefixObject<ArrowStyleProps, 'endArrow'>;
+  } & PrefixObject<EdgeLabelStyleProps, 'label'> &
+  PrefixObject<KT, 'halo'> &
+  PrefixObject<EdgeArrowStyleProps, 'startArrow'> &
+  PrefixObject<EdgeArrowStyleProps, 'endArrow'>;
 
-type ParsedBaseEdgeStyleProps = Required<BaseEdgeStyleProps>;
+export type BaseEdgeOptions<KT extends object> = DisplayObjectConfig<BaseEdgeStyleProps<KT>>;
 
-export type BaseEdgeOptions = DisplayObjectConfig<ParsedBaseEdgeStyleProps>;
-
-export abstract class BaseEdge<T extends BaseEdgeStyleProps> extends BaseShape<T> {
-  static defaultStyleProps: Partial<BaseEdgeStyleProps> = {
+export abstract class BaseEdge<KT extends object, KS extends DisplayObject> extends BaseShape<BaseEdgeStyleProps<KT>> {
+  static defaultStyleProps: BaseEdgeStyleProps<Record<string, unknown>> = {
     label: true,
     labelPosition: 'center',
     labelOffsetY: -6,
@@ -54,40 +48,15 @@ export abstract class BaseEdge<T extends BaseEdgeStyleProps> extends BaseShape<T
     endArrow: false,
   };
 
-  private key!: EdgeKey;
-
-  constructor(options: BaseEdgeOptions) {
+  constructor(options: BaseEdgeOptions<KT>) {
     super(deepMix({}, { style: BaseEdge.defaultStyleProps }, options));
   }
 
-  public render(attributes: Required<T>, container: Group): void {
-    // 1. key shape
-    const key = this.drawKey(attributes, container);
-    if (!key) return;
-
-    this.key = key;
-
-    // 2. arrows
-    this.drawArrow(attributes, true);
-    this.drawArrow(attributes, false);
-
-    // 3. halo
-    this.upsert('halo', this.key.constructor as typeof DisplayObject, this.getHaloStyle(attributes), container);
-
-    // 4. icon
-    this.upsert('icon', Label, this.getIconStyle(attributes), container);
-
-    // 5. label
-    this.upsert('label', Label, this.getLabelStyle(attributes), this.key);
+  protected getKeyStyle(attributes: BaseEdgeStyleProps<KT>): KT {
+    return omitStyleProps(this.getGraphicStyle(attributes), ['halo', 'label', 'startArrow', 'endArrow']);
   }
 
-  public abstract drawKey(attributes: Required<T>, container: Group): EdgeKey | undefined;
-
-  protected getKeyStyle(attributes: Required<T>): EdgeKeyStyleProps {
-    return omitStyleProps(this.getGraphicStyle(attributes), ['halo', 'icon', 'label', 'startArrow', 'endArrow']);
-  }
-
-  protected getHaloStyle(attributes: Required<T>): false | EdgeKeyStyleProps {
+  protected getHaloStyle(attributes: BaseEdgeStyleProps<KT>): false | KT {
     if (attributes.halo === false) return false;
 
     const keyStyle = this.getKeyStyle(attributes);
@@ -96,13 +65,7 @@ export abstract class BaseEdge<T extends BaseEdgeStyleProps> extends BaseShape<T
     return { ...keyStyle, ...haloStyle };
   }
 
-  protected getIconStyle(attributes: Required<T>): false | any {
-    if (attributes.icon === false) return false;
-
-    return subStyleProps<any>(this.getGraphicStyle(attributes), 'icon');
-  }
-
-  protected getLabelStyle(attributes: Required<T>): false | LabelStyleProps {
+  protected getLabelStyle(attributes: BaseEdgeStyleProps<KT>): false | LabelStyleProps {
     if (attributes.label === false) return false;
 
     const labelStyle = subStyleProps<EdgeLabelStyleProps>(this.getGraphicStyle(attributes), 'label');
@@ -118,24 +81,24 @@ export abstract class BaseEdge<T extends BaseEdgeStyleProps> extends BaseShape<T
     return { ...labelPositionStyle, ...restStyle } as LabelStyleProps;
   }
 
-  protected drawArrow(attributes: Required<T>, isStart: boolean) {
+  protected drawArrow(attributes: BaseEdgeStyleProps<KT>, isStart: boolean) {
     const arrowType = isStart ? 'startArrow' : 'endArrow';
     const arrowPresence = attributes[arrowType];
 
     if (arrowPresence) {
-      const { ctor = Path } = subStyleProps<ArrowStyleProps>(this.getGraphicStyle(attributes), arrowType);
+      const { ctor = Path } = subStyleProps<EdgeArrowStyleProps>(this.getGraphicStyle(attributes), arrowType);
       const arrowStyle = this.getArrowStyle(attributes, isStart);
-      this.key.style[isStart ? 'markerStart' : 'markerEnd'] = new ctor({ style: arrowStyle });
-      this.key.style[isStart ? 'markerStartOffset' : 'markerEndOffset'] = isStart
+      this.shapeMap.key.style[isStart ? 'markerStart' : 'markerEnd'] = new ctor({ style: arrowStyle });
+      this.shapeMap.key.style[isStart ? 'markerStartOffset' : 'markerEndOffset'] = isStart
         ? attributes.startArrowOffset
         : attributes.endArrowOffset;
     } else {
-      this.key.style[isStart ? 'markerStart' : 'markerEnd'] = undefined;
+      this.shapeMap.key.style[isStart ? 'markerStart' : 'markerEnd'] = undefined;
     }
   }
 
-  private getArrowStyle(attributes: Required<T>, isStart: boolean) {
-    const { stroke, ...keyStyle } = this.getKeyStyle(attributes);
+  private getArrowStyle(attributes: BaseEdgeStyleProps<KT>, isStart: boolean) {
+    const { stroke, ...keyStyle } = this.getKeyStyle(attributes) as BaseStyleProps;
     const arrowType = isStart ? 'startArrow' : 'endArrow';
     const {
       width = 10,
@@ -143,7 +106,7 @@ export abstract class BaseEdge<T extends BaseEdgeStyleProps> extends BaseShape<T
       type = 'triangle',
       ctor = Path,
       ...arrowStyle
-    } = subStyleProps<ArrowStyleProps>(this.getGraphicStyle(attributes), arrowType);
+    } = subStyleProps<EdgeArrowStyleProps>(this.getGraphicStyle(attributes), arrowType);
 
     let path;
     if (ctor === Path) {
@@ -161,6 +124,29 @@ export abstract class BaseEdge<T extends BaseEdgeStyleProps> extends BaseShape<T
       height,
       ...arrowStyle,
     };
+  }
+
+  protected abstract drawKeyShape(attributes: BaseEdgeStyleProps<KT>, container: Group): KS | undefined;
+
+  public render(attributes: BaseEdgeStyleProps<KT> = this.attributes, container: Group = this): void {
+    // 1. key shape
+    const keyShape = this.drawKeyShape(attributes, container);
+    if (!keyShape) return;
+
+    // 2. arrows
+    this.drawArrow(attributes, true);
+    this.drawArrow(attributes, false);
+
+    // 3. label
+    this.upsert('label', Label, this.getLabelStyle(attributes), this.shapeMap.key);
+
+    // 4. halo
+    this.upsert(
+      'halo',
+      this.shapeMap.key.constructor as new (...args: any[]) => KS,
+      this.getHaloStyle(attributes),
+      container,
+    );
   }
 
   connectedCallback() {}
