@@ -1,4 +1,5 @@
 import type { DisplayObject } from '@antv/g';
+import type { STDAnimation } from '../animations/types';
 import type { BaseNode, BaseNodeStyleProps } from '../elements/nodes';
 
 // TODO 待使用正式类型定义 / To be used formal type definition
@@ -9,7 +10,6 @@ declare type Theme = unknown;
 declare type Layout = unknown;
 declare type Behavior = unknown;
 declare type Widget = unknown;
-declare type Animation = unknown;
 
 /**
  * <zh/> 插件注册表
@@ -24,7 +24,7 @@ export interface PluginRegistry {
   layout: Record<string, { new (...args: any[]): Layout }>;
   behavior: Record<string, { new (...args: any[]): Behavior }>;
   widget: Record<string, { new (...args: any[]): Widget }>;
-  animation: Record<string, Animation>; // animation is a function
+  animation: Record<string, STDAnimation>; // animation spec
 }
 
 /**

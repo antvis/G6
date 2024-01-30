@@ -10,7 +10,7 @@ export interface StaticTestCase extends BaseTestCase {
 }
 
 export interface AnimationTestCase extends BaseTestCase {
-  (context: TestCaseContext): Promise<IAnimation>;
+  (context: TestCaseContext): Promise<IAnimation | null>;
   /**
    * <zh/> 检查的动画时间
    *
