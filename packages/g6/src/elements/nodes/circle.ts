@@ -16,7 +16,7 @@ export class Circle extends BaseNode<CircleStyleProps, GCircle> {
     super(options);
   }
 
-  protected getHaloStyle(attributes: CircleStyleProps): GCircleStyleProps {
+  protected getHaloStyle(attributes = this.parsedAttributes): GCircleStyleProps {
     const haloStyle = subStyleProps(this.getGraphicStyle(attributes), 'halo') as Partial<GCircleStyleProps>;
     const keyStyle = this.getKeyStyle(attributes);
 
@@ -32,7 +32,7 @@ export class Circle extends BaseNode<CircleStyleProps, GCircle> {
     } as GCircleStyleProps;
   }
 
-  protected drawKeyShape(attributes: CircleStyleProps, container: Group): GCircle {
+  protected drawKeyShape(attributes = this.parsedAttributes, container: Group): GCircle {
     return this.upsert('key', GCircle, this.getKeyStyle(attributes), container) as GCircle;
   }
 

@@ -13,6 +13,10 @@ export abstract class BaseShape<T extends BaseShapeStyleProps> extends CustomEle
     this.bindEvents();
   }
 
+  get parsedAttributes() {
+    return this.attributes as Required<T>;
+  }
+
   /**
    * <zh> 图形实例映射表
    *
@@ -100,7 +104,7 @@ export abstract class BaseShape<T extends BaseShapeStyleProps> extends CustomEle
    * @param attributes
    * @param container
    */
-  public abstract render(attributes: T, container: Group): void;
+  public abstract render(attributes: Required<T>, container: Group): void;
 
   public bindEvents() {}
 

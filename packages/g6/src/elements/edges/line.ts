@@ -4,24 +4,26 @@ import type { Point } from '../../types';
 import type { BaseEdgeStyleProps } from './base-edge';
 import { BaseEdge } from './base-edge';
 
-export type LineStyleProps = BaseEdgeStyleProps<Omit<GLineStyleProps, 'x1' | 'y1' | 'x2' | 'y2'>>;
+export type LineStyleProps = BaseEdgeStyleProps<LineKeyStyleProps>;
+
+type LineKeyStyleProps = Omit<GLineStyleProps, 'x1' | 'y1' | 'x2' | 'y2'>;
 
 type LineOptions = DisplayObjectConfig<LineStyleProps>;
 
 /**
  * Draw line based on BaseEdge, override drawKeyShape
  */
-export class Line extends BaseEdge<LineStyleProps, GLine> {
+export class Line extends BaseEdge<LineKeyStyleProps, GLine> {
   constructor(options: LineOptions) {
     super(options);
   }
 
-  protected drawKeyShape(attributes: LineStyleProps, container: Group): GLine | undefined {
+  protected drawKeyShape(attributes = this.parsedAttributes, container: Group): GLine | undefined {
     return this.upsert('key', GLine, this.getKeyStyle(attributes), container);
   }
 
-  protected getKeyStyle(attributes: LineStyleProps): GLineStyleProps {
-    const { sourcePoint, targetPoint, ...keyShape } = super.getKeyStyle(attributes) as GLineStyleProps & {
+  protected getKeyStyle(attributes = this.parsedAttributes): GLineStyleProps {
+    const { sourcePoint, targetPoint, ...keyShape } = super.getKeyStyle(attributes) as unknown as GLineStyleProps & {
       sourcePoint: Point;
       targetPoint: Point;
     };

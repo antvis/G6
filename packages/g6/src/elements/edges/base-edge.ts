@@ -15,11 +15,12 @@ import { BaseShape } from '../shapes/base-shape';
 type SymbolName = 'triangle' | 'circle' | 'diamond' | 'vee' | 'rect' | 'triangleRect' | 'simple';
 
 type EdgeArrowStyleProps = {
-  type?: SymbolName | SymbolFactor;
   ctor?: { new (...args: any[]): DisplayObject };
+  type?: SymbolName | SymbolFactor;
   width?: number;
   height?: number;
-} & PathStyleProps;
+} & PathStyleProps &
+  Record<string, unknown>;
 
 export type BaseEdgeStyleProps<KT extends object> = BaseShapeStyleProps &
   KT & {
@@ -38,27 +39,47 @@ export type BaseEdgeStyleProps<KT extends object> = BaseShapeStyleProps &
 
 export type BaseEdgeOptions<KT extends object> = DisplayObjectConfig<BaseEdgeStyleProps<KT>>;
 
+type ParsedBaseEdgeStyleProps<KT extends object> = Required<BaseEdgeStyleProps<KT>>;
 export abstract class BaseEdge<KT extends object, KS extends DisplayObject> extends BaseShape<BaseEdgeStyleProps<KT>> {
   static defaultStyleProps: BaseEdgeStyleProps<Record<string, unknown>> = {
     label: true,
+    labelPosition: 'center',
     labelOffsetX: 4,
     labelOffsetY: -6,
     labelIsBillboard: true,
+    labelAutoRotate: true,
     halo: false,
     haloLineDash: 0,
+    haloPointerEvents: 'none',
+    haloZIndex: -1,
+    haloDroppable: false,
     startArrow: false,
+    startArrowCtor: Path,
+    startArrowType: 'triangle',
+    startArrowWidth: 10,
+    startArrowHeight: 10,
+    startArrowAnchor: '0.5 0.5',
+    startArrowTransformOrigin: 'center',
+    startArrowLineDash: 0,
     endArrow: false,
+    endArrowCtor: Path,
+    endArrowType: 'triangle',
+    endArrowWidth: 10,
+    endArrowHeight: 10,
+    endArrowAnchor: '0.5 0.5',
+    endArrowTransformOrigin: 'center',
+    endArrowLineDash: 0,
   };
 
   constructor(options: BaseEdgeOptions<KT>) {
     super(deepMix({}, { style: BaseEdge.defaultStyleProps }, options));
   }
 
-  protected getKeyStyle(attributes: BaseEdgeStyleProps<KT>): KT {
+  protected getKeyStyle(attributes: ParsedBaseEdgeStyleProps<KT>): KT {
     return omitStyleProps(this.getGraphicStyle(attributes), ['halo', 'label', 'startArrow', 'endArrow']);
   }
 
-  protected getHaloStyle(attributes: BaseEdgeStyleProps<KT>): false | KT {
+  protected getHaloStyle(attributes = this.parsedAttributes): false | KT {
     if (attributes.halo === false) return false;
 
     const keyStyle = this.getKeyStyle(attributes);
@@ -67,11 +88,11 @@ export abstract class BaseEdge<KT extends object, KS extends DisplayObject> exte
     return { ...keyStyle, ...haloStyle };
   }
 
-  protected getLabelStyle(attributes: BaseEdgeStyleProps<KT>): false | LabelStyleProps {
+  protected getLabelStyle(attributes = this.parsedAttributes): false | LabelStyleProps {
     if (attributes.label === false) return false;
 
-    const labelStyle = subStyleProps<EdgeLabelStyleProps>(this.getGraphicStyle(attributes), 'label');
-    const { position = 'center', offsetX, offsetY, autoRotate = true, ...restStyle } = labelStyle;
+    const labelStyle = subStyleProps<Required<EdgeLabelStyleProps>>(this.getGraphicStyle(attributes), 'label');
+    const { position, offsetX, offsetY, autoRotate, ...restStyle } = labelStyle;
     const labelPositionStyle = getLabelPositionStyle(
       this.shapeMap.key as EdgeKey,
       position,
@@ -83,12 +104,12 @@ export abstract class BaseEdge<KT extends object, KS extends DisplayObject> exte
     return { ...labelPositionStyle, ...restStyle } as LabelStyleProps;
   }
 
-  protected drawArrow(attributes: BaseEdgeStyleProps<KT>, isStart: boolean) {
+  protected drawArrow(attributes = this.parsedAttributes, isStart: boolean) {
     const arrowType = isStart ? 'startArrow' : 'endArrow';
     const arrowPresence = attributes[arrowType];
 
     if (arrowPresence) {
-      const { ctor = Path } = subStyleProps<EdgeArrowStyleProps>(this.getGraphicStyle(attributes), arrowType);
+      const { ctor } = subStyleProps<Required<EdgeArrowStyleProps>>(this.getGraphicStyle(attributes), arrowType);
       const arrowStyle = this.getArrowStyle(attributes, isStart);
       this.shapeMap.key.style[isStart ? 'markerStart' : 'markerEnd'] = new ctor({ style: arrowStyle });
       this.shapeMap.key.style[isStart ? 'markerStartOffset' : 'markerEndOffset'] = isStart
@@ -99,16 +120,13 @@ export abstract class BaseEdge<KT extends object, KS extends DisplayObject> exte
     }
   }
 
-  private getArrowStyle(attributes: BaseEdgeStyleProps<KT>, isStart: boolean) {
+  private getArrowStyle(attributes = this.parsedAttributes, isStart: boolean) {
     const { stroke, ...keyStyle } = this.getKeyStyle(attributes) as BaseStyleProps;
     const arrowType = isStart ? 'startArrow' : 'endArrow';
-    const {
-      width = 10,
-      height = 10,
-      type = 'triangle',
-      ctor = Path,
-      ...arrowStyle
-    } = subStyleProps<EdgeArrowStyleProps>(this.getGraphicStyle(attributes), arrowType);
+    const { width, height, type, ctor, ...arrowStyle } = subStyleProps<Required<EdgeArrowStyleProps>>(
+      this.getGraphicStyle(attributes),
+      arrowType,
+    );
 
     let path;
     if (ctor === Path) {
@@ -118,23 +136,20 @@ export abstract class BaseEdge<KT extends object, KS extends DisplayObject> exte
 
     return {
       ...keyStyle,
-      lineDash: 0,
       ...(path && { path, fill: type === 'simple' ? '' : stroke }),
-      anchor: '0.5 0.5',
-      transformOrigin: 'center',
       width,
       height,
       ...arrowStyle,
     };
   }
 
-  protected abstract drawKeyShape(attributes: BaseEdgeStyleProps<KT>, container: Group): KS | undefined;
-
-  protected drawLabelShape(attributes: BaseEdgeStyleProps<KT> = this.attributes, container: Group) {
+  protected drawLabelShape(attributes = this.parsedAttributes, container: Group) {
     this.upsert('label', Label, this.getLabelStyle(attributes), container);
   }
 
-  public render(attributes: BaseEdgeStyleProps<KT> = this.attributes, container: Group = this): void {
+  protected abstract drawKeyShape(attributes: ParsedBaseEdgeStyleProps<KT>, container: Group): KS | undefined;
+
+  public render(attributes = this.parsedAttributes, container: Group = this): void {
     // 1. key shape
     const keyShape = this.drawKeyShape(attributes, container);
     if (!keyShape) return;
@@ -159,7 +174,7 @@ export abstract class BaseEdge<KT extends object, KS extends DisplayObject> exte
     const result = super.animate(keyframes, options);
 
     result.onframe = () => {
-      this.drawLabelShape(this.attributes, this);
+      this.drawLabelShape(this.parsedAttributes, this);
     };
 
     return result;

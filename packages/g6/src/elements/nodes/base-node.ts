@@ -36,7 +36,7 @@ export type BaseNodeStyleProps<KT extends object> = BaseShapeStyleProps &
     'anchor'
   >;
 
-// type ParsedCircleStyleProps = Required<BaseNodeStyleProps>;
+type ParsedBaseNodeStyleProps<KT extends object> = Required<BaseNodeStyleProps<KT>>;
 
 type BaseNodeOptions<KT extends object> = DisplayObjectConfig<BaseNodeStyleProps<KT>>;
 
@@ -54,12 +54,12 @@ export abstract class BaseNode<KT extends object, KS> extends BaseShape<BaseNode
     super(options);
   }
 
-  protected getKeyStyle(attributes: BaseNodeStyleProps<KT>): KT {
+  protected getKeyStyle(attributes = this.parsedAttributes): KT {
     const style = this.getGraphicStyle(attributes);
     return omitStyleProps(style, ['label', 'halo', 'icon', 'badge', 'anchor']);
   }
 
-  protected getLabelStyle(attributes: BaseNodeStyleProps<KT>) {
+  protected getLabelStyle(attributes = this.parsedAttributes) {
     const { position, ...labelStyle } = subStyleProps<NodeLabelStyleProps>(
       this.getGraphicStyle(attributes),
       'label',
@@ -72,9 +72,9 @@ export abstract class BaseNode<KT extends object, KS> extends BaseShape<BaseNode
     } as NodeLabelStyleProps;
   }
 
-  protected abstract getHaloStyle(attributes: BaseNodeStyleProps<KT>): KT;
+  protected abstract getHaloStyle(attributes: ParsedBaseNodeStyleProps<KT>): KT;
 
-  protected getIconStyle(attributes: BaseNodeStyleProps<KT>) {
+  protected getIconStyle(attributes = this.parsedAttributes) {
     const iconStyle = subStyleProps(this.getGraphicStyle(attributes), 'icon');
     const keyShape = this.shapeMap.key;
     const [x, y] = getXYByPosition(keyShape.getLocalBounds(), 'center');
@@ -86,7 +86,7 @@ export abstract class BaseNode<KT extends object, KS> extends BaseShape<BaseNode
     } as IconStyleProps;
   }
 
-  protected getBadgesStyle(attributes: BaseNodeStyleProps<KT>): NodeBadgeStyleProps[] {
+  protected getBadgesStyle(attributes = this.parsedAttributes): NodeBadgeStyleProps[] {
     const badgesStyle = this.getGraphicStyle(attributes).badgeOptions || [];
     const keyShape = this.shapeMap.key;
 
@@ -97,7 +97,7 @@ export abstract class BaseNode<KT extends object, KS> extends BaseShape<BaseNode
     });
   }
 
-  protected getAnchorsStyle(attributes: BaseNodeStyleProps<KT>): NodeAnchorStyleProps[] {
+  protected getAnchorsStyle(attributes = this.parsedAttributes): NodeAnchorStyleProps[] {
     const anchorStyle = this.getGraphicStyle(attributes).anchorOptions || [];
     const keyShape = this.shapeMap.key;
 
@@ -108,9 +108,9 @@ export abstract class BaseNode<KT extends object, KS> extends BaseShape<BaseNode
     });
   }
 
-  protected abstract drawKeyShape(attributes: BaseNodeStyleProps<KT>, container: Group): KS;
+  protected abstract drawKeyShape(attributes: ParsedBaseNodeStyleProps<KT>, container: Group): KS;
 
-  public render(attributes = this.attributes as BaseNodeStyleProps<KT>, container: Group = this) {
+  public render(attributes = this.parsedAttributes, container: Group = this) {
     // 1. key shape
     const keyShape = this.drawKeyShape(attributes, container);
     if (!keyShape) return;

@@ -1,11 +1,11 @@
+/* eslint-disable jsdoc/require-returns */
+/* eslint-disable jsdoc/require-param */
 import type { PathArray } from '@antv/util';
 
 export type SymbolFactor = (width: number, height: number) => PathArray;
 
 /**
  * ○
- * @param width
- * @param height
  */
 export const circle: SymbolFactor = (width: number, height: number) => {
   const r = Math.max(width, height) / 2;
@@ -14,8 +14,6 @@ export const circle: SymbolFactor = (width: number, height: number) => {
 
 /**
  * ▷
- * @param width
- * @param height
  */
 export const triangle: SymbolFactor = (width: number, height: number) => {
   return [['M', 0, 0], ['L', width, -height / 2], ['L', width, height / 2], ['Z']];
@@ -23,8 +21,6 @@ export const triangle: SymbolFactor = (width: number, height: number) => {
 
 /**
  * ◇
- * @param width
- * @param height
  */
 export const diamond: SymbolFactor = (width: number, height: number) => {
   return [['M', 0, 0], ['L', width / 2, -height / 2], ['L', width, 0], ['L', width / 2, height / 2], ['Z']];
@@ -32,8 +28,6 @@ export const diamond: SymbolFactor = (width: number, height: number) => {
 
 /**
  * >>
- * @param width
- * @param height
  */
 export const vee: SymbolFactor = (width: number, height: number) => {
   return [['M', 0, 0], ['L', width, -height / 2], ['L', (2 * width) / 3, 0], ['L', width, height / 2], ['Z']];
@@ -41,8 +35,6 @@ export const vee: SymbolFactor = (width: number, height: number) => {
 
 /**
  * □
- * @param width
- * @param height
  */
 export const rect: SymbolFactor = (width: number, height: number) => {
   return [['M', 0, -height / 2], ['L', width, -height / 2], ['L', width, height / 2], ['L', 0, height / 2], ['Z']];
@@ -50,8 +42,6 @@ export const rect: SymbolFactor = (width: number, height: number) => {
 
 /**
  * □▷
- * @param width
- * @param height
  */
 export const triangleRect: SymbolFactor = (width: number, height: number) => {
   const tWidth = width / 2;
@@ -72,8 +62,6 @@ export const triangleRect: SymbolFactor = (width: number, height: number) => {
 
 /**
  * >
- * @param width
- * @param height
  */
 export const simple: SymbolFactor = (width: number, height: number) => {
   return [

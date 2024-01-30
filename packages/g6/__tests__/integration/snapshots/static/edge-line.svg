@@ -229,7 +229,7 @@
         <g
           opacity="0.25"
           pointer-events="none"
-          stroke-width="12px"
+          stroke-width="2px"
           stroke-dasharray="0px,0px"
           transform="matrix(1,0,0,1,100,250)"
         >
