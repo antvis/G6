@@ -292,13 +292,13 @@ export class ElementController {
     if (!data) return {};
 
     const { source, target, style = {} } = data;
-    const { sourcePort, targetPort } = style;
+    const { sourceAnchor, targetAnchor } = style;
 
     const sourceNode = this.getElement<any>(source);
     const targetNode = this.getElement<any>(target);
 
-    const sourcePorts: Record<string, DisplayObject> = sourceNode.getPorts();
-    const targetPorts: Record<string, DisplayObject> = targetNode.getPorts();
+    const sourceAnchors: Record<string, DisplayObject> = sourceNode.getPorts();
+    const targetAnchors: Record<string, DisplayObject> = targetNode.getPorts();
 
     let sourcePoint!: Point;
     let targetPoint!: Point;
@@ -306,19 +306,19 @@ export class ElementController {
     // TODO 下面的逻辑没有考虑到边的一端连接到连接桩，另一端连接到交点的情况
     // TODO The logic below does not consider the case where one end of the edge is connected to the port and the other end is connected to the intersection
 
-    // 优先使用 sourcePort、targetPort / Use sourcePort and targetPort first
-    if (sourcePort && sourcePorts[sourcePort] && targetPort && targetPorts[targetPort]) {
-      sourcePoint = sourcePorts[sourcePort].getPosition();
-      targetPoint = targetPorts[targetPort].getPosition();
+    // 优先使用 sourceAnchor、targetAnchor / Use sourceAnchor and targetAnchor first
+    if (sourceAnchor && sourceAnchors[sourceAnchor] && targetAnchor && targetAnchors[targetAnchor]) {
+      sourcePoint = sourceAnchors[sourceAnchor].getPosition();
+      targetPoint = targetAnchors[targetAnchor].getPosition();
     }
-    // 如果不存在 sourcePort、targetPort，且存在 sourcePorts、targetPorts，选取最近的连接桩
-    // If sourcePort and targetPort do not exist, and sourcePorts and targetPorts exist, select the nearest port
-    else if (Object.keys(sourcePorts).length > 0 && Object.keys(targetPorts).length > 0) {
+    // 如果不存在 sourceAnchor、targetAnchor，且存在 sourceAnchors、targetAnchors，选取最近的连接桩
+    // If sourceAnchor and targetAnchor do not exist, and sourceAnchors and targetAnchors exist, select the nearest port
+    else if (Object.keys(sourceAnchors).length > 0 && Object.keys(targetAnchors).length > 0) {
       // TODO 实现算法用于选取最近的连接桩 / Implement the algorithm to select the nearest port
     }
-    // 如果不存在 sourcePort、targetPort，调用 getIntersectPoint 计算交点
-    // If sourcePort and targetPort do not exist, call getIntersectPoint to calculate the intersection
-    else if (Object.keys(sourcePorts).length === 0 && Object.keys(targetPorts).length === 0) {
+    // 如果不存在 sourceAnchor、targetAnchor，调用 getIntersectPoint 计算交点
+    // If sourceAnchor and targetAnchor do not exist, call getIntersectPoint to calculate the intersection
+    else if (Object.keys(sourceAnchors).length === 0 && Object.keys(targetAnchors).length === 0) {
       // TODO 待实现 / To be implemented
     }
     // 如果都不存在，直接使用节点中心点
