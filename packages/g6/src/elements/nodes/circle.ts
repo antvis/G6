@@ -1,13 +1,12 @@
-import { DisplayObjectConfig, Circle as GCircle, CircleStyleProps as GCircleStyleProps, Group } from '@antv/g';
+import type { DisplayObjectConfig, CircleStyleProps as GCircleStyleProps, Group } from '@antv/g';
+import { Circle as GCircle } from '@antv/g';
 import { deepMix } from '@antv/util';
 import type { PrefixObject } from '../../types';
 import type { AnchorPosition, BadgePosition, LabelPosition } from '../../types/node';
 import { getAnchorPosition, getTextStyleByPosition, getXYByPosition } from '../../utils/element';
 import { omitStyleProps, subStyleProps } from '../../utils/prefix';
-import { BaseShape, BaseShapeStyleProps } from '../shapes';
-import { Badge, BadgeStyleProps } from '../shapes/badge';
-import { Icon, IconStyleProps } from '../shapes/icon';
-import { Label, LabelStyleProps } from '../shapes/label';
+import type { BadgeStyleProps, BaseShapeStyleProps, IconStyleProps, LabelStyleProps } from '../shapes';
+import { Badge, BaseShape, Icon, Label } from '../shapes';
 
 type NodeLabelStyleProps = LabelStyleProps & { position: LabelPosition };
 type NodeBadgeStyleProps = BadgeStyleProps & { position: BadgePosition };
@@ -64,7 +63,7 @@ export class Circle extends BaseShape<CircleStyleProps> {
   }
 
   protected getLabelStyle(attributes: CircleStyleProps) {
-    const { position, ...labelStyle } = subStyleProps<CircleStyleProps>(
+    const { position, ...labelStyle } = subStyleProps<NodeLabelStyleProps>(
       this.getGraphicStyle(attributes),
       'label',
     ) as unknown as NodeLabelStyleProps;

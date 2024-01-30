@@ -5,8 +5,8 @@ import type { AnchorPosition, LabelPosition, RelativePosition } from '../types/n
 
 /**
  * Get the Badge x, y by `position`.
- * @param bbox BBox of element.
- * @param position The postion relative with element.
+ * @param bbox - BBox of element.
+ * @param position - The postion relative with element.
  * @returns [x, y]
  */
 export function getXYByPosition(bbox: AABB, position: RelativePosition = 'center'): Point {
@@ -18,8 +18,8 @@ export function getXYByPosition(bbox: AABB, position: RelativePosition = 'center
 
 /**
  * Get the Anchor x, y by `position`.
- * @param bbox BBox of element.
- * @param position The postion relative with element.
+ * @param bbox - BBox of element.
+ * @param position - The postion relative with element.
  * @returns [x, y]
  */
 export function getAnchorPosition(bbox: AABB, position?: AnchorPosition): Point {
@@ -44,8 +44,8 @@ export function getAnchorPosition(bbox: AABB, position?: AnchorPosition): Point 
 
 /**
  * Get the Text style by `position`.
- * @param bbox BBox of element.
- * @param position The postion relative with element.
+ * @param bbox - BBox of element.
+ * @param position - The postion relative with element.
  * @returns Partial<TextStyleProps>
  */
 export function getTextStyleByPosition(bbox: AABB, position: LabelPosition = 'center'): Partial<TextStyleProps> {
