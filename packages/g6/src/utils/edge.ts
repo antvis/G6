@@ -44,7 +44,7 @@ export function getLabelPositionStyle(
  * @param offsetY - <zh/> 标签相对于边的垂直偏移量 | <en/> Vertical offset of the label relative to the edge
  * @returns
  */
-export function initLabelPositionStyle(
+function initLabelPositionStyle(
   position: EdgeLabelPosition,
   offsetX?: number,
   offsetY?: number,
@@ -67,12 +67,7 @@ export function initLabelPositionStyle(
  * @param angle - <zh/> 旋转角度 | <en/> Rotation angle
  * @param isRevert - <zh/> 是否反转 | <en/> Whether to revert
  */
-export function adjustLabelPosition(
-  key: EdgeKey,
-  positionStyle: Partial<EdgeLabelStyleProps>,
-  ratio: number,
-  angle?: number,
-) {
+function adjustLabelPosition(key: EdgeKey, positionStyle: Partial<EdgeLabelStyleProps>, ratio: number, angle?: number) {
   const { x: pointX, y: pointY } = key.getPoint(ratio);
   const { offsetX = 0, offsetY = 0 } = positionStyle;
 
@@ -96,13 +91,11 @@ export function adjustLabelPosition(
  * @param positionStyle - <zh/> 标签的位置样式 | <en/> The style of the label's position
  * @param ratio - <zh/> 沿边的比例位置 | <en/> ratio along the edge
  */
-export function applyAutoRotation(key: EdgeKey, positionStyle: Partial<EdgeLabelStyleProps>, ratio: number) {
+function applyAutoRotation(key: EdgeKey, positionStyle: Partial<EdgeLabelStyleProps>, ratio: number) {
   const { textAlign } = positionStyle;
   const point = key.getPoint(ratio);
   const pointOffset = key.getPoint(ratio + 0.01);
   let angle = Math.atan2(pointOffset.y - point.y, pointOffset.x - point.x);
-
-  if (isNaN(angle)) angle = 0;
 
   const isRevert = pointOffset.x < point.x;
   if (isRevert) {
