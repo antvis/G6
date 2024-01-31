@@ -1,0 +1,71 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="500"
+  height="500"
+  style="background: transparent; position: absolute; outline: none;"
+  color-interpolation-filters="sRGB"
+  tabindex="1"
+>
+  <defs />
+  <g id="g-svg-camera" transform="matrix(1,0,0,1,0,0)">
+    <g id="g-root" fill="none" transform="matrix(1,0,0,1,0,0)">
+      <g
+        id="g-svg-5"
+        fill="none"
+        marker-start="false"
+        marker-end="true"
+        transform="matrix(1,0,0,1,0,0)"
+      >
+        <g transform="matrix(1,0,0,1,100,149.792572)">
+          <path
+            id="key"
+            fill="none"
+            d="M 0,0.2074350425709781 C 92.72393124891002 -3.89683996178897,107.27606875108998 54.311710046930926,200 50.20743504257098"
+            stroke-width="2"
+            stroke="rgba(24,144,255,1)"
+          />
+          <g transform="matrix(-0.999022,0.044220,-0.044220,-0.999022,200,50.207436)">
+            <path
+              id="g-svg-8"
+              fill="rgba(24,144,255,1)"
+              d="M 0,5 L 10,0 L 10,10 Z"
+              transform="translate(-5,-5)"
+              stroke-width="2"
+              stroke="rgba(24,144,255,1)"
+              stroke-dasharray="0,0"
+            />
+          </g>
+        </g>
+        <g
+          id="label"
+          fill="none"
+          transform="matrix(0.982519,-0.186162,0.186162,0.982519,202.813110,43.360237)"
+        >
+          <g transform="matrix(1,0,0,1,-42.326870,-40.298687)">
+            <path
+              id="background"
+              fill="none"
+              d="M 0,0 l 85.6537385594458,0 l 0,57.5973797182875 l-85.6537385594458 0 z"
+              width="85.6537385594458"
+              height="57.5973797182875"
+            />
+          </g>
+          <g transform="matrix(1,0,0,1,0,0)">
+            <text
+              id="text"
+              fill="rgba(0,0,0,1)"
+              dominant-baseline="central"
+              paint-order="stroke"
+              dx="0.5"
+              dy="-11.5px"
+              text-anchor="middle"
+              font-size="12"
+            >
+              cubic-edge
+            </text>
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>
