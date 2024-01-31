@@ -6,17 +6,19 @@ import { BaseNode } from './base-node';
 
 export type CircleStyleProps = BaseNodeStyleProps<GCircleStyleProps>;
 
+type ParsedCircleStyleProps = Required<CircleStyleProps>;
+
 type CircleOptions = DisplayObjectConfig<CircleStyleProps>;
 
 /**
  * Draw circle based on BaseNode, override drawKeyShape.
  */
-export class Circle extends BaseNode<CircleStyleProps, GCircle> {
+export class Circle extends BaseNode<GCircleStyleProps, GCircle> {
   constructor(options: CircleOptions) {
     super(options);
   }
 
-  protected getHaloStyle(attributes = this.parsedAttributes): GCircleStyleProps {
+  protected getHaloStyle(attributes: ParsedCircleStyleProps): GCircleStyleProps {
     const haloStyle = subStyleProps(this.getGraphicStyle(attributes), 'halo') as Partial<GCircleStyleProps>;
     const keyStyle = this.getKeyStyle(attributes);
 
@@ -32,7 +34,7 @@ export class Circle extends BaseNode<CircleStyleProps, GCircle> {
     } as GCircleStyleProps;
   }
 
-  protected drawKeyShape(attributes = this.parsedAttributes, container: Group): GCircle {
+  protected drawKeyShape(attributes: ParsedCircleStyleProps, container: Group): GCircle {
     return this.upsert('key', GCircle, this.getKeyStyle(attributes), container) as GCircle;
   }
 

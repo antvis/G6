@@ -8,6 +8,8 @@ export type LineStyleProps = BaseEdgeStyleProps<LineKeyStyleProps>;
 
 type LineKeyStyleProps = Omit<GLineStyleProps, 'x1' | 'y1' | 'x2' | 'y2'>;
 
+type ParsedLineStyleProps = Required<LineStyleProps>;
+
 type LineOptions = DisplayObjectConfig<LineStyleProps>;
 
 /**
@@ -18,11 +20,11 @@ export class Line extends BaseEdge<LineKeyStyleProps, GLine> {
     super(options);
   }
 
-  protected drawKeyShape(attributes = this.parsedAttributes, container: Group): GLine | undefined {
+  protected drawKeyShape(attributes: ParsedLineStyleProps, container: Group): GLine | undefined {
     return this.upsert('key', GLine, this.getKeyStyle(attributes), container);
   }
 
-  protected getKeyStyle(attributes = this.parsedAttributes): GLineStyleProps {
+  protected getKeyStyle(attributes: ParsedLineStyleProps): GLineStyleProps {
     const { sourcePoint, targetPoint, ...keyShape } = super.getKeyStyle(attributes) as unknown as GLineStyleProps & {
       sourcePoint: Point;
       targetPoint: Point;

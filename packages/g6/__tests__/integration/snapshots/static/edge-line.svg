@@ -28,7 +28,7 @@
         stroke="rgba(24,144,255,1)"
         stroke-width="2px"
         marker-start="true"
-        marker-end="true"
+        marker-end="false"
         transform="matrix(1,0,0,1,0,0)"
       >
         <g stroke-width="2px" transform="matrix(1,0,0,1,100,50)">
@@ -50,21 +50,6 @@
               id="g-svg-8"
               fill="rgba(24,144,255,1)"
               d="M 0,5 L 5,0 L 10,5 L 5,10 Z"
-              transform="translate(-5,-5)"
-              stroke="none"
-              width="10px"
-              height="10px"
-            />
-          </g>
-          <g
-            stroke-width="2px"
-            stroke-dasharray="0px,0px"
-            transform="matrix(-1,0,-0,-1,200,0)"
-          >
-            <path
-              id="g-svg-10"
-              fill="rgba(24,144,255,1)"
-              d="M 0,5 L 10,0 L 10,10 Z"
               transform="translate(-5,-5)"
               stroke="none"
               width="10px"
@@ -103,13 +88,13 @@
               dx="1"
               stroke="none"
             >
-              line🌲-edge
+              🌲line-edge
             </text>
           </g>
         </g>
       </g>
       <g
-        id="g-svg-14"
+        id="g-svg-12"
         fill="none"
         stroke="rgba(24,144,255,1)"
         stroke-width="2px"
@@ -155,7 +140,7 @@
             transform="matrix(0.970143,0.242536,-0.242536,0.970143,0,0)"
           >
             <path
-              id="g-svg-17"
+              id="g-svg-15"
               fill="rgba(24,144,255,1)"
               d="M 0,5 A 5 5 0 1 0 10 5 A 5 5 0 1 0 0 5 Z"
               transform="translate(-5,-5)"
@@ -170,7 +155,7 @@
             transform="matrix(-0.970143,-0.242536,0.242536,-0.970143,200,50)"
           >
             <path
-              id="g-svg-19"
+              id="g-svg-17"
               fill="rgba(255,0,0,1)"
               d="M 0,5 L 10,0 L 10,10 Z"
               transform="translate(-5,-5)"
@@ -217,7 +202,7 @@
         </g>
       </g>
       <g
-        id="g-svg-24"
+        id="g-svg-22"
         fill="none"
         stroke="rgba(24,144,255,1)"
         stroke-width="2px"
@@ -263,7 +248,7 @@
             transform="matrix(0.242536,-0.970143,0.970143,0.242536,200,50)"
           >
             <image
-              id="g-svg-27"
+              id="g-svg-25"
               fill="none"
               preserveAspectRatio="none"
               x="0"
@@ -281,7 +266,7 @@
             transform="matrix(0.970143,0.242536,-0.242536,0.970143,0,0)"
           >
             <circle
-              id="g-svg-29"
+              id="g-svg-27"
               fill="none"
               transform="translate(-25,-25)"
               cx="25"
@@ -298,24 +283,20 @@
           fill="rgba(0,0,0,1)"
           stroke="none"
           font-size="12px"
-          text-anchor="middle"
-          transform="matrix(0.970143,0.242536,-0.242536,0.970143,197.574646,268.209015)"
+          text-anchor="end"
+          transform="matrix(0.970143,0.242536,-0.242536,0.970143,277.201660,288.115753)"
         >
-          <g transform="matrix(1,0,0,1,-59.887054,-40.995300)">
+          <g transform="matrix(1,0,0,1,-115.447052,-41.305889)">
             <path
               id="background"
               fill="none"
-              d="M 0,0 l 121.77411656097992,0 l 0,75.99058911262694 l-121.77411656097992 0 z"
+              d="M 0,0 l 123.09411654497103,0 l 0,76.6117655971751 l-123.09411654497103 0 z"
               stroke="none"
-              width="121.77411656097992px"
-              height="75.99058911262694px"
+              width="123.09411654497103px"
+              height="76.6117655971751px"
             />
           </g>
-          <g
-            font-size="12px"
-            text-anchor="middle"
-            transform="matrix(1,0,0,1,0,0)"
-          >
+          <g font-size="12px" text-anchor="end" transform="matrix(1,0,0,1,0,0)">
             <text
               id="text"
               fill="rgba(0,0,0,1)"
@@ -324,7 +305,7 @@
               dx="1"
               stroke="none"
             >
-              inverted-line-edge
+              reverted-line-edge
             </text>
           </g>
         </g>

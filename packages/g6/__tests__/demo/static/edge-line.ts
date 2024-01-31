@@ -19,14 +19,14 @@ export const edgeLine: StaticTestCase = async (context) => {
       haloLineWidth: 12,
       // label
       label: true,
-      labelText: 'line🌲-edge',
+      labelText: '🌲line-edge',
       labelFontSize: 12,
       labelFill: '#1890FF',
       // start arrow
       startArrow: true,
       startArrowType: 'diamond',
       // end arrow
-      endArrow: true,
+      endArrow: false,
     },
   });
 
@@ -64,7 +64,9 @@ export const edgeLine: StaticTestCase = async (context) => {
       halo: true,
       haloOpacity: 0.25,
       label: true,
-      labelText: 'inverted-line-edge',
+      labelPosition: 'start',
+      labelOffsetX: 25,
+      labelText: 'reverted-line-edge',
       labelFontSize: 12,
       labelFill: '#000',
       labelPadding: 0,

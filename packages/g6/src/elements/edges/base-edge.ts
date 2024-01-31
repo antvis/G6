@@ -1,5 +1,12 @@
-import type { BaseStyleProps, DisplayObjectConfig, LineStyleProps, PathStyleProps } from '@antv/g';
-import { DisplayObject, Group, Path } from '@antv/g';
+import type {
+  BaseStyleProps,
+  DisplayObject,
+  DisplayObjectConfig,
+  Group,
+  LineStyleProps,
+  PathStyleProps,
+} from '@antv/g';
+import { Path } from '@antv/g';
 import { deepMix, isFunction } from '@antv/util';
 import type { Point, PrefixObject } from '../../types';
 import type { EdgeKey, EdgeLabelStyleProps } from '../../types/edge';
@@ -79,7 +86,7 @@ export abstract class BaseEdge<KT extends object, KS extends DisplayObject> exte
     return omitStyleProps(this.getGraphicStyle(attributes), ['halo', 'label', 'startArrow', 'endArrow']);
   }
 
-  protected getHaloStyle(attributes = this.parsedAttributes): false | KT {
+  protected getHaloStyle(attributes: ParsedBaseEdgeStyleProps<KT>): false | KT {
     if (attributes.halo === false) return false;
 
     const keyStyle = this.getKeyStyle(attributes);
@@ -88,7 +95,7 @@ export abstract class BaseEdge<KT extends object, KS extends DisplayObject> exte
     return { ...keyStyle, ...haloStyle };
   }
 
-  protected getLabelStyle(attributes = this.parsedAttributes): false | LabelStyleProps {
+  protected getLabelStyle(attributes: ParsedBaseEdgeStyleProps<KT>): false | LabelStyleProps {
     if (attributes.label === false) return false;
 
     const labelStyle = subStyleProps<Required<EdgeLabelStyleProps>>(this.getGraphicStyle(attributes), 'label');
@@ -104,7 +111,7 @@ export abstract class BaseEdge<KT extends object, KS extends DisplayObject> exte
     return { ...labelPositionStyle, ...restStyle } as LabelStyleProps;
   }
 
-  protected drawArrow(attributes = this.parsedAttributes, isStart: boolean) {
+  protected drawArrow(attributes: ParsedBaseEdgeStyleProps<KT>, isStart: boolean) {
     const arrowType = isStart ? 'startArrow' : 'endArrow';
     const arrowPresence = attributes[arrowType];
 
@@ -120,7 +127,7 @@ export abstract class BaseEdge<KT extends object, KS extends DisplayObject> exte
     }
   }
 
-  private getArrowStyle(attributes = this.parsedAttributes, isStart: boolean) {
+  private getArrowStyle(attributes: ParsedBaseEdgeStyleProps<KT>, isStart: boolean) {
     const { stroke, ...keyStyle } = this.getKeyStyle(attributes) as BaseStyleProps;
     const arrowType = isStart ? 'startArrow' : 'endArrow';
     const { width, height, type, ctor, ...arrowStyle } = subStyleProps<Required<EdgeArrowStyleProps>>(
@@ -143,7 +150,7 @@ export abstract class BaseEdge<KT extends object, KS extends DisplayObject> exte
     };
   }
 
-  protected drawLabelShape(attributes = this.parsedAttributes, container: Group) {
+  protected drawLabelShape(attributes: ParsedBaseEdgeStyleProps<KT>, container: Group) {
     this.upsert('label', Label, this.getLabelStyle(attributes), container);
   }
 

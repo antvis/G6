@@ -54,12 +54,12 @@ export abstract class BaseNode<KT extends object, KS> extends BaseShape<BaseNode
     super(options);
   }
 
-  protected getKeyStyle(attributes = this.parsedAttributes): KT {
+  protected getKeyStyle(attributes: ParsedBaseNodeStyleProps<KT>): KT {
     const style = this.getGraphicStyle(attributes);
     return omitStyleProps(style, ['label', 'halo', 'icon', 'badge', 'anchor']);
   }
 
-  protected getLabelStyle(attributes = this.parsedAttributes) {
+  protected getLabelStyle(attributes: ParsedBaseNodeStyleProps<KT>) {
     const { position, ...labelStyle } = subStyleProps<NodeLabelStyleProps>(
       this.getGraphicStyle(attributes),
       'label',
@@ -74,7 +74,7 @@ export abstract class BaseNode<KT extends object, KS> extends BaseShape<BaseNode
 
   protected abstract getHaloStyle(attributes: ParsedBaseNodeStyleProps<KT>): KT;
 
-  protected getIconStyle(attributes = this.parsedAttributes) {
+  protected getIconStyle(attributes: ParsedBaseNodeStyleProps<KT>) {
     const iconStyle = subStyleProps(this.getGraphicStyle(attributes), 'icon');
     const keyShape = this.shapeMap.key;
     const [x, y] = getXYByPosition(keyShape.getLocalBounds(), 'center');
@@ -86,7 +86,7 @@ export abstract class BaseNode<KT extends object, KS> extends BaseShape<BaseNode
     } as IconStyleProps;
   }
 
-  protected getBadgesStyle(attributes = this.parsedAttributes): NodeBadgeStyleProps[] {
+  protected getBadgesStyle(attributes: ParsedBaseNodeStyleProps<KT>): NodeBadgeStyleProps[] {
     const badgesStyle = this.getGraphicStyle(attributes).badgeOptions || [];
     const keyShape = this.shapeMap.key;
 
@@ -97,7 +97,7 @@ export abstract class BaseNode<KT extends object, KS> extends BaseShape<BaseNode
     });
   }
 
-  protected getAnchorsStyle(attributes = this.parsedAttributes): NodeAnchorStyleProps[] {
+  protected getAnchorsStyle(attributes: ParsedBaseNodeStyleProps<KT>): NodeAnchorStyleProps[] {
     const anchorStyle = this.getGraphicStyle(attributes).anchorOptions || [];
     const keyShape = this.shapeMap.key;
 
