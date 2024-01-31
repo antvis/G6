@@ -1,0 +1,71 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="500"
+  height="500"
+  style="background: transparent; position: absolute; outline: none;"
+  color-interpolation-filters="sRGB"
+  tabindex="1"
+>
+  <defs />
+  <g id="g-svg-camera" transform="matrix(1,0,0,1,0,0)">
+    <g id="g-root" fill="none" transform="matrix(1,0,0,1,0,0)">
+      <g
+        id="g-svg-5"
+        fill="none"
+        marker-start="false"
+        marker-end="true"
+        transform="matrix(1,0,0,1,0,0)"
+      >
+        <g transform="matrix(1,0,0,1,100,150)">
+          <path
+            id="key"
+            fill="none"
+            d="M 0,0 Q 160.11583184929498 73.95270573626621,350 200"
+            stroke-width="10"
+            stroke="rgba(24,144,255,1)"
+          />
+          <g transform="matrix(-0.833147,-0.553052,0.553052,-0.833147,350,200)">
+            <path
+              id="g-svg-8"
+              fill="rgba(24,144,255,1)"
+              d="M 0,5 L 10,0 L 10,10 Z"
+              transform="translate(-5,-5)"
+              stroke-width="2"
+              stroke="rgba(24,144,255,1)"
+              stroke-dasharray="0,0"
+            />
+          </g>
+        </g>
+        <g
+          id="label"
+          fill="none"
+          transform="matrix(0.999550,0.029986,-0.029986,0.999550,204.178116,29.122644)"
+        >
+          <g transform="matrix(1,0,0,1,-50.449379,-30.713144)">
+            <path
+              id="background"
+              fill="none"
+              d="M 0,0 l 101.89874994810936,0 l 0,38.42628857535926 l-101.89874994810936 0 z"
+              width="101.89874994810936"
+              height="38.42628857535926"
+            />
+          </g>
+          <g transform="matrix(1,0,0,1,0,0)">
+            <text
+              id="text"
+              fill="rgba(0,0,0,1)"
+              dominant-baseline="central"
+              paint-order="stroke"
+              dx="0.5"
+              dy="-11.5px"
+              text-anchor="middle"
+              font-size="12"
+            >
+              quadratic-edge
+            </text>
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

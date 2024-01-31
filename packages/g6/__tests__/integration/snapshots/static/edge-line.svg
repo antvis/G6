@@ -51,9 +51,7 @@
               fill="rgba(24,144,255,1)"
               d="M 0,5 L 5,0 L 10,5 L 5,10 Z"
               transform="translate(-5,-5)"
-              stroke="none"
-              width="10px"
-              height="10px"
+              stroke="rgba(24,144,255,1)"
             />
           </g>
         </g>
@@ -144,9 +142,7 @@
               fill="rgba(24,144,255,1)"
               d="M 0,5 A 5 5 0 1 0 10 5 A 5 5 0 1 0 0 5 Z"
               transform="translate(-5,-5)"
-              stroke="none"
-              width="10px"
-              height="10px"
+              stroke="rgba(24,144,255,1)"
             />
           </g>
           <g
@@ -159,9 +155,7 @@
               fill="rgba(255,0,0,1)"
               d="M 0,5 L 10,0 L 10,10 Z"
               transform="translate(-5,-5)"
-              stroke="none"
-              width="10px"
-              height="10px"
+              stroke="rgba(24,144,255,1)"
             />
           </g>
         </g>
@@ -254,10 +248,7 @@
               x="0"
               y="0"
               href="https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*N4ZMS7gHsUIAAAAAAAAAAABkARQnAQ"
-              transform="translate(-25,-25)"
-              stroke="none"
-              width="50px"
-              height="50px"
+              stroke="rgba(24,144,255,1)"
             />
           </g>
           <g
@@ -273,8 +264,6 @@
               cy="25"
               stroke="rgba(24,144,255,1)"
               r="25px"
-              width="10px"
-              height="10px"
             />
           </g>
         </g>

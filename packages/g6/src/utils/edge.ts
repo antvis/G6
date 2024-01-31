@@ -1,8 +1,9 @@
-import { PathArray, pick } from '@antv/util';
-import type { Point } from '../types';
+import type { PathArray } from '@antv/util';
+import { pick } from '@antv/util';
+import type { Point, Vector2 } from '../types';
 import type { EdgeKey, EdgeLabelPosition, EdgeLabelStyleProps } from '../types/edge';
 import { isHorizontal } from './point';
-import { createVector, normalizeVector, perpendicularVector } from './vector';
+import { normalize, perpendicular, subtract } from './vector';
 
 /**
  * <zh/> 获取标签的位置样式
@@ -140,12 +141,12 @@ function calculateControlPoint(
   curvePosition: number,
   curveOffset: number,
 ): Point {
-  const lineVector = createVector(sourcePoint, targetPoint);
+  const lineVector = subtract(targetPoint as Vector2, sourcePoint as Vector2);
   const controlPoint: Point = [
     sourcePoint[0] + curvePosition * lineVector[0],
     sourcePoint[1] + curvePosition * lineVector[1],
   ];
-  const perpVector = normalizeVector(perpendicularVector(lineVector));
+  const perpVector = normalize(perpendicular(lineVector));
   controlPoint[0] += curveOffset * perpVector[0];
   controlPoint[1] += curveOffset * perpVector[1];
   return controlPoint;

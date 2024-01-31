@@ -1,37 +1,99 @@
-import type { Point } from '../types';
+import type { Vector2, Vector3 } from '../types';
 
+export function add(a: Vector2, b: Vector2): Vector2;
+export function add(a: Vector3, b: Vector3): Vector3;
 /**
- * <zh/> 创建两点之间的向量
+ * <zh/> 两个向量求和
  *
- * <en/> Creates a vector between two points
- * @param from - <zh/> 起点 | <en/> The starting point
- * @param to - <zh/> 终点 | <en/> The ending point
- * @returns <zh/> 表示从起点到终点的向量 | <en/> A vector representing the direction from the start point to the end point
+ * <en/> Adds two vectors
+ * @param a - <zh/> 第一个向量 | <en/> The first vector
+ * @param b - <zh/> 第二个向量 | <en/> The second vector
+ * @returns <zh/> 两个向量的和 | <en/> The sum of the two vectors
  */
-export function createVector(from: Point, to: Point): Point {
-  return [to[0] - from[0], to[1] - from[1]];
+export function add(a: Vector2 | Vector3, b: Vector2 | Vector3): Vector2 | Vector3 {
+  return a.map((v, i) => v + b[i]) as Vector2 | Vector3;
 }
 
+export function subtract(a: Vector2, b: Vector2): Vector2;
+export function subtract(a: Vector3, b: Vector3): Vector3;
 /**
- * <zh/> 将向量标准化（长度为 1）
+ * <zh/> 两个向量求差
  *
- * <en/> Normalizes a vector (length of 1)
- * @param vector - <zh> 待标准化的向量 | <en/> The vector to be normalized
- * @returns - <zh/> 标准化后的向量，其长度为1 | <en/> The normalized vector with a length of 1
+ * <en/> Subtracts two vectors
+ * @param a - <zh/> 第一个向量 | <en/> The first vector
+ * @param b - <zh/> 第二个向量 | <en/> The second vector
+ * @returns <zh/> 两个向量的差 | <en/> The difference of the two vectors
  */
-export function normalizeVector(vector: Point): Point {
-  const length = Math.sqrt(vector[0] * vector[0] + vector[1] * vector[1]);
-  if (length === 0) return [0, 0];
-  return [vector[0] / length, vector[1] / length];
+export function subtract(a: Vector2 | Vector3, b: Vector2 | Vector3): Vector2 | Vector3 {
+  return a.map((v, i) => v - b[i]) as Vector2 | Vector3;
+}
+
+export function multiply(a: Vector2, b: Vector2): Vector2;
+export function multiply(a: Vector3, b: Vector3): Vector3;
+/**
+ * <zh/> 两个向量求积
+ *
+ * <en/> Multiplies two vectors
+ * @param a - <zh/> 第一个向量 | <en/> The first vector
+ * @param b - <zh/> 第二个向量 | <en/> The second vector
+ * @returns <zh/> 两个向量的积 | <en/> The product of the two vectors
+ */
+export function multiply(a: Vector2 | Vector3, b: Vector2 | Vector3): Vector2 | Vector3 {
+  return a.map((v, i) => v * b[i]) as Vector2 | Vector3;
+}
+
+export function divide(a: Vector2, b: Vector2): Vector2;
+export function divide(a: Vector3, b: Vector3): Vector3;
+/**
+ * <zh/> 两个向量求商
+ *
+ * <en/> Divides two vectors
+ * @param a - <zh/> 第一个向量 | <en/> The first vector
+ * @param b - <zh/> 第二个向量 | <en/> The second vector
+ * @returns <zh/> 两个向量的商 | <en/> The quotient of the two vectors
+ */
+export function divide(a: Vector2 | Vector3, b: Vector2 | Vector3): Vector2 | Vector3 {
+  return a.map((v, i) => v / b[i]) as Vector2 | Vector3;
+}
+
+export function distance(a: Vector2, b: Vector2): number;
+export function distance(a: Vector3, b: Vector3): number;
+/**
+ * <zh/> 计算两个向量间的欧几里得距离
+ *
+ * <en/> Calculates the Euclidean distance between two vectors
+ * @param a - <zh/> 第一个向量 | <en/> The first vector
+ * @param b - <zh/> 第二个向量 | <en/> The second vector
+ * @returns <zh/> 两个向量间的距离 | <en/> The distance between the two vectors
+ */
+export function distance(a: Vector2 | Vector3, b: Vector2 | Vector3): number {
+  let sum = 0;
+  a.forEach((v, i) => (sum += (v - b[i]) ** 2));
+  return Math.sqrt(sum);
+}
+
+export function normalize(a: Vector2): Vector2;
+export function normalize(a: Vector3): Vector3;
+/**
+ * <zh/> 标准化向量（使长度为 1）
+ *
+ * <en/> Normalizes a vector (making its length 1)
+ * @param a - <zh/> 要标准化的向量 | <en/> The vector to normalize
+ * @returns <zh/> 标准化后的向量 | <en/> The normalized vector
+ */
+export function normalize(a: Vector2 | Vector3): Vector2 | Vector3 {
+  let length = 0;
+  a.forEach((v) => (length += v ** 2));
+  return a.map((v) => v / Math.sqrt(length)) as Vector2 | Vector3;
 }
 
 /**
  * <zh/> 计算向量的垂直向量
  *
  * <en/> Calculates the perpendicular vector to a given vector
- * @param vector - <zh/> 原始向量 | <en/> The original vector
- * @returns <zh/>原始向量的垂直向量 | <en/> The perpendicular vector to the original vector
+ * @param a - <zh/> 原始向量 | <en/> The original vector
+ * @returns <zh/> 原始向量的垂直向量 | <en/> The perpendicular vector to the original vector
  */
-export function perpendicularVector(vector: Point): Point {
-  return [-vector[1], vector[0]];
+export function perpendicular(a: Vector2): Vector2 {
+  return [-a[1], -a[0]];
 }
