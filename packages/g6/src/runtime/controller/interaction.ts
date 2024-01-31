@@ -277,7 +277,7 @@ export class InteractionController {
       }
 
       // contextmenu event for canvas
-      if (event.type === 'pointerdown' && event.button === 2) {
+      if (isRightClick) {
         const contextMenuEvent = getContextMenuEventProps(event, this.graph);
         this.graph.emit(`canvas:contextmenu`, contextMenuEvent);
         this.graph.emit('contextmenu', contextMenuEvent);
@@ -297,7 +297,7 @@ export class InteractionController {
       }
 
       // contextmenu event for node, edge, or combo
-      if (event.type === 'pointerdown' && event.button === 2) {
+      if (isRightClick) {
         const contextMenuEvent = getContextMenuEventProps(event, this.graph);
         this.graph.emit(`${itemType}:contextmenu`, contextMenuEvent);
         this.graph.emit('contextmenu', contextMenuEvent);
