@@ -1,6 +1,9 @@
+import type { PathArray } from '@antv/util';
 import { pick } from '@antv/util';
+import type { Point, Vector2 } from '../types';
 import type { EdgeKey, EdgeLabelPosition, EdgeLabelStyleProps } from '../types/edge';
 import { isHorizontal } from './point';
+import { normalize, perpendicular, subtract } from './vector';
 
 /**
  * <zh/> 获取标签的位置样式
@@ -91,4 +94,60 @@ function applyAutoRotation(key: EdgeKey, positionStyle: Partial<EdgeLabelStylePr
 
   adjustLabelPosition(key, positionStyle, ratio, angle);
   positionStyle.transform = `rotate(${(angle / Math.PI) * 180}deg)`;
+}
+
+/** ==================== Quadratic Edge =========================== */
+
+/**
+ * <zh/> 获取二次贝塞尔曲线绘制路径
+ *
+ * <en/> Calculate the path for drawing a quadratic Bessel curve
+ * @param sourcePoint - <zh/> 边的起点 | <en/> Source point
+ * @param targetPoint - <zh/> 边的终点 | <en/> Target point
+ * @param curvePosition - <zh/> 控制点在连线上的相对位置（取值范围为 0-1） | <en/> The relative position of the control point on the line (value range from 0 to 1)
+ * @param curveOffset - <zh/> 控制点距离两端点连线的距离 | <en/> The distance between the control point and the line
+ * @param controlPoint - <zh/> 控制点 | <en/> Control point
+ * @returns <zh/> 返回绘制曲线的路径 | <en/> Returns curve path
+ */
+export function getQuadraticPath(
+  sourcePoint: Point,
+  targetPoint: Point,
+  curvePosition: number,
+  curveOffset: number,
+  controlPoint?: Point,
+): PathArray {
+  const actualControlPoint =
+    controlPoint || calculateControlPoint(sourcePoint, targetPoint, curvePosition, curveOffset);
+
+  return [
+    ['M', sourcePoint[0], sourcePoint[1]],
+    ['Q', actualControlPoint[0], actualControlPoint[1], targetPoint[0], targetPoint[1]],
+  ];
+}
+
+/**
+ * <zh/> 计算曲线的控制点
+ *
+ * <en/> Calculate the control point of Quadratic Bessel curve
+ * @param sourcePoint - <zh/> 起点 | <en/> Source point
+ * @param targetPoint - <zh/> 终点 | <en/> Target point
+ * @param curvePosition - <zh/> 控制点在连线上的相对位置（取值范围为 0-1） | <en/> The relative position of the control point on the line (value range from 0 to 1)
+ * @param curveOffset - <zh/> 控制点距离两端点连线的距离 | <en/> The distance between the control point and the line
+ * @returns <zh/> 控制点 | <en/> Control points
+ */
+function calculateControlPoint(
+  sourcePoint: Point,
+  targetPoint: Point,
+  curvePosition: number,
+  curveOffset: number,
+): Point {
+  const lineVector = subtract(targetPoint as Vector2, sourcePoint as Vector2);
+  const controlPoint: Point = [
+    sourcePoint[0] + curvePosition * lineVector[0],
+    sourcePoint[1] + curvePosition * lineVector[1],
+  ];
+  const perpVector = normalize(perpendicular(lineVector));
+  controlPoint[0] += curveOffset * perpVector[0];
+  controlPoint[1] += curveOffset * perpVector[1];
+  return controlPoint;
 }

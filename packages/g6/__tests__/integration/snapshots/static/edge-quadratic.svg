@@ -1,0 +1,305 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="500"
+  height="500"
+  style="background: transparent; position: absolute; outline: none;"
+  color-interpolation-filters="sRGB"
+  tabindex="1"
+>
+  <defs />
+  <g id="g-svg-camera" transform="matrix(1,0,0,1,0,0)">
+    <g
+      id="g-root"
+      fill="none"
+      stroke="none"
+      visibility="visible"
+      font-size="16px"
+      font-family="sans-serif"
+      font-style="normal"
+      font-weight="normal"
+      font-variant="normal"
+      text-anchor="left"
+      stroke-dashoffset="0px"
+      transform="matrix(1,0,0,1,0,0)"
+    >
+      <g
+        id="g-svg-5"
+        fill="none"
+        stroke="rgba(24,144,255,1)"
+        stroke-width="2px"
+        marker-start="false"
+        marker-end="true"
+        transform="matrix(1,0,0,1,0,0)"
+      >
+        <g
+          opacity="0.25"
+          pointer-events="none"
+          stroke-width="12px"
+          stroke-dasharray="0px,0px"
+          transform="matrix(1,0,0,1,100,35)"
+        >
+          <path
+            id="halo"
+            fill="none"
+            d="M 0,15 Q 100 -15,200 15"
+            stroke="rgba(24,144,255,1)"
+          />
+        </g>
+        <g stroke-width="2px" transform="matrix(1,0,0,1,100,35)">
+          <path
+            id="key"
+            fill="none"
+            d="M 0,15 Q 100 -15,200 15"
+            stroke="rgba(24,144,255,1)"
+          />
+          <g
+            stroke-width="2px"
+            stroke-dasharray="0px,0px"
+            transform="matrix(-0.957826,-0.287348,0.287348,-0.957826,200,15)"
+          >
+            <path
+              id="g-svg-8"
+              fill="rgba(24,144,255,1)"
+              d="M 0,5 L 10,0 L 10,10 Z"
+              transform="translate(-5,-5)"
+              stroke="rgba(24,144,255,1)"
+            />
+          </g>
+        </g>
+        <g
+          id="label"
+          fill="none"
+          stroke="none"
+          font-size="12px"
+          text-anchor="middle"
+          transform="matrix(0.999550,0.029986,-0.029986,0.999550,204.178116,29.122644)"
+        >
+          <g transform="matrix(1,0,0,1,-55.159351,-23.023664)">
+            <path
+              id="background"
+              fill="none"
+              d="M 0,0 l 112.31869543715979,0 l 0,40.047326504443134 l-112.31869543715979 0 z"
+              stroke="none"
+              width="112.31869543715979px"
+              height="40.047326504443134px"
+            />
+          </g>
+          <g
+            font-size="12px"
+            text-anchor="middle"
+            transform="matrix(1,0,0,1,0,0)"
+          >
+            <text
+              id="text"
+              fill="none"
+              dominant-baseline="alphabetic"
+              paint-order="stroke"
+              dx="1"
+              stroke="none"
+            >
+              default quadratic
+            </text>
+          </g>
+        </g>
+      </g>
+      <g
+        id="g-svg-13"
+        fill="none"
+        stroke="rgba(24,144,255,1)"
+        stroke-width="2px"
+        marker-start="false"
+        marker-end="true"
+        transform="matrix(1,0,0,1,0,0)"
+      >
+        <g stroke-width="2px" transform="matrix(1,0,0,1,100,150)">
+          <path
+            id="key"
+            fill="none"
+            d="M 0,0 Q 100 50,200 0"
+            stroke="rgba(24,144,255,1)"
+          />
+          <g
+            stroke-width="2px"
+            stroke-dasharray="0px,0px"
+            transform="matrix(-0.894427,0.447214,-0.447214,-0.894427,200,0)"
+          >
+            <path
+              id="g-svg-16"
+              fill="rgba(24,144,255,1)"
+              d="M 0,5 L 10,0 L 10,10 Z"
+              transform="translate(-5,-5)"
+              stroke="rgba(24,144,255,1)"
+            />
+          </g>
+        </g>
+        <g
+          id="label"
+          fill="none"
+          stroke="none"
+          font-size="12px"
+          text-anchor="middle"
+          transform="matrix(0.998752,-0.049935,0.049935,0.998752,203.695404,168.807739)"
+        >
+          <g transform="matrix(1,0,0,1,-85.936951,-28.053503)">
+            <path
+              id="background"
+              fill="none"
+              d="M 0,0 l 173.87391428120713,0 l 0,50.1070253812409 l-173.87391428120713 0 z"
+              stroke="none"
+              width="173.87391428120713px"
+              height="50.1070253812409px"
+            />
+          </g>
+          <g
+            font-size="12px"
+            text-anchor="middle"
+            transform="matrix(1,0,0,1,0,0)"
+          >
+            <text
+              id="text"
+              fill="none"
+              dominant-baseline="alphabetic"
+              paint-order="stroke"
+              dx="1"
+              stroke="none"
+            >
+              controlPoint=[200, 200]
+            </text>
+          </g>
+        </g>
+      </g>
+      <g
+        id="g-svg-20"
+        fill="none"
+        stroke="rgba(24,144,255,1)"
+        stroke-width="2px"
+        marker-start="false"
+        marker-end="true"
+        transform="matrix(1,0,0,1,0,0)"
+      >
+        <g stroke-width="2px" transform="matrix(1,0,0,1,100,225)">
+          <path
+            id="key"
+            fill="none"
+            d="M 0,25 Q 100 -25,200 25"
+            stroke="rgba(24,144,255,1)"
+          />
+          <g
+            stroke-width="2px"
+            stroke-dasharray="0px,0px"
+            transform="matrix(-0.894427,-0.447214,0.447214,-0.894427,200,25)"
+          >
+            <path
+              id="g-svg-23"
+              fill="rgba(24,144,255,1)"
+              d="M 0,5 L 10,0 L 10,10 Z"
+              transform="translate(-5,-5)"
+              stroke="rgba(24,144,255,1)"
+            />
+          </g>
+        </g>
+        <g
+          id="label"
+          fill="none"
+          stroke="none"
+          font-size="12px"
+          text-anchor="middle"
+          transform="matrix(0.998752,0.049935,-0.049935,0.998752,204.294617,219.207230)"
+        >
+          <g transform="matrix(1,0,0,1,-108.496948,-30.303787)">
+            <path
+              id="background"
+              fill="none"
+              d="M 0,0 l 218.99391546491714,0 l 0,54.60757626551481 l-218.99391546491714 0 z"
+              stroke="none"
+              width="218.99391546491714px"
+              height="54.60757626551481px"
+            />
+          </g>
+          <g
+            font-size="12px"
+            text-anchor="middle"
+            transform="matrix(1,0,0,1,0,0)"
+          >
+            <text
+              id="text"
+              fill="none"
+              dominant-baseline="alphabetic"
+              paint-order="stroke"
+              dx="1"
+              stroke="none"
+            >
+              curveOffset=50, curvePosition:0.5
+            </text>
+          </g>
+        </g>
+      </g>
+      <g
+        id="g-svg-27"
+        fill="none"
+        stroke="rgba(24,144,255,1)"
+        stroke-width="2px"
+        marker-start="false"
+        marker-end="true"
+        transform="matrix(1,0,0,1,0,0)"
+      >
+        <g stroke-width="2px" transform="matrix(1,0,0,1,100,325)">
+          <path
+            id="key"
+            fill="none"
+            d="M 0,25 Q 50 -25,200 25"
+            stroke="rgba(24,144,255,1)"
+          />
+          <g
+            stroke-width="2px"
+            stroke-dasharray="0px,0px"
+            transform="matrix(-0.948683,-0.316228,0.316228,-0.948683,200,25)"
+          >
+            <path
+              id="g-svg-30"
+              fill="rgba(24,144,255,1)"
+              d="M 0,5 L 10,0 L 10,10 Z"
+              transform="translate(-5,-5)"
+              stroke="rgba(24,144,255,1)"
+            />
+          </g>
+        </g>
+        <g
+          id="label"
+          fill="none"
+          stroke="none"
+          font-size="12px"
+          text-anchor="middle"
+          transform="matrix(0.991600,0.129341,-0.129341,0.991600,203.144791,320.881134)"
+        >
+          <g transform="matrix(1,0,0,1,-114.098114,-47.451683)">
+            <path
+              id="background"
+              fill="none"
+              d="M 0,0 l 230.1962301306265,0 l 0,88.90336656842001 l-230.1962301306265 0 z"
+              stroke="none"
+              width="230.1962301306265px"
+              height="88.90336656842001px"
+            />
+          </g>
+          <g
+            font-size="12px"
+            text-anchor="middle"
+            transform="matrix(1,0,0,1,0,0)"
+          >
+            <text
+              id="text"
+              fill="none"
+              dominant-baseline="alphabetic"
+              paint-order="stroke"
+              dx="1"
+              stroke="none"
+            >
+              curveOffset=50, curvePosition:0.25
+            </text>
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

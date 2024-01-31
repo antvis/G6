@@ -8,7 +8,7 @@ import type {
 } from '@antv/g';
 import { Path } from '@antv/g';
 import { deepMix, isFunction } from '@antv/util';
-import type { Point, PrefixObject } from '../../types';
+import type { PrefixObject } from '../../types';
 import type { EdgeKey, EdgeLabelStyleProps } from '../../types/edge';
 import { getLabelPositionStyle } from '../../utils/edge';
 import { omitStyleProps, subStyleProps } from '../../utils/prefix';
@@ -31,8 +31,6 @@ type EdgeArrowStyleProps = {
 
 export type BaseEdgeStyleProps<KT extends object> = BaseShapeStyleProps &
   KT & {
-    sourcePoint?: Point;
-    targetPoint?: Point;
     label?: boolean;
     halo?: boolean;
     startArrow?: boolean;
@@ -128,7 +126,7 @@ export abstract class BaseEdge<KT extends object, KS extends DisplayObject> exte
   }
 
   private getArrowStyle(attributes: ParsedBaseEdgeStyleProps<KT>, isStart: boolean) {
-    const { stroke, ...keyStyle } = this.getKeyStyle(attributes) as BaseStyleProps;
+    const keyStyle = this.getKeyStyle(attributes) as BaseStyleProps;
     const arrowType = isStart ? 'startArrow' : 'endArrow';
     const { width, height, type, ctor, ...arrowStyle } = subStyleProps<Required<EdgeArrowStyleProps>>(
       this.getGraphicStyle(attributes),
@@ -140,12 +138,9 @@ export abstract class BaseEdge<KT extends object, KS extends DisplayObject> exte
       const arrowFn = isFunction(type) ? type : Symbol[type] || Symbol.triangle;
       path = arrowFn(width, height);
     }
-
     return {
       ...keyStyle,
-      ...(path && { path, fill: type === 'simple' ? '' : stroke }),
-      width,
-      height,
+      ...(path && { path, fill: type === 'simple' ? '' : keyStyle.stroke }),
       ...arrowStyle,
     };
   }
@@ -182,6 +177,8 @@ export abstract class BaseEdge<KT extends object, KS extends DisplayObject> exte
 
     result.onframe = () => {
       this.drawLabelShape(this.parsedAttributes, this);
+      // this.drawArrow(this.parsedAttributes, true);
+      // this.drawArrow(this.parsedAttributes, false);
     };
 
     return result;
