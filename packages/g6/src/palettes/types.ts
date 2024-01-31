@@ -1,4 +1,4 @@
-import type { BUILT_IN_PALETTES } from '.';
+import type { BUILT_IN_PALETTES } from './constants';
 
 export type Palette = string | BuiltInPalette | CategoricalPalette | ContinuousPalette;
 
