@@ -8,7 +8,7 @@ import type {
 } from '@antv/g';
 import { Path } from '@antv/g';
 import { deepMix, isFunction } from '@antv/util';
-import type { Point, PrefixObject } from '../../types';
+import type { PrefixObject } from '../../types';
 import type { EdgeKey, EdgeLabelStyleProps } from '../../types/edge';
 import { getLabelPositionStyle } from '../../utils/edge';
 import { omitStyleProps, subStyleProps } from '../../utils/prefix';
@@ -31,8 +31,6 @@ type EdgeArrowStyleProps = {
 
 export type BaseEdgeStyleProps<KT extends object> = BaseShapeStyleProps &
   KT & {
-    sourcePoint?: Point;
-    targetPoint?: Point;
     label?: boolean;
     halo?: boolean;
     startArrow?: boolean;
