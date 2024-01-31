@@ -13,6 +13,10 @@ export abstract class BaseShape<T extends BaseShapeStyleProps> extends CustomEle
     this.bindEvents();
   }
 
+  get parsedAttributes() {
+    return this.attributes as Required<T>;
+  }
+
   /**
    * <zh> 图形实例映射表
    *
@@ -40,15 +44,17 @@ export abstract class BaseShape<T extends BaseShapeStyleProps> extends CustomEle
   protected upsert<P extends DisplayObject>(
     key: string,
     Ctor: { new (...args: any[]): P },
-    style: P['attributes'],
+    style: P['attributes'] | false,
     container: DisplayObject,
-  ) {
+  ): P | undefined {
     const target = this.shapeMap[key];
     // remove
     // 如果 style 为 false，则删除图形 / remove shape if style is false
-    if (target && style === false) {
-      container.removeChild(target);
-      delete this.shapeMap[key];
+    if (style === false) {
+      if (target) {
+        container.removeChild(target);
+        delete this.shapeMap[key];
+      }
       return;
     }
 
@@ -67,7 +73,7 @@ export abstract class BaseShape<T extends BaseShapeStyleProps> extends CustomEle
     if ('update' in target) (target.update as (...args: unknown[]) => unknown)(style);
     else target.attr(style);
 
-    return target;
+    return target as P;
   }
 
   /**
@@ -98,7 +104,7 @@ export abstract class BaseShape<T extends BaseShapeStyleProps> extends CustomEle
    * @param attributes
    * @param container
    */
-  public abstract render(attributes: T, container: Group): void;
+  public abstract render(attributes: Required<T>, container: Group): void;
 
   public bindEvents() {}
 
@@ -112,8 +118,8 @@ export abstract class BaseShape<T extends BaseShapeStyleProps> extends CustomEle
    */
   public getGraphicStyle<T extends Record<string, any>>(
     attributes: T,
-  ): Omit<T, 'x' | 'y' | 'transform' | 'transformOrigin' | 'className'> {
-    const { x, y, className, transform, transformOrigin, ...style } = attributes;
+  ): Omit<T, 'x' | 'y' | 'transform' | 'transformOrigin' | 'className' | 'anchor'> {
+    const { x, y, className, transform, transformOrigin, anchor, ...style } = attributes;
     return style;
   }
 
