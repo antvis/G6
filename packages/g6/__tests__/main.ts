@@ -1,6 +1,7 @@
 import { Renderer as CanvasRenderer } from '@antv/g-canvas';
 import { Renderer as SVGRenderer } from '@antv/g-svg';
 import { Renderer as WebGLRenderer } from '@antv/g-webgl';
+import '../src/preset';
 import { Canvas } from '../src/runtime/canvas';
 import * as animations from './demo/animation';
 import * as statics from './demo/static';

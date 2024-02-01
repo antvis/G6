@@ -1,3 +1,4 @@
+import '../../src/preset';
 import * as staticCases from '../demo/static';
 import { createNodeGCanvas } from './utils/create-node-g-canvas';
 import { getCases } from './utils/get-cases';

@@ -1,5 +1,5 @@
 import type { PathArray } from '@antv/util';
-import { pick } from '@antv/util';
+import { isNumber, pick } from '@antv/util';
 import type { Point, Vector2 } from '../types';
 import type { EdgeKey, EdgeLabelPosition, EdgeLabelStyleProps } from '../types/edge';
 import { isHorizontal } from './point';
@@ -135,7 +135,7 @@ export function getQuadraticPath(
  * @param curveOffset - <zh/> 控制点距离两端点连线的距离 | <en/> The distance between the control point and the line
  * @returns <zh/> 控制点 | <en/> Control points
  */
-function calculateControlPoint(
+export function calculateControlPoint(
   sourcePoint: Point,
   targetPoint: Point,
   curvePosition: number,
@@ -150,4 +150,54 @@ function calculateControlPoint(
   controlPoint[0] += curveOffset * perpVector[0];
   controlPoint[1] += curveOffset * perpVector[1];
   return controlPoint;
+}
+
+/** ==================== Cubic Edge =========================== */
+
+/**
+ * <zh/> 解析控制点距离两端点连线的距离 `curveOffset`
+ *
+ * <en/> parse the distance of the control point from the line `curveOffset`
+ * @param curveOffset - <zh/> curveOffset | <en/> curveOffset
+ * @returns <zh/> 标准 curveOffset | <en/> standard curveOffset
+ */
+export function parseCurveOffset(curveOffset: number | [number, number]): [number, number] {
+  if (isNumber(curveOffset)) return [curveOffset, -curveOffset];
+  return curveOffset;
+}
+
+/**
+ * <zh/> 解析控制点在两端点连线上的相对位置 `curvePosition`，范围为`0-1`
+ *
+ * <en/> parse the relative position of the control point on the line `curvePosition`
+ * @param curvePosition - <zh/> curvePosition | <en/> curvePosition
+ * @returns <zh/> 标准 curvePosition | <en/> standard curvePosition
+ */
+export function parseCurvePosition(curvePosition: number | [number, number]): [number, number] {
+  if (isNumber(curvePosition)) return [curvePosition, 1 - curvePosition];
+  return curvePosition;
+}
+
+/**
+ * <zh/> 获取三次贝塞尔曲线绘制路径
+ *
+ * <en/> Calculate the path for drawing a cubic Bessel curve
+ * @param sourcePoint - <zh/> 边的起点 | <en/> Source point
+ * @param targetPoint - <zh/> 边的终点 | <en/> Target point
+ * @param controlPoints - <zh/> 控制点 | <en/> Control point
+ * @returns <zh/> 返回绘制曲线的路径 | <en/> Returns curve path
+ */
+export function getCubicPath(sourcePoint: Point, targetPoint: Point, controlPoints: [Point, Point]): PathArray {
+  return [
+    ['M', sourcePoint[0], sourcePoint[1]],
+    [
+      'C',
+      controlPoints[0][0],
+      controlPoints[0][1],
+      controlPoints[1][0],
+      controlPoints[1][1],
+      targetPoint[0],
+      targetPoint[1],
+    ],
+  ];
 }

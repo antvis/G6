@@ -8,20 +8,7 @@
 >
   <defs />
   <g id="g-svg-camera" transform="matrix(1,0,0,1,0,0)">
-    <g
-      id="g-root"
-      fill="none"
-      stroke="none"
-      visibility="visible"
-      font-size="16px"
-      font-family="sans-serif"
-      font-style="normal"
-      font-weight="normal"
-      font-variant="normal"
-      text-anchor="left"
-      stroke-dashoffset="0px"
-      transform="matrix(1,0,0,1,0,0)"
-    >
+    <g id="g-root" fill="none" transform="matrix(1,0,0,1,0,0)">
       <g transform="matrix(1,0,0,1,50,50)">
         <circle
           id="g-svg-5"
@@ -29,8 +16,7 @@
           transform="translate(-25,-25)"
           cx="25"
           cy="25"
-          stroke="none"
-          r="25px"
+          r="25"
         />
       </g>
       <g transform="matrix(1,0,0,1,100,100)">
@@ -38,9 +24,8 @@
           id="g-svg-6"
           fill="rgba(128,0,128,1)"
           d="M 0,0 l 50,0 l 0,50 l-50 0 z"
-          stroke="none"
-          width="50px"
-          height="50px"
+          width="50"
+          height="50"
         />
       </g>
     </g>

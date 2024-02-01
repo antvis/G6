@@ -8,30 +8,15 @@
 >
   <defs />
   <g id="g-svg-camera" transform="matrix(1,0,0,1,0,0)">
-    <g
-      id="g-root"
-      fill="none"
-      stroke="none"
-      visibility="visible"
-      font-size="16px"
-      font-family="sans-serif"
-      font-style="normal"
-      font-weight="normal"
-      font-variant="normal"
-      text-anchor="left"
-      stroke-dashoffset="0px"
-      transform="matrix(1,0,0,1,0,0)"
-    >
+    <g id="g-root" fill="none" transform="matrix(1,0,0,1,0,0)">
       <g
         id="g-svg-5"
         fill="none"
-        stroke="rgba(24,144,255,1)"
-        stroke-width="2px"
         marker-start="true"
         marker-end="false"
         transform="matrix(1,0,0,1,0,0)"
       >
-        <g stroke-width="2px" transform="matrix(1,0,0,1,100,50)">
+        <g transform="matrix(1,0,0,1,100,50)">
           <line
             id="key"
             fill="none"
@@ -40,51 +25,40 @@
             x2="200"
             y2="0"
             stroke="rgba(24,144,255,1)"
+            stroke-width="2"
           />
-          <g
-            stroke-width="2px"
-            stroke-dasharray="0px,0px"
-            transform="matrix(1,0,0,1,0,0)"
-          >
+          <g transform="matrix(1,0,0,1,0,0)">
             <path
               id="g-svg-8"
               fill="rgba(24,144,255,1)"
               d="M 0,5 L 5,0 L 10,5 L 5,10 Z"
               transform="translate(-5,-5)"
               stroke="rgba(24,144,255,1)"
+              stroke-width="2"
+              stroke-dasharray="0,0"
             />
           </g>
         </g>
-        <g
-          id="label"
-          fill="rgba(24,144,255,1)"
-          stroke="none"
-          font-size="12px"
-          text-anchor="middle"
-          transform="matrix(1,0,0,1,204,44)"
-        >
-          <g transform="matrix(1,0,0,1,-44.540001,-20)">
+        <g id="label" fill="none" transform="matrix(1,0,0,1,204,44)">
+          <g transform="matrix(1,0,0,1,-44.540001,-28)">
             <path
               id="background"
               fill="none"
-              d="M 0,0 l 91.08,0 l 0,34 l-91.08 0 z"
-              stroke="none"
-              width="91.08px"
-              height="34px"
+              d="M 0,0 l 90.08,0 l 0,33 l-90.08 0 z"
+              width="90.08"
+              height="33"
             />
           </g>
-          <g
-            font-size="12px"
-            text-anchor="middle"
-            transform="matrix(1,0,0,1,0,0)"
-          >
+          <g transform="matrix(1,0,0,1,0,0)">
             <text
               id="text"
               fill="rgba(24,144,255,1)"
-              dominant-baseline="alphabetic"
+              dominant-baseline="central"
               paint-order="stroke"
-              dx="1"
-              stroke="none"
+              dx="0.5"
+              dy="-11.5px"
+              text-anchor="middle"
+              font-size="12"
             >
               🌲line-edge
             </text>
@@ -94,20 +68,11 @@
       <g
         id="g-svg-12"
         fill="none"
-        stroke="rgba(24,144,255,1)"
-        stroke-width="2px"
         marker-start="true"
         marker-end="true"
-        stroke-dasharray="10px,10px"
         transform="matrix(1,0,0,1,0,0)"
       >
-        <g
-          opacity="0.25"
-          pointer-events="none"
-          stroke-width="12px"
-          stroke-dasharray="0px,0px"
-          transform="matrix(1,0,0,1,100,150)"
-        >
+        <g transform="matrix(1,0,0,1,100,150)">
           <line
             id="halo"
             fill="none"
@@ -115,14 +80,14 @@
             y1="0"
             x2="200"
             y2="50"
+            stroke-width="12"
+            stroke-dasharray="0,0"
             stroke="rgba(24,144,255,1)"
+            pointer-events="none"
+            opacity="0.25"
           />
         </g>
-        <g
-          stroke-width="2px"
-          stroke-dasharray="10px,10px"
-          transform="matrix(1,0,0,1,100,150)"
-        >
+        <g transform="matrix(1,0,0,1,100,150)">
           <line
             id="key"
             fill="none"
@@ -130,65 +95,57 @@
             y1="0"
             x2="200"
             y2="50"
+            stroke-width="2"
+            stroke-dasharray="10,10"
             stroke="rgba(24,144,255,1)"
           />
-          <g
-            stroke-width="2px"
-            stroke-dasharray="0px,0px"
-            transform="matrix(0.970143,0.242536,-0.242536,0.970143,0,0)"
-          >
+          <g transform="matrix(0.970143,0.242536,-0.242536,0.970143,0,0)">
             <path
               id="g-svg-15"
               fill="rgba(24,144,255,1)"
               d="M 0,5 A 5 5 0 1 0 10 5 A 5 5 0 1 0 0 5 Z"
               transform="translate(-5,-5)"
+              stroke-width="2"
+              stroke-dasharray="0,0"
               stroke="rgba(24,144,255,1)"
             />
           </g>
-          <g
-            stroke-width="2px"
-            stroke-dasharray="0px,0px"
-            transform="matrix(-0.970143,-0.242536,0.242536,-0.970143,200,50)"
-          >
+          <g transform="matrix(-0.970143,-0.242536,0.242536,-0.970143,200,50)">
             <path
               id="g-svg-17"
               fill="rgba(255,0,0,1)"
               d="M 0,5 L 10,0 L 10,10 Z"
               transform="translate(-5,-5)"
+              stroke-width="2"
+              stroke-dasharray="0,0"
               stroke="rgba(24,144,255,1)"
             />
           </g>
         </g>
         <g
           id="label"
-          fill="rgba(0,0,0,1)"
-          stroke="none"
-          font-size="12px"
-          text-anchor="middle"
+          fill="none"
           transform="matrix(0.970143,0.242536,-0.242536,0.970143,205.335785,170.149292)"
         >
-          <g transform="matrix(1,0,0,1,-33.187069,-28.430592)">
+          <g transform="matrix(1,0,0,1,-32.951775,-36.195297)">
             <path
               id="background"
               fill="none"
-              d="M 0,0 l 68.37411720861238,0 l 0,50.86117678317855 l-68.37411720861238 0 z"
-              stroke="none"
-              width="68.37411720861238px"
-              height="50.86117678317855px"
+              d="M 0,0 l 66.90352897487051,0 l 0,49.390588549436686 l-66.90352897487051 0 z"
+              width="66.90352897487051"
+              height="49.390588549436686"
             />
           </g>
-          <g
-            font-size="12px"
-            text-anchor="middle"
-            transform="matrix(1,0,0,1,0,0)"
-          >
+          <g transform="matrix(1,0,0,1,0,0)">
             <text
               id="text"
               fill="rgba(0,0,0,1)"
-              dominant-baseline="alphabetic"
+              dominant-baseline="central"
               paint-order="stroke"
-              dx="1"
-              stroke="none"
+              dx="0.5"
+              dy="-11.5px"
+              text-anchor="middle"
+              font-size="12"
             >
               line-edge
             </text>
@@ -198,20 +155,11 @@
       <g
         id="g-svg-22"
         fill="none"
-        stroke="rgba(24,144,255,1)"
-        stroke-width="2px"
         marker-start="true"
         marker-end="true"
-        stroke-dasharray="10px,10px"
         transform="matrix(1,0,0,1,0,0)"
       >
-        <g
-          opacity="0.25"
-          pointer-events="none"
-          stroke-width="2px"
-          stroke-dasharray="0px,0px"
-          transform="matrix(1,0,0,1,100,250)"
-        >
+        <g transform="matrix(1,0,0,1,100,250)">
           <line
             id="halo"
             fill="none"
@@ -219,14 +167,14 @@
             y1="50"
             x2="0"
             y2="0"
+            stroke-width="2"
+            stroke-dasharray="0,0"
             stroke="rgba(24,144,255,1)"
+            pointer-events="none"
+            opacity="0.25"
           />
         </g>
-        <g
-          stroke-width="2px"
-          stroke-dasharray="10px,10px"
-          transform="matrix(1,0,0,1,100,250)"
-        >
+        <g transform="matrix(1,0,0,1,100,250)">
           <line
             id="key"
             fill="none"
@@ -234,13 +182,11 @@
             y1="50"
             x2="0"
             y2="0"
+            stroke-width="2"
+            stroke-dasharray="10,10"
             stroke="rgba(24,144,255,1)"
           />
-          <g
-            stroke-width="2px"
-            stroke-dasharray="0px,0px"
-            transform="matrix(0.242536,-0.970143,0.970143,0.242536,200,50)"
-          >
+          <g transform="matrix(0.242536,-0.970143,0.970143,0.242536,200,50)">
             <image
               id="g-svg-25"
               fill="none"
@@ -248,51 +194,49 @@
               x="0"
               y="0"
               href="https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*N4ZMS7gHsUIAAAAAAAAAAABkARQnAQ"
+              stroke-width="2"
+              stroke-dasharray="0,0"
               stroke="rgba(24,144,255,1)"
             />
           </g>
-          <g
-            stroke-width="2px"
-            stroke-dasharray="0px,0px"
-            transform="matrix(0.970143,0.242536,-0.242536,0.970143,0,0)"
-          >
+          <g transform="matrix(0.970143,0.242536,-0.242536,0.970143,0,0)">
             <circle
               id="g-svg-27"
               fill="none"
               transform="translate(-25,-25)"
               cx="25"
               cy="25"
+              stroke-width="2"
+              stroke-dasharray="0,0"
               stroke="rgba(24,144,255,1)"
-              r="25px"
+              r="25"
             />
           </g>
         </g>
         <g
           id="label"
-          fill="rgba(0,0,0,1)"
-          stroke="none"
-          font-size="12px"
-          text-anchor="end"
+          fill="none"
           transform="matrix(0.970143,0.242536,-0.242536,0.970143,277.201660,288.115753)"
         >
-          <g transform="matrix(1,0,0,1,-115.447052,-41.305889)">
+          <g transform="matrix(1,0,0,1,-115.211754,-49.070595)">
             <path
               id="background"
               fill="none"
-              d="M 0,0 l 123.09411654497103,0 l 0,76.6117655971751 l-123.09411654497103 0 z"
-              stroke="none"
-              width="123.09411654497103px"
-              height="76.6117655971751px"
+              d="M 0,0 l 121.62352831122915,0 l 0,75.14117736343321 l-121.62352831122915 0 z"
+              width="121.62352831122915"
+              height="75.14117736343321"
             />
           </g>
-          <g font-size="12px" text-anchor="end" transform="matrix(1,0,0,1,0,0)">
+          <g transform="matrix(1,0,0,1,0,0)">
             <text
               id="text"
               fill="rgba(0,0,0,1)"
-              dominant-baseline="alphabetic"
+              dominant-baseline="central"
               paint-order="stroke"
-              dx="1"
-              stroke="none"
+              dx="0.5"
+              dy="-11.5px"
+              text-anchor="end"
+              font-size="12"
             >
               reverted-line-edge
             </text>

@@ -1,3 +1,4 @@
+import '../../src/preset';
 import * as animationCases from '../demo/animation';
 import { createNodeGCanvas } from './utils/create-node-g-canvas';
 import { getCases } from './utils/get-cases';
@@ -23,7 +24,7 @@ describe('static', () => {
 
         for (const time of times) {
           animationResult.currentTime = time;
-          await sleep(20);
+          await sleep(32);
           await expect(canvas).toMatchSVGSnapshot(
             `${__dirname}/snapshots/animation`,
             // 命名示例：label-1000(1_3)

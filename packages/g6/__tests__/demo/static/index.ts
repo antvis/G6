@@ -1,3 +1,6 @@
+export * from './edge-cubic';
+export * from './edge-cubic-horizontal';
+export * from './edge-cubic-vertical';
 export * from './edge-line';
 export * from './edge-quadratic';
 export * from './layered-canvas';
