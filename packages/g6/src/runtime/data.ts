@@ -1,7 +1,7 @@
 import EventEmitter from '@antv/event-emitter';
 import { Graph as GraphLib, ID } from '@antv/graphlib';
 import { isEqual } from '@antv/util';
-import { ChangeEvent } from '../constants';
+import { ChangeEvent, ChangeTypeEnum } from '../constants';
 import type { ComboData, DataOptions, EdgeData, NodeData } from '../spec';
 import type {
   DataAdded,
@@ -41,12 +41,8 @@ export class DataController extends EventEmitter {
    * Therefore, it is necessary to record the id of the last deleted combo and use it to judge isCombo
    */
   protected latestRemovedComboIds = new Set<ID>();
-  protected comboIds = new Set<ID>();
 
-  constructor() {
-    super();
-    this.model = new GraphLib();
-  }
+  protected comboIds = new Set<ID>();
 
   /**
    * <zh/> 获取详细数据变更
@@ -55,17 +51,32 @@ export class DataController extends EventEmitter {
    */
   private changes: DataChange[] = [];
 
+  /**
+   * <zh/> 批处理计数器
+   *
+   * <en/> Batch processing counter
+   */
+  private batchCount = 0;
+
+  constructor() {
+    super();
+    this.model = new GraphLib();
+  }
+
   private pushChange(change: DataChange) {
     const { type } = change;
-    if (type === 'NodeUpdated' || type === 'EdgeUpdated' || type === 'ComboUpdated') {
+
+    if (
+      type === ChangeTypeEnum.NodeUpdated ||
+      type === ChangeTypeEnum.EdgeUpdated ||
+      type === ChangeTypeEnum.ComboUpdated
+    ) {
       const { value, original } = change;
       this.changes.push({ value: cloneElementData(value), original: cloneElementData(original), type } as DataUpdated);
     } else {
       this.changes.push({ value: cloneElementData(change.value), type } as DataAdded | DataRemoved);
     }
   }
-
-  private batchCount = 0;
 
   public batch(callback: () => void) {
     this.batchCount++;
@@ -247,7 +258,7 @@ export class DataController extends EventEmitter {
     if (!nodes.length) return;
     this.model.addNodes(
       nodes.map((node) => {
-        this.pushChange({ value: node, type: 'NodeAdded' });
+        this.pushChange({ value: node, type: ChangeTypeEnum.NodeAdded });
         return toGraphlibData(node);
       }),
     );
@@ -258,7 +269,7 @@ export class DataController extends EventEmitter {
     if (!edges.length) return;
     this.model.addEdges(
       edges.map((edge) => {
-        this.pushChange({ value: edge, type: 'EdgeAdded' });
+        this.pushChange({ value: edge, type: ChangeTypeEnum.EdgeAdded });
         return toGraphlibData(edge);
       }),
     );
@@ -275,7 +286,7 @@ export class DataController extends EventEmitter {
     model.addNodes(
       combos.map((combo) => {
         this.comboIds.add(idOf(combo));
-        this.pushChange({ value: combo, type: 'ComboAdded' });
+        this.pushChange({ value: combo, type: ChangeTypeEnum.ComboAdded });
         return toGraphlibData(combo);
       }),
     );
@@ -323,7 +334,7 @@ export class DataController extends EventEmitter {
         if (isEqual(originalNode, modifiedNode)) return;
 
         const value = mergeElementsData(originalNode, modifiedNode);
-        this.pushChange({ value, original: originalNode, type: 'NodeUpdated' });
+        this.pushChange({ value, original: originalNode, type: ChangeTypeEnum.NodeUpdated });
         this.model.mergeNodeData(idOf(modifiedNode), value);
       });
 
@@ -347,7 +358,7 @@ export class DataController extends EventEmitter {
         }
         const updatedData = mergeElementsData(originalEdge, modifiedEdge);
         this.model.mergeEdgeData(idOf(modifiedEdge), updatedData);
-        this.pushChange({ value: updatedData, original: originalEdge, type: 'EdgeUpdated' });
+        this.pushChange({ value: updatedData, original: originalEdge, type: ChangeTypeEnum.EdgeUpdated });
       });
     });
   }
@@ -369,7 +380,7 @@ export class DataController extends EventEmitter {
         }
 
         const value = mergeElementsData(originalCombo, modifiedCombo);
-        this.pushChange({ value, original: originalCombo, type: 'ComboUpdated' });
+        this.pushChange({ value, original: originalCombo, type: ChangeTypeEnum.ComboUpdated });
         model.mergeNodeData(modifiedComboId, value);
       });
 
@@ -395,7 +406,7 @@ export class DataController extends EventEmitter {
             this.pushChange({
               value,
               original: succeed,
-              type: this.isCombo(succeedID) ? 'ComboUpdated' : 'NodeUpdated',
+              type: this.isCombo(succeedID) ? ChangeTypeEnum.ComboUpdated : ChangeTypeEnum.NodeUpdated,
             });
             model.mergeNodeData(succeedID, value);
           },
@@ -429,7 +440,7 @@ export class DataController extends EventEmitter {
             this.pushChange({
               value,
               original: succeed,
-              type: this.isCombo(succeedID) ? 'ComboUpdated' : 'NodeUpdated',
+              type: this.isCombo(succeedID) ? ChangeTypeEnum.ComboUpdated : ChangeTypeEnum.NodeUpdated,
             });
             model.mergeNodeData(succeedID, value);
           },
@@ -456,7 +467,7 @@ export class DataController extends EventEmitter {
     if (!ids.length) return;
     this.batch(() => {
       ids.forEach((id) => {
-        this.pushChange({ value: this.getNodeData([id])[0], type: 'NodeRemoved' });
+        this.pushChange({ value: this.getNodeData([id])[0], type: ChangeTypeEnum.NodeRemoved });
         this.removeNodeLikeHierarchy(id);
       });
       this.model.removeNodes(ids);
@@ -465,7 +476,7 @@ export class DataController extends EventEmitter {
 
   public removeEdgeData(ids: ID[] = []) {
     if (!ids.length) return;
-    ids.forEach((id) => this.pushChange({ value: this.getEdgeData([id])[0], type: 'EdgeRemoved' }));
+    ids.forEach((id) => this.pushChange({ value: this.getEdgeData([id])[0], type: ChangeTypeEnum.EdgeRemoved }));
     this.model.removeEdges(ids);
   }
 
@@ -473,7 +484,7 @@ export class DataController extends EventEmitter {
     if (!ids.length) return;
     this.batch(() => {
       ids.forEach((id) => {
-        this.pushChange({ value: this.getComboData([id])[0], type: 'ComboRemoved' });
+        this.pushChange({ value: this.getComboData([id])[0], type: ChangeTypeEnum.ComboRemoved });
         this.removeNodeLikeHierarchy(id);
       });
       this.model.removeNodes(ids);
@@ -506,7 +517,7 @@ export class DataController extends EventEmitter {
         this.pushChange({
           value,
           original: childData,
-          type: this.isCombo(childId) ? 'ComboUpdated' : 'NodeUpdated',
+          type: this.isCombo(childId) ? ChangeTypeEnum.ComboUpdated : ChangeTypeEnum.NodeUpdated,
         });
         this.model.mergeNodeData(idOf(childData), value);
       });

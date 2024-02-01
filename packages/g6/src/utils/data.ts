@@ -45,7 +45,7 @@ export function mergeElementsData<T extends NodeData | EdgeData | ComboData>(ori
  */
 export function cloneElementData<T extends NodeData | EdgeData | ComboData>(data: T): T {
   const { data: customData, style, ...restAttrs } = data;
-  const clonedData = { ...restAttrs } as T;
+  const clonedData = restAttrs as T;
   if (customData) clonedData.data = { ...customData };
   if (style) clonedData.style = { ...style };
   return clonedData;
