@@ -12,7 +12,7 @@ import type { ComboData, DataOptions, EdgeData, NodeData } from '../spec';
 import type { AnimationStage } from '../spec/element/animation';
 import type { EdgeStyle } from '../spec/element/edge';
 import type { NodeLikeStyle } from '../spec/element/node';
-import type { DataChange, ElementData, ElementDatum, ElementType, State } from '../types';
+import type { DataChange, ElementData, ElementDatum, ElementType, State, StyleIterationContext } from '../types';
 import { reduceDataChanges } from '../utils/change';
 import { idOf } from '../utils/id';
 import { assignColorByPalette, parsePalette } from '../utils/palette';
@@ -133,16 +133,16 @@ export class ElementController {
    *
    * <en/> compute default style of single element
    */
-  private computedElementDefaultStyle(elementType: ElementType, datum: ElementDatum) {
+  private computedElementDefaultStyle(elementType: ElementType, context: StyleIterationContext) {
     const { options } = this.context;
     const defaultStyle = options[elementType]?.style || {};
-    this.defaultStyle[idOf(datum)] = computeElementCallbackStyle(datum, defaultStyle);
+    this.defaultStyle[idOf(context.datum)] = computeElementCallbackStyle(defaultStyle, context);
   }
 
   private computeElementsDefaultStyle() {
     this.forEachElementData((elementType, elementData) => {
-      elementData.forEach((datum) => {
-        this.computedElementDefaultStyle(elementType, datum);
+      elementData.forEach((datum, index) => {
+        this.computedElementDefaultStyle(elementType, { datum, index, elementData });
       });
     });
   }
@@ -183,10 +183,10 @@ export class ElementController {
    *
    * <en/> get single state style of single element
    */
-  private getElementStateStyle(elementType: ElementType, state: State, datum: ElementDatum) {
+  private getElementStateStyle(elementType: ElementType, state: State, context: StyleIterationContext) {
     const { options } = this.context;
     const stateStyle = options[elementType]?.state?.[state] || {};
-    return computeElementCallbackStyle(datum, stateStyle);
+    return computeElementCallbackStyle(stateStyle, context);
   }
 
   /**
@@ -194,10 +194,10 @@ export class ElementController {
    *
    * <en/> compute merged state style of single element
    */
-  private computeElementStatesStyle(elementType: ElementType, states: State[], datum: ElementDatum) {
-    this.stateStyle[idOf(datum)] = Object.assign(
+  private computeElementStatesStyle(elementType: ElementType, states: State[], context: StyleIterationContext) {
+    this.stateStyle[idOf(context.datum)] = Object.assign(
       {},
-      ...states.map((state) => this.getElementStateStyle(elementType, state, datum)),
+      ...states.map((state) => this.getElementStateStyle(elementType, state, context)),
     );
   }
 
@@ -209,12 +209,12 @@ export class ElementController {
    */
   private computeElementsStatesStyle(ids?: ID[]) {
     this.forEachElementData((elementType, elementData) => {
-      elementData.forEach((datum) => {
+      elementData.forEach((datum, index) => {
         const id = idOf(datum);
 
         if ((ids && ids.includes(id)) || ids === undefined) {
           const states = this.getElementStates(id);
-          this.computeElementStatesStyle(elementType, states, datum);
+          this.computeElementStatesStyle(elementType, states, { datum, index, elementData });
         }
       });
     });

@@ -1,21 +1,22 @@
 import { isFunction } from '@antv/util';
-import type { CallableObject, ElementData, ElementDatum } from '../types';
+import type { CallableObject, ElementData, ElementDatum, StyleIterationContext } from '../types';
 
 /**
  * <zh/> 计算支持回调的动态样式
  *
  * <en/> compute dynamic style that supports callback
- * @param datum - <zh/> 元素数据 | <en/> element data
  * @param callableStyle - <zh/> 动态样式 | <en/> dynamic style
+ * @param context - <zh/> 样式计算迭代上下文 | <en/> style iteration context
  * @returns <zh/> 静态样式 | <en/> static style
  */
 export function computeElementCallbackStyle(
-  datum: ElementDatum,
-  callableStyle: CallableObject<Record<string, unknown>, [ElementData]>,
+  callableStyle: CallableObject<Record<string, unknown>, [ElementDatum, number, ElementData]>,
+  context: StyleIterationContext,
 ) {
+  const { datum, index, elementData } = context;
   return Object.fromEntries(
     Object.entries(callableStyle).map(([key, style]) => {
-      if (isFunction(style)) return [key, style(datum)];
+      if (isFunction(style)) return [key, style(datum, index, elementData)];
       return [key, style];
     }),
   );

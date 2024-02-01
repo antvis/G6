@@ -55,11 +55,12 @@ describe('ElementController', () => {
       theme: 'light',
       node: {
         style: {
-          fill: (data: any) => (data.data.value > 100 ? 'red' : 'blue'),
+          fill: (datum: any) => (datum?.data?.value > 100 ? 'red' : 'blue'),
+          border: (datum: any, index: number, data: any) => (index % 2 === 0 ? 0 : 10),
         },
         state: {
           selected: {
-            fill: (data: any) => (data.data.value > 100 ? 'purple' : 'cyan'),
+            fill: (datum: any) => (datum?.data?.value > 100 ? 'purple' : 'cyan'),
           },
         },
         palette: 'spectral',
@@ -125,9 +126,9 @@ describe('ElementController', () => {
     expect(elementController.getPaletteStyle(edge2Id)[paletteKey]).toBe(BUILT_IN_PALETTES.oranges.at(-2));
     expect(elementController.getPaletteStyle('combo-1')[paletteKey]).toBe(BUILT_IN_PALETTES.blues[0]);
 
-    expect(elementController.getDefaultStyle('node-1')).toEqual({ fill: 'blue' });
-    expect(elementController.getDefaultStyle('node-2')).toEqual({ fill: 'red' });
-    expect(elementController.getDefaultStyle('node-3')).toEqual({ fill: 'red' });
+    expect(elementController.getDefaultStyle('node-1')).toEqual({ fill: 'blue', border: 0 });
+    expect(elementController.getDefaultStyle('node-2')).toEqual({ fill: 'red', border: 10 });
+    expect(elementController.getDefaultStyle('node-3')).toEqual({ fill: 'red', border: 0 });
     expect(elementController.getDefaultStyle(edge1Id)).toEqual({});
     expect(elementController.getDefaultStyle('combo-1')).toEqual({});
 
@@ -156,6 +157,7 @@ describe('ElementController', () => {
       fill: 'blue',
       stroke: 'pink',
       lineWidth: 1,
+      border: 0,
       // from palette
       keyShapeColor: BUILT_IN_PALETTES.spectral[0],
     });
@@ -163,6 +165,7 @@ describe('ElementController', () => {
     expect(elementController.getElementComputedStyle('node', 'node-2')).toEqual({
       ...LIGHT_THEME.node?.style,
       fill: 'red',
+      border: 10,
       // from palette
       keyShapeColor: BUILT_IN_PALETTES.spectral[1],
     });
@@ -170,6 +173,7 @@ describe('ElementController', () => {
     expect(elementController.getElementComputedStyle('node', 'node-3')).toEqual({
       ...LIGHT_THEME.node?.style,
       ...LIGHT_THEME.node?.state?.selected,
+      border: 0,
       // from state
       fill: 'purple',
       // from palette
