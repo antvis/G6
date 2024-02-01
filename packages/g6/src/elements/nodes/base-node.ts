@@ -1,7 +1,6 @@
 import type { DisplayObjectConfig, CircleStyleProps as GCircleStyleProps, Group } from '@antv/g';
 import { Circle as GCircle } from '@antv/g';
-import type { PrefixObject } from '../../types';
-import type { AnchorPosition, BadgePosition, LabelPosition } from '../../types/node';
+import type { AnchorPosition, BadgePosition, LabelPosition, PrefixObject } from '../../types';
 import { getAnchorPosition, getTextStyleByPosition, getXYByPosition } from '../../utils/element';
 import { omitStyleProps, subStyleProps } from '../../utils/prefix';
 import type { BadgeStyleProps, BaseShapeStyleProps, IconStyleProps, LabelStyleProps } from '../shapes';

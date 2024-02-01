@@ -8,12 +8,11 @@ import type {
 } from '@antv/g';
 import { Path } from '@antv/g';
 import { deepMix, isFunction } from '@antv/util';
-import type { PrefixObject } from '../../types';
-import type { EdgeKey, EdgeLabelStyleProps } from '../../types/edge';
+import type { EdgeKey, EdgeLabelStyleProps, PrefixObject } from '../../types';
 import { getLabelPositionStyle } from '../../utils/edge';
 import { omitStyleProps, subStyleProps } from '../../utils/prefix';
+import type { SymbolFactor } from '../../utils/symbol';
 import * as Symbol from '../../utils/symbol';
-import { SymbolFactor } from '../../utils/symbol';
 import type { LabelStyleProps } from '../shapes';
 import { Label } from '../shapes';
 import type { BaseShapeStyleProps } from '../shapes/base-shape';
