@@ -411,82 +411,66 @@ describe('DataController', () => {
     });
   });
 
-  it('changes', (done) => {
+  it('changes', () => {
     const controller = new DataController();
 
-    controller.once('change', (original: any) => {
-      expect(original).toEqual([
-        { value: { id: 'combo-1' }, type: 'ComboAdded' },
-        { value: { id: 'node-1', data: { value: 1 }, style: { fill: 'red' } }, type: 'NodeAdded' },
-        {
-          value: { id: 'node-2', data: { value: 2 }, style: { fill: 'green', parentId: 'combo-1' } },
-          type: 'NodeAdded',
-        },
-        {
-          value: { id: 'node-3', data: { value: 3 }, style: { fill: 'blue', parentId: 'combo-1' } },
-          type: 'NodeAdded',
-        },
-        { value: { id: 'edge-1', source: 'node-1', target: 'node-2', data: { weight: 1 } }, type: 'EdgeAdded' },
-        { value: { id: 'edge-2', source: 'node-2', target: 'node-3', data: { weight: 2 } }, type: 'EdgeAdded' },
-        { value: { id: 'combo-2' }, type: 'ComboAdded' },
-        { value: { id: 'node-4', data: { value: 4 }, style: { fill: 'yellow' } }, type: 'NodeAdded' },
-        {
-          value: { id: 'node-3', data: { value: 3 }, style: { fill: 'pink', parentId: 'combo-2' } },
-          original: { id: 'node-3', data: { value: 3 }, style: { fill: 'blue', parentId: 'combo-1' } },
-          type: 'NodeUpdated',
-        },
-        { value: { id: 'edge-1', source: 'node-1', target: 'node-2', data: { weight: 1 } }, type: 'EdgeRemoved' },
-        { value: { id: 'edge-2', source: 'node-2', target: 'node-3', data: { weight: 2 } }, type: 'EdgeRemoved' },
-        { value: { id: 'node-1', data: { value: 1 }, style: { fill: 'red' } }, type: 'NodeRemoved' },
-        {
-          value: { id: 'node-2', data: { value: 2 }, style: { fill: 'green', parentId: 'combo-1' } },
-          type: 'NodeRemoved',
-        },
-        { value: { id: 'combo-1' }, type: 'ComboRemoved' },
-      ]);
+    controller.addData(clone(data));
 
-      expect(reduceDataChanges(original)).toEqual([
-        {
-          type: 'NodeAdded',
-          value: { id: 'node-3', data: { value: 3 }, style: { fill: 'pink', parentId: 'combo-2' } },
-        },
-        { value: { id: 'combo-2' }, type: 'ComboAdded' },
-        { value: { id: 'node-4', data: { value: 4 }, style: { fill: 'yellow' } }, type: 'NodeAdded' },
-      ]);
-
-      done();
+    controller.setData({
+      nodes: [
+        { id: 'node-3', data: { value: 3 }, style: { fill: 'pink', parentId: 'combo-2' } },
+        { id: 'node-4', data: { value: 4 }, style: { fill: 'yellow' } },
+      ],
+      combos: [{ id: 'combo-2' }],
     });
 
-    controller.batch(() => {
-      controller.addData(clone(data));
+    const changes = controller.getChanges();
 
-      controller.setData({
-        nodes: [
-          { id: 'node-3', data: { value: 3 }, style: { fill: 'pink', parentId: 'combo-2' } },
-          { id: 'node-4', data: { value: 4 }, style: { fill: 'yellow' } },
-        ],
-        combos: [{ id: 'combo-2' }],
-      });
-    });
+    expect(changes).toEqual([
+      { value: { id: 'combo-1' }, type: 'ComboAdded' },
+      { value: { id: 'node-1', data: { value: 1 }, style: { fill: 'red' } }, type: 'NodeAdded' },
+      {
+        value: { id: 'node-2', data: { value: 2 }, style: { fill: 'green', parentId: 'combo-1' } },
+        type: 'NodeAdded',
+      },
+      {
+        value: { id: 'node-3', data: { value: 3 }, style: { fill: 'blue', parentId: 'combo-1' } },
+        type: 'NodeAdded',
+      },
+      { value: { id: 'edge-1', source: 'node-1', target: 'node-2', data: { weight: 1 } }, type: 'EdgeAdded' },
+      { value: { id: 'edge-2', source: 'node-2', target: 'node-3', data: { weight: 2 } }, type: 'EdgeAdded' },
+      { value: { id: 'combo-2' }, type: 'ComboAdded' },
+      { value: { id: 'node-4', data: { value: 4 }, style: { fill: 'yellow' } }, type: 'NodeAdded' },
+      {
+        value: { id: 'node-3', data: { value: 3 }, style: { fill: 'pink', parentId: 'combo-2' } },
+        original: { id: 'node-3', data: { value: 3 }, style: { fill: 'blue', parentId: 'combo-1' } },
+        type: 'NodeUpdated',
+      },
+      { value: { id: 'edge-1', source: 'node-1', target: 'node-2', data: { weight: 1 } }, type: 'EdgeRemoved' },
+      { value: { id: 'edge-2', source: 'node-2', target: 'node-3', data: { weight: 2 } }, type: 'EdgeRemoved' },
+      { value: { id: 'node-1', data: { value: 1 }, style: { fill: 'red' } }, type: 'NodeRemoved' },
+      {
+        value: { id: 'node-2', data: { value: 2 }, style: { fill: 'green', parentId: 'combo-1' } },
+        type: 'NodeRemoved',
+      },
+      { value: { id: 'combo-1' }, type: 'ComboRemoved' },
+    ]);
+
+    expect(reduceDataChanges(changes)).toEqual([
+      {
+        type: 'NodeAdded',
+        value: { id: 'node-3', data: { value: 3 }, style: { fill: 'pink', parentId: 'combo-2' } },
+      },
+      { value: { id: 'combo-2' }, type: 'ComboAdded' },
+      { value: { id: 'node-4', data: { value: 4 }, style: { fill: 'yellow' } }, type: 'NodeAdded' },
+    ]);
+
+    // re pull
+    expect(controller.getChanges()).toEqual([]);
   });
 
-  it('changes add', (done) => {
+  it('changes add', () => {
     const controller = new DataController();
-
-    controller.once('change', (original: any) => {
-      expect(original).toEqual(original);
-
-      expect(reduceDataChanges(original)).toEqual([
-        { value: { id: 'combo-2' }, type: 'ComboAdded' },
-        {
-          type: 'NodeAdded',
-          value: { id: 'node-3', data: { value: 3 }, style: { fill: 'pink', parentId: 'combo-2' } },
-        },
-        { value: { id: 'node-4', data: { value: 4 }, style: { fill: 'yellow' } }, type: 'NodeAdded' },
-      ]);
-
-      done();
-    });
 
     controller.addData({
       nodes: [
@@ -495,6 +479,17 @@ describe('DataController', () => {
       ],
       combos: [{ id: 'combo-2' }],
     });
+
+    const changes = controller.getChanges();
+
+    expect(reduceDataChanges(changes)).toEqual([
+      { value: { id: 'combo-2' }, type: 'ComboAdded' },
+      {
+        type: 'NodeAdded',
+        value: { id: 'node-3', data: { value: 3 }, style: { fill: 'pink', parentId: 'combo-2' } },
+      },
+      { value: { id: 'node-4', data: { value: 4 }, style: { fill: 'yellow' } }, type: 'NodeAdded' },
+    ]);
   });
 
   it('getElementData', () => {

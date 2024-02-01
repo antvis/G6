@@ -1,7 +1,6 @@
-import EventEmitter from '@antv/event-emitter';
 import { Graph as GraphLib, ID } from '@antv/graphlib';
 import { isEqual } from '@antv/util';
-import { ChangeEvent, ChangeTypeEnum } from '../constants';
+import { ChangeTypeEnum } from '../constants';
 import type { ComboData, DataOptions, EdgeData, NodeData } from '../spec';
 import type {
   DataAdded,
@@ -26,7 +25,7 @@ import { dfs } from '../utils/traverse';
 
 const COMBO_KEY = 'combo';
 
-export class DataController extends EventEmitter {
+export class DataController {
   public model: GraphlibData;
 
   /**
@@ -78,14 +77,22 @@ export class DataController extends EventEmitter {
     }
   }
 
+  /**
+   * <zh/> [警告] 此 API 仅供 Element Controller 调用
+   *
+   * <en/> [WARNING] This API is only for Element Controller
+   * @returns <zh/> 数据变更 | <en/> data changes
+   */
+  public getChanges(): DataChange[] {
+    const changes = this.changes;
+    this.changes = [];
+    return changes;
+  }
+
   public batch(callback: () => void) {
     this.batchCount++;
     this.model.batch(callback);
     this.batchCount--;
-    if (this.batchCount === 0) {
-      this.emit(ChangeEvent.CHANGE, [...this.changes]);
-      this.changes = [];
-    }
   }
 
   public isCombo(id: ID) {
