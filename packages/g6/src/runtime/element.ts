@@ -2,23 +2,22 @@
 /* eslint-disable jsdoc/require-param */
 import type { DisplayObject, IAnimation } from '@antv/g';
 import { Group } from '@antv/g';
-import type { GraphChange, ID } from '@antv/graphlib';
-import { Graph as GraphLib } from '@antv/graphlib';
+import type { ID } from '@antv/graphlib';
 import { groupBy } from '@antv/util';
 import { executor as animationExecutor } from '../animations';
+import { ChangeTypeEnum } from '../constants';
 import type { BaseShape } from '../elements/shapes';
 import { getPlugin } from '../registry';
-import type { DataOptions, EdgeData, NodeData } from '../spec';
+import type { ComboData, DataOptions, EdgeData, NodeData } from '../spec';
 import type { AnimationStage } from '../spec/element/animation';
 import type { EdgeStyle } from '../spec/element/edge';
 import type { NodeLikeStyle } from '../spec/element/node';
-import type { ElementData, ElementDatum, ElementType, GraphLibGroupedChanges, Point, State } from '../types';
+import type { DataChange, ElementData, ElementDatum, ElementType, State } from '../types';
+import { reduceDataChanges } from '../utils/change';
 import { idOf } from '../utils/id';
 import { assignColorByPalette, parsePalette } from '../utils/palette';
 import { computeElementCallbackStyle } from '../utils/style';
 import type { RuntimeContext } from './types';
-
-type Change = GraphChange<NodeData, EdgeData>;
 
 type AnimationExecutor = (id: ID, shape: DisplayObject, originalStyle: Record<string, unknown>) => IAnimation | null;
 
@@ -31,13 +30,11 @@ export class ElementController {
     combo: Group;
   };
 
-  private originalTasks: Change[] = [];
-
-  private get tasks() {
-    return new GraphLib<NodeData, EdgeData>().reduceChanges(this.originalTasks);
-  }
-
   public init: Promise<void>;
+
+  private elementMap: Record<ID, DisplayObject> = {};
+
+  private animationMap: Record<ID, IAnimation | null | undefined> = {};
 
   constructor(context: RuntimeContext) {
     this.context = context;
@@ -45,6 +42,7 @@ export class ElementController {
     this.initElementStates();
 
     const { canvas } = context;
+
     this.init = new Promise<void>((resolve) => {
       canvas.init().then(() => {
         this.container = {
@@ -80,23 +78,21 @@ export class ElementController {
     });
   }
 
-  private getPresetStyle(elementType: ElementType, id: ID) {
-    return {};
-  }
-
   private getTheme(elementType: ElementType) {
     const { theme } = this.context.options;
     if (!theme) return {};
 
     const themeConfig = getPlugin('theme', theme);
-    if (!themeConfig) return {};
-
-    return themeConfig[elementType] || {};
+    return themeConfig?.[elementType] || {};
   }
 
-  public getThemeStyle(elementType: ElementType, states: State[]) {
-    const { style = {}, state = {} } = this.getTheme(elementType);
-    return Object.assign({}, style, ...states.map((name) => state[name] || {}));
+  public getThemeStyle(elementType: ElementType) {
+    return this.getTheme(elementType).style || {};
+  }
+
+  public getThemeStateStyle(elementType: ElementType, states: State[]) {
+    const { state = {} } = this.getTheme(elementType);
+    return Object.assign({}, ...states.map((name) => state[name] || {}));
   }
 
   private paletteStyle: Record<ID, string> = {};
@@ -234,8 +230,6 @@ export class ElementController {
     this.computeElementsStatesStyle();
   }
 
-  private elementMap: Record<ID, DisplayObject> = {};
-
   private getElement<T extends DisplayObject = BaseShape<any>>(id: ID): T | undefined {
     return this.elementMap[id] as T;
   }
@@ -267,7 +261,7 @@ export class ElementController {
   public getElementsByState(state: State | State[]): Record<string, DisplayObject> {
     return Object.fromEntries(
       Object.entries(this.elementState)
-        .filter(([id, states]) => {
+        .filter(([, states]) => {
           return (Array.isArray(state) ? state : [state]).every((s) => states.includes(s));
         })
         .map(([id]) => [id, this.elementMap[id]]),
@@ -297,36 +291,39 @@ export class ElementController {
     const sourceNode = this.getElement<any>(source);
     const targetNode = this.getElement<any>(target);
 
-    const sourceAnchors: Record<string, DisplayObject> = sourceNode.getPorts();
-    const targetAnchors: Record<string, DisplayObject> = targetNode.getPorts();
+    // const sourceAnchors: Record<string, DisplayObject> = sourceNode?.getPorts?.() || {};
+    // const targetAnchors: Record<string, DisplayObject> = targetNode?.getPorts?.() || {};
 
-    let sourcePoint!: Point;
-    let targetPoint!: Point;
+    const sourcePoint = sourceNode?.getPosition() || [0, 0, 0];
+    const targetPoint = targetNode?.getPosition() || [0, 0, 0];
+
+    // let sourcePoint!: Point;
+    // let targetPoint!: Point;
 
     // TODO 下面的逻辑没有考虑到边的一端连接到连接桩，另一端连接到交点的情况
     // TODO The logic below does not consider the case where one end of the edge is connected to the port and the other end is connected to the intersection
 
     // 优先使用 sourceAnchor、targetAnchor / Use sourceAnchor and targetAnchor first
-    if (sourceAnchor && sourceAnchors[sourceAnchor] && targetAnchor && targetAnchors[targetAnchor]) {
-      sourcePoint = sourceAnchors[sourceAnchor].getPosition();
-      targetPoint = targetAnchors[targetAnchor].getPosition();
-    }
+    // if (sourceAnchor && sourceAnchors[sourceAnchor] && targetAnchor && targetAnchors[targetAnchor]) {
+    //   sourcePoint = sourceAnchors[sourceAnchor].getPosition();
+    //   targetPoint = targetAnchors[targetAnchor].getPosition();
+    // }
     // 如果不存在 sourceAnchor、targetAnchor，且存在 sourceAnchors、targetAnchors，选取最近的连接桩
     // If sourceAnchor and targetAnchor do not exist, and sourceAnchors and targetAnchors exist, select the nearest port
-    else if (Object.keys(sourceAnchors).length > 0 && Object.keys(targetAnchors).length > 0) {
-      // TODO 实现算法用于选取最近的连接桩 / Implement the algorithm to select the nearest port
-    }
+    // else if (Object.keys(sourceAnchors).length > 0 && Object.keys(targetAnchors).length > 0) {
+    //   // TODO 实现算法用于选取最近的连接桩 / Implement the algorithm to select the nearest port
+    // }
     // 如果不存在 sourceAnchor、targetAnchor，调用 getIntersectPoint 计算交点
     // If sourceAnchor and targetAnchor do not exist, call getIntersectPoint to calculate the intersection
-    else if (Object.keys(sourceAnchors).length === 0 && Object.keys(targetAnchors).length === 0) {
-      // TODO 待实现 / To be implemented
-    }
+    // else if (Object.keys(sourceAnchors).length === 0 && Object.keys(targetAnchors).length === 0) {
+    //   // TODO 待实现 / To be implemented
+    // }
     // 如果都不存在，直接使用节点中心点
     // If none of them exist, use the center point of the node directly
-    else {
-      sourcePoint = sourceNode.getPosition();
-      targetPoint = targetNode.getPosition();
-    }
+    // else {
+    //    sourcePoint = sourceNode?.getPosition() || [0, 0, 0];
+    //    targetPoint = targetNode?.getPosition() || [0, 0, 0];
+    // }
 
     return {
       sourcePoint,
@@ -338,19 +335,21 @@ export class ElementController {
 
   private getComboChildren(id: ID) {
     const { dataController } = this.context;
-    return dataController.getComboChildrenData(id).map((datum) => this.getElement(idOf(datum)));
+    return Object.fromEntries(
+      dataController.getComboChildrenData(id).map((datum) => [idOf(datum), this.getElement(idOf(datum))]),
+    );
   }
 
   public getElementComputedStyle(elementType: ElementType, id: ID) {
     // 优先级(从低到高) Priority (from low to high):
-    const presetStyle = this.getPresetStyle(elementType, id);
-    const themeStyle = this.getThemeStyle(elementType, this.getElementStates(id));
+    const themeStyle = this.getThemeStyle(elementType);
     const paletteStyle = this.getPaletteStyle(id);
     const dataStyle = this.getDataStyle(elementType, id);
     const defaultStyle = this.getDefaultStyle(id);
+    const themeStateStyle = this.getThemeStateStyle(elementType, this.getElementStates(id));
     const stateStyle = this.getStateStyle(id);
 
-    const style = Object.assign({}, presetStyle, themeStyle, paletteStyle, dataStyle, defaultStyle, stateStyle);
+    const style = Object.assign({}, themeStyle, paletteStyle, dataStyle, defaultStyle, themeStateStyle, stateStyle);
 
     if (elementType === 'edge') {
       Object.assign(style, this.getEdgeEndsContext(id));
@@ -373,49 +372,47 @@ export class ElementController {
   public async render(context: RuntimeContext) {
     await this.init;
     this.context = context;
-
     const { dataController } = context;
 
-    const { tasks } = this;
+    const tasks = reduceDataChanges(dataController.getChanges());
     if (tasks.length === 0) return;
 
-    if (tasks.length === 0) return;
+    this.stopAnimation();
+
     const {
       NodeAdded = [],
+      NodeUpdated = [],
       NodeRemoved = [],
-      NodeDataUpdated = [],
       EdgeAdded = [],
-      EdgeRemoved = [],
       EdgeUpdated = [],
-      EdgeDataUpdated = [],
-      // TreeStructureChanged,
-    } = groupBy(tasks, (change) => change.type) as GraphLibGroupedChanges;
+      EdgeRemoved = [],
+      ComboAdded = [],
+      ComboUpdated = [],
+      ComboRemoved = [],
+    } = groupBy(tasks, (change) => change.type) as unknown as Record<`${ChangeTypeEnum}`, DataChange[]>;
 
     // 重新计算样式 / Recalculate style
     this.computeStyle();
 
+    const dataOf = <T extends DataChange['value']>(data: DataChange[]) => data.map((datum) => datum.value) as T[];
+
     // 计算要新增的元素
     // compute elements to add
-    const nodeLikeToAdd = dataController.getNodeLikeData(NodeAdded.map((datum) => idOf(datum.value)));
-    const { nodes: nodesToAdd, combos: combosToAdd } = dataController.classifyNodeLikeData(nodeLikeToAdd);
-
-    const edgesToAdd = dataController.getEdgeData(EdgeAdded.map((datum) => idOf(datum.value)));
+    const nodesToAdd = dataOf<NodeData>(NodeAdded);
+    const edgesToAdd = dataOf<EdgeData>(EdgeAdded);
+    const combosToAdd = dataOf<ComboData>(ComboAdded);
 
     // 计算要更新的元素
     // compute elements to update
-    const nodeLikeToUpdate = dataController.getNodeLikeData(NodeDataUpdated.map((datum) => datum.id));
-    const { nodes: nodesToUpdate, combos: combosToUpdate } = dataController.classifyNodeLikeData(nodeLikeToUpdate);
-
-    const edgesToUpdate = dataController.getEdgeData(
-      Array.from(new Set([...EdgeUpdated, ...EdgeDataUpdated].map((datum) => datum.id))),
-    );
+    const nodesToUpdate = dataOf<NodeData>(NodeUpdated);
+    const edgesToUpdate = dataOf<EdgeData>(EdgeUpdated);
+    const combosToUpdate = dataOf<ComboData>(ComboUpdated);
 
     // 计算要删除的元素
     // compute elements to remove
-    const nodeLikeToRemove = NodeRemoved.map((datum) => datum.value.data);
-    const { nodes: nodesToRemove, combos: combosToRemove } = dataController.classifyNodeLikeData(nodeLikeToRemove);
-
-    const edgesToRemove = EdgeRemoved.map((datum) => datum.value.data);
+    const nodesToRemove = dataOf<NodeData>(NodeRemoved);
+    const edgesToRemove = dataOf<EdgeData>(EdgeRemoved);
+    const combosToRemove = dataOf<ComboData>(ComboRemoved);
 
     // 如果更新了节点，需要更新连接的边和所处的 combo
     // If the node is updated, the connected edge and the combo it is in need to be updated
@@ -444,7 +441,6 @@ export class ElementController {
     this.updateElements({ nodes: nodesToUpdate, edges: edgesToUpdate, combos: combosToUpdate });
 
     this.postRender();
-    this.originalTasks = [];
   }
 
   private postRenderTasks: (() => void)[] = [];
@@ -459,7 +455,13 @@ export class ElementController {
   private getShapeType(elementType: ElementType, datum: ElementDatum) {
     const type = datum?.style?.type;
     if (type) return type;
-    return elementType === 'edge' ? 'line-edge' : `circle-${elementType}`;
+    // 推断默认类型 / Infer default type
+
+    return {
+      node: 'circle',
+      edge: 'line',
+      combo: 'circle',
+    }[elementType];
   }
 
   private createElement(elementType: ElementType, datum: ElementDatum, animate?: AnimationExecutor) {
@@ -486,7 +488,7 @@ export class ElementController {
     this.shapeTypeMap[id] = shapeType;
 
     this.postRenderTasks.push(() => {
-      animate?.(id, shape, { ...shape.attributes });
+      this.animationMap[id] = animate?.(id, shape, { ...shape.attributes });
     });
 
     this.elementMap[id] = shape;
@@ -522,7 +524,9 @@ export class ElementController {
     if ('update' in shape) shape.update(style);
     else (shape as DisplayObject).attr(style);
 
-    this.postRenderTasks.push(() => animate?.(id, shape, { ...shape.attributes }));
+    this.postRenderTasks.push(() => {
+      this.animationMap[id] = animate?.(id, shape, { ...shape.attributes });
+    });
   }
 
   private updateElements(data: DataOptions) {
@@ -590,6 +594,11 @@ export class ElementController {
       elementData.forEach((datum) => this.destroyElement(datum, animate));
       this.clearElement(elementData.map(idOf));
     });
+  }
+
+  public stopAnimation() {
+    Object.values(this.animationMap).forEach((animation) => animation?.finish());
+    this.animationMap = {};
   }
 
   private clearElement(ids: ID[]) {

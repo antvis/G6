@@ -58,7 +58,6 @@ export class DataController {
   private batchCount = 0;
 
   constructor() {
-    super();
     this.model = new GraphLib();
   }
 
