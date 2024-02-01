@@ -71,7 +71,19 @@ export abstract class BaseNode<KT extends object, KS> extends BaseShape<BaseNode
     } as NodeLabelStyleProps;
   }
 
-  protected abstract getHaloStyle(attributes: ParsedBaseNodeStyleProps<KT>): KT;
+  protected getHaloStyle(attributes: ParsedBaseNodeStyleProps<KT>): KT {
+    const haloStyle = subStyleProps(this.getGraphicStyle(attributes), 'halo') as Partial<GCircleStyleProps>;
+    const keyStyle = this.getKeyStyle(attributes);
+    // const { lineWidth } = haloStyle;
+    // const { r } = keyStyle;
+
+    // const haloR = Number(r) + Number(lineWidth) / 2 || 0;
+    return {
+      ...keyStyle,
+      // r: haloR,
+      ...haloStyle,
+    } as KT;
+  }
 
   protected getIconStyle(attributes: ParsedBaseNodeStyleProps<KT>) {
     const iconStyle = subStyleProps(this.getGraphicStyle(attributes), 'icon');
