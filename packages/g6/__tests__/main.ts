@@ -48,13 +48,14 @@ function loadCasesList(select: HTMLSelectElement) {
 
 function onchange(testCase: TestCase, rendererName: string) {
   const renderer = getRenderer(rendererName);
-  testCase({
-    canvas: new Canvas({
-      width: 500,
-      height: 500,
-      container: document.getElementById('container')!,
-      renderer,
-    }),
+  const canvas = new Canvas({
+    width: 500,
+    height: 500,
+    container: document.getElementById('container')!,
+    renderer,
+  });
+  canvas.init().then(() => {
+    testCase({ canvas });
   });
 }
 
