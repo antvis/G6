@@ -1,5 +1,5 @@
 import type { EdgeData, NodeData } from '../../../src';
-import { mergeElementsData } from '../../../src/utils/data';
+import { cloneElementData, mergeElementsData } from '../../../src/utils/data';
 
 describe('data', () => {
   it('mergeElementsData', () => {
@@ -74,5 +74,19 @@ describe('data', () => {
         weight: 10,
       },
     });
+  });
+
+  it('cloneData', () => {
+    const data = { id: 'node-1', data: { value1: { a: 1 }, value2: 2 }, style: { fill: 'pink', startPoint: [0, 100] } };
+    const clonedData = cloneElementData(data);
+    expect(clonedData).toEqual(data);
+
+    data.data.value1.a = 2;
+    data.style.startPoint[0] = 100;
+    expect(clonedData).toEqual(data);
+
+    data.data.value2 = 3;
+    data.style.startPoint = [100, 100];
+    expect(clonedData).not.toEqual(data);
   });
 });

@@ -31,3 +31,22 @@ export function mergeElementsData<T extends NodeData | EdgeData | ComboData>(ori
 
   return result as T;
 }
+
+/**
+ * <zh/> 克隆元素数据
+ *
+ * <en/> Clone clement data
+ * @param data - <zh/> 待克隆的数据 | <en/> data to be cloned
+ * @returns <zh/> 克隆后的数据 | <en/> cloned data
+ * @description
+ * <zh/> 只会克隆到第二层（data、style）
+ *
+ * <en/> Only clone to the second level (data, style)
+ */
+export function cloneElementData<T extends NodeData | EdgeData | ComboData>(data: T): T {
+  const { data: customData, style, ...restAttrs } = data;
+  const clonedData = { ...restAttrs } as T;
+  if (customData) clonedData.data = { ...customData };
+  if (style) clonedData.style = { ...style };
+  return clonedData;
+}
