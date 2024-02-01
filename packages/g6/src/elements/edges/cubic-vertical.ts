@@ -1,7 +1,7 @@
 import type { DisplayObjectConfig, PathStyleProps } from '@antv/g';
 import { deepMix } from '@antv/util';
 import type { Point } from '../../types';
-import { type BaseEdgeStyleProps } from './base-edge';
+import type { BaseEdgeStyleProps } from './base-edge';
 import { Cubic } from './cubic';
 
 type CubicVerticalKeyStyleProps = PathStyleProps & {

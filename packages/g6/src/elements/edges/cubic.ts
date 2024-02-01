@@ -3,7 +3,8 @@ import { Path } from '@antv/g';
 import { deepMix } from '@antv/util';
 import type { Point } from '../../types';
 import { calculateControlPoint, getCubicPath, parseCurveOffset, parseCurvePosition } from '../../utils/edge';
-import { BaseEdge, type BaseEdgeStyleProps } from './base-edge';
+import type { BaseEdgeStyleProps } from './base-edge';
+import { BaseEdge } from './base-edge';
 
 type CubicKeyStyleProps = PathStyleProps & {
   /**

@@ -4,7 +4,7 @@ import type { AnimationTestCase } from '../types';
 export const edgeCubic: AnimationTestCase = async (context) => {
   const { canvas } = context;
 
-  const quadratic = new Cubic({
+  const cubic = new Cubic({
     style: {
       sourcePoint: [100, 50],
       targetPoint: [300, 50],
@@ -18,9 +18,9 @@ export const edgeCubic: AnimationTestCase = async (context) => {
 
   await canvas.init();
 
-  canvas.appendChild(quadratic);
+  canvas.appendChild(cubic);
 
-  const result = quadratic.animate(
+  const result = cubic.animate(
     [
       { sourcePoint: [100, 150], targetPoint: [300, 200], lineWidth: 2, curveOffset: 30 },
       { sourcePoint: [100, 150], targetPoint: [450, 350], lineWidth: 8, curveOffset: 60 },
