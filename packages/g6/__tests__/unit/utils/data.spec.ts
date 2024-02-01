@@ -76,7 +76,7 @@ describe('data', () => {
     });
   });
 
-  it('cloneData', () => {
+  it('cloneElementData', () => {
     const data = { id: 'node-1', data: { value1: { a: 1 }, value2: 2 }, style: { fill: 'pink', startPoint: [0, 100] } };
     const clonedData = cloneElementData(data);
     expect(clonedData).toEqual(data);
