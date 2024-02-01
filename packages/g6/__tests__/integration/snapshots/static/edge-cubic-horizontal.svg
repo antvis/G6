@@ -8,55 +8,37 @@
 >
   <defs />
   <g id="g-svg-camera" transform="matrix(1,0,0,1,0,0)">
-    <g
-      id="g-root"
-      fill="none"
-      stroke="none"
-      visibility="visible"
-      font-size="16px"
-      font-family="sans-serif"
-      font-style="normal"
-      font-weight="normal"
-      font-variant="normal"
-      text-anchor="left"
-      stroke-dashoffset="0px"
-      transform="matrix(1,0,0,1,0,0)"
-    >
+    <g id="g-root" fill="none" transform="matrix(1,0,0,1,0,0)">
       <g
         id="g-svg-5"
         fill="none"
-        stroke="rgba(24,144,255,1)"
-        stroke-width="2px"
         marker-start="false"
         marker-end="true"
         transform="matrix(1,0,0,1,0,0)"
       >
-        <g stroke-width="2px" transform="matrix(1,0,0,1,50,100)">
+        <g transform="matrix(1,0,0,1,50,100)">
           <path
             id="key"
             fill="none"
             d="M 0,100 C 100 100,100 0,200 0"
             stroke="rgba(24,144,255,1)"
+            stroke-width="2"
           />
-          <g
-            stroke-width="2px"
-            stroke-dasharray="0px,0px"
-            transform="matrix(-1,0,-0,-1,200,0)"
-          >
+          <g transform="matrix(-1,0,-0,-1,200,0)">
             <path
               id="g-svg-8"
               fill="rgba(24,144,255,1)"
               d="M 0,5 L 10,0 L 10,10 Z"
               transform="translate(-5,-5)"
               stroke="rgba(24,144,255,1)"
+              stroke-width="2"
+              stroke-dasharray="0,0"
             />
           </g>
         </g>
         <g
           id="label"
           fill="none"
-          stroke="none"
-          text-anchor="middle"
           transform="matrix(0.716471,-0.697616,0.697616,0.716471,148.680191,142.910706)"
         >
           <g transform="matrix(1,0,0,1,-5,-5)">
@@ -64,18 +46,17 @@
               id="background"
               fill="none"
               d="M 0,0 l 10,0 l 0,10 l-10 0 z"
-              stroke="none"
-              width="10px"
-              height="10px"
+              width="10"
+              height="10"
             />
           </g>
-          <g text-anchor="middle" transform="matrix(1,0,0,1,0,0)">
+          <g transform="matrix(1,0,0,1,0,0)">
             <text
               id="text"
-              fill="none"
-              dominant-baseline="alphabetic"
+              fill="rgba(0,0,0,1)"
+              dominant-baseline="text-after-edge"
               paint-order="stroke"
-              stroke="none"
+              text-anchor="middle"
             />
           </g>
         </g>
@@ -83,38 +64,33 @@
       <g
         id="g-svg-12"
         fill="none"
-        stroke="rgba(24,144,255,1)"
-        stroke-width="2px"
         marker-start="false"
         marker-end="true"
         transform="matrix(1,0,0,1,0,0)"
       >
-        <g stroke-width="2px" transform="matrix(1,0,0,1,50,150)">
+        <g transform="matrix(1,0,0,1,50,150)">
           <path
             id="key"
             fill="none"
             d="M 0,50 C 100 50,100 0,200 0"
             stroke="rgba(24,144,255,1)"
+            stroke-width="2"
           />
-          <g
-            stroke-width="2px"
-            stroke-dasharray="0px,0px"
-            transform="matrix(-1,0,-0,-1,200,0)"
-          >
+          <g transform="matrix(-1,0,-0,-1,200,0)">
             <path
               id="g-svg-15"
               fill="rgba(24,144,255,1)"
               d="M 0,5 L 10,0 L 10,10 Z"
               transform="translate(-5,-5)"
               stroke="rgba(24,144,255,1)"
+              stroke-width="2"
+              stroke-dasharray="0,0"
             />
           </g>
         </g>
         <g
           id="label"
           fill="none"
-          stroke="none"
-          text-anchor="middle"
           transform="matrix(0.899110,-0.437723,0.437723,0.899110,150.970108,167.854446)"
         >
           <g transform="matrix(1,0,0,1,-5,-5)">
@@ -122,18 +98,17 @@
               id="background"
               fill="none"
               d="M 0,0 l 10,0 l 0,10 l-10 0 z"
-              stroke="none"
-              width="10px"
-              height="10px"
+              width="10"
+              height="10"
             />
           </g>
-          <g text-anchor="middle" transform="matrix(1,0,0,1,0,0)">
+          <g transform="matrix(1,0,0,1,0,0)">
             <text
               id="text"
-              fill="none"
-              dominant-baseline="alphabetic"
+              fill="rgba(0,0,0,1)"
+              dominant-baseline="text-after-edge"
               paint-order="stroke"
-              stroke="none"
+              text-anchor="middle"
             />
           </g>
         </g>
@@ -141,57 +116,47 @@
       <g
         id="g-svg-19"
         fill="none"
-        stroke="rgba(24,144,255,1)"
-        stroke-width="2px"
         marker-start="false"
         marker-end="true"
         transform="matrix(1,0,0,1,0,0)"
       >
-        <g stroke-width="2px" transform="matrix(1,0,0,1,50,200)">
+        <g transform="matrix(1,0,0,1,50,200)">
           <path
             id="key"
             fill="none"
             d="M 0,0 C 100 0,100 0,200 0"
             stroke="rgba(24,144,255,1)"
+            stroke-width="2"
           />
-          <g
-            stroke-width="2px"
-            stroke-dasharray="0px,0px"
-            transform="matrix(-1,0,-0,-1,200,0)"
-          >
+          <g transform="matrix(-1,0,-0,-1,200,0)">
             <path
               id="g-svg-22"
               fill="rgba(24,144,255,1)"
               d="M 0,5 L 10,0 L 10,10 Z"
               transform="translate(-5,-5)"
               stroke="rgba(24,144,255,1)"
+              stroke-width="2"
+              stroke-dasharray="0,0"
             />
           </g>
         </g>
-        <g
-          id="label"
-          fill="none"
-          stroke="none"
-          text-anchor="middle"
-          transform="matrix(1,0,0,1,154,194)"
-        >
+        <g id="label" fill="none" transform="matrix(1,0,0,1,154,194)">
           <g transform="matrix(1,0,0,1,-5,-5)">
             <path
               id="background"
               fill="none"
               d="M 0,0 l 10,0 l 0,10 l-10 0 z"
-              stroke="none"
-              width="10px"
-              height="10px"
+              width="10"
+              height="10"
             />
           </g>
-          <g text-anchor="middle" transform="matrix(1,0,0,1,0,0)">
+          <g transform="matrix(1,0,0,1,0,0)">
             <text
               id="text"
-              fill="none"
-              dominant-baseline="alphabetic"
+              fill="rgba(0,0,0,1)"
+              dominant-baseline="text-after-edge"
               paint-order="stroke"
-              stroke="none"
+              text-anchor="middle"
             />
           </g>
         </g>
@@ -199,38 +164,33 @@
       <g
         id="g-svg-26"
         fill="none"
-        stroke="rgba(24,144,255,1)"
-        stroke-width="2px"
         marker-start="false"
         marker-end="true"
         transform="matrix(1,0,0,1,0,0)"
       >
-        <g stroke-width="2px" transform="matrix(1,0,0,1,50,200)">
+        <g transform="matrix(1,0,0,1,50,200)">
           <path
             id="key"
             fill="none"
             d="M 0,0 C 100 0,100 50,200 50"
             stroke="rgba(24,144,255,1)"
+            stroke-width="2"
           />
-          <g
-            stroke-width="2px"
-            stroke-dasharray="0px,0px"
-            transform="matrix(-1,0,-0,-1,200,50)"
-          >
+          <g transform="matrix(-1,0,-0,-1,200,50)">
             <path
               id="g-svg-29"
               fill="rgba(24,144,255,1)"
               d="M 0,5 L 10,0 L 10,10 Z"
               transform="translate(-5,-5)"
               stroke="rgba(24,144,255,1)"
+              stroke-width="2"
+              stroke-dasharray="0,0"
             />
           </g>
         </g>
         <g
           id="label"
           fill="none"
-          stroke="none"
-          text-anchor="middle"
           transform="matrix(0.899110,0.437723,-0.437723,0.899110,156.222778,221.356232)"
         >
           <g transform="matrix(1,0,0,1,-5,-5)">
@@ -238,18 +198,17 @@
               id="background"
               fill="none"
               d="M 0,0 l 10,0 l 0,10 l-10 0 z"
-              stroke="none"
-              width="10px"
-              height="10px"
+              width="10"
+              height="10"
             />
           </g>
-          <g text-anchor="middle" transform="matrix(1,0,0,1,0,0)">
+          <g transform="matrix(1,0,0,1,0,0)">
             <text
               id="text"
-              fill="none"
-              dominant-baseline="alphabetic"
+              fill="rgba(0,0,0,1)"
+              dominant-baseline="text-after-edge"
               paint-order="stroke"
-              stroke="none"
+              text-anchor="middle"
             />
           </g>
         </g>
@@ -257,38 +216,33 @@
       <g
         id="g-svg-33"
         fill="none"
-        stroke="rgba(24,144,255,1)"
-        stroke-width="2px"
         marker-start="false"
         marker-end="true"
         transform="matrix(1,0,0,1,0,0)"
       >
-        <g stroke-width="2px" transform="matrix(1,0,0,1,50,200)">
+        <g transform="matrix(1,0,0,1,50,200)">
           <path
             id="key"
             fill="none"
             d="M 0,0 C 100 0,100 100,200 100"
             stroke="rgba(24,144,255,1)"
+            stroke-width="2"
           />
-          <g
-            stroke-width="2px"
-            stroke-dasharray="0px,0px"
-            transform="matrix(-1,0,-0,-1,200,100)"
-          >
+          <g transform="matrix(-1,0,-0,-1,200,100)">
             <path
               id="g-svg-36"
               fill="rgba(24,144,255,1)"
               d="M 0,5 L 10,0 L 10,10 Z"
               transform="translate(-5,-5)"
               stroke="rgba(24,144,255,1)"
+              stroke-width="2"
+              stroke-dasharray="0,0"
             />
           </g>
         </g>
         <g
           id="label"
           fill="none"
-          stroke="none"
-          text-anchor="middle"
           transform="matrix(0.716471,0.697616,-0.697616,0.716471,157.051590,248.491638)"
         >
           <g transform="matrix(1,0,0,1,-5,-5)">
@@ -296,18 +250,17 @@
               id="background"
               fill="none"
               d="M 0,0 l 10,0 l 0,10 l-10 0 z"
-              stroke="none"
-              width="10px"
-              height="10px"
+              width="10"
+              height="10"
             />
           </g>
-          <g text-anchor="middle" transform="matrix(1,0,0,1,0,0)">
+          <g transform="matrix(1,0,0,1,0,0)">
             <text
               id="text"
-              fill="none"
-              dominant-baseline="alphabetic"
+              fill="rgba(0,0,0,1)"
+              dominant-baseline="text-after-edge"
               paint-order="stroke"
-              stroke="none"
+              text-anchor="middle"
             />
           </g>
         </g>
