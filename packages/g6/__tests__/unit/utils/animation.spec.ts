@@ -1,11 +1,5 @@
 import type { IAnimation } from '@antv/g';
-import { register } from '../../../src';
-import {
-  createAnimationsProxy,
-  executeAnimation,
-  parseAnimation,
-  preprocessKeyframes,
-} from '../../../src/utils/animation';
+import { createAnimationsProxy, executeAnimation, preprocessKeyframes } from '../../../src/utils/animation';
 
 describe('animation', () => {
   it('createAnimationsProxy', () => {
@@ -33,25 +27,6 @@ describe('animation', () => {
 
     expect(sourcePause).toHaveBeenCalledTimes(1);
     expect(targetPause).toHaveBeenCalledTimes(2);
-  });
-
-  it('parseAnimation', () => {
-    expect(parseAnimation('custom')).toEqual([]);
-    register('animation', 'custom', [{ fields: ['size'] }]);
-    expect(parseAnimation('custom')).toEqual([{ fields: ['size'] }]);
-
-    // built it
-    expect(parseAnimation('fade')).toEqual([{ fields: ['opacity'] }]);
-    expect(parseAnimation([{ fields: ['opacity'] }])).toEqual([{ fields: ['opacity'] }]);
-    expect(
-      parseAnimation([
-        { fields: ['opacity', 'size'], shape: 'key', duration: 500 },
-        { fields: ['opacity'], shape: 'halo', duration: 500 },
-      ]),
-    ).toEqual([
-      { fields: ['opacity', 'size'], shape: 'key', duration: 500 },
-      { fields: ['opacity'], shape: 'halo', duration: 500 },
-    ]);
   });
 
   it('preprocessKeyframes', () => {

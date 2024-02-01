@@ -1,7 +1,5 @@
 import type { DisplayObject, IAnimation } from '@antv/g';
-import { isNil, isString } from '@antv/util';
-import type { Animation, STDAnimation } from '../animations/types';
-import { getPlugin } from '../registry';
+import { isNil } from '@antv/util';
 import { getDescendantShapes } from './shape';
 
 /**
@@ -28,20 +26,6 @@ export function createAnimationsProxy(sourceAnimation: IAnimation, targetAnimati
       return Reflect.set(target, propKey, value);
     },
   });
-}
-
-/**
- * <zh/> 解析动画配置项
- *
- * <en/> parse animation options
- * @param animation - <zh/> 动画配置项 | <en/> animation options
- * @returns <zh/> 动画配置项 | <en/> animation options
- */
-export function parseAnimation(animation: Animation): STDAnimation {
-  if (isString(animation)) {
-    return getPlugin('animation', animation) || [];
-  }
-  return animation;
 }
 
 /**

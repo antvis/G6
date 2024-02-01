@@ -1,6 +1,7 @@
 import type { DisplayObject, IAnimation } from '@antv/g';
-import { upperFirst } from '@antv/util';
-import { createAnimationsProxy, executeAnimation, parseAnimation, preprocessKeyframes } from '../utils/animation';
+import { isString, upperFirst } from '@antv/util';
+import { getPlugin } from '../registry';
+import { createAnimationsProxy, executeAnimation, preprocessKeyframes } from '../utils/animation';
 import { DEFAULT_ANIMATION_OPTIONS } from './constants';
 import type { AnimationExecutor } from './types';
 
@@ -16,7 +17,7 @@ import type { AnimationExecutor } from './types';
  */
 export const executor: AnimationExecutor = (shape, animation, effectTiming, context) => {
   if (animation === undefined) return null;
-  const animations = parseAnimation(animation);
+  const animations = isString(animation) ? getPlugin('animation', animation) || [] : animation;
   if (animations.length === 0) return null;
 
   const { originalStyle, states } = context;
