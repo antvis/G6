@@ -1,18 +1,24 @@
+import EventEmitter from '@antv/event-emitter';
 import { Graph as GraphLib, ID } from '@antv/graphlib';
 import { isEqual } from '@antv/util';
+import { ChangeEvent, ChangeTypeEnum } from '../constants';
 import type { ComboData, DataOptions, EdgeData, NodeData } from '../spec';
 import type {
+  DataAdded,
+  DataChange,
   DataID,
+  DataRemoved,
+  DataUpdated,
   GraphlibData,
   NodeLikeData,
   PartialDataOptions,
   PartialEdgeData,
   PartialNodeLikeData,
-} from '../types/data';
+} from '../types';
 import type { EdgeDirection } from '../types/edge';
 import type { ElementType } from '../types/element';
 import type { Point } from '../types/point';
-import { mergeElementsData } from '../utils/data';
+import { cloneElementData, mergeElementsData } from '../utils/data';
 import { arrayDiff } from '../utils/diff';
 import { toG6Data, toGraphlibData } from '../utils/graphlib';
 import { idOf } from '../utils/id';
@@ -20,7 +26,7 @@ import { dfs } from '../utils/traverse';
 
 const COMBO_KEY = 'combo';
 
-export class DataController {
+export class DataController extends EventEmitter {
   public model: GraphlibData;
 
   /**
@@ -35,10 +41,51 @@ export class DataController {
    * Therefore, it is necessary to record the id of the last deleted combo and use it to judge isCombo
    */
   protected latestRemovedComboIds = new Set<ID>();
+
   protected comboIds = new Set<ID>();
 
+  /**
+   * <zh/> 获取详细数据变更
+   *
+   * <en/> Get detailed data changes
+   */
+  private changes: DataChange[] = [];
+
+  /**
+   * <zh/> 批处理计数器
+   *
+   * <en/> Batch processing counter
+   */
+  private batchCount = 0;
+
   constructor() {
+    super();
     this.model = new GraphLib();
+  }
+
+  private pushChange(change: DataChange) {
+    const { type } = change;
+
+    if (
+      type === ChangeTypeEnum.NodeUpdated ||
+      type === ChangeTypeEnum.EdgeUpdated ||
+      type === ChangeTypeEnum.ComboUpdated
+    ) {
+      const { value, original } = change;
+      this.changes.push({ value: cloneElementData(value), original: cloneElementData(original), type } as DataUpdated);
+    } else {
+      this.changes.push({ value: cloneElementData(change.value), type } as DataAdded | DataRemoved);
+    }
+  }
+
+  public batch(callback: () => void) {
+    this.batchCount++;
+    this.model.batch(callback);
+    this.batchCount--;
+    if (this.batchCount === 0) {
+      this.emit(ChangeEvent.CHANGE, [...this.changes]);
+      this.changes = [];
+    }
   }
 
   public isCombo(id: ID) {
@@ -176,7 +223,7 @@ export class DataController {
     const edgeDiff = arrayDiff(originalEdges, modifiedEdges, (edge) => idOf(edge));
     const comboDiff = arrayDiff(originalCombos, modifiedCombos, (combo) => idOf(combo));
 
-    this.model.batch(() => {
+    this.batch(() => {
       this.addData({
         nodes: nodeDiff.enter,
         edges: edgeDiff.enter,
@@ -199,7 +246,7 @@ export class DataController {
 
   public addData(data: DataOptions) {
     const { nodes, edges, combos } = data;
-    this.model.batch(() => {
+    this.batch(() => {
       // add combo first
       this.addComboData(combos);
       this.addNodeData(nodes);
@@ -209,68 +256,69 @@ export class DataController {
 
   public addNodeData(nodes: NodeData[] = []) {
     if (!nodes.length) return;
-    this.model.addNodes(nodes.map(toGraphlibData));
-
+    this.model.addNodes(
+      nodes.map((node) => {
+        this.pushChange({ value: node, type: ChangeTypeEnum.NodeAdded });
+        return toGraphlibData(node);
+      }),
+    );
     this.updateNodeLikeHierarchy(nodes);
   }
 
   public addEdgeData(edges: EdgeData[] = []) {
     if (!edges.length) return;
-    this.model.addEdges(edges.map((edge) => toGraphlibData(edge)));
+    this.model.addEdges(
+      edges.map((edge) => {
+        this.pushChange({ value: edge, type: ChangeTypeEnum.EdgeAdded });
+        return toGraphlibData(edge);
+      }),
+    );
   }
 
   public addComboData(combos: ComboData[] = []) {
     if (!combos.length) return;
-    const { model: controller } = this;
+    const { model } = this;
 
-    if (!controller.hasTreeStructure(COMBO_KEY)) {
-      controller.attachTreeStructure(COMBO_KEY);
+    if (!model.hasTreeStructure(COMBO_KEY)) {
+      model.attachTreeStructure(COMBO_KEY);
     }
 
-    controller.addNodes(combos.map(toGraphlibData));
-
-    // record combo
-    combos.forEach((combo) => {
-      this.comboIds.add(idOf(combo));
-    });
+    model.addNodes(
+      combos.map((combo) => {
+        this.comboIds.add(idOf(combo));
+        this.pushChange({ value: combo, type: ChangeTypeEnum.ComboAdded });
+        return toGraphlibData(combo);
+      }),
+    );
 
     this.updateNodeLikeHierarchy(combos);
   }
 
-  protected updateNodeLikeHierarchy(data: NodeData[] | ComboData[]) {
-    const { model: controller } = this;
+  protected updateNodeLikeHierarchy(data: NodeLikeData[]) {
+    const { model } = this;
 
     let hasAttachTreeStructure = false;
 
     const attachTreeStructure = () => {
       if (hasAttachTreeStructure) return;
-      if (!controller.hasTreeStructure(COMBO_KEY)) {
-        controller.attachTreeStructure(COMBO_KEY);
+      if (!model.hasTreeStructure(COMBO_KEY)) {
+        model.attachTreeStructure(COMBO_KEY);
       }
       hasAttachTreeStructure = true;
     };
 
-    data.forEach((item) => {
-      const parentId = item?.style?.parentId;
+    data.forEach((datum) => {
+      const parentId = datum?.style?.parentId;
       if (parentId !== undefined) {
         attachTreeStructure();
-        controller.setParent(idOf(item), parentId, COMBO_KEY);
+        model.setParent(idOf(datum), parentId, COMBO_KEY);
       }
-
-      const children = (item?.style?.children as string[]) || [];
-      children.forEach((childId) => {
-        if (controller.hasNode(childId)) {
-          attachTreeStructure();
-          controller.setParent(childId, idOf(item), COMBO_KEY);
-          controller.mergeNodeData(childId, { style: { parentId: idOf(item) } });
-        }
-      });
     });
   }
 
   public updateData(data: PartialDataOptions) {
     const { nodes, edges, combos } = data;
-    this.model.batch(() => {
+    this.batch(() => {
       this.updateNodeData(nodes);
       this.updateComboData(combos);
       this.updateEdgeData(edges);
@@ -280,12 +328,14 @@ export class DataController {
   public updateNodeData(nodes: PartialNodeLikeData<NodeData>[] = []) {
     if (!nodes.length) return;
 
-    this.model.batch(() => {
+    this.batch(() => {
       nodes.forEach((modifiedNode) => {
-        const originalNode = this.model.getNode(idOf(modifiedNode));
+        const originalNode = this.model.getNode(idOf(modifiedNode)).data;
         if (isEqual(originalNode, modifiedNode)) return;
 
-        this.model.mergeNodeData(idOf(modifiedNode), mergeElementsData(originalNode.data, modifiedNode));
+        const value = mergeElementsData(originalNode, modifiedNode);
+        this.pushChange({ value, original: originalNode, type: ChangeTypeEnum.NodeUpdated });
+        this.model.mergeNodeData(idOf(modifiedNode), value);
       });
 
       this.updateNodeLikeHierarchy(nodes);
@@ -295,7 +345,7 @@ export class DataController {
   public updateEdgeData(edges: PartialEdgeData<EdgeData>[] = []) {
     if (!edges.length) return;
 
-    this.model.batch(() => {
+    this.batch(() => {
       edges.forEach((modifiedEdge) => {
         const originalEdge = this.model.getEdge(idOf(modifiedEdge)).data;
         if (isEqual(originalEdge, modifiedEdge)) return;
@@ -306,7 +356,9 @@ export class DataController {
         if (modifiedEdge.target && originalEdge.target !== modifiedEdge.target) {
           this.model.updateEdgeTarget(idOf(modifiedEdge), modifiedEdge.target);
         }
-        this.model.mergeEdgeData(idOf(modifiedEdge), mergeElementsData(originalEdge, modifiedEdge));
+        const updatedData = mergeElementsData(originalEdge, modifiedEdge);
+        this.model.mergeEdgeData(idOf(modifiedEdge), updatedData);
+        this.pushChange({ value: updatedData, original: originalEdge, type: ChangeTypeEnum.EdgeUpdated });
       });
     });
   }
@@ -327,7 +379,9 @@ export class DataController {
           this.translateComboTo([modifiedComboId], [x, y, z]);
         }
 
-        model.mergeNodeData(modifiedComboId, mergeElementsData(originalCombo, modifiedCombo));
+        const value = mergeElementsData(originalCombo, modifiedCombo);
+        this.pushChange({ value, original: originalCombo, type: ChangeTypeEnum.ComboUpdated });
+        model.mergeNodeData(modifiedComboId, value);
       });
 
       this.updateNodeLikeHierarchy(combos);
@@ -346,12 +400,15 @@ export class DataController {
           (succeed) => {
             const succeedID = idOf(succeed);
             const { x = 0, y = 0, z = 0 } = succeed.style || {};
-            model.mergeNodeData(
-              succeedID,
-              mergeElementsData(succeed, {
-                style: { x: x + dx, y: y + dy, z: z + dz },
-              }),
-            );
+            const value = mergeElementsData(succeed, {
+              style: { x: x + dx, y: y + dy, z: z + dz },
+            });
+            this.pushChange({
+              value,
+              original: succeed,
+              type: this.isCombo(succeedID) ? ChangeTypeEnum.ComboUpdated : ChangeTypeEnum.NodeUpdated,
+            });
+            model.mergeNodeData(succeedID, value);
           },
           (node) => this.getComboChildrenData(idOf(node)),
           'BT',
@@ -377,12 +434,15 @@ export class DataController {
           (succeed) => {
             const succeedID = idOf(succeed);
             const { x = 0, y = 0, z = 0 } = succeed.style || {};
-            model.mergeNodeData(
-              succeedID,
-              mergeElementsData(succeed, {
-                style: { x: x + dx, y: y + dy, z: z + dz },
-              }),
-            );
+            const value = mergeElementsData(succeed, {
+              style: { x: x + dx, y: y + dy, z: z + dz },
+            });
+            this.pushChange({
+              value,
+              original: succeed,
+              type: this.isCombo(succeedID) ? ChangeTypeEnum.ComboUpdated : ChangeTypeEnum.NodeUpdated,
+            });
+            model.mergeNodeData(succeedID, value);
           },
           (node) => this.getComboChildrenData(idOf(node)),
           'BT',
@@ -393,7 +453,7 @@ export class DataController {
 
   public removeData(data: DataID) {
     const { nodes, edges, combos } = data;
-    this.model.batch(() => {
+    this.batch(() => {
       // remove edges first
       this.removeEdgeData(edges);
       this.removeNodeData(nodes);
@@ -405,21 +465,28 @@ export class DataController {
 
   public removeNodeData(ids: ID[] = []) {
     if (!ids.length) return;
-    this.model.batch(() => {
-      ids.forEach((node) => this.removeNodeLikeHierarchy(node));
+    this.batch(() => {
+      ids.forEach((id) => {
+        this.pushChange({ value: this.getNodeData([id])[0], type: ChangeTypeEnum.NodeRemoved });
+        this.removeNodeLikeHierarchy(id);
+      });
       this.model.removeNodes(ids);
     });
   }
 
   public removeEdgeData(ids: ID[] = []) {
     if (!ids.length) return;
+    ids.forEach((id) => this.pushChange({ value: this.getEdgeData([id])[0], type: ChangeTypeEnum.EdgeRemoved }));
     this.model.removeEdges(ids);
   }
 
   public removeComboData(ids: ID[] = []) {
     if (!ids.length) return;
-    this.model.batch(() => {
-      ids.forEach((node) => this.removeNodeLikeHierarchy(node));
+    this.batch(() => {
+      ids.forEach((id) => {
+        this.pushChange({ value: this.getComboData([id])[0], type: ChangeTypeEnum.ComboRemoved });
+        this.removeNodeLikeHierarchy(id);
+      });
       this.model.removeNodes(ids);
     });
   }
@@ -440,11 +507,19 @@ export class DataController {
       const [data] = this.getNodeLikeData([id]);
 
       this.model.getChildren(id, COMBO_KEY).forEach((child) => {
-        this.model.setParent(idOf(child), data?.style?.parentId, COMBO_KEY);
-        this.model.mergeNodeData(
-          idOf(child),
-          mergeElementsData(child.data, { id: idOf(child), style: { parentId: data?.style?.parentId } }),
-        );
+        const childData = child.data;
+        const childId = idOf(childData);
+        this.model.setParent(idOf(childData), data?.style?.parentId, COMBO_KEY);
+        const value = mergeElementsData(childData, {
+          id: idOf(childData),
+          style: { parentId: data?.style?.parentId },
+        });
+        this.pushChange({
+          value,
+          original: childData,
+          type: this.isCombo(childId) ? ChangeTypeEnum.ComboUpdated : ChangeTypeEnum.NodeUpdated,
+        });
+        this.model.mergeNodeData(idOf(childData), value);
       });
     }
   }
