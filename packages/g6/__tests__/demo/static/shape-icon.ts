@@ -26,8 +26,6 @@ export const shapeIcon: StaticTestCase = async (context) => {
     },
   });
 
-  await canvas.init();
-
   canvas.appendChild(i1);
   canvas.appendChild(i2);
 };

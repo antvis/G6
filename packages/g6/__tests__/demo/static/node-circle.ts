@@ -65,8 +65,6 @@ export const nodeCircle: StaticTestCase = async (context) => {
     },
   });
 
-  await canvas.init();
-
   canvas.appendChild(c1);
   canvas.appendChild(c2);
   canvas.appendChild(c3);

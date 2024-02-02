@@ -73,8 +73,6 @@ export const edgeQuadratic: StaticTestCase = async (context) => {
     },
   });
 
-  await canvas.init();
-
   canvas.appendChild(quadratic1);
   canvas.appendChild(quadratic2);
   canvas.appendChild(quadratic3);
