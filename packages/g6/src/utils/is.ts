@@ -1,4 +1,5 @@
 import type { EdgeData } from '../spec';
+import type { Point, Vector2, Vector3 } from '../types';
 import type { ElementData } from '../types/data';
 
 /**
@@ -11,4 +12,26 @@ import type { ElementData } from '../types/data';
 export function isEdgeData(data: Partial<ElementData>): data is EdgeData {
   if ('source' in data && 'target' in data) return true;
   return false;
+}
+
+/**
+ * <zh/> 判断是否为二维向量
+ *
+ * <en/> Judge whether the vector is 2d
+ * @param vector - <zh/> 向量 | <en/> vector
+ * @returns <zh/> 是否为二维向量 | <en/> whether the vector is 2d
+ */
+export function isVector2(vector: Point): vector is Vector2 {
+  return vector.length === 2;
+}
+
+/**
+ * <zh/> 判断是否为三维向量
+ *
+ * <en/> Judge whether the vector is 3d
+ * @param vector - <zh/> 向量 | <en/> vector
+ * @returns <zh/> 是否为三维向量 | <en/> whether the vector is 3d
+ */
+export function isVector3(vector: Point): vector is Vector3 {
+  return vector.length === 3;
 }
