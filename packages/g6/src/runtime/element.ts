@@ -5,7 +5,8 @@ import { Group } from '@antv/g';
 import type { ID } from '@antv/graphlib';
 import { groupBy } from '@antv/util';
 import { executor as animationExecutor } from '../animations';
-import { ChangeTypeEnum } from '../constants';
+import { ChangeTypeEnum, GraphEvent } from '../constants';
+import { BaseNode } from '../elements/nodes';
 import type { BaseShape } from '../elements/shapes';
 import { getPlugin } from '../registry';
 import type { ComboData, DataOptions, EdgeData, NodeData } from '../spec';
@@ -13,13 +14,26 @@ import type { AnimationStage } from '../spec/element/animation';
 import type { EdgeStyle } from '../spec/element/edge';
 import type { NodeLikeStyle } from '../spec/element/node';
 import type { DataChange, ElementData, ElementDatum, ElementType, State, StyleIterationContext } from '../types';
+import { createAnimationsProxy } from '../utils/animation';
 import { reduceDataChanges } from '../utils/change';
 import { idOf } from '../utils/id';
 import { assignColorByPalette, parsePalette } from '../utils/palette';
 import { computeElementCallbackStyle } from '../utils/style';
 import type { RuntimeContext } from './types';
 
-type AnimationExecutor = (id: ID, shape: DisplayObject, originalStyle: Record<string, unknown>) => IAnimation | null;
+type AnimationExecutor = (
+  id: ID,
+  shape: DisplayObject,
+  originalStyle: Record<string, unknown>,
+  modifiedStyle?: Record<string, unknown>,
+) => IAnimation | null;
+
+type RenderContext = {
+  taskId: TaskID;
+  animate?: AnimationExecutor;
+};
+
+type TaskID = number;
 
 export class ElementController {
   private context: RuntimeContext;
@@ -30,29 +44,49 @@ export class ElementController {
     combo: Group;
   };
 
-  public init: Promise<void>;
-
   private elementMap: Record<ID, DisplayObject> = {};
 
-  private animationMap: Record<ID, IAnimation | null | undefined> = {};
+  private shapeTypeMap: Record<ID, string> = {};
+
+  private taskIdCounter = 0;
+
+  /**
+   * <zh/> 获取渲染任务 id
+   *
+   * <en/> Get render task id
+   */
+  private getTaskId() {
+    return this.taskIdCounter++;
+  }
+
+  private postRenderTasks: Record<TaskID, (() => Promise<void>)[]> = {};
+
+  private getTasks(taskId: TaskID) {
+    return this.postRenderTasks[taskId] || [];
+  }
+
+  private animationMap: Record<TaskID, Record<ID, IAnimation>> = {};
 
   constructor(context: RuntimeContext) {
     this.context = context;
-
     this.initElementStates();
+  }
 
-    const { canvas } = context;
+  public async init() {
+    const { canvas } = this.context;
+    if (!this.container) {
+      await canvas.init();
+      this.container = {
+        node: canvas.appendChild(new Group({ style: { zIndex: 2 } })),
+        edge: canvas.appendChild(new Group({ style: { zIndex: 1 } })),
+        combo: canvas.appendChild(new Group({ style: { zIndex: 0 } })),
+      };
+    }
+  }
 
-    this.init = new Promise<void>((resolve) => {
-      canvas.init().then(() => {
-        this.container = {
-          node: canvas.appendChild(new Group({ style: { zIndex: 2 } })),
-          edge: canvas.appendChild(new Group({ style: { zIndex: 1 } })),
-          combo: canvas.appendChild(new Group({ style: { zIndex: 0 } })),
-        };
-        resolve();
-      });
-    });
+  private emit(event: GraphEvent, payload?: any) {
+    const { graph } = this.context;
+    graph.emit(event, payload);
   }
 
   private getElementData(elementType: ElementType, ids?: ID[]) {
@@ -153,6 +187,11 @@ export class ElementController {
 
   private elementState: Record<ID, State[]> = {};
 
+  /**
+   * <zh/> 从数据中初始化元素状态
+   *
+   * <en/> Initialize element state from data
+   */
   private initElementStates() {
     const { options } = this.context;
     const { data } = options;
@@ -236,15 +275,33 @@ export class ElementController {
 
   private getAnimationExecutor(elementType: ElementType, stage: AnimationStage): AnimationExecutor {
     const { options } = this.context;
-    const animation = options?.[elementType]?.animation?.[stage];
 
-    return (id: ID, shape: DisplayObject, originalStyle: Record<string, unknown>) => {
+    const getAnimation = () => {
+      const userDefined = options?.[elementType]?.animation;
+      if (userDefined === false) return false;
+      const userDefinedStage = userDefined?.[stage];
+      if (userDefinedStage === false) return false;
+
+      const themeDefined = this.getTheme(elementType)?.animation;
+      if (themeDefined === false) return false;
+      const themeDefinedStage = themeDefined?.[stage];
+
+      return themeDefinedStage ?? false;
+    };
+
+    return (
+      id: ID,
+      shape: DisplayObject,
+      originalStyle: Record<string, unknown>,
+      modifiedStyle?: Record<string, unknown>,
+    ) => {
       return animationExecutor(
         shape,
-        animation,
+        getAnimation(),
         {},
         {
           originalStyle,
+          modifiedStyle,
           states: this.getElementStates(id),
         },
       );
@@ -274,56 +331,23 @@ export class ElementController {
    * <en/> Get edge end context
    * @param id - <zh/> 边 id | <en/> edge id
    * @returns <zh/> 边端点连接上下文 | <en/> edge end context
+   * @description
+   * <zh/> 只提供了最基本的节点示例和连接点位置信息，更多的上下文信息需要在边元素中计算
+   *
+   * <en/> Only the most basic node instances and connection point position information are provided, and more context information needs to be calculated in the edge element
    */
   private getEdgeEndsContext(id: ID) {
-    // 如果节点存在连接桩，选取最近的连接桩
-    // 如果不存在连接桩，调用节点 getIntersectPoint 计算交点
-    // 如果都不存在，直接使用节点中心点
-
     const { dataController } = this.context;
 
     const data = dataController.getEdgeData([id])?.[0];
     if (!data) return {};
 
-    const { source, target, style = {} } = data;
-    const { sourceAnchor, targetAnchor } = style;
+    const { source, target } = data;
+    const sourceNode = this.getElement<BaseNode<any, any>>(source);
+    const targetNode = this.getElement<BaseNode<any, any>>(target);
 
-    const sourceNode = this.getElement<any>(source);
-    const targetNode = this.getElement<any>(target);
-
-    // const sourceAnchors: Record<string, DisplayObject> = sourceNode?.getPorts?.() || {};
-    // const targetAnchors: Record<string, DisplayObject> = targetNode?.getPorts?.() || {};
-
-    const sourcePoint = sourceNode?.getPosition() || [0, 0, 0];
-    const targetPoint = targetNode?.getPosition() || [0, 0, 0];
-
-    // let sourcePoint!: Point;
-    // let targetPoint!: Point;
-
-    // TODO 下面的逻辑没有考虑到边的一端连接到连接桩，另一端连接到交点的情况
-    // TODO The logic below does not consider the case where one end of the edge is connected to the port and the other end is connected to the intersection
-
-    // 优先使用 sourceAnchor、targetAnchor / Use sourceAnchor and targetAnchor first
-    // if (sourceAnchor && sourceAnchors[sourceAnchor] && targetAnchor && targetAnchors[targetAnchor]) {
-    //   sourcePoint = sourceAnchors[sourceAnchor].getPosition();
-    //   targetPoint = targetAnchors[targetAnchor].getPosition();
-    // }
-    // 如果不存在 sourceAnchor、targetAnchor，且存在 sourceAnchors、targetAnchors，选取最近的连接桩
-    // If sourceAnchor and targetAnchor do not exist, and sourceAnchors and targetAnchors exist, select the nearest port
-    // else if (Object.keys(sourceAnchors).length > 0 && Object.keys(targetAnchors).length > 0) {
-    //   // TODO 实现算法用于选取最近的连接桩 / Implement the algorithm to select the nearest port
-    // }
-    // 如果不存在 sourceAnchor、targetAnchor，调用 getIntersectPoint 计算交点
-    // If sourceAnchor and targetAnchor do not exist, call getIntersectPoint to calculate the intersection
-    // else if (Object.keys(sourceAnchors).length === 0 && Object.keys(targetAnchors).length === 0) {
-    //   // TODO 待实现 / To be implemented
-    // }
-    // 如果都不存在，直接使用节点中心点
-    // If none of them exist, use the center point of the node directly
-    // else {
-    //    sourcePoint = sourceNode?.getPosition() || [0, 0, 0];
-    //    targetPoint = targetNode?.getPosition() || [0, 0, 0];
-    // }
+    const sourcePoint = sourceNode?.getBounds().center || [0, 0, 0];
+    const targetPoint = targetNode?.getBounds().center || [0, 0, 0];
 
     return {
       sourcePoint,
@@ -369,15 +393,15 @@ export class ElementController {
    *
    * <en/> start render process
    */
-  public async render(context: RuntimeContext) {
-    await this.init;
+  public async render(context: RuntimeContext): Promise<IAnimation | null> {
     this.context = context;
     const { dataController } = context;
 
     const tasks = reduceDataChanges(dataController.getChanges());
-    if (tasks.length === 0) return;
+    if (tasks.length === 0) return null;
 
-    this.stopAnimation();
+    this.emit(GraphEvent.BEFORE_RENDER);
+    await this.init();
 
     const {
       NodeAdded = [],
@@ -396,20 +420,17 @@ export class ElementController {
 
     const dataOf = <T extends DataChange['value']>(data: DataChange[]) => data.map((datum) => datum.value) as T[];
 
-    // 计算要新增的元素
-    // compute elements to add
+    // 计算要新增的元素 / compute elements to add
     const nodesToAdd = dataOf<NodeData>(NodeAdded);
     const edgesToAdd = dataOf<EdgeData>(EdgeAdded);
     const combosToAdd = dataOf<ComboData>(ComboAdded);
 
-    // 计算要更新的元素
-    // compute elements to update
+    // 计算要更新的元素 / compute elements to update
     const nodesToUpdate = dataOf<NodeData>(NodeUpdated);
     const edgesToUpdate = dataOf<EdgeData>(EdgeUpdated);
     const combosToUpdate = dataOf<ComboData>(ComboUpdated);
 
-    // 计算要删除的元素
-    // compute elements to remove
+    // 计算要删除的元素 / compute elements to remove
     const nodesToRemove = dataOf<NodeData>(NodeRemoved);
     const edgesToRemove = dataOf<EdgeData>(EdgeRemoved);
     const combosToRemove = dataOf<ComboData>(ComboRemoved);
@@ -435,22 +456,40 @@ export class ElementController {
         if (!combosToUpdate.find((item) => item.id === combo.id)) combosToUpdate.push(combo);
       });
 
-    // execute changes
-    this.destroyElements({ nodes: nodesToRemove, edges: edgesToRemove, combos: combosToRemove });
-    this.createElements({ nodes: nodesToAdd, edges: edgesToAdd, combos: combosToAdd });
-    this.updateElements({ nodes: nodesToUpdate, edges: edgesToUpdate, combos: combosToUpdate });
+    // 创建渲染任务 / Create render task
+    const taskId = this.getTaskId();
+    this.postRenderTasks[taskId] = [];
+    this.animationMap[taskId] = {};
 
-    this.postRender();
+    this.destroyElements({ nodes: nodesToRemove, edges: edgesToRemove, combos: combosToRemove }, { taskId });
+    this.createElements({ nodes: nodesToAdd, edges: edgesToAdd, combos: combosToAdd }, { taskId });
+    this.updateElements({ nodes: nodesToUpdate, edges: edgesToUpdate, combos: combosToUpdate }, { taskId });
+
+    return this.postRender(taskId);
   }
 
-  private postRenderTasks: (() => void)[] = [];
+  private postRender(taskId: TaskID) {
+    const tasks = this.getTasks(taskId);
+    // 执行后续任务 / Execute subsequent tasks
+    Promise.all(tasks.map((task) => task())).then(() => {
+      delete this.postRenderTasks[taskId];
+      delete this.animationMap[taskId];
+    });
 
-  private postRender() {
-    this.postRenderTasks.forEach((callback) => callback());
-    this.postRenderTasks = [];
+    const getRenderResult = (taskId: TaskID): IAnimation | null => {
+      const [source, ...target] = Object.values(this.animationMap[taskId]);
+      if (source) return createAnimationsProxy(source, target);
+      return null;
+    };
+
+    const result = getRenderResult(taskId);
+
+    // 触发成事件 / Trigger event
+    if (result) result.onfinish = () => this.emit(GraphEvent.AFTER_RENDER);
+    else this.emit(GraphEvent.AFTER_RENDER);
+
+    return result;
   }
-
-  private shapeTypeMap: Record<ID, string> = {};
 
   private getShapeType(elementType: ElementType, datum: ElementDatum) {
     const type = datum?.style?.type;
@@ -464,7 +503,9 @@ export class ElementController {
     }[elementType];
   }
 
-  private createElement(elementType: ElementType, datum: ElementDatum, animate?: AnimationExecutor) {
+  private createElement(elementType: ElementType, datum: ElementDatum, context: RenderContext) {
+    const { animate, taskId } = context;
+
     const id = idOf(datum);
     const currentShape = this.getElement(id);
     if (currentShape) return;
@@ -474,12 +515,11 @@ export class ElementController {
     const Ctor = getPlugin(elementType, shapeType);
     if (!Ctor) return;
 
-    const { context } = this;
     const shape = this.container[elementType].appendChild(
       // @ts-expect-error TODO fix type
       new Ctor({
         style: {
-          context,
+          context: this.context,
           ...this.getElementComputedStyle(elementType, id),
         },
       }),
@@ -487,14 +527,19 @@ export class ElementController {
 
     this.shapeTypeMap[id] = shapeType;
 
-    this.postRenderTasks.push(() => {
-      this.animationMap[id] = animate?.(id, shape, { ...shape.attributes });
+    const tasks = this.getTasks(taskId);
+    tasks.push(async () => {
+      const result = animate?.(id, shape, { ...shape.attributes, opacity: 0 });
+      if (result) {
+        this.animationMap[taskId][id] = result;
+        await result.finished;
+      }
     });
 
     this.elementMap[id] = shape;
   }
 
-  private createElements(data: DataOptions) {
+  private createElements(data: DataOptions, context: RenderContext) {
     // 新增相应的元素数据
     // 重新计算色板样式
 
@@ -507,13 +552,15 @@ export class ElementController {
     ];
 
     iteration.forEach(([elementType, elementData]) => {
-      const animation = this.getAnimationExecutor(elementType, 'enter');
-      elementData.forEach((datum) => this.createElement(elementType, datum, animation));
+      if (elementData.length === 0) return;
+      const animate = this.getAnimationExecutor(elementType, 'enter');
+      elementData.forEach((datum) => this.createElement(elementType, datum, { ...context, animate }));
     });
   }
 
-  private async updateElement(elementType: ElementType, datum: ElementDatum, animate?: AnimationExecutor) {
-    this.handleTypeChange(elementType, datum);
+  private async updateElement(elementType: ElementType, datum: ElementDatum, context: RenderContext) {
+    const { animate, taskId } = context;
+    this.handleTypeChange(elementType, datum, context);
 
     const id = idOf(datum);
     const shape = this.getElement(id);
@@ -521,15 +568,22 @@ export class ElementController {
 
     const style = this.getElementComputedStyle(elementType, id);
 
+    const originalStyle = { ...shape.attributes };
+
     if ('update' in shape) shape.update(style);
     else (shape as DisplayObject).attr(style);
 
-    this.postRenderTasks.push(() => {
-      this.animationMap[id] = animate?.(id, shape, { ...shape.attributes });
+    const tasks = this.getTasks(taskId);
+    tasks.push(async () => {
+      const result = animate?.(id, shape, originalStyle);
+      if (result) {
+        this.animationMap[taskId][id] = result;
+        await result?.finished;
+      }
     });
   }
 
-  private updateElements(data: DataOptions) {
+  private updateElements(data: DataOptions, context: RenderContext) {
     const { nodes = [], edges = [], combos = [] } = data;
 
     const iteration: [ElementType, ElementData][] = [
@@ -539,8 +593,9 @@ export class ElementController {
     ];
 
     iteration.forEach(([elementType, elementData]) => {
+      if (elementData.length === 0) return;
       const animate = this.getAnimationExecutor(elementType, 'update');
-      elementData.forEach((datum) => this.updateElement(elementType, datum, animate));
+      elementData.forEach((datum) => this.updateElement(elementType, datum, { ...context, animate }));
     });
   }
 
@@ -553,32 +608,37 @@ export class ElementController {
    *
    * <en/> Destroy the original shape instance and recreate the shape instance
    */
-  private handleTypeChange(elementType: ElementType, datum: ElementDatum) {
+  private handleTypeChange(elementType: ElementType, datum: ElementDatum, context: RenderContext) {
     const id = idOf(datum);
     const originalShapeType = this.shapeTypeMap[id];
     const modifiedShapeType = this.getShapeType(elementType, datum);
     if (originalShapeType && originalShapeType !== modifiedShapeType) {
-      this.destroyElement(datum);
-      this.createElement(elementType, datum);
+      this.destroyElement(datum, context);
+      this.createElement(elementType, datum, context);
     }
   }
 
-  protected destroyElement(datum: ElementDatum, animate?: AnimationExecutor) {
+  protected destroyElement(datum: ElementDatum, context: RenderContext) {
+    const { animate, taskId } = context;
     const id = idOf(datum);
     const element = this.elementMap[id];
     if (!element) return;
 
-    const animateResult = animate?.(id, element, { ...element.attributes });
+    const tasks = this.getTasks(taskId);
 
-    const handleDestroy = () => {
-      element.destroy();
-    };
+    tasks.push(async () => {
+      const result = animate?.(id, element, { ...element.attributes }, { opacity: 0 });
 
-    if (animateResult) animateResult.onfinish = () => handleDestroy();
-    else handleDestroy();
+      if (result) {
+        this.animationMap[taskId][id] = result;
+        result.onfinish = () => element.destroy();
+      } else {
+        element.destroy();
+      }
+    });
   }
 
-  protected destroyElements(data: DataOptions) {
+  protected destroyElements(data: DataOptions, context: RenderContext) {
     const { nodes = [], edges = [], combos = [] } = data;
 
     const iteration: [ElementType, ElementData][] = [
@@ -590,15 +650,11 @@ export class ElementController {
     // 移除相应的元素数据
     // 重新计算色板样式，如果是分组色板，则不需要重新计算
     iteration.forEach(([elementType, elementData]) => {
+      if (elementData.length === 0) return;
       const animate = this.getAnimationExecutor(elementType, 'exit');
-      elementData.forEach((datum) => this.destroyElement(datum, animate));
+      elementData.forEach((datum) => this.destroyElement(datum, { ...context, animate }));
       this.clearElement(elementData.map(idOf));
     });
-  }
-
-  public stopAnimation() {
-    Object.values(this.animationMap).forEach((animation) => animation?.finish());
-    this.animationMap = {};
   }
 
   private clearElement(ids: ID[]) {
@@ -608,6 +664,7 @@ export class ElementController {
       delete this.stateStyle[id];
       delete this.elementState[id];
       delete this.elementMap[id];
+      delete this.shapeTypeMap[id];
     });
   }
 }
