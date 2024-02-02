@@ -1,8 +1,23 @@
-import { isHorizontal } from '../../../src/utils/point';
+import { isCollinear, isHorizontal, isVertical, parsePoint } from '../../../src/utils/point';
 
 describe('Point Functions', () => {
-  it('isHorizontal function', () => {
-    expect(isHorizontal({ x: 100, y: 100 }, { x: 50, y: 100 })).toEqual(true);
-    expect(isHorizontal({ x: 100, y: 100 }, { x: 50, y: 150 })).toEqual(false);
+  it('isHorizontal', () => {
+    expect(isHorizontal([100, 100], [50, 100])).toEqual(true);
+    expect(isHorizontal([100, 100], [50, 150])).toEqual(false);
+  });
+
+  it('isVertical', () => {
+    expect(isVertical([100, 100], [100, 50])).toEqual(true);
+    expect(isVertical([100, 100], [50, 150])).toEqual(false);
+  });
+
+  it('isCollinear', () => {
+    expect(isCollinear([100, 100], [100, 50], [100, 150])).toEqual(true);
+    expect(isCollinear([100, 100], [50, 100], [150, 100])).toEqual(true);
+    expect(isCollinear([100, 100], [50, 50], [150, 100])).toEqual(false);
+  });
+
+  it('parsePoint', () => {
+    expect(parsePoint({ x: 100, y: 100 })).toEqual([100, 100]);
   });
 });

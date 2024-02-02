@@ -4,8 +4,6 @@ import type { StaticTestCase } from '../types';
 export const edgeCubicHorizontal: StaticTestCase = async (context) => {
   const { canvas } = context;
 
-  await canvas.init();
-
   [100, 150, 200, 250, 300].forEach((v) => {
     canvas.appendChild(
       new CubicHorizontal({

@@ -44,7 +44,6 @@ export class Cubic extends BaseEdge<PathStyleProps, Path> {
   static defaultStyleProps: Partial<CubicStyleProps> = {
     curvePosition: [0.5, 0.5],
     curveOffset: [-20, 20],
-    isBillboard: true,
   };
 
   constructor(options: CubicOptions) {

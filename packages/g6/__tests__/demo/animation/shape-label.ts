@@ -18,8 +18,6 @@ export const shapeLabel: AnimationTestCase = async (context) => {
     },
   });
 
-  await canvas.init();
-
   canvas.appendChild(label);
 
   const result = label.animate(
