@@ -1,5 +1,6 @@
 import { Path as GPath, type DisplayObjectConfig, type PathStyleProps as GPathStyleProps, type Group } from '@antv/g';
-import { getStarAnchorByPosition, getStarAnchors, getStarPath } from '../../utils/star';
+import { getStarAnchorByPosition, getStarAnchors, getStarPath } from '../../utils/element';
+import { subStyleProps } from '../../utils/prefix';
 import type { BaseNodeStyleProps, NodeAnchorStyleProps } from './base-node';
 import { BaseNode } from './base-node';
 
@@ -33,6 +34,16 @@ export class Star extends BaseNode<KeyShapeStyleProps, GPath> {
     return { ...keyStyle, d };
   }
 
+  protected getHaloStyle(attributes: ParsedStarStyleProps): KeyShapeStyleProps {
+    const haloStyle = subStyleProps(this.getGraphicStyle(attributes), 'halo') as Partial<KeyShapeStyleProps>;
+    const keyStyle = this.getKeyStyle(attributes);
+
+    return {
+      ...keyStyle,
+      ...haloStyle,
+    } as KeyShapeStyleProps;
+  }
+
   protected getAnchorsStyle(attributes: ParsedStarStyleProps): NodeAnchorStyleProps[] {
     const { outerR, innerR } = attributes;
     const anchors = getStarAnchors(outerR, innerR);
@@ -41,7 +52,7 @@ export class Star extends BaseNode<KeyShapeStyleProps, GPath> {
 
     return anchorStyle.map((anchorStyle) => {
       const { position, ...style } = anchorStyle;
-      const [cx, cy] = getStarAnchorByPosition(position, anchors);
+      const [cx, cy] = getStarAnchorByPosition(position as any, anchors);
       return { cx, cy, ...style } as NodeAnchorStyleProps;
     });
   }
