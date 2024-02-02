@@ -25,6 +25,8 @@ import { dfs } from '../utils/traverse';
 
 const COMBO_KEY = 'combo';
 
+const TREE_KEY = 'tree';
+
 export class DataController {
   public model: GraphlibData;
 
@@ -135,6 +137,22 @@ export class DataController {
   }
 
   /**
+   * <zh/> 获取节点的子节点数据
+   *
+   * <en/> Get the child node data
+   * @param id - <zh/> 节点 ID | <en/> node ID
+   * @returns <zh/> 子节点数据 | <en/> child node data
+   * @description
+   * <zh/> 仅在树图中有效
+   *
+   * <en/> Only valid in tree graph
+   */
+  public getChildrenData(id: ID): NodeData[] {
+    if (!this.model.hasNode(id)) return [];
+    return this.model.getChildren(id, TREE_KEY).map((node) => node.data);
+  }
+
+  /**
    * <zh/> 根据 ID 获取元素的数据，不用关心元素的类型
    *
    * <en/> Get the data of the element by ID, no need to care about the type of the element
@@ -170,24 +188,6 @@ export class DataController {
       else acc.push(node.data);
       return acc;
     }, [] as NodeLikeData[]);
-  }
-
-  /**
-   * <zh/> 对节点和 combo 的数据进行分类
-   *
-   * <en/> Classify node and combo data
-   * @param data - <zh/> 待分类的数据 | <en/> data to be classified
-   * @returns <zh/> 节点和 combo 的数据 | <en/> node and combo data
-   */
-  public classifyNodeLikeData(data: NodeLikeData[]) {
-    return data.reduce(
-      (acc, item) => {
-        if (this.isCombo(idOf(item))) acc.combos.push(item);
-        else acc.nodes.push(item);
-        return acc;
-      },
-      { nodes: [] as NodeData[], combos: [] as ComboData[] },
-    );
   }
 
   public hasNode(id: ID) {
@@ -473,6 +473,11 @@ export class DataController {
     if (!ids.length) return;
     this.batch(() => {
       ids.forEach((id) => {
+        // 移除关联边、子节点
+        // remove related edges and child nodes
+        this.removeEdgeData(this.getRelatedEdgesData(id).map(idOf));
+        // TODO 树图情况下移除子节点
+
         this.pushChange({ value: this.getNodeData([id])[0], type: ChangeTypeEnum.NodeRemoved });
         this.removeNodeLikeHierarchy(id);
       });

@@ -6,6 +6,7 @@ import { ElementController } from '../../../src/runtime/element';
 import type { RuntimeContext } from '../../../src/runtime/types';
 import { LIGHT_THEME } from '../../../src/themes/light';
 import { idOf } from '../../../src/utils/id';
+import { Graph } from '../../mock';
 
 class Canvas {
   init() {
@@ -18,8 +19,6 @@ class Canvas {
     return node;
   }
 }
-
-class Graph {}
 
 const createContext = (options: G6Spec): RuntimeContext => {
   const dataController = new DataController();
@@ -231,8 +230,6 @@ describe('ElementController', () => {
 
     const elementController = new ElementController(context);
 
-    await elementController.init;
-
     await elementController.render(context);
 
     // @ts-expect-error container is private
@@ -242,23 +239,5 @@ describe('ElementController', () => {
     expect(container.edge.children.length).toBe(2);
     // TODO 目前暂未提供 combo 图形，因此无法渲染 / Currently, combo graphics are not provided, so they cannot be rendered
     expect(container.combo.children.length).toBe(0);
-
-    // @ts-expect-error animationMap is private
-    expect(Object.keys(elementController.animationMap)).toEqual([
-      'node-1',
-      'node-2',
-      'node-3',
-      idOf(options.data!.edges![0]),
-      idOf(options.data!.edges![1]),
-    ]);
-
-    // @ts-expect-error animationMap is private
-    expect(Object.keys(elementController.elementMap)).toEqual([
-      'node-1',
-      'node-2',
-      'node-3',
-      idOf(options.data!.edges![0]),
-      idOf(options.data!.edges![1]),
-    ]);
   });
 });

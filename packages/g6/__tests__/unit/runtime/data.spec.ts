@@ -520,16 +520,6 @@ describe('DataController', () => {
     expect(controller.getNodeLikeData()).toEqual([...data.combos, ...data.nodes]);
   });
 
-  it('classifyNodeLikeData', () => {
-    const controller = new DataController();
-
-    controller.addData(clone(data));
-    expect(controller.classifyNodeLikeData([...data.combos, ...data.nodes])).toEqual({
-      nodes: data.nodes,
-      combos: data.combos,
-    });
-  });
-
   it('hasNode', () => {
     const controller = new DataController();
 
