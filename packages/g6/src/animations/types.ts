@@ -29,6 +29,16 @@ export interface AnimationContext {
    */
   originalStyle: Record<string, unknown>;
   /**
+   * <zh/> 额外的动画终态样式
+   *
+   * <en/> Additional animation final state style
+   * @description
+   * <zh/> 例如元素销毁前，需要将元素的终态透明度设置为 0
+   *
+   * <en/> For example, before the element is destroyed, the final state opacity of the element needs to be set to 0
+   */
+  modifiedStyle?: Record<string, unknown>;
+  /**
    * <zh/> 元素状态
    *
    * <en/> Element states

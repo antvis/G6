@@ -1,5 +1,10 @@
 import type { IAnimation } from '@antv/g';
-import { createAnimationsProxy, executeAnimation, preprocessKeyframes } from '../../../src/utils/animation';
+import {
+  createAnimationsProxy,
+  executeAnimation,
+  inferDefaultValue,
+  preprocessKeyframes,
+} from '../../../src/utils/animation';
 
 describe('animation', () => {
   it('createAnimationsProxy', () => {
@@ -98,5 +103,10 @@ describe('animation', () => {
         options,
       },
     ]);
+  });
+
+  it('inferDefaultValue', () => {
+    expect(inferDefaultValue('opacity')).toBe(1);
+    expect(inferDefaultValue('stroke')).toBe(undefined);
   });
 });

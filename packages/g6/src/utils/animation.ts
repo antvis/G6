@@ -116,3 +116,23 @@ export function executeAnimation<T extends DisplayObject>(
   const descendantAnimations = descendants.map((descendant) => descendant.animate(inheritAttrsKeyframes, options)!);
   return createAnimationsProxy(keyShapeAnimation!, descendantAnimations);
 }
+
+/**
+ * <zh/> 获取属性的默认值
+ *
+ * <en/> Get default value of attribute
+ * @param name - <zh/> 属性名 | <en/> Attribute name
+ * @returns <zh/> 属性默认值 | <en/> Attribute default value
+ * @description
+ * <zh/> 执行动画过程中，一些属性没有显式指定属性值，但实际上在 G 中存在属性值，因此通过该方法获取其实际默认值
+ *
+ * <en/> During the animation, some attributes do not explicitly specify the attribute value, but in fact there is an attribute value in G, so use this method to get the actual default value
+ */
+export function inferDefaultValue(name: string) {
+  switch (name) {
+    case 'opacity':
+      return 1;
+    default:
+      return undefined;
+  }
+}
