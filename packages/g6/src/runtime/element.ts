@@ -9,7 +9,7 @@ import { ChangeTypeEnum, GraphEvent } from '../constants';
 import { BaseNode } from '../elements/nodes';
 import type { BaseShape } from '../elements/shapes';
 import { getPlugin } from '../registry';
-import type { ComboData, DataOptions, EdgeData, NodeData } from '../spec';
+import type { ComboData, DataOptions, EdgeData, G6Spec, NodeData } from '../spec';
 import type { AnimationStage } from '../spec/element/animation';
 import type { EdgeStyle } from '../spec/element/edge';
 import type { NodeLikeStyle } from '../spec/element/node';
@@ -69,7 +69,7 @@ export class ElementController {
 
   constructor(context: RuntimeContext) {
     this.context = context;
-    this.initElementStates();
+    this.setElementStates(context.options.data);
   }
 
   public async init() {
@@ -192,15 +192,12 @@ export class ElementController {
    *
    * <en/> Initialize element state from data
    */
-  private initElementStates() {
-    const { options } = this.context;
-    const { data } = options;
+  private setElementStates(data: G6Spec['data']) {
     const { nodes = [], edges = [], combos = [] } = data || {};
     [...nodes, ...edges, ...combos].forEach((elementData) => {
-      if (elementData?.style?.states?.length) {
-        const id = idOf(elementData);
-        this.elementState[id] = elementData.style.states;
-      }
+      const states = elementData.style?.states || [];
+      const id = idOf(elementData);
+      this.elementState[id] = states;
     });
   }
 
@@ -280,7 +277,7 @@ export class ElementController {
       const userDefined = options?.[elementType]?.animation;
       if (userDefined === false) return false;
       const userDefinedStage = userDefined?.[stage];
-      if (userDefinedStage === false) return false;
+      if (userDefinedStage) return userDefinedStage;
 
       const themeDefined = this.getTheme(elementType)?.animation;
       if (themeDefined === false) return false;
@@ -415,9 +412,6 @@ export class ElementController {
       ComboRemoved = [],
     } = groupBy(tasks, (change) => change.type) as unknown as Record<`${ChangeTypeEnum}`, DataChange[]>;
 
-    // 重新计算样式 / Recalculate style
-    this.computeStyle();
-
     const dataOf = <T extends DataChange['value']>(data: DataChange[]) => data.map((datum) => datum.value) as T[];
 
     // 计算要新增的元素 / compute elements to add
@@ -430,6 +424,8 @@ export class ElementController {
     const edgesToUpdate = dataOf<EdgeData>(EdgeUpdated);
     const combosToUpdate = dataOf<ComboData>(ComboUpdated);
 
+    this.setElementStates({ nodes: nodesToUpdate, edges: edgesToUpdate, combos: combosToUpdate });
+
     // 计算要删除的元素 / compute elements to remove
     const nodesToRemove = dataOf<NodeData>(NodeRemoved);
     const edgesToRemove = dataOf<EdgeData>(EdgeRemoved);
@@ -437,6 +433,7 @@ export class ElementController {
 
     // 如果更新了节点，需要更新连接的边和所处的 combo
     // If the node is updated, the connected edge and the combo it is in need to be updated
+    // TODO 待优化，仅考虑影响边更新的属性，如 x, y, size 等
     nodesToUpdate
       .map((node) => dataController.getRelatedEdgesData(idOf(node)))
       .flat()
@@ -455,6 +452,9 @@ export class ElementController {
       .forEach((combo) => {
         if (!combosToUpdate.find((item) => item.id === combo.id)) combosToUpdate.push(combo);
       });
+
+    // 重新计算样式 / Recalculate style
+    this.computeStyle();
 
     // 创建渲染任务 / Create render task
     const taskId = this.getTaskId();
@@ -565,9 +565,7 @@ export class ElementController {
     const id = idOf(datum);
     const shape = this.getElement(id);
     if (!shape) return;
-
     const style = this.getElementComputedStyle(elementType, id);
-
     const originalStyle = { ...shape.attributes };
 
     if ('update' in shape) shape.update(style);

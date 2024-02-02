@@ -88,8 +88,6 @@ describe('ElementController', () => {
 
     const elementController = new ElementController(context);
 
-    await elementController.init;
-
     const edge1Id = idOf(options.data!.edges![0]);
     const edge2Id = idOf(options.data!.edges![1]);
 
