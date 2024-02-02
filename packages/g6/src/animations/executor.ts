@@ -16,7 +16,7 @@ import type { AnimationExecutor } from './types';
  * @returns <zh/> 动画实例 | <en/> animation instance
  */
 export const executor: AnimationExecutor = (shape, animation, effectTiming, context) => {
-  if (animation === undefined) return null;
+  if (!animation) return null;
   const animations = isString(animation) ? getPlugin('animation', animation) || [] : animation;
   if (animations.length === 0) return null;
 

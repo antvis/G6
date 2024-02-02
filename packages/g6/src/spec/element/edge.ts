@@ -39,7 +39,7 @@ export type EdgeOptions = {
 export type StaticEdgeOptions = {
   style?: EdgeStyle;
   state?: Record<string, EdgeStyle>;
-  animation?: PaletteOptions;
+  animation?: AnimationOptions;
   palette?: PaletteOptions;
 };
 

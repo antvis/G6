@@ -7,7 +7,7 @@ import type { State } from '../types';
  *
  * <en/> When it is a string, it will be obtained from the registered animation
  */
-export type Animation = string | STDAnimation;
+export type Animation = false | string | STDAnimation;
 
 export type STDAnimation = ConfigurableAnimationOptions[];
 
@@ -52,7 +52,7 @@ export type AnimationEffectTiming = Partial<
 
 export type AnimationExecutor = (
   shape: DisplayObject,
-  animation: Animation | undefined,
+  animation: Animation | false,
   effectTiming: AnimationEffectTiming,
   context: AnimationContext,
 ) => IAnimation | null;
