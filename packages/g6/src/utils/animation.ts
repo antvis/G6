@@ -22,7 +22,13 @@ export function createAnimationsProxy(sourceAnimation: IAnimation, targetAnimati
       return Reflect.get(target, propKey);
     },
     set(target, propKey: keyof IAnimation, value) {
-      targetAnimations.forEach((animation) => ((animation[propKey] as any) = value));
+      // onframe 和 onfinish 特殊处理，不用同步到所有动画实例上
+      // onframe and onfinish are specially processed and do not need to be synchronized to all animation instances
+      if (!['onframe', 'onfinish'].includes(propKey)) {
+        targetAnimations.forEach((animation) => {
+          (animation[propKey] as any) = value;
+        });
+      }
       return Reflect.set(target, propKey, value);
     },
   });
