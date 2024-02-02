@@ -6,13 +6,13 @@ import { Graph } from '../../mock';
 import type { AnimationTestCase } from '../types';
 
 const createContext = (canvas: any, options: G6Spec): RuntimeContext => {
-  const dataController = new DataController();
-  dataController.setData(options.data || {});
+  const model = new DataController();
+  model.setData(options.data || {});
   return {
     canvas,
     graph: new Graph() as any,
     options,
-    dataController,
+    model,
   };
 };
 
@@ -79,7 +79,7 @@ export const controllerElementState: AnimationTestCase = async (context) => {
 
   await renderResult?.finished;
 
-  elementContext.dataController.updateData({
+  elementContext.model.updateData({
     nodes: [
       { id: 'node-1', style: { states: [] } },
       { id: 'node-2', style: { states: ['active'] } },

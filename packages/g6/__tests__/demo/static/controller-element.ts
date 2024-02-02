@@ -7,13 +7,13 @@ import { Graph } from '../../mock';
 import type { StaticTestCase } from '../types';
 
 const createContext = (canvas: any, options: G6Spec): RuntimeContext => {
-  const dataController = new DataController();
-  dataController.setData(options.data || {});
+  const model = new DataController();
+  model.setData(options.data || {});
   return {
     canvas,
     graph: new Graph() as any,
     options,
-    dataController,
+    model,
   };
 };
 

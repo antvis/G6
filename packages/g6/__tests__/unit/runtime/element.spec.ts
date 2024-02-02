@@ -21,13 +21,13 @@ class Canvas {
 }
 
 const createContext = (options: G6Spec): RuntimeContext => {
-  const dataController = new DataController();
-  dataController.setData(options.data || {});
+  const model = new DataController();
+  model.setData(options.data || {});
   return {
     canvas: new Canvas() as any,
     graph: new Graph() as any,
     options,
-    dataController,
+    model,
   };
 };
 

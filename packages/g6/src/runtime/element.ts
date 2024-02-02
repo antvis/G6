@@ -90,15 +90,15 @@ export class ElementController {
   }
 
   private getElementData(elementType: ElementType, ids?: ID[]) {
-    const { dataController } = this.context;
+    const { model } = this.context;
 
     switch (elementType) {
       case 'node':
-        return dataController.getNodeData(ids);
+        return model.getNodeData(ids);
       case 'edge':
-        return dataController.getEdgeData(ids);
+        return model.getEdgeData(ids);
       case 'combo':
-        return dataController.getComboData(ids);
+        return model.getComboData(ids);
       default:
         return [];
     }
@@ -334,9 +334,9 @@ export class ElementController {
    * <en/> Only the most basic node instances and connection point position information are provided, and more context information needs to be calculated in the edge element
    */
   private getEdgeEndsContext(id: ID) {
-    const { dataController } = this.context;
+    const { model } = this.context;
 
-    const data = dataController.getEdgeData([id])?.[0];
+    const data = model.getEdgeData([id])?.[0];
     if (!data) return {};
 
     const { source, target } = data;
@@ -355,9 +355,9 @@ export class ElementController {
   }
 
   private getComboChildren(id: ID) {
-    const { dataController } = this.context;
+    const { model } = this.context;
     return Object.fromEntries(
-      dataController.getComboChildrenData(id).map((datum) => [idOf(datum), this.getElement(idOf(datum))]),
+      model.getComboChildrenData(id).map((datum) => [idOf(datum), this.getElement(idOf(datum))]),
     );
   }
 
@@ -392,9 +392,9 @@ export class ElementController {
    */
   public async render(context: RuntimeContext): Promise<IAnimation | null> {
     this.context = context;
-    const { dataController } = context;
+    const { model } = context;
 
-    const tasks = reduceDataChanges(dataController.getChanges());
+    const tasks = reduceDataChanges(model.getChanges());
     if (tasks.length === 0) return null;
 
     this.emit(GraphEvent.BEFORE_RENDER);
@@ -435,13 +435,13 @@ export class ElementController {
     // If the node is updated, the connected edge and the combo it is in need to be updated
     // TODO 待优化，仅考虑影响边更新的属性，如 x, y, size 等
     nodesToUpdate
-      .map((node) => dataController.getRelatedEdgesData(idOf(node)))
+      .map((node) => model.getRelatedEdgesData(idOf(node)))
       .flat()
       .forEach((edge) => {
         if (!edgesToUpdate.find((item) => idOf(item) === idOf(edge))) edgesToUpdate.push(edge);
       });
 
-    dataController
+    model
       .getComboData(
         [...nodesToUpdate, ...nodesToRemove, ...combosToUpdate, ...combosToRemove].reduce((acc, curr) => {
           const parentId = curr?.style?.parentId;
