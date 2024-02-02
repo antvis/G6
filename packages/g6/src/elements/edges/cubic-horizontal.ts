@@ -35,7 +35,6 @@ export class CubicHorizontal extends Cubic {
   static defaultStyleProps: Partial<CubicHorizontalStyleProps> = {
     curvePosition: [0.5, 0.5],
     curveOffset: [0, 0],
-    isBillboard: true,
   };
 
   constructor(options: CubicHorizontalOptions) {

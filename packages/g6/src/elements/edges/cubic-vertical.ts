@@ -35,7 +35,6 @@ export class CubicVertical extends Cubic {
   static defaultStyleProps: Partial<CubicVerticalStyleProps> = {
     curvePosition: [0.5, 0.5],
     curveOffset: [0, 0],
-    isBillboard: true,
   };
 
   constructor(options: CubicVerticalOptions) {

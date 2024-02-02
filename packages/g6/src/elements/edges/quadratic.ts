@@ -44,7 +44,6 @@ export class Quadratic extends BaseEdge<PathStyleProps, Path> {
   static defaultStyleProps: Partial<QuadraticStyleProps> = {
     curvePosition: 0.5,
     curveOffset: 30,
-    isBillboard: true,
   };
 
   constructor(options: QuadraticOptions) {

@@ -16,8 +16,6 @@ export const edgeQuadratic: AnimationTestCase = async (context) => {
     },
   });
 
-  await canvas.init();
-
   canvas.appendChild(quadratic);
 
   const result = quadratic.animate(

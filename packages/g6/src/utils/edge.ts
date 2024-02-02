@@ -2,7 +2,7 @@ import type { PathArray } from '@antv/util';
 import { isNumber, pick } from '@antv/util';
 import type { Point, Vector2 } from '../types';
 import type { EdgeKey, EdgeLabelPosition, EdgeLabelStyleProps } from '../types/edge';
-import { isCollinear, isHorizontal, pointObjectToVector } from './point';
+import { isCollinear, isHorizontal, parsePoint } from './point';
 import { manhattanDistance, normalize, perpendicular, subtract } from './vector';
 
 /**
@@ -53,7 +53,7 @@ export function getLabelPositionStyle(
  * @param angle - <zh/> 旋转角度 | <en/> Rotation angle
  */
 function adjustLabelPosition(key: EdgeKey, positionStyle: Partial<EdgeLabelStyleProps>, ratio: number, angle?: number) {
-  const [pointX, pointY] = pointObjectToVector(key.getPoint(ratio));
+  const [pointX, pointY] = parsePoint(key.getPoint(ratio));
   const { offsetX = 0, offsetY = 0 } = positionStyle;
 
   let actualOffsetX = offsetX;
@@ -78,8 +78,8 @@ function adjustLabelPosition(key: EdgeKey, positionStyle: Partial<EdgeLabelStyle
  */
 function applyAutoRotation(key: EdgeKey, positionStyle: Partial<EdgeLabelStyleProps>, ratio: number) {
   const { textAlign } = positionStyle;
-  const point = pointObjectToVector(key.getPoint(ratio));
-  const pointOffset = pointObjectToVector(key.getPoint(ratio + 0.01));
+  const point = parsePoint(key.getPoint(ratio));
+  const pointOffset = parsePoint(key.getPoint(ratio + 0.01));
 
   if (isHorizontal(point, pointOffset)) return;
 

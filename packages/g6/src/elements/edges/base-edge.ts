@@ -46,6 +46,7 @@ export type BaseEdgeOptions<KT extends object> = DisplayObjectConfig<BaseEdgeSty
 type ParsedBaseEdgeStyleProps<KT extends object> = Required<BaseEdgeStyleProps<KT>>;
 export abstract class BaseEdge<KT extends object, KS extends DisplayObject> extends BaseShape<BaseEdgeStyleProps<KT>> {
   static defaultStyleProps: BaseEdgeStyleProps<Record<string, unknown>> = {
+    isBillboard: true,
     label: true,
     labelPosition: 'center',
     labelOffsetX: 4,

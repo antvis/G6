@@ -16,8 +16,6 @@ export const edgeCubic: AnimationTestCase = async (context) => {
     },
   });
 
-  await canvas.init();
-
   canvas.appendChild(cubic);
 
   const result = cubic.animate(

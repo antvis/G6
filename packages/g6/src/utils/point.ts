@@ -53,6 +53,6 @@ export function isCollinear(p1: Point, p2: Point, p3: Point): boolean {
  * @param point - <zh/> 点对象 | <en/> point object
  * @returns <zh/> 向量 | <en/> vector
  */
-export function pointObjectToVector(point: IPoint): Point {
+export function parsePoint(point: IPoint): Point {
   return [point.x, point.y];
 }

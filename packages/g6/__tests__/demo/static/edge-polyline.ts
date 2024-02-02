@@ -4,8 +4,6 @@ import type { StaticTestCase } from '../types';
 export const edgePolyline: StaticTestCase = async (context) => {
   const { canvas } = context;
 
-  await canvas.init();
-
   canvas.appendChild(
     new Polyline({
       style: {

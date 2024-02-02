@@ -80,8 +80,6 @@ export const edgeCubic: StaticTestCase = async (context) => {
     },
   });
 
-  await canvas.init();
-
   canvas.appendChild(cubic1);
   canvas.appendChild(cubic2);
   canvas.appendChild(cubic3);

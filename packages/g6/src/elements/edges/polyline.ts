@@ -37,7 +37,6 @@ type PolylineOptions = DisplayObjectConfig<PolylineStyleProps>;
 export class Polyline extends BaseEdge<PathStyleProps, Path> {
   static defaultStyleProps: Partial<PolylineStyleProps> = {
     radius: 0,
-    isBillboard: true,
   };
 
   constructor(options: PolylineOptions) {

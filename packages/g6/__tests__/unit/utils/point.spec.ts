@@ -1,4 +1,4 @@
-import { isCollinear, isHorizontal, isVertical, pointObjectToVector } from '../../../src/utils/point';
+import { isCollinear, isHorizontal, isVertical, parsePoint } from '../../../src/utils/point';
 
 describe('Point Functions', () => {
   it('isHorizontal', () => {
@@ -17,7 +17,7 @@ describe('Point Functions', () => {
     expect(isCollinear([100, 100], [50, 50], [150, 100])).toEqual(false);
   });
 
-  it('pointObjectToVector', () => {
-    expect(pointObjectToVector({ x: 100, y: 100 })).toEqual([100, 100]);
+  it('parsePoint', () => {
+    expect(parsePoint({ x: 100, y: 100 })).toEqual([100, 100]);
   });
 });
