@@ -84,8 +84,6 @@ export const edgeLine: StaticTestCase = async (context) => {
     },
   });
 
-  await canvas.init();
-
   canvas.appendChild(line1);
   canvas.appendChild(line2);
   canvas.appendChild(line3);

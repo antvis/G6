@@ -59,8 +59,6 @@ export const shapeLabel: StaticTestCase = async (context) => {
     },
   });
 
-  await canvas.init();
-
   canvas.appendChild(label1);
   canvas.appendChild(label2);
   canvas.appendChild(label3);

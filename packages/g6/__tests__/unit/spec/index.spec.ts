@@ -41,9 +41,7 @@ describe('spec', () => {
           },
         },
         animation: {
-          enter: {
-            type: 'fade-in',
-          },
+          enter: 'fade',
         },
         palette: {
           type: 'group',

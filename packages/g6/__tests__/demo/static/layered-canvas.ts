@@ -23,8 +23,6 @@ export const layeredCanvas: StaticTestCase = async (context) => {
     },
   });
 
-  await canvas.init();
-
   canvas.appendChild(circle);
   canvas.appendChild(rect);
 

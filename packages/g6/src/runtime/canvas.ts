@@ -40,42 +40,57 @@ export class Canvas {
     };
   }
 
-  public renderers: Record<CanvasLayer, IRenderer>;
+  public renderers!: Record<CanvasLayer, IRenderer>;
 
   constructor(config: CanvasConfig) {
     this.config = config;
-    const { renderer: getRenderer, ...restConfig } = config;
-    const names: CanvasLayer[] = ['main', 'label', 'transient', 'transientLabel', 'background'];
+  }
 
-    const renderers = names.map((name) => {
-      const renderer = isFunction(getRenderer) ? getRenderer?.(name) : new CanvasRenderer();
+  public async init() {
+    const allCanvas = Object.entries(this.canvas);
 
-      renderer.registerPlugin(
-        new DragNDropPlugin({
-          isDocumentDraggable: true,
-          isDocumentDroppable: true,
-          dragstartDistanceThreshold: 10,
-          dragstartTimeThreshold: 100,
-        }),
+    if (allCanvas.every(([, canvas]) => !canvas)) {
+      const { renderer: getRenderer, ...restConfig } = this.config;
+      const names: CanvasLayer[] = ['main', 'label', 'transient', 'transientLabel', 'background'];
+
+      const { renderers, canvas } = names.reduce(
+        (acc, name) => {
+          const renderer = isFunction(getRenderer) ? getRenderer?.(name) : new CanvasRenderer();
+
+          renderer.registerPlugin(
+            new DragNDropPlugin({
+              isDocumentDraggable: true,
+              isDocumentDroppable: true,
+              dragstartDistanceThreshold: 10,
+              dragstartTimeThreshold: 100,
+            }),
+          );
+
+          if (name !== 'main') {
+            renderer.unregisterPlugin(renderer.getPlugin('dom-interaction'));
+          }
+
+          const canvas = new GCanvas({
+            renderer,
+            supportsMutipleCanvasesInOneContainer: true,
+            ...restConfig,
+          });
+
+          acc.renderers[name] = renderer;
+          acc.canvas[name] = canvas;
+          this[name] = canvas;
+
+          return acc;
+        },
+        { renderers: {}, canvas: {} } as {
+          renderers: Record<CanvasLayer, IRenderer>;
+          canvas: Record<CanvasLayer, GCanvas>;
+        },
       );
 
-      if (name !== 'main') {
-        renderer.unregisterPlugin(renderer.getPlugin('dom-interaction'));
-      }
+      this.renderers = renderers;
 
-      this[name] = new GCanvas({
-        renderer,
-        supportsMutipleCanvasesInOneContainer: true,
-        ...restConfig,
-      });
-
-      return [name, renderer];
-    });
-
-    this.renderers = Object.fromEntries(renderers);
-
-    this.init().then(() => {
-      Object.entries(this.canvas).forEach(([name, canvas]) => {
+      Object.entries(canvas).forEach(([name, canvas]) => {
         const domElement = canvas.getContextService().getDomElement() as unknown as HTMLElement;
 
         domElement.style.position = 'absolute';
@@ -84,10 +99,8 @@ export class Canvas {
 
         if (name !== 'main') domElement.style.pointerEvents = 'none';
       });
-    });
-  }
+    }
 
-  public init() {
     return Promise.all(Object.values(this.canvas).map((canvas) => canvas.ready));
   }
 

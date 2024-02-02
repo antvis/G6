@@ -1,7 +1,1 @@
-/**
- * <zh/> 内置元素
- *
- * <en/> Built-in elements
- */
-
-export {};
+export { BUILT_IN_EDGES, BUILT_IN_NODES } from './constants';

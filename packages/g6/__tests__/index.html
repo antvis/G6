@@ -1,32 +1,119 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="light">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>G6: Preview</title>
     <style>
+      body {
+        margin: 0;
+        font-size: 14px;
+        color: var(--text-color);
+        background-color: var(--background-color);
+        background-image: linear-gradient(var(--stroke-color) 1px, transparent 1px),
+          linear-gradient(90deg, var(--stroke-color) 1px, transparent 1px);
+        background-size: 25px 25px;
+        transition: all 0.5s;
+      }
+
+      #app {
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: flex-end;
+      }
+
+      #panel {
+        background-color: var(--background-color2);
+        border-radius: 4px;
+        color: var(--text-color);
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        left: 500px;
+        padding: 10px;
+        position: absolute;
+        top: 20px;
+        transition:
+          background-color 0.5s,
+          color 0.5s;
+        user-select: none;
+        z-index: 1;
+      }
+
       #container {
         width: 500px;
         height: 500px;
-        background-image: linear-gradient(rgba(0, 0, 0, 0.1) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(0, 0, 0, 0.1) 1px, transparent 1px);
-        background-size: 25px 25px;
+      }
+
+      [data-theme='light'] {
+        --text-color: #000;
+        --background-color: #fff;
+        --background-color2: #ddd;
+        --stroke-color: #0001;
+      }
+
+      [data-theme='dark'] {
+        --text-color: #fff;
+        --background-color: #000;
+        --background-color2: #333;
+        --stroke-color: #333;
       }
     </style>
   </head>
 
   <body style="font-family: Arial, Helvetica, sans-serif">
     <div id="app">
-      <label for="demo-select">Cases: </label>
-      <select id="demo-select" style="cursor: pointer; width: 180px"></select>
-      <label for="renderer-select">Renderer: </label>
-      <select id="renderer-select" style="cursor: pointer">
-        <option value="default" selected>Default</option>
-        <option value="canvas" selected>Canvas</option>
-        <option value="svg">SVG</option>
-        <option value="webgl">WebGL</option>
-      </select>
+      <div id="panel">
+        <label for="demo-select">Cases: </label>
+        <select id="demo-select" style="cursor: pointer; width: 180px"></select>
+        <label for="renderer-select">Renderer: </label>
+        <select id="renderer-select" style="cursor: pointer">
+          <option value="default" selected>Default</option>
+          <option value="canvas" selected>Canvas</option>
+          <option value="svg">SVG</option>
+          <option value="webgl">WebGL</option>
+        </select>
+        <label for="theme">Theme: </label>
+        <button onclick="toggleTheme()">Toggle</button>
+      </div>
     </div>
+
+    <script>
+      function toggleTheme() {
+        const theme = document.documentElement.getAttribute('data-theme');
+        if (theme === 'light') {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        } else {
+          document.documentElement.setAttribute('data-theme', 'light');
+        }
+      }
+
+      (function draggable() {
+        const draggableElement = document.getElementById('panel');
+        let offsetX,
+          offsetY,
+          isDragging = false;
+
+        draggableElement.addEventListener('mousedown', function (e) {
+          isDragging = true;
+          offsetX = e.clientX - draggableElement.getBoundingClientRect().left;
+          offsetY = e.clientY - draggableElement.getBoundingClientRect().top;
+        });
+
+        document.addEventListener('mousemove', function (e) {
+          if (isDragging) {
+            const x = e.clientX - offsetX;
+            const y = e.clientY - offsetY;
+            draggableElement.style.left = `${x}px`;
+            draggableElement.style.top = `${y}px`;
+          }
+        });
+
+        document.addEventListener('mouseup', function () {
+          isDragging = false;
+        });
+      })();
+    </script>
     <script type="module" src="./main.ts"></script>
   </body>
 </html>

@@ -16,6 +16,7 @@ describe('static', () => {
         const { times = [], preprocess, postprocess } = testCase;
 
         await preprocess?.();
+        await canvas.init();
         const animationResult = await testCase({ canvas });
 
         if (!animationResult) throw new Error('animation result should not be null');

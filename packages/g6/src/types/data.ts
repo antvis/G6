@@ -11,7 +11,9 @@ export type DataID = {
 
 export type NodeLikeData = NodeData | ComboData;
 
-export type ElementData = NodeData | EdgeData | ComboData;
+export type ElementDatum = NodeData | EdgeData | ComboData;
+
+export type ElementData = NodeData[] | EdgeData[] | ComboData[];
 
 /**
  * <zh/> 节点、边更新可选数据

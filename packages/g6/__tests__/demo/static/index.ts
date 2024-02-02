@@ -1,3 +1,4 @@
+export * from './controller-element';
 export * from './edge-cubic';
 export * from './edge-cubic-horizontal';
 export * from './edge-cubic-vertical';

@@ -1,10 +1,12 @@
 import type { Animation } from '../../animations/types';
 
-export type AnimationOptions = {
-  [STAGE in AnimationStage]?: Animation;
-} & {
-  [key: string]: Animation;
-};
+export type AnimationOptions =
+  | false
+  | ({
+      [STAGE in AnimationStage]?: Animation;
+    } & {
+      [key: string]: Animation;
+    });
 
 /**
  * <zh/> 动画阶段

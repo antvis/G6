@@ -48,7 +48,20 @@ interface NodeLikeDataStyle extends BaseElementStyle, NodeLikeStyle {
   parentId?: ID;
 }
 
-interface EdgeDataStyle extends BaseElementStyle, EdgeStyle {}
+interface EdgeDataStyle extends BaseElementStyle, EdgeStyle {
+  /**
+   * <zh/> 起点连接桩 id
+   *
+   * <en/> source port id
+   */
+  sourceAnchor?: string;
+  /**
+   * <zh/> 终点连接桩 id
+   *
+   * <en/> target port id
+   */
+  targetAnchor?: string;
+}
 
 interface BaseElementStyle {
   /**

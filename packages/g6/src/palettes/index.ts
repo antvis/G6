@@ -1,7 +1,1 @@
-/**
- * <zh/> 内置色板
- *
- * <en/> Built-in palettes
- */
-
-export {};
+export { BUILT_IN_PALETTES } from './constants';

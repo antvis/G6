@@ -1,6 +1,7 @@
 import type { Edge, Node } from '@antv/graphlib';
 import type { ComboData, EdgeData, NodeData } from '../spec';
 import { NodeLikeData } from '../types/data';
+import { idOf } from './id';
 import { isEdgeData } from './is';
 
 export function toGraphlibData(datums: EdgeData): Edge<EdgeData>;
@@ -18,9 +19,10 @@ export function toGraphlibData(data: NodeData | EdgeData | ComboData): Node<Node
     return {
       ...rest,
       data,
+      id: idOf(data),
     } as Edge<EdgeData>;
   }
-  return { id: data.id, data } as Node<NodeLikeData>;
+  return { id: idOf(data), data } as Node<NodeLikeData>;
 }
 
 export function toG6Data<T extends EdgeData>(data: Edge<T>): T;

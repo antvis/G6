@@ -1,7 +1,5 @@
 import type { DisplayObject, IAnimation } from '@antv/g';
-import { isNil, isString } from '@antv/util';
-import type { Animation, STDAnimation } from '../animations/types';
-import { getPlugin } from '../registry';
+import { isNil } from '@antv/util';
 import { getDescendantShapes } from './shape';
 
 /**
@@ -24,24 +22,16 @@ export function createAnimationsProxy(sourceAnimation: IAnimation, targetAnimati
       return Reflect.get(target, propKey);
     },
     set(target, propKey: keyof IAnimation, value) {
-      targetAnimations.forEach((animation) => ((animation[propKey] as any) = value));
+      // onframe 和 onfinish 特殊处理，不用同步到所有动画实例上
+      // onframe and onfinish are specially processed and do not need to be synchronized to all animation instances
+      if (!['onframe', 'onfinish'].includes(propKey)) {
+        targetAnimations.forEach((animation) => {
+          (animation[propKey] as any) = value;
+        });
+      }
       return Reflect.set(target, propKey, value);
     },
   });
-}
-
-/**
- * <zh/> 解析动画配置项
- *
- * <en/> parse animation options
- * @param animation - <zh/> 动画配置项 | <en/> animation options
- * @returns <zh/> 动画配置项 | <en/> animation options
- */
-export function parseAnimation(animation: Animation): STDAnimation {
-  if (isString(animation)) {
-    return getPlugin('animation', animation) || [];
-  }
-  return animation;
 }
 
 /**
@@ -131,4 +121,24 @@ export function executeAnimation<T extends DisplayObject>(
   const keyShapeAnimation = shape.animate(keyframes, options);
   const descendantAnimations = descendants.map((descendant) => descendant.animate(inheritAttrsKeyframes, options)!);
   return createAnimationsProxy(keyShapeAnimation!, descendantAnimations);
+}
+
+/**
+ * <zh/> 获取属性的默认值
+ *
+ * <en/> Get default value of attribute
+ * @param name - <zh/> 属性名 | <en/> Attribute name
+ * @returns <zh/> 属性默认值 | <en/> Attribute default value
+ * @description
+ * <zh/> 执行动画过程中，一些属性没有显式指定属性值，但实际上在 G 中存在属性值，因此通过该方法获取其实际默认值
+ *
+ * <en/> During the animation, some attributes do not explicitly specify the attribute value, but in fact there is an attribute value in G, so use this method to get the actual default value
+ */
+export function inferDefaultValue(name: string) {
+  switch (name) {
+    case 'opacity':
+      return 1;
+    default:
+      return undefined;
+  }
 }

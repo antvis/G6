@@ -53,8 +53,6 @@ export const shapeBadge: StaticTestCase = async (context) => {
     },
   });
 
-  await canvas.init();
-
   canvas.appendChild(badge1);
   canvas.appendChild(badge2);
   canvas.appendChild(badge3);

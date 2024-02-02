@@ -1,7 +1,10 @@
 {
   "cSpell.words": [
+    "afterrender",
+    "beforerender",
     "Fruchterman",
     "gforce",
-    "graphlib"
+    "graphlib",
+    "onframe"
   ]
 }
