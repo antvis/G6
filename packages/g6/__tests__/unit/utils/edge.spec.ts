@@ -1,6 +1,6 @@
 import { Line } from '@antv/g';
 import { Point } from '../../../src/types';
-import { getLabelPositionStyle, getQuadraticPath } from '../../../src/utils/edge';
+import { getLabelPositionStyle, getPolylinePath, getQuadraticPath } from '../../../src/utils/edge';
 
 describe('edge', () => {
   describe('getLabelPositionStyle', () => {
@@ -104,6 +104,47 @@ describe('edge', () => {
       expect(path).toEqual([
         ['M', 0, 10],
         ['Q', 5, 5, 10, 10],
+      ]);
+    });
+  });
+
+  describe('getPolylinePath', () => {
+    test('should create a straight polyline with control points and no radius', () => {
+      const sourcePoint: Point = [0, 0];
+      const targetPoint: Point = [10, 10];
+      const controlPoints: Point[] = [
+        [0, 5],
+        [5, 10],
+      ];
+      const radius = 0;
+
+      expect(getPolylinePath(sourcePoint, targetPoint, controlPoints, radius)).toEqual([
+        ['M', 0, 0],
+        ['L', 0, 5],
+        ['L', 5, 10],
+        ['L', 10, 10],
+      ]);
+    });
+
+    test('should create a path with rounded corners with control points and a radius', () => {
+      const sourcePoint: Point = [0, 0];
+      const targetPoint: Point = [10, 10];
+      const controlPoints: Point[] = [
+        [5, 0],
+        [5, 10],
+      ];
+      const radius = 2;
+
+      const result = getPolylinePath(sourcePoint, targetPoint, controlPoints, radius);
+      expect(result).toEqual([
+        ['M', 0, 0],
+        ['L', 3, 0],
+        ['Q', 5, 0, 5, 2],
+        ['L', 5, 2],
+        ['L', 5, 8],
+        ['Q', 5, 10, 7, 10],
+        ['L', 7, 10],
+        ['L', 10, 10],
       ]);
     });
   });

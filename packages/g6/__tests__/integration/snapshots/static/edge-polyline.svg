@@ -1,0 +1,66 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="500"
+  height="500"
+  style="background: transparent; position: absolute; outline: none;"
+  color-interpolation-filters="sRGB"
+  tabindex="1"
+>
+  <defs />
+  <g id="g-svg-camera" transform="matrix(1,0,0,1,0,0)">
+    <g id="g-root" fill="none" transform="matrix(1,0,0,1,0,0)">
+      <g
+        id="g-svg-5"
+        fill="none"
+        marker-start="false"
+        marker-end="true"
+        transform="matrix(1,0,0,1,0,0)"
+      >
+        <g transform="matrix(1,0,0,1,50,50)">
+          <path
+            id="key"
+            fill="none"
+            d="M 0,0 L 0,0 L 40,0 Q 50 0,50 10 L 50,10 L 50,40 Q 50 50,60 50 L 60,50 L 90,50 Q 100 50,100 60 L 100,60 L 100,100"
+            stroke="rgba(24,144,255,1)"
+            stroke-width="2"
+          />
+          <g transform="matrix(0,-1,1,0,100,100)">
+            <path
+              id="g-svg-8"
+              fill="rgba(24,144,255,1)"
+              d="M 0,5 L 10,0 L 10,10 Z"
+              transform="translate(-5,-5)"
+              stroke="rgba(24,144,255,1)"
+              stroke-width="2"
+              stroke-dasharray="0,0"
+            />
+          </g>
+        </g>
+        <g
+          id="label"
+          fill="none"
+          transform="matrix(0.802964,0.596028,-0.596028,0.802964,109.288025,95.066330)"
+        >
+          <g transform="matrix(1,0,0,1,-5,-5)">
+            <path
+              id="background"
+              fill="none"
+              d="M 0,0 l 10,0 l 0,10 l-10 0 z"
+              width="10"
+              height="10"
+            />
+          </g>
+          <g transform="matrix(1,0,0,1,0,0)">
+            <text
+              id="text"
+              fill="rgba(0,0,0,1)"
+              dominant-baseline="text-after-edge"
+              paint-order="stroke"
+              text-anchor="middle"
+            />
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>
