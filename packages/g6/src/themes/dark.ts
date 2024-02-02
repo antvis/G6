@@ -3,35 +3,26 @@ import { Theme } from './types';
 export const DARK_THEME: Theme = {
   node: {
     style: {
-      fill: '#f8f8f8',
-      stroke: '#8b9baf',
+      fill: '#444',
+      stroke: '#f8f8f8',
     },
-    state: {
-      selected: {
-        lineWidth: 2,
-        stroke: '#34d058',
-      },
-      active: {
-        lineWidth: 2,
-      },
-    },
+    state: {},
     animation: {
       enter: 'fade',
+      update: [{ fields: ['cx', 'cy'] }],
       exit: 'fade',
     },
   },
   edge: {
     style: {
-      fill: '#ffea7f',
+      lineWidth: 1,
+      stroke: '#8b9baf',
     },
-    state: {
-      selected: {
-        lineWidth: 2,
-        stroke: '##79b8ff',
-      },
-      active: {
-        lineWidth: 2,
-      },
+    state: {},
+    animation: {
+      enter: 'fade',
+      update: [{ fields: ['sourcePoint', 'targetPoint'] }],
+      exit: 'fade',
     },
   },
   combo: {
@@ -40,14 +31,6 @@ export const DARK_THEME: Theme = {
       stroke: '#aaaeb2',
       lineWidth: 1,
     },
-    state: {
-      selected: {
-        lineWidth: 2,
-        stroke: '#34d058',
-      },
-      active: {
-        stroke: '#7b464e',
-      },
-    },
+    state: {},
   },
 };
