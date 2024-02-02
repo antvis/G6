@@ -94,6 +94,7 @@ describe('element', () => {
 
   it('getStarPath', () => {
     expect(getStarPath(32, 16).length).toBe(11);
+    expect(getStarPath(32)[5][2]).toBe((32 * 3) / 8);
   });
 
   it('getStarAnchorByPosition + getStarAnchors', () => {
