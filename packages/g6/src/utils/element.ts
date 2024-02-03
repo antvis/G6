@@ -1,5 +1,6 @@
 import type { AABB, TextStyleProps } from '@antv/g';
-import { get, isString, type PathArray } from '@antv/util';
+import type { PathArray } from '@antv/util';
+import { get, isString } from '@antv/util';
 import type { Point } from '../types';
 import type { AnchorPosition, LabelPosition, RelativePosition, StarAnchorPosition } from '../types/node';
 

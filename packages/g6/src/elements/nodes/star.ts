@@ -1,4 +1,5 @@
-import { Path as GPath, type DisplayObjectConfig, type PathStyleProps as GPathStyleProps, type Group } from '@antv/g';
+import type { DisplayObjectConfig, PathStyleProps as GPathStyleProps, Group } from '@antv/g';
+import { Path as GPath } from '@antv/g';
 import { getStarAnchorByPosition, getStarAnchors, getStarPath } from '../../utils/element';
 import { subStyleProps } from '../../utils/prefix';
 import type { BaseNodeStyleProps, NodeAnchorStyleProps } from './base-node';
