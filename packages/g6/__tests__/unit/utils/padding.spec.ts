@@ -4,7 +4,7 @@ describe('padding', () => {
   it('parsePadding', () => {
     expect(parsePadding()).toEqual([0, 0, 0, 0]);
 
-    expect(parsePadding([])).toEqual([undefined, undefined, undefined, undefined]);
+    expect(parsePadding([])).toEqual([0, 0, 0, 0]);
 
     expect(parsePadding(10)).toEqual([10, 10, 10, 10]);
 
