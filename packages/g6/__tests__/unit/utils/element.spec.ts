@@ -1,5 +1,12 @@
 import { AABB } from '@antv/g';
-import { getAnchorPosition, getTextStyleByPosition, getXYByPosition } from '../../../src/utils/element';
+import {
+  getAnchorPosition,
+  getStarAnchorByPosition,
+  getStarAnchors,
+  getStarPath,
+  getTextStyleByPosition,
+  getXYByPosition,
+} from '../../../src/utils/element';
 
 describe('element', () => {
   const bbox = new AABB();
@@ -83,5 +90,16 @@ describe('element', () => {
       textAlign: 'center',
       textBaseline: 'middle',
     });
+  });
+
+  it('getStarPath', () => {
+    expect(getStarPath(32, 16).length).toBe(11);
+    expect(getStarPath(32)[5][2]).toBe((32 * 3) / 8);
+  });
+
+  it('getStarAnchorByPosition + getStarAnchors', () => {
+    expect(getStarPath(32, 16).length).toBe(11);
+
+    expect(getStarAnchorByPosition('top', getStarAnchors(32, 16))).toEqual([0, -32]);
   });
 });

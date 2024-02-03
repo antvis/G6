@@ -1,6 +1,6 @@
 import type { DisplayObjectConfig, CircleStyleProps as GCircleStyleProps, Group } from '@antv/g';
 import { Circle as GCircle } from '@antv/g';
-import type { AnchorPosition, BadgePosition, LabelPosition, PrefixObject } from '../../types';
+import type { BadgePosition, LabelPosition, PrefixObject } from '../../types';
 import { getAnchorPosition, getTextStyleByPosition, getXYByPosition } from '../../utils/element';
 import { omitStyleProps, subStyleProps } from '../../utils/prefix';
 import type { BadgeStyleProps, BaseShapeStyleProps, IconStyleProps, LabelStyleProps } from '../shapes';
@@ -8,7 +8,7 @@ import { Badge, BaseShape, Icon, Label } from '../shapes';
 
 export type NodeLabelStyleProps = LabelStyleProps & { position: LabelPosition };
 export type NodeBadgeStyleProps = BadgeStyleProps & { position: BadgePosition };
-export type NodeAnchorStyleProps = GCircleStyleProps & { key?: string; position: AnchorPosition };
+export type NodeAnchorStyleProps = GCircleStyleProps & { key?: string; position: string | [number, number] };
 export type NodeIconStyleProps = IconStyleProps;
 
 export type BaseNodeStyleProps<KT extends object> = BaseShapeStyleProps &
@@ -102,7 +102,7 @@ export abstract class BaseNode<KT extends object, KS> extends BaseShape<BaseNode
 
     return anchorStyle.map((anchorStyle) => {
       const { position, ...style } = anchorStyle;
-      const [cx, cy] = getAnchorPosition(keyShape.getLocalBounds(), position);
+      const [cx, cy] = getAnchorPosition(keyShape.getLocalBounds(), position as any);
       return { cx, cy, ...style } as NodeAnchorStyleProps;
     });
   }

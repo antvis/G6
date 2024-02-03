@@ -4,10 +4,9 @@ import { subStyleProps } from '../../utils/prefix';
 import type { BaseNodeStyleProps } from './base-node';
 import { BaseNode } from './base-node';
 
-export type CircleStyleProps = BaseNodeStyleProps<GCircleStyleProps>;
-
+type KeyShapeStyleProps = GCircleStyleProps;
+export type CircleStyleProps = BaseNodeStyleProps<KeyShapeStyleProps>;
 type ParsedCircleStyleProps = Required<CircleStyleProps>;
-
 type CircleOptions = DisplayObjectConfig<CircleStyleProps>;
 
 /**
