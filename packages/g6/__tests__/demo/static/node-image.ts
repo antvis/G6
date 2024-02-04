@@ -9,7 +9,6 @@ export const nodeImage: StaticTestCase = async (context) => {
       // key
       x: 100,
       y: 100,
-      fill: 'green',
       width: 80,
       height: 80,
       // image
@@ -58,7 +57,6 @@ export const nodeImage: StaticTestCase = async (context) => {
       // key
       x: 100,
       y: 300,
-      fill: 'pink',
       width: 80,
       height: 80,
       // image
