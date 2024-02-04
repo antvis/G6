@@ -15,7 +15,7 @@ export type RelativePosition =
 
 export type AnchorPosition = [number, number] | 'top' | 'left' | 'right' | 'bottom';
 export type StarAnchorPosition = 'top' | 'left' | 'right' | 'left-bottom' | 'right-bottom';
-export type TriangleAnchorPosition = 'top' | 'left' | 'right';
+export type TriangleAnchorPosition = 'top' | 'left' | 'right' | 'bottom';
 
 export type BadgePosition = RelativePosition;
 export type LabelPosition = RelativePosition;
