@@ -1,9 +1,8 @@
 import type { DisplayObjectConfig, CircleStyleProps as GCircleStyleProps, Group } from '@antv/g';
 import { Circle as GCircle } from '@antv/g';
-import { deepMix } from '@antv/util';
+import { deepMix, isEmpty } from '@antv/util';
 import type { BadgePosition, LabelPosition, PrefixObject } from '../../types';
 import { getAnchorPosition, getTextStyleByPosition, getXYByPosition } from '../../utils/element';
-import { isEmpty } from '../../utils/is';
 import { omitStyleProps, subStyleProps } from '../../utils/prefix';
 import { getWordWrapWidthByBox } from '../../utils/text';
 import type { BadgeStyleProps, BaseShapeStyleProps, IconStyleProps, LabelStyleProps } from '../shapes';
