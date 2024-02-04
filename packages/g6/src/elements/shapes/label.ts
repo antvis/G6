@@ -20,6 +20,8 @@ export class Label extends BaseShape<LabelStyleProps> {
     padding: [2, 4, 2, 4],
     fontSize: 12,
     fill: '#000',
+    wordWrap: true,
+    maxLines: 1,
     backgroundOpacity: 0.75,
     backgroundZIndex: -1,
     backgroundLineWidth: 0,

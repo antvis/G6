@@ -5,10 +5,11 @@ import type { BadgePosition, LabelPosition, PrefixObject } from '../../types';
 import { getAnchorPosition, getTextStyleByPosition, getXYByPosition } from '../../utils/element';
 import { isEmpty } from '../../utils/is';
 import { omitStyleProps, subStyleProps } from '../../utils/prefix';
+import { getWordWrapWidthByBox } from '../../utils/text';
 import type { BadgeStyleProps, BaseShapeStyleProps, IconStyleProps, LabelStyleProps } from '../shapes';
 import { Badge, BaseShape, Icon, Label } from '../shapes';
 
-export type NodeLabelStyleProps = LabelStyleProps & { position: LabelPosition };
+export type NodeLabelStyleProps = LabelStyleProps & { position: LabelPosition; maxWidth: string | number };
 export type NodeBadgeStyleProps = BadgeStyleProps & { position: BadgePosition };
 export type NodeAnchorStyleProps = GCircleStyleProps & { key?: string; position: string | [number, number] };
 export type NodeIconStyleProps = IconStyleProps;
@@ -57,6 +58,7 @@ type BaseNodeOptions<KT extends object> = DisplayObjectConfig<BaseNodeStyleProps
  */
 export abstract class BaseNode<KT extends object, KS> extends BaseShape<BaseNodeStyleProps<KT>> {
   static defaultStyleProps: BaseNodeStyleProps<BaseShapeStyleProps> = {
+    labelMaxWidth: '200%',
     haloFill: 'none',
     haloPointerEvents: 'none',
     haloOpacity: 0.25,
@@ -75,7 +77,7 @@ export abstract class BaseNode<KT extends object, KS> extends BaseShape<BaseNode
   protected getLabelStyle(attributes: ParsedBaseNodeStyleProps<KT>) {
     if (attributes.label === false || isEmpty(attributes.labelText)) return false;
 
-    const { position, ...labelStyle } = subStyleProps<NodeLabelStyleProps>(
+    const { position, maxWidth, ...labelStyle } = subStyleProps<NodeLabelStyleProps>(
       this.getGraphicStyle(attributes),
       'label',
     ) as unknown as NodeLabelStyleProps;
@@ -83,6 +85,7 @@ export abstract class BaseNode<KT extends object, KS> extends BaseShape<BaseNode
 
     return {
       ...getTextStyleByPosition(keyShape.getLocalBounds(), position),
+      wordWrapWidth: getWordWrapWidthByBox(keyShape.getLocalBounds(), maxWidth),
       ...labelStyle,
     } as NodeLabelStyleProps;
   }
@@ -111,8 +114,8 @@ export abstract class BaseNode<KT extends object, KS> extends BaseShape<BaseNode
 
     return badgesStyle.map((badgeStyle) => {
       const { position, ...style } = badgeStyle;
-      const [x, y] = getXYByPosition(keyShape.getLocalBounds(), position);
-      return { x, y, ...style } as NodeBadgeStyleProps;
+      const textStyle = getTextStyleByPosition(keyShape.getLocalBounds(), position);
+      return { ...textStyle, ...style } as NodeBadgeStyleProps;
     });
   }
 

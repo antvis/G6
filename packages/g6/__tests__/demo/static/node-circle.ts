@@ -59,11 +59,13 @@ export const nodeCircle: StaticTestCase = async (context) => {
       cx: 100,
       cy: 300,
       fill: 'pink',
-      r: 40,
+      r: 16,
       // icon
       iconText: 'Y',
-      iconFontSize: 32,
+      iconFontSize: 14,
       iconFill: 'black',
+      // label
+      labelText: 'this is a looooog label',
     },
   });
 
