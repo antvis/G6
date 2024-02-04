@@ -1,3 +1,4 @@
+import { isNumber } from '@antv/util';
 import type { EdgeData } from '../spec';
 import type { ElementDatum, Point, Vector2, Vector3 } from '../types';
 
@@ -33,4 +34,14 @@ export function isVector2(vector: Point): vector is Vector2 {
  */
 export function isVector3(vector: Point): vector is Vector3 {
   return vector.length === 3;
+}
+
+/**
+ * <zh/> 判断变量是否为空
+ * <en/> Judge whether the variable is empty.
+ * @param value The variable
+ * @returns boolean
+ */
+export function isEmpty(value: any): boolean {
+  return value === null || value === undefined || value === false || value === '' || (isNumber(value) && isNaN(value));
 }

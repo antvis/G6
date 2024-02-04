@@ -1,7 +1,9 @@
 import type { DisplayObjectConfig, CircleStyleProps as GCircleStyleProps, Group } from '@antv/g';
 import { Circle as GCircle } from '@antv/g';
+import { deepMix } from '@antv/util';
 import type { BadgePosition, LabelPosition, PrefixObject } from '../../types';
 import { getAnchorPosition, getTextStyleByPosition, getXYByPosition } from '../../utils/element';
+import { isEmpty } from '../../utils/is';
 import { omitStyleProps, subStyleProps } from '../../utils/prefix';
 import type { BadgeStyleProps, BaseShapeStyleProps, IconStyleProps, LabelStyleProps } from '../shapes';
 import { Badge, BaseShape, Icon, Label } from '../shapes';
@@ -13,9 +15,14 @@ export type NodeIconStyleProps = IconStyleProps;
 
 export type BaseNodeStyleProps<KT extends object> = BaseShapeStyleProps &
   // Key
-  KT &
-  // Label
-  PrefixObject<NodeLabelStyleProps, 'label'> &
+  KT & {
+    // Whether to show the blocks.
+    label?: boolean;
+    halo?: boolean;
+    icon?: boolean;
+    badge?: boolean;
+    anchor?: boolean;
+  } & PrefixObject<NodeLabelStyleProps, 'label'> & // Label
   // Halo
   PrefixObject<KT, 'halo'> &
   // Icon
@@ -49,8 +56,15 @@ type BaseNodeOptions<KT extends object> = DisplayObjectConfig<BaseNodeStyleProps
  * - anchors / ports
  */
 export abstract class BaseNode<KT extends object, KS> extends BaseShape<BaseNodeStyleProps<KT>> {
+  static defaultStyleProps: BaseNodeStyleProps<BaseShapeStyleProps> = {
+    haloFill: 'none',
+    haloPointerEvents: 'none',
+    haloOpacity: 0.25,
+    haloLineWidth: 12,
+  };
+
   constructor(options: BaseNodeOptions<KT>) {
-    super(options);
+    super(deepMix({}, { style: BaseNode.defaultStyleProps }, options));
   }
 
   protected getKeyStyle(attributes: ParsedBaseNodeStyleProps<KT>): KT {
@@ -59,6 +73,8 @@ export abstract class BaseNode<KT extends object, KS> extends BaseShape<BaseNode
   }
 
   protected getLabelStyle(attributes: ParsedBaseNodeStyleProps<KT>) {
+    if (attributes.label === false || isEmpty(attributes.labelText)) return false;
+
     const { position, ...labelStyle } = subStyleProps<NodeLabelStyleProps>(
       this.getGraphicStyle(attributes),
       'label',
@@ -74,6 +90,8 @@ export abstract class BaseNode<KT extends object, KS> extends BaseShape<BaseNode
   protected abstract getHaloStyle(attributes: ParsedBaseNodeStyleProps<KT>): KT;
 
   protected getIconStyle(attributes: ParsedBaseNodeStyleProps<KT>) {
+    if (attributes.icon === false || isEmpty(attributes.iconText || attributes.iconSrc)) return false;
+
     const iconStyle = subStyleProps(this.getGraphicStyle(attributes), 'icon');
     const keyShape = this.shapeMap.key;
     const [x, y] = getXYByPosition(keyShape.getLocalBounds(), 'center');
@@ -86,6 +104,8 @@ export abstract class BaseNode<KT extends object, KS> extends BaseShape<BaseNode
   }
 
   protected getBadgesStyle(attributes: ParsedBaseNodeStyleProps<KT>): NodeBadgeStyleProps[] {
+    if (attributes.badge === false) return [];
+
     const badgesStyle = this.getGraphicStyle(attributes).badgeOptions || [];
     const keyShape = this.shapeMap.key;
 
@@ -97,6 +117,8 @@ export abstract class BaseNode<KT extends object, KS> extends BaseShape<BaseNode
   }
 
   protected getAnchorsStyle(attributes: ParsedBaseNodeStyleProps<KT>): NodeAnchorStyleProps[] {
+    if (attributes.anchor === false) return [];
+
     const anchorStyle = this.getGraphicStyle(attributes).anchorOptions || [];
     const keyShape = this.shapeMap.key;
 

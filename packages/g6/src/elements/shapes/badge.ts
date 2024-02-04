@@ -10,6 +10,7 @@ type BadgeOptions = DisplayObjectConfig<BadgeStyleProps>;
 export class Badge extends BaseShape<BadgeStyleProps> {
   static defaultStyleProps: Partial<BadgeStyleProps> = {
     backgroundRadius: '50%',
+    fontSize: 10,
     zIndex: 1,
   };
 

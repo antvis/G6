@@ -11,6 +11,8 @@ export const nodeCircle: StaticTestCase = async (context) => {
       cy: 100,
       fill: 'green',
       r: 40,
+      label: false,
+      labelText: 'not show',
     },
   });
 

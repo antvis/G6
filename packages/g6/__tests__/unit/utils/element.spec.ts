@@ -86,9 +86,9 @@ describe('element', () => {
 
     expect(getTextStyleByPosition(bbox)).toEqual({
       x: 150,
-      y: 150,
+      y: 200,
       textAlign: 'center',
-      textBaseline: 'middle',
+      textBaseline: 'top',
     });
   });
 
