@@ -1,0 +1,41 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="500"
+  height="500"
+  style="background: transparent; position: absolute; outline: none;"
+  color-interpolation-filters="sRGB"
+  tabindex="1"
+>
+  <defs />
+  <g
+    id="g-svg-camera"
+    transform="matrix(0,-1.440000,1.440000,0,-39.289326,610)"
+  >
+    <g id="g-root" fill="none" transform="matrix(1,0,0,1,0,0)">
+      <g transform="matrix(1,0,0,1,200,250)">
+        <line
+          id="g-svg-5"
+          fill="none"
+          x1="0"
+          y1="0"
+          x2="100"
+          y2="0"
+          stroke-width="2"
+          stroke="rgba(255,0,0,1)"
+        />
+      </g>
+      <g transform="matrix(1,0,0,1,250,200)">
+        <line
+          id="g-svg-6"
+          fill="none"
+          x1="0"
+          y1="0"
+          x2="0"
+          y2="100"
+          stroke-width="2"
+          stroke="rgba(0,128,0,1)"
+        />
+      </g>
+    </g>
+  </g>
+</svg>

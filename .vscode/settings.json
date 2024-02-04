@@ -1,7 +1,10 @@
 {
   "cSpell.words": [
     "afterrender",
+    "afterviewportanimation",
     "beforerender",
+    "beforeviewportanimation",
+    "cancelviewportanimation",
     "Fruchterman",
     "gforce",
     "graphlib",
