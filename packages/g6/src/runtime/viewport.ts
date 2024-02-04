@@ -83,7 +83,11 @@ export class ViewportController {
       this.context.graph.emit(GraphEvent.BEFORE_VIEWPORT_ANIMATION, options);
 
       return new Promise<void>((resolve) => {
-        resolveWhenTimeout(resolve, effectTiming.duration);
+        const onfinish = () => {
+          this.context.graph.emit(GraphEvent.AFTER_VIEWPORT_ANIMATION, options);
+          resolve();
+        };
+        resolveWhenTimeout(onfinish, effectTiming.duration);
 
         this.camera.gotoLandmark(
           this.createLandmark(
@@ -97,13 +101,7 @@ export class ViewportController {
                   focalPoint: [ox - x, oy - y, z ?? fz - z],
                 },
           ),
-          {
-            ...effectTiming,
-            onfinish: () => {
-              this.context.graph.emit(GraphEvent.AFTER_VIEWPORT_ANIMATION, options);
-              resolve();
-            },
-          },
+          { ...effectTiming, onfinish },
         );
       });
     } else {
@@ -121,17 +119,15 @@ export class ViewportController {
       this.context.graph.emit(GraphEvent.BEFORE_VIEWPORT_ANIMATION, options);
 
       return new Promise<void>((resolve) => {
-        resolveWhenTimeout(resolve, effectTiming.duration);
+        const onfinish = () => {
+          this.context.graph.emit(GraphEvent.AFTER_VIEWPORT_ANIMATION, options);
+          resolve();
+        };
+        resolveWhenTimeout(onfinish, effectTiming.duration);
 
         this.camera.gotoLandmark(
           this.createLandmark({ roll: mode === 'relative' ? camera.getRoll() + angle : angle }),
-          {
-            ...effectTiming,
-            onfinish: () => {
-              this.context.graph.emit(GraphEvent.AFTER_VIEWPORT_ANIMATION, options);
-              resolve();
-            },
-          },
+          { ...effectTiming, onfinish },
         );
       });
     } else {
@@ -157,14 +153,13 @@ export class ViewportController {
       this.context.graph.emit(GraphEvent.BEFORE_VIEWPORT_ANIMATION, options);
 
       return new Promise<void>((resolve) => {
-        resolveWhenTimeout(resolve, effectTiming.duration);
-        this.camera.gotoLandmark(this.createLandmark({ zoom: targetRatio }), {
-          ...effectTiming,
-          onfinish: () => {
-            this.context.graph.emit(GraphEvent.AFTER_VIEWPORT_ANIMATION, options);
-            resolve();
-          },
-        });
+        const onfinish = () => {
+          this.context.graph.emit(GraphEvent.AFTER_VIEWPORT_ANIMATION, options);
+          resolve();
+        };
+        resolveWhenTimeout(onfinish, effectTiming.duration);
+
+        this.camera.gotoLandmark(this.createLandmark({ zoom: targetRatio }), { ...effectTiming, onfinish });
       });
     } else {
       camera.setZoomByViewportPoint(targetRatio, [origin[0], origin[1]]);
