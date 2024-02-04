@@ -1,50 +1,53 @@
-import type { DisplayObjectConfig, PathStyleProps as GPathStyleProps, Group } from '@antv/g';
-import { Path as GPath } from '@antv/g';
-import { getStarAnchorByPosition, getStarAnchors, getStarPath } from '../../utils/element';
+import type { DisplayObjectConfig, Group, PolygonStyleProps } from '@antv/g';
+import { Polygon } from '@antv/g';
+import type { Point } from '../../types';
+import { getStarAnchorByPosition, getStarAnchors, getStarPoints } from '../../utils/element';
+import { getPolygonIntersectPoint } from '../../utils/point';
 import { subStyleProps } from '../../utils/prefix';
 import type { BaseNodeStyleProps, NodeAnchorStyleProps } from './base-node';
 import { BaseNode } from './base-node';
 
-type KeyShapeStyleProps = GPathStyleProps & {
+type KeyShapeStyleProps = Partial<PolygonStyleProps> & {
   /**
    * 外半径
    */
-  outerR: number;
+  outerR?: number;
   /**
    * 内半径
    */
-  innerR: number;
+  innerR?: number;
 };
 
 export type StarStyleProps = BaseNodeStyleProps<KeyShapeStyleProps>;
+
 type ParsedStarStyleProps = Required<StarStyleProps>;
+
 type StarOptions = DisplayObjectConfig<StarStyleProps>;
 
 /**
  * Draw star based on BaseNode, override drawKeyShape.
  */
-export class Star extends BaseNode<KeyShapeStyleProps, GPath> {
+export class Star extends BaseNode<KeyShapeStyleProps, Polygon> {
   constructor(options: StarOptions) {
     super(options);
   }
 
-  protected getKeyStyle(attributes: ParsedStarStyleProps): KeyShapeStyleProps {
-    const keyStyle = super.getKeyStyle(attributes);
-    const { outerR, innerR } = keyStyle;
-    const d = getStarPath(outerR, innerR);
-    return { ...keyStyle, d };
+  protected getKeyStyle(attributes: ParsedStarStyleProps): PolygonStyleProps {
+    const { outerR, innerR, ...keyStyle } = super.getKeyStyle(attributes) as Required<KeyShapeStyleProps>;
+    const points = getStarPoints(outerR, innerR) as [number, number][];
+    return { ...keyStyle, points };
   }
 
-  protected getHaloStyle(attributes: ParsedStarStyleProps) {
+  protected getHaloStyle(attributes: ParsedStarStyleProps): PolygonStyleProps | false {
     if (attributes.halo === false) return false;
 
-    const haloStyle = subStyleProps(this.getGraphicStyle(attributes), 'halo') as Partial<KeyShapeStyleProps>;
+    const haloStyle = subStyleProps(this.getGraphicStyle(attributes), 'halo');
     const keyStyle = this.getKeyStyle(attributes);
 
     return {
       ...keyStyle,
       ...haloStyle,
-    } as KeyShapeStyleProps;
+    };
   }
 
   protected getAnchorsStyle(attributes: ParsedStarStyleProps): NodeAnchorStyleProps[] {
@@ -62,8 +65,14 @@ export class Star extends BaseNode<KeyShapeStyleProps, GPath> {
     });
   }
 
-  protected drawKeyShape(attributes: ParsedStarStyleProps, container: Group): GPath {
-    return this.upsert('key', GPath, this.getKeyStyle(attributes), container) as GPath;
+  public getIntersectPoint(point: Point): Point {
+    const { points } = this.getKeyStyle(this.attributes as ParsedStarStyleProps);
+    const center = [this.attributes.x, this.attributes.y] as Point;
+    return getPolygonIntersectPoint(point, center, points);
+  }
+
+  protected drawKeyShape(attributes: ParsedStarStyleProps, container: Group): Polygon {
+    return this.upsert('key', Polygon, this.getKeyStyle(attributes), container) as Polygon;
   }
 
   connectedCallback() {}

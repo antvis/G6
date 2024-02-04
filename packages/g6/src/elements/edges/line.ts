@@ -27,7 +27,7 @@ export class Line extends BaseEdge<GLineStyleProps, GLine> {
   }
 
   protected getKeyStyle(attributes: ParsedLineStyleProps): GLineStyleProps {
-    const { sourcePoint, targetPoint, ...keyShape } = super.getKeyStyle(attributes) as LineKeyStyleProps;
+    const { sourcePoint, targetPoint, ...keyShape } = super.getKeyStyle(attributes) as Required<LineKeyStyleProps>;
 
     return { ...keyShape, x1: sourcePoint[0], y1: sourcePoint[1], x2: targetPoint[0], y2: targetPoint[1] };
   }

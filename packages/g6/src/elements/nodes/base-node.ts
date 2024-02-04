@@ -1,9 +1,10 @@
 import type { DisplayObjectConfig, CircleStyleProps as GCircleStyleProps, Group } from '@antv/g';
 import { Circle as GCircle } from '@antv/g';
 import { deepMix, isEmpty } from '@antv/util';
-import type { BadgePosition, LabelPosition, PrefixObject } from '../../types';
+import type { BadgePosition, LabelPosition, Point, PrefixObject } from '../../types';
 import { getAnchorPosition, getTextStyleByPosition, getXYByPosition } from '../../utils/element';
-import { omitStyleProps, subStyleProps } from '../../utils/prefix';
+import { getRectIntersectPoint } from '../../utils/point';
+import { omitStyleProps, subObject, subStyleProps } from '../../utils/prefix';
 import { getWordWrapWidthByBox } from '../../utils/text';
 import type { BadgeStyleProps, BaseShapeStyleProps, IconStyleProps, LabelStyleProps } from '../shapes';
 import { Badge, BaseShape, Icon, Label } from '../shapes';
@@ -130,6 +131,32 @@ export abstract class BaseNode<KT extends object, KS> extends BaseShape<BaseNode
       const [cx, cy] = getAnchorPosition(keyShape.getLocalBounds(), position as any);
       return { cx, cy, ...style } as NodeAnchorStyleProps;
     });
+  }
+
+  /**
+   * Get the anchors for the node.
+   * @returns Anchors shape map.
+   */
+  public getAnchors(): Record<string, GCircle> {
+    return subObject(this.shapeMap, 'anchor-');
+  }
+
+  /**
+   * Get the center point of the node.
+   * @returns The center point of the node.
+   */
+  public getCenter(): Point {
+    return this.shapeMap.key.getBounds().center;
+  }
+
+  /**
+   * Whether the point is intersected with the node.
+   * @param point - The point to intersect with the node.
+   * @returns boolean
+   */
+  public getIntersectPoint(point: Point): Point {
+    const keyShapeBounds = this.shapeMap.key.getBounds();
+    return getRectIntersectPoint(point, keyShapeBounds);
   }
 
   protected abstract drawKeyShape(attributes: ParsedBaseNodeStyleProps<KT>, container: Group): KS;

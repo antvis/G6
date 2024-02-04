@@ -7,10 +7,6 @@ import type { BaseEdgeKeyStyleProps, BaseEdgeStyleProps } from './base-edge';
 import { BaseEdge } from './base-edge';
 
 type PolylineKeyStyleProps = BaseEdgeKeyStyleProps<PathStyleProps> & {
-  /**
-   * <zh/> 拐弯处的圆角弧度，默认为 0
-   * <en/> The radius of the rounded corner at the turning point. The default is 0
-   */
   radius?: number;
   /**
    * <zh/> 控制点数组。如果不指定，将会根据 A* 算法自动生成折线

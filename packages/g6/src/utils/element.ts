@@ -1,8 +1,8 @@
-import type { AABB, TextStyleProps } from '@antv/g';
-import type { PathArray } from '@antv/util';
-import { get, isString } from '@antv/util';
-import type { Point } from '../types';
+import type { AABB, Circle as GCircle, TextStyleProps } from '@antv/g';
+import { get, isEmpty, isString } from '@antv/util';
+import type { Node, Point } from '../types';
 import type { AnchorPosition, LabelPosition, RelativePosition, StarAnchorPosition } from '../types/node';
+import { findNearestPoints } from './point';
 
 /**
  * Get the Badge x, y by `position`.
@@ -44,6 +44,30 @@ export function getAnchorPosition(bbox: AABB, position?: AnchorPosition): Point 
 }
 
 /**
+ * <zh/> 获取节点的锚点
+ *
+ * <en/> Get the Anchor of Node.
+ * @param node - <zh/> 节点 | <en/> Node
+ * @param anchorKey - <zh/> 锚点的 key | <en/> Anchor key
+ * @param oppositeNode - <zh/> 对端节点 | <en/> Opposite Node
+ * @returns <zh/> 锚点 | <en/> Anchor
+ */
+export function findAnchor(node: Node, anchorKey?: string, oppositeNode?: Node): GCircle | undefined {
+  if (anchorKey && node.getAnchors()[anchorKey]) {
+    return node.getAnchors()[anchorKey];
+  } else {
+    const anchors = Object.values(node.getAnchors());
+    if (!isEmpty(anchors)) {
+      const positions = anchors.map((anchor) => anchor.getPosition());
+      const targetPosition = oppositeNode ? [oppositeNode.getCenter()] : positions;
+      const [nearestPosition] = findNearestPoints(positions, targetPosition);
+      return anchors.find((anchor) => anchor.getPosition() === nearestPosition);
+    }
+    return undefined;
+  }
+}
+
+/**
  * Get the Text style by `position`.
  * @param bbox - BBox of element.
  * @param position - The postion relative with element.
@@ -70,20 +94,19 @@ export function getTextStyleByPosition(bbox: AABB, position: LabelPosition = 'bo
  * @param innerR - inner redius
  * @returns The PathArray for G
  */
-export function getStarPath(outerR: number, innerR?: number): PathArray {
+export function getStarPoints(outerR: number, innerR?: number): Point[] {
   innerR = innerR ? innerR : (outerR * 3) / 8;
   return [
-    ['M', 0, -outerR],
-    ['L', innerR * Math.cos((3 * Math.PI) / 10), -innerR * Math.sin((3 * Math.PI) / 10)],
-    ['L', outerR * Math.cos(Math.PI / 10), -outerR * Math.sin(Math.PI / 10)],
-    ['L', innerR * Math.cos(Math.PI / 10), innerR * Math.sin(Math.PI / 10)],
-    ['L', outerR * Math.cos((3 * Math.PI) / 10), outerR * Math.sin((3 * Math.PI) / 10)],
-    ['L', 0, innerR],
-    ['L', -outerR * Math.cos((3 * Math.PI) / 10), outerR * Math.sin((3 * Math.PI) / 10)],
-    ['L', -innerR * Math.cos(Math.PI / 10), innerR * Math.sin(Math.PI / 10)],
-    ['L', -outerR * Math.cos(Math.PI / 10), -outerR * Math.sin(Math.PI / 10)],
-    ['L', -innerR * Math.cos((3 * Math.PI) / 10), -innerR * Math.sin((3 * Math.PI) / 10)],
-    ['Z'],
+    [0, -outerR],
+    [innerR * Math.cos((3 * Math.PI) / 10), -innerR * Math.sin((3 * Math.PI) / 10)],
+    [outerR * Math.cos(Math.PI / 10), -outerR * Math.sin(Math.PI / 10)],
+    [innerR * Math.cos(Math.PI / 10), innerR * Math.sin(Math.PI / 10)],
+    [outerR * Math.cos((3 * Math.PI) / 10), outerR * Math.sin((3 * Math.PI) / 10)],
+    [0, innerR],
+    [-outerR * Math.cos((3 * Math.PI) / 10), outerR * Math.sin((3 * Math.PI) / 10)],
+    [-innerR * Math.cos(Math.PI / 10), innerR * Math.sin(Math.PI / 10)],
+    [-outerR * Math.cos(Math.PI / 10), -outerR * Math.sin(Math.PI / 10)],
+    [-innerR * Math.cos((3 * Math.PI) / 10), -innerR * Math.sin((3 * Math.PI) / 10)],
   ];
 }
 

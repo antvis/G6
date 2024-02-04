@@ -20,11 +20,11 @@
           <path
             id="key"
             fill="none"
-            d="M 0,0 L 0,0 L 40,0 Q 50 0,50 10 L 50,10 L 50,40 Q 50 50,60 50 L 60,50 L 90,50 Q 100 50,100 60 L 100,60 L 100,100"
+            d="M 0,0 L 0,0 L 40,0 Q 50 0,50 10 L 50,10 L 50,40 Q 50 50,60 50 L 60,50 L 90,50 Q 100 50,100 60 L 100,60 L 100,94"
             stroke="rgba(24,144,255,1)"
             stroke-width="2"
           />
-          <g transform="matrix(0,-1,1,0,100,100)">
+          <g transform="matrix(0,-1,1,0,100,94)">
             <path
               id="g-svg-8"
               fill="rgba(24,144,255,1)"
@@ -32,6 +32,8 @@
               transform="translate(-5,-5)"
               stroke="rgba(24,144,255,1)"
               stroke-width="2"
+              width="10"
+              height="10"
               stroke-dasharray="0,0"
             />
           </g>
@@ -45,10 +47,10 @@
             <path
               id="background"
               fill="none"
-              d="M 0,0 l 121.13708498984761,0 l 0,4 l-121.13708498984761 0 z"
+              d="M 0,0 l 124,0 l 0,4 l-124 0 z"
               opacity="0.75"
               stroke-width="0"
-              width="121.13708498984761"
+              width="124"
               height="4"
             />
           </g>

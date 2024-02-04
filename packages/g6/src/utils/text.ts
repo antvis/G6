@@ -1,11 +1,6 @@
 import { AABB } from '@antv/g';
-import { getEuclideanDistance } from '@antv/layout';
-
-type Point = {
-  x: number;
-  y: number;
-  z?: number;
-};
+import { Point } from '../types';
+import { distance } from './vector';
 
 /**
  * Get WordWrapWidth for a text according the the length of the label and 'maxWidth'.
@@ -50,7 +45,7 @@ export function getWordWrapWidthByBox(
  * @param zoom - zoom
  * @returns - wordWrapWidth for text
  */
-export function getWordWrapWidthByEnds(points: Point[], maxWidth: string | number, zoom = 1): number {
-  const dist = getEuclideanDistance(points[0], points[1]) * zoom;
+export function getWordWrapWidthByEnds(points: [Point, Point], maxWidth: string | number, zoom = 1): number {
+  const dist = distance(points[0], points[1]) * zoom;
   return getWordWrapWidthWithBase(dist, maxWidth);
 }

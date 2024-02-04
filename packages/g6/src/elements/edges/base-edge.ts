@@ -9,7 +9,10 @@ import type {
 import { Path } from '@antv/g';
 import { deepMix, isFunction } from '@antv/util';
 import type { EdgeKey, EdgeLabelStyleProps, Point, PrefixObject } from '../../types';
+import type { Node } from '../../types/element';
 import { getLabelPositionStyle } from '../../utils/edge';
+import { findAnchor } from '../../utils/element';
+import { getEllipseIntersectPoint } from '../../utils/point';
 import { omitStyleProps, subStyleProps } from '../../utils/prefix';
 import type { SymbolFactor } from '../../utils/symbol';
 import * as Symbol from '../../utils/symbol';
@@ -31,15 +34,35 @@ type EdgeArrowStyleProps = {
 
 export type BaseEdgeKeyStyleProps<KT> = KT & {
   /**
+   * <zh/> 边的起点 shape
+   * <en/> The source shape. Represents the start of the edge
+   */
+  sourceNode: Node;
+  /**
+   * <zh/> 边的终点 shape
+   * <en/> The source shape. Represents the start of the edge
+   */
+  targetNode: Node;
+  /**
+   * <zh/> 边起始连接的 anchor
+   * <en/> The Anchor of the source node
+   */
+  sourceAnchor?: string;
+  /**
+   * <zh/> 边终点连接的 anchor
+   * <en/> The Anchor of the target node
+   */
+  targetAnchor?: string;
+  /**
    * <zh/> 边的起点
    * <en/> The source point. Represents the start of the edge
    */
-  sourcePoint: Point;
+  sourcePoint?: Point;
   /**
    * <zh/> 边的终点
    * <en/> The target point. Represents the end of the edge
    */
-  targetPoint: Point;
+  targetPoint?: Point;
 };
 
 export type BaseEdgeStyleProps<KT extends object> = BaseShapeStyleProps &
@@ -96,7 +119,49 @@ export abstract class BaseEdge<KT extends object, KS extends DisplayObject> exte
   }
 
   protected getKeyStyle(attributes: ParsedBaseEdgeStyleProps<KT>): KT {
-    return omitStyleProps(this.getGraphicStyle(attributes), ['halo', 'label', 'startArrow', 'endArrow']);
+    const style = this.getGraphicStyle(attributes);
+    const {
+      sourceNode,
+      targetNode,
+      sourceAnchor: sourceAnchorKey,
+      targetAnchor: targetAnchorKey,
+      sourcePoint: rawSourcePoint,
+      targetPoint: rawTargetPoint,
+      ...restStyle
+    } = style;
+    const [sourcePoint, targetPoint] = this.getPoints(
+      sourceNode,
+      targetNode,
+      sourceAnchorKey,
+      targetAnchorKey,
+      rawSourcePoint,
+      rawTargetPoint,
+    );
+
+    return { sourcePoint, targetPoint, ...omitStyleProps(restStyle, ['halo', 'label', 'startArrow', 'endArrow']) };
+  }
+
+  protected getPoints(
+    sourceNode: Node,
+    targetNode: Node,
+    sourceAnchorKey?: string,
+    targetAnchorKey?: string,
+    rawSourcePoint?: Point,
+    rawTargetPoint?: Point,
+  ): [Point, Point] {
+    if (rawSourcePoint && rawTargetPoint) return [rawSourcePoint, rawTargetPoint];
+
+    const sourceAnchor = findAnchor(sourceNode, sourceAnchorKey, targetNode);
+    const targetAnchor = findAnchor(targetNode, targetAnchorKey, sourceNode);
+
+    const sourcePoint = sourceAnchor
+      ? getEllipseIntersectPoint(targetNode.getCenter(), sourceAnchor.getLocalBounds())
+      : sourceNode.getIntersectPoint(targetAnchor?.getPosition() || targetNode.getCenter());
+    const targetPoint = targetAnchor
+      ? getEllipseIntersectPoint(sourceNode.getCenter(), targetAnchor.getLocalBounds())
+      : targetNode.getIntersectPoint(sourceAnchor?.getPosition() || sourceNode.getCenter());
+
+    return [sourcePoint || sourceNode.getCenter(), targetPoint || targetNode.getCenter()];
   }
 
   protected getHaloStyle(attributes: ParsedBaseEdgeStyleProps<KT>): false | KT {
@@ -121,15 +186,10 @@ export abstract class BaseEdge<KT extends object, KS extends DisplayObject> exte
       offsetY,
     );
 
-    const { sourcePoint, targetPoint } = attributes;
-    const points = [
-      { x: sourcePoint[0], y: sourcePoint[1] },
-      { x: targetPoint[0], y: targetPoint[1] },
-    ];
+    const bbox = this.shapeMap.key.getLocalBounds();
+    const wordWrapWidth = getWordWrapWidthByEnds([bbox.min, bbox.max], maxWidth);
 
-    const wordWrapWidth = getWordWrapWidthByEnds(points, maxWidth);
-    // @ts-ignore
-    return { wordWrapWidth, ...labelPositionStyle, ...restStyle } as LabelStyleProps;
+    return Object.assign({ wordWrapWidth }, labelPositionStyle, restStyle);
   }
 
   protected drawArrow(attributes: ParsedBaseEdgeStyleProps<KT>, isStart: boolean) {
@@ -140,9 +200,9 @@ export abstract class BaseEdge<KT extends object, KS extends DisplayObject> exte
       const { ctor } = subStyleProps<Required<EdgeArrowStyleProps>>(this.getGraphicStyle(attributes), arrowType);
       const arrowStyle = this.getArrowStyle(attributes, isStart);
       this.shapeMap.key.style[isStart ? 'markerStart' : 'markerEnd'] = new ctor({ style: arrowStyle });
-      this.shapeMap.key.style[isStart ? 'markerStartOffset' : 'markerEndOffset'] = isStart
-        ? attributes.startArrowOffset
-        : attributes.endArrowOffset;
+      this.shapeMap.key.style[isStart ? 'markerStartOffset' : 'markerEndOffset'] =
+        (isStart ? attributes.startArrowOffset : attributes.endArrowOffset) ||
+        (arrowStyle.width + Number(arrowStyle.lineWidth)) / 2;
     } else {
       this.shapeMap.key.style[isStart ? 'markerStart' : 'markerEnd'] = undefined;
     }
@@ -163,6 +223,8 @@ export abstract class BaseEdge<KT extends object, KS extends DisplayObject> exte
     }
     return {
       ...keyStyle,
+      width,
+      height,
       ...(path && { path, fill: type === 'simple' ? '' : keyStyle.stroke }),
       ...arrowStyle,
     };
@@ -200,8 +262,6 @@ export abstract class BaseEdge<KT extends object, KS extends DisplayObject> exte
 
     result.onframe = () => {
       this.drawLabelShape(this.parsedAttributes, this);
-      // this.drawArrow(this.parsedAttributes, true);
-      // this.drawArrow(this.parsedAttributes, false);
     };
 
     return result;
