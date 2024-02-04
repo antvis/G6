@@ -54,6 +54,4 @@ export class Image extends BaseNode<GImageStyleProps, GImage> {
     };
     this.upsert('halo', GRect, haloStyle, container);
   }
-
-  connectedCallback() {}
 }
