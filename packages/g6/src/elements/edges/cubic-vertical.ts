@@ -9,12 +9,12 @@ type CubicVerticalKeyStyleProps = PathStyleProps & {
    * <zh/> 边的起点
    * <en/> The source point. Represents the start of the edge
    */
-  sourcePoint: Point;
+  sourcePoint?: Point;
   /**
    * <zh/> 边的终点
    * <en/> The target point. Represents the end of the edge
    */
-  targetPoint: Point;
+  targetPoint?: Point;
   /**
    * <zh/> 控制点在两端点连线上的相对位置，范围为`0-1`
    * <en/> The relative position of the control point on the line, ranging from `0-1`

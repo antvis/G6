@@ -1,5 +1,7 @@
 import type { DisplayObjectConfig, CircleStyleProps as GCircleStyleProps, Group } from '@antv/g';
 import { Circle as GCircle } from '@antv/g';
+import type { Point } from '../../types';
+import { getEllipseIntersectPoint } from '../../utils/point';
 import { subStyleProps } from '../../utils/prefix';
 import type { BaseNodeStyleProps } from './base-node';
 import { BaseNode } from './base-node';
@@ -35,6 +37,11 @@ export class Circle extends BaseNode<GCircleStyleProps, GCircle> {
 
   protected drawKeyShape(attributes: ParsedCircleStyleProps, container: Group): GCircle {
     return this.upsert('key', GCircle, this.getKeyStyle(attributes), container) as GCircle;
+  }
+
+  public getIntersectPoint(point: Point): Point {
+    const keyShapeBounds = this.shapeMap.key.getLocalBounds();
+    return getEllipseIntersectPoint(point, keyShapeBounds);
   }
 
   connectedCallback() {}

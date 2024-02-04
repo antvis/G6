@@ -35,15 +35,15 @@
           <line
             id="key"
             fill="none"
-            x1="0"
-            y1="0"
-            x2="200"
-            y2="150"
+            x1="4.800000000000001"
+            y1="3.5999999999999996"
+            x2="195.2"
+            y2="146.4"
             stroke-width="2"
             stroke-dasharray="10,10"
             stroke="rgba(24,144,255,1)"
           />
-          <g transform="matrix(0.800000,0.600000,-0.600000,0.800000,0,0)">
+          <g transform="matrix(0.800000,0.600000,-0.600000,0.800000,4.800000,3.600000)">
             <path
               id="g-svg-8"
               fill="rgba(24,144,255,1)"
@@ -52,9 +52,11 @@
               stroke-width="2"
               stroke-dasharray="0,0"
               stroke="rgba(24,144,255,1)"
+              width="10"
+              height="10"
             />
           </g>
-          <g transform="matrix(-0.800000,-0.600000,0.600000,-0.800000,200,150)">
+          <g transform="matrix(-0.800000,-0.600000,0.600000,-0.800000,195.199997,146.399994)">
             <path
               id="g-svg-10"
               fill="rgba(255,0,0,1)"
@@ -63,6 +65,8 @@
               stroke-width="2"
               stroke-dasharray="0,0"
               stroke="rgba(24,144,255,1)"
+              width="10"
+              height="10"
             />
           </g>
         </g>

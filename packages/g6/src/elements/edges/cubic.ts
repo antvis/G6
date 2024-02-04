@@ -11,12 +11,12 @@ type CubicKeyStyleProps = PathStyleProps & {
    * <zh/> 边的起点
    * <en/> The source point. Represents the start of the edge
    */
-  sourcePoint: Point;
+  sourcePoint?: Point;
   /**
    * <zh/> 边的终点
    * <en/> The target point. Represents the end of the edge
    */
-  targetPoint: Point;
+  targetPoint?: Point;
   /**
    * <zh/> 控制点数组，用于定义曲线的形状。如果不指定，将会通过`curveOffset`和`curvePosition`来计算控制点
    * <en/> Control points. Used to define the shape of the curve. If not specified, it will be calculated using `curveOffset` and `curvePosition`.

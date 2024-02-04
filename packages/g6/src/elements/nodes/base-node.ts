@@ -1,7 +1,9 @@
 import type { DisplayObjectConfig, CircleStyleProps as GCircleStyleProps, Group } from '@antv/g';
 import { Circle as GCircle } from '@antv/g';
-import type { BadgePosition, LabelPosition, PrefixObject } from '../../types';
+import type { BadgePosition, LabelPosition, Point, PrefixObject } from '../../types';
 import { getAnchorPosition, getTextStyleByPosition, getXYByPosition } from '../../utils/element';
+import { extractWithPrefix } from '../../utils/object';
+import { getRectIntersectPoint } from '../../utils/point';
 import { omitStyleProps, subStyleProps } from '../../utils/prefix';
 import type { BadgeStyleProps, BaseShapeStyleProps, IconStyleProps, LabelStyleProps } from '../shapes';
 import { Badge, BaseShape, Icon, Label } from '../shapes';
@@ -105,6 +107,19 @@ export abstract class BaseNode<KT extends object, KS> extends BaseShape<BaseNode
       const [cx, cy] = getAnchorPosition(keyShape.getLocalBounds(), position as any);
       return { cx, cy, ...style } as NodeAnchorStyleProps;
     });
+  }
+
+  public getAnchors(): Record<string, GCircle> {
+    return extractWithPrefix(this.shapeMap, 'anchor-');
+  }
+
+  public getCenter(): Point {
+    return this.shapeMap.key.getBounds().center;
+  }
+
+  public getIntersectPoint(point: Point): Point {
+    const keyShapeBounds = this.shapeMap.key.getBounds();
+    return getRectIntersectPoint(point, keyShapeBounds);
   }
 
   protected abstract drawKeyShape(attributes: ParsedBaseNodeStyleProps<KT>, container: Group): KS;

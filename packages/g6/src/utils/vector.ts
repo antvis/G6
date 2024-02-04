@@ -1,6 +1,8 @@
 import type { Vector2, Vector3 } from '../types';
 import { isVector2 } from './is';
 
+const VECTOR_ZERO: Vector3 = [0, 0, 0];
+
 /**
  * <zh/> 两个向量求和
  *
@@ -26,7 +28,7 @@ export function subtract(a: Vector2 | Vector3, b: Vector2 | Vector3): Vector2 | 
 }
 
 /**
- * <zh/> 两个向量求点积
+ * <zh/> 两个向量求积
  *
  * <en/> Multiplies two vectors
  * @param a - <zh/> 第一个向量 | <en/> The first vector
@@ -35,30 +37,6 @@ export function subtract(a: Vector2 | Vector3, b: Vector2 | Vector3): Vector2 | 
  */
 export function multiply(a: Vector2 | Vector3, b: Vector2 | Vector3): Vector2 | Vector3 {
   return a.map((v, i) => v * b[i]) as Vector2 | Vector3;
-}
-
-/**
- * <zh/> 两个二维向量求叉积
- *
- * <en/> Calculates the cross product of two vectors in three-dimensional Euclidean space
- * @param a - <zh/> 第一个向量 | <en/> The first vector
- * @param b - <zh/> 第二个向量 | <en/> The second vector
- * @returns <zh/> 两个向量的叉积 | <en/> The cross product of the two vectors
- */
-export function crossVec2(a: Vector2, b: Vector2): number {
-  return a[0] * b[1] - a[1] * b[0];
-}
-
-/**
- * <zh/> 两个三维向量求叉积
- *
- * <en/> Calculates the cross product of two vectors in three-dimensional Euclidean space
- * @param a - <zh/> 第一个向量 | <en/> The first vector
- * @param b - <zh/> 第二个向量 | <en/> The second vector
- * @returns <zh/> 两个向量的叉积 | <en/> The cross product of the two vectors
- */
-export function crossVec3(a: Vector3, b: Vector3): Vector3 {
-  return [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]];
 }
 
 /**
@@ -74,6 +52,44 @@ export function divide(a: Vector2 | Vector3, b: Vector2 | Vector3): Vector2 | Ve
 }
 
 /**
+ * <zh/> 两个向量求点积
+ *
+ * <en/> Calculates the dot product of two vectors
+ * @param a - <zh/> 第一个向量 | <en/> The first vector
+ * @param b - <zh/> 第二个向量 | <en/> The second vector
+ * @returns <zh/> 两个向量的点积 | <en/> The dot product of the two vectors
+ */
+export function dot(a: Vector2 | Vector3, b: Vector2 | Vector3): number {
+  return (a as number[]).reduce((sum, v, i) => sum + v * b[i], 0);
+}
+
+/**
+ * <zh/> 两个二维向量求叉积
+ *
+ * <en/> Calculates the cross product of two vectors in three-dimensional Euclidean space
+ * @param a - <zh/> 第一个向量 | <en/> The first vector
+ * @param b - <zh/> 第二个向量 | <en/> The second vector
+ * @returns <zh/> 两个向量的叉积 | <en/> The cross product of the two vectors
+ */
+export function cross(a: Vector2 | Vector3, b: Vector2 | Vector3): Vector3 {
+  const a2 = toVector3(a);
+  const b2 = toVector3(b);
+  return [a2[1] * b2[2] - a2[2] * b2[1], a2[2] * b2[0] - a2[0] * b2[2], a2[0] * b2[1] - a2[1] * b2[0]];
+}
+
+/**
+ * <zh/> 向量缩放
+ *
+ * <en/> Scales a vector by a scalar number
+ * @param a  - <zh/> 向量 | <en/> The vector to scale
+ * @param s - <zh/> 缩放因子 | <en/> Amount to scale the vector by
+ * @returns
+ */
+export function scale(a: Vector2 | Vector3, s: number): Vector2 | Vector3 {
+  return a.map((v) => v * s) as Vector2 | Vector3;
+}
+
+/**
  * <zh/> 计算两个向量间的欧几里得距离
  *
  * <en/> Calculates the Euclidean distance between two vectors
@@ -82,9 +98,7 @@ export function divide(a: Vector2 | Vector3, b: Vector2 | Vector3): Vector2 | Ve
  * @returns <zh/> 两个向量间的距离 | <en/> The distance between the two vectors
  */
 export function distance(a: Vector2 | Vector3, b: Vector2 | Vector3): number {
-  let sum = 0;
-  a.forEach((v, i) => (sum += (v - b[i]) ** 2));
-  return Math.sqrt(sum);
+  return Math.sqrt((a as number[]).reduce((sum, v, i) => sum + (v - b[i]) ** 2, 0));
 }
 
 /**
@@ -96,9 +110,7 @@ export function distance(a: Vector2 | Vector3, b: Vector2 | Vector3): number {
  * @returns <zh/> 两个向量间的距离 | <en/> The distance between the two vectors
  */
 export function manhattanDistance(a: Vector2 | Vector3, b: Vector2 | Vector3): number {
-  let sum = 0;
-  a.forEach((v, i) => (sum += Math.abs(v - b[i])));
-  return sum;
+  return (a as number[]).reduce((sum, v, i) => sum + Math.abs(v - b[i]), 0);
 }
 
 /**
@@ -109,9 +121,35 @@ export function manhattanDistance(a: Vector2 | Vector3, b: Vector2 | Vector3): n
  * @returns <zh/> 标准化后的向量 | <en/> The normalized vector
  */
 export function normalize(a: Vector2 | Vector3): Vector2 | Vector3 {
-  let length = 0;
-  a.forEach((v) => (length += v ** 2));
+  const length = (a as number[]).reduce((sum, v) => sum + v ** 2, 0);
   return a.map((v) => v / Math.sqrt(length)) as Vector2 | Vector3;
+}
+
+/**
+ * <zh/> 计算两个向量间的夹角
+ *
+ * <en/> Get the angle between two vectors
+ * @param a - <zh/> 第一个向量 | <en/> The first vector
+ * @param b - <zh/> 第二个向量 | <en/> The second vector
+ * @returns  <zh/> 弧度值 | <en/> The angle in radians
+ */
+export function angle(a: Vector2 | Vector3, b: Vector2 | Vector3): number {
+  return Math.acos(
+    (multiply(a, b) as number[]).reduce((sum: number, v: number) => sum + v, 0) /
+      (distance(a, VECTOR_ZERO) * distance(b, VECTOR_ZERO)),
+  );
+}
+
+/**
+ * <zh/> 判断两个向量是否完全相等（使用 === 比较）
+ *
+ * <en/> Returns whether or not the vectors exactly have the same elements in the same position (when compared with ===)
+ * @param a - <zh/> 第一个向量 | <en/> The first vector
+ * @param b - <zh/> 第二个向量 | <en/> The second vector
+ * @returns  - <zh/> 是否相等 | <en/> Whether or not the vectors are equal
+ */
+export function exactEquals(a: Vector2 | Vector3, b: Vector2 | Vector3): boolean {
+  return (a as number[]).every((v, i) => v === b[i]);
 }
 
 /**

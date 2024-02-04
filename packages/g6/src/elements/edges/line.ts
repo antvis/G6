@@ -10,12 +10,12 @@ type LineKeyStyleProps = Partial<GLineStyleProps> & {
    * <zh/> 边的起点
    * <en/> The source point. Represents the start of the edge
    */
-  sourcePoint: Point;
+  sourcePoint?: Point;
   /**
    * <zh/> 边的终点
    * <en/> The target point. Represents the end of the edge
    */
-  targetPoint: Point;
+  targetPoint?: Point;
 };
 
 export type LineStyleProps = BaseEdgeStyleProps<LineKeyStyleProps>;
@@ -39,7 +39,7 @@ export class Line extends BaseEdge<GLineStyleProps, GLine> {
   }
 
   protected getKeyStyle(attributes: ParsedLineStyleProps): GLineStyleProps {
-    const { sourcePoint, targetPoint, ...keyShape } = super.getKeyStyle(attributes) as LineKeyStyleProps;
+    const { sourcePoint, targetPoint, ...keyShape } = super.getKeyStyle(attributes) as Required<LineKeyStyleProps>;
 
     return { ...keyShape, x1: sourcePoint[0], y1: sourcePoint[1], x2: targetPoint[0], y2: targetPoint[1] };
   }
