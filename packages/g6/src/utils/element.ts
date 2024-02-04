@@ -1,6 +1,6 @@
 import type { AABB, TextStyleProps } from '@antv/g';
 import type { PathArray } from '@antv/util';
-import { get, isString } from '@antv/util';
+import { get, isArray, isString } from '@antv/util';
 import type { Point } from '../types';
 import type { AnchorPosition, LabelPosition, RelativePosition, StarAnchorPosition } from '../types/node';
 
@@ -119,4 +119,21 @@ export function getStarAnchors(outerR: number, innerR: number): Record<string, P
  */
 export function getStarAnchorByPosition(position: StarAnchorPosition, anchors: Record<string, Point>) {
   return get(anchors, position.toLocaleLowerCase(), anchors['default']);
+}
+
+/**
+ * Get Rect PathArray.
+ * @param size - width or height
+ * @returns The PathArray for G
+ */
+export function getRectPath(size: number[] | number): PathArray {
+  const [width = 40, height = width] = (isArray(size) ? size : [size, size]) as [number, number];
+
+  return [
+    ['M', width / 2, -height / 2],
+    ['L', width / 2, height / 2],
+    ['L', -width / 2, height / 2],
+    ['L', -width / 2, -height / 2],
+    ['Z'],
+  ];
 }
