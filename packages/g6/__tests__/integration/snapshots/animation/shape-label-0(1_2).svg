@@ -10,15 +10,16 @@
   <g id="g-svg-camera" transform="matrix(1,0,0,1,0,0)">
     <g id="g-root" fill="none" transform="matrix(1,0,0,1,0,0)">
       <g id="g-svg-5" fill="none" transform="matrix(1,0,0,1,50,50)">
-        <g transform="matrix(1,0,0,1,-5,-42)">
+        <g transform="matrix(1,0,0,1,-4,-39)">
           <path
             id="background"
             fill="none"
-            d="M 0,0 l 100.19999999999999,0 l 0,47 l-100.19999999999999 0 z"
+            d="M 0,0 l 136,0 l 0,41 l-136 0 z"
+            opacity="0.75"
             stroke-width="2"
             stroke="rgba(255,192,203,1)"
-            width="100.19999999999999"
-            height="47"
+            width="136"
+            height="41"
           />
         </g>
         <g transform="matrix(1,0,0,1,0,0)">

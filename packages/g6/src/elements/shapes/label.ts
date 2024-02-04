@@ -22,6 +22,8 @@ export class Label extends BaseShape<LabelStyleProps> {
     fill: '#000',
     wordWrap: true,
     maxLines: 1,
+    wordWrapWidth: 128,
+    textOverflow: '...',
     backgroundOpacity: 0.75,
     backgroundZIndex: -1,
     backgroundLineWidth: 0,

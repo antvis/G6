@@ -12,6 +12,8 @@ export class Badge extends BaseShape<BadgeStyleProps> {
     backgroundRadius: '50%',
     fontSize: 10,
     zIndex: 1,
+    wordWrap: false,
+    wordWrapWidth: 0,
   };
 
   constructor(options: BadgeOptions) {

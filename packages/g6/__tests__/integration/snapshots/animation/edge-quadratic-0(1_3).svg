@@ -41,13 +41,15 @@
           fill="none"
           transform="matrix(0.999550,0.029986,-0.029986,0.999550,204.178116,29.122644)"
         >
-          <g transform="matrix(1,0,0,1,-50.449379,-30.713144)">
+          <g transform="matrix(1,0,0,1,-49.449379,-27.713144)">
             <path
               id="background"
               fill="none"
-              d="M 0,0 l 101.89874994810936,0 l 0,38.42628857535926 l-101.89874994810936 0 z"
-              width="101.89874994810936"
-              height="38.42628857535926"
+              d="M 0,0 l 172.92422502470643,0 l 0,32.42628857535926 l-172.92422502470643 0 z"
+              opacity="0.75"
+              stroke-width="0"
+              width="172.92422502470643"
+              height="32.42628857535926"
             />
           </g>
           <g transform="matrix(1,0,0,1,0,0)">
@@ -58,8 +60,8 @@
               paint-order="stroke"
               dx="0.5"
               dy="-11.5px"
-              text-anchor="middle"
               font-size="12"
+              text-anchor="middle"
             >
               quadratic-edge
             </text>

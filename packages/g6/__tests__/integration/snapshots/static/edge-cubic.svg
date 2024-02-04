@@ -53,13 +53,15 @@
           fill="none"
           transform="matrix(0.982519,-0.186162,0.186162,0.982519,201.137650,34.517567)"
         >
-          <g transform="matrix(1,0,0,1,-47.006863,-42.010700)">
+          <g transform="matrix(1,0,0,1,-46.006863,-39.010700)">
             <path
               id="background"
               fill="none"
-              d="M 0,0 l 95.01373867014786,0 l 0,61.02140517362693 l-95.01373867014786 0 z"
-              width="95.01373867014786"
-              height="61.02140517362693"
+              d="M 0,0 l 168,0 l 0,55.02140517362693 l-168 0 z"
+              opacity="0.75"
+              stroke-width="0"
+              width="168"
+              height="55.02140517362693"
             />
           </g>
           <g transform="matrix(1,0,0,1,0,0)">
@@ -70,8 +72,8 @@
               paint-order="stroke"
               dx="0.5"
               dy="-11.5px"
-              text-anchor="middle"
               font-size="12"
+              text-anchor="middle"
             >
               default cubic
             </text>
@@ -110,13 +112,15 @@
           fill="none"
           transform="matrix(0.903736,-0.428091,0.428091,0.903736,197.193588,134.731598)"
         >
-          <g transform="matrix(1,0,0,1,-146.558258,-131.034119)">
+          <g transform="matrix(1,0,0,1,-90.058258,-85.090347)">
             <path
               id="background"
               fill="none"
-              d="M 0,0 l 294.11651618864767,0 l 0,239.06823028583796 l-294.11651618864767 0 z"
-              width="294.11651618864767"
-              height="239.06823028583796"
+              d="M 0,0 l 168,0 l 0,147.18067545777689 l-168 0 z"
+              opacity="0.75"
+              stroke-width="0"
+              width="168"
+              height="147.18067545777689"
             />
           </g>
           <g transform="matrix(1,0,0,1,0,0)">
@@ -127,10 +131,10 @@
               paint-order="stroke"
               dx="0.5"
               dy="-11.5px"
-              text-anchor="middle"
               font-size="12"
+              text-anchor="middle"
             >
-              controlPoints=[[200, 200],[200,100]]
+              controlPoints=[[200, ...
             </text>
           </g>
         </g>
@@ -167,13 +171,15 @@
           fill="none"
           transform="matrix(0.903739,0.428085,-0.428085,0.903739,210.036224,238.156265)"
         >
-          <g transform="matrix(1,0,0,1,-116.198174,-107.541862)">
+          <g transform="matrix(1,0,0,1,-89.998177,-85.043274)">
             <path
               id="background"
               fill="none"
-              d="M 0,0 l 233.39632790301584,0 l 0,192.0837152236088 l-233.39632790301584 0 z"
-              width="233.39632790301584"
-              height="192.0837152236088"
+              d="M 0,0 l 168,0 l 0,147.08653983789722 l-168 0 z"
+              opacity="0.75"
+              stroke-width="0"
+              width="168"
+              height="147.08653983789722"
             />
           </g>
           <g transform="matrix(1,0,0,1,0,0)">
@@ -184,10 +190,10 @@
               paint-order="stroke"
               dx="0.5"
               dy="-11.5px"
-              text-anchor="middle"
               font-size="12"
+              text-anchor="middle"
             >
-              curveOffset=50, curvePosition:0.5
+              curveOffset=50, curveP...
             </text>
           </g>
         </g>
@@ -224,13 +230,15 @@
           fill="none"
           transform="matrix(0.952026,0.306016,-0.306016,0.952026,208.398346,336.943665)"
         >
-          <g transform="matrix(1,0,0,1,-117.720718,-90.066116)">
+          <g transform="matrix(1,0,0,1,-87.800720,-70.215279)">
             <path
               id="background"
               fill="none"
-              d="M 0,0 l 236.44142936090967,0 l 0,157.13220971794289 l-236.44142936090967 0 z"
-              width="236.44142936090967"
-              height="157.13220971794289"
+              d="M 0,0 l 168,0 l 0,117.43052449754984 l-168 0 z"
+              opacity="0.75"
+              stroke-width="0"
+              width="168"
+              height="117.43052449754984"
             />
           </g>
           <g transform="matrix(1,0,0,1,0,0)">
@@ -241,10 +249,10 @@
               paint-order="stroke"
               dx="0.5"
               dy="-11.5px"
-              text-anchor="middle"
               font-size="12"
+              text-anchor="middle"
             >
-              curveOffset=50, curvePosition:0.25
+              curveOffset=50, curveP...
             </text>
           </g>
         </g>

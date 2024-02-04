@@ -59,6 +59,7 @@ type BaseNodeOptions<KT extends object> = DisplayObjectConfig<BaseNodeStyleProps
 export abstract class BaseNode<KT extends object, KS> extends BaseShape<BaseNodeStyleProps<KT>> {
   static defaultStyleProps: BaseNodeStyleProps<BaseShapeStyleProps> = {
     labelMaxWidth: '200%',
+    halo: false,
     haloFill: 'none',
     haloPointerEvents: 'none',
     haloOpacity: 0.25,
