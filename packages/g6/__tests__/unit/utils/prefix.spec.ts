@@ -4,6 +4,7 @@ import {
   removePrefix,
   replacePrefix,
   startsWith,
+  subObject,
   subStyleProps,
   superStyleProps,
 } from '../../../src/utils/prefix';
@@ -36,6 +37,11 @@ describe('prefix', () => {
     expect(subStyleProps({ prefixAbc: 1, prefixDef: 2, Abc: 3 }, 'prefix')).toEqual({ abc: 1, def: 2 });
     expect(subStyleProps({ Abc: 1, Def: 2 }, 'prefix')).toEqual({});
     expect(subStyleProps({}, 'prefix')).toEqual({});
+  });
+
+  it('subObject', () => {
+    expect(subObject({ ab: 1, ac: 2, bc: 3 }, 'a')).toEqual({ b: 1, c: 2 });
+    expect(subObject({ ab: 1, ac: 2, bc: 3 }, 'b')).toEqual({ c: 3 });
   });
 
   it('omitStyleProps', () => {

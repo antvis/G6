@@ -28,4 +28,9 @@ export type EdgeLabelStyleProps = {
    * <en/> Indicates whether the label should automatically rotate to align with the edge's direction
    */
   autoRotate?: boolean;
+  /**
+   * <zh/> 文本的最大宽度，超出会裁减
+   * <en/> maxWidth of label text, which will be clipped if exceeded
+   */
+  maxWidth?: string | number;
 } & LabelStyleProps;

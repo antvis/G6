@@ -17,8 +17,16 @@ type LabelOptions = DisplayObjectConfig<LabelStyleProps>;
 
 export class Label extends BaseShape<LabelStyleProps> {
   static defaultStyleProps: Partial<LabelStyleProps> = {
-    padding: 5,
+    padding: [2, 4, 2, 4],
+    fontSize: 12,
+    fill: '#000',
+    wordWrap: true,
+    maxLines: 1,
+    wordWrapWidth: 128,
+    textOverflow: '...',
+    backgroundOpacity: 0.75,
     backgroundZIndex: -1,
+    backgroundLineWidth: 0,
   };
 
   constructor(options: LabelOptions) {

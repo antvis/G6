@@ -12,3 +12,4 @@ export type * from './prefix';
 export type * from './state';
 export type * from './style';
 export type * from './vector';
+export type * from './viewport';

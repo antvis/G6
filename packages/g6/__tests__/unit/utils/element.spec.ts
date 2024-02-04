@@ -3,7 +3,7 @@ import {
   getAnchorPosition,
   getStarAnchorByPosition,
   getStarAnchors,
-  getStarPath,
+  getStarPoints,
   getTextStyleByPosition,
   getXYByPosition,
 } from '../../../src/utils/element';
@@ -86,19 +86,18 @@ describe('element', () => {
 
     expect(getTextStyleByPosition(bbox)).toEqual({
       x: 150,
-      y: 150,
+      y: 200,
       textAlign: 'center',
-      textBaseline: 'middle',
+      textBaseline: 'top',
     });
   });
 
-  it('getStarPath', () => {
-    expect(getStarPath(32, 16).length).toBe(11);
-    expect(getStarPath(32)[5][2]).toBe((32 * 3) / 8);
+  it('getStarPoints', () => {
+    expect(getStarPoints(32, 16).length).toBe(10);
   });
 
   it('getStarAnchorByPosition + getStarAnchors', () => {
-    expect(getStarPath(32, 16).length).toBe(11);
+    expect(getStarPoints(32, 16).length).toBe(10);
 
     expect(getStarAnchorByPosition('top', getStarAnchors(32, 16))).toEqual([0, -32]);
   });

@@ -20,11 +20,11 @@
           <path
             id="key"
             fill="none"
-            d="M 0,0 Q 160.11583184929498 73.95270573626621,350 200"
+            d="M 0,0 Q 160.11583184929498 73.95270573626621,350 200 L 345.00112064045567,196.68168639988298"
             stroke-width="10"
             stroke="rgba(24,144,255,1)"
           />
-          <g transform="matrix(-0.833147,-0.553052,0.553052,-0.833147,350,200)">
+          <g transform="matrix(-0.833147,-0.553052,0.553052,-0.833147,345.001129,196.681686)">
             <path
               id="g-svg-8"
               fill="rgba(24,144,255,1)"
@@ -32,6 +32,8 @@
               transform="translate(-5,-5)"
               stroke-width="2"
               stroke="rgba(24,144,255,1)"
+              width="10"
+              height="10"
               stroke-dasharray="0,0"
             />
           </g>
@@ -41,13 +43,15 @@
           fill="none"
           transform="matrix(0.999550,0.029986,-0.029986,0.999550,204.178116,29.122644)"
         >
-          <g transform="matrix(1,0,0,1,-50.449379,-30.713144)">
+          <g transform="matrix(1,0,0,1,-49.449379,-27.713144)">
             <path
               id="background"
               fill="none"
-              d="M 0,0 l 101.89874994810936,0 l 0,38.42628857535926 l-101.89874994810936 0 z"
-              width="101.89874994810936"
-              height="38.42628857535926"
+              d="M 0,0 l 169.14016153618368,0 l 0,32.42628857535926 l-169.14016153618368 0 z"
+              opacity="0.75"
+              stroke-width="0"
+              width="169.14016153618368"
+              height="32.42628857535926"
             />
           </g>
           <g transform="matrix(1,0,0,1,0,0)">
@@ -58,8 +62,8 @@
               paint-order="stroke"
               dx="0.5"
               dy="-11.5px"
-              text-anchor="middle"
               font-size="12"
+              text-anchor="middle"
             >
               quadratic-edge
             </text>
