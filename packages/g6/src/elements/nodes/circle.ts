@@ -19,7 +19,9 @@ export class Circle extends BaseNode<GCircleStyleProps, GCircle> {
     super(options);
   }
 
-  protected getHaloStyle(attributes: ParsedCircleStyleProps): GCircleStyleProps {
+  protected getHaloStyle(attributes: ParsedCircleStyleProps) {
+    if (attributes.halo === false) return false;
+
     const haloStyle = subStyleProps(this.getGraphicStyle(attributes), 'halo') as Partial<GCircleStyleProps>;
     const keyStyle = this.getKeyStyle(attributes);
 

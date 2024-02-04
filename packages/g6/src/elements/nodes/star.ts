@@ -38,7 +38,9 @@ export class Star extends BaseNode<KeyShapeStyleProps, Polygon> {
     return { ...keyStyle, points };
   }
 
-  protected getHaloStyle(attributes: ParsedStarStyleProps): PolygonStyleProps {
+  protected getHaloStyle(attributes: ParsedStarStyleProps): PolygonStyleProps | false {
+    if (attributes.halo === false) return false;
+
     const haloStyle = subStyleProps(this.getGraphicStyle(attributes), 'halo');
     const keyStyle = this.getKeyStyle(attributes);
 
@@ -49,6 +51,8 @@ export class Star extends BaseNode<KeyShapeStyleProps, Polygon> {
   }
 
   protected getAnchorsStyle(attributes: ParsedStarStyleProps): NodeAnchorStyleProps[] {
+    if (attributes.anchor === false) return [];
+
     const { outerR, innerR } = attributes;
     const anchors = getStarAnchors(outerR, innerR);
 

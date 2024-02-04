@@ -75,8 +75,10 @@
             <path
               id="background"
               fill="none"
-              d="M 0,0 l 56.080000000000005,0 l 0,23 l-56.080000000000005 0 z"
-              width="56.080000000000005"
+              d="M 0,0 l 160.19987515600627,0 l 0,23 l-160.19987515600627 0 z"
+              opacity="0.75"
+              stroke-width="0"
+              width="160.19987515600627"
               height="23"
             />
           </g>
@@ -88,8 +90,8 @@
               paint-order="stroke"
               dx="0.5"
               dy="-11.5px"
-              text-anchor="middle"
               font-size="12"
+              text-anchor="middle"
             >
               line-edge
             </text>

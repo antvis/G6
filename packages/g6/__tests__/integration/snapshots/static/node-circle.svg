@@ -20,42 +20,8 @@
             r="40"
           />
         </g>
-        <g id="label" fill="none" transform="matrix(1,0,0,1,100,100)">
-          <g transform="matrix(1,0,0,1,-5,-5)">
-            <path
-              id="background"
-              fill="none"
-              d="M 0,0 l 10,0 l 0,10 l-10 0 z"
-              width="10"
-              height="10"
-            />
-          </g>
-          <g transform="matrix(1,0,0,1,0,0)">
-            <text
-              id="text"
-              fill="rgba(0,0,0,1)"
-              dominant-baseline="central"
-              paint-order="stroke"
-              text-anchor="middle"
-            />
-          </g>
-        </g>
-        <g transform="matrix(1,0,0,1,100,100)">
-          <circle id="halo" fill="rgba(0,128,0,1)" cx="0" cy="0" r="0" />
-        </g>
-        <g id="icon" fill="none" transform="matrix(1,0,0,1,100,100)">
-          <g transform="matrix(1,0,0,1,0,0)">
-            <text
-              id="icon"
-              fill="rgba(0,0,0,1)"
-              dominant-baseline="central"
-              paint-order="stroke"
-              text-anchor="middle"
-            />
-          </g>
-        </g>
       </g>
-      <g id="g-svg-13" fill="none" r="40" transform="matrix(1,0,0,1,0,0)">
+      <g id="g-svg-7" fill="none" r="40" transform="matrix(1,0,0,1,0,0)">
         <g transform="matrix(1,0,0,1,300,100)">
           <circle
             id="key"
@@ -64,45 +30,6 @@
             cx="40"
             cy="40"
             r="40"
-          />
-        </g>
-        <g id="label" fill="none" transform="matrix(1,0,0,1,300,140)">
-          <g transform="matrix(1,0,0,1,-42.310001,-5)">
-            <path
-              id="background"
-              fill="none"
-              d="M 0,0 l 85.62,0 l 0,37 l-85.62 0 z"
-              width="85.62"
-              height="37"
-            />
-          </g>
-          <g transform="matrix(1,0,0,1,0,0)">
-            <text
-              id="text"
-              fill="rgba(255,192,203,1)"
-              dominant-baseline="central"
-              paint-order="stroke"
-              dx="0.5"
-              dy="13.5px"
-              text-anchor="middle"
-              font-size="14"
-            >
-              circle node
-            </text>
-          </g>
-        </g>
-        <g transform="matrix(1,0,0,1,300,100)">
-          <circle
-            id="halo"
-            fill="rgba(255,0,0,1)"
-            transform="translate(-46,-46)"
-            cx="46"
-            cy="46"
-            r="46"
-            opacity="0.4"
-            stroke="rgba(128,128,128,1)"
-            stroke-width="12"
-            pointer-events="none"
           />
         </g>
         <g
@@ -126,6 +53,33 @@
             />
           </g>
         </g>
+        <g id="label" fill="none" transform="matrix(1,0,0,1,300,140)">
+          <g transform="matrix(1,0,0,1,-41.310001,-2)">
+            <path
+              id="background"
+              fill="none"
+              d="M 0,0 l 168,0 l 0,31 l-168 0 z"
+              opacity="0.75"
+              stroke-width="0"
+              width="168"
+              height="31"
+            />
+          </g>
+          <g transform="matrix(1,0,0,1,0,0)">
+            <text
+              id="text"
+              fill="rgba(255,192,203,1)"
+              dominant-baseline="central"
+              paint-order="stroke"
+              dx="0.5"
+              dy="13.5px"
+              font-size="14"
+              text-anchor="middle"
+            >
+              circle node
+            </text>
+          </g>
+        </g>
         <g id="badge-0" fill="none" transform="matrix(1,0,0,1,340,60)">
           <g id="label" fill="none" transform="matrix(1,0,0,1,0,0)">
             <g transform="matrix(1,0,0,1,-4,-20)">
@@ -133,6 +87,8 @@
                 id="background"
                 fill="rgba(128,128,128,1)"
                 d="M 7.95,0 l 0,0 a 7.95,7.95,0,0,1,7.95,7.95 l 0,5.1 a 7.95,7.95,0,0,1,-7.95,7.95 l 0,0 a 7.95,7.95,0,0,1,-7.95,-7.95 l 0,-5.1 a 7.95,7.95,0,0,1,7.95,-7.95 z"
+                opacity="0.75"
+                stroke-width="0"
                 width="15.9"
                 height="21"
               />
@@ -146,6 +102,7 @@
                 dx="0.5"
                 dy="-9.5px"
                 font-size="10"
+                text-anchor="left"
               >
                 A
               </text>
@@ -154,13 +111,15 @@
         </g>
         <g id="badge-1" fill="none" transform="matrix(1,0,0,1,340,100)">
           <g id="label" fill="none" transform="matrix(1,0,0,1,0,0)">
-            <g transform="matrix(1,0,0,1,-5,-24)">
+            <g transform="matrix(1,0,0,1,-4,-11.500000)">
               <path
                 id="background"
                 fill="rgba(0,0,255,1)"
-                d="M 14.5,0 l 28.9,0 a 14.5,14.5,0,0,1,14.5,14.5 l 0,0 a 14.5,14.5,0,0,1,-14.5,14.5 l -28.9,0 a 14.5,14.5,0,0,1,-14.5,-14.5 l 0,0 a 14.5,14.5,0,0,1,14.5,-14.5 z"
-                width="57.9"
-                height="29"
+                d="M 11.5,0 l 32.9,0 a 11.5,11.5,0,0,1,11.5,11.5 l 0,0 a 11.5,11.5,0,0,1,-11.5,11.5 l -32.9,0 a 11.5,11.5,0,0,1,-11.5,-11.5 l 0,0 a 11.5,11.5,0,0,1,11.5,-11.5 z"
+                opacity="0.75"
+                stroke-width="0"
+                width="55.9"
+                height="23"
               />
             </g>
             <g transform="matrix(1,0,0,1,0,0)">
@@ -170,8 +129,8 @@
                 dominant-baseline="central"
                 paint-order="stroke"
                 dx="0.5"
-                dy="-9.5px"
                 font-size="10"
+                text-anchor="left"
               >
                 Important
               </text>
@@ -180,13 +139,15 @@
         </g>
         <g id="badge-2" fill="none" transform="matrix(1,0,0,1,260,140)">
           <g id="label" fill="none" transform="matrix(1,0,0,1,0,0)">
-            <g transform="matrix(1,0,0,1,-5,-24)">
+            <g transform="matrix(1,0,0,1,-35.400002,-2)">
               <path
                 id="background"
                 fill="rgba(255,0,0,1)"
-                d="M 14.5,0 l 13.400000000000006,0 a 14.5,14.5,0,0,1,14.5,14.5 l 0,0 a 14.5,14.5,0,0,1,-14.5,14.5 l -13.400000000000006,0 a 14.5,14.5,0,0,1,-14.5,-14.5 l 0,0 a 14.5,14.5,0,0,1,14.5,-14.5 z"
-                width="42.400000000000006"
-                height="29"
+                d="M 11.5,0 l 17.400000000000006,0 a 11.5,11.5,0,0,1,11.5,11.5 l 0,0 a 11.5,11.5,0,0,1,-11.5,11.5 l -17.400000000000006,0 a 11.5,11.5,0,0,1,-11.5,-11.5 l 0,0 a 11.5,11.5,0,0,1,11.5,-11.5 z"
+                opacity="0.75"
+                stroke-width="0"
+                width="40.400000000000006"
+                height="23"
               />
             </g>
             <g transform="matrix(1,0,0,1,0,0)">
@@ -196,8 +157,9 @@
                 dominant-baseline="central"
                 paint-order="stroke"
                 dx="0.5"
-                dy="-9.5px"
+                dy="9.5px"
                 font-size="10"
+                text-anchor="end"
               >
                 Notice
               </text>
@@ -253,39 +215,16 @@
           />
         </g>
       </g>
-      <g id="g-svg-37" fill="none" r="40" transform="matrix(1,0,0,1,0,0)">
+      <g id="g-svg-30" fill="none" r="16" transform="matrix(1,0,0,1,0,0)">
         <g transform="matrix(1,0,0,1,100,300)">
           <circle
             id="key"
             fill="rgba(255,192,203,1)"
-            transform="translate(-40,-40)"
-            cx="40"
-            cy="40"
-            r="40"
+            transform="translate(-16,-16)"
+            cx="16"
+            cy="16"
+            r="16"
           />
-        </g>
-        <g id="label" fill="none" transform="matrix(1,0,0,1,100,300)">
-          <g transform="matrix(1,0,0,1,-5,-5)">
-            <path
-              id="background"
-              fill="none"
-              d="M 0,0 l 10,0 l 0,10 l-10 0 z"
-              width="10"
-              height="10"
-            />
-          </g>
-          <g transform="matrix(1,0,0,1,0,0)">
-            <text
-              id="text"
-              fill="rgba(0,0,0,1)"
-              dominant-baseline="central"
-              paint-order="stroke"
-              text-anchor="middle"
-            />
-          </g>
-        </g>
-        <g transform="matrix(1,0,0,1,100,300)">
-          <circle id="halo" fill="rgba(255,192,203,1)" cx="0" cy="0" r="0" />
         </g>
         <g id="icon" fill="none" transform="matrix(1,0,0,1,100,300)">
           <g transform="matrix(1,0,0,1,0,0)">
@@ -295,10 +234,37 @@
               dominant-baseline="central"
               paint-order="stroke"
               dx="0.5"
-              font-size="32"
               text-anchor="middle"
+              font-size="14"
             >
               Y
+            </text>
+          </g>
+        </g>
+        <g id="label" fill="none" transform="matrix(1,0,0,1,100,316)">
+          <g transform="matrix(1,0,0,1,-35.200001,-2)">
+            <path
+              id="background"
+              fill="none"
+              d="M 0,0 l 72,0 l 0,27 l-72 0 z"
+              opacity="0.75"
+              stroke-width="0"
+              width="72"
+              height="27"
+            />
+          </g>
+          <g transform="matrix(1,0,0,1,0,0)">
+            <text
+              id="text"
+              fill="rgba(0,0,0,1)"
+              dominant-baseline="central"
+              paint-order="stroke"
+              dx="0.5"
+              dy="11.5px"
+              font-size="12"
+              text-anchor="middle"
+            >
+              this is a l...
             </text>
           </g>
         </g>

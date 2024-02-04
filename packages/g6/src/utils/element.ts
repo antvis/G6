@@ -73,7 +73,7 @@ export function findAnchor(node: Node, anchorKey?: string, oppositeNode?: Node):
  * @param position - The postion relative with element.
  * @returns Partial<TextStyleProps>
  */
-export function getTextStyleByPosition(bbox: AABB, position: LabelPosition = 'center'): Partial<TextStyleProps> {
+export function getTextStyleByPosition(bbox: AABB, position: LabelPosition = 'bottom'): Partial<TextStyleProps> {
   const direction = position.split('-');
   const [x, y] = getXYByPosition(bbox, position);
 

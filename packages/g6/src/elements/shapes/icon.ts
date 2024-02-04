@@ -20,24 +20,22 @@ export class Icon extends BaseShape<IconStyleProps> {
 
     if (this.isGImage()) {
       return {
-        ...style,
         anchor: [0.5, 0.5],
+        ...style,
       };
     }
     return {
-      ...style,
       textBaseline: 'middle',
       textAlign: 'center',
+      ...style,
     };
   }
 
   public render(attributes = this.attributes, container: Group = this): void {
-    // @ts-ignore
-    this.upsert('icon', this.isGImage() ? GImage : GText, this.getIconStyle(attributes), container);
+    this.upsert('icon', (this.isGImage() ? GImage : GText) as any, this.getIconStyle(attributes), container);
   }
 
   connectedCallback() {
-    // @ts-ignore
-    this.upsert('icon', this.isGImage() ? GImage : GText, this.getIconStyle(this.attributes), this);
+    this.upsert('icon', (this.isGImage() ? GImage : GText) as any, this.getIconStyle(this.attributes), this);
   }
 }

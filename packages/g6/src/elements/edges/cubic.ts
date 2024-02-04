@@ -3,20 +3,10 @@ import { Path } from '@antv/g';
 import { deepMix } from '@antv/util';
 import type { Point } from '../../types';
 import { calculateControlPoint, getCubicPath, parseCurveOffset, parseCurvePosition } from '../../utils/edge';
-import type { BaseEdgeStyleProps } from './base-edge';
+import type { BaseEdgeKeyStyleProps, BaseEdgeStyleProps } from './base-edge';
 import { BaseEdge } from './base-edge';
 
-type CubicKeyStyleProps = PathStyleProps & {
-  /**
-   * <zh/> 边的起点
-   * <en/> The source point. Represents the start of the edge
-   */
-  sourcePoint?: Point;
-  /**
-   * <zh/> 边的终点
-   * <en/> The target point. Represents the end of the edge
-   */
-  targetPoint?: Point;
+type CubicKeyStyleProps = BaseEdgeKeyStyleProps<PathStyleProps> & {
   /**
    * <zh/> 控制点数组，用于定义曲线的形状。如果不指定，将会通过`curveOffset`和`curvePosition`来计算控制点
    * <en/> Control points. Used to define the shape of the curve. If not specified, it will be calculated using `curveOffset` and `curvePosition`.
