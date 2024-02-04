@@ -8,6 +8,7 @@ export * from './edge-quadratic';
 export * from './layered-canvas';
 export * from './node-circle';
 export * from './node-star';
+export * from './node-triangle';
 export * from './shape-badge';
 export * from './shape-icon';
 export * from './shape-label';

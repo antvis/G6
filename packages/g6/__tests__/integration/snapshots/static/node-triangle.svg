@@ -1,0 +1,298 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="500"
+  height="500"
+  style="background: transparent; position: absolute; outline: none;"
+  color-interpolation-filters="sRGB"
+  tabindex="1"
+>
+  <defs />
+  <g id="g-svg-camera" transform="matrix(1,0,0,1,0,0)">
+    <g id="g-root" fill="none" transform="matrix(1,0,0,1,0,0)">
+      <g id="g-svg-5" fill="none" r="48" transform="matrix(1,0,0,1,100,100)">
+        <g transform="matrix(1,0,0,1,-41.569218,-36)">
+          <path
+            id="key"
+            fill="rgba(0,128,0,1)"
+            d="M 41.569219381653056,0 L 83.13843876330611,72 L 0,72 Z"
+            r="48"
+          />
+        </g>
+        <g id="label" fill="none" transform="matrix(1,0,0,1,0.000002,0)">
+          <g transform="matrix(1,0,0,1,-5,-5)">
+            <path
+              id="background"
+              fill="none"
+              d="M 0,0 l 10,0 l 0,10 l-10 0 z"
+              width="10"
+              height="10"
+            />
+          </g>
+          <g transform="matrix(1,0,0,1,0,0)">
+            <text
+              id="text"
+              fill="rgba(0,0,0,1)"
+              dominant-baseline="central"
+              paint-order="stroke"
+              text-anchor="middle"
+            />
+          </g>
+        </g>
+        <g transform="matrix(1,0,0,1,-41.569218,-36)">
+          <path
+            id="halo"
+            fill="rgba(0,128,0,1)"
+            d="M 41.569219381653056,0 L 83.13843876330611,72 L 0,72 Z"
+            r="48"
+          />
+        </g>
+        <g id="icon" fill="none" transform="matrix(1,0,0,1,0.000002,0)">
+          <g transform="matrix(1,0,0,1,0,0)">
+            <text
+              id="icon"
+              fill="rgba(0,0,0,1)"
+              dominant-baseline="central"
+              paint-order="stroke"
+              text-anchor="middle"
+            />
+          </g>
+        </g>
+      </g>
+      <g id="g-svg-13" fill="none" r="48" transform="matrix(1,0,0,1,300,100)">
+        <g transform="matrix(1,0,0,1,-41.569218,-36)">
+          <path
+            id="key"
+            fill="rgba(255,0,0,1)"
+            d="M 41.569219381653056,0 L 83.13843876330611,72 L 0,72 Z"
+            r="48"
+          />
+        </g>
+        <g id="label" fill="none" transform="matrix(1,0,0,1,0.000002,36)">
+          <g transform="matrix(1,0,0,1,-49.450001,-5)">
+            <path
+              id="background"
+              fill="none"
+              d="M 0,0 l 99.9,0 l 0,37 l-99.9 0 z"
+              width="99.9"
+              height="37"
+            />
+          </g>
+          <g transform="matrix(1,0,0,1,0,0)">
+            <text
+              id="text"
+              fill="rgba(255,192,203,1)"
+              dominant-baseline="central"
+              paint-order="stroke"
+              dx="0.5"
+              dy="13.5px"
+              text-anchor="middle"
+              font-size="14"
+            >
+              triangle node
+            </text>
+          </g>
+        </g>
+        <g transform="matrix(1,0,0,1,-41.569218,-36)">
+          <path
+            id="halo"
+            fill="rgba(255,0,0,1)"
+            d="M 41.569219381653056,0 L 83.13843876330611,72 L 0,72 Z"
+            r="48"
+            opacity="0.4"
+            stroke="rgba(128,128,128,1)"
+            stroke-width="12"
+            pointer-events="none"
+          />
+        </g>
+        <g
+          id="icon"
+          fill="none"
+          width="30"
+          height="30"
+          transform="matrix(1,0,0,1,0.000002,0)"
+        >
+          <g transform="matrix(1,0,0,1,0,0)">
+            <image
+              id="icon"
+              fill="none"
+              preserveAspectRatio="none"
+              x="0"
+              y="0"
+              href="https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg"
+              transform="translate(-15,-15)"
+              width="30"
+              height="30"
+            />
+          </g>
+        </g>
+        <g id="badge-0" fill="none" transform="matrix(1,0,0,1,41.569221,-36)">
+          <g id="label" fill="none" transform="matrix(1,0,0,1,0,0)">
+            <g transform="matrix(1,0,0,1,-3.999992,-20)">
+              <path
+                id="background"
+                fill="rgba(128,128,128,1)"
+                d="M 7.95,0 l 0,0 a 7.95,7.95,0,0,1,7.95,7.95 l 0,5.1 a 7.95,7.95,0,0,1,-7.95,7.95 l 0,0 a 7.95,7.95,0,0,1,-7.95,-7.95 l 0,-5.1 a 7.95,7.95,0,0,1,7.95,-7.95 z"
+                width="15.9"
+                height="21"
+              />
+            </g>
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text
+                id="text"
+                fill="rgba(255,255,255,1)"
+                dominant-baseline="central"
+                paint-order="stroke"
+                dx="0.5"
+                dy="-9.5px"
+                font-size="10"
+              >
+                A
+              </text>
+            </g>
+          </g>
+        </g>
+        <g id="badge-1" fill="none" transform="matrix(1,0,0,1,41.569221,0)">
+          <g id="label" fill="none" transform="matrix(1,0,0,1,0,0)">
+            <g transform="matrix(1,0,0,1,-4.999992,-24)">
+              <path
+                id="background"
+                fill="rgba(0,0,255,1)"
+                d="M 14.5,0 l 28.9,0 a 14.5,14.5,0,0,1,14.5,14.5 l 0,0 a 14.5,14.5,0,0,1,-14.5,14.5 l -28.9,0 a 14.5,14.5,0,0,1,-14.5,-14.5 l 0,0 a 14.5,14.5,0,0,1,14.5,-14.5 z"
+                width="57.9"
+                height="29"
+              />
+            </g>
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text
+                id="text"
+                fill="rgba(255,255,255,1)"
+                dominant-baseline="central"
+                paint-order="stroke"
+                dx="0.5"
+                dy="-9.5px"
+                font-size="10"
+              >
+                Important
+              </text>
+            </g>
+          </g>
+        </g>
+        <g id="badge-2" fill="none" transform="matrix(1,0,0,1,-41.569218,36)">
+          <g id="label" fill="none" transform="matrix(1,0,0,1,0,0)">
+            <g transform="matrix(1,0,0,1,-5,-24)">
+              <path
+                id="background"
+                fill="rgba(255,0,0,1)"
+                d="M 14.5,0 l 13.400000000000006,0 a 14.5,14.5,0,0,1,14.5,14.5 l 0,0 a 14.5,14.5,0,0,1,-14.5,14.5 l -13.400000000000006,0 a 14.5,14.5,0,0,1,-14.5,-14.5 l 0,0 a 14.5,14.5,0,0,1,14.5,-14.5 z"
+                width="42.400000000000006"
+                height="29"
+              />
+            </g>
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text
+                id="text"
+                fill="rgba(255,255,255,1)"
+                dominant-baseline="central"
+                paint-order="stroke"
+                dx="0.5"
+                dy="-9.5px"
+                font-size="10"
+              >
+                Notice
+              </text>
+            </g>
+          </g>
+        </g>
+        <g transform="matrix(1,0,0,1,-41.569218,36)">
+          <circle
+            id="anchor-0"
+            fill="none"
+            transform="translate(-2,-2)"
+            cx="2"
+            cy="2"
+            r="2"
+            stroke="rgba(0,0,0,1)"
+            stroke-width="1"
+          />
+        </g>
+        <g transform="matrix(1,0,0,1,41.569218,36)">
+          <circle
+            id="anchor-1"
+            fill="none"
+            transform="translate(-2,-2)"
+            cx="2"
+            cy="2"
+            r="2"
+            stroke="rgba(255,255,0,1)"
+            stroke-width="2"
+          />
+        </g>
+        <g transform="matrix(1,0,0,1,0,-36)">
+          <circle
+            id="anchor-2"
+            fill="none"
+            transform="translate(-2,-2)"
+            cx="2"
+            cy="2"
+            r="2"
+            stroke="rgba(0,128,0,1)"
+            stroke-width="1"
+          />
+        </g>
+      </g>
+      <g id="g-svg-36" fill="none" r="48" transform="matrix(1,0,0,1,300,300)">
+        <g transform="matrix(1,0,0,1,-41.569218,-36)">
+          <path
+            id="key"
+            fill="rgba(255,192,203,1)"
+            d="M 41.569219381653056,0 L 83.13843876330611,72 L 0,72 Z"
+            r="48"
+          />
+        </g>
+        <g id="label" fill="none" transform="matrix(1,0,0,1,0.000002,0)">
+          <g transform="matrix(1,0,0,1,-5,-5)">
+            <path
+              id="background"
+              fill="none"
+              d="M 0,0 l 10,0 l 0,10 l-10 0 z"
+              width="10"
+              height="10"
+            />
+          </g>
+          <g transform="matrix(1,0,0,1,0,0)">
+            <text
+              id="text"
+              fill="rgba(0,0,0,1)"
+              dominant-baseline="central"
+              paint-order="stroke"
+              text-anchor="middle"
+            />
+          </g>
+        </g>
+        <g transform="matrix(1,0,0,1,-41.569218,-36)">
+          <path
+            id="halo"
+            fill="rgba(255,192,203,1)"
+            d="M 41.569219381653056,0 L 83.13843876330611,72 L 0,72 Z"
+            r="48"
+          />
+        </g>
+        <g id="icon" fill="none" transform="matrix(1,0,0,1,0.000002,0)">
+          <g transform="matrix(1,0,0,1,0,0)">
+            <text
+              id="icon"
+              fill="rgba(0,0,0,1)"
+              dominant-baseline="central"
+              paint-order="stroke"
+              dx="0.5"
+              font-size="30"
+              text-anchor="middle"
+            >
+              Y
+            </text>
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>
