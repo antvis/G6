@@ -42,10 +42,10 @@ type BaseNodeOptions<KT extends object> = DisplayObjectConfig<BaseNodeStyleProps
 /**
  * Design document: https://www.yuque.com/antv/g6/gl1iof1xpzg6ed98
  * - key [default]
- * - label, background included
  * - halo
  * - icon
  * - badges
+ * - label, background included
  * - anchors / ports
  */
 export abstract class BaseNode<KT extends object, KS> extends BaseShape<BaseNodeStyleProps<KT>> {
@@ -110,24 +110,36 @@ export abstract class BaseNode<KT extends object, KS> extends BaseShape<BaseNode
   protected abstract drawKeyShape(attributes: ParsedBaseNodeStyleProps<KT>, container: Group): KS;
 
   public render(attributes = this.parsedAttributes, container: Group = this) {
+    /**
+     * The order of rendering is important, the later one will cover the previous one.
+     * const NODE_INDEX = {
+     *   KEY: 1,
+     *   HALO: 2,
+     *   ICON: 3,
+     *   BADGE: 4,
+     *   LABEL: 5,
+     *   ANCHOR: 6,
+     * };
+     */
+
     // 1. key shape
     const keyShape = this.drawKeyShape(attributes, container);
     if (!keyShape) return;
 
-    // 2. label
-    this.upsert('label', Label, this.getLabelStyle(attributes), container);
-
-    // 3. halo, use shape same with keyShape
+    // 2. halo, use shape same with keyShape
     this.upsert('halo', keyShape.constructor as any, this.getHaloStyle(attributes), container);
 
-    // 4. icon
+    // 3. icon
     this.upsert('icon', Icon, this.getIconStyle(attributes), container);
 
-    // 5. badges
+    // 4. badges
     const badgesStyle = this.getBadgesStyle(attributes);
     badgesStyle.forEach((badgeStyle, i) => {
       this.upsert(`badge-${i}`, Badge, badgeStyle, container);
     });
+
+    // 5. label
+    this.upsert('label', Label, this.getLabelStyle(attributes), container);
 
     // 6. anchors
     const anchorStyle = this.getAnchorsStyle(attributes);
