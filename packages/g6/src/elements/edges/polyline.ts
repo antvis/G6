@@ -11,12 +11,12 @@ type PolylineKeyStyleProps = PathStyleProps & {
    * <zh/> 边的起点
    * <en/> The source point. Represents the start of the edge
    */
-  sourcePoint: Point;
+  sourcePoint?: Point;
   /**
    * <zh/> 边的终点
    * <en/> The target point. Represents the end of the edge
    */
-  targetPoint: Point;
+  targetPoint?: Point;
   /**
    * <zh/> 拐弯处的圆角弧度，默认为 0
    * <en/> The radius of the rounded corner at the turning point. The default is 0
