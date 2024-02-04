@@ -8,11 +8,12 @@ import type {
 } from '@antv/g';
 import { Path } from '@antv/g';
 import { deepMix, isFunction } from '@antv/util';
-import type { EdgeKey, EdgeLabelStyleProps, PrefixObject } from '../../types';
+import type { EdgeKey, EdgeLabelStyleProps, Point, PrefixObject } from '../../types';
 import { getLabelPositionStyle } from '../../utils/edge';
 import { omitStyleProps, subStyleProps } from '../../utils/prefix';
 import type { SymbolFactor } from '../../utils/symbol';
 import * as Symbol from '../../utils/symbol';
+import { getWordWrapWidthByEnds } from '../../utils/text';
 import type { LabelStyleProps } from '../shapes';
 import { Label } from '../shapes';
 import type { BaseShapeStyleProps } from '../shapes/base-shape';
@@ -28,8 +29,21 @@ type EdgeArrowStyleProps = {
 } & PathStyleProps &
   Record<string, unknown>;
 
+export type BaseEdgeKeyStyleProps<KT> = KT & {
+  /**
+   * <zh/> 边的起点
+   * <en/> The source point. Represents the start of the edge
+   */
+  sourcePoint: Point;
+  /**
+   * <zh/> 边的终点
+   * <en/> The target point. Represents the end of the edge
+   */
+  targetPoint: Point;
+};
+
 export type BaseEdgeStyleProps<KT extends object> = BaseShapeStyleProps &
-  KT & {
+  BaseEdgeKeyStyleProps<KT> & {
     label?: boolean;
     halo?: boolean;
     startArrow?: boolean;
@@ -45,10 +59,11 @@ export type BaseEdgeOptions<KT extends object> = DisplayObjectConfig<BaseEdgeSty
 
 type ParsedBaseEdgeStyleProps<KT extends object> = Required<BaseEdgeStyleProps<KT>>;
 export abstract class BaseEdge<KT extends object, KS extends DisplayObject> extends BaseShape<BaseEdgeStyleProps<KT>> {
-  static defaultStyleProps: BaseEdgeStyleProps<Record<string, unknown>> = {
+  static defaultStyleProps: BaseEdgeStyleProps<any> = {
     isBillboard: true,
     label: true,
     labelPosition: 'center',
+    labelMaxWidth: '80%',
     labelOffsetX: 4,
     labelOffsetY: -6,
     labelIsBillboard: true,
@@ -97,7 +112,7 @@ export abstract class BaseEdge<KT extends object, KS extends DisplayObject> exte
     if (attributes.label === false) return false;
 
     const labelStyle = subStyleProps<Required<EdgeLabelStyleProps>>(this.getGraphicStyle(attributes), 'label');
-    const { position, offsetX, offsetY, autoRotate, ...restStyle } = labelStyle;
+    const { position, offsetX, offsetY, autoRotate, maxWidth, ...restStyle } = labelStyle;
     const labelPositionStyle = getLabelPositionStyle(
       this.shapeMap.key as EdgeKey,
       position,
@@ -106,7 +121,15 @@ export abstract class BaseEdge<KT extends object, KS extends DisplayObject> exte
       offsetY,
     );
 
-    return { ...labelPositionStyle, ...restStyle } as LabelStyleProps;
+    const { sourcePoint, targetPoint } = attributes;
+    const points = [
+      { x: sourcePoint[0], y: sourcePoint[1] },
+      { x: targetPoint[0], y: targetPoint[1] },
+    ];
+
+    const wordWrapWidth = getWordWrapWidthByEnds(points, maxWidth);
+    // @ts-ignore
+    return { wordWrapWidth, ...labelPositionStyle, ...restStyle } as LabelStyleProps;
   }
 
   protected drawArrow(attributes: ParsedBaseEdgeStyleProps<KT>, isStart: boolean) {

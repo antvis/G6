@@ -35,7 +35,9 @@ export class Star extends BaseNode<KeyShapeStyleProps, GPath> {
     return { ...keyStyle, d };
   }
 
-  protected getHaloStyle(attributes: ParsedStarStyleProps): KeyShapeStyleProps {
+  protected getHaloStyle(attributes: ParsedStarStyleProps) {
+    if (attributes.halo === false) return false;
+
     const haloStyle = subStyleProps(this.getGraphicStyle(attributes), 'halo') as Partial<KeyShapeStyleProps>;
     const keyStyle = this.getKeyStyle(attributes);
 
@@ -46,6 +48,8 @@ export class Star extends BaseNode<KeyShapeStyleProps, GPath> {
   }
 
   protected getAnchorsStyle(attributes: ParsedStarStyleProps): NodeAnchorStyleProps[] {
+    if (attributes.anchor === false) return [];
+
     const { outerR, innerR } = attributes;
     const anchors = getStarAnchors(outerR, innerR);
 

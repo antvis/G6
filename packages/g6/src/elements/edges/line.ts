@@ -1,22 +1,10 @@
 import type { DisplayObjectConfig, LineStyleProps as GLineStyleProps, Group } from '@antv/g';
 import { Line as GLine } from '@antv/g';
 import { deepMix } from '@antv/util';
-import type { Point } from '../../types';
-import type { BaseEdgeStyleProps } from './base-edge';
+import type { BaseEdgeKeyStyleProps, BaseEdgeStyleProps } from './base-edge';
 import { BaseEdge } from './base-edge';
 
-type LineKeyStyleProps = Partial<GLineStyleProps> & {
-  /**
-   * <zh/> 边的起点
-   * <en/> The source point. Represents the start of the edge
-   */
-  sourcePoint: Point;
-  /**
-   * <zh/> 边的终点
-   * <en/> The target point. Represents the end of the edge
-   */
-  targetPoint: Point;
-};
+type LineKeyStyleProps = BaseEdgeKeyStyleProps<GLineStyleProps>;
 
 export type LineStyleProps = BaseEdgeStyleProps<LineKeyStyleProps>;
 

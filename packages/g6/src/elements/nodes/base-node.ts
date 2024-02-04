@@ -90,7 +90,7 @@ export abstract class BaseNode<KT extends object, KS> extends BaseShape<BaseNode
     } as NodeLabelStyleProps;
   }
 
-  protected abstract getHaloStyle(attributes: ParsedBaseNodeStyleProps<KT>): KT;
+  protected abstract getHaloStyle(attributes: ParsedBaseNodeStyleProps<KT>): KT | false;
 
   protected getIconStyle(attributes: ParsedBaseNodeStyleProps<KT>) {
     if (attributes.icon === false || isEmpty(attributes.iconText || attributes.iconSrc)) return false;

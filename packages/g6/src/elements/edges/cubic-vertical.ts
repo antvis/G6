@@ -1,20 +1,10 @@
 import type { DisplayObjectConfig, PathStyleProps } from '@antv/g';
 import { deepMix } from '@antv/util';
 import type { Point } from '../../types';
-import type { BaseEdgeStyleProps } from './base-edge';
+import type { BaseEdgeKeyStyleProps, BaseEdgeStyleProps } from './base-edge';
 import { Cubic } from './cubic';
 
-type CubicVerticalKeyStyleProps = PathStyleProps & {
-  /**
-   * <zh/> 边的起点
-   * <en/> The source point. Represents the start of the edge
-   */
-  sourcePoint: Point;
-  /**
-   * <zh/> 边的终点
-   * <en/> The target point. Represents the end of the edge
-   */
-  targetPoint: Point;
+type CubicVerticalKeyStyleProps = BaseEdgeKeyStyleProps<PathStyleProps> & {
   /**
    * <zh/> 控制点在两端点连线上的相对位置，范围为`0-1`
    * <en/> The relative position of the control point on the line, ranging from `0-1`
