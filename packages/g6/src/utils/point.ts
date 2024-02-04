@@ -1,7 +1,7 @@
 import type { AABB } from '@antv/g';
 import type { Point as IPoint } from '@antv/util';
 import type { Point } from '../types';
-import { getBBoxWidth } from './bbox';
+import { getBBoxHeight, getBBoxWidth } from './bbox';
 import { getXYByPosition } from './element';
 import { isBetween } from './math';
 import { add, angle, cross, distance, exactEquals, subtract } from './vector';
@@ -50,7 +50,7 @@ export function isVertical(p1: Point, p2: Point): boolean {
  * @returns <zh/> 是否三点共线 | <en/> whether three points are collinear
  */
 export function isCollinear(p1: Point, p2: Point, p3: Point): boolean {
-  return isLinesParallel(p1, p2, p2, p3);
+  return isLinesParallel([p1, p2], [p2, p3]);
 }
 
 /**
@@ -69,13 +69,13 @@ export function isSamePoint(p1: Point, p2: Point): boolean {
  * <zh/> 判断两条线段是否平行
  *
  * <en/> Judge whether two line segments are parallel
- * @param p1 - <zh/> 第一条线段的起点 | <en/> the start point of the first line segment
- * @param p2 - <zh/> 第一条线段的终点 | <en/> the end point of the first line segment
- * @param p3 - <zh/> 第二条线段的起点 | <en/> the start point of the second line segment
- * @param p4 - <zh/> 第二条线段的终点 | <en/> the end point of the second line segment
+ * @param l1 - <zh/> 第一条线段 | <en/> the first line segment
+ * @param l2 - <zh/> 第二条线段 | <en/> the second line segment
  * @returns <zh/> 是否平行 | <en/> whether parallel or not
  */
-export function isLinesParallel(p1: Point, p2: Point, p3: Point, p4: Point): boolean {
+export function isLinesParallel(l1: [Point, Point], l2: [Point, Point]): boolean {
+  const [p1, p2] = l1;
+  const [p3, p4] = l2;
   const v1 = subtract(p1, p2);
   const v2 = subtract(p3, p4);
   return cross(v1, v2).every((v) => v === 0);
@@ -85,14 +85,15 @@ export function isLinesParallel(p1: Point, p2: Point, p3: Point, p4: Point): boo
  * <zh/> 获取两条线段的交点
  *
  * <en/> Get the intersection of two line segments
- * @param p1 - <zh/> 第一条线段的起点 | <en/> the start point of the first line segment
- * @param p2 - <zh/> 第一条线段的终点 | <en/> the end point of the first line segment
- * @param p3 - <zh/> 第二条线段的起点 | <en/> the start point of the second line segment
- * @param p4 - <zh/> 第二条线段的终点 | <en/> the end point of the second line segment
+ * @param l1 - <zh/> 第一条线段 | <en/> the first line segment
+ * @param l2 - <zh/> 第二条线段 | <en/> the second line segment
  * @returns <zh/> 交点 | <en/> intersection
  */
-export function getLinesIntersection(p1: Point, p2: Point, p3: Point, p4: Point): Point | undefined {
-  if (isLinesParallel(p1, p2, p3, p4)) return undefined;
+export function getLinesIntersection(l1: [Point, Point], l2: [Point, Point]): Point | undefined {
+  if (isLinesParallel(l1, l2)) return undefined;
+
+  const [p1, p2] = l1;
+  const [p3, p4] = l2;
 
   const t =
     ((p1[0] - p3[0]) * (p3[1] - p4[1]) - (p1[1] - p3[1]) * (p3[0] - p4[0])) /
@@ -128,7 +129,7 @@ export function getPolygonIntersectPoint(p: Point, center: Point, points: Point[
       end = add(center, end);
     }
 
-    const intersect = getLinesIntersection(center, p, start, end);
+    const intersect = getLinesIntersection([center, p], [start, end]);
     if (intersect) return intersect;
   }
   return center;
@@ -164,7 +165,7 @@ export function getRectIntersectPoint(p: Point, bbox: AABB): Point {
  */
 export function getEllipseIntersectPoint(p: Point, bbox: AABB): Point {
   const rx = getBBoxWidth(bbox) / 2;
-  const ry = getBBoxWidth(bbox) / 2;
+  const ry = getBBoxHeight(bbox) / 2;
   const center = bbox.center;
 
   const vec = subtract(p, center);

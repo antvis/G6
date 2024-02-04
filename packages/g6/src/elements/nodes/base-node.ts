@@ -2,9 +2,8 @@ import type { DisplayObjectConfig, CircleStyleProps as GCircleStyleProps, Group 
 import { Circle as GCircle } from '@antv/g';
 import type { BadgePosition, LabelPosition, Point, PrefixObject } from '../../types';
 import { getAnchorPosition, getTextStyleByPosition, getXYByPosition } from '../../utils/element';
-import { extractWithPrefix } from '../../utils/object';
 import { getRectIntersectPoint } from '../../utils/point';
-import { omitStyleProps, subStyleProps } from '../../utils/prefix';
+import { omitStyleProps, subObject, subStyleProps } from '../../utils/prefix';
 import type { BadgeStyleProps, BaseShapeStyleProps, IconStyleProps, LabelStyleProps } from '../shapes';
 import { Badge, BaseShape, Icon, Label } from '../shapes';
 
@@ -110,7 +109,7 @@ export abstract class BaseNode<KT extends object, KS> extends BaseShape<BaseNode
   }
 
   public getAnchors(): Record<string, GCircle> {
-    return extractWithPrefix(this.shapeMap, 'anchor-');
+    return subObject(this.shapeMap, 'anchor-');
   }
 
   public getCenter(): Point {

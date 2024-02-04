@@ -7,15 +7,15 @@ import { subStyleProps } from '../../utils/prefix';
 import type { BaseNodeStyleProps, NodeAnchorStyleProps } from './base-node';
 import { BaseNode } from './base-node';
 
-type KeyShapeStyleProps = PolygonStyleProps & {
+type KeyShapeStyleProps = Partial<PolygonStyleProps> & {
   /**
    * 外半径
    */
-  outerR: number;
+  outerR?: number;
   /**
    * 内半径
    */
-  innerR: number;
+  innerR?: number;
 };
 
 export type StarStyleProps = BaseNodeStyleProps<KeyShapeStyleProps>;
@@ -27,25 +27,25 @@ type StarOptions = DisplayObjectConfig<StarStyleProps>;
 /**
  * Draw star based on BaseNode, override drawKeyShape.
  */
-export class Star extends BaseNode<PolygonStyleProps, Polygon> {
+export class Star extends BaseNode<KeyShapeStyleProps, Polygon> {
   constructor(options: StarOptions) {
     super(options);
   }
 
   protected getKeyStyle(attributes: ParsedStarStyleProps): PolygonStyleProps {
-    const { outerR, innerR, ...keyStyle } = super.getKeyStyle(attributes) as KeyShapeStyleProps;
+    const { outerR, innerR, ...keyStyle } = super.getKeyStyle(attributes) as Required<KeyShapeStyleProps>;
     const points = getStarPoints(outerR, innerR) as [number, number][];
     return { ...keyStyle, points };
   }
 
-  protected getHaloStyle(attributes: ParsedStarStyleProps): KeyShapeStyleProps {
-    const haloStyle = subStyleProps(this.getGraphicStyle(attributes), 'halo') as Partial<KeyShapeStyleProps>;
+  protected getHaloStyle(attributes: ParsedStarStyleProps): PolygonStyleProps {
+    const haloStyle = subStyleProps(this.getGraphicStyle(attributes), 'halo');
     const keyStyle = this.getKeyStyle(attributes);
 
     return {
       ...keyStyle,
       ...haloStyle,
-    } as KeyShapeStyleProps;
+    };
   }
 
   protected getAnchorsStyle(attributes: ParsedStarStyleProps): NodeAnchorStyleProps[] {
