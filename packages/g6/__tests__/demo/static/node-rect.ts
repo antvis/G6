@@ -10,7 +10,8 @@ export const nodeRect: StaticTestCase = async (context) => {
       x: 100,
       y: 100,
       fill: 'green',
-      size: [80, 80],
+      width: 80,
+      height: 80,
     },
   });
 
@@ -20,7 +21,8 @@ export const nodeRect: StaticTestCase = async (context) => {
       x: 300,
       y: 100,
       fill: 'red',
-      size: [80],
+      width: 80,
+      height: 40,
       // label
       labelText: 'rect node',
       labelFontSize: 14,
@@ -47,7 +49,6 @@ export const nodeRect: StaticTestCase = async (context) => {
       haloOpacity: 0.4,
       haloStroke: 'grey',
       haloLineWidth: 12,
-      haloPointerEvents: 'none',
     },
   });
 
@@ -57,7 +58,8 @@ export const nodeRect: StaticTestCase = async (context) => {
       x: 100,
       y: 300,
       fill: 'pink',
-      size: 80,
+      width: 40,
+      height: 80,
       // icon
       iconText: 'Y',
       iconFontSize: 32,

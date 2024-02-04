@@ -7,7 +7,8 @@ import type { DisplayObjectConfig, PathStyleProps as GPathStyleProps, Group } fr
 import type { BaseNodeStyleProps } from './base-node';
 
 type KeyShapeStyleProps = GPathStyleProps & {
-  size: number[] | number;
+  width: number;
+  height: number;
 };
 
 export type RectStyleProps = BaseNodeStyleProps<KeyShapeStyleProps>;
@@ -26,8 +27,8 @@ export class Rect extends BaseNode<KeyShapeStyleProps, GPath> {
 
   protected getKeyStyle(attributes: ParsedRectStyleProps): KeyShapeStyleProps {
     const keyStyle = super.getKeyStyle(attributes);
-    const { size } = keyStyle;
-    const d = getRectPath(size);
+    const { width, height } = keyStyle;
+    const d = getRectPath(width, height);
     return { ...keyStyle, d };
   }
 
@@ -44,6 +45,4 @@ export class Rect extends BaseNode<KeyShapeStyleProps, GPath> {
   protected drawKeyShape(attributes: ParsedRectStyleProps, container: Group): GPath {
     return this.upsert('key', GPath, this.getKeyStyle(attributes), container) as GPath;
   }
-
-  connectedCallback() {}
 }
