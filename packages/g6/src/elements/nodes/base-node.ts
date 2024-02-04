@@ -109,6 +109,11 @@ export abstract class BaseNode<KT extends object, KS> extends BaseShape<BaseNode
 
   protected abstract drawKeyShape(attributes: ParsedBaseNodeStyleProps<KT>, container: Group): KS;
 
+  protected drawHaloShape(attributes: ParsedBaseNodeStyleProps<KT>, container: Group) {
+    const keyShape = this.shapeMap.key;
+    this.upsert('halo', keyShape.constructor as any, this.getHaloStyle(attributes), container);
+  }
+
   public render(attributes = this.parsedAttributes, container: Group = this) {
     // 1. key shape
     const keyShape = this.drawKeyShape(attributes, container);
@@ -118,7 +123,7 @@ export abstract class BaseNode<KT extends object, KS> extends BaseShape<BaseNode
     this.upsert('label', Label, this.getLabelStyle(attributes), container);
 
     // 3. halo, use shape same with keyShape
-    this.upsert('halo', keyShape.constructor as any, this.getHaloStyle(attributes), container);
+    this.drawHaloShape(attributes, container);
 
     // 4. icon
     this.upsert('icon', Icon, this.getIconStyle(attributes), container);
