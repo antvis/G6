@@ -1,4 +1,5 @@
 export * from './controller-element';
+export * from './controller-element-position';
 export * from './controller-viewport';
 export * from './edge-cubic';
 export * from './edge-cubic-horizontal';

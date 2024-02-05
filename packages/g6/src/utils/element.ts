@@ -274,7 +274,7 @@ export function isVisible(element: DisplayObject) {
  * @param shape - <zh/> 图形 | <en/> shape
  * @param style - <zh/> 样式 | <en/> style
  */
-export function update<T extends DisplayObject>(shape: T, style: Record<string, unknown>) {
+export function updateStyle<T extends DisplayObject>(shape: T, style: Record<string, unknown>) {
   if ('update' in shape) (shape.update as (style: Record<string, unknown>) => void)(style);
   else shape.attr(style);
 }

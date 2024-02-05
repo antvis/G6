@@ -10,7 +10,6 @@ import type {
   RadialLayoutOptions,
   RandomLayoutOptions,
 } from '@antv/layout';
-import type { AnimationEffectTiming } from '../animations/types';
 import type { NodeData } from '../spec/data';
 
 export type BuiltInLayoutOptions =
@@ -88,7 +87,7 @@ export interface AnimationOptions {
    *
    * <en/> Enable layout animation, for iterative layout, animation transition will be performed between two iterations
    */
-  animation?: false | AnimationEffectTiming;
+  animation?: boolean;
 }
 
 export interface WebWorkerLayoutOptions {

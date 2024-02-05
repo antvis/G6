@@ -66,13 +66,7 @@
         </g>
       </g>
       <g id="g-svg-5" fill="none" transform="matrix(1,0,0,1,0,0)">
-        <g
-          id="g-svg-8"
-          fill="none"
-          width="20"
-          height="20"
-          transform="matrix(1,0,0,1,50,50)"
-        >
+        <g id="g-svg-8" fill="none" r="10" transform="matrix(1,0,0,1,50,50)">
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
@@ -89,8 +83,7 @@
         <g
           id="g-svg-10"
           fill="none"
-          width="20"
-          height="20"
+          r="10"
           transform="matrix(1,0,0,1,200,76.162735)"
         >
           <g transform="matrix(1,0,0,1,0,0)">
@@ -105,13 +98,7 @@
             />
           </g>
         </g>
-        <g
-          id="g-svg-12"
-          fill="none"
-          width="20"
-          height="20"
-          transform="matrix(1,0,0,1,125,150)"
-        >
+        <g id="g-svg-12" fill="none" r="10" transform="matrix(1,0,0,1,125,150)">
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
@@ -124,13 +111,7 @@
             />
           </g>
         </g>
-        <g
-          id="g-svg-20"
-          fill="none"
-          width="20"
-          height="20"
-          transform="matrix(1,0,0,1,50,200)"
-        >
+        <g id="g-svg-29" fill="none" r="10" transform="matrix(1,0,0,1,50,200)">
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
@@ -144,13 +125,7 @@
             />
           </g>
         </g>
-        <g
-          id="g-svg-22"
-          fill="none"
-          width="20"
-          height="20"
-          transform="matrix(1,0,0,1,75,150)"
-        >
+        <g id="g-svg-31" fill="none" r="10" transform="matrix(1,0,0,1,75,150)">
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
@@ -164,13 +139,7 @@
             />
           </g>
         </g>
-        <g
-          id="g-svg-24"
-          fill="none"
-          width="20"
-          height="20"
-          transform="matrix(1,0,0,1,200,100)"
-        >
+        <g id="g-svg-33" fill="none" r="10" transform="matrix(1,0,0,1,200,100)">
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"

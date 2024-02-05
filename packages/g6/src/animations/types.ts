@@ -53,6 +53,5 @@ export type AnimationEffectTiming = Partial<
 export type AnimationExecutor = (
   shape: DisplayObject,
   animation: Animation | false,
-  effectTiming: AnimationEffectTiming,
   context: AnimationContext,
 ) => IAnimation | null;
