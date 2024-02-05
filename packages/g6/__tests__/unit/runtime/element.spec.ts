@@ -113,7 +113,7 @@ describe('ElementController', () => {
       ...LIGHT_THEME.node!.state!.selected,
       ...LIGHT_THEME.node!.state!.active,
     });
-    const paletteKey = 'keyShapeColor';
+    const paletteKey = 'color';
 
     expect(elementController.getPaletteStyle('node-1')[paletteKey]).toBe(BUILT_IN_PALETTES.spectral[0]);
     expect(elementController.getPaletteStyle('node-2')[paletteKey]).toBe(BUILT_IN_PALETTES.spectral[1]);
@@ -156,7 +156,7 @@ describe('ElementController', () => {
       lineWidth: 1,
       border: 0,
       // from palette
-      keyShapeColor: BUILT_IN_PALETTES.spectral[0],
+      color: BUILT_IN_PALETTES.spectral[0],
     });
 
     expect(elementController.getElementComputedStyle('node', 'node-2')).toEqual({
@@ -164,7 +164,7 @@ describe('ElementController', () => {
       fill: 'red',
       border: 10,
       // from palette
-      keyShapeColor: BUILT_IN_PALETTES.spectral[1],
+      color: BUILT_IN_PALETTES.spectral[1],
     });
 
     expect(elementController.getElementComputedStyle('node', 'node-3')).toEqual({
@@ -174,14 +174,14 @@ describe('ElementController', () => {
       // from state
       fill: 'purple',
       // from palette
-      keyShapeColor: BUILT_IN_PALETTES.spectral[2],
+      color: BUILT_IN_PALETTES.spectral[2],
     });
 
     expect(elementController.getElementComputedStyle('edge', edge1Id)).toEqual({
       ...LIGHT_THEME.edge?.style,
       sourcePoint: [0, 0, 0],
       targetPoint: [0, 0, 0],
-      keyShapeColor: BUILT_IN_PALETTES.oranges.at(-1),
+      color: BUILT_IN_PALETTES.oranges.at(-1),
     });
     expect(elementController.getElementComputedStyle('edge', edge2Id)).toEqual({
       ...LIGHT_THEME.edge?.style,
@@ -195,12 +195,12 @@ describe('ElementController', () => {
       // 暂未实现 / Not implemented yet
       sourcePoint: [0, 0, 0],
       targetPoint: [0, 0, 0],
-      keyShapeColor: BUILT_IN_PALETTES.oranges.at(-2),
+      color: BUILT_IN_PALETTES.oranges.at(-2),
     });
 
     expect(elementController.getElementComputedStyle('combo', 'combo-1')).toEqual({
       ...LIGHT_THEME.combo?.style,
-      keyShapeColor: BUILT_IN_PALETTES.blues[0],
+      color: BUILT_IN_PALETTES.blues[0],
       children: {
         // 值为 undefined 是因为在非运行时环境 / The value is undefined because it is not in the runtime environment
         'node-3': undefined,

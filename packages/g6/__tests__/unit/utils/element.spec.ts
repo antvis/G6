@@ -11,7 +11,7 @@ import {
   getXYByPosition,
   isSameNode,
   isVisible,
-  update,
+  updateStyle,
 } from '../../../src/utils/element';
 
 describe('element', () => {
@@ -176,12 +176,12 @@ describe('element', () => {
 
   it('update', () => {
     const rect = new Rect({ style: { width: 50, height: 50 } });
-    update(rect, { width: 100, height: 100 });
+    updateStyle(rect, { width: 100, height: 100 });
     expect(rect.style.width).toBe(100);
     expect(rect.style.height).toBe(100);
 
     const circle = new Circle({ style: { r: 50 } });
-    update(circle, { r: 100 });
+    updateStyle(circle, { r: 100 });
     expect(circle.style.r).toBe(100);
   });
 });
