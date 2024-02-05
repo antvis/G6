@@ -106,6 +106,9 @@ describe('animation', () => {
   });
 
   it('inferDefaultValue', () => {
+    expect(inferDefaultValue('x')).toBe(0);
+    expect(inferDefaultValue('y')).toBe(0);
+    expect(inferDefaultValue('z')).toBe(0);
     expect(inferDefaultValue('opacity')).toBe(1);
     expect(inferDefaultValue('stroke')).toBe(undefined);
   });
