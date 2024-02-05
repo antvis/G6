@@ -1,5 +1,6 @@
 import type { DisplayObjectConfig } from '@antv/g';
-import { PathArray, deepMix } from '@antv/util';
+import type { PathArray } from '@antv/util';
+import { deepMix } from '@antv/util';
 import type { BaseEdgeStyleProps, ParsedBaseEdgeStyleProps } from './base-edge';
 import { BaseEdge } from './base-edge';
 

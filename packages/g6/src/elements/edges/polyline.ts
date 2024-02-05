@@ -1,5 +1,6 @@
 import type { DisplayObjectConfig } from '@antv/g';
-import { PathArray, deepMix } from '@antv/util';
+import type { PathArray } from '@antv/util';
+import { deepMix } from '@antv/util';
 import type { Point } from '../../types';
 import { getPolylinePath } from '../../utils/edge';
 import type { BaseEdgeStyleProps, ParsedBaseEdgeStyleProps } from './base-edge';

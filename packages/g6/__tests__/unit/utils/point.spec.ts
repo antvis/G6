@@ -6,7 +6,6 @@ import {
   isCollinear,
   isHorizontal,
   isLinesParallel,
-  isSamePoint,
   isVertical,
   parsePoint,
 } from '../../../src/utils/point';
@@ -30,13 +29,6 @@ describe('Point Functions', () => {
     expect(isCollinear([100, 100], [100, 50], [100, 150])).toEqual(true);
     expect(isCollinear([100, 100], [50, 100], [150, 100])).toEqual(true);
     expect(isCollinear([100, 100], [50, 50], [150, 100])).toEqual(false);
-  });
-
-  it('isSamePoint', () => {
-    expect(isSamePoint([100, 100], [100, 100])).toEqual(true);
-    expect(isSamePoint([100, 100], [50, 100])).toEqual(false);
-    expect(isSamePoint([100, 100, 100], [100, 100])).toEqual(false);
-    expect(isSamePoint([100, 100, 100], [100, 100, 100])).toEqual(true);
   });
 
   it('isLinesParallel', () => {

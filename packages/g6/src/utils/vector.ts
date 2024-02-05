@@ -82,7 +82,7 @@ export function cross(a: Vector2 | Vector3, b: Vector2 | Vector3): Vector3 {
  *
  * <en/> Scales a vector by a scalar number
  * @param a  - <zh/> 向量 | <en/> The vector to scale
- * @param s - <zh/> 缩放因子 | <en/> Amount to scale the vector by
+ * @param s - <zh/> 缩放系数 | <en/> Scale factor
  * @returns <zh/> 缩放后的向量 | <en/> The scaled vector
  */
 export function scale(a: Vector2 | Vector3, s: number): Vector2 | Vector3 {
@@ -95,7 +95,7 @@ export function scale(a: Vector2 | Vector3, s: number): Vector2 | Vector3 {
  * <en/> Adds two vectors after scaling the second operand by a scalar value
  * @param a - <zh/> 向量 | <en/> The first vector
  * @param b - <zh/> 向量 | <en/> The second vector
- * @param s - <zh/> 缩放因子 | <en/> Amount to scale b by before adding
+ * @param s - <zh/> 缩放系数 | <en/> Scale factor
  * @returns <zh/> 缩放并相加后的向量 | <en/> The result of scaling and adding
  */
 export function scaleAndAdd(a: Vector2 | Vector3, b: Vector2 | Vector3, s: number): Vector2 | Vector3 {

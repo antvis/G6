@@ -1,5 +1,6 @@
 import type { DisplayObjectConfig } from '@antv/g';
-import { PathArray, deepMix } from '@antv/util';
+import type { PathArray } from '@antv/util';
+import { deepMix } from '@antv/util';
 import type { Point } from '../../types';
 import { calculateControlPoint, getCubicPath, parseCurveOffset, parseCurvePosition } from '../../utils/edge';
 import type { BaseEdgeStyleProps } from './base-edge';

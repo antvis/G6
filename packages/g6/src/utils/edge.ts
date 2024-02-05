@@ -1,10 +1,9 @@
 import type { Circle as GCircle } from '@antv/g';
 import type { PathArray } from '@antv/util';
-import { isNumber } from '@antv/util';
-import type { Node, Point, Vector2 } from '../types';
-import type { EdgeKey, EdgeLabelPosition, EdgeLabelStyleProps, LoopEdgePosition } from '../types/edge';
+import { isEqual, isNumber } from '@antv/util';
+import type { EdgeKey, EdgeLabelPosition, EdgeLabelStyleProps, LoopEdgePosition, Node, Point, Vector2 } from '../types';
 import { getBBoxHeight, getBBoxWidth } from './bbox';
-import { getEllipseIntersectPoint, isCollinear, isHorizontal, isSamePoint, parsePoint } from './point';
+import { getEllipseIntersectPoint, isCollinear, isHorizontal, parsePoint } from './point';
 import {
   add,
   distance,
@@ -264,21 +263,21 @@ function getBorderRadiusPoints(prevPoint: Point, midPoint: Point, nextPoint: Poi
 
 /** ==================== Loop Edge =========================== */
 
-const PI_OVER_8 = Math.PI / 8;
+const QUARTER_PI = Math.PI / 8;
 
 const radians: Record<LoopEdgePosition, [number, number]> = {
-  top: [-5 * PI_OVER_8, -3 * PI_OVER_8],
-  'top-right': [-3 * PI_OVER_8, -PI_OVER_8],
-  'right-top': [-3 * PI_OVER_8, -PI_OVER_8],
-  right: [-PI_OVER_8, PI_OVER_8],
-  'bottom-right': [PI_OVER_8, 3 * PI_OVER_8],
-  'right-bottom': [PI_OVER_8, 3 * PI_OVER_8],
-  bottom: [3 * PI_OVER_8, 5 * PI_OVER_8],
-  'bottom-left': [5 * PI_OVER_8, 7 * PI_OVER_8],
-  'left-bottom': [5 * PI_OVER_8, 7 * PI_OVER_8],
-  left: [7 * PI_OVER_8, 9 * PI_OVER_8],
-  'top-left': [-7 * PI_OVER_8, -5 * PI_OVER_8],
-  'left-top': [-7 * PI_OVER_8, -5 * PI_OVER_8],
+  top: [-5 * QUARTER_PI, -3 * QUARTER_PI],
+  'top-right': [-3 * QUARTER_PI, -QUARTER_PI],
+  'right-top': [-3 * QUARTER_PI, -QUARTER_PI],
+  right: [-QUARTER_PI, QUARTER_PI],
+  'bottom-right': [QUARTER_PI, 3 * QUARTER_PI],
+  'right-bottom': [QUARTER_PI, 3 * QUARTER_PI],
+  bottom: [3 * QUARTER_PI, 5 * QUARTER_PI],
+  'bottom-left': [5 * QUARTER_PI, 7 * QUARTER_PI],
+  'left-bottom': [5 * QUARTER_PI, 7 * QUARTER_PI],
+  left: [7 * QUARTER_PI, 9 * QUARTER_PI],
+  'top-left': [-7 * QUARTER_PI, -5 * QUARTER_PI],
+  'left-top': [-7 * QUARTER_PI, -5 * QUARTER_PI],
 };
 
 /**
@@ -354,7 +353,7 @@ export function getLoopControlPoints(
     return scaleAndAdd(from, v, st);
   };
 
-  if (isSamePoint(sourcePoint, targetPoint)) {
+  if (isEqual(sourcePoint, targetPoint)) {
     const direction = subtract(sourcePoint, center);
     const adjustment: Point = [
       offset * Math.sign(direction[0]) || offset / 2,

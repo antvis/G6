@@ -8,11 +8,11 @@ import type {
 } from '@antv/g';
 import { Path } from '@antv/g';
 import type { PathArray } from '@antv/util';
-import { deepMix, isEmpty, isFunction } from '@antv/util';
+import { deepMix, isEmpty, isEqual, isFunction } from '@antv/util';
 import type { BaseEdgeProps, EdgeKey, EdgeLabelStyleProps, LoopEdgePosition, Point, PrefixObject } from '../../types';
 import { getCubicPath, getLabelPositionStyle, getLoopPoints } from '../../utils/edge';
 import { findAnchor, isSameNode } from '../../utils/element';
-import { getEllipseIntersectPoint, isSamePoint } from '../../utils/point';
+import { getEllipseIntersectPoint } from '../../utils/point';
 import { omitStyleProps, subStyleProps } from '../../utils/prefix';
 import type { SymbolFactor } from '../../utils/symbol';
 import * as Symbol from '../../utils/symbol';
@@ -115,7 +115,7 @@ export abstract class BaseEdge<KT extends object> extends BaseShape<BaseEdgeStyl
     const { sourceNode, targetNode, sourcePoint, targetPoint, color, ...keyStyle } = this.getGraphicStyle(attributes);
 
     const path =
-      isSamePoint(sourcePoint, targetPoint) || isSameNode(sourceNode, targetNode)
+      (sourcePoint && isEqual(sourcePoint, targetPoint)) || isSameNode(sourceNode, targetNode)
         ? this.getLoopPath(attributes)
         : this.getKeyPath(attributes);
 
