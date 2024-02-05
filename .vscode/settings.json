@@ -7,10 +7,12 @@
     "beforerender",
     "beforeviewportanimation",
     "cancelviewportanimation",
+    "dendrogram",
     "Fruchterman",
     "gforce",
     "graphlib",
     "GSHAPE",
+    "mindmap",
     "onframe"
   ]
 }
