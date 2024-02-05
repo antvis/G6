@@ -4,5 +4,7 @@ export { Circle } from './circle';
 export type { CircleStyleProps } from './circle';
 export { Ellipse } from './ellipse';
 export type { EllipseNodeStyleProps } from './ellipse';
+export { Rect } from './rect';
+export type { RectStyleProps } from './rect';
 export { Star } from './star';
 export type { StarStyleProps } from './star';
