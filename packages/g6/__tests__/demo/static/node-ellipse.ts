@@ -46,6 +46,7 @@ export const nodeEllipse: StaticTestCase = async (context) => {
       iconWidth: 32,
       iconHeight: 32,
       // halo
+      halo: true,
       haloOpacity: 0.4,
       haloStroke: 'grey',
       haloLineWidth: 12,
@@ -67,8 +68,6 @@ export const nodeEllipse: StaticTestCase = async (context) => {
       iconFill: 'black',
     },
   });
-
-  await canvas.init();
 
   canvas.appendChild(ellipse_1);
   canvas.appendChild(ellipse_2);
