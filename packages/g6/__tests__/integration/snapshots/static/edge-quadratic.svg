@@ -53,9 +53,9 @@
         <g
           id="label"
           fill="none"
-          transform="matrix(0.999550,0.029986,-0.029986,0.999550,204.178116,29.122644)"
+          transform="matrix(0.999550,0.029986,-0.029986,0.999550,203.998199,35.119946)"
         >
-          <g transform="matrix(1,0,0,1,-54.129379,-27.993690)">
+          <g transform="matrix(1,0,0,1,-54.129375,-16.493692)">
             <path
               id="background"
               fill="none"
@@ -73,7 +73,6 @@
               dominant-baseline="central"
               paint-order="stroke"
               dx="0.5"
-              dy="-11.5px"
               font-size="12"
               text-anchor="middle"
             >
@@ -114,9 +113,9 @@
         <g
           id="label"
           fill="none"
-          transform="matrix(0.998752,-0.049935,0.049935,0.998752,203.695404,168.807739)"
+          transform="matrix(0.998752,-0.049935,0.049935,0.998752,203.995010,174.800262)"
         >
-          <g transform="matrix(1,0,0,1,-44.874157,-51.898075)">
+          <g transform="matrix(1,0,0,1,-44.874165,-28.898081)">
             <path
               id="background"
               fill="none"
@@ -131,12 +130,12 @@
             <text
               id="text"
               fill="rgba(0,0,0,1)"
-              dominant-baseline="text-after-edge"
+              dominant-baseline="central"
               paint-order="stroke"
               font-size="12"
               text-anchor="middle"
             >
-              <tspan x="0" dx="0.5" dy="-23">
+              <tspan x="0" dx="0.5" dy="-11.5">
                 controlPoin
               </tspan>
               <tspan x="0" dx="0.5" dy="23">
@@ -178,9 +177,9 @@
         <g
           id="label"
           fill="none"
-          transform="matrix(0.998752,0.049935,-0.049935,0.998752,204.294617,219.207230)"
+          transform="matrix(0.998752,0.049935,-0.049935,0.998752,203.995010,225.199738)"
         >
-          <g transform="matrix(1,0,0,1,-56.034153,-53.011250)">
+          <g transform="matrix(1,0,0,1,-56.034161,-30.011242)">
             <path
               id="background"
               fill="none"
@@ -195,12 +194,12 @@
             <text
               id="text"
               fill="rgba(0,0,0,1)"
-              dominant-baseline="text-after-edge"
+              dominant-baseline="central"
               paint-order="stroke"
               font-size="12"
               text-anchor="middle"
             >
-              <tspan x="0" dx="0.5" dy="-23">
+              <tspan x="0" dx="0.5" dy="-11.5">
                 curveOffset=50,
               </tspan>
               <tspan x="0" dx="0.5" dy="23">
@@ -242,9 +241,9 @@
         <g
           id="label"
           fill="none"
-          transform="matrix(0.991600,0.129341,-0.129341,0.991600,203.144791,320.881134)"
+          transform="matrix(0.991600,0.129341,-0.129341,0.991600,202.368744,326.830719)"
         >
-          <g transform="matrix(1,0,0,1,-64.439728,-62.118301)">
+          <g transform="matrix(1,0,0,1,-64.439728,-39.118317)">
             <path
               id="background"
               fill="none"
@@ -259,12 +258,12 @@
             <text
               id="text"
               fill="rgba(0,0,0,1)"
-              dominant-baseline="text-after-edge"
+              dominant-baseline="central"
               paint-order="stroke"
               font-size="12"
               text-anchor="middle"
             >
-              <tspan x="0" dx="0.5" dy="-23">
+              <tspan x="0" dx="0.5" dy="-11.5">
                 curveOffset=50,
               </tspan>
               <tspan x="0" dx="0.5" dy="23">

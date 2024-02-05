@@ -70,8 +70,8 @@
             />
           </g>
         </g>
-        <g id="label" fill="none" transform="matrix(1,0,0,1,204,44)">
-          <g transform="matrix(1,0,0,1,-27.540001,-23)">
+        <g id="label" fill="none" transform="matrix(1,0,0,1,204,50)">
+          <g transform="matrix(1,0,0,1,-27.540001,-11.500000)">
             <path
               id="background"
               fill="none"
@@ -89,7 +89,6 @@
               dominant-baseline="central"
               paint-order="stroke"
               dx="0.5"
-              dy="-11.5px"
               font-size="12"
               text-anchor="middle"
             >

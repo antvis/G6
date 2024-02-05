@@ -55,7 +55,7 @@
           fill="none"
           transform="matrix(0.982519,-0.186162,0.186162,0.982519,201.137650,34.517567)"
         >
-          <g transform="matrix(1,0,0,1,-46.006863,-39.010700)">
+          <g transform="matrix(1,0,0,1,-46.006863,-27.510700)">
             <path
               id="background"
               fill="none"
@@ -73,7 +73,6 @@
               dominant-baseline="central"
               paint-order="stroke"
               dx="0.5"
-              dy="-11.5px"
               font-size="12"
               text-anchor="middle"
             >
@@ -116,7 +115,7 @@
           fill="none"
           transform="matrix(0.903736,-0.428091,0.428091,0.903736,197.193588,134.731598)"
         >
-          <g transform="matrix(1,0,0,1,-93.778259,-87.968742)">
+          <g transform="matrix(1,0,0,1,-93.778259,-76.468742)">
             <path
               id="background"
               fill="none"
@@ -134,7 +133,6 @@
               dominant-baseline="central"
               paint-order="stroke"
               dx="0.5"
-              dy="-11.5px"
               font-size="12"
               text-anchor="middle"
             >
@@ -177,7 +175,7 @@
           fill="none"
           transform="matrix(0.903739,0.428085,-0.428085,0.903739,210.036224,238.156265)"
         >
-          <g transform="matrix(1,0,0,1,-93.598175,-87.828781)">
+          <g transform="matrix(1,0,0,1,-93.598175,-76.328781)">
             <path
               id="background"
               fill="none"
@@ -195,7 +193,6 @@
               dominant-baseline="central"
               paint-order="stroke"
               dx="0.5"
-              dy="-11.5px"
               font-size="12"
               text-anchor="middle"
             >
@@ -238,7 +235,7 @@
           fill="none"
           transform="matrix(0.952026,0.306016,-0.306016,0.952026,208.398346,336.943665)"
         >
-          <g transform="matrix(1,0,0,1,-91.400719,-72.312889)">
+          <g transform="matrix(1,0,0,1,-91.400719,-60.812893)">
             <path
               id="background"
               fill="none"
@@ -256,7 +253,6 @@
               dominant-baseline="central"
               paint-order="stroke"
               dx="0.5"
-              dy="-11.5px"
               font-size="12"
               text-anchor="middle"
             >

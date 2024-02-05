@@ -19,9 +19,8 @@ export const edgeLine: StaticTestCase = async (context) => {
       haloLineWidth: 12,
       // label
       label: true,
-      labelText: '🌲line-edge',
+      labelText: 'line-edge',
       labelFontSize: 12,
-      labelFill: '#1890FF',
       // start arrow
       startArrow: true,
       startArrowType: 'diamond',

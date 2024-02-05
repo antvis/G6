@@ -41,9 +41,9 @@
         <g
           id="label"
           fill="none"
-          transform="matrix(0.999550,0.029986,-0.029986,0.999550,204.178116,29.122644)"
+          transform="matrix(0.999550,0.029986,-0.029986,0.999550,203.998199,35.119946)"
         >
-          <g transform="matrix(1,0,0,1,-49.449379,-27.713144)">
+          <g transform="matrix(1,0,0,1,-49.449379,-16.213146)">
             <path
               id="background"
               fill="none"
@@ -61,7 +61,6 @@
               dominant-baseline="central"
               paint-order="stroke"
               dx="0.5"
-              dy="-11.5px"
               font-size="12"
               text-anchor="middle"
             >
