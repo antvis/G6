@@ -82,11 +82,13 @@ export class Triangle extends BaseNode<KeyShapeStyleProps, Polygon> {
   protected getIconStyle(attributes: ParsedTriangleStyleProps) {
     if (attributes.icon === false || isEmpty(attributes.iconText || attributes.iconSrc)) return false;
 
+    const { direction } = attributes;
     const iconStyle = subStyleProps(this.getGraphicStyle(attributes), 'icon');
     const keyShape = this.shapeMap.key;
     const { max, center } = keyShape.getLocalBounds();
-    const x = center[0];
-    const y = max[1] / 4;
+    const x = direction === 'up' || direction === 'down' ? center[0] : direction === 'right' ? -max[0] / 4 : max[0] / 4;
+    const y =
+      direction === 'left' || direction === 'right' ? center[1] : direction === 'down' ? -max[1] / 4 : max[1] / 4;
 
     return {
       x,
