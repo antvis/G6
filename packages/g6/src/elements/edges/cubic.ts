@@ -1,12 +1,11 @@
-import type { DisplayObjectConfig, Group, PathStyleProps } from '@antv/g';
-import { Path } from '@antv/g';
-import { deepMix } from '@antv/util';
+import type { DisplayObjectConfig } from '@antv/g';
+import { PathArray, deepMix } from '@antv/util';
 import type { Point } from '../../types';
 import { calculateControlPoint, getCubicPath, parseCurveOffset, parseCurvePosition } from '../../utils/edge';
-import type { BaseEdgeKeyStyleProps, BaseEdgeStyleProps } from './base-edge';
+import type { BaseEdgeStyleProps } from './base-edge';
 import { BaseEdge } from './base-edge';
 
-type CubicKeyStyleProps = BaseEdgeKeyStyleProps<PathStyleProps> & {
+type CubicKeyStyleProps = {
   /**
    * <zh/> 控制点数组，用于定义曲线的形状。如果不指定，将会通过`curveOffset`和`curvePosition`来计算控制点
    * <en/> Control points. Used to define the shape of the curve. If not specified, it will be calculated using `curveOffset` and `curvePosition`.
@@ -26,11 +25,9 @@ type CubicKeyStyleProps = BaseEdgeKeyStyleProps<PathStyleProps> & {
 
 export type CubicStyleProps = BaseEdgeStyleProps<CubicKeyStyleProps>;
 
-type ParsedCubicStyleProps = Required<CubicStyleProps>;
-
 type CubicOptions = DisplayObjectConfig<CubicStyleProps>;
 
-export class Cubic extends BaseEdge<PathStyleProps, Path> {
+export class Cubic extends BaseEdge<CubicKeyStyleProps> {
   static defaultStyleProps: Partial<CubicStyleProps> = {
     curvePosition: [0.5, 0.5],
     curveOffset: [-20, 20],
@@ -40,14 +37,9 @@ export class Cubic extends BaseEdge<PathStyleProps, Path> {
     super(deepMix({}, { style: Cubic.defaultStyleProps }, options));
   }
 
-  protected drawKeyShape(attributes: ParsedCubicStyleProps, container: Group): Path | undefined {
-    return this.upsert('key', Path, this.getKeyStyle(attributes), container);
-  }
-
-  protected getKeyStyle(attributes: ParsedCubicStyleProps): PathStyleProps {
-    const { sourcePoint, targetPoint, controlPoints, curvePosition, curveOffset, ...keyStyle } = super.getKeyStyle(
-      attributes,
-    ) as Required<CubicKeyStyleProps>;
+  protected getKeyPath(attributes: Required<BaseEdgeStyleProps<CubicKeyStyleProps>>): PathArray {
+    const [sourcePoint, targetPoint] = this.getEndpoints(attributes);
+    const { controlPoints, curvePosition, curveOffset } = attributes;
 
     const actualControlPoints = this.getControlPoints(
       sourcePoint,
@@ -57,10 +49,7 @@ export class Cubic extends BaseEdge<PathStyleProps, Path> {
       controlPoints,
     );
 
-    return {
-      ...keyStyle,
-      path: getCubicPath(sourcePoint, targetPoint, actualControlPoints),
-    };
+    return getCubicPath(sourcePoint, targetPoint, actualControlPoints);
   }
 
   protected getControlPoints(

@@ -7,12 +7,12 @@ import type {
   PathStyleProps,
 } from '@antv/g';
 import { Path } from '@antv/g';
+import type { PathArray } from '@antv/util';
 import { deepMix, isEmpty, isFunction } from '@antv/util';
-import type { EdgeKey, EdgeLabelStyleProps, Point, PrefixObject } from '../../types';
-import type { Node } from '../../types/element';
-import { getLabelPositionStyle } from '../../utils/edge';
-import { findAnchor } from '../../utils/element';
-import { getEllipseIntersectPoint } from '../../utils/point';
+import type { BaseEdgeProps, EdgeKey, EdgeLabelStyleProps, LoopEdgePosition, Point, PrefixObject } from '../../types';
+import { getCubicPath, getLabelPositionStyle, getLoopPoints } from '../../utils/edge';
+import { findAnchor, isSameNode } from '../../utils/element';
+import { getEllipseIntersectPoint, isSamePoint } from '../../utils/point';
 import { omitStyleProps, subStyleProps } from '../../utils/prefix';
 import type { SymbolFactor } from '../../utils/symbol';
 import * as Symbol from '../../utils/symbol';
@@ -32,40 +32,28 @@ type EdgeArrowStyleProps = {
 } & PathStyleProps &
   Record<string, unknown>;
 
-export type BaseEdgeKeyStyleProps<KT> = KT & {
-  /**
-   * <zh/> 边的起点 shape
-   * <en/> The source shape. Represents the start of the edge
-   */
-  sourceNode: Node;
-  /**
-   * <zh/> 边的终点 shape
-   * <en/> The source shape. Represents the start of the edge
-   */
-  targetNode: Node;
-  /**
-   * <zh/> 边起始连接的 anchor
-   * <en/> The Anchor of the source node
-   */
-  sourceAnchor?: string;
-  /**
-   * <zh/> 边终点连接的 anchor
-   * <en/> The Anchor of the target node
-   */
-  targetAnchor?: string;
-  /**
-   * <zh/> 边的起点
-   * <en/> The source point. Represents the start of the edge
-   */
-  sourcePoint?: Point;
-  /**
-   * <zh/> 边的终点
-   * <en/> The target point. Represents the end of the edge
-   */
-  targetPoint?: Point;
-};
+type LoopStyleProps = BaseEdgeProps &
+  PathStyleProps & {
+    /**
+     * <zh/> 边的位置
+     * <en/> The position of the edge
+     */
+    position?: LoopEdgePosition;
+    /**
+     * <zh/> 指定是否顺时针绘制环
+     * <en/> Specify whether to draw the loop clockwise
+     */
+    clockwise?: boolean;
+    /**
+     * <zh/> 从节点 keyShape 边缘到自环顶部的距离，用于指定自环的曲率，默认为宽度或高度的最大值
+     * <en/> Determine the position from the edge of the node keyShape to the top of the self-loop, used to specify the curvature of the self-loop, the default value is the maximum of the width or height
+     */
+    dist?: number;
+  };
 
-export type BaseEdgeStyleProps<KT extends object> = BaseShapeStyleProps &
+export type BaseEdgeKeyStyleProps<KT> = BaseEdgeProps & PathStyleProps & KT;
+
+export type BaseEdgeStyleProps<KT> = BaseShapeStyleProps &
   BaseEdgeKeyStyleProps<KT> & {
     label?: boolean;
     halo?: boolean;
@@ -74,15 +62,17 @@ export type BaseEdgeStyleProps<KT extends object> = BaseShapeStyleProps &
     startArrowOffset?: number;
     endArrowOffset?: number;
   } & PrefixObject<EdgeLabelStyleProps, 'label'> &
-  PrefixObject<KT, 'halo'> &
+  PrefixObject<PathStyleProps, 'halo'> &
   PrefixObject<EdgeArrowStyleProps, 'startArrow'> &
-  PrefixObject<EdgeArrowStyleProps, 'endArrow'>;
+  PrefixObject<EdgeArrowStyleProps, 'endArrow'> &
+  PrefixObject<LoopStyleProps, 'loop'>;
 
-export type BaseEdgeOptions<KT extends object> = DisplayObjectConfig<BaseEdgeStyleProps<KT>>;
+export type ParsedBaseEdgeStyleProps<KT> = Required<BaseEdgeStyleProps<KT>>;
 
-type ParsedBaseEdgeStyleProps<KT extends object> = Required<BaseEdgeStyleProps<KT>>;
-export abstract class BaseEdge<KT extends object, KS extends DisplayObject> extends BaseShape<BaseEdgeStyleProps<KT>> {
-  static defaultStyleProps: BaseEdgeStyleProps<any> = {
+export type BaseEdgeOptions<KT> = DisplayObjectConfig<BaseEdgeStyleProps<KT>>;
+
+export abstract class BaseEdge<KT extends object> extends BaseShape<BaseEdgeStyleProps<KT>> {
+  static defaultStyleProps: Partial<BaseEdgeStyleProps<any>> = {
     isBillboard: true,
     label: true,
     labelPosition: 'center',
@@ -113,23 +103,61 @@ export abstract class BaseEdge<KT extends object, KS extends DisplayObject> exte
     endArrowAnchor: '0.5 0.5',
     endArrowTransformOrigin: 'center',
     endArrowLineDash: 0,
+    loopPosition: 'top',
+    loopClockwise: true,
   };
 
   constructor(options: BaseEdgeOptions<KT>) {
     super(deepMix({}, { style: BaseEdge.defaultStyleProps }, options));
   }
 
-  protected getKeyStyle(attributes: ParsedBaseEdgeStyleProps<KT>): KT {
-    const [sourcePoint, targetPoint] = this.getPoints(attributes);
+  protected getKeyStyle(attributes: ParsedBaseEdgeStyleProps<KT>): PathStyleProps {
+    const { sourceNode, targetNode, sourcePoint, targetPoint, color, ...keyStyle } = this.getGraphicStyle(attributes);
+
+    const path =
+      isSamePoint(sourcePoint, targetPoint) || isSameNode(sourceNode, targetNode)
+        ? this.getLoopPath(attributes)
+        : this.getKeyPath(attributes);
 
     return {
-      ...omitStyleProps(this.getGraphicStyle(attributes), ['halo', 'label', 'startArrow', 'endArrow']),
-      sourcePoint,
-      targetPoint,
+      stroke: color,
+      path,
+      ...omitStyleProps(keyStyle, ['halo', 'label', 'startArrow', 'endArrow']),
     };
   }
 
-  protected getPoints(attributes: ParsedBaseEdgeStyleProps<KT>): [Point, Point] {
+  protected abstract getKeyPath(attributes: ParsedBaseEdgeStyleProps<KT>): PathArray;
+
+  protected getLoopPath(attributes: ParsedBaseEdgeStyleProps<KT>): PathArray | undefined {
+    const {
+      sourceNode: node,
+      sourceAnchor: sourceAnchorKey,
+      targetAnchor: targetAnchorKey,
+      sourcePoint: rawSourcePoint,
+      targetPoint: rawTargetPoint,
+    } = attributes;
+
+    if (!node) return;
+
+    const { position, clockwise, dist } = subStyleProps<LoopStyleProps>(
+      this.getGraphicStyle(attributes),
+      'loop',
+    ) as Required<LoopStyleProps>;
+
+    const { sourcePoint, targetPoint, controlPoints } = getLoopPoints(
+      node,
+      sourceAnchorKey!,
+      targetAnchorKey!,
+      rawSourcePoint!,
+      rawTargetPoint!,
+      position,
+      clockwise,
+      dist,
+    );
+    return getCubicPath(sourcePoint, targetPoint, controlPoints);
+  }
+
+  protected getEndpoints(attributes: ParsedBaseEdgeStyleProps<KT>): [Point, Point] {
     const {
       sourceNode,
       targetNode,
@@ -154,7 +182,7 @@ export abstract class BaseEdge<KT extends object, KS extends DisplayObject> exte
     return [sourcePoint || sourceNode.getCenter(), targetPoint || targetNode.getCenter()];
   }
 
-  protected getHaloStyle(attributes: ParsedBaseEdgeStyleProps<KT>): false | KT {
+  protected getHaloStyle(attributes: ParsedBaseEdgeStyleProps<KT>): false | PathStyleProps {
     if (attributes.halo === false) return false;
 
     const keyStyle = this.getKeyStyle(attributes);
@@ -224,7 +252,13 @@ export abstract class BaseEdge<KT extends object, KS extends DisplayObject> exte
     this.upsert('label', Label, this.getLabelStyle(attributes), container);
   }
 
-  protected abstract drawKeyShape(attributes: ParsedBaseEdgeStyleProps<KT>, container: Group): KS | undefined;
+  protected drawHaloShape(attributes: ParsedBaseEdgeStyleProps<KT>, container: Group) {
+    this.upsert('halo', Path, this.getHaloStyle(attributes), container);
+  }
+
+  protected drawKeyShape(attributes: ParsedBaseEdgeStyleProps<KT>, container: Group): Path | undefined {
+    return this.upsert('key', Path, this.getKeyStyle(attributes), container);
+  }
 
   public render(attributes = this.parsedAttributes, container: Group = this): void {
     // 1. key shape
@@ -239,12 +273,7 @@ export abstract class BaseEdge<KT extends object, KS extends DisplayObject> exte
     this.drawLabelShape(attributes, container);
 
     // 4. halo
-    this.upsert(
-      'halo',
-      this.shapeMap.key.constructor as new (...args: any[]) => KS,
-      this.getHaloStyle(attributes),
-      container,
-    );
+    this.drawHaloShape(attributes, container);
   }
 
   animate(keyframes: Keyframe[] | PropertyIndexedKeyframes, options?: number | KeyframeAnimationOptions) {

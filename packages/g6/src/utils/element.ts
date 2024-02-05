@@ -5,6 +5,19 @@ import type { AnchorPosition, LabelPosition, RelativePosition, StarAnchorPositio
 import { findNearestPoints } from './point';
 
 /**
+ * <zh/> 判断两个节点是否相同
+ *
+ * <en/> Whether the two nodes are the same
+ * @param node1 - <zh/> 节点1 | <en/> Node1
+ * @param node2 - <zh/> 节点2 | <en/> Node2
+ * @returns <zh/> 是否相同 | <en/> Whether the same
+ */
+export function isSameNode(node1: Node, node2: Node): boolean {
+  if (!node1 || !node2) return false;
+  return node1.id === node2.id;
+}
+
+/**
  * Get the Badge x, y by `position`.
  * @param bbox - BBox of element.
  * @param position - The postion relative with element.

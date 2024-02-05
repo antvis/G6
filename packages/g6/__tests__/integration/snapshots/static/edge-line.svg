@@ -17,13 +17,10 @@
         transform="matrix(1,0,0,1,0,0)"
       >
         <g transform="matrix(1,0,0,1,100,50)">
-          <line
+          <path
             id="key"
             fill="none"
-            x1="7"
-            y1="0"
-            x2="200"
-            y2="0"
+            d="M 7,0 L 0,0 L 200,0"
             stroke="rgba(24,144,255,1)"
             stroke-width="2"
           />
@@ -76,13 +73,10 @@
         transform="matrix(1,0,0,1,0,0)"
       >
         <g transform="matrix(1,0,0,1,100,150)">
-          <line
+          <path
             id="halo"
             fill="none"
-            x1="0"
-            y1="0"
-            x2="200"
-            y2="50"
+            d="M 0,0 L 200,50"
             stroke-width="12"
             stroke-dasharray="0,0"
             stroke="rgba(24,144,255,1)"
@@ -91,13 +85,10 @@
           />
         </g>
         <g transform="matrix(1,0,0,1,100,150)">
-          <line
+          <path
             id="key"
             fill="none"
-            x1="6.790997501017323"
-            y1="1.6977493752543307"
-            x2="193.20900249898267"
-            y2="48.30225062474567"
+            d="M 6.790997501017323,1.6977493752543307 L 0,0 L 193.20900249898267,48.30225062474567"
             stroke-width="2"
             stroke-dasharray="10,10"
             stroke="rgba(24,144,255,1)"
@@ -168,13 +159,10 @@
         transform="matrix(1,0,0,1,0,0)"
       >
         <g transform="matrix(1,0,0,1,100,250)">
-          <line
+          <path
             id="halo"
             fill="none"
-            x1="200"
-            y1="50"
-            x2="0"
-            y2="0"
+            d="M 200,50 L 0,0"
             stroke-width="2"
             stroke-dasharray="0,0"
             stroke="rgba(24,144,255,1)"
@@ -183,13 +171,10 @@
           />
         </g>
         <g transform="matrix(1,0,0,1,100,250)">
-          <line
+          <path
             id="key"
             fill="none"
-            x1="173.80615249607604"
-            y1="43.451538124019"
-            x2="6.790997501017323"
-            y2="1.6977493752543307"
+            d="M 173.80615249607604,43.451538124019 L 200,50 L 6.790997501017323,1.6977493752543307"
             stroke-width="2"
             stroke-dasharray="10,10"
             stroke="rgba(24,144,255,1)"

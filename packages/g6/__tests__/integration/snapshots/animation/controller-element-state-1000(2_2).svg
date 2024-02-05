@@ -19,13 +19,10 @@
           transform="matrix(1,0,0,1,0,0)"
         >
           <g transform="matrix(1,0,0,1,50,50)">
-            <line
+            <path
               id="key"
               fill="none"
-              x1="0"
-              y1="0"
-              x2="150"
-              y2="0"
+              d=""
               stroke-width="1"
               stroke="rgba(139,155,175,1)"
             />
@@ -39,13 +36,10 @@
           transform="matrix(1,0,0,1,0,0)"
         >
           <g transform="matrix(1,0,0,1,125,50)">
-            <line
+            <path
               id="key"
               fill="none"
-              x1="75"
-              y1="0"
-              x2="0"
-              y2="100"
+              d=""
               stroke-width="2"
               stroke="rgba(255,192,203,1)"
             />
@@ -59,13 +53,10 @@
           transform="matrix(1,0,0,1,0,0)"
         >
           <g transform="matrix(1,0,0,1,50,50)">
-            <line
+            <path
               id="key"
               fill="none"
-              x1="75"
-              y1="100"
-              x2="0"
-              y2="0"
+              d=""
               stroke-width="1"
               stroke="rgba(139,155,175,1)"
             />

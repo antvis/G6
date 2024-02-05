@@ -61,7 +61,8 @@ export function isCollinear(p1: Point, p2: Point, p3: Point): boolean {
  * @param p2 - <zh/> 第二个点 | <en/> the second point
  * @returns <zh/> 是否相同 | <en/> whether the same or not
  */
-export function isSamePoint(p1: Point, p2: Point): boolean {
+export function isSamePoint(p1?: Point, p2?: Point): boolean {
+  if (!p1 || !p2) return false;
   return exactEquals(p1, p2);
 }
 

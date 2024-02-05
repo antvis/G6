@@ -1,4 +1,4 @@
-import { Loop } from '../../../src/elements/edges';
+import { Cubic } from '../../../src/elements/edges';
 import { Circle, Star } from '../../../src/elements/nodes';
 import type { LoopEdgePosition } from '../../../src/types';
 import type { StaticTestCase } from '../types';
@@ -26,13 +26,13 @@ export const edgeLoop: StaticTestCase = async (context) => {
   );
 
   canvas.appendChild(
-    new Loop({
+    new Cubic({
       style: {
         sourceNode: node1,
         targetNode: node1,
         sourceAnchor: 'top',
         targetAnchor: 'right',
-        dist: 80,
+        loopDist: 80,
         stroke: '#1890FF',
         lineWidth: 2,
         endArrow: true,
@@ -60,7 +60,7 @@ export const edgeLoop: StaticTestCase = async (context) => {
   );
 
   canvas.appendChild(
-    new Loop({
+    new Cubic({
       style: {
         sourceNode: node2,
         targetNode: node2,
@@ -87,7 +87,7 @@ export const edgeLoop: StaticTestCase = async (context) => {
   );
 
   canvas.appendChild(
-    new Loop({
+    new Cubic({
       style: {
         sourceNode: node2_1,
         targetNode: node2_1,
@@ -115,12 +115,12 @@ export const edgeLoop: StaticTestCase = async (context) => {
 
   ['top', 'right', 'bottom', 'left'].forEach((position) => {
     canvas.appendChild(
-      new Loop({
+      new Cubic({
         style: {
           sourceNode: node3,
           targetNode: node3,
-          position: position as LoopEdgePosition,
           curveOffset: 100,
+          loopPosition: position as LoopEdgePosition,
           stroke: '#1890FF',
           lineWidth: 2,
           labelText: position,
@@ -146,11 +146,11 @@ export const edgeLoop: StaticTestCase = async (context) => {
 
   ['top-right', 'bottom-right', 'top-left', 'bottom-left'].forEach((position) => {
     canvas.appendChild(
-      new Loop({
+      new Cubic({
         style: {
           sourceNode: node4,
           targetNode: node4,
-          position: position as LoopEdgePosition,
+          loopPosition: position as LoopEdgePosition,
           stroke: '#1890FF',
           lineWidth: 2,
           labelText: position,
@@ -176,12 +176,12 @@ export const edgeLoop: StaticTestCase = async (context) => {
 
   ['top', 'right', 'bottom', 'left'].forEach((position) => {
     canvas.appendChild(
-      new Loop({
+      new Cubic({
         style: {
           sourceNode: node5,
           targetNode: node5,
-          position: position as LoopEdgePosition,
-          clockwise: false,
+          loopPosition: position as LoopEdgePosition,
+          loopClockwise: false,
           stroke: '#1890FF',
           lineWidth: 2,
           labelText: position,
@@ -207,12 +207,12 @@ export const edgeLoop: StaticTestCase = async (context) => {
 
   ['top-right', 'bottom-right', 'top-left', 'bottom-left'].forEach((position) => {
     canvas.appendChild(
-      new Loop({
+      new Cubic({
         style: {
           sourceNode: node6,
           targetNode: node6,
-          position: position as LoopEdgePosition,
-          clockwise: false,
+          loopPosition: position as LoopEdgePosition,
+          loopClockwise: false,
           stroke: '#1890FF',
           lineWidth: 2,
           labelText: position,

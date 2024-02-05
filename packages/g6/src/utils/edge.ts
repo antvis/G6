@@ -337,7 +337,12 @@ export function getLoopEndpoints(
  * @param dist - <zh/> 从节点 keyShape 边缘到自环顶部的距离 | <en/> The distance from the edge of the node keyShape to the top of the self-loop
  * @returns <zh/> 控制点 | <en/> Control points
  */
-export function getLoopControlPoints(node: Node, sourcePoint: Point, targetPoint: Point, dist: number): [Point, Point] {
+export function getLoopControlPoints(
+  node: Node,
+  sourcePoint: Point,
+  targetPoint: Point,
+  dist?: number,
+): [Point, Point] {
   const bbox = node.getKey().getBounds();
   const center = node.getCenter();
   const offset = dist || Math.max(getBBoxWidth(bbox), getBBoxHeight(bbox));
@@ -388,4 +393,58 @@ export function adjustLoopEndpointsIfNeed(
     targetPoint = getEllipseIntersectPoint(controlPoints[1], targetAnchor.getBounds());
   }
   return [sourcePoint, targetPoint];
+}
+
+/**
+ * <zh/> 获取自环边的起点、终点和控制点
+ *
+ * <en/> Get the start, end, and control points of the self-loop edge
+ * @param node - <zh/> 节点实例 | <en/> Node instance
+ * @param sourceAnchorKey - <zh/> 起点锚点 key | <en/> Source anchor key
+ * @param targetAnchorKey - <zh/> 终点锚点 key | <en/> Target anchor key
+ * @param rawSourcePoint - <zh/> 起点 | <en/> Source point
+ * @param rawTargetPoint - <zh/> 终点 | <en/> Target point
+ * @param position - <zh/> 环形边的位置 | <en/> The position of the loop edge
+ * @param clockwise - <zh/> 是否顺时针 | <en/> Whether to draw the loop clockwise
+ * @param dist - <zh/> 从节点 keyShape 边缘到自环顶部的距离 | <en/> The distance from the edge of the node keyShape to the top of the self-loop
+ * @returns <zh/> 起点、终点和控制点 | <en/> Start, end, and control points
+ */
+export function getLoopPoints(
+  node: Node,
+  sourceAnchorKey: string,
+  targetAnchorKey: string,
+  rawSourcePoint: Point,
+  rawTargetPoint: Point,
+  position: LoopEdgePosition,
+  clockwise: boolean,
+  dist?: number,
+): {
+  sourcePoint: Point;
+  targetPoint: Point;
+  controlPoints: [Point, Point];
+} {
+  const sourceAnchor = node.getAnchors()[sourceAnchorKey || targetAnchorKey];
+  const targetAnchor = node.getAnchors()[targetAnchorKey || sourceAnchorKey];
+
+  let [sourcePoint, targetPoint] = getLoopEndpoints(
+    node,
+    position,
+    clockwise,
+    sourceAnchor,
+    targetAnchor,
+    rawSourcePoint,
+    rawTargetPoint,
+  );
+
+  const controlPoints = getLoopControlPoints(node, sourcePoint, targetPoint, dist);
+
+  [sourcePoint, targetPoint] = adjustLoopEndpointsIfNeed(
+    sourcePoint,
+    targetPoint,
+    controlPoints,
+    sourceAnchor,
+    targetAnchor,
+  );
+
+  return { sourcePoint, targetPoint, controlPoints };
 }
