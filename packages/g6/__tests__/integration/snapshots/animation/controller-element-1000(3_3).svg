@@ -23,8 +23,8 @@
               id="key"
               fill="none"
               d=""
-              stroke-width="1"
               stroke="rgba(139,155,175,1)"
+              stroke-width="1"
               opacity="0"
             />
           </g>
@@ -41,8 +41,8 @@
               id="key"
               fill="none"
               d="M 76.1363163371488,50 C 76.1363163371488 70,-10.863683662851201 16,1.1363163371487985 0"
-              stroke-width="1"
               stroke="rgba(139,155,175,1)"
+              stroke-width="1"
             />
           </g>
         </g>

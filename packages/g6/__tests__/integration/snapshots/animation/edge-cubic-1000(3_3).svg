@@ -21,8 +21,8 @@
             id="key"
             fill="none"
             d="M 0,0 C 145.23166369858995 47.90541147253245,204.76833630141005 152.09458852746758,350 200 L 343.35231294616455,197.80722622364542"
-            stroke-width="8"
             stroke="rgba(24,144,255,1)"
+            stroke-width="8"
           />
           <g transform="matrix(-0.949670,-0.313253,0.313253,-0.949670,343.352325,197.807220)">
             <path
@@ -30,8 +30,8 @@
               fill="rgba(24,144,255,1)"
               d="M 0,5 L 10,0 L 10,10 Z"
               transform="translate(-5,-5)"
-              stroke-width="2"
               stroke="rgba(24,144,255,1)"
+              stroke-width="2"
               width="10"
               height="10"
               stroke-dasharray="0,0"
