@@ -1,7 +1,9 @@
 {
   "cSpell.words": [
+    "AABB",
     "afterrender",
     "afterviewportanimation",
+    "bbox",
     "beforerender",
     "beforeviewportanimation",
     "cancelviewportanimation",
