@@ -9,46 +9,31 @@
   <defs />
   <g id="g-svg-camera" transform="matrix(1,0,0,1,0,0)">
     <g id="g-root" fill="none" transform="matrix(1,0,0,1,0,0)">
-      <g id="g-svg-5" fill="none" r="48" transform="matrix(1,0,0,1,100,100)">
+      <g
+        id="g-svg-5"
+        fill="none"
+        width="96"
+        transform="matrix(1,0,0,1,100,100)"
+      >
         <g transform="matrix(1,0,0,1,-41.569218,-36)">
-          <path
+          <polygon
             id="key"
             fill="rgba(0,128,0,1)"
-            d="M 41.569219381653056,0 L 83.13843876330611,72 L 0,72 Z"
-            r="48"
-          />
-        </g>
-        <g transform="matrix(1,0,0,1,-41.569218,-36)">
-          <path
-            id="halo"
-            fill="rgba(0,0,0,0)"
-            d="M 41.569219381653056,0 L 83.13843876330611,72 L 0,72 Z"
-            r="48"
-            pointer-events="none"
-            opacity="0.25"
-            stroke-width="12"
+            points="41.569219381653056,0 83.13843876330611,72 0,72"
           />
         </g>
       </g>
-      <g id="g-svg-8" fill="none" r="48" transform="matrix(1,0,0,1,300,100)">
+      <g
+        id="g-svg-7"
+        fill="none"
+        width="96"
+        transform="matrix(1,0,0,1,300,100)"
+      >
         <g transform="matrix(1,0,0,1,-41.569218,-36)">
-          <path
+          <polygon
             id="key"
             fill="rgba(255,0,0,1)"
-            d="M 41.569219381653056,0 L 83.13843876330611,72 L 0,72 Z"
-            r="48"
-          />
-        </g>
-        <g transform="matrix(1,0,0,1,-41.569218,-36)">
-          <path
-            id="halo"
-            fill="rgba(0,0,0,0)"
-            d="M 41.569219381653056,0 L 83.13843876330611,72 L 0,72 Z"
-            r="48"
-            pointer-events="none"
-            opacity="0.4"
-            stroke-width="12"
-            stroke="rgba(128,128,128,1)"
+            points="41.569219381653056,0 83.13843876330611,72 0,72"
           />
         </g>
         <g
@@ -56,7 +41,7 @@
           fill="none"
           width="30"
           height="30"
-          transform="matrix(1,0,0,1,0.000002,0)"
+          transform="matrix(1,0,0,1,0.000002,9)"
         >
           <g transform="matrix(1,0,0,1,0,0)">
             <image
@@ -222,27 +207,20 @@
           />
         </g>
       </g>
-      <g id="g-svg-31" fill="none" r="48" transform="matrix(1,0,0,1,300,300)">
+      <g
+        id="g-svg-29"
+        fill="none"
+        width="96"
+        transform="matrix(1,0,0,1,300,300)"
+      >
         <g transform="matrix(1,0,0,1,-41.569218,-36)">
-          <path
+          <polygon
             id="key"
             fill="rgba(255,192,203,1)"
-            d="M 41.569219381653056,0 L 83.13843876330611,72 L 0,72 Z"
-            r="48"
+            points="41.569219381653056,0 83.13843876330611,72 0,72"
           />
         </g>
-        <g transform="matrix(1,0,0,1,-41.569218,-36)">
-          <path
-            id="halo"
-            fill="rgba(0,0,0,0)"
-            d="M 41.569219381653056,0 L 83.13843876330611,72 L 0,72 Z"
-            r="48"
-            pointer-events="none"
-            opacity="0.25"
-            stroke-width="12"
-          />
-        </g>
-        <g id="icon" fill="none" transform="matrix(1,0,0,1,0.000002,0)">
+        <g id="icon" fill="none" transform="matrix(1,0,0,1,0.000002,9)">
           <g transform="matrix(1,0,0,1,0,0)">
             <text
               id="icon"
