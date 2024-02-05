@@ -1,49 +1,73 @@
-import type { DisplayObjectConfig, PathStyleProps as GPathStyleProps, Group } from '@antv/g';
-import { Path as GPath } from '@antv/g';
-import { getTriangleAnchorByPosition, getTriangleAnchors, getTrianglePath } from '../../utils/element';
+import type { DisplayObjectConfig, Group, PolygonStyleProps } from '@antv/g';
+import { Polygon } from '@antv/g';
+import { deepMix, isEmpty } from '@antv/util';
+import type { Point } from '../../types';
+import { getTriangleAnchorByPosition, getTriangleAnchors, getTrianglePoints } from '../../utils/element';
+import { getPolygonIntersectPoint } from '../../utils/point';
 import { subStyleProps } from '../../utils/prefix';
 import type { BaseNodeStyleProps, NodeAnchorStyleProps } from './base-node';
 import { BaseNode } from './base-node';
 
-type KeyShapeStyleProps = GPathStyleProps & {
+type TriangleShapeStyleProps = {
   /**
-   * 外接圆半径
+   * 节点宽度
    */
-  r: number;
+  width?: number;
+  /**
+   * 节点高度
+   */
+  heigh?: number;
   /**
    * 三角形朝向
    */
-  direction: 'up' | 'left' | 'right' | 'down';
+  direction?: 'up' | 'left' | 'right' | 'down';
 };
 
+type KeyShapeStyleProps = Partial<PolygonStyleProps> & TriangleShapeStyleProps;
+
 export type TriangleStyleProps = BaseNodeStyleProps<KeyShapeStyleProps>;
-type ParsedStarStyleProps = Required<TriangleStyleProps>;
+
+type ParsedTriangleStyleProps = Required<TriangleStyleProps>;
+
 type TriangleOptions = DisplayObjectConfig<TriangleStyleProps>;
 
-export class Triangle extends BaseNode<KeyShapeStyleProps, GPath> {
+export class Triangle extends BaseNode<KeyShapeStyleProps, Polygon> {
+  static defaultStyleProps: Partial<TriangleShapeStyleProps> = {
+    direction: 'up',
+  };
   constructor(options: TriangleOptions) {
-    super(options);
+    super(deepMix({}, { style: Triangle.defaultStyleProps }, options));
   }
 
-  protected getKeyStyle(attributes: ParsedStarStyleProps): KeyShapeStyleProps {
-    const keyStyle = super.getKeyStyle(attributes);
-    const { r, direction } = keyStyle;
-    const d = getTrianglePath(r, direction);
-    return { ...keyStyle, d };
+  protected getKeyStyle(attributes: ParsedTriangleStyleProps): PolygonStyleProps {
+    const {
+      width,
+      heigh = width,
+      direction,
+      ...keyStyle
+    } = super.getKeyStyle(attributes) as Required<KeyShapeStyleProps>;
+    const r = Math.min(width, heigh) / 2;
+    const points = getTrianglePoints(r, direction) as [number, number][];
+    return { ...keyStyle, points };
   }
 
-  protected getHaloStyle(attributes: ParsedStarStyleProps): KeyShapeStyleProps {
+  protected getHaloStyle(attributes: ParsedTriangleStyleProps): PolygonStyleProps | false {
+    if (attributes.halo === false) return false;
+
     const haloStyle = subStyleProps(this.getGraphicStyle(attributes), 'halo') as Partial<KeyShapeStyleProps>;
     const keyStyle = this.getKeyStyle(attributes);
 
     return {
       ...keyStyle,
       ...haloStyle,
-    } as KeyShapeStyleProps;
+    };
   }
 
-  protected getAnchorsStyle(attributes: ParsedStarStyleProps): NodeAnchorStyleProps[] {
-    const { r, direction } = attributes;
+  protected getAnchorsStyle(attributes: ParsedTriangleStyleProps): NodeAnchorStyleProps[] {
+    if (attributes.anchor === false) return [];
+
+    const { width, heigh = width, direction } = attributes;
+    const r = Math.min(width, heigh) / 2;
     const anchors = getTriangleAnchors(r, direction);
 
     const anchorStyle = this.getGraphicStyle(attributes).anchorOptions || [];
@@ -55,7 +79,29 @@ export class Triangle extends BaseNode<KeyShapeStyleProps, GPath> {
     });
   }
 
-  protected drawKeyShape(attributes: ParsedStarStyleProps, container: Group): GPath {
-    return this.upsert('key', GPath, this.getKeyStyle(attributes), container) as GPath;
+  protected getIconStyle(attributes: ParsedTriangleStyleProps) {
+    if (attributes.icon === false || isEmpty(attributes.iconText || attributes.iconSrc)) return false;
+
+    const iconStyle = subStyleProps(this.getGraphicStyle(attributes), 'icon');
+    const keyShape = this.shapeMap.key;
+    const { max, center } = keyShape.getLocalBounds();
+    const x = center[0];
+    const y = max[1] / 4;
+
+    return {
+      x,
+      y,
+      ...iconStyle,
+    };
+  }
+
+  public getIntersectPoint(point: Point): Point {
+    const { points } = this.getKeyStyle(this.attributes as ParsedTriangleStyleProps);
+    const center = [this.attributes.x, this.attributes.y] as Point;
+    return getPolygonIntersectPoint(point, center, points);
+  }
+
+  protected drawKeyShape(attributes: ParsedTriangleStyleProps, container: Group): Polygon {
+    return this.upsert('key', Polygon, this.getKeyStyle(attributes), container) as Polygon;
   }
 }

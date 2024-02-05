@@ -1,5 +1,4 @@
 import type { AABB, Circle as GCircle, TextStyleProps } from '@antv/g';
-import type { PathArray } from '@antv/util';
 import { get, isEmpty, isString } from '@antv/util';
 import type { Node, Point } from '../types';
 import type {
@@ -152,25 +151,41 @@ export function getStarAnchorByPosition(position: StarAnchorPosition, anchors: R
 }
 
 /**
- * Get Triangle PathArray.
+ * Get Triangle Points.
  * @param r - radius of circumcircle of triangle
  * @param direction - direction of triangle
  * @returns The PathArray for G
  */
-export function getTrianglePath(r: number, direction: 'up' | 'left' | 'right' | 'down'): PathArray {
+export function getTrianglePoints(r: number, direction: 'up' | 'left' | 'right' | 'down'): Point[] {
   const halfHeight = (3 * r) / 4;
   const halfLength = r * Math.sin((1 / 3) * Math.PI);
   if (direction === 'down') {
-    return [['M', 0, halfHeight], ['L', halfLength, -halfHeight], ['L', -halfLength, -halfHeight], ['Z']];
+    return [
+      [0, halfHeight],
+      [halfLength, -halfHeight],
+      [-halfLength, -halfHeight],
+    ];
   }
   if (direction === 'left') {
-    return [['M', -halfHeight, 0], ['L', halfHeight, halfLength], ['L', halfHeight, -halfLength], ['Z']];
+    return [
+      [-halfHeight, 0],
+      [halfHeight, halfLength],
+      [halfHeight, -halfLength],
+    ];
   }
   if (direction === 'right') {
-    return [['M', halfHeight, 0], ['L', -halfHeight, halfLength], ['L', -halfHeight, -halfLength], ['Z']];
+    return [
+      [halfHeight, 0],
+      [-halfHeight, halfLength],
+      [-halfHeight, -halfLength],
+    ];
   }
   // up
-  return [['M', 0, -halfHeight], ['L', halfLength, halfHeight], ['L', -halfLength, halfHeight], ['Z']];
+  return [
+    [0, -halfHeight],
+    [halfLength, halfHeight],
+    [-halfLength, halfHeight],
+  ];
 }
 
 /**

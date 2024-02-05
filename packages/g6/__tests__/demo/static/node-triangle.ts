@@ -6,22 +6,20 @@ export const nodeTriangle: StaticTestCase = async (context) => {
 
   const t1 = new Triangle({
     style: {
-      r: 48,
-      direction: 'up',
+      width: 96,
       x: 100,
       y: 100,
       fill: 'green',
     },
   });
 
-  const s2 = new Triangle({
+  const t2 = new Triangle({
     style: {
       // key
       x: 300,
       y: 100,
       fill: 'red',
-      r: 48,
-      direction: 'up',
+      width: 96,
       // label
       labelText: 'triangle node',
       labelFontSize: 14,
@@ -51,14 +49,13 @@ export const nodeTriangle: StaticTestCase = async (context) => {
     },
   });
 
-  const s3 = new Triangle({
+  const t3 = new Triangle({
     style: {
       // key
       x: 300,
       y: 300,
       fill: 'pink',
-      r: 48,
-      direction: 'up',
+      width: 96,
       // icon
       iconText: 'Y',
       iconFontSize: 30,
@@ -67,6 +64,6 @@ export const nodeTriangle: StaticTestCase = async (context) => {
   });
 
   canvas.appendChild(t1);
-  canvas.appendChild(s2);
-  canvas.appendChild(s3);
+  canvas.appendChild(t2);
+  canvas.appendChild(t3);
 };
