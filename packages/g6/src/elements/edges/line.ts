@@ -4,7 +4,7 @@ import { deepMix } from '@antv/util';
 import type { BaseEdgeKeyStyleProps, BaseEdgeStyleProps } from './base-edge';
 import { BaseEdge } from './base-edge';
 
-type LineKeyStyleProps = BaseEdgeKeyStyleProps<GLineStyleProps>;
+type LineKeyStyleProps = BaseEdgeKeyStyleProps<Partial<GLineStyleProps>>;
 
 export type LineStyleProps = BaseEdgeStyleProps<LineKeyStyleProps>;
 

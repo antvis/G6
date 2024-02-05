@@ -7,7 +7,7 @@ import type {
   PathStyleProps,
 } from '@antv/g';
 import { Path } from '@antv/g';
-import { deepMix, isFunction } from '@antv/util';
+import { deepMix, isEmpty, isFunction } from '@antv/util';
 import type { EdgeKey, EdgeLabelStyleProps, Point, PrefixObject } from '../../types';
 import type { Node } from '../../types/element';
 import { getLabelPositionStyle } from '../../utils/edge';
@@ -119,7 +119,16 @@ export abstract class BaseEdge<KT extends object, KS extends DisplayObject> exte
   }
 
   protected getKeyStyle(attributes: ParsedBaseEdgeStyleProps<KT>): KT {
-    const style = this.getGraphicStyle(attributes);
+    const [sourcePoint, targetPoint] = this.getPoints(attributes);
+
+    return {
+      ...omitStyleProps(this.getGraphicStyle(attributes), ['halo', 'label', 'startArrow', 'endArrow']),
+      sourcePoint,
+      targetPoint,
+    };
+  }
+
+  protected getPoints(attributes: ParsedBaseEdgeStyleProps<KT>): [Point, Point] {
     const {
       sourceNode,
       targetNode,
@@ -127,28 +136,8 @@ export abstract class BaseEdge<KT extends object, KS extends DisplayObject> exte
       targetAnchor: targetAnchorKey,
       sourcePoint: rawSourcePoint,
       targetPoint: rawTargetPoint,
-      ...restStyle
-    } = style;
-    const [sourcePoint, targetPoint] = this.getPoints(
-      sourceNode,
-      targetNode,
-      sourceAnchorKey,
-      targetAnchorKey,
-      rawSourcePoint,
-      rawTargetPoint,
-    );
+    } = attributes;
 
-    return { sourcePoint, targetPoint, ...omitStyleProps(restStyle, ['halo', 'label', 'startArrow', 'endArrow']) };
-  }
-
-  protected getPoints(
-    sourceNode: Node,
-    targetNode: Node,
-    sourceAnchorKey?: string,
-    targetAnchorKey?: string,
-    rawSourcePoint?: Point,
-    rawTargetPoint?: Point,
-  ): [Point, Point] {
     if (rawSourcePoint && rawTargetPoint) return [rawSourcePoint, rawTargetPoint];
 
     const sourceAnchor = findAnchor(sourceNode, sourceAnchorKey, targetNode);
@@ -174,7 +163,7 @@ export abstract class BaseEdge<KT extends object, KS extends DisplayObject> exte
   }
 
   protected getLabelStyle(attributes: ParsedBaseEdgeStyleProps<KT>): false | LabelStyleProps {
-    if (attributes.label === false) return false;
+    if (attributes.label === false || isEmpty(attributes.labelText)) return false;
 
     const labelStyle = subStyleProps<Required<EdgeLabelStyleProps>>(this.getGraphicStyle(attributes), 'label');
     const { position, offsetX, offsetY, autoRotate, maxWidth, ...restStyle } = labelStyle;
@@ -202,7 +191,7 @@ export abstract class BaseEdge<KT extends object, KS extends DisplayObject> exte
       this.shapeMap.key.style[isStart ? 'markerStart' : 'markerEnd'] = new ctor({ style: arrowStyle });
       this.shapeMap.key.style[isStart ? 'markerStartOffset' : 'markerEndOffset'] =
         (isStart ? attributes.startArrowOffset : attributes.endArrowOffset) ||
-        (arrowStyle.width + Number(arrowStyle.lineWidth)) / 2;
+        arrowStyle.width / 2 + Number(arrowStyle.lineWidth);
     } else {
       this.shapeMap.key.style[isStart ? 'markerStart' : 'markerEnd'] = undefined;
     }
@@ -262,6 +251,8 @@ export abstract class BaseEdge<KT extends object, KS extends DisplayObject> exte
 
     result.onframe = () => {
       this.drawLabelShape(this.parsedAttributes, this);
+      this.drawArrow(this.parsedAttributes, true);
+      this.drawArrow(this.parsedAttributes, false);
     };
 
     return result;

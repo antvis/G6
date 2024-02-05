@@ -34,6 +34,9 @@ export const edgeQuadratic: StaticTestCase = async (context) => {
       // label
       labelText: 'controlPoint=[200, 200]',
       labelFontSize: 12,
+      labelMaxLines: 2,
+      labelWordWrap: true,
+      labelWordWrapWidth: 78,
       // end arrow
       endArrow: true,
     },
@@ -51,6 +54,9 @@ export const edgeQuadratic: StaticTestCase = async (context) => {
       // label
       labelText: 'curveOffset=50, curvePosition:0.5',
       labelFontSize: 12,
+      labelMaxLines: 2,
+      labelWordWrap: true,
+      labelWordWrapWidth: 100,
       // end arrow
       endArrow: true,
     },
@@ -68,6 +74,9 @@ export const edgeQuadratic: StaticTestCase = async (context) => {
       // label
       labelText: 'curveOffset=50, curvePosition:0.25',
       labelFontSize: 12,
+      labelMaxLines: 2,
+      labelWordWrap: true,
+      labelWordWrapWidth: 110,
       // end arrow
       endArrow: true,
     },

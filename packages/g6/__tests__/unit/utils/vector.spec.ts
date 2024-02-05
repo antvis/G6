@@ -11,6 +11,7 @@ import {
   normalize,
   perpendicular,
   scale,
+  scaleAndAdd,
   subtract,
   toVector2,
   toVector3,
@@ -51,6 +52,11 @@ describe('Vector Functions', () => {
   it('scale', () => {
     expect(scale([0, 1], 2)).toEqual([0, 2]);
     expect(scale([0, 1, 3], 2)).toEqual([0, 2, 6]);
+  });
+
+  it('scaleAndAdd', () => {
+    expect(scaleAndAdd([0, 1], [2, 3], 2)).toEqual([4, 7]);
+    expect(scaleAndAdd([0, 1, 3], [2, 3, 4], 2)).toEqual([4, 7, 11]);
   });
 
   it('distance', () => {

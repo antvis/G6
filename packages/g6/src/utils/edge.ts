@@ -1,9 +1,21 @@
+import type { Circle as GCircle } from '@antv/g';
 import type { PathArray } from '@antv/util';
-import { isNumber, pick } from '@antv/util';
-import type { Point, Vector2 } from '../types';
-import type { EdgeKey, EdgeLabelPosition, EdgeLabelStyleProps } from '../types/edge';
-import { isCollinear, isHorizontal, parsePoint } from './point';
-import { manhattanDistance, normalize, perpendicular, subtract } from './vector';
+import { isNumber } from '@antv/util';
+import type { Node, Point, Vector2 } from '../types';
+import type { EdgeKey, EdgeLabelPosition, EdgeLabelStyleProps, LoopEdgePosition } from '../types/edge';
+import { getBBoxHeight, getBBoxWidth } from './bbox';
+import { getEllipseIntersectPoint, isCollinear, isHorizontal, isSamePoint, parsePoint } from './point';
+import {
+  add,
+  distance,
+  manhattanDistance,
+  multiply,
+  normalize,
+  perpendicular,
+  scaleAndAdd,
+  subtract,
+  toVector3,
+} from './vector';
 
 /**
  * <zh/> 获取标签的位置样式
@@ -20,8 +32,8 @@ export function getLabelPositionStyle(
   key: EdgeKey,
   position: EdgeLabelPosition,
   autoRotate: boolean,
-  offsetX?: number,
-  offsetY?: number,
+  offsetX: number,
+  offsetY: number,
 ): Partial<EdgeLabelStyleProps> {
   const START_RATIO = 0;
   const MIDDLE_RATIO = 0.5;
@@ -31,31 +43,49 @@ export function getLabelPositionStyle(
   if (position === 'start') ratio = START_RATIO;
   if (position === 'end') ratio = END_RATIO;
 
-  const positionStyle: Partial<EdgeLabelStyleProps> = {
-    textAlign: position === 'start' ? 'left' : position === 'end' ? 'right' : 'center',
-    offsetX,
-    offsetY,
+  const point = parsePoint(key.getPoint(ratio));
+  const pointOffset = parsePoint(key.getPoint(ratio + 0.01));
+
+  let textAlign: 'left' | 'right' | 'center' = position === 'start' ? 'left' : position === 'end' ? 'right' : 'center';
+
+  if (isHorizontal(point, pointOffset) || !autoRotate) {
+    const [x, y] = getXYByPosition(key, ratio, offsetX, offsetY);
+    return { x, y, textAlign };
+  }
+
+  let angle = Math.atan2(pointOffset[1] - point[1], pointOffset[0] - point[0]);
+
+  const isRevert = pointOffset[0] < point[0];
+  if (isRevert) {
+    textAlign = textAlign === 'center' ? textAlign : textAlign === 'left' ? 'right' : 'left';
+    offsetX! *= -1;
+    angle += Math.PI;
+  }
+
+  const [x, y] = getXYByPosition(key, ratio, offsetX, offsetY, angle);
+  const transform = `rotate(${(angle / Math.PI) * 180}deg)`;
+
+  return {
+    x,
+    y,
+    textAlign,
+    transform,
   };
-  adjustLabelPosition(key, positionStyle, ratio);
-
-  if (autoRotate) applyAutoRotation(key, positionStyle, ratio);
-
-  return pick(positionStyle, ['x', 'y', 'textAlign', 'transform']);
 }
 
 /**
- * <zh/> 根据边主体、位置样式、比例和角度计算标签的精确位置
+ * <zh/> 获取给定边上的指定位置的坐标
  *
- * <en/> Calculate the precise position of the label based on the edge body, position style, ratio, and angle
- * @param key - <zh/> 边对象 | <en/> The edge object
- * @param positionStyle - <zh/> 标签的位置样式 | <en/> The style of the label's position
- * @param ratio - <zh/> 沿边的比例位置 | <en/> Ratio along the edge
+ * <en/> Get the coordinates at the specified position on the given edge
+ * @param key - <zh/> 边实例 | <en/> Edge instance
+ * @param ratio - <zh/> 位置比率 | <en/> Position ratio
+ * @param offsetX - <zh/> 水平偏移量 | <en/> Horizontal offset
+ * @param offsetY - <zh/> 垂直偏移量 | <en/> Vertical offset
  * @param angle - <zh/> 旋转角度 | <en/> Rotation angle
+ * @returns <zh/> 坐标 | <en/> Coordinates
  */
-function adjustLabelPosition(key: EdgeKey, positionStyle: Partial<EdgeLabelStyleProps>, ratio: number, angle?: number) {
+function getXYByPosition(key: EdgeKey, ratio: number, offsetX: number, offsetY: number, angle?: number) {
   const [pointX, pointY] = parsePoint(key.getPoint(ratio));
-  const { offsetX = 0, offsetY = 0 } = positionStyle;
-
   let actualOffsetX = offsetX;
   let actualOffsetY = offsetY;
 
@@ -64,36 +94,7 @@ function adjustLabelPosition(key: EdgeKey, positionStyle: Partial<EdgeLabelStyle
     actualOffsetY = offsetX * Math.sin(angle) + offsetY * Math.cos(angle);
   }
 
-  positionStyle.x = pointX + actualOffsetX;
-  positionStyle.y = pointY + actualOffsetY;
-}
-
-/**
- * <zh/> 根据边的方向计算并应用标签的旋转角度
- *
- * <en/> Calculate and apply the rotation angle of the label based on the direction of the edge
- * @param key - <zh/> 边对象 | <en/> The edge object
- * @param positionStyle - <zh/> 标签的位置样式 | <en/> The style of the label's position
- * @param ratio - <zh/> 沿边的比例位置 | <en/> ratio along the edge
- */
-function applyAutoRotation(key: EdgeKey, positionStyle: Partial<EdgeLabelStyleProps>, ratio: number) {
-  const { textAlign } = positionStyle;
-  const point = parsePoint(key.getPoint(ratio));
-  const pointOffset = parsePoint(key.getPoint(ratio + 0.01));
-
-  if (isHorizontal(point, pointOffset)) return;
-
-  let angle = Math.atan2(pointOffset[1] - point[1], pointOffset[0] - point[0]);
-
-  const isRevert = pointOffset[0] < point[0];
-  if (isRevert) {
-    positionStyle.textAlign = textAlign === 'center' ? textAlign : textAlign === 'left' ? 'right' : 'left';
-    positionStyle.offsetX! *= -1;
-    angle += Math.PI;
-  }
-
-  adjustLabelPosition(key, positionStyle, ratio, angle);
-  positionStyle.transform = `rotate(${(angle / Math.PI) * 180}deg)`;
+  return [pointX + actualOffsetX, pointY + actualOffsetY];
 }
 
 /** ==================== Quadratic Edge =========================== */
@@ -259,4 +260,132 @@ function getBorderRadiusPoints(prevPoint: Point, midPoint: Point, nextPoint: Poi
     midPoint[1] - (r / d1) * (midPoint[1] - nextPoint[1]),
   ];
   return [ps, pt];
+}
+
+/** ==================== Loop Edge =========================== */
+
+const PI_OVER_8 = Math.PI / 8;
+
+const radians: Record<LoopEdgePosition, [number, number]> = {
+  top: [-5 * PI_OVER_8, -3 * PI_OVER_8],
+  'top-right': [-3 * PI_OVER_8, -PI_OVER_8],
+  'right-top': [-3 * PI_OVER_8, -PI_OVER_8],
+  right: [-PI_OVER_8, PI_OVER_8],
+  'bottom-right': [PI_OVER_8, 3 * PI_OVER_8],
+  'right-bottom': [PI_OVER_8, 3 * PI_OVER_8],
+  bottom: [3 * PI_OVER_8, 5 * PI_OVER_8],
+  'bottom-left': [5 * PI_OVER_8, 7 * PI_OVER_8],
+  'left-bottom': [5 * PI_OVER_8, 7 * PI_OVER_8],
+  left: [7 * PI_OVER_8, 9 * PI_OVER_8],
+  'top-left': [-7 * PI_OVER_8, -5 * PI_OVER_8],
+  'left-top': [-7 * PI_OVER_8, -5 * PI_OVER_8],
+};
+
+/**
+ * <zh/> 获取环形边的起点和终点
+ *
+ * <en/> Get the start and end points of the loop edge
+ * @param node - <zh/> 节点实例 | <en/> Node instance
+ * @param position - <zh/> 环形边的位置 | <en/> The position of the loop edge
+ * @param clockwise - <zh/> 是否顺时针 | <en/> Whether to draw the loop clockwise
+ * @param sourceAnchor - <zh/> 起点锚点 | <en/> Source anchor
+ * @param targetAnchor - <zh/> 终点锚点 | <en/> Target anchor
+ * @param rawSourcePoint - <zh/> 起点 | <en/> Source point
+ * @param rawTargetPoint - <zh/> 终点 | <en/> Target point
+ * @returns <zh/> 起点和终点 | <en/> Start and end points
+ */
+export function getLoopEndpoints(
+  node: Node,
+  position: LoopEdgePosition,
+  clockwise: boolean,
+  sourceAnchor?: GCircle,
+  targetAnchor?: GCircle,
+  rawSourcePoint?: Point,
+  rawTargetPoint?: Point,
+): [Point, Point] {
+  const bbox = node.getKey().getBounds();
+  const center = node.getCenter();
+
+  let sourcePoint = rawSourcePoint || sourceAnchor?.getPosition();
+  let targetPoint = rawTargetPoint || targetAnchor?.getPosition();
+
+  if (!sourcePoint || !targetPoint) {
+    const angle1 = radians[position][0];
+    const angle2 = radians[position][1];
+    const r = Math.max(getBBoxWidth(bbox), getBBoxHeight(bbox));
+    const point1: Point = add(center, [r * Math.cos(angle1), r * Math.sin(angle1), 0]);
+    const point2: Point = add(center, [r * Math.cos(angle2), r * Math.sin(angle2), 0]);
+
+    sourcePoint = node.getIntersectPoint(point1);
+    targetPoint = node.getIntersectPoint(point2);
+
+    if (!clockwise) {
+      [sourcePoint, targetPoint] = [targetPoint, sourcePoint];
+    }
+  }
+
+  return [sourcePoint, targetPoint];
+}
+
+/**
+ * <zh/> 获取环形边的控制点
+ *
+ * <en/> Get the control points of the loop edge
+ * @param node - <zh/> 节点实例 | <en/> Node instance
+ * @param sourcePoint - <zh/> 起点 | <en/> Source point
+ * @param targetPoint - <zh/> 终点 | <en/> Target point
+ * @param dist - <zh/> 从节点 keyShape 边缘到自环顶部的距离 | <en/> The distance from the edge of the node keyShape to the top of the self-loop
+ * @returns <zh/> 控制点 | <en/> Control points
+ */
+export function getLoopControlPoints(node: Node, sourcePoint: Point, targetPoint: Point, dist: number): [Point, Point] {
+  const bbox = node.getKey().getBounds();
+  const center = node.getCenter();
+  const offset = dist || Math.max(getBBoxWidth(bbox), getBBoxHeight(bbox));
+
+  const extendVector = (from: Point, to: Point, s: number) => {
+    to = toVector3(to);
+    const v = subtract(to, from);
+    const st = 1 + s / distance(to, from);
+    return scaleAndAdd(from, v, st);
+  };
+
+  if (isSamePoint(sourcePoint, targetPoint)) {
+    const direction = subtract(sourcePoint, center);
+    const adjustment: Point = [
+      offset * Math.sign(direction[0]) || offset / 2,
+      offset * Math.sign(direction[1]) || -offset / 2,
+      0,
+    ];
+    return [add(sourcePoint, adjustment), add(targetPoint, multiply(adjustment, [1, -1, 1]))];
+  }
+
+  return [extendVector(center, sourcePoint, offset), extendVector(center, targetPoint, offset)];
+}
+
+/**
+ * <zh/> 若存在起点或终点的锚点，则调整起点或终点位置
+ *
+ * <en/> Adjust the start or end point position if there is an anchor point
+ * @param sourcePoint - <zh/> 起点 | <en/> Source point
+ * @param targetPoint - <zh/> 终点 | <en/> Target point
+ * @param controlPoints - <zh/> 控制点 | <en/> Control point
+ * @param sourceAnchor - <zh/> 起点锚点 | <en/> Source anchor
+ * @param targetAnchor - <zh/> 终点锚点 | <en/> Target anchor
+ * @returns <zh/> 调整后的起点和终点 | <en/> Adjusted start and end points
+ */
+export function adjustLoopEndpointsIfNeed(
+  sourcePoint: Point,
+  targetPoint: Point,
+  controlPoints: [Point, Point],
+  sourceAnchor?: GCircle,
+  targetAnchor?: GCircle,
+) {
+  if (sourceAnchor) {
+    sourcePoint = getEllipseIntersectPoint(controlPoints[0], sourceAnchor.getBounds());
+  }
+
+  if (targetAnchor) {
+    targetPoint = getEllipseIntersectPoint(controlPoints[1], targetAnchor.getBounds());
+  }
+  return [sourcePoint, targetPoint];
 }
