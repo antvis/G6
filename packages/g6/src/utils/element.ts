@@ -1,5 +1,4 @@
 import type { AABB, Circle as GCircle, TextStyleProps } from '@antv/g';
-import type { PathArray } from '@antv/util';
 import { get, isEmpty, isString } from '@antv/util';
 import type { Node, Point } from '../types';
 import type { AnchorPosition, LabelPosition, RelativePosition, StarAnchorPosition } from '../types/node';
@@ -151,12 +150,11 @@ export function getStarAnchorByPosition(position: StarAnchorPosition, anchors: R
  * @param height - rect height
  * @returns The PathArray for G
  */
-export function getRectPath(width: number, height: number): PathArray {
+export function getRectPoints(width: number, height: number): Point[] {
   return [
-    ['M', width / 2, -height / 2],
-    ['L', width / 2, height / 2],
-    ['L', -width / 2, height / 2],
-    ['L', -width / 2, -height / 2],
-    ['Z'],
+    [width / 2, -height / 2],
+    [width / 2, height / 2],
+    [-width / 2, height / 2],
+    [-width / 2, -height / 2],
   ];
 }

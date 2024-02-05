@@ -17,54 +17,29 @@
         transform="matrix(1,0,0,1,100,100)"
       >
         <g transform="matrix(1,0,0,1,-40,-40)">
-          <path
+          <polygon
             id="key"
             fill="rgba(0,128,0,1)"
-            d="M 80,0 L 80,80 L 0,80 L 0,0 Z"
+            points="80,0 80,80 0,80 0,0"
             width="80"
             height="80"
-          />
-        </g>
-        <g transform="matrix(1,0,0,1,-46,-46)">
-          <path
-            id="halo"
-            fill="rgba(0,0,0,0)"
-            d="M 92,0 L 92,92 L 0,92 L 0,0 Z"
-            width="80"
-            height="80"
-            pointer-events="none"
-            opacity="0.25"
-            stroke-width="12"
           />
         </g>
       </g>
       <g
-        id="g-svg-8"
+        id="g-svg-7"
         fill="none"
         width="80"
         height="40"
         transform="matrix(1,0,0,1,300,100)"
       >
         <g transform="matrix(1,0,0,1,-40,-20)">
-          <path
+          <polygon
             id="key"
             fill="rgba(255,0,0,1)"
-            d="M 80,0 L 80,40 L 0,40 L 0,0 Z"
+            points="80,0 80,40 0,40 0,0"
             width="80"
             height="40"
-          />
-        </g>
-        <g transform="matrix(1,0,0,1,-46,-26)">
-          <path
-            id="halo"
-            fill="rgba(0,0,0,0)"
-            d="M 92,0 L 92,52 L 0,52 L 0,0 Z"
-            width="80"
-            height="40"
-            pointer-events="none"
-            opacity="0.4"
-            stroke-width="12"
-            stroke="rgba(128,128,128,1)"
           />
         </g>
         <g
@@ -251,31 +226,19 @@
         </g>
       </g>
       <g
-        id="g-svg-32"
+        id="g-svg-30"
         fill="none"
         width="40"
         height="80"
         transform="matrix(1,0,0,1,100,300)"
       >
         <g transform="matrix(1,0,0,1,-20,-40)">
-          <path
+          <polygon
             id="key"
             fill="rgba(255,192,203,1)"
-            d="M 40,0 L 40,80 L 0,80 L 0,0 Z"
+            points="40,0 40,80 0,80 0,0"
             width="40"
             height="80"
-          />
-        </g>
-        <g transform="matrix(1,0,0,1,-26,-46)">
-          <path
-            id="halo"
-            fill="rgba(0,0,0,0)"
-            d="M 52,0 L 52,92 L 0,92 L 0,0 Z"
-            width="40"
-            height="80"
-            pointer-events="none"
-            opacity="0.25"
-            stroke-width="12"
           />
         </g>
         <g id="icon" fill="none" transform="matrix(1,0,0,1,0,0)">
