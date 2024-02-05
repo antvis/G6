@@ -11,10 +11,11 @@ import type { AnimationExecutor } from './types';
  * <en/> Animation Spec Executor
  * @param shape - <zh/> 要执行动画的图形 | <en/> shape to execute animation
  * @param animation - <zh/> 动画 Spec | <en/> animation specification
+ * @param commonEffectTiming - <zh/> 动画公共配置 | <en/> common animation configuration
  * @param context - <zh/> 动画执行上下文 | <en/> animation execution context
  * @returns <zh/> 动画实例 | <en/> animation instance
  */
-export const executor: AnimationExecutor = (shape, animation, context) => {
+export const executor: AnimationExecutor = (shape, animation, commonEffectTiming, context) => {
   if (!animation) return null;
   const animations = isString(animation) ? getPlugin('animation', animation) || [] : animation;
   if (animations.length === 0) return null;
@@ -66,6 +67,7 @@ export const executor: AnimationExecutor = (shape, animation, context) => {
 
         const result = executeAnimation(target, preprocessKeyframes(keyframes), {
           ...DEFAULT_ANIMATION_OPTIONS,
+          ...commonEffectTiming,
           ...individualEffectTiming,
         });
 

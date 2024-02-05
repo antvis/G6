@@ -313,11 +313,16 @@ export class ElementController {
       originalStyle: Record<string, unknown>,
       modifiedStyle?: Record<string, unknown>,
     ) => {
-      return animationExecutor(shape, getAnimation(), {
-        originalStyle,
-        modifiedStyle,
-        states: this.getElementStates(id),
-      });
+      return animationExecutor(
+        shape,
+        getAnimation(),
+        {},
+        {
+          originalStyle,
+          modifiedStyle,
+          states: this.getElementStates(id),
+        },
+      );
     };
   }
 
