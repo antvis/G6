@@ -143,3 +143,18 @@ export function getStarAnchors(outerR: number, innerR: number): Record<string, P
 export function getStarAnchorByPosition(position: StarAnchorPosition, anchors: Record<string, Point>) {
   return get(anchors, position.toLocaleLowerCase(), anchors['default']);
 }
+
+/**
+ * Get Rect PathArray.
+ * @param width - rect width
+ * @param height - rect height
+ * @returns The PathArray for G
+ */
+export function getRectPoints(width: number, height: number): Point[] {
+  return [
+    [width / 2, -height / 2],
+    [width / 2, height / 2],
+    [-width / 2, height / 2],
+    [-width / 2, -height / 2],
+  ];
+}

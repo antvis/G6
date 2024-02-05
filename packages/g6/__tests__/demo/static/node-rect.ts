@@ -1,30 +1,30 @@
-import { Star } from '../../../src/elements/nodes';
+import { Rect } from '../../../src/elements/nodes';
 import type { StaticTestCase } from '../types';
 
-export const nodeStar: StaticTestCase = async (context) => {
+export const nodeRect: StaticTestCase = async (context) => {
   const { canvas } = context;
 
-  const s1 = new Star({
+  const c1 = new Rect({
     style: {
       // key
       x: 100,
       y: 100,
       fill: 'green',
-      outerR: 48,
-      innerR: 24,
+      width: 80,
+      height: 80,
     },
   });
 
-  const s2 = new Star({
+  const c2 = new Rect({
     style: {
       // key
       x: 300,
       y: 100,
       fill: 'red',
-      outerR: 64,
-      innerR: 32,
+      width: 80,
+      height: 40,
       // label
-      labelText: 'star node',
+      labelText: 'rect node',
       labelFontSize: 14,
       labelFill: 'pink',
       labelPosition: 'bottom',
@@ -36,11 +36,10 @@ export const nodeStar: StaticTestCase = async (context) => {
       ],
       // anchor
       anchorOptions: [
-        { position: 'left', r: 2, stroke: 'black', lineWidth: 1, zIndex: 2 },
-        { position: 'right', r: 2, stroke: 'yellow', lineWidth: 2, zIndex: 2 },
-        { position: 'top', r: 2, stroke: 'green', lineWidth: 1, zIndex: 2 },
-        { position: 'left-bottom', r: 2, stroke: 'grey', lineWidth: 4, zIndex: 2 },
-        { position: 'right-bottom', r: 2, stroke: 'grey', lineWidth: 2, zIndex: 2 },
+        { position: [0, 0.5], r: 2, stroke: 'black', lineWidth: 1, zIndex: 2 },
+        { position: [1, 0.5], r: 2, stroke: 'yellow', lineWidth: 2, zIndex: 2 },
+        { position: [0.5, 0], r: 2, stroke: 'green', lineWidth: 1, zIndex: 2 },
+        { position: [0.5, 1], r: 2, stroke: 'grey', lineWidth: 1, zIndex: 2 },
       ],
       // icon
       iconSrc: 'https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg',
@@ -50,18 +49,17 @@ export const nodeStar: StaticTestCase = async (context) => {
       haloOpacity: 0.4,
       haloStroke: 'grey',
       haloLineWidth: 12,
-      haloPointerEvents: 'none',
     },
   });
 
-  const s3 = new Star({
+  const c3 = new Rect({
     style: {
       // key
-      x: 300,
+      x: 100,
       y: 300,
       fill: 'pink',
-      outerR: 64,
-      innerR: (64 * 3) / 8,
+      width: 40,
+      height: 80,
       // icon
       iconText: 'Y',
       iconFontSize: 32,
@@ -69,7 +67,7 @@ export const nodeStar: StaticTestCase = async (context) => {
     },
   });
 
-  canvas.appendChild(s1);
-  canvas.appendChild(s2);
-  canvas.appendChild(s3);
+  canvas.appendChild(c1);
+  canvas.appendChild(c2);
+  canvas.appendChild(c3);
 };
