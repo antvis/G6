@@ -31,6 +31,8 @@ export const renderTarget = (target: LayoutedNode, group: any) => {
         type,
         children,
       },
+      // diff时根据cfg.type做对比，见diffTarget方法
+      type,
       ...props,
     });
     if (props.keyShape) {
@@ -46,9 +48,9 @@ export const renderTarget = (target: LayoutedNode, group: any) => {
 
   if (target.children) {
     const keyshapes = target.children
-      .map((n) => renderTarget(n, g))
-      .filter((e) => e);
-    keyshape = keyshapes.find((shape) => !shape.isGroup()) || keyshape;
+      .map(n => renderTarget(n, g))
+      .filter(e => e);
+    keyshape = keyshapes.find(shape => !shape.isGroup()) || keyshape;
   }
   return keyshape;
 };
@@ -71,8 +73,8 @@ export const getRealStructure = (target: LayoutedNode): LayoutedNode[] => {
 
 export const diffTarget = (container: IGroup, shapeArr: LayoutedNode[]) => {
   const childrenList = [...container.getChildren()];
-
-  for (let i = 0; i < childrenList.length; i += 1) {
+  const length = Math.max(childrenList.length, shapeArr.length);
+  for (let i = 0; i < length; i += 1) {
     const lastShape = childrenList[i];
     const nowShape = shapeArr[i];
 
