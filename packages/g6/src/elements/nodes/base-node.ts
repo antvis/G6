@@ -1,4 +1,4 @@
-import type { DisplayObjectConfig, CircleStyleProps as GCircleStyleProps, Group } from '@antv/g';
+import type { DisplayObject, DisplayObjectConfig, CircleStyleProps as GCircleStyleProps, Group } from '@antv/g';
 import { Circle as GCircle } from '@antv/g';
 import { deepMix, isEmpty } from '@antv/util';
 import type { BadgePosition, LabelPosition, Point, PrefixObject } from '../../types';
@@ -56,7 +56,9 @@ type BaseNodeOptions<KT extends object> = DisplayObjectConfig<BaseNodeStyleProps
  * - label, background included
  * - anchors / ports
  */
-export abstract class BaseNode<KT extends object, KS> extends BaseShape<BaseNodeStyleProps<KT>> {
+export abstract class BaseNode<KT extends object, KS extends DisplayObject<any, any>> extends BaseShape<
+  BaseNodeStyleProps<KT>
+> {
   static defaultStyleProps: BaseNodeStyleProps<BaseShapeStyleProps> = {
     labelMaxWidth: '200%',
     halo: false,
@@ -82,7 +84,7 @@ export abstract class BaseNode<KT extends object, KS> extends BaseShape<BaseNode
       this.getGraphicStyle(attributes),
       'label',
     ) as unknown as NodeLabelStyleProps;
-    const keyShape = this.shapeMap.key;
+    const keyShape = this.getKey();
 
     return {
       ...getTextStyleByPosition(keyShape.getLocalBounds(), position),
@@ -97,7 +99,7 @@ export abstract class BaseNode<KT extends object, KS> extends BaseShape<BaseNode
     if (attributes.icon === false || isEmpty(attributes.iconText || attributes.iconSrc)) return false;
 
     const iconStyle = subStyleProps(this.getGraphicStyle(attributes), 'icon');
-    const keyShape = this.shapeMap.key;
+    const keyShape = this.getKey();
     const [x, y] = getXYByPosition(keyShape.getLocalBounds(), 'center');
 
     return {
@@ -111,7 +113,7 @@ export abstract class BaseNode<KT extends object, KS> extends BaseShape<BaseNode
     if (attributes.badge === false) return [];
 
     const badgesStyle = this.getGraphicStyle(attributes).badgeOptions || [];
-    const keyShape = this.shapeMap.key;
+    const keyShape = this.getKey();
 
     return badgesStyle.map((badgeStyle) => {
       const { position, ...style } = badgeStyle;
@@ -124,13 +126,21 @@ export abstract class BaseNode<KT extends object, KS> extends BaseShape<BaseNode
     if (attributes.anchor === false) return [];
 
     const anchorStyle = this.getGraphicStyle(attributes).anchorOptions || [];
-    const keyShape = this.shapeMap.key;
+    const keyShape = this.getKey();
 
     return anchorStyle.map((anchorStyle) => {
       const { position, ...style } = anchorStyle;
       const [cx, cy] = getAnchorPosition(keyShape.getLocalBounds(), position as any);
       return { cx, cy, ...style } as NodeAnchorStyleProps;
     });
+  }
+
+  /**
+   * Get the key shape for the node.
+   * @returns Key shape.
+   */
+  public getKey(): KS {
+    return this.shapeMap.key as KS;
   }
 
   /**
@@ -146,7 +156,7 @@ export abstract class BaseNode<KT extends object, KS> extends BaseShape<BaseNode
    * @returns The center point of the node.
    */
   public getCenter(): Point {
-    return this.shapeMap.key.getBounds().center;
+    return this.getKey().getBounds().center;
   }
 
   /**
@@ -155,7 +165,7 @@ export abstract class BaseNode<KT extends object, KS> extends BaseShape<BaseNode
    * @returns boolean
    */
   public getIntersectPoint(point: Point): Point {
-    const keyShapeBounds = this.shapeMap.key.getBounds();
+    const keyShapeBounds = this.getKey().getBounds();
     return getRectIntersectPoint(point, keyShapeBounds);
   }
 

@@ -82,8 +82,8 @@ export function cross(a: Vector2 | Vector3, b: Vector2 | Vector3): Vector3 {
  *
  * <en/> Scales a vector by a scalar number
  * @param a  - <zh/> 向量 | <en/> The vector to scale
- * @param s - <zh/> 缩放因子 | <en/> Amount to scale the vector by
- * @returns
+ * @param s - <zh/> 缩放系数 | <en/> Scale factor
+ * @returns <zh/> 缩放后的向量 | <en/> The scaled vector
  */
 export function scale(a: Vector2 | Vector3, s: number): Vector2 | Vector3 {
   return a.map((v) => v * s) as Vector2 | Vector3;

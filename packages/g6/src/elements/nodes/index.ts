@@ -8,3 +8,5 @@ export { Rect } from './rect';
 export type { RectStyleProps } from './rect';
 export { Star } from './star';
 export type { StarStyleProps } from './star';
+export { Triangle } from './triangle';
+export type { TriangleStyleProps } from './triangle';

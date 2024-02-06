@@ -1,12 +1,12 @@
-import type { DisplayObjectConfig, Group, PathStyleProps } from '@antv/g';
-import { Path } from '@antv/g';
+import type { DisplayObjectConfig } from '@antv/g';
+import type { PathArray } from '@antv/util';
 import { deepMix } from '@antv/util';
 import type { Point } from '../../types';
 import { getQuadraticPath } from '../../utils/edge';
-import type { BaseEdgeKeyStyleProps, BaseEdgeStyleProps } from './base-edge';
+import type { BaseEdgeStyleProps, ParsedBaseEdgeStyleProps } from './base-edge';
 import { BaseEdge } from './base-edge';
 
-type QuadraticKeyStyleProps = BaseEdgeKeyStyleProps<PathStyleProps> & {
+type QuadraticKeyStyleProps = {
   /**
    * <zh/> 控制点，用于定义曲线的形状。如果不指定，将会通过`curveOffset`和`curvePosition`来计算控制点
    * <en/> Control point. Used to define the shape of the curve. If not specified, it will be calculated using `curveOffset` and `curvePosition`.
@@ -26,11 +26,9 @@ type QuadraticKeyStyleProps = BaseEdgeKeyStyleProps<PathStyleProps> & {
 
 export type QuadraticStyleProps = BaseEdgeStyleProps<QuadraticKeyStyleProps>;
 
-type ParsedQuadraticStyleProps = Required<QuadraticStyleProps>;
-
 type QuadraticOptions = DisplayObjectConfig<QuadraticStyleProps>;
 
-export class Quadratic extends BaseEdge<PathStyleProps, Path> {
+export class Quadratic extends BaseEdge<QuadraticKeyStyleProps> {
   static defaultStyleProps: Partial<QuadraticStyleProps> = {
     curvePosition: 0.5,
     curveOffset: 30,
@@ -40,18 +38,9 @@ export class Quadratic extends BaseEdge<PathStyleProps, Path> {
     super(deepMix({}, { style: Quadratic.defaultStyleProps }, options));
   }
 
-  protected drawKeyShape(attributes: ParsedQuadraticStyleProps, container: Group): Path | undefined {
-    return this.upsert('key', Path, this.getKeyStyle(attributes), container);
-  }
-
-  protected getKeyStyle(attributes: ParsedQuadraticStyleProps): PathStyleProps {
-    const { sourcePoint, targetPoint, controlPoint, curvePosition, curveOffset, ...keyStyle } = super.getKeyStyle(
-      attributes,
-    ) as Required<QuadraticKeyStyleProps>;
-
-    return {
-      ...keyStyle,
-      path: getQuadraticPath(sourcePoint, targetPoint, curvePosition, curveOffset, controlPoint),
-    };
+  protected getKeyPath(attributes: ParsedBaseEdgeStyleProps<QuadraticKeyStyleProps>): PathArray {
+    const { controlPoint, curvePosition, curveOffset } = attributes;
+    const [sourcePoint, targetPoint] = this.getEndpoints(attributes);
+    return getQuadraticPath(sourcePoint, targetPoint, curvePosition, curveOffset, controlPoint);
   }
 }

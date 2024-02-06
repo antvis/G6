@@ -16,62 +16,56 @@
         marker-end="true"
         transform="matrix(1,0,0,1,0,0)"
       >
-        <g transform="matrix(1,0,0,1,100,50)">
-          <line
+        <g transform="matrix(1,0,0,1,100,150)">
+          <path
             id="halo"
             fill="none"
-            x1="0"
-            y1="0"
-            x2="350"
-            y2="300"
+            d="M 0,0 L 350,200"
+            stroke="rgba(24,144,255,1)"
             stroke-width="12"
             stroke-dasharray="0,0"
-            stroke="rgba(24,144,255,1)"
             pointer-events="none"
             opacity="0.25"
           />
         </g>
-        <g transform="matrix(1,0,0,1,100,50)">
-          <line
+        <g transform="matrix(1,0,0,1,100,150)">
+          <path
             id="key"
             fill="none"
-            x1="4.55553961419178"
-            y1="3.904748240735811"
-            x2="345.4444603858082"
-            y2="296.0952517592642"
+            d="M 6.077701994871214,3.4729725684978363 L 0,0 L 343.92229800512877,196.52702743150218"
+            stroke="rgba(24,144,255,1)"
             stroke-width="2"
             stroke-dasharray="10,10"
-            stroke="rgba(24,144,255,1)"
           />
-          <g transform="matrix(0.759257,0.650791,-0.650791,0.759257,4.555540,3.904748)">
+          <g transform="matrix(0.868243,0.496139,-0.496139,0.868243,6.077702,3.472973)">
             <path
               id="g-svg-8"
               fill="rgba(24,144,255,1)"
               d="M 0,5 A 5 5 0 1 0 10 5 A 5 5 0 1 0 0 5 Z"
               transform="translate(-5,-5)"
+              stroke="rgba(24,144,255,1)"
               stroke-width="2"
               stroke-dasharray="0,0"
-              stroke="rgba(24,144,255,1)"
               width="10"
               height="10"
             />
           </g>
-          <g transform="matrix(-0.759257,-0.650791,0.650791,-0.759257,345.444458,296.095245)">
+          <g transform="matrix(-0.868243,-0.496139,0.496139,-0.868243,343.922302,196.527023)">
             <path
               id="g-svg-10"
               fill="rgba(255,0,0,1)"
               d="M 0,5 L 10,0 L 10,10 Z"
               transform="translate(-5,-5)"
+              stroke="rgba(24,144,255,1)"
               stroke-width="2"
               stroke-dasharray="0,0"
-              stroke="rgba(24,144,255,1)"
               width="10"
               height="10"
             />
           </g>
         </g>
-        <g id="label" fill="none" transform="matrix(1,0,0,1,204,44)">
-          <g transform="matrix(1,0,0,1,-27.540001,-23)">
+        <g id="label" fill="none" transform="matrix(1,0,0,1,204,50)">
+          <g transform="matrix(1,0,0,1,-27.540001,-11.500000)">
             <path
               id="background"
               fill="none"
@@ -89,7 +83,6 @@
               dominant-baseline="central"
               paint-order="stroke"
               dx="0.5"
-              dy="-11.5px"
               font-size="12"
               text-anchor="middle"
             >
