@@ -35,7 +35,7 @@ describe('edge', () => {
         },
       });
 
-      const labelPosition = getLabelPositionStyle(line, 'center', false);
+      const labelPosition = getLabelPositionStyle(line, 'center', false, 0, 0);
       expect(labelPosition.textAlign).toEqual('center');
       expect(labelPosition.x).toEqual(50);
       expect(labelPosition.y).toEqual(100);

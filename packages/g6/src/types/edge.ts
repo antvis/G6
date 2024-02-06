@@ -34,3 +34,17 @@ export type EdgeLabelStyleProps = {
    */
   maxWidth?: string | number;
 } & LabelStyleProps;
+
+export type LoopEdgePosition =
+  | 'top'
+  | 'top-left'
+  | 'top-right'
+  | 'bottom'
+  | 'bottom-left'
+  | 'bottom-right'
+  | 'left'
+  | 'left-top'
+  | 'left-bottom'
+  | 'right'
+  | 'right-top'
+  | 'right-bottom';

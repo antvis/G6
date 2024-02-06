@@ -1,4 +1,5 @@
 import { AABB } from '@antv/g';
+import { Circle } from '../../../src/elements/nodes';
 import {
   getAnchorPosition,
   getStarAnchorByPosition,
@@ -6,11 +7,25 @@ import {
   getStarPoints,
   getTextStyleByPosition,
   getXYByPosition,
+  isSameNode,
 } from '../../../src/utils/element';
 
 describe('element', () => {
   const bbox = new AABB();
   bbox.setMinMax([100, 100, 0], [200, 200, 0]);
+
+  const node1 = new Circle({
+    id: 'node-1',
+  });
+
+  const node2 = new Circle({
+    id: 'node-2',
+  });
+
+  it('isSameNode', () => {
+    expect(isSameNode(node1, node2)).toBeFalsy();
+    expect(isSameNode(node1, node1)).toBeTruthy();
+  });
 
   it('getXYByPosition', () => {
     expect(getXYByPosition(bbox, 'left')).toEqual([100, 150]);

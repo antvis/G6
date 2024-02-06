@@ -4,7 +4,7 @@ import type { Point } from '../types';
 import { getBBoxHeight, getBBoxWidth } from './bbox';
 import { getXYByPosition } from './element';
 import { isBetween } from './math';
-import { add, angle, cross, distance, exactEquals, subtract } from './vector';
+import { add, angle, cross, distance, subtract } from './vector';
 
 /**
  * <zh/> 将点对象转换为向量
@@ -51,18 +51,6 @@ export function isVertical(p1: Point, p2: Point): boolean {
  */
 export function isCollinear(p1: Point, p2: Point, p3: Point): boolean {
   return isLinesParallel([p1, p2], [p2, p3]);
-}
-
-/**
- * <zh/> 判断两个点是否相同
- *
- * <en/> Judge whether two points are the same
- * @param p1 - <zh/> 第一个点 | <en/> the first point
- * @param p2 - <zh/> 第二个点 | <en/> the second point
- * @returns <zh/> 是否相同 | <en/> whether the same or not
- */
-export function isSamePoint(p1: Point, p2: Point): boolean {
-  return exactEquals(p1, p2);
 }
 
 /**

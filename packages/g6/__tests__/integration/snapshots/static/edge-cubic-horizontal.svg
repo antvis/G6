@@ -20,11 +20,11 @@
           <path
             id="key"
             fill="none"
-            d="M 0,100 C 100 100,100 0,200 0 L 194,7.347880794884119e-16"
+            d="M 0,100 C 100 100,100 0,200 0 L 193,8.572527594031472e-16"
             stroke="rgba(24,144,255,1)"
             stroke-width="2"
           />
-          <g transform="matrix(-1,0,-0,-1,194,0)">
+          <g transform="matrix(-1,0,-0,-1,193,0)">
             <path
               id="g-svg-8"
               fill="rgba(24,144,255,1)"
@@ -38,36 +38,9 @@
             />
           </g>
         </g>
-        <g
-          id="label"
-          fill="none"
-          transform="matrix(0.716471,-0.697616,0.697616,0.716471,148.680191,142.910706)"
-        >
-          <g transform="matrix(1,0,0,1,-4,-2)">
-            <path
-              id="background"
-              fill="none"
-              d="M 0,0 l 188.7097119692243,0 l 0,4 l-188.7097119692243 0 z"
-              opacity="0.75"
-              stroke-width="0"
-              width="188.7097119692243"
-              height="4"
-            />
-          </g>
-          <g transform="matrix(1,0,0,1,0,0)">
-            <text
-              id="text"
-              fill="rgba(0,0,0,1)"
-              dominant-baseline="text-after-edge"
-              paint-order="stroke"
-              font-size="12"
-              text-anchor="middle"
-            />
-          </g>
-        </g>
       </g>
       <g
-        id="g-svg-12"
+        id="g-svg-9"
         fill="none"
         marker-start="false"
         marker-end="true"
@@ -77,13 +50,13 @@
           <path
             id="key"
             fill="none"
-            d="M 0,50 C 100 50,100 0,200 0 L 194,7.347880794884119e-16"
+            d="M 0,50 C 100 50,100 0,200 0 L 193,8.572527594031472e-16"
             stroke="rgba(24,144,255,1)"
             stroke-width="2"
           />
-          <g transform="matrix(-1,0,-0,-1,194,0)">
+          <g transform="matrix(-1,0,-0,-1,193,0)">
             <path
-              id="g-svg-15"
+              id="g-svg-12"
               fill="rgba(24,144,255,1)"
               d="M 0,5 L 10,0 L 10,10 Z"
               transform="translate(-5,-5)"
@@ -95,36 +68,9 @@
             />
           </g>
         </g>
-        <g
-          id="label"
-          fill="none"
-          transform="matrix(0.899110,-0.437723,0.437723,0.899110,150.970108,167.854446)"
-        >
-          <g transform="matrix(1,0,0,1,-4,-2)">
-            <path
-              id="background"
-              fill="none"
-              d="M 0,0 l 173.9397481015323,0 l 0,4 l-173.9397481015323 0 z"
-              opacity="0.75"
-              stroke-width="0"
-              width="173.9397481015323"
-              height="4"
-            />
-          </g>
-          <g transform="matrix(1,0,0,1,0,0)">
-            <text
-              id="text"
-              fill="rgba(0,0,0,1)"
-              dominant-baseline="text-after-edge"
-              paint-order="stroke"
-              font-size="12"
-              text-anchor="middle"
-            />
-          </g>
-        </g>
       </g>
       <g
-        id="g-svg-19"
+        id="g-svg-13"
         fill="none"
         marker-start="false"
         marker-end="true"
@@ -134,13 +80,13 @@
           <path
             id="key"
             fill="none"
-            d="M 0,0 C 100 0,100 0,200 0 L 194,7.347880794884119e-16"
+            d="M 0,0 C 100 0,100 0,200 0 L 193,8.572527594031472e-16"
             stroke="rgba(24,144,255,1)"
             stroke-width="2"
           />
-          <g transform="matrix(-1,0,-0,-1,194,0)">
+          <g transform="matrix(-1,0,-0,-1,193,0)">
             <path
-              id="g-svg-22"
+              id="g-svg-16"
               fill="rgba(24,144,255,1)"
               d="M 0,5 L 10,0 L 10,10 Z"
               transform="translate(-5,-5)"
@@ -152,32 +98,9 @@
             />
           </g>
         </g>
-        <g id="label" fill="none" transform="matrix(1,0,0,1,154,194)">
-          <g transform="matrix(1,0,0,1,-4,-2)">
-            <path
-              id="background"
-              fill="none"
-              d="M 0,0 l 168.19987515600627,0 l 0,4 l-168.19987515600627 0 z"
-              opacity="0.75"
-              stroke-width="0"
-              width="168.19987515600627"
-              height="4"
-            />
-          </g>
-          <g transform="matrix(1,0,0,1,0,0)">
-            <text
-              id="text"
-              fill="rgba(0,0,0,1)"
-              dominant-baseline="text-after-edge"
-              paint-order="stroke"
-              font-size="12"
-              text-anchor="middle"
-            />
-          </g>
-        </g>
       </g>
       <g
-        id="g-svg-26"
+        id="g-svg-17"
         fill="none"
         marker-start="false"
         marker-end="true"
@@ -187,13 +110,13 @@
           <path
             id="key"
             fill="none"
-            d="M 0,0 C 100 0,100 50,200 50 L 194,50"
+            d="M 0,0 C 100 0,100 50,200 50 L 193,50"
             stroke="rgba(24,144,255,1)"
             stroke-width="2"
           />
-          <g transform="matrix(-1,0,-0,-1,194,50)">
+          <g transform="matrix(-1,0,-0,-1,193,50)">
             <path
-              id="g-svg-29"
+              id="g-svg-20"
               fill="rgba(24,144,255,1)"
               d="M 0,5 L 10,0 L 10,10 Z"
               transform="translate(-5,-5)"
@@ -205,36 +128,9 @@
             />
           </g>
         </g>
-        <g
-          id="label"
-          fill="none"
-          transform="matrix(0.899110,0.437723,-0.437723,0.899110,156.222778,221.356232)"
-        >
-          <g transform="matrix(1,0,0,1,-4,-2)">
-            <path
-              id="background"
-              fill="none"
-              d="M 0,0 l 173.9397481015323,0 l 0,4 l-173.9397481015323 0 z"
-              opacity="0.75"
-              stroke-width="0"
-              width="173.9397481015323"
-              height="4"
-            />
-          </g>
-          <g transform="matrix(1,0,0,1,0,0)">
-            <text
-              id="text"
-              fill="rgba(0,0,0,1)"
-              dominant-baseline="text-after-edge"
-              paint-order="stroke"
-              font-size="12"
-              text-anchor="middle"
-            />
-          </g>
-        </g>
       </g>
       <g
-        id="g-svg-33"
+        id="g-svg-21"
         fill="none"
         marker-start="false"
         marker-end="true"
@@ -244,13 +140,13 @@
           <path
             id="key"
             fill="none"
-            d="M 0,0 C 100 0,100 100,200 100 L 194,100"
+            d="M 0,0 C 100 0,100 100,200 100 L 193,100"
             stroke="rgba(24,144,255,1)"
             stroke-width="2"
           />
-          <g transform="matrix(-1,0,-0,-1,194,100)">
+          <g transform="matrix(-1,0,-0,-1,193,100)">
             <path
-              id="g-svg-36"
+              id="g-svg-24"
               fill="rgba(24,144,255,1)"
               d="M 0,5 L 10,0 L 10,10 Z"
               transform="translate(-5,-5)"
@@ -259,33 +155,6 @@
               width="10"
               height="10"
               stroke-dasharray="0,0"
-            />
-          </g>
-        </g>
-        <g
-          id="label"
-          fill="none"
-          transform="matrix(0.716471,0.697616,-0.697616,0.716471,157.051590,248.491638)"
-        >
-          <g transform="matrix(1,0,0,1,-4,-2)">
-            <path
-              id="background"
-              fill="none"
-              d="M 0,0 l 188.7097119692243,0 l 0,4 l-188.7097119692243 0 z"
-              opacity="0.75"
-              stroke-width="0"
-              width="188.7097119692243"
-              height="4"
-            />
-          </g>
-          <g transform="matrix(1,0,0,1,0,0)">
-            <text
-              id="text"
-              fill="rgba(0,0,0,1)"
-              dominant-baseline="text-after-edge"
-              paint-order="stroke"
-              font-size="12"
-              text-anchor="middle"
             />
           </g>
         </g>

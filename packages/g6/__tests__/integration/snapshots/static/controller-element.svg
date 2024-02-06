@@ -19,133 +19,47 @@
           transform="matrix(1,0,0,1,0,0)"
         >
           <g transform="matrix(1,0,0,1,50,50)">
-            <line
+            <path
               id="key"
               fill="none"
-              x1="0"
-              y1="0"
-              x2="150"
-              y2="0"
-              stroke-width="1"
+              d=""
               stroke="rgba(139,155,175,1)"
+              stroke-width="1"
             />
-          </g>
-          <g id="label" fill="none" transform="matrix(1,0,0,1,129,44)">
-            <g transform="matrix(1,0,0,1,-4,-2)">
-              <path
-                id="background"
-                fill="none"
-                d="M 0,0 l 128,0 l 0,4 l-128 0 z"
-                opacity="0.75"
-                stroke-width="0"
-                width="128"
-                height="4"
-              />
-            </g>
-            <g transform="matrix(1,0,0,1,0,0)">
-              <text
-                id="text"
-                fill="rgba(0,0,0,1)"
-                dominant-baseline="text-after-edge"
-                paint-order="stroke"
-                font-size="12"
-                text-anchor="middle"
-              />
-            </g>
           </g>
         </g>
         <g
-          id="g-svg-19"
+          id="g-svg-16"
           fill="none"
           marker-start="false"
           marker-end="false"
           transform="matrix(1,0,0,1,0,0)"
         >
           <g transform="matrix(1,0,0,1,125,50)">
-            <line
+            <path
               id="key"
               fill="none"
-              x1="75"
-              y1="0"
-              x2="0"
-              y2="100"
-              stroke-width="1"
+              d=""
               stroke="rgba(139,155,175,1)"
+              stroke-width="1"
             />
-          </g>
-          <g
-            id="label"
-            fill="none"
-            transform="matrix(0.600000,-0.800000,0.800000,0.600000,155.300003,99.599998)"
-          >
-            <g transform="matrix(1,0,0,1,-4,-2)">
-              <path
-                id="background"
-                fill="none"
-                d="M 0,0 l 108,0 l 0,4 l-108 0 z"
-                opacity="0.75"
-                stroke-width="0"
-                width="108"
-                height="4"
-              />
-            </g>
-            <g transform="matrix(1,0,0,1,0,0)">
-              <text
-                id="text"
-                fill="rgba(0,0,0,1)"
-                dominant-baseline="text-after-edge"
-                paint-order="stroke"
-                font-size="12"
-                text-anchor="middle"
-              />
-            </g>
           </g>
         </g>
         <g
-          id="g-svg-24"
+          id="g-svg-18"
           fill="none"
           marker-start="false"
           marker-end="false"
           transform="matrix(1,0,0,1,0,0)"
         >
           <g transform="matrix(1,0,0,1,50,50)">
-            <line
+            <path
               id="key"
               fill="none"
-              x1="75"
-              y1="100"
-              x2="0"
-              y2="0"
-              stroke-width="1"
+              d=""
               stroke="rgba(139,155,175,1)"
+              stroke-width="1"
             />
-          </g>
-          <g
-            id="label"
-            fill="none"
-            transform="matrix(0.600000,0.800000,-0.800000,0.600000,89.900002,93.199997)"
-          >
-            <g transform="matrix(1,0,0,1,-4,-2)">
-              <path
-                id="background"
-                fill="none"
-                d="M 0,0 l 108,0 l 0,4 l-108 0 z"
-                opacity="0.75"
-                stroke-width="0"
-                width="108"
-                height="4"
-              />
-            </g>
-            <g transform="matrix(1,0,0,1,0,0)">
-              <text
-                id="text"
-                fill="rgba(0,0,0,1)"
-                dominant-baseline="text-after-edge"
-                paint-order="stroke"
-                font-size="12"
-                text-anchor="middle"
-              />
-            </g>
           </g>
         </g>
       </g>
