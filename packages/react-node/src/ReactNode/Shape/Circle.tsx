@@ -10,7 +10,7 @@ export interface CircleStyle extends CommonShapeProps {
   r: number;
 }
 
-interface CircleProps extends CommonProps {
+export interface CircleProps extends CommonProps {
   /**
    * @description.en-US style of shape
    */

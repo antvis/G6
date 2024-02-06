@@ -19,7 +19,7 @@ export const registerNodeReact = (el: ReactElement) => {
   return target;
 };
 
-const renderTarget = (target: LayoutedNode, group: any) => {
+export const renderTarget = (target: LayoutedNode, group: any) => {
   let g = group;
   let keyshape = group;
   const { attrs = {}, boundaryBox, type, children, props } = target;
@@ -46,14 +46,14 @@ const renderTarget = (target: LayoutedNode, group: any) => {
 
   if (target.children) {
     const keyshapes = target.children
-      .map(n => renderTarget(n, g))
-      .filter(e => e);
-    keyshape = keyshapes.find(shape => !shape.isGroup()) || keyshape;
+      .map((n) => renderTarget(n, g))
+      .filter((e) => e);
+    keyshape = keyshapes.find((shape) => !shape.isGroup()) || keyshape;
   }
   return keyshape;
 };
 
-const getRealStructure = (target: LayoutedNode): LayoutedNode[] => {
+export const getRealStructure = (target: LayoutedNode): LayoutedNode[] => {
   const { children } = target;
   target.children = [];
   let realChildren: LayoutedNode[] = [];
@@ -69,7 +69,7 @@ const getRealStructure = (target: LayoutedNode): LayoutedNode[] => {
   }
 };
 
-const diffTarget = (container: IGroup, shapeArr: LayoutedNode[]) => {
+export const diffTarget = (container: IGroup, shapeArr: LayoutedNode[]) => {
   const childrenList = [...container.getChildren()];
 
   for (let i = 0; i < childrenList.length; i += 1) {

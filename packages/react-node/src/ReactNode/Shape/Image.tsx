@@ -20,7 +20,7 @@ export interface ImageStyle extends CommonShapeProps {
   img: string | ImageData | CanvasImageData;
 }
 
-interface ImageProps extends CommonProps {
+export interface ImageProps extends CommonProps {
   /**
    * @description.en-US style of shape
    */

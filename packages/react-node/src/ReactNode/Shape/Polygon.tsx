@@ -10,7 +10,7 @@ export interface PolygonStyle extends CommonShapeProps {
   points: [number, number][];
 }
 
-interface PolygonProps extends CommonProps {
+export interface PolygonProps extends CommonProps {
   /**
    * @description.en-US style of shape
    */

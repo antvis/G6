@@ -13,15 +13,15 @@ export interface MarkerStyle extends CommonShapeProps {
    * @description.zh-CN 内建标记 或者 生成标记路径的函数
    */
   symbol:
-  | 'circle'
-  | 'square'
-  | 'diamond'
-  | 'triangle'
-  | 'triangle-down'
-  | ((x: number, y: number, r: number) => GPath[]);
+    | 'circle'
+    | 'square'
+    | 'diamond'
+    | 'triangle'
+    | 'triangle-down'
+    | ((x: number, y: number, r: number) => GPath[]);
 }
 
-interface MarkerProps extends CommonProps {
+export interface MarkerProps extends CommonProps {
   /**
    * @description.en-US style of shape
    */

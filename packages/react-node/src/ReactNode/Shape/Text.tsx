@@ -45,7 +45,7 @@ export interface TextStyle extends CommonShapeProps {
   lineHeight?: CSSProperties['lineHeight'];
 }
 
-interface TextProps extends CommonProps {
+export interface TextProps extends CommonProps {
   /**
    * @description.en-US style of shape
    */

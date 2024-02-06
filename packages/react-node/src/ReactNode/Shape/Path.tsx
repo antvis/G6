@@ -42,7 +42,7 @@ export interface PathStyle extends CommonShapeProps {
   miterLimit?: number;
 }
 
-interface PathProps extends CommonProps {
+export interface PathProps extends CommonProps {
   /**
    * @description.en-US style of shape
    */
