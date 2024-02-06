@@ -1,13 +1,7 @@
 import type { AABB, Circle as GCircle, TextStyleProps } from '@antv/g';
 import { get, isEmpty, isString } from '@antv/util';
 import type { Node, Point } from '../types';
-import type {
-  AnchorPosition,
-  EllipseAnchorPosition,
-  LabelPosition,
-  RelativePosition,
-  StarAnchorPosition,
-} from '../types/node';
+import type { AnchorPosition, LabelPosition, RelativePosition, StarAnchorPosition } from '../types/node';
 import { findNearestPoints } from './point';
 
 /**
@@ -150,30 +144,6 @@ export function getStarAnchorByPosition(position: StarAnchorPosition, anchors: R
   return get(anchors, position.toLocaleLowerCase(), anchors['default']);
 }
 
-/**
- * Get Ellipse Anchor Point.
- * @param rx - The x-radius of the ellipse
- * @param ry - The y-radius of the ellipse
- * @returns Anchor points for Ellipse.
- */
-export function getEllipseAnchors(rx: number, ry: number): Record<string, Point> {
-  const res: Record<string, Point> = {};
-  res['top'] = [0, -ry];
-  res['bottom'] = [0, ry];
-  res['left'] = [-rx, 0];
-  res['right'] = res['default'] = [rx, 0];
-  return res;
-}
-
-/**
- * Get Ellipse Anchor Point by `position`.
- * @param position - position
- * @param anchors - anchors
- * @returns points
- */
-export function getEllipseAnchorByPosition(position: EllipseAnchorPosition, anchors: Record<string, Point>) {
-  return get(anchors, position.toLocaleLowerCase(), anchors['default']);
-}
 /**
  * Get Rect PathArray.
  * @param width - rect width

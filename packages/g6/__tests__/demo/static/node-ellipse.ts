@@ -23,6 +23,8 @@ export const nodeEllipse: StaticTestCase = async (context) => {
       fill: 'red',
       rx: 50,
       ry: 25,
+      lineWidth: 5,
+      stroke: 'black',
       // label
       labelText: 'ellipse node',
       labelFontSize: 14,
@@ -49,7 +51,7 @@ export const nodeEllipse: StaticTestCase = async (context) => {
       halo: true,
       haloOpacity: 0.4,
       haloStroke: 'grey',
-      haloLineWidth: 12,
+      haloLineWidth: 5,
       haloPointerEvents: 'none',
     },
   });
