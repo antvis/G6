@@ -11,7 +11,7 @@ import {
   multiply,
   normalize,
   perpendicular,
-  scaleAndAdd,
+  scale,
   subtract,
   toVector3,
 } from './vector';
@@ -263,21 +263,21 @@ function getBorderRadiusPoints(prevPoint: Point, midPoint: Point, nextPoint: Poi
 
 /** ==================== Loop Edge =========================== */
 
-const QUARTER_PI = Math.PI / 8;
+const EIGHTH_PI = Math.PI / 8;
 
 const radians: Record<LoopEdgePosition, [number, number]> = {
-  top: [-5 * QUARTER_PI, -3 * QUARTER_PI],
-  'top-right': [-3 * QUARTER_PI, -QUARTER_PI],
-  'right-top': [-3 * QUARTER_PI, -QUARTER_PI],
-  right: [-QUARTER_PI, QUARTER_PI],
-  'bottom-right': [QUARTER_PI, 3 * QUARTER_PI],
-  'right-bottom': [QUARTER_PI, 3 * QUARTER_PI],
-  bottom: [3 * QUARTER_PI, 5 * QUARTER_PI],
-  'bottom-left': [5 * QUARTER_PI, 7 * QUARTER_PI],
-  'left-bottom': [5 * QUARTER_PI, 7 * QUARTER_PI],
-  left: [7 * QUARTER_PI, 9 * QUARTER_PI],
-  'top-left': [-7 * QUARTER_PI, -5 * QUARTER_PI],
-  'left-top': [-7 * QUARTER_PI, -5 * QUARTER_PI],
+  top: [-5 * EIGHTH_PI, -3 * EIGHTH_PI],
+  'top-right': [-3 * EIGHTH_PI, -EIGHTH_PI],
+  'right-top': [-3 * EIGHTH_PI, -EIGHTH_PI],
+  right: [-EIGHTH_PI, EIGHTH_PI],
+  'bottom-right': [EIGHTH_PI, 3 * EIGHTH_PI],
+  'right-bottom': [EIGHTH_PI, 3 * EIGHTH_PI],
+  bottom: [3 * EIGHTH_PI, 5 * EIGHTH_PI],
+  'bottom-left': [5 * EIGHTH_PI, 7 * EIGHTH_PI],
+  'left-bottom': [5 * EIGHTH_PI, 7 * EIGHTH_PI],
+  left: [7 * EIGHTH_PI, 9 * EIGHTH_PI],
+  'top-left': [-7 * EIGHTH_PI, -5 * EIGHTH_PI],
+  'left-top': [-7 * EIGHTH_PI, -5 * EIGHTH_PI],
 };
 
 /**
@@ -350,7 +350,7 @@ export function getLoopControlPoints(
     to = toVector3(to);
     const v = subtract(to, from);
     const st = 1 + s / distance(to, from);
-    return scaleAndAdd(from, v, st);
+    return add(from, scale(v, st));
   };
 
   if (isEqual(sourcePoint, targetPoint)) {

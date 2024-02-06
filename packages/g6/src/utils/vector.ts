@@ -90,19 +90,6 @@ export function scale(a: Vector2 | Vector3, s: number): Vector2 | Vector3 {
 }
 
 /**
- * <zh/> 向量缩放并相加
- *
- * <en/> Adds two vectors after scaling the second operand by a scalar value
- * @param a - <zh/> 向量 | <en/> The first vector
- * @param b - <zh/> 向量 | <en/> The second vector
- * @param s - <zh/> 缩放系数 | <en/> Scale factor
- * @returns <zh/> 缩放并相加后的向量 | <en/> The result of scaling and adding
- */
-export function scaleAndAdd(a: Vector2 | Vector3, b: Vector2 | Vector3, s: number): Vector2 | Vector3 {
-  return a.map((v, i) => v + b[i] * s) as Vector2 | Vector3;
-}
-
-/**
  * <zh/> 计算两个向量间的欧几里得距离
  *
  * <en/> Calculates the Euclidean distance between two vectors
