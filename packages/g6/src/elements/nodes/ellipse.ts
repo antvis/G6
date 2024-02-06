@@ -28,8 +28,8 @@ export class Ellipse extends BaseNode<KeyShapeStyleProps, GEllipse> {
     return {
       ...keyStyle,
       ...haloStyle,
-      rx: Number(keyStyle.rx) + Number(keyStyle.lineWidth || 0),
-      ry: Number(keyStyle.ry) + Number(keyStyle.lineWidth || 0),
+      rx: Number(keyStyle.rx) + Number(keyStyle.lineWidth || 0) / 2,
+      ry: Number(keyStyle.ry) + Number(keyStyle.lineWidth || 0) / 2,
     };
   }
 

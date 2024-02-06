@@ -40,7 +40,7 @@ export class Rect extends BaseNode<KeyShapeStyleProps, Polygon> {
     const keyStyle = this.getKeyStyle(attributes);
     const lineWidth = Number(haloStyle.lineWidth);
     const { width = 20, height = width } = attributes;
-    const points = getRectPoints(Number(width) + lineWidth, Number(height) + lineWidth);
+    const points = getRectPoints(Number(width) + lineWidth / 2, Number(height) + lineWidth / 2);
 
     return {
       ...keyStyle,
