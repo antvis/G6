@@ -36,15 +36,15 @@
             id="key"
             fill="rgba(255,0,0,1)"
             points="50,0 100,50 50,100 0,50"
-            stroke-width="1"
+            stroke-width="0"
             stroke="rgba(0,0,255,1)"
           />
         </g>
-        <g transform="matrix(1,0,0,1,-52.750000,-52.750000)">
+        <g transform="matrix(1,0,0,1,-57,-57)">
           <polygon
             id="halo"
             fill="rgba(0,0,0,0)"
-            points="52.75,0 105.5,52.75 52.75,105.5 0,52.75"
+            points="57,0 114,57 57,114 0,57"
             stroke-width="10"
             stroke="rgba(128,128,128,1)"
             pointer-events="none"
