@@ -2,7 +2,7 @@ import type { ID } from '@antv/graphlib';
 import type { EdgeStyle } from './element/edge';
 import type { NodeLikeStyle } from './element/node';
 
-export type DataOptions = {
+export type GraphData = {
   /**
    * <zh/> 节点数据
    *

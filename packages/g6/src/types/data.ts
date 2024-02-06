@@ -48,7 +48,7 @@ export type PartialEdgeData<T extends EdgeData> =
  *
  * <en/> G6 data update optional data
  */
-export type PartialDataOptions = {
+export type PartialGraphData = {
   nodes?: PartialNodeLikeData<NodeData>[];
   edges?: PartialEdgeData<EdgeData>[];
   combos?: PartialNodeLikeData<ComboData>[];
