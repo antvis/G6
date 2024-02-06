@@ -1,7 +1,13 @@
 import type { AABB, Circle as GCircle, TextStyleProps } from '@antv/g';
 import { get, isEmpty, isString } from '@antv/util';
 import type { Node, Point } from '../types';
-import type { AnchorPosition, LabelPosition, RelativePosition, StarAnchorPosition } from '../types/node';
+import type {
+  AnchorPosition,
+  LabelPosition,
+  RelativePosition,
+  StarAnchorPosition,
+  TriangleAnchorPosition,
+} from '../types/node';
 import { findNearestPoints } from './point';
 
 /**
@@ -154,6 +160,86 @@ export function getStarAnchors(outerR: number, innerR: number): Record<string, P
  * @returns points
  */
 export function getStarAnchorByPosition(position: StarAnchorPosition, anchors: Record<string, Point>) {
+  return get(anchors, position.toLocaleLowerCase(), anchors['default']);
+}
+
+/**
+ * Get Triangle Points.
+ * @param r - radius of circumcircle of triangle
+ * @param direction - direction of triangle
+ * @returns The PathArray for G
+ */
+export function getTrianglePoints(r: number, direction: 'up' | 'left' | 'right' | 'down'): Point[] {
+  const halfHeight = (3 * r) / 4;
+  const halfLength = r * Math.sin((1 / 3) * Math.PI);
+  if (direction === 'down') {
+    return [
+      [0, halfHeight],
+      [halfLength, -halfHeight],
+      [-halfLength, -halfHeight],
+    ];
+  }
+  if (direction === 'left') {
+    return [
+      [-halfHeight, 0],
+      [halfHeight, halfLength],
+      [halfHeight, -halfLength],
+    ];
+  }
+  if (direction === 'right') {
+    return [
+      [halfHeight, 0],
+      [-halfHeight, halfLength],
+      [-halfHeight, -halfLength],
+    ];
+  }
+  // up
+  return [
+    [0, -halfHeight],
+    [halfLength, halfHeight],
+    [-halfLength, halfHeight],
+  ];
+}
+
+/**
+ * Get Triangle Anchor Point.
+ * @param r - radius of circumcircle of triangle
+ * @param direction - direction of triangle
+ * @returns Anchor points for Triangle.
+ */
+export function getTriangleAnchors(r: number, direction: 'up' | 'left' | 'right' | 'down'): Record<string, Point> {
+  const halfHeight = (3 * r) / 4;
+  const halfLength = r * Math.sin((1 / 3) * Math.PI);
+
+  const anchors: Record<string, Point> = {};
+  if (direction === 'down') {
+    anchors['bottom'] = anchors['default'] = [0, halfHeight];
+    anchors['right'] = [halfLength, -halfHeight];
+    anchors['left'] = [-halfLength, -halfHeight];
+  } else if (direction === 'left') {
+    anchors['top'] = [halfHeight, -halfLength];
+    anchors['bottom'] = [halfHeight, halfLength];
+    anchors['left'] = anchors['default'] = [-halfHeight, 0];
+  } else if (direction === 'right') {
+    anchors['top'] = [-halfHeight, -halfLength];
+    anchors['bottom'] = [-halfHeight, halfLength];
+    anchors['right'] = anchors['default'] = [halfHeight, 0];
+  } else {
+    //up
+    anchors['left'] = [-halfLength, halfHeight];
+    anchors['top'] = anchors['default'] = [0, -halfHeight];
+    anchors['right'] = [halfLength, halfHeight];
+  }
+  return anchors;
+}
+
+/**
+ * Get Star Anchor Point by `position`.
+ * @param position - position
+ * @param anchors - anchors
+ * @returns points
+ */
+export function getTriangleAnchorByPosition(position: TriangleAnchorPosition, anchors: Record<string, Point>) {
   return get(anchors, position.toLocaleLowerCase(), anchors['default']);
 }
 
