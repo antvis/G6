@@ -22,7 +22,7 @@
             <path
               id="key"
               fill="none"
-              d=""
+              d="M 0,0 C 75 0,150 0,150 0"
               stroke="rgba(139,155,175,1)"
               stroke-width="1"
               opacity="0.37293273049835485"
@@ -36,11 +36,11 @@
           marker-end="false"
           transform="matrix(1,0,0,1,0,0)"
         >
-          <g transform="matrix(1,0,0,1,152.969955,112.706726)">
+          <g transform="matrix(1,0,0,1,125,144.060089)">
             <path
               id="key"
               fill="none"
-              d=""
+              d="M 75,0 C 37.5 2.9699547873765937,0 5.939909574753216,0 5.939909574753216"
               stroke="rgba(139,155,175,1)"
               stroke-width="1"
             />
@@ -57,7 +57,7 @@
             <path
               id="key"
               fill="none"
-              d=""
+              d="M 75,100 C 37.5 50,0 0,0 0"
               stroke="rgba(139,155,175,1)"
               stroke-width="1"
               opacity="0.37293273049835485"

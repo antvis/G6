@@ -22,7 +22,7 @@
             <path
               id="key"
               fill="none"
-              d=""
+              d="M 0,0 L 150,0"
               stroke="rgba(139,155,175,1)"
               stroke-width="1"
             />
@@ -39,7 +39,7 @@
             <path
               id="key"
               fill="none"
-              d=""
+              d="M 75,0 L 0,100"
               stroke="rgba(139,155,175,1)"
               stroke-width="1"
             />
@@ -56,7 +56,7 @@
             <path
               id="key"
               fill="none"
-              d=""
+              d="M 75,100 L 0,0"
               stroke="rgba(139,155,175,1)"
               stroke-width="1"
             />
