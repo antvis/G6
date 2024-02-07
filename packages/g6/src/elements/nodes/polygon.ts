@@ -5,7 +5,7 @@ import { getPolygonIntersectPoint } from '../../utils/point';
 import type { BaseNodeStyleProps } from './base-node';
 import { BaseNode } from './base-node';
 
-export type PolygonKeyStyleProps<R> = BaseNodeProps<Omit<GPolygonStyleProps, 'points'> & R>;
+export type PolygonKeyStyleProps<R = object> = BaseNodeProps<BaseNodeProps & R>;
 export type PolygonStyleProps<P extends object> = BaseNodeStyleProps<P>;
 type ParsedPolygonStyleProps<P extends object> = Required<PolygonStyleProps<P>>;
 type PolygonOptions<P extends object> = DisplayObjectConfig<PolygonStyleProps<P>>;

@@ -76,8 +76,10 @@ export abstract class BaseNode<
     z: 0,
     width: 32,
     height: 32,
+    port: true,
     ports: [],
     portZIndex: 2,
+    badge: true,
     badges: [],
     badgeZIndex: 3,
     halo: false,
@@ -87,9 +89,11 @@ export abstract class BaseNode<
     haloStrokeOpacity: 0.25,
     haloPointerEvents: 'none',
     haloZIndex: -1,
+    icon: true,
     iconHeight: 20,
     iconWidth: 20,
     iconZIndex: 1,
+    label: true,
     labelIsBillboard: true,
     labelMaxWidth: '200%',
     labelPosition: 'bottom',
@@ -132,7 +136,7 @@ export abstract class BaseNode<
     const keyStyle = this.getKeyStyle(attributes);
     const haloStyle = subStyleProps<P>(this.getGraphicStyle(attributes), 'halo');
 
-    return { ...keyStyle, ...haloStyle };
+    return { ...keyStyle, stroke: keyStyle.fill, ...haloStyle };
   }
 
   protected getIconStyle(attributes: ParsedBaseNodeStyleProps<P>): false | IconStyleProps {
@@ -192,10 +196,10 @@ export abstract class BaseNode<
   }
 
   protected getPortStyle(attributes: ParsedBaseNodeStyleProps<P>, style: NodePortStyleProps): GCircleStyleProps {
-    const keyShape = this.getKey();
     const { position = 'left', width = 8, height = 8, ...restStyle } = style;
+    const bounds = this.getKey().getLocalBounds();
     const r = Math.min(width, height) / 2;
-    const [cx, cy] = getPortPosition(keyShape.getLocalBounds(), position as PortPosition);
+    const [cx, cy] = getPortPosition(bounds, position as PortPosition);
     return Object.assign({ cx, cy, r }, restStyle);
   }
 

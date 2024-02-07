@@ -187,7 +187,7 @@ export abstract class BaseEdge<KT extends BaseEdgeProps<object>> extends BaseSha
     const keyStyle = this.getKeyStyle(attributes);
     const haloStyle = subStyleProps<LineStyleProps>(this.getGraphicStyle(attributes), 'halo');
 
-    return { ...keyStyle, ...haloStyle };
+    return { ...keyStyle, stroke: keyStyle.fill, ...haloStyle };
   }
 
   protected getLabelStyle(attributes: ParsedBaseEdgeStyleProps<KT>): false | LabelStyleProps {

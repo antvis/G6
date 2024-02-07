@@ -141,7 +141,7 @@
             transform="translate(-40,-30)"
             cx="40"
             cy="30"
-            stroke="rgba(139,155,175,1)"
+            stroke="rgba(248,248,248,1)"
             rx="40"
             ry="30"
             stroke-dasharray="0,0"
@@ -185,7 +185,7 @@
         </g>
         <g transform="matrix(1,0,0,1,-40,0)">
           <circle
-            id="anchor-0"
+            id="port-0"
             fill="rgba(255,255,255,1)"
             transform="translate(-4,-4)"
             cx="4"
@@ -196,7 +196,7 @@
         </g>
         <g transform="matrix(1,0,0,1,40,0)">
           <circle
-            id="anchor-1"
+            id="port-1"
             fill="rgba(255,255,255,1)"
             transform="translate(-4,-4)"
             cx="4"
@@ -207,7 +207,7 @@
         </g>
         <g transform="matrix(1,0,0,1,0,-30)">
           <circle
-            id="anchor-2"
+            id="port-2"
             fill="rgba(255,255,255,1)"
             transform="translate(-4,-4)"
             cx="4"
@@ -218,7 +218,7 @@
         </g>
         <g transform="matrix(1,0,0,1,0,30)">
           <circle
-            id="anchor-3"
+            id="port-3"
             fill="rgba(255,255,255,1)"
             transform="translate(-4,-4)"
             cx="4"
@@ -332,7 +332,7 @@
         </g>
         <g transform="matrix(1,0,0,1,-40,0)">
           <circle
-            id="anchor-0"
+            id="port-0"
             fill="rgba(255,255,255,1)"
             transform="translate(-4,-4)"
             cx="4"
@@ -343,7 +343,7 @@
         </g>
         <g transform="matrix(1,0,0,1,40,0)">
           <circle
-            id="anchor-1"
+            id="port-1"
             fill="rgba(255,255,255,1)"
             transform="translate(-4,-4)"
             cx="4"
@@ -354,7 +354,7 @@
         </g>
         <g transform="matrix(1,0,0,1,0,-20)">
           <circle
-            id="anchor-2"
+            id="port-2"
             fill="rgba(255,255,255,1)"
             transform="translate(-4,-4)"
             cx="4"
@@ -365,7 +365,7 @@
         </g>
         <g transform="matrix(1,0,0,1,0,20)">
           <circle
-            id="anchor-3"
+            id="port-3"
             fill="rgba(255,255,255,1)"
             transform="translate(-4,-4)"
             cx="4"
@@ -396,7 +396,7 @@
         </g>
         <g transform="matrix(1,0,0,1,-40,-12)">
           <circle
-            id="anchor-0"
+            id="port-0"
             fill="rgba(255,255,255,1)"
             transform="translate(-4,-4)"
             cx="4"
@@ -407,7 +407,7 @@
         </g>
         <g transform="matrix(1,0,0,1,-40,0)">
           <circle
-            id="anchor-1"
+            id="port-1"
             fill="rgba(255,255,255,1)"
             transform="translate(-4,-4)"
             cx="4"
@@ -418,7 +418,7 @@
         </g>
         <g transform="matrix(1,0,0,1,-40,12)">
           <circle
-            id="anchor-2"
+            id="port-2"
             fill="rgba(255,255,255,1)"
             transform="translate(-4,-4)"
             cx="4"

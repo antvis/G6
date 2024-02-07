@@ -2,10 +2,10 @@ import type { DisplayObjectConfig } from '@antv/g';
 import { deepMix } from '@antv/util';
 import type { Point } from '../../types';
 import { getRectPoints } from '../../utils/element';
-import type { PolygonStyleProps } from './polygon';
+import type { PolygonKeyStyleProps, PolygonStyleProps } from './polygon';
 import { Polygon } from './polygon';
 
-type RectKeyStyleProps = {};
+type RectKeyStyleProps = PolygonKeyStyleProps;
 export type RectStyleProps = PolygonStyleProps<RectKeyStyleProps>;
 type ParsedRectStyleProps = Required<RectStyleProps>;
 type RectOptions = DisplayObjectConfig<RectStyleProps>;

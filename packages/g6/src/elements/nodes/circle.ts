@@ -6,15 +6,14 @@ import { getEllipseIntersectPoint } from '../../utils/point';
 import type { BaseNodeStyleProps } from './base-node';
 import { BaseNode } from './base-node';
 
-type CircleKeyStyleProps = BaseNodeProps<Omit<GCircleStyleProps, 'r' | 'cx' | 'cy'>>;
-export type CircleStyleProps = BaseNodeStyleProps<CircleKeyStyleProps>;
+export type CircleStyleProps = BaseNodeStyleProps<BaseNodeProps>;
 type ParsedCircleStyleProps = Required<CircleStyleProps>;
 type CircleOptions = DisplayObjectConfig<CircleStyleProps>;
 
 /**
  * Draw circle based on BaseNode, override drawKeyShape.
  */
-export class Circle extends BaseNode<CircleKeyStyleProps, GCircle> {
+export class Circle extends BaseNode<BaseNodeProps, GCircle> {
   static defaultStyleProps: Partial<CircleStyleProps> = {
     width: 50,
     height: 50,

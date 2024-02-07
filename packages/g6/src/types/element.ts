@@ -1,4 +1,4 @@
-import type { DisplayObject, PathStyleProps } from '@antv/g';
+import type { BaseStyleProps, DisplayObject, PathStyleProps } from '@antv/g';
 import { BaseNode } from '../elements/nodes';
 import type { ComboOptions, EdgeOptions, NodeOptions } from '../spec';
 import { Point } from './point';
@@ -19,39 +19,39 @@ export type BaseElementProps = {
   color?: string;
 };
 
-export type BaseNodeProps<ShapeProps> = BaseElementProps &
-  ShapeProps & {
-    /**
-     * <zh/> x 坐标
-     * <en/> The x-coordinate of node
-     */
-    x?: number;
-    /**
-     * <zh/> y 坐标
-     * <en/> The y-coordinate of node
-     */
-    y?: number;
-    /**
-     * <zh/> z 坐标
-     * <en/> The z-coordinate of node
-     */
-    z?: number;
-    /**
-     * <zh/> 节点宽度
-     * <en/> The width of node
-     */
-    width?: number;
-    /**
-     * <zh/> 节点高度
-     * <en/> The height of node
-     */
-    height?: number;
-    /**
-     * <zh/> 节点深度
-     * <en/> The depth of node
-     */
-    depth?: number;
-  };
+export type BaseNodeProps<ShapeProps = object> = BaseElementProps & {
+  /**
+   * <zh/> x 坐标
+   * <en/> The x-coordinate of node
+   */
+  x?: number;
+  /**
+   * <zh/> y 坐标
+   * <en/> The y-coordinate of node
+   */
+  y?: number;
+  /**
+   * <zh/> z 坐标
+   * <en/> The z-coordinate of node
+   */
+  z?: number;
+  /**
+   * <zh/> 节点宽度
+   * <en/> The width of node
+   */
+  width?: number;
+  /**
+   * <zh/> 节点高度
+   * <en/> The height of node
+   */
+  height?: number;
+  /**
+   * <zh/> 节点深度
+   * <en/> The depth of node
+   */
+  depth?: number;
+} & BaseStyleProps &
+  ShapeProps;
 
 export type BaseEdgeProps<ShapeProps> = BaseElementProps & {
   /**

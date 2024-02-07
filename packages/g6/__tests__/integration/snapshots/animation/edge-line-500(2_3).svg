@@ -21,7 +21,6 @@
             id="halo"
             fill="none"
             d="M 0,0 C 137.5 62.5,275 125,275 125"
-            stroke="rgba(24,144,255,1)"
             stroke-width="12"
             stroke-dasharray="0,0"
             pointer-events="none"

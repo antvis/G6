@@ -6,12 +6,11 @@ import { getEllipseIntersectPoint } from '../../utils/point';
 import type { BaseNodeStyleProps } from './base-node';
 import { BaseNode } from './base-node';
 
-type EllipseKeyStyleProps = BaseNodeProps<Omit<GEllipseStyleProps, 'cx' | 'cy' | 'cz' | 'rx' | 'ry'>>;
-export type EllipseStyleProps = BaseNodeStyleProps<EllipseKeyStyleProps>;
+export type EllipseStyleProps = BaseNodeStyleProps<BaseNodeProps>;
 type ParsedEllipseStyleProps = Required<EllipseStyleProps>;
 type EllipseOptions = DisplayObjectConfig<EllipseStyleProps>;
 
-export class Ellipse extends BaseNode<EllipseKeyStyleProps, GEllipse> {
+export class Ellipse extends BaseNode<BaseNodeProps, GEllipse> {
   static defaultStyleProps: Partial<EllipseStyleProps> = {
     width: 80,
     height: 40,

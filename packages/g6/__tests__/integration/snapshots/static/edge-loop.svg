@@ -29,7 +29,7 @@
         </g>
         <g transform="matrix(1,0,0,1,-25,0)">
           <circle
-            id="anchor-left"
+            id="port-left"
             fill="rgba(255,255,255,1)"
             transform="translate(-4,-4)"
             cx="4"
@@ -40,7 +40,7 @@
         </g>
         <g transform="matrix(1,0,0,1,25,0)">
           <circle
-            id="anchor-right"
+            id="port-right"
             fill="rgba(49,208,198,1)"
             transform="translate(-4,-4)"
             cx="4"
@@ -50,7 +50,7 @@
         </g>
         <g transform="matrix(1,0,0,1,0,-25)">
           <circle
-            id="anchor-top"
+            id="port-top"
             fill="rgba(49,208,198,1)"
             transform="translate(-4,-4)"
             cx="4"
@@ -60,7 +60,7 @@
         </g>
         <g transform="matrix(1,0,0,1,0,25)">
           <circle
-            id="anchor-bottom"
+            id="port-bottom"
             fill="rgba(255,255,255,1)"
             transform="translate(-4,-4)"
             cx="4"
@@ -120,7 +120,7 @@
         </g>
         <g transform="matrix(1,0,0,1,-25,0)">
           <circle
-            id="anchor-left"
+            id="port-left"
             fill="rgba(255,255,255,1)"
             transform="translate(-4,-4)"
             cx="4"
@@ -131,7 +131,7 @@
         </g>
         <g transform="matrix(1,0,0,1,25,0)">
           <circle
-            id="anchor-right"
+            id="port-right"
             fill="rgba(49,208,198,1)"
             transform="translate(-4,-4)"
             cx="4"
@@ -141,7 +141,7 @@
         </g>
         <g transform="matrix(1,0,0,1,0,-25)">
           <circle
-            id="anchor-top"
+            id="port-top"
             fill="rgba(255,255,255,1)"
             transform="translate(-4,-4)"
             cx="4"
@@ -152,7 +152,7 @@
         </g>
         <g transform="matrix(1,0,0,1,0,25)">
           <circle
-            id="anchor-bottom"
+            id="port-bottom"
             fill="rgba(255,255,255,1)"
             transform="translate(-4,-4)"
             cx="4"
@@ -209,7 +209,7 @@
         </g>
         <g transform="matrix(1,0,0,1,14.694632,20.225426)">
           <circle
-            id="anchor-right-bottom"
+            id="port-right-bottom"
             fill="rgba(49,208,198,1)"
             transform="translate(-4,-4)"
             cx="4"
