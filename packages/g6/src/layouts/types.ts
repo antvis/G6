@@ -78,7 +78,7 @@ interface ForceAtlas2 extends BaseLayoutOptions, ForceAtlas2LayoutOptions {
 }
 
 export interface PresetLayoutOptions {
-  presetLayout?: BuiltInLayoutOptions;
+  presetLayout?: BaseLayoutOptions;
 }
 
 export interface AnimationOptions {
