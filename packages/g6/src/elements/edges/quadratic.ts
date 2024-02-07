@@ -1,12 +1,12 @@
 import type { DisplayObjectConfig } from '@antv/g';
 import type { PathArray } from '@antv/util';
 import { deepMix } from '@antv/util';
-import type { Point } from '../../types';
+import type { BaseEdgeProps, Point } from '../../types';
 import { getQuadraticPath } from '../../utils/edge';
 import type { BaseEdgeStyleProps, ParsedBaseEdgeStyleProps } from './base-edge';
 import { BaseEdge } from './base-edge';
 
-type QuadraticKeyStyleProps = {
+type QuadraticKeyStyleProps = BaseEdgeProps<{
   /**
    * <zh/> 控制点，用于定义曲线的形状。如果不指定，将会通过`curveOffset`和`curvePosition`来计算控制点
    * <en/> Control point. Used to define the shape of the curve. If not specified, it will be calculated using `curveOffset` and `curvePosition`.
@@ -22,10 +22,8 @@ type QuadraticKeyStyleProps = {
    * <en/> The distance of the control point from the line
    */
   curveOffset?: number;
-};
-
+}>;
 export type QuadraticStyleProps = BaseEdgeStyleProps<QuadraticKeyStyleProps>;
-
 type QuadraticOptions = DisplayObjectConfig<QuadraticStyleProps>;
 
 export class Quadratic extends BaseEdge<QuadraticKeyStyleProps> {

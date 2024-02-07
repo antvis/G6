@@ -32,29 +32,26 @@ type EdgeArrowStyleProps = {
 } & PathStyleProps &
   Record<string, unknown>;
 
-type LoopStyleProps = BaseEdgeProps &
-  PathStyleProps & {
-    /**
-     * <zh/> 边的位置
-     * <en/> The position of the edge
-     */
-    position?: LoopEdgePosition;
-    /**
-     * <zh/> 指定是否顺时针绘制环
-     * <en/> Specify whether to draw the loop clockwise
-     */
-    clockwise?: boolean;
-    /**
-     * <zh/> 从节点 keyShape 边缘到自环顶部的距离，用于指定自环的曲率，默认为宽度或高度的最大值
-     * <en/> Determine the position from the edge of the node keyShape to the top of the self-loop, used to specify the curvature of the self-loop, the default value is the maximum of the width or height
-     */
-    dist?: number;
-  };
-
-export type BaseEdgeKeyStyleProps<KT> = BaseEdgeProps & PathStyleProps & KT;
+type LoopStyleProps = BaseEdgeProps<{
+  /**
+   * <zh/> 边的位置
+   * <en/> The position of the edge
+   */
+  position?: LoopEdgePosition;
+  /**
+   * <zh/> 指定是否顺时针绘制环
+   * <en/> Specify whether to draw the loop clockwise
+   */
+  clockwise?: boolean;
+  /**
+   * <zh/> 从节点 keyShape 边缘到自环顶部的距离，用于指定自环的曲率，默认为宽度或高度的最大值
+   * <en/> Determine the position from the edge of the node keyShape to the top of the self-loop, used to specify the curvature of the self-loop, the default value is the maximum of the width or height
+   */
+  dist?: number;
+}>;
 
 export type BaseEdgeStyleProps<KT> = BaseShapeStyleProps &
-  BaseEdgeKeyStyleProps<KT> & {
+  KT & {
     label?: boolean;
     halo?: boolean;
     startArrow?: boolean;
@@ -71,7 +68,7 @@ export type ParsedBaseEdgeStyleProps<KT> = Required<BaseEdgeStyleProps<KT>>;
 
 export type BaseEdgeOptions<KT> = DisplayObjectConfig<BaseEdgeStyleProps<KT>>;
 
-export abstract class BaseEdge<KT extends object> extends BaseShape<BaseEdgeStyleProps<KT>> {
+export abstract class BaseEdge<KT extends BaseEdgeProps<object>> extends BaseShape<BaseEdgeStyleProps<KT>> {
   static defaultStyleProps: Partial<BaseEdgeStyleProps<any>> = {
     isBillboard: true,
     label: true,

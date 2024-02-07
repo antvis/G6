@@ -1,13 +1,12 @@
 import type { DisplayObjectConfig } from '@antv/g';
 import type { PathArray } from '@antv/util';
 import { deepMix } from '@antv/util';
+import type { BaseEdgeProps } from '../../types';
 import type { BaseEdgeStyleProps, ParsedBaseEdgeStyleProps } from './base-edge';
 import { BaseEdge } from './base-edge';
 
-type LineKeyStyleProps = {};
-
+type LineKeyStyleProps = BaseEdgeProps<{}>;
 export type LineStyleProps = BaseEdgeStyleProps<LineKeyStyleProps>;
-
 type LineOptions = DisplayObjectConfig<LineStyleProps>;
 
 /**

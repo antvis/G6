@@ -1,12 +1,12 @@
 import type { DisplayObjectConfig } from '@antv/g';
 import type { PathArray } from '@antv/util';
 import { deepMix } from '@antv/util';
-import type { Point } from '../../types';
+import type { BaseEdgeProps, Point } from '../../types';
 import { getPolylinePath } from '../../utils/edge';
 import type { BaseEdgeStyleProps, ParsedBaseEdgeStyleProps } from './base-edge';
 import { BaseEdge } from './base-edge';
 
-type PolylineKeyStyleProps = {
+type PolylineKeyStyleProps = BaseEdgeProps<{
   /**
    * <zh/> 拐角半径
    * <en/> The radius of the rounded corner
@@ -17,10 +17,8 @@ type PolylineKeyStyleProps = {
    * <en/> Control point array. If not specified, the polyline will be automatically generated according to the A* algorithm
    */
   controlPoints?: Point[];
-};
-
+}>;
 export type PolylineStyleProps = BaseEdgeStyleProps<PolylineKeyStyleProps>;
-
 type PolylineOptions = DisplayObjectConfig<PolylineStyleProps>;
 
 export class Polyline extends BaseEdge<PolylineKeyStyleProps> {
