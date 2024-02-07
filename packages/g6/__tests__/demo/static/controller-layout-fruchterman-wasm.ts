@@ -53,5 +53,3 @@ export const controllerLayoutFruchtermanWASM: StaticTestCase = async ({ canvas }
 
   await layout.layout();
 };
-
-controllerLayoutFruchtermanWASM.skip = true;

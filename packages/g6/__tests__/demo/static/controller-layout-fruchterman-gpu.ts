@@ -49,5 +49,3 @@ export const controllerLayoutFruchtermanGPU: StaticTestCase = async ({ canvas })
 
   await layout.layout();
 };
-
-controllerLayoutFruchtermanGPU.skip = true;

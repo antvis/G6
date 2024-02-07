@@ -55,5 +55,3 @@ export const controllerLayoutForceatlas2WASM: StaticTestCase = async ({ canvas }
 
   await layout.layout();
 };
-
-controllerLayoutForceatlas2WASM.skip = true;
