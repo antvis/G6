@@ -20,7 +20,7 @@ import { findNearestPoints } from './point';
  */
 export function isSameNode(node1: Node, node2: Node): boolean {
   if (!node1 || !node2) return false;
-  return node1.id === node2.id;
+  return node1 === node2;
 }
 
 /**
