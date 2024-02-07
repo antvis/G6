@@ -1,5 +1,5 @@
 import type { DisplayObject, IAnimation } from '@antv/g';
-import { isNil } from '@antv/util';
+import { isEqual, isNil } from '@antv/util';
 import { getDescendantShapes } from './shape';
 
 /**
@@ -64,7 +64,7 @@ export function preprocessKeyframes(keyframes: Keyframe[]): Keyframe[] {
       // 属性值不能为空 / property value cannot be empty
       values.some((value) => isNil(value)) ||
       // 属性值必须不完全一致 / property value must not be exactly the same
-      values.every((value) => value === values[0])
+      values.every((value) => isEqual(value, values[0]))
     ) {
       delete propertyIndexedKeyframes[key];
     }

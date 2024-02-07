@@ -37,8 +37,8 @@ describe('animation', () => {
   it('preprocessKeyframes', () => {
     expect(
       preprocessKeyframes([
-        { fill: 'red', opacity: 0, stroke: 1, lineWidth: 0, lineDash: undefined },
-        { fill: 'blue', opacity: 1, lineWidth: 0, lineDash: undefined },
+        { fill: 'red', opacity: 0, stroke: 1, lineWidth: 0, lineDash: undefined, startPoint: [0, 0, 0] },
+        { fill: 'blue', opacity: 1, lineWidth: 0, lineDash: undefined, startPoint: [0, 0, 0] },
       ]),
     ).toEqual([
       { fill: 'red', opacity: 0 },
