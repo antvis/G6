@@ -1,13 +1,8 @@
 import type { AABB, Circle as GCircle, TextStyleProps } from '@antv/g';
 import { get, isEmpty, isString } from '@antv/util';
 import type { Node, Point } from '../types';
-import type {
-  LabelPosition,
-  PortPosition,
-  RelativePosition,
-  StarPortPosition,
-  TrianglePortPosition,
-} from '../types/node';
+import type { LabelPosition, RelativePosition } from '../types/node';
+import { getBBoxHeight, getBBoxWidth } from './bbox';
 import { findNearestPoints } from './point';
 
 /**
@@ -36,30 +31,35 @@ export function getXYByPosition(bbox: AABB, position: RelativePosition = 'center
   return [x, y];
 }
 
+const PORT_MAP: Record<string, Point> = {
+  top: [0.5, 0],
+  right: [1, 0.5],
+  bottom: [0.5, 1],
+  left: [0, 0.5],
+  default: [0.5, 0.5],
+};
+
 /**
  * Get the Port x, y by `position`.
  * @param bbox - BBox of element.
- * @param position - The postion relative with element.
+ * @param position - The position relative with element.
+ * @param ports - The map of position.
+ * @param isRelative - Whether the position in MAP is relative.
  * @returns [x, y]
  */
-export function getPortPosition(bbox: AABB, position?: PortPosition): Point {
-  const MAP = {
-    top: [0.5, 0],
-    right: [1, 0.5],
-    bottom: [0.5, 1],
-    left: [0, 0.5],
-  };
-
+export function getPortPosition(
+  bbox: AABB,
+  position?: [number, number] | string,
+  ports: Record<string, Point> = PORT_MAP,
+  isRelative = true,
+): Point {
   const DEFAULT = [0.5, 0.5];
+  const p: [number, number] = isString(position) ? get(ports, position.toLocaleLowerCase(), DEFAULT) : position;
 
-  const p: [number, number] = isString(position) ? get(MAP, position.toLocaleLowerCase(), DEFAULT) : position;
+  if (!isRelative && isString(position)) return p;
 
   const [x, y] = p || DEFAULT;
-
-  const w = bbox.max[0] - bbox.min[0];
-  const h = bbox.max[1] - bbox.min[1];
-
-  return [bbox.min[0] + w * x, bbox.min[1] + h * y];
+  return [bbox.min[0] + getBBoxWidth(bbox) * x, bbox.min[1] + getBBoxHeight(bbox) * y];
 }
 
 /**
@@ -128,8 +128,7 @@ export function getTextStyleByPosition(
  * @param innerR - <zh/> 内半径 | <en/> inner radius
  * @returns <zh/> 五角星的顶点 | <en/> Star Points
  */
-export function getStarPoints(outerR: number, innerR?: number): Point[] {
-  innerR = innerR ? innerR : (outerR * 3) / 8;
+export function getStarPoints(outerR: number, innerR: number): Point[] {
   return [
     [0, -outerR],
     [innerR * Math.cos((3 * Math.PI) / 10), -innerR * Math.sin((3 * Math.PI) / 10)],

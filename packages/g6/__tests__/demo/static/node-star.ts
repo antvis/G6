@@ -1,5 +1,5 @@
 import { Line } from '../../../src/elements/edges';
-import { Star } from '../../../src/elements/nodes';
+import { Rect, Star } from '../../../src/elements/nodes';
 import type { StaticTestCase } from '../types';
 
 export const nodeStar: StaticTestCase = async (context) => {
@@ -86,12 +86,25 @@ export const nodeStar: StaticTestCase = async (context) => {
         height: 50,
         // ports
         ports: [
-          { position: 'left', stroke: '#31d0c6', fill: '#fff' },
-          { position: 'right', stroke: '#31d0c6', fill: '#fff' },
-          { position: 'top', stroke: '#31d0c6', fill: '#fff' },
-          { position: 'left-bottom', stroke: '#31d0c6', fill: '#fff' },
-          { position: 'right-bottom', stroke: '#31d0c6', fill: '#fff' },
+          { position: [0, 0.2], stroke: '#31d0c6', fill: '#fff' },
+          { position: [0, 0.5], stroke: '#31d0c6', fill: '#fff' },
+          { position: [0, 0.8], stroke: '#31d0c6', fill: '#fff' },
         ],
+      },
+    }),
+  );
+
+  canvas.appendChild(
+    new Rect({
+      id: 'rect1',
+      style: {
+        x: 100,
+        y: 250,
+        width: 50,
+        height: 50,
+        fill: 'transport',
+        stroke: '#31d0c6',
+        lineDash: [5, 5],
       },
     }),
   );
@@ -113,6 +126,7 @@ export const nodeStar: StaticTestCase = async (context) => {
           { position: 'top', stroke: '#31d0c6', fill: '#fff' },
           { position: 'left-bottom', stroke: '#31d0c6', fill: '#fff' },
           { position: 'right-bottom', stroke: '#31d0c6', fill: '#fff' },
+          { position: 'bottom', stroke: '#31d0c6', fill: '#fff' },
         ],
       },
     }),

@@ -2,10 +2,12 @@ import { AABB } from '@antv/g';
 import { Circle } from '../../../src/elements/nodes';
 import {
   getPortPosition,
+  getRectPoints,
   getStarPoints,
-  getStarPortByPosition,
   getStarPorts,
   getTextStyleByPosition,
+  getTrianglePoints,
+  getTrianglePorts,
   getXYByPosition,
   isSameNode,
 } from '../../../src/utils/element';
@@ -111,9 +113,53 @@ describe('element', () => {
     expect(getStarPoints(32, 16).length).toBe(10);
   });
 
-  it('getStarPortByPosition + getStarPorts', () => {
-    expect(getStarPoints(32, 16).length).toBe(10);
+  it('getStarPorts', () => {
+    expect(getStarPorts(32, 16).top).toEqual([0, -32]);
+  });
 
-    expect(getStarPortByPosition('top', getStarPorts(32, 16))).toEqual([0, -32]);
+  it('getTrianglePoints', () => {
+    expect(getTrianglePoints(40, 40, 'up').length).toBe(3);
+    expect(getTrianglePoints(40, 40, 'up')).toEqual([
+      [-20, 20],
+      [20, 20],
+      [0, -20],
+    ]);
+  });
+
+  it('getTrianglePorts', () => {
+    const ports = getTrianglePorts(32, 16, 'up');
+    expect(ports.default).toEqual([0, -8]);
+    expect(ports.left).toEqual([-16, 8]);
+    expect(ports.right).toEqual([16, 8]);
+    expect(ports.top).toEqual([0, -8]);
+    expect(ports.bottom).toBeFalsy();
+    expect(getTrianglePorts(32, 16, 'down')).toEqual({
+      default: [0, 8],
+      left: [-16, -8],
+      right: [16, -8],
+      bottom: [0, 8],
+    });
+    expect(getTrianglePorts(32, 16, 'left')).toEqual({
+      default: [-16, 0],
+      top: [16, -8],
+      bottom: [16, 8],
+      left: [-16, 0],
+    });
+    expect(getTrianglePorts(32, 16, 'right')).toEqual({
+      default: [16, 0],
+      top: [-16, -8],
+      bottom: [-16, 8],
+      right: [16, 0],
+    });
+  });
+
+  it('getRectPoints', () => {
+    expect(getRectPoints(100, 100).length).toBe(4);
+    expect(getRectPoints(100, 100)).toEqual([
+      [50, -50],
+      [50, 50],
+      [-50, 50],
+      [-50, -50],
+    ]);
   });
 });

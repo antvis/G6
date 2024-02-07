@@ -14,8 +14,8 @@ export type RelativePosition =
   | 'center';
 
 export type PortPosition = [number, number] | 'top' | 'left' | 'right' | 'bottom';
-export type StarPortPosition = 'top' | 'left' | 'right' | 'left-bottom' | 'right-bottom';
-export type TrianglePortPosition = 'top' | 'left' | 'right' | 'bottom';
+export type StarPortPosition = [number, number] | 'top' | 'left' | 'right' | 'left-bottom' | 'right-bottom';
+export type TrianglePortPosition = [number, number] | 'top' | 'left' | 'right' | 'bottom';
 
 export type BadgePosition = RelativePosition;
 export type LabelPosition = RelativePosition;
