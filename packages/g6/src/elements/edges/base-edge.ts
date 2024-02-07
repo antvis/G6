@@ -9,7 +9,15 @@ import type {
 import { Path } from '@antv/g';
 import type { PathArray } from '@antv/util';
 import { deepMix, isEmpty, isEqual, isFunction } from '@antv/util';
-import type { BaseEdgeProps, EdgeKey, EdgeLabelStyleProps, LoopEdgePosition, Point, PrefixObject } from '../../types';
+import type {
+  BaseEdgeProps,
+  EdgeKey,
+  EdgeLabelStyleProps,
+  Keyframe,
+  LoopEdgePosition,
+  Point,
+  PrefixObject,
+} from '../../types';
 import { getCubicPath, getLabelPositionStyle, getLoopPoints } from '../../utils/edge';
 import { findPort, isSameNode } from '../../utils/element';
 import { getEllipseIntersectPoint } from '../../utils/point';
@@ -275,7 +283,7 @@ export abstract class BaseEdge<KT extends BaseEdgeProps<object>> extends BaseSha
     this.drawHaloShape(attributes, container);
   }
 
-  animate(keyframes: Keyframe[] | PropertyIndexedKeyframes, options?: number | KeyframeAnimationOptions) {
+  animate(keyframes: Keyframe[], options?: number | KeyframeAnimationOptions) {
     const result = super.animate(keyframes, options);
 
     result.onframe = () => {

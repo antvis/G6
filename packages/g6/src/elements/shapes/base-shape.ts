@@ -1,6 +1,7 @@
 import type { DisplayObject, DisplayObjectConfig, Group, GroupStyleProps, IAnimation } from '@antv/g';
 import { CustomElement } from '@antv/g';
 import { deepMix } from '@antv/util';
+import type { Keyframe } from '../../types';
 import { createAnimationsProxy, preprocessKeyframes } from '../../utils/animation';
 
 export interface BaseShapeStyleProps extends GroupStyleProps {}
@@ -123,10 +124,7 @@ export abstract class BaseShape<T extends BaseShapeStyleProps> extends CustomEle
     return style;
   }
 
-  public animate(
-    keyframes: PropertyIndexedKeyframes | Keyframe[],
-    options?: number | KeyframeAnimationOptions,
-  ): IAnimation {
+  public animate(keyframes: Keyframe[], options?: number | KeyframeAnimationOptions): IAnimation {
     this.animateMap = {};
 
     const result = super.animate(keyframes, options)!;

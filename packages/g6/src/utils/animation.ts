@@ -1,5 +1,6 @@
 import type { DisplayObject, IAnimation } from '@antv/g';
 import { isEqual, isNil } from '@antv/util';
+import type { Keyframe } from '../types';
 import { getDescendantShapes } from './shape';
 
 /**
@@ -44,16 +45,13 @@ export function createAnimationsProxy(sourceAnimation: IAnimation, targetAnimati
 export function preprocessKeyframes(keyframes: Keyframe[]): Keyframe[] {
   // 转化为 PropertyIndexedKeyframes 格式方便后续处理
   // convert to PropertyIndexedKeyframes format for subsequent processing
-  const propertyIndexedKeyframes = keyframes.reduce(
-    (acc, kf) => {
-      Object.entries(kf).forEach(([key, value]) => {
-        if (acc[key] === undefined) acc[key] = [value];
-        else acc[key].push(value);
-      });
-      return acc;
-    },
-    {} as Record<string, any[]>,
-  );
+  const propertyIndexedKeyframes: Record<string, any[]> = keyframes.reduce((acc, kf) => {
+    Object.entries(kf).forEach(([key, value]) => {
+      if (acc[key] === undefined) acc[key] = [value];
+      else acc[key].push(value);
+    });
+    return acc;
+  }, {});
 
   // 过滤掉无用动画的属性（属性值为 undefined、或者值完全一致）
   // filter out useless animation properties (property value is undefined, or value is exactly the same)

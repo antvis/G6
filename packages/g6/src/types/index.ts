@@ -1,3 +1,4 @@
+export type * from './animation';
 export type * from './callable';
 export type * from './canvas';
 export type * from './change';
