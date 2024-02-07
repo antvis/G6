@@ -35,7 +35,6 @@ export const controllerLayoutFruchtermanWASM: StaticTestCase = async ({ canvas }
   };
 
   const graph = {
-    getSize: () => [500, 500],
     emit: () => {},
   };
 
@@ -43,7 +42,7 @@ export const controllerLayoutFruchtermanWASM: StaticTestCase = async ({ canvas }
 
   model.addData(options?.data || {});
 
-  const context: any = { options, model, graph, canvas };
+  const context: any = { options, model, graph, canvas, viewport: { getCanvasSize: () => [500, 500] } };
 
   const element = new ElementController(context);
 

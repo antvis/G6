@@ -26,6 +26,12 @@ export class ViewportController {
     return this.camera.createLandmark(`landmark-${this.landmarkCounter++}`, options);
   }
 
+  public getCanvasSize(): [number, number] {
+    const { canvas } = this.context;
+    const { width = 0, height = 0 } = canvas.getConfig();
+    return [width, height];
+  }
+
   /**
    * <zh/> 获取画布中心坐标
    *

@@ -12,7 +12,6 @@ import type { STDLayoutOptions } from '../spec/layout';
 import type { NodeLikeData, Point } from '../types';
 import { isVisible } from '../utils/element';
 import { isComboLayout, isPositionSpecified, isTreeLayout, pickLayoutResult } from '../utils/layout';
-import { transformGraphDataToTreeData } from '../utils/tree';
 import { add } from '../utils/vector';
 import type { RuntimeContext } from './types';
 
@@ -88,7 +87,6 @@ export class LayoutController {
       const model = this.getLayoutDataModel(options);
       await this.presetLayout(model, presetLayout);
       const result = await this.stepLayout(model, options);
-      console.log(result);
       if (!options.animation) {
         this.updateElement(result, false);
       }
@@ -143,7 +141,6 @@ export class LayoutController {
 
   private async treeLayout(model: LayoutGraphlibModel, options: STDLayoutOptions): Promise<LayoutMapping> {
     // TODO
-    const treeData = transformGraphDataToTreeData;
   }
 
   public stopLayout() {
@@ -256,10 +253,10 @@ export class LayoutController {
    * @returns <zh/> 布局对象 | <en/> Layout object
    */
   private createLayoutInstance(model: LayoutGraphlibModel, options: STDLayoutOptions) {
-    const { graph, element } = this.context;
+    const { element, viewport } = this.context;
     const { type, enableWorker, animation, iterations, ...restOptions } = options;
 
-    const [width, height] = graph.getSize();
+    const [width, height] = viewport!.getCanvasSize();
     const center = [width / 2, height / 2];
 
     const nodeSize: number | ((node: GraphlibNode<Required<NodeData>['style']>) => number) =
