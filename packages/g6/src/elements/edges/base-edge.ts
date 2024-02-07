@@ -95,6 +95,7 @@ export abstract class BaseEdge<KT extends object> extends BaseShape<BaseEdgeStyl
     startArrowAnchor: '0.5 0.5',
     startArrowTransformOrigin: 'center',
     startArrowLineDash: 0,
+    startArrowLineWidth: 1,
     endArrow: false,
     endArrowCtor: Path,
     endArrowType: 'triangle',
@@ -103,6 +104,7 @@ export abstract class BaseEdge<KT extends object> extends BaseShape<BaseEdgeStyl
     endArrowAnchor: '0.5 0.5',
     endArrowTransformOrigin: 'center',
     endArrowLineDash: 0,
+    endArrowLineWidth: 1,
     loopPosition: 'top',
     loopClockwise: true,
   };
@@ -112,7 +114,7 @@ export abstract class BaseEdge<KT extends object> extends BaseShape<BaseEdgeStyl
   }
 
   protected getKeyStyle(attributes: ParsedBaseEdgeStyleProps<KT>): PathStyleProps {
-    const { sourceNode, targetNode, sourcePoint, targetPoint, color, ...keyStyle } = this.getGraphicStyle(attributes);
+    const { sourceNode, targetNode, sourcePoint, targetPoint, color, ...style } = this.getGraphicStyle(attributes);
 
     const path =
       (sourcePoint && isEqual(sourcePoint, targetPoint)) || isSameNode(sourceNode, targetNode)
@@ -122,7 +124,7 @@ export abstract class BaseEdge<KT extends object> extends BaseShape<BaseEdgeStyl
     return {
       stroke: color,
       path,
-      ...omitStyleProps(keyStyle, ['halo', 'label', 'startArrow', 'endArrow']),
+      ...omitStyleProps(style, ['halo', 'label', 'startArrow', 'endArrow']),
     };
   }
 
@@ -173,10 +175,10 @@ export abstract class BaseEdge<KT extends object> extends BaseShape<BaseEdgeStyl
     const targetAnchor = findAnchor(targetNode, targetAnchorKey, sourceNode);
 
     const sourcePoint = sourceAnchor
-      ? getEllipseIntersectPoint(targetNode.getCenter(), sourceAnchor.getLocalBounds())
+      ? getEllipseIntersectPoint(targetNode.getCenter(), sourceAnchor.getBounds())
       : sourceNode.getIntersectPoint(targetAnchor?.getPosition() || targetNode.getCenter());
     const targetPoint = targetAnchor
-      ? getEllipseIntersectPoint(sourceNode.getCenter(), targetAnchor.getLocalBounds())
+      ? getEllipseIntersectPoint(sourceNode.getCenter(), targetAnchor.getBounds())
       : targetNode.getIntersectPoint(sourceAnchor?.getPosition() || sourceNode.getCenter());
 
     return [sourcePoint || sourceNode.getCenter(), targetPoint || targetNode.getCenter()];

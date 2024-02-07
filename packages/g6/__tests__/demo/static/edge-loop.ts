@@ -10,9 +10,10 @@ export const edgeLoop: StaticTestCase = async (context) => {
     new Circle({
       id: 'node-1',
       style: {
-        cx: 100,
-        cy: 100,
-        r: 25,
+        x: 100,
+        y: 100,
+        width: 50,
+        height: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
         anchorOptions: [
@@ -44,9 +45,10 @@ export const edgeLoop: StaticTestCase = async (context) => {
     new Circle({
       id: 'node-1',
       style: {
-        cx: 200,
-        cy: 100,
-        r: 25,
+        x: 200,
+        y: 100,
+        width: 50,
+        height: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
         anchorOptions: [
@@ -78,7 +80,8 @@ export const edgeLoop: StaticTestCase = async (context) => {
       style: {
         x: 300,
         y: 100,
-        outerR: 25,
+        width: 50,
+        height: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
         anchorOptions: [{ key: 'right-bottom', position: 'right-bottom', r: 4, fill: '#31d0c6' }],
@@ -103,9 +106,10 @@ export const edgeLoop: StaticTestCase = async (context) => {
     new Circle({
       id: 'node-3',
       style: {
-        cx: 100,
-        cy: 250,
-        r: 25,
+        x: 100,
+        y: 250,
+        width: 50,
+        height: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
         labelText: `🔃`,
@@ -134,9 +138,10 @@ export const edgeLoop: StaticTestCase = async (context) => {
     new Circle({
       id: 'node-2',
       style: {
-        cx: 250,
-        cy: 250,
-        r: 25,
+        x: 250,
+        y: 250,
+        width: 50,
+        height: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
         labelText: `🔃`,
@@ -166,7 +171,8 @@ export const edgeLoop: StaticTestCase = async (context) => {
       style: {
         x: 100,
         y: 400,
-        outerR: 25,
+        width: 50,
+        height: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
         labelText: `🔄`,
@@ -197,7 +203,8 @@ export const edgeLoop: StaticTestCase = async (context) => {
       style: {
         x: 250,
         y: 400,
-        outerR: 25,
+        width: 50,
+        height: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
         labelText: `🔄`,

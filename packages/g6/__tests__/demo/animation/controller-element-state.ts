@@ -22,9 +22,9 @@ export const controllerElementState: AnimationTestCase = async (context) => {
   const options: G6Spec = {
     data: {
       nodes: [
-        { id: 'node-1', style: { cx: 50, cy: 50, states: ['active', 'selected'] } },
-        { id: 'node-2', style: { cx: 200, cy: 50 } },
-        { id: 'node-3', style: { cx: 125, cy: 150, states: ['active'] } },
+        { id: 'node-1', style: { x: 50, y: 50, states: ['active', 'selected'] } },
+        { id: 'node-2', style: { x: 200, y: 50 } },
+        { id: 'node-3', style: { x: 125, y: 150, states: ['active'] } },
       ],
       edges: [
         { source: 'node-1', target: 'node-2', style: { states: ['active'] } },
@@ -36,7 +36,8 @@ export const controllerElementState: AnimationTestCase = async (context) => {
     node: {
       style: {
         lineWidth: 1,
-        r: 10,
+        width: 10,
+        height: 10,
       },
       state: {
         active: {

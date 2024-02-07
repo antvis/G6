@@ -1,75 +1,167 @@
+import { Line } from '../../../src/elements/edges';
 import { Circle } from '../../../src/elements/nodes';
 import type { StaticTestCase } from '../types';
 
 export const nodeCircle: StaticTestCase = async (context) => {
   const { canvas } = context;
 
-  const c1 = new Circle({
-    style: {
-      // key
-      cx: 100,
-      cy: 100,
-      fill: 'green',
-      r: 40,
-      label: false,
-      labelText: 'not show',
-    },
-  });
+  canvas.appendChild(
+    new Circle({
+      style: {
+        x: 100,
+        y: 50,
+        fill: '#f8f8f8',
+        stroke: '#8b9baf',
+        width: 50,
+        height: 50,
+        labelText: 'simple',
+        labelWordWrapWidth: 100,
+        labelPosition: 'bottom',
+      },
+    }),
+  );
 
-  const c2 = new Circle({
-    style: {
-      // key
-      cx: 300,
-      cy: 100,
-      fill: 'red',
-      r: 40,
-      // label
-      labelText: 'circle node',
-      labelFontSize: 14,
-      labelFill: 'pink',
-      labelPosition: 'bottom',
-      // badge
-      badgeOptions: [
-        { text: 'A', position: 'right-top', backgroundFill: 'grey', fill: 'white', fontSize: 10, padding: [1, 4] },
-        { text: 'Important', position: 'right', backgroundFill: 'blue', fill: 'white', fontSize: 10 },
-        { text: 'Notice', position: 'left-bottom', backgroundFill: 'red', fill: 'white', fontSize: 10 },
-      ],
-      // anchor
-      anchorOptions: [
-        { position: [0, 0.5], r: 2, stroke: 'black', lineWidth: 1, zIndex: 2 },
-        { position: [1, 0.5], r: 2, stroke: 'yellow', lineWidth: 2, zIndex: 2 },
-        { position: [0.5, 0], r: 2, stroke: 'green', lineWidth: 1, zIndex: 2 },
-        { position: [0.5, 1], r: 2, stroke: 'grey', lineWidth: 1, zIndex: 2 },
-      ],
-      // icon
-      iconSrc: 'https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg',
-      iconWidth: 32,
-      iconHeight: 32,
-      // halo
-      haloOpacity: 0.4,
-      haloStroke: 'grey',
-      haloLineWidth: 12,
-      haloPointerEvents: 'none',
-    },
-  });
+  canvas.appendChild(
+    new Circle({
+      style: {
+        x: 200,
+        y: 50,
+        fill: '#f8f8f8',
+        stroke: '#8b9baf',
+        width: 50,
+        height: 50,
+        iconText: 'Y',
+        iconFontSize: 14,
+        iconFill: '#5B8FF9',
+        iconFontWeight: 800,
+        labelText: 'this is a looooog label',
+      },
+    }),
+  );
 
-  const c3 = new Circle({
-    style: {
-      // key
-      cx: 100,
-      cy: 300,
-      fill: 'pink',
-      r: 16,
-      // icon
-      iconText: 'Y',
-      iconFontSize: 14,
-      iconFill: 'black',
-      // label
-      labelText: 'this is a looooog label',
-    },
-  });
+  canvas.appendChild(
+    new Circle({
+      style: {
+        // key
+        x: 300,
+        y: 50,
+        fill: '#f8f8f8',
+        stroke: '#8b9baf',
+        width: 50,
+        height: 50,
+        // label
+        label: false,
+        labelText: 'no-label',
+        // halo
+        halo: true,
+        // anchors
+        anchorOptions: [
+          { position: 'left', stroke: '#31d0c6', fill: '#fff' },
+          { position: 'right', stroke: '#31d0c6', fill: '#fff' },
+          { position: 'top', stroke: '#31d0c6', fill: '#fff' },
+          { position: 'bottom', stroke: '#31d0c6', fill: '#fff' },
+        ],
+        // icon
+        iconSrc: 'https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*N4ZMS7gHsUIAAAAAAAAAAABkARQnAQ',
+        // badges
+        badgeOptions: [
+          { text: 'A', position: 'right-top', backgroundFill: '#8291b2', fill: '#fff', fontSize: 10, padding: [1, 4] },
+          { text: 'Important', position: 'right', backgroundFill: '#e66c5b', fill: '#fff', fontSize: 10 },
+          { text: 'Notice', position: 'right-bottom', backgroundFill: '#e5b95e', fill: '#fff', fontSize: 10 },
+        ],
+      },
+    }),
+  );
 
-  canvas.appendChild(c1);
-  canvas.appendChild(c2);
-  canvas.appendChild(c3);
+  const node1 = canvas.appendChild(
+    new Circle({
+      id: 'node1',
+      style: {
+        x: 100,
+        y: 250,
+        fill: '#f8f8f8',
+        stroke: '#8b9baf',
+        width: 50,
+        height: 50,
+        // anchors
+        anchorOptions: [
+          { position: [1, 0.2], stroke: '#31d0c6', fill: '#fff' },
+          { position: [1, 0.5], stroke: '#31d0c6', fill: '#fff' },
+          { position: [1, 0.8], stroke: '#31d0c6', fill: '#fff' },
+        ],
+      },
+    }),
+  );
+
+  const node2 = canvas.appendChild(
+    new Circle({
+      id: 'node2',
+      style: {
+        x: 200,
+        y: 175,
+        fill: '#f8f8f8',
+        stroke: '#8b9baf',
+        width: 50,
+        height: 50,
+        // anchors
+        anchorOptions: [
+          { position: [0, 0.2], stroke: '#31d0c6', fill: '#fff' },
+          { position: [0, 0.5], stroke: '#31d0c6', fill: '#fff' },
+          { position: [0, 0.8], stroke: '#31d0c6', fill: '#fff' },
+        ],
+      },
+    }),
+  );
+
+  canvas.appendChild(
+    new Line({
+      id: 'line',
+      style: {
+        sourceNode: node1,
+        targetNode: node2,
+        stroke: '#1890FF',
+        endArrow: true,
+      },
+    }),
+  );
+
+  const node3 = canvas.appendChild(
+    new Circle({
+      id: 'node3',
+      style: {
+        x: 250,
+        y: 250,
+        fill: '#f8f8f8',
+        stroke: '#8b9baf',
+        width: 50,
+        height: 50,
+      },
+    }),
+  );
+
+  const node4 = canvas.appendChild(
+    new Circle({
+      id: 'node4',
+      style: {
+        x: 350,
+        y: 175,
+        fill: '#f8f8f8',
+        stroke: '#8b9baf',
+        width: 50,
+        height: 50,
+      },
+    }),
+  );
+
+  canvas.appendChild(
+    new Line({
+      id: 'line',
+      style: {
+        sourceNode: node3,
+        targetNode: node4,
+        stroke: '#1890FF',
+        endArrow: true,
+      },
+    }),
+  );
 };

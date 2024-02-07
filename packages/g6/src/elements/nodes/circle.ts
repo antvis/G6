@@ -2,49 +2,38 @@ import type { DisplayObjectConfig, CircleStyleProps as GCircleStyleProps, Group 
 import { Circle as GCircle } from '@antv/g';
 import type { Point } from '../../types';
 import { getEllipseIntersectPoint } from '../../utils/point';
-import { subStyleProps } from '../../utils/prefix';
 import type { BaseNodeStyleProps } from './base-node';
 import { BaseNode } from './base-node';
 
-type KeyShapeStyleProps = GCircleStyleProps;
-export type CircleStyleProps = BaseNodeStyleProps<KeyShapeStyleProps>;
+type CircleKeyStyleProps = GCircleStyleProps;
+export type CircleStyleProps = BaseNodeStyleProps<CircleKeyStyleProps>;
 type ParsedCircleStyleProps = Required<CircleStyleProps>;
-type CircleOptions = DisplayObjectConfig<CircleStyleProps>;
+type CircleOptions = DisplayObjectConfig<Omit<CircleStyleProps, 'r'>>;
 
 /**
  * Draw circle based on BaseNode, override drawKeyShape.
  */
-export class Circle extends BaseNode<GCircleStyleProps, GCircle> {
+export class Circle extends BaseNode<CircleKeyStyleProps, GCircle> {
   constructor(options: CircleOptions) {
-    super(options);
-  }
-
-  protected getHaloStyle(attributes: ParsedCircleStyleProps) {
-    if (attributes.halo === false) return false;
-
-    const haloStyle = subStyleProps(this.getGraphicStyle(attributes), 'halo') as Partial<GCircleStyleProps>;
-    const keyStyle = this.getKeyStyle(attributes);
-
-    const { lineWidth } = haloStyle;
-    const { r } = keyStyle;
-
-    const haloR = Number(r) + Number(lineWidth) / 2 || 0;
-
-    return {
-      ...keyStyle,
-      r: haloR,
-      ...haloStyle,
-    } as GCircleStyleProps;
+    super(options as DisplayObjectConfig<CircleStyleProps>);
   }
 
   protected drawKeyShape(attributes: ParsedCircleStyleProps, container: Group): GCircle {
     return this.upsert('key', GCircle, this.getKeyStyle(attributes), container) as GCircle;
   }
 
-  public getIntersectPoint(point: Point): Point {
-    const keyShapeBounds = this.shapeMap.key.getLocalBounds();
-    return getEllipseIntersectPoint(point, keyShapeBounds);
+  protected getKeyStyle(attributes: ParsedCircleStyleProps): CircleKeyStyleProps {
+    const { x, y, width, height, ...keyStyle } = super.getKeyStyle(attributes) as Required<CircleStyleProps>;
+    return {
+      ...keyStyle,
+      cx: x,
+      cy: y,
+      r: Math.min(width, height) / 2,
+    };
   }
 
-  connectedCallback() {}
+  public getIntersectPoint(point: Point): Point {
+    const keyShapeBounds = this.getKey().getBounds();
+    return getEllipseIntersectPoint(point, keyShapeBounds);
+  }
 }

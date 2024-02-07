@@ -9,9 +9,10 @@ export const edgeAnchor: StaticTestCase = async (context) => {
     new Circle({
       id: 'node-1',
       style: {
-        cx: 50,
-        cy: 50,
-        r: 25,
+        x: 50,
+        y: 50,
+        width: 50,
+        height: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
       },
@@ -22,9 +23,10 @@ export const edgeAnchor: StaticTestCase = async (context) => {
     new Circle({
       id: 'node-2',
       style: {
-        cx: 200,
-        cy: 50,
-        r: 25,
+        x: 200,
+        y: 50,
+        width: 50,
+        height: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
       },
@@ -52,9 +54,10 @@ export const edgeAnchor: StaticTestCase = async (context) => {
     new Circle({
       id: 'node-3',
       style: {
-        cx: 50,
-        cy: 150,
-        r: 25,
+        x: 50,
+        y: 150,
+        width: 50,
+        height: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
         anchorOptions: [
@@ -71,9 +74,10 @@ export const edgeAnchor: StaticTestCase = async (context) => {
     new Circle({
       id: 'node-4',
       style: {
-        cx: 200,
-        cy: 150,
-        r: 25,
+        x: 200,
+        y: 150,
+        width: 50,
+        height: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
         anchorOptions: [
@@ -109,9 +113,10 @@ export const edgeAnchor: StaticTestCase = async (context) => {
     new Circle({
       id: 'node-5',
       style: {
-        cx: 50,
-        cy: 250,
-        r: 25,
+        x: 50,
+        y: 250,
+        width: 50,
+        height: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
         anchorOptions: [
@@ -126,9 +131,10 @@ export const edgeAnchor: StaticTestCase = async (context) => {
     new Circle({
       id: 'node-6',
       style: {
-        cx: 200,
-        cy: 250,
-        r: 25,
+        x: 200,
+        y: 250,
+        width: 50,
+        height: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
         anchorOptions: [
@@ -160,9 +166,10 @@ export const edgeAnchor: StaticTestCase = async (context) => {
     new Circle({
       id: 'node-7',
       style: {
-        cx: 50,
-        cy: 350,
-        r: 25,
+        x: 50,
+        y: 350,
+        width: 50,
+        height: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
         anchorOptions: [
@@ -177,9 +184,10 @@ export const edgeAnchor: StaticTestCase = async (context) => {
     new Circle({
       id: 'node-8',
       style: {
-        cx: 200,
-        cy: 350,
-        r: 25,
+        x: 200,
+        y: 350,
+        width: 50,
+        height: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
         anchorOptions: [
@@ -212,9 +220,10 @@ export const edgeAnchor: StaticTestCase = async (context) => {
     new Circle({
       id: 'node-9',
       style: {
-        cx: 50,
-        cy: 450,
-        r: 25,
+        x: 50,
+        y: 450,
+        width: 50,
+        height: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
         anchorOptions: [
@@ -229,9 +238,10 @@ export const edgeAnchor: StaticTestCase = async (context) => {
     new Circle({
       id: 'node-10',
       style: {
-        cx: 200,
-        cy: 450,
-        r: 25,
+        x: 200,
+        y: 450,
+        width: 50,
+        height: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
         anchorOptions: [
@@ -264,9 +274,10 @@ export const edgeAnchor: StaticTestCase = async (context) => {
     new Circle({
       id: 'node-11',
       style: {
-        cx: 300,
-        cy: 50,
-        r: 25,
+        x: 300,
+        y: 50,
+        width: 50,
+        height: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
       },
@@ -277,9 +288,10 @@ export const edgeAnchor: StaticTestCase = async (context) => {
     new Circle({
       id: 'node-12',
       style: {
-        cx: 450,
-        cy: 50,
-        r: 25,
+        x: 450,
+        y: 50,
+        width: 50,
+        height: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
         anchorOptions: [
@@ -311,9 +323,10 @@ export const edgeAnchor: StaticTestCase = async (context) => {
     new Circle({
       id: 'node-13',
       style: {
-        cx: 300,
-        cy: 150,
-        r: 25,
+        x: 300,
+        y: 150,
+        width: 50,
+        height: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
       },
@@ -324,9 +337,10 @@ export const edgeAnchor: StaticTestCase = async (context) => {
     new Circle({
       id: 'node-14',
       style: {
-        cx: 450,
-        cy: 150,
-        r: 25,
+        x: 450,
+        y: 150,
+        width: 50,
+        height: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
         anchorOptions: [
@@ -359,9 +373,10 @@ export const edgeAnchor: StaticTestCase = async (context) => {
     new Circle({
       id: 'node-15',
       style: {
-        cx: 300,
-        cy: 250,
-        r: 25,
+        x: 300,
+        y: 250,
+        width: 50,
+        height: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
         anchorOptions: [
@@ -376,9 +391,10 @@ export const edgeAnchor: StaticTestCase = async (context) => {
     new Circle({
       id: 'node-16',
       style: {
-        cx: 450,
-        cy: 250,
-        r: 25,
+        x: 450,
+        y: 250,
+        width: 50,
+        height: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
       },
@@ -406,9 +422,10 @@ export const edgeAnchor: StaticTestCase = async (context) => {
     new Circle({
       id: 'node-17',
       style: {
-        cx: 300,
-        cy: 350,
-        r: 25,
+        x: 300,
+        y: 350,
+        width: 50,
+        height: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
         anchorOptions: [
@@ -423,9 +440,10 @@ export const edgeAnchor: StaticTestCase = async (context) => {
     new Circle({
       id: 'node-18',
       style: {
-        cx: 450,
-        cy: 350,
-        r: 25,
+        x: 450,
+        y: 350,
+        width: 50,
+        height: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
       },
@@ -454,9 +472,10 @@ export const edgeAnchor: StaticTestCase = async (context) => {
     new Circle({
       id: 'node-19',
       style: {
-        cx: 300,
-        cy: 450,
-        r: 25,
+        x: 300,
+        y: 450,
+        width: 50,
+        height: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
         anchorOptions: [
@@ -473,8 +492,9 @@ export const edgeAnchor: StaticTestCase = async (context) => {
       style: {
         x: 450,
         y: 450,
-        outerR: 25,
-        innerR: 16,
+        width: 50,
+        height: 50,
+        innerR: 10,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
       },

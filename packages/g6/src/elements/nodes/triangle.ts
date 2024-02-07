@@ -2,10 +2,10 @@ import type { DisplayObjectConfig, Group, PolygonStyleProps } from '@antv/g';
 import { Polygon } from '@antv/g';
 import { deepMix, isEmpty } from '@antv/util';
 import type { Point } from '../../types';
-import { getTriangleAnchorByPosition, getTriangleAnchors, getTrianglePoints } from '../../utils/element';
+import { getTrianglePoints } from '../../utils/element';
 import { getPolygonIntersectPoint } from '../../utils/point';
 import { subStyleProps } from '../../utils/prefix';
-import type { BaseNodeStyleProps, NodeAnchorStyleProps } from './base-node';
+import type { BaseNodeStyleProps } from './base-node';
 import { BaseNode } from './base-node';
 
 type TriangleShapeStyleProps = {
@@ -61,22 +61,6 @@ export class Triangle extends BaseNode<KeyShapeStyleProps, Polygon> {
       ...keyStyle,
       ...haloStyle,
     };
-  }
-
-  protected getAnchorsStyle(attributes: ParsedTriangleStyleProps): NodeAnchorStyleProps[] {
-    if (attributes.anchor === false) return [];
-
-    const { width, heigh = width, direction } = attributes;
-    const r = Math.min(width, heigh) / 2;
-    const anchors = getTriangleAnchors(r, direction);
-
-    const anchorStyle = this.getGraphicStyle(attributes).anchorOptions || [];
-
-    return anchorStyle.map((anchorStyle) => {
-      const { position, ...style } = anchorStyle;
-      const [cx, cy] = getTriangleAnchorByPosition(position as any, anchors);
-      return { cx, cy, ...style } as NodeAnchorStyleProps;
-    });
   }
 
   protected getIconStyle(attributes: ParsedTriangleStyleProps) {

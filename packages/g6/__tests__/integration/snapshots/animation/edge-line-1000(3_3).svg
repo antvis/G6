@@ -32,32 +32,32 @@
           <path
             id="key"
             fill="none"
-            d="M 6.077701994871214,3.4729725684978363 L 0,0 L 343.92229800512877,196.52702743150218"
+            d="M 5.209458852746755,2.9768336301410026 L 0,0 L 344.79054114725324,197.02316636985898"
             stroke="rgba(24,144,255,1)"
             stroke-width="2"
             stroke-dasharray="10,10"
           />
-          <g transform="matrix(0.868243,0.496139,-0.496139,0.868243,6.077702,3.472973)">
+          <g transform="matrix(0.868243,0.496139,-0.496139,0.868243,5.209459,2.976834)">
             <path
               id="g-svg-8"
               fill="rgba(24,144,255,1)"
               d="M 0,5 A 5 5 0 1 0 10 5 A 5 5 0 1 0 0 5 Z"
               transform="translate(-5,-5)"
               stroke="rgba(24,144,255,1)"
-              stroke-width="2"
+              stroke-width="1"
               stroke-dasharray="0,0"
               width="10"
               height="10"
             />
           </g>
-          <g transform="matrix(-0.868243,-0.496139,0.496139,-0.868243,343.922302,196.527023)">
+          <g transform="matrix(-0.868243,-0.496139,0.496139,-0.868243,344.790527,197.023163)">
             <path
               id="g-svg-10"
               fill="rgba(255,0,0,1)"
               d="M 0,5 L 10,0 L 10,10 Z"
               transform="translate(-5,-5)"
               stroke="rgba(24,144,255,1)"
-              stroke-width="2"
+              stroke-width="1"
               stroke-dasharray="0,0"
               width="10"
               height="10"

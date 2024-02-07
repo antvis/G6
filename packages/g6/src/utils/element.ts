@@ -90,14 +90,27 @@ export function findAnchor(node: Node, anchorKey?: string, oppositeNode?: Node):
  * Get the Text style by `position`.
  * @param bbox - BBox of element.
  * @param position - The postion relative with element.
+ * @param isReverseBaseline - Whether reverse the baseline.
  * @returns Partial<TextStyleProps>
  */
-export function getTextStyleByPosition(bbox: AABB, position: LabelPosition = 'bottom'): Partial<TextStyleProps> {
+export function getTextStyleByPosition(
+  bbox: AABB,
+  position: LabelPosition = 'bottom',
+  isReverseBaseline = false,
+): Partial<TextStyleProps> {
   const direction = position.split('-');
   const [x, y] = getXYByPosition(bbox, position);
 
-  const textBaseline = direction.includes('top') ? 'bottom' : direction.includes('bottom') ? 'top' : 'middle';
   const textAlign = direction.includes('left') ? 'right' : direction.includes('right') ? 'left' : 'center';
+
+  let textBaseline: TextStyleProps['textBaseline'] = direction.includes('top')
+    ? 'bottom'
+    : direction.includes('bottom')
+      ? 'top'
+      : 'middle';
+  if (isReverseBaseline) {
+    textBaseline = textBaseline === 'top' ? 'bottom' : textBaseline === 'bottom' ? 'top' : textBaseline;
+  }
 
   return {
     x,
@@ -108,10 +121,12 @@ export function getTextStyleByPosition(bbox: AABB, position: LabelPosition = 'bo
 }
 
 /**
- * Get Star PathArray.
- * @param outerR - outer redius
- * @param innerR - inner redius
- * @returns The PathArray for G
+ * <zh/> 获取五角星的顶点
+ *
+ * <en/> Get Star Points
+ * @param outerR - <zh/> 外半径 | <en/> outer radius
+ * @param innerR - <zh/> 内半径 | <en/> inner radius
+ * @returns <zh/> 五角星的顶点 | <en/> Star Points
  */
 export function getStarPoints(outerR: number, innerR?: number): Point[] {
   innerR = innerR ? innerR : (outerR * 3) / 8;
@@ -244,10 +259,12 @@ export function getTriangleAnchorByPosition(position: TriangleAnchorPosition, an
 }
 
 /**
- * Get Rect PathArray.
- * @param width - rect width
- * @param height - rect height
- * @returns The PathArray for G
+ * <zh/> 获取矩形的顶点
+ *
+ * <en/> Get the points of a rectangle
+ * @param width - <zh/> 宽度 | <en/> width
+ * @param height - <zh/> 高度 | <en/> height
+ * @returns <zh/> 矩形的顶点 | <en/> The points of a rectangle
  */
 export function getRectPoints(width: number, height: number): Point[] {
   return [

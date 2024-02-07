@@ -18,7 +18,38 @@ export type BaseElementProps = {
   color?: string;
 };
 
-export type BaseNodeProps = {};
+export type BaseNodeProps = BaseElementProps & {
+  /**
+   * <zh/> x 坐标
+   * <en/> The x-coordinate of node
+   */
+  x?: number;
+  /**
+   * <zh/> y 坐标
+   * <en/> The y-coordinate of node
+   */
+  y?: number;
+  /**
+   * <zh/> z 坐标
+   * <en/> The z-coordinate of node
+   */
+  z?: number;
+  /**
+   * <zh/> 节点宽度
+   * <en/> The width of node
+   */
+  width?: number;
+  /**
+   * <zh/> 节点高度
+   * <en/> The height of node
+   */
+  height?: number;
+  /**
+   * <zh/> 节点深度
+   * <en/> The depth of node
+   */
+  depth?: number;
+};
 
 export type BaseEdgeProps = BaseElementProps & {
   /**

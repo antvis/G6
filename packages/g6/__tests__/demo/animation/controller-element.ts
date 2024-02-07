@@ -22,9 +22,9 @@ export const controllerElement: AnimationTestCase = async (context) => {
   const options: G6Spec = {
     data: {
       nodes: [
-        { id: 'node-1', style: { cx: 50, cy: 50 } },
-        { id: 'node-2', style: { cx: 200, cy: 50 } },
-        { id: 'node-3', style: { cx: 125, cy: 150 } },
+        { id: 'node-1', style: { x: 50, y: 50 } },
+        { id: 'node-2', style: { x: 200, y: 50 } },
+        { id: 'node-3', style: { x: 125, y: 150 } },
       ],
       edges: [
         { source: 'node-1', target: 'node-2' },
@@ -35,7 +35,8 @@ export const controllerElement: AnimationTestCase = async (context) => {
     theme: 'light',
     node: {
       style: {
-        r: 10,
+        width: 20,
+        height: 20,
       },
     },
     edge: {
@@ -52,14 +53,14 @@ export const controllerElement: AnimationTestCase = async (context) => {
   await renderResult?.finished;
 
   elementContext.dataController.addNodeData([
-    { id: 'node-4', style: { cx: 50, cy: 200, stroke: 'orange' } },
-    { id: 'node-5', style: { cx: 75, cy: 150, stroke: 'purple' } },
-    { id: 'node-6', style: { cx: 200, cy: 100, stroke: 'cyan' } },
+    { id: 'node-4', style: { x: 50, y: 200, stroke: 'orange' } },
+    { id: 'node-5', style: { x: 75, y: 150, stroke: 'purple' } },
+    { id: 'node-6', style: { x: 200, y: 100, stroke: 'cyan' } },
   ]);
 
   elementContext.dataController.removeNodeData(['node-1']);
 
-  elementContext.dataController.updateNodeData([{ id: 'node-2', style: { cx: 200, cy: 200, stroke: 'green' } }]);
+  elementContext.dataController.updateNodeData([{ id: 'node-2', style: { x: 200, y: 200, stroke: 'green' } }]);
 
   const result = await elementController.render(elementContext);
 

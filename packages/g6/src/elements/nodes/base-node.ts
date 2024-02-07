@@ -1,7 +1,7 @@
 import type { DisplayObject, DisplayObjectConfig, CircleStyleProps as GCircleStyleProps, Group } from '@antv/g';
 import { Circle as GCircle } from '@antv/g';
 import { deepMix, isEmpty } from '@antv/util';
-import type { BadgePosition, LabelPosition, Point, PrefixObject } from '../../types';
+import type { AnchorPosition, BadgePosition, BaseNodeProps, LabelPosition, Point, PrefixObject } from '../../types';
 import { getAnchorPosition, getTextStyleByPosition, getXYByPosition } from '../../utils/element';
 import { getRectIntersectPoint } from '../../utils/point';
 import { omitStyleProps, subObject, subStyleProps } from '../../utils/prefix';
@@ -9,14 +9,27 @@ import { getWordWrapWidthByBox } from '../../utils/text';
 import type { BadgeStyleProps, BaseShapeStyleProps, IconStyleProps, LabelStyleProps } from '../shapes';
 import { Badge, BaseShape, Icon, Label } from '../shapes';
 
-export type NodeLabelStyleProps = LabelStyleProps & { position: LabelPosition; maxWidth: string | number };
-export type NodeBadgeStyleProps = BadgeStyleProps & { position: BadgePosition };
-export type NodeAnchorStyleProps = GCircleStyleProps & { key?: string; position: string | [number, number] };
-export type NodeIconStyleProps = IconStyleProps;
+type NodeLabelStyleProps = LabelStyleProps & { position?: LabelPosition; maxWidth?: string | number };
+type NodeBadgeStyleProps = BadgeStyleProps & { position?: BadgePosition };
+type NodeBadgesStyleProps = {
+  options: NodeBadgeStyleProps[];
+  zIndex?: number;
+};
+export type NodeAnchorStyleProps = Partial<GCircleStyleProps> & {
+  key?: string;
+  position: string | [number, number];
+  width?: number;
+  height?: number;
+};
+type NodeAnchorsStyleProps = {
+  options: NodeAnchorStyleProps[];
+  zIndex?: number;
+};
+type NodeIconStyleProps = IconStyleProps;
 
+export type BaseNodeKeyStyleProps<KT> = BaseNodeProps & KT;
 export type BaseNodeStyleProps<KT extends object> = BaseShapeStyleProps &
-  // Key
-  KT & {
+  BaseNodeKeyStyleProps<KT> & {
     // Whether to show the blocks.
     label?: boolean;
     halo?: boolean;
@@ -28,22 +41,12 @@ export type BaseNodeStyleProps<KT extends object> = BaseShapeStyleProps &
   PrefixObject<KT, 'halo'> &
   // Icon
   PrefixObject<NodeIconStyleProps, 'icon'> &
-  // Badge
-  PrefixObject<
-    {
-      options: NodeBadgeStyleProps[];
-    },
-    'badge'
-  > &
+  // Badges
+  PrefixObject<NodeBadgesStyleProps, 'badge'> &
   // Anchor
-  PrefixObject<
-    {
-      options: NodeAnchorStyleProps[];
-    },
-    'anchor'
-  >;
+  PrefixObject<NodeAnchorsStyleProps, 'anchor'>;
 
-type ParsedBaseNodeStyleProps<KT extends object> = Required<BaseNodeStyleProps<KT>>;
+export type ParsedBaseNodeStyleProps<KT extends object> = Required<BaseNodeStyleProps<KT>>;
 
 type BaseNodeOptions<KT extends object> = DisplayObjectConfig<BaseNodeStyleProps<KT>>;
 
@@ -54,48 +57,80 @@ type BaseNodeOptions<KT extends object> = DisplayObjectConfig<BaseNodeStyleProps
  * - icon
  * - badges
  * - label, background included
- * - anchors / ports
+ * - anchors
  */
 export abstract class BaseNode<KT extends object, KS extends DisplayObject<any, any>> extends BaseShape<
   BaseNodeStyleProps<KT>
 > {
-  static defaultStyleProps: BaseNodeStyleProps<BaseShapeStyleProps> = {
+  static defaultStyleProps: BaseNodeStyleProps<any> = {
+    x: 0,
+    y: 0,
+    z: 0,
+    width: 32,
+    height: 32,
+    label: true,
+    labelPosition: 'bottom',
     labelMaxWidth: '200%',
+    labelIsBillboard: true,
     halo: false,
-    haloFill: 'none',
-    haloPointerEvents: 'none',
     haloOpacity: 0.25,
     haloLineWidth: 12,
+    haloPointerEvents: 'none',
+    haloLineDash: 0,
+    haloZIndex: -1,
+    haloDroppable: false,
+    labelZIndex: 0,
+    icon: true,
+    iconWidth: 20,
+    iconHeight: 20,
+    iconZIndex: 1,
+    badge: true,
+    badgeZIndex: 3,
+    badgeOptions: undefined,
+    anchorZIndex: 2,
+    anchorOptions: undefined,
   };
 
   constructor(options: BaseNodeOptions<KT>) {
     super(deepMix({}, { style: BaseNode.defaultStyleProps }, options));
   }
 
-  protected getKeyStyle(attributes: ParsedBaseNodeStyleProps<KT>): KT {
-    const style = this.getGraphicStyle(attributes);
-    return omitStyleProps(style, ['label', 'halo', 'icon', 'badge', 'anchor']);
+  protected getKeyStyle(attributes: ParsedBaseNodeStyleProps<KT>): BaseNodeKeyStyleProps<KT> {
+    const { color, ...style } = this.getGraphicStyle(attributes);
+
+    return Object.assign(
+      { fill: color },
+      omitStyleProps(style, ['label', 'halo', 'icon', 'badge', 'anchor']),
+    ) as unknown as BaseNodeKeyStyleProps<KT>;
   }
 
-  protected getLabelStyle(attributes: ParsedBaseNodeStyleProps<KT>) {
+  protected getLabelStyle(attributes: ParsedBaseNodeStyleProps<KT>): false | LabelStyleProps {
     if (attributes.label === false || isEmpty(attributes.labelText)) return false;
 
-    const { position, maxWidth, ...labelStyle } = subStyleProps<NodeLabelStyleProps>(
+    const { position, maxWidth, ...labelStyle } = subStyleProps<Required<NodeLabelStyleProps>>(
       this.getGraphicStyle(attributes),
       'label',
-    ) as unknown as NodeLabelStyleProps;
+    );
     const keyShape = this.getKey();
+    const keyBounds = keyShape.getLocalBounds();
 
-    return {
-      ...getTextStyleByPosition(keyShape.getLocalBounds(), position),
-      wordWrapWidth: getWordWrapWidthByBox(keyShape.getLocalBounds(), maxWidth),
-      ...labelStyle,
-    } as NodeLabelStyleProps;
+    return Object.assign(
+      getTextStyleByPosition(keyBounds, position),
+      { wordWrapWidth: getWordWrapWidthByBox(keyBounds, maxWidth) },
+      labelStyle,
+    );
   }
 
-  protected abstract getHaloStyle(attributes: ParsedBaseNodeStyleProps<KT>): KT | false;
+  protected getHaloStyle(attributes: ParsedBaseNodeStyleProps<KT>): false | KT {
+    if (attributes.halo === false) return false;
 
-  protected getIconStyle(attributes: ParsedBaseNodeStyleProps<KT>) {
+    const keyStyle = this.getKeyStyle(attributes);
+    const haloStyle = subStyleProps<KT>(this.getGraphicStyle(attributes), 'halo');
+
+    return { ...keyStyle, ...haloStyle };
+  }
+
+  protected getIconStyle(attributes: ParsedBaseNodeStyleProps<KT>): false | IconStyleProps {
     if (attributes.icon === false || isEmpty(attributes.iconText || attributes.iconSrc)) return false;
 
     const iconStyle = subStyleProps(this.getGraphicStyle(attributes), 'icon');
@@ -106,33 +141,63 @@ export abstract class BaseNode<KT extends object, KS extends DisplayObject<any, 
       x,
       y,
       ...iconStyle,
-    } as IconStyleProps;
+    };
   }
 
-  protected getBadgesStyle(attributes: ParsedBaseNodeStyleProps<KT>): NodeBadgeStyleProps[] {
-    if (attributes.badge === false) return [];
+  protected getBadgesStyle(attributes: ParsedBaseNodeStyleProps<KT>): Record<string, NodeBadgeStyleProps | false> {
+    const badges = subObject(this.shapeMap, 'badge-');
+    const badgesStyle: Record<string, NodeBadgeStyleProps | false> = {};
 
-    const badgesStyle = this.getGraphicStyle(attributes).badgeOptions || [];
-    const keyShape = this.getKey();
-
-    return badgesStyle.map((badgeStyle) => {
-      const { position, ...style } = badgeStyle;
-      const textStyle = getTextStyleByPosition(keyShape.getLocalBounds(), position);
-      return { ...textStyle, ...style } as NodeBadgeStyleProps;
+    Object.keys(badges).forEach((key) => {
+      badgesStyle[key] = false;
     });
+
+    if (attributes.badge === false || isEmpty(attributes.badgeOptions)) return badgesStyle;
+
+    const { options, zIndex } = subStyleProps<Required<NodeBadgesStyleProps>>(
+      this.getGraphicStyle(attributes),
+      'badge',
+    );
+    options.forEach((option, i) => {
+      badgesStyle[i] = { zIndex, ...this.getBadgeStyle(option) };
+    });
+
+    return badgesStyle;
   }
 
-  protected getAnchorsStyle(attributes: ParsedBaseNodeStyleProps<KT>): NodeAnchorStyleProps[] {
-    if (attributes.anchor === false) return [];
-
-    const anchorStyle = this.getGraphicStyle(attributes).anchorOptions || [];
+  protected getBadgeStyle(style: NodeBadgeStyleProps): NodeBadgeStyleProps {
     const keyShape = this.getKey();
+    const { position = 'top', ...restStyle } = style;
+    const textStyle = getTextStyleByPosition(keyShape.getLocalBounds(), position, true);
+    return { ...textStyle, ...restStyle };
+  }
 
-    return anchorStyle.map((anchorStyle) => {
-      const { position, ...style } = anchorStyle;
-      const [cx, cy] = getAnchorPosition(keyShape.getLocalBounds(), position as any);
-      return { cx, cy, ...style } as NodeAnchorStyleProps;
+  protected getAnchorsStyle(attributes: ParsedBaseNodeStyleProps<KT>): Record<string, GCircleStyleProps | false> {
+    const anchors = this.getAnchors();
+    const anchorsStyle: Record<string, GCircleStyleProps | false> = {};
+
+    Object.keys(anchors).forEach((key) => {
+      anchorsStyle[key] = false;
     });
+
+    if (attributes.anchor === false || isEmpty(attributes.anchorOptions)) return anchorsStyle;
+
+    const { options, zIndex } = subStyleProps<Required<NodeAnchorsStyleProps>>(
+      this.getGraphicStyle(attributes),
+      'anchor',
+    );
+    options.forEach((option, i) => {
+      anchorsStyle[option.key || i] = { zIndex, ...this.getAnchorStyle(attributes, option) };
+    });
+    return anchorsStyle;
+  }
+
+  protected getAnchorStyle(attributes: ParsedBaseNodeStyleProps<KT>, style: NodeAnchorStyleProps): GCircleStyleProps {
+    const keyShape = this.getKey();
+    const { position = 'left', width = 8, height = 8, ...restStyle } = style;
+    const r = Math.min(width, height) / 2;
+    const [cx, cy] = getAnchorPosition(keyShape.getLocalBounds(), position as AnchorPosition);
+    return Object.assign({ cx, cy, r }, restStyle);
   }
 
   /**
@@ -169,46 +234,61 @@ export abstract class BaseNode<KT extends object, KS extends DisplayObject<any, 
     return getRectIntersectPoint(point, keyShapeBounds);
   }
 
-  protected abstract drawKeyShape(attributes: ParsedBaseNodeStyleProps<KT>, container: Group): KS;
+  protected drawHaloShape(attributes: ParsedBaseNodeStyleProps<KT>, container: Group): void {
+    const keyShape = this.getKey();
+    this.upsert(
+      'halo',
+      keyShape.constructor as new (...args: unknown[]) => KS,
+      this.getHaloStyle(attributes),
+      container,
+    );
+  }
+
+  protected drawBadgeShapes(attributes: ParsedBaseNodeStyleProps<KT>, container: Group): void {
+    const badgesStyle = this.getBadgesStyle(attributes);
+    Object.keys(badgesStyle).forEach((key) => {
+      this.upsert(`badge-${key}`, Badge, badgesStyle[key], container);
+    });
+  }
+
+  protected drawAnchorShapes(attributes: ParsedBaseNodeStyleProps<KT>, container: Group): void {
+    const anchorsStyle = this.getAnchorsStyle(attributes);
+    Object.keys(anchorsStyle).forEach((key) => {
+      this.upsert(`anchor-${key}`, GCircle, anchorsStyle[key], container);
+    });
+  }
+
+  protected abstract drawKeyShape(attributes: ParsedBaseNodeStyleProps<KT>, container: Group): KS | undefined;
 
   public render(attributes = this.parsedAttributes, container: Group = this) {
-    /**
-     * The order of rendering is important, the later one will cover the previous one.
-     * const NODE_INDEX = {
-     *   KEY: 1,
-     *   HALO: 2,
-     *   ICON: 3,
-     *   BADGE: 4,
-     *   LABEL: 5,
-     *   ANCHOR: 6,
-     * };
-     */
-
     // 1. key shape
     const keyShape = this.drawKeyShape(attributes, container);
     if (!keyShape) return;
 
     // 2. halo, use shape same with keyShape
-    this.upsert('halo', keyShape.constructor as any, this.getHaloStyle(attributes), container);
+    this.drawHaloShape(attributes, container);
 
     // 3. icon
     this.upsert('icon', Icon, this.getIconStyle(attributes), container);
 
     // 4. badges
-    const badgesStyle = this.getBadgesStyle(attributes);
-    badgesStyle.forEach((badgeStyle, i) => {
-      this.upsert(`badge-${i}`, Badge, badgeStyle, container);
-    });
+    this.drawBadgeShapes(attributes, container);
 
     // 5. label
     this.upsert('label', Label, this.getLabelStyle(attributes), container);
 
     // 6. anchors
-    const anchorStyle = this.getAnchorsStyle(attributes);
-    anchorStyle.forEach((anchorStyle, i) => {
-      const { key } = anchorStyle;
-      this.upsert(`anchor-${key ? key : i}`, GCircle, anchorStyle, container);
-    });
+    this.drawAnchorShapes(attributes, container);
+  }
+
+  animate(keyframes: Keyframe[] | PropertyIndexedKeyframes, options?: number | KeyframeAnimationOptions) {
+    const result = super.animate(keyframes, options);
+
+    result.onframe = () => {
+      this.drawBadgeShapes(this.parsedAttributes, this);
+    };
+
+    return result;
   }
 
   connectedCallback() {}
