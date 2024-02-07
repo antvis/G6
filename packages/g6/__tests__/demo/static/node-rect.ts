@@ -81,12 +81,12 @@ export const nodeRect: StaticTestCase = async (context) => {
         y: 250,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
-        width: 50,
-        height: 50,
         // anchors
         anchors: [
-          { position: [1, 0.5], stroke: '#31d0c6', fill: '#fff' },
-          { position: [1, 0.8], stroke: '#31d0c6', fill: '#fff' },
+          { position: 'left', stroke: '#31d0c6', fill: '#fff' },
+          { position: 'right', stroke: '#31d0c6', fill: '#fff' },
+          { position: 'top', stroke: '#31d0c6', fill: '#fff' },
+          { position: 'bottom', stroke: '#31d0c6', fill: '#fff' },
         ],
       },
     }),
@@ -100,12 +100,11 @@ export const nodeRect: StaticTestCase = async (context) => {
         y: 175,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
-        width: 50,
-        height: 50,
         // anchors
         anchors: [
           { position: [0, 0.2], stroke: '#31d0c6', fill: '#fff' },
           { position: [0, 0.5], stroke: '#31d0c6', fill: '#fff' },
+          { position: [0, 0.8], stroke: '#31d0c6', fill: '#fff' },
         ],
       },
     }),
@@ -131,8 +130,6 @@ export const nodeRect: StaticTestCase = async (context) => {
         y: 250,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
-        width: 50,
-        height: 50,
       },
     }),
   );
@@ -145,8 +142,6 @@ export const nodeRect: StaticTestCase = async (context) => {
         y: 175,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
-        width: 50,
-        height: 50,
       },
     }),
   );

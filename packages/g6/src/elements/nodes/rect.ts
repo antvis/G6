@@ -1,4 +1,5 @@
 import type { DisplayObjectConfig } from '@antv/g';
+import { deepMix } from '@antv/util';
 import type { Point } from '../../types';
 import { getRectPoints } from '../../utils/element';
 import type { PolygonStyleProps } from './polygon';
@@ -10,11 +11,16 @@ type ParsedRectStyleProps = Required<RectStyleProps>;
 type RectOptions = DisplayObjectConfig<RectStyleProps>;
 
 export class Rect extends Polygon<RectKeyStyleProps> {
+  static defaultStyleProps: Partial<RectStyleProps> = {
+    width: 100,
+    height: 30,
+  };
+
   constructor(options: RectOptions) {
-    super(options);
+    super(deepMix({}, { style: Rect.defaultStyleProps }, options));
   }
 
   protected getPoints(attributes: ParsedRectStyleProps): Point[] {
-    return getRectPoints(attributes.width, attributes.height);
+    return getRectPoints(Number(attributes.width), Number(attributes.height));
   }
 }
