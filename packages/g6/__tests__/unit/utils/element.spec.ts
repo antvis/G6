@@ -1,10 +1,10 @@
 import { AABB } from '@antv/g';
 import { Circle } from '../../../src/elements/nodes';
 import {
-  getAnchorPosition,
-  getStarAnchorByPosition,
-  getStarAnchors,
+  getPortPosition,
   getStarPoints,
+  getStarPortByPosition,
+  getStarPorts,
   getTextStyleByPosition,
   getXYByPosition,
   isSameNode,
@@ -41,16 +41,16 @@ describe('element', () => {
     expect(getXYByPosition(bbox)).toEqual([150, 150]);
   });
 
-  it('getAnchorPosition', () => {
-    expect(getAnchorPosition(bbox, 'left')).toEqual([100, 150]);
-    expect(getAnchorPosition(bbox, 'right')).toEqual([200, 150]);
-    expect(getAnchorPosition(bbox, 'top')).toEqual([150, 100]);
-    expect(getAnchorPosition(bbox, 'bottom')).toEqual([150, 200]);
+  it('getPortPosition', () => {
+    expect(getPortPosition(bbox, 'left')).toEqual([100, 150]);
+    expect(getPortPosition(bbox, 'right')).toEqual([200, 150]);
+    expect(getPortPosition(bbox, 'top')).toEqual([150, 100]);
+    expect(getPortPosition(bbox, 'bottom')).toEqual([150, 200]);
 
-    expect(getAnchorPosition(bbox)).toEqual([150, 150]);
+    expect(getPortPosition(bbox)).toEqual([150, 150]);
 
-    expect(getAnchorPosition(bbox, [0.5, 1])).toEqual([150, 200]);
-    expect(getAnchorPosition(bbox, [0, 0.5])).toEqual([100, 150]);
+    expect(getPortPosition(bbox, [0.5, 1])).toEqual([150, 200]);
+    expect(getPortPosition(bbox, [0, 0.5])).toEqual([100, 150]);
   });
 
   it('getTextStyleByPosition', () => {
@@ -111,9 +111,9 @@ describe('element', () => {
     expect(getStarPoints(32, 16).length).toBe(10);
   });
 
-  it('getStarAnchorByPosition + getStarAnchors', () => {
+  it('getStarPortByPosition + getStarPorts', () => {
     expect(getStarPoints(32, 16).length).toBe(10);
 
-    expect(getStarAnchorByPosition('top', getStarAnchors(32, 16))).toEqual([0, -32]);
+    expect(getStarPortByPosition('top', getStarPorts(32, 16))).toEqual([0, -32]);
   });
 });

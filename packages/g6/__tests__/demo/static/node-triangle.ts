@@ -31,8 +31,8 @@ export const nodeTriangle: StaticTestCase = async (context) => {
         { text: 'Important', position: 'right', backgroundFill: 'blue', fill: 'white', fontSize: 10 },
         { text: 'Notice', position: 'left-bottom', backgroundFill: 'red', fill: 'white', fontSize: 10 },
       ],
-      // anchor
-      anchors: [
+      // port
+      ports: [
         { position: 'left', r: 2, stroke: 'black', lineWidth: 1, zIndex: 2 },
         { position: 'right', r: 2, stroke: 'yellow', lineWidth: 2, zIndex: 2 },
         { position: 'top', r: 2, stroke: 'green', lineWidth: 1, zIndex: 2 },

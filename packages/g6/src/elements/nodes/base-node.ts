@@ -2,15 +2,15 @@ import type { DisplayObject, DisplayObjectConfig, CircleStyleProps as GCircleSty
 import { Circle as GCircle } from '@antv/g';
 import { deepMix, isEmpty } from '@antv/util';
 import type {
-  AnchorPosition,
   BadgePosition,
   BaseNodeProps,
   ExtractGShapeStyleProps,
   LabelPosition,
   Point,
+  PortPosition,
   PrefixObject,
 } from '../../types';
-import { getAnchorPosition, getTextStyleByPosition, getXYByPosition } from '../../utils/element';
+import { getPortPosition, getTextStyleByPosition, getXYByPosition } from '../../utils/element';
 import { getRectIntersectPoint } from '../../utils/point';
 import { omitStyleProps, subObject, subStyleProps } from '../../utils/prefix';
 import { getWordWrapWidthByBox } from '../../utils/text';
@@ -23,15 +23,15 @@ type NodeBadgesStyleProps = {
   badges?: NodeBadgeStyleProps[];
   badgeZIndex?: number;
 };
-export type NodeAnchorStyleProps = Partial<GCircleStyleProps> & {
+export type NodePortStyleProps = Partial<GCircleStyleProps> & {
   key?: string;
   position: string | [number, number];
   width?: number;
   height?: number;
 };
-type NodeAnchorsStyleProps = {
-  anchors?: NodeAnchorStyleProps[];
-  anchorZIndex?: number;
+type NodePortsStyleProps = {
+  ports?: NodePortStyleProps[];
+  portZIndex?: number;
 };
 type NodeIconStyleProps = IconStyleProps;
 
@@ -42,7 +42,7 @@ export type BaseNodeStyleProps<P extends object> = BaseShapeStyleProps &
     halo?: boolean;
     icon?: boolean;
     badge?: boolean;
-    anchor?: boolean;
+    port?: boolean;
   } & PrefixObject<NodeLabelStyleProps, 'label'> & // Label
   // Halo
   PrefixObject<P, 'halo'> &
@@ -50,8 +50,8 @@ export type BaseNodeStyleProps<P extends object> = BaseShapeStyleProps &
   PrefixObject<NodeIconStyleProps, 'icon'> &
   // Badges
   NodeBadgesStyleProps &
-  // Anchor
-  NodeAnchorsStyleProps;
+  // Port
+  NodePortsStyleProps;
 
 export type ParsedBaseNodeStyleProps<P extends object> = Required<BaseNodeStyleProps<P>>;
 
@@ -64,7 +64,7 @@ type BaseNodeOptions<P extends object> = DisplayObjectConfig<BaseNodeStyleProps<
  * - icon
  * - badges
  * - label, background included
- * - anchors
+ * - ports
  */
 export abstract class BaseNode<
   P extends BaseNodeProps<object>,
@@ -76,8 +76,8 @@ export abstract class BaseNode<
     z: 0,
     width: 32,
     height: 32,
-    anchors: [],
-    anchorZIndex: 2,
+    ports: [],
+    portZIndex: 2,
     badges: [],
     badgeZIndex: 3,
     halo: false,
@@ -105,7 +105,7 @@ export abstract class BaseNode<
 
     return Object.assign(
       { fill: color },
-      omitStyleProps(style, ['label', 'halo', 'icon', 'badge', 'anchor']),
+      omitStyleProps(style, ['label', 'halo', 'icon', 'badge', 'port']),
     ) as ExtractGShapeStyleProps<GSHAPE>;
   }
 
@@ -174,28 +174,28 @@ export abstract class BaseNode<
     return { ...textStyle, ...restStyle };
   }
 
-  protected getAnchorsStyle(attributes: ParsedBaseNodeStyleProps<P>): Record<string, GCircleStyleProps | false> {
-    const anchors = this.getAnchors();
-    const anchorsStyle: Record<string, GCircleStyleProps | false> = {};
+  protected getPortsStyle(attributes: ParsedBaseNodeStyleProps<P>): Record<string, GCircleStyleProps | false> {
+    const ports = this.getPorts();
+    const portsStyle: Record<string, GCircleStyleProps | false> = {};
 
-    Object.keys(anchors).forEach((key) => {
-      anchorsStyle[key] = false;
+    Object.keys(ports).forEach((key) => {
+      portsStyle[key] = false;
     });
 
-    if (attributes.anchor === false || isEmpty(attributes.anchors)) return anchorsStyle;
+    if (attributes.port === false || isEmpty(attributes.ports)) return portsStyle;
 
-    const { anchors: anchorOptions = [], anchorZIndex } = attributes;
-    anchorOptions.forEach((option, i) => {
-      anchorsStyle[option.key || i] = { zIndex: anchorZIndex, ...this.getAnchorStyle(attributes, option) };
+    const { ports: portOptions = [], portZIndex } = attributes;
+    portOptions.forEach((option, i) => {
+      portsStyle[option.key || i] = { zIndex: portZIndex, ...this.getPortStyle(attributes, option) };
     });
-    return anchorsStyle;
+    return portsStyle;
   }
 
-  protected getAnchorStyle(attributes: ParsedBaseNodeStyleProps<P>, style: NodeAnchorStyleProps): GCircleStyleProps {
+  protected getPortStyle(attributes: ParsedBaseNodeStyleProps<P>, style: NodePortStyleProps): GCircleStyleProps {
     const keyShape = this.getKey();
     const { position = 'left', width = 8, height = 8, ...restStyle } = style;
     const r = Math.min(width, height) / 2;
-    const [cx, cy] = getAnchorPosition(keyShape.getLocalBounds(), position as AnchorPosition);
+    const [cx, cy] = getPortPosition(keyShape.getLocalBounds(), position as PortPosition);
     return Object.assign({ cx, cy, r }, restStyle);
   }
 
@@ -208,11 +208,11 @@ export abstract class BaseNode<
   }
 
   /**
-   * Get the anchors for the node.
-   * @returns Anchors shape map.
+   * Get the ports for the node.
+   * @returns Ports shape map.
    */
-  public getAnchors(): Record<string, GCircle> {
-    return subObject(this.shapeMap, 'anchor-');
+  public getPorts(): Record<string, GCircle> {
+    return subObject(this.shapeMap, 'port-');
   }
 
   /**
@@ -250,10 +250,10 @@ export abstract class BaseNode<
     });
   }
 
-  protected drawAnchorShapes(attributes: ParsedBaseNodeStyleProps<P>, container: Group): void {
-    const anchorsStyle = this.getAnchorsStyle(attributes);
-    Object.keys(anchorsStyle).forEach((key) => {
-      this.upsert(`anchor-${key}`, GCircle, anchorsStyle[key], container);
+  protected drawPortShapes(attributes: ParsedBaseNodeStyleProps<P>, container: Group): void {
+    const portsStyle = this.getPortsStyle(attributes);
+    Object.keys(portsStyle).forEach((key) => {
+      this.upsert(`port-${key}`, GCircle, portsStyle[key], container);
     });
   }
 
@@ -276,8 +276,8 @@ export abstract class BaseNode<
     // 5. label
     this.upsert('label', Label, this.getLabelStyle(attributes), container);
 
-    // 6. anchors
-    this.drawAnchorShapes(attributes, container);
+    // 6. ports
+    this.drawPortShapes(attributes, container);
   }
 
   animate(keyframes: Keyframe[] | PropertyIndexedKeyframes, options?: number | KeyframeAnimationOptions) {

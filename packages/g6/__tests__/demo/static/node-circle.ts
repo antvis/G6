@@ -54,8 +54,8 @@ export const nodeCircle: StaticTestCase = async (context) => {
         labelText: 'no-label',
         // halo
         halo: true,
-        // anchors
-        anchors: [
+        // ports
+        ports: [
           { position: 'left', stroke: '#31d0c6', fill: '#fff' },
           { position: 'right', stroke: '#31d0c6', fill: '#fff' },
           { position: 'top', stroke: '#31d0c6', fill: '#fff' },
@@ -83,8 +83,8 @@ export const nodeCircle: StaticTestCase = async (context) => {
         stroke: '#8b9baf',
         width: 50,
         height: 50,
-        // anchors
-        anchors: [
+        // ports
+        ports: [
           { position: 'left', stroke: '#31d0c6', fill: '#fff' },
           { position: 'right', stroke: '#31d0c6', fill: '#fff' },
           { position: 'top', stroke: '#31d0c6', fill: '#fff' },
@@ -104,8 +104,8 @@ export const nodeCircle: StaticTestCase = async (context) => {
         stroke: '#8b9baf',
         width: 50,
         height: 50,
-        // anchors
-        anchors: [
+        // ports
+        ports: [
           { position: [0, 0.2], stroke: '#31d0c6', fill: '#fff' },
           { position: [0, 0.5], stroke: '#31d0c6', fill: '#fff' },
           { position: [0, 0.8], stroke: '#31d0c6', fill: '#fff' },

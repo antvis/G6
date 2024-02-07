@@ -65,15 +65,15 @@ export type BaseEdgeProps<ShapeProps> = BaseElementProps & {
    */
   targetNode: Node;
   /**
-   * <zh/> 边起始连接的 anchor
-   * <en/> The Anchor of the source node
+   * <zh/> 边起始连接的 port
+   * <en/> The Port of the source node
    */
-  sourceAnchor?: string;
+  sourcePort?: string;
   /**
-   * <zh/> 边终点连接的 anchor
-   * <en/> The Anchor of the target node
+   * <zh/> 边终点连接的 port
+   * <en/> The Port of the target node
    */
-  targetAnchor?: string;
+  targetPort?: string;
   /**
    * <zh/> 边的起点
    * <en/> The source point. Represents the start of the edge

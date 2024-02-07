@@ -16,7 +16,7 @@ export const edgeLoop: StaticTestCase = async (context) => {
         height: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
-        anchors: [
+        ports: [
           { key: 'left', position: [0, 0.5], r: 4, stroke: '#31d0c6', fill: '#fff' },
           { key: 'right', position: [1, 0.5], r: 4, fill: '#31d0c6' },
           { key: 'top', position: [0.5, 0], r: 4, fill: '#31d0c6' },
@@ -31,8 +31,8 @@ export const edgeLoop: StaticTestCase = async (context) => {
       style: {
         sourceNode: node1,
         targetNode: node1,
-        sourceAnchor: 'top',
-        targetAnchor: 'right',
+        sourcePort: 'top',
+        targetPort: 'right',
         loopDist: 80,
         stroke: '#1890FF',
         lineWidth: 2,
@@ -51,7 +51,7 @@ export const edgeLoop: StaticTestCase = async (context) => {
         height: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
-        anchors: [
+        ports: [
           { key: 'left', position: [0, 0.5], r: 4, stroke: '#31d0c6', fill: '#fff' },
           { key: 'right', position: [1, 0.5], r: 4, fill: '#31d0c6' },
           { key: 'top', position: [0.5, 0], r: 4, stroke: '#31d0c6', fill: '#fff' },
@@ -66,7 +66,7 @@ export const edgeLoop: StaticTestCase = async (context) => {
       style: {
         sourceNode: node2,
         targetNode: node2,
-        sourceAnchor: 'right',
+        sourcePort: 'right',
         stroke: '#1890FF',
         lineWidth: 2,
         endArrow: true,
@@ -84,7 +84,7 @@ export const edgeLoop: StaticTestCase = async (context) => {
         height: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
-        anchors: [{ key: 'right-bottom', position: 'right-bottom', r: 4, fill: '#31d0c6' }],
+        ports: [{ key: 'right-bottom', position: 'right-bottom', r: 4, fill: '#31d0c6' }],
       },
     }),
   );
@@ -94,7 +94,7 @@ export const edgeLoop: StaticTestCase = async (context) => {
       style: {
         sourceNode: node2_1,
         targetNode: node2_1,
-        sourceAnchor: 'right-bottom',
+        sourcePort: 'right-bottom',
         stroke: '#1890FF',
         lineWidth: 2,
         endArrow: true,

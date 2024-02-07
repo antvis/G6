@@ -11,7 +11,7 @@ import type { PathArray } from '@antv/util';
 import { deepMix, isEmpty, isEqual, isFunction } from '@antv/util';
 import type { BaseEdgeProps, EdgeKey, EdgeLabelStyleProps, LoopEdgePosition, Point, PrefixObject } from '../../types';
 import { getCubicPath, getLabelPositionStyle, getLoopPoints } from '../../utils/edge';
-import { findAnchor, isSameNode } from '../../utils/element';
+import { findPort, isSameNode } from '../../utils/element';
 import { getEllipseIntersectPoint } from '../../utils/point';
 import { omitStyleProps, subStyleProps } from '../../utils/prefix';
 import type { SymbolFactor } from '../../utils/symbol';
@@ -130,8 +130,8 @@ export abstract class BaseEdge<KT extends BaseEdgeProps<object>> extends BaseSha
   protected getLoopPath(attributes: ParsedBaseEdgeStyleProps<KT>): PathArray | undefined {
     const {
       sourceNode: node,
-      sourceAnchor: sourceAnchorKey,
-      targetAnchor: targetAnchorKey,
+      sourcePort: sourcePortKey,
+      targetPort: targetPortKey,
       sourcePoint: rawSourcePoint,
       targetPoint: rawTargetPoint,
     } = attributes;
@@ -145,8 +145,8 @@ export abstract class BaseEdge<KT extends BaseEdgeProps<object>> extends BaseSha
 
     const { sourcePoint, targetPoint, controlPoints } = getLoopPoints(
       node,
-      sourceAnchorKey!,
-      targetAnchorKey!,
+      sourcePortKey!,
+      targetPortKey!,
       rawSourcePoint!,
       rawTargetPoint!,
       position,
@@ -160,23 +160,23 @@ export abstract class BaseEdge<KT extends BaseEdgeProps<object>> extends BaseSha
     const {
       sourceNode,
       targetNode,
-      sourceAnchor: sourceAnchorKey,
-      targetAnchor: targetAnchorKey,
+      sourcePort: sourcePortKey,
+      targetPort: targetPortKey,
       sourcePoint: rawSourcePoint,
       targetPoint: rawTargetPoint,
     } = attributes;
 
     if (rawSourcePoint && rawTargetPoint) return [rawSourcePoint, rawTargetPoint];
 
-    const sourceAnchor = findAnchor(sourceNode, sourceAnchorKey, targetNode);
-    const targetAnchor = findAnchor(targetNode, targetAnchorKey, sourceNode);
+    const sourcePort = findPort(sourceNode, sourcePortKey, targetNode);
+    const targetPort = findPort(targetNode, targetPortKey, sourceNode);
 
-    const sourcePoint = sourceAnchor
-      ? getEllipseIntersectPoint(targetNode.getCenter(), sourceAnchor.getBounds())
-      : sourceNode.getIntersectPoint(targetAnchor?.getPosition() || targetNode.getCenter());
-    const targetPoint = targetAnchor
-      ? getEllipseIntersectPoint(sourceNode.getCenter(), targetAnchor.getBounds())
-      : targetNode.getIntersectPoint(sourceAnchor?.getPosition() || sourceNode.getCenter());
+    const sourcePoint = sourcePort
+      ? getEllipseIntersectPoint(targetNode.getCenter(), sourcePort.getBounds())
+      : sourceNode.getIntersectPoint(targetPort?.getPosition() || targetNode.getCenter());
+    const targetPoint = targetPort
+      ? getEllipseIntersectPoint(sourceNode.getCenter(), targetPort.getBounds())
+      : targetNode.getIntersectPoint(sourcePort?.getPosition() || sourceNode.getCenter());
 
     return [sourcePoint || sourceNode.getCenter(), targetPoint || targetNode.getCenter()];
   }

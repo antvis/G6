@@ -2,11 +2,11 @@ import type { AABB, Circle as GCircle, TextStyleProps } from '@antv/g';
 import { get, isEmpty, isString } from '@antv/util';
 import type { Node, Point } from '../types';
 import type {
-  AnchorPosition,
   LabelPosition,
+  PortPosition,
   RelativePosition,
-  StarAnchorPosition,
-  TriangleAnchorPosition,
+  StarPortPosition,
+  TrianglePortPosition,
 } from '../types/node';
 import { findNearestPoints } from './point';
 
@@ -37,12 +37,12 @@ export function getXYByPosition(bbox: AABB, position: RelativePosition = 'center
 }
 
 /**
- * Get the Anchor x, y by `position`.
+ * Get the Port x, y by `position`.
  * @param bbox - BBox of element.
  * @param position - The postion relative with element.
  * @returns [x, y]
  */
-export function getAnchorPosition(bbox: AABB, position?: AnchorPosition): Point {
+export function getPortPosition(bbox: AABB, position?: PortPosition): Point {
   const MAP = {
     top: [0.5, 0],
     right: [1, 0.5],
@@ -65,22 +65,22 @@ export function getAnchorPosition(bbox: AABB, position?: AnchorPosition): Point 
 /**
  * <zh/> 获取节点的锚点
  *
- * <en/> Get the Anchor of Node.
+ * <en/> Get the Port of Node.
  * @param node - <zh/> 节点 | <en/> Node
- * @param anchorKey - <zh/> 锚点的 key | <en/> Anchor key
+ * @param portKey - <zh/> 锚点的 key | <en/> Port key
  * @param oppositeNode - <zh/> 对端节点 | <en/> Opposite Node
- * @returns <zh/> 锚点 | <en/> Anchor
+ * @returns <zh/> 锚点 | <en/> Port
  */
-export function findAnchor(node: Node, anchorKey?: string, oppositeNode?: Node): GCircle | undefined {
-  if (anchorKey && node.getAnchors()[anchorKey]) {
-    return node.getAnchors()[anchorKey];
+export function findPort(node: Node, portKey?: string, oppositeNode?: Node): GCircle | undefined {
+  if (portKey && node.getPorts()[portKey]) {
+    return node.getPorts()[portKey];
   } else {
-    const anchors = Object.values(node.getAnchors());
-    if (!isEmpty(anchors)) {
-      const positions = anchors.map((anchor) => anchor.getPosition());
+    const ports = Object.values(node.getPorts());
+    if (!isEmpty(ports)) {
+      const positions = ports.map((port) => port.getPosition());
       const targetPosition = oppositeNode ? [oppositeNode.getCenter()] : positions;
       const [nearestPosition] = findNearestPoints(positions, targetPosition);
-      return anchors.find((anchor) => anchor.getPosition() === nearestPosition);
+      return ports.find((port) => port.getPosition() === nearestPosition);
     }
     return undefined;
   }
@@ -145,12 +145,12 @@ export function getStarPoints(outerR: number, innerR?: number): Point[] {
 }
 
 /**
- * Get Star Anchor Point.
+ * Get Star Port Point.
  * @param outerR - outer radius
  * @param innerR - inner radius
- * @returns Anchor points for Star.
+ * @returns Port points for Star.
  */
-export function getStarAnchors(outerR: number, innerR: number): Record<string, Point> {
+export function getStarPorts(outerR: number, innerR: number): Record<string, Point> {
   const r: Record<string, Point> = {};
 
   r['top'] = [0, -outerR];
@@ -169,13 +169,13 @@ export function getStarAnchors(outerR: number, innerR: number): Record<string, P
 }
 
 /**
- * Get Star Anchor Point by `position`.
+ * Get Star Port Point by `position`.
  * @param position - position
- * @param anchors - anchors
+ * @param ports - ports
  * @returns points
  */
-export function getStarAnchorByPosition(position: StarAnchorPosition, anchors: Record<string, Point>) {
-  return get(anchors, position.toLocaleLowerCase(), anchors['default']);
+export function getStarPortByPosition(position: StarPortPosition, ports: Record<string, Point>) {
+  return get(ports, position.toLocaleLowerCase(), ports['default']);
 }
 
 /**
@@ -217,45 +217,45 @@ export function getTrianglePoints(r: number, direction: 'up' | 'left' | 'right' 
 }
 
 /**
- * Get Triangle Anchor Point.
+ * Get Triangle Port Point.
  * @param r - radius of circumcircle of triangle
  * @param direction - direction of triangle
- * @returns Anchor points for Triangle.
+ * @returns Port points for Triangle.
  */
-export function getTriangleAnchors(r: number, direction: 'up' | 'left' | 'right' | 'down'): Record<string, Point> {
+export function getTrianglePorts(r: number, direction: 'up' | 'left' | 'right' | 'down'): Record<string, Point> {
   const halfHeight = (3 * r) / 4;
   const halfLength = r * Math.sin((1 / 3) * Math.PI);
 
-  const anchors: Record<string, Point> = {};
+  const ports: Record<string, Point> = {};
   if (direction === 'down') {
-    anchors['bottom'] = anchors['default'] = [0, halfHeight];
-    anchors['right'] = [halfLength, -halfHeight];
-    anchors['left'] = [-halfLength, -halfHeight];
+    ports['bottom'] = ports['default'] = [0, halfHeight];
+    ports['right'] = [halfLength, -halfHeight];
+    ports['left'] = [-halfLength, -halfHeight];
   } else if (direction === 'left') {
-    anchors['top'] = [halfHeight, -halfLength];
-    anchors['bottom'] = [halfHeight, halfLength];
-    anchors['left'] = anchors['default'] = [-halfHeight, 0];
+    ports['top'] = [halfHeight, -halfLength];
+    ports['bottom'] = [halfHeight, halfLength];
+    ports['left'] = ports['default'] = [-halfHeight, 0];
   } else if (direction === 'right') {
-    anchors['top'] = [-halfHeight, -halfLength];
-    anchors['bottom'] = [-halfHeight, halfLength];
-    anchors['right'] = anchors['default'] = [halfHeight, 0];
+    ports['top'] = [-halfHeight, -halfLength];
+    ports['bottom'] = [-halfHeight, halfLength];
+    ports['right'] = ports['default'] = [halfHeight, 0];
   } else {
     //up
-    anchors['left'] = [-halfLength, halfHeight];
-    anchors['top'] = anchors['default'] = [0, -halfHeight];
-    anchors['right'] = [halfLength, halfHeight];
+    ports['left'] = [-halfLength, halfHeight];
+    ports['top'] = ports['default'] = [0, -halfHeight];
+    ports['right'] = [halfLength, halfHeight];
   }
-  return anchors;
+  return ports;
 }
 
 /**
- * Get Star Anchor Point by `position`.
+ * Get Star Port Point by `position`.
  * @param position - position
- * @param anchors - anchors
+ * @param ports - ports
  * @returns points
  */
-export function getTriangleAnchorByPosition(position: TriangleAnchorPosition, anchors: Record<string, Point>) {
-  return get(anchors, position.toLocaleLowerCase(), anchors['default']);
+export function getTrianglePortByPosition(position: TrianglePortPosition, ports: Record<string, Point>) {
+  return get(ports, position.toLocaleLowerCase(), ports['default']);
 }
 
 /**

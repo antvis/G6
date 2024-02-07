@@ -2,7 +2,7 @@ import { Cubic, Line } from '../../../../g6/src/elements/edges';
 import { Circle, Star } from '../../../../g6/src/elements/nodes';
 import type { StaticTestCase } from '../types';
 
-export const edgeAnchor: StaticTestCase = async (context) => {
+export const edgePort: StaticTestCase = async (context) => {
   const { canvas } = context;
 
   const node1 = canvas.appendChild(
@@ -40,7 +40,7 @@ export const edgeAnchor: StaticTestCase = async (context) => {
         targetNode: node2,
         stroke: '#1890FF',
         lineWidth: 2,
-        labelText: 'sourceAnchor❓ targetAnchor❓',
+        labelText: 'sourcePort❓ targetPort❓',
         labelFontSize: 12,
         labelMaxLines: 2,
         labelWordWrap: true,
@@ -60,7 +60,7 @@ export const edgeAnchor: StaticTestCase = async (context) => {
         height: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
-        anchors: [
+        ports: [
           { key: 'left', position: [0, 0.5], r: 4, stroke: '#31d0c6', fill: '#fff' },
           { key: 'right', position: [1, 0.5], r: 4, fill: '#31d0c6' },
           { key: 'top', position: [0.5, 0], r: 4, stroke: '#31d0c6', fill: '#fff' },
@@ -80,7 +80,7 @@ export const edgeAnchor: StaticTestCase = async (context) => {
         height: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
-        anchors: [
+        ports: [
           { key: 'left', position: [0, 0.5], r: 4, stroke: '#31d0c6', fill: '#fff' },
           { key: 'right', position: [1, 0.5], r: 4, stroke: '#31d0c6', fill: '#fff' },
           { key: 'top', position: [0.5, 0], r: 4, stroke: '#31d0c6', fill: '#fff' },
@@ -95,10 +95,10 @@ export const edgeAnchor: StaticTestCase = async (context) => {
       style: {
         sourceNode: node3,
         targetNode: node4,
-        sourceAnchor: 'right',
-        targetAnchor: 'bottom',
+        sourcePort: 'right',
+        targetPort: 'bottom',
         lineWidth: 2,
-        labelText: 'sourceAnchor✅ targetAnchor✅',
+        labelText: 'sourcePort✅ targetPort✅',
         labelFontSize: 12,
         labelMaxLines: 2,
         labelWordWrap: true,
@@ -119,7 +119,7 @@ export const edgeAnchor: StaticTestCase = async (context) => {
         height: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
-        anchors: [
+        ports: [
           { key: 'left', position: [0, 0.5], r: 4, stroke: '#31d0c6', fill: '#fff' },
           { key: 'right', position: [1, 0.5], r: 4, stroke: '#31d0c6', fill: '#fff' },
         ],
@@ -137,7 +137,7 @@ export const edgeAnchor: StaticTestCase = async (context) => {
         height: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
-        anchors: [
+        ports: [
           { key: 'top', position: [0.5, 0], r: 4, stroke: '#31d0c6', fill: '#fff' },
           { key: 'bottom', position: [0.5, 1], r: 4, stroke: '#31d0c6', fill: '#fff' },
         ],
@@ -151,7 +151,7 @@ export const edgeAnchor: StaticTestCase = async (context) => {
         sourceNode: node5,
         targetNode: node6,
         lineWidth: 2,
-        labelText: 'sourceAnchor✖️ targetAnchor✖️',
+        labelText: 'sourcePort✖️ targetPort✖️',
         labelFontSize: 12,
         labelMaxLines: 2,
         labelWordWrap: true,
@@ -172,7 +172,7 @@ export const edgeAnchor: StaticTestCase = async (context) => {
         height: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
-        anchors: [
+        ports: [
           { key: 'left', position: [0, 0.5], r: 4, stroke: '#31d0c6', fill: '#fff' },
           { key: 'right', position: [1, 0.5], r: 4, stroke: '#31d0c6', fill: '#fff' },
         ],
@@ -190,7 +190,7 @@ export const edgeAnchor: StaticTestCase = async (context) => {
         height: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
-        anchors: [
+        ports: [
           { key: 'top', position: [0.5, 0], r: 4, stroke: '#31d0c6', fill: '#fff' },
           { key: 'bottom', position: [0.5, 1], r: 4, fill: '#31d0c6' },
         ],
@@ -203,9 +203,9 @@ export const edgeAnchor: StaticTestCase = async (context) => {
       style: {
         sourceNode: node7,
         targetNode: node8,
-        targetAnchor: 'bottom',
+        targetPort: 'bottom',
         lineWidth: 2,
-        labelText: 'sourceAnchor✖️ targetAnchor✅',
+        labelText: 'sourcePort✖️ targetPort✅',
         labelFontSize: 12,
         labelMaxLines: 2,
         labelWordWrap: true,
@@ -226,7 +226,7 @@ export const edgeAnchor: StaticTestCase = async (context) => {
         height: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
-        anchors: [
+        ports: [
           { key: 'left', position: [0, 0.5], r: 4, fill: '#31d0c6' },
           { key: 'right', position: [1, 0.5], r: 4, stroke: '#31d0c6', fill: '#fff' },
         ],
@@ -244,7 +244,7 @@ export const edgeAnchor: StaticTestCase = async (context) => {
         height: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
-        anchors: [
+        ports: [
           { key: 'top', position: [0.5, 0], r: 4, stroke: '#31d0c6', fill: '#fff' },
           { key: 'bottom', position: [0.5, 1], r: 4, stroke: '#31d0c6', fill: '#fff' },
         ],
@@ -257,9 +257,9 @@ export const edgeAnchor: StaticTestCase = async (context) => {
       style: {
         sourceNode: node9,
         targetNode: node10,
-        sourceAnchor: 'left',
+        sourcePort: 'left',
         lineWidth: 2,
-        labelText: 'sourceAnchor✅ targetAnchor✖️',
+        labelText: 'sourcePort✅ targetPort✖️',
         labelFontSize: 12,
         labelMaxLines: 2,
         labelWordWrap: true,
@@ -294,7 +294,7 @@ export const edgeAnchor: StaticTestCase = async (context) => {
         height: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
-        anchors: [
+        ports: [
           { key: 'bottom', position: [0.5, 1], r: 4, stroke: '#31d0c6', fill: '#fff' },
           { key: 'right', position: [1, 0.5], r: 4, stroke: '#31d0c6', fill: '#fff' },
         ],
@@ -308,7 +308,7 @@ export const edgeAnchor: StaticTestCase = async (context) => {
         sourceNode: node11,
         targetNode: node12,
         lineWidth: 2,
-        labelText: 'sourceAnchor❓ targetAnchor✖️',
+        labelText: 'sourcePort❓ targetPort✖️',
         labelFontSize: 12,
         labelMaxLines: 2,
         labelWordWrap: true,
@@ -343,7 +343,7 @@ export const edgeAnchor: StaticTestCase = async (context) => {
         height: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
-        anchors: [
+        ports: [
           { key: 'bottom', position: [0.5, 1], r: 4, stroke: '#31d0c6', fill: '#fff' },
           { key: 'right', position: [1, 0.5], r: 4, fill: '#31d0c6' },
         ],
@@ -356,9 +356,9 @@ export const edgeAnchor: StaticTestCase = async (context) => {
       style: {
         sourceNode: node13,
         targetNode: node14,
-        targetAnchor: 'right',
+        targetPort: 'right',
         lineWidth: 2,
-        labelText: 'sourceAnchor❓ targetAnchor✅',
+        labelText: 'sourcePort❓ targetPort✅',
         labelFontSize: 12,
         labelMaxLines: 2,
         labelWordWrap: true,
@@ -379,7 +379,7 @@ export const edgeAnchor: StaticTestCase = async (context) => {
         height: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
-        anchors: [
+        ports: [
           { key: 'bottom', position: [0.5, 1], r: 4, stroke: '#31d0c6', fill: '#fff' },
           { key: 'right', position: [1, 0.5], r: 4, stroke: '#31d0c6', fill: '#fff' },
         ],
@@ -407,7 +407,7 @@ export const edgeAnchor: StaticTestCase = async (context) => {
         sourceNode: node15,
         targetNode: node16,
         lineWidth: 2,
-        labelText: 'sourceAnchor✖️ targetAnchor❓',
+        labelText: 'sourcePort✖️ targetPort❓',
         labelFontSize: 12,
         labelMaxLines: 2,
         labelWordWrap: true,
@@ -428,7 +428,7 @@ export const edgeAnchor: StaticTestCase = async (context) => {
         height: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
-        anchors: [
+        ports: [
           { key: 'bottom', position: [0.5, 1], r: 4, fill: '#31d0c6' },
           { key: 'right', position: [1, 0.5], r: 4, stroke: '#31d0c6', fill: '#fff' },
         ],
@@ -455,9 +455,9 @@ export const edgeAnchor: StaticTestCase = async (context) => {
       style: {
         sourceNode: node17,
         targetNode: node18,
-        sourceAnchor: 'bottom',
+        sourcePort: 'bottom',
         lineWidth: 2,
-        labelText: 'sourceAnchor✅ targetAnchor❓',
+        labelText: 'sourcePort✅ targetPort❓',
         labelFontSize: 12,
         labelMaxLines: 2,
         labelWordWrap: true,
@@ -478,7 +478,7 @@ export const edgeAnchor: StaticTestCase = async (context) => {
         height: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
-        anchors: [
+        ports: [
           { key: 'bottom', position: [0.5, 1], r: 4, fill: '#31d0c6' },
           { key: 'right', position: [1, 0.5], r: 4, stroke: '#31d0c6', fill: '#fff' },
         ],
@@ -506,9 +506,9 @@ export const edgeAnchor: StaticTestCase = async (context) => {
       style: {
         sourceNode: node19,
         targetNode: node20,
-        sourceAnchor: 'bottom',
+        sourcePort: 'bottom',
         lineWidth: 2,
-        labelText: 'sourceAnchor✅ targetAnchor❓',
+        labelText: 'sourcePort✅ targetPort❓',
         labelFontSize: 12,
         labelMaxLines: 2,
         labelWordWrap: true,

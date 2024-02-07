@@ -54,8 +54,8 @@ export const nodeStar: StaticTestCase = async (context) => {
         labelText: 'no-label',
         // halo
         halo: true,
-        // anchors
-        anchors: [
+        // ports
+        ports: [
           { position: 'left', stroke: '#31d0c6', fill: '#fff' },
           { position: 'right', stroke: '#31d0c6', fill: '#fff' },
           { position: 'top', stroke: '#31d0c6', fill: '#fff' },
@@ -84,8 +84,8 @@ export const nodeStar: StaticTestCase = async (context) => {
         stroke: '#8b9baf',
         width: 50,
         height: 50,
-        // anchors
-        anchors: [
+        // ports
+        ports: [
           { position: 'left', stroke: '#31d0c6', fill: '#fff' },
           { position: 'right', stroke: '#31d0c6', fill: '#fff' },
           { position: 'top', stroke: '#31d0c6', fill: '#fff' },
@@ -106,8 +106,8 @@ export const nodeStar: StaticTestCase = async (context) => {
         stroke: '#8b9baf',
         width: 50,
         height: 50,
-        // anchors
-        anchors: [
+        // ports
+        ports: [
           { position: 'left', stroke: '#31d0c6', fill: '#fff' },
           { position: 'right', stroke: '#31d0c6', fill: '#fff' },
           { position: 'top', stroke: '#31d0c6', fill: '#fff' },
