@@ -1,5 +1,6 @@
 import type { AABB, Circle as GCircle, TextStyleProps } from '@antv/g';
 import { get, isEmpty, isString } from '@antv/util';
+import type { TriangleDirection } from '../elements/nodes/triangle';
 import type { Node, Point } from '../types';
 import type { LabelPosition, RelativePosition } from '../types/node';
 import { getBBoxHeight, getBBoxWidth } from './bbox';
@@ -168,93 +169,74 @@ export function getStarPorts(outerR: number, innerR: number): Record<string, Poi
 }
 
 /**
- * Get Star Port Point by `position`.
- * @param position - position
- * @param ports - ports
- * @returns points
+ * <zh/> 获取三角形的顶点
+ *
+ * <en/> Get the points of a triangle
+ * @param width - <zh/> 宽度 | <en/> width
+ * @param height - <zh/> 高度 | <en/> height
+ * @param direction - <zh/> 三角形的方向 | <en/> The direction of the triangle
+ * @returns <zh/> 矩形的顶点 | <en/> The points of a rectangle
  */
-export function getStarPortByPosition(position: StarPortPosition, ports: Record<string, Point>) {
-  return get(ports, position.toLocaleLowerCase(), ports['default']);
-}
-
-/**
- * Get Triangle Points.
- * @param r - radius of circumcircle of triangle
- * @param direction - direction of triangle
- * @returns The PathArray for G
- */
-export function getTrianglePoints(r: number, direction: 'up' | 'left' | 'right' | 'down'): Point[] {
-  const halfHeight = (3 * r) / 4;
-  const halfLength = r * Math.sin((1 / 3) * Math.PI);
-  if (direction === 'down') {
-    return [
+export function getTrianglePoints(width: number, height: number, direction: TriangleDirection): Point[] {
+  const halfHeight = height / 2;
+  const halfWidth = width / 2;
+  const MAP: Record<TriangleDirection, Point[]> = {
+    up: [
+      [-halfWidth, halfHeight],
+      [halfWidth, halfHeight],
+      [0, -halfHeight],
+    ],
+    left: [
+      [-halfWidth, 0],
+      [halfWidth, halfHeight],
+      [halfWidth, -halfHeight],
+    ],
+    right: [
+      [-halfWidth, halfHeight],
+      [-halfWidth, -halfHeight],
+      [halfWidth, 0],
+    ],
+    down: [
+      [-halfWidth, -halfHeight],
+      [halfWidth, -halfHeight],
       [0, halfHeight],
-      [halfLength, -halfHeight],
-      [-halfLength, -halfHeight],
-    ];
-  }
-  if (direction === 'left') {
-    return [
-      [-halfHeight, 0],
-      [halfHeight, halfLength],
-      [halfHeight, -halfLength],
-    ];
-  }
-  if (direction === 'right') {
-    return [
-      [halfHeight, 0],
-      [-halfHeight, halfLength],
-      [-halfHeight, -halfLength],
-    ];
-  }
-  // up
-  return [
-    [0, -halfHeight],
-    [halfLength, halfHeight],
-    [-halfLength, halfHeight],
-  ];
+    ],
+  };
+  return MAP[direction] || MAP['up'];
 }
 
 /**
- * Get Triangle Port Point.
- * @param r - radius of circumcircle of triangle
- * @param direction - direction of triangle
- * @returns Port points for Triangle.
+ * <zh/> 获取三角形的锚点
+ *
+ * <en/> Get the Ports of Triangle.
+ * @param width - <zh/> 宽度 | <en/> width
+ * @param height - <zh/> 高度 | <en/> height
+ * @param direction - <zh/> 三角形的方向 | <en/> The direction of the triangle
+ * @returns <zh/> 三角形的锚点 | <en/> The Ports of Triangle
  */
-export function getTrianglePorts(r: number, direction: 'up' | 'left' | 'right' | 'down'): Record<string, Point> {
-  const halfHeight = (3 * r) / 4;
-  const halfLength = r * Math.sin((1 / 3) * Math.PI);
-
+export function getTrianglePorts(width: number, height: number, direction: TriangleDirection): Record<string, Point> {
+  const halfHeight = height / 2;
+  const halfWidth = width / 2;
   const ports: Record<string, Point> = {};
   if (direction === 'down') {
     ports['bottom'] = ports['default'] = [0, halfHeight];
-    ports['right'] = [halfLength, -halfHeight];
-    ports['left'] = [-halfLength, -halfHeight];
+    ports['right'] = [halfWidth, -halfHeight];
+    ports['left'] = [-halfWidth, -halfHeight];
   } else if (direction === 'left') {
-    ports['top'] = [halfHeight, -halfLength];
-    ports['bottom'] = [halfHeight, halfLength];
-    ports['left'] = ports['default'] = [-halfHeight, 0];
+    ports['top'] = [halfWidth, -halfHeight];
+    ports['bottom'] = [halfWidth, halfHeight];
+    ports['left'] = ports['default'] = [-halfWidth, 0];
   } else if (direction === 'right') {
-    ports['top'] = [-halfHeight, -halfLength];
-    ports['bottom'] = [-halfHeight, halfLength];
-    ports['right'] = ports['default'] = [halfHeight, 0];
+    ports['top'] = [-halfWidth, -halfHeight];
+    ports['bottom'] = [-halfWidth, halfHeight];
+    ports['right'] = ports['default'] = [halfWidth, 0];
   } else {
     //up
-    ports['left'] = [-halfLength, halfHeight];
+    ports['left'] = [-halfWidth, halfHeight];
     ports['top'] = ports['default'] = [0, -halfHeight];
-    ports['right'] = [halfLength, halfHeight];
+    ports['right'] = [halfWidth, halfHeight];
   }
   return ports;
-}
-
-/**
- * Get Star Port Point by `position`.
- * @param position - position
- * @param ports - ports
- * @returns points
- */
-export function getTrianglePortByPosition(position: TrianglePortPosition, ports: Record<string, Point>) {
-  return get(ports, position.toLocaleLowerCase(), ports['default']);
 }
 
 /**
