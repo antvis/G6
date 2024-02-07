@@ -1,29 +1,35 @@
 import type { DisplayObjectConfig, CircleStyleProps as GCircleStyleProps, Group } from '@antv/g';
 import { Circle as GCircle } from '@antv/g';
-import type { Point } from '../../types';
+import { deepMix } from '@antv/util';
+import type { BaseNodeProps, Point } from '../../types';
 import { getEllipseIntersectPoint } from '../../utils/point';
 import type { BaseNodeStyleProps } from './base-node';
 import { BaseNode } from './base-node';
 
-type CircleKeyStyleProps = GCircleStyleProps;
+type CircleKeyStyleProps = BaseNodeProps<Omit<GCircleStyleProps, 'r' | 'cx' | 'cy'>>;
 export type CircleStyleProps = BaseNodeStyleProps<CircleKeyStyleProps>;
 type ParsedCircleStyleProps = Required<CircleStyleProps>;
-type CircleOptions = DisplayObjectConfig<Omit<CircleStyleProps, 'r'>>;
+type CircleOptions = DisplayObjectConfig<CircleStyleProps>;
 
 /**
  * Draw circle based on BaseNode, override drawKeyShape.
  */
 export class Circle extends BaseNode<CircleKeyStyleProps, GCircle> {
+  static defaultStyleProps: Partial<CircleStyleProps> = {
+    width: 50,
+    height: 50,
+  };
+
   constructor(options: CircleOptions) {
-    super(options as DisplayObjectConfig<CircleStyleProps>);
+    super(deepMix({}, { style: Circle.defaultStyleProps }, options));
   }
 
-  protected drawKeyShape(attributes: ParsedCircleStyleProps, container: Group): GCircle {
-    return this.upsert('key', GCircle, this.getKeyStyle(attributes), container) as GCircle;
+  protected drawKeyShape(attributes: ParsedCircleStyleProps, container: Group): GCircle | undefined {
+    return this.upsert('key', GCircle, this.getKeyStyle(attributes), container);
   }
 
-  protected getKeyStyle(attributes: ParsedCircleStyleProps): CircleKeyStyleProps {
-    const { x, y, width, height, ...keyStyle } = super.getKeyStyle(attributes) as Required<CircleStyleProps>;
+  protected getKeyStyle(attributes: ParsedCircleStyleProps): GCircleStyleProps {
+    const { x, y, width, height, ...keyStyle } = super.getKeyStyle(attributes) as unknown as ParsedCircleStyleProps;
     return {
       ...keyStyle,
       cx: x,
