@@ -2,16 +2,17 @@ import { Cubic, Line } from '../../../../g6/src/elements/edges';
 import { Circle, Star } from '../../../../g6/src/elements/nodes';
 import type { StaticTestCase } from '../types';
 
-export const edgeAnchor: StaticTestCase = async (context) => {
+export const edgePort: StaticTestCase = async (context) => {
   const { canvas } = context;
 
   const node1 = canvas.appendChild(
     new Circle({
       id: 'node-1',
       style: {
-        cx: 50,
-        cy: 50,
-        r: 25,
+        x: 50,
+        y: 50,
+        width: 50,
+        height: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
       },
@@ -22,9 +23,10 @@ export const edgeAnchor: StaticTestCase = async (context) => {
     new Circle({
       id: 'node-2',
       style: {
-        cx: 200,
-        cy: 50,
-        r: 25,
+        x: 200,
+        y: 50,
+        width: 50,
+        height: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
       },
@@ -38,7 +40,7 @@ export const edgeAnchor: StaticTestCase = async (context) => {
         targetNode: node2,
         stroke: '#1890FF',
         lineWidth: 2,
-        labelText: 'sourceAnchor❓ targetAnchor❓',
+        labelText: 'sourcePort❓ targetPort❓',
         labelFontSize: 12,
         labelMaxLines: 2,
         labelWordWrap: true,
@@ -52,12 +54,13 @@ export const edgeAnchor: StaticTestCase = async (context) => {
     new Circle({
       id: 'node-3',
       style: {
-        cx: 50,
-        cy: 150,
-        r: 25,
+        x: 50,
+        y: 150,
+        width: 50,
+        height: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
-        anchorOptions: [
+        ports: [
           { key: 'left', position: [0, 0.5], r: 4, stroke: '#31d0c6', fill: '#fff' },
           { key: 'right', position: [1, 0.5], r: 4, fill: '#31d0c6' },
           { key: 'top', position: [0.5, 0], r: 4, stroke: '#31d0c6', fill: '#fff' },
@@ -71,12 +74,13 @@ export const edgeAnchor: StaticTestCase = async (context) => {
     new Circle({
       id: 'node-4',
       style: {
-        cx: 200,
-        cy: 150,
-        r: 25,
+        x: 200,
+        y: 150,
+        width: 50,
+        height: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
-        anchorOptions: [
+        ports: [
           { key: 'left', position: [0, 0.5], r: 4, stroke: '#31d0c6', fill: '#fff' },
           { key: 'right', position: [1, 0.5], r: 4, stroke: '#31d0c6', fill: '#fff' },
           { key: 'top', position: [0.5, 0], r: 4, stroke: '#31d0c6', fill: '#fff' },
@@ -91,10 +95,10 @@ export const edgeAnchor: StaticTestCase = async (context) => {
       style: {
         sourceNode: node3,
         targetNode: node4,
-        sourceAnchor: 'right',
-        targetAnchor: 'bottom',
+        sourcePort: 'right',
+        targetPort: 'bottom',
         lineWidth: 2,
-        labelText: 'sourceAnchor✅ targetAnchor✅',
+        labelText: 'sourcePort✅ targetPort✅',
         labelFontSize: 12,
         labelMaxLines: 2,
         labelWordWrap: true,
@@ -109,12 +113,13 @@ export const edgeAnchor: StaticTestCase = async (context) => {
     new Circle({
       id: 'node-5',
       style: {
-        cx: 50,
-        cy: 250,
-        r: 25,
+        x: 50,
+        y: 250,
+        width: 50,
+        height: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
-        anchorOptions: [
+        ports: [
           { key: 'left', position: [0, 0.5], r: 4, stroke: '#31d0c6', fill: '#fff' },
           { key: 'right', position: [1, 0.5], r: 4, stroke: '#31d0c6', fill: '#fff' },
         ],
@@ -126,12 +131,13 @@ export const edgeAnchor: StaticTestCase = async (context) => {
     new Circle({
       id: 'node-6',
       style: {
-        cx: 200,
-        cy: 250,
-        r: 25,
+        x: 200,
+        y: 250,
+        width: 50,
+        height: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
-        anchorOptions: [
+        ports: [
           { key: 'top', position: [0.5, 0], r: 4, stroke: '#31d0c6', fill: '#fff' },
           { key: 'bottom', position: [0.5, 1], r: 4, stroke: '#31d0c6', fill: '#fff' },
         ],
@@ -145,7 +151,7 @@ export const edgeAnchor: StaticTestCase = async (context) => {
         sourceNode: node5,
         targetNode: node6,
         lineWidth: 2,
-        labelText: 'sourceAnchor✖️ targetAnchor✖️',
+        labelText: 'sourcePort✖️ targetPort✖️',
         labelFontSize: 12,
         labelMaxLines: 2,
         labelWordWrap: true,
@@ -160,12 +166,13 @@ export const edgeAnchor: StaticTestCase = async (context) => {
     new Circle({
       id: 'node-7',
       style: {
-        cx: 50,
-        cy: 350,
-        r: 25,
+        x: 50,
+        y: 350,
+        width: 50,
+        height: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
-        anchorOptions: [
+        ports: [
           { key: 'left', position: [0, 0.5], r: 4, stroke: '#31d0c6', fill: '#fff' },
           { key: 'right', position: [1, 0.5], r: 4, stroke: '#31d0c6', fill: '#fff' },
         ],
@@ -177,12 +184,13 @@ export const edgeAnchor: StaticTestCase = async (context) => {
     new Circle({
       id: 'node-8',
       style: {
-        cx: 200,
-        cy: 350,
-        r: 25,
+        x: 200,
+        y: 350,
+        width: 50,
+        height: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
-        anchorOptions: [
+        ports: [
           { key: 'top', position: [0.5, 0], r: 4, stroke: '#31d0c6', fill: '#fff' },
           { key: 'bottom', position: [0.5, 1], r: 4, fill: '#31d0c6' },
         ],
@@ -195,9 +203,9 @@ export const edgeAnchor: StaticTestCase = async (context) => {
       style: {
         sourceNode: node7,
         targetNode: node8,
-        targetAnchor: 'bottom',
+        targetPort: 'bottom',
         lineWidth: 2,
-        labelText: 'sourceAnchor✖️ targetAnchor✅',
+        labelText: 'sourcePort✖️ targetPort✅',
         labelFontSize: 12,
         labelMaxLines: 2,
         labelWordWrap: true,
@@ -212,12 +220,13 @@ export const edgeAnchor: StaticTestCase = async (context) => {
     new Circle({
       id: 'node-9',
       style: {
-        cx: 50,
-        cy: 450,
-        r: 25,
+        x: 50,
+        y: 450,
+        width: 50,
+        height: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
-        anchorOptions: [
+        ports: [
           { key: 'left', position: [0, 0.5], r: 4, fill: '#31d0c6' },
           { key: 'right', position: [1, 0.5], r: 4, stroke: '#31d0c6', fill: '#fff' },
         ],
@@ -229,12 +238,13 @@ export const edgeAnchor: StaticTestCase = async (context) => {
     new Circle({
       id: 'node-10',
       style: {
-        cx: 200,
-        cy: 450,
-        r: 25,
+        x: 200,
+        y: 450,
+        width: 50,
+        height: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
-        anchorOptions: [
+        ports: [
           { key: 'top', position: [0.5, 0], r: 4, stroke: '#31d0c6', fill: '#fff' },
           { key: 'bottom', position: [0.5, 1], r: 4, stroke: '#31d0c6', fill: '#fff' },
         ],
@@ -247,9 +257,9 @@ export const edgeAnchor: StaticTestCase = async (context) => {
       style: {
         sourceNode: node9,
         targetNode: node10,
-        sourceAnchor: 'left',
+        sourcePort: 'left',
         lineWidth: 2,
-        labelText: 'sourceAnchor✅ targetAnchor✖️',
+        labelText: 'sourcePort✅ targetPort✖️',
         labelFontSize: 12,
         labelMaxLines: 2,
         labelWordWrap: true,
@@ -264,9 +274,10 @@ export const edgeAnchor: StaticTestCase = async (context) => {
     new Circle({
       id: 'node-11',
       style: {
-        cx: 300,
-        cy: 50,
-        r: 25,
+        x: 300,
+        y: 50,
+        width: 50,
+        height: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
       },
@@ -277,12 +288,13 @@ export const edgeAnchor: StaticTestCase = async (context) => {
     new Circle({
       id: 'node-12',
       style: {
-        cx: 450,
-        cy: 50,
-        r: 25,
+        x: 450,
+        y: 50,
+        width: 50,
+        height: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
-        anchorOptions: [
+        ports: [
           { key: 'bottom', position: [0.5, 1], r: 4, stroke: '#31d0c6', fill: '#fff' },
           { key: 'right', position: [1, 0.5], r: 4, stroke: '#31d0c6', fill: '#fff' },
         ],
@@ -296,7 +308,7 @@ export const edgeAnchor: StaticTestCase = async (context) => {
         sourceNode: node11,
         targetNode: node12,
         lineWidth: 2,
-        labelText: 'sourceAnchor❓ targetAnchor✖️',
+        labelText: 'sourcePort❓ targetPort✖️',
         labelFontSize: 12,
         labelMaxLines: 2,
         labelWordWrap: true,
@@ -311,9 +323,10 @@ export const edgeAnchor: StaticTestCase = async (context) => {
     new Circle({
       id: 'node-13',
       style: {
-        cx: 300,
-        cy: 150,
-        r: 25,
+        x: 300,
+        y: 150,
+        width: 50,
+        height: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
       },
@@ -324,12 +337,13 @@ export const edgeAnchor: StaticTestCase = async (context) => {
     new Circle({
       id: 'node-14',
       style: {
-        cx: 450,
-        cy: 150,
-        r: 25,
+        x: 450,
+        y: 150,
+        width: 50,
+        height: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
-        anchorOptions: [
+        ports: [
           { key: 'bottom', position: [0.5, 1], r: 4, stroke: '#31d0c6', fill: '#fff' },
           { key: 'right', position: [1, 0.5], r: 4, fill: '#31d0c6' },
         ],
@@ -342,9 +356,9 @@ export const edgeAnchor: StaticTestCase = async (context) => {
       style: {
         sourceNode: node13,
         targetNode: node14,
-        targetAnchor: 'right',
+        targetPort: 'right',
         lineWidth: 2,
-        labelText: 'sourceAnchor❓ targetAnchor✅',
+        labelText: 'sourcePort❓ targetPort✅',
         labelFontSize: 12,
         labelMaxLines: 2,
         labelWordWrap: true,
@@ -359,12 +373,13 @@ export const edgeAnchor: StaticTestCase = async (context) => {
     new Circle({
       id: 'node-15',
       style: {
-        cx: 300,
-        cy: 250,
-        r: 25,
+        x: 300,
+        y: 250,
+        width: 50,
+        height: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
-        anchorOptions: [
+        ports: [
           { key: 'bottom', position: [0.5, 1], r: 4, stroke: '#31d0c6', fill: '#fff' },
           { key: 'right', position: [1, 0.5], r: 4, stroke: '#31d0c6', fill: '#fff' },
         ],
@@ -376,9 +391,10 @@ export const edgeAnchor: StaticTestCase = async (context) => {
     new Circle({
       id: 'node-16',
       style: {
-        cx: 450,
-        cy: 250,
-        r: 25,
+        x: 450,
+        y: 250,
+        width: 50,
+        height: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
       },
@@ -391,7 +407,7 @@ export const edgeAnchor: StaticTestCase = async (context) => {
         sourceNode: node15,
         targetNode: node16,
         lineWidth: 2,
-        labelText: 'sourceAnchor✖️ targetAnchor❓',
+        labelText: 'sourcePort✖️ targetPort❓',
         labelFontSize: 12,
         labelMaxLines: 2,
         labelWordWrap: true,
@@ -406,12 +422,13 @@ export const edgeAnchor: StaticTestCase = async (context) => {
     new Circle({
       id: 'node-17',
       style: {
-        cx: 300,
-        cy: 350,
-        r: 25,
+        x: 300,
+        y: 350,
+        width: 50,
+        height: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
-        anchorOptions: [
+        ports: [
           { key: 'bottom', position: [0.5, 1], r: 4, fill: '#31d0c6' },
           { key: 'right', position: [1, 0.5], r: 4, stroke: '#31d0c6', fill: '#fff' },
         ],
@@ -423,9 +440,10 @@ export const edgeAnchor: StaticTestCase = async (context) => {
     new Circle({
       id: 'node-18',
       style: {
-        cx: 450,
-        cy: 350,
-        r: 25,
+        x: 450,
+        y: 350,
+        width: 50,
+        height: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
       },
@@ -437,9 +455,9 @@ export const edgeAnchor: StaticTestCase = async (context) => {
       style: {
         sourceNode: node17,
         targetNode: node18,
-        sourceAnchor: 'bottom',
+        sourcePort: 'bottom',
         lineWidth: 2,
-        labelText: 'sourceAnchor✅ targetAnchor❓',
+        labelText: 'sourcePort✅ targetPort❓',
         labelFontSize: 12,
         labelMaxLines: 2,
         labelWordWrap: true,
@@ -454,12 +472,13 @@ export const edgeAnchor: StaticTestCase = async (context) => {
     new Circle({
       id: 'node-19',
       style: {
-        cx: 300,
-        cy: 450,
-        r: 25,
+        x: 300,
+        y: 450,
+        width: 50,
+        height: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
-        anchorOptions: [
+        ports: [
           { key: 'bottom', position: [0.5, 1], r: 4, fill: '#31d0c6' },
           { key: 'right', position: [1, 0.5], r: 4, stroke: '#31d0c6', fill: '#fff' },
         ],
@@ -473,8 +492,9 @@ export const edgeAnchor: StaticTestCase = async (context) => {
       style: {
         x: 450,
         y: 450,
-        outerR: 25,
-        innerR: 16,
+        width: 50,
+        height: 50,
+        innerR: 10,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
       },
@@ -486,9 +506,9 @@ export const edgeAnchor: StaticTestCase = async (context) => {
       style: {
         sourceNode: node19,
         targetNode: node20,
-        sourceAnchor: 'bottom',
+        sourcePort: 'bottom',
         lineWidth: 2,
-        labelText: 'sourceAnchor✅ targetAnchor❓',
+        labelText: 'sourcePort✅ targetPort❓',
         labelFontSize: 12,
         labelMaxLines: 2,
         labelWordWrap: true,

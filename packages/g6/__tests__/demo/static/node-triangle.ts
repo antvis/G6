@@ -1,69 +1,158 @@
-import { Triangle } from '../../../src/elements/nodes';
+import { Line } from '../../../src/elements/edges';
+import { Rect, Triangle } from '../../../src/elements/nodes';
+import type { TriangleDirection } from '../../../src/elements/nodes/triangle';
 import type { StaticTestCase } from '../types';
 
 export const nodeTriangle: StaticTestCase = async (context) => {
   const { canvas } = context;
 
-  const t1 = new Triangle({
-    style: {
-      width: 96,
-      x: 100,
-      y: 100,
-      fill: 'green',
-    },
+  ['up', 'down', 'right', 'left'].forEach((direction, i) => {
+    canvas.appendChild(
+      new Rect({
+        style: {
+          x: 100 + 75 * i,
+          y: 50,
+          width: 40,
+          height: 60,
+          fill: 'transport',
+          stroke: '#31d0c6',
+          lineDash: [5, 5],
+        },
+      }),
+    );
+
+    canvas.appendChild(
+      new Triangle({
+        style: {
+          x: 100 + 75 * i,
+          y: 50,
+          direction: direction as TriangleDirection,
+          fill: '#f8f8f8',
+          stroke: '#8b9baf',
+          width: 40,
+          height: 60,
+          labelText: direction,
+          labelPosition: 'bottom',
+          iconSrc: 'https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*N4ZMS7gHsUIAAAAAAAAAAABkARQnAQ',
+        },
+      }),
+    );
   });
 
-  const t2 = new Triangle({
-    style: {
-      // key
-      x: 300,
-      y: 100,
-      fill: 'red',
-      width: 96,
-      // label
-      labelText: 'triangle node',
-      labelFontSize: 14,
-      labelFill: 'pink',
-      labelPosition: 'bottom',
-      // badge
-      badgeOptions: [
-        { text: 'A', position: 'right-top', backgroundFill: 'grey', fill: 'white', fontSize: 10, padding: [1, 4] },
-        { text: 'Important', position: 'right', backgroundFill: 'blue', fill: 'white', fontSize: 10 },
-        { text: 'Notice', position: 'left-bottom', backgroundFill: 'red', fill: 'white', fontSize: 10 },
-      ],
-      // anchor
-      anchorOptions: [
-        { position: 'left', r: 2, stroke: 'black', lineWidth: 1, zIndex: 2 },
-        { position: 'right', r: 2, stroke: 'yellow', lineWidth: 2, zIndex: 2 },
-        { position: 'top', r: 2, stroke: 'green', lineWidth: 1, zIndex: 2 },
-      ],
-      // icon
-      iconSrc: 'https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg',
-      iconWidth: 30,
-      iconHeight: 30,
-      // halo
-      haloOpacity: 0.4,
-      haloStroke: 'grey',
-      haloLineWidth: 12,
-      haloPointerEvents: 'none',
-    },
-  });
+  canvas.appendChild(
+    new Triangle({
+      style: {
+        // key
+        x: 400,
+        y: 50,
+        fill: '#f8f8f8',
+        stroke: '#8b9baf',
+        width: 50,
+        height: 50,
+        // label
+        label: false,
+        labelText: 'no-label',
+        // halo
+        halo: true,
+        // ports
+        ports: [
+          { position: 'left', stroke: '#31d0c6', fill: '#fff' },
+          { position: 'right', stroke: '#31d0c6', fill: '#fff' },
+          { position: 'top', stroke: '#31d0c6', fill: '#fff' },
+        ],
+        // icon
+        iconSrc: 'https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*N4ZMS7gHsUIAAAAAAAAAAABkARQnAQ',
+        // badges
+        badges: [
+          { text: 'A', position: 'right-top', backgroundFill: '#8291b2', fill: '#fff', fontSize: 10, padding: [1, 4] },
+          { text: 'Important', position: 'right', backgroundFill: '#e66c5b', fill: '#fff', fontSize: 10 },
+          { text: 'Notice', position: 'right-bottom', backgroundFill: '#e5b95e', fill: '#fff', fontSize: 10 },
+        ],
+      },
+    }),
+  );
 
-  const t3 = new Triangle({
-    style: {
-      // key
-      x: 300,
-      y: 300,
-      fill: 'pink',
-      width: 96,
-      // icon
-      iconText: 'Y',
-      iconFontSize: 30,
-      iconFill: 'black',
-    },
-  });
+  const node1 = canvas.appendChild(
+    new Triangle({
+      id: 'node1',
+      style: {
+        x: 100,
+        y: 250,
+        fill: '#f8f8f8',
+        stroke: '#8b9baf',
+        // ports
+        ports: [
+          { position: 'left', stroke: '#31d0c6', fill: '#fff' },
+          { position: 'right', stroke: '#31d0c6', fill: '#fff' },
+          { position: 'top', stroke: '#31d0c6', fill: '#fff' },
+        ],
+      },
+    }),
+  );
 
-  canvas.appendChild(t1);
-  canvas.appendChild(t2);
-  canvas.appendChild(t3);
+  const node2 = canvas.appendChild(
+    new Triangle({
+      id: 'node2',
+      style: {
+        x: 200,
+        y: 175,
+        fill: '#f8f8f8',
+        stroke: '#8b9baf',
+        // ports
+        ports: [
+          { position: [0, 0.2], stroke: '#31d0c6', fill: '#fff' },
+          { position: [0, 0.5], stroke: '#31d0c6', fill: '#fff' },
+          { position: [0, 0.8], stroke: '#31d0c6', fill: '#fff' },
+        ],
+      },
+    }),
+  );
+
+  canvas.appendChild(
+    new Line({
+      id: 'line',
+      style: {
+        sourceNode: node1,
+        targetNode: node2,
+        stroke: '#1890FF',
+        endArrow: true,
+      },
+    }),
+  );
+
+  const node3 = canvas.appendChild(
+    new Triangle({
+      id: 'node3',
+      style: {
+        x: 250,
+        y: 250,
+        fill: '#f8f8f8',
+        stroke: '#8b9baf',
+      },
+    }),
+  );
+
+  const node4 = canvas.appendChild(
+    new Triangle({
+      id: 'node4',
+      style: {
+        x: 350,
+        y: 175,
+        fill: '#f8f8f8',
+        stroke: '#8b9baf',
+      },
+    }),
+  );
+
+  canvas.appendChild(
+    new Line({
+      id: 'line',
+      style: {
+        sourceNode: node3,
+        targetNode: node4,
+        stroke: '#1890FF',
+        endArrow: true,
+      },
+    }),
+  );
 };

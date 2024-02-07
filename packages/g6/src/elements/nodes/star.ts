@@ -1,79 +1,44 @@
-import type { DisplayObjectConfig, Group, PolygonStyleProps } from '@antv/g';
-import { Polygon } from '@antv/g';
-import type { Point } from '../../types';
-import { getStarAnchorByPosition, getStarAnchors, getStarPoints } from '../../utils/element';
-import { getPolygonIntersectPoint } from '../../utils/point';
-import { subStyleProps } from '../../utils/prefix';
-import type { BaseNodeStyleProps, NodeAnchorStyleProps } from './base-node';
-import { BaseNode } from './base-node';
+import type { DisplayObjectConfig, CircleStyleProps as GCircleStyleProps } from '@antv/g';
+import type { Point, StarPortPosition } from '../../types';
+import { getPortPosition, getStarPoints, getStarPorts } from '../../utils/element';
+import { NodePortStyleProps } from './base-node';
+import type { PolygonKeyStyleProps, PolygonStyleProps } from './polygon';
+import { Polygon } from './polygon';
 
-type KeyShapeStyleProps = Partial<PolygonStyleProps> & {
+type StarKeyStyleProps = PolygonKeyStyleProps<{
   /**
-   * 外半径
-   */
-  outerR?: number;
-  /**
-   * 内半径
+   * <zh/> 内半径
+   * <en/> Inner radius
    */
   innerR?: number;
-};
-
-export type StarStyleProps = BaseNodeStyleProps<KeyShapeStyleProps>;
-
+}>;
+export type StarStyleProps = PolygonStyleProps<StarKeyStyleProps>;
 type ParsedStarStyleProps = Required<StarStyleProps>;
-
 type StarOptions = DisplayObjectConfig<StarStyleProps>;
 
-/**
- * Draw star based on BaseNode, override drawKeyShape.
- */
-export class Star extends BaseNode<KeyShapeStyleProps, Polygon> {
+export class Star extends Polygon<StarKeyStyleProps> {
   constructor(options: StarOptions) {
     super(options);
   }
 
-  protected getKeyStyle(attributes: ParsedStarStyleProps): PolygonStyleProps {
-    const { outerR, innerR, ...keyStyle } = super.getKeyStyle(attributes) as Required<KeyShapeStyleProps>;
-    const points = getStarPoints(outerR, innerR) as [number, number][];
-    return { ...keyStyle, points };
+  private getInnerR(attributes: ParsedStarStyleProps): number {
+    return attributes.innerR || (this.getOuterR(attributes) * 3) / 8;
   }
 
-  protected getHaloStyle(attributes: ParsedStarStyleProps): PolygonStyleProps | false {
-    if (attributes.halo === false) return false;
-
-    const haloStyle = subStyleProps(this.getGraphicStyle(attributes), 'halo');
-    const keyStyle = this.getKeyStyle(attributes);
-
-    return {
-      ...keyStyle,
-      ...haloStyle,
-    };
+  private getOuterR(attributes: ParsedStarStyleProps): number {
+    return Math.min(attributes.width, attributes.height) / 2;
   }
 
-  protected getAnchorsStyle(attributes: ParsedStarStyleProps): NodeAnchorStyleProps[] {
-    if (attributes.anchor === false) return [];
-
-    const { outerR, innerR } = attributes;
-    const anchors = getStarAnchors(outerR, innerR);
-
-    const anchorStyle = this.getGraphicStyle(attributes).anchorOptions || [];
-
-    return anchorStyle.map((anchorStyle) => {
-      const { position, ...style } = anchorStyle;
-      const [cx, cy] = getStarAnchorByPosition(position as any, anchors);
-      return { cx, cy, ...style } as NodeAnchorStyleProps;
-    });
+  protected getPoints(attributes: ParsedStarStyleProps): Point[] {
+    return getStarPoints(this.getOuterR(attributes), this.getInnerR(attributes));
   }
 
-  public getIntersectPoint(point: Point): Point {
-    const { points } = this.getKeyStyle(this.attributes as ParsedStarStyleProps);
-    const center = [this.attributes.x, this.attributes.y] as Point;
-    return getPolygonIntersectPoint(point, center, points);
+  protected getPortStyle(attributes: ParsedStarStyleProps, style: NodePortStyleProps): GCircleStyleProps {
+    const { position = 'top', width = 8, height = 8, ...restStyle } = style;
+    const r = Math.min(width, height) / 2;
+    const bbox = this.getKey().getLocalBounds();
+    const ports = getStarPorts(this.getOuterR(attributes), this.getInnerR(attributes));
+    const [cx, cy] = getPortPosition(bbox, position as StarPortPosition, ports, false);
+    return { cx, cy, r, ...restStyle };
   }
-
-  protected drawKeyShape(attributes: ParsedStarStyleProps, container: Group): Polygon {
-    return this.upsert('key', Polygon, this.getKeyStyle(attributes), container) as Polygon;
-  }
-
-  connectedCallback() {}
 }

@@ -11,7 +11,7 @@ import type { PathArray } from '@antv/util';
 import { deepMix, isEmpty, isEqual, isFunction } from '@antv/util';
 import type { BaseEdgeProps, EdgeKey, EdgeLabelStyleProps, LoopEdgePosition, Point, PrefixObject } from '../../types';
 import { getCubicPath, getLabelPositionStyle, getLoopPoints } from '../../utils/edge';
-import { findAnchor, isSameNode } from '../../utils/element';
+import { findPort, isSameNode } from '../../utils/element';
 import { getEllipseIntersectPoint } from '../../utils/point';
 import { omitStyleProps, subStyleProps } from '../../utils/prefix';
 import type { SymbolFactor } from '../../utils/symbol';
@@ -32,29 +32,26 @@ type EdgeArrowStyleProps = {
 } & PathStyleProps &
   Record<string, unknown>;
 
-type LoopStyleProps = BaseEdgeProps &
-  PathStyleProps & {
-    /**
-     * <zh/> 边的位置
-     * <en/> The position of the edge
-     */
-    position?: LoopEdgePosition;
-    /**
-     * <zh/> 指定是否顺时针绘制环
-     * <en/> Specify whether to draw the loop clockwise
-     */
-    clockwise?: boolean;
-    /**
-     * <zh/> 从节点 keyShape 边缘到自环顶部的距离，用于指定自环的曲率，默认为宽度或高度的最大值
-     * <en/> Determine the position from the edge of the node keyShape to the top of the self-loop, used to specify the curvature of the self-loop, the default value is the maximum of the width or height
-     */
-    dist?: number;
-  };
-
-export type BaseEdgeKeyStyleProps<KT> = BaseEdgeProps & PathStyleProps & KT;
+type LoopStyleProps = BaseEdgeProps<{
+  /**
+   * <zh/> 边的位置
+   * <en/> The position of the edge
+   */
+  position?: LoopEdgePosition;
+  /**
+   * <zh/> 指定是否顺时针绘制环
+   * <en/> Specify whether to draw the loop clockwise
+   */
+  clockwise?: boolean;
+  /**
+   * <zh/> 从节点 keyShape 边缘到自环顶部的距离，用于指定自环的曲率，默认为宽度或高度的最大值
+   * <en/> Determine the position from the edge of the node keyShape to the top of the self-loop, used to specify the curvature of the self-loop, the default value is the maximum of the width or height
+   */
+  dist?: number;
+}>;
 
 export type BaseEdgeStyleProps<KT> = BaseShapeStyleProps &
-  BaseEdgeKeyStyleProps<KT> & {
+  KT & {
     label?: boolean;
     halo?: boolean;
     startArrow?: boolean;
@@ -71,7 +68,7 @@ export type ParsedBaseEdgeStyleProps<KT> = Required<BaseEdgeStyleProps<KT>>;
 
 export type BaseEdgeOptions<KT> = DisplayObjectConfig<BaseEdgeStyleProps<KT>>;
 
-export abstract class BaseEdge<KT extends object> extends BaseShape<BaseEdgeStyleProps<KT>> {
+export abstract class BaseEdge<KT extends BaseEdgeProps<object>> extends BaseShape<BaseEdgeStyleProps<KT>> {
   static defaultStyleProps: Partial<BaseEdgeStyleProps<any>> = {
     isBillboard: true,
     label: true,
@@ -95,6 +92,7 @@ export abstract class BaseEdge<KT extends object> extends BaseShape<BaseEdgeStyl
     startArrowAnchor: '0.5 0.5',
     startArrowTransformOrigin: 'center',
     startArrowLineDash: 0,
+    startArrowLineWidth: 1,
     endArrow: false,
     endArrowCtor: Path,
     endArrowType: 'triangle',
@@ -103,6 +101,7 @@ export abstract class BaseEdge<KT extends object> extends BaseShape<BaseEdgeStyl
     endArrowAnchor: '0.5 0.5',
     endArrowTransformOrigin: 'center',
     endArrowLineDash: 0,
+    endArrowLineWidth: 1,
     loopPosition: 'top',
     loopClockwise: true,
   };
@@ -112,7 +111,7 @@ export abstract class BaseEdge<KT extends object> extends BaseShape<BaseEdgeStyl
   }
 
   protected getKeyStyle(attributes: ParsedBaseEdgeStyleProps<KT>): PathStyleProps {
-    const { sourceNode, targetNode, sourcePoint, targetPoint, color, ...keyStyle } = this.getGraphicStyle(attributes);
+    const { sourceNode, targetNode, sourcePoint, targetPoint, color, ...style } = this.getGraphicStyle(attributes);
 
     const path =
       (sourcePoint && isEqual(sourcePoint, targetPoint)) || isSameNode(sourceNode, targetNode)
@@ -122,7 +121,7 @@ export abstract class BaseEdge<KT extends object> extends BaseShape<BaseEdgeStyl
     return {
       stroke: color,
       path,
-      ...omitStyleProps(keyStyle, ['halo', 'label', 'startArrow', 'endArrow']),
+      ...omitStyleProps(style, ['halo', 'label', 'startArrow', 'endArrow']),
     };
   }
 
@@ -131,8 +130,8 @@ export abstract class BaseEdge<KT extends object> extends BaseShape<BaseEdgeStyl
   protected getLoopPath(attributes: ParsedBaseEdgeStyleProps<KT>): PathArray | undefined {
     const {
       sourceNode: node,
-      sourceAnchor: sourceAnchorKey,
-      targetAnchor: targetAnchorKey,
+      sourcePort: sourcePortKey,
+      targetPort: targetPortKey,
       sourcePoint: rawSourcePoint,
       targetPoint: rawTargetPoint,
     } = attributes;
@@ -146,8 +145,8 @@ export abstract class BaseEdge<KT extends object> extends BaseShape<BaseEdgeStyl
 
     const { sourcePoint, targetPoint, controlPoints } = getLoopPoints(
       node,
-      sourceAnchorKey!,
-      targetAnchorKey!,
+      sourcePortKey!,
+      targetPortKey!,
       rawSourcePoint!,
       rawTargetPoint!,
       position,
@@ -161,23 +160,23 @@ export abstract class BaseEdge<KT extends object> extends BaseShape<BaseEdgeStyl
     const {
       sourceNode,
       targetNode,
-      sourceAnchor: sourceAnchorKey,
-      targetAnchor: targetAnchorKey,
+      sourcePort: sourcePortKey,
+      targetPort: targetPortKey,
       sourcePoint: rawSourcePoint,
       targetPoint: rawTargetPoint,
     } = attributes;
 
     if (rawSourcePoint && rawTargetPoint) return [rawSourcePoint, rawTargetPoint];
 
-    const sourceAnchor = findAnchor(sourceNode, sourceAnchorKey, targetNode);
-    const targetAnchor = findAnchor(targetNode, targetAnchorKey, sourceNode);
+    const sourcePort = findPort(sourceNode, sourcePortKey, targetNode);
+    const targetPort = findPort(targetNode, targetPortKey, sourceNode);
 
-    const sourcePoint = sourceAnchor
-      ? getEllipseIntersectPoint(targetNode.getCenter(), sourceAnchor.getLocalBounds())
-      : sourceNode.getIntersectPoint(targetAnchor?.getPosition() || targetNode.getCenter());
-    const targetPoint = targetAnchor
-      ? getEllipseIntersectPoint(sourceNode.getCenter(), targetAnchor.getLocalBounds())
-      : targetNode.getIntersectPoint(sourceAnchor?.getPosition() || sourceNode.getCenter());
+    const sourcePoint = sourcePort
+      ? getEllipseIntersectPoint(targetNode.getCenter(), sourcePort.getBounds())
+      : sourceNode.getIntersectPoint(targetPort?.getPosition() || targetNode.getCenter());
+    const targetPoint = targetPort
+      ? getEllipseIntersectPoint(sourceNode.getCenter(), targetPort.getBounds())
+      : targetNode.getIntersectPoint(sourcePort?.getPosition() || sourceNode.getCenter());
 
     return [sourcePoint || sourceNode.getCenter(), targetPoint || targetNode.getCenter()];
   }

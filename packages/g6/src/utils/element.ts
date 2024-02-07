@@ -1,13 +1,9 @@
 import type { AABB, Circle as GCircle, TextStyleProps } from '@antv/g';
 import { get, isEmpty, isString } from '@antv/util';
+import type { TriangleDirection } from '../elements/nodes/triangle';
 import type { Node, Point } from '../types';
-import type {
-  AnchorPosition,
-  LabelPosition,
-  RelativePosition,
-  StarAnchorPosition,
-  TriangleAnchorPosition,
-} from '../types/node';
+import type { LabelPosition, RelativePosition } from '../types/node';
+import { getBBoxHeight, getBBoxWidth } from './bbox';
 import { findNearestPoints } from './point';
 
 /**
@@ -36,51 +32,56 @@ export function getXYByPosition(bbox: AABB, position: RelativePosition = 'center
   return [x, y];
 }
 
+const PORT_MAP: Record<string, Point> = {
+  top: [0.5, 0],
+  right: [1, 0.5],
+  bottom: [0.5, 1],
+  left: [0, 0.5],
+  default: [0.5, 0.5],
+};
+
 /**
- * Get the Anchor x, y by `position`.
+ * Get the Port x, y by `position`.
  * @param bbox - BBox of element.
- * @param position - The postion relative with element.
+ * @param position - The position relative with element.
+ * @param ports - The map of position.
+ * @param isRelative - Whether the position in MAP is relative.
  * @returns [x, y]
  */
-export function getAnchorPosition(bbox: AABB, position?: AnchorPosition): Point {
-  const MAP = {
-    top: [0.5, 0],
-    right: [1, 0.5],
-    bottom: [0.5, 1],
-    left: [0, 0.5],
-  };
-
+export function getPortPosition(
+  bbox: AABB,
+  position?: [number, number] | string,
+  ports: Record<string, Point> = PORT_MAP,
+  isRelative = true,
+): Point {
   const DEFAULT = [0.5, 0.5];
+  const p: [number, number] = isString(position) ? get(ports, position.toLocaleLowerCase(), DEFAULT) : position;
 
-  const p: [number, number] = isString(position) ? get(MAP, position.toLocaleLowerCase(), DEFAULT) : position;
+  if (!isRelative && isString(position)) return p;
 
   const [x, y] = p || DEFAULT;
-
-  const w = bbox.max[0] - bbox.min[0];
-  const h = bbox.max[1] - bbox.min[1];
-
-  return [bbox.min[0] + w * x, bbox.min[1] + h * y];
+  return [bbox.min[0] + getBBoxWidth(bbox) * x, bbox.min[1] + getBBoxHeight(bbox) * y];
 }
 
 /**
  * <zh/> 获取节点的锚点
  *
- * <en/> Get the Anchor of Node.
+ * <en/> Get the Port of Node.
  * @param node - <zh/> 节点 | <en/> Node
- * @param anchorKey - <zh/> 锚点的 key | <en/> Anchor key
+ * @param portKey - <zh/> 锚点的 key | <en/> Port key
  * @param oppositeNode - <zh/> 对端节点 | <en/> Opposite Node
- * @returns <zh/> 锚点 | <en/> Anchor
+ * @returns <zh/> 锚点 | <en/> Port
  */
-export function findAnchor(node: Node, anchorKey?: string, oppositeNode?: Node): GCircle | undefined {
-  if (anchorKey && node.getAnchors()[anchorKey]) {
-    return node.getAnchors()[anchorKey];
+export function findPort(node: Node, portKey?: string, oppositeNode?: Node): GCircle | undefined {
+  if (portKey && node.getPorts()[portKey]) {
+    return node.getPorts()[portKey];
   } else {
-    const anchors = Object.values(node.getAnchors());
-    if (!isEmpty(anchors)) {
-      const positions = anchors.map((anchor) => anchor.getPosition());
+    const ports = Object.values(node.getPorts());
+    if (!isEmpty(ports)) {
+      const positions = ports.map((port) => port.getPosition());
       const targetPosition = oppositeNode ? [oppositeNode.getCenter()] : positions;
       const [nearestPosition] = findNearestPoints(positions, targetPosition);
-      return anchors.find((anchor) => anchor.getPosition() === nearestPosition);
+      return ports.find((port) => port.getPosition() === nearestPosition);
     }
     return undefined;
   }
@@ -90,14 +91,27 @@ export function findAnchor(node: Node, anchorKey?: string, oppositeNode?: Node):
  * Get the Text style by `position`.
  * @param bbox - BBox of element.
  * @param position - The postion relative with element.
+ * @param isReverseBaseline - Whether reverse the baseline.
  * @returns Partial<TextStyleProps>
  */
-export function getTextStyleByPosition(bbox: AABB, position: LabelPosition = 'bottom'): Partial<TextStyleProps> {
+export function getTextStyleByPosition(
+  bbox: AABB,
+  position: LabelPosition = 'bottom',
+  isReverseBaseline = false,
+): Partial<TextStyleProps> {
   const direction = position.split('-');
   const [x, y] = getXYByPosition(bbox, position);
 
-  const textBaseline = direction.includes('top') ? 'bottom' : direction.includes('bottom') ? 'top' : 'middle';
   const textAlign = direction.includes('left') ? 'right' : direction.includes('right') ? 'left' : 'center';
+
+  let textBaseline: TextStyleProps['textBaseline'] = direction.includes('top')
+    ? 'bottom'
+    : direction.includes('bottom')
+      ? 'top'
+      : 'middle';
+  if (isReverseBaseline) {
+    textBaseline = textBaseline === 'top' ? 'bottom' : textBaseline === 'bottom' ? 'top' : textBaseline;
+  }
 
   return {
     x,
@@ -108,13 +122,14 @@ export function getTextStyleByPosition(bbox: AABB, position: LabelPosition = 'bo
 }
 
 /**
- * Get Star PathArray.
- * @param outerR - outer redius
- * @param innerR - inner redius
- * @returns The PathArray for G
+ * <zh/> 获取五角星的顶点
+ *
+ * <en/> Get Star Points
+ * @param outerR - <zh/> 外半径 | <en/> outer radius
+ * @param innerR - <zh/> 内半径 | <en/> inner radius
+ * @returns <zh/> 五角星的顶点 | <en/> Star Points
  */
-export function getStarPoints(outerR: number, innerR?: number): Point[] {
-  innerR = innerR ? innerR : (outerR * 3) / 8;
+export function getStarPoints(outerR: number, innerR: number): Point[] {
   return [
     [0, -outerR],
     [innerR * Math.cos((3 * Math.PI) / 10), -innerR * Math.sin((3 * Math.PI) / 10)],
@@ -130,12 +145,12 @@ export function getStarPoints(outerR: number, innerR?: number): Point[] {
 }
 
 /**
- * Get Star Anchor Point.
+ * Get Star Port Point.
  * @param outerR - outer radius
  * @param innerR - inner radius
- * @returns Anchor points for Star.
+ * @returns Port points for Star.
  */
-export function getStarAnchors(outerR: number, innerR: number): Record<string, Point> {
+export function getStarPorts(outerR: number, innerR: number): Record<string, Point> {
   const r: Record<string, Point> = {};
 
   r['top'] = [0, -outerR];
@@ -154,100 +169,83 @@ export function getStarAnchors(outerR: number, innerR: number): Record<string, P
 }
 
 /**
- * Get Star Anchor Point by `position`.
- * @param position - position
- * @param anchors - anchors
- * @returns points
+ * <zh/> 获取三角形的顶点
+ *
+ * <en/> Get the points of a triangle
+ * @param width - <zh/> 宽度 | <en/> width
+ * @param height - <zh/> 高度 | <en/> height
+ * @param direction - <zh/> 三角形的方向 | <en/> The direction of the triangle
+ * @returns <zh/> 矩形的顶点 | <en/> The points of a rectangle
  */
-export function getStarAnchorByPosition(position: StarAnchorPosition, anchors: Record<string, Point>) {
-  return get(anchors, position.toLocaleLowerCase(), anchors['default']);
-}
-
-/**
- * Get Triangle Points.
- * @param r - radius of circumcircle of triangle
- * @param direction - direction of triangle
- * @returns The PathArray for G
- */
-export function getTrianglePoints(r: number, direction: 'up' | 'left' | 'right' | 'down'): Point[] {
-  const halfHeight = (3 * r) / 4;
-  const halfLength = r * Math.sin((1 / 3) * Math.PI);
-  if (direction === 'down') {
-    return [
+export function getTrianglePoints(width: number, height: number, direction: TriangleDirection): Point[] {
+  const halfHeight = height / 2;
+  const halfWidth = width / 2;
+  const MAP: Record<TriangleDirection, Point[]> = {
+    up: [
+      [-halfWidth, halfHeight],
+      [halfWidth, halfHeight],
+      [0, -halfHeight],
+    ],
+    left: [
+      [-halfWidth, 0],
+      [halfWidth, halfHeight],
+      [halfWidth, -halfHeight],
+    ],
+    right: [
+      [-halfWidth, halfHeight],
+      [-halfWidth, -halfHeight],
+      [halfWidth, 0],
+    ],
+    down: [
+      [-halfWidth, -halfHeight],
+      [halfWidth, -halfHeight],
       [0, halfHeight],
-      [halfLength, -halfHeight],
-      [-halfLength, -halfHeight],
-    ];
-  }
-  if (direction === 'left') {
-    return [
-      [-halfHeight, 0],
-      [halfHeight, halfLength],
-      [halfHeight, -halfLength],
-    ];
-  }
-  if (direction === 'right') {
-    return [
-      [halfHeight, 0],
-      [-halfHeight, halfLength],
-      [-halfHeight, -halfLength],
-    ];
-  }
-  // up
-  return [
-    [0, -halfHeight],
-    [halfLength, halfHeight],
-    [-halfLength, halfHeight],
-  ];
+    ],
+  };
+  return MAP[direction] || MAP['up'];
 }
 
 /**
- * Get Triangle Anchor Point.
- * @param r - radius of circumcircle of triangle
- * @param direction - direction of triangle
- * @returns Anchor points for Triangle.
+ * <zh/> 获取三角形的锚点
+ *
+ * <en/> Get the Ports of Triangle.
+ * @param width - <zh/> 宽度 | <en/> width
+ * @param height - <zh/> 高度 | <en/> height
+ * @param direction - <zh/> 三角形的方向 | <en/> The direction of the triangle
+ * @returns <zh/> 三角形的锚点 | <en/> The Ports of Triangle
  */
-export function getTriangleAnchors(r: number, direction: 'up' | 'left' | 'right' | 'down'): Record<string, Point> {
-  const halfHeight = (3 * r) / 4;
-  const halfLength = r * Math.sin((1 / 3) * Math.PI);
-
-  const anchors: Record<string, Point> = {};
+export function getTrianglePorts(width: number, height: number, direction: TriangleDirection): Record<string, Point> {
+  const halfHeight = height / 2;
+  const halfWidth = width / 2;
+  const ports: Record<string, Point> = {};
   if (direction === 'down') {
-    anchors['bottom'] = anchors['default'] = [0, halfHeight];
-    anchors['right'] = [halfLength, -halfHeight];
-    anchors['left'] = [-halfLength, -halfHeight];
+    ports['bottom'] = ports['default'] = [0, halfHeight];
+    ports['right'] = [halfWidth, -halfHeight];
+    ports['left'] = [-halfWidth, -halfHeight];
   } else if (direction === 'left') {
-    anchors['top'] = [halfHeight, -halfLength];
-    anchors['bottom'] = [halfHeight, halfLength];
-    anchors['left'] = anchors['default'] = [-halfHeight, 0];
+    ports['top'] = [halfWidth, -halfHeight];
+    ports['bottom'] = [halfWidth, halfHeight];
+    ports['left'] = ports['default'] = [-halfWidth, 0];
   } else if (direction === 'right') {
-    anchors['top'] = [-halfHeight, -halfLength];
-    anchors['bottom'] = [-halfHeight, halfLength];
-    anchors['right'] = anchors['default'] = [halfHeight, 0];
+    ports['top'] = [-halfWidth, -halfHeight];
+    ports['bottom'] = [-halfWidth, halfHeight];
+    ports['right'] = ports['default'] = [halfWidth, 0];
   } else {
     //up
-    anchors['left'] = [-halfLength, halfHeight];
-    anchors['top'] = anchors['default'] = [0, -halfHeight];
-    anchors['right'] = [halfLength, halfHeight];
+    ports['left'] = [-halfWidth, halfHeight];
+    ports['top'] = ports['default'] = [0, -halfHeight];
+    ports['right'] = [halfWidth, halfHeight];
   }
-  return anchors;
+  return ports;
 }
 
 /**
- * Get Star Anchor Point by `position`.
- * @param position - position
- * @param anchors - anchors
- * @returns points
- */
-export function getTriangleAnchorByPosition(position: TriangleAnchorPosition, anchors: Record<string, Point>) {
-  return get(anchors, position.toLocaleLowerCase(), anchors['default']);
-}
-
-/**
- * Get Rect PathArray.
- * @param width - rect width
- * @param height - rect height
- * @returns The PathArray for G
+ * <zh/> 获取矩形的顶点
+ *
+ * <en/> Get the points of a rectangle
+ * @param width - <zh/> 宽度 | <en/> width
+ * @param height - <zh/> 高度 | <en/> height
+ * @returns <zh/> 矩形的顶点 | <en/> The points of a rectangle
  */
 export function getRectPoints(width: number, height: number): Point[] {
   return [

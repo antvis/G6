@@ -287,8 +287,8 @@ const radians: Record<LoopEdgePosition, [number, number]> = {
  * @param node - <zh/> 节点实例 | <en/> Node instance
  * @param position - <zh/> 环形边的位置 | <en/> The position of the loop edge
  * @param clockwise - <zh/> 是否顺时针 | <en/> Whether to draw the loop clockwise
- * @param sourceAnchor - <zh/> 起点锚点 | <en/> Source anchor
- * @param targetAnchor - <zh/> 终点锚点 | <en/> Target anchor
+ * @param sourcePort - <zh/> 起点锚点 | <en/> Source port
+ * @param targetPort - <zh/> 终点锚点 | <en/> Target port
  * @param rawSourcePoint - <zh/> 起点 | <en/> Source point
  * @param rawTargetPoint - <zh/> 终点 | <en/> Target point
  * @returns <zh/> 起点和终点 | <en/> Start and end points
@@ -297,16 +297,16 @@ export function getLoopEndpoints(
   node: Node,
   position: LoopEdgePosition,
   clockwise: boolean,
-  sourceAnchor?: GCircle,
-  targetAnchor?: GCircle,
+  sourcePort?: GCircle,
+  targetPort?: GCircle,
   rawSourcePoint?: Point,
   rawTargetPoint?: Point,
 ): [Point, Point] {
   const bbox = node.getKey().getBounds();
   const center = node.getCenter();
 
-  let sourcePoint = rawSourcePoint || sourceAnchor?.getPosition();
-  let targetPoint = rawTargetPoint || targetAnchor?.getPosition();
+  let sourcePoint = rawSourcePoint || sourcePort?.getPosition();
+  let targetPoint = rawTargetPoint || targetPort?.getPosition();
 
   if (!sourcePoint || !targetPoint) {
     const angle1 = radians[position][0];
@@ -369,27 +369,27 @@ export function getLoopControlPoints(
 /**
  * <zh/> 若存在起点或终点的锚点，则调整起点或终点位置
  *
- * <en/> Adjust the start or end point position if there is an anchor point
+ * <en/> Adjust the start or end point position if there is an port point
  * @param sourcePoint - <zh/> 起点 | <en/> Source point
  * @param targetPoint - <zh/> 终点 | <en/> Target point
  * @param controlPoints - <zh/> 控制点 | <en/> Control point
- * @param sourceAnchor - <zh/> 起点锚点 | <en/> Source anchor
- * @param targetAnchor - <zh/> 终点锚点 | <en/> Target anchor
+ * @param sourcePort - <zh/> 起点锚点 | <en/> Source port
+ * @param targetPort - <zh/> 终点锚点 | <en/> Target port
  * @returns <zh/> 调整后的起点和终点 | <en/> Adjusted start and end points
  */
 export function adjustLoopEndpointsIfNeed(
   sourcePoint: Point,
   targetPoint: Point,
   controlPoints: [Point, Point],
-  sourceAnchor?: GCircle,
-  targetAnchor?: GCircle,
+  sourcePort?: GCircle,
+  targetPort?: GCircle,
 ) {
-  if (sourceAnchor) {
-    sourcePoint = getEllipseIntersectPoint(controlPoints[0], sourceAnchor.getBounds());
+  if (sourcePort) {
+    sourcePoint = getEllipseIntersectPoint(controlPoints[0], sourcePort.getBounds());
   }
 
-  if (targetAnchor) {
-    targetPoint = getEllipseIntersectPoint(controlPoints[1], targetAnchor.getBounds());
+  if (targetPort) {
+    targetPoint = getEllipseIntersectPoint(controlPoints[1], targetPort.getBounds());
   }
   return [sourcePoint, targetPoint];
 }
@@ -399,8 +399,8 @@ export function adjustLoopEndpointsIfNeed(
  *
  * <en/> Get the start, end, and control points of the self-loop edge
  * @param node - <zh/> 节点实例 | <en/> Node instance
- * @param sourceAnchorKey - <zh/> 起点锚点 key | <en/> Source anchor key
- * @param targetAnchorKey - <zh/> 终点锚点 key | <en/> Target anchor key
+ * @param sourcePortKey - <zh/> 起点锚点 key | <en/> Source port key
+ * @param targetPortKey - <zh/> 终点锚点 key | <en/> Target port key
  * @param rawSourcePoint - <zh/> 起点 | <en/> Source point
  * @param rawTargetPoint - <zh/> 终点 | <en/> Target point
  * @param position - <zh/> 环形边的位置 | <en/> The position of the loop edge
@@ -410,8 +410,8 @@ export function adjustLoopEndpointsIfNeed(
  */
 export function getLoopPoints(
   node: Node,
-  sourceAnchorKey: string,
-  targetAnchorKey: string,
+  sourcePortKey: string,
+  targetPortKey: string,
   rawSourcePoint: Point,
   rawTargetPoint: Point,
   position: LoopEdgePosition,
@@ -422,15 +422,15 @@ export function getLoopPoints(
   targetPoint: Point;
   controlPoints: [Point, Point];
 } {
-  const sourceAnchor = node.getAnchors()[sourceAnchorKey || targetAnchorKey];
-  const targetAnchor = node.getAnchors()[targetAnchorKey || sourceAnchorKey];
+  const sourcePort = node.getPorts()[sourcePortKey || targetPortKey];
+  const targetPort = node.getPorts()[targetPortKey || sourcePortKey];
 
   let [sourcePoint, targetPoint] = getLoopEndpoints(
     node,
     position,
     clockwise,
-    sourceAnchor,
-    targetAnchor,
+    sourcePort,
+    targetPort,
     rawSourcePoint,
     rawTargetPoint,
   );
@@ -441,8 +441,8 @@ export function getLoopPoints(
     sourcePoint,
     targetPoint,
     controlPoints,
-    sourceAnchor,
-    targetAnchor,
+    sourcePort,
+    targetPort,
   );
 
   return { sourcePoint, targetPoint, controlPoints };

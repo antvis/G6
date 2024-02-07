@@ -1,10 +1,10 @@
 import type { DisplayObjectConfig } from '@antv/g';
 import { deepMix } from '@antv/util';
-import type { Point } from '../../types';
+import type { BaseEdgeProps, Point } from '../../types';
 import type { BaseEdgeStyleProps } from './base-edge';
 import { Cubic } from './cubic';
 
-type CubicVerticalKeyStyleProps = {
+type CubicVerticalKeyStyleProps = BaseEdgeProps<{
   /**
    * <zh/> 控制点在两端点连线上的相对位置，范围为`0-1`
    * <en/> The relative position of the control point on the line, ranging from `0-1`
@@ -15,10 +15,8 @@ type CubicVerticalKeyStyleProps = {
    * <en/> The distance of the control point from the line
    */
   curveOffset?: number | [number, number];
-};
-
+}>;
 export type CubicVerticalStyleProps = BaseEdgeStyleProps<CubicVerticalKeyStyleProps>;
-
 type CubicVerticalOptions = DisplayObjectConfig<CubicVerticalStyleProps>;
 
 export class CubicVertical extends Cubic {

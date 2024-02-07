@@ -343,8 +343,8 @@ export class ElementController {
     const sourceNode = this.getElement<BaseNode<any, any>>(source);
     const targetNode = this.getElement<BaseNode<any, any>>(target);
 
-    const sourcePoint = sourceNode?.getBounds().center || [0, 0, 0];
-    const targetPoint = targetNode?.getBounds().center || [0, 0, 0];
+    const sourcePoint = sourceNode?.getCenter() || [0, 0, 0];
+    const targetPoint = targetNode?.getCenter() || [0, 0, 0];
 
     return {
       sourcePoint,

@@ -1,11 +1,13 @@
 import { AABB } from '@antv/g';
 import { Circle } from '../../../src/elements/nodes';
 import {
-  getAnchorPosition,
-  getStarAnchorByPosition,
-  getStarAnchors,
+  getPortPosition,
+  getRectPoints,
   getStarPoints,
+  getStarPorts,
   getTextStyleByPosition,
+  getTrianglePoints,
+  getTrianglePorts,
   getXYByPosition,
   isSameNode,
 } from '../../../src/utils/element';
@@ -41,16 +43,16 @@ describe('element', () => {
     expect(getXYByPosition(bbox)).toEqual([150, 150]);
   });
 
-  it('getAnchorPosition', () => {
-    expect(getAnchorPosition(bbox, 'left')).toEqual([100, 150]);
-    expect(getAnchorPosition(bbox, 'right')).toEqual([200, 150]);
-    expect(getAnchorPosition(bbox, 'top')).toEqual([150, 100]);
-    expect(getAnchorPosition(bbox, 'bottom')).toEqual([150, 200]);
+  it('getPortPosition', () => {
+    expect(getPortPosition(bbox, 'left')).toEqual([100, 150]);
+    expect(getPortPosition(bbox, 'right')).toEqual([200, 150]);
+    expect(getPortPosition(bbox, 'top')).toEqual([150, 100]);
+    expect(getPortPosition(bbox, 'bottom')).toEqual([150, 200]);
 
-    expect(getAnchorPosition(bbox)).toEqual([150, 150]);
+    expect(getPortPosition(bbox)).toEqual([150, 150]);
 
-    expect(getAnchorPosition(bbox, [0.5, 1])).toEqual([150, 200]);
-    expect(getAnchorPosition(bbox, [0, 0.5])).toEqual([100, 150]);
+    expect(getPortPosition(bbox, [0.5, 1])).toEqual([150, 200]);
+    expect(getPortPosition(bbox, [0, 0.5])).toEqual([100, 150]);
   });
 
   it('getTextStyleByPosition', () => {
@@ -111,9 +113,53 @@ describe('element', () => {
     expect(getStarPoints(32, 16).length).toBe(10);
   });
 
-  it('getStarAnchorByPosition + getStarAnchors', () => {
-    expect(getStarPoints(32, 16).length).toBe(10);
+  it('getStarPorts', () => {
+    expect(getStarPorts(32, 16).top).toEqual([0, -32]);
+  });
 
-    expect(getStarAnchorByPosition('top', getStarAnchors(32, 16))).toEqual([0, -32]);
+  it('getTrianglePoints', () => {
+    expect(getTrianglePoints(40, 40, 'up').length).toBe(3);
+    expect(getTrianglePoints(40, 40, 'up')).toEqual([
+      [-20, 20],
+      [20, 20],
+      [0, -20],
+    ]);
+  });
+
+  it('getTrianglePorts', () => {
+    const ports = getTrianglePorts(32, 16, 'up');
+    expect(ports.default).toEqual([0, -8]);
+    expect(ports.left).toEqual([-16, 8]);
+    expect(ports.right).toEqual([16, 8]);
+    expect(ports.top).toEqual([0, -8]);
+    expect(ports.bottom).toBeFalsy();
+    expect(getTrianglePorts(32, 16, 'down')).toEqual({
+      default: [0, 8],
+      left: [-16, -8],
+      right: [16, -8],
+      bottom: [0, 8],
+    });
+    expect(getTrianglePorts(32, 16, 'left')).toEqual({
+      default: [-16, 0],
+      top: [16, -8],
+      bottom: [16, 8],
+      left: [-16, 0],
+    });
+    expect(getTrianglePorts(32, 16, 'right')).toEqual({
+      default: [16, 0],
+      top: [-16, -8],
+      bottom: [-16, 8],
+      right: [16, 0],
+    });
+  });
+
+  it('getRectPoints', () => {
+    expect(getRectPoints(100, 100).length).toBe(4);
+    expect(getRectPoints(100, 100)).toEqual([
+      [50, -50],
+      [50, 50],
+      [-50, 50],
+      [-50, -50],
+    ]);
   });
 });

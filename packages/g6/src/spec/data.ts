@@ -54,13 +54,13 @@ interface EdgeDataStyle extends BaseElementStyle, EdgeStyle {
    *
    * <en/> source port id
    */
-  sourceAnchor?: string;
+  sourcePort?: string;
   /**
    * <zh/> 终点连接桩 id
    *
    * <en/> target port id
    */
-  targetAnchor?: string;
+  targetPort?: string;
 }
 
 interface BaseElementStyle {

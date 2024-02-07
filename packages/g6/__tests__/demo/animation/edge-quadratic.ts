@@ -20,8 +20,8 @@ export const edgeQuadratic: AnimationTestCase = async (context) => {
 
   const result = quadratic.animate(
     [
-      { sourcePoint: [100, 150], targetPoint: [300, 200], lineWidth: 2 },
-      { sourcePoint: [100, 150], targetPoint: [450, 350], lineWidth: 10 },
+      { sourcePoint: [100, 150], targetPoint: [300, 200] },
+      { sourcePoint: [100, 150], targetPoint: [450, 350] },
     ],
     { duration: 1000, fill: 'both' },
   );
