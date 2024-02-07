@@ -9,7 +9,7 @@ import { ChangeTypeEnum, GraphEvent } from '../constants';
 import { BaseNode } from '../elements/nodes';
 import type { BaseShape } from '../elements/shapes';
 import { getPlugin } from '../registry';
-import type { ComboData, DataOptions, EdgeData, G6Spec, NodeData } from '../spec';
+import type { ComboData, EdgeData, G6Spec, GraphData, NodeData } from '../spec';
 import type { AnimationStage } from '../spec/element/animation';
 import type { EdgeStyle } from '../spec/element/edge';
 import type { NodeLikeStyle } from '../spec/element/node';
@@ -539,7 +539,7 @@ export class ElementController {
     this.elementMap[id] = shape;
   }
 
-  private createElements(data: DataOptions, context: RenderContext) {
+  private createElements(data: GraphData, context: RenderContext) {
     // 新增相应的元素数据
     // 重新计算色板样式
 
@@ -581,7 +581,7 @@ export class ElementController {
     });
   }
 
-  private updateElements(data: DataOptions, context: RenderContext) {
+  private updateElements(data: GraphData, context: RenderContext) {
     const { nodes = [], edges = [], combos = [] } = data;
 
     const iteration: [ElementType, ElementData][] = [
@@ -636,7 +636,7 @@ export class ElementController {
     });
   }
 
-  protected destroyElements(data: DataOptions, context: RenderContext) {
+  protected destroyElements(data: GraphData, context: RenderContext) {
     const { nodes = [], edges = [], combos = [] } = data;
 
     const iteration: [ElementType, ElementData][] = [

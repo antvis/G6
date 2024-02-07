@@ -1,8 +1,8 @@
-import type { DataOptions } from '../../../src';
+import type { GraphData } from '../../../src';
 
 describe('spec data', () => {
   it('empty data', () => {
-    const data: DataOptions = {
+    const data: GraphData = {
       nodes: [],
       edges: [],
     };
@@ -11,7 +11,7 @@ describe('spec data', () => {
   });
 
   it('data', () => {
-    const data: DataOptions = {
+    const data: GraphData = {
       nodes: [
         {
           id: 'node1',
@@ -31,7 +31,7 @@ describe('spec data', () => {
   });
 
   it('data with combo', () => {
-    const data: DataOptions = {
+    const data: GraphData = {
       nodes: [
         {
           id: 'node1',
@@ -63,7 +63,7 @@ describe('spec data', () => {
   });
 
   it('normal data', () => {
-    const data: DataOptions = {
+    const data: GraphData = {
       nodes: [
         { id: 'node-1' },
         { id: 'node-2', data: { value: 1, field: 'A' } },

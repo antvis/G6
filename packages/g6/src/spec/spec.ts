@@ -1,6 +1,6 @@
 import type { BehaviorOptions } from './behavior';
 import type { CanvasOptions } from './canvas';
-import type { DataOptions } from './data';
+import type { GraphData } from './data';
 import type { ComboOptions } from './element/combo';
 import type { EdgeOptions } from './element/edge';
 import type { NodeOptions } from './element/node';
@@ -23,7 +23,7 @@ export type G6Spec = CanvasOptions &
      *
      * <en/> Data
      */
-    data?: DataOptions;
+    data?: GraphData;
     /**
      * <zh/> 布局
      *

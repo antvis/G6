@@ -1,7 +1,7 @@
 import { Graph as GraphLib, ID } from '@antv/graphlib';
 import { isEqual } from '@antv/util';
 import { ChangeTypeEnum } from '../constants';
-import type { ComboData, DataOptions, EdgeData, NodeData } from '../spec';
+import type { ComboData, EdgeData, GraphData, NodeData } from '../spec';
 import type {
   DataAdded,
   DataChange,
@@ -10,8 +10,8 @@ import type {
   DataUpdated,
   GraphlibData,
   NodeLikeData,
-  PartialDataOptions,
   PartialEdgeData,
+  PartialGraphData,
   PartialNodeLikeData,
 } from '../types';
 import type { EdgeDirection } from '../types/edge';
@@ -221,7 +221,7 @@ export class DataController {
     return this.model.getNeighbors(id).map((node) => node.data);
   }
 
-  public setData(data: DataOptions) {
+  public setData(data: GraphData) {
     const { nodes: modifiedNodes = [], edges: modifiedEdges = [], combos: modifiedCombos = [] } = data;
     const { nodes: originalNodes = [], edges: originalEdges = [], combos: originalCombos = [] } = this.getData();
 
@@ -250,7 +250,7 @@ export class DataController {
     });
   }
 
-  public addData(data: DataOptions) {
+  public addData(data: GraphData) {
     const { nodes, edges, combos } = data;
     this.batch(() => {
       // add combo first
@@ -322,7 +322,7 @@ export class DataController {
     });
   }
 
-  public updateData(data: PartialDataOptions) {
+  public updateData(data: PartialGraphData) {
     const { nodes, edges, combos } = data;
     this.batch(() => {
       this.updateNodeData(nodes);
