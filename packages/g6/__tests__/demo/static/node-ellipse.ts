@@ -1,77 +1,160 @@
+import { Line } from '../../../src/elements/edges';
 import { Ellipse } from '../../../src/elements/nodes';
 import type { StaticTestCase } from '../types';
 
 export const nodeEllipse: StaticTestCase = async (context) => {
   const { canvas } = context;
 
-  const ellipse_1 = new Ellipse({
-    style: {
-      // key
-      x: 100,
-      y: 100,
-      fill: 'green',
-      rx: '50',
-      ry: '25',
-    },
-  });
+  canvas.appendChild(
+    new Ellipse({
+      style: {
+        x: 100,
+        y: 50,
+        fill: '#f8f8f8',
+        stroke: '#8b9baf',
+        width: 80,
+        height: 40,
+        labelText: 'simple',
+        labelWordWrapWidth: 100,
+        labelPosition: 'bottom',
+      },
+    }),
+  );
 
-  const ellipse_2 = new Ellipse({
-    style: {
-      // key
-      x: 300,
-      y: 100,
-      fill: 'red',
-      rx: 50,
-      ry: 25,
-      lineWidth: 5,
-      stroke: 'black',
-      // label
-      labelText: 'ellipse node',
-      labelFontSize: 14,
-      labelFill: 'pink',
-      labelPosition: 'bottom',
-      // badge
-      badges: [
-        { text: 'A', position: 'right-top', backgroundFill: 'grey', fill: 'white', fontSize: 10, padding: [1, 4] },
-        { text: 'Important', position: 'right', backgroundFill: 'blue', fill: 'white', fontSize: 10 },
-        { text: 'Notice', position: 'left-bottom', backgroundFill: 'red', fill: 'white', fontSize: 10 },
-      ],
-      // anchor
-      anchors: [
-        { position: 'left', r: 2, stroke: 'black', lineWidth: 1, zIndex: 2 },
-        { position: 'right', r: 2, stroke: 'yellow', lineWidth: 2, zIndex: 2 },
-        { position: 'top', r: 2, stroke: 'green', lineWidth: 1, zIndex: 2 },
-        { position: 'bottom', r: 2, stroke: 'blue', lineWidth: 2, zIndex: 2 },
-      ],
-      // icon
-      iconSrc: 'https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg',
-      iconWidth: 32,
-      iconHeight: 32,
-      // halo
-      halo: true,
-      haloOpacity: 0.4,
-      haloStroke: 'grey',
-      haloLineWidth: 5,
-      haloPointerEvents: 'none',
-    },
-  });
+  canvas.appendChild(
+    new Ellipse({
+      style: {
+        x: 200,
+        y: 50,
+        fill: '#f8f8f8',
+        stroke: '#8b9baf',
+        width: 30,
+        height: 80,
+        iconText: 'Y',
+        iconFontSize: 14,
+        iconFill: '#5B8FF9',
+        iconFontWeight: 800,
+        labelText: 'this is a looooog label',
+      },
+    }),
+  );
 
-  const ellipse_3 = new Ellipse({
-    style: {
-      // key
-      x: 300,
-      y: 300,
-      fill: 'pink',
-      rx: 25,
-      ry: 50,
-      // icon
-      iconText: 'Y',
-      iconFontSize: 32,
-      iconFill: 'black',
-    },
-  });
+  canvas.appendChild(
+    new Ellipse({
+      style: {
+        // key
+        x: 300,
+        y: 50,
+        fill: '#f8f8f8',
+        stroke: '#8b9baf',
+        width: 80,
+        height: 60,
+        // label
+        label: false,
+        labelText: 'no-label',
+        // halo
+        halo: true,
+        // anchors
+        anchors: [
+          { position: 'left', stroke: '#31d0c6', fill: '#fff' },
+          { position: 'right', stroke: '#31d0c6', fill: '#fff' },
+          { position: 'top', stroke: '#31d0c6', fill: '#fff' },
+          { position: 'bottom', stroke: '#31d0c6', fill: '#fff' },
+        ],
+        // icon
+        iconSrc: 'https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*N4ZMS7gHsUIAAAAAAAAAAABkARQnAQ',
+        // badges
+        badges: [
+          { text: 'A', position: 'right-top', backgroundFill: '#8291b2', fill: '#fff', fontSize: 10, padding: [1, 4] },
+          { text: 'Important', position: 'right', backgroundFill: '#e66c5b', fill: '#fff', fontSize: 10 },
+          { text: 'Notice', position: 'right-bottom', backgroundFill: '#e5b95e', fill: '#fff', fontSize: 10 },
+        ],
+      },
+    }),
+  );
 
-  canvas.appendChild(ellipse_1);
-  canvas.appendChild(ellipse_2);
-  canvas.appendChild(ellipse_3);
+  const node1 = canvas.appendChild(
+    new Ellipse({
+      id: 'node1',
+      style: {
+        x: 100,
+        y: 250,
+        fill: '#f8f8f8',
+        stroke: '#8b9baf',
+        // anchors
+        anchors: [
+          { position: 'left', stroke: '#31d0c6', fill: '#fff' },
+          { position: 'right', stroke: '#31d0c6', fill: '#fff' },
+          { position: 'top', stroke: '#31d0c6', fill: '#fff' },
+          { position: 'bottom', stroke: '#31d0c6', fill: '#fff' },
+        ],
+      },
+    }),
+  );
+
+  const node2 = canvas.appendChild(
+    new Ellipse({
+      id: 'node2',
+      style: {
+        x: 200,
+        y: 175,
+        fill: '#f8f8f8',
+        stroke: '#8b9baf',
+        // anchors
+        anchors: [
+          { position: [0, 0.2], stroke: '#31d0c6', fill: '#fff' },
+          { position: [0, 0.5], stroke: '#31d0c6', fill: '#fff' },
+          { position: [0, 0.8], stroke: '#31d0c6', fill: '#fff' },
+        ],
+      },
+    }),
+  );
+
+  canvas.appendChild(
+    new Line({
+      id: 'line',
+      style: {
+        sourceNode: node1,
+        targetNode: node2,
+        stroke: '#1890FF',
+        endArrow: true,
+      },
+    }),
+  );
+
+  const node3 = canvas.appendChild(
+    new Ellipse({
+      id: 'node3',
+      style: {
+        x: 250,
+        y: 250,
+        fill: '#f8f8f8',
+        stroke: '#8b9baf',
+      },
+    }),
+  );
+
+  const node4 = canvas.appendChild(
+    new Ellipse({
+      id: 'node4',
+      style: {
+        x: 350,
+        y: 175,
+        fill: '#f8f8f8',
+        stroke: '#8b9baf',
+      },
+    }),
+  );
+
+  canvas.appendChild(
+    new Line({
+      id: 'line',
+      style: {
+        sourceNode: node3,
+        targetNode: node4,
+        stroke: '#1890FF',
+        endArrow: true,
+      },
+    }),
+  );
 };

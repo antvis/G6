@@ -12,62 +12,161 @@
       <g
         id="g-svg-5"
         fill="none"
-        rx="50"
-        ry="25"
-        transform="matrix(1,0,0,1,100,100)"
+        width="80"
+        height="40"
+        transform="matrix(1,0,0,1,100,50)"
       >
         <g transform="matrix(1,0,0,1,0,0)">
           <ellipse
             id="key"
-            fill="rgba(0,128,0,1)"
-            transform="translate(-50,-25)"
-            cx="50"
-            cy="25"
-            rx="50"
-            ry="25"
+            fill="rgba(248,248,248,1)"
+            transform="translate(-40,-20)"
+            cx="40"
+            cy="20"
+            stroke="rgba(139,155,175,1)"
+            rx="40"
+            ry="20"
           />
+        </g>
+        <g id="label" fill="none" transform="matrix(1,0,0,1,0,20)">
+          <g transform="matrix(1,0,0,1,-22.840000,-2)">
+            <path
+              id="background"
+              fill="none"
+              d="M 0,0 l 108,0 l 0,27 l-108 0 z"
+              opacity="0.75"
+              stroke-width="0"
+              width="108"
+              height="27"
+            />
+          </g>
+          <g transform="matrix(1,0,0,1,0,0)">
+            <text
+              id="text"
+              fill="rgba(0,0,0,1)"
+              dominant-baseline="central"
+              paint-order="stroke"
+              dx="0.5"
+              dy="11.5px"
+              font-size="12"
+              text-anchor="middle"
+            >
+              simple
+            </text>
+          </g>
         </g>
       </g>
       <g
-        id="g-svg-7"
+        id="g-svg-10"
         fill="none"
-        rx="50"
-        ry="25"
-        transform="matrix(1,0,0,1,300,100)"
+        width="30"
+        height="80"
+        transform="matrix(1,0,0,1,200,50)"
       >
         <g transform="matrix(1,0,0,1,0,0)">
           <ellipse
             id="key"
-            fill="rgba(255,0,0,1)"
-            transform="translate(-50,-25)"
-            cx="50"
-            cy="25"
-            rx="50"
-            ry="25"
-            stroke-width="5"
-            stroke="rgba(0,0,0,1)"
+            fill="rgba(248,248,248,1)"
+            transform="translate(-15,-40)"
+            cx="15"
+            cy="40"
+            stroke="rgba(139,155,175,1)"
+            rx="15"
+            ry="40"
+          />
+        </g>
+        <g id="label" fill="none" transform="matrix(1,0,0,1,0,40)">
+          <g transform="matrix(1,0,0,1,-33.639999,-2)">
+            <path
+              id="background"
+              fill="none"
+              d="M 0,0 l 68,0 l 0,27 l-68 0 z"
+              opacity="0.75"
+              stroke-width="0"
+              width="68"
+              height="27"
+            />
+          </g>
+          <g transform="matrix(1,0,0,1,0,0)">
+            <text
+              id="text"
+              fill="rgba(0,0,0,1)"
+              dominant-baseline="central"
+              paint-order="stroke"
+              dx="0.5"
+              dy="11.5px"
+              font-size="12"
+              text-anchor="middle"
+            >
+              this is a ...
+            </text>
+          </g>
+        </g>
+        <g
+          id="icon"
+          fill="none"
+          height="20"
+          width="20"
+          transform="matrix(1,0,0,1,0,0)"
+        >
+          <g transform="matrix(1,0,0,1,0,0)">
+            <text
+              id="icon"
+              fill="rgba(91,143,249,1)"
+              dominant-baseline="central"
+              paint-order="stroke"
+              dx="0.5"
+              text-anchor="middle"
+              height="20"
+              width="20"
+              font-size="14"
+              font-weight="800"
+            >
+              Y
+            </text>
+          </g>
+        </g>
+      </g>
+      <g
+        id="g-svg-17"
+        fill="none"
+        width="80"
+        height="60"
+        transform="matrix(1,0,0,1,300,50)"
+      >
+        <g transform="matrix(1,0,0,1,0,0)">
+          <ellipse
+            id="halo"
+            fill="rgba(248,248,248,1)"
+            transform="translate(-40,-30)"
+            cx="40"
+            cy="30"
+            stroke="rgba(139,155,175,1)"
+            rx="40"
+            ry="30"
+            stroke-dasharray="0,0"
+            stroke-width="6"
+            stroke-opacity="0.25"
+            pointer-events="none"
           />
         </g>
         <g transform="matrix(1,0,0,1,0,0)">
           <ellipse
-            id="halo"
-            fill="rgba(0,0,0,0)"
-            transform="translate(-52.5,-27.5)"
-            cx="52.5"
-            cy="27.5"
-            rx="52.5"
-            ry="27.5"
-            stroke-width="5"
-            stroke="rgba(128,128,128,1)"
-            pointer-events="none"
-            opacity="0.4"
+            id="key"
+            fill="rgba(248,248,248,1)"
+            transform="translate(-40,-30)"
+            cx="40"
+            cy="30"
+            stroke="rgba(139,155,175,1)"
+            rx="40"
+            ry="30"
           />
         </g>
         <g
           id="icon"
           fill="none"
-          width="32"
-          height="32"
+          height="20"
+          width="20"
           transform="matrix(1,0,0,1,0,0)"
         >
           <g transform="matrix(1,0,0,1,0,0)">
@@ -77,48 +176,64 @@
               preserveAspectRatio="none"
               x="0"
               y="0"
-              href="https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg"
-              transform="translate(-16,-16)"
-              width="32"
-              height="32"
+              href="https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*N4ZMS7gHsUIAAAAAAAAAAABkARQnAQ"
+              transform="translate(-10,-10)"
+              height="20"
+              width="20"
             />
           </g>
         </g>
-        <g id="label" fill="none" transform="matrix(1,0,0,1,0,25)">
-          <g transform="matrix(1,0,0,1,-44.599998,-2)">
-            <path
-              id="background"
-              fill="none"
-              d="M 0,0 l 208,0 l 0,31 l-208 0 z"
-              opacity="0.75"
-              stroke-width="0"
-              width="208"
-              height="31"
-            />
-          </g>
-          <g transform="matrix(1,0,0,1,0,0)">
-            <text
-              id="text"
-              fill="rgba(255,192,203,1)"
-              dominant-baseline="central"
-              paint-order="stroke"
-              dx="0.5"
-              dy="13.5px"
-              font-size="14"
-              text-anchor="middle"
-            >
-              ellipse node
-            </text>
-          </g>
+        <g transform="matrix(1,0,0,1,-40,0)">
+          <circle
+            id="anchor-0"
+            fill="rgba(255,255,255,1)"
+            transform="translate(-4,-4)"
+            cx="4"
+            cy="4"
+            r="4"
+            stroke="rgba(49,208,198,1)"
+          />
         </g>
-        <g id="badge-0" fill="none" transform="matrix(1,0,0,1,50,-25)">
+        <g transform="matrix(1,0,0,1,40,0)">
+          <circle
+            id="anchor-1"
+            fill="rgba(255,255,255,1)"
+            transform="translate(-4,-4)"
+            cx="4"
+            cy="4"
+            r="4"
+            stroke="rgba(49,208,198,1)"
+          />
+        </g>
+        <g transform="matrix(1,0,0,1,0,-30)">
+          <circle
+            id="anchor-2"
+            fill="rgba(255,255,255,1)"
+            transform="translate(-4,-4)"
+            cx="4"
+            cy="4"
+            r="4"
+            stroke="rgba(49,208,198,1)"
+          />
+        </g>
+        <g transform="matrix(1,0,0,1,0,30)">
+          <circle
+            id="anchor-3"
+            fill="rgba(255,255,255,1)"
+            transform="translate(-4,-4)"
+            cx="4"
+            cy="4"
+            r="4"
+            stroke="rgba(49,208,198,1)"
+          />
+        </g>
+        <g id="badge-0" fill="none" transform="matrix(1,0,0,1,40,-30)">
           <g id="label" fill="none" transform="matrix(1,0,0,1,0,0)">
-            <g transform="matrix(1,0,0,1,-4,-20)">
+            <g transform="matrix(1,0,0,1,-4,-1)">
               <path
                 id="background"
-                fill="rgba(128,128,128,1)"
+                fill="rgba(130,145,178,1)"
                 d="M 7.95,0 l 0,0 a 7.95,7.95,0,0,1,7.95,7.95 l 0,5.1 a 7.95,7.95,0,0,1,-7.95,7.95 l 0,0 a 7.95,7.95,0,0,1,-7.95,-7.95 l 0,-5.1 a 7.95,7.95,0,0,1,7.95,-7.95 z"
-                opacity="0.75"
                 stroke-width="0"
                 width="15.9"
                 height="21"
@@ -131,7 +246,7 @@
                 dominant-baseline="central"
                 paint-order="stroke"
                 dx="0.5"
-                dy="-9.5px"
+                dy="9.5px"
                 font-size="10"
                 text-anchor="left"
               >
@@ -140,14 +255,13 @@
             </g>
           </g>
         </g>
-        <g id="badge-1" fill="none" transform="matrix(1,0,0,1,50,0)">
+        <g id="badge-1" fill="none" transform="matrix(1,0,0,1,40,0)">
           <g id="label" fill="none" transform="matrix(1,0,0,1,0,0)">
             <g transform="matrix(1,0,0,1,-4,-11.500000)">
               <path
                 id="background"
-                fill="rgba(0,0,255,1)"
+                fill="rgba(230,108,91,1)"
                 d="M 11.5,0 l 32.9,0 a 11.5,11.5,0,0,1,11.5,11.5 l 0,0 a 11.5,11.5,0,0,1,-11.5,11.5 l -32.9,0 a 11.5,11.5,0,0,1,-11.5,-11.5 l 0,0 a 11.5,11.5,0,0,1,11.5,-11.5 z"
-                opacity="0.75"
                 stroke-width="0"
                 width="55.9"
                 height="23"
@@ -168,14 +282,13 @@
             </g>
           </g>
         </g>
-        <g id="badge-2" fill="none" transform="matrix(1,0,0,1,-50,25)">
+        <g id="badge-2" fill="none" transform="matrix(1,0,0,1,40,30)">
           <g id="label" fill="none" transform="matrix(1,0,0,1,0,0)">
-            <g transform="matrix(1,0,0,1,-35.400002,-2)">
+            <g transform="matrix(1,0,0,1,-4,-21)">
               <path
                 id="background"
-                fill="rgba(255,0,0,1)"
+                fill="rgba(229,185,94,1)"
                 d="M 11.5,0 l 17.400000000000006,0 a 11.5,11.5,0,0,1,11.5,11.5 l 0,0 a 11.5,11.5,0,0,1,-11.5,11.5 l -17.400000000000006,0 a 11.5,11.5,0,0,1,-11.5,-11.5 l 0,0 a 11.5,11.5,0,0,1,11.5,-11.5 z"
-                opacity="0.75"
                 stroke-width="0"
                 width="40.400000000000006"
                 height="23"
@@ -188,95 +301,228 @@
                 dominant-baseline="central"
                 paint-order="stroke"
                 dx="0.5"
-                dy="9.5px"
+                dy="-9.5px"
                 font-size="10"
-                text-anchor="end"
+                text-anchor="left"
               >
                 Notice
               </text>
             </g>
           </g>
         </g>
-        <g transform="matrix(1,0,0,1,-50,0)">
-          <circle
-            id="anchor-0"
-            fill="none"
-            transform="translate(-2,-2)"
-            cx="2"
-            cy="2"
-            r="2"
-            stroke="rgba(0,0,0,1)"
-            stroke-width="1"
-          />
-        </g>
-        <g transform="matrix(1,0,0,1,50,0)">
-          <circle
-            id="anchor-1"
-            fill="none"
-            transform="translate(-2,-2)"
-            cx="2"
-            cy="2"
-            r="2"
-            stroke="rgba(255,255,0,1)"
-            stroke-width="2"
-          />
-        </g>
-        <g transform="matrix(1,0,0,1,0,-25)">
-          <circle
-            id="anchor-2"
-            fill="none"
-            transform="translate(-2,-2)"
-            cx="2"
-            cy="2"
-            r="2"
-            stroke="rgba(0,128,0,1)"
-            stroke-width="1"
-          />
-        </g>
-        <g transform="matrix(1,0,0,1,0,25)">
-          <circle
-            id="anchor-3"
-            fill="none"
-            transform="translate(-2,-2)"
-            cx="2"
-            cy="2"
-            r="2"
-            stroke="rgba(0,0,255,1)"
-            stroke-width="2"
-          />
-        </g>
       </g>
       <g
-        id="g-svg-31"
+        id="node1"
         fill="none"
-        rx="25"
-        ry="50"
-        transform="matrix(1,0,0,1,300,300)"
+        width="80"
+        height="40"
+        transform="matrix(1,0,0,1,100,250)"
       >
         <g transform="matrix(1,0,0,1,0,0)">
           <ellipse
             id="key"
-            fill="rgba(255,192,203,1)"
-            transform="translate(-25,-50)"
-            cx="25"
-            cy="50"
-            rx="25"
-            ry="50"
+            fill="rgba(248,248,248,1)"
+            transform="translate(-40,-20)"
+            cx="40"
+            cy="20"
+            stroke="rgba(139,155,175,1)"
+            rx="40"
+            ry="20"
           />
         </g>
-        <g id="icon" fill="none" transform="matrix(1,0,0,1,0,0)">
-          <g transform="matrix(1,0,0,1,0,0)">
-            <text
-              id="icon"
-              fill="rgba(0,0,0,1)"
-              dominant-baseline="central"
-              paint-order="stroke"
-              dx="0.5"
-              text-anchor="middle"
-              font-size="32"
-            >
-              Y
-            </text>
+        <g transform="matrix(1,0,0,1,-40,0)">
+          <circle
+            id="anchor-0"
+            fill="rgba(255,255,255,1)"
+            transform="translate(-4,-4)"
+            cx="4"
+            cy="4"
+            r="4"
+            stroke="rgba(49,208,198,1)"
+          />
+        </g>
+        <g transform="matrix(1,0,0,1,40,0)">
+          <circle
+            id="anchor-1"
+            fill="rgba(255,255,255,1)"
+            transform="translate(-4,-4)"
+            cx="4"
+            cy="4"
+            r="4"
+            stroke="rgba(49,208,198,1)"
+          />
+        </g>
+        <g transform="matrix(1,0,0,1,0,-20)">
+          <circle
+            id="anchor-2"
+            fill="rgba(255,255,255,1)"
+            transform="translate(-4,-4)"
+            cx="4"
+            cy="4"
+            r="4"
+            stroke="rgba(49,208,198,1)"
+          />
+        </g>
+        <g transform="matrix(1,0,0,1,0,20)">
+          <circle
+            id="anchor-3"
+            fill="rgba(255,255,255,1)"
+            transform="translate(-4,-4)"
+            cx="4"
+            cy="4"
+            r="4"
+            stroke="rgba(49,208,198,1)"
+          />
+        </g>
+      </g>
+      <g
+        id="node2"
+        fill="none"
+        width="80"
+        height="40"
+        transform="matrix(1,0,0,1,200,175)"
+      >
+        <g transform="matrix(1,0,0,1,0,0)">
+          <ellipse
+            id="key"
+            fill="rgba(248,248,248,1)"
+            transform="translate(-40,-20)"
+            cx="40"
+            cy="20"
+            stroke="rgba(139,155,175,1)"
+            rx="40"
+            ry="20"
+          />
+        </g>
+        <g transform="matrix(1,0,0,1,-40,-12)">
+          <circle
+            id="anchor-0"
+            fill="rgba(255,255,255,1)"
+            transform="translate(-4,-4)"
+            cx="4"
+            cy="4"
+            r="4"
+            stroke="rgba(49,208,198,1)"
+          />
+        </g>
+        <g transform="matrix(1,0,0,1,-40,0)">
+          <circle
+            id="anchor-1"
+            fill="rgba(255,255,255,1)"
+            transform="translate(-4,-4)"
+            cx="4"
+            cy="4"
+            r="4"
+            stroke="rgba(49,208,198,1)"
+          />
+        </g>
+        <g transform="matrix(1,0,0,1,-40,12)">
+          <circle
+            id="anchor-2"
+            fill="rgba(255,255,255,1)"
+            transform="translate(-4,-4)"
+            cx="4"
+            cy="4"
+            r="4"
+            stroke="rgba(49,208,198,1)"
+          />
+        </g>
+      </g>
+      <g
+        id="line"
+        fill="none"
+        marker-start="false"
+        marker-end="true"
+        transform="matrix(1,0,0,1,0,0)"
+      >
+        <g transform="matrix(1,0,0,1,142.498779,189.896545)">
+          <path
+            id="key"
+            fill="none"
+            d="M 0,56.97997303808995 L 13.239690738931156,5.808723301873735"
+            stroke="rgba(24,144,255,1)"
+          />
+          <g transform="matrix(-0.250485,0.968121,-0.968121,-0.250485,13.239691,5.808723)">
+            <path
+              id="g-svg-52"
+              fill="rgba(24,144,255,1)"
+              d="M 0,5 L 10,0 L 10,10 Z"
+              transform="translate(-5,-5)"
+              stroke="rgba(24,144,255,1)"
+              width="10"
+              height="10"
+              stroke-dasharray="0,0"
+              stroke-width="1"
+            />
+          </g>
+        </g>
+      </g>
+      <g
+        id="node3"
+        fill="none"
+        width="80"
+        height="40"
+        transform="matrix(1,0,0,1,250,250)"
+      >
+        <g transform="matrix(1,0,0,1,0,0)">
+          <ellipse
+            id="key"
+            fill="rgba(248,248,248,1)"
+            transform="translate(-40,-20)"
+            cx="40"
+            cy="20"
+            stroke="rgba(139,155,175,1)"
+            rx="40"
+            ry="20"
+          />
+        </g>
+      </g>
+      <g
+        id="node4"
+        fill="none"
+        width="80"
+        height="40"
+        transform="matrix(1,0,0,1,350,175)"
+      >
+        <g transform="matrix(1,0,0,1,0,0)">
+          <ellipse
+            id="key"
+            fill="rgba(248,248,248,1)"
+            transform="translate(-40,-20)"
+            cx="40"
+            cy="20"
+            stroke="rgba(139,155,175,1)"
+            rx="40"
+            ry="20"
+          />
+        </g>
+      </g>
+      <g
+        id="line"
+        fill="none"
+        marker-start="false"
+        marker-end="true"
+        transform="matrix(1,0,0,1,0,0)"
+      >
+        <g transform="matrix(1,0,0,1,282,187)">
+          <path
+            id="key"
+            fill="none"
+            d="M 0,51 L 32.53990081440807,4.90180717958857"
+            stroke="rgba(24,144,255,1)"
+          />
+          <g transform="matrix(-0.576683,0.816968,-0.816968,-0.576683,32.539902,4.901807)">
+            <path
+              id="g-svg-60"
+              fill="rgba(24,144,255,1)"
+              d="M 0,5 L 10,0 L 10,10 Z"
+              transform="translate(-5,-5)"
+              stroke="rgba(24,144,255,1)"
+              width="10"
+              height="10"
+              stroke-dasharray="0,0"
+              stroke-width="1"
+            />
           </g>
         </g>
       </g>
