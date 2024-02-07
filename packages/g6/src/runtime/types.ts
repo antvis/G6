@@ -1,7 +1,9 @@
 import type { G6Spec } from '../spec';
 import type { Canvas } from './canvas';
 import type { DataController } from './data';
+import type { ElementController } from './element';
 import type { Graph } from './graph';
+import type { ViewportController } from './viewport';
 
 export interface RuntimeContext {
   /**
@@ -28,4 +30,20 @@ export interface RuntimeContext {
    * <en/> Data model
    */
   model: DataController;
+  /**
+   * <zh/> 元素控制器
+   *
+   * <en/> Element controller
+   * @description
+   * <zh/> 仅在绘制开始后才可用
+   *
+   * <en/> Only available after drawing starts
+   */
+  element?: ElementController;
+  /**
+   * <zh/> 视口控制器
+   *
+   * <en/> Viewport controller
+   */
+  viewport?: ViewportController;
 }

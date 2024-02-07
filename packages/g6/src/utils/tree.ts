@@ -1,5 +1,4 @@
 import type { ID } from '@antv/graphlib';
-import { omit } from '@antv/util';
 import type { EdgeData, GraphData, NodeData } from '../spec';
 import type { TreeData } from '../types';
 import { dfs } from './traverse';
@@ -71,7 +70,7 @@ type TreeDataGetter = {
  */
 export function transformTreeDataToGraphData(treeData: TreeData, getter?: TreeDataGetter): GraphData {
   const {
-    getNodeData = (datum: TreeData) => omit(datum, ['children']) as NodeData,
+    getNodeData = (datum: TreeData) => datum as NodeData,
     getEdgeData = (source: TreeData, target: TreeData) => ({ source: source.id, target: target.id }),
     getChildren = (datum: TreeData) => datum.children || [],
   } = getter || {};

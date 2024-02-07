@@ -8,11 +8,13 @@
     "beforeviewportanimation",
     "cancelviewportanimation",
     "dendrogram",
+    "Forceatlas",
     "Fruchterman",
     "gforce",
     "graphlib",
     "GSHAPE",
     "mindmap",
-    "onframe"
+    "onframe",
+    "ranksep"
   ]
 }
