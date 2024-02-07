@@ -4,6 +4,7 @@ import type { DisplayObject, IAnimation } from '@antv/g';
 import { Group } from '@antv/g';
 import type { ID } from '@antv/graphlib';
 import { groupBy, isNumber } from '@antv/util';
+import { BaseEdge } from 'elements/edges/base-edge';
 import { executor as animationExecutor } from '../animations';
 import { ChangeTypeEnum, GraphEvent } from '../constants';
 import { BaseNode } from '../elements/nodes';
@@ -13,7 +14,16 @@ import type { ComboData, EdgeData, G6Spec, GraphData, NodeData } from '../spec';
 import type { AnimationStage } from '../spec/element/animation';
 import type { EdgeStyle } from '../spec/element/edge';
 import type { NodeLikeStyle } from '../spec/element/node';
-import type { DataChange, ElementData, ElementDatum, ElementType, Point, State, StyleIterationContext } from '../types';
+import type {
+  DataChange,
+  ElementData,
+  ElementDatum,
+  ElementType,
+  LayoutNodeLikePosition,
+  LayoutResult,
+  State,
+  StyleIterationContext,
+} from '../types';
 import { createAnimationsProxy } from '../utils/animation';
 import { deduplicate } from '../utils/array';
 import { reduceDataChanges } from '../utils/change';
@@ -285,6 +295,18 @@ export class ElementController {
     return this.elementMap[id] as T;
   }
 
+  public getNodes() {
+    return this.container.node.children as BaseNode<any, any>[];
+  }
+
+  public getEdges() {
+    return this.container.edge.children as BaseEdge<any>[];
+  }
+
+  public getCombos() {
+    return this.container.combo.children as DisplayObject[];
+  }
+
   private getAnimationExecutor(
     elementType: ElementType,
     stage: AnimationStage,
@@ -533,8 +555,8 @@ export class ElementController {
     return result;
   }
 
-  private getShapeType(elementType: ElementType, datum: ElementDatum) {
-    const type = datum?.style?.type;
+  private getShapeType(elementType: ElementType, renderData: Record<string, any>) {
+    const type = renderData.type;
     if (type) return type;
     // 推断默认类型 / Infer default type
 
@@ -552,17 +574,19 @@ export class ElementController {
     const currentShape = this.getElement(id);
     if (currentShape) return;
 
+    const renderData = this.getElementComputedStyle(elementType, id);
+
     // get shape constructor
-    const shapeType = this.getShapeType(elementType, datum);
+    const shapeType = this.getShapeType(elementType, renderData);
     const Ctor = getPlugin(elementType, shapeType);
     if (!Ctor) return;
-
     const shape = this.container[elementType].appendChild(
       // @ts-expect-error TODO fix type
       new Ctor({
+        id,
         style: {
           context: this.context,
-          ...this.getElementComputedStyle(elementType, id),
+          ...renderData,
         },
       }),
     ) as DisplayObject;
@@ -622,7 +646,7 @@ export class ElementController {
     });
   }
 
-  public updateNodeLikePosition(positions: Record<ID, Point>, animation: boolean = true) {
+  public updateNodeLikePosition(positions: LayoutNodeLikePosition, animation: boolean = true) {
     const { model } = this.context;
     const taskId = this.preRender();
 
@@ -642,13 +666,55 @@ export class ElementController {
         const elementType = model.isCombo(id) ? 'combo' : 'node';
         const datum = elementType === 'combo' ? model.getComboData([id])[0] : model.getNodeData([id])[0];
         const target = elementType === 'combo' ? combos : nodes;
-        // 此处数据不会导致重新计算样式 / The data here will not cause the style to be recalculated
+        // 此处数据不会导致重新计算样式，仅用于确定要更新的元素 / The data here will not cause the style to be recalculated, only used to determine the elements to be updated
         target.push(datum);
       });
 
     const edges = deduplicate(nodes.map((node) => model.getRelatedEdgesData(idOf(node))).flat(), idOf);
 
     this.updateElements({ nodes, edges, combos }, { taskId, animation });
+
+    return this.postRender(taskId);
+  }
+
+  /**
+   * <zh/> 基于布局结果进行更新
+   *
+   * <en/> Update based on layout results
+   */
+  public updateByLayoutResult(layoutResult: LayoutResult, animation: boolean = true) {
+    const { model } = this.context;
+    const { nodes: nodeLikeResults, edges: edgeResults } = layoutResult;
+    const taskId = this.preRender();
+
+    const nodes: NodeData[] = [];
+    const combos: ComboData[] = [];
+    const edges: EdgeData[] = [];
+
+    Object.entries(nodeLikeResults).forEach(([id, position]) => {
+      const style: Record<string, number> = {};
+      ['x', 'y', 'z'].forEach((attr, index) => {
+        if (isNumber(position[index])) {
+          style[attr] = position[index];
+        }
+      });
+      this.setRuntimeStyle(id, style);
+
+      const elementType = model.isCombo(id) ? 'combo' : 'node';
+      const datum = elementType === 'combo' ? model.getComboData([id])[0] : model.getNodeData([id])[0];
+      const target = elementType === 'combo' ? combos : nodes;
+      // 此处数据不会导致重新计算样式，仅用于确定要更新的元素 / The data here will not cause the style to be recalculated, only used to determine the elements to be updated
+      target.push(datum);
+    });
+
+    Object.entries(edgeResults).forEach(([id, style]) => {
+      this.setRuntimeStyle(id, style);
+      edges.push(model.getEdgeData([id])[0]);
+    });
+
+    nodes.forEach((node) => model.getRelatedEdgesData(idOf(node)).forEach((edge) => edges.push(edge)));
+
+    this.updateElements({ nodes, edges: deduplicate(edges, idOf), combos }, { taskId, animation });
 
     return this.postRender(taskId);
   }

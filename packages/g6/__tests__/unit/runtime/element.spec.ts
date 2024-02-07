@@ -230,12 +230,9 @@ describe('ElementController', () => {
 
     await elementController.render(context);
 
-    // @ts-expect-error container is private
-    const container = elementController.container;
-
-    expect(container.node.children.length).toBe(3);
-    expect(container.edge.children.length).toBe(2);
+    expect(elementController.getNodes().length).toBe(3);
+    expect(elementController.getEdges().length).toBe(2);
     // TODO 目前暂未提供 combo 图形，因此无法渲染 / Currently, combo graphics are not provided, so they cannot be rendered
-    expect(container.combo.children.length).toBe(0);
+    expect(elementController.getCombos().length).toBe(0);
   });
 });
