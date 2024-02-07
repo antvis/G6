@@ -16,7 +16,7 @@ export const edgeLoop: StaticTestCase = async (context) => {
         height: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
-        anchorOptions: [
+        anchors: [
           { key: 'left', position: [0, 0.5], r: 4, stroke: '#31d0c6', fill: '#fff' },
           { key: 'right', position: [1, 0.5], r: 4, fill: '#31d0c6' },
           { key: 'top', position: [0.5, 0], r: 4, fill: '#31d0c6' },
@@ -51,7 +51,7 @@ export const edgeLoop: StaticTestCase = async (context) => {
         height: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
-        anchorOptions: [
+        anchors: [
           { key: 'left', position: [0, 0.5], r: 4, stroke: '#31d0c6', fill: '#fff' },
           { key: 'right', position: [1, 0.5], r: 4, fill: '#31d0c6' },
           { key: 'top', position: [0.5, 0], r: 4, stroke: '#31d0c6', fill: '#fff' },
@@ -84,7 +84,7 @@ export const edgeLoop: StaticTestCase = async (context) => {
         height: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
-        anchorOptions: [{ key: 'right-bottom', position: 'right-bottom', r: 4, fill: '#31d0c6' }],
+        anchors: [{ key: 'right-bottom', position: 'right-bottom', r: 4, fill: '#31d0c6' }],
       },
     }),
   );

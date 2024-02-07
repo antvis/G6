@@ -55,7 +55,7 @@ export const nodeRect: StaticTestCase = async (context) => {
         // halo
         halo: true,
         // anchors
-        anchorOptions: [
+        anchors: [
           { position: 'left', stroke: '#31d0c6', fill: '#fff' },
           { position: 'right', stroke: '#31d0c6', fill: '#fff' },
           { position: 'top', stroke: '#31d0c6', fill: '#fff' },
@@ -64,7 +64,7 @@ export const nodeRect: StaticTestCase = async (context) => {
         // icon
         iconSrc: 'https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*N4ZMS7gHsUIAAAAAAAAAAABkARQnAQ',
         // badges
-        badgeOptions: [
+        badges: [
           { text: 'A', position: 'right-top', backgroundFill: '#8291b2', fill: '#fff', fontSize: 10, padding: [1, 4] },
           { text: 'Important', position: 'right', backgroundFill: '#e66c5b', fill: '#fff', fontSize: 10 },
           { text: 'Notice', position: 'right-bottom', backgroundFill: '#e5b95e', fill: '#fff', fontSize: 10 },
@@ -84,7 +84,7 @@ export const nodeRect: StaticTestCase = async (context) => {
         width: 50,
         height: 50,
         // anchors
-        anchorOptions: [
+        anchors: [
           { position: [1, 0.5], stroke: '#31d0c6', fill: '#fff' },
           { position: [1, 0.8], stroke: '#31d0c6', fill: '#fff' },
         ],
@@ -103,7 +103,7 @@ export const nodeRect: StaticTestCase = async (context) => {
         width: 50,
         height: 50,
         // anchors
-        anchorOptions: [
+        anchors: [
           { position: [0, 0.2], stroke: '#31d0c6', fill: '#fff' },
           { position: [0, 0.5], stroke: '#31d0c6', fill: '#fff' },
         ],

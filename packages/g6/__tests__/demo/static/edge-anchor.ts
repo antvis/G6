@@ -60,7 +60,7 @@ export const edgeAnchor: StaticTestCase = async (context) => {
         height: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
-        anchorOptions: [
+        anchors: [
           { key: 'left', position: [0, 0.5], r: 4, stroke: '#31d0c6', fill: '#fff' },
           { key: 'right', position: [1, 0.5], r: 4, fill: '#31d0c6' },
           { key: 'top', position: [0.5, 0], r: 4, stroke: '#31d0c6', fill: '#fff' },
@@ -80,7 +80,7 @@ export const edgeAnchor: StaticTestCase = async (context) => {
         height: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
-        anchorOptions: [
+        anchors: [
           { key: 'left', position: [0, 0.5], r: 4, stroke: '#31d0c6', fill: '#fff' },
           { key: 'right', position: [1, 0.5], r: 4, stroke: '#31d0c6', fill: '#fff' },
           { key: 'top', position: [0.5, 0], r: 4, stroke: '#31d0c6', fill: '#fff' },
@@ -119,7 +119,7 @@ export const edgeAnchor: StaticTestCase = async (context) => {
         height: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
-        anchorOptions: [
+        anchors: [
           { key: 'left', position: [0, 0.5], r: 4, stroke: '#31d0c6', fill: '#fff' },
           { key: 'right', position: [1, 0.5], r: 4, stroke: '#31d0c6', fill: '#fff' },
         ],
@@ -137,7 +137,7 @@ export const edgeAnchor: StaticTestCase = async (context) => {
         height: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
-        anchorOptions: [
+        anchors: [
           { key: 'top', position: [0.5, 0], r: 4, stroke: '#31d0c6', fill: '#fff' },
           { key: 'bottom', position: [0.5, 1], r: 4, stroke: '#31d0c6', fill: '#fff' },
         ],
@@ -172,7 +172,7 @@ export const edgeAnchor: StaticTestCase = async (context) => {
         height: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
-        anchorOptions: [
+        anchors: [
           { key: 'left', position: [0, 0.5], r: 4, stroke: '#31d0c6', fill: '#fff' },
           { key: 'right', position: [1, 0.5], r: 4, stroke: '#31d0c6', fill: '#fff' },
         ],
@@ -190,7 +190,7 @@ export const edgeAnchor: StaticTestCase = async (context) => {
         height: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
-        anchorOptions: [
+        anchors: [
           { key: 'top', position: [0.5, 0], r: 4, stroke: '#31d0c6', fill: '#fff' },
           { key: 'bottom', position: [0.5, 1], r: 4, fill: '#31d0c6' },
         ],
@@ -226,7 +226,7 @@ export const edgeAnchor: StaticTestCase = async (context) => {
         height: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
-        anchorOptions: [
+        anchors: [
           { key: 'left', position: [0, 0.5], r: 4, fill: '#31d0c6' },
           { key: 'right', position: [1, 0.5], r: 4, stroke: '#31d0c6', fill: '#fff' },
         ],
@@ -244,7 +244,7 @@ export const edgeAnchor: StaticTestCase = async (context) => {
         height: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
-        anchorOptions: [
+        anchors: [
           { key: 'top', position: [0.5, 0], r: 4, stroke: '#31d0c6', fill: '#fff' },
           { key: 'bottom', position: [0.5, 1], r: 4, stroke: '#31d0c6', fill: '#fff' },
         ],
@@ -294,7 +294,7 @@ export const edgeAnchor: StaticTestCase = async (context) => {
         height: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
-        anchorOptions: [
+        anchors: [
           { key: 'bottom', position: [0.5, 1], r: 4, stroke: '#31d0c6', fill: '#fff' },
           { key: 'right', position: [1, 0.5], r: 4, stroke: '#31d0c6', fill: '#fff' },
         ],
@@ -343,7 +343,7 @@ export const edgeAnchor: StaticTestCase = async (context) => {
         height: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
-        anchorOptions: [
+        anchors: [
           { key: 'bottom', position: [0.5, 1], r: 4, stroke: '#31d0c6', fill: '#fff' },
           { key: 'right', position: [1, 0.5], r: 4, fill: '#31d0c6' },
         ],
@@ -379,7 +379,7 @@ export const edgeAnchor: StaticTestCase = async (context) => {
         height: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
-        anchorOptions: [
+        anchors: [
           { key: 'bottom', position: [0.5, 1], r: 4, stroke: '#31d0c6', fill: '#fff' },
           { key: 'right', position: [1, 0.5], r: 4, stroke: '#31d0c6', fill: '#fff' },
         ],
@@ -428,7 +428,7 @@ export const edgeAnchor: StaticTestCase = async (context) => {
         height: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
-        anchorOptions: [
+        anchors: [
           { key: 'bottom', position: [0.5, 1], r: 4, fill: '#31d0c6' },
           { key: 'right', position: [1, 0.5], r: 4, stroke: '#31d0c6', fill: '#fff' },
         ],
@@ -478,7 +478,7 @@ export const edgeAnchor: StaticTestCase = async (context) => {
         height: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
-        anchorOptions: [
+        anchors: [
           { key: 'bottom', position: [0.5, 1], r: 4, fill: '#31d0c6' },
           { key: 'right', position: [1, 0.5], r: 4, stroke: '#31d0c6', fill: '#fff' },
         ],

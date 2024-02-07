@@ -26,13 +26,13 @@ export const nodeTriangle: StaticTestCase = async (context) => {
       labelFill: 'pink',
       labelPosition: 'bottom',
       // badge
-      badgeOptions: [
+      badges: [
         { text: 'A', position: 'right-top', backgroundFill: 'grey', fill: 'white', fontSize: 10, padding: [1, 4] },
         { text: 'Important', position: 'right', backgroundFill: 'blue', fill: 'white', fontSize: 10 },
         { text: 'Notice', position: 'left-bottom', backgroundFill: 'red', fill: 'white', fontSize: 10 },
       ],
       // anchor
-      anchorOptions: [
+      anchors: [
         { position: 'left', r: 2, stroke: 'black', lineWidth: 1, zIndex: 2 },
         { position: 'right', r: 2, stroke: 'yellow', lineWidth: 2, zIndex: 2 },
         { position: 'top', r: 2, stroke: 'green', lineWidth: 1, zIndex: 2 },

@@ -12,8 +12,8 @@ import { Badge, BaseShape, Icon, Label } from '../shapes';
 type NodeLabelStyleProps = LabelStyleProps & { position?: LabelPosition; maxWidth?: string | number };
 type NodeBadgeStyleProps = BadgeStyleProps & { position?: BadgePosition };
 type NodeBadgesStyleProps = {
-  options: NodeBadgeStyleProps[];
-  zIndex?: number;
+  badges: NodeBadgeStyleProps[];
+  badgeZIndex?: number;
 };
 export type NodeAnchorStyleProps = Partial<GCircleStyleProps> & {
   key?: string;
@@ -22,8 +22,8 @@ export type NodeAnchorStyleProps = Partial<GCircleStyleProps> & {
   height?: number;
 };
 type NodeAnchorsStyleProps = {
-  options: NodeAnchorStyleProps[];
-  zIndex?: number;
+  anchors: NodeAnchorStyleProps[];
+  anchorZIndex?: number;
 };
 type NodeIconStyleProps = IconStyleProps;
 
@@ -42,9 +42,9 @@ export type BaseNodeStyleProps<KT extends object> = BaseShapeStyleProps &
   // Icon
   PrefixObject<NodeIconStyleProps, 'icon'> &
   // Badges
-  PrefixObject<NodeBadgesStyleProps, 'badge'> &
+  NodeBadgesStyleProps &
   // Anchor
-  PrefixObject<NodeAnchorsStyleProps, 'anchor'>;
+  NodeAnchorsStyleProps;
 
 export type ParsedBaseNodeStyleProps<KT extends object> = Required<BaseNodeStyleProps<KT>>;
 
@@ -68,27 +68,24 @@ export abstract class BaseNode<KT extends object, KS extends DisplayObject<any, 
     z: 0,
     width: 32,
     height: 32,
-    label: true,
-    labelPosition: 'bottom',
-    labelMaxWidth: '200%',
-    labelIsBillboard: true,
-    halo: false,
-    haloOpacity: 0.25,
-    haloLineWidth: 12,
-    haloPointerEvents: 'none',
-    haloLineDash: 0,
-    haloZIndex: -1,
-    haloDroppable: false,
-    labelZIndex: 0,
-    icon: true,
-    iconWidth: 20,
-    iconHeight: 20,
-    iconZIndex: 1,
-    badge: true,
-    badgeZIndex: 3,
-    badgeOptions: undefined,
+    anchors: [],
     anchorZIndex: 2,
-    anchorOptions: undefined,
+    badges: [],
+    badgeZIndex: 3,
+    halo: false,
+    haloDroppable: false,
+    haloLineDash: 0,
+    haloLineWidth: 6,
+    haloStrokeOpacity: 0.25,
+    haloPointerEvents: 'none',
+    haloZIndex: -1,
+    iconHeight: 20,
+    iconWidth: 20,
+    iconZIndex: 1,
+    labelIsBillboard: true,
+    labelMaxWidth: '200%',
+    labelPosition: 'bottom',
+    labelZIndex: 0,
   };
 
   constructor(options: BaseNodeOptions<KT>) {
@@ -152,14 +149,12 @@ export abstract class BaseNode<KT extends object, KS extends DisplayObject<any, 
       badgesStyle[key] = false;
     });
 
-    if (attributes.badge === false || isEmpty(attributes.badgeOptions)) return badgesStyle;
+    if (attributes.badge === false || isEmpty(attributes.badges)) return badgesStyle;
 
-    const { options, zIndex } = subStyleProps<Required<NodeBadgesStyleProps>>(
-      this.getGraphicStyle(attributes),
-      'badge',
-    );
-    options.forEach((option, i) => {
-      badgesStyle[i] = { zIndex, ...this.getBadgeStyle(option) };
+    const { badges: badgeOptions, badgeZIndex } = this.getGraphicStyle(attributes);
+
+    badgeOptions.forEach((option, i) => {
+      badgesStyle[i] = { zIndex: badgeZIndex, ...this.getBadgeStyle(option) };
     });
 
     return badgesStyle;
@@ -180,14 +175,11 @@ export abstract class BaseNode<KT extends object, KS extends DisplayObject<any, 
       anchorsStyle[key] = false;
     });
 
-    if (attributes.anchor === false || isEmpty(attributes.anchorOptions)) return anchorsStyle;
+    if (attributes.anchor === false || isEmpty(attributes.anchors)) return anchorsStyle;
 
-    const { options, zIndex } = subStyleProps<Required<NodeAnchorsStyleProps>>(
-      this.getGraphicStyle(attributes),
-      'anchor',
-    );
-    options.forEach((option, i) => {
-      anchorsStyle[option.key || i] = { zIndex, ...this.getAnchorStyle(attributes, option) };
+    const { anchors: anchorOptions, anchorZIndex } = this.getGraphicStyle(attributes);
+    anchorOptions.forEach((option, i) => {
+      anchorsStyle[option.key || i] = { zIndex: anchorZIndex, ...this.getAnchorStyle(attributes, option) };
     });
     return anchorsStyle;
   }
