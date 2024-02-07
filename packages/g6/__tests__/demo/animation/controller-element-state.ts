@@ -36,8 +36,8 @@ export const controllerElementState: AnimationTestCase = async (context) => {
     node: {
       style: {
         lineWidth: 1,
-        width: 10,
-        height: 10,
+        width: 20,
+        height: 20,
       },
       state: {
         active: {

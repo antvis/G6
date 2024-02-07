@@ -85,7 +85,7 @@ export abstract class BaseNode<
     halo: false,
     haloDroppable: false,
     haloLineDash: 0,
-    haloLineWidth: 6,
+    haloLineWidth: 12,
     haloStrokeOpacity: 0.25,
     haloPointerEvents: 'none',
     haloZIndex: -1,
@@ -136,7 +136,7 @@ export abstract class BaseNode<
     const keyStyle = this.getKeyStyle(attributes);
     const haloStyle = subStyleProps<P>(this.getGraphicStyle(attributes), 'halo');
 
-    return { ...keyStyle, stroke: keyStyle.fill, ...haloStyle };
+    return { ...keyStyle, ...haloStyle };
   }
 
   protected getIconStyle(attributes: ParsedBaseNodeStyleProps<P>): false | IconStyleProps {

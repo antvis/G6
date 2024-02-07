@@ -21,6 +21,7 @@
             id="halo"
             fill="none"
             d="M 0,5.773502691896255 C 100 25.773502691896255,100 -14.226497308103745,200 5.773502691896255"
+            stroke="rgba(24,144,255,1)"
             stroke-width="12"
             stroke-dasharray="0,0"
             pointer-events="none"

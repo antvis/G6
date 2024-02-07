@@ -139,10 +139,10 @@
             transform="translate(-25,-25)"
             cx="25"
             cy="25"
-            stroke="rgba(248,248,248,1)"
+            stroke="rgba(139,155,175,1)"
             r="25"
             stroke-dasharray="0,0"
-            stroke-width="6"
+            stroke-width="12"
             stroke-opacity="0.25"
             pointer-events="none"
           />

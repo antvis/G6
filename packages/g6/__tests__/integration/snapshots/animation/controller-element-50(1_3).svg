@@ -18,7 +18,7 @@
           marker-end="false"
           transform="matrix(1,0,0,1,0,0)"
         >
-          <g transform="matrix(1,0,0,1,55,55)">
+          <g transform="matrix(1,0,0,1,50,50)">
             <path
               id="key"
               fill="none"
@@ -36,11 +36,11 @@
           marker-end="false"
           transform="matrix(1,0,0,1,0,0)"
         >
-          <g transform="matrix(1,0,0,1,130,81.162735)">
+          <g transform="matrix(1,0,0,1,125,76.162735)">
             <path
               id="key"
               fill="none"
-              d="M 75,0 C 37.5 36.91863201487783,0 73.83726402975567,0 73.83726402975567"
+              d="M 75,0 C 37.5 36.91863201487784,0 73.83726402975567,0 73.83726402975567"
               stroke="rgba(139,155,175,1)"
               stroke-width="1"
             />
@@ -53,7 +53,7 @@
           marker-end="false"
           transform="matrix(1,0,0,1,0,0)"
         >
-          <g transform="matrix(1,0,0,1,55,55)">
+          <g transform="matrix(1,0,0,1,50,50)">
             <path
               id="key"
               fill="none"
@@ -91,7 +91,7 @@
           fill="none"
           width="20"
           height="20"
-          transform="matrix(1,0,0,1,200,200)"
+          transform="matrix(1,0,0,1,200,76.162735)"
         >
           <g transform="matrix(1,0,0,1,0,0)">
             <circle

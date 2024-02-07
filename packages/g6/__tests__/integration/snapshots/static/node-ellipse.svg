@@ -141,11 +141,11 @@
             transform="translate(-40,-30)"
             cx="40"
             cy="30"
-            stroke="rgba(248,248,248,1)"
+            stroke="rgba(139,155,175,1)"
             rx="40"
             ry="30"
             stroke-dasharray="0,0"
-            stroke-width="6"
+            stroke-width="12"
             stroke-opacity="0.25"
             pointer-events="none"
           />

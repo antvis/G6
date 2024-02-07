@@ -18,7 +18,7 @@
           marker-end="false"
           transform="matrix(1,0,0,1,0,0)"
         >
-          <g transform="matrix(1,0,0,1,55,55)">
+          <g transform="matrix(1,0,0,1,50,50)">
             <path
               id="key"
               fill="none"
@@ -36,7 +36,7 @@
           marker-end="false"
           transform="matrix(1,0,0,1,0,0)"
         >
-          <g transform="matrix(1,0,0,1,130,155)">
+          <g transform="matrix(1,0,0,1,125,150)">
             <path
               id="key"
               fill="none"

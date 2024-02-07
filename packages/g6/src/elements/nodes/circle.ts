@@ -28,11 +28,12 @@ export class Circle extends BaseNode<BaseNodeProps, GCircle> {
   }
 
   protected getKeyStyle(attributes: ParsedCircleStyleProps): GCircleStyleProps {
-    const { x, y, width, height, ...keyStyle } = super.getKeyStyle(attributes) as unknown as ParsedCircleStyleProps;
+    const { x, y, z, width, height, ...keyStyle } = super.getKeyStyle(attributes) as unknown as ParsedCircleStyleProps;
     return {
       ...keyStyle,
       cx: x,
       cy: y,
+      cz: z,
       r: Math.min(width, height) / 2,
     };
   }
