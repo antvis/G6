@@ -1,4 +1,4 @@
-import { Line, Quadratic } from './edges';
+import { Cubic, Line, Polyline, Quadratic } from './edges';
 import { Circle } from './nodes';
 
 export const BUILT_IN_NODES = {
@@ -6,6 +6,8 @@ export const BUILT_IN_NODES = {
 };
 
 export const BUILT_IN_EDGES = {
+  cubic: Cubic,
   line: Line,
   quadratic: Quadratic,
+  polyline: Polyline,
 };
