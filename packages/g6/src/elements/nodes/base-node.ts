@@ -5,6 +5,7 @@ import type {
   BadgePosition,
   BaseNodeProps,
   ExtractGShapeStyleProps,
+  Keyframe,
   LabelPosition,
   Point,
   PortPosition,
@@ -284,7 +285,7 @@ export abstract class BaseNode<
     this.drawPortShapes(attributes, container);
   }
 
-  animate(keyframes: Keyframe[] | PropertyIndexedKeyframes, options?: number | KeyframeAnimationOptions) {
+  animate(keyframes: Keyframe[], options?: number | KeyframeAnimationOptions) {
     const result = super.animate(keyframes, options);
 
     result.onframe = () => {
