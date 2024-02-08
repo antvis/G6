@@ -34,7 +34,7 @@ export interface BaseLayoutOptions extends AnimationOptions, WebWorkerLayoutOpti
    * @returns <zh/> 是否参与布局 | <en/> Whether to participate in the layout
    */
   nodesFilter?: (node: NodeData) => boolean;
-  [key: string]: unknown;
+  [key: string]: any;
 }
 
 interface CircularLayout extends BaseLayoutOptions, CircularLayoutOptions {
