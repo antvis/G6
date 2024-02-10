@@ -3,6 +3,7 @@ import { CustomElement } from '@antv/g';
 import { deepMix } from '@antv/util';
 import type { Keyframe } from '../../types';
 import { createAnimationsProxy, preprocessKeyframes } from '../../utils/animation';
+import { updateStyle } from '../../utils/element';
 
 export interface BaseShapeStyleProps extends GroupStyleProps {}
 
@@ -69,10 +70,7 @@ export abstract class BaseShape<T extends BaseShapeStyleProps> extends CustomEle
     }
 
     // update
-    // 如果图形实例存在 update 方法，则调用 update 方法，否则调用 attr 方法
-    // if shape instance has update method, call update method, otherwise call attr method
-    if ('update' in target) (target.update as (...args: unknown[]) => unknown)(style);
-    else target.attr(style);
+    updateStyle(target, style);
 
     return target as P;
   }

@@ -24,6 +24,7 @@ type PolylineOptions = DisplayObjectConfig<PolylineStyleProps>;
 export class Polyline extends BaseEdge<PolylineKeyStyleProps> {
   static defaultStyleProps: Partial<PolylineStyleProps> = {
     radius: 0,
+    controlPoints: [],
   };
 
   constructor(options: PolylineOptions) {
