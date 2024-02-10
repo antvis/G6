@@ -42,7 +42,12 @@ export const controllerElementPosition: AnimationTestCase = async (context) => {
       ],
     },
     theme: 'light',
-    node: { style: { r: 10 } },
+    node: {
+      style: {
+        width: 20,
+        height: 20,
+      },
+    },
     edge: { style: {} },
   };
 
