@@ -44,7 +44,8 @@ export const controllerElementPosition: StaticTestCase = async (context) => {
     theme: 'light',
     node: {
       style: {
-        r: 10,
+        width: 20,
+        height: 20,
       },
       animation: false,
     },
