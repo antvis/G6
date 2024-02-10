@@ -18,7 +18,9 @@ export const controllerLayoutDendrogram: StaticTestCase = async ({ canvas }) => 
       nodeSep: 36,
       rankSep: 250,
     },
-    node: { style: { width: 20, height: 20 } },
+    node: {
+      style: { width: 20, height: 20, labelText: (data) => data.id, labelPosition: 'right', labelMaxWidth: 200 },
+    },
     edge: {
       style: {
         type: 'polyline',
@@ -36,7 +38,7 @@ export const controllerLayoutDendrogram: StaticTestCase = async ({ canvas }) => 
 
   const viewport = new ViewportController({ canvas } as any);
   viewport.zoom({ mode: 'absolute', value: 0.5 });
-  viewport.translate({ mode: 'absolute', value: [-100, 350] });
+  viewport.translate({ mode: 'absolute', value: [-200, 350] });
 
   const context: any = { options, model, graph, canvas, viewport };
 
