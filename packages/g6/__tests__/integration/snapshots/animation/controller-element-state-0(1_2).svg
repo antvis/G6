@@ -64,8 +64,14 @@
         </g>
       </g>
       <g id="g-svg-5" fill="none" transform="matrix(1,0,0,1,0,0)">
-        <g id="node-1" fill="none" r="10" transform="matrix(1,0,0,1,0,0)">
-          <g transform="matrix(1,0,0,1,50,50)">
+        <g
+          id="node-1"
+          fill="none"
+          width="20"
+          height="20"
+          transform="matrix(1,0,0,1,50,50)"
+        >
+          <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
               fill="rgba(255,192,203,1)"
@@ -78,8 +84,14 @@
             />
           </g>
         </g>
-        <g id="node-2" fill="none" r="10" transform="matrix(1,0,0,1,0,0)">
-          <g transform="matrix(1,0,0,1,200,50)">
+        <g
+          id="node-2"
+          fill="none"
+          width="20"
+          height="20"
+          transform="matrix(1,0,0,1,200,50)"
+        >
+          <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
               fill="rgba(248,248,248,1)"
@@ -92,8 +104,14 @@
             />
           </g>
         </g>
-        <g id="node-3" fill="none" r="10" transform="matrix(1,0,0,1,0,0)">
-          <g transform="matrix(1,0,0,1,125,150)">
+        <g
+          id="node-3"
+          fill="none"
+          width="20"
+          height="20"
+          transform="matrix(1,0,0,1,125,150)"
+        >
+          <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
               fill="rgba(248,248,248,1)"
