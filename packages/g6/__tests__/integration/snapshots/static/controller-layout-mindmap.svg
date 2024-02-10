@@ -7,1093 +7,515 @@
   tabindex="1"
 >
   <defs />
-  <g id="g-svg-camera" transform="matrix(1,0,0,1,0,0)">
+  <g id="g-svg-camera" transform="matrix(0.400000,0,0,0.400000,290,150)">
     <g id="g-root" fill="none" transform="matrix(1,0,0,1,0,0)">
       <g id="g-svg-7" fill="none" transform="matrix(1,0,0,1,0,0)" />
       <g id="g-svg-6" fill="none" transform="matrix(1,0,0,1,0,0)">
         <g
-          id="0"
+          id="Modeling Methods-Classification"
           fill="none"
           marker-start="false"
           marker-end="false"
           transform="matrix(1,0,0,1,0,0)"
         >
-          <g transform="matrix(1,0,0,1,375,41.666668)">
+          <g transform="matrix(1,0,0,1,-208,-212.500000)">
             <path
               id="key"
               fill="none"
-              d="M 0,333.3333320617676 L 83.33334350585938,0"
+              d="M 0,184.5 L 216,0"
               stroke="rgba(139,155,175,1)"
               stroke-width="1"
             />
           </g>
         </g>
         <g
-          id="1"
+          id="Modeling Methods-Consensus"
           fill="none"
           marker-start="false"
           marker-end="false"
           transform="matrix(1,0,0,1,0,0)"
         >
-          <g transform="matrix(1,0,0,1,41.666668,125)">
+          <g transform="matrix(1,0,0,1,-208,-28)">
             <path
               id="key"
               fill="none"
-              d="M 0,166.66665649414062 L 83.33333206176758,0"
+              d="M 0,0 L 216,184.5"
               stroke="rgba(139,155,175,1)"
               stroke-width="1"
             />
           </g>
         </g>
         <g
-          id="2"
+          id="Modeling Methods-Regression"
           fill="none"
           marker-start="false"
           marker-end="false"
           transform="matrix(1,0,0,1,0,0)"
         >
-          <g transform="matrix(1,0,0,1,41.666668,41.666668)">
+          <g transform="matrix(1,0,0,1,-424,-28)">
             <path
               id="key"
               fill="none"
-              d="M 0,249.9999885559082 L 416.66667556762695,0"
+              d="M 216,0 L 0,0"
               stroke="rgba(139,155,175,1)"
               stroke-width="1"
             />
           </g>
         </g>
         <g
-          id="3"
+          id="Classification-Logistic regression"
           fill="none"
           marker-start="false"
           marker-end="false"
           transform="matrix(1,0,0,1,0,0)"
         >
-          <g transform="matrix(1,0,0,1,125,125)">
+          <g transform="matrix(1,0,0,1,8,-338.500000)">
             <path
               id="key"
               fill="none"
-              d="M 250,250 L 0,0"
+              d="M 0,126 L 216,0"
               stroke="rgba(139,155,175,1)"
               stroke-width="1"
             />
           </g>
         </g>
         <g
-          id="4"
+          id="Classification-Linear discriminant analysis"
           fill="none"
           marker-start="false"
           marker-end="false"
           transform="matrix(1,0,0,1,0,0)"
         >
-          <g transform="matrix(1,0,0,1,125,41.666668)">
+          <g transform="matrix(1,0,0,1,8,-302.500000)">
             <path
               id="key"
               fill="none"
-              d="M 333.3333435058594,0 L 0,83.33333206176758"
+              d="M 0,90 L 216,0"
               stroke="rgba(139,155,175,1)"
               stroke-width="1"
             />
           </g>
         </g>
         <g
-          id="5"
+          id="Classification-Rules"
           fill="none"
           marker-start="false"
           marker-end="false"
           transform="matrix(1,0,0,1,0,0)"
         >
-          <g transform="matrix(1,0,0,1,41.666668,291.666656)">
+          <g transform="matrix(1,0,0,1,8,-266.500000)">
             <path
               id="key"
               fill="none"
-              d="M 0,0 L 333.3333320617676,83.33334350585938"
+              d="M 0,54 L 216,0"
               stroke="rgba(139,155,175,1)"
               stroke-width="1"
             />
           </g>
         </g>
         <g
-          id="6"
+          id="Classification-Decision trees"
           fill="none"
           marker-start="false"
           marker-end="false"
           transform="matrix(1,0,0,1,0,0)"
         >
-          <g transform="matrix(1,0,0,1,291.666656,291.666656)">
+          <g transform="matrix(1,0,0,1,8,-230.500000)">
             <path
               id="key"
               fill="none"
-              d="M 166.66668701171875,0 L 0,0"
+              d="M 0,18 L 216,0"
               stroke="rgba(139,155,175,1)"
               stroke-width="1"
             />
           </g>
         </g>
         <g
-          id="7"
+          id="Classification-Naive Bayes"
           fill="none"
           marker-start="false"
           marker-end="false"
           transform="matrix(1,0,0,1,0,0)"
         >
-          <g transform="matrix(1,0,0,1,125,208.333328)">
+          <g transform="matrix(1,0,0,1,8,-212.500000)">
             <path
               id="key"
               fill="none"
-              d="M 83.33332824707031,0 L 0,0"
+              d="M 0,0 L 216,18"
               stroke="rgba(139,155,175,1)"
               stroke-width="1"
             />
           </g>
         </g>
         <g
-          id="8"
+          id="Classification-K nearest neighbor"
           fill="none"
           marker-start="false"
           marker-end="false"
           transform="matrix(1,0,0,1,0,0)"
         >
-          <g transform="matrix(1,0,0,1,125,208.333328)">
+          <g transform="matrix(1,0,0,1,8,-212.500000)">
             <path
               id="key"
               fill="none"
-              d="M 333.3333435058594,83.33332824707031 L 0,0"
+              d="M 0,0 L 216,54"
               stroke="rgba(139,155,175,1)"
               stroke-width="1"
             />
           </g>
         </g>
         <g
-          id="9"
+          id="Classification-Probabilistic neural network"
           fill="none"
           marker-start="false"
           marker-end="false"
           transform="matrix(1,0,0,1,0,0)"
         >
-          <g transform="matrix(1,0,0,1,208.333328,208.333328)">
+          <g transform="matrix(1,0,0,1,8,-212.500000)">
             <path
               id="key"
               fill="none"
-              d="M 83.33332824707031,83.33332824707031 L 0,0"
+              d="M 0,0 L 216,90"
               stroke="rgba(139,155,175,1)"
               stroke-width="1"
             />
           </g>
         </g>
         <g
-          id="10"
+          id="Classification-Support vector machine"
           fill="none"
           marker-start="false"
           marker-end="false"
           transform="matrix(1,0,0,1,0,0)"
         >
-          <g transform="matrix(1,0,0,1,125,208.333328)">
+          <g transform="matrix(1,0,0,1,8,-212.500000)">
             <path
               id="key"
               fill="none"
-              d="M 0,0 L 166.66665649414062,83.33332824707031"
+              d="M 0,0 L 216,126"
               stroke="rgba(139,155,175,1)"
               stroke-width="1"
             />
           </g>
         </g>
         <g
-          id="11"
+          id="Consensus-Models diversity"
           fill="none"
           marker-start="false"
           marker-end="false"
           transform="matrix(1,0,0,1,0,0)"
         >
-          <g transform="matrix(1,0,0,1,208.333328,208.333328)">
+          <g transform="matrix(1,0,0,1,8,39.500000)">
             <path
               id="key"
               fill="none"
-              d="M 250.00001525878906,83.33332824707031 L 0,0"
+              d="M 0,117 L 216,0"
               stroke="rgba(139,155,175,1)"
               stroke-width="1"
             />
           </g>
         </g>
         <g
-          id="12"
+          id="Consensus-Methods"
           fill="none"
           marker-start="false"
           marker-end="false"
           transform="matrix(1,0,0,1,0,0)"
         >
-          <g transform="matrix(1,0,0,1,291.666656,41.666668)">
+          <g transform="matrix(1,0,0,1,8,156.500000)">
             <path
               id="key"
               fill="none"
-              d="M 83.33334350585938,166.6666603088379 L 0,0"
+              d="M 0,0 L 216,27"
               stroke="rgba(139,155,175,1)"
               stroke-width="1"
             />
           </g>
         </g>
         <g
-          id="13"
+          id="Consensus-Common"
           fill="none"
           marker-start="false"
           marker-end="false"
           transform="matrix(1,0,0,1,0,0)"
         >
-          <g transform="matrix(1,0,0,1,208.333328,125)">
+          <g transform="matrix(1,0,0,1,8,156.500000)">
             <path
               id="key"
               fill="none"
-              d="M 0,250 L 166.6666717529297,0"
+              d="M 0,0 L 216,117"
               stroke="rgba(139,155,175,1)"
               stroke-width="1"
             />
           </g>
         </g>
         <g
-          id="14"
+          id="Models diversity-Different initializations"
           fill="none"
           marker-start="false"
           marker-end="false"
           transform="matrix(1,0,0,1,0,0)"
         >
-          <g transform="matrix(1,0,0,1,375,125)">
+          <g transform="matrix(1,0,0,1,224,-50.500000)">
             <path
               id="key"
               fill="none"
-              d="M 0,83.33332824707031 L 0,0"
+              d="M 0,90 L 216,0"
               stroke="rgba(139,155,175,1)"
               stroke-width="1"
             />
           </g>
         </g>
         <g
-          id="15"
+          id="Models diversity-Different parameter choices"
           fill="none"
           marker-start="false"
           marker-end="false"
           transform="matrix(1,0,0,1,0,0)"
         >
-          <g transform="matrix(1,0,0,1,208.333328,41.666668)">
+          <g transform="matrix(1,0,0,1,224,-14.500000)">
             <path
               id="key"
               fill="none"
-              d="M 0,333.3333320617676 L 83.33332824707031,0"
+              d="M 0,54 L 216,0"
               stroke="rgba(139,155,175,1)"
               stroke-width="1"
             />
           </g>
         </g>
         <g
-          id="16"
+          id="Models diversity-Different architectures"
           fill="none"
           marker-start="false"
           marker-end="false"
           transform="matrix(1,0,0,1,0,0)"
         >
-          <g transform="matrix(1,0,0,1,291.666656,41.666668)">
+          <g transform="matrix(1,0,0,1,224,21.500000)">
             <path
               id="key"
               fill="none"
-              d="M 0,0 L 83.33334350585938,83.33333206176758"
+              d="M 0,18 L 216,0"
               stroke="rgba(139,155,175,1)"
               stroke-width="1"
             />
           </g>
         </g>
         <g
-          id="17"
+          id="Models diversity-Different modeling methods"
           fill="none"
           marker-start="false"
           marker-end="false"
           transform="matrix(1,0,0,1,0,0)"
         >
-          <g transform="matrix(1,0,0,1,208.333328,208.333328)">
+          <g transform="matrix(1,0,0,1,224,39.500000)">
             <path
               id="key"
               fill="none"
-              d="M 166.6666717529297,0 L 0,166.6666717529297"
+              d="M 0,0 L 216,18"
               stroke="rgba(139,155,175,1)"
               stroke-width="1"
             />
           </g>
         </g>
         <g
-          id="18"
+          id="Models diversity-Different training sets"
           fill="none"
           marker-start="false"
           marker-end="false"
           transform="matrix(1,0,0,1,0,0)"
         >
-          <g transform="matrix(1,0,0,1,208.333328,125)">
+          <g transform="matrix(1,0,0,1,224,39.500000)">
             <path
               id="key"
               fill="none"
-              d="M 0,166.66665649414062 L 0,0"
+              d="M 0,0 L 216,54"
               stroke="rgba(139,155,175,1)"
               stroke-width="1"
             />
           </g>
         </g>
         <g
-          id="19"
+          id="Models diversity-Different feature sets"
           fill="none"
           marker-start="false"
           marker-end="false"
           transform="matrix(1,0,0,1,0,0)"
         >
-          <g transform="matrix(1,0,0,1,41.666668,41.666668)">
+          <g transform="matrix(1,0,0,1,224,39.500000)">
             <path
               id="key"
               fill="none"
-              d="M 0,333.3333320617676 L 83.33333206176758,0"
+              d="M 0,0 L 216,90"
               stroke="rgba(139,155,175,1)"
               stroke-width="1"
             />
           </g>
         </g>
         <g
-          id="20"
+          id="Methods-Classifier selection"
           fill="none"
           marker-start="false"
           marker-end="false"
           transform="matrix(1,0,0,1,0,0)"
         >
-          <g transform="matrix(1,0,0,1,125,41.666668)">
+          <g transform="matrix(1,0,0,1,224,165.500000)">
             <path
               id="key"
               fill="none"
-              d="M 83.33332824707031,83.33333206176758 L 0,0"
+              d="M 0,18 L 216,0"
               stroke="rgba(139,155,175,1)"
               stroke-width="1"
             />
           </g>
         </g>
         <g
-          id="21"
+          id="Methods-Classifier fusion"
           fill="none"
           marker-start="false"
           marker-end="false"
           transform="matrix(1,0,0,1,0,0)"
         >
-          <g transform="matrix(1,0,0,1,41.666668,291.666656)">
+          <g transform="matrix(1,0,0,1,224,183.500000)">
             <path
               id="key"
               fill="none"
-              d="M 166.6666603088379,0 L 0,83.33334350585938"
+              d="M 0,0 L 216,18"
               stroke="rgba(139,155,175,1)"
               stroke-width="1"
             />
           </g>
         </g>
         <g
-          id="22"
+          id="Common-Bagging"
           fill="none"
           marker-start="false"
           marker-end="false"
           transform="matrix(1,0,0,1,0,0)"
         >
-          <g transform="matrix(1,0,0,1,41.666668,125)">
+          <g transform="matrix(1,0,0,1,224,237.500000)">
             <path
               id="key"
               fill="none"
-              d="M 0,250 L 166.6666603088379,0"
+              d="M 0,36 L 216,0"
               stroke="rgba(139,155,175,1)"
               stroke-width="1"
             />
           </g>
         </g>
         <g
-          id="23"
+          id="Common-Boosting"
           fill="none"
           marker-start="false"
           marker-end="false"
           transform="matrix(1,0,0,1,0,0)"
         >
-          <g transform="matrix(1,0,0,1,125,41.666668)">
+          <g transform="matrix(1,0,0,1,224,273.500000)">
             <path
               id="key"
               fill="none"
-              d="M 83.33332824707031,249.9999885559082 L 0,0"
+              d="M 0,0 L 216,0"
               stroke="rgba(139,155,175,1)"
               stroke-width="1"
             />
           </g>
         </g>
         <g
-          id="24"
+          id="Common-AdaBoost"
           fill="none"
           marker-start="false"
           marker-end="false"
           transform="matrix(1,0,0,1,0,0)"
         >
-          <g transform="matrix(1,0,0,1,41.666668,208.333328)">
+          <g transform="matrix(1,0,0,1,224,273.500000)">
             <path
               id="key"
               fill="none"
-              d="M 416.66667556762695,0 L 0,250.00001525878906"
+              d="M 0,0 L 216,36"
               stroke="rgba(139,155,175,1)"
               stroke-width="1"
             />
           </g>
         </g>
         <g
-          id="25"
+          id="Regression-Multiple linear regression"
           fill="none"
           marker-start="false"
           marker-end="false"
           transform="matrix(1,0,0,1,0,0)"
         >
-          <g transform="matrix(1,0,0,1,291.666656,41.666668)">
+          <g transform="matrix(1,0,0,1,-640,-100)">
             <path
               id="key"
               fill="none"
-              d="M 0,166.6666603088379 L 83.33334350585938,0"
+              d="M 216,72 L 0,0"
               stroke="rgba(139,155,175,1)"
               stroke-width="1"
             />
           </g>
         </g>
         <g
-          id="26"
+          id="Regression-Partial least squares"
           fill="none"
           marker-start="false"
           marker-end="false"
           transform="matrix(1,0,0,1,0,0)"
         >
-          <g transform="matrix(1,0,0,1,375,41.666668)">
+          <g transform="matrix(1,0,0,1,-640,-64)">
             <path
               id="key"
               fill="none"
-              d="M 83.33334350585938,166.6666603088379 L 0,0"
+              d="M 216,36 L 0,0"
               stroke="rgba(139,155,175,1)"
               stroke-width="1"
             />
           </g>
         </g>
         <g
-          id="27"
+          id="Regression-Multi-layer feed forward neural network"
           fill="none"
           marker-start="false"
           marker-end="false"
           transform="matrix(1,0,0,1,0,0)"
         >
-          <g transform="matrix(1,0,0,1,41.666668,208.333328)">
+          <g transform="matrix(1,0,0,1,-640,-28)">
             <path
               id="key"
               fill="none"
-              d="M 0,250.00001525878906 L 249.9999885559082,0"
+              d="M 216,0 L 0,0"
               stroke="rgba(139,155,175,1)"
               stroke-width="1"
             />
           </g>
         </g>
         <g
-          id="28"
+          id="Regression-General regression neural network"
           fill="none"
           marker-start="false"
           marker-end="false"
           transform="matrix(1,0,0,1,0,0)"
         >
-          <g transform="matrix(1,0,0,1,41.666668,41.666668)">
+          <g transform="matrix(1,0,0,1,-640,-28)">
             <path
               id="key"
               fill="none"
-              d="M 0,416.66667556762695 L 333.3333320617676,0"
+              d="M 216,0 L 0,36"
               stroke="rgba(139,155,175,1)"
               stroke-width="1"
             />
           </g>
         </g>
         <g
-          id="29"
+          id="Regression-Support vector regression"
           fill="none"
           marker-start="false"
           marker-end="false"
           transform="matrix(1,0,0,1,0,0)"
         >
-          <g transform="matrix(1,0,0,1,291.666656,208.333328)">
+          <g transform="matrix(1,0,0,1,-640,-28)">
             <path
               id="key"
               fill="none"
-              d="M 166.66668701171875,0 L 0,0"
-              stroke="rgba(139,155,175,1)"
-              stroke-width="1"
-            />
-          </g>
-        </g>
-        <g
-          id="30"
-          fill="none"
-          marker-start="false"
-          marker-end="false"
-          transform="matrix(1,0,0,1,0,0)"
-        >
-          <g transform="matrix(1,0,0,1,41.666668,208.333328)">
-            <path
-              id="key"
-              fill="none"
-              d="M 83.33333206176758,83.33332824707031 L 0,0"
-              stroke="rgba(139,155,175,1)"
-              stroke-width="1"
-            />
-          </g>
-        </g>
-        <g
-          id="31"
-          fill="none"
-          marker-start="false"
-          marker-end="false"
-          transform="matrix(1,0,0,1,0,0)"
-        >
-          <g transform="matrix(1,0,0,1,41.666668,125)">
-            <path
-              id="key"
-              fill="none"
-              d="M 333.3333320617676,166.66665649414062 L 0,0"
-              stroke="rgba(139,155,175,1)"
-              stroke-width="1"
-            />
-          </g>
-        </g>
-        <g
-          id="32"
-          fill="none"
-          marker-start="false"
-          marker-end="false"
-          transform="matrix(1,0,0,1,0,0)"
-        >
-          <g transform="matrix(1,0,0,1,41.666668,208.333328)">
-            <path
-              id="key"
-              fill="none"
-              d="M 333.3333320617676,83.33332824707031 L 0,0"
-              stroke="rgba(139,155,175,1)"
-              stroke-width="1"
-            />
-          </g>
-        </g>
-        <g
-          id="33"
-          fill="none"
-          marker-start="false"
-          marker-end="false"
-          transform="matrix(1,0,0,1,0,0)"
-        >
-          <g transform="matrix(1,0,0,1,41.666668,125)">
-            <path
-              id="key"
-              fill="none"
-              d="M 0,0 L 83.33333206176758,166.66665649414062"
-              stroke="rgba(139,155,175,1)"
-              stroke-width="1"
-            />
-          </g>
-        </g>
-        <g
-          id="34"
-          fill="none"
-          marker-start="false"
-          marker-end="false"
-          transform="matrix(1,0,0,1,0,0)"
-        >
-          <g transform="matrix(1,0,0,1,125,291.666656)">
-            <path
-              id="key"
-              fill="none"
-              d="M 0,0 L 250,0"
-              stroke="rgba(139,155,175,1)"
-              stroke-width="1"
-            />
-          </g>
-        </g>
-        <g
-          id="35"
-          fill="none"
-          marker-start="false"
-          marker-end="false"
-          transform="matrix(1,0,0,1,0,0)"
-        >
-          <g transform="matrix(1,0,0,1,41.666668,125)">
-            <path
-              id="key"
-              fill="none"
-              d="M 0,83.33332824707031 L 0,0"
-              stroke="rgba(139,155,175,1)"
-              stroke-width="1"
-            />
-          </g>
-        </g>
-        <g
-          id="36"
-          fill="none"
-          marker-start="false"
-          marker-end="false"
-          transform="matrix(1,0,0,1,0,0)"
-        >
-          <g transform="matrix(1,0,0,1,41.666668,41.666668)">
-            <path
-              id="key"
-              fill="none"
-              d="M 83.33333206176758,333.3333320617676 L 0,0"
-              stroke="rgba(139,155,175,1)"
-              stroke-width="1"
-            />
-          </g>
-        </g>
-        <g
-          id="37"
-          fill="none"
-          marker-start="false"
-          marker-end="false"
-          transform="matrix(1,0,0,1,0,0)"
-        >
-          <g transform="matrix(1,0,0,1,125,41.666668)">
-            <path
-              id="key"
-              fill="none"
-              d="M 0,416.66667556762695 L 83.33332824707031,0"
-              stroke="rgba(139,155,175,1)"
-              stroke-width="1"
-            />
-          </g>
-        </g>
-        <g
-          id="38"
-          fill="none"
-          marker-start="false"
-          marker-end="false"
-          transform="matrix(1,0,0,1,0,0)"
-        >
-          <g transform="matrix(1,0,0,1,41.666668,41.666668)">
-            <path
-              id="key"
-              fill="none"
-              d="M 83.33333206176758,416.66667556762695 L 0,0"
-              stroke="rgba(139,155,175,1)"
-              stroke-width="1"
-            />
-          </g>
-        </g>
-        <g
-          id="39"
-          fill="none"
-          marker-start="false"
-          marker-end="false"
-          transform="matrix(1,0,0,1,0,0)"
-        >
-          <g transform="matrix(1,0,0,1,125,41.666668)">
-            <path
-              id="key"
-              fill="none"
-              d="M 0,333.3333320617676 L 83.33332824707031,0"
-              stroke="rgba(139,155,175,1)"
-              stroke-width="1"
-            />
-          </g>
-        </g>
-        <g
-          id="40"
-          fill="none"
-          marker-start="false"
-          marker-end="false"
-          transform="matrix(1,0,0,1,0,0)"
-        >
-          <g transform="matrix(1,0,0,1,41.666668,41.666668)">
-            <path
-              id="key"
-              fill="none"
-              d="M 166.6666603088379,0 L 0,0"
-              stroke="rgba(139,155,175,1)"
-              stroke-width="1"
-            />
-          </g>
-        </g>
-        <g
-          id="41"
-          fill="none"
-          marker-start="false"
-          marker-end="false"
-          transform="matrix(1,0,0,1,0,0)"
-        >
-          <g transform="matrix(1,0,0,1,125,375)">
-            <path
-              id="key"
-              fill="none"
-              d="M 0,0 L 0,83.33334350585938"
-              stroke="rgba(139,155,175,1)"
-              stroke-width="1"
-            />
-          </g>
-        </g>
-        <g
-          id="42"
-          fill="none"
-          marker-start="false"
-          marker-end="false"
-          transform="matrix(1,0,0,1,0,0)"
-        >
-          <g transform="matrix(1,0,0,1,291.666656,125)">
-            <path
-              id="key"
-              fill="none"
-              d="M 0,0 L 166.66668701171875,0"
-              stroke="rgba(139,155,175,1)"
-              stroke-width="1"
-            />
-          </g>
-        </g>
-        <g
-          id="43"
-          fill="none"
-          marker-start="false"
-          marker-end="false"
-          transform="matrix(1,0,0,1,0,0)"
-        >
-          <g transform="matrix(1,0,0,1,291.666656,375)">
-            <path
-              id="key"
-              fill="none"
-              d="M 0,0 L 166.66668701171875,0"
-              stroke="rgba(139,155,175,1)"
-              stroke-width="1"
-            />
-          </g>
-        </g>
-        <g
-          id="44"
-          fill="none"
-          marker-start="false"
-          marker-end="false"
-          transform="matrix(1,0,0,1,0,0)"
-        >
-          <g transform="matrix(1,0,0,1,458.333344,125)">
-            <path
-              id="key"
-              fill="none"
-              d="M 0,250 L 0,0"
-              stroke="rgba(139,155,175,1)"
-              stroke-width="1"
-            />
-          </g>
-        </g>
-        <g
-          id="45"
-          fill="none"
-          marker-start="false"
-          marker-end="false"
-          transform="matrix(1,0,0,1,0,0)"
-        >
-          <g transform="matrix(1,0,0,1,291.666656,125)">
-            <path
-              id="key"
-              fill="none"
-              d="M 0,250 L 0,0"
-              stroke="rgba(139,155,175,1)"
-              stroke-width="1"
-            />
-          </g>
-        </g>
-        <g
-          id="46"
-          fill="none"
-          marker-start="false"
-          marker-end="false"
-          transform="matrix(1,0,0,1,0,0)"
-        >
-          <g transform="matrix(1,0,0,1,291.666656,125)">
-            <path
-              id="key"
-              fill="none"
-              d="M 166.66668701171875,0 L 0,250"
-              stroke="rgba(139,155,175,1)"
-              stroke-width="1"
-            />
-          </g>
-        </g>
-        <g
-          id="47"
-          fill="none"
-          marker-start="false"
-          marker-end="false"
-          transform="matrix(1,0,0,1,0,0)"
-        >
-          <g transform="matrix(1,0,0,1,291.666656,125)">
-            <path
-              id="key"
-              fill="none"
-              d="M 166.66668701171875,250 L 0,0"
-              stroke="rgba(139,155,175,1)"
-              stroke-width="1"
-            />
-          </g>
-        </g>
-        <g
-          id="48"
-          fill="none"
-          marker-start="false"
-          marker-end="false"
-          transform="matrix(1,0,0,1,0,0)"
-        >
-          <g transform="matrix(1,0,0,1,125,125)">
-            <path
-              id="key"
-              fill="none"
-              d="M 0,83.33332824707031 L 0,0"
-              stroke="rgba(139,155,175,1)"
-              stroke-width="1"
-            />
-          </g>
-        </g>
-        <g
-          id="49"
-          fill="none"
-          marker-start="false"
-          marker-end="false"
-          transform="matrix(1,0,0,1,0,0)"
-        >
-          <g transform="matrix(1,0,0,1,208.333328,41.666668)">
-            <path
-              id="key"
-              fill="none"
-              d="M 0,83.33333206176758 L 83.33332824707031,0"
-              stroke="rgba(139,155,175,1)"
-              stroke-width="1"
-            />
-          </g>
-        </g>
-        <g
-          id="50"
-          fill="none"
-          marker-start="false"
-          marker-end="false"
-          transform="matrix(1,0,0,1,0,0)"
-        >
-          <g transform="matrix(1,0,0,1,208.333328,41.666668)">
-            <path
-              id="key"
-              fill="none"
-              d="M 0,166.6666603088379 L 250.00001525878906,0"
-              stroke="rgba(139,155,175,1)"
-              stroke-width="1"
-            />
-          </g>
-        </g>
-        <g
-          id="51"
-          fill="none"
-          marker-start="false"
-          marker-end="false"
-          transform="matrix(1,0,0,1,0,0)"
-        >
-          <g transform="matrix(1,0,0,1,125,41.666668)">
-            <path
-              id="key"
-              fill="none"
-              d="M 250,83.33333206176758 L 0,0"
-              stroke="rgba(139,155,175,1)"
-              stroke-width="1"
-            />
-          </g>
-        </g>
-        <g
-          id="52"
-          fill="none"
-          marker-start="false"
-          marker-end="false"
-          transform="matrix(1,0,0,1,0,0)"
-        >
-          <g transform="matrix(1,0,0,1,41.666668,41.666668)">
-            <path
-              id="key"
-              fill="none"
-              d="M 0,166.6666603088379 L 333.3333320617676,0"
-              stroke="rgba(139,155,175,1)"
-              stroke-width="1"
-            />
-          </g>
-        </g>
-        <g
-          id="53"
-          fill="none"
-          marker-start="false"
-          marker-end="false"
-          transform="matrix(1,0,0,1,0,0)"
-        >
-          <g transform="matrix(1,0,0,1,41.666668,41.666668)">
-            <path
-              id="key"
-              fill="none"
-              d="M 416.66667556762695,83.33333206176758 L 0,0"
-              stroke="rgba(139,155,175,1)"
-              stroke-width="1"
-            />
-          </g>
-        </g>
-        <g
-          id="54"
-          fill="none"
-          marker-start="false"
-          marker-end="false"
-          transform="matrix(1,0,0,1,0,0)"
-        >
-          <g transform="matrix(1,0,0,1,41.666668,125)">
-            <path
-              id="key"
-              fill="none"
-              d="M 249.9999885559082,83.33332824707031 L 0,0"
-              stroke="rgba(139,155,175,1)"
-              stroke-width="1"
-            />
-          </g>
-        </g>
-        <g
-          id="55"
-          fill="none"
-          marker-start="false"
-          marker-end="false"
-          transform="matrix(1,0,0,1,0,0)"
-        >
-          <g transform="matrix(1,0,0,1,208.333328,41.666668)">
-            <path
-              id="key"
-              fill="none"
-              d="M 83.33332824707031,83.33333206176758 L 0,0"
-              stroke="rgba(139,155,175,1)"
-              stroke-width="1"
-            />
-          </g>
-        </g>
-        <g
-          id="56"
-          fill="none"
-          marker-start="false"
-          marker-end="false"
-          transform="matrix(1,0,0,1,0,0)"
-        >
-          <g transform="matrix(1,0,0,1,125,41.666668)">
-            <path
-              id="key"
-              fill="none"
-              d="M 0,83.33333206176758 L 166.66665649414062,0"
-              stroke="rgba(139,155,175,1)"
-              stroke-width="1"
-            />
-          </g>
-        </g>
-        <g
-          id="57"
-          fill="none"
-          marker-start="false"
-          marker-end="false"
-          transform="matrix(1,0,0,1,0,0)"
-        >
-          <g transform="matrix(1,0,0,1,41.666668,41.666668)">
-            <path
-              id="key"
-              fill="none"
-              d="M 333.3333320617676,0 L 0,0"
-              stroke="rgba(139,155,175,1)"
-              stroke-width="1"
-            />
-          </g>
-        </g>
-        <g
-          id="58"
-          fill="none"
-          marker-start="false"
-          marker-end="false"
-          transform="matrix(1,0,0,1,0,0)"
-        >
-          <g transform="matrix(1,0,0,1,125,41.666668)">
-            <path
-              id="key"
-              fill="none"
-              d="M 333.3333435058594,0 L 0,0"
-              stroke="rgba(139,155,175,1)"
-              stroke-width="1"
-            />
-          </g>
-        </g>
-        <g
-          id="59"
-          fill="none"
-          marker-start="false"
-          marker-end="false"
-          transform="matrix(1,0,0,1,0,0)"
-        >
-          <g transform="matrix(1,0,0,1,41.666668,41.666668)">
-            <path
-              id="key"
-              fill="none"
-              d="M 0,83.33333206176758 L 166.6666603088379,0"
-              stroke="rgba(139,155,175,1)"
-              stroke-width="1"
-            />
-          </g>
-        </g>
-        <g
-          id="60"
-          fill="none"
-          marker-start="false"
-          marker-end="false"
-          transform="matrix(1,0,0,1,0,0)"
-        >
-          <g transform="matrix(1,0,0,1,41.666668,41.666668)">
-            <path
-              id="key"
-              fill="none"
-              d="M 0,0 L 249.9999885559082,0"
-              stroke="rgba(139,155,175,1)"
-              stroke-width="1"
-            />
-          </g>
-        </g>
-        <g
-          id="61"
-          fill="none"
-          marker-start="false"
-          marker-end="false"
-          transform="matrix(1,0,0,1,0,0)"
-        >
-          <g transform="matrix(1,0,0,1,125,41.666668)">
-            <path
-              id="key"
-              fill="none"
-              d="M 83.33332824707031,0 L 0,0"
-              stroke="rgba(139,155,175,1)"
-              stroke-width="1"
-            />
-          </g>
-        </g>
-        <g
-          id="62"
-          fill="none"
-          marker-start="false"
-          marker-end="false"
-          transform="matrix(1,0,0,1,0,0)"
-        >
-          <g transform="matrix(1,0,0,1,41.666668,41.666668)">
-            <path
-              id="key"
-              fill="none"
-              d="M 166.6666603088379,0 L 0,0"
-              stroke="rgba(139,155,175,1)"
-              stroke-width="1"
-            />
-          </g>
-        </g>
-        <g
-          id="63"
-          fill="none"
-          marker-start="false"
-          marker-end="false"
-          transform="matrix(1,0,0,1,0,0)"
-        >
-          <g transform="matrix(1,0,0,1,125,41.666668)">
-            <path
-              id="key"
-              fill="none"
-              d="M 0,0 L 166.66665649414062,0"
+              d="M 216,0 L 0,72"
               stroke="rgba(139,155,175,1)"
               stroke-width="1"
             />
@@ -1102,11 +524,11 @@
       </g>
       <g id="g-svg-5" fill="none" transform="matrix(1,0,0,1,0,0)">
         <g
-          id="Argentina"
+          id="Modeling Methods"
           fill="none"
           width="20"
           height="20"
-          transform="matrix(1,0,0,1,208.333328,125)"
+          transform="matrix(1,0,0,1,-208,-28)"
         >
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
@@ -1121,11 +543,11 @@
           </g>
         </g>
         <g
-          id="Australia"
+          id="Classification"
           fill="none"
           width="20"
           height="20"
-          transform="matrix(1,0,0,1,375,208.333328)"
+          transform="matrix(1,0,0,1,8,-212.500000)"
         >
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
@@ -1140,11 +562,11 @@
           </g>
         </g>
         <g
-          id="Belgium"
+          id="Logistic regression"
           fill="none"
           width="20"
           height="20"
-          transform="matrix(1,0,0,1,41.666668,41.666668)"
+          transform="matrix(1,0,0,1,224,-338.500000)"
         >
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
@@ -1159,11 +581,11 @@
           </g>
         </g>
         <g
-          id="Brazil"
+          id="Linear discriminant analysis"
           fill="none"
           width="20"
           height="20"
-          transform="matrix(1,0,0,1,375,41.666668)"
+          transform="matrix(1,0,0,1,224,-302.500000)"
         >
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
@@ -1178,11 +600,11 @@
           </g>
         </g>
         <g
-          id="Colombia"
+          id="Rules"
           fill="none"
           width="20"
           height="20"
-          transform="matrix(1,0,0,1,291.666656,125)"
+          transform="matrix(1,0,0,1,224,-266.500000)"
         >
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
@@ -1197,11 +619,11 @@
           </g>
         </g>
         <g
-          id="Costa Rica"
+          id="Decision trees"
           fill="none"
           width="20"
           height="20"
-          transform="matrix(1,0,0,1,458.333344,208.333328)"
+          transform="matrix(1,0,0,1,224,-230.500000)"
         >
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
@@ -1216,11 +638,11 @@
           </g>
         </g>
         <g
-          id="Croatia"
+          id="Naive Bayes"
           fill="none"
           width="20"
           height="20"
-          transform="matrix(1,0,0,1,125,41.666668)"
+          transform="matrix(1,0,0,1,224,-194.500000)"
         >
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
@@ -1235,11 +657,11 @@
           </g>
         </g>
         <g
-          id="Denmark"
+          id="K nearest neighbor"
           fill="none"
           width="20"
           height="20"
-          transform="matrix(1,0,0,1,375,125)"
+          transform="matrix(1,0,0,1,224,-158.500000)"
         >
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
@@ -1254,11 +676,11 @@
           </g>
         </g>
         <g
-          id="Egypt"
+          id="Probabilistic neural network"
           fill="none"
           width="20"
           height="20"
-          transform="matrix(1,0,0,1,41.666668,291.666656)"
+          transform="matrix(1,0,0,1,224,-122.500000)"
         >
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
@@ -1273,11 +695,11 @@
           </g>
         </g>
         <g
-          id="England"
+          id="Support vector machine"
           fill="none"
           width="20"
           height="20"
-          transform="matrix(1,0,0,1,208.333328,41.666668)"
+          transform="matrix(1,0,0,1,224,-86.500000)"
         >
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
@@ -1292,11 +714,11 @@
           </g>
         </g>
         <g
-          id="France"
+          id="Consensus"
           fill="none"
           width="20"
           height="20"
-          transform="matrix(1,0,0,1,291.666656,41.666668)"
+          transform="matrix(1,0,0,1,8,156.500000)"
         >
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
@@ -1311,11 +733,11 @@
           </g>
         </g>
         <g
-          id="Germany"
+          id="Models diversity"
           fill="none"
           width="20"
           height="20"
-          transform="matrix(1,0,0,1,125,291.666656)"
+          transform="matrix(1,0,0,1,224,39.500000)"
         >
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
@@ -1330,11 +752,11 @@
           </g>
         </g>
         <g
-          id="Iceland"
+          id="Different initializations"
           fill="none"
           width="20"
           height="20"
-          transform="matrix(1,0,0,1,208.333328,291.666656)"
+          transform="matrix(1,0,0,1,440,-50.500000)"
         >
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
@@ -1349,11 +771,11 @@
           </g>
         </g>
         <g
-          id="IR Iran"
+          id="Different parameter choices"
           fill="none"
           width="20"
           height="20"
-          transform="matrix(1,0,0,1,291.666656,291.666656)"
+          transform="matrix(1,0,0,1,440,-14.500000)"
         >
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
@@ -1368,11 +790,11 @@
           </g>
         </g>
         <g
-          id="Japan"
+          id="Different architectures"
           fill="none"
           width="20"
           height="20"
-          transform="matrix(1,0,0,1,458.333344,125)"
+          transform="matrix(1,0,0,1,440,21.500000)"
         >
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
@@ -1387,11 +809,11 @@
           </g>
         </g>
         <g
-          id="Korea Republic"
+          id="Different modeling methods"
           fill="none"
           width="20"
           height="20"
-          transform="matrix(1,0,0,1,375,291.666656)"
+          transform="matrix(1,0,0,1,440,57.500000)"
         >
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
@@ -1406,11 +828,11 @@
           </g>
         </g>
         <g
-          id="Mexico"
+          id="Different training sets"
           fill="none"
           width="20"
           height="20"
-          transform="matrix(1,0,0,1,41.666668,208.333328)"
+          transform="matrix(1,0,0,1,440,93.500000)"
         >
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
@@ -1425,11 +847,11 @@
           </g>
         </g>
         <g
-          id="Morocco"
+          id="Different feature sets"
           fill="none"
           width="20"
           height="20"
-          transform="matrix(1,0,0,1,458.333344,291.666656)"
+          transform="matrix(1,0,0,1,440,129.500000)"
         >
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
@@ -1444,11 +866,11 @@
           </g>
         </g>
         <g
-          id="Nigeria"
+          id="Methods"
           fill="none"
           width="20"
           height="20"
-          transform="matrix(1,0,0,1,41.666668,375)"
+          transform="matrix(1,0,0,1,224,183.500000)"
         >
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
@@ -1463,11 +885,11 @@
           </g>
         </g>
         <g
-          id="Panama"
+          id="Classifier selection"
           fill="none"
           width="20"
           height="20"
-          transform="matrix(1,0,0,1,125,375)"
+          transform="matrix(1,0,0,1,440,165.500000)"
         >
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
@@ -1482,11 +904,11 @@
           </g>
         </g>
         <g
-          id="Peru"
+          id="Classifier fusion"
           fill="none"
           width="20"
           height="20"
-          transform="matrix(1,0,0,1,208.333328,375)"
+          transform="matrix(1,0,0,1,440,201.500000)"
         >
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
@@ -1501,11 +923,11 @@
           </g>
         </g>
         <g
-          id="Poland"
+          id="Common"
           fill="none"
           width="20"
           height="20"
-          transform="matrix(1,0,0,1,291.666656,375)"
+          transform="matrix(1,0,0,1,224,273.500000)"
         >
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
@@ -1520,11 +942,11 @@
           </g>
         </g>
         <g
-          id="Portugal"
+          id="Bagging"
           fill="none"
           width="20"
           height="20"
-          transform="matrix(1,0,0,1,125,208.333328)"
+          transform="matrix(1,0,0,1,440,237.500000)"
         >
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
@@ -1539,11 +961,11 @@
           </g>
         </g>
         <g
-          id="Russia"
+          id="Boosting"
           fill="none"
           width="20"
           height="20"
-          transform="matrix(1,0,0,1,458.333344,41.666668)"
+          transform="matrix(1,0,0,1,440,273.500000)"
         >
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
@@ -1558,11 +980,11 @@
           </g>
         </g>
         <g
-          id="Saudi Arabia"
+          id="AdaBoost"
           fill="none"
           width="20"
           height="20"
-          transform="matrix(1,0,0,1,375,375)"
+          transform="matrix(1,0,0,1,440,309.500000)"
         >
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
@@ -1577,11 +999,11 @@
           </g>
         </g>
         <g
-          id="Senegal"
+          id="Regression"
           fill="none"
           width="20"
           height="20"
-          transform="matrix(1,0,0,1,458.333344,375)"
+          transform="matrix(1,0,0,1,-424,-28)"
         >
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
@@ -1596,11 +1018,11 @@
           </g>
         </g>
         <g
-          id="Serbia"
+          id="Multiple linear regression"
           fill="none"
           width="20"
           height="20"
-          transform="matrix(1,0,0,1,41.666668,458.333344)"
+          transform="matrix(1,0,0,1,-640,-100)"
         >
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
@@ -1615,11 +1037,11 @@
           </g>
         </g>
         <g
-          id="Spain"
+          id="Partial least squares"
           fill="none"
           width="20"
           height="20"
-          transform="matrix(1,0,0,1,208.333328,208.333328)"
+          transform="matrix(1,0,0,1,-640,-64)"
         >
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
@@ -1634,11 +1056,11 @@
           </g>
         </g>
         <g
-          id="Sweden"
+          id="Multi-layer feed forward neural network"
           fill="none"
           width="20"
           height="20"
-          transform="matrix(1,0,0,1,41.666668,125)"
+          transform="matrix(1,0,0,1,-640,-28)"
         >
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
@@ -1653,11 +1075,11 @@
           </g>
         </g>
         <g
-          id="Switzerland"
+          id="General regression neural network"
           fill="none"
           width="20"
           height="20"
-          transform="matrix(1,0,0,1,291.666656,208.333328)"
+          transform="matrix(1,0,0,1,-640,8)"
         >
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
@@ -1672,30 +1094,11 @@
           </g>
         </g>
         <g
-          id="Tunisia"
+          id="Support vector regression"
           fill="none"
           width="20"
           height="20"
-          transform="matrix(1,0,0,1,125,458.333344)"
-        >
-          <g transform="matrix(1,0,0,1,0,0)">
-            <circle
-              id="key"
-              fill="rgba(248,248,248,1)"
-              transform="translate(-10,-10)"
-              cx="10"
-              cy="10"
-              stroke="rgba(139,155,175,1)"
-              r="10"
-            />
-          </g>
-        </g>
-        <g
-          id="Uruguay"
-          fill="none"
-          width="20"
-          height="20"
-          transform="matrix(1,0,0,1,125,125)"
+          transform="matrix(1,0,0,1,-640,44)"
         >
           <g transform="matrix(1,0,0,1,0,0)">
             <circle

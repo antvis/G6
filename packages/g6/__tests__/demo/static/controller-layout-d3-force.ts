@@ -7,16 +7,15 @@ import type { StaticTestCase } from '../types';
 
 export const controllerLayoutD3Force: StaticTestCase = async ({ canvas }) => {
   const options: G6Spec = {
-    padding: 0,
+    animation: false,
     data,
     theme: 'light',
     layout: {
       type: 'd3force',
       preventOverlap: true,
       nodeSize: 20,
-      animation: true,
     },
-    node: { style: { r: 10 } },
+    node: { style: { width: 20, height: 20 } },
   };
 
   const graph = {

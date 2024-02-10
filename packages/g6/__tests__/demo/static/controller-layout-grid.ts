@@ -7,14 +7,14 @@ import type { StaticTestCase } from '../types';
 
 export const controllerLayoutGrid: StaticTestCase = async ({ canvas }) => {
   const options: G6Spec = {
+    animation: false,
     padding: 0,
     data,
     theme: 'light',
     layout: {
       type: 'grid',
-      animation: true,
     },
-    node: { style: { r: 10 } },
+    node: { style: { width: 20, height: 20 } },
   };
 
   const graph = {

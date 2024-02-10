@@ -1,32 +1,29 @@
-import { FruchtermanLayout } from '@antv/layout-gpu';
 import type { G6Spec } from '../../../src';
-import { register } from '../../../src';
+import { transformTreeDataToGraphData } from '../../../src';
 import { DataController } from '../../../src/runtime/data';
 import { ElementController } from '../../../src/runtime/element';
 import { LayoutController } from '../../../src/runtime/layout';
-import data from '../../dataset/soccer.json';
+import { ViewportController } from '../../../src/runtime/viewport';
+import tree from '../../dataset/algorithm-category.json';
 import type { StaticTestCase } from '../types';
 
-try {
-  register('layout', 'fruchterman-gpu', FruchtermanLayout);
-} catch {
-  //
-}
-
-export const controllerLayoutFruchtermanGPU: StaticTestCase = async ({ canvas }) => {
+export const controllerLayoutDendrogram: StaticTestCase = async ({ canvas }) => {
   const options: G6Spec = {
     animation: false,
-    data,
+    data: transformTreeDataToGraphData(tree),
     theme: 'light',
     layout: {
-      type: 'fruchterman-gpu',
-      maxIteration: 1000,
-      minMovement: 0.4,
-      distanceThresholdMode: 'mean',
-      gravity: 1,
-      speed: 5,
+      type: 'dendrogram',
+      direction: 'LR',
+      nodeSep: 36,
+      rankSep: 250,
     },
     node: { style: { width: 20, height: 20 } },
+    edge: {
+      style: {
+        type: 'polyline',
+      },
+    },
   };
 
   const graph = {
@@ -37,7 +34,11 @@ export const controllerLayoutFruchtermanGPU: StaticTestCase = async ({ canvas })
 
   model.addData(options?.data || {});
 
-  const context: any = { options, model, graph, canvas, viewport: { getCanvasSize: () => [500, 500] } };
+  const viewport = new ViewportController({ canvas } as any);
+  viewport.zoom({ mode: 'absolute', value: 0.5 });
+  viewport.translate({ mode: 'absolute', value: [-100, 350] });
+
+  const context: any = { options, model, graph, canvas, viewport };
 
   const element = new ElementController(context);
 

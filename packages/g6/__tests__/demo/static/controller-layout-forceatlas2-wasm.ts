@@ -18,7 +18,7 @@ export const controllerLayoutForceatlas2WASM: StaticTestCase = async ({ canvas }
   const threads = await initThreads(supported);
 
   const options: G6Spec = {
-    padding: 0,
+    animation: false,
     data,
     theme: 'light',
     layout: {
@@ -28,12 +28,11 @@ export const controllerLayoutForceatlas2WASM: StaticTestCase = async ({ canvas }
       maxIteration: 100,
       minMovement: 0.4,
       distanceThresholdMode: 'mean',
-      animation: true,
       kg: 5,
       kr: 10,
       ks: 0.1,
     },
-    node: { style: { r: 10 } },
+    node: { style: { width: 20, height: 20 } },
   };
 
   const graph = {

@@ -8,7 +8,7 @@ import data from '../../dataset/soccer.json';
 import type { StaticTestCase } from '../types';
 
 try {
-  register('layout', 'fruchterman-gpu', FruchtermanLayout);
+  register('layout', 'fruchterman-wasm', FruchtermanLayout);
 } catch {
   //
 }
@@ -18,20 +18,20 @@ export const controllerLayoutFruchtermanWASM: StaticTestCase = async ({ canvas }
   const threads = await initThreads(supported);
 
   const options: G6Spec = {
-    padding: 0,
+    animation: false,
     data,
     theme: 'light',
     layout: {
-      type: 'fruchterman-gpu',
+      type: 'fruchterman-wasm',
       threads,
+      dimensions: 2,
       maxIteration: 1000,
       minMovement: 0.4,
       distanceThresholdMode: 'mean',
       gravity: 1,
       speed: 5,
-      animation: true,
     },
-    node: { style: { r: 10 } },
+    node: { style: { width: 20, height: 20 } },
   };
 
   const graph = {
