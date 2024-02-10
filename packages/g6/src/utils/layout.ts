@@ -2,6 +2,7 @@ import type { LayoutMapping } from '@antv/layout';
 import { isNumber } from '@antv/util';
 import type { STDLayoutOptions } from '../spec/layout';
 import type { LayoutResult } from '../types';
+import { idOf } from './id';
 import { parsePoint } from './point';
 
 /**
@@ -27,7 +28,7 @@ export function isComboLayout(options: STDLayoutOptions) {
  */
 export function isTreeLayout(options: STDLayoutOptions) {
   const { type } = options;
-  return ['compactBox', 'mindmap', 'dendrogram', 'indented'].includes(type);
+  return ['compact-box', 'mindmap', 'dendrogram', 'indented'].includes(type);
 }
 
 /**
@@ -52,7 +53,9 @@ export function pickLayoutResult(result: LayoutMapping): LayoutResult {
       }),
     ),
     edges: Object.fromEntries(
-      edges.map(({ id, data }) => {
+      edges.map((edge) => {
+        const id = idOf(edge);
+        const { data } = edge;
         const result: Record<string, unknown> = {};
         if ('controlPoints' in data) result.controlPoints = data.controlPoints!.map(parsePoint);
         if ('points' in data) result.points = data.points!.map(parsePoint);

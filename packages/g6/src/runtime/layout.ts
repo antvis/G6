@@ -4,18 +4,24 @@ import { Graph as Graphlib } from '@antv/graphlib';
 import type { ForceLayoutOptions, Layout, LayoutMapping } from '@antv/layout';
 import { Supervisor, isLayoutWithIterations } from '@antv/layout';
 import { isNumber } from '@antv/util';
-import { COMBO_KEY } from '../constants';
+import { COMBO_KEY, TREE_KEY } from '../constants';
 import type { BaseLayoutOptions } from '../layouts/types';
 import { getPlugin } from '../registry';
 import type { EdgeData, NodeData } from '../spec';
 import type { STDLayoutOptions } from '../spec/layout';
-import type { NodeLikeData, Point } from '../types';
+import type { NodeLikeData, Point, TreeData } from '../types';
 import { isVisible } from '../utils/element';
+import { createTreeStructure } from '../utils/graphlib';
 import { isComboLayout, isPositionSpecified, isTreeLayout, pickLayoutResult } from '../utils/layout';
+import { dfs } from '../utils/traverse';
 import { add } from '../utils/vector';
 import type { RuntimeContext } from './types';
 
 type LayoutGraphlibModel = Graphlib<Required<NodeData>['style'], Required<EdgeData>['style']>;
+
+type LayoutGraphlibNode = GraphlibNode<Required<NodeData>['style']>;
+
+type LayoutGraphlibEdge = GraphlibEdge<Required<EdgeData>['style']>;
 
 export class LayoutController {
   private context: RuntimeContext;
@@ -69,8 +75,6 @@ export class LayoutController {
         }
 
         return nodes;
-
-        // 数据中指定了位置 / Position specified in the data
       },
       [] as LayoutMapping['nodes'],
     );
@@ -93,12 +97,8 @@ export class LayoutController {
     }
   }
 
-  // 同时要更新边和节点
   public async stepLayout(model: LayoutGraphlibModel, options: STDLayoutOptions): Promise<LayoutMapping> {
-    if (isTreeLayout(options)) {
-      return await this.treeLayout(model, options);
-    }
-
+    if (isTreeLayout(options)) return await this.treeLayout(model, options);
     return await this.graphLayout(model, options);
   }
 
@@ -106,7 +106,7 @@ export class LayoutController {
     // TODO iterations 考虑基于动画时长进行计算
     const { animation, enableWorker, iterations = 300 } = options;
 
-    const layout = this.createLayoutInstance(model, options);
+    const layout = this.initGraphLayout(model, options);
     this.instance = layout;
 
     // 使用 web worker 执行布局 / Use web worker to execute layout
@@ -140,7 +140,44 @@ export class LayoutController {
   }
 
   private async treeLayout(model: LayoutGraphlibModel, options: STDLayoutOptions): Promise<LayoutMapping> {
-    // TODO
+    const { type, animation } = options;
+    // @ts-expect-error @antv/hierarchy 布局格式与 @antv/layout 不一致，其导出的是一个方法，而非 class
+    // The layout format of @antv/hierarchy is inconsistent with @antv/layout, it exports a method instead of a class
+    const layout = getPlugin('layout', type) as (tree: TreeData, options: STDLayoutOptions) => TreeData;
+    if (!layout) throw new Error(`The layout type ${type} is not found`);
+
+    createTreeStructure(model);
+    const layoutResult: LayoutMapping = { nodes: [], edges: [] };
+
+    const roots = model.getRoots(TREE_KEY) as unknown as TreeData[];
+    roots.forEach((root) => {
+      dfs(
+        root,
+        (node) => {
+          node.children = model.getSuccessors(node.id) as TreeData[];
+        },
+        (node) => model.getSuccessors(node.id) as TreeData[],
+        'TB',
+      );
+
+      const result = layout(root, options);
+      // 将布局结果转化为 LayoutMapping 格式 / Convert the layout result to LayoutMapping format
+      dfs(
+        result,
+        (node) => {
+          const { id, x, y } = node;
+          layoutResult.nodes.push({ id, data: { x, y } });
+        },
+        (node) => node.children,
+        'TB',
+      );
+    });
+
+    if (animation) {
+      await this.updateElement(layoutResult, animation)?.finished;
+    }
+
+    return layoutResult;
   }
 
   public stopLayout() {
@@ -205,7 +242,7 @@ export class LayoutController {
         Object.assign(result, { data: getTransferableAttributes(nodeElementMap[id].attributes) });
       }
 
-      return result as GraphlibNode<Required<NodeData>['style']>;
+      return result as LayoutGraphlibNode;
     });
 
     const nodesIdMap = new Map(nodesToLayout.map((node) => [node.id, node]));
@@ -223,7 +260,7 @@ export class LayoutController {
           source,
           target,
           data: getTransferableAttributes(edgeElementMap[id].attributes),
-        } as GraphlibEdge<Required<EdgeData>['style']>;
+        } as LayoutGraphlibEdge;
       });
 
     const dataModel = new Graphlib({
@@ -252,14 +289,14 @@ export class LayoutController {
    * @param options - <zh/> 布局配置项 | <en/> Layout options
    * @returns <zh/> 布局对象 | <en/> Layout object
    */
-  private createLayoutInstance(model: LayoutGraphlibModel, options: STDLayoutOptions) {
+  private initGraphLayout(model: LayoutGraphlibModel, options: STDLayoutOptions) {
     const { element, viewport } = this.context;
     const { type, enableWorker, animation, iterations, ...restOptions } = options;
 
     const [width, height] = viewport!.getCanvasSize();
     const center = [width / 2, height / 2];
 
-    const nodeSize: number | ((node: GraphlibNode<Required<NodeData>['style']>) => number) =
+    const nodeSize: number | ((node: LayoutGraphlibNode) => number) =
       (options?.nodeSize as number) ??
       ((node) => {
         const nodeElement = element?.getElement(node.id);
@@ -302,17 +339,19 @@ export class LayoutController {
   private updateElement(layoutData: LayoutMapping, animation: boolean) {
     const { element } = this.context;
     if (!element) return null;
-
-    const result = element.updateByLayoutResult(pickLayoutResult(layoutData), animation);
-    this.animationResult = result;
-    return result;
+    this.animationResult = element.updateByLayoutResult(pickLayoutResult(layoutData), animation);
+    return this.animationResult;
   }
 }
 
 const getTransferableAttributes = (attributes: Record<string, unknown>) => {
   return Object.entries(attributes).reduce(
     (result, [key, value]) => {
-      if (!['function', 'object'].includes(typeof value)) {
+      if (
+        !['function', 'object'].includes(typeof value) &&
+        // 布局数据中包含位置信息会导致布局异常 / Position information in layout data will cause layout abnormal
+        !['x', 'y', 'z'].includes(key)
+      ) {
         result[key] = value;
       }
       return result;

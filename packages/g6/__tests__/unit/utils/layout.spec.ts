@@ -10,7 +10,7 @@ describe('layout', () => {
 
   it('isTreeLayout', () => {
     expect(isTreeLayout({ type: 'force' })).toBe(false);
-    expect(isTreeLayout({ type: 'compactBox' })).toBe(true);
+    expect(isTreeLayout({ type: 'compact-box' })).toBe(true);
     expect(isTreeLayout({ type: 'mindmap' })).toBe(true);
   });
 
