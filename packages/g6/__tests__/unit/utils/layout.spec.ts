@@ -26,7 +26,7 @@ describe('layout', () => {
         'node-1': [100, 100],
       },
       edges: {
-        'edge-1': { weight: 1 },
+        'edge-1': {},
       },
     });
     expect(
