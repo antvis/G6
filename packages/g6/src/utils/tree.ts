@@ -18,7 +18,11 @@ type TreeDataGetter = {
  */
 export function transformTreeDataToGraphData(treeData: TreeData, getter?: TreeDataGetter): GraphData {
   const {
-    getNodeData = (datum: TreeData) => datum as NodeData,
+    getNodeData = (datum: TreeData) => {
+      if (!datum.children) return datum;
+      const { children, style = {}, ...restDatum } = datum;
+      return { style: { ...style, children: children.map((child) => child.id) }, ...restDatum } as NodeData;
+    },
     getEdgeData = (source: TreeData, target: TreeData) => ({ source: source.id, target: target.id }),
     getChildren = (datum: TreeData) => datum.children || [],
   } = getter || {};
