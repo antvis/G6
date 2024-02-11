@@ -11,7 +11,7 @@ import type { BaseEdge } from '../elements/edges/base-edge';
 import type { BaseNode } from '../elements/nodes';
 import type { BaseShape } from '../elements/shapes';
 import { getPlugin } from '../registry';
-import type { ComboData, EdgeData, G6Spec, GraphData, NodeData } from '../spec';
+import type { ComboData, EdgeData, GraphData, NodeData } from '../spec';
 import type { AnimationStage } from '../spec/element/animation';
 import type { EdgeStyle } from '../spec/element/edge';
 import type { NodeLikeStyle } from '../spec/element/node';
@@ -84,7 +84,7 @@ export class ElementController {
 
   constructor(context: RuntimeContext) {
     this.context = context;
-    this.setElementStates(context.options.data);
+    this.initElementState(context.options.data || {});
   }
 
   public async init() {
@@ -218,13 +218,17 @@ export class ElementController {
    *
    * <en/> Initialize element state from data
    */
-  private setElementStates(data: G6Spec['data']) {
-    const { nodes = [], edges = [], combos = [] } = data || {};
+  private initElementState(data: GraphData) {
+    const { nodes = [], edges = [], combos = [] } = data;
     [...nodes, ...edges, ...combos].forEach((elementData) => {
       const states = elementData.style?.states || [];
       const id = idOf(elementData);
-      this.elementState[id] = states;
+      this.setElementState(id, states);
     });
+  }
+
+  public setElementState(id: ID, state: State[]) {
+    this.elementState[id] = state;
   }
 
   /**
@@ -490,7 +494,7 @@ export class ElementController {
     const edgesToUpdate = dataOf<EdgeData>(EdgeUpdated);
     const combosToUpdate = dataOf<ComboData>(ComboUpdated);
 
-    this.setElementStates({ nodes: nodesToUpdate, edges: edgesToUpdate, combos: combosToUpdate });
+    this.initElementState({ nodes: nodesToUpdate, edges: edgesToUpdate, combos: combosToUpdate });
 
     // 计算要删除的元素 / compute elements to remove
     const nodesToRemove = dataOf<NodeData>(NodeRemoved);

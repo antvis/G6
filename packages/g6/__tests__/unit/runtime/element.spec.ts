@@ -143,7 +143,11 @@ describe('ElementController', () => {
       idOf(options.data!.edges![1]),
     ]);
 
+    elementController.setElementState('node-1', ['active']);
+    expect(elementController.getElementStates('node-1')).toEqual(['active']);
+    elementController.setElementState('node-1', []);
     expect(elementController.getElementStates('node-1')).toEqual([]);
+
     expect(elementController.getElementStates('node-2')).toEqual([]);
     expect(elementController.getElementStates('node-3')).toEqual(['selected']);
     expect(elementController.getElementStates('edge-1')).toEqual([]);
