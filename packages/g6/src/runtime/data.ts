@@ -567,7 +567,7 @@ export class DataController {
    * @param id - <zh/> 元素 ID | <en/> ID of the element
    * @returns <zh/> 元素类型 | <en/> type of the element
    */
-  public getElementType(id: ID): ElementType | 'unknown' {
+  public getElementType(id: ID): ElementType {
     if (this.model.hasNode(id)) {
       if (this.isCombo(id)) return 'combo';
       return 'node';
@@ -575,6 +575,6 @@ export class DataController {
 
     if (this.model.hasEdge(id)) return 'edge';
 
-    return 'unknown';
+    throw new Error(`Unknown element type of id: ${id}`);
   }
 }

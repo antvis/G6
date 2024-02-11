@@ -525,7 +525,9 @@ describe('DataController', () => {
 
     expect(controller.getElementsData(['combo-1'])[0]).toEqual(data.combos[0]);
 
-    expect(controller.getElementsData(['undefined'])[0]).toEqual(undefined);
+    expect(() => {
+      controller.getElementsData(['undefined'])[0];
+    }).toThrow();
   });
 
   it('getNodeLikeData', () => {
@@ -681,6 +683,8 @@ describe('DataController', () => {
 
     expect(controller.getElementType('combo-1')).toEqual('combo');
 
-    expect(controller.getElementType('undefined')).toEqual('unknown');
+    expect(() => {
+      controller.getElementType('undefined');
+    }).toThrow();
   });
 });
