@@ -156,6 +156,11 @@ export class DataController {
     }, [] as ComboData[]);
   }
 
+  public getParentData(id: ID): NodeData | undefined {
+    const parent = this.model.getParent(id, TREE_KEY);
+    return parent?.data;
+  }
+
   /**
    * <zh/> 获取节点的子节点数据
    *
@@ -323,21 +328,21 @@ export class DataController {
   protected updateNodeLikeHierarchy(data: NodeLikeData[]) {
     const { model } = this;
 
-    let hasAttachTreeStructure = false;
-
-    const attachTreeStructure = () => {
-      if (hasAttachTreeStructure) return;
-      if (!model.hasTreeStructure(COMBO_KEY)) {
-        model.attachTreeStructure(COMBO_KEY);
-      }
-      hasAttachTreeStructure = true;
-    };
-
     data.forEach((datum) => {
+      const id = idOf(datum);
+
       const parentId = datum?.style?.parentId;
       if (parentId !== undefined) {
-        attachTreeStructure();
-        model.setParent(idOf(datum), parentId, COMBO_KEY);
+        model.attachTreeStructure(COMBO_KEY);
+        model.setParent(id, parentId, COMBO_KEY);
+      }
+
+      const children = datum?.style?.children;
+      if (children !== undefined) {
+        model.attachTreeStructure(TREE_KEY);
+        children.forEach((child) => {
+          model.setParent(child, id, TREE_KEY);
+        });
       }
     });
   }
