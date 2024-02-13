@@ -1,9 +1,7 @@
 import type { ID } from '@antv/graphlib';
-import type { Point } from './point';
-
-export type LayoutNodeLikePosition = Record<ID, Point>;
+import type { Positions } from './position';
 
 export type LayoutResult = {
-  nodes: LayoutNodeLikePosition;
+  nodes: Positions;
   edges: Record<ID, Record<string, unknown>>;
 };

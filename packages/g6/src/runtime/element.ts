@@ -19,8 +19,8 @@ import type {
   ElementData,
   ElementDatum,
   ElementType,
-  LayoutNodeLikePosition,
   LayoutResult,
+  Positions,
   State,
   StyleIterationContext,
 } from '../types';
@@ -646,7 +646,7 @@ export class ElementController {
     });
   }
 
-  public updateNodeLikePosition(positions: LayoutNodeLikePosition, animation: boolean = true) {
+  public updateNodeLikePosition(positions: Positions, animation: boolean = true) {
     return this.updateByLayoutResult({ nodes: positions, edges: {} }, animation);
   }
 
