@@ -3,8 +3,9 @@
 import type { DisplayObject, IAnimation } from '@antv/g';
 import { Group } from '@antv/g';
 import type { ID } from '@antv/graphlib';
-import { groupBy, isNumber } from '@antv/util';
+import { groupBy, pick } from '@antv/util';
 import { executor as animationExecutor } from '../animations';
+import type { AnimationContext } from '../animations/types';
 import { ChangeTypeEnum, GraphEvent } from '../constants';
 import type { BaseEdge } from '../elements/edges/base-edge';
 import type { BaseNode } from '../elements/nodes';
@@ -307,27 +308,30 @@ export class ElementController {
     return this.container.combo.children as DisplayObject[];
   }
 
+  private getAnimation(elementType: ElementType, stage: AnimationStage) {
+    const { options } = this.context;
+
+    const userDefined = options?.[elementType]?.animation;
+    if (userDefined === false) return false;
+    const userDefinedStage = userDefined?.[stage];
+    if (userDefinedStage) return userDefinedStage;
+
+    const themeDefined = this.getTheme(elementType)?.animation;
+    if (themeDefined === false) return false;
+    const themeDefinedStage = themeDefined?.[stage];
+
+    return themeDefinedStage ?? false;
+  }
+
   private getAnimationExecutor(
     elementType: ElementType,
     stage: AnimationStage,
     animation: boolean = true,
+    context?: Partial<AnimationContext>,
   ): AnimationExecutor {
     const { options } = this.context;
 
     if (options.animation === false || !animation) return () => null;
-
-    const getAnimation = () => {
-      const userDefined = options?.[elementType]?.animation;
-      if (userDefined === false) return false;
-      const userDefinedStage = userDefined?.[stage];
-      if (userDefinedStage) return userDefinedStage;
-
-      const themeDefined = this.getTheme(elementType)?.animation;
-      if (themeDefined === false) return false;
-      const themeDefinedStage = themeDefined?.[stage];
-
-      return themeDefinedStage ?? false;
-    };
 
     return (
       id: ID,
@@ -337,12 +341,13 @@ export class ElementController {
     ) => {
       return animationExecutor(
         shape,
-        getAnimation(),
+        this.getAnimation(elementType, stage),
         {},
         {
           originalStyle,
           modifiedStyle,
           states: this.getElementStates(id),
+          ...context,
         },
       );
     };
@@ -646,8 +651,60 @@ export class ElementController {
     });
   }
 
-  public updateNodeLikePosition(positions: Positions, animation: boolean = true) {
-    return this.updateByLayoutResult({ nodes: positions, edges: {} }, animation);
+  public updateNodeLikePosition(positions: Positions, animation: boolean = true, edgeIds: ID[] = []) {
+    const { model } = this.context;
+    const taskId = this.preRender();
+
+    const animationsFilter: AnimationContext['animationsFilter'] = (animation) => !animation.shape;
+    const nodeAnimator = this.getAnimationExecutor('node', 'update', animation, { animationsFilter });
+    const comboAnimator = this.getAnimationExecutor('combo', 'update', animation, { animationsFilter });
+
+    Object.entries(positions).forEach(([id, [x, y, z]]) => {
+      const element = this.getElement(id);
+      const elementType = this.context.model.isCombo(id) ? 'combo' : 'node';
+      if (!element) return;
+      // 更新原生位置属性，避免执行 render 以及 animation 调用 getXxxStyle 流程 / Update the native position attribute to avoid executing the render and animation calls to getXxxStyle
+      const animator = elementType === 'combo' ? comboAnimator : nodeAnimator;
+      const originalPosition = pick(element.attributes, ['x', 'y', 'z']);
+      const modifiedPosition = { x, y, z };
+
+      this.setRuntimeStyle(id, modifiedPosition);
+
+      element.attr({ x, y, z });
+
+      if (taskId) {
+        this.getTasks(taskId).push(async () => {
+          const result = animator(id, element, originalPosition);
+          if (result) {
+            this.animationMap[taskId][id] = result;
+            await result.finished;
+          }
+        });
+        return null;
+      }
+
+      return animator(id, element, originalPosition);
+    });
+
+    this.updateEdgeEnds(
+      Object.keys(positions).reduce(
+        (acc, id) => {
+          if (!model.isCombo(id)) {
+            model.getRelatedEdgesData(id).forEach((edge) => acc.push(idOf(edge)));
+          }
+          return acc;
+        },
+        [...edgeIds],
+      ),
+      { animation, taskId },
+    );
+
+    return this.postRender(taskId);
+  }
+
+  private updateEdgeEnds(ids: ID[], context: Omit<RenderContext, 'animator'>) {
+    const { model } = this.context;
+    this.updateElements({ nodes: [], edges: model.getEdgeData(ids), combos: [] }, context);
   }
 
   /**
@@ -656,41 +713,16 @@ export class ElementController {
    * <en/> Update based on layout results
    */
   public updateByLayoutResult(layoutResult: LayoutResult, animation: boolean = true) {
-    const { model } = this.context;
     const { nodes: nodeLikeResults, edges: edgeResults } = layoutResult;
-    const taskId = this.preRender();
+    if (Object.keys(nodeLikeResults).length === 0 && Object.keys(edgeResults).length === 0) return null;
 
-    const nodes: NodeData[] = [];
-    const combos: ComboData[] = [];
-    const edges: EdgeData[] = [];
+    // TODO dagre 布局计算出来的 controlPoints 会导致边异常，需要处理
+    // controlPoints calculated by dagre layout will cause the edge to be abnormal and need to be handled
+    // Object.entries(edgeResults).forEach(([id, style]) => {
+    //   this.setRuntimeStyle(id, style);
+    // });
 
-    Object.entries(nodeLikeResults).forEach(([id, position]) => {
-      const style: Record<string, number> = {};
-      ['x', 'y', 'z'].forEach((attr, index) => {
-        if (isNumber(position[index])) {
-          style[attr] = position[index];
-        }
-      });
-      this.setRuntimeStyle(id, style);
-
-      const elementType = model.isCombo(id) ? 'combo' : 'node';
-      const datum = elementType === 'combo' ? model.getComboData([id])[0] : model.getNodeData([id])[0];
-      const target = elementType === 'combo' ? combos : nodes;
-      // 此处数据不会导致重新计算样式，仅用于确定要更新的元素 / The data here will not cause the style to be recalculated, only used to determine the elements to be updated
-      target.push(datum);
-    });
-
-    Object.entries(edgeResults).forEach(([id, style]) => {
-      // TODO dagre 布局计算出来的 controlPoints 会导致边异常，需要处理 / controlPoints calculated by dagre layout will cause the edge to be abnormal and need to be handled
-      // this.setRuntimeStyle(id, style);
-      edges.push(model.getEdgeData([id])[0]);
-    });
-
-    nodes.forEach((node) => model.getRelatedEdgesData(idOf(node)).forEach((edge) => edges.push(edge)));
-
-    this.updateElements({ nodes, edges: deduplicate(edges, idOf), combos }, { taskId, animation });
-
-    return this.postRender(taskId);
+    return this.updateNodeLikePosition(nodeLikeResults, animation, Object.keys(edgeResults));
   }
 
   private updateElements(data: GraphData, context: Omit<RenderContext, 'animator'>) {

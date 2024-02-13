@@ -17,7 +17,12 @@ import type { AnimationExecutor } from './types';
  */
 export const executor: AnimationExecutor = (shape, animation, commonEffectTiming, context) => {
   if (!animation) return null;
-  const animations = isString(animation) ? getPlugin('animation', animation) || [] : animation;
+
+  const { animationsFilter = () => true } = context;
+
+  const animations = (isString(animation) ? getPlugin('animation', animation) || [] : animation).filter(
+    animationsFilter,
+  );
   if (animations.length === 0) return null;
 
   const { originalStyle, modifiedStyle, states } = context;

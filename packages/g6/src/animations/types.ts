@@ -39,6 +39,16 @@ export interface AnimationContext {
    */
   modifiedStyle?: Record<string, unknown>;
   /**
+   * <zh/> 动画配置过滤
+   *
+   * <en/> Animation configuration filter
+   * @description
+   * <zh/> 某些情况下，需要过滤掉一些动画配置，例如位移动画只会作用于元素根节点图形，不会作用于子图形。这项配置通常用于优化动画性能，避免不必要的动画执行
+   *
+   * <en/> In some cases, it is necessary to filter out some animation configurations. For example, the displacement animation will only affect the root node shape of the element, not the child shape. This configuration is usually used to optimize animation performance and avoid unnecessary animation execution
+   */
+  animationsFilter?: (animation: ConfigurableAnimationOptions) => boolean;
+  /**
    * <zh/> 元素状态
    *
    * <en/> Element states

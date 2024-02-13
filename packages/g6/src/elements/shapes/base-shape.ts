@@ -122,26 +122,40 @@ export abstract class BaseShape<T extends BaseShapeStyleProps> extends CustomEle
     return style;
   }
 
-  public animate(keyframes: Keyframe[], options?: number | KeyframeAnimationOptions): IAnimation {
+  public animate(keyframes: Keyframe[], options?: number | KeyframeAnimationOptions): IAnimation | null {
     this.animateMap = {};
-
     const result = super.animate(keyframes, options)!;
 
     if (Array.isArray(keyframes) && keyframes.length > 0) {
-      Object.entries(this.shapeMap).forEach(([key, shape]) => {
-        // 如果存在方法名为 `get${key}Style` 的方法，则使用该方法获取样式，并自动为该图形实例创建动画
-        // if there is a method named `get${key}Style`, use this method to get style and automatically create animation for the shape instance
-        const methodName = `get${key[0].toUpperCase()}${key.slice(1)}Style` as keyof this;
-        const method = this[methodName];
+      // 如果 keyframes 中仅存在 skippedAttrs 中的属性，则仅更新父元素属性（跳过子图形）
+      // if only skippedAttrs exist in keyframes, only update parent element attributes (skip child shapes)
+      const skippedAttrs = [
+        'anchor',
+        'transform',
+        'transformOrigin',
+        'x',
+        'y',
+        'z',
+        'zIndex',
+        // 'opacity',
+        // 'visibility',
+      ];
+      if (Object.keys(keyframes[0]).some((attr) => !skippedAttrs.includes(attr))) {
+        Object.entries(this.shapeMap).forEach(([key, shape]) => {
+          // 如果存在方法名为 `get${key}Style` 的方法，则使用该方法获取样式，并自动为该图形实例创建动画
+          // if there is a method named `get${key}Style`, use this method to get style and automatically create animation for the shape instance
+          const methodName = `get${key[0].toUpperCase()}${key.slice(1)}Style` as keyof this;
+          const method = this[methodName];
 
-        if (typeof method === 'function') {
-          const subKeyframes: Keyframe[] = keyframes.map((style) =>
-            method.call(this, { ...this.attributes, ...style }),
-          );
+          if (typeof method === 'function') {
+            const subKeyframes: Keyframe[] = keyframes.map((style) =>
+              method.call(this, { ...this.attributes, ...style }),
+            );
 
-          this.animateMap[key] = shape.animate(preprocessKeyframes(subKeyframes), options)!;
-        }
-      });
+            this.animateMap[key] = shape.animate(preprocessKeyframes(subKeyframes), options)!;
+          }
+        });
+      }
     } else {
       // TODO: support PropertyIndexedKeyframes
     }
