@@ -6,6 +6,8 @@ type TestCaseContext = {
   animation: boolean;
 };
 
+export type TestCase = StaticTestCase | AnimationTestCase;
+
 export interface StaticTestCase extends BaseTestCase {
   (context: TestCaseContext): Promise<void>;
 }
@@ -37,4 +39,5 @@ export interface BaseTestCase {
    * @returns
    */
   postprocess?: () => Promise<void>;
+  form?: { label?: string; type: string; options?: Record<string, unknown>; onload?: (el: HTMLElement) => void }[];
 }

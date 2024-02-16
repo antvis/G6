@@ -5,8 +5,7 @@ import '../src/preset';
 import { Canvas } from '../src/runtime/canvas';
 import * as animations from './demo/animation';
 import * as statics from './demo/static';
-
-type TestCase = (...args: unknown[]) => void;
+import type { TestCase } from './demo/types';
 
 const CASES = {
   statics,
@@ -20,12 +19,16 @@ window.onload = () => {
   const reload = document.getElementById('reload-button') as HTMLButtonElement;
 
   function handleChange() {
+    unmountCustomPanel();
     initialize();
     const [type, testCase] = casesSelect.value.split('-');
     const renderer = rendererSelect.value;
     const animation = animationCheckbox.checked;
     setParamsToSearch({ type, case: testCase, renderer, animation });
-    onchange(CASES[type][testCase], renderer, animation);
+    const caseFn = CASES[type][testCase];
+    onchange(caseFn, renderer, animation).then(() => {
+      mountCustomPanel(caseFn.form);
+    });
   }
 
   casesSelect.onchange = handleChange;
@@ -59,8 +62,8 @@ function onchange(testCase: TestCase, rendererName: string, animation: boolean) 
     container: document.getElementById('container')!,
     renderer,
   });
-  canvas.init().then(() => {
-    testCase({ canvas, animation });
+  return canvas.init().then(async () => {
+    await testCase({ canvas, animation });
   });
 }
 
@@ -108,4 +111,27 @@ function setParamsToSearch(options: { type: string; case: string; renderer: stri
   searchParams.set('renderer', renderer);
   searchParams.set('animation', animation.toString());
   window.history.replaceState(null, '', `?${searchParams.toString()}`);
+}
+
+function mountCustomPanel(form: TestCase['form'] = []) {
+  const customPanel = document.getElementById('custom-panel')!;
+
+  form.forEach(({ label, type, options = {}, onload }) => {
+    if (label) {
+      const labelEl = document.createElement('label');
+      labelEl.textContent = label;
+      customPanel.appendChild(labelEl);
+    }
+
+    const element = document.createElement(type);
+    Object.assign(element, options);
+    customPanel.appendChild(element);
+
+    onload?.(element);
+  });
+}
+
+function unmountCustomPanel() {
+  const customPanel = document.getElementById('custom-panel')!;
+  customPanel.innerHTML = '';
 }
