@@ -6,15 +6,16 @@ import { ViewportController } from '../../../src/runtime/viewport';
 import data from '../../dataset/radial.json';
 import type { StaticTestCase } from '../types';
 
-export const controllerLayoutRadial: StaticTestCase = async ({ canvas }) => {
+export const controllerLayoutRadial: StaticTestCase = async ({ canvas, animation }) => {
   const options: G6Spec = {
-    animation: false,
+    animation,
     padding: 0,
     data: data,
     theme: 'light',
     layout: {
       type: 'radial',
       unitRadius: 50,
+      animation,
     },
     node: { style: { width: 20, height: 20 } },
     edge: {

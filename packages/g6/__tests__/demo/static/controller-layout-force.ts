@@ -5,9 +5,9 @@ import { LayoutController } from '../../../src/runtime/layout';
 import data from '../../dataset/cluster.json';
 import type { StaticTestCase } from '../types';
 
-export const controllerLayoutForce: StaticTestCase = async ({ canvas }) => {
+export const controllerLayoutForce: StaticTestCase = async ({ canvas, animation }) => {
   const options: G6Spec = {
-    animation: false,
+    animation,
     data,
     theme: 'light',
     layout: {
@@ -17,6 +17,7 @@ export const controllerLayoutForce: StaticTestCase = async ({ canvas }) => {
       dimensions: 2,
       nodeClusterBy: 'cluster',
       clusterNodeStrength: 100,
+      animation,
     },
     node: {
       style: {

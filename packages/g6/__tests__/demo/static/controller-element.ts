@@ -17,7 +17,7 @@ const createContext = (canvas: any, options: G6Spec): RuntimeContext => {
 };
 
 export const controllerElement: StaticTestCase = async (context) => {
-  const { canvas } = context;
+  const { canvas, animation } = context;
 
   const options: G6Spec = {
     data: {
@@ -38,11 +38,11 @@ export const controllerElement: StaticTestCase = async (context) => {
         width: 20,
         height: 20,
       },
-      animation: false,
+      animation: animation && {},
     },
     edge: {
       style: {},
-      animation: false,
+      animation: animation && {},
     },
   };
 

@@ -13,9 +13,9 @@ try {
   //
 }
 
-export const controllerLayoutFruchtermanGPU: StaticTestCase = async ({ canvas }) => {
+export const controllerLayoutFruchtermanGPU: StaticTestCase = async ({ canvas, animation }) => {
   const options: G6Spec = {
-    animation: false,
+    animation,
     data,
     theme: 'light',
     layout: {
@@ -25,6 +25,7 @@ export const controllerLayoutFruchtermanGPU: StaticTestCase = async ({ canvas })
       distanceThresholdMode: 'mean',
       gravity: 1,
       speed: 5,
+      animation,
     },
     node: { style: { width: 20, height: 20 } },
   };

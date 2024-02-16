@@ -5,14 +5,15 @@ import { LayoutController } from '../../../src/runtime/layout';
 import data from '../../dataset/soccer.json';
 import type { StaticTestCase } from '../types';
 
-export const controllerLayoutCircular: StaticTestCase = async ({ canvas }) => {
+export const controllerLayoutCircular: StaticTestCase = async ({ canvas, animation }) => {
   const options: G6Spec = {
-    animation: false,
+    animation,
     data,
     theme: 'light',
     layout: {
       type: 'circular',
       radius: 200,
+      animation,
     },
     node: { style: { width: 20, height: 20 } },
     edge: {

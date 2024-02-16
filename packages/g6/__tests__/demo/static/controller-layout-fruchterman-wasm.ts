@@ -13,12 +13,12 @@ try {
   //
 }
 
-export const controllerLayoutFruchtermanWASM: StaticTestCase = async ({ canvas }) => {
+export const controllerLayoutFruchtermanWASM: StaticTestCase = async ({ canvas, animation }) => {
   const supported = await supportsThreads();
   const threads = await initThreads(supported);
 
   const options: G6Spec = {
-    animation: false,
+    animation,
     data,
     theme: 'light',
     layout: {
@@ -30,6 +30,7 @@ export const controllerLayoutFruchtermanWASM: StaticTestCase = async ({ canvas }
       distanceThresholdMode: 'mean',
       gravity: 1,
       speed: 5,
+      animation,
     },
     node: { style: { width: 20, height: 20 } },
   };

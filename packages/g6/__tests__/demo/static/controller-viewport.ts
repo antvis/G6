@@ -38,7 +38,7 @@ export const controllerViewport: StaticTestCase = async (context) => {
     canvas,
     graph: { emit: () => {} } as any,
     options: {},
-    dataController: {} as any,
+    model: {} as any,
   });
   assert(viewportController.getViewportCenter()).toCloseTo([250, 250]);
   // 起始中心坐标 [250, 250]

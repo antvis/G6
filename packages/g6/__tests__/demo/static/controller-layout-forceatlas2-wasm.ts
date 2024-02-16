@@ -13,12 +13,12 @@ try {
   //
 }
 
-export const controllerLayoutForceatlas2WASM: StaticTestCase = async ({ canvas }) => {
+export const controllerLayoutForceatlas2WASM: StaticTestCase = async ({ canvas, animation }) => {
   const supported = await supportsThreads();
   const threads = await initThreads(supported);
 
   const options: G6Spec = {
-    animation: false,
+    animation,
     data,
     theme: 'light',
     layout: {
@@ -31,6 +31,7 @@ export const controllerLayoutForceatlas2WASM: StaticTestCase = async ({ canvas }
       kg: 5,
       kr: 10,
       ks: 0.1,
+      animation,
     },
     node: { style: { width: 20, height: 20 } },
   };

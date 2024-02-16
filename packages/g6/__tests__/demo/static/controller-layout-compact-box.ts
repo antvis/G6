@@ -7,13 +7,14 @@ import { ViewportController } from '../../../src/runtime/viewport';
 import tree from '../../dataset/algorithm-category.json';
 import type { StaticTestCase } from '../types';
 
-export const controllerLayoutCompactBox: StaticTestCase = async ({ canvas }) => {
+export const controllerLayoutCompactBox: StaticTestCase = async ({ canvas, animation }) => {
   const options: G6Spec = {
-    animation: false,
+    animation,
     data: transformTreeDataToGraphData(tree),
     theme: 'light',
     layout: {
       type: 'compact-box',
+      animation,
       direction: 'LR',
       getId: function getId(d) {
         return d.id;
@@ -36,7 +37,7 @@ export const controllerLayoutCompactBox: StaticTestCase = async ({ canvas }) => 
         width: 20,
         height: 20,
         labelText: (data) => data.id,
-        labelMaxWidth: Infinity,
+        labelMaxWidth: 250,
         labelPosition: 'right',
         labelOffsetX: 10,
       },

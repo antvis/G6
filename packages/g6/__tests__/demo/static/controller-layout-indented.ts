@@ -7,9 +7,9 @@ import { ViewportController } from '../../../src/runtime/viewport';
 import tree from '../../dataset/file-system.json';
 import type { StaticTestCase } from '../types';
 
-export const controllerLayoutIndented: StaticTestCase = async ({ canvas }) => {
+export const controllerLayoutIndented: StaticTestCase = async ({ canvas, animation }) => {
   const options: G6Spec = {
-    animation: false,
+    animation,
     data: transformTreeDataToGraphData(tree),
     theme: 'light',
     layout: {
@@ -17,6 +17,7 @@ export const controllerLayoutIndented: StaticTestCase = async ({ canvas }) => {
       isHorizontal: true,
       direction: 'LR',
       indent: 30,
+      animation,
       getHeight: function getHeight() {
         return 16;
       },

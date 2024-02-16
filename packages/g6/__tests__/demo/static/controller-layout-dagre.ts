@@ -5,9 +5,9 @@ import { LayoutController } from '../../../src/runtime/layout';
 import data from '../../dataset/dagre.json';
 import type { StaticTestCase } from '../types';
 
-export const controllerLayoutDagre: StaticTestCase = async ({ canvas }) => {
+export const controllerLayoutDagre: StaticTestCase = async ({ canvas, animation }) => {
   const options: G6Spec = {
-    animation: false,
+    animation,
     data,
     theme: 'light',
     layout: {
@@ -16,6 +16,7 @@ export const controllerLayoutDagre: StaticTestCase = async ({ canvas }) => {
       ranksep: 20,
       controlPoints: true,
       begin: [20, 20],
+      animation,
     },
     node: { style: { width: 20, height: 20 } },
     edge: {

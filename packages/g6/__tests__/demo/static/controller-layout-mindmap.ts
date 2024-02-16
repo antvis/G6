@@ -7,14 +7,15 @@ import { ViewportController } from '../../../src/runtime/viewport';
 import tree from '../../dataset/algorithm-category.json';
 import type { StaticTestCase } from '../types';
 
-export const controllerLayoutMindmap: StaticTestCase = async ({ canvas }) => {
+export const controllerLayoutMindmap: StaticTestCase = async ({ canvas, animation }) => {
   const options: G6Spec = {
-    animation: false,
+    animation,
     data: transformTreeDataToGraphData(tree),
     theme: 'light',
     layout: {
       type: 'mindmap',
       direction: 'H',
+      animation,
       getHeight: () => {
         return 16;
       },

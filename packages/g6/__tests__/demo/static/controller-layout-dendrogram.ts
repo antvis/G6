@@ -7,9 +7,9 @@ import { ViewportController } from '../../../src/runtime/viewport';
 import tree from '../../dataset/algorithm-category.json';
 import type { StaticTestCase } from '../types';
 
-export const controllerLayoutDendrogram: StaticTestCase = async ({ canvas }) => {
+export const controllerLayoutDendrogram: StaticTestCase = async ({ canvas, animation }) => {
   const options: G6Spec = {
-    animation: false,
+    animation,
     data: transformTreeDataToGraphData(tree),
     theme: 'light',
     layout: {
@@ -17,6 +17,7 @@ export const controllerLayoutDendrogram: StaticTestCase = async ({ canvas }) => 
       direction: 'LR',
       nodeSep: 36,
       rankSep: 250,
+      animation,
     },
     node: {
       style: { width: 20, height: 20, labelText: (data) => data.id, labelPosition: 'right', labelMaxWidth: 200 },
