@@ -283,11 +283,13 @@ export abstract class BaseEdge<KT extends BaseEdgeProps<object>> extends BaseSha
   animate(keyframes: Keyframe[], options?: number | KeyframeAnimationOptions) {
     const result = super.animate(keyframes, options);
 
-    result.onframe = () => {
-      this.drawLabelShape(this.parsedAttributes, this);
-      this.drawArrow(this.parsedAttributes, true);
-      this.drawArrow(this.parsedAttributes, false);
-    };
+    if (result) {
+      result.onframe = () => {
+        this.drawLabelShape(this.parsedAttributes, this);
+        this.drawArrow(this.parsedAttributes, true);
+        this.drawArrow(this.parsedAttributes, false);
+      };
+    }
 
     return result;
   }

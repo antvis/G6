@@ -288,9 +288,11 @@ export abstract class BaseNode<
   animate(keyframes: Keyframe[], options?: number | KeyframeAnimationOptions) {
     const result = super.animate(keyframes, options);
 
-    result.onframe = () => {
-      this.drawBadgeShapes(this.parsedAttributes, this);
-    };
+    if (result) {
+      result.onframe = () => {
+        this.drawBadgeShapes(this.parsedAttributes, this);
+      };
+    }
 
     return result;
   }
