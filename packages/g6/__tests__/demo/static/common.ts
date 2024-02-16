@@ -7,6 +7,7 @@
 export * from './controller-element';
 export * from './controller-element-position';
 export * from './controller-element-visibility';
+export * from './controller-element-z-index';
 export * from './controller-layout-circular';
 export * from './controller-layout-compact-box';
 export * from './controller-layout-d3-force';

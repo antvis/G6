@@ -139,6 +139,7 @@ export function inferDefaultValue(name: string) {
     case 'x':
     case 'y':
     case 'z':
+    case 'zIndex':
       return 0;
     default:
       return undefined;

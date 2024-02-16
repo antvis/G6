@@ -24,8 +24,9 @@ import type {
   Positions,
   State,
   StyleIterationContext,
+  ZIndex,
 } from '../types';
-import { createAnimationsProxy } from '../utils/animation';
+import { createAnimationsProxy, inferDefaultValue } from '../utils/animation';
 import { deduplicate } from '../utils/array';
 import { cacheStyle, getCachedStyle } from '../utils/cache';
 import { reduceDataChanges } from '../utils/change';
@@ -880,5 +881,21 @@ export class ElementController {
 
     if (results.length === 0) return null;
     return createAnimationsProxy(results[0], results.slice(1));
+  }
+
+  public setElementZIndex(id: ID, zIndex: ZIndex) {
+    const element = this.getElement(id);
+    if (!element) return;
+    if (typeof zIndex === 'number') element.attr({ zIndex });
+    else {
+      const elementType = this.context.model.getElementType(id);
+      const childNodes = this.container[elementType].childNodes as DisplayObject[];
+      const delta = zIndex === 'front' ? 1 : -1;
+      const parsedZIndex =
+        Math[zIndex === 'front' ? 'max' : 'min'](
+          ...childNodes.map((node) => node.attributes.zIndex ?? inferDefaultValue('zIndex')),
+        ) + delta;
+      element.attr({ zIndex: parsedZIndex });
+    }
   }
 }
