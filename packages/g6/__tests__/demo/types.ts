@@ -4,6 +4,12 @@ import type { Canvas } from '../../src/runtime/canvas';
 type TestCaseContext = {
   canvas: Canvas;
   animation: boolean;
+  /**
+   * <zh/> 测试用例手动比对快照
+   *
+   * <en/> Manually compare snapshots of test cases
+   */
+  toMatchSVGSnapshot?: (suffix: string) => Promise<void>;
 };
 
 export type TestCase = StaticTestCase | AnimationTestCase;

@@ -1,6 +1,6 @@
 /* eslint-disable jsdoc/require-returns */
 /* eslint-disable jsdoc/require-param */
-import type { DisplayObject, IAnimation } from '@antv/g';
+import type { BaseStyleProps, DisplayObject, IAnimation } from '@antv/g';
 import { Group } from '@antv/g';
 import type { ID } from '@antv/graphlib';
 import { groupBy, pick } from '@antv/util';
@@ -27,11 +27,13 @@ import type {
 } from '../types';
 import { createAnimationsProxy } from '../utils/animation';
 import { deduplicate } from '../utils/array';
+import { cacheStyle, getCachedStyle } from '../utils/cache';
 import { reduceDataChanges } from '../utils/change';
-import { updateStyle } from '../utils/element';
+import { isVisible, updateStyle } from '../utils/element';
 import { idOf } from '../utils/id';
 import { assignColorByPalette, parsePalette } from '../utils/palette';
 import { computeElementCallbackStyle } from '../utils/style';
+import { setVisibility } from '../utils/visibility';
 import type { RuntimeContext } from './types';
 
 type AnimationExecutor = (
@@ -211,7 +213,7 @@ export class ElementController {
     return this.defaultStyle[id] || {};
   }
 
-  private elementState: Record<ID, State[]> = {};
+  public elementState: Record<ID, State[]> = {};
 
   /**
    * <zh/> 从数据中初始化元素状态
@@ -815,5 +817,68 @@ export class ElementController {
       delete this.shapeTypeMap[id];
       delete this.runtimeStyle[id];
     });
+  }
+
+  public setElementsVisibility(ids: ID[], visibility: BaseStyleProps['visibility']) {
+    const isHide = visibility === 'hidden';
+    const nodes: ID[] = [];
+    const edges: ID[] = [];
+    const combos: ID[] = [];
+
+    ids.forEach((id) => {
+      const elementType = this.context.model.getElementType(id);
+      if (elementType === 'node') nodes.push(id);
+      if (elementType === 'edge') edges.push(id);
+      if (elementType === 'combo') combos.push(id);
+    });
+
+    const iteration: [ElementType, ID[]][] = [
+      ['node', nodes],
+      ['edge', edges],
+      ['combo', combos],
+    ];
+
+    const show = (id: ID, element: DisplayObject, animator: AnimationExecutor) => {
+      const originalOpacity = getCachedStyle(element, 'opacity') ?? element.style.opacity ?? 1;
+      cacheStyle(element, 'opacity');
+
+      setVisibility(element, visibility);
+      const result = animator(id, element, { ...element.attributes, opacity: 0 }, { opacity: originalOpacity });
+
+      return result;
+    };
+
+    const hide = (id: ID, element: DisplayObject, animator: AnimationExecutor) => {
+      const originalOpacity = getCachedStyle(element, 'opacity') ?? element.style.opacity ?? 1;
+      cacheStyle(element, 'opacity');
+
+      const result = animator(id, element, { ...element.attributes, opacity: originalOpacity }, { opacity: 0 });
+
+      const onfinish = () => setVisibility(element, visibility);
+      if (result) result.onfinish = onfinish;
+      else onfinish();
+
+      return result;
+    };
+
+    const results: IAnimation[] = [];
+
+    iteration.forEach(([elementType, elementIds]) => {
+      if (elementIds.length === 0) return;
+      const animator = this.getAnimationExecutor(elementType, isHide ? 'hide' : 'show');
+      elementIds.forEach((id) => {
+        const element = this.getElement(id);
+        if (!element) return;
+        if (!isVisible(element)) {
+          if (isHide) return;
+        } else if (!isHide) return;
+
+        const result = (isHide ? hide : show)(id, element, animator);
+        if (result) results.push(result);
+      });
+    });
+
+    if (results.length === 0) return null;
+    return createAnimationsProxy(results[0], results.slice(1));
   }
 }
