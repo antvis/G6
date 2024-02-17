@@ -145,3 +145,13 @@ export function inferDefaultValue(name: string) {
       return undefined;
   }
 }
+
+/**
+ * <zh/> 动画执行完毕后调用
+ * @param animationResult - <zh/> 动画执行对象 | <en/> animation object
+ * @param onfinish - <zh/> 执行回调 | <en/> callback
+ */
+export function invokeOnFinished(animationResult: IAnimation | null | undefined, onfinish: () => void) {
+  if (animationResult) animationResult.onfinish = () => onfinish();
+  else onfinish();
+}

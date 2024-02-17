@@ -3,7 +3,7 @@
 import type { BaseStyleProps, DisplayObject, IAnimation } from '@antv/g';
 import { Group } from '@antv/g';
 import type { ID } from '@antv/graphlib';
-import { groupBy, pick } from '@antv/util';
+import { groupBy, noop, pick } from '@antv/util';
 import { executor as animationExecutor } from '../animations';
 import type { AnimationContext } from '../animations/types';
 import { ChangeTypeEnum, GraphEvent } from '../constants';
@@ -26,7 +26,7 @@ import type {
   StyleIterationContext,
   ZIndex,
 } from '../types';
-import { createAnimationsProxy, inferDefaultValue } from '../utils/animation';
+import { createAnimationsProxy, inferDefaultValue, invokeOnFinished } from '../utils/animation';
 import { deduplicate } from '../utils/array';
 import { cacheStyle, getCachedStyle } from '../utils/cache';
 import { reduceDataChanges } from '../utils/change';
@@ -544,7 +544,7 @@ export class ElementController {
     });
   }
 
-  private postRender(taskId: TaskID, onfinish = () => {}) {
+  private postRender(taskId: TaskID, onfinish = noop) {
     const tasks = this.getTasks(taskId);
     // 执行后续任务 / Execute subsequent tasks
     Promise.all(tasks.map((task) => task())).then(() => {
@@ -559,11 +559,7 @@ export class ElementController {
     };
 
     const result = getRenderResult(taskId);
-
-    // 触发成事件 / Trigger event
-    if (result) result.onfinish = onfinish;
-    else onfinish();
-
+    invokeOnFinished(result, onfinish.bind(this));
     return result;
   }
 
@@ -622,6 +618,7 @@ export class ElementController {
     // 重新计算色板样式
 
     const { nodes = [], edges = [], combos = [] } = data;
+    this.emit(GraphEvent.BEFORE_CREATE_ELEMENT, data);
 
     const iteration: [ElementType, ElementData][] = [
       ['node', nodes],
@@ -634,6 +631,8 @@ export class ElementController {
       const animator = this.getAnimationExecutor(elementType, 'enter');
       elementData.forEach((datum) => this.createElement(elementType, datum, { ...context, animator }));
     });
+
+    this.emit(GraphEvent.AFTER_CREATE_ELEMENT, data);
   }
 
   private async updateElement(elementType: ElementType, datum: ElementDatum, context: RenderContext) {
@@ -661,6 +660,8 @@ export class ElementController {
   public updateNodeLikePosition(positions: Positions, animation: boolean = true, edgeIds: ID[] = []) {
     const { model } = this.context;
     const taskId = this.preRender();
+
+    this.emit(GraphEvent.BEFORE_MOVE_ELEMENT, positions);
 
     const animationsFilter: AnimationContext['animationsFilter'] = (animation) => !animation.shape;
     const nodeAnimator = this.getAnimationExecutor('node', 'update', animation, { animationsFilter });
@@ -706,7 +707,11 @@ export class ElementController {
       { animation, taskId },
     );
 
-    return this.postRender(taskId);
+    const result = this.postRender(taskId);
+
+    invokeOnFinished(result, () => this.emit(GraphEvent.AFTER_MOVE_ELEMENT, positions));
+
+    return result;
   }
 
   private updateEdgeEnds(ids: ID[], context: Omit<RenderContext, 'animator'>) {
@@ -734,6 +739,7 @@ export class ElementController {
 
   private updateElements(data: GraphData, context: Omit<RenderContext, 'animator'>) {
     const { nodes = [], edges = [], combos = [] } = data;
+    this.emit(GraphEvent.BEFORE_UPDATE_ELEMENT, data);
 
     const iteration: [ElementType, ElementData][] = [
       ['node', nodes],
@@ -748,6 +754,7 @@ export class ElementController {
       const animator = this.getAnimationExecutor(elementType, 'update', animation);
       elementData.forEach((datum) => this.updateElement(elementType, datum, { ...context, animator }));
     });
+    this.emit(GraphEvent.AFTER_UPDATE_ELEMENT, data);
   }
 
   /**
@@ -798,6 +805,7 @@ export class ElementController {
       ['node', nodes],
     ];
 
+    this.emit(GraphEvent.BEFORE_DESTROY_ELEMENT, data);
     // 移除相应的元素数据
     // 重新计算色板样式，如果是分组色板，则不需要重新计算
     iteration.forEach(([elementType, elementData]) => {
@@ -806,6 +814,7 @@ export class ElementController {
       elementData.forEach((datum) => this.destroyElement(datum, { ...context, animator }));
       this.clearElement(elementData.map(idOf));
     });
+    this.emit(GraphEvent.AFTER_DESTROY_ELEMENT, data);
   }
 
   private clearElement(ids: ID[]) {
@@ -821,6 +830,7 @@ export class ElementController {
   }
 
   public setElementsVisibility(ids: ID[], visibility: BaseStyleProps['visibility']) {
+    this.emit(GraphEvent.BEFORE_ELEMENT_VISIBILITY_CHANGE, { ids, visibility });
     const isHide = visibility === 'hidden';
     const nodes: ID[] = [];
     const edges: ID[] = [];
@@ -855,9 +865,7 @@ export class ElementController {
 
       const result = animator(id, element, { ...element.attributes, opacity: originalOpacity }, { opacity: 0 });
 
-      const onfinish = () => setVisibility(element, visibility);
-      if (result) result.onfinish = onfinish;
-      else onfinish();
+      invokeOnFinished(result, () => setVisibility(element, visibility));
 
       return result;
     };
@@ -880,12 +888,18 @@ export class ElementController {
     });
 
     if (results.length === 0) return null;
-    return createAnimationsProxy(results[0], results.slice(1));
+    const result = createAnimationsProxy(results[0], results.slice(1));
+    // TODO result 已经绑定 onfinish，下面的操作会覆盖掉，考虑 g 提供 onfinish.then 的方式
+    // TODO result has been bound onfinish, the following operation will cover it, consider g to provide onfinish.then
+    // invokeOnFinished(result, () => this.emit(GraphEvent.AFTER_ELEMENT_VISIBILITY_CHANGE, { ids, visibility }));
+    return result;
   }
 
   public setElementZIndex(id: ID, zIndex: ZIndex) {
     const element = this.getElement(id);
     if (!element) return;
+
+    this.emit(GraphEvent.BEFORE_ELEMENT_Z_INDEX_CHANGE, { id, zIndex });
     if (typeof zIndex === 'number') element.attr({ zIndex });
     else {
       const elementType = this.context.model.getElementType(id);
@@ -897,5 +911,6 @@ export class ElementController {
         ) + delta;
       element.attr({ zIndex: parsedZIndex });
     }
+    this.emit(GraphEvent.AFTER_ELEMENT_Z_INDEX_CHANGE, { id, zIndex });
   }
 }

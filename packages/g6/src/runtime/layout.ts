@@ -4,7 +4,7 @@ import { Graph as Graphlib } from '@antv/graphlib';
 import type { ForceLayoutOptions, Layout, LayoutMapping } from '@antv/layout';
 import { Supervisor, isLayoutWithIterations } from '@antv/layout';
 import { isNumber } from '@antv/util';
-import { COMBO_KEY, TREE_KEY } from '../constants';
+import { COMBO_KEY, GraphEvent, TREE_KEY } from '../constants';
 import type { BaseLayoutOptions } from '../layouts/types';
 import { getPlugin } from '../registry';
 import type { EdgeData, NodeData } from '../spec';
@@ -86,6 +86,7 @@ export class LayoutController {
     if (!this.options) return;
     const pipeline = Array.isArray(this.options) ? this.options : [this.options];
 
+    this.context.graph.emit(GraphEvent.BEFORE_LAYOUT);
     for (const options of pipeline) {
       const { presetLayout } = options;
       const model = this.getLayoutDataModel(options);
@@ -95,6 +96,7 @@ export class LayoutController {
         this.updateElement(result, false);
       }
     }
+    this.context.graph.emit(GraphEvent.AFTER_LAYOUT);
   }
 
   public async stepLayout(model: LayoutGraphlibModel, options: STDLayoutOptions): Promise<LayoutMapping> {

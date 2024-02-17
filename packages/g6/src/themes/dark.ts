@@ -11,6 +11,8 @@ export const DARK_THEME: Theme = {
       enter: 'fade',
       update: [{ fields: ['x', 'y'] }],
       exit: 'fade',
+      show: 'fade',
+      hide: 'fade',
     },
   },
   edge: {
@@ -23,6 +25,8 @@ export const DARK_THEME: Theme = {
       enter: 'fade',
       update: [{ fields: ['sourcePoint', 'targetPoint'] }],
       exit: 'fade',
+      show: 'fade',
+      hide: 'fade',
     },
   },
   combo: {
