@@ -66,84 +66,72 @@ export default class Edge extends Item {
       this.draw(this.displayModel);
     }
   }
-  public draw(
-    displayModel: EdgeDisplayModel,
-    diffData?: { previous: EdgeModelData; current: EdgeModelData },
-    diffState?: { previous: State[]; current: State[] },
-    animate = true,
-    onfinish: Function = () => {},
-  ) {
-    const { sourcePoint, targetPoint } = this.getEndPoints(displayModel);
-    this.renderExt.mergeStyles(displayModel);
-    const firstRendering = !this.shapeMap?.keyShape;
-    this.renderExt.setSourcePoint(sourcePoint);
-    this.renderExt.setTargetPoint(targetPoint);
-    this.renderExt.setNodeMap(this.nodeMap);
+public draw(
+  displayModel: EdgeDisplayModel,
+  diffData?: { previous: EdgeModelData; current: EdgeModelData },
+  diffState?: { previous: State[]; current: State[] },
+  animate = true,
+  onfinish: Function = () => {}
+) {
+  const { sourcePoint, targetPoint, changed } = this.getEndPoints(displayModel);
 
-    const shapeMap = this.renderExt.draw(displayModel, sourcePoint, targetPoint, this.shapeMap, diffData, diffState);
-    if (this.shapeMap.labelShape) {
-      this.shapeMap.labelShape.attributes.dataIsLabel = true;
-    }
-    if (this.shapeMap.labelBackgroundShape) {
-      this.shapeMap.labelBackgroundShape.attributes.dataIsLabelBackground = true;
-    }
-
-    // add shapes to group, and update shapeMap
-    this.shapeMap = updateShapes(
-      this.shapeMap,
-      { ...shapeMap, ...this.afterDrawShapeMap },
-      this.group,
-      this.labelGroup,
-    );
-
-    // handle shape's and group's animate
-    const { animates, disableAnimate } = displayModel.data;
-    const usingAnimates = { ...animates };
-    const targetStyles = this.renderExt.mergedStyles;
-    const { haloShape, labelShape } = this.shapeMap;
-    haloShape?.toBack();
-    labelShape?.toFront();
-
-    super.draw(displayModel, diffData, diffState);
-    this.renderExt.updateCache(this.shapeMap);
-
-    if (firstRendering) {
-      // update the transform
-      this.renderExt.onZoom(this.shapeMap, this.zoom);
-    } else {
-      // terminate previous animations
-      this.stopAnimations();
-    }
-
-    const timing = firstRendering ? 'buildIn' : 'update';
-    // handle shape's animate
-    if (animate && !disableAnimate && usingAnimates[timing]?.length) {
-      const { current = [], previous = [] } = diffState || {};
-      this.animations = animateShapes(
-        usingAnimates,
-        targetStyles, // targetStylesMap
-        this.shapeMap, // shapeMap
-        undefined,
-        [this.group, this.labelGroup],
-        firstRendering ? 'buildIn' : 'update',
-        current.concat(previous).map((state) => state.name) || this.changedStates,
-        this.animateFrameListener,
-        (canceled) => onfinish(displayModel.id, canceled),
-      );
-    }
-
-    if (firstRendering && !this.visible) {
-      this.visible = true;
-      this.hide(false);
-    }
-    this.changedStates = [];
-
-    this.labelGroup.children
-      .filter((element) => element.attributes.dataIsLabel)
-      .forEach((shape) => (shape.attributes.dataOriginPosition = ''));
-
-    this.updateLabelPosition(true);
+  if (!changed) {
+    return;
   }
+
+  this.renderExt.mergeStyles(displayModel);
+  this.renderExt.setSourcePoint(sourcePoint);
+  this.renderExt.setTargetPoint(targetPoint);
+  this.renderExt.setNodeMap(this.nodeMap);
+
+  const shapeMap = this.renderExt.draw(displayModel, sourcePoint, targetPoint, this.shapeMap, diffData, diffState);
+
+  if (this.shapeMap.labelShape) {
+    this.shapeMap.labelShape.attributes.dataIsLabel = true;
+  }
+
+  if (this.shapeMap.labelBackgroundShape) {
+    this.shapeMap.labelBackgroundShape.attributes.dataIsLabelBackground = true;
+  }
+
+  this.shapeMap = updateShapes(this.shapeMap, { ...shapeMap, ...this.afterDrawShapeMap }, this.group, this.labelGroup);
+
+  this.stopAnimations();
+
+  const { animates, disableAnimate } = displayModel.data;
+  const usingAnimates = { ...animates };
+  const targetStyles = this.renderExt.mergedStyles;
+  const { haloShape, labelShape } = this.shapeMap;
+
+  haloShape?.toBack();
+  labelShape?.toFront();
+
+  super.draw(displayModel, diffData, diffState);
+  this.renderExt.updateCache(this.shapeMap);
+
+  if (animate && !disableAnimate && usingAnimates['update']?.length) {
+    const { current = [], previous = [] } = diffState || {};
+    this.animations = animateShapes(
+      usingAnimates,
+      targetStyles,
+      this.shapeMap,
+      undefined,
+      [this.group, this.labelGroup],
+      'update',
+      current.concat(previous).map((state) => state.name) || this.changedStates,
+      this.animateFrameListener,
+      (canceled) => onfinish(displayModel.id, canceled)
+    );
+  }
+
+  this.changedStates = [];
+
+  this.labelGroup.children
+    .filter((element) => element.attributes.dataIsLabel)
+    .forEach((shape) => (shape.attributes.dataOriginPosition = ''));
+
+  this.updateLabelPosition(true);
+}
 
   /**
    * Sometimes no changes on edge data, but need to re-draw it
