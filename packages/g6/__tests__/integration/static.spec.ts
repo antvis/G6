@@ -17,6 +17,7 @@ describe('static', () => {
         await preprocess?.();
         await canvas.init();
         await testCase({
+          env: 'test',
           canvas,
           animation: false,
           toMatchSVGSnapshot: async (suffix: string) =>

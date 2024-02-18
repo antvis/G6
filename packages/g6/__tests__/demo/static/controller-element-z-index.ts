@@ -4,7 +4,6 @@ import { ElementController } from '../../../src/runtime/element';
 import type { RuntimeContext } from '../../../src/runtime/types';
 import { Graph } from '../../mock';
 import type { StaticTestCase } from '../types';
-import { getEnv } from '../utils/env';
 
 const createContext = (canvas: any, options: G6Spec): RuntimeContext => {
   const model = new DataController();
@@ -18,7 +17,7 @@ const createContext = (canvas: any, options: G6Spec): RuntimeContext => {
 };
 
 export const controllerElementZIndex: StaticTestCase = async (context) => {
-  const { canvas, animation, toMatchSVGSnapshot } = context;
+  const { canvas, animation, toMatchSVGSnapshot, env } = context;
 
   const options: G6Spec = {
     animation,
@@ -51,7 +50,7 @@ export const controllerElementZIndex: StaticTestCase = async (context) => {
   const back = () => elementController.setElementZIndex('node-2', 'back');
   const to = (zIndex: number) => elementController.setElementZIndex('node-2', zIndex);
 
-  if (getEnv() === 'node') {
+  if (env === 'test') {
     front();
     await toMatchSVGSnapshot?.('front');
     back();

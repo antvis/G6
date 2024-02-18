@@ -63,7 +63,7 @@ function onchange(testCase: TestCase, rendererName: string, animation: boolean) 
     renderer,
   });
   return canvas.init().then(async () => {
-    await testCase({ canvas, animation });
+    await testCase({ canvas, animation, env: 'dev' });
   });
 }
 

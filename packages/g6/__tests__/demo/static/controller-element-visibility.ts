@@ -5,7 +5,6 @@ import type { RuntimeContext } from '../../../src/runtime/types';
 import { idOf } from '../../../src/utils/id';
 import { Graph } from '../../mock';
 import type { StaticTestCase } from '../types';
-import { getEnv } from '../utils/env';
 
 const createContext = (canvas: any, options: G6Spec): RuntimeContext => {
   const model = new DataController();
@@ -19,7 +18,7 @@ const createContext = (canvas: any, options: G6Spec): RuntimeContext => {
 };
 
 export const controllerElementVisibility: StaticTestCase = async (context) => {
-  const { canvas, animation, toMatchSVGSnapshot } = context;
+  const { canvas, animation, toMatchSVGSnapshot, env } = context;
 
   const options: G6Spec = {
     animation,
@@ -68,7 +67,7 @@ export const controllerElementVisibility: StaticTestCase = async (context) => {
       'visible',
     );
 
-  if (getEnv() === 'node') {
+  if (env === 'test') {
     await hide()?.finished;
     await toMatchSVGSnapshot?.('hidden');
     await show()?.finished;

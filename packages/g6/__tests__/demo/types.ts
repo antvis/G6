@@ -10,6 +10,12 @@ type TestCaseContext = {
    * <en/> Manually compare snapshots of test cases
    */
   toMatchSVGSnapshot?: (suffix: string) => Promise<void>;
+  /**
+   * <zh/> 测试用例环境
+   *
+   * <en/> Test case environment
+   */
+  env: 'test' | 'dev';
 };
 
 export type TestCase = StaticTestCase | AnimationTestCase;
