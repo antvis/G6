@@ -510,7 +510,7 @@ export class Graph extends EventEmitter {
       },
       {} as Record<ID, State[]>,
     );
-    this.context.element!.setElementState(states);
+    this.context.element!.setElementsState(states);
   }
 
   public getElementState(id: ID): State[] {

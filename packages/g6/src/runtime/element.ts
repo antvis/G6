@@ -232,7 +232,7 @@ export class ElementController {
     });
   }
 
-  public setElementState(states: Record<ID, State[]>) {
+  public setElementsState(states: Record<ID, State[]>) {
     const graphData: Required<GraphData> = { nodes: [], edges: [], combos: [] };
 
     Object.entries(states).forEach(([id, state]) => {
