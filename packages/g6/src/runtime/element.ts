@@ -202,11 +202,13 @@ export class ElementController {
     this.defaultStyle[idOf(context.datum)] = computeElementCallbackStyle(defaultStyle, context);
   }
 
-  private computeElementsDefaultStyle() {
+  private computeElementsDefaultStyle(ids?: ID[]) {
     this.forEachElementData((elementType, elementData) => {
-      elementData.forEach((datum, index) => {
-        this.computedElementDefaultStyle(elementType, { datum, index, elementData });
-      });
+      elementData
+        .filter((datum) => ids === undefined || ids.includes(idOf(datum)))
+        .forEach((datum, index) => {
+          this.computedElementDefaultStyle(elementType, { datum, index, elementData });
+        });
     });
   }
 
@@ -226,12 +228,30 @@ export class ElementController {
     [...nodes, ...edges, ...combos].forEach((elementData) => {
       const states = elementData.style?.states || [];
       const id = idOf(elementData);
-      this.setElementState(id, states);
+      this.elementState[id] = states;
     });
   }
 
-  public setElementState(id: ID, state: State[]) {
-    this.elementState[id] = state;
+  public setElementState(states: Record<ID, State[]>) {
+    const graphData: Required<GraphData> = { nodes: [], edges: [], combos: [] };
+
+    Object.entries(states).forEach(([id, state]) => {
+      this.elementState[id] = state;
+      const elementType = this.context.model.getElementType(id);
+      const datum = this.context.model.getElementsData([id])[0];
+      this.computeElementStatesStyle(elementType, state, { datum, index: 0, elementData: [datum] as ElementData });
+
+      graphData[`${elementType}s`].push(datum as any);
+    });
+
+    const taskId = this.preRender();
+
+    this.emit(GraphEvent.BEFORE_ELEMENT_STATE_CHANGE, states);
+
+    this.updateElements(graphData, { taskId, animation: true });
+    return this.postRender(taskId, () => {
+      this.emit(GraphEvent.AFTER_ELEMENT_STATE_CHANGE);
+    });
   }
 
   /**
@@ -278,14 +298,12 @@ export class ElementController {
    */
   private computeElementsStatesStyle(ids?: ID[]) {
     this.forEachElementData((elementType, elementData) => {
-      elementData.forEach((datum, index) => {
-        const id = idOf(datum);
-
-        if ((ids && ids.includes(id)) || ids === undefined) {
-          const states = this.getElementStates(id);
+      elementData
+        .filter((datum) => ids === undefined || ids.includes(idOf(datum)))
+        .forEach((datum, index) => {
+          const states = this.getElementStates(idOf(datum));
           this.computeElementStatesStyle(elementType, states, { datum, index, elementData });
-        }
-      });
+        });
     });
   }
 
@@ -293,10 +311,10 @@ export class ElementController {
     return this.stateStyle[id] || {};
   }
 
-  private computeStyle() {
+  private computeStyle(ids?: ID[]) {
     this.computePaletteStyle();
-    this.computeElementsDefaultStyle();
-    this.computeElementsStatesStyle();
+    this.computeElementsDefaultStyle(ids);
+    this.computeElementsStatesStyle(ids);
   }
 
   public getElement<T extends DisplayObject = BaseShape<any>>(id: ID): T | undefined {
@@ -522,7 +540,7 @@ export class ElementController {
       )
       .forEach((combo) => combosToUpdate.push(combo));
 
-    // 重新计算样式 / Recalculate style
+    // 计算样式 / Calculate style
     this.computeStyle();
 
     // 创建渲染任务 / Create render task
@@ -912,5 +930,20 @@ export class ElementController {
       element.attr({ zIndex: parsedZIndex });
     }
     this.emit(GraphEvent.AFTER_ELEMENT_Z_INDEX_CHANGE, { id, zIndex });
+  }
+
+  public destroy() {
+    Object.values(this.container).forEach((container) => container.destroy());
+    this.animationMap = {};
+    this.elementMap = {};
+    this.postRenderTasks = {};
+    this.shapeTypeMap = {};
+    this.runtimeStyle = {};
+    this.defaultStyle = {};
+    this.elementState = {};
+    this.stateStyle = {};
+    this.paletteStyle = {};
+    // @ts-expect-error force delete
+    delete this.context;
   }
 }

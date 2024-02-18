@@ -37,4 +37,8 @@ export const enum GraphEvent {
   BEFORE_ELEMENT_Z_INDEX_CHANGE = 'beforeelementzindexchange',
   /** <zh/> 元素层级变化之后 | <en/> After the layer of the element changes */
   AFTER_ELEMENT_Z_INDEX_CHANGE = 'afterelementzindexchange',
+  /** <zh/> 状态变化之前 | <en/> Before the state changes */
+  BEFORE_ELEMENT_STATE_CHANGE = 'beforeelementstatechange',
+  /** <zh/> 状态变化之后 | <en/> After the state changes */
+  AFTER_ELEMENT_STATE_CHANGE = 'afterelementstatechange',
 }

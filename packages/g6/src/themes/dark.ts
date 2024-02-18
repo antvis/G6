@@ -9,7 +9,7 @@ export const DARK_THEME: Theme = {
     state: {},
     animation: {
       enter: 'fade',
-      update: [{ fields: ['x', 'y'] }],
+      update: [{ fields: ['x', 'y', 'fill', 'stroke'] }],
       exit: 'fade',
       show: 'fade',
       hide: 'fade',
@@ -23,7 +23,7 @@ export const DARK_THEME: Theme = {
     state: {},
     animation: {
       enter: 'fade',
-      update: [{ fields: ['sourcePoint', 'targetPoint'] }],
+      update: [{ fields: ['sourcePoint', 'targetPoint', 'stroke'] }],
       exit: 'fade',
       show: 'fade',
       hide: 'fade',

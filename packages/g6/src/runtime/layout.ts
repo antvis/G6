@@ -241,7 +241,7 @@ export class LayoutController {
           },
         });
       } else {
-        Object.assign(result, { data: getTransferableAttributes(nodeElementMap[id].attributes) });
+        Object.assign(result, { data: getTransferableAttributes(nodeElementMap[id]?.attributes || {}) });
       }
 
       return result as LayoutGraphlibNode;
@@ -343,6 +343,12 @@ export class LayoutController {
     if (!element) return null;
     this.animationResult = element.updateByLayoutResult(pickLayoutResult(layoutData), animation);
     return this.animationResult;
+  }
+
+  public destroy() {
+    this.stopLayout();
+    // @ts-expect-error force delete
+    delete this.context;
   }
 }
 
