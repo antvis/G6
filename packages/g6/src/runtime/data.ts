@@ -8,6 +8,7 @@ import type {
   DataID,
   DataRemoved,
   DataUpdated,
+  ElementDatum,
   GraphlibModel,
   NodeLikeData,
   PartialEdgeData,
@@ -184,19 +185,13 @@ export class DataController {
    * @param ids - <zh/> 元素 ID 数组 | <en/> element ID array
    * @returns <zh/> 元素数据 | <en/> data of the element
    */
-  public getElementsData(ids: ID[]) {
+  public getElementsData(ids: ID[]): ElementDatum[] {
     return ids.map((id) => {
       const type = this.getElementType(id);
-      switch (type) {
-        case 'node':
-          return this.getNodeData([id])[0];
-        case 'edge':
-          return this.getEdgeData([id])[0];
-        case 'combo':
-          return this.getComboData([id])[0];
-        default:
-          return undefined;
-      }
+
+      if (type === 'node') return this.getNodeData([id])[0];
+      else if (type === 'edge') return this.getEdgeData([id])[0];
+      return this.getComboData([id])[0];
     });
   }
 
@@ -576,5 +571,17 @@ export class DataController {
     if (this.model.hasEdge(id)) return 'edge';
 
     throw new Error(`Unknown element type of id: ${id}`);
+  }
+
+  public destroy() {
+    const { model } = this;
+    const nodes = model.getAllNodes();
+    const edges = model.getAllEdges();
+
+    model.removeEdges(edges.map((edge) => edge.id));
+    model.removeNodes(nodes.map((node) => node.id));
+
+    // @ts-expect-error force delete
+    delete this.context;
   }
 }

@@ -87,5 +87,3 @@ export const controllerElementVisibility: StaticTestCase = async (context) => {
     },
   ];
 };
-
-controllerElementVisibility.only = true;

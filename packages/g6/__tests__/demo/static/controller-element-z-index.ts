@@ -82,5 +82,3 @@ export const controllerElementZIndex: StaticTestCase = async (context) => {
     },
   ];
 };
-
-controllerElementZIndex.only = true;

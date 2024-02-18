@@ -9,7 +9,7 @@ import type {
 import { Canvas as GCanvas } from '@antv/g';
 import { Renderer as CanvasRenderer } from '@antv/g-canvas';
 import { Plugin as DragNDropPlugin } from '@antv/g-plugin-dragndrop';
-import { createDOM, isFunction } from '@antv/util';
+import { createDOM, isFunction, isString } from '@antv/util';
 import type { CanvasOptions } from '../spec/canvas';
 import type { CanvasLayer } from '../types/canvas';
 
@@ -143,6 +143,13 @@ export class Canvas {
 
   public getCamera() {
     return this.main.getCamera();
+  }
+
+  public getContainer() {
+    const container = this.config.container;
+    if (isString(container)) return document.querySelector(container);
+    if (container instanceof HTMLElement) return container;
+    return null;
   }
 
   public appendChild<T extends DisplayObject>(child: T): T {

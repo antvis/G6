@@ -180,6 +180,10 @@ export class ViewportController {
       graph.emit(GraphEvent.CANCEL_VIEWPORT_ANIMATION);
     }
   }
+
+  public destroy() {
+    this.cancelAnimation();
+  }
 }
 
 /**
