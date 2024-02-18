@@ -135,6 +135,10 @@ export class Canvas {
     });
   }
 
+  public getSize(): [number, number] {
+    return [this.config.width || 0, this.config.height || 0];
+  }
+
   public resize(width: number, height: number) {
     Object.values(this.canvas).forEach((canvas) => {
       canvas.resize(width, height);

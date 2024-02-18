@@ -158,6 +158,7 @@ export class DataController {
   }
 
   public getParentData(id: ID): NodeData | undefined {
+    if (!this.model.hasTreeStructure(TREE_KEY)) return undefined;
     const parent = this.model.getParent(id, TREE_KEY);
     return parent?.data;
   }

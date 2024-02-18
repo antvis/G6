@@ -44,7 +44,10 @@ import { ViewportController } from './viewport';
 export class Graph extends EventEmitter {
   private options: G6Spec;
 
-  static defaultOptions: G6Spec = {};
+  static defaultOptions: G6Spec = {
+    zoom: 1,
+    zoomRange: [-Infinity, Infinity],
+  };
 
   public destroyed = false;
 
@@ -107,11 +110,13 @@ export class Graph extends EventEmitter {
     if (theme) this.setTheme(theme);
     if (widgets) this.setWidgets(widgets);
     if (width || height) this.setSize(width || this.options.width || 0, height || this.options.height || 0);
-    if (zoom) this.zoomTo(zoom);
-    if (zoomRange) this.setZoomRange(zoomRange);
+    // TODO 运行时配置
+    // if (zoom) this.zoomTo(zoom);
+    // if (zoomRange) this.setZoomRange(zoomRange);
   }
 
   public getSize(): [number, number] {
+    if (this.context.canvas) return this.context.canvas.getSize();
     return [this.options.width || 0, this.options.height || 0];
   }
 
@@ -486,7 +491,7 @@ export class Graph extends EventEmitter {
 
   public getElementVisibility(id: ID): BaseStyleProps['visibility'] {
     const element = this.context.element!.getElement(id)!;
-    return element.style.visibility;
+    return element.style.visibility ?? 'visible';
   }
 
   public setElementZIndex(id: ID | ID[], zIndex: ZIndex): void {

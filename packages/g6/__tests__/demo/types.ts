@@ -5,6 +5,12 @@ type TestCaseContext = {
   canvas: Canvas;
   animation: boolean;
   /**
+   * <zh/> 测试用例断言
+   *
+   * <en/> Test case assertion
+   */
+  expect?: jest.Expect;
+  /**
    * <zh/> 测试用例手动比对快照
    *
    * <en/> Manually compare snapshots of test cases

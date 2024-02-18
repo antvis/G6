@@ -20,6 +20,7 @@ describe('static', () => {
           env: 'test',
           canvas,
           animation: false,
+          expect,
           toMatchSVGSnapshot: async (suffix: string) =>
             await expect(canvas).toMatchSVGSnapshot(`${__dirname}/snapshots/static`, `${name}__${suffix}`),
         });
