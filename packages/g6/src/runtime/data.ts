@@ -110,7 +110,7 @@ export class DataController {
    *
    * <en/> Usually used to adjust elements at runtime and synchronize data to avoid triggering data changes and causing redraws
    */
-  public sneak(callback: () => void) {
+  public silence(callback: () => void) {
     this.isTraceless = true;
     callback();
     this.isTraceless = false;

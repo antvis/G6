@@ -494,10 +494,10 @@ describe('DataController', () => {
     ]);
   });
 
-  it('sneak', () => {
+  it('silence', () => {
     const controller = new DataController();
 
-    controller.sneak(() => {
+    controller.silence(() => {
       controller.addData(clone(data));
 
       controller.setData({
