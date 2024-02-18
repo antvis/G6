@@ -1,3 +1,4 @@
+// TODO need @antv/hierarchy to implement the types
 declare module '@antv/hierarchy' {
   const _: {
     compactBox: any;
