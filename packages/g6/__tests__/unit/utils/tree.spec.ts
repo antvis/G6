@@ -1,9 +1,9 @@
-import { transformTreeDataToGraphData } from '../../../src/utils/tree';
+import { treeToGraphData } from '../../../src/utils/tree';
 
 describe('tree', () => {
-  it('transformTreeDataToGraphData', () => {
+  it('treeToGraphData', () => {
     expect(
-      transformTreeDataToGraphData({
+      treeToGraphData({
         id: 'root',
         children: [{ id: 'child' }],
       }),
@@ -21,7 +21,7 @@ describe('tree', () => {
     });
 
     expect(
-      transformTreeDataToGraphData({
+      treeToGraphData({
         id: 'root',
         style: { fill: 'red' },
         data: { value: 10 },
@@ -40,7 +40,7 @@ describe('tree', () => {
     });
 
     expect(
-      transformTreeDataToGraphData(
+      treeToGraphData(
         {
           id: 'root',
           style: { fill: 'red' },

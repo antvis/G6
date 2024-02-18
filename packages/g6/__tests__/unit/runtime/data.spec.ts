@@ -1,5 +1,5 @@
 import { clone } from '@antv/util';
-import { transformTreeDataToGraphData } from '../../../src';
+import { treeToGraphData } from '../../../src';
 import { DataController } from '../../../src/runtime/data';
 import { reduceDataChanges } from '../../../src/utils/change';
 import tree from '../../dataset/algorithm-category.json';
@@ -547,7 +547,7 @@ describe('DataController', () => {
   it('getParentData getChildrenData', () => {
     const controller = new DataController();
 
-    controller.addData(transformTreeDataToGraphData(tree));
+    controller.addData(treeToGraphData(tree));
 
     expect(controller.getParentData('Classification')?.id).toBe(tree.id);
 

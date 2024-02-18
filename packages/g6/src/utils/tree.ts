@@ -16,7 +16,7 @@ type TreeDataGetter = {
  * @param getter - <zh/> 获取节点和边的方法 | <en/> Methods to get nodes and edges
  * @returns <zh/> 图数据 | <en/> Graph data
  */
-export function transformTreeDataToGraphData(treeData: TreeData, getter?: TreeDataGetter): GraphData {
+export function treeToGraphData(treeData: TreeData, getter?: TreeDataGetter): GraphData {
   const {
     getNodeData = (datum: TreeData) => {
       if (!datum.children) return datum;
