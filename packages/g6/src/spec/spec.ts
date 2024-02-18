@@ -5,7 +5,6 @@ import type { ComboOptions } from './element/combo';
 import type { EdgeOptions } from './element/edge';
 import type { NodeOptions } from './element/node';
 import type { LayoutOptions } from './layout';
-import type { OptimizeOptions } from './optimize';
 import type { ThemeOptions } from './theme';
 import type { ViewportOptions } from './viewport';
 import type { WidgetOptions } from './widget';
@@ -18,6 +17,12 @@ import type { WidgetOptions } from './widget';
 
 export type G6Spec = CanvasOptions &
   ViewportOptions & {
+    /**
+     * <zh/> 启用关闭、全局动画
+     *
+     * <en/> Enable or disable global animation
+     */
+    animation?: boolean;
     /**
      * <zh/> 数据
      *
@@ -71,5 +76,5 @@ export type G6Spec = CanvasOptions &
      *
      * <en/> Optimize options
      */
-    optimize?: OptimizeOptions;
+    // optimize?: OptimizeOptions;
   };

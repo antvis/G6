@@ -1,0 +1,22 @@
+{
+  "id": "src",
+  "children": [
+    { "id": "animations" },
+    { "id": "behaviors" },
+    { "id": "elements", "children": [{ "id": "nodes" }, { "id": "edges" }, { "id": "combos" }] },
+    { "id": "layouts" },
+    {
+      "id": "runtime",
+      "children": [
+        { "id": "canvas" },
+        { "id": "data" },
+        { "id": "element" },
+        { "id": "graph" },
+        { "id": "layout" },
+        { "id": "viewport" }
+      ]
+    },
+    { "id": "spec" },
+    { "id": "themes", "children": [{ "id": "dark" }, { "id": "light" }] }
+  ]
+}

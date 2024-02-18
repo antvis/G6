@@ -6,13 +6,13 @@ import { Graph } from '../../mock';
 import type { AnimationTestCase } from '../types';
 
 const createContext = (canvas: any, options: G6Spec): RuntimeContext => {
-  const dataController = new DataController();
-  dataController.setData(options.data || {});
+  const model = new DataController();
+  model.setData(options.data || {});
   return {
     canvas,
     graph: new Graph() as any,
     options,
-    dataController,
+    model,
   };
 };
 
@@ -52,15 +52,15 @@ export const controllerElement: AnimationTestCase = async (context) => {
 
   await renderResult?.finished;
 
-  elementContext.dataController.addNodeData([
+  elementContext.model.addNodeData([
     { id: 'node-4', style: { x: 50, y: 200, stroke: 'orange' } },
     { id: 'node-5', style: { x: 75, y: 150, stroke: 'purple' } },
     { id: 'node-6', style: { x: 200, y: 100, stroke: 'cyan' } },
   ]);
 
-  elementContext.dataController.removeNodeData(['node-1']);
+  elementContext.model.removeNodeData(['node-1']);
 
-  elementContext.dataController.updateNodeData([{ id: 'node-2', style: { x: 200, y: 200, stroke: 'green' } }]);
+  elementContext.model.updateNodeData([{ id: 'node-2', style: { x: 200, y: 200, stroke: 'green' } }]);
 
   const result = await elementController.render(elementContext);
 

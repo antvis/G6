@@ -1,5 +1,5 @@
 import '../../src/preset';
-import * as staticCases from '../demo/static';
+import * as staticCases from '../demo/static/common';
 import { createNodeGCanvas } from './utils/create-node-g-canvas';
 import { getCases } from './utils/get-cases';
 import { sleep } from './utils/sleep';
@@ -16,7 +16,7 @@ describe('static', () => {
         const { preprocess, postprocess } = testCase;
         await preprocess?.();
         await canvas.init();
-        await testCase({ canvas });
+        await testCase({ canvas, animation: false });
         await expect(canvas).toMatchSVGSnapshot(`${__dirname}/snapshots/static`, name);
         await postprocess?.();
       } finally {

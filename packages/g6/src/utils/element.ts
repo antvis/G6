@@ -1,4 +1,4 @@
-import type { AABB, Circle as GCircle, TextStyleProps } from '@antv/g';
+import type { AABB, DisplayObject, Circle as GCircle, TextStyleProps } from '@antv/g';
 import { get, isEmpty, isString } from '@antv/util';
 import type { TriangleDirection } from '../elements/nodes/triangle';
 import type { Node, Point } from '../types';
@@ -22,7 +22,7 @@ export function isSameNode(node1: Node, node2: Node): boolean {
 /**
  * Get the Badge x, y by `position`.
  * @param bbox - BBox of element.
- * @param position - The postion relative with element.
+ * @param position - The position relative with element.
  * @returns [x, y]
  */
 export function getXYByPosition(bbox: AABB, position: RelativePosition = 'center'): Point {
@@ -90,7 +90,7 @@ export function findPort(node: Node, portKey?: string, oppositeNode?: Node): GCi
 /**
  * Get the Text style by `position`.
  * @param bbox - BBox of element.
- * @param position - The postion relative with element.
+ * @param position - The position relative with element.
  * @param isReverseBaseline - Whether reverse the baseline.
  * @returns Partial<TextStyleProps>
  */
@@ -254,4 +254,27 @@ export function getRectPoints(width: number, height: number): Point[] {
     [-width / 2, height / 2],
     [-width / 2, -height / 2],
   ];
+}
+
+/**
+ * <zh/> 元素是否可见
+ *
+ * <en/> Whether the element is visible
+ * @param element - <zh/> 元素 | <en/> element
+ * @returns <zh/> 是否可见 | <en/> whether the element is visible
+ */
+export function isVisible(element: DisplayObject) {
+  return element.style.visibility !== 'hidden';
+}
+
+/**
+ * <zh/> 更新图形样式
+ *
+ * <en/> Update shape style
+ * @param shape - <zh/> 图形 | <en/> shape
+ * @param style - <zh/> 样式 | <en/> style
+ */
+export function updateStyle<T extends DisplayObject>(shape: T, style: Record<string, unknown>) {
+  if ('update' in shape) (shape.update as (style: Record<string, unknown>) => void)(style);
+  else shape.attr(style);
 }

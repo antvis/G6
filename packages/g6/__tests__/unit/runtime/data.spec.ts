@@ -1,6 +1,8 @@
 import { clone } from '@antv/util';
+import { transformTreeDataToGraphData } from '../../../src';
 import { DataController } from '../../../src/runtime/data';
 import { reduceDataChanges } from '../../../src/utils/change';
+import tree from '../../dataset/algorithm-category.json';
 
 const data = {
   nodes: [
@@ -492,6 +494,26 @@ describe('DataController', () => {
     ]);
   });
 
+  it('silence', () => {
+    const controller = new DataController();
+
+    controller.silence(() => {
+      controller.addData(clone(data));
+
+      controller.setData({
+        nodes: [
+          { id: 'node-3', data: { value: 3 }, style: { fill: 'pink', parentId: 'combo-2' } },
+          { id: 'node-4', data: { value: 4 }, style: { fill: 'yellow' } },
+        ],
+        combos: [{ id: 'combo-2' }],
+      });
+    });
+
+    const changes = controller.getChanges();
+
+    expect(changes.length).toBe(0);
+  });
+
   it('getElementData', () => {
     const controller = new DataController();
 
@@ -518,6 +540,18 @@ describe('DataController', () => {
     expect(controller.getNodeLikeData(['combo-1'])[0]).toEqual(data.combos[0]);
 
     expect(controller.getNodeLikeData()).toEqual([...data.combos, ...data.nodes]);
+  });
+
+  it('getParentData getChildrenData', () => {
+    const controller = new DataController();
+
+    controller.addData(transformTreeDataToGraphData(tree));
+
+    expect(controller.getParentData('Classification')?.id).toBe(tree.id);
+
+    expect(controller.getChildrenData('Modeling Methods').map((child) => child.id)).toEqual(
+      tree.children.map((child) => child.id),
+    );
   });
 
   it('hasNode', () => {

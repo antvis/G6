@@ -1,0 +1,413 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="500"
+  height="500"
+  style="background: transparent; position: absolute; outline: none;"
+  color-interpolation-filters="sRGB"
+  tabindex="1"
+>
+  <defs />
+  <g id="g-svg-camera" transform="matrix(1,0,0,1,0,0)">
+    <g id="g-root" fill="none" transform="matrix(1,0,0,1,0,0)">
+      <g id="g-svg-7" fill="none" transform="matrix(1,0,0,1,0,0)" />
+      <g id="g-svg-6" fill="none" transform="matrix(1,0,0,1,0,0)">
+        <g
+          id="0-1"
+          fill="none"
+          marker-start="false"
+          marker-end="false"
+          transform="matrix(1,0,0,1,0,0)"
+        >
+          <g transform="matrix(1,0,0,1,145,20)">
+            <path
+              id="key"
+              fill="none"
+              d="M 125,0 L 0,50"
+              stroke="rgba(139,155,175,1)"
+              stroke-width="1"
+            />
+          </g>
+        </g>
+        <g
+          id="0-2"
+          fill="none"
+          marker-start="false"
+          marker-end="false"
+          transform="matrix(1,0,0,1,0,0)"
+        >
+          <g transform="matrix(1,0,0,1,270,20)">
+            <path
+              id="key"
+              fill="none"
+              d="M 0,0 L 170,200"
+              stroke="rgba(139,155,175,1)"
+              stroke-width="1"
+            />
+          </g>
+        </g>
+        <g
+          id="1-4"
+          fill="none"
+          marker-start="false"
+          marker-end="false"
+          transform="matrix(1,0,0,1,0,0)"
+        >
+          <g transform="matrix(1,0,0,1,145,70)">
+            <path
+              id="key"
+              fill="none"
+              d="M 0,0 L 35,50"
+              stroke="rgba(139,155,175,1)"
+              stroke-width="1"
+            />
+          </g>
+        </g>
+        <g
+          id="0-3"
+          fill="none"
+          marker-start="false"
+          marker-end="false"
+          transform="matrix(1,0,0,1,0,0)"
+        >
+          <g transform="matrix(1,0,0,1,270,20)">
+            <path
+              id="key"
+              fill="none"
+              d="M 0,0 L 70,50"
+              stroke="rgba(139,155,175,1)"
+              stroke-width="1"
+            />
+          </g>
+        </g>
+        <g
+          id="3-4"
+          fill="none"
+          marker-start="false"
+          marker-end="false"
+          transform="matrix(1,0,0,1,0,0)"
+        >
+          <g transform="matrix(1,0,0,1,180,70)">
+            <path
+              id="key"
+              fill="none"
+              d="M 160,0 L 0,50"
+              stroke="rgba(139,155,175,1)"
+              stroke-width="1"
+            />
+          </g>
+        </g>
+        <g
+          id="4-5"
+          fill="none"
+          marker-start="false"
+          marker-end="false"
+          transform="matrix(1,0,0,1,0,0)"
+        >
+          <g transform="matrix(1,0,0,1,100,120)">
+            <path
+              id="key"
+              fill="none"
+              d="M 80,0 L 0,50"
+              stroke="rgba(139,155,175,1)"
+              stroke-width="1"
+            />
+          </g>
+        </g>
+        <g
+          id="4-6"
+          fill="none"
+          marker-start="false"
+          marker-end="false"
+          transform="matrix(1,0,0,1,0,0)"
+        >
+          <g transform="matrix(1,0,0,1,180,120)">
+            <path
+              id="key"
+              fill="none"
+              d="M 0,0 L 80,50"
+              stroke="rgba(139,155,175,1)"
+              stroke-width="1"
+            />
+          </g>
+        </g>
+        <g
+          id="5-7"
+          fill="none"
+          marker-start="false"
+          marker-end="false"
+          transform="matrix(1,0,0,1,0,0)"
+        >
+          <g transform="matrix(1,0,0,1,100,170)">
+            <path
+              id="key"
+              fill="none"
+              d="M 0,0 L 80,50"
+              stroke="rgba(139,155,175,1)"
+              stroke-width="1"
+            />
+          </g>
+        </g>
+        <g
+          id="5-8"
+          fill="none"
+          marker-start="false"
+          marker-end="false"
+          transform="matrix(1,0,0,1,0,0)"
+        >
+          <g transform="matrix(1,0,0,1,20,170)">
+            <path
+              id="key"
+              fill="none"
+              d="M 80,0 L 0,50"
+              stroke="rgba(139,155,175,1)"
+              stroke-width="1"
+            />
+          </g>
+        </g>
+        <g
+          id="8-9"
+          fill="none"
+          marker-start="false"
+          marker-end="false"
+          transform="matrix(1,0,0,1,0,0)"
+        >
+          <g transform="matrix(1,0,0,1,20,220)">
+            <path
+              id="key"
+              fill="none"
+              d="M 0,0 L 330,50"
+              stroke="rgba(139,155,175,1)"
+              stroke-width="1"
+            />
+          </g>
+        </g>
+        <g
+          id="2-9"
+          fill="none"
+          marker-start="false"
+          marker-end="false"
+          transform="matrix(1,0,0,1,0,0)"
+        >
+          <g transform="matrix(1,0,0,1,350,220)">
+            <path
+              id="key"
+              fill="none"
+              d="M 90,0 L 0,50"
+              stroke="rgba(139,155,175,1)"
+              stroke-width="1"
+            />
+          </g>
+        </g>
+        <g
+          id="3-9"
+          fill="none"
+          marker-start="false"
+          marker-end="false"
+          transform="matrix(1,0,0,1,0,0)"
+        >
+          <g transform="matrix(1,0,0,1,340,70)">
+            <path
+              id="key"
+              fill="none"
+              d="M 0,0 L 10,200"
+              stroke="rgba(139,155,175,1)"
+              stroke-width="1"
+            />
+          </g>
+        </g>
+      </g>
+      <g id="g-svg-5" fill="none" transform="matrix(1,0,0,1,0,0)">
+        <g
+          id="0"
+          fill="none"
+          width="20"
+          height="20"
+          transform="matrix(1,0,0,1,270,20)"
+        >
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle
+              id="key"
+              fill="rgba(248,248,248,1)"
+              transform="translate(-10,-10)"
+              cx="10"
+              cy="10"
+              stroke="rgba(139,155,175,1)"
+              r="10"
+            />
+          </g>
+        </g>
+        <g
+          id="1"
+          fill="none"
+          width="20"
+          height="20"
+          transform="matrix(1,0,0,1,145,70)"
+        >
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle
+              id="key"
+              fill="rgba(248,248,248,1)"
+              transform="translate(-10,-10)"
+              cx="10"
+              cy="10"
+              stroke="rgba(139,155,175,1)"
+              r="10"
+            />
+          </g>
+        </g>
+        <g
+          id="2"
+          fill="none"
+          width="20"
+          height="20"
+          transform="matrix(1,0,0,1,440,220)"
+        >
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle
+              id="key"
+              fill="rgba(248,248,248,1)"
+              transform="translate(-10,-10)"
+              cx="10"
+              cy="10"
+              stroke="rgba(139,155,175,1)"
+              r="10"
+            />
+          </g>
+        </g>
+        <g
+          id="3"
+          fill="none"
+          width="20"
+          height="20"
+          transform="matrix(1,0,0,1,340,70)"
+        >
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle
+              id="key"
+              fill="rgba(248,248,248,1)"
+              transform="translate(-10,-10)"
+              cx="10"
+              cy="10"
+              stroke="rgba(139,155,175,1)"
+              r="10"
+            />
+          </g>
+        </g>
+        <g
+          id="4"
+          fill="none"
+          width="20"
+          height="20"
+          transform="matrix(1,0,0,1,180,120)"
+        >
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle
+              id="key"
+              fill="rgba(248,248,248,1)"
+              transform="translate(-10,-10)"
+              cx="10"
+              cy="10"
+              stroke="rgba(139,155,175,1)"
+              r="10"
+            />
+          </g>
+        </g>
+        <g
+          id="5"
+          fill="none"
+          width="20"
+          height="20"
+          transform="matrix(1,0,0,1,100,170)"
+        >
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle
+              id="key"
+              fill="rgba(248,248,248,1)"
+              transform="translate(-10,-10)"
+              cx="10"
+              cy="10"
+              stroke="rgba(139,155,175,1)"
+              r="10"
+            />
+          </g>
+        </g>
+        <g
+          id="6"
+          fill="none"
+          width="20"
+          height="20"
+          transform="matrix(1,0,0,1,260,170)"
+        >
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle
+              id="key"
+              fill="rgba(248,248,248,1)"
+              transform="translate(-10,-10)"
+              cx="10"
+              cy="10"
+              stroke="rgba(139,155,175,1)"
+              r="10"
+            />
+          </g>
+        </g>
+        <g
+          id="7"
+          fill="none"
+          width="20"
+          height="20"
+          transform="matrix(1,0,0,1,180,220)"
+        >
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle
+              id="key"
+              fill="rgba(248,248,248,1)"
+              transform="translate(-10,-10)"
+              cx="10"
+              cy="10"
+              stroke="rgba(139,155,175,1)"
+              r="10"
+            />
+          </g>
+        </g>
+        <g
+          id="8"
+          fill="none"
+          width="20"
+          height="20"
+          transform="matrix(1,0,0,1,20,220)"
+        >
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle
+              id="key"
+              fill="rgba(248,248,248,1)"
+              transform="translate(-10,-10)"
+              cx="10"
+              cy="10"
+              stroke="rgba(139,155,175,1)"
+              r="10"
+            />
+          </g>
+        </g>
+        <g
+          id="9"
+          fill="none"
+          width="20"
+          height="20"
+          transform="matrix(1,0,0,1,350,270)"
+        >
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle
+              id="key"
+              fill="rgba(248,248,248,1)"
+              transform="translate(-10,-10)"
+              cx="10"
+              cy="10"
+              stroke="rgba(139,155,175,1)"
+              r="10"
+            />
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

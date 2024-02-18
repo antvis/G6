@@ -1,4 +1,4 @@
-import { AABB } from '@antv/g';
+import { AABB, Rect } from '@antv/g';
 import { Circle } from '../../../src/elements/nodes';
 import {
   getPortPosition,
@@ -10,6 +10,8 @@ import {
   getTrianglePorts,
   getXYByPosition,
   isSameNode,
+  isVisible,
+  updateStyle,
 } from '../../../src/utils/element';
 
 describe('element', () => {
@@ -161,5 +163,25 @@ describe('element', () => {
       [-50, 50],
       [-50, -50],
     ]);
+  });
+
+  it('isVisible', () => {
+    expect(isVisible(new Rect({ style: { width: 50, height: 50 } }))).toBe(true);
+    expect(isVisible(new Rect({ style: { width: 50, height: 50, visibility: 'hidden' } }))).toBe(false);
+    expect(isVisible(new Rect({ style: { width: 50, height: 50, visibility: 'unset' } }))).toBe(true);
+    expect(isVisible(new Rect({ style: { width: 50, height: 50, visibility: 'visible' } }))).toBe(true);
+    expect(isVisible(new Rect({ style: { width: 50, height: 50, visibility: 'inherit' } }))).toBe(true);
+    expect(isVisible(new Rect({ style: { width: 50, height: 50, visibility: 'initial' } }))).toBe(true);
+  });
+
+  it('update', () => {
+    const rect = new Rect({ style: { width: 50, height: 50 } });
+    updateStyle(rect, { width: 100, height: 100 });
+    expect(rect.style.width).toBe(100);
+    expect(rect.style.height).toBe(100);
+
+    const circle = new Circle({ style: { r: 50 } });
+    updateStyle(circle, { r: 100 });
+    expect(circle.style.r).toBe(100);
   });
 });

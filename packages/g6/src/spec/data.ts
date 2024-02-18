@@ -46,6 +46,7 @@ export type EdgeData = {
 interface NodeLikeDataStyle extends BaseElementStyle, NodeLikeStyle {
   collapsed?: boolean;
   parentId?: ID;
+  children?: ID[];
 }
 
 interface EdgeDataStyle extends BaseElementStyle, EdgeStyle {

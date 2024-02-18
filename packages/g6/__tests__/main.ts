@@ -16,19 +16,24 @@ const CASES = {
 window.onload = () => {
   const casesSelect = document.getElementById('demo-select') as HTMLSelectElement;
   const rendererSelect = document.getElementById('renderer-select') as HTMLSelectElement;
+  const animationCheckbox = document.getElementById('animation-checkbox') as HTMLInputElement;
+  const reload = document.getElementById('reload-button') as HTMLButtonElement;
 
   function handleChange() {
     initialize();
     const [type, testCase] = casesSelect.value.split('-');
     const renderer = rendererSelect.value;
-    setParamsToSearch({ type, case: testCase, renderer });
-    onchange(CASES[type][testCase], renderer);
+    const animation = animationCheckbox.checked;
+    setParamsToSearch({ type, case: testCase, renderer, animation });
+    onchange(CASES[type][testCase], renderer, animation);
   }
 
   casesSelect.onchange = handleChange;
   rendererSelect.onchange = handleChange;
+  animationCheckbox.onchange = handleChange;
+  reload.onclick = handleChange;
   loadCasesList(casesSelect);
-  getParamsFromSearch();
+  syncParamsFromSearch();
   handleChange();
 };
 
@@ -46,7 +51,7 @@ function loadCasesList(select: HTMLSelectElement) {
   });
 }
 
-function onchange(testCase: TestCase, rendererName: string) {
+function onchange(testCase: TestCase, rendererName: string, animation: boolean) {
   const renderer = getRenderer(rendererName);
   const canvas = new Canvas({
     width: 500,
@@ -55,7 +60,7 @@ function onchange(testCase: TestCase, rendererName: string) {
     renderer,
   });
   canvas.init().then(() => {
-    testCase({ canvas });
+    testCase({ canvas, animation });
   });
 }
 
@@ -79,24 +84,28 @@ function initialize() {
   document.getElementById('app')?.appendChild(container);
 }
 
-function getParamsFromSearch() {
+function syncParamsFromSearch() {
   const searchParams = new URLSearchParams(window.location.search);
   const type = searchParams.get('type') || 'statics';
   const testCase = searchParams.get('case') || Object.keys(statics)[0];
   const rendererName = searchParams.get('renderer') || 'canvas';
+  const animation = searchParams.get('animation') || 'true';
 
   const casesSelect = document.getElementById('demo-select') as HTMLSelectElement;
   const rendererSelect = document.getElementById('renderer-select') as HTMLSelectElement;
+  const animationCheckbox = document.getElementById('animation-checkbox') as HTMLInputElement;
 
   casesSelect.value = `${type}-${testCase}`;
   rendererSelect.value = rendererName;
+  animationCheckbox.checked = animation === 'true';
 }
 
-function setParamsToSearch(options: { type: string; case: string; renderer: string }) {
-  const { type, case: testCase, renderer } = options;
+function setParamsToSearch(options: { type: string; case: string; renderer: string; animation: boolean }) {
+  const { type, case: testCase, renderer, animation } = options;
   const searchParams = new URLSearchParams(window.location.search);
   searchParams.set('type', type);
   searchParams.set('case', testCase);
   searchParams.set('renderer', renderer);
+  searchParams.set('animation', animation.toString());
   window.history.replaceState(null, '', `?${searchParams.toString()}`);
 }

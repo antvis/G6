@@ -10,7 +10,7 @@ import type {
   RadialLayoutOptions,
   RandomLayoutOptions,
 } from '@antv/layout';
-import type { AnimationEffectTiming } from '../animations/types';
+import type { NodeData } from '../spec/data';
 
 export type BuiltInLayoutOptions =
   | CircularLayout
@@ -24,72 +24,70 @@ export type BuiltInLayoutOptions =
   | ForceLayout
   | ForceAtlas2;
 
-interface CircularLayout extends CircularLayoutOptions, AnimationOptions, WebWorkerLayoutOptions, PresetLayoutOptions {
+export interface BaseLayoutOptions extends AnimationOptions, WebWorkerLayoutOptions, PresetLayoutOptions {
+  type: string;
+  /**
+   * <zh/> 参与该布局的节点
+   *
+   * <en/> Nodes involved in the layout
+   * @param node - <zh/> 节点数据 | <en/> node data
+   * @returns <zh/> 是否参与布局 | <en/> Whether to participate in the layout
+   */
+  nodesFilter?: (node: NodeData) => boolean;
+  [key: string]: any;
+}
+
+interface CircularLayout extends BaseLayoutOptions, CircularLayoutOptions {
   type: 'circular';
 }
 
-interface RandomLayout extends RandomLayoutOptions, AnimationOptions, WebWorkerLayoutOptions, PresetLayoutOptions {
+interface RandomLayout extends BaseLayoutOptions, RandomLayoutOptions {
   type: 'random';
 }
 
-interface GridLayout extends GridLayoutOptions, AnimationOptions, WebWorkerLayoutOptions, PresetLayoutOptions {
+interface GridLayout extends BaseLayoutOptions, GridLayoutOptions {
   type: 'grid';
 }
 
-interface MDSLayout extends MDSLayoutOptions, AnimationOptions, WebWorkerLayoutOptions, PresetLayoutOptions {
+interface MDSLayout extends BaseLayoutOptions, MDSLayoutOptions {
   type: 'mds';
 }
 
-interface ConcentricLayout
-  extends ConcentricLayoutOptions,
-    AnimationOptions,
-    WebWorkerLayoutOptions,
-    PresetLayoutOptions {
+interface ConcentricLayout extends BaseLayoutOptions, ConcentricLayoutOptions {
   type: 'concentric';
 }
 
-interface RadialLayout extends RadialLayoutOptions, AnimationOptions, WebWorkerLayoutOptions, PresetLayoutOptions {
+interface RadialLayout extends BaseLayoutOptions, RadialLayoutOptions {
   type: 'radial';
 }
 
-interface FruchtermanLayout
-  extends FruchtermanLayoutOptions,
-    AnimationOptions,
-    WebWorkerLayoutOptions,
-    PresetLayoutOptions {
+interface FruchtermanLayout extends BaseLayoutOptions, FruchtermanLayoutOptions {
   type: 'fruchterman' | 'fruchtermanGPU';
 }
 
-interface D3ForceLayout extends D3ForceLayoutOptions, AnimationOptions, WebWorkerLayoutOptions, PresetLayoutOptions {
+interface D3ForceLayout extends BaseLayoutOptions, D3ForceLayoutOptions {
   type: 'd3force';
 }
 
-interface ForceLayout extends ForceLayoutOptions, AnimationOptions, WebWorkerLayoutOptions, PresetLayoutOptions {
+interface ForceLayout extends BaseLayoutOptions, ForceLayoutOptions {
   type: 'force' | 'gforce';
 }
 
-interface ForceAtlas2 extends ForceAtlas2LayoutOptions, AnimationOptions, WebWorkerLayoutOptions, PresetLayoutOptions {
+interface ForceAtlas2 extends BaseLayoutOptions, ForceAtlas2LayoutOptions {
   type: 'forceAtlas2';
 }
 
-interface PresetLayoutOptions {
-  presetLayout?: Partial<BuiltInLayoutOptions>;
+export interface PresetLayoutOptions {
+  presetLayout?: BaseLayoutOptions;
 }
 
-interface AnimationOptions {
+export interface AnimationOptions {
   /**
    * <zh/> 启用布局动画，对于迭代布局，会在两次迭代之间进行动画过渡
    *
    * <en/> Enable layout animation, for iterative layout, animation transition will be performed between two iterations
    */
-  animated?: boolean;
-
-  /**
-   * <zh/> 布局动画的配置项
-   *
-   * <en/> Layout animation options
-   */
-  animationEffectTiming?: AnimationEffectTiming;
+  animation?: boolean;
 }
 
 export interface WebWorkerLayoutOptions {
@@ -98,7 +96,7 @@ export interface WebWorkerLayoutOptions {
    *
    * <en/> Whether to run the layout in WebWorker
    */
-  workerEnabled?: boolean;
+  enableWorker?: boolean;
 
   /**
    * <zh/> 迭代布局的迭代次数

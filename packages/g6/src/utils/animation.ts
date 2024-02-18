@@ -136,6 +136,10 @@ export function inferDefaultValue(name: string) {
   switch (name) {
     case 'opacity':
       return 1;
+    case 'x':
+    case 'y':
+    case 'z':
+      return 0;
     default:
       return undefined;
   }

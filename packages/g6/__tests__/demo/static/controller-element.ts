@@ -2,23 +2,22 @@ import type { G6Spec } from '../../../src';
 import { DataController } from '../../../src/runtime/data';
 import { ElementController } from '../../../src/runtime/element';
 import type { RuntimeContext } from '../../../src/runtime/types';
-import { sleep } from '../../integration/utils/sleep';
 import { Graph } from '../../mock';
 import type { StaticTestCase } from '../types';
 
 const createContext = (canvas: any, options: G6Spec): RuntimeContext => {
-  const dataController = new DataController();
-  dataController.setData(options.data || {});
+  const model = new DataController();
+  model.setData(options.data || {});
   return {
     canvas,
     graph: new Graph() as any,
     options,
-    dataController,
+    model,
   };
 };
 
 export const controllerElement: StaticTestCase = async (context) => {
-  const { canvas } = context;
+  const { canvas, animation } = context;
 
   const options: G6Spec = {
     data: {
@@ -39,11 +38,11 @@ export const controllerElement: StaticTestCase = async (context) => {
         width: 20,
         height: 20,
       },
-      animation: false,
+      animation: animation && {},
     },
     edge: {
       style: {},
-      animation: false,
+      animation: animation && {},
     },
   };
 
@@ -54,6 +53,4 @@ export const controllerElement: StaticTestCase = async (context) => {
   const result = await elementController.render(elementContext);
 
   await result?.finished;
-
-  await sleep(100);
 };

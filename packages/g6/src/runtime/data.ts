@@ -1,6 +1,6 @@
 import { Graph as GraphLib, ID } from '@antv/graphlib';
 import { isEqual } from '@antv/util';
-import { ChangeTypeEnum } from '../constants';
+import { COMBO_KEY, ChangeTypeEnum, TREE_KEY } from '../constants';
 import type { ComboData, EdgeData, GraphData, NodeData } from '../spec';
 import type {
   DataAdded,
@@ -8,7 +8,7 @@ import type {
   DataID,
   DataRemoved,
   DataUpdated,
-  GraphlibData,
+  GraphlibModel,
   NodeLikeData,
   PartialEdgeData,
   PartialGraphData,
@@ -23,12 +23,8 @@ import { toG6Data, toGraphlibData } from '../utils/graphlib';
 import { idOf } from '../utils/id';
 import { dfs } from '../utils/traverse';
 
-const COMBO_KEY = 'combo';
-
-const TREE_KEY = 'tree';
-
 export class DataController {
-  public model: GraphlibData;
+  public model: GraphlibModel;
 
   /**
    * <zh/> 最近一次删除的 combo 的 id
@@ -59,11 +55,19 @@ export class DataController {
    */
   private batchCount = 0;
 
+  /**
+   * <zh/> 是否处于无痕模式
+   *
+   * <en/> Whether it is in traceless mode
+   */
+  private isTraceless = false;
+
   constructor() {
     this.model = new GraphLib();
   }
 
   private pushChange(change: DataChange) {
+    if (this.isTraceless) return;
     const { type } = change;
 
     if (
@@ -94,6 +98,22 @@ export class DataController {
     this.batchCount++;
     this.model.batch(callback);
     this.batchCount--;
+  }
+
+  /**
+   * <zh/> 执行操作而不会留下记录
+   *
+   * <en/> Perform operations without leaving records
+   * @param callback - <zh/> 回调函数 | <en/> callback function
+   * @description
+   * <zh/> 通常用于运行时调整元素并同步数据，避免触发数据变更导致重绘
+   *
+   * <en/> Usually used to adjust elements at runtime and synchronize data to avoid triggering data changes and causing redraws
+   */
+  public silence(callback: () => void) {
+    this.isTraceless = true;
+    callback();
+    this.isTraceless = false;
   }
 
   public isCombo(id: ID) {
@@ -134,6 +154,11 @@ export class DataController {
       else ids.includes(idOf(node)) && acc.push(node.data);
       return acc;
     }, [] as ComboData[]);
+  }
+
+  public getParentData(id: ID): NodeData | undefined {
+    const parent = this.model.getParent(id, TREE_KEY);
+    return parent?.data;
   }
 
   /**
@@ -303,21 +328,21 @@ export class DataController {
   protected updateNodeLikeHierarchy(data: NodeLikeData[]) {
     const { model } = this;
 
-    let hasAttachTreeStructure = false;
-
-    const attachTreeStructure = () => {
-      if (hasAttachTreeStructure) return;
-      if (!model.hasTreeStructure(COMBO_KEY)) {
-        model.attachTreeStructure(COMBO_KEY);
-      }
-      hasAttachTreeStructure = true;
-    };
-
     data.forEach((datum) => {
+      const id = idOf(datum);
+
       const parentId = datum?.style?.parentId;
       if (parentId !== undefined) {
-        attachTreeStructure();
-        model.setParent(idOf(datum), parentId, COMBO_KEY);
+        model.attachTreeStructure(COMBO_KEY);
+        model.setParent(id, parentId, COMBO_KEY);
+      }
+
+      const children = datum?.style?.children;
+      if (children !== undefined) {
+        model.attachTreeStructure(TREE_KEY);
+        children.forEach((child) => {
+          model.setParent(child, id, TREE_KEY);
+        });
       }
     });
   }

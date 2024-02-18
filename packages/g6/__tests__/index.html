@@ -43,6 +43,7 @@
       #container {
         width: 500px;
         height: 500px;
+        border: 1px solid var(--stroke-color);
       }
 
       [data-theme='light'] {
@@ -75,6 +76,11 @@
         </select>
         <label for="theme">Theme: </label>
         <button onclick="toggleTheme()">Toggle</button>
+        <div style="display: flex; align-items: center">
+          <label for="animation" title="For Static Case To Control Animation">Animation: </label>
+          <input id="animation-checkbox" type="checkbox" />
+        </div>
+        <button id="reload-button">Reload</button>
       </div>
     </div>
 

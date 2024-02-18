@@ -3,6 +3,7 @@ import type { Canvas } from '../../src/runtime/canvas';
 
 type TestCaseContext = {
   canvas: Canvas;
+  animation: boolean;
 };
 
 export interface StaticTestCase extends BaseTestCase {

@@ -8,7 +8,7 @@ import type {
 } from '@antv/g';
 import { Path } from '@antv/g';
 import type { PathArray } from '@antv/util';
-import { deepMix, isEmpty, isEqual, isFunction } from '@antv/util';
+import { deepMix, isEmpty, isFunction } from '@antv/util';
 import type {
   BaseEdgeProps,
   EdgeKey,
@@ -121,10 +121,7 @@ export abstract class BaseEdge<KT extends BaseEdgeProps<object>> extends BaseSha
   protected getKeyStyle(attributes: ParsedBaseEdgeStyleProps<KT>): PathStyleProps {
     const { sourceNode, targetNode, sourcePoint, targetPoint, color, ...style } = this.getGraphicStyle(attributes);
 
-    const path =
-      (sourcePoint && isEqual(sourcePoint, targetPoint)) || isSameNode(sourceNode, targetNode)
-        ? this.getLoopPath(attributes)
-        : this.getKeyPath(attributes);
+    const path = isSameNode(sourceNode, targetNode) ? this.getLoopPath(attributes) : this.getKeyPath(attributes);
 
     return {
       stroke: color,
@@ -286,11 +283,13 @@ export abstract class BaseEdge<KT extends BaseEdgeProps<object>> extends BaseSha
   animate(keyframes: Keyframe[], options?: number | KeyframeAnimationOptions) {
     const result = super.animate(keyframes, options);
 
-    result.onframe = () => {
-      this.drawLabelShape(this.parsedAttributes, this);
-      this.drawArrow(this.parsedAttributes, true);
-      this.drawArrow(this.parsedAttributes, false);
-    };
+    if (result) {
+      result.onframe = () => {
+        this.drawLabelShape(this.parsedAttributes, this);
+        this.drawArrow(this.parsedAttributes, true);
+        this.drawArrow(this.parsedAttributes, false);
+      };
+    }
 
     return result;
   }
