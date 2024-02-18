@@ -1,15 +1,30 @@
-import { BUILT_IN_EDGES, BUILT_IN_NODES } from '../../src/elements';
+import { pick } from '@antv/util';
+import { Circle, Cubic, Ellipse, Line, Polyline, Quadratic, Rect, Star, Triangle } from '../../src/elements';
 import { getPlugin, getPlugins, register, registerBuiltInPlugins } from '../../src/registry';
-import { BUILT_IN_THEMES } from '../../src/themes';
+import { dark, light } from '../../src/themes';
 
 describe('registry', () => {
   it('registerBuiltInPlugins', () => {
     registerBuiltInPlugins();
 
-    expect(getPlugins('node')).toEqual(BUILT_IN_NODES);
-    expect(getPlugins('edge')).toEqual(BUILT_IN_EDGES);
+    expect(getPlugins('node')).toEqual({
+      circle: Circle,
+      ellipse: Ellipse,
+      rect: Rect,
+      star: Star,
+      triangle: Triangle,
+    });
+    expect(getPlugins('edge')).toEqual({
+      cubic: Cubic,
+      line: Line,
+      polyline: Polyline,
+      quadratic: Quadratic,
+    });
     expect(getPlugins('combo')).toEqual({});
-    expect(getPlugins('theme')).toEqual(BUILT_IN_THEMES);
+    expect(getPlugins('theme')).toEqual({
+      dark,
+      light,
+    });
   });
 
   it('register, getPlugin, getPlugins', () => {
@@ -32,8 +47,7 @@ describe('registry', () => {
     expect(console.error.mock.calls[0][0]).toBe('The plugin circle-node of node has been registered before.');
     console.error = error;
 
-    expect(getPlugins('node')).toEqual({
-      ...BUILT_IN_NODES,
+    expect(pick(getPlugins('node'), ['circle-node', 'rect-node'])).toEqual({
       'circle-node': CircleNode,
       'rect-node': RectNode,
     });
