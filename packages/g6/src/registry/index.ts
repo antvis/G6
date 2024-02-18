@@ -1,4 +1,4 @@
-import { BUILT_IN_PLUGINS } from './constants';
+import { BUILT_IN_PLUGINS } from './build-in';
 import type { PluginCategory, PluginRegistry } from './types';
 
 /**

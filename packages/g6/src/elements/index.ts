@@ -1,1 +1,2 @@
-export { BUILT_IN_EDGES, BUILT_IN_NODES } from './constants';
+export { Cubic, Line, Polyline, Quadratic } from './edges';
+export { Circle, Ellipse, Rect, Star, Triangle } from './nodes';
