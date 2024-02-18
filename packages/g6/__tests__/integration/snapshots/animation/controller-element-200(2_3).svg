@@ -100,7 +100,7 @@
               transform="translate(-10,-10)"
               cx="10"
               cy="10"
-              stroke="rgba(0,128,0,1)"
+              stroke="rgba(52,138,65,1)"
               r="10"
             />
           </g>
