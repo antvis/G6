@@ -7,11 +7,7 @@ import { LayoutController } from '../../../src/runtime/layout';
 import data from '../../dataset/soccer.json';
 import type { StaticTestCase } from '../types';
 
-try {
-  register('layout', 'forceatlas2-wasm', ForceAtlas2Layout);
-} catch {
-  //
-}
+register('layout', 'forceatlas2-wasm', ForceAtlas2Layout);
 
 export const controllerLayoutForceatlas2WASM: StaticTestCase = async ({ canvas, animation }) => {
   const supported = await supportsThreads();

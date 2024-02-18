@@ -7,11 +7,7 @@ import { LayoutController } from '../../../src/runtime/layout';
 import data from '../../dataset/soccer.json';
 import type { StaticTestCase } from '../types';
 
-try {
-  register('layout', 'fruchterman-wasm', FruchtermanLayout);
-} catch {
-  //
-}
+register('layout', 'fruchterman-wasm', FruchtermanLayout);
 
 export const controllerLayoutFruchtermanWASM: StaticTestCase = async ({ canvas, animation }) => {
   const supported = await supportsThreads();

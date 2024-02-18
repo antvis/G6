@@ -7,11 +7,7 @@ import { LayoutController } from '../../../src/runtime/layout';
 import data from '../../dataset/soccer.json';
 import type { StaticTestCase } from '../types';
 
-try {
-  register('layout', 'fruchterman-gpu', FruchtermanLayout);
-} catch {
-  //
-}
+register('layout', 'fruchterman-gpu', FruchtermanLayout);
 
 export const controllerLayoutFruchtermanGPU: StaticTestCase = async ({ canvas, animation }) => {
   const options: G6Spec = {

@@ -24,9 +24,13 @@ describe('registry', () => {
     expect(getPlugin('node', 'diamond-node')).toEqual(undefined);
     expect(getPlugin('edge', 'line-edge')).toEqual(Edge);
 
-    expect(() => {
-      register('node', 'circle-node', CircleNode as any);
-    }).toThrow();
+    const error = console.error;
+    console.error = jest.fn();
+
+    register('node', 'circle-node', CircleNode as any);
+    // @ts-expect-error mock exists on jest.fn()
+    expect(console.error.mock.calls[0][0]).toBe('The plugin circle-node of node has been registered before.');
+    console.error = error;
 
     expect(getPlugins('node')).toEqual({
       ...BUILT_IN_NODES,
