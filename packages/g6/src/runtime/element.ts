@@ -481,12 +481,12 @@ export class ElementController {
    *
    * <en/> start render process
    */
-  public async render(context: RuntimeContext): Promise<IAnimation | null> {
+  public async render(context: RuntimeContext) {
     this.context = context;
     const { model } = context;
 
     const tasks = reduceDataChanges(model.getChanges());
-    if (tasks.length === 0) return null;
+    if (tasks.length === 0) return;
 
     this.emit(GraphEvent.BEFORE_RENDER);
     await this.init();
@@ -557,15 +557,12 @@ export class ElementController {
       renderContext,
     );
 
-    // todo: 不应该返回动画相关的信息，如果确实外部需要，那么应该提供方法获取这类 context 信息。
-    // animation 不是一个需要给开发者强制暴露的信息，因此不应该在这里返回。
-    // updateNodeLikePosition 也是同理，这些都会影响到 Graph API 的封装。
     return this.postRender(taskId, () => {
       this.emit(GraphEvent.AFTER_RENDER);
     });
   }
 
-  private postRender(taskId: TaskID, onfinish = noop) {
+  private async postRender(taskId: TaskID, onfinish = noop) {
     const tasks = this.getTasks(taskId);
     // 执行后续任务 / Execute subsequent tasks
     Promise.all(tasks.map((task) => task())).then(() => {
@@ -580,8 +577,14 @@ export class ElementController {
     };
 
     const result = getRenderResult(taskId);
-    invokeOnFinished(result, onfinish.bind(this));
-    return result;
+    invokeOnFinished(result, () => {
+      if (result) this.context.graph.emit(GraphEvent.AFTER_ANIMATION, result);
+      onfinish();
+    });
+
+    if (result) this.context.graph.emit(GraphEvent.BEFORE_ANIMATION, result);
+
+    await result?.finished;
   }
 
   private getShapeType(elementType: ElementType, renderData: Record<string, any>) {
@@ -678,7 +681,7 @@ export class ElementController {
     });
   }
 
-  public updateNodeLikePosition(positions: Positions, animation: boolean = true, edgeIds: ID[] = []) {
+  public async updateNodeLikePosition(positions: Positions, animation: boolean = true, edgeIds: ID[] = []) {
     const { model } = this.context;
     const taskId = this.preRender();
 
@@ -712,7 +715,7 @@ export class ElementController {
         return null;
       }
 
-      return animator(id, element, originalPosition);
+      animator(id, element, originalPosition);
     });
 
     this.updateEdgeEnds(
@@ -728,11 +731,9 @@ export class ElementController {
       { animation, taskId },
     );
 
-    const result = this.postRender(taskId);
+    await this.postRender(taskId);
 
-    invokeOnFinished(result, () => this.emit(GraphEvent.AFTER_ELEMENT_TRANSLATE, positions));
-
-    return result;
+    this.emit(GraphEvent.AFTER_ELEMENT_TRANSLATE, positions);
   }
 
   private updateEdgeEnds(ids: ID[], context: Omit<RenderContext, 'animator'>) {
@@ -745,7 +746,7 @@ export class ElementController {
    *
    * <en/> Update based on layout results
    */
-  public updateByLayoutResult(layoutResult: LayoutResult, animation: boolean = true) {
+  public async updateByLayoutResult(layoutResult: LayoutResult, animation: boolean = true) {
     const { nodes: nodeLikeResults, edges: edgeResults } = layoutResult;
     if (Object.keys(nodeLikeResults).length === 0 && Object.keys(edgeResults).length === 0) return null;
 
@@ -755,7 +756,7 @@ export class ElementController {
     //   this.setRuntimeStyle(id, style);
     // });
 
-    return this.updateNodeLikePosition(nodeLikeResults, animation, Object.keys(edgeResults));
+    await this.updateNodeLikePosition(nodeLikeResults, animation, Object.keys(edgeResults));
   }
 
   private updateElements(data: GraphData, context: Omit<RenderContext, 'animator'>) {
@@ -807,7 +808,6 @@ export class ElementController {
 
     tasks.push(async () => {
       const result = animator?.(id, element, { ...element.attributes }, { opacity: 0 });
-
       if (result) {
         this.animationMap[taskId][id] = result;
         result.onfinish = () => element.destroy();
@@ -850,7 +850,7 @@ export class ElementController {
     });
   }
 
-  public setElementsVisibility(ids: ID[], visibility: BaseStyleProps['visibility']) {
+  public async setElementsVisibility(ids: ID[], visibility: BaseStyleProps['visibility']) {
     this.emit(GraphEvent.BEFORE_ELEMENT_VISIBILITY_CHANGE, { ids, visibility });
     const isHide = visibility === 'hidden';
     const nodes: ID[] = [];
@@ -875,9 +875,7 @@ export class ElementController {
       cacheStyle(element, 'opacity');
 
       setVisibility(element, visibility);
-      const result = animator(id, element, { ...element.attributes, opacity: 0 }, { opacity: originalOpacity });
-
-      return result;
+      return animator(id, element, { ...element.attributes, opacity: 0 }, { opacity: originalOpacity });
     };
 
     const hide = (id: ID, element: DisplayObject, animator: AnimationExecutor) => {
@@ -910,10 +908,14 @@ export class ElementController {
 
     if (results.length === 0) return null;
     const result = createAnimationsProxy(results[0], results.slice(1));
-    // TODO result 已经绑定 onfinish，下面的操作会覆盖掉，考虑 g 提供 onfinish.then 的方式
-    // TODO result has been bound onfinish, the following operation will cover it, consider g to provide onfinish.then
-    // invokeOnFinished(result, () => this.emit(GraphEvent.AFTER_ELEMENT_VISIBILITY_CHANGE, { ids, visibility }));
-    return result;
+
+    if (result) this.emit(GraphEvent.BEFORE_ANIMATION, result);
+
+    invokeOnFinished(result, () => {
+      if (result) this.emit(GraphEvent.AFTER_ANIMATION, result);
+      this.emit(GraphEvent.AFTER_ELEMENT_VISIBILITY_CHANGE, { ids, visibility });
+    });
+    await result?.finished;
   }
 
   public setElementZIndex(id: ID, zIndex: ZIndex) {

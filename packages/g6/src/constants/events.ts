@@ -25,6 +25,10 @@ export const enum GraphEvent {
   BEFORE_RENDER = 'beforerender',
   /** <zh/> 渲染完成之后 | <en/> After rendering */
   AFTER_RENDER = 'afterrender',
+  /** <zh/> 动画开始之前 | <en/> Before animation */
+  BEFORE_ANIMATION = 'beforeanimation',
+  /** <zh/> 动画结束之后 | <en/> After animation */
+  AFTER_ANIMATION = 'afteranimation',
   /** <zh/> 布局开始之前 | <en/> Before layout */
   BEFORE_LAYOUT = 'beforelayout',
   /** <zh/> 布局结束之后 | <en/> After layout */

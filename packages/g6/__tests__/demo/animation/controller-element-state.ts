@@ -1,6 +1,8 @@
+import type { IAnimation } from '@antv/g';
 import type { G6Spec } from '../../../src';
 import { createGraph } from '../../mock';
 import type { AnimationTestCase } from '../types';
+import { getEventResult } from '../utils/async';
 
 export const controllerElementState: AnimationTestCase = async (context) => {
   const { canvas } = context;
@@ -58,8 +60,7 @@ export const controllerElementState: AnimationTestCase = async (context) => {
   };
 
   const graph = createGraph(options, canvas);
-  const r = await graph.draw();
-  await r?.finished;
+  await graph.draw();
 
   graph.updateData({
     nodes: [
@@ -73,8 +74,11 @@ export const controllerElementState: AnimationTestCase = async (context) => {
     ],
   });
 
-  const result = await graph.draw();
-  return result;
+  const result = getEventResult<IAnimation>(graph, 'beforeanimation');
+
+  graph.draw();
+
+  return await result;
 };
 
 controllerElementState.times = [0, 1000];

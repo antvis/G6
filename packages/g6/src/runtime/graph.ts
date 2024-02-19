@@ -358,8 +358,7 @@ export class Graph extends EventEmitter {
    */
   public async draw() {
     await this.prepare();
-    // todo: 和 element.draw 一样，不应该返回任何动画相关的信息。
-    return await this.context.element?.render(this.context);
+    await this.context.element?.render(this.context);
   }
 
   public async layout(): Promise<void> {
@@ -373,16 +372,15 @@ export class Graph extends EventEmitter {
    */
   public async clear(): Promise<void> {
     this.context.model.setData({});
-    this.context.element?.render(this.context);
+    await this.context.element?.render(this.context);
   }
 
   public destroy(): void {
-    const { layout, element, model, canvas, viewport } = this.context;
+    const { layout, element, model, canvas } = this.context;
     layout?.destroy();
     element?.destroy();
     model.destroy();
     canvas?.destroy();
-    viewport?.destroy();
     this.options = {};
     // @ts-expect-error force delete
     delete this.context;
@@ -487,8 +485,7 @@ export class Graph extends EventEmitter {
   }
 
   public async translateElementTo(positions: Positions, animation?: boolean): Promise<void> {
-    const result = this.context.element!.updateNodeLikePosition(positions, animation);
-    if (result) await result.finished;
+    await this.context.element!.updateNodeLikePosition(positions, animation);
   }
 
   public getElementPosition(id: ID): Point {
@@ -502,7 +499,7 @@ export class Graph extends EventEmitter {
   }
 
   public async setElementVisibility(id: ID | ID[], visibility: BaseStyleProps['visibility']): Promise<void> {
-    this.context.element!.setElementsVisibility(Array.isArray(id) ? id : [id], visibility);
+    await this.context.element!.setElementsVisibility(Array.isArray(id) ? id : [id], visibility);
   }
 
   public getElementVisibility(id: ID): BaseStyleProps['visibility'] {

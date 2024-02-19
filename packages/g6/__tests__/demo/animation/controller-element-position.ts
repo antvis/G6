@@ -1,6 +1,8 @@
+import type { IAnimation } from '@antv/g';
 import type { G6Spec } from '../../../src';
 import { createGraph } from '../../mock';
 import type { AnimationTestCase } from '../types';
+import { getEventResult } from '../utils/async';
 
 export const controllerElementPosition: AnimationTestCase = async (context) => {
   const { canvas } = context;
@@ -38,13 +40,14 @@ export const controllerElementPosition: AnimationTestCase = async (context) => {
   };
 
   const graph = createGraph(options, canvas);
-  const r = await graph.draw();
-  await r?.finished;
+  await graph.draw();
 
   // @ts-expect-error context is private.
   const element = graph.context.element!;
 
-  const result = element.updateNodeLikePosition(
+  const result = getEventResult<IAnimation>(graph, 'beforeanimation');
+
+  element.updateNodeLikePosition(
     {
       'node-1': [250, 100],
       'node-2': [175, 200],
@@ -56,7 +59,7 @@ export const controllerElementPosition: AnimationTestCase = async (context) => {
     true,
   );
 
-  return result;
+  return await result;
 };
 
 controllerElementPosition.times = [0, 200, 1000];
