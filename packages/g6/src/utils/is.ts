@@ -34,3 +34,20 @@ export function isVector2(vector: Point): vector is Vector2 {
 export function isVector3(vector: Point): vector is Vector3 {
   return vector.length === 3;
 }
+
+/**
+ * <zh/> 判断是否为点
+ *
+ * <en/> Judge whether the point is valid
+ * @param p - <zh/> 点 | <en/> point
+ * @returns <zh/> 是否为点 | <en/> whether the point is valid
+ */
+export function isPoint(p: any): p is Point {
+  if (p instanceof Float32Array) return true;
+
+  if (Array.isArray(p) && (p.length === 2 || p.length === 3)) {
+    return p.every((elem) => typeof elem === 'number');
+  }
+
+  return false;
+}

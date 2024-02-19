@@ -2,7 +2,7 @@ import type { DisplayObjectConfig } from '@antv/g';
 import type { PathArray } from '@antv/util';
 import { deepMix } from '@antv/util';
 import type { BaseEdgeProps, Point } from '../../types';
-import { calculateControlPoint, getCubicPath, parseCurveOffset, parseCurvePosition } from '../../utils/edge';
+import { getCubicPath, getCurveControlPoint, parseCurveOffset, parseCurvePosition } from '../../utils/edge';
 import type { BaseEdgeStyleProps } from './base-edge';
 import { BaseEdge } from './base-edge';
 
@@ -61,8 +61,8 @@ export class Cubic extends BaseEdge<CubicKeyStyleProps> {
     return controlPoints?.length === 2
       ? controlPoints
       : [
-          calculateControlPoint(sourcePoint, targetPoint, curvePosition[0], curveOffset[0]),
-          calculateControlPoint(sourcePoint, targetPoint, curvePosition[1], curveOffset[1]),
+          getCurveControlPoint(sourcePoint, targetPoint, curvePosition[0], curveOffset[0]),
+          getCurveControlPoint(sourcePoint, targetPoint, curvePosition[1], curveOffset[1]),
         ];
   }
 }

@@ -4,6 +4,7 @@ import type { TriangleDirection } from '../elements/nodes/triangle';
 import type { Node, Point } from '../types';
 import type { LabelPosition, Port, RelativePosition } from '../types/node';
 import { getBBoxHeight, getBBoxWidth } from './bbox';
+import { isPoint } from './is';
 import { findNearestPoints, getEllipseIntersectPoint } from './point';
 
 /**
@@ -88,17 +89,21 @@ export function findPort(node: Node, portKey?: string, oppositeNode?: Node): Por
 }
 
 /**
- * <zh/> 获取端口的连接点
+ * <zh/> 获取锚点的连接点
  *
  * <en/> Get the Port Connection Point
- * @param port - <zh/> 端口 | <en/> Port
- * @param oppositeNode - <zh/> 对端节点 | <en/> Opposite Node
- * @returns <zh/> 端口的连接点 | <en/> Port Point
+ * @param port - <zh/> 锚点 | <en/> Port
+ * @param opposite - <zh/> 对端的具体点或节点 | <en/> Opposite Point or Node
+ * @param oppositePort - <zh/> 对端锚点 | <en/> Opposite Port
+ * @returns <zh/> 锚点的连接点 | <en/> Port Point
  */
-export function getPortConnectionPoint(port: Port, oppositeNode: Node): Point {
+export function getPortConnectionPoint(port: Port, opposite: Point | Node, oppositePort?: Port): Point {
   return port.attributes.linkToCenter
     ? port.getPosition()
-    : getEllipseIntersectPoint(oppositeNode.getCenter(), port.getBounds());
+    : getEllipseIntersectPoint(
+        oppositePort?.getPosition() || (isPoint(opposite) ? opposite : opposite.getCenter()),
+        port.getBounds(),
+      );
 }
 
 /**
@@ -107,7 +112,7 @@ export function getPortConnectionPoint(port: Port, oppositeNode: Node): Point {
  * <en/> Get the Node Connection Point
  * @param node - <zh/> 节点 | <en/> Node
  * @param oppositeNode - <zh/> 对端节点 | <en/> Opposite Node
- * @param oppositePort - <zh/> 对端端口 | <en/> Opposite Port
+ * @param oppositePort - <zh/> 对端锚点 | <en/> Opposite Port
  * @returns <zh/> 节点的连接点 | <en/> Node Point
  */
 export function getNodeConnectionPoint(node: Node, oppositeNode: Node, oppositePort?: Port): Point {

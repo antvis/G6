@@ -176,10 +176,10 @@ export abstract class BaseEdge<KT extends BaseEdgeProps<object>> extends BaseSha
     const targetPort = findPort(targetNode, targetPortKey, sourceNode);
 
     const sourcePoint = sourcePort
-      ? getPortConnectionPoint(sourcePort, targetNode)
+      ? getPortConnectionPoint(sourcePort, targetNode, targetPort)
       : getNodeConnectionPoint(sourceNode, targetNode, targetPort);
     const targetPoint = targetPort
-      ? getPortConnectionPoint(targetPort, sourceNode)
+      ? getPortConnectionPoint(targetPort, sourceNode, sourcePort)
       : getNodeConnectionPoint(targetNode, sourceNode, sourcePort);
 
     return [sourcePoint, targetPoint];
