@@ -636,7 +636,7 @@ export class ElementController {
     // 重新计算色板样式
 
     const { nodes = [], edges = [], combos = [] } = data;
-    this.emit(GraphEvent.BEFORE_CREATE_ELEMENT, data);
+    this.emit(GraphEvent.BEFORE_ELEMENT_CREATE, data);
 
     const iteration: [ElementType, ElementData][] = [
       ['node', nodes],
@@ -650,7 +650,7 @@ export class ElementController {
       elementData.forEach((datum) => this.createElement(elementType, datum, { ...context, animator }));
     });
 
-    this.emit(GraphEvent.AFTER_CREATE_ELEMENT, data);
+    this.emit(GraphEvent.AFTER_ELEMENT_CREATE, data);
   }
 
   private async updateElement(elementType: ElementType, datum: ElementDatum, context: RenderContext) {
@@ -679,7 +679,7 @@ export class ElementController {
     const { model } = this.context;
     const taskId = this.preRender();
 
-    this.emit(GraphEvent.BEFORE_MOVE_ELEMENT, positions);
+    this.emit(GraphEvent.BEFORE_ELEMENT_TRANSLATE, positions);
 
     const animationsFilter: AnimationContext['animationsFilter'] = (animation) => !animation.shape;
     const nodeAnimator = this.getAnimationExecutor('node', 'update', animation, { animationsFilter });
@@ -727,7 +727,7 @@ export class ElementController {
 
     const result = this.postRender(taskId);
 
-    invokeOnFinished(result, () => this.emit(GraphEvent.AFTER_MOVE_ELEMENT, positions));
+    invokeOnFinished(result, () => this.emit(GraphEvent.AFTER_ELEMENT_TRANSLATE, positions));
 
     return result;
   }
@@ -757,7 +757,7 @@ export class ElementController {
 
   private updateElements(data: GraphData, context: Omit<RenderContext, 'animator'>) {
     const { nodes = [], edges = [], combos = [] } = data;
-    this.emit(GraphEvent.BEFORE_UPDATE_ELEMENT, data);
+    this.emit(GraphEvent.BEFORE_ELEMENT_UPDATE, data);
 
     const iteration: [ElementType, ElementData][] = [
       ['node', nodes],
@@ -772,7 +772,7 @@ export class ElementController {
       const animator = this.getAnimationExecutor(elementType, 'update', animation);
       elementData.forEach((datum) => this.updateElement(elementType, datum, { ...context, animator }));
     });
-    this.emit(GraphEvent.AFTER_UPDATE_ELEMENT, data);
+    this.emit(GraphEvent.AFTER_ELEMENT_UPDATE, data);
   }
 
   /**
@@ -823,7 +823,7 @@ export class ElementController {
       ['node', nodes],
     ];
 
-    this.emit(GraphEvent.BEFORE_DESTROY_ELEMENT, data);
+    this.emit(GraphEvent.BEFORE_ELEMENT_DESTROY, data);
     // 移除相应的元素数据
     // 重新计算色板样式，如果是分组色板，则不需要重新计算
     iteration.forEach(([elementType, elementData]) => {
@@ -832,7 +832,7 @@ export class ElementController {
       elementData.forEach((datum) => this.destroyElement(datum, { ...context, animator }));
       this.clearElement(elementData.map(idOf));
     });
-    this.emit(GraphEvent.AFTER_DESTROY_ELEMENT, data);
+    this.emit(GraphEvent.AFTER_ELEMENT_DESTROY, data);
   }
 
   private clearElement(ids: ID[]) {
