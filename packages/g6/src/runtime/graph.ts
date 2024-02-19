@@ -439,6 +439,10 @@ export class Graph extends EventEmitter {
     return this.context.viewport!.rotate({ mode: 'absolute', value: angle, origin }, effectTiming);
   }
 
+  public getRotation(): number {
+    return this.context.viewport!.getRotation();
+  }
+
   public translateBy(
     offset: Point,
     origin?: Point,
