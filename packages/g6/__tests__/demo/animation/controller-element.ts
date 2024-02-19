@@ -31,7 +31,8 @@ export const controllerElement: AnimationTestCase = async (context) => {
   };
 
   const graph = createGraph(options, canvas);
-  await graph.render();
+  const r = await graph.draw();
+  await r?.finished;
 
   graph.addNodeData([
     { id: 'node-4', style: { x: 50, y: 200, stroke: 'orange' } },
@@ -43,10 +44,7 @@ export const controllerElement: AnimationTestCase = async (context) => {
 
   graph.updateNodeData([{ id: 'node-2', style: { x: 200, y: 200, stroke: 'green' } }]);
 
-  // @ts-expect-error context is private.
-  const element = graph.context.element;
-  // @ts-expect-error element.render() returns Proxy is not good design.
-  const result = await element.render(element.context);
+  const result = await graph.draw();
   return result;
 };
 

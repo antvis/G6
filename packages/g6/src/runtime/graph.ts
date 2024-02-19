@@ -348,10 +348,12 @@ export class Graph extends EventEmitter {
    * <zh/> 绘制元素
    *
    * <en/> Draw elements
+   * @returns <zh/> 渲染结果 | <en/> draw result
    */
   public async draw() {
     await this.prepare();
-    await this.context.element?.render(this.context);
+    // todo: 和 element.draw 一样，不应该返回任何动画相关的信息。
+    return await this.context.element?.render(this.context);
   }
 
   public async layout(): Promise<void> {

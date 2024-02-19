@@ -38,7 +38,8 @@ export const controllerElementPosition: AnimationTestCase = async (context) => {
   };
 
   const graph = createGraph(options, canvas);
-  await graph.render();
+  const r = await graph.draw();
+  await r?.finished;
 
   // @ts-expect-error context is private.
   const element = graph.context.element!;
