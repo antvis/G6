@@ -12,11 +12,12 @@ import { OffscreenCanvasContext } from './offscreen-canvas-context';
 /**
  * Create a graph with the given options, and use mock Canvas.
  * @param options - options
+ * @param graphCanvas - canvas
  * @returns Graph instance
  */
-export function createGraph(options: G6Spec) {
+export function createGraph(options: G6Spec, graphCanvas?: Canvas) {
   const { width, height } = options;
-  const canvas = createGraphCanvas(undefined, width, height);
+  const canvas = graphCanvas || createGraphCanvas(undefined, width, height);
 
   return new Graph({
     ...options,

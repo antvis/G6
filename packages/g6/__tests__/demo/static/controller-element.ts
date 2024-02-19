@@ -1,20 +1,6 @@
 import type { G6Spec } from '../../../src';
-import { DataController } from '../../../src/runtime/data';
-import { ElementController } from '../../../src/runtime/element';
-import type { RuntimeContext } from '../../../src/runtime/types';
-import { Graph } from '../../mock';
+import { createGraph } from '../../mock';
 import type { StaticTestCase } from '../types';
-
-const createContext = (canvas: any, options: G6Spec): RuntimeContext => {
-  const model = new DataController();
-  model.setData(options.data || {});
-  return {
-    canvas,
-    graph: new Graph() as any,
-    options,
-    model,
-  };
-};
 
 export const controllerElement: StaticTestCase = async (context) => {
   const { canvas, animation } = context;
@@ -46,11 +32,7 @@ export const controllerElement: StaticTestCase = async (context) => {
     },
   };
 
-  const elementContext = createContext(canvas, options);
+  const graph = createGraph(options, canvas);
 
-  const elementController = new ElementController(elementContext);
-
-  const result = await elementController.render(elementContext);
-
-  await result?.finished;
+  await graph.render();
 };

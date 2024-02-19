@@ -30,7 +30,7 @@ const options = {
   },
 };
 
-describe('viewport controller', () => {
+describe('ViewportController', () => {
   let graph: Graph;
   beforeAll(async () => {
     graph = createGraph(options);

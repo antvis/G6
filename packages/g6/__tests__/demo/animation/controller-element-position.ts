@@ -1,20 +1,7 @@
 import type { G6Spec } from '../../../src';
-import { DataController } from '../../../src/runtime/data';
-import { ElementController } from '../../../src/runtime/element';
-import type { RuntimeContext } from '../../../src/runtime/types';
-import { Graph } from '../../mock';
+import { delay } from '../../../src/utils/delay';
+import { createGraph } from '../../mock';
 import type { AnimationTestCase } from '../types';
-
-const createContext = (canvas: any, options: G6Spec): RuntimeContext => {
-  const model = new DataController();
-  model.setData(options.data || {});
-  return {
-    canvas,
-    graph: new Graph() as any,
-    options,
-    model,
-  };
-};
 
 export const controllerElementPosition: AnimationTestCase = async (context) => {
   const { canvas } = context;
@@ -51,15 +38,15 @@ export const controllerElementPosition: AnimationTestCase = async (context) => {
     edge: { style: {} },
   };
 
-  const elementContext = createContext(canvas, options);
+  const graph = createGraph(options, canvas);
+  await graph.render();
 
-  const elementController = new ElementController(elementContext);
+  await delay(500);
 
-  const renderResult = await elementController.render(elementContext);
+  // @ts-expect-error context is private.
+  const element = graph.context.element!;
 
-  await renderResult?.finished;
-
-  const result = elementController.updateNodeLikePosition(
+  const result = element.updateNodeLikePosition(
     {
       'node-1': [250, 100],
       'node-2': [175, 200],
