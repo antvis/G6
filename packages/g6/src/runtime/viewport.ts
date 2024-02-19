@@ -90,11 +90,13 @@ export class ViewportController {
       this.context.graph.emit(GraphEvent.BEFORE_VIEWPORT_ANIMATION, options);
 
       return new Promise<void>((resolve) => {
+        /**
+         * todo: gotoLandmark 存在问题，有一定概率导致不会触发 onfinish，因此需要设置一个超时时间
+         */
         const onfinish = () => {
           this.context.graph.emit(GraphEvent.AFTER_VIEWPORT_ANIMATION, options);
           resolve();
         };
-
         delay(effectTiming.duration).then(onfinish);
 
         this.camera.gotoLandmark(
