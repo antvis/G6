@@ -1,6 +1,6 @@
 import '../../src/preset';
 import * as animationCases from '../demo/animation';
-import { createNodeGCanvas } from './utils/create-node-g-canvas';
+import { createGraphCanvas } from '../mock/create';
 import { getCases } from './utils/get-cases';
 import { sleep } from './utils/sleep';
 import './utils/use-snapshot-matchers';
@@ -10,7 +10,7 @@ describe('static', () => {
 
   for (const [name, testCase] of cases) {
     it(`[animation]: ${name}`, async () => {
-      const canvas = createNodeGCanvas();
+      const canvas = createGraphCanvas();
 
       try {
         const { times = [], preprocess, postprocess } = testCase;

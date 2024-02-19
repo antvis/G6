@@ -1,6 +1,6 @@
 import '../../src/preset';
 import * as staticCases from '../demo/static/common';
-import { createNodeGCanvas } from './utils/create-node-g-canvas';
+import { createGraphCanvas } from '../mock/create';
 import { getCases } from './utils/get-cases';
 import { sleep } from './utils/sleep';
 import './utils/use-snapshot-matchers';
@@ -10,7 +10,7 @@ describe('static', () => {
 
   for (const [name, testCase] of cases) {
     it(`[static]: ${name}`, async () => {
-      const canvas = createNodeGCanvas();
+      const canvas = createGraphCanvas();
 
       try {
         const { preprocess, postprocess } = testCase;

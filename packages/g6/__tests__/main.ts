@@ -1,11 +1,8 @@
-import { Renderer as CanvasRenderer } from '@antv/g-canvas';
-import { Renderer as SVGRenderer } from '@antv/g-svg';
-import { Renderer as WebGLRenderer } from '@antv/g-webgl';
 import '../src/preset';
-import { Canvas } from '../src/runtime/canvas';
 import * as animations from './demo/animation';
 import * as statics from './demo/static';
 import type { TestCase } from './demo/types';
+import { createGraphCanvas } from './mock';
 
 const CASES = {
   statics,
@@ -41,6 +38,7 @@ window.onload = () => {
 };
 
 function loadCasesList(select: HTMLSelectElement) {
+  console.log(1111, CASES);
   Object.entries(CASES).forEach(([type, cases]) => {
     const optgroup = document.createElement('optgroup');
     optgroup.label = type;
@@ -54,30 +52,12 @@ function loadCasesList(select: HTMLSelectElement) {
   });
 }
 
-function onchange(testCase: TestCase, rendererName: string, animation: boolean) {
-  const renderer = getRenderer(rendererName);
-  const canvas = new Canvas({
-    width: 500,
-    height: 500,
-    container: document.getElementById('container')!,
-    renderer,
-  });
+function onchange(testCase: TestCase, renderer: string, animation: boolean) {
+  const canvas = createGraphCanvas(document.getElementById('container'), 500, 500, renderer);
+
   return canvas.init().then(async () => {
     await testCase({ canvas, animation, env: 'dev' });
   });
-}
-
-function getRenderer(rendererName: string) {
-  switch (rendererName) {
-    case 'webgl':
-      return () => new WebGLRenderer();
-    case 'svg':
-      return () => new SVGRenderer();
-    case 'canvas':
-      return () => new CanvasRenderer();
-    default:
-      return undefined;
-  }
 }
 
 function initialize() {
