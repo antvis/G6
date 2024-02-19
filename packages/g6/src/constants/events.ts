@@ -1,33 +1,33 @@
 export const enum GraphEvent {
-  /** <zh/> 开始视口动画 | <en/> Start the viewport animation */
+  /** <zh/> 视口动画开始之前 | <en/> Before the viewport animation starts */
   BEFORE_VIEWPORT_ANIMATION = 'beforeviewportanimation',
-  /** <zh/> 结束视口动画 | <en/> End the viewport animation */
+  /** <zh/> 视口动画结束之后 | <en/> After the viewport animation ends */
   AFTER_VIEWPORT_ANIMATION = 'afterviewportanimation',
-  /** <zh/> 停止视口动画 | <en/> Stop the viewport animation */
+  /** <zh/> 视口动画停止之前 | <en/> Before the viewport animation stops */
   CANCEL_VIEWPORT_ANIMATION = 'cancelviewportanimation',
-  /** <zh/> 开始创建元素 | <en/> Start creating element */
-  BEFORE_CREATE_ELEMENT = 'beforecreateelement',
-  /** <zh/> 结束创建元素 | <en/> End creating element */
-  AFTER_CREATE_ELEMENT = 'aftercreateelement',
-  /** <zh/> 开始更新元素 | <en/> Start updating element */
-  BEFORE_UPDATE_ELEMENT = 'beforeupdateelement',
-  /** <zh/> 结束更新元素 | <en/> End updating element */
-  AFTER_UPDATE_ELEMENT = 'afterupdateelement',
-  /** <zh/> 开始销毁元素 | <en/> Start destroy element */
-  BEFORE_DESTROY_ELEMENT = 'beforedestroyelement',
-  /** <zh/> 结束销毁元素 | <en/> End destroy element */
-  AFTER_DESTROY_ELEMENT = 'afterdestroyelement',
-  /** <zh/> 开始移动元素 | <en/> Start moving element */
-  BEFORE_MOVE_ELEMENT = 'beforemoveelement',
-  /** <zh/> 结束移动元素 | <en/> End moving element */
-  AFTER_MOVE_ELEMENT = 'aftermoveelement',
-  /** <zh/> 开始渲染 | <en/> Start rendering */
+  /** <zh/> 元素创建之前 | <en/> Before creating element */
+  BEFORE_ELEMENT_CREATE = 'beforeelementcreate',
+  /** <zh/> 元素创建之后 | <en/> After creating element */
+  AFTER_ELEMENT_CREATE = 'afterelementcreate',
+  /** <zh/> 元素更新之前 | <en/> Before updating element */
+  BEFORE_ELEMENT_UPDATE = 'beforeelementupdate',
+  /** <zh/> 元素更新之后 | <en/> After updating element */
+  AFTER_ELEMENT_UPDATE = 'afterelementupdate',
+  /** <zh/> 元素销毁之前 | <en/> Before destroying element */
+  BEFORE_ELEMENT_DESTROY = 'beforeelementdestroy',
+  /** <zh/> 元素销毁之后 | <en/> After destroying element */
+  AFTER_ELEMENT_DESTROY = 'afterelementdestroy',
+  /** <zh/> 元素平移之前 | <en/> Before element translation */
+  BEFORE_ELEMENT_TRANSLATE = 'beforeelementtranslate',
+  /** <zh/> 元素平移之后 | <en/> After element translation */
+  AFTER_ELEMENT_TRANSLATE = 'afterelementtranslate',
+  /** <zh/> 渲染开始之前 | <en/> Before rendering */
   BEFORE_RENDER = 'beforerender',
-  /** <zh/> 结束渲染 | <en/> End rendering */
+  /** <zh/> 渲染完成之后 | <en/> After rendering */
   AFTER_RENDER = 'afterrender',
-  /** <zh/> 开始布局 | <en/> Start layout */
+  /** <zh/> 布局开始之前 | <en/> Before layout */
   BEFORE_LAYOUT = 'beforelayout',
-  /** <zh/> 结束布局 | <en/> End layout */
+  /** <zh/> 布局结束之后 | <en/> After layout */
   AFTER_LAYOUT = 'afterlayout',
   /** <zh/> 元素可见性变化之前 | <en/> Before the visibility of the element changes */
   BEFORE_ELEMENT_VISIBILITY_CHANGE = 'beforeelementvisibilitychange',
