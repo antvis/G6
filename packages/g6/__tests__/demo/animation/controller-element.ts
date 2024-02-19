@@ -1,5 +1,4 @@
 import type { G6Spec } from '../../../src';
-import { delay } from '../../../src/utils/delay';
 import { createGraph } from '../../mock';
 import type { AnimationTestCase } from '../types';
 
@@ -33,8 +32,6 @@ export const controllerElement: AnimationTestCase = async (context) => {
 
   const graph = createGraph(options, canvas);
   await graph.render();
-
-  await delay(500);
 
   graph.addNodeData([
     { id: 'node-4', style: { x: 50, y: 200, stroke: 'orange' } },

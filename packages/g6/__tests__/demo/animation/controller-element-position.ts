@@ -1,5 +1,4 @@
 import type { G6Spec } from '../../../src';
-import { delay } from '../../../src/utils/delay';
 import { createGraph } from '../../mock';
 import type { AnimationTestCase } from '../types';
 
@@ -40,8 +39,6 @@ export const controllerElementPosition: AnimationTestCase = async (context) => {
 
   const graph = createGraph(options, canvas);
   await graph.render();
-
-  await delay(500);
 
   // @ts-expect-error context is private.
   const element = graph.context.element!;

@@ -38,7 +38,6 @@ window.onload = () => {
 };
 
 function loadCasesList(select: HTMLSelectElement) {
-  console.log(1111, CASES);
   Object.entries(CASES).forEach(([type, cases]) => {
     const optgroup = document.createElement('optgroup');
     optgroup.label = type;

@@ -1,5 +1,4 @@
 import type { G6Spec } from '../../../src';
-import { delay } from '../../../src/utils/delay';
 import { createGraph } from '../../mock';
 import type { AnimationTestCase } from '../types';
 
@@ -60,8 +59,6 @@ export const controllerElementState: AnimationTestCase = async (context) => {
 
   const graph = createGraph(options, canvas);
   await graph.render();
-
-  await delay(500);
 
   graph.updateData({
     nodes: [
