@@ -180,8 +180,8 @@ describe('element', () => {
     expect(rect.style.width).toBe(100);
     expect(rect.style.height).toBe(100);
 
-    const circle = new Circle({ style: { r: 50 } });
-    updateStyle(circle, { r: 100 });
-    expect(circle.style.r).toBe(100);
+    const circle = new Circle({ style: { width: 50, height: 50 } });
+    updateStyle(circle, { width: 100 });
+    expect(circle.style.width).toBe(100);
   });
 });

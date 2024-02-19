@@ -4,7 +4,27 @@ import type { Canvas } from '../../src/runtime/canvas';
 type TestCaseContext = {
   canvas: Canvas;
   animation: boolean;
+  /**
+   * <zh/> 测试用例断言
+   *
+   * <en/> Test case assertion
+   */
+  expect?: jest.Expect;
+  /**
+   * <zh/> 测试用例手动比对快照
+   *
+   * <en/> Manually compare snapshots of test cases
+   */
+  toMatchSVGSnapshot?: (suffix: string) => Promise<void>;
+  /**
+   * <zh/> 测试用例环境
+   *
+   * <en/> Test case environment
+   */
+  env: 'test' | 'dev';
 };
+
+export type TestCase = StaticTestCase | AnimationTestCase;
 
 export interface StaticTestCase extends BaseTestCase {
   (context: TestCaseContext): Promise<void>;
@@ -37,4 +57,5 @@ export interface BaseTestCase {
    * @returns
    */
   postprocess?: () => Promise<void>;
+  form?: { label?: string; type: string; options?: Record<string, unknown>; onload?: (el: HTMLElement) => void }[];
 }

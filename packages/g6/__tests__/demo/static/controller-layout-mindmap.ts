@@ -1,5 +1,5 @@
 import type { G6Spec } from '../../../src';
-import { transformTreeDataToGraphData } from '../../../src';
+import { treeToGraphData } from '../../../src';
 import { DataController } from '../../../src/runtime/data';
 import { ElementController } from '../../../src/runtime/element';
 import { LayoutController } from '../../../src/runtime/layout';
@@ -10,7 +10,7 @@ import type { StaticTestCase } from '../types';
 export const controllerLayoutMindmap: StaticTestCase = async ({ canvas, animation }) => {
   const options: G6Spec = {
     animation,
-    data: transformTreeDataToGraphData(tree),
+    data: treeToGraphData(tree),
     theme: 'light',
     layout: {
       type: 'mindmap',

@@ -1,5 +1,5 @@
 import { clone } from '@antv/util';
-import { transformTreeDataToGraphData } from '../../../src';
+import { treeToGraphData } from '../../../src';
 import { DataController } from '../../../src/runtime/data';
 import { reduceDataChanges } from '../../../src/utils/change';
 import tree from '../../dataset/algorithm-category.json';
@@ -525,7 +525,9 @@ describe('DataController', () => {
 
     expect(controller.getElementsData(['combo-1'])[0]).toEqual(data.combos[0]);
 
-    expect(controller.getElementsData(['undefined'])[0]).toEqual(undefined);
+    expect(() => {
+      controller.getElementsData(['undefined'])[0];
+    }).toThrow();
   });
 
   it('getNodeLikeData', () => {
@@ -545,7 +547,7 @@ describe('DataController', () => {
   it('getParentData getChildrenData', () => {
     const controller = new DataController();
 
-    controller.addData(transformTreeDataToGraphData(tree));
+    controller.addData(treeToGraphData(tree));
 
     expect(controller.getParentData('Classification')?.id).toBe(tree.id);
 
@@ -681,6 +683,8 @@ describe('DataController', () => {
 
     expect(controller.getElementType('combo-1')).toEqual('combo');
 
-    expect(controller.getElementType('undefined')).toEqual('unknown');
+    expect(() => {
+      controller.getElementType('undefined');
+    }).toThrow();
   });
 });

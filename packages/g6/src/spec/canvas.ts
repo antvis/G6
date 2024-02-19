@@ -1,4 +1,5 @@
 import type { CanvasConfig, IRenderer } from '@antv/g';
+import type { Canvas } from '../runtime/canvas';
 import type { CanvasLayer } from '../types/canvas';
 
 /**
@@ -7,7 +8,8 @@ import type { CanvasLayer } from '../types/canvas';
  * <en/> Canvas spec
  * @public
  */
-export type CanvasOptions = Pick<CanvasConfig, 'container' | 'devicePixelRatio'> & {
+export type CanvasOptions = Pick<CanvasConfig, 'devicePixelRatio'> & {
+  container?: string | HTMLElement | Canvas;
   /**
    * <zh/> 画布宽度
    *

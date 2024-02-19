@@ -25,7 +25,6 @@
               d="M 0,0 L 150,0"
               stroke="rgba(139,155,175,1)"
               stroke-width="1"
-              opacity="0.37293273049835485"
             />
           </g>
         </g>
@@ -36,13 +35,15 @@
           marker-end="false"
           transform="matrix(1,0,0,1,0,0)"
         >
-          <g transform="matrix(1,0,0,1,125,144.060089)">
+          <g transform="matrix(1,0,0,1,125,50)">
             <path
               id="key"
               fill="none"
-              d="M 75,0 C 37.5 2.9699547873765937,0 5.939909574753216,0 5.939909574753216"
+              d="M 75,0 L 0,100"
               stroke="rgba(139,155,175,1)"
               stroke-width="1"
+              opacity="0.5"
+              visibility="visible"
             />
           </g>
         </g>
@@ -60,7 +61,7 @@
               d="M 75,100 L 0,0"
               stroke="rgba(139,155,175,1)"
               stroke-width="1"
-              opacity="0.37293273049835485"
+              visibility="visible"
             />
           </g>
         </g>
@@ -82,7 +83,6 @@
               cy="10"
               stroke="rgba(139,155,175,1)"
               r="10"
-              opacity="0.37293273049835485"
             />
           </g>
         </g>
@@ -91,7 +91,7 @@
           fill="none"
           width="20"
           height="20"
-          transform="matrix(1,0,0,1,200,144.060089)"
+          transform="matrix(1,0,0,1,200,50)"
         >
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
@@ -100,7 +100,7 @@
               transform="translate(-10,-10)"
               cx="10"
               cy="10"
-              stroke="rgba(52,138,65,1)"
+              stroke="rgba(139,155,175,1)"
               r="10"
             />
           </g>
@@ -120,67 +120,9 @@
               cx="10"
               cy="10"
               stroke="rgba(139,155,175,1)"
+              opacity="0.5"
               r="10"
-            />
-          </g>
-        </g>
-        <g
-          id="node-4"
-          fill="none"
-          width="20"
-          height="20"
-          transform="matrix(1,0,0,1,50,200)"
-        >
-          <g transform="matrix(1,0,0,1,0,0)">
-            <circle
-              id="key"
-              fill="rgba(248,248,248,1)"
-              transform="translate(-10,-10)"
-              cx="10"
-              cy="10"
-              stroke="rgba(255,165,0,1)"
-              r="10"
-              opacity="0.6270672695016452"
-            />
-          </g>
-        </g>
-        <g
-          id="node-5"
-          fill="none"
-          width="20"
-          height="20"
-          transform="matrix(1,0,0,1,75,150)"
-        >
-          <g transform="matrix(1,0,0,1,0,0)">
-            <circle
-              id="key"
-              fill="rgba(248,248,248,1)"
-              transform="translate(-10,-10)"
-              cx="10"
-              cy="10"
-              stroke="rgba(128,0,128,1)"
-              r="10"
-              opacity="0.6270672695016452"
-            />
-          </g>
-        </g>
-        <g
-          id="node-6"
-          fill="none"
-          width="20"
-          height="20"
-          transform="matrix(1,0,0,1,200,100)"
-        >
-          <g transform="matrix(1,0,0,1,0,0)">
-            <circle
-              id="key"
-              fill="rgba(248,248,248,1)"
-              transform="translate(-10,-10)"
-              cx="10"
-              cy="10"
-              stroke="rgba(0,255,255,1)"
-              r="10"
-              opacity="0.6270672695016452"
+              visibility="visible"
             />
           </g>
         </g>

@@ -6,6 +6,8 @@
 
 export * from './controller-element';
 export * from './controller-element-position';
+export * from './controller-element-visibility';
+export * from './controller-element-z-index';
 export * from './controller-layout-circular';
 export * from './controller-layout-compact-box';
 export * from './controller-layout-d3-force';
@@ -25,6 +27,7 @@ export * from './edge-loop';
 export * from './edge-polyline';
 export * from './edge-port';
 export * from './edge-quadratic';
+export * from './graph-element';
 export * from './layered-canvas';
 export * from './node-circle';
 export * from './node-ellipse';

@@ -8,11 +8,16 @@ import {
   isLinesParallel,
   isVertical,
   parsePoint,
+  toPointObject,
 } from '../../../src/utils/point';
 
 describe('Point Functions', () => {
   it('parsePoint', () => {
     expect(parsePoint({ x: 100, y: 100 })).toEqual([100, 100]);
+  });
+
+  it('toPointObject', () => {
+    expect(toPointObject([100, 100])).toEqual({ x: 100, y: 100 });
   });
 
   it('isHorizontal', () => {

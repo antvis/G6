@@ -1,5 +1,4 @@
-import type { AABB } from '@antv/g';
-import type { Point as IPoint } from '@antv/util';
+import type { AABB, PointLike } from '@antv/g';
 import type { Point } from '../types';
 import { getBBoxHeight, getBBoxWidth } from './bbox';
 import { getXYByPosition } from './element';
@@ -7,13 +6,24 @@ import { isBetween } from './math';
 import { add, angle, cross, distance, subtract } from './vector';
 
 /**
- * <zh/> 将点对象转换为向量
- * <en/> Convert a point object to a vector
- * @param point - <zh/> 点对象 | <en/> point object
- * @returns <zh/> 向量 | <en/> vector
+ * <zh/> 将对象坐标转换为数组坐标
+ * <en/> Convert object coordinates to array coordinates
+ * @param point - <zh/> 对象坐标 | <en/> object coordinates
+ * @returns <zh/> 数组坐标 | <en/> array coordinates
  */
-export function parsePoint(point: IPoint): Point {
+export function parsePoint(point: PointLike): Point {
   return [point.x, point.y];
+}
+
+/**
+ * <zh/> 将数组坐标转换为对象坐标
+ *
+ * <en/> Convert array coordinates to object coordinates
+ * @param point - <zh/> 数组坐标 | <en/> array coordinates
+ * @returns <zh/> 对象坐标 | <en/> object coordinates
+ */
+export function toPointObject(point: Point): PointLike {
+  return { x: point[0], y: point[1] };
 }
 
 /**

@@ -264,7 +264,7 @@ export function getRectPoints(width: number, height: number): Point[] {
  * @returns <zh/> 是否可见 | <en/> whether the element is visible
  */
 export function isVisible(element: DisplayObject) {
-  return element.style.visibility !== 'hidden';
+  return element?.style?.visibility !== 'hidden';
 }
 
 /**

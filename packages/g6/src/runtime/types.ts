@@ -3,21 +3,22 @@ import type { Canvas } from './canvas';
 import type { DataController } from './data';
 import type { ElementController } from './element';
 import type { Graph } from './graph';
+import type { LayoutController } from './layout';
 import type { ViewportController } from './viewport';
 
 export interface RuntimeContext {
+  /**
+   * <zh/> 图实例
+   *
+   * <en/> Graph instance
+   */
+  graph: Graph;
   /**
    * <zh/> 画布实例
    *
    * <en/> Canvas instance
    */
   canvas: Canvas;
-  /**
-   * <zh/> G6 实例
-   *
-   * <en/> G6 instance
-   */
-  graph: Graph;
   /**
    * <zh/> G6 配置项
    *
@@ -46,4 +47,10 @@ export interface RuntimeContext {
    * <en/> Viewport controller
    */
   viewport?: ViewportController;
+  /**
+   * <zh/> 布局
+   *
+   * <en/> Layout
+   */
+  layout?: LayoutController;
 }

@@ -44,8 +44,11 @@ export type EdgeData = {
 };
 
 interface NodeLikeDataStyle extends BaseElementStyle, NodeLikeStyle {
+  /** <zh/> 节点 / combo 是否展开 | <en/> Whether the node / combo is expanded */
   collapsed?: boolean;
+  /** <zh/> 父节点 id | <en/> Parent node id */
   parentId?: ID;
+  /** <zh/> 子节点 id | <en/> Child node id */
   children?: ID[];
 }
 
