@@ -1,6 +1,6 @@
-import { Theme } from './types';
+import type { Theme } from './types';
 
-export const LIGHT_THEME: Theme = {
+export const light: Theme = {
   node: {
     style: {
       fill: '#f8f8f8',

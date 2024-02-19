@@ -1,10 +1,10 @@
 import type { G6Spec } from '../../../src';
-import { BUILT_IN_PALETTES } from '../../../src/palettes';
+import * as BUILT_IN_PALETTES from '../../../src/palettes';
 import '../../../src/preset';
 import { DataController } from '../../../src/runtime/data';
 import { ElementController } from '../../../src/runtime/element';
 import type { RuntimeContext } from '../../../src/runtime/types';
-import { LIGHT_THEME } from '../../../src/themes/light';
+import { light as LIGHT_THEME } from '../../../src/themes';
 import { idOf } from '../../../src/utils/id';
 import { Graph } from '../../mock';
 
