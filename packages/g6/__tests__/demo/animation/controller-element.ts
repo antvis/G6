@@ -1,20 +1,6 @@
 import type { G6Spec } from '../../../src';
-import { DataController } from '../../../src/runtime/data';
-import { ElementController } from '../../../src/runtime/element';
-import type { RuntimeContext } from '../../../src/runtime/types';
-import { Graph } from '../../mock';
+import { createGraph } from '../../mock';
 import type { AnimationTestCase } from '../types';
-
-const createContext = (canvas: any, options: G6Spec): RuntimeContext => {
-  const model = new DataController();
-  model.setData(options.data || {});
-  return {
-    canvas,
-    graph: new Graph() as any,
-    options,
-    model,
-  };
-};
 
 export const controllerElement: AnimationTestCase = async (context) => {
   const { canvas } = context;
@@ -44,26 +30,21 @@ export const controllerElement: AnimationTestCase = async (context) => {
     },
   };
 
-  const elementContext = createContext(canvas, options);
+  const graph = createGraph(options, canvas);
+  const r = await graph.draw();
+  await r?.finished;
 
-  const elementController = new ElementController(elementContext);
-
-  const renderResult = await elementController.render(elementContext);
-
-  await renderResult?.finished;
-
-  elementContext.model.addNodeData([
+  graph.addNodeData([
     { id: 'node-4', style: { x: 50, y: 200, stroke: 'orange' } },
     { id: 'node-5', style: { x: 75, y: 150, stroke: 'purple' } },
     { id: 'node-6', style: { x: 200, y: 100, stroke: 'cyan' } },
   ]);
 
-  elementContext.model.removeNodeData(['node-1']);
+  graph.removeNodeData(['node-1']);
 
-  elementContext.model.updateNodeData([{ id: 'node-2', style: { x: 200, y: 200, stroke: 'green' } }]);
+  graph.updateNodeData([{ id: 'node-2', style: { x: 200, y: 200, stroke: 'green' } }]);
 
-  const result = await elementController.render(elementContext);
-
+  const result = await graph.draw();
   return result;
 };
 

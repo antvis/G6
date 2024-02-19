@@ -557,6 +557,9 @@ export class ElementController {
       renderContext,
     );
 
+    // todo: 不应该返回动画相关的信息，如果确实外部需要，那么应该提供方法获取这类 context 信息。
+    // animation 不是一个需要给开发者强制暴露的信息，因此不应该在这里返回。
+    // updateNodeLikePosition 也是同理，这些都会影响到 Graph API 的封装。
     return this.postRender(taskId, () => {
       this.emit(GraphEvent.AFTER_RENDER);
     });

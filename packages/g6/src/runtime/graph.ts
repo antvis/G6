@@ -348,10 +348,12 @@ export class Graph extends EventEmitter {
    * <zh/> 绘制元素
    *
    * <en/> Draw elements
+   * @returns <zh/> 渲染结果 | <en/> draw result
    */
   public async draw() {
     await this.prepare();
-    await this.context.element?.render(this.context);
+    // todo: 和 element.draw 一样，不应该返回任何动画相关的信息。
+    return await this.context.element?.render(this.context);
   }
 
   public async layout(): Promise<void> {
@@ -369,11 +371,12 @@ export class Graph extends EventEmitter {
   }
 
   public destroy(): void {
-    const { layout, element, model, canvas } = this.context;
+    const { layout, element, model, canvas, viewport } = this.context;
     layout?.destroy();
     element?.destroy();
     model.destroy();
     canvas?.destroy();
+    viewport?.destroy();
     this.options = {};
     // @ts-expect-error force delete
     delete this.context;
@@ -437,6 +440,10 @@ export class Graph extends EventEmitter {
     effectTiming?: ViewportAnimationEffectTiming,
   ): Promise<void> | undefined {
     return this.context.viewport!.rotate({ mode: 'absolute', value: angle, origin }, effectTiming);
+  }
+
+  public getRotation(): number {
+    return this.context.viewport!.getRotation();
   }
 
   public translateBy(

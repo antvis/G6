@@ -1,21 +1,7 @@
 import type { G6Spec } from '../../../src';
-import { DataController } from '../../../src/runtime/data';
-import { ElementController } from '../../../src/runtime/element';
-import type { RuntimeContext } from '../../../src/runtime/types';
 import { idOf } from '../../../src/utils/id';
-import { Graph } from '../../mock';
+import { createGraph } from '../../mock';
 import type { StaticTestCase } from '../types';
-
-const createContext = (canvas: any, options: G6Spec): RuntimeContext => {
-  const model = new DataController();
-  model.setData(options.data || {});
-  return {
-    canvas,
-    graph: new Graph() as any,
-    options,
-    model,
-  };
-};
 
 export const controllerElementVisibility: StaticTestCase = async (context) => {
   const { canvas, animation, toMatchSVGSnapshot, env } = context;
@@ -48,29 +34,18 @@ export const controllerElementVisibility: StaticTestCase = async (context) => {
     },
   };
 
-  const elementContext = createContext(canvas, options);
-
-  const elementController = new ElementController(elementContext);
-
-  const result = await elementController.render(elementContext);
-
-  await result?.finished;
+  const graph = createGraph(options, canvas);
+  await graph.render();
 
   const hide = () =>
-    elementController.setElementsVisibility(
-      ['node-3', idOf(options.data!.edges![1]), idOf(options.data!.edges![2])],
-      'hidden',
-    );
+    graph.setElementVisibility(['node-3', idOf(options.data!.edges![1]), idOf(options.data!.edges![2])], 'hidden');
   const show = () =>
-    elementController.setElementsVisibility(
-      ['node-3', idOf(options.data!.edges![1]), idOf(options.data!.edges![2])],
-      'visible',
-    );
+    graph.setElementVisibility(['node-3', idOf(options.data!.edges![1]), idOf(options.data!.edges![2])], 'visible');
 
   if (env === 'test') {
-    await hide()?.finished;
+    await hide();
     await toMatchSVGSnapshot?.('hidden');
-    await show()?.finished;
+    await show();
   }
 
   controllerElementVisibility.form = [

@@ -7,6 +7,7 @@ import type {
   ViewportAnimationEffectTiming,
   ZoomOptions,
 } from '../types';
+import { delay } from '../utils/delay';
 import type { RuntimeContext } from './types';
 
 export class ViewportController {
@@ -89,11 +90,14 @@ export class ViewportController {
       this.context.graph.emit(GraphEvent.BEFORE_VIEWPORT_ANIMATION, options);
 
       return new Promise<void>((resolve) => {
+        /**
+         * todo: gotoLandmark 存在问题，有一定概率导致不会触发 onfinish，因此需要设置一个超时时间
+         */
         const onfinish = () => {
           this.context.graph.emit(GraphEvent.AFTER_VIEWPORT_ANIMATION, options);
           resolve();
         };
-        resolveWhenTimeout(onfinish, effectTiming.duration);
+        delay(effectTiming.duration).then(onfinish);
 
         this.camera.gotoLandmark(
           this.createLandmark(
@@ -129,7 +133,7 @@ export class ViewportController {
           this.context.graph.emit(GraphEvent.AFTER_VIEWPORT_ANIMATION, options);
           resolve();
         };
-        resolveWhenTimeout(onfinish, effectTiming.duration);
+        delay(effectTiming.duration).then(onfinish);
 
         this.camera.gotoLandmark(
           this.createLandmark({ roll: mode === 'relative' ? camera.getRoll() + angle : angle }),
@@ -163,7 +167,7 @@ export class ViewportController {
           this.context.graph.emit(GraphEvent.AFTER_VIEWPORT_ANIMATION, options);
           resolve();
         };
-        resolveWhenTimeout(onfinish, effectTiming.duration);
+        delay(effectTiming.duration).then(onfinish);
 
         this.camera.gotoLandmark(this.createLandmark({ zoom: targetRatio }), { ...effectTiming, onfinish });
       });
@@ -184,19 +188,4 @@ export class ViewportController {
   public destroy() {
     this.cancelAnimation();
   }
-}
-
-/**
- * <zh/> 延迟一段时间后执行 resolve
- *
- * <en/> Execute resolve after a period of time
- * @param resolve - <zh/> resolve 函数 | <en/> resolve function
- * @param timeout - <zh/> 延迟时间 | <en/> delay time
- * @description
- * <zh/> gotoLandmark 存在问题，有一定概率导致不会触发 onfinish，因此需要设置一个超时时间
- *
- * <en/> There is a problem with gotoLandmark, which may not trigger onfinish with a certain probability, so a timeout needs to be set
- */
-function resolveWhenTimeout(resolve: () => void, timeout: number = 500) {
-  setTimeout(resolve, timeout);
 }

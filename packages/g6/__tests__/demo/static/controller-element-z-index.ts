@@ -1,20 +1,6 @@
 import type { G6Spec } from '../../../src';
-import { DataController } from '../../../src/runtime/data';
-import { ElementController } from '../../../src/runtime/element';
-import type { RuntimeContext } from '../../../src/runtime/types';
-import { Graph } from '../../mock';
+import { createGraph } from '../../mock';
 import type { StaticTestCase } from '../types';
-
-const createContext = (canvas: any, options: G6Spec): RuntimeContext => {
-  const model = new DataController();
-  model.setData(options.data || {});
-  return {
-    canvas,
-    graph: new Graph() as any,
-    options,
-    model,
-  };
-};
 
 export const controllerElementZIndex: StaticTestCase = async (context) => {
   const { canvas, animation, toMatchSVGSnapshot, env } = context;
@@ -38,17 +24,12 @@ export const controllerElementZIndex: StaticTestCase = async (context) => {
     },
   };
 
-  const elementContext = createContext(canvas, options);
+  const graph = createGraph(options, canvas);
+  await graph.render();
 
-  const elementController = new ElementController(elementContext);
-
-  const result = await elementController.render(elementContext);
-
-  await result?.finished;
-
-  const front = () => elementController.setElementZIndex('node-2', 'front');
-  const back = () => elementController.setElementZIndex('node-2', 'back');
-  const to = (zIndex: number) => elementController.setElementZIndex('node-2', zIndex);
+  const front = () => graph.setElementZIndex('node-2', 'front');
+  const back = () => graph.setElementZIndex('node-2', 'back');
+  const to = (zIndex: number) => graph.setElementZIndex('node-2', zIndex);
 
   if (env === 'test') {
     front();

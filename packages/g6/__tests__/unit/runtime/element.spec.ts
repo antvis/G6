@@ -1,35 +1,10 @@
+import { omit } from '@antv/util';
 import type { G6Spec } from '../../../src';
 import * as BUILT_IN_PALETTES from '../../../src/palettes';
 import '../../../src/preset';
-import { DataController } from '../../../src/runtime/data';
-import { ElementController } from '../../../src/runtime/element';
-import type { RuntimeContext } from '../../../src/runtime/types';
 import { light as LIGHT_THEME } from '../../../src/themes';
 import { idOf } from '../../../src/utils/id';
-import { Graph } from '../../mock';
-
-class Canvas {
-  init() {
-    return Promise.resolve();
-  }
-
-  children: unknown[] = [];
-  appendChild(node: unknown) {
-    this.children.push(node);
-    return node;
-  }
-}
-
-const createContext = (options: G6Spec): RuntimeContext => {
-  const model = new DataController();
-  model.setData(options.data || {});
-  return {
-    canvas: new Canvas() as any,
-    graph: new Graph() as any,
-    options,
-    model,
-  };
-};
+import { createGraph } from '../../mock';
 
 describe('ElementController', () => {
   it('static', async () => {
@@ -83,16 +58,15 @@ describe('ElementController', () => {
         palette: 'blues',
       },
     };
+    const graph = createGraph(options);
 
-    const context = createContext(options);
+    await graph.render();
 
-    const elementController = new ElementController(context);
+    // @ts-expect-error context is private.
+    const elementController = graph.context.element!;
 
     const edge1Id = idOf(options.data!.edges![0]);
     const edge2Id = idOf(options.data!.edges![1]);
-
-    // @ts-expect-error computeStyle is private
-    elementController.computeStyle();
 
     expect(elementController.getDataStyle('node', 'node-1')).toEqual(options.data!.nodes![0].style || {});
     // 没有属性 / no style
@@ -181,13 +155,14 @@ describe('ElementController', () => {
       color: BUILT_IN_PALETTES.spectral[2],
     });
 
-    expect(elementController.getElementComputedStyle('edge', edge1Id)).toEqual({
+    expect(omit(elementController.getElementComputedStyle('edge', edge1Id), ['sourceNode', 'targetNode'])).toEqual({
       ...LIGHT_THEME.edge?.style,
       sourcePoint: [0, 0, 0],
       targetPoint: [0, 0, 0],
       color: BUILT_IN_PALETTES.oranges.at(-1),
     });
-    expect(elementController.getElementComputedStyle('edge', edge2Id)).toEqual({
+
+    expect(omit(elementController.getElementComputedStyle('edge', edge2Id), ['sourceNode', 'targetNode'])).toEqual({
       ...LIGHT_THEME.edge?.style,
       ...LIGHT_THEME.edge?.state?.active,
       ...LIGHT_THEME.edge?.state?.selected,
@@ -202,14 +177,13 @@ describe('ElementController', () => {
       color: BUILT_IN_PALETTES.oranges.at(-2),
     });
 
-    expect(elementController.getElementComputedStyle('combo', 'combo-1')).toEqual({
+    const comboStyle = elementController.getElementComputedStyle('combo', 'combo-1');
+
+    expect(omit(comboStyle, ['children'])).toEqual({
       ...LIGHT_THEME.combo?.style,
       color: BUILT_IN_PALETTES.blues[0],
-      children: {
-        // 值为 undefined 是因为在非运行时环境 / The value is undefined because it is not in the runtime environment
-        'node-3': undefined,
-      },
     });
+    expect(Object.keys(comboStyle.children)).toEqual(['node-3']);
   });
 
   it('mock runtime', async () => {
@@ -228,11 +202,12 @@ describe('ElementController', () => {
       },
     };
 
-    const context = createContext(options);
+    const graph = createGraph(options);
 
-    const elementController = new ElementController(context);
+    await graph.render();
 
-    await elementController.render(context);
+    // @ts-expect-error context is private.
+    const elementController = graph.context.element!;
 
     expect(elementController.getNodes().length).toBe(3);
     expect(elementController.getEdges().length).toBe(2);

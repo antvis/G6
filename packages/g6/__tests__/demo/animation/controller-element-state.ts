@@ -1,20 +1,6 @@
 import type { G6Spec } from '../../../src';
-import { DataController } from '../../../src/runtime/data';
-import { ElementController } from '../../../src/runtime/element';
-import type { RuntimeContext } from '../../../src/runtime/types';
-import { Graph } from '../../mock';
+import { createGraph } from '../../mock';
 import type { AnimationTestCase } from '../types';
-
-const createContext = (canvas: any, options: G6Spec): RuntimeContext => {
-  const model = new DataController();
-  model.setData(options.data || {});
-  return {
-    canvas,
-    graph: new Graph() as any,
-    options,
-    model,
-  };
-};
 
 export const controllerElementState: AnimationTestCase = async (context) => {
   const { canvas } = context;
@@ -71,15 +57,11 @@ export const controllerElementState: AnimationTestCase = async (context) => {
     },
   };
 
-  const elementContext = createContext(canvas, options);
+  const graph = createGraph(options, canvas);
+  const r = await graph.draw();
+  await r?.finished;
 
-  const elementController = new ElementController(elementContext);
-
-  const renderResult = await elementController.render(elementContext);
-
-  await renderResult?.finished;
-
-  elementContext.model.updateData({
+  graph.updateData({
     nodes: [
       { id: 'node-1', style: { states: [] } },
       { id: 'node-2', style: { states: ['active'] } },
@@ -91,8 +73,7 @@ export const controllerElementState: AnimationTestCase = async (context) => {
     ],
   });
 
-  const result = await elementController.render(elementContext);
-
+  const result = await graph.draw();
   return result;
 };
 
