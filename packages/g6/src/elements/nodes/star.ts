@@ -39,6 +39,6 @@ export class Star extends Polygon<StarKeyStyleProps> {
     const bbox = this.getKey().getLocalBounds();
     const ports = getStarPorts(this.getOuterR(attributes), this.getInnerR(attributes));
     const [cx, cy] = getPortPosition(bbox, position as StarPortPosition, ports, false);
-    return { cx, cy, r, ...restStyle };
+    return Object.assign({ cx, cy, r }, restStyle);
   }
 }

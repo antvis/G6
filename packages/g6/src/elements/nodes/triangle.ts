@@ -43,7 +43,7 @@ export class Triangle extends Polygon<TriangleKeyShapeStyleProps> {
     const ports = getTrianglePorts(width, height, direction);
     const [cx, cy] = getPortPosition(bbox, position as TrianglePortPosition, ports, false);
     const r = Math.min(anchorWidth, anchorHeight) / 2;
-    return { cx, cy, r, ...restStyle };
+    return Object.assign({ cx, cy, r }, restStyle);
   }
 
   // icon 处于三角形的重心
