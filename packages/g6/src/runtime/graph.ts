@@ -369,11 +369,12 @@ export class Graph extends EventEmitter {
   }
 
   public destroy(): void {
-    const { layout, element, model, canvas } = this.context;
+    const { layout, element, model, canvas, viewport } = this.context;
     layout?.destroy();
     element?.destroy();
     model.destroy();
     canvas?.destroy();
+    viewport?.destroy();
     this.options = {};
     // @ts-expect-error force delete
     delete this.context;

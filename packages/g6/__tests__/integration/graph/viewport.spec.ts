@@ -44,42 +44,42 @@ describe('viewport controller', () => {
     expect(y).toBeCloseTo(250);
   });
 
-  it('viewport zoom', () => {
+  it('viewport zoom', async () => {
     expect(graph.getZoom()).toBe(1);
 
-    graph.zoomBy(0.5);
+    await graph.zoomBy(0.5);
     expect(graph.getZoom()).toBe(0.5);
 
-    graph.zoomBy(4);
+    await graph.zoomBy(4);
     expect(graph.getZoom()).toBe(2);
 
-    graph.zoomTo(1);
+    await graph.zoomTo(1);
     expect(graph.getZoom()).toBe(1);
 
     graph.setZoomRange([0.1, 10]);
     expect(graph.getZoomRange()).toEqual([0.1, 10]);
   });
 
-  it('viewport translate', () => {
-    graph.translateBy([100, 100]);
+  it('viewport translate', async () => {
+    await graph.translateBy([100, 100]);
     let [x, y] = graph.getPosition();
     expect(x).toBeCloseTo(350);
     expect(y).toBeCloseTo(350);
 
-    graph.translateTo([200, 200]);
+    await graph.translateTo([200, 200]);
     [x, y] = graph.getPosition();
     expect(x).toBeCloseTo(450);
     expect(y).toBeCloseTo(450);
   });
 
-  it('viewport rotate', () => {
-    graph.rotateBy(Math.PI / 4);
+  it('viewport rotate', async () => {
+    await graph.rotateBy(Math.PI / 4);
     expect(graph.getRotation()).toBe(Math.PI / 4);
 
-    graph.rotateBy(Math.PI / 2);
+    await graph.rotateBy(Math.PI / 2);
     expect(graph.getRotation()).toBe((Math.PI * 3) / 4);
 
-    graph.rotateTo(Math.PI / 2);
+    await graph.rotateTo(Math.PI / 2);
     expect(graph.getRotation()).toBe(Math.PI / 2);
   });
 
