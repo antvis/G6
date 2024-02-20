@@ -19,8 +19,7 @@ import type {
   PrefixObject,
 } from '../../types';
 import { getCubicPath, getLabelPositionStyle, getLoopPoints } from '../../utils/edge';
-import { findPort, isSameNode } from '../../utils/element';
-import { getEllipseIntersectPoint } from '../../utils/point';
+import { findPort, getNodeConnectionPoint, getPortConnectionPoint, isSameNode } from '../../utils/element';
 import { omitStyleProps, subStyleProps } from '../../utils/prefix';
 import type { SymbolFactor } from '../../utils/symbol';
 import * as Symbol from '../../utils/symbol';
@@ -177,13 +176,13 @@ export abstract class BaseEdge<KT extends BaseEdgeProps<object>> extends BaseSha
     const targetPort = findPort(targetNode, targetPortKey, sourceNode);
 
     const sourcePoint = sourcePort
-      ? getEllipseIntersectPoint(targetNode.getCenter(), sourcePort.getBounds())
-      : sourceNode.getIntersectPoint(targetPort?.getPosition() || targetNode.getCenter());
+      ? getPortConnectionPoint(sourcePort, targetNode)
+      : getNodeConnectionPoint(sourceNode, targetNode, targetPort);
     const targetPoint = targetPort
-      ? getEllipseIntersectPoint(sourceNode.getCenter(), targetPort.getBounds())
-      : targetNode.getIntersectPoint(sourcePort?.getPosition() || sourceNode.getCenter());
+      ? getPortConnectionPoint(targetPort, sourceNode)
+      : getNodeConnectionPoint(targetNode, sourceNode, sourcePort);
 
-    return [sourcePoint || sourceNode.getCenter(), targetPoint || targetNode.getCenter()];
+    return [sourcePoint, targetPoint];
   }
 
   protected getHaloStyle(attributes: ParsedBaseEdgeStyleProps<KT>): false | PathStyleProps {
