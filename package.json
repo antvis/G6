@@ -7,8 +7,8 @@
     "prepare": "husky install",
     "build": "run-s build:*",
     "build:g6": "cd ./packages/g6 && npm run build",
-    "build:map-view": "cd ./packages/g6-plugin-map-view && npm run build",
-    "build:react-node": "cd ./packages/react-node && npm run build",
+    "build:map-view": "cd ./packages/g6-plugin-map-view",
+    "build:react-node": "cd ./packages/react-node",
     "build:site": "cd ./packages/site && npm run build",
     "ci:g6": "cd ./packages/g6 && npm run ci",
     "ci": "run-s ci:*"
