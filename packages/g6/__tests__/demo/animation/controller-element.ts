@@ -1,8 +1,8 @@
 import type { IAnimation } from '@antv/g';
 import type { G6Spec } from '../../../src';
+import type { AnimateEvent } from '../../../src/types';
 import { createGraph } from '../../mock';
 import type { AnimationTestCase } from '../types';
-import { getEventResult } from '../utils/async';
 
 export const controllerElement: AnimationTestCase = async (context) => {
   const { canvas } = context;
@@ -45,7 +45,11 @@ export const controllerElement: AnimationTestCase = async (context) => {
 
   graph.updateNodeData([{ id: 'node-2', style: { x: 200, y: 200, stroke: 'green' } }]);
 
-  const result = getEventResult<IAnimation>(graph, 'beforeanimate');
+  const result = new Promise<IAnimation>((resolve) => {
+    graph.once('beforeanimate', (e: AnimateEvent) => {
+      resolve(e.animation);
+    });
+  });
 
   graph.draw();
 
