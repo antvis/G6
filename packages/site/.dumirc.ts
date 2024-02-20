@@ -98,6 +98,14 @@ export default defineConfig({
     ],
     docs: [
       {
+        slug: 'manual/v5',
+        title: {
+          zh: '🎉 新版本 5.0',
+          en: '🎉 New v5.0',
+        },
+        order: 4,
+      },
+      {
         slug: 'manual/tutorial',
         title: {
           zh: '入门教程',
@@ -125,7 +133,7 @@ export default defineConfig({
       {
         slug: 'apis/reference',
         title: {
-          zh: 'API Reference',
+          zh: 'API 文档',
           en: 'API Reference',
         },
         order: 1,

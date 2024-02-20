@@ -1,5 +1,5 @@
 ---
-title: 🎉 Beta Published
+title: Beta Published
 order: 2
 ---
 

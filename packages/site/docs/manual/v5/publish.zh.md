@@ -1,5 +1,5 @@
 ---
-title: 🎉 Beta 发布稿
+title: Beta 发布稿
 order: 2
 ---
 
