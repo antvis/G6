@@ -25,7 +25,7 @@ export const nodeDiamond: StaticTestCase = async (context) => {
       fill: 'red',
       width: 100,
       height: 100,
-      lineWidth: 0,
+      lineWidth: 1,
       stroke: 'blue',
       // label
       labelText: 'circle node',

@@ -40,8 +40,8 @@ export class Diamond extends BaseNode<KeyShapeStyleProps, Polygon> {
     const haloLineWidth = Number(haloStyle.lineWidth || 0);
     const { width = 0, height = 0 } = attributes;
     const points = getDiamondPoints(
-      Number(width) + lineWidth + haloLineWidth + 4,
-      Number(height) + lineWidth + haloLineWidth + 4,
+      Number(width) + lineWidth + haloLineWidth,
+      Number(height) + lineWidth + haloLineWidth,
     ) as [number, number][];
 
     return {
