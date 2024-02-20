@@ -3,7 +3,8 @@ import type { PathArray } from '@antv/util';
 import { isEqual, isNumber } from '@antv/util';
 import type { EdgeKey, EdgeLabelPosition, EdgeLabelStyleProps, LoopEdgePosition, Node, Point, Vector2 } from '../types';
 import { getBBoxHeight, getBBoxWidth } from './bbox';
-import { getEllipseIntersectPoint, isCollinear, isHorizontal, parsePoint } from './point';
+import { getPortConnectionPoint } from './element';
+import { isCollinear, isHorizontal, parsePoint } from './point';
 import {
   add,
   distance,
@@ -116,8 +117,7 @@ export function getQuadraticPath(
   curveOffset: number,
   controlPoint?: Point,
 ): PathArray {
-  const actualControlPoint =
-    controlPoint || calculateControlPoint(sourcePoint, targetPoint, curvePosition, curveOffset);
+  const actualControlPoint = controlPoint || getCurveControlPoint(sourcePoint, targetPoint, curvePosition, curveOffset);
 
   return [
     ['M', sourcePoint[0], sourcePoint[1]],
@@ -128,14 +128,14 @@ export function getQuadraticPath(
 /**
  * <zh/> 计算曲线的控制点
  *
- * <en/> Calculate the control point of Quadratic Bessel curve
+ * <en/> Calculate the control point of the curve
  * @param sourcePoint - <zh/> 起点 | <en/> Source point
  * @param targetPoint - <zh/> 终点 | <en/> Target point
  * @param curvePosition - <zh/> 控制点在连线上的相对位置（取值范围为 0-1） | <en/> The relative position of the control point on the line (value range from 0 to 1)
  * @param curveOffset - <zh/> 控制点距离两端点连线的距离 | <en/> The distance between the control point and the line
  * @returns <zh/> 控制点 | <en/> Control points
  */
-export function calculateControlPoint(
+export function getCurveControlPoint(
   sourcePoint: Point,
   targetPoint: Point,
   curvePosition: number,
@@ -367,34 +367,6 @@ export function getLoopControlPoints(
 }
 
 /**
- * <zh/> 若存在起点或终点的锚点，则调整起点或终点位置
- *
- * <en/> Adjust the start or end point position if there is an port point
- * @param sourcePoint - <zh/> 起点 | <en/> Source point
- * @param targetPoint - <zh/> 终点 | <en/> Target point
- * @param controlPoints - <zh/> 控制点 | <en/> Control point
- * @param sourcePort - <zh/> 起点锚点 | <en/> Source port
- * @param targetPort - <zh/> 终点锚点 | <en/> Target port
- * @returns <zh/> 调整后的起点和终点 | <en/> Adjusted start and end points
- */
-export function adjustLoopEndpointsIfNeed(
-  sourcePoint: Point,
-  targetPoint: Point,
-  controlPoints: [Point, Point],
-  sourcePort?: GCircle,
-  targetPort?: GCircle,
-) {
-  if (sourcePort) {
-    sourcePoint = getEllipseIntersectPoint(controlPoints[0], sourcePort.getBounds());
-  }
-
-  if (targetPort) {
-    targetPoint = getEllipseIntersectPoint(controlPoints[1], targetPort.getBounds());
-  }
-  return [sourcePoint, targetPoint];
-}
-
-/**
  * <zh/> 获取自环边的起点、终点和控制点
  *
  * <en/> Get the start, end, and control points of the self-loop edge
@@ -437,13 +409,14 @@ export function getLoopPoints(
 
   const controlPoints = getLoopControlPoints(node, sourcePoint, targetPoint, dist);
 
-  [sourcePoint, targetPoint] = adjustLoopEndpointsIfNeed(
-    sourcePoint,
-    targetPoint,
-    controlPoints,
-    sourcePort,
-    targetPort,
-  );
+  // 如果定义了端点锚点，调整端点以与锚点边界相交
+  // If the endpoint anchor point is defined, adjust the endpoint to intersect with the anchor point boundary
+  if (sourcePort) {
+    sourcePoint = getPortConnectionPoint(sourcePort, controlPoints[0]);
+  }
+  if (targetPort) {
+    targetPoint = getPortConnectionPoint(targetPort, controlPoints[1]);
+  }
 
   return { sourcePoint, targetPoint, controlPoints };
 }

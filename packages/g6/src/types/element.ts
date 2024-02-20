@@ -53,7 +53,7 @@ export type BaseNodeProps<ShapeProps = object> = BaseElementProps & {
 } & BaseStyleProps &
   ShapeProps;
 
-export type BaseEdgeProps<ShapeProps> = BaseElementProps & {
+export type BaseEdgeProps<ShapeProps = object> = BaseElementProps & {
   /**
    * <zh/> 边的起点 shape
    * <en/> The source shape. Represents the start of the edge

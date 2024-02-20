@@ -1,4 +1,4 @@
-import type { DisplayObject, DisplayObjectConfig, CircleStyleProps as GCircleStyleProps, Group } from '@antv/g';
+import type { DisplayObject, DisplayObjectConfig, Group } from '@antv/g';
 import { Circle as GCircle } from '@antv/g';
 import { deepMix, isEmpty } from '@antv/util';
 import type {
@@ -8,7 +8,9 @@ import type {
   Keyframe,
   LabelPosition,
   Point,
+  Port,
   PortPosition,
+  PortStyleProps,
   PrefixObject,
 } from '../../types';
 import { getPortPosition, getTextStyleByPosition, getXYByPosition } from '../../utils/element';
@@ -24,7 +26,7 @@ type NodeBadgesStyleProps = {
   badges?: NodeBadgeStyleProps[];
   badgeZIndex?: number;
 };
-export type NodePortStyleProps = Partial<GCircleStyleProps> & {
+export type NodePortStyleProps = PortStyleProps & {
   key?: string;
   position: string | [number, number];
   width?: number;
@@ -33,6 +35,7 @@ export type NodePortStyleProps = Partial<GCircleStyleProps> & {
 type NodePortsStyleProps = {
   ports?: NodePortStyleProps[];
   portZIndex?: number;
+  portLinkToCenter?: boolean;
 };
 type NodeIconStyleProps = IconStyleProps;
 
@@ -80,6 +83,7 @@ export abstract class BaseNode<
     port: true,
     ports: [],
     portZIndex: 2,
+    portLinkToCenter: false,
     badge: true,
     badges: [],
     badgeZIndex: 3,
@@ -179,9 +183,9 @@ export abstract class BaseNode<
     return { ...textStyle, ...restStyle };
   }
 
-  protected getPortsStyle(attributes: ParsedBaseNodeStyleProps<P>): Record<string, GCircleStyleProps | false> {
+  protected getPortsStyle(attributes: ParsedBaseNodeStyleProps<P>): Record<string, PortStyleProps | false> {
     const ports = this.getPorts();
-    const portsStyle: Record<string, GCircleStyleProps | false> = {};
+    const portsStyle: Record<string, PortStyleProps | false> = {};
 
     Object.keys(ports).forEach((key) => {
       portsStyle[key] = false;
@@ -189,14 +193,18 @@ export abstract class BaseNode<
 
     if (attributes.port === false || isEmpty(attributes.ports)) return portsStyle;
 
-    const { ports: portOptions = [], portZIndex } = attributes;
+    const { ports: portOptions = [], portZIndex, portLinkToCenter } = attributes;
     portOptions.forEach((option, i) => {
-      portsStyle[option.key || i] = { zIndex: portZIndex, ...this.getPortStyle(attributes, option) };
+      portsStyle[option.key || i] = {
+        zIndex: portZIndex,
+        linkToCenter: portLinkToCenter,
+        ...this.getPortStyle(attributes, option),
+      };
     });
     return portsStyle;
   }
 
-  protected getPortStyle(attributes: ParsedBaseNodeStyleProps<P>, style: NodePortStyleProps): GCircleStyleProps {
+  protected getPortStyle(attributes: ParsedBaseNodeStyleProps<P>, style: NodePortStyleProps): PortStyleProps {
     const { position = 'left', width = 8, height = 8, ...restStyle } = style;
     const bounds = this.getKey().getLocalBounds();
     const r = Math.min(width, height) / 2;
@@ -216,7 +224,7 @@ export abstract class BaseNode<
    * Get the ports for the node.
    * @returns Ports shape map.
    */
-  public getPorts(): Record<string, GCircle> {
+  public getPorts(): Record<string, Port> {
     return subObject(this.shapeMap, 'port-');
   }
 
@@ -229,9 +237,9 @@ export abstract class BaseNode<
   }
 
   /**
-   * Whether the point is intersected with the node.
+   * Get the point on the outer contour of the node that is the intersection with a line starting in the center the ending in the point `p`.
    * @param point - The point to intersect with the node.
-   * @returns boolean
+   * @returns The intersection point.
    */
   public getIntersectPoint(point: Point): Point {
     const keyShapeBounds = this.getKey().getBounds();

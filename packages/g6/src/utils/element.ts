@@ -1,10 +1,11 @@
-import type { AABB, DisplayObject, Circle as GCircle, TextStyleProps } from '@antv/g';
+import type { AABB, DisplayObject, TextStyleProps } from '@antv/g';
 import { get, isEmpty, isString } from '@antv/util';
 import type { TriangleDirection } from '../elements/nodes/triangle';
 import type { Node, Point } from '../types';
-import type { LabelPosition, RelativePosition } from '../types/node';
+import type { LabelPosition, Port, RelativePosition } from '../types/node';
 import { getBBoxHeight, getBBoxWidth } from './bbox';
-import { findNearestPoints } from './point';
+import { isPoint } from './is';
+import { findNearestPoints, getEllipseIntersectPoint } from './point';
 
 /**
  * <zh/> 判断两个节点是否相同
@@ -72,7 +73,7 @@ export function getPortPosition(
  * @param oppositeNode - <zh/> 对端节点 | <en/> Opposite Node
  * @returns <zh/> 锚点 | <en/> Port
  */
-export function findPort(node: Node, portKey?: string, oppositeNode?: Node): GCircle | undefined {
+export function findPort(node: Node, portKey?: string, oppositeNode?: Node): Port | undefined {
   if (portKey && node.getPorts()[portKey]) {
     return node.getPorts()[portKey];
   } else {
@@ -85,6 +86,37 @@ export function findPort(node: Node, portKey?: string, oppositeNode?: Node): GCi
     }
     return undefined;
   }
+}
+
+/**
+ * <zh/> 获取锚点的连接点
+ *
+ * <en/> Get the Port Connection Point
+ * @param port - <zh/> 锚点 | <en/> Port
+ * @param opposite - <zh/> 对端的具体点或节点 | <en/> Opposite Point or Node
+ * @param oppositePort - <zh/> 对端锚点 | <en/> Opposite Port
+ * @returns <zh/> 锚点的连接点 | <en/> Port Point
+ */
+export function getPortConnectionPoint(port: Port, opposite: Point | Node, oppositePort?: Port): Point {
+  return port.attributes.linkToCenter
+    ? port.getPosition()
+    : getEllipseIntersectPoint(
+        oppositePort?.getPosition() || (isPoint(opposite) ? opposite : opposite.getCenter()),
+        port.getBounds(),
+      );
+}
+
+/**
+ * <zh/> 获取节点的连接点
+ *
+ * <en/> Get the Node Connection Point
+ * @param node - <zh/> 节点 | <en/> Node
+ * @param oppositeNode - <zh/> 对端节点 | <en/> Opposite Node
+ * @param oppositePort - <zh/> 对端锚点 | <en/> Opposite Port
+ * @returns <zh/> 节点的连接点 | <en/> Node Point
+ */
+export function getNodeConnectionPoint(node: Node, oppositeNode: Node, oppositePort?: Port): Point {
+  return node.getIntersectPoint(oppositePort?.getPosition() || oppositeNode.getCenter()) || node.getCenter();
 }
 
 /**

@@ -5,7 +5,7 @@ import type { BaseEdgeProps } from '../../types';
 import type { BaseEdgeStyleProps, ParsedBaseEdgeStyleProps } from './base-edge';
 import { BaseEdge } from './base-edge';
 
-type LineKeyStyleProps = BaseEdgeProps<{}>;
+type LineKeyStyleProps = BaseEdgeProps;
 export type LineStyleProps = BaseEdgeStyleProps<LineKeyStyleProps>;
 type LineOptions = DisplayObjectConfig<LineStyleProps>;
 
