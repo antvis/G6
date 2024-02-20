@@ -1,9 +1,9 @@
 import type { DisplayObjectConfig } from '@antv/g';
 import type { PathArray } from '@antv/util';
 import { deepMix } from '@antv/util';
-import type { BaseEdgeProps, Padding, Point } from '../../types';
+import type { BaseEdgeProps, Padding, Point, Port } from '../../types';
 import { getPolylinePath } from '../../utils/edge';
-import { findPort, getNodeConnectionPoint } from '../../utils/element';
+import { findPorts, getConnectionPoint } from '../../utils/element';
 import { getNodeBBox, orth } from '../../utils/router/orth';
 import type { BaseEdgeStyleProps, ParsedBaseEdgeStyleProps } from './base-edge';
 import { BaseEdge } from './base-edge';
@@ -25,6 +25,11 @@ type PolylineKeyStyleProps = BaseEdgeProps<{
    */
   router?: boolean;
   /**
+   * <zh/> 路由名称，目前支持 'orth'
+   * <en/> Routing name, currently supports 'orth'
+   */
+  routerName?: 'orth';
+  /**
    * <zh/> 节点边距
    * <en/> Padding for routing calculation
    */
@@ -38,7 +43,8 @@ export class Polyline extends BaseEdge<PolylineKeyStyleProps> {
   static defaultStyleProps: Partial<PolylineStyleProps> = {
     radius: 0,
     controlPoints: [],
-    router: true,
+    router: false,
+    routerName: 'orth',
     routerPadding: 10,
   };
 
@@ -49,32 +55,54 @@ export class Polyline extends BaseEdge<PolylineKeyStyleProps> {
   protected getKeyPath(attributes: ParsedPolylineStyleProps): PathArray {
     const { sourceNode, targetNode, radius } = attributes;
 
-    let [sourcePoint, targetPoint] = this.getEndpoints(attributes);
+    // 1. 获取端点和锚点（节点上的特定接入点） | Get endpoints and ports
+    const { sourcePoint, targetPoint, sourcePort, targetPort } = this.getEndpointsAndPorts(attributes);
+
+    // 2. 计算控制点 | Calculate control points
     const controlPoints = this.getControlPoints(attributes, sourcePoint, targetPoint);
 
-    sourcePoint = getNodeConnectionPoint(sourceNode, controlPoints[0] || targetNode);
-    targetPoint = getNodeConnectionPoint(targetNode, controlPoints[controlPoints.length - 1] || sourceNode);
+    // 3. 计算实际的连接点 | Calculate the actual connection points
+    const newSourcePoint = getConnectionPoint(sourcePort || sourceNode, controlPoints[0] || targetPort || targetNode);
+    const newTargetPoint = getConnectionPoint(
+      targetPort || targetNode,
+      controlPoints[controlPoints.length - 1] || sourcePort || sourceNode,
+    );
 
-    return getPolylinePath([sourcePoint, ...controlPoints, targetPoint], radius);
+    // 4. 获取路径 | Get the path
+    return getPolylinePath([newSourcePoint, ...controlPoints, newTargetPoint], radius);
   }
 
-  protected getEndpoints(attributes: ParsedPolylineStyleProps): [Point, Point] {
+  private getEndpointsAndPorts(attributes: ParsedPolylineStyleProps): {
+    sourcePoint: Point;
+    targetPoint: Point;
+    sourcePort: Port | undefined;
+    targetPort: Port | undefined;
+  } {
     const {
       sourceNode,
       targetNode,
       sourcePort: sourcePortKey,
       targetPort: targetPortKey,
-      sourcePoint: rawSourcePoint,
-      targetPoint: rawTargetPoint,
+      sourcePoint,
+      targetPoint,
     } = attributes;
 
-    if (rawSourcePoint && rawTargetPoint) return [rawSourcePoint, rawTargetPoint];
+    if (sourcePoint && targetPoint)
+      return {
+        sourcePoint,
+        targetPoint,
+        sourcePort: undefined,
+        targetPort: undefined,
+      };
 
-    const sourcePort = findPort(sourceNode, sourcePortKey, targetNode);
-    const targetPort = findPort(targetNode, targetPortKey, sourceNode);
-    // TODO: Ports
+    const [sourcePort, targetPort] = findPorts(sourceNode, targetNode, sourcePortKey, targetPortKey);
 
-    return [sourcePort?.getPosition() || sourceNode.getCenter(), targetPort?.getPosition() || targetNode.getCenter()];
+    return {
+      sourcePoint: sourcePort?.getPosition() || sourceNode.getCenter(),
+      targetPoint: targetPort?.getPosition() || targetNode.getCenter(),
+      sourcePort,
+      targetPort,
+    };
   }
 
   protected getControlPoints(attributes: ParsedPolylineStyleProps, sourcePoint: Point, targetPoint: Point): Point[] {

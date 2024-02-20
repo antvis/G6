@@ -19,7 +19,7 @@ import type {
   PrefixObject,
 } from '../../types';
 import { getCubicPath, getLabelPositionStyle, getLoopPoints } from '../../utils/edge';
-import { findPort, getNodeConnectionPoint, getPortConnectionPoint, isSameNode } from '../../utils/element';
+import { findPorts, getConnectionPoint, isSameNode } from '../../utils/element';
 import { omitStyleProps, subStyleProps } from '../../utils/prefix';
 import type { SymbolFactor } from '../../utils/symbol';
 import * as Symbol from '../../utils/symbol';
@@ -172,15 +172,10 @@ export abstract class BaseEdge<KT extends BaseEdgeProps<object>> extends BaseSha
 
     if (rawSourcePoint && rawTargetPoint) return [rawSourcePoint, rawTargetPoint];
 
-    const sourcePort = findPort(sourceNode, sourcePortKey, targetNode);
-    const targetPort = findPort(targetNode, targetPortKey, sourceNode);
+    const [sourcePort, targetPort] = findPorts(sourceNode, targetNode, sourcePortKey, targetPortKey);
 
-    const sourcePoint = sourcePort
-      ? getPortConnectionPoint(sourcePort, targetNode, targetPort)
-      : getNodeConnectionPoint(sourceNode, targetNode, targetPort);
-    const targetPoint = targetPort
-      ? getPortConnectionPoint(targetPort, sourceNode, sourcePort)
-      : getNodeConnectionPoint(targetNode, sourceNode, sourcePort);
+    const sourcePoint = getConnectionPoint(sourcePort || sourceNode, targetPort || targetNode);
+    const targetPoint = getConnectionPoint(targetPort || targetNode, sourcePort || sourceNode);
 
     return [sourcePoint, targetPoint];
   }
