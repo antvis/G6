@@ -1,7 +1,7 @@
 import EventEmitter from '@antv/event-emitter';
 import type { AABB, BaseStyleProps, DataURLOptions, DisplayObject } from '@antv/g';
 import type { ID } from '@antv/graphlib';
-import { deepMix, isFunction, omit } from '@antv/util';
+import { debounce, deepMix, isFunction, isString, omit } from '@antv/util';
 import type {
   BehaviorOptions,
   ComboData,
@@ -32,6 +32,7 @@ import type {
   ViewportAnimationEffectTiming,
   ZIndex,
 } from '../types';
+import { sizeOf } from '../utils/dom';
 import { parsePoint, toPointObject } from '../utils/point';
 import { add } from '../utils/vector';
 import { Canvas } from './canvas';
@@ -43,6 +44,8 @@ import { ViewportController } from './viewport';
 
 export class Graph extends EventEmitter {
   private options: G6Spec;
+
+  private container: HTMLElement | null = null;
 
   static defaultOptions: G6Spec = {
     zoom: 1,
@@ -61,6 +64,9 @@ export class Graph extends EventEmitter {
     this.options = deepMix({}, Graph.defaultOptions, options);
     this.setOptions(this.options);
     this.context.graph = this;
+
+    // Listening window.resize to autoResize.
+    this.options.autoResize && window.addEventListener('resize', this.onResize);
   }
 
   /**
@@ -124,6 +130,7 @@ export class Graph extends EventEmitter {
     this.options.width = width;
     this.options.height = height;
     // viewport support
+    this.context.viewport?.resize(width, height);
   }
 
   public setZoomRange(zoomRange: G6Spec['zoomRange']): void {
@@ -296,21 +303,21 @@ export class Graph extends EventEmitter {
   private createCanvas() {
     if (this.context.canvas) return this.context.canvas;
 
-    const { container, width, height, renderer } = this.options;
-    if (!container) throw new Error('container is not define');
-    if (container instanceof Canvas) {
-      this.context.canvas = container;
-      return container;
-    }
-    const $container = container instanceof HTMLElement ? container : document.getElementById(container!);
-    if (!$container) throw new Error('container is not found');
+    const { container = 'container', width, height, renderer } = this.options;
 
-    this.context.canvas = new Canvas({
-      container: $container,
-      width,
-      height,
-      renderer,
-    });
+    if (container instanceof Canvas) {
+      this.container = container.getContainer();
+      this.context.canvas = container;
+    } else {
+      this.container = isString(container) ? document.getElementById(container!) : container;
+
+      this.context.canvas = new Canvas({
+        container: this.container!,
+        width,
+        height,
+        renderer,
+      });
+    }
 
     return this.context.canvas;
   }
@@ -380,6 +387,9 @@ export class Graph extends EventEmitter {
     this.options = {};
     // @ts-expect-error force delete
     delete this.context;
+
+    window.removeEventListener('resize', this.onResize);
+
     this.destroyed = true;
   }
 
@@ -564,4 +574,14 @@ export class Graph extends EventEmitter {
   public getViewportCenter(): Point {
     return this.context.viewport!.getViewportCenter();
   }
+
+  private onResize = debounce(() => {
+    console.log(4444, 'onResize');
+    const { width, height } = this.options;
+    const [w, h] = sizeOf(this.container!);
+    console.log(4444, [w, h]);
+    if (width !== w || height !== h) {
+      this.setSize(w, h);
+    }
+  }, 300);
 }

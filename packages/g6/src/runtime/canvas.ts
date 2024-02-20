@@ -140,6 +140,8 @@ export class Canvas {
   }
 
   public resize(width: number, height: number) {
+    this.config.width = width;
+    this.config.height = height;
     Object.values(this.canvas).forEach((canvas) => {
       canvas.resize(width, height);
     });
@@ -150,10 +152,9 @@ export class Canvas {
   }
 
   public getContainer() {
-    const container = this.config.container;
-    if (isString(container)) return document.querySelector(container);
-    if (container instanceof HTMLElement) return container;
-    return null;
+    const container = this.config.container!;
+
+    return isString(container) ? document.getElementById(container!) : container;
   }
 
   public appendChild<T extends DisplayObject>(child: T): T {
