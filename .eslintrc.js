@@ -18,6 +18,12 @@ module.exports = {
         sourceType: 'script',
       },
     },
+    {
+      files: ['**/__tests__/**'],
+      rules: {
+        'jsdoc/require-jsdoc': 0,
+      },
+    },
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
@@ -30,7 +36,7 @@ module.exports = {
     'linebreak-style': ['error', 'unix'],
     quotes: ['error', 'single', { allowTemplateLiterals: true, avoidEscape: true }],
     semi: ['error', 'always'],
-
+    '@typescript-eslint/no-unused-vars': ['warn', { ignoreRestSiblings: true }],
     'jsdoc/require-param-type': 0,
     '@typescript-eslint/no-this-alias': 'off',
 
@@ -45,8 +51,6 @@ module.exports = {
     'jsdoc/require-returns': 1,
     'jsdoc/require-returns-type': 0,
     'jsdoc/require-returns-description': 1,
-
-    '@typescript-eslint/no-unused-vars': 1,
 
     // TODO: rules below are not recommended, and will be removed in the future
     '@typescript-eslint/no-explicit-any': 1,

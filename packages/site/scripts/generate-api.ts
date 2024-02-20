@@ -39,7 +39,7 @@ export function mangleScopedPackageName(packageName: string): string {
 
 const reportFolderRoot = path.resolve(__dirname, '..', path.join('support', 'api'));
 const reportTempFolderRoot = path.resolve(reportFolderRoot, 'temp');
-const ignorePackages = new Set<string>(['@antv/g6-react-node']);
+const ignorePackages = new Set<string>(['@antv/g6-react-node', '@antv/g6-plugin-map-view', '@antv/g6-site']);
 
 /**
  * Get all typed packages.

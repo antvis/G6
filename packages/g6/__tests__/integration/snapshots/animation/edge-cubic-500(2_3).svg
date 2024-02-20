@@ -1,0 +1,74 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="500"
+  height="500"
+  style="background: transparent; position: absolute; outline: none;"
+  color-interpolation-filters="sRGB"
+  tabindex="1"
+>
+  <defs />
+  <g id="g-svg-camera" transform="matrix(1,0,0,1,0,0)">
+    <g id="g-root" fill="none" transform="matrix(1,0,0,1,0,0)">
+      <g
+        id="g-svg-5"
+        fill="none"
+        marker-start="false"
+        marker-end="true"
+        transform="matrix(1,0,0,1,0,0)"
+      >
+        <g transform="matrix(1,0,0,1,100,150)">
+          <path
+            id="key"
+            fill="none"
+            d="M 0,0 C 118.97779747375 21.90056823408625,156.02220252625 103.09943176591378,275 125 L 269.09913605416614,123.91381185204487"
+            stroke="rgba(24,144,255,1)"
+            stroke-width="2"
+          />
+          <g transform="matrix(-0.983477,-0.181031,0.181031,-0.983477,269.099121,123.913811)">
+            <path
+              id="g-svg-8"
+              fill="rgba(24,144,255,1)"
+              d="M 0,5 L 10,0 L 10,10 Z"
+              transform="translate(-5,-5)"
+              stroke="rgba(24,144,255,1)"
+              stroke-width="1"
+              width="10"
+              height="10"
+              stroke-dasharray="0,0"
+            />
+          </g>
+        </g>
+        <g
+          id="label"
+          fill="none"
+          transform="matrix(0.982519,-0.186162,0.186162,0.982519,203.930069,49.255352)"
+        >
+          <g transform="matrix(1,0,0,1,-41.326866,-25.798691)">
+            <path
+              id="background"
+              fill="none"
+              d="M 0,0 l 168.32906883389995,0 l 0,51.5973797182875 l-168.32906883389995 0 z"
+              opacity="0.75"
+              stroke-width="0"
+              width="168.32906883389995"
+              height="51.5973797182875"
+            />
+          </g>
+          <g transform="matrix(1,0,0,1,0,0)">
+            <text
+              id="text"
+              fill="rgba(0,0,0,1)"
+              dominant-baseline="central"
+              paint-order="stroke"
+              dx="0.5"
+              font-size="12"
+              text-anchor="middle"
+            >
+              cubic-edge
+            </text>
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

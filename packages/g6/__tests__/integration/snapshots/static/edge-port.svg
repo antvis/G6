@@ -1,0 +1,1342 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="500"
+  height="500"
+  style="background: transparent; position: absolute; outline: none;"
+  color-interpolation-filters="sRGB"
+  tabindex="1"
+>
+  <defs />
+  <g id="g-svg-camera" transform="matrix(1,0,0,1,0,0)">
+    <g id="g-root" fill="none" transform="matrix(1,0,0,1,0,0)">
+      <g
+        id="node-1"
+        fill="none"
+        width="50"
+        height="50"
+        transform="matrix(1,0,0,1,50,50)"
+      >
+        <g transform="matrix(1,0,0,1,0,0)">
+          <circle
+            id="key"
+            fill="rgba(248,248,248,1)"
+            transform="translate(-25,-25)"
+            cx="25"
+            cy="25"
+            stroke="rgba(139,155,175,1)"
+            r="25"
+          />
+        </g>
+      </g>
+      <g
+        id="node-2"
+        fill="none"
+        width="50"
+        height="50"
+        transform="matrix(1,0,0,1,200,50)"
+      >
+        <g transform="matrix(1,0,0,1,0,0)">
+          <circle
+            id="key"
+            fill="rgba(248,248,248,1)"
+            transform="translate(-25,-25)"
+            cx="25"
+            cy="25"
+            stroke="rgba(139,155,175,1)"
+            r="25"
+          />
+        </g>
+      </g>
+      <g
+        id="g-svg-9"
+        fill="none"
+        marker-start="false"
+        marker-end="true"
+        transform="matrix(1,0,0,1,0,0)"
+      >
+        <g transform="matrix(1,0,0,1,75,50)">
+          <path
+            id="key"
+            fill="none"
+            d="M 0,0 L 94,7.347880794884119e-16"
+            stroke="rgba(24,144,255,1)"
+            stroke-width="2"
+          />
+          <g transform="matrix(-1,0,-0,-1,94,0)">
+            <path
+              id="g-svg-12"
+              fill="rgba(24,144,255,1)"
+              d="M 0,5 L 10,0 L 10,10 Z"
+              transform="translate(-5,-5)"
+              stroke="rgba(24,144,255,1)"
+              stroke-width="1"
+              width="10"
+              height="10"
+              stroke-dasharray="0,0"
+            />
+          </g>
+        </g>
+        <g id="label" fill="none" transform="matrix(1,0,0,1,129,50)">
+          <g transform="matrix(1,0,0,1,-41.799999,-25)">
+            <path
+              id="background"
+              fill="none"
+              d="M 0,0 l 108,0 l 0,50 l-108 0 z"
+              opacity="0.75"
+              stroke-width="0"
+              width="108"
+              height="50"
+            />
+          </g>
+          <g transform="matrix(1,0,0,1,0,0)">
+            <text
+              id="text"
+              fill="rgba(0,0,0,1)"
+              dominant-baseline="central"
+              paint-order="stroke"
+              font-size="12"
+              text-anchor="middle"
+            >
+              <tspan x="0" dx="0.5" dy="-11.5">
+                sourcePort❓
+              </tspan>
+              <tspan x="0" dx="0.5" dy="23">
+                targetPort❓
+              </tspan>
+            </text>
+          </g>
+        </g>
+      </g>
+      <g
+        id="node-3"
+        fill="none"
+        width="50"
+        height="50"
+        transform="matrix(1,0,0,1,50,150)"
+      >
+        <g transform="matrix(1,0,0,1,0,0)">
+          <circle
+            id="key"
+            fill="rgba(248,248,248,1)"
+            transform="translate(-25,-25)"
+            cx="25"
+            cy="25"
+            stroke="rgba(139,155,175,1)"
+            r="25"
+          />
+        </g>
+        <g transform="matrix(1,0,0,1,-25,0)">
+          <circle
+            id="port-left"
+            fill="rgba(255,255,255,1)"
+            transform="translate(-4,-4)"
+            cx="4"
+            cy="4"
+            r="4"
+            stroke="rgba(49,208,198,1)"
+          />
+        </g>
+        <g transform="matrix(1,0,0,1,25,0)">
+          <circle
+            id="port-right"
+            fill="rgba(49,208,198,1)"
+            transform="translate(-4,-4)"
+            cx="4"
+            cy="4"
+            r="4"
+          />
+        </g>
+        <g transform="matrix(1,0,0,1,0,-25)">
+          <circle
+            id="port-top"
+            fill="rgba(255,255,255,1)"
+            transform="translate(-4,-4)"
+            cx="4"
+            cy="4"
+            r="4"
+            stroke="rgba(49,208,198,1)"
+          />
+        </g>
+        <g transform="matrix(1,0,0,1,0,25)">
+          <circle
+            id="port-bottom"
+            fill="rgba(255,255,255,1)"
+            transform="translate(-4,-4)"
+            cx="4"
+            cy="4"
+            r="4"
+            stroke="rgba(49,208,198,1)"
+          />
+        </g>
+      </g>
+      <g
+        id="node-4"
+        fill="none"
+        width="50"
+        height="50"
+        transform="matrix(1,0,0,1,200,150)"
+      >
+        <g transform="matrix(1,0,0,1,0,0)">
+          <circle
+            id="key"
+            fill="rgba(248,248,248,1)"
+            transform="translate(-25,-25)"
+            cx="25"
+            cy="25"
+            stroke="rgba(139,155,175,1)"
+            r="25"
+          />
+        </g>
+        <g transform="matrix(1,0,0,1,-25,0)">
+          <circle
+            id="port-left"
+            fill="rgba(255,255,255,1)"
+            transform="translate(-4,-4)"
+            cx="4"
+            cy="4"
+            r="4"
+            stroke="rgba(49,208,198,1)"
+          />
+        </g>
+        <g transform="matrix(1,0,0,1,25,0)">
+          <circle
+            id="port-right"
+            fill="rgba(255,255,255,1)"
+            transform="translate(-4,-4)"
+            cx="4"
+            cy="4"
+            r="4"
+            stroke="rgba(49,208,198,1)"
+          />
+        </g>
+        <g transform="matrix(1,0,0,1,0,-25)">
+          <circle
+            id="port-top"
+            fill="rgba(255,255,255,1)"
+            transform="translate(-4,-4)"
+            cx="4"
+            cy="4"
+            r="4"
+            stroke="rgba(49,208,198,1)"
+          />
+        </g>
+        <g transform="matrix(1,0,0,1,0,25)">
+          <circle
+            id="port-bottom"
+            fill="rgba(49,208,198,1)"
+            transform="translate(-4,-4)"
+            cx="4"
+            cy="4"
+            r="4"
+          />
+        </g>
+      </g>
+      <g
+        id="g-svg-28"
+        fill="none"
+        marker-start="false"
+        marker-end="true"
+        transform="matrix(1,0,0,1,0,0)"
+      >
+        <g transform="matrix(1,0,0,1,78.922325,150.784470)">
+          <path
+            id="key"
+            fill="none"
+            d="M 0,0 L 111.2718705403271,22.254374108065427"
+            stroke="rgba(24,144,255,1)"
+            stroke-width="2"
+          />
+          <g transform="matrix(-0.980581,-0.196116,0.196116,-0.980581,111.271873,22.254374)">
+            <path
+              id="g-svg-31"
+              fill="rgba(24,144,255,1)"
+              d="M 0,5 L 10,0 L 10,10 Z"
+              transform="translate(-5,-5)"
+              stroke="rgba(24,144,255,1)"
+              stroke-width="1"
+              width="10"
+              height="10"
+              stroke-dasharray="0,0"
+            />
+          </g>
+        </g>
+        <g
+          id="label"
+          fill="none"
+          transform="matrix(0.980580,0.196119,-0.196119,0.980580,141.422318,163.284470)"
+        >
+          <g transform="matrix(1,0,0,1,-50.646252,-39.730949)">
+            <path
+              id="background"
+              fill="none"
+              d="M 0,0 l 108,0 l 0,79.4618941972946 l-108 0 z"
+              opacity="0.75"
+              stroke-width="0"
+              width="108"
+              height="79.4618941972946"
+            />
+          </g>
+          <g transform="matrix(1,0,0,1,0,0)">
+            <text
+              id="text"
+              fill="rgba(0,0,0,1)"
+              dominant-baseline="central"
+              paint-order="stroke"
+              font-size="12"
+              text-anchor="middle"
+            >
+              <tspan x="0" dx="0.5" dy="-11.5">
+                sourcePort✅
+              </tspan>
+              <tspan x="0" dx="0.5" dy="23">
+                targetPort✅
+              </tspan>
+            </text>
+          </g>
+        </g>
+      </g>
+      <g
+        id="node-5"
+        fill="none"
+        width="50"
+        height="50"
+        transform="matrix(1,0,0,1,50,250)"
+      >
+        <g transform="matrix(1,0,0,1,0,0)">
+          <circle
+            id="key"
+            fill="rgba(248,248,248,1)"
+            transform="translate(-25,-25)"
+            cx="25"
+            cy="25"
+            stroke="rgba(139,155,175,1)"
+            r="25"
+          />
+        </g>
+        <g transform="matrix(1,0,0,1,-25,0)">
+          <circle
+            id="port-left"
+            fill="rgba(255,255,255,1)"
+            transform="translate(-4,-4)"
+            cx="4"
+            cy="4"
+            r="4"
+            stroke="rgba(49,208,198,1)"
+          />
+        </g>
+        <g transform="matrix(1,0,0,1,25,0)">
+          <circle
+            id="port-right"
+            fill="rgba(255,255,255,1)"
+            transform="translate(-4,-4)"
+            cx="4"
+            cy="4"
+            r="4"
+            stroke="rgba(49,208,198,1)"
+          />
+        </g>
+      </g>
+      <g
+        id="node-6"
+        fill="none"
+        width="50"
+        height="50"
+        transform="matrix(1,0,0,1,200,250)"
+      >
+        <g transform="matrix(1,0,0,1,0,0)">
+          <circle
+            id="key"
+            fill="rgba(248,248,248,1)"
+            transform="translate(-25,-25)"
+            cx="25"
+            cy="25"
+            stroke="rgba(139,155,175,1)"
+            r="25"
+          />
+        </g>
+        <g transform="matrix(1,0,0,1,0,-25)">
+          <circle
+            id="port-top"
+            fill="rgba(255,255,255,1)"
+            transform="translate(-4,-4)"
+            cx="4"
+            cy="4"
+            r="4"
+            stroke="rgba(49,208,198,1)"
+          />
+        </g>
+        <g transform="matrix(1,0,0,1,0,25)">
+          <circle
+            id="port-bottom"
+            fill="rgba(255,255,255,1)"
+            transform="translate(-4,-4)"
+            cx="4"
+            cy="4"
+            r="4"
+            stroke="rgba(49,208,198,1)"
+          />
+        </g>
+      </g>
+      <g
+        id="g-svg-43"
+        fill="none"
+        marker-start="false"
+        marker-end="true"
+        transform="matrix(1,0,0,1,0,0)"
+      >
+        <g transform="matrix(1,0,0,1,78.922325,225.784470)">
+          <path
+            id="key"
+            fill="none"
+            d="M 0,23.431070918894534 L 111.2718705403271,1.1766968108291056"
+            stroke="rgba(24,144,255,1)"
+            stroke-width="2"
+          />
+          <g transform="matrix(-0.980581,0.196116,-0.196116,-0.980581,111.271873,1.176697)">
+            <path
+              id="g-svg-46"
+              fill="rgba(24,144,255,1)"
+              d="M 0,5 L 10,0 L 10,10 Z"
+              transform="translate(-5,-5)"
+              stroke="rgba(24,144,255,1)"
+              stroke-width="1"
+              width="10"
+              height="10"
+              stroke-dasharray="0,0"
+            />
+          </g>
+        </g>
+        <g
+          id="label"
+          fill="none"
+          transform="matrix(0.980583,-0.196106,0.196106,0.980583,141.422333,236.715576)"
+        >
+          <g transform="matrix(1,0,0,1,-56.645729,-42.037640)">
+            <path
+              id="background"
+              fill="none"
+              d="M 0,0 l 108,0 l 0,84.07528532210291 l-108 0 z"
+              opacity="0.75"
+              stroke-width="0"
+              width="108"
+              height="84.07528532210291"
+            />
+          </g>
+          <g transform="matrix(1,0,0,1,0,0)">
+            <text
+              id="text"
+              fill="rgba(0,0,0,1)"
+              dominant-baseline="central"
+              paint-order="stroke"
+              font-size="12"
+              text-anchor="middle"
+            >
+              <tspan x="0" dx="0.5" dy="-11.5">
+                sourcePort✖️
+              </tspan>
+              <tspan x="0" dx="0.5" dy="23">
+                targetPort✖️
+              </tspan>
+            </text>
+          </g>
+        </g>
+      </g>
+      <g
+        id="node-7"
+        fill="none"
+        width="50"
+        height="50"
+        transform="matrix(1,0,0,1,50,350)"
+      >
+        <g transform="matrix(1,0,0,1,0,0)">
+          <circle
+            id="key"
+            fill="rgba(248,248,248,1)"
+            transform="translate(-25,-25)"
+            cx="25"
+            cy="25"
+            stroke="rgba(139,155,175,1)"
+            r="25"
+          />
+        </g>
+        <g transform="matrix(1,0,0,1,-25,0)">
+          <circle
+            id="port-left"
+            fill="rgba(255,255,255,1)"
+            transform="translate(-4,-4)"
+            cx="4"
+            cy="4"
+            r="4"
+            stroke="rgba(49,208,198,1)"
+          />
+        </g>
+        <g transform="matrix(1,0,0,1,25,0)">
+          <circle
+            id="port-right"
+            fill="rgba(255,255,255,1)"
+            transform="translate(-4,-4)"
+            cx="4"
+            cy="4"
+            r="4"
+            stroke="rgba(49,208,198,1)"
+          />
+        </g>
+      </g>
+      <g
+        id="node-8"
+        fill="none"
+        width="50"
+        height="50"
+        transform="matrix(1,0,0,1,200,350)"
+      >
+        <g transform="matrix(1,0,0,1,0,0)">
+          <circle
+            id="key"
+            fill="rgba(248,248,248,1)"
+            transform="translate(-25,-25)"
+            cx="25"
+            cy="25"
+            stroke="rgba(139,155,175,1)"
+            r="25"
+          />
+        </g>
+        <g transform="matrix(1,0,0,1,0,-25)">
+          <circle
+            id="port-top"
+            fill="rgba(255,255,255,1)"
+            transform="translate(-4,-4)"
+            cx="4"
+            cy="4"
+            r="4"
+            stroke="rgba(49,208,198,1)"
+          />
+        </g>
+        <g transform="matrix(1,0,0,1,0,25)">
+          <circle
+            id="port-bottom"
+            fill="rgba(49,208,198,1)"
+            transform="translate(-4,-4)"
+            cx="4"
+            cy="4"
+            r="4"
+          />
+        </g>
+      </g>
+      <g
+        id="g-svg-58"
+        fill="none"
+        marker-start="false"
+        marker-end="true"
+        transform="matrix(1,0,0,1,0,0)"
+      >
+        <g transform="matrix(1,0,0,1,78.922325,350.784454)">
+          <path
+            id="key"
+            fill="none"
+            d="M 0,0 L 111.2718705403271,22.254374108065427"
+            stroke="rgba(24,144,255,1)"
+            stroke-width="2"
+          />
+          <g transform="matrix(-0.980581,-0.196116,0.196116,-0.980581,111.271873,22.254374)">
+            <path
+              id="g-svg-61"
+              fill="rgba(24,144,255,1)"
+              d="M 0,5 L 10,0 L 10,10 Z"
+              transform="translate(-5,-5)"
+              stroke="rgba(24,144,255,1)"
+              stroke-width="1"
+              width="10"
+              height="10"
+              stroke-dasharray="0,0"
+            />
+          </g>
+        </g>
+        <g
+          id="label"
+          fill="none"
+          transform="matrix(0.980580,0.196119,-0.196119,0.980580,141.422318,363.284485)"
+        >
+          <g transform="matrix(1,0,0,1,-56.646252,-42.038654)">
+            <path
+              id="background"
+              fill="none"
+              d="M 0,0 l 108,0 l 0,84.07733434857434 l-108 0 z"
+              opacity="0.75"
+              stroke-width="0"
+              width="108"
+              height="84.07733434857434"
+            />
+          </g>
+          <g transform="matrix(1,0,0,1,0,0)">
+            <text
+              id="text"
+              fill="rgba(0,0,0,1)"
+              dominant-baseline="central"
+              paint-order="stroke"
+              font-size="12"
+              text-anchor="middle"
+            >
+              <tspan x="0" dx="0.5" dy="-11.5">
+                sourcePort✖️
+              </tspan>
+              <tspan x="0" dx="0.5" dy="23">
+                targetPort✅
+              </tspan>
+            </text>
+          </g>
+        </g>
+      </g>
+      <g
+        id="node-9"
+        fill="none"
+        width="50"
+        height="50"
+        transform="matrix(1,0,0,1,50,450)"
+      >
+        <g transform="matrix(1,0,0,1,0,0)">
+          <circle
+            id="key"
+            fill="rgba(248,248,248,1)"
+            transform="translate(-25,-25)"
+            cx="25"
+            cy="25"
+            stroke="rgba(139,155,175,1)"
+            r="25"
+          />
+        </g>
+        <g transform="matrix(1,0,0,1,-25,0)">
+          <circle
+            id="port-left"
+            fill="rgba(49,208,198,1)"
+            transform="translate(-4,-4)"
+            cx="4"
+            cy="4"
+            r="4"
+          />
+        </g>
+        <g transform="matrix(1,0,0,1,25,0)">
+          <circle
+            id="port-right"
+            fill="rgba(255,255,255,1)"
+            transform="translate(-4,-4)"
+            cx="4"
+            cy="4"
+            r="4"
+            stroke="rgba(49,208,198,1)"
+          />
+        </g>
+      </g>
+      <g
+        id="node-10"
+        fill="none"
+        width="50"
+        height="50"
+        transform="matrix(1,0,0,1,200,450)"
+      >
+        <g transform="matrix(1,0,0,1,0,0)">
+          <circle
+            id="key"
+            fill="rgba(248,248,248,1)"
+            transform="translate(-25,-25)"
+            cx="25"
+            cy="25"
+            stroke="rgba(139,155,175,1)"
+            r="25"
+          />
+        </g>
+        <g transform="matrix(1,0,0,1,0,-25)">
+          <circle
+            id="port-top"
+            fill="rgba(255,255,255,1)"
+            transform="translate(-4,-4)"
+            cx="4"
+            cy="4"
+            r="4"
+            stroke="rgba(49,208,198,1)"
+          />
+        </g>
+        <g transform="matrix(1,0,0,1,0,25)">
+          <circle
+            id="port-bottom"
+            fill="rgba(255,255,255,1)"
+            transform="translate(-4,-4)"
+            cx="4"
+            cy="4"
+            r="4"
+            stroke="rgba(49,208,198,1)"
+          />
+        </g>
+      </g>
+      <g
+        id="g-svg-73"
+        fill="none"
+        marker-start="false"
+        marker-end="true"
+        transform="matrix(1,0,0,1,0,0)"
+      >
+        <g transform="matrix(1,0,0,1,28.959799,425.565674)">
+          <path
+            id="key"
+            fill="none"
+            d="M 0,23.86862915010147 L 161.14070708874368,0.8485281374238557"
+            stroke="rgba(24,144,255,1)"
+            stroke-width="2"
+          />
+          <g transform="matrix(-0.989950,0.141421,-0.141421,-0.989950,161.140701,0.848528)">
+            <path
+              id="g-svg-76"
+              fill="rgba(24,144,255,1)"
+              d="M 0,5 L 10,0 L 10,10 Z"
+              transform="translate(-5,-5)"
+              stroke="rgba(24,144,255,1)"
+              stroke-width="1"
+              width="10"
+              height="10"
+              stroke-dasharray="0,0"
+            />
+          </g>
+        </g>
+        <g
+          id="label"
+          fill="none"
+          transform="matrix(0.989948,-0.141434,0.141434,0.989948,116.459793,436.934265)"
+        >
+          <g transform="matrix(1,0,0,1,-52.020565,-36.783424)">
+            <path
+              id="background"
+              fill="none"
+              d="M 0,0 l 108,0 l 0,73.56686509948153 l-108 0 z"
+              opacity="0.75"
+              stroke-width="0"
+              width="108"
+              height="73.56686509948153"
+            />
+          </g>
+          <g transform="matrix(1,0,0,1,0,0)">
+            <text
+              id="text"
+              fill="rgba(0,0,0,1)"
+              dominant-baseline="central"
+              paint-order="stroke"
+              font-size="12"
+              text-anchor="middle"
+            >
+              <tspan x="0" dx="0.5" dy="-11.5">
+                sourcePort✅
+              </tspan>
+              <tspan x="0" dx="0.5" dy="23">
+                targetPort✖️
+              </tspan>
+            </text>
+          </g>
+        </g>
+      </g>
+      <g
+        id="node-11"
+        fill="none"
+        width="50"
+        height="50"
+        transform="matrix(1,0,0,1,300,50)"
+      >
+        <g transform="matrix(1,0,0,1,0,0)">
+          <circle
+            id="key"
+            fill="rgba(248,248,248,1)"
+            transform="translate(-25,-25)"
+            cx="25"
+            cy="25"
+            stroke="rgba(139,155,175,1)"
+            r="25"
+          />
+        </g>
+      </g>
+      <g
+        id="node-12"
+        fill="none"
+        width="50"
+        height="50"
+        transform="matrix(1,0,0,1,450,50)"
+      >
+        <g transform="matrix(1,0,0,1,0,0)">
+          <circle
+            id="key"
+            fill="rgba(248,248,248,1)"
+            transform="translate(-25,-25)"
+            cx="25"
+            cy="25"
+            stroke="rgba(139,155,175,1)"
+            r="25"
+          />
+        </g>
+        <g transform="matrix(1,0,0,1,0,25)">
+          <circle
+            id="port-bottom"
+            fill="rgba(255,255,255,1)"
+            transform="translate(-4,-4)"
+            cx="4"
+            cy="4"
+            r="4"
+            stroke="rgba(49,208,198,1)"
+          />
+        </g>
+        <g transform="matrix(1,0,0,1,25,0)">
+          <circle
+            id="port-right"
+            fill="rgba(255,255,255,1)"
+            transform="translate(-4,-4)"
+            cx="4"
+            cy="4"
+            r="4"
+            stroke="rgba(49,208,198,1)"
+          />
+        </g>
+      </g>
+      <g
+        id="g-svg-86"
+        fill="none"
+        marker-start="false"
+        marker-end="true"
+        transform="matrix(1,0,0,1,0,0)"
+      >
+        <g transform="matrix(1,0,0,1,324.659851,54.109974)">
+          <path
+            id="key"
+            fill="none"
+            d="M 0,0 L 115.47621266587501,19.246035444312493"
+            stroke="rgba(24,144,255,1)"
+            stroke-width="2"
+          />
+          <g transform="matrix(-0.986394,-0.164399,0.164399,-0.986394,115.476212,19.246035)">
+            <path
+              id="g-svg-89"
+              fill="rgba(24,144,255,1)"
+              d="M 0,5 L 10,0 L 10,10 Z"
+              transform="translate(-5,-5)"
+              stroke="rgba(24,144,255,1)"
+              stroke-width="1"
+              width="10"
+              height="10"
+              stroke-dasharray="0,0"
+            />
+          </g>
+        </g>
+        <g
+          id="label"
+          fill="none"
+          transform="matrix(0.986394,0.164401,-0.164401,0.986394,389.302734,64.883789)"
+        >
+          <g transform="matrix(1,0,0,1,-53.039543,-38.647728)">
+            <path
+              id="background"
+              fill="none"
+              d="M 0,0 l 108,0 l 0,77.29545578675642 l-108 0 z"
+              opacity="0.75"
+              stroke-width="0"
+              width="108"
+              height="77.29545578675642"
+            />
+          </g>
+          <g transform="matrix(1,0,0,1,0,0)">
+            <text
+              id="text"
+              fill="rgba(0,0,0,1)"
+              dominant-baseline="central"
+              paint-order="stroke"
+              font-size="12"
+              text-anchor="middle"
+            >
+              <tspan x="0" dx="0.5" dy="-11.5">
+                sourcePort❓
+              </tspan>
+              <tspan x="0" dx="0.5" dy="23">
+                targetPort✖️
+              </tspan>
+            </text>
+          </g>
+        </g>
+      </g>
+      <g
+        id="node-13"
+        fill="none"
+        width="50"
+        height="50"
+        transform="matrix(1,0,0,1,300,150)"
+      >
+        <g transform="matrix(1,0,0,1,0,0)">
+          <circle
+            id="key"
+            fill="rgba(248,248,248,1)"
+            transform="translate(-25,-25)"
+            cx="25"
+            cy="25"
+            stroke="rgba(139,155,175,1)"
+            r="25"
+          />
+        </g>
+      </g>
+      <g
+        id="node-14"
+        fill="none"
+        width="50"
+        height="50"
+        transform="matrix(1,0,0,1,450,150)"
+      >
+        <g transform="matrix(1,0,0,1,0,0)">
+          <circle
+            id="key"
+            fill="rgba(248,248,248,1)"
+            transform="translate(-25,-25)"
+            cx="25"
+            cy="25"
+            stroke="rgba(139,155,175,1)"
+            r="25"
+          />
+        </g>
+        <g transform="matrix(1,0,0,1,0,25)">
+          <circle
+            id="port-bottom"
+            fill="rgba(255,255,255,1)"
+            transform="translate(-4,-4)"
+            cx="4"
+            cy="4"
+            r="4"
+            stroke="rgba(49,208,198,1)"
+          />
+        </g>
+        <g transform="matrix(1,0,0,1,25,0)">
+          <circle
+            id="port-right"
+            fill="rgba(49,208,198,1)"
+            transform="translate(-4,-4)"
+            cx="4"
+            cy="4"
+            r="4"
+          />
+        </g>
+      </g>
+      <g
+        id="g-svg-99"
+        fill="none"
+        marker-start="false"
+        marker-end="true"
+        transform="matrix(1,0,0,1,0,0)"
+      >
+        <g transform="matrix(1,0,0,1,325,150)">
+          <path
+            id="key"
+            fill="none"
+            d="M 0,0 L 140,7.347880794884119e-16"
+            stroke="rgba(24,144,255,1)"
+            stroke-width="2"
+          />
+          <g transform="matrix(-1,0,-0,-1,140,0)">
+            <path
+              id="g-svg-102"
+              fill="rgba(24,144,255,1)"
+              d="M 0,5 L 10,0 L 10,10 Z"
+              transform="translate(-5,-5)"
+              stroke="rgba(24,144,255,1)"
+              stroke-width="1"
+              width="10"
+              height="10"
+              stroke-dasharray="0,0"
+            />
+          </g>
+        </g>
+        <g id="label" fill="none" transform="matrix(1,0,0,1,402,150)">
+          <g transform="matrix(1,0,0,1,-41.799999,-25)">
+            <path
+              id="background"
+              fill="none"
+              d="M 0,0 l 108,0 l 0,50 l-108 0 z"
+              opacity="0.75"
+              stroke-width="0"
+              width="108"
+              height="50"
+            />
+          </g>
+          <g transform="matrix(1,0,0,1,0,0)">
+            <text
+              id="text"
+              fill="rgba(0,0,0,1)"
+              dominant-baseline="central"
+              paint-order="stroke"
+              font-size="12"
+              text-anchor="middle"
+            >
+              <tspan x="0" dx="0.5" dy="-11.5">
+                sourcePort❓
+              </tspan>
+              <tspan x="0" dx="0.5" dy="23">
+                targetPort✅
+              </tspan>
+            </text>
+          </g>
+        </g>
+      </g>
+      <g
+        id="node-15"
+        fill="none"
+        width="50"
+        height="50"
+        transform="matrix(1,0,0,1,300,250)"
+      >
+        <g transform="matrix(1,0,0,1,0,0)">
+          <circle
+            id="key"
+            fill="rgba(248,248,248,1)"
+            transform="translate(-25,-25)"
+            cx="25"
+            cy="25"
+            stroke="rgba(139,155,175,1)"
+            r="25"
+          />
+        </g>
+        <g transform="matrix(1,0,0,1,0,25)">
+          <circle
+            id="port-bottom"
+            fill="rgba(255,255,255,1)"
+            transform="translate(-4,-4)"
+            cx="4"
+            cy="4"
+            r="4"
+            stroke="rgba(49,208,198,1)"
+          />
+        </g>
+        <g transform="matrix(1,0,0,1,25,0)">
+          <circle
+            id="port-right"
+            fill="rgba(255,255,255,1)"
+            transform="translate(-4,-4)"
+            cx="4"
+            cy="4"
+            r="4"
+            stroke="rgba(49,208,198,1)"
+          />
+        </g>
+      </g>
+      <g
+        id="node-16"
+        fill="none"
+        width="50"
+        height="50"
+        transform="matrix(1,0,0,1,450,250)"
+      >
+        <g transform="matrix(1,0,0,1,0,0)">
+          <circle
+            id="key"
+            fill="rgba(248,248,248,1)"
+            transform="translate(-25,-25)"
+            cx="25"
+            cy="25"
+            stroke="rgba(139,155,175,1)"
+            r="25"
+          />
+        </g>
+      </g>
+      <g
+        id="g-svg-112"
+        fill="none"
+        marker-start="false"
+        marker-end="true"
+        transform="matrix(1,0,0,1,0,0)"
+      >
+        <g transform="matrix(1,0,0,1,329,250)">
+          <path
+            id="key"
+            fill="none"
+            d="M 0,0 L 90,7.347880794884119e-16"
+            stroke="rgba(24,144,255,1)"
+            stroke-width="2"
+          />
+          <g transform="matrix(-1,0,-0,-1,90,0)">
+            <path
+              id="g-svg-115"
+              fill="rgba(24,144,255,1)"
+              d="M 0,5 L 10,0 L 10,10 Z"
+              transform="translate(-5,-5)"
+              stroke="rgba(24,144,255,1)"
+              stroke-width="1"
+              width="10"
+              height="10"
+              stroke-dasharray="0,0"
+            />
+          </g>
+        </g>
+        <g id="label" fill="none" transform="matrix(1,0,0,1,381,250)">
+          <g transform="matrix(1,0,0,1,-47.799999,-25)">
+            <path
+              id="background"
+              fill="none"
+              d="M 0,0 l 108,0 l 0,50 l-108 0 z"
+              opacity="0.75"
+              stroke-width="0"
+              width="108"
+              height="50"
+            />
+          </g>
+          <g transform="matrix(1,0,0,1,0,0)">
+            <text
+              id="text"
+              fill="rgba(0,0,0,1)"
+              dominant-baseline="central"
+              paint-order="stroke"
+              font-size="12"
+              text-anchor="middle"
+            >
+              <tspan x="0" dx="0.5" dy="-11.5">
+                sourcePort✖️
+              </tspan>
+              <tspan x="0" dx="0.5" dy="23">
+                targetPort❓
+              </tspan>
+            </text>
+          </g>
+        </g>
+      </g>
+      <g
+        id="node-17"
+        fill="none"
+        width="50"
+        height="50"
+        transform="matrix(1,0,0,1,300,350)"
+      >
+        <g transform="matrix(1,0,0,1,0,0)">
+          <circle
+            id="key"
+            fill="rgba(248,248,248,1)"
+            transform="translate(-25,-25)"
+            cx="25"
+            cy="25"
+            stroke="rgba(139,155,175,1)"
+            r="25"
+          />
+        </g>
+        <g transform="matrix(1,0,0,1,0,25)">
+          <circle
+            id="port-bottom"
+            fill="rgba(49,208,198,1)"
+            transform="translate(-4,-4)"
+            cx="4"
+            cy="4"
+            r="4"
+          />
+        </g>
+        <g transform="matrix(1,0,0,1,25,0)">
+          <circle
+            id="port-right"
+            fill="rgba(255,255,255,1)"
+            transform="translate(-4,-4)"
+            cx="4"
+            cy="4"
+            r="4"
+            stroke="rgba(49,208,198,1)"
+          />
+        </g>
+      </g>
+      <g
+        id="node-18"
+        fill="none"
+        width="50"
+        height="50"
+        transform="matrix(1,0,0,1,450,350)"
+      >
+        <g transform="matrix(1,0,0,1,0,0)">
+          <circle
+            id="key"
+            fill="rgba(248,248,248,1)"
+            transform="translate(-25,-25)"
+            cx="25"
+            cy="25"
+            stroke="rgba(139,155,175,1)"
+            r="25"
+          />
+        </g>
+      </g>
+      <g
+        id="g-svg-125"
+        fill="none"
+        marker-start="false"
+        marker-end="true"
+        transform="matrix(1,0,0,1,0,0)"
+      >
+        <g transform="matrix(1,0,0,1,303.945587,354.109985)">
+          <path
+            id="key"
+            fill="none"
+            d="M 0,20.232429368144608 L 115.47621266587501,0.9863939238321422"
+            stroke="rgba(24,144,255,1)"
+            stroke-width="2"
+          />
+          <g transform="matrix(-0.986394,0.164399,-0.164399,-0.986394,115.476212,0.986394)">
+            <path
+              id="g-svg-128"
+              fill="rgba(24,144,255,1)"
+              d="M 0,5 L 10,0 L 10,10 Z"
+              transform="translate(-5,-5)"
+              stroke="rgba(24,144,255,1)"
+              stroke-width="1"
+              width="10"
+              height="10"
+              stroke-dasharray="0,0"
+            />
+          </g>
+        </g>
+        <g
+          id="label"
+          fill="none"
+          transform="matrix(0.986393,-0.164407,0.164407,0.986393,368.588440,363.568573)"
+        >
+          <g transform="matrix(1,0,0,1,-49.259830,-37.422226)">
+            <path
+              id="background"
+              fill="none"
+              d="M 0,0 l 108,0 l 0,74.84442353378431 l-108 0 z"
+              opacity="0.75"
+              stroke-width="0"
+              width="108"
+              height="74.84442353378431"
+            />
+          </g>
+          <g transform="matrix(1,0,0,1,0,0)">
+            <text
+              id="text"
+              fill="rgba(0,0,0,1)"
+              dominant-baseline="central"
+              paint-order="stroke"
+              font-size="12"
+              text-anchor="middle"
+            >
+              <tspan x="0" dx="0.5" dy="-11.5">
+                sourcePort✅
+              </tspan>
+              <tspan x="0" dx="0.5" dy="23">
+                targetPort❓
+              </tspan>
+            </text>
+          </g>
+        </g>
+      </g>
+      <g
+        id="node-19"
+        fill="none"
+        width="50"
+        height="50"
+        transform="matrix(1,0,0,1,300,450)"
+      >
+        <g transform="matrix(1,0,0,1,0,0)">
+          <circle
+            id="key"
+            fill="rgba(248,248,248,1)"
+            transform="translate(-25,-25)"
+            cx="25"
+            cy="25"
+            stroke="rgba(139,155,175,1)"
+            r="25"
+          />
+        </g>
+        <g transform="matrix(1,0,0,1,0,25)">
+          <circle
+            id="port-bottom"
+            fill="rgba(49,208,198,1)"
+            transform="translate(-4,-4)"
+            cx="4"
+            cy="4"
+            r="4"
+          />
+        </g>
+        <g transform="matrix(1,0,0,1,25,0)">
+          <circle
+            id="port-right"
+            fill="rgba(255,255,255,1)"
+            transform="translate(-4,-4)"
+            cx="4"
+            cy="4"
+            r="4"
+            stroke="rgba(49,208,198,1)"
+          />
+        </g>
+      </g>
+      <g
+        id="node-20"
+        fill="none"
+        width="50"
+        height="50"
+        transform="matrix(1,0,0,1,450,450)"
+      >
+        <g transform="matrix(1,0,0,1,-23.776413,-25)">
+          <polygon
+            id="key"
+            fill="rgba(248,248,248,1)"
+            points="23.776412907378838,0 29.654265430303568,16.909830056250527 47.552825814757675,17.274575140626315 33.28697807033037,28.090169943749473 38.471044214690664,45.22542485937369 23.776412907378838,35 9.081781600067009,45.22542485937369 14.265847744427303,28.090169943749473 0,17.274575140626315 17.898560384454107,16.909830056250527"
+            stroke="rgba(139,155,175,1)"
+          />
+        </g>
+      </g>
+      <g
+        id="g-svg-138"
+        fill="none"
+        marker-start="false"
+        marker-end="true"
+        transform="matrix(1,0,0,1,0,0)"
+      >
+        <g transform="matrix(1,0,0,1,303.934937,450.644348)">
+          <path
+            id="key"
+            fill="none"
+            d="M 0,23.63720375590964 C 64.1844536847118 32.15395748920861,70.74259292702584 -7.304765369982135,134.92704661173758 1.2119883633168342 L 128.97918054559426,0.4227550269574678"
+            stroke="rgba(24,144,255,1)"
+            stroke-width="2"
+          />
+          <g transform="matrix(-0.991311,-0.131539,0.131539,-0.991311,128.979187,0.422755)">
+            <path
+              id="g-svg-141"
+              fill="rgba(24,144,255,1)"
+              d="M 0,5 L 10,0 L 10,10 Z"
+              transform="translate(-5,-5)"
+              stroke="rgba(24,144,255,1)"
+              stroke-width="1"
+              width="10"
+              height="10"
+              stroke-dasharray="0,0"
+            />
+          </g>
+        </g>
+        <g
+          id="label"
+          fill="none"
+          transform="matrix(0.920747,-0.390161,0.390161,0.920747,375.081451,461.508301)"
+        >
+          <g transform="matrix(1,0,0,1,-58.325027,-52.517727)">
+            <path
+              id="background"
+              fill="none"
+              d="M 0,0 l 108,0 l 0,105.03548037368736 l-108 0 z"
+              opacity="0.75"
+              stroke-width="0"
+              width="108"
+              height="105.03548037368736"
+            />
+          </g>
+          <g transform="matrix(1,0,0,1,0,0)">
+            <text
+              id="text"
+              fill="rgba(0,0,0,1)"
+              dominant-baseline="central"
+              paint-order="stroke"
+              font-size="12"
+              text-anchor="middle"
+            >
+              <tspan x="0" dx="0.5" dy="-11.5">
+                sourcePort✅
+              </tspan>
+              <tspan x="0" dx="0.5" dy="23">
+                targetPort❓
+              </tspan>
+            </text>
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

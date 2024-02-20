@@ -1,206 +1,77 @@
-import Hierarchy from '@antv/hierarchy';
-import { isArray, isNumber } from '@antv/util';
-import { GraphData, ID, NodeModel } from '../types';
-import { Point } from '../types/common';
-import { traverse } from './data';
-
-type TreeGraphData = any;
-
-/**
- * Judge the direction according to options of a tree layout.
- * @param type Tree layout type.
- * @param options Tree layout options.
- * @returns
- */
-export const isTreeLayoutHorizontal = (type, options) => {
-  const { direction } = options;
-  switch (type) {
-    case 'compactBox':
-    case 'dendrogram':
-      return direction !== 'TB' && direction !== ' BT' && direction !== ' V';
-    case 'indented':
-      return true;
-    case 'mindmap':
-      return direction !== 'V';
-  }
-};
+import type { LayoutMapping } from '@antv/layout';
+import { isNumber } from '@antv/util';
+import type { STDLayoutOptions } from '../spec/layout';
+import type { LayoutResult } from '../types';
+import { idOf } from './id';
+import { parsePoint } from './point';
 
 /**
- * Layout nodes on a single tree.
- * @param treeData
- * @param layoutType Tree layout type.
- * @param layoutOptions Tree layout options.
- * @param nodeMap
- * @param nodePositions An array to store the result.
- * @param begin The begin position for this tree, might be calculated from last tree.
- * @returns Positions array.
+ * <zh/> 判断是否是 combo 布局
+ *
+ * <en/> Determine if it is a combo layout
+ * @param options - <zh/> 布局配置项 | <en/> Layout options
+ * @returns <zh/> 是否是 combo 布局 | <en/> Whether it is a combo layout
  */
-export const layoutOneTree = (
-  treeData: TreeGraphData,
-  layoutType: string,
-  layoutOptions,
-  nodeMap,
-  nodePositions,
-  begin = [0, 0],
-) => {
-  const { treeGap = 50 } = layoutOptions;
-  const isHorizontal = isTreeLayoutHorizontal(layoutType, layoutOptions);
-  const layoutData = Hierarchy[layoutType](treeData, layoutOptions);
-  const range = [Infinity, -Infinity];
-  const treeNodeIds = [];
-  traverse(layoutData, (child) => {
-    const { id, x, y } = child;
-    treeNodeIds.push(id);
-    const dim = isHorizontal ? 'y' : 'x';
-    if (range[0] > child[dim]) range[0] = child[dim];
-    if (range[1] < child[dim]) range[1] = child[dim];
-    nodeMap.get(id).data = { x, y };
-  });
-  const diff = begin[isHorizontal ? 1 : 0] - range[0];
-  treeNodeIds.forEach((id) => {
-    const { x, y } = nodeMap.get(id).data;
-    nodePositions.push({
-      id,
-      data: isHorizontal ? { x, y: y + diff } : { x: x + diff, y },
-    });
-  });
-  begin[isHorizontal ? 1 : 0] += range[1] + diff + treeGap;
-  return nodePositions;
-};
-
-/**
- * Whether the layout option is for combo layouts.
- * @param options
- * @returns
- */
-export const isComboLayout = (options) => {
+export function isComboLayout(options: STDLayoutOptions) {
   const { type } = options;
   if (['comboCombined', 'comboForce'].includes(type)) return true;
   if (type === 'dagre' && options.sortByCombo) return true;
   return false;
-};
+}
 
 /**
- * Whether the layout option is for tree layout.
- * @param options
- * @returns
- */
-export const isTreeLayout = (options) => {
-  const { type } = options;
-  return !!Hierarchy[type];
-};
-
-export const getNodeSizeFn = (options, defaultSize = 32) => {
-  if (options.nodeSize) return options.nodeSize;
-  return (node) => {
-    const { size, keyShape } = node.data;
-    if (isArray(size)) return Math.max(...size);
-    if (isNumber(size)) return size;
-    if (!keyShape) return defaultSize;
-    const { r, width, height } = keyShape;
-    if (!isNaN(r)) return r * 2;
-    const widthValid = !isNaN(width);
-    const heightValid = !isNaN(height);
-    if (widthValid && heightValid) return Math.max(width, height);
-    if (widthValid) return width;
-    if (heightValid) return height;
-    return defaultSize;
-  };
-};
-
-/**
+ * <zh/> 判断是否是树图布局
  *
- * @param data Tree graph data
- * @param tree
- * @param nodeMap
- * @param layout
+ * <en/> Determine if it is a tree layout
+ * @param options - <zh/> 布局配置项 | <en/> Layout options
+ * @returns <zh/> 是否是树图布局 | <en/> Whether it is a tree layout
  */
-export const radialLayout = (tree: TreeGraphData, nodeMap: Map<ID, NodeModel>, layout?: string): GraphData => {
-  // 布局方式有 H / V / LR / RL / TB / BT
-  const VERTICAL_LAYOUTS: string[] = ['V', 'TB', 'BT'];
-  const min: Point = {
-    x: Infinity,
-    y: Infinity,
-  };
-
-  const max: Point = {
-    x: -Infinity,
-    y: -Infinity,
-  };
-  // 默认布局是垂直布局TB，此时x对应rad，y对应r
-  let rScale: 'x' | 'y' = 'x';
-  let radScale: 'x' | 'y' = 'y';
-  if (layout && VERTICAL_LAYOUTS.indexOf(layout) >= 0) {
-    // 若是水平布局，y对应rad，x对应r
-    radScale = 'x';
-    rScale = 'y';
-  }
-  let count = 0;
-  traverse(tree, (child) => {
-    count++;
-    const { x, y } = nodeMap.get(child.id).data;
-    if (x > max.x) max.x = x;
-    if (x < min.x) min.x = x;
-    if (y > max.y) max.y = y;
-    if (y < min.y) min.y = y;
-  });
-  const avgRad = (Math.PI * 2) / count;
-  const radDiff = max[radScale] - min[radScale];
-  if (radDiff === 0) return;
-
-  const root = nodeMap.get(tree.id);
-  traverse(tree, (child) => {
-    const node = nodeMap.get(child.id);
-    const radial = ((node.data[radScale] - min[radScale]) / radDiff) * (Math.PI * 2 - avgRad) + avgRad;
-    const r = Math.abs(node.data[rScale] - root.data[rScale]);
-    node.data.x = r * Math.cos(radial);
-    node.data.y = r * Math.sin(radial);
-    return true;
-  });
-  return;
-};
+export function isTreeLayout(options: STDLayoutOptions) {
+  const { type } = options;
+  return ['compact-box', 'mindmap', 'dendrogram', 'indented'].includes(type);
+}
 
 /**
- * Get the layout (nodes' positions) bounds of a graph.
- * @param graph - The graph object.
- * @returns - The layout bounds object containing the minimum, maximum, center, and halfExtents values.
+ * <zh/> 从布局算法的结果抽取应用到元素中的样式
+ *
+ * <en/> Extract the style applied to the element from the result of the layout algorithm
+ * @param result - <zh/> 布局算法的结果 | <en/> The result of the layout algorithm
+ * @returns <zh/> 应用到元素中的样式 | <en/> Style applied to the element
  */
-export const getLayoutBounds = (graph) => {
-  const min = [Infinity, Infinity];
-  const max = [-Infinity, -Infinity];
-  const borderIds = { min: [], max: [] };
-  graph.getAllNodesData().forEach((model) => {
-    const { x, y } = model.data;
-    if (isNaN(x) || isNaN(y)) return;
-    if (min[0] > x) {
-      min[0] = x;
-      borderIds.min[0] = model.id;
-    }
-    if (min[1] > y) {
-      min[1] = y;
-      borderIds.min[1] = model.id;
-    }
-    if (max[0] < x) {
-      max[0] = x;
-      borderIds.max[0] = model.id;
-    }
-    if (max[1] < y) {
-      max[1] = y;
-      borderIds.max[1] = model.id;
-    }
-  });
-  borderIds.min.forEach((id, i) => {
-    const { halfExtents: nodeHalfSize } = graph.getRenderBBox(id);
-    min[i] -= nodeHalfSize[i];
-  });
-  borderIds.max.forEach((id, i) => {
-    const { halfExtents: nodeHalfSize } = graph.getRenderBBox(id);
-    max[i] += nodeHalfSize[i];
-  });
+export function pickLayoutResult(result: LayoutMapping): LayoutResult {
+  const { nodes = [], edges = [] } = result;
+
   return {
-    min,
-    max,
-    center: min.map((val, i) => (max[i] + val) / 2),
-    halfExtents: min.map((val, i) => (max[i] - val) / 2),
+    nodes: Object.fromEntries(
+      nodes.map((node) => {
+        const {
+          id,
+          data: { x, y, z },
+        } = node;
+        if (isNumber(z)) return [id, [x, y, z]];
+        return [id, [x, y]];
+      }),
+    ),
+    edges: Object.fromEntries(
+      edges.map((edge) => {
+        const id = idOf(edge);
+        const { data } = edge;
+        const result: Record<string, unknown> = {};
+        if ('controlPoints' in data) result.controlPoints = data.controlPoints!.map(parsePoint);
+        if ('points' in data) result.points = data.points!.map(parsePoint);
+        return [id, result];
+      }),
+    ),
   };
-};
+}
+
+/**
+ * <zh/> 数据中是否指定了位置
+ *
+ * <en/> Is the position specified in the data
+ * @param data - <zh/> 数据 | <en/> Data
+ * @returns <zh/> 是否指定了位置 | <en/> Is the position specified
+ */
+export function isPositionSpecified(data: Record<string, unknown>) {
+  return isNumber(data.x) && isNumber(data.y);
+}

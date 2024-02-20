@@ -37,5 +37,10 @@ jobs:
         with:
           name: snapshots
           path: |
-            packages/g6/tests/integration/snapshots/**/*-actual.svg
+            packages/g6/__tests__/integration/snapshots/**/*-actual.svg
           retention-days: 1
+                    
+      - name: Coveralls GitHub Action
+        uses: coverallsapp/github-action@v2.2.3
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}

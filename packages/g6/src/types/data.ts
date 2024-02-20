@@ -1,52 +1,60 @@
-import { Graph as GraphLib, TreeData as ITreeData } from '@antv/graphlib';
-import { AVAILABLE_DATA_LIFECYCLE } from '../utils/data';
-import { ComboUserModel } from './combo';
-import { EdgeDisplayModelData, EdgeModelData, EdgeUserModel } from './edge';
-import { NodeDisplayModelData, NodeModelData, NodeUserModel, NodeUserModelData } from './node';
+import type { Edge as EdgeGraphlib, Graph as Graphlib, Node as GraphlibNode, ID } from '@antv/graphlib';
+import type { ComboData, EdgeData, NodeData } from '../spec/data';
 
-export interface GraphData {
-  nodes?: NodeUserModel[];
-  edges?: EdgeUserModel[];
-  combos?: ComboUserModel[];
-}
+export type GraphlibModel = Graphlib<NodeData, EdgeData>;
 
-export interface GraphDataChanges {
-  dataAdded: GraphData;
-  dataUpdated: GraphData;
-  dataRemoved: GraphData;
-}
+export type GraphlibData = {
+  nodes: GraphlibNode<NodeLikeData>[];
+  edges: EdgeGraphlib<EdgeData>[];
+};
 
-export type TreeData = ITreeData<NodeUserModelData> | ITreeData<NodeUserModelData>[];
+export type DataID = {
+  nodes?: ID[];
+  edges?: ID[];
+  combos?: ID[];
+};
 
-export interface InlineGraphDataConfig {
-  type: 'graphData';
-  value: GraphData;
-}
-export interface InlineTreeDataConfig {
-  type: 'treeData';
-  value: TreeData;
-}
+export type NodeLikeData = NodeData | ComboData;
 
-export interface FetchDataConfig {
-  type: 'fetch';
-  value: string;
-}
+export type ElementDatum = NodeData | EdgeData | ComboData;
 
-export type DataConfig = GraphData | InlineGraphDataConfig | InlineTreeDataConfig | FetchDataConfig;
+export type ElementData = NodeData[] | EdgeData[] | ComboData[];
 
-export type GraphCore = GraphLib<NodeModelData, EdgeModelData>;
-export type DisplayGraphCore = GraphLib<NodeDisplayModelData, EdgeDisplayModelData>;
+/**
+ * <zh/> 节点、边更新可选数据
+ *
+ * <en/> Node, edge update optional data
+ * @description
+ * <zh/> 必须包含 id 字段，其他字段可选
+ *
+ * <en/> Must contain the id field, other fields are optional
+ */
+export type PartialNodeLikeData<T extends NodeLikeData> = Partial<T> & Pick<T, 'id'>;
 
-export type TransformerFn = (data: GraphData) => GraphData;
+/**
+ * <zh/> 边更新可选数据
+ *
+ * <en/> Edge update optional data
+ * @description
+ * <zh/> 包含两种情况：
+ * 1. 必须包含 source、target 字段，其他字段可选
+ * 2. 必须包含 id 字段，其他字段可选
+ *
+ * <en/> Contains two cases:
+ * 1. Must contain the source and target fields, other fields are optional
+ * 2. Must contain the id field, other fields are optional
+ */
+export type PartialEdgeData<T extends EdgeData> =
+  | (Partial<T> & Pick<T, 'source' | 'target'>)
+  | (Partial<T> & Pick<T, 'id'>);
 
-export type DataChangeType =
-  | 'replace'
-  | 'mergeReplace'
-  | 'union'
-  | 'remove'
-  | 'update'
-  | 'moveCombo'
-  | 'addCombo'
-  | 'updatePosition';
-
-export type DataLifecycleType = (typeof AVAILABLE_DATA_LIFECYCLE)[number];
+/**
+ * <zh/> G6 数据更新可选数据
+ *
+ * <en/> G6 data update optional data
+ */
+export type PartialGraphData = {
+  nodes?: PartialNodeLikeData<NodeData>[];
+  edges?: PartialEdgeData<EdgeData>[];
+  combos?: PartialNodeLikeData<ComboData>[];
+};

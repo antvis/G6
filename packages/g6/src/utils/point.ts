@@ -1,235 +1,198 @@
-import { vec2 } from 'gl-matrix';
-import { Point } from '../types/common';
+import type { AABB, PointLike } from '@antv/g';
+import type { Point } from '../types';
+import { getBBoxHeight, getBBoxWidth } from './bbox';
+import { getXYByPosition } from './element';
 import { isBetween } from './math';
+import { add, angle, cross, distance, subtract } from './vector';
 
 /**
- * Find the nearest on in points to the curPoint.
- * @param points
- * @param curPoint
- * @returns
+ * <zh/> 将对象坐标转换为数组坐标
+ * <en/> Convert object coordinates to array coordinates
+ * @param point - <zh/> 对象坐标 | <en/> object coordinates
+ * @returns <zh/> 数组坐标 | <en/> array coordinates
  */
-export const getNearestPoint = (
-  points: Point[],
-  curPoint: Point,
-): {
-  index: number;
-  nearestPoint: Point;
-} => {
-  let index = 0;
-  let nearestPoint = points[0];
-  let minDistance = distance(points[0], curPoint);
+export function parsePoint(point: PointLike): Point {
+  return [point.x, point.y];
+}
+
+/**
+ * <zh/> 将数组坐标转换为对象坐标
+ *
+ * <en/> Convert array coordinates to object coordinates
+ * @param point - <zh/> 数组坐标 | <en/> array coordinates
+ * @returns <zh/> 对象坐标 | <en/> object coordinates
+ */
+export function toPointObject(point: Point): PointLike {
+  return { x: point[0], y: point[1] };
+}
+
+/**
+ * <zh/> 判断两个点是否在同一水平线上
+ *
+ * <en/> whether two points are on the same horizontal line
+ * @param p1 - <zh/> 第一个点 | <en/> the first point
+ * @param p2 - <zh/> 第二个点 | <en/> the second point
+ * @returns <zh/> 返回两个点是否在同一水平线上 | <en/> is horizontal or not
+ */
+export function isHorizontal(p1: Point, p2: Point): boolean {
+  return p1[1] === p2[1];
+}
+
+/**
+ * <zh/> 判断两个点是否在同一垂直线上
+ *
+ * <en/> whether two points are on the same vertical line
+ * @param p1 - <zh/> 第一个点 | <en/> the first point
+ * @param p2 - <zh/> 第二个点 | <en/> the second point
+ * @returns <zh/> 返回两个点是否在同一垂直线上 | <en/> is vertical or not
+ */
+export function isVertical(p1: Point, p2: Point): boolean {
+  return p1[0] === p2[0];
+}
+
+/**
+ * <zh/> 判断是否三点共线
+ *
+ * <en/> Judge whether three points are collinear
+ * @param p1 - <zh/> 第一个点 | <en/> the first point
+ * @param p2 - <zh/> 第二个点 | <en/> the second point
+ * @param p3 - <zh/> 第三个点 | <en/> the third point
+ * @returns <zh/> 是否三点共线 | <en/> whether three points are collinear
+ */
+export function isCollinear(p1: Point, p2: Point, p3: Point): boolean {
+  return isLinesParallel([p1, p2], [p2, p3]);
+}
+
+/**
+ * <zh/> 判断两条线段是否平行
+ *
+ * <en/> Judge whether two line segments are parallel
+ * @param l1 - <zh/> 第一条线段 | <en/> the first line segment
+ * @param l2 - <zh/> 第二条线段 | <en/> the second line segment
+ * @returns <zh/> 是否平行 | <en/> whether parallel or not
+ */
+export function isLinesParallel(l1: [Point, Point], l2: [Point, Point]): boolean {
+  const [p1, p2] = l1;
+  const [p3, p4] = l2;
+  const v1 = subtract(p1, p2);
+  const v2 = subtract(p3, p4);
+  return cross(v1, v2).every((v) => v === 0);
+}
+
+/**
+ * <zh/> 获取两条线段的交点
+ *
+ * <en/> Get the intersection of two line segments
+ * @param l1 - <zh/> 第一条线段 | <en/> the first line segment
+ * @param l2 - <zh/> 第二条线段 | <en/> the second line segment
+ * @returns <zh/> 交点 | <en/> intersection
+ */
+export function getLinesIntersection(l1: [Point, Point], l2: [Point, Point]): Point | undefined {
+  if (isLinesParallel(l1, l2)) return undefined;
+
+  const [p1, p2] = l1;
+  const [p3, p4] = l2;
+
+  const t =
+    ((p1[0] - p3[0]) * (p3[1] - p4[1]) - (p1[1] - p3[1]) * (p3[0] - p4[0])) /
+    ((p1[0] - p2[0]) * (p3[1] - p4[1]) - (p1[1] - p2[1]) * (p3[0] - p4[0]));
+
+  const u =
+    p4[0] - p3[0]
+      ? (p1[0] - p3[0] + t * (p2[0] - p1[0])) / (p4[0] - p3[0])
+      : (p1[1] - p3[1] + t * (p2[1] - p1[1])) / (p4[1] - p3[1]);
+
+  if (!isBetween(t, 0, 1) || !isBetween(u, 0, 1)) return undefined;
+
+  return [p1[0] + t * (p2[0] - p1[0]), p1[1] + t * (p2[1] - p1[1])];
+}
+
+/**
+ * <zh/> 获取从多边形中心到给定点的连线与多边形边缘的交点
+ *
+ * <en/> Gets the intersection point between the line from the center of a polygon to a given point and the polygon's edge
+ * @param p - <zh/> 从多边形中心到多边形边缘的连线的外部点 | <en/> The point outside the polygon from which the line to the polygon's center is drawn
+ * @param center - <zh/> 多边形中心 | <en/> the center of the polygon
+ * @param points - <zh/> 多边形顶点 | <en/> the vertices of the polygon
+ * @param isRelativePos - <zh/> 顶点坐标是否相对中心点 | <en/> whether the vertex coordinates are relative to the center point
+ * @returns <zh/> 交点 | <en/> intersection
+ */
+export function getPolygonIntersectPoint(p: Point, center: Point, points: Point[], isRelativePos = true): Point {
   for (let i = 0; i < points.length; i++) {
-    const point = points[i];
-    const dis = distance(point, curPoint);
-    if (dis < minDistance) {
-      nearestPoint = point;
-      minDistance = dis;
-      index = i;
+    let start = points[i];
+    let end = points[(i + 1) % points.length];
+
+    if (isRelativePos) {
+      start = add(center, start);
+      end = add(center, end);
     }
+
+    const intersect = getLinesIntersection([center, p], [start, end]);
+    if (intersect) return intersect;
   }
-  return {
-    index,
-    nearestPoint,
-  };
-};
+  return center;
+}
 
 /**
- * Get distance by two points.
- * @param {vec2} p1 first point
- * @param {vec2} p2 second point
+ * <zh/> 获取从矩形中心到给定点的连线与矩形边缘的交点
+ *
+ * <en/> Gets the intersection point between the line from the center of a rectangle to a given point and the rectangle's edge
+ * @param p - <zh/> 从矩形中心到矩形边缘的连线的外部点 | <en/> The point outside the rectangle from which the line to the rectangle's center is drawn
+ * @param bbox - <zh/> 矩形包围盒 | <en/> the bounding box of the rectangle
+ * @returns <zh/> 交点 | <en/> intersection
  */
-export const distanceVec = (p1: vec2, p2: vec2): number => {
-  const vx = p1[0] - p2[0];
-  const vy = p1[1] - p2[1];
-  return Math.sqrt(vx * vx + vy * vy);
-};
+export function getRectIntersectPoint(p: Point, bbox: AABB): Point {
+  const center = getXYByPosition(bbox, 'center');
+  const corners = [
+    getXYByPosition(bbox, 'left-top'),
+    getXYByPosition(bbox, 'right-top'),
+    getXYByPosition(bbox, 'right-bottom'),
+    getXYByPosition(bbox, 'left-bottom'),
+  ];
+  return getPolygonIntersectPoint(p, center, corners, false);
+}
 
 /**
- * Get distance by two points.
- * @param {Point} p1 first point
- * @param {Point} p2 second point
+ * <zh/> 获取从椭圆中心到给定点的连线与椭圆边缘的交点
+ *
+ * <en/> Gets the intersection point between the line from the center of an ellipse to a given point and the ellipse's edge
+ * @param p - <zh/> 从椭圆中心到椭圆边缘的连线的外部点 | <en/> The point outside the ellipse from which the line to the ellipse's center is drawn
+ * The point outside the ellipse from which the line to the ellipse's center is drawn.
+ * @param bbox - <zh/> 椭圆包围盒 | <en/> the bounding box of the ellipse
+ * @returns <zh/> 交点 | <en/> intersection
  */
-export const distance = (p1: Point, p2: Point): number => {
-  const vx = p1.x - p2.x;
-  const vy = p1.y - p2.y;
-  const vz = p1.z - p2.z;
-  return isNaN(vz) ? Math.sqrt(vx * vx + vy * vy) : Math.sqrt(vx * vx + vy * vy + vz * vz);
-};
+export function getEllipseIntersectPoint(p: Point, bbox: AABB): Point {
+  const rx = getBBoxWidth(bbox) / 2;
+  const ry = getBBoxHeight(bbox) / 2;
+  const center = bbox.center;
+
+  const vec = subtract(p, center);
+
+  let radians = angle(vec, [1, 0, 0]);
+  if (radians < 0) radians += Math.PI * 2;
+  return [
+    center[0] + Math.abs(rx * Math.cos(radians)) * Math.sign(vec[0]),
+    center[1] + Math.abs(ry * Math.sin(radians)) * Math.sign(vec[1]),
+  ];
+}
 
 /**
- * If the p1 and p2 are the same.
- * @param p1
- * @param p2
- * @returns
+ * <zh/> 从两组点中找到距离最近的两个点
+ * @param group1 - <zh/> 第一组点 | <en/> the first group of points
+ * @param group2 - <zh/> 第二组点 | <en/> the second group of points
+ * @returns <zh/> 距离最近的两个点 | <en/> the nearest two points
  */
-export const isSamePoint = (p1: Point, p2: Point): boolean => {
-  if (!p1 || !p2) return false;
-  return p1.x === p2.x && p1.y === p2.y && p1.z === p2.z;
-};
-
-/**
- * Get point and circle intersect point.
- * @param circleProps - Circle's center x,y and radius r
- * @param circleProps.x
- * @param point - Point x,y
- * @param circleProps.y
- * @param circleProps.r
- * @returns calculated intersect point
- */
-export const getCircleIntersectByPoint = (
-  circleProps: { x: number; y: number; r: number },
-  point: Point,
-): Point | null => {
-  const { x: cx, y: cy, r } = circleProps;
-  const { x, y } = point;
-
-  const dx = x - cx;
-  const dy = y - cy;
-  if (dx * dx + dy * dy < r * r) {
-    return null;
-  }
-  const angle = Math.atan(dy / dx);
-  return {
-    x: cx + Math.abs(r * Math.cos(angle)) * Math.sign(dx),
-    y: cy + Math.abs(r * Math.sin(angle)) * Math.sign(dy),
-  };
-};
-
-/**
- * Get point and ellipse inIntersect.
- * @param ellipseProps - ellipse center x,y and radius rx,ry
- * @param ellipseProps.rx
- * @param point - Point x,y
- * @param ellipseProps.ry
- * @param ellipseProps.x
- * @param ellipseProps.y
- * @returns calculated intersect point
- */
-export const getEllipseIntersectByPoint = (
-  ellipseProps: {
-    rx: number;
-    ry: number;
-    x: number;
-    y: number;
-  },
-  point: Point,
-): Point => {
-  const { rx: a, ry: b, x: cx, y: cy } = ellipseProps;
-
-  const dx = point.x - cx;
-  const dy = point.y - cy;
-  // The angle will be in range [-PI, PI]
-  let angle = Math.atan2(dy / b, dx / a);
-
-  if (angle < 0) {
-    // transfer to [0, 2*PI]
-    angle += 2 * Math.PI;
-  }
-
-  return {
-    x: cx + a * Math.cos(angle),
-    y: cy + b * Math.sin(angle),
-  };
-};
-
-/**
- * Point and rectangular intersection point.
- * @param rectProps - rect
- * @param rectProps.x
- * @param point - point
- * @param rectProps.y
- * @param rectProps.width
- * @param rectProps.height
- * @returns rst;
- */
-export const getRectIntersectByPoint = (
-  rectProps: { x: number; y: number; width: number; height: number },
-  point: Point,
-): Point | null => {
-  const { x, y, width, height } = rectProps;
-  const cx = x + width / 2;
-  const cy = y + height / 2;
-  const points: Point[] = [];
-  const center: Point = {
-    x: cx,
-    y: cy,
-  };
-  points.push({
-    x,
-    y,
+export function findNearestPoints(group1: Point[], group2: Point[]): [Point, Point] {
+  let minDistance = Infinity;
+  let nearestPoints: [Point, Point] = [group1[0], group2[0]];
+  group1.forEach((p1) => {
+    group2.forEach((p2) => {
+      const dist = distance(p1, p2);
+      if (dist < minDistance) {
+        minDistance = dist;
+        nearestPoints = [p1, p2];
+      }
+    });
   });
-  points.push({
-    x: x + width,
-    y,
-  });
-  points.push({
-    x: x + width,
-    y: y + height,
-  });
-  points.push({
-    x,
-    y: y + height,
-  });
-  points.push({
-    x,
-    y,
-  });
-  let rst: Point | null = null;
-  for (let i = 1; i < points.length; i++) {
-    rst = getLineIntersect(points[i - 1], points[i], center, point);
-    if (rst) {
-      break;
-    }
-  }
-  return rst;
-};
-
-/**
- * Get the intersect point of two lines.
- * @param  {Point}  p0 The start point of the first line.
- * @param  {Point}  p1 The end point of the first line.
- * @param  {Point}  p2 The start point of the second line.
- * @param  {Point}  p3 The end point of the second line.
- * @returns {Point}  Calculated intersect point.
- */
-export const getLineIntersect = (p0: Point, p1: Point, p2: Point, p3: Point): Point | null => {
-  const tolerance = 0.0001;
-
-  const E: Point = {
-    x: p2.x - p0.x,
-    y: p2.y - p0.y,
-  };
-  const D0: Point = {
-    x: p1.x - p0.x,
-    y: p1.y - p0.y,
-  };
-  const D1: Point = {
-    x: p3.x - p2.x,
-    y: p3.y - p2.y,
-  };
-  const kross: number = D0.x * D1.y - D0.y * D1.x;
-  const sqrKross: number = kross * kross;
-  const invertKross: number = 1 / kross;
-  const sqrLen0: number = D0.x * D0.x + D0.y * D0.y;
-  const sqrLen1: number = D1.x * D1.x + D1.y * D1.y;
-  if (sqrKross > tolerance * sqrLen0 * sqrLen1) {
-    const s = (E.x * D1.y - E.y * D1.x) * invertKross;
-    const t = (E.x * D0.y - E.y * D0.x) * invertKross;
-    if (!isBetween(s, 0, 1) || !isBetween(t, 0, 1)) return null;
-    return {
-      x: p0.x + s * D0.x,
-      y: p0.y + s * D0.y,
-    };
-  }
-  return null;
-};
-
-/**
- * Determine if three points are bending (not lie on a straight line)
- * @param p0 the first 2d point
- * @param p1 the second 2d point
- * @param p2 the third 2d point
- * @returns
- */
-export const isBending = (p0: Point, p1: Point, p2: Point): boolean =>
-  !((p0.x === p1.x && p1.x === p2.x) || (p0.y === p1.y && p1.y === p2.y));
+  return nearestPoints;
+}

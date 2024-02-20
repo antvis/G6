@@ -1,10 +1,6 @@
-export type Position =
-  | 'top'
-  | 'bottom'
-  | 'left'
-  | 'right'
-  | 'center'
-  | 'top-left'
-  | 'top-right'
-  | 'bottom-left'
-  | 'bottom-right';
+import type { ID } from '@antv/graphlib';
+import type { Point } from './point';
+
+export type Position = Point;
+
+export type Positions = Record<ID, Position>;

@@ -1,139 +1,50 @@
-import type { DisplayObject, PathStyleProps } from '@antv/g';
-import { Edge as GEdge, PlainObject } from '@antv/graphlib';
-import { BaseEdge } from '../plugin/item/edge/base';
-import { IAnimates } from './animate';
-import {
-  Encode,
-  IItem,
-  ItemShapeStyles,
-  LabelBackground,
-  LodLevel,
-  ShapeAttrEncode,
-  ShapeStyle,
-  ShapesEncode,
-} from './item';
-
-export interface EdgeUserModelData extends PlainObject {
-  /**
-   * Anchor index to link to the source / target node.
-   */
-  sourceAnchor?: number;
-  targetAnchor?: number;
-  /**
-   * Edge type, e.g. 'line-edge'.
-   */
-  type?: string;
-  /**
-   * Subject color for the keyShape and arrows.
-   * More styles should be configured in edge mapper.
-   */
-  color?: string;
-  /**
-   * The text to show on the edge.
-   * More styles should be configured in edge mapper.
-   */
-  label?: string;
-  /**
-   * Whether show the edge by default.
-   */
-  visible?: boolean;
-  /**
-   * The icon to show on the edge.
-   * More styles should be configured in edge mapper.
-   */
-  icon?: {
-    type: 'icon' | 'text';
-    text?: string;
-    img?: string;
-  };
-  /**
-   * The badges to show on the edge.
-   * More styles should be configured in edge mapper.
-   */
-  badge?: {
-    type: 'icon' | 'text';
-    text: string;
-  };
-}
-export type EdgeModelData = EdgeUserModelData;
-
-export interface EdgeShapeStyles extends ItemShapeStyles {
-  keyShape?: ShapeStyle & {
-    startArrow?: boolean | ArrowStyle;
-    endArrow?: boolean | ArrowStyle;
-  };
-  labelShape?: ShapeStyle & {
-    position?: 'start' | 'middle' | 'end';
-    offsetX?: number;
-    offsetY?: number;
-    offsetZ?: number;
-    autoRotate?: boolean;
-    // if it is a string, means the percentage of the keyShape, number means pixel
-    maxWidth?: string | number;
-  };
-  labelBackgroundShape?: ShapeStyle & {
-    padding?: number | number[];
-  };
-  badgeShape?: ShapeStyle & {
-    color?: string;
-    textColor?: string;
-  };
-}
-
-export type EdgeDisplayModelData = EdgeModelData & EdgeShapeStyles & { lodLevels?: LodLevel[] };
-
-/** User input data. */
-export type EdgeUserModel = GEdge<EdgeUserModelData>;
-
-/** Inner node data, clone and transform from user data. */
-export type EdgeModel = GEdge<EdgeModelData>;
-
-/** Displayed data, only for drawing and not received by users. */
-export type EdgeDisplayModel = GEdge<EdgeDisplayModelData>;
-
-export type EdgeLabelPosition = 'start' | 'middle' | 'end';
-interface EdgeLabelShapeAttrEncode extends ShapeAttrEncode {
-  position?: EdgeLabelPosition | Encode<EdgeLabelPosition>;
-  offsetX?: number | Encode<number>;
-  offsetY?: number | Encode<number>;
-  offsetZ?: number | Encode<number>;
-  background?: LabelBackground | Encode<LabelBackground>;
-  autoRotate?: boolean | Encode<boolean>;
-}
-
-export interface EdgeShapesEncode extends ShapesEncode {
-  labelShape?: EdgeLabelShapeAttrEncode;
-  labelBackgroundShape?: LabelBackground | Encode<LabelBackground>;
-  badgeShape?: ShapeAttrEncode | Encode<ShapeStyle>;
-}
-export interface EdgeEncode extends EdgeShapesEncode {
-  type?: string | Encode<string>;
-  animates?: IAnimates;
-}
-
-export interface EdgeShapeMap {
-  keyShape: DisplayObject;
-  labelShape?: DisplayObject;
-  iconShape?: DisplayObject;
-  [otherShapeId: string]: DisplayObject;
-}
-
-// TODO
-export type IEdge = IItem;
-
-export type ArrowType = 'triangle' | 'circle' | 'diamond' | 'rect' | 'vee' | 'triangle-rect' | 'simple';
-
-export type ArrowStyle = PathStyleProps & {
-  type: ArrowType;
-  width: number;
-  height: number;
-  offset?: number;
-};
-
-export interface EdgeRegistry {
-  [key: string]: typeof BaseEdge;
-}
-
-/** --------------------- V5.1 --------------------- */
+import { Line, Path, Polyline } from '@antv/g';
+import type { LabelStyleProps } from '../elements/shapes';
 
 export type EdgeDirection = 'in' | 'out' | 'both';
+
+export type EdgeKey = Line | Path | Polyline;
+
+export type EdgeLabelPosition = 'start' | 'center' | 'end' | number;
+
+export type EdgeLabelStyleProps = {
+  /**
+   * <zh/> 标签相对于边的位置。可以是 'start'、'center'、'end' 或特定比率（数字 0-1）
+   * <en/> The position of the label relative to the edge. Can be 'start', 'center', 'end', or a specific ratio (number)
+   */
+  position?: EdgeLabelPosition;
+  /**
+   * <zh/> 标签平行于边的水平偏移量
+   * <en/> The horizontal offset of the label parallel to the edge
+   */
+  offsetX?: number;
+  /**
+   * <zh/> 标签垂直于边的垂直偏移量
+   * <en/> The vertical offset of the label perpendicular to the edge
+   */
+  offsetY?: number;
+  /**
+   * <zh/> 是否自动旋转以与边的方向对齐
+   * <en/> Indicates whether the label should automatically rotate to align with the edge's direction
+   */
+  autoRotate?: boolean;
+  /**
+   * <zh/> 文本的最大宽度，超出会裁减
+   * <en/> maxWidth of label text, which will be clipped if exceeded
+   */
+  maxWidth?: string | number;
+} & LabelStyleProps;
+
+export type LoopEdgePosition =
+  | 'top'
+  | 'top-left'
+  | 'top-right'
+  | 'bottom'
+  | 'bottom-left'
+  | 'bottom-right'
+  | 'left'
+  | 'left-top'
+  | 'left-bottom'
+  | 'right'
+  | 'right-top'
+  | 'right-bottom';

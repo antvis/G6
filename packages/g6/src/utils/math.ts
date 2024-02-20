@@ -1,28 +1,12 @@
-import { Point, PolyPoint } from '../types/common';
-
 /**
- * Whether the value is between the range of [min, max]
- * @param   {number}       value  the value to be judged
- * @param   {number}       min    the min of the range
- * @param   {number}       max    the max of the range
- * @returns  {boolean}      bool   the result boolean
- */
-export const isBetween = (value: number, min: number, max: number) => value >= min && value <= max;
-
-/**
- * Calculate the manhattan distance between two points
- * @param p1 the first 2d point
- * @param p2 the second 2d point
- * @returns Sum of the absolute coordinate differences of two points
- */
-export const manhattanDist = (p1: Point | PolyPoint, p2: Point | PolyPoint): number =>
-  Math.abs(p1.x - p2.x) + Math.abs(p1.y - p2.y);
-
-/**
+ * <zh/> 判断值是否在区间内
  *
- * @param p1
- * @param p2
- * @returns
+ * <en/> Judge whether the value is in the interval
+ * @param value - <zh/> 值 | <en/> value
+ * @param min - <zh/> 最小值 | <en/> minimum value
+ * @param max - <zh/> 最大值 | <en/> maximum value
+ * @returns <zh/> 是否在区间内 | <en/> whether in the interval
  */
-export const eulerDist = (p1: Point | PolyPoint, p2: Point | PolyPoint): number =>
-  Math.sqrt((p1.x - p2.x) ** 2 + (p1.y - p2.y) ** 2);
+export function isBetween(value: number, min: number, max: number): boolean {
+  return value >= min && value <= max;
+}
