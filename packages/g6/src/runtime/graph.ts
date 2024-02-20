@@ -46,6 +46,10 @@ export class Graph extends EventEmitter {
   private options: G6Spec;
 
   static defaultOptions: G6Spec = {
+    autoResize: false,
+    width: 800,
+    height: 600,
+    theme: 'light',
     zoom: 1,
     zoomRange: [-Infinity, Infinity],
   };

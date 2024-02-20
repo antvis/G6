@@ -23,6 +23,8 @@ export type BadgePosition = RelativePosition;
 export type LabelPosition = RelativePosition;
 
 export type PortStyleProps = GCircleStyleProps & {
+  width?: number;
+  height?: number;
   /**
    * <zh/> 是否连接到中心
    * <en/> Whether to connect to the center

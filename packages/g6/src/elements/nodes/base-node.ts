@@ -21,22 +21,20 @@ import type { BadgeStyleProps, BaseShapeStyleProps, IconStyleProps, LabelStylePr
 import { Badge, BaseShape, Icon, Label } from '../shapes';
 
 type NodeLabelStyleProps = LabelStyleProps & { position?: LabelPosition; maxWidth?: string | number };
+
 type NodeBadgeStyleProps = BadgeStyleProps & { position?: BadgePosition };
 type NodeBadgesStyleProps = {
   badges?: NodeBadgeStyleProps[];
-  badgeZIndex?: number;
-};
-export type NodePortStyleProps = PortStyleProps & {
+} & PrefixObject<BadgeStyleProps, 'badge'>;
+
+export type NodePortStyleProps = Partial<PortStyleProps> & {
   key?: string;
   position: string | [number, number];
-  width?: number;
-  height?: number;
 };
 type NodePortsStyleProps = {
   ports?: NodePortStyleProps[];
-  portZIndex?: number;
-  portLinkToCenter?: boolean;
-};
+} & PrefixObject<PortStyleProps, 'port'>;
+
 type NodeIconStyleProps = IconStyleProps;
 
 export type BaseNodeStyleProps<P extends object> = BaseShapeStyleProps &
@@ -54,7 +52,7 @@ export type BaseNodeStyleProps<P extends object> = BaseShapeStyleProps &
   PrefixObject<NodeIconStyleProps, 'icon'> &
   // Badges
   NodeBadgesStyleProps &
-  // Port
+  // Ports
   NodePortsStyleProps;
 
 export type ParsedBaseNodeStyleProps<P extends object> = Required<BaseNodeStyleProps<P>>;
@@ -160,20 +158,21 @@ export abstract class BaseNode<
 
   protected getBadgesStyle(attributes: ParsedBaseNodeStyleProps<P>): Record<string, NodeBadgeStyleProps | false> {
     const badges = subObject(this.shapeMap, 'badge-');
-    const badgesStyle: Record<string, NodeBadgeStyleProps | false> = {};
+    const badgesShapeStyle: Record<string, NodeBadgeStyleProps | false> = {};
 
     Object.keys(badges).forEach((key) => {
-      badgesStyle[key] = false;
+      badgesShapeStyle[key] = false;
     });
+    if (attributes.badge === false || isEmpty(attributes.badges)) return badgesShapeStyle;
 
-    if (attributes.badge === false || isEmpty(attributes.badges)) return badgesStyle;
+    const badgeStyle = subStyleProps<P>(this.getGraphicStyle(attributes), 'badge');
+    const { badges: badgeOptions = [] } = attributes;
 
-    const { badges: badgeOptions = [], badgeZIndex } = attributes;
     badgeOptions.forEach((option, i) => {
-      badgesStyle[i] = { zIndex: badgeZIndex, ...this.getBadgeStyle(option) };
+      badgesShapeStyle[i] = { ...badgeStyle, ...this.getBadgeStyle(option) };
     });
 
-    return badgesStyle;
+    return badgesShapeStyle;
   }
 
   protected getBadgeStyle(style: NodeBadgeStyleProps): NodeBadgeStyleProps {
@@ -185,23 +184,24 @@ export abstract class BaseNode<
 
   protected getPortsStyle(attributes: ParsedBaseNodeStyleProps<P>): Record<string, PortStyleProps | false> {
     const ports = this.getPorts();
-    const portsStyle: Record<string, PortStyleProps | false> = {};
+    const portsShapeStyle: Record<string, PortStyleProps | false> = {};
 
     Object.keys(ports).forEach((key) => {
-      portsStyle[key] = false;
+      portsShapeStyle[key] = false;
     });
 
-    if (attributes.port === false || isEmpty(attributes.ports)) return portsStyle;
+    if (attributes.port === false || isEmpty(attributes.ports)) return portsShapeStyle;
 
-    const { ports: portOptions = [], portZIndex, portLinkToCenter } = attributes;
+    const portStyle = subStyleProps<P>(this.getGraphicStyle(attributes), 'port');
+    const { ports: portOptions = [] } = attributes;
+
     portOptions.forEach((option, i) => {
-      portsStyle[option.key || i] = {
-        zIndex: portZIndex,
-        linkToCenter: portLinkToCenter,
+      portsShapeStyle[option.key || i] = {
+        ...portStyle,
         ...this.getPortStyle(attributes, option),
       };
     });
-    return portsStyle;
+    return portsShapeStyle;
   }
 
   protected getPortStyle(attributes: ParsedBaseNodeStyleProps<P>, style: NodePortStyleProps): PortStyleProps {
