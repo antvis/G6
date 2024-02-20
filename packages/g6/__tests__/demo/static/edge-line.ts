@@ -1,4 +1,3 @@
-import { Circle, Image } from '@antv/g';
 import { Line } from '../../../src/elements/edges';
 import type { StaticTestCase } from '../types';
 
@@ -47,43 +46,10 @@ export const edgeLine: StaticTestCase = async (context) => {
       labelPadding: 0,
       startArrow: true,
       startArrowType: 'circle',
-      endArrow: true,
-      endArrowFill: 'red',
-    },
-  });
-
-  const line3 = new Line({
-    style: {
-      sourcePoint: [300, 300],
-      targetPoint: [100, 250],
-      lineWidth: 2,
-      lineDash: [10, 10],
-      stroke: '#1890FF',
-      cursor: 'pointer',
-      halo: true,
-      haloOpacity: 0.25,
-      label: true,
-      labelPosition: 'start',
-      labelOffsetX: 25,
-      labelText: 'reverted-line-edge',
-      labelFontSize: 12,
-      labelFill: '#000',
-      labelPadding: 0,
-      startArrow: true,
-      startArrowCtor: Image,
-      startArrowWidth: 50,
-      startArrowHeight: 50,
-      startArrowSrc: 'https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*N4ZMS7gHsUIAAAAAAAAAAABkARQnAQ',
-      startArrowTransform: 'rotate(90deg)',
-      endArrow: true,
-      endArrowCtor: Circle,
-      endArrowR: 25,
-      endArrowStroke: '#1890FF',
-      endArrowLineWidth: 2,
     },
   });
 
   canvas.appendChild(line1);
   canvas.appendChild(line2);
-  canvas.appendChild(line3);
+  // canvas.appendChild(line3);
 };

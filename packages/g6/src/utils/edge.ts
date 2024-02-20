@@ -3,7 +3,7 @@ import type { PathArray } from '@antv/util';
 import { isEqual, isNumber } from '@antv/util';
 import type { EdgeKey, EdgeLabelPosition, EdgeLabelStyleProps, LoopEdgePosition, Node, Point, Vector2 } from '../types';
 import { getBBoxHeight, getBBoxWidth } from './bbox';
-import { getPortConnectionPoint } from './element';
+import { getNodeConnectionPoint, getPortConnectionPoint } from './element';
 import { isCollinear, isHorizontal, parsePoint } from './point';
 import {
   add,
@@ -208,18 +208,14 @@ export function getCubicPath(sourcePoint: Point, targetPoint: Point, controlPoin
  * <zh/> 获取折线的绘制路径
  *
  * <en/> Calculates the path for drawing a polyline
- * @param sourcePoint - <zh/> 边的起点 | <en/> Source point
- * @param targetPoint - <zh/> 边的终点 | <en/> Target point
- * @param controlPoints - <zh/> 控制点 | <en/> Control point
+ * @param points - <zh/> 折线的顶点 | <en/> The vertices of the polyline
  * @param radius - <zh/> 圆角半径 | <en/> Radius of the rounded corner
  * @returns <zh/> 返回绘制折线的路径 | <en/> Returns the path for drawing a polyline
  */
-export function getPolylinePath(
-  sourcePoint: Point,
-  targetPoint: Point,
-  controlPoints: Point[],
-  radius: number,
-): PathArray {
+export function getPolylinePath(points: Point[], radius = 0): PathArray {
+  const sourcePoint = points[0];
+  const targetPoint = points[points.length - 1];
+  const controlPoints = points.slice(1, points.length - 1);
   const pathArray: PathArray = [['M', sourcePoint[0], sourcePoint[1]]];
   controlPoints.forEach((midPoint, i) => {
     const prevPoint = controlPoints[i - 1] || sourcePoint;
@@ -315,8 +311,8 @@ export function getLoopEndpoints(
     const point1: Point = add(center, [r * Math.cos(angle1), r * Math.sin(angle1), 0]);
     const point2: Point = add(center, [r * Math.cos(angle2), r * Math.sin(angle2), 0]);
 
-    sourcePoint = node.getIntersectPoint(point1);
-    targetPoint = node.getIntersectPoint(point2);
+    sourcePoint = getNodeConnectionPoint(node, point1);
+    targetPoint = getNodeConnectionPoint(node, point2);
 
     if (!clockwise) {
       [sourcePoint, targetPoint] = [targetPoint, sourcePoint];

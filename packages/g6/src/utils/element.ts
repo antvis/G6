@@ -111,12 +111,15 @@ export function getPortConnectionPoint(port: Port, opposite: Point | Node, oppos
  *
  * <en/> Get the Node Connection Point
  * @param node - <zh/> 节点 | <en/> Node
- * @param oppositeNode - <zh/> 对端节点 | <en/> Opposite Node
+ * @param opposite - <zh/> 对端的具体点或节点 | <en/> Opposite Point or Node
  * @param oppositePort - <zh/> 对端锚点 | <en/> Opposite Port
  * @returns <zh/> 节点的连接点 | <en/> Node Point
  */
-export function getNodeConnectionPoint(node: Node, oppositeNode: Node, oppositePort?: Port): Point {
-  return node.getIntersectPoint(oppositePort?.getPosition() || oppositeNode.getCenter()) || node.getCenter();
+export function getNodeConnectionPoint(node: Node, opposite: Point | Node, oppositePort?: Port): Point {
+  return (
+    node.getIntersectPoint(oppositePort?.getPosition() || (isPoint(opposite) ? opposite : opposite.getCenter())) ||
+    node.getCenter()
+  );
 }
 
 /**
