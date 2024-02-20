@@ -580,10 +580,10 @@ export class ElementController {
     invokeOnFinished(
       result,
       () => onfinish(),
-      () => this.context.graph.emit(GraphEvent.AFTER_ANIMATION, result),
+      () => this.context.graph.emit(GraphEvent.AFTER_ANIMATE, result),
     );
 
-    if (result) this.context.graph.emit(GraphEvent.BEFORE_ANIMATION, result);
+    if (result) this.context.graph.emit(GraphEvent.BEFORE_ANIMATE, result);
 
     await result?.finished;
   }
@@ -910,10 +910,10 @@ export class ElementController {
     if (results.length === 0) return null;
     const result = createAnimationsProxy(results[0], results.slice(1));
 
-    if (result) this.emit(GraphEvent.BEFORE_ANIMATION, result);
+    if (result) this.emit(GraphEvent.BEFORE_ANIMATE, result);
 
     invokeOnFinished(result, () => {
-      if (result) this.emit(GraphEvent.AFTER_ANIMATION, result);
+      if (result) this.emit(GraphEvent.AFTER_ANIMATE, result);
       this.emit(GraphEvent.AFTER_ELEMENT_VISIBILITY_CHANGE, { ids, visibility });
     });
     await result?.finished;

@@ -87,14 +87,14 @@ export class ViewportController {
     const [fx, fy, fz] = camera.getFocalPoint();
 
     if (effectTiming) {
-      this.context.graph.emit(GraphEvent.BEFORE_VIEWPORT_ANIMATION, options);
+      this.context.graph.emit(GraphEvent.BEFORE_VIEWPORT_ANIMATE, options);
 
       return new Promise<void>((resolve) => {
         /**
          * todo: gotoLandmark 存在问题，有一定概率导致不会触发 onfinish，因此需要设置一个超时时间
          */
         const onfinish = () => {
-          this.context.graph.emit(GraphEvent.AFTER_VIEWPORT_ANIMATION, options);
+          this.context.graph.emit(GraphEvent.AFTER_VIEWPORT_ANIMATE, options);
           resolve();
         };
         delay(effectTiming.duration).then(onfinish);
@@ -126,11 +126,11 @@ export class ViewportController {
     const { mode, value: angle, origin } = options;
 
     if (effectTiming) {
-      this.context.graph.emit(GraphEvent.BEFORE_VIEWPORT_ANIMATION, options);
+      this.context.graph.emit(GraphEvent.BEFORE_VIEWPORT_ANIMATE, options);
 
       return new Promise<void>((resolve) => {
         const onfinish = () => {
-          this.context.graph.emit(GraphEvent.AFTER_VIEWPORT_ANIMATION, options);
+          this.context.graph.emit(GraphEvent.AFTER_VIEWPORT_ANIMATE, options);
           resolve();
         };
         delay(effectTiming.duration).then(onfinish);
@@ -160,11 +160,11 @@ export class ViewportController {
     const targetRatio = mode === 'relative' ? currentZoom * zoom : zoom;
 
     if (effectTiming) {
-      this.context.graph.emit(GraphEvent.BEFORE_VIEWPORT_ANIMATION, options);
+      this.context.graph.emit(GraphEvent.BEFORE_VIEWPORT_ANIMATE, options);
 
       return new Promise<void>((resolve) => {
         const onfinish = () => {
-          this.context.graph.emit(GraphEvent.AFTER_VIEWPORT_ANIMATION, options);
+          this.context.graph.emit(GraphEvent.AFTER_VIEWPORT_ANIMATE, options);
           resolve();
         };
         delay(effectTiming.duration).then(onfinish);
@@ -181,7 +181,7 @@ export class ViewportController {
     // @ts-expect-error landmarks is private
     if (this.camera.landmarks?.length) {
       this.camera.cancelLandmarkAnimation();
-      graph.emit(GraphEvent.CANCEL_VIEWPORT_ANIMATION);
+      graph.emit(GraphEvent.CANCEL_VIEWPORT_ANIMATE);
     }
   }
 }

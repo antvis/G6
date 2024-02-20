@@ -45,7 +45,7 @@ export const controllerElement: AnimationTestCase = async (context) => {
 
   graph.updateNodeData([{ id: 'node-2', style: { x: 200, y: 200, stroke: 'green' } }]);
 
-  const result = getEventResult<IAnimation>(graph, 'beforeanimation');
+  const result = getEventResult<IAnimation>(graph, 'beforeanimate');
 
   graph.draw();
 

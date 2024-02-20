@@ -1,10 +1,10 @@
 export const enum GraphEvent {
   /** <zh/> 视口动画开始之前 | <en/> Before the viewport animation starts */
-  BEFORE_VIEWPORT_ANIMATION = 'beforeviewportanimation',
+  BEFORE_VIEWPORT_ANIMATE = 'beforeviewportanimate',
   /** <zh/> 视口动画结束之后 | <en/> After the viewport animation ends */
-  AFTER_VIEWPORT_ANIMATION = 'afterviewportanimation',
+  AFTER_VIEWPORT_ANIMATE = 'afterviewportanimate',
   /** <zh/> 视口动画停止之前 | <en/> Before the viewport animation stops */
-  CANCEL_VIEWPORT_ANIMATION = 'cancelviewportanimation',
+  CANCEL_VIEWPORT_ANIMATE = 'cancelviewportanimate',
   /** <zh/> 元素创建之前 | <en/> Before creating element */
   BEFORE_ELEMENT_CREATE = 'beforeelementcreate',
   /** <zh/> 元素创建之后 | <en/> After creating element */
@@ -26,9 +26,9 @@ export const enum GraphEvent {
   /** <zh/> 渲染完成之后 | <en/> After rendering */
   AFTER_RENDER = 'afterrender',
   /** <zh/> 动画开始之前 | <en/> Before animation */
-  BEFORE_ANIMATION = 'beforeanimation',
+  BEFORE_ANIMATE = 'beforeanimate',
   /** <zh/> 动画结束之后 | <en/> After animation */
-  AFTER_ANIMATION = 'afteranimation',
+  AFTER_ANIMATE = 'afteranimate',
   /** <zh/> 布局开始之前 | <en/> Before layout */
   BEFORE_LAYOUT = 'beforelayout',
   /** <zh/> 布局结束之后 | <en/> After layout */

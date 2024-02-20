@@ -45,7 +45,7 @@ export const controllerElementPosition: AnimationTestCase = async (context) => {
   // @ts-expect-error context is private.
   const element = graph.context.element!;
 
-  const result = getEventResult<IAnimation>(graph, 'beforeanimation');
+  const result = getEventResult<IAnimation>(graph, 'beforeanimate');
 
   element.updateNodeLikePosition(
     {

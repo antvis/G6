@@ -74,7 +74,7 @@ export const controllerElementState: AnimationTestCase = async (context) => {
     ],
   });
 
-  const result = getEventResult<IAnimation>(graph, 'beforeanimation');
+  const result = getEventResult<IAnimation>(graph, 'beforeanimate');
 
   graph.draw();
 
