@@ -149,13 +149,19 @@ export function inferDefaultValue(name: string) {
 /**
  * <zh/> 动画执行完毕后调用
  * @param animationResult - <zh/> 动画执行对象 | <en/> animation object
- * @param callback - <zh/> 执行回调 | <en/> callback
+ * @param callback - <zh/> 统一执行回调 | <en/> unified callback
+ * @param animationCallback - <zh/> 动画执行回调 | <en/> animation callback
  */
-export function invokeOnFinished(animationResult: IAnimation | null | undefined, callback: () => void) {
+export function invokeOnFinished(
+  animationResult: IAnimation | null | undefined,
+  callback: () => void,
+  animationCallback?: () => void,
+) {
   if (animationResult) {
     const originalCallback = animationResult.onfinish;
     animationResult.onfinish = (...args) => {
       originalCallback?.call(animationResult, ...args);
+      animationCallback?.();
       callback();
     };
   } else callback();

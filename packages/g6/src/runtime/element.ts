@@ -577,10 +577,11 @@ export class ElementController {
     };
 
     const result = getRenderResult(taskId);
-    invokeOnFinished(result, () => {
-      if (result) this.context.graph.emit(GraphEvent.AFTER_ANIMATION, result);
-      onfinish();
-    });
+    invokeOnFinished(
+      result,
+      () => onfinish(),
+      () => this.context.graph.emit(GraphEvent.AFTER_ANIMATION, result),
+    );
 
     if (result) this.context.graph.emit(GraphEvent.BEFORE_ANIMATION, result);
 
