@@ -1,133 +1,70 @@
 import { Graph } from '@antv/g6';
 
+const Icons = [
+  'https://gw.alipayobjects.com/zos/rmsportal/eOYRaLPOmkieVvjyjTzM.png',
+  'https://gw.alipayobjects.com/zos/rmsportal/dWJWRLWfpOEbwCyxmZwu.png',
+  'https://gw.alipayobjects.com/zos/rmsportal/ZEPeDluKmAoTioCABBTc.png',
+  'https://gw.alipayobjects.com/zos/rmsportal/eZYhlLzqWLAYwOHQAXmc.png',
+  'https://gw.alipayobjects.com/zos/rmsportal/vXiGOWCGZNKuVVpVYQAw.png',
+  'https://gw.alipayobjects.com/zos/rmsportal/NjApYXminrnhBgOXyuaK.png',
+];
+
 const data = {
   nodes: [
-    {
-      id: 'circle',
-      data: {},
-    },
-    {
-      id: 'circle-active',
-      data: {},
-    },
-    {
-      id: 'circle-selected',
-      data: {},
-    },
-
-    {
-      id: 'circle-highlight',
-      data: {},
-    },
-    {
-      id: 'circle-inactive',
-      data: {},
-    },
-    {
-      id: 'circle-badges',
-      data: {},
-    },
-    {
-      id: 'circle-anchorShapes',
-      data: {},
-    },
+    { id: 'circle' },
+    { id: 'circle-halo' },
+    { id: 'circle-badges' },
+    { id: 'circle-ports' },
+    { id: 'circle-active' },
+    { id: 'circle-selected' },
+    { id: 'circle-highlight' },
+    { id: 'circle-inactive' },
   ],
 };
 
-const container = document.getElementById('container');
-const width = container.scrollWidth;
-const height = container.scrollHeight || 500;
 const graph = new Graph({
   container: 'container',
-  width,
-  height,
-  modes: {
-    default: ['zoom-canvas', 'drag-canvas', 'drag-node', 'click-select'],
-  },
-  plugins: [
-    {
-      // lod-controller will be automatically assigned to graph with `disableLod: false` to graph if it is not configured as following
-      type: 'lod-controller',
-      disableLod: true,
-    },
-  ],
+  width: 600,
+  height: 400,
+  theme: 'light',
   data,
   layout: {
     type: 'grid',
   },
-  node: (model) => {
-    const { id, data } = model;
-    const config = {
-      id,
-      data: {
-        ...data,
-        type: 'circle-node',
-        labelShape: {
-          text: id,
-          position: 'bottom',
-          maxWidth: '500%',
-        },
-        labelBackgroundShape: {},
-        iconShape: {
-          img: 'https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg',
-        },
-        animates: {
-          update: [
-            {
-              fields: ['opacity'],
-              shapeId: 'haloShape',
-              states: ['selected', 'active'],
-            },
-            {
-              fields: ['lineWidth'],
-              shapeId: 'keyShape',
-              states: ['selected', 'active'],
-            },
-          ],
-        },
+  node: {
+    style: {
+      type: 'circle',
+      r: 20,
+      labelText: (d) => d.id,
+      iconSrc: (_, idx) => Icons[idx % Icons.length],
+      halo: (d) => d.id.includes('halo'),
+    },
+    state: {
+      active: {
+        halo: true,
       },
-    };
-    if (id.includes('badges')) {
-      config.data.badgeShapes = [
-        {
-          text: 'A',
-          position: 'rightTop',
-        },
-        {
-          text: 'Important',
-          position: 'right',
-        },
-        {
-          text: 'Notice',
-          position: 'rightBottom',
-        },
-      ];
+      selected: {
+        halo: true,
+        lineWidth: 2,
+        stroke: '#000',
+      },
+      highlight: {
+        halo: false,
+        lineWidth: 2,
+        stroke: '#000',
+      },
+      inactive: {
+        opacity: 0.2,
+      }
     }
-    if (id.includes('anchorShapes')) {
-      config.data.anchorShapes = [
-        {
-          position: [0, 0.5],
-        },
-        {
-          position: [0.5, 0],
-        },
-        {
-          position: [0.5, 1],
-        },
-        {
-          position: [1, 0.5],
-        },
-      ];
-    }
-    return config;
-  },
+  }
 });
 
-graph.on('afterrender', (e) => {
-  graph.setItemState('circle-active', 'active', true);
-  graph.setItemState('circle-selected', 'selected', true);
-  graph.setItemState('circle-highlight', 'highlight', true);
-  graph.setItemState('circle-inactive', 'inactive', true);
-});
+graph.render();
 
-window.graph = graph;
+graph.on('afterrender', () => {
+  graph.setElementState('circle-active', 'active');
+  graph.setElementState('circle-selected', 'selected');
+  graph.setElementState('circle-highlight', 'highlight');
+  graph.setElementState('circle-inactive', 'inactive');
+});
