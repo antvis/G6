@@ -88,3 +88,68 @@ const ReactNode = ({ cfg = {} }) => {
 };
 G6.registerNode('yourNode', createNodeFromReact(ReactNode));
 ```
+
+## FAQ
+
+### 注册节点时，如何拓展createNodeFromReact？
+
+由于内置的 `createNodeFromReact` 方法目前只提供 `draw`  `update` `getAnchorPoints` 三个方法。当内置的方法不满足需求时，可自行实现 `createNodeFromReact` 方法。
+
+```ts
+
+// register.ts
+
+import type {
+  ICombo,
+  IEdge,
+  IGroup,
+  INode,
+  IShape,
+  ModelConfig,
+} from '@antv/g6';
+
+import {
+  diffTarget,
+  getRealStructure,
+  registerNodeReact,
+  renderTarget,
+} from '@antv/g6-react-node';
+
+export function createNodeFromReact(
+  Component: React.FC<{ cfg: ModelConfig }>,
+): { [key: string]: any } {
+  const compileXML = (cfg: ModelConfig) =>
+    registerNodeReact(<Component cfg={cfg} />);
+
+  return {
+    draw(cfg: ModelConfig | undefined, fatherGroup: IGroup | undefined) {
+      const resultTarget = compileXML(cfg || {});
+      const keyshape: IShape = renderTarget(resultTarget, fatherGroup);
+      return keyshape;
+    },
+    update(cfg: ModelConfig, node: INode | IEdge | ICombo | undefined) {
+      const resultTarget = compileXML(cfg || {});
+      // 更新节点信息时 更新节点的宽高
+      cfg.width = resultTarget.boundaryBox?.width;
+      cfg.height = resultTarget.boundaryBox?.height;
+      if (node) {
+        const nodeGroup = node.getContainer();
+        const realTarget = getRealStructure(resultTarget);
+
+        diffTarget(nodeGroup, realTarget);
+      }
+    },
+    getAnchorPoints() {
+      return [
+        [0.5, 1],
+        [0.5, 0],
+      ];
+    },
+    ... other 
+  };
+}
+
+// main.ts
+import { createNodeFromReact } from './register';
+G6.registerNode('yourNode', createNodeFromReact(ReactNode));
+```

@@ -2,7 +2,7 @@ import { EventAttrs } from '../Register/event';
 import { AnimationConfig } from '../Animation/animate';
 import React from 'react';
 
-interface GroupProps {
+export interface GroupProps {
   /**
    * @description.en-US The unique id of this group
    * @description.zh-CN 唯一id

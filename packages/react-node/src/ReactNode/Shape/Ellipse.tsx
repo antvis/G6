@@ -15,7 +15,7 @@ export interface EllipseStyle extends CommonShapeProps {
   ry: number;
 }
 
-interface EllipseProps extends CommonProps {
+export interface EllipseProps extends CommonProps {
   /**
    * @description.en-US style of shape
    */

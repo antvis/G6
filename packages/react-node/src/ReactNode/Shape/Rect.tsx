@@ -20,7 +20,7 @@ export interface RectStyle extends CommonShapeProps {
   height?: number | 'auto';
 }
 
-interface RectProps extends CommonProps {
+export interface RectProps extends CommonProps {
   /**
    * @description.en-US style of shape
    */
