@@ -129,8 +129,7 @@ export class Graph extends EventEmitter {
   public setSize(width: number, height: number): void {
     this.options.width = width;
     this.options.height = height;
-    // viewport support
-    this.context.viewport?.resize(width, height);
+    this.context.canvas?.resize(width, height);
   }
 
   public setZoomRange(zoomRange: G6Spec['zoomRange']): void {
@@ -576,10 +575,8 @@ export class Graph extends EventEmitter {
   }
 
   private onResize = debounce(() => {
-    console.log(4444, 'onResize');
     const { width, height } = this.options;
     const [w, h] = sizeOf(this.container!);
-    console.log(4444, [w, h]);
     if (width !== w || height !== h) {
       this.setSize(w, h);
     }

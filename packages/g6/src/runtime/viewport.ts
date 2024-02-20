@@ -185,10 +185,6 @@ export class ViewportController {
     }
   }
 
-  public resize(w: number, h: number) {
-    this.context.canvas.resize(w, h);
-  }
-
   public destroy() {
     this.cancelAnimation();
   }
