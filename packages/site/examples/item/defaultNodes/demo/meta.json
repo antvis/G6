@@ -5,7 +5,7 @@
   },
   "demos": [
     {
-      "filename": "circle.js",
+      "filename": "circle.ts",
       "title": {
         "zh": "圆形",
         "en": "Circle"
@@ -21,7 +21,7 @@
       "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*c5f5Q7XuOWoAAAAAAAAAAAAADmJ7AQ/original"
     },
     {
-      "filename": "rect.js",
+      "filename": "rect.ts",
       "title": {
         "zh": "矩形",
         "en": "Rect"

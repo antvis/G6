@@ -1,14 +1,5 @@
 import { Graph } from '@antv/g6';
 
-const Icons = [
-  'https://gw.alipayobjects.com/zos/rmsportal/eOYRaLPOmkieVvjyjTzM.png',
-  'https://gw.alipayobjects.com/zos/rmsportal/dWJWRLWfpOEbwCyxmZwu.png',
-  'https://gw.alipayobjects.com/zos/rmsportal/ZEPeDluKmAoTioCABBTc.png',
-  'https://gw.alipayobjects.com/zos/rmsportal/eZYhlLzqWLAYwOHQAXmc.png',
-  'https://gw.alipayobjects.com/zos/rmsportal/vXiGOWCGZNKuVVpVYQAw.png',
-  'https://gw.alipayobjects.com/zos/rmsportal/NjApYXminrnhBgOXyuaK.png',
-];
-
 const data = {
   nodes: [
     { id: 'circle' },
@@ -24,20 +15,37 @@ const data = {
 
 const graph = new Graph({
   container: 'container',
-  width: 600,
-  height: 400,
-  theme: 'light',
   data,
-  layout: {
-    type: 'grid',
-  },
   node: {
     style: {
       type: 'circle',
-      r: 20,
+      width: 40,
+      height: 40,
+      fill: 'rgb(34,126,255)',
       labelText: (d) => d.id,
-      iconSrc: (_, idx) => Icons[idx % Icons.length],
+      iconSrc: 'https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg',
+      iconWidth: 30,
+      iconHeight: 30,
       halo: (d) => d.id.includes('halo'),
+      ports: (d) =>
+        d.id.includes('ports')
+          ? [{ position: 'left' }, { position: 'right' }, { position: 'top' }, { position: 'bottom' }]
+          : [],
+      portStroke: '#31d0c6',
+      portFill: '#fff',
+      portR: 2,
+      portLineWidth: 1,
+      badges: (d) =>
+        d.id.includes('badges')
+          ? [
+              { text: 'A', position: 'right-top', backgroundFill: '#8291b2' },
+              { text: 'Important', position: 'right', backgroundFill: '#e66c5b' },
+              { text: 'Notice', position: 'right-bottom', backgroundFill: '#e5b95e' },
+            ]
+          : [],
+      badgeFill: '#fff',
+      badgeFontSize: 8,
+      badgePadding: [1, 4],
     },
     state: {
       active: {
@@ -55,9 +63,12 @@ const graph = new Graph({
       },
       inactive: {
         opacity: 0.2,
-      }
-    }
-  }
+      },
+    },
+  },
+  layout: {
+    type: 'grid',
+  },
 });
 
 graph.render();
