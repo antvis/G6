@@ -174,8 +174,8 @@
             transform="translate(-4,-4)"
             cx="4"
             cy="4"
-            r="4"
             stroke="rgba(49,208,198,1)"
+            r="4"
           />
         </g>
         <g transform="matrix(1,0,0,1,25,0)">
@@ -185,8 +185,8 @@
             transform="translate(-4,-4)"
             cx="4"
             cy="4"
-            r="4"
             stroke="rgba(49,208,198,1)"
+            r="4"
           />
         </g>
         <g transform="matrix(1,0,0,1,0,-35)">
@@ -196,8 +196,8 @@
             transform="translate(-4,-4)"
             cx="4"
             cy="4"
-            r="4"
             stroke="rgba(49,208,198,1)"
+            r="4"
           />
         </g>
         <g transform="matrix(1,0,0,1,0,35)">
@@ -207,8 +207,8 @@
             transform="translate(-4,-4)"
             cx="4"
             cy="4"
-            r="4"
             stroke="rgba(49,208,198,1)"
+            r="4"
           />
         </g>
         <g id="badge-0" fill="none" transform="matrix(1,0,0,1,25,-35)">

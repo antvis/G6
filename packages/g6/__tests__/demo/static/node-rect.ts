@@ -55,20 +55,19 @@ export const nodeRect: StaticTestCase = async (context) => {
         // halo
         halo: true,
         // ports
-        ports: [
-          { position: 'left', stroke: '#31d0c6', fill: '#fff' },
-          { position: 'right', stroke: '#31d0c6', fill: '#fff' },
-          { position: 'top', stroke: '#31d0c6', fill: '#fff' },
-          { position: 'bottom', stroke: '#31d0c6', fill: '#fff' },
-        ],
+        ports: [{ position: 'left' }, { position: 'right' }, { position: 'top' }, { position: 'bottom' }],
+        portStroke: '#31d0c6',
+        portFill: '#fff',
         // icon
         iconSrc: 'https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*N4ZMS7gHsUIAAAAAAAAAAABkARQnAQ',
         // badges
         badges: [
-          { text: 'A', position: 'right-top', backgroundFill: '#8291b2', fill: '#fff', fontSize: 10, padding: [1, 4] },
-          { text: 'Important', position: 'right', backgroundFill: '#e66c5b', fill: '#fff', fontSize: 10 },
-          { text: 'Notice', position: 'right-bottom', backgroundFill: '#e5b95e', fill: '#fff', fontSize: 10 },
+          { text: 'A', position: 'right-top', backgroundFill: '#8291b2', padding: [1, 4] },
+          { text: 'Important', position: 'right', backgroundFill: '#e66c5b' },
+          { text: 'Notice', position: 'right-bottom', backgroundFill: '#e5b95e' },
         ],
+        badgeFill: '#fff',
+        badgeFontSize: 10,
       },
     }),
   );
