@@ -45,8 +45,6 @@ import { ViewportController } from './viewport';
 export class Graph extends EventEmitter {
   private options: G6Spec;
 
-  private container: HTMLElement | null = null;
-
   static defaultOptions: G6Spec = {
     zoom: 1,
     zoomRange: [-Infinity, Infinity],
@@ -129,7 +127,6 @@ export class Graph extends EventEmitter {
   public setSize(width: number, height: number): void {
     this.options.width = width;
     this.options.height = height;
-    this.context.canvas?.resize(width, height);
   }
 
   public setZoomRange(zoomRange: G6Spec['zoomRange']): void {
@@ -297,7 +294,7 @@ export class Graph extends EventEmitter {
     return this.context.model.getElementsData(ids);
   }
 
-  // ---------- core API ----------
+  // ---------- end core API ----------
 
   private createCanvas() {
     if (this.context.canvas) return this.context.canvas;
@@ -305,13 +302,12 @@ export class Graph extends EventEmitter {
     const { container = 'container', width, height, renderer } = this.options;
 
     if (container instanceof Canvas) {
-      this.container = container.getContainer();
       this.context.canvas = container;
     } else {
-      this.container = isString(container) ? document.getElementById(container!) : container;
+      const $container = isString(container) ? document.getElementById(container!) : container;
 
       this.context.canvas = new Canvas({
-        container: this.container!,
+        container: $container!,
         width,
         height,
         renderer,
@@ -393,14 +389,14 @@ export class Graph extends EventEmitter {
   }
 
   // ---------- Runtime API ----------
-  // TODO options 待定
-
   public resize(): void;
   public resize(width: number, height: number): void;
   public resize(width?: number, height?: number): void {
     if (!width || !height) {
-      const container = this.context.canvas!.getContainer();
-      if (container) this.context.canvas.resize(container.clientWidth, container.clientHeight);
+      const [w, h] = sizeOf(this.context.canvas!.getContainer()!);
+      if (width !== w || height !== h) {
+        this.context.canvas.resize(w, h);
+      }
     } else this.context.canvas?.resize(width, height);
   }
 
@@ -575,10 +571,6 @@ export class Graph extends EventEmitter {
   }
 
   private onResize = debounce(() => {
-    const { width, height } = this.options;
-    const [w, h] = sizeOf(this.container!);
-    if (width !== w || height !== h) {
-      this.setSize(w, h);
-    }
+    this.resize();
   }, 300);
 }
