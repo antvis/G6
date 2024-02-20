@@ -238,6 +238,14 @@ export default defineConfig({
         },
       },
       {
+        slug: 'case',
+        icon: 'gallery',
+        title: {
+          zh: '场景案例',
+          en: 'Case',
+        },
+      },
+      {
         slug: 'net',
         icon: 'net',
         title: {
