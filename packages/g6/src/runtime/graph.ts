@@ -2,6 +2,7 @@ import EventEmitter from '@antv/event-emitter';
 import type { AABB, BaseStyleProps, DataURLOptions, DisplayObject } from '@antv/g';
 import type { ID } from '@antv/graphlib';
 import { debounce, deepMix, isFunction, isString, omit } from '@antv/util';
+import { GraphEvent } from '../constants';
 import type {
   BehaviorOptions,
   ComboData,
@@ -33,6 +34,7 @@ import type {
   ZIndex,
 } from '../types';
 import { sizeOf } from '../utils/dom';
+import { RenderEvent, emit } from '../utils/event';
 import { parsePoint, toPointObject } from '../utils/point';
 import { add } from '../utils/vector';
 import { Canvas } from './canvas';
@@ -345,9 +347,13 @@ export class Graph extends EventEmitter {
    * <en/> This process will execute data update, element rendering, and layout execution
    */
   public async render(): Promise<void> {
+    emit(this, new RenderEvent(GraphEvent.BEFORE_RENDER));
     await this.prepare();
-    await this.context.element?.render(this.context);
-    await this.context.layout?.layout();
+    await Promise.all([
+      (await this.context.element?.draw(this.context))?.finished,
+      await this.context.layout?.layout(),
+    ]);
+    emit(this, new RenderEvent(GraphEvent.AFTER_RENDER));
   }
 
   /**
@@ -358,8 +364,9 @@ export class Graph extends EventEmitter {
    */
   public async draw() {
     await this.prepare();
-    // todo: 和 element.draw 一样，不应该返回任何动画相关的信息。
-    return await this.context.element?.render(this.context);
+    await (
+      await this.context.element?.draw(this.context)
+    )?.finished;
   }
 
   public async layout(): Promise<void> {
@@ -373,16 +380,15 @@ export class Graph extends EventEmitter {
    */
   public async clear(): Promise<void> {
     this.context.model.setData({});
-    this.context.element?.render(this.context);
+    await this.draw();
   }
 
   public destroy(): void {
-    const { layout, element, model, canvas, viewport } = this.context;
+    const { layout, element, model, canvas } = this.context;
     layout?.destroy();
     element?.destroy();
     model.destroy();
     canvas?.destroy();
-    viewport?.destroy();
     this.options = {};
     // @ts-expect-error force delete
     delete this.context;
@@ -475,7 +481,7 @@ export class Graph extends EventEmitter {
     return this.context.viewport!.getViewportCenter();
   }
 
-  public async translateElementBy(offsets: Positions, animation?: boolean): Promise<void> {
+  public translateElementBy(offsets: Positions, animation?: boolean): void {
     const positions = Object.entries(offsets).reduce((acc, [id, offset]) => {
       const curr = this.getElementPosition(id);
       const next = add(curr, offset);
@@ -483,12 +489,11 @@ export class Graph extends EventEmitter {
       return acc;
     }, {} as Positions);
 
-    await this.translateElementTo(positions, animation);
+    this.translateElementTo(positions, animation);
   }
 
-  public async translateElementTo(positions: Positions, animation?: boolean): Promise<void> {
-    const result = this.context.element!.updateNodeLikePosition(positions, animation);
-    if (result) await result.finished;
+  public translateElementTo(positions: Positions, animation?: boolean): void {
+    this.context.element!.updateNodeLikePosition(positions, animation);
   }
 
   public getElementPosition(id: ID): Point {
@@ -502,7 +507,7 @@ export class Graph extends EventEmitter {
   }
 
   public async setElementVisibility(id: ID | ID[], visibility: BaseStyleProps['visibility']): Promise<void> {
-    this.context.element!.setElementsVisibility(Array.isArray(id) ? id : [id], visibility);
+    await this.context.element!.setElementsVisibility(Array.isArray(id) ? id : [id], visibility);
   }
 
   public getElementVisibility(id: ID): BaseStyleProps['visibility'] {

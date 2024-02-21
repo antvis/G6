@@ -54,7 +54,7 @@ export const controllerLayoutMindmap: StaticTestCase = async ({ canvas, animatio
 
   const element = new ElementController(context);
 
-  await element.render(context);
+  await element.draw(context);
 
   const layout = new LayoutController({ ...context, element });
 

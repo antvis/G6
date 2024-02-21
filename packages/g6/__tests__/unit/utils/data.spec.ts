@@ -1,5 +1,5 @@
 import type { EdgeData, NodeData } from '../../../src';
-import { cloneElementData, mergeElementsData } from '../../../src/utils/data';
+import { cloneElementData, isEmptyData, mergeElementsData } from '../../../src/utils/data';
 
 describe('data', () => {
   it('mergeElementsData', () => {
@@ -88,5 +88,15 @@ describe('data', () => {
     data.data.value2 = 3;
     data.style.startPoint = [100, 100];
     expect(clonedData).not.toEqual(data);
+  });
+
+  it('isEmptyData', () => {
+    expect(isEmptyData({})).toBe(true);
+    expect(isEmptyData({ nodes: [] })).toBe(true);
+    expect(isEmptyData({ nodes: [], edges: [] })).toBe(true);
+    expect(isEmptyData({ nodes: [], edges: [], combos: [] })).toBe(true);
+    expect(isEmptyData({ nodes: [{ id: 'node-1' }] })).toBe(false);
+    expect(isEmptyData({ edges: [{ id: 'edge-1', source: 'node-1', target: 'node-2' }] })).toBe(false);
+    expect(isEmptyData({ combos: [{ id: 'combo-1' }] })).toBe(false);
   });
 });

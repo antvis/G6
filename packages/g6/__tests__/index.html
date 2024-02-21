@@ -40,6 +40,11 @@
         z-index: 1;
       }
 
+      #timer {
+        display: flex;
+        align-items: center;
+      }
+
       #container {
         width: 500px;
         height: 500px;
@@ -65,6 +70,10 @@
   <body style="font-family: Arial, Helvetica, sans-serif">
     <div id="app">
       <div id="panel">
+        <div id="timer">
+          <label for="timer-label">Timer: </label>
+          <span id="timer-time">0ms</span>
+        </div>
         <label for="demo-select">Cases: </label>
         <select id="demo-select" style="cursor: pointer; width: 180px"></select>
         <label for="renderer-select">Renderer: </label>
