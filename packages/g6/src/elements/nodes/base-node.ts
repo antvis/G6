@@ -136,10 +136,10 @@ export abstract class BaseNode<
   protected getHaloStyle(attributes: ParsedBaseNodeStyleProps<P>): false | P {
     if (attributes.halo === false) return false;
 
-    const keyStyle = this.getKeyStyle(attributes);
+    const { fill, ...keyStyle } = this.getKeyStyle(attributes);
     const haloStyle = subStyleProps<P>(this.getGraphicStyle(attributes), 'halo');
 
-    return { ...keyStyle, ...haloStyle };
+    return { ...keyStyle, stroke: fill, ...haloStyle };
   }
 
   protected getIconStyle(attributes: ParsedBaseNodeStyleProps<P>): false | IconStyleProps {

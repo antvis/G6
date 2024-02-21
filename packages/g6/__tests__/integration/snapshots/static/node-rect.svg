@@ -129,9 +129,9 @@
         <g transform="matrix(1,0,0,1,-25,-35)">
           <polygon
             id="halo"
-            fill="rgba(248,248,248,1)"
+            fill="none"
             points="50,0 50,70 0,70 0,0"
-            stroke="rgba(139,155,175,1)"
+            stroke="rgba(248,248,248,1)"
             stroke-dasharray="0,0"
             stroke-width="12"
             stroke-opacity="0.25"
