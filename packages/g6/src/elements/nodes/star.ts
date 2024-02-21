@@ -1,4 +1,4 @@
-import type { DisplayObjectConfig, CircleStyleProps as GCircleStyleProps } from '@antv/g';
+import type { DisplayObjectConfig } from '@antv/g';
 import type { Point, StarPortPosition } from '../../types';
 import { getPortPosition, getStarPoints, getStarPorts } from '../../utils/element';
 import { NodePortStyleProps } from './base-node';
@@ -33,12 +33,10 @@ export class Star extends Polygon<StarKeyStyleProps> {
     return getStarPoints(this.getOuterR(attributes), this.getInnerR(attributes));
   }
 
-  protected getPortStyle(attributes: ParsedStarStyleProps, style: NodePortStyleProps): GCircleStyleProps {
-    const { position = 'top', width = 8, height = 8, ...restStyle } = style;
-    const r = Math.min(width, height) / 2;
+  protected getPortXY(attributes: ParsedStarStyleProps, style: NodePortStyleProps): Point {
+    const { position = 'top' } = style;
     const bbox = this.getKey().getLocalBounds();
     const ports = getStarPorts(this.getOuterR(attributes), this.getInnerR(attributes));
-    const [cx, cy] = getPortPosition(bbox, position as StarPortPosition, ports, false);
-    return Object.assign({ cx, cy, r }, restStyle);
+    return getPortPosition(bbox, position as StarPortPosition, ports, false);
   }
 }
