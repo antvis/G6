@@ -117,8 +117,8 @@ export abstract class BaseShape<T extends BaseShapeStyleProps> extends CustomEle
    */
   public getGraphicStyle<T extends Record<string, any>>(
     attributes: T,
-  ): Omit<T, 'x' | 'y' | 'transform' | 'transformOrigin' | 'className' | 'anchor' | 'context'> {
-    const { x, y, className, transform, transformOrigin, anchor, context, ...style } = attributes;
+  ): Omit<T, 'x' | 'y' | 'transform' | 'transformOrigin' | 'className' | 'context'> {
+    const { x, y, className, transform, transformOrigin, context, ...style } = attributes;
     return style;
   }
 

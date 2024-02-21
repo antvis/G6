@@ -1,26 +1,30 @@
-import type { DisplayObjectConfig } from '@antv/g';
+import type { DisplayObjectConfig, Group } from '@antv/g';
+import { Rect as GRect } from '@antv/g';
 import { deepMix } from '@antv/util';
-import type { Point } from '../../types';
-import { getRectPoints } from '../../utils/element';
-import type { PolygonKeyStyleProps, PolygonStyleProps } from './polygon';
-import { Polygon } from './polygon';
+import type { BaseNodeProps } from '../../types';
+import type { BaseNodeStyleProps } from './base-node';
+import { BaseNode } from './base-node';
 
-type RectKeyStyleProps = PolygonKeyStyleProps;
-export type RectStyleProps = PolygonStyleProps<RectKeyStyleProps>;
+export type RectStyleProps = BaseNodeStyleProps<BaseNodeProps>;
 type ParsedRectStyleProps = Required<RectStyleProps>;
 type RectOptions = DisplayObjectConfig<RectStyleProps>;
 
-export class Rect extends Polygon<RectKeyStyleProps> {
+/**
+ * Draw Rect based on BaseNode, override drawKeyShape.
+ */
+export class Rect extends BaseNode<BaseNodeProps, GRect> {
   static defaultStyleProps: Partial<RectStyleProps> = {
     width: 100,
     height: 30,
+    anchor: [0.5, 0.5],
   };
 
   constructor(options: RectOptions) {
+    console.log(222, deepMix({}, { style: Rect.defaultStyleProps }, options));
     super(deepMix({}, { style: Rect.defaultStyleProps }, options));
   }
 
-  protected getPoints(attributes: ParsedRectStyleProps): Point[] {
-    return getRectPoints(Number(attributes.width), Number(attributes.height));
+  protected drawKeyShape(attributes: ParsedRectStyleProps, container: Group): GRect | undefined {
+    return this.upsert('key', GRect, this.getKeyStyle(attributes), container);
   }
 }
