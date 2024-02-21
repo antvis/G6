@@ -2,14 +2,14 @@ import { Graph } from '@antv/g6';
 
 const data = {
   nodes: [
-    { id: 'rect' },
-    { id: 'rect-halo' },
-    { id: 'rect-badges' },
-    { id: 'rect-ports' },
-    { id: 'rect-active' },
-    { id: 'rect-selected' },
-    { id: 'rect-highlight' },
-    { id: 'rect-inactive' },
+    { id: 'triangle' },
+    { id: 'triangle-halo' },
+    { id: 'triangle-badges' },
+    { id: 'triangle-ports', data: { direction: 'left' } },
+    { id: 'triangle-active' },
+    { id: 'triangle-selected' },
+    { id: 'triangle-highlight' },
+    { id: 'triangle-inactive' },
   ],
 };
 
@@ -18,19 +18,15 @@ const graph = new Graph({
   data,
   node: {
     style: {
-      type: 'rect', // 👈🏻 Node shape type.
+      type: 'triangle', // 👈🏻 Node shape type.
       width: 40,
       height: 40,
+      direction: (d) => d.data?.direction,
       fill: 'rgb(34,126,255)',
       labelText: (d) => d.id,
       iconSrc: 'https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg',
-      iconWidth: 30,
-      iconHeight: 30,
       halo: (d) => d.id.includes('halo'),
-      ports: (d) =>
-        d.id.includes('ports')
-          ? [{ position: 'left' }, { position: 'right' }, { position: 'top' }, { position: 'bottom' }]
-          : [],
+      ports: (d) => (d.id.includes('ports') ? [{ position: 'left' }, { position: 'top' }, { position: 'bottom' }] : []),
       portStroke: '#31d0c6',
       portFill: '#fff',
       portR: 2,
@@ -74,8 +70,8 @@ const graph = new Graph({
 graph.render();
 
 graph.on('afterrender', () => {
-  graph.setElementState('rect-active', 'active');
-  graph.setElementState('rect-selected', 'selected');
-  graph.setElementState('rect-highlight', 'highlight');
-  graph.setElementState('rect-inactive', 'inactive');
+  graph.setElementState('triangle-active', 'active');
+  graph.setElementState('triangle-selected', 'selected');
+  graph.setElementState('triangle-highlight', 'highlight');
+  graph.setElementState('triangle-inactive', 'inactive');
 });

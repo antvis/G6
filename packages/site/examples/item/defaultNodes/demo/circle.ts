@@ -18,7 +18,7 @@ const graph = new Graph({
   data,
   node: {
     style: {
-      type: 'circle',
+      type: 'circle', // 👈🏻 Node shape type.
       width: 40,
       height: 40,
       fill: 'rgb(34,126,255)',
