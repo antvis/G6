@@ -2,7 +2,7 @@ import type { AABB, Circle as GCircle } from '@antv/g';
 import type { PathArray } from '@antv/util';
 import { isEqual, isNumber } from '@antv/util';
 import type { EdgeKey, EdgeLabelPosition, EdgeLabelStyleProps, LoopEdgePosition, Node, Point, Vector2 } from '../types';
-import { getBBoxHeight, getBBoxWidth, getNearestSideToPoint } from './bbox';
+import { getBBoxHeight, getBBoxWidth, getNearestSideToPoint, getNodeBBox } from './bbox';
 import { getNodeConnectionPoint, getPortConnectionPoint } from './element';
 import { isCollinear, isHorizontal, moveTo, parsePoint } from './point';
 import { freeJoin } from './router/orth';
@@ -283,7 +283,7 @@ export function getLoopEndpoints(
   rawSourcePoint?: Point,
   rawTargetPoint?: Point,
 ): [Point, Point] {
-  const bbox = node.getKey().getBounds();
+  const bbox = getNodeBBox(node);
   const center = node.getCenter();
 
   let sourcePoint = rawSourcePoint || sourcePort?.getPosition();
@@ -385,8 +385,8 @@ export function getCubicLoopControlPoints(
   }
 
   return [
-    moveTo(center, sourcePoint, distance(center, sourcePoint) + dist, true),
-    moveTo(center, targetPoint, distance(center, targetPoint) + dist, true),
+    moveTo(center, sourcePoint, distance(center, sourcePoint) + dist),
+    moveTo(center, targetPoint, distance(center, targetPoint) + dist),
   ];
 }
 
@@ -450,7 +450,7 @@ export function getPolylineLoopPath(
  */
 function getPolylineLoopControlPoints(node: Node, sourcePoint: Point, targetPoint: Point, dist: number) {
   const controlPoints: Point[] = [];
-  const bbox = node.getKey().getBounds();
+  const bbox = getNodeBBox(node);
 
   // 1. 起点和终点相同 | The start and end points are the same
   if (isEqual(sourcePoint, targetPoint)) {

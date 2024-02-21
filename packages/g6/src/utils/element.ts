@@ -65,14 +65,14 @@ export function getPortPosition(
 }
 
 /**
- * <zh/> 查找起始连接桩和目标锚点
+ * <zh/> 查找起始连接桩和目标连接桩
  *
  * <en/> Find the source port and target port
  * @param sourceNode - <zh/> 起始节点 | <en/> Source Node
  * @param targetNode - <zh/> 目标节点 | <en/> Target Node
- * @param sourcePortKey - <zh/> 起始锚点的 key | <en/> Source Port Key
- * @param targetPortKey - <zh/> 目标锚点的 key | <en/> Target Port Key
- * @returns <zh/> 起始锚点和目标锚点 | <en/> Source Port and Target Port
+ * @param sourcePortKey - <zh/> 起始连接桩的 key | <en/> Source Port Key
+ * @param targetPortKey - <zh/> 目标连接桩的 key | <en/> Target Port Key
+ * @returns <zh/> 起始连接桩和目标连接桩 | <en/> Source Port and Target Port
  */
 export function findPorts(
   sourceNode: Node,
@@ -86,7 +86,7 @@ export function findPorts(
 }
 
 /**
- * <zh/> 查找节点上的最有可能连接的锚点
+ * <zh/> 查找节点上的最有可能连接的连接桩
  *
  * <en/> Find the most likely connected port on the node
  * @description
@@ -95,8 +95,8 @@ export function findPorts(
  * 3. If the node has no ports, return undefined.
  * @param node - <zh/> 节点 | <en/> Node
  * @param oppositeNode - <zh/> 对端节点 | <en/> Opposite Node
- * @param portKey - <zh/> 锚点的 key | <en/> Port Key
- * @param oppositePortKey - <zh/> 对端锚点的 key | <en/> Opposite Port Key
+ * @param portKey - <zh/> 连接桩的 key | <en/> Port Key
+ * @param oppositePortKey - <zh/> 对端连接桩的 key | <en/> Opposite Port Key
  * @returns <zh/> 连接桩 | <en/> Port
  */
 export function findPort(node: Node, oppositeNode: Node, portKey?: string, oppositePortKey?: string): Port | undefined {
@@ -130,10 +130,10 @@ function findConnectionPoints(node: Node, portKey?: string): Position[] {
 }
 
 /**
- * <zh/> 获取连接点, 即从节点或锚点中心到另一端的连线在节点或锚点边界上的交点
+ * <zh/> 获取连接点, 即从节点或连接桩中心到另一端的连线在节点或连接桩边界上的交点
  *
  * <en/> Get the connection point
- * @param node - <zh/> 节点或锚点 | <en/> Node or Port
+ * @param node - <zh/> 节点或连接桩 | <en/> Node or Port
  * @param opposite - <zh/> 对端的具体点或节点 | <en/> Opposite Point or Node
  * @returns <zh/> 连接点 | <en/> Connection Point
  */
@@ -142,19 +142,19 @@ export function getConnectionPoint(node: Port | Node, opposite: Point | Node | P
 }
 
 /**
- * <zh/> 获取锚点的连接点，即从锚点中心到另一端的连线在锚点边界上的交点
+ * <zh/> 获取连接桩的连接点，即从连接桩中心到另一端的连线在连接桩边界上的交点
  *
  * <en/> Get the connection point of the port
  * @param port - <zh/> 连接桩 | <en/> Port
  * @param opposite - <zh/> 对端的具体点或节点 | <en/> Opposite Point or Node
- * @param oppositePort - <zh/> 对端锚点 | <en/> Opposite Port
- * @returns <zh/> 锚点的连接点 | <en/> Port Point
+ * @param oppositePort - <zh/> 对端连接桩 | <en/> Opposite Port
+ * @returns <zh/> 连接桩的连接点 | <en/> Port Point
  */
 export function getPortConnectionPoint(port: Port, opposite: Point | Node | Port): Point {
-  // 1. linkToCenter 为 true，则返回锚点的中心 | If linkToCenter is true, return the center of the port
+  // 1. linkToCenter 为 true，则返回连接桩的中心 | If linkToCenter is true, return the center of the port
   if (port.attributes.linkToCenter) return port.getPosition();
 
-  // 2. 推导对端的具体点：如果是锚点，则返回锚点的中心；如果是节点，则返回节点的中心；如果是具体点则直接返回
+  // 2. 推导对端的具体点：如果是连接桩，则返回连接桩的中心；如果是节点，则返回节点的中心；如果是具体点则直接返回
   // 2. Derive the specific point of the opposite: if it is a port, return the center of the port; if it is a node, return the center of the node; if it is a specific point, return directly
   const oppositePosition = isPoint(opposite)
     ? opposite
@@ -162,7 +162,7 @@ export function getPortConnectionPoint(port: Port, opposite: Point | Node | Port
       ? opposite.getCenter()
       : opposite.getPosition();
 
-  // 3. 返回锚点边界上的交点 | Return the intersection point on the port boundary
+  // 3. 返回连接桩边界上的交点 | Return the intersection point on the port boundary
   return getEllipseIntersectPoint(oppositePosition, port.getBounds());
 }
 
@@ -172,7 +172,7 @@ export function getPortConnectionPoint(port: Port, opposite: Point | Node | Port
  * <en/> Get the Node Connection Point
  * @param node - <zh/> 节点 | <en/> Node
  * @param opposite - <zh/> 对端的具体点或节点 | <en/> Opposite Point or Node
- * @param oppositePort - <zh/> 对端锚点 | <en/> Opposite Port
+ * @param oppositePort - <zh/> 对端连接桩 | <en/> Opposite Port
  * @returns <zh/> 节点的连接点 | <en/> Node Point
  */
 export function getNodeConnectionPoint(node: Node, opposite: Point | Node | Port): Point {
@@ -303,13 +303,13 @@ export function getTrianglePoints(width: number, height: number, direction: Tria
 }
 
 /**
- * <zh/> 获取三角形的锚点
+ * <zh/> 获取三角形的连接桩
  *
  * <en/> Get the Ports of Triangle.
  * @param width - <zh/> 宽度 | <en/> width
  * @param height - <zh/> 高度 | <en/> height
  * @param direction - <zh/> 三角形的方向 | <en/> The direction of the triangle
- * @returns <zh/> 三角形的锚点 | <en/> The Ports of Triangle
+ * @returns <zh/> 三角形的连接桩 | <en/> The Ports of Triangle
  */
 export function getTrianglePorts(width: number, height: number, direction: TriangleDirection): Record<string, Point> {
   const halfHeight = height / 2;

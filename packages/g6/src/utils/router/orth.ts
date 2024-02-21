@@ -1,17 +1,15 @@
 import type { AABB } from '@antv/g';
 import { difference, isEqual } from '@antv/util';
-import type { Node, Padding, Point } from '../../types';
+import type { Padding, Point } from '../../types';
 import {
   getBBoxHeight,
   getBBoxWidth,
-  getExpandedBBox,
   getNearestPointToPoint,
-  getPointBBox,
+  getNodeBBox,
   isPointInBBox,
   isPointOutsideBBox,
   union,
 } from '../bbox';
-import { isPoint } from '../is';
 import { isOrthogonal, moveTo, round } from '../point';
 import { angle, distance, subtract, toVector3 } from '../vector';
 
@@ -21,19 +19,6 @@ type Route = {
   points: Point[];
   direction: Direction;
 };
-
-/**
- * <zh/> 获取节点的包围盒，兼容节点为点的情况
- *
- * <en/> Get the bounding box of the node, compatible with the case where the node is a point
- * @param node - <zh/> 节点或者点 | <en/> node or point
- * @param padding - <zh/> 内边距 | <en/> padding
- * @returns <zh/> 包围盒 | <en/> bounding box
- */
-export function getNodeBBox(node: Point | Node, padding?: Padding): AABB {
-  const bbox = isPoint(node) ? getPointBBox(node) : node.getKey().getBounds();
-  return padding ? getExpandedBBox(bbox, padding) : bbox;
-}
 
 /**
  * <zh/> 获取两点之间的直角线段路径
@@ -230,7 +215,7 @@ export function pointToNode(from: Point, to: Point, toBBox: AABB, direction: Dir
     // We take the point inside element and move it outside the element in the direction the
     // route is going. Now we can join this point with the current end (using freeJoin).
     const p = difference(points, freePoints)[0];
-    const p2 = moveTo(to, p, -getBBoxSize(toBBox, direction) / 2);
+    const p2 = moveTo(to, p, getBBoxSize(toBBox, direction) / 2);
     const p1 = freeJoin(p2, from, toBBox);
     return {
       points: [p1, p2],
@@ -258,8 +243,8 @@ export function nodeToNode(from: Point, to: Point, fromBBox: AABB, toBBox: AABB)
     const p2 = toVector3(route.points[0]);
 
     if (isPointInBBox(p2, fromBBox)) {
-      const fromBorder = moveTo(from, p2, -getBBoxSize(fromBBox, getDirection(from, p2)) / 2);
-      const toBorder = moveTo(to, p1, -getBBoxSize(toBBox, getDirection(to, p1)) / 2);
+      const fromBorder = moveTo(from, p2, getBBoxSize(fromBBox, getDirection(from, p2)) / 2);
+      const toBorder = moveTo(to, p1, getBBoxSize(toBBox, getDirection(to, p1)) / 2);
       const midPoint: Point = [(fromBorder[0] + toBorder[0]) / 2, (fromBorder[1] + toBorder[1]) / 2];
 
       const startRoute = nodeToPoint(from, midPoint, fromBBox);
@@ -297,9 +282,9 @@ export function insideNode(from: Point, to: Point, fromBBox: AABB, toBBox: AABB,
       start[1] + halfPerimeter * Math.sin(radians[direction]),
     ];
     // `getNearestPointToPoint` returns a point on the boundary, so we need to move it a bit to ensure it's outside the element and then get the correct `p2` via `freeJoin`.
-    p1 = moveTo(getNearestPointToPoint(boundary, ref), ref, -DEFAULT_OFFSET);
+    p1 = moveTo(getNearestPointToPoint(boundary, ref), ref, DEFAULT_OFFSET);
   } else {
-    p1 = moveTo(getNearestPointToPoint(boundary, start), start, DEFAULT_OFFSET);
+    p1 = moveTo(getNearestPointToPoint(boundary, start), start, -DEFAULT_OFFSET);
   }
 
   let p2 = freeJoin(p1, end, boundary);
@@ -309,7 +294,7 @@ export function insideNode(from: Point, to: Point, fromBBox: AABB, toBBox: AABB,
   if (isEqual(round(p1), round(p2))) {
     const rad = angle(subtract(p1, start), [1, 0, 0]) + Math.PI / 2;
     p2 = [end[0] + halfPerimeter * Math.cos(rad), end[1] + halfPerimeter * Math.sin(rad)];
-    p2 = moveTo(getNearestPointToPoint(boundary, p2), end, DEFAULT_OFFSET);
+    p2 = moveTo(getNearestPointToPoint(boundary, p2), end, -DEFAULT_OFFSET);
     const p3 = freeJoin(p1, p2, boundary);
     points = [p1, p3, p2];
   }

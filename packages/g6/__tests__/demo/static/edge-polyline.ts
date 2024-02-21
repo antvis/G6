@@ -286,4 +286,53 @@ export const edgePolyline: StaticTestCase = async (context) => {
       },
     }),
   );
+
+  const node9 = canvas.appendChild(
+    new Rect({
+      id: 'node-9',
+      style: {
+        x: 250,
+        y: 420,
+        labelText: '9',
+        ...commonNodeStyle,
+      },
+    }),
+  );
+
+  const node10 = canvas.appendChild(
+    new Rect({
+      id: 'node-10',
+      style: {
+        x: 350,
+        y: 375,
+        labelText: '10',
+        ...commonNodeStyle,
+        height: 50,
+      },
+    }),
+  );
+
+  canvas.appendChild(
+    new Circle({
+      id: 'controlpoint-2',
+      style: {
+        x: 340,
+        y: 390,
+        ...commonCPStyle,
+      },
+    }),
+  );
+
+  canvas.appendChild(
+    new Polyline({
+      style: {
+        sourceNode: node9,
+        targetNode: node10,
+        controlPoints: [[340, 390]],
+        stroke: '#1890FF',
+        radius: 0,
+        router: true,
+      },
+    }),
+  );
 };

@@ -2,11 +2,11 @@ import type { DisplayObjectConfig } from '@antv/g';
 import type { PathArray } from '@antv/util';
 import { deepMix } from '@antv/util';
 import type { BaseEdgeProps, Padding, Point, Port } from '../../types';
-import { getBBoxHeight, getBBoxWidth } from '../../utils/bbox';
+import { getBBoxHeight, getBBoxWidth, getNodeBBox } from '../../utils/bbox';
 import { getPolylineLoopPath, getPolylinePath } from '../../utils/edge';
 import { findPorts, getConnectionPoint } from '../../utils/element';
 import { subStyleProps } from '../../utils/prefix';
-import { getNodeBBox, orth } from '../../utils/router/orth';
+import { orth } from '../../utils/router/orth';
 import type { BaseEdgeStyleProps, LoopStyleProps, ParsedBaseEdgeStyleProps } from './base-edge';
 import { BaseEdge } from './base-edge';
 
@@ -135,7 +135,7 @@ export class Polyline extends BaseEdge<PolylineKeyStyleProps> {
       targetPoint: rawTargetPoint,
     } = attributes;
 
-    const bbox = node.getKey().getBounds();
+    const bbox = getNodeBBox(node);
     // 默认转折点距离为 bbox 的最大宽高的 1/4 | Default distance of the turning point is 1/4 of the maximum width and height of the bbox
     const defaultDist = Math.max(getBBoxWidth(bbox), getBBoxHeight(bbox)) / 4;
 

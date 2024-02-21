@@ -18,7 +18,7 @@ import type {
   Point,
   PrefixObject,
 } from '../../types';
-import { getBBoxHeight, getBBoxWidth } from '../../utils/bbox';
+import { getBBoxHeight, getBBoxWidth, getNodeBBox } from '../../utils/bbox';
 import { getCubicLoopPath, getLabelPositionStyle } from '../../utils/edge';
 import { findPorts, getConnectionPoint, isSameNode } from '../../utils/element';
 import { omitStyleProps, subStyleProps } from '../../utils/prefix';
@@ -135,7 +135,7 @@ export abstract class BaseEdge<KT extends BaseEdgeProps<object>> extends BaseSha
   protected getLoopPath(attributes: ParsedBaseEdgeStyleProps<KT>): PathArray {
     const { sourceNode: node, sourcePort, targetPort, sourcePoint, targetPoint } = attributes;
 
-    const bbox = node.getKey().getBounds();
+    const bbox = getNodeBBox(node);
     const defaultDist = Math.max(getBBoxWidth(bbox), getBBoxHeight(bbox));
 
     const {

@@ -1,6 +1,7 @@
 import { AABB } from '@antv/g';
 import { clone } from '@antv/util';
-import type { Padding, Point } from '../types';
+import type { Node, Padding, Point } from '../types';
+import { isPoint } from './is';
 import { isBetween } from './math';
 import { parsePadding } from './padding';
 
@@ -24,6 +25,19 @@ export function getBBoxWidth(bbox: AABB): number {
  */
 export function getBBoxHeight(bbox: AABB): number {
   return bbox.max[1] - bbox.min[1];
+}
+
+/**
+ * <zh/> 获取节点的包围盒，兼容节点为点的情况
+ *
+ * <en/> Get the bounding box of the node, compatible with the case where the node is a point
+ * @param node - <zh/> 节点或者点 | <en/> node or point
+ * @param padding - <zh/> 内边距 | <en/> padding
+ * @returns <zh/> 包围盒 | <en/> bounding box
+ */
+export function getNodeBBox(node: Point | Node, padding?: Padding): AABB {
+  const bbox = isPoint(node) ? getPointBBox(node) : node.getKey().getBounds();
+  return padding ? getExpandedBBox(bbox, padding) : bbox;
 }
 
 /**
