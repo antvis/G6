@@ -5,9 +5,9 @@ import type { StaticTestCase } from '../types';
 export const edgePolyline: StaticTestCase = async (context) => {
   const { canvas } = context;
 
-  const commonCircleStyle = {
-    width: 30,
-    height: 30,
+  const commonNodeStyle = {
+    width: 50,
+    height: 20,
     fill: '#f8f8f8',
     stroke: '#8b9baf',
     labelPosition: 'center',
@@ -27,8 +27,9 @@ export const edgePolyline: StaticTestCase = async (context) => {
       style: {
         x: 50,
         y: 40,
-        labelText: '0',
-        ...commonCircleStyle,
+        ...commonNodeStyle,
+        port: false,
+        ports: [{ key: 'top', position: [0, 0.5], r: 2, stroke: '#31d0c6', fill: '#fff' }],
       },
     }),
   );
@@ -39,6 +40,7 @@ export const edgePolyline: StaticTestCase = async (context) => {
         sourceNode: node0,
         targetNode: node0,
         stroke: '#1890FF',
+        loopPosition: 'bottom-left',
       },
     }),
   );
@@ -50,7 +52,7 @@ export const edgePolyline: StaticTestCase = async (context) => {
         x: 50,
         y: 120,
         labelText: '1',
-        ...commonCircleStyle,
+        ...commonNodeStyle,
       },
     }),
   );
@@ -62,7 +64,7 @@ export const edgePolyline: StaticTestCase = async (context) => {
         x: 150,
         y: 75,
         labelText: '2',
-        ...commonCircleStyle,
+        ...commonNodeStyle,
       },
     }),
   );
@@ -86,7 +88,7 @@ export const edgePolyline: StaticTestCase = async (context) => {
         x: 50,
         y: 220,
         labelText: '3',
-        ...commonCircleStyle,
+        ...commonNodeStyle,
       },
     }),
   );
@@ -98,7 +100,7 @@ export const edgePolyline: StaticTestCase = async (context) => {
         x: 150,
         y: 175,
         labelText: '4',
-        ...commonCircleStyle,
+        ...commonNodeStyle,
       },
     }),
   );
@@ -137,7 +139,7 @@ export const edgePolyline: StaticTestCase = async (context) => {
         x: 50,
         y: 320,
         labelText: '5',
-        ...commonCircleStyle,
+        ...commonNodeStyle,
       },
     }),
   );
@@ -149,7 +151,7 @@ export const edgePolyline: StaticTestCase = async (context) => {
         x: 150,
         y: 275,
         labelText: '6',
-        ...commonCircleStyle,
+        ...commonNodeStyle,
       },
     }),
   );
@@ -185,7 +187,7 @@ export const edgePolyline: StaticTestCase = async (context) => {
         x: 50,
         y: 420,
         labelText: '7',
-        ...commonCircleStyle,
+        ...commonNodeStyle,
         ports: [{ key: 'top', position: [0.3, 0], r: 2, stroke: '#31d0c6', fill: '#fff' }],
       },
     }),
@@ -198,7 +200,7 @@ export const edgePolyline: StaticTestCase = async (context) => {
         x: 150,
         y: 375,
         labelText: '8',
-        ...commonCircleStyle,
+        ...commonNodeStyle,
       },
     }),
   );

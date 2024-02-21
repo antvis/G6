@@ -106,7 +106,7 @@ export function isPointOutsideBBox(point: Point, bbox: AABB) {
  * @param p - <zh/> 点 | <en/> Point
  * @returns <zh/> 离点 `p` 最近的边 | <en/> The side nearest to the point `p`
  */
-function getNearestSideToPoint(bbox: AABB, p: Point): 'left' | 'right' | 'top' | 'bottom' {
+export function getNearestSideToPoint(bbox: AABB, p: Point): 'left' | 'right' | 'top' | 'bottom' {
   const [x, y] = p;
   const [minX, minY] = bbox.min;
   const [maxX, maxY] = bbox.max;

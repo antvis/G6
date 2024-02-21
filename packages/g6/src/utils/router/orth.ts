@@ -23,9 +23,12 @@ type Route = {
 };
 
 /**
+ * <zh/> 获取节点的包围盒，兼容节点为点的情况
  *
- * @param node
- * @param padding
+ * <en/> Get the bounding box of the node, compatible with the case where the node is a point
+ * @param node - <zh/> 节点或者点 | <en/> node or point
+ * @param padding - <zh/> 内边距 | <en/> padding
+ * @returns <zh/> 包围盒 | <en/> bounding box
  */
 export function getNodeBBox(node: Point | Node, padding?: Padding): AABB {
   const bbox = isPoint(node) ? getPointBBox(node) : node.getKey().getBounds();
@@ -33,13 +36,16 @@ export function getNodeBBox(node: Point | Node, padding?: Padding): AABB {
 }
 
 /**
- * Returns a route with orthogonal line segments.
- * @param sourcePoint
- * @param targetPoint
- * @param sourceBBox
- * @param targetBBox
- * @param controlPoints
- * @param padding
+ * <zh/> 获取两点之间的直角线段路径
+ *
+ * <en/> Get the orthogonal line segment path between two points
+ * @param sourcePoint - <zh/> 起始点 | <en/> start point
+ * @param targetPoint - <zh/> 终止点 | <en/> end point
+ * @param sourceBBox - <zh/> 起始节点的包围盒 | <en/> bounding box of the start node
+ * @param targetBBox - <zh/> 终止节点的包围盒 | <en/> bounding box of the end node
+ * @param controlPoints - <zh/> 控制点 | <en/> control points
+ * @param padding - <zh/> 内边距 | <en/> padding
+ * @returns <zh/> 直角线段路径 | <en/> orthogonal line segment path
  */
 export function orth(
   sourcePoint: Point,
@@ -107,7 +113,7 @@ export function orth(
 }
 
 /**
- *  Direction to opposites direction map
+ * Direction to opposites direction map
  */
 const opposites = {
   N: 'S',
@@ -127,9 +133,12 @@ const radians = {
 };
 
 /**
+ * <zh/> 获取两点之间的方向，从 `from` 到 `to` 的方向
  *
- * @param from
- * @param to
+ * <en/> Get the direction between two points, the direction from `from` to `to`
+ * @param from - <zh/> 起始点 | <en/> start point
+ * @param to - <zh/> 终止点 | <en/> end point
+ * @returns <zh/> 方向 | <en/> direction
  */
 export function getDirection(from: Point, to: Point): Direction | null {
   const [fx, fy] = from;
@@ -144,19 +153,25 @@ export function getDirection(from: Point, to: Point): Direction | null {
 }
 
 /**
+ * <zh/> 获取包围盒的尺寸，根据方向返回宽度或者高度
  *
- * @param bbox
- * @param direction
+ * <en/> Get the size of the bounding box, return the width or height according to the direction
+ * @param bbox - <zh/> 包围盒 | <en/> bounding box
+ * @param direction - <zh/> 方向 | <en/> direction
+ * @returns <zh/> 尺寸 | <en/> size
  */
 export function getBBoxSize(bbox: AABB, direction: Direction): number {
   return direction === 'N' || direction === 'S' ? getBBoxHeight(bbox) : getBBoxWidth(bbox);
 }
 
 /**
+ * <zh/> 从一个点到另一个点计算正交路由
  *
- * @param from
- * @param to
- * @param direction
+ * <en/> Calculate orthogonal route from one point to another
+ * @param from - <zh/> 起始点 | <en/> start point
+ * @param to - <zh/> 终止点 | <en/> end point
+ * @param direction - <zh/> 前一条线段的方向 | <en/> direction of the previous segment
+ * @returns <zh/> 正交路由 | <en/> orthogonal route
  */
 export function pointToPoint(from: Point, to: Point, direction: Direction): Route {
   const p1: Point = [from[0], to[1]];
@@ -170,10 +185,13 @@ export function pointToPoint(from: Point, to: Point, direction: Direction): Rout
 }
 
 /**
+ * <zh/> 从节点到点计算正交路由
  *
- * @param from
- * @param to
- * @param fromBBox
+ * <en/> Calculate orthogonal route from node to point
+ * @param from - <zh/> 起始点 | <en/> start point
+ * @param to - <zh/> 终止点 | <en/> end point
+ * @param fromBBox - <zh/> 起始节点的包围盒 | <en/> bounding box of the start node
+ * @returns <zh/> 正交路由 | <en/> orthogonal route
  */
 export function nodeToPoint(from: Point, to: Point, fromBBox: AABB): Route {
   const p = freeJoin(from, to, fromBBox);
@@ -182,11 +200,14 @@ export function nodeToPoint(from: Point, to: Point, fromBBox: AABB): Route {
 }
 
 /**
+ * <zh/> 从点到节点计算正交路由
  *
- * @param from
- * @param to
- * @param toBBox
- * @param direction
+ * <en/> Calculate orthogonal route from point to node
+ * @param from - <zh/> 起始点 | <en/> start point
+ * @param to - <zh/> 终止点 | <en/> end point
+ * @param toBBox - <zh/> 终止节点的包围盒 | <en/> bounding box of the end node
+ * @param direction - <zh/> 前一条线段的方向 | <en/> direction of the previous segment
+ * @returns <zh/> 正交路由 | <en/> orthogonal route
  */
 export function pointToNode(from: Point, to: Point, toBBox: AABB, direction: Direction): Route {
   const points: Point[] = [
@@ -219,11 +240,14 @@ export function pointToNode(from: Point, to: Point, toBBox: AABB, direction: Dir
 }
 
 /**
+ * <zh/> 从节点到节点计算正交路由
  *
- * @param from
- * @param to
- * @param fromBBox
- * @param toBBox
+ * <en/> Calculate orthogonal route from node to node
+ * @param from - <zh/> 起始点 | <en/> start point
+ * @param to - <zh/> 终止点 | <en/> end point
+ * @param fromBBox - <zh/> 起始节点的包围盒 | <en/> bounding box of the start node
+ * @param toBBox - <zh/> 终止节点的包围盒 | <en/> bounding box of the end node
+ * @returns <zh/> 正交路由 | <en/> orthogonal route
  */
 export function nodeToNode(from: Point, to: Point, fromBBox: AABB, toBBox: AABB): Route {
   let route = nodeToPoint(from, to, fromBBox);
@@ -249,12 +273,15 @@ export function nodeToNode(from: Point, to: Point, fromBBox: AABB, toBBox: AABB)
 }
 
 /**
+ * <zh/> 在两个节点内部计算路由
  *
- * @param from
- * @param to
- * @param fromBBox
- * @param toBBox
- * @param direction
+ * <en/> Calculate route inside two nodes
+ * @param from - <zh/> 起始点 | <en/> start point
+ * @param to - <zh/> 终止点 | <en/> end point
+ * @param fromBBox - <zh/> 起始节点的包围盒 | <en/> bounding box of the start node
+ * @param toBBox - <zh/> 终止节点的包围盒 | <en/> bounding box of the end node
+ * @param direction - <zh/> 方向 | <en/> direction
+ * @returns <zh/> 正交路由 | <en/> orthogonal route
  */
 export function insideNode(from: Point, to: Point, fromBBox: AABB, toBBox: AABB, direction?: Direction): Route {
   const DEFAULT_OFFSET = 0.01;
@@ -294,13 +321,15 @@ export function insideNode(from: Point, to: Point, fromBBox: AABB, toBBox: AABB,
 }
 
 /**
- * Returns a point `p` where lines p,p1 and p,p2 are perpendicular
- * and p is not contained in the given box
- * @param p1
- * @param p2
- * @param bbox
+ * <zh/> 返回一个点 `p`，使得线段 p,p1 和 p,p2 互相垂直，并且 p 不在给定的包围盒内
+ *
+ * <en/> Returns a point `p` where lines p,p1 and p,p2 are perpendicular and p is not contained in the given box
+ * @param p1 - <zh/> 点 | <en/> point
+ * @param p2 - <zh/> 点 | <en/> point
+ * @param bbox - <zh/> 包围盒 | <en/> bounding box
+ * @returns <zh/> 点 | <en/> point
  */
-function freeJoin(p1: Point, p2: Point, bbox: AABB): Point {
+export function freeJoin(p1: Point, p2: Point, bbox: AABB): Point {
   let p: Point = [p1[0], p2[1]];
   if (isPointInBBox(p, bbox)) {
     p = [p2[0], p1[1]];

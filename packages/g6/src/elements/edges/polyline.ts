@@ -2,10 +2,12 @@ import type { DisplayObjectConfig } from '@antv/g';
 import type { PathArray } from '@antv/util';
 import { deepMix } from '@antv/util';
 import type { BaseEdgeProps, Padding, Point, Port } from '../../types';
-import { getPolylinePath } from '../../utils/edge';
+import { getBBoxHeight, getBBoxWidth } from '../../utils/bbox';
+import { getPolylineLoopPath, getPolylinePath } from '../../utils/edge';
 import { findPorts, getConnectionPoint } from '../../utils/element';
+import { subStyleProps } from '../../utils/prefix';
 import { getNodeBBox, orth } from '../../utils/router/orth';
-import type { BaseEdgeStyleProps, ParsedBaseEdgeStyleProps } from './base-edge';
+import type { BaseEdgeStyleProps, LoopStyleProps, ParsedBaseEdgeStyleProps } from './base-edge';
 import { BaseEdge } from './base-edge';
 
 type PolylineKeyStyleProps = BaseEdgeProps<{
@@ -122,5 +124,36 @@ export class Polyline extends BaseEdge<PolylineKeyStyleProps> {
     const targetBBox = getNodeBBox(rawTargetPoint || targetNode, routerPadding);
 
     return orth(sourcePoint, targetPoint, sourceBBox, targetBBox, controlPoints, routerPadding);
+  }
+
+  protected getLoopPath(attributes: ParsedPolylineStyleProps): PathArray {
+    const {
+      sourceNode: node,
+      sourcePort: sourcePortKey,
+      targetPort: targetPortKey,
+      sourcePoint: rawSourcePoint,
+      targetPoint: rawTargetPoint,
+    } = attributes;
+
+    const bbox = node.getKey().getBounds();
+    // 默认转折点距离为 bbox 的最大宽高的 1/4 | Default distance of the turning point is 1/4 of the maximum width and height of the bbox
+    const defaultDist = Math.max(getBBoxWidth(bbox), getBBoxHeight(bbox)) / 4;
+
+    const {
+      position,
+      clockwise,
+      dist = defaultDist,
+    } = subStyleProps<Required<LoopStyleProps>>(this.getGraphicStyle(attributes), 'loop');
+
+    return getPolylineLoopPath(
+      node,
+      position,
+      clockwise,
+      dist,
+      sourcePortKey,
+      targetPortKey,
+      rawSourcePoint,
+      rawTargetPoint,
+    );
   }
 }

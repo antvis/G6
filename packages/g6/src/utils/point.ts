@@ -45,10 +45,11 @@ export function round(point: Point, digits = 0): Point {
  * @param p - <zh/> 要移动的点 | <en/> the point to move
  * @param ref - <zh/> 参考点 | <en/> the reference point
  * @param distance - <zh/> 移动的距离 | <en/> the distance to move
+ * @param reverse
  * @returns <zh/> 移动后的点 | <en/> the moved point
  */
-export function moveTo(p: Point, ref: Point, distance: number): Point {
-  const direction = subtract(p, ref);
+export function moveTo(p: Point, ref: Point, distance: number, reverse = false): Point {
+  const direction = reverse ? subtract(ref, p) : subtract(p, ref);
   const normalizedDirection = normalize(direction);
   const moveVector: Point = [normalizedDirection[0] * distance, normalizedDirection[1] * distance, 0];
   return add(p, moveVector);
