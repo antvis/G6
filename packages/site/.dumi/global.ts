@@ -1,7 +1,7 @@
 // @ts-nocheck
 if (window) {
   // window.g6 = require('@antv/g6/es'); // import the source for debugging
-  window.g6 = require('@antv/g6'); // import the source for debugging
+  window.g6 = require('@antv/g6/src'); // import the source for debugging
 
   window.layoutGpu = require('@antv/layout-gpu'); // import the source for debugging
   window.algorithm = require('@antv/algorithm');

@@ -136,10 +136,10 @@ export abstract class BaseNode<
   protected getHaloStyle(attributes: ParsedBaseNodeStyleProps<P>): false | P {
     if (attributes.halo === false) return false;
 
-    const keyStyle = this.getKeyStyle(attributes);
+    const { fill, ...keyStyle } = this.getKeyStyle(attributes);
     const haloStyle = subStyleProps<P>(this.getGraphicStyle(attributes), 'halo');
 
-    return { ...keyStyle, ...haloStyle };
+    return { ...keyStyle, stroke: fill, ...haloStyle };
   }
 
   protected getIconStyle(attributes: ParsedBaseNodeStyleProps<P>): false | IconStyleProps {
@@ -196,20 +196,16 @@ export abstract class BaseNode<
     const { ports: portOptions = [] } = attributes;
 
     portOptions.forEach((option, i) => {
-      portsShapeStyle[option.key || i] = {
-        ...portStyle,
-        ...this.getPortStyle(attributes, option),
-      };
+      const [cx, cy] = this.getPortXY(attributes, option);
+      portsShapeStyle[option.key || i] = Object.assign({}, portStyle, { cx, cy }, option) as PortStyleProps;
     });
     return portsShapeStyle;
   }
 
-  protected getPortStyle(attributes: ParsedBaseNodeStyleProps<P>, style: NodePortStyleProps): PortStyleProps {
-    const { position = 'left', width = 8, height = 8, ...restStyle } = style;
+  protected getPortXY(attributes: ParsedBaseNodeStyleProps<P>, style: NodePortStyleProps): Point {
+    const { position = 'left' } = style;
     const bounds = this.getKey().getLocalBounds();
-    const r = Math.min(width, height) / 2;
-    const [cx, cy] = getPortPosition(bounds, position as PortPosition);
-    return Object.assign({ cx, cy, r }, restStyle);
+    return getPortPosition(bounds, position as PortPosition);
   }
 
   /**
