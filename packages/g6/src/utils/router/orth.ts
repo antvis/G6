@@ -306,7 +306,7 @@ export function insideNode(from: Point, to: Point, fromBBox: AABB, toBBox: AABB,
 }
 
 /**
- * <zh/> 返回一个点 `p`，使得线段 p,p1 和 p,p2 互相垂直，并且 p 不在给定的包围盒内
+ * <zh/> 返回一个点 `p`，使得线段 p,p1 和 p,p2 互相垂直，p 尽可能不在给定的包围盒内
  *
  * <en/> Returns a point `p` where lines p,p1 and p,p2 are perpendicular and p is not contained in the given box
  * @param p1 - <zh/> 点 | <en/> point

@@ -241,23 +241,24 @@ function getBorderRadiusPoints(prevPoint: Point, midPoint: Point, nextPoint: Poi
 /** ==================== Loop Edge =========================== */
 
 const getRadians = (bbox: AABB): Record<LoopEdgePosition, [number, number]> => {
+  const halfPI = Math.PI / 2;
   const halfHeight = getBBoxHeight(bbox) / 2;
   const halfWidth = getBBoxWidth(bbox) / 2;
   const angleWithX = Math.atan2(halfHeight, halfWidth) / 2;
   const angleWithY = Math.atan2(halfWidth, halfHeight) / 2;
   return {
-    top: [-Math.PI / 2 - angleWithY, -Math.PI / 2 + angleWithY],
-    'top-right': [-Math.PI / 2 + angleWithY, -angleWithX],
-    'right-top': [-Math.PI / 2 + angleWithY, -angleWithX],
+    top: [-halfPI - angleWithY, -halfPI + angleWithY],
+    'top-right': [-halfPI + angleWithY, -angleWithX],
+    'right-top': [-halfPI + angleWithY, -angleWithX],
     right: [-angleWithX, angleWithX],
-    'bottom-right': [angleWithX, Math.PI / 2 - angleWithY],
-    'right-bottom': [angleWithX, Math.PI / 2 - angleWithY],
-    bottom: [Math.PI / 2 - angleWithY, Math.PI / 2 + angleWithY],
-    'bottom-left': [Math.PI / 2 + angleWithY, Math.PI - angleWithX],
-    'left-bottom': [Math.PI / 2 + angleWithY, Math.PI - angleWithX],
+    'bottom-right': [angleWithX, halfPI - angleWithY],
+    'right-bottom': [angleWithX, halfPI - angleWithY],
+    bottom: [halfPI - angleWithY, halfPI + angleWithY],
+    'bottom-left': [halfPI + angleWithY, Math.PI - angleWithX],
+    'left-bottom': [halfPI + angleWithY, Math.PI - angleWithX],
     left: [Math.PI - angleWithX, Math.PI + angleWithX],
-    'top-left': [Math.PI + angleWithX, -Math.PI / 2 - angleWithY],
-    'left-top': [Math.PI + angleWithX, -Math.PI / 2 - angleWithY],
+    'top-left': [Math.PI + angleWithX, -halfPI - angleWithY],
+    'left-top': [Math.PI + angleWithX, -halfPI - angleWithY],
   };
 };
 
@@ -395,6 +396,7 @@ export function getCubicLoopControlPoints(
  *
  * <en/> Get the path of the loop polyline edge
  * @param node - <zh/> 节点实例 | <en/> Node instance
+ * @param radius - <zh/> 圆角半径 | <en/> Radius of the rounded corner
  * @param position - <zh/> 环形边的位置 | <en/> The position of the loop edge
  * @param clockwise - <zh/> 是否顺时针 | <en/> Whether to draw the loop clockwise
  * @param dist - <zh/> 从节点 keyShape 边缘到自环顶部的距离 | <en/> The distance from the edge of the node keyShape to the top of the self-loop
@@ -406,6 +408,7 @@ export function getCubicLoopControlPoints(
  */
 export function getPolylineLoopPath(
   node: Node,
+  radius: number,
   position: LoopEdgePosition,
   clockwise: boolean,
   dist: number,
@@ -435,7 +438,7 @@ export function getPolylineLoopPath(
   if (sourcePort) sourcePoint = getPortConnectionPoint(sourcePort, controlPoints[0]);
   if (targetPort) targetPoint = getPortConnectionPoint(targetPort, controlPoints[controlPoints.length - 1]);
 
-  return getPolylinePath([sourcePoint, ...controlPoints, targetPoint]);
+  return getPolylinePath([sourcePoint, ...controlPoints, targetPoint], radius);
 }
 
 /**

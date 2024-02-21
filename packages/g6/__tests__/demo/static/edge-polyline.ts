@@ -145,7 +145,7 @@ export const edgePolyline: StaticTestCase = async (context) => {
         sourceNode: node1,
         targetNode: node2,
         stroke: '#1890FF',
-        radius: 0,
+
         router: true,
       },
     }),
@@ -195,7 +195,7 @@ export const edgePolyline: StaticTestCase = async (context) => {
         sourceNode: node3,
         targetNode: node4,
         stroke: '#1890FF',
-        radius: 0,
+
         controlPoints: [[100, 175]],
         router: false,
       },
@@ -243,7 +243,7 @@ export const edgePolyline: StaticTestCase = async (context) => {
         sourceNode: node5,
         targetNode: node6,
         stroke: '#1890FF',
-        radius: 0,
+
         controlPoints: [[100, 300]],
         router: true,
       },
@@ -281,7 +281,7 @@ export const edgePolyline: StaticTestCase = async (context) => {
         sourceNode: node7,
         targetNode: node8,
         stroke: '#1890FF',
-        radius: 0,
+
         router: true,
       },
     }),
@@ -330,7 +330,6 @@ export const edgePolyline: StaticTestCase = async (context) => {
         targetNode: node10,
         controlPoints: [[340, 390]],
         stroke: '#1890FF',
-        radius: 0,
         router: true,
       },
     }),
