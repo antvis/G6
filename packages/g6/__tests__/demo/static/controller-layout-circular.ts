@@ -1,8 +1,6 @@
 import type { G6Spec } from '../../../src';
-import { DataController } from '../../../src/runtime/data';
-import { ElementController } from '../../../src/runtime/element';
-import { LayoutController } from '../../../src/runtime/layout';
 import data from '../../dataset/soccer.json';
+import { createGraph } from '../../mock';
 import type { StaticTestCase } from '../types';
 
 export const controllerLayoutCircular: StaticTestCase = async ({ canvas, animation }) => {
@@ -24,21 +22,7 @@ export const controllerLayoutCircular: StaticTestCase = async ({ canvas, animati
     },
   };
 
-  const graph = {
-    emit: () => {},
-  };
+  const graph = createGraph(options, canvas);
 
-  const model = new DataController();
-
-  model.addData(options?.data || {});
-
-  const context: any = { options, model, graph, canvas, viewport: { getCanvasSize: () => [500, 500] } };
-
-  const element = new ElementController(context);
-
-  await element.draw(context);
-
-  const layout = new LayoutController({ ...context, element });
-
-  await layout.layout();
+  await graph.render();
 };

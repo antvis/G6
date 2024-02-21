@@ -1,10 +1,7 @@
 import type { G6Spec } from '../../../src';
 import { treeToGraphData } from '../../../src';
-import { DataController } from '../../../src/runtime/data';
-import { ElementController } from '../../../src/runtime/element';
-import { LayoutController } from '../../../src/runtime/layout';
-import { ViewportController } from '../../../src/runtime/viewport';
 import tree from '../../dataset/algorithm-category.json';
+import { createGraph } from '../../mock';
 import type { StaticTestCase } from '../types';
 
 export const controllerLayoutDendrogram: StaticTestCase = async ({ canvas, animation }) => {
@@ -27,27 +24,12 @@ export const controllerLayoutDendrogram: StaticTestCase = async ({ canvas, anima
         type: 'polyline',
       },
     },
+    zoom: 0.5,
   };
 
-  const graph = {
-    emit: () => {},
-  };
+  const graph = createGraph(options, canvas);
 
-  const model = new DataController();
+  await graph.render();
 
-  model.addData(options?.data || {});
-
-  const viewport = new ViewportController({ canvas } as any);
-  viewport.zoom({ mode: 'absolute', value: 0.5 });
-  viewport.translate({ mode: 'absolute', value: [-200, 350] });
-
-  const context: any = { options, model, graph, canvas, viewport };
-
-  const element = new ElementController(context);
-
-  await element.draw(context);
-
-  const layout = new LayoutController({ ...context, element });
-
-  await layout.layout();
+  await graph.translateTo([-200, 350]);
 };
