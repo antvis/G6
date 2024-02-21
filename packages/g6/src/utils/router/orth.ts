@@ -289,12 +289,12 @@ export function insideNode(from: Point, to: Point, fromBBox: AABB, toBBox: AABB,
 
   let p2 = freeJoin(p1, end, boundary);
 
-  let points = [p1, p2];
+  let points = [round(p1, 2), round(p2, 2)];
 
   if (isEqual(round(p1), round(p2))) {
     const rad = angle(subtract(p1, start), [1, 0, 0]) + Math.PI / 2;
     p2 = [end[0] + halfPerimeter * Math.cos(rad), end[1] + halfPerimeter * Math.sin(rad)];
-    p2 = moveTo(getNearestPointToPoint(boundary, p2), end, -DEFAULT_OFFSET);
+    p2 = round(moveTo(getNearestPointToPoint(boundary, p2), end, -DEFAULT_OFFSET), 2);
     const p3 = freeJoin(p1, p2, boundary);
     points = [p1, p3, p2];
   }

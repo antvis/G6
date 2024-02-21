@@ -3,7 +3,7 @@ import type { Point } from '../types';
 import { getBBoxHeight, getBBoxWidth } from './bbox';
 import { getXYByPosition } from './element';
 import { isBetween } from './math';
-import { add, angle, cross, distance, normalize, subtract } from './vector';
+import { add, angle, cross, distance, normalize, subtract, toVector2 } from './vector';
 
 /**
  * <zh/> 将对象坐标转换为数组坐标
@@ -51,8 +51,8 @@ export function round(point: Point, digits = 0): Point {
 export function moveTo(p: Point, ref: Point, distance: number, reverse = false): Point {
   const direction = reverse ? subtract(p, ref) : subtract(ref, p);
   const normalizedDirection = normalize(direction);
-  const moveVector: Point = [normalizedDirection[0] * distance, normalizedDirection[1] * distance, 0];
-  return add(p, moveVector);
+  const moveVector: Point = [normalizedDirection[0] * distance, normalizedDirection[1] * distance];
+  return add(toVector2(p), moveVector);
 }
 
 /**
