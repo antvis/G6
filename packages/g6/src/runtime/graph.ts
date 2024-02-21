@@ -349,10 +349,9 @@ export class Graph extends EventEmitter {
   public async render(): Promise<void> {
     emit(this, new RenderEvent(GraphEvent.BEFORE_RENDER));
     await this.prepare();
-    await Promise.all([
-      (await this.context.element?.draw(this.context))?.finished,
-      await this.context.layout?.layout(),
-    ]);
+
+    await Promise.all([this.context.element?.draw(this.context), this.context.layout?.layout(this.context)]);
+
     emit(this, new RenderEvent(GraphEvent.AFTER_RENDER));
   }
 
@@ -362,15 +361,13 @@ export class Graph extends EventEmitter {
    * <en/> Draw elements
    * @returns <zh/> 渲染结果 | <en/> draw result
    */
-  public async draw() {
+  public async draw(): Promise<void> {
     await this.prepare();
-    await (
-      await this.context.element?.draw(this.context)
-    )?.finished;
+    return this.context.element!.draw(this.context);
   }
 
-  public async layout(): Promise<void> {
-    await this.context.layout?.layout();
+  public layout(): Promise<void> {
+    return this.context.layout!.layout(this.context);
   }
 
   /**
