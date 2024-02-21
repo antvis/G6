@@ -20,7 +20,6 @@ export class Rect extends BaseNode<BaseNodeProps, GRect> {
   };
 
   constructor(options: RectOptions) {
-    console.log(222, deepMix({}, { style: Rect.defaultStyleProps }, options));
     super(deepMix({}, { style: Rect.defaultStyleProps }, options));
   }
 
