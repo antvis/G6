@@ -468,9 +468,8 @@ export class ElementController {
    *
    * <en/> start render process
    */
-  public async draw(context: RuntimeContext) {
-    this.context = context;
-    const { model } = context;
+  public async draw() {
+    const { model } = this.context;
 
     const tasks = reduceDataChanges(model.getChanges());
     if (tasks.length === 0) return;

@@ -82,8 +82,7 @@ export class LayoutController {
     this.updateElement({ nodes: positions, edges: [] }, false);
   }
 
-  public async layout(context: RuntimeContext) {
-    this.context = context;
+  public async layout() {
     if (!this.options) return;
     const pipeline = Array.isArray(this.options) ? this.options : [this.options];
 

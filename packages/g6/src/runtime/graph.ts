@@ -332,7 +332,7 @@ export class Graph extends EventEmitter {
     emit(this, new RenderEvent(GraphEvent.BEFORE_RENDER));
     await this.prepare();
 
-    await Promise.all([this.context.element?.draw(this.context), this.context.layout?.layout(this.context)]);
+    await Promise.all([this.context.element?.draw(), this.context.layout?.layout()]);
 
     emit(this, new RenderEvent(GraphEvent.AFTER_RENDER));
   }
@@ -345,11 +345,11 @@ export class Graph extends EventEmitter {
    */
   public async draw(): Promise<void> {
     await this.prepare();
-    return this.context.element!.draw(this.context);
+    return this.context.element!.draw();
   }
 
   public layout(): Promise<void> {
-    return this.context.layout!.layout(this.context);
+    return this.context.layout!.layout();
   }
 
   /**
