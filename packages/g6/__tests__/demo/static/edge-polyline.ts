@@ -28,8 +28,6 @@ export const edgePolyline: StaticTestCase = async (context) => {
         x: 50,
         y: 40,
         ...commonNodeStyle,
-        port: false,
-        ports: [{ key: 'top', position: [0, 0.5], r: 2, stroke: '#31d0c6', fill: '#fff' }],
       },
     }),
   );
@@ -40,7 +38,65 @@ export const edgePolyline: StaticTestCase = async (context) => {
         sourceNode: node0,
         targetNode: node0,
         stroke: '#1890FF',
+        loopPosition: 'top',
+      },
+    }),
+  );
+
+  const node01 = canvas.appendChild(
+    new Rect({
+      id: 'node-0-1',
+      style: {
+        x: 150,
+        y: 40,
+        ...commonNodeStyle,
+        port: true,
+        ports: [
+          { key: 'top', position: [0, 0.5], r: 2, fill: '#31d0c6' },
+          {
+            key: 'left',
+            position: [0.5, 0],
+            r: 2,
+            fill: '#31d0c6',
+          },
+        ],
+      },
+    }),
+  );
+
+  canvas.appendChild(
+    new Polyline({
+      style: {
+        sourceNode: node01,
+        targetNode: node01,
+        sourcePort: 'top',
+        targetPort: 'left',
+        stroke: '#1890FF',
         loopPosition: 'bottom-left',
+      },
+    }),
+  );
+
+  const node02 = canvas.appendChild(
+    new Rect({
+      id: 'node-0-2',
+      style: {
+        x: 250,
+        y: 40,
+        ...commonNodeStyle,
+        port: true,
+        ports: [{ key: 'top', position: [0.5, 0], r: 2, fill: '#31d0c6' }],
+      },
+    }),
+  );
+
+  canvas.appendChild(
+    new Polyline({
+      style: {
+        sourceNode: node02,
+        targetNode: node02,
+        sourcePort: 'top',
+        stroke: '#1890FF',
       },
     }),
   );

@@ -1,4 +1,4 @@
-import type { Circle as GCircle } from '@antv/g';
+import type { AABB, Circle as GCircle } from '@antv/g';
 import type { PathArray } from '@antv/util';
 import { isEqual, isNumber } from '@antv/util';
 import type { EdgeKey, EdgeLabelPosition, EdgeLabelStyleProps, LoopEdgePosition, Node, Point, Vector2 } from '../types';
@@ -240,21 +240,25 @@ function getBorderRadiusPoints(prevPoint: Point, midPoint: Point, nextPoint: Poi
 
 /** ==================== Loop Edge =========================== */
 
-const EIGHTH_PI = Math.PI / 8;
-
-const radians: Record<LoopEdgePosition, [number, number]> = {
-  top: [-5 * EIGHTH_PI, -3 * EIGHTH_PI],
-  'top-right': [-3 * EIGHTH_PI, -EIGHTH_PI],
-  'right-top': [-3 * EIGHTH_PI, -EIGHTH_PI],
-  right: [-EIGHTH_PI, EIGHTH_PI],
-  'bottom-right': [EIGHTH_PI, 3 * EIGHTH_PI],
-  'right-bottom': [EIGHTH_PI, 3 * EIGHTH_PI],
-  bottom: [3 * EIGHTH_PI, 5 * EIGHTH_PI],
-  'bottom-left': [5 * EIGHTH_PI, 7 * EIGHTH_PI],
-  'left-bottom': [5 * EIGHTH_PI, 7 * EIGHTH_PI],
-  left: [7 * EIGHTH_PI, 9 * EIGHTH_PI],
-  'top-left': [-7 * EIGHTH_PI, -5 * EIGHTH_PI],
-  'left-top': [-7 * EIGHTH_PI, -5 * EIGHTH_PI],
+const getRadians = (bbox: AABB): Record<LoopEdgePosition, [number, number]> => {
+  const halfHeight = getBBoxHeight(bbox) / 2;
+  const halfWidth = getBBoxWidth(bbox) / 2;
+  const angleWithX = Math.atan2(halfHeight, halfWidth) / 2;
+  const angleWithY = Math.atan2(halfWidth, halfHeight) / 2;
+  return {
+    top: [-Math.PI / 2 - angleWithY, -Math.PI / 2 + angleWithY],
+    'top-right': [-Math.PI / 2 + angleWithY, -angleWithX],
+    'right-top': [-Math.PI / 2 + angleWithY, -angleWithX],
+    right: [-angleWithX, angleWithX],
+    'bottom-right': [angleWithX, Math.PI / 2 - angleWithY],
+    'right-bottom': [angleWithX, Math.PI / 2 - angleWithY],
+    bottom: [Math.PI / 2 - angleWithY, Math.PI / 2 + angleWithY],
+    'bottom-left': [Math.PI / 2 + angleWithY, Math.PI - angleWithX],
+    'left-bottom': [Math.PI / 2 + angleWithY, Math.PI - angleWithX],
+    left: [Math.PI - angleWithX, Math.PI + angleWithX],
+    'top-left': [Math.PI + angleWithX, -Math.PI / 2 - angleWithY],
+    'left-top': [Math.PI + angleWithX, -Math.PI / 2 - angleWithY],
+  };
 };
 
 /**
@@ -286,6 +290,7 @@ export function getLoopEndpoints(
   let targetPoint = rawTargetPoint || targetPort?.getPosition();
 
   if (!sourcePoint || !targetPoint) {
+    const radians = getRadians(bbox);
     const angle1 = radians[position][0];
     const angle2 = radians[position][1];
     const r = Math.max(getBBoxWidth(bbox), getBBoxHeight(bbox));
