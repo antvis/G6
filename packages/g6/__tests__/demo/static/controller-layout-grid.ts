@@ -30,7 +30,7 @@ export const controllerLayoutGrid: StaticTestCase = async ({ canvas, animation }
 
   const element = new ElementController(context);
 
-  await element.render(context);
+  await element.draw(context);
 
   const layout = new LayoutController({ ...context, element });
 
