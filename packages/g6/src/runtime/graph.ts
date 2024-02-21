@@ -2,6 +2,7 @@ import EventEmitter from '@antv/event-emitter';
 import type { AABB, BaseStyleProps, DataURLOptions, DisplayObject } from '@antv/g';
 import type { ID } from '@antv/graphlib';
 import { debounce, deepMix, isFunction, isString, omit } from '@antv/util';
+import { GraphEvent } from '../constants';
 import type {
   BehaviorOptions,
   ComboData,
@@ -33,6 +34,7 @@ import type {
   ZIndex,
 } from '../types';
 import { sizeOf } from '../utils/dom';
+import { RenderEvent, emit } from '../utils/event';
 import { parsePoint, toPointObject } from '../utils/point';
 import { add } from '../utils/vector';
 import { Canvas } from './canvas';
@@ -345,9 +347,13 @@ export class Graph extends EventEmitter {
    * <en/> This process will execute data update, element rendering, and layout execution
    */
   public async render(): Promise<void> {
+    emit(this, new RenderEvent(GraphEvent.BEFORE_RENDER));
     await this.prepare();
-    await this.context.element?.draw(this.context);
-    await this.context.layout?.layout();
+    await Promise.all([
+      (await this.context.element?.draw(this.context))?.finished,
+      await this.context.layout?.layout(),
+    ]);
+    emit(this, new RenderEvent(GraphEvent.AFTER_RENDER));
   }
 
   /**
@@ -358,7 +364,9 @@ export class Graph extends EventEmitter {
    */
   public async draw() {
     await this.prepare();
-    await this.context.element?.draw(this.context);
+    await (
+      await this.context.element?.draw(this.context)
+    )?.finished;
   }
 
   public async layout(): Promise<void> {
@@ -372,7 +380,7 @@ export class Graph extends EventEmitter {
    */
   public async clear(): Promise<void> {
     this.context.model.setData({});
-    await this.context.element?.draw(this.context);
+    await this.draw();
   }
 
   public destroy(): void {

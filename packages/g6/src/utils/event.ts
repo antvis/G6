@@ -1,11 +1,27 @@
+import type EventEmitter from '@antv/event-emitter';
 import type { BaseStyleProps, IAnimation } from '@antv/g';
 import type { ID } from '@antv/graphlib';
 import type { AnimationTypeEnum, GraphEvent } from '../constants';
 import type { GraphData } from '../spec';
 import type { Positions, States, ZIndex } from '../types';
 
+/**
+ *
+ * @param target
+ * @param event
+ */
+export function emit(target: EventEmitter, event: Event) {
+  target.emit(event.type, event);
+}
+
 export class Event {
   constructor(public type: string) {}
+}
+
+export class RenderEvent extends Event {
+  constructor(type: GraphEvent.BEFORE_RENDER | GraphEvent.AFTER_RENDER) {
+    super(type);
+  }
 }
 
 export class DrawEvent extends Event {

@@ -548,16 +548,14 @@ export class ElementController {
       renderContext,
     );
 
-    return (
-      executeAnimatableTasks([...destroyTasks, ...createTasks, ...updateTasks], {
-        before: () => this.emit(new DrawEvent(GraphEvent.BEFORE_DRAW)),
-        beforeAnimate: (animation) =>
-          this.emit(new AnimateEvent(GraphEvent.BEFORE_ANIMATE, AnimationTypeEnum.DRAW, animation)),
-        afterAnimate: (animation) =>
-          this.emit(new AnimateEvent(GraphEvent.AFTER_ANIMATE, AnimationTypeEnum.DRAW, animation)),
-        after: () => this.emit(new DrawEvent(GraphEvent.AFTER_DRAW)),
-      })?.finished || null
-    );
+    return executeAnimatableTasks([...destroyTasks, ...createTasks, ...updateTasks], {
+      before: () => this.emit(new DrawEvent(GraphEvent.BEFORE_DRAW)),
+      beforeAnimate: (animation) =>
+        this.emit(new AnimateEvent(GraphEvent.BEFORE_ANIMATE, AnimationTypeEnum.DRAW, animation)),
+      afterAnimate: (animation) =>
+        this.emit(new AnimateEvent(GraphEvent.AFTER_ANIMATE, AnimationTypeEnum.DRAW, animation)),
+      after: () => this.emit(new DrawEvent(GraphEvent.AFTER_DRAW)),
+    });
   }
 
   private getShapeType(elementType: ElementType, renderData: Record<string, any>) {
@@ -682,7 +680,7 @@ export class ElementController {
       { animation },
     );
 
-    return withAnimationCallbacks(executeAnimatableTasks([...nodeTasks, ...edgeTasks]), {
+    return executeAnimatableTasks([...nodeTasks, ...edgeTasks], {
       before: () => this.emit(new ElementTranslateEvent(GraphEvent.BEFORE_ELEMENT_TRANSLATE, positions)),
       beforeAnimate: (animation) =>
         this.emit(
