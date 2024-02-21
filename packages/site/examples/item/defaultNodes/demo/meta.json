@@ -5,7 +5,7 @@
   },
   "demos": [
     {
-      "filename": "circle.js",
+      "filename": "circle.ts",
       "title": {
         "zh": "圆形",
         "en": "Circle"
@@ -13,15 +13,7 @@
       "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*SuPdRLp1PQgAAAAAAAAAAAAADmJ7AQ/original"
     },
     {
-      "filename": "donut.js",
-      "title": {
-        "zh": "甜甜圈",
-        "en": "Donut"
-      },
-      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*c5f5Q7XuOWoAAAAAAAAAAAAADmJ7AQ/original"
-    },
-    {
-      "filename": "rect.js",
+      "filename": "rect.ts",
       "title": {
         "zh": "矩形",
         "en": "Rect"
@@ -53,7 +45,7 @@
       "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*muosSr4ft8QAAAAAAAAAAAAADmJ7AQ/original"
     },
     {
-      "filename": "triangle.js",
+      "filename": "triangle.ts",
       "title": {
         "zh": "三角形",
         "en": "Triangle"
@@ -83,6 +75,14 @@
         "en": "Star"
       },
       "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*YSVjSLyYNwIAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "donut.js",
+      "title": {
+        "zh": "甜甜圈",
+        "en": "Donut"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*c5f5Q7XuOWoAAAAAAAAAAAAADmJ7AQ/original"
     },
     {
       "filename": "modelRect.js",

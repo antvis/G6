@@ -135,11 +135,11 @@
         <g transform="matrix(1,0,0,1,0,0)">
           <circle
             id="halo"
-            fill="rgba(248,248,248,1)"
+            fill="none"
             transform="translate(-25,-25)"
             cx="25"
             cy="25"
-            stroke="rgba(139,155,175,1)"
+            stroke="rgba(248,248,248,1)"
             r="25"
             stroke-dasharray="0,0"
             stroke-width="12"

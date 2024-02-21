@@ -1,158 +1,83 @@
-import { Line } from '../../../src/elements/edges';
-import { Rect, Triangle } from '../../../src/elements/nodes';
-import type { TriangleDirection } from '../../../src/elements/nodes/triangle';
+// Change to import { Graph } from '@antv/g6'; if you are using npm
+// todo: when test env, use SVG always.
+import { Graph } from '../../mock';
 import type { StaticTestCase } from '../types';
 
 export const nodeTriangle: StaticTestCase = async (context) => {
   const { canvas } = context;
 
-  ['up', 'down', 'right', 'left'].forEach((direction, i) => {
-    canvas.appendChild(
-      new Rect({
-        style: {
-          x: 100 + 75 * i,
-          y: 50,
-          width: 40,
-          height: 60,
-          fill: 'transport',
-          stroke: '#31d0c6',
-          lineDash: [5, 5],
-        },
-      }),
-    );
+  const data = {
+    nodes: [
+      { id: 'triangle' },
+      { id: 'triangle-halo' },
+      { id: 'triangle-badges' },
+      { id: 'triangle-ports', data: { direction: 'left' } },
+      { id: 'triangle-active' },
+      { id: 'triangle-selected' },
+      { id: 'triangle-highlight' },
+      { id: 'triangle-inactive' },
+    ],
+  };
 
-    canvas.appendChild(
-      new Triangle({
-        style: {
-          x: 100 + 75 * i,
-          y: 50,
-          direction: direction as TriangleDirection,
-          fill: '#f8f8f8',
-          stroke: '#8b9baf',
-          width: 40,
-          height: 60,
-          labelText: direction,
-          labelPosition: 'bottom',
-          iconSrc: 'https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*N4ZMS7gHsUIAAAAAAAAAAABkARQnAQ',
+  const graph = new Graph({
+    container: canvas,
+    data,
+    node: {
+      style: {
+        type: 'triangle', // 👈🏻 Node shape type.
+        width: 40,
+        height: 40,
+        direction: (d) => d.data?.direction,
+        fill: '#1783FF',
+        labelText: (d) => d.id,
+        iconSrc: 'https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg',
+        halo: (d) => d.id.includes('halo'),
+        ports: (d) =>
+          d.id.includes('ports') ? [{ position: 'left' }, { position: 'top' }, { position: 'bottom' }] : [],
+        portStroke: '#31d0c6',
+        portFill: '#fff',
+        portR: 2,
+        portLineWidth: 1,
+        badges: (d) =>
+          d.id.includes('badges')
+            ? [
+                { text: 'A', position: 'right-top', backgroundFill: '#8291b2' },
+                { text: 'Important', position: 'right', backgroundFill: '#e66c5b' },
+                { text: 'Notice', position: 'right-bottom', backgroundFill: '#e5b95e' },
+              ]
+            : [],
+        badgeFill: '#fff',
+        badgeFontSize: 8,
+        badgePadding: [1, 4],
+      },
+      state: {
+        active: {
+          halo: true,
         },
-      }),
-    );
+        selected: {
+          halo: true,
+          lineWidth: 2,
+          stroke: '#000',
+        },
+        highlight: {
+          halo: false,
+          lineWidth: 2,
+          stroke: '#000',
+        },
+        inactive: {
+          opacity: 0.2,
+        },
+      },
+    },
+    layout: {
+      type: 'grid',
+    },
+    animation: false,
   });
 
-  canvas.appendChild(
-    new Triangle({
-      style: {
-        // key
-        x: 400,
-        y: 50,
-        fill: '#f8f8f8',
-        stroke: '#8b9baf',
-        width: 50,
-        height: 50,
-        // label
-        label: false,
-        labelText: 'no-label',
-        // halo
-        halo: true,
-        // ports
-        ports: [
-          { position: 'left', stroke: '#31d0c6', fill: '#fff' },
-          { position: 'right', stroke: '#31d0c6', fill: '#fff' },
-          { position: 'top', stroke: '#31d0c6', fill: '#fff' },
-        ],
-        // icon
-        iconSrc: 'https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*N4ZMS7gHsUIAAAAAAAAAAABkARQnAQ',
-        // badges
-        badges: [
-          { text: 'A', position: 'right-top', backgroundFill: '#8291b2', fill: '#fff', fontSize: 10, padding: [1, 4] },
-          { text: 'Important', position: 'right', backgroundFill: '#e66c5b', fill: '#fff', fontSize: 10 },
-          { text: 'Notice', position: 'right-bottom', backgroundFill: '#e5b95e', fill: '#fff', fontSize: 10 },
-        ],
-      },
-    }),
-  );
-
-  const node1 = canvas.appendChild(
-    new Triangle({
-      id: 'node1',
-      style: {
-        x: 100,
-        y: 250,
-        fill: '#f8f8f8',
-        stroke: '#8b9baf',
-        // ports
-        ports: [
-          { position: 'left', stroke: '#31d0c6', fill: '#fff' },
-          { position: 'right', stroke: '#31d0c6', fill: '#fff' },
-          { position: 'top', stroke: '#31d0c6', fill: '#fff' },
-        ],
-      },
-    }),
-  );
-
-  const node2 = canvas.appendChild(
-    new Triangle({
-      id: 'node2',
-      style: {
-        x: 200,
-        y: 175,
-        fill: '#f8f8f8',
-        stroke: '#8b9baf',
-        // ports
-        ports: [
-          { position: [0, 0.2], stroke: '#31d0c6', fill: '#fff' },
-          { position: [0, 0.5], stroke: '#31d0c6', fill: '#fff' },
-          { position: [0, 0.8], stroke: '#31d0c6', fill: '#fff' },
-        ],
-      },
-    }),
-  );
-
-  canvas.appendChild(
-    new Line({
-      id: 'line',
-      style: {
-        sourceNode: node1,
-        targetNode: node2,
-        stroke: '#1890FF',
-        endArrow: true,
-      },
-    }),
-  );
-
-  const node3 = canvas.appendChild(
-    new Triangle({
-      id: 'node3',
-      style: {
-        x: 250,
-        y: 250,
-        fill: '#f8f8f8',
-        stroke: '#8b9baf',
-      },
-    }),
-  );
-
-  const node4 = canvas.appendChild(
-    new Triangle({
-      id: 'node4',
-      style: {
-        x: 350,
-        y: 175,
-        fill: '#f8f8f8',
-        stroke: '#8b9baf',
-      },
-    }),
-  );
-
-  canvas.appendChild(
-    new Line({
-      id: 'line',
-      style: {
-        sourceNode: node3,
-        targetNode: node4,
-        stroke: '#1890FF',
-        endArrow: true,
-      },
-    }),
-  );
+  await graph.render();
+  graph.setElementState('triangle-active', 'active');
+  graph.setElementState('triangle-selected', 'selected');
+  graph.setElementState('triangle-highlight', 'highlight');
+  graph.setElementState('triangle-inactive', 'inactive');
 };
