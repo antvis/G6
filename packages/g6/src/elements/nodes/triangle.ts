@@ -1,4 +1,4 @@
-import type { DisplayObjectConfig, CircleStyleProps as GCircleStyleProps } from '@antv/g';
+import type { DisplayObjectConfig } from '@antv/g';
 import { deepMix, isEmpty } from '@antv/util';
 import type { Point, TrianglePortPosition } from '../../types';
 import { getPortPosition, getTrianglePoints, getTrianglePorts } from '../../utils/element';
@@ -36,14 +36,12 @@ export class Triangle extends Polygon<TriangleKeyShapeStyleProps> {
     return getTrianglePoints(width, height, direction);
   }
 
-  protected getPortStyle(attributes: ParsedTriangleStyleProps, style: NodePortStyleProps): GCircleStyleProps {
+  protected getPortXY(attributes: ParsedTriangleStyleProps, style: NodePortStyleProps): Point {
     const { width, height, direction } = attributes;
-    const { position = 'top', width: anchorWidth = 8, height: anchorHeight = 8, ...restStyle } = style;
+    const { position = 'top' } = style;
     const bbox = this.getKey().getLocalBounds();
     const ports = getTrianglePorts(width, height, direction);
-    const [cx, cy] = getPortPosition(bbox, position as TrianglePortPosition, ports, false);
-    const r = Math.min(anchorWidth, anchorHeight) / 2;
-    return Object.assign({ cx, cy, r }, restStyle);
+    return getPortPosition(bbox, position as TrianglePortPosition, ports, false);
   }
 
   // icon 处于三角形的重心

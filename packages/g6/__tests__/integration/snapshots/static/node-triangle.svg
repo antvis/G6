@@ -366,11 +366,11 @@
             <circle
               id="port-0"
               fill="rgba(255,255,255,1)"
-              transform="translate(-4,-4)"
-              cx="4"
-              cy="4"
+              transform="translate(-2,-2)"
+              cx="2"
+              cy="2"
               stroke="rgba(49,208,198,1)"
-              r="4"
+              r="2"
               stroke-width="1"
             />
           </g>
@@ -378,11 +378,11 @@
             <circle
               id="port-1"
               fill="rgba(255,255,255,1)"
-              transform="translate(-4,-4)"
-              cx="4"
-              cy="4"
+              transform="translate(-2,-2)"
+              cx="2"
+              cy="2"
               stroke="rgba(49,208,198,1)"
-              r="4"
+              r="2"
               stroke-width="1"
             />
           </g>
@@ -390,11 +390,11 @@
             <circle
               id="port-2"
               fill="rgba(255,255,255,1)"
-              transform="translate(-4,-4)"
-              cx="4"
-              cy="4"
+              transform="translate(-2,-2)"
+              cx="2"
+              cy="2"
               stroke="rgba(49,208,198,1)"
-              r="4"
+              r="2"
               stroke-width="1"
             />
           </g>

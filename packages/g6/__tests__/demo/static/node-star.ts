@@ -62,6 +62,7 @@ export const nodeStar: StaticTestCase = async (context) => {
           { position: 'left-bottom', stroke: '#31d0c6', fill: '#fff' },
           { position: 'right-bottom', stroke: '#31d0c6', fill: '#fff' },
         ],
+        portR: 4,
         // icon
         iconSrc: 'https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*N4ZMS7gHsUIAAAAAAAAAAABkARQnAQ',
         // badges
@@ -90,6 +91,7 @@ export const nodeStar: StaticTestCase = async (context) => {
           { position: [0, 0.5], stroke: '#31d0c6', fill: '#fff' },
           { position: [0, 0.8], stroke: '#31d0c6', fill: '#fff' },
         ],
+        portR: 4,
       },
     }),
   );
@@ -128,6 +130,7 @@ export const nodeStar: StaticTestCase = async (context) => {
           { position: 'right-bottom', stroke: '#31d0c6', fill: '#fff' },
           { position: 'bottom', stroke: '#31d0c6', fill: '#fff' },
         ],
+        portR: 4,
       },
     }),
   );
