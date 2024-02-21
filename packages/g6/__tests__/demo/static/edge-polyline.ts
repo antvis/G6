@@ -28,6 +28,7 @@ export const edgePolyline: StaticTestCase = async (context) => {
         x: 50,
         y: 40,
         ...commonNodeStyle,
+        labelText: 'Loop',
       },
     }),
   );
@@ -43,6 +44,17 @@ export const edgePolyline: StaticTestCase = async (context) => {
     }),
   );
 
+  canvas.appendChild(
+    new Polyline({
+      style: {
+        sourceNode: node0,
+        targetNode: node0,
+        stroke: '#1890FF',
+        loopPosition: 'bottom-right',
+      },
+    }),
+  );
+
   const node01 = canvas.appendChild(
     new Rect({
       id: 'node-0-1',
@@ -50,6 +62,7 @@ export const edgePolyline: StaticTestCase = async (context) => {
         x: 150,
         y: 40,
         ...commonNodeStyle,
+        labelText: 'Loop',
         port: true,
         ports: [
           { key: 'top', position: [0, 0.5], r: 2, fill: '#31d0c6' },
@@ -84,6 +97,7 @@ export const edgePolyline: StaticTestCase = async (context) => {
         x: 250,
         y: 40,
         ...commonNodeStyle,
+        labelText: 'Loop',
         port: true,
         ports: [{ key: 'top', position: [0.5, 0], r: 2, fill: '#31d0c6' }],
       },
@@ -244,7 +258,7 @@ export const edgePolyline: StaticTestCase = async (context) => {
         y: 420,
         labelText: '7',
         ...commonNodeStyle,
-        ports: [{ key: 'top', position: [0.3, 0], r: 2, stroke: '#31d0c6', fill: '#fff' }],
+        ports: [{ key: 'top', position: [0.3, 0], r: 2, fill: '#31d0c6' }],
       },
     }),
   );
@@ -272,77 +286,4 @@ export const edgePolyline: StaticTestCase = async (context) => {
       },
     }),
   );
-  // const node3 = canvas.appendChild(
-  //   new Circle({
-  //     id: 'node-3',
-  //     style: {
-  //       x: 150,
-  //       y: 150,
-  //       width: 30,
-  //       height: 30,
-  //       fill: '#f8f8f8',
-  //       stroke: '#8b9baf',
-  //       labelText: '3',
-  //       labelPosition: 'center',
-  //       labelFill: '#8b9baf',
-  //     },
-  //   }),
-  // );
-
-  // const node4 = canvas.appendChild(
-  //   new Circle({
-  //     id: 'node-4',
-  //     style: {
-  //       x: 50,
-  //       y: 200,
-  //       width: 30,
-  //       height: 30,
-  //       fill: '#f8f8f8',
-  //       stroke: '#8b9baf',
-  //       labelText: '4',
-  //       labelPosition: 'center',
-  //       labelFill: '#8b9baf',
-  //     },
-  //   }),
-  // );
-
-  // canvas.appendChild(
-  //   new Circle({
-  //     style: {
-  //       x: 100,
-  //       y: 190,
-  //       width: 4,
-  //       height: 4,
-  //       fill: '#1890FF',
-  //       zIndex: 5,
-  //     },
-  //   }),
-  // );
-
-  // canvas.appendChild(
-  //   new Circle({
-  //     style: {
-  //       x: 150,
-  //       y: 220,
-  //       width: 4,
-  //       height: 4,
-  //       fill: '#1890FF',
-  //       zIndex: 5,
-  //     },
-  //   }),
-  // );
-
-  // canvas.appendChild(
-  //   new Polyline({
-  //     style: {
-  //       sourceNode: node3,
-  //       targetNode: node4,
-  //       controlPoints: [
-  //         [100, 190],
-  //         [150, 220],
-  //       ],
-  //       stroke: '#1890FF',
-  //     },
-  //   }),
-  // );
 };
