@@ -18,7 +18,7 @@ import type {
   Point,
   PrefixObject,
 } from '../../types';
-import { getCubicPath, getLabelPositionStyle, getLoopPoints } from '../../utils/edge';
+import { getCubicLoopPath, getLabelPositionStyle } from '../../utils/edge';
 import { findPorts, getConnectionPoint, isSameNode } from '../../utils/element';
 import { omitStyleProps, subStyleProps } from '../../utils/prefix';
 import type { SymbolFactor } from '../../utils/symbol';
@@ -39,7 +39,7 @@ type EdgeArrowStyleProps = {
 } & PathStyleProps &
   Record<string, unknown>;
 
-type LoopStyleProps = BaseEdgeProps<{
+export type LoopStyleProps = {
   /**
    * <zh/> 边的位置
    * <en/> The position of the edge
@@ -55,7 +55,7 @@ type LoopStyleProps = BaseEdgeProps<{
    * <en/> Determine the position from the edge of the node keyShape to the top of the self-loop, used to specify the curvature of the self-loop, the default value is the maximum of the width or height
    */
   dist?: number;
-}>;
+};
 
 export type BaseEdgeStyleProps<KT> = BaseShapeStyleProps &
   KT & {
@@ -131,33 +131,15 @@ export abstract class BaseEdge<KT extends BaseEdgeProps<object>> extends BaseSha
 
   protected abstract getKeyPath(attributes: ParsedBaseEdgeStyleProps<KT>): PathArray;
 
-  protected getLoopPath(attributes: ParsedBaseEdgeStyleProps<KT>): PathArray | undefined {
-    const {
-      sourceNode: node,
-      sourcePort: sourcePortKey,
-      targetPort: targetPortKey,
-      sourcePoint: rawSourcePoint,
-      targetPoint: rawTargetPoint,
-    } = attributes;
+  protected getLoopPath(attributes: ParsedBaseEdgeStyleProps<KT>): PathArray {
+    const { sourceNode: node, sourcePort, targetPort, sourcePoint, targetPoint } = attributes;
 
-    if (!node) return;
-
-    const { position, clockwise, dist } = subStyleProps<LoopStyleProps>(
+    const { position, clockwise, dist } = subStyleProps<Required<LoopStyleProps>>(
       this.getGraphicStyle(attributes),
       'loop',
-    ) as Required<LoopStyleProps>;
-
-    const { sourcePoint, targetPoint, controlPoints } = getLoopPoints(
-      node,
-      sourcePortKey!,
-      targetPortKey!,
-      rawSourcePoint!,
-      rawTargetPoint!,
-      position,
-      clockwise,
-      dist,
     );
-    return getCubicPath(sourcePoint, targetPoint, controlPoints);
+
+    return getCubicLoopPath(node, position, clockwise, dist, sourcePort, targetPort, sourcePoint, targetPoint);
   }
 
   protected getEndpoints(attributes: ParsedBaseEdgeStyleProps<KT>): [Point, Point] {

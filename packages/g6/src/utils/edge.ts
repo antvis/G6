@@ -97,7 +97,7 @@ function getXYByPosition(key: EdgeKey, ratio: number, offsetX: number, offsetY: 
   return [pointX + actualOffsetX, pointY + actualOffsetY];
 }
 
-/** ==================== Quadratic Edge =========================== */
+/** ==================== Curve Edge =========================== */
 
 /**
  * <zh/> 获取二次贝塞尔曲线绘制路径
@@ -105,23 +105,13 @@ function getXYByPosition(key: EdgeKey, ratio: number, offsetX: number, offsetY: 
  * <en/> Calculate the path for drawing a quadratic Bessel curve
  * @param sourcePoint - <zh/> 边的起点 | <en/> Source point
  * @param targetPoint - <zh/> 边的终点 | <en/> Target point
- * @param curvePosition - <zh/> 控制点在连线上的相对位置（取值范围为 0-1） | <en/> The relative position of the control point on the line (value range from 0 to 1)
- * @param curveOffset - <zh/> 控制点距离两端点连线的距离 | <en/> The distance between the control point and the line
  * @param controlPoint - <zh/> 控制点 | <en/> Control point
  * @returns <zh/> 返回绘制曲线的路径 | <en/> Returns curve path
  */
-export function getQuadraticPath(
-  sourcePoint: Point,
-  targetPoint: Point,
-  curvePosition: number,
-  curveOffset: number,
-  controlPoint?: Point,
-): PathArray {
-  const actualControlPoint = controlPoint || getCurveControlPoint(sourcePoint, targetPoint, curvePosition, curveOffset);
-
+export function getQuadraticPath(sourcePoint: Point, targetPoint: Point, controlPoint: Point): PathArray {
   return [
     ['M', sourcePoint[0], sourcePoint[1]],
-    ['Q', actualControlPoint[0], actualControlPoint[1], targetPoint[0], targetPoint[1]],
+    ['Q', controlPoint[0], controlPoint[1], targetPoint[0], targetPoint[1]],
   ];
 }
 
@@ -151,8 +141,6 @@ export function getCurveControlPoint(
   controlPoint[1] += curveOffset * perpVector[1];
   return controlPoint;
 }
-
-/** ==================== Cubic Edge =========================== */
 
 /**
  * <zh/> 解析控制点距离两端点连线的距离 `curveOffset`
@@ -210,9 +198,10 @@ export function getCubicPath(sourcePoint: Point, targetPoint: Point, controlPoin
  * <en/> Calculates the path for drawing a polyline
  * @param points - <zh/> 折线的顶点 | <en/> The vertices of the polyline
  * @param radius - <zh/> 圆角半径 | <en/> Radius of the rounded corner
+ * @param z - <zh/> 路径是否闭合 | <en/> Whether the path is closed
  * @returns <zh/> 返回绘制折线的路径 | <en/> Returns the path for drawing a polyline
  */
-export function getPolylinePath(points: Point[], radius = 0): PathArray {
+export function getPolylinePath(points: Point[], radius = 0, z = false): PathArray {
   const sourcePoint = points[0];
   const targetPoint = points[points.length - 1];
   const controlPoints = points.slice(1, points.length - 1);
@@ -228,6 +217,7 @@ export function getPolylinePath(points: Point[], radius = 0): PathArray {
     }
   });
   pathArray.push(['L', targetPoint[0], targetPoint[1]]);
+  if (z) pathArray.push(['Z']);
   return pathArray;
 }
 
@@ -275,6 +265,43 @@ const radians: Record<LoopEdgePosition, [number, number]> = {
   'top-left': [-7 * EIGHTH_PI, -5 * EIGHTH_PI],
   'left-top': [-7 * EIGHTH_PI, -5 * EIGHTH_PI],
 };
+
+/**
+ * <zh/> 获取环形边的绘制路径
+ *
+ * <en/> Get the path of the loop edge
+ * @param node - <zh/> 节点实例 | <en/> Node instance
+ * @param position - <zh/> 环形边的位置 | <en/> The position of the loop edge
+ * @param clockwise - <zh/> 是否顺时针 | <en/> Whether to draw the loop clockwise
+ * @param dist - <zh/> 从节点 keyShape 边缘到自环顶部的距离 | <en/> The distance from the edge of the node keyShape to the top of the self-loop
+ * @param sourcePortKey - <zh/> 起点锚点 key | <en/> Source port key
+ * @param targetPortKey - <zh/> 终点锚点 key | <en/> Target port key
+ * @param rawSourcePoint - <zh/> 起点 | <en/> Source point
+ * @param rawTargetPoint - <zh/> 终点 | <en/> Target point
+ * @returns <zh/> 返回绘制环形边的路径 | <en/> Returns the path of the loop edge
+ */
+export function getCubicLoopPath(
+  node: Node,
+  position: LoopEdgePosition,
+  clockwise: boolean,
+  dist: number,
+  sourcePortKey?: string,
+  targetPortKey?: string,
+  rawSourcePoint?: Point,
+  rawTargetPoint?: Point,
+) {
+  const { sourcePoint, targetPoint, controlPoints } = getCubicLoopPoints(
+    node,
+    position,
+    clockwise,
+    dist,
+    sourcePortKey,
+    targetPortKey,
+    rawSourcePoint,
+    rawTargetPoint,
+  );
+  return getCubicPath(sourcePoint, targetPoint, controlPoints);
+}
 
 /**
  * <zh/> 获取环形边的起点和终点
@@ -332,7 +359,7 @@ export function getLoopEndpoints(
  * @param dist - <zh/> 从节点 keyShape 边缘到自环顶部的距离 | <en/> The distance from the edge of the node keyShape to the top of the self-loop
  * @returns <zh/> 控制点 | <en/> Control points
  */
-export function getLoopControlPoints(
+export function getCubicLoopControlPoints(
   node: Node,
   sourcePoint: Point,
   targetPoint: Point,
@@ -376,22 +403,22 @@ export function getLoopControlPoints(
  * @param dist - <zh/> 从节点 keyShape 边缘到自环顶部的距离 | <en/> The distance from the edge of the node keyShape to the top of the self-loop
  * @returns <zh/> 起点、终点和控制点 | <en/> Start, end, and control points
  */
-export function getLoopPoints(
+export function getCubicLoopPoints(
   node: Node,
-  sourcePortKey: string,
-  targetPortKey: string,
-  rawSourcePoint: Point,
-  rawTargetPoint: Point,
   position: LoopEdgePosition,
   clockwise: boolean,
   dist?: number,
+  sourcePortKey?: string,
+  targetPortKey?: string,
+  rawSourcePoint?: Point,
+  rawTargetPoint?: Point,
 ): {
   sourcePoint: Point;
   targetPoint: Point;
   controlPoints: [Point, Point];
 } {
-  const sourcePort = node.getPorts()[sourcePortKey || targetPortKey];
-  const targetPort = node.getPorts()[targetPortKey || sourcePortKey];
+  const sourcePort = node.getPorts()[(sourcePortKey || targetPortKey)!];
+  const targetPort = node.getPorts()[(targetPortKey || sourcePortKey)!];
 
   let [sourcePoint, targetPoint] = getLoopEndpoints(
     node,
@@ -403,7 +430,7 @@ export function getLoopPoints(
     rawTargetPoint,
   );
 
-  const controlPoints = getLoopControlPoints(node, sourcePoint, targetPoint, dist);
+  const controlPoints = getCubicLoopControlPoints(node, sourcePoint, targetPoint, dist);
 
   // 如果定义了端点锚点，调整端点以与锚点边界相交
   // If the endpoint anchor point is defined, adjust the endpoint to intersect with the anchor point boundary

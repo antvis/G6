@@ -85,25 +85,14 @@ describe('edge', () => {
   describe('getQuadraticPath', () => {
     const sourcePoint: Point = [0, 10];
     const targetPoint: Point = [10, 10];
-    const curvePosition = 0.5;
-    const curveOffset = 5;
     const controlPoint: Point = [100, 100];
 
     it('should return the correct path for given source and target points with a control point', () => {
-      const path = getQuadraticPath(sourcePoint, targetPoint, curvePosition, curveOffset, controlPoint);
+      const path = getQuadraticPath(sourcePoint, targetPoint, controlPoint);
 
       expect(path).toEqual([
         ['M', 0, 10],
         ['Q', 100, 100, 10, 10],
-      ]);
-    });
-
-    it('should return the correct path for given source and target points without a control point', () => {
-      const path = getQuadraticPath(sourcePoint, targetPoint, curvePosition, curveOffset);
-
-      expect(path).toEqual([
-        ['M', 0, 10],
-        ['Q', 5, 5, 10, 10],
       ]);
     });
   });
@@ -118,7 +107,7 @@ describe('edge', () => {
       ];
       const radius = 0;
 
-      expect(getPolylinePath(sourcePoint, targetPoint, controlPoints, radius)).toEqual([
+      expect(getPolylinePath([sourcePoint, ...controlPoints, targetPoint], radius)).toEqual([
         ['M', 0, 0],
         ['L', 0, 5],
         ['L', 5, 10],
@@ -135,7 +124,7 @@ describe('edge', () => {
       ];
       const radius = 2;
 
-      const result = getPolylinePath(sourcePoint, targetPoint, controlPoints, radius);
+      const result = getPolylinePath([sourcePoint, ...controlPoints, targetPoint], radius);
       expect(result).toEqual([
         ['M', 0, 0],
         ['L', 3, 0],

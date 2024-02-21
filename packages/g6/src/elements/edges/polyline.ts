@@ -55,7 +55,7 @@ export class Polyline extends BaseEdge<PolylineKeyStyleProps> {
   protected getKeyPath(attributes: ParsedPolylineStyleProps): PathArray {
     const { sourceNode, targetNode, radius } = attributes;
 
-    // 1. 获取端点和锚点（节点上的特定接入点） | Get endpoints and ports
+    // 1. 获取端点和连接桩（节点上的特定接入点） | Get endpoints and ports
     const { sourcePoint, targetPoint, sourcePort, targetPort } = this.getEndpointsAndPorts(attributes);
 
     // 2. 计算控制点 | Calculate control points

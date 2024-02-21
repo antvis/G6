@@ -65,7 +65,7 @@ export function getPortPosition(
 }
 
 /**
- * <zh/> 查找起始锚点和目标锚点
+ * <zh/> 查找起始连接桩和目标锚点
  *
  * <en/> Find the source port and target port
  * @param sourceNode - <zh/> 起始节点 | <en/> Source Node
@@ -97,7 +97,7 @@ export function findPorts(
  * @param oppositeNode - <zh/> 对端节点 | <en/> Opposite Node
  * @param portKey - <zh/> 锚点的 key | <en/> Port Key
  * @param oppositePortKey - <zh/> 对端锚点的 key | <en/> Opposite Port Key
- * @returns <zh/> 锚点 | <en/> Port
+ * @returns <zh/> 连接桩 | <en/> Port
  */
 export function findPort(node: Node, oppositeNode: Node, portKey?: string, oppositePortKey?: string): Port | undefined {
   if (portKey) return node.getPorts()[portKey];
@@ -145,7 +145,7 @@ export function getConnectionPoint(node: Port | Node, opposite: Point | Node | P
  * <zh/> 获取锚点的连接点，即从锚点中心到另一端的连线在锚点边界上的交点
  *
  * <en/> Get the connection point of the port
- * @param port - <zh/> 锚点 | <en/> Port
+ * @param port - <zh/> 连接桩 | <en/> Port
  * @param opposite - <zh/> 对端的具体点或节点 | <en/> Opposite Point or Node
  * @param oppositePort - <zh/> 对端锚点 | <en/> Opposite Port
  * @returns <zh/> 锚点的连接点 | <en/> Port Point
