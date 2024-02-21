@@ -346,7 +346,7 @@ export class Graph extends EventEmitter {
    */
   public async render(): Promise<void> {
     await this.prepare();
-    await this.context.element?.render(this.context);
+    await this.context.element?.draw(this.context);
     await this.context.layout?.layout();
   }
 
@@ -358,7 +358,7 @@ export class Graph extends EventEmitter {
    */
   public async draw() {
     await this.prepare();
-    await this.context.element?.render(this.context);
+    await this.context.element?.draw(this.context);
   }
 
   public async layout(): Promise<void> {
@@ -372,7 +372,7 @@ export class Graph extends EventEmitter {
    */
   public async clear(): Promise<void> {
     this.context.model.setData({});
-    await this.context.element?.render(this.context);
+    await this.context.element?.draw(this.context);
   }
 
   public destroy(): void {
@@ -473,7 +473,7 @@ export class Graph extends EventEmitter {
     return this.context.viewport!.getViewportCenter();
   }
 
-  public async translateElementBy(offsets: Positions, animation?: boolean): Promise<void> {
+  public translateElementBy(offsets: Positions, animation?: boolean): void {
     const positions = Object.entries(offsets).reduce((acc, [id, offset]) => {
       const curr = this.getElementPosition(id);
       const next = add(curr, offset);
@@ -481,11 +481,11 @@ export class Graph extends EventEmitter {
       return acc;
     }, {} as Positions);
 
-    await this.translateElementTo(positions, animation);
+    this.translateElementTo(positions, animation);
   }
 
-  public async translateElementTo(positions: Positions, animation?: boolean): Promise<void> {
-    await this.context.element!.updateNodeLikePosition(positions, animation);
+  public translateElementTo(positions: Positions, animation?: boolean): void {
+    this.context.element!.updateNodeLikePosition(positions, animation);
   }
 
   public getElementPosition(id: ID): Point {

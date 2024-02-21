@@ -136,7 +136,7 @@ export class LayoutController {
     // 无迭代的布局，直接返回终态位置 / Layout without iteration, return final position directly
     const layoutResult = await layout.execute(model);
     if (animation) {
-      await this.updateElement(layoutResult, animation);
+      this.updateElement(layoutResult, animation);
     }
     return layoutResult;
   }
@@ -176,7 +176,7 @@ export class LayoutController {
     });
 
     if (animation) {
-      await this.updateElement(layoutResult, animation);
+      this.updateElement(layoutResult, animation);
     }
 
     return layoutResult;
@@ -338,10 +338,10 @@ export class LayoutController {
     return new Ctor(config);
   }
 
-  private async updateElement(layoutData: LayoutMapping, animation: boolean) {
+  private updateElement(layoutData: LayoutMapping, animation: boolean) {
     const { element } = this.context;
     if (!element) return null;
-    await element.updateByLayoutResult(pickLayoutResult(layoutData), animation);
+    element.updateByLayoutResult(pickLayoutResult(layoutData), animation);
   }
 
   public destroy() {

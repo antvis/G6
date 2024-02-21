@@ -3,7 +3,7 @@
 import type { BaseStyleProps, DisplayObject, IAnimation } from '@antv/g';
 import { Group } from '@antv/g';
 import type { ID } from '@antv/graphlib';
-import { groupBy, noop, pick } from '@antv/util';
+import { groupBy, pick } from '@antv/util';
 import { executor as animationExecutor } from '../animations';
 import type { AnimationContext } from '../animations/types';
 import { AnimationTypeEnum, ChangeTypeEnum, GraphEvent } from '../constants';
@@ -16,6 +16,7 @@ import type { AnimationStage } from '../spec/element/animation';
 import type { EdgeStyle } from '../spec/element/edge';
 import type { NodeLikeStyle } from '../spec/element/node';
 import type {
+  AnimatableTask,
   DataChange,
   ElementData,
   ElementDatum,
@@ -23,14 +24,25 @@ import type {
   LayoutResult,
   Positions,
   State,
+  States,
   StyleIterationContext,
   ZIndex,
 } from '../types';
-import { createAnimationsProxy, inferDefaultValue, invokeOnFinished } from '../utils/animation';
+import { executeAnimatableTasks, inferDefaultValue, withAnimationCallbacks } from '../utils/animation';
 import { deduplicate } from '../utils/array';
 import { cacheStyle, getCachedStyle } from '../utils/cache';
 import { reduceDataChanges } from '../utils/change';
+import { isEmptyData } from '../utils/data';
 import { isVisible, updateStyle } from '../utils/element';
+import {
+  AnimateEvent,
+  DrawEvent,
+  ElementStateChangeEvent,
+  ElementTranslateEvent,
+  ElementVisibilityChangeEvent,
+  ElementZIndexChangeEvent,
+  type Event,
+} from '../utils/event';
 import { idOf } from '../utils/id';
 import { assignColorByPalette, parsePalette } from '../utils/palette';
 import { computeElementCallbackStyle } from '../utils/style';
@@ -45,13 +57,10 @@ type AnimationExecutor = (
 ) => IAnimation | null;
 
 type RenderContext = {
-  taskId: TaskID;
   animator?: AnimationExecutor;
   /** <zh/> 是否使用动画，默认为 true | <en/> Whether to use animation, default is true */
   animation: boolean;
 };
-
-type TaskID = number;
 
 export class ElementController {
   private context: RuntimeContext;
@@ -62,28 +71,9 @@ export class ElementController {
     combo: Group;
   };
 
-  private animationMap: Record<TaskID, Record<ID, IAnimation>> = {};
-
   private elementMap: Record<ID, DisplayObject> = {};
 
-  private postRenderTasks: Record<TaskID, (() => Promise<void>)[]> = {};
-
   private shapeTypeMap: Record<ID, string> = {};
-
-  private taskIdCounter = 0;
-
-  /**
-   * <zh/> 获取渲染任务 id
-   *
-   * <en/> Get render task id
-   */
-  private getTaskId() {
-    return this.taskIdCounter++;
-  }
-
-  private getTasks(taskId: TaskID) {
-    return this.postRenderTasks[taskId] || [];
-  }
 
   constructor(context: RuntimeContext) {
     this.context = context;
@@ -102,9 +92,9 @@ export class ElementController {
     }
   }
 
-  private emit(event: GraphEvent, payload?: any) {
+  private emit(event: Event) {
     const { graph } = this.context;
-    graph.emit(event, payload);
+    graph.emit(event.type, event);
   }
 
   private getElementData(elementType: ElementType, ids?: ID[]) {
@@ -232,7 +222,7 @@ export class ElementController {
     });
   }
 
-  public setElementsState(states: Record<ID, State[]>) {
+  public setElementsState(states: States) {
     const graphData: Required<GraphData> = { nodes: [], edges: [], combos: [] };
 
     Object.entries(states).forEach(([id, state]) => {
@@ -244,13 +234,19 @@ export class ElementController {
       graphData[`${elementType}s`].push(datum as any);
     });
 
-    const taskId = this.preRender();
+    const tasks = this.getUpdateTasks(graphData, { animation: false });
 
-    this.emit(GraphEvent.BEFORE_ELEMENT_STATE_CHANGE, { states });
-
-    this.updateElements(graphData, { taskId, animation: true });
-    return this.postRender(taskId, AnimationTypeEnum.ELEMENT_STATE_CHANGE, () => {
-      this.emit(GraphEvent.AFTER_ELEMENT_STATE_CHANGE, { states });
+    executeAnimatableTasks(tasks, {
+      before: () => this.emit(new ElementStateChangeEvent(GraphEvent.BEFORE_ELEMENT_STATE_CHANGE, states)),
+      beforeAnimate: (animation) =>
+        this.emit(
+          new AnimateEvent(GraphEvent.BEFORE_ANIMATE, AnimationTypeEnum.ELEMENT_STATE_CHANGE, animation, states),
+        ),
+      afterAnimate: (animation) =>
+        this.emit(
+          new AnimateEvent(GraphEvent.AFTER_ANIMATE, AnimationTypeEnum.ELEMENT_STATE_CHANGE, animation, states),
+        ),
+      after: () => this.emit(new ElementStateChangeEvent(GraphEvent.AFTER_ELEMENT_STATE_CHANGE, states)),
     });
   }
 
@@ -468,27 +464,18 @@ export class ElementController {
 
   // ---------- Render API ----------
 
-  private preRender() {
-    // 创建渲染任务 / Create render task
-    const taskId = this.getTaskId();
-    this.postRenderTasks[taskId] = [];
-    this.animationMap[taskId] = {};
-    return taskId;
-  }
-
   /**
    * <zh/> 开始绘制流程
    *
    * <en/> start render process
    */
-  public async render(context: RuntimeContext) {
+  public async draw(context: RuntimeContext) {
     this.context = context;
     const { model } = context;
 
     const tasks = reduceDataChanges(model.getChanges());
-    if (tasks.length === 0) return;
+    if (tasks.length === 0) return null;
 
-    this.emit(GraphEvent.BEFORE_RENDER);
     await this.init();
 
     const {
@@ -544,49 +531,33 @@ export class ElementController {
     this.computeStyle();
 
     // 创建渲染任务 / Create render task
-    const taskId = this.preRender();
-    const renderContext = { taskId, animation: true };
-    this.destroyElements({ nodes: nodesToRemove, edges: edgesToRemove, combos: combosToRemove }, renderContext);
-    this.createElements({ nodes: nodesToAdd, edges: edgesToAdd, combos: combosToAdd }, renderContext);
-    this.updateElements(
-      {
-        nodes: nodesToUpdate,
-        edges: deduplicate(edgesToUpdate, idOf),
-        combos: deduplicate(combosToUpdate, idOf),
-      },
+    const renderContext = { animation: true };
+
+    const destroyTasks = this.getDestroyTasks(
+      { nodes: nodesToRemove, edges: edgesToRemove, combos: combosToRemove },
       renderContext,
     );
 
-    return this.postRender(taskId, AnimationTypeEnum.RENDER, () => {
-      this.emit(GraphEvent.AFTER_RENDER);
-    });
-  }
-
-  private async postRender(taskId: TaskID, taskName: string, onfinish = noop) {
-    const tasks = this.getTasks(taskId);
-    // 执行后续任务 / Execute subsequent tasks
-    Promise.all(tasks.map((task) => task())).then(() => {
-      delete this.postRenderTasks[taskId];
-      delete this.animationMap[taskId];
-    });
-
-    const getRenderResult = (taskId: TaskID): IAnimation | null => {
-      const [source, ...target] = Object.values(this.animationMap[taskId]);
-      if (source) return createAnimationsProxy(source, target);
-      return null;
-    };
-
-    const result = getRenderResult(taskId);
-
-    if (result) this.context.graph.emit(GraphEvent.BEFORE_ANIMATE, { type: taskName, animation: result });
-
-    invokeOnFinished(
-      result,
-      () => onfinish(),
-      () => this.context.graph.emit(GraphEvent.AFTER_ANIMATE, { type: taskName, animation: result }),
+    const createTasks = this.getCreateTasks(
+      { nodes: nodesToAdd, edges: edgesToAdd, combos: combosToAdd },
+      renderContext,
     );
 
-    await result?.finished;
+    const updateTasks = this.getUpdateTasks(
+      { nodes: nodesToUpdate, edges: deduplicate(edgesToUpdate, idOf), combos: deduplicate(combosToUpdate, idOf) },
+      renderContext,
+    );
+
+    return (
+      executeAnimatableTasks([...destroyTasks, ...createTasks, ...updateTasks], {
+        before: () => this.emit(new DrawEvent(GraphEvent.BEFORE_DRAW)),
+        beforeAnimate: (animation) =>
+          this.emit(new AnimateEvent(GraphEvent.BEFORE_ANIMATE, AnimationTypeEnum.DRAW, animation)),
+        afterAnimate: (animation) =>
+          this.emit(new AnimateEvent(GraphEvent.AFTER_ANIMATE, AnimationTypeEnum.DRAW, animation)),
+        after: () => this.emit(new DrawEvent(GraphEvent.AFTER_DRAW)),
+      })?.finished || null
+    );
   }
 
   private getShapeType(elementType: ElementType, renderData: Record<string, any>) {
@@ -602,18 +573,17 @@ export class ElementController {
   }
 
   private createElement(elementType: ElementType, datum: ElementDatum, context: RenderContext) {
-    const { animator, taskId } = context;
-
+    const { animator } = context;
     const id = idOf(datum);
     const currentShape = this.getElement(id);
-    if (currentShape) return;
+    if (currentShape) return () => null;
 
     const renderData = this.getElementComputedStyle(elementType, id);
 
     // get shape constructor
     const shapeType = this.getShapeType(elementType, renderData);
     const Ctor = getPlugin(elementType, shapeType);
-    if (!Ctor) return;
+    if (!Ctor) return () => null;
     const shape = this.container[elementType].appendChild(
       // @ts-expect-error TODO fix type
       new Ctor({
@@ -626,73 +596,57 @@ export class ElementController {
     ) as DisplayObject;
 
     this.shapeTypeMap[id] = shapeType;
-
-    const tasks = this.getTasks(taskId);
-    tasks.push(async () => {
-      const result = animator?.(id, shape, { ...shape.attributes, opacity: 0 });
-      if (result) {
-        this.animationMap[taskId][id] = result;
-        await result.finished;
-      }
-    });
-
     this.elementMap[id] = shape;
+
+    return () => animator?.(id, shape, { ...shape.attributes, opacity: 0 }) || null;
   }
 
-  private createElements(data: GraphData, context: Omit<RenderContext, 'animator'>) {
-    // 新增相应的元素数据
-    // 重新计算色板样式
+  private getCreateTasks(data: GraphData, context: Omit<RenderContext, 'animator'>): AnimatableTask[] {
+    if (isEmptyData(data)) return [];
 
     const { nodes = [], edges = [], combos = [] } = data;
-    this.emit(GraphEvent.BEFORE_ELEMENT_CREATE, { data });
-
     const iteration: [ElementType, ElementData][] = [
       ['node', nodes],
       ['edge', edges],
       ['combo', combos],
     ];
 
+    const tasks: AnimatableTask[] = [];
     iteration.forEach(([elementType, elementData]) => {
       if (elementData.length === 0) return;
       const animator = this.getAnimationExecutor(elementType, 'enter');
-      elementData.forEach((datum) => this.createElement(elementType, datum, { ...context, animator }));
+      elementData.forEach((datum) =>
+        tasks.push(() => this.createElement(elementType, datum, { ...context, animator })),
+      );
     });
 
-    this.emit(GraphEvent.AFTER_ELEMENT_CREATE, { data });
+    return tasks;
   }
 
-  private async updateElement(elementType: ElementType, datum: ElementDatum, context: RenderContext) {
-    const { animator, taskId } = context;
+  private updateElement(elementType: ElementType, datum: ElementDatum, context: RenderContext) {
+    const { animator } = context;
     this.handleTypeChange(elementType, datum, context);
 
     const id = idOf(datum);
     const shape = this.getElement(id);
-    if (!shape) return;
+    if (!shape) return () => null;
     const style = this.getElementComputedStyle(elementType, id);
     const originalStyle = { ...shape.attributes };
 
     updateStyle(shape, style);
 
-    const tasks = this.getTasks(taskId);
-    tasks.push(async () => {
-      const result = animator?.(id, shape, originalStyle);
-      if (result) {
-        this.animationMap[taskId][id] = result;
-        await result?.finished;
-      }
-    });
+    return () => animator?.(id, shape, originalStyle) || null;
   }
 
-  public async updateNodeLikePosition(positions: Positions, animation: boolean = true, edgeIds: ID[] = []) {
+  public updateNodeLikePosition(positions: Positions, animation: boolean = true, edgeIds: ID[] = []) {
+    if (Object.keys(positions).length === 0) return null;
     const { model } = this.context;
-    const taskId = this.preRender();
-
-    this.emit(GraphEvent.BEFORE_ELEMENT_TRANSLATE, { positions });
 
     const animationsFilter: AnimationContext['animationsFilter'] = (animation) => !animation.shape;
     const nodeAnimator = this.getAnimationExecutor('node', 'update', animation, { animationsFilter });
     const comboAnimator = this.getAnimationExecutor('combo', 'update', animation, { animationsFilter });
 
+    const nodeTasks: AnimatableTask[] = [];
     Object.entries(positions).forEach(([id, [x, y, z]]) => {
       const element = this.getElement(id);
       const elementType = this.context.model.isCombo(id) ? 'combo' : 'node';
@@ -702,45 +656,44 @@ export class ElementController {
       const originalPosition = pick(element.attributes, ['x', 'y', 'z']);
       const modifiedPosition = { x, y, z };
 
-      this.setRuntimeStyle(id, modifiedPosition);
-
-      element.attr({ x, y, z });
-
-      if (taskId) {
-        this.getTasks(taskId).push(async () => {
-          const result = animator(id, element, originalPosition);
-          if (result) {
-            this.animationMap[taskId][id] = result;
-            await result.finished;
-          }
-        });
-        return null;
-      }
-
-      animator(id, element, originalPosition);
+      nodeTasks.push(() => {
+        this.setRuntimeStyle(id, modifiedPosition);
+        element.attr({ x, y, z });
+        return () => animator(id, element, originalPosition);
+      });
     });
 
-    this.updateEdgeEnds(
-      Object.keys(positions).reduce(
-        (acc, id) => {
-          if (!model.isCombo(id)) {
-            model.getRelatedEdgesData(id).forEach((edge) => acc.push(idOf(edge)));
-          }
-          return acc;
-        },
-        [...edgeIds],
-      ),
-      { animation, taskId },
+    const edgeTasks = this.getUpdateTasks(
+      {
+        nodes: [],
+        edges: model.getEdgeData(
+          Object.keys(positions).reduce(
+            (acc, id) => {
+              if (!model.isCombo(id)) {
+                model.getRelatedEdgesData(id).forEach((edge) => acc.push(idOf(edge)));
+              }
+              return acc;
+            },
+            [...edgeIds],
+          ),
+        ),
+        combos: [],
+      },
+      { animation },
     );
 
-    await this.postRender(taskId, AnimationTypeEnum.ELEMENT_TRANSLATE);
-
-    this.emit(GraphEvent.AFTER_ELEMENT_TRANSLATE, { positions });
-  }
-
-  private updateEdgeEnds(ids: ID[], context: Omit<RenderContext, 'animator'>) {
-    const { model } = this.context;
-    this.updateElements({ nodes: [], edges: model.getEdgeData(ids), combos: [] }, context);
+    return withAnimationCallbacks(executeAnimatableTasks([...nodeTasks, ...edgeTasks]), {
+      before: () => this.emit(new ElementTranslateEvent(GraphEvent.BEFORE_ELEMENT_TRANSLATE, positions)),
+      beforeAnimate: (animation) =>
+        this.emit(
+          new AnimateEvent(GraphEvent.BEFORE_ANIMATE, AnimationTypeEnum.ELEMENT_TRANSLATE, animation, positions),
+        ),
+      afterAnimate: (animation) =>
+        this.emit(
+          new AnimateEvent(GraphEvent.AFTER_ANIMATE, AnimationTypeEnum.ELEMENT_TRANSLATE, animation, positions),
+        ),
+      after: () => this.emit(new ElementTranslateEvent(GraphEvent.AFTER_ELEMENT_TRANSLATE, positions)),
+    });
   }
 
   /**
@@ -748,7 +701,7 @@ export class ElementController {
    *
    * <en/> Update based on layout results
    */
-  public async updateByLayoutResult(layoutResult: LayoutResult, animation: boolean = true) {
+  public updateByLayoutResult(layoutResult: LayoutResult, animation: boolean = true) {
     const { nodes: nodeLikeResults, edges: edgeResults } = layoutResult;
     if (Object.keys(nodeLikeResults).length === 0 && Object.keys(edgeResults).length === 0) return null;
 
@@ -758,13 +711,13 @@ export class ElementController {
     //   this.setRuntimeStyle(id, style);
     // });
 
-    await this.updateNodeLikePosition(nodeLikeResults, animation, Object.keys(edgeResults));
+    this.updateNodeLikePosition(nodeLikeResults, animation, Object.keys(edgeResults));
   }
 
-  private updateElements(data: GraphData, context: Omit<RenderContext, 'animator'>) {
-    const { nodes = [], edges = [], combos = [] } = data;
-    this.emit(GraphEvent.BEFORE_ELEMENT_UPDATE, { data });
+  private getUpdateTasks(data: GraphData, context: Omit<RenderContext, 'animator'>): AnimatableTask[] {
+    if (isEmptyData(data)) return [];
 
+    const { nodes = [], edges = [], combos = [] } = data;
     const iteration: [ElementType, ElementData][] = [
       ['node', nodes],
       ['edge', edges],
@@ -772,13 +725,16 @@ export class ElementController {
     ];
 
     const { animation } = context;
-
+    const tasks: AnimatableTask[] = [];
     iteration.forEach(([elementType, elementData]) => {
-      if (elementData.length === 0) return;
+      if (elementData.length === 0) return [];
       const animator = this.getAnimationExecutor(elementType, 'update', animation);
-      elementData.forEach((datum) => this.updateElement(elementType, datum, { ...context, animator }));
+      elementData.forEach((datum) =>
+        tasks.push(() => this.updateElement(elementType, datum, { ...context, animator })),
+      );
     });
-    this.emit(GraphEvent.AFTER_ELEMENT_UPDATE, { data });
+
+    return tasks;
   }
 
   /**
@@ -800,60 +756,64 @@ export class ElementController {
     }
   }
 
-  protected destroyElement(datum: ElementDatum, context: RenderContext) {
-    const { animator, taskId } = context;
+  private destroyElement(datum: ElementDatum, context: RenderContext) {
+    const { animator } = context;
     const id = idOf(datum);
     const element = this.elementMap[id];
-    if (!element) return;
+    if (!element) return () => null;
 
-    const tasks = this.getTasks(taskId);
-
-    tasks.push(async () => {
-      const result = animator?.(id, element, { ...element.attributes }, { opacity: 0 });
-      if (result) {
-        this.animationMap[taskId][id] = result;
-        result.onfinish = () => element.destroy();
-      } else {
-        element.destroy();
-      }
-    });
+    return () => {
+      const result = animator?.(id, element, { ...element.attributes }, { opacity: 0 }) || null;
+      withAnimationCallbacks(result, {
+        after: () => {
+          this.clearElement(id);
+          element.destroy();
+        },
+      });
+      return result;
+    };
   }
 
-  protected destroyElements(data: GraphData, context: Omit<RenderContext, 'animator'>) {
-    const { nodes = [], edges = [], combos = [] } = data;
+  private getDestroyTasks(data: GraphData, context: Omit<RenderContext, 'animator'>): AnimatableTask[] {
+    if (isEmptyData(data)) return [];
 
+    const { nodes = [], edges = [], combos = [] } = data;
     const iteration: [ElementType, ElementData][] = [
       ['combo', combos],
       ['edge', edges],
       ['node', nodes],
     ];
 
-    this.emit(GraphEvent.BEFORE_ELEMENT_DESTROY, { data });
-    // 移除相应的元素数据
-    // 重新计算色板样式，如果是分组色板，则不需要重新计算
+    const tasks: AnimatableTask[] = [];
     iteration.forEach(([elementType, elementData]) => {
-      if (elementData.length === 0) return;
+      if (elementData.length === 0) return [];
       const animator = this.getAnimationExecutor(elementType, 'exit');
-      elementData.forEach((datum) => this.destroyElement(datum, { ...context, animator }));
-      this.clearElement(elementData.map(idOf));
+      elementData.forEach((datum) =>
+        tasks.push(() => {
+          const animation = this.destroyElement(datum, { ...context, animator });
+          return animation;
+        }),
+      );
     });
-    this.emit(GraphEvent.AFTER_ELEMENT_DESTROY, { data });
+
+    // TODO 重新计算色板样式，如果是分组色板，则不需要重新计算
+
+    return tasks;
   }
 
-  private clearElement(ids: ID[]) {
-    ids.forEach((id) => {
-      delete this.paletteStyle[id];
-      delete this.defaultStyle[id];
-      delete this.stateStyle[id];
-      delete this.elementState[id];
-      delete this.elementMap[id];
-      delete this.shapeTypeMap[id];
-      delete this.runtimeStyle[id];
-    });
+  private clearElement(id: ID) {
+    delete this.paletteStyle[id];
+    delete this.defaultStyle[id];
+    delete this.stateStyle[id];
+    delete this.elementState[id];
+    delete this.elementMap[id];
+    delete this.shapeTypeMap[id];
+    delete this.runtimeStyle[id];
   }
 
   public async setElementsVisibility(ids: ID[], visibility: BaseStyleProps['visibility']) {
-    this.emit(GraphEvent.BEFORE_ELEMENT_VISIBILITY_CHANGE, { ids, visibility });
+    if (ids.length === 0) return null;
+
     const isHide = visibility === 'hidden';
     const nodes: ID[] = [];
     const edges: ID[] = [];
@@ -884,15 +844,11 @@ export class ElementController {
       const originalOpacity = getCachedStyle(element, 'opacity') ?? element.style.opacity ?? 1;
       cacheStyle(element, 'opacity');
 
-      const result = animator(id, element, { ...element.attributes, opacity: originalOpacity }, { opacity: 0 });
-
-      invokeOnFinished(result, () => setVisibility(element, visibility));
-
-      return result;
+      const animation = animator(id, element, { ...element.attributes, opacity: originalOpacity }, { opacity: 0 });
+      return withAnimationCallbacks(animation, { after: () => setVisibility(element, visibility) });
     };
 
-    const results: IAnimation[] = [];
-
+    const tasks: AnimatableTask[] = [];
     iteration.forEach(([elementType, elementIds]) => {
       if (elementIds.length === 0) return;
       const animator = this.getAnimationExecutor(elementType, isHide ? 'hide' : 'show');
@@ -903,31 +859,39 @@ export class ElementController {
           if (isHide) return;
         } else if (!isHide) return;
 
-        const result = (isHide ? hide : show)(id, element, animator);
-        if (result) results.push(result);
+        tasks.push(() => {
+          return () => (isHide ? hide : show)(id, element, animator);
+        });
       });
     });
 
-    if (results.length === 0) return null;
-    const result = createAnimationsProxy(results[0], results.slice(1));
-
-    if (result)
-      this.emit(GraphEvent.BEFORE_ANIMATE, { type: AnimationTypeEnum.ELEMENT_VISIBILITY_CHANGE, animation: result });
-
-    invokeOnFinished(
-      result,
-      () => this.emit(GraphEvent.AFTER_ELEMENT_VISIBILITY_CHANGE, { ids, visibility }),
-      () =>
-        this.emit(GraphEvent.AFTER_ANIMATE, { type: AnimationTypeEnum.ELEMENT_VISIBILITY_CHANGE, animation: result }),
-    );
-    await result?.finished;
+    return executeAnimatableTasks(tasks, {
+      before: () =>
+        this.emit(new ElementVisibilityChangeEvent(GraphEvent.BEFORE_ELEMENT_VISIBILITY_CHANGE, ids, visibility)),
+      beforeAnimate: (animation) =>
+        this.emit(
+          new AnimateEvent(GraphEvent.BEFORE_ANIMATE, AnimationTypeEnum.ELEMENT_VISIBILITY_CHANGE, animation, {
+            ids,
+            visibility,
+          }),
+        ),
+      afterAnimate: (animation) =>
+        this.emit(
+          new AnimateEvent(GraphEvent.AFTER_ANIMATE, AnimationTypeEnum.ELEMENT_VISIBILITY_CHANGE, animation, {
+            ids,
+            visibility,
+          }),
+        ),
+      after: () =>
+        this.emit(new ElementVisibilityChangeEvent(GraphEvent.AFTER_ELEMENT_VISIBILITY_CHANGE, ids, visibility)),
+    });
   }
 
   public setElementZIndex(id: ID, zIndex: ZIndex) {
     const element = this.getElement(id);
     if (!element) return;
 
-    this.emit(GraphEvent.BEFORE_ELEMENT_Z_INDEX_CHANGE, { id, zIndex });
+    this.emit(new ElementZIndexChangeEvent(GraphEvent.BEFORE_ELEMENT_Z_INDEX_CHANGE, id, zIndex));
     if (typeof zIndex === 'number') element.attr({ zIndex });
     else {
       const elementType = this.context.model.getElementType(id);
@@ -939,14 +903,12 @@ export class ElementController {
         ) + delta;
       element.attr({ zIndex: parsedZIndex });
     }
-    this.emit(GraphEvent.AFTER_ELEMENT_Z_INDEX_CHANGE, { id, zIndex });
+    this.emit(new ElementZIndexChangeEvent(GraphEvent.AFTER_ELEMENT_Z_INDEX_CHANGE, id, zIndex));
   }
 
   public destroy() {
     Object.values(this.container).forEach((container) => container.destroy());
-    this.animationMap = {};
     this.elementMap = {};
-    this.postRenderTasks = {};
     this.shapeTypeMap = {};
     this.runtimeStyle = {};
     this.defaultStyle = {};

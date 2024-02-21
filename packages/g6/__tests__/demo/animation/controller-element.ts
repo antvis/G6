@@ -1,13 +1,14 @@
 import type { IAnimation } from '@antv/g';
 import type { G6Spec } from '../../../src';
-import type { AnimateEvent } from '../../../src/types';
+import type { AnimateEvent } from '../../../src/utils/event';
 import { createGraph } from '../../mock';
 import type { AnimationTestCase } from '../types';
 
 export const controllerElement: AnimationTestCase = async (context) => {
-  const { canvas } = context;
+  const { canvas, animation } = context;
 
   const options: G6Spec = {
+    animation,
     data: {
       nodes: [
         { id: 'node-1', style: { x: 50, y: 50 } },

@@ -21,6 +21,10 @@ export const enum GraphEvent {
   BEFORE_ELEMENT_TRANSLATE = 'beforeelementtranslate',
   /** <zh/> 元素平移之后 | <en/> After element translation */
   AFTER_ELEMENT_TRANSLATE = 'afterelementtranslate',
+  /** <zh/> 绘制开始之前 | <en/> Before drawing */
+  BEFORE_DRAW = 'beforedraw',
+  /** <zh/> 绘制结束之后 | <en/> After drawing */
+  AFTER_DRAW = 'afterdraw',
   /** <zh/> 渲染开始之前 | <en/> Before rendering */
   BEFORE_RENDER = 'beforerender',
   /** <zh/> 渲染完成之后 | <en/> After rendering */
@@ -48,7 +52,7 @@ export const enum GraphEvent {
 }
 
 export const enum AnimationTypeEnum {
-  RENDER = 'render',
+  DRAW = 'draw',
   // LAYOUT = 'layout', // 布局没有统一的动画对象，因此不抛出动画事件 | There is no unified animation object for layout, so no animation event is thrown
   ELEMENT_VISIBILITY_CHANGE = 'elementvisibilitychange',
   ELEMENT_STATE_CHANGE = 'elementstatechange',
