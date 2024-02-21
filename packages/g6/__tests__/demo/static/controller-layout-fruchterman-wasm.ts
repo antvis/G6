@@ -1,8 +1,7 @@
 import { FruchtermanLayout, initThreads, supportsThreads } from '@antv/layout-wasm';
 import type { G6Spec } from '../../../src';
-import { register } from '../../../src';
+import { Graph, register } from '../../../src';
 import data from '../../dataset/soccer.json';
-import { createGraph } from '../../mock';
 import type { StaticTestCase } from '../types';
 
 register('layout', 'fruchterman-wasm', FruchtermanLayout);
@@ -12,6 +11,7 @@ export const controllerLayoutFruchtermanWASM: StaticTestCase = async ({ canvas, 
   const threads = await initThreads(supported);
 
   const options: G6Spec = {
+    container: canvas,
     animation,
     data,
     theme: 'light',
@@ -29,7 +29,7 @@ export const controllerLayoutFruchtermanWASM: StaticTestCase = async ({ canvas, 
     node: { style: { width: 20, height: 20 } },
   };
 
-  const graph = createGraph(options, canvas);
+  const graph = new Graph(options);
 
   await graph.render();
 };

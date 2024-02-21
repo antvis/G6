@@ -1,11 +1,11 @@
 import type { G6Spec } from '../../../src';
-import { treeToGraphData } from '../../../src';
+import { Graph, treeToGraphData } from '../../../src';
 import tree from '../../dataset/file-system.json';
-import { createGraph } from '../../mock';
 import type { StaticTestCase } from '../types';
 
 export const controllerLayoutIndented: StaticTestCase = async ({ canvas, animation }) => {
   const options: G6Spec = {
+    container: canvas,
     animation,
     data: treeToGraphData(tree),
     theme: 'light',
@@ -32,7 +32,7 @@ export const controllerLayoutIndented: StaticTestCase = async ({ canvas, animati
     zoom: 0.5,
   };
 
-  const graph = createGraph(options, canvas);
+  const graph = new Graph(options);
 
   await graph.render();
 
