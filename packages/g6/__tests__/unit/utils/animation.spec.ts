@@ -1,9 +1,12 @@
 import type { IAnimation } from '@antv/g';
+import { AnimatableTask } from '../../../src/types';
 import {
   createAnimationsProxy,
+  executeAnimatableTasks,
   executeAnimation,
   inferDefaultValue,
   preprocessKeyframes,
+  withAnimationCallbacks,
 } from '../../../src/utils/animation';
 
 describe('animation', () => {
@@ -32,6 +35,19 @@ describe('animation', () => {
 
     expect(sourcePause).toHaveBeenCalledTimes(1);
     expect(targetPause).toHaveBeenCalledTimes(2);
+
+    expect(createAnimationsProxy([])).toBe(null);
+
+    const proxy2 = createAnimationsProxy([source, ...targets])!;
+    proxy2.currentTime = 200;
+    expect(proxy2.currentTime).toBe(200);
+    expect(source.currentTime).toBe(200);
+    expect(targets[0].currentTime).toBe(200);
+    expect(targets[1].currentTime).toBe(200);
+
+    proxy2.pause();
+    expect(sourcePause).toHaveBeenCalledTimes(2);
+    expect(targetPause).toHaveBeenCalledTimes(4);
   });
 
   it('preprocessKeyframes', () => {
@@ -111,5 +127,56 @@ describe('animation', () => {
     expect(inferDefaultValue('z')).toBe(0);
     expect(inferDefaultValue('opacity')).toBe(1);
     expect(inferDefaultValue('stroke')).toBe(undefined);
+  });
+
+  it('withAnimationCallbacks', async () => {
+    const before = jest.fn();
+    const beforeAnimate = jest.fn();
+    const afterAnimate = jest.fn();
+    const after = jest.fn();
+
+    const callbacks = {
+      before: before,
+      beforeAnimate: beforeAnimate,
+      afterAnimate: afterAnimate,
+      after: after,
+    };
+
+    const animation = {
+      finished: Promise.resolve(),
+    } as unknown as IAnimation;
+
+    await withAnimationCallbacks(animation, callbacks)?.finished;
+
+    expect(callbacks.before).toHaveBeenCalledTimes(1);
+    expect(callbacks.beforeAnimate).toHaveBeenCalledTimes(1);
+    expect(callbacks.afterAnimate).toHaveBeenCalledTimes(1);
+    expect(callbacks.after).toHaveBeenCalledTimes(1);
+
+    await withAnimationCallbacks(null, callbacks)?.finished;
+
+    expect(callbacks.before).toHaveBeenCalledTimes(2);
+    expect(callbacks.beforeAnimate).toHaveBeenCalledTimes(1);
+    expect(callbacks.afterAnimate).toHaveBeenCalledTimes(1);
+    expect(callbacks.after).toHaveBeenCalledTimes(2);
+  });
+
+  it('executeAnimatableTasks', async () => {
+    const before = jest.fn();
+    const after = jest.fn();
+
+    const task = jest.fn(() => () => {
+      return {
+        finished: Promise.resolve(),
+      } as unknown as IAnimation;
+    });
+
+    const tasks: AnimatableTask[] = [task];
+
+    await executeAnimatableTasks(tasks, { before, after })?.finished;
+
+    expect(before).toHaveBeenCalledTimes(1);
+    expect(task).toHaveBeenCalledTimes(1);
+    expect(after).toHaveBeenCalledTimes(1);
   });
 });

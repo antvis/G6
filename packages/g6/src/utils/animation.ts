@@ -1,17 +1,24 @@
 import type { DisplayObject, IAnimation } from '@antv/g';
 import { isEqual, isNil } from '@antv/util';
-import type { Keyframe } from '../types';
+import type { AnimatableTask, Keyframe } from '../types';
 import { getDescendantShapes } from './shape';
 
+export function createAnimationsProxy(animations: IAnimation[]): IAnimation | null;
+export function createAnimationsProxy(sourceAnimation: IAnimation, targetAnimations: IAnimation[]): IAnimation;
 /**
  * <zh/> 创建动画代理，对一个动画实例的操作同步到多个动画实例上
  *
  * <en/> create animation proxy, synchronize animation to multiple animation instances
- * @param sourceAnimation - <zh/> 源动画实例 | <en/> source animation instance
- * @param targetAnimations - <zh/> 目标动画实例 | <en/> target animation instance
+ * @param args1 - <zh/> 源动画实例 | <en/> source animation instance
+ * @param args2 - <zh/> 目标动画实例 | <en/> target animation instance
  * @returns <zh/> 动画代理 | <en/> animation proxy
  */
-export function createAnimationsProxy(sourceAnimation: IAnimation, targetAnimations: IAnimation[]): IAnimation {
+export function createAnimationsProxy(args1: IAnimation | IAnimation[], args2?: IAnimation[]): IAnimation | null {
+  if (Array.isArray(args1) && args1.length === 0) return null;
+
+  const sourceAnimation = Array.isArray(args1) ? args1[0] : args1;
+  const targetAnimations = Array.isArray(args1) ? args1.slice(1) : args2 || [];
+
   return new Proxy(sourceAnimation, {
     get(target, propKey: keyof IAnimation) {
       if (typeof target[propKey] === 'function' && !['onframe', 'onfinish'].includes(propKey)) {
@@ -19,6 +26,9 @@ export function createAnimationsProxy(sourceAnimation: IAnimation, targetAnimati
           (target[propKey] as any)(...args);
           targetAnimations.forEach((animation) => (animation[propKey] as any)?.(...args));
         };
+      }
+      if (propKey === 'finished') {
+        return Promise.all([sourceAnimation.finished, ...targetAnimations.map((animation) => animation.finished)]);
       }
       return Reflect.get(target, propKey);
     },
@@ -146,23 +156,55 @@ export function inferDefaultValue(name: string) {
   }
 }
 
+type Callbacks = {
+  before?: () => void;
+  beforeAnimate?: (result: IAnimation) => void;
+  afterAnimate?: (result: IAnimation) => void;
+  after?: () => void;
+};
+
 /**
- * <zh/> 动画执行完毕后调用
- * @param animationResult - <zh/> 动画执行对象 | <en/> animation object
- * @param callback - <zh/> 统一执行回调 | <en/> unified callback
- * @param animationCallback - <zh/> 动画执行回调 | <en/> animation callback
+ * <zh/> 执行动画前后的回调
+ *
+ * <en/> Callback before and after animation execution
+ * @param animation - <zh/> 动画对象 | <en/> animation object
+ * @param callbacks - <zh/> 回调函数 | <en/> callback function
+ * @returns <zh/> 动画对象 | <en/> animation object
  */
-export function invokeOnFinished(
-  animationResult: IAnimation | null | undefined,
-  callback: () => void,
-  animationCallback?: () => void,
-) {
-  if (animationResult) {
-    const originalCallback = animationResult.onfinish;
-    animationResult.onfinish = (...args) => {
-      originalCallback?.call(animationResult, ...args);
-      animationCallback?.();
-      callback();
-    };
-  } else callback();
+export function withAnimationCallbacks(animation: IAnimation | null, callbacks: Callbacks) {
+  callbacks.before?.();
+  if (animation) {
+    callbacks.beforeAnimate?.(animation);
+    animation.finished.then(() => {
+      callbacks.afterAnimate?.(animation);
+      callbacks.after?.();
+    });
+  } else {
+    callbacks.after?.();
+  }
+  return animation;
+}
+
+/**
+ * <zh/> 执行动画任务
+ *
+ * <en/> Execute animation tasks
+ * @param tasks - <zh/> 动画任务 | <en/> animation task
+ * @param callbacks - <zh/> 回调函数 | <en/> callback function
+ * @returns <zh/> 动画对象 | <en/> animation object
+ */
+export function executeAnimatableTasks(tasks: AnimatableTask[], callbacks: Callbacks = {}) {
+  if (tasks.length === 0) return null;
+  const { before, ...restCallbacks } = callbacks;
+  callbacks.before?.();
+  const animateTasks = tasks.map((task) => task());
+
+  const animation = createAnimationsProxy(
+    animateTasks
+      .map((task) => task())
+      .flat()
+      .filter(Boolean) as IAnimation[],
+  );
+  withAnimationCallbacks(animation, restCallbacks);
+  return animation;
 }
