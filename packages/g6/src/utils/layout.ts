@@ -58,7 +58,7 @@ export function pickLayoutResult(result: LayoutMapping): LayoutResult {
         const { data } = edge;
         const result: Record<string, unknown> = {};
         if ('controlPoints' in data) result.controlPoints = data.controlPoints!.map(parsePoint);
-        if ('points' in data) result.points = data.points!.map(parsePoint);
+        // if ('points' in data) result.points = data.points!.map(parsePoint);
         return [id, result];
       }),
     ),

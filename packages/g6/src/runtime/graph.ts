@@ -2,6 +2,7 @@ import EventEmitter from '@antv/event-emitter';
 import type { AABB, BaseStyleProps, DataURLOptions, DisplayObject } from '@antv/g';
 import type { ID } from '@antv/graphlib';
 import { debounce, deepMix, isFunction, isString, omit } from '@antv/util';
+import { GraphEvent } from '../constants';
 import type {
   BehaviorOptions,
   ComboData,
@@ -33,6 +34,7 @@ import type {
   ZIndex,
 } from '../types';
 import { sizeOf } from '../utils/dom';
+import { RenderEvent, emit } from '../utils/event';
 import { parsePoint, toPointObject } from '../utils/point';
 import { add } from '../utils/vector';
 import { Canvas } from './canvas';
@@ -92,22 +94,7 @@ export class Graph extends EventEmitter {
    * <en/> To update devicePixelRatio and container properties, please destroy and recreate the instance
    */
   public setOptions(options: G6Spec): void {
-    const {
-      behaviors,
-      combo,
-      container,
-      data,
-      edge,
-      height,
-      layout,
-      node,
-      padding,
-      theme,
-      widgets,
-      width,
-      zoom,
-      zoomRange,
-    } = options;
+    const { behaviors, combo, container, data, edge, height, layout, node, padding, theme, widgets, width } = options;
 
     if (behaviors) this.setBehaviors(behaviors);
     if (combo) this.setCombo(combo);
@@ -118,9 +105,6 @@ export class Graph extends EventEmitter {
     if (theme) this.setTheme(theme);
     if (widgets) this.setWidgets(widgets);
     if (width || height) this.setSize(width || this.options.width || 0, height || this.options.height || 0);
-    // TODO 运行时配置
-    // if (zoom) this.zoomTo(zoom);
-    // if (zoomRange) this.setZoomRange(zoomRange);
   }
 
   public getSize(): [number, number] {
@@ -345,9 +329,12 @@ export class Graph extends EventEmitter {
    * <en/> This process will execute data update, element rendering, and layout execution
    */
   public async render(): Promise<void> {
+    emit(this, new RenderEvent(GraphEvent.BEFORE_RENDER));
     await this.prepare();
-    await this.context.element?.render(this.context);
-    await this.context.layout?.layout();
+
+    await Promise.all([this.context.element?.draw(), this.context.layout?.layout()]);
+
+    emit(this, new RenderEvent(GraphEvent.AFTER_RENDER));
   }
 
   /**
@@ -356,14 +343,13 @@ export class Graph extends EventEmitter {
    * <en/> Draw elements
    * @returns <zh/> 渲染结果 | <en/> draw result
    */
-  public async draw() {
+  public async draw(): Promise<void> {
     await this.prepare();
-    // todo: 和 element.draw 一样，不应该返回任何动画相关的信息。
-    return await this.context.element?.render(this.context);
+    return this.context.element!.draw();
   }
 
-  public async layout(): Promise<void> {
-    await this.context.layout?.layout();
+  public layout(): Promise<void> {
+    return this.context.layout!.layout();
   }
 
   /**
@@ -373,16 +359,15 @@ export class Graph extends EventEmitter {
    */
   public async clear(): Promise<void> {
     this.context.model.setData({});
-    this.context.element?.render(this.context);
+    await this.draw();
   }
 
   public destroy(): void {
-    const { layout, element, model, canvas, viewport } = this.context;
+    const { layout, element, model, canvas } = this.context;
     layout?.destroy();
     element?.destroy();
     model.destroy();
     canvas?.destroy();
-    viewport?.destroy();
     this.options = {};
     // @ts-expect-error force delete
     delete this.context;
@@ -419,36 +404,24 @@ export class Graph extends EventEmitter {
     // TODO invoke getCenter
   }
 
-  public zoomBy(
-    ratio: number,
-    origin?: Point,
-    effectTiming?: ViewportAnimationEffectTiming,
-  ): Promise<void> | undefined {
-    return this.context.viewport!.zoom({ mode: 'relative', value: ratio, origin }, effectTiming);
+  public zoomBy(ratio: number, animation?: ViewportAnimationEffectTiming, origin?: Point): Promise<void> | undefined {
+    return this.context.viewport!.zoom({ mode: 'relative', value: ratio, origin }, animation);
   }
 
-  public zoomTo(zoom: number, origin?: Point, effectTiming?: ViewportAnimationEffectTiming): Promise<void> | undefined {
-    return this.context.viewport!.zoom({ mode: 'absolute', value: zoom, origin }, effectTiming);
+  public zoomTo(zoom: number, animation?: ViewportAnimationEffectTiming, origin?: Point): Promise<void> | undefined {
+    return this.context.viewport!.zoom({ mode: 'absolute', value: zoom, origin }, animation);
   }
 
   public getZoom(): number {
     return this.context.viewport!.getZoom();
   }
 
-  public rotateBy(
-    angle: number,
-    origin?: Point,
-    effectTiming?: ViewportAnimationEffectTiming,
-  ): Promise<void> | undefined {
-    return this.context.viewport!.rotate({ mode: 'relative', value: angle, origin }, effectTiming);
+  public rotateBy(angle: number, animation?: ViewportAnimationEffectTiming, origin?: Point): Promise<void> | undefined {
+    return this.context.viewport!.rotate({ mode: 'relative', value: angle, origin }, animation);
   }
 
-  public rotateTo(
-    angle: number,
-    origin?: Point,
-    effectTiming?: ViewportAnimationEffectTiming,
-  ): Promise<void> | undefined {
-    return this.context.viewport!.rotate({ mode: 'absolute', value: angle, origin }, effectTiming);
+  public rotateTo(angle: number, animation?: ViewportAnimationEffectTiming, origin?: Point): Promise<void> | undefined {
+    return this.context.viewport!.rotate({ mode: 'absolute', value: angle, origin }, animation);
   }
 
   public getRotation(): number {
@@ -457,25 +430,25 @@ export class Graph extends EventEmitter {
 
   public translateBy(
     offset: Point,
+    animation?: ViewportAnimationEffectTiming,
     origin?: Point,
-    effectTiming?: ViewportAnimationEffectTiming,
   ): Promise<void> | undefined {
-    return this.context.viewport!.translate({ mode: 'relative', value: offset, origin }, effectTiming);
+    return this.context.viewport!.translate({ mode: 'relative', value: offset, origin }, animation);
   }
 
   public translateTo(
     position: Point,
+    animation?: ViewportAnimationEffectTiming,
     origin?: Point,
-    effectTiming?: ViewportAnimationEffectTiming,
   ): Promise<void> | undefined {
-    return this.context.viewport!.translate({ mode: 'absolute', value: position, origin }, effectTiming);
+    return this.context.viewport!.translate({ mode: 'absolute', value: position, origin }, animation);
   }
 
   public getPosition(): Point {
     return this.context.viewport!.getViewportCenter();
   }
 
-  public async translateElementBy(offsets: Positions, animation?: boolean): Promise<void> {
+  public translateElementBy(offsets: Positions, animation?: boolean): void {
     const positions = Object.entries(offsets).reduce((acc, [id, offset]) => {
       const curr = this.getElementPosition(id);
       const next = add(curr, offset);
@@ -483,12 +456,11 @@ export class Graph extends EventEmitter {
       return acc;
     }, {} as Positions);
 
-    await this.translateElementTo(positions, animation);
+    this.translateElementTo(positions, animation);
   }
 
-  public async translateElementTo(positions: Positions, animation?: boolean): Promise<void> {
-    const result = this.context.element!.updateNodeLikePosition(positions, animation);
-    if (result) await result.finished;
+  public translateElementTo(positions: Positions, animation?: boolean): void {
+    this.context.element!.updateNodeLikePosition(positions, animation);
   }
 
   public getElementPosition(id: ID): Point {
@@ -502,7 +474,7 @@ export class Graph extends EventEmitter {
   }
 
   public async setElementVisibility(id: ID | ID[], visibility: BaseStyleProps['visibility']): Promise<void> {
-    this.context.element!.setElementsVisibility(Array.isArray(id) ? id : [id], visibility);
+    await this.context.element!.setElementsVisibility(Array.isArray(id) ? id : [id], visibility);
   }
 
   public getElementVisibility(id: ID): BaseStyleProps['visibility'] {

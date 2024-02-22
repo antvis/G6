@@ -93,8 +93,6 @@ export abstract class BaseNode<
     haloPointerEvents: 'none',
     haloZIndex: -1,
     icon: true,
-    iconHeight: 20,
-    iconWidth: 20,
     iconZIndex: 1,
     label: true,
     labelIsBillboard: true,

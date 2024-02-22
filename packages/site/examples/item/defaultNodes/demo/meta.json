@@ -21,7 +21,7 @@
       "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*etLSQYZnJAAAAAAAAAAAAAAADmJ7AQ/original"
     },
     {
-      "filename": "radiusRect.js",
+      "filename": "radiusRect.ts",
       "title": {
         "zh": "圆角矩形",
         "en": "Radius Rect"
@@ -61,7 +61,7 @@
       "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*NPG3SL_n-CYAAAAAAAAAAAAADmJ7AQ/original"
     },
     {
-      "filename": "ellipse.js",
+      "filename": "ellipse.ts",
       "title": {
         "zh": "椭圆",
         "en": "Ellipse"
@@ -69,7 +69,7 @@
       "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*Vdq4Rb3ESOoAAAAAAAAAAAAADmJ7AQ/original"
     },
     {
-      "filename": "star.js",
+      "filename": "star.ts",
       "title": {
         "zh": "星形",
         "en": "Star"

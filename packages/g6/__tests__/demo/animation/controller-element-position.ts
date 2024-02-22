@@ -1,11 +1,14 @@
+import type { IAnimation } from '@antv/g';
 import type { G6Spec } from '../../../src';
+import type { AnimateEvent } from '../../../src/utils/event';
 import { createGraph } from '../../mock';
 import type { AnimationTestCase } from '../types';
 
 export const controllerElementPosition: AnimationTestCase = async (context) => {
-  const { canvas } = context;
+  const { canvas, animation } = context;
 
   const options: G6Spec = {
+    animation,
     data: {
       nodes: [
         { id: 'node-1', style: { x: 250, y: 200 } },
@@ -38,13 +41,15 @@ export const controllerElementPosition: AnimationTestCase = async (context) => {
   };
 
   const graph = createGraph(options, canvas);
-  const r = await graph.draw();
-  await r?.finished;
+  await graph.draw();
 
-  // @ts-expect-error context is private.
-  const element = graph.context.element!;
+  const result = new Promise<IAnimation>((resolve) => {
+    graph.once('beforeanimate', (e: AnimateEvent) => {
+      resolve(e.animation);
+    });
+  });
 
-  const result = element.updateNodeLikePosition(
+  graph.translateElementTo(
     {
       'node-1': [250, 100],
       'node-2': [175, 200],
@@ -53,10 +58,10 @@ export const controllerElementPosition: AnimationTestCase = async (context) => {
       'node-5': [250, 300],
       'node-6': [400, 300],
     },
-    true,
+    animation,
   );
 
-  return result;
+  return await result;
 };
 
 controllerElementPosition.times = [0, 200, 1000];

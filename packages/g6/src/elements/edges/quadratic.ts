@@ -2,7 +2,7 @@ import type { DisplayObjectConfig } from '@antv/g';
 import type { PathArray } from '@antv/util';
 import { deepMix } from '@antv/util';
 import type { BaseEdgeProps, Point } from '../../types';
-import { getQuadraticPath } from '../../utils/edge';
+import { getCurveControlPoint, getQuadraticPath } from '../../utils/edge';
 import type { BaseEdgeStyleProps, ParsedBaseEdgeStyleProps } from './base-edge';
 import { BaseEdge } from './base-edge';
 
@@ -37,8 +37,10 @@ export class Quadratic extends BaseEdge<QuadraticKeyStyleProps> {
   }
 
   protected getKeyPath(attributes: ParsedBaseEdgeStyleProps<QuadraticKeyStyleProps>): PathArray {
-    const { controlPoint, curvePosition, curveOffset } = attributes;
+    const { curvePosition, curveOffset } = attributes;
     const [sourcePoint, targetPoint] = this.getEndpoints(attributes);
-    return getQuadraticPath(sourcePoint, targetPoint, curvePosition, curveOffset, controlPoint);
+    const controlPoint =
+      attributes.controlPoint || getCurveControlPoint(sourcePoint, targetPoint, curvePosition, curveOffset);
+    return getQuadraticPath(sourcePoint, targetPoint, controlPoint);
   }
 }

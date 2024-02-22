@@ -1,5 +1,6 @@
+import { BaseNode } from '../elements/nodes';
 import type { EdgeData } from '../spec';
-import type { ElementDatum, Point, Vector2, Vector3 } from '../types';
+import type { ElementDatum, Node, Point, Vector2, Vector3 } from '../types';
 
 /**
  * <zh/> 判断是否为边数据
@@ -50,4 +51,15 @@ export function isPoint(p: any): p is Point {
   }
 
   return false;
+}
+
+/**
+ * <zh/> 判断是否是 BaseNode 的实例
+ *
+ * <en/> Judge whether the instance is BaseNode
+ * @param p - <zh/> 实例 | <en/> instance
+ * @returns <zh/> 是否是 BaseNode 的实例 | <en/> whether the instance is BaseNode
+ */
+export function isNode(p: any): p is Node {
+  return p instanceof BaseNode;
 }

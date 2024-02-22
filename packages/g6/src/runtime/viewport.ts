@@ -1,3 +1,4 @@
+import { clamp } from '@antv/util';
 import { GraphEvent } from '../constants';
 import type {
   Point,
@@ -15,6 +16,8 @@ export class ViewportController {
 
   constructor(context: RuntimeContext) {
     this.context = context;
+    const { zoom = 1 } = context.options;
+    this.zoom({ mode: 'absolute', value: zoom });
   }
 
   private get camera() {
@@ -73,7 +76,7 @@ export class ViewportController {
     return this.camera.getRoll();
   }
 
-  public translate(options: TranslateOptions, effectTiming?: ViewportAnimationEffectTiming) {
+  public translate(options: TranslateOptions, animation?: ViewportAnimationEffectTiming) {
     const currentZoom = this.getZoom();
     this.cancelAnimation();
     const { camera } = this;
@@ -86,18 +89,18 @@ export class ViewportController {
     const [px, py, pz] = camera.getPosition();
     const [fx, fy, fz] = camera.getFocalPoint();
 
-    if (effectTiming) {
-      this.context.graph.emit(GraphEvent.BEFORE_VIEWPORT_ANIMATION, options);
+    if (animation) {
+      this.context.graph.emit(GraphEvent.BEFORE_VIEWPORT_ANIMATE, options);
 
       return new Promise<void>((resolve) => {
         /**
          * todo: gotoLandmark 存在问题，有一定概率导致不会触发 onfinish，因此需要设置一个超时时间
          */
         const onfinish = () => {
-          this.context.graph.emit(GraphEvent.AFTER_VIEWPORT_ANIMATION, options);
+          this.context.graph.emit(GraphEvent.AFTER_VIEWPORT_ANIMATE, options);
           resolve();
         };
-        delay(effectTiming.duration).then(onfinish);
+        delay(animation.duration).then(onfinish);
 
         this.camera.gotoLandmark(
           this.createLandmark(
@@ -111,7 +114,7 @@ export class ViewportController {
                   focalPoint: [ox - x, oy - y, z ?? fz - z],
                 },
           ),
-          { ...effectTiming, onfinish },
+          { ...animation, onfinish },
         );
       });
     } else {
@@ -120,24 +123,24 @@ export class ViewportController {
     }
   }
 
-  public rotate(options: RotateOptions, effectTiming?: ViewportAnimationEffectTiming) {
+  public rotate(options: RotateOptions, animation?: ViewportAnimationEffectTiming) {
     this.cancelAnimation();
     const { camera } = this;
     const { mode, value: angle, origin } = options;
 
-    if (effectTiming) {
-      this.context.graph.emit(GraphEvent.BEFORE_VIEWPORT_ANIMATION, options);
+    if (animation) {
+      this.context.graph.emit(GraphEvent.BEFORE_VIEWPORT_ANIMATE, options);
 
       return new Promise<void>((resolve) => {
         const onfinish = () => {
-          this.context.graph.emit(GraphEvent.AFTER_VIEWPORT_ANIMATION, options);
+          this.context.graph.emit(GraphEvent.AFTER_VIEWPORT_ANIMATE, options);
           resolve();
         };
-        delay(effectTiming.duration).then(onfinish);
+        delay(animation.duration).then(onfinish);
 
         this.camera.gotoLandmark(
           this.createLandmark({ roll: mode === 'relative' ? camera.getRoll() + angle : angle }),
-          { ...effectTiming, onfinish },
+          { ...animation, onfinish },
         );
       });
     } else {
@@ -151,25 +154,27 @@ export class ViewportController {
     }
   }
 
-  public zoom(options: ZoomOptions, effectTiming?: ViewportAnimationEffectTiming) {
+  public zoom(options: ZoomOptions, animation?: ViewportAnimationEffectTiming) {
+    const { zoomRange = [-Infinity, Infinity] } = this.context.options;
+
     this.cancelAnimation();
     const { camera } = this;
     const currentZoom = camera.getZoom();
     const { mode, value: zoom, origin = this.getCanvasCenter() } = options;
 
-    const targetRatio = mode === 'relative' ? currentZoom * zoom : zoom;
+    const targetRatio = clamp(mode === 'relative' ? currentZoom * zoom : zoom, ...zoomRange);
 
-    if (effectTiming) {
-      this.context.graph.emit(GraphEvent.BEFORE_VIEWPORT_ANIMATION, options);
+    if (animation) {
+      this.context.graph.emit(GraphEvent.BEFORE_VIEWPORT_ANIMATE, options);
 
       return new Promise<void>((resolve) => {
         const onfinish = () => {
-          this.context.graph.emit(GraphEvent.AFTER_VIEWPORT_ANIMATION, options);
+          this.context.graph.emit(GraphEvent.AFTER_VIEWPORT_ANIMATE, options);
           resolve();
         };
-        delay(effectTiming.duration).then(onfinish);
+        delay(animation.duration).then(onfinish);
 
-        this.camera.gotoLandmark(this.createLandmark({ zoom: targetRatio }), { ...effectTiming, onfinish });
+        this.camera.gotoLandmark(this.createLandmark({ zoom: targetRatio }), { ...animation, onfinish });
       });
     } else {
       camera.setZoomByViewportPoint(targetRatio, [origin[0], origin[1]]);
@@ -181,11 +186,7 @@ export class ViewportController {
     // @ts-expect-error landmarks is private
     if (this.camera.landmarks?.length) {
       this.camera.cancelLandmarkAnimation();
-      graph.emit(GraphEvent.CANCEL_VIEWPORT_ANIMATION);
+      graph.emit(GraphEvent.CANCEL_VIEWPORT_ANIMATE);
     }
-  }
-
-  public destroy() {
-    this.cancelAnimation();
   }
 }

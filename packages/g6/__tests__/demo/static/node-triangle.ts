@@ -1,6 +1,4 @@
-// Change to import { Graph } from '@antv/g6'; if you are using npm
-// todo: when test env, use SVG always.
-import { Graph } from '../../mock';
+import { Graph } from '../../../src';
 import type { StaticTestCase } from '../types';
 
 export const nodeTriangle: StaticTestCase = async (context) => {

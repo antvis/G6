@@ -23,7 +23,7 @@ export const light: Theme = {
     state: {},
     animation: {
       enter: 'fade',
-      update: [{ fields: ['sourcePoint', 'targetPoint', 'stroke'] }],
+      update: [{ fields: ['stroke'] }, { fields: ['path'], shape: 'key' }],
       exit: 'fade',
       show: 'fade',
       hide: 'fade',

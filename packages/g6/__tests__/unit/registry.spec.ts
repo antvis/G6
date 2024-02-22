@@ -1,5 +1,18 @@
 import { pick } from '@antv/util';
-import { Circle, Cubic, Ellipse, Image, Line, Polyline, Quadratic, Rect, Star, Triangle } from '../../src/elements';
+import {
+  Circle,
+  Cubic,
+  CubicHorizontal,
+  CubicVertical,
+  Ellipse,
+  Image,
+  Line,
+  Polyline,
+  Quadratic,
+  Rect,
+  Star,
+  Triangle,
+} from '../../src/elements';
 import { getPlugin, getPlugins, register, registerBuiltInPlugins } from '../../src/registry';
 import { dark, light } from '../../src/themes';
 
@@ -20,6 +33,8 @@ describe('registry', () => {
       line: Line,
       polyline: Polyline,
       quadratic: Quadratic,
+      'cubic-horizontal': CubicHorizontal,
+      'cubic-vertical': CubicVertical,
     });
     expect(getPlugins('combo')).toEqual({});
     expect(getPlugins('theme')).toEqual({
