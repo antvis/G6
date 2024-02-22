@@ -1,6 +1,7 @@
 import type { DisplayObject, IAnimation } from '@antv/g';
 import { isEqual, isNil } from '@antv/util';
 import type { AnimatableTask, Keyframe } from '../types';
+import { isNode } from './is';
 import { getDescendantShapes } from './shape';
 
 export function createAnimationsProxy(animations: IAnimation[]): IAnimation | null;
@@ -72,7 +73,8 @@ export function preprocessKeyframes(keyframes: Keyframe[]): Keyframe[] {
       // 属性值不能为空 / property value cannot be empty
       values.some((value) => isNil(value)) ||
       // 属性值必须不完全一致 / property value must not be exactly the same
-      values.every((value) => isEqual(value, values[0]))
+      // 属性值可以是同一节点 / property value can be the same node
+      values.every((value) => !isNode(value) && isEqual(value, values[0]))
     ) {
       delete propertyIndexedKeyframes[key];
     }
@@ -107,6 +109,7 @@ export function executeAnimation<T extends DisplayObject>(
   keyframes: Keyframe[],
   options: KeyframeAnimationOptions,
 ) {
+  if (keyframes.length === 0) return null;
   const inheritedAttrs = ['opacity'];
 
   const needInheritAnimation = keyframes.some((keyframe) =>

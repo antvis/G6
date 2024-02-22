@@ -17,11 +17,17 @@ export const controllerLayoutDendrogram: StaticTestCase = async ({ canvas, anima
       animation,
     },
     node: {
-      style: { width: 20, height: 20, labelText: (data) => data.id, labelPosition: 'right', labelMaxWidth: 200 },
+      style: {
+        width: 20,
+        height: 20,
+        labelText: (data) => data.id,
+        labelPosition: 'right',
+        labelMaxWidth: 200,
+      },
     },
     edge: {
       style: {
-        type: 'polyline',
+        type: 'cubic-horizontal',
       },
     },
     zoom: 0.5,

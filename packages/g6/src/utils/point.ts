@@ -203,14 +203,15 @@ export function getRectIntersectPoint(p: Point, bbox: AABB): Point {
  * @returns <zh/> 交点 | <en/> intersection
  */
 export function getEllipseIntersectPoint(p: Point, bbox: AABB): Point {
+  const center = bbox.center;
+  const vec = subtract(p, center);
+  let radians = angle(vec, [1, 0, 0]);
+  if (isNaN(radians)) return center;
+
+  if (radians < 0) radians += Math.PI * 2;
+
   const rx = getBBoxWidth(bbox) / 2;
   const ry = getBBoxHeight(bbox) / 2;
-  const center = bbox.center;
-
-  const vec = subtract(p, center);
-
-  let radians = angle(vec, [1, 0, 0]);
-  if (radians < 0) radians += Math.PI * 2;
   return [
     center[0] + Math.abs(rx * Math.cos(radians)) * Math.sign(vec[0]),
     center[1] + Math.abs(ry * Math.sin(radians)) * Math.sign(vec[1]),
