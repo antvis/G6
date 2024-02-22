@@ -34,6 +34,7 @@ import { cacheStyle, getCachedStyle } from '../utils/cache';
 import { reduceDataChanges } from '../utils/change';
 import { isEmptyData } from '../utils/data';
 import { isVisible, updateStyle } from '../utils/element';
+import type { BaseEvent } from '../utils/event';
 import {
   AnimateEvent,
   DrawEvent,
@@ -41,7 +42,6 @@ import {
   ElementTranslateEvent,
   ElementVisibilityChangeEvent,
   ElementZIndexChangeEvent,
-  type Event,
 } from '../utils/event';
 import { idOf } from '../utils/id';
 import { assignColorByPalette, parsePalette } from '../utils/palette';
@@ -91,7 +91,7 @@ export class ElementController {
     }
   }
 
-  private emit(event: Event) {
+  private emit(event: BaseEvent) {
     const { graph } = this.context;
     graph.emit(event.type, event);
   }
