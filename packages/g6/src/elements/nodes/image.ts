@@ -41,7 +41,7 @@ export class Image extends BaseNode<ImageKeyStyleProps, GImage> {
     const height = Number(attributes.height) + haloLineWidth;
     const fill = 'transparent';
 
-    return { ...haloStyle, width, height, fill, anchor: [0.5, 0.5] as [number, number] } as HaloStyleProps;
+    return { ...keyStyle, ...haloStyle, width, height, fill } as HaloStyleProps;
   }
 
   protected drawKeyShape(attributes: ParsedImageStyleProps, container: Group): GImage | undefined {
