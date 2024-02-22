@@ -98,7 +98,7 @@ export function scale(a: Vector2 | Vector3, s: number): Vector2 | Vector3 {
  * @returns <zh/> 两个向量间的距离 | <en/> The distance between the two vectors
  */
 export function distance(a: Vector2 | Vector3, b: Vector2 | Vector3): number {
-  return Math.sqrt((a as number[]).reduce((sum, v, i) => sum + (v - b[i]) ** 2, 0));
+  return Math.sqrt((a as number[]).reduce((sum, v, i) => sum + (v - b[i] || 0) ** 2, 0));
 }
 
 /**

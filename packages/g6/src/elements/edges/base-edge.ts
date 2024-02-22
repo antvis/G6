@@ -18,8 +18,9 @@ import type {
   Point,
   PrefixObject,
 } from '../../types';
-import { getCubicPath, getLabelPositionStyle, getLoopPoints } from '../../utils/edge';
-import { findPort, getNodeConnectionPoint, getPortConnectionPoint, isSameNode } from '../../utils/element';
+import { getBBoxHeight, getBBoxWidth, getNodeBBox } from '../../utils/bbox';
+import { getCubicLoopPath, getLabelPositionStyle } from '../../utils/edge';
+import { findPorts, getConnectionPoint, isSameNode } from '../../utils/element';
 import { omitStyleProps, subStyleProps } from '../../utils/prefix';
 import type { SymbolFactor } from '../../utils/symbol';
 import * as Symbol from '../../utils/symbol';
@@ -39,7 +40,7 @@ type EdgeArrowStyleProps = {
 } & PathStyleProps &
   Record<string, unknown>;
 
-type LoopStyleProps = BaseEdgeProps<{
+export type LoopStyleProps = {
   /**
    * <zh/> 边的位置
    * <en/> The position of the edge
@@ -55,7 +56,7 @@ type LoopStyleProps = BaseEdgeProps<{
    * <en/> Determine the position from the edge of the node keyShape to the top of the self-loop, used to specify the curvature of the self-loop, the default value is the maximum of the width or height
    */
   dist?: number;
-}>;
+};
 
 export type BaseEdgeStyleProps<KT> = BaseShapeStyleProps &
   KT & {
@@ -131,33 +132,19 @@ export abstract class BaseEdge<KT extends BaseEdgeProps<object>> extends BaseSha
 
   protected abstract getKeyPath(attributes: ParsedBaseEdgeStyleProps<KT>): PathArray;
 
-  protected getLoopPath(attributes: ParsedBaseEdgeStyleProps<KT>): PathArray | undefined {
+  protected getLoopPath(attributes: ParsedBaseEdgeStyleProps<KT>): PathArray {
+    const { sourceNode: node, sourcePort, targetPort, sourcePoint, targetPoint } = attributes;
+
+    const bbox = getNodeBBox(node);
+    const defaultDist = Math.max(getBBoxWidth(bbox), getBBoxHeight(bbox));
+
     const {
-      sourceNode: node,
-      sourcePort: sourcePortKey,
-      targetPort: targetPortKey,
-      sourcePoint: rawSourcePoint,
-      targetPoint: rawTargetPoint,
-    } = attributes;
-
-    if (!node) return;
-
-    const { position, clockwise, dist } = subStyleProps<LoopStyleProps>(
-      this.getGraphicStyle(attributes),
-      'loop',
-    ) as Required<LoopStyleProps>;
-
-    const { sourcePoint, targetPoint, controlPoints } = getLoopPoints(
-      node,
-      sourcePortKey!,
-      targetPortKey!,
-      rawSourcePoint!,
-      rawTargetPoint!,
       position,
       clockwise,
-      dist,
-    );
-    return getCubicPath(sourcePoint, targetPoint, controlPoints);
+      dist = defaultDist,
+    } = subStyleProps<Required<LoopStyleProps>>(this.getGraphicStyle(attributes), 'loop');
+
+    return getCubicLoopPath(node, position, clockwise, dist, sourcePort, targetPort, sourcePoint, targetPoint);
   }
 
   protected getEndpoints(attributes: ParsedBaseEdgeStyleProps<KT>): [Point, Point] {
@@ -172,15 +159,10 @@ export abstract class BaseEdge<KT extends BaseEdgeProps<object>> extends BaseSha
 
     if (rawSourcePoint && rawTargetPoint) return [rawSourcePoint, rawTargetPoint];
 
-    const sourcePort = findPort(sourceNode, sourcePortKey, targetNode);
-    const targetPort = findPort(targetNode, targetPortKey, sourceNode);
+    const [sourcePort, targetPort] = findPorts(sourceNode, targetNode, sourcePortKey, targetPortKey);
 
-    const sourcePoint = sourcePort
-      ? getPortConnectionPoint(sourcePort, targetNode, targetPort)
-      : getNodeConnectionPoint(sourceNode, targetNode, targetPort);
-    const targetPoint = targetPort
-      ? getPortConnectionPoint(targetPort, sourceNode, sourcePort)
-      : getNodeConnectionPoint(targetNode, sourceNode, sourcePort);
+    const sourcePoint = getConnectionPoint(sourcePort || sourceNode, targetPort || targetNode);
+    const targetPoint = getConnectionPoint(targetPort || targetNode, sourcePort || sourceNode);
 
     return [sourcePoint, targetPoint];
   }
