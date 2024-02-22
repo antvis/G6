@@ -23,8 +23,8 @@
               id="key"
               fill="none"
               d="M 0,0 L 130,0"
-              stroke="rgba(255,192,203,1)"
               stroke-width="2"
+              stroke="rgba(255,192,203,1)"
             />
           </g>
         </g>
@@ -40,8 +40,8 @@
               id="key"
               fill="none"
               d="M 63,0 L 0,84"
-              stroke="rgba(139,155,175,1)"
               stroke-width="1"
+              stroke="rgba(139,155,175,1)"
             />
           </g>
         </g>
@@ -57,8 +57,8 @@
               id="key"
               fill="none"
               d="M 63,84 L 0,0"
-              stroke="rgba(139,155,175,1)"
               stroke-width="1"
+              stroke="rgba(139,155,175,1)"
             />
           </g>
         </g>

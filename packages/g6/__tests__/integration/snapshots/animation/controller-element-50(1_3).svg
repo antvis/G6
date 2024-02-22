@@ -23,8 +23,8 @@
               id="key"
               fill="none"
               d="M 0,0 L 130,0"
-              stroke="rgba(139,155,175,1)"
               stroke-width="1"
+              stroke="rgba(139,155,175,1)"
               opacity="0.8255817601983712"
             />
           </g>
@@ -41,8 +41,8 @@
               id="key"
               fill="none"
               d="M 62.19052392232285,0 C 31.09526196116144 31.281476251723106,0 62.5629525034462,0 62.5629525034462"
-              stroke="rgba(139,155,175,1)"
               stroke-width="1"
+              stroke="rgba(139,155,175,1)"
             />
           </g>
         </g>
@@ -58,8 +58,8 @@
               id="key"
               fill="none"
               d="M 63,84 L 0,0"
-              stroke="rgba(139,155,175,1)"
               stroke-width="1"
+              stroke="rgba(139,155,175,1)"
               opacity="0.8255817601983712"
             />
           </g>
