@@ -1,8 +1,9 @@
 import type { AABB, DisplayObject, TextStyleProps } from '@antv/g';
 import { get, isString } from '@antv/util';
+import { BaseEdge } from '../elements/edges/base-edge';
 import { BaseNode } from '../elements/nodes';
 import type { TriangleDirection } from '../elements/nodes/triangle';
-import type { Node, Point, Position } from '../types';
+import type { Edge, Node, Point, Position } from '../types';
 import type { LabelPosition, Port, RelativePosition } from '../types/node';
 import { getBBoxHeight, getBBoxWidth } from './bbox';
 import { isPoint } from './is';
@@ -17,6 +18,17 @@ import { findNearestPoints, getEllipseIntersectPoint } from './point';
  */
 export function isNode(shape: DisplayObject): shape is Node {
   return shape instanceof BaseNode;
+}
+
+/**
+ * <zh/> 判断是否是 BaseEdge 的实例
+ *
+ * <en/> Judge whether the instance is BaseEdge
+ * @param shape - <zh/> 实例 | <en/> instance
+ * @returns <zh/> 是否是 BaseEdge 的实例 | <en/> whether the instance is BaseEdge
+ */
+export function isEdge(shape: DisplayObject): shape is Edge {
+  return shape instanceof BaseEdge;
 }
 
 /**
