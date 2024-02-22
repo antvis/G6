@@ -1,89 +1,93 @@
-import { Circle, Image } from '@antv/g';
-import { Line } from '../../../src/elements/edges';
+import { Graph } from '../../../src';
 import type { StaticTestCase } from '../types';
 
 export const edgeLine: StaticTestCase = async (context) => {
   const { canvas } = context;
 
-  const line1 = new Line({
-    style: {
-      // key shape
-      sourcePoint: [100, 50],
-      targetPoint: [300, 50],
-      stroke: '#1890FF',
-      lineWidth: 2,
-      cursor: 'pointer',
-      // halo
-      halo: false,
-      haloOpacity: 0.25,
-      haloLineWidth: 12,
-      // label
-      label: true,
-      labelText: 'line-edge',
-      labelFontSize: 12,
-      // start arrow
-      startArrow: true,
-      startArrowType: 'diamond',
-      // end arrow
-      endArrow: false,
+  const data = {
+    nodes: [{ id: 'node1' }, { id: 'node2' }, { id: 'node3' }, { id: 'node4' }, { id: 'node5' }, { id: 'node6' }],
+    edges: [
+      {
+        id: 'line-default',
+        source: 'node1',
+        target: 'node2',
+      },
+      {
+        id: 'line-active',
+        source: 'node1',
+        target: 'node3',
+      },
+      {
+        id: 'line-selected',
+        source: 'node1',
+        target: 'node4',
+      },
+      {
+        id: 'line-highlight',
+        source: 'node1',
+        target: 'node5',
+      },
+      {
+        id: 'line-inactive',
+        source: 'node1',
+        target: 'node6',
+      },
+    ],
+  };
+
+  const graph = new Graph({
+    container: canvas,
+    data,
+    node: {
+      style: {
+        type: 'circle', // 👈🏻 Node shape type.
+        width: 40,
+        height: 40,
+        color: '#1783FF',
+      },
     },
+    edge: {
+      style: {
+        type: 'line', // 👈🏻 Edge shape type.
+        color: 'rgb(153, 173, 209)',
+        labelText: (d) => d.id,
+        labelBackgroundPadding: 0,
+        labelBackgroundFill: '#fff',
+        labelBackgroundLineWidth: 0,
+        labelBackgroundOpacity: 0.75,
+        endArrow: true,
+      },
+      state: {
+        active: {
+          halo: true,
+        },
+        selected: {
+          lineWidth: 2,
+          labelFontWeight: 700,
+          halo: true,
+        },
+        highlight: {
+          halo: false,
+          lineWidth: 2,
+          labelFontWeight: 700,
+        },
+        inactive: {
+          color: 'rgb(210, 218, 233)',
+        },
+      },
+    },
+    layout: {
+      type: 'radial',
+      unitRadius: 220,
+      linkDistance: 220,
+    },
+    animation: false,
   });
 
-  const line2 = new Line({
-    style: {
-      sourcePoint: [100, 150],
-      targetPoint: [300, 200],
-      lineWidth: 2,
-      lineDash: [10, 10],
-      stroke: '#1890FF',
-      cursor: 'pointer',
-      halo: true,
-      haloOpacity: 0.25,
-      haloLineWidth: 12,
-      label: true,
-      labelText: 'line-edge',
-      labelFontSize: 12,
-      labelFill: '#000',
-      labelPadding: 0,
-      startArrow: true,
-      startArrowType: 'circle',
-      endArrow: true,
-      endArrowFill: 'red',
-    },
-  });
+  await graph.render();
 
-  const line3 = new Line({
-    style: {
-      sourcePoint: [300, 300],
-      targetPoint: [100, 250],
-      lineWidth: 2,
-      lineDash: [10, 10],
-      stroke: '#1890FF',
-      cursor: 'pointer',
-      halo: true,
-      haloOpacity: 0.25,
-      label: true,
-      labelPosition: 'start',
-      labelOffsetX: 25,
-      labelText: 'reverted-line-edge',
-      labelFontSize: 12,
-      labelFill: '#000',
-      labelPadding: 0,
-      startArrow: true,
-      startArrowCtor: Image,
-      startArrowWidth: 50,
-      startArrowHeight: 50,
-      startArrowSrc: 'https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*N4ZMS7gHsUIAAAAAAAAAAABkARQnAQ',
-      startArrowTransform: 'rotate(90deg)',
-      endArrow: true,
-      endArrowCtor: Circle,
-      endArrowR: 25,
-      endArrowStroke: '#1890FF',
-      endArrowLineWidth: 2,
-    },
-  });
-
-  canvas.appendChild(line1);
-  canvas.appendChild(line2);
-  canvas.appendChild(line3);
+  graph.setElementState('line-active', 'active');
+  graph.setElementState('line-selected', 'selected');
+  graph.setElementState('line-highlight', 'highlight');
+  graph.setElementState('line-inactive', 'inactive');
 };

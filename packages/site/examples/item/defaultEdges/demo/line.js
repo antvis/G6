@@ -1,111 +1,90 @@
-import { Graph, Extensions, extend } from '@antv/g6';
+import { Graph } from '@antv/g6';
 
-const container = document.getElementById('container');
-const width = container.scrollWidth;
-const height = container.scrollHeight || 500;
-
-const ExtGraph = extend(Graph, {
-  layouts: {
-    'radial-layout': Extensions.RadialLayout,
-  },
-});
-
-const graph = new ExtGraph({
-  container: 'container',
-  width,
-  height,
-  modes: {
-    default: ['zoom-canvas', 'drag-canvas', 'drag-node', 'click-select'],
-  },
-  plugins: [
+const data = {
+  nodes: [{ id: 'node1' }, { id: 'node2' }, { id: 'node3' }, { id: 'node4' }, { id: 'node5' }, { id: 'node6' }],
+  edges: [
     {
-      // lod-controller will be automatically assigned to graph with `disableLod: false` to graph if it is not configured as following
-      type: 'lod-controller',
-      disableLod: true,
+      id: 'line-default',
+      source: 'node1',
+      target: 'node2',
+    },
+    {
+      id: 'line-active',
+      source: 'node1',
+      target: 'node3',
+    },
+    {
+      id: 'line-selected',
+      source: 'node1',
+      target: 'node4',
+    },
+    {
+      id: 'line-highlight',
+      source: 'node1',
+      target: 'node5',
+    },
+    {
+      id: 'line-inactive',
+      source: 'node1',
+      target: 'node6',
     },
   ],
+};
+
+const graph = new Graph({
+  container: 'container',
+  data,
+  node: {
+    style: {
+      type: 'circle', // 👈🏻 Node shape type.
+      width: 40,
+      height: 40,
+      color: '#1783FF',
+    },
+  },
+  edge: {
+    style: {
+      type: 'line', // 👈🏻 Edge shape type.
+      color: 'rgb(153, 173, 209)',
+      labelText: (d) => d.id,
+      labelBackgroundPadding: 0,
+      labelBackgroundFill: '#fff',
+      labelBackgroundLineWidth: 0,
+      labelBackgroundOpacity: 0.75,
+      endArrow: true,
+    },
+    state: {
+      active: {
+        halo: true,
+      },
+      selected: {
+        lineWidth: 2,
+        labelFontWeight: 700,
+        halo: true,
+      },
+      highlight: {
+        halo: false,
+        lineWidth: 2,
+        labelFontWeight: 700,
+      },
+      inactive: {
+        color: 'rgb(210, 218, 233)',
+      },
+    },
+  },
   layout: {
-    type: 'radial-layout',
-    focusNode: 'node1',
+    type: 'radial',
     unitRadius: 250,
     linkDistance: 250,
   },
-  data: {
-    nodes: [
-      {
-        id: 'node1',
-        data: {},
-      },
-      {
-        id: 'node2',
-        data: {},
-      },
-      {
-        id: 'node3',
-        data: {},
-      },
-      {
-        id: 'node4',
-        data: {},
-      },
-      {
-        id: 'node5',
-        data: {},
-      },
-      {
-        id: 'node6',
-        data: {},
-      },
-    ],
-    edges: [
-      {
-        id: 'line-default',
-        source: 'node1',
-        target: 'node2',
-      },
-      {
-        id: 'line-active',
-        source: 'node1',
-        target: 'node3',
-      },
-      {
-        id: 'line-selected',
-        source: 'node1',
-        target: 'node4',
-      },
-      {
-        id: 'line-highlight',
-        source: 'node1',
-        target: 'node5',
-      },
-      {
-        id: 'line-inactive',
-        source: 'node1',
-        target: 'node6',
-      },
-    ],
-  },
-  edge: {
-    type: 'line-edge',
-    keyShape: {
-      endArrow: true,
-    },
-    haloShape: {},
-    labelShape: {
-      text: {
-        fields: ['id'],
-        formatter: (model) => model.id,
-      },
-    },
-    labelBackgroundShape: {},
-  },
+  animation: false,
 });
 
-graph.on('afterrender', (e) => {
-  graph.setItemState('line-active', 'active', true);
-  graph.setItemState('line-selected', 'selected', true);
-  graph.setItemState('line-highlight', 'highlight', true);
-  graph.setItemState('line-inactive', 'inactive', true);
-});
+graph.render();
 
-window.graph = graph;
+graph.on('afterrender', () => {
+  graph.setElementState('line-active', 'active');
+  graph.setElementState('line-selected', 'selected');
+  graph.setElementState('line-highlight', 'highlight');
+  graph.setElementState('line-inactive', 'inactive');
+});

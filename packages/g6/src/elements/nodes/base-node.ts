@@ -106,12 +106,12 @@ export abstract class BaseNode<
   }
 
   protected getKeyStyle(attributes: ParsedBaseNodeStyleProps<P>): ExtractGShapeStyleProps<GSHAPE> {
-    const { color, ...style } = this.getGraphicStyle(attributes);
+    const { color, fill, ...style } = this.getGraphicStyle(attributes);
 
-    return Object.assign(
-      { fill: color },
-      omitStyleProps(style, ['label', 'halo', 'icon', 'badge', 'port']),
-    ) as ExtractGShapeStyleProps<GSHAPE>;
+    return {
+      ...omitStyleProps(style, ['label', 'halo', 'icon', 'badge', 'port']),
+      fill: color || fill,
+    } as ExtractGShapeStyleProps<GSHAPE>;
   }
 
   protected getLabelStyle(attributes: ParsedBaseNodeStyleProps<P>): false | LabelStyleProps {
