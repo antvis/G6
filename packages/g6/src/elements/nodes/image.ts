@@ -1,8 +1,10 @@
 import type { DisplayObjectConfig, Group } from '@antv/g';
 import { Image as GImage, ImageStyleProps as GImageStyleProps, Rect as GRect } from '@antv/g';
 import { deepMix } from '@antv/util';
+import { ICON_SIZE_RATIO } from '../../constants/element';
 import type { BaseNodeProps } from '../../types';
 import { subStyleProps } from '../../utils/prefix';
+import type { IconStyleProps } from '../shapes';
 import type { BaseNodeStyleProps } from './base-node';
 import { BaseNode } from './base-node';
 import { PolygonKeyStyleProps, PolygonStyleProps } from './polygon';
@@ -42,6 +44,19 @@ export class Image extends BaseNode<ImageKeyStyleProps, GImage> {
     const fill = 'transparent';
 
     return { ...keyStyle, ...haloStyle, width, height, fill } as HaloStyleProps;
+  }
+
+  protected getIconStyle(attributes: ParsedImageStyleProps): false | IconStyleProps {
+    const style = super.getIconStyle(attributes);
+    const { width, height } = this.getKeyStyle(attributes);
+
+    return style
+      ? ({
+          width: (width as number) * ICON_SIZE_RATIO,
+          height: (height as number) * ICON_SIZE_RATIO,
+          ...style,
+        } as IconStyleProps)
+      : false;
   }
 
   protected drawKeyShape(attributes: ParsedImageStyleProps, container: Group): GImage | undefined {
