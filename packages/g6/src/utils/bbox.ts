@@ -1,5 +1,6 @@
 import { AABB } from '@antv/g';
 import { clone } from '@antv/util';
+import { TriangleDirection } from '../elements/nodes/triangle';
 import type { Node, Padding, Point } from '../types';
 import { isPoint } from './is';
 import { isBetween } from './math';
@@ -166,4 +167,50 @@ export function getNearestPointToPoint(bbox: AABB, p: Point): Point {
     ref[1] = isBetween(y, minY, maxY) ? y : y < minY ? minY : maxY;
   }
   return ref;
+}
+
+/**
+ * The triangle center point of the bounding box
+ * @param bbox - bounding box
+ * @param direction - direction
+ * @returns Point
+ */
+export function getTriangleCenter(bbox: AABB, direction: TriangleDirection): Point {
+  // todo 算法只对矩形有效
+  const { center } = bbox;
+  const { min, max } = bbox;
+  const width = max[0] - min[0];
+  const height = max[1] - min[1];
+
+  const x =
+    direction === 'up' || direction === 'down'
+      ? center[0]
+      : direction === 'right'
+        ? center[0] - width / 6
+        : center[0] + width / 6;
+  const y =
+    direction === 'left' || direction === 'right'
+      ? center[1]
+      : direction === 'down'
+        ? center[1] - height / 6
+        : center[1] + height / 6;
+
+  return [x, y];
+}
+
+/**
+ * Get incircle radius
+ * @param bbox - bounding box
+ * @param direction - direction
+ * @returns number
+ */
+export function getIncircleRadius(bbox: AABB, direction: TriangleDirection): number {
+  const { min, max } = bbox;
+  let w = max[0] - min[0];
+  let h = max[1] - min[1];
+
+  [w, h] = direction === 'up' || direction === 'down' ? [w, h] : [h, w];
+
+  // 三角形的内切圆半径
+  return (h ** 2 - (Math.sqrt((w / 2) ** 2 + h ** 2) - w / 2) ** 2) / (2 * h);
 }
