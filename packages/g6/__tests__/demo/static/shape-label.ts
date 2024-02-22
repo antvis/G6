@@ -59,8 +59,21 @@ export const shapeLabel: StaticTestCase = async (context) => {
     },
   });
 
+  const label5 = new Label({
+    style: {
+      text: 'label1 text',
+      fontSize: 14,
+      fill: 'black',
+      x: 150,
+      y: 50,
+      backgroundFill: 'pink',
+      transform: 'rotate(45deg)',
+    },
+  });
+
   canvas.appendChild(label1);
   canvas.appendChild(label2);
   canvas.appendChild(label3);
   canvas.appendChild(label4);
+  canvas.appendChild(label5);
 };

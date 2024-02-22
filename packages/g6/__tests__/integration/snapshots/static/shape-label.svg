@@ -10,15 +10,15 @@
   <g id="g-svg-camera" transform="matrix(1,0,0,1,0,0)">
     <g id="g-root" fill="none" transform="matrix(1,0,0,1,0,0)">
       <g id="g-svg-5" fill="none" transform="matrix(1,0,0,1,50,50)">
-        <g transform="matrix(1,0,0,1,-4,-29)">
+        <g transform="matrix(1,0,0,1,0,-13.500000)">
           <path
             id="background"
             fill="none"
-            d="M 0,0 l 136,0 l 0,31 l-136 0 z"
+            d="M 0,0 l 70.16,0 l 0,27 l-70.16 0 z"
             opacity="0.75"
             stroke-width="0"
-            width="136"
-            height="31"
+            width="70.16"
+            height="27"
           />
         </g>
         <g transform="matrix(1,0,0,1,0,0)">
@@ -28,7 +28,6 @@
             dominant-baseline="central"
             paint-order="stroke"
             dx="0.5"
-            dy="-13.5px"
             font-size="14"
           >
             label1 text
@@ -36,16 +35,16 @@
         </g>
       </g>
       <g id="g-svg-8" fill="none" transform="matrix(1,0,0,1,50,150)">
-        <g transform="matrix(1,0,0,1,-4,-39)">
+        <g transform="matrix(1,0,0,1,0,-18.500000)">
           <path
             id="background"
             fill="none"
-            d="M 0,0 l 136,0 l 0,41 l-136 0 z"
+            d="M 0,0 l 102.59999999999998,0 l 0,37 l-102.59999999999998 0 z"
             opacity="0.75"
             stroke-width="2"
             stroke="rgba(255,192,203,1)"
-            width="136"
-            height="41"
+            width="102.59999999999998"
+            height="37"
           />
         </g>
         <g transform="matrix(1,0,0,1,0,0)">
@@ -55,7 +54,6 @@
             dominant-baseline="central"
             paint-order="stroke"
             dx="0.5"
-            dy="-18.5px"
             font-size="20"
             stroke="rgba(255,192,203,1)"
           >
@@ -64,16 +62,16 @@
         </g>
       </g>
       <g id="g-svg-11" fill="none" transform="matrix(1,0,0,1,50,250)">
-        <g transform="matrix(1,0,0,1,-4,-61)">
+        <g transform="matrix(1,0,0,1,0,-29.500000)">
           <path
             id="background"
             fill="none"
-            d="M 0,0 l 136,0 l 0,63 l-136 0 z"
+            d="M 0,0 l 124.52000000000001,0 l 0,59 l-124.52000000000001 0 z"
             opacity="0.5"
             stroke-width="2"
             stroke="rgba(255,215,0,1)"
-            width="136"
-            height="63"
+            width="124.52000000000001"
+            height="59"
           />
         </g>
         <g transform="matrix(1,0,0,1,0,0)">
@@ -83,7 +81,6 @@
             dominant-baseline="central"
             paint-order="stroke"
             dx="0.5"
-            dy="-29.5px"
             font-size="32"
             stroke="rgba(255,192,203,1)"
           >
@@ -92,17 +89,17 @@
         </g>
       </g>
       <g id="g-svg-14" fill="none" transform="matrix(1,0,0,1,50,350)">
-        <g transform="matrix(1,0,0,1,-4,-25)">
+        <g transform="matrix(1,0,0,1,0,-23)">
           <path
             id="background"
             fill="rgba(252,233,233,1)"
-            d="M 0,0 l 258,0 l 0,50 l-258 0 z"
+            d="M 0,0 l 250,0 l 0,46 l-250 0 z"
             opacity="0.75"
             stroke-width="0"
             stroke-dasharray="5,5"
             stroke="rgba(228,84,84,1)"
-            width="258"
-            height="50"
+            width="250"
+            height="46"
           />
         </g>
         <g transform="matrix(1,0,0,1,0,0)">
@@ -119,6 +116,35 @@
             <tspan x="0" dx="0.5" dy="23">
               Long Text Long Text Long Text Long Tex...
             </tspan>
+          </text>
+        </g>
+      </g>
+      <g
+        id="g-svg-17"
+        fill="none"
+        transform="matrix(0.707107,0.707107,-0.707107,0.707107,150,50)"
+      >
+        <g transform="matrix(1,0,0,1,0,-13.500000)">
+          <path
+            id="background"
+            fill="rgba(255,192,203,1)"
+            d="M 0,0 l 70.16,0 l 0,27 l-70.16 0 z"
+            opacity="0.75"
+            stroke-width="0"
+            width="70.16"
+            height="27"
+          />
+        </g>
+        <g transform="matrix(1,0,0,1,0,0)">
+          <text
+            id="text"
+            fill="rgba(0,0,0,1)"
+            dominant-baseline="central"
+            paint-order="stroke"
+            dx="0.5"
+            font-size="14"
+          >
+            label1 text
           </text>
         </g>
       </g>
