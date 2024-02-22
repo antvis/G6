@@ -31,6 +31,8 @@ describe('element', () => {
     id: 'node-2',
   });
 
+  const edge = new Polyline({ style: { sourceNode: node1, targetNode: node2 } });
+
   it('isNode', () => {
     expect(isNode(new Rect({ style: { width: 10, height: 10 } }))).toBe(false);
     const node = new Circle({});
@@ -38,9 +40,8 @@ describe('element', () => {
   });
 
   it('isEdge', () => {
-    const polyline = new Polyline({ style: { sourceNode: node1, targetNode: node2 } });
     expect(isEdge(new Line({ style: { x1: 0, y1: 0, x2: 10, y2: 10 } }))).toBe(false);
-    expect(isEdge(polyline)).toBe(true);
+    expect(isEdge(edge)).toBe(true);
   });
 
   it('isSameNode', () => {
