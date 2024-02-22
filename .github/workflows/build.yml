@@ -1,6 +1,6 @@
 name: build
 
-on: [push]
+on: [push, pull_request]
 
 concurrency:
   group: ${{github.workflow}}-${{github.event_name}}-${{github.ref}}
@@ -39,7 +39,7 @@ jobs:
           path: |
             packages/g6/__tests__/integration/snapshots/**/*-actual.svg
           retention-days: 1
-                    
+
       - name: Coveralls GitHub Action
         uses: coverallsapp/github-action@v2.2.3
         with:
