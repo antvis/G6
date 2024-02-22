@@ -1,13 +1,11 @@
 import type { G6Spec } from '../../../src';
-import { DataController } from '../../../src/runtime/data';
-import { ElementController } from '../../../src/runtime/element';
-import { LayoutController } from '../../../src/runtime/layout';
-import { ViewportController } from '../../../src/runtime/viewport';
+import { Graph } from '../../../src';
 import data from '../../dataset/radial.json';
 import type { StaticTestCase } from '../types';
 
 export const controllerLayoutRadial: StaticTestCase = async ({ canvas, animation }) => {
   const options: G6Spec = {
+    container: canvas,
     animation,
     padding: 0,
     data: data,
@@ -25,23 +23,7 @@ export const controllerLayoutRadial: StaticTestCase = async ({ canvas, animation
     },
   };
 
-  const graph = {
-    emit: () => {},
-  };
+  const graph = new Graph(options);
 
-  const model = new DataController();
-
-  model.addData(options?.data || {});
-
-  const viewport = new ViewportController({ canvas } as any);
-
-  const context: any = { options, model, graph, canvas, viewport };
-
-  const element = new ElementController(context);
-
-  await element.draw(context);
-
-  const layout = new LayoutController({ ...context, element });
-
-  await layout.layout();
+  await graph.render();
 };

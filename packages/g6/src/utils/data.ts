@@ -1,3 +1,4 @@
+import { get } from '@antv/util';
 import type { ComboData, EdgeData, GraphData, NodeData } from '../spec';
 
 /**
@@ -59,5 +60,5 @@ export function cloneElementData<T extends NodeData | EdgeData | ComboData>(data
  * @returns <zh/> 是否为空 | <en/> is empty
  */
 export function isEmptyData(data: GraphData) {
-  return !data.nodes?.length && !data.edges?.length && !data.combos?.length;
+  return !get(data, ['nodes', 'length']) && !get(data, ['edges', 'length']) && !get(data, ['combos', 'length']);
 }

@@ -1,14 +1,11 @@
 import type { G6Spec } from '../../../src';
-import { treeToGraphData } from '../../../src';
-import { DataController } from '../../../src/runtime/data';
-import { ElementController } from '../../../src/runtime/element';
-import { LayoutController } from '../../../src/runtime/layout';
-import { ViewportController } from '../../../src/runtime/viewport';
+import { Graph, treeToGraphData } from '../../../src';
 import tree from '../../dataset/file-system.json';
 import type { StaticTestCase } from '../types';
 
 export const controllerLayoutIndented: StaticTestCase = async ({ canvas, animation }) => {
   const options: G6Spec = {
+    container: canvas,
     animation,
     data: treeToGraphData(tree),
     theme: 'light',
@@ -32,28 +29,12 @@ export const controllerLayoutIndented: StaticTestCase = async ({ canvas, animati
         // TODO polyline
       },
     },
+    zoom: 0.5,
   };
 
-  const graph = {
-    emit: () => {},
-  };
+  const graph = new Graph(options);
 
-  const model = new DataController();
+  await graph.render();
 
-  model.addData(options?.data || {});
-
-  const viewport = new ViewportController({ canvas } as any);
-
-  const context: any = { options, model, graph, canvas, viewport };
-
-  viewport.zoom({ mode: 'absolute', value: 0.5 });
-  viewport.translate({ mode: 'absolute', value: [0, -200] });
-
-  const element = new ElementController(context);
-
-  await element.draw(context);
-
-  const layout = new LayoutController({ ...context, element });
-
-  await layout.layout();
+  await graph.translateTo([0, -200]);
 };

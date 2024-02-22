@@ -1,12 +1,11 @@
 import type { G6Spec } from '../../../src';
-import { DataController } from '../../../src/runtime/data';
-import { ElementController } from '../../../src/runtime/element';
-import { LayoutController } from '../../../src/runtime/layout';
+import { Graph } from '../../../src';
 import data from '../../dataset/dagre.json';
 import type { StaticTestCase } from '../types';
 
 export const controllerLayoutDagre: StaticTestCase = async ({ canvas, animation }) => {
   const options: G6Spec = {
+    container: canvas,
     animation,
     data,
     theme: 'light',
@@ -21,27 +20,13 @@ export const controllerLayoutDagre: StaticTestCase = async ({ canvas, animation 
     node: { style: { width: 20, height: 20 } },
     edge: {
       style: {
-        // type: 'polyline',
+        type: 'polyline',
         // TODO polyline
       },
     },
   };
 
-  const graph = {
-    emit: () => {},
-  };
+  const graph = new Graph(options);
 
-  const model = new DataController();
-
-  model.addData(options?.data || {});
-
-  const context: any = { options, model, graph, canvas, viewport: { getCanvasSize: () => [500, 500] } };
-
-  const element = new ElementController(context);
-
-  await element.draw(context);
-
-  const layout = new LayoutController({ ...context, element });
-
-  await layout.layout();
+  await graph.render();
 };

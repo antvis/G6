@@ -80,10 +80,9 @@ export class ElementController {
     this.initElementState(context.options.data || {});
   }
 
-  public async init() {
+  public init() {
     const { canvas } = this.context;
     if (!this.container) {
-      await canvas.init();
       this.container = {
         node: canvas.appendChild(new Group({ style: { zIndex: 2 } })),
         edge: canvas.appendChild(new Group({ style: { zIndex: 1 } })),
@@ -469,14 +468,13 @@ export class ElementController {
    *
    * <en/> start render process
    */
-  public async draw(context: RuntimeContext) {
-    this.context = context;
-    const { model } = context;
+  public async draw() {
+    const { model } = this.context;
 
     const tasks = reduceDataChanges(model.getChanges());
-    if (tasks.length === 0) return null;
+    if (tasks.length === 0) return;
 
-    await this.init();
+    this.init();
 
     const {
       NodeAdded = [],
@@ -555,7 +553,7 @@ export class ElementController {
       afterAnimate: (animation) =>
         this.emit(new AnimateEvent(GraphEvent.AFTER_ANIMATE, AnimationTypeEnum.DRAW, animation)),
       after: () => this.emit(new DrawEvent(GraphEvent.AFTER_DRAW)),
-    });
+    })?.finished.then(() => {});
   }
 
   private getShapeType(elementType: ElementType, renderData: Record<string, any>) {
