@@ -109,7 +109,6 @@ export abstract class BaseNode<
 
   protected getKeyStyle(attributes: ParsedBaseNodeStyleProps<P>): ExtractGShapeStyleProps<GSHAPE> {
     const { color, ...style } = this.getGraphicStyle(attributes);
-    console.log(style);
 
     return Object.assign(
       { fill: color },
