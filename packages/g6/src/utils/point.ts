@@ -210,6 +210,9 @@ export function getEllipseIntersectPoint(p: Point, bbox: AABB): Point {
   const vec = subtract(p, center);
 
   let radians = angle(vec, [1, 0, 0]);
+
+  if (isNaN(radians)) return center;
+
   if (radians < 0) radians += Math.PI * 2;
   return [
     center[0] + Math.abs(rx * Math.cos(radians)) * Math.sign(vec[0]),
