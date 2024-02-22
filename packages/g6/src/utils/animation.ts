@@ -1,7 +1,7 @@
 import type { DisplayObject, IAnimation } from '@antv/g';
 import { isEqual, isNil } from '@antv/util';
-import { BaseNode } from '../elements/nodes';
 import type { AnimatableTask, Keyframe } from '../types';
+import { isNode } from './is';
 import { getDescendantShapes } from './shape';
 
 export function createAnimationsProxy(animations: IAnimation[]): IAnimation | null;
@@ -74,7 +74,7 @@ export function preprocessKeyframes(keyframes: Keyframe[]): Keyframe[] {
       values.some((value) => isNil(value)) ||
       // 属性值必须不完全一致 / property value must not be exactly the same
       // 属性值可以是同一节点 / property value can be the same node
-      values.every((value) => !(value instanceof BaseNode) && isEqual(value, values[0]))
+      values.every((value) => !isNode(value) && isEqual(value, values[0]))
     ) {
       delete propertyIndexedKeyframes[key];
     }
