@@ -16,11 +16,14 @@
         height="20"
         transform="matrix(1,0,0,1,50,40)"
       >
-        <g transform="matrix(1,0,0,1,-25,-10)">
-          <polygon
+        <g transform="matrix(1,0,0,1,0,0)">
+          <path
             id="key"
             fill="rgba(248,248,248,1)"
-            points="50,0 50,20 0,20 0,0"
+            d="M 0,0 l 50,0 l 0,20 l-50 0 z"
+            transform="translate(-25,-10)"
+            width="50"
+            height="20"
             stroke="rgba(139,155,175,1)"
           />
         </g>
@@ -90,11 +93,14 @@
         height="20"
         transform="matrix(1,0,0,1,150,40)"
       >
-        <g transform="matrix(1,0,0,1,-25,-10)">
-          <polygon
+        <g transform="matrix(1,0,0,1,0,0)">
+          <path
             id="key"
             fill="rgba(248,248,248,1)"
-            points="50,0 50,20 0,20 0,0"
+            d="M 0,0 l 50,0 l 0,20 l-50 0 z"
+            transform="translate(-25,-10)"
+            width="50"
+            height="20"
             stroke="rgba(139,155,175,1)"
           />
         </g>
@@ -168,11 +174,14 @@
         height="20"
         transform="matrix(1,0,0,1,250,40)"
       >
-        <g transform="matrix(1,0,0,1,-25,-10)">
-          <polygon
+        <g transform="matrix(1,0,0,1,0,0)">
+          <path
             id="key"
             fill="rgba(248,248,248,1)"
-            points="50,0 50,20 0,20 0,0"
+            d="M 0,0 l 50,0 l 0,20 l-50 0 z"
+            transform="translate(-25,-10)"
+            width="50"
+            height="20"
             stroke="rgba(139,155,175,1)"
           />
         </g>
@@ -236,11 +245,14 @@
         height="20"
         transform="matrix(1,0,0,1,50,120)"
       >
-        <g transform="matrix(1,0,0,1,-25,-10)">
-          <polygon
+        <g transform="matrix(1,0,0,1,0,0)">
+          <path
             id="key"
             fill="rgba(248,248,248,1)"
-            points="50,0 50,20 0,20 0,0"
+            d="M 0,0 l 50,0 l 0,20 l-50 0 z"
+            transform="translate(-25,-10)"
+            width="50"
+            height="20"
             stroke="rgba(139,155,175,1)"
           />
         </g>
@@ -278,11 +290,14 @@
         height="20"
         transform="matrix(1,0,0,1,150,75)"
       >
-        <g transform="matrix(1,0,0,1,-25,-10)">
-          <polygon
+        <g transform="matrix(1,0,0,1,0,0)">
+          <path
             id="key"
             fill="rgba(248,248,248,1)"
-            points="50,0 50,20 0,20 0,0"
+            d="M 0,0 l 50,0 l 0,20 l-50 0 z"
+            transform="translate(-25,-10)"
+            width="50"
+            height="20"
             stroke="rgba(139,155,175,1)"
           />
         </g>
@@ -336,11 +351,14 @@
         height="20"
         transform="matrix(1,0,0,1,50,220)"
       >
-        <g transform="matrix(1,0,0,1,-25,-10)">
-          <polygon
+        <g transform="matrix(1,0,0,1,0,0)">
+          <path
             id="key"
             fill="rgba(248,248,248,1)"
-            points="50,0 50,20 0,20 0,0"
+            d="M 0,0 l 50,0 l 0,20 l-50 0 z"
+            transform="translate(-25,-10)"
+            width="50"
+            height="20"
             stroke="rgba(139,155,175,1)"
           />
         </g>
@@ -378,11 +396,14 @@
         height="20"
         transform="matrix(1,0,0,1,150,175)"
       >
-        <g transform="matrix(1,0,0,1,-25,-10)">
-          <polygon
+        <g transform="matrix(1,0,0,1,0,0)">
+          <path
             id="key"
             fill="rgba(248,248,248,1)"
-            points="50,0 50,20 0,20 0,0"
+            d="M 0,0 l 50,0 l 0,20 l-50 0 z"
+            transform="translate(-25,-10)"
+            width="50"
+            height="20"
             stroke="rgba(139,155,175,1)"
           />
         </g>
@@ -436,11 +457,14 @@
         height="20"
         transform="matrix(1,0,0,1,50,320)"
       >
-        <g transform="matrix(1,0,0,1,-25,-10)">
-          <polygon
+        <g transform="matrix(1,0,0,1,0,0)">
+          <path
             id="key"
             fill="rgba(248,248,248,1)"
-            points="50,0 50,20 0,20 0,0"
+            d="M 0,0 l 50,0 l 0,20 l-50 0 z"
+            transform="translate(-25,-10)"
+            width="50"
+            height="20"
             stroke="rgba(139,155,175,1)"
           />
         </g>
@@ -478,11 +502,14 @@
         height="20"
         transform="matrix(1,0,0,1,150,275)"
       >
-        <g transform="matrix(1,0,0,1,-25,-10)">
-          <polygon
+        <g transform="matrix(1,0,0,1,0,0)">
+          <path
             id="key"
             fill="rgba(248,248,248,1)"
-            points="50,0 50,20 0,20 0,0"
+            d="M 0,0 l 50,0 l 0,20 l-50 0 z"
+            transform="translate(-25,-10)"
+            width="50"
+            height="20"
             stroke="rgba(139,155,175,1)"
           />
         </g>
@@ -536,11 +563,14 @@
         height="20"
         transform="matrix(1,0,0,1,50,420)"
       >
-        <g transform="matrix(1,0,0,1,-25,-10)">
-          <polygon
+        <g transform="matrix(1,0,0,1,0,0)">
+          <path
             id="key"
             fill="rgba(248,248,248,1)"
-            points="50,0 50,20 0,20 0,0"
+            d="M 0,0 l 50,0 l 0,20 l-50 0 z"
+            transform="translate(-25,-10)"
+            width="50"
+            height="20"
             stroke="rgba(139,155,175,1)"
           />
         </g>
@@ -588,11 +618,14 @@
         height="20"
         transform="matrix(1,0,0,1,150,375)"
       >
-        <g transform="matrix(1,0,0,1,-25,-10)">
-          <polygon
+        <g transform="matrix(1,0,0,1,0,0)">
+          <path
             id="key"
             fill="rgba(248,248,248,1)"
-            points="50,0 50,20 0,20 0,0"
+            d="M 0,0 l 50,0 l 0,20 l-50 0 z"
+            transform="translate(-25,-10)"
+            width="50"
+            height="20"
             stroke="rgba(139,155,175,1)"
           />
         </g>
@@ -646,11 +679,14 @@
         height="20"
         transform="matrix(1,0,0,1,250,420)"
       >
-        <g transform="matrix(1,0,0,1,-25,-10)">
-          <polygon
+        <g transform="matrix(1,0,0,1,0,0)">
+          <path
             id="key"
             fill="rgba(248,248,248,1)"
-            points="50,0 50,20 0,20 0,0"
+            d="M 0,0 l 50,0 l 0,20 l-50 0 z"
+            transform="translate(-25,-10)"
+            width="50"
+            height="20"
             stroke="rgba(139,155,175,1)"
           />
         </g>
@@ -688,11 +724,14 @@
         height="50"
         transform="matrix(1,0,0,1,350,375)"
       >
-        <g transform="matrix(1,0,0,1,-25,-25)">
-          <polygon
+        <g transform="matrix(1,0,0,1,0,0)">
+          <path
             id="key"
             fill="rgba(248,248,248,1)"
-            points="50,0 50,50 0,50 0,0"
+            d="M 0,0 l 50,0 l 0,50 l-50 0 z"
+            transform="translate(-25,-25)"
+            width="50"
+            height="50"
             stroke="rgba(139,155,175,1)"
           />
         </g>
