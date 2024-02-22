@@ -74,13 +74,13 @@
               fill="rgba(0,0,0,0)"
               d="M 0,0 l 52,0 l 0,52 l-52 0 z"
               transform="translate(-26,-26)"
+              width="52"
+              height="52"
               stroke-dasharray="0,0"
               stroke-width="12"
               stroke-opacity="0.25"
               pointer-events="none"
               stroke="rgba(23,131,255,1)"
-              width="52"
-              height="52"
             />
           </g>
           <g transform="matrix(1,0,0,1,0,0)">
@@ -367,13 +367,13 @@
               fill="rgba(0,0,0,0)"
               d="M 0,0 l 52,0 l 0,52 l-52 0 z"
               transform="translate(-26,-26)"
+              width="52"
+              height="52"
               stroke-dasharray="0,0"
               stroke-width="12"
               stroke-opacity="0.25"
               pointer-events="none"
               stroke="rgba(23,131,255,1)"
-              width="52"
-              height="52"
             />
           </g>
           <g transform="matrix(1,0,0,1,0,0)">
@@ -431,13 +431,13 @@
               fill="rgba(0,0,0,0)"
               d="M 0,0 l 52,0 l 0,52 l-52 0 z"
               transform="translate(-26,-26)"
+              width="52"
+              height="52"
               stroke-dasharray="0,0"
               stroke-width="12"
               stroke-opacity="0.25"
               pointer-events="none"
               stroke="rgba(23,131,255,1)"
-              width="52"
-              height="52"
             />
           </g>
           <g transform="matrix(1,0,0,1,0,0)">
