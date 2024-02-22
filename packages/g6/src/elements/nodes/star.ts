@@ -1,6 +1,7 @@
 import type { DisplayObjectConfig } from '@antv/g';
 import type { Point, StarPortPosition } from '../../types';
 import { getPortPosition, getStarPoints, getStarPorts } from '../../utils/element';
+import type { IconStyleProps } from '../shapes';
 import { NodePortStyleProps } from './base-node';
 import type { PolygonKeyStyleProps, PolygonStyleProps } from './polygon';
 import { Polygon } from './polygon';
@@ -31,6 +32,12 @@ export class Star extends Polygon<StarKeyStyleProps> {
 
   protected getPoints(attributes: ParsedStarStyleProps): Point[] {
     return getStarPoints(this.getOuterR(attributes), this.getInnerR(attributes));
+  }
+
+  protected getIconStyle(attributes: ParsedStarStyleProps): false | IconStyleProps {
+    const style = super.getIconStyle(attributes);
+    const size = this.getInnerR(attributes) * 2 * 0.8;
+    return style ? ({ width: size, height: size, ...style } as IconStyleProps) : false;
   }
 
   protected getPortXY(attributes: ParsedStarStyleProps, style: NodePortStyleProps): Point {

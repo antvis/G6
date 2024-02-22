@@ -1,9 +1,10 @@
 import type { DisplayObjectConfig } from '@antv/g';
 import { deepMix, isEmpty } from '@antv/util';
 import type { Point, TrianglePortPosition } from '../../types';
+import { getIncircleRadius, getTriangleCenter } from '../../utils/bbox';
 import { getPortPosition, getTrianglePoints, getTrianglePorts } from '../../utils/element';
 import { subStyleProps } from '../../utils/prefix';
-import type { IconStyleProps } from '../shapes';
+import { IconStyleProps } from '../shapes';
 import type { BaseNodeStyleProps, NodePortStyleProps } from './base-node';
 import type { PolygonKeyStyleProps } from './polygon';
 import { Polygon } from './polygon';
@@ -44,31 +45,23 @@ export class Triangle extends Polygon<TriangleKeyShapeStyleProps> {
     return getPortPosition(bbox, position as TrianglePortPosition, ports, false);
   }
 
-  // icon 处于三角形的重心
+  // icon 处于内切三角形的重心
   // icon is at the centroid of the triangle
   protected getIconStyle(attributes: ParsedTriangleStyleProps): false | IconStyleProps {
-    const { icon, iconText, iconSrc, direction, height, width } = attributes;
+    const { icon, iconText, iconSrc, direction } = attributes;
 
     if (icon === false || isEmpty(iconText || iconSrc)) return false;
 
     const iconStyle = subStyleProps<IconStyleProps>(this.getGraphicStyle(attributes), 'icon');
-    const { center } = this.getKey().getLocalBounds();
-    const x =
-      direction === 'up' || direction === 'down'
-        ? center[0]
-        : direction === 'right'
-          ? center[0] - width / 6
-          : center[0] + width / 6;
-    const y =
-      direction === 'left' || direction === 'right'
-        ? center[1]
-        : direction === 'down'
-          ? center[1] - height / 6
-          : center[1] + height / 6;
+    const bbox = this.getKey().getLocalBounds();
+    const [x, y] = getTriangleCenter(bbox, direction);
+    const size = getIncircleRadius(bbox, direction) * 2 * 0.8;
 
     return {
       x,
       y,
+      width: size,
+      height: size,
       ...iconStyle,
     };
   }

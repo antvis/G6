@@ -3,6 +3,7 @@ import { Ellipse as GEllipse } from '@antv/g';
 import { deepMix } from '@antv/util';
 import type { BaseNodeProps, Point } from '../../types';
 import { getEllipseIntersectPoint } from '../../utils/point';
+import type { IconStyleProps } from '../shapes';
 import type { BaseNodeStyleProps } from './base-node';
 import { BaseNode } from './base-node';
 
@@ -34,6 +35,14 @@ export class Ellipse extends BaseNode<BaseNodeProps, GEllipse> {
       rx: width / 2,
       ry: height / 2,
     };
+  }
+
+  protected getIconStyle(attributes: ParsedEllipseStyleProps): false | IconStyleProps {
+    const style = super.getIconStyle(attributes);
+    const { rx, ry } = this.getKeyStyle(attributes);
+    const size = Math.min(rx as number, ry as number) * 2 * 0.8;
+
+    return style ? ({ width: size, height: size, ...style } as IconStyleProps) : false;
   }
 
   public getIntersectPoint(point: Point): Point {

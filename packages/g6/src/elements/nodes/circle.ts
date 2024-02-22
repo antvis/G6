@@ -3,6 +3,7 @@ import { Circle as GCircle } from '@antv/g';
 import { deepMix } from '@antv/util';
 import type { BaseNodeProps, Point } from '../../types';
 import { getEllipseIntersectPoint } from '../../utils/point';
+import type { IconStyleProps } from '../shapes';
 import type { BaseNodeStyleProps } from './base-node';
 import { BaseNode } from './base-node';
 
@@ -36,6 +37,13 @@ export class Circle extends BaseNode<BaseNodeProps, GCircle> {
       cz: z,
       r: Math.min(width, height) / 2,
     };
+  }
+
+  protected getIconStyle(attributes: ParsedCircleStyleProps): false | IconStyleProps {
+    const style = super.getIconStyle(attributes);
+    const { r } = this.getKeyStyle(attributes);
+    const size = (r as number) * 2 * 0.8;
+    return style ? ({ width: size, height: size, ...style } as IconStyleProps) : false;
   }
 
   public getIntersectPoint(point: Point): Point {

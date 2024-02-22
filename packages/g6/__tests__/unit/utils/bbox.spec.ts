@@ -3,10 +3,12 @@ import {
   getBBoxHeight,
   getBBoxWidth,
   getExpandedBBox,
+  getIncircleRadius,
   getNearestPointToPoint,
   getNearestSideToPoint,
   getNodeBBox,
   getPointBBox,
+  getTriangleCenter,
   isPointInBBox,
   isPointOutsideBBox,
   union,
@@ -79,5 +81,19 @@ describe('bbox', () => {
     expect(getNearestPointToPoint(bbox, [0.5, 0.8, 0])).toEqual([0.5, 1, 0]);
     expect(getNearestPointToPoint(bbox, [1.8, 0.5, 0])).toEqual([1, 0.5, 0]);
     expect(getNearestPointToPoint(bbox, [0.5, 1.8, 0])).toEqual([0.5, 1, 0]);
+  });
+
+  it('getTriangleCenter', () => {
+    expect(getTriangleCenter(bbox, 'left')).toEqual([2 / 3, 0.5]);
+    expect(getTriangleCenter(bbox, 'right')).toEqual([0.33333333333333337, 0.5]);
+    expect(getTriangleCenter(bbox, 'up')).toEqual([0.5, 2 / 3]);
+    expect(getTriangleCenter(bbox, 'down')).toEqual([0.5, 0.33333333333333337]);
+  });
+
+  it('getIncircleRadius', () => {
+    expect(getIncircleRadius(bbox, 'left')).toEqual(0.3090169943749474);
+    expect(getIncircleRadius(bbox, 'right')).toEqual(0.3090169943749474);
+    expect(getIncircleRadius(bbox, 'up')).toEqual(0.3090169943749474);
+    expect(getIncircleRadius(bbox, 'down')).toEqual(0.3090169943749474);
   });
 });
