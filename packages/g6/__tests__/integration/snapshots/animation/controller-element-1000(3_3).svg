@@ -18,11 +18,11 @@
           marker-end="false"
           transform="matrix(1,0,0,1,0,0)"
         >
-          <g transform="matrix(1,0,0,1,125,150)">
+          <g transform="matrix(1,0,0,1,133.320496,155.546997)">
             <path
               id="key"
               fill="none"
-              d="M 75,50 L 0,0"
+              d="M 58.358994113243114,38.90599607549541 L 0,0"
               stroke="rgba(139,155,175,1)"
               stroke-width="1"
             />

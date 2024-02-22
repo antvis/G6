@@ -26,7 +26,6 @@ export const controllerLayoutIndented: StaticTestCase = async ({ canvas, animati
     edge: {
       style: {
         type: 'polyline',
-        // TODO polyline
       },
     },
     zoom: 0.5,

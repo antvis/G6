@@ -411,12 +411,7 @@ export class ElementController {
     const sourceNode = this.getElement<BaseNode<any, any>>(source);
     const targetNode = this.getElement<BaseNode<any, any>>(target);
 
-    const sourcePoint = sourceNode?.getCenter() || [0, 0, 0];
-    const targetPoint = targetNode?.getCenter() || [0, 0, 0];
-
     return {
-      sourcePoint,
-      targetPoint,
       sourceNode,
       targetNode,
     };
@@ -531,27 +526,26 @@ export class ElementController {
     // 创建渲染任务 / Create render task
     const renderContext = { animation: true };
 
-    const destroyTasks = this.getDestroyTasks(
-      { nodes: nodesToRemove, edges: edgesToRemove, combos: combosToRemove },
-      renderContext,
-    );
+    const dataToDestroy = { nodes: nodesToRemove, edges: edgesToRemove, combos: combosToRemove };
+    const destroyTasks = this.getDestroyTasks(dataToDestroy, renderContext);
 
-    const createTasks = this.getCreateTasks(
-      { nodes: nodesToAdd, edges: edgesToAdd, combos: combosToAdd },
-      renderContext,
-    );
+    const dataToCreate = { nodes: nodesToAdd, edges: edgesToAdd, combos: combosToAdd };
+    const createTasks = this.getCreateTasks(dataToCreate, renderContext);
 
-    const updateTasks = this.getUpdateTasks(
-      { nodes: nodesToUpdate, edges: deduplicate(edgesToUpdate, idOf), combos: deduplicate(combosToUpdate, idOf) },
-      renderContext,
-    );
+    const dataToUpdate = {
+      nodes: nodesToUpdate,
+      edges: deduplicate(edgesToUpdate, idOf),
+      combos: deduplicate(combosToUpdate, idOf),
+    };
+    const updateTasks = this.getUpdateTasks(dataToUpdate, renderContext);
 
+    const diffData = { create: dataToCreate, update: dataToUpdate, destroy: dataToDestroy };
     return executeAnimatableTasks([...destroyTasks, ...createTasks, ...updateTasks], {
       before: () => this.emit(new DrawEvent(GraphEvent.BEFORE_DRAW)),
       beforeAnimate: (animation) =>
-        this.emit(new AnimateEvent(GraphEvent.BEFORE_ANIMATE, AnimationTypeEnum.DRAW, animation)),
+        this.emit(new AnimateEvent(GraphEvent.BEFORE_ANIMATE, AnimationTypeEnum.DRAW, animation, diffData)),
       afterAnimate: (animation) =>
-        this.emit(new AnimateEvent(GraphEvent.AFTER_ANIMATE, AnimationTypeEnum.DRAW, animation)),
+        this.emit(new AnimateEvent(GraphEvent.AFTER_ANIMATE, AnimationTypeEnum.DRAW, animation, diffData)),
       after: () => this.emit(new DrawEvent(GraphEvent.AFTER_DRAW)),
     })?.finished.then(() => {});
   }
@@ -573,7 +567,6 @@ export class ElementController {
     const id = idOf(datum);
     const currentShape = this.getElement(id);
     if (currentShape) return () => null;
-
     const renderData = this.getElementComputedStyle(elementType, id);
 
     // get shape constructor
@@ -701,11 +694,9 @@ export class ElementController {
     const { nodes: nodeLikeResults, edges: edgeResults } = layoutResult;
     if (Object.keys(nodeLikeResults).length === 0 && Object.keys(edgeResults).length === 0) return null;
 
-    // TODO dagre 布局计算出来的 controlPoints 会导致边异常，需要处理
-    // controlPoints calculated by dagre layout will cause the edge to be abnormal and need to be handled
-    // Object.entries(edgeResults).forEach(([id, style]) => {
-    //   this.setRuntimeStyle(id, style);
-    // });
+    Object.entries(edgeResults).forEach(([id, style]) => {
+      this.setRuntimeStyle(id, style);
+    });
 
     this.updateNodeLikePosition(nodeLikeResults, animation, Object.keys(edgeResults));
   }
