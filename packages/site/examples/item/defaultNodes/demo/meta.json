@@ -21,7 +21,7 @@
       "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*etLSQYZnJAAAAAAAAAAAAAAADmJ7AQ/original"
     },
     {
-      "filename": "radiusRect.js",
+      "filename": "radiusRect.ts",
       "title": {
         "zh": "圆角矩形",
         "en": "Radius Rect"

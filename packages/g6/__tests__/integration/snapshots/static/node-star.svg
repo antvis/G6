@@ -370,11 +370,14 @@
         height="50"
         transform="matrix(1,0,0,1,100,250)"
       >
-        <g transform="matrix(1,0,0,1,-25,-25)">
-          <polygon
+        <g transform="matrix(1,0,0,1,0,0)">
+          <path
             id="key"
             fill="rgba(0,0,0,0)"
-            points="50,0 50,50 0,50 0,0"
+            d="M 0,0 l 50,0 l 0,50 l-50 0 z"
+            transform="translate(-25,-25)"
+            width="50"
+            height="50"
             stroke="rgba(49,208,198,1)"
             stroke-dasharray="5,5"
           />
