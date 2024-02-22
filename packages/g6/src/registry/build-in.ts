@@ -5,6 +5,7 @@ import {
   CubicHorizontal,
   CubicVertical,
   Ellipse,
+  Image,
   Line,
   Polyline,
   Quadratic,
@@ -73,6 +74,7 @@ export const BUILT_IN_PLUGINS = {
   node: {
     circle: Circle,
     ellipse: Ellipse,
+    image: Image,
     rect: Rect,
     star: Star,
     triangle: Triangle,

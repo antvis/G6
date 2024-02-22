@@ -5,6 +5,7 @@ import {
   CubicHorizontal,
   CubicVertical,
   Ellipse,
+  Image,
   Line,
   Polyline,
   Quadratic,
@@ -22,6 +23,7 @@ describe('registry', () => {
     expect(getPlugins('node')).toEqual({
       circle: Circle,
       ellipse: Ellipse,
+      image: Image,
       rect: Rect,
       star: Star,
       triangle: Triangle,
