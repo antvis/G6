@@ -431,7 +431,7 @@
           fill="none"
           width="40"
           height="40"
-          transform="translate(-20,-20)"
+          transform="matrix(1,0,0,1,250,250)"
         >
           <g transform="matrix(1,0,0,1,0,0)">
             <path
@@ -513,7 +513,7 @@
           fill="none"
           width="40"
           height="40"
-          transform="translate(-20,-20)"
+          transform="matrix(1,0,0,1,416.666656,250)"
         >
           <g transform="matrix(1,0,0,1,0,0)">
             <path
@@ -596,7 +596,7 @@
           fill="none"
           width="40"
           height="40"
-          transform="translate(-20,-20)"
+          transform="matrix(1,0,0,1,83.333336,416.666656)"
         >
           <g transform="matrix(1,0,0,1,0,0)">
             <path
@@ -664,7 +664,7 @@
           fill="none"
           width="40"
           height="40"
-          transform="translate(-20,-20)"
+          transform="matrix(1,0,0,1,250,416.666656)"
         >
           <g transform="matrix(1,0,0,1,0,0)">
             <path
