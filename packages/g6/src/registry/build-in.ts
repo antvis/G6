@@ -1,5 +1,5 @@
 import { fade, translate } from '../animations';
-import { Circle, Cubic, Ellipse, Line, Polyline, Quadratic, Rect, Star, Triangle } from '../elements';
+import { Circle, Cubic, Ellipse, Image, Line, Polyline, Quadratic, Rect, Star, Triangle } from '../elements';
 import {
   CircularLayout,
   ComboCombinedLayout,
@@ -59,6 +59,7 @@ export const BUILT_IN_PLUGINS = {
   node: {
     circle: Circle,
     ellipse: Ellipse,
+    image: Image,
     rect: Rect,
     star: Star,
     triangle: Triangle,

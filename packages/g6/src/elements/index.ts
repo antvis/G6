@@ -1,2 +1,2 @@
 export { Cubic, Line, Polyline, Quadratic } from './edges';
-export { Circle, Ellipse, Rect, Star, Triangle } from './nodes';
+export { Circle, Ellipse, Image, Rect, Star, Triangle } from './nodes';

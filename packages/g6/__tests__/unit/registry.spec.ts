@@ -1,5 +1,5 @@
 import { pick } from '@antv/util';
-import { Circle, Cubic, Ellipse, Line, Polyline, Quadratic, Rect, Star, Triangle } from '../../src/elements';
+import { Circle, Cubic, Ellipse, Image, Line, Polyline, Quadratic, Rect, Star, Triangle } from '../../src/elements';
 import { getPlugin, getPlugins, register, registerBuiltInPlugins } from '../../src/registry';
 import { dark, light } from '../../src/themes';
 
@@ -10,6 +10,7 @@ describe('registry', () => {
     expect(getPlugins('node')).toEqual({
       circle: Circle,
       ellipse: Ellipse,
+      image: Image,
       rect: Rect,
       star: Star,
       triangle: Triangle,

@@ -1,22 +1,19 @@
 import type { DisplayObjectConfig, Group } from '@antv/g';
-import {
-  Image as GImage,
-  ImageStyleProps as GImageStyleProps,
-  Rect as GRect,
-  RectStyleProps as GRectStyleProps,
-} from '@antv/g';
+import { Image as GImage, ImageStyleProps as GImageStyleProps, Rect as GRect } from '@antv/g';
 import { deepMix } from '@antv/util';
 import type { BaseNodeProps } from '../../types';
 import { subStyleProps } from '../../utils/prefix';
 import type { BaseNodeStyleProps } from './base-node';
 import { BaseNode } from './base-node';
+import { PolygonKeyStyleProps, PolygonStyleProps } from './polygon';
 
-export type ImageStyleProps = BaseNodeStyleProps<BaseNodeProps & GImageStyleProps>;
+type ImageKeyStyleProps = BaseNodeProps<BaseNodeProps & GImageStyleProps>;
+export type ImageStyleProps = BaseNodeStyleProps<ImageKeyStyleProps>;
 type ParsedImageStyleProps = Required<ImageStyleProps>;
 type ImageOptions = DisplayObjectConfig<ImageStyleProps>;
-type HaloStyleProps = BaseNodeStyleProps<BaseNodeProps & GRectStyleProps>;
+type HaloStyleProps = Required<PolygonStyleProps<PolygonKeyStyleProps>>;
 
-export class Image extends BaseNode<ImageStyleProps, GImage> {
+export class Image extends BaseNode<ImageKeyStyleProps, GImage> {
   static defaultStyleProps: Partial<ImageStyleProps> = {
     width: 50,
     height: 50,
@@ -37,13 +34,14 @@ export class Image extends BaseNode<ImageStyleProps, GImage> {
   protected getHaloStyle(attributes: ParsedImageStyleProps): false | HaloStyleProps {
     if (attributes.halo === false) return false;
 
-    const keyStyle = this.getKeyStyle(attributes);
+    const { fill: keyStyleFill, stroke: keyStyleStroke, ...keyStyle } = this.getKeyStyle(attributes);
     const haloStyle = subStyleProps<ImageStyleProps>(this.getGraphicStyle(attributes), 'halo');
     const haloLineWidth = Number(haloStyle.lineWidth);
     const width = Number(attributes.width) + haloLineWidth;
     const height = Number(attributes.height) + haloLineWidth;
+    const fill = 'transparent';
 
-    return { ...keyStyle, ...haloStyle, width, height, anchor: [0.5, 0.5] as [number, number] } as HaloStyleProps;
+    return { ...haloStyle, width, height, fill, anchor: [0.5, 0.5] as [number, number] } as HaloStyleProps;
   }
 
   protected drawKeyShape(attributes: ParsedImageStyleProps, container: Group): GImage | undefined {
@@ -51,6 +49,6 @@ export class Image extends BaseNode<ImageStyleProps, GImage> {
   }
 
   protected drawHaloShape(attributes: ParsedImageStyleProps, container: Group): void {
-    this.upsert('halo', GRect, this.getHaloStyle(attributes) as GRectStyleProps, container);
+    this.upsert('halo', GRect, this.getHaloStyle(attributes), container);
   }
 }
