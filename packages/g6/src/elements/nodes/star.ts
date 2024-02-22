@@ -1,4 +1,5 @@
 import type { DisplayObjectConfig } from '@antv/g';
+import { ICON_SIZE_RATIO } from '../../constants/element';
 import type { Point, StarPortPosition } from '../../types';
 import { getPortPosition, getStarPoints, getStarPorts } from '../../utils/element';
 import type { IconStyleProps } from '../shapes';
@@ -36,7 +37,7 @@ export class Star extends Polygon<StarKeyStyleProps> {
 
   protected getIconStyle(attributes: ParsedStarStyleProps): false | IconStyleProps {
     const style = super.getIconStyle(attributes);
-    const size = this.getInnerR(attributes) * 2 * 0.8;
+    const size = this.getInnerR(attributes) * 2 * ICON_SIZE_RATIO;
     return style ? ({ width: size, height: size, ...style } as IconStyleProps) : false;
   }
 

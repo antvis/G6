@@ -1,6 +1,7 @@
 import type { DisplayObjectConfig, EllipseStyleProps as GEllipseStyleProps, Group } from '@antv/g';
 import { Ellipse as GEllipse } from '@antv/g';
 import { deepMix } from '@antv/util';
+import { ICON_SIZE_RATIO } from '../../constants/element';
 import type { BaseNodeProps, Point } from '../../types';
 import { getEllipseIntersectPoint } from '../../utils/point';
 import type { IconStyleProps } from '../shapes';
@@ -40,7 +41,7 @@ export class Ellipse extends BaseNode<BaseNodeProps, GEllipse> {
   protected getIconStyle(attributes: ParsedEllipseStyleProps): false | IconStyleProps {
     const style = super.getIconStyle(attributes);
     const { rx, ry } = this.getKeyStyle(attributes);
-    const size = Math.min(rx as number, ry as number) * 2 * 0.8;
+    const size = Math.min(rx as number, ry as number) * 2 * ICON_SIZE_RATIO;
 
     return style ? ({ width: size, height: size, ...style } as IconStyleProps) : false;
   }

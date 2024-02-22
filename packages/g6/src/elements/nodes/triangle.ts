@@ -1,5 +1,6 @@
 import type { DisplayObjectConfig } from '@antv/g';
 import { deepMix, isEmpty } from '@antv/util';
+import { ICON_SIZE_RATIO } from '../../constants/element';
 import type { Point, TrianglePortPosition } from '../../types';
 import { getIncircleRadius, getTriangleCenter } from '../../utils/bbox';
 import { getPortPosition, getTrianglePoints, getTrianglePorts } from '../../utils/element';
@@ -55,7 +56,7 @@ export class Triangle extends Polygon<TriangleKeyShapeStyleProps> {
     const iconStyle = subStyleProps<IconStyleProps>(this.getGraphicStyle(attributes), 'icon');
     const bbox = this.getKey().getLocalBounds();
     const [x, y] = getTriangleCenter(bbox, direction);
-    const size = getIncircleRadius(bbox, direction) * 2 * 0.8;
+    const size = getIncircleRadius(bbox, direction) * 2 * ICON_SIZE_RATIO;
 
     return {
       x,
