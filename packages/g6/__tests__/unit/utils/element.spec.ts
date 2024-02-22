@@ -10,6 +10,7 @@ import {
   getTrianglePoints,
   getTrianglePorts,
   getXYByPosition,
+  isNode,
   isSameNode,
   isVisible,
   updateStyle,
@@ -26,6 +27,12 @@ describe('element', () => {
 
   const node2 = new Circle({
     id: 'node-2',
+  });
+
+  it('isNode', () => {
+    expect(isNode(new Rect({ style: { width: 10, height: 10 } }))).toBe(false);
+    const node = new Circle({});
+    expect(isNode(node)).toBe(true);
   });
 
   it('isSameNode', () => {

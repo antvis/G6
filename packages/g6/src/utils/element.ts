@@ -1,11 +1,23 @@
 import type { AABB, DisplayObject, TextStyleProps } from '@antv/g';
 import { get, isString } from '@antv/util';
+import { BaseNode } from '../elements/nodes';
 import type { TriangleDirection } from '../elements/nodes/triangle';
 import type { Node, Point, Position } from '../types';
 import type { LabelPosition, Port, RelativePosition } from '../types/node';
 import { getBBoxHeight, getBBoxWidth } from './bbox';
-import { isNode, isPoint } from './is';
+import { isPoint } from './is';
 import { findNearestPoints, getEllipseIntersectPoint } from './point';
+
+/**
+ * <zh/> 判断是否是 BaseNode 的实例
+ *
+ * <en/> Judge whether the instance is BaseNode
+ * @param shape - <zh/> 实例 | <en/> instance
+ * @returns <zh/> 是否是 BaseNode 的实例 | <en/> whether the instance is BaseNode
+ */
+export function isNode(shape: DisplayObject): shape is Node {
+  return shape instanceof BaseNode;
+}
 
 /**
  * <zh/> 判断两个节点是否相同

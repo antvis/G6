@@ -1,5 +1,4 @@
-import { Circle } from '@/src/elements/nodes';
-import { isEdgeData, isNode, isPoint, isVector2, isVector3 } from '@/src/utils/is';
+import { isEdgeData, isPoint, isVector2, isVector3 } from '@/src/utils/is';
 
 describe('is', () => {
   it('isEdgeData', () => {
@@ -22,11 +21,5 @@ describe('is', () => {
     expect(isPoint([1, 2, 3])).toBe(true);
     expect(isPoint(new Float32Array([1, 2, 3]))).toBe(true);
     expect(isPoint([1, '2'])).toBe(false);
-  });
-
-  it('isNode', () => {
-    expect(isNode({})).toBe(false);
-    const node = new Circle({});
-    expect(isNode(node)).toBe(true);
   });
 });
