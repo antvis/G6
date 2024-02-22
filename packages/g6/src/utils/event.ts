@@ -1,14 +1,16 @@
 import type EventEmitter from '@antv/event-emitter';
 import type { BaseStyleProps, IAnimation } from '@antv/g';
 import type { ID } from '@antv/graphlib';
-import type { AnimationTypeEnum, GraphEvent } from '../constants';
+import type { AnimationType, GraphEvent } from '../constants';
 import type { GraphData } from '../spec';
 import type { Positions, States, ZIndex } from '../types';
 
 /**
+ * <zh/> 基于 Event 对象触发事件
  *
- * @param target
- * @param event
+ * <en/> Trigger event based on Event object
+ * @param target - <zh/> 事件目标 | <en/> event target
+ * @param event - <zh/> 事件对象 | <en/> event object
  */
 export function emit(target: EventEmitter, event: Event) {
   target.emit(event.type, event);
@@ -33,7 +35,7 @@ export class DrawEvent extends Event {
 export class AnimateEvent extends Event {
   constructor(
     type: GraphEvent.BEFORE_ANIMATE | GraphEvent.AFTER_ANIMATE,
-    public animationType: AnimationTypeEnum,
+    public animationType: AnimationType,
     public animation: IAnimation,
     public data?: any,
   ) {

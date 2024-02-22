@@ -6,7 +6,7 @@ import type { ID } from '@antv/graphlib';
 import { groupBy, pick } from '@antv/util';
 import { executor as animationExecutor } from '../animations';
 import type { AnimationContext } from '../animations/types';
-import { AnimationTypeEnum, ChangeTypeEnum, GraphEvent } from '../constants';
+import { AnimationType, ChangeTypeEnum, GraphEvent } from '../constants';
 import type { BaseEdge } from '../elements/edges/base-edge';
 import type { BaseNode } from '../elements/nodes';
 import type { BaseShape } from '../elements/shapes';
@@ -238,13 +238,9 @@ export class ElementController {
     executeAnimatableTasks(tasks, {
       before: () => this.emit(new ElementStateChangeEvent(GraphEvent.BEFORE_ELEMENT_STATE_CHANGE, states)),
       beforeAnimate: (animation) =>
-        this.emit(
-          new AnimateEvent(GraphEvent.BEFORE_ANIMATE, AnimationTypeEnum.ELEMENT_STATE_CHANGE, animation, states),
-        ),
+        this.emit(new AnimateEvent(GraphEvent.BEFORE_ANIMATE, AnimationType.ELEMENT_STATE_CHANGE, animation, states)),
       afterAnimate: (animation) =>
-        this.emit(
-          new AnimateEvent(GraphEvent.AFTER_ANIMATE, AnimationTypeEnum.ELEMENT_STATE_CHANGE, animation, states),
-        ),
+        this.emit(new AnimateEvent(GraphEvent.AFTER_ANIMATE, AnimationType.ELEMENT_STATE_CHANGE, animation, states)),
       after: () => this.emit(new ElementStateChangeEvent(GraphEvent.AFTER_ELEMENT_STATE_CHANGE, states)),
     });
   }
@@ -543,9 +539,9 @@ export class ElementController {
     return executeAnimatableTasks([...destroyTasks, ...createTasks, ...updateTasks], {
       before: () => this.emit(new DrawEvent(GraphEvent.BEFORE_DRAW)),
       beforeAnimate: (animation) =>
-        this.emit(new AnimateEvent(GraphEvent.BEFORE_ANIMATE, AnimationTypeEnum.DRAW, animation, diffData)),
+        this.emit(new AnimateEvent(GraphEvent.BEFORE_ANIMATE, AnimationType.DRAW, animation, diffData)),
       afterAnimate: (animation) =>
-        this.emit(new AnimateEvent(GraphEvent.AFTER_ANIMATE, AnimationTypeEnum.DRAW, animation, diffData)),
+        this.emit(new AnimateEvent(GraphEvent.AFTER_ANIMATE, AnimationType.DRAW, animation, diffData)),
       after: () => this.emit(new DrawEvent(GraphEvent.AFTER_DRAW)),
     })?.finished.then(() => {});
   }
@@ -674,13 +670,9 @@ export class ElementController {
     return executeAnimatableTasks([...nodeTasks, ...edgeTasks], {
       before: () => this.emit(new ElementTranslateEvent(GraphEvent.BEFORE_ELEMENT_TRANSLATE, positions)),
       beforeAnimate: (animation) =>
-        this.emit(
-          new AnimateEvent(GraphEvent.BEFORE_ANIMATE, AnimationTypeEnum.ELEMENT_TRANSLATE, animation, positions),
-        ),
+        this.emit(new AnimateEvent(GraphEvent.BEFORE_ANIMATE, AnimationType.ELEMENT_TRANSLATE, animation, positions)),
       afterAnimate: (animation) =>
-        this.emit(
-          new AnimateEvent(GraphEvent.AFTER_ANIMATE, AnimationTypeEnum.ELEMENT_TRANSLATE, animation, positions),
-        ),
+        this.emit(new AnimateEvent(GraphEvent.AFTER_ANIMATE, AnimationType.ELEMENT_TRANSLATE, animation, positions)),
       after: () => this.emit(new ElementTranslateEvent(GraphEvent.AFTER_ELEMENT_TRANSLATE, positions)),
     });
   }
@@ -857,14 +849,14 @@ export class ElementController {
         this.emit(new ElementVisibilityChangeEvent(GraphEvent.BEFORE_ELEMENT_VISIBILITY_CHANGE, ids, visibility)),
       beforeAnimate: (animation) =>
         this.emit(
-          new AnimateEvent(GraphEvent.BEFORE_ANIMATE, AnimationTypeEnum.ELEMENT_VISIBILITY_CHANGE, animation, {
+          new AnimateEvent(GraphEvent.BEFORE_ANIMATE, AnimationType.ELEMENT_VISIBILITY_CHANGE, animation, {
             ids,
             visibility,
           }),
         ),
       afterAnimate: (animation) =>
         this.emit(
-          new AnimateEvent(GraphEvent.AFTER_ANIMATE, AnimationTypeEnum.ELEMENT_VISIBILITY_CHANGE, animation, {
+          new AnimateEvent(GraphEvent.AFTER_ANIMATE, AnimationType.ELEMENT_VISIBILITY_CHANGE, animation, {
             ids,
             visibility,
           }),

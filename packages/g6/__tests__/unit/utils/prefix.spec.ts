@@ -6,7 +6,7 @@ import {
   startsWith,
   subObject,
   subStyleProps,
-} from '@/src/utils/prefix';
+} from '../../../src/utils/prefix';
 
 describe('prefix', () => {
   it('addPrefix', () => {
