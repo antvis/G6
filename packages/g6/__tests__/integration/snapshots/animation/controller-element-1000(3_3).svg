@@ -12,35 +12,17 @@
       <g id="g-svg-7" fill="none" transform="matrix(1,0,0,1,0,0)" />
       <g id="g-svg-6" fill="none" transform="matrix(1,0,0,1,0,0)">
         <g
-          id="node-1-node-2"
-          fill="none"
-          marker-start="false"
-          marker-end="false"
-          transform="matrix(1,0,0,1,0,0)"
-        >
-          <g transform="matrix(1,0,0,1,50,50)">
-            <path
-              id="key"
-              fill="none"
-              d="M 0,0 L 150,0"
-              stroke="rgba(139,155,175,1)"
-              stroke-width="1"
-              opacity="0"
-            />
-          </g>
-        </g>
-        <g
           id="node-2-node-3"
           fill="none"
           marker-start="false"
           marker-end="false"
           transform="matrix(1,0,0,1,0,0)"
         >
-          <g transform="matrix(1,0,0,1,125,150)">
+          <g transform="matrix(1,0,0,1,133.320496,155.546997)">
             <path
               id="key"
               fill="none"
-              d="M 75,50 L 0,0"
+              d="M 58.358994113243114,38.90599607549541 L 0,0"
               stroke="rgba(139,155,175,1)"
               stroke-width="1"
             />

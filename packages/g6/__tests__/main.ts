@@ -9,12 +9,12 @@ const CASES = {
   animations,
 } as unknown as { [key: string]: Record<string, TestCase> };
 
-window.onload = () => {
-  const casesSelect = document.getElementById('demo-select') as HTMLSelectElement;
-  const rendererSelect = document.getElementById('renderer-select') as HTMLSelectElement;
-  const animationCheckbox = document.getElementById('animation-checkbox') as HTMLInputElement;
-  const reload = document.getElementById('reload-button') as HTMLButtonElement;
+const casesSelect = document.getElementById('demo-select') as HTMLSelectElement;
+const rendererSelect = document.getElementById('renderer-select') as HTMLSelectElement;
+const animationCheckbox = document.getElementById('animation-checkbox') as HTMLInputElement;
+const reload = document.getElementById('reload-button') as HTMLButtonElement;
 
+window.onload = () => {
   function handleChange() {
     unmountCustomPanel();
     initialize();
@@ -55,7 +55,9 @@ function onchange(testCase: TestCase, renderer: string, animation: boolean) {
   const canvas = createGraphCanvas(document.getElementById('container'), 500, 500, renderer);
 
   return canvas.init().then(async () => {
-    await testCase({ canvas, animation, env: 'dev' });
+    const result = await testCase({ canvas, animation, env: 'dev' });
+    if (result) setTimer(result.totalDuration);
+    else clearTimer();
   });
 }
 
@@ -73,22 +75,16 @@ function syncParamsFromSearch() {
   const rendererName = searchParams.get('renderer') || 'canvas';
   const animation = searchParams.get('animation') || 'true';
 
-  const casesSelect = document.getElementById('demo-select') as HTMLSelectElement;
-  const rendererSelect = document.getElementById('renderer-select') as HTMLSelectElement;
-  const animationCheckbox = document.getElementById('animation-checkbox') as HTMLInputElement;
-
   casesSelect.value = `${type}-${testCase}`;
   rendererSelect.value = rendererName;
   animationCheckbox.checked = animation === 'true';
 }
 
 function setParamsToSearch(options: { type: string; case: string; renderer: string; animation: boolean }) {
-  const { type, case: testCase, renderer, animation } = options;
   const searchParams = new URLSearchParams(window.location.search);
-  searchParams.set('type', type);
-  searchParams.set('case', testCase);
-  searchParams.set('renderer', renderer);
-  searchParams.set('animation', animation.toString());
+  Object.entries(options).forEach(([key, value]) => {
+    searchParams.set(key, value.toString());
+  });
   window.history.replaceState(null, '', `?${searchParams.toString()}`);
 }
 
@@ -113,4 +109,26 @@ function mountCustomPanel(form: TestCase['form'] = []) {
 function unmountCustomPanel() {
   const customPanel = document.getElementById('custom-panel')!;
   customPanel.innerHTML = '';
+}
+
+const timerElement = document.getElementById('timer')!;
+const timerTimeElement = document.getElementById('timer-time')!;
+let timer: number;
+function setTimer(maximum: number) {
+  timerElement.style.display = 'flex';
+
+  const now = performance.now();
+  timer = window.setInterval(() => {
+    if (performance.now() - now > maximum) {
+      clearInterval(timer);
+    }
+    const elapsed = performance.now() - now;
+    timerTimeElement.textContent = `${elapsed.toFixed(2)}ms`;
+  }, 32);
+}
+
+function clearTimer() {
+  timerElement.style.display = 'none';
+  clearInterval(timer);
+  timerTimeElement.textContent = '0ms';
 }

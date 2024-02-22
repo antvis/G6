@@ -1,6 +1,8 @@
 import { AABB, Rect } from '@antv/g';
 import { Circle } from '../../../src/elements/nodes';
 import {
+  findPorts,
+  getPortConnectionPoint,
   getPortPosition,
   getRectPoints,
   getStarPoints,
@@ -55,6 +57,41 @@ describe('element', () => {
 
     expect(getPortPosition(bbox, [0.5, 1])).toEqual([150, 200]);
     expect(getPortPosition(bbox, [0, 0.5])).toEqual([100, 150]);
+  });
+
+  it('findPorts', () => {
+    const sourceNode = new Circle({
+      id: 'source',
+      style: {
+        port: true,
+        ports: [{ key: 'left', position: [0, 0.5], r: 4 }],
+      },
+    });
+    const targetNode = new Circle({
+      id: 'target',
+      style: {
+        port: true,
+        ports: [{ key: 'top', position: [0.5, 0], r: 4 }],
+      },
+    });
+    const sourcePortKey = 'left';
+    const targetPortKey = 'top';
+    expect(findPorts(sourceNode, targetNode, sourcePortKey, targetPortKey)[0]?.id).toEqual('port-left');
+    expect(findPorts(sourceNode, targetNode, sourcePortKey, targetPortKey)[1]?.id).toEqual('port-top');
+  });
+
+  it('getPortConnectionPoint', () => {
+    const node = new Circle({
+      id: 'source',
+      style: {
+        x: 100,
+        y: 100,
+        port: true,
+        ports: [{ key: 'left', position: [0, 0.5], r: 4 }],
+        portLinkToCenter: true,
+      },
+    });
+    expect(getPortConnectionPoint(node.getPorts()['left'], [0, 0])).toEqual([75, 100, 0]);
   });
 
   it('getTextStyleByPosition', () => {

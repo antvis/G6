@@ -157,8 +157,6 @@ describe('ElementController', () => {
 
     expect(omit(elementController.getElementComputedStyle('edge', edge1Id), ['sourceNode', 'targetNode'])).toEqual({
       ...LIGHT_THEME.edge?.style,
-      sourcePoint: [0, 0, 0],
-      targetPoint: [0, 0, 0],
       color: BUILT_IN_PALETTES.oranges.at(-1),
     });
 
@@ -168,12 +166,6 @@ describe('ElementController', () => {
       ...LIGHT_THEME.edge?.state?.selected,
       lineWidth: 4,
       stroke: 'red',
-      // 在运行时环境测试 / Test in runtime environment
-      sourceNode: undefined,
-      targetNode: undefined,
-      // 暂未实现 / Not implemented yet
-      sourcePoint: [0, 0, 0],
-      targetPoint: [0, 0, 0],
       color: BUILT_IN_PALETTES.oranges.at(-2),
     });
 

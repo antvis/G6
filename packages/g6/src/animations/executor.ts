@@ -15,13 +15,13 @@ const DEFAULT_ANIMATION_OPTIONS: KeyframeAnimationOptions = {
  * <zh/> 动画 Spec 执行器
  *
  * <en/> Animation Spec Executor
- * @param shape - <zh/> 要执行动画的图形 | <en/> shape to execute animation
+ * @param element - <zh/> 要执行动画的图形 | <en/> shape to execute animation
  * @param animation - <zh/> 动画 Spec | <en/> animation specification
  * @param commonEffectTiming - <zh/> 动画公共配置 | <en/> common animation configuration
  * @param context - <zh/> 动画执行上下文 | <en/> animation execution context
  * @returns <zh/> 动画实例 | <en/> animation instance
  */
-export const executor: AnimationExecutor = (shape, animation, commonEffectTiming, context) => {
+export const executor: AnimationExecutor = (element, animation, commonEffectTiming, context) => {
   if (!animation) return null;
 
   const { animationsFilter = () => true } = context;
@@ -42,21 +42,21 @@ export const executor: AnimationExecutor = (shape, animation, commonEffectTiming
    */
   const getKeyframeStyle = (shapeID?: string) => {
     if (shapeID) {
-      const target = shape.getElementById(shapeID) as DisplayObject;
-      const name = `get${upperFirst(shapeID)}Style` as keyof typeof shape;
+      const shape = element.getElementById(shapeID) as DisplayObject;
+      const name = `get${upperFirst(shapeID)}Style` as keyof typeof element;
 
-      const caller: (attrs?: Record<string, unknown>) => Record<string, unknown> =
-        shape?.[name]?.bind(shape) || ((attrs) => attrs);
+      const styler: (attrs?: Record<string, unknown>) => Record<string, unknown> =
+        element?.[name]?.bind(element) || ((attrs) => attrs);
 
-      const fromStyle = caller?.(originalStyle) || {};
-      const toStyle = caller?.() || {};
+      const fromStyle = styler?.({ ...element.attributes, ...originalStyle }) || {};
+      const toStyle = { ...shape.attributes };
 
-      return { target, fromStyle, toStyle };
+      return { shape, fromStyle, toStyle };
     } else {
-      const target = shape;
+      const shape = element;
       const fromStyle = originalStyle;
-      const toStyle = { ...target.attributes, ...modifiedStyle };
-      return { target, fromStyle, toStyle };
+      const toStyle = { ...shape.attributes, ...modifiedStyle };
+      return { shape, fromStyle, toStyle };
     }
   };
 
@@ -65,9 +65,9 @@ export const executor: AnimationExecutor = (shape, animation, commonEffectTiming
   const results = animations
     .map(({ fields, shape: shapeID, states: enabledStates, ...individualEffectTiming }) => {
       if (enabledStates === undefined || enabledStates?.some((state) => states.includes(state))) {
-        const { target, fromStyle, toStyle } = getKeyframeStyle(shapeID);
+        const { shape, fromStyle, toStyle } = getKeyframeStyle(shapeID);
 
-        if (!target) return null;
+        if (!shape) return null;
 
         const keyframes: Keyframe[] = [{}, {}];
 
@@ -76,7 +76,7 @@ export const executor: AnimationExecutor = (shape, animation, commonEffectTiming
           Object.assign(keyframes[1], { [attr]: toStyle[attr] ?? inferDefaultValue(attr) });
         });
 
-        const result = executeAnimation(target, preprocessKeyframes(keyframes), {
+        const result = executeAnimation(shape, preprocessKeyframes(keyframes), {
           ...DEFAULT_ANIMATION_OPTIONS,
           ...commonEffectTiming,
           ...individualEffectTiming,
@@ -92,7 +92,7 @@ export const executor: AnimationExecutor = (shape, animation, commonEffectTiming
 
   const mainResult = keyResult! || results?.[0];
 
-  if (mainResult === null) return null;
+  if (!mainResult) return null;
 
   return createAnimationsProxy(
     mainResult,

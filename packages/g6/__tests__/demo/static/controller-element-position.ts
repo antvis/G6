@@ -44,7 +44,7 @@ export const controllerElementPosition: StaticTestCase = async (context) => {
   const graph = createGraph(options, canvas);
   await graph.render();
 
-  await graph.translateElementTo(
+  graph.translateElementTo(
     {
       'node-1': [250, 100],
       'node-2': [175, 200],

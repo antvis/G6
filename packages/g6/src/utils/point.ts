@@ -3,7 +3,7 @@ import type { Point } from '../types';
 import { getBBoxHeight, getBBoxWidth } from './bbox';
 import { getXYByPosition } from './element';
 import { isBetween } from './math';
-import { add, angle, cross, distance, subtract } from './vector';
+import { add, angle, cross, distance, normalize, subtract, toVector2 } from './vector';
 
 /**
  * <zh/> 将对象坐标转换为数组坐标
@@ -24,6 +24,35 @@ export function parsePoint(point: PointLike): Point {
  */
 export function toPointObject(point: Point): PointLike {
   return { x: point[0], y: point[1] };
+}
+
+/**
+ * <zh/> 对点格式化，精确到 `digits` 位的数字
+ *
+ * <en/> Round the point to the given precision
+ * @param point - <zh/> 要舍入的点 | <en/> the point to round
+ * @param digits - <zh/> 小数点后的位数 | <en/> the number of digits after the decimal point
+ * @returns <zh/> 舍入后的点 | <en/> the rounded point
+ */
+export function round(point: Point, digits = 0): Point {
+  return point.map((p) => parseFloat(p.toFixed(digits))) as Point;
+}
+
+/**
+ * <zh/> 移动点，将点朝向参考点移动一定的距离
+ *
+ * <en/> Move `p` point along the line starting from `ref` to this point by a certain `distance`
+ * @param p - <zh/> 要移动的点 | <en/> the point to move
+ * @param ref - <zh/> 参考点 | <en/> the reference point
+ * @param distance - <zh/> 移动的距离 | <en/> the distance to move
+ * @param reverse
+ * @returns <zh/> 移动后的点 | <en/> the moved point
+ */
+export function moveTo(p: Point, ref: Point, distance: number, reverse = false): Point {
+  const direction = reverse ? subtract(p, ref) : subtract(ref, p);
+  const normalizedDirection = normalize(direction);
+  const moveVector: Point = [normalizedDirection[0] * distance, normalizedDirection[1] * distance];
+  return add(toVector2(p), moveVector);
 }
 
 /**
@@ -48,6 +77,18 @@ export function isHorizontal(p1: Point, p2: Point): boolean {
  */
 export function isVertical(p1: Point, p2: Point): boolean {
   return p1[0] === p2[0];
+}
+
+/**
+ * <zh/> 判断两个点是否正交，即是否在同一水平线或垂直线上
+ *
+ * <en/> Judges whether two points are orthogonal, that is, whether they are on the same horizontal or vertical line
+ * @param p1 - <zh/> 第一个点 | <en/> the first point
+ * @param p2 - <zh/> 第二个点 | <en/> the second point
+ * @returns <zh/> 是否正交 | <en/> whether orthogonal or not
+ */
+export function isOrthogonal(p1: Point, p2: Point): boolean {
+  return isHorizontal(p1, p2) || isVertical(p1, p2);
 }
 
 /**
@@ -162,14 +203,15 @@ export function getRectIntersectPoint(p: Point, bbox: AABB): Point {
  * @returns <zh/> 交点 | <en/> intersection
  */
 export function getEllipseIntersectPoint(p: Point, bbox: AABB): Point {
+  const center = bbox.center;
+  const vec = subtract(p, center);
+  let radians = angle(vec, [1, 0, 0]);
+  if (isNaN(radians)) return center;
+
+  if (radians < 0) radians += Math.PI * 2;
+
   const rx = getBBoxWidth(bbox) / 2;
   const ry = getBBoxHeight(bbox) / 2;
-  const center = bbox.center;
-
-  const vec = subtract(p, center);
-
-  let radians = angle(vec, [1, 0, 0]);
-  if (radians < 0) radians += Math.PI * 2;
   return [
     center[0] + Math.abs(rx * Math.cos(radians)) * Math.sign(vec[0]),
     center[1] + Math.abs(ry * Math.sin(radians)) * Math.sign(vec[1]),

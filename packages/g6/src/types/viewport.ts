@@ -1,9 +1,11 @@
 import type { Point } from './point';
 
-export type ViewportAnimationEffectTiming = {
-  easing?: string;
-  duration?: number;
-};
+export type ViewportAnimationEffectTiming =
+  | false
+  | {
+      easing?: string;
+      duration?: number;
+    };
 
 export type TranslateOptions = {
   /** <zh/> 平移模式 | <en/> translate mode */
