@@ -5,13 +5,14 @@ import type { LabelStyleProps } from './label';
 import { Label } from './label';
 
 export type BadgeStyleProps = LabelStyleProps;
+type ParsedBadgeStyleProps = Required<BadgeStyleProps>;
 type BadgeOptions = DisplayObjectConfig<BadgeStyleProps>;
 
 export class Badge extends BaseShape<BadgeStyleProps> {
   static defaultStyleProps: Partial<BadgeStyleProps> = {
+    padding: [2, 4, 2, 4],
     fontSize: 10,
     wordWrap: false,
-    wordWrapWidth: 0,
     backgroundRadius: '50%',
     backgroundOpacity: 1,
   };
@@ -20,15 +21,15 @@ export class Badge extends BaseShape<BadgeStyleProps> {
     super(deepMix({}, { style: Badge.defaultStyleProps }, options));
   }
 
-  protected getBadgeStyle(attributes: BadgeStyleProps) {
+  protected getBadgeStyle(attributes: ParsedBadgeStyleProps) {
     return this.getGraphicStyle(attributes);
   }
 
-  public render(attributes = this.attributes, container: Group = this) {
+  public render(attributes: ParsedBadgeStyleProps = this.parsedAttributes, container: Group = this) {
     this.upsert('label', Label, this.getBadgeStyle(attributes), container);
   }
 
   connectedCallback() {
-    this.upsert('label', Label, this.getBadgeStyle(this.attributes), this);
+    this.upsert('label', Label, this.getBadgeStyle(this.parsedAttributes), this);
   }
 }
