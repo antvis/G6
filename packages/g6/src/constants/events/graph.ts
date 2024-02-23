@@ -1,10 +1,4 @@
 export const enum GraphEvent {
-  /** <zh/> 视口动画开始之前 | <en/> Before the viewport animation starts */
-  BEFORE_VIEWPORT_ANIMATE = 'beforeviewportanimate',
-  /** <zh/> 视口动画结束之后 | <en/> After the viewport animation ends */
-  AFTER_VIEWPORT_ANIMATE = 'afterviewportanimate',
-  /** <zh/> 视口动画停止之前 | <en/> Before the viewport animation stops */
-  CANCEL_VIEWPORT_ANIMATE = 'cancelviewportanimate',
   /** <zh/> 元素创建之前 | <en/> Before creating element */
   BEFORE_ELEMENT_CREATE = 'beforeelementcreate',
   /** <zh/> 元素创建之后 | <en/> After creating element */
@@ -37,6 +31,18 @@ export const enum GraphEvent {
   BEFORE_LAYOUT = 'beforelayout',
   /** <zh/> 布局结束之后 | <en/> After layout */
   AFTER_LAYOUT = 'afterlayout',
+  /** <zh/> 缩放之前 | <en/> Before zoom */
+  BEFORE_ZOOM = 'beforezoom',
+  /** <zh/> 缩放之后 | <en/> After zoom */
+  AFTER_ZOOM = 'afterzoom',
+  /** <zh/> 旋转之前 | <en/> Before rotate */
+  BEFORE_ROTATE = 'beforerotate',
+  /** <zh/> 旋转之后 | <en/> After rotate */
+  AFTER_ROTATE = 'afterrotate',
+  /** <zh/> 平移之前 | <en/> Before translate */
+  BEFORE_TRANSLATE = 'beforetranslate',
+  /** <zh/> 平移之后 | <en/> After translate */
+  AFTER_TRANSLATE = 'aftertranslate',
   /** <zh/> 元素可见性变化之前 | <en/> Before the visibility of the element changes */
   BEFORE_ELEMENT_VISIBILITY_CHANGE = 'beforeelementvisibilitychange',
   /** <zh/> 元素可见性变化之后 | <en/> After the visibility of the element changes */

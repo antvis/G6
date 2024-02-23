@@ -1,8 +1,8 @@
-import type { BaseStyleProps, IAnimation } from '@antv/g';
+import type { BaseStyleProps, IAnimation, ICamera } from '@antv/g';
 import type { ID } from '@antv/graphlib';
 import type { AnimationType, GraphEvent } from '../../constants';
 import type { GraphData } from '../../spec';
-import type { Positions, States, ZIndex } from '../../types';
+import type { Positions, States, Vector2, ZIndex } from '../../types';
 
 export class BaseEvent {
   constructor(public type: string) {}
@@ -24,7 +24,7 @@ export class AnimateEvent extends BaseEvent {
   constructor(
     type: GraphEvent.BEFORE_ANIMATE | GraphEvent.AFTER_ANIMATE,
     public animationType: AnimationType,
-    public animation: IAnimation,
+    public animation: IAnimation | null,
     public data?: any,
   ) {
     super(type);
@@ -41,6 +41,21 @@ export class ElementLifeCycleEvent extends BaseEvent {
       | GraphEvent.BEFORE_ELEMENT_DESTROY
       | GraphEvent.AFTER_ELEMENT_DESTROY,
     public data: GraphData,
+  ) {
+    super(type);
+  }
+}
+
+export class ViewportEvent extends BaseEvent {
+  constructor(
+    type:
+      | GraphEvent.BEFORE_ZOOM
+      | GraphEvent.AFTER_ZOOM
+      | GraphEvent.BEFORE_ROTATE
+      | GraphEvent.AFTER_ROTATE
+      | GraphEvent.BEFORE_TRANSLATE
+      | GraphEvent.AFTER_TRANSLATE,
+    public data: Parameters<ICamera['createLandmark']>[1] | number | Vector2,
   ) {
     super(type);
   }

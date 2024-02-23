@@ -1,13 +1,15 @@
 import { clamp } from '@antv/util';
-import { GraphEvent } from '../constants';
+import { AnimationType, GraphEvent } from '../constants';
 import type {
   Point,
   RotateOptions,
   TranslateOptions,
   Vector2,
+  Vector3,
   ViewportAnimationEffectTiming,
   ZoomOptions,
 } from '../types';
+import { AnimateEvent, ViewportEvent, emit } from '../utils/event';
 import type { RuntimeContext } from './types';
 
 export class ViewportController {
@@ -79,6 +81,7 @@ export class ViewportController {
     const currentZoom = this.getZoom();
     this.cancelAnimation();
     const { camera } = this;
+    const { graph } = this.context;
     const {
       mode,
       value: [x = 0, y = 0, z = 0],
@@ -89,62 +92,67 @@ export class ViewportController {
     const [fx, fy, fz] = camera.getFocalPoint();
 
     if (animation) {
-      this.context.graph.emit(GraphEvent.BEFORE_VIEWPORT_ANIMATE, options);
+      const value =
+        mode === 'relative'
+          ? {
+              position: [px - x, py - y, pz - z] as Vector3,
+              focalPoint: [fx - x, fy - y, fz - z] as Vector3,
+            }
+          : {
+              position: [ox - x, oy - y, z ?? pz - z] as Vector3,
+              focalPoint: [ox - x, oy - y, z ?? fz - z] as Vector3,
+            };
+
+      emit(graph, new ViewportEvent(GraphEvent.BEFORE_TRANSLATE, value));
+      emit(graph, new AnimateEvent(GraphEvent.BEFORE_ANIMATE, AnimationType.TRANSLATE, null, value));
 
       return new Promise<void>((resolve) => {
         const onfinish = () => {
-          this.context.graph.emit(GraphEvent.AFTER_VIEWPORT_ANIMATE, options);
+          emit(graph, new AnimateEvent(GraphEvent.AFTER_ANIMATE, AnimationType.TRANSLATE, null, value));
+          emit(graph, new ViewportEvent(GraphEvent.AFTER_TRANSLATE, value));
           resolve();
         };
 
-        this.camera.gotoLandmark(
-          this.createLandmark(
-            mode === 'relative'
-              ? {
-                  position: [px - x, py - y, pz - z],
-                  focalPoint: [fx - x, fy - y, fz - z],
-                }
-              : {
-                  position: [ox - x, oy - y, z ?? pz - z],
-                  focalPoint: [ox - x, oy - y, z ?? fz - z],
-                },
-          ),
-          { ...animation, onfinish },
-        );
+        this.camera.gotoLandmark(this.createLandmark(value), { ...animation, onfinish });
       });
     } else {
-      const point: Vector2 = mode === 'relative' ? [-x / currentZoom, -y / currentZoom] : [-px + ox - x, -py + oy - y];
-      camera.pan(...point);
+      const value: Vector2 = mode === 'relative' ? [-x / currentZoom, -y / currentZoom] : [-px + ox - x, -py + oy - y];
+      emit(graph, new ViewportEvent(GraphEvent.BEFORE_TRANSLATE, value));
+      camera.pan(...value);
+      emit(graph, new ViewportEvent(GraphEvent.BEFORE_TRANSLATE, value));
     }
   }
 
   public rotate(options: RotateOptions, animation?: ViewportAnimationEffectTiming) {
     this.cancelAnimation();
     const { camera } = this;
+    const { graph } = this.context;
     const { mode, value: angle, origin } = options;
 
     if (animation) {
-      this.context.graph.emit(GraphEvent.BEFORE_VIEWPORT_ANIMATE, options);
+      const roll = mode === 'relative' ? camera.getRoll() + angle : angle;
+      const value = { roll };
+      emit(graph, new ViewportEvent(GraphEvent.BEFORE_ROTATE, value));
+      emit(graph, new AnimateEvent(GraphEvent.BEFORE_ANIMATE, AnimationType.ROTATE, null, value));
 
       return new Promise<void>((resolve) => {
         const onfinish = () => {
-          this.context.graph.emit(GraphEvent.AFTER_VIEWPORT_ANIMATE, options);
+          emit(graph, new AnimateEvent(GraphEvent.AFTER_ANIMATE, AnimationType.ROTATE, null, value));
+          emit(graph, new ViewportEvent(GraphEvent.BEFORE_ROTATE, value));
           resolve();
         };
 
-        this.camera.gotoLandmark(
-          this.createLandmark({ roll: mode === 'relative' ? camera.getRoll() + angle : angle }),
-          { ...animation, onfinish },
-        );
+        this.camera.gotoLandmark(this.createLandmark(value), { ...animation, onfinish });
       });
     } else {
       const [x, y] = camera.getFocalPoint();
-
       if (origin) camera.pan(origin[0] - x, origin[1] - y);
+      const value = mode === 'relative' ? angle : angle - camera.getRoll();
+      emit(graph, new ViewportEvent(GraphEvent.BEFORE_ROTATE, value));
 
       camera.rotate(0, 0, mode === 'relative' ? angle : angle - camera.getRoll());
-
       if (origin) camera.pan(x - origin[0], y - origin[1]);
+      emit(graph, new ViewportEvent(GraphEvent.AFTER_ROTATE, value));
     }
   }
 
@@ -153,33 +161,36 @@ export class ViewportController {
 
     this.cancelAnimation();
     const { camera } = this;
+    const { graph } = this.context;
     const currentZoom = camera.getZoom();
     const { mode, value: zoom, origin = this.getCanvasCenter() } = options;
-
     const targetRatio = clamp(mode === 'relative' ? currentZoom * zoom : zoom, ...zoomRange);
 
+    const value = { zoom: targetRatio };
+    emit(graph, new ViewportEvent(GraphEvent.BEFORE_ZOOM, value));
+
     if (animation) {
-      this.context.graph.emit(GraphEvent.BEFORE_VIEWPORT_ANIMATE, options);
+      emit(graph, new AnimateEvent(GraphEvent.BEFORE_ANIMATE, AnimationType.ZOOM, null, value));
 
       return new Promise<void>((resolve) => {
         const onfinish = () => {
-          this.context.graph.emit(GraphEvent.AFTER_VIEWPORT_ANIMATE, options);
+          emit(graph, new AnimateEvent(GraphEvent.AFTER_ANIMATE, AnimationType.ZOOM, null, value));
+          emit(graph, new ViewportEvent(GraphEvent.AFTER_ZOOM, value));
           resolve();
         };
 
-        this.camera.gotoLandmark(this.createLandmark({ zoom: targetRatio }), { ...animation, onfinish });
+        this.camera.gotoLandmark(this.createLandmark(value), { ...animation, onfinish });
       });
     } else {
       camera.setZoomByViewportPoint(targetRatio, [origin[0], origin[1]]);
+      emit(graph, new ViewportEvent(GraphEvent.AFTER_ZOOM, value));
     }
   }
 
   public cancelAnimation() {
-    const { graph } = this.context;
     // @ts-expect-error landmarks is private
     if (this.camera.landmarks?.length) {
       this.camera.cancelLandmarkAnimation();
-      graph.emit(GraphEvent.CANCEL_VIEWPORT_ANIMATE);
     }
   }
 }
