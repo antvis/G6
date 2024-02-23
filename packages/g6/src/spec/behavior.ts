@@ -1,4 +1,4 @@
-import type { BuiltInBehaviorOptions } from '../behaviors/types';
+import type { BuiltInBehaviorOptions } from '../behaviors';
 
 export type BehaviorOptions = Abbr<BuiltInBehaviorOptions | CustomBehaviorOption>[];
 

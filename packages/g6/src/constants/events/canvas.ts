@@ -33,10 +33,6 @@ export enum CanvasEvent {
   DRAG_LEAVE = 'dragleave',
   /** <zh/> 拖拽放下时触发 | <en/> Triggered when dragging is dropped */
   DROP = 'drop',
-  /** <zh/> 按下键盘时触发 | <en/> Triggered when the keyboard is pressed */
-  KEY_DOWN = 'keydown',
-  /** <zh/> 抬起键盘时触发 | <en/> Triggered when the keyboard is lifted */
-  KEY_UP = 'keyup',
   /** <zh/> 滚动时触发 | <en/> Triggered when scrolling */
   WHEEL = 'wheel',
 }

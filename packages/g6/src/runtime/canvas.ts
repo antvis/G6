@@ -40,6 +40,10 @@ export class Canvas {
     };
   }
 
+  public get document() {
+    return this.main.document;
+  }
+
   public renderers!: Record<CanvasLayer, IRenderer>;
 
   constructor(config: CanvasConfig) {

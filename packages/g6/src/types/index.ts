@@ -1,4 +1,5 @@
 export type * from './animation';
+export type * from './behavior';
 export type * from './callable';
 export type * from './canvas';
 export type * from './change';
@@ -6,6 +7,7 @@ export type * from './data';
 export type * from './edge';
 export type * from './element';
 export type * from './enum';
+export type * from './event';
 export type * from './graphlib';
 export type * from './layout';
 export type * from './node';
