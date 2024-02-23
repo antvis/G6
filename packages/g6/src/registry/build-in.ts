@@ -10,6 +10,7 @@ import {
   Polyline,
   Quadratic,
   Rect,
+  Sphere,
   Star,
   Triangle,
 } from '../elements';
@@ -78,6 +79,7 @@ export const BUILT_IN_PLUGINS = {
     rect: Rect,
     star: Star,
     triangle: Triangle,
+    sphere: Sphere,
   },
   palette: {
     spectral,

@@ -33,6 +33,7 @@ export * from './node-circle';
 export * from './node-ellipse';
 export * from './node-image';
 export * from './node-rect';
+export * from './node-sphere';
 export * from './node-star';
 export * from './node-triangle';
 export * from './shape-badge';
