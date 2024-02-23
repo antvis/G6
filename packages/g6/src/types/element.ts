@@ -26,6 +26,11 @@ export type BaseNodeProps = {
    */
   z?: number;
   /**
+   * <zh/> 节点大小，快捷设置节点宽高
+   * <en/> The size of node, which is a shortcut to set the width and height of node
+   */
+  size?: number;
+  /**
    * <zh/> 节点宽度
    * <en/> The width of node
    */

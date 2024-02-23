@@ -1,6 +1,8 @@
 import type { IRenderer } from '@antv/g';
 import { resetEntityCounter } from '@antv/g';
 import { Renderer as CanvasRenderer } from '@antv/g-canvas';
+import { Plugin as Plugin3D } from '@antv/g-plugin-3d';
+import { Plugin as PluginControl } from '@antv/g-plugin-control';
 import { Plugin as DragAndDropPlugin } from '@antv/g-plugin-dragndrop';
 import { Renderer as SVGRenderer } from '@antv/g-svg';
 import { Renderer as WebGLRenderer } from '@antv/g-webgl';
@@ -27,8 +29,12 @@ export function createGraph(options: G6Spec, graphCanvas?: Canvas) {
 
 function getRenderer(renderer: string) {
   switch (renderer) {
-    case 'webgl':
-      return new WebGLRenderer();
+    case 'webgl': {
+      const instance = new WebGLRenderer();
+      instance.registerPlugin(new Plugin3D());
+      instance.registerPlugin(new PluginControl());
+      return instance;
+    }
     case 'svg':
       return new SVGRenderer();
     case 'canvas':
