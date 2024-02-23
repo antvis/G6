@@ -2,7 +2,7 @@ import { Graph } from '../../../src';
 import type { StaticTestCase } from '../types';
 
 export const edgeLine: StaticTestCase = async (context) => {
-  const { canvas } = context;
+  const { canvas, animation } = context;
 
   const data = {
     nodes: [{ id: 'node1' }, { id: 'node2' }, { id: 'node3' }, { id: 'node4' }, { id: 'node5' }, { id: 'node6' }],
@@ -81,6 +81,7 @@ export const edgeLine: StaticTestCase = async (context) => {
       unitRadius: 220,
       linkDistance: 220,
     },
+    animation,
   });
 
   await graph.render();
