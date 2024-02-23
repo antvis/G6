@@ -7,19 +7,9 @@ export type ElementType = 'node' | 'edge' | 'combo';
 
 export type ElementOptions = NodeOptions | EdgeOptions | ComboOptions;
 
-export type Node = BaseNode<BaseNodeProps<any>, DisplayObject>;
+export type Node = BaseNode<BaseNodeProps, DisplayObject>;
 
-export type ExtractGShapeStyleProps<T> = T extends DisplayObject<infer S, any> ? S : never;
-
-export type BaseElementProps = {
-  /**
-   * <zh/> 主色
-   * <en/> Subject color
-   */
-  color?: string;
-};
-
-export type BaseNodeProps<ShapeProps = object> = BaseElementProps & {
+export type BaseNodeProps = {
   /**
    * <zh/> x 坐标
    * <en/> The x-coordinate of node
@@ -50,10 +40,19 @@ export type BaseNodeProps<ShapeProps = object> = BaseElementProps & {
    * <en/> The depth of node
    */
   depth?: number;
-} & BaseStyleProps &
-  ShapeProps;
+  /**
+   * <zh/> 主色
+   * <en/> Subject color
+   */
+  color?: string;
+} & BaseStyleProps;
 
-export type BaseEdgeProps<ShapeProps = object> = BaseElementProps & {
+export type BaseEdgeProps = {
+  /**
+   * <zh/> 主色
+   * <en/> Subject color
+   */
+  color?: string;
   /**
    * <zh/> 边的起点 shape
    * <en/> The source shape. Represents the start of the edge
@@ -84,5 +83,4 @@ export type BaseEdgeProps<ShapeProps = object> = BaseElementProps & {
    * <en/> The target point. Represents the end of the edge
    */
   targetPoint?: Point;
-} & PathStyleProps &
-  ShapeProps;
+} & PathStyleProps;

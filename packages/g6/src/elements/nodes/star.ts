@@ -1,19 +1,22 @@
 import type { DisplayObjectConfig } from '@antv/g';
+import { PolygonStyleProps as GPolygonStyleProps } from '@antv/g';
 import { ICON_SIZE_RATIO } from '../../constants/element';
-import type { Point, StarPortPosition } from '../../types';
+import type { BaseNodeProps, Point, StarPortPosition } from '../../types';
 import { getPortPosition, getStarPoints, getStarPorts } from '../../utils/element';
 import type { IconStyleProps } from '../shapes';
 import { NodePortStyleProps } from './base-node';
-import type { PolygonKeyStyleProps, PolygonStyleProps } from './polygon';
+import type { PolygonStyleProps } from './polygon';
 import { Polygon } from './polygon';
 
-type StarKeyStyleProps = PolygonKeyStyleProps<{
-  /**
-   * <zh/> 内半径
-   * <en/> Inner radius
-   */
-  innerR?: number;
-}>;
+type StarKeyStyleProps = BaseNodeProps &
+  GPolygonStyleProps & {
+    /**
+     * <zh/> 内半径
+     * <en/> Inner radius
+     */
+    innerR?: number;
+  };
+
 export type StarStyleProps = PolygonStyleProps<StarKeyStyleProps>;
 type ParsedStarStyleProps = Required<StarStyleProps>;
 type StarOptions = DisplayObjectConfig<StarStyleProps>;

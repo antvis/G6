@@ -76,7 +76,7 @@ export type ParsedBaseEdgeStyleProps<KT> = Required<BaseEdgeStyleProps<KT>>;
 
 export type BaseEdgeOptions<KT> = DisplayObjectConfig<BaseEdgeStyleProps<KT>>;
 
-export abstract class BaseEdge<KT extends BaseEdgeProps<object>> extends BaseShape<BaseEdgeStyleProps<KT>> {
+export abstract class BaseEdge<KT extends BaseEdgeProps> extends BaseShape<BaseEdgeStyleProps<KT>> {
   static defaultStyleProps: Partial<BaseEdgeStyleProps<any>> = {
     isBillboard: true,
     label: true,

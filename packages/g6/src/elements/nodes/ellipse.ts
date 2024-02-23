@@ -8,11 +8,12 @@ import type { IconStyleProps } from '../shapes';
 import type { BaseNodeStyleProps } from './base-node';
 import { BaseNode } from './base-node';
 
-export type EllipseStyleProps = BaseNodeStyleProps<BaseNodeProps>;
+type EllipseKeyStyleProps = BaseNodeProps & GEllipseStyleProps;
+export type EllipseStyleProps = BaseNodeStyleProps<EllipseKeyStyleProps>;
 type ParsedEllipseStyleProps = Required<EllipseStyleProps>;
 type EllipseOptions = DisplayObjectConfig<EllipseStyleProps>;
 
-export class Ellipse extends BaseNode<BaseNodeProps, GEllipse> {
+export class Ellipse extends BaseNode<EllipseKeyStyleProps, GEllipse> {
   static defaultStyleProps: Partial<EllipseStyleProps> = {
     width: 80,
     height: 40,
@@ -27,14 +28,14 @@ export class Ellipse extends BaseNode<BaseNodeProps, GEllipse> {
   }
 
   protected getKeyStyle(attributes: ParsedEllipseStyleProps): GEllipseStyleProps {
-    const { x, y, z, width, height, ...keyStyle } = super.getKeyStyle(attributes) as unknown as ParsedEllipseStyleProps;
+    const { x, y, z, width, height, ...keyStyle } = super.getKeyStyle(attributes);
     return {
       ...keyStyle,
       cx: x,
       cy: y,
       cz: z,
-      rx: width / 2,
-      ry: height / 2,
+      rx: (width as number) / 2,
+      ry: (height as number) / 2,
     };
   }
 
