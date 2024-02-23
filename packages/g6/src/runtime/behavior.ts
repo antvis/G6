@@ -44,7 +44,6 @@ export class BehaviorController {
 
     const instance = new Ctor(this.context, behavior);
     this.behaviorMap[key] = instance;
-    this.addEventListener(key);
   }
 
   private createBehaviors(behaviors: STDBehaviorOption[]) {
@@ -56,7 +55,7 @@ export class BehaviorController {
       const { key } = behavior;
       const instance = this.behaviorMap[key];
       if (instance) {
-        instance.setOptions(behavior);
+        instance.update(behavior);
       }
     });
   }
@@ -71,18 +70,6 @@ export class BehaviorController {
 
   private destroyBehaviors(behaviors: STDBehaviorOption[]) {
     behaviors.forEach(({ key }) => this.destroyBehavior(key));
-  }
-
-  private addEventListener(key: string) {
-    const behavior = this.behaviorMap[key];
-    if (!behavior) return;
-
-    const events = behavior.getEvents();
-    Object.keys(events).forEach((name) => {
-      const listener = events[name as keyof typeof events];
-      if (!listener) return;
-      behavior.addEventListener.call(behavior, this.context.graph, name, listener.bind(behavior));
-    });
   }
 
   private forwardEvents() {

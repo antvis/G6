@@ -1,3 +1,4 @@
+import { Graph } from '@/src';
 import type { Canvas } from '@/src/runtime/canvas';
 import type { IAnimation } from '@antv/g';
 
@@ -63,5 +64,22 @@ export interface BaseTestCase {
    * @returns
    */
   postprocess?: () => Promise<void>;
-  form?: { label?: string; type: string; options?: Record<string, unknown>; onload?: (el: HTMLElement) => void }[];
+  form?: PanelFormItem[];
 }
+
+export interface STDTestCase {
+  form?: PanelFormItem[];
+  (context: STDTestCaseContext): Promise<Graph>;
+}
+
+export interface STDTestCaseContext {
+  canvas: Canvas;
+  animation?: boolean;
+}
+
+type PanelFormItem = {
+  label?: string;
+  type: string;
+  options?: Record<string, unknown>;
+  onload?: (el: HTMLElement) => void;
+};

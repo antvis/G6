@@ -48,7 +48,6 @@
     "test:unit": "npm run jest __tests__/unit"
   },
   "dependencies": {
-    "@antv/algorithm": "^0.1.26",
     "@antv/event-emitter": "latest",
     "@antv/g": "^5.18.23",
     "@antv/g-canvas": "^1.11.25",

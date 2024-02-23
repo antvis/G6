@@ -1,7 +1,7 @@
-/**
- * <zh/> 内置交互
- *
- * <en/> Built-in behaviors
- */
+export { BaseBehavior } from './base-behavior';
+export type { BaseBehaviorOptions } from './base-behavior';
+export { ZoomCanvas } from './zoom-canvas';
 
-export {};
+import type { ZoomCanvasOptions } from './zoom-canvas';
+
+export type BuiltInBehaviorOptions = ZoomCanvasOptions;

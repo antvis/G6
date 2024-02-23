@@ -381,6 +381,10 @@ export class Graph extends EventEmitter {
   }
 
   // ---------- Runtime API ----------
+  public getCanvas(): Canvas {
+    return this.context.canvas;
+  }
+
   public resize(): void;
   public resize(width: number, height: number): void;
   public resize(width?: number, height?: number): void {
