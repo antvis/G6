@@ -1,19 +1,20 @@
-import type { DisplayObjectConfig, Group } from '@antv/g';
+import type { DisplayObjectConfig, RectStyleProps as GRectStyleProps, Group } from '@antv/g';
 import { Image as GImage, ImageStyleProps as GImageStyleProps, Rect as GRect } from '@antv/g';
 import { deepMix } from '@antv/util';
 import { ICON_SIZE_RATIO } from '../../constants/element';
-import type { BaseNodeProps } from '../../types';
+import type { BaseNodeProps, PrefixObject } from '../../types';
 import { subStyleProps } from '../../utils/prefix';
 import type { IconStyleProps } from '../shapes';
 import type { BaseNodeStyleProps } from './base-node';
 import { BaseNode } from './base-node';
-import { PolygonKeyStyleProps, PolygonStyleProps } from './polygon';
 
-type ImageKeyStyleProps = BaseNodeProps<BaseNodeProps & GImageStyleProps>;
-export type ImageStyleProps = BaseNodeStyleProps<ImageKeyStyleProps>;
+type ImageKeyStyleProps = BaseNodeProps & GImageStyleProps;
+type HaloStyleProps = GRectStyleProps;
+export type ImageStyleProps = BaseNodeStyleProps<ImageKeyStyleProps> &
+  // Halo
+  PrefixObject<HaloStyleProps, 'halo'>;
 type ParsedImageStyleProps = Required<ImageStyleProps>;
 type ImageOptions = DisplayObjectConfig<ImageStyleProps>;
-type HaloStyleProps = Required<PolygonStyleProps<PolygonKeyStyleProps>>;
 
 export class Image extends BaseNode<ImageKeyStyleProps, GImage> {
   static defaultStyleProps: Partial<ImageStyleProps> = {
@@ -25,7 +26,7 @@ export class Image extends BaseNode<ImageKeyStyleProps, GImage> {
     super(deepMix({}, { style: Image.defaultStyleProps }, options));
   }
 
-  protected getKeyStyle(attributes: ParsedImageStyleProps): GImageStyleProps {
+  protected getKeyStyle(attributes: ParsedImageStyleProps): ImageKeyStyleProps {
     const keyStyle = super.getKeyStyle(attributes) as unknown as ParsedImageStyleProps;
     return {
       ...keyStyle,
@@ -33,6 +34,7 @@ export class Image extends BaseNode<ImageKeyStyleProps, GImage> {
     };
   }
 
+  // @ts-expect-error The return type of this method is not compatible with the return type of its overridden method.
   protected getHaloStyle(attributes: ParsedImageStyleProps): false | HaloStyleProps {
     if (attributes.halo === false) return false;
 
@@ -43,7 +45,7 @@ export class Image extends BaseNode<ImageKeyStyleProps, GImage> {
     const height = Number(attributes.height) + haloLineWidth;
     const fill = 'transparent';
 
-    return { ...keyStyle, ...haloStyle, width, height, fill } as HaloStyleProps;
+    return { ...keyStyle, ...haloStyle, width, height, fill } as unknown as HaloStyleProps;
   }
 
   protected getIconStyle(attributes: ParsedImageStyleProps): false | IconStyleProps {

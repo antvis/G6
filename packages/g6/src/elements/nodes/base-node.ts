@@ -4,7 +4,6 @@ import { deepMix, isEmpty } from '@antv/util';
 import type {
   BadgePosition,
   BaseNodeProps,
-  ExtractGShapeStyleProps,
   Keyframe,
   LabelPosition,
   Point,
@@ -20,15 +19,39 @@ import { getWordWrapWidthByBox } from '../../utils/text';
 import type { BadgeStyleProps, BaseShapeStyleProps, IconStyleProps, LabelStyleProps } from '../shapes';
 import { Badge, BaseShape, Icon, Label } from '../shapes';
 
-type NodeLabelStyleProps = LabelStyleProps & { position?: LabelPosition; maxWidth?: string | number };
+type NodeLabelStyleProps = LabelStyleProps & {
+  /**
+   * Position relative to the node (keyShape).
+   */
+  position?: LabelPosition;
+  /**
+   * The max width of the label, relative to the node width. The value can be a number or a percentage string:
+   * If the value is a number, it will be treated as the pixel value.
+   * If the value is a percentage string, it will be treated as the percentage of the node width.
+   */
+  maxWidth?: string | number;
+};
 
-type NodeBadgeStyleProps = BadgeStyleProps & { position?: BadgePosition };
+type NodeBadgeStyleProps = BadgeStyleProps & {
+  /**
+   * Position relative to the node (keyShape).
+   */
+  position?: BadgePosition;
+};
 type NodeBadgesStyleProps = {
   badges?: NodeBadgeStyleProps[];
 } & PrefixObject<BadgeStyleProps, 'badge'>;
 
 export type NodePortStyleProps = Partial<PortStyleProps> & {
+  /**
+   * The key of the port. Default is the index of the port.
+   */
   key?: string;
+  /**
+   * The position of the port relative to the node (keyShape). The value can be a string or a tuple of two numbers.
+   * If the value is a string, it will be treated as the position direction.
+   * If the value is a tuple of two numbers, it will be treated as the position coordinates(0 ~ 1).
+   */
   position: string | [number, number];
 };
 type NodePortsStyleProps = {
@@ -37,8 +60,9 @@ type NodePortsStyleProps = {
 
 type NodeIconStyleProps = IconStyleProps;
 
-export type BaseNodeStyleProps<P extends object> = BaseShapeStyleProps &
-  P & {
+// K is the StyleProps of Key Shape.
+export type BaseNodeStyleProps<K extends BaseNodeProps> = BaseShapeStyleProps &
+  K & {
     // Whether to show the blocGShape.
     label?: boolean;
     halo?: boolean;
@@ -47,7 +71,7 @@ export type BaseNodeStyleProps<P extends object> = BaseShapeStyleProps &
     port?: boolean;
   } & PrefixObject<NodeLabelStyleProps, 'label'> & // Label
   // Halo
-  PrefixObject<P, 'halo'> &
+  PrefixObject<K, 'halo'> &
   // Icon
   PrefixObject<NodeIconStyleProps, 'icon'> &
   // Badges
@@ -55,23 +79,19 @@ export type BaseNodeStyleProps<P extends object> = BaseShapeStyleProps &
   // Ports
   NodePortsStyleProps;
 
-export type ParsedBaseNodeStyleProps<P extends object> = Required<BaseNodeStyleProps<P>>;
+export type ParsedBaseNodeStyleProps<K extends BaseNodeProps> = Required<BaseNodeStyleProps<K>>;
 
-type BaseNodeOptions<P extends object> = DisplayObjectConfig<BaseNodeStyleProps<P>>;
+type BaseNodeOptions<K extends BaseNodeProps> = DisplayObjectConfig<BaseNodeStyleProps<K>>;
 
 /**
  * Design document: https://www.yuque.com/antv/g6/gl1iof1xpzg6ed98
- * - key [default]
- * - halo
- * - icon
- * - badges
- * - label, background included
- * - ports
+ *
+ * The P is the StyleProps of Key Shape.
+ * The GSHAPE is the type of the key shape.
  */
-export abstract class BaseNode<
-  P extends BaseNodeProps<object>,
-  GSHAPE extends DisplayObject<any, any>,
-> extends BaseShape<BaseNodeStyleProps<P>> {
+export abstract class BaseNode<P extends BaseNodeProps, GSHAPE extends DisplayObject> extends BaseShape<
+  BaseNodeStyleProps<P>
+> {
   static defaultStyleProps: BaseNodeStyleProps<any> = {
     x: 0,
     y: 0,
@@ -105,13 +125,13 @@ export abstract class BaseNode<
     super(deepMix({}, { style: BaseNode.defaultStyleProps }, options));
   }
 
-  protected getKeyStyle(attributes: ParsedBaseNodeStyleProps<P>): ExtractGShapeStyleProps<GSHAPE> {
+  protected getKeyStyle(attributes: ParsedBaseNodeStyleProps<P>): P {
     const { color, ...style } = this.getGraphicStyle(attributes);
 
     return Object.assign(
       { fill: color },
       omitStyleProps(style, ['label', 'halo', 'icon', 'badge', 'port']),
-    ) as ExtractGShapeStyleProps<GSHAPE>;
+    ) as unknown as P;
   }
 
   protected getLabelStyle(attributes: ParsedBaseNodeStyleProps<P>): false | LabelStyleProps {
