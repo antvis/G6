@@ -1,6 +1,14 @@
-import { Line } from '@antv/g';
-import { Point } from '../../../src/types';
-import { getLabelPositionStyle, getPolylinePath, getQuadraticPath } from '../../../src/utils/edge';
+import { AABB, Line } from '@antv/g';
+import {
+  getCubicPath,
+  getCurveControlPoint,
+  getLabelPositionStyle,
+  getPolylinePath,
+  getQuadraticPath,
+  getRadians,
+  parseCurveOffset,
+  parseCurvePosition,
+} from '../../../src/utils/edge';
 
 describe('edge', () => {
   describe('getLabelPositionStyle', () => {
@@ -82,59 +90,80 @@ describe('edge', () => {
     });
   });
 
-  describe('getQuadraticPath', () => {
-    const sourcePoint: Point = [0, 10];
-    const targetPoint: Point = [10, 10];
-    const controlPoint: Point = [100, 100];
-
-    it('should return the correct path for given source and target points with a control point', () => {
-      const path = getQuadraticPath(sourcePoint, targetPoint, controlPoint);
-
-      expect(path).toEqual([
-        ['M', 0, 10],
-        ['Q', 100, 100, 10, 10],
-      ]);
-    });
+  it('getCurveControlPoint', () => {
+    expect(getCurveControlPoint([0, 0], [100, 0], 0.5, 20)).toEqual([50, -20]);
+    expect(getCurveControlPoint([0, 0], [100, 0], 0.5, -20)).toEqual([50, 20]);
   });
 
-  describe('getPolylinePath', () => {
-    test('should create a straight polyline with control points and no radius', () => {
-      const sourcePoint: Point = [0, 0];
-      const targetPoint: Point = [10, 10];
-      const controlPoints: Point[] = [
-        [0, 5],
-        [5, 10],
-      ];
-      const radius = 0;
+  it('parseCurveOffset', () => {
+    expect(parseCurveOffset(20)).toEqual([20, -20]);
+    expect(parseCurveOffset([20, 30])).toEqual([20, 30]);
+  });
 
-      expect(getPolylinePath([sourcePoint, ...controlPoints, targetPoint], radius)).toEqual([
-        ['M', 0, 0],
-        ['L', 0, 5],
-        ['L', 5, 10],
-        ['L', 10, 10],
-      ]);
-    });
+  it('parseCurvePosition', () => {
+    expect(parseCurvePosition(0.2)).toEqual([0.2, 0.8]);
+    expect(parseCurvePosition([0.2, 0.8])).toEqual([0.2, 0.8]);
+  });
 
-    test('should create a path with rounded corners with control points and a radius', () => {
-      const sourcePoint: Point = [0, 0];
-      const targetPoint: Point = [10, 10];
-      const controlPoints: Point[] = [
-        [5, 0],
-        [5, 10],
-      ];
-      const radius = 2;
+  it('getQuadraticPath', () => {
+    expect(getQuadraticPath([0, 10], [10, 10], [100, 100])).toEqual([
+      ['M', 0, 10],
+      ['Q', 100, 100, 10, 10],
+    ]);
+  });
 
-      const result = getPolylinePath([sourcePoint, ...controlPoints, targetPoint], radius);
-      expect(result).toEqual([
-        ['M', 0, 0],
-        ['L', 3, 0],
-        ['Q', 5, 0, 5, 2],
-        ['L', 5, 2],
-        ['L', 5, 8],
-        ['Q', 5, 10, 7, 10],
-        ['L', 7, 10],
-        ['L', 10, 10],
-      ]);
-    });
+  it('getCubicPath', () => {
+    expect(
+      getCubicPath(
+        [0, 10],
+        [100, 100],
+        [
+          [20, 20],
+          [50, 50],
+        ],
+      ),
+    ).toEqual([
+      ['M', 0, 10],
+      ['C', 20, 20, 50, 50, 100, 100],
+    ]);
+  });
+
+  it('getPolylinePath', () => {
+    expect(
+      getPolylinePath(
+        [
+          [0, 10],
+          [20, 20],
+          [50, 50],
+          [100, 100],
+        ],
+        0,
+      ),
+    ).toEqual([
+      ['M', 0, 10],
+      ['L', 20, 20],
+      ['L', 50, 50],
+      ['L', 100, 100],
+    ]);
+    expect(
+      getPolylinePath(
+        [
+          [0, 10],
+          [20, 20],
+          [50, 50],
+          [100, 100],
+        ],
+        0,
+        true,
+      ),
+    ).toEqual([['M', 0, 10], ['L', 20, 20], ['L', 50, 50], ['L', 100, 100], ['Z']]);
+  });
+
+  it('getRadians', () => {
+    const bbox = new AABB();
+    bbox.setMinMax([0, 0, 0], [100, 100, 0]);
+    const EIGHTH_PI = Math.PI / 8;
+    expect(getRadians(bbox).bottom[0]).toBeCloseTo(EIGHTH_PI * 3);
+    expect(getRadians(bbox).top[0]).toBeCloseTo(-EIGHTH_PI * 5);
   });
 });

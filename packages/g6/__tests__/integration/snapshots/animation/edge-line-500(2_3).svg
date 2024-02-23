@@ -21,10 +21,11 @@
             id="halo"
             fill="none"
             d="M 0,0 C 137.5 62.5,275 125,275 125"
-            stroke="rgba(24,144,255,1)"
             stroke-width="12"
             stroke-dasharray="0,0"
+            stroke="rgba(24,144,255,1)"
             pointer-events="none"
+            stroke-opacity="0.25"
             opacity="0.125"
           />
         </g>
@@ -33,9 +34,9 @@
             id="key"
             fill="none"
             d="M 5.462198864775629,2.482817665807104 L 0,0 C 137.5 62.5,275 125,275 125 L 269.53780113522436,122.5171823341929"
-            stroke="rgba(24,144,255,1)"
             stroke-width="2"
             stroke-dasharray="10,10"
+            stroke="rgba(24,144,255,1)"
           />
           <g transform="matrix(0.910366,0.413803,-0.413803,0.910366,5.462199,2.482818)">
             <path
@@ -43,9 +44,9 @@
               fill="rgba(24,144,255,1)"
               d="M 0,5 A 5 5 0 1 0 10 5 A 5 5 0 1 0 0 5 Z"
               transform="translate(-5,-5)"
-              stroke="rgba(24,144,255,1)"
               stroke-width="1"
               stroke-dasharray="0,0"
+              stroke="rgba(24,144,255,1)"
               width="10"
               height="10"
             />
@@ -56,9 +57,9 @@
               fill="rgba(255,0,0,1)"
               d="M 0,5 L 10,0 L 10,10 Z"
               transform="translate(-5,-5)"
-              stroke="rgba(24,144,255,1)"
               stroke-width="1"
               stroke-dasharray="0,0"
+              stroke="rgba(24,144,255,1)"
               width="10"
               height="10"
             />

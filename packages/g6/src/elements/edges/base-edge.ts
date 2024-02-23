@@ -80,36 +80,38 @@ export abstract class BaseEdge<KT extends BaseEdgeProps<object>> extends BaseSha
   static defaultStyleProps: Partial<BaseEdgeStyleProps<any>> = {
     isBillboard: true,
     label: true,
-    labelPosition: 'center',
+    labelAutoRotate: true,
+    labelIsBillboard: true,
     labelMaxWidth: '80%',
     labelOffsetX: 4,
     labelOffsetY: 0,
+    labelPosition: 'center',
     labelTextBaseline: 'middle',
-    labelIsBillboard: true,
-    labelAutoRotate: true,
     halo: false,
-    haloLineDash: 0,
-    haloPointerEvents: 'none',
-    haloZIndex: -1,
     haloDroppable: false,
+    haloLineDash: 0,
+    haloLineWidth: 12,
+    haloPointerEvents: 'none',
+    haloStrokeOpacity: 0.25,
+    haloZIndex: -1,
     startArrow: false,
-    startArrowCtor: Path,
-    startArrowType: 'triangle',
-    startArrowWidth: 10,
-    startArrowHeight: 10,
     startArrowAnchor: '0.5 0.5',
-    startArrowTransformOrigin: 'center',
+    startArrowCtor: Path,
+    startArrowHeight: 10,
     startArrowLineDash: 0,
     startArrowLineWidth: 1,
+    startArrowTransformOrigin: 'center',
+    startArrowType: 'triangle',
+    startArrowWidth: 10,
     endArrow: false,
-    endArrowCtor: Path,
-    endArrowType: 'triangle',
-    endArrowWidth: 10,
-    endArrowHeight: 10,
     endArrowAnchor: '0.5 0.5',
-    endArrowTransformOrigin: 'center',
+    endArrowCtor: Path,
+    endArrowHeight: 10,
     endArrowLineDash: 0,
     endArrowLineWidth: 1,
+    endArrowTransformOrigin: 'center',
+    endArrowType: 'triangle',
+    endArrowWidth: 10,
     loopPosition: 'top',
     loopClockwise: true,
   };
@@ -119,14 +121,14 @@ export abstract class BaseEdge<KT extends BaseEdgeProps<object>> extends BaseSha
   }
 
   protected getKeyStyle(attributes: ParsedBaseEdgeStyleProps<KT>): PathStyleProps {
-    const { sourceNode, targetNode, sourcePoint, targetPoint, color, ...style } = this.getGraphicStyle(attributes);
+    const { sourceNode, targetNode, sourcePoint, targetPoint, color, stroke, ...style } =
+      this.getGraphicStyle(attributes);
 
     const path = isSameNode(sourceNode, targetNode) ? this.getLoopPath(attributes) : this.getKeyPath(attributes);
-
     return {
-      stroke: color,
       path,
       ...omitStyleProps(style, ['halo', 'label', 'startArrow', 'endArrow']),
+      stroke: color || stroke,
     };
   }
 

@@ -240,7 +240,7 @@ function getBorderRadiusPoints(prevPoint: Point, midPoint: Point, nextPoint: Poi
 
 /** ==================== Loop Edge =========================== */
 
-const getRadians = (bbox: AABB): Record<LoopEdgePosition, [number, number]> => {
+export const getRadians = (bbox: AABB): Record<LoopEdgePosition, [number, number]> => {
   const halfPI = Math.PI / 2;
   const halfHeight = getBBoxHeight(bbox) / 2;
   const halfWidth = getBBoxWidth(bbox) / 2;

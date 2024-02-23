@@ -21,8 +21,8 @@
             id="key"
             fill="none"
             d="M 0,100 C 100 100,100 0,200 0 L 194,7.347880794884119e-16"
-            stroke="rgba(24,144,255,1)"
             stroke-width="2"
+            stroke="rgba(24,144,255,1)"
           />
           <g transform="matrix(-1,0,-0,-1,194,0)">
             <path
@@ -30,8 +30,8 @@
               fill="rgba(24,144,255,1)"
               d="M 0,5 L 10,0 L 10,10 Z"
               transform="translate(-5,-5)"
-              stroke="rgba(24,144,255,1)"
               stroke-width="1"
+              stroke="rgba(24,144,255,1)"
               width="10"
               height="10"
               stroke-dasharray="0,0"
@@ -51,8 +51,8 @@
             id="key"
             fill="none"
             d="M 0,50 C 100 50,100 0,200 0 L 194,7.347880794884119e-16"
-            stroke="rgba(24,144,255,1)"
             stroke-width="2"
+            stroke="rgba(24,144,255,1)"
           />
           <g transform="matrix(-1,0,-0,-1,194,0)">
             <path
@@ -60,8 +60,8 @@
               fill="rgba(24,144,255,1)"
               d="M 0,5 L 10,0 L 10,10 Z"
               transform="translate(-5,-5)"
-              stroke="rgba(24,144,255,1)"
               stroke-width="1"
+              stroke="rgba(24,144,255,1)"
               width="10"
               height="10"
               stroke-dasharray="0,0"
@@ -81,8 +81,8 @@
             id="key"
             fill="none"
             d="M 0,0 C 100 0,100 0,200 0 L 194,7.347880794884119e-16"
-            stroke="rgba(24,144,255,1)"
             stroke-width="2"
+            stroke="rgba(24,144,255,1)"
           />
           <g transform="matrix(-1,0,-0,-1,194,0)">
             <path
@@ -90,8 +90,8 @@
               fill="rgba(24,144,255,1)"
               d="M 0,5 L 10,0 L 10,10 Z"
               transform="translate(-5,-5)"
-              stroke="rgba(24,144,255,1)"
               stroke-width="1"
+              stroke="rgba(24,144,255,1)"
               width="10"
               height="10"
               stroke-dasharray="0,0"
@@ -111,8 +111,8 @@
             id="key"
             fill="none"
             d="M 0,0 C 100 0,100 50,200 50 L 194,50"
-            stroke="rgba(24,144,255,1)"
             stroke-width="2"
+            stroke="rgba(24,144,255,1)"
           />
           <g transform="matrix(-1,0,-0,-1,194,50)">
             <path
@@ -120,8 +120,8 @@
               fill="rgba(24,144,255,1)"
               d="M 0,5 L 10,0 L 10,10 Z"
               transform="translate(-5,-5)"
-              stroke="rgba(24,144,255,1)"
               stroke-width="1"
+              stroke="rgba(24,144,255,1)"
               width="10"
               height="10"
               stroke-dasharray="0,0"
@@ -141,8 +141,8 @@
             id="key"
             fill="none"
             d="M 0,0 C 100 0,100 100,200 100 L 194,100"
-            stroke="rgba(24,144,255,1)"
             stroke-width="2"
+            stroke="rgba(24,144,255,1)"
           />
           <g transform="matrix(-1,0,-0,-1,194,100)">
             <path
@@ -150,8 +150,8 @@
               fill="rgba(24,144,255,1)"
               d="M 0,5 L 10,0 L 10,10 Z"
               transform="translate(-5,-5)"
-              stroke="rgba(24,144,255,1)"
               stroke-width="1"
+              stroke="rgba(24,144,255,1)"
               width="10"
               height="10"
               stroke-dasharray="0,0"
