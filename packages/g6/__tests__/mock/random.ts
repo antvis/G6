@@ -6,6 +6,6 @@ export function createDeterministicRandom() {
   let i = 0;
   return () => {
     i++;
-    return (Math.PI * i) % 1;
+    return (Math.E * i) % 1;
   };
 }

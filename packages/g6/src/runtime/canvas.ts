@@ -57,17 +57,15 @@ export class Canvas {
         (acc, name) => {
           const renderer = isFunction(getRenderer) ? getRenderer?.(name) : new CanvasRenderer();
 
-          renderer.registerPlugin(
-            new DragNDropPlugin({
-              isDocumentDraggable: true,
-              isDocumentDroppable: true,
-              dragstartDistanceThreshold: 10,
-              dragstartTimeThreshold: 100,
-            }),
-          );
-
-          if (name !== 'main') {
-            renderer.unregisterPlugin(renderer.getPlugin('dom-interaction'));
+          if (name === 'main') {
+            renderer.registerPlugin(
+              new DragNDropPlugin({
+                isDocumentDraggable: true,
+                isDocumentDroppable: true,
+                dragstartDistanceThreshold: 10,
+                dragstartTimeThreshold: 100,
+              }),
+            );
           }
 
           const canvas = new GCanvas({
