@@ -81,7 +81,6 @@ export const edgeLine: StaticTestCase = async (context) => {
       unitRadius: 220,
       linkDistance: 220,
     },
-    animation: false,
   });
 
   await graph.render();

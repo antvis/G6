@@ -5,7 +5,7 @@
   },
   "demos": [
     {
-      "filename": "line.js",
+      "filename": "line.ts",
       "title": {
         "zh": "直线",
         "en": "Line"

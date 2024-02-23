@@ -77,7 +77,6 @@ const graph = new Graph({
     unitRadius: 250,
     linkDistance: 250,
   },
-  animation: false,
 });
 
 graph.render();
