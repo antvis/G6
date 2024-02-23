@@ -8,14 +8,15 @@ import type { IconStyleProps } from '../shapes';
 import type { BaseNodeStyleProps } from './base-node';
 import { BaseNode } from './base-node';
 
-export type CircleStyleProps = BaseNodeStyleProps<BaseNodeProps>;
+type CircleKeyStyleProps = BaseNodeProps & GCircleStyleProps;
+export type CircleStyleProps = BaseNodeStyleProps<CircleKeyStyleProps>;
 type ParsedCircleStyleProps = Required<CircleStyleProps>;
 type CircleOptions = DisplayObjectConfig<CircleStyleProps>;
 
 /**
  * Draw circle based on BaseNode, override drawKeyShape.
  */
-export class Circle extends BaseNode<BaseNodeProps, GCircle> {
+export class Circle extends BaseNode<CircleKeyStyleProps, GCircle> {
   static defaultStyleProps: Partial<CircleStyleProps> = {
     width: 50,
     height: 50,
@@ -29,14 +30,14 @@ export class Circle extends BaseNode<BaseNodeProps, GCircle> {
     return this.upsert('key', GCircle, this.getKeyStyle(attributes), container);
   }
 
-  protected getKeyStyle(attributes: ParsedCircleStyleProps): GCircleStyleProps {
-    const { x, y, z, width, height, ...keyStyle } = super.getKeyStyle(attributes) as unknown as ParsedCircleStyleProps;
+  protected getKeyStyle(attributes: ParsedCircleStyleProps): CircleKeyStyleProps {
+    const { x, y, z, width, height, ...keyStyle } = super.getKeyStyle(attributes);
     return {
       ...keyStyle,
       cx: x,
       cy: y,
       cz: z,
-      r: Math.min(width, height) / 2,
+      r: Math.min(width as number, height as number) / 2,
     };
   }
 

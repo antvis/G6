@@ -1,29 +1,30 @@
 import type { DisplayObjectConfig } from '@antv/g';
+import { PolygonStyleProps as GPolygonStyleProps } from '@antv/g';
 import { deepMix, isEmpty } from '@antv/util';
 import { ICON_SIZE_RATIO } from '../../constants/element';
-import type { Point, TrianglePortPosition } from '../../types';
+import type { BaseNodeProps, Point, TrianglePortPosition } from '../../types';
 import { getIncircleRadius, getTriangleCenter } from '../../utils/bbox';
 import { getPortPosition, getTrianglePoints, getTrianglePorts } from '../../utils/element';
 import { subStyleProps } from '../../utils/prefix';
 import { IconStyleProps } from '../shapes';
 import type { BaseNodeStyleProps, NodePortStyleProps } from './base-node';
-import type { PolygonKeyStyleProps } from './polygon';
 import { Polygon } from './polygon';
 
 export type TriangleDirection = 'up' | 'left' | 'right' | 'down';
-type TriangleKeyShapeStyleProps = PolygonKeyStyleProps<{
-  /**
-   * <zh/> 三角形的方向
-   * <en/> The direction of the triangle
-   */
-  direction?: TriangleDirection;
-}>;
-export type TriangleStyleProps = BaseNodeStyleProps<TriangleKeyShapeStyleProps>;
+type TriangleKeyStyleProps = BaseNodeProps &
+  GPolygonStyleProps & {
+    /**
+     * <zh/> 三角形的方向
+     * <en/> The direction of the triangle
+     */
+    direction?: TriangleDirection;
+  };
+export type TriangleStyleProps = BaseNodeStyleProps<TriangleKeyStyleProps>;
 type ParsedTriangleStyleProps = Required<TriangleStyleProps>;
 type TriangleOptions = DisplayObjectConfig<TriangleStyleProps>;
 
-export class Triangle extends Polygon<TriangleKeyShapeStyleProps> {
-  static defaultStyleProps: Partial<TriangleKeyShapeStyleProps> = {
+export class Triangle extends Polygon<TriangleKeyStyleProps> {
+  static defaultStyleProps: Partial<TriangleKeyStyleProps> = {
     width: 40,
     height: 40,
     direction: 'up',

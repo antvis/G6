@@ -7,14 +7,15 @@ import type { IconStyleProps } from '../shapes';
 import type { BaseNodeStyleProps } from './base-node';
 import { BaseNode } from './base-node';
 
-export type RectStyleProps = BaseNodeStyleProps<BaseNodeProps>;
+type RectKeyStyleProps = BaseNodeProps & GRectStyleProps;
+export type RectStyleProps = BaseNodeStyleProps<RectKeyStyleProps>;
 type ParsedRectStyleProps = Required<RectStyleProps>;
 type RectOptions = DisplayObjectConfig<RectStyleProps>;
 
 /**
  * Draw Rect based on BaseNode, override drawKeyShape.
  */
-export class Rect extends BaseNode<BaseNodeProps, GRect> {
+export class Rect extends BaseNode<RectKeyStyleProps, GRect> {
   static defaultStyleProps: Partial<RectStyleProps> = {
     width: 100,
     height: 30,
@@ -24,9 +25,9 @@ export class Rect extends BaseNode<BaseNodeProps, GRect> {
     super(deepMix({}, { style: Rect.defaultStyleProps }, options));
   }
 
-  protected getKeyStyle(attributes: ParsedRectStyleProps): GRectStyleProps {
+  protected getKeyStyle(attributes: ParsedRectStyleProps): RectKeyStyleProps {
     return {
-      ...(super.getKeyStyle(attributes) as GRectStyleProps),
+      ...(super.getKeyStyle(attributes) as RectKeyStyleProps),
       anchor: [0.5, 0.5], // !!! It cannot be set to default values because G.CustomElement cannot handle it properly.
     };
   }
