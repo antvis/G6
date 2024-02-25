@@ -1,4 +1,3 @@
-import { sleep } from '@@/utils';
 import { clamp } from '@antv/util';
 import { GraphEvent } from '../constants';
 import type {
@@ -93,14 +92,10 @@ export class ViewportController {
       this.context.graph.emit(GraphEvent.BEFORE_VIEWPORT_ANIMATE, options);
 
       return new Promise<void>((resolve) => {
-        /**
-         * todo: gotoLandmark 存在问题，有一定概率导致不会触发 onfinish，因此需要设置一个超时时间
-         */
         const onfinish = () => {
           this.context.graph.emit(GraphEvent.AFTER_VIEWPORT_ANIMATE, options);
           resolve();
         };
-        sleep(animation.duration || 0).then(onfinish);
 
         this.camera.gotoLandmark(
           this.createLandmark(
@@ -136,7 +131,6 @@ export class ViewportController {
           this.context.graph.emit(GraphEvent.AFTER_VIEWPORT_ANIMATE, options);
           resolve();
         };
-        sleep(animation.duration || 0).then(onfinish);
 
         this.camera.gotoLandmark(
           this.createLandmark({ roll: mode === 'relative' ? camera.getRoll() + angle : angle }),
@@ -172,7 +166,6 @@ export class ViewportController {
           this.context.graph.emit(GraphEvent.AFTER_VIEWPORT_ANIMATE, options);
           resolve();
         };
-        sleep(animation.duration || 0).then(onfinish);
 
         this.camera.gotoLandmark(this.createLandmark({ zoom: targetRatio }), { ...animation, onfinish });
       });
