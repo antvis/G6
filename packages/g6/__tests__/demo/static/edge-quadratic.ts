@@ -1,4 +1,5 @@
 import { Quadratic } from '@/src/elements/edges';
+import { createEdgeNode } from '@@/utils';
 import type { StaticTestCase } from '../types';
 
 export const edgeQuadratic: StaticTestCase = async (context) => {
@@ -7,8 +8,8 @@ export const edgeQuadratic: StaticTestCase = async (context) => {
   const quadratic1 = new Quadratic({
     style: {
       // key shape
-      sourcePoint: [100, 50],
-      targetPoint: [300, 50],
+      sourceNode: createEdgeNode([100, 50]),
+      targetNode: createEdgeNode([300, 50]),
       stroke: '#1890FF',
       lineWidth: 2,
       // halo
@@ -26,8 +27,8 @@ export const edgeQuadratic: StaticTestCase = async (context) => {
   const quadratic2 = new Quadratic({
     style: {
       // key shape
-      sourcePoint: [100, 150],
-      targetPoint: [300, 150],
+      sourceNode: createEdgeNode([100, 150]),
+      targetNode: createEdgeNode([300, 150]),
       controlPoint: [200, 200],
       stroke: '#1890FF',
       lineWidth: 2,
@@ -45,8 +46,8 @@ export const edgeQuadratic: StaticTestCase = async (context) => {
   const quadratic3 = new Quadratic({
     style: {
       // key shape
-      sourcePoint: [100, 250],
-      targetPoint: [300, 250],
+      sourceNode: createEdgeNode([100, 250]),
+      targetNode: createEdgeNode([300, 250]),
       curveOffset: 50,
       curvePosition: 0.5,
       stroke: '#1890FF',
@@ -65,8 +66,8 @@ export const edgeQuadratic: StaticTestCase = async (context) => {
   const quadratic4 = new Quadratic({
     style: {
       // key shape
-      sourcePoint: [100, 350],
-      targetPoint: [300, 350],
+      sourceNode: createEdgeNode([100, 350]),
+      targetNode: createEdgeNode([300, 350]),
       curveOffset: 50,
       curvePosition: 0.25,
       stroke: '#1890FF',

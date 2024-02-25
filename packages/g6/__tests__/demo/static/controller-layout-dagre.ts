@@ -17,7 +17,7 @@ export const controllerLayoutDagre: StaticTestCase = async ({ canvas, animation 
       begin: [20, 20],
       animation,
     },
-    node: { style: { width: 20, height: 20 } },
+    node: { style: { size: 20 } },
     edge: {
       style: {
         type: 'polyline',

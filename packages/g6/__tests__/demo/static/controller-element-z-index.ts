@@ -17,8 +17,7 @@ export const controllerElementZIndex: StaticTestCase = async (context) => {
     theme: 'light',
     node: {
       style: {
-        width: 50,
-        height: 50,
+        size: 50,
       },
       animation: animation && {},
     },

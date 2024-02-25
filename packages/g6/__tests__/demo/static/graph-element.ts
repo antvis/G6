@@ -12,8 +12,7 @@ export const graphElement: StaticTestCase = async (context) => {
     theme: 'light',
     node: {
       style: {
-        width: 20,
-        height: 20,
+        size: 20,
       },
       state: {
         active: { fill: '#dbedd0' },
@@ -53,7 +52,7 @@ export const graphElement: StaticTestCase = async (context) => {
     expect(ops.container).toEqual(canvas);
     expect(ops.data?.nodes?.length).toBe(data.nodes.length);
     expect(ops.data?.edges?.length).toBe(data.edges.length);
-    expect(ops.node?.style?.width).toBe(20);
+    expect(ops.node?.style?.size).toBe(20);
     expect(ops.node?.state).toEqual(options.node?.state);
     expect(ops.edge?.style).toEqual(options.edge?.style);
     expect(ops.edge?.state).toEqual(options.edge?.state);

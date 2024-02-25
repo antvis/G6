@@ -9,13 +9,7 @@
   <defs />
   <g id="g-svg-camera" transform="matrix(1,0,0,1,0,0)">
     <g id="g-root" fill="none" transform="matrix(1,0,0,1,0,0)">
-      <g
-        id="node-1"
-        fill="none"
-        width="50"
-        height="50"
-        transform="matrix(1,0,0,1,50,50)"
-      >
+      <g id="node-1" fill="none" transform="matrix(1,0,0,1,50,50)">
         <g transform="matrix(1,0,0,1,0,0)">
           <circle
             id="key"
@@ -28,13 +22,7 @@
           />
         </g>
       </g>
-      <g
-        id="node-2"
-        fill="none"
-        width="50"
-        height="50"
-        transform="matrix(1,0,0,1,200,50)"
-      >
+      <g id="node-2" fill="none" transform="matrix(1,0,0,1,200,50)">
         <g transform="matrix(1,0,0,1,0,0)">
           <circle
             id="key"
@@ -107,13 +95,7 @@
           </g>
         </g>
       </g>
-      <g
-        id="node-3"
-        fill="none"
-        width="50"
-        height="50"
-        transform="matrix(1,0,0,1,50,150)"
-      >
+      <g id="node-3" fill="none" transform="matrix(1,0,0,1,50,150)">
         <g transform="matrix(1,0,0,1,0,0)">
           <circle
             id="key"
@@ -169,13 +151,7 @@
           />
         </g>
       </g>
-      <g
-        id="node-4"
-        fill="none"
-        width="50"
-        height="50"
-        transform="matrix(1,0,0,1,200,150)"
-      >
+      <g id="node-4" fill="none" transform="matrix(1,0,0,1,200,150)">
         <g transform="matrix(1,0,0,1,0,0)">
           <circle
             id="key"
@@ -295,13 +271,7 @@
           </g>
         </g>
       </g>
-      <g
-        id="node-5"
-        fill="none"
-        width="50"
-        height="50"
-        transform="matrix(1,0,0,1,50,250)"
-      >
+      <g id="node-5" fill="none" transform="matrix(1,0,0,1,50,250)">
         <g transform="matrix(1,0,0,1,0,0)">
           <circle
             id="key"
@@ -336,13 +306,7 @@
           />
         </g>
       </g>
-      <g
-        id="node-6"
-        fill="none"
-        width="50"
-        height="50"
-        transform="matrix(1,0,0,1,200,250)"
-      >
+      <g id="node-6" fill="none" transform="matrix(1,0,0,1,200,250)">
         <g transform="matrix(1,0,0,1,0,0)">
           <circle
             id="key"
@@ -441,13 +405,7 @@
           </g>
         </g>
       </g>
-      <g
-        id="node-7"
-        fill="none"
-        width="50"
-        height="50"
-        transform="matrix(1,0,0,1,50,350)"
-      >
+      <g id="node-7" fill="none" transform="matrix(1,0,0,1,50,350)">
         <g transform="matrix(1,0,0,1,0,0)">
           <circle
             id="key"
@@ -482,13 +440,7 @@
           />
         </g>
       </g>
-      <g
-        id="node-8"
-        fill="none"
-        width="50"
-        height="50"
-        transform="matrix(1,0,0,1,200,350)"
-      >
+      <g id="node-8" fill="none" transform="matrix(1,0,0,1,200,350)">
         <g transform="matrix(1,0,0,1,0,0)">
           <circle
             id="key"
@@ -586,13 +538,7 @@
           </g>
         </g>
       </g>
-      <g
-        id="node-9"
-        fill="none"
-        width="50"
-        height="50"
-        transform="matrix(1,0,0,1,50,450)"
-      >
+      <g id="node-9" fill="none" transform="matrix(1,0,0,1,50,450)">
         <g transform="matrix(1,0,0,1,0,0)">
           <circle
             id="key"
@@ -626,13 +572,7 @@
           />
         </g>
       </g>
-      <g
-        id="node-10"
-        fill="none"
-        width="50"
-        height="50"
-        transform="matrix(1,0,0,1,200,450)"
-      >
+      <g id="node-10" fill="none" transform="matrix(1,0,0,1,200,450)">
         <g transform="matrix(1,0,0,1,0,0)">
           <circle
             id="key"
@@ -731,13 +671,7 @@
           </g>
         </g>
       </g>
-      <g
-        id="node-11"
-        fill="none"
-        width="50"
-        height="50"
-        transform="matrix(1,0,0,1,300,50)"
-      >
+      <g id="node-11" fill="none" transform="matrix(1,0,0,1,300,50)">
         <g transform="matrix(1,0,0,1,0,0)">
           <circle
             id="key"
@@ -750,13 +684,7 @@
           />
         </g>
       </g>
-      <g
-        id="node-12"
-        fill="none"
-        width="50"
-        height="50"
-        transform="matrix(1,0,0,1,450,50)"
-      >
+      <g id="node-12" fill="none" transform="matrix(1,0,0,1,450,50)">
         <g transform="matrix(1,0,0,1,0,0)">
           <circle
             id="key"
@@ -855,13 +783,7 @@
           </g>
         </g>
       </g>
-      <g
-        id="node-13"
-        fill="none"
-        width="50"
-        height="50"
-        transform="matrix(1,0,0,1,300,150)"
-      >
+      <g id="node-13" fill="none" transform="matrix(1,0,0,1,300,150)">
         <g transform="matrix(1,0,0,1,0,0)">
           <circle
             id="key"
@@ -874,13 +796,7 @@
           />
         </g>
       </g>
-      <g
-        id="node-14"
-        fill="none"
-        width="50"
-        height="50"
-        transform="matrix(1,0,0,1,450,150)"
-      >
+      <g id="node-14" fill="none" transform="matrix(1,0,0,1,450,150)">
         <g transform="matrix(1,0,0,1,0,0)">
           <circle
             id="key"
@@ -974,13 +890,7 @@
           </g>
         </g>
       </g>
-      <g
-        id="node-15"
-        fill="none"
-        width="50"
-        height="50"
-        transform="matrix(1,0,0,1,300,250)"
-      >
+      <g id="node-15" fill="none" transform="matrix(1,0,0,1,300,250)">
         <g transform="matrix(1,0,0,1,0,0)">
           <circle
             id="key"
@@ -1015,13 +925,7 @@
           />
         </g>
       </g>
-      <g
-        id="node-16"
-        fill="none"
-        width="50"
-        height="50"
-        transform="matrix(1,0,0,1,450,250)"
-      >
+      <g id="node-16" fill="none" transform="matrix(1,0,0,1,450,250)">
         <g transform="matrix(1,0,0,1,0,0)">
           <circle
             id="key"
@@ -1094,13 +998,7 @@
           </g>
         </g>
       </g>
-      <g
-        id="node-17"
-        fill="none"
-        width="50"
-        height="50"
-        transform="matrix(1,0,0,1,300,350)"
-      >
+      <g id="node-17" fill="none" transform="matrix(1,0,0,1,300,350)">
         <g transform="matrix(1,0,0,1,0,0)">
           <circle
             id="key"
@@ -1134,13 +1032,7 @@
           />
         </g>
       </g>
-      <g
-        id="node-18"
-        fill="none"
-        width="50"
-        height="50"
-        transform="matrix(1,0,0,1,450,350)"
-      >
+      <g id="node-18" fill="none" transform="matrix(1,0,0,1,450,350)">
         <g transform="matrix(1,0,0,1,0,0)">
           <circle
             id="key"
@@ -1217,13 +1109,7 @@
           </g>
         </g>
       </g>
-      <g
-        id="node-19"
-        fill="none"
-        width="50"
-        height="50"
-        transform="matrix(1,0,0,1,300,450)"
-      >
+      <g id="node-19" fill="none" transform="matrix(1,0,0,1,300,450)">
         <g transform="matrix(1,0,0,1,0,0)">
           <circle
             id="key"
@@ -1257,13 +1143,7 @@
           />
         </g>
       </g>
-      <g
-        id="node-20"
-        fill="none"
-        width="50"
-        height="50"
-        transform="matrix(1,0,0,1,450,450)"
-      >
+      <g id="node-20" fill="none" transform="matrix(1,0,0,1,450,450)">
         <g transform="matrix(1,0,0,1,-23.776413,-25)">
           <polygon
             id="key"

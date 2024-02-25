@@ -21,7 +21,7 @@ export const controllerLayoutFruchtermanGPU: StaticTestCase = async ({ canvas, a
       speed: 5,
       animation,
     },
-    node: { style: { width: 20, height: 20 } },
+    node: { style: { size: 20 } },
   };
 
   const graph = new Graph(options);

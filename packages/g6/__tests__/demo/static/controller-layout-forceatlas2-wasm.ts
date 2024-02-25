@@ -27,7 +27,7 @@ export const controllerLayoutForceatlas2WASM: StaticTestCase = async ({ canvas, 
       ks: 0.1,
       animation,
     },
-    node: { style: { width: 20, height: 20 } },
+    node: { style: { size: 20 } },
   };
 
   const graph = new Graph(options);

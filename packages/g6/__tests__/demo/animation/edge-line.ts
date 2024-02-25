@@ -1,4 +1,5 @@
 import { Line } from '@/src/elements/edges';
+import { createEdgeNode } from '@@/utils';
 import type { AnimationTestCase } from '../types';
 
 export const edgeLine: AnimationTestCase = async (context) => {
@@ -6,8 +7,8 @@ export const edgeLine: AnimationTestCase = async (context) => {
 
   const line = new Line({
     style: {
-      sourcePoint: [100, 50],
-      targetPoint: [300, 50],
+      sourceNode: createEdgeNode([100, 50]),
+      targetNode: createEdgeNode([300, 50]),
       lineWidth: 2,
       lineDash: [10, 10],
       stroke: '#1890FF',
@@ -30,8 +31,8 @@ export const edgeLine: AnimationTestCase = async (context) => {
 
   const result = line.animate(
     [
-      { sourcePoint: [100, 150], targetPoint: [300, 200], haloOpacity: 0 },
-      { sourcePoint: [100, 150], targetPoint: [450, 350], haloOpacity: 0.25 },
+      { sourceNode: createEdgeNode([100, 150]), targetNode: createEdgeNode([300, 200]), haloOpacity: 0 },
+      { sourceNode: createEdgeNode([100, 150]), targetNode: createEdgeNode([450, 350]), haloOpacity: 0.25 },
     ],
     { duration: 1000, fill: 'both' },
   );

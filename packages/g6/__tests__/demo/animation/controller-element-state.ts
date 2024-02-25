@@ -25,8 +25,7 @@ export const controllerElementState: AnimationTestCase = async (context) => {
     node: {
       style: {
         lineWidth: 1,
-        width: 20,
-        height: 20,
+        size: 20,
       },
       state: {
         active: {
@@ -77,7 +76,7 @@ export const controllerElementState: AnimationTestCase = async (context) => {
 
   const result = new Promise<IAnimation>((resolve) => {
     graph.once('beforeanimate', (e: AnimateEvent) => {
-      resolve(e.animation);
+      resolve(e.animation!);
     });
   });
 

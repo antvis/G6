@@ -15,7 +15,7 @@ export const controllerLayoutD3Force: StaticTestCase = async ({ canvas, animatio
       nodeSize: 20,
       animation,
     },
-    node: { style: { width: 20, height: 20 } },
+    node: { style: { size: 20 } },
   };
 
   const graph = new Graph(options);

@@ -1,4 +1,5 @@
 import { CubicVertical } from '@/src/elements/edges';
+import { createEdgeNode } from '@@/utils';
 import type { StaticTestCase } from '../types';
 
 export const edgeCubicVertical: StaticTestCase = async (context) => {
@@ -7,8 +8,8 @@ export const edgeCubicVertical: StaticTestCase = async (context) => {
     canvas.appendChild(
       new CubicVertical({
         style: {
-          sourcePoint: [200, 100],
-          targetPoint: [v, 300],
+          sourceNode: createEdgeNode([200, 100]),
+          targetNode: createEdgeNode([v, 300]),
           stroke: '#1890FF',
           lineWidth: 2,
           endArrow: true,

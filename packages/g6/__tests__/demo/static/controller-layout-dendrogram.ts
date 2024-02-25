@@ -18,9 +18,8 @@ export const controllerLayoutDendrogram: StaticTestCase = async ({ canvas, anima
     },
     node: {
       style: {
-        width: 20,
-        height: 20,
-        labelText: (data) => data.id,
+        size: 20,
+        labelText: (data: any) => data.id,
         labelPosition: 'right',
         labelMaxWidth: 200,
       },

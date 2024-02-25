@@ -14,7 +14,7 @@ export const controllerLayoutCircular: StaticTestCase = async ({ canvas, animati
       radius: 200,
       animation,
     },
-    node: { style: { width: 20, height: 20 } },
+    node: { style: { size: 20 } },
     edge: {
       style: {
         type: 'line',

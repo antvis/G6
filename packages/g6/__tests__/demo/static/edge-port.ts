@@ -11,8 +11,7 @@ export const edgePort: StaticTestCase = async (context) => {
       style: {
         x: 50,
         y: 50,
-        width: 50,
-        height: 50,
+        size: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
       },
@@ -25,8 +24,7 @@ export const edgePort: StaticTestCase = async (context) => {
       style: {
         x: 200,
         y: 50,
-        width: 50,
-        height: 50,
+        size: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
       },
@@ -56,8 +54,7 @@ export const edgePort: StaticTestCase = async (context) => {
       style: {
         x: 50,
         y: 150,
-        width: 50,
-        height: 50,
+        size: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
         ports: [
@@ -76,8 +73,7 @@ export const edgePort: StaticTestCase = async (context) => {
       style: {
         x: 200,
         y: 150,
-        width: 50,
-        height: 50,
+        size: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
         ports: [
@@ -115,8 +111,7 @@ export const edgePort: StaticTestCase = async (context) => {
       style: {
         x: 50,
         y: 250,
-        width: 50,
-        height: 50,
+        size: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
         ports: [
@@ -133,8 +128,7 @@ export const edgePort: StaticTestCase = async (context) => {
       style: {
         x: 200,
         y: 250,
-        width: 50,
-        height: 50,
+        size: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
         ports: [
@@ -168,8 +162,7 @@ export const edgePort: StaticTestCase = async (context) => {
       style: {
         x: 50,
         y: 350,
-        width: 50,
-        height: 50,
+        size: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
         ports: [
@@ -186,8 +179,7 @@ export const edgePort: StaticTestCase = async (context) => {
       style: {
         x: 200,
         y: 350,
-        width: 50,
-        height: 50,
+        size: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
         ports: [
@@ -222,8 +214,7 @@ export const edgePort: StaticTestCase = async (context) => {
       style: {
         x: 50,
         y: 450,
-        width: 50,
-        height: 50,
+        size: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
         ports: [
@@ -240,8 +231,7 @@ export const edgePort: StaticTestCase = async (context) => {
       style: {
         x: 200,
         y: 450,
-        width: 50,
-        height: 50,
+        size: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
         ports: [
@@ -276,8 +266,7 @@ export const edgePort: StaticTestCase = async (context) => {
       style: {
         x: 300,
         y: 50,
-        width: 50,
-        height: 50,
+        size: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
       },
@@ -290,8 +279,7 @@ export const edgePort: StaticTestCase = async (context) => {
       style: {
         x: 450,
         y: 50,
-        width: 50,
-        height: 50,
+        size: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
         ports: [
@@ -325,8 +313,7 @@ export const edgePort: StaticTestCase = async (context) => {
       style: {
         x: 300,
         y: 150,
-        width: 50,
-        height: 50,
+        size: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
       },
@@ -339,8 +326,7 @@ export const edgePort: StaticTestCase = async (context) => {
       style: {
         x: 450,
         y: 150,
-        width: 50,
-        height: 50,
+        size: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
         ports: [
@@ -375,8 +361,7 @@ export const edgePort: StaticTestCase = async (context) => {
       style: {
         x: 300,
         y: 250,
-        width: 50,
-        height: 50,
+        size: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
         ports: [
@@ -393,8 +378,7 @@ export const edgePort: StaticTestCase = async (context) => {
       style: {
         x: 450,
         y: 250,
-        width: 50,
-        height: 50,
+        size: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
       },
@@ -424,8 +408,7 @@ export const edgePort: StaticTestCase = async (context) => {
       style: {
         x: 300,
         y: 350,
-        width: 50,
-        height: 50,
+        size: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
         ports: [
@@ -442,8 +425,7 @@ export const edgePort: StaticTestCase = async (context) => {
       style: {
         x: 450,
         y: 350,
-        width: 50,
-        height: 50,
+        size: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
       },
@@ -474,8 +456,7 @@ export const edgePort: StaticTestCase = async (context) => {
       style: {
         x: 300,
         y: 450,
-        width: 50,
-        height: 50,
+        size: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
         ports: [
@@ -492,8 +473,7 @@ export const edgePort: StaticTestCase = async (context) => {
       style: {
         x: 450,
         y: 450,
-        width: 50,
-        height: 50,
+        size: 50,
         innerR: 10,
         fill: '#f8f8f8',
         stroke: '#8b9baf',

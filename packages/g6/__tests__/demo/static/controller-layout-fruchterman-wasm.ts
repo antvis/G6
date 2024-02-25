@@ -26,7 +26,7 @@ export const controllerLayoutFruchtermanWASM: StaticTestCase = async ({ canvas, 
       speed: 5,
       animation,
     },
-    node: { style: { width: 20, height: 20 } },
+    node: { style: { size: 20 } },
   };
 
   const graph = new Graph(options);

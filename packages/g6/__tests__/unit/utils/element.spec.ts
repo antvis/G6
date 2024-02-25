@@ -217,8 +217,8 @@ describe('element', () => {
     expect(rect.style.width).toBe(100);
     expect(rect.style.height).toBe(100);
 
-    const circle = new Circle({ style: { width: 50, height: 50 } });
-    updateStyle(circle, { width: 100 });
-    expect(circle.style.width).toBe(100);
+    const circle = new Circle({ style: { size: 50 } });
+    updateStyle(circle, { size: 100 });
+    expect(circle.style.size).toBe(100);
   });
 });

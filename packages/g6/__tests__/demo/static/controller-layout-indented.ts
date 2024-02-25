@@ -22,7 +22,7 @@ export const controllerLayoutIndented: StaticTestCase = async ({ canvas, animati
         return 16;
       },
     },
-    node: { style: { width: 20, height: 20 } },
+    node: { style: { size: 20 } },
     edge: {
       style: {
         type: 'polyline',

@@ -27,7 +27,7 @@ export const controllerLayoutMindmap: StaticTestCase = async ({ canvas, animatio
       },
       getSide: undefined,
     },
-    node: { style: { width: 20, height: 20 } },
+    node: { style: { size: 20 } },
     edge: {
       style: {
         type: 'polyline',

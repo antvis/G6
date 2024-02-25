@@ -15,7 +15,7 @@ export const controllerLayoutRadial: StaticTestCase = async ({ canvas, animation
       unitRadius: 50,
       animation,
     },
-    node: { style: { width: 20, height: 20 } },
+    node: { style: { size: 20 } },
     edge: {
       style: {
         type: 'polyline',

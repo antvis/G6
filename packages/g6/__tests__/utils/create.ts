@@ -1,6 +1,8 @@
 import type { G6Spec } from '@/src';
 import { Graph } from '@/src';
+import { Circle } from '@/src/elements';
 import { Canvas } from '@/src/runtime/canvas';
+import type { Node, Point } from '@/src/types';
 import type { IRenderer } from '@antv/g';
 import { resetEntityCounter } from '@antv/g';
 import { Renderer as CanvasRenderer } from '@antv/g-canvas';
@@ -78,5 +80,26 @@ export function createGraphCanvas(
     // @ts-expect-error document offscreenCanvas is not in the type definition
     document: container.ownerDocument,
     offscreenCanvas: offscreenNodeCanvas,
+  });
+}
+
+/**
+ * <zh/> 一个会连接到圆心的节点
+ *
+ * <en/> A node that will connect to the center
+ */
+class CenterConnectCircle extends Circle {
+  public getIntersectPoint(): Point {
+    const bounds = this.getKey().getBounds();
+    return bounds.center;
+  }
+}
+
+export function createEdgeNode(point: Point): Node {
+  return new CenterConnectCircle({
+    style: {
+      x: point[0],
+      y: point[1],
+    },
   });
 }

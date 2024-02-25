@@ -14,7 +14,7 @@ export const controllerLayoutGrid: StaticTestCase = async ({ canvas, animation }
       type: 'grid',
       animation,
     },
-    node: { style: { width: 20, height: 20 } },
+    node: { style: { size: 20 } },
   };
 
   const graph = new Graph(options);

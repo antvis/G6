@@ -1,4 +1,5 @@
 import { Quadratic } from '@/src/elements/edges';
+import { createEdgeNode } from '@@/utils';
 import type { AnimationTestCase } from '../types';
 
 export const edgeQuadratic: AnimationTestCase = async (context) => {
@@ -6,8 +7,8 @@ export const edgeQuadratic: AnimationTestCase = async (context) => {
 
   const quadratic = new Quadratic({
     style: {
-      sourcePoint: [100, 50],
-      targetPoint: [300, 50],
+      sourceNode: createEdgeNode([100, 50]),
+      targetNode: createEdgeNode([300, 50]),
       lineWidth: 2,
       stroke: '#1890FF',
       labelText: 'quadratic-edge',
@@ -20,8 +21,8 @@ export const edgeQuadratic: AnimationTestCase = async (context) => {
 
   const result = quadratic.animate(
     [
-      { sourcePoint: [100, 150], targetPoint: [300, 200] },
-      { sourcePoint: [100, 150], targetPoint: [450, 350] },
+      { sourceNode: createEdgeNode([100, 150]), targetNode: createEdgeNode([300, 200]) },
+      { sourceNode: createEdgeNode([100, 150]), targetNode: createEdgeNode([450, 350]) },
     ],
     { duration: 1000, fill: 'both' },
   );

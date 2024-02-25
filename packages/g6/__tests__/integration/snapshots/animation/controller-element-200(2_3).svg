@@ -66,13 +66,7 @@
         </g>
       </g>
       <g id="g-svg-5" fill="none" transform="matrix(1,0,0,1,0,0)">
-        <g
-          id="node-1"
-          fill="none"
-          width="20"
-          height="20"
-          transform="matrix(1,0,0,1,50,50)"
-        >
+        <g id="node-1" fill="none" transform="matrix(1,0,0,1,50,50)">
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
@@ -86,13 +80,7 @@
             />
           </g>
         </g>
-        <g
-          id="node-2"
-          fill="none"
-          width="20"
-          height="20"
-          transform="matrix(1,0,0,1,200,144.060089)"
-        >
+        <g id="node-2" fill="none" transform="matrix(1,0,0,1,200,144.060089)">
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
@@ -105,13 +93,7 @@
             />
           </g>
         </g>
-        <g
-          id="node-3"
-          fill="none"
-          width="20"
-          height="20"
-          transform="matrix(1,0,0,1,125,150)"
-        >
+        <g id="node-3" fill="none" transform="matrix(1,0,0,1,125,150)">
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
@@ -124,13 +106,7 @@
             />
           </g>
         </g>
-        <g
-          id="node-4"
-          fill="none"
-          width="20"
-          height="20"
-          transform="matrix(1,0,0,1,50,200)"
-        >
+        <g id="node-4" fill="none" transform="matrix(1,0,0,1,50,200)">
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
@@ -144,13 +120,7 @@
             />
           </g>
         </g>
-        <g
-          id="node-5"
-          fill="none"
-          width="20"
-          height="20"
-          transform="matrix(1,0,0,1,75,150)"
-        >
+        <g id="node-5" fill="none" transform="matrix(1,0,0,1,75,150)">
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
@@ -164,13 +134,7 @@
             />
           </g>
         </g>
-        <g
-          id="node-6"
-          fill="none"
-          width="20"
-          height="20"
-          transform="matrix(1,0,0,1,200,100)"
-        >
+        <g id="node-6" fill="none" transform="matrix(1,0,0,1,200,100)">
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"

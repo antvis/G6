@@ -1104,8 +1104,6 @@
         <g
           id="Argentina"
           fill="none"
-          width="20"
-          height="20"
           transform="matrix(1,0,0,1,208.333328,125)"
         >
           <g transform="matrix(1,0,0,1,0,0)">
@@ -1123,8 +1121,6 @@
         <g
           id="Australia"
           fill="none"
-          width="20"
-          height="20"
           transform="matrix(1,0,0,1,375,208.333328)"
         >
           <g transform="matrix(1,0,0,1,0,0)">
@@ -1142,8 +1138,6 @@
         <g
           id="Belgium"
           fill="none"
-          width="20"
-          height="20"
           transform="matrix(1,0,0,1,41.666668,41.666668)"
         >
           <g transform="matrix(1,0,0,1,0,0)">
@@ -1158,13 +1152,7 @@
             />
           </g>
         </g>
-        <g
-          id="Brazil"
-          fill="none"
-          width="20"
-          height="20"
-          transform="matrix(1,0,0,1,375,41.666668)"
-        >
+        <g id="Brazil" fill="none" transform="matrix(1,0,0,1,375,41.666668)">
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
@@ -1177,13 +1165,7 @@
             />
           </g>
         </g>
-        <g
-          id="Colombia"
-          fill="none"
-          width="20"
-          height="20"
-          transform="matrix(1,0,0,1,291.666656,125)"
-        >
+        <g id="Colombia" fill="none" transform="matrix(1,0,0,1,291.666656,125)">
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
@@ -1199,8 +1181,6 @@
         <g
           id="Costa Rica"
           fill="none"
-          width="20"
-          height="20"
           transform="matrix(1,0,0,1,458.333344,208.333328)"
         >
           <g transform="matrix(1,0,0,1,0,0)">
@@ -1215,13 +1195,7 @@
             />
           </g>
         </g>
-        <g
-          id="Croatia"
-          fill="none"
-          width="20"
-          height="20"
-          transform="matrix(1,0,0,1,125,41.666668)"
-        >
+        <g id="Croatia" fill="none" transform="matrix(1,0,0,1,125,41.666668)">
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
@@ -1234,13 +1208,7 @@
             />
           </g>
         </g>
-        <g
-          id="Denmark"
-          fill="none"
-          width="20"
-          height="20"
-          transform="matrix(1,0,0,1,375,125)"
-        >
+        <g id="Denmark" fill="none" transform="matrix(1,0,0,1,375,125)">
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
@@ -1256,8 +1224,6 @@
         <g
           id="Egypt"
           fill="none"
-          width="20"
-          height="20"
           transform="matrix(1,0,0,1,41.666668,291.666656)"
         >
           <g transform="matrix(1,0,0,1,0,0)">
@@ -1275,8 +1241,6 @@
         <g
           id="England"
           fill="none"
-          width="20"
-          height="20"
           transform="matrix(1,0,0,1,208.333328,41.666668)"
         >
           <g transform="matrix(1,0,0,1,0,0)">
@@ -1294,8 +1258,6 @@
         <g
           id="France"
           fill="none"
-          width="20"
-          height="20"
           transform="matrix(1,0,0,1,291.666656,41.666668)"
         >
           <g transform="matrix(1,0,0,1,0,0)">
@@ -1310,13 +1272,7 @@
             />
           </g>
         </g>
-        <g
-          id="Germany"
-          fill="none"
-          width="20"
-          height="20"
-          transform="matrix(1,0,0,1,125,291.666656)"
-        >
+        <g id="Germany" fill="none" transform="matrix(1,0,0,1,125,291.666656)">
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
@@ -1332,8 +1288,6 @@
         <g
           id="Iceland"
           fill="none"
-          width="20"
-          height="20"
           transform="matrix(1,0,0,1,208.333328,291.666656)"
         >
           <g transform="matrix(1,0,0,1,0,0)">
@@ -1351,8 +1305,6 @@
         <g
           id="IR Iran"
           fill="none"
-          width="20"
-          height="20"
           transform="matrix(1,0,0,1,291.666656,291.666656)"
         >
           <g transform="matrix(1,0,0,1,0,0)">
@@ -1367,13 +1319,7 @@
             />
           </g>
         </g>
-        <g
-          id="Japan"
-          fill="none"
-          width="20"
-          height="20"
-          transform="matrix(1,0,0,1,458.333344,125)"
-        >
+        <g id="Japan" fill="none" transform="matrix(1,0,0,1,458.333344,125)">
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
@@ -1389,8 +1335,6 @@
         <g
           id="Korea Republic"
           fill="none"
-          width="20"
-          height="20"
           transform="matrix(1,0,0,1,375,291.666656)"
         >
           <g transform="matrix(1,0,0,1,0,0)">
@@ -1408,8 +1352,6 @@
         <g
           id="Mexico"
           fill="none"
-          width="20"
-          height="20"
           transform="matrix(1,0,0,1,41.666668,208.333328)"
         >
           <g transform="matrix(1,0,0,1,0,0)">
@@ -1427,8 +1369,6 @@
         <g
           id="Morocco"
           fill="none"
-          width="20"
-          height="20"
           transform="matrix(1,0,0,1,458.333344,291.666656)"
         >
           <g transform="matrix(1,0,0,1,0,0)">
@@ -1443,13 +1383,7 @@
             />
           </g>
         </g>
-        <g
-          id="Nigeria"
-          fill="none"
-          width="20"
-          height="20"
-          transform="matrix(1,0,0,1,41.666668,375)"
-        >
+        <g id="Nigeria" fill="none" transform="matrix(1,0,0,1,41.666668,375)">
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
@@ -1462,13 +1396,7 @@
             />
           </g>
         </g>
-        <g
-          id="Panama"
-          fill="none"
-          width="20"
-          height="20"
-          transform="matrix(1,0,0,1,125,375)"
-        >
+        <g id="Panama" fill="none" transform="matrix(1,0,0,1,125,375)">
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
@@ -1481,13 +1409,7 @@
             />
           </g>
         </g>
-        <g
-          id="Peru"
-          fill="none"
-          width="20"
-          height="20"
-          transform="matrix(1,0,0,1,208.333328,375)"
-        >
+        <g id="Peru" fill="none" transform="matrix(1,0,0,1,208.333328,375)">
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
@@ -1500,13 +1422,7 @@
             />
           </g>
         </g>
-        <g
-          id="Poland"
-          fill="none"
-          width="20"
-          height="20"
-          transform="matrix(1,0,0,1,291.666656,375)"
-        >
+        <g id="Poland" fill="none" transform="matrix(1,0,0,1,291.666656,375)">
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
@@ -1519,13 +1435,7 @@
             />
           </g>
         </g>
-        <g
-          id="Portugal"
-          fill="none"
-          width="20"
-          height="20"
-          transform="matrix(1,0,0,1,125,208.333328)"
-        >
+        <g id="Portugal" fill="none" transform="matrix(1,0,0,1,125,208.333328)">
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
@@ -1541,8 +1451,6 @@
         <g
           id="Russia"
           fill="none"
-          width="20"
-          height="20"
           transform="matrix(1,0,0,1,458.333344,41.666668)"
         >
           <g transform="matrix(1,0,0,1,0,0)">
@@ -1557,13 +1465,7 @@
             />
           </g>
         </g>
-        <g
-          id="Saudi Arabia"
-          fill="none"
-          width="20"
-          height="20"
-          transform="matrix(1,0,0,1,375,375)"
-        >
+        <g id="Saudi Arabia" fill="none" transform="matrix(1,0,0,1,375,375)">
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
@@ -1576,13 +1478,7 @@
             />
           </g>
         </g>
-        <g
-          id="Senegal"
-          fill="none"
-          width="20"
-          height="20"
-          transform="matrix(1,0,0,1,458.333344,375)"
-        >
+        <g id="Senegal" fill="none" transform="matrix(1,0,0,1,458.333344,375)">
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
@@ -1598,8 +1494,6 @@
         <g
           id="Serbia"
           fill="none"
-          width="20"
-          height="20"
           transform="matrix(1,0,0,1,41.666668,458.333344)"
         >
           <g transform="matrix(1,0,0,1,0,0)">
@@ -1617,8 +1511,6 @@
         <g
           id="Spain"
           fill="none"
-          width="20"
-          height="20"
           transform="matrix(1,0,0,1,208.333328,208.333328)"
         >
           <g transform="matrix(1,0,0,1,0,0)">
@@ -1633,13 +1525,7 @@
             />
           </g>
         </g>
-        <g
-          id="Sweden"
-          fill="none"
-          width="20"
-          height="20"
-          transform="matrix(1,0,0,1,41.666668,125)"
-        >
+        <g id="Sweden" fill="none" transform="matrix(1,0,0,1,41.666668,125)">
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
@@ -1655,8 +1541,6 @@
         <g
           id="Switzerland"
           fill="none"
-          width="20"
-          height="20"
           transform="matrix(1,0,0,1,291.666656,208.333328)"
         >
           <g transform="matrix(1,0,0,1,0,0)">
@@ -1671,13 +1555,7 @@
             />
           </g>
         </g>
-        <g
-          id="Tunisia"
-          fill="none"
-          width="20"
-          height="20"
-          transform="matrix(1,0,0,1,125,458.333344)"
-        >
+        <g id="Tunisia" fill="none" transform="matrix(1,0,0,1,125,458.333344)">
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
@@ -1690,13 +1568,7 @@
             />
           </g>
         </g>
-        <g
-          id="Uruguay"
-          fill="none"
-          width="20"
-          height="20"
-          transform="matrix(1,0,0,1,125,125)"
-        >
+        <g id="Uruguay" fill="none" transform="matrix(1,0,0,1,125,125)">
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"

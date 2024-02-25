@@ -23,15 +23,14 @@ export const nodeCircle: StaticTestCase = async (context) => {
     node: {
       style: {
         type: 'circle', // 👈🏻 Node shape type.
-        width: 40,
-        height: 40,
+        size: 40,
         fill: '#1783FF',
-        labelText: (d) => d.id,
+        labelText: (d: any) => d.id,
         iconSrc: 'https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg',
         iconWidth: 30,
         iconHeight: 30,
-        halo: (d) => d.id.includes('halo'),
-        ports: (d) =>
+        halo: (d: any) => d.id.includes('halo'),
+        ports: (d: any) =>
           d.id.includes('ports')
             ? [{ position: 'left' }, { position: 'right' }, { position: 'top' }, { position: 'bottom' }]
             : [],
@@ -39,7 +38,7 @@ export const nodeCircle: StaticTestCase = async (context) => {
         portFill: '#fff',
         portR: 2,
         portLineWidth: 1,
-        badges: (d) =>
+        badges: (d: any) =>
           d.id.includes('badges')
             ? [
                 { text: 'A', position: 'right-top', backgroundFill: '#8291b2' },
