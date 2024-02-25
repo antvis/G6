@@ -1,10 +1,10 @@
 import type { DisplayObjectConfig } from '@antv/g';
 import { deepMix } from '@antv/util';
-import type { BaseEdgeProps, Point } from '../../types';
+import type { Point } from '../../types';
 import type { BaseEdgeStyleProps } from './base-edge';
 import { Cubic } from './cubic';
 
-type CubicHorizontalKeyStyleProps = BaseEdgeProps & {
+export type CubicHorizontalStyleProps = BaseEdgeStyleProps & {
   /**
    * <zh/> 控制点在两端点连线上的相对位置，范围为`0-1`
    * <en/> The relative position of the control point on the line, ranging from `0-1`
@@ -16,8 +16,6 @@ type CubicHorizontalKeyStyleProps = BaseEdgeProps & {
    */
   curveOffset?: number | [number, number];
 };
-export type CubicHorizontalStyleProps = BaseEdgeStyleProps<CubicHorizontalKeyStyleProps>;
-type CubicHorizontalOptions = DisplayObjectConfig<CubicHorizontalStyleProps>;
 
 export class CubicHorizontal extends Cubic {
   static defaultStyleProps: Partial<CubicHorizontalStyleProps> = {
@@ -25,7 +23,7 @@ export class CubicHorizontal extends Cubic {
     curveOffset: [0, 0],
   };
 
-  constructor(options: CubicHorizontalOptions) {
+  constructor(options: DisplayObjectConfig<CubicHorizontalStyleProps>) {
     super(deepMix({}, { style: CubicHorizontal.defaultStyleProps }, options));
   }
 

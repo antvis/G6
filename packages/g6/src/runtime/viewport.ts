@@ -100,7 +100,7 @@ export class ViewportController {
           this.context.graph.emit(GraphEvent.AFTER_VIEWPORT_ANIMATE, options);
           resolve();
         };
-        sleep(animation.duration).then(onfinish);
+        sleep(animation.duration || 0).then(onfinish);
 
         this.camera.gotoLandmark(
           this.createLandmark(
@@ -136,7 +136,7 @@ export class ViewportController {
           this.context.graph.emit(GraphEvent.AFTER_VIEWPORT_ANIMATE, options);
           resolve();
         };
-        sleep(animation.duration).then(onfinish);
+        sleep(animation.duration || 0).then(onfinish);
 
         this.camera.gotoLandmark(
           this.createLandmark({ roll: mode === 'relative' ? camera.getRoll() + angle : angle }),
@@ -172,7 +172,7 @@ export class ViewportController {
           this.context.graph.emit(GraphEvent.AFTER_VIEWPORT_ANIMATE, options);
           resolve();
         };
-        sleep(animation.duration).then(onfinish);
+        sleep(animation.duration || 0).then(onfinish);
 
         this.camera.gotoLandmark(this.createLandmark({ zoom: targetRatio }), { ...animation, onfinish });
       });

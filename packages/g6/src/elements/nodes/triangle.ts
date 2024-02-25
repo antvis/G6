@@ -1,48 +1,47 @@
 import type { DisplayObjectConfig } from '@antv/g';
-import { PolygonStyleProps as GPolygonStyleProps } from '@antv/g';
 import { deepMix, isEmpty } from '@antv/util';
 import { ICON_SIZE_RATIO } from '../../constants/element';
-import type { BaseNodeProps, Point, TrianglePortPosition } from '../../types';
+import type { Point, TrianglePortPosition } from '../../types';
 import { getIncircleRadius, getTriangleCenter } from '../../utils/bbox';
 import { getPortPosition, getTrianglePoints, getTrianglePorts } from '../../utils/element';
 import { subStyleProps } from '../../utils/prefix';
 import { IconStyleProps } from '../shapes';
-import type { BaseNodeStyleProps, NodePortStyleProps } from './base-node';
+import type { NodePortStyleProps } from './base-node';
+import type { ParsedPolygonStyleProps, PolygonStyleProps } from './polygon';
 import { Polygon } from './polygon';
 
+export type TriangleStyleProps = PolygonStyleProps & ExtendsStyleProps;
+type ParsedTriangleStyleProps = ParsedPolygonStyleProps & Required<ExtendsStyleProps>;
+type ExtendsStyleProps = {
+  /**
+   * <zh/> 三角形的方向
+   * <en/> The direction of the triangle
+   */
+  direction?: TriangleDirection;
+};
 export type TriangleDirection = 'up' | 'left' | 'right' | 'down';
-type TriangleKeyStyleProps = BaseNodeProps &
-  GPolygonStyleProps & {
-    /**
-     * <zh/> 三角形的方向
-     * <en/> The direction of the triangle
-     */
-    direction?: TriangleDirection;
-  };
-export type TriangleStyleProps = BaseNodeStyleProps<TriangleKeyStyleProps>;
-type ParsedTriangleStyleProps = Required<TriangleStyleProps>;
-type TriangleOptions = DisplayObjectConfig<TriangleStyleProps>;
 
-export class Triangle extends Polygon<TriangleKeyStyleProps> {
-  static defaultStyleProps: Partial<TriangleKeyStyleProps> = {
-    width: 40,
-    height: 40,
+export class Triangle extends Polygon {
+  static defaultStyleProps: Partial<TriangleStyleProps> = {
+    size: 40,
     direction: 'up',
   };
 
-  constructor(options: TriangleOptions) {
+  constructor(options: DisplayObjectConfig<TriangleStyleProps>) {
     super(deepMix({}, { style: Triangle.defaultStyleProps }, options));
   }
 
   protected getPoints(attributes: ParsedTriangleStyleProps): Point[] {
-    const { width, height, direction } = attributes;
+    const { direction } = attributes;
+    const [width, height] = this.getSize(attributes);
     return getTrianglePoints(width, height, direction);
   }
 
   protected getPortXY(attributes: ParsedTriangleStyleProps, style: NodePortStyleProps): Point {
-    const { width, height, direction } = attributes;
+    const { direction } = attributes;
     const { position = 'top' } = style;
     const bbox = this.getKey().getLocalBounds();
+    const [width, height] = this.getSize(attributes);
     const ports = getTrianglePorts(width, height, direction);
     return getPortPosition(bbox, position as TrianglePortPosition, ports, false);
   }

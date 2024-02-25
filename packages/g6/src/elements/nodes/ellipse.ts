@@ -2,40 +2,36 @@ import type { DisplayObjectConfig, EllipseStyleProps as GEllipseStyleProps, Grou
 import { Ellipse as GEllipse } from '@antv/g';
 import { deepMix } from '@antv/util';
 import { ICON_SIZE_RATIO } from '../../constants/element';
-import type { BaseNodeProps, Point } from '../../types';
+import type { Point } from '../../types';
 import { getEllipseIntersectPoint } from '../../utils/point';
 import type { IconStyleProps } from '../shapes';
-import type { BaseNodeStyleProps } from './base-node';
+import type { BaseNodeStyleProps, ParsedBaseNodeStyleProps } from './base-node';
 import { BaseNode } from './base-node';
 
-type EllipseKeyStyleProps = BaseNodeProps & GEllipseStyleProps;
-export type EllipseStyleProps = BaseNodeStyleProps<EllipseKeyStyleProps>;
-type ParsedEllipseStyleProps = Required<EllipseStyleProps>;
-type EllipseOptions = DisplayObjectConfig<EllipseStyleProps>;
+export type EllipseStyleProps = BaseNodeStyleProps<KeyStyleProps>;
+type ParsedEllipseStyleProps = ParsedBaseNodeStyleProps<KeyStyleProps>;
+type KeyStyleProps = GEllipseStyleProps;
 
-export class Ellipse extends BaseNode<EllipseKeyStyleProps, GEllipse> {
+export class Ellipse extends BaseNode<GEllipse, KeyStyleProps> {
   static defaultStyleProps: Partial<EllipseStyleProps> = {
-    width: 80,
-    height: 40,
+    size: [80, 40],
   };
 
-  constructor(options: EllipseOptions) {
+  constructor(options: DisplayObjectConfig<EllipseStyleProps>) {
     super(deepMix({}, { style: Ellipse.defaultStyleProps }, options));
   }
 
-  protected drawKeyShape(attributes: ParsedEllipseStyleProps, container: Group): GEllipse | undefined {
+  protected drawKeyShape(attributes: ParsedEllipseStyleProps, container: Group) {
     return this.upsert('key', GEllipse, this.getKeyStyle(attributes), container);
   }
 
-  protected getKeyStyle(attributes: ParsedEllipseStyleProps): GEllipseStyleProps {
-    const { x, y, z, width, height, ...keyStyle } = super.getKeyStyle(attributes);
+  protected getKeyStyle(attributes: ParsedEllipseStyleProps): KeyStyleProps {
+    const keyStyle = super.getKeyStyle(attributes);
+    const [majorAxis, minorAxis] = this.getSize(attributes);
     return {
       ...keyStyle,
-      cx: x,
-      cy: y,
-      cz: z,
-      rx: (width as number) / 2,
-      ry: (height as number) / 2,
+      rx: majorAxis / 2,
+      ry: minorAxis / 2,
     };
   }
 

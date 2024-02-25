@@ -1,28 +1,24 @@
 import type { DisplayObjectConfig } from '@antv/g';
-import { PolygonStyleProps as GPolygonStyleProps } from '@antv/g';
 import { ICON_SIZE_RATIO } from '../../constants/element';
-import type { BaseNodeProps, Point, StarPortPosition } from '../../types';
+import type { Point, StarPortPosition } from '../../types';
 import { getPortPosition, getStarPoints, getStarPorts } from '../../utils/element';
 import type { IconStyleProps } from '../shapes';
 import { NodePortStyleProps } from './base-node';
-import type { PolygonStyleProps } from './polygon';
+import type { ParsedPolygonStyleProps, PolygonStyleProps } from './polygon';
 import { Polygon } from './polygon';
 
-type StarKeyStyleProps = BaseNodeProps &
-  GPolygonStyleProps & {
-    /**
-     * <zh/> 内半径
-     * <en/> Inner radius
-     */
-    innerR?: number;
-  };
+export type StarStyleProps = PolygonStyleProps & ExtendsStyleProps;
+type ParsedStarStyleProps = ParsedPolygonStyleProps & Required<ExtendsStyleProps>;
+type ExtendsStyleProps = {
+  /**
+   * <zh/> 内半径
+   * <en/> Inner radius
+   */
+  innerR?: number;
+};
 
-export type StarStyleProps = PolygonStyleProps<StarKeyStyleProps>;
-type ParsedStarStyleProps = Required<StarStyleProps>;
-type StarOptions = DisplayObjectConfig<StarStyleProps>;
-
-export class Star extends Polygon<StarKeyStyleProps> {
-  constructor(options: StarOptions) {
+export class Star extends Polygon {
+  constructor(options: DisplayObjectConfig<StarStyleProps>) {
     super(options);
   }
 
@@ -31,7 +27,7 @@ export class Star extends Polygon<StarKeyStyleProps> {
   }
 
   private getOuterR(attributes: ParsedStarStyleProps): number {
-    return Math.min(attributes.width, attributes.height) / 2;
+    return Math.min(...this.getSize(attributes)) / 2;
   }
 
   protected getPoints(attributes: ParsedStarStyleProps): Point[] {

@@ -1,5 +1,6 @@
 import { ChangeTypeEnum } from '../constants';
 import type { ComboData, EdgeData, NodeData } from '../spec/data';
+import { Loose } from './enum';
 
 /**
  * <zh/> 数据变更
@@ -15,49 +16,49 @@ export type DataUpdated = NodeUpdated | EdgeUpdated | ComboUpdated;
 export type DataRemoved = NodeRemoved | EdgeRemoved | ComboRemoved;
 
 export type NodeAdded = {
-  type: ChangeTypeEnum.NodeAdded;
+  type: Loose<ChangeTypeEnum.NodeAdded>;
   value: NodeData;
 };
 
 export type NodeUpdated = {
-  type: ChangeTypeEnum.NodeUpdated;
+  type: Loose<ChangeTypeEnum.NodeUpdated>;
   value: NodeData;
   original: NodeData;
 };
 
 export type NodeRemoved = {
-  type: ChangeTypeEnum.NodeRemoved;
+  type: Loose<ChangeTypeEnum.NodeRemoved>;
   value: NodeData;
 };
 
 export type EdgeAdded = {
-  type: ChangeTypeEnum.EdgeAdded;
+  type: Loose<ChangeTypeEnum.EdgeAdded>;
   value: EdgeData;
 };
 
 export type EdgeUpdated = {
-  type: ChangeTypeEnum.EdgeUpdated;
+  type: Loose<ChangeTypeEnum.EdgeUpdated>;
   value: EdgeData;
   original: EdgeData;
 };
 
 export type EdgeRemoved = {
-  type: ChangeTypeEnum.EdgeRemoved;
+  type: Loose<ChangeTypeEnum.EdgeRemoved>;
   value: EdgeData;
 };
 
 export type ComboAdded = {
-  type: ChangeTypeEnum.ComboAdded;
+  type: Loose<ChangeTypeEnum.ComboAdded>;
   value: ComboData;
 };
 
 export type ComboUpdated = {
-  type: ChangeTypeEnum.ComboUpdated;
+  type: Loose<ChangeTypeEnum.ComboUpdated>;
   value: ComboData;
   original: ComboData;
 };
 
 export type ComboRemoved = {
-  type: ChangeTypeEnum.ComboRemoved;
+  type: Loose<ChangeTypeEnum.ComboRemoved>;
   value: ComboData;
 };

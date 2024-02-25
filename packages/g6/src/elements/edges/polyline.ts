@@ -1,16 +1,16 @@
 import type { DisplayObjectConfig } from '@antv/g';
 import type { PathArray } from '@antv/util';
 import { deepMix } from '@antv/util';
-import type { BaseEdgeProps, Padding, Point, Port } from '../../types';
+import type { Padding, Point, Port } from '../../types';
 import { getBBoxHeight, getBBoxWidth, getNodeBBox } from '../../utils/bbox';
 import { getPolylineLoopPath, getPolylinePath } from '../../utils/edge';
 import { findPorts, getConnectionPoint } from '../../utils/element';
 import { subStyleProps } from '../../utils/prefix';
 import { orth } from '../../utils/router/orth';
-import type { BaseEdgeStyleProps, LoopStyleProps, ParsedBaseEdgeStyleProps } from './base-edge';
+import type { BaseEdgeStyleProps, LoopStyleProps } from './base-edge';
 import { BaseEdge } from './base-edge';
 
-type PolylineKeyStyleProps = BaseEdgeProps & {
+export type PolylineStyleProps = BaseEdgeStyleProps & {
   /**
    * <zh/> 圆角半径
    * <en/> The radius of the rounded corner
@@ -37,11 +37,9 @@ type PolylineKeyStyleProps = BaseEdgeProps & {
    */
   routerPadding?: Padding;
 };
-export type PolylineStyleProps = BaseEdgeStyleProps<PolylineKeyStyleProps>;
-type ParsedPolylineStyleProps = ParsedBaseEdgeStyleProps<PolylineKeyStyleProps>;
-type PolylineOptions = DisplayObjectConfig<PolylineStyleProps>;
+type ParsedPolylineStyleProps = Required<PolylineStyleProps>;
 
-export class Polyline extends BaseEdge<PolylineKeyStyleProps> {
+export class Polyline extends BaseEdge {
   static defaultStyleProps: Partial<PolylineStyleProps> = {
     radius: 0,
     controlPoints: [],
@@ -50,7 +48,7 @@ export class Polyline extends BaseEdge<PolylineKeyStyleProps> {
     routerPadding: 10,
   };
 
-  constructor(options: PolylineOptions) {
+  constructor(options: DisplayObjectConfig<PolylineStyleProps>) {
     super(deepMix({}, { style: Polyline.defaultStyleProps }, options));
   }
 
@@ -79,22 +77,7 @@ export class Polyline extends BaseEdge<PolylineKeyStyleProps> {
     sourcePort: Port | undefined;
     targetPort: Port | undefined;
   } {
-    const {
-      sourceNode,
-      targetNode,
-      sourcePort: sourcePortKey,
-      targetPort: targetPortKey,
-      sourcePoint,
-      targetPoint,
-    } = attributes;
-
-    if (sourcePoint && targetPoint)
-      return {
-        sourcePoint,
-        targetPoint,
-        sourcePort: undefined,
-        targetPort: undefined,
-      };
+    const { sourceNode, targetNode, sourcePort: sourcePortKey, targetPort: targetPortKey } = attributes;
 
     const [sourcePort, targetPort] = findPorts(sourceNode, targetNode, sourcePortKey, targetPortKey);
 
@@ -107,33 +90,18 @@ export class Polyline extends BaseEdge<PolylineKeyStyleProps> {
   }
 
   protected getControlPoints(attributes: ParsedPolylineStyleProps, sourcePoint: Point, targetPoint: Point): Point[] {
-    const {
-      controlPoints,
-      sourceNode,
-      targetNode,
-      sourcePoint: rawSourcePoint,
-      targetPoint: rawTargetPoint,
-      router,
-      routerPadding,
-    } = attributes;
+    const { controlPoints, sourceNode, targetNode, router, routerPadding } = attributes;
 
     if (!router) return [...controlPoints];
 
-    const sourceBBox = getNodeBBox(rawSourcePoint || sourceNode, routerPadding);
-    const targetBBox = getNodeBBox(rawTargetPoint || targetNode, routerPadding);
+    const sourceBBox = getNodeBBox(sourceNode, routerPadding);
+    const targetBBox = getNodeBBox(targetNode, routerPadding);
 
     return orth(sourcePoint, targetPoint, sourceBBox, targetBBox, controlPoints, routerPadding);
   }
 
   protected getLoopPath(attributes: ParsedPolylineStyleProps): PathArray {
-    const {
-      sourceNode: node,
-      sourcePort: sourcePortKey,
-      targetPort: targetPortKey,
-      sourcePoint: rawSourcePoint,
-      targetPoint: rawTargetPoint,
-      radius,
-    } = attributes;
+    const { sourceNode: node, sourcePort: sourcePortKey, targetPort: targetPortKey, radius } = attributes;
 
     const bbox = getNodeBBox(node);
     // 默认转折点距离为 bbox 的最大宽高的 1/4 | Default distance of the turning point is 1/4 of the maximum width and height of the bbox
@@ -145,16 +113,6 @@ export class Polyline extends BaseEdge<PolylineKeyStyleProps> {
       dist = defaultDist,
     } = subStyleProps<Required<LoopStyleProps>>(this.getGraphicStyle(attributes), 'loop');
 
-    return getPolylineLoopPath(
-      node,
-      radius,
-      position,
-      clockwise,
-      dist,
-      sourcePortKey,
-      targetPortKey,
-      rawSourcePoint,
-      rawTargetPoint,
-    );
+    return getPolylineLoopPath(node, radius, position, clockwise, dist, sourcePortKey, targetPortKey);
   }
 }

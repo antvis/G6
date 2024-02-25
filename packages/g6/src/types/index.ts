@@ -5,6 +5,7 @@ export type * from './change';
 export type * from './data';
 export type * from './edge';
 export type * from './element';
+export type * from './enum';
 export type * from './graphlib';
 export type * from './layout';
 export type * from './node';

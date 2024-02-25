@@ -2,43 +2,35 @@ import type { DisplayObjectConfig, CircleStyleProps as GCircleStyleProps, Group 
 import { Circle as GCircle } from '@antv/g';
 import { deepMix } from '@antv/util';
 import { ICON_SIZE_RATIO } from '../../constants/element';
-import type { BaseNodeProps, Point } from '../../types';
+import type { Point } from '../../types';
 import { getEllipseIntersectPoint } from '../../utils/point';
 import type { IconStyleProps } from '../shapes';
-import type { BaseNodeStyleProps } from './base-node';
+import type { BaseNodeStyleProps, ParsedBaseNodeStyleProps } from './base-node';
 import { BaseNode } from './base-node';
 
-type CircleKeyStyleProps = BaseNodeProps & GCircleStyleProps;
-export type CircleStyleProps = BaseNodeStyleProps<CircleKeyStyleProps>;
-type ParsedCircleStyleProps = Required<CircleStyleProps>;
-type CircleOptions = DisplayObjectConfig<CircleStyleProps>;
+export type CircleStyleProps = BaseNodeStyleProps<KeyStyleProps>;
+type ParsedCircleStyleProps = ParsedBaseNodeStyleProps<KeyStyleProps>;
+type KeyStyleProps = GCircleStyleProps;
 
 /**
  * Draw circle based on BaseNode, override drawKeyShape.
  */
-export class Circle extends BaseNode<CircleKeyStyleProps, GCircle> {
+export class Circle extends BaseNode<GCircle, KeyStyleProps> {
   static defaultStyleProps: Partial<CircleStyleProps> = {
-    width: 50,
-    height: 50,
+    size: 50,
   };
 
-  constructor(options: CircleOptions) {
+  constructor(options: DisplayObjectConfig<CircleStyleProps>) {
     super(deepMix({}, { style: Circle.defaultStyleProps }, options));
   }
 
-  protected drawKeyShape(attributes: ParsedCircleStyleProps, container: Group): GCircle | undefined {
+  protected drawKeyShape(attributes: ParsedCircleStyleProps, container: Group) {
     return this.upsert('key', GCircle, this.getKeyStyle(attributes), container);
   }
 
-  protected getKeyStyle(attributes: ParsedCircleStyleProps): CircleKeyStyleProps {
-    const { x, y, z, width, height, ...keyStyle } = super.getKeyStyle(attributes);
-    return {
-      ...keyStyle,
-      cx: x,
-      cy: y,
-      cz: z,
-      r: Math.min(width as number, height as number) / 2,
-    };
+  protected getKeyStyle(attributes: ParsedCircleStyleProps): KeyStyleProps {
+    const keyStyle = super.getKeyStyle(attributes);
+    return { ...keyStyle, r: Math.min(...this.getSize(attributes)) / 2 };
   }
 
   protected getIconStyle(attributes: ParsedCircleStyleProps): false | IconStyleProps {
