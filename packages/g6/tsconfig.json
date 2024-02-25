@@ -1,9 +1,14 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
     "declaration": true,
     "experimentalDecorators": true,
     "lib": ["DOM", "ESNext"],
     "outDir": "lib",
+    "paths": {
+      "@/*": ["./*"],
+      "@@/*": ["__tests__/*"]
+    },
     "pretty": true,
     "resolveJsonModule": true,
     "sourceMap": true,
@@ -12,5 +17,5 @@
   },
   "exclude": ["node_modules", "dist", "lib", "esm"],
   "extends": "../../tsconfig.json",
-  "include": ["src/**/*"]
+  "include": ["src/**/*", "__tests__/**/*.ts"]
 }
