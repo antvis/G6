@@ -1,3 +1,6 @@
+import type { G6Spec } from '@/src';
+import { Graph } from '@/src';
+import { Canvas } from '@/src/runtime/canvas';
 import type { IRenderer } from '@antv/g';
 import { resetEntityCounter } from '@antv/g';
 import { Renderer as CanvasRenderer } from '@antv/g-canvas';
@@ -6,9 +9,6 @@ import { Plugin as PluginControl } from '@antv/g-plugin-control';
 import { Plugin as DragAndDropPlugin } from '@antv/g-plugin-dragndrop';
 import { Renderer as SVGRenderer } from '@antv/g-svg';
 import { Renderer as WebGLRenderer } from '@antv/g-webgl';
-import type { G6Spec } from '../../src';
-import { Graph } from '../../src';
-import { Canvas } from '../../src/runtime/canvas';
 import { OffscreenCanvasContext } from './offscreen-canvas-context';
 
 /**

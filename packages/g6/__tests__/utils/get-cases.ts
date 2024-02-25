@@ -1,4 +1,4 @@
-import type { BaseTestCase } from '../../demo/types';
+import type { BaseTestCase } from '../demo/types';
 
 export function getCases<T extends BaseTestCase>(module: Record<string, T>) {
   const cases = Object.entries(module);
