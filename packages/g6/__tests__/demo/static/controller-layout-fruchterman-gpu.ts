@@ -1,7 +1,7 @@
+import type { G6Spec } from '@/src';
+import { Graph, register } from '@/src';
+import data from '@@/dataset/soccer.json';
 import { FruchtermanLayout } from '@antv/layout-gpu';
-import type { G6Spec } from '../../../src';
-import { Graph, register } from '../../../src';
-import data from '../../dataset/soccer.json';
 import type { StaticTestCase } from '../types';
 
 register('layout', 'fruchterman-gpu', FruchtermanLayout);

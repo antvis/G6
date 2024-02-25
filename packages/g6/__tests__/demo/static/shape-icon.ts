@@ -1,4 +1,4 @@
-import { Icon } from '../../../src/elements/shapes';
+import { Icon } from '@/src/elements/shapes';
 import type { StaticTestCase } from '../types';
 
 export const shapeIcon: StaticTestCase = async (context) => {

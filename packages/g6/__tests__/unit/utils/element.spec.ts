@@ -1,5 +1,4 @@
-import { AABB, Rect } from '@antv/g';
-import { Circle } from '../../../src/elements/nodes';
+import { Circle } from '@/src/elements/nodes';
 import {
   findPorts,
   getPortConnectionPoint,
@@ -14,7 +13,8 @@ import {
   isSameNode,
   isVisible,
   updateStyle,
-} from '../../../src/utils/element';
+} from '@/src/utils/element';
+import { AABB, Rect } from '@antv/g';
 
 describe('element', () => {
   const bbox = new AABB();

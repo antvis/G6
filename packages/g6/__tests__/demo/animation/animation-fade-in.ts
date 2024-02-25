@@ -1,8 +1,8 @@
+import { executor } from '@/src/animations';
+import type { Animation } from '@/src/animations/types';
+import type { BaseShapeStyleProps } from '@/src/elements/shapes/base-shape';
+import { BaseShape } from '@/src/elements/shapes/base-shape';
 import { Circle, Group } from '@antv/g';
-import { executor } from '../../../src/animations';
-import type { Animation } from '../../../src/animations/types';
-import type { BaseShapeStyleProps } from '../../../src/elements/shapes/base-shape';
-import { BaseShape } from '../../../src/elements/shapes/base-shape';
 import type { AnimationTestCase } from '../types';
 
 type ShapeStyleProps = BaseShapeStyleProps & { size: number; color: string };

@@ -1,5 +1,5 @@
-import type { G6Spec } from '../../../src';
-import { createGraph } from '../../mock';
+import type { G6Spec } from '@/src';
+import { createGraph } from '@@/utils';
 import type { StaticTestCase } from '../types';
 
 export const controllerElement: StaticTestCase = async (context) => {

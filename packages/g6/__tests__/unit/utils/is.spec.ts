@@ -1,5 +1,5 @@
-import { Circle } from '../../../src/elements/nodes';
-import { isEdgeData, isNode, isPoint, isVector2, isVector3 } from '../../../src/utils/is';
+import { Circle } from '@/src/elements/nodes';
+import { isEdgeData, isNode, isPoint, isVector2, isVector3 } from '@/src/utils/is';
 
 describe('is', () => {
   it('isEdgeData', () => {

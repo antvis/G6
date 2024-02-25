@@ -1,3 +1,4 @@
+import { sleep } from '@@/utils';
 import { clamp } from '@antv/util';
 import { GraphEvent } from '../constants';
 import type {
@@ -8,7 +9,6 @@ import type {
   ViewportAnimationEffectTiming,
   ZoomOptions,
 } from '../types';
-import { delay } from '../utils/delay';
 import type { RuntimeContext } from './types';
 
 export class ViewportController {
@@ -100,7 +100,7 @@ export class ViewportController {
           this.context.graph.emit(GraphEvent.AFTER_VIEWPORT_ANIMATE, options);
           resolve();
         };
-        delay(animation.duration).then(onfinish);
+        sleep(animation.duration).then(onfinish);
 
         this.camera.gotoLandmark(
           this.createLandmark(
@@ -136,7 +136,7 @@ export class ViewportController {
           this.context.graph.emit(GraphEvent.AFTER_VIEWPORT_ANIMATE, options);
           resolve();
         };
-        delay(animation.duration).then(onfinish);
+        sleep(animation.duration).then(onfinish);
 
         this.camera.gotoLandmark(
           this.createLandmark({ roll: mode === 'relative' ? camera.getRoll() + angle : angle }),
@@ -172,7 +172,7 @@ export class ViewportController {
           this.context.graph.emit(GraphEvent.AFTER_VIEWPORT_ANIMATE, options);
           resolve();
         };
-        delay(animation.duration).then(onfinish);
+        sleep(animation.duration).then(onfinish);
 
         this.camera.gotoLandmark(this.createLandmark({ zoom: targetRatio }), { ...animation, onfinish });
       });

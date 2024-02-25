@@ -1,4 +1,4 @@
-import { sizeOf } from '../../../src/utils/dom';
+import { sizeOf } from '@/src/utils/dom';
 
 describe('sizeOf', () => {
   it('should return the size of the graph container', () => {

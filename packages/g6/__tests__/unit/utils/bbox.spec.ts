@@ -1,4 +1,3 @@
-import { AABB } from '@antv/g';
 import {
   getBBoxHeight,
   getBBoxWidth,
@@ -12,7 +11,8 @@ import {
   isPointInBBox,
   isPointOutsideBBox,
   union,
-} from '../../../src/utils/bbox';
+} from '@/src/utils/bbox';
+import { AABB } from '@antv/g';
 
 describe('bbox', () => {
   const bbox = new AABB();

@@ -1,6 +1,6 @@
-import type { G6Spec } from '../../../src';
-import { idOf } from '../../../src/utils/id';
-import { createGraph } from '../../mock';
+import type { G6Spec } from '@/src';
+import { idOf } from '@/src/utils/id';
+import { createGraph } from '@@/utils';
 import type { StaticTestCase } from '../types';
 
 export const controllerElementVisibility: StaticTestCase = async (context) => {

@@ -1,6 +1,6 @@
-import { Graph } from '../../../src';
-import { idOf } from '../../../src/utils/id';
-import data from '../../dataset/cluster.json';
+import { Graph } from '@/src';
+import { idOf } from '@/src/utils/id';
+import data from '@@/dataset/cluster.json';
 import type { StaticTestCase } from '../types';
 
 export const graphElement: StaticTestCase = async (context) => {

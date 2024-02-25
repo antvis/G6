@@ -1,4 +1,4 @@
-import { idOf } from '../../../src/utils/id';
+import { idOf } from '@/src/utils/id';
 
 describe('id', () => {
   it('idOf', () => {

@@ -1,6 +1,6 @@
-import type { G6Spec } from '../../../src';
-import { Graph, treeToGraphData } from '../../../src';
-import tree from '../../dataset/algorithm-category.json';
+import type { G6Spec } from '@/src';
+import { Graph, treeToGraphData } from '@/src';
+import tree from '@@/dataset/algorithm-category.json';
 import type { StaticTestCase } from '../types';
 
 export const controllerLayoutCompactBox: StaticTestCase = async ({ canvas, animation }) => {

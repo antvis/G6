@@ -1,5 +1,5 @@
+import type { G6Spec } from '@/src';
 import { Renderer } from '@antv/g-canvas';
-import type { G6Spec } from '../../../src';
 
 describe('spec', () => {
   it('spec', () => {

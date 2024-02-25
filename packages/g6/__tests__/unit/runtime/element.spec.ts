@@ -1,10 +1,9 @@
+import type { G6Spec } from '@/src';
+import * as BUILT_IN_PALETTES from '@/src/palettes';
+import { light as LIGHT_THEME } from '@/src/themes';
+import { idOf } from '@/src/utils/id';
+import { createGraph } from '@@/utils';
 import { omit } from '@antv/util';
-import type { G6Spec } from '../../../src';
-import * as BUILT_IN_PALETTES from '../../../src/palettes';
-import '../../../src/preset';
-import { light as LIGHT_THEME } from '../../../src/themes';
-import { idOf } from '../../../src/utils/id';
-import { createGraph } from '../../mock';
 
 describe('ElementController', () => {
   it('static', async () => {

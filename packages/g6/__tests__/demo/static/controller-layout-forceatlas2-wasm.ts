@@ -1,7 +1,7 @@
+import type { G6Spec } from '@/src';
+import { Graph, register } from '@/src';
+import data from '@@/dataset/soccer.json';
 import { ForceAtlas2Layout, initThreads, supportsThreads } from '@antv/layout-wasm';
-import type { G6Spec } from '../../../src';
-import { Graph, register } from '../../../src';
-import data from '../../dataset/soccer.json';
 import type { StaticTestCase } from '../types';
 
 register('layout', 'forceatlas2-wasm', ForceAtlas2Layout);

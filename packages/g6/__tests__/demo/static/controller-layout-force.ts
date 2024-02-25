@@ -1,6 +1,6 @@
-import type { G6Spec } from '../../../src';
-import { Graph } from '../../../src';
-import data from '../../dataset/cluster.json';
+import type { G6Spec } from '@/src';
+import { Graph } from '@/src';
+import data from '@@/dataset/cluster.json';
 import type { StaticTestCase } from '../types';
 
 export const controllerLayoutForce: StaticTestCase = async ({ canvas, animation }) => {

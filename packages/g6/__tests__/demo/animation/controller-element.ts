@@ -1,7 +1,7 @@
+import type { G6Spec } from '@/src';
+import type { AnimateEvent } from '@/src/utils/event';
+import { createGraph } from '@@/utils';
 import type { IAnimation } from '@antv/g';
-import type { G6Spec } from '../../../src';
-import type { AnimateEvent } from '../../../src/utils/event';
-import { createGraph } from '../../mock';
 import type { AnimationTestCase } from '../types';
 
 export const controllerElement: AnimationTestCase = async (context) => {

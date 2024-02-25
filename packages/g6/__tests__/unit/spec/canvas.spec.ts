@@ -1,5 +1,5 @@
+import type { CanvasOptions } from '@/src';
 import { Renderer } from '@antv/g-canvas';
-import type { CanvasOptions } from '../../../src';
 
 describe('spec canvas', () => {
   it('canvas', () => {

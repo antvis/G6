@@ -1,6 +1,6 @@
-import type { G6Spec } from '../../../src';
-import { Graph } from '../../../src';
-import data from '../../dataset/dagre.json';
+import type { G6Spec } from '@/src';
+import { Graph } from '@/src';
+import data from '@@/dataset/dagre.json';
 import type { StaticTestCase } from '../types';
 
 export const controllerLayoutDagre: StaticTestCase = async ({ canvas, animation }) => {

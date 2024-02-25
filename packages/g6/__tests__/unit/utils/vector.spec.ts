@@ -14,7 +14,7 @@ import {
   subtract,
   toVector2,
   toVector3,
-} from '../../../src/utils/vector';
+} from '@/src/utils/vector';
 
 describe('Vector Functions', () => {
   it('add', () => {

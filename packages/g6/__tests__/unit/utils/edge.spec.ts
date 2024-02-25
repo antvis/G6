@@ -1,4 +1,3 @@
-import { AABB, Line } from '@antv/g';
 import {
   getCubicPath,
   getCurveControlPoint,
@@ -8,7 +7,8 @@ import {
   getRadians,
   parseCurveOffset,
   parseCurvePosition,
-} from '../../../src/utils/edge';
+} from '@/src/utils/edge';
+import { AABB, Line } from '@antv/g';
 
 describe('edge', () => {
   describe('getLabelPositionStyle', () => {

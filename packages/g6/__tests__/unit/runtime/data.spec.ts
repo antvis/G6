@@ -1,8 +1,8 @@
+import { treeToGraphData } from '@/src';
+import { DataController } from '@/src/runtime/data';
+import { reduceDataChanges } from '@/src/utils/change';
+import tree from '@@/dataset/algorithm-category.json';
 import { clone } from '@antv/util';
-import { treeToGraphData } from '../../../src';
-import { DataController } from '../../../src/runtime/data';
-import { reduceDataChanges } from '../../../src/utils/change';
-import tree from '../../dataset/algorithm-category.json';
 
 const data = {
   nodes: [

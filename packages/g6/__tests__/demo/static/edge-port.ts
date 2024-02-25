@@ -1,5 +1,5 @@
-import { Cubic, Line } from '../../../../g6/src/elements/edges';
-import { Circle, Star } from '../../../../g6/src/elements/nodes';
+import { Cubic, Line } from '@/src/elements/edges';
+import { Circle, Star } from '@/src/elements/nodes';
 import type { StaticTestCase } from '../types';
 
 export const edgePort: StaticTestCase = async (context) => {

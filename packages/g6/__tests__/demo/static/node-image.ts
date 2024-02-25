@@ -1,4 +1,4 @@
-import { Graph } from '../../../src';
+import { Graph } from '@/src';
 import type { StaticTestCase } from '../types';
 
 export const nodeImage: StaticTestCase = async (context) => {

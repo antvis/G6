@@ -1,6 +1,6 @@
-import { Graph } from '../../../src';
-import data from '../../dataset/cluster.json';
-import { createGraph } from '../../mock/create';
+import { Graph } from '@/src';
+import data from '@@/dataset/cluster.json';
+import { createGraph } from '@@/utils';
 
 const options = {
   width: 500,

@@ -1,4 +1,4 @@
-import { isComboLayout, isPositionSpecified, isTreeLayout, pickLayoutResult } from '../../../src/utils/layout';
+import { isComboLayout, isPositionSpecified, isTreeLayout, pickLayoutResult } from '@/src/utils/layout';
 
 describe('layout', () => {
   it('isComboLayout', () => {

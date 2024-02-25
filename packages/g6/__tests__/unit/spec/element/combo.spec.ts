@@ -1,4 +1,4 @@
-import type { ComboOptions } from '../../../../src';
+import type { ComboOptions } from '@/src';
 
 describe('spec element combo', () => {
   it('combo 1', () => {

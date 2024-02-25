@@ -1,4 +1,4 @@
-import { Line } from '../../../src/elements/edges';
+import { Line } from '@/src/elements/edges';
 import type { AnimationTestCase } from '../types';
 
 export const edgeLine: AnimationTestCase = async (context) => {

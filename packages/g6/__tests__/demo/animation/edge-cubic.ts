@@ -1,4 +1,4 @@
-import { Cubic } from '../../../src/elements/edges';
+import { Cubic } from '@/src/elements/edges';
 import type { AnimationTestCase } from '../types';
 
 export const edgeCubic: AnimationTestCase = async (context) => {

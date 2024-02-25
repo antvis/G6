@@ -1,5 +1,4 @@
-import { AABB } from '@antv/g';
-import { Point } from '../../../src/types';
+import type { Point } from '@/src/types';
 import {
   freeJoin,
   getBBoxSize,
@@ -10,7 +9,8 @@ import {
   orth,
   pointToNode,
   pointToPoint,
-} from '../../../src/utils/router/orth';
+} from '@/src/utils/router/orth';
+import { AABB } from '@antv/g';
 
 describe('router', () => {
   describe('orth', () => {

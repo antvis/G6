@@ -1,5 +1,5 @@
+import type { Canvas } from '@/src/runtime/canvas';
 import type { IAnimation } from '@antv/g';
-import type { Canvas } from '../../src/runtime/canvas';
 
 type TestCaseContext = {
   canvas: Canvas;

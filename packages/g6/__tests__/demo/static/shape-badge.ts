@@ -1,4 +1,4 @@
-import { Badge } from '../../../src/elements/shapes';
+import { Badge } from '@/src/elements/shapes';
 import type { StaticTestCase } from '../types';
 
 export const shapeBadge: StaticTestCase = async (context) => {

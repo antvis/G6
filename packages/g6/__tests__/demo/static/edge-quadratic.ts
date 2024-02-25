@@ -1,4 +1,4 @@
-import { Quadratic } from '../../../src/elements/edges';
+import { Quadratic } from '@/src/elements/edges';
 import type { StaticTestCase } from '../types';
 
 export const edgeQuadratic: StaticTestCase = async (context) => {

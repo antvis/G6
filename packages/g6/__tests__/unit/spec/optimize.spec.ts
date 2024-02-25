@@ -1,4 +1,4 @@
-import type { OptimizeOptions } from '../../../src';
+import type { OptimizeOptions } from '@/src';
 
 describe('spec optimize', () => {
   it('optimize 1', () => {

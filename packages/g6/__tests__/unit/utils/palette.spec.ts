@@ -1,6 +1,5 @@
-import '../../../src/preset';
-import { register } from '../../../src/registry';
-import { assignColorByPalette, parsePalette } from '../../../src/utils/palette';
+import { register } from '@/src/registry';
+import { assignColorByPalette, parsePalette } from '@/src/utils/palette';
 
 describe('palette', () => {
   it('parsePalette', () => {

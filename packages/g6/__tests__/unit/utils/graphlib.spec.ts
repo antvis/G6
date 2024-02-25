@@ -1,4 +1,4 @@
-import { toG6Data, toGraphlibData } from '../../../src/utils/graphlib';
+import { toG6Data, toGraphlibData } from '@/src/utils/graphlib';
 
 describe('graphlib', () => {
   it('toGraphlibData', () => {

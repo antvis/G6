@@ -1,5 +1,5 @@
-import { Polyline } from '../../../src/elements/edges';
-import { Circle, Rect } from '../../../src/elements/nodes';
+import { Polyline } from '@/src/elements/edges';
+import { Circle, Rect } from '@/src/elements/nodes';
 import type { StaticTestCase } from '../types';
 
 export const edgePolyline: StaticTestCase = async (context) => {

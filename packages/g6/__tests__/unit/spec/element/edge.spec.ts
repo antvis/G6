@@ -1,4 +1,4 @@
-import type { EdgeOptions } from '../../../../src';
+import type { EdgeOptions } from '@/src';
 
 describe('spec element edge', () => {
   it('edge 1', () => {

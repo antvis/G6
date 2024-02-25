@@ -1,4 +1,4 @@
-import type { NodeOptions } from '../../../../src';
+import type { NodeOptions } from '@/src';
 
 describe('spec element node', () => {
   it('node 1', () => {

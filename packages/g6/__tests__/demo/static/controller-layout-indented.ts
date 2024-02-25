@@ -1,6 +1,6 @@
-import type { G6Spec } from '../../../src';
-import { Graph, treeToGraphData } from '../../../src';
-import tree from '../../dataset/file-system.json';
+import type { G6Spec } from '@/src';
+import { Graph, treeToGraphData } from '@/src';
+import tree from '@@/dataset/file-system.json';
 import type { StaticTestCase } from '../types';
 
 export const controllerLayoutIndented: StaticTestCase = async ({ canvas, animation }) => {

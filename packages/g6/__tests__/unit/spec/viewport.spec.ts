@@ -1,4 +1,4 @@
-import type { ViewportOptions } from '../../../src';
+import type { ViewportOptions } from '@/src';
 
 describe('spec viewport', () => {
   it('viewport 1', () => {

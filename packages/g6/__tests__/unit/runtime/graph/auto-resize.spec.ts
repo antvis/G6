@@ -1,5 +1,4 @@
-import { delay } from '../../../../src/utils/delay';
-import { createGraph, createGraphCanvas } from '../../../mock/create';
+import { createGraph, createGraphCanvas, sleep } from '@@/utils';
 
 describe('Graph autoResize', () => {
   it('autoResize trigger by window.resize', async () => {
@@ -34,7 +33,7 @@ describe('Graph autoResize', () => {
     window.dispatchEvent(new Event('resize'));
 
     // auto resize debounce is 300ms.
-    await delay(500);
+    await sleep(500);
 
     expect(graph.getSize()).toEqual([400, 400]);
   });

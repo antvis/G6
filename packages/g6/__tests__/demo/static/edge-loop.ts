@@ -1,6 +1,6 @@
-import { Cubic } from '../../../src/elements/edges';
-import { Circle, Star } from '../../../src/elements/nodes';
-import type { LoopEdgePosition } from '../../../src/types';
+import { Cubic } from '@/src/elements/edges';
+import { Circle, Star } from '@/src/elements/nodes';
+import type { LoopEdgePosition } from '@/src/types';
 import type { StaticTestCase } from '../types';
 
 export const edgeLoop: StaticTestCase = async (context) => {

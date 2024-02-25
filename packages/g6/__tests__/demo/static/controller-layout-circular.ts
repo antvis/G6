@@ -1,6 +1,6 @@
-import type { G6Spec } from '../../../src';
-import { Graph } from '../../../src';
-import data from '../../dataset/soccer.json';
+import type { G6Spec } from '@/src';
+import { Graph } from '@/src';
+import data from '@@/dataset/soccer.json';
 import type { StaticTestCase } from '../types';
 
 export const controllerLayoutCircular: StaticTestCase = async ({ canvas, animation }) => {

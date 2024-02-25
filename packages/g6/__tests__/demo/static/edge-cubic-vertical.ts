@@ -1,4 +1,4 @@
-import { CubicVertical } from '../../../src/elements/edges';
+import { CubicVertical } from '@/src/elements/edges';
 import type { StaticTestCase } from '../types';
 
 export const edgeCubicVertical: StaticTestCase = async (context) => {
