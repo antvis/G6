@@ -5,15 +5,15 @@ const BG_COLOR = '#000000';
 const TEXT_COLOR = '#ffffffd9';
 
 const NODE_COLOR = SUBJECT_COLOR;
-const NODE_COLOR_DISABLE = '#d0e4ff';
+const NODE_COLOR_DISABLED = '#d0e4ff';
 const NODE_STROKE = '#d0e4ff';
 
 const EDGE_STROKE = '#99add1';
-const EDGE_STROKE_DISABLE = '#969696';
+const EDGE_STROKE_DISABLED = '#969696';
 const EDGE_STROKE_INACTIVE = '#99ADD173';
 
 const COMBO_FILL = '#fdfdfd';
-const COMBO_FILL_DISABLE = '#D0E4FF';
+const COMBO_FILL_DISABLED = '#D0E4FF';
 const COMBO_STROKE = '#99add1';
 const COMBO_STROKE_SELECTED = '#d0e4ff';
 
@@ -68,8 +68,8 @@ export const dark: Theme = {
         labelOpacity: 0.45,
         opacity: 0.45,
       },
-      disable: {
-        fill: NODE_COLOR_DISABLE,
+      disabled: {
+        fill: NODE_COLOR_DISABLED,
       },
     },
     animation: {
@@ -119,8 +119,8 @@ export const dark: Theme = {
       inactive: {
         opacity: EDGE_STROKE_INACTIVE,
       },
-      disable: {
-        stroke: EDGE_STROKE_DISABLE,
+      disabled: {
+        stroke: EDGE_STROKE_DISABLED,
       },
     },
     animation: {
@@ -133,13 +133,12 @@ export const dark: Theme = {
   },
   combo: {
     style: {
-      size: 10,
       fill: COMBO_FILL,
-      lineWidth: 1,
-      padding: [25, 20, 15, 20],
-      stroke: COMBO_STROKE,
       haloLineWidth: 12,
       haloStrokeOpacity: 0.25,
+      iconContentType: 'childCount',
+      iconFill: COMBO_STROKE,
+      iconFontSize: 12,
       labelBackgroundFill: BG_COLOR,
       labelBackgroundLineWidth: 0,
       labelBackgroundOpacity: 0.75,
@@ -147,6 +146,10 @@ export const dark: Theme = {
       labelFill: '#000',
       labelFontSize: 12,
       labelMaxLines: 1,
+      lineWidth: 1,
+      padding: [25, 20, 15, 20],
+      size: 10,
+      stroke: COMBO_STROKE,
     },
     state: {
       selected: {
@@ -168,19 +171,12 @@ export const dark: Theme = {
       inactive: {
         labelOpacity: 0.65,
       },
-      disable: {
-        fill: COMBO_FILL_DISABLE,
+      disabled: {
+        fill: COMBO_FILL_DISABLED,
         opacity: 0.25,
-        iconFill: COMBO_FILL_DISABLE,
+        iconFill: COMBO_FILL_DISABLED,
         iconOpacity: 0.25,
         labelOpacity: 0.25,
-      },
-      collapsed: {
-        size: 32,
-        padding: [25, 20, 15, 20],
-        iconContentType: 'childCount',
-        iconFill: COMBO_STROKE,
-        iconFontSize: 12,
       },
     },
   },

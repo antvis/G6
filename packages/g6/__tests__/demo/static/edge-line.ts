@@ -4,7 +4,7 @@ import type { StaticTestCase } from '../types';
 export const edgeLine: StaticTestCase = async (context) => {
   const { canvas, animation, theme } = context;
 
-  const edgeIds = ['line-default', 'line-active', 'line-selected', 'line-highlight', 'line-inactive', 'line-disable'];
+  const edgeIds = ['line-default', 'line-active', 'line-selected', 'line-highlight', 'line-inactive', 'line-disabled'];
 
   const data = {
     nodes: new Array(7).fill(0).map((_, i) => ({ id: `node${i + 1}` })),
@@ -45,5 +45,5 @@ export const edgeLine: StaticTestCase = async (context) => {
   graph.setElementState('line-selected', 'selected');
   graph.setElementState('line-highlight', 'highlight');
   graph.setElementState('line-inactive', 'inactive');
-  graph.setElementState('line-disable', 'disable');
+  graph.setElementState('line-disabled', 'disabled');
 };

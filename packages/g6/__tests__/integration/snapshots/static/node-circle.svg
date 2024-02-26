@@ -731,7 +731,7 @@
           </g>
         </g>
         <g
-          id="circle-disable"
+          id="circle-disabled"
           fill="none"
           transform="matrix(1,0,0,1,416.666656,416.666656)"
         >
@@ -748,14 +748,14 @@
             />
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,0,20)">
-            <g transform="matrix(1,0,0,1,-39.419998,0)">
+            <g transform="matrix(1,0,0,1,-43.200001,0)">
               <path
                 id="background"
                 fill="rgba(255,255,255,1)"
-                d="M 0,0 l 79.84,0 l 0,23 l-79.84 0 z"
+                d="M 0,0 l 87.4,0 l 0,23 l-87.4 0 z"
                 opacity="0.5"
                 stroke-width="0"
-                width="79.84"
+                width="87.4"
                 height="23"
               />
             </g>
@@ -770,7 +770,7 @@
                 font-size="12"
                 text-anchor="middle"
               >
-                circle-disable
+                circle-disabled
               </text>
             </g>
           </g>

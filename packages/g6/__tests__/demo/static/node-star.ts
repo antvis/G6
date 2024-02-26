@@ -14,7 +14,7 @@ export const nodeStar: StaticTestCase = async (context) => {
       { id: 'star-selected' },
       { id: 'star-highlight' },
       { id: 'star-inactive' },
-      { id: 'star-disable' },
+      { id: 'star-disabled' },
     ],
   };
 
@@ -58,5 +58,5 @@ export const nodeStar: StaticTestCase = async (context) => {
   graph.setElementState('star-selected', 'selected');
   graph.setElementState('star-highlight', 'highlight');
   graph.setElementState('star-inactive', 'inactive');
-  graph.setElementState('star-disable', 'disable');
+  graph.setElementState('star-disabled', 'disabled');
 };

@@ -750,7 +750,7 @@
           </g>
         </g>
         <g
-          id="ellipse-disable"
+          id="ellipse-disabled"
           fill="none"
           transform="matrix(1,0,0,1,416.666656,416.666656)"
         >
@@ -768,14 +768,14 @@
             />
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,0,17.500000)">
-            <g transform="matrix(1,0,0,1,-42.240002,0)">
+            <g transform="matrix(1,0,0,1,-46.020000,0)">
               <path
                 id="background"
                 fill="rgba(255,255,255,1)"
-                d="M 0,0 l 85.48,0 l 0,23 l-85.48 0 z"
+                d="M 0,0 l 93.04,0 l 0,23 l-93.04 0 z"
                 opacity="0.5"
                 stroke-width="0"
-                width="85.48"
+                width="93.04"
                 height="23"
               />
             </g>
@@ -790,7 +790,7 @@
                 font-size="12"
                 text-anchor="middle"
               >
-                ellipse-disable
+                ellipse-disabled
               </text>
             </g>
           </g>

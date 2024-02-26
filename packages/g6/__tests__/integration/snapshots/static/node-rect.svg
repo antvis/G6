@@ -727,7 +727,7 @@
           </g>
         </g>
         <g
-          id="rect-disable"
+          id="rect-disabled"
           fill="none"
           transform="matrix(1,0,0,1,416.666656,416.666656)"
         >
@@ -744,14 +744,14 @@
             />
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,0,20)">
-            <g transform="matrix(1,0,0,1,-35.160000,0)">
+            <g transform="matrix(1,0,0,1,-38.939999,0)">
               <path
                 id="background"
                 fill="rgba(255,255,255,1)"
-                d="M 0,0 l 71.32,0 l 0,23 l-71.32 0 z"
+                d="M 0,0 l 78.88,0 l 0,23 l-78.88 0 z"
                 opacity="0.5"
                 stroke-width="0"
-                width="71.32"
+                width="78.88"
                 height="23"
               />
             </g>
@@ -766,7 +766,7 @@
                 font-size="12"
                 text-anchor="middle"
               >
-                rect-disable
+                rect-disabled
               </text>
             </g>
           </g>

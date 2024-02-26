@@ -578,7 +578,7 @@
           </g>
         </g>
         <g
-          id="image-disable"
+          id="image-disabled"
           fill="none"
           transform="matrix(1,0,0,1,416.666656,416.666656)"
         >
@@ -599,14 +599,14 @@
             />
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,0,20)">
-            <g transform="matrix(1,0,0,1,-41.040001,0)">
+            <g transform="matrix(1,0,0,1,-44.820000,0)">
               <path
                 id="background"
                 fill="rgba(255,255,255,1)"
-                d="M 0,0 l 83.08,0 l 0,23 l-83.08 0 z"
+                d="M 0,0 l 90.64,0 l 0,23 l-90.64 0 z"
                 opacity="0.5"
                 stroke-width="0"
-                width="83.08"
+                width="90.64"
                 height="23"
               />
             </g>
@@ -621,7 +621,7 @@
                 font-size="12"
                 text-anchor="middle"
               >
-                image-disable
+                image-disabled
               </text>
             </g>
           </g>

@@ -14,7 +14,7 @@ export const nodeImage: StaticTestCase = async (context) => {
       { id: 'image-selected' },
       { id: 'image-highlight' },
       { id: 'image-inactive' },
-      { id: 'image-disable' },
+      { id: 'image-disabled' },
     ],
   };
 
@@ -47,7 +47,7 @@ export const nodeImage: StaticTestCase = async (context) => {
         badgePadding: [1, 4],
       },
       state: {
-        disable: {
+        disabled: {
           opacity: 0.2,
         },
       },
@@ -63,5 +63,5 @@ export const nodeImage: StaticTestCase = async (context) => {
   graph.setElementState('image-selected', 'selected');
   graph.setElementState('image-highlight', 'highlight');
   graph.setElementState('image-inactive', 'inactive');
-  graph.setElementState('image-disable', 'disable');
+  graph.setElementState('image-disabled', 'disabled');
 };

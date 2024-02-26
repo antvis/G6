@@ -5,17 +5,17 @@ const BG_COLOR = '#fff';
 const TEXT_COLOR = '#000000D9';
 
 const NODE_COLOR = SUBJECT_COLOR;
-const NODE_COLOR_DISABLE = '#f0f0f0';
+const NODE_COLOR_DISABLED = '#f0f0f0';
 const NODE_STROKE = '#000000';
 
 const EDGE_STROKE = '#99add1';
-const EDGE_STROKE_DISABLE = '#d9d9d9';
+const EDGE_STROKE_DISABLED = '#d9d9d9';
 const EDGE_STROKE_INACTIVE = '#d2dae9';
 
 const COMBO_FILL = '#fdfdfd';
-const COMBO_FILL_DISABLE = '#f0f0f0';
+const COMBO_FILL_DISABLED = '#f0f0f0';
 const COMBO_STROKE = '#99add1';
-const COMBO_STROKE_DISABLE = '#d9d9d9';
+const COMBO_STROKE_DISABLED = '#d9d9d9';
 const COMBO_STROKE_SELECTED = '#1b324f';
 
 export const light: Theme = {
@@ -68,8 +68,8 @@ export const light: Theme = {
         labelOpacity: 0.25,
         opacity: 0.25,
       },
-      disable: {
-        fill: NODE_COLOR_DISABLE,
+      disabled: {
+        fill: NODE_COLOR_DISABLED,
       },
     },
     animation: {
@@ -118,8 +118,8 @@ export const light: Theme = {
       inactive: {
         stroke: EDGE_STROKE_INACTIVE,
       },
-      disable: {
-        stroke: EDGE_STROKE_DISABLE,
+      disabled: {
+        stroke: EDGE_STROKE_DISABLED,
       },
     },
     animation: {
@@ -135,6 +135,9 @@ export const light: Theme = {
       fill: COMBO_FILL,
       haloLineWidth: 12,
       haloStrokeOpacity: 0.25,
+      iconContentType: 'childCount',
+      iconFill: COMBO_STROKE,
+      iconFontSize: 12,
       labelBackgroundFill: BG_COLOR,
       labelBackgroundLineWidth: 0,
       labelBackgroundOpacity: 0.75,
@@ -165,18 +168,11 @@ export const light: Theme = {
       inactive: {
         opacity: 0.65,
       },
-      disable: {
-        fill: COMBO_FILL_DISABLE,
+      disabled: {
+        fill: COMBO_FILL_DISABLED,
         labelOpacity: 0.25,
         opacity: 0.25,
-        stroke: COMBO_STROKE_DISABLE,
-      },
-      collapsed: {
-        iconContentType: 'childCount',
-        iconFill: COMBO_STROKE,
-        iconFontSize: 12,
-        padding: [25, 20, 15, 20],
-        size: 32,
+        stroke: COMBO_STROKE_DISABLED,
       },
     },
   },

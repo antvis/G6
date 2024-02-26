@@ -14,7 +14,7 @@ export const nodeEllipse: StaticTestCase = async (context) => {
       { id: 'ellipse-selected' },
       { id: 'ellipse-highlight' },
       { id: 'ellipse-inactive' },
-      { id: 'ellipse-disable' },
+      { id: 'ellipse-disabled' },
     ],
   };
 
@@ -60,5 +60,5 @@ export const nodeEllipse: StaticTestCase = async (context) => {
   graph.setElementState('ellipse-selected', 'selected');
   graph.setElementState('ellipse-highlight', 'highlight');
   graph.setElementState('ellipse-inactive', 'inactive');
-  graph.setElementState('ellipse-disable', 'disable');
+  graph.setElementState('ellipse-disabled', 'disabled');
 };

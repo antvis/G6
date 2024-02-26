@@ -14,7 +14,7 @@ export const nodeRect: StaticTestCase = async (context) => {
       { id: 'rect-selected' },
       { id: 'rect-highlight' },
       { id: 'rect-inactive' },
-      { id: 'rect-disable' },
+      { id: 'rect-disabled' },
     ],
   };
 
@@ -61,5 +61,5 @@ export const nodeRect: StaticTestCase = async (context) => {
   graph.setElementState('rect-selected', 'selected');
   graph.setElementState('rect-highlight', 'highlight');
   graph.setElementState('rect-inactive', 'inactive');
-  graph.setElementState('rect-disable', 'disable');
+  graph.setElementState('rect-disabled', 'disabled');
 };

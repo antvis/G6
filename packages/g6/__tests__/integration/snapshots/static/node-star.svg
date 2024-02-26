@@ -734,7 +734,7 @@
           </g>
         </g>
         <g
-          id="star-disable"
+          id="star-disabled"
           fill="none"
           transform="matrix(1,0,0,1,416.666656,416.666656)"
         >
@@ -752,14 +752,14 @@
             fill="none"
             transform="matrix(1,0,0,1,0.000001,16.180340)"
           >
-            <g transform="matrix(1,0,0,1,-34.860001,0)">
+            <g transform="matrix(1,0,0,1,-38.639999,0)">
               <path
                 id="background"
                 fill="rgba(255,255,255,1)"
-                d="M 0,0 l 70.72,0 l 0,23 l-70.72 0 z"
+                d="M 0,0 l 78.28,0 l 0,23 l-78.28 0 z"
                 opacity="0.5"
                 stroke-width="0"
-                width="70.72"
+                width="78.28"
                 height="23"
               />
             </g>
@@ -774,7 +774,7 @@
                 font-size="12"
                 text-anchor="middle"
               >
-                star-disable
+                star-disabled
               </text>
             </g>
           </g>
