@@ -13,7 +13,7 @@ describe('static', () => {
 
         await preprocess?.();
         await canvas.init();
-        const animationResult = await testCase({ env: 'test', canvas, animation: true, expect });
+        const animationResult = await testCase({ env: 'test', canvas, animation: true, expect, theme: 'light' });
 
         if (!animationResult) throw new Error('animation result should not be null');
 

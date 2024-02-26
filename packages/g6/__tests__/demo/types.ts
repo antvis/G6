@@ -22,6 +22,12 @@ type TestCaseContext = {
    * <en/> Test case environment
    */
   env: 'test' | 'dev';
+  /**
+   * <zh/> 测试用例主题
+   *
+   * <en/> Test case theme
+   */
+  theme: string;
 };
 
 export type TestCase = StaticTestCase | AnimationTestCase;

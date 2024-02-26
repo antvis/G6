@@ -13,8 +13,18 @@ const casesSelect = document.getElementById('demo-select') as HTMLSelectElement;
 const rendererSelect = document.getElementById('renderer-select') as HTMLSelectElement;
 const animationCheckbox = document.getElementById('animation-checkbox') as HTMLInputElement;
 const reload = document.getElementById('reload-button') as HTMLButtonElement;
+const themeButton = document.getElementById('theme-button') as HTMLButtonElement;
 
 window.onload = () => {
+  function togglePanelTheme() {
+    const theme = document.documentElement.getAttribute('data-theme') as string;
+    if (theme === 'light') {
+      document.documentElement.setAttribute('data-theme', 'dark');
+    } else {
+      document.documentElement.setAttribute('data-theme', 'light');
+    }
+  }
+
   function handleChange() {
     unmountCustomPanel();
     initialize();
@@ -23,7 +33,8 @@ window.onload = () => {
     const animation = animationCheckbox.checked;
     setParamsToSearch({ type, case: testCase, renderer, animation });
     const caseFn = CASES[type][testCase];
-    onchange(caseFn, renderer, animation).then(() => {
+    const theme = document.documentElement.getAttribute('data-theme') as string;
+    onchange(caseFn, renderer, animation, theme).then(() => {
       mountCustomPanel(caseFn.form);
     });
   }
@@ -31,6 +42,10 @@ window.onload = () => {
   casesSelect.onchange = handleChange;
   rendererSelect.onchange = handleChange;
   animationCheckbox.onchange = handleChange;
+  themeButton.onclick = () => {
+    togglePanelTheme();
+    handleChange();
+  };
   reload.onclick = handleChange;
   loadCasesList(casesSelect);
   syncParamsFromSearch();
@@ -51,11 +66,11 @@ function loadCasesList(select: HTMLSelectElement) {
   });
 }
 
-function onchange(testCase: TestCase, renderer: string, animation: boolean) {
+function onchange(testCase: TestCase, renderer: string, animation: boolean, theme: string) {
   const canvas = createGraphCanvas(document.getElementById('container'), 500, 500, renderer);
 
   return canvas.init().then(async () => {
-    const result = await testCase({ canvas, animation, env: 'dev' });
+    const result = await testCase({ canvas, animation, theme, env: 'dev' });
     if (result) setTimer(result.totalDuration);
     else clearTimer();
   });

@@ -84,7 +84,7 @@
           <option value="webgl">WebGL</option>
         </select>
         <label for="theme">Theme: </label>
-        <button onclick="toggleTheme()">Toggle</button>
+        <button id="theme-button">Toggle</button>
         <div style="display: flex; align-items: center">
           <label for="animation" title="For Static Case To Control Animation">Animation: </label>
           <input id="animation-checkbox" type="checkbox" />
@@ -95,15 +95,6 @@
     </div>
 
     <script>
-      function toggleTheme() {
-        const theme = document.documentElement.getAttribute('data-theme');
-        if (theme === 'light') {
-          document.documentElement.setAttribute('data-theme', 'dark');
-        } else {
-          document.documentElement.setAttribute('data-theme', 'light');
-        }
-      }
-
       (function draggable() {
         const draggableElement = document.getElementById('panel');
         let offsetX,

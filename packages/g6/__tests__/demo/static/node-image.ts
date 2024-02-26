@@ -2,7 +2,7 @@ import { Graph } from '@/src';
 import type { StaticTestCase } from '../types';
 
 export const nodeImage: StaticTestCase = async (context) => {
-  const { canvas } = context;
+  const { canvas, animation, theme } = context;
 
   const data = {
     nodes: [
@@ -14,54 +14,40 @@ export const nodeImage: StaticTestCase = async (context) => {
       { id: 'image-selected' },
       { id: 'image-highlight' },
       { id: 'image-inactive' },
+      { id: 'image-disabled' },
     ],
   };
 
   const graph = new Graph({
     container: canvas,
+    theme,
     data,
     node: {
       style: {
         type: 'image', // 👈🏻 Node shape type.
         size: 40,
+        labelMaxWidth: 120,
         labelText: (d: any) => d.id,
         src: 'https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*N4ZMS7gHsUIAAAAAAAAAAABkARQnAQ',
         halo: (d: any) => d.id.includes('halo'),
-        haloStroke: '#1783FF',
+        haloStroke: '#227eff',
         ports: (d: any) =>
           d.id.includes('ports')
             ? [{ position: 'left' }, { position: 'right' }, { position: 'top' }, { position: 'bottom' }]
             : [],
-        portStroke: '#31d0c6',
-        portFill: '#fff',
-        portR: 2,
-        portLineWidth: 1,
         badges: (d: any) =>
           d.id.includes('badges')
             ? [
-                { text: 'A', position: 'right-top', backgroundFill: '#8291b2' },
-                { text: 'Important', position: 'right', backgroundFill: '#e66c5b' },
-                { text: 'Notice', position: 'right-bottom', backgroundFill: '#e5b95e' },
+                { text: 'A', position: 'right-top' },
+                { text: 'Important', position: 'right' },
+                { text: 'Notice', position: 'right-bottom' },
               ]
             : [],
-        badgeFill: '#fff',
         badgeFontSize: 8,
         badgePadding: [1, 4],
       },
       state: {
-        active: {
-          halo: true,
-        },
-        selected: {
-          halo: true,
-          labelFontWeight: 700,
-          labelFontSize: 14,
-        },
-        highlight: {
-          halo: false,
-          labelFontWeight: 700,
-        },
-        inactive: {
+        disabled: {
           opacity: 0.2,
         },
       },
@@ -69,7 +55,7 @@ export const nodeImage: StaticTestCase = async (context) => {
     layout: {
       type: 'grid',
     },
-    animation: false,
+    animation,
   });
 
   await graph.render();
@@ -77,4 +63,5 @@ export const nodeImage: StaticTestCase = async (context) => {
   graph.setElementState('image-selected', 'selected');
   graph.setElementState('image-highlight', 'highlight');
   graph.setElementState('image-inactive', 'inactive');
+  graph.setElementState('image-disabled', 'disabled');
 };

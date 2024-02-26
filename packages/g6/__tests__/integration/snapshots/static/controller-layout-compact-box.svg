@@ -18,13 +18,28 @@
           marker-end="false"
           transform="matrix(1,0,0,1,0,0)"
         >
+          <g
+            id="Modeling Methods-Classification"
+            fill="none"
+            marker-start="false"
+            marker-end="false"
+            stroke="transparent"
+            stroke-width="3"
+          />
           <g transform="matrix(1,0,0,1,-212.004059,-334.996948)">
             <path
               id="key"
               fill="none"
               d="M 0,298.99390450538056 L 224.00813162942802,0"
               stroke-width="1"
-              stroke="rgba(139,155,175,1)"
+              stroke="rgba(153,173,209,1)"
+            />
+            <path
+              id="key"
+              fill="none"
+              d="M 0,0 L 0,0"
+              stroke-width="3"
+              stroke="transparent"
             />
           </g>
         </g>
@@ -35,13 +50,28 @@
           marker-end="false"
           transform="matrix(1,0,0,1,0,0)"
         >
+          <g
+            id="Modeling Methods-Consensus"
+            fill="none"
+            marker-start="false"
+            marker-end="false"
+            stroke="transparent"
+            stroke-width="3"
+          />
           <g transform="matrix(1,0,0,1,-208.251923,-25.769508)">
             <path
               id="key"
               fill="none"
               d="M 0,0 L 216.5038558094344,49.5390178547011"
               stroke-width="1"
-              stroke="rgba(139,155,175,1)"
+              stroke="rgba(153,173,209,1)"
+            />
+            <path
+              id="key"
+              fill="none"
+              d="M 0,0 L 0,0"
+              stroke-width="3"
+              stroke="transparent"
             />
           </g>
         </g>
@@ -52,13 +82,28 @@
           marker-end="false"
           transform="matrix(1,0,0,1,0,0)"
         >
+          <g
+            id="Modeling Methods-Regression"
+            fill="none"
+            marker-start="false"
+            marker-end="false"
+            stroke="transparent"
+            stroke-width="3"
+          />
           <g transform="matrix(1,0,0,1,-212.004059,-19.996952)">
             <path
               id="key"
               fill="none"
               d="M 0,0 L 224.00813162942802,298.99390450538056"
               stroke-width="1"
-              stroke="rgba(139,155,175,1)"
+              stroke="rgba(153,173,209,1)"
+            />
+            <path
+              id="key"
+              fill="none"
+              d="M 0,0 L 0,0"
+              stroke-width="3"
+              stroke="transparent"
             />
           </g>
         </g>
@@ -69,13 +114,28 @@
           marker-end="false"
           transform="matrix(1,0,0,1,0,0)"
         >
+          <g
+            id="Classification-Logistic regression"
+            fill="none"
+            marker-start="false"
+            marker-end="false"
+            stroke="transparent"
+            stroke-width="3"
+          />
           <g transform="matrix(1,0,0,1,26.804710,-464.259003)">
             <path
               id="key"
               fill="none"
               d="M 0,116.51800353929968 L 216.3905780015565,0"
               stroke-width="1"
-              stroke="rgba(139,155,175,1)"
+              stroke="rgba(153,173,209,1)"
+            />
+            <path
+              id="key"
+              fill="none"
+              d="M 0,0 L 0,0"
+              stroke-width="3"
+              stroke="transparent"
             />
           </g>
         </g>
@@ -86,13 +146,28 @@
           marker-end="false"
           transform="matrix(1,0,0,1,0,0)"
         >
+          <g
+            id="Classification-Linear discriminant analysis"
+            fill="none"
+            marker-start="false"
+            marker-end="false"
+            stroke="transparent"
+            stroke-width="3"
+          />
           <g transform="matrix(1,0,0,1,27.333456,-429.410217)">
             <path
               id="key"
               fill="none"
               d="M 0,82.82041841382261 L 215.33308787593882,0"
               stroke-width="1"
-              stroke="rgba(139,155,175,1)"
+              stroke="rgba(153,173,209,1)"
+            />
+            <path
+              id="key"
+              fill="none"
+              d="M 0,0 L 0,0"
+              stroke-width="3"
+              stroke="transparent"
             />
           </g>
         </g>
@@ -103,13 +178,28 @@
           marker-end="false"
           transform="matrix(1,0,0,1,0,0)"
         >
+          <g
+            id="Classification-Rules"
+            fill="none"
+            marker-start="false"
+            marker-end="false"
+            stroke="transparent"
+            stroke-width="3"
+          />
           <g transform="matrix(1,0,0,1,27.743912,-394.751404)">
             <path
               id="key"
               fill="none"
               d="M 0,49.50280986602479 L 214.51217608610762,0"
               stroke-width="1"
-              stroke="rgba(139,155,175,1)"
+              stroke="rgba(153,173,209,1)"
+            />
+            <path
+              id="key"
+              fill="none"
+              d="M 0,0 L 0,0"
+              stroke-width="3"
+              stroke="transparent"
             />
           </g>
         </g>
@@ -120,13 +210,28 @@
           marker-end="false"
           transform="matrix(1,0,0,1,0,0)"
         >
+          <g
+            id="Classification-Decision trees"
+            fill="none"
+            marker-start="false"
+            marker-end="false"
+            stroke="transparent"
+            stroke-width="3"
+          />
           <g transform="matrix(1,0,0,1,27.970545,-360.233032)">
             <path
               id="key"
               fill="none"
               d="M 0,16.46607002230519 L 214.05891028996837,0"
               stroke-width="1"
-              stroke="rgba(139,155,175,1)"
+              stroke="rgba(153,173,209,1)"
+            />
+            <path
+              id="key"
+              fill="none"
+              d="M 0,0 L 0,0"
+              stroke-width="3"
+              stroke="transparent"
             />
           </g>
         </g>
@@ -137,13 +242,28 @@
           marker-end="false"
           transform="matrix(1,0,0,1,0,0)"
         >
+          <g
+            id="Classification-Naive Bayes"
+            fill="none"
+            marker-start="false"
+            marker-end="false"
+            stroke="transparent"
+            stroke-width="3"
+          />
           <g transform="matrix(1,0,0,1,27.970545,-342.233032)">
             <path
               id="key"
               fill="none"
               d="M 0,0 L 214.05891028996837,16.46607002230519"
               stroke-width="1"
-              stroke="rgba(139,155,175,1)"
+              stroke="rgba(153,173,209,1)"
+            />
+            <path
+              id="key"
+              fill="none"
+              d="M 0,0 L 0,0"
+              stroke-width="3"
+              stroke="transparent"
             />
           </g>
         </g>
@@ -154,13 +274,28 @@
           marker-end="false"
           transform="matrix(1,0,0,1,0,0)"
         >
+          <g
+            id="Classification-K nearest neighbor"
+            fill="none"
+            marker-start="false"
+            marker-end="false"
+            stroke="transparent"
+            stroke-width="3"
+          />
           <g transform="matrix(1,0,0,1,27.743912,-340.751404)">
             <path
               id="key"
               fill="none"
               d="M 0,0 L 214.51217608610762,49.50280986602479"
               stroke-width="1"
-              stroke="rgba(139,155,175,1)"
+              stroke="rgba(153,173,209,1)"
+            />
+            <path
+              id="key"
+              fill="none"
+              d="M 0,0 L 0,0"
+              stroke-width="3"
+              stroke="transparent"
             />
           </g>
         </g>
@@ -171,13 +306,28 @@
           marker-end="false"
           transform="matrix(1,0,0,1,0,0)"
         >
+          <g
+            id="Classification-Probabilistic neural network"
+            fill="none"
+            marker-start="false"
+            marker-end="false"
+            stroke="transparent"
+            stroke-width="3"
+          />
           <g transform="matrix(1,0,0,1,27.333456,-339.410217)">
             <path
               id="key"
               fill="none"
               d="M 0,0 L 215.33308787593882,82.82041841382261"
               stroke-width="1"
-              stroke="rgba(139,155,175,1)"
+              stroke="rgba(153,173,209,1)"
+            />
+            <path
+              id="key"
+              fill="none"
+              d="M 0,0 L 0,0"
+              stroke-width="3"
+              stroke="transparent"
             />
           </g>
         </g>
@@ -188,13 +338,28 @@
           marker-end="false"
           transform="matrix(1,0,0,1,0,0)"
         >
+          <g
+            id="Classification-Support vector machine"
+            fill="none"
+            marker-start="false"
+            marker-end="false"
+            stroke="transparent"
+            stroke-width="3"
+          />
           <g transform="matrix(1,0,0,1,26.804710,-338.259003)">
             <path
               id="key"
               fill="none"
               d="M 0,0 L 216.3905780015565,116.51800353929966"
               stroke-width="1"
-              stroke="rgba(139,155,175,1)"
+              stroke="rgba(153,173,209,1)"
+            />
+            <path
+              id="key"
+              fill="none"
+              d="M 0,0 L 0,0"
+              stroke-width="3"
+              stroke="transparent"
             />
           </g>
         </g>
@@ -205,13 +370,28 @@
           marker-end="false"
           transform="matrix(1,0,0,1,0,0)"
         >
+          <g
+            id="Consensus-Models diversity"
+            fill="none"
+            marker-start="false"
+            marker-end="false"
+            stroke="transparent"
+            stroke-width="3"
+          />
           <g transform="matrix(1,0,0,1,26.905046,-86.450256)">
             <path
               id="key"
               fill="none"
               d="M 0,107.90051955426699 L 211.18990579424906,0"
               stroke-width="1"
-              stroke="rgba(139,155,175,1)"
+              stroke="rgba(153,173,209,1)"
+            />
+            <path
+              id="key"
+              fill="none"
+              d="M 0,0 L 0,0"
+              stroke-width="3"
+              stroke="transparent"
             />
           </g>
         </g>
@@ -222,13 +402,28 @@
           marker-end="false"
           transform="matrix(1,0,0,1,0,0)"
         >
+          <g
+            id="Consensus-Methods"
+            fill="none"
+            marker-start="false"
+            marker-end="false"
+            stroke="transparent"
+            stroke-width="3"
+          />
           <g transform="matrix(1,0,0,1,27.931210,27.170929)">
             <path
               id="key"
               fill="none"
               d="M 0,0 L 209.13758060193686,24.658142691058057"
               stroke-width="1"
-              stroke="rgba(139,155,175,1)"
+              stroke="rgba(153,173,209,1)"
+            />
+            <path
+              id="key"
+              fill="none"
+              d="M 0,0 L 0,0"
+              stroke-width="3"
+              stroke="transparent"
             />
           </g>
         </g>
@@ -239,13 +434,28 @@
           marker-end="false"
           transform="matrix(1,0,0,1,0,0)"
         >
+          <g
+            id="Consensus-Common"
+            fill="none"
+            marker-start="false"
+            marker-end="false"
+            stroke="transparent"
+            stroke-width="3"
+          />
           <g transform="matrix(1,0,0,1,26.905046,30.549740)">
             <path
               id="key"
               fill="none"
               d="M 0,0 L 211.18990579424906,107.90051955426698"
               stroke-width="1"
-              stroke="rgba(139,155,175,1)"
+              stroke="rgba(153,173,209,1)"
+            />
+            <path
+              id="key"
+              fill="none"
+              d="M 0,0 L 0,0"
+              stroke-width="3"
+              stroke="transparent"
             />
           </g>
         </g>
@@ -256,13 +466,28 @@
           marker-end="false"
           transform="matrix(1,0,0,1,0,0)"
         >
+          <g
+            id="Models diversity-Different initializations"
+            fill="none"
+            marker-start="false"
+            marker-end="false"
+            stroke="transparent"
+            stroke-width="3"
+          />
           <g transform="matrix(1,0,0,1,256.343628,-177.436752)">
             <path
               id="key"
               fill="none"
               d="M 0,82.87350835332218 L 217.3127552376004,0"
               stroke-width="1"
-              stroke="rgba(139,155,175,1)"
+              stroke="rgba(153,173,209,1)"
+            />
+            <path
+              id="key"
+              fill="none"
+              d="M 0,0 L 0,0"
+              stroke-width="3"
+              stroke="transparent"
             />
           </g>
         </g>
@@ -273,13 +498,28 @@
           marker-end="false"
           transform="matrix(1,0,0,1,0,0)"
         >
+          <g
+            id="Models diversity-Different parameter choices"
+            fill="none"
+            marker-start="false"
+            marker-end="false"
+            stroke="transparent"
+            stroke-width="3"
+          />
           <g transform="matrix(1,0,0,1,256.748077,-142.769516)">
             <path
               id="key"
               fill="none"
               d="M 0,49.5390178547011 L 216.5038558094344,0"
               stroke-width="1"
-              stroke="rgba(139,155,175,1)"
+              stroke="rgba(153,173,209,1)"
+            />
+            <path
+              id="key"
+              fill="none"
+              d="M 0,0 L 0,0"
+              stroke-width="3"
+              stroke="transparent"
             />
           </g>
         </g>
@@ -290,13 +530,28 @@
           marker-end="false"
           transform="matrix(1,0,0,1,0,0)"
         >
+          <g
+            id="Models diversity-Different architectures"
+            fill="none"
+            marker-start="false"
+            marker-end="false"
+            stroke="transparent"
+            stroke-width="3"
+          />
           <g transform="matrix(1,0,0,1,256.971039,-108.239494)">
             <path
               id="key"
               fill="none"
               d="M 0,16.478993925469865 L 216.05792035616037,0"
               stroke-width="1"
-              stroke="rgba(139,155,175,1)"
+              stroke="rgba(153,173,209,1)"
+            />
+            <path
+              id="key"
+              fill="none"
+              d="M 0,0 L 0,0"
+              stroke-width="3"
+              stroke="transparent"
             />
           </g>
         </g>
@@ -307,13 +562,28 @@
           marker-end="false"
           transform="matrix(1,0,0,1,0,0)"
         >
+          <g
+            id="Models diversity-Different modeling methods"
+            fill="none"
+            marker-start="false"
+            marker-end="false"
+            stroke="transparent"
+            stroke-width="3"
+          />
           <g transform="matrix(1,0,0,1,256.971039,-90.239494)">
             <path
               id="key"
               fill="none"
               d="M 0,0 L 216.05792035616037,16.478993925469865"
               stroke-width="1"
-              stroke="rgba(139,155,175,1)"
+              stroke="rgba(153,173,209,1)"
+            />
+            <path
+              id="key"
+              fill="none"
+              d="M 0,0 L 0,0"
+              stroke-width="3"
+              stroke="transparent"
             />
           </g>
         </g>
@@ -324,13 +594,28 @@
           marker-end="false"
           transform="matrix(1,0,0,1,0,0)"
         >
+          <g
+            id="Models diversity-Different training sets"
+            fill="none"
+            marker-start="false"
+            marker-end="false"
+            stroke="transparent"
+            stroke-width="3"
+          />
           <g transform="matrix(1,0,0,1,256.748077,-88.769508)">
             <path
               id="key"
               fill="none"
               d="M 0,0 L 216.5038558094344,49.53901785470109"
               stroke-width="1"
-              stroke="rgba(139,155,175,1)"
+              stroke="rgba(153,173,209,1)"
+            />
+            <path
+              id="key"
+              fill="none"
+              d="M 0,0 L 0,0"
+              stroke-width="3"
+              stroke="transparent"
             />
           </g>
         </g>
@@ -341,13 +626,28 @@
           marker-end="false"
           transform="matrix(1,0,0,1,0,0)"
         >
+          <g
+            id="Models diversity-Different feature sets"
+            fill="none"
+            marker-start="false"
+            marker-end="false"
+            stroke="transparent"
+            stroke-width="3"
+          />
           <g transform="matrix(1,0,0,1,256.343628,-87.436752)">
             <path
               id="key"
               fill="none"
               d="M 0,0 L 217.3127552376004,82.8735083533222"
               stroke-width="1"
-              stroke="rgba(139,155,175,1)"
+              stroke="rgba(153,173,209,1)"
+            />
+            <path
+              id="key"
+              fill="none"
+              d="M 0,0 L 0,0"
+              stroke-width="3"
+              stroke="transparent"
             />
           </g>
         </g>
@@ -358,13 +658,28 @@
           marker-end="false"
           transform="matrix(1,0,0,1,0,0)"
         >
+          <g
+            id="Methods-Classifier selection"
+            fill="none"
+            marker-start="false"
+            marker-end="false"
+            stroke="transparent"
+            stroke-width="3"
+          />
           <g transform="matrix(1,0,0,1,256.968719,35.790470)">
             <path
               id="key"
               fill="none"
               d="M 0,16.419059384997553 L 207.06258224413614,0"
               stroke-width="1"
-              stroke="rgba(139,155,175,1)"
+              stroke="rgba(153,173,209,1)"
+            />
+            <path
+              id="key"
+              fill="none"
+              d="M 0,0 L 0,0"
+              stroke-width="3"
+              stroke="transparent"
             />
           </g>
         </g>
@@ -375,13 +690,28 @@
           marker-end="false"
           transform="matrix(1,0,0,1,0,0)"
         >
+          <g
+            id="Methods-Classifier fusion"
+            fill="none"
+            marker-start="false"
+            marker-end="false"
+            stroke="transparent"
+            stroke-width="3"
+          />
           <g transform="matrix(1,0,0,1,256.968719,53.790470)">
             <path
               id="key"
               fill="none"
               d="M 0,0 L 207.06258224413614,16.419059384997553"
               stroke-width="1"
-              stroke="rgba(139,155,175,1)"
+              stroke="rgba(153,173,209,1)"
+            />
+            <path
+              id="key"
+              fill="none"
+              d="M 0,0 L 0,0"
+              stroke-width="3"
+              stroke="transparent"
             />
           </g>
         </g>
@@ -392,13 +722,28 @@
           marker-end="false"
           transform="matrix(1,0,0,1,0,0)"
         >
+          <g
+            id="Common-Bagging"
+            fill="none"
+            marker-start="false"
+            marker-end="false"
+            stroke="transparent"
+            stroke-width="3"
+          />
           <g transform="matrix(1,0,0,1,256.875488,108.573090)">
             <path
               id="key"
               fill="none"
               d="M 0,32.85382470251251 L 206.24901063243976,0"
               stroke-width="1"
-              stroke="rgba(139,155,175,1)"
+              stroke="rgba(153,173,209,1)"
+            />
+            <path
+              id="key"
+              fill="none"
+              d="M 0,0 L 0,0"
+              stroke-width="3"
+              stroke="transparent"
             />
           </g>
         </g>
@@ -409,13 +754,28 @@
           marker-end="false"
           transform="matrix(1,0,0,1,0,0)"
         >
+          <g
+            id="Common-Boosting"
+            fill="none"
+            marker-start="false"
+            marker-end="false"
+            stroke="transparent"
+            stroke-width="3"
+          />
           <g transform="matrix(1,0,0,1,257,143)">
             <path
               id="key"
               fill="none"
               d="M 0,0 L 206,0"
               stroke-width="1"
-              stroke="rgba(139,155,175,1)"
+              stroke="rgba(153,173,209,1)"
+            />
+            <path
+              id="key"
+              fill="none"
+              d="M 0,0 L 0,0"
+              stroke-width="3"
+              stroke="transparent"
             />
           </g>
         </g>
@@ -426,13 +786,28 @@
           marker-end="false"
           transform="matrix(1,0,0,1,0,0)"
         >
+          <g
+            id="Common-AdaBoost"
+            fill="none"
+            marker-start="false"
+            marker-end="false"
+            stroke="transparent"
+            stroke-width="3"
+          />
           <g transform="matrix(1,0,0,1,256.875488,144.573090)">
             <path
               id="key"
               fill="none"
               d="M 0,0 L 206.24901063243976,32.8538247025125"
               stroke-width="1"
-              stroke="rgba(139,155,175,1)"
+              stroke="rgba(153,173,209,1)"
+            />
+            <path
+              id="key"
+              fill="none"
+              d="M 0,0 L 0,0"
+              stroke-width="3"
+              stroke="transparent"
             />
           </g>
         </g>
@@ -443,13 +818,28 @@
           marker-end="false"
           transform="matrix(1,0,0,1,0,0)"
         >
+          <g
+            id="Regression-Multiple linear regression"
+            fill="none"
+            marker-start="false"
+            marker-end="false"
+            stroke="transparent"
+            stroke-width="3"
+          />
           <g transform="matrix(1,0,0,1,27.543322,217.987473)">
             <path
               id="key"
               fill="none"
               d="M 0,66.02505057262121 L 210.9133559958733,0"
               stroke-width="1"
-              stroke="rgba(139,155,175,1)"
+              stroke="rgba(153,173,209,1)"
+            />
+            <path
+              id="key"
+              fill="none"
+              d="M 0,0 L 0,0"
+              stroke-width="3"
+              stroke="transparent"
             />
           </g>
         </g>
@@ -460,13 +850,28 @@
           marker-end="false"
           transform="matrix(1,0,0,1,0,0)"
         >
+          <g
+            id="Regression-Partial least squares"
+            fill="none"
+            marker-start="false"
+            marker-end="false"
+            stroke="transparent"
+            stroke-width="3"
+          />
           <g transform="matrix(1,0,0,1,27.879711,252.546387)">
             <path
               id="key"
               fill="none"
               d="M 0,32.90722106017972 L 210.2405789955929,0"
               stroke-width="1"
-              stroke="rgba(139,155,175,1)"
+              stroke="rgba(153,173,209,1)"
+            />
+            <path
+              id="key"
+              fill="none"
+              d="M 0,0 L 0,0"
+              stroke-width="3"
+              stroke="transparent"
             />
           </g>
         </g>
@@ -477,13 +882,28 @@
           marker-end="false"
           transform="matrix(1,0,0,1,0,0)"
         >
+          <g
+            id="Regression-Multi-layer feed forward neural network"
+            fill="none"
+            marker-start="false"
+            marker-end="false"
+            stroke="transparent"
+            stroke-width="3"
+          />
           <g transform="matrix(1,0,0,1,28,287)">
             <path
               id="key"
               fill="none"
               d="M 0,0 L 210,0"
               stroke-width="1"
-              stroke="rgba(139,155,175,1)"
+              stroke="rgba(153,173,209,1)"
+            />
+            <path
+              id="key"
+              fill="none"
+              d="M 0,0 L 0,0"
+              stroke-width="3"
+              stroke="transparent"
             />
           </g>
         </g>
@@ -494,13 +914,28 @@
           marker-end="false"
           transform="matrix(1,0,0,1,0,0)"
         >
+          <g
+            id="Regression-General regression neural network"
+            fill="none"
+            marker-start="false"
+            marker-end="false"
+            stroke="transparent"
+            stroke-width="3"
+          />
           <g transform="matrix(1,0,0,1,27.879711,288.546387)">
             <path
               id="key"
               fill="none"
               d="M 0,0 L 210.2405789955929,32.90722106017972"
               stroke-width="1"
-              stroke="rgba(139,155,175,1)"
+              stroke="rgba(153,173,209,1)"
+            />
+            <path
+              id="key"
+              fill="none"
+              d="M 0,0 L 0,0"
+              stroke-width="3"
+              stroke="transparent"
             />
           </g>
         </g>
@@ -511,13 +946,28 @@
           marker-end="false"
           transform="matrix(1,0,0,1,0,0)"
         >
+          <g
+            id="Regression-Support vector regression"
+            fill="none"
+            marker-start="false"
+            marker-end="false"
+            stroke="transparent"
+            stroke-width="3"
+          />
           <g transform="matrix(1,0,0,1,27.543322,289.987488)">
             <path
               id="key"
               fill="none"
               d="M 0,0 L 210.9133559958733,66.02505057262124"
               stroke-width="1"
-              stroke="rgba(139,155,175,1)"
+              stroke="rgba(153,173,209,1)"
+            />
+            <path
+              id="key"
+              fill="none"
+              d="M 0,0 L 0,0"
+              stroke-width="3"
+              stroke="transparent"
             />
           </g>
         </g>
@@ -531,11 +981,12 @@
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
-              fill="rgba(248,248,248,1)"
+              fill="rgba(34,126,255,1)"
               transform="translate(-10,-10)"
               cx="10"
               cy="10"
-              stroke="rgba(139,155,175,1)"
+              stroke-width="0"
+              stroke="rgba(0,0,0,1)"
               r="10"
             />
           </g>
@@ -543,9 +994,9 @@
             <g transform="matrix(1,0,0,1,0,-11.500000)">
               <path
                 id="background"
-                fill="none"
+                fill="rgba(255,255,255,1)"
                 d="M 0,0 l 108.4,0 l 0,23 l-108.4 0 z"
-                opacity="0.75"
+                opacity="0.5"
                 stroke-width="0"
                 width="108.4"
                 height="23"
@@ -554,7 +1005,7 @@
             <g transform="matrix(1,0,0,1,0,0)">
               <text
                 id="text"
-                fill="rgba(0,0,0,1)"
+                fill="rgba(0,0,0,0.8509803921568627)"
                 dominant-baseline="central"
                 paint-order="stroke"
                 dx="0.5"
@@ -570,11 +1021,12 @@
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
-              fill="rgba(248,248,248,1)"
+              fill="rgba(34,126,255,1)"
               transform="translate(-10,-10)"
               cx="10"
               cy="10"
-              stroke="rgba(139,155,175,1)"
+              stroke-width="0"
+              stroke="rgba(0,0,0,1)"
               r="10"
             />
           </g>
@@ -582,9 +1034,9 @@
             <g transform="matrix(1,0,0,1,0,-11.500000)">
               <path
                 id="background"
-                fill="none"
+                fill="rgba(255,255,255,1)"
                 d="M 0,0 l 78.88,0 l 0,23 l-78.88 0 z"
-                opacity="0.75"
+                opacity="0.5"
                 stroke-width="0"
                 width="78.88"
                 height="23"
@@ -593,7 +1045,7 @@
             <g transform="matrix(1,0,0,1,0,0)">
               <text
                 id="text"
-                fill="rgba(0,0,0,1)"
+                fill="rgba(0,0,0,0.8509803921568627)"
                 dominant-baseline="central"
                 paint-order="stroke"
                 dx="0.5"
@@ -613,11 +1065,12 @@
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
-              fill="rgba(248,248,248,1)"
+              fill="rgba(34,126,255,1)"
               transform="translate(-10,-10)"
               cx="10"
               cy="10"
-              stroke="rgba(139,155,175,1)"
+              stroke-width="0"
+              stroke="rgba(0,0,0,1)"
               r="10"
             />
           </g>
@@ -625,9 +1078,9 @@
             <g transform="matrix(1,0,0,1,0,-11.500000)">
               <path
                 id="background"
-                fill="none"
+                fill="rgba(255,255,255,1)"
                 d="M 0,0 l 111.40000000000002,0 l 0,23 l-111.40000000000002 0 z"
-                opacity="0.75"
+                opacity="0.5"
                 stroke-width="0"
                 width="111.40000000000002"
                 height="23"
@@ -636,7 +1089,7 @@
             <g transform="matrix(1,0,0,1,0,0)">
               <text
                 id="text"
-                fill="rgba(0,0,0,1)"
+                fill="rgba(0,0,0,0.8509803921568627)"
                 dominant-baseline="central"
                 paint-order="stroke"
                 dx="0.5"
@@ -656,11 +1109,12 @@
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
-              fill="rgba(248,248,248,1)"
+              fill="rgba(34,126,255,1)"
               transform="translate(-10,-10)"
               cx="10"
               cy="10"
-              stroke="rgba(139,155,175,1)"
+              stroke-width="0"
+              stroke="rgba(0,0,0,1)"
               r="10"
             />
           </g>
@@ -668,9 +1122,9 @@
             <g transform="matrix(1,0,0,1,0,-11.500000)">
               <path
                 id="background"
-                fill="none"
+                fill="rgba(255,255,255,1)"
                 d="M 0,0 l 161.20000000000002,0 l 0,23 l-161.20000000000002 0 z"
-                opacity="0.75"
+                opacity="0.5"
                 stroke-width="0"
                 width="161.20000000000002"
                 height="23"
@@ -679,7 +1133,7 @@
             <g transform="matrix(1,0,0,1,0,0)">
               <text
                 id="text"
-                fill="rgba(0,0,0,1)"
+                fill="rgba(0,0,0,0.8509803921568627)"
                 dominant-baseline="central"
                 paint-order="stroke"
                 dx="0.5"
@@ -695,11 +1149,12 @@
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
-              fill="rgba(248,248,248,1)"
+              fill="rgba(34,126,255,1)"
               transform="translate(-10,-10)"
               cx="10"
               cy="10"
-              stroke="rgba(139,155,175,1)"
+              stroke-width="0"
+              stroke="rgba(0,0,0,1)"
               r="10"
             />
           </g>
@@ -707,9 +1162,9 @@
             <g transform="matrix(1,0,0,1,0,-11.500000)">
               <path
                 id="background"
-                fill="none"
+                fill="rgba(255,255,255,1)"
                 d="M 0,0 l 32.8,0 l 0,23 l-32.8 0 z"
-                opacity="0.75"
+                opacity="0.5"
                 stroke-width="0"
                 width="32.8"
                 height="23"
@@ -718,7 +1173,7 @@
             <g transform="matrix(1,0,0,1,0,0)">
               <text
                 id="text"
-                fill="rgba(0,0,0,1)"
+                fill="rgba(0,0,0,0.8509803921568627)"
                 dominant-baseline="central"
                 paint-order="stroke"
                 dx="0.5"
@@ -734,11 +1189,12 @@
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
-              fill="rgba(248,248,248,1)"
+              fill="rgba(34,126,255,1)"
               transform="translate(-10,-10)"
               cx="10"
               cy="10"
-              stroke="rgba(139,155,175,1)"
+              stroke-width="0"
+              stroke="rgba(0,0,0,1)"
               r="10"
             />
           </g>
@@ -746,9 +1202,9 @@
             <g transform="matrix(1,0,0,1,0,-11.500000)">
               <path
                 id="background"
-                fill="none"
+                fill="rgba(255,255,255,1)"
                 d="M 0,0 l 83.92,0 l 0,23 l-83.92 0 z"
-                opacity="0.75"
+                opacity="0.5"
                 stroke-width="0"
                 width="83.92"
                 height="23"
@@ -757,7 +1213,7 @@
             <g transform="matrix(1,0,0,1,0,0)">
               <text
                 id="text"
-                fill="rgba(0,0,0,1)"
+                fill="rgba(0,0,0,0.8509803921568627)"
                 dominant-baseline="central"
                 paint-order="stroke"
                 dx="0.5"
@@ -773,11 +1229,12 @@
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
-              fill="rgba(248,248,248,1)"
+              fill="rgba(34,126,255,1)"
               transform="translate(-10,-10)"
               cx="10"
               cy="10"
-              stroke="rgba(139,155,175,1)"
+              stroke-width="0"
+              stroke="rgba(0,0,0,1)"
               r="10"
             />
           </g>
@@ -785,9 +1242,9 @@
             <g transform="matrix(1,0,0,1,0,-11.500000)">
               <path
                 id="background"
-                fill="none"
+                fill="rgba(255,255,255,1)"
                 d="M 0,0 l 71.67999999999999,0 l 0,23 l-71.67999999999999 0 z"
-                opacity="0.75"
+                opacity="0.5"
                 stroke-width="0"
                 width="71.67999999999999"
                 height="23"
@@ -796,7 +1253,7 @@
             <g transform="matrix(1,0,0,1,0,0)">
               <text
                 id="text"
-                fill="rgba(0,0,0,1)"
+                fill="rgba(0,0,0,0.8509803921568627)"
                 dominant-baseline="central"
                 paint-order="stroke"
                 dx="0.5"
@@ -816,11 +1273,12 @@
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
-              fill="rgba(248,248,248,1)"
+              fill="rgba(34,126,255,1)"
               transform="translate(-10,-10)"
               cx="10"
               cy="10"
-              stroke="rgba(139,155,175,1)"
+              stroke-width="0"
+              stroke="rgba(0,0,0,1)"
               r="10"
             />
           </g>
@@ -828,9 +1286,9 @@
             <g transform="matrix(1,0,0,1,0,-11.500000)">
               <path
                 id="background"
-                fill="none"
+                fill="rgba(255,255,255,1)"
                 d="M 0,0 l 110.91999999999999,0 l 0,23 l-110.91999999999999 0 z"
-                opacity="0.75"
+                opacity="0.5"
                 stroke-width="0"
                 width="110.91999999999999"
                 height="23"
@@ -839,7 +1297,7 @@
             <g transform="matrix(1,0,0,1,0,0)">
               <text
                 id="text"
-                fill="rgba(0,0,0,1)"
+                fill="rgba(0,0,0,0.8509803921568627)"
                 dominant-baseline="central"
                 paint-order="stroke"
                 dx="0.5"
@@ -859,11 +1317,12 @@
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
-              fill="rgba(248,248,248,1)"
+              fill="rgba(34,126,255,1)"
               transform="translate(-10,-10)"
               cx="10"
               cy="10"
-              stroke="rgba(139,155,175,1)"
+              stroke-width="0"
+              stroke="rgba(0,0,0,1)"
               r="10"
             />
           </g>
@@ -871,9 +1330,9 @@
             <g transform="matrix(1,0,0,1,0,-11.500000)">
               <path
                 id="background"
-                fill="none"
+                fill="rgba(255,255,255,1)"
                 d="M 0,0 l 162.4,0 l 0,23 l-162.4 0 z"
-                opacity="0.75"
+                opacity="0.5"
                 stroke-width="0"
                 width="162.4"
                 height="23"
@@ -882,7 +1341,7 @@
             <g transform="matrix(1,0,0,1,0,0)">
               <text
                 id="text"
-                fill="rgba(0,0,0,1)"
+                fill="rgba(0,0,0,0.8509803921568627)"
                 dominant-baseline="central"
                 paint-order="stroke"
                 dx="0.5"
@@ -902,11 +1361,12 @@
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
-              fill="rgba(248,248,248,1)"
+              fill="rgba(34,126,255,1)"
               transform="translate(-10,-10)"
               cx="10"
               cy="10"
-              stroke="rgba(139,155,175,1)"
+              stroke-width="0"
+              stroke="rgba(0,0,0,1)"
               r="10"
             />
           </g>
@@ -914,9 +1374,9 @@
             <g transform="matrix(1,0,0,1,0,-11.500000)">
               <path
                 id="background"
-                fill="none"
+                fill="rgba(255,255,255,1)"
                 d="M 0,0 l 139.72000000000003,0 l 0,23 l-139.72000000000003 0 z"
-                opacity="0.75"
+                opacity="0.5"
                 stroke-width="0"
                 width="139.72000000000003"
                 height="23"
@@ -925,7 +1385,7 @@
             <g transform="matrix(1,0,0,1,0,0)">
               <text
                 id="text"
-                fill="rgba(0,0,0,1)"
+                fill="rgba(0,0,0,0.8509803921568627)"
                 dominant-baseline="central"
                 paint-order="stroke"
                 dx="0.5"
@@ -941,11 +1401,12 @@
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
-              fill="rgba(248,248,248,1)"
+              fill="rgba(34,126,255,1)"
               transform="translate(-10,-10)"
               cx="10"
               cy="10"
-              stroke="rgba(139,155,175,1)"
+              stroke-width="0"
+              stroke="rgba(0,0,0,1)"
               r="10"
             />
           </g>
@@ -953,9 +1414,9 @@
             <g transform="matrix(1,0,0,1,0,-11.500000)">
               <path
                 id="background"
-                fill="none"
+                fill="rgba(255,255,255,1)"
                 d="M 0,0 l 64.96000000000001,0 l 0,23 l-64.96000000000001 0 z"
-                opacity="0.75"
+                opacity="0.5"
                 stroke-width="0"
                 width="64.96000000000001"
                 height="23"
@@ -964,7 +1425,7 @@
             <g transform="matrix(1,0,0,1,0,0)">
               <text
                 id="text"
-                fill="rgba(0,0,0,1)"
+                fill="rgba(0,0,0,0.8509803921568627)"
                 dominant-baseline="central"
                 paint-order="stroke"
                 dx="0.5"
@@ -984,11 +1445,12 @@
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
-              fill="rgba(248,248,248,1)"
+              fill="rgba(34,126,255,1)"
               transform="translate(-10,-10)"
               cx="10"
               cy="10"
-              stroke="rgba(139,155,175,1)"
+              stroke-width="0"
+              stroke="rgba(0,0,0,1)"
               r="10"
             />
           </g>
@@ -996,9 +1458,9 @@
             <g transform="matrix(1,0,0,1,0,-11.500000)">
               <path
                 id="background"
-                fill="none"
+                fill="rgba(255,255,255,1)"
                 d="M 0,0 l 96.16000000000001,0 l 0,23 l-96.16000000000001 0 z"
-                opacity="0.75"
+                opacity="0.5"
                 stroke-width="0"
                 width="96.16000000000001"
                 height="23"
@@ -1007,7 +1469,7 @@
             <g transform="matrix(1,0,0,1,0,0)">
               <text
                 id="text"
-                fill="rgba(0,0,0,1)"
+                fill="rgba(0,0,0,0.8509803921568627)"
                 dominant-baseline="central"
                 paint-order="stroke"
                 dx="0.5"
@@ -1027,11 +1489,12 @@
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
-              fill="rgba(248,248,248,1)"
+              fill="rgba(34,126,255,1)"
               transform="translate(-10,-10)"
               cx="10"
               cy="10"
-              stroke="rgba(139,155,175,1)"
+              stroke-width="0"
+              stroke="rgba(0,0,0,1)"
               r="10"
             />
           </g>
@@ -1039,9 +1502,9 @@
             <g transform="matrix(1,0,0,1,0,-11.500000)">
               <path
                 id="background"
-                fill="none"
+                fill="rgba(255,255,255,1)"
                 d="M 0,0 l 131.68000000000004,0 l 0,23 l-131.68000000000004 0 z"
-                opacity="0.75"
+                opacity="0.5"
                 stroke-width="0"
                 width="131.68000000000004"
                 height="23"
@@ -1050,7 +1513,7 @@
             <g transform="matrix(1,0,0,1,0,0)">
               <text
                 id="text"
-                fill="rgba(0,0,0,1)"
+                fill="rgba(0,0,0,0.8509803921568627)"
                 dominant-baseline="central"
                 paint-order="stroke"
                 dx="0.5"
@@ -1070,11 +1533,12 @@
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
-              fill="rgba(248,248,248,1)"
+              fill="rgba(34,126,255,1)"
               transform="translate(-10,-10)"
               cx="10"
               cy="10"
-              stroke="rgba(139,155,175,1)"
+              stroke-width="0"
+              stroke="rgba(0,0,0,1)"
               r="10"
             />
           </g>
@@ -1082,9 +1546,9 @@
             <g transform="matrix(1,0,0,1,0,-11.500000)">
               <path
                 id="background"
-                fill="none"
+                fill="rgba(255,255,255,1)"
                 d="M 0,0 l 163.12,0 l 0,23 l-163.12 0 z"
-                opacity="0.75"
+                opacity="0.5"
                 stroke-width="0"
                 width="163.12"
                 height="23"
@@ -1093,7 +1557,7 @@
             <g transform="matrix(1,0,0,1,0,0)">
               <text
                 id="text"
-                fill="rgba(0,0,0,1)"
+                fill="rgba(0,0,0,0.8509803921568627)"
                 dominant-baseline="central"
                 paint-order="stroke"
                 dx="0.5"
@@ -1113,11 +1577,12 @@
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
-              fill="rgba(248,248,248,1)"
+              fill="rgba(34,126,255,1)"
               transform="translate(-10,-10)"
               cx="10"
               cy="10"
-              stroke="rgba(139,155,175,1)"
+              stroke-width="0"
+              stroke="rgba(0,0,0,1)"
               r="10"
             />
           </g>
@@ -1125,9 +1590,9 @@
             <g transform="matrix(1,0,0,1,0,-11.500000)">
               <path
                 id="background"
-                fill="none"
+                fill="rgba(255,255,255,1)"
                 d="M 0,0 l 132.52,0 l 0,23 l-132.52 0 z"
-                opacity="0.75"
+                opacity="0.5"
                 stroke-width="0"
                 width="132.52"
                 height="23"
@@ -1136,7 +1601,7 @@
             <g transform="matrix(1,0,0,1,0,0)">
               <text
                 id="text"
-                fill="rgba(0,0,0,1)"
+                fill="rgba(0,0,0,0.8509803921568627)"
                 dominant-baseline="central"
                 paint-order="stroke"
                 dx="0.5"
@@ -1156,11 +1621,12 @@
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
-              fill="rgba(248,248,248,1)"
+              fill="rgba(34,126,255,1)"
               transform="translate(-10,-10)"
               cx="10"
               cy="10"
-              stroke="rgba(139,155,175,1)"
+              stroke-width="0"
+              stroke="rgba(0,0,0,1)"
               r="10"
             />
           </g>
@@ -1168,9 +1634,9 @@
             <g transform="matrix(1,0,0,1,0,-11.500000)">
               <path
                 id="background"
-                fill="none"
+                fill="rgba(255,255,255,1)"
                 d="M 0,0 l 162.88,0 l 0,23 l-162.88 0 z"
-                opacity="0.75"
+                opacity="0.5"
                 stroke-width="0"
                 width="162.88"
                 height="23"
@@ -1179,7 +1645,7 @@
             <g transform="matrix(1,0,0,1,0,0)">
               <text
                 id="text"
-                fill="rgba(0,0,0,1)"
+                fill="rgba(0,0,0,0.8509803921568627)"
                 dominant-baseline="central"
                 paint-order="stroke"
                 dx="0.5"
@@ -1199,11 +1665,12 @@
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
-              fill="rgba(248,248,248,1)"
+              fill="rgba(34,126,255,1)"
               transform="translate(-10,-10)"
               cx="10"
               cy="10"
-              stroke="rgba(139,155,175,1)"
+              stroke-width="0"
+              stroke="rgba(0,0,0,1)"
               r="10"
             />
           </g>
@@ -1211,9 +1678,9 @@
             <g transform="matrix(1,0,0,1,0,-11.500000)">
               <path
                 id="background"
-                fill="none"
+                fill="rgba(255,255,255,1)"
                 d="M 0,0 l 127.72000000000003,0 l 0,23 l-127.72000000000003 0 z"
-                opacity="0.75"
+                opacity="0.5"
                 stroke-width="0"
                 width="127.72000000000003"
                 height="23"
@@ -1222,7 +1689,7 @@
             <g transform="matrix(1,0,0,1,0,0)">
               <text
                 id="text"
-                fill="rgba(0,0,0,1)"
+                fill="rgba(0,0,0,0.8509803921568627)"
                 dominant-baseline="central"
                 paint-order="stroke"
                 dx="0.5"
@@ -1242,11 +1709,12 @@
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
-              fill="rgba(248,248,248,1)"
+              fill="rgba(34,126,255,1)"
               transform="translate(-10,-10)"
               cx="10"
               cy="10"
-              stroke="rgba(139,155,175,1)"
+              stroke-width="0"
+              stroke="rgba(0,0,0,1)"
               r="10"
             />
           </g>
@@ -1254,9 +1722,9 @@
             <g transform="matrix(1,0,0,1,0,-11.500000)">
               <path
                 id="background"
-                fill="none"
+                fill="rgba(255,255,255,1)"
                 d="M 0,0 l 125.2,0 l 0,23 l-125.2 0 z"
-                opacity="0.75"
+                opacity="0.5"
                 stroke-width="0"
                 width="125.2"
                 height="23"
@@ -1265,7 +1733,7 @@
             <g transform="matrix(1,0,0,1,0,0)">
               <text
                 id="text"
-                fill="rgba(0,0,0,1)"
+                fill="rgba(0,0,0,0.8509803921568627)"
                 dominant-baseline="central"
                 paint-order="stroke"
                 dx="0.5"
@@ -1281,11 +1749,12 @@
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
-              fill="rgba(248,248,248,1)"
+              fill="rgba(34,126,255,1)"
               transform="translate(-10,-10)"
               cx="10"
               cy="10"
-              stroke="rgba(139,155,175,1)"
+              stroke-width="0"
+              stroke="rgba(0,0,0,1)"
               r="10"
             />
           </g>
@@ -1293,9 +1762,9 @@
             <g transform="matrix(1,0,0,1,0,-11.500000)">
               <path
                 id="background"
-                fill="none"
+                fill="rgba(255,255,255,1)"
                 d="M 0,0 l 51.64,0 l 0,23 l-51.64 0 z"
-                opacity="0.75"
+                opacity="0.5"
                 stroke-width="0"
                 width="51.64"
                 height="23"
@@ -1304,7 +1773,7 @@
             <g transform="matrix(1,0,0,1,0,0)">
               <text
                 id="text"
-                fill="rgba(0,0,0,1)"
+                fill="rgba(0,0,0,0.8509803921568627)"
                 dominant-baseline="central"
                 paint-order="stroke"
                 dx="0.5"
@@ -1324,11 +1793,12 @@
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
-              fill="rgba(248,248,248,1)"
+              fill="rgba(34,126,255,1)"
               transform="translate(-10,-10)"
               cx="10"
               cy="10"
-              stroke="rgba(139,155,175,1)"
+              stroke-width="0"
+              stroke="rgba(0,0,0,1)"
               r="10"
             />
           </g>
@@ -1336,9 +1806,9 @@
             <g transform="matrix(1,0,0,1,0,-11.500000)">
               <path
                 id="background"
-                fill="none"
+                fill="rgba(255,255,255,1)"
                 d="M 0,0 l 110.8,0 l 0,23 l-110.8 0 z"
-                opacity="0.75"
+                opacity="0.5"
                 stroke-width="0"
                 width="110.8"
                 height="23"
@@ -1347,7 +1817,7 @@
             <g transform="matrix(1,0,0,1,0,0)">
               <text
                 id="text"
-                fill="rgba(0,0,0,1)"
+                fill="rgba(0,0,0,0.8509803921568627)"
                 dominant-baseline="central"
                 paint-order="stroke"
                 dx="0.5"
@@ -1367,11 +1837,12 @@
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
-              fill="rgba(248,248,248,1)"
+              fill="rgba(34,126,255,1)"
               transform="translate(-10,-10)"
               cx="10"
               cy="10"
-              stroke="rgba(139,155,175,1)"
+              stroke-width="0"
+              stroke="rgba(0,0,0,1)"
               r="10"
             />
           </g>
@@ -1379,9 +1850,9 @@
             <g transform="matrix(1,0,0,1,0,-11.500000)">
               <path
                 id="background"
-                fill="none"
+                fill="rgba(255,255,255,1)"
                 d="M 0,0 l 94,0 l 0,23 l-94 0 z"
-                opacity="0.75"
+                opacity="0.5"
                 stroke-width="0"
                 width="94"
                 height="23"
@@ -1390,7 +1861,7 @@
             <g transform="matrix(1,0,0,1,0,0)">
               <text
                 id="text"
-                fill="rgba(0,0,0,1)"
+                fill="rgba(0,0,0,0.8509803921568627)"
                 dominant-baseline="central"
                 paint-order="stroke"
                 dx="0.5"
@@ -1406,11 +1877,12 @@
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
-              fill="rgba(248,248,248,1)"
+              fill="rgba(34,126,255,1)"
               transform="translate(-10,-10)"
               cx="10"
               cy="10"
-              stroke="rgba(139,155,175,1)"
+              stroke-width="0"
+              stroke="rgba(0,0,0,1)"
               r="10"
             />
           </g>
@@ -1418,9 +1890,9 @@
             <g transform="matrix(1,0,0,1,0,-11.500000)">
               <path
                 id="background"
-                fill="none"
+                fill="rgba(255,255,255,1)"
                 d="M 0,0 l 52.48000000000001,0 l 0,23 l-52.48000000000001 0 z"
-                opacity="0.75"
+                opacity="0.5"
                 stroke-width="0"
                 width="52.48000000000001"
                 height="23"
@@ -1429,7 +1901,7 @@
             <g transform="matrix(1,0,0,1,0,0)">
               <text
                 id="text"
-                fill="rgba(0,0,0,1)"
+                fill="rgba(0,0,0,0.8509803921568627)"
                 dominant-baseline="central"
                 paint-order="stroke"
                 dx="0.5"
@@ -1445,11 +1917,12 @@
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
-              fill="rgba(248,248,248,1)"
+              fill="rgba(34,126,255,1)"
               transform="translate(-10,-10)"
               cx="10"
               cy="10"
-              stroke="rgba(139,155,175,1)"
+              stroke-width="0"
+              stroke="rgba(0,0,0,1)"
               r="10"
             />
           </g>
@@ -1457,9 +1930,9 @@
             <g transform="matrix(1,0,0,1,0,-11.500000)">
               <path
                 id="background"
-                fill="none"
+                fill="rgba(255,255,255,1)"
                 d="M 0,0 l 48.4,0 l 0,23 l-48.4 0 z"
-                opacity="0.75"
+                opacity="0.5"
                 stroke-width="0"
                 width="48.4"
                 height="23"
@@ -1468,7 +1941,7 @@
             <g transform="matrix(1,0,0,1,0,0)">
               <text
                 id="text"
-                fill="rgba(0,0,0,1)"
+                fill="rgba(0,0,0,0.8509803921568627)"
                 dominant-baseline="central"
                 paint-order="stroke"
                 dx="0.5"
@@ -1484,11 +1957,12 @@
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
-              fill="rgba(248,248,248,1)"
+              fill="rgba(34,126,255,1)"
               transform="translate(-10,-10)"
               cx="10"
               cy="10"
-              stroke="rgba(139,155,175,1)"
+              stroke-width="0"
+              stroke="rgba(0,0,0,1)"
               r="10"
             />
           </g>
@@ -1496,9 +1970,9 @@
             <g transform="matrix(1,0,0,1,0,-11.500000)">
               <path
                 id="background"
-                fill="none"
+                fill="rgba(255,255,255,1)"
                 d="M 0,0 l 52.239999999999995,0 l 0,23 l-52.239999999999995 0 z"
-                opacity="0.75"
+                opacity="0.5"
                 stroke-width="0"
                 width="52.239999999999995"
                 height="23"
@@ -1507,7 +1981,7 @@
             <g transform="matrix(1,0,0,1,0,0)">
               <text
                 id="text"
-                fill="rgba(0,0,0,1)"
+                fill="rgba(0,0,0,0.8509803921568627)"
                 dominant-baseline="central"
                 paint-order="stroke"
                 dx="0.5"
@@ -1523,11 +1997,12 @@
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
-              fill="rgba(248,248,248,1)"
+              fill="rgba(34,126,255,1)"
               transform="translate(-10,-10)"
               cx="10"
               cy="10"
-              stroke="rgba(139,155,175,1)"
+              stroke-width="0"
+              stroke="rgba(0,0,0,1)"
               r="10"
             />
           </g>
@@ -1535,9 +2010,9 @@
             <g transform="matrix(1,0,0,1,0,-11.500000)">
               <path
                 id="background"
-                fill="none"
+                fill="rgba(255,255,255,1)"
                 d="M 0,0 l 57.040000000000006,0 l 0,23 l-57.040000000000006 0 z"
-                opacity="0.75"
+                opacity="0.5"
                 stroke-width="0"
                 width="57.040000000000006"
                 height="23"
@@ -1546,7 +2021,7 @@
             <g transform="matrix(1,0,0,1,0,0)">
               <text
                 id="text"
-                fill="rgba(0,0,0,1)"
+                fill="rgba(0,0,0,0.8509803921568627)"
                 dominant-baseline="central"
                 paint-order="stroke"
                 dx="0.5"
@@ -1562,11 +2037,12 @@
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
-              fill="rgba(248,248,248,1)"
+              fill="rgba(34,126,255,1)"
               transform="translate(-10,-10)"
               cx="10"
               cy="10"
-              stroke="rgba(139,155,175,1)"
+              stroke-width="0"
+              stroke="rgba(0,0,0,1)"
               r="10"
             />
           </g>
@@ -1574,9 +2050,9 @@
             <g transform="matrix(1,0,0,1,0,-11.500000)">
               <path
                 id="background"
-                fill="none"
+                fill="rgba(255,255,255,1)"
                 d="M 0,0 l 65.56,0 l 0,23 l-65.56 0 z"
-                opacity="0.75"
+                opacity="0.5"
                 stroke-width="0"
                 width="65.56"
                 height="23"
@@ -1585,7 +2061,7 @@
             <g transform="matrix(1,0,0,1,0,0)">
               <text
                 id="text"
-                fill="rgba(0,0,0,1)"
+                fill="rgba(0,0,0,0.8509803921568627)"
                 dominant-baseline="central"
                 paint-order="stroke"
                 dx="0.5"
@@ -1605,11 +2081,12 @@
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
-              fill="rgba(248,248,248,1)"
+              fill="rgba(34,126,255,1)"
               transform="translate(-10,-10)"
               cx="10"
               cy="10"
-              stroke="rgba(139,155,175,1)"
+              stroke-width="0"
+              stroke="rgba(0,0,0,1)"
               r="10"
             />
           </g>
@@ -1617,9 +2094,9 @@
             <g transform="matrix(1,0,0,1,0,-11.500000)">
               <path
                 id="background"
-                fill="none"
+                fill="rgba(255,255,255,1)"
                 d="M 0,0 l 147.15999999999994,0 l 0,23 l-147.15999999999994 0 z"
-                opacity="0.75"
+                opacity="0.5"
                 stroke-width="0"
                 width="147.15999999999994"
                 height="23"
@@ -1628,7 +2105,7 @@
             <g transform="matrix(1,0,0,1,0,0)">
               <text
                 id="text"
-                fill="rgba(0,0,0,1)"
+                fill="rgba(0,0,0,0.8509803921568627)"
                 dominant-baseline="central"
                 paint-order="stroke"
                 dx="0.5"
@@ -1648,11 +2125,12 @@
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
-              fill="rgba(248,248,248,1)"
+              fill="rgba(34,126,255,1)"
               transform="translate(-10,-10)"
               cx="10"
               cy="10"
-              stroke="rgba(139,155,175,1)"
+              stroke-width="0"
+              stroke="rgba(0,0,0,1)"
               r="10"
             />
           </g>
@@ -1660,9 +2138,9 @@
             <g transform="matrix(1,0,0,1,0,-11.500000)">
               <path
                 id="background"
-                fill="none"
+                fill="rgba(255,255,255,1)"
                 d="M 0,0 l 118.47999999999999,0 l 0,23 l-118.47999999999999 0 z"
-                opacity="0.75"
+                opacity="0.5"
                 stroke-width="0"
                 width="118.47999999999999"
                 height="23"
@@ -1671,7 +2149,7 @@
             <g transform="matrix(1,0,0,1,0,0)">
               <text
                 id="text"
-                fill="rgba(0,0,0,1)"
+                fill="rgba(0,0,0,0.8509803921568627)"
                 dominant-baseline="central"
                 paint-order="stroke"
                 dx="0.5"
@@ -1691,11 +2169,12 @@
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
-              fill="rgba(248,248,248,1)"
+              fill="rgba(34,126,255,1)"
               transform="translate(-10,-10)"
               cx="10"
               cy="10"
-              stroke="rgba(139,155,175,1)"
+              stroke-width="0"
+              stroke="rgba(0,0,0,1)"
               r="10"
             />
           </g>
@@ -1703,9 +2182,9 @@
             <g transform="matrix(1,0,0,1,0,-11.500000)">
               <path
                 id="background"
-                fill="none"
+                fill="rgba(255,255,255,1)"
                 d="M 0,0 l 230.67999999999995,0 l 0,23 l-230.67999999999995 0 z"
-                opacity="0.75"
+                opacity="0.5"
                 stroke-width="0"
                 width="230.67999999999995"
                 height="23"
@@ -1714,7 +2193,7 @@
             <g transform="matrix(1,0,0,1,0,0)">
               <text
                 id="text"
-                fill="rgba(0,0,0,1)"
+                fill="rgba(0,0,0,0.8509803921568627)"
                 dominant-baseline="central"
                 paint-order="stroke"
                 dx="0.5"
@@ -1734,11 +2213,12 @@
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
-              fill="rgba(248,248,248,1)"
+              fill="rgba(34,126,255,1)"
               transform="translate(-10,-10)"
               cx="10"
               cy="10"
-              stroke="rgba(139,155,175,1)"
+              stroke-width="0"
+              stroke="rgba(0,0,0,1)"
               r="10"
             />
           </g>
@@ -1746,9 +2226,9 @@
             <g transform="matrix(1,0,0,1,0,-11.500000)">
               <path
                 id="background"
-                fill="none"
+                fill="rgba(255,255,255,1)"
                 d="M 0,0 l 199.95999999999998,0 l 0,23 l-199.95999999999998 0 z"
-                opacity="0.75"
+                opacity="0.5"
                 stroke-width="0"
                 width="199.95999999999998"
                 height="23"
@@ -1757,7 +2237,7 @@
             <g transform="matrix(1,0,0,1,0,0)">
               <text
                 id="text"
-                fill="rgba(0,0,0,1)"
+                fill="rgba(0,0,0,0.8509803921568627)"
                 dominant-baseline="central"
                 paint-order="stroke"
                 dx="0.5"
@@ -1777,11 +2257,12 @@
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
-              fill="rgba(248,248,248,1)"
+              fill="rgba(34,126,255,1)"
               transform="translate(-10,-10)"
               cx="10"
               cy="10"
-              stroke="rgba(139,155,175,1)"
+              stroke-width="0"
+              stroke="rgba(0,0,0,1)"
               r="10"
             />
           </g>
@@ -1789,9 +2270,9 @@
             <g transform="matrix(1,0,0,1,0,-11.500000)">
               <path
                 id="background"
-                fill="none"
+                fill="rgba(255,255,255,1)"
                 d="M 0,0 l 152.31999999999996,0 l 0,23 l-152.31999999999996 0 z"
-                opacity="0.75"
+                opacity="0.5"
                 stroke-width="0"
                 width="152.31999999999996"
                 height="23"
@@ -1800,7 +2281,7 @@
             <g transform="matrix(1,0,0,1,0,0)">
               <text
                 id="text"
-                fill="rgba(0,0,0,1)"
+                fill="rgba(0,0,0,0.8509803921568627)"
                 dominant-baseline="central"
                 paint-order="stroke"
                 dx="0.5"

@@ -1,5 +1,6 @@
 import type { ID } from '@antv/graphlib';
 import { groupBy, isFunction, isNumber, isString } from '@antv/util';
+import type { CategoricalPalette } from '../palettes/types';
 import { getPlugin } from '../registry';
 import type { PaletteOptions, STDPaletteOptions } from '../spec/element/palette';
 import type { ElementData, ElementDatum } from '../types/data';
@@ -98,4 +99,17 @@ export function assignColorByPalette(data: ElementData, palette?: STDPaletteOpti
       data.map((datum) => [datum.id, ((datum?.data?.[field] as number) - min) / range]) as [ID, number][],
     );
   }
+}
+
+/**
+ * <zh/> 获取离散色板配色
+ *
+ * <en/> Get discrete palette colors
+ * @param colorPalette - <zh/> 色板名或着颜色数组 | <en/> Palette name or color array
+ * @returns <zh/> 色板上具体颜色 | <en/> Specific color on the palette
+ */
+export function getPaletteColors(colorPalette?: string | CategoricalPalette): CategoricalPalette | undefined {
+  const palette = isString(colorPalette) ? getPlugin('palette', colorPalette) : colorPalette;
+  if (isFunction(palette)) return undefined;
+  return palette;
 }
