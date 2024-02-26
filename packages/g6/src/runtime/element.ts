@@ -498,7 +498,7 @@ export class ElementController {
     const edgesToRemove = dataOf<EdgeData>(EdgeRemoved);
     const combosToRemove = dataOf<ComboData>(ComboRemoved);
 
-    // 如果更新了节点，需要更新连接的边和所处的 combo
+    // 如果更新了节点，需要更新连接的边
     // If the node is updated, the connected edge and the combo it is in need to be updated
     // TODO 待优化，仅考虑影响边更新的属性，如 x, y, size 等
     nodesToUpdate
@@ -506,9 +506,18 @@ export class ElementController {
       .flat()
       .forEach((edge) => edgesToUpdate.push(edge));
 
+    // 如果操作（新增/更新/移除）了节点或 combo，需要更新相对应的 combo
+    // If nodes or combos are operated (added/updated/removed), the related combo needs to be updated
     model
       .getComboData(
-        [...nodesToUpdate, ...nodesToRemove, ...combosToUpdate, ...combosToRemove].reduce((acc, curr) => {
+        [
+          ...nodesToAdd,
+          ...nodesToUpdate,
+          ...nodesToRemove,
+          ...combosToAdd,
+          ...combosToUpdate,
+          ...combosToRemove,
+        ].reduce((acc, curr) => {
           const parentId = curr?.style?.parentId;
           if (parentId) acc.push(parentId);
           return acc;
@@ -570,7 +579,6 @@ export class ElementController {
     const Ctor = getPlugin(elementType, shapeType);
     if (!Ctor) return () => null;
     const shape = this.container[elementType].appendChild(
-      // @ts-expect-error TODO fix type
       new Ctor({
         id,
         style: {

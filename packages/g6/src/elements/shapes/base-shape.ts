@@ -1,6 +1,5 @@
 import type { BaseStyleProps, DisplayObject, DisplayObjectConfig, Group, IAnimation } from '@antv/g';
 import { CustomElement } from '@antv/g';
-import { deepMix } from '@antv/util';
 import type { Keyframe } from '../../types';
 import { createAnimationsProxy, preprocessKeyframes } from '../../utils/animation';
 import { updateStyle } from '../../utils/element';
@@ -95,7 +94,7 @@ export abstract class BaseShape<StyleProps extends BaseShapeStyleProps> extends 
   }
 
   public update(attr: Partial<StyleProps> = {}): void {
-    this.attr(deepMix({}, this.attributes, attr));
+    this.attr(Object.assign({}, this.attributes, attr));
     return this.render(this.attributes as Required<StyleProps>, this);
   }
 
