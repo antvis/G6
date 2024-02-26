@@ -1,5 +1,5 @@
 import { register } from '@/src/registry';
-import { assignColorByPalette, parsePalette } from '@/src/utils/palette';
+import { assignColorByPalette, getPaletteColors, parsePalette } from '@/src/utils/palette';
 
 describe('palette', () => {
   it('parsePalette', () => {
@@ -173,5 +173,10 @@ describe('palette', () => {
       'node-10': 'rgb(0, 0, 230)',
       'node-11': 'rgb(0, 0, 255)',
     });
+  });
+
+  it('getPaletteColors', () => {
+    expect(getPaletteColors('spectral')![0]).toBe('rgb(158, 1, 66)');
+    expect(getPaletteColors(['#f00', '#0f0', '#00f'])).toEqual(['#f00', '#0f0', '#00f']);
   });
 });

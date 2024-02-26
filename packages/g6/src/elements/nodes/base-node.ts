@@ -1,6 +1,7 @@
 import type { BaseStyleProps, DisplayObject, DisplayObjectConfig, Group } from '@antv/g';
 import { Circle as GCircle } from '@antv/g';
 import { deepMix, isEmpty } from '@antv/util';
+import type { CategoricalPalette } from '../../palettes/types';
 import type {
   BadgePosition,
   BaseNodeProps,
@@ -13,6 +14,7 @@ import type {
   PrefixObject,
 } from '../../types';
 import { getPortPosition, getTextStyleByPosition, getXYByPosition } from '../../utils/element';
+import { getPaletteColors } from '../../utils/palette';
 import { getRectIntersectPoint } from '../../utils/point';
 import { omitStyleProps, subObject, subStyleProps } from '../../utils/prefix';
 import { parseSize } from '../../utils/size';
@@ -142,11 +144,16 @@ export abstract class BaseNode<
     });
     if (attributes.badge === false || isEmpty(attributes.badges)) return badgesShapeStyle;
 
-    const badgeStyle = subStyleProps<BadgeStyleProps>(this.getGraphicStyle(attributes), 'badge');
-    const { badges: badgeOptions = [] } = attributes;
+    const { badges: badgeOptions = [], badgePalette, ...restAttributes } = attributes;
+    const colors = getPaletteColors(badgePalette);
+    const badgeStyle = subStyleProps<BadgeStyleProps>(this.getGraphicStyle(restAttributes), 'badge');
 
     badgeOptions.forEach((option, i) => {
-      badgesShapeStyle[i] = { ...badgeStyle, ...this.getBadgeStyle(option) };
+      badgesShapeStyle[i] = {
+        backgroundFill: colors ? colors[i % colors?.length] : undefined,
+        ...badgeStyle,
+        ...this.getBadgeStyle(option),
+      };
     });
 
     return badgesShapeStyle;
@@ -309,6 +316,11 @@ type NodeBadgeStyleProps = BadgeStyleProps & {
 
 type NodeBadgesStyleProps = {
   badges?: NodeBadgeStyleProps[];
+  /**
+   * <zh/> 背景色板
+   * <en/> Background color palette
+   */
+  badgePalette?: string[] | CategoricalPalette;
 } & PrefixObject<BadgeStyleProps, 'badge'>;
 
 export type NodePortStyleProps = Partial<PortStyleProps> & {
