@@ -10,7 +10,7 @@ const data = {
     { id: 'triangle-selected' },
     { id: 'triangle-highlight' },
     { id: 'triangle-inactive' },
-    { id: 'triangle-disable' },
+    { id: 'triangle-disabled' },
   ],
 };
 
@@ -50,5 +50,5 @@ graph.on('afterrender', () => {
   graph.setElementState('triangle-selected', 'selected');
   graph.setElementState('triangle-highlight', 'highlight');
   graph.setElementState('triangle-inactive', 'inactive');
-  graph.setElementState('triangle-disable', 'disable');
+  graph.setElementState('triangle-disabled', 'disabled');
 });

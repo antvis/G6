@@ -10,7 +10,7 @@ const data = {
     { id: 'star-selected' },
     { id: 'star-highlight' },
     { id: 'star-inactive' },
-    { id: 'star-disable' },
+    { id: 'star-disabled' },
   ],
 };
 
@@ -52,5 +52,5 @@ graph.on('afterrender', () => {
   graph.setElementState('star-selected', 'selected');
   graph.setElementState('star-highlight', 'highlight');
   graph.setElementState('star-inactive', 'inactive');
-  graph.setElementState('star-disable', 'disable');
+  graph.setElementState('star-disabled', 'disabled');
 });

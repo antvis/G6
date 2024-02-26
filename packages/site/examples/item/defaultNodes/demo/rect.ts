@@ -10,7 +10,7 @@ const data = {
     { id: 'rect-selected' },
     { id: 'rect-highlight' },
     { id: 'rect-inactive' },
-    { id: 'rect-disable' },
+    { id: 'rect-disabled' },
   ],
 };
 
@@ -54,5 +54,5 @@ graph.on('afterrender', () => {
   graph.setElementState('rect-selected', 'selected');
   graph.setElementState('rect-highlight', 'highlight');
   graph.setElementState('rect-inactive', 'inactive');
-  graph.setElementState('rect-disable', 'disable');
+  graph.setElementState('rect-disabled', 'disabled');
 });

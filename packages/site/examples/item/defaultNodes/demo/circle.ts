@@ -10,7 +10,7 @@ const data = {
     { id: 'circle-selected' },
     { id: 'circle-highlight' },
     { id: 'circle-inactive' },
-    { id: 'circle-disable' },
+    { id: 'circle-disabled' },
   ],
 };
 
@@ -55,5 +55,5 @@ graph.on('afterrender', () => {
   graph.setElementState('circle-selected', 'selected');
   graph.setElementState('circle-highlight', 'highlight');
   graph.setElementState('circle-inactive', 'inactive');
-  graph.setElementState('circle-disable', 'disable');
+  graph.setElementState('circle-disabled', 'disabled');
 });
