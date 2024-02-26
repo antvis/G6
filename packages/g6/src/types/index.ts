@@ -10,6 +10,7 @@ export type * from './enum';
 export type * from './event';
 export type * from './graphlib';
 export type * from './layout';
+export type * from './module';
 export type * from './node';
 export type * from './padding';
 export type * from './point';

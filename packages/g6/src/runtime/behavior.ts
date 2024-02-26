@@ -1,75 +1,26 @@
 import type { DisplayObject, FederatedPointerEvent, FederatedWheelEvent } from '@antv/g';
 import type { BaseBehavior } from '../behaviors/base-behavior';
 import { CanvasEvent, ContainerEvent } from '../constants';
-import { getPlugin } from '../registry';
-import type { BehaviorOptions } from '../spec';
-import type { STDBehaviorOption } from '../spec/behavior';
+import type { BehaviorOptions, CustomBehaviorOption } from '../spec/behavior';
 import type { Target } from '../types';
-import { parseBehaviors } from '../utils/behaviors';
-import { arrayDiff } from '../utils/diff';
 import { eventTargetOf } from '../utils/event';
+import { ModuleController } from '../utils/module';
 import type { RuntimeContext } from './types';
 
-export class BehaviorController {
-  private context: RuntimeContext;
-
-  private behaviors: STDBehaviorOption[] = [];
-
-  private behaviorMap: Record<string, BaseBehavior<any>> = {};
-
+export class BehaviorController extends ModuleController<BaseBehavior<CustomBehaviorOption>> {
   /** <zh/> 当前事件的目标 | <en/> The current event target */
   private currentTarget: Target | null = null;
 
+  public category: 'widget' | 'behavior' = 'behavior';
+
   constructor(context: RuntimeContext) {
-    this.context = context;
+    super(context);
     this.forwardEvents();
-    this.setBehaviors(this.context.options?.behaviors || []);
+    this.setBehaviors(this.context.options.behaviors || []);
   }
 
   public setBehaviors(behaviors: BehaviorOptions) {
-    const newBehaviors = parseBehaviors(behaviors);
-    const { enter, update, exit, keep } = arrayDiff(this.behaviors, newBehaviors, (behavior) => behavior.key);
-
-    this.createBehaviors(enter);
-    this.updateBehaviors([...update, ...keep]);
-    this.destroyBehaviors(exit);
-
-    this.behaviors = newBehaviors;
-  }
-
-  private createBehavior(behavior: STDBehaviorOption) {
-    const { key, type } = behavior;
-    const Ctor = getPlugin('behavior', type);
-    if (!Ctor) return;
-
-    const instance = new Ctor(this.context, behavior);
-    this.behaviorMap[key] = instance;
-  }
-
-  private createBehaviors(behaviors: STDBehaviorOption[]) {
-    behaviors.forEach((behavior) => this.createBehavior(behavior));
-  }
-
-  private updateBehaviors(behaviors: STDBehaviorOption[]) {
-    behaviors.forEach((behavior) => {
-      const { key } = behavior;
-      const instance = this.behaviorMap[key];
-      if (instance) {
-        instance.update(behavior);
-      }
-    });
-  }
-
-  private destroyBehavior(key: string) {
-    const instance = this.behaviorMap[key];
-    if (instance) {
-      instance.destroy();
-      delete this.behaviorMap[key];
-    }
-  }
-
-  private destroyBehaviors(behaviors: STDBehaviorOption[]) {
-    behaviors.forEach(({ key }) => this.destroyBehavior(key));
+    this.setModules(behaviors);
   }
 
   private forwardEvents() {
@@ -137,15 +88,5 @@ export class BehaviorController {
 
   private forwardContainerEvents(event: FocusEvent | KeyboardEvent) {
     this.context.graph.emit(event.type, event);
-  }
-
-  public destroy() {
-    Object.keys(this.behaviorMap).forEach((key) => this.destroyBehavior(key));
-    // @ts-expect-error force delete
-    delete this.context;
-    // @ts-expect-error force delete
-    delete this.behaviors;
-    // @ts-expect-error force delete
-    delete this.behaviorMap;
   }
 }
