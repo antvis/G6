@@ -44,6 +44,7 @@ import { ElementController } from './element';
 import { LayoutController } from './layout';
 import { RuntimeContext } from './types';
 import { ViewportController } from './viewport';
+import { WidgetController } from './widget';
 
 export class Graph extends EventEmitter {
   private options: G6Spec;
@@ -163,8 +164,9 @@ export class Graph extends EventEmitter {
     return this.options.behaviors || [];
   }
 
-  public setWidgets(widgets: CallableValue<G6Spec['widgets']>): void {
+  public setWidgets(widgets: CallableValue<WidgetOptions>): void {
     this.options.widgets = isFunction(widgets) ? widgets(this.getWidgets()) : widgets;
+    this.context.widget?.setWidgets(this.options.widgets);
   }
 
   public getWidgets(): WidgetOptions {
@@ -309,6 +311,7 @@ export class Graph extends EventEmitter {
 
   private createRuntime() {
     this.context.options = this.options;
+    if (!this.context.widget) this.context.widget = new WidgetController(this.context);
     if (!this.context.viewport) this.context.viewport = new ViewportController(this.context);
     if (!this.context.element) this.context.element = new ElementController(this.context);
     if (!this.context.layout) this.context.layout = new LayoutController(this.context);
@@ -366,12 +369,13 @@ export class Graph extends EventEmitter {
   }
 
   public destroy(): void {
-    const { layout, element, model, canvas, behavior } = this.context;
+    const { layout, element, model, canvas, behavior, widget } = this.context;
     layout?.destroy();
     element?.destroy();
     model.destroy();
     canvas?.destroy();
     behavior?.destroy();
+    widget?.destroy();
     this.options = {};
     // @ts-expect-error force delete
     delete this.context;

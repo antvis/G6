@@ -6,6 +6,7 @@ import type { ElementController } from './element';
 import type { Graph } from './graph';
 import type { LayoutController } from './layout';
 import type { ViewportController } from './viewport';
+import type { WidgetController } from './widget';
 
 export interface RuntimeContext {
   /**
@@ -60,4 +61,10 @@ export interface RuntimeContext {
    * <en/> Behavior controller
    */
   behavior?: BehaviorController;
+  /**
+   * <zh/> 组件控制器
+   *
+   * <en/> Widget controller
+   */
+  widget?: WidgetController;
 }
