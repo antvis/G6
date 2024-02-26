@@ -22,24 +22,32 @@ import { getWordWrapWidthByBox } from '../../utils/text';
 import type { BadgeStyleProps, IconStyleProps, LabelStyleProps } from '../shapes';
 import { Badge, BaseShape, Icon, Label } from '../shapes';
 
-export type BaseNodeStyleProps<
-  KeyStyleProps extends BaseStyleProps = BaseNodeProps,
-  StyleLifting extends keyof KeyStyleProps = never,
-> = BaseNodeProps &
-  ShapeSwitch &
-  // 将 KeyStyleProps 的属性提升到 BaseNodeStyleProps
-  // Lift the properties of KeyStyleProps to BaseNodeStyleProps
-  Pick<KeyStyleProps, StyleLifting> &
-  PrefixObject<NodeLabelStyleProps, 'label'> &
+export type BaseNodeStyleProps<KeyStyleProps extends BaseStyleProps = BaseNodeProps> = BaseNodeProps &
+  ShapeSwitch & {
+    /**
+     * <zh/> 连接桩
+     * <en/> Port
+     */
+    ports?: NodePortStyleProps[];
+    /**
+     * <zh/> 徽标
+     * <en/> Badge
+     */
+    badges?: NodeBadgeStyleProps[];
+    /**
+     * <zh/> 背景色板
+     * <en/> Background color palette
+     */
+    badgePalette?: string[] | CategoricalPalette;
+  } & PrefixObject<NodeLabelStyleProps, 'label'> &
   PrefixObject<KeyStyleProps, 'halo'> &
   PrefixObject<IconStyleProps, 'icon'> &
-  NodeBadgesStyleProps &
-  NodePortsStyleProps;
+  PrefixObject<BadgeStyleProps, 'badge'> &
+  PrefixObject<PortStyleProps, 'port'>;
 
-export type ParsedBaseNodeStyleProps<
-  KeyStyleProps extends BaseStyleProps,
-  StyleLifting extends keyof KeyStyleProps = never,
-> = Required<BaseNodeStyleProps<KeyStyleProps, StyleLifting>>;
+export type ParsedBaseNodeStyleProps<KeyStyleProps extends BaseStyleProps> = Required<
+  BaseNodeStyleProps<KeyStyleProps>
+>;
 
 /**
  * Design document: https://www.yuque.com/antv/g6/gl1iof1xpzg6ed98
@@ -47,11 +55,9 @@ export type ParsedBaseNodeStyleProps<
  * The P is the StyleProps of Key Shape.
  * The KeyShape is the type of the key shape.
  */
-export abstract class BaseNode<
-  KeyShape extends DisplayObject,
-  KeyStyleProps extends BaseStyleProps,
-  StyleLifting extends keyof KeyStyleProps = never,
-> extends BaseShape<BaseNodeStyleProps<KeyStyleProps, StyleLifting>> {
+export abstract class BaseNode<KeyShape extends DisplayObject, KeyStyleProps extends BaseStyleProps> extends BaseShape<
+  BaseNodeStyleProps<KeyStyleProps>
+> {
   static defaultStyleProps: BaseNodeStyleProps = {
     x: 0,
     y: 0,
@@ -79,7 +85,7 @@ export abstract class BaseNode<
     labelZIndex: 0,
   };
 
-  constructor(options: DisplayObjectConfig<BaseNodeStyleProps<KeyStyleProps, StyleLifting>>) {
+  constructor(options: DisplayObjectConfig<BaseNodeStyleProps<KeyStyleProps>>) {
     super(deepMix({}, { style: BaseNode.defaultStyleProps }, options));
   }
 
@@ -88,7 +94,7 @@ export abstract class BaseNode<
     return parseSize(size);
   }
 
-  protected getKeyStyle(attributes: ParsedBaseNodeStyleProps<KeyStyleProps, StyleLifting>): KeyStyleProps {
+  protected getKeyStyle(attributes: ParsedBaseNodeStyleProps<KeyStyleProps>): KeyStyleProps {
     const { color, fill, ...style } = this.getGraphicStyle(attributes);
 
     return Object.assign(
@@ -97,7 +103,7 @@ export abstract class BaseNode<
     ) as unknown as KeyStyleProps;
   }
 
-  protected getLabelStyle(attributes: ParsedBaseNodeStyleProps<KeyStyleProps, StyleLifting>): false | LabelStyleProps {
+  protected getLabelStyle(attributes: ParsedBaseNodeStyleProps<KeyStyleProps>): false | LabelStyleProps {
     if (attributes.label === false || isEmpty(attributes.labelText)) return false;
 
     const { position, maxWidth, ...labelStyle } = subStyleProps<Required<NodeLabelStyleProps>>(
@@ -114,7 +120,7 @@ export abstract class BaseNode<
     );
   }
 
-  protected getHaloStyle(attributes: ParsedBaseNodeStyleProps<KeyStyleProps, StyleLifting>): false | KeyStyleProps {
+  protected getHaloStyle(attributes: ParsedBaseNodeStyleProps<KeyStyleProps>): false | KeyStyleProps {
     if (attributes.halo === false) return false;
 
     const { fill, ...keyStyle } = this.getKeyStyle(attributes);
@@ -123,7 +129,7 @@ export abstract class BaseNode<
     return { ...keyStyle, stroke: fill, ...haloStyle };
   }
 
-  protected getIconStyle(attributes: ParsedBaseNodeStyleProps<KeyStyleProps, StyleLifting>): false | IconStyleProps {
+  protected getIconStyle(attributes: ParsedBaseNodeStyleProps<KeyStyleProps>): false | IconStyleProps {
     if (attributes.icon === false || isEmpty(attributes.iconText || attributes.iconSrc)) return false;
 
     const iconStyle = subStyleProps(this.getGraphicStyle(attributes), 'icon');
@@ -134,7 +140,7 @@ export abstract class BaseNode<
   }
 
   protected getBadgesStyle(
-    attributes: ParsedBaseNodeStyleProps<KeyStyleProps, StyleLifting>,
+    attributes: ParsedBaseNodeStyleProps<KeyStyleProps>,
   ): Record<string, NodeBadgeStyleProps | false> {
     const badges = subObject(this.shapeMap, 'badge-');
     const badgesShapeStyle: Record<string, NodeBadgeStyleProps | false> = {};
@@ -166,9 +172,7 @@ export abstract class BaseNode<
     return { ...textStyle, ...restStyle };
   }
 
-  protected getPortsStyle(
-    attributes: ParsedBaseNodeStyleProps<KeyStyleProps, StyleLifting>,
-  ): Record<string, PortStyleProps | false> {
+  protected getPortsStyle(attributes: ParsedBaseNodeStyleProps<KeyStyleProps>): Record<string, PortStyleProps | false> {
     const ports = this.getPorts();
     const portsShapeStyle: Record<string, PortStyleProps | false> = {};
 
@@ -188,10 +192,7 @@ export abstract class BaseNode<
     return portsShapeStyle;
   }
 
-  protected getPortXY(
-    attributes: ParsedBaseNodeStyleProps<KeyStyleProps, StyleLifting>,
-    style: NodePortStyleProps,
-  ): Point {
+  protected getPortXY(attributes: ParsedBaseNodeStyleProps<KeyStyleProps>, style: NodePortStyleProps): Point {
     const { position = 'left' } = style;
     const bounds = this.getKey().getLocalBounds();
     return getPortPosition(bounds, position as PortPosition);
@@ -231,7 +232,7 @@ export abstract class BaseNode<
     return getRectIntersectPoint(point, keyShapeBounds);
   }
 
-  protected drawHaloShape(attributes: ParsedBaseNodeStyleProps<KeyStyleProps, StyleLifting>, container: Group): void {
+  protected drawHaloShape(attributes: ParsedBaseNodeStyleProps<KeyStyleProps>, container: Group): void {
     const keyShape = this.getKey();
     this.upsert(
       'halo',
@@ -241,14 +242,14 @@ export abstract class BaseNode<
     );
   }
 
-  protected drawBadgeShapes(attributes: ParsedBaseNodeStyleProps<KeyStyleProps, StyleLifting>, container: Group): void {
+  protected drawBadgeShapes(attributes: ParsedBaseNodeStyleProps<KeyStyleProps>, container: Group): void {
     const badgesStyle = this.getBadgesStyle(attributes);
     Object.keys(badgesStyle).forEach((key) => {
       this.upsert(`badge-${key}`, Badge, badgesStyle[key], container);
     });
   }
 
-  protected drawPortShapes(attributes: ParsedBaseNodeStyleProps<KeyStyleProps, StyleLifting>, container: Group): void {
+  protected drawPortShapes(attributes: ParsedBaseNodeStyleProps<KeyStyleProps>, container: Group): void {
     const portsStyle = this.getPortsStyle(attributes);
     Object.keys(portsStyle).forEach((key) => {
       this.upsert(`port-${key}`, GCircle, portsStyle[key], container);
@@ -256,7 +257,7 @@ export abstract class BaseNode<
   }
 
   protected abstract drawKeyShape(
-    attributes: ParsedBaseNodeStyleProps<KeyStyleProps, StyleLifting>,
+    attributes: ParsedBaseNodeStyleProps<KeyStyleProps>,
     container: Group,
   ): KeyShape | undefined;
 
@@ -314,15 +315,6 @@ type NodeBadgeStyleProps = BadgeStyleProps & {
   position?: BadgePosition;
 };
 
-type NodeBadgesStyleProps = {
-  badges?: NodeBadgeStyleProps[];
-  /**
-   * <zh/> 背景色板
-   * <en/> Background color palette
-   */
-  badgePalette?: string[] | CategoricalPalette;
-} & PrefixObject<BadgeStyleProps, 'badge'>;
-
 export type NodePortStyleProps = Partial<PortStyleProps> & {
   /**
    * The key of the port. Default is the index of the port.
@@ -335,10 +327,6 @@ export type NodePortStyleProps = Partial<PortStyleProps> & {
    */
   position: string | [number, number];
 };
-
-type NodePortsStyleProps = {
-  ports?: NodePortStyleProps[];
-} & PrefixObject<PortStyleProps, 'port'>;
 
 type ShapeSwitch = {
   label?: boolean;

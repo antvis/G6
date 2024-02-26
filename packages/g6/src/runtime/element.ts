@@ -321,7 +321,7 @@ export class ElementController {
   }
 
   public getEdges() {
-    return this.container.edge.children as BaseEdge<any>[];
+    return this.container.edge.children as BaseEdge[];
   }
 
   public getCombos() {
