@@ -1,4 +1,4 @@
-import { parseSize } from '../../../src/utils/size';
+import { parseSize } from '@/src/utils/size';
 
 describe('size', () => {
   it('parseSize', () => {

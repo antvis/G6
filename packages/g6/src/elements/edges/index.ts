@@ -1,3 +1,4 @@
+export { BaseEdge } from './base-edge';
 export { Cubic } from './cubic';
 export { CubicHorizontal } from './cubic-horizontal';
 export { CubicVertical } from './cubic-vertical';

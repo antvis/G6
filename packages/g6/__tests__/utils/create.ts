@@ -11,6 +11,7 @@ import { Plugin as PluginControl } from '@antv/g-plugin-control';
 import { Plugin as DragAndDropPlugin } from '@antv/g-plugin-dragndrop';
 import { Renderer as SVGRenderer } from '@antv/g-svg';
 import { Renderer as WebGLRenderer } from '@antv/g-webgl';
+import type { STDTestCase, STDTestCaseContext } from '../demo/types';
 import { OffscreenCanvasContext } from './offscreen-canvas-context';
 
 /**
@@ -102,4 +103,9 @@ export function createEdgeNode(point: Point): Node {
       y: point[1],
     },
   });
+}
+
+export async function createDemoGraph(demo: STDTestCase, context?: Partial<STDTestCaseContext>): Promise<Graph> {
+  const canvas = createGraphCanvas(document.getElementById('container'));
+  return demo({ ...context, canvas });
 }

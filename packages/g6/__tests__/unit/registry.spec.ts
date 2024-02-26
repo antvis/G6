@@ -47,7 +47,7 @@ describe('registry', () => {
     class Edge {}
     register('node', 'circle-node', CircleNode as any);
     register('node', 'rect-node', RectNode as any);
-    register('edge', 'line-edge', Edge);
+    register('edge', 'line-edge', Edge as any);
     expect(getPlugin('node', 'circle-node')).toEqual(CircleNode);
     expect(getPlugin('node', 'rect-node')).toEqual(RectNode);
     expect(getPlugin('node', 'diamond-node')).toEqual(undefined);

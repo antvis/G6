@@ -1,12 +1,9 @@
-import type { BuiltInBehaviorOptions } from '../behaviors/types';
+import type { BuiltInBehaviorOptions } from '../behaviors';
 
-export type BehaviorOptions = Abbr<BuiltInBehaviorOptions | CustomBehaviorOptions>[];
+export type BehaviorOptions = Abbr<BuiltInBehaviorOptions | CustomBehaviorOption>[];
 
-type CustomBehaviorOptions = STDBehaviorOptions;
+export type STDBehaviorOption = { type: string; key: string; [key: string]: unknown };
 
-export interface STDBehaviorOptions {
-  type: string;
-  [key: string]: unknown;
-}
+export type CustomBehaviorOption = { type: string; key?: string; [key: string]: unknown };
 
-type Abbr<R extends STDBehaviorOptions> = (R & { key?: string }) | R['type'];
+type Abbr<R extends CustomBehaviorOption> = (R & { key?: string }) | R['type'];

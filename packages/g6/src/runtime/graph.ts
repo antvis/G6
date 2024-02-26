@@ -37,6 +37,7 @@ import { sizeOf } from '../utils/dom';
 import { RenderEvent, emit } from '../utils/event';
 import { parsePoint, toPointObject } from '../utils/point';
 import { add } from '../utils/vector';
+import { BehaviorController } from './behavior';
 import { Canvas } from './canvas';
 import { DataController } from './data';
 import { ElementController } from './element';
@@ -155,6 +156,7 @@ export class Graph extends EventEmitter {
 
   public setBehaviors(behaviors: CallableValue<BehaviorOptions>): void {
     this.options.behaviors = isFunction(behaviors) ? behaviors(this.getBehaviors()) : behaviors;
+    this.context.behavior?.setBehaviors(this.options.behaviors);
   }
 
   public getBehaviors(): BehaviorOptions {
@@ -310,6 +312,7 @@ export class Graph extends EventEmitter {
     if (!this.context.viewport) this.context.viewport = new ViewportController(this.context);
     if (!this.context.element) this.context.element = new ElementController(this.context);
     if (!this.context.layout) this.context.layout = new LayoutController(this.context);
+    if (!this.context.behavior) this.context.behavior = new BehaviorController(this.context);
   }
 
   private async prepare(): Promise<void> {
@@ -363,11 +366,12 @@ export class Graph extends EventEmitter {
   }
 
   public destroy(): void {
-    const { layout, element, model, canvas } = this.context;
+    const { layout, element, model, canvas, behavior } = this.context;
     layout?.destroy();
     element?.destroy();
     model.destroy();
     canvas?.destroy();
+    behavior?.destroy();
     this.options = {};
     // @ts-expect-error force delete
     delete this.context;
@@ -378,6 +382,10 @@ export class Graph extends EventEmitter {
   }
 
   // ---------- Runtime API ----------
+  public getCanvas(): Canvas {
+    return this.context.canvas;
+  }
+
   public resize(): void;
   public resize(width: number, height: number): void;
   public resize(width?: number, height?: number): void {

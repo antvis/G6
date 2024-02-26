@@ -1,4 +1,5 @@
 import type { G6Spec } from '../spec';
+import type { BehaviorController } from './behavior';
 import type { Canvas } from './canvas';
 import type { DataController } from './data';
 import type { ElementController } from './element';
@@ -48,9 +49,15 @@ export interface RuntimeContext {
    */
   viewport?: ViewportController;
   /**
-   * <zh/> 布局
+   * <zh/> 布局控制器
    *
-   * <en/> Layout
+   * <en/> Layout controller
    */
   layout?: LayoutController;
+  /**
+   * <zh/> 行为控制器
+   *
+   * <en/> Behavior controller
+   */
+  behavior?: BehaviorController;
 }

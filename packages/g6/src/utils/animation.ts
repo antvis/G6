@@ -1,7 +1,7 @@
 import type { DisplayObject, IAnimation } from '@antv/g';
 import { isEqual, isNil } from '@antv/util';
 import type { AnimatableTask, Keyframe } from '../types';
-import { isNode } from './is';
+import { isNode } from './element';
 import { getDescendantShapes } from './shape';
 
 export function createAnimationsProxy(animations: IAnimation[]): IAnimation | null;

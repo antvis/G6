@@ -1,3 +1,4 @@
+import { Polyline } from '@/src/elements/edges';
 import { Circle } from '@/src/elements/nodes';
 import {
   findPorts,
@@ -10,11 +11,13 @@ import {
   getTrianglePoints,
   getTrianglePorts,
   getXYByPosition,
+  isEdge,
+  isNode,
   isSameNode,
   isVisible,
   updateStyle,
 } from '@/src/utils/element';
-import { AABB, Rect } from '@antv/g';
+import { AABB, Line, Rect } from '@antv/g';
 
 describe('element', () => {
   const bbox = new AABB();
@@ -26,6 +29,19 @@ describe('element', () => {
 
   const node2 = new Circle({
     id: 'node-2',
+  });
+
+  const edge = new Polyline({ style: { sourceNode: node1, targetNode: node2 } });
+
+  it('isNode', () => {
+    expect(isNode(new Rect({ style: { width: 10, height: 10 } }))).toBe(false);
+    const node = new Circle({});
+    expect(isNode(node)).toBe(true);
+  });
+
+  it('isEdge', () => {
+    expect(isEdge(new Line({ style: { x1: 0, y1: 0, x2: 10, y2: 10 } }))).toBe(false);
+    expect(isEdge(edge)).toBe(true);
   });
 
   it('isSameNode', () => {

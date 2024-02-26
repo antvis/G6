@@ -1,47 +1,37 @@
-import type EventEmitter from '@antv/event-emitter';
-import type { BaseStyleProps, IAnimation } from '@antv/g';
+import type { BaseStyleProps, IAnimation, ICamera } from '@antv/g';
 import type { ID } from '@antv/graphlib';
-import type { AnimationTypeEnum, GraphEvent } from '../constants';
-import type { GraphData } from '../spec';
-import type { Positions, States, ZIndex } from '../types';
+import type { AnimationType, GraphEvent } from '../../constants';
+import type { GraphData } from '../../spec';
+import type { Positions, States, Vector2, ZIndex } from '../../types';
 
-/**
- *
- * @param target
- * @param event
- */
-export function emit(target: EventEmitter, event: Event) {
-  target.emit(event.type, event);
-}
-
-export class Event {
+export class BaseEvent {
   constructor(public type: string) {}
 }
 
-export class RenderEvent extends Event {
+export class RenderEvent extends BaseEvent {
   constructor(type: GraphEvent.BEFORE_RENDER | GraphEvent.AFTER_RENDER) {
     super(type);
   }
 }
 
-export class DrawEvent extends Event {
+export class DrawEvent extends BaseEvent {
   constructor(type: GraphEvent.BEFORE_DRAW | GraphEvent.AFTER_DRAW) {
     super(type);
   }
 }
 
-export class AnimateEvent extends Event {
+export class AnimateEvent extends BaseEvent {
   constructor(
     type: GraphEvent.BEFORE_ANIMATE | GraphEvent.AFTER_ANIMATE,
-    public animationType: AnimationTypeEnum,
-    public animation: IAnimation,
+    public animationType: AnimationType,
+    public animation: IAnimation | null,
     public data?: any,
   ) {
     super(type);
   }
 }
 
-export class ElementLifeCycleEvent extends Event {
+export class ElementLifeCycleEvent extends BaseEvent {
   constructor(
     type:
       | GraphEvent.BEFORE_ELEMENT_CREATE
@@ -56,7 +46,22 @@ export class ElementLifeCycleEvent extends Event {
   }
 }
 
-export class ElementStateChangeEvent extends Event {
+export class ViewportEvent extends BaseEvent {
+  constructor(
+    type:
+      | GraphEvent.BEFORE_ZOOM
+      | GraphEvent.AFTER_ZOOM
+      | GraphEvent.BEFORE_ROTATE
+      | GraphEvent.AFTER_ROTATE
+      | GraphEvent.BEFORE_TRANSLATE
+      | GraphEvent.AFTER_TRANSLATE,
+    public data: Parameters<ICamera['createLandmark']>[1] | number | Vector2,
+  ) {
+    super(type);
+  }
+}
+
+export class ElementStateChangeEvent extends BaseEvent {
   constructor(
     type: GraphEvent.BEFORE_ELEMENT_STATE_CHANGE | GraphEvent.AFTER_ELEMENT_STATE_CHANGE,
     public states: States,
@@ -65,7 +70,7 @@ export class ElementStateChangeEvent extends Event {
   }
 }
 
-export class ElementTranslateEvent extends Event {
+export class ElementTranslateEvent extends BaseEvent {
   constructor(
     type: GraphEvent.BEFORE_ELEMENT_TRANSLATE | GraphEvent.AFTER_ELEMENT_TRANSLATE,
     public positions: Positions,
@@ -74,7 +79,7 @@ export class ElementTranslateEvent extends Event {
   }
 }
 
-export class ElementVisibilityChangeEvent extends Event {
+export class ElementVisibilityChangeEvent extends BaseEvent {
   constructor(
     type: GraphEvent.BEFORE_ELEMENT_VISIBILITY_CHANGE | GraphEvent.AFTER_ELEMENT_VISIBILITY_CHANGE,
     public ids: ID[],
@@ -84,7 +89,7 @@ export class ElementVisibilityChangeEvent extends Event {
   }
 }
 
-export class ElementZIndexChangeEvent extends Event {
+export class ElementZIndexChangeEvent extends BaseEvent {
   constructor(
     type: GraphEvent.BEFORE_ELEMENT_Z_INDEX_CHANGE | GraphEvent.AFTER_ELEMENT_Z_INDEX_CHANGE,
     public id: ID,
