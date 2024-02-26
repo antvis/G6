@@ -1,13 +1,9 @@
 import '../src/preset';
-import * as animations from './demo/animation';
-import * as statics from './demo/static';
+import * as demos from './demo';
 import type { TestCase } from './demo/types';
 import { createGraphCanvas } from './utils';
 
-const CASES = {
-  statics,
-  animations,
-} as unknown as { [key: string]: Record<string, TestCase> };
+const CASES = demos as unknown as { [key: string]: Record<string, TestCase> };
 
 const casesSelect = document.getElementById('demo-select') as HTMLSelectElement;
 const rendererSelect = document.getElementById('renderer-select') as HTMLSelectElement;
@@ -71,7 +67,7 @@ function onchange(testCase: TestCase, renderer: string, animation: boolean, them
 
   return canvas.init().then(async () => {
     const result = await testCase({ canvas, animation, theme, env: 'dev' });
-    if (result) setTimer(result.totalDuration);
+    if (result?.totalDuration) setTimer(result.totalDuration);
     else clearTimer();
   });
 }
@@ -86,7 +82,7 @@ function initialize() {
 function syncParamsFromSearch() {
   const searchParams = new URLSearchParams(window.location.search);
   const type = searchParams.get('type') || 'statics';
-  const testCase = searchParams.get('case') || Object.keys(statics)[0];
+  const testCase = searchParams.get('case') || Object.keys(CASES.statics)[0];
   const rendererName = searchParams.get('renderer') || 'canvas';
   const animation = searchParams.get('animation') || 'true';
 
@@ -107,15 +103,21 @@ function mountCustomPanel(form: TestCase['form'] = []) {
   const customPanel = document.getElementById('custom-panel')!;
 
   form.forEach(({ label, type, options = {}, onload }) => {
+    const item = document.createElement('div');
+    item.style.display = 'flex';
+    item.style.alignItems = 'center';
+    customPanel.appendChild(item);
+
     if (label) {
       const labelEl = document.createElement('label');
       labelEl.textContent = label;
-      customPanel.appendChild(labelEl);
+      item.appendChild(labelEl);
     }
 
     const element = document.createElement(type);
+    if (type === 'button') element.style.width = '100%';
     Object.assign(element, options);
-    customPanel.appendChild(element);
+    item.appendChild(element);
 
     onload?.(element);
   });
