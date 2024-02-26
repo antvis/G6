@@ -1,7 +1,8 @@
+import type { Graph } from '@/src';
+import { CanvasEvent, CommonEvent, ContainerEvent } from '@/src';
+import type { ZoomCanvasOptions } from '@/src/behaviors/zoom-canvas';
+import { behaviorZoomCanvas } from '@@/demo/case';
 import { createDemoGraph } from '@@/utils';
-import type { Graph } from '../../../src';
-import type { ZoomCanvasOptions } from '../../../src/behaviors/zoom-canvas';
-import { behaviorZoomCanvas } from '../../demo/case';
 
 describe('behavior zoom canvas', () => {
   let graph: Graph;
@@ -16,7 +17,7 @@ describe('behavior zoom canvas', () => {
   });
 
   it('zoom in', async () => {
-    graph.emit('wheel', { deltaY: -10 });
+    graph.emit(CommonEvent.WHEEL, { deltaY: -10 });
 
     expect(graph.getZoom()).toBe(2);
 
@@ -26,11 +27,11 @@ describe('behavior zoom canvas', () => {
   it('zoom out', () => {
     const currentZoom = graph.getZoom();
 
-    graph.emit('wheel', { deltaY: 5 });
+    graph.emit(CommonEvent.WHEEL, { deltaY: 5 });
 
     expect(graph.getZoom()).toBe(currentZoom - 0.5);
 
-    graph.emit('wheel', { deltaY: 5 });
+    graph.emit(CommonEvent.WHEEL, { deltaY: 5 });
 
     expect(graph.getZoom()).toBe(currentZoom - 1);
   });
@@ -55,31 +56,31 @@ describe('behavior zoom canvas', () => {
     const currentZoom = graph.getZoom();
 
     // zoom in
-    graph.emit('keydown', { key: 'Control' });
-    graph.emit('keydown', { key: '=' });
+    graph.emit(CommonEvent.KEY_DOWN, { key: 'Control' });
+    graph.emit(CommonEvent.KEY_DOWN, { key: '=' });
 
     expect(graph.getZoom()).toBe(currentZoom + 0.1);
 
-    graph.emit('keyup', { key: 'Control' });
-    graph.emit('keyup', { key: '=' });
+    graph.emit(CommonEvent.KEY_UP, { key: 'Control' });
+    graph.emit(CommonEvent.KEY_UP, { key: '=' });
 
     // reset
-    graph.emit('keydown', { key: 'Control' });
-    graph.emit('keydown', { key: '0' });
+    graph.emit(CommonEvent.KEY_DOWN, { key: 'Control' });
+    graph.emit(CommonEvent.KEY_DOWN, { key: '0' });
 
     expect(graph.getZoom()).toBe(currentZoom);
 
-    graph.emit('keyup', { key: 'Control' });
-    graph.emit('keyup', { key: '0' });
+    graph.emit(CommonEvent.KEY_UP, { key: 'Control' });
+    graph.emit(CommonEvent.KEY_UP, { key: '0' });
 
     // zoom out
-    graph.emit('keydown', { key: 'Control' });
-    graph.emit('keydown', { key: '-' });
+    graph.emit(CommonEvent.KEY_DOWN, { key: 'Control' });
+    graph.emit(CommonEvent.KEY_DOWN, { key: '-' });
 
     expect(graph.getZoom()).toBe(currentZoom - 0.1);
 
-    graph.emit('keyup', { key: 'Control' });
-    graph.emit('keyup', { key: '-' });
+    graph.emit(CommonEvent.KEY_UP, { key: 'Control' });
+    graph.emit(CommonEvent.KEY_UP, { key: '-' });
   });
 
   it('disable', () => {
@@ -94,10 +95,10 @@ describe('behavior zoom canvas', () => {
 
     const currentZoom = graph.getZoom();
 
-    graph.emit('keydown', { key: 'Control' });
-    graph.emit('keydown', { key: '=' });
-    graph.emit('keyup', { key: 'Control' });
-    graph.emit('keyup', { key: '=' });
+    graph.emit(CommonEvent.KEY_DOWN, { key: 'Control' });
+    graph.emit(CommonEvent.KEY_DOWN, { key: '=' });
+    graph.emit(CommonEvent.KEY_UP, { key: 'Control' });
+    graph.emit(CommonEvent.KEY_UP, { key: '=' });
     expect(graph.getZoom()).toBe(currentZoom);
   });
 
@@ -121,17 +122,17 @@ describe('behavior zoom canvas', () => {
 
     const currentZoom = graph.getZoom();
 
-    graph.emit('keydown', { key: 'Control' });
-    graph.emit('keydown', { key: '=', targetType: 'node' });
-    graph.emit('keyup', { key: 'Control' });
-    graph.emit('keyup', { key: '=' });
+    graph.emit(CommonEvent.KEY_DOWN, { key: 'Control' });
+    graph.emit(CommonEvent.KEY_DOWN, { key: '=', targetType: 'node' });
+    graph.emit(CommonEvent.KEY_UP, { key: 'Control' });
+    graph.emit(CommonEvent.KEY_UP, { key: '=' });
 
     expect(graph.getZoom()).toBe(currentZoom);
 
-    graph.emit('keydown', { key: 'Control' });
-    graph.emit('keydown', { key: '=', targetType: 'canvas' });
-    graph.emit('keyup', { key: 'Control' });
-    graph.emit('keyup', { key: '=' });
+    graph.emit(CommonEvent.KEY_DOWN, { key: 'Control' });
+    graph.emit(CommonEvent.KEY_DOWN, { key: '=', targetType: 'canvas' });
+    graph.emit(CommonEvent.KEY_UP, { key: 'Control' });
+    graph.emit(CommonEvent.KEY_UP, { key: '=' });
 
     expect(graph.getZoom()).toBe(currentZoom + 0.1);
   });
@@ -141,11 +142,57 @@ describe('behavior zoom canvas', () => {
 
     const currentZoom = graph.getZoom();
 
-    graph.emit('wheel', { deltaY: -10 });
+    graph.emit(CommonEvent.WHEEL, { deltaY: -10 });
     expect(graph.getZoom()).toBe(currentZoom);
 
-    graph.emit('keydown', { key: 'Control' });
-    graph.emit('wheel', { deltaY: -10 });
+    graph.emit(CommonEvent.KEY_DOWN, { key: 'Control' });
+    graph.emit(CommonEvent.WHEEL, { deltaY: -10 });
     expect(graph.getZoom()).toBe(currentZoom + 1);
+  });
+
+  it('canvas event', () => {
+    const canvas = graph.getCanvas();
+
+    const pointermoveListener = jest.fn();
+    const clickListener = jest.fn();
+    const wheelListener = jest.fn();
+    const dblclickListener = jest.fn();
+    const contextmenuListener = jest.fn().mockImplementation((e) => e.preventDefault());
+
+    // pointerenter / pointerleave
+    graph.once('canvas:pointermove', pointermoveListener);
+    canvas.document.emit(CanvasEvent.POINTER_MOVE, {});
+    expect(pointermoveListener).toHaveBeenCalledTimes(1);
+
+    // common event
+    graph.once('canvas:click', clickListener);
+    graph.once('canvas:wheel', wheelListener);
+    canvas.document.emit(CanvasEvent.CLICK, {});
+    canvas.document.emit(CanvasEvent.WHEEL, {});
+    expect(clickListener).toHaveBeenCalledTimes(1);
+    expect(wheelListener).toHaveBeenCalledTimes(1);
+
+    // double click
+    graph.once('canvas:dblclick', dblclickListener);
+    canvas.document.emit(CanvasEvent.CLICK, { detail: 2 });
+    expect(dblclickListener).toHaveBeenCalledTimes(1);
+
+    // contextmenu
+    graph.once('canvas:contextmenu', contextmenuListener);
+    canvas.document.emit(CanvasEvent.POINTER_DOWN, { button: 2 });
+    expect(contextmenuListener).toHaveBeenCalledTimes(1);
+  });
+
+  it('container event', () => {
+    const container = graph.getCanvas().getContainer();
+
+    const keydownListener = jest.fn();
+    graph.once(ContainerEvent.KEY_DOWN, keydownListener);
+    container?.dispatchEvent(new Event(ContainerEvent.KEY_DOWN));
+    expect(keydownListener).toHaveBeenCalledTimes(1);
+  });
+
+  it('destroy', () => {
+    graph.destroy();
   });
 });

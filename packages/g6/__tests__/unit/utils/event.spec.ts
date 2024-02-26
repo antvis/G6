@@ -1,7 +1,7 @@
+import { Polyline } from '@/src/elements/edges';
+import { Circle } from '@/src/elements/nodes';
+import { eventTargetOf } from '@/src/utils/event';
 import { Document, Rect } from '@antv/g';
-import { Polyline } from '../../../src/elements/edges';
-import { Circle } from '../../../src/elements/nodes';
-import { eventTargetOf } from '../../../src/utils/event';
 
 describe('event', () => {
   const node1 = new Circle({

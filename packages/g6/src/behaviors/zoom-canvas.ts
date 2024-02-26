@@ -55,13 +55,6 @@ type CombinationKey = {
 };
 
 export class ZoomCanvas extends BaseBehavior<ZoomCanvasOptions> {
-  static defaultOptions: Partial<ZoomCanvasOptions> = {
-    animation: { duration: 200 },
-    enable: true,
-    sensitivity: 1,
-    trigger: CommonEvent.WHEEL,
-  };
-
   private preconditionKey?: string[];
 
   private recordKey = new Set<string>();
@@ -76,8 +69,12 @@ export class ZoomCanvas extends BaseBehavior<ZoomCanvasOptions> {
     return this.context.options.animation ? this.options.animation : false;
   }
 
+  public get defaultOptions(): Partial<ZoomCanvasOptions> {
+    return { animation: { duration: 200 }, enable: true, sensitivity: 1, trigger: CommonEvent.WHEEL };
+  }
+
   constructor(context: RuntimeContext, options: ZoomCanvasOptions) {
-    super(context, Object.assign({}, ZoomCanvas.defaultOptions, options));
+    super(context, options);
 
     if (isArray(this.options.trigger)) {
       this.preconditionKey = this.options.trigger;

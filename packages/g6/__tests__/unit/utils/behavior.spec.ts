@@ -1,5 +1,5 @@
-import { BehaviorOptions } from '../../../src/spec';
-import { parseBehaviors } from '../../../src/utils/behaviors';
+import { BehaviorOptions } from '@/src';
+import { parseBehaviors } from '@/src/utils/behaviors';
 
 describe('behavior', () => {
   it('parseBehaviors', () => {

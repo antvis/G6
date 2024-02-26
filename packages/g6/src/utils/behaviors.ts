@@ -1,5 +1,5 @@
 import type { BehaviorOptions } from '../spec';
-import { STDBehaviorOption } from '../spec/behavior';
+import type { STDBehaviorOption } from '../spec/behavior';
 
 /**
  * <zh/> 将行为配置项转换为标准格式

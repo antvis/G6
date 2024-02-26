@@ -1,12 +1,11 @@
 import type { Layout } from '@antv/layout';
 import type { STDAnimation } from '../animations/types';
-import type { BaseBehavior } from '../behaviors/base-behavior';
+import type { Behavior } from '../behaviors/types';
 import type { STDPalette } from '../palettes/types';
 import type { Theme } from '../themes/types';
-import type { Node } from '../types';
+import type { Edge, Node } from '../types';
 
 // TODO 待使用正式类型定义 / To be used formal type definition
-declare type Edge = unknown;
 declare type Combo = unknown;
 declare type Widget = unknown;
 
@@ -22,7 +21,7 @@ export interface PluginRegistry {
   theme: Record<string, Theme>; // theme is a object options
   palette: Record<string, STDPalette>;
   layout: Record<string, { new (...args: any[]): Layout<any> }>;
-  behavior: Record<string, { new (...args: any[]): BaseBehavior<any> }>;
+  behavior: Record<string, { new (...args: any[]): Behavior }>;
   widget: Record<string, { new (...args: any[]): Widget }>;
   animation: Record<string, STDAnimation>; // animation spec
 }

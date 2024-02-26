@@ -1,9 +1,9 @@
 import type { DisplayObject, FederatedPointerEvent, FederatedWheelEvent } from '@antv/g';
 import type { BaseBehavior } from '../behaviors/base-behavior';
-import { CanvasEvent, CommonEvent, ContainerEvent } from '../constants';
+import { CanvasEvent, ContainerEvent } from '../constants';
 import { getPlugin } from '../registry';
 import type { BehaviorOptions } from '../spec';
-import { STDBehaviorOption } from '../spec/behavior';
+import type { STDBehaviorOption } from '../spec/behavior';
 import type { Target } from '../types';
 import { parseBehaviors } from '../utils/behaviors';
 import { arrayDiff } from '../utils/diff';
@@ -96,42 +96,42 @@ export class BehaviorController {
     const { type, detail, button } = event;
     const stdEvent = { ...event, target: targetElement, targetType };
 
-    if (type === CommonEvent.POINTER_MOVE) {
+    if (type === CanvasEvent.POINTER_MOVE) {
       if (this.currentTarget !== targetElement) {
         if (this.currentTarget) {
-          graph.emit(`${targetType}:${CommonEvent.POINTER_LEAVE}`, { ...stdEvent, target: this.currentTarget });
+          graph.emit(`${targetType}:${CanvasEvent.POINTER_LEAVE}`, { ...stdEvent, target: this.currentTarget });
         }
         if (targetElement) {
-          graph.emit(`${targetType}:${CommonEvent.POINTER_ENTER}`, stdEvent);
+          graph.emit(`${targetType}:${CanvasEvent.POINTER_ENTER}`, stdEvent);
         }
       }
       this.currentTarget = targetElement;
     }
 
     // 非右键点击事件 / Click event except right click
-    if (!(type === CommonEvent.CLICK && button === 2)) {
+    if (!(type === CanvasEvent.CLICK && button === 2)) {
       graph.emit(`${targetType}:${type}`, stdEvent);
       graph.emit(type, stdEvent);
     }
 
     // 双击事件 / Double click event
-    if (type === CommonEvent.CLICK && detail === 2) {
-      graph.emit(`${targetType}:${CommonEvent.DBLCLICK}`, stdEvent);
-      graph.emit(CommonEvent.DBLCLICK, stdEvent);
+    if (type === CanvasEvent.CLICK && detail === 2) {
+      graph.emit(`${targetType}:${CanvasEvent.DBLCLICK}`, stdEvent);
+      graph.emit(CanvasEvent.DBLCLICK, stdEvent);
     }
 
     // 右键菜单 / ContextMenu
-    if (type === CommonEvent.POINTER_DOWN && button === 2) {
+    if (type === CanvasEvent.POINTER_DOWN && button === 2) {
       const contextMenuEvent = {
         ...stdEvent,
         preventDefault: () => {
-          canvas.getContainer()?.addEventListener(CommonEvent.CONTEXT_MENU, (e) => e.preventDefault(), {
+          canvas.getContainer()?.addEventListener(CanvasEvent.CONTEXT_MENU, (e) => e.preventDefault(), {
             once: true,
           });
         },
       };
-      graph.emit(`${targetType}:${CommonEvent.CONTEXT_MENU}`, contextMenuEvent);
-      graph.emit(CommonEvent.CONTEXT_MENU, contextMenuEvent);
+      graph.emit(`${targetType}:${CanvasEvent.CONTEXT_MENU}`, contextMenuEvent);
+      graph.emit(CanvasEvent.CONTEXT_MENU, contextMenuEvent);
     }
   }
 

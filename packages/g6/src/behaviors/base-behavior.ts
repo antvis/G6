@@ -1,13 +1,11 @@
-import EventEmitter from '@antv/event-emitter';
+import type EventEmitter from '@antv/event-emitter';
 import type { RuntimeContext } from '../runtime/types';
-import type { STDBehaviorOption } from '../spec/behavior';
-import type { Behavior, Listener } from '../types';
+import type { CustomBehaviorOption } from '../spec/behavior';
+import type { Listener } from '../types';
 
-export type BaseBehaviorOptions = STDBehaviorOption;
+export type BaseBehaviorOptions = CustomBehaviorOption;
 
-export abstract class BaseBehavior<T extends STDBehaviorOption> implements Behavior {
-  static defaultOptions: Partial<STDBehaviorOption> = {};
-
+export abstract class BaseBehavior<T extends BaseBehaviorOptions> {
   protected context: RuntimeContext;
 
   protected options: Required<T>;
@@ -16,12 +14,16 @@ export abstract class BaseBehavior<T extends STDBehaviorOption> implements Behav
 
   public destroyed = false;
 
-  constructor(context: RuntimeContext, options: T) {
-    this.context = context;
-    this.options = Object.assign({}, BaseBehavior.defaultOptions, options) as Required<T>;
+  public get defaultOptions(): Partial<T> {
+    return {};
   }
 
-  public update(options: Partial<STDBehaviorOption>) {
+  constructor(context: RuntimeContext, options: T) {
+    this.context = context;
+    this.options = Object.assign({}, this.defaultOptions, options) as Required<T>;
+  }
+
+  public update(options: Partial<T>) {
     this.options = Object.assign(this.options, options);
   }
 

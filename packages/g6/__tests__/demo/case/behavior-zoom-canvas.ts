@@ -1,5 +1,5 @@
-import { Graph } from '../../../src';
-import data from '../../dataset/cluster.json';
+import { Graph } from '@/src';
+import data from '@@/dataset/cluster.json';
 import type { STDTestCase } from '../types';
 
 export const behaviorZoomCanvas: STDTestCase = async (context) => {
