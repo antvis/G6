@@ -1,5 +1,5 @@
-import type { G6Spec } from '../../../src';
-import { createGraph } from '../../mock';
+import type { G6Spec } from '@/src';
+import { createGraph } from '@@/utils';
 import type { StaticTestCase } from '../types';
 
 export const controllerElementZIndex: StaticTestCase = async (context) => {
@@ -17,8 +17,7 @@ export const controllerElementZIndex: StaticTestCase = async (context) => {
     theme: 'light',
     node: {
       style: {
-        width: 50,
-        height: 50,
+        size: 50,
       },
       animation: animation && {},
     },

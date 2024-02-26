@@ -1,4 +1,3 @@
-import { pick } from '@antv/util';
 import {
   Circle,
   Cubic,
@@ -12,14 +11,13 @@ import {
   Rect,
   Star,
   Triangle,
-} from '../../src/elements';
-import { getPlugin, getPlugins, register, registerBuiltInPlugins } from '../../src/registry';
-import { dark, light } from '../../src/themes';
+} from '@/src/elements';
+import { getPlugin, getPlugins, register } from '@/src/registry';
+import { dark, light } from '@/src/themes';
+import { pick } from '@antv/util';
 
 describe('registry', () => {
   it('registerBuiltInPlugins', () => {
-    registerBuiltInPlugins();
-
     expect(getPlugins('node')).toEqual({
       circle: Circle,
       ellipse: Ellipse,
@@ -55,13 +53,12 @@ describe('registry', () => {
     expect(getPlugin('node', 'diamond-node')).toEqual(undefined);
     expect(getPlugin('edge', 'line-edge')).toEqual(Edge);
 
-    const error = console.error;
-    console.error = jest.fn();
+    const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation();
 
     register('node', 'circle-node', CircleNode as any);
-    // @ts-expect-error mock exists on jest.fn()
-    expect(console.error.mock.calls[0][0]).toBe('The plugin circle-node of node has been registered before.');
-    console.error = error;
+    expect(consoleErrorSpy.mock.calls[0][0]).toBe('The plugin circle-node of node has been registered before.');
+
+    consoleErrorSpy.mockRestore();
 
     expect(pick(getPlugins('node'), ['circle-node', 'rect-node'])).toEqual({
       'circle-node': CircleNode,

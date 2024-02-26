@@ -339,13 +339,7 @@
         </g>
       </g>
       <g id="g-svg-5" fill="none" transform="matrix(1,0,0,1,0,0)">
-        <g
-          id="node1"
-          fill="none"
-          width="40"
-          height="40"
-          transform="matrix(1,0,0,1,250,250)"
-        >
+        <g id="node1" fill="none" transform="matrix(1,0,0,1,250,250)">
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
@@ -361,8 +355,6 @@
         <g
           id="node2"
           fill="none"
-          width="40"
-          height="40"
           transform="matrix(1,0,0,1,34.171398,292.638184)"
         >
           <g transform="matrix(1,0,0,1,0,0)">
@@ -380,8 +372,6 @@
         <g
           id="node3"
           fill="none"
-          width="40"
-          height="40"
           transform="matrix(1,0,0,1,399.552399,88.649193)"
         >
           <g transform="matrix(1,0,0,1,0,0)">
@@ -399,8 +389,6 @@
         <g
           id="node4"
           fill="none"
-          width="40"
-          height="40"
           transform="matrix(1,0,0,1,223.855865,468.441040)"
         >
           <g transform="matrix(1,0,0,1,0,0)">
@@ -418,8 +406,6 @@
         <g
           id="node5"
           fill="none"
-          width="40"
-          height="40"
           transform="matrix(1,0,0,1,142.760513,57.907074)"
         >
           <g transform="matrix(1,0,0,1,0,0)">
@@ -437,8 +423,6 @@
         <g
           id="node6"
           fill="none"
-          width="40"
-          height="40"
           transform="matrix(1,0,0,1,449.671051,342.365936)"
         >
           <g transform="matrix(1,0,0,1,0,0)">

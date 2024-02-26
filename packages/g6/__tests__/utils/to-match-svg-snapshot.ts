@@ -3,6 +3,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { format } from 'prettier';
 import xmlserializer from 'xmlserializer';
+import { getSnapshotDir } from './dir';
 import { sleep } from './sleep';
 
 export type ToMatchSVGSnapshotOptions = {
@@ -39,7 +40,7 @@ export async function toMatchSVGSnapshot(
 
   gCanvases.slice(1).forEach((gCanvas) => {
     const dom = (gCanvas.getContextService().getDomElement() as unknown as SVGElement).cloneNode(true) as SVGElement;
-
+    // @ts-expect-error dom is SVGElement
     gRoot?.append(...(dom.querySelector('#g-root')?.childNodes || []));
   });
 
@@ -93,4 +94,13 @@ export async function toMatchSVGSnapshot(
       pass: false,
     };
   }
+}
+
+export async function toMatchSnapshot(
+  gCanvas: Canvas | Canvas[],
+  dir: string,
+  format: string = '{name}',
+  options: ToMatchSVGSnapshotOptions = {},
+) {
+  return await toMatchSVGSnapshot(gCanvas, ...getSnapshotDir(dir, format), options);
 }

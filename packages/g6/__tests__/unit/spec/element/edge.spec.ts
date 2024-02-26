@@ -1,10 +1,10 @@
-import type { EdgeOptions } from '../../../../src';
+import type { EdgeOptions } from '@/src';
 
 describe('spec element edge', () => {
   it('edge 1', () => {
     const edge: EdgeOptions = {
       style: {
-        edgeStyle: (model) => model.style?.edgeStyle || 'white',
+        edgeStyle: (model: any) => model.style?.edgeStyle || 'white',
       },
       state: {
         state1: {
@@ -12,14 +12,8 @@ describe('spec element edge', () => {
         },
       },
       animation: {
-        enter: {
-          type: 'fade-in',
-          delay: 100,
-        },
-        show: {
-          type: 'wave-in',
-          duration: 100,
-        },
+        enter: 'fade',
+        show: 'fade',
       },
       palette: {
         type: 'group',

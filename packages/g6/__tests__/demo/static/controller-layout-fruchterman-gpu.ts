@@ -1,7 +1,7 @@
+import type { G6Spec } from '@/src';
+import { Graph, register } from '@/src';
+import data from '@@/dataset/soccer.json';
 import { FruchtermanLayout } from '@antv/layout-gpu';
-import type { G6Spec } from '../../../src';
-import { Graph, register } from '../../../src';
-import data from '../../dataset/soccer.json';
 import type { StaticTestCase } from '../types';
 
 register('layout', 'fruchterman-gpu', FruchtermanLayout);
@@ -21,7 +21,7 @@ export const controllerLayoutFruchtermanGPU: StaticTestCase = async ({ canvas, a
       speed: 5,
       animation,
     },
-    node: { style: { width: 20, height: 20 } },
+    node: { style: { size: 20 } },
   };
 
   const graph = new Graph(options);

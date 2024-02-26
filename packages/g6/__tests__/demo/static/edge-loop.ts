@@ -1,6 +1,6 @@
-import { Cubic } from '../../../src/elements/edges';
-import { Circle, Star } from '../../../src/elements/nodes';
-import type { LoopEdgePosition } from '../../../src/types';
+import { Cubic } from '@/src/elements/edges';
+import { Circle, Star } from '@/src/elements/nodes';
+import type { LoopEdgePosition } from '@/src/types';
 import type { StaticTestCase } from '../types';
 
 export const edgeLoop: StaticTestCase = async (context) => {
@@ -12,8 +12,7 @@ export const edgeLoop: StaticTestCase = async (context) => {
       style: {
         x: 100,
         y: 100,
-        width: 50,
-        height: 50,
+        size: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
         ports: [
@@ -47,8 +46,7 @@ export const edgeLoop: StaticTestCase = async (context) => {
       style: {
         x: 200,
         y: 100,
-        width: 50,
-        height: 50,
+        size: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
         ports: [
@@ -80,8 +78,7 @@ export const edgeLoop: StaticTestCase = async (context) => {
       style: {
         x: 300,
         y: 100,
-        width: 50,
-        height: 50,
+        size: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
         ports: [{ key: 'right-bottom', position: 'right-bottom', r: 4, fill: '#31d0c6' }],
@@ -108,8 +105,7 @@ export const edgeLoop: StaticTestCase = async (context) => {
       style: {
         x: 100,
         y: 250,
-        width: 50,
-        height: 50,
+        size: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
         labelText: `🔃`,
@@ -140,8 +136,7 @@ export const edgeLoop: StaticTestCase = async (context) => {
       style: {
         x: 250,
         y: 250,
-        width: 50,
-        height: 50,
+        size: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
         labelText: `🔃`,
@@ -171,8 +166,7 @@ export const edgeLoop: StaticTestCase = async (context) => {
       style: {
         x: 100,
         y: 400,
-        width: 50,
-        height: 50,
+        size: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
         labelText: `🔄`,
@@ -203,8 +197,7 @@ export const edgeLoop: StaticTestCase = async (context) => {
       style: {
         x: 250,
         y: 400,
-        width: 50,
-        height: 50,
+        size: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
         labelText: `🔄`,

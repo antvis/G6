@@ -1,4 +1,4 @@
-import type { GraphData } from '../../../src';
+import type { GraphData } from '@/src';
 
 describe('spec data', () => {
   it('empty data', () => {

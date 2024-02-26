@@ -9,13 +9,7 @@
   <defs />
   <g id="g-svg-camera" transform="matrix(1,0,0,1,0,0)">
     <g id="g-root" fill="none" transform="matrix(1,0,0,1,0,0)">
-      <g
-        id="node-1"
-        fill="none"
-        width="50"
-        height="50"
-        transform="matrix(1,0,0,1,100,100)"
-      >
+      <g id="node-1" fill="none" transform="matrix(1,0,0,1,100,100)">
         <g transform="matrix(1,0,0,1,0,0)">
           <circle
             id="key"
@@ -100,13 +94,7 @@
           </g>
         </g>
       </g>
-      <g
-        id="node-1"
-        fill="none"
-        width="50"
-        height="50"
-        transform="matrix(1,0,0,1,200,100)"
-      >
+      <g id="node-1" fill="none" transform="matrix(1,0,0,1,200,100)">
         <g transform="matrix(1,0,0,1,0,0)">
           <circle
             id="key"
@@ -192,13 +180,7 @@
           </g>
         </g>
       </g>
-      <g
-        id="node-2-1"
-        fill="none"
-        width="50"
-        height="50"
-        transform="matrix(1,0,0,1,300,100)"
-      >
+      <g id="node-2-1" fill="none" transform="matrix(1,0,0,1,300,100)">
         <g transform="matrix(1,0,0,1,-23.776413,-25)">
           <polygon
             id="key"
@@ -248,13 +230,7 @@
           </g>
         </g>
       </g>
-      <g
-        id="node-3"
-        fill="none"
-        width="50"
-        height="50"
-        transform="matrix(1,0,0,1,100,250)"
-      >
+      <g id="node-3" fill="none" transform="matrix(1,0,0,1,100,250)">
         <g transform="matrix(1,0,0,1,0,0)">
           <circle
             id="key"
@@ -534,13 +510,7 @@
           </g>
         </g>
       </g>
-      <g
-        id="node-2"
-        fill="none"
-        width="50"
-        height="50"
-        transform="matrix(1,0,0,1,250,250)"
-      >
+      <g id="node-2" fill="none" transform="matrix(1,0,0,1,250,250)">
         <g transform="matrix(1,0,0,1,0,0)">
           <circle
             id="key"
@@ -820,13 +790,7 @@
           </g>
         </g>
       </g>
-      <g
-        id="node-5"
-        fill="none"
-        width="50"
-        height="50"
-        transform="matrix(1,0,0,1,100,400)"
-      >
+      <g id="node-5" fill="none" transform="matrix(1,0,0,1,100,400)">
         <g transform="matrix(1,0,0,1,-23.776413,-25)">
           <polygon
             id="key"
@@ -1103,13 +1067,7 @@
           </g>
         </g>
       </g>
-      <g
-        id="node-6"
-        fill="none"
-        width="50"
-        height="50"
-        transform="matrix(1,0,0,1,250,400)"
-      >
+      <g id="node-6" fill="none" transform="matrix(1,0,0,1,250,400)">
         <g transform="matrix(1,0,0,1,-23.776413,-25)">
           <polygon
             id="key"

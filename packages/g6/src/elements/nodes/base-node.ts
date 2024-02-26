@@ -1,4 +1,4 @@
-import type { DisplayObject, DisplayObjectConfig, Group } from '@antv/g';
+import type { BaseStyleProps, DisplayObject, DisplayObjectConfig, Group } from '@antv/g';
 import { Circle as GCircle } from '@antv/g';
 import { deepMix, isEmpty } from '@antv/util';
 import type {
@@ -15,89 +15,45 @@ import type {
 import { getPortPosition, getTextStyleByPosition, getXYByPosition } from '../../utils/element';
 import { getRectIntersectPoint } from '../../utils/point';
 import { omitStyleProps, subObject, subStyleProps } from '../../utils/prefix';
+import { parseSize } from '../../utils/size';
 import { getWordWrapWidthByBox } from '../../utils/text';
-import type { BadgeStyleProps, BaseShapeStyleProps, IconStyleProps, LabelStyleProps } from '../shapes';
+import type { BadgeStyleProps, IconStyleProps, LabelStyleProps } from '../shapes';
 import { Badge, BaseShape, Icon, Label } from '../shapes';
 
-type NodeLabelStyleProps = LabelStyleProps & {
-  /**
-   * Position relative to the node (keyShape).
-   */
-  position?: LabelPosition;
-  /**
-   * The max width of the label, relative to the node width. The value can be a number or a percentage string:
-   * If the value is a number, it will be treated as the pixel value.
-   * If the value is a percentage string, it will be treated as the percentage of the node width.
-   */
-  maxWidth?: string | number;
-};
-
-type NodeBadgeStyleProps = BadgeStyleProps & {
-  /**
-   * Position relative to the node (keyShape).
-   */
-  position?: BadgePosition;
-};
-type NodeBadgesStyleProps = {
-  badges?: NodeBadgeStyleProps[];
-} & PrefixObject<BadgeStyleProps, 'badge'>;
-
-export type NodePortStyleProps = Partial<PortStyleProps> & {
-  /**
-   * The key of the port. Default is the index of the port.
-   */
-  key?: string;
-  /**
-   * The position of the port relative to the node (keyShape). The value can be a string or a tuple of two numbers.
-   * If the value is a string, it will be treated as the position direction.
-   * If the value is a tuple of two numbers, it will be treated as the position coordinates(0 ~ 1).
-   */
-  position: string | [number, number];
-};
-type NodePortsStyleProps = {
-  ports?: NodePortStyleProps[];
-} & PrefixObject<PortStyleProps, 'port'>;
-
-type NodeIconStyleProps = IconStyleProps;
-
-// K is the StyleProps of Key Shape.
-export type BaseNodeStyleProps<K extends BaseNodeProps> = BaseShapeStyleProps &
-  K & {
-    // Whether to show the blocGShape.
-    label?: boolean;
-    halo?: boolean;
-    icon?: boolean;
-    badge?: boolean;
-    port?: boolean;
-  } & PrefixObject<NodeLabelStyleProps, 'label'> & // Label
-  // Halo
-  PrefixObject<K, 'halo'> &
-  // Icon
-  PrefixObject<NodeIconStyleProps, 'icon'> &
-  // Badges
+export type BaseNodeStyleProps<
+  KeyStyleProps extends BaseStyleProps = BaseNodeProps,
+  StyleLifting extends keyof KeyStyleProps = never,
+> = BaseNodeProps &
+  ShapeSwitch &
+  // 将 KeyStyleProps 的属性提升到 BaseNodeStyleProps
+  // Lift the properties of KeyStyleProps to BaseNodeStyleProps
+  Pick<KeyStyleProps, StyleLifting> &
+  PrefixObject<NodeLabelStyleProps, 'label'> &
+  PrefixObject<KeyStyleProps, 'halo'> &
+  PrefixObject<IconStyleProps, 'icon'> &
   NodeBadgesStyleProps &
-  // Ports
   NodePortsStyleProps;
 
-export type ParsedBaseNodeStyleProps<K extends BaseNodeProps> = Required<BaseNodeStyleProps<K>>;
-
-type BaseNodeOptions<K extends BaseNodeProps> = DisplayObjectConfig<BaseNodeStyleProps<K>>;
+export type ParsedBaseNodeStyleProps<
+  KeyStyleProps extends BaseStyleProps,
+  StyleLifting extends keyof KeyStyleProps = never,
+> = Required<BaseNodeStyleProps<KeyStyleProps, StyleLifting>>;
 
 /**
  * Design document: https://www.yuque.com/antv/g6/gl1iof1xpzg6ed98
  *
  * The P is the StyleProps of Key Shape.
- * The GSHAPE is the type of the key shape.
+ * The KeyShape is the type of the key shape.
  */
-export abstract class BaseNode<P extends BaseNodeProps, GSHAPE extends DisplayObject> extends BaseShape<
-  BaseNodeStyleProps<P>
-> {
-  static defaultStyleProps: BaseNodeStyleProps<any> = {
+export abstract class BaseNode<
+  KeyShape extends DisplayObject,
+  KeyStyleProps extends BaseStyleProps,
+  StyleLifting extends keyof KeyStyleProps = never,
+> extends BaseShape<BaseNodeStyleProps<KeyStyleProps, StyleLifting>> {
+  static defaultStyleProps: BaseNodeStyleProps = {
     x: 0,
     y: 0,
-    z: 0,
-    width: 32,
-    height: 32,
+    size: 32,
     port: true,
     ports: [],
     portZIndex: 2,
@@ -121,20 +77,25 @@ export abstract class BaseNode<P extends BaseNodeProps, GSHAPE extends DisplayOb
     labelZIndex: 0,
   };
 
-  constructor(options: BaseNodeOptions<P>) {
+  constructor(options: DisplayObjectConfig<BaseNodeStyleProps<KeyStyleProps, StyleLifting>>) {
     super(deepMix({}, { style: BaseNode.defaultStyleProps }, options));
   }
 
-  protected getKeyStyle(attributes: ParsedBaseNodeStyleProps<P>): P {
+  protected getSize(attributes = this.parsedAttributes) {
+    const { size } = attributes;
+    return parseSize(size);
+  }
+
+  protected getKeyStyle(attributes: ParsedBaseNodeStyleProps<KeyStyleProps, StyleLifting>): KeyStyleProps {
     const { color, fill, ...style } = this.getGraphicStyle(attributes);
 
     return Object.assign(
       { fill: color || fill },
       omitStyleProps(style, ['label', 'halo', 'icon', 'badge', 'port']),
-    ) as unknown as P;
+    ) as unknown as KeyStyleProps;
   }
 
-  protected getLabelStyle(attributes: ParsedBaseNodeStyleProps<P>): false | LabelStyleProps {
+  protected getLabelStyle(attributes: ParsedBaseNodeStyleProps<KeyStyleProps, StyleLifting>): false | LabelStyleProps {
     if (attributes.label === false || isEmpty(attributes.labelText)) return false;
 
     const { position, maxWidth, ...labelStyle } = subStyleProps<Required<NodeLabelStyleProps>>(
@@ -151,30 +112,28 @@ export abstract class BaseNode<P extends BaseNodeProps, GSHAPE extends DisplayOb
     );
   }
 
-  protected getHaloStyle(attributes: ParsedBaseNodeStyleProps<P>): false | P {
+  protected getHaloStyle(attributes: ParsedBaseNodeStyleProps<KeyStyleProps, StyleLifting>): false | KeyStyleProps {
     if (attributes.halo === false) return false;
 
     const { fill, ...keyStyle } = this.getKeyStyle(attributes);
-    const haloStyle = subStyleProps<P>(this.getGraphicStyle(attributes), 'halo');
+    const haloStyle = subStyleProps<KeyStyleProps>(this.getGraphicStyle(attributes), 'halo');
 
     return { ...keyStyle, stroke: fill, ...haloStyle };
   }
 
-  protected getIconStyle(attributes: ParsedBaseNodeStyleProps<P>): false | IconStyleProps {
+  protected getIconStyle(attributes: ParsedBaseNodeStyleProps<KeyStyleProps, StyleLifting>): false | IconStyleProps {
     if (attributes.icon === false || isEmpty(attributes.iconText || attributes.iconSrc)) return false;
 
     const iconStyle = subStyleProps(this.getGraphicStyle(attributes), 'icon');
     const keyShape = this.getKey();
     const [x, y] = getXYByPosition(keyShape.getLocalBounds(), 'center');
 
-    return {
-      x,
-      y,
-      ...iconStyle,
-    };
+    return { x, y, ...iconStyle };
   }
 
-  protected getBadgesStyle(attributes: ParsedBaseNodeStyleProps<P>): Record<string, NodeBadgeStyleProps | false> {
+  protected getBadgesStyle(
+    attributes: ParsedBaseNodeStyleProps<KeyStyleProps, StyleLifting>,
+  ): Record<string, NodeBadgeStyleProps | false> {
     const badges = subObject(this.shapeMap, 'badge-');
     const badgesShapeStyle: Record<string, NodeBadgeStyleProps | false> = {};
 
@@ -183,7 +142,7 @@ export abstract class BaseNode<P extends BaseNodeProps, GSHAPE extends DisplayOb
     });
     if (attributes.badge === false || isEmpty(attributes.badges)) return badgesShapeStyle;
 
-    const badgeStyle = subStyleProps<P>(this.getGraphicStyle(attributes), 'badge');
+    const badgeStyle = subStyleProps<BadgeStyleProps>(this.getGraphicStyle(attributes), 'badge');
     const { badges: badgeOptions = [] } = attributes;
 
     badgeOptions.forEach((option, i) => {
@@ -200,7 +159,9 @@ export abstract class BaseNode<P extends BaseNodeProps, GSHAPE extends DisplayOb
     return { ...textStyle, ...restStyle };
   }
 
-  protected getPortsStyle(attributes: ParsedBaseNodeStyleProps<P>): Record<string, PortStyleProps | false> {
+  protected getPortsStyle(
+    attributes: ParsedBaseNodeStyleProps<KeyStyleProps, StyleLifting>,
+  ): Record<string, PortStyleProps | false> {
     const ports = this.getPorts();
     const portsShapeStyle: Record<string, PortStyleProps | false> = {};
 
@@ -210,17 +171,20 @@ export abstract class BaseNode<P extends BaseNodeProps, GSHAPE extends DisplayOb
 
     if (attributes.port === false || isEmpty(attributes.ports)) return portsShapeStyle;
 
-    const portStyle = subStyleProps<P>(this.getGraphicStyle(attributes), 'port');
+    const portStyle = subStyleProps<PortStyleProps>(this.getGraphicStyle(attributes), 'port');
     const { ports: portOptions = [] } = attributes;
 
     portOptions.forEach((option, i) => {
       const [cx, cy] = this.getPortXY(attributes, option);
-      portsShapeStyle[option.key || i] = Object.assign({}, portStyle, { cx, cy }, option) as PortStyleProps;
+      portsShapeStyle[option.key || i] = Object.assign({}, portStyle, { cx, cy }, option);
     });
     return portsShapeStyle;
   }
 
-  protected getPortXY(attributes: ParsedBaseNodeStyleProps<P>, style: NodePortStyleProps): Point {
+  protected getPortXY(
+    attributes: ParsedBaseNodeStyleProps<KeyStyleProps, StyleLifting>,
+    style: NodePortStyleProps,
+  ): Point {
     const { position = 'left' } = style;
     const bounds = this.getKey().getLocalBounds();
     return getPortPosition(bounds, position as PortPosition);
@@ -230,8 +194,8 @@ export abstract class BaseNode<P extends BaseNodeProps, GSHAPE extends DisplayOb
    * Get the key shape for the node.
    * @returns Key shape.
    */
-  public getKey(): GSHAPE {
-    return this.shapeMap.key as GSHAPE;
+  public getKey(): KeyShape {
+    return this.shapeMap.key as KeyShape;
   }
 
   /**
@@ -260,31 +224,34 @@ export abstract class BaseNode<P extends BaseNodeProps, GSHAPE extends DisplayOb
     return getRectIntersectPoint(point, keyShapeBounds);
   }
 
-  protected drawHaloShape(attributes: ParsedBaseNodeStyleProps<P>, container: Group): void {
+  protected drawHaloShape(attributes: ParsedBaseNodeStyleProps<KeyStyleProps, StyleLifting>, container: Group): void {
     const keyShape = this.getKey();
     this.upsert(
       'halo',
-      keyShape.constructor as new (...args: unknown[]) => GSHAPE,
+      keyShape.constructor as new (...args: unknown[]) => KeyShape,
       this.getHaloStyle(attributes),
       container,
     );
   }
 
-  protected drawBadgeShapes(attributes: ParsedBaseNodeStyleProps<P>, container: Group): void {
+  protected drawBadgeShapes(attributes: ParsedBaseNodeStyleProps<KeyStyleProps, StyleLifting>, container: Group): void {
     const badgesStyle = this.getBadgesStyle(attributes);
     Object.keys(badgesStyle).forEach((key) => {
       this.upsert(`badge-${key}`, Badge, badgesStyle[key], container);
     });
   }
 
-  protected drawPortShapes(attributes: ParsedBaseNodeStyleProps<P>, container: Group): void {
+  protected drawPortShapes(attributes: ParsedBaseNodeStyleProps<KeyStyleProps, StyleLifting>, container: Group): void {
     const portsStyle = this.getPortsStyle(attributes);
     Object.keys(portsStyle).forEach((key) => {
       this.upsert(`port-${key}`, GCircle, portsStyle[key], container);
     });
   }
 
-  protected abstract drawKeyShape(attributes: ParsedBaseNodeStyleProps<P>, container: Group): GSHAPE | undefined;
+  protected abstract drawKeyShape(
+    attributes: ParsedBaseNodeStyleProps<KeyStyleProps, StyleLifting>,
+    container: Group,
+  ): KeyShape | undefined;
 
   public render(attributes = this.parsedAttributes, container: Group = this) {
     // 1. key shape
@@ -318,6 +285,53 @@ export abstract class BaseNode<P extends BaseNodeProps, GSHAPE extends DisplayOb
 
     return result;
   }
-
-  connectedCallback() {}
 }
+
+type NodeLabelStyleProps = LabelStyleProps & {
+  /**
+   * Position relative to the node (keyShape).
+   */
+  position?: LabelPosition;
+  /**
+   * The max width of the label, relative to the node width. The value can be a number or a percentage string:
+   * If the value is a number, it will be treated as the pixel value.
+   * If the value is a percentage string, it will be treated as the percentage of the node width.
+   */
+  maxWidth?: string | number;
+};
+
+type NodeBadgeStyleProps = BadgeStyleProps & {
+  /**
+   * Position relative to the node (keyShape).
+   */
+  position?: BadgePosition;
+};
+
+type NodeBadgesStyleProps = {
+  badges?: NodeBadgeStyleProps[];
+} & PrefixObject<BadgeStyleProps, 'badge'>;
+
+export type NodePortStyleProps = Partial<PortStyleProps> & {
+  /**
+   * The key of the port. Default is the index of the port.
+   */
+  key?: string;
+  /**
+   * The position of the port relative to the node (keyShape). The value can be a string or a tuple of two numbers.
+   * If the value is a string, it will be treated as the position direction.
+   * If the value is a tuple of two numbers, it will be treated as the position coordinates(0 ~ 1).
+   */
+  position: string | [number, number];
+};
+
+type NodePortsStyleProps = {
+  ports?: NodePortStyleProps[];
+} & PrefixObject<PortStyleProps, 'port'>;
+
+type ShapeSwitch = {
+  label?: boolean;
+  halo?: boolean;
+  icon?: boolean;
+  badge?: boolean;
+  port?: boolean;
+};

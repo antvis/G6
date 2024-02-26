@@ -1,4 +1,4 @@
-import { arrayDiff } from '../../../src/utils/diff';
+import { arrayDiff } from '@/src/utils/diff';
 
 describe('diff', () => {
   it('array diff simple', () => {

@@ -1,4 +1,4 @@
-import { Graph } from '../../../src';
+import { Graph } from '@/src';
 import type { StaticTestCase } from '../types';
 
 export const edgeLine: StaticTestCase = async (context) => {
@@ -41,8 +41,7 @@ export const edgeLine: StaticTestCase = async (context) => {
     node: {
       style: {
         type: 'circle', // 👈🏻 Node shape type.
-        width: 40,
-        height: 40,
+        size: 40,
         color: '#1783FF',
       },
     },
@@ -50,7 +49,7 @@ export const edgeLine: StaticTestCase = async (context) => {
       style: {
         type: 'line', // 👈🏻 Edge shape type.
         color: 'rgb(153, 173, 209)',
-        labelText: (d) => d.id,
+        labelText: (d: any) => d.id,
         labelBackgroundPadding: 0,
         labelBackgroundFill: '#fff',
         labelBackgroundLineWidth: 0,

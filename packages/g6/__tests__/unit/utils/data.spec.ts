@@ -1,5 +1,5 @@
-import type { EdgeData, NodeData } from '../../../src';
-import { cloneElementData, isEmptyData, mergeElementsData } from '../../../src/utils/data';
+import type { EdgeData, NodeData } from '@/src';
+import { cloneElementData, isEmptyData, mergeElementsData } from '@/src/utils/data';
 
 describe('data', () => {
   it('mergeElementsData', () => {

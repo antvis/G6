@@ -1,5 +1,5 @@
-import type { G6Spec } from '../../../src';
-import { createGraph } from '../../mock';
+import type { G6Spec } from '@/src';
+import { createGraph } from '@@/utils';
 import type { StaticTestCase } from '../types';
 
 export const controllerElement: StaticTestCase = async (context) => {
@@ -21,8 +21,7 @@ export const controllerElement: StaticTestCase = async (context) => {
     theme: 'light',
     node: {
       style: {
-        width: 20,
-        height: 20,
+        size: 20,
       },
       animation: animation && {},
     },

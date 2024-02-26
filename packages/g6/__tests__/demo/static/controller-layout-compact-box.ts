@@ -1,6 +1,6 @@
-import type { G6Spec } from '../../../src';
-import { Graph, treeToGraphData } from '../../../src';
-import tree from '../../dataset/algorithm-category.json';
+import type { G6Spec } from '@/src';
+import { Graph, treeToGraphData } from '@/src';
+import tree from '@@/dataset/algorithm-category.json';
 import type { StaticTestCase } from '../types';
 
 export const controllerLayoutCompactBox: StaticTestCase = async ({ canvas, animation }) => {
@@ -14,7 +14,7 @@ export const controllerLayoutCompactBox: StaticTestCase = async ({ canvas, anima
       type: 'compact-box',
       animation,
       direction: 'LR',
-      getId: function getId(d) {
+      getId: function getId(d: any) {
         return d.id;
       },
       getHeight: function getHeight() {
@@ -26,15 +26,14 @@ export const controllerLayoutCompactBox: StaticTestCase = async ({ canvas, anima
       getHGap: function getHGap() {
         return 100;
       },
-      getWidth: function getWidth(d) {
+      getWidth: function getWidth(d: any) {
         return d.id.length + 20;
       },
     },
     node: {
       style: {
-        width: 20,
-        height: 20,
-        labelText: (data) => data.id,
+        size: 20,
+        labelText: (data: any) => data.id,
         labelMaxWidth: 250,
         labelPosition: 'right',
         labelOffsetX: 10,

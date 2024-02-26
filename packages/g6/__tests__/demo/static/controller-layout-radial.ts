@@ -1,6 +1,6 @@
-import type { G6Spec } from '../../../src';
-import { Graph } from '../../../src';
-import data from '../../dataset/radial.json';
+import type { G6Spec } from '@/src';
+import { Graph } from '@/src';
+import data from '@@/dataset/radial.json';
 import type { StaticTestCase } from '../types';
 
 export const controllerLayoutRadial: StaticTestCase = async ({ canvas, animation }) => {
@@ -15,7 +15,7 @@ export const controllerLayoutRadial: StaticTestCase = async ({ canvas, animation
       unitRadius: 50,
       animation,
     },
-    node: { style: { width: 20, height: 20 } },
+    node: { style: { size: 20 } },
     edge: {
       style: {
         type: 'polyline',

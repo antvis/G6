@@ -1,6 +1,6 @@
-import type { G6Spec } from '../../../src';
-import { Graph } from '../../../src';
-import data from '../../dataset/cluster.json';
+import type { G6Spec } from '@/src';
+import { Graph } from '@/src';
+import data from '@@/dataset/cluster.json';
 import type { StaticTestCase } from '../types';
 
 export const controllerLayoutForce: StaticTestCase = async ({ canvas, animation }) => {
@@ -20,10 +20,10 @@ export const controllerLayoutForce: StaticTestCase = async ({ canvas, animation 
     },
     node: {
       style: {
-        width: 20,
-        height: 20,
+        size: 20,
         lineWidth: 0,
-        fill: (data) => ({ a: '#cd2f3b', b: '#005cc5', c: '#1e7834', d: '#ff9f45' })[data.style.cluster],
+        fill: (data: { style: { cluster: string } }) =>
+          ({ a: '#cd2f3b', b: '#005cc5', c: '#1e7834', d: '#ff9f45' })[data.style.cluster],
       },
     },
   };

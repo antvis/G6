@@ -526,8 +526,6 @@
         <g
           id="Modeling Methods"
           fill="none"
-          width="20"
-          height="20"
           transform="matrix(1,0,0,1,-208,-28)"
         >
           <g transform="matrix(1,0,0,1,0,0)">
@@ -545,8 +543,6 @@
         <g
           id="Classification"
           fill="none"
-          width="20"
-          height="20"
           transform="matrix(1,0,0,1,8,-212.500000)"
         >
           <g transform="matrix(1,0,0,1,0,0)">
@@ -564,8 +560,6 @@
         <g
           id="Logistic regression"
           fill="none"
-          width="20"
-          height="20"
           transform="matrix(1,0,0,1,224,-338.500000)"
         >
           <g transform="matrix(1,0,0,1,0,0)">
@@ -583,8 +577,6 @@
         <g
           id="Linear discriminant analysis"
           fill="none"
-          width="20"
-          height="20"
           transform="matrix(1,0,0,1,224,-302.500000)"
         >
           <g transform="matrix(1,0,0,1,0,0)">
@@ -599,13 +591,7 @@
             />
           </g>
         </g>
-        <g
-          id="Rules"
-          fill="none"
-          width="20"
-          height="20"
-          transform="matrix(1,0,0,1,224,-266.500000)"
-        >
+        <g id="Rules" fill="none" transform="matrix(1,0,0,1,224,-266.500000)">
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
@@ -621,8 +607,6 @@
         <g
           id="Decision trees"
           fill="none"
-          width="20"
-          height="20"
           transform="matrix(1,0,0,1,224,-230.500000)"
         >
           <g transform="matrix(1,0,0,1,0,0)">
@@ -640,8 +624,6 @@
         <g
           id="Naive Bayes"
           fill="none"
-          width="20"
-          height="20"
           transform="matrix(1,0,0,1,224,-194.500000)"
         >
           <g transform="matrix(1,0,0,1,0,0)">
@@ -659,8 +641,6 @@
         <g
           id="K nearest neighbor"
           fill="none"
-          width="20"
-          height="20"
           transform="matrix(1,0,0,1,224,-158.500000)"
         >
           <g transform="matrix(1,0,0,1,0,0)">
@@ -678,8 +658,6 @@
         <g
           id="Probabilistic neural network"
           fill="none"
-          width="20"
-          height="20"
           transform="matrix(1,0,0,1,224,-122.500000)"
         >
           <g transform="matrix(1,0,0,1,0,0)">
@@ -697,8 +675,6 @@
         <g
           id="Support vector machine"
           fill="none"
-          width="20"
-          height="20"
           transform="matrix(1,0,0,1,224,-86.500000)"
         >
           <g transform="matrix(1,0,0,1,0,0)">
@@ -713,13 +689,7 @@
             />
           </g>
         </g>
-        <g
-          id="Consensus"
-          fill="none"
-          width="20"
-          height="20"
-          transform="matrix(1,0,0,1,8,156.500000)"
-        >
+        <g id="Consensus" fill="none" transform="matrix(1,0,0,1,8,156.500000)">
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
@@ -735,8 +705,6 @@
         <g
           id="Models diversity"
           fill="none"
-          width="20"
-          height="20"
           transform="matrix(1,0,0,1,224,39.500000)"
         >
           <g transform="matrix(1,0,0,1,0,0)">
@@ -754,8 +722,6 @@
         <g
           id="Different initializations"
           fill="none"
-          width="20"
-          height="20"
           transform="matrix(1,0,0,1,440,-50.500000)"
         >
           <g transform="matrix(1,0,0,1,0,0)">
@@ -773,8 +739,6 @@
         <g
           id="Different parameter choices"
           fill="none"
-          width="20"
-          height="20"
           transform="matrix(1,0,0,1,440,-14.500000)"
         >
           <g transform="matrix(1,0,0,1,0,0)">
@@ -792,8 +756,6 @@
         <g
           id="Different architectures"
           fill="none"
-          width="20"
-          height="20"
           transform="matrix(1,0,0,1,440,21.500000)"
         >
           <g transform="matrix(1,0,0,1,0,0)">
@@ -811,8 +773,6 @@
         <g
           id="Different modeling methods"
           fill="none"
-          width="20"
-          height="20"
           transform="matrix(1,0,0,1,440,57.500000)"
         >
           <g transform="matrix(1,0,0,1,0,0)">
@@ -830,8 +790,6 @@
         <g
           id="Different training sets"
           fill="none"
-          width="20"
-          height="20"
           transform="matrix(1,0,0,1,440,93.500000)"
         >
           <g transform="matrix(1,0,0,1,0,0)">
@@ -849,8 +807,6 @@
         <g
           id="Different feature sets"
           fill="none"
-          width="20"
-          height="20"
           transform="matrix(1,0,0,1,440,129.500000)"
         >
           <g transform="matrix(1,0,0,1,0,0)">
@@ -865,13 +821,7 @@
             />
           </g>
         </g>
-        <g
-          id="Methods"
-          fill="none"
-          width="20"
-          height="20"
-          transform="matrix(1,0,0,1,224,183.500000)"
-        >
+        <g id="Methods" fill="none" transform="matrix(1,0,0,1,224,183.500000)">
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
@@ -887,8 +837,6 @@
         <g
           id="Classifier selection"
           fill="none"
-          width="20"
-          height="20"
           transform="matrix(1,0,0,1,440,165.500000)"
         >
           <g transform="matrix(1,0,0,1,0,0)">
@@ -906,8 +854,6 @@
         <g
           id="Classifier fusion"
           fill="none"
-          width="20"
-          height="20"
           transform="matrix(1,0,0,1,440,201.500000)"
         >
           <g transform="matrix(1,0,0,1,0,0)">
@@ -922,13 +868,7 @@
             />
           </g>
         </g>
-        <g
-          id="Common"
-          fill="none"
-          width="20"
-          height="20"
-          transform="matrix(1,0,0,1,224,273.500000)"
-        >
+        <g id="Common" fill="none" transform="matrix(1,0,0,1,224,273.500000)">
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
@@ -941,13 +881,7 @@
             />
           </g>
         </g>
-        <g
-          id="Bagging"
-          fill="none"
-          width="20"
-          height="20"
-          transform="matrix(1,0,0,1,440,237.500000)"
-        >
+        <g id="Bagging" fill="none" transform="matrix(1,0,0,1,440,237.500000)">
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
@@ -960,13 +894,7 @@
             />
           </g>
         </g>
-        <g
-          id="Boosting"
-          fill="none"
-          width="20"
-          height="20"
-          transform="matrix(1,0,0,1,440,273.500000)"
-        >
+        <g id="Boosting" fill="none" transform="matrix(1,0,0,1,440,273.500000)">
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
@@ -979,13 +907,7 @@
             />
           </g>
         </g>
-        <g
-          id="AdaBoost"
-          fill="none"
-          width="20"
-          height="20"
-          transform="matrix(1,0,0,1,440,309.500000)"
-        >
+        <g id="AdaBoost" fill="none" transform="matrix(1,0,0,1,440,309.500000)">
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
@@ -998,13 +920,7 @@
             />
           </g>
         </g>
-        <g
-          id="Regression"
-          fill="none"
-          width="20"
-          height="20"
-          transform="matrix(1,0,0,1,-424,-28)"
-        >
+        <g id="Regression" fill="none" transform="matrix(1,0,0,1,-424,-28)">
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
@@ -1020,8 +936,6 @@
         <g
           id="Multiple linear regression"
           fill="none"
-          width="20"
-          height="20"
           transform="matrix(1,0,0,1,-640,-100)"
         >
           <g transform="matrix(1,0,0,1,0,0)">
@@ -1039,8 +953,6 @@
         <g
           id="Partial least squares"
           fill="none"
-          width="20"
-          height="20"
           transform="matrix(1,0,0,1,-640,-64)"
         >
           <g transform="matrix(1,0,0,1,0,0)">
@@ -1058,8 +970,6 @@
         <g
           id="Multi-layer feed forward neural network"
           fill="none"
-          width="20"
-          height="20"
           transform="matrix(1,0,0,1,-640,-28)"
         >
           <g transform="matrix(1,0,0,1,0,0)">
@@ -1077,8 +987,6 @@
         <g
           id="General regression neural network"
           fill="none"
-          width="20"
-          height="20"
           transform="matrix(1,0,0,1,-640,8)"
         >
           <g transform="matrix(1,0,0,1,0,0)">
@@ -1096,8 +1004,6 @@
         <g
           id="Support vector regression"
           fill="none"
-          width="20"
-          height="20"
           transform="matrix(1,0,0,1,-640,44)"
         >
           <g transform="matrix(1,0,0,1,0,0)">

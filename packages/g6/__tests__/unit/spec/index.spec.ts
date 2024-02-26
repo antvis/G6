@@ -1,5 +1,5 @@
+import type { G6Spec } from '@/src';
 import { Renderer } from '@antv/g-canvas';
-import type { G6Spec } from '../../../src';
 
 describe('spec', () => {
   it('spec', () => {
@@ -57,9 +57,6 @@ describe('spec', () => {
       theme: 'light',
       behaviors: ['drag-canvas', 'my-behavior', { type: 'drag-node' }],
       widgets: ['my-widget', { type: 'another-widget', text: 'text', value: 1 }],
-      optimize: {
-        tileFirstRender: true,
-      },
     };
 
     expect(options).toBeTruthy();

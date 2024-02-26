@@ -1,5 +1,4 @@
-import { AABB, Rect } from '@antv/g';
-import { Circle } from '../../../src/elements/nodes';
+import { Circle } from '@/src/elements/nodes';
 import {
   findPorts,
   getPortConnectionPoint,
@@ -14,7 +13,8 @@ import {
   isSameNode,
   isVisible,
   updateStyle,
-} from '../../../src/utils/element';
+} from '@/src/utils/element';
+import { AABB, Rect } from '@antv/g';
 
 describe('element', () => {
   const bbox = new AABB();
@@ -217,8 +217,8 @@ describe('element', () => {
     expect(rect.style.width).toBe(100);
     expect(rect.style.height).toBe(100);
 
-    const circle = new Circle({ style: { width: 50, height: 50 } });
-    updateStyle(circle, { width: 100 });
-    expect(circle.style.width).toBe(100);
+    const circle = new Circle({ style: { size: 50 } });
+    updateStyle(circle, { size: 100 });
+    expect(circle.style.size).toBe(100);
   });
 });

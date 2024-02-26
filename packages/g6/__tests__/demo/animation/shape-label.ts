@@ -1,4 +1,4 @@
-import { Label } from '../../../src/elements/shapes/label';
+import { Label } from '@/src/elements/shapes/label';
 import type { AnimationTestCase } from '../types';
 
 export const shapeLabel: AnimationTestCase = async (context) => {

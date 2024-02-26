@@ -1,4 +1,4 @@
-import { treeToGraphData } from '../../../src/utils/tree';
+import { treeToGraphData } from '@/src/utils/tree';
 
 describe('tree', () => {
   it('treeToGraphData', () => {

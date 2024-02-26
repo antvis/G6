@@ -1,4 +1,3 @@
-import { Circle, Rect } from '@antv/g';
 import {
   findNearestPoints,
   getEllipseIntersectPoint,
@@ -13,7 +12,8 @@ import {
   parsePoint,
   round,
   toPointObject,
-} from '../../../src/utils/point';
+} from '@/src/utils/point';
+import { Circle, Rect } from '@antv/g';
 
 describe('Point Functions', () => {
   it('parsePoint', () => {

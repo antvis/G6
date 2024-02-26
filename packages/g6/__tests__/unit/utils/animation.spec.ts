@@ -1,5 +1,4 @@
-import type { IAnimation } from '@antv/g';
-import { AnimatableTask } from '../../../src/types';
+import { AnimatableTask } from '@/src/types';
 import {
   createAnimationsProxy,
   executeAnimatableTasks,
@@ -7,7 +6,8 @@ import {
   inferDefaultValue,
   preprocessKeyframes,
   withAnimationCallbacks,
-} from '../../../src/utils/animation';
+} from '@/src/utils/animation';
+import type { IAnimation } from '@antv/g';
 
 describe('animation', () => {
   it('createAnimationsProxy', () => {

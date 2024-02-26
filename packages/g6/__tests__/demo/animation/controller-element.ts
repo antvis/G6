@@ -1,7 +1,7 @@
+import type { G6Spec } from '@/src';
+import type { AnimateEvent } from '@/src/utils/event';
+import { createGraph } from '@@/utils';
 import type { IAnimation } from '@antv/g';
-import type { G6Spec } from '../../../src';
-import type { AnimateEvent } from '../../../src/utils/event';
-import { createGraph } from '../../mock';
 import type { AnimationTestCase } from '../types';
 
 export const controllerElement: AnimationTestCase = async (context) => {
@@ -24,8 +24,7 @@ export const controllerElement: AnimationTestCase = async (context) => {
     theme: 'light',
     node: {
       style: {
-        width: 20,
-        height: 20,
+        size: 20,
       },
     },
     edge: {
@@ -48,7 +47,7 @@ export const controllerElement: AnimationTestCase = async (context) => {
 
   const result = new Promise<IAnimation>((resolve) => {
     graph.once('beforeanimate', (e: AnimateEvent) => {
-      resolve(e.animation);
+      resolve(e.animation!);
     });
   });
 

@@ -1,6 +1,6 @@
-import type { G6Spec } from '../../../src';
-import { Graph, treeToGraphData } from '../../../src';
-import tree from '../../dataset/file-system.json';
+import type { G6Spec } from '@/src';
+import { Graph, treeToGraphData } from '@/src';
+import tree from '@@/dataset/file-system.json';
 import type { StaticTestCase } from '../types';
 
 export const controllerLayoutIndented: StaticTestCase = async ({ canvas, animation }) => {
@@ -22,7 +22,7 @@ export const controllerLayoutIndented: StaticTestCase = async ({ canvas, animati
         return 16;
       },
     },
-    node: { style: { width: 20, height: 20 } },
+    node: { style: { size: 20 } },
     edge: {
       style: {
         type: 'polyline',

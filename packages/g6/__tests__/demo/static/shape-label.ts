@@ -1,4 +1,4 @@
-import { Label } from '../../../src/elements/shapes';
+import { Label } from '@/src/elements/shapes';
 import type { StaticTestCase } from '../types';
 
 export const shapeLabel: StaticTestCase = async (context) => {

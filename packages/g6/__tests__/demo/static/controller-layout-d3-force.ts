@@ -1,6 +1,6 @@
-import type { G6Spec } from '../../../src';
-import { Graph } from '../../../src';
-import data from '../../dataset/soccer.json';
+import type { G6Spec } from '@/src';
+import { Graph } from '@/src';
+import data from '@@/dataset/soccer.json';
 import type { StaticTestCase } from '../types';
 
 export const controllerLayoutD3Force: StaticTestCase = async ({ canvas, animation }) => {
@@ -15,7 +15,7 @@ export const controllerLayoutD3Force: StaticTestCase = async ({ canvas, animatio
       nodeSize: 20,
       animation,
     },
-    node: { style: { width: 20, height: 20 } },
+    node: { style: { size: 20 } },
   };
 
   const graph = new Graph(options);

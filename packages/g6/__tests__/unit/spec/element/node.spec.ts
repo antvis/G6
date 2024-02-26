@@ -1,4 +1,4 @@
-import type { NodeOptions } from '../../../../src';
+import type { NodeOptions } from '@/src';
 
 describe('spec element node', () => {
   it('node 1', () => {
@@ -13,7 +13,7 @@ describe('spec element node', () => {
         ],
       },
       style: {
-        collapsed: (data) => data.style?.collapsed || false,
+        collapsed: (data: any) => data.style?.collapsed || false,
         parentId: '1',
         x: 1,
         y: 1,
@@ -33,22 +33,16 @@ describe('spec element node', () => {
   it('node 2', () => {
     const node: NodeOptions = {
       style: {
-        nodeStyle: (model) => model.style?.nodeStyle || 'white',
+        nodeStyle: (model: any) => model.style?.nodeStyle || 'white',
       },
       state: {
         state1: {
-          nodeStyle: (data) => data.style?.nodeStyle || 'white',
+          nodeStyle: (data: any) => data.style?.nodeStyle || 'white',
         },
       },
       animation: {
-        enter: {
-          type: 'fade-in',
-          delay: 100,
-        },
-        show: {
-          type: 'wave-in',
-          duration: 100,
-        },
+        enter: 'fade',
+        show: 'fade',
       },
       palette: 'spectral',
     };

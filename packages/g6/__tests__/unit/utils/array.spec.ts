@@ -1,4 +1,4 @@
-import { deduplicate } from '../../../src/utils/array';
+import { deduplicate } from '@/src/utils/array';
 
 describe('array', () => {
   it('deduplicate', () => {

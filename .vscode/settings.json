@@ -39,5 +39,7 @@
     "mindmap",
     "onframe",
     "ranksep"
-  ]
+  ],
+  "javascript.preferences.importModuleSpecifier": "relative",
+  "typescript.preferences.importModuleSpecifier": "relative"
 }

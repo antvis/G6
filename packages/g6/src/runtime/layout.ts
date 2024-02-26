@@ -351,7 +351,7 @@ export class LayoutController {
   }
 }
 
-const getTransferableAttributes = (attributes: Record<string, unknown>) => {
+const getTransferableAttributes = (attributes: Record<string, any>) => {
   return Object.entries(attributes).reduce(
     (result, [key, value]) => {
       if (

@@ -2,7 +2,7 @@
 // characters that are not represented in this map, we’d ideally want to use a
 // weighted average of what we expect to see. But since we don’t really know
 // what that is, using “e” seems reasonable.
-const defaultWidthMap = {
+const defaultWidthMap: Record<string, number> = {
   a: 56,
   b: 63,
   c: 57,
@@ -94,7 +94,7 @@ export function measureText(text: string, fontSize: number) {
 }
 
 export class OffscreenCanvasContext {
-  private fontSize: number;
+  private fontSize!: number;
 
   constructor(public canvas: HTMLCanvasElement) {}
 

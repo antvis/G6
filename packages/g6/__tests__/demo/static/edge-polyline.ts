@@ -1,13 +1,13 @@
-import { Polyline } from '../../../src/elements/edges';
-import { Circle, Rect } from '../../../src/elements/nodes';
+import { Polyline } from '@/src/elements/edges';
+import type { RectStyleProps } from '@/src/elements/nodes';
+import { Circle, Rect } from '@/src/elements/nodes';
 import type { StaticTestCase } from '../types';
 
 export const edgePolyline: StaticTestCase = async (context) => {
   const { canvas } = context;
 
-  const commonNodeStyle = {
-    width: 50,
-    height: 20,
+  const commonNodeStyle: RectStyleProps = {
+    size: [50, 20],
     fill: '#f8f8f8',
     stroke: '#8b9baf',
     labelPosition: 'center',
@@ -15,8 +15,7 @@ export const edgePolyline: StaticTestCase = async (context) => {
   };
 
   const commonCPStyle = {
-    width: 4,
-    height: 4,
+    size: 4,
     fill: '#1890FF',
     zIndex: 5,
   };
@@ -181,8 +180,7 @@ export const edgePolyline: StaticTestCase = async (context) => {
       style: {
         x: 100,
         y: 175,
-        width: 4,
-        height: 4,
+        size: 4,
         fill: '#1890FF',
         zIndex: 5,
       },
@@ -307,7 +305,7 @@ export const edgePolyline: StaticTestCase = async (context) => {
         y: 375,
         labelText: '10',
         ...commonNodeStyle,
-        height: 50,
+        size: 50,
       },
     }),
   );

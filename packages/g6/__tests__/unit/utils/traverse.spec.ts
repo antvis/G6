@@ -1,5 +1,5 @@
-import type { HierarchyStructure } from '../../../src/utils/traverse';
-import { dfs } from '../../../src/utils/traverse';
+import type { HierarchyStructure } from '@/src/utils/traverse';
+import { dfs } from '@/src/utils/traverse';
 
 const tree: HierarchyStructure<{ value: number }> = {
   value: 1,

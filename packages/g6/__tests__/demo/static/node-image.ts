@@ -1,4 +1,4 @@
-import { Graph } from '../../../src';
+import { Graph } from '@/src';
 import type { StaticTestCase } from '../types';
 
 export const nodeImage: StaticTestCase = async (context) => {
@@ -23,13 +23,12 @@ export const nodeImage: StaticTestCase = async (context) => {
     node: {
       style: {
         type: 'image', // 👈🏻 Node shape type.
-        width: 40,
-        height: 40,
-        labelText: (d) => d.id,
+        size: 40,
+        labelText: (d: any) => d.id,
         src: 'https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*N4ZMS7gHsUIAAAAAAAAAAABkARQnAQ',
-        halo: (d) => d.id.includes('halo'),
+        halo: (d: any) => d.id.includes('halo'),
         haloStroke: '#1783FF',
-        ports: (d) =>
+        ports: (d: any) =>
           d.id.includes('ports')
             ? [{ position: 'left' }, { position: 'right' }, { position: 'top' }, { position: 'bottom' }]
             : [],
@@ -37,7 +36,7 @@ export const nodeImage: StaticTestCase = async (context) => {
         portFill: '#fff',
         portR: 2,
         portLineWidth: 1,
-        badges: (d) =>
+        badges: (d: any) =>
           d.id.includes('badges')
             ? [
                 { text: 'A', position: 'right-top', backgroundFill: '#8291b2' },

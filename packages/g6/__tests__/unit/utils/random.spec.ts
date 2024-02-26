@@ -1,4 +1,4 @@
-import { createDeterministicRandom } from '../../mock/random';
+import { createDeterministicRandom } from '@@/utils';
 
 describe('createDeterministicRandom', () => {
   it('should generate a random number between 0 and 1', () => {

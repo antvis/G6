@@ -1,7 +1,7 @@
+import type { G6Spec } from '@/src';
+import { Graph, register } from '@/src';
+import data from '@@/dataset/soccer.json';
 import { ForceAtlas2Layout, initThreads, supportsThreads } from '@antv/layout-wasm';
-import type { G6Spec } from '../../../src';
-import { Graph, register } from '../../../src';
-import data from '../../dataset/soccer.json';
 import type { StaticTestCase } from '../types';
 
 register('layout', 'forceatlas2-wasm', ForceAtlas2Layout);
@@ -27,7 +27,7 @@ export const controllerLayoutForceatlas2WASM: StaticTestCase = async ({ canvas, 
       ks: 0.1,
       animation,
     },
-    node: { style: { width: 20, height: 20 } },
+    node: { style: { size: 20 } },
   };
 
   const graph = new Graph(options);

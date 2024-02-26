@@ -2,7 +2,7 @@ import '../src/preset';
 import * as animations from './demo/animation';
 import * as statics from './demo/static';
 import type { TestCase } from './demo/types';
-import { createGraphCanvas } from './mock';
+import { createGraphCanvas } from './utils';
 
 const CASES = {
   statics,

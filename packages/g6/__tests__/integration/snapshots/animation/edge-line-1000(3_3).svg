@@ -10,7 +10,7 @@
   <g id="g-svg-camera" transform="matrix(1,0,0,1,0,0)">
     <g id="g-root" fill="none" transform="matrix(1,0,0,1,0,0)">
       <g
-        id="g-svg-5"
+        id="g-svg-9"
         fill="none"
         marker-start="true"
         marker-end="true"
@@ -40,7 +40,7 @@
           />
           <g transform="matrix(0.868243,0.496139,-0.496139,0.868243,5.209459,2.976834)">
             <path
-              id="g-svg-8"
+              id="g-svg-12"
               fill="rgba(24,144,255,1)"
               d="M 0,5 A 5 5 0 1 0 10 5 A 5 5 0 1 0 0 5 Z"
               transform="translate(-5,-5)"
@@ -53,7 +53,7 @@
           </g>
           <g transform="matrix(-0.868243,-0.496139,0.496139,-0.868243,344.790527,197.023163)">
             <path
-              id="g-svg-10"
+              id="g-svg-14"
               fill="rgba(255,0,0,1)"
               d="M 0,5 L 10,0 L 10,10 Z"
               transform="translate(-5,-5)"

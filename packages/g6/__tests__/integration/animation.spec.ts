@@ -1,9 +1,5 @@
-import '../../src/preset';
+import { createGraphCanvas, getCases, sleep } from '@@/utils';
 import * as animationCases from '../demo/animation';
-import { createGraphCanvas } from '../mock/create';
-import { getCases } from './utils/get-cases';
-import { sleep } from './utils/sleep';
-import './utils/use-snapshot-matchers';
 
 describe('static', () => {
   const cases = getCases(animationCases);

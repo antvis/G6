@@ -1,5 +1,5 @@
+import { cacheStyle, getCachedStyle } from '@/src/utils/cache';
 import { Circle } from '@antv/g';
-import { cacheStyle, getCachedStyle } from '../../../src/utils/cache';
 
 describe('cache', () => {
   it('cacheStyle and ', () => {

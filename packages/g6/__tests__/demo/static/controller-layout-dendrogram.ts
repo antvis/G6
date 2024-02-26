@@ -1,6 +1,6 @@
-import type { G6Spec } from '../../../src';
-import { Graph, treeToGraphData } from '../../../src';
-import tree from '../../dataset/algorithm-category.json';
+import type { G6Spec } from '@/src';
+import { Graph, treeToGraphData } from '@/src';
+import tree from '@@/dataset/algorithm-category.json';
 import type { StaticTestCase } from '../types';
 
 export const controllerLayoutDendrogram: StaticTestCase = async ({ canvas, animation }) => {
@@ -18,9 +18,8 @@ export const controllerLayoutDendrogram: StaticTestCase = async ({ canvas, anima
     },
     node: {
       style: {
-        width: 20,
-        height: 20,
-        labelText: (data) => data.id,
+        size: 20,
+        labelText: (data: any) => data.id,
         labelPosition: 'right',
         labelMaxWidth: 200,
       },

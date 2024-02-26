@@ -1,6 +1,6 @@
-import type { G6Spec } from '../../../src';
-import { Graph, treeToGraphData } from '../../../src';
-import tree from '../../dataset/algorithm-category.json';
+import type { G6Spec } from '@/src';
+import { Graph, treeToGraphData } from '@/src';
+import tree from '@@/dataset/algorithm-category.json';
 import type { StaticTestCase } from '../types';
 
 export const controllerLayoutMindmap: StaticTestCase = async ({ canvas, animation }) => {
@@ -27,7 +27,7 @@ export const controllerLayoutMindmap: StaticTestCase = async ({ canvas, animatio
       },
       getSide: undefined,
     },
-    node: { style: { width: 20, height: 20 } },
+    node: { style: { size: 20 } },
     edge: {
       style: {
         type: 'polyline',
