@@ -160,7 +160,6 @@ describe('ElementController', () => {
 
     expect(elementController.getNodes().length).toBe(3);
     expect(elementController.getEdges().length).toBe(2);
-    // TODO 目前暂未提供 combo 图形，因此无法渲染 / Currently, combo graphics are not provided, so they cannot be rendered
-    expect(elementController.getCombos().length).toBe(0);
+    expect(elementController.getCombos().length).toBe(1);
   });
 });

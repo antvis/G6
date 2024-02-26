@@ -35,8 +35,8 @@ export type BaseNodeStyleProps<KeyStyleProps extends BaseStyleProps = BaseNodePr
      */
     badges?: NodeBadgeStyleProps[];
     /**
-     * <zh/> 背景色板
-     * <en/> Background color palette
+     * <zh/> 徽标的背景色板
+     * <en/> Badge background color palette
      */
     badgePalette?: string[] | CategoricalPalette;
   } & PrefixObject<NodeLabelStyleProps, 'label'> &

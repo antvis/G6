@@ -1,11 +1,10 @@
 import { AABB } from '@antv/g';
 import { clone } from '@antv/util';
 import { TriangleDirection } from '../elements/nodes/triangle';
-import type { Node, Padding, Point } from '../types';
+import type { Element, Node, Padding, Point } from '../types';
 import { isPoint } from './is';
 import { isBetween } from './math';
 import { parsePadding } from './padding';
-
 /**
  * <zh/> 获取包围盒的宽度
  *
@@ -39,6 +38,27 @@ export function getBBoxHeight(bbox: AABB): number {
 export function getNodeBBox(node: Point | Node, padding?: Padding): AABB {
   const bbox = isPoint(node) ? getPointBBox(node) : node.getKey().getBounds();
   return padding ? getExpandedBBox(bbox, padding) : bbox;
+}
+
+/**
+ * <zh/> 获取多个元素的联合包围盒
+ *
+ * <en/> Get the union bounding box of multiple elements
+ * @param elements - <zh/> 元素数组 | <en/> Array of elements
+ * @returns <zh/> 包围盒 | <en/> Bounding box
+ */
+export function getElementsBBox(elements: Element[]): AABB {
+  let resBBox: AABB = new AABB(); // Initialize resBBox with an empty AABB object
+
+  if (!elements.length) return resBBox;
+
+  elements.forEach((element, i) => {
+    const bbox = element.getBounds();
+    if (i === 0) resBBox = bbox;
+    else resBBox = union(resBBox, bbox);
+  });
+
+  return resBBox;
 }
 
 /**

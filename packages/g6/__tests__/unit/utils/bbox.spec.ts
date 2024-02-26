@@ -1,6 +1,8 @@
+import { Circle } from '@/src/elements';
 import {
   getBBoxHeight,
   getBBoxWidth,
+  getElementsBBox,
   getExpandedBBox,
   getIncircleRadius,
   getNearestPointToPoint,
@@ -30,6 +32,25 @@ describe('bbox', () => {
     const bbox = new AABB();
     bbox.setMinMax([10, 10, 0], [10, 10, 0]);
     expect(getNodeBBox([10, 10, 0])).toEqual(bbox);
+  });
+
+  it('getElementsBBox', () => {
+    expect(getElementsBBox([])).toEqual(new AABB());
+    const node1 = new Circle({
+      style: {
+        x: 100,
+        y: 100,
+      },
+    });
+    const node2 = new Circle({
+      style: {
+        x: 200,
+        y: 200,
+      },
+    });
+    const bbox = new AABB();
+    bbox.setMinMax([75, 75, 0], [225, 225, 0]);
+    expect(getElementsBBox([node1, node2])).toEqual(bbox);
   });
 
   it('getPointBBox', () => {
