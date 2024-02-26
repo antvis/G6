@@ -10,16 +10,16 @@ export interface BaseShapeStyleProps extends BaseStyleProps {
   y?: number | string;
 }
 
-export abstract class BaseShape<T extends BaseShapeStyleProps> extends CustomElement<T> {
-  constructor(options: DisplayObjectConfig<T>) {
+export abstract class BaseShape<StyleProps extends BaseShapeStyleProps> extends CustomElement<StyleProps> {
+  constructor(options: DisplayObjectConfig<StyleProps>) {
     super(options);
 
-    this.render(this.attributes as Required<T>, this);
+    this.render(this.attributes as Required<StyleProps>, this);
     this.bindEvents();
   }
 
   get parsedAttributes() {
-    return this.attributes as Required<T>;
+    return this.attributes as Required<StyleProps>;
   }
 
   /**
@@ -94,9 +94,9 @@ export abstract class BaseShape<T extends BaseShapeStyleProps> extends CustomEle
     return createAnimationsProxy(result, Object.values(this.animateMap));
   }
 
-  public update(attr: Partial<T> = {}): void {
+  public update(attr: Partial<StyleProps> = {}): void {
     this.attr(deepMix({}, this.attributes, attr));
-    return this.render(this.attributes as Required<T>, this);
+    return this.render(this.attributes as Required<StyleProps>, this);
   }
 
   /**
@@ -106,7 +106,7 @@ export abstract class BaseShape<T extends BaseShapeStyleProps> extends CustomEle
    * @param attributes
    * @param container
    */
-  public abstract render(attributes: Required<T>, container: Group): void;
+  public abstract render(attributes: Required<StyleProps>, container: Group): void;
 
   public bindEvents() {}
 

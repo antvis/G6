@@ -29,23 +29,17 @@ import type { LabelStyleProps } from '../shapes';
 import { Label } from '../shapes';
 import { BaseShape } from '../shapes/base-shape';
 
-export type BaseEdgeStyleProps<StyleLifting extends keyof BaseEdgeKeyStyleProps = never> = BaseEdgeProps &
+export type BaseEdgeStyleProps = BaseEdgeProps &
   ShapeSwitch &
-  Pick<BaseEdgeKeyStyleProps, StyleLifting> &
   PrefixObject<EdgeLabelStyleProps, 'label'> &
   PrefixObject<PathStyleProps, 'halo'> &
   PrefixObject<EdgeArrowStyleProps, 'startArrow'> &
   PrefixObject<EdgeArrowStyleProps, 'endArrow'> &
   PrefixObject<LoopStyleProps, 'loop'>;
 
-type ParsedBaseEdgeStyleProps<StyleLifting extends keyof BaseEdgeKeyStyleProps = never> = Required<
-  BaseEdgeStyleProps<StyleLifting>
->;
-type BaseEdgeKeyStyleProps = PathStyleProps;
+type ParsedBaseEdgeStyleProps = Required<BaseEdgeStyleProps>;
 
-export abstract class BaseEdge<StyleLifting extends keyof BaseEdgeKeyStyleProps = never> extends BaseShape<
-  BaseEdgeStyleProps<StyleLifting>
-> {
+export abstract class BaseEdge extends BaseShape<BaseEdgeStyleProps> {
   static defaultStyleProps: Partial<BaseEdgeStyleProps> = {
     isBillboard: true,
     label: true,
@@ -85,11 +79,11 @@ export abstract class BaseEdge<StyleLifting extends keyof BaseEdgeKeyStyleProps 
     loopClockwise: true,
   };
 
-  constructor(options: DisplayObjectConfig<BaseEdgeStyleProps<StyleLifting>>) {
+  constructor(options: DisplayObjectConfig<BaseEdgeStyleProps>) {
     super(deepMix({}, { style: BaseEdge.defaultStyleProps }, options));
   }
 
-  protected getKeyStyle(attributes: ParsedBaseEdgeStyleProps<StyleLifting>): PathStyleProps {
+  protected getKeyStyle(attributes: ParsedBaseEdgeStyleProps): PathStyleProps {
     const { sourceNode, targetNode, color, stroke, ...style } = this.getGraphicStyle(attributes);
 
     const path = isSameNode(sourceNode, targetNode) ? this.getLoopPath(attributes) : this.getKeyPath(attributes);
@@ -100,9 +94,9 @@ export abstract class BaseEdge<StyleLifting extends keyof BaseEdgeKeyStyleProps 
     };
   }
 
-  protected abstract getKeyPath(attributes: ParsedBaseEdgeStyleProps<StyleLifting>): PathArray;
+  protected abstract getKeyPath(attributes: ParsedBaseEdgeStyleProps): PathArray;
 
-  protected getLoopPath(attributes: ParsedBaseEdgeStyleProps<StyleLifting>): PathArray {
+  protected getLoopPath(attributes: ParsedBaseEdgeStyleProps): PathArray {
     const { sourceNode: node, sourcePort, targetPort } = attributes;
 
     const bbox = getNodeBBox(node);
@@ -117,7 +111,7 @@ export abstract class BaseEdge<StyleLifting extends keyof BaseEdgeKeyStyleProps 
     return getCubicLoopPath(node, position, clockwise, dist, sourcePort, targetPort);
   }
 
-  protected getEndpoints(attributes: ParsedBaseEdgeStyleProps<StyleLifting>): [Point, Point] {
+  protected getEndpoints(attributes: ParsedBaseEdgeStyleProps): [Point, Point] {
     const { sourceNode, targetNode, sourcePort: sourcePortKey, targetPort: targetPortKey } = attributes;
 
     const [sourcePort, targetPort] = findPorts(sourceNode, targetNode, sourcePortKey, targetPortKey);
@@ -128,7 +122,7 @@ export abstract class BaseEdge<StyleLifting extends keyof BaseEdgeKeyStyleProps 
     return [sourcePoint, targetPoint];
   }
 
-  protected getHaloStyle(attributes: ParsedBaseEdgeStyleProps<StyleLifting>): false | PathStyleProps {
+  protected getHaloStyle(attributes: ParsedBaseEdgeStyleProps): false | PathStyleProps {
     if (attributes.halo === false) return false;
 
     const keyStyle = this.getKeyStyle(attributes);
@@ -137,7 +131,7 @@ export abstract class BaseEdge<StyleLifting extends keyof BaseEdgeKeyStyleProps 
     return { ...keyStyle, ...haloStyle };
   }
 
-  protected getLabelStyle(attributes: ParsedBaseEdgeStyleProps<StyleLifting>): false | LabelStyleProps {
+  protected getLabelStyle(attributes: ParsedBaseEdgeStyleProps): false | LabelStyleProps {
     if (attributes.label === false || isEmpty(attributes.labelText)) return false;
 
     const labelStyle = subStyleProps<Required<EdgeLabelStyleProps>>(this.getGraphicStyle(attributes), 'label');
@@ -156,7 +150,7 @@ export abstract class BaseEdge<StyleLifting extends keyof BaseEdgeKeyStyleProps 
     return Object.assign({ wordWrapWidth }, labelPositionStyle, restStyle);
   }
 
-  protected drawArrow(attributes: ParsedBaseEdgeStyleProps<StyleLifting>, isStart: boolean) {
+  protected drawArrow(attributes: ParsedBaseEdgeStyleProps, isStart: boolean) {
     const arrowType = isStart ? 'startArrow' : 'endArrow';
     const arrowPresence = attributes[arrowType];
 
@@ -172,7 +166,7 @@ export abstract class BaseEdge<StyleLifting extends keyof BaseEdgeKeyStyleProps 
     }
   }
 
-  private getArrowStyle(attributes: ParsedBaseEdgeStyleProps<StyleLifting>, isStart: boolean) {
+  private getArrowStyle(attributes: ParsedBaseEdgeStyleProps, isStart: boolean) {
     const keyStyle = this.getKeyStyle(attributes) as BaseStyleProps;
     const arrowType = isStart ? 'startArrow' : 'endArrow';
     const { width, height, type, ctor, ...arrowStyle } = subStyleProps<Required<EdgeArrowStyleProps>>(
@@ -194,15 +188,15 @@ export abstract class BaseEdge<StyleLifting extends keyof BaseEdgeKeyStyleProps 
     };
   }
 
-  protected drawLabelShape(attributes: ParsedBaseEdgeStyleProps<StyleLifting>, container: Group) {
+  protected drawLabelShape(attributes: ParsedBaseEdgeStyleProps, container: Group) {
     this.upsert('label', Label, this.getLabelStyle(attributes), container);
   }
 
-  protected drawHaloShape(attributes: ParsedBaseEdgeStyleProps<StyleLifting>, container: Group) {
+  protected drawHaloShape(attributes: ParsedBaseEdgeStyleProps, container: Group) {
     this.upsert('halo', Path, this.getHaloStyle(attributes), container);
   }
 
-  protected drawKeyShape(attributes: ParsedBaseEdgeStyleProps<StyleLifting>, container: Group): Path | undefined {
+  protected drawKeyShape(attributes: ParsedBaseEdgeStyleProps, container: Group): Path | undefined {
     return this.upsert('key', Path, this.getKeyStyle(attributes), container);
   }
 
