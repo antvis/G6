@@ -20,13 +20,14 @@
           <g transform="matrix(1,0,0,1,0,0)">
             <image
               id="key"
-              fill="rgba(248,248,248,1)"
+              fill="rgba(34,126,255,1)"
               preserveAspectRatio="none"
               x="0"
               y="0"
               href="https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*N4ZMS7gHsUIAAAAAAAAAAABkARQnAQ"
               transform="translate(-20,-20)"
-              stroke="rgba(139,155,175,1)"
+              stroke-width="0"
+              stroke="rgba(0,0,0,1)"
               width="40"
               height="40"
             />
@@ -35,9 +36,9 @@
             <g transform="matrix(1,0,0,1,-17.400000,0)">
               <path
                 id="background"
-                fill="none"
+                fill="rgba(255,255,255,1)"
                 d="M 0,0 l 35.8,0 l 0,23 l-35.8 0 z"
-                opacity="0.75"
+                opacity="0.5"
                 stroke-width="0"
                 width="35.8"
                 height="23"
@@ -46,7 +47,7 @@
             <g transform="matrix(1,0,0,1,0,0)">
               <text
                 id="text"
-                fill="rgba(0,0,0,1)"
+                fill="rgba(0,0,0,0.8509803921568627)"
                 dominant-baseline="central"
                 paint-order="stroke"
                 dx="0.5"
@@ -70,25 +71,26 @@
               fill="rgba(0,0,0,0)"
               d="M 0,0 l 52,0 l 0,52 l-52 0 z"
               transform="translate(-26,-26)"
+              stroke-width="12"
               width="52"
               height="52"
               stroke-dasharray="0,0"
-              stroke-width="12"
               stroke-opacity="0.25"
               pointer-events="none"
-              stroke="rgba(23,131,255,1)"
+              stroke="rgba(34,126,255,1)"
             />
           </g>
           <g transform="matrix(1,0,0,1,0,0)">
             <image
               id="key"
-              fill="rgba(248,248,248,1)"
+              fill="rgba(34,126,255,1)"
               preserveAspectRatio="none"
               x="0"
               y="0"
               href="https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*N4ZMS7gHsUIAAAAAAAAAAABkARQnAQ"
               transform="translate(-20,-20)"
-              stroke="rgba(139,155,175,1)"
+              stroke-width="0"
+              stroke="rgba(0,0,0,1)"
               width="40"
               height="40"
             />
@@ -97,9 +99,9 @@
             <g transform="matrix(1,0,0,1,-32.400002,0)">
               <path
                 id="background"
-                fill="none"
+                fill="rgba(255,255,255,1)"
                 d="M 0,0 l 65.8,0 l 0,23 l-65.8 0 z"
-                opacity="0.75"
+                opacity="0.5"
                 stroke-width="0"
                 width="65.8"
                 height="23"
@@ -108,7 +110,7 @@
             <g transform="matrix(1,0,0,1,0,0)">
               <text
                 id="text"
-                fill="rgba(0,0,0,1)"
+                fill="rgba(0,0,0,0.8509803921568627)"
                 dominant-baseline="central"
                 paint-order="stroke"
                 dx="0.5"
@@ -129,33 +131,34 @@
           <g transform="matrix(1,0,0,1,0,0)">
             <image
               id="key"
-              fill="rgba(248,248,248,1)"
+              fill="rgba(34,126,255,1)"
               preserveAspectRatio="none"
               x="0"
               y="0"
               href="https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*N4ZMS7gHsUIAAAAAAAAAAABkARQnAQ"
               transform="translate(-20,-20)"
-              stroke="rgba(139,155,175,1)"
+              stroke-width="0"
+              stroke="rgba(0,0,0,1)"
               width="40"
               height="40"
             />
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,0,20)">
-            <g transform="matrix(1,0,0,1,-36.779999,0)">
+            <g transform="matrix(1,0,0,1,-41.639999,0)">
               <path
                 id="background"
-                fill="none"
-                d="M 0,0 l 74.56,0 l 0,23 l-74.56 0 z"
-                opacity="0.75"
+                fill="rgba(255,255,255,1)"
+                d="M 0,0 l 84.28,0 l 0,23 l-84.28 0 z"
+                opacity="0.5"
                 stroke-width="0"
-                width="74.56"
+                width="84.28"
                 height="23"
               />
             </g>
             <g transform="matrix(1,0,0,1,0,0)">
               <text
                 id="text"
-                fill="rgba(0,0,0,1)"
+                fill="rgba(0,0,0,0.8509803921568627)"
                 dominant-baseline="central"
                 paint-order="stroke"
                 dx="0.5"
@@ -163,7 +166,7 @@
                 font-size="12"
                 text-anchor="middle"
               >
-                image-bad...
+                image-badges
               </text>
             </g>
           </g>
@@ -172,7 +175,7 @@
               <g transform="matrix(1,0,0,1,-4,-1)">
                 <path
                   id="background"
-                  fill="rgba(130,145,178,1)"
+                  fill="rgba(126,146,181,1)"
                   d="M 7.26,0 l 0,0 a 7.26,7.26,0,0,1,7.26,7.26 l 0,4.48 a 7.26,7.26,0,0,1,-7.26,7.26 l 0,0 a 7.26,7.26,0,0,1,-7.26,-7.26 l 0,-4.48 a 7.26,7.26,0,0,1,7.26,-7.26 z"
                   stroke-width="0"
                   width="14.52"
@@ -200,7 +203,7 @@
               <g transform="matrix(1,0,0,1,-4,-9.500000)">
                 <path
                   id="background"
-                  fill="rgba(230,108,91,1)"
+                  fill="rgba(248,98,84,1)"
                   d="M 9.5,0 l 27.520000000000003,0 a 9.5,9.5,0,0,1,9.5,9.5 l 0,0 a 9.5,9.5,0,0,1,-9.5,9.5 l -27.520000000000003,0 a 9.5,9.5,0,0,1,-9.5,-9.5 l 0,0 a 9.5,9.5,0,0,1,9.5,-9.5 z"
                   stroke-width="0"
                   width="46.52"
@@ -227,7 +230,7 @@
               <g transform="matrix(1,0,0,1,-4,-18)">
                 <path
                   id="background"
-                  fill="rgba(229,185,94,1)"
+                  fill="rgba(237,183,75,1)"
                   d="M 9.5,0 l 15.120000000000005,0 a 9.5,9.5,0,0,1,9.5,9.5 l 0,0 a 9.5,9.5,0,0,1,-9.5,9.5 l -15.120000000000005,0 a 9.5,9.5,0,0,1,-9.5,-9.5 l 0,0 a 9.5,9.5,0,0,1,9.5,-9.5 z"
                   stroke-width="0"
                   width="34.120000000000005"
@@ -259,13 +262,14 @@
           <g transform="matrix(1,0,0,1,0,0)">
             <image
               id="key"
-              fill="rgba(248,248,248,1)"
+              fill="rgba(34,126,255,1)"
               preserveAspectRatio="none"
               x="0"
               y="0"
               href="https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*N4ZMS7gHsUIAAAAAAAAAAABkARQnAQ"
               transform="translate(-20,-20)"
-              stroke="rgba(139,155,175,1)"
+              stroke-width="0"
+              stroke="rgba(0,0,0,1)"
               width="40"
               height="40"
             />
@@ -274,9 +278,9 @@
             <g transform="matrix(1,0,0,1,-35.459999,0)">
               <path
                 id="background"
-                fill="none"
+                fill="rgba(255,255,255,1)"
                 d="M 0,0 l 71.92,0 l 0,23 l-71.92 0 z"
-                opacity="0.75"
+                opacity="0.5"
                 stroke-width="0"
                 width="71.92"
                 height="23"
@@ -285,7 +289,7 @@
             <g transform="matrix(1,0,0,1,0,0)">
               <text
                 id="text"
-                fill="rgba(0,0,0,1)"
+                fill="rgba(0,0,0,0.8509803921568627)"
                 dominant-baseline="central"
                 paint-order="stroke"
                 dx="0.5"
@@ -300,49 +304,53 @@
           <g transform="matrix(1,0,0,1,-20,0)">
             <circle
               id="port-0"
-              fill="rgba(255,255,255,1)"
-              transform="translate(-2,-2)"
-              cx="2"
-              cy="2"
-              stroke="rgba(49,208,198,1)"
-              r="2"
+              fill="rgba(34,126,255,1)"
+              transform="translate(-3,-3)"
+              cx="3"
+              cy="3"
               stroke-width="1"
+              r="3"
+              stroke="rgba(0,0,0,1)"
+              stroke-opacity="0.65"
             />
           </g>
           <g transform="matrix(1,0,0,1,20,0)">
             <circle
               id="port-1"
-              fill="rgba(255,255,255,1)"
-              transform="translate(-2,-2)"
-              cx="2"
-              cy="2"
-              stroke="rgba(49,208,198,1)"
-              r="2"
+              fill="rgba(34,126,255,1)"
+              transform="translate(-3,-3)"
+              cx="3"
+              cy="3"
               stroke-width="1"
+              r="3"
+              stroke="rgba(0,0,0,1)"
+              stroke-opacity="0.65"
             />
           </g>
           <g transform="matrix(1,0,0,1,0,-20)">
             <circle
               id="port-2"
-              fill="rgba(255,255,255,1)"
-              transform="translate(-2,-2)"
-              cx="2"
-              cy="2"
-              stroke="rgba(49,208,198,1)"
-              r="2"
+              fill="rgba(34,126,255,1)"
+              transform="translate(-3,-3)"
+              cx="3"
+              cy="3"
               stroke-width="1"
+              r="3"
+              stroke="rgba(0,0,0,1)"
+              stroke-opacity="0.65"
             />
           </g>
           <g transform="matrix(1,0,0,1,0,20)">
             <circle
               id="port-3"
-              fill="rgba(255,255,255,1)"
-              transform="translate(-2,-2)"
-              cx="2"
-              cy="2"
-              stroke="rgba(49,208,198,1)"
-              r="2"
+              fill="rgba(34,126,255,1)"
+              transform="translate(-3,-3)"
+              cx="3"
+              cy="3"
               stroke-width="1"
+              r="3"
+              stroke="rgba(0,0,0,1)"
+              stroke-opacity="0.65"
             />
           </g>
         </g>
@@ -353,25 +361,26 @@
               fill="rgba(0,0,0,0)"
               d="M 0,0 l 52,0 l 0,52 l-52 0 z"
               transform="translate(-26,-26)"
+              stroke-width="12"
               width="52"
               height="52"
               stroke-dasharray="0,0"
-              stroke-width="12"
               stroke-opacity="0.25"
               pointer-events="none"
-              stroke="rgba(23,131,255,1)"
+              stroke="rgba(34,126,255,1)"
             />
           </g>
           <g transform="matrix(1,0,0,1,0,0)">
             <image
               id="key"
-              fill="rgba(248,248,248,1)"
+              fill="rgba(34,126,255,1)"
               preserveAspectRatio="none"
               x="0"
               y="0"
               href="https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*N4ZMS7gHsUIAAAAAAAAAAABkARQnAQ"
               transform="translate(-20,-20)"
-              stroke="rgba(139,155,175,1)"
+              stroke-width="0"
+              stroke="rgba(0,0,0,1)"
               width="40"
               height="40"
             />
@@ -380,9 +389,9 @@
             <g transform="matrix(1,0,0,1,-37.680000,0)">
               <path
                 id="background"
-                fill="none"
+                fill="rgba(255,255,255,1)"
                 d="M 0,0 l 76.35999999999999,0 l 0,23 l-76.35999999999999 0 z"
-                opacity="0.75"
+                opacity="0.5"
                 stroke-width="0"
                 width="76.35999999999999"
                 height="23"
@@ -391,7 +400,7 @@
             <g transform="matrix(1,0,0,1,0,0)">
               <text
                 id="text"
-                fill="rgba(0,0,0,1)"
+                fill="rgba(0,0,0,0.8509803921568627)"
                 dominant-baseline="central"
                 paint-order="stroke"
                 dx="0.5"
@@ -415,45 +424,46 @@
               fill="rgba(0,0,0,0)"
               d="M 0,0 l 52,0 l 0,52 l-52 0 z"
               transform="translate(-26,-26)"
+              stroke-width="12"
               width="52"
               height="52"
               stroke-dasharray="0,0"
-              stroke-width="12"
               stroke-opacity="0.25"
               pointer-events="none"
-              stroke="rgba(23,131,255,1)"
+              stroke="rgba(34,126,255,1)"
             />
           </g>
           <g transform="matrix(1,0,0,1,0,0)">
             <image
               id="key"
-              fill="rgba(248,248,248,1)"
+              fill="rgba(34,126,255,1)"
               preserveAspectRatio="none"
               x="0"
               y="0"
               href="https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*N4ZMS7gHsUIAAAAAAAAAAABkARQnAQ"
               transform="translate(-20,-20)"
-              stroke="rgba(139,155,175,1)"
+              stroke-width="3"
+              stroke="rgba(0,0,0,1)"
               width="40"
               height="40"
             />
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,0,20)">
-            <g transform="matrix(1,0,0,1,-39.830002,0)">
+            <g transform="matrix(1,0,0,1,-52.500000,0)">
               <path
                 id="background"
-                fill="none"
-                d="M 0,0 l 80,0 l 0,27 l-80 0 z"
-                opacity="0.75"
+                fill="rgba(255,255,255,1)"
+                d="M 0,0 l 106,0 l 0,27 l-106 0 z"
+                opacity="0.5"
                 stroke-width="0"
-                width="80"
+                width="106"
                 height="27"
               />
             </g>
             <g transform="matrix(1,0,0,1,0,0)">
               <text
                 id="text"
-                fill="rgba(0,0,0,1)"
+                fill="rgba(0,0,0,0.8509803921568627)"
                 dominant-baseline="central"
                 paint-order="stroke"
                 dx="0.5"
@@ -462,7 +472,7 @@
                 text-anchor="middle"
                 font-weight="700"
               >
-                image-sel...
+                image-selected
               </text>
             </g>
           </g>
@@ -475,33 +485,35 @@
           <g transform="matrix(1,0,0,1,0,0)">
             <image
               id="key"
-              fill="rgba(248,248,248,1)"
+              fill="rgba(34,126,255,1)"
               preserveAspectRatio="none"
               x="0"
               y="0"
               href="https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*N4ZMS7gHsUIAAAAAAAAAAABkARQnAQ"
               transform="translate(-20,-20)"
-              stroke="rgba(139,155,175,1)"
+              stroke-width="3"
+              stroke="rgba(0,0,0,1)"
               width="40"
               height="40"
+              stroke-opacity="0.85"
             />
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,0,20)">
-            <g transform="matrix(1,0,0,1,-39.900002,0)">
+            <g transform="matrix(1,0,0,1,-45.480000,0)">
               <path
                 id="background"
-                fill="none"
-                d="M 0,0 l 80,0 l 0,23 l-80 0 z"
-                opacity="0.75"
+                fill="rgba(255,255,255,1)"
+                d="M 0,0 l 91.96000000000001,0 l 0,23 l-91.96000000000001 0 z"
+                opacity="0.5"
                 stroke-width="0"
-                width="80"
+                width="91.96000000000001"
                 height="23"
               />
             </g>
             <g transform="matrix(1,0,0,1,0,0)">
               <text
                 id="text"
-                fill="rgba(0,0,0,1)"
+                fill="rgba(0,0,0,0.8509803921568627)"
                 dominant-baseline="central"
                 paint-order="stroke"
                 dx="0.5"
@@ -510,7 +522,7 @@
                 text-anchor="middle"
                 font-weight="700"
               >
-                image-highl...
+                image-highlight
               </text>
             </g>
           </g>
@@ -523,34 +535,85 @@
           <g transform="matrix(1,0,0,1,0,0)">
             <image
               id="key"
-              fill="rgba(248,248,248,1)"
+              fill="rgba(34,126,255,1)"
               preserveAspectRatio="none"
               x="0"
               y="0"
               href="https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*N4ZMS7gHsUIAAAAAAAAAAABkARQnAQ"
               transform="translate(-20,-20)"
-              stroke="rgba(139,155,175,1)"
+              stroke-width="0"
+              stroke="rgba(0,0,0,1)"
               width="40"
               height="40"
-              opacity="0.2"
+              opacity="0.25"
             />
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,0,20)">
-            <g transform="matrix(1,0,0,1,-37.799999,0)">
+            <g transform="matrix(1,0,0,1,-42.840000,0)">
               <path
                 id="background"
-                fill="none"
-                d="M 0,0 l 76.6,0 l 0,23 l-76.6 0 z"
-                opacity="0.75"
+                fill="rgba(255,255,255,1)"
+                d="M 0,0 l 86.67999999999999,0 l 0,23 l-86.67999999999999 0 z"
+                opacity="0.5"
                 stroke-width="0"
-                width="76.6"
+                width="86.67999999999999"
                 height="23"
               />
             </g>
             <g transform="matrix(1,0,0,1,0,0)">
               <text
                 id="text"
-                fill="rgba(0,0,0,1)"
+                fill="rgba(0,0,0,0.8509803921568627)"
+                dominant-baseline="central"
+                paint-order="stroke"
+                dx="0.5"
+                dy="11.5px"
+                font-size="12"
+                text-anchor="middle"
+                opacity="0.25"
+              >
+                image-inactive
+              </text>
+            </g>
+          </g>
+        </g>
+        <g
+          id="image-disable"
+          fill="none"
+          transform="matrix(1,0,0,1,416.666656,416.666656)"
+        >
+          <g transform="matrix(1,0,0,1,0,0)">
+            <image
+              id="key"
+              fill="rgba(240,240,240,1)"
+              preserveAspectRatio="none"
+              x="0"
+              y="0"
+              href="https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*N4ZMS7gHsUIAAAAAAAAAAABkARQnAQ"
+              transform="translate(-20,-20)"
+              stroke-width="0"
+              stroke="rgba(0,0,0,1)"
+              width="40"
+              height="40"
+              opacity="0.2"
+            />
+          </g>
+          <g id="label" fill="none" transform="matrix(1,0,0,1,0,20)">
+            <g transform="matrix(1,0,0,1,-41.040001,0)">
+              <path
+                id="background"
+                fill="rgba(255,255,255,1)"
+                d="M 0,0 l 83.08,0 l 0,23 l-83.08 0 z"
+                opacity="0.5"
+                stroke-width="0"
+                width="83.08"
+                height="23"
+              />
+            </g>
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text
+                id="text"
+                fill="rgba(0,0,0,0.8509803921568627)"
                 dominant-baseline="central"
                 paint-order="stroke"
                 dx="0.5"
@@ -558,7 +621,7 @@
                 font-size="12"
                 text-anchor="middle"
               >
-                image-inac...
+                image-disable
               </text>
             </g>
           </g>

@@ -2,77 +2,33 @@ import { Graph } from '@/src';
 import type { StaticTestCase } from '../types';
 
 export const edgeLine: StaticTestCase = async (context) => {
-  const { canvas, animation } = context;
+  const { canvas, animation, theme } = context;
+
+  const edgeIds = ['line-default', 'line-active', 'line-selected', 'line-highlight', 'line-inactive', 'line-disable'];
 
   const data = {
-    nodes: [{ id: 'node1' }, { id: 'node2' }, { id: 'node3' }, { id: 'node4' }, { id: 'node5' }, { id: 'node6' }],
-    edges: [
-      {
-        id: 'line-default',
-        source: 'node1',
-        target: 'node2',
-      },
-      {
-        id: 'line-active',
-        source: 'node1',
-        target: 'node3',
-      },
-      {
-        id: 'line-selected',
-        source: 'node1',
-        target: 'node4',
-      },
-      {
-        id: 'line-highlight',
-        source: 'node1',
-        target: 'node5',
-      },
-      {
-        id: 'line-inactive',
-        source: 'node1',
-        target: 'node6',
-      },
-    ],
+    nodes: new Array(7).fill(0).map((_, i) => ({ id: `node${i + 1}` })),
+    edges: edgeIds.map((id, i) => ({
+      id,
+      source: 'node1',
+      target: `node${i + 2}`,
+    })),
   };
 
   const graph = new Graph({
     container: canvas,
+    theme,
     data,
     node: {
       style: {
         type: 'circle', // 👈🏻 Node shape type.
-        size: 40,
-        color: '#1783FF',
       },
     },
     edge: {
       style: {
         type: 'line', // 👈🏻 Edge shape type.
-        color: 'rgb(153, 173, 209)',
         labelText: (d: any) => d.id,
-        labelBackgroundPadding: 0,
-        labelBackgroundFill: '#fff',
-        labelBackgroundLineWidth: 0,
-        labelBackgroundOpacity: 0.75,
         endArrow: true,
-      },
-      state: {
-        active: {
-          halo: true,
-        },
-        selected: {
-          lineWidth: 2,
-          labelFontWeight: 700,
-          halo: true,
-        },
-        highlight: {
-          halo: false,
-          lineWidth: 2,
-          labelFontWeight: 700,
-        },
-        inactive: {
-          color: 'rgb(210, 218, 233)',
-        },
       },
     },
     layout: {
@@ -89,4 +45,5 @@ export const edgeLine: StaticTestCase = async (context) => {
   graph.setElementState('line-selected', 'selected');
   graph.setElementState('line-highlight', 'highlight');
   graph.setElementState('line-inactive', 'inactive');
+  graph.setElementState('line-disable', 'disable');
 };

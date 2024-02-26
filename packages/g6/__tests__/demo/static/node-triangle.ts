@@ -2,7 +2,7 @@ import { Graph } from '@/src';
 import type { StaticTestCase } from '../types';
 
 export const nodeTriangle: StaticTestCase = async (context) => {
-  const { canvas } = context;
+  const { canvas, animation, theme } = context;
 
   const data = {
     nodes: [
@@ -19,57 +19,35 @@ export const nodeTriangle: StaticTestCase = async (context) => {
 
   const graph = new Graph({
     container: canvas,
+    theme,
     data,
     node: {
       style: {
         type: 'triangle', // 👈🏻 Node shape type.
         size: 40,
         direction: (d: any) => d.data?.direction,
-        fill: '#1783FF',
+        labelMaxWidth: 120,
         labelText: (d: any) => d.id,
         iconSrc: 'https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg',
         halo: (d: any) => d.id.includes('halo'),
         ports: (d: any) =>
           d.id.includes('ports') ? [{ position: 'left' }, { position: 'top' }, { position: 'bottom' }] : [],
-        portStroke: '#31d0c6',
-        portFill: '#fff',
-        portR: 2,
-        portLineWidth: 1,
         badges: (d: any) =>
           d.id.includes('badges')
             ? [
-                { text: 'A', position: 'right-top', backgroundFill: '#8291b2' },
-                { text: 'Important', position: 'right', backgroundFill: '#e66c5b' },
-                { text: 'Notice', position: 'right-bottom', backgroundFill: '#e5b95e' },
+                { text: 'A', position: 'right-top' },
+                { text: 'Important', position: 'right' },
+                { text: 'Notice', position: 'right-bottom' },
               ]
             : [],
-        badgeFill: '#fff',
         badgeFontSize: 8,
         badgePadding: [1, 4],
-      },
-      state: {
-        active: {
-          halo: true,
-        },
-        selected: {
-          halo: true,
-          lineWidth: 2,
-          stroke: '#000',
-        },
-        highlight: {
-          halo: false,
-          lineWidth: 2,
-          stroke: '#000',
-        },
-        inactive: {
-          opacity: 0.2,
-        },
       },
     },
     layout: {
       type: 'grid',
     },
-    animation: false,
+    animation,
   });
 
   await graph.render();

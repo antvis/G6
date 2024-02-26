@@ -36,9 +36,9 @@ export const controllerElement: AnimationTestCase = async (context) => {
   await graph.draw();
 
   graph.addNodeData([
-    { id: 'node-4', style: { x: 50, y: 200, stroke: 'orange' } },
-    { id: 'node-5', style: { x: 75, y: 150, stroke: 'purple' } },
-    { id: 'node-6', style: { x: 200, y: 100, stroke: 'cyan' } },
+    { id: 'node-4', style: { x: 50, y: 200, fill: 'orange' } },
+    { id: 'node-5', style: { x: 75, y: 150, fill: 'purple' } },
+    { id: 'node-6', style: { x: 200, y: 100, fill: 'cyan' } },
   ]);
 
   graph.removeNodeData(['node-1']);

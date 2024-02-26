@@ -18,6 +18,14 @@
           marker-end="false"
           transform="matrix(1,0,0,1,0,0)"
         >
+          <g
+            id="node-1-node-2"
+            fill="none"
+            marker-start="false"
+            marker-end="false"
+            stroke="transparent"
+            stroke-width="4"
+          />
           <g transform="matrix(1,0,0,1,60,50)">
             <path
               id="key"
@@ -25,6 +33,13 @@
               d="M 0,0 L 130,0"
               stroke-width="2"
               stroke="rgba(255,192,203,1)"
+            />
+            <path
+              id="key"
+              fill="none"
+              d="M 0,0 L 130,0"
+              stroke-width="2"
+              stroke="transparent"
             />
           </g>
         </g>
@@ -35,13 +50,50 @@
           marker-end="false"
           transform="matrix(1,0,0,1,0,0)"
         >
+          <g
+            id="node-2-node-3"
+            fill="none"
+            marker-start="false"
+            marker-end="false"
+            stroke="transparent"
+            stroke-width="3"
+          />
+          <g transform="matrix(1,0,0,1,131,58)">
+            <path
+              id="halo"
+              fill="none"
+              d="M 63,0 L 0,84"
+              stroke-width="12"
+              stroke="rgba(153,173,209,1)"
+              stroke-dasharray="0,0"
+              pointer-events="none"
+              stroke-opacity="0.25"
+            />
+            <path
+              id="halo"
+              fill="none"
+              d="M 63,0 L 0,84"
+              stroke-width="14"
+              stroke="transparent"
+              stroke-dasharray="0,0"
+              pointer-events="none"
+              stroke-opacity="0.25"
+            />
+          </g>
           <g transform="matrix(1,0,0,1,131,58)">
             <path
               id="key"
               fill="none"
               d="M 63,0 L 0,84"
               stroke-width="1"
-              stroke="rgba(139,155,175,1)"
+              stroke="rgba(153,173,209,1)"
+            />
+            <path
+              id="key"
+              fill="none"
+              d="M 63,0 L 0,84"
+              stroke-width="1"
+              stroke="transparent"
             />
           </g>
         </g>
@@ -52,13 +104,28 @@
           marker-end="false"
           transform="matrix(1,0,0,1,0,0)"
         >
+          <g
+            id="node-3-node-1"
+            fill="none"
+            marker-start="false"
+            marker-end="false"
+            stroke="transparent"
+            stroke-width="3"
+          />
           <g transform="matrix(1,0,0,1,56,58)">
             <path
               id="key"
               fill="none"
               d="M 63,84 L 0,0"
               stroke-width="1"
-              stroke="rgba(139,155,175,1)"
+              stroke="rgba(153,173,209,1)"
+            />
+            <path
+              id="key"
+              fill="none"
+              d="M 63,84 L 0,0"
+              stroke-width="3"
+              stroke="transparent"
             />
           </g>
         </g>
@@ -72,8 +139,8 @@
               transform="translate(-10,-10)"
               cx="10"
               cy="10"
-              stroke="rgba(139,155,175,1)"
               stroke-width="2"
+              stroke="rgba(0,0,0,1)"
               r="10"
             />
           </g>
@@ -81,13 +148,28 @@
         <g id="node-2" fill="none" transform="matrix(1,0,0,1,200,50)">
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
-              id="key"
-              fill="rgba(248,248,248,1)"
+              id="halo"
+              fill="none"
               transform="translate(-10,-10)"
               cx="10"
               cy="10"
-              stroke="rgba(139,155,175,1)"
+              stroke-width="12"
+              stroke="rgba(34,126,255,1)"
+              r="10"
+              stroke-dasharray="0,0"
+              stroke-opacity="0.25"
+              pointer-events="none"
+            />
+          </g>
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle
+              id="key"
+              fill="rgba(34,126,255,1)"
+              transform="translate(-10,-10)"
+              cx="10"
+              cy="10"
               stroke-width="1"
+              stroke="rgba(0,0,0,1)"
               r="10"
             />
           </g>
@@ -95,13 +177,28 @@
         <g id="node-3" fill="none" transform="matrix(1,0,0,1,125,150)">
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
-              id="key"
-              fill="rgba(248,248,248,1)"
+              id="halo"
+              fill="none"
               transform="translate(-10,-10)"
               cx="10"
               cy="10"
-              stroke="rgba(139,155,175,1)"
+              stroke-width="12"
+              stroke="rgba(34,126,255,1)"
+              r="10"
+              stroke-dasharray="0,0"
+              stroke-opacity="0.25"
+              pointer-events="none"
+            />
+          </g>
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle
+              id="key"
+              fill="rgba(34,126,255,1)"
+              transform="translate(-10,-10)"
+              cx="10"
+              cy="10"
               stroke-width="2"
+              stroke="rgba(0,0,0,1)"
               r="10"
             />
           </g>

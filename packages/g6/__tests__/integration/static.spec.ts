@@ -16,6 +16,7 @@ describe('static', () => {
           env: 'test',
           canvas,
           animation: false,
+          theme: 'light',
           expect,
           toMatchSVGSnapshot: async (suffix: string) =>
             await expect(canvas).toMatchSVGSnapshot(`${__dirname}/snapshots/static`, `${name}__${suffix}`),

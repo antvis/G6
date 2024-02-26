@@ -20,11 +20,12 @@
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
-              fill="rgba(23,131,255,1)"
+              fill="rgba(34,126,255,1)"
               transform="translate(-20,-20)"
               cx="20"
               cy="20"
-              stroke="rgba(139,155,175,1)"
+              stroke-width="0"
+              stroke="rgba(0,0,0,1)"
               r="20"
             />
           </g>
@@ -32,9 +33,9 @@
             <g transform="matrix(1,0,0,1,-15.780000,0)">
               <path
                 id="background"
-                fill="none"
+                fill="rgba(255,255,255,1)"
                 d="M 0,0 l 32.56,0 l 0,23 l-32.56 0 z"
-                opacity="0.75"
+                opacity="0.5"
                 stroke-width="0"
                 width="32.56"
                 height="23"
@@ -43,7 +44,7 @@
             <g transform="matrix(1,0,0,1,0,0)">
               <text
                 id="text"
-                fill="rgba(0,0,0,1)"
+                fill="rgba(0,0,0,0.8509803921568627)"
                 dominant-baseline="central"
                 paint-order="stroke"
                 dx="0.5"
@@ -58,21 +59,22 @@
           <g
             id="icon"
             fill="none"
-            width="30"
-            height="30"
+            width="20"
+            height="20"
             transform="matrix(1,0,0,1,0,0)"
           >
             <g transform="matrix(1,0,0,1,0,0)">
               <image
                 id="icon"
-                fill="none"
+                fill="rgba(255,255,255,1)"
                 preserveAspectRatio="none"
                 x="0"
                 y="0"
                 href="https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg"
-                transform="translate(-15,-15)"
-                width="30"
-                height="30"
+                transform="translate(-10,-10)"
+                width="20"
+                height="20"
+                font-size="16"
               />
             </g>
           </g>
@@ -89,10 +91,10 @@
               transform="translate(-20,-20)"
               cx="20"
               cy="20"
-              stroke="rgba(23,131,255,1)"
+              stroke-width="12"
+              stroke="rgba(34,126,255,1)"
               r="20"
               stroke-dasharray="0,0"
-              stroke-width="12"
               stroke-opacity="0.25"
               pointer-events="none"
             />
@@ -100,11 +102,12 @@
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
-              fill="rgba(23,131,255,1)"
+              fill="rgba(34,126,255,1)"
               transform="translate(-20,-20)"
               cx="20"
               cy="20"
-              stroke="rgba(139,155,175,1)"
+              stroke-width="0"
+              stroke="rgba(0,0,0,1)"
               r="20"
             />
           </g>
@@ -112,9 +115,9 @@
             <g transform="matrix(1,0,0,1,-30.780001,0)">
               <path
                 id="background"
-                fill="none"
+                fill="rgba(255,255,255,1)"
                 d="M 0,0 l 62.56,0 l 0,23 l-62.56 0 z"
-                opacity="0.75"
+                opacity="0.5"
                 stroke-width="0"
                 width="62.56"
                 height="23"
@@ -123,7 +126,7 @@
             <g transform="matrix(1,0,0,1,0,0)">
               <text
                 id="text"
-                fill="rgba(0,0,0,1)"
+                fill="rgba(0,0,0,0.8509803921568627)"
                 dominant-baseline="central"
                 paint-order="stroke"
                 dx="0.5"
@@ -138,21 +141,22 @@
           <g
             id="icon"
             fill="none"
-            width="30"
-            height="30"
+            width="20"
+            height="20"
             transform="matrix(1,0,0,1,0,0)"
           >
             <g transform="matrix(1,0,0,1,0,0)">
               <image
                 id="icon"
-                fill="none"
+                fill="rgba(255,255,255,1)"
                 preserveAspectRatio="none"
                 x="0"
                 y="0"
                 href="https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg"
-                transform="translate(-15,-15)"
-                width="30"
-                height="30"
+                transform="translate(-10,-10)"
+                width="20"
+                height="20"
+                font-size="16"
               />
             </g>
           </g>
@@ -165,30 +169,31 @@
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
-              fill="rgba(23,131,255,1)"
+              fill="rgba(34,126,255,1)"
               transform="translate(-20,-20)"
               cx="20"
               cy="20"
-              stroke="rgba(139,155,175,1)"
+              stroke-width="0"
+              stroke="rgba(0,0,0,1)"
               r="20"
             />
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,0,20)">
-            <g transform="matrix(1,0,0,1,-38.880001,0)">
+            <g transform="matrix(1,0,0,1,-40.020000,0)">
               <path
                 id="background"
-                fill="none"
-                d="M 0,0 l 78.76,0 l 0,23 l-78.76 0 z"
-                opacity="0.75"
+                fill="rgba(255,255,255,1)"
+                d="M 0,0 l 81.04,0 l 0,23 l-81.04 0 z"
+                opacity="0.5"
                 stroke-width="0"
-                width="78.76"
+                width="81.04"
                 height="23"
               />
             </g>
             <g transform="matrix(1,0,0,1,0,0)">
               <text
                 id="text"
-                fill="rgba(0,0,0,1)"
+                fill="rgba(0,0,0,0.8509803921568627)"
                 dominant-baseline="central"
                 paint-order="stroke"
                 dx="0.5"
@@ -196,28 +201,29 @@
                 font-size="12"
                 text-anchor="middle"
               >
-                circle-badg...
+                circle-badges
               </text>
             </g>
           </g>
           <g
             id="icon"
             fill="none"
-            width="30"
-            height="30"
+            width="20"
+            height="20"
             transform="matrix(1,0,0,1,0,0)"
           >
             <g transform="matrix(1,0,0,1,0,0)">
               <image
                 id="icon"
-                fill="none"
+                fill="rgba(255,255,255,1)"
                 preserveAspectRatio="none"
                 x="0"
                 y="0"
                 href="https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg"
-                transform="translate(-15,-15)"
-                width="30"
-                height="30"
+                transform="translate(-10,-10)"
+                width="20"
+                height="20"
+                font-size="16"
               />
             </g>
           </g>
@@ -226,7 +232,7 @@
               <g transform="matrix(1,0,0,1,-4,-1)">
                 <path
                   id="background"
-                  fill="rgba(130,145,178,1)"
+                  fill="rgba(126,146,181,1)"
                   d="M 7.26,0 l 0,0 a 7.26,7.26,0,0,1,7.26,7.26 l 0,4.48 a 7.26,7.26,0,0,1,-7.26,7.26 l 0,0 a 7.26,7.26,0,0,1,-7.26,-7.26 l 0,-4.48 a 7.26,7.26,0,0,1,7.26,-7.26 z"
                   stroke-width="0"
                   width="14.52"
@@ -254,7 +260,7 @@
               <g transform="matrix(1,0,0,1,-4,-9.500000)">
                 <path
                   id="background"
-                  fill="rgba(230,108,91,1)"
+                  fill="rgba(248,98,84,1)"
                   d="M 9.5,0 l 27.520000000000003,0 a 9.5,9.5,0,0,1,9.5,9.5 l 0,0 a 9.5,9.5,0,0,1,-9.5,9.5 l -27.520000000000003,0 a 9.5,9.5,0,0,1,-9.5,-9.5 l 0,0 a 9.5,9.5,0,0,1,9.5,-9.5 z"
                   stroke-width="0"
                   width="46.52"
@@ -281,7 +287,7 @@
               <g transform="matrix(1,0,0,1,-4,-18)">
                 <path
                   id="background"
-                  fill="rgba(229,185,94,1)"
+                  fill="rgba(237,183,75,1)"
                   d="M 9.5,0 l 15.120000000000005,0 a 9.5,9.5,0,0,1,9.5,9.5 l 0,0 a 9.5,9.5,0,0,1,-9.5,9.5 l -15.120000000000005,0 a 9.5,9.5,0,0,1,-9.5,-9.5 l 0,0 a 9.5,9.5,0,0,1,9.5,-9.5 z"
                   stroke-width="0"
                   width="34.120000000000005"
@@ -313,11 +319,12 @@
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
-              fill="rgba(23,131,255,1)"
+              fill="rgba(34,126,255,1)"
               transform="translate(-20,-20)"
               cx="20"
               cy="20"
-              stroke="rgba(139,155,175,1)"
+              stroke-width="0"
+              stroke="rgba(0,0,0,1)"
               r="20"
             />
           </g>
@@ -325,9 +332,9 @@
             <g transform="matrix(1,0,0,1,-33.840000,0)">
               <path
                 id="background"
-                fill="none"
+                fill="rgba(255,255,255,1)"
                 d="M 0,0 l 68.68,0 l 0,23 l-68.68 0 z"
-                opacity="0.75"
+                opacity="0.5"
                 stroke-width="0"
                 width="68.68"
                 height="23"
@@ -336,7 +343,7 @@
             <g transform="matrix(1,0,0,1,0,0)">
               <text
                 id="text"
-                fill="rgba(0,0,0,1)"
+                fill="rgba(0,0,0,0.8509803921568627)"
                 dominant-baseline="central"
                 paint-order="stroke"
                 dx="0.5"
@@ -351,70 +358,75 @@
           <g
             id="icon"
             fill="none"
-            width="30"
-            height="30"
+            width="20"
+            height="20"
             transform="matrix(1,0,0,1,0,0)"
           >
             <g transform="matrix(1,0,0,1,0,0)">
               <image
                 id="icon"
-                fill="none"
+                fill="rgba(255,255,255,1)"
                 preserveAspectRatio="none"
                 x="0"
                 y="0"
                 href="https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg"
-                transform="translate(-15,-15)"
-                width="30"
-                height="30"
+                transform="translate(-10,-10)"
+                width="20"
+                height="20"
+                font-size="16"
               />
             </g>
           </g>
           <g transform="matrix(1,0,0,1,-20,0)">
             <circle
               id="port-0"
-              fill="rgba(255,255,255,1)"
-              transform="translate(-2,-2)"
-              cx="2"
-              cy="2"
-              stroke="rgba(49,208,198,1)"
-              r="2"
+              fill="rgba(34,126,255,1)"
+              transform="translate(-3,-3)"
+              cx="3"
+              cy="3"
               stroke-width="1"
+              r="3"
+              stroke="rgba(0,0,0,1)"
+              stroke-opacity="0.65"
             />
           </g>
           <g transform="matrix(1,0,0,1,20,0)">
             <circle
               id="port-1"
-              fill="rgba(255,255,255,1)"
-              transform="translate(-2,-2)"
-              cx="2"
-              cy="2"
-              stroke="rgba(49,208,198,1)"
-              r="2"
+              fill="rgba(34,126,255,1)"
+              transform="translate(-3,-3)"
+              cx="3"
+              cy="3"
               stroke-width="1"
+              r="3"
+              stroke="rgba(0,0,0,1)"
+              stroke-opacity="0.65"
             />
           </g>
           <g transform="matrix(1,0,0,1,0,-20)">
             <circle
               id="port-2"
-              fill="rgba(255,255,255,1)"
-              transform="translate(-2,-2)"
-              cx="2"
-              cy="2"
-              stroke="rgba(49,208,198,1)"
-              r="2"
+              fill="rgba(34,126,255,1)"
+              transform="translate(-3,-3)"
+              cx="3"
+              cy="3"
               stroke-width="1"
+              r="3"
+              stroke="rgba(0,0,0,1)"
+              stroke-opacity="0.65"
             />
           </g>
           <g transform="matrix(1,0,0,1,0,20)">
             <circle
               id="port-3"
-              fill="rgba(255,255,255,1)"
-              transform="translate(-2,-2)"
-              cx="2"
-              cy="2"
-              stroke="rgba(49,208,198,1)"
-              r="2"
+              fill="rgba(34,126,255,1)"
+              transform="translate(-3,-3)"
+              cx="3"
+              cy="3"
               stroke-width="1"
+              r="3"
+              stroke="rgba(0,0,0,1)"
+              stroke-opacity="0.65"
             />
           </g>
         </g>
@@ -426,10 +438,10 @@
               transform="translate(-20,-20)"
               cx="20"
               cy="20"
-              stroke="rgba(23,131,255,1)"
+              stroke-width="12"
+              stroke="rgba(34,126,255,1)"
               r="20"
               stroke-dasharray="0,0"
-              stroke-width="12"
               stroke-opacity="0.25"
               pointer-events="none"
             />
@@ -437,11 +449,12 @@
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
-              fill="rgba(23,131,255,1)"
+              fill="rgba(34,126,255,1)"
               transform="translate(-20,-20)"
               cx="20"
               cy="20"
-              stroke="rgba(139,155,175,1)"
+              stroke-width="0"
+              stroke="rgba(0,0,0,1)"
               r="20"
             />
           </g>
@@ -449,9 +462,9 @@
             <g transform="matrix(1,0,0,1,-36.060001,0)">
               <path
                 id="background"
-                fill="none"
+                fill="rgba(255,255,255,1)"
                 d="M 0,0 l 73.11999999999999,0 l 0,23 l-73.11999999999999 0 z"
-                opacity="0.75"
+                opacity="0.5"
                 stroke-width="0"
                 width="73.11999999999999"
                 height="23"
@@ -460,7 +473,7 @@
             <g transform="matrix(1,0,0,1,0,0)">
               <text
                 id="text"
-                fill="rgba(0,0,0,1)"
+                fill="rgba(0,0,0,0.8509803921568627)"
                 dominant-baseline="central"
                 paint-order="stroke"
                 dx="0.5"
@@ -475,21 +488,22 @@
           <g
             id="icon"
             fill="none"
-            width="30"
-            height="30"
+            width="20"
+            height="20"
             transform="matrix(1,0,0,1,0,0)"
           >
             <g transform="matrix(1,0,0,1,0,0)">
               <image
                 id="icon"
-                fill="none"
+                fill="rgba(255,255,255,1)"
                 preserveAspectRatio="none"
                 x="0"
                 y="0"
                 href="https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg"
-                transform="translate(-15,-15)"
-                width="30"
-                height="30"
+                transform="translate(-10,-10)"
+                width="20"
+                height="20"
+                font-size="16"
               />
             </g>
           </g>
@@ -506,8 +520,8 @@
               transform="translate(-20,-20)"
               cx="20"
               cy="20"
-              stroke="rgba(23,131,255,1)"
               stroke-width="12"
+              stroke="rgba(34,126,255,1)"
               r="20"
               stroke-dasharray="0,0"
               stroke-opacity="0.25"
@@ -517,60 +531,62 @@
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
-              fill="rgba(23,131,255,1)"
+              fill="rgba(34,126,255,1)"
               transform="translate(-20,-20)"
               cx="20"
               cy="20"
+              stroke-width="3"
               stroke="rgba(0,0,0,1)"
               r="20"
-              stroke-width="2"
             />
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,0,20)">
-            <g transform="matrix(1,0,0,1,-39.419998,0)">
+            <g transform="matrix(1,0,0,1,-50.610001,0)">
               <path
                 id="background"
-                fill="none"
-                d="M 0,0 l 79.83999999999999,0 l 0,23 l-79.83999999999999 0 z"
-                opacity="0.75"
+                fill="rgba(255,255,255,1)"
+                d="M 0,0 l 102.22,0 l 0,27 l-102.22 0 z"
+                opacity="0.5"
                 stroke-width="0"
-                width="79.83999999999999"
-                height="23"
+                width="102.22"
+                height="27"
               />
             </g>
             <g transform="matrix(1,0,0,1,0,0)">
               <text
                 id="text"
-                fill="rgba(0,0,0,1)"
+                fill="rgba(0,0,0,0.8509803921568627)"
                 dominant-baseline="central"
                 paint-order="stroke"
                 dx="0.5"
-                dy="11.5px"
-                font-size="12"
+                dy="13.5px"
+                font-size="14"
                 text-anchor="middle"
+                font-weight="700"
               >
-                circle-selec...
+                circle-selected
               </text>
             </g>
           </g>
           <g
             id="icon"
             fill="none"
-            width="30"
-            height="30"
+            width="20"
+            height="20"
             transform="matrix(1,0,0,1,0,0)"
           >
             <g transform="matrix(1,0,0,1,0,0)">
               <image
                 id="icon"
-                fill="none"
+                fill="rgba(255,255,255,1)"
                 preserveAspectRatio="none"
                 x="0"
                 y="0"
                 href="https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg"
-                transform="translate(-15,-15)"
-                width="30"
-                height="30"
+                transform="translate(-10,-10)"
+                width="20"
+                height="20"
+                font-size="16"
               />
             </g>
           </g>
@@ -583,60 +599,63 @@
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
-              fill="rgba(23,131,255,1)"
+              fill="rgba(34,126,255,1)"
               transform="translate(-20,-20)"
               cx="20"
               cy="20"
+              stroke-width="3"
               stroke="rgba(0,0,0,1)"
               r="20"
-              stroke-width="2"
+              stroke-opacity="0.85"
             />
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,0,20)">
-            <g transform="matrix(1,0,0,1,-39.840000,0)">
+            <g transform="matrix(1,0,0,1,-43.860001,0)">
               <path
                 id="background"
-                fill="none"
-                d="M 0,0 l 80,0 l 0,23 l-80 0 z"
-                opacity="0.75"
+                fill="rgba(255,255,255,1)"
+                d="M 0,0 l 88.72000000000001,0 l 0,23 l-88.72000000000001 0 z"
+                opacity="0.5"
                 stroke-width="0"
-                width="80"
+                width="88.72000000000001"
                 height="23"
               />
             </g>
             <g transform="matrix(1,0,0,1,0,0)">
               <text
                 id="text"
-                fill="rgba(0,0,0,1)"
+                fill="rgba(0,0,0,0.8509803921568627)"
                 dominant-baseline="central"
                 paint-order="stroke"
                 dx="0.5"
                 dy="11.5px"
                 font-size="12"
                 text-anchor="middle"
+                font-weight="700"
               >
-                circle-highli...
+                circle-highlight
               </text>
             </g>
           </g>
           <g
             id="icon"
             fill="none"
-            width="30"
-            height="30"
+            width="20"
+            height="20"
             transform="matrix(1,0,0,1,0,0)"
           >
             <g transform="matrix(1,0,0,1,0,0)">
               <image
                 id="icon"
-                fill="none"
+                fill="rgba(255,255,255,1)"
                 preserveAspectRatio="none"
                 x="0"
                 y="0"
                 href="https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg"
-                transform="translate(-15,-15)"
-                width="30"
-                height="30"
+                transform="translate(-10,-10)"
+                width="20"
+                height="20"
+                font-size="16"
               />
             </g>
           </g>
@@ -649,31 +668,101 @@
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
-              fill="rgba(23,131,255,1)"
+              fill="rgba(34,126,255,1)"
               transform="translate(-20,-20)"
               cx="20"
               cy="20"
-              stroke="rgba(139,155,175,1)"
+              stroke-width="0"
+              stroke="rgba(0,0,0,1)"
               r="20"
-              opacity="0.2"
+              opacity="0.25"
             />
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,0,20)">
-            <g transform="matrix(1,0,0,1,-38.459999,0)">
+            <g transform="matrix(1,0,0,1,-41.220001,0)">
               <path
                 id="background"
-                fill="none"
-                d="M 0,0 l 77.92,0 l 0,23 l-77.92 0 z"
-                opacity="0.75"
+                fill="rgba(255,255,255,1)"
+                d="M 0,0 l 83.44,0 l 0,23 l-83.44 0 z"
+                opacity="0.5"
                 stroke-width="0"
-                width="77.92"
+                width="83.44"
                 height="23"
               />
             </g>
             <g transform="matrix(1,0,0,1,0,0)">
               <text
                 id="text"
-                fill="rgba(0,0,0,1)"
+                fill="rgba(0,0,0,0.8509803921568627)"
+                dominant-baseline="central"
+                paint-order="stroke"
+                dx="0.5"
+                dy="11.5px"
+                font-size="12"
+                text-anchor="middle"
+                opacity="0.25"
+              >
+                circle-inactive
+              </text>
+            </g>
+          </g>
+          <g
+            id="icon"
+            fill="none"
+            width="20"
+            height="20"
+            transform="matrix(1,0,0,1,0,0)"
+          >
+            <g transform="matrix(1,0,0,1,0,0)">
+              <image
+                id="icon"
+                fill="rgba(255,255,255,1)"
+                preserveAspectRatio="none"
+                x="0"
+                y="0"
+                href="https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg"
+                transform="translate(-10,-10)"
+                width="20"
+                height="20"
+                font-size="16"
+                opacity="0.25"
+              />
+            </g>
+          </g>
+        </g>
+        <g
+          id="circle-disable"
+          fill="none"
+          transform="matrix(1,0,0,1,416.666656,416.666656)"
+        >
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle
+              id="key"
+              fill="rgba(240,240,240,1)"
+              transform="translate(-20,-20)"
+              cx="20"
+              cy="20"
+              stroke-width="0"
+              stroke="rgba(0,0,0,1)"
+              r="20"
+            />
+          </g>
+          <g id="label" fill="none" transform="matrix(1,0,0,1,0,20)">
+            <g transform="matrix(1,0,0,1,-39.419998,0)">
+              <path
+                id="background"
+                fill="rgba(255,255,255,1)"
+                d="M 0,0 l 79.84,0 l 0,23 l-79.84 0 z"
+                opacity="0.5"
+                stroke-width="0"
+                width="79.84"
+                height="23"
+              />
+            </g>
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text
+                id="text"
+                fill="rgba(0,0,0,0.8509803921568627)"
                 dominant-baseline="central"
                 paint-order="stroke"
                 dx="0.5"
@@ -681,28 +770,29 @@
                 font-size="12"
                 text-anchor="middle"
               >
-                circle-inact...
+                circle-disable
               </text>
             </g>
           </g>
           <g
             id="icon"
             fill="none"
-            width="30"
-            height="30"
+            width="20"
+            height="20"
             transform="matrix(1,0,0,1,0,0)"
           >
             <g transform="matrix(1,0,0,1,0,0)">
               <image
                 id="icon"
-                fill="none"
+                fill="rgba(255,255,255,1)"
                 preserveAspectRatio="none"
                 x="0"
                 y="0"
                 href="https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg"
-                transform="translate(-15,-15)"
-                width="30"
-                height="30"
+                transform="translate(-10,-10)"
+                width="20"
+                height="20"
+                font-size="16"
               />
             </g>
           </g>
