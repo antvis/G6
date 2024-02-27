@@ -47,7 +47,7 @@ The initial step length.
 
 **Default**：`1`
 
-The initial number of division on each edge. It will be multipled by `divRate` in each cycle.
+The initial number of division on each edge. It will be multiplied by `divRate` in each cycle.
 
 ### divRate
 
@@ -63,7 +63,7 @@ The rate of the divisions increasement. Large number means smoother result, but 
 
 **Default**：`6`
 
-The number of outer interations.
+The number of outer iterations.
 
 ### iterations
 
@@ -71,7 +71,7 @@ The number of outer interations.
 
 **Default**：`90`
 
-The initial number of inner interations. It will be multiplied by `iterRate` in each cycle.
+The initial number of inner iterations. It will be multiplied by `iterRate` in each cycle.
 
 ### iterRate
 
