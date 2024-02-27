@@ -11,11 +11,11 @@ type Handler = (event: any) => void;
 export class Shortcut {
   private map: Map<ShortcutKey, Handler> = new Map();
 
-  private emitter: EventEmitter | HTMLElement | Window;
+  private emitter: EventEmitter;
 
   private recordKey = new Set<string>();
 
-  constructor(emitter: EventEmitter | HTMLElement | Window = window) {
+  constructor(emitter: EventEmitter) {
     this.emitter = emitter;
     this.bindEvents();
   }
@@ -39,11 +39,10 @@ export class Shortcut {
 
   private bindEvents() {
     const { emitter } = this;
-    const binder = (emitter instanceof EventEmitter ? emitter.on : emitter.addEventListener).bind(emitter);
 
-    binder(CommonEvent.KEY_DOWN, this.onKeyDown);
-    binder(CommonEvent.KEY_UP, this.onKeyUp);
-    binder(CommonEvent.WHEEL, this.onWheel);
+    emitter.on(CommonEvent.KEY_DOWN, this.onKeyDown);
+    emitter.on(CommonEvent.KEY_UP, this.onKeyUp);
+    emitter.on(CommonEvent.WHEEL, this.onWheel);
   }
 
   private onKeyDown = (event: KeyboardEvent) => {

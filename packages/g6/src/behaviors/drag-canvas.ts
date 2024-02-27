@@ -50,6 +50,11 @@ type CombinationKey = {
 };
 
 export class DragCanvas extends BaseBehavior<DragCanvasOptions> {
+  static defaultOptions: Partial<DragCanvasOptions> = {
+    enable: true,
+    sensitivity: 10,
+  };
+
   private shortcut: Shortcut;
 
   private defaultCursor: Cursor;
@@ -58,15 +63,8 @@ export class DragCanvas extends BaseBehavior<DragCanvasOptions> {
     return this.context.options.animation ? this.options.animation : false;
   }
 
-  public get defaultOptions(): Partial<DragCanvasOptions> {
-    return {
-      enable: true,
-      sensitivity: 10,
-    };
-  }
-
   constructor(context: RuntimeContext, options: DragCanvasOptions) {
-    super(context, options);
+    super(context, Object.assign({}, DragCanvas.defaultOptions, options));
 
     this.shortcut = new Shortcut(context.graph);
 
@@ -81,7 +79,7 @@ export class DragCanvas extends BaseBehavior<DragCanvasOptions> {
     const { graph } = this.context;
 
     if (isObject(trigger)) {
-      this.removeEventListener(graph, CanvasEvent.DRAG, this.onDrag);
+      graph.off(CanvasEvent.DRAG, this.onDrag);
       const { up = [], down = [], left = [], right = [] } = trigger;
 
       this.shortcut.bind(up, (event) => this.translate([0, 1], event));
@@ -89,7 +87,7 @@ export class DragCanvas extends BaseBehavior<DragCanvasOptions> {
       this.shortcut.bind(left, (event) => this.translate([1, 0], event));
       this.shortcut.bind(right, (event) => this.translate([-1, 0], event));
     } else {
-      this.addEventListener(graph, CanvasEvent.DRAG, this.onDrag);
+      graph.on(CanvasEvent.DRAG, this.onDrag);
     }
   }
 

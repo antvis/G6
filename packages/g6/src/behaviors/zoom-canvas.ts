@@ -55,18 +55,21 @@ type CombinationKey = {
 };
 
 export class ZoomCanvas extends BaseBehavior<ZoomCanvasOptions> {
+  static defaultOptions: Partial<ZoomCanvasOptions> = {
+    animation: { duration: 200 },
+    enable: true,
+    sensitivity: 1,
+    trigger: [],
+  };
+
   private shortcut: Shortcut;
 
   private get animation() {
     return this.context.options.animation ? this.options.animation : false;
   }
 
-  public get defaultOptions(): Partial<ZoomCanvasOptions> {
-    return { animation: { duration: 200 }, enable: true, sensitivity: 1, trigger: [] };
-  }
-
   constructor(context: RuntimeContext, options: ZoomCanvasOptions) {
-    super(context, options);
+    super(context, Object.assign({}, ZoomCanvas.defaultOptions, options));
 
     this.shortcut = new Shortcut(context.graph);
 
@@ -139,6 +142,6 @@ export class ZoomCanvas extends BaseBehavior<ZoomCanvasOptions> {
     const listener = (e: Event) => e.preventDefault();
     const container = this.context.canvas.getContainer();
     if (!container) return;
-    this.addEventListener(container, eventName, listener);
+    container.addEventListener(eventName, listener);
   }
 }

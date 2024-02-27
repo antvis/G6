@@ -99,39 +99,16 @@ export class BaseModule<T extends LooselyModuleOption> {
 
   public destroyed = false;
 
-  public get defaultOptions(): Partial<T> {
-    return {};
-  }
-
   constructor(context: RuntimeContext, options: T) {
     this.context = context;
-    this.options = Object.assign({}, this.defaultOptions, options) as Required<T>;
+    this.options = options as Required<T>;
   }
 
   update(options: Partial<T>) {
     this.options = Object.assign(this.options, options);
   }
 
-  public addEventListener(emitter: EventEmitter | HTMLElement, eventName: string, listener: Listener) {
-    if (emitter instanceof HTMLElement) emitter.addEventListener(eventName, listener);
-    else emitter.on(eventName, listener);
-    this.events.push([emitter, eventName, listener]);
-  }
-
-  public removeEventListener(emitter: EventEmitter | HTMLElement, eventName: string, listener: Listener) {
-    if (emitter instanceof HTMLElement) emitter.removeEventListener(eventName, listener);
-    else emitter.off(eventName, listener);
-    this.events = this.events.filter(
-      (event) => !(event[0] === emitter && event[1] === eventName && event[2] === listener),
-    );
-  }
-
   public destroy() {
-    this.events.forEach(([emitter, event, listener]) => {
-      if (emitter instanceof HTMLElement) emitter.removeEventListener(event, listener);
-      else emitter.off(event, listener);
-    });
-
     // @ts-expect-error force delete
     delete this.context;
     // @ts-expect-error force delete

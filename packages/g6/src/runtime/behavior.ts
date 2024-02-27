@@ -26,14 +26,33 @@ export class BehaviorController extends ModuleController<BaseBehavior<CustomBeha
   private forwardEvents() {
     const container = this.context.canvas.getContainer();
     if (container) {
-      Object.values(ContainerEvent).forEach((name) => {
+      [ContainerEvent.KEY_DOWN, ContainerEvent.KEY_UP].forEach((name) => {
         container.addEventListener(name, this.forwardContainerEvents.bind(this));
       });
     }
 
     const canvas = this.context.canvas.document;
     if (canvas) {
-      Object.values(CanvasEvent).forEach((name) => {
+      [
+        CanvasEvent.CLICK,
+        CanvasEvent.DBLCLICK,
+        CanvasEvent.POINTER_OVER,
+        CanvasEvent.POINTER_LEAVE,
+        CanvasEvent.POINTER_ENTER,
+        CanvasEvent.POINTER_MOVE,
+        CanvasEvent.POINTER_OUT,
+        CanvasEvent.POINTER_DOWN,
+        CanvasEvent.POINTER_UP,
+        CanvasEvent.CONTEXT_MENU,
+        CanvasEvent.DRAG_START,
+        CanvasEvent.DRAG,
+        CanvasEvent.DRAG_END,
+        CanvasEvent.DRAG_ENTER,
+        CanvasEvent.DRAG_OVER,
+        CanvasEvent.DRAG_LEAVE,
+        CanvasEvent.DROP,
+        CanvasEvent.WHEEL,
+      ].forEach((name) => {
         canvas.addEventListener(name, this.forwardCanvasEvents.bind(this));
       });
     }

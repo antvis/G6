@@ -1,4 +1,4 @@
-export enum EdgeEvent {
+export const enum EdgeEvent {
   /** <zh/> 点击时触发 | <en/> Triggered when click */
   CLICK = 'click',
   /** <zh/> 双击时触发 | <en/> Triggered when double click */
