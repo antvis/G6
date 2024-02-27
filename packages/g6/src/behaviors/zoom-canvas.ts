@@ -1,7 +1,7 @@
 import { isArray, isEqual, isObject } from '@antv/util';
 import { CommonEvent } from '../constants';
 import type { RuntimeContext } from '../runtime/types';
-import type { BehaviorEvent, Loose, ViewportAnimationEffectTiming } from '../types';
+import type { BehaviorEvent, Loosen, ViewportAnimationEffectTiming } from '../types';
 import type { BaseBehaviorOptions } from './base-behavior';
 import { BaseBehavior } from './base-behavior';
 
@@ -33,7 +33,7 @@ export interface ZoomCanvasOptions extends BaseBehaviorOptions {
    * - Array: Combination shortcut keys, such as ['ctrl'] means zooming when scrolling the mouse wheel while holding down the ctrl key
    * - Object: Zoom shortcut keys, such as { zoomIn: ['ctrl', '+'], zoomOut: ['ctrl', '-'], reset: ['ctrl', '0'] }
    */
-  trigger?: Loose<CommonEvent.WHEEL> | string[] | CombinationKey;
+  trigger?: Loosen<CommonEvent.WHEEL> | string[] | CombinationKey;
   /**
    * <zh/> 缩放灵敏度
    *

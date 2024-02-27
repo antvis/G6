@@ -1,1 +1,1 @@
-export type Loose<T extends string> = `${T}`;
+export type Loosen<T extends string> = `${T}`;
