@@ -5,7 +5,7 @@
   },
   "demos": [
     {
-      "filename": "built-in-arrows.js",
+      "filename": "built-in-arrows.ts",
       "title": {
         "zh": "默认和内置箭头",
         "en": "Default and Built-in Arrows"
@@ -13,7 +13,7 @@
       "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*VlxQQoEpTIgAAAAAAAAAAAAADmJ7AQ/original"
     },
     {
-      "filename": "custom-arrows.js",
+      "filename": "custom-arrows.ts",
       "title": {
         "zh": "自定义箭头",
         "en": "Custom Arrows"
