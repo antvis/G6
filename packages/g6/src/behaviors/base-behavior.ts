@@ -33,6 +33,14 @@ export abstract class BaseBehavior<T extends BaseBehaviorOptions> {
     this.events.push([emitter, eventName, listener]);
   }
 
+  public removeEventListener(emitter: EventEmitter | HTMLElement, eventName: string, listener: Listener) {
+    if (emitter instanceof HTMLElement) emitter.removeEventListener(eventName, listener);
+    else emitter.off(eventName, listener);
+    this.events = this.events.filter(
+      (event) => !(event[0] === emitter && event[1] === eventName && event[2] === listener),
+    );
+  }
+
   public destroy() {
     this.events.forEach(([emitter, event, listener]) => {
       if (emitter instanceof HTMLElement) emitter.removeEventListener(event, listener);
