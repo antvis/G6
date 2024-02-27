@@ -1,12 +1,12 @@
 import type {
   BaseStyleProps,
-  DisplayObject,
   DisplayObjectConfig,
   Group,
+  ImageStyleProps,
   LineStyleProps,
   PathStyleProps,
 } from '@antv/g';
-import { Path } from '@antv/g';
+import { Image, Path } from '@antv/g';
 import type { PathArray } from '@antv/util';
 import { deepMix, isEmpty, isFunction } from '@antv/util';
 import type {
@@ -17,11 +17,13 @@ import type {
   LoopEdgePosition,
   Point,
   PrefixObject,
+  Size,
 } from '../../types';
 import { getBBoxHeight, getBBoxWidth, getNodeBBox } from '../../utils/bbox';
 import { getCubicLoopPath, getLabelPositionStyle } from '../../utils/edge';
 import { findPorts, getConnectionPoint, isSameNode } from '../../utils/element';
 import { omitStyleProps, subStyleProps } from '../../utils/prefix';
+import { parseSize } from '../../utils/size';
 import type { SymbolFactor } from '../../utils/symbol';
 import * as Symbol from '../../utils/symbol';
 import { getWordWrapWidthByEnds } from '../../utils/text';
@@ -59,22 +61,18 @@ export abstract class BaseEdge extends BaseShape<BaseEdgeStyleProps> {
     haloZIndex: -1,
     startArrow: false,
     startArrowAnchor: '0.5 0.5',
-    startArrowCtor: Path,
-    startArrowHeight: 10,
+    startArrowSize: 10,
     startArrowLineDash: 0,
     startArrowLineWidth: 1,
     startArrowTransformOrigin: 'center',
     startArrowType: 'triangle',
-    startArrowWidth: 10,
     endArrow: false,
     endArrowAnchor: '0.5 0.5',
-    endArrowCtor: Path,
-    endArrowHeight: 10,
+    endArrowSize: 10,
     endArrowLineDash: 0,
     endArrowLineWidth: 1,
     endArrowTransformOrigin: 'center',
     endArrowType: 'triangle',
-    endArrowWidth: 10,
     loopPosition: 'top',
     loopClockwise: true,
   };
@@ -153,14 +151,13 @@ export abstract class BaseEdge extends BaseShape<BaseEdgeStyleProps> {
   protected drawArrow(attributes: ParsedBaseEdgeStyleProps, isStart: boolean) {
     const arrowType = isStart ? 'startArrow' : 'endArrow';
     const arrowPresence = attributes[arrowType];
-
     if (arrowPresence) {
-      const { ctor } = subStyleProps<Required<EdgeArrowStyleProps>>(this.getGraphicStyle(attributes), arrowType);
       const arrowStyle = this.getArrowStyle(attributes, isStart);
-      this.shapeMap.key.style[isStart ? 'markerStart' : 'markerEnd'] = new ctor({ style: arrowStyle });
+      const Ctor = !isEmpty(arrowStyle.src) ? Image : Path;
+      this.shapeMap.key.style[isStart ? 'markerStart' : 'markerEnd'] = new Ctor({ style: arrowStyle });
       this.shapeMap.key.style[isStart ? 'markerStartOffset' : 'markerEndOffset'] =
         (isStart ? attributes.startArrowOffset : attributes.endArrowOffset) ||
-        arrowStyle.width / 2 + Number(arrowStyle.lineWidth);
+        Number(arrowStyle.width) / 2 + Number(arrowStyle.lineWidth);
     } else {
       this.shapeMap.key.style[isStart ? 'markerStart' : 'markerEnd'] = undefined;
     }
@@ -169,16 +166,14 @@ export abstract class BaseEdge extends BaseShape<BaseEdgeStyleProps> {
   private getArrowStyle(attributes: ParsedBaseEdgeStyleProps, isStart: boolean) {
     const keyStyle = this.getKeyStyle(attributes) as BaseStyleProps;
     const arrowType = isStart ? 'startArrow' : 'endArrow';
-    const { width, height, type, ctor, ...arrowStyle } = subStyleProps<Required<EdgeArrowStyleProps>>(
+    const { size, type, ...arrowStyle } = subStyleProps<Required<EdgeArrowStyleProps>>(
       this.getGraphicStyle(attributes),
       arrowType,
     );
+    const [width, height] = parseSize(size);
+    const arrowFn = isFunction(type) ? type : Symbol[type] || Symbol.triangle;
+    const path = arrowFn(width, height);
 
-    let path;
-    if (ctor === Path) {
-      const arrowFn = isFunction(type) ? type : Symbol[type] || Symbol.triangle;
-      path = arrowFn(width, height);
-    }
     return {
       ...keyStyle,
       width,
@@ -234,11 +229,10 @@ export abstract class BaseEdge extends BaseShape<BaseEdgeStyleProps> {
 type SymbolName = 'triangle' | 'circle' | 'diamond' | 'vee' | 'rect' | 'triangleRect' | 'simple';
 
 type EdgeArrowStyleProps = {
-  ctor?: { new (...args: any[]): DisplayObject };
   type?: SymbolName | SymbolFactor;
-  width?: number;
-  height?: number;
+  size?: Size;
 } & PathStyleProps &
+  Omit<ImageStyleProps, 'width' | 'height'> &
   Record<string, unknown>;
 
 export type LoopStyleProps = {
