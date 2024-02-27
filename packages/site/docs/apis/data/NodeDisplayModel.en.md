@@ -3,7 +3,7 @@ title: NodeDisplayModel
 order: 5
 ---
 
-NodeDisplayModel is the the rendering data of Node, which is obtained by [NodeModel](./NodeModel.en.md) through [data mapping](./DataIntro.en.md#mappers). NodeDisplayModel can only be accessed by G6.
+NodeDisplayModel is the rendering data of Node, which is obtained by [NodeModel](./NodeModel.en.md) through [data mapping](./DataIntro.en.md#mappers). NodeDisplayModel can only be accessed by G6.
 
 <embed src="../../common/DataID.en.md"></embed>
 
