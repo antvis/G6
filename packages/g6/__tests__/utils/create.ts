@@ -1,4 +1,3 @@
-import type { G6Spec } from '@/src';
 import { Graph } from '@/src';
 import { Circle } from '@/src/elements';
 import { Canvas } from '@/src/runtime/canvas';
@@ -13,22 +12,6 @@ import { Renderer as SVGRenderer } from '@antv/g-svg';
 import { Renderer as WebGLRenderer } from '@antv/g-webgl';
 import type { STDTestCase, STDTestCaseContext } from '../demo/types';
 import { OffscreenCanvasContext } from './offscreen-canvas-context';
-
-/**
- * Create a graph with the given options, and use mock Canvas.
- * @param options - options
- * @param graphCanvas - canvas
- * @returns Graph instance
- */
-export function createGraph(options: G6Spec, graphCanvas?: Canvas) {
-  const { width, height } = options;
-  const canvas = graphCanvas || createGraphCanvas(undefined, width, height);
-
-  return new Graph({
-    ...options,
-    container: canvas, // Use mock Canvas.
-  });
-}
 
 function getRenderer(renderer: string) {
   switch (renderer) {
@@ -106,6 +89,6 @@ export function createEdgeNode(point: Point): Node {
 }
 
 export async function createDemoGraph(demo: STDTestCase, context?: Partial<STDTestCaseContext>): Promise<Graph> {
-  const canvas = createGraphCanvas(document.getElementById('container'));
-  return demo({ ...context, canvas });
+  const container = createGraphCanvas(document.getElementById('container'));
+  return demo({ ...context, animation: false, container, theme: 'light' });
 }
