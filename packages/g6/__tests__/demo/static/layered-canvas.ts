@@ -2,7 +2,7 @@ import { Circle, Rect } from '@antv/g';
 import type { StaticTestCase } from '../types';
 
 export const layeredCanvas: StaticTestCase = async (context) => {
-  const { canvas } = context;
+  const { container } = context;
 
   const circle = new Circle({
     style: {
@@ -23,8 +23,8 @@ export const layeredCanvas: StaticTestCase = async (context) => {
     },
   });
 
-  canvas.appendChild(circle);
-  canvas.appendChild(rect);
+  container.appendChild(circle);
+  container.appendChild(rect);
 
   return;
 };

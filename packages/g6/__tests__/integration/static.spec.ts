@@ -9,20 +9,13 @@ describe('static', () => {
       const canvas = createGraphCanvas();
 
       try {
-        const { preprocess, postprocess } = testCase;
-        await preprocess?.();
         await canvas.init();
         await testCase({
-          env: 'test',
-          canvas,
+          container: canvas,
           animation: false,
           theme: 'light',
-          expect,
-          toMatchSVGSnapshot: async (suffix: string) =>
-            await expect(canvas).toMatchSVGSnapshot(`${__dirname}/snapshots/static`, `${name}__${suffix}`),
         });
         await expect(canvas).toMatchSVGSnapshot(`${__dirname}/snapshots/static`, name);
-        await postprocess?.();
       } finally {
         canvas.destroy();
         await sleep(50);

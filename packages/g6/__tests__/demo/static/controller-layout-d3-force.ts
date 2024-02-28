@@ -1,19 +1,17 @@
 import type { G6Spec } from '@/src';
 import { Graph } from '@/src';
 import data from '@@/dataset/soccer.json';
-import type { StaticTestCase } from '../types';
+import type { STDTestCase } from '../types';
 
-export const controllerLayoutD3Force: StaticTestCase = async ({ canvas, animation }) => {
+export const controllerLayoutD3Force: STDTestCase = async (context) => {
   const options: G6Spec = {
-    container: canvas,
-    animation,
+    ...context,
     data,
     theme: 'light',
     layout: {
       type: 'd3force',
       preventOverlap: true,
       nodeSize: 20,
-      animation,
     },
     node: { style: { size: 20 } },
   };
@@ -21,4 +19,6 @@ export const controllerLayoutD3Force: StaticTestCase = async ({ canvas, animatio
   const graph = new Graph(options);
 
   await graph.render();
+
+  return graph;
 };

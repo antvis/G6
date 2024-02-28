@@ -4,7 +4,7 @@ import { Circle, Rect } from '@/src/elements/nodes';
 import type { StaticTestCase } from '../types';
 
 export const edgePolyline: StaticTestCase = async (context) => {
-  const { canvas } = context;
+  const { container } = context;
 
   const commonNodeStyle: RectStyleProps = {
     size: [50, 20],
@@ -20,7 +20,7 @@ export const edgePolyline: StaticTestCase = async (context) => {
     zIndex: 5,
   };
 
-  const node0 = canvas.appendChild(
+  const node0 = container.appendChild(
     new Rect({
       id: 'node-0',
       style: {
@@ -32,7 +32,7 @@ export const edgePolyline: StaticTestCase = async (context) => {
     }),
   );
 
-  canvas.appendChild(
+  container.appendChild(
     new Polyline({
       style: {
         sourceNode: node0,
@@ -43,7 +43,7 @@ export const edgePolyline: StaticTestCase = async (context) => {
     }),
   );
 
-  canvas.appendChild(
+  container.appendChild(
     new Polyline({
       style: {
         sourceNode: node0,
@@ -54,7 +54,7 @@ export const edgePolyline: StaticTestCase = async (context) => {
     }),
   );
 
-  const node01 = canvas.appendChild(
+  const node01 = container.appendChild(
     new Rect({
       id: 'node-0-1',
       style: {
@@ -76,7 +76,7 @@ export const edgePolyline: StaticTestCase = async (context) => {
     }),
   );
 
-  canvas.appendChild(
+  container.appendChild(
     new Polyline({
       style: {
         sourceNode: node01,
@@ -89,7 +89,7 @@ export const edgePolyline: StaticTestCase = async (context) => {
     }),
   );
 
-  const node02 = canvas.appendChild(
+  const node02 = container.appendChild(
     new Rect({
       id: 'node-0-2',
       style: {
@@ -103,7 +103,7 @@ export const edgePolyline: StaticTestCase = async (context) => {
     }),
   );
 
-  canvas.appendChild(
+  container.appendChild(
     new Polyline({
       style: {
         sourceNode: node02,
@@ -114,7 +114,7 @@ export const edgePolyline: StaticTestCase = async (context) => {
     }),
   );
 
-  const node1 = canvas.appendChild(
+  const node1 = container.appendChild(
     new Rect({
       id: 'node-1',
       style: {
@@ -126,7 +126,7 @@ export const edgePolyline: StaticTestCase = async (context) => {
     }),
   );
 
-  const node2 = canvas.appendChild(
+  const node2 = container.appendChild(
     new Rect({
       id: 'node-2',
       style: {
@@ -138,7 +138,7 @@ export const edgePolyline: StaticTestCase = async (context) => {
     }),
   );
 
-  canvas.appendChild(
+  container.appendChild(
     new Polyline({
       style: {
         sourceNode: node1,
@@ -150,7 +150,7 @@ export const edgePolyline: StaticTestCase = async (context) => {
     }),
   );
 
-  const node3 = canvas.appendChild(
+  const node3 = container.appendChild(
     new Rect({
       id: 'node-3',
       style: {
@@ -162,7 +162,7 @@ export const edgePolyline: StaticTestCase = async (context) => {
     }),
   );
 
-  const node4 = canvas.appendChild(
+  const node4 = container.appendChild(
     new Rect({
       id: 'node-4',
       style: {
@@ -174,7 +174,7 @@ export const edgePolyline: StaticTestCase = async (context) => {
     }),
   );
 
-  canvas.appendChild(
+  container.appendChild(
     new Circle({
       id: 'controlpoint-1',
       style: {
@@ -187,7 +187,7 @@ export const edgePolyline: StaticTestCase = async (context) => {
     }),
   );
 
-  canvas.appendChild(
+  container.appendChild(
     new Polyline({
       style: {
         sourceNode: node3,
@@ -200,7 +200,7 @@ export const edgePolyline: StaticTestCase = async (context) => {
     }),
   );
 
-  const node5 = canvas.appendChild(
+  const node5 = container.appendChild(
     new Rect({
       id: 'node-5',
       style: {
@@ -212,7 +212,7 @@ export const edgePolyline: StaticTestCase = async (context) => {
     }),
   );
 
-  const node6 = canvas.appendChild(
+  const node6 = container.appendChild(
     new Rect({
       id: 'node-6',
       style: {
@@ -224,7 +224,7 @@ export const edgePolyline: StaticTestCase = async (context) => {
     }),
   );
 
-  canvas.appendChild(
+  container.appendChild(
     new Circle({
       id: 'controlpoint-2',
       style: {
@@ -235,7 +235,7 @@ export const edgePolyline: StaticTestCase = async (context) => {
     }),
   );
 
-  canvas.appendChild(
+  container.appendChild(
     new Polyline({
       style: {
         sourceNode: node5,
@@ -248,7 +248,7 @@ export const edgePolyline: StaticTestCase = async (context) => {
     }),
   );
 
-  const node7 = canvas.appendChild(
+  const node7 = container.appendChild(
     new Rect({
       id: 'node-7',
       style: {
@@ -261,7 +261,7 @@ export const edgePolyline: StaticTestCase = async (context) => {
     }),
   );
 
-  const node8 = canvas.appendChild(
+  const node8 = container.appendChild(
     new Rect({
       id: 'node-8',
       style: {
@@ -273,7 +273,7 @@ export const edgePolyline: StaticTestCase = async (context) => {
     }),
   );
 
-  canvas.appendChild(
+  container.appendChild(
     new Polyline({
       style: {
         sourceNode: node7,
@@ -285,7 +285,7 @@ export const edgePolyline: StaticTestCase = async (context) => {
     }),
   );
 
-  const node9 = canvas.appendChild(
+  const node9 = container.appendChild(
     new Rect({
       id: 'node-9',
       style: {
@@ -297,7 +297,7 @@ export const edgePolyline: StaticTestCase = async (context) => {
     }),
   );
 
-  const node10 = canvas.appendChild(
+  const node10 = container.appendChild(
     new Rect({
       id: 'node-10',
       style: {
@@ -310,7 +310,7 @@ export const edgePolyline: StaticTestCase = async (context) => {
     }),
   );
 
-  canvas.appendChild(
+  container.appendChild(
     new Circle({
       id: 'controlpoint-2',
       style: {
@@ -321,7 +321,7 @@ export const edgePolyline: StaticTestCase = async (context) => {
     }),
   );
 
-  canvas.appendChild(
+  container.appendChild(
     new Polyline({
       style: {
         sourceNode: node9,

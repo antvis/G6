@@ -1,12 +1,11 @@
 import type { G6Spec } from '@/src';
 import { Graph } from '@/src';
 import data from '@@/dataset/dagre.json';
-import type { StaticTestCase } from '../types';
+import type { STDTestCase } from '../types';
 
-export const controllerLayoutDagre: StaticTestCase = async ({ canvas, animation }) => {
+export const controllerLayoutDagre: STDTestCase = async (context) => {
   const options: G6Spec = {
-    container: canvas,
-    animation,
+    ...context,
     data,
     theme: 'light',
     layout: {
@@ -15,7 +14,6 @@ export const controllerLayoutDagre: StaticTestCase = async ({ canvas, animation 
       ranksep: 20,
       controlPoints: true,
       begin: [20, 20],
-      animation,
     },
     node: { style: { size: 20 } },
     edge: {
@@ -28,4 +26,6 @@ export const controllerLayoutDagre: StaticTestCase = async ({ canvas, animation 
   const graph = new Graph(options);
 
   await graph.render();
+
+  return graph;
 };

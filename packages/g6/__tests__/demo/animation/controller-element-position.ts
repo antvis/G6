@@ -1,14 +1,12 @@
 import type { G6Spec } from '@/src';
+import { Graph } from '@/src';
 import type { AnimateEvent } from '@/src/utils/event';
-import { createGraph } from '@@/utils';
 import type { IAnimation } from '@antv/g';
 import type { AnimationTestCase } from '../types';
 
 export const controllerElementPosition: AnimationTestCase = async (context) => {
-  const { canvas, animation } = context;
-
   const options: G6Spec = {
-    animation,
+    ...context,
     data: {
       nodes: [
         { id: 'node-1', style: { x: 250, y: 200 } },
@@ -30,17 +28,15 @@ export const controllerElementPosition: AnimationTestCase = async (context) => {
         { source: 'node-5', target: 'node-6' },
       ],
     },
-    theme: 'light',
     node: {
       style: {
         size: 20,
       },
     },
-    edge: { style: {} },
   };
 
-  const graph = createGraph(options, canvas);
-  await graph.draw();
+  const graph = new Graph(options);
+  await graph.render();
 
   const result = new Promise<IAnimation>((resolve) => {
     graph.once('beforeanimate', (e: AnimateEvent) => {
@@ -57,7 +53,7 @@ export const controllerElementPosition: AnimationTestCase = async (context) => {
       'node-5': [250, 300],
       'node-6': [400, 300],
     },
-    animation,
+    context.animation,
   );
 
   return await result;

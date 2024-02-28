@@ -3,7 +3,7 @@ import { createEdgeNode } from '@@/utils';
 import type { StaticTestCase } from '../types';
 
 export const edgeCubic: StaticTestCase = async (context) => {
-  const { canvas } = context;
+  const { container } = context;
 
   const cubic1 = new Cubic({
     style: {
@@ -81,8 +81,8 @@ export const edgeCubic: StaticTestCase = async (context) => {
     },
   });
 
-  canvas.appendChild(cubic1);
-  canvas.appendChild(cubic2);
-  canvas.appendChild(cubic3);
-  canvas.appendChild(cubic4);
+  container.appendChild(cubic1);
+  container.appendChild(cubic2);
+  container.appendChild(cubic3);
+  container.appendChild(cubic4);
 };

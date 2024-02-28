@@ -2,14 +2,13 @@ import type { G6Spec } from '@/src';
 import { Graph, register } from '@/src';
 import data from '@@/dataset/soccer.json';
 import { FruchtermanLayout } from '@antv/layout-gpu';
-import type { StaticTestCase } from '../types';
+import type { STDTestCase } from '../types';
 
 register('layout', 'fruchterman-gpu', FruchtermanLayout);
 
-export const controllerLayoutFruchtermanGPU: StaticTestCase = async ({ canvas, animation }) => {
+export const controllerLayoutFruchtermanGPU: STDTestCase = async (context) => {
   const options: G6Spec = {
-    container: canvas,
-    animation,
+    ...context,
     data,
     theme: 'light',
     layout: {
@@ -19,7 +18,6 @@ export const controllerLayoutFruchtermanGPU: StaticTestCase = async ({ canvas, a
       distanceThresholdMode: 'mean',
       gravity: 1,
       speed: 5,
-      animation,
     },
     node: { style: { size: 20 } },
   };
@@ -27,4 +25,6 @@ export const controllerLayoutFruchtermanGPU: StaticTestCase = async ({ canvas, a
   const graph = new Graph(options);
 
   await graph.render();
+
+  return graph;
 };

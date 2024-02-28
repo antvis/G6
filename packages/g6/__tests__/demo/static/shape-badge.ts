@@ -2,7 +2,7 @@ import { Badge } from '@/src/elements/shapes';
 import type { StaticTestCase } from '../types';
 
 export const shapeBadge: StaticTestCase = async (context) => {
-  const { canvas } = context;
+  const { container } = context;
 
   const badge1 = new Badge({
     style: {
@@ -51,10 +51,10 @@ export const shapeBadge: StaticTestCase = async (context) => {
     },
   });
 
-  canvas.appendChild(badge1);
-  canvas.appendChild(badge2);
-  canvas.appendChild(badge3);
-  canvas.appendChild(badge4);
+  container.appendChild(badge1);
+  container.appendChild(badge2);
+  container.appendChild(badge3);
+  container.appendChild(badge4);
 
   badge4.update({
     text: 'Update Badge Text',

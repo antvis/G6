@@ -2,8 +2,6 @@ import { Graph } from '../../../src';
 import type { StaticTestCase } from '../types';
 
 export const edgeCustomArrow: StaticTestCase = async (context) => {
-  const { canvas, animation, theme } = context;
-
   const data = {
     nodes: new Array(6).fill(0).map((_, i) => ({ id: `node${i + 1}` })),
     edges: [
@@ -39,8 +37,7 @@ export const edgeCustomArrow: StaticTestCase = async (context) => {
   };
 
   const graph = new Graph({
-    container: canvas,
-    theme,
+    ...context,
     data,
     edge: {
       style: {
@@ -54,7 +51,6 @@ export const edgeCustomArrow: StaticTestCase = async (context) => {
       type: 'grid',
       cols: 2,
     },
-    animation,
   });
 
   await graph.render();

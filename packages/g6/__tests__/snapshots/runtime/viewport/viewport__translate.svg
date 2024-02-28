@@ -7,7 +7,7 @@
   tabindex="1"
 >
   <defs />
-  <g id="g-svg-camera" transform="matrix(1,0,0,1,0,0)">
+  <g id="g-svg-camera" transform="matrix(1,0,0,1,200,200)">
     <g id="g-root" fill="none" transform="matrix(1,0,0,1,0,0)">
       <g id="g-svg-7" fill="none" transform="matrix(1,0,0,1,0,0)" />
       <g id="g-svg-6" fill="none" transform="matrix(1,0,0,1,0,0)">

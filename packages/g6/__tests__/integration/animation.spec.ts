@@ -9,11 +9,10 @@ describe('static', () => {
       const canvas = createGraphCanvas();
 
       try {
-        const { times = [], preprocess, postprocess } = testCase;
+        const { times = [] } = testCase;
 
-        await preprocess?.();
         await canvas.init();
-        const animationResult = await testCase({ env: 'test', canvas, animation: true, expect, theme: 'light' });
+        const animationResult = await testCase({ container: canvas, animation: true, theme: 'light' });
 
         if (!animationResult) throw new Error('animation result should not be null');
 
@@ -29,8 +28,6 @@ describe('static', () => {
             `${name}-${time}(${times.indexOf(time) + 1}_${times.length})`,
           );
         }
-
-        await postprocess?.();
       } finally {
         canvas.destroy();
         await sleep(50);

@@ -1,12 +1,10 @@
 import type { G6Spec } from '@/src';
-import { createGraph } from '@@/utils';
-import type { StaticTestCase } from '../types';
+import { Graph } from '@/src';
+import type { STDTestCase } from '../types';
 
-export const controllerElementZIndex: StaticTestCase = async (context) => {
-  const { canvas, animation, toMatchSVGSnapshot, env } = context;
-
+export const controllerElementZIndex: STDTestCase = async (context) => {
   const options: G6Spec = {
-    animation,
+    ...context,
     data: {
       nodes: [
         { id: 'node-1', style: { x: 150, y: 150, fill: 'red' } },
@@ -19,45 +17,20 @@ export const controllerElementZIndex: StaticTestCase = async (context) => {
       style: {
         size: 50,
       },
-      animation: animation && {},
     },
   };
 
-  const graph = createGraph(options, canvas);
+  const graph = new Graph(options);
   await graph.render();
-
   const front = () => graph.setElementZIndex('node-2', 'front');
   const back = () => graph.setElementZIndex('node-2', 'back');
   const to = (zIndex: number) => graph.setElementZIndex('node-2', zIndex);
 
-  if (env === 'test') {
-    front();
-    await toMatchSVGSnapshot?.('front');
-    back();
-    await toMatchSVGSnapshot?.('back');
-    to(0);
-  }
-
-  controllerElementZIndex.form = [
-    {
-      type: 'button',
-      options: { innerText: 'Bring To Front' },
-      onload: (button) => button.addEventListener('click', front),
-    },
-    {
-      type: 'button',
-      options: { innerText: 'Send To Back' },
-      onload: (button) => button.addEventListener('click', back),
-    },
-    {
-      label: 'Set zIndex:',
-      type: 'input',
-      options: { type: 'number' },
-      onload: (input) =>
-        input.addEventListener('change', (e) => {
-          const value = (e.target as HTMLInputElement).value;
-          if (value !== '') to(+value);
-        }),
-    },
+  controllerElementZIndex.form = (panel) => [
+    panel.add({ front }, 'front'),
+    panel.add({ back }, 'back'),
+    panel.add({ to: 0 }, 'to', -10, 10, 1).onChange((zIndex: number) => to(zIndex)),
   ];
+
+  return graph;
 };

@@ -1,18 +1,16 @@
 import type { G6Spec } from '@/src';
 import { Graph, treeToGraphData } from '@/src';
 import tree from '@@/dataset/algorithm-category.json';
-import type { StaticTestCase } from '../types';
+import type { STDTestCase } from '../types';
 
-export const controllerLayoutCompactBox: StaticTestCase = async ({ canvas, animation }) => {
+export const controllerLayoutCompactBox: STDTestCase = async (context) => {
   const options: G6Spec = {
-    container: canvas,
-    animation,
+    ...context,
     data: treeToGraphData(tree),
     theme: 'light',
     zoom: 0.5,
     layout: {
       type: 'compact-box',
-      animation,
       direction: 'LR',
       getId: function getId(d: any) {
         return d.id;
@@ -51,4 +49,6 @@ export const controllerLayoutCompactBox: StaticTestCase = async ({ canvas, anima
   await graph.render();
 
   await graph.translateTo([100, 300]);
+
+  return graph;
 };

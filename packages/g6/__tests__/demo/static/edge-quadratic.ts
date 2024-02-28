@@ -3,7 +3,7 @@ import { createEdgeNode } from '@@/utils';
 import type { StaticTestCase } from '../types';
 
 export const edgeQuadratic: StaticTestCase = async (context) => {
-  const { canvas } = context;
+  const { container } = context;
 
   const quadratic1 = new Quadratic({
     style: {
@@ -83,8 +83,8 @@ export const edgeQuadratic: StaticTestCase = async (context) => {
     },
   });
 
-  canvas.appendChild(quadratic1);
-  canvas.appendChild(quadratic2);
-  canvas.appendChild(quadratic3);
-  canvas.appendChild(quadratic4);
+  container.appendChild(quadratic1);
+  container.appendChild(quadratic2);
+  container.appendChild(quadratic3);
+  container.appendChild(quadratic4);
 };

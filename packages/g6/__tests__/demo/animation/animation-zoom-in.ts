@@ -32,14 +32,14 @@ class Shape extends BaseShape<ShapeStyleProps> {
   }
 }
 
-export const animationZoomIn: AnimationTestCase = async ({ canvas }) => {
+export const animationZoomIn: AnimationTestCase = async ({ container }) => {
   const animation: Animation = [
     {
       fields: ['size', 'color'],
     },
   ];
 
-  const shape = canvas.appendChild(
+  const shape = container.appendChild(
     new Shape({
       style: {
         x: 100,

@@ -3,10 +3,8 @@ import data from '@@/dataset/cluster.json';
 import type { STDTestCase } from '../types';
 
 export const behaviorZoomCanvas: STDTestCase = async (context) => {
-  const { canvas, animation } = context;
   const graph = new Graph({
-    animation,
-    container: canvas,
+    ...context,
     data,
     layout: {
       type: 'd3force',
@@ -22,60 +20,47 @@ export const behaviorZoomCanvas: STDTestCase = async (context) => {
 
   await graph.render();
 
-  behaviorZoomCanvas.form = [
-    {
-      label: 'Disable Zoom: ',
-      type: 'input',
-      onload: (input) => {
-        input.onchange = (e) => {
-          graph.setBehaviors((currBehaviors) => {
-            return currBehaviors.map((behavior, index) => {
-              const target = e.target as HTMLInputElement;
-              if (index === 0 && typeof behavior === 'object') {
-                return { ...behavior, enable: !target.checked };
-              }
-              return behavior;
-            });
-          });
-        };
-      },
-      options: { type: 'checkbox' },
-    },
-    {
-      type: 'button',
-      onload: (button) => {
-        button.innerText = 'Add Shortcut Zoom';
-        button.onclick = () => {
-          graph.setBehaviors((currBehaviors) => [
-            ...currBehaviors,
-            {
-              key: 'shortcut-zoom-canvas',
-              type: 'zoom-canvas',
-              trigger: {
-                zoomIn: ['Control', '='],
-                zoomOut: ['Control', '-'],
-                reset: ['Control', '0'],
-              },
+  behaviorZoomCanvas.form = (panel) => {
+    const config = {
+      DisableZoom: false,
+      addShortcutZoom: () => {
+        graph.setBehaviors((currBehaviors) => [
+          ...currBehaviors,
+          {
+            key: 'shortcut-zoom-canvas',
+            type: 'zoom-canvas',
+            trigger: {
+              zoomIn: ['Control', '='],
+              zoomOut: ['Control', '-'],
+              reset: ['Control', '0'],
             },
-          ]);
-          alert('Zoom behavior added');
-        };
+          },
+        ]);
+        alert('Zoom behavior added');
       },
-    },
+      removeShortcutZoom: () => {
+        graph.setBehaviors((currBehaviors) => {
+          return currBehaviors.slice(0, 1);
+        });
+        alert('Zoom behavior removed');
+      },
+    };
 
-    {
-      type: 'button',
-      onload: (button) => {
-        button.innerText = 'Remove Shortcut Zoom';
-        button.onclick = () => {
-          graph.setBehaviors((currBehaviors) => {
-            return currBehaviors.slice(0, 1);
+    return [
+      panel.add(config, 'DisableZoom').onChange((disable: boolean) => {
+        graph.setBehaviors((currBehaviors) => {
+          return currBehaviors.map((behavior, index) => {
+            if (index === 0 && typeof behavior === 'object') {
+              return { ...behavior, enable: !disable };
+            }
+            return behavior;
           });
-          alert('Zoom behavior removed');
-        };
-      },
-    },
-  ];
+        });
+      }),
+      panel.add(config, 'addShortcutZoom'),
+      panel.add(config, 'removeShortcutZoom'),
+    ];
+  };
 
   return graph;
 };

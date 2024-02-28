@@ -39,7 +39,7 @@ class Shape extends BaseShape<ShapeStyleProps> {
   }
 }
 
-export const animationWave: AnimationTestCase = async ({ canvas }) => {
+export const animationWave: AnimationTestCase = async ({ container }) => {
   const animation: Animation = [
     {
       fields: ['r'],
@@ -57,7 +57,7 @@ export const animationWave: AnimationTestCase = async ({ canvas }) => {
     },
   ];
 
-  const shape = canvas.appendChild(
+  const shape = container.appendChild(
     new Shape({
       style: {
         x: 100,

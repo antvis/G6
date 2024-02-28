@@ -1,40 +1,11 @@
 import { Graph } from '@/src';
-import data from '@@/dataset/cluster.json';
-import { createGraph } from '@@/utils';
-
-const options = {
-  width: 500,
-  height: 500,
-  data,
-  theme: 'light',
-  node: {
-    style: {
-      width: 20,
-      height: 20,
-    },
-    state: {
-      active: { fill: '#dbedd0' },
-    },
-  },
-  edge: {
-    style: {},
-    state: {
-      active: { stroke: 'pink', lineWidth: 3 },
-    },
-  },
-  layout: {
-    type: 'd3force',
-    preventOverlap: true,
-    nodeSize: 20,
-    animation: true,
-  },
-};
+import { controllerViewport } from '@@/demo/static/controller-viewport';
+import { createDemoGraph } from '@@/utils';
 
 describe('ViewportController', () => {
   let graph: Graph;
   beforeAll(async () => {
-    graph = createGraph(options);
-    await graph.render();
+    graph = await createDemoGraph(controllerViewport);
   });
 
   it('viewport center', () => {
@@ -50,8 +21,12 @@ describe('ViewportController', () => {
     await graph.zoomBy(0.5);
     expect(graph.getZoom()).toBe(0.5);
 
+    await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}__zoom-0.5');
+
     await graph.zoomBy(4);
     expect(graph.getZoom()).toBe(2);
+
+    await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}__zoom-2');
 
     await graph.zoomTo(1);
     expect(graph.getZoom()).toBe(1);
@@ -67,20 +42,28 @@ describe('ViewportController', () => {
     expect(y).toBeCloseTo(350);
 
     await graph.translateTo([200, 200]);
+
     [x, y] = graph.getPosition();
     expect(x).toBeCloseTo(450);
     expect(y).toBeCloseTo(450);
+
+    await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}__translate');
+
+    await graph.translateTo([0, 0]);
   });
 
   it('viewport rotate', async () => {
-    await graph.rotateBy(Math.PI / 4);
-    expect(graph.getRotation()).toBe(Math.PI / 4);
+    await graph.rotateBy(45);
+    expect(graph.getRotation()).toBe(45);
 
-    await graph.rotateBy(Math.PI / 2);
-    expect(graph.getRotation()).toBe((Math.PI * 3) / 4);
+    await graph.rotateBy(90);
+    expect(graph.getRotation()).toBe(45 + 90);
+    await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}__rotate-135');
 
-    await graph.rotateTo(Math.PI / 2);
-    expect(graph.getRotation()).toBe(Math.PI / 2);
+    await graph.rotateTo(90);
+    expect(graph.getRotation()).toBe(90);
+
+    await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}__rotate-90');
   });
 
   afterAll(() => {
