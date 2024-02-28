@@ -32,6 +32,12 @@ export class LayoutController {
 
   private animationResult?: IAnimation | null;
 
+  private get presetOptions() {
+    return {
+      animation: this.context.options.animation,
+    };
+  }
+
   private get options() {
     const { options } = this.context;
     return options.layout;
@@ -91,7 +97,8 @@ export class LayoutController {
       const { presetLayout } = options;
       const model = this.getLayoutDataModel(options);
       await this.presetLayout(model, presetLayout);
-      const result = await this.stepLayout(model, options);
+      const result = await this.stepLayout(model, { ...this.presetOptions, ...options });
+
       if (!options.animation) {
         this.updateElement(result, false);
       }
