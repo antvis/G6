@@ -23,26 +23,7 @@
       }
 
       #panel {
-        background-color: var(--background-color2);
-        border-radius: 4px;
-        color: var(--text-color);
-        display: flex;
-        flex-direction: column;
-        gap: 5px;
-        left: 500px;
-        padding: 10px;
-        position: absolute;
-        top: 20px;
-        transition:
-          background-color 0.5s,
-          color 0.5s;
-        user-select: none;
         z-index: 1;
-      }
-
-      #timer {
-        display: flex;
-        align-items: center;
       }
 
       #container {
@@ -69,58 +50,8 @@
 
   <body style="font-family: Arial, Helvetica, sans-serif">
     <div id="app">
-      <div id="panel">
-        <div id="timer">
-          <label for="timer-label">Timer: </label>
-          <span id="timer-time">0ms</span>
-        </div>
-        <label for="demo-select">Cases: </label>
-        <select id="demo-select" style="cursor: pointer; width: 180px"></select>
-        <label for="renderer-select">Renderer: </label>
-        <select id="renderer-select" style="cursor: pointer">
-          <option value="default" selected>Default</option>
-          <option value="canvas" selected>Canvas</option>
-          <option value="svg">SVG</option>
-          <option value="webgl">WebGL</option>
-        </select>
-        <label for="theme">Theme: </label>
-        <button id="theme-button">Toggle</button>
-        <div style="display: flex; align-items: center">
-          <label for="animation" title="For Static Case To Control Animation">Animation: </label>
-          <input id="animation-checkbox" type="checkbox" />
-        </div>
-        <button id="reload-button">Reload</button>
-        <div id="custom-panel" style="display: flex; flex-direction: column; gap: 5px"></div>
-      </div>
+      <div id="panel"></div>
     </div>
-
-    <script>
-      (function draggable() {
-        const draggableElement = document.getElementById('panel');
-        let offsetX,
-          offsetY,
-          isDragging = false;
-
-        draggableElement.addEventListener('mousedown', function (e) {
-          isDragging = true;
-          offsetX = e.clientX - draggableElement.getBoundingClientRect().left;
-          offsetY = e.clientY - draggableElement.getBoundingClientRect().top;
-        });
-
-        document.addEventListener('mousemove', function (e) {
-          if (isDragging) {
-            const x = e.clientX - offsetX;
-            const y = e.clientY - offsetY;
-            draggableElement.style.left = `${x}px`;
-            draggableElement.style.top = `${y}px`;
-          }
-        });
-
-        document.addEventListener('mouseup', function () {
-          isDragging = false;
-        });
-      })();
-    </script>
     <script type="module" src="./main.ts"></script>
   </body>
 </html>
