@@ -416,11 +416,19 @@ export class Graph extends EventEmitter {
     // TODO invoke getCenter
   }
 
-  public zoomBy(ratio: number, animation?: ViewportAnimationEffectTiming, origin?: Point): Promise<void> | undefined {
+  public zoomBy(
+    ratio: number,
+    animation?: ViewportAnimationEffectTiming,
+    origin: Point = this.getCanvasCenter(),
+  ): Promise<void> | undefined {
     return this.context.viewport!.zoom({ mode: 'relative', value: ratio, origin }, animation);
   }
 
-  public zoomTo(zoom: number, animation?: ViewportAnimationEffectTiming, origin?: Point): Promise<void> | undefined {
+  public zoomTo(
+    zoom: number,
+    animation?: ViewportAnimationEffectTiming,
+    origin: Point = this.getCanvasCenter(),
+  ): Promise<void> | undefined {
     return this.context.viewport!.zoom({ mode: 'absolute', value: zoom, origin }, animation);
   }
 
@@ -428,11 +436,19 @@ export class Graph extends EventEmitter {
     return this.context.viewport!.getZoom();
   }
 
-  public rotateBy(angle: number, animation?: ViewportAnimationEffectTiming, origin?: Point): Promise<void> | undefined {
+  public rotateBy(
+    angle: number,
+    animation?: ViewportAnimationEffectTiming,
+    origin: Point = this.getCanvasCenter(),
+  ): Promise<void> | undefined {
     return this.context.viewport!.rotate({ mode: 'relative', value: angle, origin }, animation);
   }
 
-  public rotateTo(angle: number, animation?: ViewportAnimationEffectTiming, origin?: Point): Promise<void> | undefined {
+  public rotateTo(
+    angle: number,
+    animation?: ViewportAnimationEffectTiming,
+    origin: Point = this.getCanvasCenter(),
+  ): Promise<void> | undefined {
     return this.context.viewport!.rotate({ mode: 'absolute', value: angle, origin }, animation);
   }
 
@@ -443,7 +459,7 @@ export class Graph extends EventEmitter {
   public translateBy(
     offset: Point,
     animation?: ViewportAnimationEffectTiming,
-    origin?: Point,
+    origin: Point = this.getCanvasCenter(),
   ): Promise<void> | undefined {
     return this.context.viewport!.translate({ mode: 'relative', value: offset, origin }, animation);
   }
@@ -451,7 +467,7 @@ export class Graph extends EventEmitter {
   public translateTo(
     position: Point,
     animation?: ViewportAnimationEffectTiming,
-    origin?: Point,
+    origin: Point = this.getCanvasCenter(),
   ): Promise<void> | undefined {
     return this.context.viewport!.translate({ mode: 'absolute', value: position, origin }, animation);
   }
@@ -556,6 +572,10 @@ export class Graph extends EventEmitter {
 
   public getViewportCenter(): Point {
     return this.context.viewport!.getViewportCenter();
+  }
+
+  public getCanvasCenter(): Point {
+    return this.context.viewport!.getCanvasCenter();
   }
 
   private onResize = debounce(() => {
