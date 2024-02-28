@@ -1,12 +1,8 @@
+import type { LooselyModuleOption, ModuleOptions, STDModuleOption } from '../types';
 import type { BuiltInWidgetOptions } from '../widgets/types';
 
-export type WidgetOptions = Abbr<BuiltInWidgetOptions | CustomWidgetOptions>[];
+export type WidgetOptions = ModuleOptions<BuiltInWidgetOptions>;
 
-type CustomWidgetOptions = STDWidgetOptions;
+export type STDWidgetOption = STDModuleOption<BuiltInWidgetOptions>;
 
-export interface STDWidgetOptions {
-  type: string;
-  [key: string]: unknown;
-}
-
-type Abbr<R extends STDWidgetOptions> = (R & { key?: string }) | R['type'];
+export type CustomWidgetOption = LooselyModuleOption;

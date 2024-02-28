@@ -33,16 +33,9 @@ declare global {
 expect.extend({
   toBeCloseTo: (received: Digital, expected: Digital, numDigits?: number) => {
     const pass = toBeCloseTo(received, expected, numDigits);
-    if (pass) {
-      return {
-        message: () => `expected ${received} not to be close to ${expected}`,
-        pass: true,
-      };
-    } else {
-      return {
-        message: () => `expected ${received} to be close to ${expected}`,
-        pass: false,
-      };
-    }
+    return {
+      message: () => `expected: \x1b[32m${received}\n\x1b[31mreceived: ${expected}\x1b[0m`,
+      pass,
+    };
   },
 });

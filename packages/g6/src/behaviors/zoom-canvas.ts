@@ -1,7 +1,9 @@
-import { isArray, isEqual, isObject } from '@antv/util';
-import { CommonEvent } from '../constants';
+import { isArray, isFunction, isObject } from '@antv/util';
+import { CanvasEvent } from '../constants';
 import type { RuntimeContext } from '../runtime/types';
-import type { BehaviorEvent, Loose, ViewportAnimationEffectTiming } from '../types';
+import type { BehaviorEvent, ViewportAnimationEffectTiming } from '../types';
+import type { ShortcutKey } from '../utils/shortcut';
+import { Shortcut } from '../utils/shortcut';
 import type { BaseBehaviorOptions } from './base-behavior';
 import { BaseBehavior } from './base-behavior';
 
@@ -17,23 +19,21 @@ export interface ZoomCanvasOptions extends BaseBehaviorOptions {
    *
    * <en/> Whether to enable the function of zooming the canvas
    */
-  enable?: boolean | ((event: BehaviorEvent) => boolean);
+  enable?: boolean | ((event: BehaviorEvent<WheelEvent> | BehaviorEvent<KeyboardEvent>) => boolean);
   /**
    * <zh/> 触发缩放的方式
    *
    * <en/> The way to trigger zoom
    * @description
    * <zh/>
-   * - 'wheel'：滚动鼠标滚轮或触摸板时触发缩放
-   * - 数组：组合快捷键，例如 ['ctrl'] 表示按住 ctrl 键滚动鼠标滚轮时触发缩放
-   * - 对象：缩放快捷键，例如 { zoomIn: ['ctrl', '+'], zoomOut: ['ctrl', '-'], reset: ['ctrl', '0'] }
+   * - 数组：组合快捷键，默认使用滚轮缩放，['Control'] 表示按住 Control 键滚动鼠标滚轮时触发缩放
+   * - 对象：缩放快捷键，例如 { zoomIn: ['Control', '+'], zoomOut: ['Control', '-'], reset: ['Control', '0'] }
    *
    * <en/>
-   * - 'wheel': Trigger zoom when scrolling the mouse wheel or touchpad
-   * - Array: Combination shortcut keys, such as ['ctrl'] means zooming when scrolling the mouse wheel while holding down the ctrl key
-   * - Object: Zoom shortcut keys, such as { zoomIn: ['ctrl', '+'], zoomOut: ['ctrl', '-'], reset: ['ctrl', '0'] }
+   * - Array: Combination shortcut key, default to zoom in and out with the mouse wheel, ['Control'] means zooming when holding down the Control key and scrolling the mouse wheel
+   * - Object: Zoom shortcut key, such as { zoomIn: ['Control', '+'], zoomOut: ['Control', '-'], reset: ['Control', '0'] }
    */
-  trigger?: Loose<CommonEvent.WHEEL> | string[] | CombinationKey;
+  trigger?: ShortcutKey | CombinationKey;
   /**
    * <zh/> 缩放灵敏度
    *
@@ -49,86 +49,62 @@ export interface ZoomCanvasOptions extends BaseBehaviorOptions {
 }
 
 type CombinationKey = {
-  zoomIn: string[];
-  zoomOut: string[];
-  reset: string[];
+  zoomIn: ShortcutKey;
+  zoomOut: ShortcutKey;
+  reset: ShortcutKey;
 };
 
 export class ZoomCanvas extends BaseBehavior<ZoomCanvasOptions> {
-  private preconditionKey?: string[];
-
-  private recordKey = new Set<string>();
-
-  private combinationKey: CombinationKey = {
-    zoomIn: [],
-    zoomOut: [],
-    reset: [],
+  static defaultOptions: Partial<ZoomCanvasOptions> = {
+    animation: { duration: 200 },
+    enable: true,
+    sensitivity: 1,
+    trigger: [],
   };
+
+  private shortcut: Shortcut;
 
   private get animation() {
     return this.context.options.animation ? this.options.animation : false;
   }
 
-  public get defaultOptions(): Partial<ZoomCanvasOptions> {
-    return { animation: { duration: 200 }, enable: true, sensitivity: 1, trigger: CommonEvent.WHEEL };
-  }
-
   constructor(context: RuntimeContext, options: ZoomCanvasOptions) {
-    super(context, options);
+    super(context, Object.assign({}, ZoomCanvas.defaultOptions, options));
 
-    if (isArray(this.options.trigger)) {
-      this.preconditionKey = this.options.trigger;
-    }
-
-    if (isObject(this.options.trigger)) {
-      this.combinationKey = this.options.trigger as CombinationKey;
-    }
+    this.shortcut = new Shortcut(context.graph);
 
     this.bindEvents();
   }
 
-  private bindEvents() {
-    const { graph } = this.context;
+  public update(options: Partial<ZoomCanvasOptions>): void {
+    super.update(options);
+    this.bindEvents();
+  }
 
-    // wheel 触发和组合键触发需要监听 wheel 事件 / Combination key trigger and wheel trigger need to listen to the wheel event
-    if (this.options.trigger === CommonEvent.WHEEL || isArray(this.options.trigger)) {
-      this.preventDefault(CommonEvent.WHEEL);
-      this.addEventListener(graph, CommonEvent.WHEEL, this.onWheel.bind(this));
+  private bindEvents() {
+    const { trigger } = this.options;
+    this.shortcut.unbindAll();
+
+    if (isArray(trigger)) {
+      if (trigger.includes(CanvasEvent.WHEEL)) {
+        this.preventDefault(CanvasEvent.WHEEL);
+      }
+      this.shortcut.bind([...trigger, CanvasEvent.WHEEL], this.onWheel);
     }
 
-    if (isObject(this.options.trigger)) {
-      this.addEventListener(graph, CommonEvent.KEY_DOWN, this.onKeydown.bind(this));
-      this.addEventListener(graph, CommonEvent.KEY_UP, this.onKeyup.bind(this));
+    if (isObject(trigger)) {
+      const { zoomIn = [], zoomOut = [], reset = [] } = trigger as CombinationKey;
+      this.shortcut.bind(zoomIn, (event) => this.zoom(1, event));
+      this.shortcut.bind(zoomOut, (event) => this.zoom(-1, event));
+      this.shortcut.bind(reset, this.onReset);
     }
   }
 
-  private onWheel(event: BehaviorEvent<WheelEvent>) {
+  private onWheel = (event: BehaviorEvent<WheelEvent>) => {
     const { deltaX, deltaY } = event;
     const delta = -(deltaY || deltaX);
     this.zoom(delta, event);
-  }
-
-  private onKeydown(event: BehaviorEvent<KeyboardEvent>) {
-    const { key } = event;
-    this.recordKey.add(key);
-
-    if (this.isTrigger(this.combinationKey.zoomIn)) {
-      this.zoom(1, event);
-    } else if (this.isTrigger(this.combinationKey.zoomOut)) {
-      this.zoom(-1, event);
-    } else if (this.isTrigger(this.combinationKey.reset)) {
-      this.reset();
-    }
-  }
-
-  private onKeyup(event: KeyboardEvent) {
-    const { key } = event;
-    this.recordKey.delete(key);
-  }
-
-  private isTrigger(keys: string[]) {
-    return isEqual(Array.from(this.recordKey), keys);
-  }
+  };
 
   /**
    * <zh/> 缩放画布
@@ -137,7 +113,7 @@ export class ZoomCanvas extends BaseBehavior<ZoomCanvasOptions> {
    * @param value - <zh/> 缩放值， > 0 放大， < 0 缩小 | <en/> Zoom value, > 0 zoom in, < 0 zoom out
    * @param event - <zh/> 事件对象 | <en/> Event object
    */
-  private async zoom(value: number, event: BehaviorEvent<WheelEvent> | BehaviorEvent<KeyboardEvent>) {
+  private zoom = async (value: number, event: BehaviorEvent<WheelEvent> | BehaviorEvent<KeyboardEvent>) => {
     if (!this.validate(event)) return;
     const { viewport } = this.context;
     if (!viewport) return;
@@ -148,26 +124,24 @@ export class ZoomCanvas extends BaseBehavior<ZoomCanvasOptions> {
     await viewport.zoom({ mode: 'absolute', value: zoom + diff }, this.animation);
 
     onfinish?.();
-  }
+  };
 
-  private async reset() {
+  private onReset = async () => {
     const { viewport } = this.context;
     await viewport?.zoom({ mode: 'absolute', value: 1 }, this.animation);
-  }
+  };
 
   private validate(event: BehaviorEvent<WheelEvent> | BehaviorEvent<KeyboardEvent>) {
-    if (this.preconditionKey && !isEqual(this.preconditionKey, Array.from(this.recordKey))) return false;
-
+    if (this.destroyed) return false;
     const { enable } = this.options;
-    if (typeof enable === 'function' && !enable(event)) return false;
-    if (enable === false) return false;
-    return true;
+    if (isFunction(enable)) return enable(event);
+    return !!enable;
   }
 
   private preventDefault(eventName: string) {
     const listener = (e: Event) => e.preventDefault();
     const container = this.context.canvas.getContainer();
     if (!container) return;
-    this.addEventListener(container, eventName, listener);
+    container.addEventListener(eventName, listener);
   }
 }
