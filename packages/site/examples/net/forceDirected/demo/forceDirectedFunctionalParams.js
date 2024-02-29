@@ -1,22 +1,17 @@
 import { Graph } from '@antv/g6';
 
-const container = document.getElementById('container');
-const width = container.scrollWidth;
-const height = container.scrollHeight || 500;
 const graph = new Graph({
   container: 'container',
-  width,
-  height,
-  transforms: [
-    {
-      type: 'transform-v4-data',
-      activeLifecycle: ['read'],
+  autoResize: true,
+  node: {
+    style: {
+      size: (d) => d.size,
     },
-  ],
+  },
   layout: {
     type: 'force',
     preventOverlap: true,
-    animated: true,
+    animation: true,
     linkDistance: (d) => {
       if (d.source === 'node0' || d.target === 'node0') {
         return 200;
@@ -24,9 +19,8 @@ const graph = new Graph({
       return 80;
     },
   },
-  modes: {
-    default: ['zoom-canvas', 'drag-canvas', 'click-select', 'drag-node'],
-  },
+  zoomRange: [0.1, 5],
+  behaviors: ['zoom-canvas', 'drag-canvas', 'click-select', 'drag-node'],
   data: {
     nodes: [
       { id: 'node0', size: 50 },
@@ -67,5 +61,4 @@ const graph = new Graph({
     ],
   },
 });
-
-window.graph = graph;
+graph.render();
