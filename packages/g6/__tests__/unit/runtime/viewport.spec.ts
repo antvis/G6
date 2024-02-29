@@ -15,6 +15,11 @@ describe('ViewportController', () => {
     expect(y).toBeCloseTo(250);
   });
 
+  it('canvas size', () => {
+    // @ts-expect-error context is private.
+    expect(graph.context.viewport.getCanvasSize()).toEqual([500, 500]);
+  });
+
   it('viewport zoom', async () => {
     expect(graph.getZoom()).toBe(1);
 
@@ -23,7 +28,7 @@ describe('ViewportController', () => {
 
     await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}__zoom-0.5');
 
-    await graph.zoomBy(4);
+    await graph.zoomBy(4, { duration: 100 });
     expect(graph.getZoom()).toBe(2);
 
     await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}__zoom-2');
@@ -49,7 +54,7 @@ describe('ViewportController', () => {
 
     await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}__translate');
 
-    await graph.translateTo([0, 0]);
+    await graph.translateTo([0, 0], { duration: 100 });
   });
 
   it('viewport rotate', async () => {
@@ -60,7 +65,7 @@ describe('ViewportController', () => {
     expect(graph.getRotation()).toBe(45 + 90);
     await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}__rotate-135');
 
-    await graph.rotateTo(90);
+    await graph.rotateTo(90, { duration: 100 });
     expect(graph.getRotation()).toBe(90);
 
     await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}__rotate-90');
