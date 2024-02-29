@@ -3,7 +3,7 @@ import { createEdgeNode } from '@@/utils';
 import type { AnimationTestCase } from '../types';
 
 export const edgeLine: AnimationTestCase = async (context) => {
-  const { canvas } = context;
+  const { container } = context;
 
   const line = new Line({
     style: {
@@ -27,7 +27,7 @@ export const edgeLine: AnimationTestCase = async (context) => {
     },
   });
 
-  canvas.appendChild(line);
+  container.appendChild(line);
 
   const result = line.animate(
     [

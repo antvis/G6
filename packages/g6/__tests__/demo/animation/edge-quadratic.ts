@@ -3,7 +3,7 @@ import { createEdgeNode } from '@@/utils';
 import type { AnimationTestCase } from '../types';
 
 export const edgeQuadratic: AnimationTestCase = async (context) => {
-  const { canvas } = context;
+  const { container } = context;
 
   const quadratic = new Quadratic({
     style: {
@@ -17,7 +17,7 @@ export const edgeQuadratic: AnimationTestCase = async (context) => {
     },
   });
 
-  canvas.appendChild(quadratic);
+  container.appendChild(quadratic);
 
   const result = quadratic.animate(
     [

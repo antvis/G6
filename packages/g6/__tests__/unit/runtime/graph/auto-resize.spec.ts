@@ -1,4 +1,5 @@
-import { createGraph, createGraphCanvas, sleep } from '@@/utils';
+import { Graph } from '@/src';
+import { createGraphCanvas, sleep } from '@@/utils';
 
 describe('Graph autoResize', () => {
   it('autoResize trigger by window.resize', async () => {
@@ -6,22 +7,20 @@ describe('Graph autoResize', () => {
     document.body.appendChild($container);
     const canvas = createGraphCanvas($container, 500, 500);
 
-    const graph = createGraph(
-      {
-        width: 500,
-        height: 500,
-        autoResize: true,
-        data: {
-          nodes: [{ id: 'node-1' }, { id: 'node-2' }],
-        },
-        theme: 'light',
-        node: {},
-        layout: {
-          type: 'grid',
-        },
+    const graph = new Graph({
+      container: canvas,
+      width: 500,
+      height: 500,
+      autoResize: true,
+      data: {
+        nodes: [{ id: 'node-1' }, { id: 'node-2' }],
       },
-      canvas,
-    );
+      theme: 'light',
+      node: {},
+      layout: {
+        type: 'grid',
+      },
+    });
 
     await graph.render();
 

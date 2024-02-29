@@ -1,7 +1,7 @@
 import EventEmitter from '@antv/event-emitter';
 import type { AABB, BaseStyleProps, DataURLOptions, DisplayObject } from '@antv/g';
 import type { ID } from '@antv/graphlib';
-import { debounce, deepMix, isFunction, isString, omit } from '@antv/util';
+import { debounce, isFunction, isNumber, isString, omit } from '@antv/util';
 import { GraphEvent } from '../constants';
 import type {
   BehaviorOptions,
@@ -67,7 +67,7 @@ export class Graph extends EventEmitter {
 
   constructor(options: G6Spec) {
     super();
-    this.options = deepMix({}, Graph.defaultOptions, options);
+    this.options = Object.assign({}, Graph.defaultOptions, options);
     this.setOptions(this.options);
     this.context.graph = this;
 
@@ -96,7 +96,22 @@ export class Graph extends EventEmitter {
    * <en/> To update devicePixelRatio and container properties, please destroy and recreate the instance
    */
   public setOptions(options: G6Spec): void {
-    const { behaviors, combo, container, data, edge, height, layout, node, padding, theme, widgets, width } = options;
+    const {
+      behaviors,
+      combo,
+      container,
+      data,
+      edge,
+      height,
+      layout,
+      node,
+      padding,
+      theme,
+      widgets,
+      width,
+      zoomRange,
+      zoom,
+    } = options;
 
     if (behaviors) this.setBehaviors(behaviors);
     if (combo) this.setCombo(combo);
@@ -106,7 +121,11 @@ export class Graph extends EventEmitter {
     if (node) this.setNode(node);
     if (theme) this.setTheme(theme);
     if (widgets) this.setWidgets(widgets);
-    if (width || height) this.setSize(width || this.options.width || 0, height || this.options.height || 0);
+    if (isNumber(width) || isNumber(height))
+      this.setSize(width ?? this.options.width ?? 0, height ?? this.options.height ?? 0);
+
+    if (zoomRange) this.options.zoomRange = zoomRange;
+    if (isNumber(zoom)) this.options.zoom = zoom;
   }
 
   public getSize(): [number, number] {
@@ -416,11 +435,19 @@ export class Graph extends EventEmitter {
     // TODO invoke getCenter
   }
 
-  public zoomBy(ratio: number, animation?: ViewportAnimationEffectTiming, origin?: Point): Promise<void> | undefined {
+  public zoomBy(
+    ratio: number,
+    animation?: ViewportAnimationEffectTiming,
+    origin: Point = this.getCanvasCenter(),
+  ): Promise<void> | undefined {
     return this.context.viewport!.zoom({ mode: 'relative', value: ratio, origin }, animation);
   }
 
-  public zoomTo(zoom: number, animation?: ViewportAnimationEffectTiming, origin?: Point): Promise<void> | undefined {
+  public zoomTo(
+    zoom: number,
+    animation?: ViewportAnimationEffectTiming,
+    origin: Point = this.getCanvasCenter(),
+  ): Promise<void> | undefined {
     return this.context.viewport!.zoom({ mode: 'absolute', value: zoom, origin }, animation);
   }
 
@@ -428,11 +455,19 @@ export class Graph extends EventEmitter {
     return this.context.viewport!.getZoom();
   }
 
-  public rotateBy(angle: number, animation?: ViewportAnimationEffectTiming, origin?: Point): Promise<void> | undefined {
+  public rotateBy(
+    angle: number,
+    animation?: ViewportAnimationEffectTiming,
+    origin: Point = this.getCanvasCenter(),
+  ): Promise<void> | undefined {
     return this.context.viewport!.rotate({ mode: 'relative', value: angle, origin }, animation);
   }
 
-  public rotateTo(angle: number, animation?: ViewportAnimationEffectTiming, origin?: Point): Promise<void> | undefined {
+  public rotateTo(
+    angle: number,
+    animation?: ViewportAnimationEffectTiming,
+    origin: Point = this.getCanvasCenter(),
+  ): Promise<void> | undefined {
     return this.context.viewport!.rotate({ mode: 'absolute', value: angle, origin }, animation);
   }
 
@@ -443,7 +478,7 @@ export class Graph extends EventEmitter {
   public translateBy(
     offset: Point,
     animation?: ViewportAnimationEffectTiming,
-    origin?: Point,
+    origin: Point = this.getCanvasCenter(),
   ): Promise<void> | undefined {
     return this.context.viewport!.translate({ mode: 'relative', value: offset, origin }, animation);
   }
@@ -451,7 +486,7 @@ export class Graph extends EventEmitter {
   public translateTo(
     position: Point,
     animation?: ViewportAnimationEffectTiming,
-    origin?: Point,
+    origin: Point = this.getCanvasCenter(),
   ): Promise<void> | undefined {
     return this.context.viewport!.translate({ mode: 'absolute', value: position, origin }, animation);
   }
@@ -463,7 +498,7 @@ export class Graph extends EventEmitter {
   public translateElementBy(offsets: Positions, animation?: boolean): void {
     const positions = Object.entries(offsets).reduce((acc, [id, offset]) => {
       const curr = this.getElementPosition(id);
-      const next = add(curr, offset);
+      const next = add(curr, [...offset, 0].slice(0, 3) as Point);
       acc[id] = next;
       return acc;
     }, {} as Positions);
@@ -556,6 +591,10 @@ export class Graph extends EventEmitter {
 
   public getViewportCenter(): Point {
     return this.context.viewport!.getViewportCenter();
+  }
+
+  public getCanvasCenter(): Point {
+    return this.context.viewport!.getCanvasCenter();
   }
 
   private onResize = debounce(() => {

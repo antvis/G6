@@ -31,14 +31,14 @@ class Shape extends BaseShape<ShapeStyleProps> {
   }
 }
 
-export const animationTranslate: AnimationTestCase = async ({ canvas }) => {
+export const animationTranslate: AnimationTestCase = async ({ container }) => {
   const animation: Animation = [
     {
       fields: ['x', 'y'],
     },
   ];
 
-  const shape = canvas.appendChild(
+  const shape = container.appendChild(
     new Shape({
       style: {
         x: 100,

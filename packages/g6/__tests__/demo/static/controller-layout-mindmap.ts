@@ -1,18 +1,16 @@
 import type { G6Spec } from '@/src';
 import { Graph, treeToGraphData } from '@/src';
 import tree from '@@/dataset/algorithm-category.json';
-import type { StaticTestCase } from '../types';
+import type { STDTestCase } from '../types';
 
-export const controllerLayoutMindmap: StaticTestCase = async ({ canvas, animation }) => {
+export const controllerLayoutMindmap: STDTestCase = async (context) => {
   const options: G6Spec = {
-    container: canvas,
-    animation,
+    ...context,
     data: treeToGraphData(tree),
     theme: 'light',
     layout: {
       type: 'mindmap',
       direction: 'H',
-      animation,
       getHeight: () => {
         return 16;
       },
@@ -41,4 +39,6 @@ export const controllerLayoutMindmap: StaticTestCase = async ({ canvas, animatio
   await graph.render();
 
   await graph.translateTo([350, 0]);
+
+  return graph;
 };

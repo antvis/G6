@@ -2,17 +2,16 @@ import type { G6Spec } from '@/src';
 import { Graph, register } from '@/src';
 import data from '@@/dataset/soccer.json';
 import { ForceAtlas2Layout, initThreads, supportsThreads } from '@antv/layout-wasm';
-import type { StaticTestCase } from '../types';
+import type { STDTestCase } from '../types';
 
 register('layout', 'forceatlas2-wasm', ForceAtlas2Layout);
 
-export const controllerLayoutForceatlas2WASM: StaticTestCase = async ({ canvas, animation }) => {
+export const controllerLayoutForceatlas2WASM: STDTestCase = async (context) => {
   const supported = await supportsThreads();
   const threads = await initThreads(supported);
 
   const options: G6Spec = {
-    container: canvas,
-    animation,
+    ...context,
     data,
     theme: 'light',
     layout: {
@@ -25,7 +24,6 @@ export const controllerLayoutForceatlas2WASM: StaticTestCase = async ({ canvas, 
       kg: 5,
       kr: 10,
       ks: 0.1,
-      animation,
     },
     node: { style: { size: 20 } },
   };
@@ -33,4 +31,6 @@ export const controllerLayoutForceatlas2WASM: StaticTestCase = async ({ canvas, 
   const graph = new Graph(options);
 
   await graph.render();
+
+  return graph;
 };

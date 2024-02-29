@@ -1,12 +1,11 @@
 import type { G6Spec } from '@/src';
 import { Graph } from '@/src';
 import data from '@@/dataset/cluster.json';
-import type { StaticTestCase } from '../types';
+import type { STDTestCase } from '../types';
 
-export const controllerLayoutForce: StaticTestCase = async ({ canvas, animation }) => {
+export const controllerLayoutForce: STDTestCase = async (context) => {
   const options: G6Spec = {
-    container: canvas,
-    animation,
+    ...context,
     data,
     theme: 'light',
     layout: {
@@ -16,7 +15,6 @@ export const controllerLayoutForce: StaticTestCase = async ({ canvas, animation 
       dimensions: 2,
       nodeClusterBy: 'cluster',
       clusterNodeStrength: 100,
-      animation,
     },
     node: {
       style: {
@@ -31,6 +29,8 @@ export const controllerLayoutForce: StaticTestCase = async ({ canvas, animation 
   const graph = new Graph(options);
 
   await graph.render();
+
+  return graph;
 };
 
 controllerLayoutForce.skip = true;

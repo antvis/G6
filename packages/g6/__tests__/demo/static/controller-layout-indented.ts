@@ -1,12 +1,11 @@
 import type { G6Spec } from '@/src';
 import { Graph, treeToGraphData } from '@/src';
 import tree from '@@/dataset/file-system.json';
-import type { StaticTestCase } from '../types';
+import type { STDTestCase } from '../types';
 
-export const controllerLayoutIndented: StaticTestCase = async ({ canvas, animation }) => {
+export const controllerLayoutIndented: STDTestCase = async (context) => {
   const options: G6Spec = {
-    container: canvas,
-    animation,
+    ...context,
     data: treeToGraphData(tree),
     theme: 'light',
     layout: {
@@ -14,7 +13,6 @@ export const controllerLayoutIndented: StaticTestCase = async ({ canvas, animati
       isHorizontal: true,
       direction: 'LR',
       indent: 30,
-      animation,
       getHeight: function getHeight() {
         return 16;
       },
@@ -36,4 +34,6 @@ export const controllerLayoutIndented: StaticTestCase = async ({ canvas, animati
   await graph.render();
 
   await graph.translateTo([0, -200]);
+
+  return graph;
 };

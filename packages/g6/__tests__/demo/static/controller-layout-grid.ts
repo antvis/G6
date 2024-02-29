@@ -1,18 +1,16 @@
 import type { G6Spec } from '@/src';
 import { Graph } from '@/src';
 import data from '@@/dataset/soccer.json';
-import type { StaticTestCase } from '../types';
+import type { STDTestCase } from '../types';
 
-export const controllerLayoutGrid: StaticTestCase = async ({ canvas, animation }) => {
+export const controllerLayoutGrid: STDTestCase = async (context) => {
   const options: G6Spec = {
-    container: canvas,
-    animation,
+    ...context,
     padding: 0,
     data,
     theme: 'light',
     layout: {
       type: 'grid',
-      animation,
     },
     node: { style: { size: 20 } },
   };
@@ -20,4 +18,6 @@ export const controllerLayoutGrid: StaticTestCase = async ({ canvas, animation }
   const graph = new Graph(options);
 
   await graph.render();
+
+  return graph;
 };

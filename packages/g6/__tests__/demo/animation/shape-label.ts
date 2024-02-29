@@ -2,7 +2,7 @@ import { Label } from '@/src/elements/shapes/label';
 import type { AnimationTestCase } from '../types';
 
 export const shapeLabel: AnimationTestCase = async (context) => {
-  const { canvas } = context;
+  const { container } = context;
 
   const label = new Label({
     style: {
@@ -18,7 +18,7 @@ export const shapeLabel: AnimationTestCase = async (context) => {
     },
   });
 
-  canvas.appendChild(label);
+  container.appendChild(label);
 
   const result = label.animate(
     [

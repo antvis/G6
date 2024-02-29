@@ -2,7 +2,7 @@ import { Label } from '@/src/elements/shapes';
 import type { StaticTestCase } from '../types';
 
 export const shapeLabel: StaticTestCase = async (context) => {
-  const { canvas } = context;
+  const { container } = context;
 
   const label1 = new Label({
     style: {
@@ -71,9 +71,9 @@ export const shapeLabel: StaticTestCase = async (context) => {
     },
   });
 
-  canvas.appendChild(label1);
-  canvas.appendChild(label2);
-  canvas.appendChild(label3);
-  canvas.appendChild(label4);
-  canvas.appendChild(label5);
+  container.appendChild(label1);
+  container.appendChild(label2);
+  container.appendChild(label3);
+  container.appendChild(label4);
+  container.appendChild(label5);
 };

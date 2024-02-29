@@ -3,10 +3,8 @@ import data from '@@/dataset/cluster.json';
 import type { STDTestCase } from '../types';
 
 export const behaviorDragCanvas: STDTestCase = async (context) => {
-  const { canvas, animation } = context;
   const graph = new Graph({
-    animation,
-    container: canvas,
+    ...context,
     data,
     layout: {
       type: 'd3force',

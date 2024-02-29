@@ -3,7 +3,7 @@ import { createEdgeNode } from '@@/utils';
 import type { AnimationTestCase } from '../types';
 
 export const edgeCubic: AnimationTestCase = async (context) => {
-  const { canvas } = context;
+  const { container } = context;
 
   const cubic = new Cubic({
     style: {
@@ -17,7 +17,7 @@ export const edgeCubic: AnimationTestCase = async (context) => {
     },
   });
 
-  canvas.appendChild(cubic);
+  container.appendChild(cubic);
 
   const result = cubic.animate(
     [

@@ -1,11 +1,10 @@
 import type { G6Spec } from '@/src';
-import { createGraph } from '@@/utils';
-import type { StaticTestCase } from '../types';
+import { Graph } from '@/src';
+import type { STDTestCase } from '../types';
 
-export const controllerElement: StaticTestCase = async (context) => {
-  const { canvas, animation } = context;
-
+export const controllerElement: STDTestCase = async (context) => {
   const options: G6Spec = {
+    ...context,
     data: {
       nodes: [
         { id: 'node-1', style: { x: 50, y: 50 } },
@@ -18,20 +17,19 @@ export const controllerElement: StaticTestCase = async (context) => {
         { source: 'node-3', target: 'node-1' },
       ],
     },
-    theme: 'light',
     node: {
       style: {
         size: 20,
       },
-      animation: animation && {},
     },
     edge: {
       style: {},
-      animation: animation && {},
     },
   };
 
-  const graph = createGraph(options, canvas);
+  const graph = new Graph(options);
 
   await graph.render();
+
+  return graph;
 };

@@ -2,7 +2,7 @@ import { Graph } from '@/src';
 import type { StaticTestCase } from '../types';
 
 export const edgeLine: StaticTestCase = async (context) => {
-  const { canvas, animation, theme } = context;
+  const { container, animation, theme } = context;
 
   const edgeIds = ['line-default', 'line-active', 'line-selected', 'line-highlight', 'line-inactive', 'line-disabled'];
 
@@ -16,7 +16,7 @@ export const edgeLine: StaticTestCase = async (context) => {
   };
 
   const graph = new Graph({
-    container: canvas,
+    container: container,
     theme,
     data,
     node: {

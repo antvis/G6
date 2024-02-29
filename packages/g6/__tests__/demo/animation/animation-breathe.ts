@@ -32,7 +32,7 @@ class Shape extends BaseShape<ShapeStyleProps> {
   }
 }
 
-export const animationBreathe: AnimationTestCase = async ({ canvas }) => {
+export const animationBreathe: AnimationTestCase = async ({ container }) => {
   const animation: Animation = [
     {
       fields: ['lineWidth'],
@@ -42,7 +42,7 @@ export const animationBreathe: AnimationTestCase = async ({ canvas }) => {
     },
   ];
 
-  const shape = canvas.appendChild(
+  const shape = container.appendChild(
     new Shape({
       style: {
         x: 100,

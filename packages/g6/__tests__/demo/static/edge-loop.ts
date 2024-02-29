@@ -4,9 +4,9 @@ import type { LoopEdgePosition } from '@/src/types';
 import type { StaticTestCase } from '../types';
 
 export const edgeLoop: StaticTestCase = async (context) => {
-  const { canvas } = context;
+  const { container } = context;
 
-  const node1 = canvas.appendChild(
+  const node1 = container.appendChild(
     new Circle({
       id: 'node-1',
       style: {
@@ -25,7 +25,7 @@ export const edgeLoop: StaticTestCase = async (context) => {
     }),
   );
 
-  canvas.appendChild(
+  container.appendChild(
     new Cubic({
       style: {
         sourceNode: node1,
@@ -40,7 +40,7 @@ export const edgeLoop: StaticTestCase = async (context) => {
     }),
   );
 
-  const node2 = canvas.appendChild(
+  const node2 = container.appendChild(
     new Circle({
       id: 'node-1',
       style: {
@@ -59,7 +59,7 @@ export const edgeLoop: StaticTestCase = async (context) => {
     }),
   );
 
-  canvas.appendChild(
+  container.appendChild(
     new Cubic({
       style: {
         sourceNode: node2,
@@ -72,7 +72,7 @@ export const edgeLoop: StaticTestCase = async (context) => {
     }),
   );
 
-  const node2_1 = canvas.appendChild(
+  const node2_1 = container.appendChild(
     new Star({
       id: 'node-2-1',
       style: {
@@ -86,7 +86,7 @@ export const edgeLoop: StaticTestCase = async (context) => {
     }),
   );
 
-  canvas.appendChild(
+  container.appendChild(
     new Cubic({
       style: {
         sourceNode: node2_1,
@@ -99,7 +99,7 @@ export const edgeLoop: StaticTestCase = async (context) => {
     }),
   );
 
-  const node3 = canvas.appendChild(
+  const node3 = container.appendChild(
     new Circle({
       id: 'node-3',
       style: {
@@ -114,7 +114,7 @@ export const edgeLoop: StaticTestCase = async (context) => {
   );
 
   ['top', 'right', 'bottom', 'left'].forEach((position) => {
-    canvas.appendChild(
+    container.appendChild(
       new Cubic({
         style: {
           sourceNode: node3,
@@ -130,7 +130,7 @@ export const edgeLoop: StaticTestCase = async (context) => {
     );
   });
 
-  const node4 = canvas.appendChild(
+  const node4 = container.appendChild(
     new Circle({
       id: 'node-2',
       style: {
@@ -145,7 +145,7 @@ export const edgeLoop: StaticTestCase = async (context) => {
   );
 
   ['top-right', 'bottom-right', 'top-left', 'bottom-left'].forEach((position) => {
-    canvas.appendChild(
+    container.appendChild(
       new Cubic({
         style: {
           sourceNode: node4,
@@ -160,7 +160,7 @@ export const edgeLoop: StaticTestCase = async (context) => {
     );
   });
 
-  const node5 = canvas.appendChild(
+  const node5 = container.appendChild(
     new Star({
       id: 'node-5',
       style: {
@@ -175,7 +175,7 @@ export const edgeLoop: StaticTestCase = async (context) => {
   );
 
   ['top', 'right', 'bottom', 'left'].forEach((position) => {
-    canvas.appendChild(
+    container.appendChild(
       new Cubic({
         style: {
           sourceNode: node5,
@@ -191,7 +191,7 @@ export const edgeLoop: StaticTestCase = async (context) => {
     );
   });
 
-  const node6 = canvas.appendChild(
+  const node6 = container.appendChild(
     new Star({
       id: 'node-6',
       style: {
@@ -206,7 +206,7 @@ export const edgeLoop: StaticTestCase = async (context) => {
   );
 
   ['top-right', 'bottom-right', 'top-left', 'bottom-left'].forEach((position) => {
-    canvas.appendChild(
+    container.appendChild(
       new Cubic({
         style: {
           sourceNode: node6,

@@ -3,9 +3,9 @@ import { Circle, Star } from '@/src/elements/nodes';
 import type { StaticTestCase } from '../types';
 
 export const edgePort: StaticTestCase = async (context) => {
-  const { canvas } = context;
+  const { container } = context;
 
-  const node1 = canvas.appendChild(
+  const node1 = container.appendChild(
     new Circle({
       id: 'node-1',
       style: {
@@ -18,7 +18,7 @@ export const edgePort: StaticTestCase = async (context) => {
     }),
   );
 
-  const node2 = canvas.appendChild(
+  const node2 = container.appendChild(
     new Circle({
       id: 'node-2',
       style: {
@@ -31,7 +31,7 @@ export const edgePort: StaticTestCase = async (context) => {
     }),
   );
 
-  canvas.appendChild(
+  container.appendChild(
     new Line({
       style: {
         sourceNode: node1,
@@ -48,7 +48,7 @@ export const edgePort: StaticTestCase = async (context) => {
     }),
   );
 
-  const node3 = canvas.appendChild(
+  const node3 = container.appendChild(
     new Circle({
       id: 'node-3',
       style: {
@@ -67,7 +67,7 @@ export const edgePort: StaticTestCase = async (context) => {
     }),
   );
 
-  const node4 = canvas.appendChild(
+  const node4 = container.appendChild(
     new Circle({
       id: 'node-4',
       style: {
@@ -86,7 +86,7 @@ export const edgePort: StaticTestCase = async (context) => {
     }),
   );
 
-  canvas.appendChild(
+  container.appendChild(
     new Line({
       style: {
         sourceNode: node3,
@@ -105,7 +105,7 @@ export const edgePort: StaticTestCase = async (context) => {
     }),
   );
 
-  const node5 = canvas.appendChild(
+  const node5 = container.appendChild(
     new Circle({
       id: 'node-5',
       style: {
@@ -122,7 +122,7 @@ export const edgePort: StaticTestCase = async (context) => {
     }),
   );
 
-  const node6 = canvas.appendChild(
+  const node6 = container.appendChild(
     new Circle({
       id: 'node-6',
       style: {
@@ -139,7 +139,7 @@ export const edgePort: StaticTestCase = async (context) => {
     }),
   );
 
-  canvas.appendChild(
+  container.appendChild(
     new Line({
       style: {
         sourceNode: node5,
@@ -156,7 +156,7 @@ export const edgePort: StaticTestCase = async (context) => {
     }),
   );
 
-  const node7 = canvas.appendChild(
+  const node7 = container.appendChild(
     new Circle({
       id: 'node-7',
       style: {
@@ -173,7 +173,7 @@ export const edgePort: StaticTestCase = async (context) => {
     }),
   );
 
-  const node8 = canvas.appendChild(
+  const node8 = container.appendChild(
     new Circle({
       id: 'node-8',
       style: {
@@ -190,7 +190,7 @@ export const edgePort: StaticTestCase = async (context) => {
     }),
   );
 
-  canvas.appendChild(
+  container.appendChild(
     new Line({
       style: {
         sourceNode: node7,
@@ -208,7 +208,7 @@ export const edgePort: StaticTestCase = async (context) => {
     }),
   );
 
-  const node9 = canvas.appendChild(
+  const node9 = container.appendChild(
     new Circle({
       id: 'node-9',
       style: {
@@ -225,7 +225,7 @@ export const edgePort: StaticTestCase = async (context) => {
     }),
   );
 
-  const node10 = canvas.appendChild(
+  const node10 = container.appendChild(
     new Circle({
       id: 'node-10',
       style: {
@@ -242,7 +242,7 @@ export const edgePort: StaticTestCase = async (context) => {
     }),
   );
 
-  canvas.appendChild(
+  container.appendChild(
     new Line({
       style: {
         sourceNode: node9,
@@ -260,7 +260,7 @@ export const edgePort: StaticTestCase = async (context) => {
     }),
   );
 
-  const node11 = canvas.appendChild(
+  const node11 = container.appendChild(
     new Circle({
       id: 'node-11',
       style: {
@@ -273,7 +273,7 @@ export const edgePort: StaticTestCase = async (context) => {
     }),
   );
 
-  const node12 = canvas.appendChild(
+  const node12 = container.appendChild(
     new Circle({
       id: 'node-12',
       style: {
@@ -290,7 +290,7 @@ export const edgePort: StaticTestCase = async (context) => {
     }),
   );
 
-  canvas.appendChild(
+  container.appendChild(
     new Line({
       style: {
         sourceNode: node11,
@@ -307,7 +307,7 @@ export const edgePort: StaticTestCase = async (context) => {
     }),
   );
 
-  const node13 = canvas.appendChild(
+  const node13 = container.appendChild(
     new Circle({
       id: 'node-13',
       style: {
@@ -320,7 +320,7 @@ export const edgePort: StaticTestCase = async (context) => {
     }),
   );
 
-  const node14 = canvas.appendChild(
+  const node14 = container.appendChild(
     new Circle({
       id: 'node-14',
       style: {
@@ -337,7 +337,7 @@ export const edgePort: StaticTestCase = async (context) => {
     }),
   );
 
-  canvas.appendChild(
+  container.appendChild(
     new Line({
       style: {
         sourceNode: node13,
@@ -355,7 +355,7 @@ export const edgePort: StaticTestCase = async (context) => {
     }),
   );
 
-  const node15 = canvas.appendChild(
+  const node15 = container.appendChild(
     new Circle({
       id: 'node-15',
       style: {
@@ -372,7 +372,7 @@ export const edgePort: StaticTestCase = async (context) => {
     }),
   );
 
-  const node16 = canvas.appendChild(
+  const node16 = container.appendChild(
     new Circle({
       id: 'node-16',
       style: {
@@ -385,7 +385,7 @@ export const edgePort: StaticTestCase = async (context) => {
     }),
   );
 
-  canvas.appendChild(
+  container.appendChild(
     new Line({
       style: {
         sourceNode: node15,
@@ -402,7 +402,7 @@ export const edgePort: StaticTestCase = async (context) => {
     }),
   );
 
-  const node17 = canvas.appendChild(
+  const node17 = container.appendChild(
     new Circle({
       id: 'node-17',
       style: {
@@ -419,7 +419,7 @@ export const edgePort: StaticTestCase = async (context) => {
     }),
   );
 
-  const node18 = canvas.appendChild(
+  const node18 = container.appendChild(
     new Circle({
       id: 'node-18',
       style: {
@@ -432,7 +432,7 @@ export const edgePort: StaticTestCase = async (context) => {
     }),
   );
 
-  canvas.appendChild(
+  container.appendChild(
     new Line({
       style: {
         sourceNode: node17,
@@ -450,7 +450,7 @@ export const edgePort: StaticTestCase = async (context) => {
     }),
   );
 
-  const node19 = canvas.appendChild(
+  const node19 = container.appendChild(
     new Circle({
       id: 'node-19',
       style: {
@@ -467,7 +467,7 @@ export const edgePort: StaticTestCase = async (context) => {
     }),
   );
 
-  const node20 = canvas.appendChild(
+  const node20 = container.appendChild(
     new Star({
       id: 'node-20',
       style: {
@@ -481,7 +481,7 @@ export const edgePort: StaticTestCase = async (context) => {
     }),
   );
 
-  canvas.appendChild(
+  container.appendChild(
     new Cubic({
       style: {
         sourceNode: node19,

@@ -2,7 +2,7 @@ import { Icon } from '@/src/elements/shapes';
 import type { StaticTestCase } from '../types';
 
 export const shapeIcon: StaticTestCase = async (context) => {
-  const { canvas } = context;
+  const { container } = context;
 
   const i1 = new Icon({
     style: {
@@ -26,6 +26,6 @@ export const shapeIcon: StaticTestCase = async (context) => {
     },
   });
 
-  canvas.appendChild(i1);
-  canvas.appendChild(i2);
+  container.appendChild(i1);
+  container.appendChild(i2);
 };

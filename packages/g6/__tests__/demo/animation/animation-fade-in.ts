@@ -31,14 +31,14 @@ class Shape extends BaseShape<ShapeStyleProps> {
   }
 }
 
-export const animationFadeIn: AnimationTestCase = async ({ canvas }) => {
+export const animationFadeIn: AnimationTestCase = async ({ container }) => {
   const animation: Animation = [
     {
       fields: ['opacity'],
     },
   ];
 
-  const shape = canvas.appendChild(
+  const shape = container.appendChild(
     new Shape({
       style: {
         x: 100,

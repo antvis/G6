@@ -1,13 +1,10 @@
 import type { G6Spec } from '@/src';
-import { idOf } from '@/src/utils/id';
-import { createGraph } from '@@/utils';
-import type { StaticTestCase } from '../types';
+import { Graph } from '@/src';
+import type { STDTestCase } from '../types';
 
-export const controllerElementVisibility: StaticTestCase = async (context) => {
-  const { canvas, animation, toMatchSVGSnapshot, env } = context;
-
+export const controllerElementVisibility: STDTestCase = async (context) => {
   const options: G6Spec = {
-    animation,
+    ...context,
     data: {
       nodes: [
         { id: 'node-1', style: { x: 50, y: 50 } },
@@ -25,38 +22,16 @@ export const controllerElementVisibility: StaticTestCase = async (context) => {
       style: {
         size: 20,
       },
-      animation: animation && {},
-    },
-    edge: {
-      style: {},
-      animation: animation && {},
     },
   };
 
-  const graph = createGraph(options, canvas);
+  const graph = new Graph(options);
   await graph.render();
 
-  const hide = () =>
-    graph.setElementVisibility(['node-3', idOf(options.data!.edges![1]), idOf(options.data!.edges![2])], 'hidden');
-  const show = () =>
-    graph.setElementVisibility(['node-3', idOf(options.data!.edges![1]), idOf(options.data!.edges![2])], 'visible');
+  const hide = () => graph.setElementVisibility(['node-3', 'node-2-node-3', 'node-3-node-1'], 'hidden');
+  const show = () => graph.setElementVisibility(['node-3', 'node-2-node-3', 'node-3-node-1'], 'visible');
 
-  if (env === 'test') {
-    await hide();
-    await toMatchSVGSnapshot?.('hidden');
-    await show();
-  }
+  controllerElementVisibility.form = (panel) => [panel.add({ show }, 'show'), panel.add({ hide }, 'hide')];
 
-  controllerElementVisibility.form = [
-    {
-      type: 'button',
-      options: { innerText: 'Show' },
-      onload: (button) => button.addEventListener('click', show),
-    },
-    {
-      type: 'button',
-      options: { innerText: 'Hide' },
-      onload: (button) => button.addEventListener('click', hide),
-    },
-  ];
+  return graph;
 };

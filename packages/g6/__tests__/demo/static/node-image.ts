@@ -2,7 +2,7 @@ import { Graph } from '@/src';
 import type { StaticTestCase } from '../types';
 
 export const nodeImage: StaticTestCase = async (context) => {
-  const { canvas, animation, theme } = context;
+  const { container, animation, theme } = context;
 
   const data = {
     nodes: [
@@ -19,7 +19,7 @@ export const nodeImage: StaticTestCase = async (context) => {
   };
 
   const graph = new Graph({
-    container: canvas,
+    container: container,
     theme,
     data,
     node: {
