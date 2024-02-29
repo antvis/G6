@@ -522,60 +522,33 @@ const graph = new Graph({
   container: 'container',
   width,
   height,
-  modes: {
-    default: ['zoom-canvas', 'drag-canvas', 'drag-node', 'click-select'],
-  },
+  behaviors: ['zoom-canvas', 'drag-canvas', 'drag-node', 'click-select'],
   layout: {
     type: 'force',
     linkDistance: 50,
+    animation: true,
   },
   node: (model) => {
     return {
       id: model.id,
-      data: {
-        ...model.data,
-        labelShape: {
-          text: model.data.label,
-        },
-        labelBackgroundShape: {},
-        animates: {
-          update: [
-            {
-              fields: ['x', 'y'],
-              shapeId: 'group',
-            },
-          ],
-        },
-      },
+      labelText: (d) => model.data.label,
     };
   },
   data,
 });
 
-layoutConfigTranslation();
-
-setInterval(() => {
-  layoutConfigTranslation();
+/**
+ *
+ */
+setTimeout(() => {
+  descriptionDiv.innerHTML = 'Force layout, linkDistance = 100, preventOverlap: true';
+  graph.layout({
+    type: 'force',
+    linkDistance: 100,
+    preventOverlap: true,
+    nodeSize: 20,
+    animation: true,
+  });
 }, 5000);
 
-function layoutConfigTranslation() {
-  setTimeout(() => {
-    descriptionDiv.innerHTML = 'Force layout, linkDistance = 100, preventOverlap: true';
-    graph.layout({
-      type: 'force',
-      linkDistance: 100,
-      preventOverlap: true,
-      nodeSize: 20,
-    });
-  }, 2500);
-  setTimeout(() => {
-    descriptionDiv.innerHTML = 'Force layout, linkDistance = 50, preventOverlap: false';
-    graph.layout({
-      type: 'force',
-      linkDistance: 50,
-      preventOverlap: false,
-    });
-  }, 5000);
-}
-
-window.graph = graph;
+graph.render();

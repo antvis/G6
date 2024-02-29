@@ -114,8 +114,8 @@ export abstract class BaseEdge extends BaseShape<BaseEdgeStyleProps> {
 
     const [sourcePort, targetPort] = findPorts(sourceNode, targetNode, sourcePortKey, targetPortKey);
 
-    const sourcePoint = getConnectionPoint(sourcePort || sourceNode, targetPort || targetNode);
-    const targetPoint = getConnectionPoint(targetPort || targetNode, sourcePort || sourceNode);
+    const sourcePoint = !sourcePort ? sourceNode.getCenter() : getConnectionPoint(sourcePort, targetPort || targetNode);
+    const targetPoint = !targetPort ? targetNode.getCenter() : getConnectionPoint(targetPort, sourcePort || sourceNode);
 
     return [sourcePoint, targetPoint];
   }
