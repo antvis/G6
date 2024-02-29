@@ -3,7 +3,7 @@ import type { Point } from '../types';
 import { getBBoxHeight, getBBoxWidth } from './bbox';
 import { getXYByPosition } from './element';
 import { isBetween } from './math';
-import { add, angle, cross, distance, normalize, subtract, toVector2 } from './vector';
+import { add, cross, distance, normalize, subtract, toVector2 } from './vector';
 
 /**
  * <zh/> 将对象坐标转换为数组坐标
@@ -204,18 +204,16 @@ export function getRectIntersectPoint(p: Point, bbox: AABB): Point {
  */
 export function getEllipseIntersectPoint(p: Point, bbox: AABB): Point {
   const center = bbox.center;
-  const vec = subtract(p, center);
-  let radians = angle(vec, [1, 0, 0]);
-  if (isNaN(radians)) return center;
-
-  if (radians < 0) radians += Math.PI * 2;
+  const vec = subtract(p, bbox.center);
+  const angle = Math.atan2(vec[1], vec[0]);
+  if (isNaN(angle)) return center;
 
   const rx = getBBoxWidth(bbox) / 2;
   const ry = getBBoxHeight(bbox) / 2;
-  return [
-    center[0] + Math.abs(rx * Math.cos(radians)) * Math.sign(vec[0]),
-    center[1] + Math.abs(ry * Math.sin(radians)) * Math.sign(vec[1]),
-  ];
+  const intersectX = center[0] + rx * Math.cos(angle);
+  const intersectY = center[1] + ry * Math.sin(angle);
+
+  return [intersectX, intersectY];
 }
 
 /**
