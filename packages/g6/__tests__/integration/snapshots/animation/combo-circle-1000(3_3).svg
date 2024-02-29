@@ -11,23 +11,23 @@
     <g id="g-root" fill="none" transform="matrix(1,0,0,1,0,0)">
       <g id="g-svg-7" fill="none" transform="matrix(1,0,0,1,0,0)">
         <g id="combo-1" fill="none" transform="matrix(1,0,0,1,0,0)">
-          <g transform="matrix(1,0,0,1,225,145)">
+          <g transform="matrix(1,0,0,1,225,195)">
             <circle
               id="key"
               fill="rgba(253,253,253,1)"
-              transform="translate(-105.43718509140881,-105.43718509140881)"
-              cx="105.43718509140881"
-              cy="105.43718509140881"
+              transform="translate(-70.83078426785913,-70.83078426785913)"
+              cx="70.83078426785913"
+              cy="70.83078426785913"
               stroke-width="1"
               stroke="rgba(153,173,209,1)"
-              r="105.43718509140881"
+              r="70.83078426785913"
             />
           </g>
         </g>
       </g>
       <g id="g-svg-6" fill="none" transform="matrix(1,0,0,1,0,0)" />
       <g id="g-svg-5" fill="none" transform="matrix(1,0,0,1,0,0)">
-        <g id="node-2" fill="none" transform="matrix(1,0,0,1,250,100)">
+        <g id="node-2" fill="none" transform="matrix(1,0,0,1,250,200)">
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"

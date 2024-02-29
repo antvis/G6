@@ -175,5 +175,12 @@ export const light: Theme = {
         stroke: COMBO_STROKE_DISABLED,
       },
     },
+    animation: {
+      enter: 'fade',
+      exit: 'fade',
+      hide: 'fade',
+      show: 'fade',
+      update: [{ fields: ['cx', 'cy', 'r', 'x', 'y', 'width', 'height'], shape: 'key' }],
+    },
   },
 };

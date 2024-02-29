@@ -179,5 +179,12 @@ export const dark: Theme = {
         labelOpacity: 0.25,
       },
     },
+    animation: {
+      enter: 'fade',
+      exit: 'fade',
+      hide: 'fade',
+      show: 'fade',
+      update: [{ fields: ['cx', 'cy', 'r', 'x', 'y', 'width', 'height'], shape: 'key' }],
+    },
   },
 };

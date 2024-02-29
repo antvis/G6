@@ -28,7 +28,7 @@ export const comboCircle: AnimationTestCase = async (context) => {
   graph.updateNodeData([
     {
       id: 'node-2',
-      style: { parentId: 'combo-1', x: 250, y: 100 },
+      style: { parentId: 'combo-1', x: 250, y: 200 },
     },
   ]);
   graph.removeNodeData(['node-1']);
