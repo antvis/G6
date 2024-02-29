@@ -2,25 +2,6 @@ import { Graph } from '@antv/g6';
 
 const graph = new Graph({
   container: 'container',
-  autoResize: true,
-  node: {
-    style: {
-      size: (d) => d.size,
-    },
-  },
-  layout: {
-    type: 'force',
-    preventOverlap: true,
-    animation: true,
-    linkDistance: (d) => {
-      if (d.source === 'node0' || d.target === 'node0') {
-        return 200;
-      }
-      return 80;
-    },
-  },
-  zoomRange: [0.1, 5],
-  behaviors: ['zoom-canvas', 'drag-canvas', 'click-select', 'drag-node'],
   data: {
     nodes: [
       { id: 'node0', size: 50 },
@@ -60,5 +41,25 @@ const graph = new Graph({
       { source: 'node3', target: 'node16' },
     ],
   },
+  node: {
+    style: {
+      size: (d) => d.size,
+    },
+  },
+  layout: {
+    type: 'force',
+    preventOverlap: true,
+    animation: true,
+    linkDistance: (d) => {
+      if (d.source === 'node0' || d.target === 'node0') {
+        return 200;
+      }
+      return 80;
+    },
+  },
+  behaviors: ['zoom-canvas', 'drag-canvas'],
+  autoResize: true,
+  zoomRange: [0.1, 5],
 });
+
 graph.render();

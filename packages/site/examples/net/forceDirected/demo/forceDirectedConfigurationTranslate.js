@@ -522,24 +522,21 @@ const graph = new Graph({
   container: 'container',
   width,
   height,
-  behaviors: ['zoom-canvas', 'drag-canvas', 'drag-node', 'click-select'],
-  layout: {
-    type: 'force',
-    linkDistance: 50,
-    animation: true,
-  },
+  data,
   node: (model) => {
     return {
       id: model.id,
       labelText: (d) => model.data.label,
     };
   },
-  data,
+  layout: {
+    type: 'force',
+    linkDistance: 50,
+    animation: true,
+  },
+  behaviors: ['zoom-canvas', 'drag-canvas'],
 });
 
-/**
- *
- */
 setTimeout(() => {
   descriptionDiv.innerHTML = 'Force layout, linkDistance = 100, preventOverlap: true';
   graph.layout({

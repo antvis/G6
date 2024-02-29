@@ -522,10 +522,10 @@ const COLORS = {
 
 const graph = new Graph({
   container: 'container',
-  autoResize: true,
+  data,
   node: {
     style: {
-      type: 'circle', // 👈🏻 Node shape type.
+      type: 'circle',
       size: (d) => d.data.size,
       labelText: (d) => d.id,
       ports: [],
@@ -540,9 +540,9 @@ const graph = new Graph({
     nodeClusterBy: 'cluster',
     clusterNodeStrength: 70,
   },
+  behaviors: ['zoom-canvas', 'drag-canvas'],
   zoomRange: [0.1, 5],
-  behaviors: ['zoom-canvas', 'drag-canvas', 'click-select'],
-  data,
+  autoResize: true,
 });
 
 graph.render();
