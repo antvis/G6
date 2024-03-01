@@ -94,19 +94,27 @@ export function getExpandedBBox(bbox: AABB, padding: Padding): AABB {
 }
 
 /**
- * <zh/> 合并两个包围盒，使其成为一个包围盒
+ * <zh/> 计算整体包围盒
  *
- * <en/> Merge two bboxes into a single bbox that encompasses both
- * @param b1 - <zh/> 包围盒1 | <en/> Bounding box 1
- * @param b2 - <zh/> 包围盒2 | <en/> Bounding box 2
- * @returns <zh/> 合并后的包围盒 | <en/> The merged bounding box
+ * <en/> Calculate the overall bounding box
+ * @param bboxes - <zh/> 包围盒列表 | <en/> List of bounding boxes
+ * @returns <zh/> 整体包围盒 | <en/> Overall bounding box
  */
-export function union(b1: AABB, b2: AABB): AABB {
+export function union(...bboxes: AABB[]): AABB {
+  if (bboxes.length === 0) return new AABB();
+  if (bboxes.length === 1) return bboxes[0];
+
   const bbox = new AABB();
-  bbox.setMinMax(
-    [Math.min(b1.min[0], b2.min[0]), Math.min(b1.min[1], b2.min[1]), Math.min(b1.min[2], b2.min[2])],
-    [Math.max(b1.max[0], b2.max[0]), Math.max(b1.max[1], b2.max[1]), Math.max(b1.max[2], b2.max[2])],
-  );
+  bbox.setMinMax(bboxes[0].min, bboxes[0].max);
+
+  for (let i = 1; i < bboxes.length; i++) {
+    const b2 = bboxes[i];
+    bbox.setMinMax(
+      [Math.min(bbox.min[0], b2.min[0]), Math.min(bbox.min[1], b2.min[1]), Math.min(bbox.min[2], b2.min[2])],
+      [Math.max(bbox.max[0], b2.max[0]), Math.max(bbox.max[1], b2.max[1]), Math.max(bbox.max[2], b2.max[2])],
+    );
+  }
+
   return bbox;
 }
 
