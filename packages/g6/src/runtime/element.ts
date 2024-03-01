@@ -172,9 +172,9 @@ export class ElementController {
     const datum = this.getElementData(elementType, [id])?.[0];
     if (!datum) return {};
 
-    // `data.style` 中一些样式例如 parentId, collapsed, type 并非直接给元素使用，因此需要过滤掉这些字段
-    // Some styles in `data.style`, such as parentId, collapsed, type, are not directly used by the element, so these fields need to be filtered out
-    const { parentId, collapsed, type, states, ...style } = datum.style || {};
+    // `data.style` 中一些样式例如 parentId, type 并非直接给元素使用，因此需要过滤掉这些字段
+    // Some styles in `data.style`, such as parentId, type, are not directly used by the element, so these fields need to be filtered out
+    const { parentId, type, states, ...style } = datum.style || {};
     return style;
   }
 
@@ -415,9 +415,8 @@ export class ElementController {
 
   private getComboChildren(id: ID) {
     const { model } = this.context;
-    return Object.fromEntries(
-      model.getComboChildrenData(id).map((datum) => [idOf(datum), this.getElement(idOf(datum))]),
-    );
+
+    return model.getComboChildrenData(id).map((datum) => this.getElement(idOf(datum))!);
   }
 
   public getElementComputedStyle(elementType: ElementType, id: ID) {

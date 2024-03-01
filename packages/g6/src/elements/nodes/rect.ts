@@ -16,6 +16,7 @@ type KeyStyleProps = GRectStyleProps;
 export class Rect extends BaseNode<GRect, KeyStyleProps> {
   static defaultStyleProps: Partial<RectStyleProps> = {
     size: [100, 30],
+    anchor: [0.5, 0.5],
   };
 
   constructor(options: DisplayObjectConfig<RectStyleProps>) {
@@ -28,7 +29,6 @@ export class Rect extends BaseNode<GRect, KeyStyleProps> {
       ...(super.getKeyStyle(attributes) as KeyStyleProps),
       width,
       height,
-      anchor: [0.5, 0.5], // !!! It cannot be set to default values because G.CustomElement cannot handle it properly.
     };
   }
 

@@ -133,6 +133,7 @@ export const dark: Theme = {
   },
   combo: {
     style: {
+      collapsedSize: 32,
       fill: COMBO_FILL,
       haloLineWidth: 12,
       haloStrokeOpacity: 0.25,
@@ -147,8 +148,7 @@ export const dark: Theme = {
       labelFontSize: 12,
       labelMaxLines: 1,
       lineWidth: 1,
-      padding: [25, 20, 15, 20],
-      size: 10,
+      size: 0,
       stroke: COMBO_STROKE,
     },
     state: {

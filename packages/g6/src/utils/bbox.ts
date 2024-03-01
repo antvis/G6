@@ -5,6 +5,7 @@ import type { Element, Node, Padding, Point } from '../types';
 import { isPoint } from './is';
 import { isBetween } from './math';
 import { parsePadding } from './padding';
+
 /**
  * <zh/> 获取包围盒的宽度
  *

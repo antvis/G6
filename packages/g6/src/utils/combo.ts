@@ -1,43 +1,28 @@
-import type { Combo, Node, Padding, Position } from '../types';
-import { getBBoxHeight, getBBoxWidth, getElementsBBox, getExpandedBBox } from './bbox';
+import type { Size } from '../types';
+import { parseSize } from './size';
 
 /**
- * <zh/> 获取 combo 的渲染尺寸
+ * <zh/> 计算 Combo 折叠后的原点
  *
- * <en/> Get the rendering size of the combo
- * @param collapsed - <zh/> 是否折叠 | <en/> Whether it is collapsed
- * @param dWidth - <zh/> 最小宽度 | <en/> Minimum width
- * @param dHeight - <zh/> 最小高度 | <en/> Minimum height
- * @param children - <zh/> 子元素集合 | <en/> Child element set
- * @param padding - <zh/> 内边距 | <en/> Padding
- * @returns <zh/> 返回渲染尺寸 | <en/> Return rendering size
+ * <en/> Calculate the origin of the Combo after folding
+ * @param collapsedOrigin - <zh/> 折叠原点 | <en/> folding origin
+ * @param collapsedSize - <zh/> 折叠尺寸 | <en/> folding size
+ * @param expandedSize - <zh/> 展开尺寸 | <en/> expanded size
+ * @returns <zh/> 折叠后的原点 | <en/> origin after folding
  */
-export function getComboRenderSize(
-  collapsed: boolean,
-  dWidth: number,
-  dHeight: number,
-  children: Record<string, Node | Combo>,
-  padding?: Padding,
-): { center: Position; width: number; height: number } {
-  // If combo has children, calculate the size based on the children
-  let childrenBBox = getElementsBBox(Object.values(children));
-  const [centerX, centerY] = childrenBBox.center;
-
-  // If combo is childless or collapsed, use the default size
-  if (collapsed || Object.keys(children).length === 0) {
-    childrenBBox.setMinMax(
-      [centerX - dWidth / 2, centerY - dHeight / 2, 0],
-      [centerX + dWidth / 2, centerY + dHeight / 2, 0],
-    );
-  }
-
-  if (padding) {
-    childrenBBox = getExpandedBBox(childrenBBox, padding);
-  }
-
-  return {
-    center: childrenBBox.center,
-    width: Math.max(dWidth, getBBoxWidth(childrenBBox)),
-    height: Math.max(dHeight, getBBoxHeight(childrenBBox)),
+export function calculateCollapsedOrigin(
+  collapsedOrigin: string,
+  collapsedSize: Size,
+  expandedSize: Size,
+): [number, number] {
+  const [expandedWidth, expandedHeight] = parseSize(expandedSize);
+  const [collapsedWidth, collapsedHeight] = parseSize(collapsedSize);
+  const map: Record<string, [number, number]> = {
+    top: [0.5, collapsedHeight / 2 / expandedHeight],
+    bottom: [0.5, 1 - collapsedHeight / 2 / expandedHeight],
+    left: [collapsedWidth / 2 / expandedWidth, 0.5],
+    right: [1 - collapsedWidth / 2 / expandedWidth, 0.5],
+    center: [0.5, 0.5],
   };
+  return map[collapsedOrigin] || map.center;
 }

@@ -1,9 +1,7 @@
 import { Graph } from '@/src';
-import type { StaticTestCase } from '../types';
+import type { STDTestCase } from '../types';
 
-export const comboCircle: StaticTestCase = async (context) => {
-  const { canvas, animation } = context;
-
+export const comboCircle: STDTestCase = async (context) => {
   const data = {
     nodes: [
       { id: 'node-1', data: {}, style: { parentId: 'combo-2', x: 100, y: 100 } },
@@ -17,12 +15,11 @@ export const comboCircle: StaticTestCase = async (context) => {
     combos: [
       {
         id: 'combo-1',
-        style: { parentId: 'combo-2', collapsed: false },
+        style: { parentId: 'combo-2' },
       },
       {
         id: 'combo-2',
         style: {
-          collapsed: false,
           zIndex: -10, // TODO: zIndex?
         },
       },
@@ -30,9 +27,8 @@ export const comboCircle: StaticTestCase = async (context) => {
   };
 
   const graph = new Graph({
-    container: canvas,
+    ...context,
     data,
-    animation,
     node: {
       style: {
         labelText: (d: any) => d.id,
@@ -48,4 +44,6 @@ export const comboCircle: StaticTestCase = async (context) => {
   });
 
   await graph.render();
+
+  return graph;
 };

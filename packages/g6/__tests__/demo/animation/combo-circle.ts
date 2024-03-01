@@ -17,21 +17,33 @@ export const comboCircle: AnimationTestCase = async (context) => {
           style: { parentId: 'combo-1', x: 200, y: 100 },
         },
       ],
-      combos: [{ id: 'combo-1' }],
+      combos: [
+        {
+          id: 'combo-1',
+          style: {
+            lineDash: [5, 5],
+            collapsedLineDash: 0,
+            collapsedOrigin: 'top',
+            contentType: 'childCount',
+          },
+        },
+      ],
     },
   };
 
   const graph = createGraph(options, canvas);
   await graph.draw();
 
-  graph.addNodeData([{ id: 'node-3', style: { parentId: 'combo-1', x: 200, y: 200 } }]);
-  graph.updateNodeData([
-    {
-      id: 'node-2',
-      style: { parentId: 'combo-1', x: 250, y: 200 },
-    },
-  ]);
-  graph.removeNodeData(['node-1']);
+  // graph.addNodeData([{ id: 'node-3', style: { parentId: 'combo-1', x: 200, y: 200 } }]);
+  // graph.updateNodeData([
+  //   {
+  //     id: 'node-2',
+  //     style: { parentId: 'combo-1', x: 250, y: 200 },
+  //   },
+  // ]);
+  // graph.removeNodeData(['node-1']);
+
+  graph.updateComboData([{ id: 'combo-1', style: { collapsed: true } }]);
 
   graph.draw();
 

@@ -89,25 +89,40 @@ export type BaseEdgeProps = BaseStyleProps &
     targetPort?: string;
   };
 
-export type BaseComboProps = BaseNodeProps & {
+export type BaseComboProps = {
+  /**
+   * <zh/> Combo 展开后的默认大小
+   * <en/> The default size of combo when expanded
+   */
+  size?: Size;
   /**
    * <zh/> Combo 是否收起
-   * <en/> Indicates whether the combo is collapsed
+   * <en/> Indicates whether combo is collapsed
    */
   collapsed?: boolean;
   /**
-   * <zh/> Combo 的子元素，可以是节点或者 Combo
-   * <en/> The children of the combo, which can be nodes or combos
+   * <zh/> Combo 收起后的默认大小
+   * <en/> The default size of combo when collapsed
    */
-  children?: Record<string, Node | Combo>;
+  collapsedSize?: Size;
+  /**
+   * <zh/> Combo 收起后的原点
+   * <en/> The origin of combo when collapsed
+   */
+  collapsedOrigin?: string | [number, number];
+  /**
+   * <zh/> Combo 的子元素，可以是节点或者 Combo
+   * <en/> The children of combo, which can be nodes or combos
+   */
+  children?: (Node | Combo)[];
   /**
    * <zh/> Combo 的内边距
-   * <en/> The padding of the combo
+   * <en/> The padding of combo
    */
   padding?: Padding;
   /**
-   * <zh/> Combo 收起时显示的文本
-   * <en/> The text to display when the combo is collapsed
+   * <zh/> 收起时的图标类型
+   * <en/> Marker type when collapsed
    */
-  contentType?: 'childCount';
+  markerType?: 'none' | 'childCount';
 };
