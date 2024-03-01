@@ -30,7 +30,7 @@
             <path
               id="key"
               fill="none"
-              d="M 0,0 L 212,7.347880794884119e-16"
+              d="M 0,0 L 212,2.8179255993120893e-15"
               stroke-width="1"
               stroke="rgba(153,173,209,1)"
             />
@@ -41,7 +41,7 @@
               stroke-width="3"
               stroke="transparent"
             />
-            <g transform="matrix(-1,0,-0,-1,212,0)">
+            <g transform="matrix(-1,-0,0,-1,212,0)">
               <path
                 id="g-svg-97"
                 fill="rgba(153,173,209,1)"

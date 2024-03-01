@@ -135,7 +135,7 @@ describe('Point Functions', () => {
         r: 20,
       },
     });
-    expect(getEllipseIntersectPoint([0, 0], circle2.getBounds())).toEqual([0, 0, 0]);
+    expect(getEllipseIntersectPoint([0, 0], circle2.getBounds())).toEqual([20, 0]);
 
     const circle3 = new Circle({
       style: {
@@ -144,7 +144,7 @@ describe('Point Functions', () => {
         r: 20,
       },
     });
-    expect(getEllipseIntersectPoint([100, 100], circle3.getBounds())).toEqual([100, 100, 0]);
+    expect(getEllipseIntersectPoint([100, 100], circle3.getBounds())).toEqual([120, 100]);
   });
 
   it('findNearestPoints', () => {
