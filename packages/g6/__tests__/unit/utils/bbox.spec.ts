@@ -1,6 +1,7 @@
 import { Circle } from '@/src/elements';
 import {
   getBBoxHeight,
+  getBBoxSize,
   getBBoxWidth,
   getElementsBBox,
   getExpandedBBox,
@@ -26,6 +27,10 @@ describe('bbox', () => {
 
   it('getBBoxHeight', () => {
     expect(getBBoxHeight(bbox)).toBe(1);
+  });
+
+  it('getBBoxSize', () => {
+    expect(getBBoxSize(bbox)).toEqual([1, 1]);
   });
 
   it('getNodeBBox', () => {

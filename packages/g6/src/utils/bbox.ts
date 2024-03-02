@@ -29,6 +29,15 @@ export function getBBoxHeight(bbox: AABB): number {
 }
 
 /**
+ * <zh/> 获取包围盒的尺寸
+ * @param bbox - <zh/> 包围盒 | <en/> Bounding box
+ * @returns <zh/> 包围盒的尺寸 | <en/> Size of box
+ */
+export function getBBoxSize(bbox: AABB): [number, number] {
+  return [getBBoxWidth(bbox), getBBoxHeight(bbox)];
+}
+
+/**
  * <zh/> 获取节点的包围盒，兼容节点为点的情况
  *
  * <en/> Get the bounding box of the node, compatible with the case where the node is a point
@@ -207,9 +216,7 @@ export function getNearestPointToPoint(bbox: AABB, p: Point): Point {
 export function getTriangleCenter(bbox: AABB, direction: TriangleDirection): Point {
   // todo 算法只对矩形有效
   const { center } = bbox;
-  const { min, max } = bbox;
-  const width = max[0] - min[0];
-  const height = max[1] - min[1];
+  const [width, height] = getBBoxSize(bbox);
 
   const x =
     direction === 'up' || direction === 'down'
@@ -234,9 +241,7 @@ export function getTriangleCenter(bbox: AABB, direction: TriangleDirection): Poi
  * @returns number
  */
 export function getIncircleRadius(bbox: AABB, direction: TriangleDirection): number {
-  const { min, max } = bbox;
-  let w = max[0] - min[0];
-  let h = max[1] - min[1];
+  let [w, h] = getBBoxSize(bbox);
 
   [w, h] = direction === 'up' || direction === 'down' ? [w, h] : [h, w];
 
