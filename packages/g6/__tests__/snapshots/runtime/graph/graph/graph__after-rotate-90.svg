@@ -7,7 +7,7 @@
   tabindex="1"
 >
   <defs />
-  <g id="g-svg-camera" transform="matrix(0,-1,1,0,0,499.999969)">
+  <g id="g-svg-camera" transform="matrix(0,-1,1,0,-0.000031,499.999969)">
     <g id="g-root" fill="none" transform="matrix(1,0,0,1,0,0)">
       <g id="g-svg-7" fill="none" transform="matrix(1,0,0,1,0,0)" />
       <g id="g-svg-6" fill="none" transform="matrix(1,0,0,1,0,0)">
@@ -53,7 +53,7 @@
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
-              fill="rgba(34,126,255,1)"
+              fill="rgba(47,54,61,1)"
               transform="translate(-16,-16)"
               cx="16"
               cy="16"

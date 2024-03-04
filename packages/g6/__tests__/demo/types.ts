@@ -1,3 +1,4 @@
+import type { G6Spec } from '@/src';
 import { Graph } from '@/src';
 import type { Canvas } from '@/src/runtime/canvas';
 import type { IAnimation } from '@antv/g';
@@ -35,8 +36,4 @@ export interface STDTestCase extends BaseTestCase {
   (context: STDTestCaseContext): Promise<Graph>;
 }
 
-export interface STDTestCaseContext {
-  container: Canvas;
-  animation?: boolean;
-  theme: string;
-}
+export type STDTestCaseContext = G6Spec;

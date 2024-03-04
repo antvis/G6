@@ -12,10 +12,8 @@
     "afterelementzindexchange",
     "afterlayout",
     "afterrender",
-    "afterrotate",
-    "aftertranslate",
+    "aftertransform",
     "afterviewportanimate",
-    "afterzoom",
     "bbox",
     "beforeanimate",
     "beforedraw",
@@ -28,10 +26,8 @@
     "beforeelementzindexchange",
     "beforelayout",
     "beforerender",
-    "beforerotate",
-    "beforetranslate",
+    "beforetransform",
     "beforeviewportanimate",
-    "beforezoom",
     "cancelviewportanimate",
     "dendrogram",
     "elementstatechange",
@@ -47,5 +43,6 @@
     "ranksep"
   ],
   "javascript.preferences.importModuleSpecifier": "relative",
-  "typescript.preferences.importModuleSpecifier": "relative"
+  "typescript.preferences.importModuleSpecifier": "relative",
+  "svg.preview.background": "transparent"
 }

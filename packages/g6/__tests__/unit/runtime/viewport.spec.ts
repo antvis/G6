@@ -1,6 +1,8 @@
 import { Graph } from '@/src';
+import { viewportFit } from '@@/demo/case/viewport-fit';
 import { controllerViewport } from '@@/demo/static/controller-viewport';
 import { createDemoGraph } from '@@/utils';
+import { AABB } from '@antv/g';
 
 describe('ViewportController', () => {
   let graph: Graph;
@@ -9,10 +11,7 @@ describe('ViewportController', () => {
   });
 
   it('viewport center', () => {
-    expect(graph.getViewportCenter()).toEqual(graph.getPosition());
-    const [x, y] = graph.getViewportCenter();
-    expect(x).toBeCloseTo(250);
-    expect(y).toBeCloseTo(250);
+    expect(graph.getViewportCenter()).toBeCloseTo([250, 250, 0]);
   });
 
   it('canvas size', () => {
@@ -42,15 +41,12 @@ describe('ViewportController', () => {
 
   it('viewport translate', async () => {
     await graph.translateBy([100, 100]);
-    let [x, y] = graph.getPosition();
-    expect(x).toBeCloseTo(350);
-    expect(y).toBeCloseTo(350);
+
+    expect(graph.getPosition()).toBeCloseTo([100, 100]);
 
     await graph.translateTo([200, 200]);
 
-    [x, y] = graph.getPosition();
-    expect(x).toBeCloseTo(450);
-    expect(y).toBeCloseTo(450);
+    expect(graph.getPosition()).toBeCloseTo([200, 200]);
 
     await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}__translate');
 
@@ -69,9 +65,156 @@ describe('ViewportController', () => {
     expect(graph.getRotation()).toBe(90);
 
     await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}__rotate-90');
+
+    await graph.rotateTo(0);
+  });
+
+  it('coordinate transform', async () => {
+    expect(graph.getPosition()).toBeCloseTo([0, 0]);
+    expect(graph.getClientByCanvas([0, 0])).toBeCloseTo([0, 0]);
+
+    expect(graph.getCanvasCenter()).toBeCloseTo([250, 250, 0]);
+    expect(graph.getViewportCenter()).toBeCloseTo([250, 250, 0]);
+    expect(graph.getCanvasByViewport([0, 0])).toBeCloseTo([0, 0]);
+    expect(graph.getViewportByCanvas([0, 0])).toBeCloseTo([0, 0]);
+
+    // without animation
+    await graph.translateTo([100, 100]);
+
+    expect(graph.getPosition()).toBeCloseTo([100, 100]);
+    expect(graph.getCanvasCenter()).toBeCloseTo([250, 250, 0]);
+    expect(graph.getViewportCenter()).toBeCloseTo([250 - 100, 250 - 100, 0]);
+    expect(graph.getCanvasByViewport([0, 0])).toBeCloseTo([-100, -100]);
+    expect(graph.getViewportByCanvas([0, 0])).toBeCloseTo([100, 100]);
+  });
+
+  it('getViewportSize', async () => {
+    await graph.zoomTo(0.5);
+    const bbox = new AABB();
+    bbox.setMinMax([0, 0, 0], [100, 100, 0]);
+
+    // @ts-expect-error
+    expect(graph.context.viewport.getBBoxInViewport(bbox).halfExtents).toBeCloseTo([25, 25, 0]);
+
+    await graph.zoomTo(1);
+    // @ts-expect-error
+    expect(graph.context.viewport.getBBoxInViewport(bbox).halfExtents).toBeCloseTo([50, 50, 0]);
+
+    await graph.zoomTo(2);
+    // @ts-expect-error
+    expect(graph.context.viewport.getBBoxInViewport(bbox).halfExtents).toBeCloseTo([100, 100, 0]);
   });
 
   afterAll(() => {
     graph.destroy();
+  });
+});
+
+describe('Viewport Fit without Animation', () => {
+  let graph: Graph;
+  beforeAll(async () => {
+    graph = await createDemoGraph(viewportFit);
+  });
+
+  it('default', async () => {
+    await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}__before-fit');
+  });
+
+  it('focusElement', async () => {
+    await graph.focusElement('1');
+    await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}__focusElement');
+  });
+
+  it('fitCenter', async () => {
+    await graph.fitCenter();
+    await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}__fitCenter');
+  });
+
+  it('fitView', async () => {
+    await graph.fitView();
+    await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}__fitView');
+  });
+
+  it('re focusElement', async () => {
+    await graph.focusElement('1');
+    await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}__re-focusElement');
+  });
+
+  it('re fitCenter', async () => {
+    await graph.fitCenter();
+    await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}__re-fitCenter');
+  });
+
+  afterAll(() => {
+    graph.destroy();
+  });
+});
+
+describe('Viewport Fit with Animation', () => {
+  let graph: Graph;
+  beforeAll(async () => {
+    graph = await createDemoGraph(viewportFit, { animation: true });
+  });
+
+  it('default', async () => {
+    await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}__before-fit-animation');
+  });
+
+  it('focusElement', async () => {
+    await graph.focusElement('1');
+    await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}__focusElement-animation');
+  });
+
+  it('fitCenter', async () => {
+    await graph.fitCenter();
+    await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}__fitCenter-animation');
+  });
+
+  it('fitView', async () => {
+    await graph.fitView();
+    await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}__fitView-animation');
+  });
+
+  it('re focusElement', async () => {
+    await graph.focusElement('1');
+    await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}__re-focusElement-animation');
+  });
+
+  it('re fitCenter', async () => {
+    await graph.fitCenter();
+    await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}__re-fitCenter-animation');
+  });
+
+  afterAll(() => {
+    graph.destroy();
+  });
+
+  describe('Viewport Fit with AutoFit and Padding', () => {
+    let graph: Graph;
+    beforeAll(async () => {
+      graph = await createDemoGraph(viewportFit, {
+        padding: [100, 0, 0, 100],
+        autoFit: 'view',
+      });
+    });
+
+    it('default', async () => {
+      await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}__auto-fit-with-padding');
+    });
+  });
+
+  describe('Viewport Fit with AutoFit and Padding with Animation', () => {
+    let graph: Graph;
+    beforeAll(async () => {
+      graph = await createDemoGraph(viewportFit, {
+        padding: [100, 0, 0, 100],
+        autoFit: 'view',
+        animation: true,
+      });
+    });
+
+    it('default', async () => {
+      await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}__auto-fit-with-padding-animation');
+    });
   });
 });

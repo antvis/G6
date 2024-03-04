@@ -12,6 +12,7 @@ import { Plugin as DragNDropPlugin } from '@antv/g-plugin-dragndrop';
 import { createDOM, isFunction, isString } from '@antv/util';
 import type { CanvasOptions } from '../spec/canvas';
 import type { CanvasLayer } from '../types/canvas';
+import { union } from '../utils/bbox';
 
 export interface CanvasConfig
   extends Pick<GCanvasConfig, 'container' | 'devicePixelRatio' | 'width' | 'height' | 'background' | 'cursor'> {
@@ -153,6 +154,15 @@ export class Canvas {
 
   public getCamera() {
     return this.main.getCamera();
+  }
+
+  public getBounds() {
+    return union(
+      ...Object.values(this.canvas)
+        .map((canvas) => canvas.document.documentElement)
+        .filter((el) => el.childNodes.length > 0)
+        .map((el) => el.getBounds()),
+    );
   }
 
   public getContainer() {

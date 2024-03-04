@@ -1,3 +1,4 @@
+import { parsePoint } from '@/src/utils/point';
 import { createGraphCanvas } from '@@/utils';
 
 describe('Canvas', () => {
@@ -20,15 +21,76 @@ describe('Canvas', () => {
     // expect(webgl.getDevice()).toBeDefined();
   });
 
-  it('viewport2Client', () => {
-    expect(svg.viewport2Client({ x: 250, y: 250 })).toEqual({ x: 250, y: 250 });
+  it('coordinate transform', () => {
+    // TODO g canvas client 坐标转换疑似异常
+    expect(parsePoint(svg.viewport2Client({ x: 0, y: 0 }))).toBeCloseTo([0, 0]);
+    expect(parsePoint(svg.viewport2Canvas({ x: 0, y: 0 }))).toBeCloseTo([0, 0]);
+
+    expect(parsePoint(svg.client2Viewport({ x: 0, y: 0 }))).toBeCloseTo([0, 0]);
+    expect(parsePoint(svg.canvas2Viewport({ x: 0, y: 0 }))).toBeCloseTo([0, 0]);
+
+    const camera = svg.getCamera();
+    camera.pan(100, 100);
+    expect([...camera.getPosition()]).toBeCloseTo([350, 350, 500]);
+    expect([...camera.getFocalPoint()]).toBeCloseTo([250, 250, 0]);
+    expect(parsePoint(svg.viewport2Canvas({ x: 0, y: 0 }))).toBeCloseTo([100, 100]);
+    expect(parsePoint(svg.canvas2Viewport({ x: 0, y: 0 }))).toBeCloseTo([-100, -100]);
+
+    // camera pan 采用相对移动
+    camera.pan(-200, -200);
+    // focal point wont change
+    // expect([...camera.getFocalPoint()]).toBeCloseTo([250, 250, 0]);
+    expect([...camera.getPosition()]).toBeCloseTo([150, 150, 500]);
+    expect(parsePoint(svg.viewport2Canvas({ x: 0, y: 0 }))).toBeCloseTo([-100, -100]);
+    expect(parsePoint(svg.canvas2Viewport({ x: 0, y: 0 }))).toBeCloseTo([100, 100]);
+
+    // move to origin
+    camera.pan(100, 100);
+
+    camera.pan(-100, -100);
+    expect(parsePoint(svg.viewport2Canvas({ x: 0, y: 0 }))).toBeCloseTo([-100, -100]);
+
+    camera.pan(100, 100);
   });
 
-  it('viewport2Canvas', () => {
-    expect(svg.viewport2Canvas({ x: 250, y: 250 })).toEqual({ x: 250, y: 250 });
-  });
+  it('coordinate transform with landmark', async () => {
+    const camera = svg.getCamera();
 
-  it('client2Viewport', () => {
-    expect(svg.client2Viewport({ x: 250, y: 250 })).toEqual({ x: 250, y: 250 });
+    const [px, py, pz] = camera.getPosition();
+    const [fx, fy, fz] = camera.getFocalPoint();
+
+    // expect([fx, fy, fz]).toEqual([250, 250, 0]);
+    expect([px, py, pz]).toEqual([250, 250, 500]);
+
+    const landmark1 = camera.createLandmark('landmark1', {
+      // 视点坐标 / viewport coordinates
+      focalPoint: [fx + 100, fy + 100, fz],
+      // 相机坐标 / camera coordinates
+      position: [px + 100, py + 100, pz],
+    });
+
+    await new Promise<void>((resolve) => {
+      camera.gotoLandmark(landmark1, { onfinish: resolve });
+    });
+
+    expect(parsePoint(svg.viewport2Canvas({ x: 0, y: 0 }))).toBeCloseTo([100, 100]);
+    expect(parsePoint(svg.canvas2Viewport({ x: 0, y: 0 }))).toBeCloseTo([-100, -100]);
+
+    const landmark2 = camera.createLandmark('landmark2', {
+      // 视点坐标 / viewport coordinates
+      focalPoint: [fx - 100, fy - 100, fz],
+      // 相机坐标 / camera coordinates
+      position: [px - 100, py - 100, pz],
+    });
+
+    await new Promise<void>((resolve) => {
+      camera.gotoLandmark(landmark2, { onfinish: resolve });
+    });
+
+    expect(parsePoint(svg.viewport2Canvas({ x: 0, y: 0 }))).toBeCloseTo([-100, -100]);
+    expect(parsePoint(svg.canvas2Viewport({ x: 0, y: 0 }))).toBeCloseTo([100, 100]);
+
+    expect([...camera.getFocalPoint()]).toBeCloseTo([150, 150, 0]);
+    expect([...camera.getPosition()]).toBeCloseTo([150, 150, 500]);
   });
 });

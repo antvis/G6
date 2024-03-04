@@ -31,18 +31,10 @@ export const enum GraphEvent {
   BEFORE_LAYOUT = 'beforelayout',
   /** <zh/> 布局结束之后 | <en/> After layout */
   AFTER_LAYOUT = 'afterlayout',
-  /** <zh/> 缩放之前 | <en/> Before zoom */
-  BEFORE_ZOOM = 'beforezoom',
-  /** <zh/> 缩放之后 | <en/> After zoom */
-  AFTER_ZOOM = 'afterzoom',
-  /** <zh/> 旋转之前 | <en/> Before rotate */
-  BEFORE_ROTATE = 'beforerotate',
-  /** <zh/> 旋转之后 | <en/> After rotate */
-  AFTER_ROTATE = 'afterrotate',
-  /** <zh/> 平移之前 | <en/> Before translate */
-  BEFORE_TRANSLATE = 'beforetranslate',
-  /** <zh/> 平移之后 | <en/> After translate */
-  AFTER_TRANSLATE = 'aftertranslate',
+  /** <zh/> 可视区域变化之前 | <en/> Before the visible area changes */
+  BEFORE_TRANSFORM = 'beforetransform',
+  /** <zh/> 可视区域变化之后 | <en/> After the visible area changes */
+  AFTER_TRANSFORM = 'aftertransform',
   /** <zh/> 元素可见性变化之前 | <en/> Before the visibility of the element changes */
   BEFORE_ELEMENT_VISIBILITY_CHANGE = 'beforeelementvisibilitychange',
   /** <zh/> 元素可见性变化之后 | <en/> After the visibility of the element changes */

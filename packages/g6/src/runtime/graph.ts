@@ -1,5 +1,5 @@
 import EventEmitter from '@antv/event-emitter';
-import type { AABB, BaseStyleProps, DataURLOptions, DisplayObject } from '@antv/g';
+import type { AABB, BaseStyleProps, DataURLOptions } from '@antv/g';
 import type { ID } from '@antv/graphlib';
 import { debounce, isFunction, isNumber, isString, omit } from '@antv/util';
 import { GraphEvent } from '../constants';
@@ -23,6 +23,7 @@ import type {
   EdgeDirection,
   ElementDatum,
   ElementType,
+  FitViewOptions,
   NodeLikeData,
   PartialEdgeData,
   PartialGraphData,
@@ -36,7 +37,7 @@ import type {
 import { sizeOf } from '../utils/dom';
 import { RenderEvent, emit } from '../utils/event';
 import { parsePoint, toPointObject } from '../utils/point';
-import { add } from '../utils/vector';
+import { add, subtract } from '../utils/vector';
 import { BehaviorController } from './behavior';
 import { Canvas } from './canvas';
 import { DataController } from './data';
@@ -54,8 +55,9 @@ export class Graph extends EventEmitter {
     width: 800,
     height: 600,
     theme: 'light',
+    rotation: 0,
     zoom: 1,
-    zoomRange: [-Infinity, Infinity],
+    zoomRange: [0.01, 10],
   };
 
   public destroyed = false;
@@ -126,6 +128,7 @@ export class Graph extends EventEmitter {
 
     if (zoomRange) this.options.zoomRange = zoomRange;
     if (isNumber(zoom)) this.options.zoom = zoom;
+    if (isNumber(padding)) this.options.padding = padding;
   }
 
   public getSize(): [number, number] {
@@ -356,9 +359,8 @@ export class Graph extends EventEmitter {
   public async render(): Promise<void> {
     emit(this, new RenderEvent(GraphEvent.BEFORE_RENDER));
     await this.prepare();
-
     await Promise.all([this.context.element?.draw(), this.context.layout?.layout()]);
-
+    await this.autoFit();
     emit(this, new RenderEvent(GraphEvent.AFTER_RENDER));
   }
 
@@ -420,79 +422,164 @@ export class Graph extends EventEmitter {
     } else this.context.canvas?.resize(width, height);
   }
 
-  // TODO
-  public async fitView(config: {}, options?: unknown): Promise<void> {}
-
-  // TODO
-  public async fitCenter(config: {}, options?: unknown): Promise<void> {}
-
-  // TODO
-  public async focusElement(id: ID | ID[]): Promise<void> {
-    const elements = (Array.isArray(id) ? id : [id])
-      .map((i) => this.context.element!.getElement(i))
-      .filter(Boolean) as DisplayObject[];
-
-    // TODO invoke getCenter
+  /**
+   * <zh/> 将图缩放至合适大小并平移至视口中心
+   *
+   * <en/> Zoom the graph to fit the viewport and move it to the center of the viewport
+   * @param options - <zh/> 适配配置 | <en/> fit options
+   * @param animation - <zh/> 动画配置 | <en/> animation configuration
+   */
+  public async fitView(options?: FitViewOptions, animation?: ViewportAnimationEffectTiming): Promise<void> {
+    await this.context.viewport?.fitView(options, animation);
   }
 
-  public zoomBy(
-    ratio: number,
-    animation?: ViewportAnimationEffectTiming,
-    origin: Point = this.getCanvasCenter(),
-  ): Promise<void> | undefined {
-    return this.context.viewport!.zoom({ mode: 'relative', value: ratio, origin }, animation);
+  /**
+   * <zh/> 将图平移至视口中心
+   *
+   * <en/> Move the graph to the center of the viewport
+   * @param animation - <zh/> 动画配置 | <en/> animation configuration
+   */
+  public async fitCenter(animation?: ViewportAnimationEffectTiming): Promise<void> {
+    await this.context.viewport?.fitCenter(animation);
   }
 
-  public zoomTo(
-    zoom: number,
-    animation?: ViewportAnimationEffectTiming,
-    origin: Point = this.getCanvasCenter(),
-  ): Promise<void> | undefined {
-    return this.context.viewport!.zoom({ mode: 'absolute', value: zoom, origin }, animation);
+  private async autoFit(): Promise<void> {
+    const { autoFit } = this.context.options;
+    if (!autoFit) return;
+
+    if (isString(autoFit)) {
+      if (autoFit === 'view') await this.fitView();
+      else if (autoFit === 'center') await this.fitCenter();
+    } else {
+      const { type, animation } = autoFit;
+      if (type === 'view') await this.fitView(autoFit.options, animation);
+      else if (type === 'center') await this.fitCenter(animation);
+    }
   }
 
+  public async focusElement(id: ID | ID[], animation?: ViewportAnimationEffectTiming): Promise<void> {
+    await this.context.viewport?.focusElements(Array.isArray(id) ? id : [id], animation);
+  }
+
+  /**
+   * <zh/> 基于当前缩放比例进行缩放
+   *
+   * <en/> Zoom based on the current zoom ratio
+   * @param ratio - <zh/> 缩放比例 | <en/> zoom ratio
+   * @param animation - <zh/> 动画配置 | <en/> animation configuration
+   * @param origin - <zh/> 缩放中心(视口坐标) | <en/> zoom center(viewport coordinates)
+   * @description
+   * <zh/>
+   * - ratio > 1 放大
+   * - ratio < 1 缩小
+   * <en/>
+   * - ratio > 1 zoom in
+   * - ratio < 1 zoom out
+   */
+  public async zoomBy(ratio: number, animation?: ViewportAnimationEffectTiming, origin?: Point): Promise<void> {
+    await this.context.viewport!.transform({ mode: 'relative', scale: ratio, origin }, animation);
+  }
+
+  /**
+   * <zh/> 缩放画布至指定比例
+   *
+   * <en/> Zoom the canvas to the specified ratio
+   * @param zoom - <zh/> 指定缩放比例 | <en/> specified zoom ratio
+   * @param animation - <zh/> 动画配置 | <en/> animation configuration
+   * @param origin - <zh/> 缩放中心(视口坐标) | <en/> zoom center(viewport coordinates)
+   * @description
+   * <zh/>
+   * - zoom = 1 默认大小
+   * - zoom > 1 放大
+   * - zoom < 1 缩小
+   * <en/>
+   * - zoom = 1 default size
+   * - zoom > 1 zoom in
+   * - zoom < 1 zoom out
+   */
+  public async zoomTo(zoom: number, animation?: ViewportAnimationEffectTiming, origin?: Point): Promise<void> {
+    this.context.viewport!.transform({ mode: 'absolute', scale: zoom, origin }, animation);
+  }
+
+  /**
+   * <zh/> 获取当前缩放比例
+   *
+   * <en/> Get the current zoom ratio
+   * @returns <zh/> 缩放比例 | <en/> zoom ratio
+   */
   public getZoom(): number {
     return this.context.viewport!.getZoom();
   }
 
-  public rotateBy(
-    angle: number,
-    animation?: ViewportAnimationEffectTiming,
-    origin: Point = this.getCanvasCenter(),
-  ): Promise<void> | undefined {
-    return this.context.viewport!.rotate({ mode: 'relative', value: angle, origin }, animation);
+  /**
+   * <zh/> 基于当前旋转角度进行旋转
+   *
+   * <en/> Rotate based on the current rotation angle
+   * @param angle - <zh/> 旋转角度 | <en/> rotation angle
+   * @param animation - <zh/> 动画配置 | <en/> animation configuration
+   * @param origin - <zh/> 旋转中心(视口坐标) | <en/> rotation center(viewport coordinates)
+   */
+  public async rotateBy(angle: number, animation?: ViewportAnimationEffectTiming, origin?: Point): Promise<void> {
+    await this.context.viewport!.transform({ mode: 'relative', rotate: angle, origin }, animation);
   }
 
-  public rotateTo(
-    angle: number,
-    animation?: ViewportAnimationEffectTiming,
-    origin: Point = this.getCanvasCenter(),
-  ): Promise<void> | undefined {
-    return this.context.viewport!.rotate({ mode: 'absolute', value: angle, origin }, animation);
+  /**
+   * <zh/> 旋转画布至指定角度
+   *
+   * <en/> Rotate the canvas to the specified angle
+   * @param angle - <zh/> 目标角度 | <en/> target angle
+   * @param animation - <zh/> 动画配置 | <en/> animation configuration
+   * @param origin - <zh/> 旋转中心(视口坐标) | <en/> rotation center(viewport coordinates)
+   */
+  public async rotateTo(angle: number, animation?: ViewportAnimationEffectTiming, origin?: Point): Promise<void> {
+    await this.context.viewport!.transform({ mode: 'absolute', rotate: angle, origin }, animation);
   }
 
+  /**
+   * <zh/> 获取当前旋转角度
+   *
+   * <en/> Get the current rotation angle
+   * @returns <zh/> 旋转角度 | <en/> rotation angle
+   */
   public getRotation(): number {
     return this.context.viewport!.getRotation();
   }
 
-  public translateBy(
-    offset: Point,
-    animation?: ViewportAnimationEffectTiming,
-    origin: Point = this.getCanvasCenter(),
-  ): Promise<void> | undefined {
-    return this.context.viewport!.translate({ mode: 'relative', value: offset, origin }, animation);
+  /**
+   * <zh/> 将图平移指定距离
+   *
+   * <en/> Translate the graph by the specified distance
+   * @param offset - <zh/> 偏移量 | <en/> offset
+   * @param animation - <zh/> 动画配置 | <en/> animation configuration
+   */
+  public async translateBy(offset: Point, animation?: ViewportAnimationEffectTiming): Promise<void> {
+    await this.context.viewport!.transform({ mode: 'relative', translate: offset }, animation);
   }
 
-  public translateTo(
-    position: Point,
-    animation?: ViewportAnimationEffectTiming,
-    origin: Point = this.getCanvasCenter(),
-  ): Promise<void> | undefined {
-    return this.context.viewport!.translate({ mode: 'absolute', value: position, origin }, animation);
+  /**
+   * <zh/> 将图平移至指定位置
+   *
+   * <en/> Translate the graph to the specified position
+   * @param position - <zh/> 指定位置 | <en/> specified position
+   * @param animation - <zh/> 动画配置 | <en/> animation configuration
+   * @description
+   */
+  public async translateTo(position: Point, animation?: ViewportAnimationEffectTiming): Promise<void> {
+    await this.context.viewport!.transform({ mode: 'absolute', translate: position }, animation);
   }
 
+  /**
+   * <zh/> 获取图的位置
+   *
+   * <en/> Get the position of the graph
+   * @returns <zh/> 图的位置 | <en/> position of the graph
+   * @description
+   * <zh/> 默认状态下，图的位置为 [0, 0]
+   *
+   * <en/> By default, the position of the graph is [0, 0]
+   */
   public getPosition(): Point {
-    return this.context.viewport!.getViewportCenter();
+    return subtract([0, 0], this.getCanvasByViewport([0, 0]));
   }
 
   public translateElementBy(offsets: Positions, animation?: boolean): void {
@@ -589,6 +676,12 @@ export class Graph extends EventEmitter {
     return parsePoint(this.context.canvas.viewport2Canvas(viewportPoint));
   }
 
+  /**
+   * <zh/> 获取视口中心的画布坐标
+   *
+   * <en/> Get the canvas coordinates of the viewport center
+   * @returns <zh/> 视口中心的画布坐标 | <en/> Canvas coordinates of the viewport center
+   */
   public getViewportCenter(): Point {
     return this.context.viewport!.getViewportCenter();
   }

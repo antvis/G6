@@ -6,8 +6,13 @@ export const commonGraph: STDTestCase = async (context) => {
   const graph = new Graph({
     ...context,
     data,
+    node: {
+      style: {
+        fill: (d: any) => (d.id === '33' ? '#d4414c' : '#2f363d'),
+      },
+    },
     layout: { type: 'd3force' },
-    behaviors: [],
+    behaviors: ['zoom-canvas', 'drag-canvas'],
     widgets: [],
   });
 
