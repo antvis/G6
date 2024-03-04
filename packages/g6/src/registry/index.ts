@@ -15,7 +15,7 @@ const PLUGIN_REGISTRY: PluginRegistry = {
   node: {},
   palette: {},
   theme: {},
-  widget: {},
+  plugin: {},
 };
 
 /**

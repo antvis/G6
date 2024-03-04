@@ -18,7 +18,7 @@ export abstract class ModuleController<Module extends BaseModule<LooselyModuleOp
 
   protected moduleMap: Record<string, Module> = {};
 
-  public abstract category: 'widget' | 'behavior';
+  public abstract category: 'plugin' | 'behavior';
 
   constructor(context: RuntimeContext) {
     this.context = context;
@@ -127,7 +127,7 @@ export class BaseModule<T extends LooselyModuleOption> {
  * @returns <zh/> 标准模块配置项 <en/> Standard module options
  */
 export function parseModules<T extends Record<string, unknown>>(
-  category: 'widget' | 'behavior',
+  category: 'plugin' | 'behavior',
   modules: ModuleOptions<T>,
 ): STDModuleOption<T>[] {
   const counter: Record<string, number> = {};

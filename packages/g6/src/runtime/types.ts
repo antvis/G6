@@ -5,8 +5,8 @@ import type { DataController } from './data';
 import type { ElementController } from './element';
 import type { Graph } from './graph';
 import type { LayoutController } from './layout';
+import type { PluginController } from './plugin';
 import type { ViewportController } from './viewport';
-import type { WidgetController } from './widget';
 
 export interface RuntimeContext {
   /**
@@ -66,5 +66,5 @@ export interface RuntimeContext {
    *
    * <en/> Widget controller
    */
-  widget?: WidgetController;
+  plugin?: PluginController;
 }

@@ -1,4 +1,4 @@
-import { BehaviorOptions, WidgetOptions } from '@/src';
+import { BehaviorOptions, PluginOptions } from '@/src';
 import { parseModules } from '@/src/utils/module';
 
 describe('module', () => {
@@ -25,9 +25,9 @@ describe('module', () => {
   });
 
   it('parseWidgets', () => {
-    expect(parseModules('widget', [])).toEqual([]);
+    expect(parseModules('plugin', [])).toEqual([]);
 
-    const options: WidgetOptions = [
+    const options: PluginOptions = [
       'minimap',
       { key: 'my-tooltip', type: 'tooltip' },
       { type: 'tooltip' },
@@ -39,16 +39,16 @@ describe('module', () => {
       'minimap',
     ];
 
-    expect(parseModules('widget', options)).toEqual([
-      { type: 'minimap', key: 'widget-minimap-0' },
+    expect(parseModules('plugin', options)).toEqual([
+      { type: 'minimap', key: 'plugin-minimap-0' },
       { type: 'tooltip', key: 'my-tooltip' },
-      { type: 'tooltip', key: 'widget-tooltip-0' },
+      { type: 'tooltip', key: 'plugin-tooltip-0' },
       {
         type: 'menu',
         key: 'my-context-menu',
         trigger: 'contextmenu',
       },
-      { type: 'minimap', key: 'widget-minimap-1' },
+      { type: 'minimap', key: 'plugin-minimap-1' },
     ]);
   });
 });

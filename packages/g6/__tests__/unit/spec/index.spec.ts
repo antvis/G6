@@ -53,7 +53,7 @@ describe('spec', () => {
       },
       theme: 'light',
       behaviors: ['drag-canvas', 'my-behavior', { type: 'drag-node' }],
-      widgets: ['my-widget', { type: 'another-widget', text: 'text', value: 1 }],
+      plugins: ['my-plugin', { type: 'another-plugin', text: 'text', value: 1 }],
     };
 
     expect(options).toBeTruthy();

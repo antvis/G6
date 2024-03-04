@@ -64,9 +64,9 @@ describe('Graph', () => {
 
   it('getWidgets/setWidgets', () => {
     expect(graph.getWidgets()).toEqual([]);
-    graph.setWidgets([{ type: 'test' }]);
+    graph.setPlugins([{ type: 'test' }]);
     expect(graph.getWidgets()).toEqual([{ type: 'test' }]);
-    graph.setWidgets([]);
+    graph.setPlugins([]);
   });
 
   it('updateData/getData/setData', () => {

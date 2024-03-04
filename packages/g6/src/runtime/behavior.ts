@@ -11,7 +11,7 @@ export class BehaviorController extends ModuleController<BaseBehavior<CustomBeha
   /** <zh/> 当前事件的目标 | <en/> The current event target */
   private currentTarget: Target | null = null;
 
-  public category: 'widget' | 'behavior' = 'behavior';
+  public category: 'plugin' | 'behavior' = 'behavior';
 
   constructor(context: RuntimeContext) {
     super(context);

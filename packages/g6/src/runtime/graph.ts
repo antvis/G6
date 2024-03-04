@@ -14,8 +14,8 @@ import type {
   LayoutOptions,
   NodeData,
   NodeOptions,
+  PluginOptions,
   ThemeOptions,
-  WidgetOptions,
 } from '../spec';
 import type {
   CallableValue,
@@ -43,9 +43,9 @@ import { Canvas } from './canvas';
 import { DataController } from './data';
 import { ElementController } from './element';
 import { LayoutController } from './layout';
+import { PluginController } from './plugin';
 import { RuntimeContext } from './types';
 import { ViewportController } from './viewport';
-import { WidgetController } from './widget';
 
 export class Graph extends EventEmitter {
   private options: G6Spec;
@@ -109,7 +109,7 @@ export class Graph extends EventEmitter {
       node,
       padding,
       theme,
-      widgets,
+      plugins,
       width,
       zoomRange,
       zoom,
@@ -122,7 +122,7 @@ export class Graph extends EventEmitter {
     if (layout) this.setLayout(layout);
     if (node) this.setNode(node);
     if (theme) this.setTheme(theme);
-    if (widgets) this.setWidgets(widgets);
+    if (plugins) this.setPlugins(plugins);
     if (isNumber(width) || isNumber(height))
       this.setSize(width ?? this.options.width ?? 0, height ?? this.options.height ?? 0);
 
@@ -186,13 +186,13 @@ export class Graph extends EventEmitter {
     return this.options.behaviors || [];
   }
 
-  public setWidgets(widgets: CallableValue<WidgetOptions>): void {
-    this.options.widgets = isFunction(widgets) ? widgets(this.getWidgets()) : widgets;
-    this.context.widget?.setWidgets(this.options.widgets);
+  public setPlugins(plugins: CallableValue<PluginOptions>): void {
+    this.options.plugins = isFunction(plugins) ? plugins(this.getWidgets()) : plugins;
+    this.context.plugin?.setPlugins(this.options.plugins);
   }
 
-  public getWidgets(): WidgetOptions {
-    return this.options.widgets || [];
+  public getWidgets(): PluginOptions {
+    return this.options.plugins || [];
   }
 
   public getData(): GraphData {
@@ -333,7 +333,7 @@ export class Graph extends EventEmitter {
 
   private createRuntime() {
     this.context.options = this.options;
-    if (!this.context.widget) this.context.widget = new WidgetController(this.context);
+    if (!this.context.plugin) this.context.plugin = new PluginController(this.context);
     if (!this.context.viewport) this.context.viewport = new ViewportController(this.context);
     if (!this.context.element) this.context.element = new ElementController(this.context);
     if (!this.context.layout) this.context.layout = new LayoutController(this.context);
@@ -390,13 +390,13 @@ export class Graph extends EventEmitter {
   }
 
   public destroy(): void {
-    const { layout, element, model, canvas, behavior, widget } = this.context;
+    const { layout, element, model, canvas, behavior, plugin } = this.context;
     layout?.destroy();
     element?.destroy();
     model.destroy();
     canvas?.destroy();
     behavior?.destroy();
-    widget?.destroy();
+    plugin?.destroy();
     this.options = {};
     // @ts-expect-error force delete
     delete this.context;

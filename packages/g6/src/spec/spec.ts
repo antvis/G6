@@ -6,9 +6,9 @@ import type { ComboOptions } from './element/combo';
 import type { EdgeOptions } from './element/edge';
 import type { NodeOptions } from './element/node';
 import type { LayoutOptions } from './layout';
+import type { PluginOptions } from './plugin';
 import type { ThemeOptions } from './theme';
 import type { ViewportOptions } from './viewport';
-import type { WidgetOptions } from './widget';
 
 /**
  * <zh/> Spec 定义
@@ -73,9 +73,9 @@ export type G6Spec = CanvasOptions &
     /**
      * <zh/> 画布插件
      *
-     * <en/> Canvas widget
+     * <en/> Canvas plugins
      */
-    widgets?: WidgetOptions;
+    plugins?: PluginOptions;
     /**
      * <zh/> 优化选项
      *

@@ -2,9 +2,9 @@ import type { Layout } from '@antv/layout';
 import type { STDAnimation } from '../animations/types';
 import type { Behavior } from '../behaviors/types';
 import type { STDPalette } from '../palettes/types';
+import type { Plugin } from '../plugins/types';
 import type { Theme } from '../themes/types';
 import type { Combo, Edge, Node } from '../types';
-import type { Widget } from '../widgets/types';
 
 /**
  * <zh/> 插件注册表
@@ -19,7 +19,7 @@ export interface PluginRegistry {
   palette: Record<string, STDPalette>;
   layout: Record<string, { new (...args: any[]): Layout<any> }>;
   behavior: Record<string, { new (...args: any[]): Behavior }>;
-  widget: Record<string, { new (...args: any[]): Widget }>;
+  plugin: Record<string, { new (...args: any[]): Plugin }>;
   animation: Record<string, STDAnimation>; // animation spec
 }
 
