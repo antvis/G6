@@ -93,10 +93,7 @@ export class DragCanvas extends BaseBehavior<DragCanvasOptions> {
 
   private onDrag = (event: BehaviorEvent<FederatedMouseEvent>) => {
     if (event.targetType === 'canvas') {
-      this.context.viewport?.translate(
-        { mode: 'relative', value: [event.movement.x, event.movement.y] },
-        this.animation,
-      );
+      this.context.graph.translateBy([event.movement.x, event.movement.y], this.animation);
     }
   };
 
@@ -104,7 +101,7 @@ export class DragCanvas extends BaseBehavior<DragCanvasOptions> {
     if (!this.validate(event)) return;
     const { sensitivity } = this.options;
     const delta = sensitivity * -1;
-    this.context.viewport?.translate({ mode: 'relative', value: multiply(value, [delta, delta]) }, this.animation);
+    this.context.graph.translateBy(multiply(value, delta), this.animation);
   }
 
   private validate(event: BehaviorEvent<FederatedMouseEvent> | BehaviorEvent<KeyboardEvent>) {
