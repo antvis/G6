@@ -10,7 +10,7 @@
   <g id="g-svg-camera" transform="matrix(1,0,0,1,0,0)">
     <g id="g-root" fill="none" transform="matrix(1,0,0,1,0,0)">
       <g
-        id="g-svg-5"
+        id="g-svg-9"
         fill="none"
         marker-start="true"
         marker-end="true"
@@ -21,10 +21,11 @@
             id="halo"
             fill="none"
             d="M 0,0 C 137.5 62.5,275 125,275 125"
-            stroke="rgba(24,144,255,1)"
             stroke-width="12"
             stroke-dasharray="0,0"
+            stroke="rgba(24,144,255,1)"
             pointer-events="none"
+            stroke-opacity="0.25"
             opacity="0.125"
           />
         </g>
@@ -32,33 +33,33 @@
           <path
             id="key"
             fill="none"
-            d="M 6.372565342238234,2.896620610108288 L 0,0 C 137.5 62.5,275 125,275 125 L 268.62743465776174,122.10337938989171"
-            stroke="rgba(24,144,255,1)"
+            d="M 5.462198864775629,2.482817665807104 L 0,0 C 137.5 62.5,275 125,275 125 L 269.53780113522436,122.5171823341929"
             stroke-width="2"
             stroke-dasharray="10,10"
+            stroke="rgba(24,144,255,1)"
           />
-          <g transform="matrix(0.910366,0.413803,-0.413803,0.910366,6.372565,2.896621)">
+          <g transform="matrix(0.910366,0.413803,-0.413803,0.910366,5.462199,2.482818)">
             <path
-              id="g-svg-8"
+              id="g-svg-12"
               fill="rgba(24,144,255,1)"
               d="M 0,5 A 5 5 0 1 0 10 5 A 5 5 0 1 0 0 5 Z"
               transform="translate(-5,-5)"
-              stroke="rgba(24,144,255,1)"
-              stroke-width="2"
+              stroke-width="1"
               stroke-dasharray="0,0"
+              stroke="rgba(24,144,255,1)"
               width="10"
               height="10"
             />
           </g>
-          <g transform="matrix(-0.910366,-0.413803,0.413803,-0.910366,268.627441,122.103378)">
+          <g transform="matrix(-0.910366,-0.413803,0.413803,-0.910366,269.537811,122.517181)">
             <path
-              id="g-svg-10"
+              id="g-svg-14"
               fill="rgba(255,0,0,1)"
               d="M 0,5 L 10,0 L 10,10 Z"
               transform="translate(-5,-5)"
-              stroke="rgba(24,144,255,1)"
-              stroke-width="2"
+              stroke-width="1"
               stroke-dasharray="0,0"
+              stroke="rgba(24,144,255,1)"
               width="10"
               height="10"
             />
@@ -69,10 +70,10 @@
             <path
               id="background"
               fill="none"
-              d="M 0,0 l 160.19987515600627,0 l 0,23 l-160.19987515600627 0 z"
+              d="M 0,0 l 56.080000000000005,0 l 0,23 l-56.080000000000005 0 z"
               opacity="0.75"
               stroke-width="0"
-              width="160.19987515600627"
+              width="56.080000000000005"
               height="23"
             />
           </g>

@@ -1,35 +1,43 @@
 import type { Point } from './point';
 
-export type ViewportAnimationEffectTiming = {
-  easing?: string;
-  duration?: number;
+export type ViewportAnimationEffectTiming =
+  | boolean
+  | {
+      easing?: string;
+      duration?: number;
+    };
+
+export type TransformOptions = {
+  mode: ViewportChangeMode;
+  origin?: Point;
+  translate?: Point;
+  rotate?: number;
+  scale?: number;
 };
 
-export type TranslateOptions = {
-  /** <zh/> 平移模式 | <en/> translate mode */
-  mode: ViewportChangeMode;
-  /** <zh/> 平移中心 | <en/> translate center. */
-  origin?: Point;
-  /** <zh/> 平移值 | <en/> translate value */
-  value: Point;
-};
-
-export type RotateOptions = {
-  /** <zh/> 旋转模式 | <en/> rotate mode */
-  mode: ViewportChangeMode;
-  /** <zh/> 旋转角度（角度）| <en/> Rotate angle (degree). */
-  value: number;
-  /** <zh/> 旋转中心 | <en/> Rotate center. */
-  origin?: Point;
-};
-
-export type ZoomOptions = {
-  /** <zh/> 缩放模式 | <en/> zoom mode */
-  mode: ViewportChangeMode;
-  /** <zh/> 缩放值 | <en/> zoom value */
-  value: number;
-  /** <zh/> 缩放中心 | <en/> Zoom center.  */
-  origin?: Point;
+export type FitViewOptions = {
+  /**
+   * <zh/> 在以下情况下进行适配
+   * - 'overflow' 仅当图内容超出视口时进行适配
+   * - 'always' 总是进行适配
+   *
+   * <en/> Fit the view in the following cases
+   * - 'overflow' Only fit when the graph content exceeds the viewport
+   * - 'always' Always fit
+   */
+  when?: 'overflow' | 'always';
+  /**
+   * <zh/> 仅对指定方向进行适配
+   * - 'x' 仅适配 x 方向
+   * - 'y' 仅适配 y 方向
+   * - 'both' 适配 x 和 y 方向
+   *
+   * <en/> Only adapt to the specified direction
+   * - 'x' Only adapt to the x direction
+   * - 'y' Only adapt to the y direction
+   * - 'both' Adapt to the x and y directions
+   */
+  direction?: 'x' | 'y' | 'both';
 };
 
 type ViewportChangeMode = 'relative' | 'absolute';

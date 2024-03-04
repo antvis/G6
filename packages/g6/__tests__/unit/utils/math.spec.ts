@@ -1,4 +1,4 @@
-import { isBetween } from '../../../src/utils/math';
+import { isBetween } from '@/src/utils/math';
 
 describe('math', () => {
   it('isBetween', () => {

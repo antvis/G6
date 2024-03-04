@@ -1,109 +1,69 @@
-import type { DisplayObjectConfig, Group, PolygonStyleProps } from '@antv/g';
-import { Polygon } from '@antv/g';
+import type { DisplayObjectConfig } from '@antv/g';
 import { deepMix, isEmpty } from '@antv/util';
-import type { Point } from '../../types';
-import { getTriangleAnchorByPosition, getTriangleAnchors, getTrianglePoints } from '../../utils/element';
-import { getPolygonIntersectPoint } from '../../utils/point';
+import { ICON_SIZE_RATIO } from '../../constants/element';
+import type { Point, TrianglePortPosition } from '../../types';
+import { getIncircleRadius, getTriangleCenter } from '../../utils/bbox';
+import { getPortPosition, getTrianglePoints, getTrianglePorts } from '../../utils/element';
 import { subStyleProps } from '../../utils/prefix';
-import type { BaseNodeStyleProps, NodeAnchorStyleProps } from './base-node';
-import { BaseNode } from './base-node';
+import { IconStyleProps } from '../shapes';
+import type { NodePortStyleProps } from './base-node';
+import type { ParsedPolygonStyleProps, PolygonStyleProps } from './polygon';
+import { Polygon } from './polygon';
 
-type TriangleShapeStyleProps = {
+export type TriangleStyleProps = PolygonStyleProps & ExtendsStyleProps;
+type ParsedTriangleStyleProps = ParsedPolygonStyleProps & Required<ExtendsStyleProps>;
+type ExtendsStyleProps = {
   /**
-   * 节点宽度
+   * <zh/> 三角形的方向
+   * <en/> The direction of the triangle
    */
-  width?: number;
-  /**
-   * 节点高度
-   */
-  heigh?: number;
-  /**
-   * 三角形朝向
-   */
-  direction?: 'up' | 'left' | 'right' | 'down';
+  direction?: TriangleDirection;
 };
+export type TriangleDirection = 'up' | 'left' | 'right' | 'down';
 
-type KeyShapeStyleProps = Partial<PolygonStyleProps> & TriangleShapeStyleProps;
-
-export type TriangleStyleProps = BaseNodeStyleProps<KeyShapeStyleProps>;
-
-type ParsedTriangleStyleProps = Required<TriangleStyleProps>;
-
-type TriangleOptions = DisplayObjectConfig<TriangleStyleProps>;
-
-export class Triangle extends BaseNode<KeyShapeStyleProps, Polygon> {
-  static defaultStyleProps: Partial<TriangleShapeStyleProps> = {
+export class Triangle extends Polygon {
+  static defaultStyleProps: Partial<TriangleStyleProps> = {
+    size: 40,
     direction: 'up',
   };
-  constructor(options: TriangleOptions) {
+
+  constructor(options: DisplayObjectConfig<TriangleStyleProps>) {
     super(deepMix({}, { style: Triangle.defaultStyleProps }, options));
   }
 
-  protected getKeyStyle(attributes: ParsedTriangleStyleProps): PolygonStyleProps {
-    const {
-      width,
-      heigh = width,
-      direction,
-      ...keyStyle
-    } = super.getKeyStyle(attributes) as Required<KeyShapeStyleProps>;
-    const r = Math.min(width, heigh) / 2;
-    const points = getTrianglePoints(r, direction) as [number, number][];
-    return { ...keyStyle, points };
-  }
-
-  protected getHaloStyle(attributes: ParsedTriangleStyleProps): PolygonStyleProps | false {
-    if (attributes.halo === false) return false;
-
-    const haloStyle = subStyleProps(this.getGraphicStyle(attributes), 'halo') as Partial<KeyShapeStyleProps>;
-    const keyStyle = this.getKeyStyle(attributes);
-
-    return {
-      ...keyStyle,
-      ...haloStyle,
-    };
-  }
-
-  protected getAnchorsStyle(attributes: ParsedTriangleStyleProps): NodeAnchorStyleProps[] {
-    if (attributes.anchor === false) return [];
-
-    const { width, heigh = width, direction } = attributes;
-    const r = Math.min(width, heigh) / 2;
-    const anchors = getTriangleAnchors(r, direction);
-
-    const anchorStyle = this.getGraphicStyle(attributes).anchorOptions || [];
-
-    return anchorStyle.map((anchorStyle) => {
-      const { position, ...style } = anchorStyle;
-      const [cx, cy] = getTriangleAnchorByPosition(position as any, anchors);
-      return { cx, cy, ...style } as NodeAnchorStyleProps;
-    });
-  }
-
-  protected getIconStyle(attributes: ParsedTriangleStyleProps) {
-    if (attributes.icon === false || isEmpty(attributes.iconText || attributes.iconSrc)) return false;
-
+  protected getPoints(attributes: ParsedTriangleStyleProps): Point[] {
     const { direction } = attributes;
-    const iconStyle = subStyleProps(this.getGraphicStyle(attributes), 'icon');
-    const keyShape = this.shapeMap.key;
-    const { max, center } = keyShape.getLocalBounds();
-    const x = direction === 'up' || direction === 'down' ? center[0] : direction === 'right' ? -max[0] / 4 : max[0] / 4;
-    const y =
-      direction === 'left' || direction === 'right' ? center[1] : direction === 'down' ? -max[1] / 4 : max[1] / 4;
+    const [width, height] = this.getSize(attributes);
+    return getTrianglePoints(width, height, direction);
+  }
+
+  protected getPortXY(attributes: ParsedTriangleStyleProps, style: NodePortStyleProps): Point {
+    const { direction } = attributes;
+    const { position = 'top' } = style;
+    const bbox = this.getKey().getLocalBounds();
+    const [width, height] = this.getSize(attributes);
+    const ports = getTrianglePorts(width, height, direction);
+    return getPortPosition(bbox, position as TrianglePortPosition, ports, false);
+  }
+
+  // icon 处于内切三角形的重心
+  // icon is at the centroid of the triangle
+  protected getIconStyle(attributes: ParsedTriangleStyleProps): false | IconStyleProps {
+    const { icon, iconText, iconSrc, direction } = attributes;
+
+    if (icon === false || isEmpty(iconText || iconSrc)) return false;
+
+    const iconStyle = subStyleProps<IconStyleProps>(this.getGraphicStyle(attributes), 'icon');
+    const bbox = this.getKey().getLocalBounds();
+    const [x, y] = getTriangleCenter(bbox, direction);
+    const size = getIncircleRadius(bbox, direction) * 2 * ICON_SIZE_RATIO;
 
     return {
       x,
       y,
+      width: size,
+      height: size,
       ...iconStyle,
     };
-  }
-
-  public getIntersectPoint(point: Point): Point {
-    const { points } = this.getKeyStyle(this.attributes as ParsedTriangleStyleProps);
-    const center = [this.attributes.x, this.attributes.y] as Point;
-    return getPolygonIntersectPoint(point, center, points);
-  }
-
-  protected drawKeyShape(attributes: ParsedTriangleStyleProps, container: Group): Polygon {
-    return this.upsert('key', Polygon, this.getKeyStyle(attributes), container) as Polygon;
   }
 }

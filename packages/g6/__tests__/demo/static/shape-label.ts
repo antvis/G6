@@ -1,8 +1,8 @@
-import { Label } from '../../../src/elements/shapes';
+import { Label } from '@/src/elements/shapes';
 import type { StaticTestCase } from '../types';
 
 export const shapeLabel: StaticTestCase = async (context) => {
-  const { canvas } = context;
+  const { container } = context;
 
   const label1 = new Label({
     style: {
@@ -59,8 +59,21 @@ export const shapeLabel: StaticTestCase = async (context) => {
     },
   });
 
-  canvas.appendChild(label1);
-  canvas.appendChild(label2);
-  canvas.appendChild(label3);
-  canvas.appendChild(label4);
+  const label5 = new Label({
+    style: {
+      text: 'label1 text',
+      fontSize: 14,
+      fill: 'black',
+      x: 150,
+      y: 50,
+      backgroundFill: 'pink',
+      transform: 'rotate(45deg)',
+    },
+  });
+
+  container.appendChild(label1);
+  container.appendChild(label2);
+  container.appendChild(label3);
+  container.appendChild(label4);
+  container.appendChild(label5);
 };

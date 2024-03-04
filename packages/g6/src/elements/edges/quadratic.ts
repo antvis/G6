@@ -2,11 +2,11 @@ import type { DisplayObjectConfig } from '@antv/g';
 import type { PathArray } from '@antv/util';
 import { deepMix } from '@antv/util';
 import type { Point } from '../../types';
-import { getQuadraticPath } from '../../utils/edge';
-import type { BaseEdgeStyleProps, ParsedBaseEdgeStyleProps } from './base-edge';
+import { getCurveControlPoint, getQuadraticPath } from '../../utils/edge';
+import type { BaseEdgeStyleProps } from './base-edge';
 import { BaseEdge } from './base-edge';
 
-type QuadraticKeyStyleProps = {
+export type QuadraticStyleProps = BaseEdgeStyleProps & {
   /**
    * <zh/> 控制点，用于定义曲线的形状。如果不指定，将会通过`curveOffset`和`curvePosition`来计算控制点
    * <en/> Control point. Used to define the shape of the curve. If not specified, it will be calculated using `curveOffset` and `curvePosition`.
@@ -24,23 +24,23 @@ type QuadraticKeyStyleProps = {
   curveOffset?: number;
 };
 
-export type QuadraticStyleProps = BaseEdgeStyleProps<QuadraticKeyStyleProps>;
+type ParsedQuadraticStyleProps = Required<QuadraticStyleProps>;
 
-type QuadraticOptions = DisplayObjectConfig<QuadraticStyleProps>;
-
-export class Quadratic extends BaseEdge<QuadraticKeyStyleProps> {
+export class Quadratic extends BaseEdge {
   static defaultStyleProps: Partial<QuadraticStyleProps> = {
     curvePosition: 0.5,
     curveOffset: 30,
   };
 
-  constructor(options: QuadraticOptions) {
+  constructor(options: DisplayObjectConfig<QuadraticStyleProps>) {
     super(deepMix({}, { style: Quadratic.defaultStyleProps }, options));
   }
 
-  protected getKeyPath(attributes: ParsedBaseEdgeStyleProps<QuadraticKeyStyleProps>): PathArray {
-    const { controlPoint, curvePosition, curveOffset } = attributes;
+  protected getKeyPath(attributes: ParsedQuadraticStyleProps): PathArray {
+    const { curvePosition, curveOffset } = attributes;
     const [sourcePoint, targetPoint] = this.getEndpoints(attributes);
-    return getQuadraticPath(sourcePoint, targetPoint, curvePosition, curveOffset, controlPoint);
+    const controlPoint =
+      attributes.controlPoint || getCurveControlPoint(sourcePoint, targetPoint, curvePosition, curveOffset);
+    return getQuadraticPath(sourcePoint, targetPoint, controlPoint);
   }
 }

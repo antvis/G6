@@ -1,4 +1,4 @@
-import { computeElementCallbackStyle } from '../../../src/utils/style';
+import { computeElementCallbackStyle } from '@/src/utils/style';
 
 describe('style', () => {
   it('computeElementCallbackStyle', () => {

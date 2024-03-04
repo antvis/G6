@@ -1,8 +1,8 @@
+import { executor } from '@/src/animations';
+import type { Animation } from '@/src/animations/types';
+import type { BaseShapeStyleProps } from '@/src/elements/shapes/base-shape';
+import { BaseShape } from '@/src/elements/shapes/base-shape';
 import { Circle, Group } from '@antv/g';
-import { executor } from '../../../src/animations';
-import type { Animation } from '../../../src/animations/types';
-import type { BaseShapeStyleProps } from '../../../src/elements/shapes/base-shape';
-import { BaseShape } from '../../../src/elements/shapes/base-shape';
 import type { AnimationTestCase } from '../types';
 
 type ShapeStyleProps = BaseShapeStyleProps & { size: number; color: string };
@@ -31,14 +31,14 @@ class Shape extends BaseShape<ShapeStyleProps> {
   }
 }
 
-export const animationFadeIn: AnimationTestCase = async ({ canvas }) => {
+export const animationFadeIn: AnimationTestCase = async ({ container }) => {
   const animation: Animation = [
     {
       fields: ['opacity'],
     },
   ];
 
-  const shape = canvas.appendChild(
+  const shape = container.appendChild(
     new Shape({
       style: {
         x: 100,

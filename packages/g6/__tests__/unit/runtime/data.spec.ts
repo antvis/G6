@@ -1,6 +1,8 @@
+import { treeToGraphData } from '@/src';
+import { DataController } from '@/src/runtime/data';
+import { reduceDataChanges } from '@/src/utils/change';
+import tree from '@@/dataset/algorithm-category.json';
 import { clone } from '@antv/util';
-import { DataController } from '../../../src/runtime/data';
-import { reduceDataChanges } from '../../../src/utils/change';
 
 const data = {
   nodes: [
@@ -492,6 +494,26 @@ describe('DataController', () => {
     ]);
   });
 
+  it('silence', () => {
+    const controller = new DataController();
+
+    controller.silence(() => {
+      controller.addData(clone(data));
+
+      controller.setData({
+        nodes: [
+          { id: 'node-3', data: { value: 3 }, style: { fill: 'pink', parentId: 'combo-2' } },
+          { id: 'node-4', data: { value: 4 }, style: { fill: 'yellow' } },
+        ],
+        combos: [{ id: 'combo-2' }],
+      });
+    });
+
+    const changes = controller.getChanges();
+
+    expect(changes.length).toBe(0);
+  });
+
   it('getElementData', () => {
     const controller = new DataController();
 
@@ -503,7 +525,9 @@ describe('DataController', () => {
 
     expect(controller.getElementsData(['combo-1'])[0]).toEqual(data.combos[0]);
 
-    expect(controller.getElementsData(['undefined'])[0]).toEqual(undefined);
+    expect(() => {
+      controller.getElementsData(['undefined'])[0];
+    }).toThrow();
   });
 
   it('getNodeLikeData', () => {
@@ -518,6 +542,18 @@ describe('DataController', () => {
     expect(controller.getNodeLikeData(['combo-1'])[0]).toEqual(data.combos[0]);
 
     expect(controller.getNodeLikeData()).toEqual([...data.combos, ...data.nodes]);
+  });
+
+  it('getParentData getChildrenData', () => {
+    const controller = new DataController();
+
+    controller.addData(treeToGraphData(tree));
+
+    expect(controller.getParentData('Classification')?.id).toBe(tree.id);
+
+    expect(controller.getChildrenData('Modeling Methods').map((child) => child.id)).toEqual(
+      tree.children.map((child) => child.id),
+    );
   });
 
   it('hasNode', () => {
@@ -647,6 +683,8 @@ describe('DataController', () => {
 
     expect(controller.getElementType('combo-1')).toEqual('combo');
 
-    expect(controller.getElementType('undefined')).toEqual('unknown');
+    expect(() => {
+      controller.getElementType('undefined');
+    }).toThrow();
   });
 });

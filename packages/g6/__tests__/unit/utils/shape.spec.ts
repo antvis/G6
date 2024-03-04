@@ -1,5 +1,5 @@
+import { getDescendantShapes } from '@/src/utils/shape';
 import { Circle, Group, Line, Rect } from '@antv/g';
-import { getDescendantShapes } from '../../../src/utils/shape';
 
 describe('shape', () => {
   it('getDescendantShapes', () => {

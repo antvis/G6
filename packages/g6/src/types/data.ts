@@ -1,7 +1,12 @@
-import type { Graph as Graphlib, ID } from '@antv/graphlib';
+import type { Edge as EdgeGraphlib, Graph as Graphlib, Node as GraphlibNode, ID } from '@antv/graphlib';
 import type { ComboData, EdgeData, NodeData } from '../spec/data';
 
-export type GraphlibData = Graphlib<NodeData, EdgeData>;
+export type GraphlibModel = Graphlib<NodeData, EdgeData>;
+
+export type GraphlibData = {
+  nodes: GraphlibNode<NodeLikeData>[];
+  edges: EdgeGraphlib<EdgeData>[];
+};
 
 export type DataID = {
   nodes?: ID[];
@@ -48,7 +53,7 @@ export type PartialEdgeData<T extends EdgeData> =
  *
  * <en/> G6 data update optional data
  */
-export type PartialDataOptions = {
+export type PartialGraphData = {
   nodes?: PartialNodeLikeData<NodeData>[];
   edges?: PartialEdgeData<EdgeData>[];
   combos?: PartialNodeLikeData<ComboData>[];

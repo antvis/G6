@@ -9,274 +9,812 @@
   <defs />
   <g id="g-svg-camera" transform="matrix(1,0,0,1,0,0)">
     <g id="g-root" fill="none" transform="matrix(1,0,0,1,0,0)">
-      <g
-        id="g-svg-5"
-        fill="none"
-        rx="50"
-        ry="25"
-        transform="matrix(1,0,0,1,100,100)"
-      >
-        <g transform="matrix(1,0,0,1,0,0)">
-          <ellipse
-            id="key"
-            fill="rgba(0,128,0,1)"
-            transform="translate(-50,-25)"
-            cx="50"
-            cy="25"
-            rx="50"
-            ry="25"
-          />
-        </g>
-      </g>
-      <g
-        id="g-svg-7"
-        fill="none"
-        rx="50"
-        ry="25"
-        transform="matrix(1,0,0,1,300,100)"
-      >
-        <g transform="matrix(1,0,0,1,0,0)">
-          <ellipse
-            id="key"
-            fill="rgba(255,0,0,1)"
-            transform="translate(-50,-25)"
-            cx="50"
-            cy="25"
-            rx="50"
-            ry="25"
-            stroke-width="5"
-            stroke="rgba(0,0,0,1)"
-          />
-        </g>
-        <g transform="matrix(1,0,0,1,0,0)">
-          <ellipse
-            id="halo"
-            fill="rgba(0,0,0,0)"
-            transform="translate(-52.5,-27.5)"
-            cx="52.5"
-            cy="27.5"
-            rx="52.5"
-            ry="27.5"
-            stroke-width="5"
-            stroke="rgba(128,128,128,1)"
-            pointer-events="none"
-            opacity="0.4"
-          />
-        </g>
+      <g id="g-svg-7" fill="none" transform="matrix(1,0,0,1,0,0)" />
+      <g id="g-svg-6" fill="none" transform="matrix(1,0,0,1,0,0)" />
+      <g id="g-svg-5" fill="none" transform="matrix(1,0,0,1,0,0)">
         <g
-          id="icon"
+          id="ellipse"
           fill="none"
-          width="32"
-          height="32"
-          transform="matrix(1,0,0,1,0,0)"
+          transform="matrix(1,0,0,1,83.333336,83.333336)"
         >
           <g transform="matrix(1,0,0,1,0,0)">
-            <image
-              id="icon"
-              fill="none"
-              preserveAspectRatio="none"
-              x="0"
-              y="0"
-              href="https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg"
-              transform="translate(-16,-16)"
-              width="32"
-              height="32"
-            />
-          </g>
-        </g>
-        <g id="label" fill="none" transform="matrix(1,0,0,1,0,25)">
-          <g transform="matrix(1,0,0,1,-44.599998,-2)">
-            <path
-              id="background"
-              fill="none"
-              d="M 0,0 l 208,0 l 0,31 l-208 0 z"
-              opacity="0.75"
+            <ellipse
+              id="key"
+              fill="rgba(34,126,255,1)"
+              transform="translate(-22.5,-17.5)"
+              cx="22.5"
+              cy="17.5"
               stroke-width="0"
-              width="208"
-              height="31"
+              stroke="rgba(0,0,0,1)"
+              rx="22.5"
+              ry="17.5"
+            />
+          </g>
+          <g id="label" fill="none" transform="matrix(1,0,0,1,0,17.500000)">
+            <g transform="matrix(1,0,0,1,-18.600000,0)">
+              <path
+                id="background"
+                fill="rgba(255,255,255,1)"
+                d="M 0,0 l 38.2,0 l 0,23 l-38.2 0 z"
+                opacity="0.5"
+                stroke-width="0"
+                width="38.2"
+                height="23"
+              />
+            </g>
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text
+                id="text"
+                fill="rgba(0,0,0,0.8509803921568627)"
+                dominant-baseline="central"
+                paint-order="stroke"
+                dx="0.5"
+                dy="11.5px"
+                font-size="12"
+                text-anchor="middle"
+              >
+                ellipse
+              </text>
+            </g>
+          </g>
+          <g
+            id="icon"
+            fill="none"
+            width="20"
+            height="20"
+            transform="matrix(1,0,0,1,0,0)"
+          >
+            <g transform="matrix(1,0,0,1,0,0)">
+              <image
+                id="icon"
+                fill="rgba(255,255,255,1)"
+                preserveAspectRatio="none"
+                x="0"
+                y="0"
+                href="https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg"
+                transform="translate(-10,-10)"
+                width="20"
+                height="20"
+                font-size="16"
+              />
+            </g>
+          </g>
+        </g>
+        <g
+          id="ellipse-halo"
+          fill="none"
+          transform="matrix(1,0,0,1,250,83.333336)"
+        >
+          <g transform="matrix(1,0,0,1,0,0)">
+            <ellipse
+              id="halo"
+              fill="none"
+              transform="translate(-22.5,-17.5)"
+              cx="22.5"
+              cy="17.5"
+              stroke-width="12"
+              stroke="rgba(34,126,255,1)"
+              rx="22.5"
+              ry="17.5"
+              stroke-dasharray="0,0"
+              stroke-opacity="0.25"
+              pointer-events="none"
             />
           </g>
           <g transform="matrix(1,0,0,1,0,0)">
-            <text
-              id="text"
-              fill="rgba(255,192,203,1)"
-              dominant-baseline="central"
-              paint-order="stroke"
-              dx="0.5"
-              dy="13.5px"
-              font-size="14"
-              text-anchor="middle"
-            >
-              ellipse node
-            </text>
+            <ellipse
+              id="key"
+              fill="rgba(34,126,255,1)"
+              transform="translate(-22.5,-17.5)"
+              cx="22.5"
+              cy="17.5"
+              stroke-width="0"
+              stroke="rgba(0,0,0,1)"
+              rx="22.5"
+              ry="17.5"
+            />
           </g>
-        </g>
-        <g id="badge-0" fill="none" transform="matrix(1,0,0,1,50,-25)">
-          <g id="label" fill="none" transform="matrix(1,0,0,1,0,0)">
-            <g transform="matrix(1,0,0,1,-4,-20)">
+          <g id="label" fill="none" transform="matrix(1,0,0,1,0,17.500000)">
+            <g transform="matrix(1,0,0,1,-33.599998,0)">
               <path
                 id="background"
-                fill="rgba(128,128,128,1)"
-                d="M 7.95,0 l 0,0 a 7.95,7.95,0,0,1,7.95,7.95 l 0,5.1 a 7.95,7.95,0,0,1,-7.95,7.95 l 0,0 a 7.95,7.95,0,0,1,-7.95,-7.95 l 0,-5.1 a 7.95,7.95,0,0,1,7.95,-7.95 z"
-                opacity="0.75"
-                stroke-width="0"
-                width="15.9"
-                height="21"
-              />
-            </g>
-            <g transform="matrix(1,0,0,1,0,0)">
-              <text
-                id="text"
                 fill="rgba(255,255,255,1)"
-                dominant-baseline="central"
-                paint-order="stroke"
-                dx="0.5"
-                dy="-9.5px"
-                font-size="10"
-                text-anchor="left"
-              >
-                A
-              </text>
-            </g>
-          </g>
-        </g>
-        <g id="badge-1" fill="none" transform="matrix(1,0,0,1,50,0)">
-          <g id="label" fill="none" transform="matrix(1,0,0,1,0,0)">
-            <g transform="matrix(1,0,0,1,-4,-11.500000)">
-              <path
-                id="background"
-                fill="rgba(0,0,255,1)"
-                d="M 11.5,0 l 32.9,0 a 11.5,11.5,0,0,1,11.5,11.5 l 0,0 a 11.5,11.5,0,0,1,-11.5,11.5 l -32.9,0 a 11.5,11.5,0,0,1,-11.5,-11.5 l 0,0 a 11.5,11.5,0,0,1,11.5,-11.5 z"
-                opacity="0.75"
+                d="M 0,0 l 68.2,0 l 0,23 l-68.2 0 z"
+                opacity="0.5"
                 stroke-width="0"
-                width="55.9"
+                width="68.2"
                 height="23"
               />
             </g>
             <g transform="matrix(1,0,0,1,0,0)">
               <text
                 id="text"
-                fill="rgba(255,255,255,1)"
+                fill="rgba(0,0,0,0.8509803921568627)"
                 dominant-baseline="central"
                 paint-order="stroke"
                 dx="0.5"
-                font-size="10"
-                text-anchor="left"
+                dy="11.5px"
+                font-size="12"
+                text-anchor="middle"
               >
-                Important
+                ellipse-halo
               </text>
             </g>
           </g>
-        </g>
-        <g id="badge-2" fill="none" transform="matrix(1,0,0,1,-50,25)">
-          <g id="label" fill="none" transform="matrix(1,0,0,1,0,0)">
-            <g transform="matrix(1,0,0,1,-35.400002,-2)">
-              <path
-                id="background"
-                fill="rgba(255,0,0,1)"
-                d="M 11.5,0 l 17.400000000000006,0 a 11.5,11.5,0,0,1,11.5,11.5 l 0,0 a 11.5,11.5,0,0,1,-11.5,11.5 l -17.400000000000006,0 a 11.5,11.5,0,0,1,-11.5,-11.5 l 0,0 a 11.5,11.5,0,0,1,11.5,-11.5 z"
-                opacity="0.75"
-                stroke-width="0"
-                width="40.400000000000006"
-                height="23"
+          <g
+            id="icon"
+            fill="none"
+            width="20"
+            height="20"
+            transform="matrix(1,0,0,1,0,0)"
+          >
+            <g transform="matrix(1,0,0,1,0,0)">
+              <image
+                id="icon"
+                fill="rgba(255,255,255,1)"
+                preserveAspectRatio="none"
+                x="0"
+                y="0"
+                href="https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg"
+                transform="translate(-10,-10)"
+                width="20"
+                height="20"
+                font-size="16"
               />
             </g>
-            <g transform="matrix(1,0,0,1,0,0)">
-              <text
-                id="text"
-                fill="rgba(255,255,255,1)"
-                dominant-baseline="central"
-                paint-order="stroke"
-                dx="0.5"
-                dy="9.5px"
-                font-size="10"
-                text-anchor="end"
-              >
-                Notice
-              </text>
-            </g>
           </g>
         </g>
-        <g transform="matrix(1,0,0,1,-50,0)">
-          <circle
-            id="anchor-0"
-            fill="none"
-            transform="translate(-2,-2)"
-            cx="2"
-            cy="2"
-            r="2"
-            stroke="rgba(0,0,0,1)"
-            stroke-width="1"
-          />
-        </g>
-        <g transform="matrix(1,0,0,1,50,0)">
-          <circle
-            id="anchor-1"
-            fill="none"
-            transform="translate(-2,-2)"
-            cx="2"
-            cy="2"
-            r="2"
-            stroke="rgba(255,255,0,1)"
-            stroke-width="2"
-          />
-        </g>
-        <g transform="matrix(1,0,0,1,0,-25)">
-          <circle
-            id="anchor-2"
-            fill="none"
-            transform="translate(-2,-2)"
-            cx="2"
-            cy="2"
-            r="2"
-            stroke="rgba(0,128,0,1)"
-            stroke-width="1"
-          />
-        </g>
-        <g transform="matrix(1,0,0,1,0,25)">
-          <circle
-            id="anchor-3"
-            fill="none"
-            transform="translate(-2,-2)"
-            cx="2"
-            cy="2"
-            r="2"
-            stroke="rgba(0,0,255,1)"
-            stroke-width="2"
-          />
-        </g>
-      </g>
-      <g
-        id="g-svg-31"
-        fill="none"
-        rx="25"
-        ry="50"
-        transform="matrix(1,0,0,1,300,300)"
-      >
-        <g transform="matrix(1,0,0,1,0,0)">
-          <ellipse
-            id="key"
-            fill="rgba(255,192,203,1)"
-            transform="translate(-25,-50)"
-            cx="25"
-            cy="50"
-            rx="25"
-            ry="50"
-          />
-        </g>
-        <g id="icon" fill="none" transform="matrix(1,0,0,1,0,0)">
+        <g
+          id="ellipse-badges"
+          fill="none"
+          transform="matrix(1,0,0,1,416.666656,83.333336)"
+        >
           <g transform="matrix(1,0,0,1,0,0)">
-            <text
-              id="icon"
-              fill="rgba(0,0,0,1)"
-              dominant-baseline="central"
-              paint-order="stroke"
-              dx="0.5"
-              text-anchor="middle"
-              font-size="32"
-            >
-              Y
-            </text>
+            <ellipse
+              id="key"
+              fill="rgba(34,126,255,1)"
+              transform="translate(-22.5,-17.5)"
+              cx="22.5"
+              cy="17.5"
+              stroke-width="0"
+              stroke="rgba(0,0,0,1)"
+              rx="22.5"
+              ry="17.5"
+            />
+          </g>
+          <g id="label" fill="none" transform="matrix(1,0,0,1,0,17.500000)">
+            <g transform="matrix(1,0,0,1,-42.840000,0)">
+              <path
+                id="background"
+                fill="rgba(255,255,255,1)"
+                d="M 0,0 l 86.67999999999999,0 l 0,23 l-86.67999999999999 0 z"
+                opacity="0.5"
+                stroke-width="0"
+                width="86.67999999999999"
+                height="23"
+              />
+            </g>
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text
+                id="text"
+                fill="rgba(0,0,0,0.8509803921568627)"
+                dominant-baseline="central"
+                paint-order="stroke"
+                dx="0.5"
+                dy="11.5px"
+                font-size="12"
+                text-anchor="middle"
+              >
+                ellipse-badges
+              </text>
+            </g>
+          </g>
+          <g
+            id="icon"
+            fill="none"
+            width="20"
+            height="20"
+            transform="matrix(1,0,0,1,0,0)"
+          >
+            <g transform="matrix(1,0,0,1,0,0)">
+              <image
+                id="icon"
+                fill="rgba(255,255,255,1)"
+                preserveAspectRatio="none"
+                x="0"
+                y="0"
+                href="https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg"
+                transform="translate(-10,-10)"
+                width="20"
+                height="20"
+                font-size="16"
+              />
+            </g>
+          </g>
+          <g
+            id="badge-0"
+            fill="none"
+            transform="matrix(1,0,0,1,22.500000,-17.500000)"
+          >
+            <g id="label" fill="none" transform="matrix(1,0,0,1,0,0)">
+              <g transform="matrix(1,0,0,1,-4,-1)">
+                <path
+                  id="background"
+                  fill="rgba(126,146,181,1)"
+                  d="M 7.26,0 l 0,0 a 7.26,7.26,0,0,1,7.26,7.26 l 0,4.48 a 7.26,7.26,0,0,1,-7.26,7.26 l 0,0 a 7.26,7.26,0,0,1,-7.26,-7.26 l 0,-4.48 a 7.26,7.26,0,0,1,7.26,-7.26 z"
+                  stroke-width="0"
+                  width="14.52"
+                  height="19"
+                />
+              </g>
+              <g transform="matrix(1,0,0,1,0,0)">
+                <text
+                  id="text"
+                  fill="rgba(255,255,255,1)"
+                  dominant-baseline="central"
+                  paint-order="stroke"
+                  dx="0.5"
+                  dy="8.5px"
+                  font-size="8"
+                  text-anchor="left"
+                >
+                  A
+                </text>
+              </g>
+            </g>
+          </g>
+          <g id="badge-1" fill="none" transform="matrix(1,0,0,1,22.500000,0)">
+            <g id="label" fill="none" transform="matrix(1,0,0,1,0,0)">
+              <g transform="matrix(1,0,0,1,-4,-9.500000)">
+                <path
+                  id="background"
+                  fill="rgba(248,98,84,1)"
+                  d="M 9.5,0 l 27.520000000000003,0 a 9.5,9.5,0,0,1,9.5,9.5 l 0,0 a 9.5,9.5,0,0,1,-9.5,9.5 l -27.520000000000003,0 a 9.5,9.5,0,0,1,-9.5,-9.5 l 0,0 a 9.5,9.5,0,0,1,9.5,-9.5 z"
+                  stroke-width="0"
+                  width="46.52"
+                  height="19"
+                />
+              </g>
+              <g transform="matrix(1,0,0,1,0,0)">
+                <text
+                  id="text"
+                  fill="rgba(255,255,255,1)"
+                  dominant-baseline="central"
+                  paint-order="stroke"
+                  dx="0.5"
+                  font-size="8"
+                  text-anchor="left"
+                >
+                  Important
+                </text>
+              </g>
+            </g>
+          </g>
+          <g
+            id="badge-2"
+            fill="none"
+            transform="matrix(1,0,0,1,22.500000,17.500000)"
+          >
+            <g id="label" fill="none" transform="matrix(1,0,0,1,0,0)">
+              <g transform="matrix(1,0,0,1,-4,-18)">
+                <path
+                  id="background"
+                  fill="rgba(237,183,75,1)"
+                  d="M 9.5,0 l 15.120000000000005,0 a 9.5,9.5,0,0,1,9.5,9.5 l 0,0 a 9.5,9.5,0,0,1,-9.5,9.5 l -15.120000000000005,0 a 9.5,9.5,0,0,1,-9.5,-9.5 l 0,0 a 9.5,9.5,0,0,1,9.5,-9.5 z"
+                  stroke-width="0"
+                  width="34.120000000000005"
+                  height="19"
+                />
+              </g>
+              <g transform="matrix(1,0,0,1,0,0)">
+                <text
+                  id="text"
+                  fill="rgba(255,255,255,1)"
+                  dominant-baseline="central"
+                  paint-order="stroke"
+                  dx="0.5"
+                  dy="-8.5px"
+                  font-size="8"
+                  text-anchor="left"
+                >
+                  Notice
+                </text>
+              </g>
+            </g>
+          </g>
+        </g>
+        <g
+          id="ellipse-ports"
+          fill="none"
+          transform="matrix(1,0,0,1,83.333336,250)"
+        >
+          <g transform="matrix(1,0,0,1,0,0)">
+            <ellipse
+              id="key"
+              fill="rgba(34,126,255,1)"
+              transform="translate(-22.5,-17.5)"
+              cx="22.5"
+              cy="17.5"
+              stroke-width="0"
+              stroke="rgba(0,0,0,1)"
+              rx="22.5"
+              ry="17.5"
+            />
+          </g>
+          <g id="label" fill="none" transform="matrix(1,0,0,1,0,17.500000)">
+            <g transform="matrix(1,0,0,1,-36.660000,0)">
+              <path
+                id="background"
+                fill="rgba(255,255,255,1)"
+                d="M 0,0 l 74.32000000000001,0 l 0,23 l-74.32000000000001 0 z"
+                opacity="0.5"
+                stroke-width="0"
+                width="74.32000000000001"
+                height="23"
+              />
+            </g>
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text
+                id="text"
+                fill="rgba(0,0,0,0.8509803921568627)"
+                dominant-baseline="central"
+                paint-order="stroke"
+                dx="0.5"
+                dy="11.5px"
+                font-size="12"
+                text-anchor="middle"
+              >
+                ellipse-ports
+              </text>
+            </g>
+          </g>
+          <g
+            id="icon"
+            fill="none"
+            width="20"
+            height="20"
+            transform="matrix(1,0,0,1,0,0)"
+          >
+            <g transform="matrix(1,0,0,1,0,0)">
+              <image
+                id="icon"
+                fill="rgba(255,255,255,1)"
+                preserveAspectRatio="none"
+                x="0"
+                y="0"
+                href="https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg"
+                transform="translate(-10,-10)"
+                width="20"
+                height="20"
+                font-size="16"
+              />
+            </g>
+          </g>
+          <g transform="matrix(1,0,0,1,-22.500000,0)">
+            <circle
+              id="port-0"
+              fill="rgba(34,126,255,1)"
+              transform="translate(-3,-3)"
+              cx="3"
+              cy="3"
+              stroke-width="1"
+              r="3"
+              stroke="rgba(0,0,0,1)"
+              stroke-opacity="0.65"
+            />
+          </g>
+          <g transform="matrix(1,0,0,1,22.500000,0)">
+            <circle
+              id="port-1"
+              fill="rgba(34,126,255,1)"
+              transform="translate(-3,-3)"
+              cx="3"
+              cy="3"
+              stroke-width="1"
+              r="3"
+              stroke="rgba(0,0,0,1)"
+              stroke-opacity="0.65"
+            />
+          </g>
+          <g transform="matrix(1,0,0,1,0,-17.500000)">
+            <circle
+              id="port-2"
+              fill="rgba(34,126,255,1)"
+              transform="translate(-3,-3)"
+              cx="3"
+              cy="3"
+              stroke-width="1"
+              r="3"
+              stroke="rgba(0,0,0,1)"
+              stroke-opacity="0.65"
+            />
+          </g>
+          <g transform="matrix(1,0,0,1,0,17.500000)">
+            <circle
+              id="port-3"
+              fill="rgba(34,126,255,1)"
+              transform="translate(-3,-3)"
+              cx="3"
+              cy="3"
+              stroke-width="1"
+              r="3"
+              stroke="rgba(0,0,0,1)"
+              stroke-opacity="0.65"
+            />
+          </g>
+        </g>
+        <g id="ellipse-active" fill="none" transform="matrix(1,0,0,1,250,250)">
+          <g transform="matrix(1,0,0,1,0,0)">
+            <ellipse
+              id="halo"
+              fill="none"
+              transform="translate(-22.5,-17.5)"
+              cx="22.5"
+              cy="17.5"
+              stroke-width="12"
+              stroke="rgba(34,126,255,1)"
+              rx="22.5"
+              ry="17.5"
+              stroke-dasharray="0,0"
+              stroke-opacity="0.25"
+              pointer-events="none"
+            />
+          </g>
+          <g transform="matrix(1,0,0,1,0,0)">
+            <ellipse
+              id="key"
+              fill="rgba(34,126,255,1)"
+              transform="translate(-22.5,-17.5)"
+              cx="22.5"
+              cy="17.5"
+              stroke-width="0"
+              stroke="rgba(0,0,0,1)"
+              rx="22.5"
+              ry="17.5"
+            />
+          </g>
+          <g id="label" fill="none" transform="matrix(1,0,0,1,0,17.500000)">
+            <g transform="matrix(1,0,0,1,-38.880001,0)">
+              <path
+                id="background"
+                fill="rgba(255,255,255,1)"
+                d="M 0,0 l 78.75999999999999,0 l 0,23 l-78.75999999999999 0 z"
+                opacity="0.5"
+                stroke-width="0"
+                width="78.75999999999999"
+                height="23"
+              />
+            </g>
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text
+                id="text"
+                fill="rgba(0,0,0,0.8509803921568627)"
+                dominant-baseline="central"
+                paint-order="stroke"
+                dx="0.5"
+                dy="11.5px"
+                font-size="12"
+                text-anchor="middle"
+              >
+                ellipse-active
+              </text>
+            </g>
+          </g>
+          <g
+            id="icon"
+            fill="none"
+            width="20"
+            height="20"
+            transform="matrix(1,0,0,1,0,0)"
+          >
+            <g transform="matrix(1,0,0,1,0,0)">
+              <image
+                id="icon"
+                fill="rgba(255,255,255,1)"
+                preserveAspectRatio="none"
+                x="0"
+                y="0"
+                href="https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg"
+                transform="translate(-10,-10)"
+                width="20"
+                height="20"
+                font-size="16"
+              />
+            </g>
+          </g>
+        </g>
+        <g
+          id="ellipse-selected"
+          fill="none"
+          transform="matrix(1,0,0,1,416.666656,250)"
+        >
+          <g transform="matrix(1,0,0,1,0,0)">
+            <ellipse
+              id="halo"
+              fill="none"
+              transform="translate(-22.5,-17.5)"
+              cx="22.5"
+              cy="17.5"
+              stroke-width="12"
+              stroke="rgba(34,126,255,1)"
+              rx="22.5"
+              ry="17.5"
+              stroke-dasharray="0,0"
+              stroke-opacity="0.25"
+              pointer-events="none"
+            />
+          </g>
+          <g transform="matrix(1,0,0,1,0,0)">
+            <ellipse
+              id="key"
+              fill="rgba(34,126,255,1)"
+              transform="translate(-22.5,-17.5)"
+              cx="22.5"
+              cy="17.5"
+              stroke-width="3"
+              stroke="rgba(0,0,0,1)"
+              rx="22.5"
+              ry="17.5"
+            />
+          </g>
+          <g id="label" fill="none" transform="matrix(1,0,0,1,0,17.500000)">
+            <g transform="matrix(1,0,0,1,-53.900002,0)">
+              <path
+                id="background"
+                fill="rgba(255,255,255,1)"
+                d="M 0,0 l 108.80000000000001,0 l 0,27 l-108.80000000000001 0 z"
+                opacity="0.5"
+                stroke-width="0"
+                width="108.80000000000001"
+                height="27"
+              />
+            </g>
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text
+                id="text"
+                fill="rgba(0,0,0,0.8509803921568627)"
+                dominant-baseline="central"
+                paint-order="stroke"
+                dx="0.5"
+                dy="13.5px"
+                font-size="14"
+                text-anchor="middle"
+                font-weight="700"
+              >
+                ellipse-selected
+              </text>
+            </g>
+          </g>
+          <g
+            id="icon"
+            fill="none"
+            width="20"
+            height="20"
+            transform="matrix(1,0,0,1,0,0)"
+          >
+            <g transform="matrix(1,0,0,1,0,0)">
+              <image
+                id="icon"
+                fill="rgba(255,255,255,1)"
+                preserveAspectRatio="none"
+                x="0"
+                y="0"
+                href="https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg"
+                transform="translate(-10,-10)"
+                width="20"
+                height="20"
+                font-size="16"
+              />
+            </g>
+          </g>
+        </g>
+        <g
+          id="ellipse-highlight"
+          fill="none"
+          transform="matrix(1,0,0,1,83.333336,416.666656)"
+        >
+          <g transform="matrix(1,0,0,1,0,0)">
+            <ellipse
+              id="key"
+              fill="rgba(34,126,255,1)"
+              transform="translate(-22.5,-17.5)"
+              cx="22.5"
+              cy="17.5"
+              stroke-width="3"
+              stroke="rgba(0,0,0,1)"
+              rx="22.5"
+              ry="17.5"
+              stroke-opacity="0.85"
+            />
+          </g>
+          <g id="label" fill="none" transform="matrix(1,0,0,1,0,17.500000)">
+            <g transform="matrix(1,0,0,1,-46.680000,0)">
+              <path
+                id="background"
+                fill="rgba(255,255,255,1)"
+                d="M 0,0 l 94.36000000000001,0 l 0,23 l-94.36000000000001 0 z"
+                opacity="0.5"
+                stroke-width="0"
+                width="94.36000000000001"
+                height="23"
+              />
+            </g>
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text
+                id="text"
+                fill="rgba(0,0,0,0.8509803921568627)"
+                dominant-baseline="central"
+                paint-order="stroke"
+                dx="0.5"
+                dy="11.5px"
+                font-size="12"
+                text-anchor="middle"
+                font-weight="700"
+              >
+                ellipse-highlight
+              </text>
+            </g>
+          </g>
+          <g
+            id="icon"
+            fill="none"
+            width="20"
+            height="20"
+            transform="matrix(1,0,0,1,0,0)"
+          >
+            <g transform="matrix(1,0,0,1,0,0)">
+              <image
+                id="icon"
+                fill="rgba(255,255,255,1)"
+                preserveAspectRatio="none"
+                x="0"
+                y="0"
+                href="https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg"
+                transform="translate(-10,-10)"
+                width="20"
+                height="20"
+                font-size="16"
+              />
+            </g>
+          </g>
+        </g>
+        <g
+          id="ellipse-inactive"
+          fill="none"
+          transform="matrix(1,0,0,1,250,416.666656)"
+        >
+          <g transform="matrix(1,0,0,1,0,0)">
+            <ellipse
+              id="key"
+              fill="rgba(34,126,255,1)"
+              transform="translate(-22.5,-17.5)"
+              cx="22.5"
+              cy="17.5"
+              stroke-width="0"
+              stroke="rgba(0,0,0,1)"
+              rx="22.5"
+              ry="17.5"
+              opacity="0.25"
+            />
+          </g>
+          <g id="label" fill="none" transform="matrix(1,0,0,1,0,17.500000)">
+            <g transform="matrix(1,0,0,1,-44.040001,0)">
+              <path
+                id="background"
+                fill="rgba(255,255,255,1)"
+                d="M 0,0 l 89.08,0 l 0,23 l-89.08 0 z"
+                opacity="0.5"
+                stroke-width="0"
+                width="89.08"
+                height="23"
+              />
+            </g>
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text
+                id="text"
+                fill="rgba(0,0,0,0.8509803921568627)"
+                dominant-baseline="central"
+                paint-order="stroke"
+                dx="0.5"
+                dy="11.5px"
+                font-size="12"
+                text-anchor="middle"
+                opacity="0.25"
+              >
+                ellipse-inactive
+              </text>
+            </g>
+          </g>
+          <g
+            id="icon"
+            fill="none"
+            width="20"
+            height="20"
+            transform="matrix(1,0,0,1,0,0)"
+          >
+            <g transform="matrix(1,0,0,1,0,0)">
+              <image
+                id="icon"
+                fill="rgba(255,255,255,1)"
+                preserveAspectRatio="none"
+                x="0"
+                y="0"
+                href="https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg"
+                transform="translate(-10,-10)"
+                width="20"
+                height="20"
+                font-size="16"
+                opacity="0.25"
+              />
+            </g>
+          </g>
+        </g>
+        <g
+          id="ellipse-disabled"
+          fill="none"
+          transform="matrix(1,0,0,1,416.666656,416.666656)"
+        >
+          <g transform="matrix(1,0,0,1,0,0)">
+            <ellipse
+              id="key"
+              fill="rgba(240,240,240,1)"
+              transform="translate(-22.5,-17.5)"
+              cx="22.5"
+              cy="17.5"
+              stroke-width="0"
+              stroke="rgba(0,0,0,1)"
+              rx="22.5"
+              ry="17.5"
+            />
+          </g>
+          <g id="label" fill="none" transform="matrix(1,0,0,1,0,17.500000)">
+            <g transform="matrix(1,0,0,1,-46.020000,0)">
+              <path
+                id="background"
+                fill="rgba(255,255,255,1)"
+                d="M 0,0 l 93.04,0 l 0,23 l-93.04 0 z"
+                opacity="0.5"
+                stroke-width="0"
+                width="93.04"
+                height="23"
+              />
+            </g>
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text
+                id="text"
+                fill="rgba(0,0,0,0.8509803921568627)"
+                dominant-baseline="central"
+                paint-order="stroke"
+                dx="0.5"
+                dy="11.5px"
+                font-size="12"
+                text-anchor="middle"
+              >
+                ellipse-disabled
+              </text>
+            </g>
+          </g>
+          <g
+            id="icon"
+            fill="none"
+            width="20"
+            height="20"
+            transform="matrix(1,0,0,1,0,0)"
+          >
+            <g transform="matrix(1,0,0,1,0,0)">
+              <image
+                id="icon"
+                fill="rgba(255,255,255,1)"
+                preserveAspectRatio="none"
+                x="0"
+                y="0"
+                href="https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg"
+                transform="translate(-10,-10)"
+                width="20"
+                height="20"
+                font-size="16"
+              />
+            </g>
           </g>
         </g>
       </g>

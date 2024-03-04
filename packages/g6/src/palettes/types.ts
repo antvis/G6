@@ -1,10 +1,8 @@
-import type { BUILT_IN_PALETTES } from './constants';
-
 export type Palette = string | BuiltInPalette | CategoricalPalette | ContinuousPalette;
 
 export type STDPalette = CategoricalPalette | ContinuousPalette;
 
-export type BuiltInPalette = keyof typeof BUILT_IN_PALETTES;
+export type BuiltInPalette = 'spectral' | 'oranges' | 'greens' | 'blues';
 
 export type CategoricalPalette = string[];
 

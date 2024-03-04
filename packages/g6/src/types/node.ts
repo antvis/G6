@@ -1,3 +1,5 @@
+import type { DisplayObject, CircleStyleProps as GCircleStyleProps } from '@antv/g';
+
 export type RelativePosition =
   | 'top'
   | 'top-left'
@@ -13,9 +15,18 @@ export type RelativePosition =
   | 'right-bottom'
   | 'center';
 
-export type AnchorPosition = [number, number] | 'top' | 'left' | 'right' | 'bottom';
-export type StarAnchorPosition = 'top' | 'left' | 'right' | 'left-bottom' | 'right-bottom';
-export type TriangleAnchorPosition = 'top' | 'left' | 'right' | 'bottom';
+export type PortPosition = [number, number] | 'top' | 'left' | 'right' | 'bottom';
+export type StarPortPosition = [number, number] | 'top' | 'left' | 'right' | 'left-bottom' | 'right-bottom';
+export type TrianglePortPosition = [number, number] | 'top' | 'left' | 'right' | 'bottom';
 
 export type BadgePosition = RelativePosition;
 export type LabelPosition = RelativePosition;
+
+export type PortStyleProps = GCircleStyleProps & {
+  /**
+   * <zh/> 是否连接到中心
+   * <en/> Whether to connect to the center
+   */
+  linkToCenter?: boolean;
+};
+export type Port = DisplayObject<PortStyleProps>;

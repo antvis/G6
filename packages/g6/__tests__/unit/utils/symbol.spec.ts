@@ -1,4 +1,4 @@
-import { circle, diamond, rect, simple, triangle, triangleRect, vee } from '../../../src/utils/symbol';
+import { circle, diamond, rect, simple, triangle, triangleRect, vee } from '@/src/utils/symbol';
 
 describe('Symbol Functions', () => {
   describe('circle', () => {

@@ -1,30 +1,16 @@
-import type { G6Spec } from '../../../src';
-import { DataController } from '../../../src/runtime/data';
-import { ElementController } from '../../../src/runtime/element';
-import type { RuntimeContext } from '../../../src/runtime/types';
-import { Graph } from '../../mock';
+import { Graph, type G6Spec } from '@/src';
+import type { AnimateEvent } from '@/src/utils/event';
+import type { IAnimation } from '@antv/g';
 import type { AnimationTestCase } from '../types';
 
-const createContext = (canvas: any, options: G6Spec): RuntimeContext => {
-  const dataController = new DataController();
-  dataController.setData(options.data || {});
-  return {
-    canvas,
-    graph: new Graph() as any,
-    options,
-    dataController,
-  };
-};
-
 export const controllerElementState: AnimationTestCase = async (context) => {
-  const { canvas } = context;
-
   const options: G6Spec = {
+    ...context,
     data: {
       nodes: [
-        { id: 'node-1', style: { cx: 50, cy: 50, states: ['active', 'selected'] } },
-        { id: 'node-2', style: { cx: 200, cy: 50 } },
-        { id: 'node-3', style: { cx: 125, cy: 150, states: ['active'] } },
+        { id: 'node-1', style: { x: 50, y: 50, states: ['active', 'selected'] } },
+        { id: 'node-2', style: { x: 200, y: 50 } },
+        { id: 'node-3', style: { x: 125, y: 150, states: ['active'] } },
       ],
       edges: [
         { source: 'node-1', target: 'node-2', style: { states: ['active'] } },
@@ -36,7 +22,7 @@ export const controllerElementState: AnimationTestCase = async (context) => {
     node: {
       style: {
         lineWidth: 1,
-        r: 10,
+        size: 20,
       },
       state: {
         active: {
@@ -70,15 +56,10 @@ export const controllerElementState: AnimationTestCase = async (context) => {
     },
   };
 
-  const elementContext = createContext(canvas, options);
+  const graph = new Graph(options);
+  await graph.render();
 
-  const elementController = new ElementController(elementContext);
-
-  const renderResult = await elementController.render(elementContext);
-
-  await renderResult?.finished;
-
-  elementContext.dataController.updateData({
+  graph.updateData({
     nodes: [
       { id: 'node-1', style: { states: [] } },
       { id: 'node-2', style: { states: ['active'] } },
@@ -90,9 +71,15 @@ export const controllerElementState: AnimationTestCase = async (context) => {
     ],
   });
 
-  const result = await elementController.render(elementContext);
+  const result = new Promise<IAnimation>((resolve) => {
+    graph.once('beforeanimate', (e: AnimateEvent) => {
+      resolve(e.animation!);
+    });
+  });
 
-  return result;
+  graph.draw();
+
+  return await result;
 };
 
 controllerElementState.times = [0, 1000];

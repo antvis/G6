@@ -1,31 +1,15 @@
-import type { G6Spec } from '../../../src';
-import { DataController } from '../../../src/runtime/data';
-import { ElementController } from '../../../src/runtime/element';
-import type { RuntimeContext } from '../../../src/runtime/types';
-import { sleep } from '../../integration/utils/sleep';
-import { Graph } from '../../mock';
-import type { StaticTestCase } from '../types';
+import type { G6Spec } from '@/src';
+import { Graph } from '@/src';
+import type { STDTestCase } from '../types';
 
-const createContext = (canvas: any, options: G6Spec): RuntimeContext => {
-  const dataController = new DataController();
-  dataController.setData(options.data || {});
-  return {
-    canvas,
-    graph: new Graph() as any,
-    options,
-    dataController,
-  };
-};
-
-export const controllerElement: StaticTestCase = async (context) => {
-  const { canvas } = context;
-
+export const controllerElement: STDTestCase = async (context) => {
   const options: G6Spec = {
+    ...context,
     data: {
       nodes: [
-        { id: 'node-1', style: { cx: 50, cy: 50 } },
-        { id: 'node-2', style: { cx: 200, cy: 50 } },
-        { id: 'node-3', style: { cx: 125, cy: 150 } },
+        { id: 'node-1', style: { x: 50, y: 50 } },
+        { id: 'node-2', style: { x: 200, y: 50 } },
+        { id: 'node-3', style: { x: 125, y: 150 } },
       ],
       edges: [
         { source: 'node-1', target: 'node-2' },
@@ -33,26 +17,19 @@ export const controllerElement: StaticTestCase = async (context) => {
         { source: 'node-3', target: 'node-1' },
       ],
     },
-    theme: 'light',
     node: {
       style: {
-        r: 10,
+        size: 20,
       },
-      animation: false,
     },
     edge: {
       style: {},
-      animation: false,
     },
   };
 
-  const elementContext = createContext(canvas, options);
+  const graph = new Graph(options);
 
-  const elementController = new ElementController(elementContext);
+  await graph.render();
 
-  const result = await elementController.render(elementContext);
-
-  await result?.finished;
-
-  await sleep(100);
+  return graph;
 };

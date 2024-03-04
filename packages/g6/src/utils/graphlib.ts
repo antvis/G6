@@ -1,4 +1,5 @@
-import type { Edge, Node } from '@antv/graphlib';
+import type { Edge, Graph as Graphlib, Node } from '@antv/graphlib';
+import { TREE_KEY } from '../constants';
 import type { ComboData, EdgeData, NodeData } from '../spec';
 import { NodeLikeData } from '../types/data';
 import { idOf } from './id';
@@ -36,4 +37,22 @@ export function toG6Data<T extends NodeLikeData>(data: Node<T>): T;
  */
 export function toG6Data<T extends NodeData | EdgeData | ComboData>(data: Node<T> | Edge<T>): T {
   return data.data;
+}
+
+/**
+ * <zh/> 创建树形结构
+ *
+ * <en/> Create tree structure
+ * @param model - <zh/> 数据模型 | <en/> data model
+ */
+export function createTreeStructure(model: Graphlib<any, any>) {
+  if (model.hasTreeStructure(TREE_KEY)) return;
+
+  model.attachTreeStructure(TREE_KEY);
+  const edges = model.getAllEdges();
+
+  for (const edge of edges) {
+    const { source, target } = edge;
+    model.setParent(target, source, TREE_KEY);
+  }
 }

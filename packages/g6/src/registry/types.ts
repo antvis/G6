@@ -1,16 +1,10 @@
-import type { DisplayObject } from '@antv/g';
+import type { Layout } from '@antv/layout';
 import type { STDAnimation } from '../animations/types';
-import type { BaseNode, BaseNodeStyleProps } from '../elements/nodes';
+import type { Behavior } from '../behaviors/types';
 import type { STDPalette } from '../palettes/types';
 import type { Theme } from '../themes/types';
-
-// TODO 待使用正式类型定义 / To be used formal type definition
-declare type Node = BaseNode<BaseNodeStyleProps<any>, DisplayObject>;
-declare type Edge = unknown;
-declare type Combo = unknown;
-declare type Layout = unknown;
-declare type Behavior = unknown;
-declare type Widget = unknown;
+import type { Combo, Edge, Node } from '../types';
+import type { Widget } from '../widgets/types';
 
 /**
  * <zh/> 插件注册表
@@ -23,7 +17,7 @@ export interface PluginRegistry {
   combo: Record<string, { new (...args: any[]): Combo }>;
   theme: Record<string, Theme>; // theme is a object options
   palette: Record<string, STDPalette>;
-  layout: Record<string, { new (...args: any[]): Layout }>;
+  layout: Record<string, { new (...args: any[]): Layout<any> }>;
   behavior: Record<string, { new (...args: any[]): Behavior }>;
   widget: Record<string, { new (...args: any[]): Widget }>;
   animation: Record<string, STDAnimation>; // animation spec

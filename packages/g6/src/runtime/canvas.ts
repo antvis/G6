@@ -9,9 +9,10 @@ import type {
 import { Canvas as GCanvas } from '@antv/g';
 import { Renderer as CanvasRenderer } from '@antv/g-canvas';
 import { Plugin as DragNDropPlugin } from '@antv/g-plugin-dragndrop';
-import { createDOM, isFunction } from '@antv/util';
+import { createDOM, isFunction, isString } from '@antv/util';
 import type { CanvasOptions } from '../spec/canvas';
 import type { CanvasLayer } from '../types/canvas';
+import { getCombinedBBox } from '../utils/bbox';
 
 export interface CanvasConfig
   extends Pick<GCanvasConfig, 'container' | 'devicePixelRatio' | 'width' | 'height' | 'background' | 'cursor'> {
@@ -38,6 +39,10 @@ export class Canvas {
       transientLabel: this.transientLabel,
       background: this.background,
     };
+  }
+
+  public get document() {
+    return this.main.document;
   }
 
   public renderers!: Record<CanvasLayer, IRenderer>;
@@ -135,7 +140,13 @@ export class Canvas {
     });
   }
 
+  public getSize(): [number, number] {
+    return [this.config.width || 0, this.config.height || 0];
+  }
+
   public resize(width: number, height: number) {
+    this.config.width = width;
+    this.config.height = height;
     Object.values(this.canvas).forEach((canvas) => {
       canvas.resize(width, height);
     });
@@ -143,6 +154,21 @@ export class Canvas {
 
   public getCamera() {
     return this.main.getCamera();
+  }
+
+  public getBounds() {
+    return getCombinedBBox(
+      Object.values(this.canvas)
+        .map((canvas) => canvas.document.documentElement)
+        .filter((el) => el.childNodes.length > 0)
+        .map((el) => el.getBounds()),
+    );
+  }
+
+  public getContainer() {
+    const container = this.config.container!;
+
+    return isString(container) ? document.getElementById(container!) : container;
   }
 
   public appendChild<T extends DisplayObject>(child: T): T {

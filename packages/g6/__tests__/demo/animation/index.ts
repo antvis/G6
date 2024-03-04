@@ -4,6 +4,7 @@ export * from './animation-translate';
 export * from './animation-wave';
 export * from './animation-zoom-in';
 export * from './controller-element';
+export * from './controller-element-position';
 export * from './controller-element-state';
 export * from './edge-cubic';
 export * from './edge-line';

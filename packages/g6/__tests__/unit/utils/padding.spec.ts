@@ -1,4 +1,4 @@
-import { parsePadding } from '../../../src/utils/padding';
+import { parsePadding } from '@/src/utils/padding';
 
 describe('padding', () => {
   it('parsePadding', () => {

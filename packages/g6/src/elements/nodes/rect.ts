@@ -1,61 +1,51 @@
-import type { DisplayObjectConfig, Group, PolygonStyleProps } from '@antv/g';
-import { Polygon } from '@antv/g';
-import type { Point } from '../../types';
-import { getRectPoints } from '../../utils/element';
-import { getPolygonIntersectPoint } from '../../utils/point';
-import { subStyleProps } from '../../utils/prefix';
-import type { BaseNodeStyleProps } from './base-node';
+import type { DisplayObjectConfig, RectStyleProps as GRectStyleProps, Group } from '@antv/g';
+import { Rect as GRect } from '@antv/g';
+import { deepMix } from '@antv/util';
+import { ICON_SIZE_RATIO } from '../../constants/element';
+import type { IconStyleProps } from '../shapes';
+import type { BaseNodeStyleProps, ParsedBaseNodeStyleProps } from './base-node';
 import { BaseNode } from './base-node';
 
-type KeyShapeStyleProps = Partial<PolygonStyleProps> & {
-  width?: number;
-  height?: number;
-};
-
-export type RectStyleProps = BaseNodeStyleProps<KeyShapeStyleProps>;
-
-type ParsedRectStyleProps = Required<RectStyleProps>;
-
-type RectOptions = DisplayObjectConfig<RectStyleProps>;
+export type RectStyleProps = BaseNodeStyleProps<KeyStyleProps>;
+type ParsedRectStyleProps = ParsedBaseNodeStyleProps<KeyStyleProps>;
+type KeyStyleProps = GRectStyleProps;
 
 /**
  * Draw Rect based on BaseNode, override drawKeyShape.
  */
-export class Rect extends BaseNode<KeyShapeStyleProps, Polygon> {
-  constructor(options: RectOptions) {
-    super(options);
+export class Rect extends BaseNode<GRect, KeyStyleProps> {
+  static defaultStyleProps: Partial<RectStyleProps> = {
+    size: [100, 30],
+    anchor: [0.5, 0.5],
+  };
+
+  constructor(options: DisplayObjectConfig<RectStyleProps>) {
+    super(deepMix({}, { style: Rect.defaultStyleProps }, options));
   }
 
-  protected getKeyStyle(attributes: ParsedRectStyleProps): PolygonStyleProps {
-    const keyStyle = super.getKeyStyle(attributes);
-    const { width = 20, height = width } = keyStyle;
-    const points = getRectPoints(width, height) as [number, number][];
-    return { ...keyStyle, points };
-  }
-
-  protected getHaloStyle(attributes: ParsedRectStyleProps): KeyShapeStyleProps | false {
-    if (attributes.halo === false) return false;
-
-    const haloStyle = subStyleProps(this.getGraphicStyle(attributes), 'halo') as Partial<KeyShapeStyleProps>;
-    const keyStyle = this.getKeyStyle(attributes);
-    const lineWidth = Number(haloStyle.lineWidth);
-    const { width = 20, height = width } = attributes;
-    const points = getRectPoints(Number(width) + lineWidth / 2, Number(height) + lineWidth / 2);
-
+  protected getKeyStyle(attributes: ParsedRectStyleProps): KeyStyleProps {
+    const [width, height] = this.getSize(attributes);
     return {
-      ...keyStyle,
-      points,
-      ...haloStyle,
-    } as KeyShapeStyleProps;
+      ...(super.getKeyStyle(attributes) as KeyStyleProps),
+      width,
+      height,
+    };
   }
 
-  public getIntersectPoint(point: Point): Point {
-    const { points } = this.getKeyStyle(this.attributes as ParsedRectStyleProps);
-    const center = [this.attributes.x, this.attributes.y] as Point;
-    return getPolygonIntersectPoint(point, center, points);
+  protected getIconStyle(attributes: ParsedRectStyleProps): false | IconStyleProps {
+    const style = super.getIconStyle(attributes);
+    const { width, height } = this.getKeyStyle(attributes);
+
+    return style
+      ? ({
+          width: (width as number) * ICON_SIZE_RATIO,
+          height: (height as number) * ICON_SIZE_RATIO,
+          ...style,
+        } as IconStyleProps)
+      : false;
   }
 
-  protected drawKeyShape(attributes: ParsedRectStyleProps, container: Group): Polygon {
-    return this.upsert('key', Polygon, this.getKeyStyle(attributes), container) as Polygon;
+  protected drawKeyShape(attributes: ParsedRectStyleProps, container: Group): GRect | undefined {
+    return this.upsert('key', GRect, this.getKeyStyle(attributes), container);
   }
 }

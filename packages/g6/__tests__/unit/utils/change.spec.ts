@@ -1,4 +1,4 @@
-import { reduceDataChanges } from '../../../src/utils/change';
+import { reduceDataChanges } from '@/src/utils/change';
 
 describe('change', () => {
   it('reduceDataChanges', () => {

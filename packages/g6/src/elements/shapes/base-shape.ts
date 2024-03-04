@@ -1,20 +1,25 @@
-import type { DisplayObject, DisplayObjectConfig, Group, GroupStyleProps, IAnimation } from '@antv/g';
+import type { BaseStyleProps, DisplayObject, DisplayObjectConfig, Group, IAnimation } from '@antv/g';
 import { CustomElement } from '@antv/g';
 import { deepMix } from '@antv/util';
+import type { Keyframe } from '../../types';
 import { createAnimationsProxy, preprocessKeyframes } from '../../utils/animation';
+import { updateStyle } from '../../utils/element';
 
-export interface BaseShapeStyleProps extends GroupStyleProps {}
+export interface BaseShapeStyleProps extends BaseStyleProps {
+  x?: number | string;
+  y?: number | string;
+}
 
-export abstract class BaseShape<T extends BaseShapeStyleProps> extends CustomElement<T> {
-  constructor(options: DisplayObjectConfig<T>) {
+export abstract class BaseShape<StyleProps extends BaseShapeStyleProps> extends CustomElement<StyleProps> {
+  constructor(options: DisplayObjectConfig<StyleProps>) {
     super(options);
 
-    this.render(this.attributes as Required<T>, this);
+    this.render(this.attributes as Required<StyleProps>, this);
     this.bindEvents();
   }
 
   get parsedAttributes() {
-    return this.attributes as Required<T>;
+    return this.attributes as Required<StyleProps>;
   }
 
   /**
@@ -68,10 +73,7 @@ export abstract class BaseShape<T extends BaseShapeStyleProps> extends CustomEle
     }
 
     // update
-    // 如果图形实例存在 update 方法，则调用 update 方法，否则调用 attr 方法
-    // if shape instance has update method, call update method, otherwise call attr method
-    if ('update' in target) (target.update as (...args: unknown[]) => unknown)(style);
-    else target.attr(style);
+    updateStyle(target, style);
 
     return target as P;
   }
@@ -92,9 +94,9 @@ export abstract class BaseShape<T extends BaseShapeStyleProps> extends CustomEle
     return createAnimationsProxy(result, Object.values(this.animateMap));
   }
 
-  public update(attr: Partial<T> = {}): void {
+  public update(attr: Partial<StyleProps> = {}): void {
     this.attr(deepMix({}, this.attributes, attr));
-    return this.render(this.attributes as Required<T>, this);
+    return this.render(this.attributes as Required<StyleProps>, this);
   }
 
   /**
@@ -104,7 +106,7 @@ export abstract class BaseShape<T extends BaseShapeStyleProps> extends CustomEle
    * @param attributes
    * @param container
    */
-  public abstract render(attributes: Required<T>, container: Group): void;
+  public abstract render(attributes: Required<StyleProps>, container: Group): void;
 
   public bindEvents() {}
 
@@ -118,34 +120,45 @@ export abstract class BaseShape<T extends BaseShapeStyleProps> extends CustomEle
    */
   public getGraphicStyle<T extends Record<string, any>>(
     attributes: T,
-  ): Omit<T, 'x' | 'y' | 'transform' | 'transformOrigin' | 'className' | 'anchor'> {
-    const { x, y, className, transform, transformOrigin, anchor, ...style } = attributes;
+  ): Omit<T, 'x' | 'y' | 'transform' | 'transformOrigin' | 'className' | 'context'> {
+    const { x, y, className, transform, transformOrigin, context, ...style } = attributes;
     return style;
   }
 
-  public animate(
-    keyframes: PropertyIndexedKeyframes | Keyframe[],
-    options?: number | KeyframeAnimationOptions,
-  ): IAnimation {
+  public animate(keyframes: Keyframe[], options?: number | KeyframeAnimationOptions): IAnimation | null {
     this.animateMap = {};
-
     const result = super.animate(keyframes, options)!;
 
     if (Array.isArray(keyframes) && keyframes.length > 0) {
-      Object.entries(this.shapeMap).forEach(([key, shape]) => {
-        // 如果存在方法名为 `get${key}Style` 的方法，则使用该方法获取样式，并自动为该图形实例创建动画
-        // if there is a method named `get${key}Style`, use this method to get style and automatically create animation for the shape instance
-        const methodName = `get${key[0].toUpperCase()}${key.slice(1)}Style` as keyof this;
-        const method = this[methodName];
+      // 如果 keyframes 中仅存在 skippedAttrs 中的属性，则仅更新父元素属性（跳过子图形）
+      // if only skippedAttrs exist in keyframes, only update parent element attributes (skip child shapes)
+      const skippedAttrs = [
+        'anchor',
+        'transform',
+        'transformOrigin',
+        'x',
+        'y',
+        'z',
+        'zIndex',
+        // 'opacity',
+        // 'visibility',
+      ];
+      if (Object.keys(keyframes[0]).some((attr) => !skippedAttrs.includes(attr))) {
+        Object.entries(this.shapeMap).forEach(([key, shape]) => {
+          // 如果存在方法名为 `get${key}Style` 的方法，则使用该方法获取样式，并自动为该图形实例创建动画
+          // if there is a method named `get${key}Style`, use this method to get style and automatically create animation for the shape instance
+          const methodName = `get${key[0].toUpperCase()}${key.slice(1)}Style` as keyof this;
+          const method = this[methodName];
 
-        if (typeof method === 'function') {
-          const subKeyframes: Keyframe[] = keyframes.map((style) =>
-            method.call(this, { ...this.attributes, ...style }),
-          );
+          if (typeof method === 'function') {
+            const subKeyframes: Keyframe[] = keyframes.map((style) =>
+              method.call(this, { ...this.attributes, ...style }),
+            );
 
-          this.animateMap[key] = shape.animate(preprocessKeyframes(subKeyframes), options)!;
-        }
-      });
+            this.animateMap[key] = shape.animate(preprocessKeyframes(subKeyframes), options)!;
+          }
+        });
+      }
     } else {
       // TODO: support PropertyIndexedKeyframes
     }

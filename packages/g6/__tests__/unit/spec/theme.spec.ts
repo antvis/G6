@@ -1,4 +1,4 @@
-import type { ThemeOptions } from '../../../src';
+import type { ThemeOptions } from '@/src';
 
 describe('spec theme', () => {
   it('theme', () => {

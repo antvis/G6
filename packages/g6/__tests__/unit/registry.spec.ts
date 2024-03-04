@@ -1,15 +1,47 @@
-import { BUILT_IN_EDGES, BUILT_IN_NODES } from '../../src/elements';
-import { getPlugin, getPlugins, register, registerBuiltInPlugins } from '../../src/registry';
-import { BUILT_IN_THEMES } from '../../src/themes';
+import {
+  Circle,
+  CircleCombo,
+  Cubic,
+  CubicHorizontal,
+  CubicVertical,
+  Ellipse,
+  Image,
+  Line,
+  Polyline,
+  Quadratic,
+  Rect,
+  Star,
+  Triangle,
+} from '@/src/elements';
+import { getPlugin, getPlugins, register } from '@/src/registry';
+import { dark, light } from '@/src/themes';
+import { pick } from '@antv/util';
 
 describe('registry', () => {
   it('registerBuiltInPlugins', () => {
-    registerBuiltInPlugins();
-
-    expect(getPlugins('node')).toEqual(BUILT_IN_NODES);
-    expect(getPlugins('edge')).toEqual(BUILT_IN_EDGES);
-    expect(getPlugins('combo')).toEqual({});
-    expect(getPlugins('theme')).toEqual(BUILT_IN_THEMES);
+    expect(getPlugins('node')).toEqual({
+      circle: Circle,
+      ellipse: Ellipse,
+      image: Image,
+      rect: Rect,
+      star: Star,
+      triangle: Triangle,
+    });
+    expect(getPlugins('edge')).toEqual({
+      cubic: Cubic,
+      line: Line,
+      polyline: Polyline,
+      quadratic: Quadratic,
+      'cubic-horizontal': CubicHorizontal,
+      'cubic-vertical': CubicVertical,
+    });
+    expect(getPlugins('combo')).toEqual({
+      circle: CircleCombo,
+    });
+    expect(getPlugins('theme')).toEqual({
+      dark,
+      light,
+    });
   });
 
   it('register, getPlugin, getPlugins', () => {
@@ -18,18 +50,20 @@ describe('registry', () => {
     class Edge {}
     register('node', 'circle-node', CircleNode as any);
     register('node', 'rect-node', RectNode as any);
-    register('edge', 'line-edge', Edge);
+    register('edge', 'line-edge', Edge as any);
     expect(getPlugin('node', 'circle-node')).toEqual(CircleNode);
     expect(getPlugin('node', 'rect-node')).toEqual(RectNode);
     expect(getPlugin('node', 'diamond-node')).toEqual(undefined);
     expect(getPlugin('edge', 'line-edge')).toEqual(Edge);
 
-    expect(() => {
-      register('node', 'circle-node', CircleNode as any);
-    }).toThrow();
+    const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation();
 
-    expect(getPlugins('node')).toEqual({
-      ...BUILT_IN_NODES,
+    register('node', 'circle-node', CircleNode as any);
+    expect(consoleErrorSpy.mock.calls[0][0]).toBe('The plugin circle-node of node has been registered before.');
+
+    consoleErrorSpy.mockRestore();
+
+    expect(pick(getPlugins('node'), ['circle-node', 'rect-node'])).toEqual({
       'circle-node': CircleNode,
       'rect-node': RectNode,
     });

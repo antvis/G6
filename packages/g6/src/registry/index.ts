@@ -1,4 +1,4 @@
-import { BUILT_IN_PLUGINS } from './constants';
+import { BUILT_IN_PLUGINS } from './build-in';
 import type { PluginCategory, PluginRegistry } from './types';
 
 /**
@@ -38,7 +38,8 @@ const PLUGIN_REGISTRY: PluginRegistry = {
  */
 export function register<T extends PluginCategory>(category: T, type: string, Ctor: PluginRegistry[T][string]) {
   if (PLUGIN_REGISTRY[category]![type]) {
-    throw new Error(`The plugin ${type} of ${category} has been registered before.`);
+    console.error(`The plugin ${type} of ${category} has been registered before.`);
+    return;
   }
   Object.assign(PLUGIN_REGISTRY[category]!, { [type]: Ctor });
 }

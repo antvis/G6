@@ -21,14 +21,6 @@
       "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*Pz31S5UcA8AAAAAAAAAAAAAADmJ7AQ/original"
     },
     {
-      "filename": "mapView.js",
-      "title": {
-        "zh": "地图视图",
-        "en": "Map View"
-      },
-      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*uQ_4R60w8sgAAAAAAAAAAAAADmJ7AQ/original"
-    },
-    {
       "filename": "lodLevels.js",
       "title": {
         "zh": "信息分层",

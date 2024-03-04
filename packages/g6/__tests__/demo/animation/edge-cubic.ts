@@ -1,13 +1,14 @@
-import { Cubic } from '../../../src/elements/edges';
+import { Cubic } from '@/src/elements/edges';
+import { createEdgeNode } from '@@/utils';
 import type { AnimationTestCase } from '../types';
 
 export const edgeCubic: AnimationTestCase = async (context) => {
-  const { canvas } = context;
+  const { container } = context;
 
   const cubic = new Cubic({
     style: {
-      sourcePoint: [100, 50],
-      targetPoint: [300, 50],
+      sourceNode: createEdgeNode([100, 50]),
+      targetNode: createEdgeNode([300, 50]),
       lineWidth: 2,
       stroke: '#1890FF',
       labelText: 'cubic-edge',
@@ -16,12 +17,12 @@ export const edgeCubic: AnimationTestCase = async (context) => {
     },
   });
 
-  canvas.appendChild(cubic);
+  container.appendChild(cubic);
 
   const result = cubic.animate(
     [
-      { sourcePoint: [100, 150], targetPoint: [300, 200], lineWidth: 2, curveOffset: 30 },
-      { sourcePoint: [100, 150], targetPoint: [450, 350], lineWidth: 8, curveOffset: 60 },
+      { sourceNode: createEdgeNode([100, 150]), targetNode: createEdgeNode([300, 200]), curveOffset: 30 },
+      { sourceNode: createEdgeNode([100, 150]), targetNode: createEdgeNode([450, 350]), curveOffset: 60 },
     ],
     { duration: 1000, fill: 'both' },
   );

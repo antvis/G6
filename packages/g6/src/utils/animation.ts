@@ -1,23 +1,37 @@
 import type { DisplayObject, IAnimation } from '@antv/g';
-import { isNil } from '@antv/util';
+import { isEqual, isNil, isObject } from '@antv/util';
+import { DEFAULT_ANIMATION_OPTIONS } from '../constants';
+import type { G6Spec } from '../spec';
+import type { AnimatableTask, Keyframe } from '../types';
+import { isNode } from './element';
 import { getDescendantShapes } from './shape';
 
+export function createAnimationsProxy(animations: IAnimation[]): IAnimation | null;
+export function createAnimationsProxy(sourceAnimation: IAnimation, targetAnimations: IAnimation[]): IAnimation;
 /**
  * <zh/> 创建动画代理，对一个动画实例的操作同步到多个动画实例上
  *
  * <en/> create animation proxy, synchronize animation to multiple animation instances
- * @param sourceAnimation - <zh/> 源动画实例 | <en/> source animation instance
- * @param targetAnimations - <zh/> 目标动画实例 | <en/> target animation instance
+ * @param args1 - <zh/> 源动画实例 | <en/> source animation instance
+ * @param args2 - <zh/> 目标动画实例 | <en/> target animation instance
  * @returns <zh/> 动画代理 | <en/> animation proxy
  */
-export function createAnimationsProxy(sourceAnimation: IAnimation, targetAnimations: IAnimation[]): IAnimation {
+export function createAnimationsProxy(args1: IAnimation | IAnimation[], args2?: IAnimation[]): IAnimation | null {
+  if (Array.isArray(args1) && args1.length === 0) return null;
+
+  const sourceAnimation = Array.isArray(args1) ? args1[0] : args1;
+  const targetAnimations = Array.isArray(args1) ? args1.slice(1) : args2 || [];
+
   return new Proxy(sourceAnimation, {
     get(target, propKey: keyof IAnimation) {
-      if (typeof target[propKey] === 'function') {
+      if (typeof target[propKey] === 'function' && !['onframe', 'onfinish'].includes(propKey)) {
         return (...args: unknown[]) => {
           (target[propKey] as any)(...args);
           targetAnimations.forEach((animation) => (animation[propKey] as any)?.(...args));
         };
+      }
+      if (propKey === 'finished') {
+        return Promise.all([sourceAnimation.finished, ...targetAnimations.map((animation) => animation.finished)]);
       }
       return Reflect.get(target, propKey);
     },
@@ -44,16 +58,13 @@ export function createAnimationsProxy(sourceAnimation: IAnimation, targetAnimati
 export function preprocessKeyframes(keyframes: Keyframe[]): Keyframe[] {
   // 转化为 PropertyIndexedKeyframes 格式方便后续处理
   // convert to PropertyIndexedKeyframes format for subsequent processing
-  const propertyIndexedKeyframes = keyframes.reduce(
-    (acc, kf) => {
-      Object.entries(kf).forEach(([key, value]) => {
-        if (acc[key] === undefined) acc[key] = [value];
-        else acc[key].push(value);
-      });
-      return acc;
-    },
-    {} as Record<string, any[]>,
-  );
+  const propertyIndexedKeyframes: Record<string, any[]> = keyframes.reduce((acc, kf) => {
+    Object.entries(kf).forEach(([key, value]) => {
+      if (acc[key] === undefined) acc[key] = [value];
+      else acc[key].push(value);
+    });
+    return acc;
+  }, {});
 
   // 过滤掉无用动画的属性（属性值为 undefined、或者值完全一致）
   // filter out useless animation properties (property value is undefined, or value is exactly the same)
@@ -64,7 +75,8 @@ export function preprocessKeyframes(keyframes: Keyframe[]): Keyframe[] {
       // 属性值不能为空 / property value cannot be empty
       values.some((value) => isNil(value)) ||
       // 属性值必须不完全一致 / property value must not be exactly the same
-      values.every((value) => value === values[0])
+      // 属性值可以是同一节点 / property value can be the same node
+      values.every((value) => !isNode(value) && isEqual(value, values[0]))
     ) {
       delete propertyIndexedKeyframes[key];
     }
@@ -99,6 +111,7 @@ export function executeAnimation<T extends DisplayObject>(
   keyframes: Keyframe[],
   options: KeyframeAnimationOptions,
 ) {
+  if (keyframes.length === 0) return null;
   const inheritedAttrs = ['opacity'];
 
   const needInheritAnimation = keyframes.some((keyframe) =>
@@ -138,7 +151,86 @@ export function inferDefaultValue(name: string) {
   switch (name) {
     case 'opacity':
       return 1;
+    case 'x':
+    case 'y':
+    case 'z':
+    case 'zIndex':
+      return 0;
     default:
       return undefined;
   }
+}
+
+type Callbacks = {
+  before?: () => void;
+  beforeAnimate?: (result: IAnimation) => void;
+  afterAnimate?: (result: IAnimation) => void;
+  after?: () => void;
+};
+
+/**
+ * <zh/> 执行动画前后的回调
+ *
+ * <en/> Callback before and after animation execution
+ * @param animation - <zh/> 动画对象 | <en/> animation object
+ * @param callbacks - <zh/> 回调函数 | <en/> callback function
+ * @returns <zh/> 动画对象 | <en/> animation object
+ */
+export function withAnimationCallbacks(animation: IAnimation | null, callbacks: Callbacks) {
+  callbacks.before?.();
+  if (animation) {
+    callbacks.beforeAnimate?.(animation);
+    animation.finished.then(() => {
+      callbacks.afterAnimate?.(animation);
+      callbacks.after?.();
+    });
+  } else {
+    callbacks.after?.();
+  }
+  return animation;
+}
+
+/**
+ * <zh/> 执行动画任务
+ *
+ * <en/> Execute animation tasks
+ * @param tasks - <zh/> 动画任务 | <en/> animation task
+ * @param callbacks - <zh/> 回调函数 | <en/> callback function
+ * @returns <zh/> 动画对象 | <en/> animation object
+ */
+export function executeAnimatableTasks(tasks: AnimatableTask[], callbacks: Callbacks = {}) {
+  if (tasks.length === 0) return null;
+  const { before, ...restCallbacks } = callbacks;
+  callbacks.before?.();
+  const animateTasks = tasks.map((task) => task());
+
+  const animation = createAnimationsProxy(
+    animateTasks
+      .map((task) => task())
+      .flat()
+      .filter(Boolean) as IAnimation[],
+  );
+  withAnimationCallbacks(animation, restCallbacks);
+  return animation;
+}
+
+/**
+ * <zh/> 获取动画配置
+ *
+ * <en/> Get global animation configuration
+ * @param options - <zh/> G6 配置项（用于获取全局动画配置） | <en/> G6 configuration(used to get global animation configuration)
+ * @param localAnimation - <zh/> 局部动画配置 | <en/> local animation configuration
+ * @returns <zh/> 动画配置 | <en/> animation configuration
+ */
+export function getAnimation(
+  options: G6Spec,
+  localAnimation: boolean | EffectTiming | undefined,
+): false | EffectTiming {
+  const { animation } = options;
+  if (!animation || localAnimation === false) return false;
+
+  const finalAnimation: EffectTiming = { ...DEFAULT_ANIMATION_OPTIONS };
+  if (isObject(animation)) Object.assign(finalAnimation, animation);
+  if (isObject(localAnimation)) Object.assign(finalAnimation, localAnimation);
+  return finalAnimation;
 }

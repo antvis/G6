@@ -10,7 +10,7 @@
   <g id="g-svg-camera" transform="matrix(1,0,0,1,0,0)">
     <g id="g-root" fill="none" transform="matrix(1,0,0,1,0,0)">
       <g
-        id="g-svg-5"
+        id="g-svg-9"
         fill="none"
         marker-start="false"
         marker-end="true"
@@ -20,18 +20,18 @@
           <path
             id="key"
             fill="none"
-            d="M 0,0 Q 160.11583184929498 73.95270573626621,350 200 L 344.1679740805316,196.1286341331968"
+            d="M 0,0 Q 160.11583184929498 73.95270573626621,350 200 L 345.00112064045567,196.68168639988298"
+            stroke-width="2"
             stroke="rgba(24,144,255,1)"
-            stroke-width="10"
           />
-          <g transform="matrix(-0.833147,-0.553052,0.553052,-0.833147,344.167969,196.128632)">
+          <g transform="matrix(-0.833147,-0.553052,0.553052,-0.833147,345.001129,196.681686)">
             <path
-              id="g-svg-8"
+              id="g-svg-12"
               fill="rgba(24,144,255,1)"
               d="M 0,5 L 10,0 L 10,10 Z"
               transform="translate(-5,-5)"
+              stroke-width="1"
               stroke="rgba(24,144,255,1)"
-              stroke-width="2"
               width="10"
               height="10"
               stroke-dasharray="0,0"
@@ -43,15 +43,15 @@
           fill="none"
           transform="matrix(0.999550,0.029986,-0.029986,0.999550,203.998199,35.119946)"
         >
-          <g transform="matrix(1,0,0,1,-49.449379,-16.213146)">
+          <g transform="matrix(1,0,0,1,-44.759998,-11.500000)">
             <path
               id="background"
               fill="none"
-              d="M 0,0 l 168.7366930842178,0 l 0,32.42628857535926 l-168.7366930842178 0 z"
+              d="M 0,0 l 90.51999999999998,0 l 0,23 l-90.51999999999998 0 z"
               opacity="0.75"
               stroke-width="0"
-              width="168.7366930842178"
-              height="32.42628857535926"
+              width="90.51999999999998"
+              height="23"
             />
           </g>
           <g transform="matrix(1,0,0,1,0,0)">

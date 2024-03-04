@@ -1,4 +1,4 @@
-import type { BehaviorOptions } from '../../../src';
+import type { BehaviorOptions } from '@/src';
 
 describe('spec behavior', () => {
   it('behavior', () => {

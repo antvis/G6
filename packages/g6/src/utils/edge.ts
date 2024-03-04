@@ -1,20 +1,12 @@
-import type { Circle as GCircle } from '@antv/g';
+import type { AABB, Circle as GCircle } from '@antv/g';
 import type { PathArray } from '@antv/util';
 import { isEqual, isNumber } from '@antv/util';
 import type { EdgeKey, EdgeLabelPosition, EdgeLabelStyleProps, LoopEdgePosition, Node, Point, Vector2 } from '../types';
-import { getBBoxHeight, getBBoxWidth } from './bbox';
-import { getEllipseIntersectPoint, isCollinear, isHorizontal, parsePoint } from './point';
-import {
-  add,
-  distance,
-  manhattanDistance,
-  multiply,
-  normalize,
-  perpendicular,
-  scale,
-  subtract,
-  toVector3,
-} from './vector';
+import { getBBoxHeight, getBBoxWidth, getNearestSideToPoint, getNodeBBox } from './bbox';
+import { getNodeConnectionPoint, getPortConnectionPoint } from './element';
+import { isCollinear, isHorizontal, moveTo, parsePoint } from './point';
+import { freeJoin } from './router/orth';
+import { add, distance, manhattanDistance, multiply, normalize, perpendicular, subtract } from './vector';
 
 /**
  * <zh/> 获取标签的位置样式
@@ -96,46 +88,19 @@ function getXYByPosition(key: EdgeKey, ratio: number, offsetX: number, offsetY: 
   return [pointX + actualOffsetX, pointY + actualOffsetY];
 }
 
-/** ==================== Quadratic Edge =========================== */
-
-/**
- * <zh/> 获取二次贝塞尔曲线绘制路径
- *
- * <en/> Calculate the path for drawing a quadratic Bessel curve
- * @param sourcePoint - <zh/> 边的起点 | <en/> Source point
- * @param targetPoint - <zh/> 边的终点 | <en/> Target point
- * @param curvePosition - <zh/> 控制点在连线上的相对位置（取值范围为 0-1） | <en/> The relative position of the control point on the line (value range from 0 to 1)
- * @param curveOffset - <zh/> 控制点距离两端点连线的距离 | <en/> The distance between the control point and the line
- * @param controlPoint - <zh/> 控制点 | <en/> Control point
- * @returns <zh/> 返回绘制曲线的路径 | <en/> Returns curve path
- */
-export function getQuadraticPath(
-  sourcePoint: Point,
-  targetPoint: Point,
-  curvePosition: number,
-  curveOffset: number,
-  controlPoint?: Point,
-): PathArray {
-  const actualControlPoint =
-    controlPoint || calculateControlPoint(sourcePoint, targetPoint, curvePosition, curveOffset);
-
-  return [
-    ['M', sourcePoint[0], sourcePoint[1]],
-    ['Q', actualControlPoint[0], actualControlPoint[1], targetPoint[0], targetPoint[1]],
-  ];
-}
+/** ==================== Curve Edge =========================== */
 
 /**
  * <zh/> 计算曲线的控制点
  *
- * <en/> Calculate the control point of Quadratic Bessel curve
+ * <en/> Calculate the control point of the curve
  * @param sourcePoint - <zh/> 起点 | <en/> Source point
  * @param targetPoint - <zh/> 终点 | <en/> Target point
  * @param curvePosition - <zh/> 控制点在连线上的相对位置（取值范围为 0-1） | <en/> The relative position of the control point on the line (value range from 0 to 1)
  * @param curveOffset - <zh/> 控制点距离两端点连线的距离 | <en/> The distance between the control point and the line
  * @returns <zh/> 控制点 | <en/> Control points
  */
-export function calculateControlPoint(
+export function getCurveControlPoint(
   sourcePoint: Point,
   targetPoint: Point,
   curvePosition: number,
@@ -151,8 +116,6 @@ export function calculateControlPoint(
   controlPoint[1] += curveOffset * perpVector[1];
   return controlPoint;
 }
-
-/** ==================== Cubic Edge =========================== */
 
 /**
  * <zh/> 解析控制点距离两端点连线的距离 `curveOffset`
@@ -176,6 +139,22 @@ export function parseCurveOffset(curveOffset: number | [number, number]): [numbe
 export function parseCurvePosition(curvePosition: number | [number, number]): [number, number] {
   if (isNumber(curvePosition)) return [curvePosition, 1 - curvePosition];
   return curvePosition;
+}
+
+/**
+ * <zh/> 获取二次贝塞尔曲线绘制路径
+ *
+ * <en/> Calculate the path for drawing a quadratic Bessel curve
+ * @param sourcePoint - <zh/> 边的起点 | <en/> Source point
+ * @param targetPoint - <zh/> 边的终点 | <en/> Target point
+ * @param controlPoint - <zh/> 控制点 | <en/> Control point
+ * @returns <zh/> 返回绘制曲线的路径 | <en/> Returns curve path
+ */
+export function getQuadraticPath(sourcePoint: Point, targetPoint: Point, controlPoint: Point): PathArray {
+  return [
+    ['M', sourcePoint[0], sourcePoint[1]],
+    ['Q', controlPoint[0], controlPoint[1], targetPoint[0], targetPoint[1]],
+  ];
 }
 
 /**
@@ -208,18 +187,15 @@ export function getCubicPath(sourcePoint: Point, targetPoint: Point, controlPoin
  * <zh/> 获取折线的绘制路径
  *
  * <en/> Calculates the path for drawing a polyline
- * @param sourcePoint - <zh/> 边的起点 | <en/> Source point
- * @param targetPoint - <zh/> 边的终点 | <en/> Target point
- * @param controlPoints - <zh/> 控制点 | <en/> Control point
+ * @param points - <zh/> 折线的顶点 | <en/> The vertices of the polyline
  * @param radius - <zh/> 圆角半径 | <en/> Radius of the rounded corner
+ * @param z - <zh/> 路径是否闭合 | <en/> Whether the path is closed
  * @returns <zh/> 返回绘制折线的路径 | <en/> Returns the path for drawing a polyline
  */
-export function getPolylinePath(
-  sourcePoint: Point,
-  targetPoint: Point,
-  controlPoints: Point[],
-  radius: number,
-): PathArray {
+export function getPolylinePath(points: Point[], radius = 0, z = false): PathArray {
+  const sourcePoint = points[0];
+  const targetPoint = points[points.length - 1];
+  const controlPoints = points.slice(1, points.length - 1);
   const pathArray: PathArray = [['M', sourcePoint[0], sourcePoint[1]]];
   controlPoints.forEach((midPoint, i) => {
     const prevPoint = controlPoints[i - 1] || sourcePoint;
@@ -232,6 +208,7 @@ export function getPolylinePath(
     }
   });
   pathArray.push(['L', targetPoint[0], targetPoint[1]]);
+  if (z) pathArray.push(['Z']);
   return pathArray;
 }
 
@@ -263,21 +240,26 @@ function getBorderRadiusPoints(prevPoint: Point, midPoint: Point, nextPoint: Poi
 
 /** ==================== Loop Edge =========================== */
 
-const EIGHTH_PI = Math.PI / 8;
-
-const radians: Record<LoopEdgePosition, [number, number]> = {
-  top: [-5 * EIGHTH_PI, -3 * EIGHTH_PI],
-  'top-right': [-3 * EIGHTH_PI, -EIGHTH_PI],
-  'right-top': [-3 * EIGHTH_PI, -EIGHTH_PI],
-  right: [-EIGHTH_PI, EIGHTH_PI],
-  'bottom-right': [EIGHTH_PI, 3 * EIGHTH_PI],
-  'right-bottom': [EIGHTH_PI, 3 * EIGHTH_PI],
-  bottom: [3 * EIGHTH_PI, 5 * EIGHTH_PI],
-  'bottom-left': [5 * EIGHTH_PI, 7 * EIGHTH_PI],
-  'left-bottom': [5 * EIGHTH_PI, 7 * EIGHTH_PI],
-  left: [7 * EIGHTH_PI, 9 * EIGHTH_PI],
-  'top-left': [-7 * EIGHTH_PI, -5 * EIGHTH_PI],
-  'left-top': [-7 * EIGHTH_PI, -5 * EIGHTH_PI],
+export const getRadians = (bbox: AABB): Record<LoopEdgePosition, [number, number]> => {
+  const halfPI = Math.PI / 2;
+  const halfHeight = getBBoxHeight(bbox) / 2;
+  const halfWidth = getBBoxWidth(bbox) / 2;
+  const angleWithX = Math.atan2(halfHeight, halfWidth) / 2;
+  const angleWithY = Math.atan2(halfWidth, halfHeight) / 2;
+  return {
+    top: [-halfPI - angleWithY, -halfPI + angleWithY],
+    'top-right': [-halfPI + angleWithY, -angleWithX],
+    'right-top': [-halfPI + angleWithY, -angleWithX],
+    right: [-angleWithX, angleWithX],
+    'bottom-right': [angleWithX, halfPI - angleWithY],
+    'right-bottom': [angleWithX, halfPI - angleWithY],
+    bottom: [halfPI - angleWithY, halfPI + angleWithY],
+    'bottom-left': [halfPI + angleWithY, Math.PI - angleWithX],
+    'left-bottom': [halfPI + angleWithY, Math.PI - angleWithX],
+    left: [Math.PI - angleWithX, Math.PI + angleWithX],
+    'top-left': [Math.PI + angleWithX, -halfPI - angleWithY],
+    'left-top': [Math.PI + angleWithX, -halfPI - angleWithY],
+  };
 };
 
 /**
@@ -287,8 +269,8 @@ const radians: Record<LoopEdgePosition, [number, number]> = {
  * @param node - <zh/> 节点实例 | <en/> Node instance
  * @param position - <zh/> 环形边的位置 | <en/> The position of the loop edge
  * @param clockwise - <zh/> 是否顺时针 | <en/> Whether to draw the loop clockwise
- * @param sourceAnchor - <zh/> 起点锚点 | <en/> Source anchor
- * @param targetAnchor - <zh/> 终点锚点 | <en/> Target anchor
+ * @param sourcePort - <zh/> 起点连接桩 | <en/> Source port
+ * @param targetPort - <zh/> 终点连接桩 | <en/> Target port
  * @param rawSourcePoint - <zh/> 起点 | <en/> Source point
  * @param rawTargetPoint - <zh/> 终点 | <en/> Target point
  * @returns <zh/> 起点和终点 | <en/> Start and end points
@@ -297,26 +279,27 @@ export function getLoopEndpoints(
   node: Node,
   position: LoopEdgePosition,
   clockwise: boolean,
-  sourceAnchor?: GCircle,
-  targetAnchor?: GCircle,
+  sourcePort?: GCircle,
+  targetPort?: GCircle,
   rawSourcePoint?: Point,
   rawTargetPoint?: Point,
 ): [Point, Point] {
-  const bbox = node.getKey().getBounds();
+  const bbox = getNodeBBox(node);
   const center = node.getCenter();
 
-  let sourcePoint = rawSourcePoint || sourceAnchor?.getPosition();
-  let targetPoint = rawTargetPoint || targetAnchor?.getPosition();
+  let sourcePoint = rawSourcePoint || sourcePort?.getPosition();
+  let targetPoint = rawTargetPoint || targetPort?.getPosition();
 
   if (!sourcePoint || !targetPoint) {
+    const radians = getRadians(bbox);
     const angle1 = radians[position][0];
     const angle2 = radians[position][1];
     const r = Math.max(getBBoxWidth(bbox), getBBoxHeight(bbox));
     const point1: Point = add(center, [r * Math.cos(angle1), r * Math.sin(angle1), 0]);
     const point2: Point = add(center, [r * Math.cos(angle2), r * Math.sin(angle2), 0]);
 
-    sourcePoint = node.getIntersectPoint(point1);
-    targetPoint = node.getIntersectPoint(point2);
+    sourcePoint = getNodeConnectionPoint(node, point1);
+    targetPoint = getNodeConnectionPoint(node, point2);
 
     if (!clockwise) {
       [sourcePoint, targetPoint] = [targetPoint, sourcePoint];
@@ -324,6 +307,54 @@ export function getLoopEndpoints(
   }
 
   return [sourcePoint, targetPoint];
+}
+
+/**
+ * <zh/> 获取环形边的绘制路径
+ *
+ * <en/> Get the path of the loop edge
+ * @param node - <zh/> 节点实例 | <en/> Node instance
+ * @param position - <zh/> 环形边的位置 | <en/> The position of the loop edge
+ * @param clockwise - <zh/> 是否顺时针 | <en/> Whether to draw the loop clockwise
+ * @param dist - <zh/> 从节点 keyShape 边缘到自环顶部的距离 | <en/> The distance from the edge of the node keyShape to the top of the self-loop
+ * @param sourcePortKey - <zh/> 起点连接桩 key | <en/> Source port key
+ * @param targetPortKey - <zh/> 终点连接桩 key | <en/> Target port key
+ * @param rawSourcePoint - <zh/> 起点 | <en/> Source point
+ * @param rawTargetPoint - <zh/> 终点 | <en/> Target point
+ * @returns <zh/> 返回绘制环形边的路径 | <en/> Returns the path of the loop edge
+ */
+export function getCubicLoopPath(
+  node: Node,
+  position: LoopEdgePosition,
+  clockwise: boolean,
+  dist: number,
+  sourcePortKey?: string,
+  targetPortKey?: string,
+  rawSourcePoint?: Point,
+  rawTargetPoint?: Point,
+) {
+  const sourcePort = node.getPorts()[(sourcePortKey || targetPortKey)!];
+  const targetPort = node.getPorts()[(targetPortKey || sourcePortKey)!];
+
+  // 1. 获取起点和终点 | Get the start and end points
+  let [sourcePoint, targetPoint] = getLoopEndpoints(
+    node,
+    position,
+    clockwise,
+    sourcePort,
+    targetPort,
+    rawSourcePoint,
+    rawTargetPoint,
+  );
+
+  // 2. 获取控制点 | Get the control points
+  const controlPoints = getCubicLoopControlPoints(node, sourcePoint, targetPoint, dist);
+
+  // 3. 如果定义了连接桩，调整端点以与连接桩边界相交 | If the port is defined, adjust the endpoint to intersect with the port boundary
+  if (sourcePort) sourcePoint = getPortConnectionPoint(sourcePort, controlPoints[0]);
+  if (targetPort) targetPoint = getPortConnectionPoint(targetPort, controlPoints[controlPoints.length - 1]);
+
+  return getCubicPath(sourcePoint, targetPoint, controlPoints);
 }
 
 /**
@@ -336,114 +367,164 @@ export function getLoopEndpoints(
  * @param dist - <zh/> 从节点 keyShape 边缘到自环顶部的距离 | <en/> The distance from the edge of the node keyShape to the top of the self-loop
  * @returns <zh/> 控制点 | <en/> Control points
  */
-export function getLoopControlPoints(
+export function getCubicLoopControlPoints(
   node: Node,
   sourcePoint: Point,
   targetPoint: Point,
-  dist?: number,
+  dist: number,
 ): [Point, Point] {
-  const bbox = node.getKey().getBounds();
   const center = node.getCenter();
-  const offset = dist || Math.max(getBBoxWidth(bbox), getBBoxHeight(bbox));
-
-  const extendVector = (from: Point, to: Point, s: number) => {
-    to = toVector3(to);
-    const v = subtract(to, from);
-    const st = 1 + s / distance(to, from);
-    return add(from, scale(v, st));
-  };
 
   if (isEqual(sourcePoint, targetPoint)) {
     const direction = subtract(sourcePoint, center);
     const adjustment: Point = [
-      offset * Math.sign(direction[0]) || offset / 2,
-      offset * Math.sign(direction[1]) || -offset / 2,
+      dist * Math.sign(direction[0]) || dist / 2,
+      dist * Math.sign(direction[1]) || -dist / 2,
       0,
     ];
     return [add(sourcePoint, adjustment), add(targetPoint, multiply(adjustment, [1, -1, 1]))];
   }
 
-  return [extendVector(center, sourcePoint, offset), extendVector(center, targetPoint, offset)];
+  return [
+    moveTo(center, sourcePoint, distance(center, sourcePoint) + dist),
+    moveTo(center, targetPoint, distance(center, targetPoint) + dist),
+  ];
 }
 
 /**
- * <zh/> 若存在起点或终点的锚点，则调整起点或终点位置
+ * <zh/> 获取环形折线边的绘制路径
  *
- * <en/> Adjust the start or end point position if there is an anchor point
- * @param sourcePoint - <zh/> 起点 | <en/> Source point
- * @param targetPoint - <zh/> 终点 | <en/> Target point
- * @param controlPoints - <zh/> 控制点 | <en/> Control point
- * @param sourceAnchor - <zh/> 起点锚点 | <en/> Source anchor
- * @param targetAnchor - <zh/> 终点锚点 | <en/> Target anchor
- * @returns <zh/> 调整后的起点和终点 | <en/> Adjusted start and end points
- */
-export function adjustLoopEndpointsIfNeed(
-  sourcePoint: Point,
-  targetPoint: Point,
-  controlPoints: [Point, Point],
-  sourceAnchor?: GCircle,
-  targetAnchor?: GCircle,
-) {
-  if (sourceAnchor) {
-    sourcePoint = getEllipseIntersectPoint(controlPoints[0], sourceAnchor.getBounds());
-  }
-
-  if (targetAnchor) {
-    targetPoint = getEllipseIntersectPoint(controlPoints[1], targetAnchor.getBounds());
-  }
-  return [sourcePoint, targetPoint];
-}
-
-/**
- * <zh/> 获取自环边的起点、终点和控制点
- *
- * <en/> Get the start, end, and control points of the self-loop edge
+ * <en/> Get the path of the loop polyline edge
  * @param node - <zh/> 节点实例 | <en/> Node instance
- * @param sourceAnchorKey - <zh/> 起点锚点 key | <en/> Source anchor key
- * @param targetAnchorKey - <zh/> 终点锚点 key | <en/> Target anchor key
- * @param rawSourcePoint - <zh/> 起点 | <en/> Source point
- * @param rawTargetPoint - <zh/> 终点 | <en/> Target point
+ * @param radius - <zh/> 圆角半径 | <en/> Radius of the rounded corner
  * @param position - <zh/> 环形边的位置 | <en/> The position of the loop edge
  * @param clockwise - <zh/> 是否顺时针 | <en/> Whether to draw the loop clockwise
  * @param dist - <zh/> 从节点 keyShape 边缘到自环顶部的距离 | <en/> The distance from the edge of the node keyShape to the top of the self-loop
- * @returns <zh/> 起点、终点和控制点 | <en/> Start, end, and control points
+ * @param sourcePortKey - <zh/> 起点连接桩 key | <en/> Source port key
+ * @param targetPortKey - <zh/> 终点连接桩 key | <en/> Target port key
+ * @param rawSourcePoint - <zh/> 起点 | <en/> Source point
+ * @param rawTargetPoint - <zh/> 终点 | <en/> Target point
+ * @returns <zh/> 返回绘制环形折线边的路径 | <en/> Returns the path of the loop polyline edge
  */
-export function getLoopPoints(
+export function getPolylineLoopPath(
   node: Node,
-  sourceAnchorKey: string,
-  targetAnchorKey: string,
-  rawSourcePoint: Point,
-  rawTargetPoint: Point,
+  radius: number,
   position: LoopEdgePosition,
   clockwise: boolean,
-  dist?: number,
-): {
-  sourcePoint: Point;
-  targetPoint: Point;
-  controlPoints: [Point, Point];
-} {
-  const sourceAnchor = node.getAnchors()[sourceAnchorKey || targetAnchorKey];
-  const targetAnchor = node.getAnchors()[targetAnchorKey || sourceAnchorKey];
+  dist: number,
+  sourcePortKey?: string,
+  targetPortKey?: string,
+  rawSourcePoint?: Point,
+  rawTargetPoint?: Point,
+) {
+  const sourcePort = node.getPorts()[(sourcePortKey || targetPortKey)!];
+  const targetPort = node.getPorts()[(targetPortKey || sourcePortKey)!];
 
+  // 1. 获取起点和终点 | Get the start and end points
   let [sourcePoint, targetPoint] = getLoopEndpoints(
     node,
     position,
     clockwise,
-    sourceAnchor,
-    targetAnchor,
+    sourcePort,
+    targetPort,
     rawSourcePoint,
     rawTargetPoint,
   );
 
-  const controlPoints = getLoopControlPoints(node, sourcePoint, targetPoint, dist);
+  // 2. 获取控制点 | Get the control points
+  const controlPoints = getPolylineLoopControlPoints(node, sourcePoint, targetPoint, dist);
 
-  [sourcePoint, targetPoint] = adjustLoopEndpointsIfNeed(
-    sourcePoint,
-    targetPoint,
-    controlPoints,
-    sourceAnchor,
-    targetAnchor,
-  );
+  // 3. 如果定义了连接桩，调整端点以与连接桩边界相交 | If the port is defined, adjust the endpoint to intersect with the port boundary
+  if (sourcePort) sourcePoint = getPortConnectionPoint(sourcePort, controlPoints[0]);
+  if (targetPort) targetPoint = getPortConnectionPoint(targetPort, controlPoints[controlPoints.length - 1]);
 
-  return { sourcePoint, targetPoint, controlPoints };
+  return getPolylinePath([sourcePoint, ...controlPoints, targetPoint], radius);
+}
+
+/**
+ * <zh/> 获取环形折线边的控制点
+ *
+ * <en/> Get the control points of the loop polyline edge
+ * @param node - <zh/> 节点实例 | <en/> Node instance
+ * @param sourcePoint - <zh/> 起点 | <en/> Source point
+ * @param targetPoint - <zh/> 终点 | <en/> Target point
+ * @param dist - <zh/> 从节点 keyShape 边缘到自环顶部的距离 | <en/> The distance from the edge of the node keyShape to the top of the self-loop
+ * @returns <zh/> 控制点 | <en/> Control points
+ */
+export function getPolylineLoopControlPoints(node: Node, sourcePoint: Point, targetPoint: Point, dist: number) {
+  const controlPoints: Point[] = [];
+  const bbox = getNodeBBox(node);
+
+  // 1. 起点和终点相同 | The start and end points are the same
+  if (isEqual(sourcePoint, targetPoint)) {
+    const side = getNearestSideToPoint(bbox, sourcePoint);
+    switch (side) {
+      case 'left':
+        controlPoints.push([sourcePoint[0] - dist, sourcePoint[1]]);
+        controlPoints.push([sourcePoint[0] - dist, sourcePoint[1] + dist]);
+        controlPoints.push([sourcePoint[0], sourcePoint[1] + dist]);
+        break;
+      case 'right':
+        controlPoints.push([sourcePoint[0] + dist, sourcePoint[1]]);
+        controlPoints.push([sourcePoint[0] + dist, sourcePoint[1] + dist]);
+        controlPoints.push([sourcePoint[0], sourcePoint[1] + dist]);
+        break;
+      case 'top':
+        controlPoints.push([sourcePoint[0], sourcePoint[1] - dist]);
+        controlPoints.push([sourcePoint[0] + dist, sourcePoint[1] - dist]);
+        controlPoints.push([sourcePoint[0] + dist, sourcePoint[1]]);
+        break;
+      case 'bottom':
+        controlPoints.push([sourcePoint[0], sourcePoint[1] + dist]);
+        controlPoints.push([sourcePoint[0] + dist, sourcePoint[1] + dist]);
+        controlPoints.push([sourcePoint[0] + dist, sourcePoint[1]]);
+        break;
+    }
+  } else {
+    const sourceSide = getNearestSideToPoint(bbox, sourcePoint);
+    const targetSide = getNearestSideToPoint(bbox, targetPoint);
+    // 2. 起点与终点同边 | The start and end points are on the same side
+    if (sourceSide === targetSide) {
+      const side = sourceSide;
+      let x, y;
+      switch (side) {
+        case 'left':
+          x = Math.min(sourcePoint[0], targetPoint[0]) - dist;
+          controlPoints.push([x, sourcePoint[1]]);
+          controlPoints.push([x, targetPoint[1]]);
+          break;
+        case 'right':
+          x = Math.max(sourcePoint[0], targetPoint[0]) + dist;
+          controlPoints.push([x, sourcePoint[1]]);
+          controlPoints.push([x, targetPoint[1]]);
+          break;
+        case 'top':
+          y = Math.min(sourcePoint[1], targetPoint[1]) - dist;
+          controlPoints.push([sourcePoint[0], y]);
+          controlPoints.push([targetPoint[0], y]);
+          break;
+        case 'bottom':
+          y = Math.max(sourcePoint[1], targetPoint[1]) + dist;
+          controlPoints.push([sourcePoint[0], y]);
+          controlPoints.push([targetPoint[0], y]);
+          break;
+      }
+    } else {
+      // 3. 起点与终点不同边 | The start and end points are on different sides
+      const getPointOffSide = (side: 'left' | 'right' | 'top' | 'bottom', point: Point): Point => {
+        return {
+          left: [point[0] - dist, point[1]],
+          right: [point[0] + dist, point[1]],
+          top: [point[0], point[1] - dist],
+          bottom: [point[0], point[1] + dist],
+        }[side] as Point;
+      };
+      const p1 = getPointOffSide(sourceSide, sourcePoint);
+      const p2 = getPointOffSide(targetSide, targetPoint);
+      const p3 = freeJoin(p1, p2, bbox);
+      controlPoints.push(p1, p3, p2);
+    }
+  }
+
+  return controlPoints;
 }

@@ -1,9 +1,16 @@
+import type { G6Spec } from '@/src';
+import { Graph } from '@/src';
+import type { Canvas } from '@/src/runtime/canvas';
 import type { IAnimation } from '@antv/g';
-import type { Canvas } from '../../src/runtime/canvas';
+import type { Controller, GUI } from 'lil-gui';
 
 type TestCaseContext = {
-  canvas: Canvas;
+  container: Canvas;
+  animation: boolean;
+  theme: string;
 };
+
+export type TestCase = StaticTestCase | AnimationTestCase;
 
 export interface StaticTestCase extends BaseTestCase {
   (context: TestCaseContext): Promise<void>;
@@ -22,18 +29,11 @@ export interface AnimationTestCase extends BaseTestCase {
 export interface BaseTestCase {
   only?: boolean;
   skip?: boolean;
-  /**
-   * <zh/> 在测试用例执行前执行的函数
-   *
-   * <en/> Function to be executed before the test case is executed
-   * @returns
-   */
-  preprocess?: () => Promise<void>;
-  /**
-   * <zh/> 在测试用例执行后执行的函数
-   *
-   * <en/> Function to be executed after the test case is executed
-   * @returns
-   */
-  postprocess?: () => Promise<void>;
+  form?: (gui: GUI) => Controller[];
 }
+
+export interface STDTestCase extends BaseTestCase {
+  (context: STDTestCaseContext): Promise<Graph>;
+}
+
+export type STDTestCaseContext = G6Spec;

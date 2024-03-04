@@ -1,104 +1,33 @@
-import type { G6Spec } from '../../../src';
-import { BUILT_IN_PALETTES } from '../../../src/palettes';
-import '../../../src/preset';
-import { DataController } from '../../../src/runtime/data';
-import { ElementController } from '../../../src/runtime/element';
-import type { RuntimeContext } from '../../../src/runtime/types';
-import { LIGHT_THEME } from '../../../src/themes/light';
-import { idOf } from '../../../src/utils/id';
-import { Graph } from '../../mock';
-
-class Canvas {
-  init() {
-    return Promise.resolve();
-  }
-
-  children: unknown[] = [];
-  appendChild(node: unknown) {
-    this.children.push(node);
-    return node;
-  }
-}
-
-const createContext = (options: G6Spec): RuntimeContext => {
-  const dataController = new DataController();
-  dataController.setData(options.data || {});
-  return {
-    canvas: new Canvas() as any,
-    graph: new Graph() as any,
-    options,
-    dataController,
-  };
-};
+import { Graph } from '@/src';
+import * as BUILT_IN_PALETTES from '@/src/palettes';
+import { light as LIGHT_THEME } from '@/src/themes';
+import { idOf } from '@/src/utils/id';
+import { graphElement } from '@@/demo/static/graph-element';
+import { createDemoGraph } from '@@/utils';
+import { omit } from '@antv/util';
 
 describe('ElementController', () => {
+  let graph: Graph;
+  beforeAll(async () => {
+    graph = await createDemoGraph(graphElement);
+  });
+
   it('static', async () => {
-    const options: G6Spec = {
-      data: {
-        nodes: [
-          { id: 'node-1', style: { fill: 'red', stroke: 'pink', lineWidth: 1 }, data: { value: 100 } },
-          { id: 'node-2', data: { value: 150 } },
-          { id: 'node-3', style: { parentId: 'combo-1', states: ['selected'] }, data: { value: 150 } },
-        ],
-        edges: [
-          { source: 'node-1', target: 'node-2', data: { weight: 250 } },
-          {
-            source: 'node-2',
-            target: 'node-3',
-            style: { lineWidth: 5, states: ['active', 'selected'] },
-            data: { weight: 300 },
-          },
-        ],
-        combos: [{ id: 'combo-1' }],
-      },
-      theme: 'light',
-      node: {
-        style: {
-          fill: (datum: any) => (datum?.data?.value > 100 ? 'red' : 'blue'),
-          border: (datum: any, index: number, data: any) => (index % 2 === 0 ? 0 : 10),
-        },
-        state: {
-          selected: {
-            fill: (datum: any) => (datum?.data?.value > 100 ? 'purple' : 'cyan'),
-          },
-        },
-        palette: 'spectral',
-      },
-      edge: {
-        style: {},
-        state: {
-          selected: {
-            stroke: 'red',
-          },
-          active: {
-            stroke: 'pink',
-            lineWidth: 4,
-          },
-        },
-        palette: { type: 'group', color: 'oranges', invert: true },
-      },
-      combo: {
-        style: {},
-        state: {},
-        palette: 'blues',
-      },
-    };
+    await expect(graph.getCanvas()).toMatchSnapshot(__filename);
 
-    const context = createContext(options);
+    // @ts-expect-error context is private.
+    const elementController = graph.context.element!;
 
-    const elementController = new ElementController(context);
+    const options = graph.getOptions();
 
     const edge1Id = idOf(options.data!.edges![0]);
     const edge2Id = idOf(options.data!.edges![1]);
 
-    // @ts-expect-error computeStyle is private
-    elementController.computeStyle();
-
     expect(elementController.getDataStyle('node', 'node-1')).toEqual(options.data!.nodes![0].style || {});
     // 没有属性 / no style
-    expect(elementController.getDataStyle('node', 'node-2')).toEqual({});
+    expect(elementController.getDataStyle('node', 'node-2')).toEqual({ x: 150, y: 100 });
     // 没有样式属性 / No style attribute
-    expect(elementController.getDataStyle('node', 'node-3')).toEqual({});
+    expect(elementController.getDataStyle('node', 'node-3')).toEqual({ x: 125, y: 150 });
     expect(elementController.getDataStyle('edge', edge1Id)).toEqual(options.data!.edges![0].style || {});
     expect(elementController.getDataStyle('combo', 'combo-1')).toEqual({});
 
@@ -113,7 +42,7 @@ describe('ElementController', () => {
       ...LIGHT_THEME.node!.state!.selected,
       ...LIGHT_THEME.node!.state!.active,
     });
-    const paletteKey = 'keyShapeColor';
+    const paletteKey = 'color';
 
     expect(elementController.getPaletteStyle('node-1')[paletteKey]).toBe(BUILT_IN_PALETTES.spectral[0]);
     expect(elementController.getPaletteStyle('node-2')[paletteKey]).toBe(BUILT_IN_PALETTES.spectral[1]);
@@ -143,7 +72,11 @@ describe('ElementController', () => {
       idOf(options.data!.edges![1]),
     ]);
 
+    elementController.setElementsState({ 'node-1': ['active'] });
+    expect(elementController.getElementStates('node-1')).toEqual(['active']);
+    elementController.setElementsState({ 'node-1': [] });
     expect(elementController.getElementStates('node-1')).toEqual([]);
+
     expect(elementController.getElementStates('node-2')).toEqual([]);
     expect(elementController.getElementStates('node-3')).toEqual(['selected']);
     expect(elementController.getElementStates('edge-1')).toEqual([]);
@@ -156,7 +89,9 @@ describe('ElementController', () => {
       lineWidth: 1,
       border: 0,
       // from palette
-      keyShapeColor: BUILT_IN_PALETTES.spectral[0],
+      color: BUILT_IN_PALETTES.spectral[0],
+      x: 100,
+      y: 100,
     });
 
     expect(elementController.getElementComputedStyle('node', 'node-2')).toEqual({
@@ -164,7 +99,9 @@ describe('ElementController', () => {
       fill: 'red',
       border: 10,
       // from palette
-      keyShapeColor: BUILT_IN_PALETTES.spectral[1],
+      color: BUILT_IN_PALETTES.spectral[1],
+      x: 150,
+      y: 100,
     });
 
     expect(elementController.getElementComputedStyle('node', 'node-3')).toEqual({
@@ -174,68 +111,56 @@ describe('ElementController', () => {
       // from state
       fill: 'purple',
       // from palette
-      keyShapeColor: BUILT_IN_PALETTES.spectral[2],
+      color: BUILT_IN_PALETTES.spectral[2],
+      x: 125,
+      y: 150,
     });
 
-    expect(elementController.getElementComputedStyle('edge', edge1Id)).toEqual({
+    expect(omit(elementController.getElementComputedStyle('edge', edge1Id), ['sourceNode', 'targetNode'])).toEqual({
       ...LIGHT_THEME.edge?.style,
-      sourcePoint: [0, 0, 0],
-      targetPoint: [0, 0, 0],
-      keyShapeColor: BUILT_IN_PALETTES.oranges.at(-1),
+      color: BUILT_IN_PALETTES.oranges.at(-1),
     });
-    expect(elementController.getElementComputedStyle('edge', edge2Id)).toEqual({
+
+    expect(omit(elementController.getElementComputedStyle('edge', edge2Id), ['sourceNode', 'targetNode'])).toEqual({
       ...LIGHT_THEME.edge?.style,
       ...LIGHT_THEME.edge?.state?.active,
       ...LIGHT_THEME.edge?.state?.selected,
       lineWidth: 4,
       stroke: 'red',
-      // 在运行时环境测试 / Test in runtime environment
-      sourceNode: undefined,
-      targetNode: undefined,
-      // 暂未实现 / Not implemented yet
-      sourcePoint: [0, 0, 0],
-      targetPoint: [0, 0, 0],
-      keyShapeColor: BUILT_IN_PALETTES.oranges.at(-2),
+      color: BUILT_IN_PALETTES.oranges.at(-2),
     });
 
-    expect(elementController.getElementComputedStyle('combo', 'combo-1')).toEqual({
+    const comboStyle = elementController.getElementComputedStyle('combo', 'combo-1');
+
+    expect(comboStyle.children[0].id).toEqual('node-3');
+
+    expect(omit(comboStyle, ['children'])).toEqual({
       ...LIGHT_THEME.combo?.style,
-      keyShapeColor: BUILT_IN_PALETTES.blues[0],
-      children: {
-        // 值为 undefined 是因为在非运行时环境 / The value is undefined because it is not in the runtime environment
-        'node-3': undefined,
-      },
+      color: BUILT_IN_PALETTES.blues[0],
     });
   });
 
-  it('mock runtime', async () => {
-    const options: G6Spec = {
-      data: {
-        nodes: [
-          { id: 'node-1' },
-          { id: 'node-2', style: { parentId: 'combo-1' } },
-          { id: 'node-3', style: { parentId: 'combo-1' } },
-        ],
-        edges: [
-          { source: 'node-1', target: 'node-2' },
-          { source: 'node-2', target: 'node-3' },
-        ],
-        combos: [{ id: 'combo-1' }],
-      },
-    };
+  it('runtime', async () => {
+    graph.setData({
+      nodes: [
+        { id: 'node-1' },
+        { id: 'node-2', style: { parentId: 'combo-1' } },
+        { id: 'node-3', style: { parentId: 'combo-1' } },
+      ],
+      edges: [
+        { source: 'node-1', target: 'node-2' },
+        { source: 'node-2', target: 'node-3' },
+      ],
+      combos: [{ id: 'combo-1' }],
+    });
 
-    const context = createContext(options);
+    await graph.render();
 
-    const elementController = new ElementController(context);
+    // @ts-expect-error context is private.
+    const elementController = graph.context.element!;
 
-    await elementController.render(context);
-
-    // @ts-expect-error container is private
-    const container = elementController.container;
-
-    expect(container.node.children.length).toBe(3);
-    expect(container.edge.children.length).toBe(2);
-    // TODO 目前暂未提供 combo 图形，因此无法渲染 / Currently, combo graphics are not provided, so they cannot be rendered
-    expect(container.combo.children.length).toBe(0);
+    expect(elementController.getNodes().length).toBe(3);
+    expect(elementController.getEdges().length).toBe(2);
+    expect(elementController.getCombos().length).toBe(1);
   });
 });

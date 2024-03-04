@@ -1,2 +1,2 @@
-__tests__/integration/snapshots/**/*-actual.*
-__tests__/integration/snapshots/**/*-diff.*
+__tests__/**/*-actual.*
+__tests__/**/*-diff.*

@@ -1,21 +1,21 @@
-import { Cubic } from '../../../src/elements/edges';
-import { Circle, Star } from '../../../src/elements/nodes';
-import type { LoopEdgePosition } from '../../../src/types';
+import { Cubic } from '@/src/elements/edges';
+import { Circle, Star } from '@/src/elements/nodes';
+import type { LoopEdgePosition } from '@/src/types';
 import type { StaticTestCase } from '../types';
 
 export const edgeLoop: StaticTestCase = async (context) => {
-  const { canvas } = context;
+  const { container } = context;
 
-  const node1 = canvas.appendChild(
+  const node1 = container.appendChild(
     new Circle({
       id: 'node-1',
       style: {
-        cx: 100,
-        cy: 100,
-        r: 25,
+        x: 100,
+        y: 100,
+        size: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
-        anchorOptions: [
+        ports: [
           { key: 'left', position: [0, 0.5], r: 4, stroke: '#31d0c6', fill: '#fff' },
           { key: 'right', position: [1, 0.5], r: 4, fill: '#31d0c6' },
           { key: 'top', position: [0.5, 0], r: 4, fill: '#31d0c6' },
@@ -25,13 +25,13 @@ export const edgeLoop: StaticTestCase = async (context) => {
     }),
   );
 
-  canvas.appendChild(
+  container.appendChild(
     new Cubic({
       style: {
         sourceNode: node1,
         targetNode: node1,
-        sourceAnchor: 'top',
-        targetAnchor: 'right',
+        sourcePort: 'top',
+        targetPort: 'right',
         loopDist: 80,
         stroke: '#1890FF',
         lineWidth: 2,
@@ -40,16 +40,16 @@ export const edgeLoop: StaticTestCase = async (context) => {
     }),
   );
 
-  const node2 = canvas.appendChild(
+  const node2 = container.appendChild(
     new Circle({
       id: 'node-1',
       style: {
-        cx: 200,
-        cy: 100,
-        r: 25,
+        x: 200,
+        y: 100,
+        size: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
-        anchorOptions: [
+        ports: [
           { key: 'left', position: [0, 0.5], r: 4, stroke: '#31d0c6', fill: '#fff' },
           { key: 'right', position: [1, 0.5], r: 4, fill: '#31d0c6' },
           { key: 'top', position: [0.5, 0], r: 4, stroke: '#31d0c6', fill: '#fff' },
@@ -59,12 +59,12 @@ export const edgeLoop: StaticTestCase = async (context) => {
     }),
   );
 
-  canvas.appendChild(
+  container.appendChild(
     new Cubic({
       style: {
         sourceNode: node2,
         targetNode: node2,
-        sourceAnchor: 'right',
+        sourcePort: 'right',
         stroke: '#1890FF',
         lineWidth: 2,
         endArrow: true,
@@ -72,26 +72,26 @@ export const edgeLoop: StaticTestCase = async (context) => {
     }),
   );
 
-  const node2_1 = canvas.appendChild(
+  const node2_1 = container.appendChild(
     new Star({
       id: 'node-2-1',
       style: {
         x: 300,
         y: 100,
-        outerR: 25,
+        size: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
-        anchorOptions: [{ key: 'right-bottom', position: 'right-bottom', r: 4, fill: '#31d0c6' }],
+        ports: [{ key: 'right-bottom', position: 'right-bottom', r: 4, fill: '#31d0c6' }],
       },
     }),
   );
 
-  canvas.appendChild(
+  container.appendChild(
     new Cubic({
       style: {
         sourceNode: node2_1,
         targetNode: node2_1,
-        sourceAnchor: 'right-bottom',
+        sourcePort: 'right-bottom',
         stroke: '#1890FF',
         lineWidth: 2,
         endArrow: true,
@@ -99,13 +99,13 @@ export const edgeLoop: StaticTestCase = async (context) => {
     }),
   );
 
-  const node3 = canvas.appendChild(
+  const node3 = container.appendChild(
     new Circle({
       id: 'node-3',
       style: {
-        cx: 100,
-        cy: 250,
-        r: 25,
+        x: 100,
+        y: 250,
+        size: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
         labelText: `🔃`,
@@ -114,7 +114,7 @@ export const edgeLoop: StaticTestCase = async (context) => {
   );
 
   ['top', 'right', 'bottom', 'left'].forEach((position) => {
-    canvas.appendChild(
+    container.appendChild(
       new Cubic({
         style: {
           sourceNode: node3,
@@ -130,13 +130,13 @@ export const edgeLoop: StaticTestCase = async (context) => {
     );
   });
 
-  const node4 = canvas.appendChild(
+  const node4 = container.appendChild(
     new Circle({
       id: 'node-2',
       style: {
-        cx: 250,
-        cy: 250,
-        r: 25,
+        x: 250,
+        y: 250,
+        size: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
         labelText: `🔃`,
@@ -145,7 +145,7 @@ export const edgeLoop: StaticTestCase = async (context) => {
   );
 
   ['top-right', 'bottom-right', 'top-left', 'bottom-left'].forEach((position) => {
-    canvas.appendChild(
+    container.appendChild(
       new Cubic({
         style: {
           sourceNode: node4,
@@ -160,13 +160,13 @@ export const edgeLoop: StaticTestCase = async (context) => {
     );
   });
 
-  const node5 = canvas.appendChild(
+  const node5 = container.appendChild(
     new Star({
       id: 'node-5',
       style: {
         x: 100,
         y: 400,
-        outerR: 25,
+        size: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
         labelText: `🔄`,
@@ -175,7 +175,7 @@ export const edgeLoop: StaticTestCase = async (context) => {
   );
 
   ['top', 'right', 'bottom', 'left'].forEach((position) => {
-    canvas.appendChild(
+    container.appendChild(
       new Cubic({
         style: {
           sourceNode: node5,
@@ -191,13 +191,13 @@ export const edgeLoop: StaticTestCase = async (context) => {
     );
   });
 
-  const node6 = canvas.appendChild(
+  const node6 = container.appendChild(
     new Star({
       id: 'node-6',
       style: {
         x: 250,
         y: 400,
-        outerR: 25,
+        size: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
         labelText: `🔄`,
@@ -206,7 +206,7 @@ export const edgeLoop: StaticTestCase = async (context) => {
   );
 
   ['top-right', 'bottom-right', 'top-left', 'bottom-left'].forEach((position) => {
-    canvas.appendChild(
+    container.appendChild(
       new Cubic({
         style: {
           sourceNode: node6,

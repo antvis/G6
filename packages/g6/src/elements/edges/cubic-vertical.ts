@@ -4,7 +4,7 @@ import type { Point } from '../../types';
 import type { BaseEdgeStyleProps } from './base-edge';
 import { Cubic } from './cubic';
 
-type CubicVerticalKeyStyleProps = {
+export type CubicVerticalStyleProps = BaseEdgeStyleProps & {
   /**
    * <zh/> 控制点在两端点连线上的相对位置，范围为`0-1`
    * <en/> The relative position of the control point on the line, ranging from `0-1`
@@ -17,17 +17,13 @@ type CubicVerticalKeyStyleProps = {
   curveOffset?: number | [number, number];
 };
 
-export type CubicVerticalStyleProps = BaseEdgeStyleProps<CubicVerticalKeyStyleProps>;
-
-type CubicVerticalOptions = DisplayObjectConfig<CubicVerticalStyleProps>;
-
 export class CubicVertical extends Cubic {
   static defaultStyleProps: Partial<CubicVerticalStyleProps> = {
     curvePosition: [0.5, 0.5],
     curveOffset: [0, 0],
   };
 
-  constructor(options: CubicVerticalOptions) {
+  constructor(options: DisplayObjectConfig<CubicVerticalStyleProps>) {
     super(deepMix({}, { style: CubicVertical.defaultStyleProps }, options));
   }
 

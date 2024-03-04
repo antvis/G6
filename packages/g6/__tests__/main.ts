@@ -1,102 +1,115 @@
-import { Renderer as CanvasRenderer } from '@antv/g-canvas';
-import { Renderer as SVGRenderer } from '@antv/g-svg';
-import { Renderer as WebGLRenderer } from '@antv/g-webgl';
+import type { Controller } from 'lil-gui';
+import GUI from 'lil-gui';
 import '../src/preset';
-import { Canvas } from '../src/runtime/canvas';
-import * as animations from './demo/animation';
-import * as statics from './demo/static';
+import * as demos from './demo';
+import type { TestCase } from './demo/types';
+import { createGraphCanvas } from './utils';
 
-type TestCase = (...args: unknown[]) => void;
+const CASES = demos as unknown as { [key: string]: Record<string, TestCase> };
 
-const CASES = {
-  statics,
-  animations,
-} as unknown as { [key: string]: Record<string, TestCase> };
-
-window.onload = () => {
-  const casesSelect = document.getElementById('demo-select') as HTMLSelectElement;
-  const rendererSelect = document.getElementById('renderer-select') as HTMLSelectElement;
-
-  function handleChange() {
-    initialize();
-    const [type, testCase] = casesSelect.value.split('-');
-    const renderer = rendererSelect.value;
-    setParamsToSearch({ type, case: testCase, renderer });
-    onchange(CASES[type][testCase], renderer);
-  }
-
-  casesSelect.onchange = handleChange;
-  rendererSelect.onchange = handleChange;
-  loadCasesList(casesSelect);
-  getParamsFromSearch();
-  handleChange();
+type Options = {
+  Type: string;
+  Demo: string;
+  Renderer: string;
+  Theme: string;
+  Animation: boolean;
+  Timer: string;
+  [keys: string]: any;
 };
 
-function loadCasesList(select: HTMLSelectElement) {
-  Object.entries(CASES).forEach(([type, cases]) => {
-    const optgroup = document.createElement('optgroup');
-    optgroup.label = type;
-    select.appendChild(optgroup);
-    Object.keys(cases).forEach((key) => {
-      const option = document.createElement('option');
-      option.value = `${type}-${key}`;
-      option.text = key;
-      optgroup.appendChild(option);
-    });
-  });
+const options: Options = {
+  Type: 'statics',
+  Demo: Object.keys(demos['statics'])[0],
+  Renderer: 'canvas',
+  Theme: 'light',
+  Animation: true,
+  interval: 0,
+  Timer: '0ms',
+  Reload: () => {},
+  forms: [],
+};
+
+const params = ['Type', 'Demo', 'Renderer', 'Theme', 'Animation'] as const;
+
+syncParamsFromSearch();
+
+const panels = initPanel();
+
+function getDemos() {
+  return Object.keys(CASES[options.Type]);
 }
 
-function onchange(testCase: TestCase, rendererName: string) {
-  const renderer = getRenderer(rendererName);
-  const canvas = new Canvas({
-    width: 500,
-    height: 500,
-    container: document.getElementById('container')!,
-    renderer,
-  });
-  canvas.init().then(() => {
-    testCase({ canvas });
-  });
+window.onload = render;
+
+function initPanel() {
+  const panel = new GUI({ container: document.getElementById('panel')!, autoPlace: true });
+  const Type = panel.add(options, 'Type', Object.keys(CASES)).onChange(() => Demo.options(getDemos()));
+  const Demo = panel.add(options, 'Demo', getDemos()).onChange(render);
+  const Renderer = panel.add(options, 'Renderer', { Canvas: 'canvas', SVG: 'svg', WebGL: 'webgl' }).onChange(render);
+  const Theme = panel.add(options, 'Theme', { Light: 'light', Dark: 'dark' }).onChange(render);
+  const Animation = panel.add(options, 'Animation').onChange(render);
+  const Timer = panel.add(options, 'Timer').disable();
+  const reload = panel.add(options, 'Reload').onChange(render);
+  return { panel, Type, Demo, Renderer, Theme, Animation, Timer, reload };
 }
 
-function getRenderer(rendererName: string) {
-  switch (rendererName) {
-    case 'webgl':
-      return () => new WebGLRenderer();
-    case 'svg':
-      return () => new SVGRenderer();
-    case 'canvas':
-      return () => new CanvasRenderer();
-    default:
-      return undefined;
+async function render() {
+  setParamsToSearch(options);
+  document.documentElement.setAttribute('data-theme', options.Theme);
+  destroyForm();
+  panels.Timer.setValue('0ms');
+
+  // container
+  document.getElementById('container')?.remove();
+  const $container = document.createElement('div');
+  $container.id = 'container';
+  document.getElementById('app')?.appendChild($container);
+
+  // render
+  const { Renderer, Type, Demo, Animation, Theme } = options;
+  const canvas = createGraphCanvas($container, 500, 500, Renderer);
+  await canvas.init();
+  const testCase = CASES[Type][Demo];
+  if (!testCase) return;
+
+  const result = await testCase({ container: canvas, animation: Animation, theme: Theme });
+
+  renderForm(panels.panel, testCase.form);
+
+  if (result?.totalDuration) {
+    const formatCurrentTime = (time: number) => time.toFixed(2);
+    const setTimer = (time: any) => panels.Timer.setValue(`${formatCurrentTime(time)}ms`);
+    result.onframe = (frame) => {
+      setTimer(frame.currentTime);
+    };
+    result.finished.then(() => setTimer(result.currentTime));
   }
 }
 
-function initialize() {
-  document.getElementById('container')?.remove();
-  const container = document.createElement('div');
-  container.id = 'container';
-  document.getElementById('app')?.appendChild(container);
+function renderForm(panel: GUI, form: TestCase['form']) {
+  if (form) options.forms.push(...form(panel));
 }
 
-function getParamsFromSearch() {
-  const searchParams = new URLSearchParams(window.location.search);
-  const type = searchParams.get('type') || 'statics';
-  const testCase = searchParams.get('case') || Object.keys(statics)[0];
-  const rendererName = searchParams.get('renderer') || 'canvas';
-
-  const casesSelect = document.getElementById('demo-select') as HTMLSelectElement;
-  const rendererSelect = document.getElementById('renderer-select') as HTMLSelectElement;
-
-  casesSelect.value = `${type}-${testCase}`;
-  rendererSelect.value = rendererName;
+function destroyForm() {
+  const { forms } = options;
+  forms.forEach((controller: Controller) => controller.destroy());
+  forms.length = 0;
 }
 
-function setParamsToSearch(options: { type: string; case: string; renderer: string }) {
-  const { type, case: testCase, renderer } = options;
+function syncParamsFromSearch() {
   const searchParams = new URLSearchParams(window.location.search);
-  searchParams.set('type', type);
-  searchParams.set('case', testCase);
-  searchParams.set('renderer', renderer);
+  params.forEach((key) => {
+    const value = searchParams.get(key);
+    if (!value) return;
+    if (key === 'Animation') options[key] = value === 'true';
+    else options[key] = value;
+  });
+}
+
+function setParamsToSearch(options: Options) {
+  const searchParams = new URLSearchParams(window.location.search);
+  Object.entries(options).forEach(([key, value]) => {
+    if (params.includes(key as (typeof params)[number])) searchParams.set(key, value.toString());
+  });
   window.history.replaceState(null, '', `?${searchParams.toString()}`);
 }

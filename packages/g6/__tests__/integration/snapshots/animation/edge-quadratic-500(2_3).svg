@@ -10,7 +10,7 @@
   <g id="g-svg-camera" transform="matrix(1,0,0,1,0,0)">
     <g id="g-root" fill="none" transform="matrix(1,0,0,1,0,0)">
       <g
-        id="g-svg-5"
+        id="g-svg-9"
         fill="none"
         marker-start="false"
         marker-end="true"
@@ -20,18 +20,18 @@
           <path
             id="key"
             fill="none"
-            d="M 0,0 C 84.27992103273499 23.282810243968754,175.94658769940168 64.94947691063538,275 125 L 269.01410145373785,121.37108575551075"
+            d="M 0,0 C 84.27992103273499 23.282810243968754,175.94658769940168 64.94947691063538,275 125 L 269.8692298174896,121.88950207615207"
+            stroke-width="2"
             stroke="rgba(24,144,255,1)"
-            stroke-width="6"
           />
-          <g transform="matrix(-0.855128,-0.518416,0.518416,-0.855128,269.014099,121.371086)">
+          <g transform="matrix(-0.855128,-0.518416,0.518416,-0.855128,269.869232,121.889503)">
             <path
-              id="g-svg-8"
+              id="g-svg-12"
               fill="rgba(24,144,255,1)"
               d="M 0,5 L 10,0 L 10,10 Z"
               transform="translate(-5,-5)"
+              stroke-width="1"
               stroke="rgba(24,144,255,1)"
-              stroke-width="2"
               width="10"
               height="10"
               stroke-dasharray="0,0"
@@ -43,15 +43,15 @@
           fill="none"
           transform="matrix(0.999550,0.029986,-0.029986,0.999550,203.998199,35.119946)"
         >
-          <g transform="matrix(1,0,0,1,-49.449379,-16.213146)">
+          <g transform="matrix(1,0,0,1,-44.759998,-11.500000)">
             <path
               id="background"
               fill="none"
-              d="M 0,0 l 168.7366930842178,0 l 0,32.42628857535926 l-168.7366930842178 0 z"
+              d="M 0,0 l 90.51999999999998,0 l 0,23 l-90.51999999999998 0 z"
               opacity="0.75"
               stroke-width="0"
-              width="168.7366930842178"
-              height="32.42628857535926"
+              width="90.51999999999998"
+              height="23"
             />
           </g>
           <g transform="matrix(1,0,0,1,0,0)">

@@ -1,4 +1,4 @@
-import type { LayoutOptions } from '../../../src';
+import type { LayoutOptions } from '@/src';
 
 describe('spec layout', () => {
   it('layout 1', () => {

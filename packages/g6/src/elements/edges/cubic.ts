@@ -2,11 +2,11 @@ import type { DisplayObjectConfig } from '@antv/g';
 import type { PathArray } from '@antv/util';
 import { deepMix } from '@antv/util';
 import type { Point } from '../../types';
-import { calculateControlPoint, getCubicPath, parseCurveOffset, parseCurvePosition } from '../../utils/edge';
+import { getCubicPath, getCurveControlPoint, parseCurveOffset, parseCurvePosition } from '../../utils/edge';
 import type { BaseEdgeStyleProps } from './base-edge';
 import { BaseEdge } from './base-edge';
 
-type CubicKeyStyleProps = {
+export type CubicStyleProps = BaseEdgeStyleProps & {
   /**
    * <zh/> 控制点数组，用于定义曲线的形状。如果不指定，将会通过`curveOffset`和`curvePosition`来计算控制点
    * <en/> Control points. Used to define the shape of the curve. If not specified, it will be calculated using `curveOffset` and `curvePosition`.
@@ -24,21 +24,19 @@ type CubicKeyStyleProps = {
   curveOffset?: number | [number, number];
 };
 
-export type CubicStyleProps = BaseEdgeStyleProps<CubicKeyStyleProps>;
+type ParsedCubicStyleProps = Required<CubicStyleProps>;
 
-type CubicOptions = DisplayObjectConfig<CubicStyleProps>;
-
-export class Cubic extends BaseEdge<CubicKeyStyleProps> {
+export class Cubic extends BaseEdge {
   static defaultStyleProps: Partial<CubicStyleProps> = {
     curvePosition: [0.5, 0.5],
     curveOffset: [-20, 20],
   };
 
-  constructor(options: CubicOptions) {
+  constructor(options: DisplayObjectConfig<CubicStyleProps>) {
     super(deepMix({}, { style: Cubic.defaultStyleProps }, options));
   }
 
-  protected getKeyPath(attributes: Required<BaseEdgeStyleProps<CubicKeyStyleProps>>): PathArray {
+  protected getKeyPath(attributes: ParsedCubicStyleProps): PathArray {
     const [sourcePoint, targetPoint] = this.getEndpoints(attributes);
     const { controlPoints, curvePosition, curveOffset } = attributes;
 
@@ -63,8 +61,8 @@ export class Cubic extends BaseEdge<CubicKeyStyleProps> {
     return controlPoints?.length === 2
       ? controlPoints
       : [
-          calculateControlPoint(sourcePoint, targetPoint, curvePosition[0], curveOffset[0]),
-          calculateControlPoint(sourcePoint, targetPoint, curvePosition[1], curveOffset[1]),
+          getCurveControlPoint(sourcePoint, targetPoint, curvePosition[0], curveOffset[0]),
+          getCurveControlPoint(sourcePoint, targetPoint, curvePosition[1], curveOffset[1]),
         ];
   }
 }

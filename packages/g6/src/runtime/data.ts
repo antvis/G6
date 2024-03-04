@@ -1,17 +1,18 @@
 import { Graph as GraphLib, ID } from '@antv/graphlib';
 import { isEqual } from '@antv/util';
-import { ChangeTypeEnum } from '../constants';
-import type { ComboData, DataOptions, EdgeData, NodeData } from '../spec';
+import { COMBO_KEY, ChangeTypeEnum, TREE_KEY } from '../constants';
+import type { ComboData, EdgeData, GraphData, NodeData } from '../spec';
 import type {
   DataAdded,
   DataChange,
   DataID,
   DataRemoved,
   DataUpdated,
-  GraphlibData,
+  ElementDatum,
+  GraphlibModel,
   NodeLikeData,
-  PartialDataOptions,
   PartialEdgeData,
+  PartialGraphData,
   PartialNodeLikeData,
 } from '../types';
 import type { EdgeDirection } from '../types/edge';
@@ -23,12 +24,8 @@ import { toG6Data, toGraphlibData } from '../utils/graphlib';
 import { idOf } from '../utils/id';
 import { dfs } from '../utils/traverse';
 
-const COMBO_KEY = 'combo';
-
-const TREE_KEY = 'tree';
-
 export class DataController {
-  public model: GraphlibData;
+  public model: GraphlibModel;
 
   /**
    * <zh/> 最近一次删除的 combo 的 id
@@ -59,11 +56,19 @@ export class DataController {
    */
   private batchCount = 0;
 
+  /**
+   * <zh/> 是否处于无痕模式
+   *
+   * <en/> Whether it is in traceless mode
+   */
+  private isTraceless = false;
+
   constructor() {
     this.model = new GraphLib();
   }
 
   private pushChange(change: DataChange) {
+    if (this.isTraceless) return;
     const { type } = change;
 
     if (
@@ -94,6 +99,22 @@ export class DataController {
     this.batchCount++;
     this.model.batch(callback);
     this.batchCount--;
+  }
+
+  /**
+   * <zh/> 执行操作而不会留下记录
+   *
+   * <en/> Perform operations without leaving records
+   * @param callback - <zh/> 回调函数 | <en/> callback function
+   * @description
+   * <zh/> 通常用于运行时调整元素并同步数据，避免触发数据变更导致重绘
+   *
+   * <en/> Usually used to adjust elements at runtime and synchronize data to avoid triggering data changes and causing redraws
+   */
+  public silence(callback: () => void) {
+    this.isTraceless = true;
+    callback();
+    this.isTraceless = false;
   }
 
   public isCombo(id: ID) {
@@ -136,6 +157,12 @@ export class DataController {
     }, [] as ComboData[]);
   }
 
+  public getParentData(id: ID): NodeData | undefined {
+    if (!this.model.hasTreeStructure(TREE_KEY)) return undefined;
+    const parent = this.model.getParent(id, TREE_KEY);
+    return parent?.data;
+  }
+
   /**
    * <zh/> 获取节点的子节点数据
    *
@@ -159,19 +186,13 @@ export class DataController {
    * @param ids - <zh/> 元素 ID 数组 | <en/> element ID array
    * @returns <zh/> 元素数据 | <en/> data of the element
    */
-  public getElementsData(ids: ID[]) {
+  public getElementsData(ids: ID[]): ElementDatum[] {
     return ids.map((id) => {
       const type = this.getElementType(id);
-      switch (type) {
-        case 'node':
-          return this.getNodeData([id])[0];
-        case 'edge':
-          return this.getEdgeData([id])[0];
-        case 'combo':
-          return this.getComboData([id])[0];
-        default:
-          return undefined;
-      }
+
+      if (type === 'node') return this.getNodeData([id])[0];
+      else if (type === 'edge') return this.getEdgeData([id])[0];
+      return this.getComboData([id])[0];
     });
   }
 
@@ -221,7 +242,7 @@ export class DataController {
     return this.model.getNeighbors(id).map((node) => node.data);
   }
 
-  public setData(data: DataOptions) {
+  public setData(data: GraphData) {
     const { nodes: modifiedNodes = [], edges: modifiedEdges = [], combos: modifiedCombos = [] } = data;
     const { nodes: originalNodes = [], edges: originalEdges = [], combos: originalCombos = [] } = this.getData();
 
@@ -250,7 +271,7 @@ export class DataController {
     });
   }
 
-  public addData(data: DataOptions) {
+  public addData(data: GraphData) {
     const { nodes, edges, combos } = data;
     this.batch(() => {
       // add combo first
@@ -303,26 +324,26 @@ export class DataController {
   protected updateNodeLikeHierarchy(data: NodeLikeData[]) {
     const { model } = this;
 
-    let hasAttachTreeStructure = false;
-
-    const attachTreeStructure = () => {
-      if (hasAttachTreeStructure) return;
-      if (!model.hasTreeStructure(COMBO_KEY)) {
-        model.attachTreeStructure(COMBO_KEY);
-      }
-      hasAttachTreeStructure = true;
-    };
-
     data.forEach((datum) => {
+      const id = idOf(datum);
+
       const parentId = datum?.style?.parentId;
       if (parentId !== undefined) {
-        attachTreeStructure();
-        model.setParent(idOf(datum), parentId, COMBO_KEY);
+        model.attachTreeStructure(COMBO_KEY);
+        model.setParent(id, parentId, COMBO_KEY);
+      }
+
+      const children = datum?.style?.children;
+      if (children !== undefined) {
+        model.attachTreeStructure(TREE_KEY);
+        children.forEach((child) => {
+          model.setParent(child, id, TREE_KEY);
+        });
       }
     });
   }
 
-  public updateData(data: PartialDataOptions) {
+  public updateData(data: PartialGraphData) {
     const { nodes, edges, combos } = data;
     this.batch(() => {
       this.updateNodeData(nodes);
@@ -542,7 +563,7 @@ export class DataController {
    * @param id - <zh/> 元素 ID | <en/> ID of the element
    * @returns <zh/> 元素类型 | <en/> type of the element
    */
-  public getElementType(id: ID): ElementType | 'unknown' {
+  public getElementType(id: ID): ElementType {
     if (this.model.hasNode(id)) {
       if (this.isCombo(id)) return 'combo';
       return 'node';
@@ -550,6 +571,18 @@ export class DataController {
 
     if (this.model.hasEdge(id)) return 'edge';
 
-    return 'unknown';
+    throw new Error(`Unknown element type of id: ${id}`);
+  }
+
+  public destroy() {
+    const { model } = this;
+    const nodes = model.getAllNodes();
+    const edges = model.getAllEdges();
+
+    model.removeEdges(edges.map((edge) => edge.id));
+    model.removeNodes(nodes.map((node) => node.id));
+
+    // @ts-expect-error force delete
+    delete this.context;
   }
 }

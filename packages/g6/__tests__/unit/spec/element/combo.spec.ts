@@ -1,10 +1,10 @@
-import type { ComboOptions } from '../../../../src';
+import type { ComboOptions } from '@/src';
 
 describe('spec element combo', () => {
   it('combo 1', () => {
     const combo: ComboOptions = {
       style: {
-        comboStyle: (model) => model.style?.comboStyle || 'white',
+        comboStyle: (model: any) => model.style?.comboStyle || 'white',
       },
       state: {
         state1: {
@@ -12,14 +12,8 @@ describe('spec element combo', () => {
         },
       },
       animation: {
-        enter: {
-          type: 'fade-in',
-          delay: 100,
-        },
-        show: {
-          type: 'wave-in',
-          duration: 100,
-        },
+        enter: 'fade',
+        show: 'fade',
       },
     };
 

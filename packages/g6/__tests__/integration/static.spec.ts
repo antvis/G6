@@ -1,24 +1,21 @@
-import '../../src/preset';
-import * as staticCases from '../demo/static';
-import { createNodeGCanvas } from './utils/create-node-g-canvas';
-import { getCases } from './utils/get-cases';
-import { sleep } from './utils/sleep';
-import './utils/use-snapshot-matchers';
+import { createGraphCanvas, getCases, sleep } from '@@/utils';
+import * as staticCases from '../demo/static/common';
 
 describe('static', () => {
   const cases = getCases(staticCases);
 
   for (const [name, testCase] of cases) {
     it(`[static]: ${name}`, async () => {
-      const canvas = createNodeGCanvas();
+      const canvas = createGraphCanvas();
 
       try {
-        const { preprocess, postprocess } = testCase;
-        await preprocess?.();
         await canvas.init();
-        await testCase({ canvas });
+        await testCase({
+          container: canvas,
+          animation: false,
+          theme: 'light',
+        });
         await expect(canvas).toMatchSVGSnapshot(`${__dirname}/snapshots/static`, name);
-        await postprocess?.();
       } finally {
         canvas.destroy();
         await sleep(50);

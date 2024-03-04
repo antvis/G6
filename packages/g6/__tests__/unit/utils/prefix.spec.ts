@@ -6,8 +6,7 @@ import {
   startsWith,
   subObject,
   subStyleProps,
-  superStyleProps,
-} from '../../../src/utils/prefix';
+} from '@/src/utils/prefix';
 
 describe('prefix', () => {
   it('addPrefix', () => {
@@ -49,13 +48,6 @@ describe('prefix', () => {
     expect(omitStyleProps({ Abc: 1, Def: 2 }, 'prefix')).toEqual({ Abc: 1, Def: 2 });
     expect(omitStyleProps({}, 'prefix')).toEqual({});
     expect(omitStyleProps({ prefixAbc: 1, prefixDef: 2, labelAbc: 3 }, ['prefix', 'label'])).toEqual({});
-  });
-
-  it('superStyleProps', () => {
-    expect(superStyleProps({ abc: 1, def: 2 }, 'prefix')).toEqual({ prefixAbc: 1, prefixDef: 2 });
-    expect(superStyleProps({ abc: 1, def: 2 }, 'prefix')).toEqual({ prefixAbc: 1, prefixDef: 2 });
-    expect(superStyleProps({ Abc: 1, Def: 2 }, 'prefix')).toEqual({ prefixAbc: 1, prefixDef: 2 });
-    expect(superStyleProps({}, 'prefix')).toEqual({});
   });
 
   it('replacePrefix', () => {

@@ -1,23 +1,18 @@
-import '../../src/preset';
+import { createGraphCanvas, getCases, sleep } from '@@/utils';
 import * as animationCases from '../demo/animation';
-import { createNodeGCanvas } from './utils/create-node-g-canvas';
-import { getCases } from './utils/get-cases';
-import { sleep } from './utils/sleep';
-import './utils/use-snapshot-matchers';
 
 describe('static', () => {
   const cases = getCases(animationCases);
 
   for (const [name, testCase] of cases) {
     it(`[animation]: ${name}`, async () => {
-      const canvas = createNodeGCanvas();
+      const canvas = createGraphCanvas();
 
       try {
-        const { times = [], preprocess, postprocess } = testCase;
+        const { times = [] } = testCase;
 
-        await preprocess?.();
         await canvas.init();
-        const animationResult = await testCase({ canvas });
+        const animationResult = await testCase({ container: canvas, animation: true, theme: 'light' });
 
         if (!animationResult) throw new Error('animation result should not be null');
 
@@ -33,8 +28,6 @@ describe('static', () => {
             `${name}-${time}(${times.indexOf(time) + 1}_${times.length})`,
           );
         }
-
-        await postprocess?.();
       } finally {
         canvas.destroy();
         await sleep(50);

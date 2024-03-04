@@ -1,4 +1,4 @@
-import type { ViewportOptions } from '../../../src';
+import type { ViewportOptions } from '@/src';
 
 describe('spec viewport', () => {
   it('viewport 1', () => {
@@ -16,7 +16,7 @@ describe('spec viewport', () => {
     const viewport: ViewportOptions = {
       autoFit: {
         type: 'center',
-        effectTiming: {
+        animation: {
           duration: 1000,
         },
       },

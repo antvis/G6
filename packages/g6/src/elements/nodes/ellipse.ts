@@ -1,50 +1,50 @@
-import type { DisplayObjectConfig, EllipseStyleProps, Group } from '@antv/g';
+import type { DisplayObjectConfig, EllipseStyleProps as GEllipseStyleProps, Group } from '@antv/g';
 import { Ellipse as GEllipse } from '@antv/g';
+import { deepMix } from '@antv/util';
+import { ICON_SIZE_RATIO } from '../../constants/element';
 import type { Point } from '../../types';
 import { getEllipseIntersectPoint } from '../../utils/point';
-import { subStyleProps } from '../../utils/prefix';
-import type { BaseNodeStyleProps } from './base-node';
+import type { IconStyleProps } from '../shapes';
+import type { BaseNodeStyleProps, ParsedBaseNodeStyleProps } from './base-node';
 import { BaseNode } from './base-node';
 
-type KeyShapeStyleProps = Partial<EllipseStyleProps>;
-export type EllipseNodeStyleProps = BaseNodeStyleProps<KeyShapeStyleProps>;
+export type EllipseStyleProps = BaseNodeStyleProps<KeyStyleProps>;
+type ParsedEllipseStyleProps = ParsedBaseNodeStyleProps<KeyStyleProps>;
+type KeyStyleProps = GEllipseStyleProps;
 
-type ParsedEllipseStyleProps = Required<EllipseNodeStyleProps>;
+export class Ellipse extends BaseNode<GEllipse, KeyStyleProps> {
+  static defaultStyleProps: Partial<EllipseStyleProps> = {
+    size: [80, 40],
+  };
 
-type EllipseOptions = DisplayObjectConfig<EllipseNodeStyleProps>;
-
-/**
- * Draw ellipse based on BaseNode, override drawKeyShape.
- */
-export class Ellipse extends BaseNode<KeyShapeStyleProps, GEllipse> {
-  constructor(options: EllipseOptions) {
-    super(options);
+  constructor(options: DisplayObjectConfig<EllipseStyleProps>) {
+    super(deepMix({}, { style: Ellipse.defaultStyleProps }, options));
   }
 
-  protected getHaloStyle(attributes: ParsedEllipseStyleProps): EllipseStyleProps | false {
-    if (attributes.halo === false) return false;
-    const haloStyle = subStyleProps(this.getGraphicStyle(attributes), 'halo');
-    const keyStyle = this.getKeyStyle(attributes) as Required<KeyShapeStyleProps>;
+  protected drawKeyShape(attributes: ParsedEllipseStyleProps, container: Group) {
+    return this.upsert('key', GEllipse, this.getKeyStyle(attributes), container);
+  }
+
+  protected getKeyStyle(attributes: ParsedEllipseStyleProps): KeyStyleProps {
+    const keyStyle = super.getKeyStyle(attributes);
+    const [majorAxis, minorAxis] = this.getSize(attributes);
     return {
       ...keyStyle,
-      ...haloStyle,
-      rx: Number(keyStyle.rx) + Number(keyStyle.lineWidth || 0) / 2,
-      ry: Number(keyStyle.ry) + Number(keyStyle.lineWidth || 0) / 2,
+      rx: majorAxis / 2,
+      ry: minorAxis / 2,
     };
   }
 
-  public getIntersectPoint(point: Point): Point {
-    const keyShapeBounds = this.shapeMap.key.getLocalBounds();
-    return getEllipseIntersectPoint(point, keyShapeBounds);
-  }
-  protected drawKeyShape(attributes: ParsedEllipseStyleProps, container: Group): GEllipse {
-    return this.upsert(
-      'key',
-      GEllipse,
-      this.getKeyStyle(attributes) as Required<KeyShapeStyleProps>,
-      container,
-    ) as GEllipse;
+  protected getIconStyle(attributes: ParsedEllipseStyleProps): false | IconStyleProps {
+    const style = super.getIconStyle(attributes);
+    const { rx, ry } = this.getKeyStyle(attributes);
+    const size = Math.min(rx as number, ry as number) * 2 * ICON_SIZE_RATIO;
+
+    return style ? ({ width: size, height: size, ...style } as IconStyleProps) : false;
   }
 
-  connectedCallback() {}
+  public getIntersectPoint(point: Point): Point {
+    const keyShapeBounds = this.getKey().getBounds();
+    return getEllipseIntersectPoint(point, keyShapeBounds);
+  }
 }

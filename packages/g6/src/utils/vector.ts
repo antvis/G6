@@ -28,26 +28,28 @@ export function subtract(a: Vector2 | Vector3, b: Vector2 | Vector3): Vector2 | 
 }
 
 /**
- * <zh/> 两个向量求积
+ * <zh/> 两个向量求积或者向量和标量求积
  *
- * <en/> Multiplies two vectors
- * @param a - <zh/> 第一个向量 | <en/> The first vector
- * @param b - <zh/> 第二个向量 | <en/> The second vector
- * @returns <zh/> 两个向量的积 | <en/> The dot product of the two vectors
+ * <en/> Multiplies two vectors or a vector and a scalar
+ * @param a - <zh/> 向量 | <en/> The vector
+ * @param b - <zh/> 向量或者标量 | <en/> The vector or scalar
+ * @returns <zh/> 两个向量的积或者向量和标量的积 | <en/> The product of the two vectors or the product of the vector and scalar
  */
-export function multiply(a: Vector2 | Vector3, b: Vector2 | Vector3): Vector2 | Vector3 {
+export function multiply(a: Vector2 | Vector3, b: number | Vector2 | Vector3): Vector2 | Vector3 {
+  if (typeof b === 'number') return a.map((v) => v * b) as Vector2 | Vector3;
   return a.map((v, i) => v * b[i]) as Vector2 | Vector3;
 }
 
 /**
- * <zh/> 两个向量求商
+ * <zh/> 两个向量求商或者向量和标量求商
  *
- * <en/> Divides two vectors
- * @param a - <zh/> 第一个向量 | <en/> The first vector
- * @param b - <zh/> 第二个向量 | <en/> The second vector
- * @returns <zh/> 两个向量的商 | <en/> The quotient of the two vectors
+ * <en/> Divides two vectors or a vector and a scalar
+ * @param a - <zh/> 向量 | <en/> The vector
+ * @param b - <zh/> 向量或者标量 | <en/> The vector or scalar
+ * @returns <zh/> 两个向量的商或者向量和标量的商 | <en/> The quotient of the two vectors or the quotient of the vector and scalar
  */
-export function divide(a: Vector2 | Vector3, b: Vector2 | Vector3): Vector2 | Vector3 {
+export function divide(a: Vector2 | Vector3, b: number | Vector2 | Vector3): Vector2 | Vector3 {
+  if (typeof b === 'number') return a.map((v) => v / b) as Vector2 | Vector3;
   return a.map((v, i) => v / b[i]) as Vector2 | Vector3;
 }
 
@@ -98,7 +100,7 @@ export function scale(a: Vector2 | Vector3, s: number): Vector2 | Vector3 {
  * @returns <zh/> 两个向量间的距离 | <en/> The distance between the two vectors
  */
 export function distance(a: Vector2 | Vector3, b: Vector2 | Vector3): number {
-  return Math.sqrt((a as number[]).reduce((sum, v, i) => sum + (v - b[i]) ** 2, 0));
+  return Math.sqrt((a as number[]).reduce((sum, v, i) => sum + (v - b[i] || 0) ** 2, 0));
 }
 
 /**

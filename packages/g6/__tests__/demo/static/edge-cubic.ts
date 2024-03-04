@@ -1,14 +1,15 @@
-import { Cubic } from '../../../src/elements/edges';
+import { Cubic } from '@/src/elements/edges';
+import { createEdgeNode } from '@@/utils';
 import type { StaticTestCase } from '../types';
 
 export const edgeCubic: StaticTestCase = async (context) => {
-  const { canvas } = context;
+  const { container } = context;
 
   const cubic1 = new Cubic({
     style: {
       // key shape
-      sourcePoint: [100, 50],
-      targetPoint: [300, 50],
+      sourceNode: createEdgeNode([100, 50]),
+      targetNode: createEdgeNode([300, 50]),
       stroke: '#1890FF',
       lineWidth: 2,
       // halo
@@ -27,8 +28,8 @@ export const edgeCubic: StaticTestCase = async (context) => {
   const cubic2 = new Cubic({
     style: {
       // key shape
-      sourcePoint: [100, 150],
-      targetPoint: [300, 150],
+      sourceNode: createEdgeNode([100, 150]),
+      targetNode: createEdgeNode([300, 150]),
       controlPoints: [
         [200, 200],
         [200, 100],
@@ -47,8 +48,8 @@ export const edgeCubic: StaticTestCase = async (context) => {
   const cubic3 = new Cubic({
     style: {
       // key shape
-      sourcePoint: [100, 250],
-      targetPoint: [300, 250],
+      sourceNode: createEdgeNode([100, 250]),
+      targetNode: createEdgeNode([300, 250]),
       curveOffset: 50,
       curvePosition: 0.5,
       stroke: '#1890FF',
@@ -65,8 +66,8 @@ export const edgeCubic: StaticTestCase = async (context) => {
   const cubic4 = new Cubic({
     style: {
       // key shape
-      sourcePoint: [100, 350],
-      targetPoint: [300, 350],
+      sourceNode: createEdgeNode([100, 350]),
+      targetNode: createEdgeNode([300, 350]),
       curveOffset: 50,
       curvePosition: 0.25,
       stroke: '#1890FF',
@@ -80,8 +81,8 @@ export const edgeCubic: StaticTestCase = async (context) => {
     },
   });
 
-  canvas.appendChild(cubic1);
-  canvas.appendChild(cubic2);
-  canvas.appendChild(cubic3);
-  canvas.appendChild(cubic4);
+  container.appendChild(cubic1);
+  container.appendChild(cubic2);
+  container.appendChild(cubic3);
+  container.appendChild(cubic4);
 };
