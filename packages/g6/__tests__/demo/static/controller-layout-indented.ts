@@ -6,6 +6,8 @@ import type { STDTestCase } from '../types';
 export const controllerLayoutIndented: STDTestCase = async (context) => {
   const options: G6Spec = {
     ...context,
+    y: -200,
+    zoom: 0.5,
     data: treeToGraphData(tree),
     theme: 'light',
     layout: {
@@ -26,14 +28,11 @@ export const controllerLayoutIndented: STDTestCase = async (context) => {
         type: 'polyline',
       },
     },
-    zoom: 0.5,
   };
 
   const graph = new Graph(options);
 
   await graph.render();
-
-  await graph.translateTo([0, -200]);
 
   return graph;
 };
