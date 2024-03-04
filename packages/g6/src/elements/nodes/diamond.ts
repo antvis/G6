@@ -4,7 +4,7 @@ import type { Point } from '../../types';
 import { getDiamondPoints } from '../../utils/element';
 import { getPolygonIntersectPoint } from '../../utils/point';
 import { subStyleProps } from '../../utils/prefix';
-import type { BaseNodeStyleProps } from './base-node';
+import type { BaseNodeStyleProps, ParsedBaseNodeStyleProps } from './base-node';
 import { BaseNode } from './base-node';
 
 type KeyShapeStyleProps = Partial<PolygonStyleProps> & {
@@ -14,14 +14,14 @@ type KeyShapeStyleProps = Partial<PolygonStyleProps> & {
 
 export type DiamondStyleProps = BaseNodeStyleProps<KeyShapeStyleProps>;
 
-type ParsedDiamondStyleProps = Required<DiamondStyleProps>;
+type ParsedDiamondStyleProps = ParsedBaseNodeStyleProps<KeyShapeStyleProps>;
 
 type DiamondOptions = DisplayObjectConfig<DiamondStyleProps>;
 
 /**
  * Draw diamond based on BaseNode, override drawKeyShape.
  */
-export class Diamond extends BaseNode<KeyShapeStyleProps, Polygon> {
+export class Diamond extends BaseNode<Polygon, KeyShapeStyleProps> {
   constructor(options: DiamondOptions) {
     super(options);
   }
@@ -38,7 +38,7 @@ export class Diamond extends BaseNode<KeyShapeStyleProps, Polygon> {
     const keyStyle = this.getKeyStyle(attributes);
     const lineWidth = Number(keyStyle.lineWidth || 0);
     const haloLineWidth = Number(haloStyle.lineWidth || 0);
-    const { width = 0, height = 0 } = attributes;
+    const { width = 0, height = 0 } = super.getKeyStyle(attributes);
     const points = getDiamondPoints(
       Number(width) + lineWidth + haloLineWidth,
       Number(height) + lineWidth + haloLineWidth,
@@ -57,8 +57,8 @@ export class Diamond extends BaseNode<KeyShapeStyleProps, Polygon> {
     return getPolygonIntersectPoint(point, center, points);
   }
 
-  protected drawKeyShape(attributes: ParsedDiamondStyleProps, container: Group): Polygon {
-    return this.upsert('key', Polygon, this.getKeyStyle(attributes), container) as Polygon;
+  protected drawKeyShape(attributes: ParsedDiamondStyleProps, container: Group): Polygon | undefined {
+    return this.upsert('key', Polygon, this.getKeyStyle(attributes), container);
   }
 
   connectedCallback() {}

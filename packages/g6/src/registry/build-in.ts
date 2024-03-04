@@ -6,6 +6,7 @@ import {
   Cubic,
   CubicHorizontal,
   CubicVertical,
+  Diamond,
   Ellipse,
   Image,
   Line,
@@ -85,6 +86,7 @@ export const BUILT_IN_PLUGINS = {
     rect: Rect,
     star: Star,
     triangle: Triangle,
+    diamond: Diamond,
   },
   palette: {
     spectral,
