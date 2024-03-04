@@ -1,9 +1,8 @@
-import { Circle } from '@/src/elements';
 import {
   getBBoxHeight,
   getBBoxSize,
   getBBoxWidth,
-  getElementsBBox,
+  getCombinedBBox,
   getExpandedBBox,
   getIncircleRadius,
   getNearestPointToPoint,
@@ -13,7 +12,6 @@ import {
   getTriangleCenter,
   isPointInBBox,
   isPointOutsideBBox,
-  union,
 } from '@/src/utils/bbox';
 import { AABB } from '@antv/g';
 
@@ -39,25 +37,6 @@ describe('bbox', () => {
     expect(getNodeBBox([10, 10, 0])).toEqual(bbox);
   });
 
-  it('getElementsBBox', () => {
-    expect(getElementsBBox([])).toEqual(new AABB());
-    const node1 = new Circle({
-      style: {
-        x: 100,
-        y: 100,
-      },
-    });
-    const node2 = new Circle({
-      style: {
-        x: 200,
-        y: 200,
-      },
-    });
-    const bbox = new AABB();
-    bbox.setMinMax([75, 75, 0], [225, 225, 0]);
-    expect(getElementsBBox([node1, node2])).toEqual(bbox);
-  });
-
   it('getPointBBox', () => {
     const pointBBox = new AABB();
     pointBBox.setMinMax([10, 10, 0], [10, 10, 0]);
@@ -71,14 +50,14 @@ describe('bbox', () => {
     expect(getExpandedBBox(bbox, [10, 10, 10, 10])).toEqual(expandedBBox);
   });
 
-  it('union', () => {
+  it('getCombinedBBox', () => {
     const bbox1 = new AABB();
     bbox1.setMinMax([0, 0, 0], [1, 1, 1]);
     const bbox2 = new AABB();
     bbox2.setMinMax([2, 2, 2], [3, 3, 3]);
     const bbox3 = new AABB();
     bbox3.setMinMax([0, 0, 0], [3, 3, 3]);
-    expect(union(bbox1, bbox2)).toEqual(bbox3);
+    expect(getCombinedBBox([bbox1, bbox2])).toEqual(bbox3);
   });
 
   it('isPointInBBox', () => {

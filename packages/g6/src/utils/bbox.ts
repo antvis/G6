@@ -1,7 +1,7 @@
 import { AABB } from '@antv/g';
 import { clone } from '@antv/util';
 import { TriangleDirection } from '../elements/nodes/triangle';
-import type { Element, Node, Padding, Point } from '../types';
+import type { Node, Padding, Point } from '../types';
 import { isPoint } from './is';
 import { isBetween } from './math';
 import { parsePadding } from './padding';
@@ -51,27 +51,6 @@ export function getNodeBBox(node: Point | Node, padding?: Padding): AABB {
 }
 
 /**
- * <zh/> 获取多个元素的联合包围盒
- *
- * <en/> Get the union bounding box of multiple elements
- * @param elements - <zh/> 元素数组 | <en/> Array of elements
- * @returns <zh/> 包围盒 | <en/> Bounding box
- */
-export function getElementsBBox(elements: Element[]): AABB {
-  let resBBox: AABB = new AABB(); // Initialize resBBox with an empty AABB object
-
-  if (!elements.length) return resBBox;
-
-  elements.forEach((element, i) => {
-    const bbox = element.getBounds();
-    if (i === 0) resBBox = bbox;
-    else resBBox = union(resBBox, bbox);
-  });
-
-  return resBBox;
-}
-
-/**
  * <zh/> 获取单点的包围盒
  *
  * <en/> Get the bounding box of a single point
@@ -109,7 +88,7 @@ export function getExpandedBBox(bbox: AABB, padding: Padding): AABB {
  * @param bboxes - <zh/> 包围盒列表 | <en/> List of bounding boxes
  * @returns <zh/> 整体包围盒 | <en/> Overall bounding box
  */
-export function union(...bboxes: AABB[]): AABB {
+export function getCombinedBBox(bboxes: AABB[]): AABB {
   if (bboxes.length === 0) return new AABB();
   if (bboxes.length === 1) return bboxes[0];
 

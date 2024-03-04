@@ -4,7 +4,7 @@ import { clamp, isNumber, pick } from '@antv/util';
 import { AnimationType, GraphEvent } from '../constants';
 import type { FitViewOptions, Point, TransformOptions, Vector2, ViewportAnimationEffectTiming } from '../types';
 import { getAnimation } from '../utils/animation';
-import { getBBoxSize, union } from '../utils/bbox';
+import { getBBoxSize, getCombinedBBox } from '../utils/bbox';
 import { AnimateEvent, ViewportEvent, emit } from '../utils/event';
 import { parsePadding } from '../utils/padding';
 import { add, divide, subtract } from '../utils/vector';
@@ -245,7 +245,7 @@ export class ViewportController {
   public async focusElements(ids: ID[], animation?: ViewportAnimationEffectTiming): Promise<void> {
     const { element } = this.context;
     if (!element) return;
-    const elementsBounds = union(...ids.map((id) => element.getElement(id)!.getRenderBounds()));
+    const elementsBounds = getCombinedBBox(ids.map((id) => element.getElement(id)!.getRenderBounds()));
     await this.focus(elementsBounds, animation);
   }
 

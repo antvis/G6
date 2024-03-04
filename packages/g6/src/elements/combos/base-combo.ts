@@ -1,7 +1,7 @@
 import type { AABB, BaseStyleProps, DisplayObject, DisplayObjectConfig, Group } from '@antv/g';
 import { deepMix, isEmpty } from '@antv/util';
 import type { BaseComboProps, Position, PrefixObject, STDSize } from '../../types';
-import { getElementsBBox, getExpandedBBox } from '../../utils/bbox';
+import { getCombinedBBox, getExpandedBBox } from '../../utils/bbox';
 import { getCollapsedMarkerText, getXYByCollapsedOrigin } from '../../utils/combo';
 import { getXYByPosition } from '../../utils/element';
 import { subStyleProps } from '../../utils/prefix';
@@ -93,8 +93,8 @@ export abstract class BaseCombo<
   protected abstract getExpandedKeySize(attributes: ParsedBaseComboStyleProps<KeyStyleProps>): STDSize;
 
   protected getContentBBox(attributes: ParsedBaseComboStyleProps<KeyStyleProps>): AABB {
-    const { children, padding } = attributes;
-    let childrenBBox = getElementsBBox(children!);
+    const { children = [], padding } = attributes;
+    let childrenBBox = getCombinedBBox(children.map((child) => child.getBounds()));
     if (padding) {
       childrenBBox = getExpandedBBox(childrenBBox, padding);
     }
