@@ -1,7 +1,9 @@
-import type { BaseStyleProps, DisplayObject, DisplayObjectConfig, Group, TextStyleProps } from '@antv/g';
+import type { AABB, BaseStyleProps, DisplayObject, DisplayObjectConfig, Group, TextStyleProps } from '@antv/g';
 import { Text as GText } from '@antv/g';
-import { deepMix } from '@antv/util';
-import type { BaseComboProps, PrefixObject } from '../../types';
+import { deepMix, isEmpty } from '@antv/util';
+import type { BaseComboProps, PrefixObject, Vector2 } from '../../types';
+import { getElementsBBox, getExpandedBBox } from '../../utils/bbox';
+import { getXYByCollapsedOrigin } from '../../utils/combo';
 import { getXYByPosition } from '../../utils/element';
 import { subStyleProps } from '../../utils/prefix';
 import { parseSize } from '../../utils/size';
@@ -33,14 +35,8 @@ export abstract class BaseCombo<
     collapsedMarkerTextBaseline: 'middle',
     collapsedMarkerTextAlign: 'center',
   };
-
   constructor(options: DisplayObjectConfig<BaseComboStyleProps<KeyStyleProps>>) {
     super(deepMix({}, { style: BaseCombo.defaultStyleProps }, options));
-  }
-
-  public getSize() {
-    const { collapsed, collapsedSize, size } = this.attributes as unknown as ParsedBaseComboStyleProps<KeyStyleProps>;
-    return parseSize(collapsed ? collapsedSize : size);
   }
 
   /**
@@ -50,6 +46,57 @@ export abstract class BaseCombo<
     attributes: ParsedBaseComboStyleProps<KeyStyleProps>,
     container: Group,
   ): KeyShape | undefined;
+
+  protected getKeySize(attributes: ParsedBaseComboStyleProps<KeyStyleProps>) {
+    const { x: comboX, y: comboY, size, collapsed, collapsedOrigin, collapsedSize } = attributes;
+    if (
+      (!isEmpty(comboX) && !isEmpty(comboY) && collapsed && !isEmpty(collapsedSize)) ||
+      (!isEmpty(comboX) && !isEmpty(comboY) && !collapsed && !isEmpty(size))
+    ) {
+      const [width, height] = parseSize(collapsed ? collapsedSize : size);
+      return {
+        x: 0,
+        y: 0,
+        width,
+        height,
+      };
+    }
+
+    const contentBBox = this.getContentBBox(attributes);
+    let [x, y] = isEmpty(comboX) && isEmpty(comboY) ? contentBBox.center : [comboX, comboY];
+    const computedExpandedSize = this.getExpandedSize(attributes);
+    const computedCollapsedSize = this.getCollapsedSize(attributes);
+    const [width, height] = collapsed ? computedCollapsedSize : computedExpandedSize;
+
+    if (collapsed) {
+      [x, y] = getXYByCollapsedOrigin(
+        collapsedOrigin!,
+        contentBBox.center,
+        computedCollapsedSize,
+        computedExpandedSize,
+      );
+    }
+
+    return {
+      x,
+      y,
+      width,
+      height,
+    };
+  }
+
+  protected abstract getCollapsedSize(attributes: ParsedBaseComboStyleProps<KeyStyleProps>): Vector2;
+
+  protected abstract getExpandedSize(attributes: ParsedBaseComboStyleProps<KeyStyleProps>): Vector2;
+
+  protected getContentBBox(attributes: ParsedBaseComboStyleProps<KeyStyleProps>): AABB {
+    const { children, padding } = attributes;
+    let childrenBBox = getElementsBBox(children!);
+    if (padding) {
+      childrenBBox = getExpandedBBox(childrenBBox, padding);
+    }
+    return childrenBBox;
+  }
 
   protected drawCollapsedMarkerShape(attributes: ParsedBaseComboStyleProps<KeyStyleProps>, container: Group): void {
     this.upsert('collapsed-marker', GText, this.getCollapsedMarkerStyle(attributes), container);

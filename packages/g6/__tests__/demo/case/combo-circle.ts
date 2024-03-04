@@ -15,7 +15,7 @@ export const comboCircle: STDTestCase = async (context) => {
     combos: [
       {
         id: 'combo-1',
-        style: { parentId: 'combo-2' },
+        style: { parentId: 'combo-2', collapsedLineDash: [5, 5] },
       },
       {
         id: 'combo-2',
@@ -42,6 +42,21 @@ export const comboCircle: STDTestCase = async (context) => {
       },
     },
   });
+
+  await graph.render();
+
+  graph.updateComboData([
+    {
+      id: 'combo-1',
+      style: { parentId: 'combo-2', collapsed: true, collapsedOrigin: 'top' },
+    },
+    {
+      id: 'combo-2',
+      style: {
+        zIndex: -10, // TODO: zIndex?
+      },
+    },
+  ]);
 
   await graph.render();
 

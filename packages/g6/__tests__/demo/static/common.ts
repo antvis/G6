@@ -4,7 +4,6 @@
  * <en/> Contains test cases that can run in both browser and node environments, and test cases that depend on @antv/layout-wasm will be excluded
  */
 
-export * from './combo-circle';
 export * from './controller-element';
 export * from './controller-element-position';
 export * from './controller-element-visibility';

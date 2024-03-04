@@ -124,5 +124,11 @@ export type BaseComboProps = {
    * <zh/> 收起时的图标类型
    * <en/> Marker type when collapsed
    */
-  markerType?: 'none' | 'childCount';
+  markerType?: 'none' | 'childCount' | 'descendantCount' | 'image';
+
+  marker?: boolean;
+
+  markerSrc?: string;
+
+  markerText?: 'childCount' | 'descendantCount' | string;
 };
