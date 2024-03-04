@@ -1,6 +1,6 @@
 import type { AABB, BaseStyleProps, DisplayObject, DisplayObjectConfig, Group } from '@antv/g';
 import { deepMix, isEmpty } from '@antv/util';
-import type { BaseComboProps, PrefixObject, Vector2 } from '../../types';
+import type { BaseComboProps, Position, PrefixObject, STDSize } from '../../types';
 import { getElementsBBox, getExpandedBBox } from '../../utils/bbox';
 import { getCollapsedMarkerText, getXYByCollapsedOrigin } from '../../utils/combo';
 import { getXYByPosition } from '../../utils/element';
@@ -8,14 +8,14 @@ import { subStyleProps } from '../../utils/prefix';
 import { parseSize } from '../../utils/size';
 import type { BaseNodeStyleProps } from '../nodes';
 import { BaseNode } from '../nodes';
-import { Icon, IconStyleProps, Label } from '../shapes';
+import { Icon, IconStyleProps } from '../shapes';
 
 export type CollapsedMarkerStyleProps = IconStyleProps & {
   /**
-   * <zh/> 标记类型，childCount 表示子元素数量，descendantCount 表示后代元素数量, nodeCount 表示后代节点数量
-   * <en/> Marker type, childCount means the number of child elements, descendantCount means the number of descendant elements, nodeCount means the number of descendant nodes
+   * <zh/> 标记类型，childCount 表示子元素数量，descendantCount 表示后代元素数量, node-count 表示后代节点数量
+   * <en/> Marker type, child-count means the number of child elements, descendant-count means the number of descendant elements, node-count means the number of descendant nodes
    */
-  type?: 'childCount' | 'descendantCount' | 'nodeCount';
+  type?: 'child-count' | 'descendant-count' | 'node-count';
 };
 export type BaseComboStyleProps<KeyStyleProps extends BaseStyleProps = BaseStyleProps> = BaseComboProps &
   PrefixObject<KeyStyleProps, 'collapsed'> & {
@@ -40,7 +40,7 @@ export abstract class BaseCombo<
     padding: 0,
     children: [],
     collapsedMarker: true,
-    collapsedMarkerType: 'childCount',
+    collapsedMarkerType: 'child-count',
     collapsedMarkerFontSize: 12,
     collapsedMarkerTextBaseline: 'middle',
     collapsedMarkerTextAlign: 'center',
@@ -57,29 +57,17 @@ export abstract class BaseCombo<
     container: Group,
   ): KeyShape | undefined;
 
-  protected getKeySize(attributes: ParsedBaseComboStyleProps<KeyStyleProps>) {
-    const { x: comboX, y: comboY, size, collapsed, collapsedOrigin, collapsedSize } = attributes;
-    if (
-      (!isEmpty(comboX) && !isEmpty(comboY) && collapsed && !isEmpty(collapsedSize)) ||
-      (!isEmpty(comboX) && !isEmpty(comboY) && !collapsed && !isEmpty(size))
-    ) {
-      const [width, height] = parseSize(collapsed ? collapsedSize : size);
-      return {
-        x: 0,
-        y: 0,
-        width,
-        height,
-      };
-    }
+  protected calculatePosition(attributes: ParsedBaseComboStyleProps<KeyStyleProps>): Position {
+    const { x: comboX, y: comboY, collapsed, collapsedOrigin } = attributes;
+    if (!isEmpty(comboX) && !isEmpty(comboY)) return [comboX, comboY, 0] as Position;
 
     const contentBBox = this.getContentBBox(attributes);
-    let [x, y] = isEmpty(comboX) && isEmpty(comboY) ? contentBBox.center : [comboX, comboY];
-    const computedExpandedSize = this.getExpandedSize(attributes);
-    const computedCollapsedSize = this.getCollapsedSize(attributes);
-    const [width, height] = collapsed ? computedCollapsedSize : computedExpandedSize;
+    let position: Position = contentBBox.center;
+    const computedExpandedSize = this.getExpandedKeySize(attributes);
+    const computedCollapsedSize = this.getCollapsedKeySize(attributes);
 
     if (collapsed) {
-      [x, y] = getXYByCollapsedOrigin(
+      position = getXYByCollapsedOrigin(
         collapsedOrigin!,
         contentBBox.center,
         computedCollapsedSize,
@@ -87,17 +75,22 @@ export abstract class BaseCombo<
       );
     }
 
-    return {
-      x,
-      y,
-      width,
-      height,
-    };
+    return position;
   }
 
-  protected abstract getCollapsedSize(attributes: ParsedBaseComboStyleProps<KeyStyleProps>): Vector2;
+  protected getKeySize(attributes: ParsedBaseComboStyleProps<KeyStyleProps>): STDSize {
+    const { size, collapsed, collapsedSize } = attributes;
 
-  protected abstract getExpandedSize(attributes: ParsedBaseComboStyleProps<KeyStyleProps>): Vector2;
+    if (collapsed && !isEmpty(collapsedSize)) return parseSize(collapsedSize);
+
+    if (!collapsed && !isEmpty(size)) return parseSize(size);
+
+    return collapsed ? this.getCollapsedKeySize(attributes) : this.getExpandedKeySize(attributes);
+  }
+
+  protected abstract getCollapsedKeySize(attributes: ParsedBaseComboStyleProps<KeyStyleProps>): STDSize;
+
+  protected abstract getExpandedKeySize(attributes: ParsedBaseComboStyleProps<KeyStyleProps>): STDSize;
 
   protected getContentBBox(attributes: ParsedBaseComboStyleProps<KeyStyleProps>): AABB {
     const { children, padding } = attributes;
@@ -131,26 +124,13 @@ export abstract class BaseCombo<
   }
 
   public render(attributes: ParsedBaseComboStyleProps<KeyStyleProps>, container: Group = this) {
-    // 1. key shape
-    const keyShape = this.drawKeyShape(attributes, container);
-    if (!keyShape) return;
+    super.render(attributes, container);
 
-    // 2. collapsed marker
+    const [x, y] = this.calculatePosition(attributes);
+    this.style.x = x;
+    this.style.y = y;
+
+    // collapsed marker
     this.drawCollapsedMarkerShape(attributes, container);
-
-    // 3. halo, use shape same with keyShape
-    this.drawHaloShape(attributes, container);
-
-    // 4. icon
-    this.upsert('icon', Icon, this.getIconStyle(attributes), container);
-
-    // 5. badges
-    this.drawBadgeShapes(attributes, container);
-
-    // 6. label
-    this.upsert('label', Label, this.getLabelStyle(attributes), container);
-
-    // 7. ports
-    this.drawPortShapes(attributes, container);
   }
 }

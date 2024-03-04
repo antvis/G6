@@ -46,13 +46,13 @@ export const comboCircle: STDTestCase = async (context) => {
   await graph.render();
 
   const COLLAPSED_ORIGIN = ['top', 'bottom', 'left', 'right', 'center'];
-  const COLLAPSED_MARKER_TYPE = ['childCount', 'descendantCount', 'nodeCount'];
+  const COLLAPSED_MARKER_TYPE = ['child-count', 'descendant-count', 'node-count'];
 
   comboCircle.form = (panel) => {
     const config = {
       collapsedOrigin: 'top',
       collapsedMarker: true,
-      collapsedMarkerType: 'childCount',
+      collapsedMarkerType: 'child-count',
       collapseCombo2: () => {
         graph.updateComboData((data) => [
           ...data,

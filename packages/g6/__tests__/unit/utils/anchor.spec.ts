@@ -5,6 +5,7 @@ describe('anchor', () => {
   it('parseAnchor', () => {
     expect(parseAnchor([0.5, 0.5])).toEqual([0.5, 0.5]);
     expect(parseAnchor('0.5 0.5')).toEqual([0.5, 0.5]);
+    expect(parseAnchor('1.8 1.8')).toEqual([0.5, 0.5]);
   });
 
   it('getXYByAnchor', () => {

@@ -1,7 +1,9 @@
+import { Rect } from '@/src/elements';
 import {
   getCubicPath,
   getCurveControlPoint,
   getLabelPositionStyle,
+  getPolylineLoopControlPoints,
   getPolylinePath,
   getQuadraticPath,
   getRadians,
@@ -157,6 +159,17 @@ describe('edge', () => {
         true,
       ),
     ).toEqual([['M', 0, 10], ['L', 20, 20], ['L', 50, 50], ['L', 100, 100], ['Z']]);
+    expect(
+      getPolylinePath(
+        [
+          [0, 10],
+          [20, 20],
+          [50, 50],
+          [100, 100],
+        ],
+        10,
+      )[1][1],
+    ).toBeCloseTo(13.33);
   });
 
   it('getRadians', () => {
@@ -165,5 +178,50 @@ describe('edge', () => {
     const EIGHTH_PI = Math.PI / 8;
     expect(getRadians(bbox).bottom[0]).toBeCloseTo(EIGHTH_PI * 3);
     expect(getRadians(bbox).top[0]).toBeCloseTo(-EIGHTH_PI * 5);
+  });
+
+  it('getPolylineLoopControlPoints', () => {
+    const node = new Rect({ style: { x: 100, y: 100, size: 100 } });
+    expect(getPolylineLoopControlPoints(node, [150, 100], [150, 100], 10)).toEqual([
+      [160, 100],
+      [160, 110],
+      [150, 110],
+    ]);
+    expect(getPolylineLoopControlPoints(node, [100, 150], [100, 150], 10)).toEqual([
+      [100, 160],
+      [110, 160],
+      [110, 150],
+    ]);
+    expect(getPolylineLoopControlPoints(node, [50, 100], [50, 100], 10)).toEqual([
+      [40, 100],
+      [40, 110],
+      [50, 110],
+    ]);
+    expect(getPolylineLoopControlPoints(node, [100, 50], [100, 50], 10)).toEqual([
+      [100, 40],
+      [110, 40],
+      [110, 50],
+    ]);
+    expect(getPolylineLoopControlPoints(node, [150, 150], [100, 150], 10)).toEqual([
+      [160, 150],
+      [160, 160],
+      [100, 160],
+    ]);
+    expect(getPolylineLoopControlPoints(node, [150, 150], [150, 100], 10)).toEqual([
+      [160, 150],
+      [160, 100],
+    ]);
+    expect(getPolylineLoopControlPoints(node, [120, 50], [140, 50], 10)).toEqual([
+      [120, 40],
+      [140, 40],
+    ]);
+    expect(getPolylineLoopControlPoints(node, [150, 120], [150, 140], 10)).toEqual([
+      [160, 120],
+      [160, 140],
+    ]);
+    expect(getPolylineLoopControlPoints(node, [50, 120], [50, 140], 10)).toEqual([
+      [40, 120],
+      [40, 140],
+    ]);
   });
 });

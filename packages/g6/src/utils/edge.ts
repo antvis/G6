@@ -451,7 +451,7 @@ export function getPolylineLoopPath(
  * @param dist - <zh/> 从节点 keyShape 边缘到自环顶部的距离 | <en/> The distance from the edge of the node keyShape to the top of the self-loop
  * @returns <zh/> 控制点 | <en/> Control points
  */
-function getPolylineLoopControlPoints(node: Node, sourcePoint: Point, targetPoint: Point, dist: number) {
+export function getPolylineLoopControlPoints(node: Node, sourcePoint: Point, targetPoint: Point, dist: number) {
   const controlPoints: Point[] = [];
   const bbox = getNodeBBox(node);
 

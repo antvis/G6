@@ -1,6 +1,6 @@
 import { AABB } from '@antv/g';
 import type { CollapsedMarkerStyleProps } from '../elements/combos/base-combo';
-import type { Combo, Node, Point, Size, Vector2 } from '../types';
+import type { Combo, Node, Point, Position, Size } from '../types';
 import { getXYByAnchor } from './anchor';
 import { isNode } from './element';
 import { parseSize } from './size';
@@ -18,7 +18,7 @@ export function calculateCollapsedOrigin(
   collapsedOrigin: string | [number, number],
   collapsedSize: Size,
   expandedSize: Size,
-): Vector2 {
+): Position {
   if (Array.isArray(collapsedOrigin)) return collapsedOrigin;
   const [expandedWidth, expandedHeight] = parseSize(expandedSize);
   const [collapsedWidth, collapsedHeight] = parseSize(collapsedSize);
@@ -47,7 +47,7 @@ export function getXYByCollapsedOrigin(
   center: Point,
   collapsedSize: Size,
   expandedSize: Size,
-): Vector2 {
+): Position {
   const origin = calculateCollapsedOrigin(collapsedOrigin, collapsedSize, expandedSize);
   const [expandedWidth, expandedHeight] = parseSize(expandedSize);
   const expandedBBox = new AABB();
@@ -67,11 +67,11 @@ export function getXYByCollapsedOrigin(
  * @returns <zh/> 收起时标记文本 | <en/> text of the collapsed marker
  */
 export function getCollapsedMarkerText(type: CollapsedMarkerStyleProps['type'], children: (Node | Combo)[]) {
-  if (type === 'descendantCount') {
+  if (type === 'descendant-count') {
     return getDescendantCount(children).toString();
-  } else if (type === 'childCount') {
+  } else if (type === 'child-count') {
     return children.length.toString();
-  } else if (type === 'nodeCount') {
+  } else if (type === 'node-count') {
     return getDescendantCount(children, true).toString();
   }
   return '';

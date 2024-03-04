@@ -136,7 +136,6 @@ export const light: Theme = {
       fill: COMBO_FILL,
       haloLineWidth: 12,
       haloStrokeOpacity: 0.25,
-      iconContentType: 'childCount',
       iconFill: COMBO_STROKE,
       iconFontSize: 12,
       labelBackgroundFill: BG_COLOR,
@@ -181,10 +180,7 @@ export const light: Theme = {
       exit: 'fade',
       hide: 'fade',
       show: 'fade',
-      update: [
-        { fields: ['cx', 'cy', 'r', 'x', 'y', 'width', 'height'], shape: 'key' },
-        { fields: ['x', 'y'], shape: 'label' },
-      ],
+      update: [{ fields: ['x', 'y'] }, { fields: ['r', 'width', 'height'], shape: 'key' }],
     },
   },
 };

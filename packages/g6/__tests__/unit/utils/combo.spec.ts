@@ -27,9 +27,10 @@ describe('combo', () => {
 
   it('getCollapsedMarkerText', () => {
     const children = [new CircleCombo({ style: { children: [new Circle({})] } })];
-    expect(getCollapsedMarkerText('childCount', children)).toEqual('1');
-    expect(getCollapsedMarkerText('descendantCount', children)).toEqual('2');
-    expect(getCollapsedMarkerText('nodeCount', children)).toEqual('1');
+    expect(getCollapsedMarkerText('child-count', children)).toEqual('1');
+    expect(getCollapsedMarkerText('descendant-count', children)).toEqual('2');
+    expect(getCollapsedMarkerText('node-count', children)).toEqual('1');
+    expect(getCollapsedMarkerText(undefined, children)).toEqual('');
   });
 
   it('getDescendantCount', () => {

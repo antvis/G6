@@ -137,7 +137,6 @@ export const dark: Theme = {
       fill: COMBO_FILL,
       haloLineWidth: 12,
       haloStrokeOpacity: 0.25,
-      iconContentType: 'childCount',
       iconFill: COMBO_STROKE,
       iconFontSize: 12,
       labelBackgroundFill: BG_COLOR,

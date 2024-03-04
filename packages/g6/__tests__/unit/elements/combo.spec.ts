@@ -81,13 +81,13 @@ describe('combo', () => {
       ]);
       graph.render();
     };
-    collapseCombo('childCount');
+    collapseCombo('child-count');
     await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}__marker_childCount');
     expandCombo();
-    collapseCombo('descendantCount');
+    collapseCombo('descendant-count');
     await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}__marker_descendantCount');
     expandCombo();
-    collapseCombo('nodeCount');
+    collapseCombo('node-count');
     await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}__marker_nodeCount');
   });
 });
