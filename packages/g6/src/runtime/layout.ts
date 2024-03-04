@@ -10,6 +10,7 @@ import { getPlugin } from '../registry';
 import type { EdgeData, NodeData } from '../spec';
 import type { STDLayoutOptions } from '../spec/layout';
 import type { NodeLikeData, Point, TreeData } from '../types';
+import { getAnimation } from '../utils/animation';
 import { isVisible } from '../utils/element';
 import { createTreeStructure } from '../utils/graphlib';
 import { isComboLayout, isPositionSpecified, isTreeLayout, pickLayoutResult } from '../utils/layout';
@@ -34,7 +35,7 @@ export class LayoutController {
 
   private get presetOptions() {
     return {
-      animation: this.context.options.animation,
+      animation: !!getAnimation(this.context.options, true),
     };
   }
 

@@ -1,15 +1,9 @@
 import type { DisplayObject, IAnimation } from '@antv/g';
 import { isString, upperFirst } from '@antv/util';
+import { DEFAULT_ELEMENTS_ANIMATION_OPTIONS } from '../constants';
 import { getPlugin } from '../registry';
 import { createAnimationsProxy, executeAnimation, inferDefaultValue, preprocessKeyframes } from '../utils/animation';
 import type { AnimationExecutor } from './types';
-
-const DEFAULT_ANIMATION_OPTIONS: KeyframeAnimationOptions = {
-  duration: 1000,
-  easing: 'cubic-bezier(0.250, 0.460, 0.450, 0.940)',
-  iterations: 1,
-  fill: 'both',
-};
 
 /**
  * <zh/> 动画 Spec 执行器
@@ -77,7 +71,7 @@ export const executor: AnimationExecutor = (element, animation, commonEffectTimi
         });
 
         const result = executeAnimation(shape, preprocessKeyframes(keyframes), {
-          ...DEFAULT_ANIMATION_OPTIONS,
+          ...DEFAULT_ELEMENTS_ANIMATION_OPTIONS,
           ...commonEffectTiming,
           ...individualEffectTiming,
         });

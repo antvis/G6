@@ -66,10 +66,6 @@ export class ZoomCanvas extends BaseBehavior<ZoomCanvasOptions> {
 
   private shortcut: Shortcut;
 
-  private get animation() {
-    return this.context.options.animation ? this.options.animation : false;
-  }
-
   constructor(context: RuntimeContext, options: ZoomCanvasOptions) {
     super(context, Object.assign({}, ZoomCanvas.defaultOptions, options));
 
@@ -122,13 +118,13 @@ export class ZoomCanvas extends BaseBehavior<ZoomCanvasOptions> {
     const { sensitivity, onfinish } = this.options;
     const diff = (value * sensitivity) / 10;
     const zoom = graph.getZoom();
-    await graph.zoomTo(zoom + diff, this.animation, origin);
+    await graph.zoomTo(zoom + diff, this.options.animation, origin);
 
     onfinish?.();
   };
 
   private onReset = async () => {
-    await this.context.graph.zoomTo(1, this.animation);
+    await this.context.graph.zoomTo(1, this.options.animation);
   };
 
   private validate(event: BehaviorEvent<WheelEvent> | BehaviorEvent<KeyboardEvent>) {

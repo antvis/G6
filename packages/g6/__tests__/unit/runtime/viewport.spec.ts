@@ -188,33 +188,33 @@ describe('Viewport Fit with Animation', () => {
   afterAll(() => {
     graph.destroy();
   });
+});
 
-  describe('Viewport Fit with AutoFit and Padding', () => {
-    let graph: Graph;
-    beforeAll(async () => {
-      graph = await createDemoGraph(viewportFit, {
-        padding: [100, 0, 0, 100],
-        autoFit: 'view',
-      });
-    });
-
-    it('default', async () => {
-      await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}__auto-fit-with-padding');
+describe('Viewport Fit with AutoFit and Padding without Animation', () => {
+  let graph: Graph;
+  beforeAll(async () => {
+    graph = await createDemoGraph(viewportFit, {
+      padding: [100, 0, 0, 100],
+      autoFit: 'view',
     });
   });
 
-  describe('Viewport Fit with AutoFit and Padding with Animation', () => {
-    let graph: Graph;
-    beforeAll(async () => {
-      graph = await createDemoGraph(viewportFit, {
-        padding: [100, 0, 0, 100],
-        autoFit: 'view',
-        animation: true,
-      });
-    });
+  it('default', async () => {
+    await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}__auto-fit-with-padding');
+  });
+});
 
-    it('default', async () => {
-      await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}__auto-fit-with-padding-animation');
+describe('Viewport Fit with AutoFit and Padding with Animation', () => {
+  let graph: Graph;
+  beforeAll(async () => {
+    graph = await createDemoGraph(viewportFit, {
+      padding: [100, 0, 0, 100],
+      autoFit: 'view',
+      animation: true,
     });
+  });
+
+  it('default', async () => {
+    await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}__auto-fit-with-padding-animation');
   });
 });

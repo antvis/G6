@@ -59,10 +59,6 @@ export class DragCanvas extends BaseBehavior<DragCanvasOptions> {
 
   private defaultCursor: Cursor;
 
-  private get animation() {
-    return this.context.options.animation ? this.options.animation : false;
-  }
-
   constructor(context: RuntimeContext, options: DragCanvasOptions) {
     super(context, Object.assign({}, DragCanvas.defaultOptions, options));
 
@@ -93,7 +89,7 @@ export class DragCanvas extends BaseBehavior<DragCanvasOptions> {
 
   private onDrag = (event: BehaviorEvent<FederatedMouseEvent>) => {
     if (event.targetType === 'canvas') {
-      this.context.graph.translateBy([event.movement.x, event.movement.y], this.animation);
+      this.context.graph.translateBy([event.movement.x, event.movement.y], this.options.animation);
     }
   };
 
@@ -101,7 +97,7 @@ export class DragCanvas extends BaseBehavior<DragCanvasOptions> {
     if (!this.validate(event)) return;
     const { sensitivity } = this.options;
     const delta = sensitivity * -1;
-    this.context.graph.translateBy(multiply(value, delta), this.animation);
+    this.context.graph.translateBy(multiply(value, delta), this.options.animation);
   }
 
   private validate(event: BehaviorEvent<FederatedMouseEvent> | BehaviorEvent<KeyboardEvent>) {

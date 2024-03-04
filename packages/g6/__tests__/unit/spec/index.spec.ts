@@ -9,10 +9,7 @@ describe('spec', () => {
       renderer: () => new Renderer(),
       devicePixelRatio: 2,
       autoResize: true,
-      autoFit: {
-        type: 'view',
-        rule: {},
-      },
+      autoFit: 'view',
       padding: [10, 10],
       zoom: 1.2,
       zoomRange: [0.5, 2],

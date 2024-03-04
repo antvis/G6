@@ -3,6 +3,7 @@ import type { ID } from '@antv/graphlib';
 import { clamp, isNumber, pick } from '@antv/util';
 import { AnimationType, GraphEvent } from '../constants';
 import type { FitViewOptions, Point, TransformOptions, Vector2, ViewportAnimationEffectTiming } from '../types';
+import { getAnimation } from '../utils/animation';
 import { getBBoxSize, union } from '../utils/bbox';
 import { AnimateEvent, ViewportEvent, emit } from '../utils/event';
 import { parsePadding } from '../utils/padding';
@@ -39,14 +40,10 @@ export class ViewportController {
     return this.camera.createLandmark(`landmark-${this.landmarkCounter++}`, options);
   }
 
-  private getAnimation(animation?: ViewportAnimationEffectTiming): ViewportAnimationEffectTiming {
-    const { animation: globalAnimation } = this.context.options;
-    if (animation === false || !globalAnimation) return false;
-    if (animation === undefined) {
-      if (globalAnimation === true) return {};
-      return pick(globalAnimation, ['easing', 'duration']);
-    }
-    return animation;
+  private getAnimation(animation?: ViewportAnimationEffectTiming) {
+    const finalAnimation = getAnimation(this.context.options, animation);
+    if (!finalAnimation) return false;
+    return pick({ ...finalAnimation }, ['easing', 'duration']) as Exclude<ViewportAnimationEffectTiming, boolean>;
   }
 
   public getCanvasSize(): [number, number] {

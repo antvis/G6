@@ -16,7 +16,7 @@ describe('spec viewport', () => {
     const viewport: ViewportOptions = {
       autoFit: {
         type: 'center',
-        effectTiming: {
+        animation: {
           duration: 1000,
         },
       },

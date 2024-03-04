@@ -1,7 +1,7 @@
 import type { Point } from './point';
 
 export type ViewportAnimationEffectTiming =
-  | false
+  | boolean
   | {
       easing?: string;
       duration?: number;
