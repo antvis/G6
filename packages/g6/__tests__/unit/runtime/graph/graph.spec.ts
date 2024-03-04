@@ -57,7 +57,7 @@ describe('Graph', () => {
   });
 
   it('getBehaviors/setBehaviors', () => {
-    expect(graph.getBehaviors()).toEqual([]);
+    expect(graph.getBehaviors()).toEqual(['zoom-canvas', 'drag-canvas']);
     graph.setBehaviors(['drag-canvas']);
     expect(graph.getBehaviors()).toEqual(['drag-canvas']);
   });
@@ -247,7 +247,7 @@ describe('Graph', () => {
   });
 
   it('getViewportCenter', () => {
-    expect(graph.getViewportCenter()).toBeCloseTo([250, 250]);
+    expect(graph.getViewportCenter()).toBeCloseTo([250, 250, 0]);
   });
 
   it('toDataURL', async () => {

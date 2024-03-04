@@ -4,11 +4,11 @@ import type { Padding, Point } from '../../types';
 import {
   getBBoxHeight,
   getBBoxWidth,
+  getCombinedBBox,
   getNearestPointToPoint,
   getNodeBBox,
   isPointInBBox,
   isPointOutsideBBox,
-  union,
 } from '../bbox';
 import { isOrthogonal, moveTo, round } from '../point';
 import { angle, distance, subtract, toVector3 } from '../vector';
@@ -270,7 +270,7 @@ export function nodeToNode(from: Point, to: Point, fromBBox: AABB, toBBox: AABB)
  */
 export function insideNode(from: Point, to: Point, fromBBox: AABB, toBBox: AABB, direction?: Direction): Route {
   const DEFAULT_OFFSET = 0.01;
-  const boundary = union(fromBBox, toBBox);
+  const boundary = getCombinedBBox([fromBBox, toBBox]);
   const reversed = distance(to, boundary.center) > distance(from, boundary.center);
   const [start, end] = reversed ? [to, from] : [from, to];
   const halfPerimeter = getBBoxHeight(boundary) + getBBoxWidth(boundary);

@@ -1,8 +1,10 @@
+import { DEFAULT_ANIMATION_OPTIONS } from '@/src/constants';
 import { AnimatableTask } from '@/src/types';
 import {
   createAnimationsProxy,
   executeAnimatableTasks,
   executeAnimation,
+  getAnimation,
   inferDefaultValue,
   preprocessKeyframes,
   withAnimationCallbacks,
@@ -178,5 +180,22 @@ describe('animation', () => {
     expect(before).toHaveBeenCalledTimes(1);
     expect(task).toHaveBeenCalledTimes(1);
     expect(after).toHaveBeenCalledTimes(1);
+  });
+
+  it('getAnimation', () => {
+    expect(getAnimation({ animation: true }, false)).toBe(false);
+    expect(getAnimation({ animation: false }, true)).toBe(false);
+    expect(getAnimation({ animation: true }, true)).toEqual(DEFAULT_ANIMATION_OPTIONS);
+
+    expect(getAnimation({ animation: { duration: 1000 } }, true)).toEqual({
+      ...DEFAULT_ANIMATION_OPTIONS,
+      duration: 1000,
+    });
+
+    expect(getAnimation({ animation: { duration: 1000 } }, { duration: 500, easing: 'linear' })).toEqual({
+      ...DEFAULT_ANIMATION_OPTIONS,
+      duration: 500,
+      easing: 'linear',
+    });
   });
 });

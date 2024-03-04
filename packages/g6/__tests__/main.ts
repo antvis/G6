@@ -29,7 +29,9 @@ const options: Options = {
   forms: [],
 };
 
-const params = ['Type', 'Demo', 'Renderer', 'Theme', 'Animation'];
+const params = ['Type', 'Demo', 'Renderer', 'Theme', 'Animation'] as const;
+
+syncParamsFromSearch();
 
 const panels = initPanel();
 
@@ -37,38 +39,35 @@ function getDemos() {
   return Object.keys(CASES[options.Type]);
 }
 
-window.onload = () => {
-  syncParamsFromSearch();
-  render();
-};
+window.onload = render;
 
 function initPanel() {
   const panel = new GUI({ container: document.getElementById('panel')!, autoPlace: true });
-  const type = panel.add(options, 'Type', Object.keys(CASES)).onChange(() => demo.options(getDemos()));
-  const demo = panel.add(options, 'Demo', getDemos()).onChange(render);
-  const renderer = panel.add(options, 'Renderer', { Canvas: 'canvas', SVG: 'svg', WebGL: 'webgl' }).onChange(render);
-  const theme = panel.add(options, 'Theme', { Light: 'light', Dark: 'dark' }).onChange(render);
-  const animation = panel.add(options, 'Animation').onChange(render);
-  const timer = panel.add(options, 'Timer').disable();
+  const Type = panel.add(options, 'Type', Object.keys(CASES)).onChange(() => Demo.options(getDemos()));
+  const Demo = panel.add(options, 'Demo', getDemos()).onChange(render);
+  const Renderer = panel.add(options, 'Renderer', { Canvas: 'canvas', SVG: 'svg', WebGL: 'webgl' }).onChange(render);
+  const Theme = panel.add(options, 'Theme', { Light: 'light', Dark: 'dark' }).onChange(render);
+  const Animation = panel.add(options, 'Animation').onChange(render);
+  const Timer = panel.add(options, 'Timer').disable();
   const reload = panel.add(options, 'Reload').onChange(render);
-  return { panel, type, demo, renderer, theme, animation, timer, reload };
+  return { panel, Type, Demo, Renderer, Theme, Animation, Timer, reload };
 }
 
 async function render() {
   setParamsToSearch(options);
   document.documentElement.setAttribute('data-theme', options.Theme);
   destroyForm();
-  panels.timer.setValue('0ms');
+  panels.Timer.setValue('0ms');
 
   // container
   document.getElementById('container')?.remove();
-  const container = document.createElement('div');
-  container.id = 'container';
-  document.getElementById('app')?.appendChild(container);
+  const $container = document.createElement('div');
+  $container.id = 'container';
+  document.getElementById('app')?.appendChild($container);
 
   // render
   const { Renderer, Type, Demo, Animation, Theme } = options;
-  const canvas = createGraphCanvas(document.getElementById('container'), 500, 500, Renderer);
+  const canvas = createGraphCanvas($container, 500, 500, Renderer);
   await canvas.init();
   const testCase = CASES[Type][Demo];
   if (!testCase) return;
@@ -79,7 +78,7 @@ async function render() {
 
   if (result?.totalDuration) {
     const formatCurrentTime = (time: number) => time.toFixed(2);
-    const setTimer = (time: any) => panels.timer.setValue(`${formatCurrentTime(time)}ms`);
+    const setTimer = (time: any) => panels.Timer.setValue(`${formatCurrentTime(time)}ms`);
     result.onframe = (frame) => {
       setTimer(frame.currentTime);
     };
@@ -110,7 +109,7 @@ function syncParamsFromSearch() {
 function setParamsToSearch(options: Options) {
   const searchParams = new URLSearchParams(window.location.search);
   Object.entries(options).forEach(([key, value]) => {
-    if (params.includes(key)) searchParams.set(key, value.toString());
+    if (params.includes(key as (typeof params)[number])) searchParams.set(key, value.toString());
   });
   window.history.replaceState(null, '', `?${searchParams.toString()}`);
 }

@@ -90,5 +90,5 @@ export function createEdgeNode(point: Point): Node {
 
 export async function createDemoGraph(demo: STDTestCase, context?: Partial<STDTestCaseContext>): Promise<Graph> {
   const container = createGraphCanvas(document.getElementById('container'));
-  return demo({ ...context, animation: false, container, theme: 'light' });
+  return demo({ animation: false, container, theme: 'light', ...context });
 }

@@ -1,7 +1,7 @@
 import { AABB } from '@antv/g';
 import { clone } from '@antv/util';
 import { TriangleDirection } from '../elements/nodes/triangle';
-import type { Element, Node, Padding, Point } from '../types';
+import type { Node, Padding, Point } from '../types';
 import { isPoint } from './is';
 import { isBetween } from './math';
 import { parsePadding } from './padding';
@@ -29,6 +29,15 @@ export function getBBoxHeight(bbox: AABB): number {
 }
 
 /**
+ * <zh/> 获取包围盒的尺寸
+ * @param bbox - <zh/> 包围盒 | <en/> Bounding box
+ * @returns <zh/> 包围盒的尺寸 | <en/> Size of box
+ */
+export function getBBoxSize(bbox: AABB): [number, number] {
+  return [getBBoxWidth(bbox), getBBoxHeight(bbox)];
+}
+
+/**
  * <zh/> 获取节点的包围盒，兼容节点为点的情况
  *
  * <en/> Get the bounding box of the node, compatible with the case where the node is a point
@@ -39,27 +48,6 @@ export function getBBoxHeight(bbox: AABB): number {
 export function getNodeBBox(node: Point | Node, padding?: Padding): AABB {
   const bbox = isPoint(node) ? getPointBBox(node) : node.getKey().getBounds();
   return padding ? getExpandedBBox(bbox, padding) : bbox;
-}
-
-/**
- * <zh/> 获取多个元素的联合包围盒
- *
- * <en/> Get the union bounding box of multiple elements
- * @param elements - <zh/> 元素数组 | <en/> Array of elements
- * @returns <zh/> 包围盒 | <en/> Bounding box
- */
-export function getElementsBBox(elements: Element[]): AABB {
-  let resBBox: AABB = new AABB(); // Initialize resBBox with an empty AABB object
-
-  if (!elements.length) return resBBox;
-
-  elements.forEach((element, i) => {
-    const bbox = element.getBounds();
-    if (i === 0) resBBox = bbox;
-    else resBBox = union(resBBox, bbox);
-  });
-
-  return resBBox;
 }
 
 /**
@@ -94,19 +82,27 @@ export function getExpandedBBox(bbox: AABB, padding: Padding): AABB {
 }
 
 /**
- * <zh/> 合并两个包围盒，使其成为一个包围盒
+ * <zh/> 计算整体包围盒
  *
- * <en/> Merge two bboxes into a single bbox that encompasses both
- * @param b1 - <zh/> 包围盒1 | <en/> Bounding box 1
- * @param b2 - <zh/> 包围盒2 | <en/> Bounding box 2
- * @returns <zh/> 合并后的包围盒 | <en/> The merged bounding box
+ * <en/> Calculate the overall bounding box
+ * @param bboxes - <zh/> 包围盒列表 | <en/> List of bounding boxes
+ * @returns <zh/> 整体包围盒 | <en/> Overall bounding box
  */
-export function union(b1: AABB, b2: AABB): AABB {
+export function getCombinedBBox(bboxes: AABB[]): AABB {
+  if (bboxes.length === 0) return new AABB();
+  if (bboxes.length === 1) return bboxes[0];
+
   const bbox = new AABB();
-  bbox.setMinMax(
-    [Math.min(b1.min[0], b2.min[0]), Math.min(b1.min[1], b2.min[1]), Math.min(b1.min[2], b2.min[2])],
-    [Math.max(b1.max[0], b2.max[0]), Math.max(b1.max[1], b2.max[1]), Math.max(b1.max[2], b2.max[2])],
-  );
+  bbox.setMinMax(bboxes[0].min, bboxes[0].max);
+
+  for (let i = 1; i < bboxes.length; i++) {
+    const b2 = bboxes[i];
+    bbox.setMinMax(
+      [Math.min(bbox.min[0], b2.min[0]), Math.min(bbox.min[1], b2.min[1]), Math.min(bbox.min[2], b2.min[2])],
+      [Math.max(bbox.max[0], b2.max[0]), Math.max(bbox.max[1], b2.max[1]), Math.max(bbox.max[2], b2.max[2])],
+    );
+  }
+
   return bbox;
 }
 
@@ -199,9 +195,7 @@ export function getNearestPointToPoint(bbox: AABB, p: Point): Point {
 export function getTriangleCenter(bbox: AABB, direction: TriangleDirection): Point {
   // todo 算法只对矩形有效
   const { center } = bbox;
-  const { min, max } = bbox;
-  const width = max[0] - min[0];
-  const height = max[1] - min[1];
+  const [width, height] = getBBoxSize(bbox);
 
   const x =
     direction === 'up' || direction === 'down'
@@ -226,9 +220,7 @@ export function getTriangleCenter(bbox: AABB, direction: TriangleDirection): Poi
  * @returns number
  */
 export function getIncircleRadius(bbox: AABB, direction: TriangleDirection): number {
-  const { min, max } = bbox;
-  let w = max[0] - min[0];
-  let h = max[1] - min[1];
+  let [w, h] = getBBoxSize(bbox);
 
   [w, h] = direction === 'up' || direction === 'down' ? [w, h] : [h, w];
 

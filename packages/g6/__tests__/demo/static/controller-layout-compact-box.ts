@@ -6,9 +6,11 @@ import type { STDTestCase } from '../types';
 export const controllerLayoutCompactBox: STDTestCase = async (context) => {
   const options: G6Spec = {
     ...context,
+    x: 50,
+    y: 300,
+    zoom: 0.5,
     data: treeToGraphData(tree),
     theme: 'light',
-    zoom: 0.5,
     layout: {
       type: 'compact-box',
       direction: 'LR',
@@ -47,8 +49,6 @@ export const controllerLayoutCompactBox: STDTestCase = async (context) => {
   const graph = new Graph(options);
 
   await graph.render();
-
-  await graph.translateTo([100, 300]);
 
   return graph;
 };

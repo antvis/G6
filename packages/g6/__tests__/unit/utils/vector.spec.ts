@@ -30,11 +30,15 @@ describe('Vector Functions', () => {
   it('multiply', () => {
     expect(multiply([0, 1], [2, 3])).toEqual([0, 3]);
     expect(multiply([0, 1, 3], [2, 3, 4])).toEqual([0, 3, 12]);
+    expect(multiply([0, 1], 2)).toEqual([0, 2]);
+    expect(multiply([0, 1, 3], 2)).toEqual([0, 2, 6]);
   });
 
   it('divide', () => {
     expect(divide([0, 1], [2, 3])).toEqual([0, 1 / 3]);
     expect(divide([0, 1, 3], [2, 3, 4])).toEqual([0, 1 / 3, 3 / 4]);
+    expect(divide([0, 1], 2)).toEqual([0, 0.5]);
+    expect(divide([0, 1, 3], 2)).toEqual([0, 0.5, 1.5]);
   });
 
   it('dot', () => {

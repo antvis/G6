@@ -1,5 +1,7 @@
 import type { DisplayObject, IAnimation } from '@antv/g';
-import { isEqual, isNil } from '@antv/util';
+import { isEqual, isNil, isObject } from '@antv/util';
+import { DEFAULT_ANIMATION_OPTIONS } from '../constants';
+import type { G6Spec } from '../spec';
 import type { AnimatableTask, Keyframe } from '../types';
 import { isNode } from './element';
 import { getDescendantShapes } from './shape';
@@ -210,4 +212,25 @@ export function executeAnimatableTasks(tasks: AnimatableTask[], callbacks: Callb
   );
   withAnimationCallbacks(animation, restCallbacks);
   return animation;
+}
+
+/**
+ * <zh/> 获取动画配置
+ *
+ * <en/> Get global animation configuration
+ * @param options - <zh/> G6 配置项（用于获取全局动画配置） | <en/> G6 configuration(used to get global animation configuration)
+ * @param localAnimation - <zh/> 局部动画配置 | <en/> local animation configuration
+ * @returns <zh/> 动画配置 | <en/> animation configuration
+ */
+export function getAnimation(
+  options: G6Spec,
+  localAnimation: boolean | EffectTiming | undefined,
+): false | EffectTiming {
+  const { animation } = options;
+  if (!animation || localAnimation === false) return false;
+
+  const finalAnimation: EffectTiming = { ...DEFAULT_ANIMATION_OPTIONS };
+  if (isObject(animation)) Object.assign(finalAnimation, animation);
+  if (isObject(localAnimation)) Object.assign(finalAnimation, localAnimation);
+  return finalAnimation;
 }
