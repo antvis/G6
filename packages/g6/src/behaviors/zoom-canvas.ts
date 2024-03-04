@@ -1,7 +1,9 @@
+import type { PointLike } from '@antv/g';
 import { isArray, isFunction, isObject } from '@antv/util';
 import { CanvasEvent } from '../constants';
 import type { RuntimeContext } from '../runtime/types';
-import type { BehaviorEvent, ViewportAnimationEffectTiming } from '../types';
+import type { BehaviorEvent, Point, ViewportAnimationEffectTiming } from '../types';
+import { parsePoint } from '../utils/point';
 import type { ShortcutKey } from '../utils/shortcut';
 import { Shortcut } from '../utils/shortcut';
 import type { BaseBehaviorOptions } from './base-behavior';
@@ -86,10 +88,11 @@ export class ZoomCanvas extends BaseBehavior<ZoomCanvasOptions> {
     this.shortcut.unbindAll();
 
     if (isArray(trigger)) {
-      if (trigger.includes(CanvasEvent.WHEEL)) {
-        this.preventDefault(CanvasEvent.WHEEL);
-      }
-      this.shortcut.bind([...trigger, CanvasEvent.WHEEL], this.onWheel);
+      this.preventDefault(CanvasEvent.WHEEL);
+      this.shortcut.bind([...trigger, CanvasEvent.WHEEL], (event) => {
+        const { deltaX, deltaY } = event;
+        this.zoom(-(deltaY ?? deltaX), event);
+      });
     }
 
     if (isObject(trigger)) {
@@ -100,12 +103,6 @@ export class ZoomCanvas extends BaseBehavior<ZoomCanvasOptions> {
     }
   }
 
-  private onWheel = (event: BehaviorEvent<WheelEvent>) => {
-    const { deltaX, deltaY } = event;
-    const delta = -(deltaY || deltaX);
-    this.zoom(delta, event);
-  };
-
   /**
    * <zh/> 缩放画布
    *
@@ -115,20 +112,23 @@ export class ZoomCanvas extends BaseBehavior<ZoomCanvasOptions> {
    */
   private zoom = async (value: number, event: BehaviorEvent<WheelEvent> | BehaviorEvent<KeyboardEvent>) => {
     if (!this.validate(event)) return;
-    const { viewport } = this.context;
-    if (!viewport) return;
+    const { graph } = this.context;
+
+    let origin: Point | undefined;
+    if ('viewport' in event) {
+      origin = parsePoint(event.viewport as PointLike);
+    }
 
     const { sensitivity, onfinish } = this.options;
     const diff = (value * sensitivity) / 10;
-    const zoom = viewport.getZoom();
-    await viewport.zoom({ mode: 'absolute', value: zoom + diff }, this.animation);
+    const zoom = graph.getZoom();
+    await graph.zoomTo(zoom + diff, this.animation, origin);
 
     onfinish?.();
   };
 
   private onReset = async () => {
-    const { viewport } = this.context;
-    await viewport?.zoom({ mode: 'absolute', value: 1 }, this.animation);
+    await this.context.graph.zoomTo(1, this.animation);
   };
 
   private validate(event: BehaviorEvent<WheelEvent> | BehaviorEvent<KeyboardEvent>) {
