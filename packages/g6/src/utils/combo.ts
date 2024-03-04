@@ -1,6 +1,8 @@
 import { AABB } from '@antv/g';
-import type { Point, Size, Vector2 } from '../types';
+import type { CollapsedMarkerStyleProps } from '../elements/combos/base-combo';
+import type { Combo, Node, Point, Size, Vector2 } from '../types';
 import { getXYByAnchor } from './anchor';
+import { isNode } from './element';
 import { parseSize } from './size';
 
 /**
@@ -54,4 +56,44 @@ export function getXYByCollapsedOrigin(
     [center[0] + expandedWidth / 2, center[1] + expandedHeight / 2, 0],
   );
   return getXYByAnchor(expandedBBox, origin);
+}
+
+/**
+ * <zh/> 获取收起时标记的文本
+ *
+ * <en/> Get the text of the collapsed marker
+ * @param type - <zh/> 收起时标记类型 | <en/> type of the collapsed marker
+ * @param children - <zh/> 子元素 | <en/> children
+ * @returns <zh/> 收起时标记文本 | <en/> text of the collapsed marker
+ */
+export function getCollapsedMarkerText(type: CollapsedMarkerStyleProps['type'], children: (Node | Combo)[]) {
+  if (type === 'descendantCount') {
+    return getDescendantCount(children).toString();
+  } else if (type === 'childCount') {
+    return children.length.toString();
+  } else if (type === 'nodeCount') {
+    return getDescendantCount(children, true).toString();
+  }
+  return '';
+}
+
+/**
+ * <zh/> 获取子孙节点数量
+ *
+ * <en/> Get the number of descendant nodes
+ * @param children - <zh/> 子元素 | <en/> children
+ * @param onlyNode - <zh/> 是否只统计 Node 类型的子孙节点| <en/> Whether to only count the descendant nodes of the Node type
+ * @returns <zh/> 子孙节点数量 | <en/> number of descendant nodes
+ */
+export function getDescendantCount(children: (Node | Combo)[], onlyNode = false): number {
+  let count = 0;
+  for (const child of children) {
+    if (!onlyNode || isNode(child)) {
+      count += 1;
+    }
+    if ('children' in child.attributes) {
+      count += getDescendantCount(child.attributes.children as (Node | Combo)[], onlyNode);
+    }
+  }
+  return count;
 }

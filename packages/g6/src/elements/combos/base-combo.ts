@@ -1,19 +1,26 @@
-import type { AABB, BaseStyleProps, DisplayObject, DisplayObjectConfig, Group, TextStyleProps } from '@antv/g';
-import { Text as GText } from '@antv/g';
+import type { AABB, BaseStyleProps, DisplayObject, DisplayObjectConfig, Group } from '@antv/g';
 import { deepMix, isEmpty } from '@antv/util';
 import type { BaseComboProps, PrefixObject, Vector2 } from '../../types';
 import { getElementsBBox, getExpandedBBox } from '../../utils/bbox';
-import { getXYByCollapsedOrigin } from '../../utils/combo';
+import { getCollapsedMarkerText, getXYByCollapsedOrigin } from '../../utils/combo';
 import { getXYByPosition } from '../../utils/element';
 import { subStyleProps } from '../../utils/prefix';
 import { parseSize } from '../../utils/size';
 import type { BaseNodeStyleProps } from '../nodes';
 import { BaseNode } from '../nodes';
-import { Icon, Label } from '../shapes';
+import { Icon, IconStyleProps, Label } from '../shapes';
 
+export type CollapsedMarkerStyleProps = IconStyleProps & {
+  /**
+   * <zh/> 标记类型，childCount 表示子元素数量，descendantCount 表示后代元素数量, nodeCount 表示后代节点数量
+   * <en/> Marker type, childCount means the number of child elements, descendantCount means the number of descendant elements, nodeCount means the number of descendant nodes
+   */
+  type?: 'childCount' | 'descendantCount' | 'nodeCount';
+};
 export type BaseComboStyleProps<KeyStyleProps extends BaseStyleProps = BaseStyleProps> = BaseComboProps &
-  PrefixObject<KeyStyleProps, 'collapsed'> &
-  PrefixObject<TextStyleProps, 'collapsedMarker'> &
+  PrefixObject<KeyStyleProps, 'collapsed'> & {
+    collapsedMarker?: boolean;
+  } & PrefixObject<CollapsedMarkerStyleProps, 'collapsedMarker'> &
   BaseNodeStyleProps<KeyStyleProps>;
 export type ParsedBaseComboStyleProps<KeyStyleProps extends BaseStyleProps> = Required<
   BaseComboStyleProps<KeyStyleProps>
@@ -23,6 +30,8 @@ export abstract class BaseCombo<
   KeyShape extends DisplayObject,
   KeyStyleProps extends BaseStyleProps = BaseStyleProps,
 > extends BaseNode<KeyShape, KeyStyleProps> {
+  public type = 'combo';
+
   static defaultStyleProps: BaseComboStyleProps = {
     size: 0,
     collapsed: false,
@@ -30,7 +39,8 @@ export abstract class BaseCombo<
     collapsedOrigin: [0.5, 0.5],
     padding: 0,
     children: [],
-    markerType: 'childCount',
+    collapsedMarker: true,
+    collapsedMarkerType: 'childCount',
     collapsedMarkerFontSize: 12,
     collapsedMarkerTextBaseline: 'middle',
     collapsedMarkerTextAlign: 'center',
@@ -99,19 +109,25 @@ export abstract class BaseCombo<
   }
 
   protected drawCollapsedMarkerShape(attributes: ParsedBaseComboStyleProps<KeyStyleProps>, container: Group): void {
-    this.upsert('collapsed-marker', GText, this.getCollapsedMarkerStyle(attributes), container);
+    this.upsert('collapsed-marker', Icon, this.getCollapsedMarkerStyle(attributes), container);
   }
 
-  protected getCollapsedMarkerStyle(attributes: ParsedBaseComboStyleProps<KeyStyleProps>): TextStyleProps | false {
-    if (!attributes.collapsed || !attributes.markerType || attributes.markerType === 'none') return false;
+  protected getCollapsedMarkerStyle(attributes: ParsedBaseComboStyleProps<KeyStyleProps>): IconStyleProps | false {
+    if (!attributes.collapsed || !attributes.collapsedMarker) return false;
 
-    const collapsedMarkerStyle = subStyleProps(this.getGraphicStyle(attributes), 'collapsedMarker');
-    const { children, markerType } = attributes;
-    const text: string = markerType === 'childCount' ? children?.length.toString() || '' : '';
+    const { type, ...collapsedMarkerStyle } = subStyleProps<CollapsedMarkerStyleProps>(
+      this.getGraphicStyle(attributes),
+      'collapsedMarker',
+    );
     const keyShape = this.getKey();
     const [x, y] = getXYByPosition(keyShape.getLocalBounds(), 'center');
 
-    return { ...collapsedMarkerStyle, x, y, text };
+    if (type) {
+      const text = getCollapsedMarkerText(type, attributes.children!);
+      return { ...collapsedMarkerStyle, x, y, text };
+    }
+
+    return { ...collapsedMarkerStyle, x, y };
   }
 
   public render(attributes: ParsedBaseComboStyleProps<KeyStyleProps>, container: Group = this) {

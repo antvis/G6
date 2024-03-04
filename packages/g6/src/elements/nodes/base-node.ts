@@ -58,6 +58,8 @@ export type ParsedBaseNodeStyleProps<KeyStyleProps extends BaseStyleProps> = Req
 export abstract class BaseNode<KeyShape extends DisplayObject, KeyStyleProps extends BaseStyleProps> extends BaseShape<
   BaseNodeStyleProps<KeyStyleProps>
 > {
+  public type = 'node';
+
   static defaultStyleProps: BaseNodeStyleProps = {
     x: 0,
     y: 0,

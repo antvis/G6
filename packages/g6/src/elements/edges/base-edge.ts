@@ -42,6 +42,8 @@ export type BaseEdgeStyleProps = BaseEdgeProps &
 type ParsedBaseEdgeStyleProps = Required<BaseEdgeStyleProps>;
 
 export abstract class BaseEdge extends BaseShape<BaseEdgeStyleProps> {
+  public type = 'edge';
+
   static defaultStyleProps: Partial<BaseEdgeStyleProps> = {
     isBillboard: true,
     label: true,

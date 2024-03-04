@@ -116,19 +116,8 @@ export type BaseComboProps = {
    */
   children?: (Node | Combo)[];
   /**
-   * <zh/> Combo 的内边距
-   * <en/> The padding of combo
+   * <zh/> Combo 的内边距，只在展开状态下生效
+   * <en/> The padding of combo, only effective when expanded
    */
   padding?: Padding;
-  /**
-   * <zh/> 收起时的图标类型
-   * <en/> Marker type when collapsed
-   */
-  markerType?: 'none' | 'childCount' | 'descendantCount' | 'image';
-
-  marker?: boolean;
-
-  markerSrc?: string;
-
-  markerText?: 'childCount' | 'descendantCount' | string;
 };

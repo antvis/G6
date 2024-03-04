@@ -148,6 +148,7 @@ export const dark: Theme = {
       labelFontSize: 12,
       labelMaxLines: 1,
       lineWidth: 1,
+      padding: 10,
       size: 0,
       stroke: COMBO_STROKE,
     },
@@ -184,7 +185,10 @@ export const dark: Theme = {
       exit: 'fade',
       hide: 'fade',
       show: 'fade',
-      update: [{ fields: ['cx', 'cy', 'r', 'x', 'y', 'width', 'height'], shape: 'key' }],
+      update: [
+        { fields: ['cx', 'cy', 'r', 'x', 'y', 'width', 'height'], shape: 'key' },
+        { fields: ['x', 'y'], shape: 'label' },
+      ],
     },
   },
 };

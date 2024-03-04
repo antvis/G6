@@ -1,4 +1,10 @@
-import { calculateCollapsedOrigin, getXYByCollapsedOrigin } from '@/src/utils/combo';
+import { Circle, CircleCombo } from '@/src/elements';
+import {
+  calculateCollapsedOrigin,
+  getCollapsedMarkerText,
+  getDescendantCount,
+  getXYByCollapsedOrigin,
+} from '@/src/utils/combo';
 
 describe('combo', () => {
   it('calculateCollapsedOrigin', () => {
@@ -17,5 +23,18 @@ describe('combo', () => {
     expect(getXYByCollapsedOrigin('right', [100, 100], [100, 100], [200, 200])).toEqual([150, 100]);
     expect(getXYByCollapsedOrigin('center', [100, 100], [100, 100], [200, 200])).toEqual([100, 100]);
     expect(getXYByCollapsedOrigin([0.5, 0.5], [100, 100], [100, 100], [200, 200])).toEqual([100, 100]);
+  });
+
+  it('getCollapsedMarkerText', () => {
+    const children = [new CircleCombo({ style: { children: [new Circle({})] } })];
+    expect(getCollapsedMarkerText('childCount', children)).toEqual('1');
+    expect(getCollapsedMarkerText('descendantCount', children)).toEqual('2');
+    expect(getCollapsedMarkerText('nodeCount', children)).toEqual('1');
+  });
+
+  it('getDescendantCount', () => {
+    expect(getDescendantCount([new Circle({}), new Circle({})])).toEqual(2);
+    expect(getDescendantCount([new CircleCombo({ style: { children: [new Circle({})] } })])).toEqual(2);
+    expect(getDescendantCount([new CircleCombo({ style: { children: [new Circle({})] } })], true)).toEqual(1);
   });
 });
