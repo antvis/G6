@@ -133,10 +133,10 @@ export const dark: Theme = {
   },
   combo: {
     style: {
+      collapsedSize: 32,
       fill: COMBO_FILL,
       haloLineWidth: 12,
       haloStrokeOpacity: 0.25,
-      iconContentType: 'childCount',
       iconFill: COMBO_STROKE,
       iconFontSize: 12,
       labelBackgroundFill: BG_COLOR,
@@ -147,8 +147,8 @@ export const dark: Theme = {
       labelFontSize: 12,
       labelMaxLines: 1,
       lineWidth: 1,
-      padding: [25, 20, 15, 20],
-      size: 10,
+      padding: 10,
+      size: 0,
       stroke: COMBO_STROKE,
     },
     state: {
@@ -178,6 +178,16 @@ export const dark: Theme = {
         iconOpacity: 0.25,
         labelOpacity: 0.25,
       },
+    },
+    animation: {
+      enter: 'fade',
+      exit: 'fade',
+      hide: 'fade',
+      show: 'fade',
+      update: [
+        { fields: ['cx', 'cy', 'r', 'x', 'y', 'width', 'height'], shape: 'key' },
+        { fields: ['x', 'y'], shape: 'label' },
+      ],
     },
   },
 };

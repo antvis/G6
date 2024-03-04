@@ -1,7 +1,9 @@
 import type { BaseStyleProps, DisplayObject, PathStyleProps } from '@antv/g';
+import type { BaseCombo } from '../elements/combos';
 import type { BaseEdge } from '../elements/edges';
 import type { BaseNode } from '../elements/nodes';
 import type { ComboOptions, EdgeOptions, NodeOptions } from '../spec';
+import type { Padding } from './padding';
 import type { Size } from './size';
 
 export type ElementType = 'node' | 'edge' | 'combo';
@@ -11,6 +13,10 @@ export type ElementOptions = NodeOptions | EdgeOptions | ComboOptions;
 export type Node = BaseNode<DisplayObject, BaseStyleProps>;
 
 export type Edge = BaseEdge;
+
+export type Combo = BaseCombo<DisplayObject, BaseStyleProps>;
+
+export type Element = Node | Edge | Combo;
 
 export type BaseNodeProps = BaseStyleProps & {
   /**
@@ -44,6 +50,11 @@ export type BaseNodeProps = BaseStyleProps & {
    * @ignore
    */
   points?: ([number, number] | [number, number, number])[];
+  /**
+   * <zh/> 父节点 id
+   * <en/> The id of the parent node/combo
+   */
+  parentId?: string;
 };
 
 export type BaseEdgeProps = BaseStyleProps &
@@ -77,3 +88,36 @@ export type BaseEdgeProps = BaseStyleProps &
      */
     targetPort?: string;
   };
+
+export type BaseComboProps = {
+  /**
+   * <zh/> Combo 展开后的默认大小
+   * <en/> The default size of combo when expanded
+   */
+  size?: Size;
+  /**
+   * <zh/> Combo 是否收起
+   * <en/> Indicates whether combo is collapsed
+   */
+  collapsed?: boolean;
+  /**
+   * <zh/> Combo 收起后的默认大小
+   * <en/> The default size of combo when collapsed
+   */
+  collapsedSize?: Size;
+  /**
+   * <zh/> Combo 收起后的原点
+   * <en/> The origin of combo when collapsed
+   */
+  collapsedOrigin?: string | [number, number];
+  /**
+   * <zh/> Combo 的子元素，可以是节点或者 Combo
+   * <en/> The children of combo, which can be nodes or combos
+   */
+  children?: (Node | Combo)[];
+  /**
+   * <zh/> Combo 的内边距，只在展开状态下生效
+   * <en/> The padding of combo, only effective when expanded
+   */
+  padding?: Padding;
+};

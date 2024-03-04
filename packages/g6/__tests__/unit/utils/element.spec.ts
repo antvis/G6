@@ -45,6 +45,7 @@ describe('element', () => {
   });
 
   it('isSameNode', () => {
+    expect(isSameNode(node1, undefined!)).toBeFalsy();
     expect(isSameNode(node1, node2)).toBeFalsy();
     expect(isSameNode(node1, node1)).toBeTruthy();
   });

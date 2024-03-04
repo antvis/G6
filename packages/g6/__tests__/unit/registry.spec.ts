@@ -1,5 +1,6 @@
 import {
   Circle,
+  CircleCombo,
   Cubic,
   CubicHorizontal,
   CubicVertical,
@@ -34,7 +35,9 @@ describe('registry', () => {
       'cubic-horizontal': CubicHorizontal,
       'cubic-vertical': CubicVertical,
     });
-    expect(getPlugins('combo')).toEqual({});
+    expect(getPlugins('combo')).toEqual({
+      circle: CircleCombo,
+    });
     expect(getPlugins('theme')).toEqual({
       dark,
       light,

@@ -17,7 +17,7 @@ import { findNearestPoints, getEllipseIntersectPoint } from './point';
  * @returns <zh/> 是否是 BaseNode 的实例 | <en/> whether the instance is BaseNode
  */
 export function isNode(shape: DisplayObject): shape is Node {
-  return shape instanceof BaseNode;
+  return shape instanceof BaseNode && shape.type === 'node';
 }
 
 /**

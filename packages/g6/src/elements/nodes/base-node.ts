@@ -35,8 +35,8 @@ export type BaseNodeStyleProps<KeyStyleProps extends BaseStyleProps = BaseNodePr
      */
     badges?: NodeBadgeStyleProps[];
     /**
-     * <zh/> 背景色板
-     * <en/> Background color palette
+     * <zh/> 徽标的背景色板
+     * <en/> Badge background color palette
      */
     badgePalette?: string[] | CategoricalPalette;
   } & PrefixObject<NodeLabelStyleProps, 'label'> &
@@ -58,6 +58,8 @@ export type ParsedBaseNodeStyleProps<KeyStyleProps extends BaseStyleProps> = Req
 export abstract class BaseNode<KeyShape extends DisplayObject, KeyStyleProps extends BaseStyleProps> extends BaseShape<
   BaseNodeStyleProps<KeyStyleProps>
 > {
+  public type = 'node';
+
   static defaultStyleProps: BaseNodeStyleProps = {
     x: 0,
     y: 0,

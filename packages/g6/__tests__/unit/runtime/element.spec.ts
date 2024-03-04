@@ -132,11 +132,12 @@ describe('ElementController', () => {
 
     const comboStyle = elementController.getElementComputedStyle('combo', 'combo-1');
 
+    expect(comboStyle.children[0].id).toEqual('node-3');
+
     expect(omit(comboStyle, ['children'])).toEqual({
       ...LIGHT_THEME.combo?.style,
       color: BUILT_IN_PALETTES.blues[0],
     });
-    expect(Object.keys(comboStyle.children)).toEqual(['node-3']);
   });
 
   it('runtime', async () => {
@@ -160,7 +161,6 @@ describe('ElementController', () => {
 
     expect(elementController.getNodes().length).toBe(3);
     expect(elementController.getEdges().length).toBe(2);
-    // TODO 目前暂未提供 combo 图形，因此无法渲染 / Currently, combo graphics are not provided, so they cannot be rendered
-    expect(elementController.getCombos().length).toBe(0);
+    expect(elementController.getCombos().length).toBe(1);
   });
 });
