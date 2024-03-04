@@ -15,7 +15,7 @@ export const comboCircle: STDTestCase = async (context) => {
     combos: [
       {
         id: 'combo-1',
-        style: { parentId: 'combo-2', collapsedLineDash: [5, 5] },
+        style: { parentId: 'combo-2' },
       },
       {
         id: 'combo-2',
@@ -37,28 +37,68 @@ export const comboCircle: STDTestCase = async (context) => {
     combo: {
       style: {
         padding: 0,
-        contentType: 'childCount',
         labelText: (d: any) => d.id,
+        collapsedLineDash: [5, 5],
       },
     },
   });
 
   await graph.render();
 
-  graph.updateComboData([
-    {
-      id: 'combo-1',
-      style: { parentId: 'combo-2', collapsed: true, collapsedOrigin: 'top' },
-    },
-    {
-      id: 'combo-2',
-      style: {
-        zIndex: -10, // TODO: zIndex?
-      },
-    },
-  ]);
+  const COLLAPSED_ORIGIN = ['top', 'bottom', 'left', 'right', 'center'];
+  const COLLAPSED_MARKER_TYPE = ['childCount', 'descendantCount', 'nodeCount'];
 
-  await graph.render();
+  comboCircle.form = (panel) => {
+    const config = {
+      collapsedOrigin: 'top',
+      collapsedMarker: true,
+      collapsedMarkerType: 'childCount',
+      collapseCombo2: () => {
+        graph.updateComboData((data) => [
+          ...data,
+          {
+            id: 'combo-2',
+            style: {
+              collapsed: true,
+              collapsedOrigin: config.collapsedOrigin,
+              collapsedMarker: config.collapsedMarker,
+              collapsedMarkerType: config.collapsedMarkerType,
+            },
+          },
+        ]);
+        graph.render();
+      },
+      expandCombo2: () => {
+        graph.updateComboData((data) => [
+          ...data,
+          {
+            id: 'combo-2',
+            style: {
+              collapsed: false,
+              collapsedOrigin: config.collapsedOrigin,
+              collapsedMarker: config.collapsedMarker,
+              collapsedMarkerType: config.collapsedMarkerType,
+            },
+          },
+        ]);
+        graph.render();
+      },
+    };
+
+    return [
+      panel.add(config, 'collapsedOrigin', COLLAPSED_ORIGIN).onChange((collapsedOrigin: string) => {
+        config.collapsedOrigin = collapsedOrigin;
+      }),
+      panel.add(config, 'collapsedMarker').onChange((collapsedMarker: boolean) => {
+        config.collapsedMarker = collapsedMarker;
+      }),
+      panel.add(config, 'collapsedMarkerType', COLLAPSED_MARKER_TYPE).onChange((collapsedMarkerType: string) => {
+        config.collapsedMarkerType = collapsedMarkerType;
+      }),
+      panel.add(config, 'collapseCombo2'),
+      panel.add(config, 'expandCombo2'),
+    ];
+  };
 
   return graph;
 };

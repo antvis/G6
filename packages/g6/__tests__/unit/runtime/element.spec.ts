@@ -132,11 +132,12 @@ describe('ElementController', () => {
 
     const comboStyle = elementController.getElementComputedStyle('combo', 'combo-1');
 
+    expect(comboStyle.children[0].id).toEqual('node-3');
+
     expect(omit(comboStyle, ['children'])).toEqual({
       ...LIGHT_THEME.combo?.style,
       color: BUILT_IN_PALETTES.blues[0],
     });
-    expect(Object.keys(comboStyle.children)).toEqual(['node-3']);
   });
 
   it('runtime', async () => {
