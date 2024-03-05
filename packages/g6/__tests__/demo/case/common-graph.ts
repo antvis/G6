@@ -13,7 +13,7 @@ export const commonGraph: STDTestCase = async (context) => {
     },
     layout: { type: 'd3force' },
     behaviors: ['zoom-canvas', 'drag-canvas'],
-    widgets: [],
+    plugins: [],
   });
 
   await graph.render();

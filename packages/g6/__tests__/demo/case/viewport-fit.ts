@@ -19,7 +19,7 @@ export const viewportFit: STDTestCase = async (context) => {
       },
     },
     behaviors: ['zoom-canvas', 'drag-canvas'],
-    widgets: [],
+    plugins: [],
   });
 
   await graph.render();

@@ -6,7 +6,7 @@ import { Supervisor, isLayoutWithIterations } from '@antv/layout';
 import { isNumber } from '@antv/util';
 import { COMBO_KEY, GraphEvent, TREE_KEY } from '../constants';
 import type { BaseLayoutOptions } from '../layouts/types';
-import { getPlugin } from '../registry';
+import { getExtension } from '../registry';
 import type { EdgeData, NodeData } from '../spec';
 import type { STDLayoutOptions } from '../spec/layout';
 import type { NodeLikeData, Point, TreeData } from '../types';
@@ -153,7 +153,7 @@ export class LayoutController {
     const { type, animation } = options;
     // @ts-expect-error @antv/hierarchy 布局格式与 @antv/layout 不一致，其导出的是一个方法，而非 class
     // The layout format of @antv/hierarchy is inconsistent with @antv/layout, it exports a method instead of a class
-    const layout = getPlugin('layout', type) as (tree: TreeData, options: STDLayoutOptions) => TreeData;
+    const layout = getExtension('layout', type) as (tree: TreeData, options: STDLayoutOptions) => TreeData;
     if (!layout) throw new Error(`The layout type ${type} is not found`);
 
     createTreeStructure(model);
@@ -315,7 +315,7 @@ export class LayoutController {
         return Math.max(width, height);
       });
 
-    const Ctor = getPlugin('layout', type);
+    const Ctor = getExtension('layout', type);
 
     if (!Ctor) throw new Error(`The layout type ${type} is not found`);
 

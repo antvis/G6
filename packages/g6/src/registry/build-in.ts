@@ -35,12 +35,13 @@ import {
 } from '../layouts';
 import { blues, greens, oranges, spectral } from '../palettes';
 import { dark, light } from '../themes';
+import type { ExtensionRegistry } from './types';
 
 /**
  * <zh/> 内置插件统一在这里注册。
- * <en/> Built-in plugins are registered here.
+ * <en/> Built-in extensions are registered here.
  */
-export const BUILT_IN_PLUGINS = {
+export const BUILT_IN_EXTENSIONS: ExtensionRegistry = {
   animation: {
     fade,
     translate,
@@ -96,5 +97,5 @@ export const BUILT_IN_PLUGINS = {
     dark,
     light,
   },
-  widget: {},
+  plugin: {},
 };

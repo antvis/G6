@@ -1,7 +1,7 @@
 import type { DisplayObject, IAnimation } from '@antv/g';
 import { isString, upperFirst } from '@antv/util';
 import { DEFAULT_ELEMENTS_ANIMATION_OPTIONS } from '../constants';
-import { getPlugin } from '../registry';
+import { getExtension } from '../registry';
 import { createAnimationsProxy, executeAnimation, inferDefaultValue, preprocessKeyframes } from '../utils/animation';
 import type { AnimationExecutor } from './types';
 
@@ -20,7 +20,7 @@ export const executor: AnimationExecutor = (element, animation, commonEffectTimi
 
   const { animationsFilter = () => true } = context;
 
-  const animations = (isString(animation) ? getPlugin('animation', animation) || [] : animation).filter(
+  const animations = (isString(animation) ? getExtension('animation', animation) || [] : animation).filter(
     animationsFilter,
   );
   if (animations.length === 0) return null;

@@ -10,7 +10,7 @@ import { AnimationType, ChangeTypeEnum, GraphEvent } from '../constants';
 import type { BaseEdge } from '../elements/edges/base-edge';
 import type { BaseNode } from '../elements/nodes';
 import type { BaseShape } from '../elements/shapes';
-import { getPlugin } from '../registry';
+import { getExtension } from '../registry';
 import type { ComboData, EdgeData, GraphData, NodeData } from '../spec';
 import type { AnimationStage } from '../spec/element/animation';
 import type { EdgeStyle } from '../spec/element/edge';
@@ -134,7 +134,7 @@ export class ElementController {
     const { theme } = this.context.options;
     if (!theme) return {};
 
-    const themeConfig = getPlugin('theme', theme);
+    const themeConfig = getExtension('theme', theme);
     return themeConfig?.[elementType] || {};
   }
 
@@ -575,7 +575,7 @@ export class ElementController {
 
     // get shape constructor
     const shapeType = this.getShapeType(elementType, renderData);
-    const Ctor = getPlugin(elementType, shapeType);
+    const Ctor = getExtension(elementType, shapeType);
     if (!Ctor) return () => null;
     const shape = this.container[elementType].appendChild(
       new Ctor({

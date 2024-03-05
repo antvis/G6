@@ -1,12 +1,12 @@
-import { BUILT_IN_PLUGINS } from './build-in';
-import type { PluginCategory, PluginRegistry } from './types';
+import { BUILT_IN_EXTENSIONS } from './build-in';
+import type { ExtensionCategory, ExtensionRegistry } from './types';
 
 /**
- * <zh/> 插件注册表
+ * <zh/> 扩展注册表
  *
- * <en/> Plugin registry
+ * <en/> Extension registry
  */
-const PLUGIN_REGISTRY: PluginRegistry = {
+const EXTENSION_REGISTRY: ExtensionRegistry = {
   animation: {},
   behavior: {},
   combo: {},
@@ -15,19 +15,19 @@ const PLUGIN_REGISTRY: PluginRegistry = {
   node: {},
   palette: {},
   theme: {},
-  widget: {},
+  plugin: {},
 };
 
 /**
- * <zh/> 注册一个新的插件。
+ * <zh/> 注册一个新的扩展。
  *
- * <en/> Registers a new plugin.
+ * <en/> Registers a new extension.
  * @description
- * <zh/> 内置插件在项目导入时会自动注册。对于非内置插件，可以通过 `register` 方法手动注册。插件只需要注册一次，即可在项目的任何位置使用。
- * <en/> Built-in plugins are automatically registered when the project is imported. For non-built-in plugins, you can manually register them using the `register` method. Plugins only need to be registered once and can be used anywhere in the project.
- * @param category - <zh/> 插件要注册的分类，目前支持注册的插件分类有：{@link PluginCategory} | <en/> The category under which the plugin is to be registered, see {@link PluginCategory}
- * @param type - <zh/> 要注册的插件的类型，将作为使用插件时的标识 | <en/> Plugin type that used as an identifier when mounting the plugin on a graph
- * @param Ctor - <zh/> 要注册的插件类，在使用时创建实例 | <en/> The plugin class to be registered. An instance will be created upon use
+ * <zh/> 内置扩展在项目导入时会自动注册。对于非内置扩展，可以通过 `register` 方法手动注册。扩展只需要注册一次，即可在项目的任何位置使用。
+ * <en/> Built-in extensions are automatically registered when the project is imported. For non-built-in extensions, you can manually register them using the `register` method. Extensions only need to be registered once and can be used anywhere in the project.
+ * @param category - <zh/> 扩展要注册的分类，目前支持注册的扩展分类有：{@link ExtensionCategory} | <en/> The category under which the extension is to be registered, see {@link ExtensionCategory}
+ * @param type - <zh/> 要注册的扩展的类型，将作为使用扩展时的标识 | <en/> Extension type that used as an identifier when mounting the extension on a graph
+ * @param Ctor - <zh/> 要注册的扩展类，在使用时创建实例 | <en/> The extension class to be registered. An instance will be created upon use
  * @example
  * ```ts
  * import { register, Extensions } from '@antv/g6';
@@ -36,53 +36,56 @@ const PLUGIN_REGISTRY: PluginRegistry = {
  * ```
  * @public
  */
-export function register<T extends PluginCategory>(category: T, type: string, Ctor: PluginRegistry[T][string]) {
-  if (PLUGIN_REGISTRY[category]![type]) {
-    console.error(`The plugin ${type} of ${category} has been registered before.`);
+export function register<T extends ExtensionCategory>(category: T, type: string, Ctor: ExtensionRegistry[T][string]) {
+  if (EXTENSION_REGISTRY[category]![type]) {
+    console.error(`The extension ${type} of ${category} has been registered before.`);
     return;
   }
-  Object.assign(PLUGIN_REGISTRY[category]!, { [type]: Ctor });
+  Object.assign(EXTENSION_REGISTRY[category]!, { [type]: Ctor });
 }
 
 /**
- * <zh/> 根据类别和类型获取插件
+ * <zh/> 根据类别和类型获取扩展
  *
- * <en/> Get the plugin by category and type
- * @param category - <zh/> 插件类别 | <en/> Plugin category
- * @param type - <zh/> 插件类型 | <en/> Plugin type
- * @returns <zh/> 注册的插件 | <en/> Registered plugin
+ * <en/> Get the extension by category and type
+ * @param category - <zh/> 扩展类别 | <en/> Extension category
+ * @param type - <zh/> 扩展类型 | <en/> Extension type
+ * @returns <zh/> 注册的扩展 | <en/> Registered extension
  * @internal
  */
-export function getPlugin<T extends PluginCategory>(category: T, type: string): PluginRegistry[T][string] | undefined {
-  const plugin = PLUGIN_REGISTRY[category]?.[type];
+export function getExtension<T extends ExtensionCategory>(
+  category: T,
+  type: string,
+): ExtensionRegistry[T][string] | undefined {
+  const extension = EXTENSION_REGISTRY[category]?.[type];
 
-  if (plugin) {
-    return plugin as PluginRegistry[T][string];
+  if (extension) {
+    return extension as ExtensionRegistry[T][string];
   }
   return undefined;
 }
 
 /**
- * <zh/> 根据类别获取插件
+ * <zh/> 根据类别获取扩展
  *
- * <en/> Get the plugin by category and type
- * @param category - <zh/> 插件类别 | <en/> Plugin category
- * @returns <zh/> 注册的插件 | <en/> Registered plugin
+ * <en/> Get the extension by category and type
+ * @param category - <zh/> 扩展类别 | <en/> Extension category
+ * @returns <zh/> 注册的扩展 | <en/> Registered extension
  * @internal
  */
-export function getPlugins<T extends PluginCategory>(category: T): PluginRegistry[T] {
-  return PLUGIN_REGISTRY[category];
+export function getExtensions<T extends ExtensionCategory>(category: T): ExtensionRegistry[T] {
+  return EXTENSION_REGISTRY[category];
 }
 
 /**
- * <zh/> 注册内置插件
+ * <zh/> 注册内置扩展
  *
- * <en/> Register built-in plugins
+ * <en/> Register built-in extensions
  */
-export function registerBuiltInPlugins() {
-  Object.entries(BUILT_IN_PLUGINS).forEach(([category, plugins]) => {
-    Object.entries(plugins).forEach(([type, plugin]) => {
-      register(category as PluginCategory, type, plugin as any);
+export function registerBuiltInExtensions() {
+  Object.entries(BUILT_IN_EXTENSIONS).forEach(([category, extensions]) => {
+    Object.entries(extensions).forEach(([type, extension]) => {
+      register(category as ExtensionCategory, type, extension as any);
     });
   });
 }
