@@ -4,6 +4,7 @@ import {
   Cubic,
   CubicHorizontal,
   CubicVertical,
+  Diamond,
   Ellipse,
   Image,
   Line,
@@ -26,6 +27,7 @@ describe('registry', () => {
       rect: Rect,
       star: Star,
       triangle: Triangle,
+      diamond: Diamond,
     });
     expect(getPlugins('edge')).toEqual({
       cubic: Cubic,
