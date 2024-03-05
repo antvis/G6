@@ -8,14 +8,19 @@ export class BaseEvent {
   constructor(public type: string) {}
 }
 
-export class RenderEvent extends BaseEvent {
-  constructor(type: GraphEvent.BEFORE_RENDER | GraphEvent.AFTER_RENDER) {
-    super(type);
-  }
-}
-
-export class DrawEvent extends BaseEvent {
-  constructor(type: GraphEvent.BEFORE_DRAW | GraphEvent.AFTER_DRAW) {
+export class GraphLifeCycleEvent extends BaseEvent {
+  constructor(
+    type:
+      | GraphEvent.BEFORE_RENDER
+      | GraphEvent.AFTER_RENDER
+      | GraphEvent.BEFORE_DRAW
+      | GraphEvent.AFTER_DRAW
+      | GraphEvent.BEFORE_LAYOUT
+      | GraphEvent.AFTER_LAYOUT
+      | GraphEvent.BEFORE_SIZE_CHANGE
+      | GraphEvent.AFTER_SIZE_CHANGE,
+    public data?: any,
+  ) {
     super(type);
   }
 }

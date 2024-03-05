@@ -12,6 +12,7 @@ import type { STDLayoutOptions } from '../spec/layout';
 import type { NodeLikeData, Point, TreeData } from '../types';
 import { getAnimation } from '../utils/animation';
 import { isVisible } from '../utils/element';
+import { GraphLifeCycleEvent, emit } from '../utils/event';
 import { createTreeStructure } from '../utils/graphlib';
 import { isComboLayout, isPositionSpecified, isTreeLayout, pickLayoutResult } from '../utils/layout';
 import { dfs } from '../utils/traverse';
@@ -92,8 +93,8 @@ export class LayoutController {
   public async layout() {
     if (!this.options) return;
     const pipeline = Array.isArray(this.options) ? this.options : [this.options];
-
-    this.context.graph.emit(GraphEvent.BEFORE_LAYOUT);
+    const { graph } = this.context;
+    emit(graph, new GraphLifeCycleEvent(GraphEvent.BEFORE_LAYOUT));
     for (const options of pipeline) {
       const { presetLayout } = options;
       const model = this.getLayoutDataModel(options);
@@ -104,7 +105,7 @@ export class LayoutController {
         this.updateElement(result, false);
       }
     }
-    this.context.graph.emit(GraphEvent.AFTER_LAYOUT);
+    emit(graph, new GraphLifeCycleEvent(GraphEvent.AFTER_LAYOUT));
   }
 
   public async stepLayout(model: LayoutGraphlibModel, options: STDLayoutOptions): Promise<LayoutMapping> {

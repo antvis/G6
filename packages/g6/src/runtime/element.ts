@@ -39,11 +39,11 @@ import { isVisible, updateStyle } from '../utils/element';
 import type { BaseEvent } from '../utils/event';
 import {
   AnimateEvent,
-  DrawEvent,
   ElementStateChangeEvent,
   ElementTranslateEvent,
   ElementVisibilityChangeEvent,
   ElementZIndexChangeEvent,
+  GraphLifeCycleEvent,
 } from '../utils/event';
 import { idOf } from '../utils/id';
 import { assignColorByPalette, parsePalette } from '../utils/palette';
@@ -547,12 +547,12 @@ export class ElementController {
 
     const diffData = { create: dataToCreate, update: dataToUpdate, destroy: dataToDestroy };
     return executeAnimatableTasks([...destroyTasks, ...createTasks, ...updateTasks], {
-      before: () => this.emit(new DrawEvent(GraphEvent.BEFORE_DRAW)),
+      before: () => this.emit(new GraphLifeCycleEvent(GraphEvent.BEFORE_DRAW)),
       beforeAnimate: (animation) =>
         this.emit(new AnimateEvent(GraphEvent.BEFORE_ANIMATE, AnimationType.DRAW, animation, diffData)),
       afterAnimate: (animation) =>
         this.emit(new AnimateEvent(GraphEvent.AFTER_ANIMATE, AnimationType.DRAW, animation, diffData)),
-      after: () => this.emit(new DrawEvent(GraphEvent.AFTER_DRAW)),
+      after: () => this.emit(new GraphLifeCycleEvent(GraphEvent.AFTER_DRAW)),
     })?.finished.then(() => {});
   }
 
