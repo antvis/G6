@@ -5,7 +5,8 @@
       "dependsOn": ["^build"],
       "outputs": ["dist/**", "esm/**", "lib/**"]
     },
-    "ci": {},
-    "type-check": {}
+    "ci": {
+      "dependsOn": ["^ci"]
+    }
   }
 }
