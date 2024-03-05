@@ -46,7 +46,6 @@
     "start": "rimraf ./lib && tsc --module commonjs --outDir lib --watch",
     "test": "npm run jest __tests__",
     "test:integration": "npm run jest __tests__/integration",
-    "test:integration_one": "npm run jest __tests__/unit/utils/point.spec.ts",
     "test:unit": "npm run jest __tests__/unit"
   },
   "dependencies": {
