@@ -113,7 +113,7 @@ describe('behavior zoom canvas', () => {
         if (typeof behavior === 'object') {
           return {
             ...behavior,
-            enable: (event) => event.targetType === 'canvas',
+            enable: (event: any) => event.targetType === 'canvas',
           };
         }
         return behavior;

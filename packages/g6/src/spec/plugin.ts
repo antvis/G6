@@ -1,8 +1,8 @@
 import type { BuiltInPluginOptions } from '../plugins/types';
-import type { LooselyModuleOption, ModuleOptions, STDModuleOption } from '../types';
+import type { ExtensionOptions, LooselyExtensionOption, STDExtensionOption } from '../registry/extension/types';
 
-export type PluginOptions = ModuleOptions<BuiltInPluginOptions>;
+export type PluginOptions = ExtensionOptions<BuiltInPluginOptions>;
 
-export type STDPluginOption = STDModuleOption<BuiltInPluginOptions>;
+export type STDPluginOption = STDExtensionOption<BuiltInPluginOptions>;
 
-export type CustomPluginOption = LooselyModuleOption;
+export type CustomPluginOption = LooselyExtensionOption;

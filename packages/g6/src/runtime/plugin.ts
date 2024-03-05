@@ -1,9 +1,9 @@
 import type { BasePlugin } from '../plugins/base-plugin';
+import { ExtensionController } from '../registry/extension';
 import type { CustomPluginOption, PluginOptions } from '../spec/plugin';
-import { ModuleController } from '../utils/module';
 import type { RuntimeContext } from './types';
 
-export class PluginController extends ModuleController<BasePlugin<CustomPluginOption>> {
+export class PluginController extends ExtensionController<BasePlugin<CustomPluginOption>> {
   public category: 'plugin' | 'behavior' = 'plugin';
 
   constructor(context: RuntimeContext) {
@@ -12,6 +12,6 @@ export class PluginController extends ModuleController<BasePlugin<CustomPluginOp
   }
 
   public setPlugins(plugins: PluginOptions) {
-    this.setModules(plugins);
+    this.setExtensions(plugins);
   }
 }

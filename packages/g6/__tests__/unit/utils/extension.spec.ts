@@ -1,9 +1,9 @@
 import { BehaviorOptions, PluginOptions } from '@/src';
-import { parseModules } from '@/src/utils/module';
+import { parseExtensions } from '@/src/utils/extension';
 
-describe('module', () => {
-  it('parse behavior module', () => {
-    expect(parseModules('behavior', [])).toEqual([]);
+describe('extension', () => {
+  it('parseBehaviors', () => {
+    expect(parseExtensions('behavior', [])).toEqual([]);
 
     const options: BehaviorOptions = [
       'drag-node',
@@ -14,7 +14,7 @@ describe('module', () => {
       'scroll-canvas',
     ];
 
-    expect(parseModules('behavior', options)).toEqual([
+    expect(parseExtensions('behavior', options)).toEqual([
       { type: 'drag-node', key: 'behavior-drag-node-0' },
       { type: 'drag-canvas', key: 'behavior-drag-canvas-0' },
       { type: 'shortcut', key: 'shortcut-zoom-in' },
@@ -24,8 +24,8 @@ describe('module', () => {
     ]);
   });
 
-  it('parseWidgets', () => {
-    expect(parseModules('plugin', [])).toEqual([]);
+  it('parsePlugins', () => {
+    expect(parseExtensions('plugin', [])).toEqual([]);
 
     const options: PluginOptions = [
       'minimap',
@@ -39,7 +39,7 @@ describe('module', () => {
       'minimap',
     ];
 
-    expect(parseModules('plugin', options)).toEqual([
+    expect(parseExtensions('plugin', options)).toEqual([
       { type: 'minimap', key: 'plugin-minimap-0' },
       { type: 'tooltip', key: 'my-tooltip' },
       { type: 'tooltip', key: 'plugin-tooltip-0' },

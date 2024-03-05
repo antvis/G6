@@ -1,13 +1,13 @@
 import type { DisplayObject, FederatedPointerEvent, FederatedWheelEvent } from '@antv/g';
 import type { BaseBehavior } from '../behaviors/base-behavior';
 import { CanvasEvent, ContainerEvent } from '../constants';
+import { ExtensionController } from '../registry/extension';
 import type { BehaviorOptions, CustomBehaviorOption } from '../spec/behavior';
 import type { Target } from '../types';
 import { eventTargetOf } from '../utils/event';
-import { ModuleController } from '../utils/module';
 import type { RuntimeContext } from './types';
 
-export class BehaviorController extends ModuleController<BaseBehavior<CustomBehaviorOption>> {
+export class BehaviorController extends ExtensionController<BaseBehavior<CustomBehaviorOption>> {
   /** <zh/> 当前事件的目标 | <en/> The current event target */
   private currentTarget: Target | null = null;
 
@@ -20,7 +20,7 @@ export class BehaviorController extends ModuleController<BaseBehavior<CustomBeha
   }
 
   public setBehaviors(behaviors: BehaviorOptions) {
-    this.setModules(behaviors);
+    this.setExtensions(behaviors);
   }
 
   private forwardEvents() {

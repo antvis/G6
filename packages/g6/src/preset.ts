@@ -1,9 +1,9 @@
 import { runtime } from '@antv/g';
-import { registerBuiltInPlugins } from './registry';
+import { registerBuiltInExtensions } from './registry';
 
 const onload = () => {
   runtime.enableCSSParsing = false;
-  registerBuiltInPlugins();
+  registerBuiltInExtensions();
 };
 
 onload();

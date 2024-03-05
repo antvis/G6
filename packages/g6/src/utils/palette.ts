@@ -1,7 +1,7 @@
 import type { ID } from '@antv/graphlib';
 import { groupBy, isFunction, isNumber, isString } from '@antv/util';
 import type { CategoricalPalette } from '../palettes/types';
-import { getPlugin } from '../registry';
+import { getExtension } from '../registry';
 import type { PaletteOptions, STDPaletteOptions } from '../spec/element/palette';
 import type { ElementData, ElementDatum } from '../types/data';
 import { idOf } from './id';
@@ -52,7 +52,7 @@ export function assignColorByPalette(data: ElementData, palette?: STDPaletteOpti
   const { type, color: colorPalette, field, invert } = palette;
 
   const assignColor = (args: [ID, number][]): Record<ID, string> => {
-    const palette = isString(colorPalette) ? getPlugin('palette', colorPalette) : colorPalette;
+    const palette = isString(colorPalette) ? getExtension('palette', colorPalette) : colorPalette;
 
     if (isFunction(palette)) {
       // assign by continuous
@@ -109,7 +109,7 @@ export function assignColorByPalette(data: ElementData, palette?: STDPaletteOpti
  * @returns <zh/> 色板上具体颜色 | <en/> Specific color on the palette
  */
 export function getPaletteColors(colorPalette?: string | CategoricalPalette): CategoricalPalette | undefined {
-  const palette = isString(colorPalette) ? getPlugin('palette', colorPalette) : colorPalette;
+  const palette = isString(colorPalette) ? getExtension('palette', colorPalette) : colorPalette;
   if (isFunction(palette)) return undefined;
   return palette;
 }

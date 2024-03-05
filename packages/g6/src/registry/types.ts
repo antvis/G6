@@ -7,11 +7,11 @@ import type { Theme } from '../themes/types';
 import type { Combo, Edge, Node } from '../types';
 
 /**
- * <zh/> 插件注册表
+ * <zh/> 扩展注册表
  *
- * <en/> Plugin registry
+ * <en/> Extension registry
  */
-export interface PluginRegistry {
+export interface ExtensionRegistry {
   node: Record<string, { new (...args: any[]): Node }>;
   edge: Record<string, { new (...args: any[]): Edge }>;
   combo: Record<string, { new (...args: any[]): Combo }>;
@@ -24,8 +24,8 @@ export interface PluginRegistry {
 }
 
 /**
- * <zh/> 插件分类
+ * <zh/> 扩展分类
  *
- * <en/> Plugin category
+ * <en/> Extension category
  */
-export type PluginCategory = keyof PluginRegistry;
+export type ExtensionCategory = keyof ExtensionRegistry;
