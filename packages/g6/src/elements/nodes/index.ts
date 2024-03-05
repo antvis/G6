@@ -1,7 +1,6 @@
 export { BaseNode } from './base-node';
 export { Circle } from './circle';
 export { Diamond } from './diamond';
-export type { DiamondStyleProps } from './diamond';
 export { Ellipse } from './ellipse';
 export { Image } from './image';
 export { Rect } from './rect';
@@ -10,6 +9,7 @@ export { Triangle } from './triangle';
 
 export type { BaseNodeStyleProps } from './base-node';
 export type { CircleStyleProps } from './circle';
+export type { DiamondStyleProps } from './diamond';
 export type { EllipseStyleProps } from './ellipse';
 export type { ImageStyleProps } from './image';
 export type { RectStyleProps } from './rect';
