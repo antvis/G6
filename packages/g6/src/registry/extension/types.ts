@@ -19,23 +19,21 @@ export type ExtensionOptions<Registry extends CustomExtensionOptions = CustomExt
  *
  * <en/> Extension option
  */
-type ExtensionOption<Registry extends CustomExtensionOptions> = AbbrExtensionOption<LooselyExtensionOption<Registry>>;
+type ExtensionOption<Registry extends CustomExtensionOptions> = AbbrExtensionOption<Registry>;
 
 /**
  * <zh/> 标准扩展配置项
  *
  * <en/> Standard extension options
  */
-export type STDExtensionOption<Registry extends CustomExtensionOptions = CustomExtensionOptions> =
-  ExtensionMetaOptions & Registry;
+export type STDExtensionOption = ExtensionMetaOptions & CustomExtensionOptions;
 
 /**
  * <zh/> 宽松的扩展配置项，可以不传入 key
  *
  * <en/> Loosely extension option, key can be omitted
  */
-export type LooselyExtensionOption<Registry extends CustomExtensionOptions = CustomExtensionOptions> =
-  Partial<ExtensionMetaOptions> & Registry;
+export type LooselyExtensionOption = Partial<ExtensionMetaOptions> & CustomExtensionOptions;
 
 /**
  * <zh/> 扩展配置项简写，支持直接传入 type 字符串

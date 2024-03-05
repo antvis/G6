@@ -8,10 +8,7 @@ import type { ExtensionOptions, STDExtensionOption } from '../registry/extension
  * @param extensions - <zh/> 模块配置项 <en/> extension options
  * @returns <zh/> 标准模块配置项 <en/> Standard extension options
  */
-export function parseExtensions<T extends Record<string, unknown>>(
-  category: 'plugin' | 'behavior',
-  extensions: ExtensionOptions<T>,
-): STDExtensionOption<T>[] {
+export function parseExtensions(category: 'plugin' | 'behavior', extensions: ExtensionOptions): STDExtensionOption[] {
   const counter: Record<string, number> = {};
 
   const getKey = (type: string) => {
@@ -25,5 +22,5 @@ export function parseExtensions<T extends Record<string, unknown>>(
     }
     if (extension.key) return extension;
     return { ...extension, key: getKey(extension.type) };
-  }) as STDExtensionOption<T>[];
+  }) as STDExtensionOption[];
 }
