@@ -16,6 +16,7 @@ import {
   Star,
   Triangle,
 } from '../elements';
+import { RectCombo } from '../elements/combos/rect';
 import {
   CircularLayout,
   ComboCombinedLayout,
@@ -54,6 +55,7 @@ export const BUILT_IN_EXTENSIONS: ExtensionRegistry = {
   },
   combo: {
     circle: CircleCombo,
+    rect: RectCombo,
   },
   edge: {
     cubic: Cubic,

@@ -17,6 +17,7 @@ import {
 import { getExtension, getExtensions, register } from '@/src/registry';
 import { dark, light } from '@/src/themes';
 import { pick } from '@antv/util';
+import { RectCombo } from '../../src/elements/combos/rect';
 
 describe('registry', () => {
   it('registerBuiltInPlugins', () => {
@@ -39,6 +40,7 @@ describe('registry', () => {
     });
     expect(getExtensions('combo')).toEqual({
       circle: CircleCombo,
+      rect: RectCombo,
     });
     expect(getExtensions('theme')).toEqual({
       dark,

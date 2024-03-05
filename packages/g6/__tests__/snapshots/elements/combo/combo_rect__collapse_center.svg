@@ -13,22 +13,22 @@
         <g
           id="combo-2"
           fill="none"
-          transform="matrix(1,0,0,1,27.759853,237.012848)"
+          transform="matrix(1,0,0,1,188.330002,192.250000)"
         >
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
               fill="rgba(253,253,253,1)"
-              transform="translate(-16,-16)"
-              cx="16"
-              cy="16"
+              transform="translate(-153.93233981396043,-153.93233981396043)"
+              cx="153.93233981396043"
+              cy="153.93233981396043"
+              stroke-dasharray="0,0"
               stroke-width="1"
               stroke="rgba(153,173,209,1)"
-              r="16"
-              stroke-dasharray="5,5"
+              r="153.93233981396043"
             />
           </g>
-          <g id="label" fill="none" transform="matrix(1,0,0,1,0,16)">
+          <g id="label" fill="none" transform="matrix(1,0,0,1,0,153.932343)">
             <g transform="matrix(1,0,0,1,-26.280001,0)">
               <path
                 id="background"
@@ -62,18 +62,19 @@
           transform="matrix(1,0,0,1,250.440002,261.500000)"
         >
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle
+            <path
               id="key"
               fill="rgba(253,253,253,1)"
-              transform="translate(-105.5257052101804,-105.5257052101804)"
-              cx="105.5257052101804"
-              cy="105.5257052101804"
+              d="M 0,0 l 32,0 l 0,32 l-32 0 z"
+              transform="translate(-16,-16)"
+              stroke-dasharray="5,5"
               stroke-width="1"
               stroke="rgba(153,173,209,1)"
-              r="105.5257052101804"
+              width="32"
+              height="32"
             />
           </g>
-          <g id="label" fill="none" transform="matrix(1,0,0,1,0,105.525703)">
+          <g id="label" fill="none" transform="matrix(1,0,0,1,0,16)">
             <g transform="matrix(1,0,0,1,-25.440001,0)">
               <path
                 id="background"
@@ -118,18 +119,18 @@
             stroke="transparent"
             stroke-width="3"
           />
-          <g transform="matrix(1,0,0,1,114.310837,107.155418)">
+          <g transform="matrix(1,0,0,1,133.986511,107.770287)">
             <path
               id="key"
               fill="none"
-              d="M 0,0 L 171.37832988800267,85.68916494400133"
+              d="M 0,0 L 152.0269671641108,84.45942620228378"
               stroke-width="1"
               stroke="rgba(153,173,209,1)"
             />
             <path
               id="key"
               fill="none"
-              d="M 0,0 L 171.37832988800267,85.68916494400133"
+              d="M 0,0 L 152.0269671641108,84.45942620228378"
               stroke-width="3"
               stroke="transparent"
             />
@@ -169,7 +170,7 @@
         </g>
       </g>
       <g id="g-svg-5" fill="none" transform="matrix(1,0,0,1,0,0)">
-        <g id="node-1" fill="none" transform="matrix(1,0,0,1,100,100)">
+        <g id="node-1" fill="none" transform="matrix(1,0,0,1,120,100)">
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"

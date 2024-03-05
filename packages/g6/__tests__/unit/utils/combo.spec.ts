@@ -1,19 +1,23 @@
 import { Circle, CircleCombo } from '@/src/elements';
 import {
-  calculateCollapsedOrigin,
   getCollapsedMarkerText,
   getDescendantCount,
+  getRectCollapsedOrigin,
   getXYByCollapsedOrigin,
 } from '@/src/utils/combo';
 
 describe('combo', () => {
-  it('calculateCollapsedOrigin', () => {
-    expect(calculateCollapsedOrigin('top', [100, 100], [200, 200])).toEqual([0.5, 0.25]);
-    expect(calculateCollapsedOrigin('bottom', [100, 100], [200, 200])).toEqual([0.5, 0.75]);
-    expect(calculateCollapsedOrigin('left', [100, 100], [200, 200])).toEqual([0.25, 0.5]);
-    expect(calculateCollapsedOrigin('right', [100, 100], [200, 200])).toEqual([0.75, 0.5]);
-    expect(calculateCollapsedOrigin('center', [100, 100], [200, 200])).toEqual([0.5, 0.5]);
-    expect(calculateCollapsedOrigin([0.5, 0.5], [100, 100], [200, 200])).toEqual([0.5, 0.5]);
+  it('getRectCollapsedOrigin', () => {
+    expect(getRectCollapsedOrigin('top', [100, 100], [200, 200])).toEqual([0.5, 0.25]);
+    expect(getRectCollapsedOrigin('bottom', [100, 100], [200, 200])).toEqual([0.5, 0.75]);
+    expect(getRectCollapsedOrigin('left', [100, 100], [200, 200])).toEqual([0.25, 0.5]);
+    expect(getRectCollapsedOrigin('right', [100, 100], [200, 200])).toEqual([0.75, 0.5]);
+    expect(getRectCollapsedOrigin('center', [100, 100], [200, 200])).toEqual([0.5, 0.5]);
+    expect(getRectCollapsedOrigin('top-left', [100, 100], [200, 200])).toEqual([0.25, 0.25]);
+    expect(getRectCollapsedOrigin('top-right', [100, 100], [200, 200])).toEqual([0.75, 0.25]);
+    expect(getRectCollapsedOrigin('bottom-left', [100, 100], [200, 200])).toEqual([0.25, 0.75]);
+    expect(getRectCollapsedOrigin('bottom-right', [100, 100], [200, 200])).toEqual([0.75, 0.75]);
+    expect(getRectCollapsedOrigin([0.5, 0.5], [100, 100], [200, 200])).toEqual([0.5, 0.5]);
   });
 
   it('getXYByCollapsedOrigin', () => {

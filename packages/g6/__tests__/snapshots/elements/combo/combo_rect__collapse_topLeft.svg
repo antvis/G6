@@ -10,21 +10,25 @@
   <g id="g-svg-camera" transform="matrix(1,0,0,1,0,0)">
     <g id="g-root" fill="none" transform="matrix(1,0,0,1,0,0)">
       <g id="g-svg-7" fill="none" transform="matrix(1,0,0,1,0,0)">
-        <g id="combo-2" fill="none" transform="matrix(1,0,0,1,215.919998,228)">
+        <g
+          id="combo-2"
+          fill="none"
+          transform="matrix(1,0,0,1,155.520004,156.500000)"
+        >
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
               fill="rgba(253,253,253,1)"
-              transform="translate(-199.06606933601074,-199.06606933601074)"
-              cx="199.06606933601074"
-              cy="199.06606933601074"
+              transform="translate(-105.48932686056042,-105.48932686056042)"
+              cx="105.48932686056042"
+              cy="105.48932686056042"
               stroke-dasharray="0,0"
               stroke-width="1"
               stroke="rgba(153,173,209,1)"
-              r="199.06606933601074"
+              r="105.48932686056042"
             />
           </g>
-          <g id="label" fill="none" transform="matrix(1,0,0,1,0,199.066071)">
+          <g id="label" fill="none" transform="matrix(1,0,0,1,0,105.489326)">
             <g transform="matrix(1,0,0,1,-26.280001,0)">
               <path
                 id="background"
@@ -52,25 +56,21 @@
             </g>
           </g>
         </g>
-        <g
-          id="combo-1"
-          fill="none"
-          transform="matrix(1,0,0,1,250.440002,261.500000)"
-        >
+        <g id="combo-1" fill="none" transform="matrix(1,0,0,1,184.820007,190)">
           <g transform="matrix(1,0,0,1,0,0)">
             <path
               id="key"
               fill="rgba(253,253,253,1)"
-              d="M 0,0 l 163.2400008392334,0 l 0,175 l-163.2400008392334 0 z"
-              transform="translate(-81.6200004196167,-87.5)"
-              stroke-dasharray="0,0"
+              d="M 0,0 l 32,0 l 0,32 l-32 0 z"
+              transform="translate(-16,-16)"
+              stroke-dasharray="5,5"
               stroke-width="1"
               stroke="rgba(153,173,209,1)"
-              width="163.2400008392334"
-              height="175"
+              width="32"
+              height="32"
             />
           </g>
-          <g id="label" fill="none" transform="matrix(1,0,0,1,0,87.500000)">
+          <g id="label" fill="none" transform="matrix(1,0,0,1,0,16)">
             <g transform="matrix(1,0,0,1,-25.440001,0)">
               <path
                 id="background"

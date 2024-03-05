@@ -10,25 +10,21 @@
   <g id="g-svg-camera" transform="matrix(1,0,0,1,0,0)">
     <g id="g-root" fill="none" transform="matrix(1,0,0,1,0,0)">
       <g id="g-svg-7" fill="none" transform="matrix(1,0,0,1,0,0)">
-        <g
-          id="combo-2"
-          fill="none"
-          transform="matrix(1,0,0,1,217.872849,46.899853)"
-        >
+        <g id="combo-2" fill="none" transform="matrix(1,0,0,1,221.139999,228)">
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
               fill="rgba(253,253,253,1)"
-              transform="translate(-16,-16)"
-              cx="16"
-              cy="16"
+              transform="translate(-202.41405405578163,-202.41405405578163)"
+              cx="202.41405405578163"
+              cy="202.41405405578163"
+              stroke-dasharray="0,0"
               stroke-width="1"
               stroke="rgba(153,173,209,1)"
-              r="16"
-              stroke-dasharray="5,5"
+              r="202.41405405578163"
             />
           </g>
-          <g id="label" fill="none" transform="matrix(1,0,0,1,0,16)">
+          <g id="label" fill="none" transform="matrix(1,0,0,1,0,202.414047)">
             <g transform="matrix(1,0,0,1,-26.280001,0)">
               <path
                 id="background"
@@ -55,40 +51,22 @@
               </text>
             </g>
           </g>
-          <g id="collapsed-marker" fill="none" transform="matrix(1,0,0,1,0,0)">
-            <g transform="matrix(1,0,0,1,0,0)">
-              <text
-                id="icon"
-                fill="rgba(0,0,0,1)"
-                dominant-baseline="central"
-                paint-order="stroke"
-                dx="0.5"
-                text-anchor="middle"
-                font-size="12"
-              >
-                2
-              </text>
-            </g>
-          </g>
         </g>
-        <g
-          id="combo-1"
-          fill="none"
-          transform="matrix(1,0,0,1,250.440002,261.500000)"
-        >
+        <g id="combo-1" fill="none" transform="matrix(1,0,0,1,316.059998,333)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle
+            <path
               id="key"
               fill="rgba(253,253,253,1)"
-              transform="translate(-105.5257052101804,-105.5257052101804)"
-              cx="105.5257052101804"
-              cy="105.5257052101804"
+              d="M 0,0 l 32,0 l 0,32 l-32 0 z"
+              transform="translate(-16,-16)"
+              stroke-dasharray="5,5"
               stroke-width="1"
               stroke="rgba(153,173,209,1)"
-              r="105.5257052101804"
+              width="32"
+              height="32"
             />
           </g>
-          <g id="label" fill="none" transform="matrix(1,0,0,1,0,105.525703)">
+          <g id="label" fill="none" transform="matrix(1,0,0,1,0,16)">
             <g transform="matrix(1,0,0,1,-25.440001,0)">
               <path
                 id="background"
@@ -133,18 +111,18 @@
             stroke="transparent"
             stroke-width="3"
           />
-          <g transform="matrix(1,0,0,1,114.310837,107.155418)">
+          <g transform="matrix(1,0,0,1,133.986511,107.770287)">
             <path
               id="key"
               fill="none"
-              d="M 0,0 L 171.37832988800267,85.68916494400133"
+              d="M 0,0 L 152.0269671641108,84.45942620228378"
               stroke-width="1"
               stroke="rgba(153,173,209,1)"
             />
             <path
               id="key"
               fill="none"
-              d="M 0,0 L 171.37832988800267,85.68916494400133"
+              d="M 0,0 L 152.0269671641108,84.45942620228378"
               stroke-width="3"
               stroke="transparent"
             />
@@ -184,7 +162,7 @@
         </g>
       </g>
       <g id="g-svg-5" fill="none" transform="matrix(1,0,0,1,0,0)">
-        <g id="node-1" fill="none" transform="matrix(1,0,0,1,100,100)">
+        <g id="node-1" fill="none" transform="matrix(1,0,0,1,120,100)">
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"

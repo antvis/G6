@@ -15,16 +15,16 @@
             <circle
               id="key"
               fill="rgba(253,253,253,1)"
-              transform="translate(-199.06606933601074,-199.06606933601074)"
-              cx="199.06606933601074"
-              cy="199.06606933601074"
-              stroke-dasharray="0,0"
+              transform="translate(-16,-16)"
+              cx="16"
+              cy="16"
+              stroke-dasharray="5,5"
               stroke-width="1"
               stroke="rgba(153,173,209,1)"
-              r="199.06606933601074"
+              r="16"
             />
           </g>
-          <g id="label" fill="none" transform="matrix(1,0,0,1,0,199.066071)">
+          <g id="label" fill="none" transform="matrix(1,0,0,1,0,16)">
             <g transform="matrix(1,0,0,1,-26.280001,0)">
               <path
                 id="background"
