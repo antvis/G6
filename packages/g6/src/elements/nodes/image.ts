@@ -6,15 +6,15 @@ import type { PrefixObject } from '../../types';
 import { subStyleProps } from '../../utils/prefix';
 import { add } from '../../utils/vector';
 import type { IconStyleProps } from '../shapes';
-import type { BaseNodeStyleProps, ParsedBaseNodeStyleProps } from './base-node';
+import type { BaseNodeStyleProps } from './base-node';
 import { BaseNode } from './base-node';
 
 export type ImageStyleProps = BaseNodeStyleProps<KeyStyleProps>;
-type ParsedImageStyleProps = ParsedBaseNodeStyleProps<KeyStyleProps>;
+type ParsedImageStyleProps = Required<ImageStyleProps>;
 type KeyStyleProps = GImageStyleProps & PrefixObject<HaloStyleProps, 'halo'>;
 type HaloStyleProps = GRectStyleProps;
 
-export class Image extends BaseNode<GImage, KeyStyleProps> {
+export class Image extends BaseNode<ImageStyleProps> {
   static defaultStyleProps: Partial<ImageStyleProps> = {
     size: 50,
   };

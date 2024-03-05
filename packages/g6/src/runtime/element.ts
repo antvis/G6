@@ -7,7 +7,6 @@ import { groupBy, pick } from '@antv/util';
 import { executor as animationExecutor } from '../animations';
 import type { AnimationContext } from '../animations/types';
 import { AnimationType, ChangeTypeEnum, GraphEvent } from '../constants';
-import type { BaseEdge } from '../elements/edges/base-edge';
 import type { BaseNode } from '../elements/nodes';
 import type { BaseShape } from '../elements/shapes';
 import { getExtension } from '../registry';
@@ -17,11 +16,14 @@ import type { EdgeStyle } from '../spec/element/edge';
 import type { NodeLikeStyle } from '../spec/element/node';
 import type {
   AnimatableTask,
+  Combo,
   DataChange,
+  Edge,
   ElementData,
   ElementDatum,
   ElementType,
   LayoutResult,
+  Node,
   Positions,
   State,
   States,
@@ -313,15 +315,15 @@ export class ElementController {
   }
 
   public getNodes() {
-    return this.container.node.children as BaseNode<any, any>[];
+    return this.container.node.children as Node[];
   }
 
   public getEdges() {
-    return this.container.edge.children as BaseEdge[];
+    return this.container.edge.children as Edge[];
   }
 
   public getCombos() {
-    return this.container.combo.children as DisplayObject[];
+    return this.container.combo.children as Combo[];
   }
 
   private getAnimation(elementType: ElementType, stage: AnimationStage) {
@@ -404,8 +406,8 @@ export class ElementController {
     if (!data) return {};
 
     const { source, target } = data;
-    const sourceNode = this.getElement<BaseNode<any, any>>(source);
-    const targetNode = this.getElement<BaseNode<any, any>>(target);
+    const sourceNode = this.getElement<BaseNode>(source);
+    const targetNode = this.getElement<BaseNode>(target);
 
     return {
       sourceNode,

@@ -6,6 +6,7 @@ export { Line } from './line';
 export { Polyline } from './polyline';
 export { Quadratic } from './quadratic';
 
+export type { BaseEdgeStyleProps } from './base-edge';
 export type { CubicStyleProps } from './cubic';
 export type { CubicHorizontalStyleProps } from './cubic-horizontal';
 export type { CubicVerticalStyleProps } from './cubic-vertical';

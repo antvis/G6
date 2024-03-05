@@ -7,12 +7,12 @@ import { parseSize } from '../../utils/size';
 import type { BaseComboStyleProps, ParsedBaseComboStyleProps } from './base-combo';
 import { BaseCombo } from './base-combo';
 
-type KeyStyleProps = GCircleStyleProps;
 export type CircleComboStyleProps = BaseComboStyleProps<KeyStyleProps>;
 type ParsedCircleComboStyleProps = ParsedBaseComboStyleProps<KeyStyleProps>;
 type CircleComboOptions = DisplayObjectConfig<CircleComboStyleProps>;
+type KeyStyleProps = GCircleStyleProps;
 
-export class CircleCombo extends BaseCombo<GCircle, KeyStyleProps> {
+export class CircleCombo extends BaseCombo<CircleComboStyleProps> {
   constructor(options: CircleComboOptions) {
     super(options);
   }
