@@ -7,12 +7,12 @@ import { visualizer } from 'rollup-plugin-visualizer';
 
 const isBundleVis = !!process.env.BUNDLE_VIS;
 
-export default [
+export default[
   {
     input: 'src/index.ts',
     output: {
-      file: 'dist/g6-plugin-map-view.min.js',
-      name: 'G6PluginMapView',
+      file: 'dist/g6-extension-3d.min.js',
+      name: 'g6-extension-3d',
       format: 'umd',
       sourcemap: false,
     },

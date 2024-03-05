@@ -1,0 +1,48 @@
+{
+  "name": "g6-extension-3d",
+  "version": "1.0.0",
+  "description": "",
+  "keywords": [
+    "antv",
+    "g6",
+    "extension",
+    "3d"
+  ],
+  "license": "MIT",
+  "author": "",
+  "main": "lib/index.js",
+  "module": "esm/index.js",
+  "types": "lib/index.d.ts",
+  "files": [
+    "src",
+    "esm",
+    "lib",
+    "dist"
+  ],
+  "scripts": {
+    "build": "run-p build:*",
+    "build:cjs": "rimraf ./lib && tsc --module commonjs --outDir lib",
+    "build:esm": "rimraf ./esm && tsc --module ESNext --outDir esm",
+    "build:esm:watch": "rimraf ./esm && tsc --module ESNext --outDir esm --watch",
+    "build:umd": "rimraf ./dist && rollup -c",
+    "ci": "run-s lint type-check build test",
+    "lint": "eslint ./src __tests__ --quiet && prettier ./src __tests__ --check",
+    "prepublishOnly": "npm run ci",
+    "test": "jest",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@antv/g": "^5.18.25",
+    "@antv/g-canvas": "^1.11.27",
+    "@antv/g-device-api": "^1.6.4",
+    "@antv/g-plugin-3d": "^1.9.34",
+    "@antv/g-plugin-control": "^1.9.22",
+    "@antv/g-webgl": "^1.9.37"
+  },
+  "devDependencies": {
+    "@antv/g6": "workspace:*"
+  },
+  "peerDependencies": {
+    "@antv/g6": "workspace:*"
+  }
+}

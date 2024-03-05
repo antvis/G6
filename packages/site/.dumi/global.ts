@@ -8,9 +8,6 @@ if (window) {
   window.layoutWasm = require('@antv/layout-wasm'); // import the source for debugging
   window.graphlib = require('@antv/graphlib');
 
-  // todo 两个包目前报错
-  // window.g6PluginMapView = require('@antv/g6-plugin-map-view');
-  // window.g6ReactNode = require('@antv/g6-react-node');
   window.insertCss = require('insert-css');
   window.util = require('@antv/util');
   window.stats = require('stats.js');
