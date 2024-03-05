@@ -3,21 +3,6 @@ import './preset';
 export const version = '5.0.0';
 export { BaseBehavior } from './behaviors';
 export { CanvasEvent, ComboEvent, CommonEvent, ContainerEvent, EdgeEvent, GraphEvent, NodeEvent } from './constants';
-export {
-  Circle,
-  CircleCombo,
-  Cubic,
-  CubicHorizontal,
-  CubicVertical,
-  Ellipse,
-  Image,
-  Line,
-  Polyline,
-  Quadratic,
-  Rect,
-  Star,
-  Triangle,
-} from './elements';
 export { BaseCombo } from './elements/combos';
 export { BaseEdge } from './elements/edges';
 export { BaseNode } from './elements/nodes';
