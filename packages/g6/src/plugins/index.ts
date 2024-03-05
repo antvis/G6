@@ -1,7 +1,5 @@
-/**
- * <zh/> 内置组件
- *
- * <en/> Built-in plugins
- */
+export { BasePlugin } from './base-plugin';
+export { GridLine } from './grid-line';
 
-export {};
+export type { BasePluginOptions } from './base-plugin';
+export type { GridLineOptions } from './grid-line';

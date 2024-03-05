@@ -99,7 +99,7 @@ export class BaseExtension<T extends LooselyExtensionOption> {
     this.options = options as Required<T>;
   }
 
-  update(options: Partial<T>) {
+  public update(options: Partial<T>) {
     this.options = Object.assign(this.options, options);
   }
 

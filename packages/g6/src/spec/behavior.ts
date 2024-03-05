@@ -1,4 +1,4 @@
-import type { BuiltInBehaviorOptions } from '../behaviors';
+import type { BuiltInBehaviorOptions } from '../behaviors/types';
 import type { ExtensionOptions, LooselyExtensionOption, STDExtensionOption } from '../registry/extension/types';
 
 export type BehaviorOptions = ExtensionOptions<BuiltInBehaviorOptions>;
