@@ -27,16 +27,16 @@ export const nodeDiamond: StaticTestCase = async (context) => {
         width: 40,
         height: 40,
         labelMaxWidth: 120,
-        labelText: (d) => d.id,
+        labelText: (d: any) => d.id,
         iconWidth: 20,
         iconHeight: 20,
         iconSrc: 'https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg',
-        halo: (d) => d.id.includes('halo'),
-        ports: (d) =>
+        halo: (d: any) => d.id.includes('halo'),
+        ports: (d: any) =>
           d.id.includes('ports')
             ? [{ position: 'left' }, { position: 'right' }, { position: 'top' }, { position: 'bottom' }]
             : [],
-        badges: (d) =>
+        badges: (d: any) =>
           d.id.includes('badges')
             ? [
                 { text: 'A', position: 'right-top' },
