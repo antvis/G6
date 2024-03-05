@@ -1,6 +1,6 @@
 import type { AABB, BaseStyleProps, DisplayObject, DisplayObjectConfig, Group } from '@antv/g';
 import { deepMix, isEmpty } from '@antv/util';
-import type { BaseComboProps, Position, PrefixObject, STDSize } from '../../types';
+import type { BaseComboProps, Combo, Node, Position, PrefixObject, STDSize } from '../../types';
 import { getBBoxHeight, getBBoxWidth, getElementsBBox, getExpandedBBox } from '../../utils/bbox';
 import { getCollapsedMarkerText, getXYByCollapsedOrigin } from '../../utils/combo';
 import { getXYByPosition } from '../../utils/element';
@@ -12,10 +12,15 @@ import { Icon, IconStyleProps } from '../shapes';
 
 export type CollapsedMarkerStyleProps = IconStyleProps & {
   /**
-   * <zh/> 标记类型，childCount 表示子元素数量，descendantCount 表示后代元素数量, node-count 表示后代节点数量
-   * <en/> Marker type, child-count means the number of child elements, descendant-count means the number of descendant elements, node-count means the number of descendant nodes
+   * <zh/> 标记类型
+   * <en/> Marker type
+   *
+   * - 'child-count': Number of child elements
+   * - 'descendant-count': Number of descendant elements (including Nodes and Combos)
+   * - 'node-count': Number of descendant elements (only Nodes)
+   * - (children: (Node | Combo)[]) => string: Custom function
    */
-  type?: 'child-count' | 'descendant-count' | 'node-count';
+  type?: 'child-count' | 'descendant-count' | 'node-count' | ((children: (Node | Combo)[]) => string);
 };
 export type BaseComboStyleProps<KeyStyleProps extends BaseStyleProps = BaseStyleProps> = BaseComboProps &
   PrefixObject<KeyStyleProps, 'collapsed'> & {

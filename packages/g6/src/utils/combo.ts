@@ -1,4 +1,5 @@
 import { AABB } from '@antv/g';
+import { isFunction } from '@antv/util';
 import type { CollapsedMarkerStyleProps } from '../elements/combos/base-combo';
 import type { BaseComboProps, Combo, Node, Point, Position, Size } from '../types';
 import type { STDAnchor } from '../types/anchor';
@@ -116,6 +117,8 @@ export function getCollapsedMarkerText(type: CollapsedMarkerStyleProps['type'], 
     return children.length.toString();
   } else if (type === 'node-count') {
     return getDescendantCount(children, true).toString();
+  } else if (isFunction(type)) {
+    return type(children);
   }
   return '';
 }

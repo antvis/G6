@@ -138,7 +138,7 @@ describe('combo', () => {
       ]);
       graph.render();
     };
-    const collapseCombo = (type: string) => {
+    const collapseCombo = (type: string | ((children: any) => string)) => {
       graph.updateComboData((data) => [
         ...data,
         {
@@ -161,5 +161,8 @@ describe('combo', () => {
     expandCombo();
     collapseCombo('node-count');
     await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}_circle__marker_nodeCount');
+    expandCombo();
+    collapseCombo((children: any) => children.length.toString() + 'nodes');
+    await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}_circle__marker_custom');
   });
 });

@@ -57,7 +57,7 @@ export const combo: STDTestCase = async (context) => {
     'bottom-left',
     'bottom-right',
   ];
-  const COLLAPSED_MARKER_TYPE = ['child-count', 'descendant-count', 'node-count'];
+  const COLLAPSED_MARKER_TYPE = ['child-count', 'descendant-count', 'node-count', 'custom'];
 
   combo.form = (panel) => {
     const config = {
@@ -74,7 +74,10 @@ export const combo: STDTestCase = async (context) => {
               collapsed: true,
               collapsedOrigin: config.collapsedOrigin,
               collapsedMarker: config.collapsedMarker,
-              collapsedMarkerType: config.collapsedMarkerType,
+              collapsedMarkerType:
+                config.collapsedMarkerType === 'custom'
+                  ? (children: any) => children.length.toString() + 'nodes'
+                  : config.collapsedMarkerType,
             },
           },
         ]);
@@ -89,7 +92,6 @@ export const combo: STDTestCase = async (context) => {
               collapsed: false,
               collapsedOrigin: config.collapsedOrigin,
               collapsedMarker: config.collapsedMarker,
-              collapsedMarkerType: config.collapsedMarkerType,
             },
           },
         ]);
@@ -104,7 +106,10 @@ export const combo: STDTestCase = async (context) => {
               collapsed: true,
               collapsedOrigin: config.collapsedOrigin,
               collapsedMarker: config.collapsedMarker,
-              collapsedMarkerType: config.collapsedMarkerType,
+              collapsedMarkerType:
+                config.collapsedMarkerType === 'custom'
+                  ? (children: any) => children.length.toString() + 'nodes'
+                  : config.collapsedMarkerType,
             },
           },
         ]);
@@ -119,10 +124,23 @@ export const combo: STDTestCase = async (context) => {
               collapsed: false,
               collapsedOrigin: config.collapsedOrigin,
               collapsedMarker: config.collapsedMarker,
-              collapsedMarkerType: config.collapsedMarkerType,
             },
           },
         ]);
+        graph.render();
+      },
+      addRemoveNode: () => {
+        const node4 = graph.getNodeData('node-4');
+        if (node4) {
+          graph.removeNodeData(['node-4']);
+        } else {
+          graph.addNodeData([
+            {
+              id: 'node-4',
+              style: { parentId: 'combo-2', x: 100, y: 200, fill: 'pink' },
+            },
+          ]);
+        }
         graph.render();
       },
     };
@@ -150,6 +168,7 @@ export const combo: STDTestCase = async (context) => {
       panel.add(config, 'expandCombo1'),
       panel.add(config, 'collapseCombo2'),
       panel.add(config, 'expandCombo2'),
+      panel.add(config, 'addRemoveNode'),
     ];
   };
 
