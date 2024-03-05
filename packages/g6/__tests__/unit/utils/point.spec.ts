@@ -2,6 +2,7 @@ import {
   findNearestPoints,
   getEllipseIntersectPoint,
   getLinesIntersection,
+  getPolygonIntersectPoint,
   getRectIntersectPoint,
   isCollinear,
   isHorizontal,
@@ -14,6 +15,7 @@ import {
   toPointObject,
 } from '@/src/utils/point';
 import { Circle, Rect } from '@antv/g';
+import { getDiamondPoints } from '../../../src/utils/element';
 
 describe('Point Functions', () => {
   it('parsePoint', () => {
@@ -145,6 +147,24 @@ describe('Point Functions', () => {
       },
     });
     expect(getEllipseIntersectPoint([100, 100], circle3.getBounds())).toEqual([120, 100]);
+  });
+
+  it('getDiamondIntersectPoint', () => {
+    expect(getPolygonIntersectPoint([100, 100], [0, 0], getDiamondPoints(100, 100))).toEqual([25, 25]);
+    expect(getDiamondPoints(0, 0)).toEqual([
+      [0, -0],
+      [0, 0],
+      [0, 0],
+      [-0, 0],
+    ]);
+    const height = 10;
+    const width = 10;
+    expect(getDiamondPoints(width, height)).toEqual([
+      [0, -height / 2],
+      [width / 2, 0],
+      [0, height / 2],
+      [-width / 2, 0],
+    ]);
   });
 
   it('findNearestPoints', () => {

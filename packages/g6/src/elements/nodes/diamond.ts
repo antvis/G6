@@ -1,64 +1,41 @@
-import type { DisplayObjectConfig, Group, PolygonStyleProps } from '@antv/g';
-import { Polygon } from '@antv/g';
+import type { DisplayObjectConfig } from '@antv/g';
 import type { Point } from '../../types';
 import { getDiamondPoints } from '../../utils/element';
 import { getPolygonIntersectPoint } from '../../utils/point';
-import { subStyleProps } from '../../utils/prefix';
-import type { BaseNodeStyleProps, ParsedBaseNodeStyleProps } from './base-node';
-import { BaseNode } from './base-node';
+import type { ParsedPolygonStyleProps, PolygonStyleProps } from './polygon';
+import { Polygon } from './polygon';
 
-type KeyShapeStyleProps = Partial<PolygonStyleProps> & {
+type ExtendsStyleProps = {
   width?: number;
   height?: number;
 };
+export type DiamondStyleProps = PolygonStyleProps & ExtendsStyleProps;
 
-export type DiamondStyleProps = BaseNodeStyleProps<KeyShapeStyleProps>;
-
-type ParsedDiamondStyleProps = ParsedBaseNodeStyleProps<KeyShapeStyleProps>;
-
-type DiamondOptions = DisplayObjectConfig<DiamondStyleProps>;
+type ParsedDiamondStyleProps = ParsedPolygonStyleProps & Required<ExtendsStyleProps>;
 
 /**
  * Draw diamond based on BaseNode, override drawKeyShape.
  */
-export class Diamond extends BaseNode<Polygon, KeyShapeStyleProps> {
-  constructor(options: DiamondOptions) {
+export class Diamond extends Polygon {
+  constructor(options: DisplayObjectConfig<DiamondStyleProps>) {
     super(options);
   }
-
-  protected getKeyStyle(attributes: ParsedDiamondStyleProps): PolygonStyleProps {
-    const { width, height, ...keyStyle } = super.getKeyStyle(attributes) as Required<KeyShapeStyleProps>;
-    const points = getDiamondPoints(width, height) as [number, number][];
-    return { ...keyStyle, points };
+  private defaultWidth: number = 40;
+  private defaultHeight: number = 40;
+  private getWidth(attributes: ParsedDiamondStyleProps): number {
+    return attributes.width || this.defaultWidth;
   }
-
-  protected getHaloStyle(attributes: ParsedDiamondStyleProps): PolygonStyleProps | false {
-    if (attributes.halo === false) return false;
-    const haloStyle = subStyleProps(this.getGraphicStyle(attributes), 'halo') as Partial<KeyShapeStyleProps>;
-    const keyStyle = this.getKeyStyle(attributes);
-    const lineWidth = Number(keyStyle.lineWidth || 0);
-    const haloLineWidth = Number(haloStyle.lineWidth || 0);
-    const { width = 0, height = 0 } = super.getKeyStyle(attributes);
-    const points = getDiamondPoints(
-      Number(width) + lineWidth + haloLineWidth,
-      Number(height) + lineWidth + haloLineWidth,
-    ) as [number, number][];
-
-    return {
-      ...keyStyle,
-      points,
-      ...haloStyle,
-    };
+  private getHeight(attributes: ParsedDiamondStyleProps): number {
+    return attributes.height || this.defaultHeight;
+  }
+  protected getPoints(attributes: ParsedDiamondStyleProps): Point[] {
+    return getDiamondPoints(this.getWidth(attributes), this.getHeight(attributes));
   }
 
   public getIntersectPoint(point: Point): Point {
     const { points } = this.getKeyStyle(this.attributes as ParsedDiamondStyleProps);
     const center = [this.attributes.x, this.attributes.y] as Point;
     return getPolygonIntersectPoint(point, center, points);
-  }
-
-  protected drawKeyShape(attributes: ParsedDiamondStyleProps, container: Group): Polygon | undefined {
-    return this.upsert('key', Polygon, this.getKeyStyle(attributes), container);
   }
 
   connectedCallback() {}
