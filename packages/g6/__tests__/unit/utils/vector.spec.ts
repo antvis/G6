@@ -7,6 +7,7 @@ import {
   dot,
   exactEquals,
   manhattanDistance,
+  mod,
   multiply,
   normalize,
   perpendicular,
@@ -85,6 +86,11 @@ describe('Vector Functions', () => {
 
   it('perpendicular', () => {
     expect(perpendicular([1, 0])).toEqual([-0, -1]);
+  });
+
+  it('mode', () => {
+    expect(mod([1, 2], 2)).toEqual([1, 0]);
+    expect(mod([1, 2, 3], 2)).toEqual([1, 0, 1]);
   });
 
   it('toVector2', () => {

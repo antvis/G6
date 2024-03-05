@@ -166,6 +166,18 @@ export function perpendicular(a: Vector2): Vector2 {
 }
 
 /**
+ * <zh/> 计算向量的模
+ *
+ * <en/> Calculates the modulus of a vector
+ * @param a - <zh/> 原始向量 | <en/> The original vector
+ * @param b - <zh/> 模 | <en/> The modulus
+ * @returns - <zh/> 向量的模 | <en/> The modulus of the vector
+ */
+export function mod(a: Vector2 | Vector3, b: number): Vector2 | Vector3 {
+  return a.map((v) => v % b) as Vector2 | Vector3;
+}
+
+/**
  * <zh/> 向量强制转换为二维向量
  *
  * <en/> Force vector to be two-dimensional
