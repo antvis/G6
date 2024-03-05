@@ -46,12 +46,12 @@ export abstract class BaseShape<StyleProps extends BaseShapeStyleProps> extends 
    * @param container - <zh> 容器 | <en> container
    * @returns <zh> 图形实例 | <en> shape instance
    */
-  protected upsert<P extends DisplayObject>(
+  protected upsert(
     key: string,
-    Ctor: { new (...args: any[]): P },
-    style: P['attributes'] | false,
+    Ctor: { new (...args: any[]): DisplayObject },
+    style: DisplayObject['attributes'] | false,
     container: DisplayObject,
-  ): P | undefined {
+  ): any | undefined {
     const target = this.shapeMap[key];
     // remove
     // 如果 style 为 false，则删除图形 / remove shape if style is false
@@ -75,7 +75,7 @@ export abstract class BaseShape<StyleProps extends BaseShapeStyleProps> extends 
     // update
     updateStyle(target, style);
 
-    return target as P;
+    return target;
   }
 
   /**

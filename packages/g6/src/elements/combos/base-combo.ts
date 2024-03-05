@@ -26,10 +26,7 @@ export type ParsedBaseComboStyleProps<KeyStyleProps extends BaseStyleProps> = Re
   BaseComboStyleProps<KeyStyleProps>
 >;
 
-export abstract class BaseCombo<
-  KeyShape extends DisplayObject,
-  KeyStyleProps extends BaseStyleProps = BaseStyleProps,
-> extends BaseNode<KeyShape, KeyStyleProps> {
+export abstract class BaseCombo<S extends BaseComboStyleProps = BaseComboStyleProps> extends BaseNode<S> {
   public type = 'combo';
 
   static defaultStyleProps: BaseComboStyleProps = {
@@ -45,19 +42,16 @@ export abstract class BaseCombo<
     collapsedMarkerTextBaseline: 'middle',
     collapsedMarkerTextAlign: 'center',
   };
-  constructor(options: DisplayObjectConfig<BaseComboStyleProps<KeyStyleProps>>) {
+  constructor(options: DisplayObjectConfig<BaseComboStyleProps>) {
     super(deepMix({}, { style: BaseCombo.defaultStyleProps }, options));
   }
 
   /**
    * Draw the key shape of combo
    */
-  protected abstract drawKeyShape(
-    attributes: ParsedBaseComboStyleProps<KeyStyleProps>,
-    container: Group,
-  ): KeyShape | undefined;
+  protected abstract drawKeyShape(attributes: Required<S>, container: Group): DisplayObject | undefined;
 
-  protected calculatePosition(attributes: ParsedBaseComboStyleProps<KeyStyleProps>): Position {
+  protected calculatePosition(attributes: Required<S>): Position {
     const { x: comboX, y: comboY, collapsed, collapsedOrigin } = attributes;
     if (!isEmpty(comboX) && !isEmpty(comboY)) return [comboX, comboY, 0] as Position;
 
@@ -78,7 +72,7 @@ export abstract class BaseCombo<
     return position;
   }
 
-  protected getKeySize(attributes: ParsedBaseComboStyleProps<KeyStyleProps>): STDSize {
+  protected getKeySize(attributes: Required<S>): STDSize {
     const { size, collapsed, collapsedSize } = attributes;
 
     if (collapsed && !isEmpty(collapsedSize)) return parseSize(collapsedSize);
@@ -88,11 +82,11 @@ export abstract class BaseCombo<
     return collapsed ? this.getCollapsedKeySize(attributes) : this.getExpandedKeySize(attributes);
   }
 
-  protected abstract getCollapsedKeySize(attributes: ParsedBaseComboStyleProps<KeyStyleProps>): STDSize;
+  protected abstract getCollapsedKeySize(attributes: Required<S>): STDSize;
 
-  protected abstract getExpandedKeySize(attributes: ParsedBaseComboStyleProps<KeyStyleProps>): STDSize;
+  protected abstract getExpandedKeySize(attributes: Required<S>): STDSize;
 
-  protected getContentBBox(attributes: ParsedBaseComboStyleProps<KeyStyleProps>): AABB {
+  protected getContentBBox(attributes: Required<S>): AABB {
     const { children = [], padding } = attributes;
     let childrenBBox = getCombinedBBox(children.map((child) => child.getBounds()));
     if (padding) {
@@ -101,11 +95,11 @@ export abstract class BaseCombo<
     return childrenBBox;
   }
 
-  protected drawCollapsedMarkerShape(attributes: ParsedBaseComboStyleProps<KeyStyleProps>, container: Group): void {
+  protected drawCollapsedMarkerShape(attributes: Required<S>, container: Group): void {
     this.upsert('collapsed-marker', Icon, this.getCollapsedMarkerStyle(attributes), container);
   }
 
-  protected getCollapsedMarkerStyle(attributes: ParsedBaseComboStyleProps<KeyStyleProps>): IconStyleProps | false {
+  protected getCollapsedMarkerStyle(attributes: Required<S>): IconStyleProps | false {
     if (!attributes.collapsed || !attributes.collapsedMarker) return false;
 
     const { type, ...collapsedMarkerStyle } = subStyleProps<CollapsedMarkerStyleProps>(
@@ -123,7 +117,7 @@ export abstract class BaseCombo<
     return { ...collapsedMarkerStyle, x, y };
   }
 
-  public render(attributes: ParsedBaseComboStyleProps<KeyStyleProps>, container: Group = this) {
+  public render(attributes: Required<S>, container: Group = this) {
     super.render(attributes, container);
 
     const [x, y] = this.calculatePosition(attributes);

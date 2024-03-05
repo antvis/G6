@@ -1,4 +1,4 @@
-import type { BaseStyleProps, DisplayObject, PathStyleProps } from '@antv/g';
+import type { BaseStyleProps, PathStyleProps } from '@antv/g';
 import type { BaseCombo } from '../elements/combos';
 import type { BaseEdge } from '../elements/edges';
 import type { BaseNode } from '../elements/nodes';
@@ -10,11 +10,11 @@ export type ElementType = 'node' | 'edge' | 'combo';
 
 export type ElementOptions = NodeOptions | EdgeOptions | ComboOptions;
 
-export type Node = BaseNode<DisplayObject, BaseStyleProps>;
+export type Node = BaseNode;
 
 export type Edge = BaseEdge;
 
-export type Combo = BaseCombo<DisplayObject, BaseStyleProps>;
+export type Combo = BaseCombo;
 
 export type Element = Node | Edge | Combo;
 

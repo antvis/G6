@@ -5,17 +5,17 @@ import { ICON_SIZE_RATIO } from '../../constants/element';
 import type { Point } from '../../types';
 import { getEllipseIntersectPoint } from '../../utils/point';
 import type { IconStyleProps } from '../shapes';
-import type { BaseNodeStyleProps, ParsedBaseNodeStyleProps } from './base-node';
+import type { BaseNodeStyleProps } from './base-node';
 import { BaseNode } from './base-node';
 
 export type CircleStyleProps = BaseNodeStyleProps<KeyStyleProps>;
-type ParsedCircleStyleProps = ParsedBaseNodeStyleProps<KeyStyleProps>;
+type ParsedCircleStyleProps = Required<CircleStyleProps>;
 type KeyStyleProps = GCircleStyleProps;
 
 /**
  * Draw circle based on BaseNode, override drawKeyShape.
  */
-export class Circle extends BaseNode<GCircle, KeyStyleProps> {
+export class Circle extends BaseNode<CircleStyleProps> {
   static defaultStyleProps: Partial<CircleStyleProps> = {
     size: 50,
   };

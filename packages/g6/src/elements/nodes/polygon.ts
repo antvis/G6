@@ -2,17 +2,17 @@ import type { DisplayObjectConfig, PolygonStyleProps as GPolygonStyleProps, Grou
 import { Polygon as GPolygon } from '@antv/g';
 import type { Point } from '../../types';
 import { getPolygonIntersectPoint } from '../../utils/point';
-import type { BaseNodeStyleProps, ParsedBaseNodeStyleProps } from './base-node';
+import type { BaseNodeStyleProps } from './base-node';
 import { BaseNode } from './base-node';
 
 export type PolygonStyleProps = BaseNodeStyleProps<PolygonKeyStyleProps>;
-export type ParsedPolygonStyleProps = ParsedBaseNodeStyleProps<PolygonKeyStyleProps>;
+export type ParsedPolygonStyleProps = Required<PolygonStyleProps>;
 export type PolygonKeyStyleProps = GPolygonStyleProps;
 
 /**
  * Abstract class for polygon nodes,i.e triangle, diamond, hexagon, etc.
  */
-export abstract class Polygon extends BaseNode<GPolygon, PolygonKeyStyleProps> {
+export abstract class Polygon extends BaseNode<PolygonStyleProps> {
   constructor(options: DisplayObjectConfig<PolygonStyleProps>) {
     super(options);
   }

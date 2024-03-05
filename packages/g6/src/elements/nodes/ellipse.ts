@@ -5,14 +5,14 @@ import { ICON_SIZE_RATIO } from '../../constants/element';
 import type { Point } from '../../types';
 import { getEllipseIntersectPoint } from '../../utils/point';
 import type { IconStyleProps } from '../shapes';
-import type { BaseNodeStyleProps, ParsedBaseNodeStyleProps } from './base-node';
+import type { BaseNodeStyleProps } from './base-node';
 import { BaseNode } from './base-node';
 
 export type EllipseStyleProps = BaseNodeStyleProps<KeyStyleProps>;
-type ParsedEllipseStyleProps = ParsedBaseNodeStyleProps<KeyStyleProps>;
+type ParsedEllipseStyleProps = Required<EllipseStyleProps>;
 type KeyStyleProps = GEllipseStyleProps;
 
-export class Ellipse extends BaseNode<GEllipse, KeyStyleProps> {
+export class Ellipse extends BaseNode<EllipseStyleProps> {
   static defaultStyleProps: Partial<EllipseStyleProps> = {
     size: [80, 40],
   };

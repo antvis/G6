@@ -22,7 +22,7 @@ import { getWordWrapWidthByBox } from '../../utils/text';
 import type { BadgeStyleProps, IconStyleProps, LabelStyleProps } from '../shapes';
 import { Badge, BaseShape, Icon, Label } from '../shapes';
 
-export type BaseNodeStyleProps<KeyStyleProps extends BaseStyleProps = BaseNodeProps> = BaseNodeProps &
+export type BaseNodeStyleProps<H extends BaseStyleProps = BaseNodeProps> = BaseNodeProps &
   ShapeSwitch & {
     /**
      * <zh/> 连接桩
@@ -40,14 +40,10 @@ export type BaseNodeStyleProps<KeyStyleProps extends BaseStyleProps = BaseNodePr
      */
     badgePalette?: string[] | CategoricalPalette;
   } & PrefixObject<NodeLabelStyleProps, 'label'> &
-  PrefixObject<KeyStyleProps, 'halo'> &
+  PrefixObject<H, 'halo'> &
   PrefixObject<IconStyleProps, 'icon'> &
   PrefixObject<BadgeStyleProps, 'badge'> &
   PrefixObject<PortStyleProps, 'port'>;
-
-export type ParsedBaseNodeStyleProps<KeyStyleProps extends BaseStyleProps> = Required<
-  BaseNodeStyleProps<KeyStyleProps>
->;
 
 /**
  * Design document: https://www.yuque.com/antv/g6/gl1iof1xpzg6ed98
@@ -55,9 +51,7 @@ export type ParsedBaseNodeStyleProps<KeyStyleProps extends BaseStyleProps> = Req
  * The P is the StyleProps of Key Shape.
  * The KeyShape is the type of the key shape.
  */
-export abstract class BaseNode<KeyShape extends DisplayObject, KeyStyleProps extends BaseStyleProps> extends BaseShape<
-  BaseNodeStyleProps<KeyStyleProps>
-> {
+export abstract class BaseNode<S extends BaseNodeStyleProps = any> extends BaseShape<S> {
   public type = 'node';
 
   static defaultStyleProps: BaseNodeStyleProps = {
@@ -87,7 +81,7 @@ export abstract class BaseNode<KeyShape extends DisplayObject, KeyStyleProps ext
     labelZIndex: 0,
   };
 
-  constructor(options: DisplayObjectConfig<BaseNodeStyleProps<KeyStyleProps>>) {
+  constructor(options: DisplayObjectConfig<S>) {
     super(deepMix({}, { style: BaseNode.defaultStyleProps }, options));
   }
 
@@ -96,16 +90,16 @@ export abstract class BaseNode<KeyShape extends DisplayObject, KeyStyleProps ext
     return parseSize(size);
   }
 
-  protected getKeyStyle(attributes: ParsedBaseNodeStyleProps<KeyStyleProps>): KeyStyleProps {
+  protected getKeyStyle(attributes: Required<S>) {
     const { color, fill, ...style } = this.getGraphicStyle(attributes);
 
     return Object.assign(
       { fill: color || fill },
       omitStyleProps(style, ['label', 'halo', 'icon', 'badge', 'port']),
-    ) as unknown as KeyStyleProps;
+    ) as any;
   }
 
-  protected getLabelStyle(attributes: ParsedBaseNodeStyleProps<KeyStyleProps>): false | LabelStyleProps {
+  protected getLabelStyle(attributes: Required<S>): false | LabelStyleProps {
     if (attributes.label === false || isEmpty(attributes.labelText)) return false;
 
     const { position, maxWidth, ...labelStyle } = subStyleProps<Required<NodeLabelStyleProps>>(
@@ -122,16 +116,16 @@ export abstract class BaseNode<KeyShape extends DisplayObject, KeyStyleProps ext
     );
   }
 
-  protected getHaloStyle(attributes: ParsedBaseNodeStyleProps<KeyStyleProps>): false | KeyStyleProps {
+  protected getHaloStyle(attributes: Required<S>) {
     if (attributes.halo === false) return false;
 
     const { fill, ...keyStyle } = this.getKeyStyle(attributes);
-    const haloStyle = subStyleProps<KeyStyleProps>(this.getGraphicStyle(attributes), 'halo');
+    const haloStyle = subStyleProps(this.getGraphicStyle(attributes), 'halo');
 
-    return { ...keyStyle, stroke: fill, ...haloStyle };
+    return { ...keyStyle, stroke: fill, ...haloStyle } as any;
   }
 
-  protected getIconStyle(attributes: ParsedBaseNodeStyleProps<KeyStyleProps>): false | IconStyleProps {
+  protected getIconStyle(attributes: Required<S>): false | IconStyleProps {
     if (attributes.icon === false || isEmpty(attributes.iconText || attributes.iconSrc)) return false;
 
     const iconStyle = subStyleProps(this.getGraphicStyle(attributes), 'icon');
@@ -141,9 +135,7 @@ export abstract class BaseNode<KeyShape extends DisplayObject, KeyStyleProps ext
     return { x, y, ...iconStyle };
   }
 
-  protected getBadgesStyle(
-    attributes: ParsedBaseNodeStyleProps<KeyStyleProps>,
-  ): Record<string, NodeBadgeStyleProps | false> {
+  protected getBadgesStyle(attributes: Required<S>): Record<string, NodeBadgeStyleProps | false> {
     const badges = subObject(this.shapeMap, 'badge-');
     const badgesShapeStyle: Record<string, NodeBadgeStyleProps | false> = {};
 
@@ -174,7 +166,7 @@ export abstract class BaseNode<KeyShape extends DisplayObject, KeyStyleProps ext
     return { ...textStyle, ...restStyle };
   }
 
-  protected getPortsStyle(attributes: ParsedBaseNodeStyleProps<KeyStyleProps>): Record<string, PortStyleProps | false> {
+  protected getPortsStyle(attributes: Required<S>): Record<string, PortStyleProps | false> {
     const ports = this.getPorts();
     const portsShapeStyle: Record<string, PortStyleProps | false> = {};
 
@@ -194,7 +186,7 @@ export abstract class BaseNode<KeyShape extends DisplayObject, KeyStyleProps ext
     return portsShapeStyle;
   }
 
-  protected getPortXY(attributes: ParsedBaseNodeStyleProps<KeyStyleProps>, style: NodePortStyleProps): Point {
+  protected getPortXY(attributes: Required<S>, style: NodePortStyleProps): Point {
     const { position = 'left' } = style;
     const bounds = this.getKey().getLocalBounds();
     return getPortPosition(bounds, position as PortPosition);
@@ -204,8 +196,8 @@ export abstract class BaseNode<KeyShape extends DisplayObject, KeyStyleProps ext
    * Get the key shape for the node.
    * @returns Key shape.
    */
-  public getKey(): KeyShape {
-    return this.shapeMap.key as KeyShape;
+  public getKey(): DisplayObject {
+    return this.shapeMap.key;
   }
 
   /**
@@ -234,34 +226,31 @@ export abstract class BaseNode<KeyShape extends DisplayObject, KeyStyleProps ext
     return getRectIntersectPoint(point, keyShapeBounds);
   }
 
-  protected drawHaloShape(attributes: ParsedBaseNodeStyleProps<KeyStyleProps>, container: Group): void {
+  protected drawHaloShape(attributes: Required<S>, container: Group): void {
     const keyShape = this.getKey();
     this.upsert(
       'halo',
-      keyShape.constructor as new (...args: unknown[]) => KeyShape,
+      keyShape.constructor as new (...args: unknown[]) => DisplayObject,
       this.getHaloStyle(attributes),
       container,
     );
   }
 
-  protected drawBadgeShapes(attributes: ParsedBaseNodeStyleProps<KeyStyleProps>, container: Group): void {
+  protected drawBadgeShapes(attributes: Required<S>, container: Group): void {
     const badgesStyle = this.getBadgesStyle(attributes);
     Object.keys(badgesStyle).forEach((key) => {
       this.upsert(`badge-${key}`, Badge, badgesStyle[key], container);
     });
   }
 
-  protected drawPortShapes(attributes: ParsedBaseNodeStyleProps<KeyStyleProps>, container: Group): void {
+  protected drawPortShapes(attributes: Required<S>, container: Group): void {
     const portsStyle = this.getPortsStyle(attributes);
     Object.keys(portsStyle).forEach((key) => {
       this.upsert(`port-${key}`, GCircle, portsStyle[key], container);
     });
   }
 
-  protected abstract drawKeyShape(
-    attributes: ParsedBaseNodeStyleProps<KeyStyleProps>,
-    container: Group,
-  ): KeyShape | undefined;
+  protected abstract drawKeyShape(attributes: Required<S>, container: Group): DisplayObject | undefined;
 
   public render(attributes = this.parsedAttributes, container: Group = this) {
     // 1. key shape
