@@ -1,4 +1,4 @@
-import { type Graph } from '@/src';
+import type { Graph } from '@/src';
 import { comboCircle } from '@@/demo/case';
 import { createDemoGraph } from '@@/utils';
 
