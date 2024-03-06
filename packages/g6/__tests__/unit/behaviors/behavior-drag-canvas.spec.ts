@@ -1,4 +1,5 @@
-import { CommonEvent, type Graph } from '@/src';
+import type { Graph } from '@/src';
+import { CommonEvent } from '@/src';
 import { behaviorDragCanvas } from '@@/demo/case';
 import { createDemoGraph } from '@@/utils';
 import { isObject } from '@antv/util';
