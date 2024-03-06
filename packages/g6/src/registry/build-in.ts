@@ -13,10 +13,10 @@ import {
   Polyline,
   Quadratic,
   Rect,
+  RectCombo,
   Star,
   Triangle,
 } from '../elements';
-import { RectCombo } from '../elements/combos/rect';
 import {
   CircularLayout,
   ComboCombinedLayout,

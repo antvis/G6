@@ -4,7 +4,8 @@ import { BaseEdge } from '../elements/edges/base-edge';
 import { BaseNode } from '../elements/nodes';
 import type { TriangleDirection } from '../elements/nodes/triangle';
 import type { Edge, Node, Point, Position } from '../types';
-import type { LabelPosition, Port, RelativePosition } from '../types/node';
+import type { LabelPosition, Port } from '../types/node';
+import type { Placement } from '../types/placement';
 import { getBBoxHeight, getBBoxWidth } from './bbox';
 import { isPoint } from './is';
 import { findNearestPoints, getEllipseIntersectPoint } from './point';
@@ -50,7 +51,7 @@ export function isSameNode(node1: Node, node2: Node): boolean {
  * @param position - The position relative with element.
  * @returns [x, y]
  */
-export function getXYByPosition(bbox: AABB, position: RelativePosition = 'center'): Point {
+export function getXYByPosition(bbox: AABB, position: Placement = 'center'): Point {
   const direction = position.split('-');
   const x = direction.includes('left') ? bbox.min[0] : direction.includes('right') ? bbox.max[0] : bbox.center[0];
   const y = direction.includes('top') ? bbox.min[1] : direction.includes('bottom') ? bbox.max[1] : bbox.center[1];

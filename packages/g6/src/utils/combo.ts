@@ -2,7 +2,6 @@ import { AABB } from '@antv/g';
 import { isFunction } from '@antv/util';
 import type { CollapsedMarkerStyleProps } from '../elements/combos/base-combo';
 import type { BaseComboProps, Combo, Node, Point, Position, Size } from '../types';
-import type { STDAnchor } from '../types/anchor';
 import { getXYByAnchor } from './anchor';
 import { isNode } from './element';
 import { parseSize } from './size';
@@ -24,18 +23,32 @@ export function getRectCollapsedOrigin(
   if (Array.isArray(collapsedOrigin)) return collapsedOrigin;
   const [expandedWidth, expandedHeight] = parseSize(expandedSize);
   const [collapsedWidth, collapsedHeight] = parseSize(collapsedSize);
-  const map: Record<string, STDAnchor> = {
-    top: [0.5, collapsedHeight / 2 / expandedHeight],
-    bottom: [0.5, 1 - collapsedHeight / 2 / expandedHeight],
-    left: [collapsedWidth / 2 / expandedWidth, 0.5],
-    right: [1 - collapsedWidth / 2 / expandedWidth, 0.5],
-    center: [0.5, 0.5],
-    'top-left': [collapsedWidth / 2 / expandedWidth, collapsedHeight / 2 / expandedHeight],
-    'top-right': [1 - collapsedWidth / 2 / expandedWidth, collapsedHeight / 2 / expandedHeight],
-    'bottom-left': [collapsedWidth / 2 / expandedWidth, 1 - collapsedHeight / 2 / expandedHeight],
-    'bottom-right': [1 - collapsedWidth / 2 / expandedWidth, 1 - collapsedHeight / 2 / expandedHeight],
-  };
-  return map[collapsedOrigin as string] || map.center;
+  const widthRatio = collapsedWidth / 2 / expandedWidth;
+  const heightRatio = collapsedHeight / 2 / expandedHeight;
+  switch (collapsedOrigin) {
+    case 'top':
+      return [0.5, heightRatio];
+    case 'bottom':
+      return [0.5, 1 - heightRatio];
+    case 'left':
+      return [widthRatio, 0.5];
+    case 'right':
+      return [1 - widthRatio, 0.5];
+    case 'top-left':
+    case 'left-top':
+      return [widthRatio, heightRatio];
+    case 'top-right':
+    case 'right-top':
+      return [1 - widthRatio, heightRatio];
+    case 'bottom-left':
+    case 'left-bottom':
+      return [widthRatio, 1 - heightRatio];
+    case 'bottom-right':
+    case 'right-bottom':
+      return [1 - widthRatio, 1 - heightRatio];
+    default:
+      return [0.5, 0.5];
+  }
 }
 
 /**
@@ -53,21 +66,41 @@ export function getCircleCollapsedOrigin(
   expandedSize: Size,
 ): Position {
   if (Array.isArray(collapsedOrigin)) return collapsedOrigin;
-  const expandedR = parseSize(expandedSize)[0] / 2;
+  const expandedWidth = parseSize(expandedSize)[0];
+  const expandedR = expandedWidth / 2;
   const collapsedR = parseSize(collapsedSize)[0] / 2;
+  const ratio = collapsedR / expandedWidth;
+  switch (collapsedOrigin) {
+    case 'top':
+      return [0.5, ratio];
+    case 'bottom':
+      return [0.5, 1 - ratio];
+    case 'left':
+      return [ratio, 0.5];
+    case 'right':
+      return [1 - ratio, 0.5];
+    default:
+      break;
+  }
   // 收起时原点到中心的正交距离
-  const dist = (expandedR - collapsedR) / Math.sqrt(2);
-  const map: Record<string, Position> = {
-    top: [0.5, collapsedR / (2 * expandedR)],
-    bottom: [0.5, 1 - collapsedR / (2 * expandedR)],
-    left: [collapsedR / (2 * expandedR), 0.5],
-    right: [1 - collapsedR / (2 * expandedR), 0.5],
-    'top-left': [0.5 - dist / (2 * expandedR), 0.5 - dist / (2 * expandedR)],
-    'top-right': [0.5 + dist / (2 * expandedR), 0.5 - dist / (2 * expandedR)],
-    'bottom-left': [0.5 - dist / (2 * expandedR), 0.5 + dist / (2 * expandedR)],
-    'bottom-right': [0.5 + dist / (2 * expandedR), 0.5 + dist / (2 * expandedR)],
-  };
-  return map[collapsedOrigin as string] || [0.5, 0.5];
+  const orthDist = (expandedR - collapsedR) * (Math.sqrt(2) / 2);
+  const orthRatio = orthDist / expandedWidth;
+  switch (collapsedOrigin) {
+    case 'top-left':
+    case 'left-top':
+      return [0.5 - orthRatio, 0.5 - orthRatio];
+    case 'top-right':
+    case 'right-top':
+      return [0.5 + orthRatio, 0.5 - orthRatio];
+    case 'bottom-left':
+    case 'left-bottom':
+      return [0.5 - orthRatio, 0.5 + orthRatio];
+    case 'bottom-right':
+    case 'right-bottom':
+      return [0.5 + orthRatio, 0.5 + orthRatio];
+    default:
+      return [0.5, 0.5];
+  }
 }
 
 /**

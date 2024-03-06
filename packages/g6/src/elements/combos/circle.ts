@@ -2,7 +2,7 @@ import type { DisplayObjectConfig, CircleStyleProps as GCircleStyleProps } from 
 import { Circle as GCircle, Group } from '@antv/g';
 import { isEmpty } from '@antv/util';
 import type { Position, STDSize } from '../../types';
-import { getBBoxHeight, getBBoxWidth } from '../../utils/bbox';
+import { getBBoxSize } from '../../utils/bbox';
 import { getCircleCollapsedOrigin, getXYByCollapsedOrigin } from '../../utils/combo';
 import { subStyleProps } from '../../utils/prefix';
 import { parseSize } from '../../utils/size';
@@ -49,8 +49,7 @@ export class CircleCombo extends BaseCombo<CircleComboStyleProps> {
       return [expandedR * 2, expandedR * 2, 0];
     }
     const contentBBox = this.getContentBBox(attributes);
-    const width = getBBoxWidth(contentBBox);
-    const height = getBBoxHeight(contentBBox);
+    const [width, height] = getBBoxSize(contentBBox);
     const expandedR = Math.sqrt(width ** 2 + height ** 2) / 2;
     return [expandedR * 2, expandedR * 2, 0];
   }
