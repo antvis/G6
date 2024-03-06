@@ -27,7 +27,12 @@ describe('ElementController', () => {
     // 没有属性 / no style
     expect(elementController.getDataStyle('node', 'node-2')).toEqual({ x: 150, y: 100 });
     // 没有样式属性 / No style attribute
-    expect(elementController.getDataStyle('node', 'node-3')).toEqual({ x: 125, y: 150 });
+    expect(elementController.getDataStyle('node', 'node-3')).toEqual({
+      x: 125,
+      y: 150,
+      parentId: 'combo-1',
+      states: ['selected'],
+    });
     expect(elementController.getDataStyle('edge', edge1Id)).toEqual(options.data!.edges![0].style || {});
     expect(elementController.getDataStyle('combo', 'combo-1')).toEqual({});
 
@@ -84,6 +89,7 @@ describe('ElementController', () => {
 
     expect(elementController.getElementComputedStyle('node', 'node-1')).toEqual({
       ...LIGHT_THEME.node?.style,
+      type: 'circle',
       fill: 'blue',
       stroke: 'pink',
       lineWidth: 1,
@@ -96,6 +102,7 @@ describe('ElementController', () => {
 
     expect(elementController.getElementComputedStyle('node', 'node-2')).toEqual({
       ...LIGHT_THEME.node?.style,
+      type: 'circle',
       fill: 'red',
       border: 10,
       // from palette
@@ -107,7 +114,10 @@ describe('ElementController', () => {
     expect(elementController.getElementComputedStyle('node', 'node-3')).toEqual({
       ...LIGHT_THEME.node?.style,
       ...LIGHT_THEME.node?.state?.selected,
+      type: 'circle',
       border: 0,
+      parentId: 'combo-1',
+      states: ['selected'],
       // from state
       fill: 'purple',
       // from palette
@@ -118,6 +128,7 @@ describe('ElementController', () => {
 
     expect(omit(elementController.getElementComputedStyle('edge', edge1Id), ['sourceNode', 'targetNode'])).toEqual({
       ...LIGHT_THEME.edge?.style,
+      type: 'line',
       color: BUILT_IN_PALETTES.oranges.at(-1),
     });
 
@@ -125,8 +136,10 @@ describe('ElementController', () => {
       ...LIGHT_THEME.edge?.style,
       ...LIGHT_THEME.edge?.state?.active,
       ...LIGHT_THEME.edge?.state?.selected,
+      type: 'line',
       lineWidth: 4,
       stroke: 'red',
+      states: ['active', 'selected'],
       color: BUILT_IN_PALETTES.oranges.at(-2),
     });
 
@@ -136,6 +149,7 @@ describe('ElementController', () => {
 
     expect(omit(comboStyle, ['children'])).toEqual({
       ...LIGHT_THEME.combo?.style,
+      type: 'circle',
       color: BUILT_IN_PALETTES.blues[0],
     });
   });
