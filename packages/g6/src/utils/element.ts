@@ -378,6 +378,20 @@ export function getRectPoints(width: number, height: number): Point[] {
 }
 
 /**
+ * Get Diamond PathArray.
+ * @param width - diamond width
+ * @param height - diamond height
+ * @returns The PathArray for G
+ */
+export function getDiamondPoints(width: number, height: number): Point[] {
+  return [
+    [0, -height / 2],
+    [width / 2, 0],
+    [0, height / 2],
+    [-width / 2, 0],
+  ];
+}
+/**
  * <zh/> 元素是否可见
  *
  * <en/> Whether the element is visible

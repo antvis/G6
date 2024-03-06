@@ -32,6 +32,7 @@ export * from './edge-quadratic';
 export * from './graph-element';
 export * from './layered-canvas';
 export * from './node-circle';
+export * from './node-diamond';
 export * from './node-ellipse';
 export * from './node-image';
 export * from './node-rect';
