@@ -129,7 +129,7 @@ export const combo: STDTestCase = async (context) => {
         ]);
         graph.render();
       },
-      addRemoveNode: () => {
+      addRemoveNode: async () => {
         const node4 = graph.getNodeData('node-4');
         if (node4) {
           graph.removeNodeData(['node-4']);
@@ -141,11 +141,13 @@ export const combo: STDTestCase = async (context) => {
             },
           ]);
         }
-        graph.render();
+        panels.at(-1)?.disable();
+        await graph.render();
+        panels.at(-1)?.enable();
       },
     };
 
-    return [
+    const panels = [
       panel.add(config, 'combo2Type', COMBO_TYPE).onChange((type: string) => {
         config.combo2Type = type;
         const combo2Data = graph.getComboData('combo-2');
@@ -170,6 +172,8 @@ export const combo: STDTestCase = async (context) => {
       panel.add(config, 'expandCombo2'),
       panel.add(config, 'addRemoveNode'),
     ];
+
+    return panels;
   };
 
   return graph;
