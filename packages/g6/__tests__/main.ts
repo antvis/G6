@@ -21,6 +21,7 @@ const options: Options = {
   Type: 'statics',
   Demo: Object.keys(demos['statics'])[0],
   Renderer: 'canvas',
+  GridLine: true,
   Theme: 'light',
   Animation: true,
   interval: 0,
@@ -29,7 +30,7 @@ const options: Options = {
   forms: [],
 };
 
-const params = ['Type', 'Demo', 'Renderer', 'Theme', 'Animation'] as const;
+const params = ['Type', 'Demo', 'Renderer', 'GridLine', 'Theme', 'Animation'] as const;
 
 syncParamsFromSearch();
 
@@ -47,23 +48,25 @@ function initPanel() {
   const Demo = panel.add(options, 'Demo', getDemos()).onChange(render);
   const Renderer = panel.add(options, 'Renderer', { Canvas: 'canvas', SVG: 'svg', WebGL: 'webgl' }).onChange(render);
   const Theme = panel.add(options, 'Theme', { Light: 'light', Dark: 'dark' }).onChange(render);
+  const GridLine = panel.add(options, 'GridLine').onChange(() => {
+    syncParamsToSearch();
+    applyGridLine();
+  });
   const Animation = panel.add(options, 'Animation').onChange(render);
   const Timer = panel.add(options, 'Timer').disable();
   const reload = panel.add(options, 'Reload').onChange(render);
-  return { panel, Type, Demo, Renderer, Theme, Animation, Timer, reload };
+  return { panel, Type, Demo, Renderer, GridLine, Theme, Animation, Timer, reload };
 }
 
 async function render() {
-  setParamsToSearch(options);
-  document.documentElement.setAttribute('data-theme', options.Theme);
+  syncParamsToSearch();
+  applyTheme();
   destroyForm();
   panels.Timer.setValue('0ms');
 
-  // container
-  document.getElementById('container')?.remove();
-  const $container = document.createElement('div');
-  $container.id = 'container';
-  document.getElementById('app')?.appendChild($container);
+  const $container = initContainer();
+
+  applyGridLine();
 
   // render
   const { Renderer, Type, Demo, Animation, Theme } = options;
@@ -101,15 +104,42 @@ function syncParamsFromSearch() {
   params.forEach((key) => {
     const value = searchParams.get(key);
     if (!value) return;
-    if (key === 'Animation') options[key] = value === 'true';
+    if (key === 'Animation' || key === 'GridLine') options[key] = value === 'true';
     else options[key] = value;
   });
 }
 
-function setParamsToSearch(options: Options) {
+function syncParamsToSearch() {
   const searchParams = new URLSearchParams(window.location.search);
   Object.entries(options).forEach(([key, value]) => {
     if (params.includes(key as (typeof params)[number])) searchParams.set(key, value.toString());
   });
   window.history.replaceState(null, '', `?${searchParams.toString()}`);
+}
+
+function initContainer() {
+  document.getElementById('container')?.remove();
+  const $container = document.createElement('div');
+  $container.id = 'container';
+  document.getElementById('app')?.appendChild($container);
+  return $container;
+}
+
+function applyTheme() {
+  document.documentElement.setAttribute('data-theme', options.Theme);
+}
+
+function applyGridLine() {
+  const show = options.GridLine;
+
+  const element = document.getElementById('container');
+  if (!element) return;
+  syncParamsToSearch();
+  if (show) {
+    document.body.style.backgroundSize = '25px 25px';
+    element.style.border = '1px solid #e8e8e8';
+  } else {
+    document.body.style.backgroundSize = '0';
+    element.style.border = 'none';
+  }
 }

@@ -62,10 +62,10 @@ describe('Graph', () => {
     expect(graph.getBehaviors()).toEqual(['drag-canvas']);
   });
 
-  it('getWidgets/setWidgets', () => {
-    expect(graph.getWidgets()).toEqual([]);
+  it('getPlugins/setPlugins', () => {
+    expect(graph.getPlugins()).toEqual([]);
     graph.setPlugins([{ type: 'test' }]);
-    expect(graph.getWidgets()).toEqual([{ type: 'test' }]);
+    expect(graph.getPlugins()).toEqual([{ type: 'test' }]);
     graph.setPlugins([]);
   });
 

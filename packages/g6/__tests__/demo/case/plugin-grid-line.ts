@@ -1,0 +1,61 @@
+import { Graph } from '@/src';
+import data from '@@/dataset/cluster.json';
+import { isObject } from '@antv/util';
+import type { STDTestCase } from '../types';
+
+export const pluginGridLine: STDTestCase = async (context) => {
+  const graph = new Graph({
+    ...context,
+    data,
+    node: {
+      style: {
+        size: 20,
+      },
+    },
+    autoResize: true,
+    layout: { type: 'd3force' },
+    behaviors: ['drag-canvas'],
+    plugins: [{ type: 'grid-line', follow: false }],
+  });
+
+  await graph.render();
+
+  pluginGridLine.form = (panel) => {
+    const config = {
+      resize: () => {
+        const $container = document.getElementById('container')!;
+        Object.assign($container.style, { width: '600px', height: '600px' });
+        window.dispatchEvent(new Event('resize'));
+      },
+      follow: false,
+      size: 20,
+    };
+    return [
+      panel.add(config, 'resize').name('Emit Resize'),
+      panel
+        .add(config, 'follow')
+        .name('Follow The Graph')
+        .onChange((follow: boolean) => {
+          graph.setPlugins((plugins) =>
+            plugins.map((plugin) => {
+              if (isObject(plugin) && plugin.type === 'grid-line') return { ...plugin, follow };
+              return plugin;
+            }),
+          );
+        }),
+      panel
+        .add(config, 'size', 10, 50, 5)
+        .name('Grid Size')
+        .onChange((size: number) => {
+          graph.setPlugins((plugins) =>
+            plugins.map((plugin) => {
+              if (isObject(plugin) && plugin.type === 'grid-line') return { ...plugin, size };
+              return plugin;
+            }),
+          );
+        }),
+    ];
+  };
+
+  return graph;
+};

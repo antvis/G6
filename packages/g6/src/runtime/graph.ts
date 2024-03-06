@@ -1,7 +1,7 @@
 import EventEmitter from '@antv/event-emitter';
 import type { AABB, BaseStyleProps, DataURLOptions } from '@antv/g';
 import type { ID } from '@antv/graphlib';
-import { debounce, isFunction, isNumber, isString, omit } from '@antv/util';
+import { debounce, isEqual, isFunction, isNumber, isString, omit } from '@antv/util';
 import { GraphEvent } from '../constants';
 import type {
   BehaviorOptions,
@@ -31,11 +31,12 @@ import type {
   Point,
   Positions,
   State,
+  Vector2,
   ViewportAnimationEffectTiming,
   ZIndex,
 } from '../types';
 import { sizeOf } from '../utils/dom';
-import { RenderEvent, emit } from '../utils/event';
+import { GraphLifeCycleEvent, emit } from '../utils/event';
 import { parsePoint, toPointObject } from '../utils/point';
 import { add, subtract } from '../utils/vector';
 import { BehaviorController } from './behavior';
@@ -187,11 +188,11 @@ export class Graph extends EventEmitter {
   }
 
   public setPlugins(plugins: CallableValue<PluginOptions>): void {
-    this.options.plugins = isFunction(plugins) ? plugins(this.getWidgets()) : plugins;
+    this.options.plugins = isFunction(plugins) ? plugins(this.getPlugins()) : plugins;
     this.context.plugin?.setPlugins(this.options.plugins);
   }
 
-  public getWidgets(): PluginOptions {
+  public getPlugins(): PluginOptions {
     return this.options.plugins || [];
   }
 
@@ -357,11 +358,11 @@ export class Graph extends EventEmitter {
    * <en/> This process will execute data update, element rendering, and layout execution
    */
   public async render(): Promise<void> {
-    emit(this, new RenderEvent(GraphEvent.BEFORE_RENDER));
+    emit(this, new GraphLifeCycleEvent(GraphEvent.BEFORE_RENDER));
     await this.prepare();
     await Promise.all([this.context.element?.draw(), this.context.layout?.layout()]);
     await this.autoFit();
-    emit(this, new RenderEvent(GraphEvent.AFTER_RENDER));
+    emit(this, new GraphLifeCycleEvent(GraphEvent.AFTER_RENDER));
   }
 
   /**
@@ -414,12 +415,11 @@ export class Graph extends EventEmitter {
   public resize(): void;
   public resize(width: number, height: number): void;
   public resize(width?: number, height?: number): void {
-    if (!width || !height) {
-      const [w, h] = sizeOf(this.context.canvas!.getContainer()!);
-      if (width !== w || height !== h) {
-        this.context.canvas.resize(w, h);
-      }
-    } else this.context.canvas?.resize(width, height);
+    const size: Vector2 = !width || !height ? sizeOf(this.context.canvas!.getContainer()!) : [width, height];
+    if (isEqual(size, this.getSize())) return;
+    emit(this, new GraphLifeCycleEvent(GraphEvent.BEFORE_SIZE_CHANGE, { size }));
+    this.context.canvas.resize(...size);
+    emit(this, new GraphLifeCycleEvent(GraphEvent.AFTER_SIZE_CHANGE, { size }));
   }
 
   /**
