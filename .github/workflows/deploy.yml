@@ -19,7 +19,7 @@ jobs:
           version: 8     
       - uses: actions/checkout@v2
       - run: pnpm install
-      - run: pnpm build
+      - run: npx turbo build
       - run: cp ./packages/site/CNAME ./packages/site/dist/CNAME
       - run: |
           cd ./packages/site/dist
