@@ -188,11 +188,11 @@ export class Graph extends EventEmitter {
   }
 
   public setPlugins(plugins: CallableValue<PluginOptions>): void {
-    this.options.plugins = isFunction(plugins) ? plugins(this.getWidgets()) : plugins;
+    this.options.plugins = isFunction(plugins) ? plugins(this.getPlugins()) : plugins;
     this.context.plugin?.setPlugins(this.options.plugins);
   }
 
-  public getWidgets(): PluginOptions {
+  public getPlugins(): PluginOptions {
     return this.options.plugins || [];
   }
 

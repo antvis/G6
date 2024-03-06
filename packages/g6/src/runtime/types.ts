@@ -62,9 +62,9 @@ export interface RuntimeContext {
    */
   behavior?: BehaviorController;
   /**
-   * <zh/> 组件控制器
+   * <zh/> 插件控制器
    *
-   * <en/> Widget controller
+   * <en/> Plugin controller
    */
   plugin?: PluginController;
 }
