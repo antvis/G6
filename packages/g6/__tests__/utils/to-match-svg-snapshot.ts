@@ -1,3 +1,4 @@
+import { Canvas as LayeredCanvas } from '@/src/runtime/canvas';
 import { Canvas } from '@antv/g';
 import * as fs from 'fs';
 import * as path from 'path';
@@ -97,10 +98,10 @@ export async function toMatchSVGSnapshot(
 }
 
 export async function toMatchSnapshot(
-  gCanvas: Canvas | Canvas[],
+  canvas: LayeredCanvas,
   dir: string,
   format: string = '{name}',
   options: ToMatchSVGSnapshotOptions = {},
 ) {
-  return await toMatchSVGSnapshot(gCanvas, ...getSnapshotDir(dir, format), options);
+  return await toMatchSVGSnapshot(Object.values(canvas.canvas), ...getSnapshotDir(dir, format), options);
 }

@@ -1,0 +1,327 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="500"
+  height="500"
+  style="background: transparent; position: absolute; outline: none;"
+  color-interpolation-filters="sRGB"
+  tabindex="1"
+>
+  <defs />
+  <g id="g-svg-camera" transform="matrix(1,0,0,1,0,0)">
+    <g id="g-root" fill="none" transform="matrix(1,0,0,1,0,0)">
+      <g id="g-svg-7" fill="none" transform="matrix(1,0,0,1,0,0)">
+        <g id="combo-1" fill="none" transform="matrix(1,0,0,1,200,150)">
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle
+              id="key"
+              fill="rgba(253,253,253,1)"
+              transform="translate(-72.80109889280519,-72.80109889280519)"
+              cx="72.80109889280519"
+              cy="72.80109889280519"
+              stroke-dasharray="0,0"
+              stroke-width="1"
+              stroke="rgba(153,173,209,1)"
+              r="72.80109889280519"
+            />
+          </g>
+        </g>
+      </g>
+      <g id="g-svg-6" fill="none" transform="matrix(1,0,0,1,0,0)">
+        <g
+          id="node-1-node-2"
+          fill="none"
+          marker-start="false"
+          marker-end="true"
+          transform="matrix(1,0,0,1,0,0)"
+        >
+          <g
+            id="node-1-node-2"
+            fill="none"
+            marker-start="false"
+            marker-end="true"
+            stroke="transparent"
+            stroke-width="3"
+          />
+          <g transform="matrix(1,0,0,1,110,100)">
+            <path
+              id="key"
+              fill="none"
+              d="M 0,0 L 74,7.347880794884119e-16"
+              stroke-width="1"
+              stroke="rgba(153,173,209,1)"
+            />
+            <path
+              id="key"
+              fill="none"
+              d="M 0,0 L 74,7.347880794884119e-16"
+              stroke-width="3"
+              stroke="transparent"
+            />
+            <g transform="matrix(-1,0,-0,-1,74,0)">
+              <path
+                id="g-svg-19"
+                fill="rgba(153,173,209,1)"
+                d="M 0,5 L 10,0 L 10,10 Z"
+                transform="translate(-5,-5)"
+                stroke-width="1"
+                stroke="rgba(153,173,209,1)"
+                width="10"
+                height="10"
+                stroke-dasharray="0,0"
+              />
+              <path
+                id="g-svg-19"
+                fill="transparent"
+                d="M 0,5 L 10,0 L 10,10 Z"
+                transform="translate(-5,-5)"
+                stroke-width="3"
+                stroke="transparent"
+                width="10"
+                height="10"
+                stroke-dasharray="0,0"
+              />
+            </g>
+          </g>
+        </g>
+        <g
+          id="node-2-node-4"
+          fill="none"
+          marker-start="false"
+          marker-end="true"
+          transform="matrix(1,0,0,1,0,0)"
+        >
+          <g
+            id="node-2-node-4"
+            fill="none"
+            marker-start="false"
+            marker-end="true"
+            stroke="transparent"
+            stroke-width="3"
+          />
+          <g transform="matrix(1,0,0,1,202.747208,109.615242)">
+            <path
+              id="key"
+              fill="none"
+              d="M 0,0 L 32.857250674668144,115.00037736133861"
+              stroke-width="1"
+              stroke="rgba(153,173,209,1)"
+              visibility="visible"
+            />
+            <path
+              id="key"
+              fill="none"
+              d="M 0,0 L 3.6739403974420594e-16,74"
+              stroke-width="3"
+              stroke="transparent"
+              visibility="visible"
+            />
+            <g transform="matrix(-0.274721,-0.961524,0.961524,-0.274721,32.857250,115.000374)">
+              <path
+                id="g-svg-23"
+                fill="rgba(153,173,209,1)"
+                d="M 0,5 L 10,0 L 10,10 Z"
+                transform="translate(-5,-5)"
+                stroke-width="1"
+                stroke="rgba(153,173,209,1)"
+                width="10"
+                height="10"
+                stroke-dasharray="0,0"
+                visibility="visible"
+              />
+              <path
+                id="g-svg-23"
+                fill="transparent"
+                d="M 0,5 L 10,0 L 10,10 Z"
+                transform="translate(-5,-5)"
+                stroke-width="3"
+                stroke="transparent"
+                width="10"
+                height="10"
+                stroke-dasharray="0,0"
+                visibility="visible"
+              />
+            </g>
+          </g>
+        </g>
+        <g
+          id="node-1-node-3"
+          fill="none"
+          marker-start="false"
+          marker-end="true"
+          transform="matrix(1,0,0,1,0,0)"
+        >
+          <g
+            id="node-1-node-3"
+            fill="none"
+            marker-start="false"
+            marker-end="true"
+            stroke="transparent"
+            stroke-width="3"
+          />
+          <g transform="matrix(1,0,0,1,100,110)">
+            <path
+              id="key"
+              fill="none"
+              d="M 0,0 L 3.6739403974420594e-16,114"
+              stroke-width="1"
+              stroke="rgba(153,173,209,1)"
+              visibility="visible"
+            />
+            <path
+              id="key"
+              fill="none"
+              d="M 0,0 L 3.6739403974420594e-16,74"
+              stroke-width="3"
+              stroke="transparent"
+              visibility="visible"
+            />
+            <g transform="matrix(0,-1,1,0,0,114)">
+              <path
+                id="g-svg-27"
+                fill="rgba(153,173,209,1)"
+                d="M 0,5 L 10,0 L 10,10 Z"
+                transform="translate(-5,-5)"
+                stroke-width="1"
+                stroke="rgba(153,173,209,1)"
+                width="10"
+                height="10"
+                stroke-dasharray="0,0"
+                visibility="visible"
+              />
+              <path
+                id="g-svg-27"
+                fill="transparent"
+                d="M 0,5 L 10,0 L 10,10 Z"
+                transform="translate(-5,-5)"
+                stroke-width="3"
+                stroke="transparent"
+                width="10"
+                height="10"
+                stroke-dasharray="0,0"
+                visibility="visible"
+              />
+            </g>
+          </g>
+        </g>
+        <g
+          id="node-3-node-4"
+          fill="none"
+          marker-start="false"
+          marker-end="true"
+          transform="matrix(1,0,0,1,0,0)"
+        >
+          <g
+            id="node-3-node-4"
+            fill="none"
+            marker-start="false"
+            marker-end="true"
+            stroke="transparent"
+            stroke-width="3"
+          />
+          <g transform="matrix(1,0,0,1,110,240)">
+            <path
+              id="key"
+              fill="none"
+              d="M 0,0 L 114,7.347880794884119e-16"
+              stroke-width="1"
+              stroke="rgba(153,173,209,1)"
+              visibility="hidden"
+            />
+            <path
+              id="key"
+              fill="none"
+              d="M 0,0 L 74,7.347880794884119e-16"
+              stroke-width="3"
+              stroke="transparent"
+              visibility="hidden"
+            />
+            <g transform="matrix(-1,0,-0,-1,114,0)">
+              <path
+                id="g-svg-31"
+                fill="rgba(153,173,209,1)"
+                d="M 0,5 L 10,0 L 10,10 Z"
+                transform="translate(-5,-5)"
+                stroke-width="1"
+                stroke="rgba(153,173,209,1)"
+                width="10"
+                height="10"
+                stroke-dasharray="0,0"
+                visibility="hidden"
+              />
+              <path
+                id="g-svg-31"
+                fill="transparent"
+                d="M 0,5 L 10,0 L 10,10 Z"
+                transform="translate(-5,-5)"
+                stroke-width="3"
+                stroke="transparent"
+                width="10"
+                height="10"
+                stroke-dasharray="0,0"
+                visibility="hidden"
+              />
+            </g>
+          </g>
+        </g>
+      </g>
+      <g id="g-svg-5" fill="none" transform="matrix(1,0,0,1,0,0)">
+        <g id="node-1" fill="none" transform="matrix(1,0,0,1,100,100)">
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle
+              id="key"
+              fill="rgba(34,126,255,1)"
+              transform="translate(-10,-10)"
+              cx="10"
+              cy="10"
+              stroke-width="0"
+              stroke="rgba(0,0,0,1)"
+              r="10"
+            />
+          </g>
+        </g>
+        <g id="node-2" fill="none" transform="matrix(1,0,0,1,200,100)">
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle
+              id="key"
+              fill="rgba(34,126,255,1)"
+              transform="translate(-10,-10)"
+              cx="10"
+              cy="10"
+              stroke-width="0"
+              stroke="rgba(0,0,0,1)"
+              r="10"
+            />
+          </g>
+        </g>
+        <g id="node-3" fill="none" transform="matrix(1,0,0,1,100,240)">
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle
+              id="key"
+              fill="rgba(34,126,255,1)"
+              transform="translate(-10,-10)"
+              cx="10"
+              cy="10"
+              stroke-width="0"
+              stroke="rgba(0,0,0,1)"
+              r="10"
+            />
+          </g>
+        </g>
+        <g id="node-4" fill="none" transform="matrix(1,0,0,1,240,240)">
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle
+              id="key"
+              fill="rgba(34,126,255,1)"
+              transform="translate(-10,-10)"
+              cx="10"
+              cy="10"
+              stroke-width="0"
+              stroke="rgba(0,0,0,1)"
+              r="10"
+            />
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>
