@@ -38,8 +38,6 @@ const graph = new Graph({
               { text: 'Notice', position: 'right-bottom' },
             ]
           : [],
-      badgeFontSize: 8,
-      badgePadding: [1, 4],
     },
   },
   layout: {

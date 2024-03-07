@@ -2,15 +2,15 @@ import { Graph } from '@antv/g6';
 
 const data = {
   nodes: [
-    { id: 'star' },
-    { id: 'star-halo' },
-    { id: 'star-badges' },
-    { id: 'star-ports' },
-    { id: 'star-active' },
-    { id: 'star-selected' },
-    { id: 'star-highlight' },
-    { id: 'star-inactive' },
-    { id: 'star-disabled' },
+    { id: 'image' },
+    { id: 'image-halo' },
+    { id: 'image-badges' },
+    { id: 'image-ports' },
+    { id: 'image-active' },
+    { id: 'image-selected' },
+    { id: 'image-highlight' },
+    { id: 'image-inactive' },
+    { id: 'image-disabled' },
   ],
 };
 
@@ -19,10 +19,11 @@ const graph = new Graph({
   data,
   node: {
     style: {
-      type: 'star', // 👈🏻 Node shape type.
+      type: 'image',
+      src: 'https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*N4ZMS7gHsUIAAAAAAAAAAABkARQnAQ',
       size: 40,
+      labelMaxWidth: 120,
       labelText: (d) => d.id,
-      iconSrc: 'https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg',
       halo: (d) => d.id.includes('halo'),
       ports: (d) =>
         d.id.includes('ports')
@@ -37,6 +38,11 @@ const graph = new Graph({
             ]
           : [],
     },
+    state: {
+      disabled: {
+        opacity: 0.25,
+      },
+    },
   },
   layout: {
     type: 'grid',
@@ -46,9 +52,9 @@ const graph = new Graph({
 graph.render();
 
 graph.on('afterrender', () => {
-  graph.setElementState('star-active', 'active');
-  graph.setElementState('star-selected', 'selected');
-  graph.setElementState('star-highlight', 'highlight');
-  graph.setElementState('star-inactive', 'inactive');
-  graph.setElementState('star-disabled', 'disabled');
+  graph.setElementState('image-active', 'active');
+  graph.setElementState('image-selected', 'selected');
+  graph.setElementState('image-highlight', 'highlight');
+  graph.setElementState('image-inactive', 'inactive');
+  graph.setElementState('image-disabled', 'disabled');
 });

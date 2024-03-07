@@ -20,19 +20,18 @@ const graph = new Graph({
   node: {
     style: {
       type: 'diamond',
-      width: 40,
-      height: 40,
+      size: 40,
       labelMaxWidth: 120,
-      labelText: (d: any) => d.id,
+      labelText: (d) => d.id,
       iconWidth: 20,
       iconHeight: 20,
       iconSrc: 'https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg',
-      halo: (d: any) => d.id.includes('halo'),
-      ports: (d: any) =>
+      halo: (d) => d.id.includes('halo'),
+      ports: (d) =>
         d.id.includes('ports')
           ? [{ position: 'left' }, { position: 'right' }, { position: 'top' }, { position: 'bottom' }]
           : [],
-      badges: (d: any) =>
+      badges: (d) =>
         d.id.includes('badges')
           ? [
               { text: 'A', position: 'right-top' },
@@ -40,17 +39,19 @@ const graph = new Graph({
               { text: 'Notice', position: 'right-bottom' },
             ]
           : [],
-      badgeFontSize: 8,
-      badgePadding: [1, 4],
     },
   },
   layout: {
     type: 'grid',
   },
 });
-await graph.render();
-graph.setElementState('diamond-active', 'active');
-graph.setElementState('diamond-selected', 'selected');
-graph.setElementState('diamond-highlight', 'highlight');
-graph.setElementState('diamond-inactive', 'inactive');
-graph.setElementState('diamond-disabled', 'disabled');
+
+graph.render();
+
+graph.on('afterrender', () => {
+  graph.setElementState('diamond-active', 'active');
+  graph.setElementState('diamond-selected', 'selected');
+  graph.setElementState('diamond-highlight', 'highlight');
+  graph.setElementState('diamond-inactive', 'inactive');
+  graph.setElementState('diamond-disabled', 'disabled');
+});
