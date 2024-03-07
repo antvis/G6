@@ -1,19 +1,5 @@
 import { Graph } from '@antv/g6';
 
-/**
- * Copy the string to clipboard
- * @param str - string
- */
-function copy(str) {
-  const input = document.createElement('textarea');
-  input.value = str;
-  document.body.appendChild(input);
-  input.select();
-  document.execCommand('Copy');
-  document.body.removeChild(input);
-  alert('Copy Success!');
-}
-
 const data = {
   nodes: [
     {
@@ -54,7 +40,8 @@ graph.on('node:click', (e) => {
   const node = graph.getNodeData(id);
   const label = node?.data?.label;
 
-  copy(label);
+  navigator.clipboard.writeText(label);
+  alert('copied to clipboard!');
 });
 
 graph.on('node:pointerenter', (e) => {
