@@ -31,3 +31,15 @@ export function cacheStyle(element: DisplayObject, name: string | string[]) {
 export function getCachedStyle(element: DisplayObject, name: string) {
   return element.attributes[getStyleCacheKey(name)];
 }
+
+/**
+ * <zh/> 设置缓存的样式
+ *
+ * <en/> Set cached style
+ * @param element - <zh/> 图形元素 | <en/> graphic element
+ * @param name - <zh/> 样式名 | <en/> style name
+ * @param value - <zh/> 样式值 | <en/> style value
+ */
+export function setCacheStyle(element: DisplayObject, name: string, value: any) {
+  element.attributes[getStyleCacheKey(name)] = value;
+}
