@@ -1,7 +1,9 @@
 import type { DisplayObjectConfig, CircleStyleProps as GCircleStyleProps } from '@antv/g';
 import { Circle as GCircle, Group } from '@antv/g';
-import type { STDSize } from '../../types';
-import { getBBoxHeight, getBBoxWidth } from '../../utils/bbox';
+import { isEmpty } from '@antv/util';
+import type { Position, STDSize } from '../../types';
+import { getBBoxSize } from '../../utils/bbox';
+import { getCircleCollapsedOrigin, getXYByCollapsedOrigin } from '../../utils/combo';
 import { subStyleProps } from '../../utils/prefix';
 import { parseSize } from '../../utils/size';
 import type { BaseComboStyleProps, ParsedBaseComboStyleProps } from './base-combo';
@@ -41,11 +43,24 @@ export class CircleCombo extends BaseCombo<CircleComboStyleProps> {
   }
 
   protected getExpandedKeySize(attributes: ParsedCircleComboStyleProps): STDSize {
-    const [expandedWidth, expandedHeight] = parseSize(attributes.size);
+    if (!isEmpty(attributes.size)) {
+      const [expandedWidth, expandedHeight] = parseSize(attributes.size);
+      const expandedR = Math.sqrt(expandedWidth ** 2 + expandedHeight ** 2) / 2;
+      return [expandedR * 2, expandedR * 2, 0];
+    }
     const contentBBox = this.getContentBBox(attributes);
-    const width = expandedWidth || getBBoxWidth(contentBBox);
-    const height = expandedHeight || getBBoxHeight(contentBBox);
+    const [width, height] = getBBoxSize(contentBBox);
     const expandedR = Math.sqrt(width ** 2 + height ** 2) / 2;
     return [expandedR * 2, expandedR * 2, 0];
+  }
+
+  protected getCollapsedOriginPosition(attributes: ParsedBaseComboStyleProps<KeyStyleProps>): Position {
+    return getXYByCollapsedOrigin(
+      attributes.collapsedOrigin,
+      this.getContentBBox(attributes).center,
+      this.getCollapsedKeySize(attributes),
+      this.getExpandedKeySize(attributes),
+      getCircleCollapsedOrigin,
+    );
   }
 }

@@ -1,5 +1,6 @@
 import { Line, Path, Polyline } from '@antv/g';
 import type { LabelStyleProps } from '../elements/shapes';
+import type { CardinalPlacement, CornerPlacement } from './placement';
 
 export type EdgeDirection = 'in' | 'out' | 'both';
 
@@ -35,16 +36,4 @@ export type EdgeLabelStyleProps = {
   maxWidth?: string | number;
 } & LabelStyleProps;
 
-export type LoopEdgePosition =
-  | 'top'
-  | 'top-left'
-  | 'top-right'
-  | 'bottom'
-  | 'bottom-left'
-  | 'bottom-right'
-  | 'left'
-  | 'left-top'
-  | 'left-bottom'
-  | 'right'
-  | 'right-top'
-  | 'right-bottom';
+export type LoopEdgePosition = CardinalPlacement | CornerPlacement;

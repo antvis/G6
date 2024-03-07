@@ -4,6 +4,7 @@ import type { BaseEdge } from '../elements/edges';
 import type { BaseNode } from '../elements/nodes';
 import type { ComboOptions, EdgeOptions, NodeOptions } from '../spec';
 import type { Padding } from './padding';
+import type { Placement } from './placement';
 import type { Size } from './size';
 
 export type ElementType = 'node' | 'edge' | 'combo';
@@ -106,10 +107,10 @@ export type BaseComboProps = {
    */
   collapsedSize?: Size;
   /**
-   * <zh/> Combo 收起后的原点
+   * <zh/> Combo 收起时的原点
    * <en/> The origin of combo when collapsed
    */
-  collapsedOrigin?: string | [number, number];
+  collapsedOrigin?: Placement | [number, number];
   /**
    * <zh/> Combo 的子元素，可以是节点或者 Combo
    * <en/> The children of combo, which can be nodes or combos

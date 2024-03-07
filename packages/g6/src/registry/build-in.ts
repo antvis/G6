@@ -13,6 +13,7 @@ import {
   Polyline,
   Quadratic,
   Rect,
+  RectCombo,
   Star,
   Triangle,
 } from '../elements';
@@ -54,6 +55,7 @@ export const BUILT_IN_EXTENSIONS: ExtensionRegistry = {
   },
   combo: {
     circle: CircleCombo,
+    rect: RectCombo,
   },
   edge: {
     cubic: Cubic,

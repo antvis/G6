@@ -146,6 +146,7 @@ export const dark: Theme = {
       labelFill: '#000',
       labelFontSize: 12,
       labelMaxLines: 1,
+      lineDash: 0,
       lineWidth: 1,
       padding: 10,
       size: 0,
