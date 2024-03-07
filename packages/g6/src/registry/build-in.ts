@@ -1,5 +1,5 @@
 import { fade, translate } from '../animations';
-import { DragCanvas, ZoomCanvas } from '../behaviors';
+import { DragCanvas, DragNode, ZoomCanvas } from '../behaviors';
 import {
   Circle,
   CircleCombo,
@@ -52,6 +52,7 @@ export const BUILT_IN_EXTENSIONS: ExtensionRegistry = {
   behavior: {
     'zoom-canvas': ZoomCanvas,
     'drag-canvas': DragCanvas,
+    'drag-node': DragNode,
   },
   combo: {
     circle: CircleCombo,

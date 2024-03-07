@@ -78,22 +78,6 @@ export abstract class BaseShape<StyleProps extends BaseShapeStyleProps> extends 
     return target;
   }
 
-  /**
-   * <zh> 创建动画代理，将动画同步到子图形实例上
-   *
-   * <en> create animation proxy, synchronize animation to child shape instance
-   * @example
-   * ```ts
-   * const result = shape.animate(keyframes, options);
-   * const proxy = shape.proxyAnimate(result);
-   * ```
-   * @param result - <zh> 主动画实例 | <en> main animation instance
-   * @returns <zh> 动画代理 | <en> animation proxy
-   */
-  protected proxyAnimate(result: IAnimation) {
-    return createAnimationsProxy(result, Object.values(this.animateMap));
-  }
-
   public update(attr: Partial<StyleProps> = {}): void {
     this.attr(deepMix({}, this.attributes, attr));
     return this.render(this.attributes as Required<StyleProps>, this);
@@ -126,23 +110,15 @@ export abstract class BaseShape<StyleProps extends BaseShapeStyleProps> extends 
   }
 
   public animate(keyframes: Keyframe[], options?: number | KeyframeAnimationOptions): IAnimation | null {
-    this.animateMap = {};
-    const result = super.animate(keyframes, options)!;
+    const animationMap: IAnimation[] = [];
+
+    const result = super.animate(keyframes, options);
+    if (result) animationMap.push(result);
 
     if (Array.isArray(keyframes) && keyframes.length > 0) {
       // 如果 keyframes 中仅存在 skippedAttrs 中的属性，则仅更新父元素属性（跳过子图形）
       // if only skippedAttrs exist in keyframes, only update parent element attributes (skip child shapes)
-      const skippedAttrs = [
-        'anchor',
-        'transform',
-        'transformOrigin',
-        'x',
-        'y',
-        'z',
-        'zIndex',
-        // 'opacity',
-        // 'visibility',
-      ];
+      const skippedAttrs = ['anchor', 'transform', 'transformOrigin', 'x', 'y', 'z', 'zIndex'];
       if (Object.keys(keyframes[0]).some((attr) => !skippedAttrs.includes(attr))) {
         Object.entries(this.shapeMap).forEach(([key, shape]) => {
           // 如果存在方法名为 `get${key}Style` 的方法，则使用该方法获取样式，并自动为该图形实例创建动画
@@ -155,14 +131,13 @@ export abstract class BaseShape<StyleProps extends BaseShapeStyleProps> extends 
               method.call(this, { ...this.attributes, ...style }),
             );
 
-            this.animateMap[key] = shape.animate(preprocessKeyframes(subKeyframes), options)!;
+            const result = shape.animate(preprocessKeyframes(subKeyframes), options);
+            if (result) animationMap.push(result);
           }
         });
       }
-    } else {
-      // TODO: support PropertyIndexedKeyframes
     }
 
-    return this.proxyAnimate(result);
+    return createAnimationsProxy(animationMap);
   }
 }
