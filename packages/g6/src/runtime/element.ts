@@ -460,12 +460,35 @@ export class ElementController {
    * <en/> start render process
    */
   public async draw() {
+    const drawData = this.computeDrawData();
+    if (!drawData) return;
+    this.init();
+
+    // 计算样式 / Calculate style
+    this.computeStyle();
+
+    // 创建渲染任务 / Create render task
+    const { create, update, destroy } = drawData;
+    const renderContext = { animation: true };
+    const destroyTasks = this.getDestroyTasks(destroy, renderContext);
+    const createTasks = this.getCreateTasks(create, renderContext);
+    const updateTasks = this.getUpdateTasks(update, renderContext);
+
+    return executeAnimatableTasks([...destroyTasks, ...createTasks, ...updateTasks], {
+      before: () => this.emit(new GraphLifeCycleEvent(GraphEvent.BEFORE_DRAW)),
+      beforeAnimate: (animation) =>
+        this.emit(new AnimateEvent(GraphEvent.BEFORE_ANIMATE, AnimationType.DRAW, animation, drawData)),
+      afterAnimate: (animation) =>
+        this.emit(new AnimateEvent(GraphEvent.AFTER_ANIMATE, AnimationType.DRAW, animation, drawData)),
+      after: () => this.emit(new GraphLifeCycleEvent(GraphEvent.AFTER_DRAW)),
+    })?.finished.then(() => {});
+  }
+
+  private computeDrawData() {
     const { model } = this.context;
 
     const tasks = reduceDataChanges(model.getChanges());
-    if (tasks.length === 0) return;
-
-    this.init();
+    if (tasks.length === 0) return null;
 
     const {
       NodeAdded = [],
@@ -525,34 +548,14 @@ export class ElementController {
       )
       .forEach((combo) => combosToUpdate.push(combo));
 
-    // 计算样式 / Calculate style
-    this.computeStyle();
-
-    // 创建渲染任务 / Create render task
-    const renderContext = { animation: true };
-
-    const dataToDestroy = { nodes: nodesToRemove, edges: edgesToRemove, combos: combosToRemove };
-    const destroyTasks = this.getDestroyTasks(dataToDestroy, renderContext);
-
-    const dataToCreate = { nodes: nodesToAdd, edges: edgesToAdd, combos: combosToAdd };
-    const createTasks = this.getCreateTasks(dataToCreate, renderContext);
-
-    const dataToUpdate = {
+    const destroy = { nodes: nodesToRemove, edges: edgesToRemove, combos: combosToRemove };
+    const create = { nodes: nodesToAdd, edges: edgesToAdd, combos: combosToAdd };
+    const update = {
       nodes: nodesToUpdate,
       edges: deduplicate(edgesToUpdate, idOf),
       combos: deduplicate(combosToUpdate, idOf),
     };
-    const updateTasks = this.getUpdateTasks(dataToUpdate, renderContext);
-
-    const diffData = { create: dataToCreate, update: dataToUpdate, destroy: dataToDestroy };
-    return executeAnimatableTasks([...destroyTasks, ...createTasks, ...updateTasks], {
-      before: () => this.emit(new GraphLifeCycleEvent(GraphEvent.BEFORE_DRAW)),
-      beforeAnimate: (animation) =>
-        this.emit(new AnimateEvent(GraphEvent.BEFORE_ANIMATE, AnimationType.DRAW, animation, diffData)),
-      afterAnimate: (animation) =>
-        this.emit(new AnimateEvent(GraphEvent.AFTER_ANIMATE, AnimationType.DRAW, animation, diffData)),
-      after: () => this.emit(new GraphLifeCycleEvent(GraphEvent.AFTER_DRAW)),
-    })?.finished.then(() => {});
+    return { create, update, destroy };
   }
 
   private createElement(elementType: ElementType, datum: ElementDatum, context: RenderContext) {
