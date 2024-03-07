@@ -172,12 +172,7 @@ export class ElementController {
 
   public getDataStyle(elementType: ElementType, id: ID): NodeLikeStyle | EdgeStyle {
     const datum = this.getElementData(elementType, [id])?.[0];
-    if (!datum) return {};
-
-    // `data.style` 中一些样式例如 parentId, type 并非直接给元素使用，因此需要过滤掉这些字段
-    // Some styles in `data.style`, such as parentId, type, are not directly used by the element, so these fields need to be filtered out
-    const { parentId, type, states, ...style } = datum.style || {};
-    return style;
+    return datum?.style || {};
   }
 
   private defaultStyle: Record<ID, Record<string, unknown>> = {};
@@ -450,6 +445,10 @@ export class ElementController {
       });
     }
 
+    if (!style.type) {
+      style.type = { node: 'circle', edge: 'line', combo: 'circle' }[elementType];
+    }
+
     return style;
   }
 
@@ -556,40 +555,27 @@ export class ElementController {
     })?.finished.then(() => {});
   }
 
-  private getShapeType(elementType: ElementType, renderData: Record<string, any>) {
-    const type = renderData.type;
-    if (type) return type;
-    // 推断默认类型 / Infer default type
-
-    return {
-      node: 'circle',
-      edge: 'line',
-      combo: 'circle',
-    }[elementType];
-  }
-
   private createElement(elementType: ElementType, datum: ElementDatum, context: RenderContext) {
     const { animator } = context;
     const id = idOf(datum);
     const currentShape = this.getElement(id);
     if (currentShape) return () => null;
-    const renderData = this.getElementComputedStyle(elementType, id);
+    const { type, ...style } = this.getElementComputedStyle(elementType, id);
 
     // get shape constructor
-    const shapeType = this.getShapeType(elementType, renderData);
-    const Ctor = getExtension(elementType, shapeType);
+    const Ctor = getExtension(elementType, type);
     if (!Ctor) return () => null;
     const shape = this.container[elementType].appendChild(
       new Ctor({
         id,
         style: {
           context: this.context,
-          ...renderData,
+          ...style,
         },
       }),
     ) as DisplayObject;
 
-    this.shapeTypeMap[id] = shapeType;
+    this.shapeTypeMap[id] = type;
     this.elementMap[id] = shape;
 
     return () => animator?.(id, shape, { ...shape.attributes, opacity: 0 }) || null;
@@ -619,12 +605,22 @@ export class ElementController {
 
   private updateElement(elementType: ElementType, datum: ElementDatum, context: RenderContext) {
     const { animator } = context;
-    this.handleTypeChange(elementType, datum, context);
 
     const id = idOf(datum);
     const shape = this.getElement(id);
     if (!shape) return () => null;
-    const style = this.getElementComputedStyle(elementType, id);
+    const { type, ...style } = this.getElementComputedStyle(elementType, id);
+
+    // 如果类型不同，需要先销毁原有元素，再创建新元素
+    // If the type is different, you need to destroy the original element first, and then create a new element
+    if (this.shapeTypeMap[id] !== type) {
+      return () => {
+        this.destroyElement(datum, { ...context, animation: false })();
+        this.createElement(elementType, datum, { ...context, animation: false })();
+        return null;
+      };
+    }
+
     const originalStyle = { ...shape.attributes };
 
     updateStyle(shape, style);
@@ -725,25 +721,6 @@ export class ElementController {
     return tasks;
   }
 
-  /**
-   * <zh/> 处理元素类型变更
-   *
-   * <en/> handle element type change
-   * @description
-   * <zh/> 销毁原有的图形实例，重新创建图形实例
-   *
-   * <en/> Destroy the original shape instance and recreate the shape instance
-   */
-  private handleTypeChange(elementType: ElementType, datum: ElementDatum, context: RenderContext) {
-    const id = idOf(datum);
-    const originalShapeType = this.shapeTypeMap[id];
-    const modifiedShapeType = this.getShapeType(elementType, this.getElementComputedStyle(elementType, id));
-    if (originalShapeType && originalShapeType !== modifiedShapeType) {
-      this.destroyElement(datum, context);
-      this.createElement(elementType, datum, context);
-    }
-  }
-
   private destroyElement(datum: ElementDatum, context: RenderContext) {
     const { animator } = context;
     const id = idOf(datum);
@@ -776,12 +753,7 @@ export class ElementController {
     iteration.forEach(([elementType, elementData]) => {
       if (elementData.length === 0) return [];
       const animator = this.getAnimationExecutor(elementType, 'exit');
-      elementData.forEach((datum) =>
-        tasks.push(() => {
-          const animation = this.destroyElement(datum, { ...context, animator });
-          return animation;
-        }),
-      );
+      elementData.forEach((datum) => tasks.push(() => this.destroyElement(datum, { ...context, animator })));
     });
 
     // TODO 重新计算色板样式，如果是分组色板，则不需要重新计算
