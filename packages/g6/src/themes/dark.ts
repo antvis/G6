@@ -22,6 +22,8 @@ export const dark: Theme = {
     style: {
       badgeFill: BG_COLOR,
       badgePalette: ['#7E92B5', '#F86254', '#EDB74B'],
+      badgePadding: [1, 4],
+      badgeFontSize: 8,
       fill: NODE_COLOR,
       halo: false,
       haloLineWidth: 12,

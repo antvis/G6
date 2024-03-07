@@ -29,7 +29,7 @@
       "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*r03cSIy59-UAAAAAAAAAAAAADmJ7AQ/original"
     },
     {
-      "filename": "diamond.js",
+      "filename": "diamond.ts",
       "title": {
         "zh": "菱形",
         "en": "Diamond"
@@ -53,7 +53,7 @@
       "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*BW_sSbWVQowAAAAAAAAAAAAADmJ7AQ/original"
     },
     {
-      "filename": "image.js",
+      "filename": "image.ts",
       "title": {
         "zh": "图片",
         "en": "Image"
