@@ -1,4 +1,4 @@
-import { Graph } from '@antv/g6';
+import { Graph, GraphEvent } from '@antv/g6';
 
 const data = {
   nodes: [
@@ -48,7 +48,7 @@ const graph = new Graph({
 
 graph.render();
 
-graph.on('afterrender', () => {
+graph.on(GraphEvent.AFTER_RENDER, () => {
   graph.setElementState('circle-active', 'active');
   graph.setElementState('circle-selected', 'selected');
   graph.setElementState('circle-highlight', 'highlight');

@@ -1,4 +1,4 @@
-import { Graph } from '@antv/g6';
+import { Graph, GraphEvent } from '@antv/g6';
 
 const data = {
   nodes: [
@@ -43,7 +43,7 @@ const graph = new Graph({
 
 graph.render();
 
-graph.on('afterrender', () => {
+graph.on(GraphEvent.AFTER_RENDER, () => {
   graph.setElementState('triangle-active', 'active');
   graph.setElementState('triangle-selected', 'selected');
   graph.setElementState('triangle-highlight', 'highlight');
