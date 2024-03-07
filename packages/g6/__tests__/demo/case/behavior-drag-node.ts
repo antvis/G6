@@ -23,7 +23,7 @@ export const behaviorDragNode: STDTestCase = async (context) => {
     edge: {
       style: { endArrow: true },
     },
-    behaviors: [{ type: 'drag-node', shadow: false, hideEdges: 'both' }],
+    behaviors: [{ type: 'drag-node' }],
   });
 
   await graph.render();
@@ -39,7 +39,7 @@ export const behaviorDragNode: STDTestCase = async (context) => {
     };
     return [
       panel.add(config, 'enable').onChange(handleChange),
-      panel.add(config, 'hideEdges').onChange(handleChange),
+      panel.add(config, 'hideEdges', ['none', 'in', 'out', 'both']).onChange(handleChange),
       panel.add(config, 'shadow').onChange(handleChange),
     ];
   };

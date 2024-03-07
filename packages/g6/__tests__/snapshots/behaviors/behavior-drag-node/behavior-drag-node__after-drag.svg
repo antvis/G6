@@ -105,7 +105,6 @@
               d="M 0,0 L 15.725626330060688,94.35375798036425"
               stroke-width="1"
               stroke="rgba(153,173,209,1)"
-              visibility="visible"
             />
             <path
               id="key"
@@ -113,7 +112,6 @@
               d="M 0,0 L 3.6739403974420594e-16,74"
               stroke-width="3"
               stroke="transparent"
-              visibility="visible"
             />
             <g transform="matrix(-0.164399,-0.986394,0.986394,-0.164399,15.725626,94.353760)">
               <path
@@ -126,7 +124,6 @@
                 width="10"
                 height="10"
                 stroke-dasharray="0,0"
-                visibility="visible"
               />
               <path
                 id="g-svg-23"
@@ -138,7 +135,6 @@
                 width="10"
                 height="10"
                 stroke-dasharray="0,0"
-                visibility="visible"
               />
             </g>
           </g>
@@ -221,7 +217,6 @@
               d="M 0,0 L 94.35375798036425,15.725626330060688"
               stroke-width="1"
               stroke="rgba(153,173,209,1)"
-              visibility="visible"
             />
             <path
               id="key"
@@ -229,7 +224,6 @@
               d="M 0,0 L 74,7.347880794884119e-16"
               stroke-width="3"
               stroke="transparent"
-              visibility="visible"
             />
             <g transform="matrix(-0.986394,-0.164399,0.164399,-0.986394,94.353760,15.725626)">
               <path
@@ -242,7 +236,6 @@
                 width="10"
                 height="10"
                 stroke-dasharray="0,0"
-                visibility="visible"
               />
               <path
                 id="g-svg-31"
@@ -254,7 +247,6 @@
                 width="10"
                 height="10"
                 stroke-dasharray="0,0"
-                visibility="visible"
               />
             </g>
           </g>
