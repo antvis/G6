@@ -8,7 +8,7 @@ const data = {
         x: 100,
         y: 150,
         label: `This label is too  long to be displayed`,
-        size: 50,
+        size: 100,
       },
     },
     {
@@ -17,7 +17,7 @@ const data = {
         x: 400,
         y: 150,
         label: 'This label is too long to be displayed',
-        size: 100,
+        size: 150,
       },
     },
   ],
@@ -35,6 +35,7 @@ const data = {
 
 const graph = new Graph({
   container: 'container',
+  fitCenter: true,
   data,
   node: {
     style: {
@@ -42,23 +43,27 @@ const graph = new Graph({
       x: (d) => d.data.x,
       y: (d) => d.data.y,
       size: (d) => d.data.size,
-      labelPosition: 'center',
+      labelPosition: 'bottom',
       labelText: (d) => d.data.label,
       labelMaxWidth: '90%',
       labelBackgroundFill: '#eee',
       labelBackgroundFillOpacity: 0.5,
       labelBackgroundRadius: 4,
+      labelWordWrap: true,
+      labelMaxLines: 4,
     },
   },
   edge: {
     style: {
-      labelPosition: 'top',
-      labelOffsetY: -10,
+      labelOffsetY: -4,
+      labelTextBaseline: 'bottom',
       labelText: (d) => d.data.label,
       labelMaxWidth: '80%',
       labelBackgroundFill: 'red',
       labelBackgroundFillOpacity: 0.5,
       labelBackgroundRadius: 4,
+      labelWordWrap: true,
+      labelMaxLines: 4,
     },
   },
   behaviors: ['drag-node'],

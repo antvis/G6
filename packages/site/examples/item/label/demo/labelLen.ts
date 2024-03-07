@@ -51,8 +51,8 @@ const graph = new Graph({
   },
   edge: {
     style: {
-      labelPosition: 'top',
-      labelOffsetY: -10,
+      labelOffsetY: -4,
+      labelTextBaseline: 'bottom',
       labelText: (d) => d.data.label,
       labelMaxWidth: '80%',
       labelBackgroundFill: 'red',
