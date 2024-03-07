@@ -9,6 +9,7 @@ export { BaseNode } from './elements/nodes';
 export { getExtension, getExtensions, register } from './registry';
 export { Graph } from './runtime/graph';
 export { dark, light } from './themes';
+export { idOf } from './utils/id';
 export { treeToGraphData } from './utils/tree';
 
 export type { BaseBehaviorOptions } from './behaviors';
