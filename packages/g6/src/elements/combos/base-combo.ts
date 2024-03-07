@@ -35,17 +35,19 @@ export abstract class BaseCombo<S extends BaseComboStyleProps = BaseComboStylePr
   public type = 'combo';
 
   static defaultStyleProps: BaseComboStyleProps = {
+    size: 0,
+    padding: 0,
     children: [],
+    droppable: true,
+    draggable: true,
     collapsed: false,
+    collapsedSize: 32,
+    collapsedOrigin: [0.5, 0.5],
     collapsedMarker: true,
     collapsedMarkerFontSize: 12,
     collapsedMarkerTextAlign: 'center',
     collapsedMarkerTextBaseline: 'middle',
     collapsedMarkerType: 'child-count',
-    collapsedOrigin: [0.5, 0.5],
-    collapsedSize: 32,
-    padding: 0,
-    size: 0,
   };
   constructor(options: DisplayObjectConfig<BaseComboStyleProps>) {
     super(deepMix({}, { style: BaseCombo.defaultStyleProps }, options));
