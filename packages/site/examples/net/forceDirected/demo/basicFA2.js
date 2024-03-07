@@ -1,39 +1,21 @@
-import { Graph, Extensions, extend } from '@antv/g6';
-
-const ExtGraph = extend(Graph, {
-  layouts: {
-    forceAtlas2: Extensions.ForceAtlas2Layout,
-  },
-});
-
-const container = document.getElementById('container');
-const width = container.scrollWidth;
-const height = container.scrollHeight || 500;
+import { Graph } from '@antv/g6';
 
 fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')
   .then((res) => res.json())
   .then((data) => {
-    const graph = new ExtGraph({
+    const graph = new Graph({
       container: 'container',
-      width,
-      height,
-      transforms: [
-    {
-      type: 'transform-v4-data',
-      activeLifecycle: ['read'],
-    },
-  ],
-      modes: {
-        default: ['zoom-canvas', 'drag-canvas', 'drag-node', 'click-select'],
-      },
+      data,
       layout: {
-        type: 'forceAtlas2',
+        type: 'force-atlas2',
         preventOverlap: true,
         kr: 20,
         center: [250, 250],
       },
-      autoFit: 'view',
-      data,
+      behaviors: ['zoom-canvas', 'drag-canvas'],
+      autoResize: true,
+      zoomRange: [0.1, 5],
     });
-window.graph = graph;
+
+    graph.render();
   });

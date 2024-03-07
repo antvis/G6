@@ -512,88 +512,37 @@ const data = {
 };
 
 data.nodes.forEach((node) => (node.data.size = Math.random() * 30 + 5));
-const container = document.getElementById('container');
-const width = container.scrollWidth;
-const height = container.scrollHeight || 500;
+
+const COLORS = {
+  a: '#4087FF',
+  b: '#CD74FE',
+  c: '#05B8A7',
+  d: '#FE8834',
+};
+
 const graph = new Graph({
   container: 'container',
-  width,
-  height,
+  data,
   node: {
-    lodLevels: [],
-    keyShape: {
-      r: {
-        fields: ['size'],
-        formatter: (model) => model.data.size / 2,
-      },
-    },
-    labelShape: {
-      text: {
-        fields: ['id'],
-        formatter: (node) => node.id,
-      },
-    },
-    animates: {
-      update: [
-        {
-          fields: ['opacity'],
-          shapeId: 'haloShape',
-        },
-        {
-          fields: ['lineWidth'],
-          shapeId: 'keyShape',
-        },
-      ],
+    style: {
+      type: 'circle',
+      size: (d) => d.data.size,
+      labelText: (d) => d.id,
+      ports: [],
+      fill: (d) => COLORS[d.data.cluster],
     },
   },
   layout: {
     type: 'force',
     linkDistance: 50,
-    maxSpeed: 100,
-    animated: true,
+    animation: true,
     clustering: true,
     nodeClusterBy: 'cluster',
     clusterNodeStrength: 70,
   },
-  theme: {
-    type: 'spec',
-    specification: {
-      node: {
-        dataTypeField: 'cluster',
-      },
-      edge: {
-        dataTypeField: 'cluster',
-      },
-    },
-  },
-  modes: {
-    default: ['zoom-canvas', 'drag-canvas', 'click-select'],
-  },
-  data,
+  behaviors: ['zoom-canvas', 'drag-canvas'],
+  zoomRange: [0.1, 5],
+  autoResize: true,
 });
 
-/******** 拖拽固定节点的逻辑 *********/
-graph.on('node:dragstart', function (e) {
-  graph.stopLayout();
-});
-graph.on('node:drag', function (e) {
-  refreshDragedNodePosition(e);
-});
-graph.on('node:dragend', (e) => {
-  graph.layout();
-});
-function refreshDragedNodePosition(e) {
-  const { x, y } = e.canvas;
-  graph.updateData('node', {
-    id: e.itemId,
-    data: {
-      fx: x,
-      fy: y,
-      x,
-      y,
-    },
-  });
-}
-/*********************************/
-
-window.graph = graph;
+graph.render();
