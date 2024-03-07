@@ -771,7 +771,7 @@ export class ElementController {
     delete this.runtimeStyle[id];
   }
 
-  public async setElementsVisibility(ids: ID[], visibility: BaseStyleProps['visibility']) {
+  public async setElementsVisibility(ids: ID[], visibility: BaseStyleProps['visibility'], animation?: boolean) {
     if (ids.length === 0) return null;
 
     const isHide = visibility === 'hidden';
@@ -811,7 +811,7 @@ export class ElementController {
     const tasks: AnimatableTask[] = [];
     iteration.forEach(([elementType, elementIds]) => {
       if (elementIds.length === 0) return;
-      const animator = this.getAnimationExecutor(elementType, isHide ? 'hide' : 'show');
+      const animator = this.getAnimationExecutor(elementType, isHide ? 'hide' : 'show', animation);
       elementIds.forEach((id) => {
         const element = this.getElement(id);
         if (!element) return;
