@@ -15,6 +15,7 @@ import { isVisible } from '../utils/element';
 import { GraphLifeCycleEvent, emit } from '../utils/event';
 import { createTreeStructure } from '../utils/graphlib';
 import { isComboLayout, isPositionSpecified, isTreeLayout, pickLayoutResult } from '../utils/layout';
+import { parseSize } from '../utils/size';
 import { dfs } from '../utils/traverse';
 import { add } from '../utils/vector';
 import type { RuntimeContext } from './types';
@@ -311,9 +312,8 @@ export class LayoutController {
       (options?.nodeSize as number) ??
       ((node) => {
         const nodeElement = element?.getElement(node.id);
-        // @ts-expect-error 等待 element 完善类型 / Wait for element to improve type
-        const { width = 32, height = width } = nodeElement?.attributes || {};
-        return Math.max(width, height);
+        const { size } = nodeElement?.attributes || {};
+        return Math.max(...parseSize(size));
       });
 
     const Ctor = getExtension('layout', type);
