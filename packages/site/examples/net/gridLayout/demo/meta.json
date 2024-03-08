@@ -5,7 +5,7 @@
   },
   "demos": [
     {
-      "filename": "grid.js",
+      "filename": "grid.ts",
       "title": {
         "zh": "Grid 网格布局",
         "en": "Grid Layout"

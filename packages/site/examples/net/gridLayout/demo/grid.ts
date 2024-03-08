@@ -1,10 +1,4 @@
-import { Graph, Extensions, extend } from '@antv/g6';
-
-const ExtGraph = extend(Graph, {
-  behaviors: {
-    'brush-select': Extensions.BrushSelect,
-  },
-});
+import { Graph } from '@antv/g6';
 
 const data = {
   nodes: [
@@ -611,100 +605,50 @@ const data = {
   ],
 };
 
-const container = document.getElementById('container');
-const width = container.scrollWidth;
-const height = container.scrollHeight || 500;
-const graph = new ExtGraph({
+const graph = new Graph({
   container: 'container',
-  width,
-  height,
-  modes: {
-    default: ['zoom-canvas', 'drag-canvas', 'drag-node', 'click-select', 'brush-select'],
-  },
-  plugins: [
-    {
-      type: 'lod-controller',
-      disableLod: true,
-    },
-  ],
+  data,
   layout: {
     type: 'grid',
-    begin: [20, 20],
-    width: width - 20,
-    height: height - 20,
+    sortBy: 'id',
   },
-  theme: {
-    type: 'spec',
-    base: 'light',
-    specification: {
-      node: {
-        dataTypeField: 'cluster',
-      },
+  node: {
+    style: {
+      size: 20,
+      stroke: '#ccc',
+      lineWidth: 1,
+      labelText: (d) => d.id,
     },
   },
-  node: (model) => {
-    return {
-      id: model.id,
-      data: {
-        ...model.data,
-        labelShape: {
-          text: model.data.label,
-        },
-        animates: {
-          update: [
-            {
-              fields: ['x', 'y'],
-              duration: 500,
-            },
-            {
-              fields: ['opacity'],
-              shapeId: 'haloShape',
-            },
-            {
-              fields: ['lineWidth'],
-              shapeId: 'keyShape',
-            },
-          ],
-        },
-      },
-    };
-  },
-  data,
+  behaviors: ['zoom-canvas', 'drag-canvas', 'drag-node', 'click-select'],
+  animation: true,
 });
 
-window.graph = graph;
-const configs = {
-  Default: {
-    type: 'grid',
-    begin: [20, 20],
-    width: width - 20,
-    height: height - 20,
-    sortBy: 'data',
-  },
-  Clustering: {
-    type: 'grid',
-    begin: [20, 20],
-    width: width - 20,
-    height: height - 20,
-    sortBy: 'cluster',
-  },
+graph.render();
+
+/** Below is the buttons.  */
+const SORT_BY = {
+  ID: 'id',
+  Degree: 'degree',
+  Cluster: (n1, n2) => Number(n2.data.cluster) - Number(n1.data.cluster),
 };
 
+const container = document.getElementById('container');
 const btnContainer = document.createElement('div');
 btnContainer.style.position = 'absolute';
 container.appendChild(btnContainer);
 const tip = document.createElement('span');
-tip.innerHTML = '👉 Change configs:';
+tip.innerHTML = '👉 Grid layout soryBy: ';
 btnContainer.appendChild(tip);
 
-Object.keys(configs).forEach((name, i) => {
+Object.keys(SORT_BY).forEach((name, i) => {
   const btn = document.createElement('a');
   btn.innerHTML = name;
-  btn.style.backgroundColor = 'rgba(255, 255, 255, 0.8)';
   btn.style.padding = '4px';
   btn.style.marginLeft = i > 0 ? '24px' : '8px';
   btnContainer.appendChild(btn);
   btn.addEventListener('click', () => {
-    graph.layout(configs[name]);
+    graph.setLayout({ type: 'grid', sortBy: name.toLowerCase() });
+    graph.layout();
   });
 });
