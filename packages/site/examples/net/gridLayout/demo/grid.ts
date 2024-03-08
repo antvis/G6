@@ -644,7 +644,6 @@ btnContainer.appendChild(tip);
 Object.keys(SORT_BY).forEach((name, i) => {
   const btn = document.createElement('a');
   btn.innerHTML = name;
-  // btn.style.backgroundColor = 'rgba(255, 255, 255, 0.8)';
   btn.style.padding = '4px';
   btn.style.marginLeft = i > 0 ? '24px' : '8px';
   btnContainer.appendChild(btn);
