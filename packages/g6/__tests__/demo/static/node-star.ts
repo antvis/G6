@@ -32,14 +32,14 @@ export const nodeStar: StaticTestCase = async (context) => {
         halo: (d: any) => d.id.includes('halo'),
         ports: (d: any) =>
           d.id.includes('ports')
-            ? [{ position: 'left' }, { position: 'right' }, { position: 'top' }, { position: 'bottom' }]
+            ? [{ placement: 'left' }, { placement: 'right' }, { placement: 'top' }, { placement: 'bottom' }]
             : [],
         badges: (d: any) =>
           d.id.includes('badges')
             ? [
-                { text: 'A', position: 'right-top' },
-                { text: 'Important', position: 'right' },
-                { text: 'Notice', position: 'right-bottom' },
+                { text: 'A', placement: 'right-top' },
+                { text: 'Important', placement: 'right' },
+                { text: 'Notice', placement: 'right-bottom' },
               ]
             : [],
         badgeFontSize: 8,

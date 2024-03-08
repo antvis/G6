@@ -108,11 +108,11 @@ export class Polyline extends BaseEdge {
     const defaultDist = Math.max(getBBoxWidth(bbox), getBBoxHeight(bbox)) / 4;
 
     const {
-      position,
+      placement,
       clockwise,
       dist = defaultDist,
     } = subStyleProps<Required<LoopStyleProps>>(this.getGraphicStyle(attributes), 'loop');
 
-    return getPolylineLoopPath(node, radius, position, clockwise, dist, sourcePortKey, targetPortKey);
+    return getPolylineLoopPath(node, radius, placement, clockwise, dist, sourcePortKey, targetPortKey);
   }
 }

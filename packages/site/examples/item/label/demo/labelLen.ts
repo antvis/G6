@@ -41,7 +41,7 @@ const graph = new Graph({
       x: (d) => d.data.x,
       y: (d) => d.data.y,
       size: (d) => d.data.size,
-      labelPosition: 'center',
+      labelPlacement: 'center',
       labelText: (d) => d.data.label,
       labelMaxWidth: '90%',
       labelBackgroundFill: '#eee',

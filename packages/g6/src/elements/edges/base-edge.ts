@@ -14,7 +14,7 @@ import type {
   EdgeKey,
   EdgeLabelStyleProps,
   Keyframe,
-  LoopEdgePosition,
+  LoopPlacement,
   Point,
   PrefixObject,
   Size,
@@ -52,7 +52,7 @@ export abstract class BaseEdge extends BaseShape<BaseEdgeStyleProps> {
     labelMaxWidth: '80%',
     labelOffsetX: 4,
     labelOffsetY: 0,
-    labelPosition: 'center',
+    labelPlacement: 'center',
     labelTextBaseline: 'middle',
     halo: false,
     haloDroppable: false,
@@ -75,7 +75,7 @@ export abstract class BaseEdge extends BaseShape<BaseEdgeStyleProps> {
     endArrowLineWidth: 1,
     endArrowTransformOrigin: 'center',
     endArrowType: 'triangle',
-    loopPosition: 'top',
+    loopPlacement: 'top',
     loopClockwise: true,
   };
 
@@ -103,12 +103,12 @@ export abstract class BaseEdge extends BaseShape<BaseEdgeStyleProps> {
     const defaultDist = Math.max(getBBoxWidth(bbox), getBBoxHeight(bbox));
 
     const {
-      position,
+      placement,
       clockwise,
       dist = defaultDist,
     } = subStyleProps<Required<LoopStyleProps>>(this.getGraphicStyle(attributes), 'loop');
 
-    return getCubicLoopPath(node, position, clockwise, dist, sourcePort, targetPort);
+    return getCubicLoopPath(node, placement, clockwise, dist, sourcePort, targetPort);
   }
 
   protected getEndpoints(attributes: ParsedBaseEdgeStyleProps): [Point, Point] {
@@ -135,10 +135,10 @@ export abstract class BaseEdge extends BaseShape<BaseEdgeStyleProps> {
     if (attributes.label === false || isEmpty(attributes.labelText)) return false;
 
     const labelStyle = subStyleProps<Required<EdgeLabelStyleProps>>(this.getGraphicStyle(attributes), 'label');
-    const { position, offsetX, offsetY, autoRotate, maxWidth, ...restStyle } = labelStyle;
+    const { placement, offsetX, offsetY, autoRotate, maxWidth, ...restStyle } = labelStyle;
     const labelPositionStyle = getLabelPositionStyle(
       this.shapeMap.key as EdgeKey,
-      position,
+      placement,
       autoRotate,
       offsetX,
       offsetY,
@@ -253,7 +253,7 @@ export type LoopStyleProps = {
    * <zh/> 边的位置
    * <en/> The position of the edge
    */
-  position?: LoopEdgePosition;
+  placement?: LoopPlacement;
   /**
    * <zh/> 指定是否顺时针绘制环
    * <en/> Specify whether to draw the loop clockwise

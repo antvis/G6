@@ -1,8 +1,8 @@
 import type { AABB, PointLike } from '@antv/g';
 import type { Point } from '../types';
 import { getBBoxHeight, getBBoxWidth } from './bbox';
-import { getXYByPosition } from './element';
 import { isBetween } from './math';
+import { getXYByPlacement } from './position';
 import { add, cross, distance, normalize, subtract, toVector2 } from './vector';
 
 /**
@@ -183,12 +183,12 @@ export function getPolygonIntersectPoint(p: Point, center: Point, points: Point[
  * @returns <zh/> 交点 | <en/> intersection
  */
 export function getRectIntersectPoint(p: Point, bbox: AABB): Point {
-  const center = getXYByPosition(bbox, 'center');
+  const center = getXYByPlacement(bbox, 'center');
   const corners = [
-    getXYByPosition(bbox, 'left-top'),
-    getXYByPosition(bbox, 'right-top'),
-    getXYByPosition(bbox, 'right-bottom'),
-    getXYByPosition(bbox, 'left-bottom'),
+    getXYByPlacement(bbox, 'left-top'),
+    getXYByPlacement(bbox, 'right-top'),
+    getXYByPlacement(bbox, 'right-bottom'),
+    getXYByPlacement(bbox, 'left-bottom'),
   ];
   return getPolygonIntersectPoint(p, center, corners, false);
 }

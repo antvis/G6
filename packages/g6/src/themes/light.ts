@@ -96,7 +96,7 @@ export const light: Theme = {
       labelFontSize: 12,
       labelMaxLines: 1,
       labelMaxWidth: '60%',
-      labelPosition: 'middle',
+      labelPlacement: 'middle',
       labelTextBaseline: 'middle',
       labelTextOverflow: 'ellipsis',
       labelWordWrap: true,

@@ -3,12 +3,12 @@ import { get, isString } from '@antv/util';
 import { BaseEdge } from '../elements/edges/base-edge';
 import { BaseNode } from '../elements/nodes';
 import type { TriangleDirection } from '../elements/nodes/triangle';
-import type { Edge, Node, Point, Position } from '../types';
-import type { LabelPosition, Port } from '../types/node';
-import type { Placement } from '../types/placement';
+import type { Edge, Node, Placement, Point, Position } from '../types';
+import type { LabelPlacement, Port } from '../types/node';
 import { getBBoxHeight, getBBoxWidth } from './bbox';
 import { isPoint } from './is';
 import { findNearestPoints, getEllipseIntersectPoint } from './point';
+import { getXYByPlacement } from './position';
 
 /**
  * <zh/> 判断是否是 BaseNode 的实例
@@ -45,19 +45,6 @@ export function isSameNode(node1: Node, node2: Node): boolean {
   return node1 === node2;
 }
 
-/**
- * Get the Badge x, y by `position`.
- * @param bbox - BBox of element.
- * @param position - The position relative with element.
- * @returns [x, y]
- */
-export function getXYByPosition(bbox: AABB, position: Placement = 'center'): Point {
-  const direction = position.split('-');
-  const x = direction.includes('left') ? bbox.min[0] : direction.includes('right') ? bbox.max[0] : bbox.center[0];
-  const y = direction.includes('top') ? bbox.min[1] : direction.includes('bottom') ? bbox.max[1] : bbox.center[1];
-  return [x, y];
-}
-
 const PORT_MAP: Record<string, Point> = {
   top: [0.5, 0],
   right: [1, 0.5],
@@ -69,21 +56,21 @@ const PORT_MAP: Record<string, Point> = {
 /**
  * Get the Port x, y by `position`.
  * @param bbox - BBox of element.
- * @param position - The position relative with element.
+ * @param placement - The position relative with element.
  * @param ports - The map of position.
  * @param isRelative - Whether the position in MAP is relative.
  * @returns [x, y]
  */
 export function getPortPosition(
   bbox: AABB,
-  position?: [number, number] | string,
+  placement?: Placement,
   ports: Record<string, Point> = PORT_MAP,
   isRelative = true,
 ): Point {
   const DEFAULT = [0.5, 0.5];
-  const p: [number, number] = isString(position) ? get(ports, position.toLocaleLowerCase(), DEFAULT) : position;
+  const p: [number, number] = isString(placement) ? get(ports, placement.toLocaleLowerCase(), DEFAULT) : placement;
 
-  if (!isRelative && isString(position)) return p;
+  if (!isRelative && isString(placement)) return p;
 
   const [x, y] = p || DEFAULT;
   return [bbox.min[0] + getBBoxWidth(bbox) * x, bbox.min[1] + getBBoxHeight(bbox) * y];
@@ -212,17 +199,17 @@ export function getNodeConnectionPoint(node: Node, opposite: Point | Node | Port
 /**
  * Get the Text style by `position`.
  * @param bbox - BBox of element.
- * @param position - The position relative with element.
+ * @param placement - The position relative with element.
  * @param isReverseBaseline - Whether reverse the baseline.
  * @returns Partial<TextStyleProps>
  */
-export function getTextStyleByPosition(
+export function getTextStyleByPlacement(
   bbox: AABB,
-  position: LabelPosition = 'bottom',
+  placement: LabelPlacement = 'bottom',
   isReverseBaseline = false,
 ): Partial<TextStyleProps> {
-  const direction = position.split('-');
-  const [x, y] = getXYByPosition(bbox, position);
+  const direction = placement.split('-');
+  const [x, y] = getXYByPlacement(bbox, placement);
 
   const textAlign = direction.includes('left') ? 'right' : direction.includes('right') ? 'left' : 'center';
 

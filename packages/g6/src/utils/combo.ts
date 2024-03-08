@@ -2,8 +2,8 @@ import { AABB } from '@antv/g';
 import { isFunction } from '@antv/util';
 import type { CollapsedMarkerStyleProps } from '../elements/combos/base-combo';
 import type { BaseComboProps, Combo, Node, Point, Position, Size } from '../types';
-import { getXYByAnchor } from './anchor';
 import { isNode } from './element';
+import { getXYByAnchor } from './position';
 import { parseSize } from './size';
 
 /**

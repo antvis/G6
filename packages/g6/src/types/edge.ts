@@ -6,14 +6,14 @@ export type EdgeDirection = 'in' | 'out' | 'both';
 
 export type EdgeKey = Line | Path | Polyline;
 
-export type EdgeLabelPosition = 'start' | 'center' | 'end' | number;
+export type EdgeLabelPlacement = 'start' | 'center' | 'end' | number;
 
 export type EdgeLabelStyleProps = {
   /**
-   * <zh/> 标签相对于边的位置。可以是 'start'、'center'、'end' 或特定比率（数字 0-1）
-   * <en/> The position of the label relative to the edge. Can be 'start', 'center', 'end', or a specific ratio (number)
+   * <zh/> 标签相对于边的位置。取值范围为 'start'、'center'、'end' 或特定比率（数字 0-1）
+   * <en/> Label position relative to the edge (keyShape) that can be 'start', 'center', 'end' or a specific ratio (number 0-1)
    */
-  position?: EdgeLabelPosition;
+  placement?: EdgeLabelPlacement;
   /**
    * <zh/> 标签平行于边的水平偏移量
    * <en/> The horizontal offset of the label parallel to the edge
@@ -36,4 +36,4 @@ export type EdgeLabelStyleProps = {
   maxWidth?: string | number;
 } & LabelStyleProps;
 
-export type LoopEdgePosition = CardinalPlacement | CornerPlacement;
+export type LoopPlacement = CardinalPlacement | CornerPlacement;

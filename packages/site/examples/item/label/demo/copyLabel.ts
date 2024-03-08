@@ -20,7 +20,7 @@ const graph = new Graph({
       x: 200,
       y: 200,
       size: 150,
-      labelPosition: 'center',
+      labelPlacement: 'center',
       labelText: (d) => d.data.label,
       labelMaxWidth: '90%',
       labelBackgroundFill: '#eee',

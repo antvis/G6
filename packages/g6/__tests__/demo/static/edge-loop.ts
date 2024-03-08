@@ -1,6 +1,6 @@
 import { Cubic } from '@/src/elements/edges';
 import { Circle, Star } from '@/src/elements/nodes';
-import type { LoopEdgePosition } from '@/src/types';
+import type { LoopPlacement } from '@/src/types';
 import type { StaticTestCase } from '../types';
 
 export const edgeLoop: StaticTestCase = async (context) => {
@@ -16,10 +16,10 @@ export const edgeLoop: StaticTestCase = async (context) => {
         fill: '#f8f8f8',
         stroke: '#8b9baf',
         ports: [
-          { key: 'left', position: [0, 0.5], r: 4, stroke: '#31d0c6', fill: '#fff' },
-          { key: 'right', position: [1, 0.5], r: 4, fill: '#31d0c6' },
-          { key: 'top', position: [0.5, 0], r: 4, fill: '#31d0c6' },
-          { key: 'bottom', position: [0.5, 1], r: 4, stroke: '#31d0c6', fill: '#fff' },
+          { key: 'left', placement: [0, 0.5], r: 4, stroke: '#31d0c6', fill: '#fff' },
+          { key: 'right', placement: [1, 0.5], r: 4, fill: '#31d0c6' },
+          { key: 'top', placement: [0.5, 0], r: 4, fill: '#31d0c6' },
+          { key: 'bottom', placement: [0.5, 1], r: 4, stroke: '#31d0c6', fill: '#fff' },
         ],
       },
     }),
@@ -50,10 +50,10 @@ export const edgeLoop: StaticTestCase = async (context) => {
         fill: '#f8f8f8',
         stroke: '#8b9baf',
         ports: [
-          { key: 'left', position: [0, 0.5], r: 4, stroke: '#31d0c6', fill: '#fff' },
-          { key: 'right', position: [1, 0.5], r: 4, fill: '#31d0c6' },
-          { key: 'top', position: [0.5, 0], r: 4, stroke: '#31d0c6', fill: '#fff' },
-          { key: 'bottom', position: [0.5, 1], r: 4, stroke: '#31d0c6', fill: '#fff' },
+          { key: 'left', placement: [0, 0.5], r: 4, stroke: '#31d0c6', fill: '#fff' },
+          { key: 'right', placement: [1, 0.5], r: 4, fill: '#31d0c6' },
+          { key: 'top', placement: [0.5, 0], r: 4, stroke: '#31d0c6', fill: '#fff' },
+          { key: 'bottom', placement: [0.5, 1], r: 4, stroke: '#31d0c6', fill: '#fff' },
         ],
       },
     }),
@@ -81,7 +81,7 @@ export const edgeLoop: StaticTestCase = async (context) => {
         size: 50,
         fill: '#f8f8f8',
         stroke: '#8b9baf',
-        ports: [{ key: 'right-bottom', position: 'right-bottom', r: 4, fill: '#31d0c6' }],
+        ports: [{ key: 'right-bottom', placement: 'right-bottom', r: 4, fill: '#31d0c6' }],
       },
     }),
   );
@@ -113,17 +113,17 @@ export const edgeLoop: StaticTestCase = async (context) => {
     }),
   );
 
-  ['top', 'right', 'bottom', 'left'].forEach((position) => {
+  ['top', 'right', 'bottom', 'left'].forEach((placement) => {
     container.appendChild(
       new Cubic({
         style: {
           sourceNode: node3,
           targetNode: node3,
           curveOffset: 100,
-          loopPosition: position as LoopEdgePosition,
+          loopPlacement: placement as LoopPlacement,
           stroke: '#1890FF',
           lineWidth: 2,
-          labelText: position,
+          labelText: placement,
           endArrow: true,
         },
       }),
@@ -144,16 +144,16 @@ export const edgeLoop: StaticTestCase = async (context) => {
     }),
   );
 
-  ['top-right', 'bottom-right', 'top-left', 'bottom-left'].forEach((position) => {
+  ['top-right', 'bottom-right', 'top-left', 'bottom-left'].forEach((placement) => {
     container.appendChild(
       new Cubic({
         style: {
           sourceNode: node4,
           targetNode: node4,
-          loopPosition: position as LoopEdgePosition,
+          loopPlacement: placement as LoopPlacement,
           stroke: '#1890FF',
           lineWidth: 2,
-          labelText: position,
+          labelText: placement,
           endArrow: true,
         },
       }),
@@ -174,17 +174,17 @@ export const edgeLoop: StaticTestCase = async (context) => {
     }),
   );
 
-  ['top', 'right', 'bottom', 'left'].forEach((position) => {
+  ['top', 'right', 'bottom', 'left'].forEach((placement) => {
     container.appendChild(
       new Cubic({
         style: {
           sourceNode: node5,
           targetNode: node5,
-          loopPosition: position as LoopEdgePosition,
+          loopPlacement: placement as LoopPlacement,
           loopClockwise: false,
           stroke: '#1890FF',
           lineWidth: 2,
-          labelText: position,
+          labelText: placement,
           endArrow: true,
         },
       }),
@@ -205,17 +205,17 @@ export const edgeLoop: StaticTestCase = async (context) => {
     }),
   );
 
-  ['top-right', 'bottom-right', 'top-left', 'bottom-left'].forEach((position) => {
+  ['top-right', 'bottom-right', 'top-left', 'bottom-left'].forEach((placement) => {
     container.appendChild(
       new Cubic({
         style: {
           sourceNode: node6,
           targetNode: node6,
-          loopPosition: position as LoopEdgePosition,
+          loopPlacement: placement as LoopPlacement,
           loopClockwise: false,
           stroke: '#1890FF',
           lineWidth: 2,
-          labelText: position,
+          labelText: placement,
           endArrow: true,
         },
       }),

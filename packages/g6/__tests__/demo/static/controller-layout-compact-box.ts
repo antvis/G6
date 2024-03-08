@@ -35,7 +35,7 @@ export const controllerLayoutCompactBox: STDTestCase = async (context) => {
         size: 20,
         labelText: (data: any) => data.id,
         labelMaxWidth: 250,
-        labelPosition: 'right',
+        labelPlacement: 'right',
         labelOffsetX: 10,
       },
     },

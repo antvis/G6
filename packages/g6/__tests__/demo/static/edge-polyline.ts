@@ -10,7 +10,7 @@ export const edgePolyline: StaticTestCase = async (context) => {
     size: [50, 20],
     fill: '#f8f8f8',
     stroke: '#8b9baf',
-    labelPosition: 'center',
+    labelPlacement: 'center',
     labelFill: '#8b9baf',
   };
 
@@ -38,7 +38,7 @@ export const edgePolyline: StaticTestCase = async (context) => {
         sourceNode: node0,
         targetNode: node0,
         stroke: '#1890FF',
-        loopPosition: 'top',
+        loopPlacement: 'top',
       },
     }),
   );
@@ -49,7 +49,7 @@ export const edgePolyline: StaticTestCase = async (context) => {
         sourceNode: node0,
         targetNode: node0,
         stroke: '#1890FF',
-        loopPosition: 'bottom-right',
+        loopPlacement: 'bottom-right',
       },
     }),
   );
@@ -64,10 +64,10 @@ export const edgePolyline: StaticTestCase = async (context) => {
         labelText: 'Loop',
         port: true,
         ports: [
-          { key: 'top', position: [0, 0.5], r: 2, fill: '#31d0c6' },
+          { key: 'top', placement: [0, 0.5], r: 2, fill: '#31d0c6' },
           {
             key: 'left',
-            position: [0.5, 0],
+            placement: [0.5, 0],
             r: 2,
             fill: '#31d0c6',
           },
@@ -84,7 +84,7 @@ export const edgePolyline: StaticTestCase = async (context) => {
         sourcePort: 'top',
         targetPort: 'left',
         stroke: '#1890FF',
-        loopPosition: 'bottom-left',
+        loopPlacement: 'bottom-left',
       },
     }),
   );
@@ -98,7 +98,7 @@ export const edgePolyline: StaticTestCase = async (context) => {
         ...commonNodeStyle,
         labelText: 'Loop',
         port: true,
-        ports: [{ key: 'top', position: [0.5, 0], r: 2, fill: '#31d0c6' }],
+        ports: [{ key: 'top', placement: [0.5, 0], r: 2, fill: '#31d0c6' }],
       },
     }),
   );
@@ -256,7 +256,7 @@ export const edgePolyline: StaticTestCase = async (context) => {
         y: 420,
         labelText: '7',
         ...commonNodeStyle,
-        ports: [{ key: 'top', position: [0.3, 0], r: 2, fill: '#31d0c6' }],
+        ports: [{ key: 'top', placement: [0.3, 0], r: 2, fill: '#31d0c6' }],
       },
     }),
   );

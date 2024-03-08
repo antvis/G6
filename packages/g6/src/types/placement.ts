@@ -10,4 +10,8 @@ export type CornerPlacement =
   | 'bottom-left'
   | 'bottom-right';
 
-export type Placement = CardinalPlacement | CornerPlacement | 'center';
+export type RelativePlacement = [number, number];
+
+export type DirectionalPlacement = CardinalPlacement | CornerPlacement | 'center';
+
+export type Placement = RelativePlacement | DirectionalPlacement;

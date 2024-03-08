@@ -7,16 +7,16 @@ import {
   getRectPoints,
   getStarPoints,
   getStarPorts,
-  getTextStyleByPosition,
+  getTextStyleByPlacement,
   getTrianglePoints,
   getTrianglePorts,
-  getXYByPosition,
   isEdge,
   isNode,
   isSameNode,
   isVisible,
   updateStyle,
 } from '@/src/utils/element';
+import { getXYByPlacement } from '@/src/utils/position';
 import { AABB, Line, Rect } from '@antv/g';
 
 describe('element', () => {
@@ -50,18 +50,18 @@ describe('element', () => {
     expect(isSameNode(node1, node1)).toBeTruthy();
   });
 
-  it('getXYByPosition', () => {
-    expect(getXYByPosition(bbox, 'left')).toEqual([100, 150]);
-    expect(getXYByPosition(bbox, 'right')).toEqual([200, 150]);
-    expect(getXYByPosition(bbox, 'top')).toEqual([150, 100]);
-    expect(getXYByPosition(bbox, 'bottom')).toEqual([150, 200]);
+  it('getXYByPlacement', () => {
+    expect(getXYByPlacement(bbox, 'left')).toEqual([100, 150]);
+    expect(getXYByPlacement(bbox, 'right')).toEqual([200, 150]);
+    expect(getXYByPlacement(bbox, 'top')).toEqual([150, 100]);
+    expect(getXYByPlacement(bbox, 'bottom')).toEqual([150, 200]);
 
-    expect(getXYByPosition(bbox, 'left-top')).toEqual([100, 100]);
-    expect(getXYByPosition(bbox, 'right-bottom')).toEqual([200, 200]);
+    expect(getXYByPlacement(bbox, 'left-top')).toEqual([100, 100]);
+    expect(getXYByPlacement(bbox, 'right-bottom')).toEqual([200, 200]);
 
-    expect(getXYByPosition(bbox, 'center')).toEqual([150, 150]);
+    expect(getXYByPlacement(bbox, 'center')).toEqual([150, 150]);
 
-    expect(getXYByPosition(bbox)).toEqual([150, 150]);
+    expect(getXYByPlacement(bbox)).toEqual([150, 150]);
   });
 
   it('getPortPosition', () => {
@@ -81,14 +81,14 @@ describe('element', () => {
       id: 'source',
       style: {
         port: true,
-        ports: [{ key: 'left', position: [0, 0.5], r: 4 }],
+        ports: [{ key: 'left', placement: [0, 0.5], r: 4 }],
       },
     });
     const targetNode = new Circle({
       id: 'target',
       style: {
         port: true,
-        ports: [{ key: 'top', position: [0.5, 0], r: 4 }],
+        ports: [{ key: 'top', placement: [0.5, 0], r: 4 }],
       },
     });
     const sourcePortKey = 'left';
@@ -104,60 +104,60 @@ describe('element', () => {
         x: 100,
         y: 100,
         port: true,
-        ports: [{ key: 'left', position: [0, 0.5], r: 4 }],
+        ports: [{ key: 'left', placement: [0, 0.5], r: 4 }],
         portLinkToCenter: true,
       },
     });
     expect(getPortConnectionPoint(node.getPorts()['left'], [0, 0])).toEqual([75, 100, 0]);
   });
 
-  it('getTextStyleByPosition', () => {
-    expect(getTextStyleByPosition(bbox, 'left')).toEqual({
+  it('getTextStyleByPlacement', () => {
+    expect(getTextStyleByPlacement(bbox, 'left')).toEqual({
       x: 100,
       y: 150,
       textAlign: 'right',
       textBaseline: 'middle',
     });
-    expect(getTextStyleByPosition(bbox, 'right')).toEqual({
+    expect(getTextStyleByPlacement(bbox, 'right')).toEqual({
       x: 200,
       y: 150,
       textAlign: 'left',
       textBaseline: 'middle',
     });
-    expect(getTextStyleByPosition(bbox, 'top')).toEqual({
+    expect(getTextStyleByPlacement(bbox, 'top')).toEqual({
       x: 150,
       y: 100,
       textAlign: 'center',
       textBaseline: 'bottom',
     });
-    expect(getTextStyleByPosition(bbox, 'bottom')).toEqual({
+    expect(getTextStyleByPlacement(bbox, 'bottom')).toEqual({
       x: 150,
       y: 200,
       textAlign: 'center',
       textBaseline: 'top',
     });
 
-    expect(getTextStyleByPosition(bbox, 'left-top')).toEqual({
+    expect(getTextStyleByPlacement(bbox, 'left-top')).toEqual({
       x: 100,
       y: 100,
       textAlign: 'right',
       textBaseline: 'bottom',
     });
-    expect(getTextStyleByPosition(bbox, 'right-bottom')).toEqual({
+    expect(getTextStyleByPlacement(bbox, 'right-bottom')).toEqual({
       x: 200,
       y: 200,
       textAlign: 'left',
       textBaseline: 'top',
     });
 
-    expect(getTextStyleByPosition(bbox, 'center')).toEqual({
+    expect(getTextStyleByPlacement(bbox, 'center')).toEqual({
       x: 150,
       y: 150,
       textAlign: 'center',
       textBaseline: 'middle',
     });
 
-    expect(getTextStyleByPosition(bbox)).toEqual({
+    expect(getTextStyleByPlacement(bbox)).toEqual({
       x: 150,
       y: 200,
       textAlign: 'center',

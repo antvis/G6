@@ -3,7 +3,7 @@ import { deepMix, isEmpty } from '@antv/util';
 import type { BaseComboProps, Combo, Node, Position, PrefixObject, STDSize } from '../../types';
 import { getBBoxHeight, getBBoxWidth, getCombinedBBox, getExpandedBBox } from '../../utils/bbox';
 import { getCollapsedMarkerText, getXYByCollapsedOrigin } from '../../utils/combo';
-import { getXYByPosition } from '../../utils/element';
+import { getXYByPlacement } from '../../utils/position';
 import { subStyleProps } from '../../utils/prefix';
 import { parseSize } from '../../utils/size';
 import type { BaseNodeStyleProps } from '../nodes';
@@ -117,7 +117,7 @@ export abstract class BaseCombo<S extends BaseComboStyleProps = BaseComboStylePr
       'collapsedMarker',
     );
     const keyShape = this.getKey();
-    const [x, y] = getXYByPosition(keyShape.getLocalBounds(), 'center');
+    const [x, y] = getXYByPlacement(keyShape.getLocalBounds(), 'center');
 
     if (type) {
       const text = getCollapsedMarkerText(type, attributes.children!);
