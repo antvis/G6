@@ -1,3 +1,4 @@
+export type * from './anchor';
 export type * from './animation';
 export type * from './behavior';
 export type * from './callable';
@@ -12,6 +13,7 @@ export type * from './graphlib';
 export type * from './layout';
 export type * from './node';
 export type * from './padding';
+export type * from './placement';
 export type * from './point';
 export type * from './position';
 export type * from './prefix';

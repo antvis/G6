@@ -3,19 +3,21 @@ import { Circle as GCircle } from '@antv/g';
 import { deepMix, isEmpty } from '@antv/util';
 import type { CategoricalPalette } from '../../palettes/types';
 import type {
-  BadgePosition,
+  BadgePlacement,
   BaseNodeProps,
   Keyframe,
-  LabelPosition,
+  LabelPlacement,
+  Placement,
   Point,
   Port,
-  PortPosition,
+  PortPlacement,
   PortStyleProps,
   PrefixObject,
 } from '../../types';
-import { getPortPosition, getTextStyleByPosition, getXYByPosition } from '../../utils/element';
+import { getPortPosition, getTextStyleByPlacement } from '../../utils/element';
 import { getPaletteColors } from '../../utils/palette';
 import { getRectIntersectPoint } from '../../utils/point';
+import { getXYByPlacement } from '../../utils/position';
 import { omitStyleProps, subObject, subStyleProps } from '../../utils/prefix';
 import { parseSize } from '../../utils/size';
 import { getWordWrapWidthByBox } from '../../utils/text';
@@ -77,7 +79,7 @@ export abstract class BaseNode<S extends BaseNodeStyleProps = any> extends BaseS
     label: true,
     labelIsBillboard: true,
     labelMaxWidth: '200%',
-    labelPosition: 'bottom',
+    labelPlacement: 'bottom',
     labelZIndex: 0,
   };
 
@@ -102,7 +104,7 @@ export abstract class BaseNode<S extends BaseNodeStyleProps = any> extends BaseS
   protected getLabelStyle(attributes: Required<S>): false | LabelStyleProps {
     if (attributes.label === false || isEmpty(attributes.labelText)) return false;
 
-    const { position, maxWidth, ...labelStyle } = subStyleProps<Required<NodeLabelStyleProps>>(
+    const { placement, maxWidth, ...labelStyle } = subStyleProps<Required<NodeLabelStyleProps>>(
       this.getGraphicStyle(attributes),
       'label',
     );
@@ -110,7 +112,7 @@ export abstract class BaseNode<S extends BaseNodeStyleProps = any> extends BaseS
     const keyBounds = keyShape.getLocalBounds();
 
     return Object.assign(
-      getTextStyleByPosition(keyBounds, position),
+      getTextStyleByPlacement(keyBounds, placement),
       { wordWrapWidth: getWordWrapWidthByBox(keyBounds, maxWidth) },
       labelStyle,
     );
@@ -130,7 +132,7 @@ export abstract class BaseNode<S extends BaseNodeStyleProps = any> extends BaseS
 
     const iconStyle = subStyleProps(this.getGraphicStyle(attributes), 'icon');
     const keyShape = this.getKey();
-    const [x, y] = getXYByPosition(keyShape.getLocalBounds(), 'center');
+    const [x, y] = getXYByPlacement(keyShape.getLocalBounds(), 'center');
 
     return { x, y, ...iconStyle };
   }
@@ -161,8 +163,8 @@ export abstract class BaseNode<S extends BaseNodeStyleProps = any> extends BaseS
 
   protected getBadgeStyle(style: NodeBadgeStyleProps): NodeBadgeStyleProps {
     const keyShape = this.getKey();
-    const { position = 'top', ...restStyle } = style;
-    const textStyle = getTextStyleByPosition(keyShape.getLocalBounds(), position, true);
+    const { placement = 'top', ...restStyle } = style;
+    const textStyle = getTextStyleByPlacement(keyShape.getLocalBounds(), placement, true);
     return { ...textStyle, ...restStyle };
   }
 
@@ -187,9 +189,9 @@ export abstract class BaseNode<S extends BaseNodeStyleProps = any> extends BaseS
   }
 
   protected getPortXY(attributes: Required<S>, style: NodePortStyleProps): Point {
-    const { position = 'left' } = style;
+    const { placement = 'left' } = style;
     const bounds = this.getKey().getLocalBounds();
-    return getPortPosition(bounds, position as PortPosition);
+    return getPortPosition(bounds, placement as PortPlacement);
   }
 
   /**
@@ -288,9 +290,9 @@ export abstract class BaseNode<S extends BaseNodeStyleProps = any> extends BaseS
 
 type NodeLabelStyleProps = LabelStyleProps & {
   /**
-   * Position relative to the node (keyShape).
+   * Label position relative to the node (keyShape).
    */
-  position?: LabelPosition;
+  placement?: LabelPlacement;
   /**
    * The max width of the label, relative to the node width. The value can be a number or a percentage string:
    * If the value is a number, it will be treated as the pixel value.
@@ -301,9 +303,9 @@ type NodeLabelStyleProps = LabelStyleProps & {
 
 type NodeBadgeStyleProps = BadgeStyleProps & {
   /**
-   * Position relative to the node (keyShape).
+   * Badge position relative to the node (keyShape).
    */
-  position?: BadgePosition;
+  placement?: BadgePlacement;
 };
 
 export type NodePortStyleProps = Partial<PortStyleProps> & {
@@ -316,7 +318,7 @@ export type NodePortStyleProps = Partial<PortStyleProps> & {
    * If the value is a string, it will be treated as the position direction.
    * If the value is a tuple of two numbers, it will be treated as the position coordinates(0 ~ 1).
    */
-  position: string | [number, number];
+  placement: Placement;
 };
 
 type ShapeSwitch = {

@@ -1,7 +1,7 @@
 import type { AABB, Circle as GCircle } from '@antv/g';
 import type { PathArray } from '@antv/util';
 import { isEqual, isNumber } from '@antv/util';
-import type { EdgeKey, EdgeLabelPosition, EdgeLabelStyleProps, LoopEdgePosition, Node, Point, Vector2 } from '../types';
+import type { EdgeKey, EdgeLabelPlacement, EdgeLabelStyleProps, LoopPlacement, Node, Point, Vector2 } from '../types';
 import { getBBoxHeight, getBBoxWidth, getNearestSideToPoint, getNodeBBox } from './bbox';
 import { getNodeConnectionPoint, getPortConnectionPoint } from './element';
 import { isCollinear, isHorizontal, moveTo, parsePoint } from './point';
@@ -13,7 +13,7 @@ import { add, distance, manhattanDistance, multiply, normalize, perpendicular, s
  *
  * <en/> Get the style of the label's position
  * @param key - <zh/> 边对象 | <en/> The edge object
- * @param position - <zh/> 标签位置 | <en/> Position of the label
+ * @param placement - <zh/> 标签位置 | <en/> Position of the label
  * @param autoRotate - <zh/> 是否自动旋转 | <en/> Whether to auto-rotate
  * @param offsetX - <zh/> 标签相对于边的水平偏移量 | <en/> Horizontal offset of the label relative to the edge
  * @param offsetY - <zh/> 标签相对于边的垂直偏移量 | <en/> Vertical offset of the label relative to the edge
@@ -21,7 +21,7 @@ import { add, distance, manhattanDistance, multiply, normalize, perpendicular, s
  */
 export function getLabelPositionStyle(
   key: EdgeKey,
-  position: EdgeLabelPosition,
+  placement: EdgeLabelPlacement,
   autoRotate: boolean,
   offsetX: number,
   offsetY: number,
@@ -30,17 +30,18 @@ export function getLabelPositionStyle(
   const MIDDLE_RATIO = 0.5;
   const END_RATIO = 0.99;
 
-  let ratio = typeof position === 'number' ? position : MIDDLE_RATIO;
-  if (position === 'start') ratio = START_RATIO;
-  if (position === 'end') ratio = END_RATIO;
+  let ratio = typeof placement === 'number' ? placement : MIDDLE_RATIO;
+  if (placement === 'start') ratio = START_RATIO;
+  if (placement === 'end') ratio = END_RATIO;
 
   const point = parsePoint(key.getPoint(ratio));
   const pointOffset = parsePoint(key.getPoint(ratio + 0.01));
 
-  let textAlign: 'left' | 'right' | 'center' = position === 'start' ? 'left' : position === 'end' ? 'right' : 'center';
+  let textAlign: 'left' | 'right' | 'center' =
+    placement === 'start' ? 'left' : placement === 'end' ? 'right' : 'center';
 
   if (isHorizontal(point, pointOffset) || !autoRotate) {
-    const [x, y] = getXYByPosition(key, ratio, offsetX, offsetY);
+    const [x, y] = getXYByPlacement(key, ratio, offsetX, offsetY);
     return { x, y, textAlign };
   }
 
@@ -53,7 +54,7 @@ export function getLabelPositionStyle(
     angle += Math.PI;
   }
 
-  const [x, y] = getXYByPosition(key, ratio, offsetX, offsetY, angle);
+  const [x, y] = getXYByPlacement(key, ratio, offsetX, offsetY, angle);
   const transform = `rotate(${(angle / Math.PI) * 180}deg)`;
 
   return {
@@ -75,7 +76,7 @@ export function getLabelPositionStyle(
  * @param angle - <zh/> 旋转角度 | <en/> Rotation angle
  * @returns <zh/> 坐标 | <en/> Coordinates
  */
-function getXYByPosition(key: EdgeKey, ratio: number, offsetX: number, offsetY: number, angle?: number) {
+function getXYByPlacement(key: EdgeKey, ratio: number, offsetX: number, offsetY: number, angle?: number) {
   const [pointX, pointY] = parsePoint(key.getPoint(ratio));
   let actualOffsetX = offsetX;
   let actualOffsetY = offsetY;
@@ -240,7 +241,7 @@ function getBorderRadiusPoints(prevPoint: Point, midPoint: Point, nextPoint: Poi
 
 /** ==================== Loop Edge =========================== */
 
-export const getRadians = (bbox: AABB): Record<LoopEdgePosition, [number, number]> => {
+export const getRadians = (bbox: AABB): Record<LoopPlacement, [number, number]> => {
   const halfPI = Math.PI / 2;
   const halfHeight = getBBoxHeight(bbox) / 2;
   const halfWidth = getBBoxWidth(bbox) / 2;
@@ -267,7 +268,7 @@ export const getRadians = (bbox: AABB): Record<LoopEdgePosition, [number, number
  *
  * <en/> Get the start and end points of the loop edge
  * @param node - <zh/> 节点实例 | <en/> Node instance
- * @param position - <zh/> 环形边的位置 | <en/> The position of the loop edge
+ * @param placement - <zh/> 环形边相对于节点位置 | <en/> Loop position relative to the node
  * @param clockwise - <zh/> 是否顺时针 | <en/> Whether to draw the loop clockwise
  * @param sourcePort - <zh/> 起点连接桩 | <en/> Source port
  * @param targetPort - <zh/> 终点连接桩 | <en/> Target port
@@ -277,7 +278,7 @@ export const getRadians = (bbox: AABB): Record<LoopEdgePosition, [number, number
  */
 export function getLoopEndpoints(
   node: Node,
-  position: LoopEdgePosition,
+  placement: LoopPlacement,
   clockwise: boolean,
   sourcePort?: GCircle,
   targetPort?: GCircle,
@@ -292,8 +293,8 @@ export function getLoopEndpoints(
 
   if (!sourcePoint || !targetPoint) {
     const radians = getRadians(bbox);
-    const angle1 = radians[position][0];
-    const angle2 = radians[position][1];
+    const angle1 = radians[placement][0];
+    const angle2 = radians[placement][1];
     const r = Math.max(getBBoxWidth(bbox), getBBoxHeight(bbox));
     const point1: Point = add(center, [r * Math.cos(angle1), r * Math.sin(angle1), 0]);
     const point2: Point = add(center, [r * Math.cos(angle2), r * Math.sin(angle2), 0]);
@@ -314,7 +315,7 @@ export function getLoopEndpoints(
  *
  * <en/> Get the path of the loop edge
  * @param node - <zh/> 节点实例 | <en/> Node instance
- * @param position - <zh/> 环形边的位置 | <en/> The position of the loop edge
+ * @param placement - <zh/> 环形边相对于节点位置 | <en/> Loop position relative to the node
  * @param clockwise - <zh/> 是否顺时针 | <en/> Whether to draw the loop clockwise
  * @param dist - <zh/> 从节点 keyShape 边缘到自环顶部的距离 | <en/> The distance from the edge of the node keyShape to the top of the self-loop
  * @param sourcePortKey - <zh/> 起点连接桩 key | <en/> Source port key
@@ -325,7 +326,7 @@ export function getLoopEndpoints(
  */
 export function getCubicLoopPath(
   node: Node,
-  position: LoopEdgePosition,
+  placement: LoopPlacement,
   clockwise: boolean,
   dist: number,
   sourcePortKey?: string,
@@ -339,7 +340,7 @@ export function getCubicLoopPath(
   // 1. 获取起点和终点 | Get the start and end points
   let [sourcePoint, targetPoint] = getLoopEndpoints(
     node,
-    position,
+    placement,
     clockwise,
     sourcePort,
     targetPort,
@@ -397,7 +398,7 @@ export function getCubicLoopControlPoints(
  * <en/> Get the path of the loop polyline edge
  * @param node - <zh/> 节点实例 | <en/> Node instance
  * @param radius - <zh/> 圆角半径 | <en/> Radius of the rounded corner
- * @param position - <zh/> 环形边的位置 | <en/> The position of the loop edge
+ * @param placement - <zh/> 环形边相对于节点位置 | <en/> Loop position relative to the node
  * @param clockwise - <zh/> 是否顺时针 | <en/> Whether to draw the loop clockwise
  * @param dist - <zh/> 从节点 keyShape 边缘到自环顶部的距离 | <en/> The distance from the edge of the node keyShape to the top of the self-loop
  * @param sourcePortKey - <zh/> 起点连接桩 key | <en/> Source port key
@@ -409,7 +410,7 @@ export function getCubicLoopControlPoints(
 export function getPolylineLoopPath(
   node: Node,
   radius: number,
-  position: LoopEdgePosition,
+  placement: LoopPlacement,
   clockwise: boolean,
   dist: number,
   sourcePortKey?: string,
@@ -423,7 +424,7 @@ export function getPolylineLoopPath(
   // 1. 获取起点和终点 | Get the start and end points
   let [sourcePoint, targetPoint] = getLoopEndpoints(
     node,
-    position,
+    placement,
     clockwise,
     sourcePort,
     targetPort,

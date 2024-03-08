@@ -1,4 +1,5 @@
-import { getXYByAnchor, parseAnchor } from '@/src/utils/anchor';
+import { parseAnchor } from '@/src/utils/anchor';
+import { getXYByAnchor } from '@/src/utils/position';
 import { AABB } from '@antv/g';
 
 describe('anchor', () => {

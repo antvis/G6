@@ -1,12 +1,12 @@
 import type { DisplayObject, CircleStyleProps as GCircleStyleProps } from '@antv/g';
-import type { Placement } from './placement';
+import type { CardinalPlacement, CornerPlacement, DirectionalPlacement, RelativePlacement } from './placement';
 
-export type PortPosition = [number, number] | 'top' | 'left' | 'right' | 'bottom';
-export type StarPortPosition = [number, number] | 'top' | 'left' | 'right' | 'left-bottom' | 'right-bottom';
-export type TrianglePortPosition = [number, number] | 'top' | 'left' | 'right' | 'bottom';
+export type PortPlacement = RelativePlacement | CardinalPlacement;
+export type StarPortPlacement = RelativePlacement | 'top' | 'left' | 'right' | 'left-bottom' | 'right-bottom';
+export type TrianglePortPlacement = RelativePlacement | CardinalPlacement;
 
-export type BadgePosition = Placement;
-export type LabelPosition = Placement;
+export type BadgePlacement = CardinalPlacement | CornerPlacement;
+export type LabelPlacement = DirectionalPlacement;
 
 export type PortStyleProps = GCircleStyleProps & {
   /**

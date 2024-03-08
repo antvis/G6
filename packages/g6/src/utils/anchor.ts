@@ -1,5 +1,3 @@
-import type { AABB } from '@antv/g';
-import type { Position } from '../types';
 import type { Anchor, STDAnchor } from '../types/anchor';
 import { isBetween } from './math';
 
@@ -18,18 +16,4 @@ export function parseAnchor(anchor: Anchor): STDAnchor {
     return [0.5, 0.5];
   }
   return parsedAnchor;
-}
-
-/**
- * <zh/> 获取锚点在 Canvas 坐标系下的位置
- *
- * <en/> Get the position of the anchor in the Canvas coordinate system
- * @param bbox - <zh/> 包围盒 | <en/> Bounding box
- * @param anchor - <zh/> 锚点 | <en/> Anchor
- * @returns <zh/> 在画布上的位置 | <en/> The position on the canvas
- */
-export function getXYByAnchor(bbox: AABB, anchor: Anchor): Position {
-  const [anchorX, anchorY] = parseAnchor(anchor);
-  const { min, max } = bbox;
-  return [min[0] + anchorX * (max[0] - min[0]), min[1] + anchorY * (max[1] - min[1])];
 }

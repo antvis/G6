@@ -31,13 +31,13 @@ export const nodeTriangle: StaticTestCase = async (context) => {
         iconSrc: 'https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg',
         halo: (d: any) => d.id.includes('halo'),
         ports: (d: any) =>
-          d.id.includes('ports') ? [{ position: 'left' }, { position: 'top' }, { position: 'bottom' }] : [],
+          d.id.includes('ports') ? [{ placement: 'left' }, { placement: 'top' }, { placement: 'bottom' }] : [],
         badges: (d: any) =>
           d.id.includes('badges')
             ? [
-                { text: 'A', position: 'right-top' },
-                { text: 'Important', position: 'right' },
-                { text: 'Notice', position: 'right-bottom' },
+                { text: 'A', placement: 'right-top' },
+                { text: 'Important', placement: 'right' },
+                { text: 'Notice', placement: 'right-bottom' },
               ]
             : [],
         badgeFontSize: 8,

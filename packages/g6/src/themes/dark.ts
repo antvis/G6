@@ -97,7 +97,7 @@ export const dark: Theme = {
       labelMaxLines: 1,
       labelMaxWidth: '60%',
       labelOpacity: 0.85,
-      labelPosition: 'middle',
+      labelPlacement: 'middle',
       labelTextBaseline: 'middle',
       labelTextOverflow: 'ellipsis',
       labelWordWrap: true,
