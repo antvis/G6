@@ -21,7 +21,7 @@ import type { Point } from '../types/point';
 import { cloneElementData, mergeElementsData } from '../utils/data';
 import { arrayDiff } from '../utils/diff';
 import { toG6Data, toGraphlibData } from '../utils/graphlib';
-import { idOf } from '../utils/id';
+import { idOf, parentIdOf } from '../utils/id';
 import { dfs } from '../utils/traverse';
 
 export class DataController {
@@ -327,7 +327,7 @@ export class DataController {
     data.forEach((datum) => {
       const id = idOf(datum);
 
-      const parentId = datum?.style?.parentId;
+      const parentId = parentIdOf(datum);
       if (parentId !== undefined) {
         model.attachTreeStructure(COMBO_KEY);
         model.setParent(id, parentId, COMBO_KEY);
@@ -541,10 +541,10 @@ export class DataController {
       this.model.getChildren(id, COMBO_KEY).forEach((child) => {
         const childData = child.data;
         const childId = idOf(childData);
-        this.model.setParent(idOf(childData), data?.style?.parentId, COMBO_KEY);
+        this.model.setParent(idOf(childData), parentIdOf(data), COMBO_KEY);
         const value = mergeElementsData(childData, {
           id: idOf(childData),
-          style: { parentId: data?.style?.parentId },
+          style: { parentId: parentIdOf(data) },
         });
         this.pushChange({
           value,
