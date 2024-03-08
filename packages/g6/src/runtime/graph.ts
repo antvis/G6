@@ -607,8 +607,12 @@ export class Graph extends EventEmitter {
     return omit(this.context.element!.getElement(id)!.attributes, ['context']);
   }
 
-  public async setElementVisibility(id: ID | ID[], visibility: BaseStyleProps['visibility']): Promise<void> {
-    await this.context.element!.setElementsVisibility(Array.isArray(id) ? id : [id], visibility);
+  public async setElementVisibility(
+    id: ID | ID[],
+    visibility: BaseStyleProps['visibility'],
+    animation?: boolean,
+  ): Promise<void> {
+    await this.context.element!.setElementsVisibility(Array.isArray(id) ? id : [id], visibility, animation);
   }
 
   public getElementVisibility(id: ID): BaseStyleProps['visibility'] {

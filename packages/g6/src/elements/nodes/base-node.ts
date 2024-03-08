@@ -58,6 +58,8 @@ export abstract class BaseNode<S extends BaseNodeStyleProps = any> extends BaseS
     x: 0,
     y: 0,
     size: 32,
+    droppable: true,
+    draggable: true,
     port: true,
     ports: [],
     portZIndex: 2,

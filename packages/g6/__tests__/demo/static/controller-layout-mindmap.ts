@@ -1,5 +1,5 @@
 import type { G6Spec } from '@/src';
-import { Graph, treeToGraphData } from '@/src';
+import { Graph, Utils } from '@/src';
 import tree from '@@/dataset/algorithm-category.json';
 import type { STDTestCase } from '../types';
 
@@ -9,7 +9,7 @@ export const controllerLayoutMindmap: STDTestCase = async (context) => {
     x: 350,
     y: 100,
     zoom: 0.4,
-    data: treeToGraphData(tree),
+    data: Utils.treeToGraphData(tree),
     theme: 'light',
     layout: {
       type: 'mindmap',

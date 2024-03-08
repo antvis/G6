@@ -3,7 +3,7 @@
 import type { BaseStyleProps, DisplayObject, IAnimation } from '@antv/g';
 import { Group } from '@antv/g';
 import type { ID } from '@antv/graphlib';
-import { groupBy, pick } from '@antv/util';
+import { groupBy, isUndefined, pick } from '@antv/util';
 import { executor as animationExecutor } from '../animations';
 import type { AnimationContext } from '../animations/types';
 import { AnimationType, ChangeTypeEnum, GraphEvent } from '../constants';
@@ -32,10 +32,10 @@ import type {
 } from '../types';
 import { executeAnimatableTasks, inferDefaultValue, withAnimationCallbacks } from '../utils/animation';
 import { deduplicate } from '../utils/array';
-import { cacheStyle, getCachedStyle } from '../utils/cache';
+import { cacheStyle, getCachedStyle, setCacheStyle } from '../utils/cache';
 import { reduceDataChanges } from '../utils/change';
 import { isEmptyData } from '../utils/data';
-import { isVisible, updateStyle } from '../utils/element';
+import { updateStyle } from '../utils/element';
 import type { BaseEvent } from '../utils/event';
 import {
   AnimateEvent,
@@ -771,7 +771,7 @@ export class ElementController {
     delete this.runtimeStyle[id];
   }
 
-  public async setElementsVisibility(ids: ID[], visibility: BaseStyleProps['visibility']) {
+  public async setElementsVisibility(ids: ID[], visibility: BaseStyleProps['visibility'], animation?: boolean) {
     if (ids.length === 0) return null;
 
     const isHide = visibility === 'hidden';
@@ -792,36 +792,51 @@ export class ElementController {
       ['combo', combos],
     ];
 
-    const show = (id: ID, element: DisplayObject, animator: AnimationExecutor) => {
-      const originalOpacity = getCachedStyle(element, 'opacity') ?? element.style.opacity ?? 1;
-      cacheStyle(element, 'opacity');
+    const cacheOpacity = (element: DisplayObject) => {
+      if (isUndefined(getCachedStyle(element, 'opacity'))) cacheStyle(element, 'opacity');
+    };
 
+    const show = (id: ID, element: DisplayObject, animator: AnimationExecutor) => {
+      const originalOpacity =
+        getCachedStyle(element, 'opacity') ?? element.style.opacity ?? inferDefaultValue('opacity');
+      cacheOpacity(element);
+      // 由于 show 和 hide 的时序存在差异
+      // - show： 立即将元素显示出来，然后执行动画
+      // - hide： 先执行动画，然后隐藏元素
+      // 如果在调用 hide 后立即调用 show，hide 动画完成后会将元素隐藏
+      // 因此需要缓存元素最新的可见性
+      //
+      // Due to the difference in the timing of show and hide
+      // - show: immediately shows the element and then executes the animation
+      // - hide: executes the animation first, and then hides the element
+      // If show is called immediately after hide,it hide the element after hide animation completed
+      // Therefore, the latest visibility of the element needs to be cached
+      setCacheStyle(element, 'visibility', visibility);
       setVisibility(element, visibility);
       return animator(id, element, { ...element.attributes, opacity: 0 }, { opacity: originalOpacity });
     };
 
     const hide = (id: ID, element: DisplayObject, animator: AnimationExecutor) => {
-      const originalOpacity = getCachedStyle(element, 'opacity') ?? element.style.opacity ?? 1;
-      cacheStyle(element, 'opacity');
+      const originalOpacity =
+        getCachedStyle(element, 'opacity') ?? element.style.opacity ?? inferDefaultValue('opacity');
 
+      cacheOpacity(element);
+      setCacheStyle(element, 'visibility', visibility);
       const animation = animator(id, element, { ...element.attributes, opacity: originalOpacity }, { opacity: 0 });
-      return withAnimationCallbacks(animation, { after: () => setVisibility(element, visibility) });
+      return withAnimationCallbacks(animation, {
+        after: () => setVisibility(element, getCachedStyle(element, 'visibility')),
+      });
     };
 
     const tasks: AnimatableTask[] = [];
     iteration.forEach(([elementType, elementIds]) => {
       if (elementIds.length === 0) return;
-      const animator = this.getAnimationExecutor(elementType, isHide ? 'hide' : 'show');
+      const animator = this.getAnimationExecutor(elementType, isHide ? 'hide' : 'show', animation);
       elementIds.forEach((id) => {
         const element = this.getElement(id);
-        if (!element) return;
-        if (!isVisible(element)) {
-          if (isHide) return;
-        } else if (!isHide) return;
-
-        tasks.push(() => {
-          return () => (isHide ? hide : show)(id, element, animator);
-        });
+        if (element) {
+          tasks.push(() => () => (isHide ? hide : show)(id, element, animator));
+        }
       });
     });
 

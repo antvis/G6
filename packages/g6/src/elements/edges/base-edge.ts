@@ -150,18 +150,31 @@ export abstract class BaseEdge extends BaseShape<BaseEdgeStyleProps> {
     return Object.assign({ wordWrapWidth }, labelPositionStyle, restStyle);
   }
 
-  protected drawArrow(attributes: ParsedBaseEdgeStyleProps, isStart: boolean) {
-    const arrowType = isStart ? 'startArrow' : 'endArrow';
-    const arrowPresence = attributes[arrowType];
-    if (arrowPresence) {
+  protected drawArrow(attributes: ParsedBaseEdgeStyleProps, type: 'start' | 'end') {
+    const isStart = type === 'start';
+    const arrowType = type === 'start' ? 'startArrow' : 'endArrow';
+    const enable = attributes[arrowType];
+
+    const keyShape = this.shapeMap.key as Path;
+
+    if (enable) {
       const arrowStyle = this.getArrowStyle(attributes, isStart);
       const Ctor = !isEmpty(arrowStyle.src) ? Image : Path;
-      this.shapeMap.key.style[isStart ? 'markerStart' : 'markerEnd'] = new Ctor({ style: arrowStyle });
-      this.shapeMap.key.style[isStart ? 'markerStartOffset' : 'markerEndOffset'] =
-        (isStart ? attributes.startArrowOffset : attributes.endArrowOffset) ||
-        Number(arrowStyle.width) / 2 + Number(arrowStyle.lineWidth);
+      const [marker, markerOffset, arrowOffset] = isStart
+        ? (['markerStart', 'markerStartOffset', 'startArrowOffset'] as const)
+        : (['markerEnd', 'markerEndOffset', 'endArrowOffset'] as const);
+
+      const arrow = keyShape.style[marker];
+      // update
+      if (arrow) arrow.attr(arrowStyle);
+      // create
+      else keyShape.style[marker] = new Ctor({ style: arrowStyle });
+      keyShape.style[markerOffset] = attributes[arrowOffset] || arrowStyle.width / 2 + +arrowStyle.lineWidth;
     } else {
-      this.shapeMap.key.style[isStart ? 'markerStart' : 'markerEnd'] = undefined;
+      // destroy
+      const marker = isStart ? 'markerStart' : 'markerEnd';
+      keyShape.style[marker]?.destroy();
+      keyShape.style[marker] = null;
     }
   }
 
@@ -203,8 +216,8 @@ export abstract class BaseEdge extends BaseShape<BaseEdgeStyleProps> {
     if (!keyShape) return;
 
     // 2. arrows
-    this.drawArrow(attributes, true);
-    this.drawArrow(attributes, false);
+    this.drawArrow(attributes, 'start');
+    this.drawArrow(attributes, 'end');
 
     // 3. label
     this.drawLabelShape(attributes, container);
@@ -219,8 +232,6 @@ export abstract class BaseEdge extends BaseShape<BaseEdgeStyleProps> {
     if (result) {
       result.onframe = () => {
         this.drawLabelShape(this.parsedAttributes, this);
-        this.drawArrow(this.parsedAttributes, true);
-        this.drawArrow(this.parsedAttributes, false);
       };
     }
 

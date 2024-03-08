@@ -1,5 +1,5 @@
 import type { G6Spec } from '@/src';
-import { Graph, treeToGraphData } from '@/src';
+import { Graph, Utils } from '@/src';
 import tree from '@@/dataset/file-system.json';
 import type { STDTestCase } from '../types';
 
@@ -8,7 +8,7 @@ export const controllerLayoutIndented: STDTestCase = async (context) => {
     ...context,
     y: -200,
     zoom: 0.5,
-    data: treeToGraphData(tree),
+    data: Utils.treeToGraphData(tree),
     theme: 'light',
     layout: {
       type: 'indented',
