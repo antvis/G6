@@ -1,4 +1,4 @@
-import { treeToGraphData } from '@/src';
+import { Utils } from '@/src';
 import { DataController } from '@/src/runtime/data';
 import { reduceDataChanges } from '@/src/utils/change';
 import tree from '@@/dataset/algorithm-category.json';
@@ -547,7 +547,7 @@ describe('DataController', () => {
   it('getParentData getChildrenData', () => {
     const controller = new DataController();
 
-    controller.addData(treeToGraphData(tree));
+    controller.addData(Utils.treeToGraphData(tree));
 
     expect(controller.getParentData('Classification')?.id).toBe(tree.id);
 
