@@ -8,8 +8,9 @@ import type { BaseShapeStyleProps } from './base-shape';
 import { BaseShape } from './base-shape';
 
 export type LabelStyleProps = BaseShapeStyleProps &
-  TextStyleProps &
-  PrefixObject<RectStyleProps, 'background'> & {
+  TextStyleProps & {
+    background: boolean;
+  } & PrefixObject<RectStyleProps, 'background'> & {
     padding?: Padding;
   };
 type ParsedLabelStyleProps = Required<LabelStyleProps>;
@@ -47,6 +48,8 @@ export class Label extends BaseShape<LabelStyleProps> {
   }
 
   protected getBackgroundStyle(attributes: ParsedLabelStyleProps) {
+    if (attributes.background === false) return false;
+
     const style = this.getGraphicStyle(attributes);
     const { wordWrap, wordWrapWidth, padding } = style;
     const backgroundStyle = subStyleProps<RectStyleProps>(style, 'background');
@@ -79,9 +82,5 @@ export class Label extends BaseShape<LabelStyleProps> {
   public render(attributes: ParsedLabelStyleProps = this.parsedAttributes, container: Group = this): void {
     this.upsert('text', Text, this.getTextStyle(attributes), container);
     this.upsert('background', Rect, this.getBackgroundStyle(attributes), container);
-  }
-
-  connectedCallback() {
-    this.upsert('background', Rect, this.getBackgroundStyle(this.parsedAttributes), this);
   }
 }
