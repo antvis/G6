@@ -30,6 +30,7 @@ export * from './edge-polyline';
 export * from './edge-port';
 export * from './edge-quadratic';
 export * from './element-label-oversized';
+export * from './element-label-background';
 export * from './graph-element';
 export * from './layered-canvas';
 export * from './node-circle';
