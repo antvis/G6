@@ -1,13 +1,4 @@
-import { Graph, Extensions, extend } from '@antv/g6';
-
-const ExtGraph = extend(Graph, {
-  layouts: {
-    mds: Extensions.MDSLayout,
-  },
-  behaviors: {
-    'brush-select': Extensions.BrushSelect,
-  },
-});
+import { Graph } from '@antv/g6';
 
 const data = {
   nodes: [
@@ -580,64 +571,29 @@ const data = {
   ],
 };
 
-const container = document.getElementById('container');
-const width = container.scrollWidth;
-const height = container.scrollHeight || 500;
-const graph = new ExtGraph({
+const graph = new Graph({
   container: 'container',
-  width,
-  height,
+  padding: 20,
   autoFit: 'view',
+  data,
   layout: {
     type: 'mds',
     linkDistance: 100,
   },
-  modes: {
-    default: ['drag-node', 'drag-canvas', 'zoom-canvas', 'click-select', 'brush-select'],
-  },
-  node: (model) => {
-    const { id, data } = model;
-    return {
-      id,
-      data: {
-        ...data,
-        labelShape: {
-          text: data.label,
-        },
-        labelBackgroundShape: {},
-        animates: {
-          update: [
-            {
-              fields: ['opacity'],
-              shapeId: 'haloShape',
-            },
-            {
-              fields: ['lineWidth'],
-              shapeId: 'keyShape',
-            },
-          ],
-        },
-      },
-    };
-  },
-  edge: (model) => ({
-    ...model,
-    data: {
-      animates: {
-        update: [
-          {
-            fields: ['opacity'],
-            shapeId: 'haloShape',
-          },
-          {
-            fields: ['lineWidth'],
-            shapeId: 'keyShape',
-          },
-        ],
-      },
+  node: {
+    style: {
+      size: 20,
+      stroke: '#9ec9ff',
+      fill: '#eee',
+      lineWidth: 1,
+      labelText: (d) => d.id,
+      labelFontSize: 12,
+      labelPlacement: 'center',
+      labelBackground: false,
     },
-  }),
-  data,
+  },
+  behaviors: ['drag-node', 'drag-canvas', 'zoom-canvas', 'click-select'],
+  animation: true,
 });
 
-window.graph = graph;
+graph.render();

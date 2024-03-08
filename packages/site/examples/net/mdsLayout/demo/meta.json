@@ -5,7 +5,7 @@
   },
   "demos": [
     {
-      "filename": "basicMDS.js",
+      "filename": "basicMDS.ts",
       "title": {
         "zh": "基本 MDS 布局",
         "en": "Basic MDS Layout"
