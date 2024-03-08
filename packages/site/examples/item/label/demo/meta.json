@@ -5,15 +5,16 @@
   },
   "demos": [
     {
-      "filename": "copyLabel.js",
+      "filename": "copyLabel.ts",
       "title": {
         "zh": "文本超长交互与复制",
         "en": "Long Label Show and Copy"
       },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*O5DCQ4ziMisAAAAAAAAAAAAAARQnAQ"
+    
     },
     {
-      "filename": "labelLen.js",
+      "filename": "labelLen.ts",
       "title": {
         "zh": "文本超长",
         "en": "Long Label"
@@ -21,7 +22,7 @@
       "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*LsGJTIaynVwAAAAAAAAAAAAADmJ7AQ/original"
     },
     {
-      "filename": "labelLen1.js",
+      "filename": "labelLen1.ts",
       "title": {
         "zh": "多行显示超长文本",
         "en": "Break Line for Long Label"

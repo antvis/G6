@@ -29,6 +29,7 @@ export * from './edge-loop';
 export * from './edge-polyline';
 export * from './edge-port';
 export * from './edge-quadratic';
+export * from './element-label-oversized';
 export * from './graph-element';
 export * from './layered-canvas';
 export * from './node-circle';
