@@ -9,7 +9,7 @@ import { BaseShape } from './base-shape';
 
 export type LabelStyleProps = BaseShapeStyleProps &
   TextStyleProps & {
-    background: boolean;
+    background?: boolean;
   } & PrefixObject<RectStyleProps, 'background'> & {
     padding?: Padding;
   };
