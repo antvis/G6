@@ -32,7 +32,6 @@ export const layoutGrid: STDTestCase = async (context) => {
         .add(config, 'sortBy', {
           ID: 'id',
           Degree: 'degree',
-          Label: 'label',
           Cluster: (n1: any, n2: any) => Number(n2.data.cluster) - Number(n1.data.cluster),
         })
         .name('sortBy')
