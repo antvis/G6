@@ -26,6 +26,7 @@ const graph = new Graph({
       iconWidth: 20,
       iconHeight: 20,
       halo: (d) => d.id.includes('halo'),
+      portR: 3,
       ports: (d) =>
         d.id.includes('ports')
           ? [{ position: 'left' }, { position: 'right' }, { position: 'top' }, { position: 'bottom' }]

@@ -31,6 +31,7 @@ export const nodeImage: StaticTestCase = async (context) => {
         src: 'https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*N4ZMS7gHsUIAAAAAAAAAAABkARQnAQ',
         halo: (d: any) => d.id.includes('halo'),
         haloStroke: '#227eff',
+        portR: 3,
         ports: (d: any) =>
           d.id.includes('ports')
             ? [{ placement: 'left' }, { placement: 'right' }, { placement: 'top' }, { placement: 'bottom' }]

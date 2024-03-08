@@ -3,7 +3,7 @@ import { deepMix, isEmpty } from '@antv/util';
 import { ICON_SIZE_RATIO } from '../../constants/element';
 import type { Point, TrianglePortPlacement } from '../../types';
 import { getIncircleRadius, getTriangleCenter } from '../../utils/bbox';
-import { getPortPosition, getTrianglePoints, getTrianglePorts } from '../../utils/element';
+import { getPortXYByPlacement, getTrianglePoints, getTrianglePorts } from '../../utils/element';
 import { subStyleProps } from '../../utils/prefix';
 import { IconStyleProps } from '../shapes';
 import type { NodePortStyleProps } from './base-node';
@@ -43,7 +43,7 @@ export class Triangle extends Polygon {
     const bbox = this.getKey().getLocalBounds();
     const [width, height] = this.getSize(attributes);
     const ports = getTrianglePorts(width, height, direction);
-    return getPortPosition(bbox, placement as TrianglePortPlacement, ports, false);
+    return getPortXYByPlacement(bbox, placement as TrianglePortPlacement, ports, false);
   }
 
   // icon 处于内切三角形的重心

@@ -25,6 +25,7 @@ const graph = new Graph({
       labelText: (d) => d.id,
       iconSrc: 'https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg',
       halo: (d) => d.id.includes('halo'),
+      portR: 3,
       ports: (d) => (d.id.includes('ports') ? [{ position: 'left' }, { position: 'top' }, { position: 'bottom' }] : []),
       badges: (d) =>
         d.id.includes('badges')

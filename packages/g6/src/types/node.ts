@@ -1,5 +1,6 @@
 import type { DisplayObject, CircleStyleProps as GCircleStyleProps } from '@antv/g';
 import type { CardinalPlacement, CornerPlacement, DirectionalPlacement, RelativePlacement } from './placement';
+import { Point } from './point';
 
 export type PortPlacement = RelativePlacement | CardinalPlacement;
 export type StarPortPlacement = RelativePlacement | 'top' | 'left' | 'right' | 'left-bottom' | 'right-bottom';
@@ -15,4 +16,4 @@ export type PortStyleProps = GCircleStyleProps & {
    */
   linkToCenter?: boolean;
 };
-export type Port = DisplayObject<PortStyleProps>;
+export type Port = DisplayObject<PortStyleProps> | Point;

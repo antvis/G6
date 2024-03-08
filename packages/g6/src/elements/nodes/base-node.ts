@@ -14,7 +14,7 @@ import type {
   PortStyleProps,
   PrefixObject,
 } from '../../types';
-import { getPortPosition, getTextStyleByPlacement } from '../../utils/element';
+import { getPortXYByPlacement, getTextStyleByPlacement, isSimplePort } from '../../utils/element';
 import { getPaletteColors } from '../../utils/palette';
 import { getRectIntersectPoint } from '../../utils/point';
 import { getXYByPlacement } from '../../utils/position';
@@ -182,18 +182,19 @@ export abstract class BaseNode<S extends BaseNodeStyleProps = any> extends BaseS
 
     const portStyle = subStyleProps<PortStyleProps>(this.getGraphicStyle(attributes), 'port');
     const { ports: portOptions = [] } = attributes;
-
-    portOptions.forEach((option, i) => {
-      const [cx, cy] = this.getPortXY(attributes, option);
-      portsShapeStyle[option.key || i] = Object.assign({}, portStyle, { cx, cy }, option);
-    });
+    portOptions
+      .filter((option) => !isSimplePort({ ...portStyle, ...option }))
+      .forEach((option, i) => {
+        const [cx, cy] = this.getPortXY(attributes, option);
+        portsShapeStyle[option.key || i] = Object.assign({}, portStyle, { cx, cy }, option);
+      });
     return portsShapeStyle;
   }
 
   protected getPortXY(attributes: Required<S>, style: NodePortStyleProps): Point {
     const { placement = 'left' } = style;
     const bounds = this.getKey().getLocalBounds();
-    return getPortPosition(bounds, placement as PortPlacement);
+    return getPortXYByPlacement(bounds, placement as PortPlacement);
   }
 
   /**

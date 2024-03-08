@@ -25,6 +25,7 @@ const graph = new Graph({
       labelMaxWidth: 120,
       labelText: (d) => d.id,
       halo: (d) => d.id.includes('halo'),
+      portR: 3,
       ports: (d) =>
         d.id.includes('ports')
           ? [{ placement: 'left' }, { placement: 'right' }, { placement: 'top' }, { placement: 'bottom' }]
