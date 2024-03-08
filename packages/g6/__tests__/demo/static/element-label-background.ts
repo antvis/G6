@@ -8,18 +8,15 @@ export const elementLabelBackground: StaticTestCase = async (context) => {
     nodes: [
       {
         id: 'node1',
-        data: {
-          x: 150,
-          y: 100,
-        },
+        style: { x: 250, y: 100 },
       },
       {
         id: 'node2',
-        data: { x: 250, y: 200 },
+        style: { x: 150, y: 300 },
       },
       {
         id: 'node3',
-        data: { x: 450, y: 200 },
+        style: { x: 400, y: 300 },
       },
     ],
     edges: [
@@ -69,9 +66,6 @@ export const elementLabelBackground: StaticTestCase = async (context) => {
         labelBackgroundStroke: '#9ec9ff',
         labelBackgroundRadius: 2,
       },
-    },
-    layout: {
-      type: 'force',
     },
     behaviors: ['drag-canvas', 'drag-node'],
     animation,

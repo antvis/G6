@@ -67,7 +67,6 @@
     "@antv/layout-gpu": "^1.1.5",
     "@antv/layout-wasm": "^1.4.0",
     "@types/xmlserializer": "^0.6.6",
-    "jest-random-mock": "^1.0.0",
     "lil-gui": "^0.19.2",
     "stats.js": "^0.17.0",
     "vite": "^5.1.5",
