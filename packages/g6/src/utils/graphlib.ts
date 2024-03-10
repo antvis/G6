@@ -15,15 +15,11 @@ export function toGraphlibData(datums: NodeLikeData): Node<NodeLikeData>;
  * @returns <zh/> graphlib 数据 | <en/> graphlib data
  */
 export function toGraphlibData(data: NodeData | EdgeData | ComboData): Node<NodeLikeData> | Edge<EdgeData> {
-  if (isEdgeData(data)) {
-    const { style, data: customData, ...rest } = data;
-    return {
-      ...rest,
-      data,
-      id: idOf(data),
-    } as Edge<EdgeData>;
-  }
-  return { id: idOf(data), data } as Node<NodeLikeData>;
+  const { id = idOf(data), style, data: customData, ...rest } = data;
+  const _data = { ...data, style: { ...style }, data: { ...customData } };
+
+  if (isEdgeData(data)) return { id, data: _data, ...rest } as Edge<EdgeData>;
+  return { id, data: _data } as Node<NodeLikeData>;
 }
 
 export function toG6Data<T extends EdgeData>(data: Edge<T>): T;
