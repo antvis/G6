@@ -11,9 +11,9 @@ import { BaseBehavior } from './base-behavior';
 
 export interface DragCanvasOptions extends BaseBehaviorOptions {
   /**
-   * <zh/> 是否启用缩放动画，仅在使用按键移动时有效
+   * <zh/> 是否启用拖拽动画，仅在使用按键移动时有效
    *
-   * <en/> Whether to enable the animation of zooming, only valid when using key movement
+   * <en/> Whether to enable the animation of dragging, only valid when using key movement
    */
   animation?: ViewportAnimationEffectTiming;
   /**
@@ -89,7 +89,7 @@ export class DragCanvas extends BaseBehavior<DragCanvasOptions> {
 
   private onDrag = (event: BehaviorEvent<FederatedMouseEvent>) => {
     if (event.targetType === 'canvas') {
-      this.context.graph.translateBy([event.movement.x, event.movement.y], this.options.animation);
+      this.context.graph.translateBy([event.movement.x, event.movement.y], false);
     }
   };
 
