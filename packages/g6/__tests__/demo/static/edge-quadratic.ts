@@ -4,15 +4,35 @@ import type { StaticTestCase } from '../types';
 export const edgeQuadratic: StaticTestCase = async (context) => {
   const { container, animation, theme } = context;
 
-  const edgeIds = ['line-default', 'line-active', 'line-selected', 'line-highlight', 'line-inactive'];
-
   const data = {
-    nodes: new Array(6).fill(0).map((_, i) => ({ id: `node${i + 1}` })),
-    edges: edgeIds.map((id, i) => ({
-      id,
-      source: 'node1',
-      target: `node${i + 2}`,
-    })),
+    nodes: [{ id: 'node1' }, { id: 'node2' }, { id: 'node3' }, { id: 'node4' }, { id: 'node5' }, { id: 'node6' }],
+    edges: [
+      {
+        id: 'line-default',
+        source: 'node1',
+        target: 'node2',
+      },
+      {
+        id: 'line-active',
+        source: 'node1',
+        target: 'node3',
+      },
+      {
+        id: 'line-selected',
+        source: 'node1',
+        target: 'node4',
+      },
+      {
+        id: 'line-highlight',
+        source: 'node1',
+        target: 'node5',
+      },
+      {
+        id: 'line-inactive',
+        source: 'node1',
+        target: 'node6',
+      },
+    ],
   };
 
   const graph = new Graph({
