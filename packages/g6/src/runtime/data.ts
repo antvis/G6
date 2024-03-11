@@ -131,10 +131,9 @@ export class DataController {
 
   public getNodeData(ids?: ID[]) {
     return this.model.getAllNodes().reduce((acc, node) => {
-      const data = node.data;
+      const data = toG6Data(node);
       if (this.isCombo(idOf(data))) return acc;
-
-      if (ids === undefined) acc.push(toG6Data(node));
+      if (ids === undefined) acc.push(data);
       else ids.includes(idOf(data)) && acc.push(data);
       return acc;
     }, [] as NodeData[]);
@@ -142,7 +141,7 @@ export class DataController {
 
   public getEdgeData(ids?: ID[]) {
     return this.model.getAllEdges().reduce((acc, edge) => {
-      const data = edge.data;
+      const data = toG6Data(edge);
       if (ids === undefined) acc.push(data);
       else ids.includes(idOf(data)) && acc.push(data);
       return acc;
@@ -150,35 +149,49 @@ export class DataController {
   }
 
   public getComboData(ids?: ID[]) {
-    return this.model.getAllNodes().reduce((acc, node) => {
-      if (!this.isCombo(idOf(node.data))) return acc;
+    return this.model.getAllNodes().reduce((acc, combo) => {
+      const data = toG6Data(combo);
+      if (!this.isCombo(idOf(data))) return acc;
 
-      if (ids === undefined) acc.push(node.data);
-      else ids.includes(idOf(node.data)) && acc.push(node.data);
+      if (ids === undefined) acc.push(data);
+      else ids.includes(idOf(data)) && acc.push(data);
       return acc;
     }, [] as ComboData[]);
   }
 
-  public getParentData(id: ID): NodeData | undefined {
-    if (!this.model.hasTreeStructure(TREE_KEY)) return undefined;
-    const parent = this.model.getParent(id, TREE_KEY);
-    return parent?.data;
+  public getAncestorsData(id: ID, hierarchy: HierarchyKey | undefined = this.inferStructureKey(id)): NodeLikeData[] {
+    const { model } = this;
+    if (!hierarchy) {
+      console.error('The hierarchy structure key is not specified');
+      return [];
+    }
+    if (!model.hasNode(id) || !model.hasTreeStructure(hierarchy)) return [];
+    return model.getAncestors(id, hierarchy).map(toG6Data);
   }
 
-  /**
-   * <zh/> 获取节点的子节点数据
-   *
-   * <en/> Get the child node data
-   * @param id - <zh/> 节点 ID | <en/> node ID
-   * @returns <zh/> 子节点数据 | <en/> child node data
-   * @description
-   * <zh/> 仅在树图中有效
-   *
-   * <en/> Only valid in tree graph
-   */
-  public getChildrenData(id: ID): NodeData[] {
-    if (!this.model.hasNode(id)) return [];
-    return this.model.getChildren(id, TREE_KEY).map((node) => node.data);
+  public getParentData(
+    id: ID,
+    hierarchy: HierarchyKey | undefined = this.inferStructureKey(id),
+  ): NodeLikeData | undefined {
+    const { model } = this;
+    if (!hierarchy) {
+      console.error('The hierarchy structure key is not specified');
+      return undefined;
+    }
+    if (!model.hasNode(id) || !model.hasTreeStructure(hierarchy)) return undefined;
+    const parent = model.getParent(id, hierarchy);
+    return parent ? toG6Data(parent) : undefined;
+  }
+
+  public getChildrenData(id: ID): NodeLikeData[] {
+    const structureKey = this.getElementType(id) === 'node' ? TREE_KEY : COMBO_KEY;
+    const { model } = this;
+    if (!model.hasNode(id) || !model.hasTreeStructure(structureKey)) return [];
+    return model.getChildren(id, structureKey).map(toG6Data);
+  }
+
+  private inferStructureKey(id: ID) {
+    if (this.isCombo(id)) return COMBO_KEY;
   }
 
   /**
@@ -220,7 +233,7 @@ export class DataController {
    */
   public getNodeLikeData(ids?: ID[]) {
     return this.model.getAllNodes().reduce((acc, node) => {
-      const data = node.data;
+      const data = toG6Data(node);
       if (ids) ids.includes(idOf(data)) && acc.push(data);
       else acc.push(data);
       return acc;
@@ -248,23 +261,12 @@ export class DataController {
     return this.model.hasNode(id) && this.isCombo(id);
   }
 
-  public getComboChildrenData(id: ID): NodeLikeData[] {
-    if (!this.model.hasNode(id)) return [];
-    return this.model.getChildren(id, COMBO_KEY).map((node) => node.data);
-  }
-
-  public getParentComboData(id: ID): ComboData | undefined {
-    if (!this.model.hasNode(id)) return undefined;
-    const parent = this.model.getParent(id, COMBO_KEY);
-    return parent?.data;
-  }
-
   public getRelatedEdgesData(id: ID, direction: EdgeDirection = 'both') {
-    return this.model.getRelatedEdges(id, direction).map((edge) => edge.data);
+    return this.model.getRelatedEdges(id, direction).map(toG6Data) as EdgeData[];
   }
 
   public getNeighborNodesData(id: ID) {
-    return this.model.getNeighbors(id).map((node) => node.data);
+    return this.model.getNeighbors(id).map(toG6Data);
   }
 
   public setData(data: GraphData) {
@@ -382,7 +384,7 @@ export class DataController {
 
     this.batch(() => {
       nodes.forEach((modifiedNode) => {
-        const originalNode = this.model.getNode(idOf(modifiedNode)).data;
+        const originalNode = toG6Data(this.model.getNode(idOf(modifiedNode)));
         if (isEqual(originalNode, modifiedNode)) return;
 
         const value = mergeElementsData(originalNode, modifiedNode);
@@ -399,7 +401,7 @@ export class DataController {
 
     this.batch(() => {
       edges.forEach((modifiedEdge) => {
-        const originalEdge = this.model.getEdge(idOf(modifiedEdge)).data;
+        const originalEdge = toG6Data(this.model.getEdge(idOf(modifiedEdge)));
         if (isEqual(originalEdge, modifiedEdge)) return;
 
         if (modifiedEdge.source && originalEdge.source !== modifiedEdge.source) {
@@ -421,7 +423,7 @@ export class DataController {
     model.batch(() => {
       combos.forEach((modifiedCombo) => {
         const modifiedComboId = idOf(modifiedCombo);
-        const originalCombo = model.getNode(modifiedComboId).data;
+        const originalCombo = toG6Data(model.getNode(modifiedComboId));
         if (isEqual(originalCombo, modifiedCombo)) return;
 
         // 如果 combo 的位置发生了变化，需要更新其子节点的位置
@@ -462,7 +464,7 @@ export class DataController {
             });
             model.mergeNodeData(succeedID, value);
           },
-          (node) => this.getComboChildrenData(idOf(node)),
+          (node) => this.getChildrenData(idOf(node)),
           'BT',
         );
       });
@@ -496,7 +498,7 @@ export class DataController {
             });
             model.mergeNodeData(succeedID, value);
           },
-          (node) => this.getComboChildrenData(idOf(node)),
+          (node) => this.getChildrenData(idOf(node)),
           'BT',
         );
       });
@@ -564,7 +566,7 @@ export class DataController {
       const [data] = this.getNodeLikeData([id]);
 
       this.model.getChildren(id, COMBO_KEY).forEach((child) => {
-        const childData = child.data;
+        const childData = toG6Data(child);
         const childId = idOf(childData);
         this.model.setParent(idOf(childData), parentIdOf(data), COMBO_KEY);
         const value = mergeElementsData(childData, {
@@ -611,3 +613,5 @@ export class DataController {
     delete this.context;
   }
 }
+
+export type HierarchyKey = typeof TREE_KEY | typeof COMBO_KEY;

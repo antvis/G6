@@ -306,7 +306,7 @@ export class ElementController {
   private getComboChildren(id: ID) {
     const { model } = this.context;
 
-    return model.getComboChildrenData(id).map((datum) => this.getElement(idOf(datum))!);
+    return model.getChildrenData(id).map((datum) => this.getElement(idOf(datum))!);
   }
 
   public getElementComputedStyle(elementType: ElementType, id: ID) {
