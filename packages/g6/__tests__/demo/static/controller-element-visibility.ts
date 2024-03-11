@@ -28,18 +28,8 @@ export const controllerElementVisibility: STDTestCase = async (context) => {
   const graph = new Graph(options);
   await graph.render();
 
-  const hide = () =>
-    graph.setElementVisibility({
-      'node-3': 'hidden',
-      'node-2-node-3': 'hidden',
-      'node-3-node-1': 'hidden',
-    });
-  const show = () =>
-    graph.setElementVisibility({
-      'node-3': 'visible',
-      'node-2-node-3': 'visible',
-      'node-3-node-1': 'visible',
-    });
+  const hide = () => graph.showElement(['node-3', 'node-2-node-3', 'node-3-node-1']);
+  const show = () => graph.hideElement(['node-3', 'node-2-node-3', 'node-3-node-1']);
 
   controllerElementVisibility.form = (panel) => [panel.add({ show }, 'show'), panel.add({ hide }, 'hide')];
 

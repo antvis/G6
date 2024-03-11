@@ -14,11 +14,7 @@ describe('element visibility', () => {
   });
 
   it('hide', async () => {
-    graph.setElementVisibility({
-      'node-3': 'hidden',
-      'node-2-node-3': 'hidden',
-      'node-3-node-1': 'hidden',
-    });
+    graph.hideElement(['node-3', 'node-2-node-3', 'node-3-node-1']);
 
     expect(graph.getElementVisibility('node-3')).toBe('hidden');
     expect(graph.getElementVisibility('node-2-node-3')).toBe('hidden');
@@ -28,11 +24,7 @@ describe('element visibility', () => {
   });
 
   it('show', async () => {
-    graph.setElementVisibility({
-      'node-3': 'visible',
-      'node-2-node-3': 'visible',
-      'node-3-node-1': 'visible',
-    });
+    graph.showElement(['node-3', 'node-2-node-3', 'node-3-node-1']);
 
     expect(graph.getElementVisibility('node-3')).toBe('visible');
     expect(graph.getElementVisibility('node-2-node-3')).toBe('visible');

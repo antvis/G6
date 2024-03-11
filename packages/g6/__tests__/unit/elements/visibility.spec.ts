@@ -14,24 +14,13 @@ describe('element visibility', () => {
   });
 
   it('hide', async () => {
-    await graph.setElementVisibility({
-      'node-1': 'hidden',
-      'node-2': 'hidden',
-      'node-3': 'hidden',
-      'edge-1': 'hidden',
-      'edge-2': 'hidden',
-      'edge-3': 'hidden',
-    });
+    await graph.hideElement(['node-1', 'node-2', 'node-3', 'edge-1', 'edge-2', 'edge-3']);
 
     await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}__hide');
   });
 
   it('show', async () => {
-    await graph.setElementVisibility({
-      'node-1': 'visible',
-      'node-2': 'visible',
-      'edge-1': 'visible',
-    });
+    await graph.showElement(['node-1', 'node-2', 'edge-1']);
 
     await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}__show');
   });

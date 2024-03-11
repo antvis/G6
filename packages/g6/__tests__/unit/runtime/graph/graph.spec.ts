@@ -6,7 +6,7 @@ import { createDemoGraph } from '@@/utils';
 describe('Graph', () => {
   let graph: Graph;
   beforeAll(async () => {
-    graph = await createDemoGraph(commonGraph);
+    graph = await createDemoGraph(commonGraph, { animation: false });
   });
   const idOf = (d: any) => d.id;
 
@@ -174,8 +174,13 @@ describe('Graph', () => {
     expect(renderBounds.max).toEqual([16, 16, 0]);
   });
 
-  it('setElementState/getElementState/getElementDataByState', () => {
-    graph.setElementState({ 'node-1': 'selected' });
+  it('setElementState/getElementState/getElementDataByState', async () => {
+    await graph.setElementState('node-2', 'selected');
+    expect(graph.getElementState('node-2')).toEqual(['selected']);
+    await graph.setElementState('node-2', []);
+    expect(graph.getElementState('node-2')).toEqual([]);
+
+    await graph.setElementState({ 'node-1': 'selected' });
     expect(graph.getElementState('node-1')).toEqual(['selected']);
     expect(graph.getElementState('node-2')).toEqual([]);
     expect(graph.getElementDataByState('node', 'selected')).toEqual([
@@ -183,17 +188,27 @@ describe('Graph', () => {
     ]);
   });
 
-  it('setElementZIndex/getElementZIndex', () => {
-    graph.frontElement('node-1');
+  it('setElementZIndex/getElementZIndex', async () => {
+    await graph.setElementZIndex('node-1', 2);
+    expect(graph.getElementZIndex('node-1')).toBe(2);
+    await graph.setElementZIndex({ 'node-1': 0 });
+    expect(graph.getElementZIndex('node-1')).toBe(0);
+
+    await graph.frontElement('node-1');
     expect(graph.getElementZIndex('node-1')).toBe(1);
     expect(graph.getElementZIndex('node-2')).toBe(0);
   });
 
-  it('setElementVisibility/getElementVisibility', () => {
-    graph.setElementVisibility({ 'node-1': 'hidden' });
+  it('setElementVisibility/getElementVisibility', async () => {
+    await graph.hideElement('node-1');
+    expect(graph.getElementVisibility('node-1')).toBe('hidden');
+    await graph.showElement('node-1');
+    expect(graph.getElementVisibility('node-1')).toBe('visible');
+
+    await graph.setElementVisibility({ 'node-1': 'hidden' });
     expect(graph.getElementVisibility('node-1')).toBe('hidden');
     expect(graph.getElementVisibility('node-2')).toBe('visible');
-    graph.setElementVisibility({ 'node-1': 'visible' });
+    await graph.setElementVisibility({ 'node-1': 'visible' });
     expect(graph.getElementVisibility('node-1')).toBe('visible');
   });
 

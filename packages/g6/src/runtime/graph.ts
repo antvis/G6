@@ -704,6 +704,43 @@ export class Graph extends EventEmitter {
     await this.context.element!.draw({ animation, stage: 'visibility' });
   }
 
+  /**
+   * <zh/> 显示元素
+   *
+   * <en/> Show element
+   * @param id - <zh/> 元素 ID | <en/> element ID
+   * @param animation - <zh/> 动画配置 | <en/> animation configuration
+   */
+  public async showElement(id: ID | ID[], animation?: boolean): Promise<void> {
+    const ids = Array.isArray(id) ? id : [id];
+    await this.setElementVisibility(
+      Object.fromEntries(ids.map((_id) => [_id, 'visible'] as [ID, BaseStyleProps['visibility']])),
+      animation,
+    );
+  }
+
+  /**
+   * <zh/> 隐藏元素
+   *
+   * <en/> Hide element
+   * @param id - <zh/> 元素 ID | <en/> element ID
+   * @param animation - <zh/> 动画配置 | <en/> animation configuration
+   */
+  public async hideElement(id: ID | ID[], animation?: boolean): Promise<void> {
+    const ids = Array.isArray(id) ? id : [id];
+    await this.setElementVisibility(
+      Object.fromEntries(ids.map((_id) => [_id, 'hidden'] as [ID, BaseStyleProps['visibility']])),
+      animation,
+    );
+  }
+
+  /**
+   * <zh/> 获取元素可见性
+   *
+   * <en/> Get element visibility
+   * @param id - <zh/> 元素 ID | <en/> element ID
+   * @returns <zh/> 元素可见性 | <en/> element visibility
+   */
   public getElementVisibility(id: ID): BaseStyleProps['visibility'] {
     const element = this.context.element!.getElement(id)!;
     return element?.style?.visibility ?? 'visible';
