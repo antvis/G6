@@ -8,7 +8,6 @@ export * from './element-position';
 export * from './element-state';
 export * from './element-visibility';
 export * from './graph-event';
-export * from './layout';
 export * from './layout-grid';
 export * from './layout-mds';
 export * from './plugin-grid-line';
