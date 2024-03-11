@@ -53,7 +53,7 @@
       "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*NBvARqo-yacAAAAAAAAAAAAADmJ7AQ/original"
     },
     {
-      "filename": "verticalCubic.js",
+      "filename": "verticalCubic.ts",
       "title": {
         "zh": "三次贝塞尔曲线-垂直",
         "en": "Vertical Cubic"
@@ -61,7 +61,7 @@
       "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*iDM2TJJmOWwAAAAAAAAAAAAADmJ7AQ/original"
     },
     {
-      "filename": "horizontalCubic.js",
+      "filename": "horizontalCubic.ts",
       "title": {
         "zh": "三次贝塞尔曲线-水平",
         "en": "Horizontal Cubic"
