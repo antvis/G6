@@ -85,7 +85,8 @@ describe('Vector Functions', () => {
   });
 
   it('perpendicular', () => {
-    expect(perpendicular([1, 0])).toEqual([-0, -1]);
+    expect(perpendicular([1, 1])).toEqual([-1, 1]);
+    expect(perpendicular([1, 1], false)).toEqual([1, -1]);
   });
 
   it('mode', () => {

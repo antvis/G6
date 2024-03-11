@@ -1,88 +1,63 @@
-import { Cubic } from '@/src/elements/edges';
-import { createEdgeNode } from '@@/utils';
+import { Graph } from '@/src';
 import type { StaticTestCase } from '../types';
 
 export const edgeCubic: StaticTestCase = async (context) => {
-  const { container } = context;
+  const { container, animation, theme } = context;
 
-  const cubic1 = new Cubic({
-    style: {
-      // key shape
-      sourceNode: createEdgeNode([100, 50]),
-      targetNode: createEdgeNode([300, 50]),
-      stroke: '#1890FF',
-      lineWidth: 2,
-      // halo
-      halo: true,
-      haloOpacity: 0.25,
-      haloLineWidth: 12,
-      // label
-      labelText: 'default cubic',
-      labelFontSize: 12,
-      labelOffsetY: -15,
-      // end arrow
-      endArrow: true,
+  const data = {
+    nodes: [{ id: 'node1' }, { id: 'node2' }, { id: 'node3' }, { id: 'node4' }, { id: 'node5' }, { id: 'node6' }],
+    edges: [
+      {
+        id: 'line-default',
+        source: 'node1',
+        target: 'node2',
+      },
+      {
+        id: 'line-active',
+        source: 'node1',
+        target: 'node3',
+      },
+      {
+        id: 'line-selected',
+        source: 'node1',
+        target: 'node4',
+      },
+      {
+        id: 'line-highlight',
+        source: 'node1',
+        target: 'node5',
+      },
+      {
+        id: 'line-inactive',
+        source: 'node1',
+        target: 'node6',
+      },
+    ],
+  };
+
+  const graph = new Graph({
+    container: container,
+    theme,
+    data,
+    edge: {
+      style: {
+        type: 'cubic', // 👈🏻 Edge shape type.
+        labelText: (d: any) => d.id,
+        endArrow: true,
+      },
     },
+    layout: {
+      type: 'radial',
+      unitRadius: 220,
+      linkDistance: 220,
+    },
+    animation,
   });
 
-  const cubic2 = new Cubic({
-    style: {
-      // key shape
-      sourceNode: createEdgeNode([100, 150]),
-      targetNode: createEdgeNode([300, 150]),
-      controlPoints: [
-        [200, 200],
-        [200, 100],
-      ],
-      stroke: '#1890FF',
-      lineWidth: 2,
-      // label
-      labelText: 'controlPoints=[[200, 200],[200,100]]',
-      labelFontSize: 12,
-      labelOffsetY: -15,
-      // end arrow
-      endArrow: true,
-    },
-  });
+  await graph.render();
 
-  const cubic3 = new Cubic({
-    style: {
-      // key shape
-      sourceNode: createEdgeNode([100, 250]),
-      targetNode: createEdgeNode([300, 250]),
-      curveOffset: 50,
-      curvePosition: 0.5,
-      stroke: '#1890FF',
-      lineWidth: 2,
-      // label
-      labelText: 'curveOffset=50, curvePosition:0.5',
-      labelFontSize: 12,
-      labelOffsetY: -15,
-      // end arrow
-      endArrow: true,
-    },
-  });
-
-  const cubic4 = new Cubic({
-    style: {
-      // key shape
-      sourceNode: createEdgeNode([100, 350]),
-      targetNode: createEdgeNode([300, 350]),
-      curveOffset: 50,
-      curvePosition: 0.25,
-      stroke: '#1890FF',
-      lineWidth: 2,
-      // label
-      labelText: 'curveOffset=50, curvePosition:0.25',
-      labelFontSize: 12,
-      labelOffsetY: -15,
-      // end arrow
-      endArrow: true,
-    },
-  });
-
-  container.appendChild(cubic1);
-  container.appendChild(cubic2);
-  container.appendChild(cubic3);
-  container.appendChild(cubic4);
+  graph.setElementState('line-active', 'active');
+  graph.setElementState('line-selected', 'selected');
+  graph.setElementState('line-highlight', 'highlight');
+  graph.setElementState('line-inactive', 'inactive');
 };

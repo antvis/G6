@@ -8,7 +8,7 @@ import { distance } from './vector';
  * @param maxWidth - maxWidth
  * @returns wordWrapWidth
  */
-function getWordWrapWidthWithBase(length: number, maxWidth: string | number): number {
+export function getWordWrapWidthWithBase(length: number, maxWidth: string | number): number {
   let wordWrapWidth = 2 * length;
   if (typeof maxWidth === 'string') {
     wordWrapWidth = (length * Number(maxWidth.replace('%', ''))) / 100;

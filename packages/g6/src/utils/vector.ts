@@ -159,10 +159,11 @@ export function exactEquals(a: Vector2 | Vector3, b: Vector2 | Vector3): boolean
  *
  * <en/> Calculates the perpendicular vector to a given vector
  * @param a - <zh/> 原始向量 | <en/> The original vector
+ * @param clockwise - <zh/> 是否顺时针 | <en/> Whether to calculate the perpendicular vector in a clockwise direction
  * @returns <zh/> 原始向量的垂直向量 | <en/> The perpendicular vector to the original vector
  */
-export function perpendicular(a: Vector2): Vector2 {
-  return [-a[1], -a[0]];
+export function perpendicular(a: Vector2, clockwise = true): Vector2 {
+  return clockwise ? [-a[1], a[0]] : [a[1], -a[0]];
 }
 
 /**

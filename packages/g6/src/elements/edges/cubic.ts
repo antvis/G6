@@ -28,8 +28,8 @@ type ParsedCubicStyleProps = Required<CubicStyleProps>;
 
 export class Cubic extends BaseEdge {
   static defaultStyleProps: Partial<CubicStyleProps> = {
-    curvePosition: [0.5, 0.5],
-    curveOffset: [-20, 20],
+    curvePosition: 0.5,
+    curveOffset: 20,
   };
 
   constructor(options: DisplayObjectConfig<CubicStyleProps>) {

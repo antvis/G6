@@ -36,7 +36,7 @@ const graph = new Graph({
   data,
   edge: {
     style: {
-      type: 'line', // 👈🏻 Edge shape type.
+      type: 'cubic', // 👈🏻 Edge shape type.
       labelText: (d: any) => d.id,
       endArrow: true,
     },

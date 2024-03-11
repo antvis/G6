@@ -37,7 +37,7 @@
       "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*gIZGQ4PokaMAAAAAAAAAAAAADmJ7AQ/original"
     },
     {
-      "filename": "quadratic.js",
+      "filename": "quadratic.ts",
       "title": {
         "zh": "二次贝塞尔曲线",
         "en": "Quadratic"
@@ -45,7 +45,7 @@
       "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*YMZ0SbHABJ4AAAAAAAAAAAAADmJ7AQ/original"
     },
     {
-      "filename": "cubic.js",
+      "filename": "cubic.ts",
       "title": {
         "zh": "三次贝塞尔曲线",
         "en": "Cubic"
