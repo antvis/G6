@@ -44,7 +44,6 @@ export const dark: Theme = {
       lineWidth: 0,
       portFill: NODE_COLOR,
       portLineWidth: 1,
-      portR: 3,
       portStroke: NODE_STROKE,
       portStrokeOpacity: 0.65,
       size: 32,

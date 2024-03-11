@@ -309,9 +309,9 @@
               cx="3"
               cy="3"
               stroke-width="1"
-              r="3"
               stroke="rgba(0,0,0,1)"
               stroke-opacity="0.65"
+              r="3"
             />
           </g>
           <g transform="matrix(1,0,0,1,20,0)">
@@ -322,9 +322,9 @@
               cx="3"
               cy="3"
               stroke-width="1"
-              r="3"
               stroke="rgba(0,0,0,1)"
               stroke-opacity="0.65"
+              r="3"
             />
           </g>
           <g transform="matrix(1,0,0,1,0,-20)">
@@ -335,9 +335,9 @@
               cx="3"
               cy="3"
               stroke-width="1"
-              r="3"
               stroke="rgba(0,0,0,1)"
               stroke-opacity="0.65"
+              r="3"
             />
           </g>
           <g transform="matrix(1,0,0,1,0,20)">
@@ -348,9 +348,9 @@
               cx="3"
               cy="3"
               stroke-width="1"
-              r="3"
               stroke="rgba(0,0,0,1)"
               stroke-opacity="0.65"
+              r="3"
             />
           </g>
         </g>

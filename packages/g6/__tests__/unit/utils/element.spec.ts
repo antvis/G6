@@ -2,8 +2,9 @@ import { Polyline } from '@/src/elements/edges';
 import { Circle } from '@/src/elements/nodes';
 import {
   findPorts,
+  getAllPorts,
   getPortConnectionPoint,
-  getPortPosition,
+  getPortXYByPlacement,
   getRectPoints,
   getStarPoints,
   getStarPorts,
@@ -13,11 +14,13 @@ import {
   isEdge,
   isNode,
   isSameNode,
+  isSimplePort,
   isVisible,
   updateStyle,
 } from '@/src/utils/element';
 import { getXYByPlacement } from '@/src/utils/position';
-import { AABB, Line, Rect } from '@antv/g';
+import { AABB, DisplayObject, Line, Rect } from '@antv/g';
+import { PortStyleProps } from '../../../src/types';
 
 describe('element', () => {
   const bbox = new AABB();
@@ -64,16 +67,53 @@ describe('element', () => {
     expect(getXYByPlacement(bbox)).toEqual([150, 150]);
   });
 
-  it('getPortPosition', () => {
-    expect(getPortPosition(bbox, 'left')).toEqual([100, 150]);
-    expect(getPortPosition(bbox, 'right')).toEqual([200, 150]);
-    expect(getPortPosition(bbox, 'top')).toEqual([150, 100]);
-    expect(getPortPosition(bbox, 'bottom')).toEqual([150, 200]);
+  it('getPortXYByPlacement', () => {
+    expect(getPortXYByPlacement(bbox, 'left')).toEqual([100, 150]);
+    expect(getPortXYByPlacement(bbox, 'right')).toEqual([200, 150]);
+    expect(getPortXYByPlacement(bbox, 'top')).toEqual([150, 100]);
+    expect(getPortXYByPlacement(bbox, 'bottom')).toEqual([150, 200]);
 
-    expect(getPortPosition(bbox)).toEqual([150, 150]);
+    expect(getPortXYByPlacement(bbox)).toEqual([150, 150]);
 
-    expect(getPortPosition(bbox, [0.5, 1])).toEqual([150, 200]);
-    expect(getPortPosition(bbox, [0, 0.5])).toEqual([100, 150]);
+    expect(getPortXYByPlacement(bbox, [0.5, 1])).toEqual([150, 200]);
+    expect(getPortXYByPlacement(bbox, [0, 0.5])).toEqual([100, 150]);
+  });
+
+  it('getAllPorts', () => {
+    const node = new Circle({
+      style: {
+        x: 0,
+        y: 0,
+        size: 100,
+        port: true,
+        ports: [
+          { key: 'left', placement: [0, 0.5], r: 4 },
+          { key: 'right', placement: [1, 0.5] },
+        ],
+      },
+    });
+    expect(Object.values(getAllPorts(node)).length).toBe(2);
+    expect(getAllPorts(node)['right']).toEqual([50, 0]);
+  });
+
+  it('isSimplePort', () => {
+    expect(
+      isSimplePort({
+        placement: 'left',
+      }),
+    ).toBeTruthy();
+    expect(
+      isSimplePort({
+        placement: 'left',
+        r: 0,
+      }),
+    ).toBeTruthy();
+    expect(
+      isSimplePort({
+        placement: 'left',
+        r: 4,
+      }),
+    ).toBeFalsy();
   });
 
   it('findPorts', () => {
@@ -93,8 +133,9 @@ describe('element', () => {
     });
     const sourcePortKey = 'left';
     const targetPortKey = 'top';
-    expect(findPorts(sourceNode, targetNode, sourcePortKey, targetPortKey)[0]?.id).toEqual('port-left');
-    expect(findPorts(sourceNode, targetNode, sourcePortKey, targetPortKey)[1]?.id).toEqual('port-top');
+    const [sourcePort, targetPort] = findPorts(sourceNode, targetNode, sourcePortKey, targetPortKey);
+    expect((sourcePort as DisplayObject<PortStyleProps>)?.id).toEqual('port-left');
+    expect((targetPort as DisplayObject<PortStyleProps>)?.id).toEqual('port-top');
   });
 
   it('getPortConnectionPoint', () => {

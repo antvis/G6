@@ -4,7 +4,7 @@ import { deepMix } from '@antv/util';
 import type { Padding, Point, Port } from '../../types';
 import { getBBoxHeight, getBBoxWidth, getNodeBBox } from '../../utils/bbox';
 import { getPolylineLoopPath, getPolylinePath } from '../../utils/edge';
-import { findPorts, getConnectionPoint } from '../../utils/element';
+import { findPorts, getConnectionPoint, getPortPosition } from '../../utils/element';
 import { subStyleProps } from '../../utils/prefix';
 import { orth } from '../../utils/router/orth';
 import type { BaseEdgeStyleProps, LoopStyleProps } from './base-edge';
@@ -82,8 +82,8 @@ export class Polyline extends BaseEdge {
     const [sourcePort, targetPort] = findPorts(sourceNode, targetNode, sourcePortKey, targetPortKey);
 
     return {
-      sourcePoint: sourcePort?.getPosition() || sourceNode.getCenter(),
-      targetPoint: targetPort?.getPosition() || targetNode.getCenter(),
+      sourcePoint: sourcePort ? getPortPosition(sourcePort) : sourceNode.getCenter(),
+      targetPoint: targetPort ? getPortPosition(targetPort) : targetNode.getCenter(),
       sourcePort,
       targetPort,
     };

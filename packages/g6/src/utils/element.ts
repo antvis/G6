@@ -2,6 +2,7 @@ import type { AABB, DisplayObject, TextStyleProps } from '@antv/g';
 import { get, isString } from '@antv/util';
 import { BaseEdge } from '../elements/edges/base-edge';
 import { BaseNode } from '../elements/nodes';
+import { NodePortStyleProps } from '../elements/nodes/base-node';
 import type { TriangleDirection } from '../elements/nodes/triangle';
 import type { Edge, Node, Placement, Point, Position } from '../types';
 import type { LabelPlacement, Port } from '../types/node';
@@ -17,7 +18,7 @@ import { getXYByPlacement } from './position';
  * @param shape - <zh/> 实例 | <en/> instance
  * @returns <zh/> 是否是 BaseNode 的实例 | <en/> whether the instance is BaseNode
  */
-export function isNode(shape: DisplayObject): shape is Node {
+export function isNode(shape: DisplayObject | Port): shape is Node {
   return shape instanceof BaseNode && shape.type === 'node';
 }
 
@@ -61,7 +62,7 @@ const PORT_MAP: Record<string, Point> = {
  * @param isRelative - Whether the position in MAP is relative.
  * @returns [x, y]
  */
-export function getPortPosition(
+export function getPortXYByPlacement(
   bbox: AABB,
   placement?: Placement,
   ports: Record<string, Point> = PORT_MAP,
@@ -74,6 +75,51 @@ export function getPortPosition(
 
   const [x, y] = p || DEFAULT;
   return [bbox.min[0] + getBBoxWidth(bbox) * x, bbox.min[1] + getBBoxHeight(bbox) * y];
+}
+
+/**
+ * <zh/> 获取节点上的所有连接桩
+ *
+ * <en/> Get all ports
+ * @param node - <zh/> 节点 | <en/> Node
+ * @returns <zh/> 所有连接桩 | <en/> All Ports
+ */
+export function getAllPorts(node: Node): Record<string, Port> {
+  // 1. 需要绘制的连接桩 | Get the ports that need to be drawn
+  const ports = node.getPorts();
+
+  // 2. 不需要额外绘制的连接桩 | Get the ports that do not need to be drawn
+  const portsStyle = node.attributes.ports;
+  portsStyle.forEach((portStyle: NodePortStyleProps, i: number) => {
+    const { key, placement } = portStyle;
+    if (isSimplePort(portStyle)) {
+      ports[key || i] ||= getXYByPlacement(node.getKey().getBounds(), placement);
+    }
+  });
+  return ports;
+}
+
+/**
+ * <zh/> 是否为简单连接桩，如果是则不会额外绘制图形
+ *
+ * <en/> Whether it is a simple port, which will not draw additional graphics
+ * @param portStyle - <zh/> 连接桩样式 | <en/> Port Style
+ * @returns <zh/> 是否是简单连接桩 | <en/> Whether it is a simple port
+ */
+export function isSimplePort(portStyle: NodePortStyleProps): boolean {
+  const { r } = portStyle;
+  return !r || Number(r) === 0;
+}
+
+/**
+ * <zh/> 获取连接桩的位置
+ *
+ * <en/> Get the position of the port
+ * @param port - <zh/> 连接桩 | <en/> Port
+ * @returns <zh/> 连接桩的位置 | <en/> Port Position
+ */
+export function getPortPosition(port: Port): Position {
+  return isPoint(port) ? port : port.getPosition();
 }
 
 /**
@@ -112,15 +158,16 @@ export function findPorts(
  * @returns <zh/> 连接桩 | <en/> Port
  */
 export function findPort(node: Node, oppositeNode: Node, portKey?: string, oppositePortKey?: string): Port | undefined {
-  if (portKey) return node.getPorts()[portKey];
+  const portsMap = getAllPorts(node);
+  if (portKey) return portsMap[portKey];
 
-  const ports = Object.values(node.getPorts());
+  const ports = Object.values(portsMap);
   if (ports.length === 0) return undefined;
 
-  const positions = ports.map((port) => port.getPosition());
+  const positions = ports.map((port) => getPortPosition(port));
   const oppositePositions = findConnectionPoints(oppositeNode, oppositePortKey);
   const [nearestPosition] = findNearestPoints(positions, oppositePositions);
-  return ports.find((port) => port.getPosition() === nearestPosition);
+  return ports.find((port) => getPortPosition(port) === nearestPosition);
 }
 
 /**
@@ -136,9 +183,10 @@ export function findPort(node: Node, oppositeNode: Node, portKey?: string, oppos
  * @returns <zh/> 连接点 | <en/> Connection Point
  */
 function findConnectionPoints(node: Node, portKey?: string): Position[] {
-  if (portKey) return [node.getPorts()[portKey].getPosition()];
-  const oppositePorts = Object.values(node.getPorts());
-  return oppositePorts.length > 0 ? oppositePorts.map((port) => port.getPosition()) : [node.getCenter()];
+  const allPortsMap = getAllPorts(node);
+  if (portKey) return [getPortPosition(allPortsMap[portKey])];
+  const oppositePorts = Object.values(allPortsMap);
+  return oppositePorts.length > 0 ? oppositePorts.map((port) => getPortPosition(port)) : [node.getCenter()];
 }
 
 /**
@@ -149,7 +197,7 @@ function findConnectionPoints(node: Node, portKey?: string): Position[] {
  * @param opposite - <zh/> 对端的具体点或节点 | <en/> Opposite Point or Node
  * @returns <zh/> 连接点 | <en/> Connection Point
  */
-export function getConnectionPoint(node: Port | Node, opposite: Point | Node | Port): Point {
+export function getConnectionPoint(node: Port | Node, opposite: Node | Port): Point {
   return isNode(node) ? getNodeConnectionPoint(node, opposite) : getPortConnectionPoint(node, opposite);
 }
 
@@ -162,7 +210,9 @@ export function getConnectionPoint(node: Port | Node, opposite: Point | Node | P
  * @param oppositePort - <zh/> 对端连接桩 | <en/> Opposite Port
  * @returns <zh/> 连接桩的连接点 | <en/> Port Point
  */
-export function getPortConnectionPoint(port: Port, opposite: Point | Node | Port): Point {
+export function getPortConnectionPoint(port: Port, opposite: Node | Port): Point {
+  if (isPoint(port)) return port;
+
   // 1. linkToCenter 为 true，则返回连接桩的中心 | If linkToCenter is true, return the center of the port
   if (port.attributes.linkToCenter) return port.getPosition();
 
@@ -187,7 +237,7 @@ export function getPortConnectionPoint(port: Port, opposite: Point | Node | Port
  * @param oppositePort - <zh/> 对端连接桩 | <en/> Opposite Port
  * @returns <zh/> 节点的连接点 | <en/> Node Point
  */
-export function getNodeConnectionPoint(node: Node, opposite: Point | Node | Port): Point {
+export function getNodeConnectionPoint(node: Node, opposite: Node | Port): Point {
   const oppositePosition = isPoint(opposite)
     ? opposite
     : isNode(opposite)

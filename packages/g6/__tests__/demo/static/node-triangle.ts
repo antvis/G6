@@ -30,6 +30,7 @@ export const nodeTriangle: StaticTestCase = async (context) => {
         labelText: (d: any) => d.id,
         iconSrc: 'https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg',
         halo: (d: any) => d.id.includes('halo'),
+        portR: 3,
         ports: (d: any) =>
           d.id.includes('ports') ? [{ placement: 'left' }, { placement: 'top' }, { placement: 'bottom' }] : [],
         badges: (d: any) =>

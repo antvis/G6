@@ -1,9 +1,18 @@
-import type { AABB, Circle as GCircle } from '@antv/g';
+import type { AABB } from '@antv/g';
 import type { PathArray } from '@antv/util';
 import { isEqual, isNumber } from '@antv/util';
-import type { EdgeKey, EdgeLabelPlacement, EdgeLabelStyleProps, LoopPlacement, Node, Point, Vector2 } from '../types';
-import { getBBoxHeight, getBBoxWidth, getNearestSideToPoint, getNodeBBox } from './bbox';
-import { getNodeConnectionPoint, getPortConnectionPoint } from './element';
+import type {
+  EdgeKey,
+  EdgeLabelPlacement,
+  EdgeLabelStyleProps,
+  LoopPlacement,
+  Node,
+  Point,
+  Port,
+  Vector2,
+} from '../types';
+import { getBBoxHeight, getBBoxSize, getBBoxWidth, getNearestSideToPoint, getNodeBBox } from './bbox';
+import { getAllPorts, getNodeConnectionPoint, getPortConnectionPoint, getPortPosition } from './element';
 import { isCollinear, isHorizontal, moveTo, parsePoint } from './point';
 import { freeJoin } from './router/orth';
 import { add, distance, manhattanDistance, multiply, normalize, perpendicular, subtract } from './vector';
@@ -280,22 +289,21 @@ export function getLoopEndpoints(
   node: Node,
   placement: LoopPlacement,
   clockwise: boolean,
-  sourcePort?: GCircle,
-  targetPort?: GCircle,
-  rawSourcePoint?: Point,
-  rawTargetPoint?: Point,
+  sourcePort?: Port,
+  targetPort?: Port,
 ): [Point, Point] {
   const bbox = getNodeBBox(node);
   const center = node.getCenter();
 
-  let sourcePoint = rawSourcePoint || sourcePort?.getPosition();
-  let targetPoint = rawTargetPoint || targetPort?.getPosition();
+  let sourcePoint = sourcePort && getPortPosition(sourcePort);
+  let targetPoint = targetPort && getPortPosition(targetPort);
 
   if (!sourcePoint || !targetPoint) {
     const radians = getRadians(bbox);
     const angle1 = radians[placement][0];
     const angle2 = radians[placement][1];
-    const r = Math.max(getBBoxWidth(bbox), getBBoxHeight(bbox));
+    const [width, height] = getBBoxSize(bbox);
+    const r = Math.max(width, height);
     const point1: Point = add(center, [r * Math.cos(angle1), r * Math.sin(angle1), 0]);
     const point2: Point = add(center, [r * Math.cos(angle2), r * Math.sin(angle2), 0]);
 
@@ -331,22 +339,12 @@ export function getCubicLoopPath(
   dist: number,
   sourcePortKey?: string,
   targetPortKey?: string,
-  rawSourcePoint?: Point,
-  rawTargetPoint?: Point,
 ) {
   const sourcePort = node.getPorts()[(sourcePortKey || targetPortKey)!];
   const targetPort = node.getPorts()[(targetPortKey || sourcePortKey)!];
 
   // 1. 获取起点和终点 | Get the start and end points
-  let [sourcePoint, targetPoint] = getLoopEndpoints(
-    node,
-    placement,
-    clockwise,
-    sourcePort,
-    targetPort,
-    rawSourcePoint,
-    rawTargetPoint,
-  );
+  let [sourcePoint, targetPoint] = getLoopEndpoints(node, placement, clockwise, sourcePort, targetPort);
 
   // 2. 获取控制点 | Get the control points
   const controlPoints = getCubicLoopControlPoints(node, sourcePoint, targetPoint, dist);
@@ -415,22 +413,13 @@ export function getPolylineLoopPath(
   dist: number,
   sourcePortKey?: string,
   targetPortKey?: string,
-  rawSourcePoint?: Point,
-  rawTargetPoint?: Point,
 ) {
-  const sourcePort = node.getPorts()[(sourcePortKey || targetPortKey)!];
-  const targetPort = node.getPorts()[(targetPortKey || sourcePortKey)!];
+  const allPortsMap = getAllPorts(node);
+  const sourcePort = allPortsMap[(sourcePortKey || targetPortKey)!];
+  const targetPort = allPortsMap[(targetPortKey || sourcePortKey)!];
 
   // 1. 获取起点和终点 | Get the start and end points
-  let [sourcePoint, targetPoint] = getLoopEndpoints(
-    node,
-    placement,
-    clockwise,
-    sourcePort,
-    targetPort,
-    rawSourcePoint,
-    rawTargetPoint,
-  );
+  let [sourcePoint, targetPoint] = getLoopEndpoints(node, placement, clockwise, sourcePort, targetPort);
 
   // 2. 获取控制点 | Get the control points
   const controlPoints = getPolylineLoopControlPoints(node, sourcePoint, targetPoint, dist);
