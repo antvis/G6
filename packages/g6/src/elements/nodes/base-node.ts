@@ -182,12 +182,16 @@ export abstract class BaseNode<S extends BaseNodeStyleProps = any> extends BaseS
 
     const portStyle = subStyleProps<PortStyleProps>(this.getGraphicStyle(attributes), 'port');
     const { ports: portOptions = [] } = attributes;
-    portOptions
-      .filter((option) => !isSimplePort({ ...portStyle, ...option }))
-      .forEach((option, i) => {
-        const [cx, cy] = this.getPortXY(attributes, option);
-        portsShapeStyle[option.key || i] = Object.assign({}, portStyle, { cx, cy }, option);
-      });
+    portOptions.forEach((option, index) => {
+      const key = option.key || index;
+      const mergedStyle = { ...portStyle, ...option };
+      if (isSimplePort(mergedStyle)) {
+        portsShapeStyle[key] = false;
+      } else {
+        const [x, y] = this.getPortXY(attributes, option);
+        portsShapeStyle[key] = { cx: x, cy: y, ...mergedStyle };
+      }
+    });
     return portsShapeStyle;
   }
 

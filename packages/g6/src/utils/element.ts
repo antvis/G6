@@ -18,7 +18,7 @@ import { getXYByPlacement } from './position';
  * @param shape - <zh/> 实例 | <en/> instance
  * @returns <zh/> 是否是 BaseNode 的实例 | <en/> whether the instance is BaseNode
  */
-export function isNode(shape: any): shape is Node {
+export function isNode(shape: DisplayObject | Port): shape is Node {
   return shape instanceof BaseNode && shape.type === 'node';
 }
 
@@ -29,7 +29,7 @@ export function isNode(shape: any): shape is Node {
  * @param shape - <zh/> 实例 | <en/> instance
  * @returns <zh/> 是否是 BaseEdge 的实例 | <en/> whether the instance is BaseEdge
  */
-export function isEdge(shape: any): shape is Edge {
+export function isEdge(shape: DisplayObject): shape is Edge {
   return shape instanceof BaseEdge;
 }
 
@@ -86,7 +86,7 @@ export function getPortXYByPlacement(
  */
 export function getAllPorts(node: Node): Record<string, Port> {
   // 1. 需要绘制的连接桩 | Get the ports that need to be drawn
-  const ports = node.getPorts() as Record<string, Port | Point>;
+  const ports = node.getPorts();
 
   // 2. 不需要额外绘制的连接桩 | Get the ports that do not need to be drawn
   const portsStyle = node.attributes.ports;
@@ -157,12 +157,7 @@ export function findPorts(
  * @param oppositePortKey - <zh/> 对端连接桩的 key | <en/> Opposite Port Key
  * @returns <zh/> 连接桩 | <en/> Port
  */
-export function findPort(
-  node: Node,
-  oppositeNode: Node,
-  portKey?: string,
-  oppositePortKey?: string,
-): Point | Port | undefined {
+export function findPort(node: Node, oppositeNode: Node, portKey?: string, oppositePortKey?: string): Port | undefined {
   const portsMap = getAllPorts(node);
   if (portKey) return portsMap[portKey];
 
@@ -202,7 +197,7 @@ function findConnectionPoints(node: Node, portKey?: string): Position[] {
  * @param opposite - <zh/> 对端的具体点或节点 | <en/> Opposite Point or Node
  * @returns <zh/> 连接点 | <en/> Connection Point
  */
-export function getConnectionPoint(node: Point | Port | Node, opposite: Point | Node | Port): Point {
+export function getConnectionPoint(node: Port | Node, opposite: Node | Port): Point {
   return isNode(node) ? getNodeConnectionPoint(node, opposite) : getPortConnectionPoint(node, opposite);
 }
 
@@ -215,7 +210,7 @@ export function getConnectionPoint(node: Point | Port | Node, opposite: Point | 
  * @param oppositePort - <zh/> 对端连接桩 | <en/> Opposite Port
  * @returns <zh/> 连接桩的连接点 | <en/> Port Point
  */
-export function getPortConnectionPoint(port: Point | Port, opposite: Point | Node | Port): Point {
+export function getPortConnectionPoint(port: Port, opposite: Node | Port): Point {
   if (isPoint(port)) return port;
 
   // 1. linkToCenter 为 true，则返回连接桩的中心 | If linkToCenter is true, return the center of the port
@@ -242,7 +237,7 @@ export function getPortConnectionPoint(port: Point | Port, opposite: Point | Nod
  * @param oppositePort - <zh/> 对端连接桩 | <en/> Opposite Port
  * @returns <zh/> 节点的连接点 | <en/> Node Point
  */
-export function getNodeConnectionPoint(node: Node, opposite: Point | Node | Port): Point {
+export function getNodeConnectionPoint(node: Node, opposite: Node | Port): Point {
   const oppositePosition = isPoint(opposite)
     ? opposite
     : isNode(opposite)
